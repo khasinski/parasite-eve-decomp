@@ -1,0 +1,12 @@
+asm(".text");
+asm(".set noreorder");
+asm(".globl Render_ResetGteScreenOffset");
+asm("Render_ResetGteScreenOffset:");
+asm("addiu   $3,$0,0xA0");
+asm("addiu   $4,$0,0x70");
+asm("sll     $12,$3,16");
+asm("sll     $13,$4,16");
+asm("ctc2    $12,$24");
+asm("ctc2    $13,$25");
+asm("jr      $31");
+asm("addu    $2,$0,$0");

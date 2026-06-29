@@ -1,0 +1,17 @@
+asm(".text");
+asm(".set noreorder");
+asm(".globl RotTrans");
+asm("RotTrans:");
+asm("lwc2 $0,0($4)");
+asm("lwc2 $1,4($4)");
+asm("nop");
+asm(".word 0x4A480012");
+asm("swc2 $25,0($5)");
+asm("swc2 $26,4($5)");
+asm("swc2 $27,8($5)");
+asm("cfc2 $2,$31");
+asm("jr $31");
+asm("sw $2,0($6)");
+asm("nop");
+asm("nop");
+asm(".set reorder");

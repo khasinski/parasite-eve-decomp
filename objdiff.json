@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/encounter/objdiff/main/config.schema.json",
+  "min_version": "2.0.0",
+  "custom_make": "make",
+  "custom_args": ["-j"],
+  "build_target": false,
+  "build_base": true,
+  "target_dir": "expected/build/USA",
+  "base_dir": "build/USA",
+  "watch_patterns": [
+    "src/**/*.c",
+    "src/**/*.h",
+    "include/**/*.h",
+    "asm/**/*.s",
+    "configs/**/*.yaml",
+    "configs/**/*.txt",
+    "Makefile"
+  ],
+  "units": []
+}

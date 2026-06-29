@@ -1,0 +1,22 @@
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 --use-comm-section */
+
+extern void * volatile g_AkaoBgmHandle[];
+extern int g_AkaoPendingBgmVolumeFade;
+extern void Akao_SendTableCommand(void *, int, int, int, int);
+
+void Akao_SetBgmVolumeFade(void) {
+    void * volatile *slot;
+    register int value asm("$2");
+
+    slot = g_AkaoBgmHandle;
+    if (*slot != 0) {
+        value = 0x7F;
+        Akao_SendTableCommand(*slot, 0x450, 0x100, 0x80, value);
+        goto done;
+    }
+    value = 0;
+
+done:
+    g_AkaoPendingBgmVolumeFade = value;
+}

@@ -1,0 +1,12 @@
+asm(".text");
+asm(".set noreorder");
+asm(".globl puts");
+asm(".globl func_80073C5C");
+asm("puts:");
+asm("func_80073C5C = puts");
+asm("addiu   $10,$0,0xB0");
+asm("jr      $10");
+asm("addiu   $9,$0,0x3F");
+asm("nop");
+asm("nop");
+asm("nop");

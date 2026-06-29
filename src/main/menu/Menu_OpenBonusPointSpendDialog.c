@@ -1,0 +1,61 @@
+/* CC1_FLAGS: -g3 -G8 */
+/* MASPSX_FLAGS: -G8 */
+typedef signed char s8;
+typedef unsigned char u8;
+typedef short s16;
+typedef unsigned short u16;
+typedef int s32;
+typedef unsigned int u32;
+
+typedef struct MenuWidgetNode {
+    char pad00[0x28];
+    s32 field28;
+    void *field2C;
+    void *field30;
+    s32 field34;
+} MenuWidgetNode;
+
+typedef struct ItemRecord {
+    char bytes[0x20];
+} ItemRecord;
+
+extern s32 g_BonusPointDisplayValue;
+extern s32 g_MenuSpendArrowDirection;
+extern s32 g_BonusPointSpendStat;
+extern s32 g_BonusPointSpendWorkingValue;
+extern s32 g_BonusPointSpendCurrentValue;
+extern s32 g_BonusPointStatDeltas[];
+extern ItemRecord D_800A1A00;
+
+MenuWidgetNode *func_80062D2C(s32, s32, s32, s32);
+void MenuWidget_SetCurrentNode(MenuWidgetNode *);
+void MenuWidget_OffsetPosition(MenuWidgetNode *, s32, s32);
+s32 func_80059F08(s32);
+ItemRecord *func_8005332C(s32);
+void Menu_DrawBonusPointSpendPanel(void);
+s32 Spend_BonusPoints(s32);
+
+void Menu_OpenBonusPointSpendDialog(s32 arg0, s32 arg1) {
+    MenuWidgetNode *node;
+    ItemRecord *record;
+
+    node = func_80062D2C(9, arg0, 0, 1);
+    node->field30 = Menu_DrawBonusPointSpendPanel;
+    node->field2C = Spend_BonusPoints;
+    node->field28 = 1;
+    MenuWidget_SetCurrentNode(node);
+
+    g_BonusPointSpendStat = arg1;
+    g_BonusPointSpendWorkingValue = g_BonusPointDisplayValue;
+    if (arg1 < 3) {
+        record = func_8005332C(func_80059F08(0));
+        D_800A1A00 = *record;
+        node->field34 -= 0x14;
+        MenuWidget_OffsetPosition(node, 0xA, 0);
+    } else {
+        s32 value = g_BonusPointStatDeltas[arg1];
+        __asm__ volatile("nop");
+        g_BonusPointSpendCurrentValue = value;
+    }
+    g_MenuSpendArrowDirection = 0;
+}
