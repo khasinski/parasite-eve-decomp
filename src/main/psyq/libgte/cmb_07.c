@@ -1,0 +1,55 @@
+/* ASM-ORIGIN: PSY-Q SDK library routine, originally hand-written assembly.
+ * No C decompilation exists or is expected; kept as raw MIPS only for byte-match.
+ * A PC port replaces this natively (GPU/GTE/CD/SPU lib, libc, or crt0) rather
+ * than decompiling it. See docs/PORT_BOUNDARY.md section 1a. */
+asm(".text");
+asm(".set noreorder");
+asm(".globl RotAverageNclip4");
+asm("RotAverageNclip4:");
+asm("lwc2 $0,0($4)");
+asm("lwc2 $1,4($4)");
+asm("lwc2 $2,0($5)");
+asm("lwc2 $3,4($5)");
+asm("lwc2 $4,0($6)");
+asm("lwc2 $5,4($6)");
+asm("nop");
+asm(".word 0x4A280030");
+asm("lw $8,0x28($29)");
+asm("cfc2 $3,$31");
+asm("nop");
+asm("sw $3,0($8)");
+asm(".word 0x4B400006");
+asm("lw $8,0x10($29)");
+asm("lw $9,0x14($29)");
+asm("lw $10,0x18($29)");
+asm("mfc2 $2,$24");
+asm("nop");
+asm(".word 0x1C400003");
+asm("nop");
+asm(".word 0x10000015");
+asm("nop");
+asm("1:");
+asm("swc2 $12,0($8)");
+asm("swc2 $13,0($9)");
+asm("swc2 $14,0($10)");
+asm("lwc2 $0,0($7)");
+asm("lwc2 $1,4($7)");
+asm("nop");
+asm(".word 0x4A180001");
+asm("lw $8,0x1C($29)");
+asm("lw $9,0x20($29)");
+asm("lw $10,0x28($29)");
+asm("swc2 $14,0($8)");
+asm("cfc2 $11,$31");
+asm("swc2 $8,0($9)");
+asm("or $11,$11,$3");
+asm("sw $11,0($10)");
+asm(".word 0x4B68002E");
+asm("lw $9,0x24($29)");
+asm("mfc2 $8,$7");
+asm("nop");
+asm("sw $8,0($9)");
+asm("2:");
+asm("jr $31");
+asm("nop");
+asm(".set reorder");

@@ -1,0 +1,73 @@
+/* ASM-ORIGIN: PSY-Q SDK library routine, originally hand-written assembly.
+ * No C decompilation exists or is expected; kept as raw MIPS only for byte-match.
+ * A PC port replaces this natively (GPU/GTE/CD/SPU lib, libc, or crt0) rather
+ * than decompiling it. See docs/PORT_BOUNDARY.md section 1a. */
+asm(".text");
+asm(".set noat");
+asm(".set noreorder");
+
+asm(".globl MulRotMatrix");
+asm("MulRotMatrix:");
+asm("lw $8,0x0($4)");
+asm("lw $9,0x4($4)");
+asm("lw $10,0xC($4)");
+asm("andi $8,$8,0xFFFF");
+asm("lui $1,0xFFFF");
+asm("and $9,$9,$1");
+asm("or $8,$8,$9");
+asm(".word 0x48880000");
+asm(".word 0x488A0800");
+asm("nop");
+asm(".word 0x4A486012");
+asm("lhu $8,0x2($4)");
+asm("lw $9,0x8($4)");
+asm("lh $10,0xE($4)");
+asm("sll $9,$9,16");
+asm("or $8,$8,$9");
+asm(".word 0x480B4800");
+asm(".word 0x480C5000");
+asm(".word 0x480D5800");
+asm(".word 0x48880000");
+asm(".word 0x488A0800");
+asm("nop");
+asm(".word 0x4A486012");
+asm("lhu $8,0x4($4)");
+asm("lw $9,0x8($4)");
+asm("lw $10,0x10($4)");
+asm("lui $1,0xFFFF");
+asm("and $9,$9,$1");
+asm("or $8,$8,$9");
+asm(".word 0x480E4800");
+asm(".word 0x480F5000");
+asm(".word 0x48185800");
+asm(".word 0x48880000");
+asm(".word 0x488A0800");
+asm("nop");
+asm(".word 0x4A486012");
+asm("andi $11,$11,0xFFFF");
+asm("sll $14,$14,16");
+asm("or $14,$14,$11");
+asm("sw $14,0x0($4)");
+asm("andi $13,$13,0xFFFF");
+asm("sll $24,$24,16");
+asm("or $24,$24,$13");
+asm("sw $24,0xC($4)");
+asm(".word 0x48084800");
+asm(".word 0x48095000");
+asm("andi $8,$8,0xFFFF");
+asm("sll $12,$12,16");
+asm("or $8,$8,$12");
+asm("sw $8,0x4($4)");
+asm("andi $15,$15,0xFFFF");
+asm("sll $9,$9,16");
+asm("or $9,$9,$15");
+asm("sw $9,0x8($4)");
+asm(".word 0xE88B0010");
+asm("addu $2,$4,$0");
+asm("jr $31");
+asm("nop");
+asm("nop");
+asm("nop");
+
+asm(".set reorder");
+asm(".set at");

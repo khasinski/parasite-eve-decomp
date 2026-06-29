@@ -1,0 +1,63 @@
+# Local Python/env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+
+# User-supplied game data and extracted assets
+assets/
+disc/
+disks/
+extracted/
+extracted_assets/
+*.bin
+*.cue
+*.iso
+*.img
+*.IMG
+*.STR
+*.IDF
+*.mcd
+*.tim
+*.TIM
+*.bs
+
+# Generated decomp/build output
+asm/
+build/
+linkers/USA/main.ld
+linkers/USA/undefined_*.txt
+lib/
+*.o
+*.a
+*.elf
+*.map
+
+# Local toolchains / proprietary SDKs / external checkouts
+sdk/
+reference/
+tools/psyq-*/
+tools/wibo/
+tools/mkpsxiso-bin/
+tools/old-gcc/
+tools/asm-differ/
+tools/decomp-permuter/
+tools/m2c/
+tools/maspsx/
+tools/splat/
+tools/objdiff/
+tools/ghidra_psx_ldr/
+
+# Local experiments
+scratch/
+proposals/
+prompts/
+*.dump
+mizuchi-db.json
+DynarecOutput.dump
+memcard*.mcd

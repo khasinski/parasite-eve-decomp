@@ -1,0 +1,14 @@
+asm(".text");
+asm(".set noreorder");
+asm(".globl Render_SetGteScreenOffset");
+asm("Render_SetGteScreenOffset:");
+asm("lui     $3,%hi(D_800BCF94)");
+asm("lhu     $3,%lo(D_800BCF94)($3)");
+asm("lui     $4,%hi(D_800BCF96)");
+asm("lhu     $4,%lo(D_800BCF96)($4)");
+asm("sll     $12,$3,16");
+asm("sll     $13,$4,16");
+asm("ctc2    $12,$24");
+asm("ctc2    $13,$25");
+asm("jr      $31");
+asm("addu    $2,$0,$0");

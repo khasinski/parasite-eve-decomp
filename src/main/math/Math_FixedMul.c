@@ -1,0 +1,16 @@
+/* Raw PSY-Q style 16.16 fixed-point multiply helper.
+ * C 64-bit shifts emit an extra high-word shift, but the target manually packs
+ * HI/LO into the return value after `mult`.
+ */
+asm(".text");
+asm(".set noreorder");
+asm(".set noat");
+asm(".globl Math_FixedMul");
+asm("Math_FixedMul:");
+asm(".byte 0x18, 0x00, 0x85, 0x00");
+asm(".byte 0x12, 0x10, 0x00, 0x00");
+asm(".byte 0x10, 0x18, 0x00, 0x00");
+asm(".byte 0x02, 0x14, 0x02, 0x00");
+asm(".byte 0x00, 0x1C, 0x03, 0x00");
+asm(".byte 0x08, 0x00, 0xE0, 0x03");
+asm(".byte 0x25, 0x10, 0x62, 0x00");

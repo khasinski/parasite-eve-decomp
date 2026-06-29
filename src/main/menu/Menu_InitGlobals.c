@@ -1,0 +1,48 @@
+extern int g_RenderStateFlags;
+extern char D_800BCFFC;
+extern short D_800BCFFE;
+extern char D_800BD027;
+extern char D_800BD026;
+extern char D_800BD025;
+extern int D_800BCF8C;
+extern int D_800BCF90;
+extern int D_800BCF94;
+extern int D_800BCF98;
+extern int D_800BCF9C;
+extern int D_800BCFA0;
+extern void *g_GeomVramPacketDst;
+extern void *D_800BCFA8;
+extern int D_800BCFAC;
+extern int D_800BCFB0;
+extern int D_800BCFB4;
+extern char g_GeomGroupSel;
+extern short g_CameraBaseAngleY;
+extern short g_CameraBaseAngleX;
+extern char g_GeomOtZ;
+extern int D_800BD028;
+
+int Menu_InitGlobals(void *arg0, void *arg1) {
+    g_RenderStateFlags = 0x70;
+    D_800BCFFC = 0x60;
+    D_800BCFFE = 0x180;
+    D_800BD027 = 0xFF;
+    D_800BD026 = 0xFF;
+    D_800BD025 = 0xFF;
+    D_800BCF8C = 0;
+    D_800BCF90 = 0;
+    D_800BCF94 = 0;
+    D_800BCF98 = 0;
+    D_800BCF9C = 0;
+    D_800BCFA0 = 0;
+    g_GeomVramPacketDst = arg0;
+    D_800BCFA8 = arg1;
+    D_800BCFAC = 0;
+    D_800BCFB0 = 0;
+    D_800BCFB4 = 0;
+    g_GeomGroupSel = 0;
+    g_CameraBaseAngleY = 0;
+    g_CameraBaseAngleX = 0;
+    g_GeomOtZ = 0;
+    D_800BD028 = 0;
+    return 0;
+}

@@ -1,0 +1,37 @@
+/* CC1_FLAGS: -G8 -g3 */
+/* MASPSX_FLAGS: -G8 --use-comm-section */
+/* MASPSX_FLAGS: --stack-return-delay */
+
+asm(".globl func_80074D28");
+asm("func_80074D28 = SetDispMask");
+
+#include "pe1/gpu_callbacks.h"
+
+extern unsigned char g_GraphDebug[];
+extern void (*g_GpuDebugPrintf[])(char *msg, int arg0);
+extern struct {
+    char _[16];
+} g_GpuCallbacks_o __asm__("g_GpuCallbacks");
+#define g_GpuCallbacks (*(GpuCallbacks **)&g_GpuCallbacks_o)
+extern char D_80011870[];
+extern void GPU_memset(unsigned char *dst, int value, int count);
+
+void SetDispMask(int arg0) {
+    register int saved asm("$16");
+    GpuCallbacks *callbacks;
+
+    saved = arg0;
+    if (g_GraphDebug[0] >= 2) {
+        g_GpuDebugPrintf[0](D_80011870, saved);
+    }
+
+    if (saved) {
+        goto after_memset;
+    }
+
+    GPU_memset(g_GraphDebug + 0x6A, -1, 0x14);
+
+after_memset:
+    callbacks = g_GpuCallbacks;
+    callbacks->callback10(saved ? 0x3000000 : 0x3000001);
+}

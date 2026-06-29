@@ -1,0 +1,12 @@
+asm(".text");
+asm(".set noreorder");
+asm(".globl Sys_HleJumpA0");
+asm("Sys_HleJumpA0:");
+asm(".globl func_8007436C");
+asm("func_8007436C = Sys_HleJumpA0");
+asm("addiu   $10,$0,0xA0");
+asm("jr      $10");
+asm("addiu   $9,$0,0x72");
+asm("nop");
+asm("nop");
+asm("nop");

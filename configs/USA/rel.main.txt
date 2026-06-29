@@ -1,0 +1,2 @@
+// Manual relocation overrides for SLUS_006.62.
+// Populate when splat's auto-reloc detection misses something.

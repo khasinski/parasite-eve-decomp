@@ -1,0 +1,8 @@
+int Math_FixedRoundToInt(int arg0) {
+    register int bias asm("$1");
+    int value;
+
+    bias = 0x8000;
+    asm volatile("add\t%0,%1,%2" : "=r"(value) : "r"(arg0), "r"(bias));
+    return value >> 16;
+}

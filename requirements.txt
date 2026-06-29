@@ -1,0 +1,12 @@
+splat64[mips]>=0.39.1
+spimdisasm
+mapfile-parser
+pycparser
+pyelftools
+ninja
+ninja_syntax
+pyyaml
+colorama
+tqdm
+watchdog
+python-Levenshtein
