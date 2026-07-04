@@ -171,3 +171,6 @@ tools/scripts/rewrite_asm_overlay.py
 GOAL.md
 local/
 tools/cleanmatch/
+expected/
+tools/objdiff/
+build/USA/report.json
