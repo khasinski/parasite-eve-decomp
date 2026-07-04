@@ -1,5 +1,8 @@
 # parasite-eve-decomp
 
+![functions](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkhasinski%2Fparasite-eve-decomp%2Fmain%2Fdocs%2Fbadges%2Ffunctions.json)
+![code](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkhasinski%2Fparasite-eve-decomp%2Fmain%2Fdocs%2Fbadges%2Fcode.json)
+
 Work-in-progress matching decompilation of the North American PlayStation
 release of Parasite Eve, target `SLUS-006.62`.
 
@@ -95,7 +98,9 @@ executable, `make build` compiles and links `build/USA/main.exe`, and
 ```sh
 make func-diff FUNC=SomeFunction SRC=src/main/some_file.c
 make permute FUNC=SomeFunction
-make progress
+make progress          # docs/PROGRESS.md + docs/progress.html + badges
+make expected          # snapshot a byte-verified build for objdiff
+make report            # objdiff-cli report (build/USA/report.json)
 ```
 
 ## License

@@ -68,7 +68,7 @@ C_OBJS   := $(C_SRCS:%=$(BUILD)/%.o)
 
 OBJS := $(ASM_OBJS) $(C_OBJS)
 
-.PHONY: all build check clean diff distclean func-build func-diff func-target overlay-build overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress proposal-smallest proposal-status split tools
+.PHONY: expected objdiff-config report all build check clean diff distclean func-build func-diff func-target overlay-build overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress proposal-smallest proposal-status split tools
 
 all: build check
 
@@ -136,6 +136,19 @@ proposal-smallest:
 
 progress:
 	@$(PY) tools/scripts/progress_report.py
+	@$(PY) tools/scripts/progress_site.py
+
+# Snapshot the current byte-verified build as objdiff's target objects.
+expected: check
+	@rsync -a --delete build/USA/ expected/build/USA/
+	@echo "expected/build/USA refreshed"
+
+objdiff-config:
+	@$(PY) tools/scripts/objdiff_config.py
+
+report: objdiff-config
+	@tools/objdiff/objdiff-cli report generate -p . -o build/USA/report.json
+	@echo "wrote build/USA/report.json"
 
 overlay-permuter-scratch:
 	@$(PY) tools/scripts/make_overlay_permuter_scratch.py \
