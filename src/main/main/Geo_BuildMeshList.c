@@ -5,14 +5,14 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #include "../../../tools/m2c/m2c_macros.h"
 
 M2C_UNK Render_DrawSpriteEntry();
-extern struct { char _[16]; } g_GeomState_o __asm__("g_GeomState");
-#define g_GeomState (*(void **)&g_GeomState_o)
-extern struct { char _[16]; } D_800BCF8C_o __asm__("D_800BCF8C");
-#define D_800BCF8C (*(u16 *)&D_800BCF8C_o)
-extern struct { char _[16]; } D_800BCF8E_o __asm__("g_CameraClampedY");
-#define g_CameraClampedY (*(u16 *)&D_800BCF8E_o)
-extern struct { char _[16]; } g_GeomGroupSel_o __asm__("g_GeomGroupSel");
-#define g_GeomGroupSel (*(u8 *)&g_GeomGroupSel_o)
+extern void * g_GeomState[];
+#define g_GeomState (g_GeomState[0])
+extern u16 D_800BCF8C[];
+#define D_800BCF8C (D_800BCF8C[0])
+extern u16 g_CameraClampedY[];
+#define g_CameraClampedY (g_CameraClampedY[0])
+extern u8 g_GeomGroupSel[];
+#define g_GeomGroupSel (g_GeomGroupSel[0])
 
 s32 Geo_BuildMeshList(void) {
     register void *base asm("$4");

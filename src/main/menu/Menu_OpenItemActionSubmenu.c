@@ -11,7 +11,7 @@ typedef long long s64;
 #include "../../../tools/m2c/m2c_macros.h"
 
 M2C_UNK Menu_StepEquipScreen();
-M2C_UNK Menu_DrawContextActionList() __asm__("func_8004F910");
+M2C_UNK Menu_DrawContextActionList();
 M2C_UNK Inv_SelectActiveList();
 s32 Inv_GetActiveListItemType();
 M2C_UNK MenuWidget_CreateSimpleNode();

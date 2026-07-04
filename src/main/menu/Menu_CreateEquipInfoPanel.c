@@ -9,7 +9,7 @@ void *MenuWidget_CreateNode(int arg0, void *arg1, void *arg2);
 void MenuWidget_SetCurrentNode(void *arg0);
 void MenuWidget_OffsetPosition(void *arg0, int arg1, int arg2);
 void Menu_EquipSelectInput(void);
-void Menu_DrawEquipInfoOptionList(void) __asm__("func_800474A8");
+void Menu_DrawEquipInfoOptionList(void);
 
 void Menu_CreateEquipInfoPanel(int arg0, unsigned int arg1) {
     void *node;

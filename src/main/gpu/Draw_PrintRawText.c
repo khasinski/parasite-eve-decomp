@@ -8,10 +8,10 @@ M2C_UNK Draw_AllocTexturedQuad();
 extern s32 g_TextCursorX;
 extern s32 g_TextCursorY;
 extern u32 g_TextCursorStackPtr;
-extern struct { char _[16]; } D_800A2270_o __asm__("g_TextCursorStackBottom");
-#define g_TextCursorStackBottom (*(M2C_UNK *)&D_800A2270_o)
-extern struct { char _[16]; } D_800A22B0_o __asm__("g_TextCursorStackTop");
-#define g_TextCursorStackTop (*(M2C_UNK *)&D_800A22B0_o)
+extern M2C_UNK g_TextCursorStackBottom[];
+#define g_TextCursorStackBottom (g_TextCursorStackBottom[0])
+extern M2C_UNK g_TextCursorStackTop[];
+#define g_TextCursorStackTop (g_TextCursorStackTop[0])
 
 void Draw_PrintRawText(u8 *arg0) {
     s32 temp_a0;

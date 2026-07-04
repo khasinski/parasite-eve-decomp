@@ -81,7 +81,7 @@ asm(
 "    .reloc .-4, R_MIPS_26, Inv_RememberSelection\n"
 "    .word 0x00000000\n"
 "    .word 0x0c000000\n"
-"    .reloc .-4, R_MIPS_26, func_80059F08\n"
+"    .reloc .-4, R_MIPS_26, Inv_RestoreSelection\n"
 "    .word 0x00002021\n"
 "    .word 0x24040004\n"
 "    .word 0x24050004\n"

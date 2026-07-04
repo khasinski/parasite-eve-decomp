@@ -6,8 +6,7 @@ extern void Save_ProcessDataCallback(void);
 
 extern int D_8009B6C4;
 
-asm(".globl func_800811E4");
-asm("func_800811E4 = Sys_VSyncTimeout");
+asm("Sys_VSyncTimeout = Sys_VSyncTimeout");
 
 int Sys_VSyncTimeout(int arg0) {
     int v0;

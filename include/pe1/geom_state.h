@@ -13,8 +13,9 @@
  * verified at 32-bit pointer width. Several offsets are reused with different
  * widths across files (the entry holds array pointers during build, camera
  * bounds during clamp/render) -- those are modeled as unions so each file keeps
- * its exact load/store width and the byte-match holds. Some g_GeomState users
- * still access it through raw casts; those can be migrated incrementally.
+ * its exact load/store width and the byte-match holds. Many g_GeomState files
+ * still access it via raw M2C_FIELD() casts; those
+ * are intentionally NOT migrated to this header yet (see notes in the files).
  */
 
 typedef signed char    s8;

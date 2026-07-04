@@ -6,10 +6,7 @@ typedef struct {
 
 UnalignedWord *CdRom_GetCurrentPosPtr(void);
 
-asm(".globl CdRom_GetCurrentPos");
-asm("CdRom_GetCurrentPos = func_80080CDC");
-
-UnalignedWord *CdRom_GetCurrentPos(UnalignedWord *dst) __asm__("func_80080CDC");
+UnalignedWord *CdRom_GetCurrentPos(UnalignedWord *dst);
 
 UnalignedWord *CdRom_GetCurrentPos(UnalignedWord *dst) {
     if (dst != 0) {

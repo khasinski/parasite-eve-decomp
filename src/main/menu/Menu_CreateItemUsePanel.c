@@ -7,24 +7,24 @@ M2C_UNK MenuWidget_OffsetPosition();
 M2C_UNK MenuWidget_SetCurrentNode();
 void *Inv_LookupData();
 M2C_UNK Queue_Init();
-void *func_80062D2C();
+void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
 M2C_UNK Draw_SetPrimCallback();
-M2C_UNK func_80064C20();
+M2C_UNK MenuWidget_ClearColumnLayout();
 extern s32 g_InvItemUsableFlag;
 extern void *g_MenuSelectedItemData;
-extern struct { char _[16]; } func_8004F644_o __asm__("Menu_DrawEquipStatsPanel");
-#define Menu_DrawEquipStatsPanel (*(M2C_UNK *)&func_8004F644_o)
-extern struct { char _[16]; } Menu_HandleItemInput_o __asm__("Menu_HandleItemInput");
-#define Menu_HandleItemInput (*(M2C_UNK *)&Menu_HandleItemInput_o)
-extern struct { char _[16]; } func_8004F798_o __asm__("Menu_DrawEquipItemName");
-#define Menu_DrawEquipItemName (*(M2C_UNK *)&func_8004F798_o)
-extern struct { char _[16]; } func_8004F7D8_o __asm__("Menu_DrawEquipItemIcon");
-#define Menu_DrawEquipItemIcon (*(M2C_UNK *)&func_8004F7D8_o)
-extern struct { char _[16]; } func_80050204_o __asm__("Menu_DrawSoundEffectList");
-#define Menu_DrawSoundEffectList (*(M2C_UNK *)&func_80050204_o)
-extern struct { char _[16]; } func_8005022C_o __asm__("Menu_DrawEquipItemDetailPanel");
-#define Menu_DrawEquipItemDetailPanel (*(M2C_UNK *)&func_8005022C_o)
+extern M2C_UNK Menu_DrawEquipStatsPanel[];
+#define Menu_DrawEquipStatsPanel (Menu_DrawEquipStatsPanel[0])
+extern M2C_UNK Menu_HandleItemInput[];
+#define Menu_HandleItemInput (Menu_HandleItemInput[0])
+extern M2C_UNK Menu_DrawEquipItemName[];
+#define Menu_DrawEquipItemName (Menu_DrawEquipItemName[0])
+extern M2C_UNK Menu_DrawEquipItemIcon[];
+#define Menu_DrawEquipItemIcon (Menu_DrawEquipItemIcon[0])
+extern M2C_UNK Menu_DrawSoundEffectList[];
+#define Menu_DrawSoundEffectList (Menu_DrawSoundEffectList[0])
+extern M2C_UNK Menu_DrawEquipItemDetailPanel[];
+#define Menu_DrawEquipItemDetailPanel (Menu_DrawEquipItemDetailPanel[0])
 
 void Menu_CreateItemUsePanel(void) {
     s32 width;
@@ -36,7 +36,7 @@ void Menu_CreateItemUsePanel(void) {
     temp_v0 = Inv_LookupData();
     g_MenuSelectedItemData = temp_v0;
     if ((u8) M2C_FIELD(temp_v0, u8 *, 6) < 0xAU) {
-        node = func_80062D2C(5, 0, 0, 0);
+        node = MenuWidget_CreateSimpleNode(5, 0, 0, 0);
         created = MenuWidget_CreateNode(5, node, node);
         M2C_FIELD(node, M2C_UNK **, 0x30) = &Menu_DrawEquipStatsPanel;
         M2C_FIELD(node, M2C_UNK **, 0x2C) = &Menu_HandleItemInput;
@@ -44,25 +44,25 @@ void Menu_CreateItemUsePanel(void) {
         M2C_FIELD(node, s32 *, 0x34) = width;
         MenuWidget_OffsetPosition(node, 0x44, 0x14);
         M2C_FIELD(created, M2C_UNK **, 0x30) = &Menu_DrawSoundEffectList;
-        func_80064C20(created);
+        MenuWidget_ClearColumnLayout(created);
         M2C_FIELD(created, s32 *, 0x70) = -1;
         MenuWidget_SetCurrentNode(node);
-        node = func_80062D2C(6, 0, 0, 0);
+        node = MenuWidget_CreateSimpleNode(6, 0, 0, 0);
         M2C_FIELD(node, s32 *, 0x34) = width;
         MenuWidget_OffsetPosition(node, 0x44, 0x14);
         created = MenuWidget_CreateNode(6, node, node);
         M2C_FIELD(created, M2C_UNK **, 0x30) = &Menu_DrawEquipItemDetailPanel;
-        func_80064C20(created);
+        MenuWidget_ClearColumnLayout(created);
         data = g_MenuSelectedItemData;
         M2C_FIELD(created, s32 *, 0x3C) = 0x3E;
         Draw_SetPrimCallback(created, M2C_FIELD(data, u8 *, 0x14));
         g_InvItemUsableFlag = M2C_FIELD(g_MenuSelectedItemData, u8 *, 6) != 9;
     } else {
-        node = func_80062D2C(0x37, 0, 0, 0);
+        node = MenuWidget_CreateSimpleNode(0x37, 0, 0, 0);
         M2C_FIELD(node, M2C_UNK **, 0x30) = &Menu_DrawEquipItemIcon;
         M2C_FIELD(node, M2C_UNK **, 0x2C) = &Menu_HandleItemInput;
         MenuWidget_SetCurrentNode(node);
     }
-    M2C_FIELD(func_80062D2C(0x13, 0, 0, 0), M2C_UNK **, 0x30) = &Menu_DrawEquipItemName;
+    M2C_FIELD(MenuWidget_CreateSimpleNode(0x13, 0, 0, 0), M2C_UNK **, 0x30) = &Menu_DrawEquipItemName;
     Queue_Init();
 }

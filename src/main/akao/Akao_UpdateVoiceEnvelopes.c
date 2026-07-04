@@ -16,17 +16,14 @@ typedef long long s64;
 M2C_UNK SpuGetVoiceEnvelope();
 M2C_UNK Akao_RemoveVoice();
 
-extern struct { char _[16]; } g_AkaoCurTrack_o __asm__("g_AkaoCurTrack");
-#define g_AkaoCurTrack (*(void **)&g_AkaoCurTrack_o)
-extern struct { char _[16]; } D_800B002C_o __asm__("g_AkaoVoiceEnvelopeTable");
-#define g_AkaoVoiceEnvelopeTable (*(s16 *)&D_800B002C_o)
-extern struct { char _[16]; } D_800B8AC0_o __asm__("g_AkaoVoiceStateTable");
-#define g_AkaoVoiceStateTable (*(M2C_UNK *)&D_800B8AC0_o)
+extern void * g_AkaoCurTrack[];
+#define g_AkaoCurTrack (g_AkaoCurTrack[0])
+extern s16 g_AkaoVoiceEnvelopeTable[];
+#define g_AkaoVoiceEnvelopeTable (g_AkaoVoiceEnvelopeTable[0])
+extern M2C_UNK g_AkaoVoiceStateTable[];
+#define g_AkaoVoiceStateTable (g_AkaoVoiceStateTable[0])
 
-asm(".globl Akao_UpdateVoiceEnvelopes");
-asm("Akao_UpdateVoiceEnvelopes = func_80089250");
-
-void Akao_UpdateVoiceEnvelopes(s32 arg0) __asm__("func_80089250");
+void Akao_UpdateVoiceEnvelopes(s32 arg0);
 
 void Akao_UpdateVoiceEnvelopes(s32 arg0) {
     u8 *var_s1;

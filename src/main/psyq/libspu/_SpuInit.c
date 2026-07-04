@@ -17,8 +17,7 @@ void SpuStart(void);
 void _spu_FsetRXX(int addr, int value, int flag);
 
 extern u16 D_8009B3E6;
-extern struct { char _[16]; } D_8009B3A0_o __asm__("D_8009B3A0");
-#define D_8009B3A0 (*(SpuVolumeState *)&D_8009B3A0_o)
+extern SpuVolumeState D_8009B3A0;
 extern int D_8009B38C;
 extern int D_8009B388;
 extern int g_SpuCdAudioMixMode;

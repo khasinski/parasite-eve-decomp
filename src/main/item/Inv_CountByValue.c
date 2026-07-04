@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 */
+/* CC1_FLAGS: -G8 -g3 -fno-schedule-insns2 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 typedef unsigned char u8;
@@ -13,8 +13,8 @@ extern u8 g_ItemCodeRemapTable[];
 int Inv_CountByValue(int arg0) {
     int count;
     u16 *ptr;
-    register u16 *end asm("$3");
-    register u16 *iter_end asm("$7");
+    register u16 *end;
+    register u16 *iter_end;
     int temp;
     int value;
 

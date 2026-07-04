@@ -1,0 +1,87 @@
+name: ovl_189.bin
+sha1: 4d2d79346c1883f249b46b8c052e95fb94834817
+options:
+  basename: ovl_189
+  target_path: original/USA/overlays/ovl_189.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/ovl_189
+  src_path: src/overlays/ovl_189
+  build_path: build/USA/overlays/ovl_189
+  ld_script_path: linkers/USA/overlays/ovl_189.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_189.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_189.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: ovl_189
+    type: code
+    start: 0x0
+    vram: 0x80180000
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      # generated from static prologue hints; verify with runtime trace and SHA check
+      - [0x0, asm, ovl_189_header]
+      - [0x24C, c, func_8018024C]
+      - [0x2EC, asm, func_ovl_189_0002EC]
+      - [0x578, asm, func_ovl_189_000578]
+      - [0x600, c, func_80180600]
+      - [0x6A8, asm, func_ovl_189_0006A8]
+      - [0xBF0, asm, func_ovl_189_000BF0]
+      - [0xCD0, asm, func_80180CD0]
+      - [0xF10, asm, func_ovl_189_000F10]
+      - [0x12B8, asm, func_ovl_189_0012B8]
+      - [0x1340, c, func_80181340]
+      - [0x13E8, asm, func_ovl_189_0013E8]
+      - [0x1974, c, func_80181974]
+      - [0x19F8, c, func_801819F8]
+      - [0x1A50, c, func_80181A50]
+      - [0x1A58, c, func_80181A58]
+      - [0x1A60, c, func_80181A60]
+      - [0x1AFC, asm, func_ovl_189_001AFC]
+      - [0x1D4C, c, func_80181D4C]
+      - [0x1D74, c, func_80181D74]
+      - [0x1DE4, asm, func_ovl_189_001DE4]
+      - [0x2178, asm, func_ovl_189_002178]
+      - [0x2864, c, func_80182864]
+      - [0x288C, c, func_8018288C]
+      - [0x28FC, asm, func_ovl_189_0028FC]
+      - [0x2D80, asm, func_ovl_189_002D80]
+      - [0x3250, c, func_80183250]
+      - [0x3278, c, func_80183278]
+      - [0x32A8, c, func_801832A8]
+      - [0x33BC, asm, func_ovl_189_0033BC]
+      - [0x33C4, asm, func_ovl_189_0033C4]
+      - [0x3560, asm, func_ovl_189_003560]
+      - [0x3B08, asm, func_ovl_189_003B08]
+      - [0x41D0, asm, func_ovl_189_0041D0]
+      - [0x442C, asm, func_ovl_189_00442C]
+      - [0x4958, asm, func_ovl_189_004958]
+      - [0x50A4, asm, func_ovl_189_0050A4]
+      - [0x5874, asm, func_ovl_189_005874]
+      - [0x5F78, asm, func_ovl_189_005F78]
+      - [0x67E4, asm, func_ovl_189_0067E4]
+      - [0x6B58, asm, func_ovl_189_006B58]
+      - [0x7314, asm, func_ovl_189_007314]
+      - [0x756C, asm, func_ovl_189_00756C]
+      - [0x8044, asm, func_ovl_189_008044]
+      - [0x8554, asm, func_ovl_189_008554]
+      - [0x91C8, asm, func_ovl_189_0091C8]
+      - [0x9360, asm, func_ovl_189_009360]
+      - [0xA060, asm, func_ovl_189_00A060]
+  - [0xA800]
+# source slice: scanner
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_189.bin bs=2048 skip=99270 count=21

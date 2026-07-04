@@ -1,6 +1,5 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
-asm(".globl DrawPrim");
 asm("DrawPrim = DrawPrim");
 
 typedef unsigned char u8;

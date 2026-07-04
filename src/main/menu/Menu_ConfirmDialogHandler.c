@@ -5,10 +5,10 @@ typedef int s32;
 
 s32 MenuWidget_GridCellIndex(s32 arg0);
 void MenuWidget_RestoreSavedCurrentNode(void);
-void Menu_PlayConfirmSound(void) __asm__("func_800525EC");
-void Menu_PlayCancelSound(void) __asm__("func_80052634");
-s32 MenuWidget_GetChild(void *arg0, s32 arg1) __asm__("func_80062A20");
-void MenuWidget_DestroyNode(void *arg0) __asm__("func_80062F1C");
+void Menu_PlayConfirmSound(void);
+void Menu_PlayCancelSound(void);
+s32 MenuWidget_GetChild(void *arg0, s32 arg1);
+void MenuWidget_DestroyNode(void *arg0);
 
 extern void (*g_MenuConfirmCallback)(void *arg0, s32 arg1);
 

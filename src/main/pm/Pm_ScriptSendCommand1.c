@@ -1,11 +1,11 @@
-int Pm_SendCmd(int arg0, int arg1, int arg2, int *arg3, int *arg4, int *arg5) __asm__("func_8006F6D4");
+int Pm_SendCmd(int arg0, int arg1, int arg2, int *arg3, int *arg4, int *arg5);
 
 int Pm_ScriptSendCommand1(int **arg0) {
     int **base;
-    register int *op0 asm("$2");
-    register int *op1 asm("$5");
+    register int *op0;
+    register int *op1;
     int *stack0;
-    register int first asm("$4");
+    register int first;
     int second;
 
     base = arg0;

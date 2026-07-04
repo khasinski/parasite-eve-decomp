@@ -14,10 +14,10 @@ M2C_UNK Draw_SetPrimCallback(void *, s32);                 /* extern */
 extern s32 g_MenuItemContextFlag;
 extern s32 g_MenuBattleStatusOverlayActive;
 extern s32 g_MenuSelectionLocked;
-extern struct { char _[16]; } func_80043DA4_o __asm__("Menu_StepItemSelectScreen");
-#define Menu_StepItemSelectScreen (*(M2C_UNK *)&func_80043DA4_o)
-extern struct { char _[16]; } Menu_DrawItemList_o __asm__("Menu_DrawItemList");
-#define Menu_DrawItemList (*(M2C_UNK *)&Menu_DrawItemList_o)
+extern M2C_UNK Menu_StepItemSelectScreen[];
+#define Menu_StepItemSelectScreen (Menu_StepItemSelectScreen[0])
+extern M2C_UNK Menu_DrawItemList[];
+#define Menu_DrawItemList (Menu_DrawItemList[0])
 
 void Menu_CreateInventoryTabView(void) {
     s32 var_a0;

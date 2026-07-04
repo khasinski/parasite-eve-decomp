@@ -13,88 +13,53 @@ typedef long long s64;
 #include "../../../tools/m2c/m2c_macros.h"
 
 asm(".globl Draw_InitBuffers");
-asm("Draw_InitBuffers = func_8005E588");
+asm("Draw_InitBuffers = Draw_InitBuffers");
 
 void SetDefDispEnv();
 void SetDefDrawEnv();
-void Draw_SetColor() __asm__("func_8005E968");
-void Draw_SetFontVariant() __asm__("func_8005F844");
+void Draw_SetColor();
+void Draw_SetFontVariant();
 
 extern s32 g_TextCursorX;
 extern s32 g_TextCursorY;
 extern void *g_TextCursorStackPtr;
 extern s32 g_DrawGradientBlendColor;
 extern s32 g_DrawPresentImage;
-extern struct {
-    char _[16];
-} D_800A2198_o __asm__("D_800A2198");
-#define D_800A2198 (*(s8 *)&D_800A2198_o)
-extern struct {
-    char _[16];
-} D_800A2199_o __asm__("D_800A2199");
-#define D_800A2199 (*(s8 *)&D_800A2199_o)
-extern struct {
-    char _[16];
-} D_800A219A_o __asm__("D_800A219A");
-#define D_800A219A (*(s8 *)&D_800A219A_o)
-extern struct {
-    char _[16];
-} D_800A219B_o __asm__("D_800A219B");
-#define D_800A219B (*(s8 *)&D_800A219B_o)
-extern struct {
-    char _[16];
-} D_800A21F0_o __asm__("g_DrawBufferOtBases");
-#define g_DrawBufferOtBases (*(s32 *)&D_800A21F0_o)
-extern struct {
-    char _[16];
-} D_800A21F4_o __asm__("g_DrawBufferFrontBases");
-#define g_DrawBufferFrontBases ((u8 *)&D_800A21F4_o)
-extern struct {
-    char _[16];
-} D_800A2210_o __asm__("D_800A2210");
-#define D_800A2210 (*(s8 *)&D_800A2210_o)
-extern struct {
-    char _[16];
-} D_800A2211_o __asm__("D_800A2211");
-#define D_800A2211 (*(s8 *)&D_800A2211_o)
-extern struct {
-    char _[16];
-} D_800A2212_o __asm__("D_800A2212");
-#define D_800A2212 (*(s8 *)&D_800A2212_o)
-extern struct {
-    char _[16];
-} D_800A2213_o __asm__("D_800A2213");
-#define D_800A2213 (*(s8 *)&D_800A2213_o)
-extern struct {
-    char _[16];
-} D_800A2268_o __asm__("D_800A2268");
-#define D_800A2268 (*(s32 *)&D_800A2268_o)
-extern struct {
-    char _[16];
-} D_800A226C_o __asm__("D_800A226C");
-#define D_800A226C (*(s32 *)&D_800A226C_o)
-extern struct {
-    char _[16];
-} D_800A2270_o __asm__("g_TextCursorStackBottom");
-#define g_TextCursorStackBottom (*(M2C_UNK *)&D_800A2270_o)
-extern struct {
-    char _[16];
-} D_800B0E38_o __asm__("g_OtBufferTable");
-#define g_OtBufferTable (*(s32 *)&D_800B0E38_o)
-extern struct {
-    char _[16];
-} D_800B0E3C_o __asm__("g_RenderOtBufferBaseAlt");
-#define g_RenderOtBufferBaseAlt (*(s32 *)&D_800B0E3C_o)
-extern struct {
-    char _[16];
-} D_800B0E50_o __asm__("g_RenderFrontBufferBase");
-#define g_RenderFrontBufferBase (*(s32 *)&D_800B0E50_o)
-extern struct {
-    char _[16];
-} D_800B0E54_o __asm__("g_RenderBackBufferBase");
-#define g_RenderBackBufferBase (*(s32 *)&D_800B0E54_o)
+extern s8 D_800A2198[];
+#define D_800A2198 (D_800A2198[0])
+extern s8 D_800A2199[];
+#define D_800A2199 (D_800A2199[0])
+extern s8 D_800A219A[];
+#define D_800A219A (D_800A219A[0])
+extern s8 D_800A219B[];
+#define D_800A219B (D_800A219B[0])
+extern s32 g_DrawBufferOtBases[];
+#define g_DrawBufferOtBases (g_DrawBufferOtBases[0])
+extern u8 g_DrawBufferFrontBases[];
+extern s8 D_800A2210[];
+#define D_800A2210 (D_800A2210[0])
+extern s8 D_800A2211[];
+#define D_800A2211 (D_800A2211[0])
+extern s8 D_800A2212[];
+#define D_800A2212 (D_800A2212[0])
+extern s8 D_800A2213[];
+#define D_800A2213 (D_800A2213[0])
+extern s32 D_800A2268[];
+#define D_800A2268 (D_800A2268[0])
+extern s32 D_800A226C[];
+#define D_800A226C (D_800A226C[0])
+extern M2C_UNK g_TextCursorStackBottom[];
+#define g_TextCursorStackBottom (g_TextCursorStackBottom[0])
+extern s32 g_OtBufferTable[];
+#define g_OtBufferTable (g_OtBufferTable[0])
+extern s32 g_RenderOtBufferBaseAlt[];
+#define g_RenderOtBufferBaseAlt (g_RenderOtBufferBaseAlt[0])
+extern s32 g_RenderFrontBufferBase[];
+#define g_RenderFrontBufferBase (g_RenderFrontBufferBase[0])
+extern s32 g_RenderBackBufferBase[];
+#define g_RenderBackBufferBase (g_RenderBackBufferBase[0])
 
-void Draw_InitBuffers(void) __asm__("func_8005E588");
+void Draw_InitBuffers(void);
 
 void Draw_InitBuffers(void) {
     u8 *bufferBase = g_DrawBufferFrontBases;

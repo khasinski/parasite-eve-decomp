@@ -1,6 +1,5 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
-asm(".globl GetDispEnv");
 asm("GetDispEnv = GetDispEnv");
 
 extern void *memcpy(void *dest, const void *src, unsigned int n);

@@ -18,7 +18,7 @@ typedef struct Prim {
 } Prim;
 
 M2C_UNK BoundsCheck_AssertStub();
-void SetDrawArea(Prim *, Rect *) __asm__("func_80075B84");
+void SetDrawArea(Prim *, Rect *);
 extern u32 g_ActiveDrawBuffer;
 extern s32 g_DrawPacketBufferBase;
 extern s32 g_DrawBufferIndex;

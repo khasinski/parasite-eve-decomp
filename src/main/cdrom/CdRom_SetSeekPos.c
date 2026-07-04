@@ -9,9 +9,6 @@ extern unsigned short D_800BCFF4;
 extern unsigned short g_ScreenTransitionFadeColor;
 extern unsigned short D_800BCFF8;
 
-asm(".globl func_80066B60");
-asm("func_80066B60 = CdRom_SetSeekPos");
-
 int CdRom_SetSeekPos(unsigned int arg0) {
     unsigned short old0;
     unsigned short old1;

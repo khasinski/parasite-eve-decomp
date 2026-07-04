@@ -7,10 +7,10 @@ typedef int s32;
 void CD_flush(void);
 void CD_cw(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
-extern struct { char _[16]; } D_8009B59C_o __asm__("D_8009B59C");
-#define D_8009B59C (*(s32 *)&D_8009B59C_o)
-extern struct { char _[16]; } D_8009B5A4_o __asm__("g_CdRomCmdLongTimeoutTable");
-#define g_CdRomCmdLongTimeoutTable (*(s32 *)&D_8009B5A4_o)
+extern s32 D_8009B59C[];
+#define D_8009B59C (D_8009B59C[0])
+extern s32 g_CdRomCmdLongTimeoutTable[];
+#define g_CdRomCmdLongTimeoutTable (g_CdRomCmdLongTimeoutTable[0])
 
 s32 CdRom_RetryCmd(void) {
     void *base;

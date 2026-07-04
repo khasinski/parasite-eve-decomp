@@ -12,14 +12,14 @@ M2C_UNK Draw_PrintRawText(s32);                         /* extern */
 M2C_UNK Draw_PrintTextById(M2C_UNK);                     /* extern */
 M2C_UNK Draw_PrintNumberWidth6(s32);                         /* extern */
 M2C_UNK Draw_PrintNumberWidth3(s32);                         /* extern */
-extern struct { char _[16]; } D_800C0E20_o __asm__("g_AyaEquippedWeaponSlot");
-#define g_AyaEquippedWeaponSlot (*(s8 *)&D_800C0E20_o)
-extern struct { char _[16]; } D_800C0E22_o __asm__("g_AyaEquippedArmorSlot");
-#define g_AyaEquippedArmorSlot (*(s8 *)&D_800C0E22_o)
-extern struct { char _[16]; } g_AyaSaveLevel_o __asm__("g_AyaSaveLevel");
-#define g_AyaSaveLevel (*(u8 *)&g_AyaSaveLevel_o)
-extern struct { char _[16]; } g_AyaSaveTotalExp_o __asm__("g_AyaSaveTotalExp");
-#define g_AyaSaveTotalExp (*(s32 *)&g_AyaSaveTotalExp_o)
+extern s8 g_AyaEquippedWeaponSlot[];
+#define g_AyaEquippedWeaponSlot (g_AyaEquippedWeaponSlot[0])
+extern s8 g_AyaEquippedArmorSlot[];
+#define g_AyaEquippedArmorSlot (g_AyaEquippedArmorSlot[0])
+extern u8 g_AyaSaveLevel[];
+#define g_AyaSaveLevel (g_AyaSaveLevel[0])
+extern s32 g_AyaSaveTotalExp[];
+#define g_AyaSaveTotalExp (g_AyaSaveTotalExp[0])
 
 void Menu_DrawStatusPanel(void) {
     s32 var_a0;

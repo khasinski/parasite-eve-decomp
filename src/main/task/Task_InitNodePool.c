@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 */
+/* CC1_FLAGS: -G8 -O1 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 extern int g_TaskNodeFreeListHead;
@@ -25,7 +25,7 @@ void Task_InitNodePool(void) {
     g_TaskNodeFreeListHead = 0;
 
     for (; i < 72; i++, rowOffset += 0x2C) {
-        register unsigned int colOffset asm("$3");
+        register unsigned int colOffset;
         int *cell;
 
         j = 0;

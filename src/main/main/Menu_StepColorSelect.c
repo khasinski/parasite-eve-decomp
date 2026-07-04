@@ -13,8 +13,8 @@ M2C_UNK Draw_BlendColor();
 void *MenuWidget_GetChild();
 M2C_UNK MenuWidget_DestroyNode();
 extern s32 D_8009CFE0;
-extern struct { char _[16]; } g_SavedDrawBlendColor_o __asm__("g_SavedDrawBlendColor");
-#define g_SavedDrawBlendColor (*(s32 *)&g_SavedDrawBlendColor_o)
+extern s32 g_SavedDrawBlendColor[];
+#define g_SavedDrawBlendColor (g_SavedDrawBlendColor[0])
 
 s32 Menu_StepColorSelect(s32 arg0, s32 arg1) {
     s32 temp_s0;

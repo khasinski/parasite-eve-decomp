@@ -18,10 +18,7 @@ M2C_UNK BoundsCheck_AssertStub();
 extern void *g_MenuWidgetActiveListHead;
 extern void *g_MenuWidgetFreeListHead;
 
-asm(".globl MenuWidget_AllocNode");
-asm("MenuWidget_AllocNode = func_800625B8");
-
-void *MenuWidget_AllocNode(s32 arg0, void *arg1) __asm__("func_800625B8");
+void *MenuWidget_AllocNode(s32 arg0, void *arg1);
 
 void *MenuWidget_AllocNode(s32 arg0, void *arg1) {
     s32 var_a0;

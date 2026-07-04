@@ -12,20 +12,13 @@ typedef long long s64;
 
 #include "../../../tools/m2c/m2c_macros.h"
 
-asm(".globl Inv_LookupActiveListDisplayData");
-asm("Inv_LookupActiveListDisplayData = func_80053068");
-
-void *Str_LookupTable8() __asm__("func_8005DC9C");
+void *Str_LookupTable8();
 
 extern s32 g_InvCategoryBaseItemId;
 extern s32 g_InvItemPtr;
-extern struct {
-    char _[16];
-} D_800BEEAC_o __asm__("g_EquipItemDataTable");
+extern u8 g_EquipItemDataTable[];
 
-#define g_EquipItemDataTable ((u8 *)&D_800BEEAC_o)
-
-void *Inv_LookupActiveListDisplayData(s32 index) __asm__("func_80053068");
+void *Inv_LookupActiveListDisplayData(s32 index);
 
 void *Inv_LookupActiveListDisplayData(s32 index) {
     s16 itemId;

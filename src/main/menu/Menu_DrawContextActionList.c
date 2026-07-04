@@ -7,9 +7,6 @@ void Sfx_ContextPick(int arg0);
 void Inv_SelectActiveList(int arg0);
 void MenuWidget_DrawList(int arg0, void (*callback)(int));
 
-asm(".globl func_8004F910");
-asm("func_8004F910 = Menu_DrawContextActionList");
-
 void Menu_DrawContextActionList(int arg0) {
     int saved = arg0;
 

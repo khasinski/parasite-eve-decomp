@@ -13,8 +13,8 @@ typedef long long s64;
 #include "../../../tools/m2c/m2c_macros.h"
 
 M2C_UNK SeqOp_SetTrack38Mask();
-extern struct { char _[16]; } g_AkaoCurTrack_o __asm__("g_AkaoCurTrack");
-#define g_AkaoCurTrack (*(void **)&g_AkaoCurTrack_o)
+extern void * g_AkaoCurTrack[];
+#define g_AkaoCurTrack (g_AkaoCurTrack[0])
 
 void SeqOp_NoteOnWithVoiceAlloc(void *arg0, s32 arg1, s32 arg2, s16 arg3) {
     register s16 var_a3 asm("$7");

@@ -5,15 +5,13 @@
  * Wrapped via maspsx's INCLUDE_ASM hack so the body is passed
  * through verbatim; bare global loads gp-rel via the .extern size
  * hints + `as -G8`. See tools/maspsx/PE1_IMPROVEMENTS.md. */
-asm(".globl SetGraphDebug");
-asm("SetGraphDebug = func_80074BB8");
 void __maspsx_include_asm_hack_func_80074BB8(void);
 void __maspsx_include_asm_hack_func_80074BB8(void) {
 	__asm__(
 		"	.set	noreorder # maspsx-keep\n"
 		"	.set	nomacro # maspsx-keep\n"
-		"	.globl	func_80074BB8 # maspsx-keep\n"
-		"func_80074BB8: # maspsx-keep\n"
+		"	.globl	SetGraphDebug # maspsx-keep\n"
+		"SetGraphDebug: # maspsx-keep\n"
 		"	addiu	$sp,$sp,-0x18 # maspsx-keep\n"
 		"	lui	$v1,%hi(g_GraphDebug) # maspsx-keep\n"
 		"	addiu	$v1,$v1,%lo(g_GraphDebug) # maspsx-keep\n"

@@ -198,7 +198,7 @@ asm(
 "    .word 0xafa3001c\n"
 "    .word 0x24040022\n"
 "    .word 0x0c000000\n"
-"    .reloc .-4, R_MIPS_26, func_800739C4\n"
+"    .reloc .-4, R_MIPS_26, Evt_Deliver\n"
 "    .word 0x2405000d\n"
 "    .word 0x13c00002\n"
 "    .word 0x3c027ff0\n"

@@ -9,8 +9,8 @@ M2C_UNK Asset_UnloadTableEntries();
 M2C_UNK DrawSync();
 M2C_UNK Akao_Cmd_F1();
 extern s32 g_GameStateFlags;
-extern struct { char _[16]; } D_800B0CD8_o __asm__("g_GameState");
-#define g_GameState (*(s32 *)&D_800B0CD8_o)
+extern s32 g_GameState[];
+#define g_GameState (g_GameState[0])
 
 void Boot_FlushSceneFast(void) {
     s16 rect[4];

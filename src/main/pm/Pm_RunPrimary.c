@@ -13,10 +13,10 @@ M2C_UNK Render_SetGteScreenOffset();
 M2C_UNK Pm_Start();
 M2C_UNK Render_ResetGteScreenOffset();
 M2C_UNK Pm_Exec();
-extern struct { char _[16]; } D_8009D1A0_o __asm__("g_GameStateFlags");
-#define g_GameStateFlags (*(s32 *)&D_8009D1A0_o)
-extern struct { char _[16]; } D_800942E4_o __asm__("g_PmSlotTable");
-#define g_PmSlotTable (*(s32 *)&D_800942E4_o)
+extern s32 g_GameStateFlags[];
+#define g_GameStateFlags (g_GameStateFlags[0])
+extern s32 g_PmSlotTable[];
+#define g_PmSlotTable (g_PmSlotTable[0])
 s32 Pm_RunPrimary(void) {
     s32 var_s0;
     s32 var_s0_2;

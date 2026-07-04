@@ -6,10 +6,9 @@ typedef int s32;
 s32 VSync(s32 mode);
 void func_80081268(void);
 
-extern struct { char _[32]; } D_8009B6B0_o __asm__("D_8009B6B0");
-#define D_8009B6B0 ((char *)&D_8009B6B0_o)
-extern struct { char _[16]; } D_8009B6D0_o __asm__("g_CdReadCompleteCallback");
-#define g_CdReadCompleteCallback (*(void (**)(s32, s32))&D_8009B6D0_o)
+extern char D_8009B6B0[];
+extern void (*g_CdReadCompleteCallback[])(s32, s32);
+#define g_CdReadCompleteCallback (g_CdReadCompleteCallback[0])
 
 #define WORD(ptr, ofs) (*(s32 *)((ptr) + (ofs)))
 

@@ -19,7 +19,7 @@ extern GpuCallbacks *g_GpuCallbacks;
 void checkRECT(char *msg, RECT *rect);
 
 int MoveImage(RECT *rect, int x, int y) {
-    register u32 *packet asm("$3");
+    register u32 *packet;
     GpuCallbacks *callbacks;
     int dst;
     u32 xy;

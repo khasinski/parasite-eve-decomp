@@ -1,0 +1,41 @@
+name: ovl_009.bin
+sha1: 6fd4df73085d5f93a32451a39e81ea673328bf77
+options:
+  basename: ovl_009
+  target_path: original/USA/overlays/ovl_009.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/ovl_009
+  src_path: src/overlays/ovl_009
+  build_path: build/USA/overlays/ovl_009
+  ld_script_path: linkers/USA/overlays/ovl_009.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_009.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_009.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: ovl_009
+    type: code
+    start: 0x0
+    vram: 0x8018EFF0
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, asm, ovl_009_header]
+      - [0x1C, asm, func_8018F00C]
+      - [0x224, asm, func_8018F214]
+      - [0xC6C, asm, func_8018FC5C]
+      - [0xC90, asm, ovl_009_data]
+  - [0x1000]

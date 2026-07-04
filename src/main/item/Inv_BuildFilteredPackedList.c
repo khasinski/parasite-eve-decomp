@@ -1,7 +1,7 @@
 /* CC1_FLAGS: -g3 -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
-/* Self-contained asm overlay kept as source-local inline asm. Byte+reloc identical
- * to the matched object; see commit history for the prior candidate C. */
+/* Self-contained asm overlay (transcribed from the ROM disassembly). Byte+reloc identical to the matched
+ * object; see commit history for the prior candidate C. */
 asm(
 ".text\n"
 ".globl Inv_BuildFilteredPackedList\n"
@@ -48,7 +48,7 @@ asm(
 "    .word 0x10400005\n"
 "    .word 0x24a2fe00\n"
 "    .word 0x0c000000\n"
-"    .reloc .-4, R_MIPS_26, func_8005DB44\n"
+"    .reloc .-4, R_MIPS_26, Item_LookupBaseData\n"
 "    .word 0x00000000\n"
 "    .word 0x0800002d\n"
 "    .reloc .-4, R_MIPS_26, .text\n"

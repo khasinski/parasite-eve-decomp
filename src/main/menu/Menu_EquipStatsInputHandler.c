@@ -8,11 +8,11 @@ void *MenuWidget_FindByModeAndSelectedBase(s32 mode, s32 base);
 void MenuWidget_SetCurrentNode(void *node);
 void Menu_OpenItemList(void);
 void Menu_StepInventoryRoot(s32 arg0, s32 arg1, s32 arg2);
-void Menu_PlayCancelSound(void) __asm__("func_80052634");
-void Menu_PlayMoveSound(void) __asm__("func_8005267C");
-s32 Inv_RestoreSelection(s32 index) __asm__("func_80059F08");
+void Menu_PlayCancelSound(void);
+void Menu_PlayMoveSound(void);
+s32 Inv_RestoreSelection(s32 index);
 void Inv_BuildStorageDisplay(void);
-void *MenuWidget_GetChild(s32 node, s32 index) __asm__("func_80062A20");
+void *MenuWidget_GetChild(s32 node, s32 index);
 void MenuWidget_NavScrollTo(s32 selected_base);
 
 extern s32 g_MenuSelectedItemList;

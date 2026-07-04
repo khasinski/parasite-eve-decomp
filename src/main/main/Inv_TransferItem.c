@@ -3,11 +3,11 @@
 typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsigned short u16;typedef int s32;typedef unsigned int u32;typedef long long s64;
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-s32 func_80052F70();
+s32 Inv_GetAyaSlotLimit();
 M2C_UNK Inv_RebuildSelectableMask();
 s32 Inv_IsSlotSelectable();
 s32 Inv_CanAddActiveListItemToAya();
-void *func_8005DB44();
+void *Item_LookupBaseData();
 extern M2C_UNK *g_InvItemPtr;
 extern s32 g_InvSlotLimit;
 extern M2C_UNK *g_InvSelectionBits;
@@ -60,7 +60,7 @@ s32 Inv_TransferItem(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     g_InvItemPtr = &g_AyaInventoryItems;
     var_s4 = 1;
-    g_InvSlotLimit = func_80052F70();
+    g_InvSlotLimit = Inv_GetAyaSlotLimit();
     g_InvSelectionBits = &g_AyaItemSelectionBits;
     g_InvSelectionBitWords = 2;
     if (arg0 == 0xD) {
@@ -113,7 +113,7 @@ block_15:
             if (var_a0_2 == 0) {
                 tsm = arg1 * 2;
                 temp_s0 = (s16 *)((u32)tsm + (u32)(u8 *)&D_800A1FD4_o);
-                if (((u8) M2C_FIELD(func_8005DB44(*temp_s0 - 1), u8 *, 6) >= 0x10U) && ((u8) M2C_FIELD(func_8005DB44(*temp_s0 - 1), u8 *, 6) < 0x13U)) {
+                if (((u8) M2C_FIELD(Item_LookupBaseData(*temp_s0 - 1), u8 *, 6) >= 0x10U) && ((u8) M2C_FIELD(Item_LookupBaseData(*temp_s0 - 1), u8 *, 6) < 0x13U)) {
                     var_s4 = Inv_CanAddActiveListItemToAya(arg1) == 0;
                 } else {
                     tla = (u8 *)&D_800A1FD4_o;

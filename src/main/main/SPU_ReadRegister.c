@@ -4,14 +4,14 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 s32 _SpuIsInAllocateArea_();
-extern struct { char _[16]; } D_8009B390_o __asm__("g_SpuCdAudioMixMode");
-#define g_SpuCdAudioMixMode (*(s32 *)&D_8009B390_o)
-extern struct { char _[16]; } D_8009B394_o __asm__("g_SpuCdAudioMixModePrev");
-#define g_SpuCdAudioMixModePrev (*(s32 *)&D_8009B394_o)
-extern struct { char _[16]; } D_8009B398_o __asm__("g_SpuCdInputVolume");
-#define g_SpuCdInputVolume (*(s32 *)&D_8009B398_o)
-extern struct { char _[16]; } D_8009B3FC_o __asm__("_spu_RXX");
-#define _spu_RXX (*(void **)&D_8009B3FC_o)
+extern s32 g_SpuCdAudioMixMode[];
+#define g_SpuCdAudioMixMode (g_SpuCdAudioMixMode[0])
+extern s32 g_SpuCdAudioMixModePrev[];
+#define g_SpuCdAudioMixModePrev (g_SpuCdAudioMixModePrev[0])
+extern s32 g_SpuCdInputVolume[];
+#define g_SpuCdInputVolume (g_SpuCdInputVolume[0])
+extern void * _spu_RXX[];
+#define _spu_RXX (_spu_RXX[0])
 
 s32 SPU_ReadRegister(s32 arg0) {
     s32 mode;

@@ -11,8 +11,8 @@ extern s32 g_BattleControlFlags;
 extern s32 g_FieldRenderFlags;
 extern s32 g_FieldPadBits;
 extern s32 D_8009D2D4;
-extern struct { char _[16]; } D_800A76F0_o __asm__("g_FieldRenderFlagTable");
-#define g_FieldRenderFlagTable (*(s32 *)&D_800A76F0_o)
+extern s32 g_FieldRenderFlagTable[];
+#define g_FieldRenderFlagTable (g_FieldRenderFlagTable[0])
 
 void Boot_BuildRenderFlagTable(void) {
     s32 *var_v1;

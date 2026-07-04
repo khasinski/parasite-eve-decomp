@@ -28,7 +28,7 @@ void Task_GarbageCollectNodes(void) {
             do {
                 TaskNode *node;
                 TaskNode *next;
-                register char *bucketBase asm("$2");
+                register char *bucketBase;
 
                 bucketBase = (char *)(((unsigned int)i * 4) + (unsigned int)group);
                 node = *(TaskNode **)(bucketBase + 0xA0);

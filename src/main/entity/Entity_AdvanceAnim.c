@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G0 -g3 */
+/* CC1_FLAGS: -G0 -g3 -O3 */
 /* MASPSX_FLAGS: -G0 --use-comm-section --expand-div */
 
 typedef unsigned char u8;
@@ -30,7 +30,7 @@ void Entity_AdvanceAnim(Entity *entity) {
     int flags;
     int new_flags;
     int old_frame;
-    register int step asm("$2");
+    register int step;
     int limit;
     int next_frame;
     int end_frame;

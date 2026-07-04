@@ -13,26 +13,22 @@ typedef long long s64;
 
 #include "../../../tools/m2c/m2c_macros.h"
 
-asm(".globl Menu_HandleAyaInventorySelectionInput");
-asm("Menu_HandleAyaInventorySelectionInput = func_8004F30C");
-
 void MenuWidget_ClearCursorY();
 void *MenuWidget_FindByModeAndSelectedBase();
 void Menu_OpenEquipScreen();
-void Menu_PlayConfirmSound(void) __asm__("func_800525EC");
-void Menu_PlayCancelSound(void) __asm__("func_80052634");
-void Inv_RemoveActiveListItem() __asm__("func_80057D30");
-void *func_80062A20();
-void MenuWidget_DestroyNode(s32 node) __asm__("func_80062F1C");
+void Menu_PlayConfirmSound(void);
+void Menu_PlayCancelSound(void);
+void Inv_RemoveActiveListItem();
+void *MenuWidget_GetChild();
+void MenuWidget_DestroyNode(s32 node);
 void MenuWidget_NavScrollTo(s32 selected_base);
 s32 MenuWidget_GridCellIndex();
 
 extern s32 g_MenuEquipSwapSource;
 extern s32 D_8009CF9C;
-extern struct { char _[16]; } g_AyaInventoryItems_o __asm__("g_AyaInventoryItems");
-#define g_AyaInventoryItems ((s16 *)&g_AyaInventoryItems_o)
+extern s16 g_AyaInventoryItems[];
 
-s32 Menu_HandleAyaInventorySelectionInput(s32 arg0, s32 arg1) __asm__("func_8004F30C");
+s32 Menu_HandleAyaInventorySelectionInput(s32 arg0, s32 arg1);
 
 s32 Menu_HandleAyaInventorySelectionInput(s32 arg0, s32 arg1)
 {
@@ -55,7 +51,7 @@ s32 Menu_HandleAyaInventorySelectionInput(s32 arg0, s32 arg1)
         MenuWidget_NavScrollTo(0x1B);
         MenuWidget_NavScrollTo(1);
         MenuWidget_NavScrollTo(0);
-        Menu_OpenEquipScreen(MenuWidget_GridCellIndex(func_80062A20(arg0, 0)));
+        Menu_OpenEquipScreen(MenuWidget_GridCellIndex(MenuWidget_GetChild(arg0, 0)));
         Menu_PlayConfirmSound();
         return 1;
     }

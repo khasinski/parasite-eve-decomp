@@ -12,24 +12,24 @@ typedef long long s64;
 M2C_UNK Str_LookupTable8();
 M2C_UNK Sfx_DrawSlotRow();
 M2C_UNK Draw_OffsetCursor();
-extern struct { char _[16]; } D_800A1F94_o __asm__("g_InvCompareSlotLeft");
-#define g_InvCompareSlotLeft (*(u8 *)&D_800A1F94_o)
-extern struct { char _[16]; } D_800A1F98_o __asm__("D_800A1F98");
-#define D_800A1F98 (*(u8 *)&D_800A1F98_o)
-extern struct { char _[16]; } D_800A1F99_o __asm__("D_800A1F99");
-#define D_800A1F99 (*(u8 *)&D_800A1F99_o)
-extern struct { char _[16]; } D_800A1F9A_o __asm__("D_800A1F9A");
-#define D_800A1F9A (*(u8 *)&D_800A1F9A_o)
-extern struct { char _[16]; } D_800A1FB4_o __asm__("g_InvCompareSlotRight");
-#define g_InvCompareSlotRight (*(u8 *)&D_800A1FB4_o)
-extern struct { char _[16]; } D_800A1FB8_o __asm__("D_800A1FB8");
-#define D_800A1FB8 (*(u8 *)&D_800A1FB8_o)
-extern struct { char _[16]; } D_800A1FB9_o __asm__("D_800A1FB9");
-#define D_800A1FB9 (*(u8 *)&D_800A1FB9_o)
-extern struct { char _[16]; } D_800A1FBA_o __asm__("D_800A1FBA");
-#define D_800A1FBA (*(u8 *)&D_800A1FBA_o)
-extern struct { char _[16]; } D_800C20A4_o __asm__("g_CursorRenderDataBlock");
-#define g_CursorRenderDataBlock (*(u8 *)&D_800C20A4_o)
+extern u8 g_InvCompareSlotLeft[];
+#define g_InvCompareSlotLeft (g_InvCompareSlotLeft[0])
+extern u8 D_800A1F98[];
+#define D_800A1F98 (D_800A1F98[0])
+extern u8 D_800A1F99[];
+#define D_800A1F99 (D_800A1F99[0])
+extern u8 D_800A1F9A[];
+#define D_800A1F9A (D_800A1F9A[0])
+extern u8 g_InvCompareSlotRight[];
+#define g_InvCompareSlotRight (g_InvCompareSlotRight[0])
+extern u8 D_800A1FB8[];
+#define D_800A1FB8 (D_800A1FB8[0])
+extern u8 D_800A1FB9[];
+#define D_800A1FB9 (D_800A1FB9[0])
+extern u8 D_800A1FBA[];
+#define D_800A1FBA (D_800A1FBA[0])
+extern u8 g_CursorRenderDataBlock[];
+#define g_CursorRenderDataBlock (g_CursorRenderDataBlock[0])
 void Menu_DrawWeaponComparisonPanel(void) {
     M2C_UNK *var_a1;
     M2C_UNK *var_a1_2;

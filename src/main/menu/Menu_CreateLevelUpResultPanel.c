@@ -6,7 +6,7 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 
 void MenuWidget_SetCurrentNode();
 void Menu_InitStateTables(void);
-void *MenuWidget_CreateSimpleNode(s32 mode, s32 arg1, s32 arg2, s32 arg3) __asm__("func_80062D2C");
+void *MenuWidget_CreateSimpleNode(s32 mode, s32 arg1, s32 arg2, s32 arg3);
 void *MenuWidget_CreateNode(s32 mode, void *parent, void *sibling);
 
 extern s32 g_MenuBonusPointBarAnimActive;
@@ -18,9 +18,6 @@ extern struct { char _[16]; } func_8004C1E0_o __asm__("Menu_StepParasiteScreen")
 #define Menu_StepParasiteScreen (*(void *)&func_8004C1E0_o)
 extern struct { char _[16]; } func_8004FFF8_o __asm__("Menu_DrawStatAllocationList");
 #define Menu_DrawStatAllocationList (*(void *)&func_8004FFF8_o)
-
-asm(".globl func_8004BE4C");
-asm("func_8004BE4C = Menu_CreateLevelUpResultPanel");
 
 void Menu_CreateLevelUpResultPanel(void) {
     s32 current_y;

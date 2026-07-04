@@ -6,8 +6,8 @@ typedef unsigned short u16; typedef int s32; typedef unsigned int u32; typedef l
 #include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK Scene_SyncEntityAction();
 M2C_UNK Entity_SetActionMode();
-extern struct { char _[16]; } D_8009D1A0_o __asm__("g_GameStateFlags");
-#define g_GameStateFlags (*(s32 *)&D_8009D1A0_o)
+extern s32 g_GameStateFlags[];
+#define g_GameStateFlags (g_GameStateFlags[0])
 
 void Scene_Init(void *arg0, s32 *arg1) {
     if (g_GameStateFlags & 2) {

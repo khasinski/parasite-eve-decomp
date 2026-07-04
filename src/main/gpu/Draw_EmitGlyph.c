@@ -12,7 +12,7 @@ typedef long long s64;
 
 #include "../../../tools/m2c/m2c_macros.h"
 
-void *Draw_LookupGlyphDescriptor(s32 index) __asm__("func_8005DADC");
+void *Draw_LookupGlyphDescriptor(s32 index);
 void BoundsCheck_AssertStub(s32 arg0);
 
 extern u32 g_ActiveDrawBuffer;

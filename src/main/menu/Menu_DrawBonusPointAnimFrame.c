@@ -21,12 +21,12 @@ extern s32 g_MenuLevelUpAnimTimer;
 extern s32 D_8009CF7C;
 extern s32 g_MenuBonusPointBarAnimActive;
 extern s32 g_BonusPointBarAnimStep;
-extern struct { char _[16]; } D_800C0E06_o __asm__("g_AyaHpMax");
-#define g_AyaHpMax (*(u16 *)&D_800C0E06_o)
-extern struct { char _[16]; } g_AyaBonusPoints_o __asm__("g_AyaBonusPoints");
-#define g_AyaBonusPoints (*(s32 *)&g_AyaBonusPoints_o)
-extern struct { char _[16]; } g_AyaSaveLevel_o __asm__("g_AyaSaveLevel");
-#define g_AyaSaveLevel (*(u8 *)&g_AyaSaveLevel_o)
+extern u16 g_AyaHpMax[];
+#define g_AyaHpMax (g_AyaHpMax[0])
+extern s32 g_AyaBonusPoints[];
+#define g_AyaBonusPoints (g_AyaBonusPoints[0])
+extern u8 g_AyaSaveLevel[];
+#define g_AyaSaveLevel (g_AyaSaveLevel[0])
 
 void Menu_DrawBonusPointAnimFrame(void) {
     M2C_UNK var_a0;

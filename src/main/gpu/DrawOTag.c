@@ -9,10 +9,7 @@ typedef unsigned int u32;
 
 extern unsigned char g_GraphDebug[];
 extern void (*g_GpuDebugPrintf[])(char *name, int arg0);
-extern struct {
-    char _[16];
-} g_GpuCallbacks_o __asm__("g_GpuCallbacks");
-#define g_GpuCallbacks (*(GpuCallbacks **)&g_GpuCallbacks_o)
+extern GpuCallbacks * g_GpuCallbacks;
 extern char D_80011928[];
 
 int DrawOTag(int arg0) {

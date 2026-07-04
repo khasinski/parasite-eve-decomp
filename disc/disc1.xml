@@ -1,0 +1,37 @@
+<iso_project image_name="mkpsxiso.bin" cue_sheet="mkpsxiso.cue">
+    <track type="data" xa_edc="true" new_type="false">
+        <identifiers system="PLAYSTATION" application="PLAYSTATION" creation_date="1998070511150000+36"/>
+        <license file="./license_data.dat"/>
+        <default_attributes gmt_offs="36" xa_attrib="32" xa_perm="0" xa_gid="0" xa_uid="0"/>
+        <directory_tree xa_perm="1365" offs="22">
+            <file name="SYSTEM.CNF" source="SYSTEM.CNF" type="data" offs="23"/>
+            <file name="SLUS_006.62" source="SLUS_006.62" type="data" offs="24"/>
+            <file name="PE.IMG" source="PE.IMG" type="data" offs="1013"/>
+            <dir name="FMV1" source="FMV1" offs="101703">
+                <file name="PEDISC01.IDF" source="FMV1/PEDISC01.IDF" type="data" offs="101704"/>
+                <file name="FMV000.STR" source="FMV1/FMV000.STR" type="mixed" offs="101705"/>
+                <file name="FMV002.STR" source="FMV1/FMV002.STR" type="mixed" offs="103206"/>
+                <file name="FMV003.STR" source="FMV1/FMV003.STR" type="mixed" offs="113438"/>
+                <file name="FMV004.STR" source="FMV1/FMV004.STR" type="mixed" offs="125230"/>
+                <file name="FMV005.STR" source="FMV1/FMV005.STR" type="mixed" offs="131102"/>
+                <file name="FMV006.STR" source="FMV1/FMV006.STR" type="mixed" offs="133670"/>
+                <file name="FMV006C.STR" source="FMV1/FMV006C.STR" type="mixed" offs="141438"/>
+                <file name="FMV007.STR" source="FMV1/FMV007.STR" type="mixed" offs="143574"/>
+                <file name="FMV008.STR" source="FMV1/FMV008.STR" type="mixed" offs="148262"/>
+                <file name="FMV009.STR" source="FMV1/FMV009.STR" type="mixed" offs="150566"/>
+                <file name="FMV010.STR" source="FMV1/FMV010.STR" type="mixed" offs="153398"/>
+                <file name="FMV011.STR" source="FMV1/FMV011.STR" type="mixed" offs="158558"/>
+                <file name="FMV012.STR" source="FMV1/FMV012.STR" type="mixed" offs="164302"/>
+                <file name="FMV013.STR" source="FMV1/FMV013.STR" type="mixed" offs="168166"/>
+                <file name="FMV014.STR" source="FMV1/FMV014.STR" type="mixed" offs="172174"/>
+                <file name="FMV015.STR" source="FMV1/FMV015.STR" type="mixed" offs="176694"/>
+                <file name="FMV016A.STR" source="FMV1/FMV016A.STR" type="mixed" offs="180350"/>
+                <file name="FMV016B.STR" source="FMV1/FMV016B.STR" type="mixed" offs="181582"/>
+                <file name="FMV017A.STR" source="FMV1/FMV017A.STR" type="mixed" offs="182750"/>
+                <file name="FMV017B.STR" source="FMV1/FMV017B.STR" type="mixed" offs="187566"/>
+                <file name="FMV001.STR" source="FMV1/FMV001.STR" type="mixed" offs="189742"/>
+                <dummy sectors="150" type="0" offs="210535"/>
+            </dir>
+        </directory_tree>
+    </track>
+</iso_project>

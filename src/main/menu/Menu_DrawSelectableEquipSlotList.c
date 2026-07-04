@@ -3,12 +3,9 @@
 
 int g_MenuActiveWidget;
 
-void Menu_DrawSelectableEquipSlotRow(int arg0) __asm__("func_80050804");
+void Menu_DrawSelectableEquipSlotRow(int arg0);
 void Inv_SelectActiveList(int arg0);
 void MenuWidget_DrawList(int arg0, void (*callback)(int));
-
-asm(".globl func_8004F8D0");
-asm("func_8004F8D0 = Menu_DrawSelectableEquipSlotList");
 
 void Menu_DrawSelectableEquipSlotList(int arg0) {
     Inv_SelectActiveList(0);

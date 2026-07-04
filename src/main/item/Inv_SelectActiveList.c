@@ -13,9 +13,6 @@ extern int g_InvStorageSelectionBits[];
 
 int Inv_GetAyaSlotLimit(void);
 
-asm(".globl func_80052E30");
-asm("func_80052E30 = Inv_SelectActiveList");
-
 void Inv_SelectActiveList(int useOverride) {
     if (useOverride != 0 && g_InvActiveListOverride != 0) {
         g_InvItemPtr = g_InvActiveListOverride;

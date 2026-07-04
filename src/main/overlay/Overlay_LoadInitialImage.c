@@ -12,7 +12,7 @@ typedef long long s64;
 #include "../../../tools/m2c/m2c_macros.h"
 
 s32 Akao_Cmd_F0();
-s32 VSync() __asm__("func_80073A44");
+s32 VSync();
 s32 PutDispEnv() __asm__("Render_StepEntityPool");
 s32 EnterCriticalSection();
 s32 ExitCriticalSection();
@@ -47,9 +47,9 @@ typedef struct {
     s8 pad1;
 } DISPENV;
 
-s32 CdRom_ReadSectors(s32 arg0, s32 arg1, s32 arg2, s32 arg3) __asm__("func_8006E6D4");
-s32 Sys_VSyncTimeout(s32 *status) __asm__("func_800811E4");
-s32 SetDispMask(s32 arg0) __asm__("func_80074D28");
+s32 CdRom_ReadSectors(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+s32 Sys_VSyncTimeout(s32 *status);
+s32 SetDispMask(s32 arg0);
 
 asm(".globl func_8006E834");
 asm("func_8006E834 = Overlay_LoadInitialImage");

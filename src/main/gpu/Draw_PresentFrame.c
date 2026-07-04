@@ -12,7 +12,7 @@ extern int g_DrawPresentImage;
 int VSync(int arg0);
 void DrawSync(int arg0);
 void Render_InitEntityPool(int arg0);
-void PutDrawEnv(int arg0) __asm__("func_80075424");
+void PutDrawEnv(int arg0);
 void PutDispEnv(int arg0) __asm__("Render_StepEntityPool");
 void LoadImage(s16 *rect, int image);
 void DrawOTag(int arg0);

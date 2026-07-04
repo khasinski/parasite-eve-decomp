@@ -1,12 +1,11 @@
 /* CC1_PROFILE: build0001 */
 /* MASPSX_FLAGS: --stack-return-delay */
 
-int Sys_VSyncTimeout(int arg0) __asm__("func_800811E4");
+int Sys_VSyncTimeout(int arg0);
 
 extern int g_GameState;
 
-asm(".globl func_8006E7E8");
-asm("func_8006E7E8 = CdRom_PollReady");
+asm("CdRom_PollReady = CdRom_PollReady");
 
 int CdRom_PollReady(void) {
     int scratch;

@@ -5,16 +5,16 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #include "../../../tools/m2c/m2c_macros.h"
 
 void Gpu_SetDisplayBuffer(void);
-void Gpu_ResetDmaWaitTimer(void) __asm__("func_800773D0");
+void Gpu_ResetDmaWaitTimer(void);
 s32 Gpu_DmaTimeoutCheck(void);
-extern struct { char _[16]; } D_80095854_o __asm__("g_GpuGp1Ptr");
-#define g_GpuGp1Ptr (*(s32 **)&D_80095854_o)
-extern struct { char _[16]; } D_80095860_o __asm__("g_GpuDmaChcrPtr");
-#define g_GpuDmaChcrPtr (*(s32 **)&D_80095860_o)
-extern struct { char _[16]; } D_80095874_o __asm__("g_GpuDmaQueueHead");
-#define g_GpuDmaQueueHead (*(s32 *)&D_80095874_o)
-extern struct { char _[16]; } D_80095878_o __asm__("g_GpuDmaQueueTail");
-#define g_GpuDmaQueueTail (*(s32 *)&D_80095878_o)
+extern s32 * g_GpuGp1Ptr[];
+#define g_GpuGp1Ptr (g_GpuGp1Ptr[0])
+extern s32 * g_GpuDmaChcrPtr[];
+#define g_GpuDmaChcrPtr (g_GpuDmaChcrPtr[0])
+extern s32 g_GpuDmaQueueHead[];
+#define g_GpuDmaQueueHead (g_GpuDmaQueueHead[0])
+extern s32 g_GpuDmaQueueTail[];
+#define g_GpuDmaQueueTail (g_GpuDmaQueueTail[0])
 
 s32 Gpu_DrainDmaQueue(s32 arg0) {
     s32 temp_s0;

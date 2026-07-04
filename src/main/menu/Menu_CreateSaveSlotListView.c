@@ -12,14 +12,14 @@ void *MenuWidget_CreateNode(s32, void *, void *);           /* extern */
 s32 MenuWidget_GridCellIndex(void *);                          /* extern */
 M2C_UNK Draw_SetPrimCallback(void *, M2C_UNK);             /* extern */
 extern s32 g_SaveSelectedSlot;
-extern struct { char _[16]; } func_8004D690_o __asm__("Menu_DrawSaveSlotPortLabel");
-#define Menu_DrawSaveSlotPortLabel (*(M2C_UNK *)&func_8004D690_o)
-extern struct { char _[16]; } func_8004D6D4_o __asm__("Menu_StepSaveSelect");
-#define Menu_StepSaveSelect (*(M2C_UNK *)&func_8004D6D4_o)
-extern struct { char _[16]; } func_8004FE58_o __asm__("Menu_IsMemCardSlotCompatible");
-#define Menu_IsMemCardSlotCompatible (*(M2C_UNK *)&func_8004FE58_o)
-extern struct { char _[16]; } func_8004FEEC_o __asm__("Menu_DrawSaveSlotList");
-#define Menu_DrawSaveSlotList (*(M2C_UNK *)&func_8004FEEC_o)
+extern M2C_UNK Menu_DrawSaveSlotPortLabel[];
+#define Menu_DrawSaveSlotPortLabel (Menu_DrawSaveSlotPortLabel[0])
+extern M2C_UNK Menu_StepSaveSelect[];
+#define Menu_StepSaveSelect (Menu_StepSaveSelect[0])
+extern M2C_UNK Menu_IsMemCardSlotCompatible[];
+#define Menu_IsMemCardSlotCompatible (Menu_IsMemCardSlotCompatible[0])
+extern M2C_UNK Menu_DrawSaveSlotList[];
+#define Menu_DrawSaveSlotList (Menu_DrawSaveSlotList[0])
 
 s32 Menu_CreateSaveSlotListView(s32 arg0, M2C_UNK arg1) {
     s32 temp_s0;

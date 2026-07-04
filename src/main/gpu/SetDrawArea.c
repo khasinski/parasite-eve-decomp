@@ -1,5 +1,5 @@
 /* MASPSX_FLAGS: --stack-return-delay */
-asm(".globl SetDrawArea");
+
 asm("SetDrawArea = SetDrawArea");
 
 typedef signed short s16;

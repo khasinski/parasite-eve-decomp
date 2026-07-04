@@ -5,10 +5,10 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #include "../../../tools/m2c/m2c_macros.h"
 
 void MenuWidget_SetCurrentNode(void *node);
-void *MenuWidget_CreateSimpleNode(int mode, int arg1, int arg2, int arg3) __asm__("func_80062D2C");
+void *MenuWidget_CreateSimpleNode(int mode, int arg1, int arg2, int arg3);
 void *MenuWidget_CreateNode(int mode, void *parent, void *sibling);
 void MenuWidget_SetColumnLayout(void *node, int value);
-void MenuWidget_ClearColumnLayout(void *node) __asm__("func_80064C20");
+void MenuWidget_ClearColumnLayout(void *node);
 
 extern s32 g_InvItemUsableFlag;
 extern s32 g_MenuLayoutLocked;

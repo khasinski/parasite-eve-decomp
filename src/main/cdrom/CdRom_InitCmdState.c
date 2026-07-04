@@ -4,12 +4,9 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK CdIntToPos();
-extern struct { char _[16]; } g_DsReadSysEnabled_o __asm__("g_DsReadSysEnabled");
-#define g_DsReadSysEnabled ((u8 *)&g_DsReadSysEnabled_o)
-extern struct { char _[16]; } D_8009B560_o __asm__("D_8009B560");
-#define D_8009B560 ((u8 *)&D_8009B560_o)
-extern struct { char _[16]; } g_CdSeekState_o __asm__("g_CdSeekState");
-#define g_CdSeekState ((u8 *)&g_CdSeekState_o)
+extern u8 g_DsReadSysEnabled[];
+extern u8 D_8009B560[];
+extern u8 g_CdSeekState[];
 
 void CdRom_InitCmdState(void) {
     s32 var_v1;

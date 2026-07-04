@@ -20,8 +20,8 @@ M2C_UNK MenuWidget_UpdateAndDraw();                            /* extern */
 extern u8 g_SavedMenuMode;
 extern s32 g_MemCardDialogState;
 extern s32 g_MenuErrorSoundPending;
-extern struct { char _[16]; } D_8009D1E0_o __asm__("g_MenuActiveListTarget");
-#define g_MenuActiveListTarget (*(s32 *)&D_8009D1E0_o)
+extern s32 g_MenuActiveListTarget[];
+#define g_MenuActiveListTarget (g_MenuActiveListTarget[0])
 
 s32 Menu_RunFrameWithArg(s32 arg0) {
     if (Menu_SaveBgIsFadeActive() == 0) {

@@ -6,7 +6,7 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 M2C_UNK MenuWidget_ClearCursorY();
 void *MenuWidget_FindByModeAndSelectedBase();
 M2C_UNK MenuWidget_OffsetPosition();
-void *func_80062A20();
+void *MenuWidget_GetChild();
 extern s32 g_MenuItemUseMode;
 
 void Menu_AlignEquipPanels(void) {
@@ -17,7 +17,7 @@ void Menu_AlignEquipPanels(void) {
 
     temp_s0 = MenuWidget_FindByModeAndSelectedBase(1, 0xF);
     __asm__ volatile("" : "=r"(temp_s0) : "0"(temp_s0));
-    func_80062A20(MenuWidget_FindByModeAndSelectedBase(1, 0xD), 0);
+    MenuWidget_GetChild(MenuWidget_FindByModeAndSelectedBase(1, 0xD), 0);
     __asm__ volatile(
         ".set push\n\t"
         ".set noreorder\n\t"

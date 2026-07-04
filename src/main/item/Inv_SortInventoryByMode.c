@@ -3,27 +3,27 @@
 typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsigned short u16;typedef int s32;typedef unsigned int u32;typedef long long s64;
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-s32 func_80052F70();
+s32 Inv_GetAyaSlotLimit();
 M2C_UNK Inv_RebuildSelectableMask();
 M2C_UNK Inv_SortWeaponSubrange();
 M2C_UNK Inv_SortAmmoSubrange();
 M2C_UNK qsort();
 M2C_UNK Inv_RebuildSelectableMask();
-extern struct { char _[16]; } D_800923F8_o __asm__("g_InvSortRankTableA");
-#define g_InvSortRankTableA (*(M2C_UNK *)&D_800923F8_o)
-extern struct { char _[16]; } D_80092428_o __asm__("D_80092428");
-#define D_80092428 (*(M2C_UNK *)&D_80092428_o)
-extern struct { char _[16]; } D_80092440_o __asm__("D_80092440");
-#define D_80092440 (*(M2C_UNK *)&D_80092440_o)
-extern struct { char _[16]; } D_80092458_o __asm__("g_InvTypeRankTableA");
-#define g_InvTypeRankTableA (*(M2C_UNK *)&D_80092458_o)
-extern struct { char _[16]; } D_80092468_o __asm__("g_InvTypeRankTableB");
-#define g_InvTypeRankTableB (*(M2C_UNK *)&D_80092468_o)
+extern M2C_UNK g_InvSortRankTableA[];
+#define g_InvSortRankTableA (g_InvSortRankTableA[0])
+extern M2C_UNK D_80092428[];
+#define D_80092428 (D_80092428[0])
+extern M2C_UNK D_80092440[];
+#define D_80092440 (D_80092440[0])
+extern M2C_UNK g_InvTypeRankTableA[];
+#define g_InvTypeRankTableA (g_InvTypeRankTableA[0])
+extern M2C_UNK g_InvTypeRankTableB[];
+#define g_InvTypeRankTableB (g_InvTypeRankTableB[0])
 extern s16 *g_InvItemPtr;
 extern s32 g_InvSlotLimit;
 extern M2C_UNK *g_InvSelectionBits;
-extern struct { char _[16]; } D_8009D05C_o __asm__("g_AyaItemSelectionBits");
-#define g_AyaItemSelectionBits (*(M2C_UNK *)&D_8009D05C_o)
+extern M2C_UNK g_AyaItemSelectionBits[];
+#define g_AyaItemSelectionBits (g_AyaItemSelectionBits[0])
 extern s32 g_InvSelectionBitWords;
 extern s32 D_8009D0A4;
 extern s32 D_8009D0A8;
@@ -32,16 +32,16 @@ extern s32 g_InvSortListCount;
 extern M2C_UNK *g_InvLookupPtr;
 extern M2C_UNK *g_InvSortRankTable;
 extern M2C_UNK *g_InvSortTypeRankTable;
-extern struct { char _[16]; } D_800C0E20_o __asm__("g_AyaEquippedWeaponSlot");
-#define g_AyaEquippedWeaponSlot (*(s8 *)&D_800C0E20_o)
-extern struct { char _[16]; } D_800C0E22_o __asm__("g_AyaEquippedArmorSlot");
-#define g_AyaEquippedArmorSlot (*(s8 *)&D_800C0E22_o)
-extern struct { char _[16]; } Inv_LookupData_o __asm__("Inv_LookupData");
-#define Inv_LookupData (*(M2C_UNK *)&Inv_LookupData_o)
-extern struct { char _[16]; } func_8005AFFC_o __asm__("Inv_CompareItemsForSort");
-#define Inv_CompareItemsForSort (*(M2C_UNK *)&func_8005AFFC_o)
-extern struct { char _[16]; } g_AyaInventoryItems_o __asm__("g_AyaInventoryItems");
-#define g_AyaInventoryItems (*(s16 *)&g_AyaInventoryItems_o)
+extern s8 g_AyaEquippedWeaponSlot[];
+#define g_AyaEquippedWeaponSlot (g_AyaEquippedWeaponSlot[0])
+extern s8 g_AyaEquippedArmorSlot[];
+#define g_AyaEquippedArmorSlot (g_AyaEquippedArmorSlot[0])
+extern M2C_UNK Inv_LookupData[];
+#define Inv_LookupData (Inv_LookupData[0])
+extern M2C_UNK Inv_CompareItemsForSort[];
+#define Inv_CompareItemsForSort (Inv_CompareItemsForSort[0])
+extern s16 g_AyaInventoryItems[];
+#define g_AyaInventoryItems (g_AyaInventoryItems[0])
 
 void Inv_SortInventoryByMode(s32 arg0, s32 arg1) {
     s16 *var_a0;
@@ -70,7 +70,7 @@ void Inv_SortInventoryByMode(s32 arg0, s32 arg1) {
         break;
     }
     g_InvItemPtr = &g_AyaInventoryItems;
-    g_InvSlotLimit = func_80052F70();
+    g_InvSlotLimit = Inv_GetAyaSlotLimit();
     g_InvSelectionBits = &g_AyaItemSelectionBits;
     g_InvSelectionBitWords = 2;
     temp_s1 = g_InvItemPtr[g_AyaEquippedWeaponSlot];
