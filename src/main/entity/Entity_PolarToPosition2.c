@@ -1,39 +1,131 @@
 /* CC1_FLAGS: -G0 -g3 */
 /* MASPSX_FLAGS: -G0 --use-comm-section */
 
-#include "pe1/field_actor.h"
-
+typedef struct FieldActor
+{
+  unsigned char pad_000[0x04];
+  struct FieldActor *next;
+  unsigned char pad_008[0x04];
+  unsigned char type_id;
+  unsigned char sub_id;
+  unsigned char mode;
+  unsigned char action;
+  unsigned char pad_010[0x02];
+  unsigned short anim_frame_target;
+  unsigned char pad_014[0x02];
+  unsigned short anim_frame;
+  unsigned char pad_018[0x10];
+  int pos_x;
+  int pos_y;
+  int pos_z;
+  unsigned char pad_034[0x04];
+  unsigned short rot_x;
+  unsigned short rot_y;
+  unsigned short rot_z;
+  unsigned char pad_03E[0x02];
+  int base_x;
+  int base_y;
+  int base_z;
+  int field_4c;
+  unsigned short saved_rot_x;
+  unsigned short saved_rot_y;
+  unsigned short saved_rot_z;
+  unsigned char pad_056[0x02];
+  int delta_x;
+  int delta_y;
+  int delta_z;
+  unsigned char pad_064[0x04];
+  int motion_x;
+  int motion_y;
+  int motion_z;
+  unsigned char pad_074[0x04];
+  int accel_x;
+  int accel_y;
+  int accel_z;
+  unsigned char pad_084[0x04];
+  int gravity_x;
+  int gravity_y;
+  int gravity_z;
+  unsigned char pad_094[0x04];
+  unsigned int flags;
+  int field_9c;
+  struct FieldActorNode *task_node_lists[3];
+  unsigned char pad_0AC[0xE0];
+  struct FieldActor *parent;
+  unsigned char pad_190[0x14];
+  int field_1a4;
+  int field_1a8;
+  unsigned char pad_1AC[0x08];
+  unsigned char attachment[0x5C];
+  short descriptor_value_a;
+  short descriptor_value_b;
+} FieldActor;
+typedef struct FieldActorState
+{
+  unsigned char pad_00[0x08];
+  int progress;
+  short amount;
+  unsigned short amount_mirror;
+  short actor_threshold;
+  unsigned char saved_actor_mode;
+  unsigned char pad_13;
+  unsigned char pad_14[0x08];
+  int count_limit;
+  int divisor_basis;
+  short actor_threshold_delta;
+  unsigned char pad_26[0x02];
+  int progress_target;
+  int progress_step;
+  int countdown;
+  int terminal_delay;
+  unsigned char transition_timers[0x10];
+  signed char recoil_steps;
+  unsigned char recoil_magnitude;
+  short recoil_angle;
+  unsigned int flags;
+  unsigned char number_desc_0[0x08];
+  unsigned char number_desc_1[0x08];
+  unsigned char coord_desc[0x08];
+  unsigned char pad_68[0x04];
+  void *substate;
+} FieldActorState;
+typedef struct FieldActorNode
+{
+  unsigned char pad_00[0x08];
+  unsigned short flags;
+  unsigned char pad_0A[0x1A];
+  struct FieldActorNode *next;
+} FieldActorNode;
 extern FieldActor *g_CurrentEntity;
-
 int rsin(int arg0);
 int rcos(int arg0);
 int Math_FixedMul(int arg0, int arg1);
-
-int Entity_PolarToPosition2(int **arg0) {
-    int **args;
-    int radius;
-    FieldActor *current;
-    FieldActor *current_v1;
-    register int *src asm("$3");
-    int *dst;
-    int value;
-
-    current = g_CurrentEntity;
-    args = arg0;
-    src = args[0];
-    radius = *src;
-    value = rsin((short)current->rot_y);
-    radius = -radius;
-    value = Math_FixedMul(radius, value << 4);
-    current_v1 = g_CurrentEntity;
-    dst = args[1];
-    *dst = current_v1->pos_x + value;
-
-    current = g_CurrentEntity;
-    value = rcos((short)current->rot_y);
-    value = Math_FixedMul(radius, value << 4);
-    current_v1 = g_CurrentEntity;
-    dst = args[2];
-    *dst = current_v1->pos_z + value;
-    return 1;
+int Entity_PolarToPosition2(int **arg0)
+{
+  int **args;
+  FieldActor *new_var;
+  int radius;
+  FieldActor *current;
+  FieldActor *current_v1;
+  register int *src;
+  int *dst;
+  int value;
+  new_var = g_CurrentEntity;
+  current = new_var;
+  args = arg0;
+  src = args[0];
+  radius = *src;
+  value = rsin((short) current->rot_y);
+  radius = -radius;
+  value = Math_FixedMul(radius, value << 4);
+  current_v1 = g_CurrentEntity;
+  dst = args[1];
+  *dst = g_CurrentEntity->pos_x + value;
+  current = g_CurrentEntity;
+  value = rcos((short) current->rot_y);
+  value = Math_FixedMul(radius, value << 4);
+  current_v1 = g_CurrentEntity;
+  dst = args[2];
+  *args[2] = current_v1->pos_z + value;
+  return 1;
 }

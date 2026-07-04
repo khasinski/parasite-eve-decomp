@@ -6,9 +6,6 @@ extern signed char g_DrawEnabled;
 extern signed char D_800B0DBB;
 extern u16 g_SeqElapsed;
 
-asm(".globl func_8006EC08");
-asm("func_8006EC08 = Gpu_CheckDrawStatus");
-
 int Gpu_CheckDrawStatus(void) {
     int enabled = g_DrawEnabled;
     int enabled2;

@@ -2,17 +2,15 @@
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 /* MASPSX_FLAGS: --stack-return-delay */
 
-asm(".globl func_80074DC0");
-asm("func_80074DC0 = DrawSync");
+asm(".globl DrawSync");
+asm("DrawSync = DrawSync");
 
 #include "pe1/gpu_callbacks.h"
 
 extern unsigned char g_GraphDebug[];
 extern void (*g_GpuDebugPrintf[])(char *msg, int arg0);
-extern struct {
-    char _[16];
-} g_GpuCallbacks_o __asm__("g_GpuCallbacks");
-#define g_GpuCallbacks (*(GpuCallbacks **)&g_GpuCallbacks_o)
+extern GpuCallbacks * g_GpuCallbacks[];
+#define g_GpuCallbacks (g_GpuCallbacks[0])
 extern char D_80011884[];
 
 int DrawSync(int arg0) {

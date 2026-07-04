@@ -34,7 +34,7 @@ s32 Gpu_SendOtChain(s32 arg0, s32 arg1) {
         "lw $2, %%lo(D_8009586C)($2)\n"
         "ori $3, $3, 0x2\n"
         ".word 0x0C000000\n"
-        ".reloc .-4,R_MIPS_26,func_800773D0\n"
+        ".reloc .-4,R_MIPS_26,Gpu_ResetDmaWaitTimer\n"
         "sw $3, 0($2)\n"
         ".set pop\n"
         :

@@ -11,7 +11,7 @@ typedef struct {
 } CdlLOC;
 
 int Cd_GetReadyStatus(void);
-int CdRom_GetPendingReadCount(void) __asm__("func_8007F778");
+int CdRom_GetPendingReadCount(void);
 int CdRom_GetDiskType(void);
 void exit(int code);
 CdlLOC *CdIntToPos(int i, CdlLOC *p);
@@ -23,10 +23,10 @@ extern u16 g_CdDiskType;
 extern char D_8001136C[];
 
 int CdRom_ReadSectors(int lba, int offset, int dst, int size) {
-    register int base asm("$16");
-    register int rel asm("$18");
-    register int dst_reg asm("$20");
-    register int size_reg asm("$19");
+    register int base;
+    register int rel;
+    register int dst_reg;
+    register int size_reg;
     int *state;
     CdlLOC loc;
     int ret;

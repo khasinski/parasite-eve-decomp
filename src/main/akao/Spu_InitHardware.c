@@ -16,14 +16,14 @@ M2C_UNK Spu_InitVoiceState();                            /* extern */
 M2C_UNK Spu_SetTransferMode(M2C_UNK);                     /* extern */
 M2C_UNK Spu_WriteRegChecked(M2C_UNK);                     /* extern */
 M2C_UNK Spu_SetReverbMode(M2C_UNK);                     /* extern */
-extern struct { char _[16]; } D_8009B7FC_o __asm__("D_8009B7FC");
-#define D_8009B7FC (*(M2C_UNK *)&D_8009B7FC_o)
-extern struct { char _[16]; } D_8009CDE0_o __asm__("g_AkaoTimerEventDesc");
-#define g_AkaoTimerEventDesc (*(s32 *)&D_8009CDE0_o)
-extern struct { char _[16]; } D_800B6958_o __asm__("D_800B6958");
-#define D_800B6958 (*(M2C_UNK *)&D_800B6958_o)
-extern struct { char _[16]; } func_8008E23C_o __asm__("Akao_TimerCallback");
-#define Akao_TimerCallback (*(M2C_UNK *)&func_8008E23C_o)
+extern M2C_UNK D_8009B7FC[];
+#define D_8009B7FC (D_8009B7FC[0])
+extern s32 g_AkaoTimerEventDesc[];
+#define g_AkaoTimerEventDesc (g_AkaoTimerEventDesc[0])
+extern M2C_UNK D_800B6958[];
+#define D_800B6958 (D_800B6958[0])
+extern M2C_UNK Akao_TimerCallback[];
+#define Akao_TimerCallback (Akao_TimerCallback[0])
 
 void Spu_InitHardware(void) {
     s32 eventDesc;

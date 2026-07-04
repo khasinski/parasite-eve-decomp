@@ -13,8 +13,8 @@ extern void *g_MenuWidgetFreeListHead;
 
 #define W(base, off) (*(s32 *)((char *)(base) + (off)))
 
-asm(".globl func_80062D2C");
-asm("func_80062D2C = MenuWidget_CreateSimpleNode");
+asm(".globl MenuWidget_CreateSimpleNode");
+asm("MenuWidget_CreateSimpleNode = MenuWidget_CreateSimpleNode");
 
 void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
     s32 mode = arg0;

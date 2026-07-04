@@ -13,11 +13,7 @@ typedef struct RECT {
 int LoadImage(RECT *rect, u32 *p);
 u_short GetTPage(int tp, int abr, int x, int y);
 
-asm(".globl Gpu_LoadTexImageAndGetTPage");
-asm("Gpu_LoadTexImageAndGetTPage = func_80074774");
-
-u_short Gpu_LoadTexImageAndGetTPage(u32 *p, int tp, int abr, int x, int y, int w, int h)
-    __asm__("func_80074774");
+u_short Gpu_LoadTexImageAndGetTPage(u32 *p, int tp, int abr, int x, int y, int w, int h);
 
 u_short Gpu_LoadTexImageAndGetTPage(u32 *p, int tp, int abr, int x, int y, int w, int h)
 {

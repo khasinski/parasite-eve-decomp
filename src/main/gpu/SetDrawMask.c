@@ -1,4 +1,4 @@
-asm(".globl SetDrawMask");
+
 asm("SetDrawMask = SetDrawMask");
 
 void SetDrawMask(void *arg0, int arg1, int arg2) {

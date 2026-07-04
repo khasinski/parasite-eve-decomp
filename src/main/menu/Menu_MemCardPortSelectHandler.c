@@ -10,14 +10,14 @@ void *MenuWidget_FindByModeAndSelectedBase(s32 mode, s32 selectedBase);
 s32 MenuWidget_GetCellIndex(void *node);
 s32 MemCard_CheckPresent(s32 port);
 void MemCard_StartRead(s32 port, s32 slot);
-void MemCard_CloseAllAndResetState(void) __asm__("func_80042A10");
-s32 MemCard_IsOperationPending(void) __asm__("func_80042B28");
+void MemCard_CloseAllAndResetState(void);
+s32 MemCard_IsOperationPending(void);
 void Inv_SetActiveList(s32, s32);
-void Menu_PlayConfirmSound(void) __asm__("func_800525EC");
-void Menu_PlayCancelSound(void) __asm__("func_80052634");
-void Menu_PlayErrorSound(void) __asm__("func_800526C4");
-void *MenuWidget_GetChild(void *node, s32 childIndex) __asm__("func_80062A20");
-void MenuWidget_DestroyNode(void *node) __asm__("func_80062F1C");
+void Menu_PlayConfirmSound(void);
+void Menu_PlayCancelSound(void);
+void Menu_PlayErrorSound(void);
+void *MenuWidget_GetChild(void *node, s32 childIndex);
+void MenuWidget_DestroyNode(void *node);
 extern s32 g_MenuMemCardConfirmPending;
 
 s32 Menu_MemCardPortSelectHandler(void *node, s32 flags) {

@@ -9,20 +9,20 @@ void *MenuWidget_GetCurrentNode();
 M2C_UNK MenuWidget_SetCurrentNode();
 M2C_UNK Menu_StepInventoryRoot();
 M2C_UNK Menu_OpenBonusPointSpendDialog();
-M2C_UNK func_800525EC();
-M2C_UNK func_80052634();
-s32 func_80062A20();
+M2C_UNK Menu_PlayConfirmSound();
+M2C_UNK Menu_PlayCancelSound();
+s32 MenuWidget_GetChild();
 M2C_UNK MenuWidget_NavScrollTo();
 s32 MenuWidget_GridCellIndex();
 extern s32 g_MenuEquipMode;
 extern s32 g_MenuItemRenameMode;
 extern s32 g_BonusPointDisplayValue;
-extern struct { char _[16]; } D_800A18D8_o __asm__("g_BonusPointStatDeltas");
-#define g_BonusPointStatDeltas (*(u16 *)&D_800A18D8_o)
-extern struct { char _[16]; } D_800C0E28_o __asm__("g_AyaStatAgility");
-#define g_AyaStatAgility (*(u16 *)&D_800C0E28_o)
-extern struct { char _[16]; } g_AyaBonusPoints_o __asm__("g_AyaBonusPoints");
-#define g_AyaBonusPoints (*(s32 *)&g_AyaBonusPoints_o)
+extern u16 g_BonusPointStatDeltas[];
+#define g_BonusPointStatDeltas (g_BonusPointStatDeltas[0])
+extern u16 g_AyaStatAgility[];
+#define g_AyaStatAgility (g_AyaStatAgility[0])
+extern s32 g_AyaBonusPoints[];
+#define g_AyaBonusPoints (g_AyaBonusPoints[0])
 
 s32 Menu_BonusPointCancelHandler(void *arg0, s32 arg1) {
     s32 temp_s0;
@@ -31,10 +31,10 @@ s32 Menu_BonusPointCancelHandler(void *arg0, s32 arg1) {
     u16 *var_v1;
     u16 temp_v0;
 
-    temp_s0 = func_80062A20(arg0, 0);
+    temp_s0 = MenuWidget_GetChild(arg0, 0);
     if (arg1 & 0x10000) {
         Menu_OpenBonusPointSpendDialog(temp_s0, MenuWidget_GridCellIndex(temp_s0));
-        func_800525EC();
+        Menu_PlayConfirmSound();
         return 1;
     }
     if (arg1 & 0x40) {
@@ -64,7 +64,7 @@ s32 Menu_BonusPointCancelHandler(void *arg0, s32 arg1) {
         } while (var_a0 < 7);
         g_AyaBonusPoints = g_BonusPointDisplayValue;
         Menu_StepInventoryRoot(0x37E, -1, -1);
-        func_80052634();
+        Menu_PlayCancelSound();
     }
     return 1;
 }

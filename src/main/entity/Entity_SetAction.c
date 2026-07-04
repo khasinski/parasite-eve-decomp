@@ -28,9 +28,6 @@ struct Entity {
 extern Entity *g_FieldActorListHead;
 extern void *D_800B0E98;
 
-asm(".globl func_8001A784\n"
-    "func_8001A784 = Entity_SetAction");
-
 void Entity_SetAction(Entity *arg0, int arg1) {
     Entity *entity;
     int raw_mode;

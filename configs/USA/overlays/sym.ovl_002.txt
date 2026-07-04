@@ -1,0 +1,10 @@
+Menu_PlayConfirmSound = 0x800525EC;
+Menu_PlayMoveSound = 0x8005267C;
+Draw_InitBuffers = 0x8005E588;
+CdRom_PollReady = 0x8006E7E8;
+Gpu_RenderFrame = 0x80070E54;
+VSync = 0x80073A44;
+SetDispMask = 0x80074D28;
+DrawSync = 0x80074DC0;
+PutDrawEnv = 0x80075424;
+CdRom_GetPendingReadCount = 0x8007F778;

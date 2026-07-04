@@ -9,17 +9,17 @@ void *MenuWidget_FindByModeAndSelectedBase(M2C_UNK, M2C_UNK); /* extern */
 s32 MenuWidget_GetCurrentNode();                    /* extern */
 M2C_UNK MenuWidget_SetCurrentNode(void *);          /* extern */
 M2C_UNK Queue_Init();                            /* extern */
-void *MenuWidget_CreateSimpleNode(M2C_UNK, s32, M2C_UNK, M2C_UNK) __asm__("func_80062D2C"); /* extern */
+void *MenuWidget_CreateSimpleNode(M2C_UNK, s32, M2C_UNK, M2C_UNK); /* extern */
 void *MenuWidget_CreateNode(M2C_UNK, void *, void *);       /* extern */
 extern s32 g_McDialogMode;
-extern struct { char _[16]; } Menu_DrawContextHelpText_o __asm__("func_8004C608");
-#define Menu_DrawContextHelpText (*(M2C_UNK *)&Menu_DrawContextHelpText_o)
-extern struct { char _[16]; } func_8004D2DC_o __asm__("Menu_MemCardPortSelectHandler");
-#define Menu_MemCardPortSelectHandler (*(M2C_UNK *)&func_8004D2DC_o)
-extern struct { char _[16]; } func_8004FDA4_o __asm__("Menu_IsMemCardSlotSelectable");
-#define Menu_IsMemCardSlotSelectable (*(M2C_UNK *)&func_8004FDA4_o)
-extern struct { char _[16]; } func_8004FDE8_o __asm__("Menu_DrawMemCardPortList");
-#define Menu_DrawMemCardPortList (*(M2C_UNK *)&func_8004FDE8_o)
+extern M2C_UNK Menu_DrawContextHelpText[];
+#define Menu_DrawContextHelpText (Menu_DrawContextHelpText[0])
+extern M2C_UNK Menu_MemCardPortSelectHandler[];
+#define Menu_MemCardPortSelectHandler (Menu_MemCardPortSelectHandler[0])
+extern M2C_UNK Menu_IsMemCardSlotSelectable[];
+#define Menu_IsMemCardSlotSelectable (Menu_IsMemCardSlotSelectable[0])
+extern M2C_UNK Menu_DrawMemCardPortList[];
+#define Menu_DrawMemCardPortList (Menu_DrawMemCardPortList[0])
 
 void Menu_OpenMemCardSelectDialog(s32 arg0) {
     void *temp_a0;

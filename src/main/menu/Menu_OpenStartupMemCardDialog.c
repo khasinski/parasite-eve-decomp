@@ -10,7 +10,7 @@ void *MenuWidget_FindByModeAndSelectedBase(s32 mode, s32 base);
 void *MenuWidget_GetCurrentNode(void);
 void MenuWidget_SetCurrentNode(void *node);
 void Queue_Init(void);
-void *MenuWidget_CreateSimpleNode(s32 mode, s32 arg1, s32 arg2, s32 arg3) __asm__("func_80062D2C");
+void *MenuWidget_CreateSimpleNode(s32 mode, s32 arg1, s32 arg2, s32 arg3);
 void *MenuWidget_CreateNode(s32 mode, void *parent, void *sibling);
 
 extern s32 g_McDialogMode;

@@ -5,9 +5,9 @@ typedef signed char s8;
 typedef unsigned short u16;
 typedef int s32;
 
-s32 DrawSync(s32 arg0) __asm__("func_80074DC0");
+s32 DrawSync(s32 arg0);
 s32 CdRom_ReadSectorsFromLba(s32 arg0, s32 arg1, s32 arg2);
-s32 CdRom_PollReady(void) __asm__("func_8006E7E8");
+s32 CdRom_PollReady(void);
 s32 Gpu_LoadTimImage(s32 arg0);
 
 extern s8 D_800B0CE0;

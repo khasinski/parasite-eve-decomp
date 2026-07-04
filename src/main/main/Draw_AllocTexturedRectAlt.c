@@ -13,7 +13,7 @@ asm(
 "    .word 0x24040048\n"
 "    .word 0xafbf001c\n"
 "    .word 0x0c000000\n"
-"    .reloc .-4, R_MIPS_26, func_8005DADC\n"
+"    .reloc .-4, R_MIPS_26, Draw_LookupGlyphDescriptor\n"
 "    .word 0xafb10014\n"
 "    .word 0x00408821\n"
 "    .word 0x8f850000\n"

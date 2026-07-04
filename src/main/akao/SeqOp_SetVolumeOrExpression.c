@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -fno-schedule-insns -fno-schedule-insns2 */
 #include "pe1/akao.h"
 
 void SeqOp_SetVolumeOrExpression(AkaoTrack *track)
@@ -12,8 +13,8 @@ void SeqOp_SetVolumeOrExpression(AkaoTrack *track)
         track->volume = value << 7;
     } else {
         unsigned char *cursor2;
-        register unsigned char *next asm("$2");
-        register unsigned int flags asm("$2");
+        register unsigned char *next;
+        register unsigned int flags;
         int value2;
 
         cursor2 = track->pc;

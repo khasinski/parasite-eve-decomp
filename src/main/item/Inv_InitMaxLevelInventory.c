@@ -4,25 +4,25 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK Battle_SyncEquipSlots();
-s32 func_80052F70();
+s32 Inv_GetAyaSlotLimit();
 u16 *func_8005DBAC();
-s32 func_8005DBF8();
+s32 Aya_GetLevelExpTable();
 extern void *g_InvItemPtr;
 extern s32 g_InvSlotLimit;
-extern struct { char _[16]; } D_800C0E06_o __asm__("g_AyaHpMax");
-#define g_AyaHpMax (*(u16 *)&D_800C0E06_o)
-extern struct { char _[16]; } D_800C0E08_o __asm__("g_AyaHpCurrent");
-#define g_AyaHpCurrent (*(u16 *)&D_800C0E08_o)
-extern struct { char _[16]; } g_AyaInventoryItems_o __asm__("g_AyaInventoryItems");
-#define g_AyaInventoryItems (*(M2C_UNK *)&g_AyaInventoryItems_o)
-extern struct { char _[16]; } g_AyaInventorySlotCount_o __asm__("g_AyaInventorySlotCount");
-#define g_AyaInventorySlotCount (*(s8 *)&g_AyaInventorySlotCount_o)
-extern struct { char _[16]; } g_AyaParasiteSpellFlags_o __asm__("g_AyaParasiteSpellFlags");
-#define g_AyaParasiteSpellFlags (*(s32 *)&g_AyaParasiteSpellFlags_o)
-extern struct { char _[16]; } g_AyaSaveLevel_o __asm__("g_AyaSaveLevel");
-#define g_AyaSaveLevel (*(u8 *)&g_AyaSaveLevel_o)
-extern struct { char _[16]; } g_AyaSaveTotalExp_o __asm__("g_AyaSaveTotalExp");
-#define g_AyaSaveTotalExp (*(s32 *)&g_AyaSaveTotalExp_o)
+extern u16 g_AyaHpMax[];
+#define g_AyaHpMax (g_AyaHpMax[0])
+extern u16 g_AyaHpCurrent[];
+#define g_AyaHpCurrent (g_AyaHpCurrent[0])
+extern M2C_UNK g_AyaInventoryItems[];
+#define g_AyaInventoryItems (g_AyaInventoryItems[0])
+extern s8 g_AyaInventorySlotCount[];
+#define g_AyaInventorySlotCount (g_AyaInventorySlotCount[0])
+extern s32 g_AyaParasiteSpellFlags[];
+#define g_AyaParasiteSpellFlags (g_AyaParasiteSpellFlags[0])
+extern u8 g_AyaSaveLevel[];
+#define g_AyaSaveLevel (g_AyaSaveLevel[0])
+extern s32 g_AyaSaveTotalExp[];
+#define g_AyaSaveTotalExp (g_AyaSaveTotalExp[0])
 
 void Inv_InitMaxLevelInventory(s32 arg0) {
     register s16 *temp_a1 asm("$5");
@@ -39,7 +39,7 @@ void Inv_InitMaxLevelInventory(s32 arg0) {
     inv_base = &g_AyaInventoryItems;
     g_AyaInventorySlotCount = 0x32;
     if (g_InvItemPtr == inv_base) {
-        g_InvSlotLimit = func_80052F70();
+        g_InvSlotLimit = Inv_GetAyaSlotLimit();
     }
     __asm__ volatile(
         ".set push\n\t"
@@ -49,7 +49,7 @@ void Inv_InitMaxLevelInventory(s32 arg0) {
         "lui $1, %%hi(g_AyaSaveLevel)\n\t"
         "sb $2, %%lo(g_AyaSaveLevel)($1)\n\t"
         ".word 0x0c000000\n\t"
-        ".reloc .-4, R_MIPS_26, func_8005DBF8\n\t"
+        ".reloc .-4, R_MIPS_26, Aya_GetLevelExpTable\n\t"
         "nop\n\t"
         "lui $3, %%hi(g_AyaSaveLevel)\n\t"
         "lbu $3, %%lo(g_AyaSaveLevel)($3)\n\t"

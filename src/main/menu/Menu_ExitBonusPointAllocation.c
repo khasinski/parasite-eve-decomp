@@ -17,12 +17,12 @@ extern s32 g_MenuEquipMode;
 extern s32 g_MenuItemUseMode;
 extern s32 g_MenuItemRenameMode;
 extern s32 g_BonusPointDisplayValue;
-extern struct { char _[16]; } D_800A18D8_o __asm__("g_BonusPointStatDeltas");
-#define g_BonusPointStatDeltas (*(u16 *)&D_800A18D8_o)
-extern struct { char _[16]; } D_800C0E28_o __asm__("g_AyaStatAgility");
-#define g_AyaStatAgility (*(u16 *)&D_800C0E28_o)
-extern struct { char _[16]; } g_AyaBonusPoints_o __asm__("g_AyaBonusPoints");
-#define g_AyaBonusPoints (*(s32 *)&g_AyaBonusPoints_o)
+extern u16 g_BonusPointStatDeltas[];
+#define g_BonusPointStatDeltas (g_BonusPointStatDeltas[0])
+extern u16 g_AyaStatAgility[];
+#define g_AyaStatAgility (g_AyaStatAgility[0])
+extern s32 g_AyaBonusPoints[];
+#define g_AyaBonusPoints (g_AyaBonusPoints[0])
 
 asm(".globl func_800490B0");
 asm("func_800490B0 = Menu_ExitBonusPointAllocation");

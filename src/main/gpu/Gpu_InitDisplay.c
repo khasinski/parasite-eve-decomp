@@ -9,16 +9,16 @@ typedef struct {
     s16 h;
 } RECT;
 
-void VSync(int arg0) __asm__("func_80073A44");
-void SetDispMask(int arg0) __asm__("func_80074D28");
+void VSync(int arg0);
+void SetDispMask(int arg0);
 void PutDispEnv(void *env) __asm__("Render_StepEntityPool");
 void ClearImage(RECT *rect, int r, int g, int b);
-void DrawSync(int arg0) __asm__("func_80074DC0");
-void Draw_InitBuffers(void) __asm__("func_8005E588");
-void CdRom_SetSeekPos(int arg0) __asm__("func_80066B60");
-void ClearOTagR(int arg0, int arg1) __asm__("func_800752AC");
+void DrawSync(int arg0);
+void Draw_InitBuffers(void);
+void CdRom_SetSeekPos(int arg0);
+void ClearOTagR(int arg0, int arg1);
 void Render_SetCDDCSlot(void);
-void Gpu_RenderFrame(void) __asm__("func_80070E54");
+void Gpu_RenderFrame(void);
 void Menu_ConsumeEquipSlotFlag(void);
 
 extern char g_RenderDispEnvArray[];

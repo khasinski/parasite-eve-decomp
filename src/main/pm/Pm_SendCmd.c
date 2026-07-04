@@ -6,9 +6,6 @@ extern char *g_PmSlotTable;
 extern char *g_PmSlotTable2;
 extern int **g_PmCmdHandlerTable;
 
-asm(".globl func_8006F6D4");
-asm("func_8006F6D4 = Pm_SendCmd");
-
 int Pm_SendCmd(int arg0, int arg1, int arg2, int *arg3, int *arg4, int *arg5) {
     int offset;
     char *entry;

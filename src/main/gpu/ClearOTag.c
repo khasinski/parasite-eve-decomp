@@ -11,20 +11,20 @@ typedef long long s64;
 
 #include "../../../tools/m2c/m2c_macros.h"
 
-extern struct { char _[16]; } D_800118F8_o __asm__("D_800118F8");
-#define D_800118F8 (*(M2C_UNK *)&D_800118F8_o)
+extern M2C_UNK D_800118F8[];
+#define D_800118F8 (D_800118F8[0])
 
-extern struct { char _[16]; } D_80095748_o __asm__("g_GpuDebugPrintf");
-#define g_GpuDebugPrintf (*(M2C_UNK (**)(M2C_UNK *, void *, s32))&D_80095748_o)
+extern M2C_UNK (*g_GpuDebugPrintf[])(M2C_UNK *, void *, s32);
+#define g_GpuDebugPrintf (g_GpuDebugPrintf[0])
 
-extern struct { char _[16]; } g_GraphDebug_o __asm__("g_GraphDebug");
-#define g_GraphDebug (*(u8 *)&g_GraphDebug_o)
+extern u8 g_GraphDebug[];
+#define g_GraphDebug (g_GraphDebug[0])
 
-extern struct { char _[16]; } D_800957F8_o __asm__("D_800957F8");
-#define D_800957F8 (*(M2C_UNK *)&D_800957F8_o)
+extern M2C_UNK D_800957F8[];
+#define D_800957F8 (D_800957F8[0])
 
-extern struct { char _[16]; } D_8009580C_o __asm__("D_8009580C");
-#define D_8009580C (*(s32 *)&D_8009580C_o)
+extern s32 D_8009580C[];
+#define D_8009580C (D_8009580C[0])
 
 asm(".globl func_800751E4");
 asm("func_800751E4 = ClearOTag");

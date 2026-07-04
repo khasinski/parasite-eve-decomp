@@ -9,20 +9,20 @@ void *MenuWidget_FindByModeAndSelectedBase();
 s32 MenuWidget_IsCursorYClear();
 M2C_UNK MenuWidget_NavScrollTo();
 M2C_UNK MenuWidget_SetCurrentNode();
-M2C_UNK func_800439D8();
+M2C_UNK Menu_CreateBonusPointAllocationView();
 M2C_UNK func_80047678();
 M2C_UNK Menu_OpenItemList();
 s32 Battle_IsInputAllowedWrapped();
-M2C_UNK func_800525EC();
-M2C_UNK func_80052634();
-M2C_UNK func_8005267C();
-M2C_UNK func_800526C4();
-void *func_80062A20();
-s32 func_80062D2C();
-M2C_UNK func_80062F1C();
+M2C_UNK Menu_PlayConfirmSound();
+M2C_UNK Menu_PlayCancelSound();
+M2C_UNK Menu_PlayMoveSound();
+M2C_UNK Menu_PlayErrorSound();
+void *MenuWidget_GetChild();
+s32 MenuWidget_CreateSimpleNode();
+M2C_UNK MenuWidget_DestroyNode();
 extern s32 g_MenuLayoutLocked;
-extern struct { char _[16]; } Menu_SetupSkillSubmenu_o __asm__("Menu_SetupSkillSubmenu");
-#define Menu_SetupSkillSubmenu (*(M2C_UNK *)&Menu_SetupSkillSubmenu_o)
+extern M2C_UNK Menu_SetupSkillSubmenu[];
+#define Menu_SetupSkillSubmenu (Menu_SetupSkillSubmenu[0])
 
 s32 Menu_StepSkillScreen(void *arg0, s32 arg1) {
     void *parg0;
@@ -38,7 +38,7 @@ s32 Menu_StepSkillScreen(void *arg0, s32 arg1) {
 
     parg0 = arg0;
     parg1 = arg1;
-    temp_s0 = func_80062A20(arg0, NULL);
+    temp_s0 = MenuWidget_GetChild(arg0, NULL);
     if (parg1 & 0x10000) {
         if (Inv_GetPackedListCount() != 0) {
             if (g_MenuLayoutLocked != 0) {
@@ -46,19 +46,19 @@ s32 Menu_StepSkillScreen(void *arg0, s32 arg1) {
                 return 1;
             }
             if (Battle_IsInputAllowedWrapped() != 0) {
-                temp_v0 = func_80062D2C(0x35, 0, 0, 0);
+                temp_v0 = MenuWidget_CreateSimpleNode(0x35, 0, 0, 0);
                 M2C_FIELD(MenuWidget_CreateNode(0x35, temp_v0, temp_v0), M2C_UNK **, 0x30) = &Menu_SetupSkillSubmenu;
                 temp_v0_2 = MenuWidget_FindByModeAndSelectedBase(2, 7);
                 __asm__("" : "=r"(temp_v0_2) : "0"(temp_v0_2));
                 M2C_FIELD(temp_v0_2, s32 *, 0x44) = 0;
                 MenuWidget_SetCurrentNode(temp_v0_2);
-                func_800525EC();
+                Menu_PlayConfirmSound();
                 return 1;
             }
             goto block_6;
         }
 block_6:
-        func_800526C4();
+        Menu_PlayErrorSound();
         return 1;
     }
     if (parg1 & 0x40) {
@@ -67,13 +67,13 @@ block_6:
             return 1;
         }
         MenuWidget_NavScrollTo(7);
-        func_80062F1C(parg0);
+        MenuWidget_DestroyNode(parg0);
         temp_v0_3 = MenuWidget_FindByModeAndSelectedBase(1, 6);
         __asm__("" : "=r"(temp_v0_3) : "0"(temp_v0_3));
         if (temp_v0_3 != NULL) {
-            func_80062F1C(temp_v0_3);
-            func_800439D8();
-            func_80052634();
+            MenuWidget_DestroyNode(temp_v0_3);
+            Menu_CreateBonusPointAllocationView();
+            Menu_PlayCancelSound();
             return 1;
         }
         /* Duplicate return node #20. Try simplifying control flow for better match */
@@ -84,7 +84,7 @@ block_6:
         cm1 = -1;
         __asm__("" : "=r"(cm1) : "0"(cm1));
         M2C_FIELD(temp_s0, s32 *, 0x44) = cm1;
-        temp_v0_4 = func_80062A20(parg0, 1);
+        temp_v0_4 = MenuWidget_GetChild(parg0, 1);
         __asm__("" : "=r"(temp_v0_4) : "0"(temp_v0_4));
         if (temp_v0_4 != NULL) {
             M2C_FIELD(temp_v0_4, s32 *, 0x44) = cm1;
@@ -96,7 +96,7 @@ block_6:
             M2C_FIELD(temp_v0_5, s32 *, 0x44) = 0;
             MenuWidget_SetCurrentNode(temp_v0_5);
         }
-        func_8005267C();
+        Menu_PlayMoveSound();
     }
     return 1;
 }

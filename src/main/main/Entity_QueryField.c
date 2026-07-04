@@ -3,12 +3,12 @@
 typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsigned short u16;typedef int s32;typedef unsigned int u32;typedef long long s64;
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-extern struct { char _[16]; } D_8009D20C_o __asm__("g_FieldActorListHead");
-#define g_FieldActorListHead (*(void **)&D_8009D20C_o)
-extern struct { char _[16]; } g_PlayerEntity_o __asm__("g_PlayerEntity");
-#define g_PlayerEntity (*(void **)&g_PlayerEntity_o)
-extern struct { char _[16]; } D_8009D2F0_o __asm__("g_CurrentEntity");
-#define g_CurrentEntity (*(void **)&D_8009D2F0_o)
+extern void * g_FieldActorListHead[];
+#define g_FieldActorListHead (g_FieldActorListHead[0])
+extern void * g_PlayerEntity[];
+#define g_PlayerEntity (g_PlayerEntity[0])
+extern void * g_CurrentEntity[];
+#define g_CurrentEntity (g_CurrentEntity[0])
 
 s32 Entity_QueryField(void *arg0) {
     s32 temp_v1;

@@ -5,15 +5,12 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #include "../../../tools/m2c/m2c_macros.h"
 s32 DsSync();
 M2C_UNK CdRom_TryIssueCmd();
-extern struct { char _[16]; } D_800A3604_o __asm__("g_CdDsReadIndex");
-#define g_CdDsReadIndex (*(s32 *)&D_800A3604_o)
-extern struct { char _[16]; } g_CdPendingReadCount_o __asm__("g_CdPendingReadCount");
-#define g_CdPendingReadCount (*(s32 *)&g_CdPendingReadCount_o)
+extern s32 g_CdDsReadIndex[];
+#define g_CdDsReadIndex (g_CdDsReadIndex[0])
+extern s32 g_CdPendingReadCount[];
+#define g_CdPendingReadCount (g_CdPendingReadCount[0])
 
-asm(".globl CdRom_PollPendingDsRead");
-asm("CdRom_PollPendingDsRead = func_8007F7E8");
-
-void CdRom_PollPendingDsRead(void) __asm__("func_8007F7E8");
+void CdRom_PollPendingDsRead(void);
 
 void CdRom_PollPendingDsRead(void) {
     s32 temp_v0;

@@ -6,22 +6,22 @@ typedef unsigned short u16;
 typedef int s32;
 
 extern u8 g_RenderStateFlags[];
-extern struct { char _[16]; } D_800BCFE8_o __asm__("D_800BCFE8");
-#define D_800BCFE8 (*(u16 *)&D_800BCFE8_o)
-extern struct { char _[16]; } D_800BCFEA_o __asm__("g_ScreenTransitionTargetY");
-#define g_ScreenTransitionTargetY (*(u16 *)&D_800BCFEA_o)
-extern struct { char _[16]; } D_800BCFEC_o __asm__("D_800BCFEC");
-#define D_800BCFEC (*(u16 *)&D_800BCFEC_o)
-extern struct { char _[16]; } D_800BCFEE_o __asm__("g_ScreenTransitionState");
-#define g_ScreenTransitionState (*(u8 *)&D_800BCFEE_o)
-extern struct { char _[16]; } D_800BCFEF_o __asm__("g_ScreenTransitionMode");
-#define g_ScreenTransitionMode (*(u8 *)&D_800BCFEF_o)
-extern struct { char _[16]; } D_800BCFF0_o __asm__("D_800BCFF0");
-#define D_800BCFF0 (*(u16 *)&D_800BCFF0_o)
-extern struct { char _[16]; } D_800BCFF2_o __asm__("g_ScreenTransitionStartY");
-#define g_ScreenTransitionStartY (*(u16 *)&D_800BCFF2_o)
-extern struct { char _[16]; } D_800BCFF4_o __asm__("D_800BCFF4");
-#define D_800BCFF4 (*(u16 *)&D_800BCFF4_o)
+extern u16 D_800BCFE8[];
+#define D_800BCFE8 (D_800BCFE8[0])
+extern u16 g_ScreenTransitionTargetY[];
+#define g_ScreenTransitionTargetY (g_ScreenTransitionTargetY[0])
+extern u16 D_800BCFEC[];
+#define D_800BCFEC (D_800BCFEC[0])
+extern u8 g_ScreenTransitionState[];
+#define g_ScreenTransitionState (g_ScreenTransitionState[0])
+extern u8 g_ScreenTransitionMode[];
+#define g_ScreenTransitionMode (g_ScreenTransitionMode[0])
+extern u16 D_800BCFF0[];
+#define D_800BCFF0 (D_800BCFF0[0])
+extern u16 g_ScreenTransitionStartY[];
+#define g_ScreenTransitionStartY (g_ScreenTransitionStartY[0])
+extern u16 D_800BCFF4[];
+#define D_800BCFF4 (D_800BCFF4[0])
 
 s32 CdRom_InitScreenState(void) {
     s32 i;

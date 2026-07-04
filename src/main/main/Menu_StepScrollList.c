@@ -5,12 +5,12 @@ typedef int s32;
 
 extern s32 D_8009CFE4;
 
-void Draw_SetBaseOffsetPosition(s32 x, s32 y) __asm__("func_8005E850");
-s32 Draw_GetBaseY(void) __asm__("func_8005E884");
-void Menu_PlayMoveSound(void) __asm__("func_8005267C");
-void Menu_PlayConfirmSound(void) __asm__("func_800525EC");
-void Menu_PlayCancelSound(void) __asm__("func_80052634");
-void MenuWidget_DestroyNode(void *node) __asm__("func_80062F1C");
+void Draw_SetBaseOffsetPosition(s32 x, s32 y);
+s32 Draw_GetBaseY(void);
+void Menu_PlayMoveSound(void);
+void Menu_PlayConfirmSound(void);
+void Menu_PlayCancelSound(void);
+void MenuWidget_DestroyNode(void *node);
 
 s32 Menu_StepScrollList(void *node, s32 input)
 {

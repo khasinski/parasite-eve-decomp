@@ -3,9 +3,9 @@
 int MemCard_HasAnyPresentFile(void) {
     unsigned char *base;
     unsigned char *port;
-    register unsigned char *end asm("$3");
+    register unsigned char *end;
     unsigned char *outer_end;
-    register unsigned char *entry asm("$3");
+    register unsigned char *entry;
     unsigned char *entry_end;
     int found;
     int state_full;

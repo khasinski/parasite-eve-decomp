@@ -7,10 +7,10 @@ M2C_UNK MenuWidget_ClearCursorY();
 s32 MenuWidget_FindByModeAndSelectedBase();
 void *MenuWidget_GetCurrentNode();
 M2C_UNK MenuWidget_SetCurrentNode();
-M2C_UNK func_800439D8();
-s32 func_80052F70();
+M2C_UNK Menu_CreateBonusPointAllocationView();
+s32 Inv_GetAyaSlotLimit();
 M2C_UNK Inv_RebuildSelectableMask();
-void *func_80062D2C();
+void *MenuWidget_CreateSimpleNode();
 M2C_UNK MenuWidget_NavScrollTo();
 void *MenuWidget_CreateNode();
 M2C_UNK Draw_SetPrimCallback();
@@ -19,16 +19,16 @@ extern s32 g_InvSelectedItemIndex;
 extern s32 g_InvSwapTargetIndex;
 extern s32 g_MenuEquipSwapSource;
 extern s32 g_MenuInventoryViewMode;
-extern struct { char _[16]; } func_80044444_o __asm__("Menu_InventoryInputHandler");
-#define Menu_InventoryInputHandler (*(M2C_UNK *)&func_80044444_o)
-extern struct { char _[16]; } func_800447F0_o __asm__("Menu_DrawAmmoTypeHeader");
-#define Menu_DrawAmmoTypeHeader (*(M2C_UNK *)&func_800447F0_o)
-extern struct { char _[16]; } func_8004F8D0_o __asm__("func_8004F8D0");
-#define func_8004F8D0 (*(M2C_UNK *)&func_8004F8D0_o)
-extern struct { char _[16]; } func_80050260_o __asm__("Menu_RebuildSelectableMask");
-#define Menu_RebuildSelectableMask (*(M2C_UNK *)&func_80050260_o)
-extern struct { char _[16]; } Inv_SwapSlots_o __asm__("Inv_SwapSlots");
-#define Inv_SwapSlots (*(M2C_UNK *)&Inv_SwapSlots_o)
+extern M2C_UNK Menu_InventoryInputHandler[];
+#define Menu_InventoryInputHandler (Menu_InventoryInputHandler[0])
+extern M2C_UNK Menu_DrawAmmoTypeHeader[];
+#define Menu_DrawAmmoTypeHeader (Menu_DrawAmmoTypeHeader[0])
+extern M2C_UNK Menu_DrawSelectableEquipSlotList[];
+#define Menu_DrawSelectableEquipSlotList (Menu_DrawSelectableEquipSlotList[0])
+extern M2C_UNK Menu_RebuildSelectableMask[];
+#define Menu_RebuildSelectableMask (Menu_RebuildSelectableMask[0])
+extern M2C_UNK Inv_SwapSlots[];
+#define Inv_SwapSlots (Inv_SwapSlots[0])
 
 void Menu_OpenInventoryOrSwapView(s32 arg0) {
     s32 mode;
@@ -61,19 +61,19 @@ case_zero:
     if (arg0 != 0) {
         temp_v0 = MenuWidget_GetCurrentNode();
         M2C_FIELD(temp_v0, s32 *, 0x48) = 0;
-        M2C_FIELD(func_80062D2C(0x1B, NULL, 0, 0), M2C_UNK **, 0x30) = &Menu_DrawAmmoTypeHeader;
-        temp_v0_2 = func_80062D2C(1, temp_v0, 0, 0);
+        M2C_FIELD(MenuWidget_CreateSimpleNode(0x1B, NULL, 0, 0), M2C_UNK **, 0x30) = &Menu_DrawAmmoTypeHeader;
+        temp_v0_2 = MenuWidget_CreateSimpleNode(1, temp_v0, 0, 0);
         temp_s1 = MenuWidget_CreateNode(1, temp_v0_2, temp_v0_2);
         temp_a0 = temp_s1;
         M2C_FIELD(temp_v0_2, M2C_UNK **, 0x2C) = &Menu_InventoryInputHandler;
-        M2C_FIELD(temp_s1, M2C_UNK **, 0x30) = &func_8004F8D0;
+        M2C_FIELD(temp_s1, M2C_UNK **, 0x30) = &Menu_DrawSelectableEquipSlotList;
         MenuWidget_SetCurrentNode(temp_a0);
         M2C_FIELD(temp_s1, M2C_UNK **, 0x84) = &Inv_SwapSlots;
         M2C_FIELD(temp_s1, M2C_UNK **, 0x88) = &Menu_RebuildSelectableMask;
         Inv_RebuildSelectableMask();
         g_InvSwapTargetIndex = -1;
         g_InvSelectedItemIndex = -1;
-        Draw_SetPrimCallback(temp_s1, func_80052F70());
+        Draw_SetPrimCallback(temp_s1, Inv_GetAyaSlotLimit());
         temp_v1 = g_MenuEquipSwapSource;
         g_MenuActionSubmenuOpen = 0;
         if (temp_v1 != 0) {
@@ -85,7 +85,7 @@ case_zero:
         }
         return;
     }
-    func_800439D8();
+    Menu_CreateBonusPointAllocationView();
     return;
 clear_cursor:
     MenuWidget_ClearCursorY(MenuWidget_FindByModeAndSelectedBase(1, 0x33));

@@ -15,10 +15,10 @@ void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
 s32 MenuWidget_GridCellIndex();
 extern s32 g_MenuInventoryViewMode;
-extern struct { char _[16]; } Menu_DrawEquipSortToggleList_o __asm__("func_8004732C");
-#define Menu_DrawEquipSortToggleList (*(M2C_UNK *)&Menu_DrawEquipSortToggleList_o)
-extern struct { char _[16]; } Menu_EquipGridHandler_o __asm__("Menu_EquipGridHandler");
-#define Menu_EquipGridHandler (*(M2C_UNK *)&Menu_EquipGridHandler_o)
+extern M2C_UNK Menu_DrawEquipSortToggleList[];
+#define Menu_DrawEquipSortToggleList (Menu_DrawEquipSortToggleList[0])
+extern M2C_UNK Menu_EquipGridHandler[];
+#define Menu_EquipGridHandler (Menu_EquipGridHandler[0])
 
 asm(".globl func_800471E4");
 asm("func_800471E4 = Menu_EquipOptionsInputHandler");

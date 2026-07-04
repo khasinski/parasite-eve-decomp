@@ -6,8 +6,8 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 
 M2C_UNK Akao_WriteVoiceParam();
 
-extern struct { char _[16]; } D_800B8AC0_o __asm__("g_AkaoVoiceStateTable");
-#define g_AkaoVoiceStateTable (*(M2C_UNK *)&D_800B8AC0_o)
+extern M2C_UNK g_AkaoVoiceStateTable[];
+#define g_AkaoVoiceStateTable (g_AkaoVoiceStateTable[0])
 
 void Spu_RestoreVoiceFromStereoSlot(void *arg0, s32 arg1) {
     void *arg0_reg;

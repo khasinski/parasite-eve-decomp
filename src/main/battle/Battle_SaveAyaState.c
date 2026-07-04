@@ -15,8 +15,8 @@ typedef struct {
 extern AyaBattleState D_80010928;
 extern BattleStateTail D_80010998;
 extern s32 g_BattleEquipStateBlock;
-extern struct { char _[16]; } D_8009D1B4_o __asm__("D_8009D1B4");
-#define D_8009D1B4 (*(s32 *)&D_8009D1B4_o)
+extern s32 D_8009D1B4[];
+#define D_8009D1B4 (D_8009D1B4[0])
 extern BattleStateTail g_SavedBattleStateTail;
 extern AyaBattleState g_AyaBattleState;
 

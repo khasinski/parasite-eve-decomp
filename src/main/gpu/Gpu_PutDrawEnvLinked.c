@@ -11,14 +11,14 @@ typedef struct GpuCallbacks {
     char padC[0xC];
     s32 drawEnvArg;
 } GpuCallbacks;
-extern struct { char _[16]; } D_80011954_o __asm__("D_80011954");
-#define D_80011954 (*(M2C_UNK *)&D_80011954_o)
-extern struct { char _[16]; } g_GpuCallbacks_o __asm__("g_GpuCallbacks");
-#define g_GpuCallbacks (*(GpuCallbacks **)&g_GpuCallbacks_o)
-extern struct { char _[16]; } D_80095748_o __asm__("g_GpuDebugPrintf");
-#define g_GpuDebugPrintf (*(M2C_UNK (**)(M2C_UNK *, s32, void *))&D_80095748_o)
-extern struct { char _[16]; } g_GraphDebug_o __asm__("g_GraphDebug");
-#define g_GraphDebug (*(u8 *)&g_GraphDebug_o)
+extern M2C_UNK D_80011954[];
+#define D_80011954 (D_80011954[0])
+extern GpuCallbacks * D_80095744[];
+#define D_80095744 (D_80095744[0])
+extern M2C_UNK (*g_GpuDebugPrintf[])(M2C_UNK *, s32, void *);
+#define g_GpuDebugPrintf (g_GpuDebugPrintf[0])
+extern u8 g_GraphDebug[];
+#define g_GraphDebug (g_GraphDebug[0])
 
 void Gpu_PutDrawEnvLinked(s32 arg0, void *arg1) {
     void *temp_s0;
@@ -42,7 +42,7 @@ void Gpu_PutDrawEnvLinked(s32 arg0, void *arg1) {
     code = M2C_FIELD(arg1, s32 *, 0x1C);
     mask = arg0 & mask;
     code &= highMask;
-    callbacks = g_GpuCallbacks;
+    callbacks = D_80095744;
     code |= mask;
     M2C_FIELD(arg1, s32 *, 0x1C) = code;
     callbacks->drawEnv(callbacks->drawEnvArg, packet, packetSize, 0);

@@ -14,26 +14,23 @@ typedef long long s64;
 #include "../../../tools/m2c/m2c_macros.h"
 
 M2C_UNK MenuWidget_SetCurrentNode();
-void *MenuWidget_CreateSimpleNode() __asm__("func_80062D2C");
+void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
 M2C_UNK MenuWidget_SetColumnLayout();
-M2C_UNK MenuWidget_ClearColumnLayout() __asm__("func_80064C20");
+M2C_UNK MenuWidget_ClearColumnLayout();
 
 extern s32 g_InvItemUsableFlag;
 extern s32 g_MenuLayoutLocked;
-extern struct { char _[16]; } func_80045A98_o __asm__("Menu_StepEquipSlotSelect");
-#define Menu_StepEquipSlotSelect (*(M2C_UNK *)&func_80045A98_o)
-extern struct { char _[16]; } func_80045D0C_o __asm__("Menu_StepSkillScreen");
-#define Menu_StepSkillScreen (*(M2C_UNK *)&func_80045D0C_o)
-extern struct { char _[16]; } func_8004F978_o __asm__("func_8004F978");
-#define func_8004F978 (*(M2C_UNK *)&func_8004F978_o)
-extern struct { char _[16]; } func_8004FFD0_o __asm__("Menu_DrawItemListInvPanel");
-#define Menu_DrawItemListInvPanel (*(M2C_UNK *)&func_8004FFD0_o)
+extern M2C_UNK Menu_StepEquipSlotSelect[];
+#define Menu_StepEquipSlotSelect (Menu_StepEquipSlotSelect[0])
+extern M2C_UNK Menu_StepSkillScreen[];
+#define Menu_StepSkillScreen (Menu_StepSkillScreen[0])
+extern M2C_UNK Menu_DrawSoundTestList[];
+#define Menu_DrawSoundTestList (Menu_DrawSoundTestList[0])
+extern M2C_UNK Menu_DrawItemListInvPanel[];
+#define Menu_DrawItemListInvPanel (Menu_DrawItemListInvPanel[0])
 
-asm(".globl Menu_CreateEquipItemSelectionView");
-asm("Menu_CreateEquipItemSelectionView = func_8004542C");
-
-void Menu_CreateEquipItemSelectionView(s32 arg0) __asm__("func_8004542C");
+void Menu_CreateEquipItemSelectionView(s32 arg0);
 
 void Menu_CreateEquipItemSelectionView(s32 arg0) {
     void *temp_s0;
@@ -51,7 +48,7 @@ void Menu_CreateEquipItemSelectionView(s32 arg0) {
         M2C_FIELD(temp_v0, M2C_UNK **, 0x30) = callback;
         callback = &Menu_StepSkillScreen;
         M2C_FIELD(temp_v0, M2C_UNK **, 0x2C) = callback;
-        callback = &func_8004F978;
+        callback = &Menu_DrawSoundTestList;
         M2C_FIELD(temp_s0, M2C_UNK **, 0x30) = callback;
         if (flag != 0) {
             MenuWidget_ClearColumnLayout(temp_s0);

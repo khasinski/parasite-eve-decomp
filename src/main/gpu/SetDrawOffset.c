@@ -1,5 +1,5 @@
 /* MASPSX_FLAGS: --stack-return-delay */
-asm(".globl SetDrawOffset");
+
 asm("SetDrawOffset = SetDrawOffset");
 
 typedef signed short s16;

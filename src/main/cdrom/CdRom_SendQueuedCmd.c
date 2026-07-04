@@ -10,7 +10,7 @@ asm(
 "    .word 0x00808021\n"
 "    .word 0xafbf0014\n"
 "    .word 0x0c000000\n"
-"    .reloc .-4, R_MIPS_26, func_8007FC88\n"
+"    .reloc .-4, R_MIPS_26, CdRom_SendReadyCommand\n"
 "    .word 0x00002021\n"
 "    .word 0x3c030000\n"
 "    .reloc .-4, R_MIPS_HI16, g_CdDsReadSlotC\n"

@@ -10,7 +10,7 @@ typedef struct { s16 x, y, w, h; } RECT;
 
 void ClearImage(RECT *, s32, s32, s32);
 s32 CdRom_ReadSectorsFromLba(s32, s32, s32);
-s32 func_8006E7E8();
+s32 CdRom_PollReady();
 void Menu_FullInit();
 s32 Asset_FindTable08ByU32Key(s32, u32);
 void Spu_UploadSampleBlockBlocking(s32, s32);
@@ -52,7 +52,7 @@ restart1:
         if (t == -1) {
             goto restart1;
         }
-        t = func_8006E7E8();
+        t = CdRom_PollReady();
     } while (t != 0);
 
     flag = 0;
@@ -68,7 +68,7 @@ restart2:
         if (t == -1) {
             goto restart2;
         }
-        t = func_8006E7E8();
+        t = CdRom_PollReady();
     } while (t != 0);
 
     src = *(u8 **)(gb + 0x194);
@@ -101,7 +101,7 @@ restart3:
         if (t == -1) {
             goto restart3;
         }
-        t = func_8006E7E8() != 0;
+        t = CdRom_PollReady() != 0;
     } while (t != 0);
 
     Spu_UploadSampleBlockBlocking(*(s32 *)&D_800B0E6C_o, 1);
@@ -114,7 +114,7 @@ restart4:
         if (t == -1) {
             goto restart4;
         }
-    } while ((t = (func_8006E7E8() != 0)) != 0);
+    } while ((t = (CdRom_PollReady() != 0)) != 0);
 
     dst = *(u8 **)(gb + 0x130);
     __asm__ __volatile__("" : "=r"(dst) : "0"(dst));

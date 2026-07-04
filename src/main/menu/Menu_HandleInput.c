@@ -23,7 +23,7 @@ void Sfx_DrawActiveListSlot(int arg0);
 void Draw_DropShadow(void);
 
 void Menu_HandleInput(int arg0) {
-    register int value asm("$16");
+    register int value;
     int flag;
     int blocked;
 

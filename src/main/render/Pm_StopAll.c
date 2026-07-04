@@ -4,18 +4,18 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 
-s32 func_8006FC18();
+s32 Pm_Stop();
 
-extern struct { char _[16]; } D_800942E4_o __asm__("g_PmSlotTable");
-#define g_PmSlotTable (*(s32 *)&D_800942E4_o)
-extern struct { char _[16]; } D_800942E8_o __asm__("g_PmSlotTable2");
-#define g_PmSlotTable2 (*(s32 *)&D_800942E8_o)
-extern struct { char _[16]; } g_PlayerEntity_o __asm__("g_PlayerEntity");
-#define g_PlayerEntity (*(s32 *)&g_PlayerEntity_o)
+extern s32 g_PmSlotTable[];
+#define g_PmSlotTable (g_PmSlotTable[0])
+extern s32 g_PmSlotTable2[];
+#define g_PmSlotTable2 (g_PmSlotTable2[0])
+extern s32 g_PlayerEntity[];
+#define g_PlayerEntity (g_PlayerEntity[0])
 extern s32 D_800B0CD8_r[] __asm__("g_GameState");
 extern s32 D_800B0CD8_w[] __asm__("g_GameState");
-extern struct { char _[16]; } D_800E0EF0_o __asm__("g_PmSlotBuffer");
-#define g_PmSlotBuffer (*(M2C_UNK *)&D_800E0EF0_o)
+extern M2C_UNK g_PmSlotBuffer[];
+#define g_PmSlotBuffer (g_PmSlotBuffer[0])
 
 s32 Pm_StopAll(void) {
     u8 *clear_base;
@@ -42,7 +42,7 @@ loop_1:
         : "=r"(base_v0));
     temp_v1 = M2C_FIELD((base_v0 + var_s1), u8 *, 1);
     if ((temp_v1 < 8U) || ((u32)(temp_v1 - 0x55) < 0x1EU)) {
-        var_v0 = func_8006FC18(var_s0, g_PlayerEntity, 1);
+        var_v0 = Pm_Stop(var_s0, g_PlayerEntity, 1);
         var_a2 = var_v0;
         asm volatile("" : "=r"(var_a2) : "0"(var_a2));
         if (var_a2 == 0) {

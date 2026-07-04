@@ -4,33 +4,30 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK Stat_QueryLevelAndSubLevel();
-void *func_80062D2C();
-extern struct { char _[16]; } D_80092258_o __asm__("D_80092258");
-#define D_80092258 (*(M2C_UNK *)&D_80092258_o)
-extern struct { char _[16]; } D_80092298_o __asm__("D_80092298");
-#define D_80092298 (*(M2C_UNK *)&D_80092298_o)
+void *MenuWidget_CreateSimpleNode();
+extern M2C_UNK D_80092258[];
+#define D_80092258 (D_80092258[0])
+extern M2C_UNK D_80092298[];
+#define D_80092298 (D_80092298[0])
 extern s32 g_BonusPointDisplayValue;
-extern struct { char _[16]; } D_800A18B4_o __asm__("g_BonusPointStatQueryResults");
-#define g_BonusPointStatQueryResults (*(M2C_UNK *)&D_800A18B4_o)
-extern struct { char _[16]; } D_800A18D8_o __asm__("g_BonusPointStatDeltas");
-#define g_BonusPointStatDeltas (*(s32 *)&D_800A18D8_o)
-extern struct { char _[16]; } D_800A18FC_o __asm__("g_BonusPointStatMultipliers");
-#define g_BonusPointStatMultipliers (*(s32 *)&D_800A18FC_o)
-extern struct { char _[16]; } D_800C0E28_o __asm__("g_AyaStatAgility");
-#define g_AyaStatAgility (*(u16 *)&D_800C0E28_o)
-extern struct { char _[16]; } func_80043B0C_o __asm__("Menu_DrawStatusPanel");
-#define Menu_DrawStatusPanel (*(M2C_UNK *)&func_80043B0C_o)
-extern struct { char _[16]; } func_80043C64_o __asm__("Menu_DrawStatsList");
-#define Menu_DrawStatsList (*(M2C_UNK *)&func_80043C64_o)
-extern struct { char _[16]; } func_8004905C_o __asm__("Menu_DrawBonusPointSlotValue");
-#define Menu_DrawBonusPointSlotValue (*(M2C_UNK *)&func_8004905C_o)
-extern struct { char _[16]; } g_AyaBonusPoints_o __asm__("g_AyaBonusPoints");
-#define g_AyaBonusPoints (*(s32 *)&g_AyaBonusPoints_o)
+extern M2C_UNK g_BonusPointStatQueryResults[];
+#define g_BonusPointStatQueryResults (g_BonusPointStatQueryResults[0])
+extern s32 g_BonusPointStatDeltas[];
+#define g_BonusPointStatDeltas (g_BonusPointStatDeltas[0])
+extern s32 g_BonusPointStatMultipliers[];
+#define g_BonusPointStatMultipliers (g_BonusPointStatMultipliers[0])
+extern u16 g_AyaStatAgility[];
+#define g_AyaStatAgility (g_AyaStatAgility[0])
+extern M2C_UNK Menu_DrawStatusPanel[];
+#define Menu_DrawStatusPanel (Menu_DrawStatusPanel[0])
+extern M2C_UNK Menu_DrawStatsList[];
+#define Menu_DrawStatsList (Menu_DrawStatsList[0])
+extern M2C_UNK Menu_DrawBonusPointSlotValue[];
+#define Menu_DrawBonusPointSlotValue (Menu_DrawBonusPointSlotValue[0])
+extern s32 g_AyaBonusPoints[];
+#define g_AyaBonusPoints (g_AyaBonusPoints[0])
 
-asm(".globl Menu_CreateBonusPointAllocationView");
-asm("Menu_CreateBonusPointAllocationView = func_800439D8");
-
-void Menu_CreateBonusPointAllocationView(void) __asm__("func_800439D8");
+void Menu_CreateBonusPointAllocationView(void);
 
 void Menu_CreateBonusPointAllocationView(void) {
     register M2C_UNK *temp_a2 asm("$6");
@@ -48,12 +45,12 @@ void Menu_CreateBonusPointAllocationView(void) {
     void *temp_v0_2;
     register void *temp_v1_reg asm("$3");
 
-    temp_v0 = func_80062D2C(0x12, 0, 0, 0);
+    temp_v0 = MenuWidget_CreateSimpleNode(0x12, 0, 0, 0);
     temp_v1_reg = temp_v0;
     M2C_FIELD(temp_v1_reg, M2C_UNK **, 0x30) = &Menu_DrawStatusPanel;
     M2C_FIELD(temp_v1_reg, M2C_UNK **, 0x4C) = &D_80092258;
-    M2C_FIELD(func_80062D2C(0x18, 0, 0, 0), M2C_UNK **, 0x30) = &Menu_DrawBonusPointSlotValue;
-    temp_v0_2 = func_80062D2C(0x2D, 0, 0, 0);
+    M2C_FIELD(MenuWidget_CreateSimpleNode(0x18, 0, 0, 0), M2C_UNK **, 0x30) = &Menu_DrawBonusPointSlotValue;
+    temp_v0_2 = MenuWidget_CreateSimpleNode(0x2D, 0, 0, 0);
     temp_v1_reg = temp_v0_2;
     var_s4 = (u8 *) &g_AyaStatAgility;
     var_s1 = 0;

@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G0 -g3 */
+/* CC1_FLAGS: -G0 -g3 -O3 */
 /* MASPSX_FLAGS: -G0 --use-comm-section */
 
 #include "pe1/field_actor.h"
@@ -12,7 +12,7 @@ void Entity_WriteFieldByCmd(FieldActor *arg0, int arg1, int arg2);
 
 int Entity_SetFieldByTypeId(int **arg0) {
     FieldActor *obj;
-    register int type asm("$2");
+    register int type;
     int cmpType;
 
     type = *arg0[0];

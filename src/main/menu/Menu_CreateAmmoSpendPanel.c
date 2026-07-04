@@ -5,11 +5,11 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #include "../../../tools/m2c/m2c_macros.h"
 
 void MenuWidget_SetCurrentNode(void *node);
-void Inv_SelectActiveList(s32 useOverride) __asm__("func_80052E30");
-void *Inv_LookupActiveListData(s32 index) __asm__("func_8005332C");
+void Inv_SelectActiveList(s32 useOverride);
+void *Inv_LookupActiveListData(s32 index);
 void Inv_ClearSelectionBitset(void);
 void Inv_BuildDisplayFromList(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void *MenuWidget_CreateSimpleNode(s32 mode, s32 arg1, s32 arg2, s32 arg3) __asm__("func_80062D2C");
+void *MenuWidget_CreateSimpleNode(s32 mode, s32 arg1, s32 arg2, s32 arg3);
 
 extern s32 g_InvAmmoSpendActiveList;
 extern s32 g_InvSelectedItemIndex;

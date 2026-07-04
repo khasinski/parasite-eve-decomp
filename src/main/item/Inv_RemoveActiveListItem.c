@@ -30,9 +30,6 @@ extern struct { char _[16]; } D_800C0EAC_o __asm__("g_InvItemSlotArray");
 extern struct { char _[16]; } g_AyaInventoryItems_o __asm__("g_AyaInventoryItems");
 #define g_AyaInventoryItems (*(M2C_UNK *)&g_AyaInventoryItems_o)
 
-asm(".globl func_80057D30");
-asm("func_80057D30 = Inv_RemoveActiveListItem");
-
 s32 Inv_RemoveActiveListItem(s32 arg0) {
     s32 sp10;
     s16 *slot;

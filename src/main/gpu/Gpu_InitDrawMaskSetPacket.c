@@ -1,7 +1,4 @@
-asm(".globl Gpu_InitDrawMaskSetPacket");
-asm("Gpu_InitDrawMaskSetPacket = func_80075C6C");
-
-void Gpu_InitDrawMaskSetPacket(void *arg0, int arg1) __asm__("func_80075C6C");
+void Gpu_InitDrawMaskSetPacket(void *arg0, int arg1);
 
 void Gpu_InitDrawMaskSetPacket(void *arg0, int arg1) {
     *(char *)((char *)arg0 + 3) = 2;

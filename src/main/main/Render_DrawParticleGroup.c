@@ -7,8 +7,8 @@ M2C_UNK Render_DrawParticleSprite();
 M2C_UNK Render_DrawParticleAlt();
 M2C_UNK CdRom_CmdEventCallback();
 M2C_UNK CdRom_ProcessEventByte();
-extern struct { char _[16]; } D_8009B598_o __asm__("g_CdRomCmdTimeout");
-#define g_CdRomCmdTimeout (*(M2C_UNK *)&D_8009B598_o)
+extern M2C_UNK g_CdRomCmdTimeout[];
+#define g_CdRomCmdTimeout (g_CdRomCmdTimeout[0])
 
 void Render_DrawParticleGroup(s32 arg0, M2C_UNK arg1) {
     s32 temp_v1;

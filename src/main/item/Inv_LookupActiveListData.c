@@ -11,9 +11,6 @@ extern u8 g_KeyItemDataTable[];
 
 void *Item_LookupBaseData(int index);
 
-asm(".globl func_8005332C");
-asm("func_8005332C = Inv_LookupActiveListData");
-
 void *Inv_LookupActiveListData(int index) {
     int value;
     int offset;

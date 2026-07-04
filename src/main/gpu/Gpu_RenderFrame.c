@@ -2,15 +2,15 @@
 /* CC1_FLAGS: -G8 -g3 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
-void DrawSync(int arg0) __asm__("func_80074DC0");
+void DrawSync(int arg0);
 void Menu_DrawSaveBg(void);
-void VSync(int arg0) __asm__("func_80073A44");
-int Seq_GetElapsed(void) __asm__("func_8006EBE4");
-void SetDispMask(int arg0) __asm__("func_80074D28");
+void VSync(int arg0);
+int Seq_GetElapsed(void);
+void SetDispMask(int arg0);
 void Render_InitEntityPool(int arg0);
 void PutDispEnv(void *arg0) __asm__("Render_StepEntityPool");
-int Gpu_CheckDrawStatus(void) __asm__("func_8006EC08");
-void PutDrawEnv(void *arg0) __asm__("func_80075424");
+int Gpu_CheckDrawStatus(void);
+void PutDrawEnv(void *arg0);
 void Gpu_PutDrawEnvLinked(int arg0, void *arg1);
 
 extern int g_GameState[];
@@ -20,8 +20,8 @@ extern char g_RenderDrawEnvArray[];
 
 #define D_800B0CD8_WORD (g_GameState[0])
 
-asm(".globl func_80070E54");
-asm("func_80070E54 = Gpu_RenderFrame");
+asm(".globl Gpu_RenderFrame");
+asm("Gpu_RenderFrame = Gpu_RenderFrame");
 
 void Gpu_RenderFrame(void) {
     register int idx asm("$2");

@@ -13,16 +13,16 @@ extern s32 g_MenuActionSubmenuOpen;
 extern s32 g_InvSelectedItemIndex;
 extern s32 g_InvSwapTargetIndex;
 extern s32 g_MenuEquipSwapSource;
-extern struct { char _[16]; } func_80044444_o __asm__("Menu_InventoryInputHandler");
-#define Menu_InventoryInputHandler (*(M2C_UNK *)&func_80044444_o)
-extern struct { char _[16]; } func_800447F0_o __asm__("Menu_DrawAmmoTypeHeader");
-#define Menu_DrawAmmoTypeHeader (*(M2C_UNK *)&func_800447F0_o)
-extern struct { char _[16]; } Menu_DrawSelectableEquipSlotList_o __asm__("func_8004F8D0");
-#define Menu_DrawSelectableEquipSlotList (*(M2C_UNK *)&Menu_DrawSelectableEquipSlotList_o)
-extern struct { char _[16]; } func_80050260_o __asm__("Menu_RebuildSelectableMask");
-#define Menu_RebuildSelectableMask (*(M2C_UNK *)&func_80050260_o)
-extern struct { char _[16]; } Inv_SwapSlots_o __asm__("Inv_SwapSlots");
-#define Inv_SwapSlots (*(M2C_UNK *)&Inv_SwapSlots_o)
+extern M2C_UNK Menu_InventoryInputHandler[];
+#define Menu_InventoryInputHandler (Menu_InventoryInputHandler[0])
+extern M2C_UNK Menu_DrawAmmoTypeHeader[];
+#define Menu_DrawAmmoTypeHeader (Menu_DrawAmmoTypeHeader[0])
+extern M2C_UNK Menu_DrawSelectableEquipSlotList[];
+#define Menu_DrawSelectableEquipSlotList (Menu_DrawSelectableEquipSlotList[0])
+extern M2C_UNK Menu_RebuildSelectableMask[];
+#define Menu_RebuildSelectableMask (Menu_RebuildSelectableMask[0])
+extern M2C_UNK Inv_SwapSlots[];
+#define Inv_SwapSlots (Inv_SwapSlots[0])
 
 void Menu_CreateEquipScreen(s32 arg0) {
     s32 entryIndex;

@@ -2,9 +2,6 @@
 
 typedef unsigned char u8;
 
-asm(".globl func_8006FC18");
-asm("func_8006FC18 = Pm_Stop");
-
 extern char *g_PmSlotTable;
 extern char *g_PmSlotTable2;
 extern int **g_PmCmdHandlerTable;

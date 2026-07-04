@@ -8,10 +8,10 @@ s32 MenuWidget_FindByModeAndSelectedBase();
 M2C_UNK Menu_StepSaveLoadScreen();
 M2C_UNK Inv_SetActiveList();
 M2C_UNK Inv_RecalcSlotStats();
-M2C_UNK func_800525EC();
+M2C_UNK Menu_PlayConfirmSound();
 M2C_UNK Akao_FlushBgmVolumeFade();
 s32 Menu_GetBattleCount();
-M2C_UNK func_80062F1C();
+M2C_UNK MenuWidget_DestroyNode();
 M2C_UNK MenuWidget_NavScrollTo();
 extern s32 g_BonusPointBarAnimProgress;
 extern s32 g_MenuLevelDisplayValue;
@@ -21,18 +21,18 @@ extern s32 g_MenuLevelDisplayTarget;
 extern s32 g_MenuHpMaxDisplayTarget;
 extern s32 g_MenuBonusPointDisplayTarget;
 extern s32 g_MenuBonusPointBarAnimActive;
-extern struct { char _[16]; } D_800A18D8_o __asm__("g_BonusPointStatDeltas");
-#define g_BonusPointStatDeltas (*(s32 *)&D_800A18D8_o)
-extern struct { char _[16]; } D_800A18FC_o __asm__("g_BonusPointStatMultipliers");
-#define g_BonusPointStatMultipliers (*(s32 *)&D_800A18FC_o)
-extern struct { char _[16]; } D_800C0E06_o __asm__("g_AyaHpMax");
-#define g_AyaHpMax (*(s16 *)&D_800C0E06_o)
-extern struct { char _[16]; } D_800C0E28_o __asm__("g_AyaStatAgility");
-#define g_AyaStatAgility (*(s16 *)&D_800C0E28_o)
-extern struct { char _[16]; } g_AyaBonusPoints_o __asm__("g_AyaBonusPoints");
-#define g_AyaBonusPoints (*(s32 *)&g_AyaBonusPoints_o)
-extern struct { char _[16]; } g_AyaSaveLevel_o __asm__("g_AyaSaveLevel");
-#define g_AyaSaveLevel (*(s8 *)&g_AyaSaveLevel_o)
+extern s32 g_BonusPointStatDeltas[];
+#define g_BonusPointStatDeltas (g_BonusPointStatDeltas[0])
+extern s32 g_BonusPointStatMultipliers[];
+#define g_BonusPointStatMultipliers (g_BonusPointStatMultipliers[0])
+extern s16 g_AyaHpMax[];
+#define g_AyaHpMax (g_AyaHpMax[0])
+extern s16 g_AyaStatAgility[];
+#define g_AyaStatAgility (g_AyaStatAgility[0])
+extern s32 g_AyaBonusPoints[];
+#define g_AyaBonusPoints (g_AyaBonusPoints[0])
+extern s8 g_AyaSaveLevel[];
+#define g_AyaSaveLevel (g_AyaSaveLevel[0])
 
 s32 Menu_StepParasiteScreen(s32 arg0, s32 arg1) {
     u8 *var_a3;
@@ -81,8 +81,8 @@ s32 Menu_StepParasiteScreen(s32 arg0, s32 arg1) {
             g_AyaHpMax = (s16) temp_v1;
             g_AyaBonusPoints = temp_bonus;
             Inv_RecalcSlotStats(temp_bonus, var_a1, var_a2, var_a3);
-            func_80062F1C(arg0);
-            func_80062F1C(MenuWidget_FindByModeAndSelectedBase(1, 0x1E));
+            MenuWidget_DestroyNode(arg0);
+            MenuWidget_DestroyNode(MenuWidget_FindByModeAndSelectedBase(1, 0x1E));
             MenuWidget_NavScrollTo(0x1C);
             Akao_FlushBgmVolumeFade();
             var_a0 = 0xA;
@@ -92,7 +92,7 @@ s32 Menu_StepParasiteScreen(s32 arg0, s32 arg1) {
                 Inv_SetActiveList(0xA, 0);
             }
         }
-        func_800525EC();
+        Menu_PlayConfirmSound();
     }
     return 1;
 }

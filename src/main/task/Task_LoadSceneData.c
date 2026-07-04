@@ -11,22 +11,22 @@ void ExitCriticalSection(void);
 void FlushCache(void);
 void VSync(s32);
 s32 CdRom_ReadSectorsFromLba(s32, s32, s32);
-s32 func_8006E7E8(void);
+s32 CdRom_PollReady(void);
 void Render_InitEntityPool(s32);
-void func_80074D28(s32);
-void func_80074DC0(s32);
+void SetDispMask(s32);
+void DrawSync(s32);
 void func_801216C4(s32, s32 *);
 void func_80121C04(s32);
 void func_801223A8(s32);
 
-extern struct { char _[16]; } D_8001160C_o __asm__("D_8001160C");
-#define D_8001160C (*(s32 *)&D_8001160C_o)
-extern struct { char _[16]; } D_80011610_o __asm__("D_80011610");
-#define D_80011610 (*(s32 *)&D_80011610_o)
+extern s32 D_8001160C[];
+#define D_8001160C (D_8001160C[0])
+extern s32 D_80011610[];
+#define D_80011610 (D_80011610[0])
 extern u16 g_SceneInitLbaTbl0[];
 extern u16 g_SceneInitLbaTbl1[];
-extern struct { char _[16]; } D_80093162_o __asm__("g_SceneAssetLbaTbl");
-#define g_SceneAssetLbaTbl (*(u16 *)&D_80093162_o)
+extern u16 g_SceneAssetLbaTbl[];
+#define g_SceneAssetLbaTbl (g_SceneAssetLbaTbl[0])
 extern s32 g_GameState[];
 
 s32 Task_LoadSceneData(s16 **arg0) {
@@ -36,9 +36,9 @@ s32 Task_LoadSceneData(s16 **arg0) {
     s32 ret;
 
     base[0] |= 0x8200;
-    func_80074DC0(0);
+    DrawSync(0);
     VSync(0);
-    func_80074D28(0);
+    SetDispMask(0);
     Render_InitEntityPool(1);
 
 retry_first:
@@ -52,7 +52,7 @@ retry_first:
     {
         s32 wait = -1;
         while (1) {
-            ret = func_8006E7E8();
+            ret = CdRom_PollReady();
             if (ret == 0) {
                 break;
             }
@@ -77,7 +77,7 @@ retry_second:
     {
         s32 wait = -1;
         while (1) {
-            ret = func_8006E7E8();
+            ret = CdRom_PollReady();
             if (ret == 0) {
                 break;
             }

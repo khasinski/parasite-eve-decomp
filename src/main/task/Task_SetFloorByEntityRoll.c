@@ -9,22 +9,22 @@ s32 Menu_GetEquipSlotStateOrIndex();
 s32 Render_SetFontGlyphByCode();
 M2C_UNK Menu_ResetEquipSlotState();
 s32 func_8006E3D4();
-extern struct { char _[16]; } D_8009173C_o __asm__("g_MapSelectIndexTable");
-#define g_MapSelectIndexTable (*(M2C_UNK *)&D_8009173C_o)
-extern struct { char _[16]; } D_8009180C_o __asm__("g_MapFilenameTable");
-#define g_MapFilenameTable (*(M2C_UNK *)&D_8009180C_o)
-extern struct { char _[16]; } D_8009CD78_o __asm__("g_MapNameOverrideA");
-#define g_MapNameOverrideA (*(M2C_UNK *)&D_8009CD78_o)
-extern struct { char _[16]; } D_8009CD80_o __asm__("g_MapNameOverrideB");
-#define g_MapNameOverrideB (*(M2C_UNK *)&D_8009CD80_o)
+extern M2C_UNK g_MapSelectIndexTable[];
+#define g_MapSelectIndexTable (g_MapSelectIndexTable[0])
+extern M2C_UNK g_MapFilenameTable[];
+#define g_MapFilenameTable (g_MapFilenameTable[0])
+extern M2C_UNK g_MapNameOverrideA[];
+#define g_MapNameOverrideA (g_MapNameOverrideA[0])
+extern M2C_UNK g_MapNameOverrideB[];
+#define g_MapNameOverrideB (g_MapNameOverrideB[0])
 extern s32 D_8009D1A0_r[] __asm__("g_GameStateFlags");
 extern s32 D_8009D1A0_w[] __asm__("g_GameStateFlags");
-extern struct { char _[16]; } D_8009D1C4_o __asm__("g_SceneDispatchCur");
-#define g_SceneDispatchCur (*(s32 *)&D_8009D1C4_o)
-extern struct { char _[16]; } D_8009D280_o __asm__("g_SceneDispatchToken");
-#define g_SceneDispatchToken (*(s32 *)&D_8009D280_o)
-extern struct { char _[16]; } D_800B0CD8_o __asm__("g_GameState");
-#define g_GameState (*(s32 *)&D_800B0CD8_o)
+extern s32 g_SceneDispatchCur[];
+#define g_SceneDispatchCur (g_SceneDispatchCur[0])
+extern s32 g_SceneDispatchToken[];
+#define g_SceneDispatchToken (g_SceneDispatchToken[0])
+extern s32 g_GameState[];
+#define g_GameState (g_GameState[0])
 
 s32 Task_SetFloorByEntityRoll(u8 **arg0) {
     M2C_UNK *var_a0;

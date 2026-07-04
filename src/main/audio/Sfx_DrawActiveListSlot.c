@@ -4,8 +4,8 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK Sfx_DrawSlotRow();
-void *func_8005DB44();
-void *func_8005DC9C(u32);
+void *Item_LookupBaseData();
+void *Str_LookupTable8(u32);
 extern s32 g_InvCategoryBaseItemId;
 extern s16 *g_InvItemPtr;
 extern s32 g_InvSlotLimit;
@@ -45,7 +45,7 @@ void Sfx_DrawActiveListSlot(s32 arg0) {
             }
         } else {
 block_8:
-            var_a1 = func_8005DC9C(var_a0);
+            var_a1 = Str_LookupTable8(var_a0);
         }
     }
     saved_a1 = var_a1;
@@ -57,7 +57,7 @@ block_8:
         } else {
             temp_a0 = temp_v1_3 - 1;
             if (temp_a0 < 0xFFU) {
-                var_v0 = func_8005DB44(temp_a0, temp_a1);
+                var_v0 = Item_LookupBaseData(temp_a0, temp_a1);
             } else if ((u32) (temp_a1 - 0x200) < 9U) {
                 temp_v1_3 = temp_a1 << 5;
                 var_v0 = temp_v1_3 + g_KeyItemDataTable;

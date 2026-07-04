@@ -2,13 +2,13 @@
 
 typedef unsigned short u16;
 
-int VSync(int arg0) __asm__("func_80073A44");
-int SetDispMask(int arg0) __asm__("func_80074D28");
+int VSync(int arg0);
+int SetDispMask(int arg0);
 int CD_ReadSectors(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
-int CdRom_ReadSectors(int lba, int arg1, int dst, int size) __asm__("func_8006E6D4");
-int Sys_VSyncTimeout(int arg0) __asm__("func_800811E4");
+int CdRom_ReadSectors(int lba, int arg1, int dst, int size);
+int Sys_VSyncTimeout(int arg0);
 void Gpu_LoadTimImage(int arg0);
-int DrawSync(int arg0) __asm__("func_80074DC0");
+int DrawSync(int arg0);
 void EnterCriticalSection(void);
 void FlushCache(void);
 void ExitCriticalSection(void);

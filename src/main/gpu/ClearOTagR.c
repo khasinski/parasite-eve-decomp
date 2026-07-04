@@ -3,9 +3,9 @@
 asm(
 ".text\n"
 ".globl ClearOTagR\n"
-".globl func_800752AC\n"
+".globl ClearOTagR\n"
 ".ent ClearOTagR\n"
-"func_800752AC:\n"
+"ClearOTagR:\n"
 "ClearOTagR:\n"
 "    .word 0x3c020000\n"
 "    .reloc .-4, R_MIPS_HI16, g_GraphDebug\n"

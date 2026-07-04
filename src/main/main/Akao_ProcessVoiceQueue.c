@@ -37,7 +37,7 @@ asm(
 "    .word 0x10800003\n"
 "    .word 0x00000000\n"
 "    .word 0x0c000000\n"
-"    .reloc .-4, R_MIPS_26, func_80089250\n"
+"    .reloc .-4, R_MIPS_26, Akao_UpdateVoiceEnvelopes\n"
 "    .word 0x02402021\n"
 "    .word 0x3c080000\n"
 "    .reloc .-4, R_MIPS_HI16, g_AkaoCurTrack\n"

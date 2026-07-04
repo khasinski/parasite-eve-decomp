@@ -5,8 +5,6 @@
  * Wrapped via maspsx's INCLUDE_ASM hack so the body is passed
  * through verbatim; bare global loads gp-rel via the .extern size
  * hints + `as -G8`. See tools/maspsx/PE1_IMPROVEMENTS.md. */
-asm(".globl Menu_DrawContextHelpText");
-asm("Menu_DrawContextHelpText = func_8004C608");
 void __maspsx_include_asm_hack_func_8004C608(void);
 void __maspsx_include_asm_hack_func_8004C608(void) {
 	__asm__(
@@ -22,8 +20,8 @@ void __maspsx_include_asm_hack_func_8004C608(void) {
 		".extern	jtbl_8001104C # maspsx-keep\n"
 		"	.set	noreorder # maspsx-keep\n"
 		"	.set	nomacro # maspsx-keep\n"
-		"	.globl	func_8004C608 # maspsx-keep\n"
-		"func_8004C608: # maspsx-keep\n"
+		"	.globl	Menu_DrawContextHelpText # maspsx-keep\n"
+		"Menu_DrawContextHelpText: # maspsx-keep\n"
 		"	addiu	$sp,$sp,-0x20 # maspsx-keep\n"
 		"	sw	$s0,0x10($sp) # maspsx-keep\n"
 		"	addu	$s0,$a0,$zero # maspsx-keep\n"

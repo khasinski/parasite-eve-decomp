@@ -6,25 +6,25 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 void *MenuWidget_FindByModeAndSelectedBase();
 M2C_UNK MenuWidget_OffsetPosition();
 M2C_UNK MenuWidget_SetCurrentNode();
-M2C_UNK func_800525EC();
-M2C_UNK func_800526C4();
-s32 func_8005415C();
+M2C_UNK Menu_PlayConfirmSound();
+M2C_UNK Menu_PlayErrorSound();
+s32 Inv_GetActiveListItemType();
 s32 Inv_GetPackedListCount();
 M2C_UNK Inv_BuildFilteredPackedList();
 M2C_UNK Inv_BuildFilteredPackedListExcluding();
-s32 func_80059F08();
-void *func_80062D2C();
+s32 Inv_RestoreSelection();
+void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
 M2C_UNK Draw_SetPrimCallback();
 M2C_UNK func_80064B74();
-M2C_UNK func_80064C20();
+M2C_UNK MenuWidget_ClearColumnLayout();
 extern s32 g_MenuEquipMode;
 extern s32 g_InvItemUsableFlag;
 extern s32 g_MenuLayoutLocked;
-extern struct { char _[16]; } func_800466C0_o __asm__("Menu_StepEquipConfirm");
-#define Menu_StepEquipConfirm (*(M2C_UNK *)&func_800466C0_o)
-extern struct { char _[16]; } func_8004FB48_o __asm__("Menu_DrawEquipSelectionList");
-#define Menu_DrawEquipSelectionList (*(M2C_UNK *)&func_8004FB48_o)
+extern M2C_UNK Menu_StepEquipConfirm[];
+#define Menu_StepEquipConfirm (Menu_StepEquipConfirm[0])
+extern M2C_UNK Menu_DrawEquipSelectionList[];
+#define Menu_DrawEquipSelectionList (Menu_DrawEquipSelectionList[0])
 
 void Menu_StepSkillList(s32 arg0, s32 arg1) {
     M2C_UNK var_a0_2;
@@ -37,12 +37,12 @@ void Menu_StepSkillList(s32 arg0, s32 arg1) {
     register void *temp_v0_3 asm("$17");
 
     if (g_MenuLayoutLocked != 0) {
-        temp_v0 = func_80059F08(0);
-        if ((func_8005415C(temp_v0) != 0) && (func_8005415C(temp_v0) < 6)) {
+        temp_v0 = Inv_RestoreSelection(0);
+        if ((Inv_GetActiveListItemType(temp_v0) != 0) && (Inv_GetActiveListItemType(temp_v0) < 6)) {
             Inv_BuildFilteredPackedListExcluding(0x3E, temp_v0);
         } else {
             s32 mask;
-            temp_shift = func_8005415C(temp_v0);
+            temp_shift = Inv_GetActiveListItemType(temp_v0);
             asm volatile(
                 "addiu $3, $0, 1\n"
                 "sllv %0, $3, %1"
@@ -61,14 +61,14 @@ void Menu_StepSkillList(s32 arg0, s32 arg1) {
         Inv_BuildFilteredPackedList(var_a0_2);
     }
     if ((g_MenuEquipMode != 0) || (Inv_GetPackedListCount() != 0)) {
-        temp_v0_3 = func_80062D2C(7, saved_arg0, 0, 0);
+        temp_v0_3 = MenuWidget_CreateSimpleNode(7, saved_arg0, 0, 0);
         temp_s0 = MenuWidget_CreateNode(7, temp_v0_3, temp_v0_3);
         M2C_FIELD(temp_v0_3, M2C_UNK **, 0x2C) = &Menu_StepEquipConfirm;
         {
             s32 temp_v1 = g_MenuLayoutLocked;
             M2C_FIELD(temp_s0, M2C_UNK **, 0x30) = &Menu_DrawEquipSelectionList;
             if (temp_v1 != 0) {
-                func_80064C20(temp_s0);
+                MenuWidget_ClearColumnLayout(temp_s0);
             }
         }
         if (g_InvItemUsableFlag == 0) {
@@ -90,8 +90,8 @@ void Menu_StepSkillList(s32 arg0, s32 arg1) {
             M2C_FIELD(temp_s0, s32 *, 0x44) = -1;
             MenuWidget_OffsetPosition(temp_v0_3, 0, 0x14);
         }
-        func_800525EC();
+        Menu_PlayConfirmSound();
         return;
     }
-    func_800526C4();
+    Menu_PlayErrorSound();
 }

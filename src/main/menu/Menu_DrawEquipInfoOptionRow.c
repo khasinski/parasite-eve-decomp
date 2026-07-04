@@ -5,7 +5,7 @@ int g_InvItemUsableFlag;
 
 void Draw_AllocSprite(int arg0);
 
-void Menu_DrawEquipInfoOptionRow(int arg0) __asm__("func_80050308");
+void Menu_DrawEquipInfoOptionRow(int arg0);
 
 void Menu_DrawEquipInfoOptionRow(int arg0) {
     if (g_InvItemUsableFlag != 0) {

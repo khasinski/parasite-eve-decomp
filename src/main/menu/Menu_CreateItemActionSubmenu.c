@@ -10,7 +10,7 @@ void *MenuWidget_CreateNode(int arg0, void *arg1, void *arg2);
 void MenuWidget_SetCurrentNode(void *arg0);
 void Menu_DrawItemActionSubmenu(void);
 void Menu_StepSkillSelect(void);
-void Menu_DrawActionOptionList(void) __asm__("func_8004F950");
+void Menu_DrawActionOptionList(void);
 
 void Menu_CreateItemActionSubmenu(void) {
     void *node;

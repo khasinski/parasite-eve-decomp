@@ -4,7 +4,6 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-asm(".globl Boot_MainLoop\nBoot_MainLoop = main\nfunc_8001220C = main");
 
 extern void InitSystem(void);
 extern void Sys_SyncShutdown(void);

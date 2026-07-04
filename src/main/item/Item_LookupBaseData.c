@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 */
+/* CC1_FLAGS: -G8 -g3 -fno-schedule-insns -fno-schedule-insns2 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 extern int D_800A8034[];
@@ -8,7 +8,7 @@ void *Item_LookupBaseData(unsigned int index)
 {
     int *endPtr;
     int base;
-    register unsigned int offset asm("$2");
+    register unsigned int offset;
     int end;
 
     endPtr = g_StatGrowthTable;

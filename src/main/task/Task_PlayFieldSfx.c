@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 */
+/* CC1_FLAGS: -G8 -g3 -O3 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 extern char *g_CurrentEntity[];
@@ -6,7 +6,7 @@ extern char *g_CurrentEntity[];
 void Task_QueueFieldSfx(int arg0, int arg1, int arg2, int arg3, int arg4);
 
 int Task_PlayFieldSfx(void **arg0) {
-    register int a asm("$8");
+    register int a;
     int b;
     int c;
     int d;

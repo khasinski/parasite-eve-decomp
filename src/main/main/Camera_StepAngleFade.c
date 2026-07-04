@@ -4,8 +4,8 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 extern s32 g_SceneDataTable0;
-extern struct { char _[16]; } D_8009D2F0_o __asm__("g_CurrentEntity");
-#define g_CurrentEntity (*(void **)&D_8009D2F0_o)
+extern void * g_CurrentEntity[];
+#define g_CurrentEntity (g_CurrentEntity[0])
 extern void *g_TaskNodePool;
 
 s32 Camera_StepAngleFade(u8 *arg0) {

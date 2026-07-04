@@ -9,10 +9,10 @@ M2C_UNK MenuWidget_SetCurrentNode(void *);          /* extern */
 M2C_UNK MenuWidget_SetCursorY(s32);                 /* extern */
 void *MenuWidget_CreateSimpleNode(M2C_UNK, s32, M2C_UNK, M2C_UNK); /* extern */
 void *MenuWidget_CreateNode(M2C_UNK, void *, void *);       /* extern */
-extern struct { char _[16]; } func_8004F2E4_o __asm__("Menu_DrawSkillSelectionList");
-#define Menu_DrawSkillSelectionList (*(M2C_UNK *)&func_8004F2E4_o)
-extern struct { char _[16]; } func_8004F30C_o __asm__("func_8004F30C");
-#define func_8004F30C (*(M2C_UNK *)&func_8004F30C_o)
+extern M2C_UNK Menu_DrawSkillSelectionList[];
+#define Menu_DrawSkillSelectionList (Menu_DrawSkillSelectionList[0])
+extern M2C_UNK Menu_HandleAyaInventorySelectionInput[];
+#define Menu_HandleAyaInventorySelectionInput (Menu_HandleAyaInventorySelectionInput[0])
 
 void Menu_OpenSkillSelectionView(void) {
     void *temp_a0;
@@ -20,7 +20,7 @@ void Menu_OpenSkillSelectionView(void) {
 
     temp_v0 = MenuWidget_CreateSimpleNode(0x40, MenuWidget_GetCurrentNode(), 0, 0);
     temp_a0 = MenuWidget_CreateNode(0x40, temp_v0, temp_v0);
-    M2C_FIELD(temp_v0, M2C_UNK **, 0x2C) = &func_8004F30C;
+    M2C_FIELD(temp_v0, M2C_UNK **, 0x2C) = &Menu_HandleAyaInventorySelectionInput;
     M2C_FIELD(temp_a0, M2C_UNK **, 0x30) = &Menu_DrawSkillSelectionList;
     MenuWidget_SetCurrentNode(temp_a0);
     MenuWidget_SetCursorY(MenuWidget_FindByModeAndSelectedBase(1, 0));

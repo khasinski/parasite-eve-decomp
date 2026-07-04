@@ -1,5 +1,5 @@
 /* MASPSX_FLAGS: --stack-return-delay */
-asm(".globl SetTexWindow");
+
 asm("SetTexWindow = SetTexWindow");
 
 typedef struct {

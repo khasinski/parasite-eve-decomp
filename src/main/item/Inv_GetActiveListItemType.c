@@ -13,19 +13,16 @@ typedef long long s64;
 
 #include "../../../tools/m2c/m2c_macros.h"
 
-asm(".globl Inv_GetActiveListItemType");
-asm("Inv_GetActiveListItemType = func_8005415C");
-
-void *Item_LookupBaseData() __asm__("func_8005DB44");
+void *Item_LookupBaseData();
 
 extern s32 g_InvItemPtr;
 extern s32 g_InvSlotLimit;
-extern struct { char _[16]; } D_8009DE64_o __asm__("g_KeyItemDataTable");
-#define g_KeyItemDataTable (*(M2C_UNK *)&D_8009DE64_o)
-extern struct { char _[16]; } D_800BEEAC_o __asm__("g_EquipItemDataTable");
-#define g_EquipItemDataTable (*(M2C_UNK *)&D_800BEEAC_o)
+extern M2C_UNK g_KeyItemDataTable[];
+#define g_KeyItemDataTable (g_KeyItemDataTable[0])
+extern M2C_UNK g_EquipItemDataTable[];
+#define g_EquipItemDataTable (g_EquipItemDataTable[0])
 
-u8 Inv_GetActiveListItemType(s32 index) __asm__("func_8005415C");
+u8 Inv_GetActiveListItemType(s32 index);
 
 u8 Inv_GetActiveListItemType(s32 index)
 {
