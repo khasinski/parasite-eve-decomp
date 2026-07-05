@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/ovl_179
   ld_script_path: linkers/USA/overlays/ovl_179.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_179.txt
+  symbol_addrs_path: configs/USA/overlays/sym.ovl_179.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_179.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,44 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, ovl_179]
+      - [0x240, c, RoomLib_PlantTable_8018F230]
+      - [0x26C, c, RoomLib_Spawn6_8018F25C]
+      - [0x298, c, RoomLib_RegisterTable_8018F288]
+      - [0x2E0, asm, ovl_179_26C_298_2E0]
+      - [0x3A4, c, RoomLib_CloseTarget_8018F394]
+      - [0x428, asm, ovl_179_26C_298_2E0_428]
+      - [0x1C68, c, RoomLib_InitB_80190C58]
+      - [0x1D08, asm, ovl_179_26C_298_2E0_428_1D08]
+      - [0x201C, c, RoomLib_NotifyArmB_8019100C]
+      - [0x20C4, asm, ovl_179_26C_298_2E0_428_1D08_20C4]
+      - [0x29D8, c, RoomLib_InitD_801919C8]
+      - [0x2A54, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54]
+      - [0x2D5C, c, RoomLib_Notify2ArmB_80191D4C]
+      - [0x2E04, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54_2E04]
+      - [0x3390, c, RoomLib_SteerToward_80192380]
+      - [0x3414, c, RoomLib_ResetAndSignalB_80192404]
+      - [0x346C, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C]
+      - [0x347C, c, RoomLib_InitC_8019246C]
+      - [0x3518, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518]
+      - [0x3768, c, RoomLib_InvokeCallbackC_80192758]
+      - [0x3790, c, RoomLib_ArmWindowA_80192780]
+      - [0x3800, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518_3790_3800]
+      - [0x3F34, c, RoomLib_ResetAndSignal_80192F24]
+      - [0x3F90, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518_3790_3800_3F90]
+      - [0x3FA0, c, RoomLib_InitFull_80192F90]
+      - [0x4030, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518_3790_3800_3F90_4030]
+      - [0x4280, c, RoomLib_InvokeCallbackC_80193270]
+      - [0x42A8, c, RoomLib_ArmWindowB_80193298]
+      - [0x4318, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518_3790_3800_3F90_4030_42A8_4318]
+      - [0x4B24, c, RoomLib_ResetAndSignal_80193B14]
+      - [0x4B80, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518_3790_3800_3F90_4030_42A8_4318_4B80]
+      - [0x4B90, c, RoomLib_InitTimers_80193B80]
+      - [0x4BCC, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518_3790_3800_3F90_4030_42A8_4318_4B80_4BCC]
+      - [0x4C6C, c, RoomLib_InvokeCallbackC_80193C5C]
+      - [0x4C94, c, RoomLib_RearmOnMatch_80193C84]
+      - [0x4CC4, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518_3790_3800_3F90_4030_42A8_4318_4B80_4BCC_4C94_4CC4]
+      - [0x4F58, c, RoomLib_Set4ClearSignal_80193F48]
+      - [0x4F74, asm, ovl_179_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518_3790_3800_3F90_4030_42A8_4318_4B80_4BCC_4C94_4CC4_4F74]
       - [0x5C20, data]
   - [0x6000]
 # source slice: scanner

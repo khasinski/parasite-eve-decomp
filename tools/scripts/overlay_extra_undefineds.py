@@ -76,23 +76,38 @@ def main() -> int:
     parser.add_argument("build_dir", type=Path)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--existing", type=Path, action="append", default=[])
+    parser.add_argument("--symbols", type=Path, default=None,
+                        help="splat symbol_addrs file; unresolved symbols "
+                             "listed there are emitted as PROVIDE() pins")
     args = parser.parse_args()
 
     symbols: set[str] = set()
     for obj in sorted(args.build_dir.rglob("*.o")):
         symbols.update(undefined_symbols(obj))
 
+    known: dict[str, int] = {}
+    if args.symbols and args.symbols.exists():
+        for line in args.symbols.read_text().splitlines():
+            match = re.match(r"^(\w+)\s*=\s*(0x[0-9A-Fa-f]+);", line)
+            if match:
+                known[match.group(1)] = int(match.group(2), 16)
+
     already_defined = existing_definitions(args.existing)
     rows: list[tuple[int, str]] = []
+    provides: list[tuple[int, str]] = []
     for symbol in symbols:
         if symbol in already_defined:
             continue
         address = symbol_address(symbol)
         if address is not None:
             rows.append((address, symbol))
+        elif symbol in known:
+            provides.append((known[symbol], symbol))
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     lines = [f"{symbol} = 0x{address:08X};" for address, symbol in sorted(rows)]
+    lines += [f"PROVIDE({symbol} = 0x{address:08X});"
+              for address, symbol in sorted(provides)]
     args.out.write_text("\n".join(lines) + ("\n" if lines else ""))
     return 0
 

@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/ovl_182
   ld_script_path: linkers/USA/overlays/ovl_182.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_182.txt
+  symbol_addrs_path: configs/USA/overlays/sym.ovl_182.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_182.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,14 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, ovl_182]
+      - [0x68, c, RoomLib_PlantTable_8018F058]
+      - [0x94, c, RoomLib_Spawn6_8018F084]
+      - [0xC0, c, RoomLib_RegisterTable_8018F0B0]
+      - [0x108, asm, ovl_182_94_C0_108]
+      - [0x194, c, RoomLib_CloseTarget_8018F184]
+      - [0x218, asm, ovl_182_94_C0_108_218]
+      - [0x1D50, c, RoomLib_SetArgs3_80190D40]
+      - [0x1D74, asm, ovl_182_94_C0_108_218_1D74]
       - [0x2A18, data]
   - [0x3000]
 # source slice: scanner

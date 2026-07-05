@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/ovl_171
   ld_script_path: linkers/USA/overlays/ovl_171.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_171.txt
+  symbol_addrs_path: configs/USA/overlays/sym.ovl_171.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_171.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,10 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, ovl_171]
+      - [0x150, c, RoomLib_InvokeCallbackC_8018F140]
+      - [0x178, asm, ovl_171_178]
+      - [0x31A4, c, RoomLib_SetArg1_80192194]
+      - [0x31B4, asm, ovl_171_178_31B4]
       - [0x31E0, data]
   - [0x3800]
 # source slice: scanner
