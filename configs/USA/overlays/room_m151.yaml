@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m151
   ld_script_path: linkers/USA/overlays/room_m151.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m151.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m151.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m151.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,14 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m151]
+      - [0x14, c, RoomMdl_Reset_80100014]
+      - [0x38, asm, room_m151_38]
+      - [0x108, c, RoomMdl_Tick_80100108]
+      - [0x1BC, asm, room_m151_38_1BC]
+      - [0x1C4, c, RoomMdl_Kill_801001C4]
+      - [0x1D4, asm, room_m151_38_1D4]
+      - [0x1DC, c, RoomEnt_Setup5_801001DC]
+      - [0x210, asm, room_m151_38_1D4_210]
       - [0xB5C, data]
   - [0x11800]
 # room: m151, section3 sector 43423, scanner delta 0
