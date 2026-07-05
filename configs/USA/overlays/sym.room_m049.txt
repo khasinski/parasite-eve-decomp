@@ -1,2 +1,1 @@
 FieldEng_GetSlot = 0x800C22F8;
-RoomLib_TableB = 0x80192BE8;
