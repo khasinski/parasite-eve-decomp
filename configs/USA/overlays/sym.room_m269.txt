@@ -1,1 +1,3 @@
 RoomLib_InvokeCallbackC_80100150 = 0x80100150; // type:func
+RoomLib_SetArg1_801031A4 = 0x801031A4; // type:func
+RoomSlotA_801031A4 = 0x80192330;

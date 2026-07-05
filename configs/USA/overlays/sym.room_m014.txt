@@ -28,3 +28,7 @@ RoomLib_InitD_80100F6C = 0x80100F6C; // type:func
 RoomMain_ActorPtr = 0x8009D254;
 RoomMain_RotTable = 0x800966EC;
 RoomLib_HandlerF = 0x80192354;
+RoomLib_SetArgs3_80104160 = 0x80104160; // type:func
+RoomSlotA_80104160 = 0x80193288;
+RoomSlotB_80104160 = 0x8019328C;
+RoomSlotC_80104160 = 0x80193290;
