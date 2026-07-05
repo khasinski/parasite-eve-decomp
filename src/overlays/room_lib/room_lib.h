@@ -68,6 +68,8 @@ typedef struct RoomEnt {
     short h9C;                    /* 0x9C */
     short h9E;
     short hA0;                    /* 0xA0 */
+    char padA2[0x12];
+    unsigned char bB4;            /* 0xB4 */
 } RoomEnt;
 
 /* state=4, clear flag3, notify link target, clear signal word */
@@ -141,6 +143,8 @@ typedef struct RoomEnt {
     }
 
 extern void RoomLib_HandlerB(void);
+extern void RoomLib_HandlerD(void);
+extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
 extern void RoomLib_HandlerC(void);
 
 /* arm handler when variant matches and t17 in (winHi, winLo] window */
@@ -220,6 +224,33 @@ extern void RoomLib_HandlerC(void);
         l->move[1] = 0; \
         l->move[2] = 0; \
         return 0; \
+    }
+
+/* notify FX when bB4 set, then window-arm (inclusive) */
+#define ROOMLIB_NOTIFY_AND_ARM_B(name, handler) \
+    void name(RoomEnt *o) { \
+        signed char c; \
+        int t; \
+        unsigned short lo; \
+        if (o->bB4 != 0) { \
+            RoomLib_FxNotify(o->link, &o->sub, 0x1F800000); \
+        } \
+        c = o->t16; \
+        if (c >= 0) { \
+            if (c != o->link->variant) { \
+                return; \
+            } \
+        } \
+        t = o->t17; \
+        if (t >= 0) { \
+            RoomLink *l = o->link; \
+            lo = l->winLo; \
+            if (t >= l->winHi && t <= lo) { \
+                o->sub.cb = handler; \
+            } \
+        } else { \
+            o->sub.cb = handler; \
+        } \
     }
 
 #endif
