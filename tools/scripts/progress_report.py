@@ -16,10 +16,18 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 ASM_RE = re.compile(r"(^|[^_a-zA-Z0-9])(__asm__|asm)\b")
 
 
+INCLUDE_ASM_RE = re.compile(r'^INCLUDE_ASM\("[^"]*",\s*(\w+)\);?\s*$', re.M)
+
+
+def strip_include_asm(text: str) -> str:
+    t = INCLUDE_ASM_RE.sub("", text)
+    return t.replace('#include "include_asm.h"', "")
+
+
 def is_clean(text: str) -> bool:
-    if "INCLUDE_ASM" in text:
-        return False
-    t = re.sub(r"//.*", "", re.sub(r"/\*.*?\*/", "", text, flags=re.S))
+    """Plain C apart from INCLUDE_ASM stubs (counted separately)."""
+    t = strip_include_asm(text)
+    t = re.sub(r"//.*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))
     return not ASM_RE.search(t)
 
 
@@ -59,10 +67,11 @@ def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
     m_funcs = d_funcs = 0
     for f in (src_dir.rglob("*.c") if src_dir.exists() else []):
         t = f.read_text(errors="ignore")
+        d_funcs += len(INCLUDE_ASM_RE.findall(t))
         if is_clean(t):
-            m_funcs += count_funcs(t)
+            m_funcs += count_funcs(strip_include_asm(t))
         else:
-            d_funcs += count_funcs(t)
+            d_funcs += count_funcs(strip_include_asm(t))
     n_funcs = m_funcs + d_funcs + count_asm_funcs(asm_dir)
     # code bytes: c/asm subsegments, minus data carriers (TUs pulling .inc.s
     # blobs - they hold baked data, not code)
