@@ -1528,6 +1528,8 @@ segments:
       - [0x81620, asm, akao/SeqOp_NoteOnWithPitchSlide]
       - [0x81754, c, akao/seq_op9]
       - [0x81880, c, akao/SeqOp_Noop]
-      - [0x818A0, c, main/Data_0818A0]
+      - [0x818A0, c, main/dtail_gp]
+      - [0xB24A0, asm, engine/engine_800C1CA0]
+      - [0xD04A8, data, main/dtail_0D04A8]
 
   - [0x1ee800]
