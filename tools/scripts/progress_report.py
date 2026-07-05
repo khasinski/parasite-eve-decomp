@@ -34,10 +34,15 @@ def is_clean(text: str) -> bool:
 FUNC_DEF_RE = re.compile(r"^[A-Za-z_][\w \t\*]*?\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*\{", re.M)
 
 
+MACRO_STAMP_RE = re.compile(r"^[A-Z][A-Z0-9_]{3,}\(\w+\)\s*$", re.M)
+
+
 def count_funcs(text: str) -> int:
     t = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
-    return len([m for m in FUNC_DEF_RE.finditer(t)
-                if m.group(1) not in ("if", "while", "for", "switch", "return")])
+    n = len([m for m in FUNC_DEF_RE.finditer(t)
+             if m.group(1) not in ("if", "while", "for", "switch", "return")])
+    n += len(MACRO_STAMP_RE.findall(t))
+    return n
 
 
 def parse_segments(yaml_path: pathlib.Path):
