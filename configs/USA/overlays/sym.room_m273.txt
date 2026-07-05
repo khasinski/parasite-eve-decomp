@@ -22,3 +22,7 @@ RoomLib_Notify2ArmB_801012FC = 0x801012FC; // type:func
 RoomLib_HandlerE = 0x8019038C;
 RoomLib_FxNotify2 = 0x80190918;
 RoomLib_InitC_80101A1C = 0x80101A1C; // type:func
+RoomLib_SteerToward_80101930 = 0x80101930; // type:func
+FieldEng_VecToAngle = 0x800DFF80;
+FieldEng_TurnToward = 0x800DFFB8;
+RoomLib_InitD_80100F78 = 0x80100F78; // type:func

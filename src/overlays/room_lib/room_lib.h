@@ -151,6 +151,8 @@ extern void RoomLib_HandlerD(void);
 extern void RoomLib_HandlerE(void);
 extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
 extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
+extern int FieldEng_VecToAngle(int *vec, int *ref);
+extern int FieldEng_TurnToward(short cur, short target, short rate);
 extern void RoomLib_HandlerC(void);
 
 /* arm handler when variant matches and t17 in (winHi, winLo] window */
@@ -359,6 +361,52 @@ extern void RoomLib_HandlerC(void);
         l->move[0] = 0; \
         l->move[1] = 0; \
         l->move[2] = 0; \
+        return 0; \
+    }
+
+/* steer entity heading toward the link's tracked point */
+#define ROOMLIB_STEER_TOWARD(name) \
+    void name(char *ent, char *rec) { \
+        if (*(short *)(rec + 0x6E) > 0) { \
+            int *dst = (int *)(rec + 0x50); \
+            char *v = *(char **)(rec + 0x64); \
+            if (v != 0) { \
+                dst[0] = *(int *)(v + 0x28); \
+                dst[2] = *(int *)(v + 0x30); \
+            } \
+            *(short *)(ent + 0x3A) = FieldEng_TurnToward( \
+                *(short *)(ent + 0x3A), \
+                (short)FieldEng_VecToAngle(dst, (int *)(ent + 0x28)), \
+                *(short *)(rec + 0x6E)); \
+        } \
+    }
+
+/* initializer variant D: 0x10000 at 0x74, short/byte sweep */
+#define ROOMLIB_INIT_D(name, handler) \
+    int name(RoomEnt *o) { \
+        o->flag3 = 1; \
+        o->t16 = -1; \
+        o->t17 = -1; \
+        o->t18 = -1; \
+        o->t19 = 3; \
+        RW32(o, 0x74) = 0x10000; \
+        o->sub.cb = handler; \
+        o->sub.signal = 0; \
+        o->active = 0; \
+        o->t1A = 0; \
+        RW32(o, 0x4C) = 0; \
+        RW32(o, 0x50) = 0; \
+        RW32(o, 0x54) = 0; \
+        RW32(o, 0x6C) = 0; \
+        RW32(o, 0x70) = 0; \
+        RW16(o, 0x7A) = 0; \
+        RW16(o, 0x80) = 0; \
+        RW16(o, 0x82) = 0; \
+        RW16(o, 0x84) = 0; \
+        RW16(o, 0x86) = 0; \
+        RW16(o, 0x88) = 0; \
+        RW8(o, 0x90) = 0; \
+        RW8(o, 0x91) = 0; \
         return 0; \
     }
 
