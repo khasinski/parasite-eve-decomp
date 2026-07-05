@@ -20,8 +20,12 @@ typedef struct RoomLinkByte {
 } RoomLinkByte;
 
 typedef struct RoomLink {
-    RoomLinkByte *target;
+    RoomLinkByte *target;         /* 0x0 */
+    char pad4[0xA];
+    unsigned char variant;        /* 0xE */
 } RoomLink;
+
+extern void RoomLib_HandlerA(void);
 
 typedef struct RoomEnt {
     unsigned char state;          /* 0x0 */
@@ -30,10 +34,17 @@ typedef struct RoomEnt {
     char pad4[0x4];
     RoomLink *link;               /* 0x8 */
     struct RoomSub {
-        int pad0;
+        void (*cb)(void);         /* 0xC */
         int *signal;              /* 0x10 */
     } sub;                        /* 0xC */
     short active;                 /* 0x14 */
+    signed char t16;              /* 0x16 */
+    signed char t17;
+    signed char t18;
+    unsigned char t19;
+    unsigned char t1A;
+    char pad1B[0x2B];
+    short h46;                    /* 0x46 */
 } RoomEnt;
 
 /* state=4, clear flag3, notify link target, clear signal word */
@@ -63,6 +74,29 @@ typedef struct RoomEnt {
             *p = 0; \
         } \
         return 0; \
+    }
+
+/* timers to -1, phase 3, default handler, clear signal/counters */
+#define ROOMLIB_INIT_TIMERS(name) \
+    int name(RoomEnt *o) { \
+        o->t16 = -1; \
+        o->t17 = -1; \
+        o->t18 = -1; \
+        o->t19 = 3; \
+        o->sub.cb = RoomLib_HandlerA; \
+        o->sub.signal = 0; \
+        o->active = 0; \
+        o->t1A = 0; \
+        o->h46 = 0; \
+        return 0; \
+    }
+
+/* rearm default handler when link variant matches t16 */
+#define ROOMLIB_REARM_ON_MATCH(name) \
+    void name(RoomEnt *o) { \
+        if (o->link->variant == o->t16) { \
+            o->sub.cb = RoomLib_HandlerA; \
+        } \
     }
 
 #endif

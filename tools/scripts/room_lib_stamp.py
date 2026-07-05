@@ -17,8 +17,12 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 VRAM_BASE = 0x80100000
 
 
-def stamp(clusters_path: str, shape: str, macro: str, base: str) -> None:
+def stamp(clusters_path: str, shape: str, macro: str, base: str,
+          params=()) -> None:
+    """params: (sym_name, lui_idx, lo_idx) triples decoded per instance."""
+    import struct
     inst = json.load(open(clusters_path))[shape]
+    bins = {}
     wired = 0
     for room, off, size in sorted(inst):
         cfg = ROOT / f'configs/USA/overlays/{room}.yaml'
@@ -55,7 +59,23 @@ def stamp(clusters_path: str, shape: str, macro: str, base: str) -> None:
         symp = ROOT / f'configs/USA/overlays/sym.{room}.txt'
         sym = symp.read_text() if symp.exists() else ''
         if name not in sym:
-            symp.write_text(sym + f'{name} = 0x{vram:08X}; // type:func\n')
+            sym += f'{name} = 0x{vram:08X}; // type:func\n'
+        for pname, hi_i, lo_i in params:
+            if room not in bins:
+                bins[room] = (ROOT / f'original/USA/overlays/{room}.bin').read_bytes()
+            b = bins[room]
+            hi = struct.unpack_from('<I', b, off + hi_i * 4)[0] & 0xFFFF
+            lo = struct.unpack_from('<I', b, off + lo_i * 4)[0] & 0xFFFF
+            if lo >= 0x8000:
+                hi -= 1
+            val = (hi << 16) + (lo if lo < 0x8000 else lo - 0x10000) + 0x10000 * (1 if lo >= 0x8000 else 0)
+            val = (hi << 16) | lo if lo < 0x8000 else ((hi + 1) << 16) + (lo - 0x10000)
+            line = f'{pname} = 0x{val & 0xFFFFFFFF:08X};'
+            if pname not in sym:
+                sym += line + '\n'
+            elif line not in sym:
+                print(f'PARAM CONFLICT {room}: {line} vs existing')
+        symp.write_text(sym)
         src = ROOT / f'src/overlays/{room}/{name}.c'
         src.parent.mkdir(parents=True, exist_ok=True)
         src.write_text(f'#include "../room_lib/room_lib.h"\n\n{macro}({name})\n')
@@ -64,4 +84,8 @@ def stamp(clusters_path: str, shape: str, macro: str, base: str) -> None:
 
 
 if __name__ == '__main__':
-    stamp(*sys.argv[1:5])
+    params = []
+    for a in sys.argv[5:]:
+        n, hi, lo = a.split(':')
+        params.append((n, int(hi), int(lo)))
+    stamp(*sys.argv[1:5], params=tuple(params))
