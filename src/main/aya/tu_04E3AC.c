@@ -4,6 +4,11 @@ extern int D_800A8040;
 
 extern int D_800A8048;
 
+typedef unsigned char u8;
+
+extern u8 g_GlyphMetricsTable[];
+extern int D_800A8050;
+
 void *Aya_LookupLevelStats(int arg0) {
     if (arg0 < 0) {
         arg0 = 0;
@@ -28,4 +33,9 @@ void *Aya_GetParasiteSpellUnlockTable(void) {
 
     base -= 0x20;
     return (void *)(offset + base);
+}
+
+int Draw_LookupGlyphMetrics(int arg0) {
+    arg0 += D_800A8050;
+    return g_GlyphMetricsTable[arg0];
 }
