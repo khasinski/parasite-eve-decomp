@@ -34,6 +34,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, ovl_171]
+      - [0x31E0, data]
   - [0x3800]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_171.bin bs=2048 skip=94441 count=7
