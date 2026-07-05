@@ -4,7 +4,7 @@
 int g_MenuItemUseMode;
 int g_BonusPointDisplayValue;
 
-void Draw_OffsetCursor(int arg0, int arg1);
+void Draw_OffsetCursor(int x, int y);
 void Draw_AllocSprite(int arg0);
 void Draw_PrintNumberWidth5(int arg0);
 

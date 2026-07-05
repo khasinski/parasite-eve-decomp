@@ -8,7 +8,7 @@ typedef struct ExprOpArgs {
 } ExprOpArgs;
 
 int Math_FixedMul(int lhs, int rhs);
-int Math_FixedDivide(int lhs, int rhs);
+int Math_FixedDivide(int a, int b);
 
 int Task_EvalExpr(ExprOpArgs *args) {
     switch (*args->op) {

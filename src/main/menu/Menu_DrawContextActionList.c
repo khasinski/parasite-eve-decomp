@@ -4,7 +4,7 @@
 int g_MenuActiveItemList;
 
 void Sfx_ContextPick(int arg0);
-void Inv_SelectActiveList(int arg0);
+void Inv_SelectActiveList(int useOverride);
 void MenuWidget_DrawList(int arg0, void (*callback)(int));
 
 void Menu_DrawContextActionList(int arg0) {

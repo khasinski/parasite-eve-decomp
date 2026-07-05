@@ -3,7 +3,7 @@
 
 extern void * volatile g_AkaoBgmHandle[];
 extern int g_AkaoPendingBgmVolumeFade;
-extern void Akao_SendTableCommand(void *, int, int, int, int);
+int Akao_SendTableCommand(void *arg0, int arg1, int arg2, int arg3, int arg4);
 
 void Akao_SetBgmVolumeFade(void) {
     void * volatile *slot;

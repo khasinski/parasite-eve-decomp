@@ -10,7 +10,7 @@ extern char D_8009EC38[];
 extern char D_8009EC4A[];
 extern char *g_OtBufferTable[];
 
-void AddPrim(void *ot, void *prim);
+void AddPrim(unsigned int *ot, unsigned int *prim);
 
 void Gpu_QueuePrimitive(void) {
     int index;

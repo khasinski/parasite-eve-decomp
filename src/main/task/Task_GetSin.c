@@ -3,7 +3,7 @@ extern char *g_CurrentEntity;
 int rsin(int arg0);
 int rcos(int arg0);
 int Gte_Atan2(int arg0, int arg1);
-int Math_IntSqrt(int arg0);
+int Math_IntSqrt(int value);
 
 int Task_GetSin(int **arg0) {
     *arg0[1] = rsin(*arg0[0]) << 4;

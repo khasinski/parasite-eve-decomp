@@ -1,13 +1,13 @@
 /* CC1_FLAGS: -G0 -g3 */
 /* MASPSX_FLAGS: -G0 --use-comm-section */
 
-extern void Save_ProcessDataCallback(void);
-extern void Akao_Cmd_D8(int arg0);
-extern void Akao_Cmd_F0(void);
-extern void Akao_Cmd_F1(void);
-extern void Spu_Shutdown(void);
+void Save_ProcessDataCallback(void);
+void Akao_Cmd_D8(int arg0);
+void Akao_Cmd_F0(void);
+void Akao_Cmd_F1(void);
+void Spu_Shutdown(void);
 extern int Menu_IsEquipSlotActive(void);
-extern int Menu_ResetEquipSlotState(void);
+int Menu_ResetEquipSlotState(void);
 
 extern int g_SceneDispatchToken;
 extern int D_800A77F4;

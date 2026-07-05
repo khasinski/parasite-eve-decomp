@@ -12,7 +12,7 @@ typedef struct PackedRect3 {
 } PackedRect3;
 
 extern s32 Akao_Calc3DPan(PackedRect3 *rect, s32 *out1, s32 *out2);
-extern s32 Akao_SendTableCommand(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+int Akao_SendTableCommand(void *arg0, int arg1, int arg2, int arg3, int arg4);
 
 s32 Akao_SendPositionalCmd(void *arg0, s32 arg1, s32 arg2, s16 arg3, s16 arg4, s16 arg5) {
     PackedRect3 rect;

@@ -1,5 +1,5 @@
 void Menu_DrawInventoryItemRow(void);
-void Inv_SelectActiveList(int arg0);
+void Inv_SelectActiveList(int useOverride);
 void MenuWidget_DrawList(int arg0, void (*callback)(void));
 
 void Menu_DrawWeaponList(int arg0) {

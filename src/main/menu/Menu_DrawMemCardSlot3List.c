@@ -3,9 +3,9 @@
 
 int g_MenuActiveWidget;
 
-void Menu_DrawSaveSlot3Item(void);
+void Menu_DrawSaveSlot3Item(int arg0);
 void MenuWidget_DrawList(int arg0, void (*callback)(void));
-void Draw_SetTextDimmed(int arg0);
+void Draw_SetTextDimmed(int value);
 void Draw_AllocSprite(int arg0);
 
 void Menu_DrawMemCardSlot3List(int arg0) {

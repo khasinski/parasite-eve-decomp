@@ -2,8 +2,8 @@ extern int g_GameStateFlags;
 
 void Render_SetGteScreenOffset(void);
 void Render_ResetGteScreenOffset(void);
-void Pm_Start(int arg0);
-void Pm_Exec(int arg0);
+int Pm_Start(int arg0);
+int Pm_Exec(int arg0);
 
 int Pm_RunBatch(void) {
     int i;

@@ -10,7 +10,7 @@ int DsRead_IsBusy(void);
 void DsReadBreak(void);
 CdlLOC *CdIntToPos(int i, CdlLOC *p);
 int Render_BuildParticleFrame(int com, CdlLOC *pos, int mode, void (*callback)(u_char), int zero);
-void GD_cbsync(u_char arg0);
+void GD_cbsync(unsigned char arg0);
 
 int DsGetDiskType(void) {
     CdlLOC loc;

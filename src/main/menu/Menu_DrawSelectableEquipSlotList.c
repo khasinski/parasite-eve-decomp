@@ -4,7 +4,7 @@
 int g_MenuActiveWidget;
 
 void Menu_DrawSelectableEquipSlotRow(int arg0);
-void Inv_SelectActiveList(int arg0);
+void Inv_SelectActiveList(int useOverride);
 void MenuWidget_DrawList(int arg0, void (*callback)(int));
 
 void Menu_DrawSelectableEquipSlotList(int arg0) {

@@ -6,9 +6,9 @@ int g_MenuBattleStatusOverlayActive;
 
 void Menu_DrawItemSlot(int arg0);
 void MenuWidget_DrawList(void *arg0, void (*arg1)(int));
-void Draw_SetTextDimmed(int arg0);
+void Draw_SetTextDimmed(int value);
 void Draw_AllocSprite(int arg0);
-void Draw_OffsetCursor(int arg0, int arg1);
+void Draw_OffsetCursor(int x, int y);
 int Battle_GetStateFlag1(void);
 void Battle_DrawActiveStatus(void);
 

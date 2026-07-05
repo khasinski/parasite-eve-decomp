@@ -1,6 +1,6 @@
 typedef unsigned char u8;
 
-u8 *Item_LookupBaseData(int index);
+void *Item_LookupBaseData(unsigned int index);
 
 void Item_SetDisabledFlag(int arg0, int arg1) {
     u8 *entry;

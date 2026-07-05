@@ -7,7 +7,7 @@ void SetGeomScreen(int h);
 void MemCard_InitManager(void);
 void Boot_InitMemCard(void);
 void CdRom_InitDsReadSystem(void);
-void CdRom_SetReadCallback(int callback);
+int CdRom_SetReadCallback(int callback);
 
 void InitSystem(void) {
     ResetCallback();

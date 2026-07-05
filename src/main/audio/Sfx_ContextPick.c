@@ -7,11 +7,11 @@ int g_MenuItemActionDisabled;
 int g_MenuEquipMode;
 extern int g_MenuItemActionStateTable[][3];
 
-void *Inv_LookupActiveListData(int arg0);
+void *Inv_LookupActiveListData(int index);
 int Inv_TestSelectionBit();
 int Inv_IsSlotSelectable(int arg0);
-int Str_LookupTable4(int arg0);
-void Draw_SetTextDimmed(int arg0);
+void *Str_LookupTable4(unsigned int arg0);
+void Draw_SetTextDimmed(int value);
 void MenuWidget_DrawCenteredText(int arg0);
 
 void Sfx_ContextPick(int arg0)

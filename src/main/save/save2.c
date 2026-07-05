@@ -1,0 +1,43 @@
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern u8 g_MemCardPortStates[];
+extern u8 g_MemCardFileBuffer[];
+extern void *g_MemCardActiveState;
+extern int g_MemCardActiveBytesRemaining;
+void bzero(void *dst, int len);
+void MemCard_CloseAll(void);
+
+void MenuWidget_NavScrollTo(int selected_base);
+void Inv_SetActiveList(int arg0, int arg1);
+
+int Save_StartReadSlot(int port, int slot)
+{
+  register u8 *buffer;
+  u8 *state;
+  int saved_slot;
+  state = &g_MemCardPortStates[port * 0x418];
+  saved_slot = slot;
+  if (state[0] == 1)
+  {
+    MemCard_CloseAll();
+ do { buffer = g_MemCardFileBuffer; } while (0);
+    *((u16 *) (state + 0x14)) = 0x2000;
+    *((u16 *) (state + 0x16)) = 10;
+    state[7] = 2;
+    state[1] = 1;
+    state[0xB] = 5;
+    *((void **) (state + 0x18)) = buffer;
+    state[3] = saved_slot;
+    g_MemCardActiveState = state;
+    g_MemCardActiveBytesRemaining = 0x2000;
+    bzero(buffer, 0x2000);
+  }
+  return 0;
+}
+
+void Save_CancelUiFlow(void) {
+    MenuWidget_NavScrollTo(0x26);
+    MenuWidget_NavScrollTo(0x25);
+    MenuWidget_NavScrollTo(0x24);
+    Inv_SetActiveList(0xC, 0);
+}

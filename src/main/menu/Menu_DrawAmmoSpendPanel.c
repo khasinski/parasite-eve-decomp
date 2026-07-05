@@ -3,7 +3,7 @@
 
 int g_MenuSpendArrowDirection;
 
-void Draw_OffsetCursor(int arg0, int arg1);
+void Draw_OffsetCursor(int x, int y);
 void Draw_AllocSprite(int arg0);
 void Menu_DrawWeaponComparisonPanel(void);
 

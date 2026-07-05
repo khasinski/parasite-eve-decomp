@@ -15,7 +15,7 @@ extern s32 g_AyaItemSelectionBits[];
 extern s32 g_InvStorageSelectionBits[];
 extern s16 g_AyaInventoryItems[];
 
-s32 Inv_GetAyaSlotLimit(void);
+int Inv_GetAyaSlotLimit(void);
 
 s32 Inv_RestoreSelection(u32 index) {
     if (index < 2U) {

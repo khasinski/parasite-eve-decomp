@@ -3,15 +3,15 @@
 
 #include "pe1/menu_widget.h"
 
-extern MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *node, int arg1);
-extern int MenuWidget_GridCellIndex(MenuWidgetNode *node);
+int MenuWidget_GetChild(int *arg0, int arg1);
+int MenuWidget_GridCellIndex(MenuWidgetNode *ptr);
 extern void Inv_TransferItemAlt(void);
-extern MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);
-extern void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
+MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
+void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 extern void Inv_ClearDisplaySlots(void);
-extern void MenuWidget_InitPool(void);
+void MenuWidget_InitPool(void);
 extern void Inv_SetActiveList(int arg0, int arg1);
-extern void Menu_PlayConfirmSound(void);
+void Menu_PlayConfirmSound(void);
 
 int Menu_SaveLoadNavigate(MenuWidgetNode *arg0, unsigned int flags) {
     MenuWidgetNode *node;

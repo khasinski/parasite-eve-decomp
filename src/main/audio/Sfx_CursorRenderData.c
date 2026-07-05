@@ -2,7 +2,7 @@ typedef unsigned char u8;
 
 extern unsigned char g_CursorRenderDataBlock[];
 
-void *Str_LookupTable8(int index);
+void *Str_LookupTable8(unsigned int arg0);
 void Sfx_DrawSlotRow(void *record, unsigned char *cursor);
 
 void Sfx_CursorRenderData(void *record) {

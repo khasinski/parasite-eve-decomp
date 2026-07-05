@@ -12,7 +12,7 @@ extern void (*g_GpuDebugPrintf[])(char *msg, int arg0);
 extern GpuCallbacks * g_GpuCallbacks[];
 #define g_GpuCallbacks (g_GpuCallbacks[0])
 extern char D_80011870[];
-extern void GPU_memset(unsigned char *dst, int value, int count);
+void GPU_memset(unsigned char *dst, int value, int count);
 
 void SetDispMask(int arg0) {
     register int saved asm("$16");

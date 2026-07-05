@@ -7,7 +7,7 @@ typedef struct RelocBlock {
 
 extern RelocBlock *g_SceneDataTable1;
 
-void DrawSync();
+int DrawSync(int arg0);
 void Scene_LoadMap();
 
 void Task_DrawSyncAndFlush(void) {

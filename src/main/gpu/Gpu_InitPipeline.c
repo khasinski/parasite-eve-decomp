@@ -39,14 +39,14 @@ extern s32 g_FieldMoveLock;
 
 void Akao_LoadVoiceBankAlt(void);
 void Scene_LoadRoom(int arg0);
-void Overlay_StreamTexturePage(void);
+s32 Overlay_StreamTexturePage(void);
 void Entity_InitFreePool(void);
 void Task_InitNodeFreeList(void);
 void Gte_SetBackColor(void *arg0, int arg1, int arg2, int arg3);
 void Gte_SetLightColor(void *arg0, int arg1, int arg2, int arg3, int arg4);
 void Render_PrepareFrame(void);
 void SetGeomScreen(int arg0);
-void CdRom_DetectDiscChange(void);
+int CdRom_DetectDiscChange(void);
 int Scene_LoadEntityTexture(void);
 void Scene_SetDiscSide(s8 arg0);
 int Scene_LoadEntityTextures(void);
@@ -54,7 +54,7 @@ void Entity_RelocateSceneData(void);
 void Render_SetupFogLayer(int arg0);
 void Task_DrawSyncAndFlush(void);
 void func_800E0060(void);
-void DrawSync(int arg0);
+int DrawSync(int arg0);
 void SetDispMask(int arg0);
 
 void Gpu_InitPipeline(void) {

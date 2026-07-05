@@ -7,7 +7,7 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 
 s32 rand();
 s32 Inv_PickRandomItem(s32);
-void Inv_FindItemById(s16);
+int Inv_FindItemById(int arg0);
 s32 Inv_GetItemEffectData(s16, s32);
 void Inv_RollRandomItemType(void *, void *);
 

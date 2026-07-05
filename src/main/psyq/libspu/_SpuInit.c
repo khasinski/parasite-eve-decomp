@@ -14,7 +14,7 @@ typedef struct SpuVolumeState {
 void ResetCallback(void);
 void _spu_init(int hot);
 void SpuStart(void);
-void _spu_FsetRXX(int addr, int value, int flag);
+void _spu_FsetRXX(u32 offset, u32 value, u32 mode);
 
 extern u16 D_8009B3E6;
 extern SpuVolumeState D_8009B3A0;

@@ -10,12 +10,12 @@ extern unsigned int g_InvSelectionBitWords;
 extern unsigned short g_AyaInventoryItems[];
 extern unsigned int g_AyaItemSelectionBits;
 
-extern unsigned int Menu_GetActiveMode(void);
-extern void Window_SetBoundsByMode(int mode);
-extern void BattleCmd_SyncActiveAmmo(void);
-extern unsigned int Inv_GetAyaSlotLimit(void);
-extern void Menu_CreateInventoryTabView(void);
-extern void Menu_PlayConfirmSound(void);
+unsigned int Menu_GetActiveMode(void);
+void Window_SetBoundsByMode(int mode);
+void BattleCmd_SyncActiveAmmo(void);
+int Inv_GetAyaSlotLimit(void);
+void Menu_CreateInventoryTabView(void);
+void Menu_PlayConfirmSound(void);
 
 void Inventory_OpenAyaItemList(unsigned int arg) {
     g_MenuBattleEquipMode = arg;

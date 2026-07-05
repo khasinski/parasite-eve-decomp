@@ -5,7 +5,7 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 extern s16 *g_InvItemPtr;
 extern s32 g_InvSlotLimit;
 
-u8 *Item_LookupBaseData();
+void *Item_LookupBaseData(unsigned int index);
 s32 Inv_FindSlotByIndex();
 s32 Inv_WriteSlotById();
 

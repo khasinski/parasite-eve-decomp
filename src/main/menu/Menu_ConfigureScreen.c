@@ -3,13 +3,13 @@
 
 #include "pe1/menu_widget.h"
 
-extern void MenuWidget_NavScrollTo(int arg0);
-extern MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);
-extern void MenuWidget_SetCursorY(MenuWidgetNode *node);
-extern void Menu_CreateItemDetailView(MenuWidgetNode *node);
-extern void Menu_CreateEquipStatsPanel(MenuWidgetNode *node);
-extern MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *node, int arg1);
-extern void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
+void MenuWidget_NavScrollTo(int selected_base);
+MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
+void MenuWidget_SetCursorY(MenuWidgetNode *ptr);
+void Menu_CreateItemDetailView(MenuWidgetNode *arg0);
+void Menu_CreateEquipStatsPanel(int arg0);
+int MenuWidget_GetChild(int *arg0, int arg1);
+void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 
 void Menu_ConfigureScreen(void) {
     MenuWidgetNode *node;

@@ -9,8 +9,8 @@ extern signed char g_AyaEquippedWeaponSlot[];
 
 void Battle_ApplyDamage(void);
 int Inv_IsActiveListOverrideSelected(void);
-void Inv_SelectActiveList(int);
-void *Inv_LookupActiveListData(int);
+void Inv_SelectActiveList(int useOverride);
+void *Inv_LookupActiveListData(int index);
 
 void BattleCmd_CommitAndSyncAmmo(void) {
     void **entity;

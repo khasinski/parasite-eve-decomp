@@ -7,8 +7,8 @@ typedef unsigned short u16;
 typedef int s32;
 typedef unsigned int u32;
 
-void Anim_DecodeBoneRotationsByte(char *obj, char *data, int arg2);
-void Anim_DecodeBoneRotationsShort(char *obj, char *data, int arg2);
+void Anim_DecodeBoneRotationsByte(void *arg0, void *arg1, s16 arg2);
+void Anim_DecodeBoneRotationsShort(void *arg0, void *arg1, s16 arg2);
 void RotMatrixYXZ(void *rot, void *matrix);
 
 #define UH(ptr, off) (*(u16 *)((char *)(ptr) + (off)))

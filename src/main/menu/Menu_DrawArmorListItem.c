@@ -4,8 +4,8 @@
 int g_MenuActiveWidget;
 
 int MenuWidget_GridCellIndex(int);
-void Draw_OffsetCursor(int, int);
-void Draw_SetTextDimmed(int);
+void Draw_OffsetCursor(int x, int y);
+void Draw_SetTextDimmed(int value);
 void Draw_AllocSprite(int);
 
 void Menu_DrawArmorListItem(int arg0) {

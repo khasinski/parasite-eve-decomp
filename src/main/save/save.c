@@ -1,0 +1,106 @@
+#include "include_asm.h"
+
+typedef signed char s8;
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+typedef struct { u8 b[4]; } FourBytes;
+typedef struct { u8 b[0x800]; } Bulk800;
+typedef struct { u8 b[0x70]; } Bulk70;
+typedef struct { u8 b[0x18]; } Bulk18;
+typedef struct { u8 b[8]; } Bulk8;
+
+extern Bulk800 g_EntityWorkBuffer;
+extern Bulk70 g_AyaBattleState;
+extern Bulk18 g_SavedBattleStateTail;
+extern Bulk8 g_BattleEquipStateBlock;
+extern FourBytes g_FieldMoveLock, g_SceneDispatchToken, g_GameStateFlags, D_800B0CDC;
+extern s8 D_800B0CE0, g_LoadedTexturePageId, g_SceneAreaType, g_SavedSceneAreaType, D_800B0CE4, g_PendingDiscSide;
+extern u8 g_DiscChangeFlags, g_ScreenTransitionState;
+extern u8 *g_SaveIoCursor;
+
+extern volatile int g_SaveTitleStyleFlag;
+
+void Save_SerializeTail(void) {
+    register u8 *cursor asm("$3");
+    register u8 *cd asm("$7");
+    register u8 *t asm("$2");
+
+    cd = g_SaveIoCursor;
+    *(Bulk800 *)cd = g_EntityWorkBuffer;
+
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 0x800; *(FourBytes *)(cursor + 0x800) = g_FieldMoveLock;
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 4; *(FourBytes *)(cursor + 4) = g_SceneDispatchToken;
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 4; *(FourBytes *)(cursor + 4) = g_GameStateFlags;
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 4; *(FourBytes *)(cursor + 4) = D_800B0CDC;
+    __asm__ volatile(
+    ".set push\n"
+    ".set noreorder\n"
+    ".set noat\n"
+    "lui $v1, %%hi(g_SaveIoCursor)\n"
+    "lw $v1, %%lo(g_SaveIoCursor)($v1)\n"
+    "nop\n"
+    "addiu $v0, $v1, 4\n"
+    "lui $at, %%hi(g_SaveIoCursor)\n"
+    "sw $v0, %%lo(g_SaveIoCursor)($at)\n"
+    "lui $v0, %%hi(D_800B0CE0)\n"
+    "lb $v0, %%lo(D_800B0CE0)($v0)\n"
+    "lui $a0, %%hi(g_LoadedTexturePageId)\n"
+    "lb $a0, %%lo(g_LoadedTexturePageId)($a0)\n"
+    "sb $v0, 4($v1)\n"
+    "sb $a0, 5($v1)\n"
+    "lui $v1, %%hi(g_SaveIoCursor)\n"
+    "lw $v1, %%lo(g_SaveIoCursor)($v1)\n"
+    "nop\n"
+    "addiu $v0, $v1, 2\n"
+    "lui $at, %%hi(g_SaveIoCursor)\n"
+    "sw $v0, %%lo(g_SaveIoCursor)($at)\n"
+    "lui $v0, %%hi(g_SceneAreaType)\n"
+    "lb $v0, %%lo(g_SceneAreaType)($v0)\n"
+    "lui $a0, %%hi(g_SavedSceneAreaType)\n"
+    "lb $a0, %%lo(g_SavedSceneAreaType)($a0)\n"
+    "sb $v0, 2($v1)\n"
+    "sb $a0, 3($v1)\n"
+    "lui $v1, %%hi(g_SaveIoCursor)\n"
+    "lw $v1, %%lo(g_SaveIoCursor)($v1)\n"
+    "nop\n"
+    "addiu $v0, $v1, 2\n"
+    "lui $at, %%hi(g_SaveIoCursor)\n"
+    "sw $v0, %%lo(g_SaveIoCursor)($at)\n"
+    "lui $v0, %%hi(D_800B0CE4)\n"
+    "lb $v0, %%lo(D_800B0CE4)($v0)\n"
+    "lui $a0, %%hi(g_PendingDiscSide)\n"
+    "lb $a0, %%lo(g_PendingDiscSide)($a0)\n"
+    "sb $v0, 2($v1)\n"
+    "sb $a0, 3($v1)\n"
+    "lui $v1, %%hi(g_SaveIoCursor)\n"
+    "lw $v1, %%lo(g_SaveIoCursor)($v1)\n"
+    "lui $a0, %%hi(g_DiscChangeFlags)\n"
+    "lbu $a0, %%lo(g_DiscChangeFlags)($a0)\n"
+    "addiu $v0, $v1, 2\n"
+    "lui $at, %%hi(g_SaveIoCursor)\n"
+    "sw $v0, %%lo(g_SaveIoCursor)($at)\n"
+    "sb $a0, 2($v1)\n"
+    "lui $v1, %%hi(g_SaveIoCursor)\n"
+    "lw $v1, %%lo(g_SaveIoCursor)($v1)\n"
+    "nop\n"
+    "addiu $v0, $v1, 1\n"
+    "lui $at, %%hi(g_SaveIoCursor)\n"
+    "sw $v0, %%lo(g_SaveIoCursor)($at)\n"
+    "lui $v0, %%hi(g_ScreenTransitionState)\n"
+    "lbu $v0, %%lo(g_ScreenTransitionState)($v0)\n"
+    "nop\n"
+    "sb $v0, 1($v1)\n"
+    ".set pop\n"
+    ::: "memory", "$2", "$3", "$4");
+    t = g_SaveIoCursor + 1; cd = t; g_SaveIoCursor = cd; *(Bulk70 *)cd = g_AyaBattleState;
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 0x70; *(Bulk18 *)(cursor + 0x70) = g_SavedBattleStateTail;
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 0x18; *(Bulk8 *)(cursor + 0x18) = g_BattleEquipStateBlock;
+    t = g_SaveIoCursor; g_SaveIoCursor = t + 8;
+}
+
+INCLUDE_ASM("asm/USA/main/nonmatchings/save/save", Save_DeserializeTail);
+
+void Save_SetTitleStyleFlag(int value) {
+    g_SaveTitleStyleFlag = value;
+}
