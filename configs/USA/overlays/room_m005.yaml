@@ -35,6 +35,8 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m005]
+      - [0x30, c, RoomM005_FxOrbiter_8018F018]
+      - [0x348, asm, room_m005_348]
       - [0x1A84, c, RoomM005_EnableDialogFollow_80190A6C]
       - [0x1AB0, data]
   - [0x30000]
