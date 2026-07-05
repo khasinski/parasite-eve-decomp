@@ -35,6 +35,10 @@ typedef struct RoomLink {
     int accel[3];                 /* 0x88 */
 } RoomLink;
 
+#define RW32(o, off) (*(int *)((char *)(o) + (off)))
+#define RW16(o, off) (*(short *)((char *)(o) + (off)))
+#define RW8(o, off)  (*(unsigned char *)((char *)(o) + (off)))
+
 extern void RoomLib_HandlerA(void);
 
 typedef struct RoomEnt {
@@ -251,6 +255,43 @@ extern void RoomLib_HandlerC(void);
         } else { \
             o->sub.cb = handler; \
         } \
+    }
+
+/* initializer variant B: 0x400 scale, 0x100 half, wide zero sweep */
+#define ROOMLIB_INIT_B(name, handler) \
+    int name(RoomEnt *o) { \
+        o->flag3 = 1; \
+        o->t16 = -1; \
+        o->t17 = -1; \
+        o->t18 = -1; \
+        o->t19 = 3; \
+        RW32(o, 0x9C) = 0x400; \
+        RW16(o, 0xB0) = 0x100; \
+        o->sub.cb = handler; \
+        o->sub.signal = 0; \
+        o->active = 0; \
+        o->t1A = 0; \
+        RW32(o, 0x94) = 0; \
+        RW32(o, 0x98) = 0; \
+        RW32(o, 0x8C) = 0; \
+        RW32(o, 0x3C) = 0; \
+        RW32(o, 0x40) = 0; \
+        RW32(o, 0x44) = 0; \
+        RW32(o, 0xA4) = 0; \
+        RW16(o, 0xA8) = 0; \
+        RW16(o, 0xAA) = 0; \
+        RW16(o, 0xAC) = 0; \
+        RW16(o, 0x7C) = 0; \
+        RW16(o, 0x7E) = 0; \
+        RW16(o, 0x80) = 0; \
+        RW32(o, 0x90) = 0; \
+        RW16(o, 0xAE) = 0; \
+        RW32(o, 0x58) = 0; \
+        RW16(o, 0xB2) = 0; \
+        RW8(o, 0xB6) = 0; \
+        RW8(o, 0xB7) = 0; \
+        RW8(o, 0xB8) = 0; \
+        return 0; \
     }
 
 #endif
