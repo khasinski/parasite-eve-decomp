@@ -34,6 +34,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m396]
+      - [0x5658, data]
   - [0x35000]
 # room: m396, section3 sector 91250, scanner delta 0
 # source slice: room-section3
