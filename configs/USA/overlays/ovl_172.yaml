@@ -1,0 +1,39 @@
+name: ovl_172.bin
+sha1: 2db8e96a07ced98b54cb73db9c9812b75abb0b52
+options:
+  basename: ovl_172
+  target_path: original/USA/overlays/ovl_172.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/ovl_172
+  src_path: src/overlays/ovl_172
+  build_path: build/USA/overlays/ovl_172
+  ld_script_path: linkers/USA/overlays/ovl_172.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_172.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_172.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: ovl_172
+    type: code
+    start: 0x0
+    vram: 0x8018EFF0
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, asm, ovl_172]
+  - [0x6800]
+# source slice: scanner
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_172.bin bs=2048 skip=94681 count=13

@@ -1,0 +1,39 @@
+name: ovl_180.bin
+sha1: b1195c5d873cfdc45c0a7ea2e1c8b14e3cf1fd9b
+options:
+  basename: ovl_180
+  target_path: original/USA/overlays/ovl_180.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/ovl_180
+  src_path: src/overlays/ovl_180
+  build_path: build/USA/overlays/ovl_180
+  ld_script_path: linkers/USA/overlays/ovl_180.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_180.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_180.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: ovl_180
+    type: code
+    start: 0x0
+    vram: 0x8018EFF0
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, asm, ovl_180]
+  - [0x6000]
+# source slice: scanner
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_180.bin bs=2048 skip=96270 count=12

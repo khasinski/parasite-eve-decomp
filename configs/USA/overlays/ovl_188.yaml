@@ -1,0 +1,39 @@
+name: ovl_188.bin
+sha1: cb847aba4aa80d900b766aa03ca9e306edc140e8
+options:
+  basename: ovl_188
+  target_path: original/USA/overlays/ovl_188.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/ovl_188
+  src_path: src/overlays/ovl_188
+  build_path: build/USA/overlays/ovl_188
+  ld_script_path: linkers/USA/overlays/ovl_188.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_188.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_188.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: ovl_188
+    type: code
+    start: 0x0
+    vram: 0x8018EFF0
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, asm, ovl_188]
+  - [0x1800]
+# source slice: scanner
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_188.bin bs=2048 skip=98887 count=3

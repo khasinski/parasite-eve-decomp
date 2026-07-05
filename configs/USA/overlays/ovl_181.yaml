@@ -1,0 +1,39 @@
+name: ovl_181.bin
+sha1: 03404728a9ece8f2281554ced8a5b40af06a053f
+options:
+  basename: ovl_181
+  target_path: original/USA/overlays/ovl_181.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/ovl_181
+  src_path: src/overlays/ovl_181
+  build_path: build/USA/overlays/ovl_181
+  ld_script_path: linkers/USA/overlays/ovl_181.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_181.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_181.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: ovl_181
+    type: code
+    start: 0x0
+    vram: 0x8018EFF0
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, asm, ovl_181]
+  - [0x3000]
+# source slice: scanner
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_181.bin bs=2048 skip=96482 count=6
