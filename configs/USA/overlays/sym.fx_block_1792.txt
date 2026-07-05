@@ -1,0 +1,8 @@
+RoomLib_HandlerA = 0x80192240; // type:func
+RoomLib_HandlerB = 0x80190D7C; // type:func
+RoomLib_HandlerC = 0x80191894; // type:func
+RoomLib_HandlerD = 0x8018F640; // type:func
+RoomLib_HandlerE = 0x80190380; // type:func
+RoomLib_HandlerF = 0x80192354; // type:func
+RoomLib_FxNotify = 0x8018FB88; // type:func
+RoomLib_FxNotify2 = 0x8019090C; // type:func

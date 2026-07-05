@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/fx_block_1792
   ld_script_path: linkers/USA/overlays/fx_block_1792.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.fx_block_1792.txt
+  symbol_addrs_path: configs/USA/overlays/sym.fx_block_1792.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.fx_block_1792.txt
   find_file_boundaries: True
   disassemble_all: True
