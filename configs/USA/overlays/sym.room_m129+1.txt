@@ -1,0 +1,3 @@
+RoomLib_SetPair_80100CD8 = 0x80100CD8; // type:func
+RoomLib_PairA = 0x8018FD38;
+RoomLib_PairB = 0x8018FD3C;

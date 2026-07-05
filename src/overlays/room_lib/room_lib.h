@@ -529,6 +529,14 @@ extern char RoomLib_TableB[];
     }
 
 /* stash three args into room slots; returns the first slot (asm reuse) */
+#define ROOMLIB_SET_ARGS2(name, sA, sB) \
+    int *name(int a0, int a1, int a2) { \
+        int *p = &sA; \
+        *p = a1; \
+        sB = a2; \
+        return p; \
+    }
+
 #define ROOMLIB_SET_ARGS3(name, sA, sB, sC) \
     int *name(int a0, int a1, int a2, int a3) { \
         int *p = &sA; \
