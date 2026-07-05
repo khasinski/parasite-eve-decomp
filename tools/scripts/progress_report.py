@@ -63,6 +63,9 @@ def parse_segments(yaml_path: pathlib.Path):
 def count_asm_funcs(asm_dir: pathlib.Path) -> int:
     n = 0
     for f in (asm_dir.rglob("*.s") if asm_dir.exists() else []):
+        parts = f.parts
+        if "matchings" in parts or "nonmatchings" in parts:
+            continue  # C-owned functions; counted from their sources
         n += len(re.findall(r"^glabel ", f.read_text(errors="ignore"), re.M))
     return n
 
