@@ -1609,3 +1609,6 @@ Akao_LookupPitchPeriod = 0x8008E840; // type:func
 SeqOp_SetVoiceInstrument = 0x8008F0D0; // type:func
 
 
+D_80095748 = 0x80095748;
+D_80011814 = 0x80011814;
+D_8009B574 = 0x8009B574;
