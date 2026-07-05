@@ -39,6 +39,8 @@ segments:
       - [0xF4, asm, room_m146_F4]
       - [0x158C, c, RoomLib_Spawn6_8010158C]
       - [0x15B8, asm, room_m146_F4_15B8]
+      - [0x168C, c, RoomLib_CloseTarget_8010168C]
+      - [0x1710, asm, room_m146_F4_15B8_1710]
       - [0x3460, data]
   - [0x50000]
 # room: m146, section3 sector 42308, scanner delta 0

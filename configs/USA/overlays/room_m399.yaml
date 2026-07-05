@@ -37,6 +37,8 @@ segments:
       - [0x0, asm, room_m399]
       - [0x220, c, RoomLib_Spawn6_80100220]
       - [0x24C, asm, room_m399_24C]
+      - [0x320, c, RoomLib_CloseTarget_80100320]
+      - [0x3A4, asm, room_m399_24C_3A4]
       - [0x11F8, c, RoomLib_InitB_801011F8]
       - [0x1298, asm, room_m399_1298]
       - [0x15AC, c, RoomLib_NotifyArmB_801015AC]

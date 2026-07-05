@@ -28,3 +28,5 @@ FieldEng_TurnToward = 0x800DFFB8;
 RoomLib_InitD_80101F68 = 0x80101F68; // type:func
 RoomLib_Spawn6_80100220 = 0x80100220; // type:func
 FieldEng_Spawn6 = 0x800C2AF0;
+RoomLib_CloseTarget_80100320 = 0x80100320; // type:func
+FieldEng_GetStatus = 0x800C6CE0;

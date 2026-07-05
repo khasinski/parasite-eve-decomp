@@ -37,6 +37,8 @@ segments:
       - [0x0, asm, room_m187]
       - [0x60, c, RoomLib_Spawn6_80100060]
       - [0x8C, asm, room_m187_8C]
+      - [0x160, c, RoomLib_CloseTarget_80100160]
+      - [0x1E4, asm, room_m187_8C_1E4]
       - [0xFC0, data]
   - [0x17800]
 # room: m187, section3 sector 50449, scanner delta 0
