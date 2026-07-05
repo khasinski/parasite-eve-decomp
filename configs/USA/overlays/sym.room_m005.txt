@@ -1,0 +1,3 @@
+RoomM005_EnableDialogFollow_80190A6C = 0x80190A6C; // type:func
+RoomM005_DialogRecord = 0x80190B80;
+D_800E2368 = 0x800E2368;
