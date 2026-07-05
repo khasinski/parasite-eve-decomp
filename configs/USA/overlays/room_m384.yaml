@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m384
   ld_script_path: linkers/USA/overlays/room_m384.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m384.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m384.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m384.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m384]
+      - [0x1D4C, c, RoomLib_InvokeCallbackC_80101D4C]
+      - [0x1D74, asm, room_m384_1D74]
+      - [0x2864, c, RoomLib_InvokeCallbackC_80102864]
+      - [0x288C, asm, room_m384_1D74_288C]
+      - [0x3250, c, RoomLib_InvokeCallbackC_80103250]
+      - [0x3278, asm, room_m384_1D74_288C_3278]
       - [0x12680, data]
   - [0x23000]
 # room: m384, section3 sector 88968, scanner delta 0

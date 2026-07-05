@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m392
   ld_script_path: linkers/USA/overlays/room_m392.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m392.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m392.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m392.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m392]
+      - [0x2E54, c, RoomLib_InvokeCallbackC_80102E54]
+      - [0x2E7C, asm, room_m392_2E7C]
+      - [0x396C, c, RoomLib_InvokeCallbackC_8010396C]
+      - [0x3994, asm, room_m392_2E7C_3994]
+      - [0x4358, c, RoomLib_InvokeCallbackC_80104358]
+      - [0x4380, asm, room_m392_2E7C_3994_4380]
       - [0x549C, data]
   - [0x33000]
 # room: m392, section3 sector 90472, scanner delta 0

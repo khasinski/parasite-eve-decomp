@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m405
   ld_script_path: linkers/USA/overlays/room_m405.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m405.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m405.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m405.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m405]
+      - [0x1CEC, c, RoomLib_InvokeCallbackC_80101CEC]
+      - [0x1D14, asm, room_m405_1D14]
+      - [0x2804, c, RoomLib_InvokeCallbackC_80102804]
+      - [0x282C, asm, room_m405_1D14_282C]
+      - [0x31F0, c, RoomLib_InvokeCallbackC_801031F0]
+      - [0x3218, asm, room_m405_1D14_282C_3218]
       - [0x3500, data]
   - [0x2B000]
 # room: m405, section3 sector 93304, scanner delta 0

@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m107
   ld_script_path: linkers/USA/overlays/room_m107.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m107.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m107.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m107.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m107]
+      - [0x2D8C, c, RoomLib_InvokeCallbackC_80102D8C]
+      - [0x2DB4, asm, room_m107_2DB4]
+      - [0x38A4, c, RoomLib_InvokeCallbackC_801038A4]
+      - [0x38CC, asm, room_m107_2DB4_38CC]
+      - [0x4290, c, RoomLib_InvokeCallbackC_80104290]
+      - [0x42B8, asm, room_m107_2DB4_38CC_42B8]
       - [0x45A0, data]
   - [0x33800]
 # room: m107, section3 sector 34053, scanner delta 0

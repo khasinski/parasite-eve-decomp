@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m162
   ld_script_path: linkers/USA/overlays/room_m162.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m162.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m162.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m162.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m162]
+      - [0x1D00, c, RoomLib_InvokeCallbackC_80101D00]
+      - [0x1D28, asm, room_m162_1D28]
+      - [0x2818, c, RoomLib_InvokeCallbackC_80102818]
+      - [0x2840, asm, room_m162_1D28_2840]
+      - [0x3204, c, RoomLib_InvokeCallbackC_80103204]
+      - [0x322C, asm, room_m162_1D28_2840_322C]
       - [0x4154, data]
   - [0x36000]
 # room: m162, section3 sector 46136, scanner delta 0

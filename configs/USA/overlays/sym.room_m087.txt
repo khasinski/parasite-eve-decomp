@@ -1,0 +1,3 @@
+RoomLib_InvokeCallbackC_80102CF0 = 0x80102CF0; // type:func
+RoomLib_InvokeCallbackC_80103808 = 0x80103808; // type:func
+RoomLib_InvokeCallbackC_801041F4 = 0x801041F4; // type:func

@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m245
   ld_script_path: linkers/USA/overlays/room_m245.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m245.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m245.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m245.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m245]
+      - [0x1D04, c, RoomLib_InvokeCallbackC_80101D04]
+      - [0x1D2C, asm, room_m245_1D2C]
+      - [0x281C, c, RoomLib_InvokeCallbackC_8010281C]
+      - [0x2844, asm, room_m245_1D2C_2844]
+      - [0x3208, c, RoomLib_InvokeCallbackC_80103208]
+      - [0x3230, asm, room_m245_1D2C_2844_3230]
       - [0x661C, data]
   - [0x44000]
 # room: m245, section3 sector 63901, scanner delta 0
