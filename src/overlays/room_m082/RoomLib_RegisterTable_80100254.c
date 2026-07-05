@@ -1,3 +1,5 @@
 #include "../room_lib/room_lib.h"
 
-ROOMLIB_REGISTER_TABLE(RoomLib_RegisterTable_80100254, RoomLib_TableA)
+extern char RoomLib_TableA_80100254[];
+
+ROOMLIB_REGISTER_TABLE(RoomLib_RegisterTable_80100254, RoomLib_TableA_80100254)

@@ -4,4 +4,4 @@ RoomLib_CloseTarget_801001CC = 0x801001CC; // type:func
 FieldEng_GetStatus = 0x800C6CE0;
 RoomLib_PlantTable_80100084 = 0x80100084; // type:func
 FieldEng_GetSlot = 0x800C22F8;
-RoomLib_TableB = 0x80192928;
+RoomLib_TableB_80100084 = 0x80192928;

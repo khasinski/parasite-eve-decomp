@@ -2,4 +2,4 @@ RoomLib_Spawn6_80100080 = 0x80100080; // type:func
 FieldEng_Spawn6 = 0x800C2AF0;
 RoomLib_PlantTable_80100054 = 0x80100054; // type:func
 FieldEng_GetSlot = 0x800C22F8;
-RoomLib_TableB = 0x80192BE8;
+RoomLib_TableB_80100054 = 0x80192BE8;
