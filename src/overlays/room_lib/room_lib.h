@@ -148,6 +148,7 @@ extern void RoomLib_HandlerC(void);
     void name(RoomEnt *o) { \
         signed char c = o->t16; \
         int t; \
+        unsigned short lo; \
         if (c >= 0) { \
             if (c != o->link->variant) { \
                 return; \
@@ -156,7 +157,8 @@ extern void RoomLib_HandlerC(void);
         t = o->t17; \
         if (t >= 0) { \
             RoomLink *l = o->link; \
-            if (t > l->winHi && t <= l->winLo) { \
+            lo = l->winLo; \
+            if (t > l->winHi && t <= lo) { \
                 o->sub.cb = handler; \
             } \
         } else { \
@@ -168,6 +170,7 @@ extern void RoomLib_HandlerC(void);
     void name(RoomEnt *o) { \
         signed char c = o->t16; \
         int t; \
+        unsigned short lo; \
         if (c >= 0) { \
             if (c != o->link->variant) { \
                 return; \
@@ -176,7 +179,8 @@ extern void RoomLib_HandlerC(void);
         t = o->t17; \
         if (t >= 0) { \
             RoomLink *l = o->link; \
-            if (t >= l->winHi && t <= l->winLo) { \
+            lo = l->winLo; \
+            if (t >= l->winHi && t <= lo) { \
                 o->sub.cb = handler; \
             } \
         } else { \
