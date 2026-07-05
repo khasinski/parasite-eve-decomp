@@ -1,0 +1,10 @@
+RoomM272_Cinematic_8018F014 = 0x8018F014; // type:func
+RoomM272_SetPhase_8018F178 = 0x8018F178; // type:func
+RoomM272_Nop_8018F188 = 0x8018F188; // type:func
+RoomM272_Nop_8018F190 = 0x8018F190; // type:func
+RoomM272_Nop_8018F198 = 0x8018F198; // type:func
+RoomM272_Nop_8018F1A0 = 0x8018F1A0; // type:func
+RoomM272_BlobA = 0x8018EFF4;
+RoomM272_BlobB = 0x8018EFFC;
+RoomM272_BlobC = 0x8018F004;
+RoomM272_Rec = 0x8018F1C8;

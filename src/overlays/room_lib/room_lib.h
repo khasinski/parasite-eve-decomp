@@ -63,7 +63,9 @@ typedef struct RoomLink {
     int accel[3];                 /* 0x88 */
     char pad94[0x4];
     void *node98;                 /* 0x98 */
-    char pad9C[0x160];
+    char pad9C[0xF0];
+    struct RoomLink *link18C;     /* 0x18C: nested link record */
+    char pad190[0x6C];
     int w1FC;                     /* 0x1FC */
     int w200;
     int w204;
@@ -835,6 +837,37 @@ extern int func_800D3F64();
         ret0: \
             return 0; \
         } \
+    }
+
+/* m063/m083 pair: per-state dispatcher + window-armer via the nested link */
+extern int func_800DFB78();
+
+#define ROOMLIB_STATE_DISPATCH(name, tickFn) \
+    int name(RoomEnt *o) { \
+        switch (func_800DFB78()) { \
+        case 0: \
+            ((void (*)(RoomEnt *))o->sub.cb)(o); \
+            return 0; \
+        case 1: \
+            tickFn(o); \
+        case 2: \
+            return 0; \
+        } \
+        return 0; \
+    }
+
+#define ROOMLIB_ARM_IF_WINDOW_VIA(name, handler) \
+    void name(RoomEnt *o) { \
+        RoomLink *l = o->link->link18C; \
+        if (o->t16 >= 0) { \
+            if (o->t16 != l->variant) return; \
+        } \
+        if (o->t17 >= 0) { \
+            int hi = l->winHi; \
+            int lo = l->winLo; \
+            if (o->t17 < hi || lo < o->t17) return; \
+        } \
+        o->sub.cb = handler; \
     }
 
 #endif
