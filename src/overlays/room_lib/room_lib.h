@@ -546,4 +546,88 @@ extern char RoomLib_TableB[];
         return p; \
     }
 
+/* --- m017 family: room-local model controller (m017/m018/m021/m045/
+ * m102/m151/m319 share one prologue library block at 0x80100014+). --- */
+
+typedef struct M17Model {
+    unsigned char b00;
+    unsigned char b01;
+    short h02;
+    int w04;
+    unsigned char *obj;                    /* 0x08: owning object; geometry at +0x1B4 */
+    int actor;                  /* 0x0C */
+    short h10;                    /* 0x10 */
+    short h12;                    /* 0x12 */
+    short h14;                    /* 0x14 */
+    short h16;                    /* 0x16 */
+    unsigned char bInit;                   /* 0x18 */
+    unsigned char bActive;                 /* 0x19 */
+} M17Model;
+
+typedef struct M17Ent {
+    unsigned char pad00[0x28];
+    short h28;                    /* 0x28 */
+    unsigned char pad2A[0x36];
+    int w60;                    /* 0x60 */
+    unsigned char pad64[0x38];
+    unsigned short h9C;                    /* 0x9C: flags */
+    unsigned char pad9E[0x1E];
+    unsigned short hBC;                    /* 0xBC */
+    unsigned short hBE;                    /* 0xBE */
+    unsigned short hC0;                    /* 0xC0 */
+    unsigned short hC2;                    /* 0xC2 */
+} M17Ent;
+
+extern void RoomFx_ModelBind(unsigned char *geom, int actor, int a, int b, int c, int d);
+extern void RoomFx_ModelUpdate(unsigned char *geom);
+extern void RoomFx_ModelDraw(unsigned char *geom);
+extern void Render_TransformVertices(unsigned char *geom);
+extern void Render_TransformMorphVertices(unsigned char *geom, void *dst);
+extern void *g_GeomVramPacketDst;
+
+#define ROOMLIB_MDL_RESET(name) \
+    int name(M17Model *m) { \
+        m->actor = 0; \
+        m->h12 = 0; \
+        m->h10 = 0; \
+        m->h16 = 0; \
+        m->h14 = 0; \
+        m->bInit = 0; \
+        m->bActive = 0; \
+        return 0; \
+    }
+
+#define ROOMLIB_MDL_KILL(name) \
+    int name(unsigned char *state) { \
+        *state = 4; \
+        return 0; \
+    }
+
+#define ROOMLIB_ENT_SETUP5(name) \
+    void name(M17Ent *e, int arg1, unsigned short a, unsigned short b, unsigned short c, unsigned short d) { \
+        e->h28 = 5; \
+        e->w60 = arg1; \
+        e->hBC = a; \
+        e->hBE = b; \
+        e->h9C |= 0x1000; \
+        e->hC0 = c; \
+        e->hC2 = d; \
+    }
+
+#define ROOMLIB_MDL_TICK(name) \
+    int name(M17Model *m) { \
+        if (m->bInit == 0) { \
+            RoomFx_ModelBind(m->obj + 0x1B4, m->actor, m->h10, m->h12, \
+                             m->h14, m->h16); \
+            m->bInit = 1; \
+        } \
+        if (m->bActive != 0) { \
+            RoomFx_ModelUpdate(m->obj + 0x1B4); \
+            Render_TransformVertices(m->obj + 0x1B4); \
+            Render_TransformMorphVertices(m->obj + 0x1B4, g_GeomVramPacketDst); \
+            RoomFx_ModelDraw(m->obj + 0x1B4); \
+        } \
+        return 0; \
+    }
+
 #endif
