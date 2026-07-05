@@ -158,6 +158,7 @@ extern char *RoomMain_ActorPtr;
 extern int RoomMain_RotTable[];
 extern void RoomLib_HandlerF(void);
 extern void FieldEng_Spawn6(int a, int b, int c, int d, int e, int f);
+extern unsigned int FieldEng_GetStatus(void);
 extern void RoomLib_HandlerC(void);
 
 /* arm handler when variant matches and t17 in (winHi, winLo] window */
@@ -457,6 +458,18 @@ extern void RoomLib_HandlerC(void);
 #define ROOMLIB_SPAWN6(name) \
     int name(int a, int b, int c, int d, int e, int f) { \
         FieldEng_Spawn6(a, b, c, d, e, f); \
+        return 0; \
+    }
+
+/* close entity: state 4 here and on the link target, clear high flags */
+#define ROOMLIB_CLOSE_TARGET(name) \
+    int name(RoomEnt *o) { \
+        o->state = 4; \
+        if (FieldEng_GetStatus() >= 2) { \
+            RoomLinkByte *tgt = o->link->target; \
+            *(int *)tgt &= 0xC0FFFFFF; \
+            *o->link->target->state = 4; \
+        } \
         return 0; \
     }
 

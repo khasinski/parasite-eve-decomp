@@ -1,2 +1,4 @@
 RoomLib_Spawn6_80100040 = 0x80100040; // type:func
 FieldEng_Spawn6 = 0x800C2AF0;
+RoomLib_CloseTarget_80100140 = 0x80100140; // type:func
+FieldEng_GetStatus = 0x800C6CE0;

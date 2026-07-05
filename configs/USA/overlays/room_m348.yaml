@@ -37,6 +37,8 @@ segments:
       - [0x0, asm, room_m348]
       - [0xB0, c, RoomLib_Spawn6_801000B0]
       - [0xDC, asm, room_m348_DC]
+      - [0x1CC, c, RoomLib_CloseTarget_801001CC]
+      - [0x250, asm, room_m348_DC_250]
       - [0x3860, data]
   - [0x34000]
 # room: m348, section3 sector 83089, scanner delta 0
