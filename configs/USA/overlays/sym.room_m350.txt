@@ -7,3 +7,6 @@ RoomLib_Set4ClearSignal_801034FC = 0x801034FC; // type:func
 RoomLib_InitTimers_80103134 = 0x80103134; // type:func
 RoomLib_HandlerA = 0x80192250;
 RoomLib_RearmOnMatch_80103238 = 0x80103238; // type:func
+RoomLib_ResetAndSignalB_801019B8 = 0x801019B8; // type:func
+RoomLib_InitFull_80102544 = 0x80102544; // type:func
+RoomLib_HandlerC = 0x801918A4;
