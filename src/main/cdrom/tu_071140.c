@@ -1,3 +1,5 @@
+/* MASPSX_FLAGS: --store-return-delay */
+
 #include "include_asm.h"
 
 extern int g_DsReadSysEnabled;
@@ -22,6 +24,8 @@ typedef struct {
     u_char sector;
     u_char track;
 } CdlLOC;
+
+extern int g_CdReadCallback;
 
 int CdRom_IsDsReadSystemEnabled(void) {
     return g_DsReadSysEnabled;
@@ -92,4 +96,10 @@ int CdPosToInt(CdlLOC *p) {
 
     return (DECODE_BCD(minute) * 60 + DECODE_BCD(second)) * 75 +
            DECODE_BCD(sector) - 150;
+}
+
+int CdRom_SetReadCallback(int callback) {
+    int old = g_CdReadCallback;
+    g_CdReadCallback = callback;
+    return old;
 }

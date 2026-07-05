@@ -1,3 +1,5 @@
+/* MASPSX_FLAGS: --la-return-delay */
+
 /* CC1_PROFILE: build0001 */
 extern int g_CdStreamRingSize;
 extern int g_CdStreamRingWritePtr;
@@ -26,6 +28,8 @@ extern unsigned char g_CdStatus;
 extern unsigned char g_CdMode;
 
 extern unsigned char g_CdLastCom;
+
+extern unsigned char g_CdLastPos[];
 
 void StClearRing(void) {
     int arg1 = g_CdStreamRingSize;
@@ -68,4 +72,8 @@ int CdMode(void) {
 
 int CdLastCom(void) {
     return g_CdLastCom;
+}
+
+unsigned char *CdLastPos(void) {
+    return g_CdLastPos;
 }
