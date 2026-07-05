@@ -39,6 +39,7 @@ segments:
       - [0x178, asm, room_m269_178]
       - [0x31A4, c, RoomLib_SetArg1_801031A4]
       - [0x31B4, asm, room_m269_178_31B4]
+      - [0x31C4, c, RoomLib_SetPair_801031C4]
       - [0x31E0, data]
   - [0x42000]
 # room: m269, section3 sector 68914, scanner delta 0

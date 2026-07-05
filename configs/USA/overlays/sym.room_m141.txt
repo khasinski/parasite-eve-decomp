@@ -3,3 +3,6 @@ FieldEng_Spawn6 = 0x800C2AF0;
 RoomLib_PlantTable_801000A8 = 0x801000A8; // type:func
 FieldEng_GetSlot = 0x800C22F8;
 RoomLib_TableB_801000A8 = 0x8019205C;
+RoomLib_SetPair_801021EC = 0x801021EC; // type:func
+RoomLib_PairA = 0x80192178;
+RoomLib_PairB = 0x8019217C;

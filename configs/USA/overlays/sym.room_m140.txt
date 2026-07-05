@@ -8,3 +8,6 @@ RoomLib_PlantTable_80100090 = 0x80100090; // type:func
 FieldEng_GetSlot = 0x800C22F8;
 RoomLib_TableA_801000E8 = 0x80190E48;
 RoomLib_TableB_80100090 = 0x80190EA0;
+RoomLib_SetPair_80101E2C = 0x80101E2C; // type:func
+RoomLib_PairA = 0x80190F48;
+RoomLib_PairB = 0x80190F4C;
