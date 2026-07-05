@@ -38,6 +38,7 @@ typedef struct RoomLink {
 #define RW32(o, off) (*(int *)((char *)(o) + (off)))
 #define RW16(o, off) (*(short *)((char *)(o) + (off)))
 #define RW8(o, off)  (*(unsigned char *)((char *)(o) + (off)))
+#define RWU16(o, off) (*(unsigned short *)((char *)(o) + (off)))
 
 extern void RoomLib_HandlerA(void);
 
@@ -153,6 +154,10 @@ extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
 extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
 extern int FieldEng_VecToAngle(int *vec, int *ref);
 extern int FieldEng_TurnToward(short cur, short target, short rate);
+extern char *RoomMain_ActorPtr;
+extern int RoomMain_RotTable[];
+extern void RoomLib_HandlerF(void);
+extern void FieldEng_Spawn6(int a, int b, int c, int d, int e, int f);
 extern void RoomLib_HandlerC(void);
 
 /* arm handler when variant matches and t17 in (winHi, winLo] window */
@@ -407,6 +412,51 @@ extern void RoomLib_HandlerC(void);
         RW16(o, 0x88) = 0; \
         RW8(o, 0x90) = 0; \
         RW8(o, 0x91) = 0; \
+        return 0; \
+    }
+
+/* face the actor: clear actor bits, arm handler, aim h44/h48, load rot */
+#define ROOMLIB_FACE_ACTOR(name, handler) \
+    void name(RoomEnt *o) { \
+        char *g = RoomMain_ActorPtr; \
+        if (RW8(g, 0xE) < 4) { \
+            int *sig; \
+            RW32(g, 0x98) &= 0xFFF3FFFF; \
+            sig = o->sub.signal; \
+            o->sub.cb = handler; \
+            if (sig != 0) { \
+                *sig = 2; \
+            } \
+            if (RW16(o, 0x44) == -1) { \
+                RW16(o, 0x44) = FieldEng_VecToAngle( \
+                    (int *)((char *)o->link + 0x28), \
+                    (int *)(RoomMain_ActorPtr + 0x28)); \
+            } \
+            if (RW16(o, 0x48) == -1) { \
+                RW16(o, 0x48) = RWU16(o, 0x44) + 0x800; \
+            } \
+            { \
+                int *e = (int *)((char *)RoomMain_RotTable \
+                                 + ((RWU16(o, 0x44) & 0xFFF) << 2)); \
+                int hi = *(short *)((char *)e + 2); \
+                RW16(o, 0x1E) = 0; \
+                RW16(o, 0x1C) = hi; \
+                do { } while (0); \
+                RW16(o, 0x22) = 0; \
+                RW16(o, 0x26) = 0; \
+                RW16(o, 0x2A) = 0; \
+                RW16(o, 0x20) = *e; \
+                RW16(o, 0x24) = 0x1000; \
+                RW16(o, 0x2C) = RWU16(o, 0x1C); \
+                RW16(o, 0x28) = -RWU16(o, 0x20); \
+            } \
+        } \
+    }
+
+/* six-argument passthrough to the field engine spawn */
+#define ROOMLIB_SPAWN6(name) \
+    int name(int a, int b, int c, int d, int e, int f) { \
+        FieldEng_Spawn6(a, b, c, d, e, f); \
         return 0; \
     }
 

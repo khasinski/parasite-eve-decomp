@@ -26,3 +26,5 @@ RoomLib_SteerToward_80102920 = 0x80102920; // type:func
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
 RoomLib_InitD_80101F68 = 0x80101F68; // type:func
+RoomLib_Spawn6_80100220 = 0x80100220; // type:func
+FieldEng_Spawn6 = 0x800C2AF0;

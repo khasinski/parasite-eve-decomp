@@ -1,0 +1,2 @@
+RoomLib_Spawn6_80100054 = 0x80100054; // type:func
+FieldEng_Spawn6 = 0x800C2AF0;
