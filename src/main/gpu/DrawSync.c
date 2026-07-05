@@ -2,6 +2,8 @@
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 /* MASPSX_FLAGS: --stack-return-delay */
 
+
+#include "include_asm.h"
 asm(".globl DrawSync");
 asm("DrawSync = DrawSync");
 

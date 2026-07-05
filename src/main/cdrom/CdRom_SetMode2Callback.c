@@ -1,6 +1,8 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
+
+#include "include_asm.h"
 void CdRom_ReadProgressCallback(void);
 void CdRom_InitAsyncRead(void (*arg0)(void), int arg1);
 

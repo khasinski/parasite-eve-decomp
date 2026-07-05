@@ -1,5 +1,7 @@
 /* MASPSX_FLAGS: --stack-return-delay --store-return-delay */
 
+
+#include "include_asm.h"
 extern int VSync(int arg0);
 extern int CdRom_SendQueuedCmd(int arg0);
 extern void Save_ProcessDataCallback(void);

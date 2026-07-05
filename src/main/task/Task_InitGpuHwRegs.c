@@ -1,32 +1,5 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-asm(
-".text\n"
-".globl Task_InitGpuHwRegs\n"
-".ent Task_InitGpuHwRegs\n"
-"Task_InitGpuHwRegs:\n"
-"    .word 0x3c088007\n"
-"    .word 0x35080e0c\n"
-"    .word 0x340b0001\n"
-"    .word 0xad0b0040\n"
-"    .word 0x340b0002\n"
-"    .word 0xad0b003c\n"
-"    .word 0x340d000e\n"
-"    .word 0x8d0b0040\n"
-"    .word 0x8d0c003c\n"
-"    .word 0x2508fffc\n"
-"    .word 0x016c5821\n"
-"    .word 0xad0b003c\n"
-"    .word 0x15a0fffa\n"
-"    .word 0x25adffff\n"
-"    .word 0x3c098007\n"
-"    .word 0x35290e04\n"
-"    .word 0x3c0a8007\n"
-"    .word 0x354a0e08\n"
-"    .word 0x340b0040\n"
-"    .word 0x340c0010\n"
-"    .word 0xad2b0000\n"
-"    .word 0x03e00008\n"
-"    .word 0xad4c0000\n"
-".end Task_InitGpuHwRegs\n"
-);
+
+#include "include_asm.h"
+INCLUDE_ASM("asm/USA/main/nonmatchings/task/Task_InitGpuHwRegs", Task_InitGpuHwRegs);

@@ -1,5 +1,7 @@
 /* CC1_FLAGS: -g3 -G0 */
 /* MASPSX_FLAGS: -G0 */
+
+#include "include_asm.h"
 typedef signed char s8;
 typedef unsigned char u8;
 typedef short s16;
