@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m122
   ld_script_path: linkers/USA/overlays/room_m122.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m122.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m122.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m122.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,8 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m122]
+      - [0x54, c, RoomLib_Spawn6_80100054]
+      - [0x80, asm, room_m122_80]
       - [0x1EF4, data]
   - [0x2D800]
 # room: m122, section3 sector 37283, scanner delta 0

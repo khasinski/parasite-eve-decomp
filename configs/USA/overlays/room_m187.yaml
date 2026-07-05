@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m187
   ld_script_path: linkers/USA/overlays/room_m187.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m187.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m187.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m187.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,8 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m187]
+      - [0x60, c, RoomLib_Spawn6_80100060]
+      - [0x8C, asm, room_m187_8C]
       - [0xFC0, data]
   - [0x17800]
 # room: m187, section3 sector 50449, scanner delta 0

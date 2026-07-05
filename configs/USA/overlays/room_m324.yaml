@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m324
   ld_script_path: linkers/USA/overlays/room_m324.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m324.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m324.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m324.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,8 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m324]
+      - [0xBC, c, RoomLib_Spawn6_801000BC]
+      - [0xE8, asm, room_m324_E8]
       - [0x1E48, data]
   - [0x33800]
 # room: m324, section3 sector 78510, scanner delta 0
