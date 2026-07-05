@@ -6,3 +6,7 @@ RoomLib_TableB_8018F090 = 0x8019205C;
 RoomLib_SetPair_801911D4 = 0x801911D4; // type:func
 RoomLib_PairA = 0x80192178;
 RoomLib_PairB = 0x8019217C;
+RoomLib_MsgDispatch_80190F0C = 0x80190F0C; // type:func
+RoomLib_DlgRect = 0x8018F080;
+RoomLib_DlgBlob = 0x8019054C;
+RoomMain_ActorPtr2 = 0x8009D254;

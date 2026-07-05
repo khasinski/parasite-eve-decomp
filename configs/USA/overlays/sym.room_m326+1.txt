@@ -1,3 +1,7 @@
 RoomLib_SetPair_8018FCC0 = 0x8018FCC0; // type:func
 RoomLib_PairA = 0x8018FD38;
 RoomLib_PairB = 0x8018FD3C;
+RoomLib_MsgDispatch_8018F9F8 = 0x8018F9F8; // type:func
+RoomLib_DlgRect = 0x8018F030;
+RoomLib_DlgBlob = 0x8018F038;
+RoomMain_ActorPtr2 = 0x8009D254;

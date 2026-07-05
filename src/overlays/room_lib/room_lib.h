@@ -713,4 +713,128 @@ extern unsigned short g_FrameCount16;
         return e; \
     }
 
+typedef struct RoomBlob8 {
+    char b[8];
+} RoomBlob8;
+
+typedef struct RoomMsgSub {
+    short h0;
+} RoomMsgSub;
+
+typedef struct RoomMsg {
+    short h0;
+    short h2;
+    short h4;
+    short h6;
+    RoomMsgSub sub;               /* 0x08 */
+} RoomMsg;
+
+typedef struct RoomQRec {
+    short h0;
+    short h2;
+    short h4;
+    short h6;
+    char sub[8];                  /* 0x08 */
+    short h10;                    /* 0x10 */
+    short h12;                    /* 0x12 */
+} RoomQRec;
+
+typedef struct RoomNodeB {
+    char pad[0x18];
+    unsigned char *state;         /* 0x18 */
+} RoomNodeB;
+
+typedef struct RoomChanCtx {
+    int w0;
+    int w4;
+    RoomNodeB **w8;               /* 0x08 */
+} RoomChanCtx;
+
+typedef struct RoomDlgState {
+    char pad[0xD];
+    unsigned char bD;             /* 0x0D */
+    char padE[0x4];
+    short h12;                    /* 0x12 */
+} RoomDlgState;
+
+extern RoomChanCtx *D_800F32D0;
+extern RoomChanCtx *D_800F33E0;
+extern RoomDlgState *D_800E2368;
+extern int D_800E27EC;
+extern short D_800F3372;
+extern short D_800F3374;
+extern void *RoomMain_ActorPtr2;
+extern int func_800CE8F0();
+extern int func_800CE9D4();
+extern int func_800CE870();
+extern int func_800CFAA8();
+extern int func_800CE560();
+extern RoomQRec *func_800CE610();
+extern int func_800CFB7C();
+extern int func_800D3FD8();
+extern int func_800D3F64();
+
+#define ROOMLIB_MSG_DISPATCH(name, rect, blob) \
+    int name(int mode, RoomMsg *msg, short *pitch) { \
+        RoomBlob8 tmp = rect; \
+        switch (mode) { \
+        case 0: \
+            func_800CE8F0(D_800F32D0->w8, 0x13, &tmp, msg); \
+            if (D_800E2368->h12 == 0) goto send_pos; \
+            if (D_800E2368->h12 == 1) goto at_actor; \
+            goto after; \
+        send_pos: \
+            func_800CE9D4(D_800F32D0->w8, 0x13, &msg->sub); \
+            goto after; \
+        at_actor: \
+            { \
+                short vec[4]; \
+                func_800CE870(RoomMain_ActorPtr2, 0, vec); \
+                func_800CFAA8(msg, vec, &msg->sub); \
+                msg->sub.h0 = 0x180; \
+            } \
+        after: \
+            if (D_800E2368->bD != 0) { \
+                RoomNodeB **q = D_800F32D0->w8; \
+                if (q != 0 && *q != 0) { \
+                    unsigned char *st = (*q)->state; \
+                    if (*st == 1) { \
+                        *st = 2; \
+                    } \
+                } \
+            } \
+            return func_800CE560(D_800F33E0->w8, 0x14, 0x18, &blob); \
+        case 1: \
+            if (D_800E27EC == mode) { \
+                RoomQRec *p = func_800CE610(D_800F33E0->w8); \
+                if (p != 0) { \
+                    p->h0 = msg->h0; \
+                    p->h2 = msg->h2; \
+                    p->h4 = msg->h4; \
+                    func_800CFB7C(&msg->sub, *pitch, p->sub); \
+                    p->h10 = 0; \
+                    p->h12 = 0; \
+                } \
+                p = func_800CE610(D_800F33E0->w8); \
+                if (p != 0) { \
+                    p->h0 = msg->h0; \
+                    p->h2 = msg->h2; \
+                    p->h4 = msg->h4; \
+                    p->h10 = 3; \
+                    p->h12 = 0; \
+                } \
+                func_800D3F64(0x586, func_800D3FD8()); \
+            } \
+            if (D_800E27EC < 2) goto ret0; \
+            return 2; \
+        case 2: \
+            D_800F3372 = 0; \
+            D_800F3374 = 8; \
+            goto ret0; \
+        default: \
+        ret0: \
+            return 0; \
+        } \
+    }
+
 #endif
