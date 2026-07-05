@@ -17,3 +17,7 @@ RoomLib_NotifyArmB_801015A4 = 0x801015A4; // type:func
 RoomLib_HandlerD = 0x80190634;
 RoomLib_FxNotify = 0x80190B7C;
 RoomLib_InitB_801011F0 = 0x801011F0; // type:func
+RoomLib_Notify2ArmB_801022E4 = 0x801022E4; // type:func
+RoomLib_HandlerE = 0x80191374;
+RoomLib_FxNotify2 = 0x80191900;
+RoomLib_InitC_80102A04 = 0x80102A04; // type:func

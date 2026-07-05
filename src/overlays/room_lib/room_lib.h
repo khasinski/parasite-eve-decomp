@@ -148,7 +148,9 @@ typedef struct RoomEnt {
 
 extern void RoomLib_HandlerB(void);
 extern void RoomLib_HandlerD(void);
+extern void RoomLib_HandlerE(void);
 extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
+extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
 extern void RoomLib_HandlerC(void);
 
 /* arm handler when variant matches and t17 in (winHi, winLo] window */
@@ -291,6 +293,72 @@ extern void RoomLib_HandlerC(void);
         RW8(o, 0xB6) = 0; \
         RW8(o, 0xB7) = 0; \
         RW8(o, 0xB8) = 0; \
+        return 0; \
+    }
+
+/* notify FX (2-arg) when h80 set, then window-arm (inclusive) */
+#define ROOMLIB_NOTIFY2_AND_ARM_B(name, handler) \
+    void name(RoomEnt *o) { \
+        struct RoomSub *s = &o->sub; \
+        signed char c; \
+        int t; \
+        unsigned short lo; \
+        if (RW16(o, 0x80) != 0) { \
+            RoomLib_FxNotify2(o->link, s); \
+        } \
+        c = o->t16; \
+        if (c >= 0) { \
+            if (c != o->link->variant) { \
+                return; \
+            } \
+        } \
+        t = o->t17; \
+        if (t >= 0) { \
+            RoomLink *l = o->link; \
+            lo = l->winLo; \
+            if (t >= l->winHi && t <= lo) { \
+                o->sub.cb = handler; \
+            } \
+        } else { \
+            o->sub.cb = handler; \
+        } \
+    }
+
+/* initializer variant C: 0x10000 at 0x8C, zero sweep, link triads */
+#define ROOMLIB_INIT_C(name, handler) \
+    int name(RoomEnt *o) { \
+        RoomLink *l; \
+        o->flag3 = 1; \
+        o->t17 = -1; \
+        o->t16 = -1; \
+        o->t19 = 7; \
+        RW32(o, 0x8C) = 0x10000; \
+        l = o->link; \
+        o->sub.signal = 0; \
+        o->active = 0; \
+        o->t1A = 0; \
+        RW32(o, 0x74) = 0; \
+        RW32(o, 0x78) = 0; \
+        RW32(o, 0x7C) = 0; \
+        RW32(o, 0x80) = 0; \
+        RW16(o, 0x92) = 0; \
+        RW32(o, 0x4C) = 0; \
+        RW32(o, 0x50) = 0; \
+        RW32(o, 0x54) = 0; \
+        RW16(o, 0x94) = 0; \
+        RW32(o, 0x6C) = 0; \
+        o->sub.cb = handler; \
+        RW32(o, 0x70) = 0; \
+        RW16(o, 0x96) = 0; \
+        l->vel[0] = 0; \
+        l->vel[1] = 0; \
+        l->vel[2] = 0; \
+        l->accel[0] = 0; \
+        l->accel[1] = 0; \
+        l->accel[2] = 0; \
+        l->move[0] = 0; \
+        l->move[1] = 0; \
+        l->move[2] = 0; \
         return 0; \
     }
 
