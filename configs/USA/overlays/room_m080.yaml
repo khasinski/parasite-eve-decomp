@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m080
   ld_script_path: linkers/USA/overlays/room_m080.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m080.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m080.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m080.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m080]
+      - [0x3724, c, RoomLib_InvokeCallbackC_80103724]
+      - [0x374C, asm, room_m080_374C]
+      - [0x423C, c, RoomLib_InvokeCallbackC_8010423C]
+      - [0x4264, asm, room_m080_374C_4264]
+      - [0x4C28, c, RoomLib_InvokeCallbackC_80104C28]
+      - [0x4C50, asm, room_m080_374C_4264_4C50]
       - [0x4F38, data]
   - [0x33800]
 # room: m080, section3 sector 27925, scanner delta 0

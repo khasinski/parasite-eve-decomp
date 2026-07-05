@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m350
   ld_script_path: linkers/USA/overlays/room_m350.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m350.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m350.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m350.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m350]
+      - [0x1D0C, c, RoomLib_InvokeCallbackC_80101D0C]
+      - [0x1D34, asm, room_m350_1D34]
+      - [0x2824, c, RoomLib_InvokeCallbackC_80102824]
+      - [0x284C, asm, room_m350_1D34_284C]
+      - [0x3210, c, RoomLib_InvokeCallbackC_80103210]
+      - [0x3238, asm, room_m350_1D34_284C_3238]
       - [0xB330, data]
   - [0x46000]
 # room: m350, section3 sector 83539, scanner delta 0

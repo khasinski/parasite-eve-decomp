@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m186
   ld_script_path: linkers/USA/overlays/room_m186.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m186.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m186.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m186.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m186]
+      - [0x393C, c, RoomLib_InvokeCallbackC_8010393C]
+      - [0x3964, asm, room_m186_3964]
+      - [0x4454, c, RoomLib_InvokeCallbackC_80104454]
+      - [0x447C, asm, room_m186_3964_447C]
+      - [0x4E40, c, RoomLib_InvokeCallbackC_80104E40]
+      - [0x4E68, asm, room_m186_3964_447C_4E68]
       - [0x5150, data]
   - [0x29800]
 # room: m186, section3 sector 50244, scanner delta 0

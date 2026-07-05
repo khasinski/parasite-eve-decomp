@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m399
   ld_script_path: linkers/USA/overlays/room_m399.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m399.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m399.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m399.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m399]
+      - [0x2CF8, c, RoomLib_InvokeCallbackC_80102CF8]
+      - [0x2D20, asm, room_m399_2D20]
+      - [0x3810, c, RoomLib_InvokeCallbackC_80103810]
+      - [0x3838, asm, room_m399_2D20_3838]
+      - [0x41FC, c, RoomLib_InvokeCallbackC_801041FC]
+      - [0x4224, asm, room_m399_2D20_3838_4224]
       - [0x51D8, data]
   - [0x33800]
 # room: m399, section3 sector 91971, scanner delta 0

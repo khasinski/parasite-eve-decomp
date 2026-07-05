@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m256
   ld_script_path: linkers/USA/overlays/room_m256.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m256.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m256.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m256.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,14 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m256]
+      - [0x1D80, c, RoomLib_InvokeCallbackC_80101D80]
+      - [0x1DA8, asm, room_m256_1DA8]
+      - [0x2898, c, RoomLib_InvokeCallbackC_80102898]
+      - [0x28C0, asm, room_m256_1DA8_28C0]
+      - [0x3284, c, RoomLib_InvokeCallbackC_80103284]
+      - [0x32AC, asm, room_m256_1DA8_28C0_32AC]
+      - [0x3644, c, RoomLib_InvokeCallbackC_80103644]
+      - [0x366C, asm, room_m256_1DA8_28C0_32AC_366C]
       - [0x6D18, data]
   - [0x55000]
 # room: m256, section3 sector 66620, scanner delta 0

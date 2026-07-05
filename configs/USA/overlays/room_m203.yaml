@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m203
   ld_script_path: linkers/USA/overlays/room_m203.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m203.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m203.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m203.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m203]
+      - [0x1D40, c, RoomLib_InvokeCallbackC_80101D40]
+      - [0x1D68, asm, room_m203_1D68]
+      - [0x2858, c, RoomLib_InvokeCallbackC_80102858]
+      - [0x2880, asm, room_m203_1D68_2880]
+      - [0x3244, c, RoomLib_InvokeCallbackC_80103244]
+      - [0x326C, asm, room_m203_1D68_2880_326C]
       - [0x4FE8, data]
   - [0x4B000]
 # room: m203, section3 sector 54307, scanner delta 0

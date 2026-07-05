@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m265
   ld_script_path: linkers/USA/overlays/room_m265.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m265.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m265.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m265.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,12 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m265]
+      - [0x1D10, c, RoomLib_InvokeCallbackC_80101D10]
+      - [0x1D38, asm, room_m265_1D38]
+      - [0x2828, c, RoomLib_InvokeCallbackC_80102828]
+      - [0x2850, asm, room_m265_1D38_2850]
+      - [0x3214, c, RoomLib_InvokeCallbackC_80103214]
+      - [0x323C, asm, room_m265_1D38_2850_323C]
       - [0x4FCC, data]
   - [0x27800]
 # room: m265, section3 sector 68099, scanner delta 0
