@@ -67,6 +67,7 @@ segments:
       - [0x325C, asm, room_m120_1D28_2840_322C_325C]
       - [0x34F0, c, RoomLib_Set4ClearSignal_801924D8]
       - [0x350C, asm, room_m120_1D28_2840_322C_350C]
+      - [0x4304, c, RoomLib_SlotSet_801932EC]
       - [0x4348, data]
   - [0x29000]
 # room: m120, section3 sector 36730, scanner delta 0

@@ -5,3 +5,6 @@ FieldEng_GetStatus = 0x800C6CE0;
 RoomLib_RegisterTable_8018F068 = 0x8018F068; // type:func
 FieldEng_Register = 0x800C2414;
 RoomLib_TableA_8018F068 = 0x80190EF4;
+RoomLib_SlotSet_80190E98 = 0x80190E98; // type:func
+RoomLib_SlotTable = 0x80191028;
+g_FrameCount16 = 0x800942EC;

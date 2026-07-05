@@ -37,6 +37,8 @@ segments:
       - [0x0, asm, room_m113]
       - [0xC80, c, RoomLib_SetArgs3_8018FC68]
       - [0xCA4, asm, room_m113_CA4]
+      - [0x1A94, c, RoomLib_SlotSet_80190A7C]
+      - [0x1AD8, asm, room_m113_CA4_1AD8]
       - [0x16F90, data]
   - [0x2E000]
 # room: m113, section3 sector 35200, scanner delta 0

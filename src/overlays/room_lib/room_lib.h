@@ -481,8 +481,7 @@ extern char RoomLib_TableB[];
                 int hi = *(short *)((char *)e + 2); \
                 RW16(o, 0x1E) = 0; \
                 RW16(o, 0x1C) = hi; \
-                do { } while (0); \
-                RW16(o, 0x22) = 0; \
+                    RW16(o, 0x22) = 0; \
                 RW16(o, 0x26) = 0; \
                 RW16(o, 0x2A) = 0; \
                 RW16(o, 0x20) = *e; \
@@ -687,6 +686,31 @@ extern FieldActorNode *g_FieldActorListHead;
         m->bActive = a; \
     done: \
         return 0; \
+    }
+
+typedef struct RoomSlotRec {
+    short h0;
+    short h2;                     /* stamped with the global frame counter */
+    short h4;
+    short pad6;
+    int w8;
+    int wC;
+} RoomSlotRec;
+
+extern unsigned short g_FrameCount16;
+
+#define ROOMLIB_SLOT_SET(name, table) \
+    RoomSlotRec *name(int mode, int idx, int a, int b) { \
+        RoomSlotRec *e = &table[idx]; \
+        if (mode == 1) { \
+            e->w8 = a; \
+            e->wC = b; \
+        } else { \
+            *(volatile short *)&e->h0 = a; \
+            e->h2 = g_FrameCount16; \
+            e->h4 = b; \
+        } \
+        return e; \
     }
 
 #endif

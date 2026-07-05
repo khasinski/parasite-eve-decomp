@@ -29,3 +29,6 @@ RoomLib_SetArgs3_8019315C = 0x8019315C; // type:func
 RoomSlotA_8019315C = 0x80194128;
 RoomSlotB_8019315C = 0x8019412C;
 RoomSlotC_8019315C = 0x80194130;
+RoomLib_SlotSet_80193F70 = 0x80193F70; // type:func
+RoomLib_SlotTable = 0x80194134;
+g_FrameCount16 = 0x800942EC;
