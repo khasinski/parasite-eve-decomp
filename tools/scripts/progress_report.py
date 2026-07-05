@@ -126,6 +126,20 @@ def main() -> None:
                         ROOT / "asm/USA/overlays" / name)
         lines.append(r)
         totals = [a + b for a, b in zip(totals, t)]
+    room = [0, 0, 0, 0]
+    rooms = sorted((ROOT / "configs/USA/overlays").glob("room_*.yaml"))
+    for ovl_yaml in rooms:
+        name = ovl_yaml.stem
+        _, *t = row_for(name, ovl_yaml, ROOT / "src/overlays" / name,
+                        ROOT / "asm/USA/overlays" / name)
+        room = [a + b for a, b in zip(room, t)]
+    if rooms:
+        mf, nf, mb, tb = room
+        pf = 100.0 * mf / nf if nf else 0.0
+        pb = 100.0 * mb / tb if tb else 0.0
+        lines.append(f"| `room overlays (x{len(rooms)})` | {mf}/{nf} ({pf:.1f}%) "
+                     f"| {pf:.1f}% | {mb}/{tb} | {pb:.1f}% |")
+        totals = [a + b for a, b in zip(totals, room)]
     mf, nf, mb, tb = totals
     lines.append(
         f"| **total** | **{mf}/{nf}** | **{100.0*mf/nf:.1f}%** "
