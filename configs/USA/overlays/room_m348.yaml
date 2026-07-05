@@ -35,6 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m348]
+      - [0x84, c, RoomLib_PlantTable_80100084]
       - [0xB0, c, RoomLib_Spawn6_801000B0]
       - [0xDC, asm, room_m348_DC]
       - [0x1CC, c, RoomLib_CloseTarget_801001CC]

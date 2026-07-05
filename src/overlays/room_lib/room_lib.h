@@ -159,6 +159,10 @@ extern int RoomMain_RotTable[];
 extern void RoomLib_HandlerF(void);
 extern void FieldEng_Spawn6(int a, int b, int c, int d, int e, int f);
 extern unsigned int FieldEng_GetStatus(void);
+extern void FieldEng_Register(void *o, void *table);
+extern void **FieldEng_GetSlot(void);
+extern char RoomLib_TableA[];
+extern char RoomLib_TableB[];
 extern void RoomLib_HandlerC(void);
 
 /* arm handler when variant matches and t17 in (winHi, winLo] window */
@@ -470,6 +474,22 @@ extern void RoomLib_HandlerC(void);
             *(int *)tgt &= 0xC0FFFFFF; \
             *o->link->target->state = 4; \
         } \
+        return 0; \
+    }
+
+/* register this entity's table with the field engine when active */
+#define ROOMLIB_REGISTER_TABLE(name, table) \
+    int name(void *o) { \
+        if (FieldEng_GetStatus() >= 2) { \
+            FieldEng_Register(o, table); \
+        } \
+        return 0; \
+    }
+
+/* plant the room table pointer into the engine slot */
+#define ROOMLIB_PLANT_TABLE(name, table) \
+    int name(void) { \
+        *FieldEng_GetSlot() = table; \
         return 0; \
     }
 

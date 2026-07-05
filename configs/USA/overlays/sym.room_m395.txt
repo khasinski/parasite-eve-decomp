@@ -29,3 +29,6 @@ RoomLib_Spawn6_8010022C = 0x8010022C; // type:func
 FieldEng_Spawn6 = 0x800C2AF0;
 RoomLib_CloseTarget_8010032C = 0x8010032C; // type:func
 FieldEng_GetStatus = 0x800C6CE0;
+RoomLib_RegisterTable_80100258 = 0x80100258; // type:func
+FieldEng_Register = 0x800C2414;
+RoomLib_TableA = 0x80194340;
