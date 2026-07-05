@@ -1,4 +1,5 @@
 /* MASPSX_FLAGS: --stack-return-delay */
+
 #include "include_asm.h"
 
 #include "pe1/psyq_cd.h"
@@ -12,6 +13,10 @@ extern int g_DsReadBusy;
 void DsSyncCallback(int arg0);
 void DsReadyCallback(int arg0);
 int Render_AllocParticleNode(int com, void *param, void *result, int mode);
+
+typedef void (*DsCallback)(void);
+
+extern DsCallback D_8009B708;
 
 int ds_read(int arg0, int arg1, int arg2) {
     CdlLOC loc;
@@ -40,4 +45,14 @@ void DsReadBreak(void) {
         Render_AllocParticleNode(9, 0, 0, -1);
     }
     *state = 0;
+}
+
+DsCallback DsReadCallback(DsCallback callback) {
+    DsCallback *slot;
+    DsCallback old;
+
+    slot = &D_8009B708;
+    old = *slot;
+    *slot = callback;
+    return old;
 }

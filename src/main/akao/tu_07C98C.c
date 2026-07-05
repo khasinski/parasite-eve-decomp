@@ -21,6 +21,17 @@ typedef struct {
     s8 target;
 } AkaoGlobalSlideRangeCommand;
 
+/* CC1_PROFILE: build0001 */
+typedef signed char s8_1;
+
+typedef struct {
+    int unk0;
+    s8_1 value;
+} AkaoGlobalParamCommand;
+
+extern short g_AkaoGlobalD2CCSlideCounter;
+extern int D_8009D2CC;
+
 void Akao_SlideGlobalD2D0ToTarget(AkaoGlobalSlideCommand *cmd) {
     int raw_duration = cmd->duration;
     int duration = 1;
@@ -52,4 +63,11 @@ void Akao_SlideGlobalD2D0FromStartToTarget(AkaoGlobalSlideRangeCommand *cmd) {
     step = ((cmd->target << 16) - start) / duration;
     g_AkaoGlobalD2D0SlideCounter = duration;
     g_AkaoGlobalD2D0SlideStep = step;
+}
+
+void Akao_SetGlobalD2CCImmediate(AkaoGlobalParamCommand *cmd) {
+    int value = cmd->value;
+
+    g_AkaoGlobalD2CCSlideCounter = 0;
+    D_8009D2CC = value << 16;
 }

@@ -109,6 +109,7 @@ class Unit:
         self.name_owner = {}  # identifier -> normalized chunk
         self.bodies = []
         self.windows = []     # rodata island positions owned by members
+        self._member_texts = {}
 
     def pop_last(self):
         self.files.pop()
@@ -132,7 +133,25 @@ class Unit:
             return False  # baked data carrier stays its own unit
         cc1, mas = file_flags(text)
         if self.cc1 is not None and (cc1 != self.cc1 or set(mas.split()) != self.mas):
-            return False
+            # try reconciling: candidate = the richer flag set; every side
+            # must produce identical .text under it
+            if cc1 and self.cc1 and cc1 != self.cc1:
+                return False  # two different explicit CC1 sets: real difference
+            cand_cc1 = cc1 or self.cc1
+            cand_mas = self.mas | set(mas.split())
+            if not flags_reconcilable(text, cc1, mas, cand_cc1, cand_mas):
+                return False
+            for _, k, tu_m in self.files:
+                if k != "c":
+                    continue
+                mt = self._member_texts.get(tu_m)
+                if mt is None or not flags_reconcilable(
+                        mt, *file_flags(mt), cand_cc1, cand_mas):
+                    return False
+            self.cc1 = cand_cc1
+            self.mas = cand_mas
+        self._member_texts = getattr(self, "_member_texts", {})
+        self._member_texts[tu] = text
         header, body = split_header_body(text)
         if header is None:
             return False
@@ -168,10 +187,10 @@ class Unit:
             if nc in self.seen_norm:
                 continue
             new_chunks.append((c, names, nc))
-        # commit
+        # commit (first file establishes flags; later ones only via reconciliation)
         if self.cc1 is None:
             self.cc1 = cc1
-        self.mas = set(mas.split())
+            self.mas = set(mas.split())
         for c, names, nc in new_chunks:
             self.chunks.append(c)
             self.seen_norm.add(nc)
@@ -210,6 +229,39 @@ class Unit:
                 rendered.append(val)
         out.append("\n\n".join(rendered))
         return "\n".join(out) + "\n"
+
+
+def text_bytes(src_text: str) -> bytes | None:
+    """Compile a source text at a fixed path and return the whole object."""
+    tmp = pathlib.Path("/tmp/mtu_flagtest.c")
+    obj = pathlib.Path("/tmp/mtu_flagtest.o")
+    tmp.write_text(src_text)
+    r = subprocess.run([str(ROOT / "tools/scripts/cc.sh"), str(tmp), str(obj)],
+                       capture_output=True, cwd=ROOT)
+    out = obj.read_bytes() if r.returncode == 0 and obj.exists() else None
+    tmp.unlink(missing_ok=True)
+    obj.unlink(missing_ok=True)
+    return out
+
+
+def with_flags(text: str, cc1: str, mas: set) -> str:
+    text = FLAG_RE.sub("", text)
+    hdr = ""
+    if cc1:
+        hdr += f"/* CC1_FLAGS: {cc1} */\n"
+    if mas:
+        hdr += f"/* MASPSX_FLAGS: {' '.join(sorted(mas))} */\n"
+    return hdr + text
+
+
+def flags_reconcilable(text: str, own_cc1: str, own_mas: str,
+                       cand_cc1: str, cand_mas: set) -> bool:
+    """True if compiling under candidate flags yields identical .text."""
+    a = text_bytes(with_flags(text, own_cc1, set(own_mas.split())))
+    if a is None:
+        return False
+    b = text_bytes(with_flags(text, cand_cc1, cand_mas))
+    return b is not None and a == b
 
 
 def compiles(unit) -> bool:
