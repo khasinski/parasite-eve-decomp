@@ -10,3 +10,6 @@ RoomLib_RearmOnMatch_80104380 = 0x80104380; // type:func
 RoomLib_ResetAndSignalB_80102B00 = 0x80102B00; // type:func
 RoomLib_InitFull_8010368C = 0x8010368C; // type:func
 RoomLib_HandlerC = 0x801929EC;
+RoomLib_ArmWindowA_80102E7C = 0x80102E7C; // type:func
+RoomLib_HandlerB = 0x80191ED4;
+RoomLib_ArmWindowB_80103994 = 0x80103994; // type:func
