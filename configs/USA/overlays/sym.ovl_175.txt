@@ -1,0 +1,9 @@
+RoomLib_PlantTable_8018F064 = 0x8018F064; // type:func
+FieldEng_GetSlot = 0x800C22F8;
+RoomLib_TableB_8018F064 = 0x80191FF8;
+RoomLib_Spawn6_8018F090 = 0x8018F090; // type:func
+FieldEng_Spawn6 = 0x800C2AF0;
+RoomLib_SetArgs3_80191170 = 0x80191170; // type:func
+RoomSlotA_80191170 = 0x80192130;
+RoomSlotB_80191170 = 0x80192134;
+RoomSlotC_80191170 = 0x80192138;

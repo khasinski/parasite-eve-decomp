@@ -75,10 +75,8 @@ def stamp(clusters_path: str, shape: str, macro: str, base: str,
                 continue
             hi = struct.unpack_from('<I', b, off + hi_i * 4)[0] & 0xFFFF
             lo = struct.unpack_from('<I', b, off + lo_i * 4)[0] & 0xFFFF
-            if lo >= 0x8000:
-                hi -= 1
-            val = (hi << 16) + (lo if lo < 0x8000 else lo - 0x10000) + 0x10000 * (1 if lo >= 0x8000 else 0)
-            val = (hi << 16) | lo if lo < 0x8000 else ((hi + 1) << 16) + (lo - 0x10000)
+            # the encoded %hi already carries the +1 carry adjustment
+            val = (hi << 16) + (lo - 0x10000 if lo >= 0x8000 else lo)
             line = f'{pname} = 0x{val & 0xFFFFFFFF:08X};'
             if pname not in sym:
                 sym += line + '\n'
