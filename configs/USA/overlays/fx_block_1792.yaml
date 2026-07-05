@@ -1,0 +1,39 @@
+name: fx_block_1792.bin
+sha1: 64e5b2c2b9dea7c6729c25a10295064d281ac296
+options:
+  basename: fx_block_1792
+  target_path: original/USA/overlays/fx_block_1792.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/fx_block_1792
+  src_path: src/overlays/fx_block_1792
+  build_path: build/USA/overlays/fx_block_1792
+  ld_script_path: linkers/USA/overlays/fx_block_1792.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.fx_block_1792.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.fx_block_1792.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: fx_block_1792
+    type: code
+    start: 0x0
+    vram: 0x8018EFF0
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, asm, fx_block_1792]
+  - [0xD000]
+# source slice: scanner
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/fx_block_1792.bin bs=2048 skip=1792 count=26
