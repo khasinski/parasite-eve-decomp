@@ -12,7 +12,7 @@
 <tr><td>ovl_189</td><td>15/62</td><td>24.2%</td><td>1556/43008</td><td>3.6%</td></tr>
 <tr><td>total</td><td>1180/2094</td><td>56.4%</td><td>111896/983276</td><td>11.4%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 1104/1484 plain-C files</h2>
+<h2>SLUS_006.62 (main) — 1098/1478 plain-C files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrAttack.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrDecayRate.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -533,7 +533,6 @@
 <tr><td>src/main/gpu/GetDrawEnv.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/GetGraphDebug.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/GetTPage.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/gpu/GetVideoMode.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/Gpu_AppendPacketPrimitive.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/Gpu_BuildDrawAreaBottomRightCmd.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/Gpu_BuildDrawAreaTopLeftCmd.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
@@ -554,7 +553,6 @@
 <tr><td>src/main/gpu/Gpu_InitDrawModeTilePacket.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/Gpu_InitPipeline.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/Gpu_LoadGeomState.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/gpu/Gpu_LoadTexImageAndGetTPage.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/Gpu_LoadTimAsset.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/Gpu_LoadTimImage.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/Gpu_LoadTimTable.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -576,15 +574,11 @@
 <tr><td>src/main/gpu/Gpu_WriteDataWords.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/Gte_SetBackColor.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/Gte_SetLightColor.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/gpu/LoadClut.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/gpu/LoadClut2.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/LoadImage.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/MoveImage.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/MoveImage2.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/PutDrawEnv.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/Scene_LoadRoom.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/gpu/SetDefDispEnv.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/gpu/SetDefDrawEnv.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/SetDispMask.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/SetDrawArea.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/SetDrawMask.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
@@ -600,10 +594,10 @@
 <tr><td>src/main/gpu/SetTexWindow.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/SetTile.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/SetTile1.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/gpu/SetVideoMode.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/StoreImage.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/_param.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/_status.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/gpu/libgpu_sys.c</td><td>7</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gte/Gte_NormalizeVecS32toS16.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/item/Inv_BuildCompatibleWeaponBitset.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/item/Inv_BuildFilteredPackedList.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
