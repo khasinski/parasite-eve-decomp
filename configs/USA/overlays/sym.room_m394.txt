@@ -13,3 +13,6 @@ RoomLib_HandlerC = 0x8019289C;
 RoomLib_ArmWindowA_80102D2C = 0x80102D2C; // type:func
 RoomLib_HandlerB = 0x80191D84;
 RoomLib_ArmWindowB_80103844 = 0x80103844; // type:func
+RoomLib_NotifyArmB_801015B8 = 0x801015B8; // type:func
+RoomLib_HandlerD = 0x80190648;
+RoomLib_FxNotify = 0x80190B90;

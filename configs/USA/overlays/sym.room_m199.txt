@@ -1,0 +1,3 @@
+RoomLib_NotifyArmB_801005A0 = 0x801005A0; // type:func
+RoomLib_HandlerD = 0x8018F630;
+RoomLib_FxNotify = 0x8018FB78;

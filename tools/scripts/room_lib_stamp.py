@@ -64,6 +64,15 @@ def stamp(clusters_path: str, shape: str, macro: str, base: str,
             if room not in bins:
                 bins[room] = (ROOT / f'original/USA/overlays/{room}.bin').read_bytes()
             b = bins[room]
+            if lo_i < 0:  # jal-kind param: hi_i is the jal instruction index
+                w = struct.unpack_from('<I', b, off + hi_i * 4)[0]
+                val = 0x80000000 | ((w & 0x3FFFFFF) << 2)
+                line = f'{pname} = 0x{val:08X};'
+                if pname not in sym:
+                    sym += line + '\n'
+                elif line not in sym:
+                    print(f'PARAM CONFLICT {room}: {line}')
+                continue
             hi = struct.unpack_from('<I', b, off + hi_i * 4)[0] & 0xFFFF
             lo = struct.unpack_from('<I', b, off + lo_i * 4)[0] & 0xFFFF
             if lo >= 0x8000:
