@@ -1,6 +1,6 @@
 typedef unsigned char u8;
 extern u8 D_800A0EDC[];
-extern u8 D_800A12EC[];
+extern u8 g_Slot2QuickerSave[];
 extern int g_MemCardActivePortOneBased;
 extern int g_MemCardSavePollTimeout;
 extern int g_MemCardActivePromptPending;
@@ -80,7 +80,7 @@ void MemCard_UpdateSavePolling(void)
     }
   }
   port = 1;
-  state = D_800A12EC;
+  state = g_Slot2QuickerSave;
   do
   {
     if (g_MemCardActivePortOneBased == (port + 1))
