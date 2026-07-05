@@ -15,7 +15,7 @@ typedef struct GpuCallbacks {
 } GpuCallbacks;
 extern struct { char _[16]; } D_8001193C_o __asm__("D_8001193C");
 #define D_8001193C (*(M2C_UNK *)&D_8001193C_o)
-extern struct { char _[16]; } g_GpuCallbacks_o __asm__("D_80095744");
+extern struct { char _[16]; } g_GpuCallbacks_o __asm__("g_GpuCallbacks");
 #define g_GpuCallbacks (*(GpuCallbacks **)&g_GpuCallbacks_o)
 extern struct { char _[16]; } D_80095748_o __asm__("g_GpuDebugPrintf");
 #define g_GpuDebugPrintf (*(M2C_UNK (**)(M2C_UNK *, void *))&D_80095748_o)
