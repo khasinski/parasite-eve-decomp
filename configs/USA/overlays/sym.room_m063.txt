@@ -1,0 +1,4 @@
+RoomLib_StateDispatch_8018F250 = 0x8018F250; // type:func
+RoomLib_ArmWindowVia_8018F2BC = 0x8018F2BC; // type:func
+RoomLib_TickMain = 0x8018FD5C; // type:func
+RoomLib_WindowHandler = 0x8018F320; // type:func
