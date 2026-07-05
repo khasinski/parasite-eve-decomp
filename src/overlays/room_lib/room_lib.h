@@ -14,52 +14,71 @@ typedef struct RoomObj {
         return 0; \
     }
 
-typedef struct RoomLinkByte {
-    char pad18[0x18];
-    unsigned char *state;
-} RoomLinkByte;
+typedef struct RoomRenderNode {
+    int flags;                    /* 0x00: 0x3F000000 owner bits, 0xC0FFFFFF mask dance */
+    char pad04[0x14];
+    unsigned char *state;         /* 0x18: byte poked with entity state (4) */
+} RoomRenderNode;
 
+/* The actor/object record shared with the field engine (>= 0x254 bytes).
+ * Positions are 16.16 fixed point; offsets mined from 90 canonical shapes. */
 typedef struct RoomLink {
-    RoomLinkByte *target;         /* 0x0 */
-    char pad4[0xA];
-    unsigned char variant;        /* 0xE */
-    char padF[0x7];
-    unsigned short winLo;         /* 0x16 */
+    RoomRenderNode *target;       /* 0x00 */
+    char pad04[0xA];
+    unsigned char variant;        /* 0x0E: matched against RoomEnt.t16 */
+    char pad0F[0x7];
+    unsigned short winLo;         /* 0x16: t17 window upper bound */
     char pad18[0x2];
-    unsigned short winHi;         /* 0x1A */
-    char pad1C[0x4C];
+    unsigned short winHi;         /* 0x1A: t17 window lower bound */
+    char pad1C[0xA];
+    unsigned short h26;           /* 0x26 */
+    int pos[3];                   /* 0x28: 16.16 x/y/z (hi16 read as s16) */
+    char pad34[0x6];
+    unsigned short h3A;           /* 0x3A */
+    char pad3C[0x2C];
     int vel[3];                   /* 0x68 */
     char pad74[0x4];
     int move[3];                  /* 0x78 */
     char pad84[0x4];
     int accel[3];                 /* 0x88 */
+    char pad94[0x4];
+    void *node98;                 /* 0x98 */
+    char pad9C[0x160];
+    int w1FC;                     /* 0x1FC */
+    int w200;
+    int w204;
+    char pad208[0x30];
+    void *p238;                   /* 0x238 */
+    char pad23C[0x14];
+    unsigned short h250;          /* 0x250 */
 } RoomLink;
 
-#define RW32(o, off) (*(int *)((char *)(o) + (off)))
-#define RW16(o, off) (*(short *)((char *)(o) + (off)))
-#define RW8(o, off)  (*(unsigned char *)((char *)(o) + (off)))
-#define RWU16(o, off) (*(unsigned short *)((char *)(o) + (off)))
+typedef RoomRenderNode RoomLinkByte;  /* legacy alias */
 
-extern void RoomLib_HandlerA(void);
-
+/* Script-entity record (~0xC4 bytes), one per room script object. */
 typedef struct RoomEnt {
-    unsigned char state;          /* 0x0 */
+    unsigned char state;          /* 0x00: 4 = closed */
     char pad1[0x2];
-    unsigned char flag3;          /* 0x3 */
-    char pad4[0x4];
-    RoomLink *link;               /* 0x8 */
+    unsigned char flag3;          /* 0x03 */
+    int w04;                      /* 0x04 */
+    RoomLink *link;               /* 0x08 */
     struct RoomSub {
-        void (*cb)(void);         /* 0xC */
-        int *signal;              /* 0x10 */
-    } sub;                        /* 0xC */
+        void (*cb)(void);         /* 0x0C: armed FX handler */
+        int *signal;              /* 0x10: completion word (0/1/2) */
+    } sub;
     short active;                 /* 0x14 */
-    signed char t16;              /* 0x16 */
-    signed char t17;
+    signed char t16;              /* 0x16: variant gate */
+    signed char t17;              /* 0x17: window gate */
     signed char t18;
-    unsigned char t19;
+    unsigned char t19;            /* 0x19: phase (3/7) */
     unsigned char t1A;
-    char pad1B[0x2B];
-    short h46;                    /* 0x46 */
+    char pad1B[0x1];
+    short mat[9];                 /* 0x1C: s16 3x3 rotation (MATRIX.m) */
+    short rot[3];                 /* 0x2E: euler angles */
+    short h34;                    /* 0x34 */
+    char pad36[0x4];
+    short heading;                /* 0x3A */
+    int pos[3];                   /* 0x3C: also viewed as shorts 0x44+ */
     char pad48[0x14];
     int w5C;                      /* 0x5C */
     int w60;
@@ -70,11 +89,17 @@ typedef struct RoomEnt {
     char pad84[0x10];
     int w94;                      /* 0x94 */
     char pad98[0x4];
-    short h9C;                    /* 0x9C */
+    short h9C;                    /* 0x9C: also written as word with 0x9E */
     short h9E;
     short hA0;                    /* 0xA0 */
     char padA2[0x12];
-    unsigned char bB4;            /* 0xB4 */
+    unsigned char bB4;            /* 0xB4: FX-notify gate */
+    char padB5[0x1];
+    unsigned char bB6;            /* 0xB6 */
+    unsigned char bB7;
+    unsigned char bB8;
+    char padB9[0x3];
+    unsigned short hBC[4];        /* 0xBC..0xC2 */
 } RoomEnt;
 
 /* state=4, clear flag3, notify link target, clear signal word */
