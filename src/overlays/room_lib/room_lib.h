@@ -14,6 +14,26 @@ typedef struct RoomObj {
         return 0; \
     }
 
+#define RW32(o, off) (*(int *)((char *)(o) + (off)))
+#define RW16(o, off) (*(short *)((char *)(o) + (off)))
+#define RW8(o, off)  (*(unsigned char *)((char *)(o) + (off)))
+#define RWU16(o, off) (*(unsigned short *)((char *)(o) + (off)))
+
+extern void RoomLib_HandlerA(void);
+extern void RoomLib_HandlerB(void);
+extern void RoomLib_HandlerC(void);
+extern void RoomLib_HandlerD(void);
+extern void RoomLib_HandlerE(void);
+extern void RoomLib_HandlerF(void);
+extern int FieldEng_VecToAngle(int *vec, int *ref);
+extern int FieldEng_TurnToward(short cur, short target, short rate);
+extern char *RoomMain_ActorPtr;
+extern int RoomMain_RotTable[];
+extern unsigned int FieldEng_GetStatus(void);
+extern void FieldEng_Spawn6(int a, int b, int c, int d, int e, int f);
+extern void FieldEng_Register(void *o, void *table);
+extern void **FieldEng_GetSlot(void);
+
 typedef struct RoomRenderNode {
     int flags;                    /* 0x00: 0x3F000000 owner bits, 0xC0FFFFFF mask dance */
     char pad04[0x14];
@@ -78,7 +98,9 @@ typedef struct RoomEnt {
     short h34;                    /* 0x34 */
     char pad36[0x4];
     short heading;                /* 0x3A */
-    int pos[3];                   /* 0x3C: also viewed as shorts 0x44+ */
+    int pos[2];                   /* 0x3C, 0x40 */
+    short h44;                    /* 0x44: word-view via RW32 in some shapes */
+    short h46;                    /* 0x46 */
     char pad48[0x14];
     int w5C;                      /* 0x5C */
     int w60;
@@ -101,6 +123,9 @@ typedef struct RoomEnt {
     char padB9[0x3];
     unsigned short hBC[4];        /* 0xBC..0xC2 */
 } RoomEnt;
+
+extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
+extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
 
 /* state=4, clear flag3, notify link target, clear signal word */
 #define ROOMLIB_RESET_AND_SIGNAL(name) \
@@ -172,23 +197,8 @@ typedef struct RoomEnt {
         return 0; \
     }
 
-extern void RoomLib_HandlerB(void);
-extern void RoomLib_HandlerD(void);
-extern void RoomLib_HandlerE(void);
-extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
-extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
-extern int FieldEng_VecToAngle(int *vec, int *ref);
-extern int FieldEng_TurnToward(short cur, short target, short rate);
-extern char *RoomMain_ActorPtr;
-extern int RoomMain_RotTable[];
-extern void RoomLib_HandlerF(void);
-extern void FieldEng_Spawn6(int a, int b, int c, int d, int e, int f);
-extern unsigned int FieldEng_GetStatus(void);
-extern void FieldEng_Register(void *o, void *table);
-extern void **FieldEng_GetSlot(void);
 extern char RoomLib_TableA[];
 extern char RoomLib_TableB[];
-extern void RoomLib_HandlerC(void);
 
 /* arm handler when variant matches and t17 in (winHi, winLo] window */
 #define ROOMLIB_ARM_IF_WINDOW_A(name, handler) \
