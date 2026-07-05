@@ -1,0 +1,2 @@
+RoomLib_SetArg1_80103A00 = 0x80103A00; // type:func
+RoomSlotA_80103A00 = 0x80192BF8;

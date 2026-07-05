@@ -1,0 +1,4 @@
+RoomLib_SetArgs3_80100C80 = 0x80100C80; // type:func
+RoomSlotA_80100C80 = 0x80190B8C;
+RoomSlotB_80100C80 = 0x80190B90;
+RoomSlotC_80100C80 = 0x80190B94;

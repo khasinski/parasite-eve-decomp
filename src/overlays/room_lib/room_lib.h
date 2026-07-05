@@ -493,4 +493,22 @@ extern void RoomLib_HandlerC(void);
         return 0; \
     }
 
+/* stash three args into room slots; returns the first slot (asm reuse) */
+#define ROOMLIB_SET_ARGS3(name, sA, sB, sC) \
+    int *name(int a0, int a1, int a2, int a3) { \
+        int *p = &sA; \
+        *p = a1; \
+        sB = a2; \
+        sC = a3; \
+        return p; \
+    }
+
+/* stash one arg into a room slot; returns the slot */
+#define ROOMLIB_SET_ARG1(name, sA) \
+    int *name(int a0, int a1) { \
+        int *p = &sA; \
+        *p = a1; \
+        return p; \
+    }
+
 #endif
