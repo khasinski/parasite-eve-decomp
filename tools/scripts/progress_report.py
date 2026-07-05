@@ -34,7 +34,7 @@ def is_clean(text: str) -> bool:
 FUNC_DEF_RE = re.compile(r"^[A-Za-z_][\w \t\*]*?\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*\{", re.M)
 
 
-MACRO_STAMP_RE = re.compile(r"^[A-Z][A-Z0-9_]{3,}\(\w+\)\s*$", re.M)
+MACRO_STAMP_RE = re.compile(r"^[A-Z][A-Z0-9_]{3,}\(\w+(?:,\s*\w+)*\)\s*$", re.M)
 
 
 def count_funcs(text: str) -> int:
