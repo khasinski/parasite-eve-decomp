@@ -1,3 +1,5 @@
+RoomM005_FxOrbiter_8018F018 = 0x8018F018; // type:func
 RoomM005_EnableDialogFollow_80190A6C = 0x80190A6C; // type:func
-RoomM005_DialogRecord = 0x80190B80;
+RoomM005_DialogAnchor = 0x80190B80;
+RoomM005_Rec2 = 0x80190AD4;
 D_800E2368 = 0x800E2368;
