@@ -166,7 +166,8 @@ overlay-func-diff:
 	    $(if $(QUIET),--quiet,)
 
 overlay-extract:
-	@slice="$(OVERLAY_SLICE)"; \
+	@if [ -f "$(OVERLAY_ORIG)" ]; then echo "have $(OVERLAY_ORIG)"; exit 0; fi; \
+	slice="$(OVERLAY_SLICE)"; \
 	if [ -f "$(OVERLAY_CFG)" ]; then \
 	    slice="$$( \
 	        $(PY) tools/scripts/overlay_config_slice.py "$(OVERLAY_CFG)" \

@@ -1,7 +1,5 @@
 #include "include_asm.h"
 
-/* CC1_PROFILE: build0001 */
-
 int LoadImage(int rect, int p);
 
 int Gpu_LoadTimImage(int arg0) {

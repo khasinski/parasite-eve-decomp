@@ -1,8 +1,6 @@
 /* CC1_FLAGS: -G8 -g3 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
-/* CC1_PROFILE: build0001 */
-
 #include "pe1/menu_widget.h"
 
 void Draw_PushPrimToList(void *arg0);

@@ -2,8 +2,6 @@
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "include_asm.h"
 
-/* CC1_PROFILE: build0001 */
-
 typedef signed short s16;
 typedef unsigned int u32;
 typedef unsigned char u8;

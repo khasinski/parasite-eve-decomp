@@ -1,7 +1,5 @@
 /* MASPSX_FLAGS: --expand-div */
 
-/* CC1_PROFILE: build0001 */
-
 typedef signed char s8;
 
 typedef struct {
@@ -21,7 +19,6 @@ typedef struct {
     s8 target;
 } AkaoGlobalSlideRangeCommand;
 
-/* CC1_PROFILE: build0001 */
 typedef signed char s8_1;
 
 typedef struct {

@@ -1,5 +1,3 @@
-/* CC1_PROFILE: build0001 */
-
 typedef short s16;
 
 typedef struct {

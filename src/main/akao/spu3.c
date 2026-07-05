@@ -1,4 +1,3 @@
-/* CC1_PROFILE: build0001 */
 void Spu_PrepareTransfer(void);
 unsigned int Spu_ReadFromSpu(int arg0, unsigned int size);
 

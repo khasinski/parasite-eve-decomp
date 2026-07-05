@@ -1,17 +1,17 @@
-name: ovl_024.bin
+name: room_m049.bin
 sha1: 320861e23df3605a60e159b7db5fc081aa421607
 options:
-  basename: ovl_024
-  target_path: original/USA/overlays/ovl_024.bin
+  basename: room_m049
+  target_path: original/USA/overlays/room_m049.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/ovl_024
-  src_path: src/overlays/ovl_024
-  build_path: build/USA/overlays/ovl_024
-  ld_script_path: linkers/USA/overlays/ovl_024.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_024.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_024.txt
+  asm_path: asm/USA/overlays/room_m049
+  src_path: src/overlays/room_m049
+  build_path: build/USA/overlays/room_m049
+  ld_script_path: linkers/USA/overlays/room_m049.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m049.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m049.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -25,7 +25,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: ovl_024
+  - name: room_m049
     type: code
     start: 0x0
     vram: 0x80100000
@@ -34,7 +34,7 @@ segments:
     bss_size: 0x0
     subsegments:
       # generated from static prologue hints; verify with runtime trace and SHA check
-      - [0x0, asm, ovl_024_header]
+      - [0x0, asm, room_m049_header]
       - [0x54, c, func_80100054]
       - [0x80, c, func_80100080]
       - [0xAC, c, func_801000AC]
@@ -43,16 +43,16 @@ segments:
       - [0x14C, c, func_8010014C]
       - [0x154, asm, func_80100154]
       - [0x384, c, func_80100384]
-      - [0x38C, asm, func_ovl_024_00038C]
-      - [0x13C0, asm, func_ovl_024_0013C0]
+      - [0x38C, asm, func_room_m049_00038C]
+      - [0x13C0, asm, func_room_m049_0013C0]
       - [0x1440, c, func_80101440]
       - [0x1880, asm, func_80101880]
-      - [0x1C10, asm, func_ovl_024_001C10]
+      - [0x1C10, asm, func_room_m049_001C10]
       - [0x1CC8, c, func_80101CC8]
       - [0x2158, asm, func_80102158]
-      - [0x2508, asm, func_ovl_024_002508]
+      - [0x2508, asm, func_room_m049_002508]
       - [0x25C0, c, func_801025C0]
-      - [0x2970, asm, func_ovl_024_002970]
+      - [0x2970, asm, func_room_m049_002970]
       - [0x2CAC, c, func_80102CAC]
       - [0x2D5C, c, func_80102D5C]
       - [0x3190, asm, func_80103190]
@@ -61,21 +61,21 @@ segments:
       - [0x3698, c, func_80103698]
       - [0x36A0, c, func_801036A0]
       - [0x37AC, c, func_801037AC]
-      - [0x39C8, asm, func_ovl_024_0039C8]
+      - [0x39C8, asm, func_room_m049_0039C8]
       # data-island boundaries from docs/assets/overlay-function-kind-audit.csv
-      - [0x4A5C, asm, ovl_024_data_004A5C]
-      - [0x78A4, asm, ovl_024_data_0078A4]
-      - [0x85AC, asm, ovl_024_data_0085AC]
-      - [0x875C, asm, ovl_024_data_00875C]
-      - [0x32D74, asm, ovl_024_data_032D74]
-      - [0x33BA0, asm, ovl_024_data_033BA0]
-      - [0x3C020, asm, ovl_024_data_03C020]
-      - [0x3EFD0, asm, ovl_024_data_03EFD0]
-      - [0x40000, asm, ovl_024_data_040000]
-      - [0x51334, asm, ovl_024_data_051334]
-      - [0x528C8, asm, ovl_024_data_0528C8]
-      - [0x52F78, asm, ovl_024_data_052F78]
+      - [0x4A5C, asm, room_m049_data_004A5C]
+      - [0x78A4, asm, room_m049_data_0078A4]
+      - [0x85AC, asm, room_m049_data_0085AC]
+      - [0x875C, asm, room_m049_data_00875C]
+      - [0x32D74, asm, room_m049_data_032D74]
+      - [0x33BA0, asm, room_m049_data_033BA0]
+      - [0x3C020, asm, room_m049_data_03C020]
+      - [0x3EFD0, asm, room_m049_data_03EFD0]
+      - [0x40000, asm, room_m049_data_040000]
+      - [0x51334, asm, room_m049_data_051334]
+      - [0x528C8, asm, room_m049_data_0528C8]
+      - [0x52F78, asm, room_m049_data_052F78]
   - [0x5A800]
 # room: m049, section3 sector 20896, scanner delta 0
 # source slice: room-section3
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_024.bin bs=2048 skip=20896 count=181
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m049.bin bs=2048 skip=20896 count=181

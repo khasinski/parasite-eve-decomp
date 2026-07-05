@@ -1,4 +1,3 @@
-/* CC1_PROFILE: build0001 */
 #include "pe1/psyq_spu_internal.h"
 
 long SpuInitMalloc(long num, char *top) {

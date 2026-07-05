@@ -1,6 +1,5 @@
 #include "include_asm.h"
 
-/* CC1_PROFILE: build0001 */
 #include "pe1/akao.h"
 
 int Spu_ValidateSampleHeader(void);

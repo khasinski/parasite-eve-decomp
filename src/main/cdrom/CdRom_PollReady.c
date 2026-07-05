@@ -1,4 +1,3 @@
-/* CC1_PROFILE: build0001 */
 /* MASPSX_FLAGS: --stack-return-delay */
 
 int Sys_VSyncTimeout(int arg0);

@@ -26,7 +26,6 @@ void DMACallback(int arg0, int arg1);
 
 extern void CD_datasync(void);
 
-/* CC1_PROFILE: build0001 */
 #include "pe1/psyq_cd.h"
 
 void CdSync(void) {

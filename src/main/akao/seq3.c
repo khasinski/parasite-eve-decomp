@@ -6,7 +6,6 @@ void Seq_StartNestedStreams(void *arg0, void *arg1, void *arg2);
 
 void Spu_ManageVoices(int arg0, int arg1);
 
-/* CC1_PROFILE: build0001 */
 typedef unsigned short u16_1;
 
 extern char *g_AkaoCurTrack;
@@ -14,8 +13,6 @@ extern char g_AkaoVoiceStateTable[];
 extern char g_AkaoVoiceStateTable2[];
 
 void Seq_MarkDirtyTracks(char *arg0);
-
-/* CC1_PROFILE: build0001 */
 
 extern short g_AkaoGlobalPitchSlideCounter;
 extern int D_8009D2B4;

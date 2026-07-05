@@ -1,5 +1,3 @@
-/* CC1_PROFILE: build0001 */
-
 typedef unsigned char u8;
 
 extern char *g_PmSlotTable;

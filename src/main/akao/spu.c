@@ -4,7 +4,6 @@ typedef unsigned int u32;
 extern u32 g_TimerTimeoutStart;
 extern u32 g_TimerTimeoutLimit;
 
-/* CC1_PROFILE: build0001 */
 extern int g_SpuTransferStatus;
 void SpuSetTransferCallback(void (*callback)(void));
 

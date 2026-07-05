@@ -12,7 +12,6 @@ extern volatile u32 *D_8009B2B8;
 extern volatile u32 *D_8009B2BC;
 extern volatile u32 *g_CdRegDmaControl;
 
-/* CC1_PROFILE: build0001 */
 extern int D_8009B260;
 
 int CD_getsector(u32 arg0, u32 arg1) {

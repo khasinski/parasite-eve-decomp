@@ -1,6 +1,5 @@
 /* MASPSX_FLAGS: --la-return-delay */
 
-/* CC1_PROFILE: build0001 */
 extern int g_CdStreamRingSize;
 extern int g_CdStreamRingWritePtr;
 extern int g_CdStreamRingReadSlot;

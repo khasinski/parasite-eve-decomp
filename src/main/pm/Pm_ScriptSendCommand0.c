@@ -1,4 +1,3 @@
-/* CC1_PROFILE: build0001 */
 /* CC1_FLAGS: -G0 -g3 */
 /* MASPSX_FLAGS: -G0 --use-comm-section */
 

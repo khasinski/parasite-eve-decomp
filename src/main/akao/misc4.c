@@ -1,5 +1,3 @@
-/* CC1_PROFILE: build0001 */
-
 extern char *g_AkaoCurTrack;
 extern unsigned int g_AkaoSeqPendingFlags;
 extern int g_AkaoTrackStateArray[];

@@ -1,10 +1,8 @@
-/* CC1_PROFILE: build0001 */
 typedef unsigned short u16;
 
 extern char *g_AkaoCurTrack;
 extern char g_AkaoDefaultVoiceProgram[];
 
-/* CC1_PROFILE: build0001 */
 typedef unsigned int u32;
 typedef unsigned short u16_1;
 

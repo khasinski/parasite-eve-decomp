@@ -1,8 +1,6 @@
 /* CC1_FLAGS: -G8 -g3 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
-/* CC1_PROFILE: build0001 */
-
 extern unsigned char g_InvItemSlotArray[];
 extern unsigned char D_800C1EAC[];
 extern unsigned char g_EquipItemDataTable[];

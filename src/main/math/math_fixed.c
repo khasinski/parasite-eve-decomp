@@ -1,4 +1,3 @@
-/* CC1_PROFILE: build0001 */
 void SetDrawMode(void *p, int dfe, int dtd, int tpage);
 void SetSprt(unsigned char *arg0);
 int Gpu_AppendPacketPrimitive(void *arg0, void *arg1);
