@@ -60,7 +60,7 @@ AS         := mipsel-none-elf-as
 LD         := mipsel-none-elf-ld
 OBJCOPY    := mipsel-none-elf-objcopy
 
-ASM_SRCS := $(shell find $(ASM_DIR) -name '*.s' 2>/dev/null)
+ASM_SRCS := $(shell find $(ASM_DIR) -name '*.s' -not -path '*/matchings/*' -not -path '*/nonmatchings/*' 2>/dev/null)
 C_SRCS   := $(shell find $(SRC_DIR) -name '*.c' 2>/dev/null)
 
 ASM_OBJS := $(ASM_SRCS:%.s=$(BUILD)/%.s.o)

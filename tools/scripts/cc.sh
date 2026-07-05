@@ -123,5 +123,6 @@ fi
         --gnu-as-path="$AS" \
         --run-assembler \
         -EL "$AS_G_FLAG" -march=r3000 -mtune=r3000 -no-pad-sections \
+        -I "$ROOT" -I "$ROOT/include" -I "$ROOT/asm/USA/main" -I "$ROOT/asm/USA/overlays" \
         -o "$OUT" \
         < "$TMP_S"

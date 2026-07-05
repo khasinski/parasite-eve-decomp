@@ -1,6 +1,0 @@
-extern int g_GameStateFlags;
-
-int Scene_ClearGlobalFlags(int **arg0) {
-    g_GameStateFlags &= ~*arg0[0];
-    return 1;
-}
