@@ -1,3 +1,6 @@
 RoomLib_InvokeCallbackC_80101D40 = 0x80101D40; // type:func
 RoomLib_InvokeCallbackC_80102858 = 0x80102858; // type:func
 RoomLib_InvokeCallbackC_80103244 = 0x80103244; // type:func
+RoomLib_ResetAndSignal_8010250C = 0x8010250C; // type:func
+RoomLib_ResetAndSignal_801030FC = 0x801030FC; // type:func
+RoomLib_Set4ClearSignal_80103530 = 0x80103530; // type:func
