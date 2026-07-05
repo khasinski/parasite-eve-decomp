@@ -5,6 +5,8 @@ extern unsigned short D_800B0D88;
 
 void Anim_SetInterpRate(void *arg0, int arg1);
 
+extern int g_BattleModeState;
+
 int Task_Noop3(void) {
     return 1;
 }
@@ -31,5 +33,10 @@ int Task_SetAnimInterpRate(short **arg0) {
         D_800B0D88 |= 2;
     }
 
+    return 1;
+}
+
+int Menu_GetModeState(int **arg0) {
+    *arg0[0] = g_BattleModeState;
     return 1;
 }

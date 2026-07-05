@@ -1502,3 +1502,5 @@ SeqOp_NoteOnWithPitchSlide = 0x80090E20; // type:func
 Battle_Init = 0x80020F18; // type:func
 Math_Neg64 = 0x80073554; // type:func
 Battle_DispatchSpecialAction = 0x800254BC; // type:func
+
+Seq_StartNestedStreams = 0x8008A92C; // type:func

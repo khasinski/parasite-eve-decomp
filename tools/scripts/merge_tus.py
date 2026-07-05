@@ -69,6 +69,8 @@ def split_header_body(text: str):
     return stripped[: m.start()], stripped[m.start():]
 
 
+RENAMABLE_RE = re.compile(r"^(typedef\b|extern\b.*__asm__)", re.M)
+
 DECL_NAME_RES = [
     re.compile(r"^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*;", re.M),  # prototype
 
@@ -126,19 +128,43 @@ class Unit:
         self._snap = (len(self.chunks), set(self.seen_norm),
                       dict(self.name_owner), set(self.mas), self.cc1)
         text = path.read_text()
+        if ".inc.s" in text:
+            return False  # baked data carrier stays its own unit
         cc1, mas = file_flags(text)
         if self.cc1 is not None and (cc1 != self.cc1 or set(mas.split()) != self.mas):
             return False
         header, body = split_header_body(text)
         if header is None:
             return False
+        renames = {}
+        for c, names in header_chunks(header):
+            nc = norm(c)
+            for ident in names:
+                owner = self.name_owner.get(ident)
+                if owner is not None and owner != nc:
+                    if RENAMABLE_RE.search(c) and not re.search(
+                            rf"\b{ident}\s*\(", c):
+                        renames[ident] = f"{ident}_{len(self.files)}"
+                    else:
+                        return False  # unresolvable conflict (e.g. prototype)
+        if renames:
+            def rn(text):
+                for old, new in renames.items():
+                    text = re.sub(rf"\b{old}\b", new, text)
+                    # keep the original linker name on renamed plain externs
+                    text = re.sub(
+                        rf"^(extern[^;\n]*?\b){new}((?:\[[^\]]*\])?)\s*;",
+                        rf"\g<1>{new}\g<2> __asm__(\"{old}\");",
+                        text, flags=re.M)
+                return text
+            header, body = rn(header), rn(body)
         new_chunks = []
         for c, names in header_chunks(header):
             nc = norm(c)
             for ident in names:
                 owner = self.name_owner.get(ident)
                 if owner is not None and owner != nc:
-                    return False  # conflicting redefinition
+                    return False
             if nc in self.seen_norm:
                 continue
             new_chunks.append((c, names, nc))
@@ -167,10 +193,17 @@ class Unit:
             out.append("")
         out.append("\n\n".join(self.chunks))
         out.append("")
+        global MAP_NAMES
+        if MAP_NAMES is None:
+            MAP_NAMES = map_names()
         rendered = []
         for kind, val in self.bodies:
+            if kind == "C":
+                val = re.sub(r'INCLUDE_ASM\("asm/USA/main/nonmatchings/[^"]*"',
+                             f'INCLUDE_ASM("asm/USA/main/nonmatchings/{new_tu}"', val)
             if kind == "ASM":
-                fn = val.split("/")[-1]
+                off = next(o for o, k, n in self.files if n == val)
+                fn = MAP_NAMES.get(0x80010000 - 0x800 + off) or val.split("/")[-1]
                 rendered.append(
                     f'INCLUDE_ASM("asm/USA/main/nonmatchings/{new_tu}", {fn});')
             else:
@@ -201,6 +234,20 @@ def rodata_index(rows):
             idx.setdefault(n, []).append(pos)
             pos += 1
     return idx
+
+
+def map_names():
+    """vram -> canonical symbol name from the byte-verified map."""
+    mp = {}
+    mpath = ROOT / "expected/build/USA/main.map"
+    if mpath.exists():
+        for m in re.finditer(r"^\s+0x(8[0-9a-f]{7})\s+([A-Za-z_]\w*)\s*$",
+                             mpath.read_text(), re.M):
+            mp.setdefault(int(m.group(1), 16), m.group(2))
+    return mp
+
+
+MAP_NAMES = None
 
 
 def gap_cut_tus():
@@ -235,12 +282,9 @@ def plan_units(min_files: int):
                 i += 1
                 continue
             unit = Unit()
-            prefix = n.split("/")[0]
             j = i
             while j < len(g):
                 oj, tyj, nj = g[j]
-                if nj.split("/")[0] != prefix:
-                    break
                 new_w = ridx.get(nj, [])
                 if new_w and unit.windows:
                     break  # only one member may own rodata windows
@@ -276,10 +320,10 @@ def apply_units(units):
     yaml_text = YAML.read_text()
     for u in units:
         first_off = u.files[0][0]
-        prefix = u.files[0][2].split("/")[0]
+        prefixes = [f[2].split("/")[0] for f in u.files]
+        prefix = max(set(prefixes), key=prefixes.count)
         new_tu = f"{prefix}/tu_{first_off:06X}"
-        new_path = (SRC / new_tu).with_suffix(".c")
-        new_path.write_text(u.render(new_tu))
+        rendered = u.render(new_tu)
         for k, (off, kind, tu) in enumerate(u.files):
             row = f"- [0x{off:X}, {kind}, {tu}]"
             assert row in yaml_text, row
@@ -293,6 +337,9 @@ def apply_units(units):
                 park.parent.mkdir(parents=True, exist_ok=True)
                 path.rename(park.with_suffix(".c"))
         yaml_text = "\n".join(l for l in yaml_text.split("\n") if "\x00" not in l)
+        new_path = (SRC / new_tu).with_suffix(".c")
+        new_path.parent.mkdir(parents=True, exist_ok=True)
+        new_path.write_text(rendered)
     YAML.write_text(yaml_text)
 
 

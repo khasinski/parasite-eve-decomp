@@ -55,15 +55,6 @@ tools/decomp-permuter/
 tools/m2c/
 tools/maspsx/
 tools/splat/
-asm/USA/main/data/
-asm/USA/main/gpu/
-asm/USA/main/gte/
-asm/USA/main/math/
-asm/USA/main/memcard/
-asm/USA/main/pad/
-asm/USA/main/psyq/
-asm/USA/main/sys/
-asm/USA/main/task/
 
 # project working notes and generated reports (local only)
 globals/
@@ -176,5 +167,8 @@ tools/objdiff/
 build/USA/report.json
 scratch_*/
 scratch/
-asm/USA/main/nonmatchings/
-asm/USA/main/matchings/
+asm/USA/main/
+!asm/USA/main/header.s
+!asm/USA/main/main/
+asm/USA/main/main/*
+!asm/USA/main/main/068774_pre_InitGeom.s
