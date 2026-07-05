@@ -35,6 +35,8 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m391]
+      - [0x1204, c, RoomLib_InitB_80101204]
+      - [0x12A4, asm, room_m391_12A4]
       - [0x15B8, c, RoomLib_NotifyArmB_801015B8]
       - [0x1660, asm, room_m391_1660]
       - [0x29B0, c, RoomLib_ResetAndSignalB_801029B0]
