@@ -1,8 +1,8 @@
-RoomMdl_Reset_80100014 = 0x80100014; // type:func
-RoomMdl_Kill_801001C4 = 0x801001C4; // type:func
-RoomEnt_Setup5_801001DC = 0x801001DC; // type:func
-RoomMdl_Tick_80100108 = 0x80100108; // type:func
-RoomFx_ModelBind = 0x8018F1C4;
+RoomMdl_Reset_8018EFFC = 0x8018EFFC; // type:func
+RoomMdl_Kill_8018F1AC = 0x8018F1AC; // type:func
+RoomEnt_Setup5_8018F1C4 = 0x8018F1C4; // type:func
+RoomMdl_Tick_8018F0F0 = 0x8018F0F0; // type:func
+// provide: RoomFx_ModelBind = 0x8018F1C4;
 RoomFx_ModelUpdate = 0x8018F1F8;
 RoomFx_ModelDraw = 0x8018F580;
 Render_TransformVertices = 0x8003A088;

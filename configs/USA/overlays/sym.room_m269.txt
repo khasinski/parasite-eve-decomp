@@ -1,6 +1,6 @@
-RoomLib_InvokeCallbackC_80100150 = 0x80100150; // type:func
-RoomLib_SetArg1_801031A4 = 0x801031A4; // type:func
-RoomSlotA_801031A4 = 0x80192330;
-RoomLib_SetPair_801031C4 = 0x801031C4; // type:func
+RoomLib_InvokeCallbackC_8018F138 = 0x8018F138; // type:func
+RoomLib_SetArg1_8019218C = 0x8019218C; // type:func
+RoomSlotA_8019218C = 0x80192330;
+RoomLib_SetPair_801921AC = 0x801921AC; // type:func
 RoomLib_PairA = 0x8019233C;
 RoomLib_PairB = 0x80192340;

@@ -29,13 +29,13 @@ segments:
   - name: room_m156+2
     type: code
     start: 0x0
-    vram: 0x80100000
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m156+2]
-      - [0x3A00, c, RoomLib_SetArg1_80103A00]
+      - [0x3A00, c, RoomLib_SetArg1_801929E8]
       - [0x3A10, asm, room_m156+2_3A10]
       - [0x3AF4, data]
   - [0x43800]

@@ -29,13 +29,13 @@ segments:
   - name: room_m113
     type: code
     start: 0x0
-    vram: 0x80100000
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m113]
-      - [0xC80, c, RoomLib_SetArgs3_80100C80]
+      - [0xC80, c, RoomLib_SetArgs3_8018FC68]
       - [0xCA4, asm, room_m113_CA4]
       - [0x16F90, data]
   - [0x2E000]
