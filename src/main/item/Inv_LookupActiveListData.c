@@ -9,7 +9,7 @@ int g_InvItemPtr;
 extern u8 g_EquipItemDataTable[];
 extern u8 g_KeyItemDataTable[];
 
-void *Item_LookupBaseData(int index);
+void *Item_LookupBaseData(unsigned int index);
 
 void *Inv_LookupActiveListData(int index) {
     int value;

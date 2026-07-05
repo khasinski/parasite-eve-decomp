@@ -7,8 +7,8 @@ int g_MenuActiveWidget;
 int Menu_GetBattleEquipMode(void);
 int MenuWidget_GridCellIndex(int arg0);
 int Battle_IsActiveWrapped();
-void Draw_SetTextDimmed(int arg0);
-void Draw_OffsetCursor(int arg0, int arg1);
+void Draw_SetTextDimmed(int value);
+void Draw_OffsetCursor(int x, int y);
 void Draw_AllocSprite(int arg0);
 
 void Menu_DrawItemSlot(int arg0) {

@@ -6,8 +6,8 @@ int g_MenuEquipMode;
 extern unsigned char D_800923B8[][8];
 
 int MenuWidget_GridCellIndex(int);
-void Draw_OffsetCursor(int, int);
-void Draw_SetTextDimmed(int);
+void Draw_OffsetCursor(int x, int y);
+void Draw_SetTextDimmed(int value);
 void Draw_AllocSprite(int);
 
 void Menu_DrawEquipSlotListItem(int arg0) {

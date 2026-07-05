@@ -3,11 +3,11 @@
 
 int g_MenuActiveWidget;
 
-void Menu_DrawSaveSlot2Item(void);
+void Menu_DrawSaveSlot2Item(int arg0);
 void MenuWidget_DrawList(int arg0, void (*callback)(void));
-void Draw_SetTextDimmed(int arg0);
+void Draw_SetTextDimmed(int value);
 void Draw_AllocSprite(int arg0);
-void Draw_OffsetCursor(int arg0, int arg1);
+void Draw_OffsetCursor(int x, int y);
 
 void Menu_DrawMemCardSlot2List(int arg0) {
     g_MenuActiveWidget = arg0;

@@ -3,7 +3,7 @@
 
 int g_MemCardProgressPrimList;
 
-void Draw_OffsetCursor(int arg0, int arg1);
+void Draw_OffsetCursor(int x, int y);
 void Draw_FlushPrimList(int arg0);
 int MemCard_GetActiveProgressBlocks(void);
 void Draw_AllocSprite(int arg0);

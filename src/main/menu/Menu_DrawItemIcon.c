@@ -3,7 +3,7 @@
 
 unsigned char *g_MenuItemIconGlyphTable;
 
-void Draw_OffsetCursor(int, int);
+void Draw_OffsetCursor(int x, int y);
 void Draw_StatePush(void);
 void Draw_StatePop(void);
 void Draw_AllocTexturedQuad(int);

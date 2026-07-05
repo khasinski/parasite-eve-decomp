@@ -8,7 +8,7 @@ extern short D_8009D2A4[];
 
 int Menu_InitBonusPointScreen(int arg0, int arg1, int arg2, int *arg3);
 int MenuWidget_HasActiveNodes(void);
-void Render_BeginSceneLoad(void);
+int Render_BeginSceneLoad(void);
 
 int Boot_InitPhase3(int **arg0) {
     int **saved = arg0;

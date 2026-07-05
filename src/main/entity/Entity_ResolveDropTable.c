@@ -14,8 +14,8 @@ extern char *g_PlayerEntity[];
 extern void *g_BattlePendingEnemySpawn[];
 
 int rand(void);
-void Entity_ApplyHitAndSetAnim(void *arg0);
-void Battle_ApplyEnemyAttack(void *arg0);
+s16 Entity_ApplyHitAndSetAnim(void *arg0);
+void Battle_ApplyEnemyAttack(u8 *ent);
 
 #define U8(base, off) (*(u8 *)((char *)(base) + (off)))
 #define U16(base, off) (*(u16 *)((char *)(base) + (off)))

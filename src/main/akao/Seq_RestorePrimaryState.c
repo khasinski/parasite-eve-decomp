@@ -7,7 +7,7 @@ extern char g_AkaoVoiceStateBackup[];
 extern char g_AkaoVoiceStateTable[];
 extern char *g_AkaoCurTrack;
 
-void Util_CopyWords(void *dst, void *src, int len);
+void Util_CopyWords(unsigned int *src, unsigned int *dst, unsigned int size);
 
 void Seq_RestorePrimaryState(void) {
     u32 i;

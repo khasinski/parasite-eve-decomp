@@ -27,11 +27,11 @@ extern s32 g_BonusPointSpendCurrentValue;
 extern s32 g_BonusPointStatDeltas[];
 extern ItemRecord D_800A1A00;
 
-MenuWidgetNode *MenuWidget_CreateSimpleNode(s32, s32, s32, s32);
-void MenuWidget_SetCurrentNode(MenuWidgetNode *);
-void MenuWidget_OffsetPosition(MenuWidgetNode *, s32, s32);
-s32 Inv_RestoreSelection(s32);
-ItemRecord *Inv_LookupActiveListData(s32);
+void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3);
+void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
+void MenuWidget_OffsetPosition(MenuWidgetNode *ptr, int dx, int dy);
+s32 Inv_RestoreSelection(u32 index);
+void *Inv_LookupActiveListData(int index);
 void Menu_DrawBonusPointSpendPanel(void);
 s32 Spend_BonusPoints(s32);
 

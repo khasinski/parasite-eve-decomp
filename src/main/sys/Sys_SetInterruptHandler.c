@@ -15,7 +15,7 @@ extern CallbackPair D_800A34B4;
 extern int D_800A34BC;
 
 void Pad_VBlankHandler(void);
-void Pad_CheckTransferDone(void);
+int Pad_CheckTransferDone(void);
 
 int Sys_SetInterruptHandler(void) {
     register int one asm("$4");

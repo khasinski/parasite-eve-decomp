@@ -23,7 +23,7 @@ struct Entity {
 };
 
 void Entity_AdvanceAnim(Entity *entity);
-void Entity_SetAction(Entity *entity, int mode);
+void Entity_SetAction(Entity *arg0, int arg1);
 void Akao_LoadVoiceBank(Entity *entity);
 
 void Entity_AdvanceAnim(Entity *entity) {

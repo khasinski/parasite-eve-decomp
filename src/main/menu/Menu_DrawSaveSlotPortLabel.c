@@ -8,7 +8,7 @@ typedef struct {
     Inner *inner;
 } Outer;
 
-void Draw_OffsetCursor(int arg0, int arg1);
+void Draw_OffsetCursor(int x, int y);
 void Draw_FlushPrimList(int arg0);
 
 void Menu_DrawSaveSlotPortLabel(Outer *arg0) {

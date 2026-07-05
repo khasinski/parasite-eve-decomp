@@ -18,7 +18,7 @@ typedef struct {
 
 extern State *g_CurrentEntity;
 
-int Math_FixedDivide(int arg0, int arg1);
+int Math_FixedDivide(int a, int b);
 int Math_FixedMul(int arg0, int arg1);
 
 int Entity_ComputeVelocityToTarget(int **arg0) {

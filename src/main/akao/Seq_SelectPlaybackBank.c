@@ -5,7 +5,7 @@ extern u16 g_AkaoSelectedBankId;
 extern char *g_AkaoCurTrack;
 
 void Akao_UpdateVoiceMask(int arg0);
-void Akao_StepSequencerVoice(int arg0);
+void Akao_StepSequencerVoice(void *arg0);
 
 void Seq_SelectPlaybackBank(int *arg0) {
     u16 value;

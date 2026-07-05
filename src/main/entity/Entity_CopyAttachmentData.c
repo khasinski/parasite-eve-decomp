@@ -4,7 +4,7 @@ extern FieldActor *g_PlayerEntity;
 extern FieldActor *g_FieldActorListHead;
 extern FieldActor *g_CurrentEntity;
 
-void Render_SetObjectAnim(void *arg0, void *arg1, int arg2);
+void Render_SetObjectAnim(void *arg0, int arg1, short arg2);
 
 int Entity_CopyAttachmentData(int **arg0) {
     register int **args asm("$6") = arg0;

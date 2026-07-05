@@ -6,9 +6,9 @@ extern int g_BonusPointStatDeltas[];
 extern int g_BonusPointStatMultipliers[];
 
 void Stat_QueryLevelAndSubLevel(int, int, int *, int);
-void Draw_OffsetCursor(int, int);
+void Draw_OffsetCursor(int x, int y);
 void Draw_AllocSprite(int);
-void Draw_PrintNumberWidth2(int);
+void Draw_PrintNumberWidth2(int arg0);
 
 void Menu_DrawStatAllocationItem(int arg0) {
     int value;

@@ -5,7 +5,7 @@ extern int D_8009B708;
 void DsSyncCallback(int arg0);
 void DsReadyCallback(int arg0);
 int CdRom_GetPendingReadCount(void);
-void CdRom_RestartSeek(void);
+int CdRom_RestartSeek(void);
 
 void CdRom_ReadDoneCallback(unsigned char arg0, void *arg1) {
     int *state;

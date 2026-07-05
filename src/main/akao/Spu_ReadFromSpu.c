@@ -3,7 +3,7 @@
 extern int g_SpuTransferActiveFlag;
 extern int _spu_transferCallback;
 
-void _spu_Fr(int arg0, unsigned int size);
+int _spu_Fr(void *buf, int size);
 
 unsigned int Spu_ReadFromSpu(int arg0, unsigned int size) {
     if (size > 0x7EFF0) {

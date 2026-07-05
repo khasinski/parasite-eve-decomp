@@ -5,7 +5,7 @@ extern int g_SceneDataTable0;
 extern int *g_TaskNodePool;
 extern int g_GameStateFlags;
 
-void Render_BeginSceneLoad(void);
+int Render_BeginSceneLoad(void);
 void Menu_OpenEquipScreen(int arg0);
 
 int Task_BeginSceneTransition(int **arg0) {

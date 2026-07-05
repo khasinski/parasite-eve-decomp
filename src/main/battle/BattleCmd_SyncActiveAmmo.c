@@ -8,8 +8,8 @@ extern short g_AyaHpCurrent[];
 extern signed char g_AyaEquippedWeaponSlot[];
 
 int Inv_IsActiveListOverrideSelected(void);
-void Inv_SelectActiveList(int);
-void *Inv_LookupActiveListData(int);
+void Inv_SelectActiveList(int useOverride);
+void *Inv_LookupActiveListData(int index);
 
 void BattleCmd_SyncActiveAmmo(void) {
     void **entity;

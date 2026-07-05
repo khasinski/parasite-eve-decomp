@@ -1,6 +1,6 @@
 extern void CdRom_AbortCmd(void);
-extern void DsReadBreak(void);
-extern void CdRom_EnableDsReadSystem(void);
+void DsReadBreak(void);
+void CdRom_EnableDsReadSystem(void);
 
 extern int g_CdDsReadQueueState;
 extern int g_CdDsReadIndex;

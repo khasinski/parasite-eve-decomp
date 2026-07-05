@@ -6,7 +6,7 @@ void EnterCriticalSection(void);
 void Pad_DequeueHandler(void);
 void ExitCriticalSection(void);
 void ChangeClearPAD(int arg0);
-void Sys_SetInterruptHandler(void);
+int Sys_SetInterruptHandler(void);
 void InitPAD2(int arg0, int arg1, int arg2, int arg3);
 
 void Pad_InitBios(int arg0, int arg1, int arg2, int arg3) {

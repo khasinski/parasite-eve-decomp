@@ -8,12 +8,12 @@ typedef struct { u32 w[4]; } Copy16a;
 
 typedef struct { s16 x, y, w, h; } RECT;
 
-void ClearImage(RECT *, s32, s32, s32);
+int ClearImage(RECT *rect, u8 r, u8 g, u8 b);
 s32 CdRom_ReadSectorsFromLba(s32, s32, s32);
-s32 CdRom_PollReady();
-void Menu_FullInit();
-s32 Asset_FindTable08ByU32Key(s32, u32);
-void Spu_UploadSampleBlockBlocking(s32, s32);
+int CdRom_PollReady(void);
+void Menu_FullInit(void);
+int Asset_FindTable08ByU32Key(void *arg0, s32 arg1);
+void Spu_UploadSampleBlockBlocking(int arg0, int arg1);
 
 extern struct { char _[16]; } g_PeImageBaseLba_o __asm__("g_PeImageBaseLba");
 extern struct { char _[16]; } D_800930DC_o __asm__("D_800930DC");

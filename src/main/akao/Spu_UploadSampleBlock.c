@@ -6,8 +6,8 @@ typedef int s32;
 
 void Spu_WaitTransferDone(void);
 s32 Spu_ValidateSampleHeader(void *arg0);
-s32 Spu_WriteRegChecked(s32 arg0);
-void Spu_UploadWithPrepare(s32 arg0, s32 arg1);
+int Spu_WriteRegChecked(int arg0);
+void Spu_UploadWithPrepare(int arg0, int arg1);
 
 extern s32 g_SpuTransferStatus;
 extern s32 g_AkaoInstrumentTable[];
