@@ -8,3 +8,5 @@ RoomFx_ModelDraw = 0x8018F580;
 Render_TransformVertices = 0x8003A088;
 Render_TransformMorphVertices = 0x8003AC90;
 g_GeomVramPacketDst = 0x800BCFA4;
+RoomMdl_Select_8018F020 = 0x8018F020; // type:func
+g_FieldActorListHead = 0x8009D20C;

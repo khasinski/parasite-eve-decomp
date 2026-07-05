@@ -557,13 +557,15 @@ extern char RoomLib_TableB[];
 /* --- m017 family: room-local model controller (m017/m018/m021/m045/
  * m102/m151/m319 share one prologue library block at 0x80100014+). --- */
 
+struct FieldActorNode;
+
 typedef struct M17Model {
     unsigned char b00;
     unsigned char b01;
     short h02;
     int w04;
     unsigned char *obj;                    /* 0x08: owning object; geometry at +0x1B4 */
-    int actor;                  /* 0x0C */
+    struct FieldActorNode *actorNode; /* 0x0C */
     short h10;                    /* 0x10 */
     short h12;                    /* 0x12 */
     short h14;                    /* 0x14 */
@@ -595,7 +597,7 @@ extern void *g_GeomVramPacketDst;
 
 #define ROOMLIB_MDL_RESET(name) \
     int name(M17Model *m) { \
-        m->actor = 0; \
+        m->actorNode = 0; \
         m->h12 = 0; \
         m->h10 = 0; \
         m->h16 = 0; \
@@ -625,7 +627,7 @@ extern void *g_GeomVramPacketDst;
 #define ROOMLIB_MDL_TICK(name) \
     int name(M17Model *m) { \
         if (m->bInit == 0) { \
-            RoomFx_ModelBind(m->obj + 0x1B4, m->actor, m->h10, m->h12, \
+            RoomFx_ModelBind(m->obj + 0x1B4, (int)m->actorNode, m->h10, m->h12, \
                              m->h14, m->h16); \
             m->bInit = 1; \
         } \
@@ -635,6 +637,55 @@ extern void *g_GeomVramPacketDst;
             Render_TransformMorphVertices(m->obj + 0x1B4, g_GeomVramPacketDst); \
             RoomFx_ModelDraw(m->obj + 0x1B4); \
         } \
+        return 0; \
+    }
+
+typedef struct FieldActorNode {
+    int w00;
+    struct FieldActorNode *next;  /* 0x04 */
+    int w08;
+    unsigned char b0C;            /* 0x0C: kind matched against arg */
+    unsigned char b0D;            /* 0x0D: sub-kind */
+    char pad0E[0x8A];
+    int w98;                      /* 0x98: 0x10 = busy */
+} FieldActorNode;
+
+extern FieldActorNode *g_FieldActorListHead;
+
+#define ROOMLIB_MDL_SELECT(name) \
+    int name(M17Model *m, int cancel, int mode, int a, int b) { \
+        FieldActorNode **p = &m->actorNode; \
+        if (mode == 1) goto win_a; \
+        if (mode == 0) goto scan; \
+        if (mode == 2) goto win_b; \
+        if (mode == 3) goto flag; \
+        return -6; \
+    scan: \
+        if (cancel != 0) { \
+            goto done; \
+        } \
+        *p = g_FieldActorListHead; \
+        if (*p != 0) { \
+            do { \
+                FieldActorNode *n = *p; \
+                if (n->b0C == a && n->b0D == b && !(n->w98 & 0x10)) { \
+                    goto done; \
+                } \
+                *p = (*p)->next; \
+            } while (*p != 0); \
+        } \
+        goto done; \
+    win_a: \
+        m->h10 = a; \
+        m->h12 = b; \
+        goto done; \
+    win_b: \
+        m->h14 = a; \
+        m->h16 = b; \
+        goto done; \
+    flag: \
+        m->bActive = a; \
+    done: \
         return 0; \
     }
 

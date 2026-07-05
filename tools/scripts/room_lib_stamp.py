@@ -14,7 +14,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-VRAM_BASE = 0x80100000
+VRAM_BASE = 0x8018EFE8
 
 
 def stamp(clusters_path: str, shape: str, macro: str, base: str,
