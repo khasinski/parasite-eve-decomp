@@ -1,6 +1,8 @@
 /* CC1_FLAGS: -G8 -g3 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
+
+#include "include_asm.h"
 void DrawSync(int arg0);
 void Menu_DrawSaveBg(void);
 void VSync(int arg0);

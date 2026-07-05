@@ -1,5 +1,7 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
+
+#include "include_asm.h"
 asm(".globl func_800753B4");
 asm("func_800753B4 = DrawOTag");
 

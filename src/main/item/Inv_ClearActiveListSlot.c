@@ -1,6 +1,8 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
+
+#include "include_asm.h"
 typedef short s16;
 
 extern s16 *g_InvItemPtr;

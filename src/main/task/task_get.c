@@ -1,3 +1,5 @@
+
+#include "include_asm.h"
 extern char *g_CurrentEntity;
 
 asm(".globl func_80017928");

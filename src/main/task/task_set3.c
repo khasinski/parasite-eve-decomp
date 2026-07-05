@@ -1,3 +1,5 @@
+
+#include "include_asm.h"
 extern int g_RenderStateFlags;
 
 extern char *g_CurrentEntity;

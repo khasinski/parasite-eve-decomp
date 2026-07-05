@@ -86,12 +86,26 @@ def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
         if src not in cache:
             txt = src.read_text(errors="ignore") if src.exists() else ""
             cache[src] = ("carrier" if ".inc.s" in txt
+                          else "stubbed" if txt and is_clean(txt)
+                          and INCLUDE_ASM_RE.search(txt)
                           else "clean" if txt and is_clean(txt) else "dirty")
         if typ == "c" and cache[src] == "carrier":
             continue
         total_b += nxt - off
         if typ == "c" and cache[src] == "clean":
             matched_b += nxt - off
+        elif typ == "c" and cache[src] == "stubbed":
+            stub_bytes = 0
+            nm = ROOT / "asm/USA/main/nonmatchings" / seg
+            if name.startswith("ovl") or name.startswith("room"):
+                nm = ROOT / f"asm/USA/overlays/{name}/nonmatchings" / seg
+            for s in (nm.glob("*.s") if nm.exists() else []):
+                m2 = re.search(r"nonmatching \w+, (0x[0-9A-Fa-f]+|\d+)",
+                               s.read_text(errors="ignore"))
+                if m2:
+                    v = m2.group(1)
+                    stub_bytes += int(v, 16) if v.startswith("0x") else int(v)
+            matched_b += max(0, (nxt - off) - stub_bytes)
     pct_f = 100.0 * m_funcs / n_funcs if n_funcs else 0.0
     pct_b = 100.0 * matched_b / total_b if total_b else 0.0
     return (

@@ -1,6 +1,8 @@
 /* CC1_FLAGS: -g3 -G8 */
 /* MASPSX_FLAGS: -G8 --stack-return-delay */
 
+
+#include "include_asm.h"
 typedef signed char s8;
 typedef unsigned char u8;
 typedef short s16;

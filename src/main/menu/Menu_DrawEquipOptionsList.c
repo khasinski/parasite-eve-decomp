@@ -1,3 +1,5 @@
+
+#include "include_asm.h"
 void Menu_DrawWeaponModSlots(void);
 void MenuWidget_DrawList(int arg0, void (*callback)(void));
 

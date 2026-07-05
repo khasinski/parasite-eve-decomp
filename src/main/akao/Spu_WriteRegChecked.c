@@ -1,5 +1,7 @@
 /* CC1_FLAGS: -g3 */
 
+
+#include "include_asm.h"
 typedef unsigned short u16;
 
 extern volatile u16 g_SpuTransferAddr;
