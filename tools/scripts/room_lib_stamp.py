@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+"""Stamp a decompiled room-library shape into every room that carries it.
+
+Usage: room_lib_stamp.py <clusters.json> <shape_hash> <MACRO_NAME> <BaseName>
+For each instance (room, offset, size): split the room's asm subsegment,
+add a per-overlay symbol, and write a one-line TU expanding the shared
+body macro from src/overlays/room_lib/room_lib.h.
+"""
+from __future__ import annotations
+
+import json
+import pathlib
+import re
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+VRAM_BASE = 0x80100000
+
+
+def stamp(clusters_path: str, shape: str, macro: str, base: str) -> None:
+    inst = json.load(open(clusters_path))[shape]
+    wired = 0
+    for room, off, size in sorted(inst):
+        cfg = ROOT / f'configs/USA/overlays/{room}.yaml'
+        t = cfg.read_text()
+        vram = VRAM_BASE + off
+        name = f'{base}_{vram:08X}'
+        if name in t:
+            continue
+        if 'symbol_addrs_path' not in t:
+            t = t.replace('  undefined_syms_auto_path:',
+                          f'  symbol_addrs_path: configs/USA/overlays/sym.{room}.txt\n'
+                          '  undefined_syms_auto_path:', 1)
+        rows = sorted((int(m.group(1), 16), m.group(2), m.group(3) or '')
+                      for m in re.finditer(
+                          r'- \[(0x[0-9A-Fa-f]+), ([\w.]+)(?:, ([^\]]+))?\]', t))
+        cover = None
+        for (o1, ty, n1), (o2, _, _) in zip(rows, rows[1:] + [(1 << 30, '', '')]):
+            if ty == 'asm' and o1 <= off and off + size <= o2:
+                cover = (o1, n1, o2)
+                break
+        if not cover:
+            print(f'SKIP {room}+0x{off:X}: no covering asm row')
+            continue
+        o1, n1, o2 = cover
+        old = f'- [0x{o1:X}, asm, {n1}]'
+        new = ''
+        if o1 < off:
+            new += f'- [0x{o1:X}, asm, {n1}]\n      '
+        new += f'- [0x{off:X}, c, {name}]'
+        if off + size < o2:
+            new += f'\n      - [0x{off + size:X}, asm, {n1}_{off + size:X}]'
+        t = t.replace(old, new, 1)
+        cfg.write_text(t)
+        symp = ROOT / f'configs/USA/overlays/sym.{room}.txt'
+        sym = symp.read_text() if symp.exists() else ''
+        if name not in sym:
+            symp.write_text(sym + f'{name} = 0x{vram:08X}; // type:func\n')
+        src = ROOT / f'src/overlays/{room}/{name}.c'
+        src.parent.mkdir(parents=True, exist_ok=True)
+        src.write_text(f'#include "../room_lib/room_lib.h"\n\n{macro}({name})\n')
+        wired += 1
+    print(f'{base}: wired {wired} instances')
+
+
+if __name__ == '__main__':
+    stamp(*sys.argv[1:5])
