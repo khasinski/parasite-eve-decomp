@@ -35,10 +35,14 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m394]
+      - [0x29B0, c, RoomLib_ResetAndSignalB_801029B0]
+      - [0x2A08, asm, room_m394_2A08]
       - [0x2D04, c, RoomLib_InvokeCallbackC_80102D04]
       - [0x2D2C, asm, room_m394_2D2C]
       - [0x34D0, c, RoomLib_ResetAndSignal_801034D0]
       - [0x352C, asm, room_m394_2D2C_352C]
+      - [0x353C, c, RoomLib_InitFull_8010353C]
+      - [0x35CC, asm, room_m394_2D2C_352C_35CC]
       - [0x381C, c, RoomLib_InvokeCallbackC_8010381C]
       - [0x3844, asm, room_m394_2D2C_3844]
       - [0x40C0, c, RoomLib_ResetAndSignal_801040C0]
