@@ -174,3 +174,5 @@ tools/cleanmatch/
 expected/
 tools/objdiff/
 build/USA/report.json
+scratch_*/
+scratch/

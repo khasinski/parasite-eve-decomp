@@ -36,6 +36,6 @@ segments:
       - [0x0, asm, ovl_009_header]
       - [0x1C, asm, func_8018F00C]
       - [0x224, asm, func_8018F214]
-      - [0xC6C, asm, func_8018FC5C]
+      - [0xC6C, c, func_8018FC5C]
       - [0xC90, asm, ovl_009_data]
   - [0x1000]
