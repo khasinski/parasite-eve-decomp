@@ -21,7 +21,28 @@ int MenuWidget_GridCellIndex(MenuWidgetNode *ptr) {
     return ret;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/menu/menu_widget6", MenuWidget_GetCellIndex);
+int MenuWidget_GetCellIndex(void *w) {
+    int idx = -1;
+    int ret;
+
+    if (w != 0) {
+        int col = *(int *)((char *)w + 0x44);
+        if (col >= 0) {
+            int row = *(int *)((char *)w + 0x48);
+            idx = row;
+            if (row >= 0) {
+                idx = (*(int *)((char *)w + 0x34) * row) + col;
+            } else {
+                idx = -1;
+            }
+        }
+    }
+    ret = -1;
+    if ((*(int *)((char *)w + 0x74) >> idx) & 1) {
+        ret = idx;
+    }
+    return ret;
+}
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/menu/menu_widget6", MenuWidget_DrawListRow);
 
