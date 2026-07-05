@@ -46,7 +46,7 @@ def main() -> None:
         src = ROOT / str(o.relative_to(BUILD))[: -len(".o")]
         units.append(unit_for(o, src, "main"))
 
-    for ovl_yaml in sorted((ROOT / "configs/USA/overlays").glob("ovl_*.yaml")):
+    for ovl_yaml in sorted((ROOT / "configs/USA/overlays").glob("*.yaml")):
         ovl = ovl_yaml.stem
         categories.append({"id": ovl, "name": ovl})
         obj_root = BUILD / "overlays" / ovl / "src"
