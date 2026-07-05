@@ -69,6 +69,8 @@ segments:
       - [0x351C, asm, room_m263_1D38_2850_323C_351C]
       - [0x4174, c, RoomLib_SetArgs3_8019315C]
       - [0x4198, asm, room_m263_1D38_2850_323C_351C_4198]
+      - [0x4F88, c, RoomLib_SlotSet_80193F70]
+      - [0x4FCC, asm, room_m263_1D38_2850_323C_351C_4198_4FCC]
       - [0x1C500, data]
   - [0x3E000]
 # room: m263, section3 sector 67837, scanner delta 0

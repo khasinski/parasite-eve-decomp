@@ -1,2 +1,5 @@
 RoomLib_SetArg1_801929E8 = 0x801929E8; // type:func
 RoomSlotA_801929E8 = 0x80192BF8;
+RoomLib_SlotSet_801929F8 = 0x801929F8; // type:func
+RoomLib_SlotTable = 0x80192C00;
+g_FrameCount16 = 0x800942EC;
