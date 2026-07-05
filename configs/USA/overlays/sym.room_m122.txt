@@ -1,7 +1,7 @@
-RoomLib_Spawn6_80100054 = 0x80100054; // type:func
+RoomLib_Spawn6_8018F03C = 0x8018F03C; // type:func
 FieldEng_Spawn6 = 0x800C2AF0;
-RoomLib_CloseTarget_80100154 = 0x80100154; // type:func
+RoomLib_CloseTarget_8018F13C = 0x8018F13C; // type:func
 FieldEng_GetStatus = 0x800C6CE0;
-RoomLib_RegisterTable_80100080 = 0x80100080; // type:func
+RoomLib_RegisterTable_8018F068 = 0x8018F068; // type:func
 FieldEng_Register = 0x800C2414;
-RoomLib_TableA_80100080 = 0x80190EF4;
+RoomLib_TableA_8018F068 = 0x80190EF4;

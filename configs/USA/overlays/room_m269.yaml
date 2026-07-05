@@ -29,17 +29,17 @@ segments:
   - name: room_m269
     type: code
     start: 0x0
-    vram: 0x80100000
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m269]
-      - [0x150, c, RoomLib_InvokeCallbackC_80100150]
+      - [0x150, c, RoomLib_InvokeCallbackC_8018F138]
       - [0x178, asm, room_m269_178]
-      - [0x31A4, c, RoomLib_SetArg1_801031A4]
+      - [0x31A4, c, RoomLib_SetArg1_8019218C]
       - [0x31B4, asm, room_m269_178_31B4]
-      - [0x31C4, c, RoomLib_SetPair_801031C4]
+      - [0x31C4, c, RoomLib_SetPair_801921AC]
       - [0x31E0, data]
   - [0x42000]
 # room: m269, section3 sector 68914, scanner delta 0

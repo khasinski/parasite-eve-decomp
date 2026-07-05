@@ -28,39 +28,39 @@ segments:
   - name: room_m049
     type: code
     start: 0x0
-    vram: 0x80100000
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
       # generated from static prologue hints; verify with runtime trace and SHA check
       - [0x0, asm, room_m049_header]
-      - [0x54, c, func_80100054]
-      - [0x80, c, func_80100080]
-      - [0xAC, c, func_801000AC]
-      - [0xD4, c, func_801000D4]
-      - [0x144, c, func_80100144]
-      - [0x14C, c, func_8010014C]
-      - [0x154, asm, func_80100154]
-      - [0x384, c, func_80100384]
+      - [0x54, c, func_8018F03C]
+      - [0x80, c, func_8018F068]
+      - [0xAC, c, func_8018F094]
+      - [0xD4, c, func_8018F0BC]
+      - [0x144, c, func_8018F12C]
+      - [0x14C, c, func_8018F134]
+      - [0x154, asm, func_8018F13C]
+      - [0x384, c, func_8018F36C]
       - [0x38C, asm, func_room_m049_00038C]
       - [0x13C0, asm, func_room_m049_0013C0]
-      - [0x1440, c, func_80101440]
-      - [0x1880, asm, func_80101880]
+      - [0x1440, c, func_80190428]
+      - [0x1880, asm, func_80190868]
       - [0x1C10, asm, func_room_m049_001C10]
-      - [0x1CC8, c, func_80101CC8]
-      - [0x2158, asm, func_80102158]
+      - [0x1CC8, c, func_80190CB0]
+      - [0x2158, asm, func_80191140]
       - [0x2508, asm, func_room_m049_002508]
-      - [0x25C0, c, func_801025C0]
+      - [0x25C0, c, func_801915A8]
       - [0x2970, asm, func_room_m049_002970]
-      - [0x2CAC, c, func_80102CAC]
-      - [0x2D5C, c, func_80102D5C]
-      - [0x3190, asm, func_80103190]
-      - [0x34AC, c, func_801034AC]
-      - [0x34B4, c, func_801034B4]
-      - [0x3698, c, func_80103698]
-      - [0x36A0, c, func_801036A0]
-      - [0x37AC, c, func_801037AC]
+      - [0x2CAC, c, func_80191C94]
+      - [0x2D5C, c, func_80191D44]
+      - [0x3190, asm, func_80192178]
+      - [0x34AC, c, func_80192494]
+      - [0x34B4, c, func_8019249C]
+      - [0x3698, c, func_80192680]
+      - [0x36A0, c, func_80192688]
+      - [0x37AC, c, func_80192794]
       - [0x39C8, asm, func_room_m049_0039C8]
       # data-island boundaries from docs/assets/overlay-function-kind-audit.csv
       - [0x4A5C, asm, room_m049_data_004A5C]

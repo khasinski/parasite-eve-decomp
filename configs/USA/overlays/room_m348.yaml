@@ -29,16 +29,16 @@ segments:
   - name: room_m348
     type: code
     start: 0x0
-    vram: 0x80100000
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m348]
-      - [0x84, c, RoomLib_PlantTable_80100084]
-      - [0xB0, c, RoomLib_Spawn6_801000B0]
+      - [0x84, c, RoomLib_PlantTable_8018F06C]
+      - [0xB0, c, RoomLib_Spawn6_8018F098]
       - [0xDC, asm, room_m348_DC]
-      - [0x1CC, c, RoomLib_CloseTarget_801001CC]
+      - [0x1CC, c, RoomLib_CloseTarget_8018F1B4]
       - [0x250, asm, room_m348_DC_250]
       - [0x3860, data]
   - [0x34000]

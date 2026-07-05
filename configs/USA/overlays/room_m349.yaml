@@ -28,7 +28,7 @@ segments:
   - name: room_m349
     type: code
     start: 0x0
-    vram: 0x80100000
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0

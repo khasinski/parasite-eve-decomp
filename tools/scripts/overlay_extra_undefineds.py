@@ -88,7 +88,7 @@ def main() -> int:
     known: dict[str, int] = {}
     if args.symbols and args.symbols.exists():
         for line in args.symbols.read_text().splitlines():
-            match = re.match(r"^(\w+)\s*=\s*(0x[0-9A-Fa-f]+);", line)
+            match = re.match(r"^(?://\s*provide:\s*)?(\w+)\s*=\s*(0x[0-9A-Fa-f]+);", line)
             if match:
                 known[match.group(1)] = int(match.group(2), 16)
 

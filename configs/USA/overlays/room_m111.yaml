@@ -29,16 +29,16 @@ segments:
   - name: room_m111
     type: code
     start: 0x0
-    vram: 0x80100000
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m111]
-      - [0x40, c, RoomLib_Spawn6_80100040]
-      - [0x6C, c, RoomLib_RegisterTable_8010006C]
+      - [0x40, c, RoomLib_Spawn6_8018F028]
+      - [0x6C, c, RoomLib_RegisterTable_8018F054]
       - [0xB4, asm, room_m111_6C_B4]
-      - [0x140, c, RoomLib_CloseTarget_80100140]
+      - [0x140, c, RoomLib_CloseTarget_8018F128]
       - [0x1C4, asm, room_m111_6C_1C4]
       - [0x10AC, data]
   - [0x32000]

@@ -29,13 +29,13 @@ segments:
   - name: room_m027
     type: code
     start: 0x0
-    vram: 0x80100000
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m027]
-      - [0xC6C, c, RoomLib_SetArgs3_80100C6C]
+      - [0xC6C, c, RoomLib_SetArgs3_8018FC54]
       - [0xC90, data]
   - [0x10800]
 # room: m027, section3 sector 13743, scanner delta 0
