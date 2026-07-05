@@ -1,7 +1,5 @@
 #include "include_asm.h"
 
-/* CC1_PROFILE: build0001 */
-
 typedef unsigned short u16;
 
 int VSync(int arg0);

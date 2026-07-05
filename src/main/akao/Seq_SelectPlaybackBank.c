@@ -1,4 +1,3 @@
-/* CC1_PROFILE: build0001 */
 typedef unsigned short u16;
 
 extern u16 g_AkaoSelectedBankId;

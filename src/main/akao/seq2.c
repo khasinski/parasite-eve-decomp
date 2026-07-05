@@ -1,4 +1,3 @@
-/* CC1_PROFILE: build0001 */
 typedef unsigned int u32;
 
 extern char g_AkaoVoiceStateTable[];

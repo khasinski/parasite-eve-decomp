@@ -2,7 +2,6 @@ int StartPAD2(void);
 void ChangeClearPAD(int value);
 void EnablePAD(void);
 
-/* CC1_PROFILE: build0001 */
 extern int g_InitPadFlag;
 
 extern void DisablePAD(void);

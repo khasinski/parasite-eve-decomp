@@ -1,4 +1,3 @@
-/* CC1_PROFILE: build0001 */
 extern unsigned short *g_IntrMaskRegPtr;
 
 unsigned short SetIntrMask(unsigned short mask) {

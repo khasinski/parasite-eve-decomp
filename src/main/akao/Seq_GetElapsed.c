@@ -1,4 +1,3 @@
-/* CC1_PROFILE: build0001 */
 extern unsigned char g_DrawEnabled;
 extern short g_SeqElapsed;
 

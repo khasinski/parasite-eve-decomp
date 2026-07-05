@@ -1,5 +1,3 @@
-/* CC1_PROFILE: build0001 */
-
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef int s32;

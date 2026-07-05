@@ -1,5 +1,3 @@
-/* CC1_PROFILE: build0001 */
-
 extern unsigned int g_SpuActiveVoiceMask;
 extern unsigned int g_SpuStoppedVoiceMask;
 extern unsigned int g_AkaoSeqPendingFlags;
@@ -16,7 +14,6 @@ void Seq_MarkTrack3CMaskDirty(void);
 extern AkaoQueueEntry D_800B8628[];
 extern int g_AkaoMessageQueueCount;
 
-/* CC1_PROFILE: build0001 */
 void Seq_GetGlobalPitch(unsigned int *out);
 void SPU_ReadRegister(int arg0);
 int SPU_StepDmaRead(int arg0);

@@ -1,4 +1,3 @@
-/* CC1_PROFILE: build0001 */
 #include "pe1/psyq_spu_internal.h"
 
 s32 _SpuIsInAllocateArea(u32 addr) {

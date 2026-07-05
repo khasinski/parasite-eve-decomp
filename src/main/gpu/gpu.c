@@ -1,5 +1,3 @@
-/* CC1_PROFILE: build0001 */
-
 typedef unsigned short u16;
 
 extern signed char g_DrawEnabled;

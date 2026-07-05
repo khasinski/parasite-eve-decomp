@@ -6,7 +6,6 @@ typedef unsigned char u8;
 extern char D_800BC070[];
 extern u32 g_SpuActiveVoiceMask;
 
-/* CC1_PROFILE: build0001 */
 typedef signed char s8;
 
 typedef struct {

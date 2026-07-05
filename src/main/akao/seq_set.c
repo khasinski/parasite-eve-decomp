@@ -1,5 +1,3 @@
-/* CC1_PROFILE: build0001 */
-
 extern int g_AkaoPlaybackMode;
 extern char g_AkaoVoiceStateTable[];
 extern char *g_AkaoCurTrack;

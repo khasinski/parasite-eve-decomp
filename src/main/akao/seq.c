@@ -1,6 +1,5 @@
 #include "include_asm.h"
 
-/* CC1_PROFILE: build0001 */
 typedef unsigned int u32;
 
 extern char *g_AkaoCurTrack;

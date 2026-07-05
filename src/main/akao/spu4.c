@@ -1,4 +1,3 @@
-/* CC1_PROFILE: build0001 */
 extern int D_8009D240;
 extern int D_8009D260;
 

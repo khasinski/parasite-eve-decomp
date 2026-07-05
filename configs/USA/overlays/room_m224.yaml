@@ -1,0 +1,40 @@
+name: room_m224.bin
+sha1: bdf02a34df4374c2b65d63fcaa3d5dfdf5aeaf43
+options:
+  basename: room_m224
+  target_path: original/USA/overlays/room_m224.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m224
+  src_path: src/overlays/room_m224
+  build_path: build/USA/overlays/room_m224
+  ld_script_path: linkers/USA/overlays/room_m224.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m224.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m224.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m224
+    type: code
+    start: 0x0
+    vram: 0x80100000
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, asm, room_m224]
+  - [0x44800]
+# room: m224, section3 sector 58751, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m224.bin bs=2048 skip=58751 count=137
