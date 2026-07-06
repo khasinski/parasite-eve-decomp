@@ -40,7 +40,7 @@ segments:
       - [0x108, c, RoomMdl_Tick_8018F0F0]
       - [0x1BC, c, func_8018F1A4]
       - [0x1C4, c, RoomMdl_Kill_8018F1AC]
-      - [0x1D4, asm, room_m102_38_1D4]
+      - [0x1D4, c, func_8018F1BC]
       - [0x1DC, c, RoomEnt_Setup5_8018F1C4]
       - [0x210, asm, room_m102_38_1D4_210]
       - [0xB5C, data]
