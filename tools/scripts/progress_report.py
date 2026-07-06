@@ -60,16 +60,32 @@ def parse_segments(yaml_path: pathlib.Path):
     return rows
 
 
+NONMATCHING_RE = re.compile(
+    r"^nonmatching\s+\w+,\s*(0x[0-9A-Fa-f]+|\d+)\s*$", re.M
+)
+
+
 def count_asm_funcs(name: str, segments, asm_dir: pathlib.Path) -> int:
     n = 0
-    for _, typ, seg in segments:
+    for (off, typ, seg), (nxt, _, _) in zip(segments, segments[1:]):
         if typ != "asm":
             continue
         rel = seg.split("/", 1)[-1] if name.startswith("ovl") else seg
         f = (asm_dir / rel).with_suffix(".s")
         if not f.exists():
             continue
-        n += len(re.findall(r"^glabel ", f.read_text(errors="ignore"), re.M))
+        text = f.read_text(errors="ignore")
+        bodies = NONMATCHING_RE.findall(text)
+        if not bodies:
+            n += len(re.findall(r"^glabel ", text, re.M))
+            continue
+        cursor = 0
+        limit = nxt - off
+        for raw_size in bodies:
+            if cursor >= limit:
+                break
+            n += 1
+            cursor += int(raw_size, 16) if raw_size.startswith("0x") else int(raw_size)
     return n
 
 
