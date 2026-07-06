@@ -38,7 +38,8 @@ segments:
       - [0x150, c, RoomLib_InvokeCallbackC_8018F140]
       - [0x178, asm, ovl_171_178]
       - [0x31A4, c, RoomLib_SetArg1_80192194]
-      - [0x31B4, asm, ovl_171_178_31B4]
+      - [0x31B4, c, func_801921A4]
+      - [0x31C4, c, func_801921B4]
       - [0x31E0, data]
   - [0x3800]
 # source slice: scanner
