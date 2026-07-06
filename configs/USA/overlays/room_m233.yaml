@@ -62,7 +62,7 @@ segments:
       - [0x28F0, asm, room_m233_1D68_2880_28F0]
       - [0x30FC, c, RoomLib_ResetAndSignal_801920E4]
       - [0x3158, c, func_80192140]
-      - [0x3160, asm, room_m233_1D68_2880_3158]
+      - [0x3160, c, func_80192148]
       - [0x3168, c, RoomLib_InitTimers_80192150]
       - [0x31A4, asm, room_m233_1D68_2880_3158_31A4]
       - [0x3244, c, RoomLib_InvokeCallbackC_8019222C]
