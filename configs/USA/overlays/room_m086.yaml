@@ -36,7 +36,7 @@ segments:
     subsegments:
       - [0x0, asm, room_m086]
       - [0x1A5C, c, func_80190A44]
-      - [0x1AA8, asm, room_m086_1AA8]
+      - [0x1AA8, c, func_80190A90]
       - [0x1AE4, data]
   - [0x27000]
 # room: m086, section3 sector 29189, scanner delta 0
