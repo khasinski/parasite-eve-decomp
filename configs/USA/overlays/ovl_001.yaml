@@ -35,6 +35,13 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, ovl_001]
+      - [0x29C, c, func_8010C29C]
+      - [0x2A8, asm, ovl_001_2A8]
+      - [0x324, c, func_8010C324]
+      - [0x344, asm, ovl_001_344]
+      - [0x3BC, c, func_8010C3BC]
+      - [0x3E0, c, func_8010C3E0]
+      - [0x404, asm, ovl_001_404]
   - [0x800]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_001.bin bs=2048 skip=927 count=1
