@@ -82,6 +82,7 @@ segments:
       - [0x3208, c, RoomLib_InvokeCallbackC_801921F8]
       - [0x3230, c, RoomLib_RearmOnMatch_80192220]
       - [0x3260, asm, ovl_176_2A4_660_FF0_13A0_19B0_1A08_1AB4_1D2C_1D9C_252C_25CC_2844_28B4_311C_3168_3230_3260]
+      - [0x34EC, c, func_801924DC]
       - [0x34F4, c, RoomLib_Set4ClearSignal_801924E4]
       - [0x3510, asm, ovl_176_2A4_660_FF0_13A0_19B0_1A08_1AB4_1D2C_1D9C_252C_25CC_2844_28B4_311C_3168_3230_3260_3510]
       - [0x3D8C, data]
