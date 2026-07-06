@@ -60,12 +60,15 @@ def parse_segments(yaml_path: pathlib.Path):
     return rows
 
 
-def count_asm_funcs(asm_dir: pathlib.Path) -> int:
+def count_asm_funcs(name: str, segments, asm_dir: pathlib.Path) -> int:
     n = 0
-    for f in (asm_dir.rglob("*.s") if asm_dir.exists() else []):
-        parts = f.parts
-        if "matchings" in parts or "nonmatchings" in parts:
-            continue  # C-owned functions; counted from their sources
+    for _, typ, seg in segments:
+        if typ != "asm":
+            continue
+        rel = seg.split("/", 1)[-1] if name.startswith("ovl") else seg
+        f = (asm_dir / rel).with_suffix(".s")
+        if not f.exists():
+            continue
         n += len(re.findall(r"^glabel ", f.read_text(errors="ignore"), re.M))
     return n
 
@@ -73,6 +76,7 @@ def count_asm_funcs(asm_dir: pathlib.Path) -> int:
 def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
             asm_dir: pathlib.Path):
     m_funcs = d_funcs = 0
+    segments = parse_segments(yaml_path)
     for f in (src_dir.rglob("*.c") if src_dir.exists() else []):
         t = f.read_text(errors="ignore")
         d_funcs += len(INCLUDE_ASM_RE.findall(t))
@@ -80,13 +84,12 @@ def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
             m_funcs += count_funcs(strip_include_asm(t))
         else:
             d_funcs += count_funcs(strip_include_asm(t))
-    n_funcs = m_funcs + d_funcs + count_asm_funcs(asm_dir)
+    n_funcs = m_funcs + d_funcs + count_asm_funcs(name, segments, asm_dir)
     # code bytes: c/asm subsegments, minus data carriers (TUs pulling .inc.s
     # blobs - they hold baked data, not code)
     total_b = matched_b = 0
     cache = {}
-    for (off, typ, seg), (nxt, _, _) in zip(parse_segments(yaml_path),
-                                            parse_segments(yaml_path)[1:]):
+    for (off, typ, seg), (nxt, _, _) in zip(segments, segments[1:]):
         if typ not in ("c", "asm"):
             continue
         src = src_dir / (seg.split("/", 1)[-1] if name.startswith("ovl") else seg)
