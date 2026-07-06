@@ -42,6 +42,8 @@ segments:
       - [0x1A0, asm, ovl_174_A0_CC_1A0]
       - [0x200, c, func_8018F1F0]
       - [0x208, asm, ovl_174_A0_CC_1A0_208]
+      - [0x44C, c, func_8018F43C]
+      - [0x454, asm, ovl_174_A0_CC_1A0_208_454]
       - [0x2180, c, RoomLib_SetArgs3_80191170]
       - [0x21A4, asm, ovl_174_A0_CC_21A4]
       - [0x2F90, data]
