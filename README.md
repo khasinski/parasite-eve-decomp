@@ -22,13 +22,16 @@ game and local toolchains.
 ## Progress
 
 See [docs/PROGRESS.md](docs/PROGRESS.md) for current per-binary progress
-(regenerate with `make progress`). A translation unit only counts as
-decompiled when it is plain C with no assembly of any kind. The built
-executable is byte-identical to retail (`make check`).
+(regenerate with `make progress`). This README intentionally avoids hardcoded
+function counts, percentages, or byte totals; the generated progress report is
+the source of truth. A translation unit only counts as decompiled when it is
+plain C with no assembly of any kind. Verified builds are byte-identical to
+retail (`make check`, plus overlay checks for touched overlays).
 
-The matching policy: every function must eventually match as plain C through
-the stock compiler pipeline. No post-build rewrite passes, no inline assembly;
-functions that cannot yet be matched that way stay as generated split assembly.
+The matching policy is conservative: new decompilation work should match as
+plain C through the stock compiler pipeline. No post-build rewrite passes, no
+inline assembly; functions that cannot yet be matched that way stay as
+generated split assembly.
 
 ## Layout
 
