@@ -76,7 +76,7 @@ segments:
       - [0x4E68, c, RoomLib_RearmOnMatch_80193E50]
       - [0x4E98, asm, room_m385_3964_447C_4E68_4E98]
       - [0x512C, c, RoomLib_Set4ClearSignal_80194114]
-      - [0x5148, asm, room_m385_3964_447C_4E68_5148]
+      - [0x5148, c, func_80194130]
       - [0x5150, data]
   - [0x29800]
 # room: m385, section3 sector 89136, scanner delta 0
