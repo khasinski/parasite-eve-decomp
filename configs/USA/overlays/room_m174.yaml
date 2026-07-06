@@ -36,7 +36,8 @@ segments:
     subsegments:
       - [0x0, asm, room_m174]
       - [0x318, c, RoomLib_Spawn6_8018F300]
-      - [0x344, asm, room_m174_344]
+      - [0x344, c, RoomLib_RegisterTable3_8018F32C]
+      - [0x38C, asm, room_m174_344_38C]
       - [0x418, c, RoomLib_CloseTarget_8018F400]
       - [0x49C, asm, room_m174_344_49C]
       - [0x119C, c, RoomLib_PlantTable_80190184]

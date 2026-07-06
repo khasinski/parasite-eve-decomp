@@ -33,3 +33,5 @@ FieldEng_GetStatus = 0x800C6CE0;
 RoomLib_RegisterTable_8018F234 = 0x8018F234; // type:func
 FieldEng_Register = 0x800C2414;
 RoomLib_TableA_8018F234 = 0x801941CC;
+RoomLib_InitE_801934FC = 0x801934FC; // type:func
+RoomLib_HandlerG = 0x801937CC;

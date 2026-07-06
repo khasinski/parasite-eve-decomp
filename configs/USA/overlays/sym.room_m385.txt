@@ -37,3 +37,5 @@ RoomLib_PlantTable_8018FE90 = 0x8018FE90; // type:func
 FieldEng_GetSlot = 0x800C22F8;
 RoomLib_TableA_8018F264 = 0x80194144;
 RoomLib_TableB_8018FE90 = 0x80194230;
+RoomLib_RegisterTable3_8018FEE8 = 0x8018FEE8; // type:func
+RoomLib_TableC = 0x801941E0;
