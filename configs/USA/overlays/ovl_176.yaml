@@ -67,6 +67,7 @@ segments:
       - [0x1D9C, asm, ovl_176_2A4_660_FF0_13A0_19B0_1A08_1AB4_1D2C_1D9C]
       - [0x2128, c, func_80191118]
       - [0x2130, asm, ovl_176_2A4_660_FF0_13A0_19B0_1A08_1AB4_1D2C_1D9C_2130]
+      - [0x24C8, c, func_801914B8]
       - [0x24D0, c, RoomLib_ResetAndSignal_801914C0]
       - [0x252C, c, func_8019151C]
       - [0x2534, c, func_80191524]
