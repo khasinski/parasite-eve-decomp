@@ -1007,4 +1007,32 @@ typedef struct RoomPartSys {
         } \
     }
 
+#define ROOMLIB_REGISTER_TABLE_AT3(name, table) \
+    int name(void *o) { \
+        if (FieldEng_GetStatus() == 3) { \
+            FieldEng_Register(o, table); \
+        } \
+        return 0; \
+    }
+
+/* INIT_E: timers/handler like INIT_D plus render-node wake bits */
+#define ROOMLIB_INIT_E(name, handler) \
+    int name(RoomEnt *o) { \
+        unsigned int m = 0x10002; \
+        RoomLink *l = o->link; \
+        o->t16 = -1; \
+        o->t17 = -1; \
+        o->t18 = -1; \
+        o->t19 = 3; \
+        o->sub.signal = 0; \
+        o->active = 0; \
+        o->t1A = 0; \
+        RW16(o, 0x32) = 0; \
+        RW16(o, 0x36) = 0; \
+        o->sub.cb = handler; \
+        RW32(l, 0x98) |= m; \
+        RWU16(l, 0x250) |= 0x400; \
+        return 0; \
+    }
+
 #endif
