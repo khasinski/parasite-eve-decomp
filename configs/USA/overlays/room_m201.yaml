@@ -36,7 +36,9 @@ segments:
     subsegments:
       - [0x0, asm, room_m201]
       - [0x1EC, c, RoomLib_InitB_8018F1D4]
-      - [0x28C, asm, room_m201_28C]
+      - [0x28C, asm, room_m201_28C_510]
+      - [0x510, c, func_8018F4F8]
+      - [0x518, asm, room_m201_28C_518]
       - [0x5A0, c, RoomLib_NotifyArmB_8018F588]
       - [0x648, asm, room_m201_648_F4C]
       - [0xF4C, c, func_8018FF34]
