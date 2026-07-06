@@ -39,7 +39,9 @@ segments:
       - [0x6C, c, RoomLib_RegisterTable_8018F054]
       - [0xB4, asm, room_m065_6C_B4]
       - [0x140, c, RoomLib_CloseTarget_8018F128]
-      - [0x1C4, asm, room_m065_6C_1C4]
+      - [0x1C4, c, func_8018F1AC]
+      - [0x1CC, c, func_8018F1B4]
+      - [0x1D4, asm, room_m065_6C_1C4_1D4]
       - [0x1010, data]
   - [0x1F800]
 # room: m065, section3 sector 24659, scanner delta 0
