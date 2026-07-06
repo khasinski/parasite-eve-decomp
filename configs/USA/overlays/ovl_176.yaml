@@ -41,6 +41,8 @@ segments:
       - [0x530, asm, ovl_176_2A4_530]
       - [0x5B8, c, RoomLib_NotifyArmB_8018F5A8]
       - [0x660, asm, ovl_176_2A4_660]
+      - [0xBA0, c, RoomLib_FxNotify]
+      - [0xBA8, asm, ovl_176_2A4_660_BA8]
       - [0xF74, c, RoomLib_InitD_8018FF64]
       - [0xFF0, asm, ovl_176_2A4_660_FF0]
       - [0x12F8, c, RoomLib_Notify2ArmB_801902E8]
