@@ -38,3 +38,5 @@ RoomLib_TableB_8018F220 = 0x801944F4;
 RoomLib_SlotSet_80194440 = 0x80194440; // type:func
 RoomLib_SlotTable = 0x80194640;
 g_FrameCount16 = 0x800942EC;
+RoomLib_Set3Size_8018FD84 = 0x8018FD84; // type:func
+RoomLib_Set3Range_8018FBBC = 0x8018FBBC; // type:func

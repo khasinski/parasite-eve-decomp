@@ -34,3 +34,4 @@ RoomLib_CloseTarget_801902CC = 0x801902CC; // type:func
 RoomLib_PlantTable_80190184 = 0x80190184; // type:func
 FieldEng_GetSlot = 0x800C22F8;
 RoomLib_TableB_80190184 = 0x80196E4C;
+RoomLib_Set3Reset_80191D3C = 0x80191D3C; // type:func

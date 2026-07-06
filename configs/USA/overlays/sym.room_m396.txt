@@ -39,3 +39,5 @@ FieldEng_GetSlot = 0x800C22F8;
 RoomLib_TableA_8018F264 = 0x8019464C;
 RoomLib_TableA_80190268 = 0x801946E8;
 RoomLib_TableB_80190210 = 0x80194740;
+RoomLib_Set3Size_80190D74 = 0x80190D74; // type:func
+RoomLib_Set3Range_80190BAC = 0x80190BAC; // type:func

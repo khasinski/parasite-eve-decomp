@@ -15,3 +15,5 @@ RoomLib_MsgDispatch_80190B4C = 0x80190B4C; // type:func
 RoomLib_DlgRect = 0x8018F068;
 RoomLib_DlgBlob = 0x8019018C;
 RoomMain_ActorPtr2 = 0x8009D254;
+RoomLib_Set3Size_8018FBDC = 0x8018FBDC; // type:func
+RoomLib_Set3Range_8018FA14 = 0x8018FA14; // type:func

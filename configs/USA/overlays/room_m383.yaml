@@ -44,6 +44,8 @@ segments:
       - [0x11F4, asm, room_m383_344_11F4]
       - [0x12E4, c, RoomLib_CloseTarget_801902CC]
       - [0x1368, asm, room_m383_344_11F4_1368]
+      - [0x2D54, c, RoomLib_Set3Reset_80191D3C]
+      - [0x2D74, asm, room_m383_344_11F4_1368_2D74]
       - [0x4980, c, RoomLib_InitB_80193968]
       - [0x4A20, asm, room_m383_4A20]
       - [0x4D34, c, RoomLib_NotifyArmB_80193D1C]
