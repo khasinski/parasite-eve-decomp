@@ -34,7 +34,8 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, room_m083]
+      - [0x0, asm, room_m083_0_260]
+      - [0x260, c, func_8018F248]
       - [0x268, c, RoomLib_StateDispatch_8018F250]
       - [0x2D4, c, RoomLib_ArmWindowVia_8018F2BC]
       - [0x338, asm, room_m083_338]
