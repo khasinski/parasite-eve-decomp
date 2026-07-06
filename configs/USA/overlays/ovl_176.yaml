@@ -72,6 +72,7 @@ segments:
       - [0x28B4, asm, ovl_176_2A4_660_FF0_13A0_19B0_1A08_1AB4_1D2C_1D9C_252C_25CC_2844_28B4]
       - [0x2D30, c, func_80191D20]
       - [0x2D38, asm, ovl_176_2A4_660_FF0_13A0_19B0_1A08_1AB4_1D2C_1D9C_252C_25CC_2844_28B4_2D38]
+      - [0x30B8, c, func_801920A8]
       - [0x30C0, c, RoomLib_ResetAndSignal_801920B0]
       - [0x311C, asm, ovl_176_2A4_660_FF0_13A0_19B0_1A08_1AB4_1D2C_1D9C_252C_25CC_2844_28B4_311C]
       - [0x312C, c, RoomLib_InitTimers_8019211C]
