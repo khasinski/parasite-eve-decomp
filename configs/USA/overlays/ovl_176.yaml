@@ -45,6 +45,8 @@ segments:
       - [0xBA8, asm, ovl_176_2A4_660_BA8]
       - [0xC80, c, func_8018FC70]
       - [0xC88, asm, ovl_176_2A4_660_BA8_C88]
+      - [0xEC0, c, func_8018FEB0]
+      - [0xEC8, asm, ovl_176_2A4_660_BA8_C88_EC8]
       - [0xF74, c, RoomLib_InitD_8018FF64]
       - [0xFF0, asm, ovl_176_2A4_660_FF0]
       - [0x12F8, c, RoomLib_Notify2ArmB_801902E8]
