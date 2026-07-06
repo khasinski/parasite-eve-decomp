@@ -75,7 +75,7 @@ segments:
       - [0x79AC, c, RoomLib_RearmOnMatch_80196994]
       - [0x79DC, asm, room_m174_64A8_6FC0_79AC_79DC]
       - [0x7C70, c, RoomLib_Set4ClearSignal_80196C58]
-      - [0x7C8C, asm, room_m174_64A8_6FC0_79AC_7C8C]
+      - [0x7C8C, c, func_80196C74]
       - [0x7C94, data]
   - [0x3E000]
 # room: m174, section3 sector 48710, scanner delta 0
