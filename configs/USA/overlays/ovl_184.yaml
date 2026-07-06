@@ -47,7 +47,8 @@ segments:
       - [0x2F0, c, func_8018F2E0]
       - [0x2F8, asm, ovl_184_50_7C_C4_1D4_2F8]
       - [0x91C, c, func_8018F90C]
-      - [0x924, asm, ovl_184_50_7C_C4_1D4_2F8_924]
+      - [0x924, c, func_8018F914]
+      - [0x92C, asm, ovl_184_50_7C_C4_1D4_2F8_924]
       - [0x1D30, data]
   - [0x2000]
 # source slice: scanner
