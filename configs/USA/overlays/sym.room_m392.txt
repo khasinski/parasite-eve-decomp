@@ -40,3 +40,5 @@ RoomLib_SlotTable = 0x80194640;
 g_FrameCount16 = 0x800942EC;
 RoomLib_Set3Size_8018FD84 = 0x8018FD84; // type:func
 RoomLib_Set3Range_8018FBBC = 0x8018FBBC; // type:func
+RoomLib_FxShimmer_8018FD00 = 0x8018FD00; // type:func
+RoomLib_ParticleStep_80190258 = 0x80190258; // type:func
