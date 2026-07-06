@@ -40,6 +40,8 @@ segments:
       - [0xC8, asm, room_m122_80_C8]
       - [0x154, c, RoomLib_CloseTarget_8018F13C]
       - [0x1D8, asm, room_m122_80_1D8]
+      - [0x938, c, RoomLib_Set3Reset_8018F920]
+      - [0x958, asm, room_m122_80_1D8_958]
       - [0x1EB0, c, RoomLib_SlotSet_80190E98]
       - [0x1EF4, data]
   - [0x2D800]

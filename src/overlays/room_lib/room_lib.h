@@ -899,4 +899,39 @@ extern int func_800C2B68();
         } \
     }
 
+typedef struct RoomFxParams {
+    char pad0[0x8];
+    short h8;
+    short hA;
+    short hC;
+    char padE[0x2];
+    short h10;
+    short h12;
+    char pad14[0x1];
+    unsigned char b15;
+    unsigned char b16;
+} RoomFxParams;
+
+#define ROOMLIB_SET3_SIZE(name) \
+    void name(int a, int b, RoomFxParams *c) { \
+        c->h8 = 0xC8; \
+        c->hA = 0x80; \
+    }
+
+#define ROOMLIB_SET3_RANGE(name) \
+    void name(int a, int b, RoomFxParams *c) { \
+        c->h10 = 0x258; \
+        c->h12 = 0x80; \
+        c->b15 = 0; \
+    }
+
+#define ROOMLIB_SET3_RESET(name, v10, v12) \
+    void name(int a, int b, RoomFxParams *c) { \
+        c->h10 = v10; \
+        c->h8 = 0; \
+        c->hA = 0; \
+        c->hC = 0; \
+        c->h12 = v12; \
+    }
+
 #endif
