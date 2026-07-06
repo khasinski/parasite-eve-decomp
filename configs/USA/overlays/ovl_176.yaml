@@ -55,6 +55,7 @@ segments:
       - [0x1A10, c, func_80190A00]
       - [0x1A18, c, RoomLib_InitC_80190A08]
       - [0x1AB4, asm, ovl_176_2A4_660_FF0_13A0_19B0_1A08_1AB4]
+      - [0x1CFC, c, func_80190CEC]
       - [0x1D04, c, RoomLib_InvokeCallbackC_80190CF4]
       - [0x1D2C, c, RoomLib_ArmWindowA_80190D1C]
       - [0x1D9C, asm, ovl_176_2A4_660_FF0_13A0_19B0_1A08_1AB4_1D2C_1D9C]
