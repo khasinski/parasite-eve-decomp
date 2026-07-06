@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m023
   ld_script_path: linkers/USA/overlays/room_m023.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m023.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m023.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m023.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,6 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m023]
+      - [0x165C, c, func_80190644]
       - [0x1688, data]
   - [0x56000]
 # room: m023, section3 sector 12891, scanner delta 0
