@@ -34,7 +34,9 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, ovl_171_148]
+      - [0x0, asm, ovl_171_78]
+      - [0x78, c, func_8018F068]
+      - [0x9C, asm, ovl_171_9C_148]
       - [0x148, c, func_8018F138]
       - [0x150, c, RoomLib_InvokeCallbackC_8018F140]
       - [0x178, asm, ovl_171_178_5E4]
