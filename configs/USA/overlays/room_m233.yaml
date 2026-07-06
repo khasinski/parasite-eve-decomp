@@ -46,7 +46,7 @@ segments:
       - [0x1968, c, RoomLib_SteerToward_80190950]
       - [0x19EC, c, RoomLib_ResetAndSignalB_801909D4]
       - [0x1A44, c, func_80190A2C]
-      - [0x1A4C, asm, room_m233_1A44]
+      - [0x1A4C, c, func_80190A34]
       - [0x1A54, c, RoomLib_InitC_80190A3C]
       - [0x1AF0, asm, room_m233_1A44_1AF0]
       - [0x1D40, c, RoomLib_InvokeCallbackC_80190D28]
