@@ -870,4 +870,33 @@ extern int func_800DFB78();
         o->sub.cb = handler; \
     }
 
+typedef struct RoomTimer {
+    char pad0[0x24];
+    unsigned short h24;           /* 0x24: reload value */
+    short h26;                    /* 0x26: countdown */
+    short h28;                    /* 0x28: fire request */
+} RoomTimer;
+
+extern int func_800C6C18();
+extern int func_800C2B68();
+
+#define ROOMLIB_TIMER_TICK(name) \
+    void name(int a, unsigned char *st, RoomTimer *t) { \
+        short n = t->h26; \
+        RoomTimer *p = t; \
+        if (n != 0) { \
+            p->h26 = n - 1; \
+        } \
+        if (p->h28 == 1) { \
+            p->h28 = 0; \
+            if (p->h26 == 0) { \
+                p->h26 = p->h24; \
+                func_800C6C18(); \
+            } \
+        } \
+        if (func_800C2B68() == 1) { \
+            st[1] = 2; \
+        } \
+    }
+
 #endif
