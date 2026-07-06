@@ -41,7 +41,8 @@ segments:
       - [0xC4, asm, ovl_184_50_7C_C4]
       - [0x148, c, func_8018F138]
       - [0x150, c, RoomLib_CloseTarget_8018F140]
-      - [0x1D4, asm, ovl_184_50_7C_C4_1D4]
+      - [0x1D4, c, func_8018F1C4]
+      - [0x1DC, asm, ovl_184_50_7C_C4_1D4]
       - [0x1D30, data]
   - [0x2000]
 # source slice: scanner
