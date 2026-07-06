@@ -2,7 +2,7 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Plain-C functions: <b>4678/11002 (42.5%)</b> · code bytes: <b>7.3%</b>. A unit counts only when it is plain C with no assembly of any kind; the full build is byte-identical to retail.</p>
+<p>Plain-C functions: <b>4680/11002 (42.5%)</b> · code bytes: <b>7.3%</b>. A unit counts only when it is plain C with no assembly of any kind; the full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
 <tr><td>SLUS_006.62 (main)</td><td>952/2054</td><td>46.3%</td><td>91072/840912</td><td>10.8%</td></tr>
 <tr><td>ovl_001</td><td>0/7</td><td>0.0%</td><td>0/2048</td><td>0.0%</td></tr>
@@ -20,10 +20,10 @@
 <tr><td>ovl_178</td><td>24/160</td><td>15.0%</td><td>2400/38540</td><td>6.2%</td></tr>
 <tr><td>ovl_179</td><td>22/86</td><td>25.6%</td><td>2096/23584</td><td>8.9%</td></tr>
 <tr><td>ovl_180</td><td>22/86</td><td>25.6%</td><td>2096/23584</td><td>8.9%</td></tr>
-<tr><td>ovl_181</td><td>5/29</td><td>17.2%</td><td>328/10776</td><td>3.0%</td></tr>
+<tr><td>ovl_181</td><td>6/29</td><td>20.7%</td><td>336/10776</td><td>3.1%</td></tr>
 <tr><td>ovl_182</td><td>5/29</td><td>17.2%</td><td>328/10776</td><td>3.0%</td></tr>
 <tr><td>ovl_183</td><td>5/29</td><td>17.2%</td><td>328/10776</td><td>3.0%</td></tr>
-<tr><td>ovl_184</td><td>4/26</td><td>15.4%</td><td>292/7472</td><td>3.9%</td></tr>
+<tr><td>ovl_184</td><td>5/26</td><td>19.2%</td><td>300/7472</td><td>4.0%</td></tr>
 <tr><td>ovl_185</td><td>18/69</td><td>26.1%</td><td>1804/20212</td><td>8.9%</td></tr>
 <tr><td>ovl_186</td><td>19/76</td><td>25.0%</td><td>1844/16308</td><td>11.3%</td></tr>
 <tr><td>ovl_187</td><td>0/2</td><td>0.0%</td><td>0/25196</td><td>0.0%</td></tr>
@@ -34,7 +34,7 @@
 <tr><td>ovl_192</td><td>18/59</td><td>30.5%</td><td>1804/13568</td><td>13.3%</td></tr>
 <tr><td>ovl_193</td><td>18/60</td><td>30.0%</td><td>1804/15756</td><td>11.4%</td></tr>
 <tr><td>room overlays (x162)</td><td>3411/7617 (44.8%)</td><td>44.8%</td><td>250596/3738176</td><td>6.7%</td></tr>
-<tr><td>total</td><td>4678/11002</td><td>42.5%</td><td>371200/5051844</td><td>7.3%</td></tr>
+<tr><td>total</td><td>4680/11002</td><td>42.5%</td><td>371216/5051844</td><td>7.3%</td></tr>
 </table>
 <h2>SLUS_006.62 (main) — 644/913 plain-C files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
@@ -1156,13 +1156,14 @@
 <tr><td>src/overlays/ovl_180/RoomLib_Spawn6_8018F25C.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/overlays/ovl_180/RoomLib_SteerToward_80192380.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 </table>
-<h2>ovl_181 — 5/5 plain-C files</h2>
+<h2>ovl_181 — 6/6 plain-C files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/overlays/ovl_181/RoomLib_CloseTarget_8018F184.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/overlays/ovl_181/RoomLib_PlantTable_8018F058.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/overlays/ovl_181/RoomLib_RegisterTable_8018F0B0.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/overlays/ovl_181/RoomLib_SetArgs3_80190D40.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/overlays/ovl_181/RoomLib_Spawn6_8018F084.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/overlays/ovl_181/func_8018F17C.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 </table>
 <h2>ovl_182 — 5/5 plain-C files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
@@ -1180,12 +1181,13 @@
 <tr><td>src/overlays/ovl_183/RoomLib_SetArgs3_80190D40.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/overlays/ovl_183/RoomLib_Spawn6_8018F084.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 </table>
-<h2>ovl_184 — 4/4 plain-C files</h2>
+<h2>ovl_184 — 5/5 plain-C files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/overlays/ovl_184/RoomLib_CloseTarget_8018F140.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/overlays/ovl_184/RoomLib_PlantTable_8018F014.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/overlays/ovl_184/RoomLib_RegisterTable_8018F06C.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/overlays/ovl_184/RoomLib_Spawn6_8018F040.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/overlays/ovl_184/func_8018F138.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 </table>
 <h2>ovl_185 — 18/18 plain-C files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
