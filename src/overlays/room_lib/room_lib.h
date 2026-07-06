@@ -934,4 +934,77 @@ typedef struct RoomFxParams {
         c->h12 = v12; \
     }
 
+typedef struct RoomStatePair {
+    unsigned char b0;
+    unsigned char b1;             /* 0x01: state byte, 2 = done */
+    short h2;                     /* 0x02: threshold */
+} RoomStatePair;
+
+typedef struct RoomClock {
+    char pad0[0xC];
+    short hC;                     /* 0x0C: current tick */
+} RoomClock;
+
+extern RoomClock *func_800C2B50();
+
+#define ROOMLIB_FX_SHIMMER(name) \
+    void name(int a, RoomStatePair *st, RoomFxParams *c) { \
+        RoomClock *r = func_800C2B50(); \
+        c->h10 += 3; \
+        if (r->hC - 0x1E < st->h2) { \
+            unsigned char v = c->b16 + 8; \
+            c->b16 = v; \
+            c->b15 = v >> 4; \
+            if (v >> 4 == 8) { \
+                st->b1 = 2; \
+            } \
+        } \
+    }
+
+typedef struct RoomPartVec {
+    unsigned short x;
+    unsigned short y;
+    unsigned short z;
+    short pad6;
+} RoomPartVec;
+
+typedef struct RoomPartSys {
+    char pad0[0x20];
+    RoomPartVec pos[6];           /* 0x20 */
+    RoomPartVec vel[6];           /* 0x50 */
+    char pad80[0x18];
+    short flag[6];                /* 0x98: 1 = live */
+    short hA4;                    /* 0xA4: live count */
+} RoomPartSys;
+
+/* per-frame particle step: velocity/16 integration, +4 gravity, kill on
+ * floor hit; when the last one dies flag the state pair */
+#define ROOMLIB_PARTICLE_STEP(name) \
+    void name(int a, unsigned char *st, RoomPartSys *sys) { \
+        int i; \
+        int grav; \
+        unsigned short *gp; \
+        for (i = 0; (unsigned)i < 6; i++) { \
+            grav = 4; \
+            if (sys->flag[i] == 1) { \
+                int vx = (short)sys->vel[i].x >> grav; \
+                int vy = (short)sys->vel[i].y >> grav; \
+                int vz = (short)sys->vel[i].z >> grav; \
+                sys->pos[i].x += vx; \
+                sys->pos[i].y = sys->pos[i].y + vy; \
+                sys->pos[i].z += vz; \
+                gp = &g_FrameCount16; \
+                sys->vel[i].y += grav; \
+                if ((short)sys->pos[i].y >= (short)*gp) { \
+                    short r; \
+                    sys->flag[i] = 0; \
+                    sys->hA4 = (r = sys->hA4 - 1); \
+                    if (r == 0) { \
+                        st[1] = 2; \
+                    } \
+                } \
+            } \
+        } \
+    }
+
 #endif

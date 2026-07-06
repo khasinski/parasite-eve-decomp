@@ -17,3 +17,6 @@ RoomLib_DlgBlob = 0x8019018C;
 RoomMain_ActorPtr2 = 0x8009D254;
 RoomLib_Set3Size_8018FBDC = 0x8018FBDC; // type:func
 RoomLib_Set3Range_8018FA14 = 0x8018FA14; // type:func
+RoomLib_FxShimmer_8018FB58 = 0x8018FB58; // type:func
+RoomLib_ParticleStep_801900B0 = 0x801900B0; // type:func
+g_FrameCount16 = 0x800942EC;

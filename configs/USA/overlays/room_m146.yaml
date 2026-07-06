@@ -46,8 +46,11 @@ segments:
       - [0x1710, asm, room_m146_F4_15B8_1710]
       - [0x1EFC, c, RoomLib_Set3Range_80190EE4]
       - [0x1F14, asm, room_m146_F4_15B8_1710_1F14]
+      - [0x2040, c, RoomLib_FxShimmer_80191028]
       - [0x20C4, c, RoomLib_Set3Size_801910AC]
       - [0x20D8, asm, room_m146_F4_15B8_1710_20D8]
+      - [0x2598, c, RoomLib_ParticleStep_80191580]
+      - [0x2674, asm, room_m146_F4_15B8_1710_20D8_2674]
       - [0x3460, data]
   - [0x50000]
 # room: m146, section3 sector 42308, scanner delta 0
