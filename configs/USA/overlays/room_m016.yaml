@@ -54,7 +54,7 @@ segments:
       - [0x1D94, asm, room_m016_1D24_1D94]
       - [0x24C8, c, RoomLib_ResetAndSignal_801914B0]
       - [0x2524, c, func_8019150C]
-      - [0x252C, asm, room_m016_1D24_2524]
+      - [0x252C, c, func_80191514]
       - [0x2534, c, RoomLib_InitFull_8019151C]
       - [0x25C4, asm, room_m016_1D24_2524_25C4]
       - [0x2814, c, RoomLib_InvokeCallbackC_801917FC]
