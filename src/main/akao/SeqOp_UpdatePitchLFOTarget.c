@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -O1 */
 #include "pe1/akao.h"
 
 void SeqOp_UpdatePitchLFOTarget(AkaoTrack *track) {
@@ -15,6 +14,7 @@ void SeqOp_UpdatePitchLFOTarget(AkaoTrack *track) {
     track->pc = pc + 1;
     value = pc[0] << 8;
     masked = value & 0x7F00;
+    asm volatile("" : "=r"(masked) : "0"(masked));
     depth = masked >> 8;
     track->pitch_lfo_target = value;
     use_base_scale = value & 0x8000;
