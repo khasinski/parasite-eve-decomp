@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 */
+/* CC1_FLAGS: -g3 */
 /* MASPSX_FLAGS: -G8 --expand-div */
 
 typedef unsigned char u8;

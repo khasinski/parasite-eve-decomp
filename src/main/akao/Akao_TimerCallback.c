@@ -1,5 +1,4 @@
 /* CC1_FLAGS: -g3 -G8 */
-/* MASPSX_FLAGS: -G8 */
 typedef int s32;
 
 s32 GetRCnt(s32 arg0);

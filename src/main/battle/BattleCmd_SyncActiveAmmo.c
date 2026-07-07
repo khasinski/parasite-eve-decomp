@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 /* Incomplete arrays: retail addresses these absolutely (g_PlayerEntity is

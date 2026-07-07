@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --stack-return-delay */
 
 typedef unsigned char u8;

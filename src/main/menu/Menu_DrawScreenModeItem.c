@@ -1,5 +1,4 @@
 /* MASPSX_FLAGS: -G8 */
-/* CC1_FLAGS: -G8 */
 
 extern int g_StatBaseTable[];
 

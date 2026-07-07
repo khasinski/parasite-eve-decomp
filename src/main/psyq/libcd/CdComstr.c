@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 extern char func_800119CC[];
