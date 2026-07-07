@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 */
+/* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
 typedef struct Entity Entity;

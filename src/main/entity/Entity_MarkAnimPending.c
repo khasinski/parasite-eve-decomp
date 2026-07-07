@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 */
+/* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 typedef unsigned short u16;

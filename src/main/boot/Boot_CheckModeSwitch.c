@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 */
+/* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 extern int g_RenderStateFlags[];
 extern int g_SceneDataTable0;

@@ -1,4 +1,3 @@
-/* CC1_FLAGS: */
 
 
 #include "include_asm.h"
