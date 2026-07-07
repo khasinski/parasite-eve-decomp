@@ -65,25 +65,33 @@ int Str_GetTableEntryC(int arg0) {
     return 0;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/misc27", exit);
+#define PSYQ_BIOS_THUNK(name, vector, call) \
+    asm( \
+        ".text\n" \
+        ".set noreorder\n" \
+        ".globl " #name "\n" \
+        ".ent " #name "\n" \
+        #name ":\n" \
+        "addiu $10,$0," #vector "\n" \
+        "jr $10\n" \
+        "addiu $9,$0," #call "\n" \
+        ".end " #name "\n" \
+        "nop\n" \
+        ".set reorder\n" \
+    )
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/misc27", strcat);
-
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/misc27", strncmp);
-
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/misc27", strcpy);
-
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/misc27", bzero);
-
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/misc27", memcpy);
-
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/misc27", memset);
-
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/misc27", rand);
-
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/misc27", srand);
-
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/misc27", printf);
+/* Match note: these PSY-Q libc entry points are BIOS trampolines with custom
+ * ABI/delay-slot ownership. The trailing nop is inter-function padding. */
+PSYQ_BIOS_THUNK(exit, 0xB0, 0x38);
+PSYQ_BIOS_THUNK(strcat, 0xA0, 0x15);
+PSYQ_BIOS_THUNK(strncmp, 0xA0, 0x18);
+PSYQ_BIOS_THUNK(strcpy, 0xA0, 0x19);
+PSYQ_BIOS_THUNK(bzero, 0xA0, 0x28);
+PSYQ_BIOS_THUNK(memcpy, 0xA0, 0x2A);
+PSYQ_BIOS_THUNK(memset, 0xA0, 0x2B);
+PSYQ_BIOS_THUNK(rand, 0xA0, 0x2F);
+PSYQ_BIOS_THUNK(srand, 0xA0, 0x30);
+PSYQ_BIOS_THUNK(printf, 0xA0, 0x3F);
 
 void __maspsx_include_asm_hack_Square_Vsprintf(void) {
     asm(
