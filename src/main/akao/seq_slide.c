@@ -1,4 +1,5 @@
 /* MASPSX_FLAGS: --expand-div */
+#include "pe1/akao.h"
 
 typedef unsigned short u16;
 
@@ -57,7 +58,7 @@ void Spu_SetVoiceVolumeImmediateMasked(int *arg0) {
 
     base = g_AkaoVoiceChannelTable;
     active = g_SpuActiveVoiceMask;
-    mask = 0x1000;
+    mask = AKAO_SPU_VOICE_SFX_START_MASK;
     if (arg0[2] != 0) {
         i = 0;
         voice = base + 0xF4;
@@ -67,11 +68,11 @@ void Spu_SetVoiceVolumeImmediateMasked(int *arg0) {
                     value = (arg0[3] & 0x7F) << 8;
                     *(u16_1 *)(voice - 0x80) = 0;
                     *(u16_1 *)(voice - 0x1C) = value;
-                    *(u32 *)voice |= 3;
+                    *(u32 *)voice |= AKAO_VOICE_PARAM_VOLUME;
                 }
             }
             i++;
-            voice += 0x11C;
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
     } else {
@@ -83,11 +84,11 @@ void Spu_SetVoiceVolumeImmediateMasked(int *arg0) {
                     value = (arg0[3] & 0x7F) << 8;
                     *(u16_1 *)(voice - 0x80) = 0;
                     *(u16_1 *)(voice - 0x1C) = value;
-                    *(u32 *)voice |= 3;
+                    *(u32 *)voice |= AKAO_VOICE_PARAM_VOLUME;
                 }
             }
             i++;
-            voice += 0x11C;
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
     }

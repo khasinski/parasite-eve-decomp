@@ -13,7 +13,7 @@ void sndTrackReadVolume(AkaoTrack *track) {
     track->pc = stream + 1;
     flags = track->update_flags;
     value = *stream;
-    track->update_flags = flags | 3;
+    track->update_flags = flags | AKAO_VOICE_PARAM_VOLUME;
     track->volume_base = value << 8;
 }
 

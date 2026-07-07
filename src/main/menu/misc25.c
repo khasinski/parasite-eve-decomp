@@ -14,6 +14,8 @@ extern unsigned int g_GameStateFlags;
 
 extern void * volatile g_AkaoBgmHandle;
 int Akao_SendTableCommand(void *arg0, int arg1, int arg2, int arg3, int arg4);
+extern unsigned char D_80091694[];
+extern unsigned char D_8009169D;
 
 int Battle_GetEnemyEscapeFlag(void)
 {
@@ -54,7 +56,33 @@ int Battle_GetStateFlag1(void)
     return (g_GameStateFlags >> 1) & 1;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/menu/misc25", Menu_CopyPromptCodes);
+void Menu_CopyPromptCodes(unsigned char *src) {
+    register unsigned char *dst asm("$5");
+    register unsigned char *end asm("$3");
+    int value;
+
+    dst = D_80091694;
+    end = dst + 8;
+    while (dst < end) {
+        value = *src;
+        if (value == 0xFF) {
+            break;
+        }
+        *dst++ = value;
+        src++;
+    }
+
+    {
+        register unsigned char *len_slot asm("$3");
+        register unsigned char *base asm("$2");
+        register int length asm("$2");
+
+        len_slot = &D_8009169D;
+        base = len_slot - 9;
+        length = dst - base;
+        *len_slot = length;
+    }
+}
 
 void Menu_PlayConfirmSound(void) {
     void * volatile *slot;

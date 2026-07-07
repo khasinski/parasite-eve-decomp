@@ -22,8 +22,8 @@ typedef signed short s16;
 typedef unsigned char u8_3;
 typedef unsigned short u16_3;
 
-void SeqOp_SetTrack38Mask(void *ptr, u32 mask) {
-    if (*(unsigned short *)((char *)ptr + 0x54) == 0) {
+void SeqOp_SetTrack38Mask(AkaoTrack *track, u32 mask) {
+    if (track->parent_track_id == 0) {
         *(u32 *)(g_AkaoCurTrack + 0x38) |= mask;
     } else {
         g_AkaoTrack38Mask |= mask;
@@ -32,14 +32,14 @@ void SeqOp_SetTrack38Mask(void *ptr, u32 mask) {
     Seq_MarkTrack38MaskDirty();
 }
 
-void SeqOp_ClearMask(void *ptr, u32 mask) {
-    char *track;
+void SeqOp_ClearMask(AkaoTrack *track, u32 mask) {
+    char *player;
 
-    if (*(unsigned short *)((char *)ptr + 0x54) == 0) {
-        track = g_AkaoCurTrack;
-        *(u32 *)(track + 0x38) &= ~mask;
-        if ((*(u32 *)((char *)ptr + 0x38) & 0x800) != 0) {
-            *(u32 *)(track + 0x30) &= ~(1 << *(unsigned short *)((char *)ptr + 0x5C));
+    if (track->parent_track_id == 0) {
+        player = g_AkaoCurTrack;
+        *(u32 *)(player + 0x38) &= ~mask;
+        if ((track->flags & AKAO_TRACK_FLAG_VOICE_ALLOCATED) != 0) {
+            *(u32 *)(player + 0x30) &= ~(1 << track->voice_index);
         }
     } else {
         g_AkaoTrack38Mask &= ~mask;
@@ -48,8 +48,8 @@ void SeqOp_ClearMask(void *ptr, u32 mask) {
     Seq_MarkTrack38MaskDirty();
 }
 
-void SeqOp_EnableField84(void *arg0) {
-    *(short *)((char *)arg0 + 0x84) = 1;
+void SeqOp_EnableField84(AkaoTrack *track) {
+    track->tremolo_phase = 1;
 }
 
 void SeqOp_Noop_904AC(void) {
@@ -92,7 +92,7 @@ unsigned int SeqOp_SetTrack5AValue(void *ptr)
   {
     g_AkaoTrack5ATransposeValue = value;
   }
-  g_AkaoVoiceUpdateFlags |= 0x10;
+  g_AkaoVoiceUpdateFlags |= AKAO_VOICE_PARAM_PITCH;
 }
 
 void sndTrackReadAdsrAttackRate(AkaoTrack *track) {
@@ -103,7 +103,7 @@ void sndTrackReadAdsrAttackRate(AkaoTrack *track) {
     track->pc = cursor + 1;
     flags = track->update_flags;
     value = *cursor;
-    track->update_flags = flags | 0x900;
+    track->update_flags = flags | AKAO_VOICE_PARAM_ADSR_ATTACK;
     track->adsr_attack_rate = value;
 }
 
@@ -115,7 +115,7 @@ void sndTrackReadAdsrDecayRate(AkaoTrack *track) {
     track->pc = cursor + 1;
     flags = track->update_flags;
     value = *cursor;
-    track->update_flags = flags | 0x1000;
+    track->update_flags = flags | AKAO_VOICE_PARAM_ADSR_DECAY_RATE;
     track->adsr_decay_rate = value;
 }
 
@@ -127,7 +127,7 @@ void sndTrackReadAdsrSustainLevel(AkaoTrack *track) {
     track->pc = cursor + 1;
     flags = track->update_flags;
     value = *cursor;
-    track->update_flags = flags | 0x8000;
+    track->update_flags = flags | AKAO_VOICE_PARAM_ADSR_SUSTAIN_LEVEL;
     track->adsr_sustain_level = value;
 }
 
@@ -139,7 +139,7 @@ void sndTrackReadAdsrSustainRate(AkaoTrack *track) {
     track->pc = cursor + 1;
     flags = track->update_flags;
     value = *cursor;
-    track->update_flags = flags | 0x2200;
+    track->update_flags = flags | AKAO_VOICE_PARAM_ADSR_SUSTAIN;
     track->adsr_sustain_rate = value;
 }
 
@@ -151,7 +151,7 @@ void sndTrackReadAdsrReleaseRate(AkaoTrack *track) {
     track->pc = cursor + 1;
     flags = track->update_flags;
     value = *cursor;
-    track->update_flags = flags | 0x4400;
+    track->update_flags = flags | AKAO_VOICE_PARAM_ADSR_RELEASE;
     track->adsr_release_rate = value;
 }
 
@@ -163,7 +163,7 @@ void sndTrackReadAdsrAttack(AkaoTrack *track) {
     track->pc = cursor + 1;
     flags = track->update_flags;
     value = *cursor;
-    track->update_flags = flags | 0x100;
+    track->update_flags = flags | AKAO_VOICE_PARAM_ADSR_ATTACK_MODE;
     track->adsr_attack = value;
 }
 
@@ -175,7 +175,7 @@ void sndTrackReadAdsrSustain(AkaoTrack *track) {
     track->pc = cursor + 1;
     flags = track->update_flags;
     value = *cursor;
-    track->update_flags = flags | 0x200;
+    track->update_flags = flags | AKAO_VOICE_PARAM_ADSR_SUSTAIN_MODE;
     track->adsr_sustain = value;
 }
 
@@ -187,7 +187,7 @@ void sndTrackReadAdsrRelease(AkaoTrack *track) {
     track->pc = cursor + 1;
     flags = track->update_flags;
     value = *cursor;
-    track->update_flags = flags | 0x400;
+    track->update_flags = flags | AKAO_VOICE_PARAM_ADSR_RELEASE_MODE;
     track->adsr_release = value;
 }
 
@@ -196,58 +196,58 @@ void Akao_SetReleaseRate(AkaoTrack *track) {
     unsigned int flags;
     unsigned char value;
 
-    track->flags |= 0x200;
+    track->flags |= AKAO_TRACK_FLAG_RELEASE_RATE_OVERRIDE;
     cursor = track->pc;
     track->pc = cursor + 1;
     flags = track->update_flags;
     value = *cursor;
-    track->update_flags = flags | 0x4400;
+    track->update_flags = flags | AKAO_VOICE_PARAM_ADSR_RELEASE;
     track->adsr_release_rate = value;
 }
 
 void Akao_ResetReleaseRate(AkaoTrack *track) {
-    track->flags &= ~0x200;
+    track->flags &= ~AKAO_TRACK_FLAG_RELEASE_RATE_OVERRIDE;
     track->adsr_release_rate = D_800B290C[track->note_pitch << 6];
-    track->update_flags |= 0x4400;
+    track->update_flags |= AKAO_VOICE_PARAM_ADSR_RELEASE;
 }
 
-void SeqOp_PushLoopPoint(void *ptr) {
-    unsigned short index = (*(unsigned short *)((char *)ptr + 0xCE) + 1) & 3;
+void SeqOp_PushLoopPoint(AkaoTrack *track) {
+    unsigned short index = (track->call_stack_index + 1) & 3;
 
-    *(volatile short *)((char *)ptr + 0xCE) = index;
-    *(void **)((char *)ptr + 4 + index * 4) = *(void **)ptr;
-    index = *(unsigned short *)((char *)ptr + 0xCE);
-    *(short *)((char *)ptr + 0x62 + index * 2) = 0;
+    *(volatile short *)&track->call_stack_index = index;
+    track->call_stack[index] = track->pc;
+    index = track->call_stack_index;
+    track->repeat_counters[index] = 0;
 }
 
-void SeqOp_LoopCounter(void *ptr) {
-    unsigned char *cursor = *(unsigned char **)ptr;
+void SeqOp_LoopCounter(AkaoTrack *track) {
+    unsigned char *cursor = track->pc;
     int value;
     unsigned short index;
     unsigned short counter;
 
-    *(unsigned char **)ptr = cursor + 1;
+    track->pc = cursor + 1;
     value = *cursor;
     if (value == 0) {
         value = 0x100;
     }
 
-    index = *(unsigned short *)((char *)ptr + 0xCE);
-    counter = *(unsigned short *)((char *)ptr + 0x62 + index * 2) + 1;
-    *(short *)((char *)ptr + 0x62 + index * 2) = counter;
+    index = track->call_stack_index;
+    counter = track->repeat_counters[index] + 1;
+    track->repeat_counters[index] = counter;
 
     if (counter != value) {
-        index = *(unsigned short *)((char *)ptr + 0xCE);
-        *(void **)ptr = *(void **)((char *)ptr + 4 + index * 4);
+        index = track->call_stack_index;
+        track->pc = track->call_stack[index];
     } else {
-        index = *(unsigned short *)((char *)ptr + 0xCE);
+        index = track->call_stack_index;
         index = (index - 1) & 3;
-        *(short *)((char *)ptr + 0xCE) = index;
+        track->call_stack_index = index;
     }
 }
 
-void SeqOp_JumpIfLoopCount(void *ptr) {
-    void *track;
+void SeqOp_JumpIfLoopCount(AkaoTrack *ptr) {
+    AkaoTrack *track;
     u8_3 *cursor;
     register int value asm("$3");
     u8_3 *target;
@@ -255,31 +255,31 @@ void SeqOp_JumpIfLoopCount(void *ptr) {
 
     track = ptr;
     asm volatile("" : "=r"(track) : "0"(track));
-    cursor = *(u8_3 **)track;
-    *(u8_3 **)track = cursor + 1;
+    cursor = track->pc;
+    track->pc = cursor + 1;
     value = cursor[0];
     if (value == 0) {
         value = 0x100;
     }
 
-    if (*(u16_3 *)((char *)track + 0x62 + (*(u16_3 *)((char *)track + 0xCE) * 2)) + 1 != value) {
+    if (track->repeat_counters[track->call_stack_index] + 1 != value) {
         u8_3 *skip;
 
         skip = cursor + 3;
-        *(u8_3 **)track = skip;
+        track->pc = skip;
         return;
     }
 
-    *(u8_3 * volatile *)track = cursor + 2;
+    *(u8_3 * volatile *)&track->pc = cursor + 2;
     value = cursor[1];
     target = cursor + 3;
-    *(u8_3 **)track = target;
+    track->pc = target;
     offset = (s16)(value | (cursor[2] << 8));
-    *(u8_3 **)track = target + offset;
+    track->pc = target + offset;
 }
 
-void SeqOp_JumpIfLoopCountPop(void *ptr) {
-    void *track;
+void SeqOp_JumpIfLoopCountPop(AkaoTrack *ptr) {
+    AkaoTrack *track;
     u8_3 *cursor;
     register int value asm("$3");
     u8_3 *target;
@@ -287,28 +287,28 @@ void SeqOp_JumpIfLoopCountPop(void *ptr) {
 
     track = ptr;
     asm volatile("" : "=r"(track) : "0"(track));
-    cursor = *(u8_3 **)track;
-    *(u8_3 **)track = cursor + 1;
+    cursor = track->pc;
+    track->pc = cursor + 1;
     value = cursor[0];
     if (value == 0) {
         value = 0x100;
     }
 
-    if (*(u16_3 *)((char *)track + 0x62 + (*(u16_3 *)((char *)track + 0xCE) * 2)) + 1 != value) {
+    if (track->repeat_counters[track->call_stack_index] + 1 != value) {
         u8_3 *skip;
 
         skip = cursor + 3;
-        *(u8_3 **)track = skip;
+        track->pc = skip;
         return;
     }
 
-    *(u8_3 * volatile *)track = cursor + 2;
+    *(u8_3 * volatile *)&track->pc = cursor + 2;
     value = cursor[1];
     target = cursor + 3;
-    *(u8_3 **)track = target;
+    track->pc = target;
     offset = (s16)(value | (cursor[2] << 8));
-    *(u8_3 **)track = target + offset;
-    *(u16_3 *)((char *)track + 0xCE) = (*(u16_3 *)((char *)track + 0xCE) - 1) & 3;
+    track->pc = target + offset;
+    track->call_stack_index = (track->call_stack_index - 1) & 3;
 }
 
 void sndTrackReturn(AkaoTrack *track) {
@@ -318,26 +318,26 @@ void sndTrackReturn(AkaoTrack *track) {
     track->pc = track->call_stack[track->call_stack_index];
 }
 
-void SeqOp_SetVolume(void *ptr) {
-    unsigned char *cursor = *(unsigned char **)ptr;
+void SeqOp_SetVolume(AkaoTrack *track) {
+    unsigned char *cursor = track->pc;
     int value;
 
-    *(unsigned char **)ptr = cursor + 1;
+    track->pc = cursor + 1;
     value = *cursor;
-    *(short *)((char *)ptr + 0xD2) = 0;
-    *(short *)((char *)ptr + 0x58) = value;
-    *(short *)((char *)ptr + 0x56) = value;
-    *(short *)((char *)ptr + 0xD0) = value;
+    track->field_D2 = 0;
+    track->pan_duration = value;
+    track->field_56 = value;
+    track->field_D0 = value;
 }
 
-void SeqOp_AdjustVolumeTarget(void *ptr) {
-    char *cursor = *(char **)ptr;
+void SeqOp_AdjustVolumeTarget(AkaoTrack *track) {
+    char *cursor = (char *)track->pc;
     int value;
 
-    *(char **)ptr = cursor + 1;
+    track->pc = (unsigned char *)cursor + 1;
     value = *(signed char *)cursor;
     if (value != 0) {
-        value += *(short *)((char *)ptr + 0xD0);
+        value += track->field_D0;
         if (value <= 0) {
             value = 1;
         } else if (value >= 0x100) {
@@ -345,5 +345,5 @@ void SeqOp_AdjustVolumeTarget(void *ptr) {
         }
     }
 
-    *(short *)((char *)ptr + 0xD2) = value;
+    track->field_D2 = value;
 }

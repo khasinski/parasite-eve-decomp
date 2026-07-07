@@ -1,3 +1,5 @@
+#include "pe1/akao.h"
+
 typedef unsigned int u32;
 typedef unsigned short u16;
 
@@ -13,7 +15,7 @@ void Spu_SetAllVoiceVolumeImmediate(int *arg0) {
     int value;
     int dirty;
 
-    mask = 0x1000;
+    mask = AKAO_SPU_VOICE_SFX_START_MASK;
     active = g_SpuActiveVoiceMask;
     i = 0;
     block_flag = 0x02000000;
@@ -27,13 +29,13 @@ void Spu_SetAllVoiceVolumeImmediate(int *arg0) {
                 *(u16 *)(voice - 0x80) = 0;
                 value &= 0x7F;
                 value <<= 8;
-                dirty |= 3;
+                dirty |= AKAO_VOICE_PARAM_VOLUME;
                 *(u16 *)(voice - 0x1C) = value;
                 *(u32 *)voice = dirty;
             }
         }
         i++;
-        voice += 0x11C;
+        voice += sizeof(AkaoTrack);
         mask <<= 1;
     } while (i < 12);
 }

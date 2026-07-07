@@ -4,7 +4,7 @@
 extern int g_TextCursorX;
 extern int g_TextCursorY;
 extern int *g_TextCursorStackPtr;
-extern int g_TextCursorStackTop;
+extern int g_TextCursorStackTop[];
 
 void BoundsCheck_AssertStub(int arg0);
 
@@ -14,7 +14,7 @@ void Draw_StatePush(void) {
     int y;
 
     cursor = g_TextCursorStackPtr;
-    if (cursor < &g_TextCursorStackTop) {
+    if (cursor < g_TextCursorStackTop) {
         x = g_TextCursorX;
         y = g_TextCursorY;
         g_TextCursorStackPtr = cursor + 2;

@@ -1,3 +1,5 @@
+#include "pe1/akao.h"
+
 extern unsigned int g_AkaoVoiceUpdateFlags;
 extern char *g_AkaoCurTrack;
 
@@ -13,6 +15,6 @@ void SeqOp_SetTempoSlide(void *ptr)
     track = g_AkaoCurTrack;
     value |= stream[1] << 24;
     *(short *)(track + 0x58) = 0;
-    g_AkaoVoiceUpdateFlags |= 0x80;
+    g_AkaoVoiceUpdateFlags |= AKAO_GLOBAL_UPDATE_TEMPO;
     *(unsigned int *)(track + 0x40) = value;
 }

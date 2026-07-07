@@ -23,7 +23,7 @@ void SeqOp_SetVolumeOrExpression(AkaoTrack *track)
         value2 = *(signed char *)cursor2;
         flags = track->update_flags;
         track->expression_duration = 0;
-        flags |= 3;
+        flags |= AKAO_VOICE_PARAM_VOLUME;
         value2 <<= 23;
         track->update_flags = flags;
         track->expression_value = value2;

@@ -1,6 +1,6 @@
 extern int *g_CurrentEntity;
 
-int Pm_Stop(int arg0, int arg1, int arg2);
+int Pm_Stop(int arg0, void *arg1, int arg2);
 
 extern char *g_PlayerEntity;
 extern char *g_FieldActorListHead;

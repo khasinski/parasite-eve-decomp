@@ -4,13 +4,15 @@
 typedef signed char s8;
 typedef int s32;
 
+#include "pe1/akao.h"
+
 void Spu_WaitTransferDone(void);
 s32 Spu_ValidateSampleHeader(void *arg0);
 int Spu_WriteRegChecked(int arg0);
 void Spu_UploadWithPrepare(int arg0, int arg1);
 
 extern s32 g_SpuTransferStatus;
-extern s32 g_AkaoInstrumentTable[];
+extern AkaoInstrument g_AkaoInstrumentTable[];
 
 s32 Spu_UploadSampleBlock(void *arg0, s32 arg1) {
     register s8 *cursor asm("$16");
@@ -45,9 +47,9 @@ s32 Spu_UploadSampleBlock(void *arg0, s32 arg1) {
         cursor = (s8 *)(end - start);
         Spu_UploadWithPrepare((s32)(src + ((s32)cursor << 6)), count);
 
-        dst_offset = start << 6;
+        dst_offset = start * sizeof(AkaoInstrument);
         dst = (s32 *)((s8 *)g_AkaoInstrumentTable + dst_offset);
-        count = (s32)cursor << 4;
+        count = (s32)cursor * (sizeof(AkaoInstrument) / sizeof(s32));
         if (count != 0) {
             do {
                 count--;

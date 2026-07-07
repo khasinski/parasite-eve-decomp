@@ -1,3 +1,5 @@
+#include "pe1/akao.h"
+
 extern char *g_AkaoCurTrack;
 extern unsigned int g_AkaoSeqPendingFlags;
 extern int g_AkaoTrackStateArray[];
@@ -28,10 +30,10 @@ void Seq_RestorePendingTracks(void) {
         do {
             if (pending & mask) {
                 pending &= ~mask;
-                *slot |= 0x2B13;
+                *slot |= AKAO_VOICE_PARAM_RESUME;
             }
             mask <<= 1;
-            slot = (int *)((char *)slot + 0x11C);
+            slot = (int *)((char *)slot + sizeof(AkaoTrack));
         } while (pending != 0);
 
         saved = *(unsigned int *)(g_AkaoCurTrack + 0x1C);
@@ -60,7 +62,7 @@ void Spu_VoiceStopAll(void)
   if (pending != 0)
   {
     voice = g_AkaoVoiceChannelTable;
-    bit = 0x1000;
+    bit = AKAO_SPU_VOICE_SFX_START_MASK;
     i = 0;
     do
     {
@@ -72,12 +74,12 @@ void Spu_VoiceStopAll(void)
         }
       }
       i++;
-      voice += 0x11C;
+      voice += sizeof(AkaoTrack);
       bit <<= 1;
     }
     while (i < 12);
-    bit = 0x1000;
-    voice_index = 12;
+    bit = AKAO_SPU_VOICE_SFX_START_MASK;
+    voice_index = AKAO_SPU_VOICE_SFX_START_INDEX;
     active_ptr = &g_SpuActiveVoiceMask;
     g_SpuStoppedVoiceMask = pending;
     new_var = *active_ptr;

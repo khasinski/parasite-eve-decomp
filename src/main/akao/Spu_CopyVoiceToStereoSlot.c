@@ -1,34 +1,31 @@
 /* CC1_FLAGS: -g3 -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsigned short u16;typedef int s32;typedef unsigned int u32;typedef long long s64;
-#define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
+#include "pe1/akao.h"
 
-M2C_UNK Akao_WriteVoiceParam();
+void Akao_WriteVoiceParam();
 
-extern M2C_UNK g_AkaoVoiceStateTable[];
-#define g_AkaoVoiceStateTable (g_AkaoVoiceStateTable[0])
+extern AkaoTrack g_AkaoVoiceStateTable[];
 
-void Spu_CopyVoiceToStereoSlot(void *arg0, s32 arg1) {
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 temp_v0;
-    register s32 temp_v1 asm("$3");
-    void *temp_s0;
+void Spu_CopyVoiceToStereoSlot(AkaoTrack *track, int stereo_voice_index) {
+    int left;
+    int right;
+    int pan;
+    register int inverse_pan asm("$3");
+    AkaoTrack *stereo;
 
-    temp_a0 = M2C_FIELD(arg0, s16 *, 0x118);
-    temp_v1 = 0x7F;
-    temp_v0 = M2C_FIELD(arg0, u16 *, 0xD8);
-    temp_v0 = (s32)(temp_v0 << 0x10) >> 0x18;
-    temp_v1 -= temp_v0;
-    M2C_FIELD(arg0, s16 *, 0x118) = (s16)((u32)(temp_a0 * temp_v1) >> 8);
-    temp_s0 = (arg1 * 0x11C) + (u8 *)&g_AkaoVoiceStateTable;
-    M2C_FIELD(temp_s0, s16 *, 0x118) = (s16)((s32)(temp_a0 * (s16)M2C_FIELD(arg0, u16 *, 0xD8)) >> 0x10);
-    temp_a0_2 = M2C_FIELD(arg0, s16 *, 0x11A);
-    M2C_FIELD(arg0, s16 *, 0x11A) = (s16)((u32)(temp_a0_2 * temp_v1) >> 8);
-    M2C_FIELD(temp_s0, s16 *, 0x11A) = (s16)((s32)(temp_a0_2 * (s16)M2C_FIELD(arg0, u16 *, 0xD8)) >> 0x10);
-    M2C_FIELD(temp_s0, u16 *, 0x10C) = (u16)M2C_FIELD(arg0, u16 *, 0x10C);
-    M2C_FIELD(temp_s0, s32 *, 0xF4) = (s32)(M2C_FIELD(temp_s0, s32 *, 0xF4) | M2C_FIELD(arg0, s32 *, 0xF4));
-    Akao_WriteVoiceParam(M2C_FIELD(arg0, s32 *, 0xF0), arg0 + 0xF0, M2C_FIELD(arg0, s32 *, 0x38));
-    Akao_WriteVoiceParam(arg1, temp_s0 + 0xF0, M2C_FIELD(arg0, s32 *, 0x38));
+    left = track->volume_left;
+    inverse_pan = 0x7F;
+    pan = (unsigned short)track->pan_target;
+    pan = (int)(pan << 16) >> 24;
+    inverse_pan -= pan;
+    track->volume_left = (unsigned int)(left * inverse_pan) >> 8;
+    stereo = &g_AkaoVoiceStateTable[stereo_voice_index];
+    stereo->volume_left = (left * (short)track->pan_target) >> 16;
+    right = track->volume_right;
+    track->volume_right = (unsigned int)(right * inverse_pan) >> 8;
+    stereo->volume_right = (right * (short)track->pan_target) >> 16;
+    stereo->pitch = track->pitch;
+    stereo->update_flags |= track->update_flags;
+    Akao_WriteVoiceParam(track->assigned_voice_index, (AkaoVoiceParams *)&track->assigned_voice_index, track->flags);
+    Akao_WriteVoiceParam(stereo_voice_index, (AkaoVoiceParams *)&stereo->assigned_voice_index, track->flags);
 }

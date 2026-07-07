@@ -1,3 +1,5 @@
+#include "pe1/akao.h"
+
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -16,7 +18,7 @@ void Spu_SetVoicePitchImmediateMasked(int *arg0) {
 
     base = g_AkaoVoiceChannelTable;
     active = g_SpuActiveVoiceMask;
-    mask = 0x1000;
+    mask = AKAO_SPU_VOICE_SFX_START_MASK;
 
     if (arg0[2] != 0) {
         i = 0;
@@ -28,13 +30,13 @@ void Spu_SetVoicePitchImmediateMasked(int *arg0) {
                     dirty = *(volatile u32 *)voice;
                     *(u16 *)(voice - 0x84) = 0;
                     value <<= 8;
-                    dirty |= 0x10;
+                    dirty |= AKAO_VOICE_PARAM_PITCH;
                     *(u32 *)(voice - 0xB8) = value;
                     *(u32 *)voice = dirty;
                 }
             }
             i++;
-            voice += 0x11C;
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
     } else {
@@ -47,13 +49,13 @@ void Spu_SetVoicePitchImmediateMasked(int *arg0) {
                     dirty = *(volatile u32 *)voice;
                     *(u16 *)(voice - 0x84) = 0;
                     value <<= 8;
-                    dirty |= 0x10;
+                    dirty |= AKAO_VOICE_PARAM_PITCH;
                     *(u32 *)(voice - 0xB8) = value;
                     *(u32 *)voice = dirty;
                 }
             }
             i++;
-            voice += 0x11C;
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
     }

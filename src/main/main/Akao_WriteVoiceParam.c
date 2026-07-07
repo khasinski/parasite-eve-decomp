@@ -1,105 +1,92 @@
 /* CC1_FLAGS: -g3 -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsigned short u16;typedef int s32;typedef unsigned int u32;typedef long long s64;
-#define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
-M2C_UNK AkaoSpuVoice_SetAdsrAttack();
-M2C_UNK AkaoSpuVoice_SetAdsrDecayRate();
-M2C_UNK AkaoSpuVoice_SetAdsrReleaseRate();
-M2C_UNK AkaoSpuVoice_SetAdsrSustainLevel();
-M2C_UNK AkaoSpuVoice_SetAdsrSustainRate();
-M2C_UNK AkaoSpuVoice_SetPitch(s32, u16);
-M2C_UNK AkaoSpuVoice_SetRepeatAddress();
-M2C_UNK AkaoSpuVoice_SetStartAddress();
-M2C_UNK AkaoSpuVoice_SetVolume();
+#include "pe1/akao.h"
 
-void Akao_WriteVoiceParam(s32 arg0, void *arg1) {
-    s32 flags;
-    s32 cur;
+void Akao_WriteVoiceParam(int voice_index, AkaoVoiceParams *params)
+{
+    unsigned int flags;
+    unsigned int cur;
 
-    flags = M2C_FIELD(arg1, s32 *, 4);
+    flags = params->flags;
     if (flags != 0) {
-        if (flags & 0x10) {
-            AkaoSpuVoice_SetPitch(arg0, M2C_FIELD(arg1, u16 *, 0x1C));
+        if (flags & AKAO_VOICE_PARAM_PITCH) {
+            AkaoSpuVoice_SetPitch(voice_index, params->pitch);
             {
-                register s32 mask asm("$3") = ~0x10;
-                cur = M2C_FIELD(arg1, s32 *, 4) & mask;
+                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_PITCH;
+                cur = params->flags & mask;
             }
-            M2C_FIELD(arg1, s32 *, 4) = cur;
+            params->flags = cur;
             if (cur == 0) {
                 return;
             }
         }
-        if (flags & 3) {
-            AkaoSpuVoice_SetVolume(arg0, M2C_FIELD(arg1, s16 *, 0x28), M2C_FIELD(arg1, s16 *, 0x2A));
+        if (flags & AKAO_VOICE_PARAM_VOLUME) {
+            AkaoSpuVoice_SetVolume(voice_index, params->volume_left, params->volume_right);
             {
-                register s32 mask asm("$3") = ~3;
-                cur = M2C_FIELD(arg1, s32 *, 4) & mask;
+                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_VOLUME;
+                cur = params->flags & mask;
             }
-            M2C_FIELD(arg1, s32 *, 4) = cur;
+            params->flags = cur;
             if (cur == 0) {
                 return;
             }
         }
-        if (flags & 0x80) {
-            AkaoSpuVoice_SetStartAddress(arg0, M2C_FIELD(arg1, s32 *, 8));
+        if (flags & AKAO_VOICE_PARAM_START_ADDR) {
+            AkaoSpuVoice_SetStartAddress(voice_index, params->start_address);
             {
-                register s32 mask asm("$3") = ~0x80;
-                cur = M2C_FIELD(arg1, s32 *, 4) & mask;
+                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_START_ADDR;
+                cur = params->flags & mask;
             }
-            M2C_FIELD(arg1, s32 *, 4) = cur;
+            params->flags = cur;
             if (cur == 0) {
                 return;
             }
         }
-        if (flags & 0x10000) {
-            AkaoSpuVoice_SetRepeatAddress(arg0, M2C_FIELD(arg1, s32 *, 0xC));
-            {
-                register s32 mask asm("$3") = 0xFFFEFFFF;
-                cur = M2C_FIELD(arg1, s32 *, 4) & mask;
-            }
-            M2C_FIELD(arg1, s32 *, 4) = cur;
+        if (flags & AKAO_VOICE_PARAM_LOOP_ADDR) {
+            AkaoSpuVoice_SetRepeatAddress(voice_index, params->loop_address);
+            cur = params->flags & ~AKAO_VOICE_PARAM_LOOP_ADDR;
+            params->flags = cur;
             if (cur == 0) {
                 return;
             }
         }
-        if (flags & 0x2200) {
-            AkaoSpuVoice_SetAdsrSustainRate(arg0, M2C_FIELD(arg1, u16 *, 0x24), M2C_FIELD(arg1, s32 *, 0x14));
+        if (flags & AKAO_VOICE_PARAM_ADSR_SUSTAIN) {
+            AkaoSpuVoice_SetAdsrSustainRate(voice_index, params->adsr_sustain_rate, params->adsr_sustain_mode);
             {
-                register s32 mask asm("$3") = ~0x2200;
-                cur = M2C_FIELD(arg1, s32 *, 4) & mask;
+                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_ADSR_SUSTAIN;
+                cur = params->flags & mask;
             }
-            M2C_FIELD(arg1, s32 *, 4) = cur;
+            params->flags = cur;
             if (cur == 0) {
                 return;
             }
         }
-        if (flags & 0x900) {
-            AkaoSpuVoice_SetAdsrAttack(arg0, M2C_FIELD(arg1, u16 *, 0x1E), M2C_FIELD(arg1, s32 *, 0x10));
+        if (flags & AKAO_VOICE_PARAM_ADSR_ATTACK) {
+            AkaoSpuVoice_SetAdsrAttack(voice_index, params->adsr_attack_rate, params->adsr_attack_mode);
             {
-                register s32 mask asm("$3") = ~0x900;
-                cur = M2C_FIELD(arg1, s32 *, 4) & mask;
+                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_ADSR_ATTACK;
+                cur = params->flags & mask;
             }
-            M2C_FIELD(arg1, s32 *, 4) = cur;
+            params->flags = cur;
             if (cur == 0) {
                 return;
             }
         }
-        if (flags & 0x4400) {
-            AkaoSpuVoice_SetAdsrReleaseRate(arg0, M2C_FIELD(arg1, u16 *, 0x26), M2C_FIELD(arg1, s32 *, 0x18));
+        if (flags & AKAO_VOICE_PARAM_ADSR_RELEASE) {
+            AkaoSpuVoice_SetAdsrReleaseRate(voice_index, params->adsr_release_rate, params->adsr_release_mode);
             {
-                register s32 mask asm("$3") = ~0x4400;
-                cur = M2C_FIELD(arg1, s32 *, 4) & mask;
+                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_ADSR_RELEASE;
+                cur = params->flags & mask;
             }
-            M2C_FIELD(arg1, s32 *, 4) = cur;
+            params->flags = cur;
             if (cur == 0) {
                 return;
             }
         }
-        if (flags & 0x9000) {
-            AkaoSpuVoice_SetAdsrDecayRate(arg0, M2C_FIELD(arg1, u16 *, 0x20));
-            AkaoSpuVoice_SetAdsrSustainLevel(arg0, M2C_FIELD(arg1, u16 *, 0x22));
+        if (flags & AKAO_VOICE_PARAM_ADSR_DECAY_SUSTAIN) {
+            AkaoSpuVoice_SetAdsrDecayRate(voice_index, params->adsr_decay_rate);
+            AkaoSpuVoice_SetAdsrSustainLevel(voice_index, params->adsr_sustain_level);
         }
-        M2C_FIELD(arg1, s32 *, 4) = 0;
+        params->flags = 0;
     }
 }

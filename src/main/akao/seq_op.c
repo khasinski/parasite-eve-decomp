@@ -5,8 +5,8 @@ typedef unsigned int u32;
 
 #include "pe1/akao.h"
 
-extern int g_AkaoInstrumentTable;
-void SeqOp_SetVoiceInstrument(void *track_arg, void *src_arg, int arg2);
+extern AkaoInstrument g_AkaoInstrumentTable[];
+void SeqOp_SetVoiceInstrument(AkaoTrack *track_arg, AkaoInstrument *instrument_arg, int sample_header);
 
 extern int g_SpuActiveVoiceMask;
 extern int g_AkaoVoiceMaskScratch;
@@ -20,46 +20,46 @@ typedef unsigned char u8_1;
 typedef unsigned short u16;
 typedef unsigned int u32_1;
 
-void SeqOp_SetVoiceInstrument(void *track_arg, void *src_arg, int arg2) {
-    u8 *track = track_arg;
-    u8 *src = src_arg;
+void SeqOp_SetVoiceInstrument(AkaoTrack *track_arg, AkaoInstrument *instrument_arg, int sample_header) {
+    AkaoTrack *track = track_arg;
+    AkaoInstrument *instrument = instrument_arg;
     int flags;
     int value;
     u32 flags2;
     int tail_value;
 
-    *(int *)(track + 0xF8) = arg2;
-    *(int *)(track + 0xFC) = *(int *)(src + 4);
-    *(short *)(track + 0x10E) = src[8];
-    *(short *)(track + 0x110) = src[9];
-    *(short *)(track + 0x112) = src[10];
-    *(short *)(track + 0x114) = src[11];
-    *(int *)(track + 0x100) = src[13];
+    track->sample_header = sample_header;
+    track->sample_data = instrument->loop_address;
+    track->adsr_attack_rate = instrument->adsr_attack_rate;
+    track->adsr_decay_rate = instrument->adsr_decay_rate;
+    track->adsr_sustain_level = instrument->adsr_sustain_level;
+    track->adsr_sustain_rate = instrument->adsr_sustain_rate;
+    track->adsr_attack = instrument->adsr_attack_mode;
 
-    flags = *(int *)(track + 0x38);
-    value = src[14];
-    *(int *)(track + 0x104) = value;
+    flags = track->flags;
+    value = instrument->adsr_sustain_mode;
+    track->adsr_sustain = value;
 
-    if ((flags & 0x200) != 0) {
-        *(u32 *)(track + 0xF4) |= 0x1BB80;
+    if ((flags & AKAO_TRACK_FLAG_RELEASE_RATE_OVERRIDE) != 0) {
+        track->update_flags |= AKAO_VOICE_PARAM_INSTRUMENT_NO_RELEASE;
     } else {
-        unsigned int v = src[12];
-        short *dst = (short *)(track + 0x116);
+        unsigned int v = instrument->adsr_release_rate;
+        AkaoU16 *dst = &track->adsr_release_rate;
 
         *dst = v;
-        flags2 = *(u32 *)(track + 0xF4);
-        tail_value = src[15];
-        *(u32 *)(track + 0xF4) = flags2 | 0x1FF80;
-        *(int *)(track + 0x108) = tail_value;
+        flags2 = track->update_flags;
+        tail_value = instrument->adsr_release_mode;
+        track->update_flags = flags2 | AKAO_VOICE_PARAM_INSTRUMENT_FULL;
+        track->adsr_release = tail_value;
     }
 }
 
 void Akao_SetNotePitch(AkaoTrack *track, int arg1) {
-    int ptr;
+    AkaoInstrument *instrument;
 
     track->note_pitch = arg1;
-    ptr = (int)&g_AkaoInstrumentTable + (arg1 << 6);
-    SeqOp_SetVoiceInstrument(track, ptr, *(int *)ptr);
+    instrument = &g_AkaoInstrumentTable[arg1];
+    SeqOp_SetVoiceInstrument(track, instrument, instrument->start_address);
 }
 
 void SeqOp_DeactivateVoice(char *ptr, int mask) {

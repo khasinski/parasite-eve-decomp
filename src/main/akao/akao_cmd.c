@@ -62,7 +62,7 @@ int Akao_Cmd_19_Then_C0(int arg0, int arg1) {
     g_AkaoCmdArg0 = arg0;
     ret = Akao_EnqueueStagedCommand();
 
-    *opcode = 0xC0;
+    *opcode = AKAO_SEQ_OP_TRANSPOSE_ABSOLUTE;
     g_AkaoCmdArg0 = arg1 & 0x7F;
     g_AkaoCmdArg3 = 0;
     Akao_EnqueueStagedCommand();
@@ -182,20 +182,20 @@ void Akao_Cmd_98_9A_9C(int arg0) {
 }
 
 void Akao_Cmd_A8(int arg0) {
-    g_AkaoCmdOpcode = 0xA8;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_CHANNEL_VOLUME;
     g_AkaoCmdArg0 = arg0 & 0x7F;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_A9(int arg0, int arg1) {
-    g_AkaoCmdOpcode = 0xA9;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_CHANNEL_VOLUME_SLIDE;
     g_AkaoCmdArg0 = arg0 & 0xFF;
     g_AkaoCmdArg1 = arg1 & 0x7F;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_A0(int arg0, int arg1, int arg2) {
-    g_AkaoCmdOpcode = 0xA0;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_FINISH_CHANNEL;
     g_AkaoCmdArg0 = arg0 & 0xFFFF;
     g_AkaoCmdArg1 = arg1 & 0xFFFFFF;
     g_AkaoCmdArg2 = arg2 & 0x7F;
@@ -203,7 +203,7 @@ void Akao_Cmd_A0(int arg0, int arg1, int arg2) {
 }
 
 void Akao_Cmd_A1(int arg0, int arg1, int arg2, int arg3) {
-    g_AkaoCmdOpcode = 0xA1;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_LOAD_INSTRUMENT;
     g_AkaoCmdArg0 = arg0 & 0xFFFF;
     g_AkaoCmdArg1 = arg1 & 0xFFFFFF;
     g_AkaoCmdArg2 = arg2 & 0xFF;
@@ -212,20 +212,20 @@ void Akao_Cmd_A1(int arg0, int arg1, int arg2, int arg3) {
 }
 
 void Akao_Cmd_AA(int arg0) {
-    g_AkaoCmdOpcode = 0xAA;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_CHANNEL_PAN;
     g_AkaoCmdArg0 = arg0 & 0xFF;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_AB(int arg0, int arg1) {
-    g_AkaoCmdOpcode = 0xAB;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_CHANNEL_PAN_SLIDE;
     g_AkaoCmdArg0 = arg0 & 0xFF;
     g_AkaoCmdArg1 = arg1 & 0xFF;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_A2(int arg0, int arg1, int arg2) {
-    g_AkaoCmdOpcode = 0xA2;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_SET_NEXT_NOTE_LENGTH;
     g_AkaoCmdArg0 = arg0 & 0x3FF;
     g_AkaoCmdArg1 = arg1 & 0xFFFFFF;
     g_AkaoCmdArg2 = arg2 & 0xFF;
@@ -233,7 +233,7 @@ void Akao_Cmd_A2(int arg0, int arg1, int arg2) {
 }
 
 void Akao_Cmd_A3(int arg0, int arg1, int arg2, int arg3) {
-    g_AkaoCmdOpcode = 0xA3;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_CHANNEL_MASTER_VOLUME;
     g_AkaoCmdArg0 = arg0 & 0x3FF;
     g_AkaoCmdArg1 = arg1 & 0xFFFFFF;
     g_AkaoCmdArg2 = arg2 & 0xFF;
@@ -242,20 +242,20 @@ void Akao_Cmd_A3(int arg0, int arg1, int arg2, int arg3) {
 }
 
 void Akao_Cmd_AC(int arg0) {
-    g_AkaoCmdOpcode = 0xAC;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_NOISE_CLOCK;
     g_AkaoCmdArg0 = arg0 & 0xFF;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_AD(int arg0, int arg1) {
-    g_AkaoCmdOpcode = 0xAD;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_ADSR_ATTACK_RATE;
     g_AkaoCmdArg0 = arg0 & 0xFF;
     g_AkaoCmdArg1 = arg1 & 0xFF;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_A4(int arg0, int arg1, int arg2) {
-    g_AkaoCmdOpcode = 0xA4;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_PITCH_BEND_SLIDE;
     g_AkaoCmdArg0 = arg0 & 0xFFFF;
     g_AkaoCmdArg1 = arg1 & 0xFFFFFF;
     g_AkaoCmdArg2 = arg2 & 0xFF;
@@ -263,7 +263,7 @@ void Akao_Cmd_A4(int arg0, int arg1, int arg2) {
 }
 
 void Akao_Cmd_A5(int arg0, int arg1, int arg2, int arg3) {
-    g_AkaoCmdOpcode = 0xA5;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_SET_OCTAVE;
     g_AkaoCmdArg0 = arg0 & 0xFFFF;
     g_AkaoCmdArg1 = arg1 & 0xFFFFFF;
     g_AkaoCmdArg2 = arg2 & 0xFF;
@@ -272,14 +272,14 @@ void Akao_Cmd_A5(int arg0, int arg1, int arg2, int arg3) {
 }
 
 void Akao_Cmd_C0_WithSlot(int arg0, int arg1) {
-    g_AkaoCmdOpcode = 0xC0;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_TRANSPOSE_ABSOLUTE;
     g_AkaoCmdArg0 = arg1 & 0x7F;
     g_AkaoCmdArg3 = arg0;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_C1_WithSlot(int arg0, int arg1, int arg2) {
-    g_AkaoCmdOpcode = 0xC1;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_TRANSPOSE_RELATIVE;
     g_AkaoCmdArg0 = arg1;
     g_AkaoCmdArg1 = arg2 & 0x7F;
     g_AkaoCmdArg3 = arg0;
@@ -287,7 +287,7 @@ void Akao_Cmd_C1_WithSlot(int arg0, int arg1, int arg2) {
 }
 
 void Akao_Cmd_C2_WithSlot(int arg0, int arg1, int arg2, int arg3) {
-    g_AkaoCmdOpcode = 0xC2;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_REVERB_ON;
     g_AkaoCmdArg0 = arg1;
     g_AkaoCmdArg1 = arg2 & 0x7F;
     g_AkaoCmdArg2 = arg3 & 0x7F;
@@ -296,20 +296,20 @@ void Akao_Cmd_C2_WithSlot(int arg0, int arg1, int arg2, int arg3) {
 }
 
 void Akao_Cmd_C8(int arg0) {
-    g_AkaoCmdOpcode = 0xC8;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_LOOP_POINT;
     g_AkaoCmdArg0 = arg0;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_C9(int arg0, int arg1) {
-    g_AkaoCmdOpcode = 0xC9;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_RETURN_LOOP_N_TIMES;
     g_AkaoCmdArg0 = arg0;
     g_AkaoCmdArg1 = arg1;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_CA(int arg0, int arg1, int arg2) {
-    g_AkaoCmdOpcode = 0xCA;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_RETURN_LOOP;
     g_AkaoCmdArg0 = arg0;
     g_AkaoCmdArg1 = arg1;
     g_AkaoCmdArg2 = arg2;
@@ -317,20 +317,20 @@ void Akao_Cmd_CA(int arg0, int arg1, int arg2) {
 }
 
 void Akao_Cmd_D0(int arg0) {
-    g_AkaoCmdOpcode = 0xD0;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_FULL_LENGTH_NOTE_ON;
     g_AkaoCmdArg0 = arg0 & 0xFF;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_D1(int arg0, int arg1) {
-    g_AkaoCmdOpcode = 0xD1;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_FULL_LENGTH_NOTE_OFF;
     g_AkaoCmdArg0 = arg0;
     g_AkaoCmdArg1 = arg1 & 0xFF;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_D2(int arg0, int arg1, int arg2) {
-    g_AkaoCmdOpcode = 0xD2;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_FM_TOGGLE_DELAY_ON;
     g_AkaoCmdArg0 = arg0;
     g_AkaoCmdArg1 = arg1 & 0xFF;
     g_AkaoCmdArg2 = arg2 & 0xFF;
@@ -338,20 +338,20 @@ void Akao_Cmd_D2(int arg0, int arg1, int arg2) {
 }
 
 void Akao_Cmd_D4(int arg0) {
-    g_AkaoCmdOpcode = 0xD4;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_PLAYBACK_RATE_SIDE_CHAIN_ON;
     g_AkaoCmdArg0 = arg0 & 0xFF;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_D5(int arg0, int arg1) {
-    g_AkaoCmdOpcode = 0xD5;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_PLAYBACK_RATE_SIDE_CHAIN_OFF;
     g_AkaoCmdArg0 = arg0;
     g_AkaoCmdArg1 = arg1 & 0xFF;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_D6(int arg0, int arg1, int arg2) {
-    g_AkaoCmdOpcode = 0xD6;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_PITCH_VOLUME_SIDE_CHAIN_ON;
     g_AkaoCmdArg0 = arg0;
     g_AkaoCmdArg1 = arg1 & 0xFF;
     g_AkaoCmdArg2 = arg2 & 0xFF;
@@ -359,20 +359,20 @@ void Akao_Cmd_D6(int arg0, int arg1, int arg2) {
 }
 
 void Akao_Cmd_D8(int arg0) {
-    g_AkaoCmdOpcode = 0xD8;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_FINE_TUNE_ABSOLUTE;
     g_AkaoCmdArg0 = arg0 & 0xFF;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_D9(int arg0, int arg1) {
-    g_AkaoCmdOpcode = 0xD9;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_FINE_TUNE_RELATIVE;
     g_AkaoCmdArg0 = arg0;
     g_AkaoCmdArg1 = arg1 & 0xFF;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_DA(int arg0, int arg1, int arg2) {
-    g_AkaoCmdOpcode = 0xDA;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_PORTAMENTO_ON;
     g_AkaoCmdArg0 = arg0;
     g_AkaoCmdArg1 = arg1 & 0xFF;
     g_AkaoCmdArg2 = arg2 & 0xFF;
@@ -380,12 +380,12 @@ void Akao_Cmd_DA(int arg0, int arg1, int arg2) {
 }
 
 void Akao_Cmd_F0(void) {
-    g_AkaoCmdOpcode = 0xF0;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_JUMP_ON_REPEAT;
     Akao_EnqueueStagedCommand();
 }
 
 void Akao_Cmd_F1(void) {
-    g_AkaoCmdOpcode = 0xF1;
+    g_AkaoCmdOpcode = AKAO_SEQ_OP_BREAK_LOOP_ON_REPEAT;
     Akao_EnqueueStagedCommand();
 }
 

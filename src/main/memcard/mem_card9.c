@@ -1,4 +1,4 @@
-/* MASPSX_FLAGS: --store-return-delay */
+/* MASPSX_FLAGS: --store-return-delay --store-jump-delay */
 #include "include_asm.h"
 
 #include "include_asm.h"
@@ -6,8 +6,13 @@
 #include "pe1/memcard_state.h"
 
 extern int (*D_8009B74C)(void);
+typedef int (*MemCardStepFn)(void);
+typedef void (*MemCardErrorFn)(int);
 
 extern int g_MemCardCallbackPending;
+extern int D_8009B768;
+extern MemCardStepFn D_8009B7A8[];
+extern MemCardErrorFn D_8009B724;
 
 extern void EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
@@ -64,7 +69,37 @@ void MemCard_StopCounterIrq(void) {
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9", MemCard_DmaProcess);
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9", MemCard_RunCommandStep);
+void Timer_StartTimeout(int frames);
+int MemCard_WaitReadyForTransfer(void);
+
+void MemCard_RunCommandStep(void) {
+    register int *state asm("$5");
+    int result;
+    register MemCardStepFn fn asm("$2");
+    register int step asm("$3");
+    register int next asm("$2");
+
+    state = &D_8009B768;
+    step = *state;
+    fn = D_8009B7A8[step];
+    *state = step + 1;
+    result = fn();
+    if (result >= 0) {
+        if (D_8009B768 != 0) {
+            Timer_StartTimeout(0x3C);
+            if (MemCard_WaitReadyForTransfer() == 0) {
+                D_8009B724(-3);
+            }
+        }
+        step = D_8009B768;
+        if (step >= 5) {
+            next = step - 1;
+            D_8009B768 = next;
+        }
+    } else {
+        D_8009B724(result);
+    }
+}
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9", MemCard_ReadByte);
 

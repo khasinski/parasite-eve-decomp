@@ -1,43 +1,45 @@
-void Akao_SetNotePitch(void *ptr, int arg);
+#include "pe1/akao.h"
 
-void Akao_InitVoiceState(void *ptr, void *script) {
-    *(short *)((char *)ptr + 0x6C) = 0x6E00;
-    *(void **)ptr = script;
-    *(short *)((char *)ptr + 0xDE) = 0;
-    *(short *)((char *)ptr + 0xE0) = 0;
-    *(short *)((char *)ptr + 0x82) = 0;
-    *(int *)((char *)ptr + 0x34) = 0;
-    *(short *)((char *)ptr + 0xE4) = 0;
-    *(short *)((char *)ptr + 0x7A) = 0;
-    *(short *)((char *)ptr + 0xD2) = 0;
-    *(short *)((char *)ptr + 0xD0) = 0;
-    *(int *)((char *)ptr + 0x44) = 0x32000000;
-    *(short *)((char *)ptr + 0x72) = 0;
-    *(short *)((char *)ptr + 0xCE) = 0;
-    *(int *)((char *)ptr + 0x38) = 0;
-    *(short *)((char *)ptr + 0xEC) = 0;
-    *(short *)((char *)ptr + 0x84) = 0;
-    *(short *)((char *)ptr + 0xB4) = 0;
-    *(short *)((char *)ptr + 0xA6) = 0;
-    *(short *)((char *)ptr + 0x94) = 0;
-    *(short *)((char *)ptr + 0xB6) = 0;
-    *(short *)((char *)ptr + 0xA8) = 0;
-    *(short *)((char *)ptr + 0x96) = 0;
-    *(short *)((char *)ptr + 0xBC) = 0;
-    *(short *)((char *)ptr + 0xBA) = 0;
-    Akao_SetNotePitch(ptr, 0);
+void Akao_SetNotePitch(AkaoTrack *track, int arg);
+
+void Akao_InitVoiceState(AkaoTrack *track, void *script) {
+    track->volume_base = 0x6E00;
+    track->pc = script;
+    track->expression = 0;
+    track->detune = 0;
+    track->tremolo_duration = 0;
+    track->voice_mask_a = 0;
+    track->vibrato_delta = 0;
+    track->field_7A = 0;
+    track->field_D2 = 0;
+    track->field_D0 = 0;
+    track->expression_value = 0x32000000;
+    track->expression_duration = 0;
+    track->call_stack_index = 0;
+    track->flags = 0;
+    track->aux_lfo_value = 0;
+    track->tremolo_phase = 0;
+    track->aux_lfo_target = 0;
+    track->volume_lfo_target = 0;
+    track->pitch_lfo_target = 0;
+    track->aux_lfo_slide_duration = 0;
+    track->volume_lfo_slide_duration = 0;
+    track->pitch_lfo_slide_duration = 0;
+    track->key_off_delay = 0;
+    track->key_on_delay = 0;
+    Akao_SetNotePitch(track, 0);
 }
 
-unsigned int Akao_ForEachVoiceMasked(unsigned char *entry, unsigned int mask) {
+unsigned int Akao_ForEachVoiceMasked(AkaoTrack *track, unsigned int mask) {
     unsigned int bit;
     unsigned int result;
     unsigned int index;
 
     index = 0;
     result = 0;
-    for (bit = 1; index < 24; index++, entry += 0x11C) {
+    for (bit = 1; index < 24; index++, track++) {
         if ((mask & (bit << index)) != 0) {
-            unsigned int target = *(unsigned int *)(entry + 0xF0);
+            unsigned int target = track->assigned_voice_index;
 
             if (target < 24) {
                 result |= bit << target;

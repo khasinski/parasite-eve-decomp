@@ -1,3 +1,5 @@
+#include "pe1/akao.h"
+
 typedef unsigned int u32;
 typedef unsigned short u16;
 
@@ -28,7 +30,7 @@ void Seq_RestorePrimaryState(void) {
                     *(u16 *)ptr = value - 0x30;
                 }
                 i++;
-                ptr += 0x11C;
+                ptr += sizeof(AkaoTrack);
             } while (i < 24);
         }
     }

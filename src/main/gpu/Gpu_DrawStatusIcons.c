@@ -16,7 +16,7 @@ extern char D_8009EA9C[];
 extern char D_8009EAB8[];
 extern char *g_OtBufferTable[];
 
-void AddPrim(unsigned int *ot, unsigned int *prim);
+void AddPrim(void *ot, void *prim);
 
 #define INDEX_STRIDE(i) ((((((i) << 1) + (i)) << 3) - (i)) << 2) - (i)
 

@@ -1,3 +1,5 @@
+#include "pe1/akao.h"
+
 typedef unsigned short u16;
 
 extern char *g_AkaoCurTrack;
@@ -53,11 +55,11 @@ body:
         *(u16 *)(field - 0xBE) = mode1;
         *(char **)(voice + 0) = fallback;
         flags = *(int *)(field - 0x22);
-        voice += 0x11C;
+        voice += sizeof(AkaoTrack);
         *(u16 *)(field + 0) = mode5;
-        flags |= 0x4400;
+        flags |= AKAO_VOICE_PARAM_ADSR_RELEASE;
         *(int *)(field - 0x22) = flags;
-        field += 0x11C;
+        field += sizeof(AkaoTrack);
     } while (i < 0x18);
 }
 
@@ -75,7 +77,7 @@ void Spu_ManageVoices(int arg0, int arg1) {
     int best;
 
     control = arg1;
-    mask = 0x1000;
+    mask = AKAO_SPU_VOICE_SFX_START_MASK;
     id = (u16_1)arg0;
 
     if (id == 0xFFFF) {
@@ -106,8 +108,8 @@ void Spu_ManageVoices(int arg0, int arg1) {
                 }
             }
             i++;
-            field += 0x11C;
-            voice += 0x11C;
+            field += sizeof(AkaoTrack);
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
         goto finish;
@@ -121,7 +123,7 @@ void Spu_ManageVoices(int arg0, int arg1) {
             Spu_ManageVoices(*(int *)(voice + 0x28), 0);
         }
         mask <<= 1;
-        voice += 0x11C;
+        voice += sizeof(AkaoTrack);
         value = active & mask;
         if (value != 0) {
             Spu_ManageVoices(*(int *)(voice + 0x28), 0);
@@ -138,12 +140,12 @@ void Spu_ManageVoices(int arg0, int arg1) {
                 active &= ~mask;
             }
             i++;
-            voice += 0x11C;
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
 
         voice = g_AkaoVoiceChannelTable;
-        mask = 0x1000;
+        mask = AKAO_SPU_VOICE_SFX_START_MASK;
         best = 0;
         i = 0;
         do {
@@ -154,12 +156,12 @@ void Spu_ManageVoices(int arg0, int arg1) {
                 }
             }
             i++;
-            voice += 0x11C;
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
 
         voice = g_AkaoVoiceChannelTable;
-        mask = 0x1000;
+        mask = AKAO_SPU_VOICE_SFX_START_MASK;
         i = 0;
         flag1 = 0x100000;
         control = 0x200000;
@@ -180,8 +182,8 @@ void Spu_ManageVoices(int arg0, int arg1) {
                 }
             }
             i++;
-            field += 0x11C;
-            voice += 0x11C;
+            field += sizeof(AkaoTrack);
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
         goto finish;
@@ -206,13 +208,13 @@ void Spu_ManageVoices(int arg0, int arg1) {
             }
         }
         i++;
-        field += 0x11C;
-        voice += 0x11C;
+        field += sizeof(AkaoTrack);
+        voice += sizeof(AkaoTrack);
         mask <<= 1;
     } while (i < 12);
 
 finish:
-    g_AkaoVoiceUpdateFlags |= 0x10;
+    g_AkaoVoiceUpdateFlags |= AKAO_VOICE_PARAM_PITCH;
     Seq_MarkTrack34MaskDirty();
     Seq_MarkTrack38MaskDirty();
     Seq_MarkTrack3CMaskDirty();

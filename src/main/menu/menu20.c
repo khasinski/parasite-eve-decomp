@@ -7,7 +7,7 @@ int g_MenuEquipMode;
 int g_MenuActiveWidget;
 
 void Menu_DrawEquipSlotListItem(int arg0);
-void MenuWidget_DrawList(int arg0, void (*callback)(void));
+void MenuWidget_DrawList(int arg0, void (*callback)(int));
 void Draw_SetTextDimmed(int value);
 void Draw_AllocSprite(int arg0);
 void Draw_OffsetCursor(int x, int y);

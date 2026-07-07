@@ -25,15 +25,15 @@ void Spu_RestoreStoppedVoices(void) {
     int *slot;
 
     if (pending != 0) {
-        mask = 0x1000;
+        mask = AKAO_SPU_VOICE_SFX_START_MASK;
         slot = g_SpuVoiceControlTable;
         do {
             if (pending & mask) {
                 pending &= ~mask;
-                *slot |= 0x2B13;
+                *slot |= AKAO_VOICE_PARAM_RESUME;
             }
             mask <<= 1;
-            slot = (int *)((char *)slot + 0x11C);
+            slot = (int *)((char *)slot + sizeof(AkaoTrack));
         } while (pending != 0);
 
         saved = g_SpuStoppedVoiceMask;
