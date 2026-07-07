@@ -1,4 +1,4 @@
-/* MASPSX_FLAGS: --store-return-delay --store-jump-delay --store-call-delay --stack-return-delay */
+/* MASPSX_FLAGS: --store-return-delay --store-call-delay --stack-return-delay */
 
 extern int D_8009B75C;
 extern void *D_800A5AB0;
