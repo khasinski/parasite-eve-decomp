@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Generate docs/progress.html and docs/badges/*.json from the honest
-progress metric (plain-C only) plus objdiff's report.json when present.
+"""Generate docs/progress.html and docs/badges/*.json from the progress metric
+plus objdiff's report.json when present.
 
 Badges are shields.io endpoint JSONs, usable straight from
 raw.githubusercontent.com.
@@ -50,8 +50,8 @@ def main() -> None:
 
     BADGES.mkdir(parents=True, exist_ok=True)
     for name, label, msg, pct in [
-        ("functions", "functions in plain C", f"{mf}/{nf} ({fpct}%)", float(fpct)),
-        ("code", "code bytes in plain C", f"{bpct}%", float(bpct)),
+        ("functions", "functions decompiled", f"{mf}/{nf} ({fpct}%)", float(fpct)),
+        ("code", "code bytes decompiled", f"{bpct}%", float(bpct)),
     ]:
         (BADGES / f"{name}.json").write_text(json.dumps({
             "schemaVersion": 1, "label": label,
@@ -66,10 +66,10 @@ def main() -> None:
         "td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}"
         ".ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>",
         "<h1>parasite-eve-decomp</h1>",
-        f"<p>Plain-C functions: <b>{mf}/{nf} ({fpct}%)</b> · "
-        f"code bytes: <b>{bpct}%</b>. A unit counts only when it is plain C "
-        "with no assembly of any kind; the full build is byte-identical to "
-        "retail.</p>",
+        f"<p>Decompiled functions: <b>{mf}/{nf} ({fpct}%)</b> · "
+        f"code bytes: <b>{bpct}%</b>. A unit counts when it has no INCLUDE_ASM "
+        "and no non-empty inline assembly; the full build is byte-identical "
+        "to retail.</p>",
     ]
     md_table = re.search(r"\| Binary \|.*?\n((?:\|.*\n)+)", prog)
     parts.append("<h2>Per binary</h2><table><tr><th>Binary</th>"
@@ -84,12 +84,12 @@ def main() -> None:
         if not rows:
             continue
         done = sum(1 for _, _, c in rows if c)
-        parts.append(f"<h2>{html.escape(name)} — {done}/{len(rows)} plain-C files</h2>")
+        parts.append(f"<h2>{html.escape(name)} — {done}/{len(rows)} decompiled files</h2>")
         parts.append("<table><tr><th>Translation unit</th><th>Functions</th>"
                      "<th>Status</th></tr>")
         for path, funcs, clean in rows:
-            status = "<span class=ok>plain C</span>" if clean else \
-                     "<span class=no>carries asm</span>"
+            status = "<span class=ok>decompiled</span>" if clean else \
+                     "<span class=no>carries asm body</span>"
             parts.append(f"<tr><td>{html.escape(path)}</td><td>{funcs}</td>"
                          f"<td>{status}</td></tr>")
         parts.append("</table>")

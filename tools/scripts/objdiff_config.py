@@ -3,8 +3,8 @@
 
 One unit per C translation unit: base = the freshly built object,
 target = the byte-verified snapshot under expected/build (make expected).
-`metadata.complete` mirrors the progress metric: true only when the
-source is plain C (no assembly of any kind).
+`metadata.complete` mirrors the progress metric: true when the source has no
+INCLUDE_ASM and no non-empty inline assembly.
 Categories: main executable + each configured overlay.
 """
 from __future__ import annotations
