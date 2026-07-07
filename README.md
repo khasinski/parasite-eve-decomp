@@ -25,13 +25,15 @@ See [docs/PROGRESS.md](docs/PROGRESS.md) for current per-binary progress
 (regenerate with `make progress`). This README intentionally avoids hardcoded
 function counts, percentages, or byte totals; the generated progress report is
 the source of truth. A translation unit only counts as decompiled when it is
-plain C with no assembly of any kind. Verified builds are byte-identical to
-retail (`make check`, plus overlay checks for touched overlays).
+decompiled C rather than generated split assembly. Verified builds are
+byte-identical to retail (`make check`, plus overlay checks for touched
+overlays).
 
 The matching policy is conservative: new decompilation work should match as
-plain C through the stock compiler pipeline. No post-build rewrite passes, no
-inline assembly; functions that cannot yet be matched that way stay as
-generated split assembly.
+C through the stock compiler pipeline. Small, documented local asm/register
+levers are acceptable only when ordinary C source-shape attempts have been
+exhausted. Whole-function asm bodies, post-build rewrite passes, and build hacks
+are not acceptable substitutes for decompilation.
 
 ## Layout
 
@@ -49,17 +51,16 @@ Generated directories such as `asm/`, `linkers/`, `build/`, `assets/`, and
 Linking and assembling use standard GNU binutils: `mipsel-none-elf-as`,
 `mipsel-none-elf-ld`, and `mipsel-none-elf-objcopy` on `PATH`.
 
-Compiling matching C uses the same compiler Square used: GCC 2.7.2.SN32.3.7
-Build 0001 from PSY-Q 4.0 (`CPPPSX.EXE`/`CC1PSX.EXE`), run through
-[wibo](https://github.com/decompals/wibo), with
+Compiling matching C uses a native PSX GCC 2.7.2 `cc1` from
+[decompals/old-gcc](https://github.com/decompals/old-gcc), plus a
+PSYQ-compatible preprocessor and
 [maspsx](https://github.com/mkst/maspsx) reproducing ASPSX assembler behavior.
-Default local paths:
+The supported compiler path is the native toolchain below. Default local paths:
 
 ```text
-sdk/psyq-4.0/COMPILER/CC1PSX.EXE
 sdk/psyq-4.0/PSX/INCLUDE/
 tools/psyq-gcc-2.7.2/cpp
-tools/wibo/wibo
+tools/old-gcc/cc1
 tools/maspsx/maspsx.py
 ```
 
@@ -67,14 +68,23 @@ Overridable with environment variables:
 
 ```sh
 export PE_CPP=/path/to/gcc-2.7.2/cpp
-export PE_CC1=/path/to/cc1-or-wrapper
-export PE_CC1_BUILD0001_EXE=/path/to/CC1PSX.EXE
-export PE_WIBO=/path/to/wibo
+export PE_CC1=/path/to/native/old-gcc/cc1-or-wrapper
 ```
 
-A native rebuild of cc1 2.7.2 (codegen-identical to Build 0001) can be
-installed with `tools/scripts/setup_stock_cc1.sh`; the build falls back to
-`CC1PSX.EXE` via wibo when it is absent.
+Install the local compiler pieces with:
+
+```sh
+tools/scripts/setup_stock_cc1.sh
+tools/scripts/setup_maspsx.sh
+```
+
+Current matching note: `-G8` is part of the expected PSX small-data profile.
+The high-count maspsx flags `--use-comm-section` and `--expand-div` were tested
+for removal on 2026-07-07 and are still required: direct object probes produced
+0 matches for both flag families, removing `--use-comm-section` breaks the final
+link with discarded `.sbss` references, and removing `--expand-div` links but
+fails the retail SHA-1 check. The delay-slot custom flags are likewise kept
+until there is a faithful ASPSX-compatible replacement.
 
 ## Quick Start
 
