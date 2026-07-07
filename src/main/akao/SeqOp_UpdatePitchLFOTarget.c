@@ -1,5 +1,4 @@
 /* CC1_FLAGS: -O1 */
-/* MASPSX_FLAGS: --expand-div */
 #include "pe1/akao.h"
 
 void SeqOp_UpdatePitchLFOTarget(AkaoTrack *track) {

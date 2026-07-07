@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --expand-div */
 #include "include_asm.h"
 
 #include "pe1/akao.h"
