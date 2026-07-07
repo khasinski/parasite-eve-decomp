@@ -1,5 +1,3 @@
-/* CC1_FLAGS: -fno-schedule-insns */
-
 #include "pe1/field_actor.h"
 
 extern FieldActor *g_CurrentEntity;
@@ -58,8 +56,9 @@ int Task_ClearObjEntryFlags(int **arg0) {
 }
 
 int Task_SetObjEntryFlag80(int **arg0) {
-    char *entry;
-    char *base_entry;
+    register char *entry asm("$3");
+    register char *base_entry asm("$2");
+    register int value asm("$2");
 
     if (g_CollisionPlaneTable == 0) {
         register int index asm("$2");
@@ -67,7 +66,9 @@ int Task_SetObjEntryFlag80(int **arg0) {
         int *arg = arg0[0];
 
         index = *arg;
+        asm volatile("" : "=r"(index) : "0"(index));
         base = g_CollisionDb;
+        asm volatile("" : "=r"(base) : "0"(base));
         entry = (char *)(index * 11);
         base_entry = *(char **)(base + 0x1C);
         /* Keep the base load branch-local while allowing the final shift into the jump delay slot. */
@@ -78,7 +79,9 @@ int Task_SetObjEntryFlag80(int **arg0) {
         int *arg = arg0[0];
 
         index = *arg;
+        asm volatile("" : "=r"(index) : "0"(index));
         base = g_CollisionDb;
+        asm volatile("" : "=r"(base) : "0"(base));
         entry = (char *)(index * 7);
         base_entry = *(char **)(base + 0x1C);
         /* Keep the base load branch-local without materializing the add before the join. */
@@ -87,13 +90,16 @@ int Task_SetObjEntryFlag80(int **arg0) {
     }
     /* GCC prints addu operands in RTL order; tie entry as operand 0 to match retail bytes. */
     asm volatile("addu %0,%0,%1" : "=r"(entry) : "r"(base_entry), "0"(entry));
-    *entry |= 0x80;
+    value = *entry | 0x80;
+    *entry = value;
+    asm volatile("" : : : "memory");
     return 1;
 }
 
 int Task_ClearObjEntryFlag80(int **arg0) {
-    char *entry;
-    char *base_entry;
+    register char *entry asm("$3");
+    register char *base_entry asm("$2");
+    register int value asm("$2");
 
     if (g_CollisionPlaneTable == 0) {
         register int index asm("$2");
@@ -101,7 +107,9 @@ int Task_ClearObjEntryFlag80(int **arg0) {
         int *arg = arg0[0];
 
         index = *arg;
+        asm volatile("" : "=r"(index) : "0"(index));
         base = g_CollisionDb;
+        asm volatile("" : "=r"(base) : "0"(base));
         entry = (char *)(index * 11);
         base_entry = *(char **)(base + 0x1C);
         /* Keep the base load branch-local while allowing the final shift into the jump delay slot. */
@@ -112,7 +120,9 @@ int Task_ClearObjEntryFlag80(int **arg0) {
         int *arg = arg0[0];
 
         index = *arg;
+        asm volatile("" : "=r"(index) : "0"(index));
         base = g_CollisionDb;
+        asm volatile("" : "=r"(base) : "0"(base));
         entry = (char *)(index * 7);
         base_entry = *(char **)(base + 0x1C);
         /* Keep the base load branch-local without materializing the add before the join. */
@@ -121,6 +131,8 @@ int Task_ClearObjEntryFlag80(int **arg0) {
     }
     /* GCC prints addu operands in RTL order; tie entry as operand 0 to match retail bytes. */
     asm volatile("addu %0,%0,%1" : "=r"(entry) : "r"(base_entry), "0"(entry));
-    *entry &= 0x7F;
+    value = *entry & 0x7F;
+    *entry = value;
+    asm volatile("" : : : "memory");
     return 1;
 }
