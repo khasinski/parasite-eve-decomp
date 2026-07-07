@@ -1,4 +1,4 @@
-/* MASPSX_FLAGS: --stack-return-delay --la-call-delay */
+/* MASPSX_FLAGS: --stack-return-delay */
 
 extern int g_DsStreamNoLocFlag;
 
@@ -36,7 +36,21 @@ int DsRead2(void *pos, int mode) {
             :
             : "r"(saved_mode)
             : "$2", "$1", "memory");
-        saved_data = (void *)DsDataCallback(data_ready_callback);
+        {
+            register void *callback_result asm("$2");
+
+            /* Match note: data_ready_callback low half is in the DsDataCallback delay slot. */
+            asm volatile(
+                ".set\tnoreorder\n\t"
+                "lui\t$4,%%hi(data_ready_callback)\n\t"
+                "jal\tDsDataCallback\n\t"
+                "addiu\t$4,$4,%%lo(data_ready_callback)\n\t"
+                ".set\treorder"
+                : "=r"(callback_result)
+                :
+                : "$4", "$31", "memory");
+            saved_data = callback_result;
+        }
         saved_sync = (void *)DsSyncCallback(CdRom_BreakSyncCallback);
         ret = Render_BuildParticleFrame(saved_mode & 0xFF, saved_pos, 0x1B, 0, -1);
         if (ret == 0) {
