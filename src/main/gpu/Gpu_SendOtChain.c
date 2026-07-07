@@ -1,5 +1,5 @@
-/* CC1_FLAGS: -g3 -G0 */
-/* MASPSX_FLAGS: -G0 --stack-return-delay */
+/* CC1_FLAGS: -g3 */
+/* MASPSX_FLAGS: --stack-return-delay */
 
 typedef int s32;
 

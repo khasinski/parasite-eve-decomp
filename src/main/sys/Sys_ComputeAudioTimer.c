@@ -1,5 +1,4 @@
-/* CC1_FLAGS: -G0 -g3 */
-/* MASPSX_FLAGS: -G0 */
+/* CC1_FLAGS: -g3 */
 
 extern int g_CombatModeFlags;
 extern int D_800A76C8;

@@ -1,5 +1,4 @@
-/* CC1_FLAGS: -g3 -G0 */
-/* MASPSX_FLAGS: -G0 */
+/* CC1_FLAGS: -g3 */
 typedef unsigned char u8;
 typedef int s32;
 
