@@ -1,4 +1,4 @@
-/* MASPSX_FLAGS: --stack-return-delay --store-call-delay */
+/* MASPSX_FLAGS: --stack-return-delay */
 
 void DsSyncCallback(void *arg0);
 void *CdRom_GetCurrentPosPtr(void);
@@ -11,14 +11,33 @@ void CdRom_SeekDoneCallback(void);
 extern int D_8009B6EC;
 
 int CdRom_RestartSeek(void) {
-    int temp_s0;
-    int temp_s1;
+    register int temp_s0 asm("$16");
+    register int temp_s1 asm("$17");
     int temp_v0;
+    register int cmd_mode asm("$2");
 
     DsSyncCallback(0);
-    D_8009B6EC = CdPosToInt(CdRom_GetCurrentPosPtr());
-    temp_s0 = CdRom_GetCmdMode() & 0xFF;
+    temp_v0 = CdPosToInt(CdRom_GetCurrentPosPtr());
+    /* Match note: D_8009B6EC store is in the CdRom_GetCmdMode delay slot. */
+    asm volatile(
+        ".set\tnoreorder\n\t"
+        ".set\tnoat\n\t"
+        "lui\t$at,%%hi(D_8009B6EC)\n\t"
+        "jal\tCdRom_GetCmdMode\n\t"
+        "sw\t%1,%%lo(D_8009B6EC)($at)\n\t"
+        ".set\tat\n\t"
+        ".set\treorder"
+        : "=r"(cmd_mode)
+        : "r"(temp_v0)
+        : "$31", "memory");
+    temp_s0 = cmd_mode & 0xFF;
     temp_s1 = (int)CdRom_GetCurrentPosPtr();
     temp_v0 = CdRom_GetCmdParam() & 0xFF;
-    return Render_BuildParticleFrame(temp_s0, temp_s1, temp_v0, CdRom_SeekDoneCallback, -1);
+    {
+        register int arg0 asm("$4") = temp_s0;
+        register int neg_one asm("$3");
+
+        neg_one = -1;
+        return Render_BuildParticleFrame(arg0, temp_s1, temp_v0, CdRom_SeekDoneCallback, neg_one);
+    }
 }
