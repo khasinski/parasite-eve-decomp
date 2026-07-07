@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 extern int g_CdRomCmdTimeout;
 

@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 extern int g_CombatModeFlags;
 extern int D_800A76C8;

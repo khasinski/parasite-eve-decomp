@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 int MenuWidget_GridCellIndex(int arg0);
 int Inv_GetPackedListItem(int arg0);

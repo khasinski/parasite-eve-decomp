@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 /* MASPSX_FLAGS: --store-branch-delay */
 
 typedef void (*Callback)(void);

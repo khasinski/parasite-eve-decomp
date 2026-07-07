@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 /* MASPSX_FLAGS: --stack-return-delay */
 typedef unsigned short u16;
 typedef unsigned int u32;

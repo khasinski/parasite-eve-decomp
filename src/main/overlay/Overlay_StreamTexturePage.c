@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 typedef signed char s8;
 typedef unsigned short u16;

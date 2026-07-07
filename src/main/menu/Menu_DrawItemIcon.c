@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 unsigned char *g_MenuItemIconGlyphTable;

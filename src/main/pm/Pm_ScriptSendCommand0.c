@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 typedef struct WrapperArgs {
     int *arg0;

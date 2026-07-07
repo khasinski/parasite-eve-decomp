@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 typedef signed short s16;
 typedef int s32;

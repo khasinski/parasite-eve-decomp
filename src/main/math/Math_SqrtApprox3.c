@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 unsigned int Math_SqrtApprox3(int x, int y, int z) {
     register unsigned int sum0 asm("$2");

@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 typedef struct FieldEntity {
     char pad00[0x28];

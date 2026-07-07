@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 typedef unsigned char u8;

@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 int MenuWidget_FindByModeAndSelectedBase(int arg0, int arg1);
 

@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 /* MASPSX_FLAGS: --expand-div */
 typedef struct ExprOpArgs {
     int *op;

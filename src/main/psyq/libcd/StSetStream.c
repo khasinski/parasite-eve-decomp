@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 /* MASPSX_FLAGS: --stack-return-delay */
 
 extern int D_800C0DB8;

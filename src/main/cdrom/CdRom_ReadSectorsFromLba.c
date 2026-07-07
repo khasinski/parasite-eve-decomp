@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 int CdRom_ReadSectors(int lba, int offset, int dst, int size);
 

@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 #include "pe1/akao.h"
 
 void Akao_WriteVoiceParam(int voice_index, AkaoVoiceParams *params)

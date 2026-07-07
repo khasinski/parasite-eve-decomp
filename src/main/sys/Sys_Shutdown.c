@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 void Save_ProcessDataCallback(void);
 void Akao_Cmd_D8(int arg0);

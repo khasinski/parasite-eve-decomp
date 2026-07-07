@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 void GameTime_InitCounter0(void);
 void GameTime_InitCounter2(void);
 void GameTime_InitCounter1(void);

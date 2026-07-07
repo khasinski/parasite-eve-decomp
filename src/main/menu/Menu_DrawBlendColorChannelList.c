@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 void Menu_DrawBlendColorChannelRow(int arg0);
 void MenuWidget_DrawList(int arg0, void (*arg1)(void));

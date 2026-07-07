@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 extern int D_800A8034[];
 extern int g_StatGrowthTable[];

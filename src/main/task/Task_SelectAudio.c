@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 int Task_GpuFlushPrimQueue(void);
 int Task_GpuPackPrimColor(void);

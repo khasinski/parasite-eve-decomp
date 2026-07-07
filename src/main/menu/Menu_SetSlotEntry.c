@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 #include "pe1/geom_state.h"
 

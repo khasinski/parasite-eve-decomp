@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 int Menu_GetEquipSlotIndex(void);
 

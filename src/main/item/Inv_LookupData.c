@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 extern unsigned char g_EquipItemDataTable[];
 extern unsigned char g_KeyItemDataTable[];

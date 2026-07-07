@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 #include "pe1/field_actor.h"
 

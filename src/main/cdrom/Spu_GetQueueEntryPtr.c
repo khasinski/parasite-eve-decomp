@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 typedef struct Entry {
     unsigned char pad[0x18];

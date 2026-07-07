@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 typedef unsigned int u32;
 
 extern u32 g_RenderStateFlags;

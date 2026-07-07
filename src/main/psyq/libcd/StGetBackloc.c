@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 /* MASPSX_FLAGS: --stack-return-delay */
 
 #include "pe1/psyq_cd.h"

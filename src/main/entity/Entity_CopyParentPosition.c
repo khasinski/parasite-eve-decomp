@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 #include "pe1/field_actor.h"

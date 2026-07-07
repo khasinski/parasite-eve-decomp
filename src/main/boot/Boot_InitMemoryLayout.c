@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 
 typedef int s32;
 
