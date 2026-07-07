@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: -G8 */
 
 extern int g_StatGrowthTable[];
 

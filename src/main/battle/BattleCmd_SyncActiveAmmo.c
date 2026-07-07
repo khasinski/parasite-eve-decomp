@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: -G8 */
 
 /* Incomplete arrays: retail addresses these absolutely (g_PlayerEntity is
  * in the gp window but not small data; the Aya fields are outside it). */

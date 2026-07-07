@@ -1,5 +1,4 @@
 /* CC1_FLAGS: -g3 */
-/* MASPSX_FLAGS: -G8 */
 
 void Gpu_SetDisplayBuffer(void);
 void DMACallback(int arg0, void (*arg1)(void));

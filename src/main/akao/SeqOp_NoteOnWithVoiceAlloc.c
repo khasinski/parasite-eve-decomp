@@ -1,5 +1,4 @@
 /* CC1_FLAGS: -g3 */
-/* MASPSX_FLAGS: -G8 */
 #include "pe1/akao.h"
 
 typedef short s16;

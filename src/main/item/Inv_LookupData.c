@@ -1,5 +1,4 @@
 /* CC1_FLAGS: -g3 */
-/* MASPSX_FLAGS: -G8 */
 
 extern unsigned char g_EquipItemDataTable[];
 extern unsigned char g_KeyItemDataTable[];

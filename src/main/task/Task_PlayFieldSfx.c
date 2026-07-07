@@ -1,5 +1,4 @@
 /* CC1_FLAGS: -g3 */
-/* MASPSX_FLAGS: -G8 */
 
 extern char *g_CurrentEntity[];
 

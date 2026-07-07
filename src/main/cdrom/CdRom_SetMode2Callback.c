@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: -G8 */
 
 
 #include "include_asm.h"
