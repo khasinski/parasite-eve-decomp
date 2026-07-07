@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 -O1 */
+/* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 extern int g_TaskNodeFreeListHead;
@@ -32,6 +32,7 @@ void Task_InitNodePool(void) {
         colOffset = rowOffset;
         for (; j < 11; j++, colOffset += 4) {
             cell = (int *)(colOffset + (unsigned int)base);
+            asm volatile("" : "=r"(cell) : "0"(cell));
             *cell = 0;
         }
     }
