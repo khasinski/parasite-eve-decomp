@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -g3 */
 #include "include_asm.h"
 
 /* Function body emitted as asm() (PSYQ GCC 2.7.2 register

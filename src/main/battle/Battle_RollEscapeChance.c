@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -g3 -G8 */
+/* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 /* Self-contained baked asm overlay (raw ROM bytes; byte-exact). */
 
