@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 */
+/* CC1_FLAGS: -g3 */
 extern int *g_CurrentEntity;
 
 int Task_GetEntityVec3(int **args) {

@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 */
+/* CC1_FLAGS: */
 
 #include "pe1/psyq_spu_internal.h"
 

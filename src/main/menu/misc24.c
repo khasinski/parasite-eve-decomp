@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 */
+/* CC1_FLAGS: */
 
 
 #include "include_asm.h"

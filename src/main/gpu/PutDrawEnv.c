@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -g3 -G8 */
+/* CC1_FLAGS: -g3 */
 /* MASPSX_FLAGS: --stack-return-delay */
 
 #include "include_asm.h"

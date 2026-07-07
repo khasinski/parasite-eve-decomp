@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -g3 -G8 */
+/* CC1_FLAGS: -g3 */
 typedef int s32;
 
 s32 GetRCnt(s32 arg0);

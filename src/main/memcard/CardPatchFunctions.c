@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -g3 -G8 */
+/* CC1_FLAGS: -g3 */
 typedef unsigned int u32;
 
 asm(".globl func_8007E370");
