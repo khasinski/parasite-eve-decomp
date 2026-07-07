@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -g3 -fno-schedule-insns */
+/* CC1_FLAGS: -g3 */
 
 extern int D_800A8034[];
 extern int g_StatGrowthTable[];
@@ -19,6 +19,7 @@ void *Item_LookupBaseData(unsigned int index)
     }
 
     offset = index << 5;
+    asm volatile("" : "=r"(offset) : "0"(offset));
     endPtr = (int *)((char *)endPtr - 0x10);
     return (void *)(base + (offset + (int)endPtr));
 }
