@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -g3 -G8 -fno-schedule-insns */
+/* CC1_FLAGS: -g3 -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 typedef unsigned char u8;

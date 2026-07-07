@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 -fno-schedule-insns -fno-schedule-insns2 */
+/* CC1_FLAGS: -G8 -g3 -fno-schedule-insns */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 extern int D_800A8034[];

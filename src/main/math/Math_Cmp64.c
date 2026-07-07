@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G0 -g3 -fno-schedule-insns2 */
+/* CC1_FLAGS: -G0 -g3 */
 
 int Math_Cmp64(unsigned int a_lo, unsigned int a_hi, unsigned int b_lo, unsigned int b_hi) {
     if (b_hi < a_hi) {

@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -fno-schedule-insns -fno-schedule-insns2 */
+/* CC1_FLAGS: -fno-schedule-insns */
 #include "pe1/akao.h"
 
 void SeqOp_SetVolumeOrExpression(AkaoTrack *track)
