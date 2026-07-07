@@ -33,7 +33,7 @@ index 121d7d1..90ccdd3 100644
      try:
          out_lines = maspsx_processor.process_lines()
 diff --git a/maspsx/__init__.py b/maspsx/__init__.py
-index 6ff7f7f..93be536 100644
+index 6ff7f7f..e072f47 100644
 --- a/maspsx/__init__.py
 +++ b/maspsx/__init__.py
 @@ -32,6 +32,10 @@ store_mnemonics = {
@@ -44,13 +44,13 @@ index 6ff7f7f..93be536 100644
 +    "j",
 +    "jr",
 +}
-
+ 
  single_reg_loads = {
      "mult",
-@@ -337,6 +341,191 @@ def expand_macro(line: str):
+@@ -337,6 +341,220 @@ def expand_macro(line: str):
      return res
-
-
+ 
+ 
 +def _split_op(line: str) -> tuple[str, str]:
 +    line = strip_comments(line)
 +    if not line:
@@ -236,10 +236,39 @@ index 6ff7f7f..93be536 100644
 +    return res
 +
 +
++def _repair_la_call_followed_by_call_delay(lines: List[str]) -> List[str]:
++    res = lines[:]
++    i = 1
++    while i < len(res) - 2:
++        if _is_call(res[i]) and _is_call(res[i + 1]) and _is_la_tail(res[i + 2]):
++            res[i + 1], res[i + 2] = res[i + 2], res[i + 1]
++            i += 3
++            continue
++        i += 1
++    return res
++
++
++def _repair_la_branch_after_call_delay(lines: List[str]) -> List[str]:
++    res = lines[:]
++    i = 0
++    while i < len(res) - 3:
++        if (
++            _is_call(res[i])
++            and _split_op(res[i + 1])[0] == "lui"
++            and _is_branch(res[i + 2])
++            and _is_la_tail(res[i + 3])
++        ):
++            res.insert(i + 1, "nop")
++            i += 5
++            continue
++        i += 1
++    return res
++
++
  def load_immediate_single(line: str):
      res = []
      r1, value = line[5:].split(",")
-@@ -397,6 +586,14 @@ class MaspsxProcessor:
+@@ -397,6 +615,14 @@ class MaspsxProcessor:
          gp_allow_la=False,
          use_comm_section=False,
          use_comm_for_lcomm=False,
@@ -253,11 +282,11 @@ index 6ff7f7f..93be536 100644
 +        load_dest_temp=False,
      ):
          self.lines = [x.strip() for x in lines]
-
-@@ -418,6 +615,15 @@ class MaspsxProcessor:
+ 
+@@ -418,6 +644,15 @@ class MaspsxProcessor:
          self.use_comm_section = use_comm_section
          self.use_comm_for_lcomm = use_comm_for_lcomm
-
+ 
 +        self.stack_return_delay = stack_return_delay
 +        self.store_return_delay = store_return_delay
 +        self.la_return_delay = la_return_delay
@@ -270,10 +299,10 @@ index 6ff7f7f..93be536 100644
          self.bss_entries: dict[str, int] = {}
          self.sbss_entries: dict[str, int] = {}
          self.sdata_entries: dict[str, int] = {}
-@@ -588,6 +794,44 @@ class MaspsxProcessor:
+@@ -588,6 +823,50 @@ class MaspsxProcessor:
                      ]
                  )
-
+ 
 +        if self.stack_return_delay:
 +            res = _move_previous_into_delay(res, _is_return, _is_stack_adjust)
 +        if self.store_return_delay:
@@ -288,6 +317,12 @@ index 6ff7f7f..93be536 100644
 +        if self.la_call_delay:
 +            res = _expand_la_into_delay(res, _is_call)
 +            res = _move_previous_into_delay(res, _is_call, _is_la_tail)
++            res = _repair_la_call_followed_by_call_delay(res)
++            res = _expand_la_into_delay(res, _is_branch)
++            res = _move_previous_into_delay(
++                res, _is_branch, _is_la_tail, skip_non_instruction=True
++            )
++            res = _repair_la_branch_after_call_delay(res)
 +        if self.store_call_delay:
 +            res = _expand_indexed_store_into_delay(res, _is_call)
 +            res = _expand_store_into_delay(res, _is_call)
@@ -313,10 +348,10 @@ index 6ff7f7f..93be536 100644
 +            )
 +
          return res
-
+ 
      def get_next_instruction(
-@@ -935,7 +1179,15 @@ class MaspsxProcessor:
-
+@@ -935,7 +1214,15 @@ class MaspsxProcessor:
+ 
              elif is_addend and r_source:
                  # e.g. lw	$2,test_sym($4)
 -                if self.addiu_at:

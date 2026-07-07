@@ -84,7 +84,8 @@ for removal on 2026-07-07 and are still required: direct object probes produced
 0 matches for both flag families, removing `--use-comm-section` breaks the final
 link with discarded `.sbss` references, and removing `--expand-div` links but
 fails the retail SHA-1 check. The delay-slot custom flags are likewise kept
-until there is a faithful ASPSX-compatible replacement.
+until there is a faithful ASPSX-compatible replacement; this includes the
+opt-in `%lo(symbol)` call/branch delay cases covered by `--la-call-delay`.
 
 ## Quick Start
 
