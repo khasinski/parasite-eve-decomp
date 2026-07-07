@@ -1,5 +1,3 @@
-/* CC1_FLAGS: -G8 */
-
 #include "pe1/geom_state.h"
 
 int Obj_ResetAllEntries(void) {

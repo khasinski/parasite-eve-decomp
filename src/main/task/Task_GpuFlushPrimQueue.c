@@ -1,6 +1,3 @@
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
-
 #include "include_asm.h"
 
 typedef unsigned int u32;

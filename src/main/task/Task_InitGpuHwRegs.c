@@ -1,5 +1,4 @@
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 --store-return-delay */
+/* MASPSX_FLAGS: --store-return-delay */
 
 void Task_InitGpuHwRegs(void) {
     register volatile int *ptr asm("$8");

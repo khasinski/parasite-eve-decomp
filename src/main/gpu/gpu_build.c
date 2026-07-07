@@ -1,5 +1,4 @@
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: --stack-return-delay -G8 */
+/* MASPSX_FLAGS: --stack-return-delay */
 
 typedef signed short s16;
 
