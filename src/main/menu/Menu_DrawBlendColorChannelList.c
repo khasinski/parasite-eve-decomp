@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 -g3 */
-/* MASPSX_FLAGS: -G8 --use-comm-section */
+/* MASPSX_FLAGS: -G8 */
 
 void Menu_DrawBlendColorChannelRow(int arg0);
 void MenuWidget_DrawList(int arg0, void (*arg1)(void));

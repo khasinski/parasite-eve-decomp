@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 -g3 -fno-schedule-insns */
-/* MASPSX_FLAGS: -G8 --use-comm-section */
+/* MASPSX_FLAGS: -G8 */
 
 extern int D_800A8034[];
 extern int g_StatGrowthTable[];

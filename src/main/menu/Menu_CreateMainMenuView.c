@@ -1,5 +1,4 @@
 /* CC1_FLAGS: -g3 */
-/* MASPSX_FLAGS: --use-comm-section */
 
 #include "pe1/menu_widget.h"
 

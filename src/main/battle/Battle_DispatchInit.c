@@ -1,5 +1,4 @@
 /* CC1_FLAGS: -g3 */
-/* MASPSX_FLAGS: --use-comm-section */
 
 extern int g_GameStateFlags;
 extern int *g_PlayerEntity;

@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 --use-comm-section */
+/* MASPSX_FLAGS: -G8 */
 /* Function body emitted as asm() (PSYQ GCC 2.7.2 register
  * allocation / scheduling diverges from the ROM pervasively).
  * Wrapped via maspsx's INCLUDE_ASM hack so the body is passed

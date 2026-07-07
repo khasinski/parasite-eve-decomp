@@ -1,5 +1,3 @@
-/* MASPSX_FLAGS: --use-comm-section */
-
 #include "pe1/menu_widget.h"
 
 MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, int arg1, int arg2, int arg3);

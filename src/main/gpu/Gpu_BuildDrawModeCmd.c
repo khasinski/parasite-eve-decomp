@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 -g3 */
-/* MASPSX_FLAGS: -G8 --use-comm-section */
+/* MASPSX_FLAGS: -G8 */
 
 int Gpu_BuildDrawModeCmd(int arg0, int arg1, int arg2) {
     register int bits asm("$2");

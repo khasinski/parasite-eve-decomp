@@ -1,5 +1,4 @@
 /* CC1_FLAGS: -g3 */
-/* MASPSX_FLAGS: --use-comm-section */
 
 typedef signed short s16;
 typedef int s32;

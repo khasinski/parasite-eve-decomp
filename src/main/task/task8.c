@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: --use-comm-section -G8 */
+/* MASPSX_FLAGS: -G8 */
 
 void Tbl_ClearEntry(int arg0);
 
