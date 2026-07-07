@@ -1,5 +1,3 @@
-/* CC1_FLAGS: -G4 */
-
 #include "pe1/akao.h"
 #include "pe1/akao_script.h"
 
