@@ -1,5 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
-
 int Sys_VSyncTimeout(int arg0);
 
 extern int g_GameState;

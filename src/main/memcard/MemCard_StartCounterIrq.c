@@ -1,5 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
-
 extern int D_8009B75C;
 extern void *D_800A5AB0;
 extern int *D_8009B784;
