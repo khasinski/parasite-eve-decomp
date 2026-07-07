@@ -62,7 +62,8 @@ extern MenuWidgetNode *g_MenuWidgetSavedNode;
  *   (e.g. node 0x800a2370 sel_base=0 = the scrollable content list; the
  *   0x800a2400/2490/2640/26d0 nodes are the category tabs).
  *   cursor_x / cursor_y (+0x44/+0x48) = position within the focused node
- *   (e.g. (0,N) = row N of the list); scroll_y (+0x58) scrolls long lists.
+ *   (e.g. (0,N) = row N of the list); y_limit (+0x58), scroll_y (+0x5C),
+ *   and field_60 (+0x60) drive long-list tail/header positioning.
  *   All inventory nodes share update fn 0x80063e0c (the mode-2 step handler);
  *   Menu_InitCategoryTabs builds them via MenuWidget_FindByModeAndSelectedBase(2,..)
  *   + MenuWidget_SetCurrentNode. Tab lookup = find node with mode==2 and the

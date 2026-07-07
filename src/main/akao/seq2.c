@@ -1,5 +1,7 @@
 typedef unsigned int u32;
 
+#include "pe1/akao.h"
+
 extern char g_AkaoVoiceStateTable[];
 extern char *g_AkaoCurTrack;
 
@@ -21,7 +23,7 @@ void Seq_RestoreSecondaryStateAndSelect(int *arg0) {
     }
 
     Akao_StepSequencerVoice(arg0[1]);
-    *(unsigned short *)(g_AkaoCurTrack + 0x54) = arg0[3];
+    ((AkaoTrack *)g_AkaoCurTrack)->parent_track_id = arg0[3];
 }
 
 void Seq_SelectPlaybackBankWithCountdown(int *arg0)

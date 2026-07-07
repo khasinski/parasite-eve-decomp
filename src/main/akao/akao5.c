@@ -16,11 +16,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern char *g_AkaoCurTrack;
-extern int g_AkaoInstrumentTable;
+extern AkaoInstrument g_AkaoInstrumentTable[];
 extern int g_AkaoPitchPeriodTable;
 extern unsigned int g_SpuActiveVoiceMask;
 
-void SeqOp_SetVoiceInstrument(void *track_arg, void *src_arg, int arg2);
+void SeqOp_SetVoiceInstrument(AkaoTrack *track_arg, AkaoInstrument *instrument_arg, int sample_header);
 
 void Akao_SetExpressionSlide(AkaoTrack *track) {
     register u8 *pc asm("$2");
@@ -68,7 +68,7 @@ void Akao_SetPanTarget(AkaoTrack *track)
     track->pan_target = value << 8;
 
     if (flags & 0x100) {
-        track->update_flags |= 3;
+        track->update_flags |= AKAO_VOICE_PARAM_VOLUME;
     }
 }
 
@@ -100,7 +100,7 @@ void Akao_SetPanpot(AkaoTrack *track)
     value = *cursor;
     track->panpot_slide_duration = 0;
     value += 0x40;
-    track->update_flags |= 3;
+    track->update_flags |= AKAO_VOICE_PARAM_VOLUME;
     value &= 0xFF;
     track->panpot = value << 8;
 }
@@ -139,17 +139,17 @@ void sndTrackDecPanpot(AkaoTrack *track) {
     track->panpot_step = (track->panpot_step - 1) & 0xF;
 }
 
-void Akao_PlayNote(void *ptr, unsigned int mask) {
+void Akao_PlayNote(AkaoTrack *track, unsigned int mask) {
     u8_6 *pc;
     unsigned int note;
     unsigned int old_note;
     int table;
 
-    pc = *(u8_6 **)ptr;
-    *(u8_6 **)ptr = pc + 1;
+    pc = track->pc;
+    track->pc = pc + 1;
     note = *pc;
 
-    if (*(u16 *)((char *)ptr + 0x54) == 0) {
+    if (track->parent_track_id == 0) {
         if ((*(u32 *)g_AkaoCurTrack & 0x100) != 0) {
             if (note >= 0x20) {
                 note += 0x30;
@@ -158,37 +158,37 @@ void Akao_PlayNote(void *ptr, unsigned int mask) {
     }
 
     table = (int)&g_AkaoInstrumentTable + (note << 6);
-    old_note = *(u16 *)((char *)ptr + 0x5A);
-    *(u16 *)((char *)ptr + 0x5A) = note;
+    old_note = track->note_pitch;
+    track->note_pitch = note;
     if (old_note != 0xFF) {
-        if (*(u16 *)((char *)ptr + 0x54) == 0) {
+        if (track->parent_track_id == 0) {
             if ((*(u32 *)(g_AkaoCurTrack + 0x14) & mask & g_SpuActiveVoiceMask) != 0) {
                 goto call;
             }
         }
 
-        *(u32 *)((char *)ptr + 0xF4) |= 0x10;
-        *(int *)((char *)ptr + 0x30) =
-            (unsigned int)(*(int *)((char *)ptr + 0x30) * *(int *)(table + 0x10)) /
+        track->update_flags |= AKAO_VOICE_PARAM_PITCH;
+        track->pitch_base =
+            (unsigned int)(track->pitch_base * ((AkaoInstrument *)table)->pitch[0]) /
             *(unsigned int *)((int)&g_AkaoPitchPeriodTable + (old_note << 6));
     }
 
 call:
-    SeqOp_SetVoiceInstrument(ptr, table, *(int *)table);
-    *(u32 *)((char *)ptr + 0x38) &= ~0x1000;
+    SeqOp_SetVoiceInstrument(track, (AkaoInstrument *)table, *(int *)table);
+    track->flags &= ~AKAO_TRACK_FLAG_PENDING_NOTE_PITCH;
 }
 
-void Akao_TieNote(void *ptr, unsigned int mask) {
+void Akao_TieNote(AkaoTrack *track, unsigned int mask) {
     u8_6 *pc;
     int note;
     unsigned int old_note;
     int table;
 
-    pc = *(u8_6 **)ptr;
-    *(u8_6 **)ptr = pc + 1;
+    pc = track->pc;
+    track->pc = pc + 1;
     note = *pc;
 
-    if (*(u16 *)((char *)ptr + 0x54) == 0) {
+    if (track->parent_track_id == 0) {
         if ((*(u32 *)g_AkaoCurTrack & 0x100) != 0) {
             if (note >= 0x20) {
                 note += 0x30;
@@ -197,22 +197,22 @@ void Akao_TieNote(void *ptr, unsigned int mask) {
     }
 
     table = (int)&g_AkaoInstrumentTable + (note << 6);
-    old_note = *(u16 *)((char *)ptr + 0x5A);
-    *(u16 *)((char *)ptr + 0x5A) = note;
+    old_note = track->note_pitch;
+    track->note_pitch = note;
     if (old_note != 0xFF) {
-        if (*(u16 *)((char *)ptr + 0x54) == 0) {
+        if (track->parent_track_id == 0) {
             if ((*(u32 *)(g_AkaoCurTrack + 0x14) & mask & g_SpuActiveVoiceMask) != 0) {
                 goto call;
             }
         }
 
-        *(u32 *)((char *)ptr + 0xF4) |= 0x10;
-        *(int *)((char *)ptr + 0x30) =
-            (unsigned int)(*(int *)((char *)ptr + 0x30) * *(int *)(table + 0x10)) /
+        track->update_flags |= AKAO_VOICE_PARAM_PITCH;
+        track->pitch_base =
+            (unsigned int)(track->pitch_base * ((AkaoInstrument *)table)->pitch[0]) /
             *(unsigned int *)((int)&g_AkaoPitchPeriodTable + (old_note << 6));
     }
 
 call:
-    SeqOp_SetVoiceInstrument(ptr, table, 0x1010);
-    *(u32 *)((char *)ptr + 0x38) &= ~0x1000;
+    SeqOp_SetVoiceInstrument(track, (AkaoInstrument *)table, 0x1010);
+    track->flags &= ~AKAO_TRACK_FLAG_PENDING_NOTE_PITCH;
 }

@@ -1,6 +1,6 @@
 #include "include_asm.h"
 
-int Stat_GetGrowthTable(int arg0);
+int *Stat_GetGrowthTable(int arg0);
 
 int Stat_BinarySearch(int value, int *table) {
     int step;

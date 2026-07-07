@@ -9,7 +9,7 @@ void Draw_OffsetCursor(int x, int y);
 void Draw_SetTextDimmed(int value);
 void Draw_AllocSprite(int);
 
-int g_MenuSelectedItemData;
+void *g_MenuSelectedItemData;
 
 void Sfx_CursorRenderData(void *record);
 
@@ -19,6 +19,8 @@ void Sfx_CursorRenderData(void *record);
 
 BattleCmdEntry *g_BattleCmdStackTop;
 extern BattleCmdEntry g_BattleCmdStack[];
+extern BattleCmdEntry *D_8009D014;
+extern char D_800A1B30[];
 
 void BattleCmd_UndoPending(void);
 
@@ -56,7 +58,34 @@ void BattleCmd_InitTableCursor(void) {
     g_BattleCmdStackTop = g_BattleCmdStack;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/menu/menu29", BattleCmd_AllocSlot);
+BattleCmdEntry *BattleCmd_AllocSlot(void) {
+    register BattleCmdEntry *top asm("$8");
+    register BattleCmdEntry *end asm("$3");
+    register BattleCmdEntry *dst asm("$7");
+    register BattleCmdEntry *limit asm("$10");
+    BattleCmdEntry *next;
+
+    top = D_8009D014;
+    end = (BattleCmdEntry *)D_800A1B30;
+    if (top < end) {
+        next = top + 1;
+        D_8009D014 = next;
+    } else {
+        top = end - 4;
+        end = end - 1;
+        dst = top;
+        if (top < end) {
+            limit = end;
+            do {
+                BattleCmdEntry *src = top + 1;
+                *dst = *src;
+                top += 1;
+                dst = top;
+            } while (top < limit);
+        }
+    }
+    return top;
+}
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/menu/menu29", BattleCmd_UndoPending);
 

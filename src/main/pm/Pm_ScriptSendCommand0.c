@@ -9,7 +9,7 @@ typedef struct WrapperArgs {
     int *arg5;
 } WrapperArgs;
 
-int Pm_SendCmd(int arg0, int arg1, int arg2, int *arg3, int *arg4, int *arg5);
+int Pm_SendCmd(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
 
 int Pm_ScriptSendCommand0(WrapperArgs *args) {
     register int *ptr0 asm("$5");

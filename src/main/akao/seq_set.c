@@ -1,3 +1,5 @@
+#include "pe1/akao.h"
+
 extern int g_AkaoPlaybackMode;
 extern char g_AkaoVoiceStateTable[];
 extern char *g_AkaoCurTrack;
@@ -11,7 +13,12 @@ typedef struct {
 } AkaoCommand8008C6D0;
 
 extern int g_AkaoVoicePortamentoResetMask;
-extern int g_AkaoTrackStateArray[];
+typedef struct AkaoTrackUpdateSlot {
+    AkaoU32 update_flags;
+    unsigned char pad[sizeof(AkaoTrack) - sizeof(AkaoU32)];
+} AkaoTrackUpdateSlot;
+
+extern AkaoTrackUpdateSlot g_AkaoTrackStateArray[];
 
 void Seq_SetPlaybackMode1AndRefreshVoices(void) {
     char *base = g_AkaoVoiceStateTable;
@@ -49,11 +56,11 @@ void Seq_SetPlaybackMode2AndRefreshVoices(void) {
 void Seq_SetGlobalD2B8AndDirtyAllTracks(AkaoCommand8008C6D0 *cmd) {
     unsigned int i = 0;
     int value = cmd->field_4;
-    int *slot;
+    AkaoTrackUpdateSlot *slot;
 
     slot = g_AkaoTrackStateArray;
     g_AkaoVoicePortamentoResetMask = value;
-    for (; i < 0x18; i++, slot = (int *)((char *)slot + 0x11C)) {
-        *slot |= 3;
+    for (; i < 0x18; i++, slot++) {
+        slot->update_flags |= AKAO_VOICE_PARAM_VOLUME;
     }
 }

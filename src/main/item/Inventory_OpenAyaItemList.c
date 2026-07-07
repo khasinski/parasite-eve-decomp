@@ -8,7 +8,7 @@ extern unsigned int g_InvSlotLimit;
 extern unsigned int g_InvSelectionBits;
 extern unsigned int g_InvSelectionBitWords;
 extern unsigned short g_AyaInventoryItems[];
-extern unsigned int g_AyaItemSelectionBits;
+extern unsigned int g_AyaItemSelectionBits[];
 
 unsigned int Menu_GetActiveMode(void);
 void Window_SetBoundsByMode(int mode);
@@ -24,7 +24,7 @@ void Inventory_OpenAyaItemList(unsigned int arg) {
     BattleCmd_SyncActiveAmmo();
     g_InvItemPtr = (unsigned int)g_AyaInventoryItems;
     g_InvSlotLimit = Inv_GetAyaSlotLimit();
-    g_InvSelectionBits = (unsigned int)&g_AyaItemSelectionBits;
+    g_InvSelectionBits = (unsigned int)g_AyaItemSelectionBits;
     g_InvSelectionBitWords = 2;
     Menu_CreateInventoryTabView();
     Menu_PlayConfirmSound();

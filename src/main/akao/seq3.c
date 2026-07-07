@@ -1,5 +1,7 @@
 /* MASPSX_FLAGS: --expand-div */
 
+#include "pe1/akao.h"
+
 typedef unsigned short u16;
 
 void Seq_StartNestedStreams(void *arg0, void *arg1, void *arg2);
@@ -115,8 +117,8 @@ void Seq_SlideTrackPitch(int *arg0) {
         track = g_AkaoCurTrack;
         target = (target - *(int *)(track + 0x48)) / duration;
         base = g_AkaoVoiceStateTable;
-        *(u16 *)(track + 0x50) = duration;
-        *(int *)(track + 0x4C) = target;
+        ((AkaoTrack *)track)->field_50_duration = duration;
+        ((AkaoTrack *)track)->field_4C = target;
         Seq_MarkDirtyTracks(base);
     }
     goto done;
@@ -175,8 +177,8 @@ void Seq_TrackPitchSetup(int *arg0) {
         delta -= start;
         delta = delta / duration;
         base = g_AkaoVoiceStateTable;
-        *(u16 *)(track + 0x50) = duration;
-        *(int *)(track + 0x4C) = delta;
+        ((AkaoTrack *)track)->field_50_duration = duration;
+        ((AkaoTrack *)track)->field_4C = delta;
         Seq_MarkDirtyTracks(base);
     }
     goto done;

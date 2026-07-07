@@ -1,4 +1,5 @@
 /* MASPSX_FLAGS: --expand-div */
+#include "pe1/akao.h"
 
 typedef signed char s8;
 
@@ -95,7 +96,7 @@ void Akao_InitPrimarySecondaryVoicesWithMode(AkaoCommand8008C3E4 *cmd) {
 
 void Spu_StopActiveVoices(void) {
     char *voice = g_AkaoVoiceChannelTable;
-    unsigned int mask = 0x1000;
+    unsigned int mask = AKAO_SPU_VOICE_SFX_START_MASK;
     unsigned int i = 0;
     unsigned int skip_flag = 0x02000000;
     char *field_38 = voice + 0x38;
@@ -109,12 +110,12 @@ void Spu_StopActiveVoices(void) {
             }
         }
         i++;
-        field_38 += 0x11C;
-        voice += 0x11C;
+        field_38 += sizeof(AkaoTrack);
+        voice += sizeof(AkaoTrack);
         mask <<= 1;
     } while (i < 0xC);
 
-    g_AkaoVoiceUpdateFlags |= 0x10;
+    g_AkaoVoiceUpdateFlags |= AKAO_VOICE_PARAM_PITCH;
     Seq_MarkTrack34MaskDirty();
     Seq_MarkTrack38MaskDirty();
     Seq_MarkTrack3CMaskDirty();

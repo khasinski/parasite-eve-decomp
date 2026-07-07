@@ -1,10 +1,9 @@
 #include "include_asm.h"
 
-#include <stdio.h>
-
 extern char D_80010EB0[];
 extern char D_80010EC8[];
 extern char *D_80091A2C[];
+int printf(char *fmt, ...);
 
 typedef unsigned char u8;
 

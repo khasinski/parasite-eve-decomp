@@ -1,5 +1,7 @@
 typedef unsigned short u16;
 
+#include "pe1/akao.h"
+
 extern u16 g_AkaoSelectedBankId;
 extern char *g_AkaoCurTrack;
 
@@ -14,6 +16,6 @@ void Seq_SelectPlaybackBank(int *arg0) {
         Akao_UpdateVoiceMask(arg0[1]);
     } else {
         Akao_StepSequencerVoice(arg0[1]);
-        *(u16 *)(g_AkaoCurTrack + 0x54) = arg0[3];
+        ((AkaoTrack *)g_AkaoCurTrack)->parent_track_id = arg0[3];
     }
 }

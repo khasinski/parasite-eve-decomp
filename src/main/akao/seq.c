@@ -1,5 +1,7 @@
 #include "include_asm.h"
 
+#include "pe1/akao.h"
+
 typedef unsigned int u32;
 
 extern char *g_AkaoCurTrack;
@@ -12,11 +14,10 @@ extern char *D_8009D260;
 extern u32 g_SpuActiveVoiceMask;
 extern char g_AkaoVoiceChannelTable[];
 
-void Seq_ClearTrackVoiceId(char *arg0, unsigned int arg1) {
+void Seq_ClearTrackVoiceId(AkaoTrack *track, unsigned int arg1) {
     unsigned int i;
     int bit;
     int reset;
-    char *ptr;
     char *state;
 
     if (arg1 < 24) {
@@ -24,14 +25,13 @@ void Seq_ClearTrackVoiceId(char *arg0, unsigned int arg1) {
         reset = 24;
         state = g_AkaoCurTrack;
         bit = 1;
-        ptr = arg0 + 0xF0;
         do {
-            if (*(int *)ptr == arg1) {
-                *(int *)ptr = reset;
+            if (track->assigned_voice_index == arg1) {
+                track->assigned_voice_index = reset;
                 *(u32 *)(state + 0x14) &= ~(bit << i);
             }
             i++;
-            ptr += 0x11C;
+            track++;
         } while (i < 24);
     }
 }
@@ -82,20 +82,19 @@ void Akao_LoadSamplePairFromIndex(int *arg0, int *arg1, int arg2)
   *arg1 = result;
 }
 
-void Seq_MarkDirtyTracks(char *arg0) {
+void Seq_MarkDirtyTracks(AkaoTrack *track) {
     u32 mask;
     u32 bit;
 
     mask = *(u32 *)(g_AkaoCurTrack + 4);
     if (mask != 0) {
         bit = 1;
-        arg0 += 0xF4;
         do {
             if (mask & bit) {
                 mask ^= bit;
-                *(u32 *)arg0 |= 3;
+                track->update_flags |= AKAO_VOICE_PARAM_VOLUME;
             }
-            arg0 += 0x11C;
+            track++;
             bit <<= 1;
         } while (mask != 0);
     }
@@ -110,14 +109,14 @@ void Spu_MarkActiveVoicesDirty(void) {
     mask = g_SpuActiveVoiceMask;
     base = g_AkaoVoiceChannelTable;
     if (mask != 0) {
-        bit = 0x1000;
+        bit = AKAO_SPU_VOICE_SFX_START_MASK;
         ptr = base + 0xF4;
         do {
             if (mask & bit) {
                 mask ^= bit;
-                *(u32 *)ptr |= 3;
+                *(u32 *)ptr |= AKAO_VOICE_PARAM_VOLUME;
             }
-            ptr += 0x11C;
+            ptr += sizeof(AkaoTrack);
             bit <<= 1;
         } while (mask != 0);
     }

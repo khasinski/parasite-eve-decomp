@@ -1,4 +1,5 @@
 /* MASPSX_FLAGS: --expand-div */
+#include "pe1/akao.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -15,7 +16,7 @@ void Spu_SlideAllVoiceVolume(int *arg0) {
     int step;
     int delta;
 
-    mask = 0x1000;
+    mask = AKAO_SPU_VOICE_SFX_START_MASK;
     active = g_SpuActiveVoiceMask;
     i = 0;
     block_flag = 0x02000000;
@@ -34,7 +35,7 @@ void Spu_SlideAllVoiceVolume(int *arg0) {
             }
         }
         i++;
-        voice += 0x11C;
+        voice += sizeof(AkaoTrack);
         mask <<= 1;
     } while (i < 12);
 }

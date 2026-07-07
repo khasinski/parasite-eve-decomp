@@ -9,9 +9,10 @@ int CdRom_StartRead(CdlLOC *loc, int arg1, int arg2, int mode);
 int Sys_VSyncTimeout(int arg0);
 
 extern int g_DsReadBusy;
+extern int D_8009B70C;
 
-void DsSyncCallback(int arg0);
-void DsReadyCallback(int arg0);
+int DsSyncCallback(int callback);
+int DsReadyCallback(int callback);
 int Render_AllocParticleNode(int com, void *param, void *result, int mode);
 
 typedef void (*DsCallback)(void);
@@ -32,7 +33,32 @@ int ds_read(int arg0, int arg1, int arg2) {
     return status < 1U;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/ds_read", CdRom_InitAsyncRead);
+void CdRom_AsyncCallback(void);
+void CdRom_ReadDoneCallback(void);
+
+int CdRom_InitAsyncRead(DsCallback callback, int arg1) {
+    register int *state asm("$16");
+    register int one asm("$17");
+    register int saved_callback asm("$3");
+
+    state = &D_8009B70C;
+    one = 1;
+    if (*state == one) {
+        return 0;
+    }
+
+    saved_callback = (int)callback;
+    asm volatile("" : "=r"(state) : "0"(state));
+    state[-8] = -1;
+    state[-7] = 0;
+    state[-5] = 0;
+    state[-6] = saved_callback;
+    state[-4] = arg1;
+    state[-3] = DsSyncCallback((int)CdRom_AsyncCallback);
+    state[-2] = DsReadyCallback((int)CdRom_ReadDoneCallback);
+    *state = one;
+    return 1;
+}
 
 void DsReadBreak(void) {
     int *state;

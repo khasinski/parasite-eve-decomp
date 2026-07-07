@@ -1,4 +1,5 @@
 /* MASPSX_FLAGS: --expand-div */
+#include "pe1/akao.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -18,7 +19,7 @@ void Spu_SetVoicePanImmediateMasked(int *arg0) {
 
     base = g_AkaoVoiceChannelTable;
     active = g_SpuActiveVoiceMask;
-    mask = 0x1000;
+    mask = AKAO_SPU_VOICE_SFX_START_MASK;
 
     if (arg0[2] != 0) {
         i = 0;
@@ -30,13 +31,13 @@ void Spu_SetVoicePanImmediateMasked(int *arg0) {
                     dirty = *(volatile u32 *)voice;
                     *(u16 *)(voice - 0x7C) = 0;
                     value <<= 8;
-                    dirty |= 3;
+                    dirty |= AKAO_VOICE_PARAM_VOLUME;
                     *(u16 *)(voice - 0x7E) = value;
                     *(u32 *)voice = dirty;
                 }
             }
             i++;
-            voice += 0x11C;
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
     } else {
@@ -49,13 +50,13 @@ void Spu_SetVoicePanImmediateMasked(int *arg0) {
                     dirty = *(volatile u32 *)voice;
                     *(u16 *)(voice - 0x7C) = 0;
                     value <<= 8;
-                    dirty |= 3;
+                    dirty |= AKAO_VOICE_PARAM_VOLUME;
                     *(u16 *)(voice - 0x7E) = value;
                     *(u32 *)voice = dirty;
                 }
             }
             i++;
-            voice += 0x11C;
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
     }
@@ -73,7 +74,7 @@ void Spu_SlideVoicePanMasked(int *arg0) {
 
     base = g_AkaoVoiceChannelTable;
     active = g_SpuActiveVoiceMask;
-    mask = 0x1000;
+    mask = AKAO_SPU_VOICE_SFX_START_MASK;
 
     if (arg0[2] != 0) {
         i = 0;
@@ -97,7 +98,7 @@ void Spu_SlideVoicePanMasked(int *arg0) {
                 }
             }
             i++;
-            voice += 0x11C;
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
     } else {
@@ -122,7 +123,7 @@ void Spu_SlideVoicePanMasked(int *arg0) {
                 }
             }
             i++;
-            voice += 0x11C;
+            voice += sizeof(AkaoTrack);
             mask <<= 1;
         } while (i < 12);
     }

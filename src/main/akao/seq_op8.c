@@ -1,3 +1,5 @@
+#include "pe1/akao.h"
+
 void sndTrackReadAdsrDecayRate(void *ptr);
 void sndTrackReadAdsrSustainLevel(void *ptr, int arg);
 
@@ -26,95 +28,95 @@ void SeqOp_ReadAdsrDecayAndSustain(void *ptr, int arg) {
     sndTrackReadAdsrSustainLevel(ptr, arg);
 }
 
-void SeqOp_SetDurationBAAndMask(void *ptr) {
-    unsigned char *cursor = *(unsigned char **)ptr;
+void SeqOp_SetDurationBAAndMask(AkaoTrack *track) {
+    unsigned char *cursor = track->pc;
     int value;
 
-    *(unsigned char **)ptr = cursor + 1;
+    track->pc = cursor + 1;
     value = *cursor;
     if (value != 0) {
         value++;
     } else {
         value = 0x101;
     }
-    *(short *)((char *)ptr + 0xBA) = value;
-    SeqOp_SetTrack34Mask(ptr);
+    track->key_on_delay = value;
+    SeqOp_SetTrack34Mask(track);
 }
 
-void SeqOp_SetDuration(unsigned char *arg0) {
-    unsigned char *ptr = *(unsigned char **)arg0;
+void SeqOp_SetDuration(AkaoTrack *track) {
+    unsigned char *ptr = track->pc;
     int value;
 
-    *(unsigned char **)arg0 = ptr + 1;
+    track->pc = ptr + 1;
     value = ptr[0];
     if (value == 0) {
         value = 0x101;
     } else {
         value++;
     }
-    *(unsigned short *)(arg0 + 0xBA) = value;
+    track->key_on_delay = value;
 }
 
-void SeqOp_SetRepeatCount(void *ptr) {
-    unsigned char *cursor = *(unsigned char **)ptr;
+void SeqOp_SetRepeatCount(AkaoTrack *track) {
+    unsigned char *cursor = track->pc;
     int value;
 
-    *(unsigned char **)ptr = cursor + 1;
+    track->pc = cursor + 1;
     value = *cursor;
     if (value != 0) {
         value++;
     } else {
         value = 0x101;
     }
-    *(short *)((char *)ptr + 0xBC) = value;
-    SeqOp_SetMask(ptr);
+    track->key_off_delay = value;
+    SeqOp_SetMask(track);
 }
 
-void SeqOp_SetDurationAlt(unsigned char *arg0) {
-    unsigned char *ptr = *(unsigned char **)arg0;
+void SeqOp_SetDurationAlt(AkaoTrack *track) {
+    unsigned char *ptr = track->pc;
     int value;
 
-    *(unsigned char **)arg0 = ptr + 1;
+    track->pc = ptr + 1;
     value = ptr[0];
     if (value == 0) {
         value = 0x101;
     } else {
         value++;
     }
-    *(unsigned short *)(arg0 + 0xBC) = value;
+    track->key_off_delay = value;
 }
 
-void SeqOp_StopAndClearTrack(void *ptr, int arg) {
-    *(int *)((char *)ptr + 0x38) &= -0x38;
-    SeqOp_ClearTrack34Mask(ptr);
-    SeqOp_ClearTrack3CMask(ptr, arg);
-    SeqOp_ClearMask(ptr, arg);
-    *(unsigned short *)((char *)ptr + 0x84) &= 0xFFFA;
+void SeqOp_StopAndClearTrack(AkaoTrack *track, int arg) {
+    track->flags &= ~AKAO_TRACK_FLAG_STOP_CLEAR_MASK;
+    SeqOp_ClearTrack34Mask(track);
+    SeqOp_ClearTrack3CMask(track, arg);
+    SeqOp_ClearMask(track, arg);
+    track->tremolo_phase &= 0xFFFA;
 }
 
-void SeqOp_SetFlag4(void *ptr) {
-    *(int *)((char *)ptr + 0x38) |= 0x10;
+void SeqOp_SetFlag4(AkaoTrack *track) {
+    track->flags |= AKAO_TRACK_FLAG_10;
 }
 
-void SeqOp_ClearFlag10(void *ptr) {
-    *(int *)((char *)ptr + 0x38) &= ~0x10;
+void SeqOp_ClearFlag10(AkaoTrack *track) {
+    track->flags &= ~AKAO_TRACK_FLAG_10;
 }
 
-void SeqOp_SetFlag20(void *ptr) {
-    *(int *)((char *)ptr + 0x38) |= 0x20;
+void SeqOp_SetFlag20(AkaoTrack *track) {
+    track->flags |= AKAO_TRACK_FLAG_20;
 }
 
-void SeqOp_ClearFlag20(void *ptr) {
-    *(int *)((char *)ptr + 0x38) &= ~0x20;
+void SeqOp_ClearFlag20(AkaoTrack *track) {
+    track->flags &= ~AKAO_TRACK_FLAG_20;
 }
 
-void SeqOp_LoadNestedStreams(void *ptr) {
+void SeqOp_LoadNestedStreams(AkaoTrack *track) {
     u8 *cursor;
     u32 offset;
     u8 *first;
     u8 *second;
 
-    cursor = *(u8 **)ptr;
+    cursor = *(u8 **)track;
     offset = (cursor[1] << 8) | cursor[0];
     if (offset != 0) {
         first = cursor + offset + 2;
@@ -132,8 +134,8 @@ void SeqOp_LoadNestedStreams(void *ptr) {
 
     D_800B89D4 = 0;
     D_800B89D8 = 0;
-    D_800B89DC = *(u16 *)((char *)ptr + 0x76) >> 8;
-    D_800B89E0 = *(int *)((char *)ptr + 0x44) >> 23;
+    D_800B89DC = *(u16 *)((char *)track + 0x76) >> 8;
+    D_800B89E0 = *(int *)((char *)track + 0x44) >> 23;
     Seq_StartNestedStreams(&D_800B89D0, first, second);
-    *(u8 **)ptr += 4;
+    *(u8 **)track += 4;
 }
