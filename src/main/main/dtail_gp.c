@@ -1,6 +1,3 @@
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
-
 /* GP-window data tail, raw words; symbols are linker pins. */
 
 asm(
