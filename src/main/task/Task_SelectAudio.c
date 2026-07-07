@@ -1,5 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 */
-/* MASPSX_FLAGS: -G8 */
+/* CC1_FLAGS: -g3 */
 
 int Task_GpuFlushPrimQueue(void);
 int Task_GpuPackPrimColor(void);

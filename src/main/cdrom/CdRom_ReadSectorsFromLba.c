@@ -1,5 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 */
-/* MASPSX_FLAGS: -G8 */
+/* CC1_FLAGS: -g3 */
 
 int CdRom_ReadSectors(int lba, int offset, int dst, int size);
 

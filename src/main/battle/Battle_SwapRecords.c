@@ -1,5 +1,4 @@
-/* CC1_FLAGS: -G8 -g3 */
-/* MASPSX_FLAGS: -G8 */
+/* CC1_FLAGS: -g3 */
 
 typedef struct {
     int field_0;

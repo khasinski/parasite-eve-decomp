@@ -1,5 +1,3 @@
-/* CC1_FLAGS: -G8 */
-
 #include "pe1/render_prim.h"
 
 void Render_SetPrimColour(PrimObj *obj, unsigned char a, unsigned char b, unsigned char c) {
