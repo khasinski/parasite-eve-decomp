@@ -2,9 +2,9 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Plain-C functions: <b>4768/11011 (43.3%)</b> · code bytes: <b>7.4%</b>. A unit counts only when it is plain C with no assembly of any kind; the full build is byte-identical to retail.</p>
+<p>Plain-C functions: <b>4701/10999 (42.7%)</b> · code bytes: <b>7.3%</b>. A unit counts only when it is plain C with no assembly of any kind; the full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
-<tr><td>SLUS_006.62 (main)</td><td>952/2054</td><td>46.3%</td><td>91072/840912</td><td>10.8%</td></tr>
+<tr><td>SLUS_006.62 (main)</td><td>885/2044</td><td>43.3%</td><td>87800/840912</td><td>10.4%</td></tr>
 <tr><td>ovl_001</td><td>5/16</td><td>31.2%</td><td>140/2048</td><td>6.8%</td></tr>
 <tr><td>ovl_002</td><td>6/48</td><td>12.5%</td><td>868/45056</td><td>1.9%</td></tr>
 <tr><td>ovl_003</td><td>0/17</td><td>0.0%</td><td>0/10240</td><td>0.0%</td></tr>
@@ -33,10 +33,10 @@
 <tr><td>ovl_191</td><td>18/62</td><td>29.0%</td><td>1804/16724</td><td>10.8%</td></tr>
 <tr><td>ovl_192</td><td>18/59</td><td>30.5%</td><td>1804/13568</td><td>13.3%</td></tr>
 <tr><td>ovl_193</td><td>18/60</td><td>30.0%</td><td>1804/15756</td><td>11.4%</td></tr>
-<tr><td>room overlays (x162)</td><td>3411/7617 (44.8%)</td><td>44.8%</td><td>250596/3738176</td><td>6.7%</td></tr>
-<tr><td>total</td><td>4768/11011</td><td>43.3%</td><td>372116/5051844</td><td>7.4%</td></tr>
+<tr><td>room overlays (x162)</td><td>3411/7615 (44.8%)</td><td>44.8%</td><td>250596/3738176</td><td>6.7%</td></tr>
+<tr><td>total</td><td>4701/10999</td><td>42.7%</td><td>368844/5051844</td><td>7.3%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 644/913 plain-C files</h2>
+<h2>SLUS_006.62 (main) — 618/920 plain-C files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/Akao_Calc3DPan.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/akao/Akao_RemoveVoice.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -45,7 +45,7 @@
 <tr><td>src/main/akao/Akao_SendPositionalCmdStereo.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/akao/Akao_SendTableCommand.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/akao/Akao_SetBgmVolumeFade.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/akao/Akao_SetMasterVolume.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/akao/Akao_SetMasterVolume.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/akao/Akao_SetPos3D.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/akao/Akao_TimerCallback.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/akao/Akao_UpdateVoiceEnvelopes.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
@@ -53,9 +53,11 @@
 <tr><td>src/main/akao/SeqOp_NoteOnWithVoiceAlloc.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/akao/SeqOp_PitchSlide.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/akao/SeqOp_SetExpressionSlide.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/akao/SeqOp_SetPanSlide.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/akao/SeqOp_SetTempoSlide.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/akao/SeqOp_SetVolumeOrExpression.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/akao/SeqOp_SetVolumeOrExpression.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/akao/SeqOp_SetVolumeSlideTarget.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
+<tr><td>src/main/akao/SeqOp_UpdatePitchLFOTarget.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/akao/Seq_DeactivatePendingTracks.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/akao/Seq_GetElapsed.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/akao/Seq_RestorePrimaryState.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -98,7 +100,7 @@
 <tr><td>src/main/akao/seq3.c</td><td>6</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/akao/seq4.c</td><td>24</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/akao/seq_op.c</td><td>5</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/akao/seq_op2.c</td><td>10</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/akao/seq_op2.c</td><td>10</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/akao/seq_op3.c</td><td>3</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/akao/seq_op4.c</td><td>3</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/akao/seq_op5.c</td><td>3</td><td><span class=ok>plain C</span></td></tr>
@@ -175,9 +177,9 @@
 <tr><td>src/main/boot/Gte_StoreTableEntry.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/boot/InitSystem.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/boot/boot.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_AbortCmd.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_AbortCmd.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_BreakSyncCallback.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_ClearDsCallbacks.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_ClearDsCallbacks.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ClearDsCallbacksShim.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_DetectDiscChange.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_DispatchDsReadyCallback.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -189,15 +191,15 @@
 <tr><td>src/main/cdrom/CdRom_IssueSetMode.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_PollPendingDsRead.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_PollReady.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_ProcessEventByte.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_ProcessEventByte.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ReadDoneCallback.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ReadSectors.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ReadSectorsFromLba.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_ReadyEventDispatch.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_ReadyEventDispatch.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ResetFileDescriptors.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_RestartSeek.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_RestartSeek.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_RetryCmd.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_SendQueuedCmd.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_SendQueuedCmd.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_SetMode2Callback.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_TryIssueCmd.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/cdrom/Cd_GetReadyStatus.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -205,7 +207,7 @@
 <tr><td>src/main/cdrom/cd.c</td><td>11</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/cdrom/cd_rom.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/cdrom/cd_rom2.c</td><td>4</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/cdrom/cd_rom3.c</td><td>14</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/cdrom/cd_rom3.c</td><td>14</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/cdrom/cd_rom4.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/cdrom/misc9.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/entity/Entity_AdvanceAnim.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -271,7 +273,7 @@
 <tr><td>src/main/gpu/ClearImage.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/ClearImage2.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/ClearOTag.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/gpu/ClearOTagR.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/gpu/ClearOTagR.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/DrawOTag.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/DrawPrim.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/DrawSync.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
@@ -328,7 +330,7 @@
 <tr><td>src/main/gpu/PutDrawEnv.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/Scene_LoadRoom.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/SetDispMask.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/gpu/SetGraphDebug.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/gpu/SetGraphDebug.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/SetLineF2.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/SetPolyF3.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/SetPolyFT4.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -343,10 +345,10 @@
 <tr><td>src/main/gpu/draw.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/draw2.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/draw3.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/gpu/draw_print.c</td><td>6</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/gpu/draw_print.c</td><td>11</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/gpu.c</td><td>3</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/gpu2.c</td><td>2</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/gpu/gpu3.c</td><td>2</td><td><span class=no>carries asm</span></td></tr>
+<tr><td>src/main/gpu/gpu3.c</td><td>3</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/gpu_build.c</td><td>2</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gpu/libgpu_sys.c</td><td>7</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/gpu/menu.c</td><td>4</td><td><span class=ok>plain C</span></td></tr>
@@ -359,11 +361,11 @@
 <tr><td>src/main/gpu/set.c</td><td>7</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/gte/Gte_NormalizeVecS32toS16.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/item/Inv_BuildCompatibleWeaponBitset.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/item/Inv_BuildFilteredPackedList.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/item/Inv_BuildFilteredPackedList.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/item/Inv_BuildFilteredPackedListExcluding.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/item/Inv_ClearActiveListSlot.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/item/Inv_CountByValue.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/item/Inv_FindIndexByData.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/item/Inv_FindIndexByData.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/item/Inv_FindItemById.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/item/Inv_GetActiveListItem.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/item/Inv_GetActiveListItemType.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
@@ -387,7 +389,7 @@
 <tr><td>src/main/item/Inv_TestSelectionBit.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/item/Inv_TransferItemBetweenLists.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/item/Inventory_OpenAyaItemList.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/item/Item_LookupBaseData.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/item/Item_LookupBaseData.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/item/Item_PackParasiteSpells.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/item/Item_SetDisabledFlag.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/item/Sort_ContainerItems.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -403,7 +405,7 @@
 <tr><td>src/main/item/misc16.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/item/misc17.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/item/misc18.c</td><td>2</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/item/stat.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/item/stat.c</td><td>4</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/main/Akao_ProcessCommand.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/main/Akao_ProcessVoiceQueue.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/main/Akao_SetVoiceKeyOff.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
@@ -485,7 +487,7 @@
 <tr><td>src/main/main/battle3.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/main/dtail_gp.c</td><td>0</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/main/geo.c</td><td>2</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/main/menu2.c</td><td>5</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/main/menu2.c</td><td>6</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/main/misc19.c</td><td>2</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/main/task3.c</td><td>4</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/math/Math_Add64.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
@@ -512,6 +514,7 @@
 <tr><td>src/main/memcard/MemCard_MarkActivePortState13.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/memcard/MemCard_ReadByteWithCallbackValue.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/memcard/MemCard_SetCallbackVtable.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/memcard/MemCard_StartCounterIrq.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/memcard/MemCard_WaitStatusBit2.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/memcard/MemCard_WriteDataAndGetSize.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/memcard/card_obj.c</td><td>6</td><td><span class=ok>plain C</span></td></tr>
@@ -519,7 +522,7 @@
 <tr><td>src/main/memcard/card_obj3.c</td><td>2</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/memcard/card_obj4.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/memcard/card_obj5.c</td><td>8</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/memcard/card_obj6.c</td><td>4</td><td><span class=no>carries asm</span></td></tr>
+<tr><td>src/main/memcard/card_obj6.c</td><td>5</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/memcard/mem.c</td><td>3</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/memcard/mem_card.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/memcard/mem_card2.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
@@ -529,7 +532,8 @@
 <tr><td>src/main/memcard/mem_card6.c</td><td>9</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/memcard/mem_card7.c</td><td>5</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/memcard/mem_card8.c</td><td>2</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/memcard/mem_card9.c</td><td>4</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/memcard/mem_card9_post.c</td><td>3</td><td><span class=no>carries asm</span></td></tr>
+<tr><td>src/main/memcard/mem_card9_pre.c</td><td>3</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/memcard/misc20.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/memcard/misc21.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/memcard/tu_031908.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
@@ -555,7 +559,7 @@
 <tr><td>src/main/menu/Menu_CreateEquipItemSelectionView.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/menu/Menu_CreateEquipScreen.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_CreateExpReviewView.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/menu/Menu_CreateInvSwapView.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/menu/Menu_CreateInvSwapView.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/menu/Menu_CreateInventoryListView.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/menu/Menu_CreateInventoryTabView.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_CreateItemDetailView.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -572,12 +576,13 @@
 <tr><td>src/main/menu/Menu_DrawActionSubmenuItem.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawActionSubmenuList.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawAmmoSpendPanel.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/menu/Menu_DrawArmorItemDetail.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawArmorList.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawArmorListContainer.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawArmorListItem.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawBattleCommandList.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawBlendColorChannelList.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/menu/Menu_DrawBlendColorChannelListUnk.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/menu/Menu_DrawBlendColorChannelListUnk.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawBlendColorOptionListUnk.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawBlendColorOptionRow.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawBlendOptionItem.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -589,6 +594,7 @@
 <tr><td>src/main/menu/Menu_DrawEquipItemDetailPanel.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawEquipModList.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawEquipOptionsList.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
+<tr><td>src/main/menu/Menu_DrawEquipSelectionList.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawEquipSlotListItem.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawEquipStatsPanel.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_DrawItemIcon.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -632,6 +638,7 @@
 <tr><td>src/main/menu/Menu_HandleAyaInventorySelectionInput.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/menu/Menu_HandleInput.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_HandleMemCardWriteOrError.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/menu/Menu_InitBonusPointAllocState.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_InitGlobals.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_InitScrollDirection.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Menu_InitStateTables.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -668,7 +675,7 @@
 <tr><td>src/main/menu/Pad_GetMenuPressedBitOrDisabled.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Queue_DequeueByMask.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/Window_SetBoundsByMode.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/menu/func_8004B214.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/menu/func_8004B214.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/menu/func_8004FF80.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/inv5.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/menu10.c</td><td>3</td><td><span class=ok>plain C</span></td></tr>
@@ -690,7 +697,7 @@
 <tr><td>src/main/menu/menu26.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/menu27.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/menu28.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/menu/menu29.c</td><td>9</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/menu/menu29.c</td><td>10</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/menu/menu3.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/menu30.c</td><td>5</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/menu31.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
@@ -722,7 +729,7 @@
 <tr><td>src/main/menu/misc22.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/menu/misc23.c</td><td>2</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/menu/misc24.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/menu/misc25.c</td><td>10</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/menu/misc25.c</td><td>11</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/menu/queue.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/obj/Obj_FillEntrySlotValues.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/obj/Obj_ResetAllEntries.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
@@ -750,22 +757,22 @@
 <tr><td>src/main/psyq/cd2.c</td><td>6</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/psyq/cd3.c</td><td>2</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/psyq/cd4.c</td><td>12</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/psyq/ds_read.c</td><td>3</td><td><span class=no>carries asm</span></td></tr>
+<tr><td>src/main/psyq/ds_read.c</td><td>4</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/psyq/libapi/SetIntrMask.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/psyq/libapi/VSyncCallback.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/psyq/libapi/memclrIntrDMA.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/psyq/libapi/startIntrDMA.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/psyq/libapi/startIntrVSync.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/psyq/libapi/trapIntrVSync.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/psyq/libapi/v_wait.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/psyq/libapi/v_wait.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_flush.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/psyq/libcd/CD_initintr.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/psyq/libcd/CD_initintr.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_initvol.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_vol.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/psyq/libcd/CdComstr.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/psyq/libcd/CdIntstr.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/psyq/libcd/CdReset.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
-<tr><td>src/main/psyq/libcd/StGetBackloc.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/psyq/libcd/StGetBackloc.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/psyq/libcd/StSetMask.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/psyq/libcd/StSetStream.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/psyq/libcd/data_ready_callback.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
@@ -889,10 +896,10 @@
 <tr><td>src/main/task/Task_GetMenuFlag.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/task/Task_GetNodeTarget14.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/task/Task_GetSin.c</td><td>5</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/task/Task_GpuFlushPrimQueue.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/task/Task_InitGpuHwRegs.c</td><td>0</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/task/Task_GpuFlushPrimQueue.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
+<tr><td>src/main/task/Task_InitGpuHwRegs.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/task/Task_InitNodeFreeList.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
-<tr><td>src/main/task/Task_InitNodePool.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
+<tr><td>src/main/task/Task_InitNodePool.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/task/Task_JumpIfZero.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
 <tr><td>src/main/task/Task_OpenSaveLoadMenu.c</td><td>1</td><td><span class=no>carries asm</span></td></tr>
 <tr><td>src/main/task/Task_PlayFieldSfx.c</td><td>1</td><td><span class=ok>plain C</span></td></tr>
