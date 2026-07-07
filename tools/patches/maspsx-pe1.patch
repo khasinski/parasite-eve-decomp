@@ -1,0 +1,334 @@
+diff --git a/maspsx.py b/maspsx.py
+index 121d7d1..90ccdd3 100644
+--- a/maspsx.py
++++ b/maspsx.py
+@@ -59,6 +59,14 @@ def main() -> None:
+     parser.add_argument("--force-stdin", action="store_true")
+     parser.add_argument("--use-comm-section", action="store_true")
+     parser.add_argument("--use-comm-for-lcomm", action="store_true")
++    parser.add_argument("--stack-return-delay", action="store_true")
++    parser.add_argument("--store-return-delay", action="store_true")
++    parser.add_argument("--la-return-delay", action="store_true")
++    parser.add_argument("--la-call-delay", action="store_true")
++    parser.add_argument("--store-call-delay", action="store_true")
++    parser.add_argument("--store-jump-delay", action="store_true")
++    parser.add_argument("--store-branch-delay", action="store_true")
++    parser.add_argument("--load-dest-temp", action="store_true")
+     # decomp.me debugging
+     parser.add_argument("--print-output", action="store_true")
+     parser.add_argument("--print-input", action="store_true")
+@@ -144,6 +152,14 @@ def main() -> None:
+         gp_allow_la=version_config.gp_allow_la,
+         use_comm_section=args.use_comm_section,
+         use_comm_for_lcomm=args.use_comm_for_lcomm,
++        stack_return_delay=args.stack_return_delay,
++        store_return_delay=args.store_return_delay,
++        la_return_delay=args.la_return_delay,
++        la_call_delay=args.la_call_delay,
++        store_call_delay=args.store_call_delay,
++        store_jump_delay=args.store_jump_delay,
++        store_branch_delay=args.store_branch_delay,
++        load_dest_temp=args.load_dest_temp,
+     )
+     try:
+         out_lines = maspsx_processor.process_lines()
+diff --git a/maspsx/__init__.py b/maspsx/__init__.py
+index 6ff7f7f..93be536 100644
+--- a/maspsx/__init__.py
++++ b/maspsx/__init__.py
+@@ -32,6 +32,10 @@ store_mnemonics = {
+     "swr",
+     "swc2",
+ }
++return_mnemonics = {
++    "j",
++    "jr",
++}
+
+ single_reg_loads = {
+     "mult",
+@@ -337,6 +341,191 @@ def expand_macro(line: str):
+     return res
+
+
++def _split_op(line: str) -> tuple[str, str]:
++    line = strip_comments(line)
++    if not line:
++        return "", ""
++    op, *rest = line.split(None, 1)
++    return op, rest[0] if rest else ""
++
++
++def _is_nop(line: str) -> bool:
++    return strip_comments(line) in ("nop", "#nop")
++
++
++def _is_non_instruction(line: str) -> bool:
++    stripped = strip_comments(line)
++    return stripped == "" or stripped.startswith(".") or stripped.endswith(":")
++
++
++def _previous_instruction_index(lines: List[str], start: int) -> int | None:
++    i = start
++    while i >= 0:
++        if not _is_non_instruction(lines[i]):
++            return i
++        i -= 1
++    return None
++
++
++def _is_return(line: str) -> bool:
++    op, rest = _split_op(line)
++    return op in return_mnemonics and rest in ("$31", "$ra")
++
++
++def _is_call(line: str) -> bool:
++    op, _ = _split_op(line)
++    return op in ("jal", "jalr")
++
++
++def _is_jump(line: str) -> bool:
++    op, _ = _split_op(line)
++    return op in ("j", "jr")
++
++
++def _is_branch(line: str) -> bool:
++    op, _ = _split_op(line)
++    return op in branch_mnemonics
++
++
++def _is_stack_adjust(line: str) -> bool:
++    op, rest = _split_op(line)
++    return op in ("addu", "addiu") and re.match(r"^\$sp,\$sp,", rest) is not None
++
++
++def _is_store(line: str) -> bool:
++    op, _ = _split_op(line)
++    return op in store_mnemonics
++
++
++def _is_store_without_at_expansion(line: str) -> bool:
++    return _is_store(line) and not uses_at(line)
++
++
++def _is_la_tail(line: str) -> bool:
++    op, rest = _split_op(line)
++    return op in ("addiu", "ori") and "%lo(" in rest
++
++
++def _parse_la(line: str) -> tuple[str, str] | None:
++    op, rest = _split_op(line)
++    if op != "la":
++        return None
++    parts = [part.strip() for part in rest.split(",", 1)]
++    if len(parts) != 2:
++        return None
++    return parts[0], parts[1]
++
++
++def _parse_absolute_store(line: str) -> tuple[str, str, str] | None:
++    op, rest = _split_op(line)
++    if op not in store_mnemonics:
++        return None
++    parts = [part.strip() for part in rest.split(",", 1)]
++    if len(parts) != 2:
++        return None
++    reg, target = parts
++    if "(" in target or "%lo(" in target or is_number(target):
++        return None
++    return op, reg, target
++
++
++def _parse_indexed_symbol_store(line: str) -> tuple[str, str, str, str] | None:
++    op, rest = _split_op(line)
++    if op not in store_mnemonics:
++        return None
++    parts = [part.strip() for part in rest.split(",", 1)]
++    if len(parts) != 2:
++        return None
++    reg, target = parts
++    match = re.match(r"^([^()]+)\(([^)]+)\)$", target)
++    if match is None:
++        return None
++    symbol, base = match.group(1, 2)
++    if "%lo(" in symbol or is_number(symbol):
++        return None
++    return op, reg, symbol, base
++
++
++def _expand_la_into_delay(lines: List[str], control_predicate) -> List[str]:
++    res = lines[:]
++    i = 1
++    while i < len(res) - 1:
++        parsed = _parse_la(res[i - 1])
++        if control_predicate(res[i]) and _is_nop(res[i + 1]) and parsed is not None:
++            reg, symbol = parsed
++            res[i - 1] = f"lui\t{reg},%hi({symbol})"
++            res[i + 1] = f"addiu\t{reg},{reg},%lo({symbol})"
++            i += 2
++            continue
++        i += 1
++    return res
++
++
++def _expand_indexed_store_into_delay(
++    lines: List[str], control_predicate, skip_non_instruction: bool = False
++) -> List[str]:
++    res = lines[:]
++    i = 1
++    while i < len(res) - 1:
++        prev = _previous_instruction_index(res, i - 1) if skip_non_instruction else i - 1
++        parsed = _parse_indexed_symbol_store(res[prev]) if prev is not None else None
++        if control_predicate(res[i]) and _is_nop(res[i + 1]) and parsed is not None:
++            op, reg, symbol, base = parsed
++            res[prev : prev + 1] = [
++                f"lui\t$at,%hi({symbol})",
++                f"addu\t$at,$at,{base}",
++            ]
++            i += 1
++            res[i + 1] = f"{op}\t{reg},%lo({symbol})($at)"
++            i += 2
++            continue
++        i += 1
++    return res
++
++
++def _expand_store_into_delay(
++    lines: List[str], control_predicate, skip_non_instruction: bool = False
++) -> List[str]:
++    res = lines[:]
++    i = 1
++    while i < len(res) - 1:
++        prev = _previous_instruction_index(res, i - 1) if skip_non_instruction else i - 1
++        parsed = _parse_absolute_store(res[prev]) if prev is not None else None
++        if control_predicate(res[i]) and _is_nop(res[i + 1]) and parsed is not None:
++            op, reg, symbol = parsed
++            res[prev] = f"lui\t$at,%hi({symbol})"
++            res[i + 1] = f"{op}\t{reg},%lo({symbol})($at)"
++            i += 2
++            continue
++        i += 1
++    return res
++
++
++def _move_previous_into_delay(
++    lines: List[str],
++    control_predicate,
++    movable_predicate,
++    skip_non_instruction: bool = False,
++) -> List[str]:
++    res = lines[:]
++    i = 1
++    while i < len(res) - 1:
++        prev = _previous_instruction_index(res, i - 1) if skip_non_instruction else i - 1
++        if (
++            control_predicate(res[i])
++            and _is_nop(res[i + 1])
++            and prev is not None
++            and movable_predicate(res[prev])
++        ):
++            movable = res[prev]
++            res[prev] = res[i]
++            res[i] = movable
++            del res[i + 1]
++            continue
++        i += 1
++    return res
++
++
+ def load_immediate_single(line: str):
+     res = []
+     r1, value = line[5:].split(",")
+@@ -397,6 +586,14 @@ class MaspsxProcessor:
+         gp_allow_la=False,
+         use_comm_section=False,
+         use_comm_for_lcomm=False,
++        stack_return_delay=False,
++        store_return_delay=False,
++        la_return_delay=False,
++        la_call_delay=False,
++        store_call_delay=False,
++        store_jump_delay=False,
++        store_branch_delay=False,
++        load_dest_temp=False,
+     ):
+         self.lines = [x.strip() for x in lines]
+
+@@ -418,6 +615,15 @@ class MaspsxProcessor:
+         self.use_comm_section = use_comm_section
+         self.use_comm_for_lcomm = use_comm_for_lcomm
+
++        self.stack_return_delay = stack_return_delay
++        self.store_return_delay = store_return_delay
++        self.la_return_delay = la_return_delay
++        self.la_call_delay = la_call_delay
++        self.store_call_delay = store_call_delay
++        self.store_jump_delay = store_jump_delay
++        self.store_branch_delay = store_branch_delay
++        self.load_dest_temp = load_dest_temp
++
+         self.bss_entries: dict[str, int] = {}
+         self.sbss_entries: dict[str, int] = {}
+         self.sdata_entries: dict[str, int] = {}
+@@ -588,6 +794,44 @@ class MaspsxProcessor:
+                     ]
+                 )
+
++        if self.stack_return_delay:
++            res = _move_previous_into_delay(res, _is_return, _is_stack_adjust)
++        if self.store_return_delay:
++            res = _expand_indexed_store_into_delay(res, _is_return)
++            res = _expand_store_into_delay(res, _is_return)
++            res = _move_previous_into_delay(
++                res, _is_return, _is_store_without_at_expansion
++            )
++        if self.la_return_delay:
++            res = _expand_la_into_delay(res, _is_return)
++            res = _move_previous_into_delay(res, _is_return, _is_la_tail)
++        if self.la_call_delay:
++            res = _expand_la_into_delay(res, _is_call)
++            res = _move_previous_into_delay(res, _is_call, _is_la_tail)
++        if self.store_call_delay:
++            res = _expand_indexed_store_into_delay(res, _is_call)
++            res = _expand_store_into_delay(res, _is_call)
++            res = _move_previous_into_delay(
++                res, _is_call, _is_store_without_at_expansion
++            )
++        if self.store_jump_delay:
++            res = _expand_indexed_store_into_delay(res, _is_jump)
++            res = _expand_store_into_delay(res, _is_jump)
++            res = _move_previous_into_delay(
++                res, _is_jump, _is_store_without_at_expansion
++            )
++        if self.store_branch_delay:
++            res = _expand_indexed_store_into_delay(
++                res, _is_branch, skip_non_instruction=True
++            )
++            res = _expand_store_into_delay(res, _is_branch, skip_non_instruction=True)
++            res = _move_previous_into_delay(
++                res,
++                _is_branch,
++                _is_store_without_at_expansion,
++                skip_non_instruction=True,
++            )
++
+         return res
+
+     def get_next_instruction(
+@@ -935,7 +1179,15 @@ class MaspsxProcessor:
+
+             elif is_addend and r_source:
+                 # e.g. lw	$2,test_sym($4)
+-                if self.addiu_at:
++                if self.load_dest_temp:
++                    res.extend(
++                        [
++                            f"lui\t{r_dest},%hi({operand})",
++                            f"addu\t{r_dest},{r_dest},{r_source}",
++                            f"{op}\t{r_dest},%lo({operand})({r_dest})",
++                        ]
++                    )
++                elif self.addiu_at:
+                     res.extend(
+                         [
+                             "# EXPAND_AT START",

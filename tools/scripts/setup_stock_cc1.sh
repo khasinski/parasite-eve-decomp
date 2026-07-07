@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Download decompals/old-gcc stock gcc-2.7.2-psx cc1 (codegen-identical to the
-# PSY-Q CC1PSX Build 0001 used to build SLUS_006.62), into tools/old-gcc/cc1.
+# Download decompals/old-gcc stock gcc-2.7.2-psx cc1 into tools/old-gcc/cc1.
 # This is a source-buildable, patchable compiler.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"

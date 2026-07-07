@@ -41,7 +41,6 @@ docs/refs/
 reference/
 disc/jp/
 tools/mizuchi/
-tools/wibo/
 
 # mizuchi generated outputs
 mizuchi-db.json
@@ -52,7 +51,8 @@ tools/old-gcc/cc1
 sdk/
 disc/readme.html
 tools/decomp-permuter/
-tools/m2c/
+tools/m2c/*
+!tools/m2c/m2c_macros.h
 tools/maspsx/
 tools/splat/
 
@@ -93,10 +93,8 @@ tools/scripts/asm_family_finder.py
 tools/scripts/asm_match_report.py
 tools/scripts/asm_variant_matrix.py
 tools/scripts/audit_actor_model_blocks.py
-tools/scripts/audit_build0001_markerless.py
 tools/scripts/decode_bs.py
 tools/scripts/decode_pe1_strings.py
-tools/scripts/diff_cc1_build0001.sh
 tools/scripts/diff_cc1_outputs.sh
 tools/scripts/diff_cc1_strip.sh
 tools/scripts/dump_pe_archives.py

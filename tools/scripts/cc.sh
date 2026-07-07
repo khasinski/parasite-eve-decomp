@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Compile one C file with PSYQ GCC 2.7.2 → maspsx → mipsel-none-elf-as → .o.
+# Compile one C file with native PSX GCC 2.7.2 → maspsx → mipsel-none-elf-as → .o.
 # Usage: cc.sh <input.c> <output.o> [extra cflags...]
 #
-# Pipeline: cpp (PSYQ) handles -I/-D, then cc1 (PSYQ) compiles preprocessed C,
-# then maspsx wraps the asm output, then GNU as produces the .o.
+# Pipeline: PSYQ-compatible cpp handles -I/-D, then native old-gcc PSX cc1
+# compiles preprocessed C, then maspsx wraps the asm output, then GNU as
+# produces the .o.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 
@@ -12,10 +13,8 @@ OUT="$2"
 shift 2
 
 CPP="${PE_CPP:-$ROOT/tools/psyq-gcc-2.7.2/cpp}"
-# Default cc1: native old-gcc 2.7.2-psx (codegen-identical to CC1PSX Build 0001,
-# 136/136 funcs byte-identical), falling back to Build 0001 (wibo) on the rare
-# inputs it segfaults on. Run tools/scripts/setup_stock_cc1.sh once to install it;
-# the wrapper auto-falls-back to wibo if the binary is missing.
+# Default cc1: native old-gcc 2.7.2-psx; install it with
+# tools/scripts/setup_stock_cc1.sh if missing.
 CC1="${PE_CC1:-$ROOT/tools/scripts/cc1_stock272psx.sh}"
 MASPSX=("$ROOT/.venv/bin/python" "$ROOT/tools/maspsx/maspsx.py")
 MASPSX_ASPSX_VERSION="${PE_MASPSX_ASPSX_VERSION:-2.56}"
@@ -23,7 +22,7 @@ AS=$(command -v mipsel-none-elf-as)
 INCLUDE="$ROOT/sdk/psyq-4.0/PSX/INCLUDE"
 
 CPP_FLAGS="-undef -D__GNUC__=2 -D__OPTIMIZE__ -Dmips -D__mips__ -D__LITTLE_ENDIAN__ -I$INCLUDE -I$ROOT/include $*"
-CC1_FLAGS="-O2 -G0 -funsigned-char -mips1 -mcpu=3000"
+CC1_FLAGS="-w -O2 -G0 -funsigned-char -mips1 -mcpu=3000"
 AS_G_FLAG="-G0"
 if grep -q 'CC1_FLAGS:.*-G4' "$IN"; then
     CC1_FLAGS="${CC1_FLAGS/-G0/-G4}"
@@ -83,9 +82,6 @@ trap 'rm -f "$TMP_I" "$TMP_S"' EXIT
 MASPSX_EXTRA=()
 if grep -q 'MASPSX_FLAGS:.*--expand-div' "$IN"; then
     MASPSX_EXTRA+=(--expand-div)
-fi
-if grep -q 'MASPSX_FLAGS:.*--no-div-use-nop' "$IN"; then
-    MASPSX_EXTRA+=(--no-div-use-nop)
 fi
 if grep -q 'MASPSX_FLAGS:.*--use-comm-section' "$IN"; then
     MASPSX_EXTRA+=(--use-comm-section)

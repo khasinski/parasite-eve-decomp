@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Default cc1: native old-gcc 2.7.2-psx (codegen-identical to CC1PSX Build 0001),
-# falling back to Build 0001 via wibo on the rare inputs it segfaults on.
+# Default cc1: native old-gcc 2.7.2-psx.
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 STOCK="${PE_STOCK_CC1:-$ROOT/tools/old-gcc/cc1}"
-if [[ -x "$STOCK" ]] && "$STOCK" "$@"; then
-    exit 0
+if [[ ! -x "$STOCK" ]]; then
+    echo "Error: native old-gcc cc1 not found at $STOCK" >&2
+    echo "  Install with: tools/scripts/setup_stock_cc1.sh" >&2
+    exit 1
 fi
-exec "$ROOT/tools/scripts/cc1_build0001.sh" "$@"
+exec "$STOCK" "$@"
