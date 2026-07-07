@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: --use-comm-section -G8 */
+/* MASPSX_FLAGS: -G8 */
 
 void *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 int MenuWidget_GridCellIndex(void *node);

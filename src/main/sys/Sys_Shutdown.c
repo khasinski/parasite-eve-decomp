@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G0 -g3 */
-/* MASPSX_FLAGS: -G0 --use-comm-section */
+/* MASPSX_FLAGS: -G0 */
 
 void Save_ProcessDataCallback(void);
 void Akao_Cmd_D8(int arg0);

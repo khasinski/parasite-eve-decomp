@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 -g3 */
-/* MASPSX_FLAGS: --use-comm-section -G8 */
+/* MASPSX_FLAGS: -G8 */
 
 int Geo_PointInPoly(int arg0, int arg1, int *arg2, int arg3);
 

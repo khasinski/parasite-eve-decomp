@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 -g3 */
-/* MASPSX_FLAGS: --use-comm-section -G8 */
+/* MASPSX_FLAGS: -G8 */
 #include "include_asm.h"
 
 typedef signed short s16;

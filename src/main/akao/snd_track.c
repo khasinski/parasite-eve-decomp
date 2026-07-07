@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: --expand-div --use-comm-section -G8 */
+/* MASPSX_FLAGS: --expand-div -G8 */
 
 #include "pe1/akao.h"
 

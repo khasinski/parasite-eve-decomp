@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 -g3 */
-/* MASPSX_FLAGS: -G8 --use-comm-section --expand-div */
+/* MASPSX_FLAGS: -G8 --expand-div */
 
 typedef unsigned char u8;
 typedef unsigned short u16;

@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G0 -g3 */
-/* MASPSX_FLAGS: -G0 --use-comm-section */
+/* MASPSX_FLAGS: -G0 */
 
 #include "pe1/geom_state.h"
 

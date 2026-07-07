@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: --use-comm-section -G8 */
+/* MASPSX_FLAGS: -G8 */
 
 extern int g_MenuWidgetColumnLayoutMode;
 extern signed char g_MenuWidgetColumnLayoutTable[][4];

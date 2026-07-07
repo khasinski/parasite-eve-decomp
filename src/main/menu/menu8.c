@@ -1,5 +1,5 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: --use-comm-section -G8 */
+/* MASPSX_FLAGS: -G8 */
 
 void Menu_DrawEquipInfoOptionRow(void);
 void MenuWidget_DrawList(int arg0, void (*callback)(void));
