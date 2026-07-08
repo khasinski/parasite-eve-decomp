@@ -1,24 +1,18 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-typedef struct RelocBlock {
-    unsigned int baseOffset;
-    unsigned int count;
-    unsigned int offsets[1];
-} RelocBlock;
-
-extern RelocBlock *g_SceneDataTable1;
+#include "pe1/reloc_block.h"
 
 RelocBlock *Task_RelocBlock(RelocBlock *block) {
-    unsigned int offset;
-    unsigned int limit;
-    unsigned int isAbsolute;
-    unsigned int i;
-    unsigned int count;
-    register unsigned int *ptr asm("$3");
+    RelocU32 offset;
+    RelocU32 limit;
+    RelocU32 isAbsolute;
+    RelocU32 i;
+    RelocU32 count;
+    register RelocU32 *ptr asm("$3");
     char frame[8];
 
-    offset = block->baseOffset;
+    offset = block->u0.baseOffset;
     limit = 0x80000000U;
     g_SceneDataTable1 = block;
     isAbsolute = limit < offset;
@@ -31,9 +25,9 @@ RelocBlock *Task_RelocBlock(RelocBlock *block) {
 relocate:
     i = 0;
     count = block->count;
-    block->baseOffset = (unsigned int)((char *)block + offset);
+    block->u0.baseOffset = (RelocU32)((char *)block + offset);
     if (count != 0) {
-        ptr = (unsigned int *)block;
+        ptr = (RelocU32 *)block;
         do {
             ptr[2] = ptr[2] + (unsigned int)block;
             i++;

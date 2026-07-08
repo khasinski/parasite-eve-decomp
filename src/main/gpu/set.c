@@ -6,17 +6,11 @@ extern void *memcpy(void *dest, const void *src, unsigned int n);
 extern char g_GpuActiveDispEnv[];
 
 #include "pe1/gpu_callbacks.h"
+#include "pe1/psyq_gpu.h"
 
 extern GpuCallbacks *g_GpuCallbacks;
 
 asm("SetTexWindow = SetTexWindow");
-
-typedef struct {
-    unsigned char pad0[3];
-    unsigned char code;
-    int field4;
-    int field8;
-} Prim;
 
 int Gpu_BuildTexWindowCmd(int arg0);
 
@@ -62,20 +56,20 @@ int Gpu_PollCallback(void) {
     return g_GpuCallbacks->callback() < 0;
 }
 
-void SetTexWindow(Prim *arg0, int arg1) {
-    arg0->code = 2;
+void SetTexWindow(GpuCmdPacket *arg0, int arg1) {
+    arg0->u0.head.code = 2;
     arg0->field4 = Gpu_BuildTexWindowCmd(arg1);
     arg0->field8 = 0;
 }
 
-void SetDrawArea(Prim *arg0, Rect *arg1) {
-    arg0->code = 2;
+void SetDrawArea(GpuCmdPacket *arg0, Rect *arg1) {
+    arg0->u0.head.code = 2;
     arg0->field4 = Gpu_BuildDrawAreaTopLeftCmd(arg1->x, arg1->y);
     arg0->field8 = Gpu_BuildDrawAreaBottomRightCmd((s16)(arg1->x + arg1->w - 1), (s16)(arg1->y + arg1->h - 1));
 }
 
-void SetDrawOffset(Prim *arg0, Point *arg1) {
-    arg0->code = 2;
+void SetDrawOffset(GpuCmdPacket *arg0, Point *arg1) {
+    arg0->u0.head.code = 2;
     arg0->field4 = Gpu_BuildDrawOffsetCmd(arg1->x, arg1->y);
     arg0->field8 = 0;
 }

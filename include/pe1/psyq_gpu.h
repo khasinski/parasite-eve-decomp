@@ -20,6 +20,18 @@ typedef struct RECT32 {
     int h;
 } RECT32;
 
+typedef struct GpuCmdPacket {
+    union {
+        int tag;
+        struct {
+            unsigned char pad0[3];
+            unsigned char code;
+        } head;
+    } u0;
+    int field4;
+    int field8;
+} GpuCmdPacket;
+
 typedef struct DR_ENV {
     u_long tag;
     u_long code[15];
