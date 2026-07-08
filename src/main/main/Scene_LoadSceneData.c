@@ -1,10 +1,10 @@
 typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsigned short u16;typedef int s32;typedef unsigned int u32;typedef long long s64;
 #define NULL ((void *)0)
 
+#include "pe1/psyq_gpu.h"
+
 typedef struct { char b[16]; } __attribute__((aligned(1), packed)) Copy16u;
 typedef struct { u32 w[4]; } Copy16a;
-
-typedef struct { s16 x, y, w, h; } RECT;
 
 int ClearImage(RECT *rect, u8 r, u8 g, u8 b);
 s32 CdRom_ReadSectorsFromLba(s32, s32, s32);

@@ -1,33 +1,27 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
-typedef struct QueueEntry {
-    struct QueueEntry *next;
-    int value0;
-    int value1;
-} QueueEntry;
+#include "pe1/menu_queue.h"
 
-extern QueueEntry D_800A2090[];
-extern QueueEntry D_800A2174[];
-QueueEntry *g_MenuEventQueueFreeList;
-QueueEntry *g_MenuEventQueueHead;
-QueueEntry *g_MenuEventQueueTail;
+MenuQueueEntry *g_MenuEventQueueFreeList;
+MenuQueueEntry *g_MenuEventQueueHead;
+MenuQueueEntry *g_MenuEventQueueTail;
 int g_MenuInputActive;
 int g_MenuInputPollingPaused;
 int g_MenuInputHeldStatusMask;
 
-QueueEntry *g_MenuEventQueueFreeList;
-QueueEntry *g_MenuEventQueueHead;
-QueueEntry *g_MenuEventQueueTail;
+MenuQueueEntry *g_MenuEventQueueFreeList;
+MenuQueueEntry *g_MenuEventQueueHead;
+MenuQueueEntry *g_MenuEventQueueTail;
 
 void BoundsCheck_AssertStub(int arg0);
 
 void Queue_Init(void) {
-    QueueEntry *entry;
-    QueueEntry *end;
+    MenuQueueEntry *entry;
+    MenuQueueEntry *end;
 
     entry = D_800A2090;
-    end = (QueueEntry *)((char *)D_800A2090 + 0xF0);
+    end = (MenuQueueEntry *)((char *)D_800A2090 + 0xF0);
     if (entry < end) {
         do {
             entry->next = entry + 1;
@@ -36,7 +30,7 @@ void Queue_Init(void) {
     }
 
     D_800A2174[0].next = 0;
-    g_MenuEventQueueFreeList = (QueueEntry *)((char *)D_800A2174 - 0xE4);
+    g_MenuEventQueueFreeList = (MenuQueueEntry *)((char *)D_800A2174 - 0xE4);
     g_MenuEventQueueTail = 0;
     g_MenuEventQueueHead = 0;
     g_MenuInputActive = 0;
@@ -45,8 +39,8 @@ void Queue_Init(void) {
 }
 
 void Queue_Enqueue(int arg0, int arg1) {
-    QueueEntry *entry;
-    QueueEntry *tail;
+    MenuQueueEntry *entry;
+    MenuQueueEntry *tail;
 
     entry = g_MenuEventQueueFreeList;
     if (entry != 0) {
