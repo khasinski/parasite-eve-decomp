@@ -4,17 +4,13 @@ typedef signed char s8;
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-typedef struct { u8 b[4]; } FourBytes;
-typedef struct { u8 b[0x800]; } Bulk800;
-typedef struct { u8 b[0x70]; } Bulk70;
-typedef struct { u8 b[0x18]; } Bulk18;
-typedef struct { u8 b[8]; } Bulk8;
+#include "pe1/save_blob.h"
 
-extern Bulk800 g_EntityWorkBuffer;
-extern Bulk70 g_AyaBattleState;
-extern Bulk18 g_SavedBattleStateTail;
-extern Bulk8 g_BattleEquipStateBlock;
-extern FourBytes g_FieldMoveLock, g_SceneDispatchToken, g_GameStateFlags, D_800B0CDC;
+extern SaveBytes800 g_EntityWorkBuffer;
+extern SaveBytes70 g_AyaBattleState;
+extern SaveBytes18 g_SavedBattleStateTail;
+extern SaveBytes8 g_BattleEquipStateBlock;
+extern SaveBytes4 g_FieldMoveLock, g_SceneDispatchToken, g_GameStateFlags, D_800B0CDC;
 extern s8 D_800B0CE0, g_LoadedTexturePageId, g_SceneAreaType, g_SavedSceneAreaType, D_800B0CE4, g_PendingDiscSide;
 extern u8 g_DiscChangeFlags, g_ScreenTransitionState;
 extern u8 *g_SaveIoCursor;
@@ -27,12 +23,12 @@ void Save_SerializeTail(void) {
     register u8 *t asm("$2");
 
     cd = g_SaveIoCursor;
-    *(Bulk800 *)cd = g_EntityWorkBuffer;
+    *(SaveBytes800 *)cd = g_EntityWorkBuffer;
 
-    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 0x800; *(FourBytes *)(cursor + 0x800) = g_FieldMoveLock;
-    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 4; *(FourBytes *)(cursor + 4) = g_SceneDispatchToken;
-    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 4; *(FourBytes *)(cursor + 4) = g_GameStateFlags;
-    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 4; *(FourBytes *)(cursor + 4) = D_800B0CDC;
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 0x800; *(SaveBytes4 *)(cursor + 0x800) = g_FieldMoveLock;
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 4; *(SaveBytes4 *)(cursor + 4) = g_SceneDispatchToken;
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 4; *(SaveBytes4 *)(cursor + 4) = g_GameStateFlags;
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 4; *(SaveBytes4 *)(cursor + 4) = D_800B0CDC;
     __asm__ volatile(
     ".set push\n"
     ".set noreorder\n"
@@ -93,9 +89,9 @@ void Save_SerializeTail(void) {
     "sb $v0, 1($v1)\n"
     ".set pop\n"
     ::: "memory", "$2", "$3", "$4");
-    t = g_SaveIoCursor + 1; cd = t; g_SaveIoCursor = cd; *(Bulk70 *)cd = g_AyaBattleState;
-    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 0x70; *(Bulk18 *)(cursor + 0x70) = g_SavedBattleStateTail;
-    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 0x18; *(Bulk8 *)(cursor + 0x18) = g_BattleEquipStateBlock;
+    t = g_SaveIoCursor + 1; cd = t; g_SaveIoCursor = cd; *(SaveBytes70 *)cd = g_AyaBattleState;
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 0x70; *(SaveBytes18 *)(cursor + 0x70) = g_SavedBattleStateTail;
+    cursor = g_SaveIoCursor; g_SaveIoCursor = cursor + 0x18; *(SaveBytes8 *)(cursor + 0x18) = g_BattleEquipStateBlock;
     t = g_SaveIoCursor; g_SaveIoCursor = t + 8;
 }
 

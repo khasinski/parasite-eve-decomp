@@ -1,18 +1,9 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
-typedef unsigned char u8;
+#include "pe1/field_sfx.h"
 
-typedef struct {
-    short field_0;
-    u8 field_2;
-    u8 field_3;
-    int field_4;
-    int field_8;
-} struct_800A3180;
-
-u8 g_FieldSfxQueueCount;
-extern struct_800A3180 g_FieldSfxQueue[28];
+FieldSfxU8 g_FieldSfxQueueCount;
 
 void Task_ClearSfxTable(void) {
     unsigned int i;

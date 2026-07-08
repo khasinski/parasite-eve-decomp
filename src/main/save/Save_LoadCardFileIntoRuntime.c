@@ -1,16 +1,10 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-typedef struct SaveBulkCopy {
-    u8 bytes[0x12E4];
-} SaveBulkCopy;
+#include "pe1/save_blob.h"
 
-typedef struct FourBytes {
-    u8 bytes[4];
-} FourBytes;
-
-extern SaveBulkCopy g_MemCardSaveStateBuffer;
-extern SaveBulkCopy g_SaveRuntimeState;
+extern SaveBytes12E4 g_MemCardSaveStateBuffer;
+extern SaveBytes12E4 g_SaveRuntimeState;
 extern u8 g_MemCardFileBuffer[];
 extern u8 *g_SaveIoCursor;
 extern int g_MemCardLoadSucceeded;
@@ -24,7 +18,7 @@ void Menu_CreateTwoLineDialog(int arg0, int arg1);
 void Save_CancelUiFlow(void);
 
 void Save_LoadCardFileIntoRuntime(void) {
-    FourBytes expected_crc;
+    SaveBytes4 expected_crc;
     u8 *data;
     u32 crc;
     u32 i;
@@ -40,7 +34,7 @@ void Save_LoadCardFileIntoRuntime(void) {
     crc = 0xFFFF;
     i = 0;
     cursor = g_SaveIoCursor;
-    expected_crc = *(FourBytes *)cursor;
+    expected_crc = *(SaveBytes4 *)cursor;
     g_SaveIoCursor += 4;
     *(u32 *)cursor = 0;
 
@@ -58,7 +52,7 @@ void Save_LoadCardFileIntoRuntime(void) {
         i++;
     } while ((i & 0xFFFF) < 0x2000);
 
-    if ((~crc & 0xFFFF) == *(u32 *)expected_crc.bytes) {
+    if ((~crc & 0xFFFF) == *(u32 *)expected_crc.b) {
         Save_RestoreHeader();
         g_MemCardLoadSucceeded = 1;
         Menu_DestroyMemCardProgressWidget();
