@@ -1,8 +1,10 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
+#include "pe1/psyq_cd.h"
+
 void DsSyncCallback(void *arg0);
-void *CdRom_GetCurrentPosPtr(void);
-int CdPosToInt(void *arg0);
+CdlLOC *CdRom_GetCurrentPosPtr(void);
+int CdPosToInt(CdlLOC *arg0);
 int CdRom_GetCmdMode(void);
 int CdRom_GetCmdParam(void);
 int Render_BuildParticleFrame(int arg0, int arg1, int arg2, void *arg3, int arg4);

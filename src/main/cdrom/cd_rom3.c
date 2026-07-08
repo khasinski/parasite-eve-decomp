@@ -1,5 +1,7 @@
 /* MASPSX_FLAGS: --la-return-delay --store-return-delay */
 
+#include "pe1/psyq_cd.h"
+
 extern unsigned int g_DsPollCallback;
 
 extern unsigned int g_DsSyncCallback;
@@ -8,7 +10,6 @@ extern unsigned int g_DsReadyCallback;
 
 extern unsigned int g_DsReadDoneCallback;
 
-typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u32 g_DsReadStatusBlock[];
@@ -17,7 +18,7 @@ extern unsigned char g_CdLastCmd;
 
 extern unsigned char g_CdCmdMode;
 
-extern unsigned char g_CdCurPosPtr[];
+extern CdlLOC g_CdCurPosPtr;
 
 extern unsigned char g_CdRetryCount;
 
@@ -74,8 +75,8 @@ int CdRom_GetCmdMode(void) {
     return g_CdCmdMode;
 }
 
-unsigned char *CdRom_GetCurrentPosPtr(void) {
-    return g_CdCurPosPtr;
+CdlLOC *CdRom_GetCurrentPosPtr(void) {
+    return &g_CdCurPosPtr;
 }
 
 int CdRom_GetRetryCount(void) {
