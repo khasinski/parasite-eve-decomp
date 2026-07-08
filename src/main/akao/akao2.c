@@ -1,34 +1,14 @@
 /* MASPSX_FLAGS: --expand-div */
 #include "pe1/akao.h"
 
-typedef signed char s8;
-
-typedef struct {
-    int unk0;
-    int duration;
-    s8 target;
-} AkaoGlobalSlideCommand;
-
 extern short g_AkaoGlobalD2CCSlideCounter;
 extern int g_AkaoGlobalD2CCSlideStep;
 extern int D_8009D2CC;
-
-typedef struct {
-    int unk0;
-    int duration;
-    int start;
-    s8 target;
-} AkaoGlobalSlideRangeCommand;
 
 extern char g_AkaoVoiceStateTable[];
 extern char *g_AkaoCurTrack;
 
 void Akao_InitVoices(int arg0, char *arg1);
-
-typedef struct {
-    int pad_0;
-    int field_4;
-} AkaoCommand8008C3E4;
 
 extern unsigned int g_SpuActiveVoiceMask;
 extern unsigned int g_SpuPendingKeyOffMask;
@@ -82,7 +62,7 @@ void Akao_InitPrimarySecondaryVoices(void) {
     g_AkaoCurTrack -= 0x68;
 }
 
-void Akao_InitPrimarySecondaryVoicesWithMode(AkaoCommand8008C3E4 *cmd) {
+void Akao_InitPrimarySecondaryVoicesWithMode(AkaoValueCommand *cmd) {
     char *base = g_AkaoVoiceStateTable;
     int value = cmd->field_4;
 

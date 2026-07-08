@@ -3,6 +3,8 @@
 
 #include "pe1/akao/queue.h"
 
+typedef signed char AkaoCommandS8;
+
 enum AkaoSequenceOpcode {
     AKAO_SEQ_OP_FINISH_CHANNEL = 0xA0,
     AKAO_SEQ_OP_LOAD_INSTRUMENT = 0xA1,
@@ -34,6 +36,29 @@ enum AkaoSequenceOpcode {
     AKAO_SEQ_OP_JUMP_ON_REPEAT = 0xF0,
     AKAO_SEQ_OP_BREAK_LOOP_ON_REPEAT = 0xF1
 };
+
+typedef struct AkaoValueCommand {
+    int pad_0;
+    int field_4;
+} AkaoValueCommand;
+
+typedef struct AkaoGlobalSlideCommand {
+    int pad_0;
+    int duration;
+    AkaoCommandS8 target;
+} AkaoGlobalSlideCommand;
+
+typedef struct AkaoGlobalSlideRangeCommand {
+    int pad_0;
+    int duration;
+    int start;
+    AkaoCommandS8 target;
+} AkaoGlobalSlideRangeCommand;
+
+typedef struct AkaoGlobalParamCommand {
+    int pad_0;
+    AkaoCommandS8 value;
+} AkaoGlobalParamCommand;
 
 /*
  * Staging globals for the public AKAO command wrappers at 0x800864xx..0x800870xx.

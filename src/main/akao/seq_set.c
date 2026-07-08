@@ -7,11 +7,6 @@ extern char *g_AkaoCurTrack;
 void Seq_MarkDirtyTracks(char *arg0);
 void Spu_MarkActiveVoicesDirty(void);
 
-typedef struct {
-    int pad_0;
-    int field_4;
-} AkaoCommand8008C6D0;
-
 extern int g_AkaoVoicePortamentoResetMask;
 typedef struct AkaoTrackUpdateSlot {
     AkaoU32 update_flags;
@@ -53,7 +48,7 @@ void Seq_SetPlaybackMode2AndRefreshVoices(void) {
     Spu_MarkActiveVoicesDirty();
 }
 
-void Seq_SetGlobalD2B8AndDirtyAllTracks(AkaoCommand8008C6D0 *cmd) {
+void Seq_SetGlobalD2B8AndDirtyAllTracks(AkaoValueCommand *cmd) {
     unsigned int i = 0;
     int value = cmd->field_4;
     AkaoTrackUpdateSlot *slot;

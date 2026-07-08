@@ -1,30 +1,10 @@
 /* MASPSX_FLAGS: --expand-div */
 
-typedef signed char s8;
-
-typedef struct {
-    int unk0;
-    int duration;
-    s8 target;
-} AkaoGlobalSlideCommand;
+#include "pe1/akao/commands.h"
 
 extern short g_AkaoGlobalD2D0SlideCounter;
 extern int g_AkaoGlobalD2D0SlideStep;
 extern int D_8009D2D0;
-
-typedef struct {
-    int unk0;
-    int duration;
-    int start;
-    s8 target;
-} AkaoGlobalSlideRangeCommand;
-
-typedef signed char s8_1;
-
-typedef struct {
-    int unk0;
-    s8_1 value;
-} AkaoGlobalParamCommand;
 
 extern short g_AkaoGlobalD2CCSlideCounter;
 extern int D_8009D2CC;
