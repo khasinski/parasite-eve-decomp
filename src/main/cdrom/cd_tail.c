@@ -1,13 +1,6 @@
 /* MASPSX_FLAGS: --store-return-delay */
 
-typedef unsigned char u_char;
-
-typedef struct {
-    u_char minute;
-    u_char second;
-    u_char sector;
-    u_char track;
-} CdlLOC;
+#include "pe1/psyq_cd.h"
 
 extern int g_CdReadCallback;
 

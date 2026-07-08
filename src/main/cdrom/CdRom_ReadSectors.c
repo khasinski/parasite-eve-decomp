@@ -1,12 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
-typedef struct {
-    u8 minute;
-    u8 second;
-    u8 sector;
-    u8 track;
-} CdlLOC;
+#include "pe1/psyq_cd.h"
 
 int Cd_GetReadyStatus(void);
 int CdRom_GetPendingReadCount(void);
@@ -17,7 +9,7 @@ int CdRom_StartRead(CdlLOC *loc, int size, int dst, int mode);
 int printf(char *fmt, ...);
 
 extern int g_GameState;
-extern u16 g_CdDiskType;
+extern u_short g_CdDiskType;
 extern char D_8001136C[];
 
 int CdRom_ReadSectors(int lba, int offset, int dst, int size) {

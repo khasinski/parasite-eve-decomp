@@ -1,14 +1,12 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
-typedef struct {
-    char bytes[4];
-} UnalignedWord;
+#include "pe1/psyq_cd.h"
 
-UnalignedWord *CdRom_GetCurrentPosPtr(void);
+CdlLOC *CdRom_GetCurrentPosPtr(void);
 
-UnalignedWord *CdRom_GetCurrentPos(UnalignedWord *dst);
+CdlLOC *CdRom_GetCurrentPos(CdlLOC *dst);
 
-UnalignedWord *CdRom_GetCurrentPos(UnalignedWord *dst) {
+CdlLOC *CdRom_GetCurrentPos(CdlLOC *dst) {
     if (dst != 0) {
         *dst = *CdRom_GetCurrentPosPtr();
         return dst;

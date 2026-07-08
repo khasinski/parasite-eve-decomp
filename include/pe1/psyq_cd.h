@@ -2,6 +2,7 @@
 #define PE1_PSYQ_CD_H
 
 typedef unsigned char u_char;
+typedef unsigned short u_short;
 typedef unsigned int u_int;
 
 typedef struct CdlLOC {
@@ -37,5 +38,12 @@ typedef struct DsReadyEventWindow {
     u_int status;
     u_int command;
 } DsReadyEventWindow;
+
+typedef struct CdQueuedCmdSlot {
+    u_int state;
+    u_char result;
+    u_char payload[8];
+    u_char unk_0D[3];
+} CdQueuedCmdSlot;
 
 #endif
