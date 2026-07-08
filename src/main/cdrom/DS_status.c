@@ -1,4 +1,4 @@
-/* MASPSX_FLAGS: --store-return-delay --stack-return-delay --la-call-delay */
+/* MASPSX_FLAGS: --stack-return-delay --la-call-delay */
 
 typedef unsigned char u_char;
 typedef unsigned int u32;
