@@ -1,11 +1,12 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
 #include "include_asm.h"
+#include "pe1/psyq_cd.h"
 
 typedef unsigned int u32;
 
 extern u32 D_8009B554[];
-extern u32 D_8009B574[];
+extern DsReadStatusBlock g_DsReadStatusBlock asm("D_8009B574");
 
 void CD_flush(void);
 
@@ -31,16 +32,16 @@ void CdRom_AbortCmd(void) {
         }
         cmp = 0x10;
         if (kind == cmp) {
-            register u32 *slot asm("$2");
+            register DsReadStatusBlock *slot asm("$2");
             register u32 value asm("$3");
 
 abort_pending:
-            slot = D_8009B574;
+            slot = &g_DsReadStatusBlock;
             asm("" : "=r"(slot) : "0"(slot));
             value = 1;
-            slot[0] = value;
+            slot->status = value;
             value = 0xB;
-            slot[1] = value;
+            slot->command = value;
         }
     }
 }
