@@ -1,13 +1,7 @@
-typedef signed short s16;
+#include "pe1/psyq_gpu.h"
+
 typedef unsigned char u8;
 typedef unsigned int u32;
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} RECT;
 
 extern u32 g_GameState;
 extern unsigned char g_DiscChangeFlags;

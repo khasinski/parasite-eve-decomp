@@ -1,14 +1,8 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
-typedef unsigned int u32;
-typedef short s16;
+#include "pe1/psyq_gpu.h"
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} RECT;
+typedef unsigned int u32;
 
 #include "pe1/gpu_callbacks.h"
 

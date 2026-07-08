@@ -3,16 +3,7 @@
 /* PSY-Q libgpu sys.c utility tail, compiled into the game as one
  * translation unit (LoadTPage..GetVideoMode in SDK order). */
 
-typedef unsigned char u_char;
-typedef unsigned short u_short;
-typedef unsigned long u_long;
-
-typedef struct RECT {
-    short x;
-    short y;
-    short w;
-    short h;
-} RECT;
+#include "pe1/psyq_gpu.h"
 
 typedef struct {
     u_long tag;

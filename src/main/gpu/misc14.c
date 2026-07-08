@@ -1,11 +1,4 @@
-typedef short s16;
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} RECT;
+#include "pe1/psyq_gpu.h"
 
 void VSync(int arg0);
 void SetDispMask(int arg0);
