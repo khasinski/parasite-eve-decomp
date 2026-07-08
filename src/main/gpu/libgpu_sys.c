@@ -5,34 +5,6 @@
 
 #include "pe1/psyq_gpu.h"
 
-typedef struct {
-    u_long tag;
-    u_long code[15];
-} DR_ENV;
-
-typedef struct {
-    RECT clip;
-    short ofs[2];
-    RECT tw;
-    u_short tpage;
-    u_char dtd;
-    u_char dfe;
-    u_char isbg;
-    u_char r0;
-    u_char g0;
-    u_char b0;
-    DR_ENV dr_env;
-} DRAWENV;
-
-typedef struct {
-    RECT disp;
-    RECT screen;
-    unsigned char isinter;
-    unsigned char isrgb24;
-    unsigned char pad0;
-    unsigned char pad1;
-} DISPENV;
-
 extern int g_VideoMode;
 
 int LoadImage(RECT *rect, u_long *p);

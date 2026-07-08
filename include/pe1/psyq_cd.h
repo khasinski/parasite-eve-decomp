@@ -12,6 +12,13 @@ typedef struct CdlLOC {
     u_char track;
 } CdlLOC;
 
+typedef struct CdlATV {
+    u_char val0;
+    u_char val1;
+    u_char val2;
+    u_char val3;
+} CdlATV;
+
 typedef struct DsReadStatusBlock {
     u_int status;
     u_int command;

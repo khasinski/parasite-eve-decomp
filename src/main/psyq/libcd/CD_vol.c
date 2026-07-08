@@ -1,11 +1,6 @@
-typedef unsigned char u8;
+#include "pe1/psyq_cd.h"
 
-typedef struct CdlATV {
-    u8 val0;
-    u8 val1;
-    u8 val2;
-    u8 val3;
-} CdlATV;
+typedef unsigned char u8;
 
 extern u8 *g_CdRegIndexBase;
 extern u8 *g_CdRegPort1;

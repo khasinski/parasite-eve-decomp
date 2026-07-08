@@ -10,6 +10,7 @@ typedef long long s64;
 #define NULL ((void *)0)
 
 #include "../../../tools/m2c/m2c_macros.h"
+#include "pe1/psyq_gpu.h"
 
 s32 Akao_Cmd_F0();
 s32 VSync();
@@ -30,22 +31,6 @@ extern s32 g_GameState;
 extern s32 g_PeImageBaseLba;
 extern s32 g_StrFileDirBuffer;
 extern u16 g_StrFileDirLba[];
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} RECT;
-
-typedef struct {
-    RECT disp;
-    RECT screen;
-    s8 isinter;
-    s8 isrgb24;
-    s8 pad0;
-    s8 pad1;
-} DISPENV;
 
 s32 CdRom_ReadSectors(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 Sys_VSyncTimeout(s32 *status);

@@ -1,5 +1,6 @@
 /* MASPSX_FLAGS: --store-return-delay */
 #include "include_asm.h"
+#include "pe1/psyq_cd.h"
 
 extern void CD_sync(void);
 
@@ -8,13 +9,6 @@ extern void CD_ready(void);
 extern int g_CdSyncCallback;
 
 extern int g_CdReadyCallback;
-
-typedef struct CdlATV {
-    unsigned char val0;
-    unsigned char val1;
-    unsigned char val2;
-    unsigned char val3;
-} CdlATV;
 
 extern void CD_vol(CdlATV *vol);
 
@@ -25,8 +19,6 @@ extern int CD_getsector(void);
 void DMACallback(int arg0, int arg1);
 
 extern void CD_datasync(void);
-
-#include "pe1/psyq_cd.h"
 
 void CdSync(void) {
     CD_sync();

@@ -20,6 +20,34 @@ typedef struct RECT32 {
     int h;
 } RECT32;
 
+typedef struct DR_ENV {
+    u_long tag;
+    u_long code[15];
+} DR_ENV;
+
+typedef struct DRAWENV {
+    RECT clip;
+    short ofs[2];
+    RECT tw;
+    u_short tpage;
+    u_char dtd;
+    u_char dfe;
+    u_char isbg;
+    u_char r0;
+    u_char g0;
+    u_char b0;
+    DR_ENV dr_env;
+} DRAWENV;
+
+typedef struct DISPENV {
+    RECT disp;
+    RECT screen;
+    u_char isinter;
+    u_char isrgb24;
+    u_char pad0;
+    u_char pad1;
+} DISPENV;
+
 /*
  * Many GPU helpers in src/main/main currently keep local callback-table
  * structs because register allocation is sensitive there. Centralize RECT
