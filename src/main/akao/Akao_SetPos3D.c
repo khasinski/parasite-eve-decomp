@@ -1,27 +1,28 @@
-typedef unsigned short u16;
+#include "pe1/akao/pos.h"
+
 typedef unsigned char u8;
 typedef int s32;
 
-typedef struct PackedRect3 {
-    u16 x;
-    u16 y;
-    u16 z;
+typedef unsigned short u16;
+
+typedef struct AkaoPosPanWork {
+    AkaoPackedRect3 rect;
     s32 out1;
     s32 out2;
-} PackedRect3;
+} AkaoPosPanWork;
 
 extern void Akao_Calc3DPan(u16 *rect, s32 *out1, s32 *out2);
 extern s32 Akao_Cmd_24(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern u8 D_800B0CE8[];
 
 s32 Akao_SetPos3D(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u16 arg4) {
-    PackedRect3 local;
+    AkaoPosPanWork local;
     s32 ret = 0;
 
-    local.x = arg2;
-    local.y = arg3;
-    local.z = arg4;
-    Akao_Calc3DPan(&local.x, &local.out1, &local.out2);
+    local.rect.x = arg2;
+    local.rect.y = arg3;
+    local.rect.z = arg4;
+    Akao_Calc3DPan((u16 *)&local.rect, &local.out1, &local.out2);
 
     {
         u8 *base = D_800B0CE8;

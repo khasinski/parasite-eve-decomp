@@ -1,22 +1,8 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef short s16;
-
-typedef struct ItemSlot {
-    char pad0[9];
-    u8 count_bonus;
-    u16 ammo;
-    u16 reserve_ammo;
-    char padE[4];
-    s16 max_bonus;
-} ItemSlot;
-
-extern ItemSlot g_InvCompareSlotLeft;
-extern ItemSlot g_InvCompareSlotRight;
+#include "pe1/inventory.h"
 
 int Spend_Ammo(int amount) {
-    ItemSlot *src;
-    ItemSlot *dst;
+    InvItemSlot *src;
+    InvItemSlot *dst;
     int new_src;
     int new_dst;
     int max;

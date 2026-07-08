@@ -1,21 +1,9 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
+#include "pe1/aya.h"
 
-typedef struct AyaSaveData {
-    int total_exp;
-    u8 pad04[2];
-    u16 hp_max;
-    u8 pad08[2];
-    u8 level;
-    u8 pad0B[5];
-    int bonus_points;
-    u8 pad14[0x14];
-    s16 stats[7];
-} AyaSaveData;
+typedef short s16;
 
 extern int g_MenuPendingTotalExp;
 extern int g_MenuExpAllocTarget;
@@ -30,7 +18,7 @@ extern int g_BonusPointBarAnimStep;
 extern int g_BonusPointStatQueryResults[];
 extern int g_BonusPointStatDeltas[];
 extern int g_BonusPointStatMultipliers[];
-extern AyaSaveData D_800C0E00;
+extern AyaSaveState D_800C0E00;
 
 void BattleCmd_SyncActiveAmmo(void);
 void Stat_QueryLevelAndSubLevel(int stat, int value, int *out, int arg3);
@@ -57,8 +45,8 @@ void Menu_InitBonusPointAllocState(int gained_points) {
     g_MenuLevelDisplayValue = D_800C0E00.level;
     D_8009CFF0 = D_800C0E00.level;
     g_MenuLevelDisplayTarget = D_800C0E00.level;
-    g_MenuHpMaxDisplayValue = D_800C0E00.hp_max;
-    g_MenuHpMaxDisplayTarget = D_800C0E00.hp_max;
+    g_MenuHpMaxDisplayValue = D_800C0E00.max_hp;
+    g_MenuHpMaxDisplayTarget = D_800C0E00.max_hp;
     g_BonusPointDisplayValue = D_800C0E00.bonus_points;
 
     if (gained_points < 0) {
@@ -66,7 +54,7 @@ void Menu_InitBonusPointAllocState(int gained_points) {
     }
     g_MenuBonusPointDisplayTarget = D_800C0E00.bonus_points + gained_points;
 
-    source = D_800C0E00.stats;
+    source = (s16 *)&D_800C0E00.stat_agility;
     stat = 0;
     multipliers = g_BonusPointStatMultipliers;
     query_results = g_BonusPointStatQueryResults;

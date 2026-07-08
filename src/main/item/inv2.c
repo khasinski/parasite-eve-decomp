@@ -4,13 +4,9 @@ int Inv_GetBonusSlotCount(void);
 
 typedef unsigned char u8;
 
-extern u8 g_InvItemSlotArray[];
+#include "pe1/inventory.h"
 
-typedef struct {
-    u8 pad0[5];
-    u8 flags;
-    u8 kind;
-} Unk80052FCC;
+extern u8 g_InvItemSlotArray[];
 
 int Inv_GetAyaSlotLimit(void) {
     if (g_AyaInventorySlotCount[0] + Inv_GetBonusSlotCount() >= 0x33) {
@@ -20,7 +16,7 @@ int Inv_GetAyaSlotLimit(void) {
     return g_AyaInventorySlotCount[0] + Inv_GetBonusSlotCount();
 }
 
-void Inv_ClearEquipFlagForKind(Unk80052FCC *obj) {
+void Inv_ClearEquipFlagForKind(InvItemSlot *obj) {
     u8 *base;
     u8 *entry;
     u8 *end;

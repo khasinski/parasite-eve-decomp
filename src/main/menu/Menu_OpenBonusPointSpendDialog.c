@@ -7,6 +7,8 @@ typedef unsigned short u16;
 typedef int s32;
 typedef unsigned int u32;
 
+#include "pe1/inventory.h"
+
 typedef struct MenuWidgetNode {
     char pad00[0x28];
     s32 field28;
@@ -15,17 +17,12 @@ typedef struct MenuWidgetNode {
     s32 field34;
 } MenuWidgetNode;
 
-typedef struct ItemRecord {
-    char bytes[0x20];
-} ItemRecord;
-
 extern s32 g_BonusPointDisplayValue;
 extern s32 g_MenuSpendArrowDirection;
 extern s32 g_BonusPointSpendStat;
 extern s32 g_BonusPointSpendWorkingValue;
 extern s32 g_BonusPointSpendCurrentValue;
 extern s32 g_BonusPointStatDeltas[];
-extern ItemRecord D_800A1A00;
 
 void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
@@ -37,7 +34,7 @@ s32 Spend_BonusPoints(s32);
 
 void Menu_OpenBonusPointSpendDialog(s32 arg0, s32 arg1) {
     MenuWidgetNode *node;
-    ItemRecord *record;
+    InvItemSlot *record;
 
     node = MenuWidget_CreateSimpleNode(9, arg0, 0, 1);
     node->field30 = Menu_DrawBonusPointSpendPanel;
