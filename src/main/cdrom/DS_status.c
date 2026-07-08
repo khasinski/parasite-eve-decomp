@@ -21,12 +21,12 @@ int DsRead_IsBusy(void);
 int printf(char *fmt, ...);
 
 void DS_status(void) {
-    register u32 *state asm("$16");
-    register int b0 asm("$5");
-    register int b1 asm("$6");
-    register int b2 asm("$7");
-    register int b3 asm("$2");
-    register int b4 asm("$3");
+    u32 *state;
+    int b0;
+    int b1;
+    int b2;
+    int b3;
+    int b4;
     char *busy;
 
     printf(D_80011D74);
@@ -43,7 +43,6 @@ void DS_status(void) {
     printf(D_80011DD8, state[9]);
     printf(D_80011DF8, state[8]);
     printf(D_80011E0C, D_800A36A0, D_800A36A4, D_800A36A8);
-    asm volatile("" ::: "memory");
 
     if (DsRead_IsBusy() != 0) {
         busy = D_80011E3C;
