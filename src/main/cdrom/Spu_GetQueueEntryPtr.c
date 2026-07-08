@@ -1,17 +1,14 @@
-
-typedef struct Entry {
-    unsigned char pad[0x18];
-} Entry;
+#include "pe1/psyq_cd.h"
 
 extern int g_CdPendingReadCount;
 
-Entry *Spu_GetQueueEntryPtr(void) {
+CdDsReadQueueEntry *Spu_GetQueueEntryPtr(void) {
     int *base;
     int index;
     int delta;
     int offset;
     int scaled;
-    char *entry_base;
+    CdDsReadQueueEntry *entry_base;
 
     base = &g_CdPendingReadCount;
     asm volatile("" : "=r"(base) : "0"(base));
@@ -28,7 +25,7 @@ Entry *Spu_GetQueueEntryPtr(void) {
 
     offset = index * 3;
     scaled = offset << 3;
-    entry_base = (char *)(base - 50);
+    entry_base = (CdDsReadQueueEntry *)(base - 50);
     asm volatile("addu %0,%0,%1" : "=r"(scaled) : "r"(entry_base), "0"(scaled));
-    return (Entry *)scaled;
+    return (CdDsReadQueueEntry *)scaled;
 }

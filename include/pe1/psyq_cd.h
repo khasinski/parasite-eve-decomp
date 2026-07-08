@@ -46,4 +46,14 @@ typedef struct CdQueuedCmdSlot {
     u_char unk_0D[3];
 } CdQueuedCmdSlot;
 
+typedef struct CdDsReadQueueEntry {
+    u_int active;
+    u_char command;
+    u_char payload[4];
+    u_char unk_09[3];
+    u_int arg0C;
+    u_int arg10;
+    u_int arg14;
+} CdDsReadQueueEntry;
+
 #endif

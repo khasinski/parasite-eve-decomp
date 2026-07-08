@@ -1,5 +1,7 @@
 /* MASPSX_FLAGS: --la-return-delay */
 
+#include "pe1/psyq_cd.h"
+
 extern int g_CdStreamRingSize;
 extern int g_CdStreamRingWritePtr;
 extern int g_CdStreamRingReadSlot;
@@ -28,7 +30,7 @@ extern unsigned char g_CdMode;
 
 extern unsigned char g_CdLastCom;
 
-extern unsigned char g_CdLastPos[];
+extern CdlLOC g_CdLastPos;
 
 void StClearRing(void) {
     int arg1 = g_CdStreamRingSize;
@@ -73,6 +75,6 @@ int CdLastCom(void) {
     return g_CdLastCom;
 }
 
-unsigned char *CdLastPos(void) {
-    return g_CdLastPos;
+CdlLOC *CdLastPos(void) {
+    return &g_CdLastPos;
 }
