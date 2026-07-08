@@ -1,18 +1,20 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
+#include "pe1/psyq_cd.h"
+
 extern int g_DsStreamNoLocFlag;
 
 int DsDataCallback(void *arg0);
 int DsSyncCallback(void *arg0);
-int Render_BuildParticleFrame(int arg0, void *arg1, int arg2, void *arg3, int arg4);
+int Render_BuildParticleFrame(int arg0, CdlLOC *arg1, int arg2, void *arg3, int arg4);
 void data_ready_callback(void);
 void CdRom_BreakSyncCallback(void);
 
-int DsRead2(void *pos, int mode) {
+int DsRead2(CdlLOC *pos, int mode) {
     void *saved_data;
     register int saved_mode asm("$16");
     void *saved_sync;
-    register void *saved_pos asm("$18");
+    register CdlLOC *saved_pos asm("$18");
     int ret;
 
     saved_pos = pos;
