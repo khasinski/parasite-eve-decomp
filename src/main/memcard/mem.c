@@ -1,26 +1,26 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 #include "include_asm.h"
 
+#include "pe1/card_obj.h"
+
 typedef unsigned char u8;
 
-void CardObj_EmitCommand43(void *arg0, int arg1);
+void CardObj_EmitCommand43(CardObj *arg0, unsigned char arg1);
 void CardObj_EmitReadCommandForState(void);
 
 extern void (*g_MemCardObjResetFn)(void *);
 
-#include "pe1/card_obj.h"
-
-int MemCard_StateDispatch(u8 *obj) {
+int MemCard_StateDispatch(CardObj *obj) {
     void (*callback)(void *);
     int state;
 
-    if (((u8 *)*(void **)(obj + 0x3C))[0] == 0xF3) {
-        if (obj[0xE8] == 0) {
+    if (obj->response_3c[0] == 0xF3) {
+        if (obj->field_e8 == 0) {
             goto call_zero;
         }
     }
 
-    state = obj[0x46];
+    state = obj->field_46;
     if (state == 1) {
         goto call_one;
     }
@@ -49,7 +49,7 @@ call_zero:
     goto done;
 
 dispatch_callback:
-    callback = *(void **)(obj + 0x14);
+    callback = obj->fn_14;
     if (callback != 0) {
         callback(obj);
         goto done;
@@ -63,52 +63,52 @@ done:
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem", CardObj_HandleResponse);
 
-void MemCard_OutputHandler(u8 *obj) {
+void MemCard_OutputHandler(CardObj *obj) {
     int state;
     int counter;
 
-    *(int *)(obj + 0x4C) = *(int *)(obj + 0x4C) + 1;
-    state = obj[0x46];
+    obj->field_4c = obj->field_4c + 1;
+    state = obj->field_46;
 
     if (state == 0) {
         goto maybe_reset_output;
     }
     if (state == 1) {
-        counter = obj[0x4A];
+        counter = obj->field_4a;
         if (counter < 2U) {
             goto bump_counter;
         }
-        obj[0x49] = 2;
-        obj[0x46] = 0xFF;
+        obj->field_49 = 2;
+        obj->field_46 = 0xFF;
         goto done;
     }
 
-    counter = obj[0x4A];
+    counter = obj->field_4a;
     if (counter >= 4U) {
         goto maybe_call_callback;
     }
     goto bump_counter;
 
 bump_counter:
-    obj[0x4A] = counter + 1;
+    obj->field_4a = counter + 1;
     goto done;
 
 maybe_call_callback:
-    if (obj[0x49] != 0) {
+    if (obj->field_49 != 0) {
         g_MemCardObjResetFn(obj);
     }
 
 maybe_reset_output:
-    if (((u8 *)*(void **)(obj + 0x3C))[0] != 0xF3) {
+    if (obj->response_3c[0] != 0xF3) {
         int reset;
         register u8 *out_reg asm("$2");
 
         reset = 0xFF;
-        out_reg = *(void **)(obj + 0x30);
+        out_reg = obj->output_30;
         out_reg[0] = reset;
-        out_reg = *(void **)(obj + 0x30);
+        out_reg = obj->output_30;
         out_reg[1] = 0;
-        obj[0xE8] = 0;
+        obj->field_e8 = 0;
     }
 
 done:

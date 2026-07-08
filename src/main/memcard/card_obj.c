@@ -1,34 +1,36 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
-extern int (*g_MemCardObjLookupFn)(void);
+#include "pe1/card_obj.h"
 
-void CardObj_BeginCommand4D(int arg0, int arg1);
+extern CardObj *(*g_MemCardObjLookupFn)(void);
 
-void CardObj_BeginReadIdCommand(int arg0, int arg1, int arg2);
+void CardObj_BeginCommand4D(CardObj *arg0, int arg1);
 
-void CardObj_SetPayload4D(int arg0, int arg1, int arg2);
+void CardObj_BeginReadIdCommand(CardObj *arg0, int arg1, int arg2);
+
+void CardObj_SetPayload4D(CardObj *arg0, int arg1, int arg2);
 
 int CardObj_GetField(int arg0, int mode, int index) {
-    int obj;
+    CardObj *obj;
 
     obj = g_MemCardObjLookupFn();
     switch (mode) {
     case 1:
-        return *(unsigned char *)(obj + 0xE8);
+        return obj->field_e8;
     case 2:
-        return *(unsigned short *)(obj + 0xE6);
+        return obj->field_e6;
     case 3:
-        return *(unsigned char *)(obj + 0xE4);
+        return obj->field_e4;
     case 4:
         if (index < 0) {
-            return *(unsigned char *)(obj + 0xE3);
+            return obj->field_e3;
         }
-        if (index < *(unsigned char *)(obj + 0xE3)) {
-            return *(unsigned short *)((index << 1) + *(int *)obj);
+        if (index < obj->field_e3) {
+            return *(unsigned short *)((index << 1) + (int)obj->field_00);
         }
         goto late_fail;
     case 100:
-        return *(int *)(obj + 0x4C);
+        return obj->field_4c;
     default:
         return 0;
     }
@@ -38,18 +40,18 @@ late_fail:
 }
 
 int CardObj_GetDirEntryField(int arg0, int index0, int selector) {
-    int obj;
+    CardObj *obj;
     int entry;
     int sel;
 
     obj = g_MemCardObjLookupFn();
     if (index0 < 0) {
-        return *(unsigned char *)(obj + 0xE9);
+        return obj->field_e9;
     }
-    if (index0 >= *(unsigned char *)(obj + 0xE9)) {
+    if (index0 >= obj->field_e9) {
         return 0;
     }
-    entry = *(int *)(obj + 0x4) + ((index0 << 2) + index0);
+    entry = (int)obj->field_04 + ((index0 << 2) + index0);
     sel = selector - 1;
     if ((unsigned int)sel < 5) {
         switch (sel) {
@@ -69,17 +71,17 @@ int CardObj_GetDirEntryField(int arg0, int index0, int selector) {
 }
 
 int CardObj_GetFileEntryByte(int arg0, int index0, int index1) {
-    int obj;
+    CardObj *obj;
     int entry;
 
     obj = g_MemCardObjLookupFn();
     if (index0 < 0) {
-        return *(unsigned char *)(obj + 0xEA);
+        return obj->field_ea;
     }
-    if (index0 >= *(unsigned char *)(obj + 0xEA)) {
+    if (index0 >= obj->field_ea) {
         return 0;
     }
-    entry = *(int *)(obj + 0x8) + (index0 << 3);
+    entry = (int)obj->field_08 + (index0 << 3);
     if (index1 < 0) {
         return *(unsigned char *)entry;
     }

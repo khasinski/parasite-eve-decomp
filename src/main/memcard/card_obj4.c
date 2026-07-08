@@ -4,7 +4,7 @@
 
 extern int (*g_MemCardIsTransferActiveFn)(void *);
 
-void CardObj_EmitCommand4D(void *);
+void CardObj_EmitCommand4D(CardObj *);
 void Render_CheckParticleBounds(void *);
 
 int CardObj_BeginCommand4D(CardObj *obj, int arg1) {
@@ -19,11 +19,11 @@ int CardObj_BeginCommand4D(CardObj *obj, int arg1) {
     return 1;
 }
 
-void CardObj_EmitCommand4D(void *arg0)
+void CardObj_EmitCommand4D(CardObj *arg0)
 {
-    int value = *(int *)((char *)arg0 + 0x20);
+    int value = arg0->field_20;
 
-    *((unsigned char *)arg0 + 0x36) = 0x4D;
-    *((unsigned char *)arg0 + 0x35) = 6;
-    *(int *)((char *)arg0 + 0x2C) = value;
+    arg0->command = 0x4D;
+    arg0->payload_2c_len = 6;
+    arg0->payload_2c = (unsigned char *)value;
 }

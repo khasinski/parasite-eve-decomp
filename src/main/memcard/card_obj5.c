@@ -1,31 +1,33 @@
+#include "pe1/card_obj.h"
+
 extern int (*g_MemCardObjResetFn)(void *);
 
-void CardObj_EmitReadIdCommand(void *arg0)
+void CardObj_EmitReadIdCommand(CardObj *arg0)
 {
-    int state = *((unsigned char *)arg0 + 0x46);
+    int state = arg0->field_46;
 
     switch (state) {
     case 2:
-        *((unsigned char *)arg0 + 0x36) = 0x44;
-        *(void **)((char *)arg0 + 0x2C) = (char *)arg0 + 0x51;
-        *((unsigned char *)arg0 + 0x35) = state;
+        arg0->command = 0x44;
+        arg0->payload_2c = (unsigned char *)arg0 + 0x51;
+        arg0->payload_2c_len = state;
         break;
     case 3:
-        *((unsigned char *)arg0 + 0x36) = 0x4D;
-        *(void **)((char *)arg0 + 0x2C) = (char *)arg0 + 0x5D;
-        *((unsigned char *)arg0 + 0x35) = 6;
+        arg0->command = 0x4D;
+        arg0->payload_2c = (unsigned char *)arg0 + 0x5D;
+        arg0->payload_2c_len = 6;
         break;
     }
 }
 
-int CardObj_CheckAbortOrDispatch(void *arg0)
+int CardObj_CheckAbortOrDispatch(CardObj *arg0)
 {
     if (*((unsigned char *)arg0 + 0x53) != 0) {
-        if (*((unsigned char *)arg0 + 0x46) == 2) {
+        if (arg0->field_46 == 2) {
             return 1;
         }
 
-        *((unsigned char *)arg0 + 0x46) = 0xFE;
+        arg0->field_46 = 0xFE;
         return 0;
     }
 
@@ -33,42 +35,42 @@ int CardObj_CheckAbortOrDispatch(void *arg0)
     return 0;
 }
 
-void CardObj_EmitCommand43(unsigned char *arg0, unsigned char arg1) {
-    arg0[0x36] = 0x43;
-    *(unsigned char **)(arg0 + 0x2C) = arg0 + 0x24;
-    arg0[0x24] = arg1;
-    arg0[0x35] = 1;
+void CardObj_EmitCommand43(CardObj *arg0, unsigned char arg1) {
+    arg0->command = 0x43;
+    arg0->payload_2c = (unsigned char *)arg0 + 0x24;
+    arg0->pad_24[0] = arg1;
+    arg0->payload_2c_len = 1;
 }
 
-void CardObj_EmitCommand45(unsigned char *arg0) {
-    arg0[0x36] = 0x45;
-    *(int *)(arg0 + 0x2C) = 0;
-    arg0[0x35] = 0;
+void CardObj_EmitCommand45(CardObj *arg0) {
+    arg0->command = 0x45;
+    arg0->payload_2c = 0;
+    arg0->payload_2c_len = 0;
 }
 
-void CardObj_EmitCommand4C(unsigned char *arg0, unsigned char arg1) {
-    arg0[0x36] = 0x4C;
-    *(unsigned char **)(arg0 + 0x2C) = arg0 + 0x24;
-    arg0[0x24] = arg1;
-    arg0[0x35] = 1;
+void CardObj_EmitCommand4C(CardObj *arg0, unsigned char arg1) {
+    arg0->command = 0x4C;
+    arg0->payload_2c = (unsigned char *)arg0 + 0x24;
+    arg0->pad_24[0] = arg1;
+    arg0->payload_2c_len = 1;
 }
 
-void CardObj_EmitCommand46(unsigned char *arg0, unsigned char arg1) {
-    arg0[0x36] = 0x46;
-    *(unsigned char **)(arg0 + 0x2C) = arg0 + 0x24;
-    arg0[0x24] = arg1;
-    arg0[0x35] = 1;
+void CardObj_EmitCommand46(CardObj *arg0, unsigned char arg1) {
+    arg0->command = 0x46;
+    arg0->payload_2c = (unsigned char *)arg0 + 0x24;
+    arg0->pad_24[0] = arg1;
+    arg0->payload_2c_len = 1;
 }
 
-void CardObj_EmitCommand47(unsigned char *arg0, unsigned char arg1) {
-    arg0[0x36] = 0x47;
-    *(unsigned char **)(arg0 + 0x2C) = arg0 + 0x24;
-    arg0[0x24] = arg1;
-    arg0[0x35] = 1;
+void CardObj_EmitCommand47(CardObj *arg0, unsigned char arg1) {
+    arg0->command = 0x47;
+    arg0->payload_2c = (unsigned char *)arg0 + 0x24;
+    arg0->pad_24[0] = arg1;
+    arg0->payload_2c_len = 1;
 }
 
-void CardObj_EmitCommand4B(unsigned char *arg0) {
-    arg0[0x36] = 0x4B;
-    *(int *)(arg0 + 0x2C) = 0;
-    arg0[0x35] = 0;
+void CardObj_EmitCommand4B(CardObj *arg0) {
+    arg0->command = 0x4B;
+    arg0->payload_2c = 0;
+    arg0->payload_2c_len = 0;
 }
