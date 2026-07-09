@@ -7,13 +7,6 @@ typedef unsigned char u8;
 extern char D_800BC070[];
 extern u32 g_SpuActiveVoiceMask;
 
-typedef signed char s8;
-
-typedef struct {
-    int unk0;
-    s8 value;
-} AkaoGlobalParamCommand;
-
 extern short g_AkaoGlobalD2D0SlideCounter;
 extern int D_8009D2D0;
 

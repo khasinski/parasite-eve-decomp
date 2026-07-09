@@ -1,3 +1,5 @@
+/* MASPSX_FLAGS: --store-jump-delay */
+
 #include "include_asm.h"
 
 #include "include_asm.h"
@@ -52,7 +54,7 @@ void MemCard_StopCounterIrq(void) {
     ExitCriticalSection();
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9", MemCard_DmaProcess);
+INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9_post", MemCard_DmaProcess);
 
 void Timer_StartTimeout(int frames);
 int MemCard_WaitReadyForTransfer(void);
@@ -86,9 +88,9 @@ void MemCard_RunCommandStep(void) {
     }
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9", MemCard_ReadByte);
+INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9_post", MemCard_ReadByte);
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9", MemCard_WriteByte);
+INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9_post", MemCard_WriteByte);
 
 int MemCard_WaitReadyForTransfer(void) {
     MemCardState *state;

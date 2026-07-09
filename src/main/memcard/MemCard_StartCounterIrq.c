@@ -1,3 +1,5 @@
+/* MASPSX_FLAGS: --store-call-delay --stack-return-delay */
+
 extern int D_8009B75C;
 extern void *D_800A5AB0;
 extern int *D_8009B784;
@@ -44,6 +46,5 @@ void MemCard_StartCounterIrq(void) {
     asm volatile("" : "=r"(tail) : "0"(tail));
     tail[1] = 0;
     tail[0] = 0;
-    asm volatile("" : : : "memory");
     D_8009B75C = 1;
 }

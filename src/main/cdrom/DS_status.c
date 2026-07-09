@@ -52,3 +52,5 @@ void DS_status(void) {
     }
     printf(D_80011E4C, busy);
 }
+
+asm(".word 0\n.word 0");
