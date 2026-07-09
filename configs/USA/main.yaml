@@ -1191,7 +1191,7 @@ segments:
       - [0x69634, c, psyq/libgte/mtx_10]
       - [0x69664, c, psyq/libgte/mtx_11]
       - [0x69694, c, psyq/libgte/mtx_12]
-      - [0x696B4, asm, psyq/libgte/reg03]
+      - [0x696B4, c, psyq/libgte/reg03]
       - [0x697C4, c, psyq/libgte/reg10]
       - [0x697E4, c, psyq/libgte/reg11]
       - [0x69804, c, psyq/libgte/reg12]
