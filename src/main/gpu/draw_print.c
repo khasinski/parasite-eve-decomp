@@ -17,6 +17,8 @@ extern int D_8009D114;
 extern unsigned int *D_8009D11C;
 extern unsigned short D_8009D124;
 extern unsigned short D_8009D128;
+extern int D_8009D124_WORD __asm__("D_8009D124");
+extern int D_8009D128_WORD __asm__("D_8009D128");
 extern int D_8009D13C;
 extern int D_8009D140;
 extern int D_8009D144;
@@ -460,7 +462,87 @@ void Draw_PrintSignedNumberWidth4(int value) {
     }
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/gpu/draw_print", Draw_PrintTimeValue);
+void Draw_PrintTimeValue(int value, int variant) {
+    int x;
+    int y;
+    register int seconds asm("$3");
+    register int sign asm("$2");
+
+    if (value > 0x57E40) {
+        value = 0x57E3F;
+    }
+
+    g_DrawDigitFontTpageClut = variant != 0 ? 0x3A1C : 0x395D;
+    g_DrawDigitFontBaseTexU = variant != 0 ? 0xCC : 0x84;
+    g_DrawDigitFontBaseTexV = 0xA4;
+
+    Draw_EmitDigitSprite(value / 36000);
+    x = D_8009D124_WORD;
+    y = D_8009D128_WORD;
+    D_8009D124_WORD = x + 5;
+    D_8009D128_WORD = y;
+
+    Draw_EmitDigitSprite(value / 3600);
+    x = D_8009D124_WORD;
+    y = D_8009D128_WORD;
+    D_8009D124_WORD = x + 5;
+    D_8009D128_WORD = y;
+
+    if (variant != 0) {
+        Draw_AllocSprite(0x9B);
+        x = D_8009D124_WORD;
+        y = D_8009D128_WORD;
+        D_8009D124_WORD = x + 3;
+        D_8009D128_WORD = y;
+    } else {
+        Draw_AllocSprite(0x4F);
+        x = D_8009D124_WORD;
+        y = D_8009D128_WORD;
+        D_8009D124_WORD = x + 5;
+        D_8009D128_WORD = y;
+    }
+
+    seconds = value / 600;
+    Draw_EmitDigitSprite(seconds - (seconds / 6) * 6);
+    x = D_8009D124_WORD;
+    y = D_8009D128_WORD;
+    D_8009D124_WORD = x + 5;
+    D_8009D128_WORD = y;
+
+    Draw_EmitDigitSprite(value / 60);
+    x = D_8009D124_WORD;
+    y = D_8009D128_WORD;
+    D_8009D124_WORD = x + 5;
+    D_8009D128_WORD = y;
+
+    if (variant != 0) {
+        Draw_AllocSprite(0x9B);
+        x = D_8009D124_WORD;
+        y = D_8009D128_WORD;
+        D_8009D124_WORD = x + 3;
+        D_8009D128_WORD = y;
+    } else {
+        Draw_AllocSprite(0x4F);
+        x = D_8009D124_WORD;
+        y = D_8009D128_WORD;
+        D_8009D124_WORD = x + 5;
+        D_8009D128_WORD = y;
+    }
+
+    sign = value >> 31;
+    seconds = value / 10;
+    Draw_EmitDigitSprite(seconds - (seconds / 6) * 6);
+    x = D_8009D124_WORD;
+    y = D_8009D128_WORD;
+    D_8009D124_WORD = x + 5;
+    D_8009D128_WORD = y;
+
+    Draw_EmitDigitSprite(value);
+
+    g_DrawDigitFontTpageClut = 0x395D;
+    g_DrawDigitFontBaseTexU = 0x84;
+    g_DrawDigitFontBaseTexV = 0xA4;
+}
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/gpu/draw_print", Draw_AllocTexturedRect);
 

@@ -23,16 +23,37 @@ extern BattleCmdEntry *D_8009D014;
 extern char D_800A1B30[];
 
 typedef signed char s8;
+typedef unsigned char u8;
 typedef short s16;
+typedef unsigned short u16;
 typedef unsigned int u32;
 
+typedef struct {
+    u32 w[6];
+} InvWeaponStateCopy;
+
+typedef struct {
+    u32 w[2];
+} InvArmorStateCopy;
+
 extern u32 D_800A1AA0[];
+extern int D_8009D018;
+extern void *D_8009D1E0;
+extern struct { char _[16]; } D_8009D254_o __asm__("D_8009D254");
+#define D_8009D254 (*(void **)&D_8009D254_o)
 extern s16 D_800C0E48[];
 extern s8 D_800C0E20[];
 extern s8 D_800C0E22[];
 
 int Inv_CheckSlotUsable(int data);
 int Inv_FindIndexByData(int data);
+void MenuWidget_InitPool(void);
+int Menu_GetBattleEquipMode(void);
+void Battle_DispatchSpecialAction(int action);
+void Inv_BuildWeaponList(int arg0, void *arg1);
+void Inv_BuildArmorList(void *arg0);
+void Inv_SelectActiveList(int useOverride);
+void BattleCmd_LoadWeaponModifiers(void);
 
 int g_MenuCommandResult;
 
@@ -159,7 +180,129 @@ void BattleCmd_UndoAllPending(void) {
     }
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/menu/menu29", Inv_SetActiveList);
+void Inv_SetActiveList(int mode, void *arg1) {
+    register void *arg1_reg asm("$7");
+    register void *core asm("$6");
+    register void *entity_ptr asm("$3");
+    register void *raw_core asm("$3");
+    register u32 core_mask asm("$2");
+    int result;
+    int item_type;
+    register u32 *src asm("$2");
+    u32 *dst;
+    register u32 *weapon_state asm("$5");
+    void *item;
+    u32 word;
+    register u32 clear_low asm("$4");
+
+    arg1_reg = arg1;
+    entity_ptr = D_8009D254;
+    core = 0;
+    if (entity_ptr != 0) {
+        raw_core = *(void **)entity_ptr;
+        core_mask = raw_core != 0;
+        core_mask = -core_mask;
+        core = (void *)((u32)raw_core & core_mask);
+    }
+
+    switch (mode) {
+    case 0:
+        g_MenuCommandResult = *(int *)arg1_reg + 3;
+        break;
+
+    case 1:
+        g_MenuCommandResult = *(int *)arg1_reg + 0x183;
+        break;
+
+    case 2:
+        if (core != 0) {
+            dst = (u32 *)D_8009D1E0;
+            if (dst != 0) {
+                src = *(u32 **)((char *)core + 0x68);
+                *(InvWeaponStateCopy *)dst = *(InvWeaponStateCopy *)src;
+                Inv_BuildWeaponList(0, D_8009D1E0);
+            }
+            if (Menu_GetBattleEquipMode() != 0) {
+                g_MenuCommandResult = 0x197;
+            } else {
+                Battle_DispatchSpecialAction(0x197);
+            }
+        }
+        break;
+
+    case 3:
+        if (core != 0) {
+            dst = (u32 *)D_8009D1E0;
+            if (dst != 0) {
+                src = *(u32 **)((char *)core + 0x6C);
+                *(InvArmorStateCopy *)dst = *(InvArmorStateCopy *)src;
+                Inv_BuildArmorList(D_8009D1E0);
+            }
+            if (Menu_GetBattleEquipMode() != 0) {
+                g_MenuCommandResult = 0x198;
+            } else {
+                Battle_DispatchSpecialAction(0x198);
+            }
+        }
+        break;
+
+    case 5:
+        if (core != 0) {
+            clear_low = -0x400;
+            weapon_state = *(u32 **)((char *)core + 0x68);
+            item = *(void **)arg1_reg;
+            word = weapon_state[3];
+            word &= clear_low;
+            word |= *(u16 *)((char *)item + 0xA) & 0x3FF;
+            weapon_state[3] = word;
+
+            item_type = *(u8 *)((char *)item + 6);
+            if (item_type != 0 && item_type < 8) {
+                result = item_type - 4;
+                if (result <= 0) {
+                    result = 1;
+                }
+            } else if (item_type < 0x13) {
+                result = 0;
+            } else {
+                result = item_type - 0x12;
+            }
+
+            word = weapon_state[3];
+            word &= 0xFFCFFFFF;
+            word |= (result & 3) << 20;
+            weapon_state[3] = word;
+        }
+        break;
+
+    case 8:
+        g_MenuCommandResult = 0x199;
+        break;
+
+    case 9:
+        g_MenuCommandResult = -1;
+        break;
+
+    case 10:
+        g_MenuCommandResult = 1000;
+        break;
+
+    case 11:
+        g_MenuCommandResult = 1;
+        break;
+
+    case 12:
+        D_8009D018 = 4;
+        Inv_SelectActiveList(0);
+        BattleCmd_LoadWeaponModifiers();
+        g_MenuCommandResult = 2;
+        break;
+    }
+
+    if (g_MenuCommandResult != 0) {
+        MenuWidget_InitPool();
+    }
+}
 
 int Menu_GetCommandResult(void) {
     return g_MenuCommandResult;
