@@ -17,11 +17,30 @@ extern s16 D_8009D298[];
 extern u8 D_8009D29A[];
 extern u8 D_8009D29B[];
 extern u32 D_8009D29C[];
+extern u8 D_8009CE74;
+extern struct { char _[16]; } D_8009D254_o __asm__("D_8009D254");
+extern struct { char _[16]; } D_8009D1A0_o __asm__("D_8009D1A0");
+extern s16 D_8009D2A4;
+extern u32 D_8009D304;
+extern u16 D_8009D21C;
+extern struct { char _[16]; } D_800A7FF0_o __asm__("D_800A7FF0");
+extern u32 D_8009D28C;
+extern struct { char _[16]; } D_800B0CD8_o __asm__("D_800B0CD8");
+#define D_8009D254 (*(void **)&D_8009D254_o)
+#define D_8009D1A0 (*(u32 *)&D_8009D1A0_o)
+#define D_800A7FF0_addr ((void *)&D_800A7FF0_o)
+#define D_800B0CD8 (*(u32 *)&D_800B0CD8_o)
 
 void Battle_SaveAyaState(void);
 void Save_ResetGlobalFlags(void);
 void Battle_FlushScriptSounds(void);
 void Tbl_ResetAll(void);
+void Pm_StopAllBoth(void);
+void Aya_SetTotalExp(u32 arg0, u16 arg1, void *arg2);
+void Render_BeginSceneLoad(void);
+void Entity_SetActionMode(void *entity, int mode);
+int CD_StepReadState(int arg0);
+void Battle_SetupPlayerPalette(void);
 
 /* Function body emitted as asm() (PSYQ GCC 2.7.2 register
  * allocation / scheduling diverges from the ROM pervasively).
@@ -131,6 +150,70 @@ INCLUDE_ASM("asm/USA/main/nonmatchings/main/battle3", Battle_Update);
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/main/battle3", Battle_StepVictory);
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/main/battle3", Battle_StepLevelUp);
+void Battle_StepLevelUp(void) {
+    u8 step;
+    void *entity;
+    u32 flags;
+
+    step = D_8009CE74;
+    switch (step) {
+    case 0:
+        entity = D_8009D254;
+        if (*(u16 *)((u8 *)entity + 0x16) != 0xA && (D_8009D1A0 & 0x800) == 0) {
+            break;
+        }
+        {
+            register u32 entity_flags asm("$2");
+
+            entity_flags = *(u32 *)((u8 *)entity + 0x98);
+            *(u32 *)((u8 *)entity + 0x98) = entity_flags | 0x100;
+        }
+        Pm_StopAllBoth();
+        Aya_SetTotalExp(D_8009D304, D_8009D21C, D_800A7FF0_addr);
+        Render_BeginSceneLoad();
+        D_8009CE74++;
+        break;
+
+    case 1:
+        if (D_8009D2A4 == 0x3E8) {
+            entity = D_8009D254;
+            D_8009CE74 = step + 1;
+            *(u32 *)((u8 *)entity + 0x98) &= -0x101;
+        }
+        break;
+
+    case 2:
+        entity = D_8009D254;
+        if (*(u8 *)((u8 *)entity + 0xF) == *(u16 *)((u8 *)entity + 0x1A)) {
+            flags = D_8009D1A0;
+            if ((flags & 0x1800) == 0) {
+                Entity_SetActionMode(entity, 0x15);
+            } else {
+                register u32 cleared_flags asm("$2");
+
+                cleared_flags = flags & -0x1801;
+                asm volatile(
+                    ".set noat\n"
+                    "lui $1, %%hi(D_8009D1A0)\n"
+                    "sw %0, %%lo(D_8009D1A0)($1)\n"
+                    ".set at"
+                    :
+                    : "r"(cleared_flags)
+                    : "$1", "memory");
+                Entity_SetActionMode(entity, 0x18);
+            }
+            D_8009CE74++;
+        }
+        break;
+
+    case 3:
+        if (CD_StepReadState(0) != 1) {
+            Battle_SetupPlayerPalette();
+            D_8009D28C = 9;
+            D_800B0CD8 &= 0xFFFF7FFF;
+        }
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/main/battle3", Battle_StepPostBattle);
