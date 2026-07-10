@@ -45,7 +45,59 @@ int CdReadyCallback(int callback) {
     return old;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/psyq/cd4", func_8007A4D0);
+int func_8007A4D0(int arg0, void *arg1, void *arg2) {
+    register void *arg1_reg asm("$17");
+    register void *arg2_reg asm("$18");
+    register int arg0_reg asm("$20");
+    register int retries asm("$16");
+    register int cmd asm("$19");
+    register int saved_callback asm("$21");
+    register int *slot asm("$22");
+    register int result asm("$23");
+    register int *slot_base asm("$3");
+    register int slot_offset asm("$2");
+    int minus_one;
+    register int one asm("$8");
+
+    arg1_reg = arg1;
+    arg2_reg = arg2;
+    arg0_reg = arg0;
+    retries = 3;
+    cmd = arg0_reg & 0xFF;
+    slot_base = D_8009AF2C;
+    saved_callback = D_8009AFB4;
+    slot_offset = cmd << 2;
+    slot = (int *)((char *)slot_base + slot_offset);
+    result = 0;
+    minus_one = -1;
+
+    do {
+        D_8009AFB4 = 0;
+        one = 1;
+        if (cmd != one && (D_8009AFC4 & 0x10)) {
+            CD_cw(1, 0, 0, 0);
+        }
+
+        if (arg1_reg != 0 && *slot != 0) {
+            if (CD_cw(2, arg1_reg, (int)arg2_reg, 0) != 0) {
+                goto retry;
+            }
+        }
+
+        D_8009AFB4 = saved_callback;
+        if (CD_cw(arg0_reg & 0xFF, arg1_reg, (int)arg2_reg, 0) == 0) {
+            goto out;
+        }
+
+retry:
+        retries--;
+    } while (retries != minus_one);
+
+    D_8009AFB4 = saved_callback;
+    result = -1;
+out:
+    return result + 1;
+}
 
 int func_8007A60C(int arg0, void *arg1) {
     register void *arg1_reg asm("$17");
