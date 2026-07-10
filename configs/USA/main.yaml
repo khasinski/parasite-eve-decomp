@@ -497,7 +497,7 @@ segments:
       - [0x35AC0, c, menu/Menu_AmmoSpendInputHandler]
       - [0x35BE8, c, menu/Menu_DrawAmmoSpendPanel]
       - [0x35C2C, c, menu/Menu_CreateEquipItemSelectionView]
-      - [0x35D1C, asm, menu/Menu_DrawEquipStatsDelta]
+      - [0x35D1C, c, menu/Menu_DrawEquipStatsDelta]
       - [0x35E70, c, main/Menu_StepItemGridScroll]
       - [0x36298, asm, main/Menu_StepEquipSlotSelect]
       - [0x3650C, c, main/Menu_StepSkillScreen]
