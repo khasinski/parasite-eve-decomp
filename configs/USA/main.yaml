@@ -770,7 +770,7 @@ segments:
       - [0x4C708, c, save/Save_GetMetadataRemainingChars]
       - [0x4C744, c, item/misc18]
       - [0x4C974, c, item/Inventory_OpenAyaItemList]
-      - [0x4C9EC, asm, memcard/MemCard_SetDialogActive]
+      - [0x4C9EC, c, memcard/MemCard_SetDialogActive]
       - [0x4CA5C, c, save/Save_BuildHeader]
       - [0x4CB74, asm, save/Save_RestoreHeader]
       - [0x4CC88, c, menu/Menu_RequestErrorSound]
