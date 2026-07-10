@@ -875,7 +875,7 @@ segments:
       - [0x56648, c, render/Render_SetViewport]
       - [0x569A4, c, render/Render_SetGteScreenOffset]
       - [0x569CC, c, render/Render_ResetGteScreenOffset]
-      - [0x569EC, asm, render/Render_SetScrollMode]
+      - [0x569EC, c, render/Render_SetScrollMode]
       - [0x56A68, asm, main/Scene_IsNotBattleMode]
       - [0x56DA0, c, render/Render_UpdateScrollPosition]
       - [0x57000, c, gpu/Gpu_LoadGeomState]
