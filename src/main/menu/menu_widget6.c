@@ -46,7 +46,93 @@ int MenuWidget_GetCellIndex(void *w) {
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/menu/menu_widget6", MenuWidget_DrawListRow);
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/menu/menu_widget6", Draw_AllocPrimWithMask);
+typedef signed short s16;
+typedef unsigned int u32;
+
+typedef struct DrawAreaRect {
+    s16 x;
+    s16 y;
+    s16 w;
+    s16 h;
+} DrawAreaRect;
+
+extern MenuWidgetNode *D_8009D154;
+extern u32 D_8009D100;
+extern u32 D_8009D104;
+extern int D_8009D108;
+extern u32 *D_8009D11C;
+
+void BoundsCheck_AssertStub(int arg0);
+void SetDrawArea(void *packet, DrawAreaRect *rect);
+
+void Draw_AllocPrimWithMask(MenuWidgetNode *node) {
+    MenuWidgetNode *parent;
+    MenuWidgetNode *scan;
+    MenuWidgetNode *child;
+    int i;
+    int x;
+    int y;
+    int w;
+    int h;
+    u32 oldPacket;
+    u32 nextPacket;
+    u32 *packet;
+    u32 *ot;
+    DrawAreaRect rect;
+
+    x = 0;
+    y = 0;
+    parent = node;
+    while (parent != 0) {
+        x += parent->value_18;
+        y += parent->value_1C;
+        child = 0;
+        scan = D_8009D154;
+        while (scan != 0) {
+            i = 0;
+            while (i < 4) {
+                if (*(MenuWidgetNode **)((char *)scan + 8 + (i * 4)) == parent) {
+                    child = scan;
+                    break;
+                }
+                i++;
+            }
+            if (child != 0) {
+                break;
+            }
+            scan = scan->next;
+        }
+        parent = child;
+    }
+
+    w = node->field_3C * node->grid_width;
+    h = node->field_40 * node->visible_rows;
+    if (D_8009D108 != 0) {
+        y += 0xE0;
+    }
+    rect.x = x;
+    rect.y = y;
+    rect.w = w;
+    rect.h = h;
+
+    packet = 0;
+    oldPacket = D_8009D100;
+    nextPacket = oldPacket + 0xC;
+    if (nextPacket < D_8009D104 + 0x4000) {
+        D_8009D100 = nextPacket;
+        packet = (u32 *)oldPacket;
+    } else {
+        BoundsCheck_AssertStub(1);
+    }
+
+    if (packet != 0) {
+        SetDrawArea(packet, &rect);
+    }
+
+    ot = D_8009D11C;
+    packet[0] = (packet[0] & 0xFF000000) | (*ot & 0xFFFFFF);
+    *ot = (*ot & 0xFF000000) | ((u32)packet & 0xFFFFFF);
+}
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/menu/menu_widget6", MenuWidget_DrawList);
 

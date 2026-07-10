@@ -19,7 +19,6 @@ extern int D_8009B76C;
 extern int D_8009B774;
 extern int D_8009B778;
 extern int D_8009B78C;
-extern void *D_8009B788;
 extern int D_800A5AC4;
 extern MemCardStepFn D_8009B7A8[];
 extern MemCardErrorFn D_8009B724;
@@ -31,17 +30,22 @@ extern void SysDeqIntRP(int, void *);
 extern int g_MemCardCounterIrqQueueNode;
 
 typedef unsigned short u16;
+typedef unsigned char u8;
 
 typedef struct {
-    unsigned char field0;
+    volatile unsigned char field0;
     unsigned char pad1[3];
-    u16 field4;
+    volatile u16 field4;
     u16 pad6;
     u16 pad8;
-    u16 fieldA;
+    volatile u16 fieldA;
 } TimerRegs;
 
 extern TimerRegs * volatile g_MemCardSioRegs;
+extern TimerRegs *D_8009B788;
+extern volatile int *D_8009B784;
+extern int D_800A76D0;
+extern int D_800BD02C;
 
 int Spu_CheckTimerElapsed(void);
 int MemCard_DmaProcess();
@@ -88,7 +92,69 @@ void MemCard_RunCommandStep(void) {
     }
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9_post", MemCard_ReadByte);
+typedef struct {
+    char pad0[0x3C];
+    u8 *buffer;
+    u8 *out;
+    u8 index;
+    u8 count;
+} MemCardTransfer;
+
+int MemCard_ReadByte(MemCardTransfer *transfer, int value) {
+    register TimerRegs *regs asm("$2");
+    register int data asm("$18") = value;
+    register int result asm("$17");
+    register int control asm("$6");
+    register u8 *out asm("$3");
+    volatile unsigned short *timer_count;
+
+    if (data < 0) {
+        regs = D_8009B788;
+        out = transfer->out;
+        result = regs->field0;
+        transfer->index = 0xFF;
+        transfer->count = 1;
+        *out = ~data;
+        regs = D_8009B788;
+        while ((regs->field4 & 1) == 0) {
+        }
+        while (Spu_CheckTimerElapsed() == 0) {
+        }
+        D_8009B788->field0 = ~data;
+        return result;
+    }
+
+    if ((transfer->buffer[0] >> 4) == 8) {
+        control = 0x88;
+        if (transfer->index >= 9) {
+            control = 0x22;
+        }
+    } else {
+        control = 0x88;
+    }
+
+    timer_count = (volatile unsigned short *)0x1F801120;
+    regs = D_8009B788;
+    D_800BD02C = 0x1AE;
+    D_800A76D0 = *timer_count;
+    while ((regs->field4 & 2) == 0) {
+    }
+
+    regs = D_8009B788;
+    result = regs->field0;
+    regs->fieldA = control;
+    while ((*D_8009B784 & 0x80) == 0) {
+        if (Spu_CheckTimerElapsed() != 0) {
+            return -0x14;
+        }
+    }
+
+    D_8009B788->field0 = data;
+    transfer->count++;
+    transfer->buffer[transfer->index] = result;
+    transfer->index++;
+    return result;
+}
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9_post", MemCard_WriteByte);
 

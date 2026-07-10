@@ -2,7 +2,7 @@
 
 #include "pe1/akao.h"
 
-int Spu_ValidateSampleHeader(void);
+int Spu_ValidateSampleHeader();
 
 extern volatile int D_8009D2E0;
 
@@ -450,7 +450,72 @@ int Spu_SetStreamModeB(void) {
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/akao/akao_cmd", Spu_UploadStreamBlockA);
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/akao/akao_cmd", Spu_UploadStreamBlockB);
+int Spu_WriteRegChecked(int arg0);
+void Spu_UploadWithPrepare(int arg0, int arg1);
+void Spu_RebaseStreamAddrs(unsigned char *ptr, int value, int count);
+
+extern int D_800B4900[];
+
+int Spu_UploadStreamBlockB(int arg0, unsigned char *arg1) {
+    register int mode asm("$21") = arg0;
+    register unsigned char *cursor asm("$16") = arg1;
+    register unsigned char *src asm("$17");
+    register int size asm("$18");
+    register int count asm("$19");
+    register int spu_addr asm("$20");
+    register int start asm("$2");
+    register int *dst asm("$4");
+    register int ret asm("$2");
+    register int base asm("$3");
+    register int base_addr asm("$2");
+
+    if ((mode & -2) != 0) {
+        return 1;
+    }
+
+    if (Spu_ValidateSampleHeader(cursor) != 0) {
+        return -1;
+    }
+
+    cursor += 0x14;
+    asm volatile("" : "=r"(cursor) : "0"(cursor));
+    size = *(int *)cursor;
+    cursor += 4;
+    asm volatile("" : "=r"(cursor) : "0"(cursor));
+    start = *(int *)cursor;
+    cursor += 4;
+    asm volatile("" : "=r"(cursor) : "0"(cursor));
+    count = *(int *)cursor;
+    asm volatile("" : "=r"(cursor) : "0"(cursor));
+    if (count != 0) {
+        count -= start;
+    } else {
+        count = 0x100 - start;
+    }
+
+    src = cursor + 0x24;
+    start = count << 6;
+    cursor = src + start;
+    base = 0x68000;
+    start = mode << 13;
+    spu_addr = start + base;
+    Spu_WriteRegChecked(spu_addr);
+    Spu_UploadWithPrepare((int)cursor, size);
+    Spu_RebaseStreamAddrs(src, spu_addr, count);
+
+    spu_addr = mode << 10;
+    base_addr = (int)D_800B4900;
+    dst = (int *)(spu_addr + base_addr);
+    size = count << 4;
+    do {
+        size--;
+        *dst++ = *(int *)src;
+        src += 4;
+    } while (size != 0);
+
+    asm volatile("addu %0, $0, $0" : "=r"(ret));
+    return ret;
+}
 
 void Spu_WriteKeyOn(unsigned int value) {
     D_1F801D88 = value;

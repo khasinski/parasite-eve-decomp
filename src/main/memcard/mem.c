@@ -7,6 +7,8 @@ typedef unsigned char u8;
 
 void CardObj_EmitCommand43(CardObj *arg0, unsigned char arg1);
 void CardObj_EmitReadCommandForState(void);
+int CardObj_IsTransferActive(CardObj *obj);
+int CardObj_AdvanceReadLayout(void *obj);
 
 extern void (*g_MemCardObjResetFn)(void *);
 
@@ -61,7 +63,78 @@ done:
     return 0;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem", CardObj_HandleResponse);
+void CardObj_HandleResponse(CardObj *obj) {
+    int header;
+    int saved_e8;
+    int count;
+    int state;
+    int delta;
+    int (*callback)(void *);
+
+    header = obj->response_3c[0] >> 4;
+    saved_e8 = obj->field_e8;
+    obj->field_e8 = header;
+    if (header == 0xF) {
+        obj->field_e8 = saved_e8;
+    } else {
+        obj->output_30[0] = 0;
+        obj->output_30[1] = obj->response_3c[0];
+        count = 2;
+        if (count < obj->pad_40[4]) {
+            do {
+                obj->output_30[count] = obj->response_3c[count];
+                count++;
+            } while (count < obj->pad_40[4]);
+        }
+    }
+
+    if (obj->response_3c[1] != 0 || (obj->field_46 == 1 && obj->fn_14 != 0) || obj->pad_50[0] != 0) {
+        if (CardObj_IsTransferActive(obj) == 0 && obj->saved_command == 0 && obj->field_4a == 0 && obj->field_e8 != saved_e8) {
+            g_MemCardObjResetFn(obj);
+        }
+    } else {
+        g_MemCardObjResetFn(obj);
+    }
+
+    obj->field_4a = 0;
+    if ((unsigned char)(obj->field_46 - 2) < 0xFC && obj->response_3c[0] != 0xF3) {
+        g_MemCardObjResetFn(obj);
+    }
+
+    state = obj->field_46;
+    if (state == 0 || state == 0xFF || obj->command != 0) {
+        switch (state) {
+        case 0:
+            if (obj->field_e8 != 0) {
+                obj->field_49 = 1;
+                obj->field_46++;
+            }
+            break;
+
+        case 1:
+            obj->saved_command = 0;
+            obj->field_46++;
+            break;
+
+        case 0xFE:
+            obj->field_46 = 0xFF;
+            break;
+
+        case 0xFF:
+            break;
+
+        default:
+            callback = (int (*)(void *))obj->fn_18;
+            if (callback != 0) {
+                delta = callback(obj);
+            } else {
+                delta = CardObj_AdvanceReadLayout(obj);
+            }
+            obj->field_46 += delta;
+            break;
+        }
+    }
+}
 
 void MemCard_OutputHandler(CardObj *obj) {
     int state;
