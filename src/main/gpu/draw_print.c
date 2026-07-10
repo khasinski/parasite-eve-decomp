@@ -54,11 +54,15 @@ void Draw_EmitDigitSprite(int digit) {
     register DrawDigitPrim *packet asm("$7");
     unsigned char *old;
     unsigned char *next;
-    int u;
-    int v;
+    register int base_u asm("$4");
+    register int u asm("$2");
+    register int v asm("$5");
+    register int quotient asm("$3");
+    int v_tail;
     unsigned int x;
     unsigned int y;
     unsigned int ot;
+    register unsigned int ptr_mask asm("$6");
 
     old = D_8009D100;
     prim = 0;
@@ -83,10 +87,10 @@ void Draw_EmitDigitSprite(int digit) {
     packet = prim;
     packet->x2 = D_8009D124;
     packet->x0 = D_8009D124;
-    x = packet->x0;
+    x = *(volatile unsigned short *)&packet->x0;
     packet->y1 = D_8009D128;
     packet->y0 = D_8009D128;
-    y = packet->y0;
+    y = *(volatile unsigned short *)&packet->y0;
     x += 5;
     y += 7;
     packet->x3 = x;
@@ -95,12 +99,24 @@ void Draw_EmitDigitSprite(int digit) {
     packet->y2 = y;
 
     if (digit_reg >= 0) {
-        u = D_8009D140 + (digit_reg % 10) * 5;
+        base_u = D_8009D140;
+        quotient = digit_reg / 10;
+        asm volatile(
+            "sll $2,%1,2\n\t"
+            "addu $2,$2,%1\n\t"
+            "sll $2,$2,1\n\t"
+            "subu $2,%2,$2\n\t"
+            "sll $3,$2,2\n\t"
+            "addu $3,$3,$2\n\t"
+            "addu %0,%0,$3"
+            : "=r"(base_u)
+            : "r"(quotient), "r"(digit_reg), "0"(base_u)
+            : "$2");
+        packet->u2 = base_u;
     } else {
-        u = 0x58;
+        packet->u2 = 0x58;
     }
-    packet->u2 = u;
-    u = packet->u2;
+    u = *(volatile unsigned char *)&packet->u2;
     packet->u2 = u;
     packet->u0 = u;
 
@@ -109,23 +125,25 @@ void Draw_EmitDigitSprite(int digit) {
     } else {
         packet->v1 = 0xA4;
     }
+    base_u = *(volatile unsigned int *)&packet->tag;
     v = packet->v1;
-    u = packet->u0;
+    u = *(volatile unsigned char *)&packet->u0;
     packet->v0 = v;
-    v = packet->v0;
+    v_tail = *(volatile unsigned char *)&packet->v0;
     u += 5;
     packet->v1 = v;
     packet->u3 = u;
     packet->u1 = u;
-    v += 7;
-    packet->v3 = v;
-    packet->v2 = v;
+    v_tail += 7;
+    packet->v3 = v_tail;
+    packet->v2 = v_tail;
     packet->clut = D_8009D13C;
     packet->tpage = 7;
 
     ot = *D_8009D11C;
-    prim->tag = (prim->tag & 0xFF000000) | (ot & 0x00FFFFFF);
-    *D_8009D11C = (*D_8009D11C & 0xFF000000) | ((unsigned int)prim & 0x00FFFFFF);
+    packet->tag = (base_u & 0xFF000000) | (ot & 0x00FFFFFF);
+    ptr_mask = (unsigned int)packet & 0x00FFFFFF;
+    *D_8009D11C = (*D_8009D11C & 0xFF000000) | ptr_mask;
 }
 
 void Draw_PrintNumberWidth2Unk(int value) {
