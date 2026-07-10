@@ -8,11 +8,12 @@ void __main(void) {
     register int initialized asm("$8");
 
     initialized = D_80094538;
+    asm volatile("" : : : "memory");
     if (initialized != 0) {
         return;
     }
 
-    initialized = 1;
+    initialized = 1U;
     D_80094538 = initialized;
     ctor = jtbl_80010000;
     asm volatile(

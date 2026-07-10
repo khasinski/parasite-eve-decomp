@@ -45,13 +45,115 @@ int MenuInput_GetRepeatStep(void) {
     return g_MenuDrawPhase;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/menu/menu_input", MenuInput_EnqueueStatusChanges);
-
 extern int D_8009D0EC;
 extern MenuInputQueuedEvent *D_8009D0E0;
 extern MenuInputQueuedEvent *D_8009D0E4;
 extern MenuInputQueuedEvent * volatile D_8009D0DC;
+extern int D_8009D0E8;
+extern int D_8009D0F0;
+extern int D_8009D0F4;
+extern int D_8009D0F8;
 
+int Draw_RemapStatusFlags(int flags);
+void BoundsCheck_AssertStub(int arg0);
+
+void MenuInput_EnqueueStatusChanges(int flags) {
+    register int flags_reg asm("$21");
+    register MenuInputQueuedEvent *event asm("$16");
+    MenuInputQueuedEvent *tail;
+    register int mapped asm("$18");
+    register int released asm("$17");
+    int timer;
+    int prev_flags;
+    register int repeat_reset asm("$19");
+    int repeat_step;
+    int type;
+    register int release_type asm("$20");
+
+    flags_reg = flags;
+    repeat_reset = 0;
+    mapped = Draw_RemapStatusFlags(flags_reg);
+    if (D_8009D0E8 != 0) {
+        prev_flags = D_8009D0F0;
+        released = ~mapped & prev_flags;
+        if (released != 0) {
+            event = D_8009D0DC;
+            release_type = 4;
+            if (event != 0) {
+                D_8009D0DC = event->next;
+                event->next = 0;
+                tail = D_8009D0E4;
+                if (tail != 0) {
+                    tail->next = event;
+                } else {
+                    if (D_8009D0E0 != 0) {
+                        BoundsCheck_AssertStub(0x1F);
+                    }
+                    D_8009D0E0 = event;
+                }
+                D_8009D0E4 = event;
+                event->type = release_type;
+                event->flags = released;
+            }
+        }
+
+        if (D_8009D0F0 != mapped) {
+            D_8009D0F8 = 0x10;
+        }
+
+        timer = D_8009D0F8 - 2;
+        D_8009D0F8 = timer;
+        if (timer < 0) {
+            if (flags_reg != 0 && timer < -0x5A) {
+                goto reset_repeat;
+            }
+            if ((timer & 3) == 0) {
+reset_repeat:
+                D_8009D0F0 = 0;
+                repeat_reset = 1;
+            }
+        }
+
+        if (D_8009D0F8 >= -0x12B) {
+            repeat_step = 1;
+        } else {
+            repeat_step = 8;
+        }
+        D_8009D0F4 = repeat_step;
+
+        released = mapped & ~D_8009D0F0;
+        if (released != 0) {
+            type = 1;
+            if (repeat_reset != 0) {
+                if ((released & 0x40) != 0) {
+                    goto done;
+                }
+                type = 2;
+            }
+            if (D_8009D0DC != 0) {
+                event = D_8009D0DC;
+                D_8009D0DC = event->next;
+                event->next = 0;
+                tail = D_8009D0E4;
+                if (tail != 0) {
+                    tail->next = event;
+                } else {
+                    if (D_8009D0E0 != 0) {
+                        BoundsCheck_AssertStub(0x1F);
+                    }
+                    D_8009D0E0 = event;
+                }
+                D_8009D0E4 = event;
+                event->type = type;
+                event->flags = released;
+            }
+        }
+done:
+        D_8009D0F0 = mapped;
+    } else if (mapped == 0) {
+        D_8009D0E8 = 1;
+    }
+}
 void MenuInput_DispatchQueuedEvents(void) {
     MenuInputWidget *node;
     register MenuInputQueuedEvent *event asm("$6");

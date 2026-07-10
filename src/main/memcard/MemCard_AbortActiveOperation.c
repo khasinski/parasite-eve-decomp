@@ -18,6 +18,7 @@ extern void *D_800A1854;
 extern void *D_800A1838;
 extern MemCardStateRaw D_800A0ED4[];
 extern char D_8009EE70[];
+extern char D_8009EE70_2[] __asm__("D_8009EE70");
 extern char D_80010F4C[];
 extern char *D_80092224;
 
@@ -36,6 +37,8 @@ void MemCard_AbortActiveOperation(MemCardStateRaw *state) {
     register int minus_one asm("$19");
     int fd;
     int slot;
+    int is_second;
+    MemCardStateRaw *base;
     u8 *slot_entry;
     char path[0x20];
 
@@ -52,16 +55,21 @@ void MemCard_AbortActiveOperation(MemCardStateRaw *state) {
     }
 
     if (state_reg->field_01 == 9) {
-        state_index = state_reg - D_800A0ED4;
+        register char *name_buf asm("$4");
+
+        name_buf = D_8009EE70;
+        base = D_800A0ED4;
+        is_second = base < state_reg;
         retry = 0;
+        state_index = state_reg - base;
         minus_one = -1;
         asm volatile("" : : "r"(minus_one));
         slot = state_reg->slot_index;
         slot_entry = (u8 *)state_reg + ((slot << 4) + slot) * 4;
 
-        Square_Vsprintf(D_8009EE70, D_80092224, state_reg > D_800A0ED4,
+        Square_Vsprintf(name_buf, D_80092224, is_second,
                         slot_entry[0x45] + 0x30, slot + 0x41);
-        Square_Vsprintf(path, D_80010F4C, state_index, D_8009EE70);
+        Square_Vsprintf(path, D_80010F4C, state_index, D_8009EE70_2);
 
         do {
             fd = open(path, 1);

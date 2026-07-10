@@ -8,24 +8,26 @@ typedef struct MathU64 {
 } MathU64;
 
 MathU64 *Math_Add64(MathU64 *out, u32 a_lo, u32 a_hi, u32 b_lo, u32 b_hi) {
-    register MathU64 *out_reg asm("$9");
+    register MathU64 *out_reg asm("$9") = out;
     u32 parts[4];
-    u32 low_sum;
-    u32 high_sum;
+    register u32 a_hi16 asm("$8");
+    register u32 b_hi16 asm("$3");
+    register u32 low_sum asm("$4");
+    register u32 high_sum asm("$7");
     register u32 carry_mask asm("$5");
 
-    out_reg = out;
     asm volatile("" : : "r"(out_reg));
-    parts[1] = a_lo >> 16;
+    a_hi16 = a_lo >> 16;
+    parts[1] = a_hi16;
     parts[0] = a_lo & 0xFFFF;
-    parts[3] = b_lo >> 16;
+    b_hi16 = b_lo >> 16;
+    parts[3] = b_hi16;
     parts[2] = b_lo & 0xFFFF;
-    asm volatile("" : : "r"(parts) : "memory");
     low_sum = parts[0] + parts[2];
     parts[0] = low_sum;
     carry_mask = 0x10000;
     if (low_sum & carry_mask) {
-        parts[1]++;
+        parts[1] = a_hi16 + 1;
     }
 
     high_sum = parts[1] + parts[3];

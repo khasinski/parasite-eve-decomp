@@ -67,6 +67,109 @@ void Battle_SetupEnemyAnims(void);
 void Battle_CheckDropChance(void);
 void Window_SetBoundsByMode(int mode);
 int Entity_CheckActionIdMatch(void);
+void BattleCmd_SyncActiveAmmo(void);
+
+extern u8 D_8009D2EC;
+extern u32 D_800915E0;
+extern struct { char _[16]; } D_800B0CE6_palette_o __asm__("D_800B0CE6");
+#define D_800B0CE6_PALETTE (*(u8 *)&D_800B0CE6_palette_o)
+
+extern struct { char _[16]; } D_800B0134_o __asm__("D_800B0134");
+#define D_800B0134 (*(s8 *)&D_800B0134_o)
+extern struct { char _[16]; } D_800B0135_o __asm__("D_800B0135");
+#define D_800B0135 (*(s8 *)&D_800B0135_o)
+extern struct { char _[16]; } D_800B0136_o __asm__("D_800B0136");
+#define D_800B0136 (*(s8 *)&D_800B0136_o)
+extern struct { char _[16]; } D_800B013C_o __asm__("D_800B013C");
+#define D_800B013C (*(s8 *)&D_800B013C_o)
+extern struct { char _[16]; } D_800B013D_o __asm__("D_800B013D");
+#define D_800B013D (*(s8 *)&D_800B013D_o)
+extern struct { char _[16]; } D_800B013E_o __asm__("D_800B013E");
+#define D_800B013E (*(s8 *)&D_800B013E_o)
+extern struct { char _[16]; } D_800B0144_o __asm__("D_800B0144");
+#define D_800B0144 (*(s8 *)&D_800B0144_o)
+extern struct { char _[16]; } D_800B0145_o __asm__("D_800B0145");
+#define D_800B0145 (*(s8 *)&D_800B0145_o)
+extern struct { char _[16]; } D_800B0146_o __asm__("D_800B0146");
+#define D_800B0146 (*(s8 *)&D_800B0146_o)
+extern struct { char _[16]; } D_800B014C_o __asm__("D_800B014C");
+#define D_800B014C (*(s8 *)&D_800B014C_o)
+extern struct { char _[16]; } D_800B014D_o __asm__("D_800B014D");
+#define D_800B014D (*(s8 *)&D_800B014D_o)
+extern struct { char _[16]; } D_800B014E_o __asm__("D_800B014E");
+#define D_800B014E (*(s8 *)&D_800B014E_o)
+extern struct { char _[16]; } D_800B0158_o __asm__("D_800B0158");
+#define D_800B0158 (*(s8 *)&D_800B0158_o)
+extern struct { char _[16]; } D_800B0159_o __asm__("D_800B0159");
+#define D_800B0159 (*(s8 *)&D_800B0159_o)
+extern struct { char _[16]; } D_800B015A_o __asm__("D_800B015A");
+#define D_800B015A (*(s8 *)&D_800B015A_o)
+extern struct { char _[16]; } D_800B0160_o __asm__("D_800B0160");
+#define D_800B0160 (*(s8 *)&D_800B0160_o)
+extern struct { char _[16]; } D_800B0161_o __asm__("D_800B0161");
+#define D_800B0161 (*(s8 *)&D_800B0161_o)
+extern struct { char _[16]; } D_800B0162_o __asm__("D_800B0162");
+#define D_800B0162 (*(s8 *)&D_800B0162_o)
+extern struct { char _[16]; } D_800B0168_o __asm__("D_800B0168");
+#define D_800B0168 (*(s8 *)&D_800B0168_o)
+extern struct { char _[16]; } D_800B0169_o __asm__("D_800B0169");
+#define D_800B0169 (*(s8 *)&D_800B0169_o)
+extern struct { char _[16]; } D_800B016A_o __asm__("D_800B016A");
+#define D_800B016A (*(s8 *)&D_800B016A_o)
+extern struct { char _[16]; } D_800B0170_o __asm__("D_800B0170");
+#define D_800B0170 (*(s8 *)&D_800B0170_o)
+extern struct { char _[16]; } D_800B0171_o __asm__("D_800B0171");
+#define D_800B0171 (*(s8 *)&D_800B0171_o)
+extern struct { char _[16]; } D_800B0172_o __asm__("D_800B0172");
+#define D_800B0172 (*(s8 *)&D_800B0172_o)
+extern struct { char _[16]; } D_800B017C_o __asm__("D_800B017C");
+#define D_800B017C (*(s8 *)&D_800B017C_o)
+extern struct { char _[16]; } D_800B017D_o __asm__("D_800B017D");
+#define D_800B017D (*(s8 *)&D_800B017D_o)
+extern struct { char _[16]; } D_800B017E_o __asm__("D_800B017E");
+#define D_800B017E (*(s8 *)&D_800B017E_o)
+extern struct { char _[16]; } D_800B0184_o __asm__("D_800B0184");
+#define D_800B0184 (*(s8 *)&D_800B0184_o)
+extern struct { char _[16]; } D_800B0185_o __asm__("D_800B0185");
+#define D_800B0185 (*(s8 *)&D_800B0185_o)
+extern struct { char _[16]; } D_800B0186_o __asm__("D_800B0186");
+#define D_800B0186 (*(s8 *)&D_800B0186_o)
+extern struct { char _[16]; } D_800B018C_o __asm__("D_800B018C");
+#define D_800B018C (*(s8 *)&D_800B018C_o)
+extern struct { char _[16]; } D_800B018D_o __asm__("D_800B018D");
+#define D_800B018D (*(s8 *)&D_800B018D_o)
+extern struct { char _[16]; } D_800B018E_o __asm__("D_800B018E");
+#define D_800B018E (*(s8 *)&D_800B018E_o)
+extern struct { char _[16]; } D_800B0194_o __asm__("D_800B0194");
+#define D_800B0194 (*(s8 *)&D_800B0194_o)
+extern struct { char _[16]; } D_800B0195_o __asm__("D_800B0195");
+#define D_800B0195 (*(s8 *)&D_800B0195_o)
+extern struct { char _[16]; } D_800B0196_o __asm__("D_800B0196");
+#define D_800B0196 (*(s8 *)&D_800B0196_o)
+extern struct { char _[16]; } D_800B01A0_o __asm__("D_800B01A0");
+#define D_800B01A0 (*(s8 *)&D_800B01A0_o)
+extern struct { char _[16]; } D_800B01A1_o __asm__("D_800B01A1");
+#define D_800B01A1 (*(s8 *)&D_800B01A1_o)
+extern struct { char _[16]; } D_800B01A2_o __asm__("D_800B01A2");
+#define D_800B01A2 (*(s8 *)&D_800B01A2_o)
+extern struct { char _[16]; } D_800B01A8_o __asm__("D_800B01A8");
+#define D_800B01A8 (*(s8 *)&D_800B01A8_o)
+extern struct { char _[16]; } D_800B01A9_o __asm__("D_800B01A9");
+#define D_800B01A9 (*(s8 *)&D_800B01A9_o)
+extern struct { char _[16]; } D_800B01AA_o __asm__("D_800B01AA");
+#define D_800B01AA (*(s8 *)&D_800B01AA_o)
+extern struct { char _[16]; } D_800B01B0_o __asm__("D_800B01B0");
+#define D_800B01B0 (*(s8 *)&D_800B01B0_o)
+extern struct { char _[16]; } D_800B01B1_o __asm__("D_800B01B1");
+#define D_800B01B1 (*(s8 *)&D_800B01B1_o)
+extern struct { char _[16]; } D_800B01B2_o __asm__("D_800B01B2");
+#define D_800B01B2 (*(s8 *)&D_800B01B2_o)
+extern struct { char _[16]; } D_800B01B8_o __asm__("D_800B01B8");
+#define D_800B01B8 (*(s8 *)&D_800B01B8_o)
+extern struct { char _[16]; } D_800B01B9_o __asm__("D_800B01B9");
+#define D_800B01B9 (*(s8 *)&D_800B01B9_o)
+extern struct { char _[16]; } D_800B01BA_o __asm__("D_800B01BA");
+#define D_800B01BA (*(s8 *)&D_800B01BA_o)
 
 /* Function body emitted as asm() (PSYQ GCC 2.7.2 register
  * allocation / scheduling diverges from the ROM pervasively).
@@ -168,7 +271,90 @@ void Battle_ResetEnemyStats(int mode) {
     D_8009D29C[0] = 0;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/main/battle3", Battle_SetupPlayerPalette);
+void Battle_SetupPlayerPalette(void) {
+    register int c2 asm("$2");
+    register int c3 asm("$3");
+    register int c4 asm("$4");
+    register int c5 asm("$5");
+    register int c6 asm("$6");
+    register int c7 asm("$7");
+    u8 *flags;
+
+    c6 = 0x82;
+    c5 = 0x36;
+    c4 = 0x4A;
+    c2 = 0xFF;
+    c3 = 0x3B;
+    c7 = 0x3D;
+
+    D_800B0135 = c6;
+    D_800B0145 = c6;
+    D_800B017D = c6;
+    D_800B018D = c6;
+
+    c6 = 0x81;
+    D_800B0136 = c5;
+    D_800B0146 = c5;
+    D_800B017E = c5;
+    D_800B018E = c5;
+
+    c5 = 0x83;
+    D_800B013C = c4;
+    D_800B014C = c4;
+    D_800B0184 = c4;
+    D_800B0194 = c4;
+
+    c4 = 0x13;
+    D_800B013E = c3;
+    D_800B014E = c3;
+    D_800B0186 = c3;
+    D_800B0196 = c3;
+
+    c3 = 1;
+    D_800B0134 = 0;
+    D_800B013D = c2;
+    D_800B0144 = 0;
+    D_800B014D = c2;
+    D_800B017C = 0;
+    D_800B0185 = c2;
+    D_800B018C = 0;
+    D_800B0195 = c2;
+
+    D_800B0158 = c2;
+    D_800B0159 = c7;
+    D_800B015A = c6;
+    D_800B0160 = c5;
+    D_800B0161 = c4;
+    D_800B0162 = c3;
+    D_800B0168 = c2;
+    D_800B0169 = c7;
+    D_800B016A = c6;
+    D_800B0170 = c5;
+    D_800B0171 = c4;
+    D_800B0172 = c3;
+    D_800B01A0 = c2;
+    D_800B01A1 = c7;
+    D_800B01A2 = c6;
+    D_800B01A8 = c5;
+    D_800B01A9 = c4;
+    D_800B01AA = c3;
+    D_800B01B0 = c2;
+    D_800B01B1 = c7;
+    D_800B01B2 = c6;
+    D_800B01B8 = c5;
+    D_800B01B9 = c4;
+    D_800B01BA = c3;
+
+    Battle_FlushScriptSounds();
+    D_8009D2EC = 0;
+    D_8009D2A0 = 0;
+    *(u32 *)((u8 *)D_8009D254 + 0x194) = D_800915E0;
+    D_8009D1A0 &= -3;
+    D_8009D2E8 &= -0x11;
+    flags = &D_800B0CE6_PALETTE;
+    *flags |= 2;
+    BattleCmd_SyncActiveAmmo();
+}
 
 void Battle_StartEncounter(int mode) {
     register int i asm("$4");

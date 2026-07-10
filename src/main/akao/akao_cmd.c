@@ -448,13 +448,112 @@ int Spu_SetStreamModeB(void) {
     return 0;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/akao/akao_cmd", Spu_UploadStreamBlockA);
-
 int Spu_WriteRegChecked(int arg0);
 void Spu_UploadWithPrepare(int arg0, int arg1);
 void Spu_RebaseStreamAddrs(unsigned char *ptr, int value, int count);
 
 extern int D_800B4900[];
+extern int D_800B4D00[];
+extern int D_8009D270;
+extern int D_8009D1EC;
+extern int D_8009D204;
+
+int Spu_UploadStreamBlockA(int arg0, unsigned char *arg1, unsigned int arg2) {
+    register int mode asm("$22") = arg0;
+    register unsigned char *cursor asm("$16") = arg1;
+    register unsigned int upload_limit asm("$18") = arg2;
+    register unsigned char *src asm("$20");
+    register unsigned int total_size asm("$21");
+    register unsigned int chunk_size asm("$17");
+    register int count asm("$19");
+    register int spu_addr asm("$18");
+    register int *dst asm("$4");
+    register int ret asm("$2");
+    register int start asm("$2");
+    register int base asm("$3");
+    register int remaining asm("$2");
+    register int base_addr asm("$2");
+
+    if ((D_8009D270 & 2) != 0) {
+        if (Spu_ValidateSampleHeader(cursor) != 0) {
+            return -1;
+        }
+
+        cursor += 0x14;
+        asm volatile("" : "=r"(cursor) : "0"(cursor));
+        total_size = *(int *)cursor;
+        cursor += 4;
+        asm volatile("" : "=r"(cursor) : "0"(cursor));
+        start = *(int *)cursor;
+        cursor += 4;
+        asm volatile("" : "=r"(cursor) : "0"(cursor));
+        count = *(int *)cursor;
+        asm volatile("" : "=r"(cursor) : "0"(cursor));
+        if (count != 0) {
+            count -= start;
+        } else {
+            count = 0x100 - start;
+        }
+
+        cursor += 0x24;
+        src = cursor;
+        chunk_size = count << 6;
+        cursor += chunk_size;
+        start = upload_limit - 0x40;
+        upload_limit = start - chunk_size;
+        asm volatile("" : "=r"(upload_limit) : "0"(upload_limit));
+        chunk_size = upload_limit;
+        if (chunk_size >= total_size) {
+            chunk_size = total_size;
+        }
+
+        base = 0x4F000;
+        start = mode << 2;
+        start += mode;
+        start <<= 13;
+        spu_addr = start + base;
+        Spu_WriteRegChecked(spu_addr);
+        Spu_UploadWithPrepare((int)cursor, chunk_size);
+        {
+            register unsigned char *src_arg asm("$4");
+            register int spu_arg asm("$5");
+
+            src_arg = src;
+            spu_arg = spu_addr;
+            remaining = spu_addr + chunk_size;
+            D_8009D1EC = remaining;
+            remaining = total_size - chunk_size;
+            D_8009D204 = remaining;
+            Spu_RebaseStreamAddrs(src_arg, spu_arg, count);
+        }
+
+        spu_addr = mode << 10;
+        base_addr = (int)D_800B4D00;
+        dst = (int *)(spu_addr + base_addr);
+        chunk_size = count << 4;
+        do {
+            chunk_size--;
+            *dst++ = *(int *)src;
+            src += 4;
+        } while (chunk_size != 0);
+
+        D_8009D270 &= -3;
+        ret = D_8009D204;
+    } else {
+        Spu_WriteRegChecked(D_8009D1EC);
+        chunk_size = upload_limit;
+        if (chunk_size >= D_8009D204) {
+            chunk_size = D_8009D204;
+        }
+
+        Spu_UploadWithPrepare((int)cursor, chunk_size);
+        D_8009D1EC += chunk_size;
+        D_8009D204 -= chunk_size;
+        ret = D_8009D204;
+    }
+
+    return ret;
+}
 
 int Spu_UploadStreamBlockB(int arg0, unsigned char *arg1) {
     register int mode asm("$21") = arg0;

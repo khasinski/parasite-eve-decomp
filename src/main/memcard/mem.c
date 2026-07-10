@@ -69,6 +69,7 @@ void CardObj_HandleResponse(CardObj *obj) {
     int count;
     int state;
     int delta;
+    register int one asm("$4");
     int (*callback)(void *);
 
     header = obj->response_3c[0] >> 4;
@@ -88,7 +89,7 @@ void CardObj_HandleResponse(CardObj *obj) {
         }
     }
 
-    if (obj->response_3c[1] != 0 || (obj->field_46 == 1 && obj->fn_14 != 0) || obj->pad_50[0] != 0) {
+    if (obj->response_3c[1] != 0 || (obj->field_46 == 1 && obj->fn_14 == 0) || obj->pad_50[0] != 0) {
         if (CardObj_IsTransferActive(obj) == 0 && obj->saved_command == 0 && obj->field_4a == 0 && obj->field_e8 != saved_e8) {
             g_MemCardObjResetFn(obj);
         }
@@ -102,40 +103,61 @@ void CardObj_HandleResponse(CardObj *obj) {
     }
 
     state = obj->field_46;
-    if (state == 0 || state == 0xFF || obj->command != 0) {
-        switch (state) {
-        case 0:
-            if (obj->field_e8 != 0) {
-                obj->field_49 = 1;
-                obj->field_46++;
-            }
-            break;
-
-        case 1:
-            obj->saved_command = 0;
-            obj->field_46++;
-            break;
-
-        case 0xFE:
-            obj->field_46 = 0xFF;
-            break;
-
-        case 0xFF:
-            break;
-
-        default:
-            callback = (int (*)(void *))obj->fn_18;
-            if (callback != 0) {
-                delta = callback(obj);
-            } else {
-                delta = CardObj_AdvanceReadLayout(obj);
-            }
-            obj->field_46 += delta;
-            break;
-        }
+    if (state == 0) {
+        goto dispatch_state;
     }
-}
+    if (state == 0xFF) {
+        goto dispatch_state;
+    }
+    if (obj->command == 0) {
+        return;
+    }
 
+dispatch_state:
+    one = 1;
+    if (state == one) {
+        goto state_one;
+    }
+    if (state < 2) {
+        if (state == 0) {
+            goto state_zero;
+        }
+        goto state_default;
+    }
+    if (state == 0xFE) {
+        goto state_fe;
+    }
+    if (state == 0xFF) {
+        return;
+    }
+    goto state_default;
+
+state_zero:
+    if (obj->field_e8 == 0) {
+        return;
+    }
+    obj->field_49 = one;
+    obj->field_46++;
+    return;
+
+state_one:
+    obj->field_47 = 0;
+    obj->field_46++;
+    return;
+
+state_fe:
+    obj->field_46 = 0xFF;
+    return;
+
+state_default:
+    callback = (int (*)(void *))obj->fn_18;
+    if (callback != 0) {
+        delta = callback(obj);
+    } else {
+        delta = CardObj_AdvanceReadLayout(obj);
+    }
+    obj->field_46 += delta;
+}
 void MemCard_OutputHandler(CardObj *obj) {
     int state;
     int counter;
