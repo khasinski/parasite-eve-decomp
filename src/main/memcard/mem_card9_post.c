@@ -159,10 +159,10 @@ int MemCard_ReadByte(MemCardTransfer *transfer, int value) {
 INCLUDE_ASM("asm/USA/main/nonmatchings/memcard/mem_card9_post", MemCard_WriteByte);
 
 int MemCard_WaitReadyForTransfer(void) {
-    MemCardState *state;
+    register MemCardState *state asm("$3");
     TimerRegs *regs;
     TimerRegs *check_regs;
-    int value;
+    register int value asm("$2");
     int status;
 
     value = -0x81;
