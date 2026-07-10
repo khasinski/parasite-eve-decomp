@@ -764,7 +764,7 @@ segments:
       - [0x4C4BC, c, save/Save_SelectMetadataWindow]
       - [0x4C510, c, save/Save_AppendMetadataChar]
       - [0x4C594, c, save/Save_DeleteMetadataChar]
-      - [0x4C61C, asm, save/Save_LoadMetadataWindowText]
+      - [0x4C61C, c, save/Save_LoadMetadataWindowText]
       - [0x4C6DC, c, save/Save_GetMetadataCursor]
       - [0x4C6E8, c, save/Save_GetActiveMetadataBuffer]
       - [0x4C708, c, save/Save_GetMetadataRemainingChars]
