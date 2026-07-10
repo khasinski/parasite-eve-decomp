@@ -398,7 +398,7 @@ segments:
       - [0x29B10, c, main/Render_FindFontGlyphSlot]
       - [0x29C4C, asm, main/Render_SetFontGlyphByCode]
       - [0x29E78, asm, main/Render_GetOrLoadFontGlyph]
-      - [0x2A098, asm, menu/Menu_FindSelectedEquipSlotItem]
+      - [0x2A098, c, menu/Menu_FindSelectedEquipSlotItem]
       - [0x2A170, c, menu/Menu_ResetEquipSlotState]
       - [0x2A19C, asm, main/Scene_CheckFlagBits]
       - [0x2A374, c, anim/Anim_BuildRotationMatrices]
