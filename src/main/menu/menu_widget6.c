@@ -146,13 +146,20 @@ typedef struct DrawAreaRect {
 } DrawAreaRect;
 
 extern MenuWidgetNode *D_8009D154;
+extern MenuWidgetNode *D_8009D15C;
 extern u32 D_8009D100;
 extern u32 D_8009D104;
 extern int D_8009D108;
 extern u32 *D_8009D11C;
+extern int D_8009D0E8;
+extern int D_8009D164;
+extern int D_8009D168;
 
 void BoundsCheck_AssertStub(int arg0);
 void SetDrawArea(void *packet, DrawAreaRect *rect);
+void MenuWidget_EaseNodePosition(void *arg0);
+int Draw_RemapStatusFlags(void);
+void Draw_AllocColorTriGradient(int width, int height, int mode, int focused);
 
 void Draw_AllocPrimWithMask(MenuWidgetNode *node) {
     MenuWidgetNode *parent;
@@ -223,7 +230,165 @@ void Draw_AllocPrimWithMask(MenuWidgetNode *node) {
     *ot = (*ot & 0xFF000000) | ((u32)packet & 0xFFFFFF);
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/menu/menu_widget6", MenuWidget_DrawList);
+void MenuWidget_DrawList(MenuWidgetNode *node, void (*draw_callback)(int)) {
+    MenuWidgetNode *scan;
+    MenuWidgetNode *parent;
+    int i;
+    int row;
+    int offset;
+    int highlight;
+    u32 *packet;
+    u32 oldPacket;
+    u32 nextPacket;
+    u32 *ot;
+    DrawAreaRect rect;
+    int cursor_stack;
+    int cursor_x;
+    int cursor_y;
+
+    parent = 0;
+    scan = D_8009D154;
+    while (scan != 0) {
+        i = 0;
+        while (i < 4) {
+            if (*(MenuWidgetNode **)((char *)scan + 8 + (i * 4)) == node) {
+                parent = scan;
+                goto found_parent;
+            }
+            i++;
+        }
+        scan = scan->next;
+    }
+
+found_parent:
+    D_8009D164 = node->field_3C;
+    D_8009D168 = node->field_40;
+
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 0x140;
+    rect.h = 0xE0;
+    if (D_8009D108 != 0) {
+        rect.y = 0xE0;
+    }
+
+    packet = 0;
+    oldPacket = D_8009D100;
+    nextPacket = oldPacket + 0xC;
+    if (nextPacket < D_8009D104 + 0x4000) {
+        D_8009D100 = nextPacket;
+        packet = (u32 *)oldPacket;
+    } else {
+        BoundsCheck_AssertStub(1);
+    }
+
+    if (packet != 0) {
+        SetDrawArea(packet, &rect);
+    }
+
+    ot = D_8009D11C;
+    packet[0] = (packet[0] & 0xFF000000) | (*ot & 0xFFFFFF);
+    *ot = (*ot & 0xFF000000) | ((u32)packet & 0xFFFFFF);
+
+    cursor_stack = D_8009D12C;
+    if ((unsigned int)cursor_stack < (unsigned int)D_800A22B0) {
+        *(int *)cursor_stack = D_8009D124;
+        *(int *)(cursor_stack + 4) = D_8009D128;
+        D_8009D12C = cursor_stack + 8;
+    } else {
+        BoundsCheck_AssertStub(2);
+    }
+
+    cursor_x = D_8009D124;
+    cursor_y = D_8009D128 + node->field_60;
+    D_8009D124 = cursor_x;
+    D_8009D128 = cursor_y;
+
+    if (node->field_60 > 0) {
+        D_8009D124 = cursor_x;
+        D_8009D128 = cursor_y - node->field_40;
+        MenuWidget_DrawListRow(node, draw_callback, -1, parent->field_3C);
+    }
+
+    for (row = 0; row < node->visible_rows; row++) {
+        MenuWidget_DrawListRow(node, draw_callback, row, parent->field_3C);
+    }
+
+    if (node->field_60 < 0) {
+        MenuWidget_DrawListRow(node, draw_callback, row, parent->field_3C);
+    }
+
+    cursor_stack = D_8009D12C;
+    if ((unsigned int)D_800A2270 < (unsigned int)cursor_stack) {
+        cursor_x = *(int *)(cursor_stack - 8);
+        cursor_y = *(int *)(cursor_stack - 4);
+        D_8009D12C = cursor_stack - 8;
+        D_8009D124 = cursor_x;
+        D_8009D128 = cursor_y;
+    } else {
+        BoundsCheck_AssertStub(3);
+    }
+
+    Draw_AllocPrimWithMask(node);
+    MenuWidget_EaseNodePosition(node->field_80);
+
+    offset = node->field_60;
+    if (offset != 0) {
+        if (offset > 0) {
+            offset -= (node->field_40 + ((unsigned int)node->field_40 >> 31)) >> 1;
+            if (offset < 0) {
+                offset = 0;
+            }
+            node->field_60 = offset;
+        } else {
+            offset += (node->field_40 + ((unsigned int)node->field_40 >> 31)) >> 1;
+            node->field_60 = offset;
+            if (offset > 0) {
+                node->field_60 = 0;
+            }
+        }
+    }
+
+    if (node->field_60 == 0 && node->cursor_x >= 0 && node->cursor_y >= node->scroll_y &&
+        node->cursor_y < node->scroll_y + node->visible_rows) {
+        cursor_stack = D_8009D12C;
+        if ((unsigned int)cursor_stack < (unsigned int)D_800A22B0) {
+            *(int *)cursor_stack = D_8009D124;
+            *(int *)(cursor_stack + 4) = D_8009D128;
+            D_8009D12C = cursor_stack + 8;
+        } else {
+            BoundsCheck_AssertStub(2);
+        }
+
+        D_8009D124 += node->field_3C * node->cursor_x;
+        D_8009D128 += node->field_40 * (node->cursor_y - node->scroll_y);
+
+        highlight = 0;
+        if ((node->field_64 & 0x80) == 0) {
+            if (D_8009D15C == node) {
+                highlight = 0;
+                if (D_8009D0E8 != 0 && (Draw_RemapStatusFlags() & 0x20) != 0) {
+                    highlight = 1;
+                }
+            }
+        } else {
+            highlight = 1;
+        }
+
+        Draw_AllocColorTriGradient(node->field_3C, node->field_40, highlight, D_8009D15C == node);
+
+        cursor_stack = D_8009D12C;
+        if ((unsigned int)D_800A2270 < (unsigned int)cursor_stack) {
+            cursor_x = *(int *)(cursor_stack - 8);
+            cursor_y = *(int *)(cursor_stack - 4);
+            D_8009D12C = cursor_stack - 8;
+            D_8009D124 = cursor_x;
+            D_8009D128 = cursor_y;
+        } else {
+            BoundsCheck_AssertStub(3);
+        }
+    }
+}
 
 void MenuWidget_ClampScroll(MenuWidgetNode *ptr) {
     int y;
