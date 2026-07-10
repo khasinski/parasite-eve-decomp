@@ -958,7 +958,7 @@ segments:
       - [0x601F0, c, pm/pm2]
       - [0x60614, asm, main/Scene_FreeEntityTable]
       - [0x60864, c, render/Pm_StopAll]
-      - [0x609B4, asm, render/Pm_StopUpperHalf]
+      - [0x609B4, c, render/Pm_StopUpperHalf]
       - [0x60ADC, c, render/Pm_StopLowerHalf]
       - [0x60BF4, c, render/Pm_StopAllBoth]
       - [0x60C1C, c, render/Render_DecompressAnimFrame]
