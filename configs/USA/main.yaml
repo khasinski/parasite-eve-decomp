@@ -893,7 +893,7 @@ segments:
       - [0x58340, c, render/Render_StartFadeIn]
       - [0x58374, asm, render/Render_StepFade]
       - [0x584BC, c, render/Render_BeginSceneLoad]
-      - [0x58518, asm, render/Render_ApplyScreenTint]
+      - [0x58518, c, render/Render_ApplyScreenTint]
       - [0x5861C, asm, main/Scene_IsBattleMode]
       - [0x58814, c, render/Render_DrawRoom]
       - [0x58EA0, c, render/Render_SetPrimColour]
