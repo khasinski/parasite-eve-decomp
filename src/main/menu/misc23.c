@@ -1,7 +1,5 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-#include "include_asm.h"
-
 typedef signed short s16;
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -31,10 +29,30 @@ typedef unsigned char u8_2;
 typedef unsigned int u32_2;
 typedef short s16_2;
 
+extern struct { char _[16]; } D_8009D1A8_o __asm__("D_8009D1A8");
+extern struct { char _[16]; } D_8009D1AC_o __asm__("D_8009D1AC");
+extern struct { char _[16]; } g_SaveMetadataTextPtr_o __asm__("g_SaveMetadataTextPtr");
+extern struct { char _[16]; } D_800BCEB4_o __asm__("D_800BCEB4");
 extern u8_2 g_BattleSaveOverlayActive;
 extern u8_2 g_MenuActiveMode;
 extern u8_2 D_8009CE88;
 extern u32_2 g_CurItemEffectData;
+extern u8_2 g_TextboxEntries[];
+extern u8_2 D_80091464[];
+extern u8_2 D_80091474[];
+extern u8_2 D_80091480[];
+extern u8_2 D_800914AC[];
+extern u8_2 D_800914D4[];
+extern u8_2 D_800914FC[];
+extern u8_2 D_80091520[];
+extern u8_2 D_80091544[];
+extern u8_2 D_80091570[];
+
+#define D_8009D1A8 (*(void **)&D_8009D1A8_o)
+#define D_8009D1AC (*(u32_2 *)&D_8009D1AC_o)
+#define D_8009D1AC_BYTE (*(u8_2 *)&D_8009D1AC_o)
+#define g_SaveMetadataTextPtr (*(u8_2 **)&g_SaveMetadataTextPtr_o)
+#define D_800BCEB4 (*(u32_2 *)&D_800BCEB4_o)
 
 void Tbl_ResetAll(void);
 int Save_GetMetadataWindowIndex(void);
@@ -104,7 +122,86 @@ void Render_AnimationFrame(void) {
     g_BattleAttackAnimFrame++;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/menu/misc23", Save_DrawSlotMetadata);
+void Save_DrawSlotMetadata(void) {
+    void *overlay;
+    void *entry;
+    u32_2 state;
+    int phase;
+    int prompt;
+    s16_2 colors[3];
+
+    overlay = D_8009D1A8;
+    if (overlay == 0 || *(void **)overlay == 0 || *(int *)(*(u8_2 **)overlay + 0x10) <= 0) {
+        Tbl_ResetAll();
+        D_8009D1AC &= ~0x300;
+    }
+
+    state = D_8009D1AC;
+    phase = (state >> 8) & 3;
+
+    if (phase == 1) {
+        entry = *(void **)D_8009D1A8;
+        colors[0] = *(int *)((u8_2 *)entry + 0x10);
+        colors[1] = *(int *)((u8_2 *)entry + 0x88);
+        colors[2] = 0;
+
+        Tbl_ResetAll();
+        Menu_SetTextCursorRect(Save_GetMetadataWindowIndex() == 0 ? 0x61 : 0x14,
+                               g_MenuActiveMode < 2 ? 0xF : 0xC3, 0, 0);
+        Render_SetupColorTable(0, 2, colors);
+
+        prompt = (D_8009D1AC >> 10) & 3;
+        if (prompt == 0) {
+            g_SaveMetadataTextPtr = D_80091464;
+            g_TextboxEntries[0] = 2;
+        } else if (prompt == phase) {
+            g_SaveMetadataTextPtr = D_80091474;
+            g_TextboxEntries[0] = 2;
+        } else {
+            g_TextboxEntries[0] = 2;
+        }
+
+        state = D_8009D1AC;
+        D_8009D1AC = (state & ~0x300) | ((((state >> 8) & 3) + 1 & 3) << 8);
+        D_800BCEB4 |= 0x02000000;
+    } else if (phase == 2) {
+        if (D_8009D1AC_BYTE == 0) {
+            D_8009D1AC = (state & ~0x300) | 0x200;
+            D_8009D1AC_BYTE = 0x4B;
+
+            state = D_8009D1AC;
+            if (state & 0x1000) {
+                g_SaveMetadataTextPtr = D_80091480 + Save_GetMetadataWindowIndex() * 22;
+                D_8009D1AC &= ~0x1000;
+            } else if (state & 0x2000) {
+                g_SaveMetadataTextPtr = D_800914AC + Save_GetMetadataWindowIndex() * 20;
+                D_8009D1AC &= ~0x2000;
+            } else if (state & 0x4000) {
+                g_SaveMetadataTextPtr = D_800914D4 + Save_GetMetadataWindowIndex() * 20;
+                D_8009D1AC &= ~0x4000;
+            } else if (state & 0x8000) {
+                g_SaveMetadataTextPtr = D_800914FC + Save_GetMetadataWindowIndex() * 18;
+                D_8009D1AC &= ~0x8000;
+            } else if (state & 0x10000) {
+                g_SaveMetadataTextPtr = D_80091520 + Save_GetMetadataWindowIndex() * 18;
+                D_8009D1AC &= ~0x10000;
+            } else if (state & 0x20000) {
+                g_SaveMetadataTextPtr = D_80091544 + Save_GetMetadataWindowIndex() * 22;
+                D_8009D1AC &= ~0x20000;
+            } else if (state & 0x40000) {
+                g_SaveMetadataTextPtr = D_80091570 + Save_GetMetadataWindowIndex() * 21;
+                D_8009D1AC &= ~0x40000;
+            } else {
+                Tbl_ResetAll();
+                D_8009D1AC &= ~0x300;
+            }
+        }
+    }
+
+    D_8009D1AC_BYTE--;
+    Draw_SetCursor(0, g_MenuActiveMode < 2 ? 0xB : 0xBF);
+    Draw_AllocColorGradient(0x140, 0x14, 0, 0);
+}
 
 void Menu_SaveOverlayDraw(void) {
     s16_2 value;
