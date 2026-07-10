@@ -486,7 +486,7 @@ segments:
       - [0x34974, c, menu/Menu_CreateEquipScreen]
       - [0x34A74, c, menu/Menu_OnInventoryItemConfirm]
       - [0x34C44, asm, menu/Menu_InventoryInputHandler]
-      - [0x34FF0, asm, menu/Menu_DrawAmmoTypeHeader]
+      - [0x34FF0, c, menu/Menu_DrawAmmoTypeHeader]
       - [0x35124, c, menu/Menu_OpenItemActionSubmenu]
       - [0x3530C, asm, main/Menu_StepEquipScreen]
       - [0x355CC, c, menu/menu5]
