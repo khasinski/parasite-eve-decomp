@@ -734,7 +734,7 @@ segments:
       - [0x48614, c, item/Inv_LoadWayneItemsAsOverride]
       - [0x486CC, c, menu/menu_get]
       - [0x48830, c, main/Inv_TransferItem]
-      - [0x48B3C, asm, item/Inv_CanAddActiveListItemToAya]
+      - [0x48B3C, c, item/Inv_CanAddActiveListItemToAya]
       - [0x48C54, asm, main/Inv_TransferItemAlt]
       - [0x48E70, asm, main/Inv_ClearDisplaySlots]
       - [0x490EC, asm, main/Inv_StepScrollDisplay2]
