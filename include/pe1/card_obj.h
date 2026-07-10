@@ -32,7 +32,11 @@ typedef struct CardObj {
     unsigned char field_4a;           /* 0x4A */
     unsigned char pad_4B[0x01];
     int field_4c;                     /* 0x4C */
-    unsigned char pad_50[0x07];
+    unsigned char pad_50[0x01];
+    unsigned char field_51;           /* 0x51 */
+    unsigned char field_52;           /* 0x52 */
+    unsigned char field_53;           /* 0x53 */
+    unsigned char pad_54[0x03];
     unsigned char field_57[0x06];      /* 0x57 */
     unsigned char pad_5D[0x86];
     unsigned char field_e3;           /* 0xE3 */
