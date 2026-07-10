@@ -1308,7 +1308,7 @@ segments:
       - [0x6EDC4, asm, cdrom/Spu_DrainQueueEntry]
       - [0x6EEB0, c, cdrom/Spu_GetQueueEntryPtr]
       - [0x6EF04, asm, main/Render_DrawParticle]
-      - [0x6F0F4, asm, cdrom/CdRom_DispatchPendingCmd]
+      - [0x6F0F4, c, cdrom/CdRom_DispatchPendingCmd]
       - [0x6F164, asm, main/Render_StepParticleNode]
       - [0x6F388, c, cdrom/CdRom_EnqueueCmd]
       - [0x6F414, asm, cdrom/CdRom_InitDsReadSystem]
