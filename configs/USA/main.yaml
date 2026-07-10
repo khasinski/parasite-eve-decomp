@@ -453,7 +453,7 @@ segments:
       - [0x31908, c, memcard/tu_031908]
       - [0x32970, c, save/save2]
       - [0x32A64, c, save/Save_LoadCardFileIntoRuntime]
-      - [0x32C64, asm, memcard/MemCard_GetActiveProgressBlocks]
+      - [0x32C64, c, memcard/MemCard_GetActiveProgressBlocks]
       - [0x32CB4, c, memcard/MemCard_GetSlot]
       - [0x32D38, c, memcard/MemCard_InitState]
       - [0x32DDC, c, memcard/mem_card]
