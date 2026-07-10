@@ -1325,7 +1325,7 @@ segments:
       - [0x7008C, asm, main/Render_PlayParticleEffect]
       - [0x70160, c, cdrom/CdRom_DispatchDsReadyCallback]
       - [0x7018C, pad]
-      - [0x70194, asm, cdrom/CdRom_InitDsCallbacks]
+      - [0x70194, c, cdrom/CdRom_InitDsCallbacks]
       - [0x7022C, c, cdrom/CdRom_InitCmdState]
       - [0x70304, c, cdrom/CdRom_ClearDsCallbacks]
       - [0x70344, c, cdrom/CdRom_TryIssueCmd]
