@@ -24,8 +24,8 @@ void _spu_FsetDelayW(void);
 extern int D_8009B418;
 extern unsigned short g_SpuTransferAddr;
 extern int _spu_mem_mode_plus;
-extern int g_SpuDmaMadr;
-extern int g_SpuDmaBcr;
+extern int D_8009B450;
+extern int D_8009B454;
 
 int _spu_t(int cmd, ...);
 void _spu_FwriteByIO(int addr, int size);
@@ -135,11 +135,11 @@ cmd_3:
     }
 
     value = *args++;
-    g_SpuDmaMadr = value;
+    D_8009B450 = value;
     size = *args++;
-    g_SpuDmaBcr = (size >> 6) + ((size & 0x3F) != 0);
-    *g_SpuDmaMadrPtr = g_SpuDmaMadr;
-    *g_SpuDmaBcrPtr = (g_SpuDmaBcr << 16) | 0x10;
+    D_8009B454 = (size >> 6) + ((size & 0x3F) != 0);
+    *g_SpuDmaMadrPtr = D_8009B450;
+    *g_SpuDmaBcrPtr = (D_8009B454 << 16) | 0x10;
     chcr = 0x01000201;
     if (g_SpuDmaDirection == 1) {
         chcr = 0x01000200;

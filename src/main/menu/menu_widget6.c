@@ -44,7 +44,96 @@ int MenuWidget_GetCellIndex(void *w) {
     return ret;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/menu/menu_widget6", MenuWidget_DrawListRow);
+extern int D_8009D10C;
+extern int D_8009D12C;
+extern int D_8009D124;
+extern int D_8009D128;
+extern char D_800A22B0[];
+extern char D_800A2270[];
+
+void BoundsCheck_AssertStub(int arg0);
+int VSync(int arg0);
+void Draw_AllocColorTri(int width, int height, int arg2);
+
+void MenuWidget_DrawListRow(MenuWidgetNode *node, void (*draw_callback)(int), int row, int draw_cursor) {
+    int index;
+    int bit;
+    int x;
+    int enabled;
+    int dimmed;
+    int cursor_stack;
+    int cursor_x;
+    int cursor_y;
+    int row_index;
+    int (*select_callback)(int);
+
+    index = (node->scroll_y + row) * node->x_limit;
+    bit = 1 << index;
+
+    cursor_stack = D_8009D12C;
+    if ((unsigned int)cursor_stack < (unsigned int)D_800A22B0) {
+        *(int *)cursor_stack = D_8009D124;
+        *(int *)(cursor_stack + 4) = D_8009D128;
+        D_8009D12C = cursor_stack + 8;
+    } else {
+        BoundsCheck_AssertStub(2);
+    }
+
+    D_8009D124 += 2;
+    D_8009D128 += 2;
+
+    for (x = 0; x < node->grid_width; x++) {
+        select_callback = (int (*)(int))node->field_8C;
+        enabled = 1;
+        if (select_callback != 0) {
+            enabled = select_callback(index);
+            node->cell_mask &= ~bit;
+            if (enabled != 0) {
+                node->cell_mask |= bit;
+            }
+            index++;
+            bit <<= 1;
+        }
+
+        if (enabled != 0) {
+            dimmed = 0;
+            if (draw_cursor != 0) {
+                if (x != node->cursor_x || node->scroll_y + row != node->cursor_y) {
+                    dimmed = 1;
+                }
+            }
+            D_8009D10C = dimmed;
+
+            if (draw_callback != 0) {
+                row_index = ((node->scroll_y + row) * node->grid_width) + x;
+                draw_callback(row_index);
+            }
+
+            if ((VSync(-1) & 8) != 0 && x == node->target_x && node->scroll_y + row == node->target_y) {
+                D_8009D124 -= 2;
+                D_8009D128 -= 2;
+                Draw_AllocColorTri(node->field_3C, node->field_40, 0);
+                D_8009D124 += 2;
+                D_8009D128 += 2;
+            }
+        }
+
+        D_8009D124 += node->field_3C;
+    }
+
+    cursor_stack = D_8009D12C;
+    if ((unsigned int)D_800A2270 < (unsigned int)cursor_stack) {
+        cursor_x = *(int *)(cursor_stack - 8);
+        cursor_y = *(int *)(cursor_stack - 4);
+        D_8009D12C = cursor_stack - 8;
+        D_8009D124 = cursor_x;
+        D_8009D128 = cursor_y;
+    } else {
+        BoundsCheck_AssertStub(3);
+    }
+
+    D_8009D128 += node->field_40;
+}
 
 typedef signed short s16;
 typedef unsigned int u32;

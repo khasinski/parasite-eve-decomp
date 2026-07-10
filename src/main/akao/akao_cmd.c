@@ -441,20 +441,136 @@ int Spu_SetStreamModeA(void) {
     return 0;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/akao/akao_cmd", Akao_StepNoteSequencer);
+int Spu_WriteRegChecked(int arg0);
+void Spu_UploadWithPrepare(int arg0, int arg1);
+void Spu_RebaseStreamAddrs(unsigned char *ptr, int value, int count);
+
+extern int D_8009D270;
+extern int D_8009D2C8;
+extern int D_8009CDE8;
+extern int D_8009D2BC;
+extern int D_8009D2E4;
+extern int D_800B2900[];
+
+int Akao_StepNoteSequencer(unsigned char *cursor, unsigned int upload_limit) {
+    register unsigned char *cursor_reg asm("$16") = cursor;
+    register unsigned int upload_limit_reg asm("$18") = upload_limit;
+    register unsigned char *src asm("$20");
+    register unsigned int total_size asm("$21");
+    register unsigned int chunk_size asm("$17");
+    int start;
+    register int count asm("$19");
+    register int spu_addr asm("$18");
+    register int *dst asm("$4");
+    register int base asm("$2");
+    register int remaining asm("$2");
+    int ret;
+    int *state;
+
+    if ((D_8009D270 & 1) != 0) {
+        if (Spu_ValidateSampleHeader(cursor_reg) != 0) {
+            return -1;
+        }
+
+        cursor_reg += 0x14;
+        asm volatile("" : "=r"(cursor_reg) : "0"(cursor_reg));
+        total_size = *(int *)cursor_reg;
+        cursor_reg += 4;
+        asm volatile("" : "=r"(cursor_reg) : "0"(cursor_reg));
+        start = *(int *)cursor_reg;
+        cursor_reg += 4;
+        asm volatile("" : "=r"(cursor_reg) : "0"(cursor_reg));
+        count = *(int *)cursor_reg;
+        asm volatile("" : "=r"(cursor_reg) : "0"(cursor_reg));
+        if (count != 0) {
+            count -= start;
+        } else {
+            count = 0x100 - start;
+        }
+
+        cursor_reg += 0x24;
+        asm volatile("" : "=r"(cursor_reg) : "0"(cursor_reg));
+        src = cursor_reg;
+        chunk_size = count << 6;
+        cursor_reg += chunk_size;
+        base = upload_limit_reg - 0x40;
+        upload_limit_reg = base - chunk_size;
+        asm volatile("" : "=r"(upload_limit_reg) : "0"(upload_limit_reg));
+        chunk_size = upload_limit_reg;
+        if (chunk_size >= total_size) {
+            chunk_size = total_size;
+        }
+
+        spu_addr = 0x8000;
+        if ((unsigned int)count < 0x31) {
+            state = (int *)D_8009D2C8;
+            if (state[0x1B] != 0) {
+                if ((state[0x1A] & 0x100) == 0) {
+                    spu_addr = 0x38000;
+                    D_8009CDE8 |= 0x100;
+                } else {
+                    D_8009CDE8 &= -0x101;
+                }
+            } else if (state[1] != 0) {
+                if ((state[0] & 0x100) == 0) {
+                    spu_addr = 0x38000;
+                    D_8009CDE8 |= 0x100;
+                } else {
+                    D_8009CDE8 &= -0x101;
+                }
+            } else {
+                D_8009CDE8 &= -0x101;
+            }
+        } else {
+            D_8009CDE8 &= -0x101;
+        }
+
+        Spu_WriteRegChecked(spu_addr);
+        Spu_UploadWithPrepare((int)cursor_reg, chunk_size);
+        D_8009D2BC = spu_addr + chunk_size;
+        asm volatile("" ::: "memory");
+        remaining = total_size - chunk_size;
+        D_8009D2E4 = remaining;
+        Spu_RebaseStreamAddrs(src, spu_addr, count);
+
+        if (spu_addr == 0x8000) {
+            dst = (int *)((char *)D_800B2900 + 0x800);
+        } else {
+            dst = (int *)((char *)D_800B2900 + 0x1400);
+        }
+
+        chunk_size = count << 4;
+        do {
+            chunk_size--;
+            *dst++ = *(int *)src;
+            src += 4;
+        } while (chunk_size != 0);
+
+        D_8009D270 &= -2;
+        ret = D_8009D2E4;
+    } else {
+        Spu_WriteRegChecked(D_8009D2BC);
+        chunk_size = upload_limit_reg;
+        if (chunk_size >= D_8009D2E4) {
+            chunk_size = D_8009D2E4;
+        }
+
+        Spu_UploadWithPrepare((int)cursor_reg, chunk_size);
+        D_8009D2BC += chunk_size;
+        D_8009D2E4 -= chunk_size;
+        ret = D_8009D2E4;
+    }
+
+    return ret;
+}
 
 int Spu_SetStreamModeB(void) {
     g_AkaoStreamUploadMode = 2;
     return 0;
 }
 
-int Spu_WriteRegChecked(int arg0);
-void Spu_UploadWithPrepare(int arg0, int arg1);
-void Spu_RebaseStreamAddrs(unsigned char *ptr, int value, int count);
-
 extern int D_800B4900[];
 extern int D_800B4D00[];
-extern int D_8009D270;
 extern int D_8009D1EC;
 extern int D_8009D204;
 

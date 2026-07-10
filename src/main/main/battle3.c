@@ -70,7 +70,8 @@ int Entity_CheckActionIdMatch(void);
 void BattleCmd_SyncActiveAmmo(void);
 
 extern u8 D_8009D2EC;
-extern u32 D_800915E0;
+extern struct { char _[16]; } D_800915E0_o __asm__("D_800915E0");
+#define D_800915E0 (*(u32 *)&D_800915E0_o)
 extern struct { char _[16]; } D_800B0CE6_palette_o __asm__("D_800B0CE6");
 #define D_800B0CE6_PALETTE (*(u8 *)&D_800B0CE6_palette_o)
 
