@@ -95,7 +95,68 @@ void Save_SerializeTail(void) {
     t = g_SaveIoCursor; g_SaveIoCursor = t + 8;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/save/save", Save_DeserializeTail);
+void Save_DeserializeTail(void) {
+    u8 *cursor;
+    u8 *next;
+
+    cursor = g_SaveIoCursor;
+    g_EntityWorkBuffer = *(SaveBytes800 *)cursor;
+
+    cursor = g_SaveIoCursor;
+    g_SaveIoCursor = cursor + 0x800;
+    g_FieldMoveLock = *(SaveBytes4 *)(cursor + 0x800);
+
+    cursor = g_SaveIoCursor;
+    g_SaveIoCursor = cursor + 4;
+    g_SceneDispatchToken = *(SaveBytes4 *)(cursor + 4);
+
+    cursor = g_SaveIoCursor;
+    g_SaveIoCursor = cursor + 4;
+    g_GameStateFlags = *(SaveBytes4 *)(cursor + 4);
+
+    cursor = g_SaveIoCursor;
+    g_SaveIoCursor = cursor + 4;
+    D_800B0CDC = *(SaveBytes4 *)(cursor + 4);
+
+    cursor = g_SaveIoCursor;
+    g_SaveIoCursor = cursor + 4;
+    D_800B0CE0 = cursor[4];
+    g_LoadedTexturePageId = cursor[5];
+
+    cursor = g_SaveIoCursor;
+    g_SaveIoCursor = cursor + 2;
+    g_SceneAreaType = cursor[2];
+    g_SavedSceneAreaType = cursor[3];
+
+    cursor = g_SaveIoCursor;
+    next = cursor + 4;
+    g_SaveIoCursor = cursor + 2;
+    D_800B0CE4 = cursor[2];
+
+    g_SaveIoCursor = cursor + 3;
+    g_PendingDiscSide = cursor[3];
+
+    g_DiscChangeFlags = cursor[2];
+    g_ScreenTransitionState = cursor[3];
+    g_SaveIoCursor = next;
+
+    cursor = g_SaveIoCursor;
+    g_AyaBattleState = *(SaveBytes70 *)cursor;
+
+    cursor = g_SaveIoCursor;
+    g_SaveIoCursor = cursor + 0x70;
+    g_SavedBattleStateTail = *(SaveBytes18 *)(cursor + 0x70);
+
+    cursor = g_SaveIoCursor;
+    g_SaveIoCursor = cursor + 0x18;
+    g_BattleEquipStateBlock = *(SaveBytes8 *)(cursor + 0x18);
+
+    cursor = g_SaveIoCursor;
+    g_SaveIoCursor = cursor + 8;
+
+    *(u32 *)&g_GameStateFlags &= 0xFFFF2679;
+    *(u32 *)&g_FieldMoveLock &= 0xFFFFFFF6;
+}
 
 void Save_SetTitleStyleFlag(int value) {
     g_SaveTitleStyleFlag = value;
