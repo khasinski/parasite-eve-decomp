@@ -15,6 +15,7 @@ extern int D_8009D10C;
 extern int D_8009D110;
 extern int D_8009D114;
 extern unsigned int *D_8009D11C;
+extern int *D_8009D12C;
 extern unsigned short D_8009D124;
 extern unsigned short D_8009D128;
 extern int D_8009D124_WORD __asm__("D_8009D124");
@@ -22,10 +23,14 @@ extern int D_8009D128_WORD __asm__("D_8009D128");
 extern int D_8009D13C;
 extern int D_8009D140;
 extern int D_8009D144;
+extern int D_800A2270[];
+extern int D_800A22B0[];
 
 void Draw_PrintNumberFixedWidth(int arg0, int arg1);
 void Draw_AllocSprite(int arg0);
+void Draw_AllocTexturedQuad(int arg0);
 void BoundsCheck_AssertStub(int arg0);
+unsigned char *Str_LookupTable4(unsigned int arg0);
 
 typedef struct DrawDigitPrim {
     unsigned int tag;
@@ -544,7 +549,87 @@ void Draw_PrintTimeValue(int value, int variant) {
     g_DrawDigitFontBaseTexV = 0xA4;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/gpu/draw_print", Draw_AllocTexturedRect);
+void Draw_AllocTexturedRect(int value, int width) {
+    register int number asm("$20") = value;
+    register int digit_base asm("$17") = 1;
+    register int i asm("$16") = 1;
+    register int count asm("$18") = width;
+    register int magic asm("$19");
+    register int last_leading asm("$21");
+    unsigned char *text;
+    int *stack;
+    int digit;
+    int quotient;
+    int pos;
+    int other;
+
+    while (i < count) {
+        digit_base *= 10;
+        i++;
+    }
+
+    if (number < 0) {
+        number = -number;
+        digit_base /= 10;
+        count--;
+
+        while (number < digit_base) {
+            Draw_AllocTexturedQuad(0xF);
+            digit_base /= 10;
+            count--;
+        }
+
+        text = Str_LookupTable4(0x70);
+        if (text != 0) {
+            stack = D_8009D12C;
+            if (stack < D_800A22B0) {
+                stack[0] = D_8009D124_WORD;
+                stack[1] = D_8009D128_WORD;
+                D_8009D12C = stack + 2;
+            } else {
+                BoundsCheck_AssertStub(2);
+            }
+
+            if (*text != 0xFF) {
+                do {
+                    Draw_AllocTexturedQuad(*text++);
+                } while (*text != 0xFF);
+            }
+
+            stack = D_8009D12C;
+            if (D_800A2270 < stack) {
+                D_8009D12C = stack - 2;
+                D_8009D124_WORD = stack[-2];
+                D_8009D128_WORD = stack[-1];
+            } else {
+                BoundsCheck_AssertStub(3);
+            }
+        }
+
+        pos = D_8009D124_WORD;
+        other = D_8009D128_WORD;
+        D_8009D124_WORD = pos + 9;
+        D_8009D128_WORD = other;
+    }
+
+    i = 0;
+    if (count > 0) {
+        last_leading = count - 1;
+        magic = 0x66666667;
+        do {
+            quotient = number / digit_base;
+            if ((i < last_leading) && (quotient == 0)) {
+                digit = 0xF;
+            } else {
+                digit = quotient - (quotient / 10) * 10;
+            }
+
+            Draw_AllocTexturedQuad(digit);
+            digit_base = digit_base / 10;
+            i++;
+        } while (i < count);
+    }
+}
 
 void Draw_PrintNumberWidth6(int arg0) {
     int pos;

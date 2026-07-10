@@ -13,13 +13,15 @@ int Inv_IsActiveListOverrideSelected(void);
 void Inv_SelectActiveList(int);
 void *Inv_LookupActiveListData(int);
 int Inv_DrawSlotItemIcon(void);
-void Inv_BuildWeaponList(int, int);
+void Inv_BuildWeaponList(int, void *);
 
 extern int g_StatScaleBase;
 unsigned short *Aya_LookupLevelStats(int arg0);
 
 typedef signed char s8;
 typedef unsigned char u8;
+typedef signed short s16;
+typedef unsigned short u16;
 
 typedef struct {
     unsigned char pad[0x14];
@@ -27,10 +29,38 @@ typedef struct {
     u8 modifiers[1];
 } WeaponEntry;
 
+typedef struct {
+    u8 pad_00[6];
+    u8 type;
+    u8 attack;
+    u8 range;
+    u8 bullets;
+    u16 ammo;
+    u8 pad_0c[2];
+    s16 attack_bonus;
+    s16 range_bonus;
+    s16 bullets_bonus;
+    u8 modifier_count;
+    u8 modifiers[1];
+} WeaponListEntry;
+
+typedef struct {
+    s16 attack;
+    s16 range_score;
+    u8 pad_04[2];
+    s16 type;
+    u8 pad_08[4];
+    int packed_stats;
+    int flags;
+} BattleWeaponListEntry;
+
 extern int D_8009D018;
 extern int D_800A1B30[];
 extern int D_800A1B48[];
+extern unsigned char D_800923D0[];
+extern struct { char _[16]; } D_800C0E20_obj __asm__("D_800C0E20");
 extern struct { char _[16]; } D_800C0E22_obj __asm__("D_800C0E22");
+#define D_800C0E20 (*(s8 *)&D_800C0E20_obj)
 #define D_800C0E22 (*(s8 *)&D_800C0E22_obj)
 
 void Aya_UnlockParasiteSpell(int spell) {
@@ -87,7 +117,123 @@ tail:
     return result;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/battle/battle2", Inv_BuildWeaponList);
+void Inv_BuildWeaponList(int unused, void *out_arg) {
+    WeaponListEntry *entry;
+    BattleWeaponListEntry *out;
+    int value;
+    int packed;
+    int type;
+    int modifier;
+    int i;
+    int modifier_count;
+
+    (void)unused;
+    out = out_arg;
+    Inv_SelectActiveList(0);
+    entry = Inv_LookupActiveListData(D_800C0E20);
+
+    value = entry->attack_bonus + entry->attack;
+    if (value >= 1000) {
+        value = 999;
+    }
+    out->attack = value;
+
+    value = entry->range_bonus + entry->range;
+    if (value < 1000) {
+        value = Math_IntSqrt(value * 22500);
+    } else {
+        value = Math_IntSqrt(0x156FABC);
+    }
+    out->range_score = value;
+
+    out->type = entry->type;
+    packed = out->packed_stats;
+    packed = (packed & -0x400) | (entry->ammo & 0x3FF);
+    out->packed_stats = packed;
+
+    value = entry->bullets_bonus + entry->bullets;
+    if (value >= 1000) {
+        value = 999;
+    }
+    packed = (packed & 0xFFF003FF) | ((value & 0x3FF) << 10);
+    out->packed_stats = packed;
+
+    type = entry->type;
+    if (type != 0 && type < 8) {
+        value = type - 4;
+        if (value <= 0) {
+            value = 1;
+        }
+    } else if (type < 0x13) {
+        value = 0;
+    } else {
+        value = type - 0x12;
+    }
+
+    out->flags = 0x11;
+    packed = out->packed_stats;
+    packed = (packed & 0xFFCFFFFF) | ((value & 3) << 20);
+    out->packed_stats = packed;
+
+    modifier_count = entry->modifier_count;
+    if (modifier_count > 0) {
+        i = 0;
+        do {
+            modifier = entry->modifiers[i] & 0x1F;
+            switch (modifier) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                out->flags = (out->flags & -0x10) | (D_800923D0[modifier] & 0xF);
+                break;
+            case 6:
+            case 7:
+            case 8:
+                out->flags = (out->flags & -0xC1) | (((modifier - 5) & 3) << 6);
+                break;
+            case 9:
+                out->flags |= 0x100;
+                break;
+            case 10:
+                out->flags |= 0x200;
+                break;
+            case 11:
+                out->flags |= 0x400;
+                break;
+            case 12:
+                out->flags |= 0x800;
+                break;
+            case 13:
+                out->flags |= 0x1000;
+                break;
+            case 14:
+                out->flags |= 0x8000;
+                break;
+            case 15:
+                out->flags |= 0x10000;
+                break;
+            case 16:
+            case 17:
+                out->flags = (out->flags & -0x6001) | (((modifier - 0xF) & 3) << 13);
+                break;
+            case 18:
+                out->flags |= 0x20000;
+                break;
+            case 19:
+            case 20:
+                out->flags = (out->flags & -0x31) | (((modifier - 0x11) & 3) << 4);
+                break;
+            }
+            i++;
+        } while (i < entry->modifier_count);
+    }
+
+    if ((out->flags & 0x6000) == 0x2000) {
+        out->attack = (int)((u16)out->attack << 16) >> 17;
+    }
+}
 
 void BattleCmd_LoadWeaponModifiers(void) {
     WeaponEntry *entry;

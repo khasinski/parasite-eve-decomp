@@ -104,7 +104,7 @@ segments:
       - [0x196C, pad]
       - [0x1970, pad]
       - [0x19A4, rodata, main/rodata_0019A4]
-      - [0x19A8, rodata, main/rodata_0019A8]
+      - [0x19A8, pad]
       - [0x19F8, .rodata, battle/battle2]
       - [0x1A18, rodata, main/rodata_001A18]
       - [0x1A5C, .rodata, main/Inv_CheckSlotUsable]
