@@ -23,6 +23,19 @@ extern u16 g_MainAssetLbaTbl[];
 extern u16 g_LargeTexLbaTbl[];
 extern u16 D_8009316C[];
 extern u16 g_FontUiLbaTbl[];
+extern u16 D_8009315E[];
+extern u16 D_80093166[];
+extern int D_8001160C;
+extern int D_80011610;
+extern int D_800B0DD8;
+extern signed char D_800B0DB2;
+extern signed char D_800B0DB3;
+extern signed char D_800B0DB4;
+extern signed char D_800B0DB5;
+extern signed char D_800B0DB6;
+extern signed char D_800B0DB7;
+
+void Akao_Cmd_F0(void);
 
 typedef unsigned char u8;
 
@@ -178,7 +191,95 @@ retry_final_load:
     return 0;
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/main/misc19", CD_LoadBootAudio);
+int CD_LoadBootAudio(void) {
+    int scratch;
+    int status;
+    u16 *range;
+    int clear_mask;
+    int retry;
+
+    D_800B0DB5 = -1;
+    D_800B0DB4 = -1;
+    D_800B0DB7 = -1;
+    D_800B0DB6 = -1;
+    D_800B0DB3 = -1;
+    D_800B0DB2 = -1;
+    D_800B0CD8_word &= -0xF1;
+    Akao_Cmd_F0();
+
+retry_first:
+    range = D_8009315E;
+    retry = -1;
+    do {
+        status = CdRom_ReadSectors(D_800B0DD8 + range[0], 0, D_8001160C, range[1] - range[0]);
+    } while (status == retry);
+
+    clear_mask = 0xFEFFBFFF;
+    retry = -1;
+    while (1) {
+        status = Sys_VSyncTimeout((int)&scratch);
+        {
+            register int poll asm("$2");
+            poll = status + 1;
+            if ((unsigned int)poll < 2U) {
+                poll = status;
+                D_800B0CD8_word &= clear_mask;
+                asm volatile("" : "=r"(status) : "0"(status));
+                poll = status;
+            } else {
+                poll = status;
+            }
+
+            if (poll == 0) {
+                break;
+            }
+            if (poll == retry) {
+                goto retry_first;
+            }
+        }
+    }
+
+    EnterCriticalSection();
+    FlushCache();
+    ExitCriticalSection();
+
+retry_second:
+    range = D_80093166;
+    retry = -1;
+    do {
+        status = CdRom_ReadSectors(D_800B0DD8 + range[0], 0, D_80011610, range[1] - range[0]);
+    } while (status == retry);
+
+    clear_mask = 0xFEFFBFFF;
+    retry = -1;
+    while (1) {
+        status = Sys_VSyncTimeout((int)&scratch);
+        {
+            register int poll asm("$2");
+            poll = status + 1;
+            if ((unsigned int)poll < 2U) {
+                poll = status;
+                D_800B0CD8_word &= clear_mask;
+                asm volatile("" : "=r"(status) : "0"(status));
+                poll = status;
+            } else {
+                poll = status;
+            }
+
+            if (poll == 0) {
+                break;
+            }
+            if (poll == retry) {
+                goto retry_second;
+            }
+        }
+    }
+
+    EnterCriticalSection();
+    FlushCache();
+    ExitCriticalSection();
+    return 0;
+}
 
 int Pm_AllocSlot(unsigned int cmd) {
     int result;
