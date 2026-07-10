@@ -1056,7 +1056,7 @@ segments:
       - [0x64628, asm, sys/Sys_InitIntrManager]
       - [0x64700, c, main/Render_InitSceneGeom]
       - [0x648D0, asm, sys/Sys_SetIntrCallback]
-      - [0x64A18, asm, sys/Sys_SaveDisableIntr]
+      - [0x64A18, c, sys/Sys_SaveDisableIntr]
       - [0x64AB8, c, sys/Sys_RestoreIntr]
       - [0x64B30, c, sys/misc37]
       - [0x64B6C, asm, sys/Sys_HleJumpA0]
