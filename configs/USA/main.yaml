@@ -815,7 +815,7 @@ segments:
       - [0x4F518, c, gpu/Draw_EmitGlyph]
       - [0x4F6C8, c, gpu/Draw_SetGlyphAdvance]
       - [0x4F6D4, asm, main/Draw_AllocTexturedQuad]
-      - [0x4F9A0, asm, gpu/Draw_MeasureTextWidth]
+      - [0x4F9A0, c, gpu/Draw_MeasureTextWidth]
       - [0x4FA7C, c, gpu/Draw_PrintRawText]
       - [0x4FB54, c, gpu/Draw_PrintCenteredTextInWidth]
       - [0x4FD94, c, gpu/Draw_PrintCenteredText]
