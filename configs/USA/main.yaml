@@ -1535,7 +1535,7 @@ segments:
       - [0x811C0, c, akao/seq_op7]
       - [0x812AC, c, akao/seq_op8]
       - [0x81554, c, akao/SeqOp_NoteOnWithVoiceAlloc]
-      - [0x81620, asm, akao/SeqOp_NoteOnWithPitchSlide]
+      - [0x81620, c, akao/SeqOp_NoteOnWithPitchSlide]
       - [0x81754, c, akao/seq_op9]
       - [0x81880, c, akao/SeqOp_Noop]
       - [0x818A0, c, main/dtail_gp]
