@@ -277,7 +277,7 @@ segments:
       - [0x109DC, c, battle/Battle_SubActionStep]
       - [0x10A88, c, main/Battle_ApplyEnemyAttack]
       - [0x111F0, asm, main/Battle_SetupEnemyAnims]
-      - [0x11474, asm, battle/Battle_BeginPlayerAction]
+      - [0x11474, c, battle/Battle_BeginPlayerAction]
       - [0x114E4, c, battle/Battle_ReturnToIdle]
       - [0x11550, c, battle/Battle_HaltOnPositiveX]
       - [0x115D0, c, battle/Battle_InitEntityColors]
