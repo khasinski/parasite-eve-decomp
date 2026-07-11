@@ -1269,7 +1269,7 @@ segments:
       - [0x6E324, c, psyq/libspu/spu_fsetrxxa]
       - [0x6E3C8, c, psyq/libspu/spu_fgetrxxa]
       - [0x6E404, c, psyq/spu_fset]
-      - [0x6E4AC, asm, psyq/libspu/spu_fw1ts]
+      - [0x6E4AC, c, psyq/libspu/spu_fw1ts]
       - [0x6E508, pad]
       - [0x6E514, c, psyq/libspu/s_dcb]
       - [0x6E538, pad]
