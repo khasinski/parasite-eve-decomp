@@ -505,7 +505,7 @@ segments:
       - [0x36A0C, c, menu/Menu_InventoryPageInputHandler]
       - [0x36B34, c, event/Evt_DeferredExec]
       - [0x36B78, c, main/Menu_StepSkillList]
-      - [0x36D74, asm, menu/Menu_OnEquipConfirm]
+      - [0x36D74, c, menu/Menu_OnEquipConfirm]
       - [0x36EC0, c, main/Menu_StepEquipConfirm]
       - [0x372BC, c, menu/Menu_CreateSkillActionScreen]
       - [0x37358, c, menu/menu6]
