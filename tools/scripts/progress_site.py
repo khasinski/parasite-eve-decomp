@@ -15,7 +15,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/scripts"))
-from progress_report import is_clean, count_funcs  # noqa: E402
+from progress_report import configured_non_room_overlays, count_funcs, is_clean  # noqa: E402
 
 DOCS = ROOT / "docs"
 BADGES = DOCS / "badges"
@@ -38,7 +38,7 @@ def unit_rows(src_dir: pathlib.Path, prefix: str):
 
 def main() -> None:
     binaries = [("SLUS_006.62 (main)", ROOT / "src/main")]
-    for ovl_yaml in sorted((ROOT / "configs/USA/overlays").glob("ovl_*.yaml")):
+    for ovl_yaml in configured_non_room_overlays():
         binaries.append((ovl_yaml.stem, ROOT / "src/overlays" / ovl_yaml.stem))
 
     # headline numbers from the generated PROGRESS.md (single source of truth)

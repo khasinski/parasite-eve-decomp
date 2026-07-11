@@ -10,6 +10,7 @@ from __future__ import annotations
 import re
 import pathlib
 import datetime
+import csv
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
@@ -81,13 +82,63 @@ NONMATCHING_RE = re.compile(
 )
 
 
+LEGACY_OVERLAY_IDS = {
+    "sys_reset": "ovl_001",
+    "menu_memcard": "ovl_002",
+    "boot_display": "ovl_003",
+    "render_clip": "ovl_006",
+    "fx_field": "ovl_009",
+    "fx_common": "fx_block_1792",
+    "scene_e01": "ovl_171",
+    "scene_e02": "ovl_172",
+    "scene_e03": "ovl_173",
+    "scene_e04": "ovl_174",
+    "scene_e05": "ovl_175",
+    "scene_e06": "ovl_176",
+    "scene_e07": "ovl_177",
+    "scene_e08": "ovl_178",
+    "scene_e09": "ovl_179",
+    "scene_e10": "ovl_180",
+    "scene_e11": "ovl_181",
+    "scene_e12": "ovl_182",
+    "scene_e13": "ovl_183",
+    "scene_e14": "ovl_184",
+    "scene_e18": "ovl_185",
+    "scene_e19": "ovl_186",
+    "scene_e19_2": "ovl_187",
+    "scene_e20": "ovl_188",
+    "scene_e22": "ovl_189",
+    "scene_e24": "ovl_190",
+    "scene_e25": "ovl_191",
+    "scene_e26": "ovl_192",
+    "scene_e27": "ovl_193",
+}
+
+
+def legacy_overlay_name(name: str) -> str | None:
+    return LEGACY_OVERLAY_IDS.get(name)
+
+
+def legacy_asm_path(name: str, seg: str, asm_dir: pathlib.Path) -> pathlib.Path:
+    rel = seg if name.startswith("SLUS_") else seg.split("/", 1)[-1]
+    path = (asm_dir / rel).with_suffix(".s")
+    if path.exists():
+        return path
+    legacy = legacy_overlay_name(name)
+    if legacy is None:
+        return path
+    legacy_rel = rel.replace(name, legacy, 1)
+    legacy_dir = ROOT / "asm/USA/overlays" / legacy
+    legacy_path = (legacy_dir / legacy_rel).with_suffix(".s")
+    return legacy_path if legacy_path.exists() else path
+
+
 def count_asm_funcs(name: str, segments, asm_dir: pathlib.Path) -> int:
     n = 0
     for (off, typ, seg), (nxt, _, _) in zip(segments, segments[1:]):
         if typ != "asm":
             continue
-        rel = seg.split("/", 1)[-1] if name.startswith("ovl") else seg
-        f = (asm_dir / rel).with_suffix(".s")
+        f = legacy_asm_path(name, seg, asm_dir)
         if not f.exists():
             continue
         text = f.read_text(errors="ignore")
@@ -105,6 +156,21 @@ def count_asm_funcs(name: str, segments, asm_dir: pathlib.Path) -> int:
     return n
 
 
+def static_overlay_func_totals() -> dict[str, int]:
+    path = ROOT / "docs/assets/code-overlays.csv"
+    if not path.exists():
+        return {}
+    with path.open(newline="") as f:
+        return {
+            row["overlay_id"]: int(row["funcs"])
+            for row in csv.DictReader(f)
+            if row.get("overlay_id") and row.get("funcs")
+        }
+
+
+STATIC_OVERLAY_FUNC_TOTALS = static_overlay_func_totals()
+
+
 def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
             asm_dir: pathlib.Path):
     m_funcs = d_funcs = 0
@@ -117,6 +183,9 @@ def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
         else:
             d_funcs += count_funcs(strip_include_asm(t))
     n_funcs = m_funcs + d_funcs + count_asm_funcs(name, segments, asm_dir)
+    legacy = legacy_overlay_name(name)
+    if legacy in STATIC_OVERLAY_FUNC_TOTALS:
+        n_funcs = max(n_funcs, STATIC_OVERLAY_FUNC_TOTALS[legacy])
     # code bytes: c/asm subsegments, minus data carriers (TUs pulling .inc.s
     # blobs - they hold baked data, not code)
     total_b = matched_b = 0
@@ -157,6 +226,13 @@ def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
     ), m_funcs, n_funcs, matched_b, total_b
 
 
+def configured_non_room_overlays() -> list[pathlib.Path]:
+    return [
+        path for path in sorted((ROOT / "configs/USA/overlays").glob("*.yaml"))
+        if not path.stem.startswith("room_")
+    ]
+
+
 def main() -> None:
     lines = [
         "# Decompilation progress",
@@ -178,7 +254,7 @@ def main() -> None:
                     ROOT / "src/main", ROOT / "asm/USA/main")
     lines.append(r)
     totals = [a + b for a, b in zip(totals, t)]
-    for ovl_yaml in sorted((ROOT / "configs/USA/overlays").glob("ovl_*.yaml")):
+    for ovl_yaml in configured_non_room_overlays():
         name = ovl_yaml.stem
         r, *t = row_for(name, ovl_yaml, ROOT / "src/overlays" / name,
                         ROOT / "asm/USA/overlays" / name)

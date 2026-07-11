@@ -7,7 +7,7 @@ import argparse
 import re
 from pathlib import Path
 
-from catalog_pe_overlays import build_catalog, target_slice_info
+from catalog_pe_overlays import RENAMED_OVERLAY_IDS, build_catalog, target_slice_info
 
 
 BASENAME_RE = re.compile(r"^\s*basename:\s*(\S+)\s*$")
@@ -42,15 +42,10 @@ def main() -> int:
     args = parser.parse_args()
 
     basename, config_sha1 = config_basename_and_sha1(args.overlay_config)
-    RENAMED = {
-        "sys_reset": "ovl_001",
-        "menu_memcard": "ovl_002",
-        "boot_display": "ovl_003",
-        "render_clip": "ovl_006",
-        "fx_field": "ovl_009",
-        "fx_common": "fx_block_1792",
-    }
-    basename = RENAMED.get(basename, basename)
+    if basename == "fx_common":
+        basename = "fx_block_1792"
+    elif basename in RENAMED_OVERLAY_IDS:
+        basename = f"ovl_{RENAMED_OVERLAY_IDS[basename]:03d}"
     _image_sectors, candidates = build_catalog(
         args.pe_img,
         args.main_exe,
