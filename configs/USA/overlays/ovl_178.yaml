@@ -76,6 +76,7 @@ segments:
       - [0x37C0, asm, ovl_178_2B8_3D4_F54_1070_2450_37C0]
       - [0x3C90, c, func_80192C80]
       - [0x3C9C, asm, ovl_178_2B8_3D4_F54_1070_2450_3C9C]
+      - [0x3CE4, c, func_80192CD4]
       - [0x3D88, c, func_80192D78]
       - [0x3DA8, asm, ovl_178_2B8_3D4_F54_1070_2450_3DA8]
       - [0x412C, c, func_8019311C]
