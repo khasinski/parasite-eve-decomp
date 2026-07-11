@@ -534,7 +534,7 @@ segments:
       - [0x39808, c, menu/Menu_SetEquipPanelsCursorY]
       - [0x3985C, c, menu/Menu_DrawBonusPointSlotValue]
       - [0x398B0, c, menu/Menu_ExitBonusPointAllocation]
-      - [0x399C8, asm, menu/Menu_StatSlotInputHandler]
+      - [0x399C8, c, menu/Menu_StatSlotInputHandler]
       - [0x39B54, c, menu/Menu_BonusPointCancelHandler]
       - [0x39CAC, asm, menu/Menu_ItemListInputHandler]
       - [0x3A8C8, c, main/Menu_StepEquipSlotSelect2]
