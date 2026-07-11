@@ -439,7 +439,7 @@ segments:
       - [0x2F874, c, gpu/Gpu_InitPipeline]
       - [0x2FAFC, c, boot/Boot_FlushSceneFast]
       - [0x2FBC4, asm, boot/Boot_RunFrame]
-      - [0x2FF58, asm, gpu/Gte_SetBackColor]
+      - [0x2FF58, c, gpu/Gte_SetBackColor]
       - [0x2FF98, asm, gpu/Gte_SetLightColor]
       - [0x30000, asm, save/save]
       - [0x307BC, c, memcard/misc20]
