@@ -4,8 +4,6 @@
 
 #include "pe1/card_obj.h"
 
-typedef unsigned char u8;
-
 void CardObj_EmitCommand4C(CardObj *arg0, unsigned char arg1);
 void CardObj_EmitCommand46(CardObj *arg0, unsigned char arg1);
 void CardObj_EmitCommand47(CardObj *arg0, unsigned char arg1);
@@ -13,30 +11,6 @@ void CardObj_EmitCommand4B(CardObj *arg0);
 extern int (*D_8009B740)(void);
 int CardObj_ProcessReadPayload(CardObj *arg0);
 void CardObj_EmitReadTransferCommand(CardObj *arg0);
-
-int CardObj_CalcReadPayloadSize(CardObj *arg0) {
-    int first;
-    int second;
-    int base;
-    int raw_first;
-    int raw_second;
-
-    raw_first = arg0->field_e3;
-    raw_second = arg0->field_e9;
-    base = arg0->field_ec;
-
-    first = raw_first + 1;
-    asm volatile("" : "=r"(first) : "0"(first));
-    first >>= 1;
-    first <<= 2;
-
-    second = (raw_second << 2) + raw_second;
-    second = (second + 3) & 0xFFC;
-    second += 4;
-
-    first += second;
-    return first + base;
-}
 
 int CardObj_BeginReadTransfer(CardObj *obj, int size) {
     int total;
