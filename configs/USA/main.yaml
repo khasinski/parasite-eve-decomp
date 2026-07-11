@@ -281,7 +281,7 @@ segments:
       - [0x11550, c, battle/Battle_HaltOnPositiveX]
       - [0x115D0, c, battle/Battle_InitEntityColors]
       - [0x116FC, c, save/Save_ResetGlobalFlags]
-      - [0x11718, asm, main/Battle_Init]
+      - [0x11718, c, main/Battle_Init]
       - [0x11854, c, menu/Pad_GetMenuPressedBitOrDisabled]
       - [0x11880, c, menu/misc22]
       - [0x11928, asm, battle/Battle_DispatchEntityEffect]
