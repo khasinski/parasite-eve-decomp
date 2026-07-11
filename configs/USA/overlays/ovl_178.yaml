@@ -78,6 +78,8 @@ segments:
       - [0x3C9C, asm, ovl_178_2B8_3D4_F54_1070_2450_3C9C]
       - [0x3D88, c, func_80192D78]
       - [0x3DA8, asm, ovl_178_2B8_3D4_F54_1070_2450_3DA8]
+      - [0x412C, c, func_8019311C]
+      - [0x4168, asm, ovl_178_2B8_3D4_F54_1070_2450_4168]
       - [0x4AFC, c, func_80193AEC]
       - [0x4B04, c, func_80193AF4]
       - [0x4B30, c, RoomLib_Spawn6_80193B20]
