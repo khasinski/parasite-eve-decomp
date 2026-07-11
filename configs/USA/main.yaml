@@ -292,7 +292,7 @@ segments:
       - [0x120D8, asm, battle/Battle_CopyPadStateToRecord]
       - [0x122F8, c, main/Battle_SyncEnemyAttributes]
       - [0x1254C, c, battle/Battle_FlushScriptSounds]
-      - [0x125E0, asm, battle/Battle_StepScriptEntry]
+      - [0x125E0, c, battle/Battle_StepScriptEntry]
       - [0x12738, asm, main/Battle_UpdatePlayerTurn]
       - [0x12A10, asm, main/Battle_ApplyPlayerHit]
       - [0x12B94, c, main/Battle_AdvancePhase]
