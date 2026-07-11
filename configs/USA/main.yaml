@@ -1305,7 +1305,7 @@ segments:
       - [0x6EB34, asm, memcard/StopCARD2]
       - [0x6EB70, c, memcard/CardPatchFunctions]
       - [0x6ED94, c, psyq/libds/CQ_clear_queue]
-      - [0x6EDC4, asm, cdrom/Spu_DrainQueueEntry]
+      - [0x6EDC4, c, cdrom/Spu_DrainQueueEntry]
       - [0x6EEB0, c, cdrom/Spu_GetQueueEntryPtr]
       - [0x6EF04, asm, main/Render_DrawParticle]
       - [0x6F0F4, c, cdrom/CdRom_DispatchPendingCmd]
