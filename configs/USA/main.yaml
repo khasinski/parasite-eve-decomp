@@ -350,7 +350,7 @@ segments:
       - [0x2285C, c, main/Battle_DrawSpellName]
       - [0x22BC8, c, main/Battle_DrawStatusSymbol]
       - [0x22DDC, asm, main/Battle_DrawATBGauge]
-      - [0x22FD8, asm, main/Battle_DrawStatusValue]
+      - [0x22FD8, c, main/Battle_DrawStatusValue]
       - [0x230DC, asm, main/Battle_DrawDecimalNumber]
       - [0x2330C, asm, main/Battle_DrawStatusPanel]
       - [0x23B5C, c, gpu/Gpu_SetupSprites]
