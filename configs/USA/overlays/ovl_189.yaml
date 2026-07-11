@@ -94,7 +94,7 @@ segments:
       - [0x756C, asm, func_ovl_189_00756C]
       - [0x8044, asm, func_ovl_189_008044]
       - [0x8554, asm, func_ovl_189_008554]
-      - [0x91C8, asm, func_ovl_189_0091C8]
+      - [0x91C8, c, func_801891C8]
       - [0x9360, asm, func_ovl_189_009360]
       - [0xA060, asm, func_ovl_189_00A060]
   - [0xA800]
