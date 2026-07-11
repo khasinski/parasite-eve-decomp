@@ -1285,7 +1285,7 @@ segments:
       - [0x6C844, c, psyq/misc31]
       - [0x6C93C, c, psyq/libcd/func_8007C13C]
       - [0x6CA14, c, psyq/libcd/data_ready_callback]
-      - [0x6CAA0, asm, psyq/libcd/StGetBackloc]
+      - [0x6CAA0, c, psyq/libcd/StGetBackloc]
       - [0x6CAF8, asm, main/gap_psyq_libcd_StGetBackloc_tail_6CAF8]
       - [0x6CB04, c, psyq/libcd/StSetStream]
       - [0x6CB88, asm, main/gap_psyq_libcd_StSetStream_tail_6CB88]

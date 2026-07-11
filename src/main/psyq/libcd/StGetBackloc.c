@@ -5,14 +5,14 @@
 int CdPosToInt_Local(CdlLOC *p);
 CdlLOC *CdIntToPos_Local(int i, CdlLOC *p);
 
-extern int g_DsStreamNoLocFlag;
+extern int D_800A8020;
 extern CdlLOC D_800A3490;
 extern int D_800A3494;
 
 int StGetBackloc(CdlLOC *arg0) {
     register CdlLOC *saved_arg asm("$16") = arg0;
 
-    if (g_DsStreamNoLocFlag != 0) {
+    if (D_800A8020 != 0) {
         return -1;
     }
 
