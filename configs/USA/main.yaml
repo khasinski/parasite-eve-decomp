@@ -446,7 +446,7 @@ segments:
       - [0x3086C, c, save/Save_SprintfSjis]
       - [0x30A10, c, save/misc35]
       - [0x30DA4, asm, main/MemCard_StepPortState]
-      - [0x311B4, asm, memcard/MemCard_InitManager]
+      - [0x311B4, c, memcard/MemCard_InitManager]
       - [0x31380, c, save/Save_BuildCardFile]
       - [0x31780, c, memcard/MemCard_AbortActiveOperation]
       - [0x31908, c, memcard/tu_031908]
