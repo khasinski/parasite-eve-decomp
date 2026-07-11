@@ -1076,7 +1076,7 @@ segments:
       - [0x65238, pad]
       - [0x65244, asm, main/Render_InitEntityPool]
       - [0x653B8, c, gpu/SetGraphDebug]
-      - [0x65414, asm, gpu/SetGraphQueue]
+      - [0x65414, c, gpu/SetGraphQueue]
       - [0x654B8, c, gpu/GetGraphDebug]
       - [0x654C8, c, gpu/DrawSyncCallback]
       - [0x65528, c, gpu/SetDispMask]
