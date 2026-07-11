@@ -1160,7 +1160,7 @@ segments:
       - [0x684F4, c, psyq/libgte/geo_00]
       - [0x685C0, pad]
       - [0x685C4, c, psyq/libgte/geo_01]
-      - [0x68664, asm, gte/Gte_SetDepthParams]
+      - [0x68664, c, gte/Gte_SetDepthParams]
       - [0x68768, pad]
       - [0x68774, asm, main/068774_pre_InitGeom]
       - [0x6877C, asm, psyq/libgte/InitGeom]
