@@ -706,7 +706,7 @@ segments:
       - [0x4505C, asm, main/Inv_PickRandomItem]
       - [0x45288, asm, main/Inv_GetItemEffectData]
       - [0x454F8, asm, item/Inv_CompactActiveListSlots]
-      - [0x4564C, asm, item/Inv_CheckFreeSlotCapacity]
+      - [0x4564C, c, item/Inv_CheckFreeSlotCapacity]
       - [0x45758, c, main/Inv_CheckItemEquippable]
       - [0x45BA4, asm, main/Inv_RollRandomItemType]
       - [0x45E10, c, item/Item_PackParasiteSpells]
