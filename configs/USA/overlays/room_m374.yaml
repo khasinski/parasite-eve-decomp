@@ -37,7 +37,8 @@ segments:
       - [0x0, asm, room_m374]
       - [0x54, c, RoomLib_PlantTable_8018F03C]
       - [0x80, c, RoomLib_Spawn6_8018F068]
-      - [0xAC, asm, room_m374_AC]
+      - [0xAC, c, func_8018F094]
+      - [0xD4, asm, room_m374_D4]
       - [0x3B74, data]
   - [0x3E800]
 # room: m374, section3 sector 87379, scanner delta 0
