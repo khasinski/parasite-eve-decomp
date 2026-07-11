@@ -77,7 +77,7 @@ segments:
       - [0x33BC, asm, func_ovl_189_0033BC]
       - [0x33C4, asm, func_ovl_189_0033C4]
       - [0x353C, c, RoomLib_Set4ClearSignal_8018353C]
-      - [0x3558, asm, func_ovl_189_0033C4_3558]
+      - [0x3558, c, func_80183558]
       - [0x3560, asm, func_ovl_189_003560]
       - [0x3B08, asm, func_ovl_189_003B08]
       - [0x41D0, asm, func_ovl_189_0041D0]
