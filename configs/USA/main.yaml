@@ -1014,7 +1014,7 @@ segments:
       - [0x62FA0, pad]
       - [0x62FA4, asm, psyq/libapi/erase]
       - [0x62FB0, pad]
-      - [0x62FB4, asm, main/Scene_CreateEntityNode]
+      - [0x62FB4, c, main/Scene_CreateEntityNode]
       - [0x63150, asm, psyq/Sys_FirstFileHookCallback]
       - [0x63250, asm, psyq/Sys_FirstFileHookStub]
       - [0x63254, asm, psyq/libc/strcmp]
