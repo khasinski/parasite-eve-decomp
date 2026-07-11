@@ -54,6 +54,8 @@ segments:
       - [0xB5C, c, func_8018FB4C]
       - [0xBC0, c, func_8018FBB0]
       - [0xD40, asm, ovl_182_94_C0_108_218_33C_968_D40]
+      - [0x100C, c, func_8018FFFC]
+      - [0x1100, asm, ovl_182_94_C0_108_218_33C_968_1100]
       - [0x1D50, c, RoomLib_SetArgs3_80190D40]
       - [0x1D74, asm, ovl_182_94_C0_108_218_1D74]
       - [0x29FC, c, func_801919EC]

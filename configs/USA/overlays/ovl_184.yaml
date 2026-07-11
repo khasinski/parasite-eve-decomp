@@ -54,6 +54,8 @@ segments:
       - [0xB18, c, func_8018FB08]
       - [0xB7C, c, func_8018FB6C]
       - [0xCFC, asm, ovl_184_50_7C_C4_1D4_2F8_924_CFC]
+      - [0xFC8, c, func_8018FFB8]
+      - [0x10BC, asm, ovl_184_50_7C_C4_1D4_2F8_924_10BC]
       - [0x1D0C, c, func_80190CFC]
       - [0x1D30, data]
   - [0x2000]
