@@ -294,7 +294,7 @@ segments:
       - [0x1254C, c, battle/Battle_FlushScriptSounds]
       - [0x125E0, c, battle/Battle_StepScriptEntry]
       - [0x12738, asm, main/Battle_UpdatePlayerTurn]
-      - [0x12A10, asm, main/Battle_ApplyPlayerHit]
+      - [0x12A10, c, main/Battle_ApplyPlayerHit]
       - [0x12B94, c, main/Battle_AdvancePhase]
       - [0x1357C, asm, main/Battle_StartEnemyAttackEffect]
       - [0x13808, c, main/Battle_FinalizeAttackResult]
