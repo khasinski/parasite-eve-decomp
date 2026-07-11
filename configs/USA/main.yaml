@@ -385,6 +385,7 @@ segments:
       - [0x27940, c, gpu/Gpu_InitDrawModeTilePacket]
       - [0x279A4, c, menu/Menu_SetEquipSlotIndex]
       - [0x279B0, asm, menu/menu_set]
+      - [0x27C54, c, menu/Menu_SetTextCursorRect]
       - [0x27C6C, c, table/Tbl_ClearEntry]
       - [0x27CE8, c, table/Tbl_ResetAll]
       - [0x27D48, c, table/Tbl_LookupEntry]
