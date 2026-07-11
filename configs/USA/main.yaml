@@ -1659,6 +1659,10 @@ segments:
       - [0x81880, c, akao/SeqOp_Noop]
       - [0x818A0, c, main/dtail_gp]
       - [0xB24A0, asm, engine/engine_800C1CA0]
+      - [0xB3310, c, engine/func_800C2B10]
+      - [0xB3328, asm, engine/engine_800C2B28]
+      - [0xB76C0, c, engine/GsSetOrign]
+      - [0xB76D8, asm, engine/engine_800C6ED8]
       - [0xD04A8, data, main/dtail_0D04A8]
 
   - [0x1ee800]
