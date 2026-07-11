@@ -3048,5 +3048,4 @@ Draw_PrintNumberWidth3 = 0x800605C4;
 Menu_StepScrollList = 0x8004B650;
 func_80050618 = 0x80050618;
 Menu_SaveBgIsFadeActive = 0x80042ED0;
-MenuWidget_DestroyPopupNode = 0x80064E90;
 func_800835C0 = 0x800835C0;

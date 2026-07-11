@@ -4,7 +4,7 @@
 
 extern int g_DrawTextPosX;
 
-int Str_LookupTable4(void);
+int Str_LookupTable4(int arg0);
 void Draw_PrintCenteredTextInWidth(int arg0, int arg1);
 
 int g_DrawPrimColor;
@@ -18,8 +18,8 @@ void Draw_AllocColorTri(int arg0, int arg1, int arg2);
 
 void MenuWidget_DestroyNodeRecursive(void *node);
 
-void MenuWidget_DrawCenteredTableText(void) {
-    Draw_PrintCenteredTextInWidth(Str_LookupTable4(), g_DrawTextPosX);
+void MenuWidget_DrawCenteredTableText(int arg0) {
+    Draw_PrintCenteredTextInWidth(Str_LookupTable4(arg0), g_DrawTextPosX);
 }
 
 void Draw_DropShadow(void) {

@@ -1179,6 +1179,7 @@ Draw_AllocPrimWithMask = 0x8006374C; // type:func
 Draw_SetPrimCallback = 0x800647D0; // type:func
 Draw_DropShadow = 0x80064C80; // type:func
 Draw_SwapPrimBuffers = 0x80064D08; // type:func
+MenuWidget_DestroyPopupNode = 0x80064E90; // type:func
 Draw_FlushFrontBuffer = 0x80064EB4; // type:func
 Menu_StepListNavigate = 0x800650E0; // type:func
 MenuWidget_EaseNodePosition = 0x80065260; // type:func
