@@ -884,7 +884,7 @@ segments:
       - [0x5747C, c, render/Render_SetFadeColour]
       - [0x574E8, c, render/Render_DrawSprite]
       - [0x57760, asm, main/Geo_LoadMeshEntry]
-      - [0x579C8, asm, main/Geo_TransformPoint]
+      - [0x579C8, c, main/Geo_TransformPoint]
       - [0x57A94, c, render/Render_DrawSpriteEntry]
       - [0x57E78, c, render/render_set]
       - [0x57FFC, asm, main/Geo_RenderMeshList]
