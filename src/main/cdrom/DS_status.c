@@ -22,7 +22,7 @@ int DsRead_IsBusy(void);
 int printf(char *fmt, ...);
 
 void DS_status(void) {
-    DsReadStatusBlock *state;
+    register DsReadStatusBlock *state asm("$16");
     int b0;
     int b1;
     int b2;
@@ -33,6 +33,7 @@ void DS_status(void) {
     printf(D_80011D74);
 
     state = &g_DsReadStatusBlock;
+    asm volatile("" : "=r"(state) : "0"(state));
     printf(D_80011D94, state->status, state->command, state->sector);
     b0 = ((u_char *)state)[-0x1C];
     b1 = ((u_char *)state)[-0x1B];
