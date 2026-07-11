@@ -1331,7 +1331,7 @@ segments:
       - [0x70344, c, cdrom/CdRom_TryIssueCmd]
       - [0x703C0, c, cdrom/cd_rom3]
       - [0x704BC, c, cdrom/CdRom_IssueSetMode]
-      - [0x704FC, asm, cdrom/CdRom_SendCmd]
+      - [0x704FC, c, cdrom/CdRom_SendCmd]
       - [0x70624, asm, main/Render_StepParticlePool]
       - [0x708F4, c, cdrom/CdRom_RetryCmd]
       - [0x70964, c, main/Render_DrawParticleGroup]
