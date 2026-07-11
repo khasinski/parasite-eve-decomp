@@ -1,9 +1,8 @@
 typedef signed short s16;
 
-extern int g_FieldMoveLock;
-extern char *g_PlayerEntity;
-extern char *g_ActiveActor;
-extern s16 D_8009D298;
+extern int g_FieldMoveLock __asm__("D_8009D2E8");
+extern char *g_PlayerEntity __asm__("D_8009D254");
+extern char *g_ActiveActor __asm__("D_8009D278");
 
 void Entity_SetActionMode(char *arg0, int arg1);
 void Battle_FlushScriptSounds(void);
@@ -24,7 +23,7 @@ void Battle_BeginPlayerAction(void) {
     flags = *(int *)(actor + 0x4C);
     flags |= 0x10000;
     *(int *)(actor + 0x4C) = flags;
-    D_8009D298 = 0;
+    asm("sh $0,%gp_rel(D_8009D298)($28)");
     Entity_SetActionMode(player, 0x12);
     Battle_FlushScriptSounds();
 }
