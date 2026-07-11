@@ -297,7 +297,7 @@ segments:
       - [0x12A10, asm, main/Battle_ApplyPlayerHit]
       - [0x12B94, c, main/Battle_AdvancePhase]
       - [0x1357C, asm, main/Battle_StartEnemyAttackEffect]
-      - [0x13808, asm, main/Battle_FinalizeAttackResult]
+      - [0x13808, c, main/Battle_FinalizeAttackResult]
       - [0x1392C, c, main/Battle_StepCharacterAction]
       - [0x13EE8, asm, main/Battle_ResolveHitOnTimer]
       - [0x14614, asm, main/Battle_ApplyDamage]
