@@ -289,7 +289,7 @@ segments:
       - [0x11D6C, c, main/Battle_BuildTargetList]
       - [0x11EE4, asm, main/Battle_SortTargets]
       - [0x12050, c, battle/Battle_SwapRecords]
-      - [0x120D8, asm, battle/Battle_CopyPadStateToRecord]
+      - [0x120D8, c, battle/Battle_CopyPadStateToRecord]
       - [0x122F8, c, main/Battle_SyncEnemyAttributes]
       - [0x1254C, c, battle/Battle_FlushScriptSounds]
       - [0x125E0, c, battle/Battle_StepScriptEntry]
