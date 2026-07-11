@@ -287,7 +287,7 @@ segments:
       - [0x11928, c, battle/Battle_DispatchEntityEffect]
       - [0x11A78, asm, main/Battle_CheckEvasion]
       - [0x11D6C, c, main/Battle_BuildTargetList]
-      - [0x11EE4, asm, main/Battle_SortTargets]
+      - [0x11EE4, c, main/Battle_SortTargets]
       - [0x12050, c, battle/Battle_SwapRecords]
       - [0x120D8, c, battle/Battle_CopyPadStateToRecord]
       - [0x122F8, c, main/Battle_SyncEnemyAttributes]
