@@ -802,7 +802,7 @@ segments:
       - [0x4C974, c, item/Inventory_OpenAyaItemList]
       - [0x4C9EC, c, memcard/MemCard_SetDialogActive]
       - [0x4CA5C, c, save/Save_BuildHeader]
-      - [0x4CB74, asm, save/Save_RestoreHeader]
+      - [0x4CB74, c, save/Save_RestoreHeader]
       - [0x4CC88, c, menu/Menu_RequestErrorSound]
       - [0x4CC98, c, menu/Menu_RunFrameWithArg]
       - [0x4CD94, c, menu/Menu_RunFrame]

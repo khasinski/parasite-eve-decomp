@@ -43,8 +43,8 @@ void Save_RestoreHeader(void) {
     register u32 *saved_color asm("$16");
     u8 *prompt;
 
-    src = D_800C1EAC;
     i = 0;
+    src = D_800C1EAC;
     offset = 0;
     while (i < 6) {
         *(u16 *)((u8 *)D_800A1E6E + offset) = *src++;
