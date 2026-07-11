@@ -41,7 +41,7 @@ segments:
       - [0x578, c, func_80180578]
       - [0x600, c, func_80180600]
       - [0x6A8, asm, func_ovl_189_0006A8]
-      - [0xBF0, asm, func_ovl_189_000BF0]
+      - [0xBF0, c, func_80180BF0]
       - [0xCD0, asm, func_80180CD0]
       - [0xF10, asm, func_ovl_189_000F10]
       - [0xFBC, c, RoomLib_InitD_80180FBC]
