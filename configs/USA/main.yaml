@@ -630,7 +630,7 @@ segments:
       - [0x402F8, c, menu/Menu_DrawUsableItemActionList2]
       - [0x40348, c, menu/Menu_DrawEquipSelectionList]
       - [0x4043C, c, menu/Menu_GetItemSlotAvailability]
-      - [0x40480, asm, menu/Menu_DrawEquipModList]
+      - [0x40480, c, menu/Menu_DrawEquipModList]
       - [0x404F8, c, menu/Menu_DrawArmorListContainer]
       - [0x40568, c, menu/menu24]
       - [0x405E8, c, menu/menu25]
