@@ -1423,7 +1423,7 @@ segments:
       - [0x76010, pad]
       - [0x76014, asm, psyq/libapi/counter]
       - [0x76180, pad]
-      - [0x76184, asm, psyq/libspu/s_q]
+      - [0x76184, c, psyq/libspu/s_q]
       - [0x761F8, pad]
       - [0x76204, c, psyq/libspu/s_m_init]
       - [0x76258, pad]
