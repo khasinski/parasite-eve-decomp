@@ -564,7 +564,7 @@ segments:
       - [0x3CCB4, c, menu/menu15]
       - [0x3CD94, c, menu/Menu_CreateContextHelpPanel]
       - [0x3CDDC, c, menu/misc24]
-      - [0x3D450, asm, menu/Menu_CreateNotificationDialog]
+      - [0x3D450, c, menu/Menu_CreateNotificationDialog]
       - [0x3D5AC, c, menu/menu16]
       - [0x3D824, c, menu/menu17]
       - [0x3D884, c, menu/Menu_OpenMemCardSelectDialog]
