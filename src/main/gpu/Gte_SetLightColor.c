@@ -1,31 +1,26 @@
-asm(".text");
-asm(".set noreorder");
-asm(".globl Gte_SetLightColor");
-asm("Gte_SetLightColor:");
-asm("lhu     $3,0x10($29)");
-asm("sltiu   $2,$5,3");
-asm("beqz    $2,1f");
-asm("sll     $2,$5,1");
-asm("addu    $2,$2,$4");
-asm("sh      $6,0x20($2)");
-asm("sh      $7,0x26($2)");
-asm("sh      $3,0x2C($2)");
-asm("1:");
-asm("sll     $2,$5,2");
-asm("addu    $2,$4,$2");
-asm("sb      $6,0x40($2)");
-asm("sb      $7,0x41($2)");
-asm("sb      $3,0x42($2)");
-asm("addiu   $2,$4,0x20");
-asm("lw      $12,0($2)");
-asm("lw      $13,4($2)");
-asm("ctc2    $12,$16");
-asm("ctc2    $13,$17");
-asm("lw      $12,8($2)");
-asm("lw      $13,0xC($2)");
-asm("lw      $14,0x10($2)");
-asm("ctc2    $12,$18");
-asm("ctc2    $13,$19");
-asm("ctc2    $14,$20");
-asm("jr      $31");
-asm("nop");
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+void Gte_SetLightColor(u8 *state, int index, int r, int g, int b) {
+    u32 *matrix;
+    u8 *byte_slot;
+
+    if ((unsigned int)index < 3) {
+        *(u16 *)(state + 0x20 + index * 2) = r;
+        *(u16 *)(state + 0x26 + index * 2) = g;
+        *(u16 *)(state + 0x2C + index * 2) = b;
+    }
+
+    byte_slot = state + 0x40 + index * 4;
+    byte_slot[0] = r;
+    byte_slot[1] = g;
+    byte_slot[2] = b;
+
+    matrix = (u32 *)(state + 0x20);
+    asm volatile("ctc2 %0,$16" : : "r"(matrix[0]));
+    asm volatile("ctc2 %0,$17" : : "r"(matrix[1]));
+    asm volatile("ctc2 %0,$18" : : "r"(matrix[2]));
+    asm volatile("ctc2 %0,$19" : : "r"(matrix[3]));
+    asm volatile("ctc2 %0,$20" : : "r"(matrix[4]));
+}

@@ -8,7 +8,6 @@ s32 CdRom_TryIssueCmd(s32 arg0) {
     register int *prev asm("$7");
 
     base = &g_CdRomCmdTimeout;
-    asm volatile("" : "=r"(base) : "0"(base));
     if (base[0] > 0) {
         return 0;
     }
@@ -17,7 +16,6 @@ s32 CdRom_TryIssueCmd(s32 arg0) {
         return 0;
     }
     prev = base - 0x11;
-    asm volatile("" : "=r"(prev) : "0"(prev));
     if (base[-9] != 1) {
         return 0;
     }

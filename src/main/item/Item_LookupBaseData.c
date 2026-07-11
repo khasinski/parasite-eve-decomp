@@ -18,7 +18,6 @@ void *Item_LookupBaseData(unsigned int index)
     }
 
     offset = index << 5;
-    asm volatile("" : "=r"(offset) : "0"(offset));
     endPtr = (int *)((char *)endPtr - 0x10);
     return (void *)(base + (offset + (int)endPtr));
 }

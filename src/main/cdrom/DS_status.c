@@ -33,7 +33,6 @@ void DS_status(void) {
     printf(D_80011D74);
 
     state = &g_DsReadStatusBlock;
-    asm volatile("" : "=r"(state) : "0"(state));
     printf(D_80011D94, state->status, state->command, state->sector);
     b0 = ((u_char *)state)[-0x1C];
     b1 = ((u_char *)state)[-0x1B];
@@ -52,5 +51,3 @@ void DS_status(void) {
     }
     printf(D_80011E4C, busy);
 }
-
-asm(".word 0\n.word 0");

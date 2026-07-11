@@ -1,21 +1,18 @@
-asm(".text");
-asm(".set noreorder");
-asm(".set noat");
-asm(".globl Gte_StoreTableEntry");
-asm("Gte_StoreTableEntry:");
-asm("sw      $4,0($29)");
-asm("mtc2    $4,$30");
-asm("lui     $2,0x8000");
-asm(".word   0x10820005");
-asm("addiu   $3,$0,0x1F");
-asm("swc2    $31,0($29)");
-asm("lw      $2,0($29)");
-asm("nop");
-asm("subu    $3,$3,$2");
-asm(".Lfunc_8003EAC8_store:");
-asm("sll     $2,$3,2");
-asm("lui     $1,%hi(g_FieldRenderFlagTable)");
-asm("addu    $1,$1,$2");
-asm("sw      $5,%lo(g_FieldRenderFlagTable)($1)");
-asm("jr      $31");
-asm("nop");
+typedef unsigned int u32;
+
+extern int g_FieldRenderFlagTable[];
+
+static int Gte_HighestBitIndex(u32 mask) {
+    int index;
+
+    index = 31;
+    while (index > 0 && (mask & 0x80000000) == 0) {
+        mask <<= 1;
+        index--;
+    }
+    return index;
+}
+
+void Gte_StoreTableEntry(u32 mask, int value) {
+    g_FieldRenderFlagTable[Gte_HighestBitIndex(mask)] = value;
+}

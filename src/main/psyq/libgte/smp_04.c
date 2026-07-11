@@ -11,6 +11,3 @@ void RotTrans(void *v, void *out, int *flag) {
     asm volatile("cfc2 %0,$31" : "=r"(flagValue));
     *flag = flagValue;
 }
-
-asm(".word 0x00000000");
-asm(".word 0x00000000");

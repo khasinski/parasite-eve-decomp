@@ -10,7 +10,6 @@ int DrawSyncCallback(int arg0) {
     int old;
 
     base = g_GraphDebug;
-    asm volatile("" : "=r"(base) : "0"(base));
     saved = arg0;
     if (base[0] >= 2) {
         g_GpuDebugPrintf[0](D_80011854, saved);

@@ -7,7 +7,6 @@ int CdRom_IssueSetMode(int arg0) {
     volatile int *ptr;
 
     ptr = &g_CdRomCmdTimeout;
-    asm volatile("" : "=r"(ptr) : "0"(ptr));
     if (*ptr > 0) {
         return 0;
     }

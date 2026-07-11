@@ -20,7 +20,6 @@ void Render_StepParticleCallback(void) {
 
     state = D_8009B6B0;
     mode = -1;
-    asm volatile("" : "=r"(state) : "0"(state));
     WORD(state, 0) += WORD(state, -4) << 2;
     WORD(state, 4) -= 1;
     now = VSync(mode);

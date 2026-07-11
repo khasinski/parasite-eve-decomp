@@ -35,7 +35,3 @@ int RotTransPers3(
     asm volatile("sw %0,0(%1)" : : "r"(flagValue), "r"(flagPtr));
     return result >> 2;
 }
-
-asm(".word 0x00000000");
-asm(".word 0x00000000");
-asm(".word 0x00000000");

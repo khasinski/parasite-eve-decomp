@@ -24,7 +24,7 @@ void Battle_BeginPlayerAction(void) {
     flags = *(int *)(actor + 0x4C);
     flags |= 0x10000;
     *(int *)(actor + 0x4C) = flags;
-    asm volatile("sh $zero, %gp_rel(D_8009D298)($gp)");
+    D_8009D298 = 0;
     Entity_SetActionMode(player, 0x12);
     Battle_FlushScriptSounds();
 }

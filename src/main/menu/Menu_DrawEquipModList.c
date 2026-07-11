@@ -17,7 +17,6 @@ void Menu_DrawEquipModList(int arg0) {
     saved_arg = arg0;
     var_s1 = Inv_GetPackedListItem(MenuWidget_GridCellIndex(arg0));
     var_s0 = BattleCmd_GetRemainingAmmo(&temp);
-    asm volatile("" : "=r"(var_s0) : "0"(var_s0));
     ret = Inv_GetSlotHighlightState(var_s1, var_s0);
     Draw_AllocColorQuad(var_s0 - ret, temp);
     MenuWidget_DrawList(saved_arg, Menu_DrawModNameItem);

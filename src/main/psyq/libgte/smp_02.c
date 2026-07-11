@@ -13,5 +13,3 @@ int RotTransPers(void *v, void *sxy, void *p, int *flag) {
     *flag = flagValue;
     return result >> 2;
 }
-
-asm(".word 0x00000000");

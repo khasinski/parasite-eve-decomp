@@ -10,7 +10,6 @@ int Obj_ResetAllEntries(void) {
     register unsigned int value100 asm("t2");
     register unsigned int value1 asm("t1");
 
-    asm("addiu   $sp,$sp,-8");
     state = g_GeomState;
     cursor = (u8 *)g_GeomState;
     entryBase = cursor + state->ctrl_offset;
@@ -38,11 +37,5 @@ int Obj_ResetAllEntries(void) {
         } while (i < count);
     }
 
-    {
-        register int ret asm("v0");
-
-        asm("addu    %0,$zero,$zero" : "=r"(ret));
-        asm("addiu   $sp,$sp,8");
-        return ret;
-    }
+    return 0;
 }

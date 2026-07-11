@@ -1,20 +1,16 @@
-asm(".text");
-asm(".set noreorder");
-asm(".globl Gte_SetBackColor");
-asm("Gte_SetBackColor:");
-asm("sll     $12,$5,4");
-asm("sll     $13,$6,4");
-asm("sll     $14,$7,4");
-asm("ctc2    $12,$13");
-asm("ctc2    $13,$14");
-asm("ctc2    $14,$15");
-asm("sh      $0,0($4)");
-asm("sh      $0,2($4)");
-asm("sh      $0,4($4)");
-asm("sh      $0,6($4)");
-asm("sh      $0,8($4)");
-asm("sh      $0,10($4)");
-asm("sh      $0,12($4)");
-asm("sh      $0,14($4)");
-asm("jr      $31");
-asm("sh      $0,16($4)");
+typedef unsigned short u16;
+
+void Gte_SetBackColor(u16 *dst, int r, int g, int b) {
+    int i;
+
+    r <<= 4;
+    g <<= 4;
+    b <<= 4;
+    asm volatile("ctc2 %0,$13" : : "r"(r));
+    asm volatile("ctc2 %0,$14" : : "r"(g));
+    asm volatile("ctc2 %0,$15" : : "r"(b));
+
+    for (i = 0; i < 9; i++) {
+        dst[i] = 0;
+    }
+}

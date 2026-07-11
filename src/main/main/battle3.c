@@ -101,8 +101,38 @@ int Scene_LoadRoomAssets(int room);
 void Asset_Find08Alt(int id, int arg1, int x, int y, int z);
 void Aya_DeriveStats(void *src, void *dst);
 void Battle_StartDeathAnim(void);
+int Menu_RunFrameWithArg(void *arg);
+int Pad_GetMenuPressedBitOrDisabled(void);
+void Battle_StepScriptEntry(void);
+void Battle_ResolveHitOnTimer(void);
+void Save_DrawSlotMetadata(void);
+void Menu_MainUpdate(int mode);
+void Battle_UpdateEnemy(void *entity);
+void Pm_SendCmd(int slot, int arg1, int arg2, void *arg3, int arg4, int arg5);
+void Gpu_QueuePrimitive(void);
+int Battle_RollEnemySpawn(int arg0);
+int Battle_HandleItemMenu(void);
+void Battle_StepLevelUp(void);
+int Battle_StepVictory(void);
+int Inv_CountByValue(int item_id);
+int Inv_FindItemById(int item_id);
+void Battle_StepPostBattle(void);
+void Battle_DrawStatusPanel(int side, void *panel);
+void Battle_StepEscapeOrDeath(void);
+void Battle_StepEntityDeath(void);
+void Battle_PhaseInitEnemyTurn(void);
+void Battle_PhaseHitReaction(void);
+void Battle_PhaseEndTurn(void);
+void Menu_SaveOverlayDraw(void);
+void Battle_DrawActiveStatus(void);
 
 extern u8 D_8009D2EC;
+extern u8 D_8009D23C;
+extern u32 D_8009D230;
+extern u8 D_8009D294;
+extern u32 D_8009D1F4;
+extern int D_8009D2FC;
+extern char D_800A76D8[];
 extern struct { char _[16]; } D_800915E0_o __asm__("D_800915E0");
 #define D_800915E0 (*(u32 *)&D_800915E0_o)
 extern struct { char _[16]; } D_800B0CE6_palette_o __asm__("D_800B0CE6");
@@ -204,13 +234,6 @@ extern struct { char _[16]; } D_800B01B9_o __asm__("D_800B01B9");
 #define D_800B01B9 (*(s8 *)&D_800B01B9_o)
 extern struct { char _[16]; } D_800B01BA_o __asm__("D_800B01BA");
 #define D_800B01BA (*(s8 *)&D_800B01BA_o)
-
-/* Function body emitted as asm() (PSYQ GCC 2.7.2 register
- * allocation / scheduling diverges from the ROM pervasively).
- * Wrapped via maspsx's INCLUDE_ASM hack so the body is passed
- * through verbatim; bare global loads gp-rel via the .extern size
- * hints + `as -G8`. See tools/maspsx/PE1_IMPROVEMENTS.md. */
-void __maspsx_include_asm_hack_func_8002B29C(void);
 
 void Save_InitSystem(void) {
     u8 i;
@@ -488,7 +511,218 @@ void Battle_StartEncounter(int mode) {
     }
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/main/battle3", Battle_Update);
+static void Battle_UpdateSuspendState(void) {
+    Combatant *actor;
+
+    actor = D_8009D278;
+    if ((actor->stateFlags & 0x80000) != 0) {
+        if (D_8009D28C == 6) {
+            D_8009CE7C = 6;
+            D_8009D28C = 0;
+        }
+    } else if (D_8009CE7C == 6) {
+        D_8009CE7C = 0;
+        D_8009D28C = 6;
+    }
+}
+
+static void Battle_UpdateEnemies(void) {
+    BattleEntity *entity;
+
+    entity = g_FieldActorListHead;
+    while (entity != 0) {
+        if (entity != (BattleEntity *)D_8009D254 && entity->core != 0) {
+            Battle_UpdateEnemy(entity);
+        }
+        entity = entity->next;
+    }
+}
+
+static void Battle_UpdateTimedPanels(void) {
+    Combatant *actor;
+
+    actor = D_8009D278;
+    if (actor->panelA_timer != 0) {
+        Battle_DrawStatusPanel(0, &actor->panelA_val);
+        actor->panelA_timer--;
+    }
+    if (actor->field66 != 0) {
+        Battle_DrawStatusPanel(0, &actor->field66 - 6);
+        actor->field66--;
+    }
+}
+
+static void Battle_UpdateQueuedPmCommands(void) {
+    if (D_8009D23C != 0) {
+        Pm_SendCmd(D_8009D2FC, 0, 1, D_800B8A90, 0, 0);
+        Pm_SendCmd(D_8009D2FC, 0, 0, (void *)1, 0, 0);
+        D_8009D23C = 0;
+    }
+}
+
+static void Battle_UpdatePlayerAnimRecovery(void) {
+    BattleEntity *entity;
+    Combatant *actor;
+
+    entity = (BattleEntity *)D_8009D254;
+    actor = D_8009D278;
+
+    if (entity->animFrame != entity->animFrameMax) {
+        return;
+    }
+
+    if (entity->animState < 4) {
+        if (D_8009D298[0] == 0) {
+            Entity_SetActionMode(entity, actor->actionMode12);
+            if ((D_800B0CE6_PALETTE & 1) == 0 &&
+                Pad_GetMenuPressedBitOrDisabled() == 0 &&
+                D_8009D28C == 0 &&
+                actor->action != 0 &&
+                (actor->action->turnWord & 0x8000) != 0 &&
+                D_8009D1D0 != 0) {
+                Battle_RollEnemySpawn(D_8009D1D0);
+                D_8009D1D0 = 0;
+            }
+        } else {
+            if (D_8009D298[0] >= 2) {
+                entity->entityFlags |= 0x100;
+            }
+            D_8009D298[0] = 0;
+            Entity_SetActionMode(entity, D_8009D29A[0]);
+            entity->pad_010[4] = (u8)(D_8009D29C[0] >> 24);
+        }
+    }
+
+    if (entity->animState == 0x0D && (D_800B0CE6_PALETTE & 1) == 0) {
+        actor->actionMode12 = 4;
+        if ((entity->entityFlags & 0x100) != 0) {
+            Asset_Find08Alt(0x453, 0, entity->worldX, entity->worldY, entity->worldZ);
+            entity->entityFlags &= ~0x100;
+        }
+        if (entity->animFrame == entity->animFrameMax) {
+            Entity_SetActionMode(entity, actor->actionMode12);
+            D_8009D2E8 &= ~1;
+        }
+    }
+}
+
+static void Battle_UpdateNormalPhase(int menu_mode) {
+    int pressed;
+    Combatant *actor;
+
+    actor = D_8009D278;
+
+    if (D_8009D244 != 0 && actor->hpAlive >= 0x2328) {
+        actor->hpAlive = 0x2328;
+        if (D_8009D288 == 0) {
+            srand(D_8009D250);
+            D_8009D288 = 1;
+        }
+    }
+
+    pressed = Pad_GetMenuPressedBitOrDisabled();
+    if (pressed > 0) {
+        if ((actor->stateFlags & 0x4000) == 0 || (D_8009D1A0 & 0x100) != 0) {
+            Battle_StepScriptEntry();
+        }
+        if (D_8009D294 != 0) {
+            Battle_ResolveHitOnTimer();
+        }
+    }
+
+    if ((D_8009D1AC & 0x300) != 0) {
+        Save_DrawSlotMetadata();
+    }
+
+    Menu_MainUpdate(menu_mode);
+    Battle_UpdateEnemies();
+    Battle_UpdateQueuedPmCommands();
+
+    if (D_8009D235 != 0) {
+        Gpu_QueuePrimitive();
+    }
+
+    Battle_UpdatePlayerAnimRecovery();
+    D_8009D1E8++;
+}
+
+static void Battle_UpdateScriptedPhase(void) {
+    switch (D_8009D28C) {
+    case 1:
+        D_8009D28C = (s8)Battle_HandleItemMenu();
+        if (D_8009D28C == 0) {
+            D_8009D1A0 &= ~4;
+        }
+        break;
+    case 2:
+        Battle_StepLevelUp();
+        break;
+    case 3:
+        if ((D_8009D278->stateFlags & 0x800) != 0) {
+            if (Battle_StepVictory() != 0) {
+                D_8009D278->stateFlags &= ~0x800;
+            }
+        } else if (Inv_CountByValue(0x12) != 0) {
+            if (Battle_StepVictory() != 0) {
+                Inv_FindItemById(0x12);
+            }
+        } else {
+            Battle_StepPostBattle();
+        }
+        Battle_UpdateTimedPanels();
+        Battle_UpdateEnemies();
+        break;
+    case 4:
+        Battle_StepEscapeOrDeath();
+        break;
+    case 5:
+        Battle_StepEntityDeath();
+        break;
+    case 6:
+        Battle_PhaseInitEnemyTurn();
+        break;
+    case 7:
+        Battle_PhaseHitReaction();
+        break;
+    case 8:
+        Battle_PhaseEndTurn();
+        break;
+    default:
+        break;
+    }
+}
+
+void Battle_Update(void) {
+    int menu_result;
+    BattleEntity *player;
+
+    Battle_UpdateSuspendState();
+
+    player = (BattleEntity *)D_8009D254;
+    D_8009D278 = player->core;
+    D_8009D230 = 0;
+
+    menu_result = Menu_RunFrameWithArg(D_800A76D8);
+    D_8009D2A4 = menu_result;
+
+    if (D_8009D28C == 0 && D_8009D244 != 0) {
+        Battle_UpdateNormalPhase(1);
+    } else {
+        Battle_UpdateScriptedPhase();
+    }
+
+    if (D_8009D1CE != 0 && D_8009D28C == 0) {
+        Menu_SaveOverlayDraw();
+    }
+
+    if (D_8009D244 != 0) {
+        Battle_DrawActiveStatus();
+    }
+
+    if (D_8009D2A4 != 0) {
+        Render_BeginSceneLoad();
+    }
+}
 
 static void Battle_VictoryFadeMainAndPartner(int shade) {
     Render_FadeEntityColor((u8 *)D_8009D254 + 0x1B4, shade, shade, shade);
