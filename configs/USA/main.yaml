@@ -921,7 +921,7 @@ segments:
       - [0x5C64C, c, cdrom/CdRom_DetectDiscChange]
       - [0x5C6CC, asm, main/Scene_LoadEntityTexture]
       - [0x5C9CC, c, main/Scene_InitEntityPlayer]
-      - [0x5CCC4, asm, gpu/Scene_SetDiscSide]
+      - [0x5CCC4, c, gpu/Scene_SetDiscSide]
       - [0x5CDBC, asm, main/Scene_LoadEntityTextures]
       - [0x5D468, asm, gpu/Scene_UpdateBgDraw]
       - [0x5D5A4, asm, main/CD_ReadSectors]
