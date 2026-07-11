@@ -11,10 +11,12 @@ int SetGraphDebug(int debug) {
     register unsigned char *slot asm("$3");
 
     slot = D_8009574E;
+    asm volatile("" : "=r"(slot) : "0"(slot));
     old = *slot;
     *slot = debug;
     debug = (unsigned char)debug;
     if (debug != 0) {
+        asm volatile("" : "=r"(slot) : "0"(slot));
         D_80095748[0](D_80011814, slot[0], slot[-2], slot[1]);
     }
     return old;
