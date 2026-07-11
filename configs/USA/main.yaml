@@ -1715,10 +1715,13 @@ segments:
       - [0xBE9FC, asm, engine/engine_800CE1FC]
       - [0xBEBAC, c, engine/func_800CE3AC]
       - [0xBEBB4, asm, engine/engine_800CE3B4]
+      - [0xBEC64, c, engine/func_800CE464]
       - [0xBEC70, c, engine/func_800CE470]
       - [0xBEC9C, asm, engine/engine_800CE49C]
       - [0xBEDAC, c, engine/func_800CE5AC]
       - [0xBEE10, asm, engine/engine_800CE610]
+      - [0xBF070, c, engine/func_800CE870]
+      - [0xBF0F0, asm, engine/engine_800CE8F0]
       - [0xD04A8, data, main/dtail_0D04A8]
 
   - [0x1ee800]
