@@ -43,7 +43,7 @@ segments:
       - [0x25C, c, func_8018F244]
       - [0x264, asm, room_m034_FC_254]
       - [0x384, c, func_8018F36C]
-      - [0x38C, asm, room_m034_FC_254_38C]
+      - [0x38C, c, func_8018F374]
       - [0x398, c, func_8018F380]
       - [0x3D4, c, func_8018F3BC]
       - [0x3DC, asm, room_m034_FC_254_3DC]
