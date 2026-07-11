@@ -1259,7 +1259,7 @@ segments:
       - [0x6D6AC, c, psyq/libcd/dma_execute]
       - [0x6D854, c, psyq/libspu/SpuInit]
       - [0x6D874, c, psyq/libspu/_SpuInit]
-      - [0x6D95C, asm, psyq/libspu/SpuStart]
+      - [0x6D95C, c, psyq/libspu/SpuStart]
       - [0x6D9CC, pad]
       - [0x6D9D4, asm, main/_spu_init]
       - [0x6DC54, c, psyq/misc32]
