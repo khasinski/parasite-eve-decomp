@@ -28,7 +28,7 @@ options:
   asm_data_macro: dlabel
   generate_asm_macros_files: False
 
-  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss", "pad"]
 
   symbol_addrs_path:
     - configs/USA/sym.main.txt
@@ -82,7 +82,7 @@ segments:
       - [0x1024, rodata, main/rodata_001024]
       - [0x1084, rodata, main/rodata_001084]
       - [0x10A8, rodata, main/rodata_0010A8]
-      - [0x10F0, rodata, main/rodata_0010F0]
+      - [0x10F0, .rodata, main/battle3]
       - [0x1110, rodata, main/rodata_001110]
       - [0x1288, rodata, main/rodata_001288]
       - [0x12C8, .rodata, battle/Battle_GetContextField]
@@ -155,7 +155,7 @@ segments:
       - [0x50E0, asm, main/Camera_TrackRelativeOffset]
       - [0x53A0, c, main/Camera_StepAngleFade]
       - [0x55A0, c, task/task5]
-      - [0x57D8, asm, task/Task_PlayEntityAnim]
+      - [0x57D8, c, task/Task_PlayEntityAnim]
       - [0x5908, asm, task/Task_CopyEntityRenderObject]
       - [0x5A40, c, task/Task_SetGteMatrix]
       - [0x5DFC, c, boot/Boot_CheckModeSwitch]
