@@ -1223,7 +1223,7 @@ segments:
       - [0x693E4, c, psyq/libgte/mtx_05]
       - [0x69434, asm, psyq/libgte/mtx_06]
       - [0x69490, asm, main/gap_psyq_libgte_mtx_06_tail_69490]
-      - [0x69494, asm, psyq/libgte/mtx_07]
+      - [0x69494, c, psyq/libgte/mtx_07]
       - [0x694B8, asm, main/gap_psyq_libgte_mtx_07_tail_694B8]
       - [0x694C4, asm, gte/Gte_ScaleMatrix]
       - [0x695FC, asm, main/gap_gte_Gte_ScaleMatrix_tail_695FC]
