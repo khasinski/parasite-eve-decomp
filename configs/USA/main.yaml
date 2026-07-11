@@ -724,7 +724,7 @@ segments:
       - [0x477B8, c, menu/Menu_DrawWeaponComparisonPanel]
       - [0x47894, c, main/Inv_StepScrollDisplay]
       - [0x47CA8, asm, main/Inv_DrawSlotItemIcon]
-      - [0x47E54, asm, main/Inv_IsSlotSelectable]
+      - [0x47E54, c, main/Inv_IsSlotSelectable]
       - [0x47FE0, c, item/Item_SetDisabledFlag]
       - [0x48034, asm, main/Inv_BuildEquipSlotDisplay]
       - [0x481D4, asm, main/Inv_GetSlotHighlightState]
