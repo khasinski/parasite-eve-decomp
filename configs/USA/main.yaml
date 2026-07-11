@@ -440,7 +440,7 @@ segments:
       - [0x2FAFC, c, boot/Boot_FlushSceneFast]
       - [0x2FBC4, asm, boot/Boot_RunFrame]
       - [0x2FF58, c, gpu/Gte_SetBackColor]
-      - [0x2FF98, asm, gpu/Gte_SetLightColor]
+      - [0x2FF98, c, gpu/Gte_SetLightColor]
       - [0x30000, asm, save/save]
       - [0x307BC, c, memcard/misc20]
       - [0x3086C, asm, save/Save_SprintfSjis]
