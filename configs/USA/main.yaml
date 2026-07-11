@@ -1352,7 +1352,7 @@ segments:
       - [0x7162C, pad]
       - [0x71634, c, cdrom/CdRom_StartRead]
       - [0x71764, c, cdrom/CdRom_SetMode2Callback]
-      - [0x71798, asm, cdrom/CdRom_ReadProgressCallback]
+      - [0x71798, c, cdrom/CdRom_ReadProgressCallback]
       - [0x71910, c, main/Render_StepParticleCallback]
       - [0x719E4, c, save/save4]
       - [0x71B10, pad]
