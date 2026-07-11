@@ -1237,7 +1237,7 @@ segments:
       - [0x6C3B0, c, psyq/libcd/CD_initintr]
       - [0x6C3FC, asm, psyq/libcd/CD_init]
       - [0x6C5DC, asm, psyq/libcd/CD_datasync]
-      - [0x6C744, asm, psyq/libcd/CD_getsector2]
+      - [0x6C744, c, psyq/libcd/CD_getsector2]
       - [0x6C844, c, psyq/misc31]
       - [0x6C93C, asm, psyq/libcd/func_8007C13C]
       - [0x6CA14, c, psyq/libcd/data_ready_callback]
