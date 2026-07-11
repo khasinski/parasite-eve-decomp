@@ -1037,7 +1037,7 @@ segments:
       - [0x63C54, asm, math/Math_Int32ToDouble]
       - [0x63D54, c, math/Math_Neg64]
       - [0x63DC4, c, main/Math_Sqrt64]
-      - [0x640D8, asm, math/Math_Mul32To64]
+      - [0x640D8, c, math/Math_Mul32To64]
       - [0x641C4, c, event/Evt_Deliver]
       - [0x64228, pad]
       - [0x64234, asm, psyq/libapi/DeliverEvent]
