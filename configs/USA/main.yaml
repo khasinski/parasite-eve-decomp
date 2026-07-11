@@ -1398,7 +1398,7 @@ segments:
       - [0x71634, asm, cdrom/CdRom_StartRead]
       - [0x71764, c, cdrom/CdRom_SetMode2Callback]
       - [0x71798, asm, cdrom/CdRom_ReadProgressCallback]
-      - [0x71910, asm, main/Render_StepParticleCallback]
+      - [0x71910, c, main/Render_StepParticleCallback]
       - [0x719E4, asm, save/save4]
       - [0x71A54, c, cdrom/func_80081254]
       - [0x71A68, asm, save/save4_tail]
