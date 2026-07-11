@@ -736,7 +736,7 @@ segments:
       - [0x48830, c, main/Inv_TransferItem]
       - [0x48B3C, c, item/Inv_CanAddActiveListItemToAya]
       - [0x48C54, c, main/Inv_TransferItemAlt]
-      - [0x48E70, asm, main/Inv_ClearDisplaySlots]
+      - [0x48E70, c, main/Inv_ClearDisplaySlots]
       - [0x490EC, c, main/Inv_StepScrollDisplay2]
       - [0x492A8, c, menu/Menu_DrawArmorItemDetail]
       - [0x493BC, c, item/inv4]
