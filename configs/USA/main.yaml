@@ -1709,6 +1709,12 @@ segments:
       - [0xBDAEC, asm, engine/engine_800CD2EC]
       - [0xBE504, c, engine/func_800CDD04]
       - [0xBE50C, asm, engine/engine_800CDD0C]
+      - [0xBE9DC, c, engine/func_800CE1DC]
+      - [0xBE9EC, c, engine/func_800CE1EC]
+      - [0xBE9F4, c, engine/func_800CE1F4]
+      - [0xBE9FC, asm, engine/engine_800CE1FC]
+      - [0xBEBAC, c, engine/func_800CE3AC]
+      - [0xBEBB4, asm, engine/engine_800CE3B4]
       - [0xD04A8, data, main/dtail_0D04A8]
 
   - [0x1ee800]
