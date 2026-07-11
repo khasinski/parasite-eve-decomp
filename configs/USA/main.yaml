@@ -751,7 +751,7 @@ segments:
       - [0x4A708, c, item/Inv_RestoreSelection]
       - [0x4A7D0, asm, main/Inv_BuildStorageDisplay]
       - [0x4AB18, c, item/Inv_TransferItemBetweenLists]
-      - [0x4B7FC, asm, item/Inv_CompareItemsForSort]
+      - [0x4B7FC, c, item/Inv_CompareItemsForSort]
       - [0x4B924, asm, item/Inv_CompareItemsByStatForSort]
       - [0x4BA48, c, item/Inv_SortWeaponSubrange]
       - [0x4BBA4, c, item/Inv_SortAmmoSubrange]
