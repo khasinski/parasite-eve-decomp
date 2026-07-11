@@ -1400,7 +1400,7 @@ segments:
       - [0x7481C, c, memcard/MemCard_WriteDataAndGetSize]
       - [0x748DC, c, memcard/MemCard_WriteByteWithAckCheck]
       - [0x74968, asm, main/Render_SetParticleCallbacks]
-      - [0x74CE4, asm, memcard/MemCard_InitTransferState]
+      - [0x74CE4, c, memcard/MemCard_InitTransferState]
       - [0x74E44, c, memcard/card_obj6]
       - [0x75320, c, memcard/CardObj_LookupByChannelId]
       - [0x75340, pad]
