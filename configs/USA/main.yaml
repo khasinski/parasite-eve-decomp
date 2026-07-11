@@ -690,7 +690,7 @@ segments:
       - [0x43CE4, asm, audio/Sfx_DrawSlotRow]
       - [0x43E48, c, audio/Sfx_CursorRenderData]
       - [0x43EB8, c, audio/Sfx_DrawActiveListSlot]
-      - [0x4402C, asm, item/Inv_FindFirstEmptySlot]
+      - [0x4402C, c, item/Inv_FindFirstEmptySlot]
       - [0x44168, asm, main/Inv_FindSlotByIndex]
       - [0x44348, asm, main/Inv_WriteSlotById]
       - [0x4452C, c, main/Inv_CheckSlotUsable]
