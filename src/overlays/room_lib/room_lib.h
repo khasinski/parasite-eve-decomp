@@ -873,6 +873,31 @@ extern int func_800DFB78();
         return 0; \
     }
 
+#define ROOMLIB_RESET_SIGNAL_WITH_TARGET_GATE(name) \
+    int name(RoomEnt *o) { \
+        struct RoomSub *s = &o->sub; \
+        o->state = 4; \
+        o->flag3 = 0; \
+        if (o->bB8 == 0) { \
+            if (o->active != 0) { \
+                if (o->link->target != 0) { \
+                    *o->link->target->state = 4; \
+                } \
+            } \
+        } else { \
+            if (o->link->target != 0) { \
+                unsigned char *state = o->link->target->state; \
+                if (*state == 1) { \
+                    *state = 4; \
+                } \
+            } \
+        } \
+        if (s->signal != 0) { \
+            *s->signal = 0; \
+        } \
+        return 0; \
+    }
+
 #define ROOMLIB_ARM_IF_WINDOW_VIA(name, handler) \
     void name(RoomEnt *o) { \
         RoomLink *l = o->link->link18C; \
