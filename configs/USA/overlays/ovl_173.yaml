@@ -37,6 +37,8 @@ segments:
       - [0x0, asm, ovl_173]
       - [0x204, c, RoomLib_InitB_8018F1F4]
       - [0x2A4, asm, ovl_173_2A4]
+      - [0x528, c, func_8018F518]
+      - [0x530, asm, ovl_173_2A4_530]
       - [0x5B8, c, RoomLib_NotifyArmB_8018F5A8]
       - [0x660, asm, ovl_173_2A4_660]
       - [0xF74, c, RoomLib_InitD_8018FF64]
@@ -69,7 +71,8 @@ segments:
       - [0x3230, c, RoomLib_RearmOnMatch_80192220]
       - [0x3260, asm, ovl_173_2A4_660_FF0_13A0_19B0_1A08_1AB4_1D2C_1D9C_252C_25CC_2844_28B4_311C_3168_3230_3260]
       - [0x34F4, c, RoomLib_Set4ClearSignal_801924E4]
-      - [0x3510, asm, ovl_173_2A4_660_FF0_13A0_19B0_1A08_1AB4_1D2C_1D9C_252C_25CC_2844_28B4_311C_3168_3230_3260_3510]
+      - [0x3510, c, func_80192500]
+      - [0x3518, asm, ovl_173_2A4_660_FF0_13A0_19B0_1A08_1AB4_1D2C_1D9C_252C_25CC_2844_28B4_311C_3168_3230_3260_3518]
       - [0x3D8C, data]
   - [0x4000]
 # source slice: scanner
