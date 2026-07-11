@@ -1371,7 +1371,7 @@ segments:
       - [0x72B0C, pad]
       - [0x72B14, c, psyq/libds/DsGetDiskType]
       - [0x72C00, c, psyq/libds/GD_cbsync]
-      - [0x72C44, asm, psyq/libds/GD_disk_kind]
+      - [0x72C44, c, psyq/libds/GD_disk_kind]
       - [0x72CA8, pad]
       - [0x72CB4, c, psyq/libds/DsStartCallback]
       - [0x72CC8, c, psyq/libds/DsSyncCallback]
