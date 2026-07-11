@@ -473,7 +473,7 @@ segments:
       - [0x3384C, c, menu/Inv_FetchSelectedInventoryItem]
       - [0x338A0, c, menu/Menu_HandleInput]
       - [0x33A40, c, menu/Menu_SetItemContext]
-      - [0x33A4C, asm, menu/Menu_CheckItemAffordable]
+      - [0x33A4C, c, menu/Menu_CheckItemAffordable]
       - [0x33C74, c, save/Save_ClassifyPlaytime]
       - [0x33CC0, c, menu/Menu_DrawSaveSlotEntry]
       - [0x33FB4, c, menu/menu4]
