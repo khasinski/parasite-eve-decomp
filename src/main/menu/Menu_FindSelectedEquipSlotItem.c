@@ -7,7 +7,7 @@ extern struct { char _[16]; } D_80091A28_o __asm__("D_80091A28");
 #define D_80091A28 (*(unsigned char **)&D_80091A28_o)
 
 int Menu_FindSelectedEquipSlotItem(void) {
-    unsigned char *base;
+    register unsigned char *base asm("$2");
     register unsigned char *list asm("$4");
     register int selected_slot asm("$6");
     register int index asm("$3");
