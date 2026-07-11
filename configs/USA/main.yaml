@@ -839,7 +839,7 @@ segments:
       - [0x53030, c, main/Draw_PushPrimToList]
       - [0x531B0, c, menu/MenuWidget_HasActiveNodes]
       - [0x531BC, c, menu/menu_widget]
-      - [0x5327C, asm, main/Draw_FlushPrimList]
+      - [0x5327C, c, main/Draw_FlushPrimList]
       - [0x534B8, c, menu/menu_widget2]
       - [0x5352C, c, menu/MenuWidget_CreateSimpleNode]
       - [0x5371C, c, menu/MenuWidget_DestroyNode]
