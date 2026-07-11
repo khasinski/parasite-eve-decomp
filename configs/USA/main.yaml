@@ -811,7 +811,7 @@ segments:
       - [0x4F1C8, c, main/Draw_AllocPrimRectFull]
       - [0x4F28C, c, main/Draw_AllocPrimRect]
       - [0x4F358, c, gpu/Draw_SetTextDimmed]
-      - [0x4F364, asm, main/Draw_AllocSprite]
+      - [0x4F364, c, main/Draw_AllocSprite]
       - [0x4F518, c, gpu/Draw_EmitGlyph]
       - [0x4F6C8, c, gpu/Draw_SetGlyphAdvance]
       - [0x4F6D4, asm, main/Draw_AllocTexturedQuad]
