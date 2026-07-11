@@ -1,25 +1,31 @@
 #include "pe1/psyq_cd.h"
 
-extern int g_CdPendingReadCount;
+extern int D_800A3608;
 
 CdDsReadQueueEntry *Spu_GetQueueEntryPtr(void) {
-    int *base;
+    register volatile int *base asm("$3");
+    int count;
     int index;
     int delta;
-    CdDsReadQueueEntry *entry_base;
+    int scaled;
+    int byte_offset;
+    unsigned char *entry_base;
 
-    base = &g_CdPendingReadCount;
-    index = base[0];
-    if (index >= 8) {
+    base = &D_800A3608;
+    asm volatile("" : "=r"(base) : "0"(base));
+    count = base[0];
+    if (count >= 8) {
         return 0;
     }
 
     delta = base[-2];
-    index += delta;
+    index = delta + count;
     if (index >= 8) {
         index -= 8;
     }
 
-    entry_base = (CdDsReadQueueEntry *)(base - 50);
-    return entry_base + index;
+    scaled = (index << 1) + index;
+    byte_offset = scaled << 3;
+    entry_base = (unsigned char *)((int *)base - 50);
+    return (CdDsReadQueueEntry *)(byte_offset + (int)entry_base);
 }
