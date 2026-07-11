@@ -856,6 +856,23 @@ extern int func_800DFB78();
         return 0; \
     }
 
+#define ROOMLIB_STATE_DISPATCH_VARIANT2(name, tickFn) \
+    int name(RoomEnt *o) { \
+        switch (func_800DFB78()) { \
+        case 0: \
+            if (o->link->variant < 2) { \
+                return 0; \
+            } \
+            ((void (*)(RoomEnt *))o->sub.cb)(o); \
+            return 0; \
+        case 1: \
+            tickFn(o); \
+        case 2: \
+            return 0; \
+        } \
+        return 0; \
+    }
+
 #define ROOMLIB_ARM_IF_WINDOW_VIA(name, handler) \
     void name(RoomEnt *o) { \
         RoomLink *l = o->link->link18C; \
