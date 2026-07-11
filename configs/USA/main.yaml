@@ -976,7 +976,7 @@ segments:
       - [0x620D0, c, psyq/misc27]
       - [0x62B14, asm, psyq/libc/strlen]
       - [0x62B24, asm, psyq/libc/memchr]
-      - [0x62B34, asm, psyq/libc/memmove]
+      - [0x62B34, c, psyq/libc/memmove]
       - [0x62BA0, pad]
       - [0x62BA4, asm, psyq/libc/qsort]
       - [0x62CF4, c, util/Mem_SwapBuffers]
