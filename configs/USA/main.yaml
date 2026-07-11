@@ -1029,7 +1029,7 @@ segments:
       - [0x636A4, asm, main/Math_Add64WithShift]
       - [0x63760, asm, math/Math_Stub_80072F60]
       - [0x63764, asm, main/Math_Div64]
-      - [0x63A44, asm, math/Math_Cmp64Pair]
+      - [0x63A44, c, math/Math_Cmp64Pair]
       - [0x63A94, asm, main/Math_Shift64]
       - [0x63B50, asm, math/Math_Stub_80073350]
       - [0x63B54, asm, math/Math_DoubleToInt32]
