@@ -9,6 +9,7 @@ slices are ready to turn into local, user-generated splat overlay targets.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import csv
 import hashlib
 import json
@@ -482,12 +483,12 @@ def role_hypothesis(candidate: OverlayCandidate) -> tuple[str, str]:
         "ovl_003",
         "ovl_004",
         "ovl_007",
-        "ovl_178",
-        "ovl_181",
-        "ovl_182",
-        "ovl_183",
-        "ovl_187",
-        "ovl_189",
+        "scene_e08",
+        "scene_e11",
+        "scene_e12",
+        "scene_e13",
+        "scene_e19_2",
+        "scene_e22",
     }:
         return "non-room 3D/render/effect subsystem", "medium-low"
     return "non-room subsystem, late-game event, or code-like block", "low"
@@ -3478,7 +3479,7 @@ def emit_match_readiness_markdown(candidates: list[OverlayCandidate], config_dir
     smoke_rows = [
         ("title/intro non-room", "ovl_002", "scanner", 48, "make overlay-trace-hinted-smoke"),
         ("room section3", "ovl_024", "room-section3", 40, "make overlay-trace-room-hinted-smoke"),
-        ("call-heavy non-room effect", "ovl_189", "scanner", 46, "make overlay-trace-effect-hinted-smoke"),
+        ("call-heavy non-room effect", "scene_e22", "scanner", 46, "make overlay-trace-effect-hinted-smoke"),
         ("tiny/review scanner", "ovl_006", "scanner", 2, "make overlay-trace-tiny-hinted-smoke"),
     ]
     for class_name, overlay_id, target_slice, subsegments, command in smoke_rows:
@@ -3739,7 +3740,18 @@ def emit_overlay_detail_markdown(candidate: OverlayCandidate, config_dir: Path) 
     print(f"- Match plan CSV: `docs/assets/overlay-match-plan.csv`")
 
 
+RENAMED_OVERLAY_IDS = {
+    "sys_reset": 1,
+    "menu_memcard": 2,
+    "boot_display": 3,
+    "render_clip": 6,
+    "fx_field": 9,
+}
+
+
 def parse_overlay_id(value: str) -> int:
+    if value in RENAMED_OVERLAY_IDS:
+        return RENAMED_OVERLAY_IDS[value]
     if value.startswith("ovl_"):
         value = value[4:]
     try:
@@ -4510,7 +4522,7 @@ HINTED_CONFIG_AUDIT_FIELDS = [
 HINTED_SMOKE_PROOFS = {
     "ovl_002": ("title/intro non-room smoke-proven", "make overlay-trace-hinted-smoke"),
     "ovl_024": ("room-section3 smoke-proven", "make overlay-trace-room-hinted-smoke"),
-    "ovl_189": ("non-room effect smoke-proven", "make overlay-trace-effect-hinted-smoke"),
+    "scene_e22": ("non-room effect smoke-proven", "make overlay-trace-effect-hinted-smoke"),
     "ovl_006": ("tiny/review smoke-proven", "make overlay-trace-tiny-hinted-smoke"),
 }
 
@@ -4977,6 +4989,9 @@ def main() -> int:
         if args.overlay > len(candidates):
             parser.error(f"overlay index out of range: {args.overlay}")
         candidate = candidates[args.overlay - 1]
+        renamed = {v: k for k, v in RENAMED_OVERLAY_IDS.items()}
+        if candidate.overlay_id.startswith("ovl_") and int(candidate.overlay_id[4:]) in renamed:
+            candidate = dataclasses.replace(candidate, overlay_id=renamed[int(candidate.overlay_id[4:])])
         try:
             out_path = extract_overlay(args.pe_img, candidate, args.target_slice, args.out_dir)
         except ValueError as exc:

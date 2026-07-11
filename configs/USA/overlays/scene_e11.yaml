@@ -1,18 +1,18 @@
-name: ovl_182.bin
-sha1: ce88524fe29d95ec8be5f51c6bc366525def24e0
+name: scene_e11.bin
+sha1: 03404728a9ece8f2281554ced8a5b40af06a053f
 options:
-  basename: ovl_182
-  target_path: original/USA/overlays/ovl_182.bin
+  basename: scene_e11
+  target_path: original/USA/overlays/scene_e11.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/ovl_182
-  src_path: src/overlays/ovl_182
-  build_path: build/USA/overlays/ovl_182
-  ld_script_path: linkers/USA/overlays/ovl_182.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_182.txt
-  symbol_addrs_path: configs/USA/overlays/sym.ovl_182.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_182.txt
+  asm_path: asm/USA/overlays/scene_e11
+  src_path: src/overlays/scene_e11
+  build_path: build/USA/overlays/scene_e11
+  ld_script_path: linkers/USA/overlays/scene_e11.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.scene_e11.txt
+  symbol_addrs_path: configs/USA/overlays/sym.scene_e11.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.scene_e11.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: ovl_182
+  - name: scene_e11
     type: code
     start: 0x0
     vram: 0x8018EFF0
@@ -34,33 +34,33 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, ovl_182]
+      - [0x0, asm, scene_e11]
       - [0x68, c, RoomLib_PlantTable_8018F058]
       - [0x94, c, RoomLib_Spawn6_8018F084]
       - [0xC0, c, RoomLib_RegisterTable_8018F0B0]
-      - [0x108, asm, ovl_182_94_C0_108]
+      - [0x108, asm, scene_e11_94_C0_108]
       - [0x18C, c, func_8018F17C]
       - [0x194, c, RoomLib_CloseTarget_8018F184]
       - [0x218, c, func_8018F208]
       - [0x220, c, func_8018F210]
-      - [0x228, asm, ovl_182_94_C0_108_218]
+      - [0x228, asm, scene_e11_94_C0_108_218]
       - [0x334, c, func_8018F324]
-      - [0x33C, asm, ovl_182_94_C0_108_218_33C]
+      - [0x33C, asm, scene_e11_94_C0_108_218_33C]
       - [0x960, c, func_8018F950]
       - [0x968, c, func_8018F958]
       - [0x970, c, func_8018F960]
       - [0x978, c, func_8018F968]
-      - [0x998, asm, ovl_182_94_C0_108_218_33C_968]
+      - [0x998, asm, scene_e11_94_C0_108_218_33C_968]
       - [0xB5C, c, func_8018FB4C]
       - [0xBC0, c, func_8018FBB0]
-      - [0xD40, asm, ovl_182_94_C0_108_218_33C_968_D40]
+      - [0xD40, asm, scene_e11_94_C0_108_218_33C_968_D40]
       - [0x100C, c, func_8018FFFC]
-      - [0x1100, asm, ovl_182_94_C0_108_218_33C_968_1100]
+      - [0x1100, asm, scene_e11_94_C0_108_218_33C_968_1100]
       - [0x1D50, c, RoomLib_SetArgs3_80190D40]
-      - [0x1D74, asm, ovl_182_94_C0_108_218_1D74]
+      - [0x1D74, asm, scene_e11_94_C0_108_218_1D74]
       - [0x29FC, c, func_801919EC]
       - [0x2A18, data]
   - [0x3000]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_182.bin bs=2048 skip=96672 count=6
-# special-scene set: entry 12 of the table at 0x80094048 (this bin = its section 3); finale (Eve/Melissa) bank
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e11.bin bs=2048 skip=96482 count=6
+# special-scene set: entry 11 of the table at 0x80094048 (this bin = its section 3); finale (Eve/Melissa) bank

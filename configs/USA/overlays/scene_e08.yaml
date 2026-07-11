@@ -1,18 +1,18 @@
-name: ovl_178.bin
+name: scene_e08.bin
 sha1: 0561952b402bdd3f599bf37627a7d67737e8de9d
 options:
-  basename: ovl_178
-  target_path: original/USA/overlays/ovl_178.bin
+  basename: scene_e08
+  target_path: original/USA/overlays/scene_e08.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/ovl_178
-  src_path: src/overlays/ovl_178
-  build_path: build/USA/overlays/ovl_178
-  ld_script_path: linkers/USA/overlays/ovl_178.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_178.txt
-  symbol_addrs_path: configs/USA/overlays/sym.ovl_178.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_178.txt
+  asm_path: asm/USA/overlays/scene_e08
+  src_path: src/overlays/scene_e08
+  build_path: build/USA/overlays/scene_e08
+  ld_script_path: linkers/USA/overlays/scene_e08.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.scene_e08.txt
+  symbol_addrs_path: configs/USA/overlays/sym.scene_e08.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.scene_e08.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: ovl_178
+  - name: scene_e08
     type: code
     start: 0x0
     vram: 0x8018EFF0
@@ -34,7 +34,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, ovl_178]
+      - [0x0, asm, scene_e08]
       - [0x260, c, func_8018F250]
       - [0x28C, c, RoomLib_Spawn6_8018F27C]
       - [0x2B8, c, func_8018F2A8]
@@ -44,7 +44,7 @@ segments:
       - [0x3DC, c, func_8018F3CC]
       - [0x514, c, func_8018F504]
       - [0x51C, c, func_8018F50C]
-      - [0x554, asm, ovl_178_2B8_51C]
+      - [0x554, asm, scene_e08_2B8_51C]
       - [0xEF4, c, func_8018FEE4]
       - [0xEFC, c, func_8018FEEC]
       - [0xF28, c, RoomLib_Spawn6_8018FF18]
@@ -52,10 +52,10 @@ segments:
       - [0xF7C, c, func_8018FF6C]
       - [0xFEC, c, RoomLib_CloseTarget_8018FFDC]
       - [0x1070, c, func_80190060]
-      - [0x1078, asm, ovl_178_2B8_3D4_F54_1078]
+      - [0x1078, asm, scene_e08_2B8_3D4_F54_1078]
       - [0x125C, c, func_8019024C]
       - [0x1264, c, func_80190254]
-      - [0x12E4, asm, ovl_178_2B8_3D4_F54_1264]
+      - [0x12E4, asm, scene_e08_2B8_3D4_F54_1264]
       - [0x23F0, c, func_801913E0]
       - [0x23F8, c, func_801913E8]
       - [0x2424, c, RoomLib_Spawn6_80191414]
@@ -63,23 +63,23 @@ segments:
       - [0x2478, c, func_80191468]
       - [0x24E8, c, RoomLib_CloseTarget_801914D8]
       - [0x256C, c, func_8019155C]
-      - [0x2574, asm, ovl_178_2B8_3D4_F54_1070_2450_2574]
+      - [0x2574, asm, scene_e08_2B8_3D4_F54_1070_2450_2574]
       - [0x2758, c, func_80191748]
       - [0x2760, c, func_80191750]
       - [0x2848, c, func_80191838]
       - [0x2868, c, func_80191858]
       - [0x2988, c, func_80191978]
       - [0x29A8, c, func_80191998]
-      - [0x29C8, asm, ovl_178_2B8_3D4_F54_1070_2450_29C8]
+      - [0x29C8, asm, scene_e08_2B8_3D4_F54_1070_2450_29C8]
       - [0x37A0, c, func_80192790]
-      - [0x37C0, asm, ovl_178_2B8_3D4_F54_1070_2450_37C0]
+      - [0x37C0, asm, scene_e08_2B8_3D4_F54_1070_2450_37C0]
       - [0x3C90, c, func_80192C80]
       - [0x3C9C, c, func_80192C8C]
       - [0x3CE4, c, func_80192CD4]
       - [0x3D88, c, func_80192D78]
-      - [0x3DA8, asm, ovl_178_2B8_3D4_F54_1070_2450_3DA8]
+      - [0x3DA8, asm, scene_e08_2B8_3D4_F54_1070_2450_3DA8]
       - [0x412C, c, func_8019311C]
-      - [0x4168, asm, ovl_178_2B8_3D4_F54_1070_2450_4168]
+      - [0x4168, asm, scene_e08_2B8_3D4_F54_1070_2450_4168]
       - [0x4AFC, c, func_80193AEC]
       - [0x4B04, c, func_80193AF4]
       - [0x4B30, c, RoomLib_Spawn6_80193B20]
@@ -87,75 +87,75 @@ segments:
       - [0x4B84, c, func_80193B74]
       - [0x4BF4, c, RoomLib_CloseTarget_80193BE4]
       - [0x4C78, c, func_80193C68]
-      - [0x4C80, asm, ovl_178_2B8_3D4_F54_1070_2450_4C80]
+      - [0x4C80, asm, scene_e08_2B8_3D4_F54_1070_2450_4C80]
       - [0x4F88, c, func_80193F78]
       - [0x4F90, c, func_80193F80]
       - [0x5010, c, func_80194000]
-      - [0x50A8, asm, ovl_178_2B8_3D4_F54_1070_2450_4F90_5010]
+      - [0x50A8, asm, scene_e08_2B8_3D4_F54_1070_2450_4F90_5010]
       - [0x5B5C, c, func_80194B4C]
       - [0x5C1C, c, func_80194C0C]
       - [0x5C78, c, func_80194C68]
       - [0x5D8C, c, func_80194D7C]
       - [0x5DE8, c, func_80194DD8]
-      - [0x5DF0, asm, ovl_178_2B8_3D4_F54_1070_2450_5DF0]
+      - [0x5DF0, asm, scene_e08_2B8_3D4_F54_1070_2450_5DF0]
       - [0x6370, c, func_80195360]
       - [0x6378, c, RoomLib_InitB_80195368]
-      - [0x6418, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418]
+      - [0x6418, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418]
       - [0x669C, c, func_8019568C]
       - [0x66A4, c, func_80195694]
       - [0x672C, c, RoomLib_NotifyArmB_8019571C]
-      - [0x67D4, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4]
+      - [0x67D4, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4]
       - [0x6DF4, c, func_80195DE4]
-      - [0x6DFC, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_6DF4]
+      - [0x6DFC, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_6DF4]
       - [0x7034, c, func_80196024]
-      - [0x703C, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7034]
+      - [0x703C, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7034]
       - [0x70D8, c, func_801960C8]
       - [0x70E0, c, func_801960D0]
       - [0x70E8, c, RoomLib_InitD_801960D8]
-      - [0x7164, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164]
+      - [0x7164, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164]
       - [0x73DC, c, func_801963CC]
       - [0x73E4, c, func_801963D4]
       - [0x746C, c, RoomLib_Notify2ArmB_8019645C]
-      - [0x7514, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514]
+      - [0x7514, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514]
       - [0x7AA0, c, RoomLib_SteerToward_80196A90]
       - [0x7B24, c, RoomLib_ResetAndSignalB_80196B14]
       - [0x7B7C, c, func_80196B6C]
       - [0x7B84, c, func_80196B74]
       - [0x7B8C, c, RoomLib_InitC_80196B7C]
-      - [0x7C28, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28]
+      - [0x7C28, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28]
       - [0x7E70, c, func_80196E60]
       - [0x7E78, c, RoomLib_InvokeCallbackC_80196E68]
       - [0x7EA0, c, RoomLib_ArmWindowA_80196E90]
-      - [0x7F10, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10]
+      - [0x7F10, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10]
       - [0x829C, c, func_8019728C]
-      - [0x82A4, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_829C]
+      - [0x82A4, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_829C]
       - [0x863C, c, func_8019762C]
       - [0x8644, c, RoomLib_ResetAndSignal_80197634]
       - [0x86A0, c, func_80197690]
       - [0x86A8, c, func_80197698]
       - [0x86B0, c, RoomLib_InitFull_801976A0]
-      - [0x8740, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_86A0_8740]
+      - [0x8740, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_86A0_8740]
       - [0x8988, c, func_80197978]
       - [0x8990, c, RoomLib_InvokeCallbackC_80197980]
       - [0x89B8, c, RoomLib_ArmWindowB_801979A8]
-      - [0x8A28, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_86A0_8740_89B8_8A28]
+      - [0x8A28, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_86A0_8740_89B8_8A28]
       - [0x8EA4, c, func_80197E94]
-      - [0x8EAC, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_86A0_8740_89B8_8A28_8EA4]
+      - [0x8EAC, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_86A0_8740_89B8_8A28_8EA4]
       - [0x922C, c, func_8019821C]
       - [0x9234, c, RoomLib_ResetAndSignal_80198224]
       - [0x9290, c, func_80198280]
       - [0x9298, c, func_80198288]
       - [0x92A0, c, func_80198290]
-      - [0x92DC, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_86A0_8740_89B8_8A28_9290_92DC]
+      - [0x92DC, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_86A0_8740_89B8_8A28_9290_92DC]
       - [0x9374, c, func_80198364]
       - [0x937C, c, RoomLib_InvokeCallbackC_8019836C]
       - [0x93A4, c, func_80198394]
-      - [0x93D4, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_86A0_8740_89B8_8A28_9290_93A4_93D4]
+      - [0x93D4, asm, scene_e08_2B8_3D4_F54_1070_2450_256C_4B5C_4C78_6418_67D4_7164_7514_7B24_7B7C_7C28_7EA0_7F10_86A0_8740_89B8_8A28_9290_93A4_93D4]
       - [0x9660, c, func_80198650]
       - [0x9668, c, RoomLib_Set4ClearSignal_80198658]
       - [0x9684, c, func_80198674]
       - [0x968C, data]
   - [0x9800]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_178.bin bs=2048 skip=95741 count=19
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e08.bin bs=2048 skip=95741 count=19
 # special-scene set: entry 8 of the table at 0x80094048 (this bin = its section 3); finale (Eve/Melissa) bank

@@ -1,17 +1,17 @@
-name: ovl_006.bin
+name: render_clip.bin
 sha1: 72a39c5e136c17e1611dd9683826eeb3768b2bd0
 options:
-  basename: ovl_006
-  target_path: original/USA/overlays/ovl_006.bin
+  basename: render_clip
+  target_path: original/USA/overlays/render_clip.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/ovl_006
-  src_path: src/overlays/ovl_006
-  build_path: build/USA/overlays/ovl_006
-  ld_script_path: linkers/USA/overlays/ovl_006.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_006.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_006.txt
+  asm_path: asm/USA/overlays/render_clip
+  src_path: src/overlays/render_clip
+  build_path: build/USA/overlays/render_clip
+  ld_script_path: linkers/USA/overlays/render_clip.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.render_clip.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.render_clip.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -25,7 +25,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: ovl_006
+  - name: render_clip
     type: code
     start: 0x0
     vram: 0x80170000
@@ -34,8 +34,8 @@ segments:
     bss_size: 0x0
     subsegments:
       # generated from static prologue hints; verify with runtime trace and SHA check
-      - [0x0, asm, ovl_006_header]
-      - [0x3B0, asm, func_ovl_006_0003B0]
+      - [0x0, asm, render_clip_header]
+      - [0x3B0, asm, func_render_clip_0003B0]
   - [0x800]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_006.bin bs=2048 skip=1809 count=1
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/render_clip.bin bs=2048 skip=1809 count=1

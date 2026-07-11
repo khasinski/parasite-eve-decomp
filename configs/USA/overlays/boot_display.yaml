@@ -1,18 +1,18 @@
 # vram: jal-bounded estimate, feasible [0x801230F0, 0x80123950]; calls into 0x8010Bxxx module
-name: ovl_003.bin
+name: boot_display.bin
 sha1: a9e7093f70207b46780fcefd60f2f48032b01bb8
 options:
-  basename: ovl_003
-  target_path: original/USA/overlays/ovl_003.bin
+  basename: boot_display
+  target_path: original/USA/overlays/boot_display.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/ovl_003
-  src_path: src/overlays/ovl_003
-  build_path: build/USA/overlays/ovl_003
-  ld_script_path: linkers/USA/overlays/ovl_003.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_003.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_003.txt
+  asm_path: asm/USA/overlays/boot_display
+  src_path: src/overlays/boot_display
+  build_path: build/USA/overlays/boot_display
+  ld_script_path: linkers/USA/overlays/boot_display.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.boot_display.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.boot_display.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: ovl_003
+  - name: boot_display
     type: code
     start: 0x0
     vram: 0x80123400
@@ -34,7 +34,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, ovl_003]
+      - [0x0, asm, boot_display]
   - [0x2800]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_003.bin bs=2048 skip=1116 count=5
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/boot_display.bin bs=2048 skip=1116 count=5

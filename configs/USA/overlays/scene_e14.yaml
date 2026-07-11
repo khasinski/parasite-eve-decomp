@@ -1,18 +1,18 @@
-name: ovl_184.bin
+name: scene_e14.bin
 sha1: 2d836fc296f4ff9d547d3b4720aa558eb0ea7b2d
 options:
-  basename: ovl_184
-  target_path: original/USA/overlays/ovl_184.bin
+  basename: scene_e14
+  target_path: original/USA/overlays/scene_e14.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/ovl_184
-  src_path: src/overlays/ovl_184
-  build_path: build/USA/overlays/ovl_184
-  ld_script_path: linkers/USA/overlays/ovl_184.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_184.txt
-  symbol_addrs_path: configs/USA/overlays/sym.ovl_184.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_184.txt
+  asm_path: asm/USA/overlays/scene_e14
+  src_path: src/overlays/scene_e14
+  build_path: build/USA/overlays/scene_e14
+  ld_script_path: linkers/USA/overlays/scene_e14.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.scene_e14.txt
+  symbol_addrs_path: configs/USA/overlays/sym.scene_e14.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.scene_e14.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: ovl_184
+  - name: scene_e14
     type: code
     start: 0x0
     vram: 0x8018EFF0
@@ -34,31 +34,31 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, ovl_184]
+      - [0x0, asm, scene_e14]
       - [0x24, c, RoomLib_PlantTable_8018F014]
       - [0x50, c, RoomLib_Spawn6_8018F040]
       - [0x7C, c, RoomLib_RegisterTable_8018F06C]
-      - [0xC4, asm, ovl_184_50_7C_C4]
+      - [0xC4, asm, scene_e14_50_7C_C4]
       - [0x148, c, func_8018F138]
       - [0x150, c, RoomLib_CloseTarget_8018F140]
       - [0x1D4, c, func_8018F1C4]
       - [0x1DC, c, func_8018F1CC]
-      - [0x1E4, asm, ovl_184_50_7C_C4_1D4]
+      - [0x1E4, asm, scene_e14_50_7C_C4_1D4]
       - [0x2F0, c, func_8018F2E0]
-      - [0x2F8, asm, ovl_184_50_7C_C4_1D4_2F8]
+      - [0x2F8, asm, scene_e14_50_7C_C4_1D4_2F8]
       - [0x91C, c, func_8018F90C]
       - [0x924, c, func_8018F914]
       - [0x92C, c, func_8018F91C]
       - [0x934, c, func_8018F924]
-      - [0x954, asm, ovl_184_50_7C_C4_1D4_2F8_924]
+      - [0x954, asm, scene_e14_50_7C_C4_1D4_2F8_924]
       - [0xB18, c, func_8018FB08]
       - [0xB7C, c, func_8018FB6C]
-      - [0xCFC, asm, ovl_184_50_7C_C4_1D4_2F8_924_CFC]
+      - [0xCFC, asm, scene_e14_50_7C_C4_1D4_2F8_924_CFC]
       - [0xFC8, c, func_8018FFB8]
-      - [0x10BC, asm, ovl_184_50_7C_C4_1D4_2F8_924_10BC]
+      - [0x10BC, asm, scene_e14_50_7C_C4_1D4_2F8_924_10BC]
       - [0x1D0C, c, func_80190CFC]
       - [0x1D30, data]
   - [0x2000]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_184.bin bs=2048 skip=97043 count=4
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e14.bin bs=2048 skip=97043 count=4
 # special-scene set: entry 14 of the table at 0x80094048 (this bin = its section 3); finale (Eve/Melissa) bank

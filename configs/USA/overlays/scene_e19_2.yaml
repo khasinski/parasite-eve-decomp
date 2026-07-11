@@ -1,17 +1,17 @@
-name: ovl_187.bin
+name: scene_e19_2.bin
 sha1: c5d7895c2e6c357c0936aac16a421023e1e3e0ef
 options:
-  basename: ovl_187
-  target_path: original/USA/overlays/ovl_187.bin
+  basename: scene_e19_2
+  target_path: original/USA/overlays/scene_e19_2.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/ovl_187
-  src_path: src/overlays/ovl_187
-  build_path: build/USA/overlays/ovl_187
-  ld_script_path: linkers/USA/overlays/ovl_187.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_187.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_187.txt
+  asm_path: asm/USA/overlays/scene_e19_2
+  src_path: src/overlays/scene_e19_2
+  build_path: build/USA/overlays/scene_e19_2
+  ld_script_path: linkers/USA/overlays/scene_e19_2.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.scene_e19_2.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.scene_e19_2.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -25,7 +25,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: ovl_187
+  - name: scene_e19_2
     type: code
     start: 0x0
     vram: 0x8018EFF0
@@ -33,8 +33,8 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, ovl_187]
+      - [0x0, asm, scene_e19_2]
       - [0x626C, data]
   - [0x6800]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_187.bin bs=2048 skip=98601 count=13
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e19_2.bin bs=2048 skip=98601 count=13

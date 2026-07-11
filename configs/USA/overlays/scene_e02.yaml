@@ -1,18 +1,18 @@
-name: ovl_172.bin
+name: scene_e02.bin
 sha1: 2db8e96a07ced98b54cb73db9c9812b75abb0b52
 options:
-  basename: ovl_172
-  target_path: original/USA/overlays/ovl_172.bin
+  basename: scene_e02
+  target_path: original/USA/overlays/scene_e02.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/ovl_172
-  src_path: src/overlays/ovl_172
-  build_path: build/USA/overlays/ovl_172
-  ld_script_path: linkers/USA/overlays/ovl_172.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_172.txt
-  symbol_addrs_path: configs/USA/overlays/sym.ovl_172.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_172.txt
+  asm_path: asm/USA/overlays/scene_e02
+  src_path: src/overlays/scene_e02
+  build_path: build/USA/overlays/scene_e02
+  ld_script_path: linkers/USA/overlays/scene_e02.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.scene_e02.txt
+  symbol_addrs_path: configs/USA/overlays/sym.scene_e02.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.scene_e02.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: ovl_172
+  - name: scene_e02
     type: code
     start: 0x0
     vram: 0x8018EFF0
@@ -34,56 +34,56 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, ovl_172]
+      - [0x0, asm, scene_e02]
       - [0x24C, c, RoomLib_PlantTable_8018F23C]
       - [0x278, c, RoomLib_Spawn6_8018F268]
-      - [0x2A4, asm, ovl_172_278_2A4]
+      - [0x2A4, asm, scene_e02_278_2A4]
       - [0x370, c, func_8018F360]
-      - [0x378, asm, ovl_172_278_2A4_378]
+      - [0x378, asm, scene_e02_278_2A4_378]
       - [0x3D8, c, func_8018F3C8]
-      - [0x3E0, asm, ovl_172_278_2A4_3E0]
+      - [0x3E0, asm, scene_e02_278_2A4_3E0]
       - [0x624, c, func_8018F614]
-      - [0x62C, asm, ovl_172_278_2A4_62C]
+      - [0x62C, asm, scene_e02_278_2A4_62C]
       - [0x1710, c, RoomLib_InitB_80190700]
-      - [0x17B0, asm, ovl_172_278_2A4_17B0]
+      - [0x17B0, asm, scene_e02_278_2A4_17B0]
       - [0x1AC4, c, RoomLib_NotifyArmB_80190AB4]
-      - [0x1B6C, asm, ovl_172_278_2A4_17B0_1B6C]
+      - [0x1B6C, asm, scene_e02_278_2A4_17B0_1B6C]
       - [0x2480, c, RoomLib_InitD_80191470]
-      - [0x24FC, asm, ovl_172_278_2A4_17B0_1B6C_24FC]
+      - [0x24FC, asm, scene_e02_278_2A4_17B0_1B6C_24FC]
       - [0x2804, c, RoomLib_Notify2ArmB_801917F4]
-      - [0x28AC, asm, ovl_172_278_2A4_17B0_1B6C_24FC_28AC]
+      - [0x28AC, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC]
       - [0x2E38, c, RoomLib_SteerToward_80191E28]
       - [0x2EBC, c, RoomLib_ResetAndSignalB_80191EAC]
       - [0x2F14, c, func_80191F04]
       - [0x2F1C, c, func_80191F0C]
       - [0x2F24, c, RoomLib_InitC_80191F14]
-      - [0x2FC0, asm, ovl_172_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0]
+      - [0x2FC0, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0]
       - [0x3210, c, RoomLib_InvokeCallbackC_80192200]
       - [0x3238, c, RoomLib_ArmWindowA_80192228]
-      - [0x32A8, asm, ovl_172_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8]
+      - [0x32A8, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8]
       - [0x39DC, c, RoomLib_ResetAndSignal_801929CC]
       - [0x3A38, c, func_80192A28]
       - [0x3A40, c, func_80192A30]
       - [0x3A48, c, RoomLib_InitFull_80192A38]
-      - [0x3AD8, asm, ovl_172_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8]
+      - [0x3AD8, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8]
       - [0x3D28, c, RoomLib_InvokeCallbackC_80192D18]
       - [0x3D50, c, RoomLib_ArmWindowB_80192D40]
-      - [0x3DC0, asm, ovl_172_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0]
+      - [0x3DC0, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0]
       - [0x45CC, c, RoomLib_ResetAndSignal_801935BC]
       - [0x4628, c, func_80193618]
       - [0x4630, c, func_80193620]
       - [0x4638, c, RoomLib_InitTimers_80193628]
-      - [0x4674, asm, ovl_172_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0_4628_4674]
+      - [0x4674, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0_4628_4674]
       - [0x4714, c, RoomLib_InvokeCallbackC_80193704]
       - [0x473C, c, RoomLib_RearmOnMatch_8019372C]
-      - [0x476C, asm, ovl_172_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0_4628_4674_473C_476C]
+      - [0x476C, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0_4628_4674_473C_476C]
       - [0x4A00, c, RoomLib_Set4ClearSignal_801939F0]
       - [0x4A1C, c, func_80193A0C]
-      - [0x4A24, asm, ovl_172_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0_4628_4674_473C_476C_4A24]
+      - [0x4A24, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0_4628_4674_473C_476C_4A24]
       - [0x5674, c, RoomLib_SetArgs3_80194664]
-      - [0x5698, asm, ovl_172_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0_4628_4674_473C_476C_4A1C_5698]
+      - [0x5698, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0_4628_4674_473C_476C_4A1C_5698]
       - [0x6484, data]
   - [0x6800]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_172.bin bs=2048 skip=94681 count=13
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e02.bin bs=2048 skip=94681 count=13
 # special-scene set: entry 2 of the table at 0x80094048 (this bin = its section 3); finale (Eve/Melissa) bank

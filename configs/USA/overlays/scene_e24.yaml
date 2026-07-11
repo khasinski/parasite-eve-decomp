@@ -1,18 +1,18 @@
-name: ovl_191.bin
-sha1: 52b2b1cf4b919768aeb95f1a43b48f4a5297b435
+name: scene_e24.bin
+sha1: d0cbbc9ef50e7c973a39162d65bfaf99be16f166
 options:
-  basename: ovl_191
-  target_path: original/USA/overlays/ovl_191.bin
+  basename: scene_e24
+  target_path: original/USA/overlays/scene_e24.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/ovl_191
-  src_path: src/overlays/ovl_191
-  build_path: build/USA/overlays/ovl_191
-  ld_script_path: linkers/USA/overlays/ovl_191.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_191.txt
-  symbol_addrs_path: configs/USA/overlays/sym.ovl_191.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_191.txt
+  asm_path: asm/USA/overlays/scene_e24
+  src_path: src/overlays/scene_e24
+  build_path: build/USA/overlays/scene_e24
+  ld_script_path: linkers/USA/overlays/scene_e24.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.scene_e24.txt
+  symbol_addrs_path: configs/USA/overlays/sym.scene_e24.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.scene_e24.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: ovl_191
+  - name: scene_e24
     type: code
     start: 0x0
     vram: 0x8018EFF0
@@ -34,45 +34,45 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, ovl_191]
+      - [0x0, asm, scene_e24]
       - [0x200, c, RoomLib_InitB_8018F1F0]
-      - [0x2A0, asm, ovl_191_2A0]
+      - [0x2A0, asm, scene_e24_2A0]
       - [0x5B4, c, RoomLib_NotifyArmB_8018F5A4]
-      - [0x65C, asm, ovl_191_2A0_65C]
+      - [0x65C, asm, scene_e24_2A0_65C]
       - [0xF70, c, RoomLib_InitD_8018FF60]
-      - [0xFEC, asm, ovl_191_2A0_65C_FEC]
+      - [0xFEC, asm, scene_e24_2A0_65C_FEC]
       - [0x12F4, c, RoomLib_Notify2ArmB_801902E4]
-      - [0x139C, asm, ovl_191_2A0_65C_FEC_139C]
+      - [0x139C, asm, scene_e24_2A0_65C_FEC_139C]
       - [0x1928, c, RoomLib_SteerToward_80190918]
       - [0x19AC, c, RoomLib_ResetAndSignalB_8019099C]
       - [0x1A04, c, func_801909F4]
       - [0x1A0C, c, func_801909FC]
       - [0x1A14, c, RoomLib_InitC_80190A04]
-      - [0x1AB0, asm, ovl_191_2A0_65C_FEC_139C_19AC_1A04_1AB0]
+      - [0x1AB0, asm, scene_e24_2A0_65C_FEC_139C_19AC_1A04_1AB0]
       - [0x1D00, c, RoomLib_InvokeCallbackC_80190CF0]
       - [0x1D28, c, RoomLib_ArmWindowA_80190D18]
-      - [0x1D98, asm, ovl_191_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98]
+      - [0x1D98, asm, scene_e24_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98]
       - [0x24CC, c, RoomLib_ResetAndSignal_801914BC]
       - [0x2528, c, func_80191518]
       - [0x2530, c, func_80191520]
       - [0x2538, c, RoomLib_InitFull_80191528]
-      - [0x25C8, asm, ovl_191_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98_2528_25C8]
+      - [0x25C8, asm, scene_e24_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98_2528_25C8]
       - [0x2818, c, RoomLib_InvokeCallbackC_80191808]
       - [0x2840, c, RoomLib_ArmWindowB_80191830]
-      - [0x28B0, asm, ovl_191_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98_2528_25C8_2840_28B0]
+      - [0x28B0, asm, scene_e24_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98_2528_25C8_2840_28B0]
       - [0x30BC, c, RoomLib_ResetAndSignal_801920AC]
       - [0x3118, c, func_80192108]
       - [0x3120, c, func_80192110]
       - [0x3128, c, RoomLib_InitTimers_80192118]
-      - [0x3164, asm, ovl_191_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98_2528_25C8_2840_28B0_3118_3164]
+      - [0x3164, asm, scene_e24_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98_2528_25C8_2840_28B0_3118_3164]
       - [0x3204, c, RoomLib_InvokeCallbackC_801921F4]
       - [0x322C, c, RoomLib_RearmOnMatch_8019221C]
-      - [0x325C, asm, ovl_191_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98_2528_25C8_2840_28B0_3118_3164_322C_325C]
+      - [0x325C, asm, scene_e24_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98_2528_25C8_2840_28B0_3118_3164_322C_325C]
       - [0x34F0, c, RoomLib_Set4ClearSignal_801924E0]
-      - [0x350C, asm, ovl_191_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98_2528_25C8_2840_28B0_3118_3164_322C_325C_350C]
+      - [0x350C, asm, scene_e24_2A0_65C_FEC_139C_19AC_1A04_1AB0_1D28_1D98_2528_25C8_2840_28B0_3118_3164_322C_325C_350C]
       - [0x4130, c, func_80193120]
       - [0x4154, data]
   - [0x4800]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_191.bin bs=2048 skip=100008 count=9
-# special-scene set: entry 25 of the table at 0x80094048 (this bin = its section 3); finale (Eve/Melissa) bank
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e24.bin bs=2048 skip=99730 count=9
+# special-scene set: entry 24 of the table at 0x80094048 (this bin = its section 3); finale (Eve/Melissa) bank

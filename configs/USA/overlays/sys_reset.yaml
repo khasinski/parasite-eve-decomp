@@ -1,18 +1,18 @@
 # vram: jal-bounded estimate, feasible [0x8010BC4C, 0x8010C0FC]; loads above room-slot code
-name: ovl_001.bin
+name: sys_reset.bin
 sha1: 8c49a29f8ae0ae241f9eb62dc8a6a26a2d3c9fd1
 options:
-  basename: ovl_001
-  target_path: original/USA/overlays/ovl_001.bin
+  basename: sys_reset
+  target_path: original/USA/overlays/sys_reset.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/ovl_001
-  src_path: src/overlays/ovl_001
-  build_path: build/USA/overlays/ovl_001
-  ld_script_path: linkers/USA/overlays/ovl_001.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.ovl_001.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.ovl_001.txt
+  asm_path: asm/USA/overlays/sys_reset
+  src_path: src/overlays/sys_reset
+  build_path: build/USA/overlays/sys_reset
+  ld_script_path: linkers/USA/overlays/sys_reset.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.sys_reset.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.sys_reset.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: ovl_001
+  - name: sys_reset
     type: code
     start: 0x0
     vram: 0x8010C000
@@ -34,17 +34,17 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, ovl_001]
+      - [0x0, asm, sys_reset]
       - [0x29C, c, func_8010C29C]
-      - [0x2A8, asm, ovl_001_2A8]
+      - [0x2A8, asm, sys_reset_2A8]
       - [0x324, c, func_8010C324]
-      - [0x344, asm, ovl_001_344]
+      - [0x344, asm, sys_reset_344]
       - [0x3BC, c, func_8010C3BC]
       - [0x3E0, c, func_8010C3E0]
-      - [0x404, asm, ovl_001_404]
+      - [0x404, asm, sys_reset_404]
       - [0x738, c, func_8010C738]
       - [0x750, c, func_8010C750]
-      - [0x7CC, asm, ovl_001_7CC]
+      - [0x7CC, asm, sys_reset_7CC]
   - [0x800]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_001.bin bs=2048 skip=927 count=1
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/sys_reset.bin bs=2048 skip=927 count=1
