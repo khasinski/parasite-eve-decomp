@@ -527,7 +527,7 @@ segments:
       - [0x387E0, c, menu/Menu_InventoryNavigate]
       - [0x388AC, c, menu/menu12]
       - [0x38A54, asm, main/Menu_OpenItemList]
-      - [0x38E54, asm, main/Menu_StepSaveLoadScreen]
+      - [0x38E54, c, main/Menu_StepSaveLoadScreen]
       - [0x39038, c, menu/Menu_SaveLoadNavigate]
       - [0x39118, asm, main/Menu_StepInventoryRoot]
       - [0x39724, c, menu/Menu_AlignEquipPanels]
