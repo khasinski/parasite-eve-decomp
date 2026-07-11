@@ -703,7 +703,7 @@ segments:
       - [0x44AA0, c, item/Inv_BuildFilteredPackedList]
       - [0x44BCC, c, item/Inv_BuildFilteredPackedListExcluding]
       - [0x44D20, asm, main/Inv_SetupSlotDisplay]
-      - [0x4505C, asm, main/Inv_PickRandomItem]
+      - [0x4505C, c, main/Inv_PickRandomItem]
       - [0x45288, c, main/Inv_GetItemEffectData]
       - [0x454F8, c, item/Inv_CompactActiveListSlots]
       - [0x4564C, c, item/Inv_CheckFreeSlotCapacity]
