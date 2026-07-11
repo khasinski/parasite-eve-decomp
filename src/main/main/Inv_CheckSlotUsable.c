@@ -2,8 +2,8 @@
 /* MASPSX_FLAGS: -G8 */
 typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsigned short u16;typedef int s32;typedef unsigned int u32;typedef long long s64;
 #define NULL ((void *)0)
-extern s16 *g_InvItemPtr;
-extern s32 g_InvSlotLimit;
+extern s16 *g_InvItemPtr __asm__("D_8009D048");
+extern s32 g_InvSlotLimit __asm__("D_8009D050");
 
 void *Item_LookupBaseData(unsigned int index);
 s32 Inv_FindSlotByIndex();
