@@ -1,15 +1,15 @@
-
-extern int g_CdRomCmdTimeout;
+extern int D_8009B598;
 
 int CdRom_SendCmd(int arg0);
 
-int CdRom_IssueSetMode(int arg0) {
-    volatile int *ptr;
+int func_8007FCBC(int arg0) {
+    register volatile int *ptr asm("$3");
 
-    ptr = &g_CdRomCmdTimeout;
+    ptr = &D_8009B598;
     if (*ptr > 0) {
         return 0;
     }
+    asm volatile("" : "=r"(ptr) : "0"(ptr));
     ptr[-10] = 0x20;
     return CdRom_SendCmd(arg0 & 0xFF);
 }
