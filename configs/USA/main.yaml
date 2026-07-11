@@ -827,7 +827,7 @@ segments:
       - [0x51CA0, c, gpu/draw3]
       - [0x51D3C, asm, main/Draw_AllocColorRect]
       - [0x52078, asm, gpu/Draw_EmitWipeBar]
-      - [0x5223C, asm, gpu/Draw_EmitWipeBarRect]
+      - [0x5223C, c, gpu/Draw_EmitWipeBarRect]
       - [0x52380, c, gpu/Draw_EmitWipeBarPoly]
       - [0x52434, asm, main/Draw_AllocColorGradient]
       - [0x52890, asm, main/Draw_AllocColorTri]
