@@ -1245,7 +1245,7 @@ segments:
       - [0x6CAF8, pad]
       - [0x6CB04, c, psyq/libcd/StSetStream]
       - [0x6CB88, pad]
-      - [0x6CB94, asm, psyq/libcd/func_8007C394]
+      - [0x6CB94, c, psyq/libcd/func_8007C394]
       - [0x6CC40, pad]
       - [0x6CC44, c, psyq/libcd/init_ring_status]
       - [0x6CC78, pad]
