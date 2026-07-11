@@ -1461,6 +1461,7 @@ segments:
       - [0x74FA0, c, memcard/CardObj_SwapByteField]
       - [0x74FB0, c, memcard/CardObj_ReadPayloadByte]
       - [0x7506C, asm, memcard/card_obj6_tail]
+      - [0x752E8, c, memcard/CardObj_GetChannelId]
       - [0x75320, c, memcard/CardObj_LookupByChannelId]
       - [0x75340, asm, main/gap_memcard_CardObj_LookupByChannelId_tail_75340]
       - [0x75344, c, memcard/MemCard_SetCallbackVtable]
