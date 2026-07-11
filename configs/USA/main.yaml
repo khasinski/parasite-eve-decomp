@@ -1457,7 +1457,7 @@ segments:
       - [0x74968, asm, main/Render_SetParticleCallbacks]
       - [0x74CE4, c, memcard/MemCard_InitTransferState]
       - [0x74E44, c, memcard/CardObj_ResetFields]
-      - [0x74EAC, asm, memcard/card_obj6]
+      - [0x74EAC, c, memcard/MemCard_DmaCompleteCallback]
       - [0x74FA0, c, memcard/CardObj_SwapByteField]
       - [0x74FB0, asm, memcard/card_obj6_tail]
       - [0x75320, c, memcard/CardObj_LookupByChannelId]
