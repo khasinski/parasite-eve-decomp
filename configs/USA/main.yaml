@@ -284,7 +284,7 @@ segments:
       - [0x11718, c, main/Battle_Init]
       - [0x11854, c, menu/Pad_GetMenuPressedBitOrDisabled]
       - [0x11880, c, menu/misc22]
-      - [0x11928, asm, battle/Battle_DispatchEntityEffect]
+      - [0x11928, c, battle/Battle_DispatchEntityEffect]
       - [0x11A78, asm, main/Battle_CheckEvasion]
       - [0x11D6C, c, main/Battle_BuildTargetList]
       - [0x11EE4, asm, main/Battle_SortTargets]
