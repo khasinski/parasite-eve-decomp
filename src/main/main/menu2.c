@@ -207,22 +207,6 @@ int Menu_GetEquipSlotProperty(int arg0) {
     return base[4];
 }
 
-int Menu_IsEquipSlotActive(void) {
-    return D_80091A1C != 0;
-}
-
-int Menu_ConsumeEquipSlotFlag(void) {
-    unsigned char *ptr;
-
-    ptr = &g_FontGlyphLoadFailed;
-    if (*ptr != 0) {
-        *ptr = 0;
-        return 0;
-    }
-
-    return 0xFF;
-}
-
 int Menu_ConsumeEquipSlotInt(void) {
     int *ptr;
 
