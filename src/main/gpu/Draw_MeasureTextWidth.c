@@ -14,6 +14,7 @@ int Draw_MeasureTextWidth(u8 *text) {
     int glyph;
     register int terminator_check asm("$3");
     register int sentinel asm("$2");
+    register int escape_page asm("$2");
     int spacing;
     int metrics;
 
@@ -28,7 +29,8 @@ loop:
     }
     ch &= 0xFF;
     if ((unsigned int)ch >= 0xFA) {
-        D_8009D0D8 = ch - 0xFA;
+        escape_page = ch - 0xFA;
+        D_8009D0D8 = escape_page;
         glyph = -1;
     }
     ch = glyph;
