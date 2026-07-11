@@ -329,7 +329,7 @@ segments:
       - [0x1FB00, c, main/Battle_StartDeathAnim]
       - [0x1FE58, c, battle/Battle_SaveAyaState]
       - [0x1FF6C, c, battle/Battle_InitEquipLists]
-      - [0x1FFD8, asm, main/Entity_AllocSlot]
+      - [0x1FFD8, c, main/Entity_AllocSlot]
       - [0x20170, c, battle/Battle_SlotFree]
       - [0x201CC, c, battle/Battle_ClearMotionTable]
       - [0x20210, c, task/task_set6]
