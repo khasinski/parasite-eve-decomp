@@ -59,6 +59,8 @@ segments:
       - [0x2574, asm, ovl_178_2B8_3D4_F54_1070_2450_2574]
       - [0x2758, c, func_80191748]
       - [0x2760, asm, ovl_178_2B8_3D4_F54_1070_2450_2760]
+      - [0x2848, c, func_80191838]
+      - [0x2868, asm, ovl_178_2B8_3D4_F54_1070_2450_2868]
       - [0x4B30, c, RoomLib_Spawn6_80193B20]
       - [0x4B5C, asm, ovl_178_2B8_3D4_F54_1070_2450_256C_4B5C]
       - [0x4BF4, c, RoomLib_CloseTarget_80193BE4]
