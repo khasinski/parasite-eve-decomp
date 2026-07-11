@@ -1436,7 +1436,7 @@ segments:
       - [0x73DA4, c, memcard/card_obj2]
       - [0x73E44, c, memcard/CardObj_AdvanceReadLayout]
       - [0x73F90, c, memcard/CardObj_CalcReadPayloadSize]
-      - [0x73FC8, asm, memcard/card_obj3]
+      - [0x73FC8, c, memcard/card_obj3]
       - [0x7409C, c, memcard/CardObj_EmitReadTransferCommand]
       - [0x74144, asm, memcard/CardObj_ProcessReadPayload]
       - [0x743B8, c, memcard/card_obj4]
