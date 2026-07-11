@@ -371,6 +371,7 @@ StartRCnt = 0x800858E8; // type:func
 StopRCnt = 0x80085918; // type:func
 ResetRCnt = 0x8008594C; // type:func
 SpuQuit = 0x80085984; // type:func
+Spu_SetReverbMode = 0x80085F14; // type:func
 SpuSetTransferCallback = 0x80085F44; // type:func
 AkaoSpuVoice_SetVolume = 0x80087798; // type:func
 AkaoSpuVoice_SetPitch = 0x800877BC; // type:func
