@@ -1053,7 +1053,7 @@ segments:
       - [0x64524, c, psyq/libapi/VSyncCallback]
       - [0x64558, c, psyq/misc29]
       - [0x64610, c, psyq/libapi/SetIntrMask]
-      - [0x64628, asm, sys/Sys_InitIntrManager]
+      - [0x64628, c, sys/Sys_InitIntrManager]
       - [0x64700, c, main/Render_InitSceneGeom]
       - [0x648D0, asm, sys/Sys_SetIntrCallback]
       - [0x64A18, c, sys/Sys_SaveDisableIntr]
