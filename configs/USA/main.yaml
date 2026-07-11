@@ -816,7 +816,7 @@ segments:
       - [0x4E170, c, menu/Menu_InitScrollDirection]
       - [0x4E194, c, item/Inv_InitMaxLevelInventory]
       - [0x4E28C, c, gpu/menu]
-      - [0x4E344, asm, item/Item_LookupBaseData]
+      - [0x4E344, c, item/Item_LookupBaseData]
       - [0x4E38C, c, item/Stat_GetGrowthTable]
       - [0x4E3AC, c, aya/aya]
       - [0x4E44C, c, table/str_lookup]

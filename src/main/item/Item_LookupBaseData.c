@@ -1,6 +1,6 @@
 
 extern int D_800A8034[];
-extern int g_StatGrowthTable[];
+extern int D_800A8038[];
 
 void *Item_LookupBaseData(unsigned int index)
 {
@@ -9,7 +9,7 @@ void *Item_LookupBaseData(unsigned int index)
     register unsigned int offset;
     int end;
 
-    endPtr = g_StatGrowthTable;
+    endPtr = D_800A8038;
     end = endPtr[0];
     base = D_800A8034[0];
 
@@ -18,6 +18,7 @@ void *Item_LookupBaseData(unsigned int index)
     }
 
     offset = index << 5;
+    asm volatile("" : "=r"(offset) : "0"(offset));
     endPtr = (int *)((char *)endPtr - 0x10);
     return (void *)(base + (offset + (int)endPtr));
 }
