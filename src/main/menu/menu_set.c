@@ -31,10 +31,6 @@ void Gpu_SetDither(u8 *packet, int enabled);
 u16 GetTPage(int tp, int abr, int x, int y);
 void exit(int code);
 
-void Menu_SetEquipSlotIndex(int arg0) {
-    D_8009CE94 = arg0;
-}
-
 void Render_SetupFogLayer(void *arg0) {
     u8 i;
     char *entry;

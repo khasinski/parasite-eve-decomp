@@ -56,10 +56,6 @@ extern M2C_UNK Inv_SwapSlots[];
 extern M2C_UNK Menu_RebuildSelectableMask[];
 #define Menu_RebuildSelectableMask (Menu_RebuildSelectableMask[0])
 
-int Menu_GetEquipMode(void) {
-    return g_MenuEquipMode;
-}
-
 void Menu_OpenInventoryScreen(void) {
     register s32 count asm("$5");
     register s32 bits asm("$3");

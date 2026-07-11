@@ -120,7 +120,3 @@ void Render_SetupColorTable(s16 base, int mode, s16 *src) {
         slot_index++;
     }
 }
-
-int Menu_GetEquipSlotIndex(void) {
-    return g_MenuEquipSlotIndex;
-}
