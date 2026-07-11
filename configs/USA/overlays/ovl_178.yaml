@@ -46,7 +46,7 @@ segments:
       - [0x514, c, func_8018F504]
       - [0x51C, asm, ovl_178_2B8_51C]
       - [0xEF4, c, func_8018FEE4]
-      - [0xEFC, asm, ovl_178_2B8_51C_EF4]
+      - [0xEFC, c, func_8018FEEC]
       - [0xF28, c, RoomLib_Spawn6_8018FF18]
       - [0xF54, c, func_8018FF44]
       - [0xF7C, asm, ovl_178_2B8_3D4_F54]
