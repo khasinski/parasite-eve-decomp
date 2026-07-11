@@ -1030,7 +1030,7 @@ segments:
       - [0x63760, asm, math/Math_Stub_80072F60]
       - [0x63764, asm, main/Math_Div64]
       - [0x63A44, c, math/Math_Cmp64Pair]
-      - [0x63A94, asm, main/Math_Shift64]
+      - [0x63A94, c, main/Math_Shift64]
       - [0x63B50, asm, math/Math_Stub_80073350]
       - [0x63B54, asm, math/Math_DoubleToInt32]
       - [0x63C50, asm, math/Math_Stub_80073450]
