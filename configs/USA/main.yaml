@@ -1081,7 +1081,7 @@ segments:
       - [0x654C8, c, gpu/DrawSyncCallback]
       - [0x65528, c, gpu/SetDispMask]
       - [0x655C0, c, gpu/DrawSync]
-      - [0x65628, asm, gpu/checkRECT]
+      - [0x65628, c, gpu/checkRECT]
       - [0x65744, c, gpu/ClearImage]
       - [0x657D4, c, gpu/ClearImage2]
       - [0x6586C, c, gpu/LoadImage]
