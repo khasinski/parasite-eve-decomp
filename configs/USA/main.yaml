@@ -832,7 +832,7 @@ segments:
       - [0x52434, asm, main/Draw_AllocColorGradient]
       - [0x52890, c, main/Draw_AllocColorTri]
       - [0x52AB0, c, menu/Menu_SetSaveSlotBlendBase]
-      - [0x52ABC, asm, main/Draw_AllocColorTriGradient]
+      - [0x52ABC, c, main/Draw_AllocColorTriGradient]
       - [0x52D68, c, menu/MenuWidget_InitPoolUnk]
       - [0x52DB8, c, menu/MenuWidget_AllocNode]
       - [0x52E9C, asm, main/MenuWidget_DestroyNodeRecursive]
