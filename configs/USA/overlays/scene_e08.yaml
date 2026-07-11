@@ -56,6 +56,7 @@ segments:
       - [0x125C, c, func_8019024C]
       - [0x1264, c, func_80190254]
       - [0x12E4, asm, scene_e08_2B8_3D4_F54_1264]
+      - [0x2360, c, func_80191350]
       - [0x23F0, c, func_801913E0]
       - [0x23F8, c, func_801913E8]
       - [0x2424, c, RoomLib_Spawn6_80191414]
