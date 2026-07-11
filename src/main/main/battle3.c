@@ -18,6 +18,7 @@ extern u8 D_8009D29A[];
 extern u8 D_8009D29B[];
 extern u32 D_8009D29C[];
 extern u8 D_8009CE74;
+extern u8 D_8009CE70;
 extern struct { char _[16]; } D_8009D254_o __asm__("D_8009D254");
 extern struct { char _[16]; } D_8009D1A0_o __asm__("D_8009D1A0");
 extern s16 D_8009D2A4;
@@ -38,6 +39,26 @@ extern struct { char _[16]; } D_8009D235_o __asm__("D_8009D235");
 extern struct { char _[16]; } D_800B8A90_o __asm__("D_800B8A90");
 extern struct { char _[16]; } D_8009D250_o __asm__("D_8009D250");
 extern struct { char _[16]; } D_8009D27C_o __asm__("D_8009D27C");
+extern struct { char _[16]; } D_8009D20C_o __asm__("g_FieldActorListHead");
+extern struct { char _[16]; } D_8009CDDC_o __asm__("g_ActiveDrawSlot");
+extern struct { char _[16]; } D_800BE9F0_o __asm__("D_800BE9F0");
+extern struct { char _[16]; } D_800B0E38_o __asm__("D_800B0E38");
+extern struct { char _[16]; } D_800B0CEC_o __asm__("D_800B0CEC");
+extern struct { char _[16]; } D_800B0D88_o __asm__("D_800B0D88");
+extern struct { char _[16]; } D_800B0D8A_o __asm__("D_800B0D8A");
+extern struct { char _[16]; } D_800B00EC_o __asm__("D_800B00EC");
+extern struct { char _[16]; } D_800B692C_o __asm__("D_800B692C");
+extern struct { char _[16]; } D_800B6948_o __asm__("D_800B6948");
+#define g_FieldActorListHead (*(void **)&D_8009D20C_o)
+#define g_ActiveDrawSlot (*(s32 *)&D_8009CDDC_o)
+#define D_800BE9F0 ((u8 *)&D_800BE9F0_o)
+#define D_800B0E38 ((u8 **)&D_800B0E38_o)
+#define D_800B0CEC ((u8 *)&D_800B0CEC_o)
+#define D_800B0D88 (*(u16 *)&D_800B0D88_o)
+#define D_800B0D8A (*(u8 *)&D_800B0D8A_o)
+#define D_800B00EC ((u8 *)&D_800B00EC_o)
+#define D_800B692C ((u8 *)&D_800B692C_o)
+#define D_800B6948 ((u8 *)&D_800B6948_o)
 #define D_8009D254 (*(void **)&D_8009D254_o)
 #define D_8009D1A0 (*(u32 *)&D_8009D1A0_o)
 #define D_800A7FF0_addr ((void *)&D_800A7FF0_o)
@@ -68,6 +89,18 @@ void Battle_CheckDropChance(void);
 void Window_SetBoundsByMode(int mode);
 int Entity_CheckActionIdMatch(void);
 void BattleCmd_SyncActiveAmmo(void);
+int Render_StartFadeIn(int frames);
+void Render_FadeEntityColor(void *anim, int r, int g, int b);
+void Anim_SetInterpRate(void *anim, int rate);
+void Akao_Cmd_C1_WithSlot(int arg0, int arg1, int arg2);
+void Akao_Cmd_21(int arg0, int arg1);
+void AddPrim(void *ot, void *prim);
+int rcos(int angle);
+void Sys_Shutdown(void);
+int Scene_LoadRoomAssets(int room);
+void Asset_Find08Alt(int id, int arg1, int x, int y, int z);
+void Aya_DeriveStats(void *src, void *dst);
+void Battle_StartDeathAnim(void);
 
 extern u8 D_8009D2EC;
 extern struct { char _[16]; } D_800915E0_o __asm__("D_800915E0");
@@ -457,7 +490,211 @@ void Battle_StartEncounter(int mode) {
 
 INCLUDE_ASM("asm/USA/main/nonmatchings/main/battle3", Battle_Update);
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/main/battle3", Battle_StepVictory);
+static void Battle_VictoryFadeMainAndPartner(int shade) {
+    Render_FadeEntityColor((u8 *)D_8009D254 + 0x1B4, shade, shade, shade);
+    Render_FadeEntityColor(D_800B0CEC, shade, shade, shade);
+}
+
+static void Battle_VictoryMarkEntityFade(void) {
+    *(u16 *)((u8 *)D_8009D254 + 0x250) |= 2;
+    D_800B0D88 |= 2;
+}
+
+static void Battle_VictoryInitStatBars(void) {
+    u8 *base;
+
+    base = D_800B00EC;
+
+    base[0x00] = 0;
+    base[0x01] = 0x46;
+    base[0x02] = 0x82;
+    base[0x08] = 0x9F;
+    base[0x09] = 0xFF;
+    base[0x0A] = 0xF9;
+
+    base[0x10] = 0;
+    base[0x11] = 0x46;
+    base[0x12] = 0x82;
+    base[0x18] = 0x9F;
+    base[0x19] = 0xFF;
+    base[0x1A] = 0xF9;
+
+    base[0x24] = 0;
+    base[0x25] = 0x46;
+    base[0x26] = 0x82;
+    base[0x2C] = 0x9F;
+    base[0x2D] = 0xFF;
+    base[0x2E] = 0xF9;
+
+    base[0x34] = 0;
+    base[0x35] = 0x46;
+    base[0x36] = 0x82;
+    base[0x3C] = 0x9F;
+    base[0x3D] = 0xFF;
+    base[0x3E] = 0xF9;
+
+    base[0x48] = 0;
+    base[0x49] = 0x46;
+    base[0x4A] = 0x82;
+    base[0x50] = 0x9F;
+    base[0x51] = 0xFF;
+    base[0x52] = 0xF9;
+
+    base[0x38] = 0x4A;
+    base[0x4C] = 0x4A;
+
+    D_800B692C[0] = 0x9F;
+    D_800B692C[1] = 0xFF;
+    D_800B692C[2] = 0xF9;
+    D_800B6948[0] = 0x9F;
+    D_800B6948[1] = 0xFF;
+    D_800B6948[2] = 0xF9;
+
+    D_800B0134 = 0;
+    D_800B0135 = 0x82;
+    D_800B0136 = 0x36;
+    D_800B013C = 0x4A;
+    D_800B013D = 0xFF;
+    D_800B013E = 0x3B;
+    D_800B0144 = 0;
+    D_800B0145 = 0x82;
+    D_800B0146 = 0x36;
+    D_800B014C = 0x4A;
+    D_800B014D = 0xFF;
+    D_800B014E = 0x3B;
+    D_800B017C = 0;
+    D_800B017D = 0x82;
+    D_800B017E = 0x36;
+    D_800B0184 = 0x4A;
+    D_800B0185 = 0xFF;
+    D_800B0186 = 0x3B;
+    D_800B018C = 0;
+    D_800B018D = 0x82;
+    D_800B018E = 0x36;
+    D_800B0194 = 0x4A;
+    D_800B0195 = 0xFF;
+    D_800B0196 = 0x3B;
+}
+
+int Battle_StepVictory(void) {
+    void *entity;
+    void *actor;
+    int ret;
+    int shade;
+    u8 step;
+
+    ret = 0;
+    step = D_8009CE74;
+
+    switch (step) {
+    case 0:
+        entity = D_8009D254;
+        if (*(u8 *)((u8 *)entity + 0xE) != 0x13) {
+            Entity_SetActionMode(entity, 0x13);
+            entity = D_8009D254;
+        }
+
+        if (*(u8 *)((u8 *)entity + 0xF) == *(u16 *)((u8 *)entity + 0x16)) {
+            D_8009CE70 = 0x10;
+            *(u32 *)((u8 *)entity + 0x98) |= 0x100;
+            D_8009CE74++;
+        } else {
+            *(u32 *)((u8 *)entity + 0x98) &= -0x101;
+        }
+        break;
+
+    case 1:
+        if (D_8009CE70 != 0) {
+            shade = (~(D_8009CE70 << 3)) & 0xFF;
+            Battle_VictoryFadeMainAndPartner(shade);
+            D_8009CE70--;
+        } else {
+            Battle_VictoryFadeMainAndPartner(0xFF);
+            Anim_SetInterpRate((u8 *)D_8009D254 + 0x1B4, 0x1E);
+            Battle_VictoryMarkEntityFade();
+            Anim_SetInterpRate(D_800B0CEC, 0x1E);
+            D_8009CE74++;
+        }
+        break;
+
+    case 2:
+        if (*(u8 *)((u8 *)D_8009D254 + 0x252) == 0 && D_800B0D8A == 0) {
+            Scene_LoadRoomAssets(0x69);
+            entity = D_8009D254;
+            Asset_Find08Alt(0x4AF, 0, *(s16 *)((u8 *)entity + 0x2A),
+                            *(s16 *)((u8 *)entity + 0x2E),
+                            *(s16 *)((u8 *)entity + 0x32));
+            D_8009CE70 = 0x34;
+            D_8009CE74++;
+        }
+        break;
+
+    case 3:
+        if (D_8009CE70 != 0) {
+            D_8009CE70--;
+        } else {
+            *(u8 *)((u8 *)D_8009D254 + 0x252) = 1;
+            Anim_SetInterpRate((u8 *)D_8009D254 + 0x1B4, 0x1E);
+            *(u16 *)((u8 *)D_8009D254 + 0x250) |= 4;
+            Render_FadeEntityColor((u8 *)D_8009D254 + 0x1B4, 0xFF, 0xFF, 0xFF);
+            D_800B0D8A = 1;
+            Anim_SetInterpRate(D_800B0CEC, 0x1E);
+            D_800B0D88 |= 4;
+            Render_FadeEntityColor(D_800B0CEC, 0xFF, 0xFF, 0xFF);
+            Entity_SetActionMode(D_8009D254, 0xF);
+            D_8009CE70 = 0x1E;
+            *(u32 *)((u8 *)D_8009D254 + 0x14) = 0x230000;
+            *(u32 *)((u8 *)D_8009D254 + 0x18) = 0x220000;
+            D_8009CE74++;
+        }
+        break;
+
+    case 4:
+        if (D_8009CE70 == 0x10) {
+            entity = D_8009D254;
+            D_8009CE74++;
+            *(u32 *)((u8 *)entity + 0x98) &= -0x101;
+        } else {
+            D_8009CE70--;
+        }
+        break;
+
+    case 5:
+        entity = D_8009D254;
+        if (*(u8 *)((u8 *)entity + 0xF) == *(u16 *)((u8 *)entity + 0x1A)) {
+            Entity_SetActionMode(entity, *(u8 *)((u8 *)D_8009D278 + 0x12));
+            D_8009CE74++;
+        }
+        break;
+
+    case 6:
+        actor = D_8009D278;
+        *(u16 *)((u8 *)actor + 0x0C) = *(u16 *)((u8 *)actor + 0x1C) >> 1;
+        *(u32 *)((u8 *)actor + 0x08) >>= 2;
+        Battle_ResetEnemyStats(1);
+        actor = D_8009D278;
+        entity = D_8009D254;
+        *(u16 *)((u8 *)actor + 0x58) = *(u16 *)((u8 *)actor + 0x0C);
+        *(u16 *)((u8 *)actor + 0x5A) = *(u16 *)((u8 *)entity + 0x210);
+        *(u16 *)((u8 *)actor + 0x5C) = *(u16 *)((u8 *)entity + 0x212);
+        *(u8 *)((u8 *)actor + 0x5E) = 0x1E;
+        *(u8 *)((u8 *)actor + 0x5F) = 1;
+        Aya_DeriveStats((u8 *)actor + 0x2C, (u8 *)actor + 0x30);
+        Battle_VictoryInitStatBars();
+        D_8009CE74 = 0;
+        D_8009D28C = 0;
+        ret = 1;
+        if (D_8009D2A0 == 0) {
+            Battle_StartDeathAnim();
+        }
+        break;
+
+    case 7:
+        break;
+    }
+
+    return ret;
+}
 
 void Battle_StepLevelUp(void) {
     u8 step;
@@ -525,4 +762,203 @@ void Battle_StepLevelUp(void) {
     }
 }
 
-INCLUDE_ASM("asm/USA/main/nonmatchings/main/battle3", Battle_StepPostBattle);
+static int Battle_PostEntityVisibleForCleanup(void *entity) {
+    u8 *core;
+
+    core = *(u8 **)entity;
+    if (core != 0) {
+        return core[5] != 1;
+    }
+
+    return ((*(u32 *)((u8 *)entity + 0x98) & 0x40) == 0);
+}
+
+static void Battle_PostBattleSetPrimRect(int x0, int y0, int x1, int y1) {
+    u8 *prim;
+    int slot;
+
+    slot = g_ActiveDrawSlot;
+    prim = D_800BE9F0 + ((slot * 5) << 3);
+
+    *(s16 *)(prim + 0x08) = x0;
+    *(s16 *)(prim + 0x0A) = y0;
+    *(s16 *)(prim + 0x10) = x1;
+    *(s16 *)(prim + 0x12) = y0;
+    *(s16 *)(prim + 0x18) = x0;
+    *(s16 *)(prim + 0x1A) = y1;
+    *(s16 *)(prim + 0x20) = x1;
+    *(s16 *)(prim + 0x22) = y1;
+}
+
+static u8 *Battle_PostBattleActivePrim(void) {
+    int slot;
+
+    slot = g_ActiveDrawSlot;
+    return D_800BE9F0 + ((slot * 5) << 3);
+}
+
+static void Battle_PostBattleStepTimer(void) {
+    D_8009CE70--;
+}
+
+void Battle_StepPostBattle(void) {
+    void *entity;
+    void *iter;
+    u8 step;
+
+    step = D_8009CE74;
+    switch (step) {
+    case 0:
+        entity = D_8009D254;
+        if (*(u8 *)((u8 *)entity + 0xE) != 0x13) {
+            Entity_SetActionMode(entity, 0x13);
+            entity = D_8009D254;
+        }
+
+        if (*(u8 *)((u8 *)entity + 0xF) == *(u16 *)((u8 *)entity + 0x16)) {
+            iter = g_FieldActorListHead;
+            while (iter != 0) {
+                if (iter != D_8009D254 && Battle_PostEntityVisibleForCleanup(iter)) {
+                    u8 *core;
+                    u32 flags;
+
+                    *(u16 *)((u8 *)iter + 0x250) |= 2;
+                    flags = *(u32 *)((u8 *)iter + 0x98) | 0x1000;
+                    *(u32 *)((u8 *)iter + 0x98) = flags;
+                    core = *(u8 **)iter;
+                    if (core != 0) {
+                        Entity_SetActionMode(iter, (u16)(s8)core[6]);
+                        flags = *(u32 *)((u8 *)iter + 0x98);
+                        if ((flags & 0x40000000) && core[0xAF] == 0) {
+                            *(u32 *)((u8 *)iter + 0x98) = flags | 0x10;
+                            *(u32 *)iter = 0;
+                        }
+                    }
+
+                    *(u32 *)((u8 *)iter + 0x68) = 0;
+                    *(u32 *)((u8 *)iter + 0x6C) = 0;
+                    *(u32 *)((u8 *)iter + 0x70) = 0;
+                }
+                iter = *(void **)((u8 *)iter + 4);
+            }
+
+            Battle_ResetEnemyStats(0);
+            D_8009CE70 = 0x46;
+            D_8009CE74++;
+            *(u32 *)((u8 *)D_8009D254 + 0x98) |= 0x100;
+        } else {
+            *(u32 *)((u8 *)entity + 0x98) &= -0x101;
+        }
+        break;
+
+    case 1:
+        if (D_8009CE70 == 0x3C) {
+            Render_StartFadeIn(0x3C);
+            Akao_Cmd_C1_WithSlot(0, 0x3C, 0);
+
+            iter = g_FieldActorListHead;
+            while (iter != 0) {
+                if (iter != D_8009D254 && Battle_PostEntityVisibleForCleanup(iter)) {
+                    Anim_SetInterpRate((u8 *)iter + 0x1B4, 0x3C);
+                }
+                iter = *(void **)((u8 *)iter + 4);
+            }
+        } else {
+            iter = g_FieldActorListHead;
+            while (iter != 0) {
+                if (iter != D_8009D254) {
+                    u8 *core = *(u8 **)iter;
+                    if ((core != 0 || ((*(u32 *)((u8 *)iter + 0x98) & 0x40) == 0)) &&
+                        *(u8 *)((u8 *)iter + 0x252) == 0) {
+                        *(u32 *)((u8 *)iter + 0x98) |= 0x10;
+                    }
+                }
+                iter = *(void **)((u8 *)iter + 4);
+            }
+        }
+
+        if (D_8009CE70 != 0) {
+            Battle_PostBattleStepTimer();
+        } else {
+            Pm_StopAllBoth();
+            Akao_Cmd_21(0, 0xFF);
+            D_8009CE70 = 0x1E;
+            D_8009CE74++;
+        }
+        break;
+
+    case 2: {
+        int timer;
+        int x0;
+        int x1;
+
+        timer = D_8009CE70;
+        x0 = 0x78 - timer * 4;
+        x1 = 0xDC + timer * 4;
+        Battle_PostBattleActivePrim()[4] = x0;
+        Battle_PostBattleActivePrim()[5] = x0;
+        Battle_PostBattleActivePrim()[6] = x0;
+        Battle_PostBattleSetPrimRect(0x64 - timer * 4, 0x7A, x1, 0x7C);
+
+        if (timer != 0) {
+            Battle_PostBattleStepTimer();
+        } else {
+            D_8009CE70 = 0x50;
+            D_8009CE74++;
+        }
+        break;
+    }
+
+    case 3: {
+        int timer;
+        int y;
+
+        timer = D_8009CE70;
+        if ((u8)timer >= 0x1A) {
+            int pulse;
+
+            pulse = rcos(((u8)timer - 0x10) << 4);
+            pulse = (unsigned int)(pulse * 11) >> 11;
+            y = 0x7A - (pulse & 0xFF);
+            Battle_PostBattleSetPrimRect(0x64, y, 0xDC, 0x7C);
+        } else {
+            Battle_PostBattleSetPrimRect(0x64, 0x64, 0xDC, 0x7C);
+        }
+
+        if (D_8009CE70 != 0) {
+            Battle_PostBattleStepTimer();
+        } else {
+            Anim_SetInterpRate((u8 *)D_8009D254 + 0x1B4, 0x3C);
+            *(u16 *)((u8 *)D_8009D254 + 0x250) |= 2;
+            Anim_SetInterpRate(D_800B0CEC, 0x3C);
+            D_8009CE70 = 0x3C;
+            D_800B0D88 |= 2;
+            D_8009CE74++;
+        }
+        break;
+    }
+
+    case 4:
+        if (*(u8 *)((u8 *)D_8009D254 + 0x252) == 0 && D_800B0D8A == 0) {
+            D_8009CE74++;
+        } else {
+            u8 shade;
+
+            shade = D_8009CE70 * 2;
+            Battle_PostBattleActivePrim()[4] = shade;
+            Battle_PostBattleActivePrim()[5] = shade;
+            Battle_PostBattleActivePrim()[6] = shade;
+            Battle_PostBattleSetPrimRect(0x64, 0x64, 0xDC, 0x7C);
+            Battle_PostBattleStepTimer();
+        }
+        break;
+
+    case 5:
+        Battle_SetupPlayerPalette();
+        D_8009D28C = -1;
+        Sys_Shutdown();
+        break;
+    }
+
+    AddPrim(D_800B0E38[g_ActiveDrawSlot] + 0x10, Battle_PostBattleActivePrim());
+}
