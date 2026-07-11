@@ -1118,7 +1118,7 @@ segments:
       - [0x653B8, asm, gpu/SetGraphDebug]
       - [0x65414, asm, gpu/SetGraphQueue]
       - [0x654B8, c, gpu/GetGraphDebug]
-      - [0x654C8, asm, gpu/DrawSyncCallback]
+      - [0x654C8, c, gpu/DrawSyncCallback]
       - [0x65528, c, gpu/SetDispMask]
       - [0x655C0, c, gpu/DrawSync]
       - [0x65628, asm, gpu/checkRECT]
