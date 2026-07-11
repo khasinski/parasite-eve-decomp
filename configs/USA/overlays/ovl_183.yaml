@@ -53,6 +53,7 @@ segments:
       - [0x998, asm, ovl_183_94_C0_108_218_33C_968]
       - [0x1D50, c, RoomLib_SetArgs3_80190D40]
       - [0x1D74, asm, ovl_183_94_C0_108_218_1D74]
+      - [0x29FC, c, func_801919EC]
       - [0x2A18, data]
   - [0x3000]
 # source slice: scanner
