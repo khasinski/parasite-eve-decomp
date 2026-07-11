@@ -443,7 +443,7 @@ segments:
       - [0x2FF98, c, gpu/Gte_SetLightColor]
       - [0x30000, c, save/save]
       - [0x307BC, c, memcard/misc20]
-      - [0x3086C, asm, save/Save_SprintfSjis]
+      - [0x3086C, c, save/Save_SprintfSjis]
       - [0x30A10, c, save/misc35]
       - [0x30DA4, asm, main/MemCard_StepPortState]
       - [0x311B4, asm, memcard/MemCard_InitManager]
