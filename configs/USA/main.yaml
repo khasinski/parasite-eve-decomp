@@ -823,7 +823,7 @@ segments:
       - [0x4FE98, asm, gpu/Draw_PrintTextWrapped]
       - [0x50044, c, gpu/draw_print]
       - [0x50E2C, c, main/Draw_AllocTexturedRectAlt]
-      - [0x51844, asm, main/Draw_AllocColorQuad]
+      - [0x51844, c, main/Draw_AllocColorQuad]
       - [0x51CA0, c, gpu/draw3]
       - [0x51D3C, asm, main/Draw_AllocColorRect]
       - [0x52078, asm, gpu/Draw_EmitWipeBar]
