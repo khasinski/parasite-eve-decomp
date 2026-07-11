@@ -742,7 +742,7 @@ segments:
       - [0x493BC, c, item/inv4]
       - [0x49644, c, main/Inv_IsSlotEquipped]
       - [0x497EC, c, main/Inv_RebuildWithSlotLimit]
-      - [0x49D34, asm, item/Menu_OpenItemUsePanelAtIndex]
+      - [0x49D34, c, item/Menu_OpenItemUsePanelAtIndex]
       - [0x49E8C, asm, main/Inv_GetSlotItemData]
       - [0x4A240, c, main/Inv_GetActiveSlotCount]
       - [0x4A444, c, main/Inv_InitWayneStorage]
