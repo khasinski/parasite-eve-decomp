@@ -41,3 +41,4 @@ segments:
 # room: m115, section3 sector 35671, scanner delta 0
 # source slice: room-section3
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m115.bin bs=2048 skip=35671 count=111
+# text-bank: Day 1 night: theater blaze aftermath

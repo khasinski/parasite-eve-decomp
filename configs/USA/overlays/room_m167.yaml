@@ -80,3 +80,4 @@ segments:
 # room: m167, section3 sector 47196, scanner delta 0
 # source slice: room-section3
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m167.bin bs=2048 skip=47196 count=79
+# text-bank: Day 4: Pier No.4 Warehouse

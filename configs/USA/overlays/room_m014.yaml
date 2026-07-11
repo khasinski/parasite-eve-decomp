@@ -84,3 +84,4 @@ segments:
 # room: m014, section3 sector 11368, scanner delta 0
 # source slice: room-section3
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m014.bin bs=2048 skip=11368 count=66
+# text-bank: Day 1: Carnegie Hall (opera night)

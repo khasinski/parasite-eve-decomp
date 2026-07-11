@@ -90,3 +90,4 @@ segments:
 # room: m221, section3 sector 57995, scanner delta 0
 # source slice: room-section3
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m221.bin bs=2048 skip=57995 count=85
+# text-bank: Day 3 morning (Daniel & Maeda)

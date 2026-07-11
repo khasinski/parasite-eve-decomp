@@ -107,3 +107,4 @@ segments:
   - [0x6000]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_180.bin bs=2048 skip=96270 count=12
+# special-scene set: entry 10 of the table at 0x80094048 (this bin = its section 3); finale (Eve/Melissa) bank

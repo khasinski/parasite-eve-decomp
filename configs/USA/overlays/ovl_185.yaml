@@ -75,3 +75,4 @@ segments:
   - [0x5000]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/ovl_185.bin bs=2048 skip=98289 count=10
+# special-scene set: entry 18 of the table at 0x80094048 (this bin = its section 3); mid-game (Daniel/Maeda) bank

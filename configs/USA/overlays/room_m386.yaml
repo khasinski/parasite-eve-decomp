@@ -89,3 +89,4 @@ segments:
 # room: m386, section3 sector 89285, scanner delta 0
 # source slice: room-section3
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m386.bin bs=2048 skip=89285 count=37
+# text-bank: Final day / EX: Chrysler Building floors

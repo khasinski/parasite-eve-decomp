@@ -78,3 +78,4 @@ segments:
 # room: m162, section3 sector 46136, scanner delta 0
 # source slice: room-section3
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m162.bin bs=2048 skip=46136 count=108
+# text-bank: Day 4: Subway / Chinatown approach

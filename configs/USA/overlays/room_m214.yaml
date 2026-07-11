@@ -89,3 +89,4 @@ segments:
 # room: m214, section3 sector 56315, scanner delta 0
 # source slice: room-section3
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m214.bin bs=2048 skip=56315 count=91
+# text-bank: Day 3: Soho / St. Francis Hospital

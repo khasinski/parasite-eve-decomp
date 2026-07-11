@@ -80,3 +80,4 @@ segments:
 # room: m087, section3 sector 29381, scanner delta 0
 # source slice: room-section3
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m087.bin bs=2048 skip=29381 count=87
+# text-bank: Day 2: Central Park (Eve concert)
