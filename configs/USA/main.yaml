@@ -830,7 +830,7 @@ segments:
       - [0x5223C, c, gpu/Draw_EmitWipeBarRect]
       - [0x52380, c, gpu/Draw_EmitWipeBarPoly]
       - [0x52434, asm, main/Draw_AllocColorGradient]
-      - [0x52890, asm, main/Draw_AllocColorTri]
+      - [0x52890, c, main/Draw_AllocColorTri]
       - [0x52AB0, c, menu/Menu_SetSaveSlotBlendBase]
       - [0x52ABC, asm, main/Draw_AllocColorTriGradient]
       - [0x52D68, c, menu/MenuWidget_InitPoolUnk]
