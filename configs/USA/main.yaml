@@ -708,7 +708,7 @@ segments:
       - [0x454F8, c, item/Inv_CompactActiveListSlots]
       - [0x4564C, c, item/Inv_CheckFreeSlotCapacity]
       - [0x45758, c, main/Inv_CheckItemEquippable]
-      - [0x45BA4, asm, main/Inv_RollRandomItemType]
+      - [0x45BA4, c, main/Inv_RollRandomItemType]
       - [0x45E10, c, item/Item_PackParasiteSpells]
       - [0x45E68, c, aya/Aya_UnlockParasiteSpellById]
       - [0x45EE8, c, item/inv3]
