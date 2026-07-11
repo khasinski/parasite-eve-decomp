@@ -3,9 +3,6 @@
 
 
 #include "include_asm.h"
-int g_MenuInputPollingPaused;
-
-int g_MenuDrawPhase;
 
 typedef struct MenuInputQueuedEvent {
     struct MenuInputQueuedEvent *next;
@@ -36,14 +33,6 @@ void __maspsx_include_asm_hack_MenuInput_EnqueueStatusChanges(void);
  * through verbatim; bare global loads gp-rel via the .extern size
  * hints + `as -G8`. See tools/maspsx/PE1_IMPROVEMENTS.md. */
 void __maspsx_include_asm_hack_MenuInput_DispatchQueuedEvents(void);
-
-void MenuInput_SetPollingPaused(int arg0) {
-    g_MenuInputPollingPaused = arg0;
-}
-
-int MenuInput_GetRepeatStep(void) {
-    return g_MenuDrawPhase;
-}
 
 extern int D_8009D0EC;
 extern MenuInputQueuedEvent *D_8009D0E0;
