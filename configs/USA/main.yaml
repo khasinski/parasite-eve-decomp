@@ -1114,7 +1114,7 @@ segments:
       - [0x673E0, c, gpu/misc15]
       - [0x67434, asm, main/Gpu_SwapDisplayBuffers]
       - [0x676E4, asm, main/Gpu_SetDisplayBuffer]
-      - [0x67944, asm, gpu/Gpu_InitDmaQueue]
+      - [0x67944, c, gpu/Gpu_InitDmaQueue]
       - [0x67A94, c, gpu/Gpu_DrainDmaQueue]
       - [0x67BD0, c, gpu/gpu3]
       - [0x67DE8, c, gpu/LoadImage2]
