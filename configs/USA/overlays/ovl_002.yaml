@@ -77,7 +77,7 @@ segments:
       - [0x9D08, asm, func_ovl_002_009D08]
       - [0xA14C, asm, func_ovl_002_00A14C]
       - [0xA458, c, func_8012B19C]
-      - [0xA4AC, asm, func_ovl_002_00A4AC]
+      - [0xA4AC, c, func_8012B1F0]
       - [0xA4F8, asm, func_ovl_002_00A4F8]
       - [0xA7F8, asm, func_ovl_002_00A7F8]
       - [0xA9AC, c, func_8012B6F0]
