@@ -345,7 +345,7 @@ segments:
       - [0x21094, c, main/Battle_DrawHPBar]
       - [0x21CE4, asm, main/Battle_DrawStatusOverlay]
       - [0x21F60, c, main/Battle_BuildStatusPrimHeader]
-      - [0x2256C, asm, main/Battle_LayoutStatusPrimRow]
+      - [0x2256C, c, main/Battle_LayoutStatusPrimRow]
       - [0x22668, asm, main/Battle_DrawTargetHighlight]
       - [0x2285C, c, main/Battle_DrawSpellName]
       - [0x22BC8, c, main/Battle_DrawStatusSymbol]
