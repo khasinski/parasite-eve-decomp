@@ -673,7 +673,7 @@ segments:
       - [0x42F0C, c, akao/Akao_SetBgmVolumeFade]
       - [0x42F64, c, menu/menu30]
       - [0x4308C, c, time/game_time]
-      - [0x430F0, asm, main/Inv_SetDefaultItemId]
+      - [0x430F0, c, main/Inv_SetDefaultItemId]
       - [0x4332C, c, item/Inv_ScrambleGrid]
       - [0x433CC, c, util/util]
       - [0x436B0, c, item/inv]
