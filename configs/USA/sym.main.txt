@@ -1067,6 +1067,7 @@ Menu_HandleMemCardWriteOrError = 0x80050580; // type:func
 Menu_DrawSelectableEquipSlotRow = 0x80050804; // type:func
 BattleCmd_AllocSlot = 0x80051098; // type:func
 BattleCmd_UndoPending = 0x8005112C; // type:func
+BattleCmd_InitTableCursor = 0x80051084; // type:func
 Inv_SetActiveList = 0x800512AC; // type:func
 Menu_GetCommandResult = 0x800514F8; // type:func
 Menu_ClearCommandResult = 0x80051504; // type:func
