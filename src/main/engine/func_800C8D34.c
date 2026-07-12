@@ -46,7 +46,8 @@ int func_800C8D34(void) {
     value = 0xBD;
     D_800E22EC = value;
     value = 9;
-    asm volatile("li $5,0x80" : "=r"(half));
+    half = 0x80;
+    asm volatile("" : "=r"(half) : "0"(half));
     D_800E22ED = value;
     value = 0x80;
     D_800E22E8 = value;
@@ -57,7 +58,8 @@ int func_800C8D34(void) {
     value = 7;
     D_800F34AD = value;
     value = -0x32;
-    asm volatile("li $4,0x50" : "=r"(shade));
+    shade = 0x50;
+    asm volatile("" : "=r"(shade) : "0"(shade));
     D_800F34B0 = value;
     D_800E22F0 = 0;
     D_800E22F2 = half;
