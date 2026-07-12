@@ -18,8 +18,9 @@ typedef struct RoomObj {
 #define RW16(o, off) (*(short *)((char *)(o) + (off)))
 #define RW8(o, off)  (*(unsigned char *)((char *)(o) + (off)))
 #define RWU16(o, off) (*(unsigned short *)((char *)(o) + (off)))
+#define RVW16(o, off) (*(volatile short *)((char *)(o) + (off)))
 
-extern void RoomLib_HandlerA(void);
+extern void RoomLib_HandlerA();
 extern void RoomLib_HandlerB(void);
 extern void RoomLib_HandlerC(void);
 extern void RoomLib_HandlerD(void);
@@ -592,9 +593,9 @@ extern char RoomLib_TableB[];
     }
 
 /* face the actor: clear actor bits, arm handler, aim h44/h48, load rot */
-#define ROOMLIB_FACE_ACTOR(name, handler) \
+#define ROOMLIB_FACE_ACTOR_WITH_GLOBALS(name, handler, actorGlobal, rotTable) \
     void name(RoomEnt *o) { \
-        char *g = RoomMain_ActorPtr; \
+        char *g = actorGlobal; \
         if (RW8(g, 0xE) < 4) { \
             int *sig; \
             RW32(g, 0x98) &= 0xFFF3FFFF; \
@@ -606,27 +607,34 @@ extern char RoomLib_TableB[];
             if (RW16(o, 0x44) == -1) { \
                 RW16(o, 0x44) = FieldEng_VecToAngle( \
                     (int *)((char *)o->link + 0x28), \
-                    (int *)(RoomMain_ActorPtr + 0x28)); \
+                    (int *)(actorGlobal + 0x28)); \
             } \
             if (RW16(o, 0x48) == -1) { \
                 RW16(o, 0x48) = RWU16(o, 0x44) + 0x800; \
             } \
             { \
-                int *e = (int *)((char *)RoomMain_RotTable \
+                int *e = (int *)((char *)rotTable \
                                  + ((RWU16(o, 0x44) & 0xFFF) << 2)); \
                 int hi = *(short *)((char *)e + 2); \
-                RW16(o, 0x1E) = 0; \
-                RW16(o, 0x1C) = hi; \
-                    RW16(o, 0x22) = 0; \
-                RW16(o, 0x26) = 0; \
-                RW16(o, 0x2A) = 0; \
-                RW16(o, 0x20) = *e; \
-                RW16(o, 0x24) = 0x1000; \
-                RW16(o, 0x2C) = RWU16(o, 0x1C); \
-                RW16(o, 0x28) = -RWU16(o, 0x20); \
+                int lo; \
+                int savedHi; \
+                RVW16(o, 0x1E) = 0; \
+                RVW16(o, 0x1C) = hi; \
+                lo = *e; \
+                savedHi = RWU16(o, 0x1C); \
+                RVW16(o, 0x22) = 0; \
+                RVW16(o, 0x26) = 0; \
+                RVW16(o, 0x2A) = 0; \
+                RVW16(o, 0x20) = lo; \
+                RVW16(o, 0x24) = 0x1000; \
+                RVW16(o, 0x2C) = savedHi; \
+                RVW16(o, 0x28) = -RWU16(o, 0x20); \
             } \
         } \
     }
+
+#define ROOMLIB_FACE_ACTOR(name, handler) \
+    ROOMLIB_FACE_ACTOR_WITH_GLOBALS(name, handler, RoomMain_ActorPtr, RoomMain_RotTable)
 
 /* six-argument passthrough to the field engine spawn */
 #define ROOMLIB_SPAWN6(name) \
