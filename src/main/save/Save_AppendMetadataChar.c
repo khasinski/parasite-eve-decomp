@@ -11,9 +11,10 @@ void Save_AppendMetadataChar(unsigned char ch) {
     register unsigned int value asm("$2");
     register int has_room asm("$2");
     register int terminator asm("$7");
+    int frame;
 
     /* Retail keeps an otherwise unused 8-byte leaf stack frame. */
-    asm volatile("addiu $sp,$sp,-8" ::: "memory");
+    asm volatile("" : : "r"(&frame));
 
     length = g_SaveMetadataWindowLength;
     cursor = g_SaveMetadataCursor;
@@ -47,5 +48,5 @@ loop:
     cursor[-1] = ch;
 
 done:
-    asm volatile("addiu $sp,$sp,8" ::: "memory");
+    asm volatile("" : : "r"(&frame));
 }
