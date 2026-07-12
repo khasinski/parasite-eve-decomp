@@ -22,6 +22,7 @@ func_8018F534 = 0x8018F534; // type:func
 func_8018FF68 = 0x8018FF68; // type:func
 func_8018FF70 = 0x8018FF70; // type:func
 func_8019026C = 0x8019026C; // type:func
+func_80190274 = 0x80190274; // type:func
 RoomLib_Notify2ArmB_801902FC = 0x801902FC; // type:func
 RoomLib_HandlerE = 0x801903A4;
 // provide: RoomLib_FxNotify2 = 0x80190930;

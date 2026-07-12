@@ -46,7 +46,7 @@ segments:
       - [0xF90, c, RoomLib_InitD_8018FF78]
       - [0x100C, asm, room_m188_67C_100C]
       - [0x1284, c, func_8019026C]
-      - [0x128C, asm, room_m188_67C_100C_128C]
+      - [0x128C, c, func_80190274]
       - [0x1314, c, RoomLib_Notify2ArmB_801902FC]
       - [0x13BC, asm, room_m188_67C_13BC]
       - [0x1948, c, RoomLib_SteerToward_80190930]
