@@ -88,8 +88,8 @@ int Task_SetObjEntryFlag80(int **arg0) {
         asm volatile("" : : "r"(base_entry));
         entry = (char *)((int)entry << 2);
     }
-    /* GCC prints addu operands in RTL order; tie entry as operand 0 to match retail bytes. */
-    asm volatile("addu %0,%0,%1" : "=r"(entry) : "r"(base_entry), "0"(entry));
+    entry = (char *)((int)entry + (int)base_entry);
+    asm volatile("" : "=r"(entry) : "0"(entry));
     value = *entry | 0x80;
     *entry = value;
     asm volatile("" : : : "memory");
@@ -129,8 +129,8 @@ int Task_ClearObjEntryFlag80(int **arg0) {
         asm volatile("" : : "r"(base_entry));
         entry = (char *)((int)entry << 2);
     }
-    /* GCC prints addu operands in RTL order; tie entry as operand 0 to match retail bytes. */
-    asm volatile("addu %0,%0,%1" : "=r"(entry) : "r"(base_entry), "0"(entry));
+    entry = (char *)((int)entry + (int)base_entry);
+    asm volatile("" : "=r"(entry) : "0"(entry));
     value = *entry & 0x7F;
     *entry = value;
     asm volatile("" : : : "memory");
