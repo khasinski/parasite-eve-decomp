@@ -55,6 +55,7 @@ extern s16 D_800F3468;
 extern s16 D_800F346A;
 
 void func_800CCBA8(void) {
+    register int zero_v0 asm("$2");
     int scale0[4];
     int scale1[4];
     int scale2[4];
@@ -110,7 +111,8 @@ void func_800CCBA8(void) {
     D_800F32B0.m[0][1] = 0;
     Gte_ScaleMatrix(&D_800F32B0, scale2);
 
-    asm volatile("move $2,$0");
+    zero_v0 = 0;
+    asm volatile("" : "=r"(zero_v0) : "0"(zero_v0));
     D_800E229C = 0x42;
     D_800E229D = 0x20;
     D_800E22A0 = 0x32;
