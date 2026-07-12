@@ -1763,7 +1763,7 @@ segments:
       - [0xBD278, c, engine/func_800CCA78]
       - [0xBD2B0, c, engine/func_800CCAB0]
       - [0xBD36C, c, engine/func_800CCB6C]
-      - [0xBD3A8, asm, engine/engine_800CCBA8]
+      - [0xBD3A8, c, engine/func_800CCBA8]
       - [0xBD6BC, c, engine/func_800CCEBC]
       - [0xBD6E8, c, engine/func_800CCEE8]
       - [0xBD710, c, engine/func_800CCF10]
