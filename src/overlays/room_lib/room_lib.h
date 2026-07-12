@@ -603,6 +603,27 @@ done: \
         return 0; \
     }
 
+/* same table registration pattern, but only while the field engine is in status 3 */
+#define ROOMLIB_REGISTER_PAIR_STATUS3_OR_CLOSE(name, tableA, tableB, tableC, closeFn) \
+    int name(RoomEnt *o) { \
+        int result; \
+        if (FieldEng_GetStatus() != 3) { \
+            goto fail; \
+        } else { \
+            result = func_800C251C(o, tableC); \
+            result |= func_800C2758(o, tableA, tableB); \
+        } \
+        goto done; \
+fail: \
+        __asm__ volatile(""); \
+        result = -1; \
+done: \
+        if (result == -1) { \
+            closeFn(o); \
+        } \
+        return 0; \
+    }
+
 /* plant the room table pointer into the engine slot */
 #define ROOMLIB_PLANT_TABLE(name, table) \
     int name(void) { \
