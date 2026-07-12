@@ -37,7 +37,7 @@ segments:
       - [0x0, asm, room_m380+2]
       - [0x3A00, c, RoomLib_SetArg1_801929E8]
       - [0x3A10, c, RoomLib_SlotSet_801929F8]
-      - [0x3A54, asm, room_m380+2_3A10_3A54]
+      - [0x3A54, c, func_80192A3C]
       - [0x3AF4, data]
   - [0x42000]
 # room: m380, section3 sector 88056, scanner delta 2
