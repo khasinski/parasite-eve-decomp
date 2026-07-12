@@ -119,6 +119,7 @@ segments:
       - [0x4A24, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0_4628_4674_473C_476C_4A24]
       - [0x5674, c, RoomLib_SetArgs3_80194664]
       - [0x5698, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0_4628_4674_473C_476C_4A1C_5698]
+      - [0x63E0, c, func_801953D0]
       - [0x6484, data]
   - [0x6800]
 # source slice: scanner
