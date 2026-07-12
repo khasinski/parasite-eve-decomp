@@ -1720,7 +1720,7 @@ segments:
       - [0xB7390, c, engine/func_800C6B90]
       - [0xB7418, c, engine/func_800C6C18]
       - [0xB74E0, c, engine/FieldEng_GetStatus]
-      - [0xB755C, asm, engine/func_800C6D5C]
+      - [0xB755C, c, engine/func_800C6D5C]
       - [0xB76C0, c, engine/GsSetOrign]
       - [0xB76D8, c, engine/func_800C6ED8]
       - [0xB76E8, c, engine/func_800C6EE8]
