@@ -19,9 +19,6 @@ void MenuWidget_NavScrollTo(s32 selected_base);
 
 extern s32 g_MenuSelectedItemList;
 
-asm(".globl func_80047D74");
-asm("func_80047D74 = Menu_EquipStatsInputHandler");
-
 s32 Menu_EquipStatsInputHandler(s32 node, s32 flags) {
     void *selected;
     void *child;

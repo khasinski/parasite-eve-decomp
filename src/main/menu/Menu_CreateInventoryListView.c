@@ -19,9 +19,6 @@ extern struct { char _[16]; } func_8004620C_o __asm__("Menu_InventoryPageInputHa
 extern struct { char _[16]; } func_8004F9A0_o __asm__("Menu_DrawUsableItemActionList");
 #define Menu_DrawUsableItemActionList (*(void *)&func_8004F9A0_o)
 
-asm(".globl func_80045EE4");
-asm("func_80045EE4 = Menu_CreateInventoryListView");
-
 void Menu_CreateInventoryListView(s32 parent) {
     void *root;
     void *node;
