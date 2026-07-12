@@ -1746,7 +1746,7 @@ segments:
       - [0xB8A70, asm, engine/func_800C8270]
       - [0xB8BA0, asm, engine/engine_800C83A0]
       - [0xB9070, c, engine/func_800C8870]
-      - [0xB9170, asm, engine/func_800C8970]
+      - [0xB9170, c, engine/func_800C8970]
       - [0xB9288, c, engine/func_800C8A88]
       - [0xB93B4, c, engine/func_800C8BB4]
       - [0xB93C0, c, engine/func_800C8BC0]
