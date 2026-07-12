@@ -11,6 +11,7 @@ RoomLib_TableB_8018F06C = 0x80192928;
 RoomLib_Set3Reset_80190C24 = 0x80190C24; // type:func
 func_8018F238 = 0x8018F238; // type:func
 func_8018F560 = 0x8018F560; // type:func
+func_8018F568 = 0x8018F568; // type:func
 func_8018F5E8 = 0x8018F5E8; // type:func
 func_8018F5F0 = 0x8018F5F0; // type:func
 func_8018F8A0 = 0x8018F8A0; // type:func
