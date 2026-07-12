@@ -19,16 +19,6 @@ extern s32 D_8009D06C;
 int Inv_GetAyaSlotLimit(void);
 int Inv_GetBonusSlotCount(void);
 
-#define LOAD_AYA_SLOT_COUNT()                                             \
-    ({                                                                    \
-        register int value asm("$3");                                     \
-        asm volatile(                                                     \
-            "lui        $3, %%hi(D_800C0E0C)\n"                           \
-            "lbu        $3, %%lo(D_800C0E0C)($3)"                         \
-            : "=r"(value));                                               \
-        value;                                                            \
-    })
-
 int Inv_CheckFreeSlotCapacity(int requested) {
     int limit;
     register int used_slots asm("$16");
@@ -45,8 +35,8 @@ int Inv_CheckFreeSlotCapacity(int requested) {
     g_InvSelectionBitWords = 2;
 
     used_slots = 0;
-    if (LOAD_AYA_SLOT_COUNT() + Inv_GetBonusSlotCount() < 0x33) {
-        max_slots = LOAD_AYA_SLOT_COUNT() + Inv_GetBonusSlotCount();
+    if (g_AyaInventorySlotCount[0] + Inv_GetBonusSlotCount() < 0x33) {
+        max_slots = g_AyaInventorySlotCount[0] + Inv_GetBonusSlotCount();
     } else {
         max_slots = 0x32;
     }
