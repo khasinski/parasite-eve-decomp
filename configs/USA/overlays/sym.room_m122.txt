@@ -11,3 +11,7 @@ RoomLib_SlotTable = 0x80191028;
 g_FrameCount16 = 0x800942EC;
 RoomLib_Set3Reset_8018F920 = 0x8018F920; // type:func
 D_80190F4C = 0x80190F4C;
+func_8018F2DC = 0x8018F2DC; // type:func
+func_8018F908 = 0x8018F908; // type:func
+func_8018F910 = 0x8018F910; // type:func
+func_8018F918 = 0x8018F918; // type:func

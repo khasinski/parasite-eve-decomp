@@ -7,3 +7,4 @@ FieldEng_Register = 0x800C2414;
 RoomLib_RegisterTable_8018F054 = 0x8018F054; // type:func
 RoomLib_TableA_8018F054 = 0x80190004;
 D_80190040 = 0x80190040;
+func_8018F300 = 0x8018F300; // type:func
