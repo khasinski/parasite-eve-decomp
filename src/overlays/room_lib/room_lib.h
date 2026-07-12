@@ -173,6 +173,64 @@ extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
         return 0; \
     }
 
+/* argument parser paired with InitTimers/RearmOnMatch */
+#define ROOMLIB_SCHED_BARRIER() __asm__ volatile("")
+
+#define ROOMLIB_INIT_TIMER_ARGS(name, rearmFn, jumpWord) \
+    int name(RoomEnt *o, int a1, unsigned int kind, int a3, int arg4, int arg5) { \
+        int value = 10; \
+        register int stack0 asm("t0") = arg4; \
+        register int stack1 asm("v1") = arg5; \
+        __asm__ volatile("" : "=r"(stack0), "=r"(stack1) : "0"(stack0), "1"(stack1)); \
+        if (kind == value) { \
+            goto case_10; \
+        } \
+        ROOMLIB_SCHED_BARRIER(); \
+        if (kind >= 11U) { \
+            goto high_kind; \
+        } \
+        value = 4; \
+        if (kind == value) { \
+            goto case_4; \
+        } \
+        goto common; \
+high_kind: \
+        value = 25; \
+        if (kind == value) { \
+            goto case_25; \
+        } \
+        value = 28; \
+        if (kind == value) { \
+            goto case_28; \
+        } \
+        goto common; \
+case_25: \
+        value = 1; \
+        if (a1 != value) { \
+            goto common; \
+        } \
+        o->sub.signal = (int *)a3; \
+        __asm__ volatile( \
+            ".word " #jumpWord "\n" \
+            ".word 0xACE50000"); \
+case_4: \
+        o->pos[0] = a3; \
+        o->pos[1] = stack0; \
+        o->h44 = stack1; \
+        goto common; \
+case_28: \
+        RW16(o, 0x48) = a3; \
+        o->h46 = stack0; \
+        goto common; \
+case_10: \
+        value = (int)rearmFn; \
+        o->t16 = a3; \
+        RW32(o, 0xC) = value; \
+common: \
+        ROOMLIB_SCHED_BARRIER(); \
+        return 0; \
+    }
+
 /* rearm default handler when link variant matches t16 */
 #define ROOMLIB_REARM_ON_MATCH(name) \
     void name(RoomEnt *o) { \
