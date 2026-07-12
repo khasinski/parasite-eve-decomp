@@ -1782,7 +1782,7 @@ segments:
       - [0xBE504, c, engine/func_800CDD04]
       - [0xBE50C, asm, engine/engine_800CDD0C]
       - [0xBE740, c, engine/func_800CDF40]
-      - [0xBE74C, asm, engine/engine_800CDF4C]
+      - [0xBE74C, c, engine/func_800CDF4C]
       - [0xBE7E0, c, engine/func_800CDFE0]
       - [0xBE884, c, engine/func_800CE084]
       - [0xBE918, c, engine/func_800CE118]
