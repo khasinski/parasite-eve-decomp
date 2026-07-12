@@ -66,6 +66,7 @@ func_801934A0 = 0x801934A0; // type:func
 func_80193960 = 0x80193960; // type:func
 func_80193C8C = 0x80193C8C; // type:func
 func_801946C8 = 0x801946C8; // type:func
+func_801949D4 = 0x801949D4; // type:func
 func_801946D0 = 0x801946D0; // type:func
 func_801949CC = 0x801949CC; // type:func
 func_80195460 = 0x80195460; // type:func
