@@ -1853,7 +1853,7 @@ segments:
       - [0xBDADC, c, engine/func_800CD2DC]
       - [0xBDAE4, c, engine/func_800CD2E4]
       - [0xBDAEC, c, engine/func_800CD2EC]
-      - [0xBDC04, asm, engine/func_800CD404]
+      - [0xBDC04, c, engine/func_800CD404]
       - [0xBDD0C, c, engine/func_800CD50C]
       - [0xBDD9C, c, engine/func_800CD59C]
       - [0xBDDA4, c, engine/func_800CD5A4]
