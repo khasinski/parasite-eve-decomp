@@ -8,8 +8,9 @@ void func_8019270C(void *arg0, char *arg1, char *arg2) {
     register s32 original __asm__("v1");
     s16 value;
     register char *state __asm__("a0");
+    char scratch[8];
 
-    __asm__ volatile("addiu $sp,$sp,-8");
+    __asm__ volatile("" : "=m"(scratch));
     current = *(s16 *)(arg2 + 0x10);
     original = current;
     __asm__ volatile("" : "=r"(current) : "0"(current));
@@ -30,5 +31,4 @@ void func_8019270C(void *arg0, char *arg1, char *arg2) {
     if (*(s16 *)(arg1 + 0x2) >= 0x6A) {
         *(u8 *)(arg1 + 0x1) = 2;
     }
-    __asm__ volatile("addiu $sp,$sp,8");
 }
