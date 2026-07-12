@@ -716,7 +716,7 @@ segments:
       - [0x43B2C, c, item/Inv_LookupActiveListData]
       - [0x43BD4, c, item/Inv_FindIndexByData]
       - [0x43CCC, c, item/Inv_GetActiveListItem]
-      - [0x43CE4, asm, audio/Sfx_DrawSlotRow]
+      - [0x43CE4, c, audio/Sfx_DrawSlotRow]
       - [0x43E48, c, audio/Sfx_CursorRenderData]
       - [0x43EB8, c, audio/Sfx_DrawActiveListSlot]
       - [0x4402C, asm, item/Inv_FindFirstEmptySlot]
