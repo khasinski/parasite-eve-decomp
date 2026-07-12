@@ -9,9 +9,6 @@ int SetIntrMask(int mask);
 
 typedef unsigned int u32;
 
-asm(".globl func_80077548");
-asm("func_80077548 = Gpu_QueryStatus");
-
 extern volatile u32 *g_GpuGp0Ptr;
 extern u32 *g_GpuGp1Ptr;
 extern volatile u32 *g_GpuDmaMadrPtr;
