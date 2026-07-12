@@ -29,7 +29,7 @@ void func_800C6FA0(char *data, u16 factor) {
         entry[1] = value;
 
         value = entry[2];
-        asm volatile("nop");
+        asm volatile("");
         value *= factor;
         scratch[12] = value;
         if (value > 0x7FFF) {
