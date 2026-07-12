@@ -34,7 +34,8 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, room_m021]
+      - [0x0, rodata, room_m021]
+      - [0xC, c, func_8018EFF4]
       - [0x14, c, RoomMdl_Reset_8018EFFC]
       - [0x38, c, RoomMdl_Select_8018F020]
       - [0x108, c, RoomMdl_Tick_8018F0F0]
