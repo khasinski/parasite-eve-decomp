@@ -43,42 +43,42 @@ extern short D_800E27BC;
 
 int func_800CD728(void) {
     void **slot = FieldEng_GetSlot();
-    int value;
-    int half;
-    int byte;
-    int byte2;
+    register int value asm("$3");
+    register int byte2 asm("$4");
 
-    *slot = &D_800E0F6C;
+    value = (int)&D_800E0F6C;
+    *slot = (void *)value;
 
     value = 0x5F4;
     D_800F33F8 = value;
     D_800F33FC = value;
     D_800F3400 = value;
 
-    byte = 0x40;
-    half = -0x64;
+    value = 0x40;
     byte2 = 0x20;
-    D_800F340C = byte;
-    D_800F340E = half;
+    asm volatile("" : "=r"(byte2) : "0"(byte2));
+    D_800F340C = value;
+    value = -0x64;
+    D_800F340E = value;
 
-    byte = 0x15;
-    D_800F3408 = byte;
+    value = 0x15;
+    D_800F3408 = value;
 
-    byte = 0x46;
-    D_800E27D4 = byte;
+    value = 0x46;
+    D_800E27D4 = value;
 
-    byte = 0x30;
-    D_800E27D5 = byte;
+    value = 0x30;
+    D_800E27D5 = value;
 
-    half = -0x6E;
-    D_800E27D6 = half;
+    value = -0x6E;
+    D_800E27D6 = value;
 
-    byte = 0xFF;
-    D_800E27D0 = byte;
+    value = 0xFF;
+    D_800E27D0 = value;
 
-    byte = 0xB0;
-    D_800E27D1 = byte;
-    D_800E27D2 = byte;
+    value = 0xB0;
+    D_800E27D1 = value;
+    D_800E27D2 = value;
 
     value = 0xA4;
     D_800E2780 = value;
@@ -87,16 +87,16 @@ int func_800CD728(void) {
     value = 0x108;
     D_800E2788 = value;
 
-    byte = 0x6E;
-    D_800E2794 = byte;
+    value = 0x6E;
+    D_800E2794 = value;
 
-    byte = 3;
-    D_800E2795 = byte;
+    value = 3;
+    D_800E2795 = value;
 
-    half = -0x96;
-    D_800E2796 = half;
+    value = -0x96;
+    D_800E2796 = value;
 
-    byte = 0x80;
+    value = 0x80;
     D_800F33F0 = 0;
     D_800F33F2 = 0;
     D_800F33F4 = 0;
@@ -109,9 +109,9 @@ int func_800CD728(void) {
     D_800E2778 = 0;
     D_800E277A = 0;
     D_800E277C = 0;
-    D_800E2790 = byte;
-    D_800E2791 = byte;
-    D_800E2792 = byte;
+    D_800E2790 = value;
+    D_800E2791 = value;
+    D_800E2792 = value;
 
     return 0;
 }

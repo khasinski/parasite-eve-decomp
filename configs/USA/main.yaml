@@ -1861,7 +1861,7 @@ segments:
       - [0xBDDEC, c, engine/func_800CD5EC]
       - [0xBDE78, c, engine/func_800CD678]
       - [0xBDF1C, c, engine/func_800CD71C]
-      - [0xBDF28, asm, engine/func_800CD728]
+      - [0xBDF28, c, engine/func_800CD728]
       - [0xBE09C, c, engine/func_800CD89C]
       - [0xBE0C8, c, engine/func_800CD8C8]
       - [0xBE0F0, c, engine/func_800CD8F0]
