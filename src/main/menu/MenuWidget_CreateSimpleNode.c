@@ -79,7 +79,8 @@ void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
             s32 *slot;
 
             slot = (s32 *)(i << 2);
-            asm("addu %0,%0,%1" : "=r"(slot) : "r"(parent), "0"(slot));
+            slot = (s32 *)((int)slot + (int)parent);
+            asm volatile("" : "=r"(slot) : "0"(slot));
             slot[2] = (s32)node;
         } else {
             BoundsCheck_AssertStub(0xB);
