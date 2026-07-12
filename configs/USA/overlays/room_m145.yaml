@@ -42,7 +42,7 @@ segments:
       - [0xF64, c, RoomLib_InitD_8018FF4C]
       - [0xFE0, asm, room_m145_650_FE0_1258]
       - [0x1258, c, func_80190240]
-      - [0x1260, asm, room_m145_650_FE0_1260]
+      - [0x1260, c, func_80190248]
       - [0x12E8, c, RoomLib_Notify2ArmB_801902D0]
       - [0x1390, asm, room_m145_650_1390]
       - [0x191C, c, RoomLib_SteerToward_80190904]
