@@ -27,4 +27,5 @@ FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
 RoomLib_InitD_8018FFD8 = 0x8018FFD8; // type:func
 func_80192584 = 0x80192584; // type:func
+func_801925AC = 0x801925AC; // type:func
 func_80192624 = 0x80192624; // type:func
