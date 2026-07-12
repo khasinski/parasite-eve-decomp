@@ -14,6 +14,11 @@ typedef struct RoomObj {
         return 0; \
     }
 
+#define ROOMLIB_RETURN_ZERO(name) \
+    int name(void) { \
+        return 0; \
+    }
+
 #define RW32(o, off) (*(int *)((char *)(o) + (off)))
 #define RW16(o, off) (*(short *)((char *)(o) + (off)))
 #define RW8(o, off)  (*(unsigned char *)((char *)(o) + (off)))
