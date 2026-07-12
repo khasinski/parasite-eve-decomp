@@ -73,7 +73,7 @@ have_args:
         char *state;
         LOAD_FIELD_STATE(state);
         angle &= 0xFFF;
-        asm volatile("lh\t%0,0x3A(%1)" : "=r"(original) : "r"(state));
+        original = *(short *)(state + 0x3A);
     }
     stepped = angle;
     if (angle == original) {
