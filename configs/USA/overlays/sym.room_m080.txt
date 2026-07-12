@@ -43,6 +43,7 @@ func_8018FF10 = 0x8018FF10; // type:func
 func_801906D0 = 0x801906D0; // type:func
 func_80190884 = 0x80190884; // type:func
 func_80190AF4 = 0x80190AF4; // type:func
+func_80190B54 = 0x80190B54; // type:func
 func_80190C04 = 0x80190C04; // type:func
 func_80190F30 = 0x80190F30; // type:func
 func_80190F38 = 0x80190F38; // type:func
