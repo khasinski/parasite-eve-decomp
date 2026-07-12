@@ -1372,7 +1372,7 @@ segments:
       - [0x70194, c, cdrom/CdRom_InitDsCallbacks]
       - [0x7022C, c, cdrom/CdRom_InitCmdState]
       - [0x70304, c, cdrom/CdRom_ClearDsCallbacks]
-      - [0x70344, asm, cdrom/CdRom_TryIssueCmd]
+      - [0x70344, c, cdrom/CdRom_TryIssueCmd]
       - [0x703C0, c, cdrom/cd_rom3]
       - [0x704BC, c, cdrom/CdRom_IssueSetMode]
       - [0x704FC, asm, cdrom/CdRom_SendCmd]
