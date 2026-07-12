@@ -14,9 +14,6 @@ void *MenuWidget_CreateSimpleNode(s32 mode, s32 arg1, s32 arg2, s32 arg3);
 
 void Menu_DrawContextHelpText(void);
 
-asm(".globl func_8004DCA4");
-asm("func_8004DCA4 = Menu_OpenSaveLoadEntryPoint");
-
 void Menu_OpenSaveLoadEntryPoint(s32 arg0) {
     Queue_Init();
     if ((MenuWidget_FindByModeAndSelectedBase(1, 0xD) == NULL) && (MenuWidget_FindByModeAndSelectedBase(1, 0x17) == NULL)) {

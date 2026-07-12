@@ -27,9 +27,6 @@ extern M2C_UNK D_800957F8[];
 extern s32 D_8009580C[];
 #define D_8009580C (D_8009580C[0])
 
-asm(".globl func_800751E4");
-asm("func_800751E4 = ClearOTag");
-
 void ClearOTag(void *arg0, s32 arg1) {
     u8 *next;
     u8 *packet;

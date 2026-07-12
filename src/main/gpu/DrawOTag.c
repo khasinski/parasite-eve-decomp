@@ -2,9 +2,6 @@
 
 
 #include "include_asm.h"
-asm(".globl func_800753B4");
-asm("func_800753B4 = DrawOTag");
-
 typedef unsigned int u32;
 
 #include "pe1/gpu_callbacks.h"

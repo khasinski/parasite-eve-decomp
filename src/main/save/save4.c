@@ -8,8 +8,6 @@ extern void Save_ProcessDataCallback(void);
 
 extern int D_8009B6C4;
 
-asm("Sys_VSyncTimeout = Sys_VSyncTimeout");
-
 extern int g_CdReadCompleteCallback;
 
 extern void CdRom_ResetFileDescriptors(void);
@@ -20,9 +18,6 @@ extern void CdRom_IssueSetMode(int arg0, int arg1) asm("func_8007FCBC");
 extern void Render_AllocParticleNode(int arg0, void *arg1, void *arg2, int arg3);
 
 extern int g_CdReadInProgress;
-
-asm(".globl func_80081268");
-asm("func_80081268 = Save_ProcessDataCallback");
 
 extern int D_8009B6B8;
 

@@ -21,9 +21,6 @@ void Menu_MemCardPortSelectHandler(void);
 void Menu_IsMemCardSlotSelectable(void);
 void Menu_DrawMemCardPortList(void);
 
-asm(".globl func_8004D18C");
-asm("func_8004D18C = Menu_OpenStartupMemCardDialog");
-
 void Menu_OpenStartupMemCardDialog(void) {
     s32 one;
     void *callback_2c;

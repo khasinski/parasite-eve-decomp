@@ -21,9 +21,6 @@ extern s32 g_MenuExpAllocTarget;
 extern s32 g_AyaSaveTotalExp[];
 #define g_AyaSaveTotalExp (g_AyaSaveTotalExp[0])
 
-asm(".globl func_8004BB80");
-asm("func_8004BB80 = Menu_ConfirmExpAllocation");
-
 s32 Menu_ConfirmExpAllocation(s32 unused, s32 flags) {
     s32 confirm;
     s32 new_level;

@@ -4,9 +4,6 @@ extern int g_RenderStateFlags;
 
 extern char *g_CurrentEntity;
 
-asm(".globl func_800182E0");
-asm("func_800182E0 = Task_SetCurrentEntityField20");
-
 int Task_ClearBattleFlags(void) {
     int *ptr = &g_RenderStateFlags;
 
