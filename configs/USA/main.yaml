@@ -1746,7 +1746,7 @@ segments:
       - [0xBACA8, c, engine/func_800CA4A8]
       - [0xBACB4, c, engine/func_800CA4B4]
       - [0xBAD40, c, engine/func_800CA540]
-      - [0xBAD74, asm, engine/engine_800CA574]
+      - [0xBAD74, c, engine/func_800CA574]
       - [0xBAED4, c, engine/func_800CA6D4]
       - [0xBAF00, c, engine/func_800CA700]
       - [0xBAF28, c, engine/func_800CA728]
