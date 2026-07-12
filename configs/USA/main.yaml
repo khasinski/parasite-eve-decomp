@@ -1563,7 +1563,7 @@ segments:
       - [0x77850, c, akao/Spu_PollOrWaitSeqBusy]
       - [0x77890, c, akao/Spu_UploadSampleBlockBlocking]
       - [0x778E0, c, akao/Spu_GetTransferStatus]
-      - [0x778F0, asm, akao/akao_cmd_transfer_tail]
+      - [0x778F0, c, akao/Spu_SetVoiceVolume]
       - [0x77998, c, akao/Spu_SetStreamModeA]
       - [0x779AC, asm, akao/akao_cmd_note]
       - [0x77C14, c, akao/Spu_SetStreamModeB]
