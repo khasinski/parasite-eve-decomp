@@ -11,8 +11,8 @@ void *MenuWidget_CreateNode(void *state, void *parent, void *selected);
 void MenuWidget_SetCurrentNode(void *node);
 void *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 void MenuWidget_SetCursorY(void *node);
-void func_800471E4(void);
-void func_800471BC(void);
+void Menu_EquipOptionsInputHandler(void);
+void Menu_DrawEquipOptionsList(void);
 
 extern u32 D_8009CF0C;
 extern u32 D_8009CFB8;
@@ -25,8 +25,8 @@ void Menu_CreateInvSwapView(int parent, u8 *state) {
     state_reg = state;
     node = MenuWidget_CreateSimpleNode(state_reg + 0x3A, parent, 0, 0);
     current = MenuWidget_CreateNode(state_reg + 0x3A, node, node);
-    ((void (**)(void))node)[0xB] = func_800471E4;
-    ((void (**)(void))current)[0xC] = func_800471BC;
+    ((void (**)(void))node)[0xB] = Menu_EquipOptionsInputHandler;
+    ((void (**)(void))current)[0xC] = Menu_DrawEquipOptionsList;
     MenuWidget_SetCurrentNode(current);
     MenuWidget_SetCursorY(MenuWidget_FindByModeAndSelectedBase(1, 0x33));
 

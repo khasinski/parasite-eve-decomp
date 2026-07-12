@@ -22,9 +22,6 @@ extern s32 g_MenuSpendArrowDirection;
 void Menu_AmmoSpendInputHandler(void);
 void Menu_DrawAmmoSpendPanel(void);
 
-asm(".globl func_800451D0");
-asm("func_800451D0 = Menu_CreateAmmoSpendPanel");
-
 void Menu_CreateAmmoSpendPanel(s32 parent) {
     void *node;
     void *item;

@@ -6,7 +6,7 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 void *MenuWidget_FindByModeAndSelectedBase();
 s32 MenuWidget_GetCurrentNode();
 M2C_UNK MenuWidget_SetCurrentNode();
-M2C_UNK func_800451D0();
+M2C_UNK Menu_CreateAmmoSpendPanel();
 M2C_UNK Inv_SelectActiveList();
 s32 func_80052F0C();
 s32 Inv_GetAyaSlotLimit();
@@ -70,7 +70,7 @@ loop_7:
             g_InvSwapSourceList = cf88_value;
             Inv_InitSlotDisplay(cf90_addr, cf94_addr);
         }
-        func_800451D0(MenuWidget_GetCurrentNode());
+        Menu_CreateAmmoSpendPanel(MenuWidget_GetCurrentNode());
         return;
     }
     temp_s0_2 = MenuWidget_FindByModeAndSelectedBase(2, 0xD);

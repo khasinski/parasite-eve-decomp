@@ -26,9 +26,6 @@ extern u16 g_AyaStatAgility[];
 extern s32 g_AyaBonusPoints[];
 #define g_AyaBonusPoints (g_AyaBonusPoints[0])
 
-asm(".globl func_800490B0");
-asm("func_800490B0 = Menu_ExitBonusPointAllocation");
-
 void Menu_ExitBonusPointAllocation(void) {
     s32 index;
     u8 *dst;

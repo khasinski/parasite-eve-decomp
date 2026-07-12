@@ -22,9 +22,6 @@ extern M2C_UNK Menu_DrawEquipSortToggleList[];
 extern M2C_UNK Menu_EquipGridHandler[];
 #define Menu_EquipGridHandler (Menu_EquipGridHandler[0])
 
-asm(".globl func_800471E4");
-asm("func_800471E4 = Menu_EquipOptionsInputHandler");
-
 s32 Menu_EquipOptionsInputHandler(s32 arg0, s32 arg1) {
     s32 temp_a1;
     s32 temp_v0;

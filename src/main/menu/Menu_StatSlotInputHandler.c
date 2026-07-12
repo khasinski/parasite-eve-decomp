@@ -16,7 +16,7 @@ extern void Menu_OpenBonusPointSpendDialog(MenuWidgetNode *node, int stat);
 extern void Menu_PlayMoveSound(void);
 extern void Menu_PlayConfirmSound(void);
 extern void Menu_PlayCancelSound(void);
-extern void func_800490B0(void);
+extern void Menu_ExitBonusPointAllocation(void);
 
 int Menu_StatSlotInputHandler(MenuWidgetNode *node, int input) {
     MenuWidgetNode *child;
@@ -70,7 +70,7 @@ int Menu_StatSlotInputHandler(MenuWidgetNode *node, int input) {
     }
 
     if ((input & 0x40) != 0) {
-        func_800490B0();
+        Menu_ExitBonusPointAllocation();
         Menu_PlayCancelSound();
     }
 
