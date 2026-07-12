@@ -8,8 +8,9 @@ int func_800CCAB0(void *arg0, u8 *state, u8 *anim) {
     int dx;
     int dy;
     register int dz asm("$5");
+    int frame;
 
-    asm volatile("addiu $sp,$sp,-8" ::: "$sp");
+    asm volatile("" : : "r"(&frame));
     state_t1 = state;
     asm volatile("" : "=r"(state_t1) : "0"(state_t1));
     i = 0;
@@ -32,5 +33,5 @@ int func_800CCAB0(void *arg0, u8 *state, u8 *anim) {
     if ((signed char)anim[3] < 2) {
         state_t1[1] = 2;
     }
-    asm volatile("addiu $sp,$sp,8" ::: "$sp");
+    asm volatile("" : : "r"(&frame));
 }
