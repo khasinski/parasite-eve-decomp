@@ -37,6 +37,7 @@ segments:
       - [0x0, asm, room_m332]
       - [0x1F4, c, RoomLib_InitB_8018F1DC]
       - [0x294, asm, room_m332_294]
+      - [0x520, c, func_8018F508]
       - [0x5A8, c, RoomLib_NotifyArmB_8018F590]
       - [0x650, asm, room_m332_650_B98]
       - [0xB98, c, RoomLib_FxNotify]
