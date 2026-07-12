@@ -44,7 +44,8 @@ segments:
       - [0x1CC, c, func_8018F1B4]
       - [0x1D4, asm, room_m065_6C_1C4_1D4]
       - [0x318, c, func_8018F300]
-      - [0x320, asm, room_m065_6C_1C4_320]
+      - [0x320, c, func_8018F308]
+      - [0x3A0, asm, room_m065_6C_1C4_320_3A0]
       - [0x1010, data]
   - [0x1F800]
 # room: m065, section3 sector 24659, scanner delta 0

@@ -1163,6 +1163,13 @@ typedef struct RoomTimer {
     short h28;                    /* 0x28: fire request */
 } RoomTimer;
 
+typedef struct RoomTimer0 {
+    char pad0[0x4];
+    unsigned short h4;            /* 0x04: reload value */
+    short h6;                     /* 0x06: countdown */
+    short h8;                     /* 0x08: fire request */
+} RoomTimer0;
+
 typedef struct RoomTimer2 {
     char pad0[0x28];
     unsigned short h28;           /* 0x28: reload value */
@@ -1173,12 +1180,33 @@ typedef struct RoomTimer2 {
 extern int func_800C6C18();
 extern int func_800C2B68();
 
+#define ROOMLIB_TIMER_TICK0(name) \
+    void name(int a, unsigned char *st, RoomTimer0 *t) { \
+        register unsigned char *state asm("s0") = st; \
+        short n = t->h6; \
+        register RoomTimer0 *p asm("a1") = t; \
+        if (n != 0) { \
+            t->h6 = n - 1; \
+        } \
+        if (p->h8 == 1) { \
+            p->h8 = 0; \
+            if (p->h6 == 0) { \
+                p->h6 = p->h4; \
+                func_800C6C18(); \
+            } \
+        } \
+        if (func_800C2B68() == 1) { \
+            state[1] = 2; \
+        } \
+    }
+
 #define ROOMLIB_TIMER_TICK(name) \
     void name(int a, unsigned char *st, RoomTimer *t) { \
+        register unsigned char *state asm("s0") = st; \
         short n = t->h26; \
-        RoomTimer *p = t; \
+        register RoomTimer *p asm("a1") = t; \
         if (n != 0) { \
-            p->h26 = n - 1; \
+            t->h26 = n - 1; \
         } \
         if (p->h28 == 1) { \
             p->h28 = 0; \
@@ -1188,7 +1216,7 @@ extern int func_800C2B68();
             } \
         } \
         if (func_800C2B68() == 1) { \
-            st[1] = 2; \
+            state[1] = 2; \
         } \
     }
 

@@ -41,6 +41,8 @@ segments:
       - [0x2D8, c, func_8018F2C0]
       - [0x364, c, RoomLib_CloseTarget_8018F34C]
       - [0x3E8, asm, room_m392_290_3E8]
+      - [0x5E8, c, func_8018F5D0]
+      - [0x668, asm, room_m392_290_3E8_668]
       - [0xBD4, c, RoomLib_Set3Range_8018FBBC]
       - [0xBEC, asm, room_m392_290_3E8_BEC]
       - [0xD18, c, RoomLib_FxShimmer_8018FD00]
