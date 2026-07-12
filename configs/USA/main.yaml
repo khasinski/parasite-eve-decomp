@@ -1711,7 +1711,7 @@ segments:
       - [0xB6ADC, asm, engine/engine_800C62DC]
       - [0xB6D3C, c, engine/func_800C653C]
       - [0xB6D84, c, engine/func_800C6584]
-      - [0xB6DE4, asm, engine/func_800C65E4]
+      - [0xB6DE4, c, engine/func_800C65E4]
       - [0xB6EC8, c, engine/func_800C66C8]
       - [0xB6F64, c, engine/func_800C6764]
       - [0xB7000, c, engine/func_800C6800]
