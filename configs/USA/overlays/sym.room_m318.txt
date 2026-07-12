@@ -30,6 +30,7 @@ RoomLib_SetArg1_8019937C = 0x8019937C; // type:func
 RoomSlotA_80199294 = 0x8019992C;
 RoomSlotA_8019937C = 0x80199938;
 func_8018F570 = 0x8018F570; // type:func
+func_8018F578 = 0x8018F578; // type:func
 func_8018FFAC = 0x8018FFAC; // type:func
 func_8018FFB4 = 0x8018FFB4; // type:func
 func_801902B0 = 0x801902B0; // type:func
