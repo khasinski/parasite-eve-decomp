@@ -26,7 +26,7 @@ int Gpu_LoadTimAsset(unsigned int *asset, int base) {
     saved_base = base;
     packed = ((u8 *)asset)[7];
     if (packed != 0) {
-        asm volatile("andi %0,%1,0xff" : "=r"(h) : "r"(packed));
+        h = packed & 0xFF;
     } else {
         h = 0x100;
     }
