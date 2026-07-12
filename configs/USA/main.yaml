@@ -1520,7 +1520,7 @@ segments:
       - [0x76C64, c, akao/Akao_Cmd_10]
       - [0x76C98, c, akao/Akao_Cmd_11]
       - [0x76CCC, c, akao/Akao_Cmd_40]
-      - [0x76CF8, asm, akao/akao_cmd]
+      - [0x76CF8, c, akao/Akao_Cmd_19_Then_C0]
       - [0x76D68, c, akao/Akao_Cmd_12]
       - [0x76DA4, c, akao/Akao_Cmd_20]
       - [0x76E08, asm, akao/akao_cmd_after_20]
