@@ -36,9 +36,11 @@ int Scene_LoadRoomAssets(int id, void *entity);
 
 void Battle_DispatchEntityEffect(void) {
     u8 *actor;
-    u8 *action;
+    register u8 *action asm("$4");
+    register u8 *action2 asm("$3");
     u8 *next_entity;
-    int action_id;
+    register int action_id asm("$3");
+    register int action_id2 asm("$4");
     int next_id;
     int result;
     u32 word10;
@@ -65,14 +67,14 @@ void Battle_DispatchEntityEffect(void) {
     }
 
     actor = D_8009D278_B;
-    action = *(u8 **)(actor + 0x68);
-    action_id = S16_AT(action, 0x6);
+    action2 = *(u8 **)(actor + 0x68);
+    action_id2 = S16_AT(action2, 0x6);
 
-    if (action_id == 5) {
+    if (action_id2 == 5) {
         goto load_pair5;
     }
 
-    word10 = U32_AT(action, 0x10);
+    word10 = U32_AT(action2, 0x10);
     if ((word10 & 0x1F00) == 0) {
         goto choose_first;
     }
@@ -84,7 +86,7 @@ load_pair5:
     goto load_next;
 
 choose_first:
-    if ((action_id == 2) || ((word10 & 0xC0) == 0x80)) {
+    if ((action_id2 == 2) || ((word10 & 0xC0) == 0x80)) {
         result = Scene_LoadRoomAssets(1, D_8009D254_C);
     } else {
         result = Scene_LoadRoomAssets(2, D_8009D254_G);
