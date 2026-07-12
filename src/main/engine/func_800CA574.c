@@ -56,17 +56,17 @@ int func_800CA574(void) {
     value = 0xBD;
     D_800E230C = value;
     value = 9;
-    asm volatile(
-        "li $6,0x80\n\t"
-        "li $5,0x80"
-        : "=r"(half_a2), "=r"(half_a1));
+    half_a2 = 0x80;
+    half_a1 = 0x80;
+    asm volatile("" : "=r"(half_a2), "=r"(half_a1) : "0"(half_a2), "1"(half_a1));
     D_800E230D = value;
     value = 0xAE;
     D_800F34CC = value;
     value = 7;
     D_800F34CD = value;
     value = -0x32;
-    asm volatile("li $4,0x50" : "=r"(shade_a0));
+    shade_a0 = 0x50;
+    asm volatile("" : "=r"(shade_a0) : "0"(shade_a0));
     D_800F34D0 = value;
     value = 0x68;
     D_800E233C = value;
