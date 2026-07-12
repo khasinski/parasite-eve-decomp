@@ -34,34 +34,25 @@ void Menu_CreateAmmoSpendPanel(s32 parent) {
     Inv_SelectActiveList(g_InvAmmoSpendActiveList);
     item = Inv_LookupActiveListData(g_InvSelectedItemIndex);
     if ((item != NULL) && ((u32)(M2C_FIELD(item, u8 *, 6) - 0x13) >= 3U)) {
-        asm(
-            ".word 0x8f820000\n"
-            ".reloc .-4, R_MIPS_GPREL16, g_InvAmmoSpendActiveList\n"
-            ".word 0x8f840000\n"
-            ".reloc .-4, R_MIPS_GPREL16, g_InvSwapSourceList\n"
-            ".word 0x8f830000\n"
-            ".reloc .-4, R_MIPS_GPREL16, g_InvSelectedItemIndex\n"
-            ".word 0x8f850000\n"
-            ".reloc .-4, R_MIPS_GPREL16, g_InvSwapTargetIndex\n"
-            ".word 0x00441026\n"
-            ".word 0x00822026\n"
-            ".word 0xaf820000\n"
-            ".reloc .-4, R_MIPS_GPREL16, g_InvAmmoSpendActiveList\n"
-            ".word 0x00441026\n"
-            ".word 0x00651826\n"
-            ".word 0x00a32826\n"
-            ".word 0xaf830000\n"
-            ".reloc .-4, R_MIPS_GPREL16, g_InvSelectedItemIndex\n"
-            ".word 0x00651826\n"
-            ".word 0xaf840000\n"
-            ".reloc .-4, R_MIPS_GPREL16, g_InvSwapSourceList\n"
-            ".word 0xaf820000\n"
-            ".reloc .-4, R_MIPS_GPREL16, g_InvAmmoSpendActiveList\n"
-            ".word 0xaf850000\n"
-            ".reloc .-4, R_MIPS_GPREL16, g_InvSwapTargetIndex\n"
-            ".word 0xaf830000\n"
-            ".reloc .-4, R_MIPS_GPREL16, g_InvSelectedItemIndex\n"
-        );
+        s32 active = g_InvAmmoSpendActiveList;
+        s32 source = g_InvSwapSourceList;
+        s32 selected = g_InvSelectedItemIndex;
+        s32 target = g_InvSwapTargetIndex;
+
+        active ^= source;
+        source ^= active;
+        g_InvAmmoSpendActiveList = active;
+        active ^= source;
+
+        selected ^= target;
+        target ^= selected;
+        g_InvSelectedItemIndex = selected;
+        selected ^= target;
+
+        g_InvSwapSourceList = source;
+        g_InvAmmoSpendActiveList = active;
+        g_InvSwapTargetIndex = target;
+        g_InvSelectedItemIndex = selected;
     }
     Inv_BuildDisplayFromList(g_InvAmmoSpendActiveList, g_InvSelectedItemIndex, g_InvSwapSourceList, g_InvSwapTargetIndex);
     Inv_ClearSelectionBitset();
