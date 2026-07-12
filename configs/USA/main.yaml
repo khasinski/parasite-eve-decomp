@@ -1699,7 +1699,7 @@ segments:
       - [0xB57C4, asm, engine/engine_800C4FC4]
       - [0xB5D38, asm, engine/engine_800C5538]
       - [0xB6240, asm, engine/engine_800C5A40]
-      - [0xB66B0, asm, engine/engine_800C5EB0]
+      - [0xB66B0, c, engine/func_800C5EB0]
       - [0xB688C, c, engine/func_800C608C]
       - [0xB6948, c, engine/func_800C6148]
       - [0xB69A8, c, engine/func_800C61A8]
