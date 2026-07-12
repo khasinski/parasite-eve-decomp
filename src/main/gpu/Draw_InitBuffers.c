@@ -14,9 +14,6 @@ typedef long long s64;
 
 #include "../../../tools/m2c/m2c_macros.h"
 
-asm(".globl Draw_InitBuffers");
-asm("Draw_InitBuffers = Draw_InitBuffers");
-
 void SetDefDispEnv();
 void SetDefDrawEnv();
 void Draw_SetColor();

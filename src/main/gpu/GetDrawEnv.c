@@ -1,7 +1,5 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
-asm("GetDrawEnv = GetDrawEnv");
-
 extern void *memcpy(void *dest, const void *src, unsigned int n);
 extern char D_8009575C[];
 

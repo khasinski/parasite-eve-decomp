@@ -21,9 +21,6 @@ extern struct { char _[16]; } D_80095748_o __asm__("g_GpuDebugPrintf");
 extern struct { char _[16]; } g_GraphDebug_o __asm__("g_GraphDebug");
 #define g_GraphDebug (*(u8 *)&g_GraphDebug_o)
 
-asm(".globl PutDrawEnv");
-asm("PutDrawEnv = PutDrawEnv");
-
 void *PutDrawEnv(void *arg0);
 
 void *PutDrawEnv(void *arg0) {

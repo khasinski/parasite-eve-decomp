@@ -1,7 +1,5 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
-asm("DrawPrim = DrawPrim");
-
 typedef unsigned char u8;
 
 typedef int (*Cb3C)(int);

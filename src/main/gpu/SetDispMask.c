@@ -2,9 +2,6 @@
 
 
 #include "include_asm.h"
-asm(".globl SetDispMask");
-asm("SetDispMask = SetDispMask");
-
 #include "pe1/gpu_callbacks.h"
 
 extern unsigned char g_GraphDebug[];
