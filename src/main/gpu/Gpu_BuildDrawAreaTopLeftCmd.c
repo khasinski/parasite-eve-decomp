@@ -11,10 +11,12 @@ int Gpu_BuildDrawAreaTopLeftCmd(int x, int y) {
     register int packed_y asm("$3");
     register int x_mask asm("$2");
     register int cmd_base asm("$4");
+    register int shifted asm("$2");
     int limit;
     int exceeds_limit;
 
-    asm volatile("sll $2,%1,16\n\tsra %0,$2,16" : "=r"(signed_coord) : "r"(x) : "$2");
+    shifted = x << 16;
+    signed_coord = shifted >> 16;
     clamped_x = 0;
     if (signed_coord >= 0) {
         exceeds_limit = D_80095750 - 1 < signed_coord;
@@ -27,7 +29,8 @@ int Gpu_BuildDrawAreaTopLeftCmd(int x, int y) {
     }
 
     x = clamped_x;
-    asm volatile("sll $2,%1,16\n\tsra %0,$2,16" : "=r"(signed_coord) : "r"(y) : "$2");
+    shifted = y << 16;
+    signed_coord = shifted >> 16;
     if (signed_coord >= 0) {
         exceeds_limit = D_80095752 - 1 < signed_coord;
         limit = (u16)D_80095752;
