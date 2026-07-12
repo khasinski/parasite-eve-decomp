@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -fno-schedule-insns */
 /* MASPSX_FLAGS: --stack-return-delay */
 #include "pe1/card_obj.h"
 
@@ -15,28 +16,27 @@ int CardObj_BeginReadIdCommand(CardObj *obj, int arg1, int arg2) {
 
     {
         register int ret asm("$2");
+        register unsigned char *obj_s0 asm("$16") = (unsigned char *)obj;
+        register int one_v1 asm("$3");
+        register int card_id_a0 asm("$4");
 
         ret = 1;
-        /* cc1psx schedules the byte compares too early in C; keep this success block local. */
-        asm volatile(
-            "lbu $4, 0xE4($16)\n"
-            "addiu $3, $0, 1\n"
-            "sb $3, 0x46($16)\n"
-            "lui $3, %%hi(func_80083D9C)\n"
-            "addiu $3, $3, %%lo(func_80083D9C)\n"
-            "sw $3, 0x14($16)\n"
-            "lui $3, %%hi(func_80083DF0)\n"
-            "addiu $3, $3, %%lo(func_80083DF0)\n"
-            "sw $3, 0x18($16)\n"
-            "andi $3, $19, 0xFF\n"
-            "sb $17, 0x51($16)\n"
-            "sb $18, 0x52($16)\n"
-            "xor $3, $3, $4\n"
-            "sltiu $3, $3, 1\n"
-            "sb $3, 0x53($16)"
-            : "=r"(ret)
-            : "0"(ret), "r"(obj), "r"(arg1), "r"(arg2), "r"(arg1_copy)
-            : "$3", "$4", "memory");
+        asm volatile("" : "=r"(ret) : "0"(ret));
+        card_id_a0 = obj_s0[0xE4];
+        asm volatile("" : "=r"(card_id_a0) : "0"(card_id_a0));
+        one_v1 = 1;
+        obj_s0[0x46] = one_v1;
+        one_v1 = (int)func_80083D9C;
+        *(int *)(obj_s0 + 0x14) = one_v1;
+        one_v1 = (int)func_80083DF0;
+        *(int *)(obj_s0 + 0x18) = one_v1;
+        one_v1 = arg1_copy & 0xFF;
+        obj_s0[0x51] = arg1;
+        obj_s0[0x52] = arg2;
+        asm volatile("" ::: "memory");
+        one_v1 = one_v1 ^ card_id_a0;
+        one_v1 = one_v1 < 1U;
+        obj_s0[0x53] = one_v1;
         return ret;
     }
 }

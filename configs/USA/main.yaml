@@ -1442,7 +1442,7 @@ segments:
       - [0x74144, asm, memcard/CardObj_ProcessReadPayload]
       - [0x743B8, c, memcard/card_obj4]
       - [0x7443C, c, main/Render_CheckParticleBounds]
-      - [0x74504, asm, memcard/CardObj_BeginReadIdCommand]
+      - [0x74504, c, memcard/CardObj_BeginReadIdCommand]
       - [0x7459C, c, memcard/CardObj_EmitReadIdCommand]
       - [0x745F0, c, memcard/CardObj_CheckAbortOrDispatch]
       - [0x74650, c, memcard/CardObj_EmitCommand43]
