@@ -107,7 +107,7 @@ segments:
       - [0x4628, c, func_80193618]
       - [0x4630, c, func_80193620]
       - [0x4638, c, RoomLib_InitTimers_80193628]
-      - [0x4674, asm, scene_e02_278_2A4_17B0_1B6C_24FC_28AC_2EBC_2F14_2FC0_3238_32A8_3A38_3AD8_3D50_3DC0_4628_4674]
+      - [0x4674, c, func_80193664]
       - [0x470C, c, func_801936FC]
       - [0x4714, c, RoomLib_InvokeCallbackC_80193704]
       - [0x473C, c, RoomLib_RearmOnMatch_8019372C]
