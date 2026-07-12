@@ -5,8 +5,6 @@ typedef unsigned char u8;
 extern u8 g_GlyphMetricsTable[];
 extern int g_StrLookupTableOffset;
 
-asm("Str_LookupTable4 = Str_LookupTable4");
-
 void *Str_LookupTable4(unsigned int arg0) {
     u8 *base;
     u8 *table;

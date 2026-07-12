@@ -8,9 +8,6 @@ extern int _spu_mem_mode_plus;
 
 int _spu_FsetRXXa(int arg0, int arg1);
 
-asm(".globl Spu_WriteRegChecked");
-asm("Spu_WriteRegChecked = Spu_WriteRegChecked");
-
 int Spu_WriteRegChecked(int arg0) {
     int result;
 

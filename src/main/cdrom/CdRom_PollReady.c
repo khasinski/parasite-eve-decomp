@@ -2,8 +2,6 @@ int Sys_VSyncTimeout(int arg0);
 
 extern int g_GameState;
 
-asm("CdRom_PollReady = CdRom_PollReady");
-
 int CdRom_PollReady(void) {
     int scratch;
     int status;

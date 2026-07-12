@@ -1,7 +1,5 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 
-asm("GetDispEnv = GetDispEnv");
-
 extern void *memcpy(void *dest, const void *src, unsigned int n);
 extern char g_GpuActiveDispEnv[];
 
@@ -10,11 +8,7 @@ extern char g_GpuActiveDispEnv[];
 
 extern GpuCallbacks *g_GpuCallbacks;
 
-asm("SetTexWindow = SetTexWindow");
-
 int Gpu_BuildTexWindowCmd(int arg0);
-
-asm("SetDrawArea = SetDrawArea");
 
 typedef signed short s16;
 typedef unsigned short u16;
@@ -29,8 +23,6 @@ typedef struct {
 int Gpu_BuildDrawAreaTopLeftCmd(int x, int y);
 int Gpu_BuildDrawAreaBottomRightCmd(int x, int y);
 
-asm("SetDrawOffset = SetDrawOffset");
-
 typedef signed short s16_1;
 
 typedef struct {
@@ -39,8 +31,6 @@ typedef struct {
 } Point;
 
 int Gpu_BuildDrawOffsetCmd(int x, int y);
-
-asm("SetDrawMask = SetDrawMask");
 
 void Gpu_InitDrawMaskSetPacket(void *arg0, int arg1);
 
