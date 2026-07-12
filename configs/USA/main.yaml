@@ -1401,7 +1401,7 @@ segments:
       - [0x71910, c, main/Render_StepParticleCallback]
       - [0x719E4, c, save/Sys_VSyncTimeout]
       - [0x71A54, c, cdrom/func_80081254]
-      - [0x71A68, asm, save/save4_tail]
+      - [0x71A68, c, save/Save_ProcessDataCallback]
       - [0x71AF4, c, cdrom/CdRom_SetRetryMode]
       - [0x71B10, asm, main/gap_save_save4_tail_71B10]
       - [0x71B14, c, psyq/libds/DsRead2]
