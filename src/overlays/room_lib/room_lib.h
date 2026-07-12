@@ -41,6 +41,8 @@ extern void FieldEng_Register(void *o, void *table);
 extern int func_800C251C(void *o, void *table);
 extern int func_800C2758(void *o, void *tableA, void *tableB);
 extern void **FieldEng_GetSlot(void);
+extern int func_8003010C(void *o, int arg);
+extern void func_80030220(void *o, int arg, int value);
 
 typedef struct RoomRenderNode {
     int flags;                    /* 0x00: 0x3F000000 owner bits, 0xC0FFFFFF mask dance */
@@ -1316,6 +1318,43 @@ typedef struct RoomPartSys {
                 } \
             } \
         } \
+    }
+
+#define ROOMLIB_HANDLER_G(name, nextFn, clearFn) \
+    void name(char *o) { \
+        register char *o_s1 asm("$17") = o; \
+        register char *link_s0 asm("$16"); \
+        register char *src_a2 asm("$6"); \
+        asm("" : "=r"(o_s1) : "0"(o_s1)); \
+        src_a2 = (char *)RW32(o_s1, 0x1C); \
+        link_s0 = (char *)RW32(o_s1, 0x8); \
+        RW32(link_s0, 0x28) = RW32((char *)RW32(src_a2, 0x238), 0x94) << 16; \
+        RW32(link_s0, 0x2C) = RW32((char *)RW32(src_a2, 0x238), 0x98) << 16; \
+        RW32(link_s0, 0x30) = RW32((char *)RW32(src_a2, 0x238), 0x9C) << 16; \
+        asm volatile( \
+            "lwl $2,0x3B($6)\n\t" \
+            "lwr $2,0x38($6)\n\t" \
+            "lwl $3,0x3F($6)\n\t" \
+            "lwr $3,0x3C($6)\n\t" \
+            "swl $2,0x3B($16)\n\t" \
+            "swr $2,0x38($16)\n\t" \
+            "swl $3,0x3F($16)\n\t" \
+            "swr $3,0x3C($16)" \
+            : \
+            : "r"(src_a2), "r"(link_s0) \
+            : "$2", "$3", "memory"); \
+        if (RW8(src_a2, 0xE) == 7 && RWU16(src_a2, 0x16) >= 3 && RWU16(src_a2, 0x1A) < 3) { \
+            RW32(o_s1, 0xC) = (int)nextFn; \
+        } \
+        if (RW32(src_a2, 0) != 0) { \
+            if (func_8003010C(src_a2, 0x2C) > 0) { \
+                return; \
+            } \
+            func_80030220(link_s0, 0x2D, 0); \
+            func_80030220(link_s0, 0x2C, 0); \
+            func_80030220(link_s0, 0x5F, 0); \
+        } \
+        clearFn(o_s1); \
     }
 
 #define ROOMLIB_REGISTER_TABLE_AT3(name, table) \
