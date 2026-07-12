@@ -77,7 +77,7 @@ segments:
       - [0x426C, c, func_80193254]
       - [0x4274, c, func_8019325C]
       - [0x427C, c, RoomLib_InitTimers_80193264]
-      - [0x42B8, asm, room_m392_2E7C_3994_426C_42B8]
+      - [0x42B8, c, func_801932A0]
       - [0x4358, c, RoomLib_InvokeCallbackC_80193340]
       - [0x4380, c, RoomLib_RearmOnMatch_80193368]
       - [0x43B0, asm, room_m392_2E7C_3994_4380_43B0]
