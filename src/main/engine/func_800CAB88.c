@@ -9,11 +9,11 @@ extern volatile u16 D_800E2364;
 int func_800CAB88(void *arg0, void *arg1, u8 *anim) {
     u16 x = D_800E2360;
     char *data = D_8009D254;
-    register s16 y asm("$2");
+    int y;
     u16 z;
 
     *(u16 *)(anim + 0x8) = x;
-    asm volatile("lh $2,0x2e(%1)" : "=r"(y) : "r"(data));
+    y = *(s16 *)(data + 0x2E);
     *(u16 *)(anim + 0xA) = y;
     z = D_800E2364;
     *(u16 *)(anim + 0x4) = 0x7F;
