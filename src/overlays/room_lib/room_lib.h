@@ -24,7 +24,7 @@ extern void RoomLib_HandlerB(void);
 extern void RoomLib_HandlerC(void);
 extern void RoomLib_HandlerD(void);
 extern void RoomLib_HandlerE(void);
-extern void RoomLib_HandlerF(void);
+extern void RoomLib_HandlerF();
 extern int FieldEng_VecToAngle(int *vec, int *ref);
 extern int FieldEng_TurnToward(short cur, short target, short rate);
 extern char *RoomMain_ActorPtr;
@@ -105,7 +105,8 @@ typedef struct RoomEnt {
     int pos[2];                   /* 0x3C, 0x40 */
     short h44;                    /* 0x44: word-view via RW32 in some shapes */
     short h46;                    /* 0x46 */
-    char pad48[0x14];
+    short h48;
+    char pad4A[0x12];
     int w5C;                      /* 0x5C */
     int w60;
     int w64;
@@ -158,6 +159,79 @@ extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
             *p = 0; \
         } \
         return 0; \
+    }
+
+#define ROOMLIB_HANDLER_F_VARIANT(name, clearFn, actorGlobal) \
+    void name(RoomEnt *o) { \
+        register RoomLink *actor asm("$3") = actorGlobal; \
+        register int flags asm("$4"); \
+        register int check asm("$2"); \
+        register int masked asm("$2"); \
+        if (actor->variant >= 4U) { \
+            clearFn(o); \
+            return; \
+        } \
+        flags = RW32(actor, 0x98); \
+        check = flags & 0xC0000; \
+        if (check != 0) { \
+            masked = flags & 0xFFF3FFFF; \
+            RW32(actor, 0x98) = masked; \
+            clearFn(o); \
+            return; \
+        } \
+        asm volatile("lui $3,0x1F80\n\t" \
+                     "sh $0,0($3)\n\t" \
+                     "lui $1,0x1F80\n\t" \
+                     "sh $0,2($1)\n\t" \
+                     "lw $2,0x3C($16)\n\t" \
+                     "nop\n\t" \
+                     "sra $2,$2,12\n\t" \
+                     "lui $1,0x1F80\n\t" \
+                     "sh $2,4($1)\n\t" \
+                     "addiu $2,$16,0x1C\n\t" \
+                     "lw $12,0($2)\n\t" \
+                     "lw $13,4($2)\n\t" \
+                     "ctc2 $12,$0\n\t" \
+                     "ctc2 $13,$1\n\t" \
+                     "lw $12,8($2)\n\t" \
+                     "lw $13,12($2)\n\t" \
+                     "lw $14,16($2)\n\t" \
+                     "ctc2 $12,$2\n\t" \
+                     "ctc2 $13,$3\n\t" \
+                     "ctc2 $14,$4\n\t" \
+                     "lwc2 $0,0($3)\n\t" \
+                     "lwc2 $1,4($3)\n\t" \
+                     "nop\n\t" \
+                     "nop\n\t" \
+                     ".word 0x4A486012\n\t" \
+                     "lui $2,0x1F80\n\t" \
+                     "ori $2,$2,8\n\t" \
+                     "swc2 $25,0($2)\n\t" \
+                     "swc2 $26,4($2)\n\t" \
+                     "swc2 $27,8($2)\n\t" \
+                     "lui $4,%%hi(" #actorGlobal ")\n\t" \
+                     "lw $4,%%lo(" #actorGlobal ")($4)\n\t" \
+                     "lw $2,0($2)\n\t" \
+                     "lw $3,0x28($4)\n\t" \
+                     "sll $2,$2,12\n\t" \
+                     "addu $3,$3,$2\n\t" \
+                     "sw $3,0x28($4)\n\t" \
+                     "lui $2,0x1F80\n\t" \
+                     "lw $2,0x10($2)\n\t" \
+                     "lw $3,0x30($4)\n\t" \
+                     "sll $2,$2,12\n\t" \
+                     "addu $3,$3,$2\n\t" \
+                     "sw $3,0x30($4)" \
+                     : \
+                     : \
+                     : "$1", "$2", "$3", "$4", "$12", "$13", "$14", "memory"); \
+        o->pos[0] -= o->pos[1]; \
+        if (o->pos[0] < 0) { \
+            clearFn(o); \
+        } \
+        if (o->h46 != 0) { \
+            actorGlobal->h3A = FieldEng_TurnToward(actorGlobal->h3A, o->h48, o->h46); \
+        } \
     }
 
 /* timers to -1, phase 3, default handler, clear signal/counters */
