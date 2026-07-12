@@ -1799,7 +1799,7 @@ segments:
       - [0xBAFB8, c, engine/func_800CA7B8]
       - [0xBB024, c, engine/func_800CA824]
       - [0xBB134, c, engine/func_800CA934]
-      - [0xBB238, asm, engine/func_800CAA38]
+      - [0xBB238, c, engine/func_800CAA38]
       - [0xBB388, c, engine/func_800CAB88]
       - [0xBB3C8, c, engine/func_800CABC8]
       - [0xBB4D4, c, engine/func_800CACD4]
