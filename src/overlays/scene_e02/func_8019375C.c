@@ -5,8 +5,6 @@ extern int D_800966EC[];
 
 void D_80193868(void);
 
-#define SCHED_BARRIER() __asm__ volatile("")
-
 void func_8019375C(RoomEnt *o) {
     char *g = D_8009D254;
     if (RW8(g, 0xE) < 4) {
@@ -33,14 +31,12 @@ void func_8019375C(RoomEnt *o) {
             unsigned short copy;
             RW16(o, 0x1E) = 0;
             RW16(o, 0x1C) = hi;
-            SCHED_BARRIER();
             lo = *e;
             copy = *(volatile unsigned short *)((char *)o + 0x1C);
             RW16(o, 0x22) = 0;
             RW16(o, 0x26) = 0;
             RW16(o, 0x2A) = 0;
             RW16(o, 0x20) = lo;
-            SCHED_BARRIER();
             RW16(o, 0x24) = 0x1000;
             RW16(o, 0x2C) = copy;
             RW16(o, 0x28) = -RWU16(o, 0x20);
