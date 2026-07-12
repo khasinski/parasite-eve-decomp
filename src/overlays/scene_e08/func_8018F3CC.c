@@ -39,33 +39,13 @@ void func_800C2B40(void *arg0);
 void *func_8006DC18(s32 type);
 
 void func_8018F3CC(RoomEnt *ent, void *arg1, Overlay178InitState *state) {
+    Overlay178MatrixWords *matrix;
+
     func_800C2B40(state);
 
-    __asm__ volatile(
-        "lw    $v0, 0x8(%0)\n"
-        "nop\n"
-        "sw    $v0, 0x0(%1)\n"
-        "lw    $v0, 0x238($v0)\n"
-        "nop\n"
-        "lw    $v1, 0x0($v0)\n"
-        "lw    $a1, 0x4($v0)\n"
-        "lw    $a2, 0x8($v0)\n"
-        "lw    $a3, 0xC($v0)\n"
-        "sw    $v1, 0x4(%1)\n"
-        "sw    $a1, 0x8(%1)\n"
-        "sw    $a2, 0xC(%1)\n"
-        "sw    $a3, 0x10(%1)\n"
-        "lw    $v1, 0x10($v0)\n"
-        "lw    $a1, 0x14($v0)\n"
-        "lw    $a2, 0x18($v0)\n"
-        "lw    $a3, 0x1C($v0)\n"
-        "sw    $v1, 0x14(%1)\n"
-        "sw    $a1, 0x18(%1)\n"
-        "sw    $a2, 0x1C(%1)\n"
-        "sw    $a3, 0x20(%1)\n"
-        :
-        : "r"(ent), "r"(state)
-        : "v0", "v1", "a1", "a2", "a3", "memory");
+    state->link = ent->link;
+    matrix = (Overlay178MatrixWords *)state->link->p238;
+    state->matrix = *matrix;
     state->asset = func_8006DC18(0x2E);
 
     D_80199670.t4 = 0x46;
