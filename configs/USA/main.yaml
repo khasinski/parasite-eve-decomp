@@ -1523,7 +1523,7 @@ segments:
       - [0x76CF8, c, akao/Akao_Cmd_19_Then_C0]
       - [0x76D68, c, akao/Akao_Cmd_12]
       - [0x76DA4, c, akao/Akao_Cmd_20]
-      - [0x76E08, asm, akao/akao_cmd_after_20]
+      - [0x76E08, c, akao/Akao_Cmd_24]
       - [0x76EA4, c, akao/Akao_Cmd_21]
       - [0x76EF0, c, akao/Akao_Cmd_30]
       - [0x76F28, c, akao/Akao_Cmd_80_81_82]
