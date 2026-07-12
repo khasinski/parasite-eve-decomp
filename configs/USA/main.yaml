@@ -905,7 +905,7 @@ segments:
       - [0x56154, c, sys/Sys_SetFlagSlot]
       - [0x5619C, c, obj/obj]
       - [0x561F8, c, obj/Obj_FillEntrySlotValues]
-      - [0x56260, asm, obj/obj_set]
+      - [0x56260, c, obj/obj_set]
       - [0x562D4, c, menu/Menu_SetSlotEntry]
       - [0x56370, c, menu/Menu_InitGlobals]
       - [0x56438, c, render/Render_ClampCameraPosition]
