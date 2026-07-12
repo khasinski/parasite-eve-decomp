@@ -624,6 +624,32 @@ done: \
         return 0; \
     }
 
+/* register unless a low-variant linked target has its room-local AC gate clear */
+#define ROOMLIB_REGISTER_PAIR_UNLESS_TARGET_AC_CLEAR(name, tableA, tableB, tableC, closeFn) \
+    int name(RoomEnt *o) { \
+        int result = 0; \
+        if (FieldEng_GetStatus() < 2) { \
+            goto fail; \
+        } \
+        if (o->link->variant < 2) { \
+            if (*((unsigned char *)o->link->target + 0xAC) == 0) { \
+                goto done; \
+            } \
+        } \
+        result = func_800C251C(o, tableC); \
+        result |= func_800C2758(o, tableA, tableB); \
+        goto done2; \
+fail: \
+        result = -1; \
+done2: \
+        __asm__ volatile(""); \
+done: \
+        if (result == -1) { \
+            closeFn(o); \
+        } \
+        return 0; \
+    }
+
 /* plant the room table pointer into the engine slot */
 #define ROOMLIB_PLANT_TABLE(name, table) \
     int name(void) { \
