@@ -381,7 +381,7 @@ segments:
       - [0x275C8, c, psyq/libsnd/ssinit]
       - [0x275F8, c, util/game_time2]
       - [0x2777C, c, time/Scene_TickTimers]
-      - [0x2788C, asm, math/Math_FixedMul]
+      - [0x2788C, c, math/Math_FixedMul]
       - [0x278A8, c, math/math_fixed]
       - [0x27940, c, gpu/Gpu_InitDrawModeTilePacket]
       - [0x279A4, c, menu/Menu_SetEquipSlotIndex]
