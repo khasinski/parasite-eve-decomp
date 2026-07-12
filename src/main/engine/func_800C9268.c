@@ -30,7 +30,11 @@ extern u8 D_800E22E8;
 int func_800C9268(void *arg0, void *arg1, u8 *anim) {
     register int index_s0 asm("$16");
     register u8 *anim_s1 asm("$17") = anim;
+    register int rot_v0 asm("$2");
     register Matrix *matrix_a0 asm("$4");
+    register int scale_v0 asm("$2");
+    register int scale2_a2 asm("$6");
+    register int scale3_a3 asm("$7");
     Matrix matrix;
     SVECTOR rot;
     int scale_arg[4];
@@ -40,9 +44,11 @@ int func_800C9268(void *arg0, void *arg1, u8 *anim) {
 
     rot.vx = 0;
     rot.vy = 0;
-    rot.vz = ((signed char)anim_s1[1]) << 6;
-
+    rot_v0 = anim_s1[1];
+    rot_v0 <<= 24;
+    rot_v0 >>= 18;
     index_s0--;
+    rot.vz = rot_v0;
     func_800C2EAC(3);
     func_800C3098(0x10);
     func_800C2FF0(0x10, 0x10);
@@ -54,20 +60,23 @@ int func_800C9268(void *arg0, void *arg1, u8 *anim) {
     matrix.t[1] = *(s16 *)(anim_s1 + 0xA);
     matrix.t[2] = *(s16 *)(anim_s1 + 0xC);
 
-    memset(scale, 0, sizeof(scale));
-    index_s0 = (int)&D_800E09F0[(short)index_s0];
-    scale[0] = *(s16 *)index_s0;
-    scale[1] = *(s16 *)index_s0;
-    matrix_a0 = &matrix;
-    asm volatile("" : "=r"(matrix_a0) : "0"(matrix_a0));
-    scale[2] = *(s16 *)index_s0;
-    asm volatile("nop");
+    memset((void *)scale, 0, sizeof(scale));
+    index_s0 <<= 16;
+    index_s0 >>= 15;
+    scale[0] = D_800E09F0[index_s0 >> 1];
+    scale_v0 = D_800E09F0[index_s0 >> 1];
+    asm volatile("addiu %0, $sp, 0x10" : "=r"(matrix_a0));
+    scale[1] = scale_v0;
+    scale[2] = D_800E09F0[index_s0 >> 1];
 
     scale_arg[0] = scale[0];
     scale_arg[1] = scale[1];
-    scale_arg[2] = scale[2];
-    scale_arg[3] = scale[3];
+    scale2_a2 = scale[2];
+    scale3_a3 = scale[3];
+    scale_arg[2] = scale2_a2;
+    scale_arg[3] = scale3_a3;
 
+    asm volatile("" ::: "memory");
     Gte_ScaleMatrix(matrix_a0, scale_arg);
     func_800C42A4(&D_800E22E8, &matrix, 1);
 }
