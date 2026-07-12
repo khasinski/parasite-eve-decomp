@@ -1180,6 +1180,29 @@ typedef struct RoomTimer2 {
 extern int func_800C6C18();
 extern int func_800C2B68();
 
+#define ROOMLIB_PARTICLE_TICK_A(name) \
+    void name(RoomEnt *o, unsigned char *state, char *sys) { \
+        struct { short a; short pad; short b; } volatile saved; \
+        char *clock = (char *)func_800C2B50(); \
+        int tmp = RW16(o->link, 0x2A); \
+        saved.a = tmp; \
+        tmp = RW16(o->link, 0x32); \
+        saved.b = tmp; \
+        if (RW16(state, 2) < 0x20) { \
+            RWU16(sys, 0x138) = RWU16(sys, 0x138) + RWU16(sys, 0x13C); \
+            RWU16(sys, 0x13C) = RWU16(sys, 0x13C) + 7; \
+            if (RW16(state, 2) < 0x20 && RW16(sys, 0x13A) >= 5) { \
+                RW16(sys, 0x13A) = RW16(sys, 0x13A) - 4; \
+            } \
+        } \
+        if (RW16(state, 2) == 0x10) { \
+            RW16(clock, 0x2C) = 1; \
+        } \
+        if (RW16(state, 2) == 0x20) { \
+            state[1] = 2; \
+        } \
+    }
+
 #define ROOMLIB_TIMER_TICK0(name) \
     void name(int a, unsigned char *st, RoomTimer0 *t) { \
         register unsigned char *state asm("s0") = st; \
