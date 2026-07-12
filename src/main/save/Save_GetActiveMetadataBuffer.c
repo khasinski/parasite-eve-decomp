@@ -1,13 +1,15 @@
-extern char D_800C0DE0[];
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 */
+
+extern int g_SaveMetadataWindowIndex;
+extern char g_SaveRuntimeState[];
 
 char *Save_GetActiveMetadataBuffer(void) {
-    register int isSecondBuffer asm("$2");
     char *buffer;
 
-    asm volatile("lw %0,0x4A8($gp)" : "=r"(isSecondBuffer));
-    buffer = D_800C0DE0;
+    buffer = g_SaveRuntimeState;
 
-    if (isSecondBuffer != 0) {
+    if (g_SaveMetadataWindowIndex != 0) {
         buffer += 0x10;
     }
 
