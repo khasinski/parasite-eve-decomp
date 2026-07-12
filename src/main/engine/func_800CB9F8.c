@@ -21,6 +21,10 @@ extern s16 D_800F34F2;
 int func_800CB9F8(void *arg0, void *arg1, u8 *anim) {
     register u16 *field_s2 asm("$18") = &D_800F34F2;
     register Matrix *matrix_s1 asm("$17");
+    register Matrix *call_a0 asm("$4");
+    register int scale_v0 asm("$2");
+    register int scale2_a2 asm("$6");
+    register int scale3_a3 asm("$7");
     Matrix matrix;
     int scale_arg[4];
     volatile int scale[4];
@@ -58,17 +62,22 @@ int func_800CB9F8(void *arg0, void *arg1, u8 *anim) {
     matrix.t[2] = *(s16 *)(anim + 0xC);
 
     memset(scale, 0, sizeof(scale));
-    matrix_s1 = &matrix;
-    scale[0] = *(s16 *)(anim + 0x6);
-    scale[1] = *(s16 *)(anim + 0x6);
-    asm volatile("" : "=r"(matrix_s1) : "0"(matrix_s1));
+    m0 = *(s16 *)(anim + 0x6);
+    asm volatile("addiu %0, $sp, 0x10" : "=r"(matrix_s1));
+    scale[0] = m0;
+    scale_v0 = *(s16 *)(anim + 0x6);
+    asm volatile("addu %0, %1, $zero" : "=r"(call_a0) : "r"(matrix_s1));
+    scale[1] = scale_v0;
     scale[2] = *(s16 *)(anim + 0x6);
 
     scale_arg[0] = scale[0];
     scale_arg[1] = scale[1];
-    scale_arg[2] = scale[2];
-    scale_arg[3] = scale[3];
+    scale2_a2 = scale[2];
+    scale3_a3 = scale[3];
+    scale_arg[2] = scale2_a2;
+    scale_arg[3] = scale3_a3;
 
-    Gte_ScaleMatrix(matrix_s1, scale_arg);
+    asm volatile("" ::: "memory");
+    Gte_ScaleMatrix(call_a0, scale_arg);
     func_800C42A4((u8 *)field_s2 - 10, matrix_s1, 0);
 }
