@@ -12,7 +12,7 @@ s32 func_80052F0C();
 s32 Inv_GetAyaSlotLimit();
 M2C_UNK Inv_RebuildSelectableMask();
 s32 Inv_TestSelectionBit();
-M2C_UNK Inv_InitSlotDisplay();
+M2C_UNK Inv_InitSlotDisplay(void *, void *);
 s32 Inv_BuildCompatibleWeaponBitset();
 s32 MenuWidget_GridCellIndex();
 extern s32 g_InvAmmoSpendActiveList;
@@ -55,19 +55,20 @@ loop_7:
             MenuWidget_SetCurrentNode(temp_s1);
         }
         {
-            void *cf90_addr;
-            void *cf94_addr;
+            register u8 *cf90_addr asm("$4");
+            register u8 *cf94_addr asm("$5");
             s32 cf88_value;
-            __asm__ volatile(
-                "lui %0, %%hi(g_InvSwapSourceList)\n"
-                "addiu %0, %0, %%lo(g_InvSwapSourceList)"
-                : "=r"(cf90_addr));
+
+            cf90_addr = (u8 *)0x800A0000;
+            __asm__ volatile("" : "=r"(cf90_addr) : "0"(cf90_addr));
+            cf90_addr -= 0x3070;
             cf88_value = g_InvAmmoSpendActiveList;
-            __asm__ volatile(
-                "lui %0, %%hi(g_InvSwapTargetIndex)\n"
-                "addiu %0, %0, %%lo(g_InvSwapTargetIndex)"
-                : "=r"(cf94_addr));
+            __asm__ volatile("" : "=r"(cf88_value) : "0"(cf88_value));
+            cf94_addr = (u8 *)0x800A0000;
+            __asm__ volatile("" : "=r"(cf94_addr) : "0"(cf94_addr));
+            cf94_addr -= 0x306C;
             g_InvSwapSourceList = cf88_value;
+            __asm__ volatile("" : : "r"(cf90_addr), "r"(cf94_addr));
             Inv_InitSlotDisplay(cf90_addr, cf94_addr);
         }
         Menu_CreateAmmoSpendPanel(MenuWidget_GetCurrentNode());
