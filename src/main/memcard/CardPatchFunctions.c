@@ -1,8 +1,5 @@
 typedef unsigned int u32;
 
-asm(".globl func_8007E370");
-asm("func_8007E370 = CardPatchFunctions");
-
 void CardPatchFunctions(void) {
     volatile u32 *v1;
 

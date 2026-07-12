@@ -29,9 +29,6 @@ int Str_LookupTable4(int index);
 void Util_AppendFFTerminatedBytes(int dst, int src);
 int Draw_MeasureTextWidth(int str);
 
-asm(".globl func_80046B58");
-asm("func_80046B58 = Menu_SkillActionHandler");
-
 int g_MenuBattleSelectedItem;
 extern int D_8009CFB4;
 extern int D_8009CF14;

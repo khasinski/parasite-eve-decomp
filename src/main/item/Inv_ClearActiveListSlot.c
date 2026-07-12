@@ -7,9 +7,6 @@ typedef short s16;
 
 extern s16 *g_InvItemPtr;
 
-asm(".globl func_80057D18");
-asm("func_80057D18 = Inv_ClearActiveListSlot");
-
 int Inv_ClearActiveListSlot(int arg0) {
     int value;
 

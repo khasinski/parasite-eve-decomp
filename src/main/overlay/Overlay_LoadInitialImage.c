@@ -36,9 +36,6 @@ s32 CdRom_ReadSectors(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 Sys_VSyncTimeout(s32 *status);
 s32 SetDispMask(s32 arg0);
 
-asm(".globl func_8006E834");
-asm("func_8006E834 = Overlay_LoadInitialImage");
-
 s32 Overlay_LoadInitialImage(void) {
     register s32 v0 asm("$2");
     s32 v1;
