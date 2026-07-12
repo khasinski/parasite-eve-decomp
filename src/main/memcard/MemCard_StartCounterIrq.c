@@ -28,12 +28,9 @@ void MemCard_StartCounterIrq(void) {
 
     counter = 3;
     regs = D_8009B784;
-    /* Match note: target writes -2 through regs using $v0, then immediately reuses $v0 for regs[1]. */
-    asm volatile(
-        "addiu $2,$0,-2\n"
-        "sw $2,0(%0)"
-        :
-        : "r"(regs));
+    asm volatile("" : : "r"(counter));
+    value = -2;
+    regs[0] = value;
     value = regs[1];
     value |= 1;
     regs[1] = value;
