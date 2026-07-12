@@ -1761,7 +1761,7 @@ segments:
       - [0xBD174, c, engine/func_800CC974]
       - [0xBD240, c, engine/func_800CCA40]
       - [0xBD278, c, engine/func_800CCA78]
-      - [0xBD2B0, asm, engine/engine_800CCAB0]
+      - [0xBD2B0, c, engine/func_800CCAB0]
       - [0xBD36C, c, engine/func_800CCB6C]
       - [0xBD3A8, asm, engine/engine_800CCBA8]
       - [0xBD6BC, c, engine/func_800CCEBC]
