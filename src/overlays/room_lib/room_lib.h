@@ -32,6 +32,8 @@ extern int RoomMain_RotTable[];
 extern unsigned int FieldEng_GetStatus(void);
 extern void FieldEng_Spawn6(int a, int b, int c, int d, int e, int f);
 extern void FieldEng_Register(void *o, void *table);
+extern int func_800C251C(void *o, void *table);
+extern int func_800C2758(void *o, void *tableA, void *tableB);
 extern void **FieldEng_GetSlot(void);
 
 typedef struct RoomRenderNode {
@@ -576,6 +578,27 @@ extern char RoomLib_TableB[];
     int name(void *o) { \
         if (FieldEng_GetStatus() >= 2) { \
             FieldEng_Register(o, table); \
+        } \
+        return 0; \
+    }
+
+/* register paired room tables, closing this target when either engine call fails */
+#define ROOMLIB_REGISTER_PAIR_OR_CLOSE(name, tableA, tableB, tableC, closeFn) \
+    int name(RoomEnt *o) { \
+        int result; \
+        if (FieldEng_GetStatus() < 2) { \
+            goto fail; \
+        } else { \
+            result = func_800C251C(o, tableC); \
+            result |= func_800C2758(o, tableA, tableB); \
+        } \
+        goto done; \
+fail: \
+        __asm__ volatile(""); \
+        result = -1; \
+done: \
+        if (result == -1) { \
+            closeFn(o); \
         } \
         return 0; \
     }
