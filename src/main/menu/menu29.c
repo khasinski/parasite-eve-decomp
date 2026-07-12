@@ -132,8 +132,10 @@ void BattleCmd_UndoPending(void) {
         entry_tmp = top - 9;
         asm volatile("" : "=r"(entry_tmp) : "0"(entry_tmp));
         opcode = top[-9];
-        asm volatile("addu %0,%1,$0" : "=r"(entry) : "r"(entry_tmp));
-        asm volatile("sw $2,%gp_rel(D_8009D014)($gp)");
+        asm volatile("" : "=r"(opcode) : "0"(opcode));
+        entry = entry_tmp;
+        asm volatile("" : "=r"(entry) : "0"(entry));
+        D_8009D014 = (BattleCmdEntry *)entry_tmp;
 
         switch (opcode) {
         case 0:
