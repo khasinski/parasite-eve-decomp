@@ -33,19 +33,32 @@ extern s16 D_800E2330;
 extern s16 D_800E2332;
 
 int func_800C8D34(void) {
-    int half = 0x80;
-    int shade = 0x50;
+    register int half asm("$5");
+    register int shade asm("$4");
+    register int value asm("$3");
+    register void *slotData asm("$3");
+    void **slot;
 
-    *FieldEng_GetSlot() = &D_800E0A50;
+    slot = FieldEng_GetSlot();
+    slotData = &D_800E0A50;
+    *slot = slotData;
 
-    D_800E22EC = 0xBD;
-    D_800E22ED = 9;
-    D_800E22E8 = 0x80;
-    D_800E22E9 = 0x80;
-    D_800E22EA = 0x80;
-    D_800F34AC = 0xAE;
-    D_800F34AD = 7;
-    D_800F34B0 = -0x32;
+    value = 0xBD;
+    D_800E22EC = value;
+    value = 9;
+    asm volatile("li $5,0x80" : "=r"(half));
+    D_800E22ED = value;
+    value = 0x80;
+    D_800E22E8 = value;
+    D_800E22E9 = value;
+    D_800E22EA = value;
+    value = 0xAE;
+    D_800F34AC = value;
+    value = 7;
+    D_800F34AD = value;
+    value = -0x32;
+    asm volatile("li $4,0x50" : "=r"(shade));
+    D_800F34B0 = value;
     D_800E22F0 = 0;
     D_800E22F2 = half;
     D_800E22EE = 0;
@@ -54,7 +67,8 @@ int func_800C8D34(void) {
     D_800F34A9 = shade;
     D_800F34AA = shade;
     D_800F34AE = 0;
-    D_800E232C = 0x68;
+    value = 0x68;
+    D_800E232C = value;
     D_800E232D = 0;
     D_800E2330 = 0;
     D_800E2332 = half;

@@ -11,10 +11,11 @@ int FieldEng_GetStatus(char *obj) {
 
         if (inner == 0) {
             status = 1;
-        } else if (*(int *)(inner + 0x10) > 0) {
-            status = 3;
         } else {
-            status = 2;
+            status = 3;
+            if (*(int *)(inner + 0x10) <= 0) {
+                status = 2;
+            }
         }
     }
 

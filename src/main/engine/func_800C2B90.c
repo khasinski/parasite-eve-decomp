@@ -1,4 +1,5 @@
 typedef unsigned char u8;
+typedef signed char s8;
 typedef unsigned short u16;
 typedef signed short s16;
 
@@ -10,14 +11,16 @@ extern char *D_800E2248;
 extern char *D_800F3330;
 
 void *func_800C2B90(void *obj, u8 id, u16 *sizes, int (**handlers)(void *, void *, void *)) {
-    int slot = -1;
-    int i;
+    s16 slot = -1;
+    s16 i;
+    s8 *base;
     void *entry;
     void *data;
     int (*handler)(void *, void *, void *);
 
+    base = (s8 *)D_800F34F4;
     for (i = 0; i < 0x40; i++) {
-        if ((signed char)D_800F34F4[i * 6 + 1] == 0) {
+        if (base[i * 6 + 1] == 0) {
             slot = i;
             break;
         }

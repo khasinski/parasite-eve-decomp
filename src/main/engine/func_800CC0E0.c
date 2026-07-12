@@ -15,7 +15,10 @@ extern u16 D_800E2294;
 extern char *D_8009D254;
 
 int func_800CC0E0(void *arg0, void *arg1, u8 *anim) {
+    register u16 *base_s5 asm("$21");
+    register int neg_s6 asm("$22");
     int i;
+    int count;
     int angle;
     u8 *pos_entry;
     u8 *rot_entry;
@@ -39,12 +42,14 @@ int func_800CC0E0(void *arg0, void *arg1, u8 *anim) {
 
     if ((s8)anim[2] > 0) {
         i = 0;
+        base_s5 = &D_800E2290;
+        neg_s6 = -0x1400;
         pos_entry = anim;
         rot_entry = anim;
         do {
-            *(u16 *)(rot_entry + 0x26) = D_800E2290;
-            *(u16 *)(rot_entry + 0x28) = D_800E2292;
-            *(u16 *)(rot_entry + 0x2A) = D_800E2294;
+            *(u16 *)(rot_entry + 0x26) = base_s5[0];
+            *(u16 *)(rot_entry + 0x28) = base_s5[1];
+            *(u16 *)(rot_entry + 0x2A) = base_s5[2];
 
             if ((s8)anim[2] == 0x10) {
                 angle = i << 8;
@@ -53,15 +58,15 @@ int func_800CC0E0(void *arg0, void *arg1, u8 *anim) {
             }
 
             *(u16 *)(rot_entry + 0xA6) = rsin(angle);
-            *(u16 *)(rot_entry + 0xA8) = -0x1400;
+            *(u16 *)(rot_entry + 0xA8) = neg_s6;
             *(u16 *)(rot_entry + 0xAA) = rcos(angle);
             *(u16 *)(pos_entry + 0x6) = 0x258;
 
             pos_entry += 2;
+            count = (s8)anim[2];
+            asm volatile("" : "=r"(count) : "0"(count));
             i++;
-            if (i < (s8)anim[2]) {
-                rot_entry += 8;
-            }
-        } while (i < (s8)anim[2]);
+            rot_entry += 8;
+        } while (i < count);
     }
 }

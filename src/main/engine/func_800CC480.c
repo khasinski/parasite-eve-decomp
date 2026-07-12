@@ -16,6 +16,7 @@ extern int D_800F3448;
 extern short D_800F3458;
 
 int func_800CC480(void *arg0, u8 *params, u8 *anim) {
+    register short *base_a0 asm("$4");
     int value;
 
     func_800C2EAC(3);
@@ -23,17 +24,19 @@ int func_800CC480(void *arg0, u8 *params, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    value = 0x80 - (*(u16 *)(params + 0x2) * 2);
+    value = *(u16 *)(params + 0x2);
+    value = 0x80 - (value * 2);
     if ((value << 16) < 0) {
         value = 0;
     }
 
-    D_800F3458 = value;
-    D_800F3430 = *(u16 *)(anim + 0x6);
+    base_a0 = &D_800F3458;
+    base_a0[0] = value;
+    base_a0[-20] = *(u16 *)(anim + 0x6);
     D_800F3432 = *(u16 *)(anim + 0x8);
     D_800F3434 = *(u16 *)(anim + 0xA);
     D_800F3440 = *(short *)(anim + 0x4);
     D_800F3444 = *(short *)(anim + 0x4) * 2;
     D_800F3448 = *(short *)(anim + 0x4);
-    func_800C3B04(&D_800F3430);
+    func_800C3B04(base_a0 - 20);
 }

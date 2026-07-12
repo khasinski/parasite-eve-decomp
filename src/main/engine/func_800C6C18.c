@@ -8,7 +8,7 @@ int func_800C6C18(char *obj) {
     int enabled;
 
     if (FieldEng_GetStatus(obj) == 3) {
-        enabled = (*(u8 *)(*(char **)(*(char **)(obj + 8) + 0) + 0x18) == 2);
+        enabled = (*(u8 *)(*(char **)(*(char **)(*(char **)(obj + 8) + 0) + 0x18) + 0) == 2);
     } else {
         enabled = 1;
     }

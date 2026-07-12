@@ -13,9 +13,10 @@ void **FieldEng_GetSlot(char *obj) {
     unsigned int i;
     int offset;
 
-    for (p = obj + 0xC; p < obj + 0xA0C; p++) {
-        *p = 0;
-    }
+    p = obj + 0xC;
+    do {
+        *p++ = 0;
+    } while (p < obj + 0xA0C);
 
     obj[2] = 0;
     obj[3] = 0;
@@ -29,14 +30,16 @@ void **FieldEng_GetSlot(char *obj) {
     *(s16 *)(obj + 0xE) = 0;
     *(s16 *)(obj + 0x10) = 0;
 
+    i = 0;
     offset = 0;
-    for (i = 0; i < 0x40; i++) {
-        D_800F34F4[offset] = 0;
-        D_800F34F4[offset + 1] = 0;
-        *(s16 *)(D_800F34F4 + offset + 2) = 0;
-        *(s16 *)(D_800F34F4 + offset + 4) = 0;
+    do {
+        *(u8 *)(offset + (int)D_800F34F4) = 0;
+        *(u8 *)(offset + (int)D_800F34F4 + 1) = 0;
+        *(s16 *)(offset + (int)D_800F34F4 + 2) = 0;
+        *(s16 *)(offset + (int)D_800F34F4 + 4) = 0;
+        i++;
         offset += 6;
-    }
+    } while (i < 0x40);
 
     if (FieldEng_GetStatus(obj) == 3) {
         char *inner = **(char ***)(obj + 8);

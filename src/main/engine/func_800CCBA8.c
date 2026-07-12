@@ -6,6 +6,10 @@ typedef struct {
     int t[3];
 } Matrix;
 
+typedef struct {
+    int v[4];
+} Scale;
+
 void **FieldEng_GetSlot(void);
 void Gte_ScaleMatrix(Matrix *matrix, int *scale);
 
@@ -61,10 +65,7 @@ void func_800CCBA8(void) {
 
     *FieldEng_GetSlot() = &D_800E0EB8;
 
-    scale0[0] = D_800C220C[0];
-    scale0[1] = D_800C220C[1];
-    scale0[2] = D_800C220C[2];
-    scale0[3] = D_800C220C[3];
+    *(Scale *)scale0 = *(Scale *)D_800C220C;
     D_800F3478.m[2][2] = one;
     D_800F3478.m[1][1] = one;
     D_800F3478.m[0][0] = one;
@@ -79,10 +80,7 @@ void func_800CCBA8(void) {
     D_800F3478.m[0][1] = 0;
     Gte_ScaleMatrix(&D_800F3478, scale0);
 
-    scale1[0] = D_800C221C[0];
-    scale1[1] = D_800C221C[1];
-    scale1[2] = D_800C221C[2];
-    scale1[3] = D_800C221C[3];
+    *(Scale *)scale1 = *(Scale *)D_800C221C;
     D_800F33C0.m[2][2] = one;
     D_800F33C0.m[1][1] = one;
     D_800F33C0.m[0][0] = one;
@@ -97,10 +95,7 @@ void func_800CCBA8(void) {
     D_800F33C0.m[0][1] = 0;
     Gte_ScaleMatrix(&D_800F33C0, scale1);
 
-    scale2[0] = D_800C222C[0];
-    scale2[1] = D_800C222C[1];
-    scale2[2] = D_800C222C[2];
-    scale2[3] = D_800C222C[3];
+    *(Scale *)scale2 = *(Scale *)D_800C222C;
     D_800F32B0.m[2][2] = one;
     D_800F32B0.m[1][1] = one;
     D_800F32B0.m[0][0] = one;
@@ -115,6 +110,7 @@ void func_800CCBA8(void) {
     D_800F32B0.m[0][1] = 0;
     Gte_ScaleMatrix(&D_800F32B0, scale2);
 
+    asm volatile("move $2,$0");
     D_800E229C = 0x42;
     D_800E229D = 0x20;
     D_800E22A0 = 0x32;

@@ -6,9 +6,13 @@ extern int func_800C2758(void *obj, void *table, void *extra);
 extern int func_800CD960(void *obj);
 
 int func_800CD8F0(void *obj) {
-    int status = func_800C251C(obj, D_800E0F38);
+    int first;
+    int second;
+    int status;
 
-    status |= func_800C2758(obj, D_800E0F18, D_800E0F48);
+    first = func_800C251C(obj, D_800E0F38);
+    second = func_800C2758(obj, D_800E0F18, D_800E0F48);
+    status = first | second;
     if (status == -1) {
         func_800CD960(obj);
     }

@@ -1,12 +1,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef signed short s16;
 
 void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
     int i;
     u8 *entry = (u8 *)(data + *(u16 *)(data + 0x8));
 
     for (i = 0; i < *(u16 *)(data + 0xA); i++, entry += 4) {
-        int value;
+        s16 value;
 
         value = entry[0] + rDelta;
         if (value >= 0x100) {

@@ -18,16 +18,21 @@ extern u16 D_800E2322;
 int func_800C8870(void *arg0, void *arg1, u8 *anim) {
     Matrix matrix;
     int scale;
+    u16 field;
     int localScale[4];
+    register u16 *field_s3 asm("$19") = &D_800E2322;
 
     func_800C2EAC(3);
     func_800C3098(0x10);
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    matrix.m[0][0] = 0x1000;
-    matrix.m[1][1] = 0x1000;
+    scale = *(s16 *)(anim + 0x6) + 0x170;
+    field = *(u16 *)(anim + 0x4);
+
     matrix.m[2][2] = 0x1000;
+    matrix.m[1][1] = 0x1000;
+    matrix.m[0][0] = 0x1000;
     matrix.t[2] = 0;
     matrix.t[1] = 0;
     matrix.t[0] = 0;
@@ -38,10 +43,9 @@ int func_800C8870(void *arg0, void *arg1, u8 *anim) {
     matrix.m[0][2] = 0;
     matrix.m[0][1] = 0;
 
-    D_800E2322 = *(u16 *)(anim + 0x4);
+    *field_s3 = field;
     matrix.t[0] = *(s16 *)(anim + 0x8);
     matrix.t[1] = *(s16 *)(anim + 0xA);
-    scale = *(s16 *)(anim + 0x6) + 0x170;
     matrix.t[2] = *(s16 *)(anim + 0xC);
 
     memset(localScale, 0, sizeof(localScale));
@@ -50,5 +54,5 @@ int func_800C8870(void *arg0, void *arg1, u8 *anim) {
     localScale[2] = scale;
 
     Gte_ScaleMatrix(&matrix, localScale);
-    func_800C42A4(&D_800E2318, &matrix, 1);
+    func_800C42A4((u8 *)field_s3 - 10, &matrix, 1);
 }

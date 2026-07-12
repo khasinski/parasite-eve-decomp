@@ -24,25 +24,38 @@ extern s16 D_800F34C0;
 extern s16 D_800F34C2;
 
 int func_800C9A70(void) {
-    int half = 0x80;
+    register int half asm("$4");
+    register int value asm("$3");
+    register void *slotData asm("$3");
+    void **slot;
 
-    *FieldEng_GetSlot() = &D_800E0B38;
+    slot = FieldEng_GetSlot();
+    slotData = &D_800E0B38;
+    *slot = slotData;
 
-    D_800E22FC = 0xBD;
-    D_800E22FD = 9;
-    D_800E22F8 = 0x80;
-    D_800E22F9 = 0x80;
-    D_800E22FA = 0x80;
-    D_800F34BC = 0xAC;
-    D_800F34BD = 6;
-    D_800F34C0 = -0x32;
+    value = 0xBD;
+    D_800E22FC = value;
+    value = 9;
+    asm volatile("li $4,0x80" : "=r"(half));
+    D_800E22FD = value;
+    value = 0x80;
+    D_800E22F8 = value;
+    D_800E22F9 = value;
+    D_800E22FA = value;
+    value = 0xAC;
+    D_800F34BC = value;
+    value = 6;
+    D_800F34BD = value;
+    value = -0x32;
+    D_800F34C0 = value;
+    value = 0x50;
     D_800E2300 = 0;
     D_800E2302 = half;
     D_800E22FE = 0;
     D_800F34C2 = half;
-    D_800F34B8 = 0x50;
-    D_800F34B9 = 0x50;
-    D_800F34BA = 0x50;
+    D_800F34B8 = value;
+    D_800F34B9 = value;
+    D_800F34BA = value;
     D_800F34BE = 0;
 
     return 0;

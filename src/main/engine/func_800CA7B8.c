@@ -9,11 +9,10 @@ extern void *D_800E27A8;
 
 int func_800CA7B8(char *obj) {
     char *data = *(char **)(obj + 8);
-    char *model = *(char **)(data + 0x238);
 
-    D_800E2360 = *(int *)(model + 0x274);
-    D_800E2362 = *(int *)(model + 0x278);
+    D_800E2360 = *(int *)(*(char **)(data + 0x238) + 0x274);
+    D_800E2362 = *(int *)(*(char **)(data + 0x238) + 0x278);
+    D_800E2364 = *(int *)(*(char **)(data + 0x238) + 0x27C);
     D_800E27A8 = data;
-    D_800E2364 = *(int *)(model + 0x27C);
     func_800CEDA8(0);
 }

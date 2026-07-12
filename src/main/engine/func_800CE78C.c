@@ -24,9 +24,7 @@ int func_800CE78C(char *list) {
 
             i++;
             payload += stride;
-            if (i < *(int *)(list + 0x4)) {
-                entry += stride;
-            }
+            entry += stride;
         } while (i < *(int *)(list + 0x4));
     }
 

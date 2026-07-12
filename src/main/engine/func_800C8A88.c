@@ -17,35 +17,55 @@ extern u16 D_800F34E2;
 
 int func_800C8A88(void *arg0, void *arg1, u8 *anim) {
     Matrix matrix;
-    int scaleValue;
-    int scale[4];
+    int scale_arg[4];
+    volatile int scale[4];
+    u8 *anim_s0 = anim;
+    register Matrix *matrix_s1 asm("$17");
+    register u16 *field_s2 asm("$18") = &D_800F34E2;
+    int m0;
+    int m1;
+    int m2;
+    int m3;
 
     func_800C2EAC(3);
     func_800C3098(0x100);
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    D_800F34E2 = *(u16 *)(anim + 0x4);
+    *field_s2 = *(u16 *)(anim_s0 + 0x4);
+    m0 = *(int *)(anim_s0 + 0x10);
+    m1 = *(int *)(anim_s0 + 0x14);
+    m2 = *(int *)(anim_s0 + 0x18);
+    m3 = *(int *)(anim_s0 + 0x1C);
+    *(int *)((char *)&matrix + 0x0) = m0;
+    *(int *)((char *)&matrix + 0x4) = m1;
+    *(int *)((char *)&matrix + 0x8) = m2;
+    *(int *)((char *)&matrix + 0xC) = m3;
 
-    *(int *)((char *)&matrix + 0x0) = *(int *)(anim + 0x10);
-    *(int *)((char *)&matrix + 0x4) = *(int *)(anim + 0x14);
-    *(int *)((char *)&matrix + 0x8) = *(int *)(anim + 0x18);
-    *(int *)((char *)&matrix + 0xC) = *(int *)(anim + 0x1C);
-    *(int *)((char *)&matrix + 0x10) = *(int *)(anim + 0x20);
-    *(int *)((char *)&matrix + 0x14) = *(int *)(anim + 0x24);
-    *(int *)((char *)&matrix + 0x18) = *(int *)(anim + 0x28);
-    *(int *)((char *)&matrix + 0x1C) = *(int *)(anim + 0x2C);
+    m0 = *(int *)(anim_s0 + 0x20);
+    m1 = *(int *)(anim_s0 + 0x24);
+    m2 = *(int *)(anim_s0 + 0x28);
+    m3 = *(int *)(anim_s0 + 0x2C);
+    *(int *)((char *)&matrix + 0x10) = m0;
+    *(int *)((char *)&matrix + 0x14) = m1;
+    *(int *)((char *)&matrix + 0x18) = m2;
+    *(int *)((char *)&matrix + 0x1C) = m3;
 
-    matrix.t[0] = *(s16 *)(anim + 0x8);
-    matrix.t[1] = *(s16 *)(anim + 0xA);
-    matrix.t[2] = *(s16 *)(anim + 0xC);
+    matrix.t[0] = *(s16 *)(anim_s0 + 0x8);
+    matrix.t[1] = *(s16 *)(anim_s0 + 0xA);
+    matrix.t[2] = *(s16 *)(anim_s0 + 0xC);
 
-    memset(scale, 0, sizeof(scale));
-    scaleValue = *(s16 *)(anim + 0x6);
-    scale[0] = scaleValue;
-    scale[1] = scaleValue;
-    scale[2] = scaleValue;
+    memset((void *)scale, 0, sizeof(scale));
+    matrix_s1 = &matrix;
+    scale[0] = *(s16 *)(anim_s0 + 0x6);
+    scale[1] = *(s16 *)(anim_s0 + 0x6);
+    scale[2] = *(s16 *)(anim_s0 + 0x6);
 
-    Gte_ScaleMatrix(&matrix, scale);
-    func_800C42A4(&D_800F34D8, &matrix, 0);
+    scale_arg[0] = scale[0];
+    scale_arg[1] = scale[1];
+    scale_arg[2] = scale[2];
+    scale_arg[3] = scale[3];
+
+    Gte_ScaleMatrix(matrix_s1, scale_arg);
+    func_800C42A4((u8 *)field_s2 - 10, matrix_s1, 0);
 }

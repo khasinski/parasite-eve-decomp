@@ -16,12 +16,22 @@ extern s16 D_800F3328;
 extern s16 D_800F332A;
 extern s16 D_800F332C;
 
-void func_800C2FF0(u8 width, u8 height) {
-    int x = width << 4;
-    int y = height << 4;
+void func_800C2FF0(int width, int height) {
+    register int widthMinus asm("$6");
+    register int heightMinus asm("$7");
+    register int x asm("$4");
+    register int y asm("$5");
+
+    asm volatile(
+        "addiu %0,%2,-1\n\t"
+        "addiu %1,%3,-1"
+        : "=r"(widthMinus), "=r"(heightMinus)
+        : "r"(width), "r"(height));
 
     D_800F345C = width;
+    x = (width & 0xFF) << 4;
     D_800F345D = height;
+    y = (height & 0xFF) << 4;
 
     D_800F3310 = -x;
     D_800F3312 = -y;
@@ -36,6 +46,6 @@ void func_800C2FF0(u8 width, u8 height) {
     D_800F332A = y;
     D_800F332C = 0;
 
-    D_800F345C = width - 1;
-    D_800F345D = height - 1;
+    D_800F345C = widthMinus;
+    D_800F345D = heightMinus;
 }

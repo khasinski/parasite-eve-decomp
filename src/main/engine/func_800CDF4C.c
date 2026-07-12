@@ -8,7 +8,7 @@ int func_800CDF4C(void *arg0, u8 *state, u8 *anim) {
     anim[3] += 0xC;
 
     do {
-        u8 *entry = anim + ((i & 0xFFFF) * 2);
+        u8 *entry = (u8 *)(((i & 0xFFFF) * 2) + (int)anim);
 
         i++;
         *(u16 *)(entry + 0x10) = *(u16 *)(entry + 0x10) + *(u16 *)(entry + 0x40);

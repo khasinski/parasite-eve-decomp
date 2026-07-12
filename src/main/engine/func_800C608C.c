@@ -1,8 +1,10 @@
 typedef unsigned char u8;
 
 void func_800C608C(int scale, u8 *src, u8 *dst) {
+    scale = (short)scale;
+
     if (scale != 0x80) {
-        int value;
+        register int value asm("$3");
 
         value = src[0] * scale;
         if (value > 0x7FFF) {

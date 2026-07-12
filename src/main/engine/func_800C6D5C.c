@@ -5,31 +5,67 @@ typedef signed short s16;
 extern s16 D_800F3420;
 
 void func_800C6D5C(u8 *data, u8 xOffset, u8 yOffset) {
-    u8 *ptr = data + 0x10;
-    int i;
+    register u8 *data_t0 asm("$8");
+    register u8 *ptr_t2 asm("$10");
+    register int x_a0 asm("$4");
+    register int i_t1 asm("$9");
+    register int count_a0 asm("$4");
+    int total;
 
-    if (*(u16 *)(data + 0xC) != xOffset || *(u16 *)(data + 0xE) != yOffset) {
-        *(u16 *)(data + 0xC) = xOffset;
-        *(u16 *)(data + 0xE) = yOffset;
+    asm volatile("move %0,$4" : "=r"(data_t0));
+    x_a0 = xOffset & 0xFF;
+    ptr_t2 = data_t0 + 0x10;
 
-        for (i = 0; i < *(u16 *)(data + 0) + *(u16 *)(data + 2); i++, ptr += 0xC) {
-            ptr[6] += xOffset;
-            ptr[8] += xOffset;
-            ptr[0xA] += xOffset;
-            ptr[7] += yOffset;
-            ptr[9] += yOffset;
-            ptr[0xB] += yOffset;
+    if (*(u16 *)(data_t0 + 0xC) != x_a0 || *(u16 *)(data_t0 + 0xE) != (yOffset & 0xFF)) {
+        i_t1 = 0;
+        *(u16 *)(data_t0 + 0xC) = x_a0;
+        total = *(u16 *)(data_t0 + 0);
+        count_a0 = *(u16 *)(data_t0 + 2);
+        total += count_a0;
+        *(u16 *)(data_t0 + 0xE) = yOffset & 0xFF;
+        if (total != 0) {
+            register u8 *ptr_a3 asm("$7");
+
+            ptr_a3 = data_t0 + 0x1B;
+            do {
+                i_t1++;
+                ptr_t2 += 0xC;
+                ptr_a3[-5] += xOffset;
+                ptr_a3[-3] += xOffset;
+                ptr_a3[-1] += xOffset;
+                ptr_a3[-4] += yOffset;
+                ptr_a3[-2] += yOffset;
+                ptr_a3[0] += yOffset;
+                total = *(u16 *)(data_t0 + 0);
+                count_a0 = *(u16 *)(data_t0 + 2);
+                total += count_a0;
+                ptr_a3 += 0xC;
+            } while ((u16)i_t1 < total);
         }
 
-        for (i = 0; i < *(u16 *)(data + 4) + *(u16 *)(data + 6); i++, ptr += 0x10) {
-            ptr[8] += xOffset;
-            ptr[0xA] += xOffset;
-            ptr[0xC] += xOffset;
-            ptr[0xE] += xOffset;
-            ptr[9] += yOffset;
-            ptr[0xB] += yOffset;
-            ptr[0xD] += yOffset;
-            ptr[0xF] += yOffset;
+        total = *(u16 *)(data_t0 + 4);
+        count_a0 = *(u16 *)(data_t0 + 6);
+        total += count_a0;
+        i_t1 = 0;
+        if (total != 0) {
+            register u8 *ptr_a3 asm("$7");
+
+            ptr_a3 = ptr_t2 + 0xF;
+            do {
+                i_t1++;
+                ptr_a3[-7] += xOffset;
+                ptr_a3[-5] += xOffset;
+                ptr_a3[-3] += xOffset;
+                ptr_a3[-1] += xOffset;
+                ptr_a3[-6] += yOffset;
+                ptr_a3[-4] += yOffset;
+                ptr_a3[-2] += yOffset;
+                ptr_a3[0] += yOffset;
+                total = *(u16 *)(data_t0 + 4);
+                count_a0 = *(u16 *)(data_t0 + 6);
+                total += count_a0;
+                ptr_a3 += 0x10;
+            } while ((u16)i_t1 < total);
         }
     }
 

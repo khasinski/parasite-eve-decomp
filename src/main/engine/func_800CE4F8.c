@@ -3,14 +3,32 @@ extern int D_800B0E1C;
 extern int D_800B1630;
 
 int func_800CE4F8(int index) {
-    if (index == 0) {
-        return D_800B0E18;
-    }
+    int ret;
+
     if (index == 1) {
-        return D_800B0E1C;
+        goto ret1;
+    }
+    if (index < 2) {
+        if (index == 0) {
+            goto ret0;
+        }
+        ret = 0;
+        goto done;
     }
     if (index == 2) {
-        return D_800B1630;
+        goto ret2;
     }
-    return 0;
+    ret = 0;
+    goto done;
+
+ret0:
+    ret = D_800B0E18;
+    goto done;
+ret1:
+    ret = D_800B0E1C;
+    goto done;
+ret2:
+    ret = D_800B1630;
+done:
+    return ret;
 }

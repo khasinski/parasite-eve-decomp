@@ -18,9 +18,11 @@ extern short D_800E22CE;
 
 int func_800CE084(void) {
     void **slot = FieldEng_GetSlot();
-    int value;
+    register void *slotData asm("$3");
+    register int value asm("$3");
 
-    *slot = &D_800E0FFC;
+    slotData = &D_800E0FFC;
+    *slot = slotData;
 
     value = 0x300;
     D_800E22B8 = value;

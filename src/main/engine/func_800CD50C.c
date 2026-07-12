@@ -16,14 +16,19 @@ extern int D_800F3490;
 extern int D_800F3494;
 
 int func_800CD50C(void *arg0, void *arg1, u8 *anim) {
+    register int *base_a1 asm("$5");
+    register u16 *field_v1 asm("$3");
+
     func_800C2EAC(3);
     func_800C3098(0x10);
     func_800C2FF0(0x20, 0x20);
     func_800C3238(3);
 
-    D_800F348C = *(s16 *)(anim + 0x8);
+    base_a1 = &D_800F348C;
+    field_v1 = &D_800E27EA;
+    base_a1[0] = *(s16 *)(anim + 0x8);
     D_800F3490 = *(s16 *)(anim + 0xA);
     D_800F3494 = *(s16 *)(anim + 0xC);
-    D_800E27EA = *(u16 *)(anim + 0x4);
-    func_800C42A4(&D_800E27E0, &D_800F3478, 1);
+    *field_v1 = *(u16 *)(anim + 0x4);
+    func_800C42A4((u8 *)field_v1 - 10, base_a1 - 5, 1);
 }
