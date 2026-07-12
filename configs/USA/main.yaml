@@ -1695,7 +1695,7 @@ segments:
       - [0xB4304, asm, engine/engine_800C3B04]
       - [0xB4AA4, asm, engine/engine_800C42A4]
       - [0xB519C, asm, engine/engine_800C499C]
-      - [0xB5650, asm, engine/engine_800C4E50]
+      - [0xB5650, c, engine/func_800C4E50]
       - [0xB57C4, asm, engine/engine_800C4FC4]
       - [0xB5D38, asm, engine/engine_800C5538]
       - [0xB6240, asm, engine/engine_800C5A40]
