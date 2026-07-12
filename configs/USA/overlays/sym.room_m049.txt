@@ -1,1 +1,2 @@
 FieldEng_GetSlot = 0x800C22F8;
+func_8018F034 = 0x8018F034; // type:func
