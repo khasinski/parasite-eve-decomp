@@ -898,7 +898,7 @@ segments:
       - [0x55B6C, c, task/Task_ClearSfxTable]
       - [0x55BB8, c, task/Task_QueueFieldSfx]
       - [0x55C00, asm, main/Scene_UpdateEntityList]
-      - [0x55DD4, asm, obj/Obj_ResetAllEntries]
+      - [0x55DD4, c, obj/Obj_ResetAllEntries]
       - [0x55E74, asm, main/Scene_CheckBattleFlag]
       - [0x5610C, c, obj/Obj_SetEntryLimit]
       - [0x56154, pad]

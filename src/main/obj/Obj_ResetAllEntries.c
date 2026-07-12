@@ -1,5 +1,9 @@
 #include "pe1/geom_state.h"
 
+extern GeomState * volatile D_800B1624 __asm__("D_800B1624");
+
+int Obj_ResetAllEntries(void) __asm__("func_800655D4");
+
 int Obj_ResetAllEntries(void) {
     GeomState *state;
     register u8 *cursor asm("a0");
@@ -9,9 +13,11 @@ int Obj_ResetAllEntries(void) {
     register unsigned int count asm("a2");
     register unsigned int value100 asm("t2");
     register unsigned int value1 asm("t1");
+    int framePad[2];
 
-    state = g_GeomState;
-    cursor = (u8 *)g_GeomState;
+    asm volatile("" : : "r"(framePad));
+    state = D_800B1624;
+    cursor = (u8 *)D_800B1624;
     entryBase = cursor + state->ctrl_offset;
     renderEntries = cursor + state->entry_offset;
     count = state->entry_count;
@@ -37,5 +43,6 @@ int Obj_ResetAllEntries(void) {
         } while (i < count);
     }
 
+    asm volatile("" : : : "memory");
     return 0;
 }
