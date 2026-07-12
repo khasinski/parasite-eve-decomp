@@ -21,9 +21,6 @@ extern char g_RenderDrawEnvArray[];
 
 #define D_800B0CD8_WORD (g_GameState[0])
 
-asm(".globl Gpu_RenderFrame");
-asm("Gpu_RenderFrame = Gpu_RenderFrame");
-
 void Gpu_RenderFrame(void) {
     register int idx asm("$2");
     int state;

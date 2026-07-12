@@ -98,7 +98,8 @@ int Gpu_InitDisplay(int mode) {
     D_800B0E44 = ptr;
     ptr += 0x4800;
     g_RenderScratchBufferBase = ptr;
-    asm("addu %0,%1,%2" : "=r"(ptr) : "r"(ptr), "r"(const_48000));
+    asm volatile("" : "=r"(ptr) : "0"(ptr));
+    ptr += const_48000;
     D_800B0E48 = ptr2;
     ptr2 = ptr + 0x4000;
     g_RenderFrontBufferBase = ptr;
