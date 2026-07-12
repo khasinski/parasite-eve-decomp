@@ -1,8 +1,6 @@
 extern int g_IntrDmaHandlerTable[];
 extern int *g_IntrDmaDispatchPtr;
 
-asm(".globl startIntrDMA\nfunc_800744D4 = startIntrDMA");
-
 void memclrIntrDMA(int *ptr, int count);
 void Render_SetupSceneBuffers(void);
 void setIntrDMA(void);
