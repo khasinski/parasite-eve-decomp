@@ -45,6 +45,7 @@ segments:
       - [0x508, c, func_8018F4F0]
       - [0x510, c, func_8018F4F8]
       - [0x590, asm, room_m167_25C_590]
+      - [0xD88, c, func_8018FD70]
       - [0xE80, c, func_8018FE68]
       - [0xE88, c, RoomLib_InitB_8018FE70]
       - [0xF28, asm, room_m167_F28]

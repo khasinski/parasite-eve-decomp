@@ -19,6 +19,10 @@ typedef struct RoomObj {
         return 0; \
     }
 
+#define ROOMLIB_RETURN_VOID(name) \
+    void name(void) { \
+    }
+
 #define RW32(o, off) (*(int *)((char *)(o) + (off)))
 #define RW16(o, off) (*(short *)((char *)(o) + (off)))
 #define RW8(o, off)  (*(unsigned char *)((char *)(o) + (off)))
@@ -1369,6 +1373,49 @@ typedef struct RoomPartSys {
                 } \
             } \
         } \
+    }
+
+#define ROOMLIB_PARTICLE_SWEEP12(name) \
+    void name(int a, unsigned char *state, char *sys) { \
+        register unsigned int i asm("$10") = 0; \
+        register int one asm("$11") = 1; \
+        register char *flag asm("$7"); \
+        register char *slow asm("$9"); \
+        register char *pos asm("$8"); \
+        asm volatile( \
+            "addu $7,%3,$0\n\t" \
+            "addu $9,%3,$0\n\t" \
+            "addu $8,%3,$0" \
+            : "=r"(flag), "=r"(slow), "=r"(pos) \
+            : "r"(sys)); \
+        do { \
+            register int f asm("$3") = *(signed char *)(flag + 0x2C); \
+            register int off asm("$2") = -1; \
+            if (f != off) { \
+                if (f == one) { \
+                    int x = RWU16(pos, 0x44) + RWU16(sys, 0x2A); \
+                    RW16(pos, 0x44) = x; \
+                    if (RW16(sys, 0x28) < (short)x) { \
+                        RW16(pos, 0x44) = RW16(sys, 0x28); \
+                    } \
+                } \
+                RW16(slow, 0x60) = RWU16(slow, 0x60) - RWU16(sys, 0x20); \
+                if (RW16(slow, 0x60) < 10) { \
+                    RW8(flag, 0x2C) = one; \
+                } \
+            } \
+            RW8(flag, 0x38) = RW8(flag, 0x38) + 1; \
+            if ((signed char)RW8(flag, 0x38) == RW16(sys, 0x22)) { \
+                RW16(sys, 0x26) = RWU16(sys, 0x26) - 1; \
+                if (RW16(sys, 0x26) == 0) { \
+                    state[1] = 2; \
+                } \
+            } \
+            flag++; \
+            slow += 8; \
+            i++; \
+            pos += 2; \
+        } while (i < 12); \
     }
 
 #define ROOMLIB_HANDLER_G(name, nextFn, clearFn) \
