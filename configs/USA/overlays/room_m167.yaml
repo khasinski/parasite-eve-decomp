@@ -95,7 +95,7 @@ segments:
       - [0x3E8C, c, RoomLib_InvokeCallbackC_80192E74]
       - [0x3EB4, c, RoomLib_RearmOnMatch_80192E9C]
       - [0x3EE4, c, RoomLib_HandlerA]
-      - [0x3FF8, asm, func_80192FE0]
+      - [0x3FF8, c, func_80192FE0]
       - [0x4178, c, RoomLib_Set4ClearSignal_80193160]
       - [0x4194, c, func_8019317C]
       - [0x419C, data]
