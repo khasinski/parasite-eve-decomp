@@ -83,7 +83,7 @@ segments:
       - [0x3268, c, RoomLib_InvokeCallbackC_80192250]
       - [0x3290, c, RoomLib_RearmOnMatch_80192278]
       - [0x32C0, c, RoomLib_HandlerA]
-      - [0x33D4, asm, func_801923BC]
+      - [0x33D4, c, func_801923BC]
       - [0x3554, c, RoomLib_Set4ClearSignal_8019253C]
       - [0x3570, c, func_80192558]
       - [0x3578, asm, room_m318_1D8C_28A4_3290_3570]

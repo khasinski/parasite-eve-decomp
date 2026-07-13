@@ -90,7 +90,7 @@ segments:
       - [0x4358, c, RoomLib_InvokeCallbackC_80193340]
       - [0x4380, c, RoomLib_RearmOnMatch_80193368]
       - [0x43B0, c, RoomLib_HandlerA]
-      - [0x44C4, asm, func_801934AC]
+      - [0x44C4, c, func_801934AC]
       - [0x4644, c, RoomLib_Set4ClearSignal_8019362C]
       - [0x4660, asm, room_m392_2E7C_3994_4380_4660]
       - [0x5458, c, RoomLib_SlotSet_80194440]
