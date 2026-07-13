@@ -141,6 +141,77 @@ typedef struct RoomEnt {
     unsigned short hBC[4];        /* 0xBC..0xC2 */
 } RoomEnt;
 
+typedef struct RoomLibFxMatrixWords {
+    int w0;
+    int w1;
+    int w2;
+    int w3;
+    int w4;
+    int w5;
+    int w6;
+    int w7;
+} RoomLibFxMatrixWords;
+
+typedef struct RoomLibFxMatrixState {
+    RoomLink *link;
+    RoomLibFxMatrixWords matrix;
+    void *asset;
+} RoomLibFxMatrixState;
+
+extern void func_800C2B40(void *state);
+extern void *func_8006DC18(int type);
+
+#define ROOMLIB_INIT_FX_MATRIX(name, base) \
+    extern unsigned char base##C0; \
+    extern unsigned char base##C1; \
+    extern unsigned char base##C2; \
+    extern unsigned char base##C4; \
+    extern unsigned char base##C5; \
+    extern unsigned char base##C6; \
+    extern short base##C8; \
+    extern short base##CA; \
+    extern unsigned char base##D0; \
+    extern unsigned char base##D1; \
+    extern unsigned char base##D2; \
+    extern unsigned char base##D4; \
+    extern unsigned char base##D5; \
+    extern unsigned char base##D6; \
+    extern short base##D8; \
+    extern short base##DA; \
+    void name(RoomEnt *ent, void *unused, RoomLibFxMatrixState *state) { \
+        RoomLibFxMatrixWords *matrix; \
+        register int height asm("$2"); \
+        register int color asm("$3"); \
+        func_800C2B40(state); \
+        state->asset = func_8006DC18(0xB); \
+        state->link = ent->link; \
+        matrix = (RoomLibFxMatrixWords *)state->link->p238; \
+        state->matrix = *matrix; \
+        RW16(state, 0x28) = 0x28; \
+        RW16(state, 0x2A) = 0; \
+        RW16(state, 0x2C) = 0; \
+        base##D4 = 4; \
+        base##D5 = 1; \
+        asm volatile("" ::: "memory"); \
+        height = 0x80; \
+        color = 0x80; \
+        asm volatile("" : : "r"(height), "r"(color)); \
+        base##DA = height; \
+        base##C4 = 8; \
+        base##C5 = 2; \
+        base##D8 = 0; \
+        base##D0 = color; \
+        base##D1 = color; \
+        base##D2 = color; \
+        base##D6 = 0; \
+        base##C8 = 0; \
+        base##CA = 0x30; \
+        base##C0 = color; \
+        base##C1 = color; \
+        base##C2 = color; \
+        base##C6 = 0; \
+    }
+
 extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
 extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
 extern void func_800DFE94(void *a0, void *a1, void *a2);
