@@ -212,6 +212,57 @@ extern void *func_8006DC18(int type);
         base##C6 = 0; \
     }
 
+#define ROOMLIB_INIT_FX_MATRIX_943(name) \
+    extern unsigned char D_80194360; \
+    extern unsigned char D_80194361; \
+    extern unsigned char D_80194362; \
+    extern unsigned char D_80194364; \
+    extern unsigned char D_80194365; \
+    extern unsigned char D_80194366; \
+    extern short D_80194368; \
+    extern short D_8019436A; \
+    extern unsigned char D_80194380; \
+    extern unsigned char D_80194381; \
+    extern unsigned char D_80194382; \
+    extern unsigned char D_80194384; \
+    extern unsigned char D_80194385; \
+    extern unsigned char D_80194386; \
+    extern short D_80194388; \
+    extern short D_8019438A; \
+    void name(RoomEnt *ent, void *unused, RoomLibFxMatrixState *state) { \
+        RoomLibFxMatrixWords *matrix; \
+        register int height asm("$2"); \
+        register int color asm("$3"); \
+        func_800C2B40(state); \
+        state->asset = func_8006DC18(0xB); \
+        state->link = ent->link; \
+        matrix = (RoomLibFxMatrixWords *)state->link->p238; \
+        state->matrix = *matrix; \
+        RW16(state, 0x28) = 0x28; \
+        RW16(state, 0x2A) = 0; \
+        RW16(state, 0x2C) = 0; \
+        D_80194384 = 4; \
+        D_80194385 = 1; \
+        asm volatile("" ::: "memory"); \
+        height = 0x80; \
+        color = 0x80; \
+        asm volatile("" : : "r"(height), "r"(color)); \
+        D_8019438A = height; \
+        D_80194364 = 8; \
+        D_80194365 = 2; \
+        D_80194388 = 0; \
+        D_80194380 = color; \
+        D_80194381 = color; \
+        D_80194382 = color; \
+        D_80194386 = 0; \
+        D_80194368 = 0; \
+        D_8019436A = 0x30; \
+        D_80194360 = color; \
+        D_80194361 = color; \
+        D_80194362 = color; \
+        D_80194366 = 0; \
+    }
+
 extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
 extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
 extern void func_800DFE94(void *a0, void *a1, void *a2);
