@@ -99,7 +99,7 @@ segments:
       - [0x4504, c, func_801934EC]
       - [0x450C, c, func_801934F4]
       - [0x4514, c, RoomLib_InitE_801934FC]
-      - [0x4578, asm, room_m399_2D20_3838_4224_4504_4578]
+      - [0x4578, c, func_80193560]
       - [0x468C, c, func_80193674]
       - [0x4694, asm, room_m399_2D20_3838_4224_4504_4578_4694]
       - [0x47E4, c, RoomLib_HandlerG]
