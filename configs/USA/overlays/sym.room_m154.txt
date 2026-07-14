@@ -44,6 +44,7 @@ RoomLib_InitE_80193A0C = 0x80193A0C; // type:func
 RoomLib_HandlerG = 0x80193CDC;
 func_8018F3B8 = 0x8018F3B8; // type:func
 func_8018F604 = 0x8018F604; // type:func
+func_8018FC2C = 0x8018FC2C; // type:func
 func_801906E8 = 0x801906E8; // type:func
 func_80190A14 = 0x80190A14; // type:func
 func_80191754 = 0x80191754; // type:func
