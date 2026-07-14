@@ -90,7 +90,8 @@ segments:
       - [0x4CF4, c, RoomLib_HandlerG]
       - [0x4E28, asm, room_m153_3230_3D48_4734_4A14_4E28]
       - [0x51E8, c, RoomLib_Set4ClearSignal_801941D0]
-      - [0x5204, asm, room_m153_3230_3D48_4734_4A14_5204]
+      - [0x5204, c, func_801941EC]
+      - [0x520C, asm, room_m153_3230_3D48_4734_4A14_5204_520C]
       - [0x64D4, data]
   - [0x44800]
 # room: m153, section3 sector 44032, scanner delta 0

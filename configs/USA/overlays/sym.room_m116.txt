@@ -30,3 +30,4 @@ RoomLib_InitD_8018FF58 = 0x8018FF58; // type:func
 RoomLib_SlotSet_801932EC = 0x801932EC; // type:func
 RoomLib_SlotTable = 0x80193430;
 g_FrameCount16 = 0x800942EC;
+func_801924F4 = 0x801924F4; // type:func

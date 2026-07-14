@@ -86,7 +86,8 @@ segments:
       - [0x37E0, c, RoomLib_HandlerG]
       - [0x3914, asm, room_m332_1D1C_2834_3220_3500_3914]
       - [0x3CD4, c, RoomLib_Set4ClearSignal_80192CBC]
-      - [0x3CF0, asm, room_m332_1D1C_2834_3220_3500_3CF0]
+      - [0x3CF0, c, func_80192CD8]
+      - [0x3CF8, asm, room_m332_1D1C_2834_3220_3500_3CF0_3CF8]
       - [0x15540, data]
   - [0x2E800]
 # room: m332, section3 sector 80323, scanner delta 0

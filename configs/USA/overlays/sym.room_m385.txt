@@ -39,3 +39,4 @@ RoomLib_TableA_8018F264 = 0x80194144;
 RoomLib_TableB_8018FE90 = 0x80194230;
 RoomLib_RegisterTable3_8018FEE8 = 0x8018FEE8; // type:func
 RoomLib_TableC = 0x801941E0;
+func_80190040 = 0x80190040; // type:func

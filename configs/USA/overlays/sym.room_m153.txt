@@ -37,3 +37,4 @@ RoomLib_TableC = 0x801954D8;
 FieldEng_Register = 0x800C2414;
 RoomLib_InitE_80193A0C = 0x80193A0C; // type:func
 RoomLib_HandlerG = 0x80193CDC;
+func_801941EC = 0x801941EC; // type:func

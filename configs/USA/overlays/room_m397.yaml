@@ -77,7 +77,8 @@ segments:
       - [0x3260, c, RoomLib_HandlerA]
       - [0x3374, c, func_8019235C]
       - [0x34F4, c, RoomLib_Set4ClearSignal_801924DC]
-      - [0x3510, asm, room_m397_1D2C_2844_3230_3510]
+      - [0x3510, c, func_801924F8]
+      - [0x3518, asm, room_m397_1D2C_2844_3230_3510_3518]
       - [0x661C, data]
   - [0x3F800]
 # room: m397, section3 sector 91518, scanner delta 0

@@ -28,3 +28,4 @@ FieldEng_TurnToward = 0x800DFFB8;
 RoomLib_InitD_8018FF4C = 0x8018FF4C; // type:func
 RoomLib_InitE_801924F8 = 0x801924F8; // type:func
 RoomLib_HandlerG = 0x801927C8;
+func_80192CD8 = 0x80192CD8; // type:func

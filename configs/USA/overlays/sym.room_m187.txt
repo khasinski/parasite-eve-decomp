@@ -10,3 +10,4 @@ RoomLib_TableB_8018F01C = 0x8019000C;
 RoomLib_RegisterTable3_8018F074 = 0x8018F074; // type:func
 RoomLib_TableC = 0x8018FFBC;
 FieldEng_Register = 0x800C2414;
+func_8018F1CC = 0x8018F1CC; // type:func
