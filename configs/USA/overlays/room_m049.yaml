@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/room_m049
   ld_script_path: linkers/USA/overlays/room_m049.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m049.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m049.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m049.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -42,7 +43,7 @@ segments:
       - [0xD4, c, func_8018F0BC]
       - [0x144, c, func_8018F12C]
       - [0x14C, c, func_8018F134]
-      - [0x154, asm, func_8018F13C]
+      - [0x154, c, func_8018F13C]
       - [0x384, c, func_8018F36C]
       - [0x38C, asm, func_room_m049_00038C]
       - [0x13C0, c, func_801013C0]
