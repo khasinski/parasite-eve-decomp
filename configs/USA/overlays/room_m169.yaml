@@ -92,6 +92,7 @@ segments:
       - [0x3DA8, c, func_80192D90]
       - [0x3DB0, c, RoomLib_InitTimers_80192D98]
       - [0x3DEC, c, func_80192DD4]
+      - [0x3E84, c, func_80192E6C]
       - [0x3E8C, c, RoomLib_InvokeCallbackC_80192E74]
       - [0x3EB4, c, RoomLib_RearmOnMatch_80192E9C]
       - [0x3EE4, c, RoomLib_HandlerA]
