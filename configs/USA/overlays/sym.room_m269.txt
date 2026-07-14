@@ -8,3 +8,5 @@ func_8018F130 = 0x8018F130; // type:func
 func_8018F7F8 = 0x8018F7F8; // type:func
 func_8018F060 = 0x8018F060; // type:func
 func_8018F084 = 0x8018F084; // type:func
+func_8018F160 = 0x8018F160; // type:func
+func_8018F18C = 0x8018F18C; // type:func
