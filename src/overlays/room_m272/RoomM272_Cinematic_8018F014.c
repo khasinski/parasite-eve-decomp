@@ -35,24 +35,3 @@ int RoomM272_Cinematic_8018F014(void) {
     }
     return 0;
 }
-
-int RoomM272_SetPhase_8018F178(int a, int b, int c, int d) {
-    D_801991C8 = d;
-    return 0;
-}
-
-int RoomM272_Nop_8018F188(void) {
-    return 0;
-}
-
-int RoomM272_Nop_8018F190(void) {
-    return 0;
-}
-
-int RoomM272_Nop_8018F198(void) {
-    return 0;
-}
-
-int RoomM272_Nop_8018F1A0(void) {
-    return 0;
-}

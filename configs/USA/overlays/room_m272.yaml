@@ -37,6 +37,11 @@ segments:
       - [0x0, rodata, room_m272]
       - [0x24, c, func_8018F00C]
       - [0x2C, c, RoomM272_Cinematic_8018F014]
+      - [0x190, c, RoomM272_SetPhase_8018F178]
+      - [0x1A0, c, RoomM272_Nop_8018F188]
+      - [0x1A8, c, RoomM272_Nop_8018F190]
+      - [0x1B0, c, RoomM272_Nop_8018F198]
+      - [0x1B8, c, RoomM272_Nop_8018F1A0]
       - [0x1C0, data]
   - [0x46800]
 # room: m272, section3 sector 69660, scanner delta 0
