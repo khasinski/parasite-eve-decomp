@@ -87,6 +87,8 @@ segments:
       - [0x3510, c, RoomLib_Set4ClearSignal_801924F8]
       - [0x352C, c, func_80192514]
       - [0x3534, asm, room_m123_1D48_2860_324C_352C]
+      - [0x6368, c, func_80195350]
+      - [0x6394, asm, room_m123_1D48_2860_324C_352C_6394]
       - [0x63EC, c, RoomLib_SetArg1_801953D4]
       - [0x63FC, data]
   - [0x49000]
