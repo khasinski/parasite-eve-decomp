@@ -4,3 +4,5 @@ RoomSlotA_8019218C = 0x80192330;
 RoomLib_SetPair_801921AC = 0x801921AC; // type:func
 RoomLib_PairA = 0x8019233C;
 RoomLib_PairB = 0x80192340;
+func_8018F130 = 0x8018F130; // type:func
+func_8018F7F8 = 0x8018F7F8; // type:func

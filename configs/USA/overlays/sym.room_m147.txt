@@ -20,3 +20,4 @@ RoomLib_Set3Range_8018FA14 = 0x8018FA14; // type:func
 RoomLib_FxShimmer_8018FB58 = 0x8018FB58; // type:func
 RoomLib_ParticleStep_801900B0 = 0x801900B0; // type:func
 g_FrameCount16 = 0x800942EC;
+func_8018F420 = 0x8018F420; // type:func

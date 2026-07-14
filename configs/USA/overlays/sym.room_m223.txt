@@ -27,3 +27,4 @@ FieldEng_TurnToward = 0x800DFFB8;
 RoomLib_InitD_8018FF98 = 0x8018FF98; // type:func
 RoomLib_SetArg1_80193FC0 = 0x80193FC0; // type:func
 RoomSlotA_80193FC0 = 0x80194148;
+func_80191838 = 0x80191838; // type:func

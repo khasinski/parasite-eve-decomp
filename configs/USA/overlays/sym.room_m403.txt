@@ -32,3 +32,7 @@ RoomSlotA_80193118 = 0x8019328C;
 RoomSlotB_80193118 = 0x80193290;
 RoomSlotC_80193118 = 0x80193294;
 func_801924F4 = 0x801924F4; // type:func
+func_80190CE0 = 0x80190CE0; // type:func
+func_8019110C = 0x8019110C; // type:func
+func_801917F8 = 0x801917F8; // type:func
+func_80191D14 = 0x80191D14; // type:func

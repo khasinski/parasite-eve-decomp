@@ -91,6 +91,13 @@ segments:
       - [0x3620, c, func_80192608]
       - [0x3628, c, RoomLib_InvokeCallbackC_80192610]
       - [0x3650, asm, room_m273_1D30_2848_3234_3650]
+      - [0x3E54, c, func_80192E3C]
+      - [0x3E5C, c, func_80192E44]
+      - [0x3E64, asm, room_m273_1D30_2848_3234_3650_3E64]
+      - [0x3F6C, c, func_80192F54]
+      - [0x3F74, asm, room_m273_1D30_2848_3234_3650_3F74]
+      - [0x4124, c, func_8019310C]
+      - [0x412C, asm, room_m273_1D30_2848_3234_3650_412C]
       - [0xB828, data]
   - [0x50800]
 # room: m273, section3 sector 70012, scanner delta 0

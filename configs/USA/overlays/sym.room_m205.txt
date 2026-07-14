@@ -31,3 +31,5 @@ RoomLib_SetArgs3_80192C14 = 0x80192C14; // type:func
 RoomSlotA_80192C14 = 0x80192D3C;
 RoomSlotB_80192C14 = 0x80192D40;
 RoomSlotC_80192C14 = 0x80192D44;
+func_80191104 = 0x80191104; // type:func
+func_80191D0C = 0x80191D0C; // type:func
