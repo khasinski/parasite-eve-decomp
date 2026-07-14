@@ -91,7 +91,7 @@ segments:
       - [0xA24C, c, func_80199234]
       - [0xA268, c, func_80199250]
       - [0xA2AC, c, RoomLib_SetArg1_80199294]
-      - [0xA2BC, asm, room_m318_1D8C_28A4_3290_3570_A2BC]
+      - [0xA2BC, c, func_801992A4]
       - [0xA394, c, RoomLib_SetArg1_8019937C]
       - [0xA3A4, c, func_8019938C]
       - [0xA3B4, data]
