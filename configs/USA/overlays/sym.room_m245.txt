@@ -34,3 +34,6 @@ func_80191110 = 0x80191110; // type:func
 func_801917FC = 0x801917FC; // type:func
 func_80191D18 = 0x80191D18; // type:func
 func_801924F8 = 0x801924F8; // type:func
+func_801955E4 = 0x801955E4; // type:func
+func_801955F4 = 0x801955F4; // type:func
+D_8019581C = 0x8019581C;

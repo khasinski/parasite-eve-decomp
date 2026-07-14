@@ -94,6 +94,8 @@ segments:
       - [0x366C, asm, room_m256_1DA8_28C0_32AC_366C]
       - [0x3854, c, func_8019283C]
       - [0x385C, asm, room_m256_1DA8_28C0_32AC_385C]
+      - [0x6CE0, c, func_80195CC8]
+      - [0x6CF0, c, func_80195CD8]
       - [0x6D18, data]
   - [0x55000]
 # room: m256, section3 sector 66620, scanner delta 0
