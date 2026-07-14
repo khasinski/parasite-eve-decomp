@@ -66,6 +66,7 @@ segments:
       - [0x1728, asm, room_m383_344_11F4_1368_1728]
       - [0x19D0, c, func_801909B8]
       - [0x19F0, asm, room_m383_344_11F4_1368_1728_19F0]
+      - [0x1ADC, c, func_80190AC4]
       - [0x1B5C, c, func_80190B44]
       - [0x1B80, asm, room_m383_344_11F4_1368_1728_19F0_1B80]
       - [0x1D64, c, func_80190D4C]
