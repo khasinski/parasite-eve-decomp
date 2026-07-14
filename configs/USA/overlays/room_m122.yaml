@@ -52,6 +52,8 @@ segments:
       - [0x930, c, func_8018F918]
       - [0x938, c, RoomLib_Set3Reset_8018F920]
       - [0x958, asm, room_m122_80_1D8_958]
+      - [0xB1C, c, func_8018FB04]
+      - [0xB80, asm, room_m122_80_1D8_958_B80]
       - [0xFCC, c, func_8018FFB4]
       - [0x10C0, asm, room_m122_80_1D8_958_10C0]
       - [0x1EB0, c, RoomLib_SlotSet_80190E98]
