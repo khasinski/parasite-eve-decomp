@@ -107,7 +107,7 @@ segments:
       - [0xAF88, c, func_80199F70]
       - [0xAF9C, asm, room_m273_1D30_2848_3234_3650_AF9C]
       - [0xB5EC, c, func_8019A5D4]
-      - [0xB640, asm, room_m273_1D30_2848_3234_3650_AF9C_B640]
+      - [0xB640, c, func_8019A628]
       - [0xB724, c, func_8019A70C]
       - [0xB738, asm, room_m273_1D30_2848_3234_3650_B738]
       - [0xB828, data]
