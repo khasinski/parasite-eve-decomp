@@ -54,6 +54,7 @@ segments:
       - [0xA68, asm, room_m348_DC_250_610_8D8_A68]
       - [0x1C3C, c, RoomLib_Set3Reset_80190C24]
       - [0x1C5C, asm, room_m348_DC_250_1C5C]
+      - [0x1D48, c, func_80190D30]
       - [0x1D88, c, func_80190D70]
       - [0x1D90, c, func_80190D78]
       - [0x1D98, c, func_80190D80]
