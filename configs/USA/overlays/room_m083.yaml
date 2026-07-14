@@ -39,6 +39,8 @@ segments:
       - [0x268, c, RoomLib_StateDispatch_8018F250]
       - [0x2D4, c, RoomLib_ArmWindowVia_8018F2BC]
       - [0x338, asm, room_m083_338]
+      - [0xDEC, c, func_8018FDD4]
+      - [0xDF4, asm, room_m083_338_DF4]
       - [0xE890, data]
   - [0x1F000]
 # room: m083, section3 sector 28573, scanner delta 0
