@@ -49,6 +49,7 @@ segments:
       - [0x624, asm, room_m174_344_49C_624]
       - [0x1034, c, func_8019001C]
       - [0x1044, asm, room_m174_344_49C_624_1044]
+      - [0x1140, c, func_80190128]
       - [0x1194, c, func_8019017C]
       - [0x119C, c, RoomLib_PlantTable_80190184]
       - [0x11C8, c, RoomLib_Spawn6_801901B0]
