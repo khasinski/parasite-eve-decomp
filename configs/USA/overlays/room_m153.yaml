@@ -46,6 +46,8 @@ segments:
       - [0x624, asm, room_m153_29C_2E4_1260_624]
       - [0xC44, c, func_8018FC2C]
       - [0xC60, asm, room_m153_29C_2E4_1260_C60]
+      - [0xF80, c, func_8018FF68]
+      - [0x105C, asm, room_m153_29C_2E4_1260_C60_105C]
       - [0x1260, c, func_80190248]
       - [0x1268, asm, room_m153_29C_2E4_1268]
       - [0x1700, c, func_801906E8]
