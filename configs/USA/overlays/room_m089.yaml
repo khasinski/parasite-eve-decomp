@@ -88,6 +88,7 @@ segments:
       - [0x34EC, c, RoomLib_Set4ClearSignal_801924D4]
       - [0x3508, c, func_801924F0]
       - [0x3510, asm, room_m089_1D24_283C_3228_3508]
+      - [0x5008, c, func_80193FF0]
       - [0x503C, data]
   - [0x5D800]
 # room: m089, section3 sector 29945, scanner delta 0

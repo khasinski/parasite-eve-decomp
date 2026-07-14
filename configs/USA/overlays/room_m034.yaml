@@ -48,6 +48,8 @@ segments:
       - [0x398, c, func_8018F380]
       - [0x3D4, c, func_8018F3BC]
       - [0x3DC, asm, room_m034_FC_254_3DC]
+      - [0xDEC, c, func_8018FDD4]
+      - [0xDFC, asm, room_m034_FC_254_3DC_DFC]
       - [0xF4C, data]
   - [0x32000]
 # room: m034, section3 sector 15584, scanner delta 0
