@@ -45,3 +45,4 @@ D_80195EF0 = 0x80195EF0;
 D_80195EF4 = 0x80195EF4;
 func_80192654 = 0x80192654; // type:func
 func_80192680 = 0x80192680; // type:func
+func_80192808 = 0x80192808; // type:func
