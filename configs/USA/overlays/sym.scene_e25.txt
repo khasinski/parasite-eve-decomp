@@ -24,4 +24,5 @@ RoomLib_InitTimers_80192118 = 0x80192118; // type:func
 RoomLib_HandlerA = 0x80192244; // type:func
 RoomLib_InvokeCallbackC_801921F4 = 0x801921F4; // type:func
 RoomLib_RearmOnMatch_8019221C = 0x8019221C; // type:func
+D_80192214 = 0x80192214;
 RoomLib_Set4ClearSignal_801924E0 = 0x801924E0; // type:func
