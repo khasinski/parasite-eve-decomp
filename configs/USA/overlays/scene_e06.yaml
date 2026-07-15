@@ -55,6 +55,7 @@ segments:
       - [0x1270, asm, scene_e06_2A4_660_FF0_1270]
       - [0x12F8, c, RoomLib_Notify2ArmB_801902E8]
       - [0x13A0, asm, scene_e06_2A4_660_FF0_13A0]
+      - [0x1924, c, RoomLib_FxNotify2]
       - [0x192C, c, RoomLib_SteerToward_8019091C]
       - [0x19B0, c, RoomLib_ResetAndSignalB_801909A0]
       - [0x1A08, c, func_801909F8]
