@@ -57,6 +57,7 @@ segments:
       - [0x1098, asm, scene_e04_A0_CC_1A0_208_454_1098]
       - [0x2180, c, RoomLib_SetArgs3_80191170]
       - [0x21A4, asm, scene_e04_A0_CC_21A4]
+      - [0x2EEC, c, func_80191EDC]
       - [0x2F90, data]
   - [0x3000]
 # source slice: scanner
