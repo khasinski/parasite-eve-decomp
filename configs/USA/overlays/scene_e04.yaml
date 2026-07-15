@@ -45,6 +45,8 @@ segments:
       - [0x208, asm, scene_e04_A0_CC_1A0_208]
       - [0x44C, c, func_8018F43C]
       - [0x454, asm, scene_e04_A0_CC_1A0_208_454]
+      - [0xA74, c, func_8018FA64]
+      - [0xA90, asm, scene_e04_A0_CC_1A0_208_454_A90]
       - [0x1090, c, func_80190080]
       - [0x1098, asm, scene_e04_A0_CC_1A0_208_454_1098]
       - [0x2180, c, RoomLib_SetArgs3_80191170]
