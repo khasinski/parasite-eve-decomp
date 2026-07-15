@@ -2,7 +2,7 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Decompiled functions: <b>9069/13050 (69.5%)</b> · code bytes: <b>15.4%</b>. A unit counts when it has no INCLUDE_ASM and no non-empty inline assembly other than standalone nop barriers; the full build is byte-identical to retail.</p>
+<p>Decompiled functions: <b>9102/13050 (69.7%)</b> · code bytes: <b>15.4%</b>. A unit counts when it has no INCLUDE_ASM and no non-empty inline assembly other than standalone nop barriers; the full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
 <tr><td>SLUS_006.62 (main)</td><td>2038/3278</td><td>62.2%</td><td>189860/842396</td><td>22.5%</td></tr>
 <tr><td>boot_display</td><td>0/27</td><td>0.0%</td><td>0/10240</td><td>0.0%</td></tr>
@@ -31,11 +31,11 @@
 <tr><td>scene_e22</td><td>34/74</td><td>45.9%</td><td>2200/43008</td><td>5.1%</td></tr>
 <tr><td>scene_e24</td><td>50/68</td><td>73.5%</td><td>2488/16724</td><td>14.9%</td></tr>
 <tr><td>scene_e25</td><td>50/68</td><td>73.5%</td><td>2488/16724</td><td>14.9%</td></tr>
-<tr><td>scene_e26</td><td>26/60</td><td>43.3%</td><td>1868/13568</td><td>13.8%</td></tr>
-<tr><td>scene_e27</td><td>25/61</td><td>41.0%</td><td>1860/15756</td><td>11.8%</td></tr>
+<tr><td>scene_e26</td><td>42/60</td><td>70.0%</td><td>1996/13568</td><td>14.7%</td></tr>
+<tr><td>scene_e27</td><td>42/61</td><td>68.9%</td><td>1996/15756</td><td>12.7%</td></tr>
 <tr><td>sys_reset</td><td>6/20</td><td>30.0%</td><td>264/2048</td><td>12.9%</td></tr>
 <tr><td>room overlays (x162)</td><td>6271/8266 (75.9%)</td><td>75.9%</td><td>552448/3737232</td><td>14.8%</td></tr>
-<tr><td>total</td><td>9069/13050</td><td>69.5%</td><td>788492/5105632</td><td>15.4%</td></tr>
+<tr><td>total</td><td>9102/13050</td><td>69.7%</td><td>788756/5105632</td><td>15.4%</td></tr>
 </table>
 <h2>SLUS_006.62 (main) — 1310/1468 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
@@ -2293,10 +2293,12 @@
 <tr><td>src/overlays/scene_e25/func_801924FC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e25/func_80193120.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 </table>
-<h2>scene_e26 — 26/26 decompiled files</h2>
+<h2>scene_e26 — 42/42 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/overlays/scene_e26/RoomLib_ArmWindowA_80190D04.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/RoomLib_ArmWindowB_8019181C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/RoomLib_FxNotify.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/RoomLib_FxNotify2.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/RoomLib_InitB_8018F1DC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/RoomLib_InitC_801909F0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/RoomLib_InitD_8018FF4C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -2314,18 +2316,34 @@
 <tr><td>src/overlays/scene_e26/RoomLib_Set4ClearSignal_801924CC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/RoomLib_SteerToward_80190904.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/func_8018F1D4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_8018F500.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_8018FC58.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_8018FE98.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_8018FF3C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_8018FF44.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_80190240.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/func_801909E0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/func_801909E8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_80190CD4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_80191100.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_801914A0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/func_80191504.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/func_8019150C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_801917EC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_80191D08.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_80192090.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/func_801920F4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/func_801920FC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_801921D8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e26/func_801924C4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e26/func_801924E8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 </table>
-<h2>scene_e27 — 25/25 decompiled files</h2>
+<h2>scene_e27 — 42/42 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/overlays/scene_e27/RoomLib_ArmWindowA_80190D1C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/RoomLib_ArmWindowB_80191834.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/RoomLib_FxNotify.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/RoomLib_FxNotify2.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/RoomLib_InitB_8018F1F4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/RoomLib_InitC_80190A08.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/RoomLib_InitD_8018FF64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -2343,12 +2361,27 @@
 <tr><td>src/overlays/scene_e27/RoomLib_Set4ClearSignal_801924E4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/RoomLib_SteerToward_8019091C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/func_8018F1EC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_8018F518.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_8018FC70.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_8018FEB0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_8018FF54.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_8018FF5C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_80190258.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/func_801909F8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/func_80190A00.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_80190CEC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_80191118.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_801914B8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/func_8019151C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/func_80191524.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_80191804.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_80191D20.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_801920A8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/func_8019210C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e27/func_80192114.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_801921F0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_801924DC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e27/func_80192500.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 </table>
 <h2>sys_reset — 6/6 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
