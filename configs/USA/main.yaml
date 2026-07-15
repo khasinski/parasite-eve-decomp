@@ -442,7 +442,7 @@ segments:
       - [0x2EE0C, asm, main/D_8003E60C]
       - [0x2EE10, c, boot/InitSystem]
       - [0x2EE80, c, boot/Boot_InitSubsystems]
-      - [0x2EF54, asm, main/Render_ResetScene]
+      - [0x2EF54, c, main/Render_ResetScene]
       - [0x2F11C, c, boot/boot]
       - [0x2F174, c, boot/Boot_BuildRenderFlagTable]
       - [0x2F2C8, asm, boot/Gte_StoreTableEntry]
