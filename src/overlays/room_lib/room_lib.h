@@ -1426,6 +1426,25 @@ extern int func_800DFB78();
         return 0; \
     }
 
+#define ROOMLIB_STATE_DISPATCH_VARIANT2_SHARED_DELAY(name, tickFn, jumpWord) \
+    int name(RoomEnt *o) { \
+        switch (func_800DFB78()) { \
+        case 0: \
+            if (o->link->variant < 2) { \
+                return 0; \
+            } \
+            ((void (*)(RoomEnt *))o->sub.cb)(o); \
+            __asm__ volatile( \
+                ".word " #jumpWord "\n" \
+                ".word 0x00001021"); \
+        case 1: \
+            tickFn(o); \
+        case 2: \
+            return 0; \
+        } \
+        return 0; \
+    }
+
 #define ROOMLIB_RESET_SIGNAL_WITH_TARGET_GATE(name) \
     int name(RoomEnt *o) { \
         struct RoomSub *s = &o->sub; \

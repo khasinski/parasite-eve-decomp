@@ -10,6 +10,7 @@ RoomLib_SteerToward_80190918 = 0x80190918; // type:func
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
 RoomLib_ResetAndSignalB_8019099C = 0x8019099C; // type:func
+RoomLib_ResetAndSignalB_80190994 = 0x80190994; // type:func
 RoomLib_InitC_80190A04 = 0x80190A04; // type:func
 RoomLib_HandlerB = 0x80190D80; // type:func
 RoomLib_InvokeCallbackC_80190CF0 = 0x80190CF0; // type:func
