@@ -1380,7 +1380,7 @@ segments:
       - [0x708F4, c, cdrom/CdRom_RetryCmd]
       - [0x70964, c, main/Render_DrawParticleGroup]
       - [0x70A20, c, main/Render_DrawParticleSprite]
-      - [0x70C04, asm, main/Render_DrawParticleAlt]
+      - [0x70C04, c, main/Render_DrawParticleAlt]
       - [0x70E8C, c, cdrom/CdRom_CmdEventCallback]
       - [0x70F78, c, cdrom/CdRom_ReadyEventDispatch]
       - [0x7100C, c, cdrom/CdRom_ProcessEventByte]
