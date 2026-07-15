@@ -68,7 +68,8 @@ def main() -> None:
         "<h1>parasite-eve-decomp</h1>",
         f"<p>Decompiled functions: <b>{mf}/{nf} ({fpct}%)</b> · "
         f"code bytes: <b>{bpct}%</b>. A unit counts when it has no INCLUDE_ASM "
-        "and no non-empty inline assembly; the full build is byte-identical "
+        "and no non-empty inline assembly other than standalone nop barriers; "
+        "the full build is byte-identical "
         "to retail.</p>",
     ]
     md_table = re.search(r"\| Binary \|.*?\n((?:\|.*\n)+)", prog)

@@ -35,10 +35,14 @@ def strip_nonblocking_asm(text: str) -> str:
     decl_label = r"(?m)(^.*\S\s+)\b(?:__asm__|asm)\s*\(\s*\"(?:[^\"\\]|\\.)*\"\s*\)"
     t = re.sub(decl_label, r"\1", text)
 
-    # Empty asm barriers are C-side scheduler/lifetime constraints. They do not
-    # contribute replacement assembly bodies and should not lower progress.
+    # Empty asm barriers and standalone nops are C-side scheduler/lifetime
+    # constraints. They do not contribute replacement assembly bodies and should
+    # not lower progress.
     empty = r"\b(?:__asm__|asm)\s*(?:__volatile__|volatile)?\s*\(\s*\"\"\s*(?::.*?)?\)\s*;"
-    return re.sub(empty, "", t, flags=re.S)
+    t = re.sub(empty, "", t, flags=re.S)
+
+    nop = r"\b(?:__asm__|asm)\s*(?:__volatile__|volatile)?\s*\(\s*\"nop\"\s*\)\s*;"
+    return re.sub(nop, "", t, flags=re.S)
 
 
 def is_clean(text: str) -> bool:
@@ -241,8 +245,8 @@ def main() -> None:
         f"{datetime.date.today().isoformat()}. Regenerate with `make progress`._",
         "",
         "A translation unit counts as decompiled when it has no INCLUDE_ASM",
-        "and no non-empty inline assembly. Register/symbol asm labels and empty",
-        "barriers do not lower progress. Code bytes cover function subsegments",
+        "and no non-empty inline assembly. Register/symbol asm labels, empty",
+        "barriers, and standalone nop barriers do not lower progress. Code bytes cover function subsegments",
         "only (baked data carriers are excluded). Every built binary is",
         "byte-identical to retail (`make check`, `make overlay-check-all`).",
         "",

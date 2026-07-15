@@ -36,7 +36,7 @@ segments:
     subsegments:
       - [0x0, asm, scene_e01_78]
       - [0x78, c, func_8018F068]
-      - [0x9C, asm, scene_e01_9C_148]
+      - [0x9C, c, func_8018F08C]
       - [0x148, c, func_8018F138]
       - [0x150, c, RoomLib_InvokeCallbackC_8018F140]
       - [0x178, c, func_8018F168]
