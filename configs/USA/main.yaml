@@ -1969,6 +1969,12 @@ segments:
       - [0xD0378, asm, engine/engine_800D4860_D0378]
       - [0xD0444, c, engine/func_800DFC44]
       - [0xD0480, c, engine/func_800DFC80]
-      - [0xD0554, data, main/dtail_0D0554]
+      - [0xD0554, c, engine/func_800DFD54]
+      - [0xD0620, c, engine/func_800DFE20]
+      - [0xD0694, asm, engine/func_800DFE94]
+      - [0xD0780, c, engine/FieldEng_VecToAngle]
+      - [0xD07B8, asm, engine/FieldEng_TurnToward]
+      - [0xD0824, c, engine/func_800E0024]
+      - [0xD0860, data, main/dtail_0D0860]
 
   - [0x1ee800]
