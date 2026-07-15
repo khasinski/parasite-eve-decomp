@@ -409,7 +409,7 @@ segments:
       - [0x29E78, asm, main/Render_GetOrLoadFontGlyph]
       - [0x2A098, c, menu/Menu_FindSelectedEquipSlotItem]
       - [0x2A170, c, menu/Menu_ResetEquipSlotState]
-      - [0x2A19C, asm, main/Scene_CheckFlagBits]
+      - [0x2A19C, c, main/Scene_CheckFlagBits]
       - [0x2A374, c, anim/Anim_BuildRotationMatrices]
       - [0x2A524, c, anim/Anim_DecodeBoneRotationsByte]
       - [0x2A6D4, c, anim/Anim_DecodeBoneRotationsShort]
