@@ -68,7 +68,7 @@ C_OBJS   := $(C_SRCS:%=$(BUILD)/%.o)
 
 OBJS := $(ASM_OBJS) $(C_OBJS)
 
-.PHONY: expected objdiff-config report all build check clean diff distclean func-build func-diff func-target overlay-build overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress proposal-smallest proposal-status split tools
+.PHONY: expected objdiff-config report all build check clean diff distclean func-build func-diff func-target overlay-build overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress proposal-smallest proposal-status split split-if-needed tools
 
 all: build check
 
@@ -77,7 +77,13 @@ split:
 	@$(PY) -m splat split $(SPLAT_CFG)
 	@grep -rl 'INCLUDE_ASM(' src/main --include='*.c' 2>/dev/null | xargs touch 2>/dev/null || true
 
-build: $(OUT_BIN)
+split-if-needed:
+	@if [ ! -f "$(LD_SCRIPT)" ] || [ ! -f "$(ASM_DIR)/header.s" ]; then \
+	    $(MAKE) split; \
+	fi
+
+build: split-if-needed
+	@$(MAKE) --no-print-directory $(OUT_BIN)
 
 # Assemble split MIPS asm with maspsx-aware path (no preprocessing needed —
 # splat output already uses macro.inc and is GNU-as compatible).
@@ -107,7 +113,7 @@ $(ELF): $(OBJS) $(LD_SCRIPT) $(UNDEFINED_SYMS) $(UNDEFINED_FUNCS) $(UNDEFINED_MA
 $(OUT_BIN): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 
-check: $(OUT_BIN)
+check: build
 	@echo "$(TARGET_SHA)  $(OUT_BIN)" | shasum -c -
 
 diff:

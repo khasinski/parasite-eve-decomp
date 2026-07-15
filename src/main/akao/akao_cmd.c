@@ -728,7 +728,7 @@ int Spu_UploadStreamBlockB(int arg0, unsigned char *arg1) {
         src += 4;
     } while (size != 0);
 
-    asm volatile("addu %0, $0, $0" : "=r"(ret));
+    ret = 0;
     return ret;
 }
 
