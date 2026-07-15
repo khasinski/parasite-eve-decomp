@@ -61,6 +61,7 @@ segments:
       - [0x1F24, c, RoomLib_MsgDispatch_80190F0C]
       - [0x21EC, c, RoomLib_SetPair_801911D4]
       - [0x2208, asm, room_m141_100_2208]
+      - [0x2F50, c, func_80191F38]
       - [0x2FF4, data]
   - [0x3E800]
 # room: m141, section3 sector 41141, scanner delta 0
