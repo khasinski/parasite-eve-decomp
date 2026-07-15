@@ -949,7 +949,7 @@ segments:
       - [0x5A8E8, c, main/Akao_StepVoiceTable]
       - [0x5AA5C, c, sys/Sys_Shutdown]
       - [0x5AAE8, asm, gpu/misc12]
-      - [0x5AE74, asm, main/Akao_ClearVoiceBank]
+      - [0x5AE74, c, main/Akao_ClearVoiceBank]
       - [0x5B0D4, c, boot/Boot_InitMemoryLayout]
       - [0x5B1E4, c, main/Scene_LoadSceneData]
       - [0x5B540, asm, main/Scene_LoadFieldBg]
