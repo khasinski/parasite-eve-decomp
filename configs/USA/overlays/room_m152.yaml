@@ -34,7 +34,8 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, room_m152]
+      - [0x0, asm, room_m152_0_220]
+      - [0x220, c, RoomLib_DlgRect]
       - [0x238, c, RoomLib_InitB_8018F220]
       - [0x2D8, asm, room_m152_2D8]
       - [0x55C, c, func_8018F544]
