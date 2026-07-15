@@ -38,6 +38,7 @@ segments:
       - [0x1F0, c, func_8018F1D8]
       - [0x1F8, c, RoomLib_InitB_8018F1E0]
       - [0x298, asm, room_m410_298]
+      - [0x514, c, func_8018F4FC]
       - [0x51C, c, func_8018F504]
       - [0x524, c, func_8018F50C]
       - [0x5AC, c, RoomLib_NotifyArmB_8018F594]

@@ -35,6 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, scene_e01_78]
+      - [0x70, c, func_8018F060]
       - [0x78, c, func_8018F068]
       - [0x9C, c, func_8018F08C]
       - [0x148, c, func_8018F138]
