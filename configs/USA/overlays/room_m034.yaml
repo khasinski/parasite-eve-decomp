@@ -50,7 +50,7 @@ segments:
       - [0x3DC, c, func_8018F3C4]
       - [0x44C, asm, room_m034_FC_254_3DC_44C]
       - [0xDEC, c, func_8018FDD4]
-      - [0xDFC, asm, room_m034_FC_254_3DC_DFC]
+      - [0xDFC, c, func_8018FDE4]
       - [0xEF8, c, func_8018FEE0]
       - [0xF4C, data]
   - [0x32000]
