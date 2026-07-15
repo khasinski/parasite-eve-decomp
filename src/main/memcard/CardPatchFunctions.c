@@ -18,6 +18,6 @@ void CardPatchFunctions(void) {
 void __maspsx_include_asm_hack_CardPatchFunctionsTail(void) {
     asm(
         ".text # maspsx-keep\n"
-        ".include \"src/main/memcard/CardPatchFunctions.inc.s\" # maspsx-keep\n"
+        ".include \"src/main/memcard/CardPatchFunctions.inc\" # maspsx-keep\n"
     );
 }

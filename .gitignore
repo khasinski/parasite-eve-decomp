@@ -21,6 +21,7 @@ __pycache__/
 *.o
 *.a
 *.elf
+*.s
 
 # local reverse-engineering scratch/output
 .cache/
