@@ -35,6 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, scene_e19]
+      - [0x288, c, func_8018F278]
       - [0x290, c, RoomLib_InitB_8018F280]
       - [0x330, asm, scene_e19_330]
       - [0x644, c, RoomLib_NotifyArmB_8018F634]

@@ -35,6 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, room_m273]
+      - [0x200, c, func_8018F1E8]
       - [0x208, c, RoomLib_InitB_8018F1F0]
       - [0x2A8, asm, room_m273_2A8]
       - [0x52C, c, func_8018F514]
