@@ -78,7 +78,6 @@ void func_800CBCA4(void *obj) {
     D_800E2290 = *(s16 *)(data + 0x2A);
     D_800F3470 = data;
     D_800E2292 = *(s16 *)(data + 0x2E);
-    asm volatile("move $2,$0");
 
     D_800F3454 = 0x68;
     D_800E2284 = 0x68;

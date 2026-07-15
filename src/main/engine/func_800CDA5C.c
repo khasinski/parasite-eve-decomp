@@ -20,7 +20,6 @@ int func_800CDA5C(void *arg0, void *arg1, u8 *anim) {
     *(u16 *)(anim + 0xE) = 0;
     anim[3] = 0;
     *(u16 *)(anim + 0xC) = (rand() % 101) - 0x32;
-    asm volatile("move $20,$20");
 
     do {
         entry = anim + ((i & 0xFFFF) * 2);

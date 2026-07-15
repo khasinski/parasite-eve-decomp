@@ -14,7 +14,6 @@ int func_800CD0BC(void *arg0, void *arg1, u8 *anim) {
     u8 *entry;
 
     *(u16 *)(anim + 0x8) = base_s3[0];
-    asm volatile("move $19,$19");
     *(u16 *)(anim + 0xA) = base_s3[1];
     *(u16 *)(anim + 0x4) = 0x7F;
     *(u16 *)(anim + 0x6) = 0x3B4;
