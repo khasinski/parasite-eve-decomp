@@ -1469,6 +1469,7 @@ segments:
       - [0x734F0, c, memcard/MemCard_StartCounterIrq]
       - [0x735BC, c, memcard/func_80082DBC]
       - [0x73600, asm, memcard/mem_card9_post]
+      - [0x73CE8, c, memcard/MemCard_WaitReadyForTransfer]
       - [0x73D78, c, memcard/MemCard_WaitStatusBit2]
       - [0x73DA0, asm, main/gap_memcard_MemCard_WaitStatusBit2_tail_73DA0]
       - [0x73DA4, c, memcard/card_obj2]
