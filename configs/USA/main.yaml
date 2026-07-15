@@ -943,7 +943,7 @@ segments:
       - [0x5994C, asm, main/Asset_LoadTimTextures]
       - [0x59D94, c, pm/Pm_RunPrimary]
       - [0x59E60, c, pm/Pm_RunBatch]
-      - [0x59EF0, asm, main/Asset_UnloadTableEntries]
+      - [0x59EF0, c, main/Asset_UnloadTableEntries]
       - [0x5A0D4, asm, cdrom/OpenPeImage]
       - [0x5A308, asm, main/Render_InitDisplayLists]
       - [0x5A8E8, c, main/Akao_StepVoiceTable]
