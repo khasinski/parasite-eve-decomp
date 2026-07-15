@@ -107,7 +107,7 @@ void Render_AnimationFrame(void) {
         call_arg2 = *(s16 *) (ctx + 0x2A);
         call_arg3 = *(s16 *) (ctx + 0x2E);
         call_arg4 = *(s16 *) (ctx + 0x32);
-        asm volatile("addu\t%0,$0,$0" : "=r"(zero_arg));
+        zero_arg = 0;
         Asset_Find08Alt(code, zero_arg, call_arg2, call_arg3, call_arg4);
     }
 
@@ -225,27 +225,12 @@ void Menu_SaveOverlayDraw(void) {
         }
         Menu_SetTextCursorRect(x, y, 0, 0);
         Render_SetupColorTable(0, 2, &value);
-        asm volatile(
-            "lbu\t$4,g_BattleSaveOverlayActive\n"
-            "li\t$2,2\n"
-            "sb\t$2,g_TextboxEntries\n"
-            "li\t$2,75\n"
-            "sb\t$2,D_8009CE88"
-            :
-            :
-            : "$1", "$2", "$4", "memory");
+        g_TextboxEntries[0] = 2;
+        D_8009CE88 = 75;
         d1f8 = g_CurItemEffectData;
-        asm volatile(
-            "li\t$3,0x02000000\n"
-            "sw\t$2,g_SaveMetadataTextPtr\n"
-            "lw\t$2,D_800BCEB4\n"
-            "addiu\t$4,$4,1\n"
-            "sb\t$4,g_BattleSaveOverlayActive\n"
-            "or\t$2,$2,$3\n"
-            "sw\t$2,D_800BCEB4"
-            :
-            : "r"(d1f8)
-            : "$1", "$3", "$4", "memory");
+        g_SaveMetadataTextPtr = (u8_2 *)d1f8;
+        g_BattleSaveOverlayActive++;
+        D_800BCEB4 |= 0x02000000;
         break;
     case 2:
         if (D_8009CE88 == 0) {
