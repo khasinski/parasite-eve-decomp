@@ -35,3 +35,5 @@ RoomLib_HandlerA = 0x80193CAC; // type:func
 RoomLib_InvokeCallbackC_80193C5C = 0x80193C5C; // type:func
 RoomLib_RearmOnMatch_80193C84 = 0x80193C84; // type:func
 RoomLib_Set4ClearSignal_80193F48 = 0x80193F48; // type:func
+D_80194E00 = 0x80194E00;
+D_80194E04 = 0x80194E04;
