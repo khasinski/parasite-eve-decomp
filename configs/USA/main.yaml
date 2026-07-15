@@ -1944,6 +1944,8 @@ segments:
       - [0xC4F04, asm, engine/engine_800CEE20_tail_2]
       - [0xC5050, c, engine/func_800D4850]
       - [0xC5060, asm, engine/engine_800D4860]
+      - [0xD0320, c, engine/func_800DFB20]
+      - [0xD0378, asm, engine/engine_800D4860_D0378]
       - [0xD0444, c, engine/func_800DFC44]
       - [0xD0480, asm, engine/engine_800DFC80]
       - [0xD04A8, data, main/dtail_0D04A8]
