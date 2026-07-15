@@ -83,6 +83,7 @@ segments:
       - [0x2EB8, asm, room_m383_344_11F4_1368_2D74_2EB8]
       - [0x3EE0, c, func_80192EC8]
       - [0x3F4C, asm, room_m383_344_11F4_1368_2D74_2EB8_3F4C]
+      - [0x4410, c, func_801933F8]
       - [0x44A0, c, func_80193488]
       - [0x44A8, c, func_80193490]
       - [0x44B0, c, func_80193498]
