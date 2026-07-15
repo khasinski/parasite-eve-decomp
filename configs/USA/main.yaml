@@ -854,6 +854,7 @@ segments:
       - [0x4FDB8, c, gpu/Draw_PrintTextById]
       - [0x4FE98, asm, gpu/Draw_PrintTextWrapped]
       - [0x50044, asm, gpu/draw_print]
+      - [0x50D28, c, gpu/Draw_PrintNumberWidths]
       - [0x50E2C, asm, main/Draw_AllocTexturedRectAlt]
       - [0x51844, asm, main/Draw_AllocColorQuad]
       - [0x51CA0, c, gpu/draw3]
