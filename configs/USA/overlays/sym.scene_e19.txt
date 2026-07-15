@@ -26,3 +26,4 @@ RoomLib_InvokeCallbackC_80192284 = 0x80192284; // type:func
 RoomLib_RearmOnMatch_801922AC = 0x801922AC; // type:func
 RoomLib_Set4ClearSignal_80192570 = 0x80192570; // type:func
 RoomLib_InvokeCallbackC_80192668 = 0x80192668; // type:func
+D_801926B4 = 0x801926B4;
