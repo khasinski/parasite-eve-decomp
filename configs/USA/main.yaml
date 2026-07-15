@@ -686,7 +686,7 @@ segments:
       - [0x41860, c, menu/func_80051060]
       - [0x41884, c, battle/BattleCmd_InitTableCursor]
       - [0x41898, c, menu/BattleCmd_AllocSlot]
-      - [0x4192C, asm, menu/menu29_alloc]
+      - [0x4192C, c, battle/BattleCmd_UndoPending]
       - [0x41A44, c, battle/BattleCmd_ResetTableCursor]
       - [0x41A58, c, menu/func_80051258]
       - [0x41AAC, asm, menu/menu29_tail]
