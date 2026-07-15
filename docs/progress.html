@@ -2,9 +2,9 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Decompiled functions: <b>8373/12380 (67.6%)</b> · code bytes: <b>15.8%</b>. A unit counts when it has no INCLUDE_ASM and no non-empty inline assembly; the full build is byte-identical to retail.</p>
+<p>Decompiled functions: <b>8377/12380 (67.7%)</b> · code bytes: <b>15.8%</b>. A unit counts when it has no INCLUDE_ASM and no non-empty inline assembly; the full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
-<tr><td>SLUS_006.62 (main)</td><td>1977/3179</td><td>62.2%</td><td>215072/841780</td><td>25.5%</td></tr>
+<tr><td>SLUS_006.62 (main)</td><td>1981/3179</td><td>62.3%</td><td>217120/841780</td><td>25.8%</td></tr>
 <tr><td>boot_display</td><td>0/27</td><td>0.0%</td><td>0/10240</td><td>0.0%</td></tr>
 <tr><td>fx_common</td><td>0/66</td><td>0.0%</td><td>0/53248</td><td>0.0%</td></tr>
 <tr><td>fx_field</td><td>1/3</td><td>33.3%</td><td>36/4096</td><td>0.9%</td></tr>
@@ -35,9 +35,9 @@
 <tr><td>scene_e27</td><td>24/60</td><td>40.0%</td><td>1852/15756</td><td>11.8%</td></tr>
 <tr><td>sys_reset</td><td>6/20</td><td>30.0%</td><td>264/2048</td><td>12.9%</td></tr>
 <tr><td>room overlays (x162)</td><td>5738/7737 (74.2%)</td><td>74.2%</td><td>547060/3737232</td><td>14.6%</td></tr>
-<tr><td>total</td><td>8373/12380</td><td>67.6%</td><td>804776/5105016</td><td>15.8%</td></tr>
+<tr><td>total</td><td>8377/12380</td><td>67.7%</td><td>806824/5105016</td><td>15.8%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 1259/1424 decompiled files</h2>
+<h2>SLUS_006.62 (main) — 1263/1428 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrAttack.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrDecayRate.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -118,6 +118,7 @@
 <tr><td>src/main/akao/Seq_SelectPlaybackBank.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/Seq_SetCurrentTrackField56.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/Seq_StartNestedTrack.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/akao/SpuSetIRQ.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/SpuSetTransferCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/Spu_CopyVoiceToStereoSlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/Spu_GetTransferStatus.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -749,6 +750,7 @@
 <tr><td>src/main/main/Battle_ApplySpellEffect.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Battle_BuildStatusPrimHeader.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Battle_BuildTargetList.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/Battle_DrawDecimalNumber.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Battle_DrawEnemyHP.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Battle_DrawHPBar.c</td><td>21</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Battle_DrawSpellName.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
@@ -784,6 +786,7 @@
 <tr><td>src/main/main/Draw_SetPrimCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Entity_AllocSlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Entity_GetDistanceComponents.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/main/Entity_GetPositionByType.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Entity_QueryField.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Entity_WriteFieldByCmd.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Geo_BuildMeshList.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -846,6 +849,7 @@
 <tr><td>src/main/main/Render_LoadFontGlyphAlt.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_Nop.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_PlayParticleEffect.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/Render_SetEntityBlendMode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_SetupEntityPrims.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_SetupSceneBuffers.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_StepFontLoad.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
