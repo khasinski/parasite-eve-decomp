@@ -16,13 +16,13 @@ void func_8018FAA0(void *unused0, void *unused1, char *state) {
         angle = i << 9;
         *(short *)(out + 0) = tmp;
         tmp = *(int *)(obj + 0x1C);
-        asm volatile("addu %0,%1,$0" : "=r"(call_arg) : "r"(angle));
+        call_arg = angle;
         *(short *)(out + 2) = tmp - 0x64;
         tmp = *(int *)(obj + 0x20);
         *(short *)(out + 4) = tmp;
         i++;
         tmp = func_80077CF4(call_arg);
-        asm volatile("addu %0,%1,$0" : "=r"(call_arg) : "r"(angle));
+        call_arg = angle;
         *(short *)(out + 0x80) = tmp;
         *(short *)(out + 0x82) = 0;
         *(short *)(out + 0x84) = func_80077DC4(call_arg);

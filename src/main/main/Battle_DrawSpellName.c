@@ -79,7 +79,7 @@ void Battle_DrawSpellName(void) {
             s32 rFD;
             s32 tE;
             cC = CDDCC;
-            __asm__ __volatile__("li %0,0x1FD" : "=r"(rFD) : "r"(cC));
+            rFD = 0x1FD;
             t3 = cC * 0x118;
             tE = *(u16 *)(D_8009E360 + cC * 0x30);
             t3 = t3 + (s32)q508;

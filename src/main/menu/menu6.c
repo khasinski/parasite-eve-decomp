@@ -100,24 +100,15 @@ void Menu_StepItemDetailPanel2(void) {
         register int text_buf asm("$4");
 
         suffix = Str_LookupTable4(0x1A);
-        asm volatile(
-            "lui %0, %%hi(D_800A1980)\n"
-            "addiu %0, %0, %%lo(D_800A1980)"
-            : "=r"(text_buf));
+        text_buf = (int)D_800A1980;
         Util_AppendFFTerminatedBytes(text_buf, suffix);
         D_8009CFA0 = 0;
-        asm volatile(
-            "lui %0, %%hi(D_800A1980)\n"
-            "addiu %0, %0, %%lo(D_800A1980)"
-            : "=r"(text_buf));
+        text_buf = (int)D_800A1980;
         width = Draw_MeasureTextWidth(text_buf);
         if (width < 0x78) {
             width = 0x78;
         } else {
-            asm volatile(
-                "lui %0, %%hi(D_800A1980)\n"
-                "addiu %0, %0, %%lo(D_800A1980)"
-                : "=r"(text_buf));
+            text_buf = (int)D_800A1980;
             width = Draw_MeasureTextWidth(text_buf);
         }
     }

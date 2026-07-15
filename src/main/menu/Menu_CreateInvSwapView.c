@@ -35,7 +35,7 @@ void Menu_CreateInvSwapView(int parent, u8 *state) {
 
         value = D_8009CF0C;
         /* Match note: preserve the load-delay nop before storing the cached value. */
-        asm volatile("nop" : "=r"(value) : "0"(value));
+        asm volatile("nop");
         D_8009CFB8 = value;
     } else {
         register u32 zero asm("$0");
