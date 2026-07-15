@@ -1010,7 +1010,7 @@ segments:
       - [0x618A4, asm, main/Scene_UpdatePlayerEntity]
       - [0x61B6C, asm, main/Scene_UpdateEntityFacing]
       - [0x61EA4, c, scene/Scene_SyncEntityAction]
-      - [0x61F54, asm, scene/Scene_UpdateEntityFacingFromPad]
+      - [0x61F54, c, scene/Scene_UpdateEntityFacingFromPad]
       - [0x620D0, c, psyq/misc27]
       - [0x62B14, asm, psyq/libc/strlen]
       - [0x62B24, asm, psyq/libc/memchr]
