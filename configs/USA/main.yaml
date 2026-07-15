@@ -1238,7 +1238,7 @@ segments:
       - [0x69338, asm, gte/Gte_PopMatrix]
       - [0x693DC, asm, main/gap_gte_Gte_PopMatrix_tail_693DC]
       - [0x693E4, c, psyq/libgte/mtx_05]
-      - [0x69434, asm, psyq/libgte/mtx_06]
+      - [0x69434, c, psyq/libgte/mtx_06]
       - [0x69490, asm, main/gap_psyq_libgte_mtx_06_tail_69490]
       - [0x69494, c, psyq/libgte/mtx_07]
       - [0x694B8, asm, main/gap_psyq_libgte_mtx_07_tail_694B8]
