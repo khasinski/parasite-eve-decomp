@@ -127,12 +127,7 @@ int DS_searchdir(int dev, char *name) {
     entry_name = D_800A3CBC;
     offset = 0;
     do {
-        asm volatile(
-            "lui %0,%%hi(D_800A3CB4)\n\t"
-            "addu %0,%0,%1\n\t"
-            "lw %0,%%lo(D_800A3CB4)(%0)"
-            : "=r"(value)
-            : "r"(offset));
+        value = *(int *)((char *)D_800A3CB4 + offset);
 
         if (value == 0) {
             return -1;

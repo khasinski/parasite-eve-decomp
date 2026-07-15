@@ -66,7 +66,7 @@ void Render_ApplyColourOffset(void *arg0, int arg1, int arg2, int arg3) {
     }
 
     tmp = *(int *)obj;
-    asm volatile("addu %0, %1, $0" : "=r"(ptr) : "r"(base));
+    ptr = (char *)base;
     tmp = *(u16 *)(tmp + 0xA);
     if (tmp > 0) {
         outer = 0;
