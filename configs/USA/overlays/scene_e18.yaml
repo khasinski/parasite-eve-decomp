@@ -47,7 +47,7 @@ segments:
       - [0xC68, c, func_8018FC58]
       - [0xC70, asm, scene_e18_28C_648_C70]
       - [0xEA8, c, func_8018FE98]
-      - [0xEB0, asm, scene_e18_28C_648_EB0]
+      - [0xEB0, c, func_8018FEA0]
       - [0xF4C, c, func_8018FF3C]
       - [0xF54, c, func_8018FF44]
       - [0xF5C, c, RoomLib_InitD_8018FF4C]
