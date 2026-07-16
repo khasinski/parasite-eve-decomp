@@ -100,8 +100,8 @@ segments:
       - [0x424C, c, RoomLib_HandlerA]
       - [0x4360, c, func_80193348]
       - [0x44E0, c, RoomLib_Set4ClearSignal_801934C8]
-      - [0x44FC, asm, room_m087_2D18_3830_421C_44FC]
-      - [0x4500, data]
+      - [0x44FC, c, func_801934E4]
+      - [0x4504, data]
   - [0x2B800]
 # room: m087, section3 sector 29381, scanner delta 0
 # source slice: room-section3
