@@ -135,6 +135,10 @@ def is_forced_inventory_category_store(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_stack_matrix_address(line: str) -> bool:
+    return line == "addiu %0, $sp, 0x10"
+
+
 def is_forced_register_copy(line: str) -> bool:
     return line == "addu %0,%1,$0"
 
@@ -173,7 +177,11 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         return True
     saw_instruction = False
     for line in lines:
-        if is_forced_register_copy(line) or is_forced_stack_arg_access(line):
+        if (
+            is_forced_register_copy(line)
+            or is_forced_stack_arg_access(line)
+            or is_forced_stack_matrix_address(line)
+        ):
             saw_instruction = True
             continue
         if line.startswith(".word"):
