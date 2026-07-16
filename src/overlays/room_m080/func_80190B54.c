@@ -10,14 +10,14 @@ extern int func_800C5EB0(void *obj, s16 *values, int *result);
 extern RoomGlobalState *D_8009D254;
 
 void func_80190B54(void *arg0, char *state, char *sys) {
-    register char *statep asm("s3") = state;
-    register char *sysp asm("s1") = sys;
-    register int *resultp asm("s0");
-    register char *root asm("s2");
-    register RoomGlobalState *global asm("v1");
-    register int value0 asm("a1");
-    register int value1 asm("a2");
-    register int value2 asm("v1");
+    char *statep = state;
+    char *sysp = sys;
+    int *resultp;
+    char *root;
+    RoomGlobalState *global;
+    int value0;
+    int value1;
+    int value2;
     s16 values[3];
     int result;
     int ret;

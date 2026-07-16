@@ -8,7 +8,7 @@ extern void func_800C3238(int arg0);
 extern void func_800C5A40(void *arg0);
 
 void func_80190AF4(void *arg0, void *arg1, char *sys) {
-    register char *sysp asm("s0") = sys;
+    char *sysp = sys;
     char *root;
 
     root = func_800C2B50();
