@@ -10,6 +10,7 @@ void SeqOp_SetTrack38Mask(void *track);
 
 void SeqOp_NoteOnWithPitchSlide(void *track) {
     register u8 *base asm("$6");
+    register u8 *seq_first asm("$2");
     u8 *seq;
     int value;
     int step_count;
@@ -21,9 +22,9 @@ void SeqOp_NoteOnWithPitchSlide(void *track) {
     base = (u8 *)track;
     asm volatile("" : "=r"(base) : "0"(base));
 
-    seq = *(u8 **)base;
-    *(u8 **)base = seq + 1;
-    step_count = seq[0];
+    seq_first = *(u8 **)base;
+    *(u8 **)base = seq_first + 1;
+    step_count = seq_first[0];
     *(u16 *)(base + 0x60) = step_count;
     if (step_count == 0) {
         step_count = 0x100;
