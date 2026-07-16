@@ -70,7 +70,7 @@ segments:
       - [0x1910, c, func_801908F8]
       - [0x1990, asm, room_m146_F4_15B8_1710_1990]
       - [0x1EFC, c, RoomLib_Set3Range_80190EE4]
-      - [0x1F14, asm, room_m146_F4_15B8_1710_1F14]
+      - [0x1F14, c, func_80190EFC]
       - [0x2040, c, RoomLib_FxShimmer_80191028]
       - [0x20C4, c, RoomLib_Set3Size_801910AC]
       - [0x20D8, asm, room_m146_F4_15B8_1710_20D8]
