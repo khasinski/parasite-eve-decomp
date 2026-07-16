@@ -1,4 +1,4 @@
-/* MASPSX_FLAGS: --stack-return-delay */
+/* MASPSX_FLAGS: --store-call-delay --stack-return-delay */
 
 #include "pe1/psyq_cd.h"
 
@@ -20,18 +20,8 @@ int CdRom_RestartSeek(void) {
 
     DsSyncCallback(0);
     temp_v0 = CdPosToInt(CdRom_GetCurrentPosPtr());
-    /* Match note: D_8009B6EC store is in the CdRom_GetCmdMode delay slot. */
-    asm volatile(
-        ".set\tnoreorder\n\t"
-        ".set\tnoat\n\t"
-        "lui\t$at,%%hi(D_8009B6EC)\n\t"
-        "jal\tCdRom_GetCmdMode\n\t"
-        "sw\t%1,%%lo(D_8009B6EC)($at)\n\t"
-        ".set\tat\n\t"
-        ".set\treorder"
-        : "=r"(cmd_mode)
-        : "r"(temp_v0)
-        : "$31", "memory");
+    D_8009B6EC = temp_v0;
+    cmd_mode = CdRom_GetCmdMode();
     temp_s0 = cmd_mode & 0xFF;
     temp_s1 = (int)CdRom_GetCurrentPosPtr();
     temp_v0 = CdRom_GetCmdParam() & 0xFF;
