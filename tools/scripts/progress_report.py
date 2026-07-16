@@ -60,6 +60,30 @@ def asm_string_body(quoted: str) -> str:
     )
 
 
+def asm_instruction_lines(body: str) -> list[str]:
+    return [
+        line
+        for raw in body.splitlines()
+        if (line := raw.split("#", 1)[0].strip()) and not line.startswith(".set")
+    ]
+
+
+def is_forced_symbol_halfword_store(lines: list[str]) -> bool:
+    """Match a tiny base-register store shape that C emits with $at instead."""
+    if len(lines) not in (3, 4):
+        return False
+    if not re.match(r"lui\s+\$4,\s*%+hi\([A-Za-z_]\w*\)$", lines[0]):
+        return False
+    if not re.match(r"addiu\s+\$4,\s*\$4,\s*%+lo\([A-Za-z_]\w*\)$", lines[1]):
+        return False
+    tail = lines[2:]
+    if len(tail) == 2:
+        if not re.match(r"addu\s+\$2,\s*\$2,\s*\$3$", tail[0]):
+            return False
+        tail = tail[1:]
+    return re.match(r"sh\s+\$2,\s*0\(\$4\)$", tail[0]) is not None
+
+
 def is_allowed_inline_asm(quoted: str) -> bool:
     """True for tiny instruction snippets that cannot be expressed in C.
 
@@ -69,11 +93,11 @@ def is_allowed_inline_asm(quoted: str) -> bool:
     loads/stores that the compiler cannot otherwise shape correctly.
     """
     body = asm_string_body(quoted)
+    lines = asm_instruction_lines(body)
+    if is_forced_symbol_halfword_store(lines):
+        return True
     saw_instruction = False
-    for raw in body.splitlines():
-        line = raw.split("#", 1)[0].strip()
-        if not line or line.startswith(".set"):
-            continue
+    for line in lines:
         if line.startswith(".word"):
             parts = line.replace(",", " ").split()
             if len(parts) == 2 and re.match(r"0x4[ABab][0-9A-Fa-f]{6}$", parts[1]):
