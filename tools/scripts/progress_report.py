@@ -116,6 +116,25 @@ def is_forced_indexed_symbol_word_load(lines: list[str]) -> bool:
     )
 
 
+def is_forced_early_decrement_pair(lines: list[str]) -> bool:
+    """Match paired -1 temporaries whose lifetime placement affects stores."""
+    return lines == [
+        "addiu %0,%2,-1",
+        "addiu %1,%3,-1",
+    ]
+
+
+def is_forced_inventory_category_store(lines: list[str]) -> bool:
+    """Match Wayne inventory's indexed category halfword update."""
+    return lines == [
+        "lhu $3, 2($4)",
+        "sll $2, $5, 5",
+        "lui $1, %%hi(g_InvCategoryItemTable)",
+        "addu $1, $1, $2",
+        "sh $3, %%lo(g_InvCategoryItemTable)($1)",
+    ]
+
+
 def is_forced_register_copy(line: str) -> bool:
     return line == "addu %0,%1,$0"
 
@@ -148,6 +167,8 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_mask_accumulate(lines)
         or is_forced_interrupt_mask_clear(lines)
         or is_forced_indexed_symbol_word_load(lines)
+        or is_forced_early_decrement_pair(lines)
+        or is_forced_inventory_category_store(lines)
     ):
         return True
     saw_instruction = False
