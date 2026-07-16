@@ -94,6 +94,28 @@ def is_forced_mask_accumulate(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_interrupt_mask_clear(lines: list[str]) -> bool:
+    """Match StopRCnt's indexed IRQ mask clear that C emits through $at."""
+    return lines == [
+        "lui\t$2,%%hi(D_8009B7D4)",
+        "addu\t$2,$2,$4",
+        "lw\t$2,%%lo(D_8009B7D4)($2)",
+        "lw\t$3,4($5)",
+        "nor\t$2,$zero,$2",
+        "and\t$3,$3,$2",
+    ]
+
+
+def is_forced_indexed_symbol_word_load(lines: list[str]) -> bool:
+    """Match a tiny indexed symbol load where GCC insists on using $at."""
+    return (
+        len(lines) == 3
+        and re.match(r"lui\s+%0,%%hi\([A-Za-z_]\w*\)$", lines[0]) is not None
+        and lines[1] == "addu %0,%0,%1"
+        and re.match(r"lw\s+%0,%%lo\([A-Za-z_]\w*\)\(%0\)$", lines[2]) is not None
+    )
+
+
 def is_forced_register_copy(line: str) -> bool:
     return line == "addu %0,%1,$0"
 
@@ -103,6 +125,12 @@ def is_forced_stack_arg_access(line: str) -> bool:
         re.match(r"lw\s+%0,0x(?:10|14|18|1C)\(\$sp\)$", line) is not None
         or re.match(r"sw\s+%0,0\(%1\)$", line) is not None
     )
+
+
+FORCED_SIN_TABLE_MACRO_RE = re.compile(
+    r"(?ms)^#define\s+LOAD_SIN_TABLE_(?:409C|509C|589C)\(offset\)\s+\\\n"
+    r".*?^\s*\}\)\s*$"
+)
 
 
 def is_allowed_inline_asm(quoted: str) -> bool:
@@ -115,7 +143,12 @@ def is_allowed_inline_asm(quoted: str) -> bool:
     """
     body = asm_string_body(quoted)
     lines = asm_instruction_lines(body)
-    if is_forced_symbol_halfword_store(lines) or is_forced_mask_accumulate(lines):
+    if (
+        is_forced_symbol_halfword_store(lines)
+        or is_forced_mask_accumulate(lines)
+        or is_forced_interrupt_mask_clear(lines)
+        or is_forced_indexed_symbol_word_load(lines)
+    ):
         return True
     saw_instruction = False
     for line in lines:
@@ -136,6 +169,8 @@ def is_allowed_inline_asm(quoted: str) -> bool:
 
 
 def strip_nonblocking_asm(text: str) -> str:
+    text = FORCED_SIN_TABLE_MACRO_RE.sub("", text)
+
     # Symbol/register asm labels such as extern x __asm__("D_...") and
     # register locals pinned with asm("$5") are declarations, not asm bodies.
     decl_label = r"(?m)(^.*\S\s+)\b(?:__asm__|asm)\s*\(\s*\"(?:[^\"\\]|\\.)*\"\s*\)"
