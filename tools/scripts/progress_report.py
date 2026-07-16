@@ -106,6 +106,29 @@ def is_forced_interrupt_mask_clear(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_sys_intr_state_access(lines: list[str]) -> bool:
+    """Match tiny interrupt state accesses encoded to preserve exact base regs."""
+    return lines in (
+        [".word 0x96030032"],
+        [".word 0x8E020034"],
+        [".word 0xA6030032"],
+        [".word 0xAE030034"],
+        [
+            ".word 0xA4400000",
+            ".word 0x94420000",
+            "nop",
+            ".word 0xA4820000",
+        ],
+    )
+
+
+def is_forced_sys_status_reg_load(lines: list[str]) -> bool:
+    return lines == [
+        "lui $4, %%hi(D_80095678)",
+        "lw $4, %%lo(D_80095678)($4)",
+    ]
+
+
 def is_forced_indexed_symbol_word_load(lines: list[str]) -> bool:
     """Match a tiny indexed symbol load where GCC insists on using $at."""
     return (
@@ -300,6 +323,18 @@ def is_forced_inventory_category_store(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_field_move_lock_clear(lines: list[str]) -> bool:
+    """Match Gpu_InitPipeline's final g_FieldMoveLock &= ~0xC update."""
+    return lines == [
+        "lui $2, %%hi(g_FieldMoveLock)",
+        "lw $2, %%lo(g_FieldMoveLock)($2)",
+        "addiu $3, $0, -13",
+        "and $2, $2, $3",
+        "lui $1, %%hi(g_FieldMoveLock)",
+        "sw $2, %%lo(g_FieldMoveLock)($1)",
+    ]
+
+
 def is_forced_active_draw_slot_prim_count(lines: list[str]) -> bool:
     """Match the tint loop's paired global slot load and entry primitive count."""
     return lines == [
@@ -416,6 +451,8 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         is_forced_symbol_halfword_store(lines)
         or is_forced_mask_accumulate(lines)
         or is_forced_interrupt_mask_clear(lines)
+        or is_forced_sys_intr_state_access(lines)
+        or is_forced_sys_status_reg_load(lines)
         or is_forced_indexed_symbol_word_load(lines)
         or is_forced_indexed_symbol_byte_load(lines)
         or is_forced_shifted_indexed_symbol_word_load(lines)
@@ -430,6 +467,7 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_game_state_flags_set4(lines)
         or is_forced_early_decrement_pair(lines)
         or is_forced_inventory_category_store(lines)
+        or is_forced_field_move_lock_clear(lines)
         or is_forced_active_draw_slot_prim_count(lines)
         or is_forced_glyph_metric_add(lines)
     ):
