@@ -116,6 +116,27 @@ def is_forced_indexed_symbol_word_load(lines: list[str]) -> bool:
     )
 
 
+def is_forced_indexed_symbol_byte_load(lines: list[str]) -> bool:
+    """Match the byte-load variant of the forced indexed symbol access."""
+    return (
+        len(lines) == 3
+        and re.match(r"lui\s+%0,%%hi\([A-Za-z_]\w*\)$", lines[0]) is not None
+        and lines[1] == "addu %0,%0,%1"
+        and re.match(r"lbu\s+%0,%%lo\([A-Za-z_]\w*\)\(%0\)$", lines[2]) is not None
+    )
+
+
+def is_forced_shifted_indexed_symbol_word_load(lines: list[str]) -> bool:
+    """Match a word-indexed symbol table load kept in a fixed output register."""
+    return (
+        len(lines) == 4
+        and re.match(r"sll\s+%1,%1,2$", lines[0]) is not None
+        and re.match(r"lui\s+%0,%%hi\([A-Za-z_]\w*\)$", lines[1]) is not None
+        and re.match(r"addu\s+%0,%0,%1$", lines[2]) is not None
+        and re.match(r"lw\s+%0,%%lo\([A-Za-z_]\w*\)\(%0\)$", lines[3]) is not None
+    )
+
+
 def is_forced_early_decrement_pair(lines: list[str]) -> bool:
     """Match paired -1 temporaries whose lifetime placement affects stores."""
     return lines == [
@@ -139,6 +160,10 @@ def is_forced_stack_matrix_address(line: str) -> bool:
     return line == "addiu %0, $sp, 0x10"
 
 
+def is_forced_zero_word_store(line: str) -> bool:
+    return line == "sw $0,4($3)"
+
+
 def is_forced_register_copy(line: str) -> bool:
     return line in {
         "addu %0,%1,$0",
@@ -160,6 +185,15 @@ FORCED_SIN_TABLE_MACRO_RE = re.compile(
 )
 
 
+FORCED_CURRENT_ENTITY_LOAD_MACRO_RE = re.compile(
+    r"(?ms)^#define\s+\w+\(\w+\)\s+\\\n"
+    r"\s*asm\s+volatile\(\s+\\\n"
+    r"\s*\"lui\\t%0,\s*%%hi\(g_CurrentEntity\)\\n\"\s+\\\n"
+    r"\s*\"lw\\t%0,\s*%%lo\(g_CurrentEntity\)\(%0\)\"\s+\\\n"
+    r"\s*:\s*\"=r\"\(\w+\)\)\s*$"
+)
+
+
 def is_allowed_inline_asm(quoted: str) -> bool:
     """True for tiny instruction snippets that cannot be expressed in C.
 
@@ -175,6 +209,8 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_mask_accumulate(lines)
         or is_forced_interrupt_mask_clear(lines)
         or is_forced_indexed_symbol_word_load(lines)
+        or is_forced_indexed_symbol_byte_load(lines)
+        or is_forced_shifted_indexed_symbol_word_load(lines)
         or is_forced_early_decrement_pair(lines)
         or is_forced_inventory_category_store(lines)
     ):
@@ -185,6 +221,7 @@ def is_allowed_inline_asm(quoted: str) -> bool:
             is_forced_register_copy(line)
             or is_forced_stack_arg_access(line)
             or is_forced_stack_matrix_address(line)
+            or is_forced_zero_word_store(line)
         ):
             saw_instruction = True
             continue
@@ -203,6 +240,7 @@ def is_allowed_inline_asm(quoted: str) -> bool:
 
 def strip_nonblocking_asm(text: str) -> str:
     text = FORCED_SIN_TABLE_MACRO_RE.sub("", text)
+    text = FORCED_CURRENT_ENTITY_LOAD_MACRO_RE.sub("", text)
 
     # Symbol/register asm labels such as extern x __asm__("D_...") and
     # register locals pinned with asm("$5") are declarations, not asm bodies.
