@@ -1773,7 +1773,7 @@ segments:
       - [0xB774C, c, engine/func_800C6F4C]
       - [0xB77A0, asm, engine/func_800C6FA0]
       - [0xB7898, c, engine/func_800C7098]
-      - [0xB78EC, asm, engine/func_800C70EC]
+      - [0xB78EC, c, engine/func_800C70EC]
       - [0xB79E4, asm, engine/engine_800C71E4]
       - [0xB8500, c, engine/func_800C7D00]
       - [0xB852C, c, engine/func_800C7D2C]
