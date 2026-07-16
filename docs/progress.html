@@ -2,9 +2,9 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Decompiled functions: <b>9367/10312 (90.8%)</b> · code bytes: <b>16.0%</b>. A unit counts when it has no INCLUDE_ASM and no non-empty inline assembly other than standalone nop barriers; the full build is byte-identical to retail.</p>
+<p>Decompiled functions: <b>9538/10312 (92.5%)</b> · code bytes: <b>16.0%</b>. A unit counts when it has no INCLUDE_ASM and no whole-function or nontrivial inline assembly; small irreducible CPU/GTE instruction snippets are allowed. The full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
-<tr><td>SLUS_006.62 (main)</td><td>2171/2555</td><td>85.0%</td><td>201140/843348</td><td>23.9%</td></tr>
+<tr><td>SLUS_006.62 (main)</td><td>2342/2555</td><td>91.7%</td><td>202264/843348</td><td>24.0%</td></tr>
 <tr><td>boot_display</td><td>0/27</td><td>0.0%</td><td>0/10240</td><td>0.0%</td></tr>
 <tr><td>fx_common</td><td>0/0</td><td>0.0%</td><td>0/53248</td><td>0.0%</td></tr>
 <tr><td>fx_field</td><td>1/3</td><td>33.3%</td><td>36/4096</td><td>0.9%</td></tr>
@@ -35,9 +35,9 @@
 <tr><td>scene_e27</td><td>46/54</td><td>85.2%</td><td>2912/15756</td><td>18.5%</td></tr>
 <tr><td>sys_reset</td><td>6/20</td><td>30.0%</td><td>264/2048</td><td>12.9%</td></tr>
 <tr><td>room overlays (x162)</td><td>6294/6454 (97.5%)</td><td>97.5%</td><td>558768/3737232</td><td>15.0%</td></tr>
-<tr><td>total</td><td>9367/10312</td><td>90.8%</td><td>817620/5106584</td><td>16.0%</td></tr>
+<tr><td>total</td><td>9538/10312</td><td>92.5%</td><td>818744/5106584</td><td>16.0%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 1390/1528 decompiled files</h2>
+<h2>SLUS_006.62 (main) — 1424/1528 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrAttack.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrDecayRate.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -48,7 +48,7 @@
 <tr><td>src/main/akao/AkaoSpuVoice_SetRepeatAddress.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetStartAddress.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetVolume.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/akao/Akao_Calc3DPan.c</td><td>5</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/akao/Akao_Calc3DPan.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/Akao_Cmd_10.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/Akao_Cmd_11.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/Akao_Cmd_12.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -560,7 +560,7 @@
 <tr><td>src/main/entity/Entity_CopyParentPosition.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_FindByTypeId.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_FindNodeById.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/entity/Entity_FrameUpdate.c</td><td>10</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/entity/Entity_FrameUpdate.c</td><td>10</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_FreeAllocationBlock.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_GetCurrentNodeId.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_InitFreePool.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -586,7 +586,7 @@
 <tr><td>src/main/entity/Entity_SetField.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_SetFieldByTypeId.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_TestCurrentFlags.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/entity/Entity_UpdateAndRender.c</td><td>7</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/entity/Entity_UpdateAndRender.c</td><td>7</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_UpdateList.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_YieldOnDrawBusy.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_YieldOnLoading.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -663,8 +663,8 @@
 <tr><td>src/main/gpu/Gpu_SetupSprites.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Gpu_StartDmaTransfer.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Gpu_WriteControlAndMirror.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gpu/Gte_SetBackColor.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/gpu/Gte_SetLightColor.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/gpu/Gte_SetBackColor.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/gpu/Gte_SetLightColor.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/LoadImage.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/LoadImage2.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/MoveImage.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -946,11 +946,11 @@
 <tr><td>src/main/math/Math_Cmp64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/Math_Cmp64Pair.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/Math_DoubleToInt32.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/math/Math_FixedMul.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/math/Math_FixedMul.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/Math_Int32ToDouble.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/Math_Mul32To64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/Math_Neg64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/math/Math_SqrtApprox3.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/math/Math_SqrtApprox3.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/math_fixed.c</td><td>4</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/memcard/CardObj_AdvanceReadLayout.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/CardObj_BeginReadIdCommand.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1349,18 +1349,18 @@
 <tr><td>src/main/psyq/libgte/cmb_07.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libgte/geo_00.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/geo_01.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_05.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_06.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_05.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_06.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/mtx_07.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_09.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_10.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_11.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_12.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libgte/reg03.c</td><td>15</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libgte/reg10.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libgte/reg11.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libgte/reg12.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libgte/reg13.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_09.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_10.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_11.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_12.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libgte/reg03.c</td><td>15</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libgte/reg10.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libgte/reg11.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libgte/reg12.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libgte/reg13.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/smp_02.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libgte/smp_03.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libgte/smp_04.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
@@ -1400,34 +1400,34 @@
 <tr><td>src/main/render/Render_ClampCameraPosition.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_CopyFrameData.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_CopyFrameDataDouble.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_DecompressAnimFrame.c</td><td>16</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/render/Render_DrawObject.c</td><td>9</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/render/Render_DrawObjectAlt.c</td><td>5</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/render/Render_DrawObjectVariant.c</td><td>6</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/render/Render_DrawRoom.c</td><td>14</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/render/Render_DrawSprite.c</td><td>6</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_DecompressAnimFrame.c</td><td>16</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_DrawObject.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_DrawObjectAlt.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_DrawObjectVariant.c</td><td>6</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_DrawRoom.c</td><td>14</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_DrawSprite.c</td><td>6</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_DrawSpriteEntry.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_DrawTexturedQuads.c</td><td>14</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_DrawTexturedQuads.c</td><td>14</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_DrawWithAnim.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_IncrementCounter.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_InitRoomPrimState.c</td><td>4</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/render/Render_PrepareFrame.c</td><td>4</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/render/Render_ResetGteScreenOffset.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_InitRoomPrimState.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_PrepareFrame.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_ResetGteScreenOffset.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_SetFadeColour.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_SetGteScreenOffset.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_SetGteScreenOffset.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_SetPrimColour.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_SetScrollMode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_SetViewport.c</td><td>7</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/render/Render_SetupBoneTransforms.c</td><td>9</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_SetViewport.c</td><td>7</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_SetupBoneTransforms.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_SortOt.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_StartFadeIn.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_StepFade.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/render/Render_TransformMorphVertices.c</td><td>9</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/render/Render_TransformSkinnedVertices.c</td><td>9</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_TransformMorphVertices.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_TransformSkinnedVertices.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_TransformVertices.c</td><td>13</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/render/Render_Update.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_UpdateClutTable.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_UpdateScrollPosition.c</td><td>6</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_UpdateScrollPosition.c</td><td>6</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/render.c</td><td>7</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/render2.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/render3.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>

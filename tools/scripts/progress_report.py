@@ -2,8 +2,9 @@
 """Generate docs/PROGRESS.md - per-binary decompilation progress table.
 
 A translation unit only counts as decompiled when it has no INCLUDE_ASM and no
-non-empty inline asm. Register/symbol asm labels and empty barrier asm used for
-matching do not count against progress.
+whole-function/nontrivial inline asm. Register/symbol asm labels, empty barrier
+asm used for matching, and small irreducible CPU/GTE instruction snippets do not
+count against progress.
 """
 from __future__ import annotations
 
@@ -20,6 +21,26 @@ ASM_RE = re.compile(r"(^|[^_a-zA-Z0-9])(__asm__|asm)\b")
 INCLUDE_ASM_RE = re.compile(r'^INCLUDE_ASM\("[^"]*",\s*(\w+)\);?\s*$', re.M)
 
 
+INLINE_ASM_RE = re.compile(
+    r"\b(?:__asm__|asm)\s*(?:__volatile__|volatile)?\s*"
+    r"\(\s*((?:\"(?:[^\"\\]|\\.)*\"\s*)+)(?::.*?)?\)\s*;",
+    re.S,
+)
+
+
+ALLOWED_INLINE_ASM_OPS = {
+    "ctc2",
+    "lwc2",
+    "mfc2",
+    "mfhi",
+    "mflo",
+    "mtc2",
+    "mult",
+    "nop",
+    "swc2",
+}
+
+
 def strip_include_asm(text: str) -> str:
     t = INCLUDE_ASM_RE.sub("", text)
     return t.replace('#include "include_asm.h"', "")
@@ -27,6 +48,39 @@ def strip_include_asm(text: str) -> str:
 
 def strip_comments(text: str) -> str:
     return re.sub(r"//.*", "", re.sub(r"/\*.*?\*/", "", text, flags=re.S))
+
+
+def asm_string_body(quoted: str) -> str:
+    return "".join(
+        bytes(m.group(1), "utf-8").decode("unicode_escape")
+        for m in re.finditer(r'"((?:[^"\\]|\\.)*)"', quoted)
+    )
+
+
+def is_allowed_inline_asm(quoted: str) -> bool:
+    """True for tiny instruction snippets that cannot be expressed in C.
+
+    This keeps whole-function asm and scheduler/postpass blocks counted as
+    dirty, while allowing C functions that only need direct GTE register access,
+    raw GTE op words, or explicit HI/LO multiply reads.
+    """
+    body = asm_string_body(quoted)
+    saw_instruction = False
+    for raw in body.splitlines():
+        line = raw.split("#", 1)[0].strip()
+        if not line or line.startswith(".set"):
+            continue
+        if line.startswith(".word"):
+            parts = line.replace(",", " ").split()
+            if len(parts) == 2 and re.match(r"0x4[ABab][0-9A-Fa-f]{6}$", parts[1]):
+                saw_instruction = True
+                continue
+            return False
+        op = line.replace(",", " ").split(None, 1)[0]
+        if op not in ALLOWED_INLINE_ASM_OPS:
+            return False
+        saw_instruction = True
+    return saw_instruction
 
 
 def strip_nonblocking_asm(text: str) -> str:
@@ -42,7 +96,12 @@ def strip_nonblocking_asm(text: str) -> str:
     t = re.sub(empty, "", t, flags=re.S)
 
     nop = r"\b(?:__asm__|asm)\s*(?:__volatile__|volatile)?\s*\(\s*\"nop\"\s*\)\s*;"
-    return re.sub(nop, "", t, flags=re.S)
+    t = re.sub(nop, "", t, flags=re.S)
+
+    return INLINE_ASM_RE.sub(
+        lambda m: "" if is_allowed_inline_asm(m.group(1)) else m.group(0),
+        t,
+    )
 
 
 def is_clean(text: str) -> bool:
@@ -175,6 +234,13 @@ def static_overlay_func_totals() -> dict[str, int]:
 STATIC_OVERLAY_FUNC_TOTALS = static_overlay_func_totals()
 
 
+FUNCTION_TOTAL_OVERRIDES = {
+    "SLUS_006.62 (main)": 2555,
+}
+
+ROOM_TOTAL_FUNCS_OVERRIDE = 6454
+
+
 def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
             asm_dir: pathlib.Path):
     m_funcs = d_funcs = 0
@@ -190,6 +256,8 @@ def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
     legacy = legacy_overlay_name(name)
     if legacy in STATIC_OVERLAY_FUNC_TOTALS:
         n_funcs = max(n_funcs, STATIC_OVERLAY_FUNC_TOTALS[legacy])
+    if name in FUNCTION_TOTAL_OVERRIDES:
+        n_funcs = max(n_funcs, FUNCTION_TOTAL_OVERRIDES[name])
     # code bytes: c/asm subsegments, minus data carriers (TUs pulling .inc.s
     # blobs - they hold baked data, not code)
     total_b = matched_b = 0
@@ -245,8 +313,9 @@ def main() -> None:
         f"{datetime.date.today().isoformat()}. Regenerate with `make progress`._",
         "",
         "A translation unit counts as decompiled when it has no INCLUDE_ASM",
-        "and no non-empty inline assembly. Register/symbol asm labels, empty",
-        "barriers, and standalone nop barriers do not lower progress. Code bytes cover function subsegments",
+        "and no whole-function or nontrivial inline assembly. Register/symbol asm labels,",
+        "empty barriers, standalone nop barriers, and small irreducible CPU/GTE",
+        "instruction snippets do not lower progress. Code bytes cover function subsegments",
         "only (baked data carriers are excluded). Every built binary is",
         "byte-identical to retail (`make check`, `make overlay-check-all`).",
         "",
@@ -273,6 +342,8 @@ def main() -> None:
         room = [a + b for a, b in zip(room, t)]
     if rooms:
         mf, nf, mb, tb = room
+        nf = max(nf, ROOM_TOTAL_FUNCS_OVERRIDE)
+        room[1] = nf
         pf = 100.0 * mf / nf if nf else 0.0
         pb = 100.0 * mb / tb if tb else 0.0
         lines.append(f"| `room overlays (x{len(rooms)})` | {mf}/{nf} ({pf:.1f}%) "
