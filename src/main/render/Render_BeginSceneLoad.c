@@ -8,6 +8,9 @@ int Render_BeginSceneLoad(void) {
     u32 old;
     u32 value;
     u32 next;
+    register u32 mask asm("$4");
+    register u32 *flags2 asm("$3");
+    register u32 value2 asm("$2");
 
     flags = &g_RenderStateFlags;
     old = *flags;
@@ -20,18 +23,13 @@ int Render_BeginSceneLoad(void) {
         next = old | 0x3000;
     }
     *flags = next;
-    __asm__ volatile(
-        "\t.set\tnoreorder\n"
-        "\t.set\tnomacro\n"
-        "lui $a0, 0xFFFF\n"
-        "lui $v1, %hi(g_RenderStateFlags)\n"
-        "addiu $v1, $v1, %lo(g_RenderStateFlags)\n"
-        "lw $v0, 0x0($v1)\n"
-        "ori $a0, $a0, 0x3FFF\n"
-        "and $v0, $v0, $a0\n"
-        "ori $v0, $v0, 0x4000\n"
-        "sw $v0, 0x0($v1)\n"
-        "\t.set\tmacro\n"
-        "\t.set\treorder\n");
+    asm volatile("" : : : "memory");
+    mask = 0xFFFF0000;
+    flags2 = &g_RenderStateFlags;
+    value2 = *flags2;
+    mask |= 0x3FFF;
+    value2 &= mask;
+    value2 |= 0x4000;
+    *flags2 = value2;
     return 0;
 }
