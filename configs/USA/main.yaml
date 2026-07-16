@@ -1939,7 +1939,7 @@ segments:
       - [0xBECF8, c, engine/func_800CE4F8]
       - [0xBED60, c, engine/func_800CE560]
       - [0xBEDAC, c, engine/func_800CE5AC]
-      - [0xBEE10, asm, engine/func_800CE610]
+      - [0xBEE10, c, engine/func_800CE610]
       - [0xBEE88, c, engine/func_800CE688]
       - [0xBEF8C, c, engine/func_800CE78C]
       - [0xBF070, c, engine/func_800CE870]
