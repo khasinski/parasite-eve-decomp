@@ -26,7 +26,7 @@ typedef struct {
 } Ovl178Position;
 
 void func_80194990(void *arg0, void *arg1, Ovl178MotionState *state) {
-    register Ovl178MotionState *state_reg __asm__("s0");
+    Ovl178MotionState *state_reg;
     Ovl178Position *position;
     int z;
 

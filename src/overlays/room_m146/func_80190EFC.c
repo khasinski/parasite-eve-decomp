@@ -46,7 +46,7 @@ void func_80190EFC(void *arg0, void *arg1, RoomM146FxParams *fx) {
     RoomM146FxVec4 scratch_scale;
     RoomM146FxVec4 scale;
     char *owner;
-    register unsigned short *depth_slot asm("$4");
+    unsigned short *depth_slot;
 
     owner = func_800C2B50();
     seed = D_8018F064;

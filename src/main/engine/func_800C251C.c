@@ -55,7 +55,7 @@ int func_800C251C(char *obj, int (**handlers)(char *obj, void *entry, void *data
                 printf(D_800C20EC);
             }
             {
-                register u8 *counter_entry asm("$3") = (u8 *)(i * 6 + (int)D_800F34F4);
+                u8 *counter_entry = (u8 *)(i * 6 + (int)D_800F34F4);
 
                 *(u16 *)(counter_entry + 2) += 1;
             }
@@ -63,7 +63,7 @@ int func_800C251C(char *obj, int (**handlers)(char *obj, void *entry, void *data
 
         {
             int status_offset = i * 6;
-            register u8 *status_base asm("$3") = D_800F34F4;
+            u8 *status_base = D_800F34F4;
 
             if ((signed char)((u8 *)(status_offset + (int)status_base))[1] == 2) {
                 result |= func_800C2DA0((u16)i);

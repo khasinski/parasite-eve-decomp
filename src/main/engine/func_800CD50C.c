@@ -16,8 +16,8 @@ extern int D_800F3490;
 extern int D_800F3494;
 
 int func_800CD50C(void *arg0, void *arg1, u8 *anim) {
-    register int *base_a1 asm("$5");
-    register u16 *field_v1 asm("$3");
+    int *base_a1;
+    u16 *field_v1;
 
     func_800C2EAC(3);
     func_800C3098(0x10);

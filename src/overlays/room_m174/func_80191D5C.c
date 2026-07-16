@@ -47,7 +47,7 @@ void func_80191D5C(void *arg0, void *arg1, Room174DrawParams *fx) {
     Room174Vec4 scratch_scale;
     Room174Vec4 scale;
     char *owner;
-    register u16 *depth_slot asm("$4");
+    u16 *depth_slot;
 
     owner = func_800C2B50();
     func_800C2EAC(owner[0x44]);

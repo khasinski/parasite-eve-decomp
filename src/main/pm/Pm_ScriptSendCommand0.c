@@ -10,12 +10,12 @@ typedef struct WrapperArgs {
 int Pm_SendCmd(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
 
 int Pm_ScriptSendCommand0(WrapperArgs *args) {
-    register int *ptr0 asm("$5");
-    register int *ptr2 asm("$3");
-    register int *ptr3 asm("$3");
+    int *ptr0;
+    int *ptr2;
+    int *ptr3;
     int *ptr4;
-    register int value4 asm("$2");
-    register int value0 asm("$5");
+    int value4;
+    int value0;
     int value2;
 
     ptr0 = args->arg0;

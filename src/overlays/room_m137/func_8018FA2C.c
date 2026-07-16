@@ -51,7 +51,7 @@ void func_8018FA2C(void *arg0, void *arg1, Room137FxParams *fx) {
     Room137Vec4 scratch_scale;
     Room137Vec4 scale;
     char *owner;
-    register u16 *depth_slot asm("$4");
+    u16 *depth_slot;
 
     owner = func_800C2B50();
     seed = D_8018F014;

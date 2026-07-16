@@ -46,7 +46,7 @@ void func_8018FBD4(void *arg0, void *arg1, RoomM392FxParams *fx) {
     RoomM392FxVec4 scratch_scale;
     RoomM392FxVec4 scale;
     char *owner;
-    register unsigned short *depth_slot asm("$4");
+    unsigned short *depth_slot;
 
     owner = func_800C2B50();
     seed = D_8018F014;

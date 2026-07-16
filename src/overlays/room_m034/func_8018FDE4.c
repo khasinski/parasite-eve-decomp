@@ -37,7 +37,7 @@ void func_800C42A4(void *arg0, Room034Matrix *matrix, s32 arg2);
 void func_8018FDE4(void *arg0, void *arg1, Room034FxParams *fx) {
     Room034Matrix matrix;
     Room034Vec4 scale;
-    register u16 *depth_slot asm("$17");
+    u16 *depth_slot;
 
     func_800C2EAC(0);
     func_800C3098(0x10);
