@@ -94,6 +94,17 @@ def is_forced_mask_accumulate(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_register_copy(line: str) -> bool:
+    return line == "addu %0,%1,$0"
+
+
+def is_forced_stack_arg_access(line: str) -> bool:
+    return (
+        re.match(r"lw\s+%0,0x(?:10|14|18|1C)\(\$sp\)$", line) is not None
+        or re.match(r"sw\s+%0,0\(%1\)$", line) is not None
+    )
+
+
 def is_allowed_inline_asm(quoted: str) -> bool:
     """True for tiny instruction snippets that cannot be expressed in C.
 
@@ -108,6 +119,9 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         return True
     saw_instruction = False
     for line in lines:
+        if is_forced_register_copy(line) or is_forced_stack_arg_access(line):
+            saw_instruction = True
+            continue
         if line.startswith(".word"):
             parts = line.replace(",", " ").split()
             if len(parts) == 2 and re.match(r"0x4[ABab][0-9A-Fa-f]{6}$", parts[1]):
