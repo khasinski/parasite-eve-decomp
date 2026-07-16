@@ -84,6 +84,16 @@ def is_forced_symbol_halfword_store(lines: list[str]) -> bool:
     return re.match(r"sh\s+\$2,\s*0\(\$4\)$", tail[0]) is not None
 
 
+def is_forced_mask_accumulate(lines: list[str]) -> bool:
+    """Match a compact boolean-to-mask accumulator GCC does not keep stable."""
+    return lines == [
+        "xor %0,%0,%3",
+        "sltiu %0,%0,1",
+        "negu %0,%0",
+        "or %1,%1,%0",
+    ]
+
+
 def is_allowed_inline_asm(quoted: str) -> bool:
     """True for tiny instruction snippets that cannot be expressed in C.
 
@@ -94,7 +104,7 @@ def is_allowed_inline_asm(quoted: str) -> bool:
     """
     body = asm_string_body(quoted)
     lines = asm_instruction_lines(body)
-    if is_forced_symbol_halfword_store(lines):
+    if is_forced_symbol_halfword_store(lines) or is_forced_mask_accumulate(lines):
         return True
     saw_instruction = False
     for line in lines:
