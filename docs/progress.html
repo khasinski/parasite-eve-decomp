@@ -2,9 +2,9 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Decompiled functions: <b>9307/10822 (86.0%)</b> · code bytes: <b>15.8%</b>. A unit counts when it has no INCLUDE_ASM and no non-empty inline assembly other than standalone nop barriers; the full build is byte-identical to retail.</p>
+<p>Decompiled functions: <b>9310/10822 (86.0%)</b> · code bytes: <b>15.8%</b>. A unit counts when it has no INCLUDE_ASM and no non-empty inline assembly other than standalone nop barriers; the full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
-<tr><td>SLUS_006.62 (main)</td><td>2158/3243</td><td>66.5%</td><td>200008/843348</td><td>23.7%</td></tr>
+<tr><td>SLUS_006.62 (main)</td><td>2161/3243</td><td>66.6%</td><td>200236/843348</td><td>23.7%</td></tr>
 <tr><td>boot_display</td><td>0/27</td><td>0.0%</td><td>0/10240</td><td>0.0%</td></tr>
 <tr><td>fx_common</td><td>0/0</td><td>0.0%</td><td>0/53248</td><td>0.0%</td></tr>
 <tr><td>fx_field</td><td>1/3</td><td>33.3%</td><td>36/4096</td><td>0.9%</td></tr>
@@ -35,9 +35,9 @@
 <tr><td>scene_e27</td><td>43/54</td><td>79.6%</td><td>2272/15756</td><td>14.4%</td></tr>
 <tr><td>sys_reset</td><td>6/20</td><td>30.0%</td><td>264/2048</td><td>12.9%</td></tr>
 <tr><td>room overlays (x162)</td><td>6276/6276 (100.0%)</td><td>100.0%</td><td>553564/3737232</td><td>14.8%</td></tr>
-<tr><td>total</td><td>9307/10822</td><td>86.0%</td><td>804304/5106584</td><td>15.8%</td></tr>
+<tr><td>total</td><td>9310/10822</td><td>86.0%</td><td>804532/5106584</td><td>15.8%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 1381/1527 decompiled files</h2>
+<h2>SLUS_006.62 (main) — 1384/1527 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrAttack.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrDecayRate.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -269,7 +269,7 @@
 <tr><td>src/main/boot/boot.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_AbortCmd.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_BreakSyncCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_ClearDsCallbacks.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_ClearDsCallbacks.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ClearDsCallbacksShim.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_CmdEventCallback.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_DetectDiscChange.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1312,7 +1312,7 @@
 <tr><td>src/main/psyq/libc/memmove.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_flush.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_getsector2.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libcd/CD_initintr.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libcd/CD_initintr.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_initvol.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_vol.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CdComstr.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1322,7 +1322,7 @@
 <tr><td>src/main/psyq/libcd/CdReset.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CdSync.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CdSyncCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libcd/StGetBackloc.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libcd/StGetBackloc.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/StSetMask.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/StSetStream.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/data_ready_callback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>

@@ -1,4 +1,4 @@
-/* MASPSX_FLAGS: --stack-return-delay */
+/* MASPSX_FLAGS: --la-call-delay --stack-return-delay */
 
 #include "pe1/psyq_cd.h"
 
@@ -16,20 +16,6 @@ int StGetBackloc(CdlLOC *arg0) {
         return -1;
     }
 
-    {
-        register int pos asm("$2");
-
-        /* Match note: D_800A3490 low half is in the CdPosToInt_Local delay slot. */
-        asm volatile(
-            ".set\tnoreorder\n\t"
-            "lui\t$4,%%hi(D_800A3490)\n\t"
-            "jal\tCdPosToInt_Local\n\t"
-            "addiu\t$4,$4,%%lo(D_800A3490)\n\t"
-            ".set\treorder"
-            : "=r"(pos)
-            :
-            : "$4", "$31", "memory");
-        CdIntToPos_Local(pos + 1, saved_arg);
-    }
+    CdIntToPos_Local(CdPosToInt_Local(&D_800A3490) + 1, saved_arg);
     return D_800A3494;
 }
