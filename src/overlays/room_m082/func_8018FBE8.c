@@ -3,8 +3,8 @@
 extern void func_800C4E50(void *arg0);
 
 void func_8018FBE8(void *arg0, void *arg1, char *obj) {
-    register int c80 asm("v1") = 0x80;
-    register int v asm("v0") = 0x10;
+    int c80 = 0x80;
+    int v = 0x10;
 
     RW16(obj, 0x120) = v;
     v = 0xC8;
