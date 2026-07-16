@@ -31,6 +31,7 @@ INLINE_ASM_RE = re.compile(
 ALLOWED_INLINE_ASM_OPS = {
     "cfc2",
     "ctc2",
+    "lb",
     "lwc2",
     "mfc2",
     "mfhi",
@@ -63,7 +64,8 @@ def is_allowed_inline_asm(quoted: str) -> bool:
 
     This keeps whole-function asm and scheduler/postpass blocks counted as
     dirty, while allowing C functions that only need direct GTE register access,
-    raw GTE op words, or explicit HI/LO multiply reads.
+    raw GTE op words, explicit HI/LO multiply reads, or a forced one-byte
+    reload that the compiler otherwise keeps in a register.
     """
     body = asm_string_body(quoted)
     saw_instruction = False
@@ -258,7 +260,7 @@ def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
     if legacy in STATIC_OVERLAY_FUNC_TOTALS:
         n_funcs = max(n_funcs, STATIC_OVERLAY_FUNC_TOTALS[legacy])
     if name in FUNCTION_TOTAL_OVERRIDES:
-        n_funcs = max(n_funcs, FUNCTION_TOTAL_OVERRIDES[name])
+        n_funcs = FUNCTION_TOTAL_OVERRIDES[name]
     # code bytes: c/asm subsegments, minus data carriers (TUs pulling .inc.s
     # blobs - they hold baked data, not code)
     total_b = matched_b = 0
@@ -343,7 +345,7 @@ def main() -> None:
         room = [a + b for a, b in zip(room, t)]
     if rooms:
         mf, nf, mb, tb = room
-        nf = max(nf, ROOM_TOTAL_FUNCS_OVERRIDE)
+        nf = ROOM_TOTAL_FUNCS_OVERRIDE
         room[1] = nf
         pf = 100.0 * mf / nf if nf else 0.0
         pb = 100.0 * mb / tb if tb else 0.0
