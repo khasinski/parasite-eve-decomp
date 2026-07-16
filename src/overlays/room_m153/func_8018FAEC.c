@@ -2,8 +2,8 @@
 
 void func_8018FAEC(void *unused0, void *unused1, char *state) {
     char *obj = (char *)func_800C2B50();
-    register int tmp asm("$3");
-    register int cst asm("$2");
+    int tmp;
+    int cst;
 
     tmp = RW32(obj, 0x18);
     RW16(state, 0) = tmp;

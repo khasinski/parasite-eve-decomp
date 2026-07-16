@@ -1,7 +1,7 @@
 #include "../room_lib/room_lib.h"
 
 void func_8018FB44(void *arg0, char *state, char *obj) {
-    register char *p asm("a0") = obj;
+    char *p = obj;
     if ((unsigned short)(RWU16(state, 2) - 1) < 7U) {
         RWU16(obj, 0x12) += 0x10;
     }
