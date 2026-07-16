@@ -140,12 +140,16 @@ def is_forced_stack_matrix_address(line: str) -> bool:
 
 
 def is_forced_register_copy(line: str) -> bool:
-    return line == "addu %0,%1,$0"
+    return line in {
+        "addu %0,%1,$0",
+        "addu %0, %1, $zero",
+    }
 
 
 def is_forced_stack_arg_access(line: str) -> bool:
     return (
         re.match(r"lw\s+%0,0x(?:10|14|18|1C)\(\$sp\)$", line) is not None
+        or line == "lw %0, 0x40($sp)"
         or re.match(r"sw\s+%0,0\(%1\)$", line) is not None
     )
 
