@@ -2,9 +2,9 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Decompiled functions: <b>9700/10312 (94.1%)</b> · code bytes: <b>16.4%</b>. A unit counts when it has no INCLUDE_ASM and no whole-function or nontrivial inline assembly; small irreducible CPU/GTE instruction snippets are allowed. The full build is byte-identical to retail.</p>
+<p>Decompiled functions: <b>9372/10312 (90.9%)</b> · code bytes: <b>16.0%</b>. A unit counts when it has no INCLUDE_ASM and no whole-function or nontrivial inline assembly; small irreducible CPU/GTE instruction snippets are allowed. The full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
-<tr><td>SLUS_006.62 (main)</td><td>2504/2555</td><td>98.0%</td><td>222768/843348</td><td>26.4%</td></tr>
+<tr><td>SLUS_006.62 (main)</td><td>2176/2555</td><td>85.2%</td><td>202608/843348</td><td>24.0%</td></tr>
 <tr><td>boot_display</td><td>0/27</td><td>0.0%</td><td>0/10240</td><td>0.0%</td></tr>
 <tr><td>fx_common</td><td>0/0</td><td>0.0%</td><td>0/53248</td><td>0.0%</td></tr>
 <tr><td>fx_field</td><td>1/3</td><td>33.3%</td><td>36/4096</td><td>0.9%</td></tr>
@@ -35,9 +35,9 @@
 <tr><td>scene_e27</td><td>46/54</td><td>85.2%</td><td>2912/15756</td><td>18.5%</td></tr>
 <tr><td>sys_reset</td><td>6/20</td><td>30.0%</td><td>264/2048</td><td>12.9%</td></tr>
 <tr><td>room overlays (x162)</td><td>6294/6454 (97.5%)</td><td>97.5%</td><td>558768/3737232</td><td>15.0%</td></tr>
-<tr><td>total</td><td>9700/10312</td><td>94.1%</td><td>839248/5106584</td><td>16.4%</td></tr>
+<tr><td>total</td><td>9372/10312</td><td>90.9%</td><td>819088/5106584</td><td>16.0%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 1518/1528 decompiled files</h2>
+<h2>SLUS_006.62 (main) — 1395/1528 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrAttack.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrDecayRate.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -48,7 +48,7 @@
 <tr><td>src/main/akao/AkaoSpuVoice_SetRepeatAddress.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetStartAddress.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetVolume.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/akao/Akao_Calc3DPan.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/akao/Akao_Calc3DPan.c</td><td>5</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/akao/Akao_Cmd_10.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/Akao_Cmd_11.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/Akao_Cmd_12.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -100,7 +100,7 @@
 <tr><td>src/main/akao/Akao_TimerCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/Akao_UpdateVoiceEnvelopes.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/SeqOp_Noop.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/akao/SeqOp_NoteOnWithPitchSlide.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/akao/SeqOp_NoteOnWithPitchSlide.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/akao/SeqOp_NoteOnWithVoiceAlloc.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/SeqOp_PitchSlide.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/SeqOp_SetExpressionSlide.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -176,7 +176,7 @@
 <tr><td>src/main/akao/seq3.c</td><td>6</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/seq4.c</td><td>24</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/seq_op.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/akao/seq_op2.c</td><td>10</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/akao/seq_op2.c</td><td>10</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/akao/seq_op3.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/seq_op4.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/seq_op5.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
@@ -233,7 +233,7 @@
 <tr><td>src/main/battle/Battle_GetContextField.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_GetEnemyContextField.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_GetScaledMaxHP.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/battle/Battle_HaltOnPositiveX.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/battle/Battle_HaltOnPositiveX.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/battle/Battle_InitEntityColors.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_InitEquipLists.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_InitFadeVars.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -253,15 +253,15 @@
 <tr><td>src/main/battle/Math_IntSqrt.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Task_SetBattleEntryCoords.c</td><td>11</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/battle.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/battle/battle2.c</td><td>6</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/battle/battle2.c</td><td>6</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/battle/battle_calc.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/boot/Boot_BuildRenderFlagTable.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/boot/Boot_CheckModeSwitch.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/boot/Boot_FlushSceneFast.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/boot/Boot_InitMemoryLayout.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/boot/Boot_InitPhase1.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/boot/Boot_InitPhase2.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/boot/Boot_InitPhase3.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/boot/Boot_InitPhase1.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/boot/Boot_InitPhase2.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/boot/Boot_InitPhase3.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/boot/Boot_InitSubsystems.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/boot/Boot_MainLoop.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/boot/Gte_StoreTableEntry.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
@@ -271,15 +271,15 @@
 <tr><td>src/main/cdrom/CdRom_BreakSyncCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ClearDsCallbacks.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ClearDsCallbacksShim.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_CmdEventCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_CmdEventCallback.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_DetectDiscChange.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_DispatchDsReadyCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_DispatchPendingCmd.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_DispatchPendingCmd.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_EnableDsReadSystem.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_EnqueueCmd.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_GetCurrentPos.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_InitCmdState.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_InitDsCallbacks.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_InitDsCallbacks.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_InitDsReadSystem.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_InitScreenState.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_IssueSetMode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -290,11 +290,11 @@
 <tr><td>src/main/cdrom/CdRom_ReadProgressCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ReadSectors.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ReadSectorsFromLba.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_ReadyEventDispatch.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_ReadyEventDispatch.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ResetDsReadSystem.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ResetFileDescriptors.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_RestartSeek.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_RetryCmd.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_RetryCmd.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_SendCmd.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_SendQueuedCmd.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_SetMode2Callback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -308,7 +308,7 @@
 <tr><td>src/main/cdrom/cd.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/cd_rom.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/cd_rom2.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/cdrom/cd_rom3.c</td><td>14</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/cdrom/cd_rom3.c</td><td>14</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/cdrom/cd_rom4.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/cd_tail.c</td><td>8</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/func_80081254.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -329,27 +329,27 @@
 <tr><td>src/main/engine/func_800C2B50.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C2B68.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C2B90.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C2D0C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800C2D0C.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800C2DA0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C2E08.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800C2E08.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800C2EAC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C2FF0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800C2FF0.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800C3098.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C3134.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C3238.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C4E50.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C5EB0.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800C608C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C6148.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800C6148.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800C61A8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C653C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C6584.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800C6584.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800C65E4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C66C8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C6764.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C6800.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C6B20.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C6B90.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800C6B20.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/engine/func_800C6B90.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800C6C18.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C6D5C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C6ED8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -372,10 +372,10 @@
 <tr><td>src/main/engine/func_800C811C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C815C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C8268.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C8270.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800C8270.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800C8870.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C8970.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C8A88.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800C8970.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/engine/func_800C8A88.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800C8BB4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C8BC0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C8C4C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -394,7 +394,7 @@
 <tr><td>src/main/engine/func_800C90A4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C91A8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C9260.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C9268.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800C9268.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800C9868.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C9968.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C9974.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -411,7 +411,7 @@
 <tr><td>src/main/engine/func_800C9C8C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C9D9C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C9EA0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C9EA8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800C9EA8.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800CA4A8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CA4B4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CA540.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -429,10 +429,10 @@
 <tr><td>src/main/engine/func_800CAB88.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CABC8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CACD4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800CACDC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800CACDC.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800CB750.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CB8E0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800CB9F8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800CB9F8.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800CBB24.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CBB30.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CBBBC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -454,11 +454,11 @@
 <tr><td>src/main/engine/func_800CC440.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CC480.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CC55C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800CC644.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800CC6F8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800CC644.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/engine/func_800CC6F8.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800CC7AC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800CC878.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800CC92C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800CC878.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/engine/func_800CC92C.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800CC974.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CCA40.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CCA78.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -497,8 +497,8 @@
 <tr><td>src/main/engine/func_800CDA5C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CDC24.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CDD04.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800CDD0C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800CDE90.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800CDD0C.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/engine/func_800CDE90.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800CDF40.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CDF4C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CDFE0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -512,7 +512,7 @@
 <tr><td>src/main/engine/func_800CE1FC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CE2B4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CE3AC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800CE3B4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/func_800CE3B4.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/engine/func_800CE464.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CE470.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800CE49C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -560,7 +560,7 @@
 <tr><td>src/main/entity/Entity_CopyParentPosition.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_FindByTypeId.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_FindNodeById.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/entity/Entity_FrameUpdate.c</td><td>10</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/entity/Entity_FrameUpdate.c</td><td>10</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/entity/Entity_FreeAllocationBlock.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_GetCurrentNodeId.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_InitFreePool.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -586,7 +586,7 @@
 <tr><td>src/main/entity/Entity_SetField.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_SetFieldByTypeId.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_TestCurrentFlags.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/entity/Entity_UpdateAndRender.c</td><td>7</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/entity/Entity_UpdateAndRender.c</td><td>7</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/entity/Entity_UpdateList.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_YieldOnDrawBusy.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/entity/Entity_YieldOnLoading.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -601,7 +601,7 @@
 <tr><td>src/main/entity/task2.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/event/Evt_DeferredExec.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/event/Evt_Deliver.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/field/Field_GetMapEntry.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/field/Field_GetMapEntry.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/field/Field_HandleStateTransition.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/AddPrim.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/ClearImage.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -612,13 +612,13 @@
 <tr><td>src/main/gpu/DrawPrim.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/DrawSync.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/DrawSyncCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gpu/Draw_EmitGlyph.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/gpu/Draw_EmitGlyph.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/gpu/Draw_EmitWipeBar.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Draw_EmitWipeBarPoly.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Draw_EmitWipeBarRect.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Draw_GetBaseY.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gpu/Draw_InitBuffers.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gpu/Draw_MeasureTextWidth.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/gpu/Draw_InitBuffers.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/gpu/Draw_MeasureTextWidth.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/gpu/Draw_PresentFrame.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Draw_PrintCenteredText.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Draw_PrintCenteredTextInWidth.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -650,21 +650,21 @@
 <tr><td>src/main/gpu/Gpu_InitDmaQueue.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Gpu_InitDrawModeTexWindowPacket.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Gpu_InitDrawModeTilePacket.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gpu/Gpu_InitPipeline.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/gpu/Gpu_InitPipeline.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/gpu/Gpu_LoadGeomState.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Gpu_LoadTexImageAndGetTPage.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Gpu_PutDrawEnvLinked.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Gpu_QueuePrimitive.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gpu/Gpu_RenderFrame.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/gpu/Gpu_RenderFrame.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/gpu/Gpu_RestoreDmaCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gpu/Gpu_SendOtChain.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/gpu/Gpu_SendOtChain.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/gpu/Gpu_SetDither.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Gpu_SetDrawEnable.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Gpu_SetupSprites.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Gpu_StartDmaTransfer.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Gpu_WriteControlAndMirror.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gpu/Gte_SetBackColor.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gpu/Gte_SetLightColor.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/gpu/Gte_SetBackColor.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/gpu/Gte_SetLightColor.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/gpu/LoadImage.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/LoadImage2.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/MoveImage.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -702,8 +702,8 @@
 <tr><td>src/main/gpu/func_8006A64C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/func_8007485C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/func_800748C0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gpu/gpu.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gpu/gpu2.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/gpu/gpu.c</td><td>3</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/gpu/gpu2.c</td><td>2</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/gpu/gpu3.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/gpu_build.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/libgpu_sys.c</td><td>7</td><td><span class=ok>decompiled</span></td></tr>
@@ -716,7 +716,7 @@
 <tr><td>src/main/gpu/misc15.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/set.c</td><td>7</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gte/Gte_NormalizeVecS32toS16.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/gte/Gte_SetDepthParams.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/gte/Gte_SetDepthParams.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/item/Inv_BuildCompatibleWeaponBitset.c</td><td>10</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/Inv_BuildFilteredPackedList.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/Inv_BuildFilteredPackedListExcluding.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -734,9 +734,9 @@
 <tr><td>src/main/item/Inv_GetActiveListItemType.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/Inv_GetWayneListItemByIndex.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/Inv_GetWeaponCategoryAmmoBase.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/item/Inv_InitMaxLevelInventory.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/item/Inv_InitMaxLevelInventory.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/item/Inv_IsActiveListOverrideSelected.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/item/Inv_LoadWayneItemsAsOverride.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/item/Inv_LoadWayneItemsAsOverride.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/item/Inv_LookupActiveListData.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/Inv_LookupActiveListDisplayData.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/Inv_LookupData.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -832,7 +832,7 @@
 <tr><td>src/main/main/Entity_QueryField.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Entity_WriteFieldByCmd.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Geo_BuildMeshList.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Geo_ClipPoint.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/Geo_ClipPoint.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/main/Geo_ClipToFloorBoundary.c</td><td>15</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Geo_ClipToFloorBoundarySub.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Geo_PointInTri.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -877,13 +877,13 @@
 <tr><td>src/main/main/Menu_StepSaveLoadScreen.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Menu_StepSaveSelect.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Menu_StepScrollCursor.c</td><td>17</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Menu_StepSkillList.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/Menu_StepSkillList.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/main/Menu_StepSkillScreen.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Menu_StepSkillSelect.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_BuildEntityMatrix.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_CheckParticleBounds.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_DrawParticleAlt.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Render_DrawParticleGroup.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/Render_DrawParticleGroup.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/main/Render_DrawParticleSprite.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_FadeEntityColor.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_FindFontGlyphSlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -897,7 +897,7 @@
 <tr><td>src/main/main/Render_SetEntityBlendMode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_SetupEntityPrims.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Render_SetupSceneBuffers.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Render_StepFontLoad.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/Render_StepFontLoad.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/main/Render_StepParticleCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/SPU_ReadRegister.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/SPU_StartDmaRead.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -946,12 +946,12 @@
 <tr><td>src/main/math/Math_Cmp64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/Math_Cmp64Pair.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/Math_DoubleToInt32.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/math/Math_FixedMul.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/math/Math_FixedMul.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/math/Math_Int32ToDouble.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/Math_Mul32To64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/Math_Neg64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/math/Math_SqrtApprox3.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/math/math_fixed.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/math/Math_SqrtApprox3.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/math/math_fixed.c</td><td>4</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/memcard/CardObj_AdvanceReadLayout.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/CardObj_BeginReadIdCommand.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/CardObj_CalcReadPayloadSize.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -999,7 +999,7 @@
 <tr><td>src/main/memcard/MemCard_StepPortState.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/MemCard_WaitReadyForTransfer.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/MemCard_WaitStatusBit2.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/memcard/MemCard_WriteByteWithAckCheck.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/memcard/MemCard_WriteByteWithAckCheck.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/memcard/MemCard_WriteDataAndGetSize.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/card_obj.c</td><td>6</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/card_obj2.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
@@ -1020,7 +1020,7 @@
 <tr><td>src/main/memcard/mem_card7.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/mem_card8.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/mem_card9_post.c</td><td>6</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/memcard/mem_card9_pre.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/memcard/mem_card9_pre.c</td><td>3</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/memcard/misc20.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/misc21.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/tu_031908.c</td><td>20</td><td><span class=ok>decompiled</span></td></tr>
@@ -1041,7 +1041,7 @@
 <tr><td>src/main/menu/MenuWidget_GridCellIndex.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/MenuWidget_HasActiveNodes.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/MenuWidget_InitPoolUnk.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/menu/Menu_AlignEquipPanels.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/menu/Menu_AlignEquipPanels.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/menu/Menu_AmmoSpendInputHandler.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_BonusPointCancelHandler.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_CheckItemAffordable.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1139,7 +1139,7 @@
 <tr><td>src/main/menu/Menu_EquipOptionsInputHandler.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_EquipStatsInputHandler.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_ExitBonusPointAllocation.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/menu/Menu_FindSelectedEquipSlotItem.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/menu/Menu_FindSelectedEquipSlotItem.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/menu/Menu_GetActiveMode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_GetCommandResult.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_GetEquipMode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1212,7 +1212,7 @@
 <tr><td>src/main/menu/menu16.c</td><td>4</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/menu/menu17.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/menu18.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/menu/menu19.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/menu/menu19.c</td><td>3</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/menu/menu20.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/menu21.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/menu22.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
@@ -1240,7 +1240,7 @@
 <tr><td>src/main/menu/menu_get.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/menu_input.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/menu_input2.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/menu/menu_save.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/menu/menu_save.c</td><td>5</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/menu/menu_save2.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/menu_save_fade_step.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/menu_set.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1272,12 +1272,12 @@
 <tr><td>src/main/pad/RemovePatchPad.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pad/func_8007E160.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pad/misc26.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/pad/pad.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/pad/pad.c</td><td>3</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/pm/Pm_FreeSlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/Pm_RunBatch.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/Pm_RunPrimary.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/Pm_ScriptSendCommand0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/pm/pm.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/pm/pm.c</td><td>3</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/pm/pm2.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/pm_script.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/task4.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
@@ -1302,7 +1302,7 @@
 <tr><td>src/main/psyq/libapi/SetIntrMask.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libapi/SetRCnt.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libapi/StartRCnt.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libapi/StopRCnt.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libapi/StopRCnt.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libapi/VSyncCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libapi/memclrIntrDMA.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libapi/setIntrDMA.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1312,7 +1312,7 @@
 <tr><td>src/main/psyq/libapi/v_wait.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libc/memmove.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_flush.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libcd/CD_getsector2.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libcd/CD_getsector2.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_initintr.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_initvol.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_vol.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1327,7 +1327,7 @@
 <tr><td>src/main/psyq/libcd/StSetMask.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/StSetStream.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/data_ready_callback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libcd/dma_execute.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libcd/dma_execute.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libcd/func_8007C13C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/func_8007C394.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/getintr.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1337,37 +1337,37 @@
 <tr><td>src/main/psyq/libds/DsControlF.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libds/DsDataCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libds/DsGetDiskType.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libds/DsRead2.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libds/DsRead2.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libds/DsReadyCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libds/DsStartCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libds/DsSyncCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libds/GD_cbsync.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libds/GD_disk_kind.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libds/_cmp.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/cmb_00.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/cmb_06.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/cmb_07.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libgte/cmb_00.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/cmb_06.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/cmb_07.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libgte/geo_00.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/geo_01.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_05.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_06.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_07.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_09.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_10.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_11.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/mtx_12.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/reg03.c</td><td>15</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/reg10.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/reg11.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/reg12.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/reg13.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/smp_02.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/smp_03.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/smp_04.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libsn/__main.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_05.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_06.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_07.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_09.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_10.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_11.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/mtx_12.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/reg03.c</td><td>15</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/reg10.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/reg11.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/reg12.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/reg13.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/smp_02.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/smp_03.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libgte/smp_04.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libsn/__main.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libsnd/ssinit.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/SpuInit.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libspu/SpuStart.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libspu/SpuStart.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libspu/_SpuInit.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/_spu_Fr.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/s_cb.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1375,59 +1375,59 @@
 <tr><td>src/main/psyq/libspu/s_gvex.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/s_m_init.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/s_m_util.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libspu/s_q.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libspu/s_q.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libspu/s_sra.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/spu_fgetrxxa.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/spu_fsetrxx.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libspu/spu_fsetrxxa.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/libspu/spu_fsetrxxa.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libspu/spu_fw1ts.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/misc27.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/misc28.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/misc29.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/misc30.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/misc31.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/misc32.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/psyq/misc32.c</td><td>2</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/misc33.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/misc34.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/spu6.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/spu_fset.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Pm_StopAll.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Pm_StopAll.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/render/Pm_StopAllBoth.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Pm_StopLowerHalf.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Pm_StopUpperHalf.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_ApplyScreenTint.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_ApplyScreenTint.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/render/Render_BeginSceneLoad.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_ClampCameraPosition.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_CopyFrameData.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_CopyFrameDataDouble.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_DecompressAnimFrame.c</td><td>16</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_DrawObject.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_DrawObjectAlt.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_DrawObjectVariant.c</td><td>6</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_DrawRoom.c</td><td>14</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_DrawSprite.c</td><td>6</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_DecompressAnimFrame.c</td><td>16</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_DrawObject.c</td><td>9</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_DrawObjectAlt.c</td><td>5</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_DrawObjectVariant.c</td><td>6</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_DrawRoom.c</td><td>14</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_DrawSprite.c</td><td>6</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/render/Render_DrawSpriteEntry.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_DrawTexturedQuads.c</td><td>14</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_DrawTexturedQuads.c</td><td>14</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/render/Render_DrawWithAnim.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_IncrementCounter.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_InitRoomPrimState.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_PrepareFrame.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_ResetGteScreenOffset.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_InitRoomPrimState.c</td><td>4</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_PrepareFrame.c</td><td>4</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_ResetGteScreenOffset.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/render/Render_SetFadeColour.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_SetGteScreenOffset.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_SetGteScreenOffset.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/render/Render_SetPrimColour.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_SetScrollMode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_SetViewport.c</td><td>7</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_SetupBoneTransforms.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_SetViewport.c</td><td>7</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_SetupBoneTransforms.c</td><td>9</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/render/Render_SortOt.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_StartFadeIn.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_StepFade.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_TransformMorphVertices.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_TransformSkinnedVertices.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_TransformVertices.c</td><td>13</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_StepFade.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_TransformMorphVertices.c</td><td>9</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_TransformSkinnedVertices.c</td><td>9</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_TransformVertices.c</td><td>13</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/render/Render_Update.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_UpdateClutTable.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_UpdateScrollPosition.c</td><td>6</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/render/Render_UpdateScrollPosition.c</td><td>6</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/render/render.c</td><td>7</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/render2.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/render3.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
@@ -1466,10 +1466,10 @@
 <tr><td>src/main/sys/Sys_ComputeAudioTimer.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/sys/Sys_InitIntrManager.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/sys/Sys_InitStateBuffer.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/sys/Sys_RestoreIntr.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/sys/Sys_SaveDisableIntr.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/sys/Sys_RestoreIntr.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/sys/Sys_SaveDisableIntr.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/sys/Sys_SetFlagSlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/sys/Sys_SetInterruptHandler.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/sys/Sys_SetInterruptHandler.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/sys/Sys_Shutdown.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/sys/misc37.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/table/Str_LookupTableEntry.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1480,7 +1480,7 @@
 <tr><td>src/main/table/str_lookup.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_AllocNode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_AssignValue.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/task/Task_BeginSceneTransition.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/task/Task_BeginSceneTransition.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/task/Task_ClearEntityParentLink.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_ClearEntityRoamFlag.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_ClearSfxTable.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1495,20 +1495,20 @@
 <tr><td>src/main/task/Task_EncodeBarcode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_EvalExpr.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_GarbageCollectNodes.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/task/Task_GetAngleToEntity.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/task/Task_GetAngleToEntity.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/task/Task_GetEntityVec3.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_GetMenuFlag.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_GetNodeTarget14.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_GetPlayerInputFlag.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_GetSin.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/task/Task_GpuFlushPrimQueue.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/task/Task_GpuFlushPrimQueue.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/task/Task_GpuPackPrimColor.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_InitGpuHwRegs.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_InitNodeFreeList.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_InitNodePool.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_JumpIfZero.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_JumpToEntityOffset.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/task/Task_OpenSaveLoadMenu.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/task/Task_OpenSaveLoadMenu.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/task/Task_PlayEntityAnim.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_PlayFieldSfx.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_QueueFieldSfx.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1527,12 +1527,12 @@
 <tr><td>src/main/task/Task_SetEntityParentLink.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_SetEntityVec3.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_SetFloorByEntityRoll.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/task/Task_SetGteMatrix.c</td><td>8</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/task/Task_SetGteMatrix.c</td><td>8</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/task/Task_SetInventorySlotPointer.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_SetNodeFlag80.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_SignalExit.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_SnapPosToSpawnPos.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/task/Task_SpawnChildNode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/task/Task_SpawnChildNode.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/task/Task_SpawnEntityAt.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_StopEntityAnim.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/task/Task_TurnTowardPointStep.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1566,7 +1566,7 @@
 <tr><td>src/main/util/game_time2.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/util/mem2mem.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/util/seq5.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/util/util.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/util/util.c</td><td>4</td><td><span class=no>carries asm body</span></td></tr>
 </table>
 <h2>fx_field — 1/1 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>

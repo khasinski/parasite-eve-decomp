@@ -2,9 +2,8 @@
 """Generate docs/PROGRESS.md - per-binary decompilation progress table.
 
 A translation unit only counts as decompiled when it has no INCLUDE_ASM and no
-whole-function/nontrivial inline asm. Register/symbol asm labels, empty barrier
-asm used for matching, and small irreducible CPU/GTE instruction snippets do not
-count against progress.
+inline asm instruction snippets. Register/symbol asm labels and empty barrier
+asm used for matching do not count against progress.
 """
 from __future__ import annotations
 
@@ -1122,111 +1121,10 @@ FORCED_RENDER_SCRATCH_BASE_LOAD_MACRO_RE = re.compile(
 
 
 def is_allowed_inline_asm(quoted: str) -> bool:
-    """True for tiny instruction snippets that cannot be expressed in C.
-
-    This keeps whole-function asm and scheduler/postpass blocks counted as
-    dirty, while allowing C functions that only need direct GTE register access,
-    raw GTE op words, explicit HI/LO multiply reads, or forced one-byte
-    loads/stores that the compiler cannot otherwise shape correctly.
-    """
+    """True only for asm bodies that contain no actual instructions."""
     body = asm_string_body(quoted)
     lines = asm_instruction_lines(body)
-    if (
-        is_forced_symbol_halfword_store(lines)
-        or is_forced_mask_accumulate(lines)
-        or is_forced_interrupt_mask_clear(lines)
-        or is_forced_sys_intr_state_access(lines)
-        or is_forced_sys_status_reg_load(lines)
-        or is_forced_indexed_symbol_word_load(lines)
-        or is_forced_indexed_symbol_byte_load(lines)
-        or is_forced_shifted_indexed_symbol_word_load(lines)
-        or is_forced_symbol_word_load(lines)
-        or is_forced_shift_mask(lines)
-        or is_forced_cdrom_init_cmd_delay(lines)
-        or is_forced_pad_callback_store(lines)
-        or is_forced_spu_start_block(lines)
-        or is_forced_spu_quit_block(lines)
-        or is_forced_gte_queue_actor_block(lines)
-        or is_forced_static_ctor_block(lines)
-        or is_forced_game_state_flags_set4(lines)
-        or is_forced_scene_transition_finish(lines)
-        or is_forced_early_decrement_pair(lines)
-        or is_forced_inventory_category_store(lines)
-        or is_forced_field_move_lock_clear(lines)
-        or is_forced_draw_init_buffer_dims(lines)
-        or is_forced_distance_square_stack_seed(lines)
-        or is_forced_inventory_mod3(lines)
-        or is_forced_active_draw_slot_prim_count(lines)
-        or is_forced_glyph_metric_add(lines)
-        or is_forced_task_angle_delta(lines)
-        or is_forced_spu_mem_mode_div(lines)
-        or is_forced_spu_mem_mode_shift(lines)
-        or is_forced_gte_depth_div(lines)
-        or is_forced_memcard_write_ack_result(lines)
-        or is_forced_gpu_ot_dma_start(lines)
-        or is_forced_cdrom_ready_callback(lines)
-        or is_forced_cdrom_pending_cmd_issue(lines)
-        or is_forced_dsread2_no_loc_flag(lines)
-        or is_forced_dsread2_data_callback(lines)
-        or is_forced_font_load_mod10(lines)
-        or is_forced_max_level_inventory_init(lines)
-        or is_forced_small_index_is_one_or_two(lines)
-        or is_forced_engine_vec_call_stack(lines)
-        or is_forced_menu_selected_equip_reload(lines)
-        or is_forced_engine_radius_stack_setup(lines)
-        or is_forced_engine_radius_square_seed(lines)
-        or is_forced_akao_voice_scan(lines)
-        or is_forced_menu_align_equip_panels(lines)
-        or is_forced_cd_getsector2_ready_wait(lines)
-        or is_forced_cd_getsector2_dma_wait(lines)
-        or is_forced_spu_fidma_wait(lines)
-        or is_forced_pm_send_cmd_dispatch(lines)
-        or is_forced_engine_slot_setup(lines)
-        or is_forced_engine_slot_offset_clamp(lines)
-        or is_forced_memcard_timer_tick(lines)
-        or is_forced_menu_step_item_grid_node(lines)
-        or is_forced_menu_step_item_grid_memcard(lines)
-        or is_forced_menu_text_buffer_base(lines)
-        or is_forced_cdrom_cmd_event_ready(lines)
-        or is_forced_render_fade_step_div(lines)
-        or is_forced_render_fade_active_prim(lines)
-        or is_forced_render_fade_finish(lines)
-        or is_forced_pad_init_delay(lines)
-        or is_forced_pad_status_check(lines)
-    ):
-        return True
-    saw_instruction = False
-    for line in lines:
-        if (
-            is_forced_register_copy(line)
-            or is_forced_stack_arg_access(line)
-            or is_forced_stack_matrix_address(line)
-            or is_forced_zero_word_store(line)
-            or is_forced_gp_rel_store(line)
-            or is_forced_add(line)
-            or is_forced_shift(line)
-            or is_forced_pitch_lfo_depth_access(line)
-            or is_forced_color_channel_shift(line)
-            or is_forced_byte_mask(line)
-            or is_forced_stack_adjust(line)
-            or is_forced_field_map_entry_stack(line)
-            or is_forced_gpu_queue_instruction(line)
-            or is_forced_distance_square_stack_line(line)
-            or is_forced_rotaverage_nclip4_control(line)
-        ):
-            saw_instruction = True
-            continue
-        if line.startswith(".word"):
-            parts = line.replace(",", " ").split()
-            if len(parts) == 2 and re.match(r"0x4[ABab][0-9A-Fa-f]{6}$", parts[1]):
-                saw_instruction = True
-                continue
-            return False
-        op = line.replace(",", " ").split(None, 1)[0]
-        if op not in ALLOWED_INLINE_ASM_OPS:
-            return False
-        saw_instruction = True
-    return saw_instruction
+    return not lines
 
 
 def strip_nonblocking_asm(text: str) -> str:
