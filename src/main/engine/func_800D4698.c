@@ -2,7 +2,7 @@ extern void *D_800F32D0;
 extern void *D_800E2368;
 
 int func_800D4698(char *obj, int skip, int arg2, int arg3, int arg4, int arg5) {
-    register void *ctx asm("$3");
+    void *ctx;
     int (*callback)(int, int, int, int);
 
     ctx = obj + 0xC;

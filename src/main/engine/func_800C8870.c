@@ -20,7 +20,7 @@ int func_800C8870(void *arg0, void *arg1, u8 *anim) {
     int scale;
     u16 field;
     int localScale[4];
-    register u16 *field_s3 asm("$19") = &D_800E2322;
+    u16 *field_s3 = &D_800E2322;
 
     func_800C2EAC(3);
     func_800C3098(0x10);

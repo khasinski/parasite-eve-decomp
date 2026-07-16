@@ -19,7 +19,7 @@ extern u8 D_800E2328;
 extern u16 D_800E2332;
 
 int func_800C9868(void *arg0, void *arg1, u8 *anim) {
-    register u16 *field_s3 asm("$19") = &D_800E2332;
+    u16 *field_s3 = &D_800E2332;
     Matrix matrix;
     int scale;
     u16 field;

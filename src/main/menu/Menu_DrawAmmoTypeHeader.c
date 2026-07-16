@@ -34,7 +34,7 @@ void Draw_AllocSprite(int sprite);
 int Inv_GetAyaSlotLimit(void);
 
 void Menu_DrawAmmoTypeHeader(MenuWidgetNode *node) {
-    register MenuWidgetNode *list asm("$16");
+    MenuWidgetNode *list;
     MenuWidgetDescriptor *desc;
     int page_delta;
     int target_y;

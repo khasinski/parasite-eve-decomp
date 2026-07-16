@@ -10,7 +10,7 @@ extern CdlLOC D_800A3490;
 extern int D_800A3494;
 
 int StGetBackloc(CdlLOC *arg0) {
-    register CdlLOC *saved_arg asm("$16") = arg0;
+    CdlLOC *saved_arg = arg0;
 
     if (D_800A8020 != 0) {
         return -1;

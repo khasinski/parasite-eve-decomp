@@ -5,11 +5,9 @@ blocking plain-C, byte-matching decompilation of the menu system.
 
 Scope: main executable menu-related functions, especially the remaining
 `asm, menu/...` entries in `configs/USA/main.yaml`. This document intentionally
-does not propose whole-function asm, postpass, or build-hack solutions. Small
-local asm/register-allocation levers are acceptable only after source-shape
-attempts make it clear that the same byte match is not reasonably reachable in
-C. They must keep the function mostly decompiled C and be documented at the
-exact point where they are needed.
+does not propose whole-function asm, inline asm, register-asm, postpass, or
+build-hack solutions. Old sources may still contain historical asm/register
+levers, but new promoted decompilations must match as plain C.
 
 ## Current Snapshot
 
@@ -34,7 +32,7 @@ Remaining `asm, menu/...` functions at the time of this note:
 | `Menu_DrawAmmoTypeHeader` | `0x134` | widget field layout and draw-tail positioning |
 | `Menu_InventoryPageInputHandler` | `0x128` | exact size achieved, wrong callee-save allocation |
 | `Menu_FindSelectedEquipSlotItem` | `0xD8` | stack/reload ordering trap |
-| `Menu_DrawSelectableEquipSlotRow` | `0x74` | only matched with a local register-asm lever so far |
+| `Menu_DrawSelectableEquipSlotRow` | `0x74` | previous register-asm match is not acceptable under the current plain-C rule |
 
 Recently solved cleanly:
 
@@ -63,8 +61,8 @@ Observed cases:
   target keeps cursor/text-copy flow in `a0/a1/s0`.
 - `Menu_DrawSelectableEquipSlotRow`: previous attempts only matched when locals
   were pinned with `register ... asm("$16")` / `asm("$17")`. Under the current
-  policy this can be acceptable, but only after recording the closest pure-C
-  attempt and keeping the function body as normal C.
+  policy that is a useful diagnostic result, but not an acceptable promoted
+  decompilation.
 
 Why this is hard:
 
@@ -85,12 +83,12 @@ What helps:
   `InventoryPageInputHandler`: `s4=root`, `s2=flags`, `s0=child`,
   `s1=page node`, `s3=handled`.
 
-What should be used only as a proven last local lever:
+What is useful only for diagnosis:
 
-- Explicit register asm for one or two locals when source-shape attempts have
-  shown the target register roles are otherwise unreachable.
-- Empty inline asm or operand barriers as a narrowly documented lifetime or
-  scheduler fence.
+- Explicit register asm can prove that a mismatch is allocator-driven, but the
+  accepted source still needs a plain-C structure that reaches the same target.
+- Empty inline asm or operand barriers can identify a lifetime/scheduler issue,
+  but they are not acceptable in promoted code.
 
 What remains out of scope:
 
@@ -362,8 +360,9 @@ What helps:
 
 - Treat old M2C files as evidence, not as style to copy.
 - Gradually replace shared raw-offset knowledge with headers.
-- Keep any new asm/register lever local, minimal, and commented with the target
-  instruction/register role it preserves.
+- Do not copy old asm/register levers into new work. If one is used during
+  diagnosis, keep it out of the promoted patch and record the target role it
+  exposed.
 
 Severity: medium. It slows understanding more than it blocks isolated matches.
 
@@ -416,12 +415,11 @@ The handbook is now split into focused shards under
 than the original monolithic note because each blocker class has a specific
 recipe file and evidence examples.
 
-The policy in `11_parasite_eve_menu.md` matches the updated menu goal: small
-`register ... asm`, empty asm barriers, and inline asm helpers can be used when
-they are proven local levers inside otherwise decompiled C. Whole functions
-should not remain asm just because a small allocation or scheduling nudge is
-needed, but the burden is still on the attempt to show why ordinary C did not
-get there.
+The older policy in `11_parasite_eve_menu.md` allowed small `register ... asm`,
+empty asm barriers, and inline asm helpers as local levers. That is now obsolete
+for this project. Those tricks can still be useful as diagnostics to identify a
+register-allocation, scheduler, or copy-shape blocker, but promoted
+decompilations must match as plain C.
 
 ### Which guide shard to open first
 
@@ -437,8 +435,9 @@ get there.
 | rewrite is behavior-correct but not byte-matched | `20_behavioral_rewrite_vs_byte_match.md` |
 
 This gives a better workflow: classify the first mismatch, open the matching
-shard, then try only the relevant family of C/source-shape changes before
-escalating to a local asm lever.
+shard, then try only the relevant family of C/source-shape changes. If a
+diagnostic asm/register experiment explains the mismatch, translate that
+learning back into source structure before promoting anything.
 
 ### Techniques worth importing first
 
@@ -455,8 +454,8 @@ escalating to a local asm lever.
   condition calculation in a delay slot, try making that calculated value common
   to both outgoing paths.
 - Treat `__asm__("symbol")`, `M2C_FIELD`, and old asm barriers in existing code
-  as evidence of symbol identity or field width before deciding whether a new
-  local lever is justified.
+  as evidence of symbol identity, field width, or allocator pressure, not as a
+  style to reproduce in new accepted code.
 - For globals, decide scalar versus array versus struct block from target
   addressing first. If target uses absolute block addressing, prefer incomplete
   arrays or a block struct over small-data scalar externs.
@@ -474,23 +473,19 @@ escalating to a local asm lever.
   field access, aligned bulk copy, or unaligned raw copy before naming fields.
   Field-by-field C is often the wrong first model for menu item records.
 
-### Acceptable local levers after failed source-shape attempts
+### Diagnostic-only asm/register experiments
 
-- Local register binding such as `register T x asm("$s0")`, limited to the
-  variable whose target register role is known.
-- Empty asm barriers such as `asm("")`, or preferably operand barriers such as
-  `asm("" : "+r"(x))`, when the mismatch is a specific lifetime/delay-slot
-  problem.
-- Inline asm helpers for `lwl/lwr/swl/swr` unaligned copies, if portable C
-  cannot emit the required unaligned instruction sequence and the helper is a
-  small copy primitive rather than the function body.
+- Local register binding such as `register T x asm("$s0")` can prove that a
+  specific variable-to-register role is the blocker.
+- Empty asm barriers can prove that a mismatch is a lifetime or delay-slot
+  scheduling problem.
+- Inline asm helpers for `lwl/lwr/swl/swr` can prove that an unaligned-copy
+  primitive is the blocker.
 
-These need a short `Match note:` comment that names the target effect, for
-example "keep flags in s2 across widget callback" or "emit 0x20-byte unaligned
-record copy". The scratch notes should also record the closest pure-C attempt:
-size, first mismatch, and why the remaining mismatch is not just an untried
-control-flow/type/source-order variant. If the function becomes mostly asm, the
-attempt failed the goal.
+These experiments should stay in scratch work. The accepted patch must remove
+them and express the same shape in plain C. Scratch notes should record the
+closest pure-C attempt: size, first mismatch, register allocation, and why the
+remaining mismatch points to a specific source-shape problem.
 
 ### Still disallowed
 
@@ -513,8 +508,9 @@ The handbook's feature index gives useful target-asm oracles:
 
 Use these as shape references: inspect target instruction order, register roles,
 and copy offsets, then try ordinary C first. If the remaining mismatch is a
-single allocator/scheduler/copy primitive issue, use a small documented lever
-rather than keeping the whole function in asm.
+single allocator/scheduler/copy primitive issue, record that diagnosis and keep
+iterating on plain-C structure rather than keeping the whole function in asm or
+adding a local asm lever.
 
 ### Updated plain-C recipes for our current blockers
 
@@ -552,9 +548,9 @@ rather than keeping the whole function in asm.
   continuing through `0x1F/0x1C`.
 - Try low-alignment blob assignments and `char*`/packed-wrapper variants. Do
   not use `memcpy` unless the target calls it.
-- If those cannot emit the target `lwl/lwr/swl/swr` sequence, a tiny inline asm
-  copy primitive is acceptable, but only after recording the closest C copy
-  attempt and keeping the surrounding state machine in C.
+- If those cannot emit the target `lwl/lwr/swl/swr` sequence, record the closest
+  C copy attempt and keep searching for a plain-C representation; do not promote
+  an inline asm copy primitive.
 - Once the copy is solved, return to the state machine and preserve the target
   if-tree order for cases around item offsets `0xE`, `0x10`, and `0x12`.
 
@@ -648,8 +644,8 @@ Blocker: wrong callee-save allocation. Target wants:
 - `s1 = page node`
 
 Plain C kept assigning child/node/flags/handled differently. A one-variable
-register binding may be acceptable if source-shape attempts still cannot reach
-the target roles.
+register binding proved the blocker in earlier scratch work, but it is not
+acceptable for promotion under the current plain-C rule.
 
 ### `Save_InitMetadataState`
 
@@ -673,9 +669,9 @@ Remaining blocker:
 
 Status: previous attempt only matched with explicit register binding.
 
-Blocker: target register allocation for item/dimmed locals. Reintroduce
-`register ... asm("$sN")` only as a documented local lever after the pure-C
-attempt is recorded.
+Blocker: target register allocation for item/dimmed locals. Do not reintroduce
+`register ... asm("$sN")` in accepted code; use the previous result only to
+guide source-shape experiments.
 
 ### `Menu_FindSelectedEquipSlotItem`
 
@@ -702,4 +698,4 @@ that `+0x58` is `y_limit`, not `scroll_y`.
 5. Check for `lwl/lwr`, magic multiply, real `div`, and jump-table-like control.
 6. If a semantic C version is close but wrong, record:
    exact size, first mismatch, register allocation, and whether the mismatch is
-   source-shape or a justified local asm/register-lever candidate.
+   source-shape, type/layout, scheduler, or unaligned-copy related.

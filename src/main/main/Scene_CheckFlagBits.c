@@ -25,8 +25,8 @@ void Scene_CheckFlagBits(void *ctx, SceneFlagRecord **table, int *index_ptr) {
         flags = 0;
     }
 
+    record = base;
     if (flags != 0) {
-        record = base;
         do {
             void (*callback)(void *, void *);
             u32 mask;
@@ -103,7 +103,7 @@ void Scene_CheckFlagBits(void *ctx, SceneFlagRecord **table, int *index_ptr) {
         } while (flags != 0);
     }
 
-    if (base != 0 && base->callback != 0) {
-        base->callback(ctx, index_ptr);
+    if (record != 0 && record->callback != 0) {
+        record->callback(ctx, index_ptr);
     }
 }

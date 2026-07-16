@@ -9,7 +9,7 @@ extern u16 D_800E27FC;
 
 int func_800CD0BC(void *arg0, void *arg1, u8 *anim) {
     u16 *base = &D_800E27F8;
-    register u16 *base_s3 asm("$19") = base;
+    u16 *base_s3 = base;
     int i = 0;
     u8 *entry;
 

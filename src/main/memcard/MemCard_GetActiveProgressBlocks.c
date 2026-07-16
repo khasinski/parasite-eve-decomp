@@ -6,7 +6,7 @@ extern int D_800A1858;
 
 int MemCard_GetActiveProgressBlocks(void) {
     int blocks;
-    register int result asm("$4");
+    int result;
     void *active = D_800A1854;
 
     if (active != 0) {

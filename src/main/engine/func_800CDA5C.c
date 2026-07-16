@@ -8,7 +8,7 @@ extern u16 D_800E27F2;
 extern u16 D_800E27F4;
 
 int func_800CDA5C(void *arg0, void *arg1, u8 *anim) {
-    register u16 *base_s4 asm("$20") = &D_800E27F0;
+    u16 *base_s4 = &D_800E27F0;
     int i = 0;
     u8 *entry;
 

@@ -19,7 +19,7 @@ extern u8 D_800E2338;
 extern u16 D_800E2342;
 
 int func_800CB750(void *arg0, void *arg1, u8 *anim) {
-    register u16 *field_s4 asm("$20") = &D_800E2342;
+    u16 *field_s4 = &D_800E2342;
     Matrix matrix;
     int scale;
     u16 field;
