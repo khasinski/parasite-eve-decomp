@@ -6,7 +6,7 @@ M2C_UNK Render_SetupEntityPrims(void *, s32, s32, M2C_UNK, s32, s32, s32, s32, M
 M2C_UNK Render_DrawWithAnim(void *, s32, M2C_UNK, M2C_UNK *, M2C_UNK *); /* extern */
 M2C_UNK Render_InitRoomPrimState(void *);                      /* extern */
 s32 Scene_LoadEntityTexture();                                /* extern */
-M2C_UNK Scene_SetDiscSide(s8);                          /* extern */
+M2C_UNK Scene_SetStoryDay(s8);                          /* extern */
 s32 Scene_LoadEntityTextures();                                /* extern */
 extern struct { char _[16]; } g_PlayerEntity_o __asm__("g_PlayerEntity");
 #define g_PlayerEntity (*(void **)&g_PlayerEntity_o)
@@ -125,7 +125,7 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
         goto block_21;
     case 37:
         g_DiscChangeFlags |= 4;
-        Scene_SetDiscSide(D_800B0CE4);
+        Scene_SetStoryDay(D_800B0CE4);
         M2C_FIELD(p0cd8, s8 *, 0xED) = 0x26;
         return 1;
     case 38:

@@ -11,7 +11,7 @@ extern SaveBytes70 g_AyaBattleState;
 extern SaveBytes18 g_SavedBattleStateTail;
 extern SaveBytes8 g_BattleEquipStateBlock;
 extern SaveBytes4 g_FieldMoveLock, g_SceneDispatchToken, g_GameStateFlags, D_800B0CDC;
-extern s8 D_800B0CE0, g_LoadedTexturePageId, g_SceneAreaType, g_SavedSceneAreaType, D_800B0CE4, g_PendingDiscSide;
+extern s8 D_800B0CE0, g_LoadedTexturePageId, g_SceneAreaType, g_SavedSceneAreaType, D_800B0CE4, g_PendingStoryDay;
 extern u8 g_DiscChangeFlags, g_ScreenTransitionState;
 extern u8 *g_SaveIoCursor;
 
@@ -65,8 +65,8 @@ void Save_SerializeTail(void) {
     "sw $v0, %%lo(g_SaveIoCursor)($at)\n"
     "lui $v0, %%hi(D_800B0CE4)\n"
     "lb $v0, %%lo(D_800B0CE4)($v0)\n"
-    "lui $a0, %%hi(g_PendingDiscSide)\n"
-    "lb $a0, %%lo(g_PendingDiscSide)($a0)\n"
+    "lui $a0, %%hi(g_PendingStoryDay)\n"
+    "lb $a0, %%lo(g_PendingStoryDay)($a0)\n"
     "sb $v0, 2($v1)\n"
     "sb $a0, 3($v1)\n"
     "lui $v1, %%hi(g_SaveIoCursor)\n"
@@ -134,7 +134,7 @@ void Save_DeserializeTail(void) {
     D_800B0CE4 = cursor[2];
 
     g_SaveIoCursor = cursor + 3;
-    g_PendingDiscSide = cursor[3];
+    g_PendingStoryDay = cursor[3];
 
     g_DiscChangeFlags = cursor[2];
     g_ScreenTransitionState = cursor[3];

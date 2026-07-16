@@ -3,7 +3,7 @@ typedef unsigned short u16;
 
 extern u8 *D_8009D278;
 
-void Scene_SetDiscSide(int side);
+void Scene_SetStoryDay(int storyDay);
 
 void Battle_SetupEnemyAnims(void) {
     u8 anim_table[45] = {
@@ -46,5 +46,5 @@ void Battle_SetupEnemyAnims(void) {
     action[0x17] = row[3];
     *(int *)(action + 8) = row[4];
 
-    Scene_SetDiscSide(*(short *)(*(u8 **)(D_8009D278 + 0x68) + 6));
+    Scene_SetStoryDay(*(short *)(*(u8 **)(D_8009D278 + 0x68) + 6));
 }

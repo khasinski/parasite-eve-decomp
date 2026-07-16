@@ -17,17 +17,17 @@ extern u8 D_800B0CE6;
 #define SCENE_STORY_DAY_PENDING GAME_STATE[0x0D]
 #define SCENE_STORY_DAY_FLAGS GAME_STATE[0x0E]
 
-int Scene_SetDiscSide(s32 side) {
+int Scene_SetStoryDay(s32 storyDay) {
     register u8 *gameState asm("$6") = GAME_STATE;
     u8 flags;
 
-    if (side == -1) {
+    if (storyDay == -1) {
         register u8 pending asm("$4");
         register u8 storyFlags asm("$2");
 
         pending = D_800B0CE5;
         storyFlags = D_800B0CE6;
-        side = (s8)pending;
+        storyDay = (s8)pending;
         D_800B0CE4 = pending;
         D_800B0CE6 = storyFlags | 3;
     }
@@ -42,13 +42,13 @@ int Scene_SetDiscSide(s32 side) {
         gameState[0x0E] = (flags | 3) & ~4;
     }
 
-    if ((u32)(side - 1) < 8U) {
-        if (side != (s8)gameState[0x0D]) {
-            register s32 newSide asm("$3");
+    if ((u32)(storyDay - 1) < 8U) {
+        if (storyDay != (s8)gameState[0x0D]) {
+            register s32 newStoryDay asm("$3");
 
-            newSide = side;
-            gameState[0x0D] = newSide;
-            gameState[0x0C] = newSide;
+            newStoryDay = storyDay;
+            gameState[0x0D] = newStoryDay;
+            gameState[0x0C] = newStoryDay;
             gameState[0x0E] |= 1;
         }
     }

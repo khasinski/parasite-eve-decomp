@@ -7424,11 +7424,11 @@
       }
     },
     {
-      "name": "src/main/gpu/Scene_SetDiscSide",
-      "target_path": "expected/build/USA/src/main/gpu/Scene_SetDiscSide.c.o",
-      "base_path": "build/USA/src/main/gpu/Scene_SetDiscSide.c.o",
+      "name": "src/main/gpu/Scene_SetStoryDay",
+      "target_path": "expected/build/USA/src/main/gpu/Scene_SetStoryDay.c.o",
+      "base_path": "build/USA/src/main/gpu/Scene_SetStoryDay.c.o",
       "metadata": {
-        "source_path": "src/main/gpu/Scene_SetDiscSide.c",
+        "source_path": "src/main/gpu/Scene_SetStoryDay.c",
         "progress_categories": [
           "main"
         ],

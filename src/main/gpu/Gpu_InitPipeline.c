@@ -47,7 +47,7 @@ void Render_PrepareFrame(void);
 void SetGeomScreen(int arg0);
 int CdRom_DetectDiscChange(void);
 int Scene_LoadEntityTexture(void);
-void Scene_SetDiscSide(s8 arg0);
+void Scene_SetStoryDay(s8 arg0);
 int Scene_LoadEntityTextures(void);
 void Entity_RelocateSceneData(void);
 void Render_SetupFogLayer(int arg0);
@@ -134,7 +134,7 @@ void Gpu_InitPipeline(void) {
     }
 
     one = 1;
-    Scene_SetDiscSide(B(D_800B0CE4));
+    Scene_SetStoryDay(B(D_800B0CE4));
     while (Scene_LoadEntityTextures() == one) {
     }
 
