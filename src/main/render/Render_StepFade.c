@@ -19,7 +19,7 @@ typedef struct RgbPrim {
 extern struct { char _[16]; } D_800BCF88_o __asm__("D_800BCF88");
 extern struct { char _[16]; } D_800BCFFA_o __asm__("D_800BCFFA");
 extern struct { char _[16]; } D_800BCFFB_o __asm__("D_800BCFFB");
-extern struct { char _[16]; } D_8009CDDC_o __asm__("g_ActiveDrawSlot");
+extern struct { char _[16]; } D_8009CDDC_o __asm__("D_8009CDDC");
 extern struct { char _[16]; } D_800B1624_a_o __asm__("D_800B1624");
 extern struct { char _[16]; } D_800B1624_b_o __asm__("D_800B1624");
 extern struct { char _[16]; } D_800B1624_c_o __asm__("D_800B1624");
@@ -91,15 +91,14 @@ int Render_StepFade(void) {
     fade_value = READ_S32(geom, 0x14);
     entry_count = READ_U16(geom, 0x6);
     entry = entry + fade_value;
-    fade_value = 0x80;
+    fade_value = 0x80 - fade_step;
     if (entry_count != 0) {
-        fade_value = fade_value - fade_step;
         tint_loop = fade_value;
         do {
             prim = (RgbPrim *)READ_S32(entry, 0x30);
             asm volatile(
-                "lui\t%0,%%hi(g_ActiveDrawSlot)\n\t"
-                "lw\t%0,%%lo(g_ActiveDrawSlot)(%0)\n\t"
+                "lui\t%0,%%hi(D_8009CDDC)\n\t"
+                "lw\t%0,%%lo(D_8009CDDC)(%0)\n\t"
                 "lhu\t%1,0x26(%2)"
                 : "=r"(active_slot), "=r"(prim_count)
                 : "r"(entry));
@@ -123,8 +122,6 @@ int Render_StepFade(void) {
             entry_index++;
             entry += 0x38;
         } while (entry_index < entry_count);
-    } else {
-        fade_value = fade_value - fade_step;
     }
 
     fade_ptr = D_800BCFFB_PTR;
