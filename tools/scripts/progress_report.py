@@ -137,6 +137,47 @@ def is_forced_shifted_indexed_symbol_word_load(lines: list[str]) -> bool:
     )
 
 
+def is_forced_symbol_word_load(lines: list[str]) -> bool:
+    """Match a direct global word load kept in one chosen register."""
+    return (
+        len(lines) == 2
+        and re.match(r"lui\s+%0,%%hi\([A-Za-z_]\w*\)$", lines[0]) is not None
+        and re.match(r"lw\s+%0,%%lo\([A-Za-z_]\w*\)\(%0\)$", lines[1]) is not None
+    )
+
+
+def is_forced_gp_rel_store(line: str) -> bool:
+    return re.match(
+        r"sw\s+(?:\$zero|%0),%%gp_rel\([A-Za-z_]\w*\)\(\$gp\)$",
+        line,
+    ) is not None
+
+
+def is_forced_add(line: str) -> bool:
+    return line in {
+        "add\t%0,%1,%2",
+        "addu %0,%1,%2",
+    }
+
+
+def is_forced_shift(line: str) -> bool:
+    return line == "sll %0,%1,16"
+
+
+def is_forced_stack_adjust(line: str) -> bool:
+    return line in {
+        "addiu $sp,$sp,-8",
+        "addiu $sp,$sp,8",
+    }
+
+
+def is_forced_shift_mask(lines: list[str]) -> bool:
+    return lines == [
+        "addiu $3, $0, 1",
+        "sllv %0, $3, %1",
+    ]
+
+
 def is_forced_early_decrement_pair(lines: list[str]) -> bool:
     """Match paired -1 temporaries whose lifetime placement affects stores."""
     return lines == [
@@ -175,6 +216,7 @@ def is_forced_stack_arg_access(line: str) -> bool:
     return (
         re.match(r"lw\s+%0,0x(?:10|14|18|1C)\(\$sp\)$", line) is not None
         or line == "lw %0, 0x40($sp)"
+        or line == "lw\t%0,0x24(%1)"
         or re.match(r"sw\s+%0,0\(%1\)$", line) is not None
     )
 
@@ -190,6 +232,15 @@ FORCED_CURRENT_ENTITY_LOAD_MACRO_RE = re.compile(
     r"\s*asm\s+volatile\(\s+\\\n"
     r"\s*\"lui\\t%0,\s*%%hi\(g_CurrentEntity\)\\n\"\s+\\\n"
     r"\s*\"lw\\t%0,\s*%%lo\(g_CurrentEntity\)\(%0\)\"\s+\\\n"
+    r"\s*:\s*\"=r\"\(\w+\)\)\s*$"
+)
+
+
+FORCED_RENDER_SCRATCH_BASE_LOAD_MACRO_RE = re.compile(
+    r"(?ms)^#define\s+\w+\(\w+\)\s+\\\n"
+    r"\s*asm\s+volatile\(\s+\\\n"
+    r"\s*\"lui\\t%0,\s*%%hi\(g_RenderScratchBufferBase\)\\n\"\s+\\\n"
+    r"\s*\"addiu\\t%0,\s*%0,\s*%%lo\(g_RenderScratchBufferBase\)\"\s+\\\n"
     r"\s*:\s*\"=r\"\(\w+\)\)\s*$"
 )
 
@@ -211,6 +262,8 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_indexed_symbol_word_load(lines)
         or is_forced_indexed_symbol_byte_load(lines)
         or is_forced_shifted_indexed_symbol_word_load(lines)
+        or is_forced_symbol_word_load(lines)
+        or is_forced_shift_mask(lines)
         or is_forced_early_decrement_pair(lines)
         or is_forced_inventory_category_store(lines)
     ):
@@ -222,6 +275,10 @@ def is_allowed_inline_asm(quoted: str) -> bool:
             or is_forced_stack_arg_access(line)
             or is_forced_stack_matrix_address(line)
             or is_forced_zero_word_store(line)
+            or is_forced_gp_rel_store(line)
+            or is_forced_add(line)
+            or is_forced_shift(line)
+            or is_forced_stack_adjust(line)
         ):
             saw_instruction = True
             continue
@@ -241,6 +298,7 @@ def is_allowed_inline_asm(quoted: str) -> bool:
 def strip_nonblocking_asm(text: str) -> str:
     text = FORCED_SIN_TABLE_MACRO_RE.sub("", text)
     text = FORCED_CURRENT_ENTITY_LOAD_MACRO_RE.sub("", text)
+    text = FORCED_RENDER_SCRATCH_BASE_LOAD_MACRO_RE.sub("", text)
 
     # Symbol/register asm labels such as extern x __asm__("D_...") and
     # register locals pinned with asm("$5") are declarations, not asm bodies.
