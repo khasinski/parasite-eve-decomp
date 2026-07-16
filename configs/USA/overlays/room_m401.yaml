@@ -121,7 +121,7 @@ segments:
       - [0x5658, c, func_80194640]
       - [0x5660, c, func_80194648]
       - [0x5668, c, RoomLib_InitE_80194650]
-      - [0x56CC, asm, room_m401_3E74_498C_5378_5658_56CC_5938]
+      - [0x56CC, c, func_801946B4]
       - [0x57E0, c, func_801947C8]
       - [0x57E8, asm, room_m401_3E74_498C_5378_5658_56CC_5938_57E8]
       - [0x5938, c, RoomLib_HandlerG]

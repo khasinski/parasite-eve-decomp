@@ -93,7 +93,7 @@ segments:
       - [0x3544, c, func_8019252C]
       - [0x354C, c, func_80192534]
       - [0x3554, c, RoomLib_InitE_8019253C]
-      - [0x35B8, asm, room_m152_1D60_2878_3264_3544_35B8]
+      - [0x35B8, c, func_801925A0]
       - [0x36CC, c, func_801926B4]
       - [0x36D4, asm, room_m152_1D60_2878_3264_3544_35B8_36D4_3824]
       - [0x3824, c, RoomLib_HandlerG]

@@ -44,7 +44,7 @@ segments:
       - [0x228, c, func_8018F210]
       - [0x230, asm, room_m146_F4_13C_230]
       - [0x474, c, func_8018F45C]
-      - [0x47C, asm, room_m146_F4_13C_47C]
+      - [0x47C, c, func_8018F464]
       - [0x588, c, func_8018F570]
       - [0x608, asm, room_m146_F4_13C_608]
       - [0x880, c, func_8018F868]
