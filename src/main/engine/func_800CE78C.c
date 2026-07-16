@@ -4,14 +4,15 @@ extern int D_800E27EC;
 extern char *D_800E2368;
 
 int func_800CE78C(char *list) {
+    volatile int frame_pad[2];
     int old_context = D_800E27EC;
     char *entry = list + 0xC;
     char *payload;
     int i = 0;
-    int active = 0;
-    int stride = *(int *)(list + 0x0);
+    register int active asm("$20") = 0;
+    register int (*callback)(int, void *, int) asm("$22") = *(int (**)(int, void *, int))(list + 0x8);
     int count = *(int *)(list + 0x4);
-    int (*callback)(int, void *, int) = *(int (**)(int, void *, int))(list + 0x8);
+    register int stride asm("$21") = *(int *)(list + 0x0);
 
     if (count > 0) {
         payload = list + 0x10;
