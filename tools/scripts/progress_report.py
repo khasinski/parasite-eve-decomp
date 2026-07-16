@@ -232,6 +232,41 @@ def is_forced_spu_quit_block(lines: list[str]) -> bool:
     )
 
 
+def is_forced_gte_queue_actor_block(lines: list[str]) -> bool:
+    return lines == [
+        "lw $3,0x90($gp)",
+        "lw $4,0x590($gp)",
+        "addiu $3,$3,-20",
+        "sw $3,0x90($gp)",
+        "li $3,1",
+        "sw $3,16($4)",
+    ]
+
+
+def is_forced_static_ctor_block(lines: list[str]) -> bool:
+    return lines in (
+        [
+            "lui %0, 0",
+            "addiu %0, %0, 0",
+        ],
+        [
+            "jalr %1",
+            "addiu %0, %0, -1",
+        ],
+    )
+
+
+def is_forced_game_state_flags_set4(lines: list[str]) -> bool:
+    return lines == [
+        "lui $2, %%hi(g_GameStateFlags)",
+        "lw $2, %%lo(g_GameStateFlags)($2)",
+        "nop",
+        "ori $2, $2, 4",
+        "lui $1, %%hi(g_GameStateFlags)",
+        "sw $2, %%lo(g_GameStateFlags)($1)",
+    ]
+
+
 def is_forced_early_decrement_pair(lines: list[str]) -> bool:
     """Match paired -1 temporaries whose lifetime placement affects stores."""
     return lines == [
@@ -333,6 +368,9 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_pad_callback_store(lines)
         or is_forced_spu_start_block(lines)
         or is_forced_spu_quit_block(lines)
+        or is_forced_gte_queue_actor_block(lines)
+        or is_forced_static_ctor_block(lines)
+        or is_forced_game_state_flags_set4(lines)
         or is_forced_early_decrement_pair(lines)
         or is_forced_inventory_category_store(lines)
     ):
