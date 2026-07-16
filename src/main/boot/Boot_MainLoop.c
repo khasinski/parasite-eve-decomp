@@ -29,7 +29,6 @@ extern u32 g_PlayTimeFrameCounter;
 
 #define STATE_FLAG_IMAGE_BUSY 0x00100000U
 #define STATE_FLAG_READY 0x00000100U
-#define LAUNDER(x) asm volatile("" : "=r"(x) : "0"(x))
 
 void main(void) {
     int retryMode;
@@ -44,7 +43,6 @@ void main(void) {
 
     retryMode = 0;
     imageMagic = 0xA9400048;
-    LAUNDER(imageMagic);
     busyFlag = STATE_FLAG_IMAGE_BUSY;
     state = g_GameState;
     stateByte = (u8 *)state + 0xF5;
