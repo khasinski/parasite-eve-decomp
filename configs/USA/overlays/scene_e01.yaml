@@ -45,7 +45,7 @@ segments:
       - [0x5E4, c, func_8018F5D4]
       - [0x5EC, asm, scene_e01_178_5EC_6CC]
       - [0x6CC, c, func_8018F6BC]
-      - [0x6D4, asm, scene_e01_178_6D4_810]
+      - [0x6D4, c, func_8018F6C4]
       - [0x810, c, func_8018F800]
       - [0x818, asm, scene_e01_178_818]
       - [0x31A4, c, RoomLib_SetArg1_80192194]
