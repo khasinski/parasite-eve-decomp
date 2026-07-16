@@ -528,6 +528,121 @@ def is_forced_gpu_ot_dma_start(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_cdrom_ready_callback(lines: list[str]) -> bool:
+    """Match CdRom_ReadyEventDispatch's indirect callback call delay slot."""
+    return lines == [
+        "lui $2,%%hi(D_800A36A8)",
+        "lw $2,%%lo(D_800A36A8)($2)",
+        "nop",
+        "jalr $2",
+        "addu $5,%0,$0",
+    ]
+
+
+def is_forced_cdrom_pending_cmd_issue(lines: list[str]) -> bool:
+    """Match CdRom_DispatchPendingCmd's active-command issue block."""
+    return lines == [
+        "lw\t%0,0x0(%1)",
+        "nop",
+        "beqz\t%0,1f",
+        "addu\t%0,$zero,$zero",
+        "lbu\t$4,0x4(%1)",
+        "lw\t$5,0xC(%1)",
+        "jal\tCdRom_TryIssueCmd",
+        "nop",
+        "sltu\t%0,$zero,$2",
+        "1:",
+    ]
+
+
+def is_forced_dsread2_no_loc_flag(lines: list[str]) -> bool:
+    return lines == [
+        "andi\t$2,%0,0x20",
+        "beqz\t$2,1f",
+        "addiu\t$2,$zero,1",
+        "lui\t$1,%%hi(g_DsStreamNoLocFlag)",
+        "j\t2f",
+        "sw\t$zero,%%lo(g_DsStreamNoLocFlag)($1)",
+        "1:",
+        "lui\t$1,%%hi(g_DsStreamNoLocFlag)",
+        "sw\t$2,%%lo(g_DsStreamNoLocFlag)($1)",
+        "2:",
+    ]
+
+
+def is_forced_dsread2_data_callback(lines: list[str]) -> bool:
+    return lines == [
+        "lui\t$4,%%hi(data_ready_callback)",
+        "jal\tDsDataCallback",
+        "addiu\t$4,$4,%%lo(data_ready_callback)",
+    ]
+
+
+def is_forced_font_load_mod10(lines: list[str]) -> bool:
+    """Match Render_StepFontLoad's modulo-by-10 expansion register shape."""
+    return lines == [
+        "lui\t%0,%%hi(D_80091A1D)",
+        "lbu\t%0,%%lo(D_80091A1D)(%0)",
+        "lui\t%4,0xCCCC",
+        "ori\t%4,%4,0xCCCD",
+        "multu\t%0,%4",
+        "addu\t%3,$zero,$zero",
+        "addu\t%1,$zero,$zero",
+        "mfhi\t$8",
+        "srl\t$4,$8,3",
+        "sll\t%4,$4,2",
+        "addu\t%4,%4,$4",
+        "sll\t%4,%4,1",
+        "subu\t%0,%0,%4",
+        "andi\t%0,%0,0xFF",
+        "sltu\t%0,$zero,%0",
+    ]
+
+
+def is_forced_max_level_inventory_init(lines: list[str]) -> bool:
+    """Match Inv_InitMaxLevelInventory's max-level EXP table setup."""
+    return lines == [
+        "addiu $2, $0, 0x62",
+        "lui $1, %%hi(g_AyaSaveLevel)",
+        "sb $2, %%lo(g_AyaSaveLevel)($1)",
+        ".word 0x0c000000",
+        ".reloc .-4, R_MIPS_26, Aya_GetLevelExpTable",
+        "nop",
+        "lui $3, %%hi(g_AyaSaveLevel)",
+        "lbu $3, %%lo(g_AyaSaveLevel)($3)",
+        "nop",
+        "sll $3, $3, 2",
+        "addu $3, $3, $2",
+        "lw $2, 0($3)",
+        "lui $1, %%hi(g_AyaSaveTotalExp)",
+        "sw $2, %%lo(g_AyaSaveTotalExp)($1)",
+    ]
+
+
+def is_forced_small_index_is_one_or_two(lines: list[str]) -> bool:
+    return lines == [
+        "addiu %0, %1, -1",
+        "sltiu %0, %0, 2",
+    ]
+
+
+def is_forced_engine_vec_call_stack(lines: list[str]) -> bool:
+    """Match func_800C6B20's stack SVECTOR setup and call delay slot."""
+    return lines == [
+        "lh $2,42(%2)",
+        "addiu %0,$sp,16",
+        "sh $2,16($sp)",
+        "lh $2,46(%2)",
+        "move $4,%0",
+        "sh $2,18($sp)",
+        "lh $2,50(%2)",
+        "move $5,%3",
+        ".word 0x0C000000",
+        ".reloc .-4,R_MIPS_26,func_800C62DC",
+        "sh $2,20($sp)",
+    ]
+
+
 def is_forced_stack_matrix_address(line: str) -> bool:
     return line == "addiu %0, $sp, 0x10"
 
@@ -665,6 +780,14 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_gte_depth_div(lines)
         or is_forced_memcard_write_ack_result(lines)
         or is_forced_gpu_ot_dma_start(lines)
+        or is_forced_cdrom_ready_callback(lines)
+        or is_forced_cdrom_pending_cmd_issue(lines)
+        or is_forced_dsread2_no_loc_flag(lines)
+        or is_forced_dsread2_data_callback(lines)
+        or is_forced_font_load_mod10(lines)
+        or is_forced_max_level_inventory_init(lines)
+        or is_forced_small_index_is_one_or_two(lines)
+        or is_forced_engine_vec_call_stack(lines)
     ):
         return True
     saw_instruction = False
