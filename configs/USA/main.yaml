@@ -1966,7 +1966,7 @@ segments:
       - [0xC5050, c, engine/func_800D4850]
       - [0xC5060, asm, engine/engine_800D4860]
       - [0xD0320, c, engine/func_800DFB20]
-      - [0xD0378, asm, engine/engine_800D4860_D0378]
+      - [0xD0378, c, engine/engine_800D4860_D0378]
       - [0xD0444, c, engine/func_800DFC44]
       - [0xD0480, c, engine/func_800DFC80]
       - [0xD0554, c, engine/func_800DFD54]
