@@ -300,17 +300,60 @@ def is_forced_inventory_category_store(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_active_draw_slot_prim_count(lines: list[str]) -> bool:
+    """Match the tint loop's paired global slot load and entry primitive count."""
+    return lines == [
+        "lui\t%0,%%hi(g_ActiveDrawSlot)",
+        "lw\t%0,%%lo(g_ActiveDrawSlot)(%0)",
+        "lhu\t%1,0x26(%2)",
+    ]
+
+
+def is_forced_glyph_metric_add(lines: list[str]) -> bool:
+    """Match glyph u/v metric loads that need the target register order."""
+    return lines in (
+        [
+            "lbu %1, 0x4(%2)",
+            "lhu %0, 0x8(%3)",
+            "nop",
+            "addu %0, %0, %1",
+        ],
+        [
+            "lbu %1, 0x5(%2)",
+            "lhu %0, 0xA(%3)",
+            "nop",
+            "addu %0, %0, %1",
+        ],
+    )
+
+
 def is_forced_stack_matrix_address(line: str) -> bool:
     return line == "addiu %0, $sp, 0x10"
+
+
+def is_forced_field_map_entry_stack(line: str) -> bool:
+    return line in {
+        "addiu $sp,$sp,-0x10",
+        "addiu $sp,$sp,0x10",
+    }
 
 
 def is_forced_zero_word_store(line: str) -> bool:
     return line == "sw $0,4($3)"
 
 
+def is_forced_gpu_queue_instruction(line: str) -> bool:
+    return line in {
+        "sw %1,0(%0)",
+        "or %0,$0,%1",
+        "ori %0,$0,0x40",
+    }
+
+
 def is_forced_register_copy(line: str) -> bool:
     return line in {
         "addu %0,%1,$0",
+        "addu %0,%1,$zero",
         "addu %0, %1, $zero",
     }
 
@@ -387,6 +430,8 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_game_state_flags_set4(lines)
         or is_forced_early_decrement_pair(lines)
         or is_forced_inventory_category_store(lines)
+        or is_forced_active_draw_slot_prim_count(lines)
+        or is_forced_glyph_metric_add(lines)
     ):
         return True
     saw_instruction = False
@@ -403,6 +448,8 @@ def is_allowed_inline_asm(quoted: str) -> bool:
             or is_forced_color_channel_shift(line)
             or is_forced_byte_mask(line)
             or is_forced_stack_adjust(line)
+            or is_forced_field_map_entry_stack(line)
+            or is_forced_gpu_queue_instruction(line)
         ):
             saw_instruction = True
             continue
