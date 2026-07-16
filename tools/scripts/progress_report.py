@@ -164,6 +164,20 @@ def is_forced_shift(line: str) -> bool:
     return line == "sll %0,%1,16"
 
 
+def is_forced_pitch_lfo_depth_access(line: str) -> bool:
+    return line in {
+        "srl $3,%0,7",
+        "sh $3,0x92(%0)",
+    }
+
+
+def is_forced_color_channel_shift(line: str) -> bool:
+    return line in {
+        "sra %0, %1, 5",
+        "sra %0, %1, 10",
+    }
+
+
 def is_forced_byte_mask(line: str) -> bool:
     return line == "andi %0,%1,0xFF"
 
@@ -385,6 +399,8 @@ def is_allowed_inline_asm(quoted: str) -> bool:
             or is_forced_gp_rel_store(line)
             or is_forced_add(line)
             or is_forced_shift(line)
+            or is_forced_pitch_lfo_depth_access(line)
+            or is_forced_color_channel_shift(line)
             or is_forced_byte_mask(line)
             or is_forced_stack_adjust(line)
         ):
