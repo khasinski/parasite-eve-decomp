@@ -1973,7 +1973,7 @@ segments:
       - [0xD0620, c, engine/func_800DFE20]
       - [0xD0694, c, engine/func_800DFE94]
       - [0xD0780, c, engine/FieldEng_VecToAngle]
-      - [0xD07B8, asm, engine/FieldEng_TurnToward]
+      - [0xD07B8, c, engine/FieldEng_TurnToward]
       - [0xD0824, c, engine/func_800E0024]
       - [0xD0860, data, main/dtail_0D0860]
 
