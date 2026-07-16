@@ -2,9 +2,9 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Decompiled functions: <b>9305/10847 (85.8%)</b> · code bytes: <b>15.7%</b>. A unit counts when it has no INCLUDE_ASM and no non-empty inline assembly other than standalone nop barriers; the full build is byte-identical to retail.</p>
+<p>Decompiled functions: <b>9305/10824 (86.0%)</b> · code bytes: <b>15.7%</b>. A unit counts when it has no INCLUDE_ASM and no non-empty inline assembly other than standalone nop barriers; the full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
-<tr><td>SLUS_006.62 (main)</td><td>2156/3268</td><td>66.0%</td><td>199612/843348</td><td>23.7%</td></tr>
+<tr><td>SLUS_006.62 (main)</td><td>2156/3245</td><td>66.4%</td><td>199804/843348</td><td>23.7%</td></tr>
 <tr><td>boot_display</td><td>0/27</td><td>0.0%</td><td>0/10240</td><td>0.0%</td></tr>
 <tr><td>fx_common</td><td>0/0</td><td>0.0%</td><td>0/53248</td><td>0.0%</td></tr>
 <tr><td>fx_field</td><td>1/3</td><td>33.3%</td><td>36/4096</td><td>0.9%</td></tr>
@@ -35,9 +35,9 @@
 <tr><td>scene_e27</td><td>43/54</td><td>79.6%</td><td>2272/15756</td><td>14.4%</td></tr>
 <tr><td>sys_reset</td><td>6/20</td><td>30.0%</td><td>264/2048</td><td>12.9%</td></tr>
 <tr><td>room overlays (x162)</td><td>6276/6276 (100.0%)</td><td>100.0%</td><td>553564/3737232</td><td>14.8%</td></tr>
-<tr><td>total</td><td>9305/10847</td><td>85.8%</td><td>803908/5106584</td><td>15.7%</td></tr>
+<tr><td>total</td><td>9305/10824</td><td>86.0%</td><td>804100/5106584</td><td>15.7%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 1356/1503 decompiled files</h2>
+<h2>SLUS_006.62 (main) — 1380/1527 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrAttack.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrDecayRate.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -771,6 +771,7 @@
 <tr><td>src/main/item/misc17.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/misc18.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/stat.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/068774_pre_InitGeom.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Akao_ClearVoiceBank.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Akao_ProcessCommand.c</td><td>11</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Akao_ProcessVoiceQueue.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -913,6 +914,29 @@
 <tr><td>src/main/main/func_80038CE4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/func_80038D48.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/func_8006A5BC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_akao_Akao_SetMasterVolume_tail_7A750.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_akao_Spu_SetGlobalVolumeField1AA_tail_7A700.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_cdrom_CdRom_DispatchDsReadyCallback_tail_7018C.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_cdrom_DS_status_tail_712BC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_cdrom_cd_rom4_tail_7162C.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_gpu_GPU_memset_tail_6824C.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_gpu_GetClut_tail_682BC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_gpu_Gpu_AppendPacketPrimitive_tail_684EC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_gpu_Gpu_SetDither_tail_6832C.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_gpu_Gpu_SetDrawEnable_tail_6835C.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_gte_Gte_BuildOrthoBasis_tail_68B3C.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_gte_Gte_PopMatrix_tail_693DC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_gte_Gte_ScaleMatrix_tail_695FC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_memcard_card_obj_tail_731BC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_pad_Pad_DequeueHandler_tail_6EA9C.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_pad_Pad_StopHandler_tail_6EB0C.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_psyq_libds_DS_read_cbready_tail_72B0C.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_psyq_libgte_InitGeom_tail_687FC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_psyq_libgte_RotMatrixY_tail_6A60C.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_psyq_libgte_RotMatrixZ_tail_6A7AC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_psyq_libgte_reg12_tail_6981C.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_psyq_libgte_smp_04_tail_69AFC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/main/gap_psyq_libspu_SpuStart_tail_6D9CC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/geo.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/menu2.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/misc19.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
