@@ -68,8 +68,8 @@ def main() -> None:
         "<h1>parasite-eve-decomp</h1>",
         f"<p>Decompiled functions: <b>{mf}/{nf} ({fpct}%)</b> · "
         f"code bytes: <b>{bpct}%</b>. A unit counts when it has no INCLUDE_ASM "
-        "and no whole-function or nontrivial inline assembly; small irreducible "
-        "CPU/GTE instruction snippets are allowed. "
+        "and no non-empty inline assembly. Register/symbol asm labels and empty "
+        "barriers do not lower progress. "
         "The full build is byte-identical "
         "to retail.</p>",
     ]

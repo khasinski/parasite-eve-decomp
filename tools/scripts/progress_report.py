@@ -1128,24 +1128,15 @@ def is_allowed_inline_asm(quoted: str) -> bool:
 
 
 def strip_nonblocking_asm(text: str) -> str:
-    text = FORCED_SIN_TABLE_MACRO_RE.sub("", text)
-    text = FORCED_CURRENT_ENTITY_LOAD_MACRO_RE.sub("", text)
-    text = FORCED_CURRENT_ENTITY_AND_OUT_LOAD_MACRO_RE.sub("", text)
-    text = FORCED_RENDER_SCRATCH_BASE_LOAD_MACRO_RE.sub("", text)
-
     # Symbol/register asm labels such as extern x __asm__("D_...") and
     # register locals pinned with asm("$5") are declarations, not asm bodies.
     decl_label = r"(?m)(^.*\S\s+)\b(?:__asm__|asm)\s*\(\s*\"(?:[^\"\\]|\\.)*\"\s*\)"
     t = re.sub(decl_label, r"\1", text)
 
-    # Empty asm barriers and standalone nops are C-side scheduler/lifetime
-    # constraints. They do not contribute replacement assembly bodies and should
-    # not lower progress.
+    # Empty asm barriers are C-side scheduler/lifetime constraints. They do not
+    # contribute replacement assembly bodies and should not lower progress.
     empty = r"\b(?:__asm__|asm)\s*(?:__volatile__|volatile)?\s*\(\s*\"\"\s*(?::.*?)?\)\s*;"
     t = re.sub(empty, "", t, flags=re.S)
-
-    nop = r"\b(?:__asm__|asm)\s*(?:__volatile__|volatile)?\s*\(\s*\"nop\"\s*\)\s*;"
-    t = re.sub(nop, "", t, flags=re.S)
 
     return INLINE_ASM_RE.sub(
         lambda m: "" if is_allowed_inline_asm(m.group(1)) else m.group(0),
@@ -1362,9 +1353,8 @@ def main() -> None:
         f"{datetime.date.today().isoformat()}. Regenerate with `make progress`._",
         "",
         "A translation unit counts as decompiled when it has no INCLUDE_ASM",
-        "and no whole-function or nontrivial inline assembly. Register/symbol asm labels,",
-        "empty barriers, standalone nop barriers, and small irreducible CPU/GTE",
-        "instruction snippets do not lower progress. Code bytes cover function subsegments",
+        "and no non-empty inline assembly. Register/symbol asm labels and empty",
+        "barriers do not lower progress. Code bytes cover function subsegments",
         "only (baked data carriers are excluded). Every built binary is",
         "byte-identical to retail (`make check`, `make overlay-check-all`).",
         "",
