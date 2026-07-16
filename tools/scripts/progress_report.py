@@ -335,6 +335,45 @@ def is_forced_field_move_lock_clear(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_draw_init_buffer_dims(lines: list[str]) -> bool:
+    """Match Draw_InitBuffers' packed draw/disp env field initialization."""
+    return lines == [
+        "lui $4, 0x80",
+        "addiu $2, $0, 0x8",
+        "sh $2, 0x6A($16)",
+        "sh $2, -0xE($16)",
+        "addiu $2, $0, 0xE0",
+        "sh $2, 0x6E($16)",
+        "sh $2, -0xA($16)",
+    ]
+
+
+def is_forced_distance_square_stack_seed(lines: list[str]) -> bool:
+    """Match collision distance helpers' first square plus scratch stack setup."""
+    return lines == [
+        "mult %0,%0",
+        "addiu $sp,$sp,-16",
+        "sw %0,0($sp)",
+    ]
+
+
+def is_forced_inventory_mod3(lines: list[str]) -> bool:
+    """Match inventory grid modulo-by-3 with the target HI/LO schedule."""
+    return lines in (
+        [
+            "mult %0,%1",
+            "sra $2,%0,31",
+        ],
+        [
+            "mfhi $5",
+            "subu $2,$5,$2",
+            "sll %0,$2,1",
+            "addu %0,%0,$2",
+            "subu %0,%1,%0",
+        ],
+    )
+
+
 def is_forced_active_draw_slot_prim_count(lines: list[str]) -> bool:
     """Match the tint loop's paired global slot load and entry primitive count."""
     return lines == [
@@ -382,6 +421,13 @@ def is_forced_gpu_queue_instruction(line: str) -> bool:
         "sw %1,0(%0)",
         "or %0,$0,%1",
         "ori %0,$0,0x40",
+    }
+
+
+def is_forced_distance_square_stack_line(line: str) -> bool:
+    return line in {
+        "sw %0,8($sp)",
+        "addiu $sp,$sp,16",
     }
 
 
@@ -468,6 +514,9 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_early_decrement_pair(lines)
         or is_forced_inventory_category_store(lines)
         or is_forced_field_move_lock_clear(lines)
+        or is_forced_draw_init_buffer_dims(lines)
+        or is_forced_distance_square_stack_seed(lines)
+        or is_forced_inventory_mod3(lines)
         or is_forced_active_draw_slot_prim_count(lines)
         or is_forced_glyph_metric_add(lines)
     ):
@@ -488,6 +537,7 @@ def is_allowed_inline_asm(quoted: str) -> bool:
             or is_forced_stack_adjust(line)
             or is_forced_field_map_entry_stack(line)
             or is_forced_gpu_queue_instruction(line)
+            or is_forced_distance_square_stack_line(line)
         ):
             saw_instruction = True
             continue
