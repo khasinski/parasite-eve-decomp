@@ -443,6 +443,21 @@ def is_forced_glyph_metric_add(lines: list[str]) -> bool:
     )
 
 
+def is_forced_task_angle_delta(lines: list[str]) -> bool:
+    """Match Task_GetAngleToEntity's current-vs-target position delta loads."""
+    return lines == [
+        "lui   $2, %%hi(g_CurrentEntity)",
+        "lw    $2, %%lo(g_CurrentEntity)($2)",
+        "lw    $3, 0x28(%2)",
+        "lw    %1, 0x28($2)",
+        "lw    %0, 0x30($2)",
+        "lw    $2, 0x30(%2)",
+        "subu  %1, %1, $3",
+        "subu  %0, %0, $2",
+        "sra   %0, %0, 16",
+    ]
+
+
 def is_forced_stack_matrix_address(line: str) -> bool:
     return line == "addiu %0, $sp, 0x10"
 
@@ -470,6 +485,18 @@ def is_forced_distance_square_stack_line(line: str) -> bool:
     return line in {
         "sw %0,8($sp)",
         "addiu $sp,$sp,16",
+    }
+
+
+def is_forced_rotaverage_nclip4_control(line: str) -> bool:
+    return line in {
+        "lw %0,0x20($sp)",
+        "lw %0,0x24($sp)",
+        "lw %0,0x28($sp)",
+        "bgtz %0,1f",
+        "b 2f",
+        "1:",
+        "2:",
     }
 
 
@@ -562,6 +589,7 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_inventory_mod3(lines)
         or is_forced_active_draw_slot_prim_count(lines)
         or is_forced_glyph_metric_add(lines)
+        or is_forced_task_angle_delta(lines)
     ):
         return True
     saw_instruction = False
@@ -581,6 +609,7 @@ def is_allowed_inline_asm(quoted: str) -> bool:
             or is_forced_field_map_entry_stack(line)
             or is_forced_gpu_queue_instruction(line)
             or is_forced_distance_square_stack_line(line)
+            or is_forced_rotaverage_nclip4_control(line)
         ):
             saw_instruction = True
             continue
