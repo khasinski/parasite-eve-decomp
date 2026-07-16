@@ -2,9 +2,9 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Decompiled functions: <b>9617/10312 (93.3%)</b> · code bytes: <b>16.2%</b>. A unit counts when it has no INCLUDE_ASM and no whole-function or nontrivial inline assembly; small irreducible CPU/GTE instruction snippets are allowed. The full build is byte-identical to retail.</p>
+<p>Decompiled functions: <b>9623/10312 (93.3%)</b> · code bytes: <b>16.2%</b>. A unit counts when it has no INCLUDE_ASM and no whole-function or nontrivial inline assembly; small irreducible CPU/GTE instruction snippets are allowed. The full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
-<tr><td>SLUS_006.62 (main)</td><td>2421/2555</td><td>94.8%</td><td>210328/843348</td><td>24.9%</td></tr>
+<tr><td>SLUS_006.62 (main)</td><td>2427/2555</td><td>95.0%</td><td>211380/843348</td><td>25.1%</td></tr>
 <tr><td>boot_display</td><td>0/27</td><td>0.0%</td><td>0/10240</td><td>0.0%</td></tr>
 <tr><td>fx_common</td><td>0/0</td><td>0.0%</td><td>0/53248</td><td>0.0%</td></tr>
 <tr><td>fx_field</td><td>1/3</td><td>33.3%</td><td>36/4096</td><td>0.9%</td></tr>
@@ -35,9 +35,9 @@
 <tr><td>scene_e27</td><td>46/54</td><td>85.2%</td><td>2912/15756</td><td>18.5%</td></tr>
 <tr><td>sys_reset</td><td>6/20</td><td>30.0%</td><td>264/2048</td><td>12.9%</td></tr>
 <tr><td>room overlays (x162)</td><td>6294/6454 (97.5%)</td><td>97.5%</td><td>558768/3737232</td><td>15.0%</td></tr>
-<tr><td>total</td><td>9617/10312</td><td>93.3%</td><td>826808/5106584</td><td>16.2%</td></tr>
+<tr><td>total</td><td>9623/10312</td><td>93.3%</td><td>827860/5106584</td><td>16.2%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 1467/1528 decompiled files</h2>
+<h2>SLUS_006.62 (main) — 1473/1528 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrAttack.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrDecayRate.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -279,7 +279,7 @@
 <tr><td>src/main/cdrom/CdRom_EnqueueCmd.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_GetCurrentPos.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_InitCmdState.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_InitDsCallbacks.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_InitDsCallbacks.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_InitDsReadSystem.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_InitScreenState.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_IssueSetMode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -618,7 +618,7 @@
 <tr><td>src/main/gpu/Draw_EmitWipeBarRect.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Draw_GetBaseY.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Draw_InitBuffers.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/gpu/Draw_MeasureTextWidth.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/gpu/Draw_MeasureTextWidth.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Draw_PresentFrame.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Draw_PrintCenteredText.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/Draw_PrintCenteredTextInWidth.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -827,7 +827,7 @@
 <tr><td>src/main/main/Draw_PushPrimToList.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Draw_SetPrimCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Entity_AllocSlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Entity_GetDistanceComponents.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/main/Entity_GetDistanceComponents.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Entity_GetPositionByType.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Entity_QueryField.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Entity_WriteFieldByCmd.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1367,7 +1367,7 @@
 <tr><td>src/main/psyq/libsn/__main.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/psyq/libsnd/ssinit.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/SpuInit.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libspu/SpuStart.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libspu/SpuStart.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/_SpuInit.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/_spu_Fr.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/s_cb.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1375,7 +1375,7 @@
 <tr><td>src/main/psyq/libspu/s_gvex.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/s_m_init.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/s_m_util.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libspu/s_q.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libspu/s_q.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/s_sra.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/spu_fgetrxxa.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/spu_fsetrxx.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1469,7 +1469,7 @@
 <tr><td>src/main/sys/Sys_RestoreIntr.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/sys/Sys_SaveDisableIntr.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/sys/Sys_SetFlagSlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/sys/Sys_SetInterruptHandler.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/sys/Sys_SetInterruptHandler.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/sys/Sys_Shutdown.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/sys/misc37.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/table/Str_LookupTableEntry.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>

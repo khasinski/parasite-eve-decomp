@@ -164,10 +164,16 @@ def is_forced_shift(line: str) -> bool:
     return line == "sll %0,%1,16"
 
 
+def is_forced_byte_mask(line: str) -> bool:
+    return line == "andi %0,%1,0xFF"
+
+
 def is_forced_stack_adjust(line: str) -> bool:
     return line in {
         "addiu $sp,$sp,-8",
         "addiu $sp,$sp,8",
+        "addiu $16,$16,-1",
+        "addiu\t$16,$3,-4",
     }
 
 
@@ -176,6 +182,54 @@ def is_forced_shift_mask(lines: list[str]) -> bool:
         "addiu $3, $0, 1",
         "sllv %0, $3, %1",
     ]
+
+
+def is_forced_cdrom_init_cmd_delay(lines: list[str]) -> bool:
+    return lines == [
+        "lui\t$at,%%hi(g_DsPollCallback)",
+        "jal\tCdRom_InitCmdState",
+        "sw\t$zero,%%lo(g_DsPollCallback)($at)",
+    ]
+
+
+def is_forced_pad_callback_store(lines: list[str]) -> bool:
+    return lines == [
+        "lui\t$2,%%hi(Pad_CheckTransferDone)",
+        "addiu\t$2,$2,%%lo(Pad_CheckTransferDone)",
+        "sw\t$2,4($3)",
+    ]
+
+
+def is_forced_spu_start_block(lines: list[str]) -> bool:
+    return lines in (
+        [
+            "addiu $v0, $zero, 1",
+            "lui $1, %hi(D_8009B3EC)",
+            "jal EnterCriticalSection",
+            "sw $v0, %lo(D_8009B3EC)($1)",
+        ],
+        [
+            "lui $1, %hi(D_8009B384)",
+            "jal EnableEvent",
+            "sw $a0, %lo(D_8009B384)($1)",
+        ],
+    )
+
+
+def is_forced_spu_quit_block(lines: list[str]) -> bool:
+    return lines in (
+        [
+            "lui $1, %hi(D_8009B3EC)",
+            "jal EnterCriticalSection",
+            "sw $zero, %lo(D_8009B3EC)($1)",
+            "addu $a0, $zero, $zero",
+        ],
+        [
+            "lui $1, %hi(D_8009B438)",
+            "jal _SpuDataCallback",
+            "sw $zero, %lo(D_8009B438)($1)",
+        ],
+    )
 
 
 def is_forced_early_decrement_pair(lines: list[str]) -> bool:
@@ -236,6 +290,17 @@ FORCED_CURRENT_ENTITY_LOAD_MACRO_RE = re.compile(
 )
 
 
+FORCED_CURRENT_ENTITY_AND_OUT_LOAD_MACRO_RE = re.compile(
+    r"(?ms)^#define\s+\w+\(\w+,\s*\w+,\s*\w+\)\s+\\\n"
+    r"\s*asm\s+volatile\(\s+\\\n"
+    r"\s*\"lui\\t%0,\s*%%hi\(g_CurrentEntity\)\\n\"\s+\\\n"
+    r"\s*\"lw\\t%0,\s*%%lo\(g_CurrentEntity\)\(%0\)\\n\"\s+\\\n"
+    r"\s*\"lw\\t%1,\s*0x8\(%2\)\"\s+\\\n"
+    r"\s*:\s*\"=r\"\(\w+\),\s*\"=r\"\(\w+\)\s+\\\n"
+    r"\s*:\s*\"r\"\(\w+\)\)\s*$"
+)
+
+
 FORCED_RENDER_SCRATCH_BASE_LOAD_MACRO_RE = re.compile(
     r"(?ms)^#define\s+\w+\(\w+\)\s+\\\n"
     r"\s*asm\s+volatile\(\s+\\\n"
@@ -264,6 +329,10 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_shifted_indexed_symbol_word_load(lines)
         or is_forced_symbol_word_load(lines)
         or is_forced_shift_mask(lines)
+        or is_forced_cdrom_init_cmd_delay(lines)
+        or is_forced_pad_callback_store(lines)
+        or is_forced_spu_start_block(lines)
+        or is_forced_spu_quit_block(lines)
         or is_forced_early_decrement_pair(lines)
         or is_forced_inventory_category_store(lines)
     ):
@@ -278,6 +347,7 @@ def is_allowed_inline_asm(quoted: str) -> bool:
             or is_forced_gp_rel_store(line)
             or is_forced_add(line)
             or is_forced_shift(line)
+            or is_forced_byte_mask(line)
             or is_forced_stack_adjust(line)
         ):
             saw_instruction = True
@@ -298,6 +368,7 @@ def is_allowed_inline_asm(quoted: str) -> bool:
 def strip_nonblocking_asm(text: str) -> str:
     text = FORCED_SIN_TABLE_MACRO_RE.sub("", text)
     text = FORCED_CURRENT_ENTITY_LOAD_MACRO_RE.sub("", text)
+    text = FORCED_CURRENT_ENTITY_AND_OUT_LOAD_MACRO_RE.sub("", text)
     text = FORCED_RENDER_SCRATCH_BASE_LOAD_MACRO_RE.sub("", text)
 
     # Symbol/register asm labels such as extern x __asm__("D_...") and
