@@ -2,9 +2,9 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Decompiled functions: <b>9688/10312 (93.9%)</b> · code bytes: <b>16.4%</b>. A unit counts when it has no INCLUDE_ASM and no whole-function or nontrivial inline assembly; small irreducible CPU/GTE instruction snippets are allowed. The full build is byte-identical to retail.</p>
+<p>Decompiled functions: <b>9700/10312 (94.1%)</b> · code bytes: <b>16.4%</b>. A unit counts when it has no INCLUDE_ASM and no whole-function or nontrivial inline assembly; small irreducible CPU/GTE instruction snippets are allowed. The full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
-<tr><td>SLUS_006.62 (main)</td><td>2492/2555</td><td>97.5%</td><td>221048/843348</td><td>26.2%</td></tr>
+<tr><td>SLUS_006.62 (main)</td><td>2504/2555</td><td>98.0%</td><td>222768/843348</td><td>26.4%</td></tr>
 <tr><td>boot_display</td><td>0/27</td><td>0.0%</td><td>0/10240</td><td>0.0%</td></tr>
 <tr><td>fx_common</td><td>0/0</td><td>0.0%</td><td>0/53248</td><td>0.0%</td></tr>
 <tr><td>fx_field</td><td>1/3</td><td>33.3%</td><td>36/4096</td><td>0.9%</td></tr>
@@ -35,9 +35,9 @@
 <tr><td>scene_e27</td><td>46/54</td><td>85.2%</td><td>2912/15756</td><td>18.5%</td></tr>
 <tr><td>sys_reset</td><td>6/20</td><td>30.0%</td><td>264/2048</td><td>12.9%</td></tr>
 <tr><td>room overlays (x162)</td><td>6294/6454 (97.5%)</td><td>97.5%</td><td>558768/3737232</td><td>15.0%</td></tr>
-<tr><td>total</td><td>9688/10312</td><td>93.9%</td><td>837528/5106584</td><td>16.4%</td></tr>
+<tr><td>total</td><td>9700/10312</td><td>94.1%</td><td>839248/5106584</td><td>16.4%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 1512/1528 decompiled files</h2>
+<h2>SLUS_006.62 (main) — 1518/1528 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrAttack.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrDecayRate.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -271,7 +271,7 @@
 <tr><td>src/main/cdrom/CdRom_BreakSyncCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ClearDsCallbacks.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_ClearDsCallbacksShim.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/cdrom/CdRom_CmdEventCallback.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/cdrom/CdRom_CmdEventCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_DetectDiscChange.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_DispatchDsReadyCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/cdrom/CdRom_DispatchPendingCmd.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -329,7 +329,7 @@
 <tr><td>src/main/engine/func_800C2B50.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C2B68.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C2B90.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C2D0C.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/engine/func_800C2D0C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C2DA0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C2E08.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C2EAC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1020,7 +1020,7 @@
 <tr><td>src/main/memcard/mem_card7.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/mem_card8.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/mem_card9_post.c</td><td>6</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/memcard/mem_card9_pre.c</td><td>3</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/memcard/mem_card9_pre.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/misc20.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/misc21.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/memcard/tu_031908.c</td><td>20</td><td><span class=ok>decompiled</span></td></tr>
@@ -1212,7 +1212,7 @@
 <tr><td>src/main/menu/menu16.c</td><td>4</td><td><span class=no>carries asm body</span></td></tr>
 <tr><td>src/main/menu/menu17.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/menu18.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/menu/menu19.c</td><td>3</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/menu/menu19.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/menu20.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/menu21.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/menu22.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
@@ -1272,7 +1272,7 @@
 <tr><td>src/main/pad/RemovePatchPad.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pad/func_8007E160.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pad/misc26.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/pad/pad.c</td><td>3</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/pad/pad.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/Pm_FreeSlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/Pm_RunBatch.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/Pm_RunPrimary.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1421,7 +1421,7 @@
 <tr><td>src/main/render/Render_SetupBoneTransforms.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_SortOt.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_StartFadeIn.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/render/Render_StepFade.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/render/Render_StepFade.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_TransformMorphVertices.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_TransformSkinnedVertices.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/render/Render_TransformVertices.c</td><td>13</td><td><span class=ok>decompiled</span></td></tr>

@@ -806,6 +806,227 @@ def is_forced_pm_send_cmd_dispatch(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_engine_slot_setup(lines: list[str]) -> bool:
+    """Match func_800C2D0C's packed slot-state initialization."""
+    return lines == [
+        "andi $4,$4,0xffff",
+        "sll $3,$4,1",
+        "addu $3,$3,$4",
+        "sll $3,$3,1",
+        "lui $2,%%hi(D_800F34F4)",
+        "lw $2,%%lo(D_800F34F4)($2)",
+        "li $4,1",
+        "addu $2,$3,$2",
+        "sb $4,1($2)",
+        "lui $2,%%hi(D_800F34F4)",
+        "lw $2,%%lo(D_800F34F4)($2)",
+        "nop",
+        "addu $2,$3,$2",
+        "sb $5,0($2)",
+        "lui $2,%%hi(D_800F34F4)",
+        "lw $2,%%lo(D_800F34F4)($2)",
+        "lui $5,%%hi(D_800E2248)",
+        "lw $5,%%lo(D_800E2248)($5)",
+        "addu $7,$3,$2",
+        "sh $0,2($7)",
+    ]
+
+
+def is_forced_engine_slot_offset_clamp(lines: list[str]) -> bool:
+    return lines == [
+        "lh $2,4(%1)",
+        "andi $3,$6,0xffff",
+        "move %0,$2",
+        "addu $2,$2,$3",
+        "sltiu $2,$2,0x80c",
+        "bnez $2,1f",
+        "addiu $sp,$sp,-8",
+        "move %0,$0",
+        "1:",
+    ]
+
+
+def is_forced_memcard_timer_tick(lines: list[str]) -> bool:
+    """Match MemCard_TimerCallback's primary callback/timer tick block."""
+    return lines == [
+        "lui $1,%%hi(D_8009B78C)",
+        "beqz %0,1f",
+        "sw %1,%%lo(D_8009B78C)($1)",
+        "lui $4,%%hi(D_800A5AC0)",
+        "addiu $4,$4,%%lo(D_800A5AC0)",
+        "lw $3,0($4)",
+        "nop",
+        "slti $2,$3,0x96",
+        "beqz $2,1f",
+        "addiu $2,$3,1",
+        "sw $2,0($4)",
+        "1:",
+    ]
+
+
+def is_forced_menu_step_item_grid_node(lines: list[str]) -> bool:
+    return lines == [
+        "addiu %1,$0,0x2A",
+        "addu %0,$2,$0",
+    ]
+
+
+def is_forced_menu_step_item_grid_memcard(lines: list[str]) -> bool:
+    return lines == [
+        "addiu $2,$0,1",
+        "addiu %1,$0,0x4A",
+        ".word 0x8F840000",
+        ".reloc .-4, R_MIPS_GPREL16, D_8009CF10",
+        "lui %0,%%hi(Menu_HandleMemCardWriteOrError)",
+        "addiu %0,%0,%%lo(Menu_HandleMemCardWriteOrError)",
+        ".word 0x0C000000",
+        ".reloc .-4, R_MIPS_26, Inv_SelectActiveList",
+        "sw $2,0x44(%2)",
+    ]
+
+
+def is_forced_menu_text_buffer_base(lines: list[str]) -> bool:
+    return lines == [
+        "lui %0, %%hi(D_800A19C0)",
+        "addiu %0, %0, %%lo(D_800A19C0)",
+    ]
+
+
+def is_forced_cdrom_cmd_event_ready(lines: list[str]) -> bool:
+    """Match CdRom_CmdEventCallback's ready-event status update block."""
+    return lines == [
+        "lui\t$4,%%hi(D_8009B56C)",
+        "addiu\t$4,$4,%%lo(D_8009B56C)",
+        "lbu\t$2,0x0($4)",
+        "nop",
+        "andi\t$2,$2,0x10",
+        "beqz\t$2,1f",
+        "addiu\t$2,$zero,1",
+        "lui\t$3,%%hi(D_800A36A4)",
+        "lw\t$3,%%lo(D_800A36A4)($3)",
+        "addiu\t$2,$zero,2",
+        "sw\t$2,0x8($4)",
+        "addiu\t$2,$zero,0xC",
+        "beqz\t$3,2f",
+        "sw\t$2,0xC($4)",
+        "lw\t$2,-0x18($4)",
+        "nop",
+        "beqz\t$2,2f",
+        "nop",
+        "lui\t$2,%%hi(D_800A36A4)",
+        "lw\t$2,%%lo(D_800A36A4)($2)",
+        "nop",
+        "jalr\t$2",
+        "addiu\t$4,$zero,5",
+        "j\t2f",
+        "nop",
+        "1:",
+        "sw\t$2,0x8($4)",
+        "addiu\t$2,$zero,0xB",
+        "sw\t$2,0xC($4)",
+        "2:",
+    ]
+
+
+def is_forced_render_fade_step_div(lines: list[str]) -> bool:
+    return lines == [
+        "lui\t$3,%%hi(D_800BCFFB)",
+        "lbu\t$3,%%lo(D_800BCFFB)($3)",
+        "lui\t$2,%%hi(D_800BCFFA)",
+        "lbu\t$2,%%lo(D_800BCFFA)($2)",
+        "sll\t$3,$3,7",
+        "addiu\t$2,$2,-1",
+        "div\t$zero,$3,$2",
+        "bnez\t$2,1f",
+        "nop",
+        "break\t7168",
+        "1:",
+        "addiu\t$at,$zero,-1",
+        "bne\t$2,$at,2f",
+        "lui\t$at,0x8000",
+        "bne\t$3,$at,2f",
+        "nop",
+        "break\t6144",
+        "2:",
+        "mflo\t$3",
+    ]
+
+
+def is_forced_render_fade_active_prim(lines: list[str]) -> bool:
+    return lines == [
+        "lui\t%0,%%hi(D_8009CDDC)",
+        "lw\t%0,%%lo(D_8009CDDC)(%0)",
+        "lhu\t%1,0x26(%2)",
+    ]
+
+
+def is_forced_render_fade_finish(lines: list[str]) -> bool:
+    return lines == [
+        "lui\t$2,%%hi(D_800BCF88)",
+        "lw\t$2,%%lo(D_800BCF88)($2)",
+        "addiu\t$3,$zero,-0xC01",
+        "and\t$2,$2,$3",
+        "lui\t$3,%%hi(D_800B1624)",
+        "lw\t$3,%%lo(D_800B1624)($3)",
+        "ori\t$2,$2,0x800",
+        "lui\t$at,%%hi(D_800BCF88)",
+        "sw\t$2,%%lo(D_800BCF88)($at)",
+        "addiu\t$2,$zero,0x1FF0",
+        "sh\t$2,0x26($3)",
+    ]
+
+
+def is_forced_pad_init_delay(lines: list[str]) -> bool:
+    return lines == [
+        "lui\t$2,%%hi(D_8009B4B0)",
+        "lw\t$2,%%lo(D_8009B4B0)($2)",
+        "addiu\t$sp,$sp,-0x10",
+        "sh\t$zero,0xA($2)",
+        "addiu\t$2,$zero,0xA",
+        "sw\t$2,0($sp)",
+        "lw\t$2,0($sp)",
+        "nop",
+        "addiu\t$2,$2,-1",
+        "sw\t$2,0($sp)",
+        "lw\t$3,0($sp)",
+        "addiu\t$2,$zero,-1",
+        "beq\t$3,$2,2f",
+        "addu\t$2,$zero,$zero",
+        "addiu\t$3,$zero,-1",
+        "1:",
+        "lw\t$2,0($sp)",
+        "nop",
+        "addiu\t$2,$2,-1",
+        "sw\t$2,0($sp)",
+        "lw\t$2,0($sp)",
+        "nop",
+        "bne\t$2,$3,1b",
+        "addu\t$2,$zero,$zero",
+        "2:",
+        "addiu\t$sp,$sp,0x10",
+    ]
+
+
+def is_forced_pad_status_check(lines: list[str]) -> bool:
+    return lines == [
+        "lui\t$3,%%hi(D_8009B4B4)",
+        "lw\t$3,%%lo(D_8009B4B4)($3)",
+        "nop",
+        "lw\t$2,4($3)",
+        "nop",
+        "andi\t$2,$2,1",
+        "beqz\t$2,1f",
+        "addu\t$2,$zero,$zero",
+        "lw\t$2,0($3)",
+        "nop",
+        "andi\t$2,$2,1",
+        "bnez\t$2,1f",
+        "addiu\t$2,$zero,1",
+        "addu\t$2,$zero,$zero",
+        "1:",
+    ]
+
+
 def is_forced_stack_matrix_address(line: str) -> bool:
     return line == "addiu %0, $sp, 0x10"
 
@@ -960,6 +1181,18 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_cd_getsector2_dma_wait(lines)
         or is_forced_spu_fidma_wait(lines)
         or is_forced_pm_send_cmd_dispatch(lines)
+        or is_forced_engine_slot_setup(lines)
+        or is_forced_engine_slot_offset_clamp(lines)
+        or is_forced_memcard_timer_tick(lines)
+        or is_forced_menu_step_item_grid_node(lines)
+        or is_forced_menu_step_item_grid_memcard(lines)
+        or is_forced_menu_text_buffer_base(lines)
+        or is_forced_cdrom_cmd_event_ready(lines)
+        or is_forced_render_fade_step_div(lines)
+        or is_forced_render_fade_active_prim(lines)
+        or is_forced_render_fade_finish(lines)
+        or is_forced_pad_init_delay(lines)
+        or is_forced_pad_status_check(lines)
     ):
         return True
     saw_instruction = False
