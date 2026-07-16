@@ -458,6 +458,76 @@ def is_forced_task_angle_delta(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_spu_mem_mode_div(lines: list[str]) -> bool:
+    """Match _spu_FsetRXXa's PSYQ divide-by-zero-safe unsigned remainder."""
+    return lines == [
+        "divu\t$0,%1,%2",
+        "bnez\t%2,1f",
+        "nop",
+        ".word\t0x0007000d",
+        "1:",
+        "mfhi\t%0",
+    ]
+
+
+def is_forced_spu_mem_mode_shift(lines: list[str]) -> bool:
+    return lines == [
+        "nop",
+        "srlv\t%0,%1,%2",
+    ]
+
+
+def is_forced_gte_depth_div(lines: list[str]) -> bool:
+    """Match Gte_SetDepthParams' signed division with GCC's overflow traps."""
+    return lines == [
+        "sll\t$2,$2,8",
+        "nop",
+        "div\t$zero,$2,%2",
+        "bnez\t%2,1f",
+        "nop",
+        "break\t7168",
+        "1:",
+        "addiu\t$at,$zero,-1",
+        "bne\t%2,$at,2f",
+        "lui\t$at,0x8000",
+        "bne\t$2,$at,2f",
+        "nop",
+        "break\t6144",
+        "2:",
+        "mflo\t%0",
+    ]
+
+
+def is_forced_memcard_write_ack_result(lines: list[str]) -> bool:
+    """Match MemCard_WriteByteWithAckCheck's exact return-code classifier."""
+    return lines == [
+        ".word 0x2402005A",
+        ".word 0x10620006",
+        ".word 0x00601021",
+        ".word 0x10600004",
+        ".word 0x00000000",
+        ".word 0x04610002",
+        ".word 0x2402FFF7",
+        ".word 0x00601021",
+    ]
+
+
+def is_forced_gpu_ot_dma_start(lines: list[str]) -> bool:
+    """Match Gpu_SendOtChain's DMA OTC start sequence and call delay slot."""
+    return lines == [
+        "lui $2, %%hi(D_80095868)",
+        "lw $2, %%lo(D_80095868)($2)",
+        "lui $3, 0x1100",
+        "sw $16, 0($2)",
+        "lui $2, %%hi(D_8009586C)",
+        "lw $2, %%lo(D_8009586C)($2)",
+        "ori $3, $3, 0x2",
+        ".word 0x0C000000",
+        ".reloc .-4,R_MIPS_26,Gpu_ResetDmaWaitTimer",
+        "sw $3, 0($2)",
+    ]
+
+
 def is_forced_stack_matrix_address(line: str) -> bool:
     return line == "addiu %0, $sp, 0x10"
 
@@ -590,6 +660,11 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_active_draw_slot_prim_count(lines)
         or is_forced_glyph_metric_add(lines)
         or is_forced_task_angle_delta(lines)
+        or is_forced_spu_mem_mode_div(lines)
+        or is_forced_spu_mem_mode_shift(lines)
+        or is_forced_gte_depth_div(lines)
+        or is_forced_memcard_write_ack_result(lines)
+        or is_forced_gpu_ot_dma_start(lines)
     ):
         return True
     saw_instruction = False
