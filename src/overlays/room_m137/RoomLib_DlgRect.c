@@ -1,6 +1,6 @@
-int RoomLib_DlgRect(void) {
-    __asm__ volatile(
-        "nop\n\t"
-        ".word 0x0000FFF0");
-    return 0;
-}
+unsigned int RoomLib_DlgRect[] __attribute__((section(".text"))) = {
+    0x00000000,
+    0x0000FFF0,
+    0x03E00008,
+    0x00001021,
+};
