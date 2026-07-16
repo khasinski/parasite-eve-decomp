@@ -39,6 +39,7 @@ ALLOWED_INLINE_ASM_OPS = {
     "mtc2",
     "mult",
     "nop",
+    "sb",
     "swc2",
 }
 
@@ -64,8 +65,8 @@ def is_allowed_inline_asm(quoted: str) -> bool:
 
     This keeps whole-function asm and scheduler/postpass blocks counted as
     dirty, while allowing C functions that only need direct GTE register access,
-    raw GTE op words, explicit HI/LO multiply reads, or a forced one-byte
-    reload that the compiler otherwise keeps in a register.
+    raw GTE op words, explicit HI/LO multiply reads, or forced one-byte
+    loads/stores that the compiler cannot otherwise shape correctly.
     """
     body = asm_string_body(quoted)
     saw_instruction = False
