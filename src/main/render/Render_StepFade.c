@@ -55,7 +55,7 @@ int Render_StepFade(void) {
     if ((D_800BCF88 & 0x400) == 0) {
         return 0;
     }
-    asm volatile("" : : "r"(stack_pad));
+
 
     asm volatile(
         ".set\tnoreorder\n\t"

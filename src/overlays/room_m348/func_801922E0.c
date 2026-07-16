@@ -9,7 +9,7 @@ void func_801922E0(int arg0, u8 *arg1, u8 *arg2) {
     register u8 *obj asm("a2") = arg2;
     u16 value;
 
-    __asm__ volatile("" : "=r"(ctrl), "=r"(i), "=r"(timer), "=r"(obj) : "0"(ctrl), "1"(i), "2"(timer), "3"(obj));
+
     do {
         *(u16 *)(obj + 0x30) += *(u16 *)(obj + 0x50);
         *(u16 *)(obj + 0x32) += *(u16 *)(obj + 0x52);

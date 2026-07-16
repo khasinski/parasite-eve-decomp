@@ -40,7 +40,7 @@ int Render_SetScrollMode(int x, int y, int z, int mode) {
     D_800BCFA2 = z;
     D_800BCF98 = saved_scroll;
 
-    asm volatile("" ::: "memory");
+
     saved_scroll = flags & value;
     value = 8;
     if (mode != value) {

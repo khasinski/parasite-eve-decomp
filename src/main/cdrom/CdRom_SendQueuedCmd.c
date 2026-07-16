@@ -16,7 +16,7 @@ int CdRom_SendQueuedCmd(void *dst) {
     int mode;
 
     dst_reg = dst;
-    asm volatile("" : "=r"(dst_reg) : "0"(dst_reg));
+
     CdRom_SendReadyCommand(0);
 
     if (D_800A3530.state == 1) {
@@ -28,11 +28,11 @@ int CdRom_SendQueuedCmd(void *dst) {
 
     if (mode == 4) {
         dst_arg = dst_reg;
-        asm volatile("" : "=r"(dst_arg) : "0"(dst_arg));
+
         slot = &D_800A3530;
     } else if (mode == 1) {
         dst_arg = dst_reg;
-        asm volatile("" : "=r"(dst_arg) : "0"(dst_arg));
+
         slot = &D_800A3520;
     } else {
         return 0;

@@ -15,7 +15,7 @@ int Obj_ResetAllEntries(void) {
     register unsigned int value1 asm("t1");
     int framePad[2];
 
-    asm volatile("" : : "r"(framePad));
+
     state = D_800B1624;
     cursor = (u8 *)D_800B1624;
     entryBase = cursor + state->ctrl_offset;
@@ -43,6 +43,6 @@ int Obj_ResetAllEntries(void) {
         } while (i < count);
     }
 
-    asm volatile("" : : : "memory");
+
     return 0;
 }

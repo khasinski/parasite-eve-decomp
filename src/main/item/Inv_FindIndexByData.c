@@ -54,7 +54,7 @@ int Inv_FindIndexByData(void *needle) {
         } while (index < limit);
     }
 
-    asm volatile("" : "=m"(stack_pad));
+
     {
         register int result asm("$3");
 

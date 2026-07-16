@@ -7,7 +7,7 @@ void *TransMatrix(int *m, int *v) {
     m[5] = x;
     m[6] = y;
     m[7] = z;
-    asm volatile("" ::: "memory");
+
     asm volatile("addu %0,%1,$0" : "=r"(ret) : "r"(m));
     return ret;
 }

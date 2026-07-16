@@ -11,12 +11,12 @@ int func_800C9974(void *arg0, u8 *state, u8 *anim) {
     register int temp_a1 asm("$5");
     u8 count;
 
-    asm volatile("" : "=r"(state_a3) : "0"(state_a3));
+
     temp_v0 = *(u16 *)(anim_a2 + 0x8);
     temp_v1 = *(u16 *)(anim_a2 + 0x10);
     temp_a0 = *(u16 *)(anim_a2 + 0x12);
     temp_a1 = *(u16 *)(anim_a2 + 0x14);
-    asm volatile("" : "=r"(temp_a1) : "0"(temp_a1));
+
     temp_v0 += temp_v1;
     *(u16 *)(anim_a2 + 0x8) = temp_v0;
     temp_v0 = *(u16 *)(anim_a2 + 0xA);

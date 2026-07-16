@@ -14,6 +14,6 @@ int func_8018F1BC(char *state) {
     value = *(unsigned int *)ptr;
     value &= mask;
     *(unsigned int *)ptr = value;
-    asm volatile("" ::: "memory");
+
     return 0;
 }

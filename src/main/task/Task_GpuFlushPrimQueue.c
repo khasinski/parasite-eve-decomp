@@ -27,7 +27,7 @@ u32 Task_GpuFlushPrimQueue(void) {
 
     head_value = *head_ptr;
     tail_value = *tail_ptr;
-    asm volatile("" : "=r"(head_value), "=r"(tail_value) : "0"(head_value), "1"(tail_value));
+
     head_value += tail_value;
     asm volatile("sw %1,0(%0)" : : "r"(head_ptr), "r"(head_value));
     asm volatile("or %0,$0,%1" : "=r"(ret) : "r"(head_value));

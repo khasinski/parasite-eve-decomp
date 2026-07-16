@@ -1,9 +1,6 @@
 typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsigned short u16;typedef int s32;typedef unsigned int u32;typedef long long s64;
 #define NULL ((void *)0)
 
-#define BARRIER(x) __asm__("" : "=r"(x) : "0"(x))
-
-s32 rand();
 s32 Inv_PickRandomItem(s32);
 int Inv_FindItemById(int arg0);
 s32 Inv_GetItemEffectData(s16, s32);
@@ -101,9 +98,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             *(s32 *)(pD + 0x4C) = f & ~0x100;
             f = *(volatile s32 *)(pD + 0x4C);
             f &= ~0x200;
-            BARRIER(f);
             f &= ~0x400;
-            BARRIER(f);
             f &= ~0x800;
             *(s32 *)(pD + 0x4C) = f;
         }
@@ -241,9 +236,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
             *(s32 *)(pD + 0x4C) = *(s32 *)(pD + 0x4C) & ~0x100;
             f = *(volatile s32 *)(pD + 0x4C);
             f &= ~0x200;
-            BARRIER(f);
             f &= ~0x400;
-            BARRIER(f);
             f &= ~0x800;
             *(s32 *)(pD + 0x4C) = f;
             if (hp >= 2) {

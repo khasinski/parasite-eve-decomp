@@ -17,7 +17,7 @@ void func_80191DC0(void *arg0, void *arg1, char *arg2) {
     p2 = arg2;
     p8 = p2;
     p4 = p2;
-    __asm__ volatile("" : : "r"(magic), "r"(p2), "r"(p8), "r"(p4));
+
 
     *(s16 *)(p2 + 0x58) = 0;
     *(s16 *)(p2 + 0x5A) = 0;

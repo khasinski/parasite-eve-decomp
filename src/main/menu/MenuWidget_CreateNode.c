@@ -77,7 +77,7 @@ void *MenuWidget_CreateNode(s32 arg0, void *arg1, void *arg2) {
 
             slot = (s32 *)(i << 2);
             slot = (s32 *)((int)slot + (int)parent);
-            asm volatile("" : "=r"(slot) : "0"(slot));
+
             slot[2] = (s32)node;
         } else {
             BoundsCheck_AssertStub(0xB);

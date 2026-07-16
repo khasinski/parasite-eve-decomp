@@ -42,7 +42,7 @@ void Akao_TimerCallback(void) {
     old_f0 = old_f0 + old_f4;
     old_f0 = old_f0 + old_f8;
     old_f0 = old_f0 + value;
-    asm volatile("" : : : "memory");
+
     D_8009B7F0_STORE = old_f4;
     D_8009B7F4_STORE = old_f8;
     D_8009CDE4 = old_f0;

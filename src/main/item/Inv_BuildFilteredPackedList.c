@@ -68,5 +68,5 @@ void Inv_BuildFilteredPackedList(int mask) {
 
     D_8009D068 = 0;
     g_InvActiveListCount = (out - D_800A1D9C);
-    asm volatile("" : "=m"(stack_pad));
+
 }

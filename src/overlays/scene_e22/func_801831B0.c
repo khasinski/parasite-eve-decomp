@@ -12,7 +12,7 @@ int func_801831B0(char *obj, int mode, int event, int arg3, int arg4, int arg5) 
     if (event == cmp) {
         goto case_0A;
     }
-    asm volatile("" ::: "memory");
+
 
     if ((unsigned int)event >= 0xB) {
         goto high_events;

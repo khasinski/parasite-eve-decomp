@@ -33,7 +33,7 @@ void AddPrim(void *ot, void *prim);
     base = D_8009E968; \
     code_off = ((packet_code << 3) - packet_code) << 2; \
     prim = base - 8; \
-    asm volatile("" : "=r"(prim) : "0"(prim)); \
+     \
     idx = g_ActiveDrawSlot[0]; \
     prim = (char *)(code_off + (int)prim); \
     idx_off = INDEX_STRIDE(idx) << 2; \

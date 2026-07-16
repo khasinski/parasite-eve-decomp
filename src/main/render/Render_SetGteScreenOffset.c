@@ -7,7 +7,7 @@ int Render_SetGteScreenOffset(void) {
     register int sx asm("t4");
     register int sy asm("t5");
 
-    asm volatile("" : "=r"(x), "=r"(y) : "0"(x), "1"(y));
+
     sx = x << 16;
     sy = y << 16;
     asm volatile("ctc2 %0,$24" : : "r"(sx));

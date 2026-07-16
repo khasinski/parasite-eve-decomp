@@ -48,7 +48,7 @@ int Render_ApplyScreenTint(void) {
     if ((flags & 0x1000) == 0) {
         return 0;
     }
-    asm volatile("" : : "r"(stack_pad));
+
 
     if (flags & 0x2000) {
         tint = D_800BCFFC;
