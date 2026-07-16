@@ -7,10 +7,10 @@ void func_80191250(void *arg0, void *arg1, char *fx) {
     char *owner;
     register char *half_ptr asm("$4");
     register char *word_ptr asm("$5");
-    register s32 i asm("$6");
+    s32 i;
     register char *wide_ptr asm("$7");
-    register s32 one asm("$9");
-    register s32 eighty asm("$8");
+    s32 one;
+    s32 eighty;
 
     owner = func_800C2B50();
     i = 0;

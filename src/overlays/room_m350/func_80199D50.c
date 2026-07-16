@@ -32,7 +32,7 @@ s32 func_80199D50(s32 arg0) {
             *(short *)(obj + 0) = *(s32 *)(actor + 0x1FC);
             *(short *)(obj + 2) = *(s32 *)(actor + 0x200) - 0x140;
             {
-                register s32 value asm("$2") = *(s32 *)(actor + 0x204);
+                s32 value = *(s32 *)(actor + 0x204);
                 *(short *)(obj + 4) = value;
             }
             D_8019A830 = 0;

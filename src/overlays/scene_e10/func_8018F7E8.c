@@ -2,8 +2,8 @@ char *func_800C2B50(void);
 
 void func_8018F7E8(void *arg0, void *arg1, char *state) {
     char *actor;
-    register int coord asm("$3");
-    register int scale asm("$2");
+    int coord;
+    int scale;
 
     actor = func_800C2B50();
     *(short *)(state + 0x0) = *(int *)(actor + 0x58);

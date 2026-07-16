@@ -51,7 +51,7 @@ void Sfx_DrawSlotRow(u8 *entry, u8 *text) {
         }
         goto done;
     } else {
-        register int cmp __asm__("$2");
+        int cmp;
         if ((unsigned int)type < 0x13 || (cmp = type - 0x12) == 0) {
             goto done;
         }

@@ -57,8 +57,8 @@ int Battle_GetStateFlag1(void)
 }
 
 void Menu_CopyPromptCodes(unsigned char *src) {
-    register unsigned char *dst asm("$5");
-    register unsigned char *end asm("$3");
+    unsigned char *dst;
+    unsigned char *end;
     int value;
 
     dst = D_80091694;
@@ -73,9 +73,9 @@ void Menu_CopyPromptCodes(unsigned char *src) {
     }
 
     {
-        register unsigned char *len_slot asm("$3");
-        register unsigned char *base asm("$2");
-        register int length asm("$2");
+        unsigned char *len_slot;
+        unsigned char *base;
+        int length;
 
         len_slot = &D_8009169D;
         base = len_slot - 9;

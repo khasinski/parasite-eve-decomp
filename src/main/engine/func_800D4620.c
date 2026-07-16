@@ -2,8 +2,8 @@ int func_800D4620(char *obj) {
     register char *base asm("$6");
     register char *p asm("$5");
     register char *q asm("$4");
-    register int i asm("$3");
-    register int sentinel asm("$7");
+    int i;
+    int sentinel;
 
     base = obj + 0xC;
     i = 6;

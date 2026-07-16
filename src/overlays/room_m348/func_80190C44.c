@@ -42,11 +42,11 @@ void func_80190C44(s32 arg0, s32 arg1, char *arg2) {
     func_80071A44(&stack.sp40, 0, 0x10);
 
     {
-        register s32 x asm("$2") = *(s16 *)(arg2 + 0x10);
+        s32 x = *(s16 *)(arg2 + 0x10);
         stack.sp40.x = x;
     }
     {
-        register s32 y asm("$3") = *(s16 *)(arg2 + 0x10);
+        s32 y = *(s16 *)(arg2 + 0x10);
         stack.sp40.z = 0x1000;
         stack.sp40.y = y;
     }

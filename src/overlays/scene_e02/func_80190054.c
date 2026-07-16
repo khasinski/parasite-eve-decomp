@@ -18,7 +18,7 @@ extern FieldPos *func_800C2B50(void);
 
 void func_80190054(void *arg0, void *arg1, SceneE02VecSet *arg2) {
     register FieldPos *pos asm("$5") = func_800C2B50();
-    register u32 i asm("$4") = 0;
+    u32 i = 0;
     register char *vec asm("$3") = (char *)arg2;
 
     do {

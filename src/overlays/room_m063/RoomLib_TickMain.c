@@ -1,5 +1,5 @@
 int RoomLib_TickMain(char *ctx) {
-    register unsigned int mask asm("a1") = 0xFFFEFFFF;
+    unsigned int mask = 0xFFFEFFFF;
     register char *obj asm("v1") = *(char **)(ctx + 8);
     char *window;
     char *entry;

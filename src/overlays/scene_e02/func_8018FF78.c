@@ -3,7 +3,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 void func_8018FF78(void *arg0, u8 *state, char *work) {
-    register int i asm("$7");
+    int i;
     register char *cur asm("$4");
     unsigned int phase;
     int delta;

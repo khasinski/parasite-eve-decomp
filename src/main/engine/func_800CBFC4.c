@@ -12,8 +12,8 @@ extern u16 D_800E2292;
 extern u16 D_800E2294;
 
 int func_800CBFC4(void *arg0, void *arg1, u8 *anim) {
-    register int x_base_a1 asm("$5");
-    register int z_base_a1 asm("$5");
+    int x_base_a1;
+    int z_base_a1;
     int x_rand;
     int z_rand;
 

@@ -18,8 +18,8 @@ s32 func_801992A4(s32 arg0, void *arg1, s32 *arg2) {
         D_800E2368[10] = 0;
         D_800E2368[11] = 0;
         {
-            register char *actor0 asm("$4") = *D_8009D254;
-            register s32 mask asm("$5") = 0xEFFFFFFF;
+            char *actor0 = *D_8009D254;
+            s32 mask = 0xEFFFFFFF;
             *(s32 *)(actor0 + 0x4C) &= mask;
         }
         return 0;

@@ -7,13 +7,13 @@ typedef struct {
 } Vec3Fixed;
 
 s32 func_800DFE20(Vec3Fixed *lhs, Vec3Fixed *rhs) {
-    register s32 dx asm("$2") = (lhs->x - rhs->x) >> 16;
-    register s32 dx_sq asm("$6") = dx * dx;
-    register s32 dz asm("$2") = (lhs->z - rhs->z) >> 16;
-    register s32 dz_sq asm("$3") = dz * dz;
-    register s32 result asm("$4");
-    register s32 shift asm("$5");
-    register s32 distance_sq asm("$6");
+    s32 dx = (lhs->x - rhs->x) >> 16;
+    s32 dx_sq = dx * dx;
+    s32 dz = (lhs->z - rhs->z) >> 16;
+    s32 dz_sq = dz * dz;
+    s32 result;
+    s32 shift;
+    s32 distance_sq;
     s32 threshold;
 
     result = 0;

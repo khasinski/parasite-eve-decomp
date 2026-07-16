@@ -1,7 +1,7 @@
 typedef unsigned short u16;
 
 int func_800CE560(char *out, int stride, int count, int value) {
-    register int i asm("$8");
+    int i;
     register char *entry asm("$3");
 
     stride += 4;

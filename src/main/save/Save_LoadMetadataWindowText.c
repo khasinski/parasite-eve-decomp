@@ -12,11 +12,11 @@ void Save_LoadMetadataWindowText(void) {
     unsigned char *cursor;
     unsigned char *text;
     unsigned char *lookup;
-    register unsigned char *dst asm("$16");
-    register unsigned char *out asm("$5");
+    unsigned char *dst;
+    unsigned char *out;
     unsigned char value;
-    register unsigned char loop_value asm("$2");
-    register int loop_terminator asm("$3");
+    unsigned char loop_value;
+    int loop_terminator;
 
     cursor = g_SaveMetadataCursor;
     if (cursor < g_SaveMetadataCursor + g_SaveMetadataWindowLength) {

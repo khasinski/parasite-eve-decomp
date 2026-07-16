@@ -47,7 +47,7 @@ mode1:
 mode2:
     {
         /* Keep the divider magic live in $s0; otherwise allocation shifts. */
-        register s32 magic asm("$16") = 0x92492493;
+        s32 magic = 0x92492493;
 
         fade = func_80077DC4((D_800E27EC << 10) / 14) / 50;
         value = ((func_80077DC4((D_800E27EC << 10) / 14) / 2) + 0x800) * rec->radius;

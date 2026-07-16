@@ -4,9 +4,9 @@ typedef unsigned int u32;
 
 void func_800C3134(u8 *table, u32 step, u8 *out) {
     u32 sum = 0;
-    register u32 one asm("$10") = 0x1000;
-    register u32 last asm("$9") = 0xFF;
-    register u8 *entry asm("$7") = table;
+    u32 one = 0x1000;
+    u32 last = 0xFF;
+    u8 *entry = table;
 
     while (1) {
         u32 duration = entry[3];
@@ -15,7 +15,7 @@ void func_800C3134(u8 *table, u32 step, u8 *out) {
         sum += duration;
         if (step < sum) {
             u32 weight = ((sum - step) << 12) / duration;
-            register u32 inv asm("$4") = one - weight;
+            u32 inv = one - weight;
             u32 out0;
             u32 out1;
             u32 out2;

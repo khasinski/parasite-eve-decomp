@@ -55,12 +55,12 @@ extern char D_80194370[];
 void func_80190884(void *arg0, void *arg1, char *sys) {
     register void *obj asm("s7") = arg0;
     register char *sysp asm("s0") = sys;
-    register int c10 asm("s6");
-    register int c190 asm("s5");
-    register int c12c asm("s4");
-    register int c20 asm("s3");
-    register int c2 asm("s2");
-    register int c1 asm("s1");
+    int c10;
+    int c190;
+    int c12c;
+    int c20;
+    int c2;
+    int c1;
     register RoomViewData *view asm("v1");
     char *root;
     RoomPos pos0;

@@ -6,7 +6,7 @@ extern char *func_800C2B50(void);
 void func_8018FEA8(s32 arg0, s32 arg1, char *arg2) {
     register char *src asm("$5");
     register char *dst asm("$3");
-    register unsigned int i asm("$4");
+    unsigned int i;
 
     src = func_800C2B50();
     i = 0;

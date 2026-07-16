@@ -27,7 +27,7 @@ int MemCard_WaitReadyForTransfer(void) {
     register MemCardState *state asm("$3");
     MemCardSioRegs *regs;
     MemCardSioRegs *check_regs;
-    register int value asm("$2");
+    int value;
     int status;
 
     state = D_8009B784;

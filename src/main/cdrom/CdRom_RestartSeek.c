@@ -13,10 +13,10 @@ void CdRom_SeekDoneCallback(void);
 extern int D_8009B6EC;
 
 int CdRom_RestartSeek(void) {
-    register int temp_s0 asm("$16");
-    register int temp_s1 asm("$17");
+    int temp_s0;
+    int temp_s1;
     int temp_v0;
-    register int cmd_mode asm("$2");
+    int cmd_mode;
 
     DsSyncCallback(0);
     temp_v0 = CdPosToInt(CdRom_GetCurrentPosPtr());
@@ -26,8 +26,8 @@ int CdRom_RestartSeek(void) {
     temp_s1 = (int)CdRom_GetCurrentPosPtr();
     temp_v0 = CdRom_GetCmdParam() & 0xFF;
     {
-        register int arg0 asm("$4") = temp_s0;
-        register int neg_one asm("$3");
+        int arg0 = temp_s0;
+        int neg_one;
 
         neg_one = -1;
         return Render_BuildParticleFrame(arg0, temp_s1, temp_v0, CdRom_SeekDoneCallback, neg_one);

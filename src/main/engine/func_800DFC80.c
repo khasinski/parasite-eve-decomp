@@ -7,16 +7,16 @@ typedef struct {
 } Vec3Fixed;
 
 s32 func_800DFC80(Vec3Fixed *lhs, Vec3Fixed *rhs) {
-    register s32 dx asm("$2") = (lhs->x - rhs->x) >> 16;
-    register s32 dx_sq asm("$8") = dx * dx;
-    register s32 dz asm("$2") = (lhs->z - rhs->z) >> 16;
-    register s32 dz_sq asm("$10") = dz * dz;
-    register s32 horizontal asm("$6");
-    register s32 dy asm("$7");
-    register s32 rhs_y asm("$3");
-    register s32 lhs_y asm("$2");
-    register s32 distance_sq asm("$5");
-    register s32 shift asm("$4");
+    s32 dx = (lhs->x - rhs->x) >> 16;
+    s32 dx_sq = dx * dx;
+    s32 dz = (lhs->z - rhs->z) >> 16;
+    s32 dz_sq = dz * dz;
+    s32 horizontal;
+    s32 dy;
+    s32 rhs_y;
+    s32 lhs_y;
+    s32 distance_sq;
+    s32 shift;
     s32 threshold;
 
     horizontal = 0;
@@ -37,11 +37,11 @@ s32 func_800DFC80(Vec3Fixed *lhs, Vec3Fixed *rhs) {
     } while (shift >= 0);
 
     {
-        register s32 dy_sq asm("$2");
-        register s32 horizontal_sq asm("$3");
-        register s32 result asm("$4");
-        register s32 shift2 asm("$5");
-        register s32 distance_sq2 asm("$6");
+        s32 dy_sq;
+        s32 horizontal_sq;
+        s32 result;
+        s32 shift2;
+        s32 distance_sq2;
 
         dy_sq = dy * dy;
         horizontal_sq = horizontal * horizontal;

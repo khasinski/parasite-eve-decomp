@@ -12,13 +12,13 @@ s32 Gte_Atan2(s32 x, s32 z);
 void func_800DFE94(Vec3Fixed *from, Vec3Fixed *to, s16 *out) {
     Vec3Fixed *from_reg = from;
     Vec3Fixed *to_reg = to;
-    register s32 dx asm("$2") = (from_reg->x - to_reg->x) >> 16;
-    register s32 dx_sq asm("$6") = dx * dx;
-    register s32 dz asm("$2") = (from_reg->z - to_reg->z) >> 16;
-    register s32 dz_sq asm("$3") = dz * dz;
-    register s32 horizontal asm("$5");
-    register s32 shift asm("$4");
-    register s32 distance_sq asm("$6");
+    s32 dx = (from_reg->x - to_reg->x) >> 16;
+    s32 dx_sq = dx * dx;
+    s32 dz = (from_reg->z - to_reg->z) >> 16;
+    s32 dz_sq = dz * dz;
+    s32 horizontal;
+    s32 shift;
+    s32 distance_sq;
     s32 threshold;
     s32 angle;
 

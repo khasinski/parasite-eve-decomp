@@ -17,9 +17,9 @@ int LoadImage(RECT *rect, void *pixels);
 
 void func_800CF4B4(int arg0, int arg1, u16 *pixels) {
     RECT rect;
-    register int i asm("$7");
-    register u16 *dst asm("$8");
-    register int magic asm("$9");
+    int i;
+    u16 *dst;
+    int magic;
     int source_offset;
 
     rect.x = (arg0 & 0xF) << 4;

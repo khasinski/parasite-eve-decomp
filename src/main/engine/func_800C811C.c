@@ -7,9 +7,9 @@ extern u16 D_800E2348;
 extern u16 D_800E234C;
 
 int func_800C811C(void *arg0, void *arg1, u8 *anim) {
-    register char *entity_v1 asm("$3") = D_8009D254;
+    char *entity_v1 = D_8009D254;
     int value;
-    register int z_v1 asm("$3");
+    int z_v1;
 
     *(u16 *)(anim + 0x8) = D_800E2348;
     value = *(s16 *)(entity_v1 + 0x2E);

@@ -7,9 +7,9 @@ int rand(void);
 
 void func_800CFF0C(s16 *out)
 {
-    register s16 *out_reg asm("$16");
-    register int y asm("$17");
-    register int phase asm("$4");
+    s16 *out_reg;
+    int y;
+    int phase;
     int temp;
     int z;
 

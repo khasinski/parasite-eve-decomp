@@ -3,7 +3,7 @@ typedef unsigned short u16;
 char *func_800C2B50(void);
 
 void func_80190044(void *arg0, void *arg1, char *work) {
-    register int i asm("$4");
+    int i;
     register char *cur asm("$3");
     char *src;
     int value;

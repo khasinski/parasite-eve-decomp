@@ -6,8 +6,8 @@ extern unsigned char *g_SaveMetadataCursor;
 
 int Save_DeleteMetadataChar(void) {
     register unsigned char *cursor asm("$4") = g_SaveMetadataCursor;
-    register int used asm("$3") = 0;
-    register int length asm("$5") = g_SaveMetadataWindowLength;
+    int used = 0;
+    int length = g_SaveMetadataWindowLength;
 
     while (used < length && *cursor != 0xFF) {
         used += *cursor < 0xFA;
