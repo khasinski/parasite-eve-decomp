@@ -29,6 +29,7 @@ INLINE_ASM_RE = re.compile(
 
 
 ALLOWED_INLINE_ASM_OPS = {
+    "cfc2",
     "ctc2",
     "lwc2",
     "mfc2",
