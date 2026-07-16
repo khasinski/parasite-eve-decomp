@@ -1,5 +1,3 @@
-#include "include_asm.h"
-
 int LoadImage(int rect, int p);
 
 int Gpu_LoadTimImage(int arg0) {
@@ -63,39 +61,4 @@ int Str_GetTableEntryC(int arg0) {
         return arg0 + 0x14;
     }
     return 0;
-}
-
-#define PSYQ_BIOS_THUNK(name, vector, call) \
-    asm( \
-        ".text\n" \
-        ".set noreorder\n" \
-        ".globl " #name "\n" \
-        ".ent " #name "\n" \
-        #name ":\n" \
-        "addiu $10,$0," #vector "\n" \
-        "jr $10\n" \
-        "addiu $9,$0," #call "\n" \
-        ".end " #name "\n" \
-        "nop\n" \
-        ".set reorder\n" \
-    )
-
-/* Match note: these PSY-Q libc entry points are BIOS trampolines with custom
- * ABI/delay-slot ownership. The trailing nop is inter-function padding. */
-PSYQ_BIOS_THUNK(exit, 0xB0, 0x38);
-PSYQ_BIOS_THUNK(strcat, 0xA0, 0x15);
-PSYQ_BIOS_THUNK(strncmp, 0xA0, 0x18);
-PSYQ_BIOS_THUNK(strcpy, 0xA0, 0x19);
-PSYQ_BIOS_THUNK(bzero, 0xA0, 0x28);
-PSYQ_BIOS_THUNK(memcpy, 0xA0, 0x2A);
-PSYQ_BIOS_THUNK(memset, 0xA0, 0x2B);
-PSYQ_BIOS_THUNK(rand, 0xA0, 0x2F);
-PSYQ_BIOS_THUNK(srand, 0xA0, 0x30);
-PSYQ_BIOS_THUNK(printf, 0xA0, 0x3F);
-
-void __maspsx_include_asm_hack_Square_Vsprintf(void) {
-    asm(
-        ".text # maspsx-keep\n"
-        ".include \"src/main/psyq/libc/Square_Vsprintf.inc\" # maspsx-keep\n"
-    );
 }
