@@ -68,8 +68,7 @@ def main() -> None:
         "<h1>parasite-eve-decomp</h1>",
         f"<p>Decompiled functions: <b>{mf}/{nf} ({fpct}%)</b> · "
         f"code bytes: <b>{bpct}%</b>. A unit counts when it has no INCLUDE_ASM "
-        "and no non-empty inline assembly. Register/symbol asm labels and empty "
-        "barriers do not lower progress. "
+        "and no inline/register assembly. Pure C is the target. "
         "The full build is byte-identical "
         "to retail.</p>",
     ]
@@ -91,7 +90,7 @@ def main() -> None:
                      "<th>Status</th></tr>")
         for path, funcs, clean in rows:
             status = "<span class=ok>decompiled</span>" if clean else \
-                     "<span class=no>carries asm body</span>"
+                     "<span class=no>not pure C</span>"
             parts.append(f"<tr><td>{html.escape(path)}</td><td>{funcs}</td>"
                          f"<td>{status}</td></tr>")
         parts.append("</table>")

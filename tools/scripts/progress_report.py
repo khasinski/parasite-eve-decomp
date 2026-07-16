@@ -2,8 +2,7 @@
 """Generate docs/PROGRESS.md - per-binary decompilation progress table.
 
 A translation unit only counts as decompiled when it has no INCLUDE_ASM and no
-inline asm instruction snippets. Register/symbol asm labels and empty barrier
-asm used for matching do not count against progress.
+inline/register asm. Pure C is the target.
 """
 from __future__ import annotations
 
@@ -1145,9 +1144,8 @@ def strip_nonblocking_asm(text: str) -> str:
 
 
 def is_clean(text: str) -> bool:
-    """Plain C apart from INCLUDE_ASM stubs and nonblocking asm annotations."""
-    t = strip_include_asm(text)
-    t = strip_nonblocking_asm(strip_comments(t))
+    """Plain C apart from INCLUDE_ASM stubs."""
+    t = strip_include_asm(strip_comments(text))
     return not ASM_RE.search(t)
 
 
@@ -1353,8 +1351,7 @@ def main() -> None:
         f"{datetime.date.today().isoformat()}. Regenerate with `make progress`._",
         "",
         "A translation unit counts as decompiled when it has no INCLUDE_ASM",
-        "and no non-empty inline assembly. Register/symbol asm labels and empty",
-        "barriers do not lower progress. Code bytes cover function subsegments",
+        "and no inline/register assembly. Pure C is the target. Code bytes cover function subsegments",
         "only (baked data carriers are excluded). Every built binary is",
         "byte-identical to retail (`make check`, `make overlay-check-all`).",
         "",
