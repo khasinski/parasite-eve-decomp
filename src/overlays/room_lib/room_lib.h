@@ -1591,6 +1591,26 @@ extern int func_800C2B68();
         } \
     }
 
+#define ROOMLIB_TIMER_TICK_64(name) \
+    void name(int a, unsigned char *st, char *timer) { \
+        register unsigned char *state asm("s0") = st; \
+        short n = RW16(timer, 0x66); \
+        register char *p asm("a1") = timer; \
+        if (n != 0) { \
+            RW16(timer, 0x66) = n - 1; \
+        } \
+        if (RW16(p, 0x68) == 1) { \
+            RW16(p, 0x68) = 0; \
+            if (RW16(p, 0x66) == 0) { \
+                RW16(p, 0x66) = RWU16(p, 0x64); \
+                func_800C6C18(); \
+            } \
+        } \
+        if (func_800C2B68() == 1) { \
+            state[1] = 2; \
+        } \
+    }
+
 typedef struct RoomFxParams {
     char pad0[0x8];
     short h8;
