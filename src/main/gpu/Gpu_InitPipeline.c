@@ -47,7 +47,7 @@ void Render_PrepareFrame(void);
 void SetGeomScreen(int arg0);
 int CdRom_DetectDiscChange(void);
 int Scene_LoadEntityTexture(void);
-void Scene_SetStoryDay(s8 arg0);
+void Scene_SetStoryDay(s8 storyDay);
 int Scene_LoadEntityTextures(void);
 void Entity_RelocateSceneData(void);
 void Render_SetupFogLayer(int arg0);

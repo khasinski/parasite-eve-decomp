@@ -6,7 +6,7 @@ M2C_UNK Render_SetupEntityPrims(void *, s32, s32, M2C_UNK, s32, s32, s32, s32, M
 M2C_UNK Render_DrawWithAnim(void *, s32, M2C_UNK, M2C_UNK *, M2C_UNK *); /* extern */
 M2C_UNK Render_InitRoomPrimState(void *);                      /* extern */
 s32 Scene_LoadEntityTexture();                                /* extern */
-M2C_UNK Scene_SetStoryDay(s8);                          /* extern */
+M2C_UNK Scene_SetStoryDay(s8 storyDay);                          /* extern */
 s32 Scene_LoadEntityTextures();                                /* extern */
 extern struct { char _[16]; } g_PlayerEntity_o __asm__("g_PlayerEntity");
 #define g_PlayerEntity (*(void **)&g_PlayerEntity_o)
@@ -31,7 +31,7 @@ extern struct { char _[16]; } D_800B0CE3_o __asm__("g_SavedSceneAreaType");
 extern struct { char _[16]; } D_800B0CE3_s1 __asm__("g_SavedSceneAreaType");
 #define g_SavedSceneAreaType (*(u8 *)&D_800B0CE3_o)
 extern struct { char _[16]; } D_800B0CE4_o __asm__("D_800B0CE4");
-#define D_800B0CE4 (*(s8 *)&D_800B0CE4_o)
+#define g_CurrentStoryDay (*(s8 *)&D_800B0CE4_o)
 extern struct { char _[16]; } D_800B0CE6_o __asm__("g_DiscChangeFlags");
 extern struct { char _[16]; } D_800B0CE6_w __asm__("g_DiscChangeFlags");
 extern struct { char _[16]; } D_800B0CE6_o2 __asm__("g_DiscChangeFlags");
@@ -125,7 +125,7 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
         goto block_21;
     case 37:
         g_DiscChangeFlags |= 4;
-        Scene_SetStoryDay(D_800B0CE4);
+        Scene_SetStoryDay(g_CurrentStoryDay);
         M2C_FIELD(p0cd8, s8 *, 0xED) = 0x26;
         return 1;
     case 38:

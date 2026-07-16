@@ -6,9 +6,9 @@ typedef int s32;
 extern struct { char _[16]; } D_800B0CD8_o __asm__("D_800B0CD8");
 extern struct { char _[16]; } D_8009D1A0_o __asm__("D_8009D1A0");
 extern u32 D_8009D2E8;
-extern u8 D_800B0CE4;
-extern u8 D_800B0CE5;
-extern u8 D_800B0CE6;
+extern u8 g_CurrentStoryDay __asm__("D_800B0CE4");
+extern u8 g_PendingStoryDay __asm__("D_800B0CE5");
+extern u8 g_StoryDayFlags __asm__("D_800B0CE6");
 
 #define GAME_STATE ((u8 *)&D_800B0CD8_o)
 #define D_8009D1A0 (*(u32 *)&D_8009D1A0_o)
@@ -25,15 +25,15 @@ int Scene_SetStoryDay(s32 storyDay) {
         register u8 pending asm("$4");
         register u8 storyFlags asm("$2");
 
-        pending = D_800B0CE5;
-        storyFlags = D_800B0CE6;
+        pending = g_PendingStoryDay;
+        storyFlags = g_StoryDayFlags;
         storyDay = (s8)pending;
-        D_800B0CE4 = pending;
-        D_800B0CE6 = storyFlags | 3;
+        g_CurrentStoryDay = pending;
+        g_StoryDayFlags = storyFlags | 3;
     }
 
     if (((D_8009D1A0 & 2) != 0) || ((*(u32 *)gameState & 2) != 0)) {
-        D_800B0CE6 |= 2;
+        g_StoryDayFlags |= 2;
         D_8009D2E8 &= ~2U;
     }
 

@@ -11,7 +11,8 @@ extern SaveBytes70 g_AyaBattleState;
 extern SaveBytes18 g_SavedBattleStateTail;
 extern SaveBytes8 g_BattleEquipStateBlock;
 extern SaveBytes4 g_FieldMoveLock, g_SceneDispatchToken, g_GameStateFlags, D_800B0CDC;
-extern s8 D_800B0CE0, g_LoadedTexturePageId, g_SceneAreaType, g_SavedSceneAreaType, D_800B0CE4, g_PendingStoryDay;
+extern s8 D_800B0CE0, g_LoadedTexturePageId, g_SceneAreaType, g_SavedSceneAreaType, g_PendingStoryDay;
+extern s8 g_CurrentStoryDay __asm__("D_800B0CE4");
 extern u8 g_DiscChangeFlags, g_ScreenTransitionState;
 extern u8 *g_SaveIoCursor;
 
@@ -131,7 +132,7 @@ void Save_DeserializeTail(void) {
     cursor = g_SaveIoCursor;
     next = cursor + 4;
     g_SaveIoCursor = cursor + 2;
-    D_800B0CE4 = cursor[2];
+    g_CurrentStoryDay = cursor[2];
 
     g_SaveIoCursor = cursor + 3;
     g_PendingStoryDay = cursor[3];
