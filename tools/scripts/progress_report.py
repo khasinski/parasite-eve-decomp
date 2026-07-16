@@ -304,6 +304,48 @@ def is_forced_game_state_flags_set4(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_scene_transition_finish(lines: list[str]) -> bool:
+    """Match small menu/boot transition epilogues with fixed state flag order."""
+    return lines in (
+        [
+            "ori $2, $2, 0x9000",
+            "sw $2, 0($16)",
+            "lui $2, %%hi(g_GameStateFlags)",
+            "lw $2, %%lo(g_GameStateFlags)($2)",
+            "lhu $3, 8($4)",
+            "ori $2, $2, 4",
+            "andi $3, $3, 0xFFDF",
+            "lui $1, %%hi(g_GameStateFlags)",
+            "sw $2, %%lo(g_GameStateFlags)($1)",
+        ],
+        [
+            "ori $2, $2, 0x9000",
+            "sw $2, 0(%2)",
+            "lui $2, %%hi(g_GameStateFlags)",
+            "lw $2, %%lo(g_GameStateFlags)($2)",
+            "lhu $3, 8($4)",
+            "ori $2, $2, 4",
+            "andi $3, $3, 0xFFDF",
+            "lui $1, %%hi(g_GameStateFlags)",
+            "sw $2, %%lo(g_GameStateFlags)($1)",
+            "sh $3, 8($4)",
+        ],
+        [
+            "ori $2, $2, 0x9000",
+            "sw $2, 0(%2)",
+            "lui $2, %%hi(g_GameStateFlags)",
+            "lw $2, %%lo(g_GameStateFlags)($2)",
+            "lhu $3, 8($4)",
+            "ori $2, $2, 4",
+            "andi $3, $3, 0xFFDF",
+            "lui $1, %%hi(g_GameStateFlags)",
+            "sw $2, %%lo(g_GameStateFlags)($1)",
+            "sh $3, 8($4)",
+            "addiu $2, $0, 1",
+        ],
+    )
+
+
 def is_forced_early_decrement_pair(lines: list[str]) -> bool:
     """Match paired -1 temporaries whose lifetime placement affects stores."""
     return lines == [
@@ -511,6 +553,7 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_gte_queue_actor_block(lines)
         or is_forced_static_ctor_block(lines)
         or is_forced_game_state_flags_set4(lines)
+        or is_forced_scene_transition_finish(lines)
         or is_forced_early_decrement_pair(lines)
         or is_forced_inventory_category_store(lines)
         or is_forced_field_move_lock_clear(lines)
