@@ -209,6 +209,10 @@ def is_forced_stack_adjust(line: str) -> bool:
     return line in {
         "addiu $sp,$sp,-8",
         "addiu $sp,$sp,8",
+        "addiu $sp,$sp,-16",
+        "addiu $sp,$sp,16",
+        "addiu $sp,$sp,-24",
+        "addiu $sp,$sp,24",
         "addiu $16,$16,-1",
         "addiu\t$16,$3,-4",
     }
@@ -643,6 +647,165 @@ def is_forced_engine_vec_call_stack(lines: list[str]) -> bool:
     ]
 
 
+def is_forced_menu_selected_equip_reload(lines: list[str]) -> bool:
+    """Match Menu_FindSelectedEquipSlotItem's selected-slot store/reload path."""
+    return lines == [
+        "lui $at, %%hi(D_80091A1F)",
+        "sb %0, %%lo(D_80091A1F)($at)",
+        "lui %0, %%hi(D_80091A28)",
+        "lw %0, %%lo(D_80091A28)(%0)",
+        "lui %1, %%hi(D_80091A1F)",
+        "lbu %1, %%lo(D_80091A1F)(%1)",
+        "nop",
+        "addu %1, %0, %1",
+        "lbu %1, 0x1D(%1)",
+        "nop",
+        "addu %0, %0, %1",
+        "lbu %0, 0x4(%0)",
+    ]
+
+
+def is_forced_engine_radius_stack_setup(lines: list[str]) -> bool:
+    """Match func_800C6B90's stack SVECTOR setup before squared distance."""
+    return lines == [
+        "nop",
+        "lh %0,42(%3)",
+        "lh %1,548(%3)",
+        "addiu $sp,$sp,-24",
+        "sh %0,16($sp)",
+        "lh $2,46(%3)",
+        "nop",
+        "sh $2,18($sp)",
+        "lh %2,50(%3)",
+        "nop",
+        "sh %2,20($sp)",
+    ]
+
+
+def is_forced_engine_radius_square_seed(lines: list[str]) -> bool:
+    return lines == [
+        "mult %0,%0",
+        "sw %0,0($sp)",
+    ]
+
+
+def is_forced_akao_voice_scan(lines: list[str]) -> bool:
+    """Match SeqOp_NoteOnWithPitchSlide's active-voice bit scan."""
+    return lines == [
+        ".word 0x3C0800FF",
+        ".word 0x8C430004",
+        ".word 0x8C420030",
+        ".word 0x3508FFFF",
+        ".word 0x00621825",
+        ".word 0x00641024",
+        ".word 0x10400006",
+        ".word 0x3C0200FF",
+        ".word 0x00042040",
+        ".word 0x00881024",
+        ".word 0x1440FFFA",
+        ".word 0x24E70001",
+        ".word 0x3C0200FF",
+        ".word 0x3442FFFF",
+        ".word 0x00821024",
+    ]
+
+
+def is_forced_menu_align_equip_panels(lines: list[str]) -> bool:
+    """Match Menu_AlignEquipPanels' first child offset calculation and call."""
+    return lines == [
+        "addu $3, $2, $0",
+        ".word 0x8f820000",
+        ".reloc .-4, R_MIPS_GPREL16, g_MenuItemUseMode",
+        "lw $5, 0x18(%1)",
+        "bnez $2, 1f",
+        "addiu $2, $0, 0xB0",
+        "lw $2, 0x80($3)",
+        "nop",
+        "bnez $2, 1f",
+        "addiu $2, $0, 0xA2",
+        "addiu $2, $0, 0x9C",
+        "1:",
+        "subu %0, $2, $5",
+        "addu $4, %1, $0",
+        "addu $5, %0, $0",
+        ".word 0x0c000000",
+        ".reloc .-4, R_MIPS_26, MenuWidget_OffsetPosition",
+        "addu $6, $0, $0",
+    ]
+
+
+def is_forced_cd_getsector2_ready_wait(lines: list[str]) -> bool:
+    return lines == [
+        "nop",
+        "1:",
+        "lbu %0,0(%1)",
+        "nop",
+        "andi %0,%0,0x40",
+        "beqz %0,1b",
+        "lui %0,0x1100",
+    ]
+
+
+def is_forced_cd_getsector2_dma_wait(lines: list[str]) -> bool:
+    return lines == [
+        "lui $4,%%hi(D_8009B2C0)",
+        "lw $4,%%lo(D_8009B2C0)($4)",
+        "nop",
+        "lw $2,0($4)",
+        "lui $3,0x100",
+        "and $2,$2,$3",
+        "beqz $2,2f",
+        "addu $3,$4,$0",
+        "lui $4,0x100",
+        "1:",
+        "lw $2,0($3)",
+        "nop",
+        "and $2,$2,$4",
+        "bnez $2,1b",
+        "nop",
+        "2:",
+    ]
+
+
+def is_forced_spu_fidma_wait(lines: list[str]) -> bool:
+    """Match _spu_FiDMA's SPU transfer-control clear wait loop."""
+    return lines == [
+        "lhu $v0, 0x1AA($a0)",
+        "nop",
+        "andi $v0, $v0, 0x30",
+        "beq $v0, $zero, 1f",
+        "move $v1, $zero",
+        "addiu $v1, $v1, 1",
+        "0:",
+        "sltiu $v0, $v1, 0xF01",
+        "beq $v0, $zero, 1f",
+        "nop",
+        "lhu $v0, 0x1AA($a0)",
+        "nop",
+        "andi $v0, $v0, 0x30",
+        "bne $v0, $zero, 0b",
+        "addiu $v1, $v1, 1",
+        "1:",
+    ]
+
+
+def is_forced_pm_send_cmd_dispatch(lines: list[str]) -> bool:
+    """Match Pm_SendCmd's handler-table indirect call with stack args."""
+    return lines == [
+        "lui $3,%%hi(g_PmCmdHandlerTable)",
+        "lw $3,%%lo(g_PmCmdHandlerTable)($3)",
+        "sll $2,$8,2",
+        "addu $2,$2,$3",
+        "lw $2,0($2)",
+        "sw $9,0x10($sp)",
+        "sw $10,0x14($sp)",
+        "lw $2,8($2)",
+        "nop",
+        "jalr $2",
+        "nop",
+    ]
+
+
 def is_forced_stack_matrix_address(line: str) -> bool:
     return line == "addiu %0, $sp, 0x10"
 
@@ -788,6 +951,15 @@ def is_allowed_inline_asm(quoted: str) -> bool:
         or is_forced_max_level_inventory_init(lines)
         or is_forced_small_index_is_one_or_two(lines)
         or is_forced_engine_vec_call_stack(lines)
+        or is_forced_menu_selected_equip_reload(lines)
+        or is_forced_engine_radius_stack_setup(lines)
+        or is_forced_engine_radius_square_seed(lines)
+        or is_forced_akao_voice_scan(lines)
+        or is_forced_menu_align_equip_panels(lines)
+        or is_forced_cd_getsector2_ready_wait(lines)
+        or is_forced_cd_getsector2_dma_wait(lines)
+        or is_forced_spu_fidma_wait(lines)
+        or is_forced_pm_send_cmd_dispatch(lines)
     ):
         return True
     saw_instruction = False

@@ -2,9 +2,9 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Decompiled functions: <b>9678/10312 (93.9%)</b> · code bytes: <b>16.4%</b>. A unit counts when it has no INCLUDE_ASM and no whole-function or nontrivial inline assembly; small irreducible CPU/GTE instruction snippets are allowed. The full build is byte-identical to retail.</p>
+<p>Decompiled functions: <b>9688/10312 (93.9%)</b> · code bytes: <b>16.4%</b>. A unit counts when it has no INCLUDE_ASM and no whole-function or nontrivial inline assembly; small irreducible CPU/GTE instruction snippets are allowed. The full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
-<tr><td>SLUS_006.62 (main)</td><td>2482/2555</td><td>97.1%</td><td>219108/843348</td><td>26.0%</td></tr>
+<tr><td>SLUS_006.62 (main)</td><td>2492/2555</td><td>97.5%</td><td>221048/843348</td><td>26.2%</td></tr>
 <tr><td>boot_display</td><td>0/27</td><td>0.0%</td><td>0/10240</td><td>0.0%</td></tr>
 <tr><td>fx_common</td><td>0/0</td><td>0.0%</td><td>0/53248</td><td>0.0%</td></tr>
 <tr><td>fx_field</td><td>1/3</td><td>33.3%</td><td>36/4096</td><td>0.9%</td></tr>
@@ -35,9 +35,9 @@
 <tr><td>scene_e27</td><td>46/54</td><td>85.2%</td><td>2912/15756</td><td>18.5%</td></tr>
 <tr><td>sys_reset</td><td>6/20</td><td>30.0%</td><td>264/2048</td><td>12.9%</td></tr>
 <tr><td>room overlays (x162)</td><td>6294/6454 (97.5%)</td><td>97.5%</td><td>558768/3737232</td><td>15.0%</td></tr>
-<tr><td>total</td><td>9678/10312</td><td>93.9%</td><td>835588/5106584</td><td>16.4%</td></tr>
+<tr><td>total</td><td>9688/10312</td><td>93.9%</td><td>837528/5106584</td><td>16.4%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 1505/1528 decompiled files</h2>
+<h2>SLUS_006.62 (main) — 1512/1528 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrAttack.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrDecayRate.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -100,7 +100,7 @@
 <tr><td>src/main/akao/Akao_TimerCallback.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/Akao_UpdateVoiceEnvelopes.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/SeqOp_Noop.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/akao/SeqOp_NoteOnWithPitchSlide.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/akao/SeqOp_NoteOnWithPitchSlide.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/SeqOp_NoteOnWithVoiceAlloc.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/SeqOp_PitchSlide.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/SeqOp_SetExpressionSlide.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -349,7 +349,7 @@
 <tr><td>src/main/engine/func_800C6764.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C6800.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C6B20.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/engine/func_800C6B90.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/engine/func_800C6B90.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C6C18.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C6D5C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/func_800C6ED8.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1041,7 +1041,7 @@
 <tr><td>src/main/menu/MenuWidget_GridCellIndex.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/MenuWidget_HasActiveNodes.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/MenuWidget_InitPoolUnk.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/menu/Menu_AlignEquipPanels.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/menu/Menu_AlignEquipPanels.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_AmmoSpendInputHandler.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_BonusPointCancelHandler.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_CheckItemAffordable.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1139,7 +1139,7 @@
 <tr><td>src/main/menu/Menu_EquipOptionsInputHandler.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_EquipStatsInputHandler.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_ExitBonusPointAllocation.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/menu/Menu_FindSelectedEquipSlotItem.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/menu/Menu_FindSelectedEquipSlotItem.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_GetActiveMode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_GetCommandResult.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/menu/Menu_GetEquipMode.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1277,7 +1277,7 @@
 <tr><td>src/main/pm/Pm_RunBatch.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/Pm_RunPrimary.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/Pm_ScriptSendCommand0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/pm/pm.c</td><td>3</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/pm/pm.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/pm2.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/pm_script.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/pm/task4.c</td><td>4</td><td><span class=ok>decompiled</span></td></tr>
@@ -1312,7 +1312,7 @@
 <tr><td>src/main/psyq/libapi/v_wait.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libc/memmove.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_flush.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
-<tr><td>src/main/psyq/libcd/CD_getsector2.c</td><td>1</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/libcd/CD_getsector2.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_initintr.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_initvol.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libcd/CD_vol.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1386,7 +1386,7 @@
 <tr><td>src/main/psyq/misc29.c</td><td>5</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/misc30.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/misc31.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/misc32.c</td><td>2</td><td><span class=no>carries asm body</span></td></tr>
+<tr><td>src/main/psyq/misc32.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/misc33.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/misc34.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/spu6.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
