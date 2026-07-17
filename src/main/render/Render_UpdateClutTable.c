@@ -1,7 +1,7 @@
 typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsigned short u16;typedef int s32;typedef unsigned int u32;typedef long long s64;
 #define NULL ((void *)0)
-extern struct { char _[16]; } D_800A6360_o __asm__("D_800A6360");
-extern struct { char _[16]; } D_800B1638_o __asm__("g_RenderClutLookupTable");
+extern u32 D_800A6360[];
+extern u32 g_RenderClutLookupTable[];
 
 void Render_UpdateClutTable(void *arg0, s16 arg1, s16 arg2) {
     u8 *hdr;
@@ -15,8 +15,8 @@ void Render_UpdateClutTable(void *arg0, s16 arg1, s16 arg2) {
 
     hdr = *(u8 **)arg0;
     if ((hdr != NULL) && (*(s16 *)((u8 *)arg0 + 0xBA) != 0)) {
-        clutTbl = (u32 *)&D_800B1638_o;
-        tpageTbl = (u32 *)&D_800A6360_o;
+        clutTbl = g_RenderClutLookupTable;
+        tpageTbl = D_800A6360;
         src = *(u8 **)((u8 *)arg0 + 0x10);
         prim = *(u8 **)((u8 *)arg0 + 0x54);
         for (i = 0; i < (s32)*(u16 *)(*(u8 **)arg0 + 8); src += 0xC) {

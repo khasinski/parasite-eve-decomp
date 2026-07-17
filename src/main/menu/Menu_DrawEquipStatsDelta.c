@@ -21,8 +21,8 @@ typedef struct MenuWidgetNode {
     s32 kind;
 } MenuWidgetNode;
 
-extern s32 g_MenuEquipMode __asm__("D_8009CF18");
-extern s32 g_MenuEquipCompareMode __asm__("D_8009CF1C");
+extern s32 D_8009CF18;
+extern s32 D_8009CF1C;
 
 void Draw_OffsetCursor(int x, int y);
 void Draw_AllocSprite(int sprite);
@@ -39,7 +39,7 @@ void Menu_DrawEquipStatsDelta(EquipStatPreview *preview) {
     }
 
     sprite_base = 0x7F;
-    if (g_MenuEquipMode != 0) {
+    if (D_8009CF18 != 0) {
         sprite_base = 0x7C;
     }
 
@@ -50,7 +50,7 @@ void Menu_DrawEquipStatsDelta(EquipStatPreview *preview) {
     Draw_OffsetCursor(0, 0xE);
     Draw_AllocSprite(sprite_base + 2);
 
-    if (g_MenuEquipCompareMode != 0) {
+    if (D_8009CF1C != 0) {
         node = MenuWidget_GetCurrentNode();
         if (node->kind == 7) {
             Draw_OffsetCursor(0x18, 0xE);

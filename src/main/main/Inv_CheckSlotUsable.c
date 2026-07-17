@@ -2,8 +2,8 @@
 /* MASPSX_FLAGS: -G8 */
 typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsigned short u16;typedef int s32;typedef unsigned int u32;typedef long long s64;
 #define NULL ((void *)0)
-extern s16 *g_InvItemPtr __asm__("D_8009D048");
-extern s32 g_InvSlotLimit __asm__("D_8009D050");
+extern s16 *D_8009D048;
+extern s32 D_8009D050;
 
 void *Item_LookupBaseData(unsigned int index);
 s32 Inv_FindSlotByIndex();
@@ -18,8 +18,8 @@ s32 Inv_CheckSlotUsable(s32 arg0) {
     u8 *ent;
 
     ret = 0;
-    cur = g_InvItemPtr;
-    end = g_InvItemPtr + g_InvSlotLimit;
+    cur = D_8009D048;
+    end = D_8009D048 + D_8009D050;
     if (cur < end) {
         do {
             if (*cur == 0) {
@@ -27,8 +27,8 @@ s32 Inv_CheckSlotUsable(s32 arg0) {
             }
             cur++;
         } while (cur < end);
-        if (cur < g_InvItemPtr + g_InvSlotLimit) {
-            t = cur - g_InvItemPtr;
+        if (cur < D_8009D048 + D_8009D050) {
+            t = cur - D_8009D048;
         } else {
             t = -1;
         }
@@ -59,7 +59,7 @@ s32 Inv_CheckSlotUsable(s32 arg0) {
         case 14:
         case 15:
             if (slot >= 0) {
-                g_InvItemPtr[slot] = arg0;
+                D_8009D048[slot] = arg0;
             } else {
                 ret = 1;
             }
@@ -72,7 +72,7 @@ s32 Inv_CheckSlotUsable(s32 arg0) {
         }
     } else {
         if (slot >= 0) {
-            g_InvItemPtr[slot] = arg0;
+            D_8009D048[slot] = arg0;
         } else {
             ret = 1;
         }
