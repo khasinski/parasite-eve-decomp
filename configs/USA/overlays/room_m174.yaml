@@ -71,7 +71,7 @@ segments:
       - [0x1B80, asm, room_m174_344_11F4_1368_1728_19F0_1B80]
       - [0x1D64, c, func_80190D4C]
       - [0x1DBC, asm, room_m174_344_11F4_1368_1728_19F0_1B80_1DBC]
-      - [0x2218, asm, func_80191200]
+      - [0x2218, c, func_80191200]
       - [0x2268, asm, func_80191250]
       - [0x22FC, asm, room_m174_344_11F4_1368_1728_19F0_1B80_2268_22FC]
       - [0x2D54, c, RoomLib_Set3Reset_80191D3C]
