@@ -54,7 +54,7 @@ segments:
       - [0xAC4, asm, func_8018FAAC]
       - [0xB88, asm, room_m141_100_148_23C_AC4_B88]
       - [0xDE4, asm, func_8018FDCC]
-      - [0xEC0, asm, func_8018FEA8]
+      - [0xEC0, c, func_8018FEA8]
       - [0xF34, asm, room_m141_100_148_23C_AC4_B88_EC0_F34]
       - [0x10C4, c, func_801900AC]
       - [0x10CC, asm, room_m141_100_148_23C_AC4_10CC]
