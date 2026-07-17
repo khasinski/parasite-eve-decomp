@@ -1375,7 +1375,7 @@ segments:
       - [0x6E7E0, c, psyq/misc33]
       - [0x6E848, c, sys/Sys_SetInterruptHandler]
       - [0x6E8C0, c, pad/RemovePatchPad]
-      - [0x6E8F8, asm, pad/pad]
+      - [0x6E8F8, c, pad/pad]
       - [0x6E960, c, pad/func_8007E160]
       - [0x6E9A0, asm, main/gap_pad_pad_tail_6E9A0]
       - [0x6E9A4, asm, pad/InitPAD2]
