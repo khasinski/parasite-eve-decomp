@@ -39,7 +39,7 @@ segments:
       - [0x244, c, RoomLib_PlantTable_8018F22C]
       - [0x270, c, RoomLib_Spawn6_8018F258]
       - [0x29C, c, RoomLib_RegisterTable3_8018F284]
-      - [0x2E4, asm, func_8018F2CC]
+      - [0x2E4, c, func_8018F2CC]
       - [0x370, c, func_8018F358]
       - [0x3D0, c, func_8018F3B8]
       - [0x3D8, asm, room_m153_29C_2E4_1260_3D8]
