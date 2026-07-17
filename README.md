@@ -29,10 +29,9 @@ decompiled C rather than generated split assembly. Verified builds are
 byte-identical to retail (`make check`, plus overlay checks for touched
 overlays).
 
-The matching policy is conservative: new decompilation work should match as
-C through the stock compiler pipeline. Small, documented local asm/register
-levers are acceptable only when ordinary C source-shape attempts have been
-exhausted. Whole-function asm bodies, post-build rewrite passes, and build hacks
+The matching policy is conservative: promoted decompilation work must match as
+plain C through the stock compiler pipeline. Inline asm, register asm, asm
+barriers, whole-function asm bodies, post-build rewrite passes, and build hacks
 are not acceptable substitutes for decompilation.
 
 ## Layout

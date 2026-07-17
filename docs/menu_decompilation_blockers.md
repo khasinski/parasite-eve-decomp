@@ -83,12 +83,12 @@ What helps:
   `InventoryPageInputHandler`: `s4=root`, `s2=flags`, `s0=child`,
   `s1=page node`, `s3=handled`.
 
-What is useful only for diagnosis:
+What is useful only for private scratch experiments:
 
-- Explicit register asm can prove that a mismatch is allocator-driven, but the
-  accepted source still needs a plain-C structure that reaches the same target.
-- Empty inline asm or operand barriers can identify a lifetime/scheduler issue,
-  but they are not acceptable in promoted code.
+- Explicit register asm, empty asm barriers, or operand barriers can sometimes
+  prove that a mismatch is allocator- or scheduler-driven, but they are not an
+  acceptable repository technique. Do not promote a function until the same
+  target is reached with plain C.
 
 What remains out of scope:
 
@@ -416,10 +416,9 @@ than the original monolithic note because each blocker class has a specific
 recipe file and evidence examples.
 
 The older policy in `11_parasite_eve_menu.md` allowed small `register ... asm`,
-empty asm barriers, and inline asm helpers as local levers. That is now obsolete
-for this project. Those tricks can still be useful as diagnostics to identify a
-register-allocation, scheduler, or copy-shape blocker, but promoted
-decompilations must match as plain C.
+empty asm barriers, and inline asm helpers as local levers. That is obsolete for
+this project. Treat those tricks only as throwaway scratch probes outside the
+accepted patch path. Promoted decompilations must match as plain C.
 
 ### Which guide shard to open first
 
@@ -453,9 +452,10 @@ learning back into source structure before promoting anything.
 - Treat delay-slot differences as source-order evidence. If the target places a
   condition calculation in a delay slot, try making that calculated value common
   to both outgoing paths.
-- Treat `__asm__("symbol")`, `M2C_FIELD`, and old asm barriers in existing code
-  as evidence of symbol identity, field width, or allocator pressure, not as a
-  style to reproduce in new accepted code.
+- Treat old asm barriers and register-pinned locals in existing code as evidence
+  of allocator pressure only, not as a style to reproduce in new accepted code.
+  Symbol aliases used only for object identity are a separate naming issue; do
+  not use them to hide instruction-level asm in functions.
 - For globals, decide scalar versus array versus struct block from target
   addressing first. If target uses absolute block addressing, prefer incomplete
   arrays or a block struct over small-data scalar externs.
@@ -473,19 +473,14 @@ learning back into source structure before promoting anything.
   field access, aligned bulk copy, or unaligned raw copy before naming fields.
   Field-by-field C is often the wrong first model for menu item records.
 
-### Diagnostic-only asm/register experiments
+### Scratch-only asm/register probes
 
-- Local register binding such as `register T x asm("$s0")` can prove that a
-  specific variable-to-register role is the blocker.
-- Empty asm barriers can prove that a mismatch is a lifetime or delay-slot
-  scheduling problem.
-- Inline asm helpers for `lwl/lwr/swl/swr` can prove that an unaligned-copy
-  primitive is the blocker.
-
-These experiments should stay in scratch work. The accepted patch must remove
-them and express the same shape in plain C. Scratch notes should record the
-closest pure-C attempt: size, first mismatch, register allocation, and why the
-remaining mismatch points to a specific source-shape problem.
+Register binding, empty asm barriers, and inline asm helpers are not acceptable
+repository solutions. At most, use them outside tracked files to understand a
+blocker, then discard them. The accepted patch must express the shape in plain
+C. Scratch notes should record the closest pure-C attempt: size, first mismatch,
+register allocation, and why the remaining mismatch points to a specific
+source-shape problem.
 
 ### Still disallowed
 
@@ -502,7 +497,7 @@ The handbook's feature index gives useful target-asm oracles:
 | `opdGv` | long repeated `lwl/lwr/swl/swr` raw-record copies; useful for item-record copy shape |
 | `nokIM` | `lwl/lwr` copy from argument pointer to stack; useful for low-alignment stack temporaries |
 | `MQVsQ`, `OIgwc`, `9DUZU`, `Og432`, `AfP8N` | additional unaligned-copy / decompiler-failure cases |
-| `TB9Jm`, `KRack` | examples where lifetime fences solved scheduling; useful as a model for minimal barriers |
+| `TB9Jm`, `KRack` | examples where lifetime fences explain scheduling; useful only as scratch evidence, not as a promoted technique |
 | `YX4pg` | callback plus irregular switch; useful for widget/update callback setup |
 | `HnKWT`, `rbbT9`, `ngeVN` | `.sdata`/`.sbss` and `$gp` classification cases |
 
