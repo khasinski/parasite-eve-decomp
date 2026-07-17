@@ -54,7 +54,7 @@ segments:
       - [0x13E0, c, func_801903C8]
       - [0x13E8, asm, room_m401_284_1288_13E0_13E8]
       - [0x15D8, c, func_801905C0]
-      - [0x15E0, asm, func_801905C8]
+      - [0x15E0, c, func_801905C8]
       - [0x1660, asm, room_m401_284_1288_13E0_1660]
       - [0x1BCC, c, RoomLib_Set3Range_80190BB4]
       - [0x1BE4, c, func_80190BCC]
