@@ -42,7 +42,7 @@ segments:
       - [0x140, c, func_8018F128]
       - [0x1CC, c, RoomLib_CloseTarget_8018F1B4]
       - [0x250, c, func_8018F238]
-      - [0x258, asm, room_m348_DC_250]
+      - [0x258, c, func_8018F240]
       - [0x578, c, func_8018F560]
       - [0x580, c, func_8018F568]
       - [0x600, c, func_8018F5E8]
