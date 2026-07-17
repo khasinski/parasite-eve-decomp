@@ -50,6 +50,8 @@ segments:
       - [0x870, asm, scene_e09_26C_298_2E0_428_770_870]
       - [0xF6C, c, func_8018FF5C]
       - [0xFD0, asm, scene_e09_26C_298_2E0_428_770_FD0]
+      - [0x1B50, c, func_80190B40]
+      - [0x1BB0, asm, scene_e09_26C_298_2E0_428_770_FD0_1B50]
       - [0x1C60, c, func_80190C50]
       - [0x1C68, c, RoomLib_InitB_80190C58]
       - [0x1D08, asm, scene_e09_26C_298_2E0_428_1D08]
