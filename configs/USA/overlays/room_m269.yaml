@@ -36,7 +36,7 @@ segments:
     subsegments:
       - [0x0, rodata, room_m269_header]
       - [0x78, c, func_8018F060]
-      - [0x9C, c, func_8018F084]
+      - [0x9C, asm, func_8018F084]
       - [0x148, c, func_8018F130]
       - [0x150, c, RoomLib_InvokeCallbackC_8018F138]
       - [0x178, c, func_8018F160]

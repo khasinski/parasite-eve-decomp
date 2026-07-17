@@ -43,7 +43,7 @@ segments:
       - [0x3E0, c, func_8010C3E0]
       - [0x404, asm, sys_reset_404]
       - [0x738, c, func_8010C738]
-      - [0x750, c, func_8010C750]
+      - [0x750, asm, func_8010C750]
       - [0x7CC, asm, sys_reset_7CC]
   - [0x800]
 # source slice: scanner
