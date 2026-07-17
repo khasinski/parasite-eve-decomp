@@ -3,8 +3,7 @@ typedef signed char s8;typedef unsigned char u8;typedef short s16;typedef unsign
 #include "pe1/akao.h"
 
 void SeqOp_SetVoiceInstrument(AkaoTrack *track, AkaoInstrument *instrument, int sample_header);
-extern struct { char _[16]; } g_AkaoCurTrack_o __asm__("g_AkaoCurTrack");
-#define g_AkaoCurTrack (*(s32 **)&g_AkaoCurTrack_o)
+extern s32 *g_AkaoCurTrack;
 extern AkaoInstrument g_AkaoInstrumentTable[];
 
 void Akao_SetVoiceLoopAddr(void *arg0, u32 arg1) {

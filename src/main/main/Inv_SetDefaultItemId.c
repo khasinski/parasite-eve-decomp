@@ -6,12 +6,12 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern s32 D_8009D038;
-extern u32 D_800A76A4_obj[4] __asm__("D_800A76A4");
+extern u32 D_800A76A4[4];
 extern u8 D_800A1B70[];
 extern u8 D_800A1B90[];
 extern u8 D_800A1D79[];
 
-#define D_800A76A4 (D_800A76A4_obj[0])
+#define D_800A76A4_VALUE (D_800A76A4[0])
 
 #define SCRAMBLE_RANDOM_BYTES()                    \
     do {                                           \
@@ -31,7 +31,7 @@ void Inv_SetDefaultItemId(void) {
     int bit;
     int index;
 
-    seed = D_800A76A4 / 60;
+    seed = D_800A76A4_VALUE / 60;
     bits = 0;
 
     for (index = 0; index < 0x11; index++) {

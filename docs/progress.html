@@ -2,9 +2,9 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Decompiled functions: <b>8546/10312 (82.9%)</b> · code bytes: <b>13.9%</b>. A unit counts when it has no INCLUDE_ASM and no inline/register assembly. Pure C is the target. The full build is byte-identical to retail.</p>
+<p>Decompiled functions: <b>8550/10312 (82.9%)</b> · code bytes: <b>13.9%</b>. A unit counts when it has no INCLUDE_ASM and no inline/register assembly. Pure C is the target. The full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
-<tr><td>SLUS_006.62 (main)</td><td>1459/2555</td><td>57.1%</td><td>115892/843348</td><td>13.7%</td></tr>
+<tr><td>SLUS_006.62 (main)</td><td>1463/2555</td><td>57.3%</td><td>117300/843348</td><td>13.9%</td></tr>
 <tr><td>boot_display</td><td>0/27</td><td>0.0%</td><td>0/10240</td><td>0.0%</td></tr>
 <tr><td>fx_common</td><td>0/0</td><td>0.0%</td><td>0/53248</td><td>0.0%</td></tr>
 <tr><td>fx_field</td><td>1/3</td><td>33.3%</td><td>36/4096</td><td>0.9%</td></tr>
@@ -35,9 +35,9 @@
 <tr><td>scene_e27</td><td>45/54</td><td>83.3%</td><td>2636/15756</td><td>16.7%</td></tr>
 <tr><td>sys_reset</td><td>5/20</td><td>25.0%</td><td>140/2048</td><td>6.8%</td></tr>
 <tr><td>room overlays (x162)</td><td>6224/6454 (96.4%)</td><td>96.4%</td><td>543544/3737228</td><td>14.5%</td></tr>
-<tr><td>total</td><td>8546/10312</td><td>82.9%</td><td>710152/5106580</td><td>13.9%</td></tr>
+<tr><td>total</td><td>8550/10312</td><td>82.9%</td><td>711560/5106580</td><td>13.9%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 1014/1531 decompiled files</h2>
+<h2>SLUS_006.62 (main) — 1017/1531 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrAttack.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrDecayRate.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -169,7 +169,7 @@
 <tr><td>src/main/akao/misc.c</td><td>7</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/akao/misc2.c</td><td>2</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/akao/misc3.c</td><td>2</td><td><span class=no>not pure C</span></td></tr>
-<tr><td>src/main/akao/misc4.c</td><td>2</td><td><span class=no>not pure C</span></td></tr>
+<tr><td>src/main/akao/misc4.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/misc5.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/akao/seq.c</td><td>5</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/akao/seq2.c</td><td>3</td><td><span class=ok>decompiled</span></td></tr>
@@ -781,7 +781,7 @@
 <tr><td>src/main/main/Akao_ProcessVoiceQueue.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Akao_SetVoiceKeyOff.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Akao_SetVoiceKeyOn.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Akao_SetVoiceLoopAddr.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
+<tr><td>src/main/main/Akao_SetVoiceLoopAddr.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Akao_SetVoiceLoopAddrAlt.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Akao_StepSampleLoader.c</td><td>9</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Akao_StepSequencerVoice.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
@@ -856,7 +856,7 @@
 <tr><td>src/main/main/Inv_RebuildWithBonusSlots.c</td><td>2</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Inv_RebuildWithSlotLimit.c</td><td>4</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Inv_RollRandomItemType.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Inv_SetDefaultItemId.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
+<tr><td>src/main/main/Inv_SetDefaultItemId.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Inv_SetupSlotDisplay.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Inv_SortSlotsByPriority.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Inv_StepScrollDisplay.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>

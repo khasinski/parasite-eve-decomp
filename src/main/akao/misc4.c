@@ -12,7 +12,6 @@ typedef unsigned int u32;
 extern char g_AkaoVoiceChannelTable[];
 extern u32 g_SpuActiveVoiceMask;
 extern u32 g_SpuStoppedVoiceMask;
-extern u32 g_AkaoSeqPendingFlags_1 __asm__("g_AkaoSeqPendingFlags");
 void AkaoSpuVoice_SetVolume(unsigned int index, unsigned int left, unsigned int right);
 void AkaoSpuVoice_SetPitch(unsigned int index, unsigned int value);
 void AkaoSpuVoice_SetAdsrAttack(unsigned int index, unsigned int left, unsigned int right);
@@ -105,5 +104,5 @@ void Spu_VoiceStopAll(void)
       while (pending != 0);
     }
   }
-  g_AkaoSeqPendingFlags_1 |= 2;
+  g_AkaoSeqPendingFlags |= 2;
 }
