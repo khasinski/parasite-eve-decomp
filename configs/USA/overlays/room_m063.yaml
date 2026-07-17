@@ -44,7 +44,7 @@ segments:
       - [0x2D4, c, RoomLib_ArmWindowVia_8018F2BC]
       - [0x338, asm, room_m063_338]
       - [0xD2C, c, func_8018FD14]
-      - [0xD74, asm, RoomLib_TickMain]
+      - [0xD74, c, RoomLib_TickMain]
       - [0xDEC, c, func_8018FDD4]
       - [0xDF4, asm, room_m063_338_DF4]
       - [0xE180, data]
