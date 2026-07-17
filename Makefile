@@ -174,6 +174,12 @@ overlay-func-diff:
 
 overlay-extract:
 	@if [ -f "$(OVERLAY_ORIG)" ]; then echo "have $(OVERLAY_ORIG)"; exit 0; fi; \
+	if [ -f "$(OVERLAY_CFG)" ]; then \
+	    $(PY) tools/scripts/extract_overlay_config_target.py "$(OVERLAY_CFG)" --pe-img "$(PE_IMG)"; \
+	    rc=$$?; \
+	    if [ $$rc -eq 0 ]; then exit 0; fi; \
+	    if [ $$rc -ne 2 ]; then exit $$rc; fi; \
+	fi; \
 	slice="$(OVERLAY_SLICE)"; \
 	if [ -f "$(OVERLAY_CFG)" ]; then \
 	    slice="$$( \
