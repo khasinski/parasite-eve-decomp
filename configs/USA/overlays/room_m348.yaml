@@ -53,7 +53,7 @@ segments:
       - [0x9C4, c, func_8018F9AC]
       - [0xA44, c, func_8018FA2C]
       - [0xA68, asm, room_m348_DC_250_610_8D8_A68]
-      - [0xC4C, asm, func_8018FC34]
+      - [0xC4C, c, func_8018FC34]
       - [0xCA4, asm, room_m348_DC_250_610_8D8_A68_CA4]
       - [0x1100, asm, func_801900E8]
       - [0x1150, asm, func_80190138]

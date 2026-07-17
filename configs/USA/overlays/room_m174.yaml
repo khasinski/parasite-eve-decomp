@@ -69,7 +69,7 @@ segments:
       - [0x1ADC, c, func_80190AC4]
       - [0x1B5C, c, func_80190B44]
       - [0x1B80, asm, room_m174_344_11F4_1368_1728_19F0_1B80]
-      - [0x1D64, asm, func_80190D4C]
+      - [0x1D64, c, func_80190D4C]
       - [0x1DBC, asm, room_m174_344_11F4_1368_1728_19F0_1B80_1DBC]
       - [0x2218, asm, func_80191200]
       - [0x2268, asm, func_80191250]
