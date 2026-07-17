@@ -1926,7 +1926,7 @@ segments:
       - [0xBE170, c, engine/func_800CD970]
       - [0xBE178, c, engine/func_800CD978]
       - [0xBE180, c, engine/func_800CD980]
-      - [0xBE25C, asm, engine/func_800CDA5C]
+      - [0xBE25C, c, engine/func_800CDA5C]
       - [0xBE424, c, engine/func_800CDC24]
       - [0xBE504, c, engine/func_800CDD04]
       - [0xBE50C, c, engine/func_800CDD0C]
