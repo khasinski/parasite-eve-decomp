@@ -31,127 +31,9 @@ typedef struct RoomObj {
 #define RVW16(o, off) (*(volatile short *)((char *)(o) + (off)))
 #define RVU16(o, off) (*(volatile unsigned short *)((char *)(o) + (off)))
 
-#define ROOMLIB_ROT_ENTRY(rotTable, angle) \
-    ({ \
-        register int idx asm("$2") = (angle); \
-        register int *base asm("$3") = (rotTable); \
-        (int *)((char *)base + (idx << 2)); \
-    })
 
-#define ROOMLIB_GTE_MVMVA_STORE_LOCAL(base) \
-    asm volatile( \
-        "addiu $2,%0,0x28\n\t" \
-        "lw $12,0($2)\n\t" \
-        "lw $13,4($2)\n\t" \
-        "ctc2 $12,$0\n\t" \
-        "ctc2 $13,$1\n\t" \
-        "lw $12,8($2)\n\t" \
-        "lw $13,12($2)\n\t" \
-        "lw $14,16($2)\n\t" \
-        "ctc2 $12,$2\n\t" \
-        "ctc2 $13,$3\n\t" \
-        "ctc2 $14,$4\n\t" \
-        "lwc2 $0,0(%0)\n\t" \
-        "lwc2 $1,4(%0)\n\t" \
-        "nop\n\t" \
-        "nop\n\t" \
-        ".word 0x4A486012\n\t" \
-        "addiu $2,%0,0x8\n\t" \
-        "swc2 $25,0($2)\n\t" \
-        "swc2 $26,4($2)\n\t" \
-        "swc2 $27,8($2)" \
-        : \
-        : "r"(base) \
-        : "$2", "$12", "$13", "$14", "memory")
 
-#define ROOMLIB_GTE_MVMVA_STORE_OFFSET_TAIL(base, vecbase, hval, low) \
-    asm volatile( \
-        "addiu $2,%2,0x28\n\t" \
-        "sh $4,0x38(%2)\n\t" \
-        "negu $3,$3\n\t" \
-        "sh $3,0x34(%2)\n\t" \
-        "lw $12,0($2)\n\t" \
-        "lw $13,4($2)\n\t" \
-        "ctc2 $12,$0\n\t" \
-        "ctc2 $13,$1\n\t" \
-        "lw $12,8($2)\n\t" \
-        "lw $13,12($2)\n\t" \
-        "lw $14,16($2)\n\t" \
-        "ctc2 $12,$2\n\t" \
-        "ctc2 $13,$3\n\t" \
-        "ctc2 $14,$4\n\t" \
-        "addiu $2,%3,0x70\n\t" \
-        "lwc2 $0,0($2)\n\t" \
-        "lwc2 $1,4($2)\n\t" \
-        "nop\n\t" \
-        "nop\n\t" \
-        ".word 0x4A486012\n\t" \
-        "addiu $2,%2,0x8\n\t" \
-        "swc2 $25,0($2)\n\t" \
-        "swc2 $26,4($2)\n\t" \
-        "swc2 $27,8($2)" \
-        : "=r"(low) \
-        : "0"(low), "r"(base), "r"(vecbase), "r"(hval) \
-        : "$2", "$12", "$13", "$14", "memory")
 
-#define ROOMLIB_VECTOR_TRANSFORM_HELPER(name, rotTable) \
-    void name(char *state, char *work) { \
-        int *entry; \
-        int angle; \
-        int link; \
-        int heading; \
-        int table_word; \
-        int table_half; \
-        register unsigned int word asm("$3"); \
-        register unsigned int half asm("$4"); \
-        link = RVW32(state, 0x80); \
-        if (link != 0) { \
-            RW32(state, 0x40) = RW32(link, 0x28); \
-            RW32(state, 0x44) = RW32(RVW32(state, 0x80), 0x2C); \
-            RW32(state, 0x48) = RW32(RVW32(state, 0x80), 0x30); \
-        } \
-        if (RW32(state, 0x4C) != 0) { \
-            angle = FieldEng_VecToAngle((int *)(state + 0x50), (int *)(state + 0x40)) & 0xFFF; \
-            entry = ROOMLIB_ROT_ENTRY(rotTable, angle); \
-            table_half = *(short *)((char *)entry + 2); \
-            RVW16(work, 0x2A) = 0; \
-            RVW16(work, 0x28) = table_half; \
-            table_word = entry[0]; \
-            half = RVU16(work, 0x28); \
-            RVW16(work, 0x2E) = 0; \
-            RVW16(work, 0x32) = 0; \
-            RVW16(work, 0x36) = 0; \
-            RVW16(work, 0x00) = 0; \
-            RVW16(work, 0x02) = 0; \
-            RVW16(work, 0x2C) = table_word; \
-            word = RVU16(work, 0x2C); \
-            RVW16(work, 0x30) = 0x1000; \
-            RVW16(work, 0x38) = half; \
-            RVW16(work, 0x34) = -word; \
-            heading = RW16(state, 0x4E); \
-            RVW16(work, 0x04) = heading; \
-            ROOMLIB_GTE_MVMVA_STORE_LOCAL(work); \
-            RW32(state, 0x40) = RW32(state, 0x50) + (RW32(work, 0x08) << 16); \
-            RW32(state, 0x48) = RW32(state, 0x58) + (RW32(work, 0x10) << 16); \
-        } \
-        angle = FieldEng_VecToAngle((int *)(state + 0x50), (int *)(state + 0x40)) & 0xFFF; \
-        entry = ROOMLIB_ROT_ENTRY(rotTable, angle); \
-        table_half = *(short *)((char *)entry + 2); \
-        RVW16(work, 0x2A) = 0; \
-        RVW16(work, 0x28) = table_half; \
-        table_word = entry[0]; \
-        half = RVU16(work, 0x28); \
-        RVW16(work, 0x2E) = 0; \
-        RVW16(work, 0x32) = 0; \
-        RVW16(work, 0x36) = 0; \
-        RVW16(work, 0x2C) = table_word; \
-        word = RVU16(work, 0x2C); \
-        RVW16(work, 0x30) = 0x1000; \
-        ROOMLIB_GTE_MVMVA_STORE_OFFSET_TAIL(work, state, half, word); \
-        RW32(state, 0x40) += RW32(work, 0x08) << 16; \
-        RW32(state, 0x44) += RW32(work, 0x0C) << 16; \
-        RW32(state, 0x48) += RW32(work, 0x10) << 16; \
-    }
 
 extern void RoomLib_HandlerA();
 extern void RoomLib_HandlerB(void);
@@ -285,173 +167,13 @@ typedef struct RoomLibFxMatrixState {
 extern void func_800C2B40(void *state);
 extern void *func_8006DC18(int type);
 
-#define ROOMLIB_INIT_FX_MATRIX(name, base) \
-    extern unsigned char base##C0; \
-    extern unsigned char base##C1; \
-    extern unsigned char base##C2; \
-    extern unsigned char base##C4; \
-    extern unsigned char base##C5; \
-    extern unsigned char base##C6; \
-    extern short base##C8; \
-    extern short base##CA; \
-    extern unsigned char base##D0; \
-    extern unsigned char base##D1; \
-    extern unsigned char base##D2; \
-    extern unsigned char base##D4; \
-    extern unsigned char base##D5; \
-    extern unsigned char base##D6; \
-    extern short base##D8; \
-    extern short base##DA; \
-    void name(RoomEnt *ent, void *unused, RoomLibFxMatrixState *state) { \
-        RoomLibFxMatrixWords *matrix; \
-        register int height asm("$2"); \
-        register int color asm("$3"); \
-        func_800C2B40(state); \
-        state->asset = func_8006DC18(0xB); \
-        state->link = ent->link; \
-        matrix = (RoomLibFxMatrixWords *)state->link->p238; \
-        state->matrix = *matrix; \
-        RW16(state, 0x28) = 0x28; \
-        RW16(state, 0x2A) = 0; \
-        RW16(state, 0x2C) = 0; \
-        base##D4 = 4; \
-        base##D5 = 1; \
-        asm volatile("" ::: "memory"); \
-        height = 0x80; \
-        color = 0x80; \
-        asm volatile("" : : "r"(height), "r"(color)); \
-        base##DA = height; \
-        base##C4 = 8; \
-        base##C5 = 2; \
-        base##D8 = 0; \
-        base##D0 = color; \
-        base##D1 = color; \
-        base##D2 = color; \
-        base##D6 = 0; \
-        base##C8 = 0; \
-        base##CA = 0x30; \
-        base##C0 = color; \
-        base##C1 = color; \
-        base##C2 = color; \
-        base##C6 = 0; \
-    }
 
-#define ROOMLIB_INIT_FX_MATRIX_943(name) \
-    extern unsigned char D_80194360; \
-    extern unsigned char D_80194361; \
-    extern unsigned char D_80194362; \
-    extern unsigned char D_80194364; \
-    extern unsigned char D_80194365; \
-    extern unsigned char D_80194366; \
-    extern short D_80194368; \
-    extern short D_8019436A; \
-    extern unsigned char D_80194380; \
-    extern unsigned char D_80194381; \
-    extern unsigned char D_80194382; \
-    extern unsigned char D_80194384; \
-    extern unsigned char D_80194385; \
-    extern unsigned char D_80194386; \
-    extern short D_80194388; \
-    extern short D_8019438A; \
-    void name(RoomEnt *ent, void *unused, RoomLibFxMatrixState *state) { \
-        RoomLibFxMatrixWords *matrix; \
-        register int height asm("$2"); \
-        register int color asm("$3"); \
-        func_800C2B40(state); \
-        state->asset = func_8006DC18(0xB); \
-        state->link = ent->link; \
-        matrix = (RoomLibFxMatrixWords *)state->link->p238; \
-        state->matrix = *matrix; \
-        RW16(state, 0x28) = 0x28; \
-        RW16(state, 0x2A) = 0; \
-        RW16(state, 0x2C) = 0; \
-        D_80194384 = 4; \
-        D_80194385 = 1; \
-        asm volatile("" ::: "memory"); \
-        height = 0x80; \
-        color = 0x80; \
-        asm volatile("" : : "r"(height), "r"(color)); \
-        D_8019438A = height; \
-        D_80194364 = 8; \
-        D_80194365 = 2; \
-        D_80194388 = 0; \
-        D_80194380 = color; \
-        D_80194381 = color; \
-        D_80194382 = color; \
-        D_80194386 = 0; \
-        D_80194368 = 0; \
-        D_8019436A = 0x30; \
-        D_80194360 = color; \
-        D_80194361 = color; \
-        D_80194362 = color; \
-        D_80194366 = 0; \
-    }
 
 extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
 extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
 extern void func_800DFE94(void *a0, void *a1, void *a2);
 
-#define ROOMLIB_FX_NOTIFY(name) \
-    void name(RoomLink *link, struct RoomSub *sub, int scratch) { \
-        register char *s asm("$16"); \
-        register RoomLink *l asm("$17"); \
-        char *target; \
-        int angle; \
-        s = (char *)sub; \
-        l = link; \
-        if (RW16(s, 0xA2) > 0) { \
-            target = (char *)RW32(s, 0x84); \
-            if (target != 0) { \
-                RW32(s, 0x60) = RW32(target, 0x28); \
-                RW32(s, 0x68) = RW32(target, 0x30); \
-            } \
-            angle = FieldEng_VecToAngle((int *)(s + 0x60), &l->pos[0]); \
-            l->h3A = FieldEng_TurnToward(l->h3A, angle, RW16(s, 0xA2)) & 0xFFF; \
-            if (RW8(s, 0xA9) != 0 && RW32(s, 0x98) > 0x7FFFFFF) { \
-                RW16(s, 0xA2) = 0; \
-                RW16(s, 0xA4) = 0; \
-            } \
-        } else { \
-            func_800DFE94(&l->pos[0], (char *)l + 0x40, (char *)l + 0x38); \
-            l->h3A = FieldEng_TurnToward(l->h3A, l->h3A, RW16(s, 0xA4)) & 0xFFF; \
-        } \
-    }
 
-#define ROOMLIB_FX_NOTIFY_SHARED_HEADING(name) \
-    void name(RoomLink *link, struct RoomSub *sub, int scratch) { \
-        register char *s asm("$16"); \
-        register RoomLink *l asm("$17"); \
-        char *target; \
-        int angle; \
-        s = (char *)sub; \
-        l = link; \
-        if (RW16(s, 0xA2) > 0) { \
-            target = (char *)RW32(s, 0x84); \
-            if (target != 0) { \
-                RW32(s, 0x60) = RW32(target, 0x28); \
-                RW32(s, 0x68) = RW32(target, 0x30); \
-            } \
-            angle = FieldEng_VecToAngle((int *)(s + 0x60), &l->pos[0]); \
-            l->h3A = FieldEng_TurnToward(l->h3A, angle, RW16(s, 0xA2)) & 0xFFF; \
-            if (RW8(s, 0xA9) != 0) { \
-                register int limit asm("$2"); \
-                register int value asm("$3"); \
-                limit = 0x7FFFFFF; \
-                value = RW32(s, 0x98); \
-                angle = limit < value; \
-                if (angle != 0) { \
-                    RW16(s, 0xA2) = 0; \
-                    RW16(s, 0xA4) = 0; \
-                    goto update_heading; \
-                } \
-            } \
-        } else { \
-            func_800DFE94(&l->pos[0], (char *)l + 0x40, (char *)l + 0x38); \
-            angle = FieldEng_TurnToward(l->h3A, l->h3A, RW16(s, 0xA4)); \
-update_heading: \
-            l->h3A = angle & 0xFFF; \
-        } \
-    }
 
 /* state=4, clear flag3, notify link target, clear signal word */
 #define ROOMLIB_RESET_AND_SIGNAL(name) \
@@ -482,78 +204,6 @@ update_heading: \
         return 0; \
     }
 
-#define ROOMLIB_HANDLER_F_VARIANT(name, clearFn, actorGlobal) \
-    void name(RoomEnt *o) { \
-        register RoomLink *actor asm("$3") = actorGlobal; \
-        register int flags asm("$4"); \
-        register int check asm("$2"); \
-        register int masked asm("$2"); \
-        if (actor->variant >= 4U) { \
-            clearFn(o); \
-            return; \
-        } \
-        flags = RW32(actor, 0x98); \
-        check = flags & 0xC0000; \
-        if (check != 0) { \
-            masked = flags & 0xFFF3FFFF; \
-            RW32(actor, 0x98) = masked; \
-            clearFn(o); \
-            return; \
-        } \
-        asm volatile("lui $3,0x1F80\n\t" \
-                     "sh $0,0($3)\n\t" \
-                     "lui $1,0x1F80\n\t" \
-                     "sh $0,2($1)\n\t" \
-                     "lw $2,0x3C($16)\n\t" \
-                     "nop\n\t" \
-                     "sra $2,$2,12\n\t" \
-                     "lui $1,0x1F80\n\t" \
-                     "sh $2,4($1)\n\t" \
-                     "addiu $2,$16,0x1C\n\t" \
-                     "lw $12,0($2)\n\t" \
-                     "lw $13,4($2)\n\t" \
-                     "ctc2 $12,$0\n\t" \
-                     "ctc2 $13,$1\n\t" \
-                     "lw $12,8($2)\n\t" \
-                     "lw $13,12($2)\n\t" \
-                     "lw $14,16($2)\n\t" \
-                     "ctc2 $12,$2\n\t" \
-                     "ctc2 $13,$3\n\t" \
-                     "ctc2 $14,$4\n\t" \
-                     "lwc2 $0,0($3)\n\t" \
-                     "lwc2 $1,4($3)\n\t" \
-                     "nop\n\t" \
-                     "nop\n\t" \
-                     ".word 0x4A486012\n\t" \
-                     "lui $2,0x1F80\n\t" \
-                     "ori $2,$2,8\n\t" \
-                     "swc2 $25,0($2)\n\t" \
-                     "swc2 $26,4($2)\n\t" \
-                     "swc2 $27,8($2)\n\t" \
-                     "lui $4,%%hi(" #actorGlobal ")\n\t" \
-                     "lw $4,%%lo(" #actorGlobal ")($4)\n\t" \
-                     "lw $2,0($2)\n\t" \
-                     "lw $3,0x28($4)\n\t" \
-                     "sll $2,$2,12\n\t" \
-                     "addu $3,$3,$2\n\t" \
-                     "sw $3,0x28($4)\n\t" \
-                     "lui $2,0x1F80\n\t" \
-                     "lw $2,0x10($2)\n\t" \
-                     "lw $3,0x30($4)\n\t" \
-                     "sll $2,$2,12\n\t" \
-                     "addu $3,$3,$2\n\t" \
-                     "sw $3,0x30($4)" \
-                     : \
-                     : \
-                     : "$1", "$2", "$3", "$4", "$12", "$13", "$14", "memory"); \
-        o->pos[0] -= o->pos[1]; \
-        if (o->pos[0] < 0) { \
-            clearFn(o); \
-        } \
-        if (o->h46 != 0) { \
-            actorGlobal->h3A = FieldEng_TurnToward(actorGlobal->h3A, o->h48, o->h46); \
-        } \
-    }
 
 /* timers to -1, phase 3, default handler, clear signal/counters */
 #define ROOMLIB_INIT_TIMERS(name) \
@@ -571,121 +221,8 @@ update_heading: \
     }
 
 /* argument parser paired with InitTimers/RearmOnMatch */
-#define ROOMLIB_SCHED_BARRIER() __asm__ volatile("")
 
-#define ROOMLIB_INIT_TIMER_ARGS(name, rearmFn, jumpWord) \
-    int name(RoomEnt *o, int a1, unsigned int kind, int a3, int arg4, int arg5) { \
-        int value = 10; \
-        register int stack0 asm("t0") = arg4; \
-        register int stack1 asm("v1") = arg5; \
-        __asm__ volatile("" : "=r"(stack0), "=r"(stack1) : "0"(stack0), "1"(stack1)); \
-        if (kind == value) { \
-            goto case_10; \
-        } \
-        ROOMLIB_SCHED_BARRIER(); \
-        if (kind >= 11U) { \
-            goto high_kind; \
-        } \
-        value = 4; \
-        if (kind == value) { \
-            goto case_4; \
-        } \
-        goto common; \
-high_kind: \
-        value = 25; \
-        if (kind == value) { \
-            goto case_25; \
-        } \
-        value = 28; \
-        if (kind == value) { \
-            goto case_28; \
-        } \
-        goto common; \
-case_25: \
-        value = 1; \
-        if (a1 != value) { \
-            goto common; \
-        } \
-        o->sub.signal = (int *)a3; \
-        __asm__ volatile( \
-            ".word " #jumpWord "\n" \
-            ".word 0xACE50000"); \
-case_4: \
-        o->pos[0] = a3; \
-        o->pos[1] = stack0; \
-        o->h44 = stack1; \
-        goto common; \
-case_28: \
-        RW16(o, 0x48) = a3; \
-        o->h46 = stack0; \
-        goto common; \
-case_10: \
-        value = (int)rearmFn; \
-        o->t16 = a3; \
-        RW32(o, 0xC) = value; \
-common: \
-        ROOMLIB_SCHED_BARRIER(); \
-        return 0; \
-    }
 
-#define ROOMLIB_INIT_TIMER_ARGS_STORE_COMMON(name, rearmFn, jumpWord) \
-    int name(RoomEnt *o, int a1, unsigned int kind, int a3, int arg4, int arg5) { \
-        int value = 10; \
-        register int stack0 asm("t0") = arg4; \
-        register int stack1 asm("v1") = arg5; \
-        __asm__ volatile("" : "=r"(stack0), "=r"(stack1) : "0"(stack0), "1"(stack1)); \
-        if (kind == value) { \
-            goto case_10; \
-        } \
-        ROOMLIB_SCHED_BARRIER(); \
-        if (kind >= 11U) { \
-            goto high_kind; \
-        } \
-        value = 4; \
-        if (kind == value) { \
-            goto case_4; \
-        } \
-        __asm__ volatile( \
-            ".word " #jumpWord "\n" \
-            ".word 0x00000000"); \
-high_kind: \
-        value = 25; \
-        if (kind == value) { \
-            goto case_25; \
-        } \
-        value = 28; \
-        if (kind == value) { \
-            goto case_28; \
-        } \
-        __asm__ volatile( \
-            ".word " #jumpWord "\n" \
-            ".word 0x00000000"); \
-case_25: \
-        value = 1; \
-        if (a1 != value) { \
-            return 0; \
-        } \
-        o->sub.signal = (int *)a3; \
-        __asm__ volatile( \
-            ".word " #jumpWord "\n" \
-            ".word 0xACE50000"); \
-case_4: \
-        o->pos[0] = a3; \
-        o->pos[1] = stack0; \
-        o->h44 = stack1; \
-        goto common_store; \
-case_28: \
-        RW16(o, 0x48) = a3; \
-        o->h46 = stack0; \
-        goto common_store; \
-case_10: \
-        value = (int)rearmFn; \
-common_store: \
-        o->t16 = a3; \
-        RW32(o, 0xC) = value; \
-        ROOMLIB_SCHED_BARRIER(); \
-        return 0; \
-    }
 
 /* rearm default handler when link variant matches t16 */
 #define ROOMLIB_REARM_ON_MATCH(name) \
@@ -1044,72 +581,10 @@ extern char RoomLib_TableB[];
     }
 
 /* register paired room tables, closing this target when either engine call fails */
-#define ROOMLIB_REGISTER_PAIR_OR_CLOSE(name, tableA, tableB, tableC, closeFn) \
-    int name(RoomEnt *o) { \
-        int result; \
-        if (FieldEng_GetStatus() < 2) { \
-            goto fail; \
-        } else { \
-            result = func_800C251C(o, tableC); \
-            result |= func_800C2758(o, tableA, tableB); \
-        } \
-        goto done; \
-fail: \
-        __asm__ volatile(""); \
-        result = -1; \
-done: \
-        if (result == -1) { \
-            closeFn(o); \
-        } \
-        return 0; \
-    }
 
 /* same table registration pattern, but only while the field engine is in status 3 */
-#define ROOMLIB_REGISTER_PAIR_STATUS3_OR_CLOSE(name, tableA, tableB, tableC, closeFn) \
-    int name(RoomEnt *o) { \
-        int result; \
-        if (FieldEng_GetStatus() != 3) { \
-            goto fail; \
-        } else { \
-            result = func_800C251C(o, tableC); \
-            result |= func_800C2758(o, tableA, tableB); \
-        } \
-        goto done; \
-fail: \
-        __asm__ volatile(""); \
-        result = -1; \
-done: \
-        if (result == -1) { \
-            closeFn(o); \
-        } \
-        return 0; \
-    }
 
 /* register unless a low-variant linked target has its room-local AC gate clear */
-#define ROOMLIB_REGISTER_PAIR_UNLESS_TARGET_AC_CLEAR(name, tableA, tableB, tableC, closeFn) \
-    int name(RoomEnt *o) { \
-        int result = 0; \
-        if (FieldEng_GetStatus() < 2) { \
-            goto fail; \
-        } \
-        if (o->link->variant < 2) { \
-            if (*((unsigned char *)o->link->target + 0xAC) == 0) { \
-                goto done; \
-            } \
-        } \
-        result = func_800C251C(o, tableC); \
-        result |= func_800C2758(o, tableA, tableB); \
-        goto done2; \
-fail: \
-        result = -1; \
-done2: \
-        __asm__ volatile(""); \
-done: \
-        if (result == -1) { \
-            closeFn(o); \
-        } \
-        return 0; \
-    }
 
 /* plant the room table pointer into the engine slot */
 #define ROOMLIB_PLANT_TABLE(name, table) \
@@ -1118,7 +593,7 @@ done: \
         return 0; \
     }
 
-/* stash three args into room slots; returns the first slot (asm reuse) */
+/* stash three args into room slots; returns the first slot */
 #define ROOMLIB_SET_ARGS2(name, sA, sB) \
     int *name(int a0, int a1, int a2) { \
         int *p = &sA; \
@@ -1462,24 +937,6 @@ extern int func_800DFB78();
         return 0; \
     }
 
-#define ROOMLIB_STATE_DISPATCH_VARIANT2_SHARED_DELAY(name, tickFn, jumpWord) \
-    int name(RoomEnt *o) { \
-        switch (func_800DFB78()) { \
-        case 0: \
-            if (o->link->variant < 2) { \
-                return 0; \
-            } \
-            ((void (*)(RoomEnt *))o->sub.cb)(o); \
-            __asm__ volatile( \
-                ".word " #jumpWord "\n" \
-                ".word 0x00001021"); \
-        case 1: \
-            tickFn(o); \
-        case 2: \
-            return 0; \
-        } \
-        return 0; \
-    }
 
 #define ROOMLIB_RESET_SIGNAL_WITH_TARGET_GATE(name) \
     int name(RoomEnt *o) { \
@@ -1567,85 +1024,9 @@ extern int func_800C2B68();
         } \
     }
 
-#define ROOMLIB_TIMER_TICK0(name) \
-    void name(int a, unsigned char *st, RoomTimer0 *t) { \
-        register unsigned char *state asm("s0") = st; \
-        short n = t->h6; \
-        register RoomTimer0 *p asm("a1") = t; \
-        if (n != 0) { \
-            t->h6 = n - 1; \
-        } \
-        if (p->h8 == 1) { \
-            p->h8 = 0; \
-            if (p->h6 == 0) { \
-                p->h6 = p->h4; \
-                func_800C6C18(); \
-            } \
-        } \
-        if (func_800C2B68() == 1) { \
-            state[1] = 2; \
-        } \
-    }
 
-#define ROOMLIB_TIMER_TICK(name) \
-    void name(int a, unsigned char *st, RoomTimer *t) { \
-        register unsigned char *state asm("s0") = st; \
-        short n = t->h26; \
-        register RoomTimer *p asm("a1") = t; \
-        if (n != 0) { \
-            t->h26 = n - 1; \
-        } \
-        if (p->h28 == 1) { \
-            p->h28 = 0; \
-            if (p->h26 == 0) { \
-                p->h26 = p->h24; \
-                func_800C6C18(); \
-            } \
-        } \
-        if (func_800C2B68() == 1) { \
-            state[1] = 2; \
-        } \
-    }
 
-#define ROOMLIB_TIMER_TICK2(name) \
-    void name(int a, unsigned char *st, RoomTimer2 *t) { \
-        register unsigned char *state asm("s0") = st; \
-        short n = t->h2A; \
-        register RoomTimer2 *p asm("a1") = t; \
-        if (n != 0) { \
-            t->h2A = n - 1; \
-        } \
-        if (p->h2C == 1) { \
-            p->h2C = 0; \
-            if (p->h2A == 0) { \
-                p->h2A = p->h28; \
-                func_800C6C18(); \
-            } \
-        } \
-        if (func_800C2B68() == 1) { \
-            state[1] = 2; \
-        } \
-    }
 
-#define ROOMLIB_TIMER_TICK_64(name) \
-    void name(int a, unsigned char *st, char *timer) { \
-        register unsigned char *state asm("s0") = st; \
-        short n = RW16(timer, 0x66); \
-        register char *p asm("a1") = timer; \
-        if (n != 0) { \
-            RW16(timer, 0x66) = n - 1; \
-        } \
-        if (RW16(p, 0x68) == 1) { \
-            RW16(p, 0x68) = 0; \
-            if (RW16(p, 0x66) == 0) { \
-                RW16(p, 0x66) = RWU16(p, 0x64); \
-                func_800C6C18(); \
-            } \
-        } \
-        if (func_800C2B68() == 1) { \
-            state[1] = 2; \
-        } \
-    }
 
 typedef struct RoomFxParams {
     char pad0[0x8];
@@ -1755,85 +1136,7 @@ typedef struct RoomPartSys {
         } \
     }
 
-#define ROOMLIB_PARTICLE_SWEEP12(name) \
-    void name(int a, unsigned char *state, char *sys) { \
-        register unsigned int i asm("$10") = 0; \
-        register int one asm("$11") = 1; \
-        register char *flag asm("$7"); \
-        register char *slow asm("$9"); \
-        register char *pos asm("$8"); \
-        asm volatile( \
-            "addu $7,%3,$0\n\t" \
-            "addu $9,%3,$0\n\t" \
-            "addu $8,%3,$0" \
-            : "=r"(flag), "=r"(slow), "=r"(pos) \
-            : "r"(sys)); \
-        do { \
-            register int f asm("$3") = *(signed char *)(flag + 0x2C); \
-            register int off asm("$2") = -1; \
-            if (f != off) { \
-                if (f == one) { \
-                    int x = RWU16(pos, 0x44) + RWU16(sys, 0x2A); \
-                    RW16(pos, 0x44) = x; \
-                    if (RW16(sys, 0x28) < (short)x) { \
-                        RW16(pos, 0x44) = RW16(sys, 0x28); \
-                    } \
-                } \
-                RW16(slow, 0x60) = RWU16(slow, 0x60) - RWU16(sys, 0x20); \
-                if (RW16(slow, 0x60) < 10) { \
-                    RW8(flag, 0x2C) = one; \
-                } \
-            } \
-            RW8(flag, 0x38) = RW8(flag, 0x38) + 1; \
-            if ((signed char)RW8(flag, 0x38) == RW16(sys, 0x22)) { \
-                RW16(sys, 0x26) = RWU16(sys, 0x26) - 1; \
-                if (RW16(sys, 0x26) == 0) { \
-                    state[1] = 2; \
-                } \
-            } \
-            flag++; \
-            slow += 8; \
-            i++; \
-            pos += 2; \
-        } while (i < 12); \
-    }
 
-#define ROOMLIB_HANDLER_G(name, nextFn, clearFn) \
-    void name(char *o) { \
-        register char *o_s1 asm("$17") = o; \
-        register char *link_s0 asm("$16"); \
-        register char *src_a2 asm("$6"); \
-        asm("" : "=r"(o_s1) : "0"(o_s1)); \
-        src_a2 = (char *)RW32(o_s1, 0x1C); \
-        link_s0 = (char *)RW32(o_s1, 0x8); \
-        RW32(link_s0, 0x28) = RW32((char *)RW32(src_a2, 0x238), 0x94) << 16; \
-        RW32(link_s0, 0x2C) = RW32((char *)RW32(src_a2, 0x238), 0x98) << 16; \
-        RW32(link_s0, 0x30) = RW32((char *)RW32(src_a2, 0x238), 0x9C) << 16; \
-        asm volatile( \
-            "lwl $2,0x3B($6)\n\t" \
-            "lwr $2,0x38($6)\n\t" \
-            "lwl $3,0x3F($6)\n\t" \
-            "lwr $3,0x3C($6)\n\t" \
-            "swl $2,0x3B($16)\n\t" \
-            "swr $2,0x38($16)\n\t" \
-            "swl $3,0x3F($16)\n\t" \
-            "swr $3,0x3C($16)" \
-            : \
-            : "r"(src_a2), "r"(link_s0) \
-            : "$2", "$3", "memory"); \
-        if (RW8(src_a2, 0xE) == 7 && RWU16(src_a2, 0x16) >= 3 && RWU16(src_a2, 0x1A) < 3) { \
-            RW32(o_s1, 0xC) = (int)nextFn; \
-        } \
-        if (RW32(src_a2, 0) != 0) { \
-            if (func_8003010C(src_a2, 0x2C) > 0) { \
-                return; \
-            } \
-            func_80030220(link_s0, 0x2D, 0); \
-            func_80030220(link_s0, 0x2C, 0); \
-            func_80030220(link_s0, 0x5F, 0); \
-        } \
-        clearFn(o_s1); \
-    }
 
 #define ROOMLIB_REGISTER_TABLE_AT3(name, table) \
     int name(void *o) { \
