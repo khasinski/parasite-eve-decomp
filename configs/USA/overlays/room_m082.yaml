@@ -43,7 +43,7 @@ segments:
       - [0x3EC, c, func_8018F3D4]
       - [0x3F4, asm, room_m082_254_3F4]
       - [0x72C, c, func_8018F714]
-      - [0x734, asm, func_8018F71C]
+      - [0x734, c, func_8018F71C]
       - [0x7B4, c, func_8018F79C]
       - [0x82C, asm, room_m082_254_82C]
       - [0xB5C, c, func_8018FB44]
