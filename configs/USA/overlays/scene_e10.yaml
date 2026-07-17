@@ -111,7 +111,7 @@ segments:
       - [0x4F58, c, RoomLib_Set4ClearSignal_80193F48]
       - [0x4F74, c, func_80193F64]
       - [0x4F7C, asm, scene_e10_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518_3790_3800_3F90_4030_42A8_4318_4B80_4BCC_4C94_4CC4_4F74]
-      - [0x5C04, asm, func_80194BF4]
+      - [0x5C04, c, func_80194BF4]
       - [0x5C20, data]
   - [0x6000]
 # source slice: scanner
