@@ -175,6 +175,38 @@ extern void func_800DFE94(void *a0, void *a1, void *a2);
 
 
 
+/* steer entity toward FX target while active, otherwise settle toward current heading */
+#define ROOMLIB_FX_NOTIFY(name) \
+    void name(RoomLink *arg0, struct RoomSub *arg1, int scratch) { \
+        char *ent = (char *)arg0; \
+        char *rec = (char *)arg1; \
+        if (*(short *)(rec + 0xA2) > 0) { \
+            int *dst = (int *)(rec + 0x60); \
+            char *v = *(char **)(rec + 0x84); \
+            if (v != 0) { \
+                dst[0] = *(int *)(v + 0x28); \
+                dst[2] = *(int *)(v + 0x30); \
+            } \
+            *(short *)(ent + 0x3A) = FieldEng_TurnToward( \
+                *(short *)(ent + 0x3A), \
+                (short)FieldEng_VecToAngle(dst, (int *)(ent + 0x28)), \
+                *(short *)(rec + 0xA2)) & 0xFFF; \
+            if ((*(unsigned char *)(rec + 0xA9) != 0) \
+                && (0x07FFFFFF < *(int *)(rec + 0x98))) { \
+                *(short *)(rec + 0xA2) = 0; \
+                *(short *)(rec + 0xA4) = 0; \
+            } \
+        } else { \
+            func_800DFE94(ent + 0x28, ent + 0x40, ent + 0x38); \
+            *(short *)(ent + 0x3A) = FieldEng_TurnToward( \
+                *(short *)(ent + 0x3A), \
+                *(short *)(ent + 0x3A), \
+                *(short *)(rec + 0xA4)) & 0xFFF; \
+        } \
+    }
+
+
+
 /* state=4, clear flag3, notify link target, clear signal word */
 #define ROOMLIB_RESET_AND_SIGNAL(name) \
     int name(RoomEnt *o) { \

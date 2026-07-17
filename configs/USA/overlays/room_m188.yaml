@@ -43,7 +43,7 @@ segments:
       - [0x54C, c, func_8018F534]
       - [0x5D4, c, RoomLib_NotifyArmB_8018F5BC]
       - [0x67C, asm, room_m188_67C_BC4]
-      - [0xBC4, asm, RoomLib_FxNotify]
+      - [0xBC4, c, RoomLib_FxNotify]
       - [0xCA4, asm, room_m188_CA4_F80_CA4_EE4]
       - [0xEE4, c, func_8018FECC]
       - [0xF80, c, func_8018FF68]
