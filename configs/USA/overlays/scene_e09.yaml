@@ -63,7 +63,7 @@ segments:
       - [0x260C, asm, func_801915FC]
       - [0x26EC, asm, scene_e09_26C_298_2E0_428_1D08_20C4_26E4]
       - [0x2924, c, func_80191914]
-      - [0x292C, asm, func_8019191C]
+      - [0x292C, c, func_8019191C]
       - [0x29C8, c, func_801919B8]
       - [0x29D0, c, func_801919C0]
       - [0x29D8, c, RoomLib_InitD_801919C8]

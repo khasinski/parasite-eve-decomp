@@ -36,7 +36,10 @@ segments:
     subsegments:
       - [0x0, asm, room_m005]
       - [0x30, c, RoomM005_FxOrbiter_8018F018]
-      - [0x348, asm, room_m005_348]
+      - [0x348, asm, func_8018F330]
+      - [0x62C, asm, func_8018F614]
+      - [0xB9C, asm, func_8018FB84]
+      - [0xDDC, asm, func_8018FDC4]
       - [0x1A84, c, RoomM005_EnableDialogFollow_80190A6C]
       - [0x1AB0, data]
   - [0x30000]

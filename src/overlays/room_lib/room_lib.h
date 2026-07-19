@@ -31,6 +31,50 @@ typedef struct RoomObj {
 #define RVW16(o, off) (*(volatile short *)((char *)(o) + (off)))
 #define RVU16(o, off) (*(volatile unsigned short *)((char *)(o) + (off)))
 
+typedef struct RoomLibTick12Rec {
+    char pad00[0x20];
+    unsigned short frameStep;     /* 0x20 */
+    short timerLimit;             /* 0x22 */
+    char pad24[0x2];
+    unsigned short repeatCount;   /* 0x26 */
+    short phaseLimit;             /* 0x28 */
+    unsigned short phaseStep;     /* 0x2A */
+    signed char state[12];        /* 0x2C */
+    signed char timer[12];        /* 0x38 */
+    unsigned short phase[12];     /* 0x44 */
+    char pad5C[0x4];
+    unsigned short frame[12][4];  /* 0x60 */
+} RoomLibTick12Rec;
+
+#define ROOMLIB_TICK_12_COUNTERS(name) \
+    void name(void *arg0, unsigned char *signal, RoomLibTick12Rec *rec) { \
+        unsigned int i; \
+        for (i = 0; i < 12; i++) { \
+            int s = rec->state[i]; \
+            if (s != -1) { \
+                if (s == 1) { \
+                    short limit; \
+                    rec->phase[i] += rec->phaseStep; \
+                    limit = rec->phaseLimit; \
+                    if (limit < (short)rec->phase[i]) { \
+                        rec->phase[i] = limit; \
+                    } \
+                } \
+                rec->frame[i][0] -= rec->frameStep; \
+                if ((short)rec->frame[i][0] < 10) { \
+                    rec->state[i] = 1; \
+                } \
+            } \
+            rec->timer[i]++; \
+            if (rec->timer[i] == rec->timerLimit) { \
+                rec->repeatCount--; \
+                if ((short)rec->repeatCount == 0) { \
+                    signal[1] = 2; \
+                } \
+            } \
+        } \
+    }
+
 
 
 
@@ -164,10 +208,13 @@ typedef struct RoomLibFxMatrixState {
     void *asset;
 } RoomLibFxMatrixState;
 
+typedef struct RoomLibPacked8 {
+    int lo;
+    int hi;
+} __attribute__((packed)) RoomLibPacked8;
+
 extern void func_800C2B40(void *state);
 extern void *func_8006DC18(int type);
-
-
 
 extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
 extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
@@ -1238,6 +1285,30 @@ typedef struct RoomPartSys {
         RW32(l, 0x98) |= m; \
         RWU16(l, 0x250) |= 0x400; \
         return 0; \
+    }
+
+#define ROOMLIB_HANDLER_G(name, next_handler, set4_clear_signal) \
+    void name(RoomEnt *o) { \
+        RoomEnt *self = o; \
+        RoomLink *src = (RoomLink *)RW32(self, 0x1C); \
+        RoomLink *dst = self->link; \
+        dst->pos[0] = RW32(src->p238, 0x94) << 16; \
+        dst->pos[1] = RW32(src->p238, 0x98) << 16; \
+        dst->pos[2] = RW32(src->p238, 0x9C) << 16; \
+        *(RoomLibPacked8 *)((char *)dst + 0x38) = *(RoomLibPacked8 *)((char *)src + 0x38); \
+        if ((src->variant == 7) && (src->winLo >= 3) && (src->winHi < 3)) { \
+            self->sub.cb = next_handler; \
+        } \
+        if (src->target != 0) { \
+            if (func_8003010C(src, 0x2C) <= 0) { \
+                func_80030220(dst, 0x2D, 0); \
+                func_80030220(dst, 0x2C, 0); \
+                func_80030220(dst, 0x5F, 0); \
+                set4_clear_signal(self); \
+            } \
+        } else { \
+            set4_clear_signal(self); \
+        } \
     }
 
 #endif

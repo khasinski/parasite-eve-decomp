@@ -43,7 +43,8 @@ segments:
       - [0x1C4, c, RoomMdl_Kill_8018F1AC]
       - [0x1D4, c, func_8018F1BC]
       - [0x1DC, c, RoomEnt_Setup5_8018F1C4]
-      - [0x210, asm, room_m017_38_1D4_210]
+      - [0x210, asm, RoomFx_ModelUpdate]
+      - [0x598, asm, RoomFx_ModelDraw]
       - [0xB5C, data]
   - [0x21800]
 # room: m017, section3 sector 11855, scanner delta 0

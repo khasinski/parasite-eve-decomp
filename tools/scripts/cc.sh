@@ -110,6 +110,9 @@ fi
 if grep -q 'MASPSX_FLAGS:.*--load-dest-temp' "$IN"; then
     MASPSX_EXTRA+=(--load-dest-temp)
 fi
+if grep -q 'MASPSX_FLAGS:.*--label-branch-delay' "$IN"; then
+    MASPSX_EXTRA+=(--label-branch-delay)
+fi
 if [[ "$AS_G_FLAG" != "-G0" ]]; then
     MASPSX_EXTRA+=(--dont-force-G0)
 fi

@@ -107,7 +107,7 @@ segments:
       - [0x4578, c, func_80193560]
       - [0x468C, c, func_80193674]
       - [0x4694, asm, room_m399_2D20_3838_4224_4504_4578_4694]
-      - [0x47E4, asm, RoomLib_HandlerG]
+      - [0x47E4, c, RoomLib_HandlerG]
       - [0x4918, asm, room_m399_2D20_3838_4224_4504_4918]
       - [0x4CD8, c, RoomLib_Set4ClearSignal_80193CC0]
       - [0x4CF4, c, func_80193CDC]

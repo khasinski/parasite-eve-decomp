@@ -97,7 +97,7 @@ segments:
       - [0x3574, c, func_8019255C]
       - [0x3688, c, func_80192670]
       - [0x3690, asm, room_m332_1D1C_2834_3220_3500_3574_37E0_3690]
-      - [0x37E0, asm, RoomLib_HandlerG]
+      - [0x37E0, c, RoomLib_HandlerG]
       - [0x3914, asm, room_m332_1D1C_2834_3220_3500_3914]
       - [0x3CD4, c, RoomLib_Set4ClearSignal_80192CBC]
       - [0x3CF0, c, func_80192CD8]

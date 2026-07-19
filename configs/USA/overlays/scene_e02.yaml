@@ -71,7 +71,7 @@ segments:
       - [0x20B4, asm, func_801910A4]
       - [0x2194, asm, scene_e02_278_2A4_17B0_1B6C_20B4_2194]
       - [0x23CC, c, func_801913BC]
-      - [0x23D4, asm, func_801913C4]
+      - [0x23D4, c, func_801913C4]
       - [0x2470, c, func_80191460]
       - [0x2478, c, func_80191468]
       - [0x2480, c, RoomLib_InitD_80191470]
