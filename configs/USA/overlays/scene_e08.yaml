@@ -109,7 +109,7 @@ segments:
       - [0x5B5C, asm, func_80194B4C]
       - [0x5C1C, c, func_80194C0C]
       - [0x5C78, c, func_80194C68]
-      - [0x5D8C, asm, func_80194D7C]
+      - [0x5D8C, c, func_80194D7C]
       - [0x5DE8, c, func_80194DD8]
       - [0x5DF0, asm, scene_e08_2B8_3D4_F54_1070_2450_5DF0]
       - [0x6370, c, func_80195360]
