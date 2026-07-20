@@ -68,7 +68,7 @@ segments:
       - [0x1AC4, c, RoomLib_NotifyArmB_80190AB4]
       - [0x1B6C, asm, scene_e02_278_2A4_17B0_1B6C]
       - [0x20AC, c, RoomLib_FxNotify]
-      - [0x20B4, asm, func_801910A4]
+      - [0x20B4, c, func_801910A4]
       - [0x2194, asm, scene_e02_278_2A4_17B0_1B6C_20B4_2194]
       - [0x23CC, c, func_801913BC]
       - [0x23D4, c, func_801913C4]
