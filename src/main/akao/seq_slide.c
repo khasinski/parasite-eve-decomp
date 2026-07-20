@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -fno-strength-reduce */
 /* MASPSX_FLAGS: --expand-div */
 #include "pe1/akao.h"
 
@@ -52,8 +53,8 @@ void Spu_SetVoiceVolumeImmediateMasked(int *arg0) {
     u32 i;
     u32 mask;
     u32 active;
-    register char *voice asm("$5");
-    register char *base asm("$3");
+    register char *voice;
+    register char *base;
     int value;
 
     base = g_AkaoVoiceChannelTable;

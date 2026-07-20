@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -fno-strength-reduce */
 #include "pe1/akao.h"
 
 typedef unsigned int u32;
@@ -12,7 +13,7 @@ void Spu_SetAllVoicePanImmediate(int *arg0) {
     u32 active;
     u32 i;
     u32 block_flag;
-    register char *voice asm("$5");
+    register char *voice;
     int value;
     int dirty;
 

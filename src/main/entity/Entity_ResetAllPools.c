@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -fno-strength-reduce */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 typedef unsigned short u16;
@@ -22,7 +23,7 @@ void Entity_ResetAllPools(void)
     char *ptr;
     unsigned int base;
     unsigned int col;
-    register unsigned int offset asm("$3");
+    register unsigned int offset;
 
     g_FieldMoveLock = 0;
 

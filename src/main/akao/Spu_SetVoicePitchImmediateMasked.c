@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -fno-strength-reduce */
 #include "pe1/akao.h"
 
 typedef unsigned int u32;
@@ -8,11 +9,11 @@ extern char g_AkaoVoiceChannelTable[];
 extern u32 g_SpuActiveVoiceMask;
 
 void Spu_SetVoicePitchImmediateMasked(int *arg0) {
-    register char *base asm("$3");
+    register char *base;
     u32 active;
     u32 mask;
     u32 i;
-    register char *voice asm("$5");
+    register char *voice;
     int value;
     int dirty;
 

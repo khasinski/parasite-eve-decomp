@@ -1,4 +1,4 @@
-/* CC1_FLAGS: -G8 */
+/* CC1_FLAGS: -G8 -fno-strength-reduce */
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/reloc_block.h"
@@ -9,7 +9,7 @@ RelocBlock *Task_RelocBlock(RelocBlock *block) {
     RelocU32 isAbsolute;
     RelocU32 i;
     RelocU32 count;
-    register RelocU32 *ptr asm("$3");
+    register RelocU32 *ptr;
     char frame[8];
 
     offset = block->u0.baseOffset;

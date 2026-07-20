@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -fno-strength-reduce */
 /* MASPSX_FLAGS: --stack-return-delay */
 
 #include "pe1/psyq_cd.h"
@@ -9,10 +10,10 @@ int CdRom_SendReadyCommand(int arg);
 void Util_Copy8(void *dst, void *src);
 
 int CdRom_SendQueuedCmd(void *dst) {
-    register void *dst_reg asm("$16");
-    register void *dst_arg asm("$4");
-    register CdQueuedCmdSlot *slot asm("$16");
-    register int temp asm("$2");
+    register void *dst_reg;
+    register void *dst_arg;
+    register CdQueuedCmdSlot *slot;
+    register int temp;
     int mode;
 
     dst_reg = dst;

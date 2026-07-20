@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -fno-strength-reduce */
 /* MASPSX_FLAGS: --expand-div */
 #include "pe1/akao.h"
 
@@ -12,7 +13,7 @@ void Spu_SlideAllVoiceVolume(int *arg0) {
     u32 active;
     u32 block_flag;
     u32 i;
-    register char *voice asm("$6");
+    register char *voice;
     int step;
     int delta;
 
