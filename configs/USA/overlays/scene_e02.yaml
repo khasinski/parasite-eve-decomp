@@ -52,7 +52,7 @@ segments:
       - [0xB0C, c, func_8018FAFC]
       - [0xB60, c, func_8018FB50]
       - [0xC4C, c, func_8018FC3C]
-      - [0xC68, asm, func_8018FC58]
+      - [0xC68, c, func_8018FC58]
       - [0xD2C, asm, scene_e02_278_2A4_62C_C68_D2C]
       - [0xF88, c, func_8018FF78]
       - [0x1064, c, func_80190054]
