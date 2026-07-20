@@ -89,7 +89,7 @@ segments:
       - [0x31E8, c, func_801921D8]
       - [0x31F0, c, RoomLib_InvokeCallbackC_801921E0]
       - [0x3218, c, RoomLib_RearmOnMatch_80192208]
-      - [0x3248, asm, func_80192238]
+      - [0x3248, c, func_80192238]
       - [0x335C, asm, scene_e26_28C_648_FD8_1388_1998_19F0_1A9C_1D14_1D84_2514_25B4_282C_289C_3104_3150_3218_3248_335C]
       - [0x34D4, c, func_801924C4]
       - [0x34DC, c, RoomLib_Set4ClearSignal_801924CC]
