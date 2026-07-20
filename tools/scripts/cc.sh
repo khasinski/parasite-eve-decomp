@@ -54,6 +54,12 @@ fi
 if grep -q 'CC1_FLAGS:.*-fno-delayed-branch' "$IN"; then
     CC1_FLAGS="$CC1_FLAGS -fno-delayed-branch"
 fi
+if grep -q 'CC1_FLAGS:.*-fno-strength-reduce' "$IN"; then
+    CC1_FLAGS="$CC1_FLAGS -fno-strength-reduce"
+fi
+if grep -q 'CC1_FLAGS:.*-fno-force-mem' "$IN"; then
+    CC1_FLAGS="$CC1_FLAGS -fno-force-mem"
+fi
 if grep -q 'CC1_FLAGS:.*-fno-gcse' "$IN"; then
     CC1_FLAGS="$CC1_FLAGS -fno-gcse"
 fi
