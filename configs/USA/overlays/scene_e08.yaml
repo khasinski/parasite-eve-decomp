@@ -34,7 +34,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, scene_e08]
+      - [0x0, c, scene_e08_header]
       - [0x258, c, func_8018F248]
       - [0x260, c, func_8018F250]
       - [0x28C, c, RoomLib_Spawn6_8018F27C]
@@ -105,7 +105,7 @@ segments:
       - [0x5010, c, func_80194000]
       - [0x50A8, asm, scene_e08_2B8_3D4_F54_1070_2450_4F90_5010]
       - [0x59A0, c, func_80194990]
-      - [0x5A0C, asm, scene_e08_2B8_3D4_F54_1070_2450_4F90_5010_5A0C]
+      - [0x5A0C, c, func_801949FC]
       - [0x5B5C, c, func_80194B4C]
       - [0x5C1C, c, func_80194C0C]
       - [0x5C78, c, func_80194C68]
