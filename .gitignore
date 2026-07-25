@@ -172,3 +172,6 @@ asm/USA/main/
 asm/USA/main/main/*
 !asm/USA/main/main/068774_pre_InitGeom.s
 !linkers/USA/undefined_syms_manual.txt
+
+# room-split WIP parked out of the tracked tree
+wip/
