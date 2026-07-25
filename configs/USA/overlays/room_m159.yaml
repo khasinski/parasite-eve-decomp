@@ -36,6 +36,7 @@ segments:
     subsegments:
       - [0x0, rodata, room_m159_header]
       - [0x20, asm, func_8018F008]
+      - [0x3BC, asm, func_8018F3A4]
       - [0xE10, c, RoomLib_SlotSet_8018FDF8]
       - [0xE54, data]
   - [0x1E800]

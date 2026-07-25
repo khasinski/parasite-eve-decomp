@@ -104,7 +104,8 @@ segments:
       - [0x3D3C, asm, room_m152_1D60_2878_3264_3544_3D34]
       - [0x46FC, c, RoomLib_MsgDispatch_801936E4]
       - [0x49C4, c, RoomLib_SetPair_801939AC]
-      - [0x49E0, asm, room_m152_1D60_2878_3264_3544_3D34_49E0]
+      - [0x49E0, asm, func_801939C8]
+      - [0x4B78, asm, func_80193B60]
       - [0x4EBC, data]
   - [0x40000]
 # room: m152, section3 sector 43677, scanner delta 0

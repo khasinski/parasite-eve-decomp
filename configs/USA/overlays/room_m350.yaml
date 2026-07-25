@@ -152,7 +152,8 @@ segments:
       - [0xAF44, c, func_80199F2C]
       - [0xB02C, c, func_8019A014]
       - [0xB138, c, func_8019A120]
-      - [0xB14C, asm, room_m350_1D34_284C_3238_3518_3520_B14C]
+      - [0xB14C, asm, func_8019A134]
+      - [0xB234, asm, func_8019A21C]
       - [0xB330, data]
   - [0x46000]
 # room: m350, section3 sector 83539, scanner delta 0
