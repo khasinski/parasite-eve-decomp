@@ -36,6 +36,8 @@ segments:
     subsegments:
       - [0x0, rodata, room_m086_header]
       - [0x1C, asm, func_8018F004]
+      - [0x74C, asm, func_8018F734]
+      - [0x10E4, asm, func_801900CC]
       - [0x158C, c, func_80190574]
       - [0x1A5C, c, func_80190A44]
       - [0x1AA8, c, func_80190A90]

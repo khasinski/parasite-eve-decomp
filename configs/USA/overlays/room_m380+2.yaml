@@ -34,7 +34,16 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, room_m380+2]
+      - [0x0, rodata, room_m380+2_header]
+      - [0x24, rodata, room_m380+2_jtbl]
+      - [0x70, asm, func_8018F058]
+      - [0x1248, asm, func_80190230]
+      - [0x1524, asm, func_8019050C]
+      - [0x18C8, asm, func_801908B0]
+      - [0x1C10, asm, func_80190BF8]
+      - [0x1FAC, asm, func_80190F94]
+      - [0x2BAC, asm, func_80191B94]
+      - [0x3220, asm, func_80192208]
       - [0x3A00, c, RoomLib_SetArg1_801929E8]
       - [0x3A10, c, RoomLib_SlotSet_801929F8]
       - [0x3A54, asm, func_80192A3C]

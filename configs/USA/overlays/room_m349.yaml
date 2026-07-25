@@ -36,6 +36,7 @@ segments:
     subsegments:
       - [0x0, rodata, room_m349_header]
       - [0x28, asm, func_8018F010]
+      - [0x7DC, asm, func_8018F7C4]
       - [0x10E8, c, func_801900D0]
       - [0x1150, data]
   - [0x3A000]
