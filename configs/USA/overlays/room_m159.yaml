@@ -34,7 +34,8 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, room_m159]
+      - [0x0, rodata, room_m159_header]
+      - [0x20, asm, func_8018F008]
       - [0xE10, c, RoomLib_SlotSet_8018FDF8]
       - [0xE54, data]
   - [0x1E800]

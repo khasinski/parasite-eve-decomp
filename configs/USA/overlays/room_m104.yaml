@@ -34,9 +34,10 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, room_m104]
+      - [0x0, rodata, room_m104_header]
+      - [0x20, asm, func_8018F008]
       - [0xE10, c, RoomLib_SlotSet_8018FDF8]
-      - [0xE54, asm, room_m104_E54]
+      - [0xE54, data]
       - [0x4D10, data]
   - [0x1B800]
 # room: m104, section3 sector 33654, scanner delta 0
