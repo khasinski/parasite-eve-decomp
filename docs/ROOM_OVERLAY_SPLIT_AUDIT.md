@@ -33,6 +33,20 @@ So the missing code-byte coverage is primarily the remaining `asm` function
 subsegments. The huge room data blocks are real room payloads/assets and are not
 the reason code-byte coverage is low.
 
+Current room `data` bytes classify as:
+
+| Data class | Blocks | Bytes |
+|---|---:|---:|
+| Large custom payload/asset bank | 232 | 29060384 |
+| Medium room data record | 82 | 1153792 |
+| Named room control table | 183 | 61832 |
+| Small room scalar/record | 1864 | 46564 |
+
+The largest category is therefore not code hidden inside splat `data`; it is
+custom room payload data. These banks often contain background/layer/model-like
+binary payloads in PE1-specific formats rather than standard standalone PSX TIM
+files.
+
 ## Split checks already performed
 
 These checks were run against current YAMLs and generated asm:
@@ -47,6 +61,7 @@ These checks were run against current YAMLs and generated asm:
 | Remaining base `jtbl_*` labels in room rodata | 0 |
 | Safe historical asm subsegment rename candidates | 0 |
 | Internal aligned `data` labels still hidden in larger `data` blocks | 0 |
+| Hidden validated PSX TIM assets inside room `data` | 0 |
 
 This means the current room function split is internally consistent: the
 remaining low percentage is not explained by known functions hidden inside data
@@ -61,6 +76,11 @@ aligned internal `dlabel` boundaries inside larger room `data` subsegments; the
 YAMLs now split those boundaries explicitly. This separates room control tables,
 small referenced records, and large asset banks without moving any bytes into
 the code denominator.
+
+The TIM check deliberately validates the full TIM container instead of searching
+for the raw `0x10 00 00 00` marker. Plain marker searches produce many false
+positives in these payloads; no full TIM containers are currently hidden inside
+room `data` subsegments.
 
 One caveat: old generated files under `asm/USA/overlays/<room>/` can remain
 after split changes and may contain stale multi-function blobs. Do not use a

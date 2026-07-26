@@ -12,6 +12,7 @@ import argparse
 import collections
 import json
 import re
+import struct
 from pathlib import Path
 from typing import Any
 
@@ -273,14 +274,120 @@ def internal_data_label_candidates(
     return candidates
 
 
+def parse_psx_tim(data: bytes, pos: int) -> dict[str, Any] | None:
+    if pos + 20 > len(data):
+        return None
+    if data[pos : pos + 4] != b"\x10\x00\x00\x00":
+        return None
+
+    flags = struct.unpack_from("<I", data, pos + 4)[0]
+    bpp = flags & 0x7
+    has_clut = bool(flags & 0x8)
+    if bpp not in (0, 1, 2, 3):
+        return None
+    if flags & ~0xF:
+        return None
+
+    cursor = pos + 8
+    clut: dict[str, int] | None = None
+    if has_clut:
+        if cursor + 12 > len(data):
+            return None
+        clut_size = struct.unpack_from("<I", data, cursor)[0]
+        if clut_size < 12 or clut_size % 4:
+            return None
+        if cursor + clut_size > len(data):
+            return None
+        _x, _y, width, height = struct.unpack_from("<HHHH", data, cursor + 4)
+        if width == 0 or height == 0 or width * height > 4096:
+            return None
+        clut = {"width": width, "height": height, "size": clut_size}
+        cursor += clut_size
+
+    if cursor + 12 > len(data):
+        return None
+    image_size = struct.unpack_from("<I", data, cursor)[0]
+    if image_size < 12 or image_size % 4:
+        return None
+    if cursor + image_size > len(data):
+        return None
+    _x, _y, width, height = struct.unpack_from("<HHHH", data, cursor + 4)
+    if width == 0 or height == 0:
+        return None
+    if width > 1024 or height > 1024 or width * height > 262144:
+        return None
+
+    size = cursor + image_size - pos
+    if size < 20 or size > 262144:
+        return None
+    if not has_clut and width * height < 256:
+        return None
+
+    return {
+        "flags": flags,
+        "bpp": bpp,
+        "has_clut": has_clut,
+        "clut": clut,
+        "width": width,
+        "height": height,
+        "size": size,
+    }
+
+
+def hidden_tim_candidates(
+    room: str, subs: list[tuple[int, str, str]], end: int
+) -> list[dict[str, Any]]:
+    data = (ORIGINAL_DIR / f"{room}.bin").read_bytes()
+    starts = {off for off, _typ, _name in subs}
+    candidates: list[dict[str, Any]] = []
+
+    for i, (off, typ, name) in enumerate(subs):
+        next_off = subs[i + 1][0] if i + 1 < len(subs) else end
+        if typ != "data":
+            continue
+
+        block = data[off:next_off]
+        for rel in range(0, max(0, len(block) - 20), 4):
+            tim = parse_psx_tim(block, rel)
+            if tim is None:
+                continue
+            tim_off = off + rel
+            if tim_off in starts:
+                continue
+            candidates.append(
+                {
+                    "room": room,
+                    "offset": tim_off,
+                    "data_start": off,
+                    "data_name": name,
+                    **tim,
+                }
+            )
+
+    return candidates
+
+
+def classify_data_block(size: int, name: str) -> str:
+    if size >= 0x8000:
+        return "large_custom_payload_or_asset_bank"
+    if re.search(r"(Slot|Table|Pair|Rec|Dialog|Anchor)", name):
+        return "named_room_control_table"
+    if size <= 0x100:
+        return "small_room_scalar_or_record"
+    return "medium_room_data_record"
+
+
 def audit() -> dict[str, Any]:
     totals: collections.Counter[str] = collections.Counter()
     family_totals: collections.Counter[str] = collections.Counter()
+    data_class_totals: collections.Counter[str] = collections.Counter()
+    data_class_counts: collections.Counter[str] = collections.Counter()
     missing: list[dict[str, Any]] = []
     ambiguous: list[dict[str, Any]] = []
     size_mismatches: list[dict[str, Any]] = []
     historical_names: list[dict[str, Any]] = []
     data_label_candidates: list[dict[str, Any]] = []
+    tim_candidates: list[dict[str, Any]] = []
     typefunc_data_hits: list[dict[str, Any]] = []
     base_jtbl_hits: list[dict[str, Any]] = []
     top_data_blocks: list[tuple[int, str, int, int, str]] = []
@@ -297,6 +404,7 @@ def audit() -> dict[str, Any]:
         base_jtbl_hits.extend(base_rodata_jtbl_hits(room, rodata_offsets))
         typefunc_data_hits.extend(typefunc_inside_data(room, cfg, subs, end))
         data_label_candidates.extend(internal_data_label_candidates(room, subs))
+        tim_candidates.extend(hidden_tim_candidates(room, subs, end))
 
         m, a, sm, hn, fam = exact_asm_checks(room, subs, end)
         missing.extend(m)
@@ -311,6 +419,9 @@ def audit() -> dict[str, Any]:
             totals[typ] += size
             if typ == "data":
                 top_data_blocks.append((size, room, off, next_off, name))
+                data_class = classify_data_block(size, name)
+                data_class_totals[data_class] += size
+                data_class_counts[data_class] += 1
 
     failures = {
         "missing_exact_asm_files": missing,
@@ -318,6 +429,7 @@ def audit() -> dict[str, Any]:
         "asm_size_mismatches": size_mismatches,
         "historical_asm_rename_candidates": historical_names,
         "internal_aligned_data_label_candidates": data_label_candidates,
+        "hidden_tim_asset_candidates": tim_candidates,
         "typefunc_symbols_inside_data": typefunc_data_hits,
         "base_rodata_jtbl_labels": base_jtbl_hits,
     }
@@ -325,6 +437,8 @@ def audit() -> dict[str, Any]:
     return {
         "room_count": room_count,
         "bytes_by_type": dict(totals),
+        "data_class_totals": dict(data_class_totals),
+        "data_class_counts": dict(data_class_counts),
         "asm_family_totals": family_totals.most_common(30),
         "top_data_blocks": sorted(top_data_blocks, reverse=True)[:30],
         "failures": failures,
@@ -337,6 +451,11 @@ def print_text(report: dict[str, Any], limit: int) -> None:
     print("bytes by YAML subsegment type:")
     for typ, size in sorted(report["bytes_by_type"].items(), key=lambda x: (-x[1], x[0])):
         print(f"  {typ:8s} {size:9d}")
+
+    print("\nbytes by room data class:")
+    data_counts = report["data_class_counts"]
+    for cls, size in sorted(report["data_class_totals"].items(), key=lambda x: (-x[1], x[0])):
+        print(f"  {cls:34s} {size:9d}  blocks {data_counts[cls]:4d}")
 
     print("\nconsistency checks:")
     for key, rows in report["failures"].items():
