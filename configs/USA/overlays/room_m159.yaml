@@ -38,7 +38,9 @@ segments:
       - [0x20, asm, func_8018F008]
       - [0x3BC, asm, func_8018F3A4]
       - [0xE10, c, RoomLib_SlotSet_8018FDF8]
-      - [0xE54, data]
+      - [0xE54, data, D_8018FE3C]
+      - [0xE74, data, D_8018FE5C]
+      - [0xEAC, data, RoomLib_SlotTable]
   - [0x1E800]
 # room: m159, section3 sector 45529, scanner delta 0
 # source slice: room-section3

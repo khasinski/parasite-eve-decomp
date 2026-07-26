@@ -46,8 +46,8 @@ segments:
       - [0xD2C, c, func_8018FD14]
       - [0xD74, c, RoomLib_TickMain]
       - [0xDEC, c, func_8018FDD4]
-      - [0xDF4, data]
-      - [0xE180, data]
+      - [0xDF4, data, D_8018FDDC]
+      - [0xE180, data, D_8019D168]
   - [0x1E800]
 # room: m063, section3 sector 24159, scanner delta 0
 # source slice: room-section3

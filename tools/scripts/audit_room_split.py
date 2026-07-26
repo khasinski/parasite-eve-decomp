@@ -202,6 +202,77 @@ def base_rodata_jtbl_hits(room: str, rodata_offsets: set[int]) -> list[dict[str,
     return hits
 
 
+def exact_data_file(room: str, off: int, name: str) -> Path | None:
+    data_dir = ASM_DIR / room / "data"
+    if name:
+        named = data_dir / f"{name}.data.s"
+        if named.exists():
+            return named
+
+    by_offset = data_dir / f"{off:X}.data.s"
+    if by_offset.exists():
+        return by_offset
+
+    by_offset_lower = data_dir / f"{off:x}.data.s"
+    if by_offset_lower.exists():
+        return by_offset_lower
+
+    return None
+
+
+def aligned_dlabels(path: Path) -> list[tuple[int, str]]:
+    labels: list[tuple[int, str]] = []
+    pending: str | None = None
+
+    for line in path.read_text(errors="ignore").splitlines():
+        m = re.match(r"dlabel\s+(\S+)", line)
+        if m:
+            pending = m.group(1)
+            continue
+
+        if pending is None:
+            continue
+
+        mm = re.search(r"/\*\s*([0-9A-Fa-f]+)\s+", line)
+        if mm:
+            off = int(mm.group(1), 16)
+            if off % 4 == 0:
+                labels.append((off, pending))
+            pending = None
+
+    return labels
+
+
+def internal_data_label_candidates(
+    room: str, subs: list[tuple[int, str, str]]
+) -> list[dict[str, Any]]:
+    subsegment_starts = {off for off, _typ, _name in subs}
+    candidates: list[dict[str, Any]] = []
+
+    for off, typ, name in subs:
+        if typ != "data":
+            continue
+
+        data_file = exact_data_file(room, off, name)
+        if data_file is None:
+            continue
+
+        for label_off, label in aligned_dlabels(data_file):
+            if label_off in subsegment_starts:
+                continue
+            candidates.append(
+                {
+                    "room": room,
+                    "offset": label_off,
+                    "label": label,
+                    "data_start": off,
+                    "data_name": name,
+                }
+            )
+
+    return candidates
+
+
 def audit() -> dict[str, Any]:
     totals: collections.Counter[str] = collections.Counter()
     family_totals: collections.Counter[str] = collections.Counter()
@@ -209,6 +280,7 @@ def audit() -> dict[str, Any]:
     ambiguous: list[dict[str, Any]] = []
     size_mismatches: list[dict[str, Any]] = []
     historical_names: list[dict[str, Any]] = []
+    data_label_candidates: list[dict[str, Any]] = []
     typefunc_data_hits: list[dict[str, Any]] = []
     base_jtbl_hits: list[dict[str, Any]] = []
     top_data_blocks: list[tuple[int, str, int, int, str]] = []
@@ -224,6 +296,7 @@ def audit() -> dict[str, Any]:
         rodata_offsets = {off for off, typ, _name in subs if typ == "rodata"}
         base_jtbl_hits.extend(base_rodata_jtbl_hits(room, rodata_offsets))
         typefunc_data_hits.extend(typefunc_inside_data(room, cfg, subs, end))
+        data_label_candidates.extend(internal_data_label_candidates(room, subs))
 
         m, a, sm, hn, fam = exact_asm_checks(room, subs, end)
         missing.extend(m)
@@ -244,6 +317,7 @@ def audit() -> dict[str, Any]:
         "ambiguous_exact_asm_files": ambiguous,
         "asm_size_mismatches": size_mismatches,
         "historical_asm_rename_candidates": historical_names,
+        "internal_aligned_data_label_candidates": data_label_candidates,
         "typefunc_symbols_inside_data": typefunc_data_hits,
         "base_rodata_jtbl_labels": base_jtbl_hits,
     }

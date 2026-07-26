@@ -42,7 +42,11 @@ segments:
       - [0x1A8, c, RoomM272_Nop_8018F190]
       - [0x1B0, c, RoomM272_Nop_8018F198]
       - [0x1B8, c, RoomM272_Nop_8018F1A0]
-      - [0x1C0, data]
+      - [0x1C0, data, D_8018F1A8]
+      - [0x1E0, data, RoomM272_Rec]
+      - [0xA1E0, data, D_801991C8]
+      - [0x4120C, data, D_801D01F4]
+      - [0x41210, data, D_801D01F8]
   - [0x46800]
 # room: m272, section3 sector 69660, scanner delta 0
 # source slice: room-section3

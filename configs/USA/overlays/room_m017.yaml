@@ -45,7 +45,9 @@ segments:
       - [0x1DC, c, RoomEnt_Setup5_8018F1C4]
       - [0x210, asm, RoomFx_ModelUpdate]
       - [0x598, asm, RoomFx_ModelDraw]
-      - [0xB5C, data]
+      - [0xB5C, data, D_8018FB44]
+      - [0xB78, data, D_8018FB60]
+      - [0xB7C, data, D_8018FB64]
   - [0x21800]
 # room: m017, section3 sector 11855, scanner delta 0
 # source slice: room-section3

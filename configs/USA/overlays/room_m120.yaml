@@ -99,7 +99,11 @@ segments:
       - [0x3514, asm, func_801924FC]
       - [0x38B0, asm, func_80192898]
       - [0x4304, c, RoomLib_SlotSet_801932EC]
-      - [0x4348, data]
+      - [0x4348, data, D_80193330]
+      - [0x4380, data, D_80193368]
+      - [0x43F0, data, D_801933D8]
+      - [0x4410, data, D_801933F8]
+      - [0x4448, data, RoomLib_SlotTable]
   - [0x29000]
 # room: m120, section3 sector 36730, scanner delta 0
 # source slice: room-section3

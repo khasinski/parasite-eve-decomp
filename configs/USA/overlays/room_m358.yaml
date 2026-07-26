@@ -108,8 +108,8 @@ segments:
       - [0x4220, c, func_80193208]
       - [0x4268, c, func_80193250]
       - [0x42E0, c, func_801932C8]
-      - [0x42E8, data]
-      - [0x14520, data]
+      - [0x42E8, data, D_801932D0]
+      - [0x14520, data, D_801A3508]
   - [0x2B000]
 # room: m358, section3 sector 84770, scanner delta 0
 # source slice: room-section3

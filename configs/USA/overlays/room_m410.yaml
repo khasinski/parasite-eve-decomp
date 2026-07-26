@@ -98,7 +98,14 @@ segments:
       - [0x350C, asm, func_801924F4]
       - [0x3904, asm, func_801928EC]
       - [0x3C2C, asm, func_80192C14]
-      - [0x3C50, data]
+      - [0x3C50, data, D_80192C38]
+      - [0x3C88, data, D_80192C70]
+      - [0x3CC0, data, D_80192CA8]
+      - [0x3CF8, data, D_80192CE0]
+      - [0x3D1C, data, D_80192D04]
+      - [0x3D54, data, D_80192D3C]
+      - [0x3D58, data, D_80192D40]
+      - [0x3D5C, data, D_80192D44]
   - [0x30000]
 # room: m410, section3 sector 94183, scanner delta 0
 # source slice: room-section3

@@ -46,6 +46,7 @@ These checks were run against current YAMLs and generated asm:
 | `// type:func` symbols located inside YAML `data` ranges | 0 |
 | Remaining base `jtbl_*` labels in room rodata | 0 |
 | Safe historical asm subsegment rename candidates | 0 |
+| Internal aligned `data` labels still hidden in larger `data` blocks | 0 |
 
 This means the current room function split is internally consistent: the
 remaining low percentage is not explained by known functions hidden inside data
@@ -54,6 +55,12 @@ or by asm ranges with wrong lengths.
 The room YAMLs also no longer use the old generated `room_m...` names for
 single-function asm subsegments when the exact generated file exposes one
 unambiguous `glabel`; those subsegments now use the actual function labels.
+
+The room data split is also less anonymous now. A previous audit found 2144
+aligned internal `dlabel` boundaries inside larger room `data` subsegments; the
+YAMLs now split those boundaries explicitly. This separates room control tables,
+small referenced records, and large asset banks without moving any bytes into
+the code denominator.
 
 One caveat: old generated files under `asm/USA/overlays/<room>/` can remain
 after split changes and may contain stale multi-function blobs. Do not use a
@@ -93,11 +100,8 @@ and YAML range, not just by symbol name.
 
 Several argument parsers have no local epilogue. Their cases branch to the next
 8-byte `return 0` function, for example the `room_m014` parser at `0x29C`.
-Plain C naturally emits its own `jr $ra`, so matching these may require either:
-
-- a careful segment strategy that keeps the shared return target intact, or
-- a tiny justified inline-asm tail jump if no pure-C form can express the
-  fallthrough.
+Plain C naturally emits its own `jr $ra`, so matching these requires a careful
+segment/source strategy that keeps the shared return target intact.
 
 Do not convert these blindly; they can look easy but fail because of the shared
 epilogue.
@@ -106,8 +110,8 @@ epilogue.
 
 `RoomLib_HandlerB` and related movement handlers use scratchpad addresses around
 `0x1F800000` and GTE instructions (`ctc2`, `lwc2`, `mvmva`, `swc2`). Those are
-real code, not data. They may need small inline asm blocks for the GTE sequence
-after the surrounding C structure is understood.
+real code, not data. They need the surrounding structures and a pure-C/GTE
+intrinsic strategy before they are good candidates for a wide mechanical pass.
 
 ## Next recommended work
 
