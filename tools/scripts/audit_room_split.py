@@ -101,12 +101,16 @@ def exact_asm_checks(
     collections.Counter[str],
     collections.Counter[str],
     collections.Counter[str],
+    collections.Counter[str],
+    collections.Counter[str],
 ]:
     missing: list[dict[str, Any]] = []
     ambiguous: list[dict[str, Any]] = []
     mismatches: list[dict[str, Any]] = []
     historical_names: list[dict[str, Any]] = []
     families: collections.Counter[str] = collections.Counter()
+    clean_families: collections.Counter[str] = collections.Counter()
+    clean_family_counts: collections.Counter[str] = collections.Counter()
     feature_totals: collections.Counter[str] = collections.Counter()
     feature_counts: collections.Counter[str] = collections.Counter()
     used_names = collections.Counter(name for _off, _typ, name in subs if name)
@@ -141,7 +145,11 @@ def exact_asm_checks(
 
         func_name, declared_size = nonmatching[0]
         families[func_name] += size
-        for feature in asm_features(text):
+        features = asm_features(text)
+        if "gte_or_scratchpad_handler" not in features and "no_local_return" not in features:
+            clean_families[func_name] += size
+            clean_family_counts[func_name] += 1
+        for feature in features:
             feature_totals[feature] += size
             feature_counts[feature] += 1
         if name.startswith("room_") and name != glabels[0] and not used_names[glabels[0]]:
@@ -171,6 +179,8 @@ def exact_asm_checks(
         mismatches,
         historical_names,
         families,
+        clean_families,
+        clean_family_counts,
         feature_totals,
         feature_counts,
     )
@@ -412,6 +422,8 @@ def classify_data_block(size: int, name: str) -> str:
 def audit() -> dict[str, Any]:
     totals: collections.Counter[str] = collections.Counter()
     family_totals: collections.Counter[str] = collections.Counter()
+    clean_family_totals: collections.Counter[str] = collections.Counter()
+    clean_family_counts: collections.Counter[str] = collections.Counter()
     asm_feature_totals: collections.Counter[str] = collections.Counter()
     asm_feature_counts: collections.Counter[str] = collections.Counter()
     data_class_totals: collections.Counter[str] = collections.Counter()
@@ -440,12 +452,14 @@ def audit() -> dict[str, Any]:
         data_label_candidates.extend(internal_data_label_candidates(room, subs))
         tim_candidates.extend(hidden_tim_candidates(room, subs, end))
 
-        m, a, sm, hn, fam, aft, afc = exact_asm_checks(room, subs, end)
+        m, a, sm, hn, fam, clean_fam, clean_counts, aft, afc = exact_asm_checks(room, subs, end)
         missing.extend(m)
         ambiguous.extend(a)
         size_mismatches.extend(sm)
         historical_names.extend(hn)
         family_totals.update(fam)
+        clean_family_totals.update(clean_fam)
+        clean_family_counts.update(clean_counts)
         asm_feature_totals.update(aft)
         asm_feature_counts.update(afc)
 
@@ -476,6 +490,8 @@ def audit() -> dict[str, Any]:
         "data_class_totals": dict(data_class_totals),
         "data_class_counts": dict(data_class_counts),
         "asm_family_totals": family_totals.most_common(30),
+        "clean_asm_family_totals": clean_family_totals.most_common(30),
+        "clean_asm_family_counts": dict(clean_family_counts),
         "asm_feature_totals": dict(asm_feature_totals),
         "asm_feature_counts": dict(asm_feature_counts),
         "top_data_blocks": sorted(top_data_blocks, reverse=True)[:30],
@@ -509,6 +525,11 @@ def print_text(report: dict[str, Any], limit: int) -> None:
     print("\ntop remaining asm families:")
     for name, total in report["asm_family_totals"][:limit]:
         print(f"  {total:7d}  {name}")
+
+    print("\ntop non-GTE asm families with local returns:")
+    clean_counts = report["clean_asm_family_counts"]
+    for name, total in report["clean_asm_family_totals"][:limit]:
+        print(f"  {total:7d}  {name}  blocks {clean_counts[name]:3d}")
 
     print("\ntop data blocks:")
     for size, room, start, stop, name in report["top_data_blocks"][:limit]:

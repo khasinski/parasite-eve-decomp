@@ -123,6 +123,29 @@ The largest repeated room functions by total remaining asm bytes are:
 The best byte-return work is therefore not more data splitting; it is
 decompiling the shared room handler families, especially `RoomLib_HandlerE/D/C/B`.
 
+The audit also reports a separate list of larger families that do not contain
+detected GTE/scratchpad instructions and do have local `jr $ra` returns. These
+are better pure-C candidates than the handler families:
+
+| Function family | Count | Total bytes |
+|---|---:|---:|
+| `func_80192700` | 9 | 23688 |
+| `func_8018F374` | 5 | 20740 |
+| `func_8018F20C` | 9 | 8160 |
+| `func_80192714` | 3 | 7896 |
+| `func_801924FC` | 5 | 6940 |
+| `func_8019253C` | 9 | 6668 |
+| `func_80192208` | 3 | 6048 |
+| `func_8019251C` | 2 | 5936 |
+| `func_80193CDC` | 8 | 5920 |
+| `func_80191140` | 6 | 4992 |
+
+One attempted representative from this class, `room_m167/func_8018F3AC`, was
+semantically straightforward and compiled within one instruction-scheduling
+problem of the target: GCC hoisted `li v0, 0x28` before the second four-word
+state copy. That confirms this class is structurally promising, but still needs
+source-shape work around GCC scheduling before a safe batch conversion.
+
 ## Important pitfalls
 
 ### Local names are not stable semantic identifiers
@@ -169,8 +192,10 @@ work, not another broad pass over obvious stubs.
    the scratchpad/GTE block in `room_lib.h`.
 2. Use that structure to attack `RoomLib_HandlerC/D/E`; they account for the
    largest repeated byte mass.
-3. For non-GTE work, prefer repeated medium functions with normal epilogues
-   before parser functions that tail-jump into neighboring return-zero stubs.
+3. For non-GTE work, prefer the `top non-GTE asm families with local returns`
+   section from `make room-split-audit`, then repeated medium functions with
+   normal epilogues before parser functions that tail-jump into neighboring
+   return-zero stubs.
 4. Keep using the split audit checks before changing YAML: exact asm file,
    one `nonmatching`, size equals YAML range, and no `type:func` symbols inside
    data.
