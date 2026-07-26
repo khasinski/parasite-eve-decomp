@@ -41,6 +41,7 @@ segments:
       - [0x150, c, RoomLib_InvokeCallbackC_8018F138]
       - [0x178, c, func_8018F160]
       - [0x1A4, asm, func_8018F18C]
+      - [0x1AC, asm, func_8018F194]
       - [0x350, asm, func_8018F338]
       - [0x5EC, asm, func_8018F5D4]
       - [0x6D4, asm, func_8018F6BC]
