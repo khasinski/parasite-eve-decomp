@@ -13,8 +13,8 @@ The room-overlay progress row is:
 
 | Area | Value |
 |---|---:|
-| Functions | 6115/6454 (94.7%) |
-| Code bytes | 474828/2392460 (19.8%) |
+| Functions | 6181/6454 (95.8%) |
+| Code bytes | 475724/2392460 (19.9%) |
 
 The low byte percentage is not caused by room assets being included in the code
 denominator. `tools/scripts/progress_report.py` counts function subsegments for
@@ -25,8 +25,8 @@ Current room YAML subsegment bytes:
 | YAML type | Bytes |
 |---|---:|
 | `data` | 30322572 |
-| `asm` | 1917632 |
-| `c` | 474828 |
+| `asm` | 1916736 |
+| `c` | 475724 |
 | `rodata` | 59112 |
 
 So the missing code-byte coverage is primarily the remaining `asm` function
@@ -55,7 +55,7 @@ Current remaining room `asm` bytes classify as overlapping feature buckets:
 | GTE or scratchpad handler | 1146 | 1250304 |
 | Switch or jump table | 480 | 366252 |
 | No local return | 449 | 267024 |
-| Plain local function | 20 | 4240 |
+| Plain local function | 16 | 3344 |
 
 These buckets overlap, so their byte totals do not add up to total `asm`
 bytes. The useful signal is the shape: almost all remaining room asm is either
@@ -157,7 +157,7 @@ small callback slots are already decompiled.
 
 ### Very few plain local functions remain
 
-The coarse asm-feature scan finds only 4,240 bytes across 20 blocks with no
+The coarse asm-feature scan finds only 3,344 bytes across 16 blocks with no
 detected calls, GTE/scratchpad operations, switch tables, or missing local
 return. That means the previous serial work converted most of the easy
 8-byte/small local functions already. Further room-byte gains need structure

@@ -70,7 +70,7 @@ segments:
       - [0x191C, asm, func_80190904]
       - [0x1A70, asm, func_80190A58]
       - [0x1C24, asm, func_80190C0C]
-      - [0x1D54, asm, func_80190D3C]
+      - [0x1D54, c, func_80190D3C]
       - [0x1E34, c, func_80190E1C]
       - [0x1E3C, c, RoomLib_InitB_80190E24]
       - [0x1EDC, asm, func_80190EC4]
