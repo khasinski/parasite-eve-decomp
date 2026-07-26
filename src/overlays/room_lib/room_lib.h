@@ -3,6 +3,8 @@
 #ifndef ROOM_LIB_H
 #define ROOM_LIB_H
 
+#include "../../../include/pe1/gte.h"
+
 typedef struct RoomObj {
     char pad0[0xC];
     void (*callback)(void);
@@ -83,7 +85,7 @@ extern void RoomLib_HandlerA();
 extern void RoomLib_HandlerB(void);
 extern void RoomLib_HandlerC(void);
 extern void RoomLib_HandlerD(void);
-extern void RoomLib_HandlerE(void);
+extern void RoomLib_HandlerE();
 extern void RoomLib_HandlerF();
 extern int FieldEng_VecToAngle(int *vec, int *ref);
 extern int FieldEng_TurnToward(short cur, short target, short rate);
@@ -116,10 +118,12 @@ typedef struct RoomLink {
     unsigned short winHi;         /* 0x1A: t17 window lower bound */
     char pad1C[0xA];
     unsigned short h26;           /* 0x26 */
-    int pos[3];                   /* 0x28: 16.16 x/y/z (hi16 read as s16) */
-    char pad34[0x6];
+    int pos[4];                   /* 0x28: 16.16 x/y/z plus copied trailing word */
+    char pad38[0x2];
     unsigned short h3A;           /* 0x3A */
-    char pad3C[0x2C];
+    char pad3C[0x4];
+    int posMirror[4];             /* 0x40: optional position snapshot */
+    char pad50[0x18];
     int vel[3];                   /* 0x68 */
     char pad74[0x4];
     int move[3];                  /* 0x78 */
@@ -191,6 +195,35 @@ typedef struct RoomEnt {
     unsigned short hBC[4];        /* 0xBC..0xC2 */
 } RoomEnt;
 
+/* Motion state addressed by HandlerE through RoomEnt + 0x0C. */
+typedef struct RoomLibHandlerEState {
+    char pad00[0x10];
+    int start[3];                 /* 0x10 */
+    char pad1C[0x4];
+    int target[3];                /* 0x20 */
+    char pad2C[0x4];
+    int delta[3];                 /* 0x30 */
+    char pad3C[0x4];
+    int localOffset[3];           /* 0x40 */
+    char pad4C[0x14];
+    RoomLink *targetLink;         /* 0x60 */
+    char pad64[0x4];
+    int speed;                    /* 0x68 */
+    short duration;               /* 0x6C */
+    short pad6E;
+    short eased;                  /* 0x70 */
+    short heading;                /* 0x72 */
+    short mirrorPosition;         /* 0x74 */
+    short frameLimit;             /* 0x76 */
+    short frame;                  /* 0x78 */
+    short phase;                  /* 0x7A */
+    short phaseFrame[4];          /* 0x7C */
+    unsigned char lockY;          /* 0x84 */
+    unsigned char copyPosition;  /* 0x85 */
+} RoomLibHandlerEState;
+
+extern short D_800966EE[];
+
 typedef struct RoomLibFxMatrixWords {
     int w0;
     int w1;
@@ -219,6 +252,9 @@ extern void *func_8006DC18(int type);
 extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
 extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
 extern void func_800DFE94(void *a0, void *a1, void *a2);
+extern int func_800DFC80(int *lhs, int *rhs);
+extern int func_80079FB4(int x, int z);
+extern void func_800DFB20(void *state);
 
 
 
@@ -369,6 +405,125 @@ extern void func_800DFE94(void *a0, void *a1, void *a2);
             *s->signal = 0; \
         } \
         return 0; \
+    }
+
+/*
+ * Target-relative, phase-based movement.  The only non-C operations are the
+ * named GTE macros that load a yaw matrix, transform one vector, and read it
+ * back; all state and interpolation logic remains ordinary C.
+ */
+#define ROOMLIB_HANDLER_E(name, reset, steer, rotTable) \
+    void name(RoomEnt *o) { \
+        RoomLink *link = o->link; \
+        RoomLink *targetLink; \
+        RoomLibHandlerEState *state = (RoomLibHandlerEState *)((char *)o + 0xC); \
+        volatile short *scratch = (volatile short *)0x1F800000; \
+        int remain; \
+        int scale; \
+        int angle; \
+        int rotWord; \
+        int localX; \
+        int localZ; \
+        int rotY; \
+        short rotX; \
+        short negRotY; \
+        short *rotBase; \
+        short *rot; \
+        if (o->t1A == 0) { \
+            RW16(o, 0x86) = 1; \
+            o->t1A = 1; \
+            RW32(link, 0x98) &= 0xFFF3FFFF; \
+            if (o->active != 0 && link->target != 0) { \
+                link->target->flags |= 0x40000000; \
+            } \
+            state->start[0] = link->pos[0]; \
+            state->start[1] = link->pos[1]; \
+            state->start[2] = link->pos[2]; \
+            targetLink = state->targetLink; \
+            if (targetLink != 0) { \
+                state->target[0] = targetLink->pos[0]; \
+                state->target[1] = targetLink->pos[1]; \
+                state->target[2] = targetLink->pos[2]; \
+            } \
+            angle = FieldEng_VecToAngle(state->start, state->target) & 0xFFF; \
+            { \
+                rotBase = (short *)(rotTable); \
+                rot = rotBase + (angle << 1); \
+                rotY = rot[1]; \
+                scratch[21] = 0; \
+                scratch[20] = rotY; \
+                rotWord = *(int *)rot; \
+                rotX = scratch[20]; \
+            } \
+            scratch[23] = 0; \
+            scratch[25] = 0; \
+            scratch[27] = 0; \
+            scratch[22] = rotWord; \
+            negRotY = scratch[22]; \
+            scratch[24] = 0x1000; \
+            scratch[28] = rotX; \
+            scratch[26] = -negRotY; \
+            localX = state->localOffset[0]; \
+            scratch[1] = 0; \
+            scratch[0] = localX >> 12; \
+            localZ = state->localOffset[2]; \
+            do { \
+                scratch[2] = localZ >> 12; \
+                gte_ldrotmatrix((void *)((int)scratch | 0x28)); \
+            } while (0); \
+            gte_ldv0((void *)scratch); \
+            gte_mvmva(); \
+            gte_stmac((void *)&scratch[4]); \
+            state->target[0] += *(int *)&scratch[4] << 12; \
+            state->target[1] += *(int *)&scratch[6] << 12; \
+            state->target[2] += *(int *)&scratch[8] << 12; \
+            if (state->duration == 0) { \
+                state->duration = ((func_800DFC80(state->start, state->target) << 16) / state->speed) + 1; \
+            } \
+            state->delta[0] = (state->target[0] - state->start[0] + 0x800) >> 12; \
+            state->delta[1] = (state->target[1] - state->start[1] + 0x800) >> 12; \
+            state->delta[2] = (state->target[2] - state->start[2] + 0x800) >> 12; \
+            state->heading = func_80079FB4(state->delta[0], state->delta[2]); \
+        } \
+        scratch[52] = 0; \
+        remain = state->phase - state->phaseFrame[state->frame]; \
+        if (remain < 0) { \
+            remain = 0; \
+        } \
+        if (state->duration < remain) { \
+            remain = state->duration; \
+        } \
+        if (state->eased != 0) { \
+            scale = 0x1000 - D_800966EE[(((remain << 11) / state->duration) & 0xFFF) << 1]; \
+            link->pos[0] = state->start[0] + (((state->delta[0] * scale + 0x1000) >> 13) << 12); \
+            if (state->lockY == 0) { \
+                link->pos[1] = state->start[1] + (((state->delta[1] * scale + 0x1000) >> 13) << 12); \
+            } \
+            link->pos[2] = state->start[2] + (((state->delta[2] * scale + 0x1000) >> 13) << 12); \
+        } else { \
+            link->pos[0] = state->start[0] + ((state->delta[0] * remain / state->duration) << 12); \
+            if (state->lockY == 0) { \
+                link->pos[1] = state->start[1] + ((state->delta[1] * remain / state->duration) << 12); \
+            } \
+            link->pos[2] = state->start[2] + ((state->delta[2] * remain / state->duration) << 12); \
+        } \
+        if (state->copyPosition != 0) { \
+            link->posMirror[0] = link->pos[0]; \
+            link->posMirror[1] = link->pos[1]; \
+            link->posMirror[2] = link->pos[2]; \
+            link->posMirror[3] = link->pos[3]; \
+        } \
+        if (remain >= state->duration && state->frame >= state->frameLimit) { \
+            reset(o); \
+        } else { \
+            state->frame++; \
+            if (state->frameLimit < state->frame) { \
+                state->frame = 0; \
+                state->phase++; \
+            } \
+        } \
+        steer(link, state); \
+        func_800DFB20(o); \
     }
 
 extern char RoomLib_TableA[];

@@ -11,6 +11,8 @@ import pathlib
 import datetime
 import csv
 
+import yaml
+
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 ASM_RE = re.compile(r"(^|[^_a-zA-Z0-9])(__asm__|asm)\b")
@@ -1164,16 +1166,36 @@ def count_funcs(text: str) -> int:
 
 
 def parse_segments(yaml_path: pathlib.Path):
-    """(offset, type, name) rows from a splat yaml, sorted by offset."""
+    """(offset, type, name) rows from a splat YAML, sorted by offset.
+
+    Splat accepts both compact list subsegments and mapping subsegments.  The
+    latter is used for databins, whose boundaries must participate in byte
+    accounting even though databins themselves are not code.
+    """
+    with yaml_path.open() as f:
+        config = yaml.safe_load(f)
+
     rows = []
-    for line in yaml_path.read_text().splitlines():
-        m = re.match(r"\s+- \[(0x[0-9A-Fa-f]+), (\w[\w.]*)(?:, ([^\]]+))?\]", line)
-        if m:
-            rows.append((int(m.group(1), 16), m.group(2), (m.group(3) or "").strip()))
+    for segment in config["segments"]:
+        if isinstance(segment, list) and len(segment) == 1:
+            offset = segment[0]
+            rows.append((int(offset, 0) if isinstance(offset, str) else offset,
+                         "end", ""))
             continue
-        m = re.match(r"\s+- \[(0x[0-9A-Fa-f]+)\]\s*$", line)
-        if m:
-            rows.append((int(m.group(1), 16), "end", ""))
+        if not isinstance(segment, dict):
+            continue
+        for subsegment in segment.get("subsegments", []):
+            if isinstance(subsegment, list):
+                offset, typ = subsegment[:2]
+                name = subsegment[2] if len(subsegment) > 2 else ""
+            elif isinstance(subsegment, dict):
+                offset = subsegment["start"]
+                typ = subsegment["type"]
+                name = subsegment.get("name", "")
+            else:
+                continue
+            rows.append((int(offset, 0) if isinstance(offset, str) else offset,
+                         str(typ), str(name)))
     rows.sort(key=lambda r: r[0])
     return rows
 

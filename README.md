@@ -29,10 +29,12 @@ decompiled C rather than generated split assembly. Verified builds are
 byte-identical to retail (`make check`, plus overlay checks for touched
 overlays).
 
-The matching policy is conservative: promoted decompilation work must match as
-plain C through the stock compiler pipeline. Inline asm, register asm, asm
-barriers, whole-function asm bodies, post-build rewrite passes, and build hacks
-are not acceptable substitutes for decompilation.
+The matching policy is conservative: promoted decompilation work must match
+through the stock compiler pipeline. Inline asm, register asm, asm barriers,
+whole-function asm bodies, post-build rewrite passes, and build hacks are not
+acceptable substitutes for decompilation. The only narrow exception is a named,
+central PSY-Q-style GTE/COP2 macro for a documented hardware operation; see
+[docs/ASM_AND_GTE_POLICY.md](docs/ASM_AND_GTE_POLICY.md).
 
 ## Layout
 
