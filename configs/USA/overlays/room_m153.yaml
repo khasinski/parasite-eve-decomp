@@ -175,9 +175,15 @@ segments:
       - [0x67A0, data, D_80195788]
       - [0x67A4, data, D_8019578C]
       - [0x67A8, data, D_80195790]
-      - [0x9204, data, D_801981EC]
+      - start: 0x9204
+        type: databin
+        name: D_801981EC
+        dir: room_m153
       - [0x3120C, data, D_801C01F4]
-      - [0x31210, data, D_801C01F8]
+      - start: 0x31210
+        type: databin
+        name: D_801C01F8
+        dir: room_m153
   - [0x44800]
 # room: m153, section3 sector 44032, scanner delta 0
 # source slice: room-section3

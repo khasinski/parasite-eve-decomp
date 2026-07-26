@@ -180,8 +180,14 @@ segments:
       - [0x6610, data, D_801955F8]
       - [0x6618, data, D_80195600]
       - [0x661C, data, D_80195604]
-      - [0x6620, data, D_80195608]
-      - [0x311FC, data, D_801C01E4]
+      - start: 0x6620
+        type: databin
+        name: D_80195608
+        dir: room_m401
+      - start: 0x311FC
+        type: databin
+        name: D_801C01E4
+        dir: room_m401
   - [0x46800]
 # room: m401, section3 sector 92367, scanner delta 0
 # source slice: room-section3

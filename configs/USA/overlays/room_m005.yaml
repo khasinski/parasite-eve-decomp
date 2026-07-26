@@ -55,7 +55,10 @@ segments:
       - [0x1BBC, data, D_80190BA4]
       - [0x1BC0, data, D_80190BA8]
       - [0x1BC4, data, D_80190BAC]
-      - [0x91F8, data, D_801981E0]
+      - start: 0x91F8
+        type: databin
+        name: D_801981E0
+        dir: room_m005
   - [0x30000]
 # room: m005, section3 sector 10036, scanner delta 0
 # source slice: room-section3

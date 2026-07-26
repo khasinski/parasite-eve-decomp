@@ -8,6 +8,8 @@ disc/*.xml
 # but keep the mkpsxiso layout descriptor (LBA-pinned build recipe, not disc data)
 !disc/disc1.xml
 assets/USA/main.exe
+assets/*.databin.bin
+assets/room_m*/
 original/USA/overlays/
 asm/USA/overlays/
 linkers/USA/overlays/

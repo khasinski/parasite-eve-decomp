@@ -122,7 +122,10 @@ segments:
       - [0x4648, data, D_80193630]
       - [0x4650, data, D_80193638]
       - [0x4654, data, D_8019363C]
-      - [0x4658, data, D_80193640]
+      - start: 0x4658
+        type: databin
+        name: D_80193640
+        dir: room_m087
   - [0x2B800]
 # room: m087, section3 sector 29381, scanner delta 0
 # source slice: room-section3

@@ -60,7 +60,10 @@ segments:
       - [0x10A8, data, D_80190090]
       - [0x10B0, data, D_80190098]
       - [0x10B4, data, D_8019009C]
-      - [0x10B8, data, D_801900A0]
+      - start: 0x10B8
+        type: databin
+        name: D_801900A0
+        dir: room_m065
       - [0x1EFD0, data, D_801ADFB8]
       - [0x1F010, data, D_801ADFF8]
       - [0x1F030, data, D_801AE018]

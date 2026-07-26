@@ -88,12 +88,21 @@ segments:
       - [0x4A5C, data, D_80193A44]
       - [0x78A4, data, D_8019688C]
       - [0x85AC, data, D_80197594]
-      - [0x875C, data, D_80197744]
+      - start: 0x875C
+        type: databin
+        name: D_80197744
+        dir: room_m049
       - [0x32D74, data, D_801C1D5C]
-      - [0x33BA0, data, D_801C2B88]
+      - start: 0x33BA0
+        type: databin
+        name: D_801C2B88
+        dir: room_m049
       - [0x3C020, data, D_801CB008]
       - [0x3EFD0, data, D_801CDFB8]
-      - [0x40000, data, D_801CEFE8]
+      - start: 0x40000
+        type: databin
+        name: D_801CEFE8
+        dir: room_m049
       - [0x51334, data, D_801E031C]
       - [0x528C8, data, D_801E18B0]
       - [0x52F78, data, D_801E1F60]

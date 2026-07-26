@@ -83,10 +83,16 @@ segments:
       - [0x3C4C, data, D_80192C34]
       - [0x3C50, data, D_80192C38]
       - [0x3C54, data, D_80192C3C]
-      - [0x3C58, data, D_80192C40]
+      - start: 0x3C58
+        type: databin
+        name: D_80192C40
+        dir: room_m050
       - [0x31200, data, D_801C01E8]
       - [0x31208, data, D_801C01F0]
-      - [0x3120C, data, D_801C01F4]
+      - start: 0x3120C
+        type: databin
+        name: D_801C01F4
+        dir: room_m050
       - [0x411F8, data, D_801D01E0]
   - [0x46000]
 # room: m050, section3 sector 21297, scanner delta 0

@@ -42,8 +42,14 @@ segments:
       - [0xCF4, data, D_8018FCDC]
       - [0xD18, data, D_8018FD00]
       - [0xD50, data, RoomLib_PairA]
-      - [0xD54, data, RoomLib_PairB]
-      - [0x191FC, data, D_801A81E4]
+      - start: 0xD54
+        type: databin
+        name: RoomLib_PairB
+        dir: room_m126+1
+      - start: 0x191FC
+        type: databin
+        name: D_801A81E4
+        dir: room_m126+1
   - [0x24800]
 # room: m126, section3 sector 38302, scanner delta 1
 # source slice: room-section3

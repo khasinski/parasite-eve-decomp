@@ -47,8 +47,14 @@ segments:
       - [0x598, asm, RoomFx_ModelDraw]
       - [0xB5C, data, D_8018FB44]
       - [0xB78, data, D_8018FB60]
-      - [0xB7C, data, D_8018FB64]
-      - [0x9210, data, D_801981F8]
+      - start: 0xB7C
+        type: databin
+        name: D_8018FB64
+        dir: room_m319
+      - start: 0x9210
+        type: databin
+        name: D_801981F8
+        dir: room_m319
   - [0x1E800]
 # room: m319, section3 sector 77550, scanner delta 0
 # source slice: room-section3

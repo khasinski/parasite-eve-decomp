@@ -110,7 +110,10 @@ segments:
       - [0x5178, data, D_80194160]
       - [0x517C, data, D_80194164]
       - [0x5180, data, D_80194168]
-      - [0x5184, data, D_8019416C]
+      - start: 0x5184
+        type: databin
+        name: D_8019416C
+        dir: room_m089
   - [0x5D800]
 # room: m089, section3 sector 29945, scanner delta 0
 # source slice: room-section3

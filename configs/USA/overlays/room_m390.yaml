@@ -126,8 +126,14 @@ segments:
       - [0x6FF0, data, D_80195FD8]
       - [0x6FF8, data, D_80195FE0]
       - [0x7000, data, D_80195FE8]
-      - [0x7008, data, D_80195FF0]
-      - [0x411F8, data, D_801D01E0]
+      - start: 0x7008
+        type: databin
+        name: D_80195FF0
+        dir: room_m390
+      - start: 0x411F8
+        type: databin
+        name: D_801D01E0
+        dir: room_m390
   - [0x5B000]
 # room: m390, section3 sector 89964, scanner delta 0
 # source slice: room-section3

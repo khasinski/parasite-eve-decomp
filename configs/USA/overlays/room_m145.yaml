@@ -109,9 +109,15 @@ segments:
       - [0x3E90, asm, func_80192E78]
       - [0x41D4, data, D_801931BC]
       - [0x4298, data, D_80193280]
-      - [0x42B8, data, D_801932A0]
+      - start: 0x42B8
+        type: databin
+        name: D_801932A0
+        dir: room_m145
       - [0x15540, data, D_801A4528]
-      - [0x19200, data, D_801A81E8]
+      - start: 0x19200
+        type: databin
+        name: D_801A81E8
+        dir: room_m145
   - [0x30800]
 # room: m145, section3 sector 41959, scanner delta 0
 # source slice: room-section3

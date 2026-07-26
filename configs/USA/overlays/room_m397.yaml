@@ -123,7 +123,10 @@ segments:
       - [0x6B80, data, D_80195B68]
       - [0x6B84, data, D_80195B6C]
       - [0x6B88, data, D_80195B70]
-      - [0x6B8C, data, D_80195B74]
+      - start: 0x6B8C
+        type: databin
+        name: D_80195B74
+        dir: room_m397
   - [0x3F800]
 # room: m397, section3 sector 91518, scanner delta 0
 # source slice: room-section3

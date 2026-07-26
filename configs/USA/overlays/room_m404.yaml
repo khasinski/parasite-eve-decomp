@@ -110,7 +110,10 @@ segments:
       - [0x4F6C, data, D_80193F54]
       - [0x4F80, data, D_80193F68]
       - [0x4FA0, data, D_80193F88]
-      - [0x4FD8, data, RoomSlotA_80193E24]
+      - start: 0x4FD8
+        type: databin
+        name: RoomSlotA_80193E24
+        dir: room_m404
       - [0x411F8, data, D_801D01E0]
   - [0x41800]
 # room: m404, section3 sector 93050, scanner delta 0

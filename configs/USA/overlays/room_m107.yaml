@@ -129,7 +129,10 @@ segments:
       - [0x4738, data, D_80193720]
       - [0x473C, data, D_80193724]
       - [0x4740, data, D_80193728]
-      - [0x4744, data, D_8019372C]
+      - start: 0x4744
+        type: databin
+        name: D_8019372C
+        dir: room_m107
   - [0x33800]
 # room: m107, section3 sector 34053, scanner delta 0
 # source slice: room-section3

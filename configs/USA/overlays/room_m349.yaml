@@ -44,8 +44,14 @@ segments:
       - [0x11B0, data, D_80190198]
       - [0x11B4, data, D_8019019C]
       - [0x11B8, data, D_801901A0]
-      - [0x11BC, data, D_801901A4]
-      - [0x311F8, data, D_801C01E0]
+      - start: 0x11BC
+        type: databin
+        name: D_801901A4
+        dir: room_m349
+      - start: 0x311F8
+        type: databin
+        name: D_801C01E0
+        dir: room_m349
   - [0x3A000]
 # room: m349, section3 sector 83300, scanner delta 0
 # source slice: room-section3

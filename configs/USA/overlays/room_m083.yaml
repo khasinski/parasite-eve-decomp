@@ -46,8 +46,14 @@ segments:
       - [0xD2C, c, func_8018FD14]
       - [0xD74, c, RoomLib_TickMain]
       - [0xDEC, c, func_8018FDD4]
-      - [0xDF4, data, D_8018FDDC]
-      - [0xE890, data, D_8019D878]
+      - start: 0xDF4
+        type: databin
+        name: D_8018FDDC
+        dir: room_m083
+      - start: 0xE890
+        type: databin
+        name: D_8019D878
+        dir: room_m083
   - [0x1F000]
 # room: m083, section3 sector 28573, scanner delta 0
 # source slice: room-section3

@@ -128,7 +128,10 @@ segments:
       - [0x5568, data, D_80194550]
       - [0x5570, data, D_80194558]
       - [0x5574, data, D_8019455C]
-      - [0x5578, data, D_80194560]
+      - start: 0x5578
+        type: databin
+        name: D_80194560
+        dir: room_m394
   - [0x2F800]
 # room: m394, section3 sector 90870, scanner delta 0
 # source slice: room-section3

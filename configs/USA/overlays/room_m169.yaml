@@ -125,7 +125,10 @@ segments:
       - [0x42E8, data, D_801932D0]
       - [0x42EC, data, D_801932D4]
       - [0x42F0, data, D_801932D8]
-      - [0x91F8, data, D_801981E0]
+      - start: 0x91F8
+        type: databin
+        name: D_801981E0
+        dir: room_m169
   - [0x2A000]
 # room: m169, section3 sector 47781, scanner delta 0
 # source slice: room-section3

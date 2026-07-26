@@ -165,7 +165,10 @@ segments:
       - [0x58A8, data, D_80194890]
       - [0x58B0, data, D_80194898]
       - [0x58B4, data, D_8019489C]
-      - [0x58B8, data, D_801948A0]
+      - start: 0x58B8
+        type: databin
+        name: D_801948A0
+        dir: room_m393
       - [0x311FC, data, D_801C01E4]
   - [0x35000]
 # room: m393, section3 sector 90673, scanner delta 0

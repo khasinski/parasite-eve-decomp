@@ -45,8 +45,14 @@ segments:
       - [0x1738, data, D_80190720]
       - [0x1770, data, D_80190758]
       - [0x1778, data, D_80190760]
-      - [0x9210, data, D_801981F8]
-      - [0x41208, data, D_801D01F0]
+      - start: 0x9210
+        type: databin
+        name: D_801981F8
+        dir: room_m023
+      - start: 0x41208
+        type: databin
+        name: D_801D01F0
+        dir: room_m023
       - [0x51204, data, D_801E01EC]
   - [0x56000]
 # room: m023, section3 sector 12891, scanner delta 0

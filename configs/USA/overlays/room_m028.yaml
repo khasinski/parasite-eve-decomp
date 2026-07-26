@@ -103,8 +103,14 @@ segments:
       - [0x422C, data, D_80193214]
       - [0x42A0, data, RoomSlotA_80193148]
       - [0x42A4, data, RoomSlotB_80193148]
-      - [0x42A8, data, RoomSlotC_80193148]
-      - [0x14F50, data, D_801A3F38]
+      - start: 0x42A8
+        type: databin
+        name: RoomSlotC_80193148
+        dir: room_m028
+      - start: 0x14F50
+        type: databin
+        name: D_801A3F38
+        dir: room_m028
   - [0x22800]
 # room: m028, section3 sector 14003, scanner delta 0
 # source slice: room-section3

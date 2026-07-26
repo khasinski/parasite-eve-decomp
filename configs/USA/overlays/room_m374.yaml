@@ -83,7 +83,10 @@ segments:
       - [0x3C4C, data, D_80192C34]
       - [0x3C50, data, D_80192C38]
       - [0x3C54, data, D_80192C3C]
-      - [0x3C58, data, D_80192C40]
+      - start: 0x3C58
+        type: databin
+        name: D_80192C40
+        dir: room_m374
   - [0x3E800]
 # room: m374, section3 sector 87379, scanner delta 0
 # source slice: room-section3

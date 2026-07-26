@@ -97,8 +97,14 @@ segments:
       - [0x34DC, c, RoomLib_Set4ClearSignal_801924C4]
       - [0x34F8, c, func_801924E0]
       - [0x3500, data, D_801924E8]
-      - [0x3538, data, D_80192520]
-      - [0x19200, data, D_801A81E8]
+      - start: 0x3538
+        type: databin
+        name: D_80192520
+        dir: room_m067
+      - start: 0x19200
+        type: databin
+        name: D_801A81E8
+        dir: room_m067
   - [0x25800]
 # room: m067, section3 sector 25106, scanner delta 0
 # source slice: room-section3

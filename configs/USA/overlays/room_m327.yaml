@@ -84,8 +84,14 @@ segments:
       - [0x1FA0, data, D_80190F88]
       - [0x1FA8, data, D_80190F90]
       - [0x1FAC, data, D_80190F94]
-      - [0x1FB0, data, D_80190F98]
-      - [0x19204, data, D_801A81EC]
+      - start: 0x1FB0
+        type: databin
+        name: D_80190F98
+        dir: room_m327
+      - start: 0x19204
+        type: databin
+        name: D_801A81EC
+        dir: room_m327
       - [0x29208, data, D_801B81F0]
       - [0x2920C, data, D_801B81F4]
       - [0x311FC, data, D_801C01E4]

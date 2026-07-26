@@ -137,10 +137,19 @@ segments:
       - [0x70B0, data, D_80196098]
       - [0x70B8, data, D_801960A0]
       - [0x70BC, data, D_801960A4]
-      - [0x70C0, data, D_801960A8]
+      - start: 0x70C0
+        type: databin
+        name: D_801960A8
+        dir: room_m256
       - [0x29200, data, D_801B81E8]
-      - [0x311F8, data, D_801C01E0]
-      - [0x41200, data, D_801D01E8]
+      - start: 0x311F8
+        type: databin
+        name: D_801C01E0
+        dir: room_m256
+      - start: 0x41200
+        type: databin
+        name: D_801D01E8
+        dir: room_m256
       - [0x511F8, data, D_801E01E0]
   - [0x55000]
 # room: m256, section3 sector 66620, scanner delta 0

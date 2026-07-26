@@ -13,8 +13,8 @@ The room-overlay progress row is:
 
 | Area | Value |
 |---|---:|
-| Functions | 6183/6454 (95.8%) |
-| Code bytes | 475984/2392460 (19.9%) |
+| Functions | 6194/6454 (96.0%) |
+| Code bytes | 476468/2392460 (19.9%) |
 
 The low byte percentage is not caused by room assets being included in the code
 denominator. `tools/scripts/progress_report.py` counts function subsegments for
@@ -24,34 +24,41 @@ Current room YAML subsegment bytes:
 
 | YAML type | Bytes |
 |---|---:|
-| `data` | 30322572 |
-| `asm` | 1916476 |
-| `c` | 475984 |
+| `databin` | 29060384 |
+| `asm` | 1915992 |
+| `data` | 1262188 |
+| `c` | 476468 |
 | `rodata` | 59112 |
 
 So the missing code-byte coverage is primarily the remaining `asm` function
 subsegments. The huge room data blocks are real room payloads/assets and are not
 the reason code-byte coverage is low.
 
-Current room `data` bytes classify as:
+Current room data/payload bytes classify as:
 
-| Data class | Blocks | Bytes |
+| Data/payload class | Blocks | Bytes |
 |---|---:|---:|
-| Large custom payload/asset bank | 232 | 29060384 |
+| Large custom payload/asset bank | 129 | 13263808 |
+| Probable indexed background/texture bank | 72 | 12130344 |
+| VRAM pointer asset table or script bank | 29 | 3334976 |
 | Medium room data record | 82 | 1153792 |
+| Raw indexed image payload | 1 | 290296 |
 | Named room control table | 183 | 61832 |
 | Small room scalar/record | 1864 | 46564 |
+| Mostly empty reserved payload | 1 | 40960 |
 
-The largest category is therefore not code hidden inside splat `data`; it is
-custom room payload data. These banks often contain background/layer/model-like
-binary payloads in PE1-specific formats rather than standard standalone PSX TIM
-files.
+The largest categories are therefore not code hidden inside splat `data`; they
+are custom room payload data. The largest payload banks are now split as
+`databin` subsegments under per-room asset paths, so they are explicit generated
+binary assets instead of anonymous YAML `data`. These banks often contain
+background/layer/model-like binary payloads in PE1-specific formats rather than
+standard standalone PSX TIM files.
 
 Current remaining room `asm` bytes classify as overlapping feature buckets:
 
 | Asm feature | Blocks | Bytes |
 |---|---:|---:|
-| Calls other functions | 1712 | 1633384 |
+| Calls other functions | 1701 | 1632900 |
 | GTE or scratchpad handler | 1146 | 1250304 |
 | Switch or jump table | 480 | 366252 |
 | No local return | 449 | 267024 |
@@ -69,15 +76,14 @@ These checks were run against current YAMLs and generated asm:
 
 | Check | Result |
 |---|---:|
-| Room asm subsegments with exact generated file | 2254 |
 | Missing exact asm files | 0 |
 | Ambiguous/multi-function exact asm files | 0 |
 | `nonmatching` size mismatches vs YAML range | 0 |
-| `// type:func` symbols located inside YAML `data` ranges | 0 |
+| `// type:func` symbols located inside YAML `data`/`databin` ranges | 0 |
 | Remaining base `jtbl_*` labels in room rodata | 0 |
 | Safe historical asm subsegment rename candidates | 0 |
-| Internal aligned `data` labels still hidden in larger `data` blocks | 0 |
-| Hidden validated PSX TIM assets inside room `data` | 0 |
+| Internal aligned `data` labels still hidden in larger `data`/`databin` blocks | 0 |
+| Hidden validated PSX TIM assets inside room `data`/`databin` | 0 |
 
 This means the current room function split is internally consistent: the
 remaining low percentage is not explained by known functions hidden inside data
@@ -89,14 +95,15 @@ unambiguous `glabel`; those subsegments now use the actual function labels.
 
 The room data split is also less anonymous now. A previous audit found 2144
 aligned internal `dlabel` boundaries inside larger room `data` subsegments; the
-YAMLs now split those boundaries explicitly. This separates room control tables,
-small referenced records, and large asset banks without moving any bytes into
-the code denominator.
+YAMLs now split those boundaries explicitly. The largest asset banks are now
+`databin` subsegments emitted below `assets/<room>/`, while room control tables
+and small referenced records remain as regular data. This keeps large payloads
+out of both generated asm and the code denominator without changing any bytes.
 
 The TIM check deliberately validates the full TIM container instead of searching
 for the raw `0x10 00 00 00` marker. Plain marker searches produce many false
 positives in these payloads; no full TIM containers are currently hidden inside
-room `data` subsegments.
+room `data` or `databin` subsegments.
 
 One caveat: old generated files under `asm/USA/overlays/<room>/` can remain
 after split changes and may contain stale multi-function blobs. Do not use a
@@ -200,5 +207,5 @@ work, not another broad pass over obvious stubs.
    one `nonmatching`, size equals YAML range, and no `type:func` symbols inside
    data.
 5. Use the remaining asm feature totals from `make room-split-audit` when
-   selecting batches; the 20 plain local blocks are the only remaining obvious
+   selecting batches; the 14 plain local blocks are the only remaining obvious
    serial cleanup class.

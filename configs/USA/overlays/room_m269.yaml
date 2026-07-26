@@ -69,7 +69,10 @@ segments:
       - [0x3350, data, D_80192338]
       - [0x3354, data, RoomLib_PairA]
       - [0x3358, data, RoomLib_PairB]
-      - [0x9200, data, D_801981E8]
+      - start: 0x9200
+        type: databin
+        name: D_801981E8
+        dir: room_m269
       - [0x41200, data, D_801D01E8]
   - [0x42000]
 # room: m269, section3 sector 68914, scanner delta 0

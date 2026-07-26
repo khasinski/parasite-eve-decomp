@@ -48,11 +48,16 @@ def segment_end(room: str, cfg: dict[str, Any]) -> int:
 def subsegments(cfg: dict[str, Any]) -> list[tuple[int, str, str]]:
     rows: list[tuple[int, str, str]] = []
     for ss in cfg["segments"][0]["subsegments"]:
-        if not isinstance(ss, list):
+        if isinstance(ss, list):
+            off = as_int(ss[0])
+            typ = str(ss[1])
+            name = str(ss[2]) if len(ss) > 2 else ""
+        elif isinstance(ss, dict):
+            off = as_int(ss["start"])
+            typ = str(ss["type"])
+            name = str(ss.get("name", ""))
+        else:
             continue
-        off = as_int(ss[0])
-        typ = str(ss[1])
-        name = str(ss[2]) if len(ss) > 2 else ""
         rows.append((off, typ, name))
     rows.sort()
     return rows
@@ -190,7 +195,7 @@ def typefunc_inside_data(room: str, cfg: dict[str, Any], subs: list[tuple[int, s
     ranges: list[tuple[int, int, str]] = []
     for i, (off, typ, name) in enumerate(subs):
         next_off = subs[i + 1][0] if i + 1 < len(subs) else end
-        if typ == "data":
+        if typ in ("data", "databin"):
             ranges.append((off, next_off, name))
 
     sym = CONFIG_DIR / f"sym.{room}.txt"
@@ -385,7 +390,7 @@ def hidden_tim_candidates(
 
     for i, (off, typ, name) in enumerate(subs):
         next_off = subs[i + 1][0] if i + 1 < len(subs) else end
-        if typ != "data":
+        if typ not in ("data", "databin"):
             continue
 
         block = data[off:next_off]
@@ -419,6 +424,46 @@ def classify_data_block(size: int, name: str) -> str:
     return "medium_room_data_record"
 
 
+def classify_payload_block(block: bytes) -> str:
+    if len(block) >= 0x8000:
+        zero_ratio = block.count(0) / len(block)
+        if zero_ratio > 0.90:
+            return "mostly_empty_reserved_payload"
+
+    if len(block) < 0x20:
+        return "small_room_scalar_or_record"
+
+    half = struct.unpack_from("<16H", block)
+
+    vram_pointer_count = 0
+    for i in range(0, min(len(block), 0x40), 4):
+        word = struct.unpack_from("<I", block, i)[0]
+        if 0x8018_0000 <= word < 0x8020_0000:
+            vram_pointer_count += 1
+    if vram_pointer_count >= 4:
+        return "vram_pointer_asset_table_or_script_bank"
+
+    # Common large room payload header. The repeated 0x0014, 0x0040, 0x200D
+    # words and 0x3000/0x6000 dimensions appear on many background-like banks.
+    if (
+        half[0] == 0
+        and half[1] == 0
+        and half[2] in (0x3000, 0x6000)
+        and half[4] == 0x0014
+        and half[6] == 0x0040
+        and half[7] == 0x200D
+    ):
+        return "probable_indexed_background_or_texture_bank"
+
+    if half[0] in (0x6776, 0x7667, 0x7776, 0x6677, 0x7766):
+        return "raw_indexed_image_payload"
+
+    if len(block) >= 0x8000:
+        return "large_custom_payload_or_asset_bank"
+
+    return "medium_room_data_record"
+
+
 def audit() -> dict[str, Any]:
     totals: collections.Counter[str] = collections.Counter()
     family_totals: collections.Counter[str] = collections.Counter()
@@ -436,7 +481,7 @@ def audit() -> dict[str, Any]:
     tim_candidates: list[dict[str, Any]] = []
     typefunc_data_hits: list[dict[str, Any]] = []
     base_jtbl_hits: list[dict[str, Any]] = []
-    top_data_blocks: list[tuple[int, str, int, int, str]] = []
+    top_data_blocks: list[tuple[int, str, int, int, str, str, str]] = []
 
     room_count = 0
     for cfg_path in sorted(CONFIG_DIR.glob("room_m*.yaml")):
@@ -445,6 +490,7 @@ def audit() -> dict[str, Any]:
         cfg = read_yaml(cfg_path)
         end = segment_end(room, cfg)
         subs = subsegments(cfg)
+        room_bytes = (ORIGINAL_DIR / f"{room}.bin").read_bytes()
 
         rodata_offsets = {off for off, typ, _name in subs if typ == "rodata"}
         base_jtbl_hits.extend(base_rodata_jtbl_hits(room, rodata_offsets))
@@ -467,9 +513,12 @@ def audit() -> dict[str, Any]:
             next_off = subs[i + 1][0] if i + 1 < len(subs) else end
             size = next_off - off
             totals[typ] += size
-            if typ == "data":
-                top_data_blocks.append((size, room, off, next_off, name))
-                data_class = classify_data_block(size, name)
+            if typ in ("data", "databin"):
+                if typ == "databin":
+                    data_class = classify_payload_block(room_bytes[off:next_off])
+                else:
+                    data_class = classify_data_block(size, name)
+                top_data_blocks.append((size, room, off, next_off, typ, name, data_class))
                 data_class_totals[data_class] += size
                 data_class_counts[data_class] += 1
 
@@ -506,7 +555,7 @@ def print_text(report: dict[str, Any], limit: int) -> None:
     for typ, size in sorted(report["bytes_by_type"].items(), key=lambda x: (-x[1], x[0])):
         print(f"  {typ:8s} {size:9d}")
 
-    print("\nbytes by room data class:")
+    print("\nbytes by room data/payload class:")
     data_counts = report["data_class_counts"]
     for cls, size in sorted(report["data_class_totals"].items(), key=lambda x: (-x[1], x[0])):
         print(f"  {cls:34s} {size:9d}  blocks {data_counts[cls]:4d}")
@@ -532,9 +581,9 @@ def print_text(report: dict[str, Any], limit: int) -> None:
         print(f"  {total:7d}  {name}  blocks {clean_counts[name]:3d}")
 
     print("\ntop data blocks:")
-    for size, room, start, stop, name in report["top_data_blocks"][:limit]:
+    for size, room, start, stop, typ, name, data_class in report["top_data_blocks"][:limit]:
         suffix = f" {name}" if name else ""
-        print(f"  {size:7d}  {room}  0x{start:X}-0x{stop:X}{suffix}")
+        print(f"  {size:7d}  {room}  {typ:7s}  0x{start:X}-0x{stop:X}{suffix}  {data_class}")
 
     print(f"\nstatus: {'OK' if report['ok'] else 'FAILED'}")
 

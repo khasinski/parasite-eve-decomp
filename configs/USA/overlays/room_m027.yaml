@@ -42,7 +42,10 @@ segments:
       - [0xCCC, data, D_8018FCB4]
       - [0xD04, data, RoomSlotA_8018FC54]
       - [0xD08, data, RoomSlotB_8018FC54]
-      - [0xD0C, data, RoomSlotC_8018FC54]
+      - start: 0xD0C
+        type: databin
+        name: RoomSlotC_8018FC54
+        dir: room_m027
   - [0x10800]
 # room: m027, section3 sector 13743, scanner delta 0
 # source slice: room-section3

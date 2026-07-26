@@ -124,7 +124,10 @@ segments:
       - [0x6B84, data, D_80195B6C]
       - [0x6B88, data, D_80195B70]
       - [0x6B8C, data, D_80195B74]
-      - [0x9210, data, D_801981F8]
+      - start: 0x9210
+        type: databin
+        name: D_801981F8
+        dir: room_m245
       - [0x411F8, data, D_801D01E0]
   - [0x44000]
 # room: m245, section3 sector 63901, scanner delta 0

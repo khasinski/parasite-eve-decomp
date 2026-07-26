@@ -145,7 +145,10 @@ segments:
       - [0x5710, data, D_801946F8]
       - [0x5718, data, D_80194700]
       - [0x571C, data, D_80194704]
-      - [0x5720, data, D_80194708]
+      - start: 0x5720
+        type: databin
+        name: D_80194708
+        dir: room_m392
   - [0x33000]
 # room: m392, section3 sector 90472, scanner delta 0
 # source slice: room-section3

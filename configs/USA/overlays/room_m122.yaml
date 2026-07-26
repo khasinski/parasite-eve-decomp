@@ -73,7 +73,10 @@ segments:
       - [0x20C0, data, D_801910A8]
       - [0x20C4, data, D_801910AC]
       - [0x20C8, data, D_801910B0]
-      - [0x20CC, data, D_801910B4]
+      - start: 0x20CC
+        type: databin
+        name: D_801910B4
+        dir: room_m122
   - [0x2D800]
 # room: m122, section3 sector 37283, scanner delta 0
 # source slice: room-section3

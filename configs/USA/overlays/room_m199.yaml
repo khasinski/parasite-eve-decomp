@@ -96,8 +96,14 @@ segments:
       - [0x34DC, c, func_801924C4]
       - [0x34F8, c, func_801924E0]
       - [0x3500, data, D_801924E8]
-      - [0x3538, data, D_80192520]
-      - [0x311F8, data, D_801C01E0]
+      - start: 0x3538
+        type: databin
+        name: D_80192520
+        dir: room_m199
+      - start: 0x311F8
+        type: databin
+        name: D_801C01E0
+        dir: room_m199
   - [0x41800]
 # room: m199, section3 sector 53473, scanner delta 0
 # source slice: room-section3

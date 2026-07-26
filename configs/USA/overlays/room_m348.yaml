@@ -126,9 +126,18 @@ segments:
       - [0x3ED0, data, D_80192EB8]
       - [0x3ED8, data, D_80192EC0]
       - [0x3EDC, data, D_80192EC4]
-      - [0x3EE0, data, D_80192EC8]
-      - [0x19210, data, D_801A81F8]
-      - [0x291FC, data, D_801B81E4]
+      - start: 0x3EE0
+        type: databin
+        name: D_80192EC8
+        dir: room_m348
+      - start: 0x19210
+        type: databin
+        name: D_801A81F8
+        dir: room_m348
+      - start: 0x291FC
+        type: databin
+        name: D_801B81E4
+        dir: room_m348
   - [0x34000]
 # room: m348, section3 sector 83089, scanner delta 0
 # source slice: room-section3

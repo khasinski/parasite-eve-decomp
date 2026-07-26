@@ -116,9 +116,15 @@ segments:
       - [0x501C, data, D_80194004]
       - [0x5054, data, RoomLib_PairA]
       - [0x5058, data, RoomLib_PairB]
-      - [0x9200, data, D_801981E8]
+      - start: 0x9200
+        type: databin
+        name: D_801981E8
+        dir: room_m152
       - [0x31200, data, D_801C01E8]
-      - [0x31210, data, D_801C01F8]
+      - start: 0x31210
+        type: databin
+        name: D_801C01F8
+        dir: room_m152
   - [0x40000]
 # room: m152, section3 sector 43677, scanner delta 0
 # source slice: room-section3

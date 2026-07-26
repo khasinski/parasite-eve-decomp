@@ -104,8 +104,14 @@ segments:
       - [0x31E0, data, D_801921C8]
       - [0x31E8, data, D_801921D0]
       - [0x31EC, data, D_801921D4]
-      - [0x31F0, data, D_801921D8]
-      - [0x311FC, data, D_801C01E4]
+      - start: 0x31F0
+        type: databin
+        name: D_801921D8
+        dir: room_m328
+      - start: 0x311FC
+        type: databin
+        name: D_801C01E4
+        dir: room_m328
   - [0x3E000]
 # room: m328, section3 sector 79539, scanner delta 0
 # source slice: room-section3

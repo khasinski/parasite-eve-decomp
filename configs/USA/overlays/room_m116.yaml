@@ -101,8 +101,14 @@ segments:
       - [0x4304, c, RoomLib_SlotSet_801932EC]
       - [0x4348, data, D_80193330]
       - [0x43F0, data, D_801933D8]
-      - [0x4448, data, RoomLib_SlotTable]
-      - [0x11E70, data, D_801A0E58]
+      - start: 0x4448
+        type: databin
+        name: RoomLib_SlotTable
+        dir: room_m116
+      - start: 0x11E70
+        type: databin
+        name: D_801A0E58
+        dir: room_m116
       - [0x411F8, data, D_801D01E0]
       - [0x41210, data, D_801D01F8]
   - [0x44800]

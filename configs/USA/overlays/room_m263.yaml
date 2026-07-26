@@ -108,9 +108,18 @@ segments:
       - [0x5140, data, RoomSlotA_8019315C]
       - [0x5144, data, RoomSlotB_8019315C]
       - [0x5148, data, RoomSlotC_8019315C]
-      - [0x514C, data, RoomLib_SlotTable]
-      - [0x1C500, data, D_801AB4E8]
-      - [0x311F8, data, D_801C01E0]
+      - start: 0x514C
+        type: databin
+        name: RoomLib_SlotTable
+        dir: room_m263
+      - start: 0x1C500
+        type: databin
+        name: D_801AB4E8
+        dir: room_m263
+      - start: 0x311F8
+        type: databin
+        name: D_801C01E0
+        dir: room_m263
   - [0x3E000]
 # room: m263, section3 sector 67837, scanner delta 0
 # source slice: room-section3

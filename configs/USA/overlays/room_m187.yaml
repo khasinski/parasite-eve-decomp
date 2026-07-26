@@ -72,7 +72,10 @@ segments:
       - [0x10C0, data, D_801900A8]
       - [0x10C8, data, D_801900B0]
       - [0x10CC, data, D_801900B4]
-      - [0x10D0, data, D_801900B8]
+      - start: 0x10D0
+        type: databin
+        name: D_801900B8
+        dir: room_m187
   - [0x17800]
 # room: m187, section3 sector 50449, scanner delta 0
 # source slice: room-section3

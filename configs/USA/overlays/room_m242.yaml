@@ -109,9 +109,15 @@ segments:
       - [0x50D0, data, D_801940B8]
       - [0x5108, data, D_801940F0]
       - [0x5128, data, D_80194110]
-      - [0x5160, data, RoomSlotA_80193FC0]
+      - start: 0x5160
+        type: databin
+        name: RoomSlotA_80193FC0
+        dir: room_m242
       - [0x311F8, data, D_801C01E0]
-      - [0x31210, data, D_801C01F8]
+      - start: 0x31210
+        type: databin
+        name: D_801C01F8
+        dir: room_m242
       - [0x411F8, data, D_801D01E0]
   - [0x48800]
 # room: m242, section3 sector 63191, scanner delta 0

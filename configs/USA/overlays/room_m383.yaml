@@ -224,7 +224,10 @@ segments:
       - [0x84F0, data, D_801974D8]
       - [0x84F8, data, D_801974E0]
       - [0x850C, data, D_801974F4]
-      - [0x8514, data, D_801974FC]
+      - start: 0x8514
+        type: databin
+        name: D_801974FC
+        dir: room_m383
   - [0x36000]
 # room: m383, section3 sector 88737, scanner delta 0
 # source slice: room-section3

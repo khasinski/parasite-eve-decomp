@@ -84,12 +84,30 @@ segments:
       - [0x3C50, data, D_80192C38]
       - [0x3C54, data, D_80192C3C]
       - [0x3C58, data, D_80192C40]
-      - [0x91FC, data, D_801981E4]
-      - [0x19200, data, D_801A81E8]
-      - [0x291F8, data, D_801B81E0]
-      - [0x3120C, data, D_801C01F4]
-      - [0x411F8, data, D_801D01E0]
-      - [0x49210, data, D_801D81F8]
+      - start: 0x91FC
+        type: databin
+        name: D_801981E4
+        dir: room_m344
+      - start: 0x19200
+        type: databin
+        name: D_801A81E8
+        dir: room_m344
+      - start: 0x291F8
+        type: databin
+        name: D_801B81E0
+        dir: room_m344
+      - start: 0x3120C
+        type: databin
+        name: D_801C01F4
+        dir: room_m344
+      - start: 0x411F8
+        type: databin
+        name: D_801D01E0
+        dir: room_m344
+      - start: 0x49210
+        type: databin
+        name: D_801D81F8
+        dir: room_m344
   - [0x5C800]
 # room: m344, section3 sector 82293, scanner delta 0
 # source slice: room-section3

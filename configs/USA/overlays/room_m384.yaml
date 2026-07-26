@@ -108,8 +108,14 @@ segments:
       - [0x4220, c, func_80193208]
       - [0x4268, c, func_80193250]
       - [0x42E0, c, func_801932C8]
-      - [0x42E8, data, D_801932D0]
-      - [0x12680, data, D_801A1668]
+      - start: 0x42E8
+        type: databin
+        name: D_801932D0
+        dir: room_m384
+      - start: 0x12680
+        type: databin
+        name: D_801A1668
+        dir: room_m384
   - [0x23000]
 # room: m384, section3 sector 88968, scanner delta 0
 # source slice: room-section3

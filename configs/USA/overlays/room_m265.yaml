@@ -111,7 +111,10 @@ segments:
       - [0x5140, data, RoomSlotA_8019315C]
       - [0x5144, data, RoomSlotB_8019315C]
       - [0x5148, data, RoomSlotC_8019315C]
-      - [0x514C, data, RoomLib_SlotTable]
+      - start: 0x514C
+        type: databin
+        name: RoomLib_SlotTable
+        dir: room_m265
   - [0x27800]
 # room: m265, section3 sector 68099, scanner delta 0
 # source slice: room-section3

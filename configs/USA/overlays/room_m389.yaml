@@ -160,7 +160,10 @@ segments:
       - [0x53B0, data, D_80194398]
       - [0x53B8, data, D_801943A0]
       - [0x53BC, data, D_801943A4]
-      - [0x53C0, data, D_801943A8]
+      - start: 0x53C0
+        type: databin
+        name: D_801943A8
+        dir: room_m389
   - [0x29800]
 # room: m389, section3 sector 89727, scanner delta 0
 # source slice: room-section3

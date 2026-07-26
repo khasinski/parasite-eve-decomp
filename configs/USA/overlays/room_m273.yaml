@@ -278,8 +278,14 @@ segments:
       - [0xBFAC, data, D_8019AF94]
       - [0xBFB0, data, D_8019AF98]
       - [0xBFB4, data, D_8019AF9C]
-      - [0xBFB8, data, D_8019AFA0]
-      - [0x41200, data, D_801D01E8]
+      - start: 0xBFB8
+        type: databin
+        name: D_8019AFA0
+        dir: room_m273
+      - start: 0x41200
+        type: databin
+        name: D_801D01E8
+        dir: room_m273
   - [0x50800]
 # room: m273, section3 sector 70012, scanner delta 0
 # source slice: room-section3
