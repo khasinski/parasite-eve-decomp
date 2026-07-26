@@ -1,6 +1,7 @@
 # Room overlay split audit
 
-Generated from the current `main` state after `a78b0f1d`.
+Generated from the current room YAMLs and generated asm. Re-run the
+consistency checks with `make room-split-audit`.
 
 This document tracks why room overlays can show high function coverage but low
 code-byte coverage, and which remaining areas are actual split problems versus

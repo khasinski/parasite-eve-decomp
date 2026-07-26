@@ -1,0 +1,280 @@
+#!/usr/bin/env python3
+"""Audit room overlay split consistency.
+
+This is a structural audit of the room YAMLs against the currently generated
+asm. It intentionally checks only the exact asm file named by each current YAML
+subsegment; stale generated files can remain in asm directories after split
+changes and should not be treated as authoritative.
+"""
+from __future__ import annotations
+
+import argparse
+import collections
+import json
+import re
+from pathlib import Path
+from typing import Any
+
+import yaml
+
+
+ROOT = Path(__file__).resolve().parents[2]
+CONFIG_DIR = ROOT / "configs/USA/overlays"
+ASM_DIR = ROOT / "asm/USA/overlays"
+ORIGINAL_DIR = ROOT / "original/USA/overlays"
+
+
+def as_int(value: Any) -> int:
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
+        return int(value, 0)
+    raise TypeError(f"cannot parse integer from {value!r}")
+
+
+def read_yaml(path: Path) -> dict[str, Any]:
+    with path.open() as f:
+        return yaml.safe_load(f)
+
+
+def segment_end(room: str, cfg: dict[str, Any]) -> int:
+    segments = cfg["segments"]
+    if len(segments) > 1 and isinstance(segments[1], list):
+        return as_int(segments[1][0])
+    return (ORIGINAL_DIR / f"{room}.bin").stat().st_size
+
+
+def subsegments(cfg: dict[str, Any]) -> list[tuple[int, str, str]]:
+    rows: list[tuple[int, str, str]] = []
+    for ss in cfg["segments"][0]["subsegments"]:
+        if not isinstance(ss, list):
+            continue
+        off = as_int(ss[0])
+        typ = str(ss[1])
+        name = str(ss[2]) if len(ss) > 2 else ""
+        rows.append((off, typ, name))
+    rows.sort()
+    return rows
+
+
+def parse_nonmatching_lines(text: str) -> list[tuple[str, int | None]]:
+    rows: list[tuple[str, int | None]] = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line.startswith("nonmatching "):
+            continue
+        rest = line[len("nonmatching ") :].strip()
+        parts = [p.strip() for p in rest.split(",", 1)]
+        name = parts[0]
+        size = None
+        if len(parts) > 1 and parts[1]:
+            size = int(parts[1], 0)
+        rows.append((name, size))
+    return rows
+
+
+def exact_asm_checks(
+    room: str, subs: list[tuple[int, str, str]], end: int
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], collections.Counter[str]]:
+    missing: list[dict[str, Any]] = []
+    ambiguous: list[dict[str, Any]] = []
+    mismatches: list[dict[str, Any]] = []
+    families: collections.Counter[str] = collections.Counter()
+
+    for i, (off, typ, name) in enumerate(subs):
+        next_off = subs[i + 1][0] if i + 1 < len(subs) else end
+        size = next_off - off
+        if typ != "asm":
+            continue
+
+        asm_file = ASM_DIR / room / f"{name}.s"
+        if not asm_file.exists():
+            missing.append({"room": room, "offset": off, "name": name, "size": size})
+            continue
+
+        text = asm_file.read_text(errors="ignore")
+        nonmatching = parse_nonmatching_lines(text)
+        glabels = re.findall(r"^glabel\s+(\S+)", text, flags=re.M)
+        if len(nonmatching) != 1 or len(glabels) != 1:
+            ambiguous.append(
+                {
+                    "room": room,
+                    "offset": off,
+                    "name": name,
+                    "size": size,
+                    "nonmatching_count": len(nonmatching),
+                    "glabel_count": len(glabels),
+                    "file": str(asm_file.relative_to(ROOT)),
+                }
+            )
+            continue
+
+        func_name, declared_size = nonmatching[0]
+        families[func_name] += size
+        if declared_size is not None and declared_size != size:
+            mismatches.append(
+                {
+                    "room": room,
+                    "offset": off,
+                    "name": name,
+                    "glabel": glabels[0],
+                    "yaml_size": size,
+                    "declared_size": declared_size,
+                }
+            )
+
+    return missing, ambiguous, mismatches, families
+
+
+def typefunc_inside_data(room: str, cfg: dict[str, Any], subs: list[tuple[int, str, str]], end: int) -> list[dict[str, Any]]:
+    ranges: list[tuple[int, int, str]] = []
+    for i, (off, typ, name) in enumerate(subs):
+        next_off = subs[i + 1][0] if i + 1 < len(subs) else end
+        if typ == "data":
+            ranges.append((off, next_off, name))
+
+    sym = CONFIG_DIR / f"sym.{room}.txt"
+    if not sym.exists():
+        return []
+
+    vram = as_int(cfg["segments"][0]["vram"])
+    hits: list[dict[str, Any]] = []
+    for line in sym.read_text(errors="ignore").splitlines():
+        if "// type:func" not in line:
+            continue
+        m = re.match(r"([A-Za-z_]\w*)\s*=\s*0x([0-9A-Fa-f]+);", line)
+        if not m:
+            continue
+        name = m.group(1)
+        off = int(m.group(2), 16) - vram
+        for start, stop, data_name in ranges:
+            if start <= off < stop:
+                hits.append(
+                    {
+                        "room": room,
+                        "offset": off,
+                        "symbol": name,
+                        "data_start": start,
+                        "data_end": stop,
+                        "data_name": data_name,
+                    }
+                )
+                break
+    return hits
+
+
+def base_rodata_jtbl_hits(room: str, rodata_offsets: set[int]) -> list[dict[str, Any]]:
+    path = ASM_DIR / room / "data" / f"{room}.rodata.s"
+    if not path.exists():
+        return []
+
+    lines = path.read_text(errors="ignore").splitlines()
+    hits: list[dict[str, Any]] = []
+    for i, line in enumerate(lines):
+        m = re.match(r"\s*dlabel\s+(jtbl_\S+)", line)
+        if not m:
+            continue
+        off = None
+        for j in range(i + 1, min(i + 8, len(lines))):
+            mm = re.search(r"/\*\s*([0-9A-Fa-f]+)\s+", lines[j])
+            if mm:
+                off = int(mm.group(1), 16)
+                break
+        if off is not None and off not in rodata_offsets:
+            hits.append({"room": room, "offset": off, "label": m.group(1)})
+    return hits
+
+
+def audit() -> dict[str, Any]:
+    totals: collections.Counter[str] = collections.Counter()
+    family_totals: collections.Counter[str] = collections.Counter()
+    missing: list[dict[str, Any]] = []
+    ambiguous: list[dict[str, Any]] = []
+    size_mismatches: list[dict[str, Any]] = []
+    typefunc_data_hits: list[dict[str, Any]] = []
+    base_jtbl_hits: list[dict[str, Any]] = []
+    top_data_blocks: list[tuple[int, str, int, int, str]] = []
+
+    room_count = 0
+    for cfg_path in sorted(CONFIG_DIR.glob("room_m*.yaml")):
+        room_count += 1
+        room = cfg_path.stem
+        cfg = read_yaml(cfg_path)
+        end = segment_end(room, cfg)
+        subs = subsegments(cfg)
+
+        rodata_offsets = {off for off, typ, _name in subs if typ == "rodata"}
+        base_jtbl_hits.extend(base_rodata_jtbl_hits(room, rodata_offsets))
+        typefunc_data_hits.extend(typefunc_inside_data(room, cfg, subs, end))
+
+        m, a, sm, fam = exact_asm_checks(room, subs, end)
+        missing.extend(m)
+        ambiguous.extend(a)
+        size_mismatches.extend(sm)
+        family_totals.update(fam)
+
+        for i, (off, typ, name) in enumerate(subs):
+            next_off = subs[i + 1][0] if i + 1 < len(subs) else end
+            size = next_off - off
+            totals[typ] += size
+            if typ == "data":
+                top_data_blocks.append((size, room, off, next_off, name))
+
+    failures = {
+        "missing_exact_asm_files": missing,
+        "ambiguous_exact_asm_files": ambiguous,
+        "asm_size_mismatches": size_mismatches,
+        "typefunc_symbols_inside_data": typefunc_data_hits,
+        "base_rodata_jtbl_labels": base_jtbl_hits,
+    }
+
+    return {
+        "room_count": room_count,
+        "bytes_by_type": dict(totals),
+        "asm_family_totals": family_totals.most_common(30),
+        "top_data_blocks": sorted(top_data_blocks, reverse=True)[:30],
+        "failures": failures,
+        "ok": not any(failures.values()),
+    }
+
+
+def print_text(report: dict[str, Any], limit: int) -> None:
+    print(f"room configs: {report['room_count']}")
+    print("bytes by YAML subsegment type:")
+    for typ, size in sorted(report["bytes_by_type"].items(), key=lambda x: (-x[1], x[0])):
+        print(f"  {typ:8s} {size:9d}")
+
+    print("\nconsistency checks:")
+    for key, rows in report["failures"].items():
+        print(f"  {key:32s} {len(rows)}")
+        for row in rows[:limit]:
+            print(f"    {row}")
+
+    print("\ntop remaining asm families:")
+    for name, total in report["asm_family_totals"][:limit]:
+        print(f"  {total:7d}  {name}")
+
+    print("\ntop data blocks:")
+    for size, room, start, stop, name in report["top_data_blocks"][:limit]:
+        suffix = f" {name}" if name else ""
+        print(f"  {size:7d}  {room}  0x{start:X}-0x{stop:X}{suffix}")
+
+    print(f"\nstatus: {'OK' if report['ok'] else 'FAILED'}")
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--json", action="store_true", help="emit machine-readable JSON")
+    parser.add_argument("--limit", type=int, default=20, help="rows to print per section")
+    args = parser.parse_args()
+
+    report = audit()
+    if args.json:
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print_text(report, args.limit)
+    return 0 if report["ok"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
