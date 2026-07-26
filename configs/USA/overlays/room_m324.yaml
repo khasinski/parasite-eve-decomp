@@ -57,7 +57,7 @@ segments:
       - [0xE30, asm, func_8018FE18]
       - [0xFB8, asm, func_8018FFA0]
       - [0x10C8, c, RoomLib_ParticleStep_801900B0]
-      - [0x11A4, asm, room_m324_E8_240_C08_11A4]
+      - [0x11A4, asm, RoomLib_DlgBlob]
       - [0x1B64, c, RoomLib_MsgDispatch_80190B4C]
       - [0x1E2C, c, RoomLib_SetPair_80190E14]
       - [0x1E48, data]

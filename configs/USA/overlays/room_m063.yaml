@@ -42,7 +42,7 @@ segments:
       - [0x260, c, func_8018F248]
       - [0x268, c, RoomLib_StateDispatch_8018F250]
       - [0x2D4, c, RoomLib_ArmWindowVia_8018F2BC]
-      - [0x338, asm, room_m063_338]
+      - [0x338, asm, RoomLib_WindowHandler]
       - [0xD2C, c, func_8018FD14]
       - [0xD74, c, RoomLib_TickMain]
       - [0xDEC, c, func_8018FDD4]
