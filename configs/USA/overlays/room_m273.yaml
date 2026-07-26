@@ -35,6 +35,11 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m273]
+      - [0xC, rodata, room_m273_2A8]
+      - [0x8C, rodata, room_m273_664_FF4]
+      - [0x114, rodata, room_m273_1A0C_1AB8]
+      - [0x17C, rodata, room_m273_1D30_2530_25D0]
+      - [0x1E4, rodata, room_m273_1D30_2848_3234_3650_3E7C]
       - [0x200, c, func_8018F1E8]
       - [0x208, c, RoomLib_InitB_8018F1F0]
       - [0x2A8, asm, room_m273_2A8]
