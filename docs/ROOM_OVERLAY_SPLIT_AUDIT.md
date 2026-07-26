@@ -47,6 +47,22 @@ custom room payload data. These banks often contain background/layer/model-like
 binary payloads in PE1-specific formats rather than standard standalone PSX TIM
 files.
 
+Current remaining room `asm` bytes classify as overlapping feature buckets:
+
+| Asm feature | Blocks | Bytes |
+|---|---:|---:|
+| Calls other functions | 1712 | 1633384 |
+| GTE or scratchpad handler | 1146 | 1250304 |
+| Switch or jump table | 480 | 366252 |
+| No local return | 449 | 267024 |
+| Plain local function | 82 | 7448 |
+
+These buckets overlap, so their byte totals do not add up to total `asm`
+bytes. The useful signal is the shape: almost all remaining room asm is either
+call-heavy, GTE/scratchpad-heavy, switch-heavy, or has control-flow that crosses
+the local function boundary. Only about 7 KiB is still classified as plain local
+functions by this coarse scan.
+
 ## Split checks already performed
 
 These checks were run against current YAMLs and generated asm:
@@ -133,6 +149,20 @@ epilogue.
 real code, not data. They need the surrounding structures and a pure-C/GTE
 intrinsic strategy before they are good candidates for a wide mechanical pass.
 
+The current audit classifies 1,250,304 bytes across 1,146 remaining asm blocks
+as GTE or scratchpad handlers. This is the largest structural blocker after the
+call-heavy bucket, and it explains why room byte coverage lags function count:
+the repeated room handler families are large and non-trivial even though many
+small callback slots are already decompiled.
+
+### Very few plain local functions remain
+
+The coarse asm-feature scan finds only 7,448 bytes across 82 blocks with no
+detected calls, GTE/scratchpad operations, switch tables, or missing local
+return. That means the previous serial work converted most of the easy
+8-byte/small local functions already. Further room-byte gains need structure
+work, not another broad pass over obvious stubs.
+
 ## Next recommended work
 
 1. Decompile one representative `RoomLib_HandlerB` variant only after modeling
@@ -144,3 +174,6 @@ intrinsic strategy before they are good candidates for a wide mechanical pass.
 4. Keep using the split audit checks before changing YAML: exact asm file,
    one `nonmatching`, size equals YAML range, and no `type:func` symbols inside
    data.
+5. Use the remaining asm feature totals from `make room-split-audit` when
+   selecting batches; the 82 plain local blocks are the only remaining obvious
+   serial cleanup class.

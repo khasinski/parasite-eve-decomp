@@ -74,6 +74,23 @@ def parse_nonmatching_lines(text: str) -> list[tuple[str, int | None]]:
     return rows
 
 
+def asm_features(text: str) -> set[str]:
+    features: set[str] = set()
+
+    if re.search(r"\b(?:ctc2|lwc2|swc2|mvmva)\b", text):
+        features.add("gte_or_scratchpad_handler")
+    if "jtbl_" in text or re.search(r"\bjr\s+\$v0\b", text):
+        features.add("switch_or_jump_table")
+    if re.search(r"\bjal\b", text):
+        features.add("calls_other_functions")
+    if not re.search(r"\bjr\s+\$ra\b", text):
+        features.add("no_local_return")
+    if not features:
+        features.add("plain_local_function")
+
+    return features
+
+
 def exact_asm_checks(
     room: str, subs: list[tuple[int, str, str]], end: int
 ) -> tuple[
@@ -82,12 +99,16 @@ def exact_asm_checks(
     list[dict[str, Any]],
     list[dict[str, Any]],
     collections.Counter[str],
+    collections.Counter[str],
+    collections.Counter[str],
 ]:
     missing: list[dict[str, Any]] = []
     ambiguous: list[dict[str, Any]] = []
     mismatches: list[dict[str, Any]] = []
     historical_names: list[dict[str, Any]] = []
     families: collections.Counter[str] = collections.Counter()
+    feature_totals: collections.Counter[str] = collections.Counter()
+    feature_counts: collections.Counter[str] = collections.Counter()
     used_names = collections.Counter(name for _off, _typ, name in subs if name)
 
     for i, (off, typ, name) in enumerate(subs):
@@ -120,6 +141,9 @@ def exact_asm_checks(
 
         func_name, declared_size = nonmatching[0]
         families[func_name] += size
+        for feature in asm_features(text):
+            feature_totals[feature] += size
+            feature_counts[feature] += 1
         if name.startswith("room_") and name != glabels[0] and not used_names[glabels[0]]:
             historical_names.append(
                 {
@@ -141,7 +165,15 @@ def exact_asm_checks(
                 }
             )
 
-    return missing, ambiguous, mismatches, historical_names, families
+    return (
+        missing,
+        ambiguous,
+        mismatches,
+        historical_names,
+        families,
+        feature_totals,
+        feature_counts,
+    )
 
 
 def typefunc_inside_data(room: str, cfg: dict[str, Any], subs: list[tuple[int, str, str]], end: int) -> list[dict[str, Any]]:
@@ -380,6 +412,8 @@ def classify_data_block(size: int, name: str) -> str:
 def audit() -> dict[str, Any]:
     totals: collections.Counter[str] = collections.Counter()
     family_totals: collections.Counter[str] = collections.Counter()
+    asm_feature_totals: collections.Counter[str] = collections.Counter()
+    asm_feature_counts: collections.Counter[str] = collections.Counter()
     data_class_totals: collections.Counter[str] = collections.Counter()
     data_class_counts: collections.Counter[str] = collections.Counter()
     missing: list[dict[str, Any]] = []
@@ -406,12 +440,14 @@ def audit() -> dict[str, Any]:
         data_label_candidates.extend(internal_data_label_candidates(room, subs))
         tim_candidates.extend(hidden_tim_candidates(room, subs, end))
 
-        m, a, sm, hn, fam = exact_asm_checks(room, subs, end)
+        m, a, sm, hn, fam, aft, afc = exact_asm_checks(room, subs, end)
         missing.extend(m)
         ambiguous.extend(a)
         size_mismatches.extend(sm)
         historical_names.extend(hn)
         family_totals.update(fam)
+        asm_feature_totals.update(aft)
+        asm_feature_counts.update(afc)
 
         for i, (off, typ, name) in enumerate(subs):
             next_off = subs[i + 1][0] if i + 1 < len(subs) else end
@@ -440,6 +476,8 @@ def audit() -> dict[str, Any]:
         "data_class_totals": dict(data_class_totals),
         "data_class_counts": dict(data_class_counts),
         "asm_family_totals": family_totals.most_common(30),
+        "asm_feature_totals": dict(asm_feature_totals),
+        "asm_feature_counts": dict(asm_feature_counts),
         "top_data_blocks": sorted(top_data_blocks, reverse=True)[:30],
         "failures": failures,
         "ok": not any(failures.values()),
@@ -456,6 +494,11 @@ def print_text(report: dict[str, Any], limit: int) -> None:
     data_counts = report["data_class_counts"]
     for cls, size in sorted(report["data_class_totals"].items(), key=lambda x: (-x[1], x[0])):
         print(f"  {cls:34s} {size:9d}  blocks {data_counts[cls]:4d}")
+
+    print("\nbytes by remaining asm feature:")
+    asm_counts = report["asm_feature_counts"]
+    for feature, size in sorted(report["asm_feature_totals"].items(), key=lambda x: (-x[1], x[0])):
+        print(f"  {feature:34s} {size:9d}  blocks {asm_counts[feature]:4d}")
 
     print("\nconsistency checks:")
     for key, rows in report["failures"].items():
