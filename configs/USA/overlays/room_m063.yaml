@@ -37,7 +37,7 @@ segments:
       - [0x0, c, room_m063_0_260]
       - [0x6C, c, func_8018F054]
       - [0x74, c, func_8018F05C]
-      - [0xE8, asm, room_m063_0_260_E8]
+      - [0xE8, asm, func_8018F0D0]
       - [0x258, c, func_8018F240]
       - [0x260, c, func_8018F248]
       - [0x268, c, RoomLib_StateDispatch_8018F250]

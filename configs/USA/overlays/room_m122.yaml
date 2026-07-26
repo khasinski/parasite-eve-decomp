@@ -52,7 +52,7 @@ segments:
       - [0x928, c, func_8018F910]
       - [0x930, c, func_8018F918]
       - [0x938, c, RoomLib_Set3Reset_8018F920]
-      - [0x958, asm, room_m122_80_1D8_958]
+      - [0x958, asm, func_8018F940]
       - [0xB1C, c, func_8018FB04]
       - [0xB80, asm, func_8018FB68]
       - [0xD00, asm, func_8018FCE8]

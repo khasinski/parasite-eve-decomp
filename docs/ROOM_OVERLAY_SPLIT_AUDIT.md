@@ -45,10 +45,15 @@ These checks were run against current YAMLs and generated asm:
 | `nonmatching` size mismatches vs YAML range | 0 |
 | `// type:func` symbols located inside YAML `data` ranges | 0 |
 | Remaining base `jtbl_*` labels in room rodata | 0 |
+| Safe historical asm subsegment rename candidates | 0 |
 
 This means the current room function split is internally consistent: the
 remaining low percentage is not explained by known functions hidden inside data
 or by asm ranges with wrong lengths.
+
+The room YAMLs also no longer use the old generated `room_m...` names for
+single-function asm subsegments when the exact generated file exposes one
+unambiguous `glabel`; those subsegments now use the actual function labels.
 
 One caveat: old generated files under `asm/USA/overlays/<room>/` can remain
 after split changes and may contain stale multi-function blobs. Do not use a

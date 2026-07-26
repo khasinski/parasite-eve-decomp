@@ -75,11 +75,19 @@ def parse_nonmatching_lines(text: str) -> list[tuple[str, int | None]]:
 
 def exact_asm_checks(
     room: str, subs: list[tuple[int, str, str]], end: int
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], collections.Counter[str]]:
+) -> tuple[
+    list[dict[str, Any]],
+    list[dict[str, Any]],
+    list[dict[str, Any]],
+    list[dict[str, Any]],
+    collections.Counter[str],
+]:
     missing: list[dict[str, Any]] = []
     ambiguous: list[dict[str, Any]] = []
     mismatches: list[dict[str, Any]] = []
+    historical_names: list[dict[str, Any]] = []
     families: collections.Counter[str] = collections.Counter()
+    used_names = collections.Counter(name for _off, _typ, name in subs if name)
 
     for i, (off, typ, name) in enumerate(subs):
         next_off = subs[i + 1][0] if i + 1 < len(subs) else end
@@ -111,6 +119,15 @@ def exact_asm_checks(
 
         func_name, declared_size = nonmatching[0]
         families[func_name] += size
+        if name.startswith("room_") and name != glabels[0] and not used_names[glabels[0]]:
+            historical_names.append(
+                {
+                    "room": room,
+                    "offset": off,
+                    "name": name,
+                    "glabel": glabels[0],
+                }
+            )
         if declared_size is not None and declared_size != size:
             mismatches.append(
                 {
@@ -123,7 +140,7 @@ def exact_asm_checks(
                 }
             )
 
-    return missing, ambiguous, mismatches, families
+    return missing, ambiguous, mismatches, historical_names, families
 
 
 def typefunc_inside_data(room: str, cfg: dict[str, Any], subs: list[tuple[int, str, str]], end: int) -> list[dict[str, Any]]:
@@ -191,6 +208,7 @@ def audit() -> dict[str, Any]:
     missing: list[dict[str, Any]] = []
     ambiguous: list[dict[str, Any]] = []
     size_mismatches: list[dict[str, Any]] = []
+    historical_names: list[dict[str, Any]] = []
     typefunc_data_hits: list[dict[str, Any]] = []
     base_jtbl_hits: list[dict[str, Any]] = []
     top_data_blocks: list[tuple[int, str, int, int, str]] = []
@@ -207,10 +225,11 @@ def audit() -> dict[str, Any]:
         base_jtbl_hits.extend(base_rodata_jtbl_hits(room, rodata_offsets))
         typefunc_data_hits.extend(typefunc_inside_data(room, cfg, subs, end))
 
-        m, a, sm, fam = exact_asm_checks(room, subs, end)
+        m, a, sm, hn, fam = exact_asm_checks(room, subs, end)
         missing.extend(m)
         ambiguous.extend(a)
         size_mismatches.extend(sm)
+        historical_names.extend(hn)
         family_totals.update(fam)
 
         for i, (off, typ, name) in enumerate(subs):
@@ -224,6 +243,7 @@ def audit() -> dict[str, Any]:
         "missing_exact_asm_files": missing,
         "ambiguous_exact_asm_files": ambiguous,
         "asm_size_mismatches": size_mismatches,
+        "historical_asm_rename_candidates": historical_names,
         "typefunc_symbols_inside_data": typefunc_data_hits,
         "base_rodata_jtbl_labels": base_jtbl_hits,
     }
