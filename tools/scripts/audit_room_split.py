@@ -81,7 +81,7 @@ def asm_features(text: str) -> set[str]:
         features.add("gte_or_scratchpad_handler")
     if "jtbl_" in text or re.search(r"\bjr\s+\$v0\b", text):
         features.add("switch_or_jump_table")
-    if re.search(r"\bjal\b", text):
+    if re.search(r"\bjalr?\b", text):
         features.add("calls_other_functions")
     if not re.search(r"\bjr\s+\$ra\b", text):
         features.add("no_local_return")

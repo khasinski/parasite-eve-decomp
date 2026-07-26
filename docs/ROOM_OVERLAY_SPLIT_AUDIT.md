@@ -14,7 +14,7 @@ The room-overlay progress row is:
 | Area | Value |
 |---|---:|
 | Functions | 6115/6454 (94.7%) |
-| Code bytes | 471620/2392460 (19.7%) |
+| Code bytes | 474828/2392460 (19.8%) |
 
 The low byte percentage is not caused by room assets being included in the code
 denominator. `tools/scripts/progress_report.py` counts function subsegments for
@@ -25,8 +25,8 @@ Current room YAML subsegment bytes:
 | YAML type | Bytes |
 |---|---:|
 | `data` | 30322572 |
-| `asm` | 1920840 |
-| `c` | 471620 |
+| `asm` | 1917632 |
+| `c` | 474828 |
 | `rodata` | 59112 |
 
 So the missing code-byte coverage is primarily the remaining `asm` function
@@ -55,12 +55,12 @@ Current remaining room `asm` bytes classify as overlapping feature buckets:
 | GTE or scratchpad handler | 1146 | 1250304 |
 | Switch or jump table | 480 | 366252 |
 | No local return | 449 | 267024 |
-| Plain local function | 82 | 7448 |
+| Plain local function | 20 | 4240 |
 
 These buckets overlap, so their byte totals do not add up to total `asm`
 bytes. The useful signal is the shape: almost all remaining room asm is either
 call-heavy, GTE/scratchpad-heavy, switch-heavy, or has control-flow that crosses
-the local function boundary. Only about 7 KiB is still classified as plain local
+the local function boundary. Only about 4 KiB is still classified as plain local
 functions by this coarse scan.
 
 ## Split checks already performed
@@ -157,7 +157,7 @@ small callback slots are already decompiled.
 
 ### Very few plain local functions remain
 
-The coarse asm-feature scan finds only 7,448 bytes across 82 blocks with no
+The coarse asm-feature scan finds only 4,240 bytes across 20 blocks with no
 detected calls, GTE/scratchpad operations, switch tables, or missing local
 return. That means the previous serial work converted most of the easy
 8-byte/small local functions already. Further room-byte gains need structure
@@ -175,5 +175,5 @@ work, not another broad pass over obvious stubs.
    one `nonmatching`, size equals YAML range, and no `type:func` symbols inside
    data.
 5. Use the remaining asm feature totals from `make room-split-audit` when
-   selecting batches; the 82 plain local blocks are the only remaining obvious
+   selecting batches; the 20 plain local blocks are the only remaining obvious
    serial cleanup class.
