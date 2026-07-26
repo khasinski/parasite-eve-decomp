@@ -3,7 +3,7 @@ typedef unsigned char u8;
 typedef short s16;
 
 extern void **g_PlayerEntity;
-extern s16 D_800942EC;
+extern s16 g_RoomRenderYOverride __asm__("D_800942EC");
 
 void Battle_SetContextField(int arg0, int arg1) {
     u8 *ctx;
@@ -64,7 +64,7 @@ void Battle_SetContextField(int arg0, int arg1) {
         *(u8 *)(ctx + 0x5E) = arg1;
         break;
     case 255:
-        D_800942EC = arg1;
+        g_RoomRenderYOverride = arg1;
         break;
     }
 }
