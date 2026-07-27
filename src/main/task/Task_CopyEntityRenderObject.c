@@ -6,9 +6,9 @@ typedef unsigned int u32;
 #define U8_AT(ptr, off) (*(u8 *)((u8 *)(ptr) + (off)))
 #define U32_AT(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))
 
-extern u8 *D_8009D20C;
-extern u8 *D_8009D254;
-extern u8 *D_8009D2F0;
+extern u8 *g_FieldActorListHead __asm__("D_8009D20C");
+extern u8 *g_PlayerEntity __asm__("D_8009D254");
+extern u8 *g_CurrentEntity __asm__("D_8009D2F0");
 extern u32 D_800B89F8[];
 
 void Render_InitObjectFromTable(void *obj, void *owner, int index);
@@ -18,12 +18,12 @@ int Task_CopyEntityRenderObject(int **args) {
     u8 *src;
 
     if (*args[0] == 0) {
-        src = D_8009D254;
+        src = g_PlayerEntity;
         if (src == 0) {
             goto done;
         }
     } else {
-        src = D_8009D20C;
+        src = g_FieldActorListHead;
         if (src == 0) {
             goto done;
         }
@@ -43,14 +43,14 @@ int Task_CopyEntityRenderObject(int **args) {
         }
     }
 
-    Render_InitObjectFromTable(D_8009D2F0 + 0x1B4, src + 0x1B4, (s16)*args[2]);
-    Render_TransformSkinnedVertices(D_8009D2F0 + 0x1B4, D_800B89F8);
+    Render_InitObjectFromTable(g_CurrentEntity + 0x1B4, src + 0x1B4, (s16)*args[2]);
+    Render_TransformSkinnedVertices(g_CurrentEntity + 0x1B4, D_800B89F8);
 
-    *(u8 **)(D_8009D2F0 + 0x18C) = src;
-    U32_AT(D_8009D2F0, 0x28) = S16_AT(D_8009D2F0, 0x254) << 16;
-    U32_AT(D_8009D2F0, 0x2C) = S16_AT(D_8009D2F0, 0x256) << 16;
-    U32_AT(D_8009D2F0, 0x30) = S16_AT(D_8009D2F0, 0x258) << 16;
-    U32_AT(D_8009D2F0, 0x98) |= 0x2000;
+    *(u8 **)(g_CurrentEntity + 0x18C) = src;
+    U32_AT(g_CurrentEntity, 0x28) = S16_AT(g_CurrentEntity, 0x254) << 16;
+    U32_AT(g_CurrentEntity, 0x2C) = S16_AT(g_CurrentEntity, 0x256) << 16;
+    U32_AT(g_CurrentEntity, 0x30) = S16_AT(g_CurrentEntity, 0x258) << 16;
+    U32_AT(g_CurrentEntity, 0x98) |= 0x2000;
 
 done:
     return 1;

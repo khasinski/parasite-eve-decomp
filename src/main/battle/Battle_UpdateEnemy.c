@@ -5,10 +5,10 @@ typedef unsigned short u16;
 typedef int s32;
 typedef unsigned int u32;
 
-extern u32 D_8009D1A0;
-extern u8 *D_8009D278;
-extern u8 *D_8009D20C;
-extern u8 *D_8009D254;
+extern u32 g_GameStateFlags __asm__("D_8009D1A0");
+extern u8 *g_ActiveActor __asm__("D_8009D278");
+extern u8 *g_FieldActorListHead __asm__("D_8009D20C");
+extern u8 *g_PlayerEntity __asm__("D_8009D254");
 
 void Asset_Find08w(int arg0, int arg1, int arg2, int arg3, int arg4);
 void Battle_DrawStatusPanel(int arg0, void *arg1);
@@ -113,7 +113,7 @@ static void Battle_SetActionAndMaybeRestorePose(void *slot, u8 *enemy) {
         }
 
         U32_AT(enemy, 0) &= ~0x6000;
-        if ((U32_AT(D_8009D278, 0x4C) & 0x80000) == 0 && (U32_AT(enemy, 0) & 0x1800) == 0) {
+        if ((U32_AT(g_ActiveActor, 0x4C) & 0x80000) == 0 && (U32_AT(enemy, 0) & 0x1800) == 0) {
             U32_AT(slot, 0x98) &= ~0x1000;
             Entity_TickAnimSequences(slot);
         }
@@ -144,8 +144,8 @@ static void Battle_MarkLinkedEntitiesDead(void *slot, u8 *enemy) {
     }
 
     if (S8_AT(enemy, 5) == 4) {
-        node = D_8009D20C;
-        while (node != 0 && node != D_8009D254) {
+        node = g_FieldActorListHead;
+        while (node != 0 && node != g_PlayerEntity) {
             entity = PTR_AT(node, 0);
             if (entity != 0 && S8_AT(entity, 5) == 4) {
                 U16_AT(node, 0x250) |= 0x20;
@@ -163,10 +163,10 @@ static int Battle_HasLivingLinkedEnemy(void) {
     u8 *entity;
     int type;
 
-    node = D_8009D20C;
+    node = g_FieldActorListHead;
     while (node != 0) {
         entity = PTR_AT(node, 0);
-        if (entity != 0 && node != D_8009D254) {
+        if (entity != 0 && node != g_PlayerEntity) {
             type = S8_AT(entity, 5);
             if (type != 0 && type != 2 && type != 4 && S32_AT(entity, 0x10) > 0) {
                 return 1;
@@ -180,7 +180,7 @@ static int Battle_HasLivingLinkedEnemy(void) {
 static void Battle_UpdateDeathCleanup(void *slot, u8 *enemy) {
     int type;
 
-    if (S32_AT(enemy, 0x10) > 0 || (D_8009D1A0 & 0x100)) {
+    if (S32_AT(enemy, 0x10) > 0 || (g_GameStateFlags & 0x100)) {
         return;
     }
 
@@ -251,7 +251,7 @@ void Battle_UpdateEnemy(void *slot) {
         S32_AT(enemy, 0x10) = S32_AT(enemy, 0x88);
     }
 
-    if ((D_8009D1A0 & 0x100) == 0) {
+    if ((g_GameStateFlags & 0x100) == 0) {
         if (U16_AT(enemy, 0x0C) == 0) {
             Battle_StepEnemyFlagRing(slot, enemy, 0xE, 1, 7);
             Battle_StepEnemyFlagRing(slot, state, 0x1800, 11, 3);
@@ -284,7 +284,7 @@ void Battle_UpdateEnemy(void *slot) {
 
     if ((U32_AT(state, 0) & 0xE) != 0 && S32_AT(enemy, 0x10) > 0) {
         Battle_ClearVelocity(slot);
-        if ((D_8009D1A0 & 0x100) == 0) {
+        if ((g_GameStateFlags & 0x100) == 0) {
             S16_AT(slot, 0x3A) = (S16_AT(slot, 0x3A) + 0x80) & 0xFFF;
         }
     }

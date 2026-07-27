@@ -8,11 +8,11 @@ typedef unsigned int u32;
 extern u16 D_800BE9A0;
 extern u8 D_800BE9A6;
 extern u8 D_800BE9A7;
-extern u32 D_8009D26C;
+extern u32 g_FieldInputState __asm__("D_8009D26C");
 extern u16 D_800BD020;
 extern u16 D_800BD022;
 extern void *D_8009D254;
-extern u32 D_8009D2E8;
+extern u32 g_EntityControlFlags __asm__("D_8009D2E8");
 
 void Entity_SetAction(FieldActor *entity, int action);
 int Gte_Atan2(int y, int x);
@@ -31,7 +31,7 @@ void Scene_UpdateEntityFacingFromPad(FieldActor *entity) {
         }
         camera_angle = D_800BD022;
     } else {
-        pad = D_8009D26C;
+        pad = g_FieldInputState;
         if (pad & FIELD_PAD_DOWN) {
             if (pad & FIELD_PAD_LEFT) {
                 angle = 0x600;
@@ -64,14 +64,14 @@ void Scene_UpdateEntityFacingFromPad(FieldActor *entity) {
     }
 
     angle += camera_angle;
-    if (D_8009D254 != 0 && (D_8009D2E8 & 0x10) != 0) {
+    if (D_8009D254 != 0 && (g_EntityControlFlags & 0x10) != 0) {
         angle += 0x800;
         angle += ((*(int *)(*(int *)D_8009D254 + 0x4C) >> 7) & 0xC00);
     }
 
     entity->rot_y = angle & 0xFFF;
 
-    if (D_8009D2E8 & 0x10) {
+    if (g_EntityControlFlags & 0x10) {
         entity->rot_y = (0x1000 - entity->rot_y) & 0xFFF;
     }
 }

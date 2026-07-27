@@ -1,14 +1,14 @@
-extern int D_800BCD80;
-extern int D_800BCD84;
-extern int D_800BCD88;
-extern int D_800BCD8C;
+extern int g_AkaoCmdOpcode;
+extern int g_AkaoCmdArg0;
+extern int g_AkaoCmdArg1;
+extern int g_AkaoCmdArg2;
 
 int Akao_EnqueueStagedCommand(void);
 
 void func_80086D68(int arg0, int arg1, int arg2) {
-    D_800BCD80 = 0xCA;
-    D_800BCD84 = arg0;
-    D_800BCD88 = arg1;
-    D_800BCD8C = arg2;
+    g_AkaoCmdOpcode = 0xCA;
+    g_AkaoCmdArg0 = arg0;
+    g_AkaoCmdArg1 = arg1;
+    g_AkaoCmdArg2 = arg2;
     Akao_EnqueueStagedCommand();
 }

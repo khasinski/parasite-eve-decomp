@@ -14,7 +14,7 @@ typedef int s32;
 
 extern u32 D_8009D1A0;
 extern u32 D_8009D1F4;
-extern u8 *D_8009D20C;
+extern u8 *g_FieldActorListHead __asm__("D_8009D20C");
 extern u8 *D_8009D254;
 extern s16 D_8009D2A4;
 extern u8 *D_8009D278;
@@ -22,7 +22,7 @@ extern u32 D_8009DFB0[];
 extern u8 D_800A76D8[];
 extern u32 g_GameState[];
 extern s16 D_800BCFFE;
-extern s32 D_800BCFA4[];
+extern s32 g_GeomVramPacketDst[] __asm__("D_800BCFA4");
 
 void Battle_Update(void);
 void Inventory_OpenAyaItemList(int arg0);
@@ -161,7 +161,7 @@ static void Entity_FrameRunPreCallbacks(void) {
     u8 *entity;
     void (*callback)(u8 *);
 
-    entity = D_8009D20C;
+    entity = g_FieldActorListHead;
     while (entity != 0) {
         callback = *(void (**)(u8 *))(entity + 0x190);
         if (callback != 0) {
@@ -174,7 +174,7 @@ static void Entity_FrameRunPreCallbacks(void) {
 static void Entity_FrameRebuildMatrices(void) {
     u8 *entity;
 
-    entity = D_8009D20C;
+    entity = g_FieldActorListHead;
     while (entity != 0) {
         if ((U32_AT(entity, 0x98) & 0x10040) == 0) {
             Entity_FrameBuildActorMatrix(entity);
@@ -188,7 +188,7 @@ static void Entity_FrameTransformAndDraw(void) {
     u8 *actor;
     u32 flags;
 
-    entity = D_8009D20C;
+    entity = g_FieldActorListHead;
     while (entity != 0) {
         if (entity == D_8009D254 && (g_GameState[0] & 0x40000)) {
             entity = PTR_AT(entity, 4);
@@ -202,7 +202,7 @@ static void Entity_FrameTransformAndDraw(void) {
         flags = U32_AT(entity, 0x98);
         if (flags & 0x40) {
             if (flags & 0x2000) {
-                Render_TransformSkinnedVertices(entity + 0x1B4, D_800BCFA4);
+                Render_TransformSkinnedVertices(entity + 0x1B4, g_GeomVramPacketDst);
                 S32_AT(entity, 0x28) = S16_AT(entity, 0x254) << 16;
                 S32_AT(entity, 0x30) = S16_AT(entity, 0x258) << 16;
                 S32_AT(entity, 0x2C) = S16_AT(entity, 0x256) << 16;
@@ -218,10 +218,10 @@ static void Entity_FrameTransformAndDraw(void) {
                 Anim_BuildRotationMatrices(actor, PTR_AT(entity, 0x1B0), S16_AT(entity, 0x16), 1);
             }
             Render_TransformVertices(actor, 0);
-            Render_TransformSkinnedVertices(actor, D_800BCFA4);
+            Render_TransformSkinnedVertices(actor, g_GeomVramPacketDst);
             if (!(U32_AT(entity, 0x98) & 0x20000000)) {
-                Render_TransformMorphVertices(actor, D_800BCFA4);
-                Render_DrawEntity(actor, D_800BCFA4);
+                Render_TransformMorphVertices(actor, g_GeomVramPacketDst);
+                Render_DrawEntity(actor, g_GeomVramPacketDst);
                 if (U32_AT(entity, 0x98) & 0x8800) {
                     U16_AT(entity, 0x250) |= 1;
                 }
@@ -242,7 +242,7 @@ static void Entity_FrameDispatchActiveEntities(void) {
         return;
     }
 
-    entity = D_8009D20C;
+    entity = g_FieldActorListHead;
     while (entity != 0) {
         if ((entity != D_8009D254 || !(g_GameState[0] & 0x40000)) &&
             (U32_AT(entity, 0x98) & 0x800040) == 0) {
@@ -302,7 +302,7 @@ void Entity_FrameUpdate(void) {
         camera[0] = 0;
         camera[1] = 0;
         camera[2] = 0;
-        entity = D_8009D20C;
+    entity = g_FieldActorListHead;
         while (entity != 0) {
             if (PTR_AT(entity, 0x1AC) != 0) {
                 camera[0] = S32_AT(entity, 0x28);
@@ -337,7 +337,7 @@ tail_updates:
         Scene_UpdateEntityPositions();
         func_80012774();
         Entity_CollectGarbage();
-        entity = D_8009D20C;
+        entity = g_FieldActorListHead;
         while (entity != 0) {
             U32_AT(entity, 0x98) &= 0xEFFFFFFF;
             entity = PTR_AT(entity, 4);

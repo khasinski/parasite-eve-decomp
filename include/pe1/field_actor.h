@@ -3,7 +3,7 @@
 
 typedef struct FieldActor {
     /* 0x000 */ unsigned char pad_000[0x04];
-    /* 0x004 */ struct FieldActor *next;   /* entity list link (D_8009D20C walks this) */
+    /* 0x004 */ struct FieldActor *next;   /* entity list link (g_FieldActorListHead walks this) */
     /* 0x008 */ unsigned char pad_008[0x04];
     /* 0x00C */ unsigned char type_id;     /* matched against arg id in attachment lookup */
     /* 0x00D */ unsigned char sub_id;

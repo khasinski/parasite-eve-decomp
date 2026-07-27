@@ -1,11 +1,11 @@
-extern void *D_800F32D0;
+extern void *g_FieldEngineObject __asm__("D_800F32D0");
 
 int func_800D3FD8(void) {
     int **ctx;
     int *node;
     int value;
 
-    ctx = D_800F32D0;
+    ctx = g_FieldEngineObject;
     node = (int *)ctx[2][0];
     value = 0x80;
     if (node != 0) {

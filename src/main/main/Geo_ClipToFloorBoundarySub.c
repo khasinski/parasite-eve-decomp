@@ -82,7 +82,7 @@ void *Geo_ClipToFloorBoundarySub(void *poly, void *previous_poly, s16 start_x, s
         void *result;
 
         points = D_8009D1FC->points;
-        if (D_8009D1D8 != 0) {
+    if (D_8009D1D8 != 0) {
             point_index = U16_AT(poly, 8 + edge * 2);
             point_x = *(s16 *)(points + point_index * 6);
             point_y = *(s16 *)(points + point_index * 6 + 4);

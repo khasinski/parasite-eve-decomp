@@ -12,6 +12,7 @@ options:
   build_path: build/USA/overlays/boot_display
   ld_script_path: linkers/USA/overlays/boot_display.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.boot_display.txt
+  symbol_addrs_path: configs/USA/overlays/sym.boot_display.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.boot_display.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -34,7 +35,10 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, boot_display]
+      - [0x0, asm, boot_display_0_1204]
+      - [0x1204, c, func_80124604]
+      - [0x12F4, c, func_801246F4]
+      - [0x139C, asm, boot_display_139C]
   - [0x2800]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/boot_display.bin bs=2048 skip=1116 count=5

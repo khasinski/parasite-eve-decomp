@@ -1,4 +1,4 @@
-extern int D_800BCD80;
+extern int g_AkaoCmdOpcode;
 
 int Akao_EnqueueStagedCommand(void);
 
@@ -17,6 +17,6 @@ void Akao_Cmd_99_9B_9D(int arg0) {
         break;
     }
 
-    D_800BCD80 = opcode;
+    g_AkaoCmdOpcode = opcode;
     Akao_EnqueueStagedCommand();
 }

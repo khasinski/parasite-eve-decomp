@@ -11,7 +11,7 @@ typedef int s32;
 
 extern u32 D_800B1644[];
 extern s32 D_800A636C[];
-extern u32 *D_800B0E38[];
+extern u32 *g_OtBufferTable[];
 extern s32 g_ActiveDrawSlot;
 
 static s32 Render_TexturedQuadsNclip(u32 xy0, u32 xy1, u32 xy2) {
@@ -44,7 +44,7 @@ static void Render_TexturedQuadsLink(u8 *prim, s32 depth) {
         return;
     }
 
-    ot = D_800B0E38[g_ActiveDrawSlot] + depth;
+    ot = g_OtBufferTable[g_ActiveDrawSlot] + depth;
     old = *ot;
     prim_word = U32_AT(prim, 0);
     U32_AT(prim, 0) = (prim_word & 0xFF000000) | (old & 0x00FFFFFF);

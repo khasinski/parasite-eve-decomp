@@ -1,4 +1,4 @@
-extern void *D_800F32D0;
+extern void *g_FieldEngineObject __asm__("D_800F32D0");
 
 void Asset_Find08w(int arg0, int arg1, int arg2, int arg3, int arg4);
 
@@ -13,7 +13,7 @@ void func_800D3F64(int arg0, int arg1) {
     int y;
     int z;
 
-    ctx = D_800F32D0;
+    ctx = g_FieldEngineObject;
     child = ctx[2];
     node = (volatile int *)child[0x8E];
     x = node[5];

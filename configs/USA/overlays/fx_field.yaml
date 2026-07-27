@@ -33,9 +33,9 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, fx_field_header]
+      - [0x0, c, fx_field_header]
       - [0x1C, asm, func_8018F00C]
       - [0x224, asm, func_8018F214]
       - [0xC6C, c, func_8018FC5C]
-      - [0xC90, asm, fx_field_data]
+      - [0xC90, c, fx_field_data]
   - [0x1000]

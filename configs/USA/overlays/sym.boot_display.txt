@@ -1,0 +1,16 @@
+g_BootDisplayTPage = 0x80172CA0;
+g_BootDisplayClut = 0x80172CA2;
+g_BootDisplayTextScrollX = 0x80172CA4;
+g_BootDisplayTextScrollStepX = 0x80172CA8;
+g_BootDisplayFontStyle = 0x80172CAC;
+g_BootDisplayTextCursor = 0x80172CB0;
+g_BootDisplayOrderingTable = 0x80172CB4;
+g_BootDisplayPrimitiveCursor = 0x80172CB8;
+g_BootDisplayBufferIndex = 0x80172CBC;
+g_BootDisplayTransferCursor = 0x80172CC0;
+g_BootDisplayStateTimer = 0x80172CC4;
+g_BootDisplayTransferProgress = 0x80172CC8;
+g_BootDisplayState = 0x80172CCC;
+g_BootDisplayTransition = 0x80172CDC;
+g_BootDisplayCallbacks = 0x80172CD0;
+g_BootDisplayFrameCounter = 0x80172CD4;

@@ -1,6 +1,6 @@
 typedef unsigned char u8;
 
-extern char *D_8009D254;
+extern char *g_PlayerEntity __asm__("D_8009D254");
 
 int FieldEng_GetStatus(char *obj) {
     char *data = *(char **)(obj + 8);
@@ -25,7 +25,7 @@ int FieldEng_GetStatus(char *obj) {
     if ((u8)obj[1] == 0xE) {
         status = 4;
     }
-    if (data == D_8009D254) {
+    if (data == g_PlayerEntity) {
         status = 5;
     }
 

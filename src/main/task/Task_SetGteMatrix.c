@@ -12,8 +12,8 @@ typedef int s32;
 #define S32_AT(ptr, off) (*(s32 *)((u8 *)(ptr) + (off)))
 #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
 
-extern u8 *D_8009D2F0;
-extern s32 D_8009CDDC;
+extern u8 *g_CurrentEntity __asm__("D_8009D2F0");
+extern s32 g_ActiveDrawSlot __asm__("D_8009CDDC");
 extern s32 D_800BCFA4[];
 extern s32 D_800CEA40[];
 
@@ -145,7 +145,7 @@ int Task_SetGteMatrix(u8 *task) {
     u8 *actor;
     u32 flags;
 
-    actor = D_8009D2F0;
+    actor = g_CurrentEntity;
 
     S32_AT(actor, 0x1FC) = S16_AT(actor, 0x2A);
     S32_AT(actor, 0x200) = S16_AT(actor, 0x2E);
@@ -163,14 +163,14 @@ int Task_SetGteMatrix(u8 *task) {
     Render_TransformVertices(actor + 0x1B4, (s32 *)PTR_AT(actor, 0x1B0));
     Render_TransformSkinnedVertices(actor + 0x1B4, D_800BCFA4);
     Render_DrawObject(actor + 0x1B4, D_800CEA40);
-    Render_UpdateClutTable(actor + 0x1B4, 1, D_8009CDDC);
+    Render_UpdateClutTable(actor + 0x1B4, 1, g_ActiveDrawSlot);
 
     flags = U32_AT(actor, 0x98);
     if (flags & 0x10000000) {
-        D_8009CDDC ^= 1;
+        g_ActiveDrawSlot ^= 1;
         Render_DrawObject(actor + 0x1B4, D_800CEA40);
-        Render_UpdateClutTable(actor + 0x1B4, 1, D_8009CDDC);
-        D_8009CDDC ^= 1;
+        Render_UpdateClutTable(actor + 0x1B4, 1, g_ActiveDrawSlot);
+        g_ActiveDrawSlot ^= 1;
         return 1;
     }
 

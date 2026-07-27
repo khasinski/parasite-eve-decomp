@@ -8,7 +8,7 @@
  * the FieldActor layout; the movement-relevant offsets are confirmed below.
  *
  * Data flow (per frame):
- *   D_8009D26C (field pad bits)
+ *   g_FieldInputState (field pad bits, 0x8009D26C)
  *     -> Scene_UpdatePlayerEntity  : pad/analog -> facing angle (+0x3A) + speed,
  *                                    GTE-rotated by the camera into motion (+0x68)
  *     -> Entity_IntegratePositionFull : pos(+0x28) += motion(+0x68) [+ accel/grav/delta]
@@ -19,7 +19,7 @@
 typedef int   s32;
 typedef short s16;
 
-/* ---- Field pad bits (D_8009D26C), confirmed by live walking ---- */
+/* ---- Field pad bits (g_FieldInputState / D_8009D26C), confirmed by live walking ---- */
 #define FIELD_PAD_UP    0x20   /* north, -Z, facing angle 0x000 */
 #define FIELD_PAD_LEFT  0x40   /* west,  -X, facing angle 0x400 */
 #define FIELD_PAD_DOWN  0x08   /* south, +Z, facing angle 0x800 */
@@ -46,10 +46,10 @@ typedef short s16;
 /* (pos 0x28, base/rollback 0x40, motion 0x68, mode 0x0E, flags 0x98 are in field_actor.h) */
 
 /* Key functions / globals:
- *   g_PlayerEntity  void**  active player FieldActor pointer
- *   D_8009D26C  u32     field pad bitmask (see FIELD_PAD_*)
- *   D_8009D2F0  Entity* current entity being dispatched
- *   D_8009D20C  Entity* entity list head (.next at +0x04)
+ *   g_PlayerEntity          active player FieldActor pointer (0x8009D254)
+ *   g_FieldInputState  u32  field pad bitmask (see FIELD_PAD_*)
+ *   g_CurrentEntity        current entity being dispatched (0x8009D2F0)
+ *   g_FieldActorListHead   entity list head (.next at +0x04, 0x8009D20C)
  *   Scene_UpdatePlayerEntity()        pad -> angle + speed -> motion (GTE rotate by camera)
  *   Entity_IntegratePositionFull()    pos += (motion + accel + gravity) ; saves base for rollback
  *   Entity_IntegratePositionConditional()  same, gated by a pause flag

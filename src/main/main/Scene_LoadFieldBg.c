@@ -24,8 +24,8 @@ extern struct { char _[16]; } D_800930F0_o __asm__("D_800930F0");
 extern struct { char _[16]; } D_800930E0_o __asm__("D_800930E0");
 extern struct { char _[16]; } D_80093126_o __asm__("D_80093126");
 extern struct { char _[16]; } D_80091648_o __asm__("D_80091648");
-extern s32 D_8009CDDC;
-extern u8 D_800BCE80[];
+extern s32 g_ActiveDrawSlot __asm__("D_8009CDDC");
+extern u8 g_RenderDispEnvArray[];
 
 #define GAME ((u8 *)&g_GameState_o)
 #define D_80091648 ((u8 *)&D_80091648_o)
@@ -139,7 +139,7 @@ static void Scene_LoadFieldBgFinish(void) {
     DrawSync(0);
     Render_InitEntityPool(1);
     Render_InitSceneGeom();
-    Render_StepEntityPool(D_800BCE80 + D_8009CDDC * 0x14);
+    Render_StepEntityPool(g_RenderDispEnvArray + g_ActiveDrawSlot * 0x14);
     SetDispMask(1);
 
     S16_AT(GAME, 6) = -1;

@@ -1,7 +1,7 @@
 typedef unsigned char u8;
 
-extern void *D_8009D254;
-extern void *D_8009D20C;
+extern void *g_PlayerEntity __asm__("D_8009D254");
+extern void *g_FieldActorListHead __asm__("D_8009D20C");
 
 #define PTR_AT(ptr, off) (*(void **)((u8 *)(ptr) + (off)))
 #define U8_AT(ptr, off) (*(u8 *)((u8 *)(ptr) + (off)))
@@ -16,14 +16,14 @@ int Entity_GetPositionByType(void *cmd) {
 
     type = S32_AT(PTR_AT(cmd, 4), 0);
     if (type == 0) {
-        entity = D_8009D254;
+        entity = g_PlayerEntity;
         if (entity == 0) {
             S32_AT(PTR_AT(cmd, 0x18), 0) = -1;
             return 1;
         }
     } else {
         variant = S32_AT(PTR_AT(cmd, 8), 0);
-        entity = D_8009D20C;
+        entity = g_FieldActorListHead;
         while (entity != 0) {
             if (U8_AT(entity, 0xC) == type &&
                 U8_AT(entity, 0xD) == variant &&

@@ -1,12 +1,12 @@
-extern int D_800BCD80;
-extern int D_800BCD84;
-extern int D_800BCD88;
+extern int g_AkaoCmdOpcode;
+extern int g_AkaoCmdArg0;
+extern int g_AkaoCmdArg1;
 
 int Akao_EnqueueStagedCommand(void);
 
 void Akao_Cmd_21(int arg0, int arg1) {
-    D_800BCD80 = 0x21;
-    D_800BCD84 = arg0 & 0xFFFF;
-    D_800BCD88 = arg1 & 0xFFFFFF;
+    g_AkaoCmdOpcode = 0x21;
+    g_AkaoCmdArg0 = arg0 & 0xFFFF;
+    g_AkaoCmdArg1 = arg1 & 0xFFFFFF;
     Akao_EnqueueStagedCommand();
 }

@@ -1,10 +1,10 @@
-extern int D_800BCD80;
-extern int D_800BCD84;
+extern int g_AkaoCmdOpcode;
+extern int g_AkaoCmdArg0;
 
 int Akao_EnqueueStagedCommand(void);
 
 void func_80086CF8(int arg0) {
-    D_800BCD80 = 0xC8;
-    D_800BCD84 = arg0;
+    g_AkaoCmdOpcode = 0xC8;
+    g_AkaoCmdArg0 = arg0;
     Akao_EnqueueStagedCommand();
 }

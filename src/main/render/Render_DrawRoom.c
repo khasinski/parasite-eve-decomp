@@ -18,9 +18,9 @@ typedef struct RoomVec {
     s16 pad;
 } RoomVec;
 
-extern s16 D_800942EC;
-extern s32 D_8009CDDC;
-extern u32 *D_800B0E38[];
+extern s16 g_RoomRenderYOverride __asm__("D_800942EC");
+extern s32 g_ActiveDrawSlot __asm__("D_8009CDDC");
+extern u32 *g_OtBufferTable[];
 extern s32 D_800A636C[];
 extern s32 D_800C89F8[];
 extern s32 D_800C8A18;
@@ -138,7 +138,7 @@ static void Render_DrawRoomLinkPrim(u8 *prim, s32 depth) {
         return;
     }
 
-    ot = D_800B0E38[D_8009CDDC] + depth;
+    ot = g_OtBufferTable[g_ActiveDrawSlot] + depth;
     old = *ot;
     prim_word = U32_AT(prim, 0);
     U32_AT(prim, 0) = (prim_word & 0xFF000000) | (old & 0x00FFFFFF);
@@ -209,7 +209,7 @@ static void Render_DrawRoomDrawBillboard(u8 *actor, RoomVec *base, s16 radius) {
     s32 depth;
     int slot_offset;
 
-    slot_offset = D_8009CDDC * 0x28;
+    slot_offset = g_ActiveDrawSlot * 0x28;
     prim = PTR_AT(actor, 0x278) + slot_offset;
     Render_DrawRoomSetupPrim(actor, prim, radius);
 
@@ -325,7 +325,7 @@ int Render_DrawRoom(u8 *actor) {
     Render_DrawRoomBuildNormalMatrix(out_basis, out_basis);
 
     if ((U32_AT(actor, 0x98) & 0x04000000) != 0) {
-        translation[0] = D_800942EC;
+        translation[0] = g_RoomRenderYOverride;
     } else {
         translation[0] = point.y;
     }

@@ -17,9 +17,9 @@ extern int D_8009CE00;
 extern int *D_8009D300;
 extern int D_800B0E00[];
 extern u8 *D_800B0E64;
-extern u8 *D_8009D254;
-extern u8 *D_8009D20C;
-extern u8 *D_8009D2F0;
+extern u8 *g_PlayerEntity __asm__("D_8009D254");
+extern u8 *g_FieldActorListHead __asm__("D_8009D20C");
+extern u8 *g_CurrentEntity __asm__("D_8009D2F0");
 extern u8 D_800944A8[];
 extern u8 D_800B0CE9;
 extern u8 D_800B0CEA;
@@ -180,15 +180,15 @@ static int Akao_FindEntityForCommand(AkaoCommandArgs *cmd, u8 **out) {
 
     target_a = ARG(cmd, 1);
     if (target_a == 0) {
-        if (D_8009D254 == 0) {
+        if (g_PlayerEntity == 0) {
             return 0;
         }
-        *out = D_8009D254;
+        *out = g_PlayerEntity;
         return 1;
     }
 
     target_b = ARG(cmd, 2);
-    for (node = D_8009D20C; node != 0; node = *(u8 **)(node + 4)) {
+    for (node = g_FieldActorListHead; node != 0; node = *(u8 **)(node + 4)) {
         if (node[0x0C] == target_a && node[0x0D] == target_b && ((*(u32 *)(node + 0x98) & 0x10) == 0)) {
             *out = node;
             return 1;
@@ -252,8 +252,8 @@ static int Akao_SaveFieldPosition(AkaoCommandArgs *cmd) {
     }
 
     entry = &D_800944A8[D_800B0CE9 * 8];
-    entry[0] = D_8009D2F0[0x0C];
-    entry[1] = D_8009D2F0[0x0D];
+    entry[0] = g_CurrentEntity[0x0C];
+    entry[1] = g_CurrentEntity[0x0D];
     entry[2] = ARG(cmd, 0);
     entry[3] = ARG(cmd, 1);
     *(u16 *)(entry + 4) = ARG(cmd, 2);
@@ -376,7 +376,7 @@ int Akao_ProcessCommand(AkaoCommandArgs *cmd) {
         D_800B0DCF = ARG(cmd, 3);
         return 1;
     case 0x15F:
-        return Akao_FindAssetAtEntity(cmd, D_8009D2F0);
+        return Akao_FindAssetAtEntity(cmd, g_CurrentEntity);
     case 0x160:
         if (!Akao_FindEntityForCommand(cmd, &entity)) {
             return 1;

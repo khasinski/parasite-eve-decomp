@@ -1,6 +1,6 @@
-extern int D_800BCD80;
-extern int D_800BCD84;
-extern int D_800BCD90;
+extern int g_AkaoCmdOpcode;
+extern int g_AkaoCmdArg0;
+extern int g_AkaoCmdArg3;
 
 int Akao_EnqueueStagedCommand(void);
 
@@ -10,9 +10,9 @@ int Akao_Cmd_19_Then_C0(int arg0, int arg1) {
     register int next_opcode asm("$3");
     int ret;
 
-    opcode = &D_800BCD80;
+    opcode = &g_AkaoCmdOpcode;
     *opcode = 0x19;
-    D_800BCD84 = arg0;
+    g_AkaoCmdArg0 = arg0;
     saved_arg = arg1;
     ret = Akao_EnqueueStagedCommand();
 
@@ -20,8 +20,8 @@ int Akao_Cmd_19_Then_C0(int arg0, int arg1) {
     asm volatile("" : : "r"(next_opcode));
     *opcode = next_opcode;
     saved_arg &= 0x7F;
-    D_800BCD84 = saved_arg;
-    D_800BCD90 = 0;
+    g_AkaoCmdArg0 = saved_arg;
+    g_AkaoCmdArg3 = 0;
     saved_arg = ret;
     Akao_EnqueueStagedCommand();
 

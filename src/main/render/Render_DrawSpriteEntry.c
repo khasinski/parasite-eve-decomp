@@ -5,8 +5,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 
-extern int D_8009CDDC;
-extern u32 *D_800B0E38[];
+extern int g_ActiveDrawSlot __asm__("D_8009CDDC");
+extern u32 *g_OtBufferTable[];
 extern void *D_800B1624;
 
 int Render_DrawSpriteEntry(void *entry_arg) {
@@ -35,10 +35,10 @@ int Render_DrawSpriteEntry(void *entry_arg) {
     int v;
     int wrapped;
 
-    draw_slot = D_8009CDDC;
+    draw_slot = g_ActiveDrawSlot;
     count = *(u16 *)(entry + 0x26);
     prim_a = *(u32 **)(entry + 0x30);
-    ot_base = D_800B0E38[draw_slot];
+    ot_base = g_OtBufferTable[draw_slot];
     if (draw_slot != 0) {
         prim_a = (u32 *)((u8 *)prim_a + count * 0x10);
     }

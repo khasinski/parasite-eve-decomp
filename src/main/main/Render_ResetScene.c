@@ -2,8 +2,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 
-extern u8 D_800BCDC8[];
-extern u8 D_800BCE80[];
+extern u8 g_RenderDrawEnvArray[];
+extern u8 g_RenderDispEnvArray[];
 extern u8 D_800BCE94[];
 extern u8 D_800BCE91;
 extern u8 D_800BCEA5;
@@ -27,7 +27,7 @@ extern u8 D_800BCE3E;
 extern u8 D_800BCDE2;
 extern u8 D_800BCE3F;
 extern u8 D_800BCDE3;
-extern int D_8009CDDC;
+extern int g_ActiveDrawSlot __asm__("D_8009CDDC");
 
 void Render_InitEntityPool(int arg0);
 void SetGraphDebug(int level);
@@ -52,13 +52,13 @@ void Render_ResetScene(int width, int height) {
     rect[3] = 0x200;
     ClearImage(rect, 0, 0, 1);
 
-    disp = D_800BCE80;
+    disp = g_RenderDispEnvArray;
     D_800BCE91 = 1;
     D_800BCEA5 = 1;
     SetDefDispEnv(disp, 0, 0, height, width);
     SetDefDispEnv(D_800BCE94, 0, 0, height, width);
 
-    draw = D_800BCDC8;
+    draw = g_RenderDrawEnvArray;
     D_800BCE9E = 8;
     D_800BCE8A = 8;
     D_800BCE9C = 0;
@@ -82,7 +82,7 @@ void Render_ResetScene(int width, int height) {
     D_800BCDE2 = 0;
     D_800BCE3F = 0;
     D_800BCDE3 = 0;
-    D_8009CDDC = 0;
+    g_ActiveDrawSlot = 0;
 
     Render_StepEntityPool(disp);
 }

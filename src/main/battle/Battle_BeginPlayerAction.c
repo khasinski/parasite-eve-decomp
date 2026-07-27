@@ -1,6 +1,6 @@
 typedef signed short s16;
 
-extern int g_FieldMoveLock __asm__("D_8009D2E8");
+extern int g_EntityControlFlags __asm__("D_8009D2E8");
 extern char *g_PlayerEntity __asm__("D_8009D254");
 extern char *g_ActiveActor __asm__("D_8009D278");
 
@@ -14,7 +14,7 @@ void Battle_BeginPlayerAction(void) {
     register int flags asm("$2");
 
     mask = -0x101;
-    g_FieldMoveLock |= 1;
+    g_EntityControlFlags |= 1;
     player = g_PlayerEntity;
     flags = *(int *)(player + 0x98);
     actor = g_ActiveActor;
