@@ -1,3 +1,3 @@
 #include "../room_lib/room_lib.h"
 
-ROOMLIB_RESET_AND_SIGNAL_B(func_8019098C)
+ROOMLIB_RESET_AND_SIGNAL_B(RoomLib_ResetAndSignalB_8019098C)

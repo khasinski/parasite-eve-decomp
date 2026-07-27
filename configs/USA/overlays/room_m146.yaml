@@ -34,7 +34,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, c, room_m146]
+      - [0x0, rodata, room_m146]
       - [0x94, c, func_8018F07C]
       - [0x9C, c, RoomLib_PlantTable_8018F084]
       - [0xC8, c, RoomLib_Spawn6_8018F0B0]

@@ -1165,6 +1165,22 @@ def count_funcs(text: str) -> int:
     return n
 
 
+def count_c_file(path: pathlib.Path, seen: set[pathlib.Path] | None = None) -> int:
+    """Count a room TU, following local shared implementation includes."""
+    if seen is None:
+        seen = set()
+    path = path.resolve()
+    if path in seen or not path.exists():
+        return 0
+    seen.add(path)
+
+    text = path.read_text(errors="ignore")
+    count = count_funcs(strip_include_asm(text))
+    for include in re.findall(r'^\s*#include\s+"([^"]+\.c)"', text, re.M):
+        count += count_c_file(path.parent / include, seen)
+    return count
+
+
 def parse_segments(yaml_path: pathlib.Path):
     """(offset, type, name) rows from a splat YAML, sorted by offset.
 
@@ -1298,9 +1314,6 @@ FUNCTION_TOTAL_OVERRIDES = {
     "SLUS_006.62 (main)": 2555,
 }
 
-ROOM_TOTAL_FUNCS_OVERRIDE = 6454
-
-
 def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
             asm_dir: pathlib.Path):
     m_funcs = d_funcs = 0
@@ -1309,9 +1322,9 @@ def row_for(name: str, yaml_path: pathlib.Path, src_dir: pathlib.Path,
         t = f.read_text(errors="ignore")
         d_funcs += len(INCLUDE_ASM_RE.findall(t))
         if is_clean(t):
-            m_funcs += count_funcs(strip_include_asm(t))
+            m_funcs += count_c_file(f)
         else:
-            d_funcs += count_funcs(strip_include_asm(t))
+            d_funcs += count_c_file(f)
     n_funcs = m_funcs + d_funcs + count_asm_funcs(name, segments, asm_dir)
     legacy = legacy_overlay_name(name)
     if legacy in STATIC_OVERLAY_FUNC_TOTALS:
@@ -1400,8 +1413,6 @@ def main() -> None:
         room = [a + b for a, b in zip(room, t)]
     if rooms:
         mf, nf, mb, tb = room
-        nf = ROOM_TOTAL_FUNCS_OVERRIDE
-        room[1] = nf
         pf = 100.0 * mf / nf if nf else 0.0
         pb = 100.0 * mb / tb if tb else 0.0
         lines.append(f"| `room overlays (x{len(rooms)})` | {mf}/{nf} ({pf:.1f}%) "

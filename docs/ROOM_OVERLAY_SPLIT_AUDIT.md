@@ -13,8 +13,8 @@ The room-overlay progress row is:
 
 | Area | Value |
 |---|---:|
-| Functions | 6194/6454 (96.0%) |
-| Code bytes | 476468/2392460 (19.9%) |
+| Functions | 6219/8377 (74.2%) |
+| Code bytes | 489148/2390632 (20.5%) |
 
 The low byte percentage is not caused by room assets being included in the code
 denominator. `tools/scripts/progress_report.py` counts function subsegments for
@@ -25,10 +25,10 @@ Current room YAML subsegment bytes:
 | YAML type | Bytes |
 |---|---:|
 | `databin` | 29060384 |
-| `asm` | 1915992 |
+| `asm` | 1901484 |
 | `data` | 1262188 |
-| `c` | 476468 |
-| `rodata` | 59112 |
+| `c` | 489148 |
+| `rodata` | 60940 |
 
 So the missing code-byte coverage is primarily the remaining `asm` function
 subsegments. The huge room data blocks are real room payloads/assets and are not
@@ -80,6 +80,7 @@ These checks were run against current YAMLs and generated asm:
 | Ambiguous/multi-function exact asm files | 0 |
 | `nonmatching` size mismatches vs YAML range | 0 |
 | `// type:func` symbols located inside YAML `data`/`databin` ranges | 0 |
+| C subsegments without exactly one function | 0 |
 | Remaining base `jtbl_*` labels in room rodata | 0 |
 | Safe historical asm subsegment rename candidates | 0 |
 | Internal aligned `data` labels still hidden in larger `data`/`databin` blocks | 0 |
@@ -87,7 +88,15 @@ These checks were run against current YAMLs and generated asm:
 
 This means the current room function split is internally consistent: the
 remaining low percentage is not explained by known functions hidden inside data
-or by asm ranges with wrong lengths.
+or by asm ranges with wrong lengths. The function denominator is derived from
+the current YAML function boundaries, not a historical override: 6219 C
+functions and 2158 exact asm functions, for 8377 total functions.
+
+The audit requires every `c` subsegment to contain exactly one function,
+following local shared `.c` implementation includes. It caught and removed 29
+old C-forced data ranges (room headers, jump tables, and dialog records) and
+split eight adjacent `return 0` epilogues into real functions. Those bytes are
+now correctly classified as `rodata` or C code.
 
 The room YAMLs also no longer use the old generated `room_m...` names for
 single-function asm subsegments when the exact generated file exposes one

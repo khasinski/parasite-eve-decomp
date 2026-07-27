@@ -23,6 +23,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CONFIG_DIR = ROOT / "configs/USA/overlays"
 ASM_DIR = ROOT / "asm/USA/overlays"
 ORIGINAL_DIR = ROOT / "original/USA/overlays"
+SRC_DIR = ROOT / "src/overlays"
 
 
 def as_int(value: Any) -> int:
@@ -61,6 +62,47 @@ def subsegments(cfg: dict[str, Any]) -> list[tuple[int, str, str]]:
         rows.append((off, typ, name))
     rows.sort()
     return rows
+
+
+FUNC_DEF_RE = re.compile(r"^[A-Za-z_]\w*[\w \t\*]*?\b[A-Za-z_]\w*\s*\([^;{}]*\)\s*\{", re.M)
+MACRO_STAMP_RE = re.compile(r"^[A-Z][A-Z0-9_]{3,}\(\w+(?:,\s*\w+)*\)\s*$", re.M)
+
+
+def c_function_count(path: Path, seen: set[Path] | None = None) -> int:
+    """Count a C subsegment's function, including shared room-body includes."""
+    if seen is None:
+        seen = set()
+    path = path.resolve()
+    if path in seen or not path.exists():
+        return 0
+    seen.add(path)
+
+    text = path.read_text(errors="ignore")
+    text = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
+    count = len(FUNC_DEF_RE.findall(text)) + len(MACRO_STAMP_RE.findall(text))
+    for include in re.findall(r'^\s*#include\s+"([^"]+\.c)"', text, re.M):
+        count += c_function_count(path.parent / include, seen)
+    return count
+
+
+def c_subsegment_checks(room: str, subs: list[tuple[int, str, str]]) -> list[dict[str, Any]]:
+    failures: list[dict[str, Any]] = []
+    for off, typ, name in subs:
+        if typ != "c":
+            continue
+        path = SRC_DIR / room / f"{name}.c"
+        count = c_function_count(path)
+        if count != 1:
+            failures.append(
+                {
+                    "room": room,
+                    "offset": off,
+                    "name": name,
+                    "function_count": count,
+                    "file": str(path.relative_to(ROOT)),
+                }
+            )
+    return failures
 
 
 def parse_nonmatching_lines(text: str) -> list[tuple[str, int | None]]:
@@ -481,6 +523,7 @@ def audit() -> dict[str, Any]:
     tim_candidates: list[dict[str, Any]] = []
     typefunc_data_hits: list[dict[str, Any]] = []
     base_jtbl_hits: list[dict[str, Any]] = []
+    c_subsegment_failures: list[dict[str, Any]] = []
     top_data_blocks: list[tuple[int, str, int, int, str, str, str]] = []
 
     room_count = 0
@@ -494,6 +537,7 @@ def audit() -> dict[str, Any]:
 
         rodata_offsets = {off for off, typ, _name in subs if typ == "rodata"}
         base_jtbl_hits.extend(base_rodata_jtbl_hits(room, rodata_offsets))
+        c_subsegment_failures.extend(c_subsegment_checks(room, subs))
         typefunc_data_hits.extend(typefunc_inside_data(room, cfg, subs, end))
         data_label_candidates.extend(internal_data_label_candidates(room, subs))
         tim_candidates.extend(hidden_tim_candidates(room, subs, end))
@@ -531,6 +575,7 @@ def audit() -> dict[str, Any]:
         "hidden_tim_asset_candidates": tim_candidates,
         "typefunc_symbols_inside_data": typefunc_data_hits,
         "base_rodata_jtbl_labels": base_jtbl_hits,
+        "c_subsegments_without_one_function": c_subsegment_failures,
     }
 
     return {
