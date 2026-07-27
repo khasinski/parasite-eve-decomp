@@ -39,7 +39,7 @@ segments:
       - [0xCC, rodata, func_80192120]
       - [0x154, rodata, func_80192BE4]
       - [0x1BC, rodata, func_801936FC]
-      - [0x22C, asm, func_8018F214]
+      - [0x22C, c, func_8018F214]
       - [0x258, c, RoomLib_Spawn6_8018F240]
       - [0x284, c, RoomLib_RegisterTable_8018F26C]
       - [0x2CC, c, func_8018F2B4]
