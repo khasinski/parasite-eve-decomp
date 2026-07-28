@@ -65,6 +65,13 @@
                  "swc2 $27,8(%0)" \
                  : : "r"(out) : "memory")
 
+/* MAC stores followed by a pointer return leave v0 available to the caller. */
+#define gte_stmac_return(out) \
+    asm volatile("swc2 $25,0(%0)\n\t" \
+                 "swc2 $26,4(%0)\n\t" \
+                 "swc2 $27,8(%0)" \
+                 : : "r"(out) : "$2", "memory")
+
 /* LZCS/LZCR: count leading zeroes in a 32-bit value. */
 #define gte_ldlzcs(value) \
     asm volatile("mtc2 %0,$30" : : "r"(value))
