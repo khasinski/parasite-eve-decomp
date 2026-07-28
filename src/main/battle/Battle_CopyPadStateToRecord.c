@@ -49,7 +49,8 @@ void Battle_CopyPadStateToRecord(void) {
     *(volatile u32 *)(record + 0x10) = word_10;
     word_10 = (word_10 & ~0x00000800U) | (D_800A76E8 & 0x00000800U);
     *(volatile u32 *)(record + 0x10) = word_10;
-    word_10 = (word_10 & ~0x00001000U) | (D_800A76E8 & 0x00001000U);
+    word_10 &= ~0x00001000U;
+    word_10 |= D_800A76E8 & 0x00001000U;
     *(volatile u32 *)(record + 0x10) = word_10;
     word_10 = (word_10 & ~0x00006000U) | (D_800A76E8 & 0x00006000U);
     *(volatile u32 *)(record + 0x10) = word_10;
