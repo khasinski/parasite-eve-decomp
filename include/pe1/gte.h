@@ -31,6 +31,11 @@
                  "nop\n\t" \
                  ".word 0x4A486012")
 
+/* MVMVA: light matrix, IR vector, no translation, SF=1, LM=1. */
+#define gte_lightcolor() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4A4DA412")
+
 #define gte_stmac(out) \
     asm volatile("swc2 $25,0(%0)\n\t" \
                  "swc2 $26,4(%0)\n\t" \
@@ -100,6 +105,13 @@
                  "mtc2 %2,$11" \
                  : : "r"(x), "r"(y), "r"(z))
 
+/* Load the three scalar IR inputs from consecutive words. */
+#define gte_ldir123v(vec) \
+    asm volatile("lwc2 $9,0(%0)\n\t" \
+                 "lwc2 $10,4(%0)\n\t" \
+                 "lwc2 $11,8(%0)" \
+                 : : "r"(vec) : "memory")
+
 /* IR0 is the scalar input used by GPF. */
 #define gte_ldir0(value) \
     asm volatile("mtc2 %0,$8" : : "r"(value))
@@ -108,6 +120,36 @@
 #define gte_sqr() \
     asm volatile("nop\n\t" \
                  ".word 0x4AA00428")
+
+/* SQR with the PSY-Q SF flag set. */
+#define gte_sqr12() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4AA80428")
+
+/* AVSZ uses the four depth FIFO registers and writes OTZ. */
+#define gte_ldsz3(z1, z2, z3) \
+    asm volatile("mtc2 %0,$17\n\t" \
+                 "mtc2 %1,$18\n\t" \
+                 "mtc2 %2,$19" \
+                 : : "r"(z1), "r"(z2), "r"(z3))
+
+#define gte_ldsz4(z0, z1, z2, z3) \
+    asm volatile("mtc2 %0,$16\n\t" \
+                 "mtc2 %1,$17\n\t" \
+                 "mtc2 %2,$18\n\t" \
+                 "mtc2 %3,$19" \
+                 : : "r"(z0), "r"(z1), "r"(z2), "r"(z3))
+
+#define gte_avsz3() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4B58002D")
+
+#define gte_avsz4() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4B68002E")
+
+#define gte_getotz(out) \
+    asm volatile("mfc2 %0,$7" : "=r"(out))
 
 /* GPF multiplies IR1..IR3 by IR0 into MAC1..MAC3. */
 #define gte_gpf() \
