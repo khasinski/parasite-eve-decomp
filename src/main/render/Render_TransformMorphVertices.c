@@ -4,6 +4,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
+#include "pe1/gte.h"
+
 typedef struct RenderVec3s {
     s16 x;
     s16 y;
@@ -80,14 +82,11 @@ static void Render_MorphTransformAxis(u16 *src, s16 *dst) {
     int y;
     int z;
 
-    asm volatile("mtc2 %0,$9" : : "r"(src[0]));
-    asm volatile("mtc2 %0,$10" : : "r"(src[3]));
-    asm volatile("mtc2 %0,$11" : : "r"(src[6]));
-    asm volatile("nop");
-    asm volatile(".word 0x4A49E012");
-    asm volatile("mfc2 %0,$9" : "=r"(x));
-    asm volatile("mfc2 %0,$10" : "=r"(y));
-    asm volatile("mfc2 %0,$11" : "=r"(z));
+    gte_ldir123(src[0], src[3], src[6]);
+    gte_rtir12();
+    gte_getir1(x);
+    gte_getir2(y);
+    gte_getir3(z);
 
     dst[0] = x;
     dst[3] = y;
@@ -98,17 +97,9 @@ static void Render_MorphTransformTranslation(s32 *part_matrix, s32 *dst_matrix) 
     s32 *out;
 
     out = dst_matrix + 5;
-    asm volatile("lwc2 $0,20(%0)\n\t"
-                 "lwc2 $1,24(%0)\n\t"
-                 "nop\n\t"
-                 "nop\n\t"
-                 ".word 0x4A480012\n\t"
-                 "swc2 $25,0(%1)\n\t"
-                 "swc2 $26,4(%1)\n\t"
-                 "swc2 $27,8(%1)"
-                 :
-                 : "r"(part_matrix), "r"(out)
-                 : "memory");
+    gte_ldv0(part_matrix + 5);
+    gte_rtv0tr_mac();
+    gte_stmac(out);
 }
 
 static void Render_MorphBuildMatrix(s32 *view_matrix, s32 *part_matrix, s32 *out_matrix) {
@@ -121,20 +112,10 @@ static void Render_MorphBuildMatrix(s32 *view_matrix, s32 *part_matrix, s32 *out
 }
 
 static void Render_MorphTransformTriple(RenderVec3s *src, u32 *screen_out, u32 *depth_out) {
-    asm volatile("lwc2 $0,0(%0)" : : "r"(src));
-    asm volatile("lwc2 $1,4(%0)" : : "r"(src));
-    asm volatile("lwc2 $2,8(%0)" : : "r"(src));
-    asm volatile("lwc2 $3,12(%0)" : : "r"(src));
-    asm volatile("lwc2 $4,16(%0)" : : "r"(src));
-    asm volatile("lwc2 $5,20(%0)" : : "r"(src));
-    asm volatile("nop");
-    asm volatile(".word 0x4A280030");
-    asm volatile("swc2 $12,0(%0)" : : "r"(screen_out) : "memory");
-    asm volatile("swc2 $13,4(%0)" : : "r"(screen_out) : "memory");
-    asm volatile("swc2 $14,8(%0)" : : "r"(screen_out) : "memory");
-    asm volatile("swc2 $17,0(%0)" : : "r"(depth_out) : "memory");
-    asm volatile("swc2 $18,4(%0)" : : "r"(depth_out) : "memory");
-    asm volatile("swc2 $19,8(%0)" : : "r"(depth_out) : "memory");
+    gte_ldv012(src);
+    gte_rtpt();
+    gte_stsxy012(screen_out);
+    gte_stsz123(depth_out);
 }
 
 static void Render_MorphTransformPart(RenderObjectEntity *entity, RenderObjectPart *part) {

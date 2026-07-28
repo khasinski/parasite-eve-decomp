@@ -4,6 +4,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
+#include "pe1/gte.h"
+
 #define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
 #define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
 #define U32_AT(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))
@@ -71,14 +73,11 @@ static void Render_SetupBoneTransformAxis(u16 *src, s16 *dst) {
     int y;
     int z;
 
-    asm volatile("mtc2 %0,$9" : : "r"(src[0]));
-    asm volatile("mtc2 %0,$10" : : "r"(src[3]));
-    asm volatile("mtc2 %0,$11" : : "r"(src[6]));
-    asm volatile("nop");
-    asm volatile(".word 0x4A49E012");
-    asm volatile("mfc2 %0,$9" : "=r"(x));
-    asm volatile("mfc2 %0,$10" : "=r"(y));
-    asm volatile("mfc2 %0,$11" : "=r"(z));
+    gte_ldir123(src[0], src[3], src[6]);
+    gte_rtir12();
+    gte_getir1(x);
+    gte_getir2(y);
+    gte_getir3(z);
 
     dst[0] = x;
     dst[3] = y;
@@ -89,17 +88,9 @@ static void Render_SetupBoneTransformTranslation(s32 *bone_matrix, s32 *dst_matr
     s32 *out;
 
     out = dst_matrix + 5;
-    asm volatile("lwc2 $0,20(%0)\n\t"
-                 "lwc2 $1,24(%0)\n\t"
-                 "nop\n\t"
-                 "nop\n\t"
-                 ".word 0x4A480012\n\t"
-                 "swc2 $25,0(%1)\n\t"
-                 "swc2 $26,4(%1)\n\t"
-                 "swc2 $27,8(%1)"
-                 :
-                 : "r"(bone_matrix), "r"(out)
-                 : "memory");
+    gte_ldv0(bone_matrix + 5);
+    gte_rtv0tr_mac();
+    gte_stmac(out);
 }
 
 static void Render_SetupBoneBuildMatrix(s32 *view_matrix, s32 *bone_matrix, s32 *out_matrix) {
@@ -114,15 +105,9 @@ static void Render_SetupBoneBuildMatrix(s32 *view_matrix, s32 *bone_matrix, s32 
 static u32 Render_SetupBoneProject(void *src) {
     u32 sxy;
 
-    asm volatile("lwc2 $0,0(%1)\n\t"
-                 "lwc2 $1,4(%1)\n\t"
-                 "nop\n\t"
-                 "nop\n\t"
-                 ".word 0x4A180001\n\t"
-                 "swc2 $14,0(%0)"
-                 :
-                 : "r"(&sxy), "r"(src)
-                 : "memory");
+    gte_ldv0(src);
+    gte_rtps();
+    gte_stsxy2(&sxy);
     return sxy;
 }
 

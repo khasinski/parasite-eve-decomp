@@ -4,9 +4,9 @@ typedef signed char s8;
 typedef unsigned char u8;
 typedef int s32;
 
-extern struct { char _[16]; } D_8009E004_o __asm__("D_8009E004");
+extern volatile s32 D_8009E004[];
 
-#define TARGET_DISTANCE(index) (*(s32 *)((u8 *)&D_8009E004_o + ((s8)(index) * 0xC)))
+#define TARGET_DISTANCE(index) D_8009E004[(s8)(index) * 3]
 
 void Battle_SwapRecords(void *records, int a, int b);
 

@@ -5,6 +5,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
+#include "pe1/gte.h"
+
 #define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
 #define U32_AT(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))
 #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
@@ -17,13 +19,11 @@ extern s32 g_ActiveDrawSlot;
 static s32 Render_TexturedQuadsNclip(u32 xy0, u32 xy1, u32 xy2) {
     s32 mac0;
 
-    asm volatile("mtc2 %0,$12" : : "r"(xy0));
-    asm volatile("mtc2 %0,$13" : : "r"(xy1));
-    asm volatile("mtc2 %0,$14" : : "r"(xy2));
-    asm volatile("nop");
-    asm volatile("nop");
-    asm volatile(".word 0x4B400006");
-    asm volatile("swc2 $24,0(%0)" : : "r"(&mac0) : "memory");
+    gte_ldsxy0(xy0);
+    gte_ldsxy1(xy1);
+    gte_ldsxy2(xy2);
+    gte_nclip();
+    gte_stmac0(&mac0);
     return mac0;
 }
 

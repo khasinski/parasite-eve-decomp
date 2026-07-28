@@ -4,6 +4,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
+#include "pe1/gte.h"
+
 typedef struct RenderVec3s {
     s16 x;
     s16 y;
@@ -76,13 +78,11 @@ static void Render_DrawObjectVariantTransform(RenderVec3s *src, RenderVec3s *dst
     int y;
     int z;
 
-    asm volatile("lwc2 $0,0(%0)" : : "r"(src));
-    asm volatile("lwc2 $1,4(%0)" : : "r"(src));
-    asm volatile("nop");
-    asm volatile(".word 0x4A480012");
-    asm volatile("mfc2 %0,$9" : "=r"(x));
-    asm volatile("mfc2 %0,$10" : "=r"(y));
-    asm volatile("mfc2 %0,$11" : "=r"(z));
+    gte_ldv0(src);
+    gte_rtv0tr();
+    gte_getir1(x);
+    gte_getir2(y);
+    gte_getir3(z);
 
     dst->x = x;
     dst->y = y;
@@ -92,15 +92,9 @@ static void Render_DrawObjectVariantTransform(RenderVec3s *src, RenderVec3s *dst
 static u32 Render_DrawObjectVariantProject(RenderVec3s *src) {
     u32 sxy;
 
-    asm volatile("lwc2 $0,0(%1)\n\t"
-                 "lwc2 $1,4(%1)\n\t"
-                 "nop\n\t"
-                 "nop\n\t"
-                 ".word 0x4A180001\n\t"
-                 "swc2 $14,0(%0)"
-                 :
-                 : "r"(&sxy), "r"(src)
-                 : "memory");
+    gte_ldv0(src);
+    gte_rtps();
+    gte_stsxy2(&sxy);
     return sxy;
 }
 

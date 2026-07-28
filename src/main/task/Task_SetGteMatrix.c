@@ -5,6 +5,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
+#include "pe1/gte.h"
+
 #define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
 #define U8_AT(ptr, off) (*(u8 *)((u8 *)(ptr) + (off)))
 #define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
@@ -64,14 +66,11 @@ static void Task_SetGteTransformAxis(u16 *src, s16 *dst) {
     int y;
     int z;
 
-    asm volatile("mtc2 %0,$9" : : "r"(src[0]));
-    asm volatile("mtc2 %0,$10" : : "r"(src[3]));
-    asm volatile("mtc2 %0,$11" : : "r"(src[6]));
-    asm volatile("nop");
-    asm volatile(".word 0x4A49E012");
-    asm volatile("mfc2 %0,$9" : "=r"(x));
-    asm volatile("mfc2 %0,$10" : "=r"(y));
-    asm volatile("mfc2 %0,$11" : "=r"(z));
+    gte_ldir123(src[0], src[3], src[6]);
+    gte_rtir12();
+    gte_getir1(x);
+    gte_getir2(y);
+    gte_getir3(z);
 
     dst[0] = x;
     dst[3] = y;
@@ -79,17 +78,9 @@ static void Task_SetGteTransformAxis(u16 *src, s16 *dst) {
 }
 
 static void Task_SetGteTransformVectorWords(s32 *src, s32 *dst) {
-    asm volatile("lwc2 $0,0(%0)\n\t"
-                 "lwc2 $1,4(%0)\n\t"
-                 "nop\n\t"
-                 "nop\n\t"
-                 ".word 0x4A480012\n\t"
-                 "swc2 $9,0(%1)\n\t"
-                 "swc2 $10,4(%1)\n\t"
-                 "swc2 $11,8(%1)"
-                 :
-                 : "r"(src), "r"(dst)
-                 : "memory");
+    gte_ldv0(src);
+    gte_rtv0tr_mac();
+    gte_stir123(dst);
 }
 
 static void Task_SetGteBuildScaledMatrix(u8 *actor) {

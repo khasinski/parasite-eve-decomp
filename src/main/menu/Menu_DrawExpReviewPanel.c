@@ -19,8 +19,8 @@ void Draw_PrintNumberWidth2(s32 value);
 void Draw_AllocSprite(s32 sprite_id);
 s32 Menu_GetBattleCount(void);
 
-extern s32 g_MenuPendingTotalExp;
-extern s32 g_MenuExpAllocTarget;
+extern s32 D_8009CFE8;
+extern s32 D_8009CFEC;
 extern s32 D_8009CFF0;
 extern s32 D_8009CF78;
 
@@ -30,19 +30,19 @@ void Menu_DrawExpReviewPanel(void) {
     s32 exp_to_next;
     s32 shown_exp;
 
-    can_step = g_MenuPendingTotalExp < g_MenuExpAllocTarget;
+    can_step = D_8009CFE8 < D_8009CFEC;
     if (!can_step) {
         Akao_FlushBgmVolumeFade();
     }
 
-    level = Stat_BinarySearch(g_MenuPendingTotalExp, Aya_GetLevelExpTable());
+    level = Stat_BinarySearch(D_8009CFE8, Aya_GetLevelExpTable());
     if (level < 0x62) {
-        exp_to_next = ((s32 *)Aya_GetLevelExpTable())[level + 1] - g_MenuPendingTotalExp;
+        exp_to_next = ((s32 *)Aya_GetLevelExpTable())[level + 1] - D_8009CFE8;
     } else {
         exp_to_next = 0;
     }
 
-    g_MenuPendingTotalExp += can_step;
+    D_8009CFE8 += can_step;
     if (D_8009CFF0 < level) {
         D_8009CFF0 = level;
         D_8009CF78 = 0x3C;
@@ -62,11 +62,12 @@ void Menu_DrawExpReviewPanel(void) {
     Draw_StatePush();
     Draw_PrintRawText(Str_LookupTable4(9));
     Draw_OffsetCursor(0x50, 0);
-    shown_exp = g_MenuPendingTotalExp;
-    if (shown_exp > 0xF423F) {
-        shown_exp = 0xF423F;
+    shown_exp = 0xF423F;
+    if (shown_exp < D_8009CFE8) {
+        Draw_PrintNumberWidth6(shown_exp);
+    } else {
+        Draw_PrintNumberWidth6(D_8009CFE8);
     }
-    Draw_PrintNumberWidth6(shown_exp);
     Draw_OffsetCursor(2, 2);
     Draw_AllocSprite(0x8A);
     Draw_StatePop();

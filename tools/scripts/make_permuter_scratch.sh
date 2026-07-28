@@ -3,7 +3,7 @@
 #   make_permuter_scratch.sh <src.c> [func]
 # - base.c   : preprocessed source (pycparser-parseable), with the file's
 #              CC1_FLAGS/MASPSX_FLAGS comment lines preserved for cc.sh.
-# - target.o : the current ROM-correct build object.
+# - target.o : the assembled retail target when the source has an asm segment.
 # - compile.sh: compiles a candidate via cc.sh.
 # - settings.toml: gcc + func_name.
 # The permuter searches C variants whose codegen matches the ROM.
@@ -23,14 +23,25 @@ fi
 SCR="$ROOT/tools/decomp-permuter/scratch_${FUNC}"
 mkdir -p "$SCR"
 cp "$OBJ" "$SCR/target.o"
+asm_rel="${rel#src/main/}"
+asm_rel="${asm_rel%.c}.s.o"
+ASM_OBJ="$ROOT/build/USA/asm/USA/main/$asm_rel"
+if [[ -f "$ASM_OBJ" ]]; then
+  cp "$ASM_OBJ" "$SCR/target.o"
+fi
 # preserve toolchain flag comment lines (cpp would strip them)
-grep -E '/\* (CC1_FLAGS|MASPSX_FLAGS):' "$SRC" > "$SCR/base.c" || true
+grep -E '/\* (CC1_FLAGS|MASPSX_FLAGS):' "$SRC" > "$SCR/flags.c" || true
+cp "$SCR/flags.c" "$SCR/base.c"
 "$ROOT/tools/psyq-gcc-2.7.2/cpp" -undef -P -D__GNUC__=2 -D__OPTIMIZE__ -Dmips \
   -D__mips__ -D__LITTLE_ENDIAN__ -D'__attribute__(x)=' \
   -I"$ROOT/sdk/psyq-4.0/PSX/INCLUDE" -I"$ROOT/include" "$SRC" >> "$SCR/base.c" 2>/dev/null
 cat > "$SCR/compile.sh" <<EOF
 #!/usr/bin/env bash
-exec "$ROOT/tools/scripts/cc.sh" "\$1" "\$3"
+set -euo pipefail
+tmp=\$(mktemp -t pe1-permuter.XXXXXX.c)
+trap 'rm -f "\$tmp"' EXIT
+cat "$SCR/flags.c" "\$1" > "\$tmp"
+exec "$ROOT/tools/scripts/cc.sh" "\$tmp" "\$3"
 EOF
 chmod +x "$SCR/compile.sh"
 printf 'compiler_type = "gcc"\nfunc_name = "%s"\n' "$FUNC" > "$SCR/settings.toml"

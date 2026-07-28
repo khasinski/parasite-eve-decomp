@@ -5,6 +5,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
+#include "pe1/gte.h"
+
 #define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
 #define U8_AT(ptr, off) (*(u8 *)((u8 *)(ptr) + (off)))
 #define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
@@ -34,16 +36,11 @@ int Math_FixedMul(int a, int b);
 static int Entity_UpdateAndRenderNclip(u32 xy0, u32 xy1, u32 xy2) {
     int result;
 
-    asm volatile("mtc2 %1,$12\n\t"
-                 "mtc2 %2,$13\n\t"
-                 "mtc2 %3,$14\n\t"
-                 "nop\n\t"
-                 "nop\n\t"
-                 ".word 0x4B400006\n\t"
-                 "swc2 $24,0(%0)"
-                 :
-                 : "r"(&result), "r"(xy0), "r"(xy1), "r"(xy2)
-                 : "memory");
+    gte_ldsxy0(xy0);
+    gte_ldsxy1(xy1);
+    gte_ldsxy2(xy2);
+    gte_nclip();
+    gte_stmac0(&result);
     return result;
 }
 

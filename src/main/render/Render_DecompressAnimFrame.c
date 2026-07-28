@@ -5,6 +5,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
+#include "pe1/gte.h"
+
 #define U8_AT(ptr, off) (*(u8 *)((u8 *)(ptr) + (off)))
 #define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
 #define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
@@ -68,14 +70,11 @@ static void Render_AnimTransformAxis(u16 *src, s16 *dst) {
     int y;
     int z;
 
-    asm volatile("mtc2 %0,$9" : : "r"(src[0]));
-    asm volatile("mtc2 %0,$10" : : "r"(src[3]));
-    asm volatile("mtc2 %0,$11" : : "r"(src[6]));
-    asm volatile("nop");
-    asm volatile(".word 0x4A49E012");
-    asm volatile("mfc2 %0,$9" : "=r"(x));
-    asm volatile("mfc2 %0,$10" : "=r"(y));
-    asm volatile("mfc2 %0,$11" : "=r"(z));
+    gte_ldir123(src[0], src[3], src[6]);
+    gte_rtir12();
+    gte_getir1(x);
+    gte_getir2(y);
+    gte_getir3(z);
 
     dst[0] = x;
     dst[3] = y;
@@ -83,17 +82,9 @@ static void Render_AnimTransformAxis(u16 *src, s16 *dst) {
 }
 
 static void Render_AnimTransformTranslation(s32 *src, s32 *dst) {
-    asm volatile("lwc2 $0,0(%0)\n\t"
-                 "lwc2 $1,4(%0)\n\t"
-                 "nop\n\t"
-                 "nop\n\t"
-                 ".word 0x4A480012\n\t"
-                 "swc2 $25,0(%1)\n\t"
-                 "swc2 $26,4(%1)\n\t"
-                 "swc2 $27,8(%1)"
-                 :
-                 : "r"(src), "r"(dst)
-                 : "memory");
+    gte_ldv0(src);
+    gte_rtv0tr_mac();
+    gte_stmac(dst);
 }
 
 static void Render_AnimBuildMatrix(s32 *view_matrix, s16 *local_matrix, s32 *pos, s32 *out_matrix) {
@@ -108,26 +99,21 @@ static void Render_AnimBuildMatrix(s32 *view_matrix, s16 *local_matrix, s32 *pos
 static void Render_AnimProjectVertex(AnimVec *src, u32 *screen_out, s32 *depth_out) {
     int depth;
 
-    asm volatile("lwc2 $0,0(%0)" : : "r"(src));
-    asm volatile("lwc2 $1,4(%0)" : : "r"(src));
-    asm volatile("nop");
-    asm volatile("nop");
-    asm volatile(".word 0x4A180001");
-    asm volatile("swc2 $14,0(%0)" : : "r"(screen_out) : "memory");
-    asm volatile("mfc2 %0,$19" : "=r"(depth));
+    gte_ldv0(src);
+    gte_rtps();
+    gte_stsxy2(screen_out);
+    gte_getsz3(depth);
     *depth_out = depth;
 }
 
 static s32 Render_AnimNclip(u32 xy0, u32 xy1, u32 xy2) {
     s32 mac0;
 
-    asm volatile("mtc2 %0,$12" : : "r"(xy0));
-    asm volatile("mtc2 %0,$13" : : "r"(xy1));
-    asm volatile("mtc2 %0,$14" : : "r"(xy2));
-    asm volatile("nop");
-    asm volatile("nop");
-    asm volatile(".word 0x4B400006");
-    asm volatile("swc2 $24,0(%0)" : : "r"(&mac0) : "memory");
+    gte_ldsxy0(xy0);
+    gte_ldsxy1(xy1);
+    gte_ldsxy2(xy2);
+    gte_nclip();
+    gte_stmac0(&mac0);
     return mac0;
 }
 

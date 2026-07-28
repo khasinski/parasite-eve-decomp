@@ -3,6 +3,8 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef int s32;
 
+#include "pe1/gte.h"
+
 #define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
 
 extern u8 g_EntityRenderScratch[];
@@ -56,15 +58,9 @@ static void Render_PrepareFrameLoadMatrix(s32 *matrix) {
 static u32 Render_PrepareFrameProject(void *src) {
     u32 sxy;
 
-    asm volatile("lwc2 $0,0(%1)\n\t"
-                 "lwc2 $1,4(%1)\n\t"
-                 "nop\n\t"
-                 "nop\n\t"
-                 ".word 0x4A180001\n\t"
-                 "swc2 $14,0(%0)"
-                 :
-                 : "r"(&sxy), "r"(src)
-                 : "memory");
+    gte_ldv0(src);
+    gte_rtps();
+    gte_stsxy2(&sxy);
     return sxy;
 }
 

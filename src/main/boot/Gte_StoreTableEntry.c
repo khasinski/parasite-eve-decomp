@@ -1,18 +1,17 @@
 typedef unsigned int u32;
 
-extern int g_FieldRenderFlagTable[];
+#include "pe1/gte.h"
 
-static int Gte_HighestBitIndex(u32 mask) {
-    int index;
-
-    index = 31;
-    while (index > 0 && (mask & 0x80000000) == 0) {
-        mask <<= 1;
-        index--;
-    }
-    return index;
-}
+extern int D_800A76F0[];
 
 void Gte_StoreTableEntry(u32 mask, int value) {
-    g_FieldRenderFlagTable[Gte_HighestBitIndex(mask)] = value;
+    int index;
+
+    gte_ldlzcs(mask);
+    index = 31;
+    if (mask != 0x80000000) {
+        gte_stlzcr(&mask);
+        index -= mask;
+    }
+    D_800A76F0[index] = value;
 }

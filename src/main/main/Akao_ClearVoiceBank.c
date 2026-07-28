@@ -4,7 +4,8 @@ typedef short s16;
 typedef unsigned short u16;
 typedef int s32;
 
-extern u8 D_800B0CD8[];
+#include "pe1/game_state.h"
+
 extern u8 D_80094488[];
 
 void Akao_ClearVoiceBank(void) {
@@ -13,18 +14,18 @@ void Akao_ClearVoiceBank(void) {
     int i;
     int base_addr;
 
-    state = D_800B0CD8;
+    state = (u8 *)&g_GameState;
 
-    *(s32 *)(state + 0x000) = 3;
+    g_GameState.flags = 3;
     *(s16 *)(state + 0x004) = 0xA;
     *(s16 *)(state + 0x006) = -1;
     state[0x008] = 2;
     state[0x00A] = 0xB;
     state[0x009] = -1;
     state[0x00B] = 0;
-    state[0x00C] = -1;
-    state[0x00D] = 1;
-    state[0x00E] = 0;
+    g_GameState.current_story_day = -1;
+    g_GameState.pending_story_day = 1;
+    g_GameState.story_day_flags = 0;
     state[0x00F] = 0;
     state[0x010] = 0;
     state[0x011] = 0;

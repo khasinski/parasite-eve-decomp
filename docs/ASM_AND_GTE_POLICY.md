@@ -49,3 +49,64 @@ layout, macro ownership, first object difference, and the reason scalar C is
 insufficient. Do not call a function handwritten merely because it contains
 GTE instructions; a normal stack frame and ordinary C control flow are strong
 evidence that it originated as C plus PSY-Q macros.
+
+## LZCS / LZCR
+
+`gte_ldlzcs`, `gte_stlzcr`, and `gte_getlzcr` are owned by
+`include/pe1/gte.h`. They represent the GTE leading-zero count data-register
+pair: `mtc2 value,$30` writes LZCS; `swc2 $31,0(ptr)` stores LZCR; and
+`gte_getlzcr` transfers LZCR to a general-purpose register after its two
+required hazard slots. Scalar C cannot express these hardware transfers.
+
+The initial target windows are `Gte_StoreTableEntry` at `0x8003EACC`, the
+type-3 branch of `Task_DispatchCmd` at `0x80013188`, and `Gte_ISqrt` at
+`0x80078004`. The first two store LZCR through a normal stack or argument
+pointer; `Gte_ISqrt`, `Gte_VectorOp`, and `Gte_MatrixOp` read it after two nop
+hazard slots. No scratchpad layout is involved. The first remaining difference
+in `Gte_StoreTableEntry` is an 8-byte compiler frame for the C local receiving
+LZCR, not the COP2 window itself. The dispatcher still needs source-shape work
+for argument-load timing and branch sharing. These macros contain only the
+documented COP2 transfers and a memory constraint for the LZCR store.
+
+## NCLIP
+
+`gte_ldsxy0`, `gte_ldsxy1`, `gte_ldsxy2`, `gte_nclip`, and `gte_stmac0` are
+the central interface for screen-space triangle winding. They load SXY0..2,
+run the documented NCLIP command, and store MAC0. `gte_nclip` owns the two
+required hazard slots before opcode `0x4B400006`; callers retain all culling
+and primitive-building logic in C. Initial users are the NCLIP helpers in
+`Entity_UpdateAndRender`, `Render_DecompressAnimFrame`, and
+`Render_DrawTexturedQuads`. No scratchpad memory is involved.
+
+## RTV0TR / IR1..3
+
+`gte_ldv0`, `gte_rtv0tr`, `gte_rtv0tr_mac`, `gte_getir1` through
+`gte_getir3`, and `gte_stir123` express the PSY-Q vector transform used for
+object bounds, vertices, and matrix translations. The target windows load V0
+from two words, execute RTV0TR (`0x4A480012`), and read IR1..3 or store
+IR1..3/MAC1..3. The IR-read window has one hazard slot; the MAC-store windows
+have two. The C caller owns source and destination layout; the macros only
+move COP2 state. Initial users include `Render_DrawObjectAlt`,
+`Render_DrawObjectVariant`, `Render_DecompressAnimFrame`,
+`Render_TransformMorphVertices`, `Render_SetupBoneTransforms`, and
+`Task_SetGteMatrix`.
+
+## RTIR12
+
+`gte_ldir123` loads the current vector into IR1..3 and `gte_rtir12` applies
+the documented rotation-only MVMVA form (`0x4A49E012`) after one hazard slot.
+IR results are read through the existing `gte_getir*` macros; matrix layout
+and destination stores remain ordinary C. Initial users are the matrix-axis
+helpers in `Render_DecompressAnimFrame`, `Render_SetupBoneTransforms`,
+`Render_TransformMorphVertices`, `Render_TransformSkinnedVertices`,
+`Render_TransformVertices`, and `Task_SetGteMatrix`.
+
+## RTPS / RTPT
+
+`gte_rtps` projects V0 after two hazard slots and exposes SXY2/SZ3 through
+`gte_stsxy2` and `gte_getsz3`. `gte_ldv012` and `gte_rtpt` load and project
+three vectors, with one required hazard slot, then store SXY0..2 and SZ1..3.
+The operations are the documented GTE perspective transforms (`0x4A180001` and
+`0x4A280030`); clipping, depth selection, and output-buffer management stay in
+C. Initial users are `Render_DecompressAnimFrame`, `Render_DrawObjectVariant`,
+and `Render_TransformMorphVertices`.

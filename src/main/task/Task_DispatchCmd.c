@@ -1,54 +1,50 @@
 typedef unsigned int u32;
 
+#include "pe1/gte.h"
+
 extern u32 D_8009D26C;
 extern u32 D_8009D1F4;
 extern u32 D_8009D1E4;
 extern u32 D_800A7770[];
 
-static int Task_CountLeadingZeroes(u32 value) {
-    int count;
-
-    count = 0;
-    while ((value & 0x80000000) == 0 && count < 32) {
-        value <<= 1;
-        count++;
-    }
-    return count;
-}
-
-static int Task_MaskFullySet(u32 bits, u32 mask) {
-    return (bits & mask) == mask;
-}
-
 int Task_DispatchCmd(int **args) {
     int type;
-    int *mask_ptr;
-    int *out;
     u32 mask;
     int leading;
 
     type = *args[0];
-    mask_ptr = args[1];
-    out = args[2];
 
     if (type == 0) {
-        *out = Task_MaskFullySet(D_8009D26C, *mask_ptr);
+        if ((D_8009D26C & *args[1]) == *args[1]) {
+            *args[2] = 1;
+        } else {
+            *args[2] = 0;
+        }
     } else if (type == 1) {
-        *out = Task_MaskFullySet(D_8009D1F4, *mask_ptr);
+        if ((D_8009D1F4 & *args[1]) == *args[1]) {
+            *args[2] = 1;
+        } else {
+            *args[2] = 0;
+        }
     } else if (type == 2) {
-        *out = Task_MaskFullySet(D_8009D1E4, *mask_ptr);
+        if ((D_8009D1E4 & *args[1]) == *args[1]) {
+            *args[2] = 1;
+        } else {
+            *args[2] = 0;
+        }
     } else if (type == 3) {
-        mask = *mask_ptr;
-        if (!Task_MaskFullySet(D_8009D26C, mask)) {
-            *out = 0;
+        mask = *args[1];
+        if ((D_8009D26C & mask) != mask) {
+            *args[2] = 0;
         } else {
             if (mask == 0x80000000) {
                 leading = 0;
-                *out = D_800A7770[31];
+                *args[2] = D_800A7770[31];
             } else {
-                leading = Task_CountLeadingZeroes(mask);
-                *mask_ptr = leading;
-                *out = D_800A7770[31 - leading];
+                gte_ldlzcs(mask);
+                gte_stlzcr(args[1]);
+                leading = *args[1];
+                *args[2] = D_800A7770[31 - leading];
             }
         }
     }

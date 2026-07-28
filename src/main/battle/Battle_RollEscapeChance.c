@@ -20,7 +20,6 @@ int Battle_RollEscapeChance(void) {
     void *node;
     void *actor;
     void *active_node;
-    void *active_actor;
     s8 chance;
     s16 max_rank;
     s8 rank_diff;
@@ -30,8 +29,7 @@ int Battle_RollEscapeChance(void) {
     u32 flags;
 
     node = D_8009D20C;
-    chance = 0;
-    max_rank = 0;
+    chance = (max_rank = 0);
     if (node != 0) {
         active_node = D_8009D254;
         do {
@@ -53,6 +51,8 @@ int Battle_RollEscapeChance(void) {
     }
 
     if (chance == 0) {
+        void *active_actor;
+
         active_actor = D_8009D278;
         rank_diff = (s8)(*(u8 *)((char *)active_actor + 4) - max_rank);
         if (rank_diff >= 2) {
@@ -93,6 +93,8 @@ int Battle_RollEscapeChance(void) {
     }
 
     if (chance <= 0) {
+        void *active_actor;
+
         D_8009D1CE = 1;
         if (chance == -1) {
             index = Save_GetMetadataWindowIndex();
@@ -107,8 +109,7 @@ int Battle_RollEscapeChance(void) {
         status = (flags >> 25) & 7;
         if (status < 5) {
             flags &= 0xF1FFFFFF;
-            flags |= ((status + 1) & 7) << 25;
-            *(u32 *)((char *)active_actor + 0x4C) = flags;
+            *(u32 *)((char *)active_actor + 0x4C) = flags | (((status + 1) & 7) << 25);
         }
     }
 
