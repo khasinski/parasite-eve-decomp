@@ -3,13 +3,13 @@ typedef signed short s16;
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern struct { char _[16]; } D_8009CDDC_o __asm__("g_ActiveDrawSlot");
+extern int D_8009CDDC;
 extern struct { char _[16]; } D_8009E358_o __asm__("D_8009E358");
 extern struct { char _[16]; } D_8009E360_o __asm__("D_8009E360");
 extern struct { char _[16]; } D_8009E362_o __asm__("D_8009E362");
 extern struct { char _[16]; } D_800B0E38_o __asm__("D_800B0E38");
 
-#define g_ActiveDrawSlot (*(int *)&D_8009CDDC_o)
+#define g_ActiveDrawSlot D_8009CDDC
 #define D_8009E358 ((u8 *)&D_8009E358_o)
 #define D_8009E360 ((u8 *)&D_8009E360_o)
 #define D_8009E362 ((u8 *)&D_8009E362_o)
