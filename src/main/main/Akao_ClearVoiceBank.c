@@ -32,8 +32,8 @@ void Akao_ClearVoiceBank(void) {
     state[0x012] = 0;
     state[0x013] = 0;
 
-    for (i = 0; i < 0x31; i++) {
-        *(s32 *)(state + 0x14 + i * 4) = 0;
+    for (i = 0, entry = state + 0x14; i < 0x31; i++, entry += 4) {
+        *(s32 *)entry = 0;
     }
 
     state[0x0D9] = 8;
