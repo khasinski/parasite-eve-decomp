@@ -11,7 +11,6 @@ extern s16 D_800BD028;
 extern s16 D_800BD02A;
 
 int Scene_IsBattleMode(void) {
-    int framePad[2];
     int i;
     u16 count;
     GeomState *state;
@@ -19,10 +18,7 @@ int Scene_IsBattleMode(void) {
     s32 accum;
     s32 coord;
 
-    asm volatile("" : : "r"(framePad));
-
     if (D_8009D1A0 & 0x104) {
-        asm volatile("" : : : "memory");
         return 0;
     }
 
@@ -66,6 +62,5 @@ int Scene_IsBattleMode(void) {
         D_800BCF92 = D_800BCF8E;
     }
 
-    asm volatile("" : : : "memory");
     return 0;
 }
