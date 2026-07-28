@@ -20,9 +20,32 @@
                  "ctc2 $14,$4" \
                  : : "r"(matrix) : "$12", "$13", "$14")
 
+/* Preserve and replace the first column of the rotation matrix. */
+#define gte_getrotcol0(x, y, z) \
+    asm volatile("cfc2 %0,$0\n\t" \
+                 "cfc2 %1,$2\n\t" \
+                 "cfc2 %2,$4" \
+                 : "=r"(x), "=r"(y), "=r"(z))
+
+#define gte_setrotcol0(x, y, z) \
+    asm volatile("ctc2 %0,$0\n\t" \
+                 "ctc2 %1,$2\n\t" \
+                 "ctc2 %2,$4" \
+                 : : "r"(x), "r"(y), "r"(z))
+
 #define gte_ldv0(vec) \
     asm volatile("lwc2 $0,0(%0)\n\t" \
                  "lwc2 $1,4(%0)" \
+                 : : "r"(vec) : "memory")
+
+#define gte_ldv1(vec) \
+    asm volatile("lwc2 $2,0(%0)\n\t" \
+                 "lwc2 $3,4(%0)" \
+                 : : "r"(vec) : "memory")
+
+#define gte_ldv2(vec) \
+    asm volatile("lwc2 $4,0(%0)\n\t" \
+                 "lwc2 $5,4(%0)" \
                  : : "r"(vec) : "memory")
 
 /* MVMVA: rotation matrix, V0, no translation, SF=0, LM=0. */
@@ -112,9 +135,46 @@
                  "lwc2 $11,8(%0)" \
                  : : "r"(vec) : "memory")
 
+/* RGB is the colour input used by the colour interpolation commands. */
+#define gte_ldrgb(rgb) \
+    asm volatile("lwc2 $6,0(%0)" : : "r"(rgb) : "memory")
+
+#define gte_strgb(out) \
+    asm volatile("swc2 $22,0(%0)" : : "r"(out) : "memory")
+
+#define gte_ldrgb0(rgb) \
+    asm volatile("lwc2 $20,0(%0)" : : "r"(rgb) : "memory")
+
+#define gte_ldrgb1(rgb) \
+    asm volatile("lwc2 $21,0(%0)" : : "r"(rgb) : "memory")
+
+#define gte_ldrgb2(rgb) \
+    asm volatile("lwc2 $22,0(%0)" : : "r"(rgb) : "memory")
+
+#define gte_strgb0(out) \
+    asm volatile("swc2 $20,0(%0)" : : "r"(out) : "memory")
+
+#define gte_strgb1(out) \
+    asm volatile("swc2 $21,0(%0)" : : "r"(out) : "memory")
+
+#define gte_strgb2(out) \
+    asm volatile("swc2 $22,0(%0)" : : "r"(out) : "memory")
+
 /* IR0 is the scalar input used by GPF. */
 #define gte_ldir0(value) \
     asm volatile("mtc2 %0,$8" : : "r"(value))
+
+#define gte_ldmac123(x, y, z) \
+    asm volatile("mtc2 %0,$25\n\t" \
+                 "mtc2 %1,$26\n\t" \
+                 "mtc2 %2,$27" \
+                 : : "r"(x), "r"(y), "r"(z))
+
+#define gte_lddqa(value) \
+    asm volatile("ctc2 %0,$27" : : "r"(value))
+
+#define gte_lddqb(value) \
+    asm volatile("ctc2 %0,$28" : : "r"(value))
 
 /* SQR squares IR1..IR3 into MAC1..MAC3. */
 #define gte_sqr() \
@@ -150,6 +210,16 @@
 
 #define gte_getotz(out) \
     asm volatile("mfc2 %0,$7" : "=r"(out))
+
+/* Colour interpolation commands with the current IR vector and IR0. */
+#define gte_dpcl() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4A680029")
+
+
+#define gte_intpl() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4A980011")
 
 /* GPF multiplies IR1..IR3 by IR0 into MAC1..MAC3. */
 #define gte_gpf() \
