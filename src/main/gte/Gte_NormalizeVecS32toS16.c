@@ -1,8 +1,7 @@
 typedef signed short s16;
 typedef int s32;
-typedef unsigned int u32;
-typedef long long s64;
-typedef unsigned long long u64;
+
+#include "pe1/gte.h"
 
 typedef struct Vec3i {
     s32 x;
@@ -16,77 +15,58 @@ typedef struct Vec3s {
     s16 z;
 } Vec3s;
 
-int Gte_ISqrt(int value);
+extern s16 D_80096250[];
 
-static u64 Gte_DivU64ByU32(u64 numerator, u32 denominator) {
-    u64 quotient;
-    u32 remainder;
-    s32 i;
+/*
+ * The retail routine normalizes through the GTE: SQR obtains the squared
+ * length, a reciprocal table supplies IR0, and GPF scales each component.
+ */
+static void Gte_NormalizeComponents(s32 x, s32 y, s32 z, s32 *out) {
+    s32 square_x;
+    s32 square_y;
+    s32 square_z;
+    s32 length_sq;
+    s32 leading;
+    s32 even_leading;
+    s32 shift;
+    s32 table_index;
+    s32 scale;
 
-    quotient = 0;
-    remainder = 0;
-    for (i = 0; i < 64; i++) {
-        remainder <<= 1;
-        remainder |= numerator >> 63;
-        numerator <<= 1;
-        quotient <<= 1;
+    gte_ldir123(x, y, z);
+    gte_sqr();
+    gte_getmac123(square_x, square_y, square_z);
 
-        if (remainder >= denominator) {
-            remainder -= denominator;
-            quotient |= 1;
-        }
-    }
+    length_sq = square_x + square_y + square_z;
+    gte_ldlzcs(length_sq);
+    gte_getlzcr(leading);
 
-    return quotient;
-}
-
-static s32 Gte_NormalizeComponent(s32 value, s32 length) {
-    u64 magnitude;
-    u64 quotient;
-
-    if (length == 0) {
-        return 0;
-    }
-
-    if (value < 0) {
-        magnitude = (u64)-((s64)value);
+    even_leading = leading & -2;
+    shift = (31 - even_leading) >> 1;
+    if (even_leading >= 24) {
+        table_index = length_sq << (even_leading - 24);
     } else {
-        magnitude = value;
+        table_index = length_sq >> (24 - even_leading);
     }
+    scale = D_80096250[table_index - 64];
 
-    quotient = Gte_DivU64ByU32(magnitude << 12, length);
-    if (quotient > 0x7FFFFFFF) {
-        quotient = 0x7FFFFFFF;
-    }
-
-    if (value < 0) {
-        return -(s32)quotient;
-    }
-    return (s32)quotient;
-}
-
-void Gte_NormalizeVec(Vec3i *src, Vec3i *dst) {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 length;
-
-    x = src->x;
-    y = src->y;
-    z = src->z;
-    length = Gte_ISqrt((x * x) + (y * y) + (z * z));
-
-    dst->x = Gte_NormalizeComponent(x, length);
-    dst->y = Gte_NormalizeComponent(y, length);
-    dst->z = Gte_NormalizeComponent(z, length);
+    gte_ldir0(scale);
+    gte_ldir123(x, y, z);
+    gte_gpf();
+    gte_getmac123(out[0], out[1], out[2]);
+    out[0] >>= shift;
+    out[1] >>= shift;
+    out[2] >>= shift;
 }
 
 void Gte_NormalizeVecS32toS16(Vec3i *src, Vec3s *dst) {
-    Vec3i normalized;
+    s32 normalized[3];
 
-    Gte_NormalizeVec(src, &normalized);
+    Gte_NormalizeComponents(src->x, src->y, src->z, normalized);
+    dst->x = normalized[0];
+    dst->y = normalized[1];
+    dst->z = normalized[2];
+}
 
-    dst->x = normalized.x;
-    dst->y = normalized.y;
-    dst->z = normalized.z;
+void Gte_NormalizeVec(Vec3i *src, Vec3i *dst) {
+    Gte_NormalizeComponents(src->x, src->y, src->z, &dst->x);
 }

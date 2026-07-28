@@ -100,6 +100,27 @@
                  "mtc2 %2,$11" \
                  : : "r"(x), "r"(y), "r"(z))
 
+/* IR0 is the scalar input used by GPF. */
+#define gte_ldir0(value) \
+    asm volatile("mtc2 %0,$8" : : "r"(value))
+
+/* SQR squares IR1..IR3 into MAC1..MAC3. */
+#define gte_sqr() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4AA00428")
+
+/* GPF multiplies IR1..IR3 by IR0 into MAC1..MAC3. */
+#define gte_gpf() \
+    asm volatile("nop\n\t" \
+                 "nop\n\t" \
+                 ".word 0x4B90003D")
+
+#define gte_getmac123(x, y, z) \
+    asm volatile("mfc2 %0,$25\n\t" \
+                 "mfc2 %1,$26\n\t" \
+                 "mfc2 %2,$27" \
+                 : "=r"(x), "=r"(y), "=r"(z))
+
 #define gte_rtir12() \
     asm volatile("nop\n\t" \
                  ".word 0x4A49E012")
