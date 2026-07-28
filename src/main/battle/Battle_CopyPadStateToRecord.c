@@ -1,29 +1,19 @@
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* CC1_FLAGS: -G0 */
+/* MASPSX_FLAGS: -G0 */
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern struct { char _[16]; } D_8009D278_o __asm__("D_8009D278");
-extern struct { char _[16]; } D_800A76D8_o __asm__("D_800A76D8");
-extern struct { char _[16]; } D_800A76DA_o __asm__("D_800A76DA");
-extern struct { char _[16]; } D_800A76DC_o __asm__("D_800A76DC");
-extern struct { char _[16]; } D_800A76DE_o __asm__("D_800A76DE");
-extern struct { char _[16]; } D_800A76E0_o __asm__("D_800A76E0");
-extern struct { char _[16]; } D_800A76E4_o __asm__("D_800A76E4");
-extern struct { char _[16]; } D_800A76E8_o __asm__("D_800A76E8");
-extern struct { char _[16]; } D_800A76EA_o __asm__("D_800A76EA");
-
-#define D_8009D278 (*(u8 **)&D_8009D278_o)
-#define D_800A76D8 (*(u16 *)&D_800A76D8_o)
-#define D_800A76DA (*(u16 *)&D_800A76DA_o)
-#define D_800A76DC (*(u16 *)&D_800A76DC_o)
-#define D_800A76DE (*(u16 *)&D_800A76DE_o)
-#define D_800A76E0 (*(u32 *)&D_800A76E0_o)
-#define D_800A76E4 (*(volatile u32 *)&D_800A76E4_o)
-#define D_800A76E8 (*(volatile u32 *)&D_800A76E8_o)
-#define D_800A76EA (*(volatile u16 *)&D_800A76EA_o)
+extern u8 *D_8009D278;
+extern u16 D_800A76D8;
+extern u16 D_800A76DA;
+extern u16 D_800A76DC;
+extern u16 D_800A76DE;
+extern u32 D_800A76E0;
+extern volatile u32 D_800A76E4;
+extern volatile u32 D_800A76E8;
+extern volatile u16 D_800A76EA;
 
 void Battle_CopyPadStateToRecord(void) {
     volatile u8 *record = *(u8 **)(D_8009D278 + 0x68);
