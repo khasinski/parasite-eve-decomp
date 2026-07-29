@@ -130,6 +130,33 @@ typedef struct AkaoNestedVoiceSlot {
     /* 0x30 */ unsigned char pad_30[0xEC];
 } AkaoNestedVoiceSlot;
 
+/* One 0x68-byte bank in the sequencer control state. Primary and secondary
+ * banks are adjacent; code switches the active bank by adding 0x68. */
+typedef struct AkaoSequencerBank {
+    /* 0x00 */ AkaoU32 field_00;
+    /* 0x04 */ AkaoU32 active_voice_mask;
+    /* 0x08 */ AkaoU32 pending_voice_mask;
+    /* 0x0C */ AkaoU32 field_0C;
+    /* 0x10 */ AkaoU32 field_10;
+    /* 0x14 */ AkaoU32 allocated_voice_mask;
+    /* 0x18 */ AkaoU32 field_18;
+    /* 0x1C */ AkaoU32 pending_restore_mask;
+    /* 0x20 */ AkaoU32 field_20[5];
+    /* 0x34 */ AkaoU32 key_off_dirty_mask;
+    /* 0x38 */ AkaoU32 volume_dirty_mask;
+    /* 0x3C */ AkaoU32 adsr_dirty_mask;
+    /* 0x40 */ AkaoU32 field_40[2];
+    /* 0x48 */ AkaoU32 pitch_current;
+    /* 0x4C */ AkaoU32 pitch_delta;
+    /* 0x50 */ AkaoU16 pitch_slide_duration;
+    /* 0x52 */ AkaoU16 field_52;
+    /* 0x54 */ AkaoU16 bank_id;
+    /* 0x56 */ AkaoU16 field_56;
+    /* 0x58 */ AkaoU16 volume_slide_duration;
+    /* 0x5A */ AkaoU16 field_5A;
+    /* 0x5C */ AkaoU32 field_5C[3];
+} AkaoSequencerBank;
+
 typedef struct AkaoTrack {
     /* 0x000 */ AkaoU8 *pc;
     /* 0x004 */ AkaoU8 *call_stack[4];

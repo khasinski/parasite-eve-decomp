@@ -2,7 +2,7 @@
 
 extern int g_AkaoPlaybackMode;
 extern char g_AkaoVoiceStateTable[];
-extern char *g_AkaoCurTrack;
+extern AkaoSequencerBank *g_AkaoCurTrack;
 
 void Seq_MarkDirtyTracks(char *arg0);
 void Spu_MarkActiveVoicesDirty(void);
@@ -20,9 +20,9 @@ void Seq_SetPlaybackMode1AndRefreshVoices(void) {
 
     g_AkaoPlaybackMode = 1;
     Seq_MarkDirtyTracks(base);
-    g_AkaoCurTrack += 0x68;
+    g_AkaoCurTrack++;
     Seq_MarkDirtyTracks(base + 0x1AA0);
-    g_AkaoCurTrack -= 0x68;
+    g_AkaoCurTrack--;
     Spu_MarkActiveVoicesDirty();
 }
 
@@ -31,9 +31,9 @@ void Seq_SetPlaybackMode4AndRefreshVoices(void) {
 
     g_AkaoPlaybackMode = 4;
     Seq_MarkDirtyTracks(base);
-    g_AkaoCurTrack += 0x68;
+    g_AkaoCurTrack++;
     Seq_MarkDirtyTracks(base + 0x1AA0);
-    g_AkaoCurTrack -= 0x68;
+    g_AkaoCurTrack--;
     Spu_MarkActiveVoicesDirty();
 }
 
@@ -42,9 +42,9 @@ void Seq_SetPlaybackMode2AndRefreshVoices(void) {
 
     g_AkaoPlaybackMode = 2;
     Seq_MarkDirtyTracks(base);
-    g_AkaoCurTrack += 0x68;
+    g_AkaoCurTrack++;
     Seq_MarkDirtyTracks(base + 0x1AA0);
-    g_AkaoCurTrack -= 0x68;
+    g_AkaoCurTrack--;
     Spu_MarkActiveVoicesDirty();
 }
 
