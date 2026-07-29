@@ -4,37 +4,7 @@ typedef unsigned short u16;
 typedef int s32;
 
 #include "pe1/gte.h"
-
-typedef struct RenderVec3s {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} RenderVec3s;
-
-typedef struct RenderObjectPart {
-    u16 vertex_start;
-    u16 vertex_count;
-    u8 pad4;
-    u8 pad5[7];
-} RenderObjectPart;
-
-typedef struct RenderObjectHeader {
-    u8 pad0[2];
-    u8 part_count;
-} RenderObjectHeader;
-
-typedef struct RenderObjectEntity {
-    RenderObjectHeader *header;
-    RenderObjectPart *parts;
-    RenderVec3s *vertices;
-    u8 pad0C[0x0C];
-    RenderVec3s *bounds_vertices;
-    u8 pad1C[0x68];
-    s32 *matrices;
-    u8 pad88[0x32];
-    s16 draw_count;
-} RenderObjectEntity;
+#include "pe1/render_object.h"
 
 extern u8 D_800B1638[];
 extern s16 D_8009CDDC;
@@ -143,7 +113,7 @@ void Render_DrawObjectAlt(RenderObjectEntity *entity, s16 threshold, u8 r, u8 g,
 
     part = entity->parts;
     for (i = 0; i < entity->header->part_count; i++, part++) {
-        if (part->pad4 == 1 && Render_ObjectAltPartVisible(entity, i, threshold)) {
+        if (part->visible == 1 && Render_ObjectAltPartVisible(entity, i, threshold)) {
             Render_ObjectAltColourVertices(entity, part, threshold, r, g, b);
         }
     }

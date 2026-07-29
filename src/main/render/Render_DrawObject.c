@@ -5,38 +5,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
-typedef struct RenderVec3s {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} RenderVec3s;
-
-typedef struct RenderObjectPart {
-    u16 vertex_start;
-    u16 vertex_count;
-    u8 pad4;
-    u8 pad5[7];
-} RenderObjectPart;
-
-typedef struct RenderObjectHeader {
-    u8 pad0[2];
-    u8 part_count;
-} RenderObjectHeader;
-
-typedef struct RenderObjectEntity {
-    RenderObjectHeader *header;
-    RenderObjectPart *parts;
-    RenderVec3s *vertices;
-    u32 *vertex_colours;
-    u8 pad10[8];
-    RenderVec3s *bounds_vertices;
-    u8 pad1C[0x68];
-    s32 *matrices;
-    u8 shade;
-    u8 pad89[0x31];
-    s16 draw_count;
-} RenderObjectEntity;
+#include "pe1/render_object.h"
 
 extern RenderVec3s D_80091A58[];
 extern u32 D_8009CDA0;
@@ -205,7 +174,7 @@ void Render_DrawObject(RenderObjectEntity *entity, s32 *view_matrix) {
 
     part = entity->parts;
     for (i = 0; i < entity->header->part_count; i++, part++) {
-        if (part->pad4 == 1) {
+        if (part->visible == 1) {
             Render_DrawObjectBuildPartLightMatrix(view_matrix, entity->matrices + i * 8, light_matrix);
             Render_DrawObjectLoadLightMatrix(light_matrix);
             Render_DrawObjectShadePart(entity, part, base_colour);

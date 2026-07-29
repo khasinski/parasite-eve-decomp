@@ -1,20 +1,5 @@
 #include "pe1/akao.h"
 
-typedef struct AkaoNestedVoiceSlot {
-    unsigned char pad_00[0x2C];
-    unsigned int field_2C;
-    unsigned char pad_30[0xEC];
-} AkaoNestedVoiceSlot;
-
-typedef struct AkaoNestedSource {
-    unsigned char pad_00[4];
-    unsigned int key_off_mask;
-    unsigned int key_on_mask;
-    unsigned char pan;
-    unsigned char pad_0D[3];
-    unsigned int field_10;
-} AkaoNestedSource;
-
 extern unsigned int D_800BCD50;
 extern unsigned int D_800BCD54;
 extern unsigned int D_800BCD58;
@@ -44,7 +29,7 @@ void Seq_StartNestedTrack(AkaoTrack *track, AkaoNestedSource *source, unsigned i
     pan = source->pan << 8;
     track_reg->panpot_slide_duration = 0;
     track_reg->panpot = pan;
-    pan_target = source->field_10;
+    pan_target = source->pan_target;
     track_reg->field_56 = 2;
     track_reg->pan_duration = 1;
     track_reg->parent_track_id = 1;
@@ -81,7 +66,7 @@ void Seq_StartNestedTrack(AkaoTrack *track, AkaoNestedSource *source, unsigned i
         busy_mask = 0x02000000;
         active_loop_mask = active_mask;
         do {
-            if ((slot->field_2C & busy_mask) == 0) {
+            if ((slot->flags & busy_mask) == 0) {
                 register unsigned int not_mask asm("$2");
                 register unsigned int active_value asm("$3");
                 register unsigned int off_value asm("$4");

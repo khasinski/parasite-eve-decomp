@@ -113,6 +113,23 @@ typedef struct AkaoVoiceParams {
     /* 0x2A */ AkaoS16 volume_right;
 } AkaoVoiceParams;
 
+/* Source descriptor passed when a nested AKAO stream allocates a voice. */
+typedef struct AkaoNestedSource {
+    /* 0x00 */ unsigned char pad_00[4];
+    /* 0x04 */ AkaoU32 key_off_mask;
+    /* 0x08 */ AkaoU32 key_on_mask;
+    /* 0x0C */ AkaoU8 pan;
+    /* 0x0D */ unsigned char pad_0D[3];
+    /* 0x10 */ AkaoU32 pan_target;
+} AkaoNestedSource;
+
+/* One of the twelve nested-stream voice slots at D_800BC000. */
+typedef struct AkaoNestedVoiceSlot {
+    /* 0x00 */ unsigned char pad_00[0x2C];
+    /* 0x2C */ AkaoU32 flags;
+    /* 0x30 */ unsigned char pad_30[0xEC];
+} AkaoNestedVoiceSlot;
+
 typedef struct AkaoTrack {
     /* 0x000 */ AkaoU8 *pc;
     /* 0x004 */ AkaoU8 *call_stack[4];

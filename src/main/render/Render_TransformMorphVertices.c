@@ -5,35 +5,7 @@ typedef unsigned int u32;
 typedef int s32;
 
 #include "pe1/gte.h"
-
-typedef struct RenderVec3s {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} RenderVec3s;
-
-typedef struct RenderObjectPart {
-    u16 vertex_start;
-    u16 vertex_count;
-    u8 pad4;
-    u8 pad5[7];
-} RenderObjectPart;
-
-typedef struct RenderObjectHeader {
-    u8 pad0[2];
-    u8 part_count;
-} RenderObjectHeader;
-
-typedef struct RenderObjectEntity {
-    RenderObjectHeader *header;
-    RenderObjectPart *parts;
-    RenderVec3s *vertices;
-    u8 pad0C[0x0C];
-    RenderVec3s *bounds_vertices;
-    u8 pad1C[0x68];
-    s32 *matrices;
-} RenderObjectEntity;
+#include "pe1/render_object.h"
 
 extern u32 D_800A6360[];
 extern u32 D_800B1638[];
@@ -149,7 +121,7 @@ void Render_TransformMorphVertices(RenderObjectEntity *entity, s32 *view_matrix)
         Render_MorphBuildMatrix(view_matrix, part_matrix, morph_matrix);
         Render_MorphLoadFullMatrix(morph_matrix);
 
-        if (part->pad4 == 1) {
+        if (part->visible == 1) {
             Render_MorphTransformPart(entity, part);
         }
     }
