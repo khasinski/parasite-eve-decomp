@@ -1,14 +1,9 @@
 /* CC1_FLAGS: -fno-strength-reduce */
+#include "pe1/room_fx.h"
+
 typedef int s32;
 typedef unsigned int u32;
 typedef short s16;
-
-typedef struct Room383Quad {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 w;
-} Room383Quad;
 
 extern s32 *func_800C2B50(void);
 extern s32 *func_800C2B10(s32 index);
@@ -28,8 +23,8 @@ void func_80191EA0(s32 arg0, s32 arg1, char *state) {
     s32 height;
 
     src = func_800C2B50();
-    *(Room383Quad *)(state + 0x160) = *(Room383Quad *)(src + 1);
-    *(Room383Quad *)(state + 0x170) = *(Room383Quad *)(src + 5);
+    *(RoomFxVec4 *)(state + 0x160) = *(RoomFxVec4 *)(src + 1);
+    *(RoomFxVec4 *)(state + 0x170) = *(RoomFxVec4 *)(src + 5);
 
     *(s16 *)(state + 0x180) = *func_800C2B10(1);
     *(s16 *)(state + 0x182) = *func_800C2B28(8);
