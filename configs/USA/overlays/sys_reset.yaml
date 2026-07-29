@@ -1,4 +1,5 @@
-# vram: jal-bounded estimate, feasible [0x8010BC4C, 0x8010C0FC]; loads above room-slot code
+# vram: every internal jal resolves at this base; this is the linked PSY-Q
+# libpress/BUILD/VLC fragment, not a room-slot block.
 name: sys_reset.bin
 sha1: 8c49a29f8ae0ae241f9eb62dc8a6a26a2d3c9fd1
 options:
@@ -29,12 +30,14 @@ segments:
   - name: sys_reset
     type: code
     start: 0x0
-    vram: 0x8010C000
+    vram: 0x8010BCF8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
       - [0x0, asm, sys_reset]
+      - [0x178, c, func_8010BE70]
+      - [0x204, asm, sys_reset_204]
       - [0x29C, c, func_8010C29C]
       - [0x2A8, asm, sys_reset_2A8]
       - [0x324, c, func_8010C324]
