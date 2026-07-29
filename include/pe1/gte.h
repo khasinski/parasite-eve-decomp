@@ -128,6 +128,13 @@
                  "swc2 $11,8(%0)" \
                  : : "r"(out) : "memory")
 
+/* The GPL wrappers consume v1 before transferring the final IR vector. */
+#define gte_stir123_gpl(out) \
+    asm volatile("swc2 $9,0(%0)\n\t" \
+                 "swc2 $10,4(%0)\n\t" \
+                 "swc2 $11,8(%0)" \
+                 : : "r"(out) : "$3", "memory")
+
 /* RTIR12: rotate the current IR vector with no translation. */
 #define gte_ldir123(x, y, z) \
     asm volatile("mtc2 %0,$9\n\t" \
@@ -233,6 +240,25 @@
     asm volatile("nop\n\t" \
                  "nop\n\t" \
                  ".word 0x4B90003D")
+
+#define gte_gpf0() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4B90003D")
+
+#define gte_gpf12() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4B98003D")
+
+#define gte_gpl0() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4BA0003E")
+
+#define gte_gpl12() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4BA8003E")
+
+#define gte_getlzcr_now(out) \
+    asm volatile("mfc2 %0,$31" : "=r"(out))
 
 #define gte_getmac123(x, y, z) \
     asm volatile("mfc2 %0,$25\n\t" \
