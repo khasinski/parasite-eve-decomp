@@ -1,9 +1,6 @@
 typedef unsigned int u32;
 
-typedef struct MathU64 {
-    u32 lo;
-    u32 hi;
-} MathU64;
+#include "pe1/math64.h"
 
 MathU64 *Math_Shift64(MathU64 *out, int direction, u32 lo, u32 hi, int amount) {
     int i;
