@@ -1,10 +1,7 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-typedef struct MathU64 {
-    u32 lo;
-    u32 hi;
-} MathU64;
+#include "pe1/math64.h"
 
 MathU64 *Math_Mul32To64(MathU64 *out, u32 lhs, u32 rhs) {
     u64 result;

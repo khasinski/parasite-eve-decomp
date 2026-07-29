@@ -2,10 +2,7 @@
 
 typedef unsigned int u32;
 
-typedef struct MathU64 {
-    u32 lo;
-    u32 hi;
-} MathU64;
+#include "pe1/math64.h"
 
 MathU64 *Math_Add64(MathU64 *out, u32 a_lo, u32 a_hi, u32 b_lo, u32 b_hi) {
     register MathU64 *out_reg asm("$9") = out;
