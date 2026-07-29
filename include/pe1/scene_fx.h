@@ -12,4 +12,12 @@ typedef struct SceneFxVecState {
     short zero;
 } SceneFxVecState;
 
+typedef struct SceneFxFlags { unsigned int flags; } SceneFxFlags;
+typedef struct SceneFxHolder { SceneFxFlags *target; } SceneFxHolder;
+typedef struct SceneFxState {
+    unsigned char mode;
+    unsigned char pad1[7];
+    SceneFxHolder *holder;
+} SceneFxState;
+
 #endif
