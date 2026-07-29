@@ -101,6 +101,18 @@ helpers in `Render_DecompressAnimFrame`, `Render_SetupBoneTransforms`,
 `Render_TransformMorphVertices`, `Render_TransformSkinnedVertices`,
 `Render_TransformVertices`, and `Task_SetGteMatrix`.
 
+## OP / Outer Product
+
+`gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
+`gte_poprotcol0` express the PSY-Q outer-product sequence. OP temporarily
+uses the R11/R22/R33 diagonal entries as its control inputs, so the wrappers
+at `OuterProduct12` (`0x80079178`) and `OuterProduct0` (`0x800791D0`) preserve
+those entries, load the first vector into the control registers, load the
+second vector into IR1..3, execute OP, store MAC1..3, and restore the original
+matrix entries. The only CPU loads in `gte_ldopv1` are the required bridge from
+memory into COP2 control registers; all arithmetic and destination handling
+remain in the C caller.
+
 ## RTPS / RTPT
 
 `gte_rtps` projects V0 after two hazard slots and exposes SXY2/SZ3 through

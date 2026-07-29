@@ -27,6 +27,19 @@
                  "cfc2 %2,$4" \
                  : "=r"(x), "=r"(y), "=r"(z))
 
+/* OP temporarily replaces R11, R22, and R33, so preserve their COP2 values. */
+#define gte_pushrotcol0() \
+    asm volatile("cfc2 $13,$0\n\t" \
+                 "cfc2 $14,$2\n\t" \
+                 "cfc2 $15,$4" \
+                 : : : "$13", "$14", "$15")
+
+#define gte_poprotcol0() \
+    asm volatile("ctc2 $13,$0\n\t" \
+                 "ctc2 $14,$2\n\t" \
+                 "ctc2 $15,$4" \
+                 : : : "$13", "$14", "$15")
+
 #define gte_setrotcol0(x, y, z) \
     asm volatile("ctc2 %0,$0\n\t" \
                  "ctc2 %1,$2\n\t" \
@@ -149,6 +162,23 @@
                  "lwc2 $11,8(%0)" \
                  : : "r"(vec) : "memory")
 
+/* OP consumes IR3 before IR1 and IR2 in the original PSY-Q wrapper. */
+#define gte_ldopv(vec) \
+    asm volatile("lwc2 $11,8(%0)\n\t" \
+                 "lwc2 $9,0(%0)\n\t" \
+                 "lwc2 $10,4(%0)" \
+                 : : "r"(vec) : "memory")
+
+/* OP uses R11, R22, and R33 as its temporary diagonal matrix entries. */
+#define gte_ldopv1(vec) \
+    asm volatile("lw $8,0(%0)\n\t" \
+                 "lw $9,4(%0)\n\t" \
+                 "lw $10,8(%0)\n\t" \
+                 "ctc2 $8,$0\n\t" \
+                 "ctc2 $9,$2\n\t" \
+                 "ctc2 $10,$4" \
+                 : : "r"(vec) : "$8", "$9", "$10", "memory")
+
 /* RGB is the colour input used by the colour interpolation commands. */
 #define gte_ldrgb(rgb) \
     asm volatile("lwc2 $6,0(%0)" : : "r"(rgb) : "memory")
@@ -256,6 +286,14 @@
 #define gte_gpl12() \
     asm volatile("nop\n\t" \
                  ".word 0x4BA8003E")
+
+#define gte_op0() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4B70000C")
+
+#define gte_op12() \
+    asm volatile("nop\n\t" \
+                 ".word 0x4B78000C")
 
 #define gte_getlzcr_now(out) \
     asm volatile("mfc2 %0,$31" : "=r"(out))
