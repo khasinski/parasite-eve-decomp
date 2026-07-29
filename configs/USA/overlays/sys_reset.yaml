@@ -39,7 +39,7 @@ segments:
       - [0x178, c, func_8010BE70]
       - [0x204, asm, sys_reset_204]
       - [0x29C, c, func_8010C29C]
-      - [0x2A8, asm, sys_reset_2A8]
+      - [0x2A8, c, func_8010BFA0]
       - [0x324, c, func_8010C324]
       - [0x344, asm, sys_reset_344]
       - [0x3BC, c, func_8010C3BC]
