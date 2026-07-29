@@ -2,7 +2,7 @@
 
 extern char *g_AkaoCurTrack;
 extern unsigned int g_AkaoSeqPendingFlags;
-extern int g_AkaoTrackStateArray[];
+extern AkaoTrackUpdateSlot g_AkaoTrackStateArray[];
 
 void Seq_MarkTrack34MaskDirty(void);
 void Seq_MarkTrack38MaskDirty(void);
@@ -21,7 +21,7 @@ void Seq_RestorePendingTracks(void) {
     unsigned int pending = *(unsigned int *)(g_AkaoCurTrack + 0x1C);
     unsigned int saved;
     unsigned int mask;
-    int *slot;
+    AkaoTrackUpdateSlot *slot;
 
     if (pending != 0) {
         mask = 1;
@@ -29,10 +29,10 @@ void Seq_RestorePendingTracks(void) {
         do {
             if (pending & mask) {
                 pending &= ~mask;
-                *slot |= AKAO_VOICE_PARAM_RESUME;
+                slot->update_flags |= AKAO_VOICE_PARAM_RESUME;
             }
             mask <<= 1;
-            slot = (int *)((char *)slot + sizeof(AkaoTrack));
+            slot++;
         } while (pending != 0);
 
         saved = *(unsigned int *)(g_AkaoCurTrack + 0x1C);

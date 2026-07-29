@@ -267,6 +267,13 @@ typedef struct AkaoTrack {
     /* 0x11A */ AkaoS16 volume_right;
 } AkaoTrack;
 
+/* View at AkaoTrack::update_flags. Tables using this view retain the full
+ * AkaoTrack stride while exposing the field the sequencer updates. */
+typedef struct AkaoTrackUpdateSlot {
+    /* 0x000 */ AkaoU32 update_flags;
+    /* 0x004 */ unsigned char pad_004[sizeof(AkaoTrack) - sizeof(AkaoU32)];
+} AkaoTrackUpdateSlot;
+
 #define AKAO_TRACK_VOICE(track) (*(AkaoVoiceParams *)&(track)->assigned_voice_index)
 
 typedef void (*AkaoTrackHandler)(AkaoTrack *track);
