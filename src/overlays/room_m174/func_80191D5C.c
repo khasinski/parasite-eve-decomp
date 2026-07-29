@@ -1,51 +1,25 @@
+#include "pe1/room_fx.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
-typedef signed short s16;
 typedef int s32;
-
-typedef struct Room174Matrix {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} Room174Matrix;
-
-typedef struct Room174Seed {
-    char bytes[8];
-} Room174Seed;
-
-typedef struct Room174Vec4 {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 w;
-} Room174Vec4;
-
-typedef struct Room174DrawParams {
-    s16 x;
-    s16 y;
-    s16 z;
-    char pad6[0x2];
-    Room174Seed seed;
-    s16 scale;
-    u16 depth;
-} Room174DrawParams;
 
 extern u16 D_80197402;
 
 char *func_800C2B50(void);
 void func_80071A44(void *arg0, s32 arg1, s32 arg2);
-void func_800794C4(Room174Seed *seed, Room174Matrix *matrix);
-void func_80078CC4(Room174Matrix *matrix, Room174Vec4 *scale);
+void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
+void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C2EAC(u8 arg0);
 void func_800C2FF0(s32 arg0, s32 arg1);
 void func_800C3098(s32 arg0);
 void func_800C3238(s32 arg0);
-void func_800C42A4(void *arg0, Room174Matrix *matrix, s32 arg2);
+void func_800C42A4(void *arg0, RoomSpriteMatrix *matrix, s32 arg2);
 
-void func_80191D5C(void *arg0, void *arg1, Room174DrawParams *fx) {
-    Room174Matrix matrix;
-    Room174Vec4 scratch_scale;
-    Room174Vec4 scale;
+void func_80191D5C(void *arg0, void *arg1, RoomSeededSpriteFxParams *fx) {
+    RoomSpriteMatrix matrix;
+    RoomFxVec4 scratch_scale;
+    RoomFxVec4 scale;
     char *owner;
     u16 *depth_slot;
 
