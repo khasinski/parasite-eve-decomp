@@ -157,6 +157,11 @@ typedef struct AkaoSequencerBank {
     /* 0x5C */ AkaoU32 field_5C[3];
 } AkaoSequencerBank;
 
+typedef struct AkaoSequencerState {
+    AkaoSequencerBank primary;
+    AkaoSequencerBank secondary;
+} AkaoSequencerState;
+
 typedef struct AkaoTrack {
     /* 0x000 */ AkaoU8 *pc;
     /* 0x004 */ AkaoU8 *call_stack[4];

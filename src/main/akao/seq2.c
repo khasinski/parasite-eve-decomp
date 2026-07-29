@@ -14,11 +14,11 @@ void Seq_SelectPlaybackBank(int *arg0);
 void Seq_StartNestedStreams(void *arg0, int arg1, int arg2);
 
 void Seq_RestoreSecondaryStateAndSelect(int *arg0) {
-    char *state;
+    AkaoSequencerBank *state;
 
-    state = g_AkaoCurTrack;
-    if ((*(u32 *)(state + 4) != 0) && (*(u32 *)(state + 0x6C) == 0)) {
-        Util_CopyWords(state, state + 0x68, 0x68);
+    state = (AkaoSequencerBank *)g_AkaoCurTrack;
+    if ((state->active_voice_mask != 0) && ((state + 1)->active_voice_mask == 0)) {
+        Util_CopyWords((u32 *)state, (u32 *)(state + 1), sizeof(*state));
         Util_CopyWords(g_AkaoVoiceStateTable, g_AkaoVoiceStateTable + 0x1AA0, 0x1AA0);
     }
 
