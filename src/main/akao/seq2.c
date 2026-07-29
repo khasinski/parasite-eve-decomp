@@ -2,7 +2,7 @@ typedef unsigned int u32;
 
 #include "pe1/akao.h"
 
-extern char g_AkaoVoiceStateTable[];
+extern AkaoVoiceBank g_AkaoVoiceBanks[] __asm__("g_AkaoVoiceStateTable");
 extern char *g_AkaoCurTrack;
 
 void Util_CopyWords(unsigned int *src, unsigned int *dst, unsigned int size);
@@ -19,7 +19,7 @@ void Seq_RestoreSecondaryStateAndSelect(int *arg0) {
     state = (AkaoSequencerBank *)g_AkaoCurTrack;
     if ((state->active_voice_mask != 0) && ((state + 1)->active_voice_mask == 0)) {
         Util_CopyWords((u32 *)state, (u32 *)(state + 1), sizeof(*state));
-        Util_CopyWords(g_AkaoVoiceStateTable, g_AkaoVoiceStateTable + 0x1AA0, 0x1AA0);
+        Util_CopyWords((u32 *)&g_AkaoVoiceBanks[0], (u32 *)&g_AkaoVoiceBanks[1], sizeof(AkaoVoiceBank));
     }
 
     Akao_StepSequencerVoice(arg0[1]);

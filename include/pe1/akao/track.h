@@ -274,6 +274,12 @@ typedef struct AkaoTrackUpdateSlot {
     /* 0x004 */ unsigned char pad_004[sizeof(AkaoTrack) - sizeof(AkaoU32)];
 } AkaoTrackUpdateSlot;
 
+#define AKAO_VOICE_COUNT 24
+
+typedef struct AkaoVoiceBank {
+    AkaoTrack tracks[AKAO_VOICE_COUNT];
+} AkaoVoiceBank;
+
 #define AKAO_TRACK_VOICE(track) (*(AkaoVoiceParams *)&(track)->assigned_voice_index)
 
 typedef void (*AkaoTrackHandler)(AkaoTrack *track);
