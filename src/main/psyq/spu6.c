@@ -1,17 +1,7 @@
 /* MASPSX_FLAGS: --stack-return-delay */
 #include "include_asm.h"
 
-typedef unsigned short u16;
-typedef unsigned int u32;
-
-typedef struct SpuRegs {
-    char pad0[0x1A6];
-    volatile u16 trans_addr;
-    char pad1[2];
-    volatile u16 spucnt;
-} SpuRegs;
-
-extern SpuRegs *_spu_RXX;
+#include "pe1/psyq_spu_internal.h"
 extern volatile u32 *g_SpuDmaMadrPtr;
 extern volatile u32 *g_SpuDmaBcrPtr;
 extern volatile u32 *g_SpuDmaChcrPtr;
@@ -33,7 +23,7 @@ void _spu_FwriteByIO(int addr, int size);
 void _spu_Fr_(int madr, u16 trans_addr, int bcr) {
     int shiftedBcr;
 
-    _spu_RXX->trans_addr = trans_addr;
+    _spu_RXX->transfer_addr = trans_addr;
     _spu_Fw1ts();
     _spu_RXX->spucnt |= 0x30;
     _spu_Fw1ts();
@@ -81,19 +71,19 @@ cmd_2:
     value = *args++;
     value >>= _spu_mem_mode_plus;
     g_SpuTransferAddr = value;
-    _spu_RXX->trans_addr = value;
+    _spu_RXX->transfer_addr = value;
     goto out;
 
 cmd_1:
     g_SpuDmaDirection = 0;
     i = 0;
-    if (_spu_RXX->trans_addr != g_SpuTransferAddr) {
+    if (_spu_RXX->transfer_addr != g_SpuTransferAddr) {
         do {
             i++;
             if (i >= 0xF01) {
                 return -2;
             }
-        } while (_spu_RXX->trans_addr != g_SpuTransferAddr);
+        } while (_spu_RXX->transfer_addr != g_SpuTransferAddr);
     }
     _spu_RXX->spucnt = (_spu_RXX->spucnt & 0xFFCF) | 0x20;
     goto out;
@@ -101,13 +91,13 @@ cmd_1:
 cmd_0:
     g_SpuDmaDirection = 1;
     i = 0;
-    if (_spu_RXX->trans_addr != g_SpuTransferAddr) {
+    if (_spu_RXX->transfer_addr != g_SpuTransferAddr) {
         do {
             i++;
             if (i >= 0xF01) {
                 return -2;
             }
-        } while (_spu_RXX->trans_addr != g_SpuTransferAddr);
+        } while (_spu_RXX->transfer_addr != g_SpuTransferAddr);
     }
     _spu_RXX->spucnt |= 0x30;
     goto out;

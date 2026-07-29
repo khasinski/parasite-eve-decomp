@@ -7,6 +7,16 @@ typedef unsigned long u_long;
 typedef unsigned short u16;
 typedef void (*SpuCallback)(void);
 
+/* SPU register mirror used by the PSYQ DMA helpers. */
+typedef struct SpuRegs {
+    /* 0x000 */ unsigned char pad_000[0x1A6];
+    /* 0x1A6 */ volatile u16 transfer_addr;
+    /* 0x1A8 */ volatile u16 transfer_fifo;
+    /* 0x1AA */ volatile u16 spucnt;
+    /* 0x1AC */ unsigned char pad_1AC[2];
+    /* 0x1AE */ volatile u16 transfer_status;
+} SpuRegs;
+
 typedef struct SpuMalloc {
     u32 addr;
     u32 size;
@@ -16,7 +26,7 @@ extern s32 _spu_mem_mode_plus;
 extern s32 _spu_mem_mode;
 extern s32 _spu_mem_mode_unit;
 extern s32 _spu_mem_mode_unitM;
-extern unsigned char *_spu_RXX;
+extern SpuRegs *_spu_RXX;
 extern u32 *_spu_sys_pcr;
 extern u32 *D_8009B410;
 extern s32 D_8009B3EC;

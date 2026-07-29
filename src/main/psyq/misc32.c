@@ -1,15 +1,4 @@
-typedef unsigned short u16;
-
-typedef struct SpuRegs {
-    char pad0[0x1A6];
-    volatile u16 transfer_addr;
-    volatile u16 transfer_fifo;
-    volatile u16 spucnt;
-    char pad1[2];
-    volatile u16 transfer_status;
-} SpuRegs;
-
-extern SpuRegs *_spu_RXX;
+#include "pe1/psyq_spu_internal.h"
 extern void (*volatile _spu_transferCallback)(void);
 extern int g_SpuDmaDirection;
 extern u16 D_8009B414;
