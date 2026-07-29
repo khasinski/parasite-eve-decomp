@@ -30,6 +30,16 @@ typedef struct RoomSpriteFxParams {
     unsigned char alpha;
 } RoomSpriteFxParams;
 
+typedef struct RoomSeededSpriteFxParams {
+    short x;
+    short y;
+    short z;
+    unsigned char pad6[0x2];
+    RoomFxSeed8 seed;
+    short scale;
+    unsigned short depth;
+} RoomSeededSpriteFxParams;
+
 /* Per-particle state for the room sparkle/drift effect. */
 typedef struct RoomFxDriftParticle {
     short x;
