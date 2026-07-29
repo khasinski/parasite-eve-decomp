@@ -9,7 +9,10 @@ typedef void (*SpuCallback)(void);
 
 /* SPU register mirror used by the PSYQ DMA helpers. */
 typedef struct SpuRegs {
-    /* 0x000 */ unsigned char pad_000[0x1A6];
+    /* 0x000 */ unsigned char pad_000[0x184];
+    /* 0x184 */ volatile u16 master_volume_left;
+    /* 0x186 */ volatile u16 master_volume_right;
+    /* 0x188 */ unsigned char pad_188[0x1E];
     /* 0x1A6 */ volatile u16 transfer_addr;
     /* 0x1A8 */ volatile u16 transfer_fifo;
     /* 0x1AA */ volatile u16 spucnt;
