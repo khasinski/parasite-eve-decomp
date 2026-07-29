@@ -1,17 +1,8 @@
+#include "pe1/room_effect_state.h"
+
 typedef unsigned char u8;
 typedef short s16;
 typedef int s32;
-
-typedef struct RoomM114Words8 {
-    s32 w0;
-    s32 w1;
-    s32 w2;
-    s32 w3;
-    s32 w4;
-    s32 w5;
-    s32 w6;
-    s32 w7;
-} RoomM114Words8;
 
 extern s32 D_800B0E64;
 extern u8 D_80193720;
@@ -30,13 +21,13 @@ extern s32 func_8006E498(s32 arg0, s32 arg1);
 
 s32 func_8018F394(char *obj, s32 arg1, char *state) {
     char *owner;
-    RoomM114Words8 *src;
+    RoomEffectWords8 *src;
 
     func_800C2B40(state);
     owner = *(char **)(obj + 0x8);
     *(char **)(state + 0x0) = owner;
-    src = *(RoomM114Words8 **)(owner + 0x238);
-    *(RoomM114Words8 *)(state + 0x4) = *src;
+    src = *(RoomEffectWords8 **)(owner + 0x238);
+    *(RoomEffectWords8 *)(state + 0x4) = *src;
     *(s16 *)(state + 0x2A) = 0;
     *(s16 *)(state + 0x2C) = 0;
     *(s16 *)(state + 0x28) = 0x1E;
