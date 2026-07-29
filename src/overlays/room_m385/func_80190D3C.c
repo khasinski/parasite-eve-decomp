@@ -1,20 +1,7 @@
-typedef struct RoomM385DriftState {
-    unsigned short x;
-    short pad02;
-    unsigned short z;
-    short pad06;
-    short dx;
-    short pad0A;
-    short dz;
-    short pad0E;
-    unsigned short phase10;
-    short limit12;
-    short phase14;
-    unsigned short counter16;
-} RoomM385DriftState;
+#include "pe1/room_fx.h"
 
-void func_80190D3C(unsigned char *arg0, unsigned char *signal, RoomM385DriftState *state) {
-    RoomM385DriftState *p = state;
+void func_80190D3C(unsigned char *arg0, unsigned char *signal, RoomFxDriftState *state) {
+    RoomFxDriftState *p = state;
     unsigned short counter = state->counter16;
 
     state->counter16 = counter + 1;
