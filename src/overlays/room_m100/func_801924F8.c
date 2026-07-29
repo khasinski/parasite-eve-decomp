@@ -1,14 +1,8 @@
+#include "pe1/room_fx.h"
+
 typedef unsigned short u16;
 typedef short s16;
 typedef int s32;
-
-typedef struct RoomM298FxRec {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad6;
-    s32 radius;
-} RoomM298FxRec;
 
 extern s32 D_800E27EC;
 extern u16 D_800E1204[];
@@ -19,9 +13,9 @@ extern s32 D_800F3428;
 s32 func_80071A54(void);
 s32 func_80077AA4(s32 arg0, s32 arg1);
 s32 func_80077DC4(s32 arg0);
-s32 func_800CEE20(RoomM298FxRec *rec, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
+s32 func_800CEE20(RoomFxDriftParticle *rec, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
 
-s32 func_801924F8(s32 mode, RoomM298FxRec *rec) {
+s32 func_801924F8(s32 mode, RoomFxDriftParticle *rec) {
     s32 value;
     s32 scale;
     s32 tex;

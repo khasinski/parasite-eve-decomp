@@ -1,32 +1,6 @@
-typedef struct RoomM396FxSeed {
-    char bytes[8];
-} RoomM396FxSeed;
+#include "pe1/room_fx.h"
 
-typedef struct RoomM396FxMatrix {
-    short m[3][3];
-    short pad;
-    int t[3];
-} RoomM396FxMatrix;
-
-typedef struct RoomM396FxVec4 {
-    int x;
-    int y;
-    int z;
-    int w;
-} RoomM396FxVec4;
-
-typedef struct RoomM396FxParams {
-    short x;
-    short y;
-    short z;
-    char pad6[0xA];
-    short scale;
-    unsigned short depth;
-    char pad14;
-    unsigned char alpha;
-} RoomM396FxParams;
-
-extern RoomM396FxSeed D_8018F01C;
+extern RoomFxSeed8 D_8018F01C;
 extern unsigned char D_8019484C;
 extern unsigned short D_80194852;
 
@@ -35,16 +9,16 @@ void func_800C2EAC(int arg0);
 void func_800C2FF0(int arg0, int arg1);
 void func_800C3098(int arg0);
 void func_800C3238(int arg0);
-void func_800794C4(RoomM396FxSeed *seed, RoomM396FxMatrix *matrix);
+void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 void func_80071A44(void *arg0, int arg1, int arg2);
-void func_80078CC4(RoomM396FxMatrix *matrix, RoomM396FxVec4 *scale);
-void func_800C42A4(void *arg0, RoomM396FxMatrix *matrix, int arg2);
+void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void func_800C42A4(void *arg0, RoomSpriteMatrix *matrix, int arg2);
 
-void func_80190BC4(void *arg0, void *arg1, RoomM396FxParams *fx) {
-    RoomM396FxMatrix matrix;
-    RoomM396FxSeed seed;
-    RoomM396FxVec4 scratch_scale;
-    RoomM396FxVec4 scale;
+void func_80190BC4(void *arg0, void *arg1, RoomSpriteFxParams *fx) {
+    RoomSpriteMatrix matrix;
+    RoomFxSeed8 seed;
+    RoomFxVec4 scratch_scale;
+    RoomFxVec4 scale;
     char *owner;
     unsigned short *depth_slot;
 
