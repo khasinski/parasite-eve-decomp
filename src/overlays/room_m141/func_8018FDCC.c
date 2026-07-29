@@ -1,13 +1,8 @@
-typedef struct RoomM141Particle {
-    unsigned short x;
-    unsigned short y;
-    unsigned short z;
-    unsigned short unk6;
-} RoomM141Particle;
+#include "pe1/room_fx.h"
 
 void func_8018FDCC(void *arg0, unsigned char *signal, char *rec) {
     unsigned int i;
-    RoomM141Particle *cur;
+    RoomFxTrajectoryParticle *cur;
     unsigned char phase;
     int delta;
 
@@ -17,7 +12,7 @@ void func_8018FDCC(void *arg0, unsigned char *signal, char *rec) {
     }
 
     for (i = 0; i < 0x10; i++) {
-        cur = (RoomM141Particle *)(rec + (i * sizeof(RoomM141Particle)));
+        cur = (RoomFxTrajectoryParticle *)(rec + (i * sizeof(RoomFxTrajectoryParticle)));
         delta = (*(short *)((char *)cur + 0x80) * *(short *)(rec + 0x106)) >> 16;
         cur->y += 8;
         cur->x += delta;

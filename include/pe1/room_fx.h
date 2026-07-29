@@ -39,4 +39,26 @@ typedef struct RoomFxDriftParticle {
     int radius;
 } RoomFxDriftParticle;
 
+typedef struct RoomFxTrajectoryParticle {
+    unsigned short x;
+    unsigned short y;
+    unsigned short z;
+    unsigned short pad6;
+} RoomFxTrajectoryParticle;
+
+typedef struct RoomFxDriftState {
+    unsigned short x;
+    short pad02;
+    unsigned short z;
+    short pad06;
+    short dx;
+    short pad0A;
+    short dz;
+    short pad0E;
+    unsigned short phase10;
+    short limit12;
+    short phase14;
+    unsigned short counter16;
+} RoomFxDriftState;
+
 #endif
