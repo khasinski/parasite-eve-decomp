@@ -88,6 +88,21 @@ typedef struct FieldActorState {
     /* 0x68 */ unsigned char pad_68[0x04];
     /* 0x6C */ void *substate;
 } FieldActorState;
+
+/* Scene movement target record; shared by the E02/E03/E06...E27 overlays. */
+typedef struct FieldMoveTarget {
+    unsigned char pad00[0x60];
+    int target_pos[3];           /* 0x60: x/y/z passed to FieldEng_VecToAngle */
+    unsigned char pad6C[0x18];
+    FieldActor *target_actor;    /* 0x84: copies x/z while target tracking is enabled */
+    unsigned char pad88[0x10];
+    int completion_value;        /* 0x98: compared against 0x07FFFFFF */
+    unsigned char pad9C[0x06];
+    short turn_rate;             /* 0xA2 */
+    short settle_rate;           /* 0xA4 */
+    unsigned char padA6[0x03];
+    unsigned char enabled;       /* 0xA9 */
+} FieldMoveTarget;
 /* Task/scene node: elements of the per-entity task_node_lists and g_TaskNodePool.
  * Walked and freed by Entity_MarkNodeFree. */
 typedef struct FieldActorNode {
