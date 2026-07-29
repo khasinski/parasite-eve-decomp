@@ -3,27 +3,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef int s32;
 
+#include "pe1/render_camera.h"
+
 typedef struct Vec3s {
     s16 x;
     s16 y;
     s16 z;
     s16 pad;
 } Vec3s;
-
-typedef struct GeomState {
-    char pad[0x1C];
-    s32 bounds_offset;
-} GeomState;
-
-typedef struct CameraBounds {
-    char pad[0x28];
-    s16 width;
-    s16 height;
-    s16 min_x;
-    s16 max_x;
-    s16 min_y;
-    s16 max_y;
-} CameraBounds;
 
 extern s32 D_800BCF88;
 extern s16 D_800BCF8C;
@@ -37,7 +24,7 @@ extern s16 D_800BCFA2;
 extern int *D_800BCFA4;
 extern s16 g_CameraBaseAngleY;
 extern u8 g_GeomGroupSel;
-extern GeomState *g_GeomState;
+extern RenderCameraGeomState *g_GeomState;
 
 int RotTransPers(void *v, void *sxy, void *p, int *flag);
 
@@ -94,12 +81,12 @@ static s32 Render_ClampToRange(s32 value, s32 min, s32 max) {
     return value;
 }
 
-static CameraBounds *Render_GetCameraBounds(void) {
-    GeomState *state;
-    CameraBounds *bounds;
+static RenderCameraBounds *Render_GetCameraBounds(void) {
+    RenderCameraGeomState *state;
+    RenderCameraBounds *bounds;
 
     state = g_GeomState;
-    bounds = (CameraBounds *)((u8 *)state + state->bounds_offset);
+    bounds = (RenderCameraBounds *)((u8 *)state + state->bounds_offset);
     return &bounds[g_GeomGroupSel];
 }
 
@@ -110,7 +97,7 @@ s32 Render_UpdateScrollPosition(s16 *pos, s32 duration, s32 mode) {
     s32 flag;
     s32 target_x;
     s32 target_y;
-    CameraBounds *bounds;
+    RenderCameraBounds *bounds;
 
     if ((D_800BCF88 & 0x40) == 0) {
         return -0x15;
