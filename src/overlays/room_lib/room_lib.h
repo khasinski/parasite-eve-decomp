@@ -1071,6 +1071,21 @@ typedef struct RoomMsg {
     RoomMsgSub sub;               /* 0x08 */
 } RoomMsg;
 
+/* Dialog animation state consumed by the shared RoomLib_DlgBlob handler.
+ * The five fields at 0x00..0x0A are advanced or used as coordinates; the
+ * state machine itself uses the halfwords at 0x10 and 0x12. */
+typedef struct RoomDlgAnimState {
+    short x;                     /* 0x00 */
+    short y;                     /* 0x02 */
+    short z;                     /* 0x04 */
+    short field_06;              /* 0x06 */
+    short field_08;              /* 0x08 */
+    short field_0A;              /* 0x0A */
+    char pad0C[0x4];
+    short state;                 /* 0x10 */
+    short timer;                 /* 0x12 */
+} RoomDlgAnimState;
+
 typedef struct RoomQRec {
     short h0;
     short h2;
