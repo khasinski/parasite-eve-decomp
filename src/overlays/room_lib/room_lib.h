@@ -1086,6 +1086,14 @@ typedef struct RoomDlgAnimState {
     short timer;                 /* 0x12 */
 } RoomDlgAnimState;
 
+typedef struct RoomDlgAnimParams {
+    char pad00[0x4];
+    int scale;                   /* 0x04 */
+} RoomDlgAnimParams;
+
+typedef int (*RoomDlgCallback)(int mode, RoomDlgAnimState *state,
+                               RoomDlgAnimParams *params);
+
 typedef struct RoomQRec {
     short h0;
     short h2;
