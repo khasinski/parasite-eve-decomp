@@ -29,10 +29,10 @@ typedef struct RoomParticleEmitter {
     short x;                      /* 0x00 */
     short y;                      /* 0x02 */
     short z;                      /* 0x04 */
-    short pad06;
-    int spread;                   /* 0x08 */
-    int period;                   /* 0x0C */
-    int trigger;                  /* 0x10 */
+    short soundId;                /* 0x06: -1 disables the completion sound */
+    int radialMagnitude;          /* 0x08 */
+    int spawnPeriod;              /* 0x0C */
+    int endFrame;                 /* 0x10 */
 } RoomParticleEmitter;
 
 #define ROOMLIB_INVOKE_CALLBACK_C(name) \
