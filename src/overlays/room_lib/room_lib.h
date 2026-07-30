@@ -1097,16 +1097,17 @@ typedef struct RoomMsg {
 } RoomMsg;
 
 /* Dialog animation state consumed by the shared RoomLib_DlgBlob handler.
- * The five fields at 0x00..0x0A are advanced or used as coordinates; the
- * state machine itself uses the halfwords at 0x10 and 0x12. */
+ * Its first mode integrates the three velocity halfwords into x/y/z and
+ * accelerates velocityY by two each tick. */
 typedef struct RoomDlgAnimState {
     short x;                     /* 0x00 */
     short y;                     /* 0x02 */
     short z;                     /* 0x04 */
     short field_06;              /* 0x06 */
-    short field_08;              /* 0x08 */
-    short field_0A;              /* 0x0A */
-    char pad0C[0x4];
+    short velocityX;             /* 0x08 */
+    short velocityY;             /* 0x0A */
+    short velocityZ;             /* 0x0C */
+    short field_0E;              /* 0x0E */
     short state;                 /* 0x10 */
     short timer;                 /* 0x12 */
 } RoomDlgAnimState;
