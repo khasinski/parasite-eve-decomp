@@ -68,7 +68,7 @@ C_OBJS   := $(C_SRCS:%=$(BUILD)/%.o)
 
 OBJS := $(ASM_OBJS) $(C_OBJS)
 
-.PHONY: expected objdiff-config report all build check check-sources clean diff distclean func-build func-diff func-target overlay-build overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress proposal-smallest proposal-status room-split-audit split split-if-needed tools
+.PHONY: expected objdiff-config report all build check check-sources clean diff distclean func-build func-diff func-target overlay-build overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress debt proposal-smallest proposal-status room-split-audit split split-if-needed tools
 
 all: build check
 
@@ -148,6 +148,10 @@ proposal-smallest:
 progress:
 	@$(PY) tools/scripts/progress_report.py
 	@$(PY) tools/scripts/progress_site.py
+
+# Crutch-debt tracker: count pins/barriers/aliases/gotos still to remove.
+debt:
+	@$(PY) tools/scripts/crutch_debt.py
 
 room-split-audit:
 	@$(PY) tools/scripts/audit_room_split.py
