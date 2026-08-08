@@ -11,8 +11,7 @@ int func_800CC974(void *arg0, u8 *state, u8 *anim) {
     register int dz asm("$5");
     int frame;
 
-    asm volatile("" : : "r"(&frame));
-    state_t2 = state;
+        state_t2 = state;
     asm volatile("" : "=r"(state_t2) : "0"(state_t2));
     i = 0;
     if ((signed char)anim[2] > 0) {

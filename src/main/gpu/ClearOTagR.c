@@ -22,8 +22,7 @@ void ClearOTagR(void *packet, s32 count) {
         void *debug_packet;
         s32 debug_count;
         fmt = D_80011910;
-        asm volatile("" : "=r"(fmt) : "0"(fmt));
-        debug_packet = packet;
+                debug_packet = packet;
         debug_count = count;
         debug_cb = D_80095748[0];
         debug_cb(fmt, debug_packet, debug_count);

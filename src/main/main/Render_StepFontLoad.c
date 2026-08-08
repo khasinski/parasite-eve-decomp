@@ -97,8 +97,7 @@ u8 Render_StepFontLoad(void) {
     slot = 0xFF;
 
 store:
-    __asm__ volatile("" : "=m"(stack_pad));
-    D_80091A1F = slot;
+        D_80091A1F = slot;
     __asm__ volatile("" : : : "memory");
     t = D_80091A28;
     return *(t + *(t + D_80091A1F_rd[0] + 0x1D) + 4);

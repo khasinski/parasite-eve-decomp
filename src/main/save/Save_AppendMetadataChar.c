@@ -48,5 +48,4 @@ loop:
     cursor[-1] = ch;
 
 done:
-    asm volatile("" : : "r"(&frame));
-}
+    }

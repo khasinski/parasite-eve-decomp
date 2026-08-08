@@ -80,24 +80,20 @@ void Akao_StepSequencerVoice(void *arg0) {
         M2C_FIELD(p2c8b, s32 *, 4) = (s32) (M2C_FIELD(p2c8b, s32 *, 4) | mask);
     }
     walk += 4;
-    __asm__ __volatile__("");
-    kFFFb = 0xFFFFFF;
+        kFFFb = 0xFFFFFF;
     tw1 = *(s32 *)walk;
     walk += 4;
-    __asm__ __volatile__("");
-    bit = 1;
+        bit = 1;
     pvoice = (u8 *)&D_800B8AC0_o;
     kFFF5 = 0xFFFFFF;
     base = pvoice + 0x116;
     km102 = -0x102;
-    __asm__ __volatile__("");
-    p2c8c = (*(void **)&g_AkaoCurTrack_c);
+        p2c8c = (*(void **)&g_AkaoCurTrack_c);
     M2C_FIELD(p2c8c, s32 *, 8) = tw1 & kFFFb;
     tw2 = *(s32 *)walk;
     walk += 8;
     M2C_FIELD(p2c8c, s32 *, 0xC) = tw2 & kFFFb;
-    __asm__ __volatile__("");
-    tv0 = M2C_FIELD(p2c8c, s32 *, 0) & km102;
+        tv0 = M2C_FIELD(p2c8c, s32 *, 0) & km102;
     tcde = g_AkaoVoiceKeyOnState & 0x100;
     *(volatile s32 *)p2c8c = tv0;
     M2C_FIELD(p2c8c, s32 *, 0) = tv0 | tcde;
@@ -155,8 +151,7 @@ void Akao_StepSequencerVoice(void *arg0) {
         pvoice += 0x11C;
         bit *= 2;
     } while (kFFF5 != 0);
-    __asm__("" : "=r"(kFFF5) : "0"(kFFF5));
-    pend = (*(void **)&g_AkaoCurTrack_d);
+        pend = (*(void **)&g_AkaoCurTrack_d);
     M2C_FIELD(pend, s32 *, 0x20) = 0xFFFF0000;
     M2C_FIELD(pend, s32 *, 0x28) = 1;
     M2C_FIELD(pend, s16 *, 0x52) = 0;

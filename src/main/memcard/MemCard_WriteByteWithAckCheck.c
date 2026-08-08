@@ -22,8 +22,7 @@ int MemCard_WriteByteWithAckCheck(void *obj) {
     asm volatile("" : : : "$4");
     call_obj = card;
     value = D_8009B72C(call_obj, needs_ack);
-    asm volatile("" : : : "$4");
-    call_obj = card;
+        call_obj = card;
     result = MemCard_WriteByte(call_obj, value & 0xFF);
     asm volatile(
         ".word 0x2402005A\n"

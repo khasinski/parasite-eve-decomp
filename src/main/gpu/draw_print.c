@@ -182,8 +182,7 @@ void Draw_PrintNumberWidth2Unk(int value) {
         digit_base *= 10;
     }
 
-    asm volatile("" : "=r"(width), "=r"(digit_base) : "0"(width), "1"(digit_base));
-    i = 0;
+        i = 0;
     if (width != 0) {
         last_leading = width - 1;
         magic = 0x66666667;
@@ -242,8 +241,7 @@ void Draw_PrintNumberWidth3Unk(int value) {
         digit_base *= 10;
     }
 
-    asm volatile("" : "=r"(width), "=r"(digit_base) : "0"(width), "1"(digit_base));
-    i = 0;
+        i = 0;
     if (width != 0) {
         last_leading = width - 1;
         magic = 0x66666667;
@@ -309,8 +307,7 @@ void Draw_PrintSignedNumberWidth3(int value) {
         digit_base *= 10;
     }
 
-    asm volatile("" : "=r"(width), "=r"(digit_base) : "0"(width), "1"(digit_base));
-    i = 0;
+        i = 0;
     if (width != 0) {
         last_leading = width - 1;
         magic = 0x66666667;
@@ -369,8 +366,7 @@ void Draw_PrintNumberWidth4Unk(int value) {
         digit_base *= 10;
     }
 
-    asm volatile("" : "=r"(width), "=r"(digit_base) : "0"(width), "1"(digit_base));
-    i = 0;
+        i = 0;
     if (width != 0) {
         last_leading = width - 1;
         magic = 0x66666667;
@@ -436,8 +432,7 @@ void Draw_PrintSignedNumberWidth4(int value) {
         digit_base *= 10;
     }
 
-    asm volatile("" : "=r"(width), "=r"(digit_base) : "0"(width), "1"(digit_base));
-    i = 0;
+        i = 0;
     if (width != 0) {
         last_leading = width - 1;
         magic = 0x66666667;

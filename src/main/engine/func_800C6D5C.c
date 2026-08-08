@@ -16,8 +16,7 @@ void func_800C6D5C(u8 *data, u8 xOffset, u8 yOffset) {
 
     asm volatile("" : "=r"(data_t0) : "0"(data));
     value_v0 = *(u16 *)(data_t0 + 0xC);
-    asm volatile("" : "=r"(value_v0) : "0"(value_v0));
-    x_a0 = xOffset & 0xFF;
+        x_a0 = xOffset & 0xFF;
     ptr_t2 = data_t0 + 0x10;
 
     if (value_v0 != x_a0 || *(u16 *)(data_t0 + 0xE) != (yOffset & 0xFF)) {
@@ -49,8 +48,7 @@ void func_800C6D5C(u8 *data, u8 xOffset, u8 yOffset) {
         }
 
         i_t1 = 0;
-        asm volatile("" : "=r"(i_t1) : "0"(i_t1));
-        value_v0 = *(u16 *)(data_t0 + 4);
+                value_v0 = *(u16 *)(data_t0 + 4);
         value_v1 = *(u16 *)(data_t0 + 6);
         value_v0 += value_v1;
         count_a0 = (int)ptr_t2;

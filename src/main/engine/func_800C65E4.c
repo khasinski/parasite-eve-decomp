@@ -37,8 +37,7 @@ void func_800C65E4(s16 *from, s16 *to, char *out) {
     basis[1] = b1;
     basis[2] = b2;
     b0 = basis_src[3];
-    asm volatile("" : "=r"(b0) : "0"(b0));
-    basis[3] = b0;
+        basis[3] = b0;
     asm volatile("" ::: "memory");
 
     delta_s1 = delta;

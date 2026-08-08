@@ -190,8 +190,7 @@ common:
         } while (i < count2);
     }
 
-    asm volatile("" : "=m"(stack_pad));
-    return 0xFF;
+        return 0xFF;
 }
 
 int Menu_GetEquipSlotProperty(int arg0) {

@@ -40,8 +40,7 @@ void SeqOp_NoteOnWithPitchSlide(void *track) {
     if ((*(u32 *)(base + 0x38) & 0x800) == 0) {
         voice_index = 0;
         mask = 1;
-        asm volatile("" : "=r"(mask) : "0"(mask));
-        check = (int)D_8009D2C8;
+                check = (int)D_8009D2C8;
         asm volatile(
             ".word 0x3C0800FF\n"
             ".word 0x8C430004\n"

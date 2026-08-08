@@ -60,8 +60,7 @@ s32 Camera_StepAngleFade(u8 *arg0) {
     ta1c = temp_a1;
     if (!(temp_t1 & 0x20)) {
         ta1b = temp_a1;
-        __asm__("" : "=r"(ta1b) : "0"(ta1b));
-        tv0p = M2C_FIELD(arg0, s32 **, 0);
+                tv0p = M2C_FIELD(arg0, s32 **, 0);
         pa3 = M2C_FIELD(arg0, u16 **, 4);
         tv0 = *tv0p;
         temp_a3 = *pa3;
@@ -75,8 +74,7 @@ s32 Camera_StepAngleFade(u8 *arg0) {
         }
         tor = temp_t1 | 0x20;
         M2C_FIELD(p300, u16 *, 8) = (u16) tor;
-        __asm__ __volatile__("");
-        tdiff = tv1a - ta1b;
+                tdiff = tv1a - ta1b;
         if (tdiff >= 0) {
             var_v1 = temp_v1x - temp_a1;
         } else {
@@ -123,8 +121,7 @@ chk2:
     }
     sa12b = temp_a1_2 << 0x10;
     sumb = ta1d + (sa12b >> 0x10);
-    __asm__("" : : "r"(temp_a1_2));
-    if (sumb < sv0) {
+        if (sumb < sv0) {
         tve = ta12d << 0x10;
         goto inner;
     }
@@ -164,8 +161,7 @@ block_24:
     goto exit;
 block_26:
     ret = 0;
-    __asm__ __volatile__("");
-    p26 = g_CurrentEntity;
+        p26 = g_CurrentEntity;
     t3aa = M2C_FIELD(p26, u16 *, 0x3A);
     g_SceneDataTable0 -= 0x10;
     t3aa = t3aa + ta12c;

@@ -111,8 +111,7 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
                 (*(u8 *)&D_800B0CE6_w) = tce6 | 4;
             }
         }
-        __asm__ __volatile__("");
-        var_v0 = 0x24;
+                var_v0 = 0x24;
         goto block_20;
     case 36:
         if (Scene_LoadEntityTexture() != 1) {

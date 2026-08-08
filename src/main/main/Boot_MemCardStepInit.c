@@ -22,8 +22,7 @@ s32 Boot_MemCardStepInit(u8 **arg0) {
     u8 *base;
 
     base = (u8 *)&D_800B0CD8_o;
-    __asm__("" : "=r"(base) : "0"(base));
-loop_1:
+    loop_1:
     switch (CD8_B(0xF4)) {
     case 0x0:
         if (!(CD8_B(0xE) & 3)) {

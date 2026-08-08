@@ -31,8 +31,7 @@ int func_8007C394(u8 *ptr) {
     index = ((ptr - (base + (D_800C20C4 << 5))) >> 2) / 504;
     entry = (StRingEntry *)(base + (index << 5));
     /* Keep the status literal from scheduling before the entry address math. */
-    asm volatile("" : : "r"(entry));
-
+    
     expected_status = 4;
     status = entry->status;
     raw_count = entry->count;

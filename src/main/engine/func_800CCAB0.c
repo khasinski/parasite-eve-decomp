@@ -10,8 +10,7 @@ int func_800CCAB0(void *arg0, u8 *state, u8 *anim) {
     register int dz asm("$5");
     int frame;
 
-    asm volatile("" : : "r"(&frame));
-    state_t1 = state;
+        state_t1 = state;
     asm volatile("" : "=r"(state_t1) : "0"(state_t1));
     i = 0;
     if (*(short *)(anim + 0x4) > 0) {

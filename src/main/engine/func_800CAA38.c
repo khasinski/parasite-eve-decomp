@@ -31,8 +31,7 @@ int func_800CAA38(void *arg0, void *arg1, u8 *anim) {
     char *data;
 
     anim_s0 = anim;
-    asm volatile("" : "=r"(anim_s0) : "0"(anim_s0));
-
+    
     in0 = D_800C21C4;
     in1 = D_800C21CC;
     out_s2 = &out;

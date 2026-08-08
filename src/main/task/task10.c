@@ -88,8 +88,7 @@ int Task_SetObjEntryFlag80(int **arg0) {
         entry = (char *)((int)entry << 2);
     }
     entry = (char *)((int)entry + (int)base_entry);
-    asm volatile("" : "=r"(entry) : "0"(entry));
-    value = *entry | 0x80;
+        value = *entry | 0x80;
     *entry = value;
     asm volatile("" : : : "memory");
     return 1;
@@ -128,8 +127,7 @@ int Task_ClearObjEntryFlag80(int **arg0) {
         entry = (char *)((int)entry << 2);
     }
     entry = (char *)((int)entry + (int)base_entry);
-    asm volatile("" : "=r"(entry) : "0"(entry));
-    value = *entry & 0x7F;
+        value = *entry & 0x7F;
     *entry = value;
     asm volatile("" : : : "memory");
     return 1;

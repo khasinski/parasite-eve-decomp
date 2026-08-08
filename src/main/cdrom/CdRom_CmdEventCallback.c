@@ -77,5 +77,4 @@ void CdRom_CmdEventCallback(int event) {
             :
             : "$2", "$3", "$4", "$31", "memory");
     }
-    asm volatile("" : : "r"(stack_pad));
-}
+    }

@@ -63,8 +63,7 @@ int func_800C5EB0(char *data, void *unused, int *hit) {
     int countMinus;
     u16 timer;
 
-    asm("" : "=r"(data_s3) : "0"(data_s3));
-    entries = *(char **)data_s3;
+        entries = *(char **)data_s3;
     asm volatile("move %0,%1" : "=r"(hit_s4) : "r"(hit));
     *hit_s4 = 0;
 

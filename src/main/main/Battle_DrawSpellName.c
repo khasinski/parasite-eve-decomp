@@ -63,8 +63,7 @@ void Battle_DrawSpellName(void) {
             u8 e0a;
             pa = q508 + c * 0x118;
             e0a = 0xE0;
-            __asm__("" : "=r"(e0a) : "0"(e0a));
-            pa[0xC] = e0a;
+                        pa[0xC] = e0a;
             {
                 s32 cB;
                 cB = CDDCB;
@@ -134,23 +133,20 @@ void Battle_DrawSpellName(void) {
             }
             if ((*(s32 *)(d68 + 0xC) & 0x300000) == 0x300000) {
                 r130 = 0x130;
-                __asm__ __volatile__("" :: "r"(r130));
-                pl[0xC] = 0xD8;
+                                pl[0xC] = 0xD8;
                 c1 = CDDCF;
                 ((u8 *)(c1 * 0x118 + s0) + (u32)e508)[0xD] = e0;
                 clut = GetClut(r130, 0x1FB);
             } else if ((*(s32 *)(d68 + 0x10) & 0xC0) == 0x80) {
                 r130 = 0x130;
-                __asm__ __volatile__("" :: "r"(r130));
-                pl[0xC] = 0xDC;
+                                pl[0xC] = 0xDC;
                 c1 = CDDCG;
                 ((u8 *)(c1 * 0x118 + s0) + (u32)e508)[0xD] = e0;
                 clut = GetClut(r130, 0x1FC);
             } else {
                 u8 dv = 0xD4;
                 r130 = 0x130;
-                __asm__ __volatile__("" :: "r"(r130));
-                pl[0xC] = dv;
+                                pl[0xC] = dv;
                 c1 = CDDCH;
                 ((u8 *)(c1 * 0x118 + s0) + (u32)e508)[0xD] = e0;
                 clut = GetClut(r130, 0x1FA);
@@ -161,8 +157,7 @@ void Battle_DrawSpellName(void) {
                 cI = CDDCI;
                 ti = cI * 0x118;
                 ti = s0 + ti;
-                __asm__("" : "=r"(ti) : "0"(ti));
-                *(s16 *)(D_8009E516 + ti) = clut;
+                                *(s16 *)(D_8009E516 + ti) = clut;
                 __asm__ __volatile__("");
             }
             {

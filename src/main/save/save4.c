@@ -2,20 +2,13 @@
 
 
 #include "include_asm.h"
-extern int VSync(int arg0);
-extern int CdRom_SendQueuedCmd(int arg0);
-extern void Save_ProcessDataCallback(void);
 
 extern int D_8009B6C4;
 
 extern int g_CdReadCompleteCallback;
 
-extern void CdRom_ResetFileDescriptors(void);
 
-extern void DS_read_cbready(void);
-extern void DsDataCallback(void *callback);
 extern void CdRom_IssueSetMode(int arg0, int arg1) asm("func_8007FCBC");
-extern void Render_AllocParticleNode(int arg0, void *arg1, void *arg2, int arg3);
 
 extern int g_CdReadInProgress;
 

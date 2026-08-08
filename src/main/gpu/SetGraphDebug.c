@@ -10,8 +10,7 @@ int SetGraphDebug(int debug) {
     int old;
     unsigned char *slot;
     slot = D_8009574E;
-    asm volatile("" : "=r"(slot) : "0"(slot));
-    old = *slot;
+        old = *slot;
     *slot = debug;
     debug = (unsigned char)debug;
     if (debug != 0) {

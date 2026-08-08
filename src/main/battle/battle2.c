@@ -244,8 +244,7 @@ void BattleCmd_LoadWeaponModifiers(void) {
     int *stat;
     int pad[2];
 
-    asm volatile("" : "=m"(pad));
-    saved = Inv_IsActiveListOverrideSelected();
+        saved = Inv_IsActiveListOverrideSelected();
     Inv_SelectActiveList(0);
 
     i = 6;
@@ -260,8 +259,7 @@ void BattleCmd_LoadWeaponModifiers(void) {
     entry = Inv_LookupActiveListData(D_800C0E22);
     if (entry != 0) {
         modifier_count = entry->modifier_count;
-        asm volatile("" : "=r"(modifier_count) : "0"(modifier_count));
-        if (modifier_count <= 0) {
+                if (modifier_count <= 0) {
             goto done_modifiers;
         }
         i = 0;

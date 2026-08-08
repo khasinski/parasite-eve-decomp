@@ -32,8 +32,7 @@ int func_800CC480(void *arg0, u8 *params, u8 *anim) {
     value_v1 <<= 1;
     value_v0 -= value_v1;
     value_v1 = value_v0;
-    asm volatile("" : "=r"(value_v1) : "0"(value_v1));
-    value_v0 <<= 16;
+        value_v0 <<= 16;
     if (value_v0 < 0) {
         value_v1 = 0;
     }

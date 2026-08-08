@@ -16,8 +16,7 @@ void *func_800CE610(char *list) {
     base = list;
     asm volatile("" : "=r"(base) : "0"(base));
     entry = list + 0xC;
-    asm volatile("" : "=r"(entry) : "0"(entry));
-    slot_or_count = *(int *)(ret + 0x4);
+        slot_or_count = *(int *)(ret + 0x4);
     stride = *(int *)(ret + 0x0);
     i = 0;
     if (slot_or_count > 0) {

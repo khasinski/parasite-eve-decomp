@@ -269,8 +269,7 @@ void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
             m5 = 0xFFFEFFFF;
             m8 = 0xFFFDFFFF;
             m9 = 0xFFFBFFFF;
-            __asm__ __volatile__("" :: "r"(m7), "r"(m5), "r"(m8), "r"(m9));
-            e = *(u8 **)ent;
+                        e = *(u8 **)ent;
             v = D1AC_14;
             { s32 b = (*(u32 *)(e + 0xCC) & 3) == 2; v &= ~0x1000; v |= b << 0xC; }
             D1AC_15 = v;

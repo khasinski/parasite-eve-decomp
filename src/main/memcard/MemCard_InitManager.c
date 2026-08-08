@@ -70,8 +70,7 @@ void MemCard_InitManager(void) {
             loop_event = *events;
             events++;
             /* Keep the table pointer increment before the EnableEvent call. */
-            asm volatile("" : "=r"(events) : "0"(events));
-            EnableEvent(loop_event);
+                        EnableEvent(loop_event);
             i++;
         } while (i < 8);
 

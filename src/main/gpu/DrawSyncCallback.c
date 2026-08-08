@@ -10,8 +10,7 @@ int DrawSyncCallback(int arg0) {
     int old;
 
     base = D_8009574E;
-    asm volatile("" : "=r"(base) : "0"(base));
-    saved = arg0;
+        saved = arg0;
     if (base[0] >= 2) {
         D_80095748[0](D_80011854, saved);
     }

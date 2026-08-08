@@ -481,16 +481,14 @@ int Akao_StepNoteSequencer(unsigned char *cursor, unsigned int upload_limit) {
         cursor_reg += 4;
         asm volatile("" : "=r"(cursor_reg) : "0"(cursor_reg));
         count = *(int *)cursor_reg;
-        asm volatile("" : "=r"(cursor_reg) : "0"(cursor_reg));
-        if (count != 0) {
+                if (count != 0) {
             count -= start;
         } else {
             count = 0x100 - start;
         }
 
         cursor_reg += 0x24;
-        asm volatile("" : "=r"(cursor_reg) : "0"(cursor_reg));
-        src = cursor_reg;
+                src = cursor_reg;
         chunk_size = count << 6;
         cursor_reg += chunk_size;
         base = upload_limit_reg - 0x40;
@@ -601,10 +599,8 @@ int Spu_UploadStreamBlockA(int arg0, unsigned char *arg1, unsigned int arg2) {
         asm volatile("" : "=r"(cursor) : "0"(cursor));
         start = *(int *)cursor;
         cursor += 4;
-        asm volatile("" : "=r"(cursor) : "0"(cursor));
-        count = *(int *)cursor;
-        asm volatile("" : "=r"(cursor) : "0"(cursor));
-        if (count != 0) {
+                count = *(int *)cursor;
+                if (count != 0) {
             count -= start;
         } else {
             count = 0x100 - start;
@@ -691,16 +687,12 @@ int Spu_UploadStreamBlockB(int arg0, unsigned char *arg1) {
     }
 
     cursor += 0x14;
-    asm volatile("" : "=r"(cursor) : "0"(cursor));
-    size = *(int *)cursor;
+        size = *(int *)cursor;
     cursor += 4;
-    asm volatile("" : "=r"(cursor) : "0"(cursor));
-    start = *(int *)cursor;
+        start = *(int *)cursor;
     cursor += 4;
-    asm volatile("" : "=r"(cursor) : "0"(cursor));
-    count = *(int *)cursor;
-    asm volatile("" : "=r"(cursor) : "0"(cursor));
-    if (count != 0) {
+        count = *(int *)cursor;
+        if (count != 0) {
         count -= start;
     } else {
         count = 0x100 - start;

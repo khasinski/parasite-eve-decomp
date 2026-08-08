@@ -23,8 +23,7 @@ int CardObj_BeginReadIdCommand(CardObj *obj, int arg1, int arg2) {
         ret = 1;
         asm volatile("" : "=r"(ret) : "0"(ret));
         card_id_a0 = obj_s0[0xE4];
-        asm volatile("" : "=r"(card_id_a0) : "0"(card_id_a0));
-        one_v1 = 1;
+                one_v1 = 1;
         obj_s0[0x46] = one_v1;
         one_v1 = (int)func_80083D9C;
         *(int *)(obj_s0 + 0x14) = one_v1;
@@ -33,8 +32,7 @@ int CardObj_BeginReadIdCommand(CardObj *obj, int arg1, int arg2) {
         one_v1 = arg1_copy & 0xFF;
         obj_s0[0x51] = arg1;
         obj_s0[0x52] = arg2;
-        asm volatile("" ::: "memory");
-        one_v1 = one_v1 ^ card_id_a0;
+                one_v1 = one_v1 ^ card_id_a0;
         one_v1 = one_v1 < 1U;
         obj_s0[0x53] = one_v1;
         return ret;

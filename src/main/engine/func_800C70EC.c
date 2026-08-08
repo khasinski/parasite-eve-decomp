@@ -10,12 +10,9 @@ void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
     u8 *entry;
     register u8 *bluePtr asm("$9");
 
-    asm volatile("" : : "r"(&frame));
-    i = 0;
-    asm volatile("" : "=r"(i) : "0"(i));
-    offset = *(u16 *)(data + 0x8);
-    asm volatile("" : "=r"(offset) : "0"(offset));
-    count = *(u16 *)(data + 0xA);
+        i = 0;
+        offset = *(u16 *)(data + 0x8);
+        count = *(u16 *)(data + 0xA);
     entry = (u8 *)(data + offset);
     if (count > 0) {
         bluePtr = entry + 2;

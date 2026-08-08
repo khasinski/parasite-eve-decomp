@@ -30,8 +30,7 @@ int func_800C8970(void *arg0, void *arg1, u8 *anim) {
     register int scale2_a2 asm("$6");
     register int scale3_a3 asm("$7");
 
-    asm volatile("" : "=r"(anim_s0) : "0"(anim_s0));
-    rot = D_800C2174;
+        rot = D_800C2174;
 
     func_800C2EAC(3);
     func_800C3098(0x100);

@@ -41,10 +41,8 @@ int func_800CD404(void *arg0, void *arg1, u8 *anim) {
     func_800C3238(2);
 
     color_a3 = &D_800E2254;
-    asm volatile("" : "=r"(color_a3) : "0"(color_a3));
-    call_a0 = color_a3 - 4;
-    asm volatile("" : "=r"(call_a0) : "0"(call_a0));
-    position_v0 = &D_800F33D4;
+        call_a0 = color_a3 - 4;
+        position_v0 = &D_800F33D4;
     value_v1 = *(s16 *)(anim_s2 + 0x8);
     call_a1 = position_v0 - 5;
     position_v0[0] = value_v1;
@@ -64,8 +62,7 @@ int func_800CD404(void *arg0, void *arg1, u8 *anim) {
 
     do {
         call_a0 = &D_800F3460;
-        asm volatile("" : "=r"(call_a0) : "0"(call_a0));
-        entry_v0 = (int)(anim_s2 + ((i & 0xFFFF) * 8));
+                entry_v0 = (int)(anim_s2 + ((i & 0xFFFF) * 8));
         value_v1 = *(s16 *)(entry_v0 + 0x10);
         call_a1 = field_s1 - 5;
         field_s1[0] = value_v1;

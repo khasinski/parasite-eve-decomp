@@ -19,9 +19,7 @@ void CdRom_ReadyEventDispatch(int event, u8 *data) {
     u32 pending;
     data_reg = data;
     event_reg = event & 0xFF;
-    asm volatile("" : "=r"(data_reg) : "0"(data_reg));
-    asm volatile("" : "=r"(event_reg) : "0"(event_reg));
-    CdRom_ProcessEventByte(event_reg);
+            CdRom_ProcessEventByte(event_reg);
 
     state = &g_DsReadyEventWindow;
     asm volatile("" : "=r"(state) : "0"(state));

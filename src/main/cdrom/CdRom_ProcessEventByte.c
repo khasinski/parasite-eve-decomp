@@ -41,7 +41,6 @@ process:
     state->bit6 = (value >> 6) & 1;
     state->bit5 = (value >> 5) & 1;
     state->bit1 = (value >> 1) & 1;
-    asm volatile("" : "=r"(state) : "0"(state));
-    ((u8 *)state)[-0x1C] = value;
+        ((u8 *)state)[-0x1C] = value;
     Util_Copy8((u8 *)state - 0x24, data_reg);
 }

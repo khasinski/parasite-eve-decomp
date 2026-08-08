@@ -135,8 +135,7 @@ void SeqOp_SetPitchLFO(void *ptr) {
     int selector;
 
     track = ptr;
-    __asm__("" : "=r"(track) : "0"(track));
-    track->flags |= AKAO_TRACK_FLAG_PITCH_LFO;
+        track->flags |= AKAO_TRACK_FLAG_PITCH_LFO;
 
     if (track->parent_track_id != 0) {
         pc = track->pc;

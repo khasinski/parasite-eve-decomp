@@ -20,14 +20,12 @@ int Entity_CallAction(int **arg0) {
     args = arg0;
     arg0_ptr = args[3];
     arg1_ptr = args[1];
-    asm volatile("" : "=r"(arg1_ptr) : "0"(arg1_ptr));
-    arg2_ptr = args[2];
+        arg2_ptr = args[2];
     arg2 = *arg0_ptr;
     current = g_CurrentEntity;
     asm volatile("" ::: "memory");
     arg1 = *(volatile int *)arg1_ptr;
-    asm volatile("" : "=r"(arg1) : "0"(arg1));
-    arg3 = *(u16 *)arg2_ptr;
+        arg3 = *(u16 *)arg2_ptr;
     base = *(int *)(current + 0x9C);
     arg0_ptr = args[0];
     arg2 <<= 1;

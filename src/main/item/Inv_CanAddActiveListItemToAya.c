@@ -64,8 +64,7 @@ int Inv_CanAddActiveListItemToAya(int index) {
     g_InvSelectionBitWords = 2;
 
     result = Inv_WriteSlotById(data);
-    asm volatile("" : "=r"(result) : "0"(result));
-    if (result == 0) {
+        if (result == 0) {
         int offset;
         offset = slot_index << 1;
         *(s16 *)((u8 *)g_InvActiveListItems + offset) = 0;

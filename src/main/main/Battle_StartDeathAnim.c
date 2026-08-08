@@ -273,22 +273,19 @@ void Battle_StartDeathAnim(void) {
     {
         s32 d2e8;
         d2e8 = g_FieldMoveLock_r[0];
-        __asm__("" : "=r"(d2e8) : "0"(d2e8));
-        D_800B01A8 = c5;
+                D_800B01A8 = c5;
         D_800B01B8 = c5;
         p254 = g_PlayerEntity;
         __asm__ __volatile__("" :: "r"(p254));
         D_800B01AA = c3;
         D_800B01BA = c3;
         c3 = ~0x100;
-        __asm__ __volatile__("" :: "r"(c3));
-        D_800B01A2 = c6;
+                D_800B01A2 = c6;
         D_800B01A9 = c4;
         D_800B01B1 = c7;
         D_800B01B2 = c6;
         D_800B01B9 = c4;
-        __asm__ __volatile__("" : "=r"(d2e8) : "0"(d2e8));
-        g_FieldMoveLock_w[0] = d2e8 | 1;
+                g_FieldMoveLock_w[0] = d2e8 | 1;
     }
     t98 = *(s32 *) (p254 + 0x98);
     *(s32 *) (p254 + 0x68) = 0;
