@@ -21,7 +21,7 @@ MASPSX_ASPSX_VERSION="${PE_MASPSX_ASPSX_VERSION:-2.56}"
 AS=$(command -v mipsel-none-elf-as)
 INCLUDE="$ROOT/sdk/psyq-4.0/PSX/INCLUDE"
 
-CPP_FLAGS="-undef -D__GNUC__=2 -D__OPTIMIZE__ -Dmips -D__mips__ -D__LITTLE_ENDIAN__ -I$INCLUDE -I$ROOT/include $*"
+CPP_FLAGS="-undef -D__GNUC__=2 -D__OPTIMIZE__ -Dmips -D__mips__ -D__LITTLE_ENDIAN__ -I$INCLUDE -I$ROOT/include -I$ROOT/tools/m2c $*"
 CC1_FLAGS="-w -O2 -G0 -funsigned-char -mips1 -mcpu=3000"
 AS_G_FLAG="-G0"
 if grep -q 'CC1_FLAGS:.*-G4' "$IN"; then

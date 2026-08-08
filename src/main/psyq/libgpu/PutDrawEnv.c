@@ -4,7 +4,7 @@
 #include "include_asm.h"
 
 #define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
+#include "m2c_macros.h"
 M2C_UNK Gpu_SetDrawEnvBack();
 M2C_UNK call_memcpy(void *, void *, s32) __asm__("memcpy");
 typedef struct GpuCallbacks {
