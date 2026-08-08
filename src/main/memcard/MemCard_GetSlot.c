@@ -1,6 +1,4 @@
-
-typedef unsigned char u8;
-
+#include "common.h"
 extern u8 D_800A0ED6[];
 extern u8 D_800A0EF1[];
 extern u8 D_800A0EF0[];

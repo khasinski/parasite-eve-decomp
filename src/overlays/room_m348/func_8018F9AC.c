@@ -1,8 +1,4 @@
-typedef int s32;
-typedef short s16;
-typedef unsigned short u16;
-typedef unsigned char u8;
-
+#include "common.h"
 void func_8018F9AC(s32 arg0, char *arg1, char *arg2) {
     char *obj = arg2;
     u16 value;

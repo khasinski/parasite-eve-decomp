@@ -1,3 +1,4 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
 
 #include "include_asm.h"
@@ -5,8 +6,6 @@
 #include "include_asm.h"
 
 #include "pe1/card_obj.h"
-
-typedef unsigned char u8;
 
 extern unsigned char g_MemCardObjStorage[];
 

@@ -1,7 +1,4 @@
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 typedef struct {
     char pad_00[1];
     u8 status;

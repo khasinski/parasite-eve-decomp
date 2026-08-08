@@ -1,4 +1,4 @@
-typedef int s32;
+#include "common.h"
 typedef unsigned int size_t;
 
 typedef struct DecDCTEnv {

@@ -1,8 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-
+#include "common.h"
 #define COPY_BODY_TO_LOCAL(body) \
     asm volatile( \
         "lwl $2,19(%0)\n\t" \

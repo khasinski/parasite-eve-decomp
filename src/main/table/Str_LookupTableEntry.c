@@ -1,8 +1,4 @@
-typedef signed short s16;
-typedef unsigned short u16;
-typedef unsigned char u8;
-typedef unsigned int u32;
-
+#include "common.h"
 extern u8 g_GlyphMetricsTable[];
 extern int g_StrLookupTableOffset;
 extern int D_800A804C;

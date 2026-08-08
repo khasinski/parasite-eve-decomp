@@ -1,6 +1,4 @@
-
-typedef unsigned short u16;
-
+#include "common.h"
 extern char *g_CurrentEntity;
 
 int Geo_PointInPoly(int arg0, int arg1, int arg2, int arg3);

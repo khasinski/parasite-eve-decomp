@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned char u8;
-typedef int s32;
 
 typedef struct CdRomPendingCmd {
     s32 active;

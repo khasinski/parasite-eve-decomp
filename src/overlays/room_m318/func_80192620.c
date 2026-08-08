@@ -1,7 +1,4 @@
-typedef unsigned short u16;
-typedef short s16;
-typedef int s32;
-
+#include "common.h"
 extern s32 D_800E27EC;
 extern char D_80199464[];
 

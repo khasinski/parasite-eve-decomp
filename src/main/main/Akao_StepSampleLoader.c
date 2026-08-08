@@ -1,8 +1,5 @@
+#include "common.h"
 #include "pe1/akao.h"
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
 
 typedef void (*AkaoCommandHandler)(AkaoTrack *track, int voice_mask);
 

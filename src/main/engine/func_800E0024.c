@@ -1,5 +1,4 @@
-typedef int s32;
-
+#include "common.h"
 s32 func_800E0024(s32 lhs, s32 rhs) {
     register s32 delta asm("$4");
     register s32 abs_delta asm("$3");

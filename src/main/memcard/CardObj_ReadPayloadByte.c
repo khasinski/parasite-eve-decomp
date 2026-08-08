@@ -1,6 +1,5 @@
+#include "common.h"
 #include "pe1/card_obj.h"
-
-typedef unsigned char u8;
 
 int CardObj_ReadPayloadByte(CardObj *arg0) {
     int index;

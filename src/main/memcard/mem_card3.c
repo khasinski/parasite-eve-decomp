@@ -1,9 +1,8 @@
+#include "common.h"
 extern int g_MemCardActivePortOneBased;
 extern int g_MemCardActivePromptPending;
 
 void MemCard_StartRead(int port, int arg1);
-
-typedef unsigned char u8;
 
 extern u8 D_800A0EDE[];
 

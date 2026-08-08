@@ -1,7 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
-
-typedef unsigned char u8;
 
 int g_MenuItemDiscardMode;
 u8 *g_MenuSelectedItemData;

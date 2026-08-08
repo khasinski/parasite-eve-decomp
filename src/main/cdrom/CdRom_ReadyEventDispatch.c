@@ -1,10 +1,8 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
 
 #include "include_asm.h"
 #include "pe1/psyq_cd.h"
-
-typedef unsigned int u32;
-typedef unsigned char u8;
 
 extern DsReadyEventWindow g_DsReadyEventWindow asm("D_8009B56C");
 extern void (*D_800A36A8[])(int event, u8 *data);

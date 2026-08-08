@@ -1,12 +1,10 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 void *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 int MenuWidget_GridCellIndex(void *node);
 void Inv_RemoveActiveListItem(int arg0);
-
-typedef signed char s8;
-typedef unsigned short u16;
 
 extern u16 *g_InvItemPtr;
 extern s8 g_AyaEquippedWeaponSlot[];

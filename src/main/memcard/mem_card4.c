@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 extern u8 D_800A0ED5[];
 
 extern int g_McOpPending;

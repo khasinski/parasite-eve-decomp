@@ -1,5 +1,4 @@
-typedef int s32;
-
+#include "common.h"
 extern char D_80192BE8;
 
 void **func_800C22F8(void);

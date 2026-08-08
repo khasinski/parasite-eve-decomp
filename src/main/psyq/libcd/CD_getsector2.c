@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned int u32;
-
+#include "common.h"
 extern volatile u8 *D_8009B27C;
 extern volatile u8 *D_8009B288;
 extern volatile u32 *D_8009B28C;

@@ -1,7 +1,4 @@
-typedef unsigned short u16;
-typedef signed short s16;
-typedef int s32;
-
+#include "common.h"
 typedef struct Room034Matrix {
     s16 m[3][3];
     s16 pad;

@@ -1,10 +1,8 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "include_asm.h"
 #include "../../../tools/m2c/m2c_macros.h"
-
-typedef int s32;
-typedef unsigned int u32;
 
 int g_MenuEquipMode;
 

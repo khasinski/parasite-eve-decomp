@@ -1,5 +1,4 @@
-typedef unsigned short u16;
-
+#include "common.h"
 typedef struct {
     int field00;
     char pad04[0x20];
@@ -19,13 +18,9 @@ typedef struct {
 } Unk8003DF50TableOwner;
 
 typedef unsigned short u16_1;
-typedef short s16;
-
-typedef unsigned char u8;
 
 typedef unsigned char u8_2;
 typedef short s16_2;
-typedef int s32;
 
 void Render_InitObjectFromTable(Unk8003DF50Obj *obj, Unk8003DF50TableOwner *owner, int index) {
     int offset;

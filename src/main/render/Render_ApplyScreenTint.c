@@ -1,12 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
 
 typedef struct RgbPrim {
     u8 pad0[4];
@@ -48,7 +42,6 @@ int Render_ApplyScreenTint(void) {
     if ((flags & 0x1000) == 0) {
         return 0;
     }
-
 
     if (flags & 0x2000) {
         tint = D_800BCFFC;

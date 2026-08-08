@@ -1,8 +1,5 @@
+#include "common.h"
 #include "pe1/room_effect_state.h"
-
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
 
 extern u8 D_80194390;
 extern u8 D_80194391;

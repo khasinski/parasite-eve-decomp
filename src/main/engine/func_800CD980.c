@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 int *func_800C2B10(int index);
 int *func_800C2B28(int index);
 void Akao_Cmd_24(int arg0, int arg1, int arg2, int arg3);

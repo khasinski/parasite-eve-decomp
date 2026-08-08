@@ -1,7 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned short u16;
 
 extern int g_InvCategoryBaseItemId;
 extern u16 g_BattleCountTable[];

@@ -1,7 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
 
 int CardObj_CalcReadPayloadSize(void *arg0);
 int CardObj_BeginReadTransfer(void *arg0, void *arg1);

@@ -1,6 +1,4 @@
-typedef short s16;
-typedef int s32;
-
+#include "common.h"
 typedef struct Overlay024Variant38State {
     char pad0[0x22];
     s16 field22;

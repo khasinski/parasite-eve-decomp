@@ -1,5 +1,4 @@
-typedef signed char s8;
-
+#include "common.h"
 extern char g_GameState;
 
 int Overlay_FindAudioSlotIndex(int id) {

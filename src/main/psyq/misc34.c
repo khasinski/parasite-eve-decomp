@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 #define DS_READ_U32(ptr_) \
     ((unsigned int)((ptr_)[0]) | ((unsigned int)((ptr_)[1]) << 8) | ((unsigned int)((ptr_)[2]) << 16) | ((unsigned int)((ptr_)[3]) << 24))
 #define DS_DIR_ENTRY(i_) ((u8 *)D_800A3CB0 + ((i_) * 0x2C))

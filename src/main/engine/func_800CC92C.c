@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-
+#include "common.h"
 int func_800CC92C(void *arg0, u8 *state, u8 *anim) {
     u16 value;
     register int frame asm("$3");

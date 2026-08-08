@@ -1,7 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 #define U32_AT(ptr, offset) (*(u32 *)((u8 *)(ptr) + (offset)))
 

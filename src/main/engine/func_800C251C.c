@@ -1,8 +1,5 @@
+#include "common.h"
 /* CC1_FLAGS: -fno-schedule-insns */
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
-typedef unsigned int u32;
 
 int FieldEng_GetStatus(char *obj);
 int func_800C2DA0(u16 slot);

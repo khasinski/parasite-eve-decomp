@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 int func_800CCAB0(void *arg0, u8 *state, u8 *anim) {
     int i;
     u8 *state_t1;

@@ -1,12 +1,7 @@
+#include "common.h"
 /* Scene_LoadFieldBg (0x8006AD40): field room asset loader. Runs only when
  * (g_GameState[0] & 1) is set, streams room sections from PE.IMG, uploads TIM
  * texture pages, resolves room subresources, and resets render/entity state. */
-typedef signed char s8;
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
 
 typedef struct {
     s16 x;

@@ -1,12 +1,9 @@
+#include "common.h"
 extern char D_80092478[];
 
 extern char D_80092888[];
 
 extern int D_800A8030;
-
-typedef signed short s16;
-typedef unsigned short u16;
-typedef unsigned char u8;
 
 extern int g_StrLookupTableOffset;
 

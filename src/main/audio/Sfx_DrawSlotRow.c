@@ -1,9 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef short s16;
 
 #define U16(ptr, offset) (*(u16 *)((u8 *)(ptr) + (offset)))
 #define S16(ptr, offset) (*(s16 *)((u8 *)(ptr) + (offset)))

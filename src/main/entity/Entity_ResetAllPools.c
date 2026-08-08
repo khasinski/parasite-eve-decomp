@@ -1,7 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -fno-strength-reduce */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
-
-typedef unsigned short u16;
 
 int g_FieldMoveLock;
 void *g_EntityFreeListHead;

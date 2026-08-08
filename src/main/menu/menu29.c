@@ -1,3 +1,4 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "include_asm.h"
@@ -21,12 +22,6 @@ BattleCmdEntry *g_BattleCmdStackTop;
 extern BattleCmdEntry g_BattleCmdStack[];
 extern BattleCmdEntry *D_8009D014;
 extern char D_800A1B30[];
-
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef unsigned int u32;
 
 typedef struct {
     u32 w[6];

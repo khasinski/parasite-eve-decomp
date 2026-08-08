@@ -1,8 +1,5 @@
+#include "common.h"
 /* CC1_FLAGS: -fno-strength-reduce */
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
-typedef unsigned int u32;
 
 char *func_800C2B50(void);
 s32 func_80077CF4(s32 arg0);

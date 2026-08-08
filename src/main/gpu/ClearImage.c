@@ -1,9 +1,7 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
 
 #include "pe1/psyq_gpu.h"
-
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 #include "pe1/gpu_callbacks.h"
 

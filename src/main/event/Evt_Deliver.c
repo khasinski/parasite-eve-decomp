@@ -1,5 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --store-branch-delay */
-typedef int s32;
 
 extern s32 D_80094564;
 extern s32 D_80094568;

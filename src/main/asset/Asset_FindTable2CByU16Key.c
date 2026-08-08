@@ -1,6 +1,4 @@
-typedef unsigned int u32;
-typedef unsigned short u16;
-
+#include "common.h"
 #define DEFINE_ASSET_SEARCHER(name, table_offset) \
 void *name(char *base, int key) { \
     u32 mask; \

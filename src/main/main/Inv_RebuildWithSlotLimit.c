@@ -1,9 +1,4 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
-typedef unsigned int u32;
-
+#include "common.h"
 extern s16 g_AyaInventoryItems[] __asm__("D_800C0E48");
 extern s16 g_InvActiveListItems[] __asm__("D_800A1E00");
 extern u32 g_AyaItemSelectionBits[] __asm__("D_8009D05C");

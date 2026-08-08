@@ -1,5 +1,4 @@
-typedef int s32;
-
+#include "common.h"
 typedef struct Room348Node {
     s32 flags;
 } Room348Node;

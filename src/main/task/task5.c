@@ -1,11 +1,5 @@
-
+#include "common.h"
 int Geo_PointInPoly(int arg0, int arg1, int *arg2, int arg3);
-
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
 
 void EnterCriticalSection(void);
 void ExitCriticalSection(void);

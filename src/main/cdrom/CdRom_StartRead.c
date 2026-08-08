@@ -1,9 +1,8 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/psyq_cd.h"
-
-typedef int s32;
 
 s32 DsRead_IsBusy(void);
 CdlLOC *CdRom_GetCurrentPos(CdlLOC *dst);

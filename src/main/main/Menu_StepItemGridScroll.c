@@ -1,6 +1,4 @@
-typedef signed short s16;
-typedef unsigned char u8;
-
+#include "common.h"
 #define U8(base, off) (*(u8 *)((u8 *)(base) + (off)))
 #define S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
 #define STAT_TOTAL(base, stat_off, mod_off) \

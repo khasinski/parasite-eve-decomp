@@ -1,9 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
 
 typedef struct EquipStatPreview {
     u8 pad0[7];

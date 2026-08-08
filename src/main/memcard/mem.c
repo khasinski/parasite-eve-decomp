@@ -1,9 +1,8 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
 #include "include_asm.h"
 
 #include "pe1/card_obj.h"
-
-typedef unsigned char u8;
 
 void CardObj_EmitCommand43(CardObj *arg0, unsigned char arg1);
 void CardObj_EmitReadCommandForState(void);

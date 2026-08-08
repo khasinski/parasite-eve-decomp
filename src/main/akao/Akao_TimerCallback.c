@@ -1,5 +1,4 @@
-typedef int s32;
-
+#include "common.h"
 s32 GetRCnt(s32 arg0);
 void Akao_Tick(void);
 

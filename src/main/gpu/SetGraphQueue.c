@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
-
-typedef unsigned char u8;
 
 typedef struct GpuQueueState {
     u8 queue;

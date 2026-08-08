@@ -1,7 +1,5 @@
+#include "common.h"
 #include "pe1/akao.h"
-
-typedef short s16;
-typedef int s32;
 
 void SeqOp_SetTrack38Mask();
 

@@ -1,7 +1,4 @@
-
-typedef unsigned char u8;
-typedef short s16;
-
+#include "common.h"
 extern void **g_PlayerEntity;
 extern s16 g_RoomRenderYOverride __asm__("D_800942EC");
 

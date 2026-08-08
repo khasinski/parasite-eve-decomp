@@ -1,6 +1,4 @@
-typedef int s32;
-typedef short s16;
-
+#include "common.h"
 extern s32 D_800E27EC;
 extern s16 D_8019AC18[];
 extern s32 D_8019AC0C[];

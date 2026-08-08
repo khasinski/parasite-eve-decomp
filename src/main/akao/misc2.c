@@ -1,11 +1,9 @@
+#include "common.h"
 #include "pe1/akao.h"
-
-typedef unsigned short u16;
 
 extern char *g_AkaoCurTrack;
 extern char g_AkaoDefaultVoiceProgram[];
 
-typedef unsigned int u32;
 typedef unsigned short u16_1;
 
 extern char g_AkaoVoiceChannelTable[];

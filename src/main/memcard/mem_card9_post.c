@@ -1,3 +1,4 @@
+#include "common.h"
 /* MASPSX_FLAGS: --store-jump-delay */
 
 #include "include_asm.h"
@@ -31,9 +32,6 @@ extern void ExitCriticalSection(void);
 extern void ChangeClearRCnt(int, int);
 extern void SysDeqIntRP(int, void *);
 extern int g_MemCardCounterIrqQueueNode;
-
-typedef unsigned short u16;
-typedef unsigned char u8;
 
 typedef struct {
     volatile unsigned char field0;

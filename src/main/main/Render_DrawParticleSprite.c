@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned int u32;
-
+#include "common.h"
 typedef struct UnalignedWord {
     int value;
 } __attribute__((packed)) UnalignedWord;

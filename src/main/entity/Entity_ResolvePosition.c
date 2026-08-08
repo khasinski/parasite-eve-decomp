@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned char u8;
-typedef unsigned short u16;
 
 extern char *g_CollisionDb;
 extern char *g_CollisionPlaneTable;

@@ -1,7 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: -G8 --use-comm-section */
-
-typedef unsigned char u8;
-typedef short s16;
 
 int g_InvSlotLimit;
 int g_InvItemPtr;

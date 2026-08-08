@@ -1,6 +1,4 @@
-
-typedef unsigned short u16;
-
+#include "common.h"
 typedef struct AkaoState {
     unsigned char pad[0x1AA];
     u16 field_1AA;

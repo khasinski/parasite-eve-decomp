@@ -1,5 +1,4 @@
-typedef int s32;
-
+#include "common.h"
 extern s32 g_ActiveDrawSlot __asm__("D_8009CDDC");
 extern char g_RenderDisplayEnvArray[] __asm__("D_800BCE80");
 extern char g_RenderDrawEnvArray[] __asm__("D_800BCDC8");

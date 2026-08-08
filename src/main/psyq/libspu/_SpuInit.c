@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
-typedef unsigned short u16;
-typedef unsigned int u32;
 
 typedef struct SpuVolumeState {
     u32 unk0;

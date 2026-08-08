@@ -1,6 +1,5 @@
+#include "common.h"
 #include "pe1/card_obj.h"
-
-typedef unsigned char u8;
 
 typedef struct MemCardStateRaw {
     u8 field_00;

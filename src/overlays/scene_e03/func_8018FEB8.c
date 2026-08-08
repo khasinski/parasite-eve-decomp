@@ -1,8 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --label-branch-delay */
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
 
 s32 func_8018FEB8(char *obj) {
     char *sub = obj + 0xC;

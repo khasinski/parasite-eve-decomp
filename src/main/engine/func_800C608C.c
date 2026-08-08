@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 void func_800C608C(int scale, u8 *src, u8 *dst) {
     scale = (short)scale;
 

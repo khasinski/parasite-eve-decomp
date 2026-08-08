@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed short s16;
-
+#include "common.h"
 typedef struct { s16 m[3][3]; int t[3]; } Matrix;
 
 void func_800C2EAC(int arg0);

@@ -1,12 +1,10 @@
+#include "common.h"
 #include "include_asm.h"
 
 extern char D_80010EB0[];
 extern char D_80010EC8[];
 extern char *D_80091A2C[];
 int printf(char *fmt, ...);
-
-typedef unsigned char u8;
-typedef unsigned short u16;
 
 extern u8 *g_FontGlyphTable;
 extern struct { char _[16]; } D_80091A28_o __asm__("D_80091A28");

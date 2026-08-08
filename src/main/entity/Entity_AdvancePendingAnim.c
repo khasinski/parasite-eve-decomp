@@ -1,6 +1,4 @@
-
-typedef unsigned short u16;
-
+#include "common.h"
 typedef struct Entity Entity;
 typedef struct Node Node;
 

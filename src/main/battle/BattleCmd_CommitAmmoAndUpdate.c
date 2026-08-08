@@ -1,5 +1,4 @@
-typedef signed char s8;
-
+#include "common.h"
 extern void **D_8009D254;
 extern short D_800C0E08;
 extern s8 D_800C0E20;

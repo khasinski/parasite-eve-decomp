@@ -1,7 +1,4 @@
-
-typedef unsigned char u8;
-typedef int s32;
-typedef unsigned int u32;
+#include "common.h"
 extern void *g_LoadedSceneAssetBlock[];
 int Asset_FindTable08ByU32Key(void *arg0, s32 arg1);
 int Asset_SearchByKeyType(int arg0)

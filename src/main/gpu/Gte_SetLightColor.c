@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 void Gte_SetLightColor(u8 *state, int index, int r, int g, u16 b) {
     u8 *byte_slot;
     register u32 m0 asm("t4");

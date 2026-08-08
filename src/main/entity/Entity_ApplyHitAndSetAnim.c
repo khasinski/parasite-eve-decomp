@@ -1,10 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef signed int s32;
 
 extern char *g_PlayerEntity[];
 extern char *g_PlayerEntity_call[] asm("g_PlayerEntity");

@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
+#include "common.h"
 extern u8 g_MemCardPortStates[];
 extern u8 g_MemCardFileBuffer[];
 extern void *g_MemCardActiveState;

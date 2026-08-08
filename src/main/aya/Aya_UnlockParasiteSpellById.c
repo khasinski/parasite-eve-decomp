@@ -1,5 +1,4 @@
-
-typedef unsigned short u16;
+#include "common.h"
 extern unsigned int g_AyaParasiteSpellFlags;
 void *Aya_GetParasiteSpellUnlockTable(void);
 void Menu_CreateParasiteSpellInfoPanel(int arg0);

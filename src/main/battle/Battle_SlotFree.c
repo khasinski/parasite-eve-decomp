@@ -1,6 +1,4 @@
-
-typedef unsigned char u8;
-
+#include "common.h"
 extern int g_BattleEntitySlotInUse[];
 extern char g_BattleEntitySlotArray[];
 

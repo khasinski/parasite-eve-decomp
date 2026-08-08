@@ -1,5 +1,4 @@
-typedef unsigned short u16;
-
+#include "common.h"
 void func_800CEDA8(int arg0);
 
 extern u16 D_800E2350;

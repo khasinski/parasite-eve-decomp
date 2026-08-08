@@ -1,6 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef unsigned char u8;
 
 typedef struct {
     int active;

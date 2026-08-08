@@ -1,7 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef int s32;
 
 s32 MenuWidget_GridCellIndex(s32 arg0);
 void MenuWidget_RestoreSavedCurrentNode(void);

@@ -1,6 +1,5 @@
+#include "common.h"
 #include "pe1/psyq_gpu.h"
-
-typedef unsigned char u8;
 
 int LoadImage(RECT *rect, int image);
 

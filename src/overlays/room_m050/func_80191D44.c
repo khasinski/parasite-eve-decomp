@@ -1,10 +1,4 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
-
+#include "common.h"
 typedef struct Overlay024Matrix {
     s16 m[3][3];
     s16 pad;

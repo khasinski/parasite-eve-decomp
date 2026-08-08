@@ -1,7 +1,4 @@
-
-typedef unsigned char u8;
-typedef unsigned int u32;
-
+#include "common.h"
 typedef struct Entity Entity;
 
 struct Entity {

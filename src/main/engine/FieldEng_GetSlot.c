@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef signed short s16;
-
+#include "common.h"
 int FieldEng_GetStatus(char *obj);
 
 extern char *D_800E2248;

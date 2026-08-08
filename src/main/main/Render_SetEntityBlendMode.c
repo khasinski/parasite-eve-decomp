@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 extern int D_8009CDDC;
 
 #define PTR_AT(ptr, off) (*(void **)((u8 *)(ptr) + (off)))

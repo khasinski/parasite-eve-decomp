@@ -1,6 +1,4 @@
-
-typedef signed short s16;
-typedef unsigned short u16;
+#include "common.h"
 extern int D_800E27EC;
 extern char *D_800E2368;
 int func_800CE688(char *list)

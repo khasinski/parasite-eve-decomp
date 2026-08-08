@@ -1,6 +1,4 @@
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 void AkaoSpuVoice_SetVolume(u32 index, u32 left, u32 right) {
     u16 *ptr;
     u32 mask;

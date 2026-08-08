@@ -1,8 +1,6 @@
-
-typedef signed int s32;
-typedef unsigned int u32;
+#include "common.h"
 typedef unsigned long u_long;
-typedef unsigned short u16;
+
 typedef void (*SpuCallback)(void);
 typedef struct SpuMalloc
 {

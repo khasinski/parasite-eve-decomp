@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 extern char *g_PmSlotTable;
 extern char *g_PmSlotTable2;
 extern int g_GameState;

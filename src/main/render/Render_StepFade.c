@@ -1,12 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
 
 typedef struct RgbPrim {
     u8 pad0[4];
@@ -55,7 +49,6 @@ int Render_StepFade(void) {
     if ((D_800BCF88 & 0x400) == 0) {
         return 0;
     }
-
 
     asm volatile(
         ".set\tnoreorder\n\t"

@@ -1,7 +1,4 @@
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned int u32;
-
+#include "common.h"
 void func_800C4E50(char *data);
 
 void func_8018F550(void *arg0, void *arg1, char *state) {

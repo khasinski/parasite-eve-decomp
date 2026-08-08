@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
-
-typedef unsigned char u8;
 
 typedef int (*Cb3C)(int);
 typedef int (*Cb14)(void *, u8);

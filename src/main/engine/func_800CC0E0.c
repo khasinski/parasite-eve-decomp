@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-
+#include "common.h"
 int *func_800C2B10(int index);
 int rsin(int angle);
 int rcos(int angle);

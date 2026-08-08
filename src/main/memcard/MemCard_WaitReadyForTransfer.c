@@ -1,6 +1,6 @@
+#include "common.h"
 /* MASPSX_FLAGS: --store-jump-delay */
 
-typedef unsigned short u16;
 typedef struct 
 {
   unsigned int field0;

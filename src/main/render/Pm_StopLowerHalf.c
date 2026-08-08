@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef int s32;
-
+#include "common.h"
 s32 Pm_Stop(s32 slot, s32 entity, s32 mode);
 
 extern struct { char _[16]; } D_800942E4_o __asm__("g_PmSlotTable");

@@ -1,9 +1,8 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/menu_widget.h"
-
-typedef unsigned char u8;
 
 extern MenuWidgetNode *MenuWidget_GetCurrentNode(void);
 extern MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent, int arg2, int arg3);

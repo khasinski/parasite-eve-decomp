@@ -1,7 +1,4 @@
-typedef signed char s8;
-typedef signed short s16;
-typedef int s32;
-
+#include "common.h"
 typedef struct Overlay189State Overlay189State;
 typedef struct Overlay189Nested Overlay189Nested;
 

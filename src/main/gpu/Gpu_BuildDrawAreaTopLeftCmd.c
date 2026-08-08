@@ -1,6 +1,5 @@
+#include "common.h"
 /* CC1_FLAGS: -O1 */
-typedef signed short s16;
-typedef unsigned short u16;
 
 extern s16 D_80095750;
 extern s16 D_80095752;

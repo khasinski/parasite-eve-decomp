@@ -1,8 +1,5 @@
+#include "common.h"
 #include "include_asm.h"
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed short s16;
 
 extern u16 g_RenderDrawBaseY1;
 extern u16 g_RenderDrawBaseY0;

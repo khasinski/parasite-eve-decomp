@@ -1,6 +1,4 @@
-typedef int s32;
-typedef short s16;
-
+#include "common.h"
 #include "pe1/gte.h"
 
 extern s16 D_80096250[];

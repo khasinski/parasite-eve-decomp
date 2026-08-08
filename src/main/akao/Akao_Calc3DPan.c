@@ -1,9 +1,5 @@
+#include "common.h"
 #include "pe1/akao/pos.h"
-
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
-typedef int s32;
 
 extern struct { char _[16]; } D_800B0CD8_o __asm__("D_800B0CD8");
 #define GAME ((u8 *)&D_800B0CD8_o)

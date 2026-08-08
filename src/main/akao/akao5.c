@@ -1,19 +1,14 @@
+#include "common.h"
 /* MASPSX_FLAGS: --expand-div */
-
-typedef unsigned char u8;
-typedef signed char s8;
 
 #include "pe1/akao.h"
 
 typedef unsigned char u8_2;
-typedef int s32;
 
 typedef unsigned char u8_4;
 typedef int s32_4;
 
 typedef unsigned char u8_6;
-typedef unsigned short u16;
-typedef unsigned int u32;
 
 extern char *g_AkaoCurTrack;
 extern AkaoInstrument g_AkaoInstrumentTable[];

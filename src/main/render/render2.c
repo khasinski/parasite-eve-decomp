@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 extern int D_8003E60C;
 
 void Render_ApplyColourOffset(void *arg0, int arg1, int arg2, int arg3) {

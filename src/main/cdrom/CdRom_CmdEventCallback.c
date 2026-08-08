@@ -1,7 +1,5 @@
+#include "common.h"
 #include "pe1/psyq_cd.h"
-
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 extern struct { char _[16]; } D_8009B558_o __asm__("D_8009B558");
 extern struct { char _[16]; } D_8009B56C_o __asm__("D_8009B56C");

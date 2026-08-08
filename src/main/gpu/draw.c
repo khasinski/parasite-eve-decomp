@@ -1,10 +1,8 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
 int g_DrawPresentImage;
-
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 extern int g_ActiveDrawSlot[];
 extern int D_8009D0FC;

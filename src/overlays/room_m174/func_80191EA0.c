@@ -1,9 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -fno-strength-reduce */
 #include "pe1/room_fx.h"
-
-typedef int s32;
-typedef unsigned int u32;
-typedef short s16;
 
 extern s32 *func_800C2B50(void);
 extern s32 *func_800C2B10(s32 index);

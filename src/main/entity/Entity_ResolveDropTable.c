@@ -1,10 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --expand-div */
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
-typedef signed int s32;
 
 extern char *g_ActiveActor[];
 extern char *g_ActiveActor_late[] asm("g_ActiveActor");

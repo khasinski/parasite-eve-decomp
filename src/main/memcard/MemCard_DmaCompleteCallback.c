@@ -1,8 +1,7 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
 
 #include "pe1/card_obj.h"
-
-typedef unsigned char u8;
 
 extern u8 D_800A5B70[];
 extern int D_8009B764;

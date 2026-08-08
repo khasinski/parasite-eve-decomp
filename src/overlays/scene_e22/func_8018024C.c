@@ -1,7 +1,4 @@
-typedef signed char s8;
-typedef signed short s16;
-typedef int s32;
-
+#include "common.h"
 typedef struct {
     char pad0[0x3];
     s8 state;

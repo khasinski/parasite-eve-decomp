@@ -1,7 +1,5 @@
+#include "common.h"
 #include "pe1/psyq_gpu.h"
-
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 extern u32 g_GameState;
 extern unsigned char g_DiscChangeFlags;

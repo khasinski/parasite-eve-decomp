@@ -1,7 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
-
-typedef unsigned char u8;
-typedef int s32;
 
 typedef s32 (*Callback)(s32);
 

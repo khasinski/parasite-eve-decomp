@@ -1,5 +1,4 @@
-typedef int s32;
-typedef unsigned int u32;
+#include "common.h"
 typedef volatile unsigned int vu32;
 
 s32 func_80071A74(void *arg0, s32 arg1);

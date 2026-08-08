@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 extern volatile u16 D_800E2290;
 extern volatile u16 D_800E2292;
 extern volatile u16 D_800E2294;

@@ -1,8 +1,4 @@
-typedef int s32;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef short s16;
-
+#include "common.h"
 typedef struct Vec4i {
     s32 x;
     s32 y;

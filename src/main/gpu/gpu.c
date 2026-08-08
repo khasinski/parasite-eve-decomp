@@ -1,5 +1,4 @@
-typedef unsigned short u16;
-
+#include "common.h"
 extern signed char g_DrawEnabled;
 extern signed char D_800B0DBB;
 extern u16 g_SeqElapsed;

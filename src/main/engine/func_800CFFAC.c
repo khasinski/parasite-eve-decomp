@@ -1,6 +1,4 @@
-typedef unsigned short u16;
-typedef short s16;
-
+#include "common.h"
 extern u16 D_800E21C8;
 
 int rand(void);

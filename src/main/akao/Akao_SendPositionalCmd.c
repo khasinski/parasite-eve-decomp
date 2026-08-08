@@ -1,6 +1,5 @@
+#include "common.h"
 #include "pe1/akao/pos.h"
-
-typedef int s32;
 
 extern s32 Akao_Calc3DPan(AkaoPackedRect3 *rect, s32 *out1, s32 *out2);
 int Akao_SendTableCommand(void *arg0, int arg1, int arg2, int arg3, int arg4);

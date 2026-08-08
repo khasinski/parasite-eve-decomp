@@ -1,9 +1,7 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "pe1/textbox.h"
-
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 extern void *D_8009CE90;
 extern u32 D_8009D1F4;

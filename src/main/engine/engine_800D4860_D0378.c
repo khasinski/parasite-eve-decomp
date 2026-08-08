@@ -1,6 +1,4 @@
-
-typedef unsigned char u8;
-typedef unsigned int u32;
+#include "common.h"
 int func_800DFB78(u8 *arg0)
 {
   register u8 *state;

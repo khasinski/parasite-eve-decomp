@@ -1,6 +1,4 @@
-typedef signed short s16;
-typedef int s32;
-
+#include "common.h"
 typedef struct {
     char pad0[0x10];
     s16 random_mod;

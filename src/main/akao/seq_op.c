@@ -1,7 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --expand-div */
-
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 #include "pe1/akao.h"
 
@@ -17,7 +15,7 @@ extern int g_AkaoTrack3CMask;
 extern char *g_AkaoCurTrack;
 
 typedef unsigned char u8_1;
-typedef unsigned short u16;
+
 typedef unsigned int u32_1;
 
 void SeqOp_SetVoiceInstrument(AkaoTrack *track_arg, AkaoInstrument *instrument_arg, int sample_header) {

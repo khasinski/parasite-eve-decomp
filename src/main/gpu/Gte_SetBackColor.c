@@ -1,5 +1,4 @@
-typedef unsigned short u16;
-
+#include "common.h"
 void Gte_SetBackColor(u16 *dst, int r, int g, int b) {
     register int sr asm("t4");
     register int sg asm("t5");

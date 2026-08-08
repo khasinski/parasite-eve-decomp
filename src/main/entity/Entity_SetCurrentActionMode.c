@@ -1,7 +1,5 @@
-
+#include "common.h"
 #include "pe1/field_actor.h"
-
-typedef unsigned short u16;
 
 extern FieldActor *g_CurrentEntity;
 

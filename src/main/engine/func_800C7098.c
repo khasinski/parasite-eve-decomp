@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 void func_800C7098(char *data, u8 r, u8 g, u8 b) {
     int i = 0;
     register int count asm("$3");

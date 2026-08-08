@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed short s16;
-
+#include "common.h"
 extern s16 D_800F3420;
 
 void func_800C6D5C(u8 *data, u8 xOffset, u8 yOffset) {

@@ -1,6 +1,4 @@
-
-typedef unsigned char u8;
-typedef signed short s16;
+#include "common.h"
 int printf(char *fmt);
 extern u8 *D_800F34F4;
 extern char *D_800E2248;

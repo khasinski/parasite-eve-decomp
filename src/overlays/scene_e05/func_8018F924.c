@@ -1,7 +1,5 @@
+#include "common.h"
 #include "pe1/scene_fx.h"
-
-typedef signed short s16;
-typedef signed int s32;
 
 void *func_800C2B50(void);
 

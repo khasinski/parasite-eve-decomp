@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned char u8;
-typedef int s32;
 
 void CD_flush(void);
 s32 CD_cw(s32 cmd, void *params, s32 arg2, s32 arg3);

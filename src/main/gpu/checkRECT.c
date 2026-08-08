@@ -1,8 +1,7 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
 
 #include "pe1/psyq_gpu.h"
-
-typedef unsigned char u8;
 
 extern u8 D_8009574E[];
 extern void (*D_80095748[])(char *msg, ...);

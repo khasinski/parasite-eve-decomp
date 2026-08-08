@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 #define U8(base, off) (*(u8 *)((u8 *)(base) + (off)))
 #define W(base, off) (*(int *)((u8 *)(base) + (off)))
 

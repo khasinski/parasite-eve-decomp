@@ -1,5 +1,4 @@
-typedef unsigned short u16;
-
+#include "common.h"
 extern u16 g_InvCategoryItemTable[];
 
 int Inv_GetWeaponCategoryAmmoBase(unsigned int arg0) {

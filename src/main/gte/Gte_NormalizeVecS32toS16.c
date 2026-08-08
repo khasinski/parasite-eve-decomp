@@ -1,6 +1,4 @@
-typedef signed short s16;
-typedef int s32;
-
+#include "common.h"
 #include "pe1/gte.h"
 
 typedef struct Vec3i {

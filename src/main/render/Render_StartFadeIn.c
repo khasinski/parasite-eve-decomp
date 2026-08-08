@@ -1,5 +1,4 @@
-
-typedef unsigned char u8;
+#include "common.h"
 extern int g_RenderStateFlags;
 extern u8 g_RenderFadeFrameCount;
 extern u8 g_RenderFadeFrameCounter;

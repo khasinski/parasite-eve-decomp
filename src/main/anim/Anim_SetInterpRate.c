@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --expand-div */
-
-typedef unsigned char u8;
 
 typedef struct {
     char pad[0x8D];

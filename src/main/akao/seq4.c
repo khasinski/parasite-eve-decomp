@@ -1,12 +1,9 @@
-typedef unsigned int u32;
-
+#include "common.h"
 extern char *g_AkaoCurTrack;
 extern u32 g_AkaoTrack38Mask;
 
 void Seq_MarkTrack38MaskDirty(void);
 
-typedef unsigned char u8;
-typedef unsigned short u16;
 typedef unsigned int u32_1;
 extern char *g_AkaoCurTrack_1 __asm__("g_AkaoCurTrack");
 extern u32_1 g_AkaoVoiceUpdateFlags;
@@ -18,7 +15,6 @@ typedef unsigned char u8_2;
 
 extern u8_2 D_800B290C[];
 
-typedef signed short s16;
 typedef unsigned char u8_3;
 typedef unsigned short u16_3;
 

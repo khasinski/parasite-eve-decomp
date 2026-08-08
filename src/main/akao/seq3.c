@@ -1,8 +1,7 @@
+#include "common.h"
 /* MASPSX_FLAGS: --expand-div */
 
 #include "pe1/akao.h"
-
-typedef unsigned short u16;
 
 void Seq_StartNestedStreams(void *arg0, void *arg1, void *arg2);
 

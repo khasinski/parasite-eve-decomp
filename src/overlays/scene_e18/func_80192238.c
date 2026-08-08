@@ -1,12 +1,7 @@
+#include "common.h"
 /* Shared no-op continuation: this function returns through the D_80192344
  * stub that other handlers store as their resume target. */
 
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
 unsigned long FieldEng_VecToAngle(s32 *from, s32 *to);
 extern char *D_8009D254;
 extern s16 D_800966EC[][2];

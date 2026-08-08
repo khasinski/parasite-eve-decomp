@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 typedef struct CardObj {
     u8 pad_00[0x36];
     u8 command;

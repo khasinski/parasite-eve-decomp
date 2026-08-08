@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef signed short s16;
-
+#include "common.h"
 void func_80192654(void);
 
 int func_80192584(u8 *arg0) {

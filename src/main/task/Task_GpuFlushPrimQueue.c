@@ -1,7 +1,5 @@
+#include "common.h"
 #include "include_asm.h"
-
-typedef unsigned int u32;
-typedef int s32;
 
 u32 Task_GpuFlushPrimQueue(void) {
     register u32 *base asm("$8");

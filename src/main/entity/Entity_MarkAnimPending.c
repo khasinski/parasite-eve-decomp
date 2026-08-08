@@ -1,7 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned short u16;
 
 typedef struct Entity Entity;
 typedef struct Node Node;

@@ -1,7 +1,4 @@
-typedef signed char s8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 void Entity_CheckActionIdMatch(char **arg0, void *arg1, char **arg2, int arg3) {
     char *entry;
     int i;

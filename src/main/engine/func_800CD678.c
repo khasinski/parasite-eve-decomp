@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 int rand(void);
 
 int func_800CD678(void *arg0, u8 *state, u8 *anim) {

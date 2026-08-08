@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef signed short s16;
-typedef unsigned int u32;
-typedef unsigned char u8;
 
 typedef struct {
     int value;

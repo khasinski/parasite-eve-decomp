@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 void func_800C2EAC(u8 arg0);
 void func_800C3098(int arg0);
 void func_800C2FF0(int arg0, int arg1);

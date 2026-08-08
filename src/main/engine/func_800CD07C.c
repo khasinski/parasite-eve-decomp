@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
-
+#include "common.h"
 extern u16 D_800E27F8;
 extern u16 D_800E27FC;
 extern char *D_8009D254;

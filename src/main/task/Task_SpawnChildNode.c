@@ -1,9 +1,8 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/task_node.h"
-
-typedef unsigned short u16;
 
 extern int g_TaskNodePool;
 extern int g_TaskNodeFreeListHead;

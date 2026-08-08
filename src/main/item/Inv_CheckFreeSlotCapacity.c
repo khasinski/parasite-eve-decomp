@@ -1,10 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
-typedef unsigned int u32;
 
 extern s16 g_AyaInventoryItems[] __asm__("D_800C0E48");
 extern u8 g_AyaInventorySlotCount[0x40] __asm__("D_800C0E0C");

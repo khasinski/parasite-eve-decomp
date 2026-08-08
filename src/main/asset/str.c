@@ -1,8 +1,5 @@
+#include "common.h"
 extern signed char g_Base32CharTable[];
-
-typedef unsigned int u32;
-typedef unsigned char u8;
-typedef int s32;
 
 int Str_DecodeBase32(unsigned int a0) {
     int total = 0;

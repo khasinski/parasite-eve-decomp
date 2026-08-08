@@ -1,10 +1,4 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
-
+#include "common.h"
 typedef struct { s16 vx, vy, vz, pad; } SVEC;
 typedef struct { s32 vx, vy, vz, pad; } VEC;
 typedef struct { SVEC sv; u8 pad[0xC]; s32 f14, f18, f1C; } Buf;

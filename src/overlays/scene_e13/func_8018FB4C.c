@@ -1,6 +1,4 @@
-typedef signed short s16;
-typedef unsigned short u16;
-
+#include "common.h"
 void func_8018FB4C(void *arg0, char *arg1, char *arg2) {
     u16 phase_y;
 

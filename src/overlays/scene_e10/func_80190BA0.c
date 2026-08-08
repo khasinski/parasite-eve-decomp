@@ -1,7 +1,4 @@
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
-
+#include "common.h"
 char *func_800C2B50(void);
 s32 func_800C5EB0(void *arg0, s16 *arg1, s32 *arg2);
 

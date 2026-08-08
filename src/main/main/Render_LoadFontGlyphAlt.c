@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 extern struct { char _[0x98]; } D_800B0DD8;
 extern u16 D_80093176[];
 extern u8 *D_800B0E6C;

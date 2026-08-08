@@ -1,9 +1,8 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/field_actor.h"
-
-typedef unsigned char u8;
 
 extern FieldActor *g_CurrentEntity[];
 extern FieldActorNode *g_TaskNodePool;

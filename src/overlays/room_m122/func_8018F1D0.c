@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
-
+#include "common.h"
 typedef struct {
     s32 w[8];
 } FxViewSnapshot;

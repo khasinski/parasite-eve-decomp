@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef signed short s16;
-typedef int s32;
-typedef unsigned int u32;
 
 typedef struct PolyPoint {
     s16 pad0;
@@ -18,7 +16,7 @@ typedef struct Vec3i {
 } Vec3i;
 
 typedef signed short s16_3;
-typedef unsigned short u16;
+
 typedef int s32_3;
 
 void Entity_SlideOnWall(void *entity, s32_3 points_addr, u16 count, s16_3 edge_index, s16_3 saved_x, s16_3 saved_y);

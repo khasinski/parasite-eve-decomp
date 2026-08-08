@@ -1,9 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
-
+#include "common.h"
 typedef struct Overlay002Rect {
     s16 x;
     s16 y;

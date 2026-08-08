@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed short s16;
-
+#include "common.h"
 int func_800C8BC0(void *arg0, u8 *state, u8 *anim) {
     u8 *state_a3 = state;
     u8 *anim_a2 = anim;
@@ -10,7 +7,6 @@ int func_800C8BC0(void *arg0, u8 *state, u8 *anim) {
     register int temp_a0 asm("$4");
     register int temp_a1 asm("$5");
     u8 count;
-
 
     temp_v0 = *(u16 *)(anim_a2 + 0x8);
     temp_v1 = *(u16 *)(anim_a2 + 0x10);

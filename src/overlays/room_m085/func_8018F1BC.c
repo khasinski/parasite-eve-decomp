@@ -1,7 +1,5 @@
+#include "common.h"
 #include "pe1/room_effect_state.h"
-
-typedef signed short s16;
-typedef unsigned char u8;
 
 extern s16 D_80190090;
 extern s16 D_80190092;

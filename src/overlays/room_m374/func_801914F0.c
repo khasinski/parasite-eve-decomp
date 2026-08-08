@@ -1,6 +1,4 @@
-typedef short s16;
-typedef int s32;
-
+#include "common.h"
 typedef struct Overlay024Variant290State {
     char pad0[0x10];
     s16 random_mod;

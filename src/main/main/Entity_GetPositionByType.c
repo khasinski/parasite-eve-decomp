@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 extern void *g_PlayerEntity __asm__("D_8009D254");
 extern void *g_FieldActorListHead __asm__("D_8009D20C");
 

@@ -1,7 +1,4 @@
-typedef signed short s16;
-typedef unsigned char u8;
-typedef int s32;
-
+#include "common.h"
 #include "pe1/render_camera.h"
 
 typedef struct Vec3s {

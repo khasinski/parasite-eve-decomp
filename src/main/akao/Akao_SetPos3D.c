@@ -1,9 +1,5 @@
+#include "common.h"
 #include "pe1/akao/pos.h"
-
-typedef unsigned char u8;
-typedef int s32;
-
-typedef unsigned short u16;
 
 typedef struct AkaoPosPanWork {
     AkaoPackedRect3 rect;

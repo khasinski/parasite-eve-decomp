@@ -1,5 +1,4 @@
-typedef int s32;
-
+#include "common.h"
 typedef struct {
     s32 x;
     s32 y;

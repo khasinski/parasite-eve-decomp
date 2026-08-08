@@ -1,8 +1,7 @@
+#include "common.h"
 /* MASPSX_FLAGS: --expand-div */
 
 #include "pe1/akao.h"
-
-typedef unsigned char u8;
 
 void sndTrackReadVolume(AkaoTrack *track) {
     unsigned char *stream = track->pc;

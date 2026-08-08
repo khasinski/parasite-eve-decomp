@@ -1,6 +1,4 @@
-typedef short s16;
-typedef unsigned short u16;
-
+#include "common.h"
 void func_8018FC34(int arg0, char *arg1, char *arg2) {
     u16 value;
 

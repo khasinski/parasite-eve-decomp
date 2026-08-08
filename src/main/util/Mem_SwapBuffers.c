@@ -1,7 +1,4 @@
-
-typedef unsigned char u8;
-typedef unsigned int u32;
-
+#include "common.h"
 void Mem_SwapBuffers(u8 *arg0, u8 *arg1, u32 len) {
     u8 *left = arg0;
     u8 *right = arg1;

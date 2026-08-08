@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 extern u8 D_80091A1C;
 
 int Menu_IsEquipSlotActive(void) {

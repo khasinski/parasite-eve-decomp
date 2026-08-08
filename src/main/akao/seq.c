@@ -1,12 +1,10 @@
+#include "common.h"
 #include "include_asm.h"
 
 #include "pe1/akao.h"
 
-typedef unsigned int u32;
-
 extern char *g_AkaoCurTrack;
 
-typedef unsigned short u16;
 typedef unsigned int u32_2;
 extern u16 *D_8009D240;
 extern char *D_8009D260;

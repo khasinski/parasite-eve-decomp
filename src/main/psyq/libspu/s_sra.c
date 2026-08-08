@@ -1,6 +1,4 @@
-typedef unsigned int u32;
-typedef unsigned short u16;
-
+#include "common.h"
 extern unsigned char *_spu_RXX;
 
 #define _spu_RXX _spu_RXX

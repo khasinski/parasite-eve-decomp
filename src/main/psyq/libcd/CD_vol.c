@@ -1,6 +1,5 @@
+#include "common.h"
 #include "pe1/psyq_cd.h"
-
-typedef unsigned char u8;
 
 extern u8 *g_CdRegIndexBase;
 extern u8 *g_CdRegPort1;

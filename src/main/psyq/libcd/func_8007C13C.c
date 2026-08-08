@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --la-call-delay --stack-return-delay */
-
-typedef unsigned char u8;
 
 extern volatile u8 *D_8009B27C;
 extern u8 D_8009B295;

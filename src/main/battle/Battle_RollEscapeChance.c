@@ -1,9 +1,5 @@
+#include "common.h"
 #include "include_asm.h"
-
-typedef signed char s8;
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 extern void *D_8009D20C;
 extern void *D_8009D254;

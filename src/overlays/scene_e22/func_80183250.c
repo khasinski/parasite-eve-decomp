@@ -1,5 +1,4 @@
-typedef int s32;
-
+#include "common.h"
 typedef struct {
     char pad[0xC];
     void (*callback)(void *);

@@ -1,9 +1,8 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/task_node.h"
-
-typedef unsigned char u8;
 
 typedef struct Group {
     char pad0[4];

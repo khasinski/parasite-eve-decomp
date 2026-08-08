@@ -1,9 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
 
 extern s32 g_InvActiveListCount __asm__("D_8009D078");
 extern s16 g_InvActiveListItems[] __asm__("D_800A1FD4");

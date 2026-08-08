@@ -1,6 +1,4 @@
-
-typedef signed char s8;
-
+#include "common.h"
 void bzero(void *ptr, int size);
 
 extern s8 g_MenuWidgetColumnLayoutTable[];

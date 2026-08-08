@@ -1,8 +1,4 @@
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef short s16;
-typedef int s32;
-
+#include "common.h"
 typedef struct RoomM086Blob8 {
     char bytes[8];
 } RoomM086Blob8;

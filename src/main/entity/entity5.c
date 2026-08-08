@@ -1,3 +1,4 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
@@ -12,8 +13,6 @@ Entity *g_CurrentEntity;
 extern int g_TaskNodePool[];
 
 void Task_RunQueue(void);
-
-typedef unsigned short u16;
 
 typedef struct Entity_1 Entity_1;
 typedef struct Node Node;

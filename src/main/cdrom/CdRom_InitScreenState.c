@@ -1,8 +1,4 @@
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef int s32;
-
+#include "common.h"
 extern u8 g_RenderStateFlags[];
 extern u16 D_800BCFE8[];
 #define D_800BCFE8 (D_800BCFE8[0])

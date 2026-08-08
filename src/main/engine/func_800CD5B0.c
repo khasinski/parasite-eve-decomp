@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed short s16;
-
+#include "common.h"
 int func_800CD5B0(void *arg0, u8 *state, u8 *anim) {
     *(u16 *)(anim + 4) = *(u16 *)(anim + 4) - 0xA;
     *(u16 *)(anim + 6) = *(u16 *)(anim + 6) + 0x3C;

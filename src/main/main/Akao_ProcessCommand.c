@@ -1,9 +1,4 @@
-typedef signed char s8;
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 typedef struct AkaoCommandArgs {
     int *opcode;
     int *arg0;

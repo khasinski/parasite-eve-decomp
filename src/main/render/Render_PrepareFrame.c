@@ -1,8 +1,4 @@
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned int u32;
-typedef int s32;
-
+#include "common.h"
 #include "pe1/gte.h"
 
 #define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))

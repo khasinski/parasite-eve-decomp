@@ -1,7 +1,4 @@
-typedef signed char s8;
-typedef signed short s16;
-typedef unsigned short u16;
-
+#include "common.h"
 extern char *func_800C2B50(void);
 
 void func_8018FFFC(char *arg0, char *arg1, char *arg2) {

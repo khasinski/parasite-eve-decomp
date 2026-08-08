@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef signed char s8;
-typedef unsigned char u8;
-typedef int s32;
 
 extern volatile s32 D_8009E004[];
 

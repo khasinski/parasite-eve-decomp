@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned short u16;
-typedef unsigned char u8;
 
 extern int g_SceneDataTable0;
 extern int *g_TaskNodePool;

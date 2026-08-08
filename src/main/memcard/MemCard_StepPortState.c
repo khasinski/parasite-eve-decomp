@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 typedef struct MemCardPortStateRaw {
     u8 flags;
     u8 pad_01[7];

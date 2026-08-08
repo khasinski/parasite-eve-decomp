@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned char u8;
-typedef short s16;
 
 extern int g_InvSlotLimit __asm__("D_8009D050");
 extern int g_InvItemPtr __asm__("D_8009D048");
@@ -53,7 +51,6 @@ int Inv_FindIndexByData(void *needle) {
             index++;
         } while (index < limit);
     }
-
 
     {
         int result;

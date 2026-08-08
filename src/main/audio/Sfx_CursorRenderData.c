@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 extern unsigned char g_CursorRenderDataBlock[];
 
 void *Str_LookupTable8(unsigned int arg0);

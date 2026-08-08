@@ -1,7 +1,5 @@
+#include "common.h"
 #include "pe1/psyq_cd.h"
-
-typedef unsigned int u32;
-typedef unsigned char u8;
 
 extern u8 D_8009B558[];
 extern DsDecodedEventFlags g_DsDecodedEventFlags asm("D_8009B588");

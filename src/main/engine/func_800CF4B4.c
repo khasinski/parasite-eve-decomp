@@ -1,6 +1,4 @@
-typedef short s16;
-typedef unsigned short u16;
-
+#include "common.h"
 typedef struct RECT {
     s16 x;
     s16 y;

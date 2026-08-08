@@ -1,7 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef int s32;
 
 s32 VSync(s32 mode);
 s32 CdRom_IsBusy(s32 dst, s32 sector_size);

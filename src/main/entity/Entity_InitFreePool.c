@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: -G8 --use-comm-section */
-
-typedef unsigned short u16;
 
 u16 g_EntityFreePoolCount;
 void *g_FieldActorListHead;

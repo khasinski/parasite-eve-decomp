@@ -1,7 +1,4 @@
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 typedef struct SaveSlotRaw {
     u8 active;
     u8 field_01;

@@ -1,7 +1,4 @@
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-
+#include "common.h"
 char *func_800C2B50(void);
 void func_800C2B10(s32 arg0);
 

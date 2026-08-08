@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --expand-div */
-
-typedef unsigned char u8;
-typedef unsigned short u16;
 
 typedef struct TaskAnimEntity {
     unsigned char pad_00[0x0F];

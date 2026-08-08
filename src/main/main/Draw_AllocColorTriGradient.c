@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef unsigned short u16;
 
 extern int g_TextCursorX;
 extern int g_TextCursorY;

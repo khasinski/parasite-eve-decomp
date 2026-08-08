@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef short s16;
-
+#include "common.h"
 extern void **FieldEng_GetSlot(void);
 extern char D_80196CE0[];
 extern u8 D_80197434;

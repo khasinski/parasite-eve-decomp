@@ -1,8 +1,4 @@
-typedef signed char s8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-
+#include "common.h"
 void func_80194D7C(s32 arg0, s16 *rec, u16 *p) {
     s16 v;
 

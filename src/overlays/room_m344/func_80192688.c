@@ -1,7 +1,4 @@
-typedef signed short s16;
-typedef unsigned short u16;
-typedef int s32;
-
+#include "common.h"
 typedef struct {
     char pad0[0x1A0];
     char transform[0x14];

@@ -1,10 +1,7 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "include_asm.h"
-
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 signed char g_PlayerMovementEnabled;
 

@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -fno-strength-reduce */
 #include "pe1/akao.h"
-
-typedef unsigned int u32;
-typedef unsigned short u16;
 
 extern char g_SpuVoiceControlTable[];
 extern u32 g_SpuActiveVoiceMask;

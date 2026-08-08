@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed short s16;
-
+#include "common.h"
 int GetTPage(int tp, int abr, int x, int y);
 
 extern u8 D_800F33AC;

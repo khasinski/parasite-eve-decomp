@@ -1,4 +1,4 @@
-typedef unsigned char u8;
+#include "common.h"
 extern u8 D_800A0EDC[];
 extern u8 g_Slot2QuickerSave[];
 extern int g_MemCardActivePortOneBased;

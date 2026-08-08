@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 extern char *func_800C2B50(void);
 extern void func_800C2EAC(int arg0);
 extern void func_800C2FF0(int arg0, int arg1);

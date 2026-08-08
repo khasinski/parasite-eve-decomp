@@ -1,6 +1,4 @@
-typedef int s32;
-typedef unsigned int u32;
-
+#include "common.h"
 extern s32 func_8010C39C(void);
 extern s32 func_8010C430(void);
 

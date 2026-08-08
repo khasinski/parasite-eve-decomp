@@ -1,9 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
 
 extern u8 *(*g_InvLookupPtr)(s16) __asm__("D_8009D0B4");
 extern u8 g_InvSortRankTable[] __asm__("D_8009D0B8");

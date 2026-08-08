@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 #define RW8(o, off) (*(u8 *)((char *)(o) + (off)))
 #define RWU16(o, off) (*(u16 *)((char *)(o) + (off)))
 

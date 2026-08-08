@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed short s16;
-
+#include "common.h"
 void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
     int frame;
     register int offset asm("$2");

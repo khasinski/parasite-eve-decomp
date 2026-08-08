@@ -1,8 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --expand-div */
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
 
 typedef struct Entity Entity;
 

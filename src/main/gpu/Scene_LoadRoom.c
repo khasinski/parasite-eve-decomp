@@ -1,10 +1,4 @@
-typedef signed char s8;
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
-
+#include "common.h"
 extern struct { char _[16]; } D_8009CDC8_o __asm__("D_8009CDC8");
 extern struct { char _[16]; } D_800B0CD8_o __asm__("g_GameState");
 extern struct { char _[16]; } D_800B0DD8_o __asm__("D_800B0DD8");

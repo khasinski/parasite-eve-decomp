@@ -1,7 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --expand-div */
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
 
 int rsin(int angle);
 int rcos(int angle);

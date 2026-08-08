@@ -1,8 +1,5 @@
+#include "common.h"
 #include "include_asm.h"
-
-typedef signed char s8;
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 #include "pe1/save_blob.h"
 

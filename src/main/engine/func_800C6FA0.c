@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 void func_800C6FA0(char *data, u16 factor) {
     int i;
     u8 *entry = (u8 *)(data + *(u16 *)(data + 0x8));

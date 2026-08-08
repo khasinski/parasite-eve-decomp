@@ -1,6 +1,4 @@
-typedef short s16;
-typedef unsigned short u16;
-
+#include "common.h"
 void func_80192CD4(void *arg0, unsigned char *signal, unsigned char *state) {
     if (*(s16 *)(signal + 2) < 0x3D) {
         *(s16 *)(state + 4) = 1;

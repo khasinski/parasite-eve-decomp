@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef signed short s16;
-typedef int s32;
-
+#include "common.h"
 extern void **D_8009D254;
 
 void func_80020CE4(void);

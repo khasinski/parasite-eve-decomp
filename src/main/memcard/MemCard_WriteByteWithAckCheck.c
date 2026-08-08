@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
-
-typedef unsigned char u8;
 
 extern int (*D_8009B72C)(void *obj, int needs_ack);
 

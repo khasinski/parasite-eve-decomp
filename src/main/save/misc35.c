@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 extern u8 g_SaveTitleBuffer[];
 extern int g_SaveTitleStyleFlag;
 extern int D_800A1708;
@@ -19,7 +18,6 @@ int Save_GetCurrentMapNumber(void);
 u8 *Tbl_FindNthNonEmpty(int arg0);
 
 typedef unsigned char u8_1;
-typedef unsigned int u32;
 
 extern int g_MemCardEventPort1Spec0004;
 extern int g_MemCardEventPort1Spec8000;

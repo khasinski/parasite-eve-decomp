@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef short s16;
-
+#include "common.h"
 extern u8 g_RenderDrawEnvArray[];
 extern u8 g_RenderDispEnvArray[];
 extern u8 D_800BCE94[];

@@ -1,10 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef signed short s16;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned char u8;
 
 #define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
 #define U32_AT(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))

@@ -1,6 +1,4 @@
-typedef int s32;
-typedef short s16;
-
+#include "common.h"
 extern void *func_800C2B10(s32 arg0);
 extern void func_800C2B90(s32 arg0, s32 arg1, void *arg2, void *arg3);
 

@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef int s32;
-
+#include "common.h"
 extern volatile u8 *g_CdRegIndexBase;
 extern volatile u8 *g_CdRegDataWrite;
 extern volatile u8 *g_CdRegResponse;

@@ -1,5 +1,4 @@
-typedef unsigned short u16;
-
+#include "common.h"
 #include "pe1/akao.h"
 
 extern u16 g_AkaoSelectedBankId;

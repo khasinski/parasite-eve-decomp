@@ -1,10 +1,4 @@
-typedef signed char s8;
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed int s32;
-typedef unsigned int u32;
-
+#include "common.h"
 extern u8 *D_8009D20C;
 extern u8 *D_8009D254;
 extern u32 D_8009D1A0;

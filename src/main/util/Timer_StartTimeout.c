@@ -1,5 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --store-return-delay */
-typedef unsigned short u16;
 
 extern int g_TimerTimeoutLimit;
 extern int g_TimerTimeoutStart;

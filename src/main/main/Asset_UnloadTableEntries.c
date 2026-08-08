@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned int u32;
-
+#include "common.h"
 typedef struct AssetSlot {
     u8 pad[0x18];
     void (*unload)(void);

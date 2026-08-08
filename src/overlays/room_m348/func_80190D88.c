@@ -1,7 +1,5 @@
+#include "common.h"
 /* CC1_FLAGS: -fno-strength-reduce */
-typedef int s32;
-typedef unsigned int u32;
-typedef short s16;
 
 typedef struct Room348Quad {
     s32 x;

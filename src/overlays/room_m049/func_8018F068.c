@@ -1,5 +1,4 @@
-typedef int s32;
-
+#include "common.h"
 s32 func_800C2AF0(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
 
 s32 func_8018F068(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5) {

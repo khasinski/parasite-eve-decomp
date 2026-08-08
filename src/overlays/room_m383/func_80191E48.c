@@ -1,7 +1,4 @@
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 void func_80191E48(void *arg0, u8 *state, char *work) {
     *(u16 *)(work + 0x12) -= 8;
     *(u16 *)(work + 0x10) += 0x1E;

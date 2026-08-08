@@ -1,9 +1,5 @@
+#include "common.h"
 #include "include_asm.h"
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed short s16;
 
 extern int g_ActiveDrawSlot __asm__("D_8009CDDC");
 extern u32 *g_OtBufferTable[];

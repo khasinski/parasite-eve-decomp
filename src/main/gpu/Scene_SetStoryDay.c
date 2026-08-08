@@ -1,8 +1,4 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef int s32;
-
+#include "common.h"
 extern struct { char _[16]; } D_800B0CD8_o __asm__("D_800B0CD8");
 extern struct { char _[16]; } D_8009D1A0_o __asm__("D_8009D1A0");
 extern u32 D_8009D2E8;

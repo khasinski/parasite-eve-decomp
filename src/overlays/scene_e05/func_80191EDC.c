@@ -1,5 +1,4 @@
-typedef signed int s32;
-
+#include "common.h"
 extern s32 D_80192140;
 extern s32 D_80192144;
 extern s32 D_80192148;

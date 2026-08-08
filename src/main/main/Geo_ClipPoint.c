@@ -1,7 +1,4 @@
-
-typedef unsigned short u16;
-typedef short s16;
-
+#include "common.h"
 struct Unk800B1624 {
     char pad[0x24];
     u16 field_24;

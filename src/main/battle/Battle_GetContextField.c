@@ -1,9 +1,4 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 extern void **g_PlayerEntity;
 
 int Battle_GetContextField(int arg0) {

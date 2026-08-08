@@ -1,5 +1,4 @@
-typedef unsigned short u16;
-
+#include "common.h"
 extern u16 D_800945E4;
 extern u16 D_800945E6;
 extern u16 D_80094614;

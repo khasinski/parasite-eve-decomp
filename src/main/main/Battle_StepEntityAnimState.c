@@ -1,9 +1,4 @@
-typedef signed char s8;
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 extern struct { char _[16]; } g_FieldActorListHead_o __asm__("g_FieldActorListHead");
 extern struct { char _[16]; } D_8009D254_o __asm__("D_8009D254");
 extern struct { char _[16]; } g_ActiveActor_o __asm__("g_ActiveActor");

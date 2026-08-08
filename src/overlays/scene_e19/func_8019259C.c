@@ -1,7 +1,4 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef int s32;
-
+#include "common.h"
 s32 func_80079754(void *arg0, void *arg1);
 s32 func_800785D4(void *arg0, void *arg1, void *arg2);
 

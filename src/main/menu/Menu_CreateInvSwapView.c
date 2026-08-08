@@ -1,10 +1,8 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #include "include_asm.h"
-
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 void *MenuWidget_CreateSimpleNode(void *state, int parent, int arg2, int arg3);
 void *MenuWidget_CreateNode(void *state, void *parent, void *selected);

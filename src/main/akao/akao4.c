@@ -1,10 +1,8 @@
+#include "common.h"
 #include "pe1/akao.h"
 
 void Akao_SetVoiceLoopAddr(AkaoTrack *track, int arg1);
 void Akao_SetVoiceLoopAddrAlt(AkaoTrack *track, int arg1);
-
-typedef unsigned char u8;
-typedef unsigned short u16;
 
 extern int g_AkaoPitchPeriodTable[];
 

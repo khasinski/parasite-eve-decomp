@@ -1,8 +1,4 @@
-
-typedef unsigned char u8;
-typedef unsigned int u32;
-
-
+#include "common.h"
 extern void InitSystem(void);
 extern void Sys_SyncShutdown(void);
 extern int OpenPeImage(void);

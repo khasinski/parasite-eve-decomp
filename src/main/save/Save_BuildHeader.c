@@ -1,7 +1,4 @@
-
-typedef unsigned short u16;
-typedef unsigned char u8;
-
+#include "common.h"
 extern u16 g_InvCategoryItemTable[];
 extern int g_GameTimeTable;
 extern int g_PlayTimeSeconds;

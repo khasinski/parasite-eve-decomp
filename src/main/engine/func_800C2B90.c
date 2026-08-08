@@ -1,8 +1,4 @@
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef signed short s16;
-
+#include "common.h"
 int FieldEng_GetStatus(void *obj);
 void func_800C2D0C(u16 slot, u8 id, u16 size);
 

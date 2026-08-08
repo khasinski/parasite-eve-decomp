@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned int u32;
-
+#include "common.h"
 extern u8 g_TextboxEntries[];
 extern u32 D_800BCEB4[];
 

@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 int rand(void);
 int *func_800C2B10(int index);
 

@@ -1,3 +1,4 @@
+#include "common.h"
 /* MASPSX_FLAGS: --store-call-delay */
 #include "include_asm.h"
 
@@ -17,11 +18,6 @@ void Inv_BuildWeaponList(int, void *);
 
 extern int g_StatScaleBase;
 unsigned short *Aya_LookupLevelStats(int arg0);
-
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
 
 typedef struct {
     unsigned char pad[0x14];

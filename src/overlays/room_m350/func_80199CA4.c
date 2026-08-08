@@ -1,5 +1,4 @@
-typedef int s32;
-
+#include "common.h"
 extern char *D_8009D20C;
 extern char *D_8019A7F8;
 extern char D_8019A7A0;

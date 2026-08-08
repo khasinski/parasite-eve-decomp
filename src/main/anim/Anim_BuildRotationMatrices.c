@@ -1,10 +1,4 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
-
+#include "common.h"
 void Anim_DecodeBoneRotationsByte(void *arg0, void *arg1, s16 arg2);
 void Anim_DecodeBoneRotationsShort(void *arg0, void *arg1, s16 arg2);
 void RotMatrixYXZ(void *rot, void *matrix);

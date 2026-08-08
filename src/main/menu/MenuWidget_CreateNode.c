@@ -1,7 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef int s32;
 
 void BoundsCheck_AssertStub(int arg0);
 void *MenuWidget_LookupGridDescriptor(void);

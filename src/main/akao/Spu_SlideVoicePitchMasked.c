@@ -1,8 +1,6 @@
+#include "common.h"
 /* MASPSX_FLAGS: --expand-div */
 #include "pe1/akao.h"
-
-typedef unsigned int u32;
-typedef unsigned char u8;
 
 extern char g_AkaoVoiceChannelTable[];
 extern u32 g_SpuActiveVoiceMask;

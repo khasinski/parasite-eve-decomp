@@ -1,7 +1,4 @@
-
-typedef signed char s8;
-typedef int s32;
-
+#include "common.h"
 #include "pe1/akao.h"
 
 void Spu_WaitTransferDone(void);

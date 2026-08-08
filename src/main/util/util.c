@@ -1,9 +1,7 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "include_asm.h"
-
-typedef unsigned char u8;
-typedef signed short s16;
 
 int g_InvItemPtr;
 int g_InvActiveListOverride;

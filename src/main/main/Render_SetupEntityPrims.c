@@ -1,9 +1,4 @@
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
-
+#include "common.h"
 extern s32 g_ActiveDrawSlot __asm__("D_8009CDDC");
 
 #define U8_AT(ptr, off) (*(u8 *)((u8 *)(ptr) + (off)))

@@ -1,3 +1,4 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "include_asm.h"
@@ -12,9 +13,6 @@ extern int g_MenuSaveBgFadeIndex;
 void Menu_ComputeGammaLut(int arg0, int arg1);
 
 int g_MenuSaveBgFadeTint;
-
-typedef unsigned char u8;
-typedef unsigned short u16;
 
 int g_MenuSaveBgFadeLutLen;
 extern u8 D_800A1878[];

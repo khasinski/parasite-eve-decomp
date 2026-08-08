@@ -1,9 +1,8 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-
 #include "include_asm.h"
-typedef int s32;
 
 void BoundsCheck_AssertStub(int arg0);
 void *MenuWidget_LookupSimpleDescriptor(void);

@@ -1,6 +1,4 @@
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 typedef struct {
     char pad0[0x28];
     int pos[3];

@@ -1,7 +1,4 @@
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned int u32;
-
+#include "common.h"
 #define S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
 #define PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
 

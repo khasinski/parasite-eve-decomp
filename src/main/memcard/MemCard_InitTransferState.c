@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 extern int D_8009B75C;
 extern int D_8009B770;

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "pe1/akao.h"
 
 void sndTrackReadAdsrDecayRate(void *ptr);
@@ -10,10 +11,6 @@ void SeqOp_SetMask(void *ptr);
 void SeqOp_ClearTrack34Mask(void *ptr);
 void SeqOp_ClearTrack3CMask(void *ptr, int arg);
 void SeqOp_ClearMask(void *ptr, int arg);
-
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef unsigned short u16;
 
 extern u32 D_800B89D0;
 extern u32 D_800B89D4;

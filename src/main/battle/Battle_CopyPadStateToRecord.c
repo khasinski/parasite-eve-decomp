@@ -1,9 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G0 */
 /* MASPSX_FLAGS: -G0 */
-
-typedef unsigned char u8;
-typedef unsigned int u32;
-typedef unsigned short u16;
 
 extern u8 *D_8009D278;
 extern u16 D_800A76D8;

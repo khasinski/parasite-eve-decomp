@@ -1,6 +1,4 @@
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 void AkaoSpuVoice_SetRepeatAddress(u32 index, u32 value) {
     u16 *ptr;
 

@@ -1,7 +1,4 @@
-typedef signed char s8;
-typedef signed short s16;
-typedef unsigned char u8;
-
+#include "common.h"
 #define U8(base, off) (*(u8 *)((u8 *)(base) + (off)))
 #define S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
 #define W(base, off) (*(int *)((u8 *)(base) + (off)))

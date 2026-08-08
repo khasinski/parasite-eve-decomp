@@ -1,3 +1,4 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
@@ -23,8 +24,6 @@ void MenuWidget_SetCurrentNode(void *arg0);
 void Menu_DrawItemActionSubmenu(void);
 void Menu_StepSkillSelect(void);
 void Menu_DrawActionOptionList(void);
-
-typedef unsigned char u8;
 
 int g_InvItemUsableFlag;
 int g_MenuSelectedItemList;

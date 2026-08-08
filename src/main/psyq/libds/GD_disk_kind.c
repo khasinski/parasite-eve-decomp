@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --store-branch-delay --store-call-delay */
-
-typedef unsigned char u8;
 
 extern int D_800B28F8;
 extern char D_8001205C[];

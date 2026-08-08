@@ -1,6 +1,5 @@
+#include "common.h"
 #include "include_asm.h"
-
-typedef unsigned short u16;
 
 int VSync(int arg0);
 void SetDispMask(int arg0);
@@ -36,8 +35,6 @@ extern signed char D_800B0DB6;
 extern signed char D_800B0DB7;
 
 void Akao_Cmd_F0(void);
-
-typedef unsigned char u8;
 
 extern char *g_PmSlotTable;
 extern char *g_PmSlotTable2;

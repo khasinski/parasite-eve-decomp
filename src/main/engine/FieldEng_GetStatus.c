@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 extern char *g_PlayerEntity __asm__("D_8009D254");
 
 int FieldEng_GetStatus(char *obj) {

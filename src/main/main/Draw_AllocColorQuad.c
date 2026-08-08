@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
 
 typedef struct PolyG4Prim {
     u32 tag;

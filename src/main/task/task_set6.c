@@ -1,7 +1,5 @@
+#include "common.h"
 #include "pe1/task_anim.h"
-
-typedef unsigned char u8;
-typedef unsigned short u16;
 
 void Task_SetObjAnimEntry12(TaskAnimObj *obj, u8 index, int arg2, int arg3, u8 arg4, u16 arg5,
                    u8 arg6, u8 arg7, u8 arg8, u8 arg9, u8 arg10, u8 arg11) {

@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-
+#include "common.h"
 int func_800CCB6C(void *arg0, u8 *state, u8 *anim) {
     anim[3] -= 8;
     *(u16 *)(anim + 4) = *(u16 *)(anim + 4) + 0x1A4;

@@ -1,7 +1,4 @@
-typedef signed short s16;
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 typedef struct GeoPointEntry {
     u32 flags;
     char pad_04[4];

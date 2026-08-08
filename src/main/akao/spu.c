@@ -1,6 +1,4 @@
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 extern u32 g_TimerTimeoutStart;
 extern u32 g_TimerTimeoutLimit;
 

@@ -1,7 +1,4 @@
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned int u32;
-
+#include "common.h"
 extern u8 D_8009CD78[];
 extern u8 D_8009CD80[];
 extern u8 g_MapIdTable[];

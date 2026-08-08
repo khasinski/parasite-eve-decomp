@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: -G8 --use-comm-section */
-
-typedef unsigned char u8;
 
 int g_MenuActionItemData;
 int g_InvItemUsableFlag;

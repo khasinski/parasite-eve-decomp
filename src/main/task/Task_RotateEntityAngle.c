@@ -1,6 +1,4 @@
-
-typedef unsigned short u16;
-
+#include "common.h"
 extern char *g_CurrentEntity;
 
 int Task_RotateEntityAngle(int **arg0) {

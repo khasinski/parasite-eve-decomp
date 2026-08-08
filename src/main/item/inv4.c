@@ -1,8 +1,7 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "include_asm.h"
-
-typedef unsigned char u8;
 
 extern short *g_InvActiveItemList;
 extern u8 g_EquipItemDataTable[];

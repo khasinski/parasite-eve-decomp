@@ -1,7 +1,5 @@
-
-
+#include "common.h"
 #include "include_asm.h"
-typedef unsigned short u16;
 
 extern volatile u16 g_SpuTransferAddr;
 extern int _spu_mem_mode_plus;

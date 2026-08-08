@@ -1,7 +1,5 @@
+#include "common.h"
 #include "pe1/akao.h"
-
-typedef unsigned int u32;
-typedef unsigned short u16;
 
 extern char g_AkaoTrackStateBackup[];
 extern AkaoVoiceBank g_AkaoVoiceStateBackup[];

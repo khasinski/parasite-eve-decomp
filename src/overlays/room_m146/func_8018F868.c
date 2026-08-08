@@ -1,7 +1,4 @@
-typedef signed short s16;
-typedef unsigned short u16;
-typedef unsigned char u8;
-
+#include "common.h"
 extern s16 g_FrameCount16;
 
 void *func_800C2B50(void);

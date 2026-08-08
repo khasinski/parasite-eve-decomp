@@ -1,9 +1,7 @@
+#include "common.h"
 /* CC1_FLAGS: -fno-strength-reduce */
 /* MASPSX_FLAGS: --expand-div */
 #include "pe1/akao.h"
-
-typedef unsigned int u32;
-typedef unsigned char u8;
 
 extern char D_800BC070[];
 extern u32 g_SpuActiveVoiceMask;

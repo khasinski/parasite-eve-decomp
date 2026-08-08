@@ -1,5 +1,4 @@
-typedef int s32;
-
+#include "common.h"
 extern int g_CdRomCmdTimeout __asm__("D_8009B598");
 s32 CdRom_SendCmd(s32 arg0);
 

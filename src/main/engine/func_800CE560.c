@@ -1,5 +1,4 @@
-
-typedef unsigned short u16;
+#include "common.h"
 int func_800CE560(char *out, int stride, int count, int value)
 {
   int i;

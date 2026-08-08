@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef signed short s16;
-
+#include "common.h"
 int func_800CA540(void *arg0, u8 *state, u8 *anim) {
     s16 value = *(u16 *)(anim + 4) - 0x14;
 

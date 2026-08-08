@@ -1,7 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
-
-typedef signed char s8;
 
 int g_MenuWidgetColumnLayoutMode;
 extern s8 g_MenuWidgetColumnLayoutTable[];

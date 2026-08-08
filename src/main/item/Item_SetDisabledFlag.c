@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 void *Item_LookupBaseData(unsigned int index);
 
 void Item_SetDisabledFlag(int arg0, int arg1) {

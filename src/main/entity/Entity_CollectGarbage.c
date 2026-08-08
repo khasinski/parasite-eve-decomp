@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: -G8 --use-comm-section */
-
-typedef unsigned short u16;
 
 typedef struct Entity Entity;
 

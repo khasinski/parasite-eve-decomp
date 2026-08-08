@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 int FieldEng_GetStatus(char *obj);
 
 extern char *D_8009D254;

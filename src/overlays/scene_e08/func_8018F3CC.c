@@ -1,6 +1,5 @@
+#include "common.h"
 #include "../room_lib/room_lib.h"
-
-typedef int s32;
 
 typedef struct {
     s32 w0;

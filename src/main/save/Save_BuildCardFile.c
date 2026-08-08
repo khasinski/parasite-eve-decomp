@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned int u32;
-
+#include "common.h"
 #include "pe1/save_blob.h"
 
 extern u8 D_800B8868[];

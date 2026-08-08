@@ -1,6 +1,4 @@
-typedef signed short s16;
-typedef unsigned short u16;
-
+#include "common.h"
 typedef struct {
     char pad00[0x20];
     int field20;

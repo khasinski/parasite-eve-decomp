@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 extern struct { char _[16]; } D_8009D278_o __asm__("D_8009D278");
 extern struct { char _[16]; } D_8009D2FC_o __asm__("D_8009D2FC");

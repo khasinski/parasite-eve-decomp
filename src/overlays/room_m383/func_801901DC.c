@@ -1,6 +1,5 @@
+#include "common.h"
 #include "pe1/room_object.h"
-
-typedef int s32;
 
 extern char D_80196DA4;
 

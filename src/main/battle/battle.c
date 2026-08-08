@@ -1,7 +1,5 @@
-typedef signed short s16;
+#include "common.h"
 int Gte_Atan2(int arg0, int arg1);
-
-typedef unsigned short u16;
 
 extern void *g_ActiveActor;
 

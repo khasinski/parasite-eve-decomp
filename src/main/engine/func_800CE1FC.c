@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 int *func_800C2B10(int index);
 int *func_800C2B28(int index);
 void func_800CEDA8(int arg0);

@@ -1,8 +1,5 @@
+#include "common.h"
 #include "pe1/room_fx.h"
-
-typedef unsigned short u16;
-typedef short s16;
-typedef int s32;
 
 extern s32 D_800E27EC;
 extern u16 D_800E1204[];

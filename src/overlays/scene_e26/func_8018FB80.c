@@ -1,12 +1,7 @@
+#include "common.h"
 /* BUG(original): the fade path reaches set_rot with `turn` holding the
  * 0x07FFFFFF comparison result, so the yaw is set to 1. */
 
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
 s32 FieldEng_TurnToward(s32 current, s32 target, s32 step);
 s32 FieldEng_VecToAngle(s32 *from, s32 *to);
 void func_800DFE94(void *pos, void *base, void *rot);

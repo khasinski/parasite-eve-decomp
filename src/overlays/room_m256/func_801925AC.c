@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef signed short s16;
-
+#include "common.h"
 int func_801925AC(u8 *arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
     if (arg2 == 0x100) {
         goto cmd_100;

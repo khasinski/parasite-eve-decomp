@@ -1,10 +1,4 @@
-typedef signed char s8;
-typedef signed short s16;
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
-
+#include "common.h"
 extern u32 g_GameStateFlags __asm__("D_8009D1A0");
 extern u8 *g_ActiveActor __asm__("D_8009D278");
 extern u8 *g_FieldActorListHead __asm__("D_8009D20C");

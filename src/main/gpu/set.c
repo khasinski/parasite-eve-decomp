@@ -1,3 +1,4 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
 
 extern void *memcpy(void *dest, const void *src, unsigned int n);
@@ -9,9 +10,6 @@ extern char g_GpuActiveDispEnv[];
 extern GpuCallbacks *g_GpuCallbacks;
 
 int Gpu_BuildTexWindowCmd(int arg0);
-
-typedef signed short s16;
-typedef unsigned short u16;
 
 typedef struct {
     s16 x;

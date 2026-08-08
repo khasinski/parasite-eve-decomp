@@ -1,11 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
 
 extern s16 *g_InvItemPtr __asm__("D_8009D048");
 extern s16 *g_InvActiveListOverride __asm__("D_8009D04C");

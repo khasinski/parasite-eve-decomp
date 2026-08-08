@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 int func_800CC974(void *arg0, u8 *state, u8 *anim) {
     int i;
     u8 *state_t2;

@@ -1,7 +1,5 @@
+#include "common.h"
 #include "../room_lib/room_lib.h"
-
-typedef unsigned char u8;
-typedef unsigned short u16;
 
 extern char D_8018FF98;
 extern u8 D_80190054;

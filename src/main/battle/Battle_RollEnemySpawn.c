@@ -1,5 +1,4 @@
-typedef signed char s8;
-
+#include "common.h"
 extern void *g_ActiveActor;
 
 int rand(void);

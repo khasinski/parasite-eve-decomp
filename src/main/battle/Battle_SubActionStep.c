@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-
+#include "common.h"
 extern volatile char *g_ActiveActor;
 extern volatile char *g_PlayerEntity;
 

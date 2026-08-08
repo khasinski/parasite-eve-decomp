@@ -1,8 +1,7 @@
+#include "common.h"
 extern unsigned char g_AyaInventorySlotCount[];
 
 int Inv_GetBonusSlotCount(void);
-
-typedef unsigned char u8;
 
 #include "pe1/inventory.h"
 

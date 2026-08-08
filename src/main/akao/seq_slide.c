@@ -1,14 +1,12 @@
+#include "common.h"
 /* CC1_FLAGS: -fno-strength-reduce */
 /* MASPSX_FLAGS: --expand-div */
 #include "pe1/akao.h"
-
-typedef unsigned short u16;
 
 extern short g_AkaoGlobalPitchSlideCounter;
 extern int g_AkaoGlobalPitchSlideStep;
 extern int D_8009D2B4;
 
-typedef unsigned int u32;
 typedef unsigned short u16_1;
 
 extern char g_AkaoVoiceChannelTable[];

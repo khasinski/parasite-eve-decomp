@@ -1,7 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
-typedef short s16;
-typedef int s32;
 
 extern s32 D_8009D044;
 extern s16 D_800A1E00[];

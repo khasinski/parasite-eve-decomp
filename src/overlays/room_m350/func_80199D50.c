@@ -1,6 +1,4 @@
-typedef int s32;
-typedef unsigned char u8;
-
+#include "common.h"
 extern char *D_8009D254;
 extern char D_8019A82E;
 extern char D_8019A830;

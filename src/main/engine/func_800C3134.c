@@ -1,6 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --expand-div */
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 void func_800C3134(u8 *table, u32 step, u8 *out) {
     u32 sum = 0;

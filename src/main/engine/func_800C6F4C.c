@@ -1,6 +1,4 @@
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 extern u32 D_800E2370[];
 
 void func_800C6F4C(char *data) {

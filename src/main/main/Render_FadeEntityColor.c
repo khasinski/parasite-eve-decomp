@@ -1,7 +1,4 @@
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-
+#include "common.h"
 extern int D_8009CDDC;
 
 #define W32(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))

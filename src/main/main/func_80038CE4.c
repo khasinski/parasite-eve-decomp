@@ -1,5 +1,4 @@
-typedef unsigned char u8;
-
+#include "common.h"
 extern u8 *D_80091A28;
 
 int func_80038CE4(int index)

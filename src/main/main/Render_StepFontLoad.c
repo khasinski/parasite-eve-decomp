@@ -1,6 +1,4 @@
-typedef unsigned char u8;
-typedef int s32;
-
+#include "common.h"
 void Render_LoadFontGlyph(u8 code);
 
 extern u8 D_80091A1D;

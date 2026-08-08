@@ -1,7 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay --store-return-delay */
-
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 extern volatile u8 *g_CdRegIndexBase;
 extern volatile u8 *g_CdRegResponse;

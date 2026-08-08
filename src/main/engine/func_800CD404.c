@@ -1,7 +1,5 @@
+#include "common.h"
 /* CC1_FLAGS: -fno-schedule-insns */
-
-typedef unsigned char u8;
-typedef signed short s16;
 
 void func_800C2EAC(int arg0);
 void func_800C2FF0(int arg0, int arg1);

@@ -1,9 +1,5 @@
+#include "common.h"
 /* MASPSX_FLAGS: --stack-return-delay */
-
-typedef signed short s16;
-
-typedef unsigned char u8;
-typedef unsigned int u32;
 
 typedef struct {
     u8 x;

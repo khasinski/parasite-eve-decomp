@@ -1,7 +1,4 @@
-typedef int s32;
-typedef unsigned int u32;
-typedef unsigned short u16;
-
+#include "common.h"
 extern void func_8010C1EC(s32 *arg0, u32 arg1);
 
 void func_8010BFA0(s32 *arg0, s32 arg1) {

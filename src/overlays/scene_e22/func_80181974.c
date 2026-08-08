@@ -1,6 +1,4 @@
-typedef signed short s16;
-typedef int s32;
-
+#include "common.h"
 typedef struct {
     char pad0[0x28];
     char vector[0x12];

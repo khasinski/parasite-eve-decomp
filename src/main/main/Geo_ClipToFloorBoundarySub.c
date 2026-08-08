@@ -1,8 +1,6 @@
+#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-typedef signed short s16;
-typedef unsigned short u16;
-typedef int s32;
 
 typedef struct GeoState {
     char pad0[0x18];
