@@ -9,10 +9,9 @@ int RotTransPers4(
     void *sxy3,
     void *p,
     int *flag) {
-    register int firstFlag asm("$3");
+    int firstFlag;
     register int secondFlag asm("$8");
-    register int result asm("$2");
-
+    int result;
     asm volatile("lwc2 $0,0(%0)" : : "r"(v0));
     asm volatile("lwc2 $1,4(%0)" : : "r"(v0));
     asm volatile("lwc2 $2,0(%0)" : : "r"(v1));

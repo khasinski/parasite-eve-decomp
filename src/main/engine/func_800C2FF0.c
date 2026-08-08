@@ -17,11 +17,10 @@ extern s16 D_800F332A;
 extern s16 D_800F332C;
 
 void func_800C2FF0(int width, int height) {
-    register int widthMinus asm("$6");
-    register int heightMinus asm("$7");
-    register int x asm("$4");
-    register int y asm("$5");
-
+    int widthMinus;
+    int heightMinus;
+    int x;
+    int y;
     asm volatile(
         "addiu %0,%2,-1\n\t"
         "addiu %1,%3,-1"

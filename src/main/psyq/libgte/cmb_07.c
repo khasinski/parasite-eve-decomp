@@ -10,9 +10,9 @@ int RotAverageNclip4(
     void *p,
     int *otz,
     int *flag) {
-    register int firstFlag asm("$3");
+    int firstFlag;
     register int secondFlag asm("$11");
-    register int nclipValue asm("$2");
+    int nclipValue;
     register void *sxy0Ptr asm("$8");
     register void *sxy1Ptr asm("$9");
     register void *sxy2Ptr asm("$10");

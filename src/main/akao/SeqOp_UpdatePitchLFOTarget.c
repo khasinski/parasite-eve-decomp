@@ -3,10 +3,10 @@
 void SeqOp_UpdatePitchLFOTarget(AkaoTrack *track) {
     AkaoU8 *pc;
     int value;
-    register unsigned int masked asm("$3");
+    unsigned int masked;
     unsigned int depth;
     int scale;
-    register int scaled asm("$2");
+    int scaled;
     int product;
     int use_base_scale;
 

@@ -24,7 +24,7 @@ int Akao_LookupPitchPeriod(int arg0, int arg1, int arg2) {
     register int shift asm("$5");
     int shamt;
     int value;
-    register int table asm("$3");
+    int table;
     int *base;
     int row_offset;
 

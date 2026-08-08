@@ -57,11 +57,10 @@ int Task_ClearObjEntryFlags(int **arg0) {
 
 int Task_SetObjEntryFlag80(int **arg0) {
     register char *entry asm("$3");
-    register char *base_entry asm("$2");
-    register int value asm("$2");
-
+    char *base_entry;
+    int value;
     if (g_CollisionPlaneTable == 0) {
-        register int index asm("$2");
+        int index;
         char *base;
         int *arg = arg0[0];
 
@@ -98,11 +97,10 @@ int Task_SetObjEntryFlag80(int **arg0) {
 
 int Task_ClearObjEntryFlag80(int **arg0) {
     register char *entry asm("$3");
-    register char *base_entry asm("$2");
-    register int value asm("$2");
-
+    char *base_entry;
+    int value;
     if (g_CollisionPlaneTable == 0) {
-        register int index asm("$2");
+        int index;
         char *base;
         int *arg = arg0[0];
 

@@ -20,7 +20,7 @@ int Inv_LoadWayneItemsAsOverride(short *items) {
         int end = base + 3;
 
         do {
-            register int id asm("$5") = items[0];
+            int id = items[0];
             if (id == 0) {
                 break;
             }

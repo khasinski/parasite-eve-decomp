@@ -55,7 +55,7 @@ extern s16 D_800F3468;
 extern s16 D_800F346A;
 
 void func_800CCBA8(void) {
-    register int zero_v0 asm("$2");
+    int zero_v0;
     int scale0[4];
     int scale1[4];
     int scale2[4];

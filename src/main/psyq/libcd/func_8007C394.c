@@ -17,17 +17,16 @@ typedef struct StRingEntry {
 } StRingEntry;
 
 int func_8007C394(u8 *ptr) {
-    register u8 *base asm("$3");
+    u8 *base;
     int index;
-    register int i asm("$4");
+    int i;
     register int count asm("$2");
-    register int limit asm("$6");
-    register StRingEntry *entry asm("$3");
-    register int status asm("$2");
-    register int raw_count asm("$3");
-    register int expected_status asm("$4");
-    register int next_index asm("$2");
-
+    int limit;
+    StRingEntry *entry;
+    int status;
+    int raw_count;
+    int expected_status;
+    int next_index;
     base = D_800C0DC8;
     index = ((ptr - (base + (D_800C20C4 << 5))) >> 2) / 504;
     entry = (StRingEntry *)(base + (index << 5));

@@ -24,7 +24,7 @@ extern s16 D_800F34C0;
 extern s16 D_800F34C2;
 
 int func_800C9A70(void) {
-    register int half asm("$4");
+    int half;
     register int value asm("$3");
     register void *slotData asm("$3");
     void **slot;

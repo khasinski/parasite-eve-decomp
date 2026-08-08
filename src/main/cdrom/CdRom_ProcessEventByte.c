@@ -10,9 +10,9 @@ extern u32 D_8009B624[];
 void Util_Copy8(u8 *dst, u8 *src);
 
 void CdRom_ProcessEventByte(int event, u8 *data) {
-    register u8 *data_reg asm("$6");
+    u8 *data_reg;
     register DsDecodedEventFlags *state asm("$4");
-    register u8 value asm("$5");
+    u8 value;
     u8 *src;
     int index;
 

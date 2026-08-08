@@ -82,15 +82,15 @@ out:
 
 void Menu_SaveBgApplyFadeStep(void) {
     int idx;
-    register int lut asm("$4");
+    int lut;
     register int tint asm("$3");
     register int fade_base asm("$2");
     register int inv_factor asm("$11");
-    register int factor asm("$4");
+    int factor;
     int step;
-    register int i asm("$12");
-    register u16 *src asm("$13");
-    register u16 *dst asm("$8");
+    int i;
+    u16 *src;
+    u16 *dst;
     unsigned char shade;
 
     {
@@ -123,16 +123,15 @@ void Menu_SaveBgApplyFadeStep(void) {
     asm volatile("" : "=r"(inv_factor) : "0"(inv_factor));
     dst = D_800B0E54[0];
     for (i = 0; i < (D_8009CEDC << 8); i++) {
-        register int color asm("$3");
-
+        int color;
         color = *src++;
         if (color != 0) {
-            register int r asm("$7");
+            int r;
             register int g asm("$6");
             register int b asm("$5");
-            register int r_prod asm("$15");
+            int r_prod;
             register int g_prod asm("$9");
-            register int b_prod asm("$10");
+            int b_prod;
             register int tmp asm("$2");
 
             r = color & 0x1F;

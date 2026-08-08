@@ -11,7 +11,7 @@ extern void (*D_8009B6D0)(s32, s32);
 #define WORD(ptr, ofs) (*(s32 *)((ptr) + (ofs)))
 
 void Render_StepParticleCallback(void) {
-    register char *state asm("$16");
+    char *state;
     s32 now;
     s32 limit;
     void (*callback)(s32, s32);

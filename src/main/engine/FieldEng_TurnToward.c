@@ -6,11 +6,10 @@ int FieldEng_TurnToward(int current, int target, int step) {
     register int target_reg asm("$5");
     register int target_copy asm("$8");
     register int diff asm("$5");
-    register int abs_diff asm("$7");
-    register int step_s16 asm("$2");
+    int abs_diff;
+    int step_s16;
     register int delta asm("$3");
-    register int result asm("$2");
-
+    int result;
     current &= 0xFFF;
     target_reg = target & 0xFFF;
     target_copy = target_reg;

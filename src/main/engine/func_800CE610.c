@@ -2,12 +2,12 @@ typedef signed short s16;
 
 void *func_800CE610(char *list) {
     char frame[8];
-    register char *base asm("$8");
-    register char *entry asm("$4");
+    char *base;
+    char *entry;
     register int slot_or_count asm("$5");
     register int count asm("$6");
     register int stride asm("$7");
-    register int i asm("$3");
+    int i;
     register void *ret asm("$2");
 
     (void)frame;

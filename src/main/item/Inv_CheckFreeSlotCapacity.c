@@ -21,7 +21,7 @@ int Inv_GetBonusSlotCount(void);
 
 int Inv_CheckFreeSlotCapacity(int requested) {
     int limit;
-    register int used_slots asm("$16");
+    int used_slots;
     register int max_slots asm("$17");
     register int requested_slots asm("$18");
     int item;

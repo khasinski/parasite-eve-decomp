@@ -30,7 +30,7 @@ void Battle_DrawStatusSymbol(int id) {
     register u8 *prim_base asm("$9");
     u8 *entry0;
     u8 *entry1;
-    register u8 *entry2 asm("$6");
+    u8 *entry2;
     int geom_offset;
 
     table0 = D_80010DFC;

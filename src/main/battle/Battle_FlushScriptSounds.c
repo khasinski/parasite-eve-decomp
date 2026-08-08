@@ -13,7 +13,7 @@ extern struct { char _[16]; } D_8009D1A0_w __asm__("D_8009D1A0");
 int Inv_CheckSlotUsable(int slot);
 
 void Battle_FlushScriptSounds(void) {
-    register unsigned int index asm("$16");
+    unsigned int index;
     int flags;
     int mask;
     int item;

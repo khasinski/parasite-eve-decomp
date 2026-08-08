@@ -37,10 +37,9 @@ void CdRom_AsyncCallback(void);
 void CdRom_ReadDoneCallback(void);
 
 int CdRom_InitAsyncRead(DsCallback callback, int arg1) {
-    register int *state asm("$16");
-    register int one asm("$17");
-    register int saved_callback asm("$3");
-
+    int *state;
+    int one;
+    int saved_callback;
     state = &D_8009B70C;
     one = 1;
     if (*state == one) {

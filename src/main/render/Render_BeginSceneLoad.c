@@ -8,10 +8,9 @@ int Render_BeginSceneLoad(void) {
     u32 old;
     u32 value;
     u32 next;
-    register u32 mask asm("$4");
-    register u32 *flags2 asm("$3");
-    register u32 value2 asm("$2");
-
+    u32 mask;
+    u32 *flags2;
+    u32 value2;
     flags = &g_RenderStateFlags;
     old = *flags;
     value = old | 0x1000;

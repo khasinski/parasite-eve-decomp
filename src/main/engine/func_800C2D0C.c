@@ -8,8 +8,8 @@ extern char *D_800E2248;
 
 void func_800C2D0C(u16 slot, u8 id, int size) {
     {
-        register char *state asm("$5");
-        register u8 *entry asm("$7");
+        char *state;
+        u8 *entry;
         register int offset asm("$4");
 
         asm volatile(

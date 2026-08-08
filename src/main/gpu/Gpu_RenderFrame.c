@@ -22,7 +22,7 @@ extern char g_RenderDrawEnvArray[];
 #define D_800B0CD8_WORD (g_GameState[0])
 
 void Gpu_RenderFrame(void) {
-    register int idx asm("$2");
+    int idx;
     int state;
     int status;
     register int offset asm("$4");

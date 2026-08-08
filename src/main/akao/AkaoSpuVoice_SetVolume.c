@@ -2,7 +2,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 void AkaoSpuVoice_SetVolume(u32 index, u32 left, u32 right) {
-    register u16 *ptr asm("$4");
+    u16 *ptr;
     u32 mask;
 
     ptr = (u16 *)(0x1F801C00 + (index * 0x10));

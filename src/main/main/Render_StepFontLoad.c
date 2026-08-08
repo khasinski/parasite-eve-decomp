@@ -18,9 +18,9 @@ u8 Render_StepFontLoad(void) {
     u8 *p;
     u8 *q;
     u8 *t;
-    register s32 slot asm("$2");
+    s32 slot;
     register s32 digit asm("$3");
-    register s32 i asm("$5");
+    s32 i;
     register s32 count asm("$6");
     register s32 found asm("$7");
     u8 *statep;
@@ -76,10 +76,9 @@ u8 Render_StepFontLoad(void) {
     }
 
     {
-        register s32 count2 asm("$3");
+        s32 count2;
         register s32 wanted asm("$4");
-        register u8 *p2 asm("$6");
-
+        u8 *p2;
         slot = p[0x1B];
         p2 = p + 0x1B;
         if (slot > 0) {

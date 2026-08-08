@@ -68,7 +68,7 @@ C_OBJS   := $(C_SRCS:%=$(BUILD)/%.o)
 
 OBJS := $(ASM_OBJS) $(C_OBJS)
 
-.PHONY: expected objdiff-config report all build check check-sources clean diff distclean func-build func-diff func-target overlay-build overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress debt proposal-smallest proposal-status room-split-audit split split-if-needed tools
+.PHONY: expected objdiff-config report all build check check-sources clean diff distclean func-build func-diff func-target overlay-build overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress debt drop-pins drop-barriers drop-aliases proposal-smallest proposal-status room-split-audit split split-if-needed tools
 
 all: build check
 
@@ -152,6 +152,14 @@ progress:
 # Crutch-debt tracker: count pins/barriers/aliases/gotos still to remove.
 debt:
 	@$(PY) tools/scripts/crutch_debt.py
+
+# Verified crutch removal (byte-identical only; run per file/dir): make drop-pins FILE='src/main/gpu/*.c'
+drop-pins:
+	@$(PY) tools/scripts/try_drop_pins.py $(FILE)
+drop-barriers:
+	@$(PY) tools/scripts/try_drop_barriers.py $(FILE)
+drop-aliases:
+	@$(PY) tools/scripts/try_drop_externs.py $(FILE)
 
 room-split-audit:
 	@$(PY) tools/scripts/audit_room_split.py

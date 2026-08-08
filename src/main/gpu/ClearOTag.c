@@ -30,13 +30,12 @@ extern s32 D_8009580C[];
 void ClearOTag(void *arg0, s32 arg1) {
     u8 *next;
     u8 *packet;
-    register s32 mask24 asm("$5");
+    s32 mask24;
     s32 maskTop;
     s32 temp_v1;
-    register s32 temp_a0 asm("$4");
-    register M2C_UNK (*callback)(M2C_UNK *, void *, s32) asm("$2");
-    register u8 *tail asm("$2");
-
+    s32 temp_a0;
+    M2C_UNK (*callback)(M2C_UNK *, void *, s32);
+    u8 *tail;
     packet = arg0;
     {
         register s32 count asm("$17");

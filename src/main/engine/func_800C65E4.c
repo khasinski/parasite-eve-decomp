@@ -11,16 +11,16 @@ void func_800C65E4(s16 *from, s16 *to, char *out) {
     int crossB[4];
     int delta[4];
     int basis[4];
-    register s16 *from_t0 asm("$8");
-    register s16 *to_a3 asm("$7");
-    register char *out_s2 asm("$18");
+    s16 *from_t0;
+    s16 *to_a3;
+    char *out_s2;
     register int *basis_src asm("$5");
-    register int *delta_s1 asm("$17");
-    register int *crossB_s0 asm("$16");
+    int *delta_s1;
+    int *crossB_s0;
     register int *call_delta_a0 asm("$4");
-    register int *call_basis_a1 asm("$5");
+    int *call_basis_a1;
     register int *call_crossA_a2 asm("$6");
-    register int b0 asm("$2");
+    int b0;
     register int b1 asm("$3");
     register int b2 asm("$4");
 

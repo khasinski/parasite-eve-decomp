@@ -18,13 +18,13 @@ extern u16 D_800E2362;
 extern u16 D_800E2364;
 
 int func_800CAA38(void *arg0, void *arg1, u8 *anim) {
-    register u8 *anim_s0 asm("$16");
-    register u16 *field_s1 asm("$17");
-    register SVECTOR *out_s2 asm("$18");
+    u8 *anim_s0;
+    u16 *field_s1;
+    SVECTOR *out_s2;
     register int y_base_v0 asm("$2");
     register u16 y_out_v1 asm("$3");
     register int z_base_v1 asm("$3");
-    register u16 z_out_a0 asm("$4");
+    u16 z_out_a0;
     SVECTOR in0;
     SVECTOR in1;
     SVECTOR out;

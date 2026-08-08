@@ -18,8 +18,8 @@ extern u32 D_8009CF0C;
 extern u32 D_8009CFB8;
 
 void Menu_CreateInvSwapView(int parent, u8 *state) {
-    register u8 *state_reg asm("$17");
-    register void *node asm("$16");
+    u8 *state_reg;
+    void *node;
     void *current;
 
     state_reg = state;

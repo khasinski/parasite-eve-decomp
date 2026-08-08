@@ -1,10 +1,9 @@
 void *memmove(void *dst, const void *src, int len) {
-    register unsigned char *out asm("$7") = dst;
+    unsigned char *out = dst;
     const unsigned char *in = src;
     register int count asm("$6") = len;
     register int test asm("$2");
-    register void *ret asm("$2");
-
+    void *ret;
     if (out >= in) {
         test = count;
         count--;

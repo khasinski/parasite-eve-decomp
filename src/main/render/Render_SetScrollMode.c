@@ -20,11 +20,10 @@ extern struct { char _[16]; } D_800BCFA2_o __asm__("D_800BCFA2");
 #define D_800BCFA2 (*(s16 *)&D_800BCFA2_o)
 
 int Render_SetScrollMode(int x, int y, int z, int mode) {
-    register int *flags_ptr asm("$9");
-    register int flags asm("$8");
-    register int value asm("$2");
-    register int saved_scroll asm("$3");
-
+    int *flags_ptr;
+    int flags;
+    int value;
+    int saved_scroll;
     flags_ptr = &D_800BCF88;
     flags = *flags_ptr;
     if ((flags & 0x40) == 0) {

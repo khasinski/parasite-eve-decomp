@@ -2,7 +2,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 void AkaoSpuVoice_SetAdsrSustainRate(u32 index, u32 left, u32 right) {
-    register u16 *ptr asm("$4");
+    u16 *ptr;
     u32 current;
     u32 value;
 

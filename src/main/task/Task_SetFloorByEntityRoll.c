@@ -32,7 +32,7 @@ s32 Task_SetFloorByEntityRoll(u8 **arg0) {
     u8 *temp_v1_3;
     s32 temp_s0;
     s32 temp_v0;
-    register u32 temp_v0_3 asm("$2");
+    u32 temp_v0_3;
     u32 temp_v1_4;
 
     if (!(Menu_IsEquipSlotActive() & 0xFF)) {

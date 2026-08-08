@@ -7,9 +7,8 @@ extern DebugCallback D_80095748[];
 extern char D_80011814[];
 
 int SetGraphDebug(int debug) {
-    register int old asm("$16");
-    register unsigned char *slot asm("$3");
-
+    int old;
+    unsigned char *slot;
     slot = D_8009574E;
     asm volatile("" : "=r"(slot) : "0"(slot));
     old = *slot;

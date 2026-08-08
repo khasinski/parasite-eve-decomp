@@ -34,8 +34,7 @@ void Render_ResetGteScreenOffset(void);
 
 int Scene_UpdateBgDraw(void) {
     u8 *entity;
-    register u8 *gameState asm("$16") = (u8 *)&D_800B0CD8_o;
-
+    u8 *gameState = (u8 *)&D_800B0CD8_o;
     if (*(u32 *)gameState & 0xC0000) {
         return 0;
     }
@@ -54,8 +53,7 @@ int Scene_UpdateBgDraw(void) {
     }
 
     if (D_800B0D10_READ == 0) {
-        register u8 *bgInit asm("$2");
-
+        u8 *bgInit;
         bgInit = entity + 0x1B4;
         D_800B0D10_WRITE = bgInit;
         D_800B0D14 = 3;

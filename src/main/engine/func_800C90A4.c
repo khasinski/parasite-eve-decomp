@@ -18,7 +18,7 @@ extern u16 D_800E2352;
 extern u16 D_800E2354;
 
 int func_800C90A4(void *arg0, void *arg1, u8 *anim) {
-    register u8 *anim_s0 asm("$16") = anim;
+    u8 *anim_s0 = anim;
     SVECTOR out;
     char *data;
     char *entry;

@@ -219,7 +219,7 @@ retry_first:
     while (1) {
         status = Sys_VSyncTimeout((int)&scratch);
         {
-            register int poll asm("$2");
+            int poll;
             poll = status + 1;
             if ((unsigned int)poll < 2U) {
                 poll = status;

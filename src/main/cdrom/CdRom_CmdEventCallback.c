@@ -15,9 +15,9 @@ extern u32 g_DsSyncCallback[] __asm__("D_800A36A4");
 void CdRom_CmdEventCallback(int event) {
     register u32 event_reg asm("$7");
     register u8 *cmd_state asm("$6");
-    register int value asm("$2");
-    register int status asm("$3");
-    register DsReadyEventWindow *ready asm("$4");
+    int value;
+    int status;
+    DsReadyEventWindow *ready;
     int stack_pad[4];
 
     event_reg = event & 0xFF;

@@ -54,9 +54,9 @@ typedef struct {
 
 int func_800C5EB0(char *data, void *unused, int *hit) {
     char local[0x28];
-    register char *data_s3 asm("$19") = data;
-    register char *entries asm("$17");
-    register int *hit_s4 asm("$20");
+    char *data_s3 = data;
+    char *entries;
+    int *hit_s4;
     u32 i;
     int idx;
     int count;
@@ -79,8 +79,7 @@ int func_800C5EB0(char *data, void *unused, int *hit) {
     i = 0;
     if (countMinus != 0) {
         register char *entry asm("$17");
-        register char *body asm("$16");
-
+        char *body;
         entry = entries;
         body = entries + 4;
         do {

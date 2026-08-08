@@ -21,12 +21,11 @@ int Inv_GetAyaSlotLimit(void);
 int Inv_WriteSlotById(void *data);
 
 int Inv_CanAddActiveListItemToAya(int index) {
-    register int slot_index asm("$17");
-    register void *data asm("$16");
-    register int saved_item_id asm("$5");
+    int slot_index;
+    void *data;
+    int saved_item_id;
     int item_id;
-    register int result asm("$3");
-
+    int result;
     slot_index = index;
     if (slot_index < 0) {
         goto fail;
@@ -36,25 +35,22 @@ int Inv_CanAddActiveListItemToAya(int index) {
     }
 
     {
-        register int offset asm("$2");
-
+        int offset;
         offset = slot_index << 1;
         item_id = *(s16 *)((u8 *)g_InvActiveListItems + offset);
     }
     saved_item_id = item_id;
     if ((unsigned int)(item_id - 0x100) < 0x80) {
         register int shifted asm("$3");
-        register u8 *base asm("$2");
-
+        u8 *base;
         shifted = item_id << 5;
         base = g_EquipItemDataTable;
         data = shifted + base;
     } else if ((unsigned int)(item_id - 1) < 0xFF) {
         data = Item_LookupBaseData(item_id - 1);
     } else if ((unsigned int)(saved_item_id - 0x200) < 9) {
-        register int shifted asm("$3");
-        register u8 *base asm("$2");
-
+        int shifted;
+        u8 *base;
         shifted = saved_item_id << 5;
         base = g_KeyItemDataTable;
         data = shifted + base;
@@ -70,8 +66,7 @@ int Inv_CanAddActiveListItemToAya(int index) {
     result = Inv_WriteSlotById(data);
     asm volatile("" : "=r"(result) : "0"(result));
     if (result == 0) {
-        register int offset asm("$2");
-
+        int offset;
         offset = slot_index << 1;
         *(s16 *)((u8 *)g_InvActiveListItems + offset) = 0;
     }

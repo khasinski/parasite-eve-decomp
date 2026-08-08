@@ -9,7 +9,7 @@ int Entity_CallAction(int **arg0) {
     int **args;
     register int *arg0_ptr asm("$2");
     int *arg1_ptr;
-    register int *arg2_ptr asm("$7");
+    int *arg2_ptr;
     int arg2;
     int arg1;
     int arg3;

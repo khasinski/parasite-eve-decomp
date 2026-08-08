@@ -17,15 +17,15 @@ int MemCard_DmaProcess(void *obj);
 
 void MemCard_DmaCompleteCallback(int status) {
     register int value asm("$5");
-    register u8 *base asm("$17");
-    register int minus_nine asm("$19");
-    register int *status_slots asm("$18");
-    register u8 *obj asm("$16");
+    u8 *base;
+    int minus_nine;
+    int *status_slots;
+    u8 *obj;
     register int zero asm("$0");
     u8 *dma;
     int index;
-    register int cur_offset asm("$2");
-    register int next_offset asm("$4");
+    int cur_offset;
+    int next_offset;
     int done;
 
     value = status;

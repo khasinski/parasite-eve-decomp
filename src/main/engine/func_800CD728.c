@@ -43,7 +43,7 @@ extern short D_800E27BC;
 
 int func_800CD728(void) {
     void **slot = FieldEng_GetSlot();
-    register int value asm("$3");
+    int value;
     register int byte2 asm("$4");
 
     value = (int)&D_800E0F6C;

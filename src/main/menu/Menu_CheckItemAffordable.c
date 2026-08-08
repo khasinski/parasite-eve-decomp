@@ -24,10 +24,10 @@ u8 *Inv_LookupActiveListData(int index);
 int Inv_GetWeaponCategoryAmmoBase(unsigned int arg0);
 
 int Menu_CheckItemAffordable(int item) {
-    register int item_reg asm("$17");
+    int item_reg;
     register int ammo_remaining asm("$18");
     register int mode_mask asm("$19");
-    register int enabled asm("$16");
+    int enabled;
     u8 *data;
     int ammo_max;
     int battle_allowed;

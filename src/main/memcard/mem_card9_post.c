@@ -85,11 +85,10 @@ int MemCard_DmaProcess(MemCardTransfer *transfer) {
     register MemCardTransfer *transfer_reg asm("$16");
     register int *counts asm("$17");
     TimerRegs *regs;
-    register TimerRegs *regs_after_timeout asm("$4");
+    TimerRegs *regs_after_timeout;
     int index;
     int count;
-    register int mode asm("$3");
-
+    int mode;
     transfer_reg = transfer;
     regs = D_8009B788;
     regs->fieldA = 0x40;
@@ -156,7 +155,7 @@ int MemCard_WaitReadyForTransfer(void);
 void MemCard_RunCommandStep(void) {
     register int *state asm("$5");
     int result;
-    register MemCardStepFn fn asm("$2");
+    MemCardStepFn fn;
     register int step asm("$3");
     register int next asm("$2");
 
@@ -186,8 +185,8 @@ int MemCard_ReadByte(MemCardTransfer *transfer, int value) {
     register TimerRegs *regs asm("$2");
     register int data asm("$18") = value;
     register int result asm("$17");
-    register int control asm("$6");
-    register u8 *out asm("$3");
+    int control;
+    u8 *out;
     volatile unsigned short *timer_count;
 
     if (data < 0) {
@@ -239,9 +238,9 @@ int MemCard_ReadByte(MemCardTransfer *transfer, int value) {
 }
 
 int MemCard_WriteByte(MemCardTransfer *transfer, int value) {
-    register MemCardTransfer *transfer_reg asm("$16");
+    MemCardTransfer *transfer_reg;
     register int data asm("$19") = value;
-    register int control asm("$17");
+    int control;
     register int result asm("$18");
     TimerRegs *regs;
     volatile int *status;
@@ -320,7 +319,7 @@ int MemCard_WriteByte(MemCardTransfer *transfer, int value) {
 }
 
 int MemCard_WaitReadyForTransfer(void) {
-    register MemCardState *state asm("$3");
+    MemCardState *state;
     TimerRegs *regs;
     TimerRegs *check_regs;
     register int value asm("$2");

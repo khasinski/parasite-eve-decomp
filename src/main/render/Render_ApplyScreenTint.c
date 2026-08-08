@@ -31,17 +31,17 @@ extern struct { char _[16]; } D_800B1624_b_o __asm__("D_800B1624");
 #define READ_U16(base, offset) (*(u16 *)((u8 *)(base) + (offset)))
 
 int Render_ApplyScreenTint(void) {
-    register u8 *geom asm("$2");
-    register u8 *entry asm("$4");
-    register RgbPrim *prim asm("$3");
+    u8 *geom;
+    u8 *entry;
+    RgbPrim *prim;
     u32 flags;
     register int tint asm("$5");
-    register int tint_loop asm("$7");
+    int tint_loop;
     register int entry_index asm("$8");
     register int prim_index asm("$5");
-    register int entry_count asm("$9");
+    int entry_count;
     register int prim_count asm("$6");
-    register int active_slot asm("$2");
+    int active_slot;
     s32 stack_pad[4];
 
     flags = D_800BCF88;
@@ -94,10 +94,10 @@ int Render_ApplyScreenTint(void) {
     }
 
     {
-        register s32 mask asm("$3");
-        register s32 *flags_ptr asm("$5");
+        s32 mask;
+        s32 *flags_ptr;
         register s32 old_flags asm("$2");
-        register s32 mode_bits asm("$4");
+        s32 mode_bits;
         register s32 value asm("$2");
 
         mask = 0xFFFF3FFF;

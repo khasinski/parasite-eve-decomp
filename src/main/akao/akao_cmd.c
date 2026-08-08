@@ -455,12 +455,12 @@ extern int D_800B2900[];
 int Akao_StepNoteSequencer(unsigned char *cursor, unsigned int upload_limit) {
     register unsigned char *cursor_reg asm("$16") = cursor;
     register unsigned int upload_limit_reg asm("$18") = upload_limit;
-    register unsigned char *src asm("$20");
-    register unsigned int total_size asm("$21");
-    register unsigned int chunk_size asm("$17");
+    unsigned char *src;
+    unsigned int total_size;
+    unsigned int chunk_size;
     int start;
     register int count asm("$19");
-    register int spu_addr asm("$18");
+    int spu_addr;
     register int *dst asm("$4");
     register int base asm("$2");
     register int remaining asm("$2");
@@ -575,21 +575,20 @@ extern int D_8009D1EC;
 extern int D_8009D204;
 
 int Spu_UploadStreamBlockA(int arg0, unsigned char *arg1, unsigned int arg2) {
-    register int mode asm("$22") = arg0;
+    int mode = arg0;
     register unsigned char *cursor asm("$16") = arg1;
     register unsigned int upload_limit asm("$18") = arg2;
-    register unsigned char *src asm("$20");
-    register unsigned int total_size asm("$21");
-    register unsigned int chunk_size asm("$17");
+    unsigned char *src;
+    unsigned int total_size;
+    unsigned int chunk_size;
     register int count asm("$19");
-    register int spu_addr asm("$18");
-    register int *dst asm("$4");
+    int spu_addr;
+    int *dst;
     register int ret asm("$2");
     register int start asm("$2");
-    register int base asm("$3");
-    register int remaining asm("$2");
-    register int base_addr asm("$2");
-
+    int base;
+    int remaining;
+    int base_addr;
     if ((D_8009D270 & 2) != 0) {
         if (Spu_ValidateSampleHeader(cursor) != 0) {
             return -1;
@@ -672,18 +671,17 @@ int Spu_UploadStreamBlockA(int arg0, unsigned char *arg1, unsigned int arg2) {
 }
 
 int Spu_UploadStreamBlockB(int arg0, unsigned char *arg1) {
-    register int mode asm("$21") = arg0;
-    register unsigned char *cursor asm("$16") = arg1;
-    register unsigned char *src asm("$17");
+    int mode = arg0;
+    unsigned char *cursor = arg1;
+    unsigned char *src;
     register int size asm("$18");
     register int count asm("$19");
-    register int spu_addr asm("$20");
+    int spu_addr;
     register int start asm("$2");
-    register int *dst asm("$4");
-    register int ret asm("$2");
-    register int base asm("$3");
-    register int base_addr asm("$2");
-
+    int *dst;
+    int ret;
+    int base;
+    int base_addr;
     if ((mode & -2) != 0) {
         return 1;
     }

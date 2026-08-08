@@ -21,12 +21,12 @@ extern int *g_TaskNodePool;
 int Task_WaitAnimRange(void) {
     TaskAnimEntity *entity;
     int *node;
-    register int current asm("$5");
-    register int target asm("$6");
+    int current;
+    int target;
     int next;
     int frame;
     int max_frame;
-    register int cmp asm("$2");
+    int cmp;
     register int divisor asm("$2");
 
     entity = g_CurrentEntity[0];

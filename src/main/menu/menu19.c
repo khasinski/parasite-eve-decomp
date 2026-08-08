@@ -33,12 +33,12 @@ int Menu_MemCardProgressInputHandler(void) {
 }
 
 void Menu_StepItemGrid2(void) {
-    register int node asm("$16");
-    register int option_node asm("$17");
-    register int label asm("$18");
+    int node;
+    int option_node;
+    int label;
     register int suffix_id asm("$19");
-    register int callback asm("$20");
-    register int mode asm("$4");
+    int callback;
+    int mode;
     int width;
     int height;
 
@@ -84,8 +84,7 @@ void Menu_StepItemGrid2(void) {
             D_800A19C0[0] = 0xFF;
         }
         {
-            register int text_buf asm("$4");
-
+            int text_buf;
             Util_AppendFFTerminatedBytes((int)D_800A19C0, Str_LookupTable4(0x49));
             D_8009CFA4 = suffix_id;
             asm volatile(

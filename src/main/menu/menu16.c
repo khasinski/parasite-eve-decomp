@@ -37,13 +37,12 @@ void Menu_DrawNotificationText(int *arg0) {
 }
 
 void Menu_CreateTwoLineDialog(int line0_id, int line1_id) {
-    register MenuWidgetNode *parent asm("$18");
-    register MenuWidgetNode *child asm("$20");
+    MenuWidgetNode *parent;
+    MenuWidgetNode *child;
     register char *line0 asm("$19");
     register char *line1 asm("$17");
     char *text;
-    register int width asm("$3");
-
+    int width;
     parent = MenuWidget_CreateSimpleNode(0x28, MenuWidget_GetCurrentNode(), 0, 1);
     child = MenuWidget_CreateNode(0x28, parent, parent);
 

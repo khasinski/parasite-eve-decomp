@@ -250,8 +250,8 @@ void Save_InitSystem(void) {
 }
 
 void Battle_ResetEnemyStats(int mode) {
-    register Combatant *actor asm("$5");
-    register Combatant *clear_actor asm("$4");
+    Combatant *actor;
+    Combatant *clear_actor;
     register s32 flags asm("$2");
 
     actor = D_8009D278;
@@ -329,11 +329,11 @@ void Battle_ResetEnemyStats(int mode) {
 }
 
 void Battle_SetupPlayerPalette(void) {
-    register int c2 asm("$2");
-    register int c3 asm("$3");
-    register int c4 asm("$4");
-    register int c5 asm("$5");
-    register int c6 asm("$6");
+    int c2;
+    int c3;
+    int c4;
+    int c5;
+    int c6;
     register int c7 asm("$7");
     u8 *flags;
 
@@ -414,13 +414,12 @@ void Battle_SetupPlayerPalette(void) {
 }
 
 void Battle_StartEncounter(int mode) {
-    register int i asm("$4");
-    register int neg_one asm("$5");
-    register void *entity asm("$2");
-    register void *actor asm("$3");
+    int i;
+    int neg_one;
+    void *entity;
+    void *actor;
     u32 value;
-    register int mode_reg asm("$16");
-
+    int mode_reg;
     entity = D_8009D254;
     D_8009D278 = *(Combatant **)entity;
     D_8009D1E8 = 0;
@@ -487,10 +486,9 @@ void Battle_StartEncounter(int mode) {
 
     Battle_CheckDropChance();
     {
-        register void *post_entity asm("$3");
-        register void *post_actor asm("$4");
-        register u32 callback asm("$2");
-
+        void *post_entity;
+        void *post_actor;
+        u32 callback;
         post_entity = D_8009D254;
         post_actor = *(void **)((u8 *)post_entity + 0x238);
         callback = (u32)Entity_CheckActionIdMatch;
@@ -499,9 +497,8 @@ void Battle_StartEncounter(int mode) {
     }
     Window_SetBoundsByMode(mode_reg & 0xFF);
     {
-        register void *final_actor asm("$2");
-        register void *final_entity asm("$4");
-
+        void *final_actor;
+        void *final_entity;
         final_actor = D_8009D278;
         asm volatile(
             "lui %0, %%hi(D_8009D254)\n"
@@ -943,8 +940,7 @@ void Battle_StepLevelUp(void) {
             break;
         }
         {
-            register u32 entity_flags asm("$2");
-
+            u32 entity_flags;
             entity_flags = *(u32 *)((u8 *)entity + 0x98);
             *(u32 *)((u8 *)entity + 0x98) = entity_flags | 0x100;
         }
@@ -969,8 +965,7 @@ void Battle_StepLevelUp(void) {
             if ((flags & 0x1800) == 0) {
                 Entity_SetActionMode(entity, 0x15);
             } else {
-                register u32 cleared_flags asm("$2");
-
+                u32 cleared_flags;
                 cleared_flags = flags & -0x1801;
                 asm volatile(
                     ".set noat\n"

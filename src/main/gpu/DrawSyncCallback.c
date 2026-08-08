@@ -5,7 +5,7 @@ extern void (*D_80095748[])(char *msg, int arg0);
 extern char D_80011854[];
 
 int DrawSyncCallback(int arg0) {
-    register unsigned char *base asm("$16");
+    unsigned char *base;
     register int saved asm("$17");
     int old;
 

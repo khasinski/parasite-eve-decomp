@@ -5,12 +5,12 @@ extern int g_SaveMetadataWindowLength;
 extern unsigned char *g_SaveMetadataCursor;
 
 void Save_AppendMetadataChar(unsigned char ch) {
-    register unsigned char *cursor asm("$3");
-    register int used asm("$5");
-    register int length asm("$6");
-    register unsigned int value asm("$2");
-    register int has_room asm("$2");
-    register int terminator asm("$7");
+    unsigned char *cursor;
+    int used;
+    int length;
+    unsigned int value;
+    int has_room;
+    int terminator;
     int frame;
 
     /* Retail keeps an otherwise unused 8-byte leaf stack frame. */

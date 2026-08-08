@@ -12,12 +12,11 @@ extern void (*D_800A36A8[])(int event, u8 *data);
 void CdRom_ProcessEventByte(int event);
 
 void CdRom_ReadyEventDispatch(int event, u8 *data) {
-    register int event_reg asm("$16");
+    int event_reg;
     register int event_arg asm("$4");
-    register u8 *data_reg asm("$17");
-    register DsReadyEventWindow *state asm("$3");
-    register u32 pending asm("$2");
-
+    u8 *data_reg;
+    DsReadyEventWindow *state;
+    u32 pending;
     data_reg = data;
     event_reg = event & 0xFF;
     asm volatile("" : "=r"(data_reg) : "0"(data_reg));

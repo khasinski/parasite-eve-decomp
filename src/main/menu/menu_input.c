@@ -48,13 +48,13 @@ void BoundsCheck_AssertStub(int arg0);
 
 void MenuInput_EnqueueStatusChanges(int flags) {
     register int flags_reg asm("$21");
-    register MenuInputQueuedEvent *event asm("$16");
+    MenuInputQueuedEvent *event;
     MenuInputQueuedEvent *tail;
     register int mapped asm("$18");
     register int released asm("$17");
     int timer;
     int prev_flags;
-    register int repeat_reset asm("$19");
+    int repeat_reset;
     int repeat_step;
     int type;
     register int release_type asm("$20");
@@ -146,9 +146,9 @@ done:
 void MenuInput_DispatchQueuedEvents(void) {
     MenuInputWidget *node;
     register MenuInputQueuedEvent *event asm("$6");
-    register MenuInputQueuedEvent *prev asm("$3");
+    MenuInputQueuedEvent *prev;
     register MenuInputQueuedEvent *head asm("$2");
-    register MenuInputQueuedEvent *free_head asm("$2");
+    MenuInputQueuedEvent *free_head;
     MenuInputQueuedEvent local;
     register MenuInputQueuedEvent *localp asm("$7");
     int type;

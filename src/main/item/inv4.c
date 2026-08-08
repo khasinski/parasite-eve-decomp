@@ -44,7 +44,7 @@ void Inv_RebuildSelectableMask(void);
 
 void Inv_TransferItemAlt2(int mask) {
     register short *out asm("$17");
-    register int index asm("$16");
+    int index;
     register int mask_reg asm("$18") = mask;
     u8 *data;
     int limit;

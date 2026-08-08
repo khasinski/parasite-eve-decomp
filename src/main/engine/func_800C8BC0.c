@@ -3,10 +3,10 @@ typedef unsigned short u16;
 typedef signed short s16;
 
 int func_800C8BC0(void *arg0, u8 *state, u8 *anim) {
-    register u8 *state_a3 asm("$7") = state;
-    register u8 *anim_a2 asm("$6") = anim;
-    register int temp_v0 asm("$2");
-    register int temp_v1 asm("$3");
+    u8 *state_a3 = state;
+    u8 *anim_a2 = anim;
+    int temp_v0;
+    int temp_v1;
     register int temp_a0 asm("$4");
     register int temp_a1 asm("$5");
     u8 count;

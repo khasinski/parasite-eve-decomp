@@ -69,7 +69,7 @@ void CardObj_HandleResponse(CardObj *obj) {
     int count;
     int state;
     int delta;
-    register int one asm("$4");
+    int one;
     int (*callback)(void *);
 
     header = obj->response_3c[0] >> 4;

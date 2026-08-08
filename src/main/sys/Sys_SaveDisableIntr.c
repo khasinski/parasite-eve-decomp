@@ -25,15 +25,14 @@ void EnterCriticalSection(void);
 void ResetEntryInt(void);
 
 void *Sys_SaveDisableIntr(void) {
-    register volatile SysIntrState *state asm("$16");
-    register volatile u16 *mask_reg asm("$2");
+    volatile SysIntrState *state;
+    volatile u16 *mask_reg;
     register u16 *mask_shadow asm("$4");
-    register u32 *status_reg asm("$4");
+    u32 *status_reg;
     register u16 saved_mask asm("$3");
     register u32 saved_status asm("$3");
-    register u32 status asm("$2");
-    register u32 mask asm("$3");
-
+    u32 status;
+    u32 mask;
     state = &D_800945E4;
     if (state->enabled == 0) {
         return 0;

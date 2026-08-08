@@ -56,8 +56,7 @@ int Inv_FindIndexByData(void *needle) {
 
 
     {
-        register int result asm("$3");
-
+        int result;
         result = -1;
         if (index < g_InvSlotLimit) {
             result = index;

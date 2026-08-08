@@ -14,7 +14,7 @@ extern u16 D_800F33EC;
 extern u16 D_800F3410;
 
 int func_800CDE90(void *arg0, void *arg1, u8 *anim) {
-    register u16 lhs_v0 asm("$2");
+    u16 lhs_v0;
     register u16 rhs_v1 asm("$3");
 
     func_800C2EAC(3);

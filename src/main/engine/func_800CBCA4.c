@@ -66,10 +66,10 @@ extern volatile u8 D_800F3359;
 extern volatile u8 D_800F335A;
 
 int func_800CBCA4(u8 *arg0) {
-    register u8 *obj asm("$3");
+    u8 *obj;
     register int tmp asm("$2");
-    register int y_scale asm("$5");
-    register int color asm("$3");
+    int y_scale;
+    int color;
     register int z asm("$6");
     register int orange asm("$4");
     register int y_off asm("$4");

@@ -9,8 +9,8 @@ extern int D_800C20C4;
 extern u8 *D_800C0DC8;
 
 int Render_Nop(void **out0, void **out1) {
-    register void **out0_reg asm("$7");
-    register void **out1_reg asm("$8");
+    void **out0_reg;
+    void **out1_reg;
     u8 *entry;
     int index;
 

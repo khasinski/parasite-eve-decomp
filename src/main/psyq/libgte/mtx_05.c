@@ -4,8 +4,7 @@ void *ApplyMatrix(int *m, void *v, void *out) {
     register int r2 asm("$10") = m[2];
     register int r3 asm("$11") = m[3];
     register int r4 asm("$12") = m[4];
-    register void *ret asm("$2");
-
+    void *ret;
     asm volatile("ctc2 %0,$0" : : "r"(r0));
     asm volatile("ctc2 %0,$1" : : "r"(r1));
     asm volatile("ctc2 %0,$2" : : "r"(r2));

@@ -11,10 +11,9 @@ extern DsReadStatusBlock g_DsReadStatusBlock asm("D_8009B574");
 void CD_flush(void);
 
 void CdRom_AbortCmd(void) {
-    register u32 *state asm("$16");
+    u32 *state;
     u32 kind;
-    register u32 cmp asm("$2");
-
+    u32 cmp;
     state = D_8009B554;
     asm volatile("" : "=r"(state) : "0"(state));
     state[0] = 0;
@@ -32,9 +31,8 @@ void CdRom_AbortCmd(void) {
         }
         cmp = 0x10;
         if (kind == cmp) {
-            register DsReadStatusBlock *slot asm("$2");
-            register u32 value asm("$3");
-
+            DsReadStatusBlock *slot;
+            u32 value;
 abort_pending:
             slot = &g_DsReadStatusBlock;
             asm("" : "=r"(slot) : "0"(slot));

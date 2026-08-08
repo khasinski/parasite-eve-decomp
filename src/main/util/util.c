@@ -84,12 +84,12 @@ void Util_AppendFFTerminatedBytes(u8 *dst, u8 *src)
 
 void Inv_BuildItemGridFromCategory(void)
 {
-    register int i asm("$16");
-    register int stride asm("$17");
-    register ItemGridRecord *out asm("$18");
-    register int div_magic asm("$19");
-    register int placeholder asm("$20");
-    register s16 *clear asm("$2");
+    int i;
+    int stride;
+    ItemGridRecord *out;
+    int div_magic;
+    int placeholder;
+    s16 *clear;
     ItemGridRecord *src;
     int category;
     int base;
@@ -121,8 +121,7 @@ void Inv_BuildItemGridFromCategory(void)
     out = D_800A1E64;
     stride = 0;
     do {
-        register int rem asm("$3");
-
+        int rem;
         asm volatile(
             "mult %0,%1\n"
             "sra $2,%0,31"

@@ -11,12 +11,12 @@ void Spu_RestoreVoiceFromStereoSlot(AkaoTrack *track, int stereo_voice_index) {
     int index_reg;
     AkaoVoiceParams *params;
     register int mask asm("$7");
-    register int idx_arg asm("$4");
-    register int flags_arg asm("$6");
+    int idx_arg;
+    int flags_arg;
     AkaoVoiceParams *call_params;
     int index;
     register u32 left asm("$3");
-    register u32 right asm("$2");
+    u32 right;
     register u32 flags asm("$3");
     AkaoTrack *stereo;
 

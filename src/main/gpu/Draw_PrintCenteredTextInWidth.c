@@ -15,13 +15,13 @@ void Draw_AllocTexturedQuad(int ch);
 void BoundsCheck_AssertStub(int arg0);
 
 void Draw_PrintCenteredTextInWidth(unsigned char *text, int width) {
-    register unsigned char *scan asm("$18");
+    unsigned char *scan;
     register int target_width asm("$19");
     register unsigned char *cursor asm("$16");
-    register int text_width asm("$17");
-    register int *push_stack asm("$5");
-    register int *draw_stack asm("$4");
-    register int *pop_stack asm("$3");
+    int text_width;
+    int *push_stack;
+    int *draw_stack;
+    int *pop_stack;
     int ch;
     int mapped;
     int glyph_width;

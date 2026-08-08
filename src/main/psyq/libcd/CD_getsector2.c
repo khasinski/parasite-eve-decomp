@@ -62,7 +62,7 @@ int CD_getsector2(u32 arg0, u32 arg1) {
         : "$2", "$3", "$4", "memory");
 
     {
-        register volatile u32 *request asm("$3") = D_8009B28C;
+        volatile u32 *request = D_8009B28C;
         register u32 requestValue asm("$2") = 0x1325;
 
         *request = requestValue;

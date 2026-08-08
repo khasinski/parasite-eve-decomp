@@ -30,15 +30,14 @@ void MemCard_OnEventF000Spec0100(void);
 void MemCard_OnEventF000Spec2000(void);
 
 void MemCard_InitManager(void) {
-    register int i asm("$17");
-    register int *events asm("$16");
+    int i;
+    int *events;
     int value;
     int event;
     register int desc asm("$4");
     register int spec asm("$5");
     register int mode asm("$6");
-    register void (*callback)(void) asm("$7");
-
+    void (*callback)(void);
     if (D_800A1850 == 0) {
         D_800A1850 = 1;
         i = 0;
@@ -67,8 +66,7 @@ void MemCard_InitManager(void) {
         _card_auto(0);
 
         do {
-            register int loop_event asm("$4");
-
+            int loop_event;
             loop_event = *events;
             events++;
             /* Keep the table pointer increment before the EnableEvent call. */

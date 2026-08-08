@@ -57,11 +57,11 @@ extern M2C_UNK Menu_RebuildSelectableMask[];
 #define Menu_RebuildSelectableMask (Menu_RebuildSelectableMask[0])
 
 void Menu_OpenInventoryScreen(void) {
-    register s32 count asm("$5");
-    register s32 bits asm("$3");
-    register s32 loop_counter asm("$4");
-    register s32 equip_entry asm("$3");
-    register s32 raw asm("$2");
+    s32 count;
+    s32 bits;
+    s32 loop_counter;
+    s32 equip_entry;
+    s32 raw;
     void *root;
     void *node;
     void *current;

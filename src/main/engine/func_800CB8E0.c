@@ -28,8 +28,8 @@ extern u8 D_800F34E8;
 extern s16 D_800F34F2;
 
 int func_800CB8E0(void *arg0, void *arg1, u8 *anim) {
-    register u16 *field_s1 asm("$17") = &D_800F34F2;
-    register Matrix *matrix_a0 asm("$4");
+    u16 *field_s1 = &D_800F34F2;
+    Matrix *matrix_a0;
     Matrix matrix;
     SVECTOR rot;
     int scale_arg[4];

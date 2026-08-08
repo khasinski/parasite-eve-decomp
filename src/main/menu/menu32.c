@@ -62,7 +62,7 @@ void Draw_SwapPrimBuffers(void *owner) {
     register void *owner_reg asm("$17");
     register MenuPrimNode *node asm("$16");
     register MenuPrimNode *parent asm("$18");
-    register void *owner4 asm("$19");
+    void *owner4;
     MenuPrimNode *scan;
     int i;
 

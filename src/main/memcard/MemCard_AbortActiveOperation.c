@@ -31,10 +31,10 @@ int close(int fd);
 int erase(char *path);
 
 void MemCard_AbortActiveOperation(MemCardStateRaw *state) {
-    register MemCardStateRaw *state_reg asm("$18");
+    MemCardStateRaw *state_reg;
     register int state_index asm("$16");
     register int retry asm("$17");
-    register int minus_one asm("$19");
+    int minus_one;
     int fd;
     int slot;
     int is_second;

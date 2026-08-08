@@ -1,5 +1,5 @@
 void SetDrawMode(char *prim, int drawTexture, int dither, int tpage) {
-    register int code asm("$3");
+    int code;
     register int packedTpage asm("$2");
 
     prim[3] = 1;

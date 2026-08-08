@@ -7,7 +7,7 @@ int Akao_EnqueueStagedCommand(void);
 int Akao_Cmd_19_Then_C0(int arg0, int arg1) {
     register int *opcode asm("$17");
     register int saved_arg asm("$16");
-    register int next_opcode asm("$3");
+    int next_opcode;
     int ret;
 
     opcode = &g_AkaoCmdOpcode;

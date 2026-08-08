@@ -16,8 +16,7 @@ extern int D_800F32F8;
 extern short D_800F3308;
 
 int func_800CC644(void *arg0, void *arg1, u8 *anim) {
-    register u16 value_v0 asm("$2");
-
+    u16 value_v0;
     func_800C2EAC(3);
     func_800C3098(0x10);
     func_800C2FF0(0x20, 0x20);

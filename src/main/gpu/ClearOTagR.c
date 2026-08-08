@@ -13,16 +13,14 @@ extern s32 D_800957F8[];
 extern s32 D_8009580C[];
 
 void ClearOTagR(void *packet, s32 count) {
-    register s32 (*debug_cb)(char *, void *, s32) asm("$2");
-    register void (*clear_cb)(void *, s32) asm("$2");
-    register s32 mask24 asm("$6");
-    register s32 temp_a0 asm("$4");
-
+    s32 (*debug_cb)(char *, void *, s32);
+    void (*clear_cb)(void *, s32);
+    s32 mask24;
+    s32 temp_a0;
     if (D_8009574E[0] >= 2U) {
-        register char *fmt asm("$4");
-        register void *debug_packet asm("$5");
-        register s32 debug_count asm("$6");
-
+        char *fmt;
+        void *debug_packet;
+        s32 debug_count;
         fmt = D_80011910;
         asm volatile("" : "=r"(fmt) : "0"(fmt));
         debug_packet = packet;
@@ -37,9 +35,8 @@ void ClearOTagR(void *packet, s32 count) {
     mask24 = 0xFFFFFF;
     {
         register s32 *tail asm("$2");
-        register s32 *tag_ptr asm("$5");
-        register s32 tag_value asm("$3");
-
+        s32 *tag_ptr;
+        s32 tag_value;
         tail = packet;
         asm volatile("" : "=r"(tail) : "0"(tail));
         tag_ptr = D_8009580C;

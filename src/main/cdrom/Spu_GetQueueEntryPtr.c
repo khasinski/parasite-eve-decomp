@@ -3,7 +3,7 @@
 extern int D_800A3608;
 
 CdDsReadQueueEntry *Spu_GetQueueEntryPtr(void) {
-    register volatile int *base asm("$3");
+    volatile int *base;
     int count;
     int index;
     int delta;

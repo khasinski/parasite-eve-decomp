@@ -47,13 +47,13 @@ void Seq_ClearTrackVoiceId(AkaoTrack *track, unsigned int arg1) {
 }
 
 void Seq_StartNestedStreams(void *source, void *script_a, void *script_b) {
-    register void *source_reg asm("$22");
-    register void *script_a_reg asm("$20");
-    register void *script_b_reg asm("$21");
-    register AkaoTrack *track asm("$18");
-    register u32 mask asm("$17");
+    void *source_reg;
+    void *script_a_reg;
+    void *script_b_reg;
+    AkaoTrack *track;
+    u32 mask;
     register int count asm("$16");
-    register int active asm("$19");
+    int active;
     register int active_scan asm("$3");
     u32 check_mask;
 

@@ -5,9 +5,9 @@ typedef signed short s16;
 void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
     int frame;
     register int offset asm("$2");
-    register int count asm("$3");
-    register int i asm("$11");
-    register u8 *entry asm("$10");
+    int count;
+    int i;
+    u8 *entry;
     register u8 *bluePtr asm("$9");
 
     asm volatile("" : : "r"(&frame));
@@ -21,8 +21,8 @@ void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
         bluePtr = entry + 2;
         do {
             register s16 value asm("$3");
-            register int calc asm("$2");
-            register int blueValue asm("$2");
+            int calc;
+            int blueValue;
             register int blue asm("$8");
 
             value = entry[0];

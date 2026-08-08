@@ -9,8 +9,8 @@ void Battle_FlushScriptSounds(void);
 
 void Battle_BeginPlayerAction(void) {
     char *player;
-    register char *actor asm("$5");
-    register int mask asm("$3");
+    char *actor;
+    int mask;
     register int flags asm("$2");
 
     mask = -0x101;

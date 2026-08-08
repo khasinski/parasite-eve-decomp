@@ -31,8 +31,8 @@ int func_800CD2EC(void *arg0, void *arg1, u8 *anim) {
     SVECTOR rot;
     int scale_arg[4];
     volatile int scale[4];
-    register s16 *field_s1 asm("$17") = &D_800E22A2;
-    register Matrix *matrix_a0 asm("$4");
+    s16 *field_s1 = &D_800E22A2;
+    Matrix *matrix_a0;
     register int scale2_a2 asm("$6");
     register int scale3_a3 asm("$7");
 

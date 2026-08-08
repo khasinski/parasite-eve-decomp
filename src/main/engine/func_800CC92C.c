@@ -3,7 +3,7 @@ typedef signed char s8;
 typedef unsigned short u16;
 
 int func_800CC92C(void *arg0, u8 *state, u8 *anim) {
-    register u16 value asm("$2");
+    u16 value;
     register int frame asm("$3");
 
     value = *(u16 *)(anim + 6);

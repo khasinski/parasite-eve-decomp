@@ -39,7 +39,7 @@ s32 Entity_GetDistanceComponents(void *arg0) {
     s32 var_v0;
     s32 var_v0_2;
     s32 var_v0_3;
-    register s32 key0 asm("$2");
+    s32 key0;
     void *node;
 
     key0 = *M2C_FIELD(arg0, s32 **, 0);

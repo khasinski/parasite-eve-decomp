@@ -3,10 +3,10 @@ typedef unsigned short u16;
 
 int func_800CCAB0(void *arg0, u8 *state, u8 *anim) {
     int i;
-    register u8 *state_t1 asm("$9");
+    u8 *state_t1;
     register u8 *entry_a3 asm("$7");
     register int dx asm("$3");
-    register int dy asm("$4");
+    int dy;
     register int dz asm("$5");
     int frame;
 

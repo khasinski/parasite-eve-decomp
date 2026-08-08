@@ -15,17 +15,17 @@ extern s32 D_800B0CD8_w[] __asm__("g_GameState");
 #define g_PmSlotBuffer (*(u8 *)&D_800E0EF0_o)
 
 s32 Pm_StopLowerHalf(void) {
-    register u32 slot asm("$16");
-    register s32 table1_offset asm("$18");
-    register s32 table2_offset asm("$17");
-    register u8 *clear_base asm("$19");
-    register s32 result asm("$6");
-    register u8 *entry asm("$5");
-    register u8 *base asm("$2");
+    u32 slot;
+    s32 table1_offset;
+    s32 table2_offset;
+    u8 *clear_base;
+    s32 result;
+    u8 *entry;
+    u8 *base;
     register u32 fill asm("$2");
-    register u32 marker asm("$3");
-    register u32 clear_index asm("$4");
-    register s32 *clear_ptr asm("$3");
+    u32 marker;
+    u32 clear_index;
+    s32 *clear_ptr;
     register s32 mask asm("$3");
     register s32 game_state asm("$2");
 
@@ -35,10 +35,9 @@ s32 Pm_StopLowerHalf(void) {
     table2_offset = -0xB84;
     do {
         {
-            register s32 arg0 asm("$4") = slot;
-            register s32 arg1 asm("$5") = 0;
-            register s32 arg2 asm("$6") = 1;
-
+            s32 arg0 = slot;
+            s32 arg1 = 0;
+            s32 arg2 = 1;
             result = Pm_Stop(arg0, arg1, arg2);
         }
         if (result != 0) {

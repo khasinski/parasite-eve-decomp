@@ -42,9 +42,9 @@ extern s16 D_800F34F0;
 extern s16 D_800F34F2;
 
 int func_800CA574(void) {
-    register int half_a2 asm("$6");
+    int half_a2;
     register int half_a1 asm("$5");
-    register int shade_a0 asm("$4");
+    int shade_a0;
     register int value asm("$3");
     register void *slotData asm("$3");
     void **slot;

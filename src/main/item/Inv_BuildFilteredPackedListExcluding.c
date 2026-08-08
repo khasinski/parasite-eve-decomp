@@ -20,10 +20,10 @@ void Inv_BuildFilteredPackedListExcluding(int mask, int excluded) {
     int item_id;
     int offset;
     void *lookup;
-    register void *data asm("$3");
+    void *data;
     int type;
     s16 *out;
-    register int saved_item_id asm("$5");
+    int saved_item_id;
     int stack_pad[2];
 
     limit = g_InvSlotLimit;
@@ -45,8 +45,7 @@ void Inv_BuildFilteredPackedListExcluding(int mask, int excluded) {
                         lookup = Item_LookupBaseData(offset);
                         goto have_lookup;
                     } else if ((unsigned int)(saved_item_id - 0x200) < 9) {
-                        register int shifted asm("$3");
-
+                        int shifted;
                         shifted = saved_item_id << 5;
                         lookup = g_KeyItemDataTable + shifted;
                         goto have_lookup;

@@ -18,7 +18,7 @@ void Sys_FirstFileHookCallback(void);
 
 int Scene_CreateEntityNode(char *path, void *file) {
     register char *path_reg asm("$18");
-    register void *file_reg asm("$19");
+    void *file_reg;
     char *src;
     u8 *dst;
     u8 *entry;

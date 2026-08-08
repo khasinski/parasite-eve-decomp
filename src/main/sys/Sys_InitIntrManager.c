@@ -25,7 +25,7 @@ u16 *Sys_InitIntrManager(void) {
     volatile u16 *src;
     u16 *flag;
     u32 *ptr;
-    register u32 *vsync_ptr asm("$3");
+    u32 *vsync_ptr;
     int ret;
 
     state = D_800945E4;

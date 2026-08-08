@@ -7,13 +7,13 @@ typedef unsigned int u32;
 MathU64 *Math_Add64(MathU64 *out, u32 a_lo, u32 a_hi, u32 b_lo, u32 b_hi);
 
 MathU64 *Math_Neg64(MathU64 *out, u32 lo, u32 hi) {
-    register MathU64 *out_reg asm("$16");
-    register u32 add_lo asm("$5");
-    register u32 add_hi asm("$6");
-    register u32 add_one asm("$7");
+    MathU64 *out_reg;
+    u32 add_lo;
+    u32 add_hi;
+    u32 add_one;
     volatile MathU64 *tmp;
-    register u32 result_lo asm("$2");
-    register u32 result_hi asm("$3");
+    u32 result_lo;
+    u32 result_hi;
     volatile u32 one;
     volatile u32 zero;
 

@@ -45,7 +45,7 @@ s32 Camera_StepAngleFade(u8 *arg0) {
     u8 *p26;
     s32 t3aa;
     register s32 sumb asm("$2");
-    register s32 tmask4 asm("$3");
+    s32 tmask4;
     register s32 ta12d asm("$7");
     s32 sa12a;
     s32 sa12b;

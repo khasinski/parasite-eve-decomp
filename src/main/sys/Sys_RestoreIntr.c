@@ -23,13 +23,12 @@ void HookEntryInt(void *hook);
 void ExitCriticalSection(void);
 
 void *Sys_RestoreIntr(void) {
-    register volatile SysIntrState *state asm("$16");
-    register u16 *mask_reg asm("$4");
+    volatile SysIntrState *state;
+    u16 *mask_reg;
     u32 *status_reg;
     register u16 saved_mask asm("$3");
-    register u32 saved_status asm("$2");
-    register u32 enabled asm("$2");
-
+    u32 saved_status;
+    u32 enabled;
     state = &D_800945E4;
     if (state->enabled != 0) {
         return 0;

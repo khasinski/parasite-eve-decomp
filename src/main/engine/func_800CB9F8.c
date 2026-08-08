@@ -19,10 +19,10 @@ extern u8 D_800F34E8;
 extern s16 D_800F34F2;
 
 int func_800CB9F8(void *arg0, void *arg1, u8 *anim) {
-    register u16 *field_s2 asm("$18") = &D_800F34F2;
-    register Matrix *matrix_s1 asm("$17");
-    register Matrix *call_a0 asm("$4");
-    register int scale_v0 asm("$2");
+    u16 *field_s2 = &D_800F34F2;
+    Matrix *matrix_s1;
+    Matrix *call_a0;
+    int scale_v0;
     register int scale2_a2 asm("$6");
     register int scale3_a3 asm("$7");
     Matrix matrix;

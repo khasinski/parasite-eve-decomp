@@ -7,10 +7,10 @@ extern BattleCmdEntry *D_8009D014;
 extern char D_800A1B30[];
 
 BattleCmdEntry *BattleCmd_AllocSlot(void) {
-    register BattleCmdEntry *top asm("$8");
+    BattleCmdEntry *top;
     register BattleCmdEntry *end asm("$3");
     register BattleCmdEntry *dst asm("$7");
-    register BattleCmdEntry *limit asm("$10");
+    BattleCmdEntry *limit;
     BattleCmdEntry *next;
 
     top = D_8009D014;

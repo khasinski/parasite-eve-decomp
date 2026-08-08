@@ -22,16 +22,16 @@ extern int D_800F32CC;
 extern u8 D_800F3460;
 
 int func_800CD404(void *arg0, void *arg1, u8 *anim) {
-    register u8 *anim_s2 asm("$18") = anim;
-    register int *field_s1 asm("$17");
-    register u8 *color_a3 asm("$7");
-    register int *position_v0 asm("$2");
+    u8 *anim_s2 = anim;
+    int *field_s1;
+    u8 *color_a3;
+    int *position_v0;
     register u8 *call_a0 asm("$4");
     register int *call_a1 asm("$5");
     register int call_a2 asm("$6");
-    register int value_v0 asm("$2");
+    int value_v0;
     register int value_v1 asm("$3");
-    register int entry_v0 asm("$2");
+    int entry_v0;
     int i;
     int shade;
 

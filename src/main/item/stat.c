@@ -33,15 +33,15 @@ int Stat_BinarySearch(int value, int *table) {
 }
 
 void Stat_QueryLevelAndSubLevel(int kind, int value, int *level_out, int *sublevel_out) {
-    register int saved_value asm("$16");
-    register int *level_ptr asm("$18");
-    register int *sublevel_ptr asm("$17");
+    int saved_value;
+    int *level_ptr;
+    int *sublevel_ptr;
     register int *table asm("$6");
     int index;
-    register int step asm("$3");
-    register int offset asm("$2");
-    register int *loop_cursor asm("$4");
-    register int *cursor asm("$2");
+    int step;
+    int offset;
+    int *loop_cursor;
+    int *cursor;
     int sublevel;
 
     saved_value = value;
@@ -75,11 +75,10 @@ void Stat_QueryLevelAndSubLevel(int kind, int value, int *level_out, int *sublev
         offset = index << 2;
         cursor = (int *)(offset + (int)table);
         {
-            register int current_reg asm("$4");
+            int current_reg;
             register int next_reg asm("$6");
             register int delta_reg asm("$3");
-            register int numerator_reg asm("$2");
-
+            int numerator_reg;
             next_reg = cursor[1];
             current_reg = cursor[0];
             if (next_reg != current_reg) {
@@ -112,15 +111,15 @@ void Stat_QueryLevelAndSubLevel(int kind, int value, int *level_out, int *sublev
 }
 
 void Stat_QueryDistanceAndSubLevel(int kind, int value, int *distance_out, int *sublevel_out) {
-    register int saved_value asm("$16");
-    register int *distance_ptr asm("$18");
-    register int *sublevel_ptr asm("$17");
+    int saved_value;
+    int *distance_ptr;
+    int *sublevel_ptr;
     register int *table asm("$6");
     int index;
-    register int step asm("$3");
-    register int offset asm("$2");
-    register int *loop_cursor asm("$4");
-    register int *cursor asm("$2");
+    int step;
+    int offset;
+    int *loop_cursor;
+    int *cursor;
     int sublevel;
     int distance;
 
@@ -163,11 +162,10 @@ void Stat_QueryDistanceAndSubLevel(int kind, int value, int *distance_out, int *
         offset = index << 2;
         cursor = (int *)(offset + (int)table);
         {
-            register int current_reg asm("$4");
-            register int next_reg asm("$6");
+            int current_reg;
+            int next_reg;
             register int delta_reg asm("$3");
-            register int numerator_reg asm("$2");
-
+            int numerator_reg;
             next_reg = cursor[1];
             current_reg = cursor[0];
             if (next_reg != current_reg) {

@@ -15,7 +15,7 @@ void Akao_InitVoiceState(AkaoTrack *track, void *script);
 
 void Seq_StartNestedTrack(AkaoTrack *track, AkaoNestedSource *source, unsigned int voice_mask, void *script) {
     register AkaoTrack *track_reg asm("$8");
-    register unsigned int mask asm("$16") = voice_mask;
+    unsigned int mask = voice_mask;
     int pan;
     int pan_target;
     register unsigned int *active_mask asm("$4");
@@ -55,7 +55,7 @@ void Seq_StartNestedTrack(AkaoTrack *track, AkaoNestedSource *source, unsigned i
     D_800BCD74 &= mask;
 
     if ((D_8009D2DC & 2) != 0) {
-        register AkaoNestedVoiceSlot *slot asm("$8");
+        AkaoNestedVoiceSlot *slot;
         register unsigned int busy_mask asm("$7");
         register unsigned int *active_loop_mask asm("$6");
         int count;
@@ -67,8 +67,8 @@ void Seq_StartNestedTrack(AkaoTrack *track, AkaoNestedSource *source, unsigned i
         active_loop_mask = active_mask;
         do {
             if ((slot->flags & busy_mask) == 0) {
-                register unsigned int not_mask asm("$2");
-                register unsigned int active_value asm("$3");
+                unsigned int not_mask;
+                unsigned int active_value;
                 register unsigned int off_value asm("$4");
 
                 not_mask = ~mask;

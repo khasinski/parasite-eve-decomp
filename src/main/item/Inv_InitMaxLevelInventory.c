@@ -25,7 +25,7 @@ extern s32 g_AyaSaveTotalExp[];
 #define g_AyaSaveTotalExp (g_AyaSaveTotalExp[0])
 
 void Inv_InitMaxLevelInventory(s32 arg0) {
-    register s16 *temp_a1 asm("$5");
+    s16 *temp_a1;
     s16 *var_v1;
     register s16 var_v0 asm("$2");
     s32 var_a0;

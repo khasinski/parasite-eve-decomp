@@ -17,7 +17,7 @@ int MemCard_WriteByte(CardObj *obj, int value);
 
 int CardObj_WriteCommandByte(CardObj *obj) {
     register CardObj *call_obj asm("$4");
-    register int cmd asm("$2");
+    int cmd;
     register int value asm("$5");
 
     if (D_8009B764 == D_8009B774 && D_8009B760 != 0) {

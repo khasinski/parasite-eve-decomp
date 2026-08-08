@@ -114,13 +114,12 @@ extern int D_800A3CB4[];
 extern char D_800A3CBC[];
 
 int DS_searchdir(int dev, char *name) {
-    register int saved_dev asm("$19");
+    int saved_dev;
     register char *saved_name asm("$20");
-    register int i asm("$16");
-    register int offset asm("$17");
+    int i;
+    int offset;
     register char *entry_name asm("$18");
-    register int value asm("$2");
-
+    int value;
     saved_dev = dev;
     saved_name = name;
     i = 0;

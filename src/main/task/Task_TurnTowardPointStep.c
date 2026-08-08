@@ -19,7 +19,7 @@ int Task_TurnTowardPointStep(int **arg0) {
     char *node = g_TaskNodePool;
     int flags = *(u16 *)(node + 8);
     int x;
-    register int y asm("$4");
+    int y;
     int step;
     register int angle asm("$3");
     register int stepped asm("$6");

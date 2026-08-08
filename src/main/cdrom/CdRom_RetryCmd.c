@@ -15,7 +15,7 @@ s32 CdRom_RetryCmd(void) {
     s32 value;
     register s32 idx asm("$3");
     s32 arg0;
-    register s32 arg2 asm("$6");
+    s32 arg2;
     s32 arg3;
 
     CD_flush();

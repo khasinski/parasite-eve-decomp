@@ -7,8 +7,7 @@ void *ApplyMatrixSV(int *m, void *v, short *out) {
     register int ir1 asm("$8");
     register int ir2 asm("$9");
     register int ir3 asm("$10");
-    register void *ret asm("$2");
-
+    void *ret;
     asm volatile("ctc2 %0,$0" : : "r"(r0));
     asm volatile("ctc2 %0,$1" : : "r"(r1));
     asm volatile("ctc2 %0,$2" : : "r"(r2));

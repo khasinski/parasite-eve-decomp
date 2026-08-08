@@ -82,7 +82,7 @@ int Akao_LoadVoiceBank(AkaoVoiceActor *actor) {
     register int step asm("$22");
     register int target asm("$21");
     register int i asm("$18");
-    register int offset asm("$16");
+    int offset;
     register AkaoVoiceBankEntry *entry asm("$20");
     register AkaoVoiceBankState *state asm("$23");
     int id;

@@ -20,12 +20,12 @@ int func_800C8A88(void *arg0, void *arg1, u8 *anim) {
     int scale_arg[4];
     volatile int scale[4];
     u8 *anim_s0 = anim;
-    register Matrix *matrix_s1 asm("$17");
-    register Matrix *call_a0 asm("$4");
-    register int scale_v0 asm("$2");
+    Matrix *matrix_s1;
+    Matrix *call_a0;
+    int scale_v0;
     register int scale2_a2 asm("$6");
     register int scale3_a3 asm("$7");
-    register u16 *field_s2 asm("$18") = &D_800F34E2;
+    u16 *field_s2 = &D_800F34E2;
     int m0;
     int m1;
     int m2;

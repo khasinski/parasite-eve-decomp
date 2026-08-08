@@ -15,9 +15,9 @@ int strcmp(char *lhs, char *rhs);
 
 int Sys_FirstFileHookCallback(int *result, void *file, void *extra) {
     register int *result_reg asm("$18");
-    register void *file_reg asm("$20");
-    register void *extra_reg asm("$21");
-    register void *saved_callback asm("$19");
+    void *file_reg;
+    void *extra_reg;
+    void *saved_callback;
     u8 *entry;
     u8 *end;
 

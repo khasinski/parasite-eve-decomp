@@ -1,6 +1,5 @@
 void RotTrans(void *v, void *out, int *flag) {
-    register int flagValue asm("$2");
-
+    int flagValue;
     asm volatile("lwc2 $0,0(%0)" : : "r"(v));
     asm volatile("lwc2 $1,4(%0)" : : "r"(v));
     asm volatile("nop");

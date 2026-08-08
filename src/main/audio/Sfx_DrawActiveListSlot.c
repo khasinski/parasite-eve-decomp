@@ -19,7 +19,7 @@ void Sfx_DrawActiveListSlot(s32 arg0) {
     u32 temp_a0;
     register u32 var_a0 asm("$4");
     void *temp_v1_2;
-    register void *var_a1 asm("$5");
+    void *var_a1;
     void *var_v0;
     void *saved_a1;
 

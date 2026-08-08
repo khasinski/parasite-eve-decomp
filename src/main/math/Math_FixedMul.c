@@ -1,5 +1,5 @@
 int Math_FixedMul(int a, int b) {
-    register int lo asm("$2");
+    int lo;
     register int hi asm("$3");
 
     asm volatile(

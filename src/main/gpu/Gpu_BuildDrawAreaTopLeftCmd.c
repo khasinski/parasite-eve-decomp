@@ -7,11 +7,11 @@ extern s16 D_80095752;
 
 int Gpu_BuildDrawAreaTopLeftCmd(int x, int y) {
     register int clamped_x asm("$2");
-    register int signed_coord asm("$6");
+    int signed_coord;
     register int packed_y asm("$3");
     register int x_mask asm("$2");
-    register int cmd_base asm("$4");
-    register int shifted asm("$2");
+    int cmd_base;
+    int shifted;
     int limit;
     int exceeds_limit;
 

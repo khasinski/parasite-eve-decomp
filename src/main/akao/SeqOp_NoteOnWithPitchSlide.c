@@ -15,10 +15,9 @@ void SeqOp_NoteOnWithPitchSlide(void *track) {
     int value;
     int step_count;
     int pitch_base;
-    register int mask asm("$4");
+    int mask;
     register int voice_index asm("$7");
-    register int check asm("$2");
-
+    int check;
     base = (u8 *)track;
     asm volatile("" : "=r"(base) : "0"(base));
 

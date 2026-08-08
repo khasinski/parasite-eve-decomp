@@ -3,8 +3,7 @@ extern int D_8009B598;
 int CdRom_SendCmd(int arg0);
 
 int func_8007FCBC(int arg0) {
-    register volatile int *ptr asm("$3");
-
+    volatile int *ptr;
     ptr = &D_8009B598;
     if (*ptr > 0) {
         return 0;

@@ -15,8 +15,8 @@ extern u16 D_800E2294;
 extern char *D_8009D254;
 
 int func_800CC0E0(void *arg0, void *arg1, u8 *anim) {
-    register u16 *base_s5 asm("$21");
-    register int neg_s6 asm("$22");
+    u16 *base_s5;
+    int neg_s6;
     int i;
     int count;
     int angle;

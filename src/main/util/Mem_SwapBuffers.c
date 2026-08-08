@@ -4,7 +4,7 @@ typedef unsigned int u32;
 
 void Mem_SwapBuffers(u8 *arg0, u8 *arg1, u32 len) {
     u8 *left = arg0;
-    register u8 *right asm("$9") = arg1;
+    u8 *right = arg1;
     u32 i;
 
     asm volatile("" : "=r"(left) : "0"(left));

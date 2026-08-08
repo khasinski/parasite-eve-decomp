@@ -16,9 +16,9 @@ void ReturnFromException(void);
 void Render_InitSceneGeom(void) {
     register u16 *state asm("$17") = &D_800945E4;
     register int mask asm("$16");
-    register int bit asm("$19");
-    register void (**callback)(void) asm("$18");
-    register void (**callback_base)(void) asm("$20");
+    int bit;
+    void (**callback)(void);
+    void (**callback_base)(void);
     int index;
     int pending;
     int counter;

@@ -3,14 +3,13 @@ typedef signed short s16;
 int func_800C6148(char *obj, s16 *pos, unsigned short radius) {
     int x = *(s16 *)(obj + 0x2A) - pos[0];
     register int obj_z asm("$2");
-    register int pos_z asm("$3");
-    register int z asm("$2");
+    int pos_z;
+    int z;
     register int x_sq asm("$7");
-    register int z_sq asm("$3");
-    register int dist asm("$2");
+    int z_sq;
+    int dist;
     register int radius_sq asm("$9");
-    register int radius_u asm("$6");
-
+    int radius_u;
     asm volatile(
         "mult %0,%0\n\t"
         "addiu $sp,$sp,-16\n\t"

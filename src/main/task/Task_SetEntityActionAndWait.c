@@ -53,7 +53,7 @@ int Task_SetEntityActionAndWait(int **arg0) {
             keep = result;
         } else {
             register unsigned int rhs asm("$3") = *(unsigned int *)(state + 0x14);
-            register unsigned int lhs asm("$2") = *(unsigned int *)(state + 0x18);
+            unsigned int lhs = *(unsigned int *)(state + 0x18);
             int result = lhs < rhs;
             keep = result;
         }
@@ -68,7 +68,7 @@ finish:
 
 pop_state:
     {
-        register int cursor asm("$3") = g_SceneDataTable0;
+        int cursor = g_SceneDataTable0;
         int *active_node = g_TaskNodePool;
         cursor -= 0xC;
         g_SceneDataTable0 = cursor;

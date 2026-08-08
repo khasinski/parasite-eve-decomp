@@ -47,7 +47,7 @@ void Battle_ApplyDamage(int action);
 int Scene_LoadRoomAssets(int room, void *entity);
 
 void Battle_ApplyPlayerHit(void) {
-    register u32 committed asm("$16");
+    u32 committed;
     register int mask asm("$5");
     register unsigned int index asm("$3");
     u8 *actor;

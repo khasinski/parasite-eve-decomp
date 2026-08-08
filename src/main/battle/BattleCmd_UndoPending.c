@@ -15,9 +15,9 @@ int Inv_CheckSlotUsable(int data);
 int Inv_FindIndexByData(int data);
 
 void BattleCmd_UndoPending(void) {
-    register u32 *entry asm("$4");
-    register u32 *entry_tmp asm("$2");
-    register u32 *top asm("$3");
+    u32 *entry;
+    u32 *entry_tmp;
+    u32 *top;
     int opcode;
     s16 *slot;
     int data;

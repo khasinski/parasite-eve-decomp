@@ -75,7 +75,7 @@ void Battle_DrawSpellName(void) {
         }
         {
             s32 cC;
-            register s32 t3 asm("$3");
+            s32 t3;
             s32 rFD;
             s32 tE;
             cC = CDDCC;

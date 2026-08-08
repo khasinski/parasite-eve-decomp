@@ -8,12 +8,11 @@ int MemCard_WriteByte(void *obj, int value);
 
 int MemCard_WriteByteWithAckCheck(void *obj) {
     register void *card asm("$16");
-    register void *call_obj asm("$4");
+    void *call_obj;
     int needs_ack;
     int value;
     register int result asm("$3");
-    register int ret asm("$2");
-
+    int ret;
     card = obj;
     needs_ack = 0;
     if ((*(u8 *)*(void **)((u8 *)card + 0x3C) >> 4) == 8) {

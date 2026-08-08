@@ -18,11 +18,10 @@ s32 DsSync(s32 mode);
 s32 CdRom_TryIssueCmd(s32 cmd, s32 arg);
 
 s32 CdRom_DispatchPendingCmd(void) {
-    register s32 index asm("$4");
-    register CdRomPendingCmd *entry asm("$3");
+    s32 index;
+    CdRomPendingCmd *entry;
     register s32 offset asm("$2");
-    register s32 result asm("$2");
-
+    s32 result;
     if (DsSync(0) != 1) {
         return 0;
     }

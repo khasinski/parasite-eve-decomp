@@ -56,7 +56,7 @@ void Render_SetupColorTable(s16 base, int mode, s16 *src) {
     register int digit_index asm("$9");
     register int one asm("$8") = 1;
     register int neg_one asm("$14") = -1;
-    register int div_magic asm("$13") = 0x66666667;
+    int div_magic = 0x66666667;
     ColorTableSlot *slot;
 
     while ((u8)slot_index < 4) {

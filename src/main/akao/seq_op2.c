@@ -120,16 +120,16 @@ void sndTrackAdjustDetune(AkaoTrack *track) {
 }
 
 void SeqOp_SetPitchLFO(void *ptr) {
-    register AkaoTrack *track asm("$5");
+    AkaoTrack *track;
     AkaoU8 *pc;
     void *table;
     int duration;
     int target;
-    register int lfo_target asm("$3");
+    int lfo_target;
     unsigned int masked;
     unsigned int depth;
-    register int scale asm("$4");
-    register int scaled asm("$2");
+    int scale;
+    int scaled;
     int product;
     int use_base_scale;
     int selector;
@@ -147,16 +147,14 @@ void SeqOp_SetPitchLFO(void *ptr) {
             track->pitch_lfo_target = target << 8;
         }
     } else {
-        register AkaoU8 *pc_zero asm("$2");
-
+        AkaoU8 *pc_zero;
         pc_zero = track->pc;
         track->pc = pc_zero + 1;
         track->pitch_lfo_delay = pc_zero[0];
     }
 
     {
-        register AkaoU8 *pc_duration asm("$2");
-
+        AkaoU8 *pc_duration;
         pc_duration = track->pc;
         track->pc = pc_duration + 1;
         duration = pc_duration[0];

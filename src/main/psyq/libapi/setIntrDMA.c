@@ -7,15 +7,14 @@ void *setIntrDMA(int channel, void *callback) {
     register int channelReg asm("$6");
     register void *callbackReg asm("$4");
     register void **base asm("$3");
-    register int index asm("$2");
-    register void **slot asm("$3");
-    register void *old asm("$7");
+    int index;
+    void **slot;
+    void *old;
     register void *ret asm("$2");
-    register u32 *dmaReg asm("$5");
-    register u32 mask asm("$4");
-    register int bit asm("$3");
-    register u32 tmp asm("$2");
-
+    u32 *dmaReg;
+    u32 mask;
+    int bit;
+    u32 tmp;
     channelReg = channel;
     asm volatile("" : : "r"(channelReg));
     callbackReg = callback;

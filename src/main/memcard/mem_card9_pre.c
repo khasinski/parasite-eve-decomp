@@ -65,7 +65,7 @@ int MemCard_TimerReadyCallback(void) {
 int MemCard_TimerCallback(void) {
     int index;
     int limit;
-    register int *timer asm("$4");
+    int *timer;
     void *obj;
     register int active asm("$3");
     register int one asm("$2");

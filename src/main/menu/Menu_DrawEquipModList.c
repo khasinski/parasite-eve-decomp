@@ -9,9 +9,9 @@ void MenuWidget_DrawList(int arg0, void (*callback)(void));
 
 void Menu_DrawEquipModList(int arg0) {
     int temp;
-    register int saved_arg asm("$18");
-    register int var_s0 asm("$16");
-    register int var_s1 asm("$17");
+    int saved_arg;
+    int var_s0;
+    int var_s1;
     int ret;
 
     saved_arg = arg0;

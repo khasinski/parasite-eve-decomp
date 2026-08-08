@@ -3,16 +3,15 @@ typedef signed short s16;
 extern char *D_8009D254;
 
 int func_800C6B90(s16 *pos, int extraRadius) {
-    register char *entity_v1 asm("$3") = D_8009D254;
-    register int x asm("$6");
-    register int radius asm("$7");
+    char *entity_v1 = D_8009D254;
+    int x;
+    int radius;
     register int z asm("$3");
-    register int pos_value asm("$2");
+    int pos_value;
     register int x_sq asm("$8");
-    register int z_sq asm("$2");
+    int z_sq;
     register int radius_sq asm("$6");
-    register int dist asm("$2");
-
+    int dist;
     asm volatile(
         ".set push\n\t"
         ".set noreorder\n\t"

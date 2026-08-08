@@ -13,11 +13,11 @@ int WaitEvent(int arg0);
 
 int SPU_StartDmaRead(unsigned int index) {
     register unsigned int index_reg asm("$16");
-    register int *area_ptr asm("$17");
+    int *area_ptr;
     register int addr asm("$18");
     register int repeat asm("$19");
     register int saved_mode asm("$20");
-    register int restore_mode asm("$21");
+    int restore_mode;
     volatile int saved_transfer;
     int block;
     int size;

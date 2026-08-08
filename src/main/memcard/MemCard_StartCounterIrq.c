@@ -14,9 +14,9 @@ void SysDeqIntRP(int, void *);
 void SysEnqIntRP(int, void *);
 
 void MemCard_StartCounterIrq(void) {
-    register void *queue asm("$16");
+    void *queue;
     register int *regs asm("$3");
-    register int *tail asm("$2");
+    int *tail;
     register int counter asm("$4");
     int value;
 

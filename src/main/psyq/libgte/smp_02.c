@@ -1,7 +1,6 @@
 int RotTransPers(void *v, void *sxy, void *p, int *flag) {
-    register int result asm("$2");
-    register int flagValue asm("$3");
-
+    int result;
+    int flagValue;
     asm volatile("lwc2 $0,0(%0)" : : "r"(v));
     asm volatile("lwc2 $1,4(%0)" : : "r"(v));
     asm volatile("nop");

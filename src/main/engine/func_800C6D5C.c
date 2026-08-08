@@ -5,12 +5,12 @@ typedef signed short s16;
 extern s16 D_800F3420;
 
 void func_800C6D5C(u8 *data, u8 xOffset, u8 yOffset) {
-    register u8 *data_t0 asm("$8");
-    register u8 *ptr_t2 asm("$10");
-    register int value_v0 asm("$2");
-    register int value_v1 asm("$3");
+    u8 *data_t0;
+    u8 *ptr_t2;
+    int value_v0;
+    int value_v1;
     register int x_a0 asm("$4");
-    register int i_t1 asm("$9");
+    int i_t1;
     register int count_a0 asm("$4");
     int total;
 

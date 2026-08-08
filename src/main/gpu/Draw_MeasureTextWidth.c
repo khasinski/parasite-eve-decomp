@@ -8,13 +8,13 @@ extern int D_8009CDB0;
 int Draw_LookupGlyphMetrics(int glyph);
 
 int Draw_MeasureTextWidth(u8 *text) {
-    register u8 *cursor asm("$16");
-    register int width asm("$17");
-    register int ch asm("$4");
+    u8 *cursor;
+    int width;
+    int ch;
     int glyph;
-    register int terminator_check asm("$3");
+    int terminator_check;
     register int sentinel asm("$2");
-    register int escape_page asm("$2");
+    int escape_page;
     int spacing;
     int metrics;
 

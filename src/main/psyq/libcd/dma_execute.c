@@ -12,17 +12,17 @@ int printf(char *fmt, int arg);
 
 void dma_execute(int chan, u32 madr, u32 bcr_hi, u32 bcr_lo, u32 chcr, u8 enable) {
     register int chan_reg asm("$16") = chan;
-    register u32 madr_reg asm("$18") = madr;
+    u32 madr_reg = madr;
     register u32 bcr_hi_reg asm("$19") = bcr_hi;
-    register u32 bcr_lo_reg asm("$20") = bcr_lo;
-    register int enable_reg asm("$17") = enable;
+    u32 bcr_lo_reg = bcr_lo;
+    int enable_reg = enable;
     register u32 offset asm("$5");
     register volatile u32 *dma_reg asm("$5");
     register volatile u8 *intr_reg asm("$3");
-    register u32 value asm("$2");
+    u32 value;
     register u32 bit asm("$3");
     register u32 counter asm("$4");
-    register u32 chcr_late asm("$2");
+    u32 chcr_late;
     volatile u32 scratch;
 
     counter = 0;

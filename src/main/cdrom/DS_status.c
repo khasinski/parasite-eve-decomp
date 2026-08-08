@@ -22,7 +22,7 @@ int DsRead_IsBusy(void);
 int printf(char *fmt, ...);
 
 void DS_status(void) {
-    register DsReadStatusBlock *state asm("$16");
+    DsReadStatusBlock *state;
     int b0;
     int b1;
     int b2;

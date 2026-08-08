@@ -90,7 +90,7 @@ void Seq_SlideTrackPitch(int *arg0) {
     register int raw asm("$2");
     int duration;
     register int target asm("$5");
-    register int selector asm("$7");
+    int selector;
     char *track;
     char *base;
     char *next_track;

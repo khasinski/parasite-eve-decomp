@@ -54,12 +54,12 @@ void SysErrReport(char *arg0, char *arg1, int arg2, unsigned char arg3) {
 }
 
 int Render_LoadFontGlyph(int code) {
-    register int code_reg asm("$19") = code;
-    register u16 *range asm("$16");
-    register FontLoadContext *ctx asm("$17");
-    register int fail asm("$18");
-    register int poll_fail asm("$16");
-    register int code_mask asm("$3");
+    int code_reg = code;
+    u16 *range;
+    FontLoadContext *ctx;
+    int fail;
+    int poll_fail;
+    int code_mask;
     int sector_start;
     int sector_end;
     int offset;
@@ -120,13 +120,13 @@ retry_read:
 }
 
 int Render_DrawTextDigit(u8 *table, int mode) {
-    register u8 *table_reg asm("$7");
+    u8 *table_reg;
     register int digit asm("$3");
-    register int selected asm("$6");
-    register int i asm("$5");
+    int selected;
+    int i;
     int count;
-    register int count_load asm("$2");
-    register u8 *base asm("$4");
+    int count_load;
+    u8 *base;
     u8 *ptr;
     int stack_pad[3];
 
@@ -178,8 +178,7 @@ common:
     count_load = base[0x1B];
     base += 0x1B;
     if (count_load > 0) {
-        register int count2 asm("$3");
-
+        int count2;
         selected &= 0xFF;
         count2 = count_load;
         do {

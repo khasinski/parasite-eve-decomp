@@ -8,7 +8,7 @@ MathU64 *Math_Add64(MathU64 *out, u32 a_lo, u32 a_hi, u32 b_lo, u32 b_hi) {
     register MathU64 *out_reg asm("$9") = out;
     u32 parts[4];
     register u32 a_hi16 asm("$8");
-    register u32 b_hi16 asm("$3");
+    u32 b_hi16;
     register u32 low_sum asm("$4");
     register u32 high_sum asm("$7");
     register u32 carry_mask asm("$5");

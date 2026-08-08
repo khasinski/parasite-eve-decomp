@@ -16,10 +16,10 @@ extern int D_800F3448;
 extern short D_800F3458;
 
 int func_800CC480(void *arg0, u8 *params, u8 *anim) {
-    register short *base_a0 asm("$4");
-    register int init_a0 asm("$4") = 3;
+    short *base_a0;
+    int init_a0 = 3;
     register u8 *anim_s1 asm("$17") = anim;
-    register int value_v0 asm("$2");
+    int value_v0;
     register int value_v1 asm("$3");
 
     func_800C2EAC(init_a0);

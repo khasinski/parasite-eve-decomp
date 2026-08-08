@@ -79,10 +79,10 @@ move:
 }
 
 void Aya_SetTotalExp(s32 exp_delta, s32 pe_bonus_delta, void *wayne_items) {
-    register s32 exp_delta_reg asm("$16");
+    s32 exp_delta_reg;
     register s32 pe_bonus_delta_reg asm("$17");
     register void *wayne_items_reg asm("$20");
-    register AyaSaveState *save asm("$18");
+    AyaSaveState *save;
     register u16 *stat_src asm("$19");
     s32 i;
     s32 stat_level;

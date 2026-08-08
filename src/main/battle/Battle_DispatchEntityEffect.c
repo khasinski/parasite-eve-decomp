@@ -36,11 +36,11 @@ int Scene_LoadRoomAssets(int id, void *entity);
 
 void Battle_DispatchEntityEffect(void) {
     u8 *actor;
-    register u8 *action asm("$4");
-    register u8 *action2 asm("$3");
+    u8 *action;
+    u8 *action2;
     u8 *next_entity;
     register int action_id asm("$3");
-    register int action_id2 asm("$4");
+    int action_id2;
     int next_id;
     int result;
     u32 word10;

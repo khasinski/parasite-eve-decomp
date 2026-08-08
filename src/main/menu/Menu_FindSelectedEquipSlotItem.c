@@ -10,12 +10,12 @@ int Menu_FindSelectedEquipSlotItem(void) {
     register unsigned char *base asm("$2");
     register unsigned char *list asm("$4");
     register int selected_slot asm("$6");
-    register int index asm("$3");
+    int index;
     int count;
     int found;
-    register int result asm("$2");
+    int result;
     register int wanted asm("$5");
-    register unsigned char *slots asm("$7");
+    unsigned char *slots;
     register int limit asm("$4");
     register int reload asm("$3");
 

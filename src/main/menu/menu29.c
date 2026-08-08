@@ -90,10 +90,10 @@ void BattleCmd_InitTableCursor(void) {
 }
 
 BattleCmdEntry *BattleCmd_AllocSlot(void) {
-    register BattleCmdEntry *top asm("$8");
+    BattleCmdEntry *top;
     register BattleCmdEntry *end asm("$3");
     register BattleCmdEntry *dst asm("$7");
-    register BattleCmdEntry *limit asm("$10");
+    BattleCmdEntry *limit;
     BattleCmdEntry *next;
 
     top = D_8009D014;
@@ -119,9 +119,9 @@ BattleCmdEntry *BattleCmd_AllocSlot(void) {
 }
 
 void BattleCmd_UndoPending(void) {
-    register u32 *entry asm("$4");
-    register u32 *entry_tmp asm("$2");
-    register u32 *top asm("$3");
+    u32 *entry;
+    u32 *entry_tmp;
+    u32 *top;
     int opcode;
     s16 *slot;
     int data;
@@ -184,10 +184,10 @@ void BattleCmd_UndoAllPending(void) {
 
 void Inv_SetActiveList(int mode, void *arg1) {
     register void *arg1_reg asm("$7");
-    register void *core asm("$6");
+    void *core;
     register void *entity_ptr asm("$3");
-    register void *raw_core asm("$3");
-    register u32 core_mask asm("$2");
+    void *raw_core;
+    u32 core_mask;
     int result;
     int item_type;
     register u32 *src asm("$2");

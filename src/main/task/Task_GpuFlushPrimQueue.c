@@ -13,8 +13,7 @@ u32 Task_GpuFlushPrimQueue(void) {
     register u32 *tail_ptr asm("$12");
     register u32 head_value asm("$13");
     register u32 tail_value asm("$14");
-    register u32 ret asm("$2");
-
+    u32 ret;
     base = (u32 *)0x80070E0C;
     head_slot = (u32 *)0x80070E04;
     tail_slot = (u32 *)0x80070E08;

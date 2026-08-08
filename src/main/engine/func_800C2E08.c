@@ -10,8 +10,8 @@ int func_800C2E08(void) {
     int i;
     int offset;
     register int result asm("$7");
-    register u32 andMask asm("$9");
-    register u32 xorMask asm("$8");
+    u32 andMask;
+    u32 xorMask;
     u8 *entry;
 
     result = 0;
@@ -21,8 +21,7 @@ int func_800C2E08(void) {
     offset = 0;
     for (; i < 0x40; i++, offset += 6) {
         if (((s8 *)(offset + (int)D_800F34F4))[1] != 0) {
-            register u32 check asm("$2");
-
+            u32 check;
             entry = (u8 *)((u16)i * 6 + (int)D_800F34F4);
             entry[1] = 0;
             D_800E2248[6]--;

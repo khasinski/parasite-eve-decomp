@@ -53,9 +53,8 @@ void CdRom_SetDispatchCallback(unsigned int value) {
 }
 
 u32 DsSync(u32 mode) {
-    register u32 offset asm("$4") = mode;
-    register u32 result asm("$2");
-
+    u32 offset = mode;
+    u32 result;
     /* Match note: keep the address expansion in $v0 without a maspsx temp-dest flag. */
     asm volatile(
         "sll\t%1,%1,2\n\t"

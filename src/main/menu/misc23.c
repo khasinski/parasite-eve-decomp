@@ -73,7 +73,7 @@ void Render_AnimationFrame(void) {
     int delta;
     int temp;
     int framePad[3];
-    register int code asm("$4");
+    int code;
     int zero_arg;
     int call_arg2;
     int call_arg3;

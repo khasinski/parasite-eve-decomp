@@ -29,7 +29,7 @@ extern s32 D_800BCD5C_r[] __asm__("g_SpuPendingKeyOffMask");
 extern s32 D_800BCD5C_w[] __asm__("g_SpuPendingKeyOffMask");
 
 void Akao_StepSequencerVoice(void *arg0) {
-    register void *arg0v asm("$22");
+    void *arg0v;
     u8 *walk;
     s32 mask;
     s32 bit;
@@ -46,7 +46,7 @@ void Akao_StepSequencerVoice(void *arg0) {
     s32 tw2;
     register s32 kFFFb asm("$3");
     s32 km102;
-    register s32 tv0 asm("$2");
+    s32 tv0;
     s32 tcde;
     s32 tlhu;
     s32 var_v0;

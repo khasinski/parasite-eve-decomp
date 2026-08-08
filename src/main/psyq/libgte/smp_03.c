@@ -7,8 +7,8 @@ int RotTransPers3(
     void *sxy2,
     void *p,
     int *flag) {
-    register int flagValue asm("$3");
-    register int result asm("$2");
+    int flagValue;
+    int result;
     register void *sxy1Ptr asm("$8");
     register void *sxy2Ptr asm("$9");
     register void *pPtr asm("$10");

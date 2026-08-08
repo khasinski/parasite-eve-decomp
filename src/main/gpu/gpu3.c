@@ -26,8 +26,8 @@ void Gpu_ResetDmaWaitTimer(void) {
 
 int Gpu_DmaTimeoutCheck(void) {
     int now;
-    register int count asm("$2");
-    register int old_count asm("$4");
+    int count;
+    int old_count;
     int *counter;
     int mask;
     volatile u32 *ptr;

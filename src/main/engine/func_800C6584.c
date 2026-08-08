@@ -3,12 +3,12 @@ typedef signed short s16;
 int func_800C6584(s16 *a, int radiusA, s16 *b, int radiusB) {
     int x = a[0] - b[0];
     register int obj_z asm("$2");
-    register int pos_z asm("$3");
-    register int z asm("$2");
+    int pos_z;
+    int z;
     register int x_sq asm("$8");
-    register int z_sq asm("$3");
-    register int dist asm("$2");
-    register int radius asm("$5");
+    int z_sq;
+    int dist;
+    int radius;
     register int radius_sq asm("$10");
 
     asm volatile(

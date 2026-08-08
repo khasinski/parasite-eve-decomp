@@ -70,10 +70,10 @@ s32 Menu_SkillActionHandler(s32 node, s32 flags) {
 void Menu_StepItemDetailPanel2(void) {
     int node;
     int current;
-    register int label asm("$18");
-    register int option_node asm("$17");
+    int label;
+    int option_node;
     int width;
-    register int callback asm("$19");
+    int callback;
     int height;
 
     D_8009CFB4 = Inv_GetPackedListItem(MenuWidget_GridCellIndex(MenuWidget_FindByModeAndSelectedBase(2, 8)));

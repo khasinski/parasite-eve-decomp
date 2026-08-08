@@ -55,8 +55,8 @@ loop_7:
             MenuWidget_SetCurrentNode(temp_s1);
         }
         {
-            register u8 *cf90_addr asm("$4");
-            register u8 *cf94_addr asm("$5");
+            u8 *cf90_addr;
+            u8 *cf94_addr;
             s32 cf88_value;
 
             cf90_addr = (u8 *)0x800A0000;

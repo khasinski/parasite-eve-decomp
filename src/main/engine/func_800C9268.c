@@ -29,10 +29,10 @@ extern u8 D_800E22E8;
 
 int func_800C9268(void *arg0, void *arg1, u8 *anim) {
     register int index_s0 asm("$16");
-    register u8 *anim_s1 asm("$17") = anim;
-    register int rot_v0 asm("$2");
-    register Matrix *matrix_a0 asm("$4");
-    register int scale_v0 asm("$2");
+    u8 *anim_s1 = anim;
+    int rot_v0;
+    Matrix *matrix_a0;
+    int scale_v0;
     register int scale2_a2 asm("$6");
     register int scale3_a3 asm("$7");
     Matrix matrix;

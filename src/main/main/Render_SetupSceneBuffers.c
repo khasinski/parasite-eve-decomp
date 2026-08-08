@@ -11,10 +11,10 @@ int printf(char *fmt, ...);
 void Render_SetupSceneBuffers(void) {
     register unsigned int bits asm("$17");
     register int i asm("$16");
-    register void (**callbacks)(void) asm("$18");
-    register unsigned int mask_base asm("$19");
-    register int one asm("$20");
-    register void (**callback_base)(void) asm("$21");
+    void (**callbacks)(void);
+    unsigned int mask_base;
+    int one;
+    void (**callback_base)(void);
     volatile unsigned int *reg;
     unsigned int value;
 

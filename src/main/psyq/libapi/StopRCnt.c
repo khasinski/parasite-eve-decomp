@@ -3,8 +3,8 @@
 #include "pe1/psyq_api_internal.h"
 
 int StopRCnt(unsigned int counter) {
-    register int offset asm("$4");
-    register int mask asm("$2");
+    int offset;
+    int mask;
     register volatile s32 *status asm("$5");
     register int value asm("$3");
 

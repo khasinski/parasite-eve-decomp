@@ -37,10 +37,10 @@ void MenuWidget_SetColumnLayoutMode(int mode);
 void Menu_CopyPromptCodes(u8 *src);
 
 void Save_RestoreHeader(void) {
-    register u16 *src asm("$4");
-    register int i asm("$5");
+    u16 *src;
+    int i;
     int offset;
-    register u32 *saved_color asm("$16");
+    u32 *saved_color;
     u8 *prompt;
 
     i = 0;

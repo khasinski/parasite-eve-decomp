@@ -18,13 +18,12 @@ extern u8 g_StoryDayFlags __asm__("D_800B0CE6");
 #define SCENE_STORY_DAY_FLAGS GAME_STATE[0x0E]
 
 int Scene_SetStoryDay(s32 storyDay) {
-    register u8 *gameState asm("$6") = GAME_STATE;
+    u8 *gameState = GAME_STATE;
     u8 flags;
 
     if (storyDay == -1) {
         register u8 pending asm("$4");
-        register u8 storyFlags asm("$2");
-
+        u8 storyFlags;
         pending = g_PendingStoryDay;
         storyFlags = g_StoryDayFlags;
         storyDay = (s8)pending;

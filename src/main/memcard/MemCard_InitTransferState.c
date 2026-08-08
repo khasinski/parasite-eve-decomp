@@ -30,15 +30,15 @@ void MemCard_InitTimerCallbacks(void);
 #define U32_AT(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))
 
 void MemCard_InitTransferState(u8 *arg0, u8 *arg1) {
-    register u8 *obj asm("$16");
+    u8 *obj;
     register u8 *first_arg asm("$17");
     register u8 *second_arg asm("$18");
     register u8 *cmd asm("$4");
-    register u8 *payload_a asm("$6");
-    register u8 *payload_b asm("$7");
-    register int i asm("$8");
-    register int ff asm("$9");
-    register int j asm("$3");
+    u8 *payload_a;
+    u8 *payload_b;
+    int i;
+    int ff;
+    int j;
     void *swap_fn;
 
     first_arg = arg0;

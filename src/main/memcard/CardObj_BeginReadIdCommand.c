@@ -15,9 +15,9 @@ int CardObj_BeginReadIdCommand(CardObj *obj, int arg1, int arg2) {
     }
 
     {
-        register int ret asm("$2");
-        register unsigned char *obj_s0 asm("$16") = (unsigned char *)obj;
-        register int one_v1 asm("$3");
+        int ret;
+        unsigned char *obj_s0 = (unsigned char *)obj;
+        int one_v1;
         register int card_id_a0 asm("$4");
 
         ret = 1;

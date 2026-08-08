@@ -36,17 +36,17 @@ extern struct { char _[16]; } D_800B1624_c_o __asm__("D_800B1624");
 #define WRITE_U16(base, offset, value) (*(u16 *)((u8 *)(base) + (offset)) = (value))
 
 int Render_StepFade(void) {
-    register u8 *geom asm("$5");
+    u8 *geom;
     register u8 *entry asm("$4");
-    register RgbPrim *prim asm("$3");
+    RgbPrim *prim;
     register s32 fade_step asm("$3");
     register int fade_value asm("$2");
-    register int tint_loop asm("$7");
+    int tint_loop;
     register int entry_index asm("$8");
     register int prim_index asm("$5");
-    register int entry_count asm("$9");
-    register int prim_count asm("$6");
-    register int active_slot asm("$2");
+    int entry_count;
+    int prim_count;
+    int active_slot;
     s32 flags;
     u8 *fade_ptr;
     u8 frame;

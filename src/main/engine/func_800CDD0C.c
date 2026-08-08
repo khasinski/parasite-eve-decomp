@@ -18,7 +18,7 @@ extern int D_800E27C8;
 extern u16 D_800E27D8;
 
 int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
-    register u16 lhs_v0 asm("$2");
+    u16 lhs_v0;
     register u16 rhs_v1 asm("$3");
     unsigned int i;
     u8 *entry;

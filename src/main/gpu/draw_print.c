@@ -57,20 +57,19 @@ void Draw_SetFontVariant(int arg0) {
 
 void Draw_EmitDigitSprite(int digit) {
     register int digit_reg asm("$17") = digit;
-    register DrawDigitPrim *prim asm("$16");
-    register DrawDigitPrim *packet asm("$7");
+    DrawDigitPrim *prim;
+    DrawDigitPrim *packet;
     unsigned char *old;
     unsigned char *next;
     register int base_u asm("$4");
     register int u asm("$2");
     register int v asm("$5");
-    register int quotient asm("$3");
+    int quotient;
     int v_tail;
     unsigned int x;
     unsigned int y;
     unsigned int ot;
-    register unsigned int ptr_mask asm("$6");
-
+    unsigned int ptr_mask;
     old = D_8009D100;
     prim = 0;
     next = old + sizeof(DrawDigitPrim);
@@ -155,11 +154,11 @@ void Draw_EmitDigitSprite(int digit) {
 
 void Draw_PrintNumberWidth2Unk(int value) {
     register volatile int digit_base asm("$17");
-    register int width asm("$18");
-    register int number asm("$19");
-    register int magic asm("$20");
-    register int last_leading asm("$21");
-    register int i asm("$16");
+    int width;
+    int number;
+    int magic;
+    int last_leading;
+    int i;
     int pos;
     int other;
     int digit;
@@ -215,11 +214,11 @@ void Draw_PrintNumberWidth2Unk(int value) {
 
 void Draw_PrintNumberWidth3Unk(int value) {
     register volatile int digit_base asm("$17");
-    register int width asm("$18");
-    register int number asm("$19");
-    register int magic asm("$20");
-    register int last_leading asm("$21");
-    register int i asm("$16");
+    int width;
+    int number;
+    int magic;
+    int last_leading;
+    int i;
     int pos;
     int other;
     int digit;
@@ -275,11 +274,11 @@ void Draw_PrintNumberWidth3Unk(int value) {
 
 void Draw_PrintSignedNumberWidth3(int value) {
     register volatile int digit_base asm("$17");
-    register int width asm("$18");
-    register int number asm("$19");
-    register int magic asm("$20");
-    register int last_leading asm("$21");
-    register int i asm("$16");
+    int width;
+    int number;
+    int magic;
+    int last_leading;
+    int i;
     int pos;
     int other;
     int digit;
@@ -342,11 +341,11 @@ void Draw_PrintSignedNumberWidth3(int value) {
 
 void Draw_PrintNumberWidth4Unk(int value) {
     register volatile int digit_base asm("$17");
-    register int width asm("$18");
-    register int number asm("$19");
-    register int magic asm("$20");
-    register int last_leading asm("$21");
-    register int i asm("$16");
+    int width;
+    int number;
+    int magic;
+    int last_leading;
+    int i;
     int pos;
     int other;
     int digit;
@@ -402,11 +401,11 @@ void Draw_PrintNumberWidth4Unk(int value) {
 
 void Draw_PrintSignedNumberWidth4(int value) {
     register volatile int digit_base asm("$17");
-    register int width asm("$18");
-    register int number asm("$19");
-    register int magic asm("$20");
-    register int last_leading asm("$21");
-    register int i asm("$16");
+    int width;
+    int number;
+    int magic;
+    int last_leading;
+    int i;
     int pos;
     int other;
     int digit;
@@ -550,12 +549,12 @@ void Draw_PrintTimeValue(int value, int variant) {
 }
 
 void Draw_AllocTexturedRect(int value, int width) {
-    register int number asm("$20") = value;
+    int number = value;
     register int digit_base asm("$17") = 1;
-    register int i asm("$16") = 1;
-    register int count asm("$18") = width;
-    register int magic asm("$19");
-    register int last_leading asm("$21");
+    int i = 1;
+    int count = width;
+    int magic;
+    int last_leading;
     unsigned char *text;
     int *stack;
     int digit;

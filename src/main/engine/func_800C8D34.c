@@ -33,8 +33,8 @@ extern s16 D_800E2330;
 extern s16 D_800E2332;
 
 int func_800C8D34(void) {
-    register int half asm("$5");
-    register int shade asm("$4");
+    int half;
+    int shade;
     register int value asm("$3");
     register void *slotData asm("$3");
     void **slot;
