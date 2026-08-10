@@ -36,6 +36,69 @@ typedef struct RenderPrimitiveDescriptor {
     /* 0x04 */ u16 lookup_indices[4];
 } RenderPrimitiveDescriptor;
 
+/* Shared prefix through the page/depth selector used by the 0x34- and
+ * 0x28-byte double-buffered packet classes. */
+typedef struct RenderPacketState {
+    /* 0x00 */ unsigned char reserved00[0x1A];
+    /* 0x1A */ u16 page_bits;
+} RenderPacketState;
+
+typedef union RenderPacketValue {
+    u32 value;
+    struct {
+        u8 byte0;
+        u8 byte1;
+        u8 byte2;
+        u8 command;
+    } bytes;
+} RenderPacketValue;
+
+typedef struct RenderPacket34 {
+    /* 0x00 */ u32 tag;
+    /* 0x04 */ RenderPacketValue values0;
+    /* 0x08 */ u8 reserved08[8];
+    /* 0x10 */ u32 value1;
+    /* 0x14 */ u8 reserved14[6];
+    /* 0x1A */ u16 page_bits;
+    /* 0x1C */ u32 value2;
+    /* 0x20 */ u8 reserved20[8];
+    /* 0x28 */ u32 value3;
+    /* 0x2C */ u8 reserved2c[8];
+} RenderPacket34;
+
+typedef struct RenderPacket28 {
+    /* 0x00 */ u32 tag;
+    /* 0x04 */ RenderPacketValue values0;
+    /* 0x08 */ u8 reserved08[8];
+    /* 0x10 */ u32 value1;
+    /* 0x14 */ u8 reserved14[6];
+    /* 0x1A */ u16 page_bits;
+    /* 0x1C */ u32 value2;
+    /* 0x20 */ u8 reserved20[8];
+} RenderPacket28;
+
+typedef struct RenderPacket24 {
+    /* 0x00 */ u32 tag;
+    /* 0x04 */ RenderPacketValue values0;
+    /* 0x08 */ u8 reserved08[4];
+    /* 0x0C */ u32 value1;
+    /* 0x10 */ u8 reserved10[4];
+    /* 0x14 */ u32 value2;
+    /* 0x18 */ u8 reserved18[4];
+    /* 0x1C */ u32 value3;
+    /* 0x20 */ u8 reserved20[4];
+} RenderPacket24;
+
+typedef struct RenderPacket1C {
+    /* 0x00 */ u32 tag;
+    /* 0x04 */ RenderPacketValue values0;
+    /* 0x08 */ u8 reserved08[4];
+    /* 0x0C */ u32 value1;
+    /* 0x10 */ u8 reserved10[4];
+    /* 0x14 */ u32 value2;
+    /* 0x18 */ u8 reserved18[4];
+} RenderPacket1C;
+
 typedef struct RenderAnimationLookupEntry {
     /* 0x00 */ s16 value0;
     /* 0x02 */ s16 value1;
@@ -138,6 +201,13 @@ typedef struct RenderObjectEntity {
 PE1_STATIC_ASSERT(sizeof(RenderMatrix) == 0x20, render_matrix_size);
 PE1_STATIC_ASSERT(sizeof(RenderPrimitiveDescriptor) == 0x0C,
                   render_primitive_descriptor_size);
+PE1_STATIC_ASSERT(sizeof(RenderPacketState) == 0x1C,
+                  render_packet_state_prefix_size);
+PE1_STATIC_ASSERT(sizeof(RenderPacketValue) == 0x04, render_packet_value_size);
+PE1_STATIC_ASSERT(sizeof(RenderPacket34) == 0x34, render_packet34_size);
+PE1_STATIC_ASSERT(sizeof(RenderPacket28) == 0x28, render_packet28_size);
+PE1_STATIC_ASSERT(sizeof(RenderPacket24) == 0x24, render_packet24_size);
+PE1_STATIC_ASSERT(sizeof(RenderPacket1C) == 0x1C, render_packet1c_size);
 PE1_STATIC_ASSERT(sizeof(RenderAnimationDataHeader) == 0x0C,
                   render_animation_data_header_size);
 PE1_STATIC_ASSERT(sizeof(RenderAnimByteChannel) == 0x04,

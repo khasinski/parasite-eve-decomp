@@ -22,50 +22,50 @@ void Render_UpdateClutTable(RenderObjectEntity *arg0, s16 arg1, s16 arg2) {
         prim = arg0->primitive_buffer;
         for (i = 0; i < arg0->header->packet34_count; src++) {
             p = prim + (arg2 * 0x34);
-            if (((*(u32 *)p & 0xFFFFFF) != 0) || (arg1 != 0)) {
-                cmd = p[7];
-                *(u32 *)(p + 4) = clutTbl[src->lookup_indices[0]];
-                *(u32 *)(p + 0x10) = clutTbl[src->lookup_indices[1]];
-                *(u32 *)(p + 0x1C) = clutTbl[src->lookup_indices[2]];
-                *(u32 *)(p + 0x28) = clutTbl[src->lookup_indices[3]];
-                p[7] = cmd;
+            if ((((RenderPacket34 *)p)->tag & 0xFFFFFF) != 0 || (arg1 != 0)) {
+                cmd = ((RenderPacket34 *)p)->values0.bytes.command;
+                ((RenderPacket34 *)p)->values0.value = clutTbl[src->lookup_indices[0]];
+                ((RenderPacket34 *)p)->value1 = clutTbl[src->lookup_indices[1]];
+                ((RenderPacket34 *)p)->value2 = clutTbl[src->lookup_indices[2]];
+                ((RenderPacket34 *)p)->value3 = clutTbl[src->lookup_indices[3]];
+                ((RenderPacket34 *)p)->values0.bytes.command = cmd;
             }
             prim += 0x68;
             i++;
         }
         for (i = 0; i < arg0->header->packet28_count; src++) {
             p = prim + (arg2 * 0x28);
-            if (((*(u32 *)p & 0xFFFFFF) != 0) || (arg1 != 0)) {
-                cmd = p[7];
-                *(u32 *)(p + 4) = clutTbl[src->lookup_indices[0]];
-                *(u32 *)(p + 0x10) = clutTbl[src->lookup_indices[1]];
-                *(u32 *)(p + 0x1C) = clutTbl[src->lookup_indices[2]];
-                p[7] = cmd;
+            if ((((RenderPacket28 *)p)->tag & 0xFFFFFF) != 0 || (arg1 != 0)) {
+                cmd = ((RenderPacket28 *)p)->values0.bytes.command;
+                ((RenderPacket28 *)p)->values0.value = clutTbl[src->lookup_indices[0]];
+                ((RenderPacket28 *)p)->value1 = clutTbl[src->lookup_indices[1]];
+                ((RenderPacket28 *)p)->value2 = clutTbl[src->lookup_indices[2]];
+                ((RenderPacket28 *)p)->values0.bytes.command = cmd;
             }
             prim += 0x50;
             i++;
         }
         for (i = 0; i < arg0->header->packet24_count; src++) {
             p = prim + (arg2 * 0x24);
-            if (((*(u32 *)p & 0xFFFFFF) != 0) || (arg1 != 0)) {
-                cmd = p[7];
-                *(u32 *)(p + 4) = tpageTbl[src->lookup_indices[0]];
-                *(u32 *)(p + 0xC) = tpageTbl[src->lookup_indices[1]];
-                *(u32 *)(p + 0x14) = tpageTbl[src->lookup_indices[2]];
-                *(u32 *)(p + 0x1C) = tpageTbl[src->lookup_indices[3]];
-                p[7] = cmd;
+            if ((((RenderPacket24 *)p)->tag & 0xFFFFFF) != 0 || (arg1 != 0)) {
+                cmd = ((RenderPacket24 *)p)->values0.bytes.command;
+                ((RenderPacket24 *)p)->values0.value = tpageTbl[src->lookup_indices[0]];
+                ((RenderPacket24 *)p)->value1 = tpageTbl[src->lookup_indices[1]];
+                ((RenderPacket24 *)p)->value2 = tpageTbl[src->lookup_indices[2]];
+                ((RenderPacket24 *)p)->value3 = tpageTbl[src->lookup_indices[3]];
+                ((RenderPacket24 *)p)->values0.bytes.command = cmd;
             }
             prim += 0x48;
             i++;
         }
         for (i = 0; i < arg0->header->packet1c_count; src++) {
             p = prim + (arg2 * 0x1C);
-            if (((*(u32 *)p & 0xFFFFFF) != 0) || (arg1 != 0)) {
-                cmd = p[7];
-                *(u32 *)(p + 4) = tpageTbl[src->lookup_indices[0]];
-                *(u32 *)(p + 0xC) = tpageTbl[src->lookup_indices[1]];
-                *(u32 *)(p + 0x14) = tpageTbl[src->lookup_indices[2]];
-                p[7] = cmd;
+            if ((((RenderPacket1C *)p)->tag & 0xFFFFFF) != 0 || (arg1 != 0)) {
+                cmd = ((RenderPacket1C *)p)->values0.bytes.command;
+                ((RenderPacket1C *)p)->values0.value = tpageTbl[src->lookup_indices[0]];
+                ((RenderPacket1C *)p)->value1 = tpageTbl[src->lookup_indices[1]];
+                ((RenderPacket1C *)p)->value2 = tpageTbl[src->lookup_indices[2]];
+                ((RenderPacket1C *)p)->values0.bytes.command = cmd;
             }
             prim += 0x38;
             i++;
