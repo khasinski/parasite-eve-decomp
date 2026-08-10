@@ -26,7 +26,7 @@ void Menu_DrawSaveMetadataPreview(void) {
         Draw_OffsetCursor(0x1C, 0xC);
         Sfx_CursorRenderData(g_MenuRenameTargetRecord);
         var_a0 = (u8 *)g_CursorRenderMetadataWindows;
-        if (g_MenuRenameTargetRecord->kind == 9) {
+        if (g_MenuRenameTargetRecord->kind == ITEM_KIND_ARMOR) {
             var_a0 = g_CursorRenderMetadataWindows[1].text;
         }
         var_a0_2 = Draw_MeasureTextWidth(var_a0) + 0x14;

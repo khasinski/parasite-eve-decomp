@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -9,14 +10,13 @@ extern u8 g_KeyItemDataTable[];
 extern u8 D_800C20A4[];
 
 void Draw_SetTextDimmed(int value);
-void *Item_LookupBaseData(unsigned int index);
 void *Str_LookupTable8(unsigned int index);
 void Sfx_DrawSlotRow(void *entry, void *display);
 
 void Menu_DrawArmorItemDetail(int slot) {
     void *display;
-    u8 *entry;
-    u8 *candidate;
+    ItemDataRecord *entry;
+    ItemDataRecord *candidate;
     int value;
     unsigned int bit;
 
@@ -26,13 +26,14 @@ void Menu_DrawArmorItemDetail(int slot) {
         Draw_SetTextDimmed(bit == 0);
 
         if ((unsigned int)(value - 0x100) < 0x80U) {
-            candidate = g_EquipItemDataTable + (value << 5);
+            candidate = (ItemDataRecord *)(g_EquipItemDataTable +
+                                           (value << 5));
             goto resolved;
         } else if ((unsigned int)(value - 1) < 0xFFU) {
             candidate = Item_LookupBaseData(value - 1);
             goto resolved;
         } else if ((unsigned int)(value - 0x200) < 9U) {
-            candidate = g_KeyItemDataTable + (value << 5);
+            candidate = (ItemDataRecord *)(g_KeyItemDataTable + (value << 5));
             goto resolved;
         } else {
             candidate = 0;
@@ -41,13 +42,13 @@ void Menu_DrawArmorItemDetail(int slot) {
 resolved:
         entry = candidate;
 
-        if ((entry[5] & 0x10) != 0) {
+        if ((entry->flags & ITEM_DATA_FLAG_GENERIC_DESCRIPTION) != 0) {
             display = D_800C20A4;
-            if (entry[6] == 9) {
+            if (entry->kind == ITEM_KIND_ARMOR) {
                 display = D_800C20A4 + 0x10;
             }
         } else {
-            display = Str_LookupTable8(entry[4] - 1);
+            display = Str_LookupTable8(entry->itemId - 1);
         }
 
         Sfx_DrawSlotRow(entry, display);

@@ -7,10 +7,10 @@ void Item_SetDisabledFlag(int arg0, int arg1) {
 
     entry = Item_LookupBaseData(arg0 - 1);
     if (entry != 0) {
-        flags = entry->flags & 0xBF;
+        flags = entry->flags & (u8)~ITEM_DATA_FLAG_DISABLED;
         entry->flags = flags;
         if (arg1 == 0) {
-            flags |= 0x40;
+            flags |= ITEM_DATA_FLAG_DISABLED;
         }
         entry->flags = flags;
     }

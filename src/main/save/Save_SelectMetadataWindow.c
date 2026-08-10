@@ -9,7 +9,7 @@ void Save_SelectMetadataWindow(ItemDataRecord *record) {
     g_SaveMetadataSourceRecord = record;
     if (record != 0) {
         cursor = (u8 *)g_CursorRenderMetadataWindows;
-        if (record->kind == 9) {
+        if (record->kind == ITEM_KIND_ARMOR) {
             cursor += 0x10;
         }
     } else {

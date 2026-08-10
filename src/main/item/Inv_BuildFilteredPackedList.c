@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -10,14 +11,12 @@ extern s16 D_800A1D9C[];
 extern u8 g_EquipItemDataTable[] __asm__("D_800BEEAC");
 extern u8 g_KeyItemDataTable[] __asm__("D_8009DE64");
 
-void *Item_LookupBaseData(unsigned int index);
-
 void Inv_BuildFilteredPackedList(int mask) {
     int limit;
     int index;
     int item_id;
     int offset;
-    void *data;
+    ItemDataRecord *data;
     int type;
     s16 *out;
     register int saved_item_id asm("$5");
@@ -34,7 +33,8 @@ void Inv_BuildFilteredPackedList(int mask) {
                 item_id = ((s16 *)g_InvItemPtr)[index];
                 saved_item_id = item_id;
                 if ((unsigned int)(item_id - 0x100) < 0x80) {
-                    data = g_EquipItemDataTable + (item_id << 5);
+                    data = (ItemDataRecord *)(g_EquipItemDataTable +
+                                              (item_id << 5));
                 } else {
                     offset = item_id - 1;
                     if ((unsigned int)offset < 0xFF) {
@@ -43,7 +43,7 @@ void Inv_BuildFilteredPackedList(int mask) {
                         register int shifted asm("$3");
 
                         shifted = saved_item_id << 5;
-                        data = g_KeyItemDataTable + shifted;
+                        data = (ItemDataRecord *)(g_KeyItemDataTable + shifted);
                     } else {
                         data = 0;
                     }
@@ -51,7 +51,7 @@ void Inv_BuildFilteredPackedList(int mask) {
             }
 
             if (data != 0) {
-                type = ((u8 *)data)[6];
+                type = data->kind;
             } else {
                 type = 0;
             }

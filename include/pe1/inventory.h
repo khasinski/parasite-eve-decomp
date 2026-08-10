@@ -3,6 +3,15 @@
 
 #include "common.h"
 
+enum ItemDataFlags {
+    ITEM_DATA_FLAG_GENERIC_DESCRIPTION = 0x10,
+    ITEM_DATA_FLAG_DISABLED = 0x40
+};
+
+enum ItemKind {
+    ITEM_KIND_ARMOR = 9
+};
+
 /* Common 0x20-byte item-data record returned by Inv_LookupActiveListData.
  * Equipment, consumables and key items reuse the tail differently, so keep
  * the unproven portion generic instead of forcing a single variant's names.
