@@ -1,9 +1,10 @@
 #include "common.h"
+#include "pe1/render_object.h"
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 void RotMatrixYXZ();
 
-void Anim_DecodeBoneRotationsByte(void *arg0, void *arg1, s16 arg2) {
+void Anim_DecodeBoneRotationsByte(RenderObjectEntity *arg0, void *arg1, s16 arg2) {
     u16 *var_s3;
     s32 var_s2;
     s32 var_v0;
@@ -24,8 +25,8 @@ void Anim_DecodeBoneRotationsByte(void *arg0, void *arg1, s16 arg2) {
     var_s3 = (u16 *)0x1F800000;
     var_s0 = (char *)arg1 + 0xC;
     var_s2 = 0;
-    var_s4 = (char *) M2C_FIELD(arg0, s32 *, 0x84);
-    M2C_FIELD(arg0, s32 *, 0x58) = (s32) var_s4;
+    var_s4 = (char *)arg0->matrices;
+    arg0->active_matrix = (RenderMatrix *)var_s4;
     var_a1 = (s32 *) (var_s4 + 0x14);
     temp_v1 = ((u8) M2C_FIELD(arg1, u8 *, 2) >> 1) + 1;
     temp_v1 = temp_v1 * 4;

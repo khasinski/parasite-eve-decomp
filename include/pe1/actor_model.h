@@ -15,10 +15,10 @@
  *   NPCs); the player and actor id5 shared model 0x800f9xxx. An inactive actor
  *   has an all-zero render object.
  *   Shared (per-model, identical across instances): robj +0x00..+0x20 (geometry
- *   section pointers) and +0x54/+0x58/+0x80/+0x84 (bone/skeleton data) and +0xB0
- *   (animation data). Per-instance (differ per actor): +0x48/+0x50 (position),
- *   +0x5C..+0x78 (GTE-transformed vertices), the current anim frame, and the
- *   color/fade bytes (+0x88..+0x96).
+ *   section pointers), +0x80 (animation lookup records), and +0xB0 (animation
+ *   data). Per-instance: +0x34 (model matrix), +0x54 (double-buffered GPU
+ *   primitives), +0x58 (active matrix cursor), +0x5C..+0x78, +0x84 (decoded
+ *   bone matrices), and the color/fade bytes (+0x88..+0x96).
  *
  * Render object (FieldActor + 0x1B4), offsets relative to the render object:
  *   +0x00..+0x20  9 model section pointers (verts/faces/bones/etc.) [SHARED per model]
@@ -28,9 +28,11 @@
  *   +0x2A         current anim id
  *   +0x30..+0x44  scale / small state (e.g. 0x00010000, 0x00000ccc)
  *   +0x48,+0x50   instance position (world/screen) [per-instance]
- *   +0x54,+0x58   bone/skeleton pointers [SHARED per model]
+ *   +0x54         double-buffered GPU primitive packet storage [per-instance]
+ *   +0x58         current matrix cursor, initialized from +0x84 while decoding
  *   +0x5C..+0x78  transformed/projected vertex coords [per-instance]
- *   +0x80,+0x84   bone-matrix source pointers [SHARED per model]
+ *   +0x80         animation lookup records [SHARED per model]
+ *   +0x84         decoded 0x20-byte bone matrices [per-instance]
  *   +0x88..+0x96  color / fade state [per-instance]
  *   +0xB0         current animation data pointer [SHARED per model]
  *

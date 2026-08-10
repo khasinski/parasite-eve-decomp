@@ -1,6 +1,5 @@
 #include "common.h"
-void Anim_DecodeBoneRotationsByte(void *arg0, void *arg1, s16 arg2);
-void Anim_DecodeBoneRotationsShort(void *arg0, void *arg1, s16 arg2);
+#include "pe1/render_object.h"
 void RotMatrixYXZ(void *rot, void *matrix);
 
 #define UH(ptr, off) (*(u16 *)((char *)(ptr) + (off)))
@@ -29,7 +28,7 @@ void RotMatrixYXZ(void *rot, void *matrix);
         } \
     } while (0)
 
-void Anim_BuildRotationMatrices(char *obj, char *data, int arg2) {
+void Anim_BuildRotationMatrices(char *obj, RenderAnimationDataHeader *data, int arg2) {
     char *s1 = obj;
     register char *scratch asm("$18") = (char *)0x1F800000;
     register char *s0 asm("$16");
@@ -46,12 +45,12 @@ void Anim_BuildRotationMatrices(char *obj, char *data, int arg2) {
         return;
     }
 
-    UH(s1, 0x7C) = UH(data, 0xA);
-    UH(s1, 0x74) = UH(data, 0x4);
-    UH(s1, 0x76) = UH(data, 0x6);
-    UH(s1, 0x78) = UH(data, 0x8);
+    ((RenderObjectEntity *)s1)->animation_value7c = data->object_value7c;
+    ((RenderObjectEntity *)s1)->animation_value74 = data->object_value74;
+    ((RenderObjectEntity *)s1)->animation_value76 = data->object_value76;
+    ((RenderObjectEntity *)s1)->animation_value78 = data->object_value78;
 
-    mode = UB(data, 0) & 3;
+    mode = data->encoding_flags & 3;
     if (mode == 2) {
         Anim_DecodeBoneRotationsShort(s1, data, (s16)arg2);
     } else {
@@ -66,7 +65,7 @@ void Anim_BuildRotationMatrices(char *obj, char *data, int arg2) {
             APPLY_COMPONENT(s0, count, scratch, 2, 0xA2, 0x10, 0x02);
             APPLY_COMPONENT(s0, count, scratch, 4, 0xA4, 0x20, 0x04);
             rot = (char *)((u32)scratch | (count << 3));
-            mat_base = (char *)W(s1, 0x58);
+            mat_base = (char *)((RenderObjectEntity *)s1)->active_matrix;
             RotMatrixYXZ(rot, mat_base + (count << 5));
         }
         s0 += 8;

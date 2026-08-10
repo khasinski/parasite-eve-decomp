@@ -5,8 +5,6 @@
 extern u8 D_800B1638[];
 extern s16 D_8009CDDC;
 
-void Render_UpdateClutTable(void *entity, int arg1, s16 draw_slot);
-
 static void Render_LoadObjectMatrix(int *matrix) {
     int w0;
     int w1;
