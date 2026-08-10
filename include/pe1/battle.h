@@ -42,6 +42,15 @@
  *     curHP = *(u16*)(combatant + 0x0C); ATB = *(s32*)(combatant + 0x34).
  * ==========================================================================*/
 
+/* Packed battle parameters copied from the encounter attribute globals. The
+ * bit ranges in parameterWord are proven, but their gameplay names are still
+ * uncertain; keep them packed until those meanings are corroborated.
+ */
+typedef struct BattleAttributes {
+/* 0x00 */ u32 parameterWord; /* 10-bit values at bits 0 and 10; 8-bit at 20 */
+/* 0x04 */ u32 effectFlags;   /* attack/status capabilities consumed by hit logic */
+} BattleAttributes;
+
 /* ----------------------------------------------------------------------------
  * Combatant -- the core stat/state record. g_ActiveActor points here. Same
  * layout for the player (Aya) and enemies. Indexed by Battle_ApplyDamage,
@@ -105,7 +114,7 @@ typedef struct Combatant {
 /* 0x66 */ u8   panelAux_timer; /* set to 0x1E when Battle_SubActionStep emits the descriptor */
 /* 0x67 */ u8   panelAux_mode;
 /* 0x68 */ struct BattleAction *action; /* the queued action/command descriptor; read by nearly every turn func via M2C_FIELD(combatant,void**,0x68) (Battle_Init.c:60; Battle_DrawATBGauge.c:55; Battle_AdvanceTurnSlot.c:70) */
-/* 0x6C */ void *ptr6C;        /* TENTATIVE */
+/* 0x6C */ BattleAttributes *attributes;
 /* 0x70 */ void *actionDesc70; /* action descriptor (target+effect) set on commit. TENTATIVE */
 /* 0x74 */ u8   pad_74[0x14];
 /* 0x88 */ s32  field88;       /* GetEnemyCtx case19, clamped >=0 (Battle_GetEnemyContextField.c:35) */
@@ -244,17 +253,22 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, panelAux_val) == 0x60,
                   combatant_aux_panel_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, action) == 0x68,
                   combatant_action_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, attributes) == 0x6C,
+                  combatant_attributes_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, statusFlags2) == 0xCC,
                   combatant_status_flags2_offset);
 PE1_STATIC_ASSERT(sizeof(Combatant) == 0xD8, combatant_partial_size);
 PE1_STATIC_ASSERT(sizeof(BattleAction) == 0x18, battle_action_partial_size);
+PE1_STATIC_ASSERT(sizeof(BattleAttributes) == 0x08, battle_attributes_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleAttributes, effectFlags) == 0x04,
+                  battle_attributes_effect_flags_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, curHP) ==
                   PE1_OFFSETOF(FieldActorState, amount), state_views_hp_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, atbStep) ==
                   PE1_OFFSETOF(FieldActorState, progress_step), state_views_step_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, stateFlags) ==
                   PE1_OFFSETOF(FieldActorState, flags), state_views_flags_match);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, ptr6C) ==
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, attributes) ==
                   PE1_OFFSETOF(FieldActorState, substate), state_views_substate_match);
 PE1_STATIC_ASSERT(sizeof(Combatant) == sizeof(FieldActorState),
                   state_views_size_match);

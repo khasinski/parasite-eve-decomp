@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/battle.h"
 /* MASPSX_FLAGS: --expand-div */
 
 extern char *g_ActiveActor[];
@@ -17,6 +18,10 @@ void Battle_ApplyEnemyAttack(u8 *ent);
 #define U32(base, off) (*(u32 *)((char *)(base) + (off)))
 #define S32(base, off) (*(s32 *)((char *)(base) + (off)))
 #define PTR(base, off) (*(char **)((char *)(base) + (off)))
+#define COMBATANT_PTR(base, member) \
+    (*(char **)((char *)(base) + PE1_OFFSETOF(Combatant, member)))
+#define ATTRIBUTE_U32(base, member) \
+    (*(u32 *)((char *)(base) + PE1_OFFSETOF(BattleAttributes, member)))
 
 void Entity_ResolveDropTable(void *arg0) {
     char *state;
@@ -51,14 +56,14 @@ void Entity_ResolveDropTable(void *arg0) {
         char *action;
 
         action = PTR(entry, 0x18);
-        masked = U32(PTR(state, 0x6C), 0) & 0x3FF;
+        masked = ATTRIBUTE_U32(COMBATANT_PTR(state, attributes), parameterWord) & 0x3FF;
         if (U8(action, 0xE) == 0) {
             U8(action, 0) = 4;
         } else if (U8(action, 0xE) != 1) {
             U8(action, 0) = 3;
         }
     } else {
-        masked = (U32(PTR(state, 0x6C), 0) >> 10) & 0x3FF;
+        masked = (ATTRIBUTE_U32(COMBATANT_PTR(state, attributes), parameterWord) >> 10) & 0x3FF;
     }
 
     value = U16(PTR(entry, 0x18), 0xC) - (u16)scale - masked;
@@ -72,7 +77,8 @@ void Entity_ResolveDropTable(void *arg0) {
         roll_mod = roll % 100;
         chance_state = g_ActiveActor_late[0];
         chance = ((int)U8(entry, 0x90) *
-                  (100 - (int)((U32(PTR(chance_state, 0x6C), 0) >> 20) & 0xFF))) /
+                  (100 - (int)((ATTRIBUTE_U32(COMBATANT_PTR(chance_state, attributes),
+                                                   parameterWord) >> 20) & 0xFF))) /
                  100;
         if (roll_mod < chance) {
             tmp = value * 3;
@@ -119,3 +125,6 @@ void Entity_ResolveDropTable(void *arg0) {
         Battle_ApplyEnemyAttack(entry);
     }
 }
+
+#undef ATTRIBUTE_U32
+#undef COMBATANT_PTR

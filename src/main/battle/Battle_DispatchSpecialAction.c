@@ -24,7 +24,7 @@ void Battle_DispatchSpecialAction(int arg0) {
     case 0x197:
         Battle_CopyPadStateToRecord();
         Battle_SetupEnemyAnims();
-        *(char *)(g_ActiveActor + 0x12) = 0xD;
+        ((Combatant *)g_ActiveActor)->actionMode12 = 0xD;
         break;
     case 0x198:
         Battle_SyncEnemyAttributes();

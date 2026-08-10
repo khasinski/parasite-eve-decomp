@@ -1,5 +1,11 @@
 #include "common.h"
+#include "pe1/battle.h"
 #define NULL ((void *)0)
+
+#define COMBATANT_ATTRIBUTES(base) \
+    (*(u8 **)((base) + PE1_OFFSETOF(Combatant, attributes)))
+#define ATTRIBUTE_EFFECT_FLAGS(base) \
+    (*(s32 *)((base) + PE1_OFFSETOF(BattleAttributes, effectFlags)))
 
 s32 Inv_PickRandomItem(s32);
 int Inv_FindItemById(int arg0);
@@ -62,7 +68,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         if ((*ps & 3) == 1) {
             break;
         }
-        if (*(s32 *)(*(u8 **)(D278_1 + 0x6C) + 4) & 1) {
+        if (ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(D278_1)) & 1) {
             if ((rand() % 100) < 0x46) {
                 break;
             }
@@ -107,7 +113,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         if ((*ps & 0xC) == 4) {
             break;
         }
-        if (*(s32 *)(*(u8 **)(D278_5 + 0x6C) + 4) & 2) {
+        if (ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(D278_5)) & 2) {
             if ((rand() % 100) < 0x3C) {
                 break;
             }
@@ -139,7 +145,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         if ((*ps & 0x30) == 0x10) {
             break;
         }
-        if (*(s32 *)(*(u8 **)(D278_7 + 0x6C) + 4) & 4) {
+        if (ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(D278_7)) & 4) {
             if ((rand() % 100) < 0x3C) {
                 break;
             }
@@ -160,7 +166,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         if ((*ps & 0xC0) == 0x80) {
             break;
         }
-        if (*(s32 *)(*(u8 **)(D278_9 + 0x6C) + 4) & 8) {
+        if (ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(D278_9)) & 8) {
             if ((rand() % 100) < 0x32) {
                 break;
             }
@@ -192,7 +198,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
                 break;
             }
         }
-        if (*(s32 *)(*(u8 **)(D278_11 + 0x6C) + 4) & 8) {
+        if (ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(D278_11)) & 8) {
             if ((rand() % 100) < 0x46) {
                 break;
             }
@@ -248,7 +254,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         break;
     case 10:
     case 11:
-        if (*(s32 *)(*(u8 **)(D278_15 + 0x6C) + 4) & 0x10) {
+        if (ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(D278_15)) & 0x10) {
             s32 r = rand();
             if ((r % 100) >= 0x3C) {
                 *(s16 *)(ent + 0xA0) = Inv_PickRandomItem(r / 100);
@@ -264,7 +270,7 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         break;
     case 12:
     case 13:
-        if (*(s32 *)(*(u8 **)(D278_16 + 0x6C) + 4) & 0x10) {
+        if (ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(D278_16)) & 0x10) {
             if ((rand() % 100) >= 0x3C) {
                 Inv_RollRandomItemType(ent + 0xA0, ent + 0xA2);
                 *(u8 *)(*(u8 **)(ent + 0x18) + 1) = 0;
@@ -287,3 +293,6 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         break;
     }
 }
+
+#undef ATTRIBUTE_EFFECT_FLAGS
+#undef COMBATANT_ATTRIBUTES

@@ -1,8 +1,14 @@
 #include "common.h"
+#include "pe1/battle.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
+
+#define COMBATANT_ATTRIBUTES(base) \
+    (*(u8 **)((base) + PE1_OFFSETOF(Combatant, attributes)))
+#define ATTRIBUTE_EFFECT_FLAGS(base) \
+    (*(s32 *)((base) + PE1_OFFSETOF(BattleAttributes, effectFlags)))
 
 typedef struct { char b[0x28]; } __attribute__((aligned(1), packed)) Tbl40;
 
@@ -410,10 +416,13 @@ clear1000:
             *(s16 *)(p + 0xC) = t;
             p = D278_26;
         }
-        if (!(*(s32 *)(*(u8 **)(p + 0x6C) + 4) & 0x200)) {
+        if (!(ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(p)) & 0x200)) {
             *(s32 *)(p + 8) = *(s32 *)(p + 8) - dmg;
             return;
         }
         *(s32 *)(p + 8) = *(s32 *)(p + 8) - ((dmg * 2) / 3);
     }
 }
+
+#undef ATTRIBUTE_EFFECT_FLAGS
+#undef COMBATANT_ATTRIBUTES
