@@ -24,10 +24,21 @@ game and local toolchains.
 See [docs/PROGRESS.md](docs/PROGRESS.md) for current per-binary progress
 (regenerate with `make progress`). This README intentionally avoids hardcoded
 function counts, percentages, or byte totals; the generated progress report is
-the source of truth. A translation unit only counts as decompiled when it is
+the source of truth. **Code-byte coverage is the headline metric**; function
+coverage is secondary because short wrappers and overlay handlers otherwise
+dominate the count. A translation unit only counts as decompiled when it is
 decompiled C rather than generated split assembly. Verified builds are
 byte-identical to retail (`make check`, plus overlay checks for touched
 overlays).
+
+Binary matching is only one quality level. See
+[docs/SOURCE_QUALITY.md](docs/SOURCE_QUALITY.md) for the semantic, crutch-free,
+header-integrated, typed, and organized review levels.
+
+For normal acceptance run `make verify`; it combines the source-policy gates,
+tests, build, and retail checksum. Structural, manifest, toolchain, and shared
+header changes require `make verify-clean`. See [CONTRIBUTING.md](CONTRIBUTING.md)
+for the working contract.
 
 The matching policy is conservative: promoted decompilation work must match
 through the stock compiler pipeline. Inline asm, register asm, asm barriers,
@@ -40,9 +51,18 @@ central PSY-Q-style GTE/COP2 macro for a documented hardware operation; see
 
 - `configs/USA/` - splat config, symbols, relocs, checksum.
 - `src/main/` - decompiled C translation units for the main executable.
+- `candidates/` - tracked, non-matching or superseded C experiments; never
+  compiled into release binaries and never counted as decompiled source.
 - `include/` - project headers.
 - `tools/scripts/` - project-specific build and analysis helpers.
 - `docs/` - progress table and maintained documentation.
+
+Source placement and translation-unit changes follow
+[docs/CODE_ORGANIZATION.md](docs/CODE_ORGANIZATION.md). New declarations belong
+in subsystem headers rather than directly in C files; CI prevents the existing
+migration debt from increasing. CI also enforces a one-to-one mapping between
+manifest C entries and files under `src/`; unfinished candidates belong under
+`candidates/`.
 
 Generated directories such as `asm/`, `linkers/`, `build/`, `assets/`, and
 `disc/` are intentionally ignored, along with local working notes.

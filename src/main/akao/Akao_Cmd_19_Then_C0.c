@@ -1,8 +1,4 @@
-extern int g_AkaoCmdOpcode;
-extern int g_AkaoCmdArg0;
-extern int g_AkaoCmdArg3;
-
-int Akao_EnqueueStagedCommand(void);
+#include "pe1/akao/commands.h"
 
 int Akao_Cmd_19_Then_C0(int arg0, int arg1) {
     register int *opcode asm("$17");

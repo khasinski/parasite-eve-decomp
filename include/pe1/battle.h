@@ -1,6 +1,8 @@
 #ifndef PE1_BATTLE_H
 #define PE1_BATTLE_H
 
+#include "common.h"
+
 /* Battle subsystem (ATB combat). Layout reverse-engineered from the battle code
  * (src/main/battle, src/main/main/Battle_) and validated live on real
  * BIOS (DuckStation GDB) by fighting the first Carnegie Hall encounter and
@@ -11,13 +13,6 @@
  * is compiled into main.exe (no .c includes this header). Offsets are verified
  * against the cited accessors; fields marked TENTATIVE need more confirmation.
  */
-
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef signed char    s8;
-typedef short          s16;
-typedef int            s32;
-typedef unsigned int   u32;
 
 /* ============================================================================
  * TWO-LAYER MODEL (verified)
@@ -54,7 +49,13 @@ typedef unsigned int   u32;
  * --------------------------------------------------------------------------*/
 typedef struct Combatant {
 /* 0x00 */ u32  coreFlags;     /* bitfield; &0x6000 / &0xC0000 facing, >>13&3 weapon-cat (Battle_GetEnemyContextField.c:28,44,55) */
-/* 0x04 */ s16  fieldId04;     /* SetContextField case1; GetEnemyCtx case0x29 (Battle_SetContextField.c:21) */
+/* 0x04 */ union {
+               s16 fieldId04;  /* SetContextField case1; GetEnemyCtx case0x29 */
+               struct {
+                   u8 rank;    /* signed rank byte in escape/spawn calculations */
+                   u8 field05;
+               } bytes;
+           } field04;
 /* 0x06 */ s16  fieldId06;     /* SetContextField case2 (Battle_SetContextField.c:24) */
 /* 0x08 */ s32  exp_or_acc;    /* damage-derived accumulator, clamped to maxAtk@0x28 / 0x10000 (Battle_ApplyDamage.c:92,96) */
 /* 0x0C */ u16  curHP;         /* CURRENT HP -- damage & heal land here; clamped to maxHP@0x1C (Battle_ApplyDamage.c:73-85) */
@@ -184,6 +185,28 @@ typedef struct BattleTarget {
 /* 0x08 */ s16  angle;                 /* Gte_Atan2 angle to player (Battle_BuildTargetList.c:58) */
 /* 0x0A */ u8   pad_0A[2];
 } BattleTarget;                        /* sizeof == 0xC */
+
+/* These partial records are deliberately padded through their last verified
+ * field. Keep the offsets executable: prose comments alone do not protect the
+ * shared ABI from an accidental member-width or alignment change. */
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, field04) == 0x04,
+                  combatant_field04_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, curHP) == 0x0C,
+                  combatant_cur_hp_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, action) == 0x68,
+                  combatant_action_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, statusFlags2) == 0xCC,
+                  combatant_status_flags2_offset);
+PE1_STATIC_ASSERT(sizeof(Combatant) == 0xD8, combatant_partial_size);
+PE1_STATIC_ASSERT(sizeof(BattleAction) == 0x18, battle_action_partial_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject) == 0x1B4,
+                  battle_entity_render_object_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, targetX) == 0x268,
+                  battle_entity_target_x_offset);
+PE1_STATIC_ASSERT(sizeof(BattleEntity) == 0x270, battle_entity_partial_size);
+PE1_STATIC_ASSERT(sizeof(BattleTarget) == 0x0C, battle_target_size);
+
+int Battle_RollEscapeChance(void);
 
 /* ============================================================================
  * ENTITY TINT COLOR PACKETS (battle/menu)  -- documented, not yet symbol-named.

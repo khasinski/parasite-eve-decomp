@@ -1388,20 +1388,18 @@ def main() -> None:
         "and no inline/register assembly. Pure C is the target. Code bytes cover function subsegments",
         "only (baked data carriers are excluded). Every built binary is",
         "byte-identical to retail (`make check`, `make overlay-check-all`).",
-        "",
-        "| Binary | Functions | % | Code bytes | % |",
-        "|---|---:|---:|---:|---:|",
     ]
+    rows = []
     totals = [0, 0, 0, 0]
     r, *t = row_for("SLUS_006.62 (main)", ROOT / "configs/USA/main.yaml",
                     ROOT / "src/main", ROOT / "asm/USA/main")
-    lines.append(r)
+    rows.append(r)
     totals = [a + b for a, b in zip(totals, t)]
     for ovl_yaml in configured_non_room_overlays():
         name = ovl_yaml.stem
         r, *t = row_for(name, ovl_yaml, ROOT / "src/overlays" / name,
                         ROOT / "asm/USA/overlays" / name)
-        lines.append(r)
+        rows.append(r)
         totals = [a + b for a, b in zip(totals, t)]
     room = [0, 0, 0, 0]
     rooms = sorted((ROOT / "configs/USA/overlays").glob("room_*.yaml"))
@@ -1414,14 +1412,23 @@ def main() -> None:
         mf, nf, mb, tb = room
         pf = 100.0 * mf / nf if nf else 0.0
         pb = 100.0 * mb / tb if tb else 0.0
-        lines.append(f"| `room overlays (x{len(rooms)})` | {mf}/{nf} ({pf:.1f}%) "
-                     f"| {pf:.1f}% | {mb}/{tb} | {pb:.1f}% |")
+        rows.append(f"| `room overlays (x{len(rooms)})` | {mf}/{nf} "
+                    f"| {pf:.1f}% | {mb}/{tb} | {pb:.1f}% |")
         totals = [a + b for a, b in zip(totals, room)]
     mf, nf, mb, tb = totals
-    lines.append(
+    byte_pct = 100.0 * mb / tb if tb else 0.0
+    func_pct = 100.0 * mf / nf if nf else 0.0
+    lines.extend([
+        "",
+        f"**Headline: {mb}/{tb} code bytes ({byte_pct:.1f}%) are decompiled.**",
+        f"Function coverage is secondary: {mf}/{nf} ({func_pct:.1f}%).",
+        "",
+        "| Binary | Functions | % | Code bytes | % |",
+        "|---|---:|---:|---:|---:|",
+        *rows,
         f"| **total** | **{mf}/{nf}** | **{100.0*mf/nf:.1f}%** "
         f"| **{mb}/{tb}** | **{100.0*mb/tb:.1f}%** |"
-    )
+    ])
     out = ROOT / "docs/PROGRESS.md"
     out.write_text("\n".join(lines) + "\n")
     print(f"wrote {out} on {datetime.date.today().isoformat()}")

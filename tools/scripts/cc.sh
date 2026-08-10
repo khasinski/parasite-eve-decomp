@@ -80,8 +80,12 @@ mkdir -p "$(dirname "$OUT")"
 
 TMP_I=$(mktemp -t pe1-cc.XXXXXX.i)
 TMP_S=$(mktemp -t pe1-cc.XXXXXX.s)
-trap 'rm -f "$TMP_I" "$TMP_S"' EXIT
+TMP_D=$(mktemp -t pe1-cc.XXXXXX.d)
+trap 'rm -f "$TMP_I" "$TMP_S" "$TMP_D"' EXIT
 
+# This old cpp predates -MF/-MT, but supports -M. Rewrite its generated object
+# target to the real build path and publish the dependency file atomically.
+"$CPP" $CPP_FLAGS -M "$IN" | sed "1s|^[^:]*:|$OUT:|" > "$TMP_D"
 "$CPP" $CPP_FLAGS "$IN" -o "$TMP_I"
 "$CC1" $CC1_FLAGS "$TMP_I" -o "$TMP_S"
 
@@ -131,3 +135,5 @@ fi
         -I "$ROOT" -I "$ROOT/include" -I "$ROOT/asm/USA/main" -I "$ROOT/asm/USA/overlays" \
         -o "$OUT" \
         < "$TMP_S"
+
+mv "$TMP_D" "$OUT.d"

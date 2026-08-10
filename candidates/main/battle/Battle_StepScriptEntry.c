@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/battle.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -21,8 +22,6 @@ void Battle_UpdatePlayerTurn(void);
 void Battle_ApplyPlayerHit(void);
 void Battle_AdvancePhase(void);
 void Entity_SetActionMode(u8 *entity, int mode);
-int Battle_RollEscapeChance(void);
-
 void Battle_StepScriptEntry(void) {
     u8 index = D_8009D1D4;
     u8 *entity;

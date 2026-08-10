@@ -57,6 +57,44 @@ typedef struct RoomParticleEmitter {
 #define RVW32(o, off) (*(volatile int *)((char *)(o) + (off)))
 #define RVW16(o, off) (*(volatile short *)((char *)(o) + (off)))
 #define RVU16(o, off) (*(volatile unsigned short *)((char *)(o) + (off)))
+#define RWPTR(o, off) ((void *)((char *)(o) + (off)))
+
+/* Preserve a signed halfword load when the matching compiler would otherwise
+ * replace it with lhu because the value is immediately narrowed again. */
+#define ROOMLIB_LOAD_S16(out, address) \
+    asm volatile("lh %0,%1" : "=r"(out) : "m"(*(short *)(address)))
+
+/* Register allocation used by the original compiler for room rotation-table
+ * lookups. Keeping it named here avoids scattering compiler pins in logic. */
+#define ROOMLIB_ROT_ENTRY_DECL \
+    register int *entry asm("$2"); \
+    register int *base asm("$3")
+
+#define ROOMLIB_V0_PTR_DECL(name) register void *name asm("$2")
+#define ROOMLIB_V1_INT_DECL(name) register int name asm("$3")
+#define ROOMLIB_A0_INT_DECL(name) register int name asm("$4")
+#define ROOMLIB_LOAD_PTR(out, address) \
+    asm volatile("lw %0,%1" : "=r"(out) : "m"(*(void **)(address)))
+#define ROOMLIB_LOAD_U16(out, address) \
+    asm volatile("lhu %0,%1" : "=r"(out) : "m"(*(unsigned short *)(address)))
+
+#define ROOMLIB_DIV_V0_A0_CHECKED(value, denominator) \
+    asm volatile( \
+        ".word 0x0044001A\n\t" \
+        ".word 0x14800002\n\t" \
+        ".word 0x00000000\n\t" \
+        ".word 0x0007000D\n\t" \
+        ".word 0x2401FFFF\n\t" \
+        ".word 0x14810004\n\t" \
+        ".word 0x3C018000\n\t" \
+        ".word 0x14410002\n\t" \
+        ".word 0x00000000\n\t" \
+        ".word 0x0006000D\n\t" \
+        ".word 0x00001012\n\t" \
+        ".word 0x00000000" \
+        : "=r"(value) \
+        : "0"(value), "r"(denominator) \
+        : "$1", "lo")
 
 typedef struct RoomLibTick12Rec {
     char pad00[0x20];
@@ -248,6 +286,17 @@ typedef struct RoomLibHandlerEState {
 } RoomLibHandlerEState;
 
 extern short D_800966EE[];
+extern char *D_8009D254;
+struct FieldActorNode;
+extern struct FieldActorNode *D_8009D20C;
+extern void RoomLib_AdvanceArcToTarget_80191110(RoomEnt *obj);
+extern void RoomLib_AdvanceArcToTargetY_80191D18(RoomEnt *obj);
+extern int RoomLib_ResetAndSignal_801914B0(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D0C(RoomEnt *obj);
+extern void RoomLib_ArmWindowB_80191824(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F598(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801902D8(RoomEnt *obj);
+extern int RoomLib_Set4ClearSignal_801924D4(RoomEnt *o);
 
 typedef struct RoomLibFxMatrixWords {
     int w0;
@@ -342,6 +391,38 @@ extern void func_800DFB20(void *state);
             *p = 0; \
         } \
         return 0; \
+    }
+
+/* Move the field actor by a local, matrix-rotated X/Z step. */
+#define ROOMLIB_MOVE_ACTOR_LOCAL(name, finish) \
+    void name(RoomEnt *o) { \
+        int height; \
+        if (RW8(D_8009D254, 0xE) >= 4) { \
+            finish(o); \
+        } else if (RW32(D_8009D254, 0x98) & 0xC0000) { \
+            RW32(D_8009D254, 0x98) &= 0xFFF3FFFF; \
+            finish(o); \
+        } else { \
+            register volatile short *scratch asm("$3") = (volatile short *)0x1F800000; \
+            scratch[0] = 0; \
+            scratch[1] = 0; \
+            scratch[2] = o->pos[0] >> 12; \
+            gte_ldrotmatrix(o->mat); \
+            gte_ldv0((void *)scratch); \
+            gte_mvmva(); \
+            gte_stmac((void *)&scratch[4]); \
+            RW32(D_8009D254, 0x28) += *(volatile int *)&scratch[4] << 12; \
+            RW32(D_8009D254, 0x30) += *(volatile int *)&scratch[8] << 12; \
+            height = o->pos[0] - o->pos[1]; \
+            o->pos[0] = height; \
+            if (height < 0) { \
+                finish(o); \
+            } \
+            if (o->h46 != 0) { \
+                RW16(D_8009D254, 0x3A) = FieldEng_TurnToward( \
+                    RW16(D_8009D254, 0x3A), o->h48, o->h46); \
+            } \
+        } \
     }
 
 

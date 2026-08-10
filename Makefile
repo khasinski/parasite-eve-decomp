@@ -5,7 +5,7 @@ BASENAME   := main
 TARGET_SHA := 452fb033f2eaa4b18aa20a5bca60b8125af3a37b
 
 ROOT       := $(abspath .)
-PY         := $(ROOT)/.venv/bin/python
+PY         ?= $(if $(wildcard $(ROOT)/.venv/bin/python),$(ROOT)/.venv/bin/python,python3)
 SPLAT_CFG  := configs/$(VERSION)/$(BASENAME).yaml
 
 BUILD      := build/$(VERSION)
@@ -58,6 +58,7 @@ ISO_CUE    := $(BUILD)/parasite-eve-$(VERSION)-disc1.cue
 CC_WRAPPER := tools/scripts/cc.sh
 AS         := mipsel-none-elf-as
 LD         := mipsel-none-elf-ld
+NM         := mipsel-none-elf-nm
 OBJCOPY    := mipsel-none-elf-objcopy
 
 ASM_SRCS := $(shell find $(ASM_DIR) -name '*.s' -not -path '*/matchings/*' -not -path '*/nonmatchings/*' 2>/dev/null)
@@ -68,12 +69,18 @@ C_OBJS   := $(C_SRCS:%=$(BUILD)/%.o)
 
 OBJS := $(ASM_OBJS) $(C_OBJS)
 
-.PHONY: expected objdiff-config report all build check check-sources clean diff distclean func-build func-diff func-target overlay-build overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress debt drop-pins drop-barriers drop-aliases proposal-smallest proposal-status room-split-audit split split-if-needed tools
+# Header dependencies are emitted by the stock preprocessor through cc.sh.
+# Without these, editing a shared ABI header can leave stale objects behind
+# and make an incremental `make check` falsely pass.
+C_DEPS := $(C_OBJS:.o=.o.d)
+-include $(C_DEPS)
 
-all: build check
+.PHONY: expected objdiff-config report all build check check-sources ci verify verify-clean clean diff distclean func-build func-diff func-target overlay-build overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress debt debt-check debt-baseline organization-check organization-baseline test drop-pins drop-barriers drop-aliases proposal-smallest proposal-status room-split-audit split split-if-needed tools
+
+all: verify
 
 split:
-	rm -rf $(ASM_DIR) $(LD_SCRIPT) $(UNDEFINED_SYMS) $(UNDEFINED_FUNCS)
+	rm -rf $(ASM_DIR) $(LD_SCRIPT) $(UNDEFINED_SYMS) $(UNDEFINED_FUNCS) $(ADDR_ALIASES)
 	@$(PY) -m splat split $(SPLAT_CFG)
 	@find $(ASM_DIR) -name '*.data.s' -o -name '*.rodata.s' | xargs $(PY) tools/scripts/collapse_zero_data.py
 	@grep -rl 'INCLUDE_ASM(' src/main --include='*.c' 2>/dev/null | xargs touch 2>/dev/null || true
@@ -104,10 +111,17 @@ $(BUILD):
 UNDEFINED_SYMS := linkers/$(VERSION)/undefined_syms_auto.$(BASENAME).txt
 UNDEFINED_FUNCS := linkers/$(VERSION)/undefined_funcs_auto.$(BASENAME).txt
 UNDEFINED_MANUAL := linkers/$(VERSION)/undefined_syms_manual.txt
+ADDR_ALIASES := linkers/$(VERSION)/undefined_addr_aliases.$(BASENAME).txt
 
-$(ELF): $(OBJS) $(LD_SCRIPT) $(UNDEFINED_SYMS) $(UNDEFINED_FUNCS) $(UNDEFINED_MANUAL)
-	$(LD) -EL -T $(LD_SCRIPT) -T $(UNDEFINED_SYMS) -T $(UNDEFINED_FUNCS) \
-	      -T $(UNDEFINED_MANUAL) \
+# Link only the absolute addresses that no object actually defines. Feeding
+# splat's complete auto files to ld would override real definitions forever.
+$(ADDR_ALIASES): $(OBJS) $(UNDEFINED_MANUAL) $(UNDEFINED_SYMS) $(UNDEFINED_FUNCS) tools/scripts/gen_undefined_addr_aliases.py
+	@$(PY) tools/scripts/gen_undefined_addr_aliases.py --nm $(NM) --output $@ \
+	      --source $(UNDEFINED_SYMS) --source $(UNDEFINED_FUNCS) \
+	      --manual $(UNDEFINED_MANUAL) $(OBJS)
+
+$(ELF): $(OBJS) $(LD_SCRIPT) $(UNDEFINED_MANUAL) $(ADDR_ALIASES)
+	$(LD) -EL -T $(LD_SCRIPT) -T $(UNDEFINED_MANUAL) -T $(ADDR_ALIASES) \
 	      -Map $(BUILD)/$(BASENAME).map -o $@
 
 # Extract PSX executable from ELF.
@@ -120,6 +134,21 @@ check: build
 # Fresh-clone guard: every committed `c` subsegment must have a tracked source.
 check-sources:
 	@$(PY) tools/scripts/check_c_subseg_sources.py
+
+# Source-only checks suitable for a fresh public clone without retail assets or
+# proprietary compiler binaries. Keep this target aligned with GitHub Actions.
+ci: check-sources debt-check organization-check test
+
+# Canonical acceptance target when the local retail image/toolchain is present.
+verify: ci check
+
+# Use before merging structural, toolchain, manifest, or shared-header changes.
+verify-clean:
+	@$(MAKE) --no-print-directory clean
+	@$(MAKE) --no-print-directory verify
+
+test:
+	@$(PY) -m unittest discover -s tools/tests -p 'test_*.py'
 
 diff:
 	@./tools/asm-differ/diff.py --help >/dev/null 2>&1 || (echo "asm-differ deps missing; run: .venv/bin/pip install -r tools/asm-differ/requirements.txt" && exit 1)
@@ -152,7 +181,19 @@ progress:
 
 # Crutch-debt tracker: count pins/barriers/aliases/gotos still to remove.
 debt:
-	@$(PY) tools/scripts/crutch_debt.py
+	@$(PY) tools/scripts/crutch_debt.py --write
+
+debt-check:
+	@$(PY) tools/scripts/crutch_debt.py --check
+
+debt-baseline:
+	@$(PY) tools/scripts/crutch_debt.py --update-baseline
+
+organization-check:
+	@$(PY) tools/scripts/organization_debt.py --check
+
+organization-baseline:
+	@$(PY) tools/scripts/organization_debt.py --update-baseline
 
 # Verified crutch removal (byte-identical only; run per file/dir): make drop-pins FILE='src/main/gpu/*.c'
 drop-pins:

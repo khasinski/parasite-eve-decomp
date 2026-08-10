@@ -1,8 +1,4 @@
-extern int g_AkaoCmdOpcode;
-extern int g_AkaoCmdArg0;
-extern int g_AkaoCmdArg1;
-
-int Akao_EnqueueStagedCommand(void);
+#include "pe1/akao/commands.h"
 
 void func_80086D2C(int arg0, int arg1) {
     g_AkaoCmdOpcode = 0xC9;

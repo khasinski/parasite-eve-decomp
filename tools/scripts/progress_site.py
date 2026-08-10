@@ -66,8 +66,8 @@ def main() -> None:
         "td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}"
         ".ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>",
         "<h1>parasite-eve-decomp</h1>",
-        f"<p>Decompiled functions: <b>{mf}/{nf} ({fpct}%)</b> · "
-        f"code bytes: <b>{bpct}%</b>. A unit counts when it has no INCLUDE_ASM "
+        f"<p>Code bytes decompiled: <b>{mb}/{tb} ({bpct}%)</b> · "
+        f"functions (secondary): <b>{mf}/{nf} ({fpct}%)</b>. A unit counts when it has no INCLUDE_ASM "
         "and no inline/register assembly. Pure C is the target. "
         "The full build is byte-identical "
         "to retail.</p>",

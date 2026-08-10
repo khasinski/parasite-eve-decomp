@@ -1,7 +1,4 @@
-extern int g_AkaoCmdOpcode;
-extern int g_AkaoCmdArg0;
-
-int Akao_EnqueueStagedCommand(void);
+#include "pe1/akao/commands.h"
 
 void Akao_Cmd_11(int arg0) {
     g_AkaoCmdOpcode = 0x11;

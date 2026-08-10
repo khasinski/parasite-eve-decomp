@@ -177,7 +177,12 @@ def source_for(func: str, source: str | None) -> Path:
     default = proposal_dir(func) / "candidate.c"
     if default.exists():
         return default
-    src_dirs = [ROOT / "src/main/main", ROOT / "src/main/akao"]
+    src_dirs = [
+        ROOT / "src/main/main",
+        ROOT / "src/main/akao",
+        ROOT / "candidates/main",
+        ROOT / "candidates/overlays",
+    ]
     for src_dir in src_dirs:
         src_default = src_dir / f"{func}.c"
         if src_default.exists():

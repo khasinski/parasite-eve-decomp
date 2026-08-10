@@ -1,11 +1,6 @@
-extern int g_AkaoCmdOpcode;
-extern int g_AkaoCmdArg0;
-extern int g_AkaoCmdArg1;
-extern int g_AkaoCmdArg2;
-extern int g_AkaoCmdArg3;
+#include "pe1/akao/commands.h"
 
 int Spu_ValidateSampleHeader(void);
-int Akao_EnqueueStagedCommand(void);
 
 void Akao_Cmd_24(int arg0, int arg1, int arg2, int arg3) {
     if (Spu_ValidateSampleHeader() != 0) {

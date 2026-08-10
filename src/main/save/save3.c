@@ -1,7 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern int g_SaveMetadataWindowIndex;
+#include "pe1/save.h"
 
 void Save_PostInitStub(void) {
 }

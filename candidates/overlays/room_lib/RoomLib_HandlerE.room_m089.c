@@ -1,5 +1,5 @@
 /* MASPSX_FLAGS: --expand-div */
-#include "room_lib.h"
+#include "../../../src/overlays/room_lib/room_lib.h"
 
 extern short D_800966EC[][2];
 extern int RoomLib_ResetAndSignalB_80190990(RoomEnt *o);
