@@ -1,21 +1,19 @@
 #include "common.h"
-#define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
+#include "pe1/render_object.h"
 
-void Render_CopyFrameData(void *arg0, void *arg1, s32 arg2) {
-    s32 temp_a2;
+void Render_CopyFrameData(RenderObjectEntity *dst, RenderObjectEntity *src, s32 frame) {
+    s16 index = frame;
 
-    temp_a2 = (s32) (arg2 << 0x10) >> 0xB;
-    M2C_FIELD(arg0, u16 *, 0x34) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0);
-    M2C_FIELD(arg0, u16 *, 0x36) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 2);
-    M2C_FIELD(arg0, u16 *, 0x38) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 4);
-    M2C_FIELD(arg0, u16 *, 0x3A) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 6);
-    M2C_FIELD(arg0, u16 *, 0x3C) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 8);
-    M2C_FIELD(arg0, u16 *, 0x3E) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0xA);
-    M2C_FIELD(arg0, u16 *, 0x40) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0xC);
-    M2C_FIELD(arg0, u16 *, 0x42) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0xE);
-    M2C_FIELD(arg0, u16 *, 0x44) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0x10);
-    M2C_FIELD(arg0, s32 *, 0x48) = (s32) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), s32 *, 0x14);
-    M2C_FIELD(arg0, s32 *, 0x4C) = (s32) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), s32 *, 0x18);
-    M2C_FIELD(arg0, s32 *, 0x50) = (s32) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), s32 *, 0x1C);
+    dst->model_matrix.rotation[0][0] = src->matrices[index].rotation[0][0];
+    dst->model_matrix.rotation[0][1] = src->matrices[index].rotation[0][1];
+    dst->model_matrix.rotation[0][2] = src->matrices[index].rotation[0][2];
+    dst->model_matrix.rotation[1][0] = src->matrices[index].rotation[1][0];
+    dst->model_matrix.rotation[1][1] = src->matrices[index].rotation[1][1];
+    dst->model_matrix.rotation[1][2] = src->matrices[index].rotation[1][2];
+    dst->model_matrix.rotation[2][0] = src->matrices[index].rotation[2][0];
+    dst->model_matrix.rotation[2][1] = src->matrices[index].rotation[2][1];
+    dst->model_matrix.rotation[2][2] = src->matrices[index].rotation[2][2];
+    dst->model_matrix.translation[0] = src->matrices[index].translation[0];
+    dst->model_matrix.translation[1] = src->matrices[index].translation[1];
+    dst->model_matrix.translation[2] = src->matrices[index].translation[2];
 }

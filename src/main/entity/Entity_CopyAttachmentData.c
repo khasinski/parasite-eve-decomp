@@ -4,12 +4,10 @@ extern FieldActor *g_PlayerEntity;
 extern FieldActor *g_FieldActorListHead;
 extern FieldActor *g_CurrentEntity;
 
-void Render_SetObjectAnim(void *arg0, int arg1, short arg2);
-
 int Entity_CopyAttachmentData(int **arg0) {
     register int **args asm("$6") = arg0;
     FieldActor *selected;
-    void *src;
+    RenderObjectEntity *src;
 
     asm volatile("" : "=r"(args) : "0"(args));
 
@@ -20,7 +18,7 @@ int Entity_CopyAttachmentData(int **arg0) {
         if (current == 0) {
             return 1;
         }
-        src = selected->attachment;
+        src = &selected->render_object;
     } else {
         int id = *args[0];
 
@@ -41,10 +39,10 @@ int Entity_CopyAttachmentData(int **arg0) {
         if (selected == 0) {
             return 1;
         }
-        src = selected->attachment;
+        src = &selected->render_object;
     }
 
-    Render_SetObjectAnim(g_CurrentEntity->attachment, src, *(short *)args[2]);
+    Render_SetObjectAnim(&g_CurrentEntity->render_object, src, *(short *)args[2]);
     g_CurrentEntity->parent = selected;
     return 1;
 }

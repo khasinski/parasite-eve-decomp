@@ -64,7 +64,7 @@ static int Render_DrawObjectVariantPartVisible(RenderObjectEntity *entity, int p
     int y;
     int radius;
 
-    Render_DrawObjectVariantLoadMatrix(entity->matrices + part_index * 8);
+    Render_DrawObjectVariantLoadMatrix((s32 *)&entity->matrices[part_index]);
     bounds = entity->bounds_vertices + part_index * 2;
     Render_DrawObjectVariantTransform(bounds, scratch);
 
@@ -99,7 +99,7 @@ static int Render_DrawObjectVariantColourPart(RenderObjectEntity *entity, Render
 
     vertices = entity->vertices + part->vertex_start;
     clut = D_800B1640 + part->vertex_start;
-    Render_DrawObjectVariantLoadMatrix(entity->matrices + part_index * 8);
+    Render_DrawObjectVariantLoadMatrix((s32 *)&entity->matrices[part_index]);
 
     changed = 0;
     for (i = 0; i < part->vertex_count; i++) {

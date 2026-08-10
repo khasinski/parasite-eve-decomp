@@ -248,27 +248,8 @@ typedef struct BattleEntity {
 /* 0x1A8 */ void *collisionFaceMirror;
 /* 0x1AC */ s32  allocationActive; /* nonzero when allocationBlock must be released */
 /* 0x1B0 */ void *actionData;    /* current animation/action record */
-/* 0x1B4 */ u8   renderObject[0x32]; /* GPU render/color sub-block; passed by address. See actor_model.h */
-/* 0x1E6 */ s16  renderField1E6;
-/* 0x1E8 */ u8   renderObjectTail[0x28];
-/* 0x210 */ s16  projX;         /* projected screen X, source for panel x (Battle_PhaseHitReaction.c:188) */
-/* 0x212 */ s16  projY;         /* projected screen Y, source for panel y (Battle_PhaseHitReaction.c:189) */
-/* 0x214 */ u8   pad_214[0x10];
-/* 0x224 */ s16  renderScale;
-/* 0x226 */ u8   pad_226[0x12];
-/* 0x238 */ void *defPtr;       /* ptr to a definition record; ->+0x18 baseline (Battle_StartEncounter.c:125) TENTATIVE */
-/* 0x23C */ u8   pad_23C[0x0F];
-/* 0x24B */ u8   scriptParam24B; /* task-supplied byte parameter (Task_SetBattleEntryCoords.c) */
-/* 0x24C */ u8   scriptParam24C;
-/* 0x24D */ u8   scriptParam24D;
-/* 0x24E */ s16  scriptValue24E; /* task-supplied signed value; active state tracked by renderFlags bits 3/4 */
-/* 0x250 */ u16  renderFlags;    /* 0x8/0x10 task effects, 0x20 cull-on-death */
-/* 0x252 */ u8   field252;      /* (Battle_StepEntityDeath.c:79) */
-/* 0x253 */ u8   pad_253[0x15];
-/* 0x268 */ s16  targetX;       /* world coord for target geometry & effect spawn (Battle_BuildTargetList.c:54; Battle_StartEnemyAttackEffect.c:35) */
-/* 0x26A */ s16  targetY;
-/* 0x26C */ s16  targetZ;
-/* 0x26E */ u8   pad_26E[0x0A];
+/* 0x1B4 */ RenderObjectEntity renderObject;
+/* 0x270 */ u8   pad_270[0x08];
 /* 0x278 */ s32  allocationBlock;
 } BattleEntity;
 
@@ -354,13 +335,13 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, posZ) == 0x30,
                   battle_entity_pos_z_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, motionX) == 0x68,
                   battle_entity_motion_x_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, scriptParam24B) == 0x24B,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject.script_param97) == 0x24B,
                   battle_entity_script_param_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderFlags) == 0x250,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject.flags_9C) == 0x250,
                   battle_entity_render_flags_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject) == 0x1B4,
                   battle_entity_render_object_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, targetX) == 0x268,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject.target_x) == 0x268,
                   battle_entity_target_x_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, allocationBlock) == 0x278,
                   battle_entity_allocation_block_offset);
@@ -390,9 +371,9 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, parent) ==
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, scriptCursor19C) ==
                   PE1_OFFSETOF(FieldActor, script_cursor_19c), entity_views_script_cursor_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject) ==
-                  PE1_OFFSETOF(FieldActor, attachment), entity_views_render_match);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderField1E6) ==
-                  PE1_OFFSETOF(FieldActor, render_field_1e6), entity_views_render_field_match);
+                  PE1_OFFSETOF(FieldActor, render_object), entity_views_render_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject.table_index) ==
+                  PE1_OFFSETOF(FieldActor, render_object.table_index), entity_views_render_field_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, allocationBlock) ==
                   PE1_OFFSETOF(FieldActor, allocation_block), entity_views_tail_match);
 PE1_STATIC_ASSERT(sizeof(BattleEntity) == sizeof(FieldActor),

@@ -58,9 +58,9 @@ void Battle_BuildTargetList(void) {
                         off = g_BattleTargetIndex * 0xC;
                         E004_AT(off) = res;
                         res2 = Gte_Atan2(
-                            ENTITY_FIELD(var_s0, s16 *, targetX) -
+                            ENTITY_FIELD(var_s0, s16 *, renderObject.target_x) -
                                 ENTITY_FIELD(g_PlayerEntity_2, s16 *, posX.parts.integer),
-                            ENTITY_FIELD(var_s0, s16 *, targetZ) -
+                            ENTITY_FIELD(var_s0, s16 *, renderObject.target_z) -
                                 ENTITY_FIELD(g_PlayerEntity_2, s16 *, posZ.parts.integer));
                         tmpc = g_BattleTargetIndex + 1;
                         off = g_BattleTargetIndex * 0xC;

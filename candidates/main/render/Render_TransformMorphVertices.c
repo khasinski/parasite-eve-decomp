@@ -111,7 +111,7 @@ void Render_TransformMorphVertices(RenderObjectEntity *entity, s32 *view_matrix)
     }
 
     part = entity->parts;
-    part_matrix = entity->matrices;
+    part_matrix = (s32 *)entity->matrices;
     for (i = 0; i < entity->header->part_count; i++, part++, part_matrix += 8) {
         Render_MorphBuildMatrix(view_matrix, part_matrix, morph_matrix);
         Render_MorphLoadFullMatrix(morph_matrix);

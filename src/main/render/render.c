@@ -1,53 +1,37 @@
 #include "common.h"
-typedef struct {
-    int field00;
-    char pad04[0x20];
-    void *field24;
-    char pad28[4];
-    u16 field2C;
-    u16 field2E;
-    u16 field30;
-    u16 field32;
-    char pad34[0x3C];
-    u16 field70;
-} Unk8003DF50Obj;
-
-typedef struct {
-    char pad[0x18];
-    u16 *table;
-} Unk8003DF50TableOwner;
+#include "pe1/render_object.h"
 
 typedef unsigned short u16_1;
 
 typedef unsigned char u8_2;
 typedef short s16_2;
 
-void Render_InitObjectFromTable(Unk8003DF50Obj *obj, Unk8003DF50TableOwner *owner, int index) {
+void Render_InitObjectFromTable(RenderObjectEntity *obj, RenderObjectEntity *owner, int index) {
     int offset;
     int base;
     u16 *entry;
 
-    obj->field32 = index;
+    obj->table_index = index;
     offset = (short)index << 4;
-    obj->field00 = 0;
-    obj->field24 = owner;
+    obj->header = 0;
+    obj->animation_source = owner;
 
-    base = (int)owner->table;
+    base = (int)owner->bounds_vertices;
     entry = (u16 *)(offset + base);
-    obj->field70 = entry[3];
+    obj->table_value70 = entry[3];
 
-    base = (int)owner->table;
+    base = (int)owner->bounds_vertices;
     entry = (u16 *)(offset + base);
-    obj->field2C = entry[0];
+    obj->table_value2c = entry[0];
 
-    base = (int)owner->table;
+    base = (int)owner->bounds_vertices;
     entry = (u16 *)(offset + base);
-    obj->field2E = entry[1];
+    obj->table_value2e = entry[1];
 
-    base = (int)owner->table;
+    base = (int)owner->bounds_vertices;
     offset += base;
     entry = (u16 *)offset;
-    obj->field30 = entry[2] + obj->field70;
+    obj->table_value30 = entry[2] + obj->table_value70;
 }
 
 void Render_Noop(void) {
@@ -98,35 +82,35 @@ void Render_CopyMatrixBlock(u16_1 *arg0, u16_1 *arg1, s16 count) {
     }
 }
 
-void Render_SetObjectAnim(void *arg0, int arg1, short arg2) {
-    if (*(u8 *)(*(char **)arg0 + 2) == 2) {
-        *(int *)((char *)arg0 + 0x24) = arg1;
-        *(short *)((char *)arg0 + 0x28) = 3;
+void Render_SetObjectAnim(RenderObjectEntity *arg0, RenderObjectEntity *arg1, short arg2) {
+    if (arg0->header->part_count == 2) {
+        arg0->animation_source = arg1;
+        arg0->animation_state = 3;
     } else {
-        *(int *)((char *)arg0 + 0x24) = arg1;
-        *(short *)((char *)arg0 + 0x28) = 1;
+        arg0->animation_source = arg1;
+        arg0->animation_state = 1;
     }
-    *(short *)((char *)arg0 + 0x2A) = arg2;
+    arg0->animation_id = arg2;
 }
 
-void Render_ClearObjectAnim(void *arg0) {
-    *(int *)((char *)arg0 + 0x24) = 0;
-    if (*(u8 *)(*(char **)arg0 + 2) == 2) {
-        *(short *)((char *)arg0 + 0x28) = 2;
+void Render_ClearObjectAnim(RenderObjectEntity *arg0) {
+    arg0->animation_source = 0;
+    if (arg0->header->part_count == 2) {
+        arg0->animation_state = 2;
     } else {
-        *(short *)((char *)arg0 + 0x28) = 0;
+        arg0->animation_state = 0;
     }
 }
 
-int Render_FindAnimEntry(void *arg0, int arg1, s32 *out) {
+int Render_FindAnimEntry(RenderObjectEntity *arg0, int arg1, s32 *out) {
     char unused[8];
     char *base;
     register char *entry asm("$3");
     s32 i;
     s32 tmp;
 
-    tmp = *(u8_2 *)(*(char **)arg0 + 3);
-    base = *(char **)((char *)arg0 + 0x80);
+    tmp = arg0->header->animation_entry_count;
+    base = (char *)arg0->animation_entries;
     i = 0;
     if (tmp > 0) {
         tmp = arg1 << 16;
@@ -142,7 +126,7 @@ int Render_FindAnimEntry(void *arg0, int arg1, s32 *out) {
                 return 1;
             }
             entry += 0xC;
-            tmp = *(u8_2 *)(*(char **)arg0 + 3);
+            tmp = arg0->header->animation_entry_count;
             base += 0xC;
         } while (i < tmp);
     }

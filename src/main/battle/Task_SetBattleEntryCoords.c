@@ -35,27 +35,27 @@ int func_8001998C(int **arg0) {
 }
 
 int func_800199CC(int **arg0) {
-    CURRENT_ENTITY->scriptValue24E = *arg0[0];
-    CURRENT_ENTITY->renderFlags |= 0x10;
+    CURRENT_ENTITY->renderObject.script_value9a = *arg0[0];
+    CURRENT_ENTITY->renderObject.flags_9C |= 0x10;
     return 1;
 }
 
 int func_800199F8(void) {
-    CURRENT_ENTITY->renderFlags &= 0xFFEF;
+    CURRENT_ENTITY->renderObject.flags_9C &= 0xFFEF;
     return 1;
 }
 
 int func_80019A1C(int **arg0) {
-    CURRENT_ENTITY->scriptValue24E = *arg0[0];
-    CURRENT_ENTITY->scriptParam24B = *arg0[1];
-    CURRENT_ENTITY->scriptParam24C = *arg0[2];
-    CURRENT_ENTITY->scriptParam24D = *arg0[3];
-    CURRENT_ENTITY->renderFlags |= 8;
+    CURRENT_ENTITY->renderObject.script_value9a = *arg0[0];
+    CURRENT_ENTITY->renderObject.script_param97 = *arg0[1];
+    CURRENT_ENTITY->renderObject.script_param98 = *arg0[2];
+    CURRENT_ENTITY->renderObject.script_param99 = *arg0[3];
+    CURRENT_ENTITY->renderObject.flags_9C |= 8;
     return 1;
 }
 
 int func_80019A9C(void) {
-    CURRENT_ENTITY->renderFlags &= 0xFFF7;
+    CURRENT_ENTITY->renderObject.flags_9C &= 0xFFF7;
     return 1;
 }
 

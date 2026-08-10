@@ -34,9 +34,9 @@ void Battle_SubActionStep(void) {
         value -= step;
         state_v1 = g_ActiveActor;
         COMBATANT_FIELD(state, u16, hpMirror) = value;
-        value = ENTITY_FIELD(actor, u16, projX);
+        value = ENTITY_FIELD(actor, u16, renderObject.projected_x);
         COMBATANT_FIELD(state_v1, u16, panelAux_x) = value;
-        copy = ENTITY_FIELD(actor, u16, projY);
+        copy = ENTITY_FIELD(actor, u16, renderObject.projected_y);
         COMBATANT_FIELD(state_v1, u8, panelAux_timer) = 0x1E;
         COMBATANT_FIELD(state_v1, u16, panelAux_y) = copy;
         state_v1 = g_ActiveActor;

@@ -40,7 +40,7 @@ void Entity_CollectGarbage(void) {
 
                 if (cur->allocation_active != 0) {
                     Entity_FreeAllocationBlock(cur->allocation_block);
-                    Util_ReturnTrue(&cur->attachment);
+                    Util_ReturnTrue(&cur->render_object);
                 }
 
                 if (cur->prev == 0) {

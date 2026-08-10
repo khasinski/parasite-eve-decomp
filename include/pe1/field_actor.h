@@ -2,6 +2,7 @@
 #define PE1_FIELD_ACTOR_H
 
 #include "common.h"
+#include "pe1/render_object.h"
 
 typedef struct FieldActorState FieldActorState;
 
@@ -68,27 +69,8 @@ typedef struct FieldActor {
     /* 0x1A8 */ int field_1a8;
     /* 0x1AC */ int allocation_active; /* nonzero when allocation_block must be freed with the actor */
     /* 0x1B0 */ void *action_data;      /* current animation/action record */
-    /* 0x1B4 */ unsigned char attachment[0x32]; /* render object; address passed to render/animation helpers */
-    /* 0x1E6 */ short render_field_1e6;          /* script-controlled render parameter */
-    /* 0x1E8 */ unsigned char attachment_tail[0x28];
-    /* 0x210 */ short descriptor_value_a;
-    /* 0x212 */ short descriptor_value_b;
-    /* 0x214 */ unsigned char pad_214[0x10];
-    /* 0x224 */ short render_scale;      /* doubled before writing render attachment scale */
-    /* 0x226 */ unsigned char pad_226[0x12];
-    /* 0x238 */ void *definition;
-    /* 0x23C */ unsigned char pad_23C[0x0F];
-    /* 0x24B */ unsigned char script_param_24b;
-    /* 0x24C */ unsigned char script_param_24c;
-    /* 0x24D */ unsigned char script_param_24d;
-    /* 0x24E */ short script_value_24e;
-    /* 0x250 */ unsigned short render_flags;
-    /* 0x252 */ unsigned char field_252;
-    /* 0x253 */ unsigned char pad_253[0x15];
-    /* 0x268 */ short target_x;
-    /* 0x26A */ short target_y;
-    /* 0x26C */ short target_z;
-    /* 0x26E */ unsigned char pad_26E[0x0A];
+    /* 0x1B4 */ RenderObjectEntity render_object;
+    /* 0x270 */ unsigned char pad_270[0x08];
     /* 0x278 */ int allocation_block;
 } FieldActor;
 
@@ -100,9 +82,9 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, script_base) == 0x9C,
                   field_actor_script_base_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, allocation_active) == 0x1AC,
                   field_actor_allocation_active_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_scale) == 0x224,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_object.table_value70) == 0x224,
                   field_actor_render_scale_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_flags) == 0x250,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_object.flags_9C) == 0x250,
                   field_actor_render_flags_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, allocation_block) == 0x278,
                   field_actor_allocation_block_offset);

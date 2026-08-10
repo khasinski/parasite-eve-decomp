@@ -1,33 +1,32 @@
 #include "common.h"
-#define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
+#include "pe1/render_object.h"
 
-void Render_CopyFrameDataDouble(void *arg0, void *arg1, s32 arg2) {
-    s32 temp_a2;
+void Render_CopyFrameDataDouble(RenderObjectEntity *dst, RenderObjectEntity *src, s32 frame) {
+    s16 index = frame;
 
-    temp_a2 = (s32) (arg2 << 0x10) >> 0xB;
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 2) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 2);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 4) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 4);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 6) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 6);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 8) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 8);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0xA) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0xA);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0xC) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0xC);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0xE) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0xE);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0x10) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0x10);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), s32 *, 0x14) = (s32) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), s32 *, 0x14);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), s32 *, 0x18) = (s32) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), s32 *, 0x18);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), s32 *, 0x1C) = (s32) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), s32 *, 0x1C);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0x20) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0x22) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 2);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0x24) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 4);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0x26) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 6);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0x28) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 8);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0x2A) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0xA);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0x2C) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0xC);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0x2E) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0xE);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), u16 *, 0x30) = (u16) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), u16 *, 0x10);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), s32 *, 0x34) = (s32) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), s32 *, 0x14);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), s32 *, 0x38) = (s32) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), s32 *, 0x18);
-    M2C_FIELD(M2C_FIELD(arg0, void **, 0x84), s32 *, 0x3C) = (s32) M2C_FIELD((temp_a2 + M2C_FIELD(arg1, s32 *, 0x84)), s32 *, 0x1C);
+    dst->matrices[0].rotation[0][0] = src->matrices[index].rotation[0][0];
+    dst->matrices[0].rotation[0][1] = src->matrices[index].rotation[0][1];
+    dst->matrices[0].rotation[0][2] = src->matrices[index].rotation[0][2];
+    dst->matrices[0].rotation[1][0] = src->matrices[index].rotation[1][0];
+    dst->matrices[0].rotation[1][1] = src->matrices[index].rotation[1][1];
+    dst->matrices[0].rotation[1][2] = src->matrices[index].rotation[1][2];
+    dst->matrices[0].rotation[2][0] = src->matrices[index].rotation[2][0];
+    dst->matrices[0].rotation[2][1] = src->matrices[index].rotation[2][1];
+    dst->matrices[0].rotation[2][2] = src->matrices[index].rotation[2][2];
+    dst->matrices[0].translation[0] = src->matrices[index].translation[0];
+    dst->matrices[0].translation[1] = src->matrices[index].translation[1];
+    dst->matrices[0].translation[2] = src->matrices[index].translation[2];
+
+    dst->matrices[1].rotation[0][0] = src->matrices[index].rotation[0][0];
+    dst->matrices[1].rotation[0][1] = src->matrices[index].rotation[0][1];
+    dst->matrices[1].rotation[0][2] = src->matrices[index].rotation[0][2];
+    dst->matrices[1].rotation[1][0] = src->matrices[index].rotation[1][0];
+    dst->matrices[1].rotation[1][1] = src->matrices[index].rotation[1][1];
+    dst->matrices[1].rotation[1][2] = src->matrices[index].rotation[1][2];
+    dst->matrices[1].rotation[2][0] = src->matrices[index].rotation[2][0];
+    dst->matrices[1].rotation[2][1] = src->matrices[index].rotation[2][1];
+    dst->matrices[1].rotation[2][2] = src->matrices[index].rotation[2][2];
+    dst->matrices[1].translation[0] = src->matrices[index].translation[0];
+    dst->matrices[1].translation[1] = src->matrices[index].translation[1];
+    dst->matrices[1].translation[2] = src->matrices[index].translation[2];
 }

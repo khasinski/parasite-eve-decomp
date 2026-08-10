@@ -2,18 +2,16 @@
 
 extern FieldActor *g_CurrentEntity;
 
-void Render_ClearObjectAnim(void *arg0);
-
 extern int g_BattleModeState;
 
 int Task_ResetEntityRenderObj(void) {
-    Render_ClearObjectAnim(g_CurrentEntity->attachment);
+    Render_ClearObjectAnim(&g_CurrentEntity->render_object);
     g_CurrentEntity->parent = 0;
     return 1;
 }
 
 int Task_SetEntityField1E6(int **arg0) {
-    g_CurrentEntity->render_field_1e6 = *arg0[0];
+    g_CurrentEntity->render_object.table_index = *arg0[0];
     return 1;
 }
 

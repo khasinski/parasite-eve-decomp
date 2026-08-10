@@ -58,7 +58,7 @@ static int Render_ObjectAltPartVisible(RenderObjectEntity *entity, int part_inde
     int y;
     int radius;
 
-    Render_LoadObjectMatrix(entity->matrices + part_index * 8);
+    Render_LoadObjectMatrix((s32 *)&entity->matrices[part_index]);
     bounds = entity->bounds_vertices + part_index * 2;
     Render_TransformVertex(bounds, &scratch);
 

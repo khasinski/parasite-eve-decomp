@@ -169,7 +169,7 @@ void Render_DrawObject(RenderObjectEntity *entity, s32 *view_matrix) {
     part = entity->parts;
     for (i = 0; i < entity->header->part_count; i++, part++) {
         if (part->visible == 1) {
-            Render_DrawObjectBuildPartLightMatrix(view_matrix, entity->matrices + i * 8, light_matrix);
+            Render_DrawObjectBuildPartLightMatrix(view_matrix, (s32 *)&entity->matrices[i], light_matrix);
             Render_DrawObjectLoadLightMatrix(light_matrix);
             Render_DrawObjectShadePart(entity, part, base_colour);
         }

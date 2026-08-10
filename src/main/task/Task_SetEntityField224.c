@@ -8,6 +8,6 @@ int Task_SetEntityField224(short **arg0) {
 
     entity = g_CurrentEntity[0];
     value = (*arg0)[1];
-    entity->render_scale = value;
+    entity->render_object.table_value70 = value;
     return 1;
 }

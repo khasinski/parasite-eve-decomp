@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/render_object.h"
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 
@@ -23,19 +24,19 @@ extern struct { char _[16]; } D_8009CDDC_sw1_o __asm__("g_ActiveDrawSlot");
 extern struct { char _[16]; } D_800B1638_o __asm__("g_RenderClutLookupTable");
 #define g_RenderClutLookupTable (*(M2C_UNK *)&D_800B1638_o)
 
-void Render_DrawWithAnim(void *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
+void Render_DrawWithAnim(RenderObjectEntity *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
     M2C_UNK *temp_s0;
     s32 temp_v0;
 
     if (arg1 != 0) {
-        M2C_FIELD(arg0, s32 *, 0xB0) = arg1;
-        temp_s0 = arg0 + 0x34;
+        arg0->animation_data = (void *)arg1;
+        temp_s0 = (M2C_UNK *)&arg0->model_matrix;
         Render_CopyMatrixBlock(temp_s0, &g_RenderClutLookupTable, 1);
         Render_CopyMatrixBlock(&g_IdentityMatrixSource, temp_s0, 1);
         Anim_BuildRotationMatrices(arg0, arg1, arg2, 0);
     }
     Render_TransformVertices(arg0);
-    Render_CopyMatrixBlock(&g_RenderClutLookupTable, arg0 + 0x34, 1);
+    Render_CopyMatrixBlock(&g_RenderClutLookupTable, &arg0->model_matrix, 1);
     Render_DrawObject(arg0, arg3);
     Render_UpdateClutTable(arg0, 1, D_8009CDDC_lh);
     temp_v0 = D_8009CDDC_lw0 ^ 1;
