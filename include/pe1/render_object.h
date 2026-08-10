@@ -228,6 +228,10 @@ PE1_STATIC_ASSERT(sizeof(RenderAnimationLookupEntry) == 0x0C,
                   render_animation_lookup_entry_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, animation_data) == 0xB0,
                   render_object_animation_data_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, target_x) == 0xB4,
+                  render_object_target_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, target_z) == 0xB8,
+                  render_object_target_z_offset);
 PE1_STATIC_ASSERT(sizeof(RenderObjectEntity) == 0xBC, render_object_entity_size);
 
 void Render_SetObjectAnim(RenderObjectEntity *object, RenderObjectEntity *source,

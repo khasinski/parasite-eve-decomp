@@ -291,6 +291,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, statusFlags2) == 0xCC,
                   combatant_status_flags2_offset);
 PE1_STATIC_ASSERT(sizeof(Combatant) == 0xD8, combatant_partial_size);
 PE1_STATIC_ASSERT(sizeof(BattleAction) == 0x18, battle_action_partial_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleAction, turnWord) == 0x10,
+                  battle_action_turn_word_offset);
 PE1_STATIC_ASSERT(sizeof(BattleAttributes) == 0x08, battle_attributes_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleAttributes, effectFlags) == 0x04,
                   battle_attributes_effect_flags_offset);
@@ -336,6 +338,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, collisionFace) == 0x1A4,
                   battle_entity_collision_face_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, posZ) == 0x30,
                   battle_entity_pos_z_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, facingAngle) == 0x3A,
+                  battle_entity_facing_angle_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, motionX) == 0x68,
                   battle_entity_motion_x_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, motionZ) == 0x70,
@@ -350,6 +354,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject) == 0x1B4,
                   battle_entity_render_object_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject.target_x) == 0x268,
                   battle_entity_target_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject.target_z) == 0x26C,
+                  battle_entity_target_z_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, allocationBlock) == 0x278,
                   battle_entity_allocation_block_offset);
 PE1_STATIC_ASSERT(sizeof(BattleEntity) == 0x27C, battle_entity_size);

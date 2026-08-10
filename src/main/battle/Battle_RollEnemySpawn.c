@@ -1,9 +1,17 @@
 #include "common.h"
+#include "pe1/battle.h"
 extern void *g_ActiveActor;
 
 int rand(void);
 int Battle_GetAgilityBonus(void);
 void Battle_SetupEntityTarget(void *arg0);
+
+#define COMBATANT_FIELD(base, type, member) \
+    (*(type *)((char *)(base) + PE1_OFFSETOF(Combatant, member)))
+#define ENEMY_FIELD(base, type, member) \
+    (*(type *)((char *)(base) + PE1_OFFSETOF(EnemyCombatant, member)))
+#define ENTITY_FIELD(base, type, member) \
+    (*(type *)((char *)(base) + PE1_OFFSETOF(BattleEntity, member)))
 
 void Battle_RollEnemySpawn(void *arg0)
 {
@@ -13,12 +21,13 @@ void Battle_RollEnemySpawn(void *arg0)
     register int roll asm("$2");
     register int scaled asm("$3");
 
-    ctx = *(void **)arg0;
-    if (*(int *)((char *)ctx + 0x10) <= 0) {
+    ctx = ENTITY_FIELD(arg0, void *, core);
+    if (ENEMY_FIELD(ctx, int, hpAlive) <= 0) {
         return;
     }
 
-    diff = (s8)(*(unsigned char *)((char *)g_ActiveActor + 4) - *(unsigned char *)((char *)ctx + 4));
+    diff = (s8)(COMBATANT_FIELD(g_ActiveActor, u8, field04.bytes.rank) -
+                ENEMY_FIELD(ctx, u8, field04.bytes.rank));
     if (diff > 0) {
         threshold = Battle_GetAgilityBonus();
         roll = rand() % 100;
@@ -43,3 +52,7 @@ void Battle_RollEnemySpawn(void *arg0)
         Battle_SetupEntityTarget(arg0);
     }
 }
+
+#undef ENTITY_FIELD
+#undef ENEMY_FIELD
+#undef COMBATANT_FIELD
