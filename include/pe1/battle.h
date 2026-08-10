@@ -9,10 +9,11 @@
  * BIOS (DuckStation GDB) by fighting the first Carnegie Hall encounter and
  * cross-checking enemy stats against the wiki (enemy max HP read as 40).
  *
- * These typedefs are DOCUMENTATION for the PC port: the byte-matching build
- * still accesses these objects through M2C_FIELD()/raw offsets, so nothing here
- * is compiled into main.exe (no .c includes this header). Offsets are verified
- * against the cited accessors; fields marked TENTATIVE need more confirmation.
+ * These typedefs are the shared ABI vocabulary for the byte-matching build.
+ * Direct member access is preferred where it preserves code generation; older
+ * compiler-sensitive functions derive their accesses from PE1_OFFSETOF so the
+ * layout still has one executable source of truth. Fields marked TENTATIVE need
+ * more confirmation.
  */
 
 /* ============================================================================
@@ -272,6 +273,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, field04) == 0x04,
                   combatant_field04_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, curHP) == 0x0C,
                   combatant_cur_hp_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, actionMode12) == 0x12,
+                  combatant_action_mode_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, atbStep) == 0x2C,
                   combatant_atb_step_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, knockbackFrames) == 0x48,
@@ -335,6 +338,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, posZ) == 0x30,
                   battle_entity_pos_z_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, motionX) == 0x68,
                   battle_entity_motion_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, motionZ) == 0x70,
+                  battle_entity_motion_z_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, entityFlags) == 0x98,
+                  battle_entity_flags_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject.script_param97) == 0x24B,
                   battle_entity_script_param_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject.flags_9C) == 0x250,

@@ -1,12 +1,11 @@
 #include "common.h"
+#include "pe1/battle.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
 
-#include "../../../tools/m2c/m2c_macros.h"
-
-M2C_UNK Entity_SetActionMode();
+int Entity_SetActionMode();
 extern s8 D_8009CE30;
 extern struct { char _[16]; } g_PlayerEntity_o __asm__("g_PlayerEntity");
 #define g_PlayerEntity (*(s32 *)&g_PlayerEntity_o)
@@ -14,6 +13,8 @@ extern struct { char _[16]; } g_ActiveActor_call_o __asm__("g_ActiveActor");
 extern struct { char _[16]; } g_ActiveActor_flags_o __asm__("g_ActiveActor");
 #define g_ActiveActor_call (*(void **)&g_ActiveActor_call_o)
 #define g_ActiveActor_flags (*(void **)&g_ActiveActor_flags_o)
+#define COMBATANT_FIELD(ptr, type, member) \
+    (*(type *)((u8 *)(ptr) + PE1_OFFSETOF(Combatant, member)))
 extern s16 D_8009D298;
 extern struct { char _[16]; } D_800B0158_o __asm__("D_800B0158");
 #define D_800B0158 (*(u8 *)&D_800B0158_o)
@@ -67,10 +68,11 @@ extern struct { char _[16]; } D_800B01BA_o __asm__("D_800B01BA");
 void Battle_InitEntityColors(void) {
     s32 flags;
 
-    Entity_SetActionMode(g_PlayerEntity, M2C_FIELD(g_ActiveActor_call, u8 *, 0x12));
-    flags = M2C_FIELD(g_ActiveActor_flags, s32 *, 0x4C);
+    Entity_SetActionMode(g_PlayerEntity,
+                         COMBATANT_FIELD(g_ActiveActor_call, u8, actionMode12));
+    flags = COMBATANT_FIELD(g_ActiveActor_flags, s32, stateFlags);
     D_8009CE30 = 0;
-    M2C_FIELD(g_ActiveActor_flags, s32 *, 0x4C) = flags & ~0x2000;
+    COMBATANT_FIELD(g_ActiveActor_flags, s32, stateFlags) = flags & ~0x2000;
     D_8009D298 = 0;
     D_800B0158 = 0xFF;
     D_800B0159 = 0x3D;
@@ -97,3 +99,5 @@ void Battle_InitEntityColors(void) {
     D_800B01B9 = 0x13;
     D_800B01BA = 1;
 }
+
+#undef COMBATANT_FIELD

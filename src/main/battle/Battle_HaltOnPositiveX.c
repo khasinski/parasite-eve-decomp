@@ -1,8 +1,15 @@
+#include "pe1/battle.h"
+
 extern char *g_ActiveActor;
 extern char *g_PlayerEntity;
 
 void Entity_SetActionMode(char *arg0, int arg1);
 void Battle_FlushScriptSounds(char *arg0);
+
+#define COMBATANT_FIELD(ptr, type, member) \
+    (*(type *)((ptr) + PE1_OFFSETOF(Combatant, member)))
+#define ENTITY_FIELD(ptr, type, member) \
+    (*(type *)((ptr) + PE1_OFFSETOF(BattleEntity, member)))
 
 void Battle_HaltOnPositiveX(void) {
     char *state;
@@ -12,20 +19,23 @@ void Battle_HaltOnPositiveX(void) {
     int flags;
 
     state = g_ActiveActor;
-    if (*(short *)(state + 0xC) > 0) {
+    if (COMBATANT_FIELD(state, s16, curHP) > 0) {
         actor = g_PlayerEntity;
-        *(int *)(actor + 0x68) = 0;
-        *(int *)(actor + 0x6C) = 0;
-        *(int *)(actor + 0x70) = 0;
+        ENTITY_FIELD(actor, int, motionX) = 0;
+        ENTITY_FIELD(actor, int, motionY) = 0;
+        ENTITY_FIELD(actor, int, motionZ) = 0;
         Entity_SetActionMode(actor, 0x12);
 
         state2 = g_ActiveActor;
         actor2 = g_PlayerEntity;
-        flags = *(int *)(state2 + 0x4C);
+        flags = COMBATANT_FIELD(state2, int, stateFlags);
         asm volatile("sb $0, 0xC0($gp)");
         flags |= 0x2000;
-        *(int *)(state2 + 0x4C) = flags;
-        *(int *)(actor2 + 0x98) &= ~0x100;
+        COMBATANT_FIELD(state2, int, stateFlags) = flags;
+        ENTITY_FIELD(actor2, int, entityFlags) &= ~0x100;
         Battle_FlushScriptSounds(actor2);
     }
 }
+
+#undef ENTITY_FIELD
+#undef COMBATANT_FIELD
