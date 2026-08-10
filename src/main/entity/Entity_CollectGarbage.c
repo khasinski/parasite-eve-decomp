@@ -1,22 +1,8 @@
 #include "common.h"
+#include "pe1/field_actor.h"
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
-typedef struct Entity Entity;
-
-struct Entity {
-    char pad0[4];
-    Entity *next;
-    Entity *prev;
-    char padC[0x8C];
-    int flags98;
-    char pad9C[0xF0];
-    Entity *parent18C;
-    char pad190[0x1C];
-    int field1AC;
-    char pad1B0[4];
-    char field1B4[0xC4];
-    int field278;
-};
+typedef FieldActor Entity;
 
 Entity *g_FieldActorListHead;
 Entity *g_EntityFreeListHead;
@@ -39,11 +25,11 @@ void Entity_CollectGarbage(void) {
     cur = g_FieldActorListHead;
     if (cur != 0) {
         do {
-            flags = cur->flags98;
-            parent = cur->parent18C;
-            cur->flags98 = flags & ~0x800000;
+            flags = cur->flags;
+            parent = cur->parent;
+            cur->flags = flags & ~0x800000;
 
-            if (((parent != 0) && (parent->flags98 & 0x10)) || (flags & 0x10)) {
+            if (((parent != 0) && (parent->flags & 0x10)) || (flags & 0x10)) {
                 Scene_FreeEntityTable(cur);
                 next = cur->next;
 
@@ -52,9 +38,9 @@ void Entity_CollectGarbage(void) {
                     g_FieldMoveLock &= ~0xD;
                 }
 
-                if (cur->field1AC != 0) {
-                    Entity_FreeAllocationBlock(cur->field278);
-                    Util_ReturnTrue(&cur->field1B4);
+                if (cur->allocation_active != 0) {
+                    Entity_FreeAllocationBlock(cur->allocation_block);
+                    Util_ReturnTrue(&cur->attachment);
                 }
 
                 if (cur->prev == 0) {

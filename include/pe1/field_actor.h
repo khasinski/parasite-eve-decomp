@@ -1,19 +1,25 @@
 #ifndef PE1_FIELD_ACTOR_H
 #define PE1_FIELD_ACTOR_H
 
+#include "common.h"
+
 typedef struct FieldActor {
     /* 0x000 */ unsigned char pad_000[0x04];
     /* 0x004 */ struct FieldActor *next;   /* entity list link (g_FieldActorListHead walks this) */
-    /* 0x008 */ unsigned char pad_008[0x04];
+    /* 0x008 */ struct FieldActor *prev;   /* previous entity list link */
     /* 0x00C */ unsigned char type_id;     /* matched against arg id in attachment lookup */
     /* 0x00D */ unsigned char sub_id;
     /* 0x00E */ unsigned char mode;
     /* 0x00F */ unsigned char action;
     /* 0x010 */ unsigned char pad_010[0x02];
     /* 0x012 */ unsigned short anim_frame_target; /* clamped target anim frame (Task_SetEntityAnimFrame) */
-    /* 0x014 */ unsigned char pad_014[0x02];
-    /* 0x016 */ unsigned short anim_frame;        /* current anim frame; wait until == target (Task_WaitAnimFrameMatch) */
-    /* 0x018 */ unsigned char pad_018[0x10];
+    /* 0x014 */ union {
+        int fixed;                                /* current animation position, 16.16 */
+        struct { unsigned short fraction; unsigned short integer; } parts;
+    } anim;
+    /* 0x018 */ int anim_prev;                    /* previous animation position, 16.16 */
+    /* 0x01C */ int anim_step;                    /* signed animation increment, 16.16 */
+    /* 0x020 */ unsigned char pad_020[0x08];
     /* 0x028 */ int pos_x;
     /* 0x02C */ int pos_y;
     /* 0x030 */ int pos_z;
@@ -47,18 +53,52 @@ typedef struct FieldActor {
     /* 0x090 */ int gravity_z;
     /* 0x094 */ unsigned char pad_094[0x04];
     /* 0x098 */ unsigned int flags;
-    /* 0x09C */ int field_9c;                             /* script jump base (Task_JumpIfZero / Task_JumpToEntityOffset) */
+    /* 0x09C */ int script_base;                          /* script jump base (Task_JumpIfZero / Task_JumpToEntityOffset) */
     /* 0x0A0 */ struct FieldActorNode *task_node_lists[3]; /* 3 task-node list heads (Entity_MarkNodeFree) */
     /* 0x0AC */ unsigned char pad_0AC[0xE0];
     /* 0x18C */ struct FieldActor *parent; /* parent actor; child copies its pos/rot when flags & 0x400000 */
     /* 0x190 */ unsigned char pad_190[0x14];
     /* 0x1A4 */ int field_1a4;          /* rolled back from field_1a8 alongside pos */
     /* 0x1A8 */ int field_1a8;
-    /* 0x1AC */ unsigned char pad_1AC[0x08];
+    /* 0x1AC */ int allocation_active; /* nonzero when allocation_block must be freed with the actor */
+    /* 0x1B0 */ void *action_data;      /* current animation/action record */
     /* 0x1B4 */ unsigned char attachment[0x5C]; /* render attachment block copied by Entity_CopyAttachmentData */
     /* 0x210 */ short descriptor_value_a;
     /* 0x212 */ short descriptor_value_b;
+    /* 0x214 */ unsigned char pad_214[0x10];
+    /* 0x224 */ short render_scale;      /* doubled before writing render attachment scale */
+    /* 0x226 */ unsigned char pad_226[0x12];
+    /* 0x238 */ void *definition;
+    /* 0x23C */ unsigned char pad_23C[0x0F];
+    /* 0x24B */ unsigned char script_param_24b;
+    /* 0x24C */ unsigned char script_param_24c;
+    /* 0x24D */ unsigned char script_param_24d;
+    /* 0x24E */ short script_value_24e;
+    /* 0x250 */ unsigned short render_flags;
+    /* 0x252 */ unsigned char field_252;
+    /* 0x253 */ unsigned char pad_253[0x15];
+    /* 0x268 */ short target_x;
+    /* 0x26A */ short target_y;
+    /* 0x26C */ short target_z;
+    /* 0x26E */ unsigned char pad_26E[0x0A];
+    /* 0x278 */ int allocation_block;
 } FieldActor;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, prev) == 0x08,
+                  field_actor_prev_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, anim) == 0x14,
+                  field_actor_anim_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, script_base) == 0x9C,
+                  field_actor_script_base_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, allocation_active) == 0x1AC,
+                  field_actor_allocation_active_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_scale) == 0x224,
+                  field_actor_render_scale_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_flags) == 0x250,
+                  field_actor_render_flags_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, allocation_block) == 0x278,
+                  field_actor_allocation_block_offset);
+PE1_STATIC_ASSERT(sizeof(FieldActor) == 0x27C, field_actor_size);
 
 typedef struct FieldActorState {
     /* 0x00 */ unsigned char pad_00[0x08];
@@ -87,7 +127,10 @@ typedef struct FieldActorState {
     /* 0x60 */ unsigned char coord_desc[0x08];
     /* 0x68 */ unsigned char pad_68[0x04];
     /* 0x6C */ void *substate;
+    /* 0x70 */ unsigned char pad_70[0x68]; /* battle view maps additional command/status fields through 0xD7 */
 } FieldActorState;
+
+PE1_STATIC_ASSERT(sizeof(FieldActorState) == 0xD8, field_actor_state_size);
 
 /* Scene movement target record; shared by the E02/E03/E06...E27 overlays. */
 typedef struct FieldMoveTarget {

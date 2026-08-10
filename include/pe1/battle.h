@@ -2,6 +2,7 @@
 #define PE1_BATTLE_H
 
 #include "common.h"
+#include "pe1/field_actor.h"
 
 /* Battle subsystem (ATB combat). Layout reverse-engineered from the battle code
  * (src/main/battle, src/main/main/Battle_) and validated live on real
@@ -176,12 +177,14 @@ typedef struct BattleEntity {
 /* 0x198 */ u8   pad_198[0x0C];
 /* 0x1A4 */ void *collisionFace;
 /* 0x1A8 */ void *collisionFaceMirror;
-/* 0x1AC */ u8   pad_1AC[4];
+/* 0x1AC */ s32  allocationActive; /* nonzero when allocationBlock must be released */
 /* 0x1B0 */ void *actionData;    /* current animation/action record */
 /* 0x1B4 */ u8   renderObject[0x5C]; /* GPU render/color sub-block; passed to Render_FadeEntityColor / Battle_DrawStatusOverlay (entity+0x1B4). See actor_model.h */
 /* 0x210 */ s16  projX;         /* projected screen X, source for panel x (Battle_PhaseHitReaction.c:188) */
 /* 0x212 */ s16  projY;         /* projected screen Y, source for panel y (Battle_PhaseHitReaction.c:189) */
-/* 0x214 */ u8   pad_214[0x24];
+/* 0x214 */ u8   pad_214[0x10];
+/* 0x224 */ s16  renderScale;
+/* 0x226 */ u8   pad_226[0x12];
 /* 0x238 */ void *defPtr;       /* ptr to a definition record; ->+0x18 baseline (Battle_StartEncounter.c:125) TENTATIVE */
 /* 0x23C */ u8   pad_23C[0x0F];
 /* 0x24B */ u8   scriptParam24B; /* task-supplied byte parameter (Task_SetBattleEntryCoords.c) */
@@ -194,7 +197,8 @@ typedef struct BattleEntity {
 /* 0x268 */ s16  targetX;       /* world coord for target geometry & effect spawn (Battle_BuildTargetList.c:54; Battle_StartEnemyAttackEffect.c:35) */
 /* 0x26A */ s16  targetY;
 /* 0x26C */ s16  targetZ;
-                                /* ... continues; rest unmapped */
+/* 0x26E */ u8   pad_26E[0x0A];
+/* 0x278 */ s32  allocationBlock;
 } BattleEntity;
 
 /* ----------------------------------------------------------------------------
@@ -226,6 +230,16 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, statusFlags2) == 0xCC,
                   combatant_status_flags2_offset);
 PE1_STATIC_ASSERT(sizeof(Combatant) == 0xD8, combatant_partial_size);
 PE1_STATIC_ASSERT(sizeof(BattleAction) == 0x18, battle_action_partial_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, curHP) ==
+                  PE1_OFFSETOF(FieldActorState, amount), state_views_hp_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, atbStep) ==
+                  PE1_OFFSETOF(FieldActorState, progress_step), state_views_step_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, stateFlags) ==
+                  PE1_OFFSETOF(FieldActorState, flags), state_views_flags_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, ptr6C) ==
+                  PE1_OFFSETOF(FieldActorState, substate), state_views_substate_match);
+PE1_STATIC_ASSERT(sizeof(Combatant) == sizeof(FieldActorState),
+                  state_views_size_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, posX) == 0x28,
                   battle_entity_pos_x_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, animFrame) == 0x14,
@@ -250,8 +264,31 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject) == 0x1B4,
                   battle_entity_render_object_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, targetX) == 0x268,
                   battle_entity_target_x_offset);
-PE1_STATIC_ASSERT(sizeof(BattleEntity) == 0x270, battle_entity_partial_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, allocationBlock) == 0x278,
+                  battle_entity_allocation_block_offset);
+PE1_STATIC_ASSERT(sizeof(BattleEntity) == 0x27C, battle_entity_size);
 PE1_STATIC_ASSERT(sizeof(BattleTarget) == 0x0C, battle_target_size);
+
+/* BattleEntity and FieldActor are two naming views of the same runtime object.
+ * Keep their independently useful vocabularies, but make layout drift a build
+ * error until the remaining call sites can be migrated to one typedef. */
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, next) ==
+                  PE1_OFFSETOF(FieldActor, next), entity_views_next_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, animFrame) ==
+                  PE1_OFFSETOF(FieldActor, anim),
+                  entity_views_anim_frame_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, posX) ==
+                  PE1_OFFSETOF(FieldActor, pos_x), entity_views_pos_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, entityFlags) ==
+                  PE1_OFFSETOF(FieldActor, flags), entity_views_flags_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, parent) ==
+                  PE1_OFFSETOF(FieldActor, parent), entity_views_parent_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject) ==
+                  PE1_OFFSETOF(FieldActor, attachment), entity_views_render_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, allocationBlock) ==
+                  PE1_OFFSETOF(FieldActor, allocation_block), entity_views_tail_match);
+PE1_STATIC_ASSERT(sizeof(BattleEntity) == sizeof(FieldActor),
+                  entity_views_size_match);
 
 int Battle_RollEscapeChance(void);
 

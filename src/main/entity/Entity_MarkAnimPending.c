@@ -1,39 +1,23 @@
 #include "common.h"
+#include "pe1/field_actor.h"
+#include "pe1/task_node.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-typedef struct Entity Entity;
-typedef struct Node Node;
-
-struct Node {
-    int current;
-    int next_value;
-    u16 flags;
-    char padA[6];
-    int active;
-    char pad14[0x10];
-    Node *next;
-};
-
-struct Entity {
-    char pad0[0xA0];
-    Node *lists[3];
-};
-
-extern Entity *g_CurrentEntity[];
-extern Node *g_TaskNodePool;
+extern FieldActor *g_CurrentEntity[];
+extern TaskNode *g_TaskNodePool;
 
 int Entity_MarkAnimPending(void) {
     unsigned int i;
-    Entity *entity;
-    Node *node;
-    Node *skip;
+    FieldActor *entity;
+    TaskNode *node;
+    TaskNode *skip;
 
     i = 0;
     skip = g_TaskNodePool;
     entity = g_CurrentEntity[0];
     do {
-        node = entity->lists[0];
+        node = (TaskNode *)entity->task_node_lists[0];
         if (node != 0) {
             do {
                 if (node != skip) {
@@ -43,7 +27,7 @@ int Entity_MarkAnimPending(void) {
             } while (node != 0);
         }
         i++;
-        entity = (Entity *)((char *)entity + 4);
+        entity = (FieldActor *)((char *)entity + 4);
     } while (i < 3U);
     return 1;
 }

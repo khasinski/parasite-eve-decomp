@@ -1,35 +1,20 @@
 #include "common.h"
-typedef struct Entity Entity;
-typedef struct Node Node;
+#include "pe1/field_actor.h"
+#include "pe1/task_node.h"
 
-struct Node {
-    int current;
-    int next_value;
-    u16 flags;
-    char padA[6];
-    int active;
-    char pad14[0x10];
-    Node *next;
-};
-
-struct Entity {
-    char pad0[0xA0];
-    Node *lists[3];
-};
-
-extern Entity *g_CurrentEntity[];
+extern FieldActor *g_CurrentEntity[];
 
 int Entity_AdvancePendingAnim(void) {
     unsigned int i;
-    Entity *entity;
-    Node *node;
+    FieldActor *entity;
+    TaskNode *node;
     int active;
 
     i = 0;
     active = 1;
     entity = g_CurrentEntity[0];
     do {
-        node = entity->lists[0];
+        node = (TaskNode *)entity->task_node_lists[0];
         if (node != 0) {
             do {
                 if (node->flags & 0x40) {
@@ -44,7 +29,7 @@ int Entity_AdvancePendingAnim(void) {
             } while (node != 0);
         }
         i++;
-        entity = (Entity *)((char *)entity + 4);
+        entity = (FieldActor *)((char *)entity + 4);
     } while (i < 3U);
     return 1;
 }

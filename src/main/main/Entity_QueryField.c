@@ -72,7 +72,7 @@ case1:
     *args[3] = node->flags;
     goto done;
 case2:
-    *args[3] = (s16)node->anim_frame;
+    *args[3] = (s16)node->anim.parts.integer;
     goto done;
 case3:
     *args[3] = node->action;

@@ -1,13 +1,8 @@
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
-typedef struct Entity Entity;
+#include "pe1/field_actor.h"
 
-struct Entity {
-    char pad0[0x9C];
-    int field9C;
-};
-
-extern Entity *g_CurrentEntity[];
+extern FieldActor *g_CurrentEntity[];
 int g_SceneDataTable0;
 
 int Task_CondBranch(int **arg0) {
@@ -19,7 +14,7 @@ int Task_CondBranch(int **arg0) {
     b = arg0[1];
     if (*a != *b) {
         c = arg0[2];
-        g_SceneDataTable0 = g_CurrentEntity[0]->field9C + (*c * 2);
+        g_SceneDataTable0 = g_CurrentEntity[0]->script_base + (*c * 2);
     }
     return 1;
 }

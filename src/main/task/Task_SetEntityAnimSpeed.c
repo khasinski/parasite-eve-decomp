@@ -1,24 +1,17 @@
 #include "common.h"
-typedef struct Entity Entity;
+#include "pe1/field_actor.h"
 
-struct Entity {
-    char pad0[0xF];
-    u8 fieldF;
-    char pad10[4];
-    int field14;
-};
-
-extern Entity *g_CurrentEntity[];
+extern FieldActor *g_CurrentEntity[];
 
 int Task_SetEntityAnimSpeed(u16 **arg0) {
-    Entity *entity;
+    FieldActor *entity;
     unsigned int value;
 
     entity = g_CurrentEntity[0];
     value = **arg0;
-    if (entity->fieldF < value) {
-        value = entity->fieldF;
+    if (entity->action < value) {
+        value = entity->action;
     }
-    entity->field14 = value << 16;
+    entity->anim.fixed = value << 16;
     return 1;
 }

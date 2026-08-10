@@ -32,13 +32,13 @@ int Task_SpawnChildNode(int **args) {
         entry->prev = 0;
         entry->next = 0;
         entry->field_0c = 0;
-        entry->field_04 = 0;
-        entry->field_10 = 1;
+        entry->next_value = 0;
+        entry->active = 1;
         entry->seq = seq;
         entry->flags = 0;
         value <<= 1;
         value += base;
-        entry->ptr = value;
+        entry->current = value;
         {
             TaskNode *head = (TaskNode *)state[0xA8 / 4];
             seq++;
@@ -74,12 +74,12 @@ int Task_SpawnChildNode(int **args) {
             entry->prev = (TaskNode *)zero;
             entry->next = (TaskNode *)zero;
         }
-        entry->ptr = value;
+        entry->current = value;
         {
             u16 seq = g_TaskNodeSeqCounter;
             entry->field_0c = 0;
-            entry->field_04 = 0;
-            entry->field_10 = 1;
+            entry->next_value = 0;
+            entry->active = 1;
             entry->flags = 0;
             g_TaskNodeSeqCounter = seq + 1;
             entry->seq = seq;

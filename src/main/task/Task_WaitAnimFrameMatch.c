@@ -17,7 +17,7 @@ int Task_WaitAnimFrameMatch(void) {
     entity = g_CurrentEntity[0];
     state[4] = 1;
     ret = 0;
-    if (entity->anim_frame == entity->anim_frame_target) {
+    if (entity->anim.parts.integer == entity->anim_frame_target) {
         return ret;
     }
 

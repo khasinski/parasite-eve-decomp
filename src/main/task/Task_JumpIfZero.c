@@ -8,7 +8,7 @@ extern int g_SceneDataTable0;
 
 int Task_JumpIfZero(int **arg0) {
     if (*arg0[0] == 0) {
-        g_SceneDataTable0 = g_CurrentEntity[0]->field_9c + (*arg0[1] * 2);
+        g_SceneDataTable0 = g_CurrentEntity[0]->script_base + (*arg0[1] * 2);
     }
     return 1;
 }

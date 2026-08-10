@@ -5,12 +5,12 @@
  * pointer (g_TaskNodePool @ 0x8009D300), and the per-entity bucket lists
  * (FieldActor.task_node_lists @ 0xA0). Doubly-linked via next/prev. Size 0x2C. */
 typedef struct TaskNode {
-    /* 0x00 */ int ptr;
-    /* 0x04 */ int field_04;
+    /* 0x00 */ int current;
+    /* 0x04 */ int next_value;
     /* 0x08 */ unsigned short flags;   /* |= 0x10 marks node free */
     /* 0x0A */ unsigned short seq;      /* sequence/id, matched in Entity_FindNodeById */
     /* 0x0C */ int field_0c;
-    /* 0x10 */ int field_10;            /* set 1 on alloc */
+    /* 0x10 */ int active;              /* set 1 on alloc/yield */
     /* 0x14 */ int field_14;
     /* 0x18 */ int field_18;
     /* 0x1C */ int field_1c;

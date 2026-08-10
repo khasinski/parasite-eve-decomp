@@ -2,22 +2,14 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --expand-div */
 
-typedef struct TaskAnimEntity {
-    unsigned char pad_00[0x0F];
-    u8 anim_frame_max;
-    unsigned char pad_10[0x02];
-    u16 anim_frame_target;
-    int anim_pos;
-    unsigned char pad_18[0x04];
-    int anim_step;
-} TaskAnimEntity;
+#include "pe1/field_actor.h"
 
-extern TaskAnimEntity *g_CurrentEntity[];
+extern FieldActor *g_CurrentEntity[];
 extern int g_SceneDataTable0;
 extern int *g_TaskNodePool;
 
 int Task_WaitAnimRange(void) {
-    TaskAnimEntity *entity;
+    FieldActor *entity;
     int *node;
     int current;
     int target;
@@ -29,7 +21,7 @@ int Task_WaitAnimRange(void) {
 
     entity = g_CurrentEntity[0];
     node = g_TaskNodePool;
-    current = entity->anim_pos;
+    current = entity->anim.fixed;
     asm volatile("" : "=r"(current) : "0"(current));
     target = entity->anim_frame_target;
     node[4] = 1;
@@ -47,7 +39,7 @@ int Task_WaitAnimRange(void) {
         return 0;
     }
 
-    max_frame = g_CurrentEntity[0]->anim_frame_max;
+    max_frame = g_CurrentEntity[0]->action;
     frame = next >> 16;
     if (max_frame < frame) {
         divisor = max_frame + 1;
