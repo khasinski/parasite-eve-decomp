@@ -6,7 +6,7 @@
     "byte_pointer_arithmetic": 319,
     "declaration_overrides": 0,
     "directives": 3,
-    "externs_in_c": 3557,
+    "externs_in_c": 3553,
     "field_macros": 761,
     "gotos": 392,
     "include_asm": 0,
@@ -15,7 +15,7 @@
     "postpass": 0,
     "raw_offset_dereferences": 1547,
     "statement_expressions": 3,
-    "unknown_fields": 159
+    "unknown_fields": 151
   },
   "overlays": {
     "aliases": 0,

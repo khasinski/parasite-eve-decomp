@@ -1,29 +1,28 @@
 #include "common.h"
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 void BoundsCheck_AssertStub(int arg0);
-void *MenuWidget_LookupGridDescriptor(void);
 void Menu_StepScrollCursor(void);
 void Draw_SwapPrimBuffers(void *node);
 void MenuWidget_ApplyColumnLayout(void *node);
 
-extern void *g_MenuWidgetActiveListHead;
-extern void *g_MenuWidgetFreeListHead;
-
 #define W(base, off) (*(s32 *)((char *)(base) + (off)))
+#define DESCRIPTOR_FIELD(base, type, member) \
+    (*(type *)((char *)(base) + PE1_OFFSETOF(MenuWidgetGridDescriptor, member)))
 
 void *MenuWidget_CreateNode(s32 arg0, void *arg1, void *arg2) {
     s32 mode = arg0;
     register void *parent_arg asm("$20") = arg1;
     void *parent = arg2;
-    void *desc;
+    MenuWidgetGridDescriptor *desc;
     void *node;
     void *next;
     void *old_head;
     int tmp;
 
-    desc = MenuWidget_LookupGridDescriptor();
+    desc = MenuWidget_LookupGridDescriptor(mode);
     if (desc == 0) {
         BoundsCheck_AssertStub(0xE);
     }
@@ -94,23 +93,23 @@ void *MenuWidget_CreateNode(s32 arg0, void *arg1, void *arg2) {
         int t;
         int u;
 
-        t = W(desc, 0);
+        t = DESCRIPTOR_FIELD(desc, s32, x);
         W(node, 0x18) = t;
-        u = W(desc, 4);
+        u = DESCRIPTOR_FIELD(desc, s32, y);
         t = (s32)Menu_StepScrollCursor;
         W(node, 0x2C) = t;
         W(node, 0x1C) = u;
-        t = W(desc, 8);
+        t = DESCRIPTOR_FIELD(desc, s32, gridWidth);
         W(node, 0x54) = t;
         W(node, 0x34) = t;
-        t = W(desc, 0xC);
+        t = DESCRIPTOR_FIELD(desc, s32, visibleRows);
         W(node, 0x6C) = t;
         W(node, 0x38) = t;
-        t = W(desc, 0x10);
+        t = DESCRIPTOR_FIELD(desc, s32, yLimit);
         W(node, 0x58) = t;
-        t = W(desc, 0x14);
+        t = DESCRIPTOR_FIELD(desc, s32, initialDrawState);
         W(node, 0x3C) = t;
-        u = W(desc, 0x18);
+        u = DESCRIPTOR_FIELD(desc, s32, initialDisabled);
         tmp = u;
     }
     W(node, 0x48) = 0;
@@ -120,7 +119,7 @@ void *MenuWidget_CreateNode(s32 arg0, void *arg1, void *arg2) {
     W(node, 0x5C) = 0;
     W(node, 0x60) = 0;
     W(node, 0x40) = tmp;
-    tmp = W(desc, 0x1C);
+    tmp = DESCRIPTOR_FIELD(desc, s32, layoutFlags);
     W(node, 0x7C) = 0;
     W(node, 0x78) = 0;
     W(node, 0x84) = 0;
@@ -135,3 +134,5 @@ void *MenuWidget_CreateNode(s32 arg0, void *arg1, void *arg2) {
     MenuWidget_ApplyColumnLayout(node);
     return node;
 }
+
+#undef DESCRIPTOR_FIELD

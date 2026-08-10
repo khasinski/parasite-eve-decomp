@@ -21,7 +21,7 @@ void Menu_ConfigureScreen(void) {
     node = MenuWidget_FindByModeAndSelectedBase(1, 6);
     node->grid_width = 0x80;
     node = MenuWidget_FindByModeAndSelectedBase(2, 6);
-    node->field_3C = 0x3E;
+    node->draw_state = 0x3E;
 
     MenuWidget_SetCursorY(MenuWidget_FindByModeAndSelectedBase(1, 7));
 

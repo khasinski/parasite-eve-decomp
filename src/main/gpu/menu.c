@@ -1,24 +1,26 @@
 #include "common.h"
-extern char D_80092478[];
+#include "pe1/menu_widget.h"
 
-extern char D_80092888[];
+extern MenuWidgetSimpleDescriptor D_80092478[];
+
+extern MenuWidgetGridDescriptor D_80092888[];
 
 extern int D_800A8030;
 
 extern int g_StrLookupTableOffset;
 
-void *MenuWidget_LookupSimpleDescriptor(unsigned int index) {
+MenuWidgetSimpleDescriptor *MenuWidget_LookupSimpleDescriptor(unsigned int index) {
     if (index >= 0x41) {
         return 0;
     }
-    return D_80092478 + index * 0x10;
+    return &D_80092478[index];
 }
 
-void *MenuWidget_LookupGridDescriptor(unsigned int index) {
+MenuWidgetGridDescriptor *MenuWidget_LookupGridDescriptor(unsigned int index) {
     if (index >= 0x41) {
         return 0;
     }
-    return D_80092888 + index * 0x20;
+    return &D_80092888[index];
 }
 
 void *Draw_LookupGlyphDescriptor(int index) {

@@ -25,7 +25,7 @@ void MenuWidget_UpdateAndDraw(void) {
     if (node != 0) {
         do {
             if (node->mode == 1) {
-                node->field_3C = 0;
+                node->draw_state = 0;
                 any_flag |= node->cursor_x;
             }
             node = node->next;
@@ -36,7 +36,7 @@ void MenuWidget_UpdateAndDraw(void) {
     if (node != 0) {
         do {
             if (node->mode == 1) {
-                node->field_3C = order_flag;
+                node->draw_state = order_flag;
                 order_flag = 1;
             }
             node = node->parent;
@@ -50,19 +50,19 @@ void MenuWidget_UpdateAndDraw(void) {
             int extra;
 
             if (node->mode == 1 && node->cursor_y == 0) {
-                if (node->field_40 != 0) {
+                if (node->disabled != 0) {
                     enabled = 0;
                 } else {
-                    enabled = node->field_3C & 1;
+                    enabled = node->draw_state & 1;
                 }
-                node->field_3C = enabled;
+                node->draw_state = enabled;
 
                 extra = 0;
                 if (any_flag != 0) {
                     extra = (unsigned int)node->cursor_x < 1;
                 }
 
-                node->field_3C = enabled | extra;
+                node->draw_state = enabled | extra;
                 g_DrawTextDimmed = enabled | extra;
                 g_TextCursorX = 0;
                 g_TextCursorY = 0;
@@ -70,7 +70,7 @@ void MenuWidget_UpdateAndDraw(void) {
                 Draw_PushPrimToList(node);
                 g_TextCursorX = node->x;
                 g_TextCursorY = node->y;
-                g_DrawTextDimmed = node->field_3C;
+                g_DrawTextDimmed = node->draw_state;
                 Draw_AllocColorGradient(node->grid_width, node->visible_rows, node->target_x, node->cursor_x);
             }
             node = node->next;

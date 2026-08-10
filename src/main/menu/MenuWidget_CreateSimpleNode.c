@@ -1,29 +1,28 @@
 #include "common.h"
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #include "include_asm.h"
 
 void BoundsCheck_AssertStub(int arg0);
-void *MenuWidget_LookupSimpleDescriptor(void);
 void *MenuWidget_FindLastMode1WithCursorX(void);
 
-extern void *g_MenuWidgetActiveListHead;
-extern void *g_MenuWidgetFreeListHead;
-
 #define W(base, off) (*(s32 *)((char *)(base) + (off)))
+#define DESCRIPTOR_FIELD(base, type, member) \
+    (*(type *)((char *)(base) + PE1_OFFSETOF(MenuWidgetSimpleDescriptor, member)))
 
 void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
     s32 mode = arg0;
     register void *parent_arg asm("$19") = arg1;
     void *parent = arg2;
     register s32 arg_flag asm("$21") = arg3;
-    void *desc;
+    MenuWidgetSimpleDescriptor *desc;
     void *node;
     void *next;
     void *old_head;
 
-    desc = MenuWidget_LookupSimpleDescriptor();
+    desc = MenuWidget_LookupSimpleDescriptor(mode);
     if (desc == 0) {
         BoundsCheck_AssertStub(0xC);
     }
@@ -107,23 +106,23 @@ void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
 
     W(node, 0x20) = 1;
     W(node, 0x24) = mode;
-    if (W(desc, 0) != 0) {
-        W(node, 0x18) = W(desc, 0);
-        W(node, 0x1C) = W(desc, 4);
+    if (DESCRIPTOR_FIELD(desc, s32, x) != 0) {
+        W(node, 0x18) = DESCRIPTOR_FIELD(desc, s32, x);
+        W(node, 0x1C) = DESCRIPTOR_FIELD(desc, s32, y);
     } else {
         register int x_base asm("$2");
         int width;
         int half_h;
         int flag;
 
-        width = W(desc, 8);
+        width = DESCRIPTOR_FIELD(desc, s32, width);
         x_base = 0xA0;
         width >>= 1;
         x_base -= width;
         W(node, 0x18) = x_base;
 
-        x_base = W(desc, 0xC);
-        flag = W(desc, 4);
+        x_base = DESCRIPTOR_FIELD(desc, s32, height);
+        flag = DESCRIPTOR_FIELD(desc, s32, y);
         half_h = x_base >> 1;
         if (flag != 0) {
             x_base = 0x50;
@@ -134,8 +133,8 @@ void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
         W(node, 0x1C) = x_base;
     }
 
-    W(node, 0x34) = W(desc, 8);
-    W(node, 0x38) = W(desc, 0xC);
+    W(node, 0x34) = DESCRIPTOR_FIELD(desc, s32, width);
+    W(node, 0x38) = DESCRIPTOR_FIELD(desc, s32, height);
     W(node, 0x3C) = 0;
     W(node, 0x40) = 0;
     W(node, 0x44) = arg_flag;
@@ -143,3 +142,5 @@ void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
     W(node, 0x4C) = 0;
     return node;
 }
+
+#undef DESCRIPTOR_FIELD

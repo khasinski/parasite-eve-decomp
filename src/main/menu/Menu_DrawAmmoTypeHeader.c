@@ -1,27 +1,9 @@
 #include "common.h"
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-typedef struct MenuWidgetNode {
-    u8 pad0[0x1C];
-    s32 y;
-    u8 pad20[0x18];
-    s32 selected_index;
-    u8 pad3C[0x1C];
-    s32 page_count;
-    s32 page_start;
-    s32 scroll_offset;
-    u8 pad64[4];
-    s32 has_scroll;
-} MenuWidgetNode;
-
-typedef struct MenuWidgetDescriptor {
-    s32 pad0;
-    s32 y;
-} MenuWidgetDescriptor;
-
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
-MenuWidgetDescriptor *MenuWidget_LookupSimpleDescriptor(int index);
 void MenuWidget_OffsetPosition(MenuWidgetNode *node, int dx, int dy);
 void Draw_OffsetCursor(int x, int y);
 char *Str_LookupTable4(int index);
@@ -33,24 +15,24 @@ int Inv_GetAyaSlotLimit(void);
 
 void Menu_DrawAmmoTypeHeader(MenuWidgetNode *node) {
     MenuWidgetNode *list;
-    MenuWidgetDescriptor *desc;
+    MenuWidgetSimpleDescriptor *desc;
     int page_delta;
     int target_y;
 
     list = MenuWidget_FindByModeAndSelectedBase(2, 1);
     desc = MenuWidget_LookupSimpleDescriptor(1);
-    target_y = (list->selected_index << 4) + 4;
+    target_y = (list->visible_rows << 4) + 4;
     MenuWidget_OffsetPosition(node, 0, (desc->y + target_y) - node->y);
 
     if (list->has_scroll != 0) {
-        page_delta = (list->page_count - list->selected_index) - list->page_start;
+        page_delta = (list->y_limit - list->visible_rows) - list->scroll_y;
         switch (page_delta) {
         case 0:
-            MenuWidget_OffsetPosition(node, 0, list->scroll_offset - 0x10);
+            MenuWidget_OffsetPosition(node, 0, list->scroll_adjust - 0x10);
             break;
         case 1:
-            if (list->scroll_offset < 0) {
-                MenuWidget_OffsetPosition(node, 0, list->scroll_offset);
+            if (list->scroll_adjust < 0) {
+                MenuWidget_OffsetPosition(node, 0, list->scroll_adjust);
             }
             break;
         }
