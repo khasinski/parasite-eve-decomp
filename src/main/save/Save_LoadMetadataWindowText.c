@@ -1,9 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern unsigned char *g_SaveMetadataCursor;
-extern unsigned int g_SaveMetadataWindowLength;
-extern unsigned char *g_SaveMetadataSourceRecord;
+#include "pe1/save.h"
 
 unsigned char *Str_LookupTable4(unsigned int index);
 unsigned char *Str_LookupTable8(unsigned int index);
@@ -28,7 +26,7 @@ void Save_LoadMetadataWindowText(void) {
 
     dst = g_SaveMetadataCursor;
     if (g_SaveMetadataSourceRecord != 0) {
-        lookup = Str_LookupTable8(g_SaveMetadataSourceRecord[4] - 1);
+        lookup = Str_LookupTable8(g_SaveMetadataSourceRecord->itemId - 1);
         out = dst;
     } else {
         lookup = Str_LookupTable4(0x1E);

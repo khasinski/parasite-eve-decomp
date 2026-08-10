@@ -1,7 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern unsigned char *g_SaveMetadataCursor;
+#include "pe1/save.h"
 
 unsigned char *Save_GetMetadataCursor(void) {
     return g_SaveMetadataCursor;

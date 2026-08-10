@@ -29,6 +29,7 @@ extern ItemDataRecord D_800A1A00;
 extern ItemDataRecord g_InvItemSlotArray[128];
 
 ItemDataRecord *Inv_LookupActiveListData(int index);
+void Inv_ClearEquipFlagForKind(ItemDataRecord *record);
 
 PE1_STATIC_ASSERT(sizeof(ItemDataRecord) == 0x20, item_data_record_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(ItemDataRecord, itemId) == 0x04,

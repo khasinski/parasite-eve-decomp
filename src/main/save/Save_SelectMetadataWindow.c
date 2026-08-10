@@ -1,24 +1,19 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern int g_SaveMetadataWindowIndex;
-extern unsigned char *g_SaveMetadataCursor;
-extern unsigned int g_SaveMetadataWindowLength;
-extern void *g_SaveMetadataSourceRecord;
-extern unsigned char g_SaveRuntimeState[];
-extern unsigned char g_CursorRenderDataBlock[];
+#include "pe1/save.h"
 
-void Save_SelectMetadataWindow(void *record) {
+void Save_SelectMetadataWindow(ItemDataRecord *record) {
     unsigned char *cursor;
 
     g_SaveMetadataSourceRecord = record;
     if (record != 0) {
-        cursor = g_CursorRenderDataBlock;
-        if (((unsigned char *)record)[6] == 9) {
+        cursor = (u8 *)g_CursorRenderMetadataWindows;
+        if (record->kind == 9) {
             cursor += 0x10;
         }
     } else {
-        cursor = g_SaveRuntimeState;
+        cursor = (u8 *)g_SaveRuntimeMetadataWindows;
         if (g_SaveMetadataWindowIndex != 0) {
             cursor += 0x10;
         }

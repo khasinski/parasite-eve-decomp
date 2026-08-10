@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/save.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -6,11 +7,6 @@
 #include "../../../tools/m2c/m2c_macros.h"
 s32 MenuWidget_FindByModeAndSelectedBase();
 M2C_UNK MenuWidget_SetCurrentNode();
-s32 Save_GetMetadataWindowIndex();
-M2C_UNK Save_LoadMetadataWindowText();
-M2C_UNK Save_SelectMetadataWindow();
-M2C_UNK Inv_ClearEquipFlagForKind();
-s32 Inv_LookupActiveListData();
 void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
 extern M2C_UNK D_80092354[];
@@ -19,7 +15,6 @@ extern M2C_UNK D_80092380[];
 #define D_80092380 (D_80092380[0])
 extern M2C_UNK D_800923A0[];
 #define D_800923A0 (D_800923A0[0])
-extern s32 g_MenuRenameTargetRecord;
 extern s32 g_GameState[];
 #define g_GameState (g_GameState[0])
 extern M2C_UNK Menu_DrawSaveMetadataPreview[];
@@ -40,6 +35,7 @@ extern M2C_UNK Menu_DrawMemCardSlot3List[];
 void Menu_OpenRenameScreen(s32 arg0) {
     M2C_UNK *var_v1;
     s32 temp_v0_5;
+    ItemDataRecord *record;
     void *temp_v0;
     void *temp_v0_3;
     void *temp_v0_4;
@@ -78,9 +74,9 @@ void Menu_OpenRenameScreen(s32 arg0) {
     temp_v0_4 = MenuWidget_CreateSimpleNode(0x1A, 0, 0, 0);
     __asm__ volatile("");
     M2C_FIELD(temp_v0_4, M2C_UNK **, 0x30) = &Menu_DrawSaveMetadataPreview;
-    temp_v0_5 = Inv_LookupActiveListData(arg0);
-    g_MenuRenameTargetRecord = temp_v0_5;
-    if (temp_v0_5 == 0) {
+    record = Inv_LookupActiveListData(arg0);
+    g_MenuRenameTargetRecord = record;
+    if (record == 0) {
         M2C_FIELD(temp_v0_4, M2C_UNK **, 0x4C) = &D_800923A0;
     }
     Save_SelectMetadataWindow(g_MenuRenameTargetRecord);

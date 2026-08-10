@@ -1,6 +1,8 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
+#include "pe1/save.h"
+
 extern unsigned int g_AkaoPendingBgmVolumeFade;
 
 extern void Akao_Cmd_21(unsigned int arg0, int arg1);
@@ -28,7 +30,6 @@ void Queue_Init(void);
 void MemCard_ClearDelayedCallback(void);
 void BattleCmd_InitTableCursor(void);
 void Inv_BuildItemGridFromCategory(void);
-void Save_SelectMetadataWindow(int);
 void Save_InitMetadataState(void);
 void BattleCmd_LoadWeaponModifiers(void);
 void Menu_SaveBgInitFade(void);

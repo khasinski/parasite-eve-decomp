@@ -1,25 +1,21 @@
 #include "common.h"
+#include "pe1/save.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-M2C_UNK *Save_GetActiveMetadataBuffer();
-s32 Save_GetMetadataRemainingChars();
 M2C_UNK Sfx_CursorRenderData();
 M2C_UNK Draw_OffsetCursor();
 M2C_UNK Draw_AllocSprite();
 s32 Draw_MeasureTextWidth();
 M2C_UNK Draw_PrintRawText();
 M2C_UNK Draw_EmitWipeBarRect();
-extern void *g_MenuRenameTargetRecord;
-extern M2C_UNK g_CursorRenderDataBlock[];
-#define g_CursorRenderDataBlock (g_CursorRenderDataBlock[0])
 
 void Menu_DrawSaveMetadataPreview(void);
 
 void Menu_DrawSaveMetadataPreview(void) {
-    M2C_UNK *var_a0;
+    u8 *var_a0;
     s32 temp_v0;
     register s32 var_a0_2 asm("$4");
     s32 var_s0;
@@ -29,9 +25,9 @@ void Menu_DrawSaveMetadataPreview(void) {
     if (g_MenuRenameTargetRecord != NULL) {
         Draw_OffsetCursor(0x1C, 0xC);
         Sfx_CursorRenderData(g_MenuRenameTargetRecord);
-        var_a0 = &g_CursorRenderDataBlock;
-        if (M2C_FIELD(g_MenuRenameTargetRecord, u8 *, 6) == 9) {
-            var_a0 = (M2C_UNK *) ((u8 *) &g_CursorRenderDataBlock + 0x10);
+        var_a0 = (u8 *)g_CursorRenderMetadataWindows;
+        if (g_MenuRenameTargetRecord->kind == 9) {
+            var_a0 = g_CursorRenderMetadataWindows[1].text;
         }
         var_a0_2 = Draw_MeasureTextWidth(var_a0) + 0x14;
     } else {

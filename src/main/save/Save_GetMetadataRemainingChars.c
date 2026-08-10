@@ -1,8 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern unsigned int g_SaveMetadataWindowLength;
-extern unsigned char *g_SaveMetadataCursor;
+#include "pe1/save.h"
 
 unsigned int Save_GetMetadataRemainingChars(void) {
     unsigned int remaining = g_SaveMetadataWindowLength;

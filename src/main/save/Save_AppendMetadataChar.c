@@ -1,8 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern int g_SaveMetadataWindowLength;
-extern unsigned char *g_SaveMetadataCursor;
+#include "pe1/save.h"
 
 void Save_AppendMetadataChar(unsigned char ch) {
     unsigned char *cursor;

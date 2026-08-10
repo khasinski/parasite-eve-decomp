@@ -1,8 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern int g_SaveMetadataWindowLength;
-extern unsigned char *g_SaveMetadataCursor;
+#include "pe1/save.h"
 
 int Save_DeleteMetadataChar(void) {
     register unsigned char *cursor asm("$4") = g_SaveMetadataCursor;

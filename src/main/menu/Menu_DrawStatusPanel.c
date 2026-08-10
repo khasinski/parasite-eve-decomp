@@ -1,7 +1,7 @@
 #include "common.h"
+#include "pe1/save.h"
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-s32 Save_GetActiveMetadataBuffer();                 /* extern */
 M2C_UNK Sfx_DrawActiveListSlot(s8);                          /* extern */
 s32 Aya_GetLevelExpTable();                                /* extern */
 M2C_UNK Draw_OffsetCursor(M2C_UNK, M2C_UNK);            /* extern */
