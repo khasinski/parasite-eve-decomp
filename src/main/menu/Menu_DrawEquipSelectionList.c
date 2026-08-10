@@ -13,7 +13,6 @@ int Inv_IsActiveListOverrideSelected(void);
 void Inv_SelectActiveList(int useOverride);
 void Inv_BuildFilteredPackedListExcluding(int mask, int excluded);
 int Inv_GetPackedListCount(void);
-void Draw_SetPrimCallback(MenuWidgetNode *node, int count);
 void MenuWidget_DrawList(MenuWidgetNode *node, void (*draw)(int));
 void Menu_HandleInput(int index);
 

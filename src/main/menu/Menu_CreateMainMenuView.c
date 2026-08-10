@@ -4,7 +4,6 @@
 MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, int arg1, int arg2, int arg3);
 MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *arg1, MenuWidgetNode *arg2);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
-void Draw_SetPrimCallback(MenuWidgetNode *node, int arg1);
 void Menu_MainMenuInputHandler(void);
 void Menu_DrawMainMenuList(void);
 

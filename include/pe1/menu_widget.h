@@ -33,7 +33,7 @@ typedef struct MenuWidgetNode {
     int cell_mask;
     struct MenuWidgetNode *field_78;
     struct MenuWidgetNode *field_7C;
-    int field_80;
+    struct MenuWidgetNode *popup_node;
     int field_84;
     int field_88;
     int field_8C;
@@ -54,6 +54,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, scroll_y) == 0x5C,
                   menu_widget_scroll_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, aux_index) == 0x70,
                   menu_widget_aux_index_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, popup_node) == 0x80,
+                  menu_widget_popup_node_offset);
 
 typedef struct MenuWidgetSimpleDescriptor {
 /* 0x00 */ s32 x;      /* zero requests horizontal centering */
@@ -84,6 +86,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetGridDescriptor, yLimit) == 0x10,
 
 MenuWidgetSimpleDescriptor *MenuWidget_LookupSimpleDescriptor(unsigned int index);
 MenuWidgetGridDescriptor *MenuWidget_LookupGridDescriptor(unsigned int index);
+void Draw_SetPrimCallback(MenuWidgetNode *node, int item_count);
+void MenuWidget_DestroyPopupNode(MenuWidgetNode *node);
 
 extern MenuWidgetNode g_MenuWidgetNodePool[];
 extern MenuWidgetNode g_MenuWidgetNodePoolSentinel;

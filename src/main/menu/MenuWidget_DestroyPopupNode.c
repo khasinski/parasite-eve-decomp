@@ -1,11 +1,13 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
-void MenuWidget_DestroyNodeRecursive(void *node);
+#include "pe1/menu_widget.h"
 
-void MenuWidget_DestroyPopupNode(void *node) {
-    void *owner = *(void **)((char *)node + 0x34);
+void MenuWidget_DestroyNodeRecursive(MenuWidgetNode *node);
 
-    *(int *)((char *)owner + 0x80) = 0;
+void MenuWidget_DestroyPopupNode(MenuWidgetNode *node) {
+    MenuWidgetNode *owner = (MenuWidgetNode *)node->grid_width;
+
+    owner->popup_node = 0;
     MenuWidget_DestroyNodeRecursive(node);
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -16,7 +17,6 @@ M2C_UNK Inv_BuildFilteredPackedListExcluding();
 s32 Inv_RestoreSelection();
 void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
-M2C_UNK Draw_SetPrimCallback();
 M2C_UNK func_80064B74();
 M2C_UNK MenuWidget_ClearColumnLayout();
 extern s32 g_MenuEquipMode;

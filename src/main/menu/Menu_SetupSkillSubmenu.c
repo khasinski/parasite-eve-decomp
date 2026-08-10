@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/menu_widget.h"
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 int g_MenuActionItemData;
@@ -12,7 +13,6 @@ int Inv_GetPackedListItem(int arg0);
 void Inv_RememberSelection(int arg0, int arg1);
 int Inv_RestoreSelection(int arg0);
 u8 *Inv_LookupActiveListData(int arg0);
-void Draw_SetPrimCallback(int arg0, int arg1);
 void Menu_DrawActionCodeItem(void);
 void MenuWidget_DrawList(int arg0, void (*callback)(void));
 

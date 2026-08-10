@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -11,7 +12,6 @@ M2C_UNK Inv_RebuildSelectableMask();                            /* extern */
 M2C_UNK Inv_RemoveActiveListItem(s32);                         /* extern */
 s32 Inv_TransferItemAlt2(M2C_UNK);                         /* extern */
 M2C_UNK MenuWidget_DestroyNode(s32);                         /* extern */
-M2C_UNK Draw_SetPrimCallback(s32, s32);                    /* extern */
 extern s32 g_MenuActiveItemSlot;
 extern s32 g_MenuEquipMode;
 extern s32 g_MenuActiveItemList;

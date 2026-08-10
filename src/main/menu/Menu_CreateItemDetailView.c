@@ -8,7 +8,6 @@ extern void Menu_DrawUsableItemActionList2(void);
 extern void Inv_SelectActiveList(int arg0);
 extern int Inv_RestoreSelection(int arg0);
 extern MenuWidgetNode *Inv_LookupActiveListData(int arg0);
-extern void Draw_SetPrimCallback(MenuWidgetNode *node, int value);
 extern void MenuWidget_ClearColumnLayout(MenuWidgetNode *node);
 extern MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);
 extern void Inv_InitWayneStorage(void);

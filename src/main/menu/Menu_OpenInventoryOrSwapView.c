@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -14,7 +15,6 @@ M2C_UNK Inv_RebuildSelectableMask();
 void *MenuWidget_CreateSimpleNode();
 M2C_UNK MenuWidget_NavScrollTo();
 void *MenuWidget_CreateNode();
-M2C_UNK Draw_SetPrimCallback();
 extern s32 g_MenuActionSubmenuOpen;
 extern s32 g_InvSelectedItemIndex;
 extern s32 g_InvSwapTargetIndex;

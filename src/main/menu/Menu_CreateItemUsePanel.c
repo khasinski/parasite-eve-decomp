@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -10,7 +11,6 @@ void *Inv_LookupData();
 M2C_UNK Queue_Init();
 void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
-M2C_UNK Draw_SetPrimCallback();
 M2C_UNK MenuWidget_ClearColumnLayout();
 extern s32 g_InvItemUsableFlag;
 extern void *g_MenuSelectedItemData;

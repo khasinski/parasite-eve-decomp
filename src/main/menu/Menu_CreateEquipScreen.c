@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -9,7 +10,6 @@ s32 Inv_GetAyaSlotLimit();
 M2C_UNK Inv_RebuildSelectableMask();
 void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
-M2C_UNK Draw_SetPrimCallback();
 extern s32 g_MenuActionSubmenuOpen;
 extern s32 g_InvSelectedItemIndex;
 extern s32 g_InvSwapTargetIndex;
