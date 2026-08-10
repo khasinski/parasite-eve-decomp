@@ -16,7 +16,8 @@ void Battle_DispatchSpecialAction(int arg0) {
     if ((g_GameStateFlags & 2) == 0) {
         actor = g_PlayerEntity;
         g_ActiveActor = (int)actor->core;
-        Asset_Find08Alt(0x453, 1, actor->worldX, actor->worldY, actor->worldZ);
+        Asset_Find08Alt(0x453, 1, actor->posX.parts.integer,
+                       actor->posY.parts.integer, actor->posZ.parts.integer);
     }
 
     switch (arg0) {

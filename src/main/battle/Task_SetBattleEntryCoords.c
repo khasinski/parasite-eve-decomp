@@ -1,4 +1,9 @@
+#include "common.h"
+#include "pe1/battle.h"
+
 extern char *g_CurrentEntity;
+
+#define CURRENT_ENTITY ((BattleEntity *)g_CurrentEntity)
 
 void Battle_SetEntryCoords(char *arg0, int arg1, int arg2, int arg3);
 void Render_SetEntryScrolled(int arg0, int arg1, int arg2, int arg3);
@@ -10,12 +15,12 @@ int Task_SetBattleEntryCoords(int **arg0) {
 }
 
 int func_80019904(void) {
-    *(int *)(g_CurrentEntity + 0x98) &= -2;
+    CURRENT_ENTITY->entityFlags &= -2;
     return 1;
 }
 
 int func_80019928(void) {
-    *(int *)(g_CurrentEntity + 0x98) |= 1;
+    CURRENT_ENTITY->entityFlags |= 1;
     return 1;
 }
 
@@ -30,36 +35,36 @@ int func_8001998C(int **arg0) {
 }
 
 int func_800199CC(int **arg0) {
-    *(short *)(g_CurrentEntity + 0x24E) = *arg0[0];
-    *(unsigned short *)(g_CurrentEntity + 0x250) |= 0x10;
+    CURRENT_ENTITY->scriptValue24E = *arg0[0];
+    CURRENT_ENTITY->renderFlags |= 0x10;
     return 1;
 }
 
 int func_800199F8(void) {
-    *(unsigned short *)(g_CurrentEntity + 0x250) &= 0xFFEF;
+    CURRENT_ENTITY->renderFlags &= 0xFFEF;
     return 1;
 }
 
 int func_80019A1C(int **arg0) {
-    *(short *)(g_CurrentEntity + 0x24E) = *arg0[0];
-    *(char *)(g_CurrentEntity + 0x24B) = *arg0[1];
-    *(char *)(g_CurrentEntity + 0x24C) = *arg0[2];
-    *(char *)(g_CurrentEntity + 0x24D) = *arg0[3];
-    *(unsigned short *)(g_CurrentEntity + 0x250) |= 8;
+    CURRENT_ENTITY->scriptValue24E = *arg0[0];
+    CURRENT_ENTITY->scriptParam24B = *arg0[1];
+    CURRENT_ENTITY->scriptParam24C = *arg0[2];
+    CURRENT_ENTITY->scriptParam24D = *arg0[3];
+    CURRENT_ENTITY->renderFlags |= 8;
     return 1;
 }
 
 int func_80019A9C(void) {
-    *(unsigned short *)(g_CurrentEntity + 0x250) &= 0xFFF7;
+    CURRENT_ENTITY->renderFlags &= 0xFFF7;
     return 1;
 }
 
 int func_80019AC0(void) {
-    *(int *)(g_CurrentEntity + 0x98) |= 0x400;
+    CURRENT_ENTITY->entityFlags |= 0x400;
     return 1;
 }
 
 int func_80019AE4(void) {
-    *(int *)(g_CurrentEntity + 0x98) &= -0x401;
+    CURRENT_ENTITY->entityFlags &= -0x401;
     return 1;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/battle.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -18,15 +19,15 @@ extern struct { char _[16]; } D_8009D1A0_w1 __asm__("D_8009D1A0");
 extern u8 D_8009D1D4;
 extern u16 D_800BE834[];
 
-#define D254_A (*(u8 **)&D_8009D254_a)
-#define D254_B (*(u8 **)&D_8009D254_b)
-#define D254_C (*(u8 **)&D_8009D254_c)
-#define D254_D (*(u8 **)&D_8009D254_d)
-#define D254_E (*(u8 **)&D_8009D254_e)
-#define D278_A (*(u8 **)&D_8009D278_a)
-#define D278_B (*(u8 **)&D_8009D278_b)
-#define D278_C (*(u8 **)&D_8009D278_c)
-#define D278_D (*(u8 **)&D_8009D278_d)
+#define D254_A (*(BattleEntity **)&D_8009D254_a)
+#define D254_B (*(BattleEntity **)&D_8009D254_b)
+#define D254_C (*(BattleEntity **)&D_8009D254_c)
+#define D254_D (*(BattleEntity **)&D_8009D254_d)
+#define D254_E (*(BattleEntity **)&D_8009D254_e)
+#define D278_A (*(Combatant **)&D_8009D278_a)
+#define D278_B (*(Combatant **)&D_8009D278_b)
+#define D278_C (*(Combatant **)&D_8009D278_c)
+#define D278_D (*(Combatant **)&D_8009D278_d)
 #define D1A0_R0 (*(int *)&D_8009D1A0_r0)
 #define D1A0_W0 (*(int *)&D_8009D1A0_w0)
 #define D1A0_R1 (*(int *)&D_8009D1A0_r1)
@@ -47,28 +48,29 @@ void Battle_ApplyPlayerHit(void) {
     u32 committed;
     register int mask asm("$5");
     register unsigned int index asm("$3");
-    u8 *actor;
+    Combatant *actor;
     int flags;
     u16 action;
 
     committed = 0x200000;
-    if (U32_AT(D278_A, 0x4C) & committed) {
+    if (D278_A->stateFlags & committed) {
         Entity_SetActionMode(D254_A, 0xE);
-        Asset_Find08Alt(0x4B3, 0, S16_AT(D254_B, 0x2A), S16_AT(D254_B, 0x2E), S16_AT(D254_B, 0x32));
+        Asset_Find08Alt(0x4B3, 0, D254_B->posX.parts.integer,
+                        D254_B->posY.parts.integer, D254_B->posZ.parts.integer);
 
         mask = ~0x200000;
         actor = D278_B;
-        index = U32_AT(actor, 0x4C);
+        index = actor->stateFlags;
         flags = D1A0_R0;
         D1A0_W0 = flags | 0x100;
-        U32_AT(actor, 0x4C) = index & mask;
+        actor->stateFlags = index & mask;
     }
 
-    if (U8_AT(D254_C, 0xF) == U16_AT(D254_C, 0x1A)) {
-        Entity_SetActionMode(D254_C, U8_AT(D278_C, 0x12));
+    if (D254_C->animLastFrame == D254_C->animPrev.parts.integer) {
+        Entity_SetActionMode(D254_C, D278_C->actionMode12);
         actor = D278_D;
         index = D_8009D1D4;
-        U32_AT(actor, 0x4C) |= committed;
+        actor->stateFlags |= committed;
 
         Battle_ApplyDamage((s16)ACTION_AT(index) - 3);
         Scene_LoadRoomAssets(0x55, D254_D);
@@ -79,7 +81,7 @@ void Battle_ApplyPlayerHit(void) {
 
         D_8009D1D4 = index;
 
-        if ((unsigned int)(action - 3) >= 0x194 || U8_AT(D254_E, 0xE) < 4) {
+        if ((unsigned int)(action - 3) >= 0x194 || D254_E->actionMode < 4) {
             D1A0_W1 = D1A0_R1 & ~0x100;
         }
     }

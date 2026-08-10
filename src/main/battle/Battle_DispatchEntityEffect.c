@@ -1,9 +1,7 @@
 #include "common.h"
+#include "pe1/battle.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-#define S16_AT(ptr, offset) (*(s16 *)((u8 *)(ptr) + (offset)))
-#define U32_AT(ptr, offset) (*(u32 *)((u8 *)(ptr) + (offset)))
 
 extern struct { char _[16]; } D_8009D254_a __asm__("D_8009D254");
 extern struct { char _[16]; } D_8009D254_b __asm__("D_8009D254");
@@ -16,15 +14,15 @@ extern struct { char _[16]; } D_8009D278_a __asm__("D_8009D278");
 extern struct { char _[16]; } D_8009D278_b __asm__("D_8009D278");
 extern struct { char _[16]; } D_8009D2FC_o __asm__("D_8009D2FC");
 
-#define D_8009D254_A (*(u8 **)&D_8009D254_a)
-#define D_8009D254_B (*(u8 **)&D_8009D254_b)
-#define D_8009D254_C (*(u8 **)&D_8009D254_c)
-#define D_8009D254_D (*(u8 **)&D_8009D254_d)
-#define D_8009D254_E (*(u8 **)&D_8009D254_e)
-#define D_8009D254_F (*(u8 **)&D_8009D254_f)
-#define D_8009D254_G (*(u8 **)&D_8009D254_g)
-#define D_8009D278_A (*(u8 **)&D_8009D278_a)
-#define D_8009D278_B (*(u8 **)&D_8009D278_b)
+#define D_8009D254_A (*(BattleEntity **)&D_8009D254_a)
+#define D_8009D254_B (*(BattleEntity **)&D_8009D254_b)
+#define D_8009D254_C (*(BattleEntity **)&D_8009D254_c)
+#define D_8009D254_D (*(BattleEntity **)&D_8009D254_d)
+#define D_8009D254_E (*(BattleEntity **)&D_8009D254_e)
+#define D_8009D254_F (*(BattleEntity **)&D_8009D254_f)
+#define D_8009D254_G (*(BattleEntity **)&D_8009D254_g)
+#define D_8009D278_A (*(Combatant **)&D_8009D278_a)
+#define D_8009D278_B (*(Combatant **)&D_8009D278_b)
 #define D_8009D2FC (*(int *)&D_8009D2FC_o)
 
 extern int D_8009D200;
@@ -33,10 +31,10 @@ int BattleCmd_CommitAmmoAndUpdate(void);
 int Scene_LoadRoomAssets(int id, void *entity);
 
 void Battle_DispatchEntityEffect(void) {
-    u8 *actor;
-    u8 *action;
-    u8 *action2;
-    u8 *next_entity;
+    Combatant *actor;
+    BattleAction *action;
+    BattleAction *action2;
+    BattleEntity *next_entity;
     register int action_id asm("$3");
     int action_id2;
     int next_id;
@@ -44,11 +42,11 @@ void Battle_DispatchEntityEffect(void) {
     u32 word10;
 
     actor = D_8009D278_A;
-    action = *(u8 **)(actor + 0x68);
-    action_id = S16_AT(action, 0x6);
+    action = actor->action;
+    action_id = action->actionId;
 
     if (action_id == 6) {
-        if ((U32_AT(action, 0xC) & 0x3FF) == 0) {
+        if ((action->attackWord & 0x3FF) == 0) {
             BattleCmd_CommitAmmoAndUpdate();
         }
         D_8009D200 = Scene_LoadRoomAssets(3, D_8009D254_A);
@@ -60,19 +58,19 @@ void Battle_DispatchEntityEffect(void) {
         return;
     }
 
-    if ((U32_AT(action, 0xC) & 0x3FF) == 0) {
+    if ((action->attackWord & 0x3FF) == 0) {
         BattleCmd_CommitAmmoAndUpdate();
     }
 
     actor = D_8009D278_B;
-    action2 = *(u8 **)(actor + 0x68);
-    action_id2 = S16_AT(action2, 0x6);
+    action2 = actor->action;
+    action_id2 = action2->actionId;
 
     if (action_id2 == 5) {
         goto load_pair5;
     }
 
-    word10 = U32_AT(action2, 0x10);
+    word10 = action2->turnWord;
     if ((word10 & 0x1F00) == 0) {
         goto choose_first;
     }

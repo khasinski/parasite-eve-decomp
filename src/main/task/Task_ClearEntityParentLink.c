@@ -1,16 +1,7 @@
+#include "common.h"
+#include "pe1/battle.h"
 
-typedef unsigned int u32;
-
-typedef struct Entity Entity;
-
-struct Entity {
-    char pad0[0x4];
-    Entity *next;
-    char pad8[0x98 - 0x8];
-    u32 flags98;
-    char pad9C[0x18C - 0x9C];
-    Entity *parent18C;
-};
+typedef BattleEntity Entity;
 
 extern Entity *g_FieldActorListHead;
 extern Entity *g_CurrentEntity;
@@ -21,13 +12,13 @@ int Task_ClearEntityParentLink(void) {
 
     current = g_CurrentEntity;
     it = g_FieldActorListHead;
-    current->parent18C = 0;
-    current->flags98 &= 0xFF9FFFFF;
+    current->parent = 0;
+    current->entityFlags &= 0xFF9FFFFF;
 
     if (it != 0) {
         do {
             if (it != current) {
-                if (it->parent18C == current->parent18C) {
+                if (it->parent == current->parent) {
                     return 1;
                 }
             }
@@ -40,7 +31,7 @@ int Task_ClearEntityParentLink(void) {
         int clear_mask;
         tail_current = g_CurrentEntity;
         clear_mask = 0xFFEFFFFF;
-        tail_current->parent18C->flags98 &= clear_mask;
+        tail_current->parent->entityFlags &= clear_mask;
     }
     return 1;
 }

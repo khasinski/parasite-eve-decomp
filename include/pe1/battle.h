@@ -61,7 +61,7 @@ typedef struct Combatant {
 /* 0x0C */ u16  curHP;         /* CURRENT HP -- damage & heal land here; clamped to maxHP@0x1C (Battle_ApplyDamage.c:73-85) */
 /* 0x0E */ u16  hpMirror;      /* current-HP MIRROR; re-synced from curHP each reset (Battle_ResetEnemyStats.c:42) */
 /* 0x10 */ u16  hpAlive;       /* authoritative ">0 == alive" HP (target tests); on player doubles as EXP/level gauge clamped 0x2328 (Battle_BuildTargetList.c:47; Battle_Update.c:155). TENTATIVE width: some reads s32 */
-/* 0x12 */ s8   actionMode12;  /* action-mode id table [0x12..0x19], filled per enemy by facing (Battle_SetupEnemyAnims.c:38-46): 4 idle, 0xD special */
+/* 0x12 */ u8   actionMode12;  /* action-mode id table [0x12..0x19], filled per enemy by facing (Battle_SetupEnemyAnims.c:38-46): 4 idle, 0xD special */
 /* 0x13 */ s8   actionMode13;
 /* 0x14 */ u8   actionMode14;
 /* 0x15 */ u8   actionMode15;
@@ -74,12 +74,16 @@ typedef struct Combatant {
 /* 0x1E */ s16  stat1E;        /* SetContextField case11 (Battle_SetContextField.c:42) */
 /* 0x20 */ s16  stat20;        /* SetContextField case12 (Battle_SetContextField.c:45) */
 /* 0x22 */ u16  stat22;        /* base for scaled-offense calc (Battle_SetupEnemyAnims.c:39) */
-/* 0x24 */ s16  scaledOffense; /* = stat22 * tbl[anim] / 10 (Battle_SetupEnemyAnims.c:39) */
+/* 0x24 */ u16  scaledOffense; /* = stat22 * tbl[anim] / 10 (Battle_SetupEnemyAnims.c:39) */
 /* 0x26 */ s16  stat26;        /* SetContextField case18 (Battle_SetContextField.c:50) */
 /* 0x28 */ s32  maxAtk;        /* cap for exp_or_acc@0x08 (Battle_ApplyDamage.c:88,95; Battle_StartEncounter.c:116) */
-/* 0x2C */ u8   pad_2C[8];
+/* 0x2C */ s32  atbStep;       /* per-frame increment subtracted from atbRate */
+/* 0x30 */ s32  atbRate;       /* divisor/rate used while charging exp_or_acc */
 /* 0x34 */ s32  atbGauge;      /* ATB / "AT" gauge; reset 0, latched 0xF0 (Battle_ResetEnemyStats.c:41; Battle_StartEncounter.c:119) */
-/* 0x38 */ u8   pad_38[0x14];
+/* 0x38 */ u8   pad_38[0x10];
+/* 0x48 */ s8   knockbackFrames;
+/* 0x49 */ u8   knockbackDistance;
+/* 0x4A */ s16  knockbackAngle;
 /* 0x4C */ s32  stateFlags;    /* PRIMARY status/state bitfield. &0xFF status groups (poison/etc, ApplyDamage cases13-17), 0x10000="battle ended" (Battle_IsActive), 0x80000 special-move guard, 0x100000 acted-this-frame, 0x200000 action-committed (Battle_ApplyPlayerHit.c:53,63; Battle_UpdatePlayerTurn.c:47) */
 /* 0x50 */ s16  panelA_val;    /* floating damage-number panel A: {s16 val; u16 x; u16 y; u8 scale; u8 mode}; drawn by Battle_DrawStatusPanel(0, &panelA) (Battle_PhaseHitReaction.c:191) */
 /* 0x52 */ u16  panelA_x;      /* x copied from entity projX@0x210 (Battle_PhaseHitReaction.c:188) */
@@ -136,36 +140,55 @@ typedef struct BattleAction {
 typedef struct BattleEntity {
 /* 0x000 */ struct Combatant   *core;  /* pointer to the Combatant record (Battle_DispatchSpecialAction.c:30; Battle_BuildTargetList.c:44) */
 /* 0x004 */ struct BattleEntity *next; /* next in actor list (Battle_BuildTargetList.c:63) */
-/* 0x008 */ u8   pad_008[5];
+/* 0x008 */ u8   pad_008[4];
+/* 0x00C */ u8   modelIndex;     /* selects a 0xC0-byte action-pointer table (Entity_SetActionMode) */
 /* 0x00D */ u8   teamId;        /* group/team id; target must differ/match (Battle_SetupEntityTarget.c:66) */
-/* 0x00E */ u8   animState;     /* <4 / ==0xC tests (Battle_ApplyPlayerHit.c:69; Battle_UpdatePlayerTurn.c:46) */
-/* 0x00F */ u8   animFrame;     /* current anim frame; ==animFrameMax => action complete (Battle_ApplyPlayerHit.c:61; Battle_StepLevelUp.c:75) */
-/* 0x010 */ u8   pad_010[6];
-/* 0x016 */ u16  levelOrFlag16; /* ==0xA gate at level-up (Battle_StepLevelUp.c:57) TENTATIVE */
-/* 0x018 */ u8   pad_018[2];
-/* 0x01A */ u16  animFrameMax;  /* total anim frames (Battle_ApplyPlayerHit.c:61; Battle_UpdatePlayerTurn.c:87) */
-/* 0x01C */ u8   pad_01C[0x0E];
-/* 0x02A */ s16  worldX;        /* world position X (Battle_ApplyDamage.c:56) */
-/* 0x02C */ u8   pad_02C[2];
-/* 0x02E */ s16  worldY;        /* world position Y (Battle_ApplyDamage.c:57) */
-/* 0x030 */ u8   pad_030[2];
-/* 0x032 */ s16  worldZ;        /* world position Z (Battle_ApplyDamage.c:58) */
+/* 0x00E */ u8   actionMode;     /* current action/animation mode; <4 and ==0xC are battle-state tests */
+/* 0x00F */ u8   animLastFrame;  /* last valid frame index, loaded from action data byte 2 minus one */
+/* 0x010 */ u8   pad_010[2];
+/* 0x012 */ u16  animStopFrame;  /* optional stop/clamp frame when entityFlags bit 0x200 is set */
+/* 0x014 */ s32  animFrame;      /* current animation frame, 16.16 fixed point */
+/* 0x018 */ union {
+               s32 fixed; /* previous animation frame, 16.16 fixed point */
+               struct { u16 fraction; u16 integer; } parts;
+           } animPrev;
+/* 0x01C */ s32  animStep;       /* signed per-update 16.16 animation increment */
+/* 0x020 */ u8   pad_020[8];
+/* 0x028 */ union { s32 fixed; struct { u16 frac; s16 integer; } parts; } posX;
+/* 0x02C */ union { s32 fixed; struct { u16 frac; s16 integer; } parts; } posY;
+/* 0x030 */ union { s32 fixed; struct { u16 frac; s16 integer; } parts; } posZ;
 /* 0x034 */ u8   pad_034[6];
 /* 0x03A */ s16  facingAngle;   /* facing/heading, set from target (Battle_UpdateEntityFacing.c:71) */
-/* 0x03C */ u8   pad_03C[0x5C];
+/* 0x03C */ u8   pad_03C[4];
+/* 0x040 */ s32  baseX;
+/* 0x044 */ s32  baseY;
+/* 0x048 */ s32  baseZ;
+/* 0x04C */ u8   pad_04C[0x1C];
+/* 0x068 */ s32  motionX;
+/* 0x06C */ s32  motionY;
+/* 0x070 */ s32  motionZ;
+/* 0x074 */ u8   pad_074[0x24];
 /* 0x098 */ u32  entityFlags;   /* &0x40 visible, &0x4000 skip-as-target, &0x40000000 area-target, &0x6000 hit-state (Battle_BuildTargetList.c:46; Battle_SetupEntityTarget.c:60) */
 /* 0x09C */ u8   pad_09C[0xF0];
-/* 0x18C */ struct BattleEntity *owner; /* parent/owner (projectile->shooter) (Battle_SetupEntityTarget.c:80; Battle_StepEntityDeath.c:42) TENTATIVE */
+/* 0x18C */ struct BattleEntity *parent; /* parent/owner; linked animations recurse through this entity */
 /* 0x190 */ u8   pad_190[4];
 /* 0x194 */ void *actionCheckFn; /* Entity_CheckActionIdMatch fn ptr (Battle_StartEncounter.c:124) */
-/* 0x198 */ u8   pad_198[0x1C];
+/* 0x198 */ u8   pad_198[0x0C];
+/* 0x1A4 */ void *collisionFace;
+/* 0x1A8 */ void *collisionFaceMirror;
+/* 0x1AC */ u8   pad_1AC[4];
+/* 0x1B0 */ void *actionData;    /* current animation/action record */
 /* 0x1B4 */ u8   renderObject[0x5C]; /* GPU render/color sub-block; passed to Render_FadeEntityColor / Battle_DrawStatusOverlay (entity+0x1B4). See actor_model.h */
 /* 0x210 */ s16  projX;         /* projected screen X, source for panel x (Battle_PhaseHitReaction.c:188) */
 /* 0x212 */ s16  projY;         /* projected screen Y, source for panel y (Battle_PhaseHitReaction.c:189) */
 /* 0x214 */ u8   pad_214[0x24];
 /* 0x238 */ void *defPtr;       /* ptr to a definition record; ->+0x18 baseline (Battle_StartEncounter.c:125) TENTATIVE */
-/* 0x23C */ u8   pad_23C[0x14];
-/* 0x250 */ u16  hideFlags;     /* |= 0x20 to cull on death (Battle_StepEntityDeath.c:60) */
+/* 0x23C */ u8   pad_23C[0x0F];
+/* 0x24B */ u8   scriptParam24B; /* task-supplied byte parameter (Task_SetBattleEntryCoords.c) */
+/* 0x24C */ u8   scriptParam24C;
+/* 0x24D */ u8   scriptParam24D;
+/* 0x24E */ s16  scriptValue24E; /* task-supplied signed value; active state tracked by renderFlags bits 3/4 */
+/* 0x250 */ u16  renderFlags;    /* 0x8/0x10 task effects, 0x20 cull-on-death */
 /* 0x252 */ u8   field252;      /* (Battle_StepEntityDeath.c:79) */
 /* 0x253 */ u8   pad_253[0x15];
 /* 0x268 */ s16  targetX;       /* world coord for target geometry & effect spawn (Battle_BuildTargetList.c:54; Battle_StartEnemyAttackEffect.c:35) */
@@ -193,12 +216,36 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, field04) == 0x04,
                   combatant_field04_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, curHP) == 0x0C,
                   combatant_cur_hp_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, atbStep) == 0x2C,
+                  combatant_atb_step_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, knockbackFrames) == 0x48,
+                  combatant_knockback_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, action) == 0x68,
                   combatant_action_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, statusFlags2) == 0xCC,
                   combatant_status_flags2_offset);
 PE1_STATIC_ASSERT(sizeof(Combatant) == 0xD8, combatant_partial_size);
 PE1_STATIC_ASSERT(sizeof(BattleAction) == 0x18, battle_action_partial_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, posX) == 0x28,
+                  battle_entity_pos_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, animFrame) == 0x14,
+                  battle_entity_anim_frame_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, animPrev) == 0x18,
+                  battle_entity_anim_prev_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, parent) == 0x18C,
+                  battle_entity_parent_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, actionData) == 0x1B0,
+                  battle_entity_action_data_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, collisionFace) == 0x1A4,
+                  battle_entity_collision_face_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, posZ) == 0x30,
+                  battle_entity_pos_z_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, motionX) == 0x68,
+                  battle_entity_motion_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, scriptParam24B) == 0x24B,
+                  battle_entity_script_param_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderFlags) == 0x250,
+                  battle_entity_render_flags_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject) == 0x1B4,
                   battle_entity_render_object_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, targetX) == 0x268,
