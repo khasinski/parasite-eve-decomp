@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 int g_InvSlotLimit;
@@ -6,9 +7,9 @@ int g_InvItemPtr;
 extern u8 g_EquipItemDataTable[];
 extern u8 g_KeyItemDataTable[];
 
-void *Item_LookupBaseData(unsigned int index);
+ItemDataRecord *Item_LookupBaseData(unsigned int index);
 
-void *Inv_LookupActiveListData(int index) {
+ItemDataRecord *Inv_LookupActiveListData(int index) {
     int value;
     int offset;
     int final_range;
@@ -24,7 +25,7 @@ void *Inv_LookupActiveListData(int index) {
     value = ((s16 *)g_InvItemPtr)[index];
     saved_value = value;
     if ((unsigned int)(value - 0x100) < 0x80) {
-        return g_EquipItemDataTable + (value << 5);
+        return (ItemDataRecord *)(g_EquipItemDataTable + (value << 5));
     }
 
     offset = value - 1;
@@ -38,6 +39,6 @@ void *Inv_LookupActiveListData(int index) {
     }
     {
         register int shifted asm("$3") = saved_value << 5;
-        return g_KeyItemDataTable + shifted;
+        return (ItemDataRecord *)(g_KeyItemDataTable + shifted);
     }
 }

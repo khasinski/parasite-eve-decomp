@@ -2,6 +2,7 @@
 /* Incomplete arrays: retail addresses these absolutely (g_PlayerEntity is
  * in the gp window but not small data; the Aya fields are outside it). */
 #include "pe1/battle.h"
+#include "pe1/inventory.h"
 
 extern void **g_PlayerEntity[];
 extern short g_AyaHpCurrent[];
@@ -10,12 +11,12 @@ extern signed char g_AyaEquippedWeaponSlot[];
 void Battle_ApplyDamage(void);
 int Inv_IsActiveListOverrideSelected(void);
 void Inv_SelectActiveList(int useOverride);
-void *Inv_LookupActiveListData(int index);
-
 #define COMBATANT_FIELD(base, type, member) \
     (*(type)((char *)(base) + PE1_OFFSETOF(Combatant, member)))
 #define ACTION_FIELD(base, type, member) \
     (*(type)((char *)(base) + PE1_OFFSETOF(BattleAction, member)))
+#define ITEM_FIELD(base, type, member) \
+    (*(type)((char *)(base) + PE1_OFFSETOF(ItemDataRecord, member)))
 
 void BattleCmd_CommitAndSyncAmmo(void) {
     void **entity;
@@ -34,7 +35,7 @@ void BattleCmd_CommitAndSyncAmmo(void) {
                 Inv_SelectActiveList(0);
                 entry = Inv_LookupActiveListData(g_AyaEquippedWeaponSlot[0]);
                 if (entry != 0) {
-                    *(short *)((char *)entry + 0xA) = ACTION_FIELD(
+                    ITEM_FIELD(entry, short *, ammo) = ACTION_FIELD(
                         COMBATANT_FIELD(current, void **, action), int *, attackWord) & 0x3FF;
                 }
                 Inv_SelectActiveList(saved);
@@ -45,3 +46,4 @@ void BattleCmd_CommitAndSyncAmmo(void) {
 
 #undef ACTION_FIELD
 #undef COMBATANT_FIELD
+#undef ITEM_FIELD

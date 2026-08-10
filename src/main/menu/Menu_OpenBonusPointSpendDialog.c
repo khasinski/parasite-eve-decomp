@@ -16,7 +16,6 @@ void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 void MenuWidget_OffsetPosition(MenuWidgetNode *ptr, int dx, int dy);
 s32 Inv_RestoreSelection(u32 index);
-void *Inv_LookupActiveListData(int index);
 void Menu_DrawBonusPointSpendPanel(void);
 s32 Spend_BonusPoints(s32);
 

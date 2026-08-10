@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -9,10 +10,12 @@
 
 void MenuWidget_SetCurrentNode(void *node);
 void Inv_SelectActiveList(s32 useOverride);
-void *Inv_LookupActiveListData(s32 index);
 void Inv_ClearSelectionBitset(void);
 void Inv_BuildDisplayFromList(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void *MenuWidget_CreateSimpleNode(s32 mode, s32 arg1, s32 arg2, s32 arg3);
+
+#define ITEM_FIELD(base, type, member) \
+    (*(type)((char *)(base) + PE1_OFFSETOF(ItemDataRecord, member)))
 
 extern s32 g_InvAmmoSpendActiveList;
 extern s32 g_InvSelectedItemIndex;
@@ -34,7 +37,7 @@ void Menu_CreateAmmoSpendPanel(s32 parent) {
     MenuWidget_SetCurrentNode(node);
     Inv_SelectActiveList(g_InvAmmoSpendActiveList);
     item = Inv_LookupActiveListData(g_InvSelectedItemIndex);
-    if ((item != NULL) && ((u32)(M2C_FIELD(item, u8 *, 6) - 0x13) >= 3U)) {
+    if ((item != NULL) && ((u32)(ITEM_FIELD(item, u8 *, kind) - 0x13) >= 3U)) {
         s32 active = g_InvAmmoSpendActiveList;
         s32 source = g_InvSwapSourceList;
         s32 selected = g_InvSelectedItemIndex;
@@ -59,3 +62,5 @@ void Menu_CreateAmmoSpendPanel(s32 parent) {
     Inv_ClearSelectionBitset();
     g_MenuSpendArrowDirection = 0;
 }
+
+#undef ITEM_FIELD

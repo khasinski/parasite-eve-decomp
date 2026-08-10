@@ -2,12 +2,7 @@
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
 #include "pe1/menu_widget.h"
-
-typedef struct MenuData {
-    char pad0[0x14];
-    unsigned char count;
-    unsigned char entries[1];
-} MenuData;
+#include "pe1/inventory.h"
 
 extern MenuWidgetNode *MenuWidget_GetCurrentNode(void);
 extern MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *arg1, int arg2, int arg3);
@@ -18,8 +13,6 @@ extern void Menu_DrawNotificationDialogContent(void);
 extern void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 extern void Menu_SetDeferredCallback(void (*callback)(void));
 extern void Inv_SelectActiveList(int arg0);
-extern MenuData *Inv_LookupActiveListData(int arg0);
-
 extern signed char g_AyaEquippedArmorSlot[];
 extern int D_8009CFC0;
 
@@ -32,7 +25,7 @@ void Draw_PrintTextById(int arg0);
 void Menu_CreateItemList(void) {
     MenuWidgetNode *parent;
     MenuWidgetNode *child;
-    MenuData *data;
+    ItemDataRecord *data;
     int i;
     int value;
 
@@ -59,14 +52,14 @@ void Menu_CreateItemList(void) {
         Inv_SelectActiveList(0);
         data = Inv_LookupActiveListData(g_AyaEquippedArmorSlot[0]);
 
-        for (i = 0; i < data->count; i++) {
-            if ((data->entries[i] & 0xE0) == 0xA0) {
+        for (i = 0; i < data->tailCount; i++) {
+            if ((data->tailData[i] & 0xE0) == 0xA0) {
                 break;
             }
         }
 
         value = D_8009CFC0 - 1;
-        D_8009CFC0 = value + (data->entries[i] & 0x1F);
+        D_8009CFC0 = value + (data->tailData[i] & 0x1F);
     }
 }
 

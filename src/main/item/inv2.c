@@ -5,8 +5,6 @@ int Inv_GetBonusSlotCount(void);
 
 #include "pe1/inventory.h"
 
-extern u8 g_InvItemSlotArray[];
-
 int Inv_GetAyaSlotLimit(void) {
     if (g_AyaInventorySlotCount[0] + Inv_GetBonusSlotCount() >= 0x33) {
         return 0x32;
@@ -26,7 +24,7 @@ void Inv_ClearEquipFlagForKind(InvItemSlot *obj) {
 
     if (obj != 0) {
         kind = obj->kind;
-        base = g_InvItemSlotArray;
+        base = (u8 *)g_InvItemSlotArray;
         kind ^= 9;
         is_kind_9 = (unsigned int)kind < 1;
         kind = (int)(base + 0x1000);

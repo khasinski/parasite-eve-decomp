@@ -1,7 +1,11 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
-extern unsigned char g_InvItemSlotArray[];
+#include "pe1/inventory.h"
+
+#define ITEM_FIELD(base, type, member) \
+    (*(type)((char *)(base) + PE1_OFFSETOF(ItemDataRecord, member)))
+
 extern unsigned char D_800C1EAC[];
 extern unsigned char g_EquipItemDataTable[];
 extern unsigned char g_KeyItemDataTable[];
@@ -36,14 +40,14 @@ int Inv_FindItem(unsigned int arg0) {
     unsigned int count;
 
     result = arg0;
-    slot = g_InvItemSlotArray;
-    if (slot < g_InvItemSlotArray + 0x1000) {
+    slot = (u8 *)g_InvItemSlotArray;
+    if (slot < (u8 *)g_InvItemSlotArray + 0x1000) {
         while (1) {
-            if (slot[4] == result) {
+            if (ITEM_FIELD(slot, u8 *, itemId) == result) {
                 break;
             }
             slot += 0x20;
-            if (slot >= g_InvItemSlotArray + 0x1000) {
+            if (slot >= (u8 *)g_InvItemSlotArray + 0x1000) {
                 break;
             }
         }
@@ -101,7 +105,7 @@ int Inv_FindItem(unsigned int arg0) {
 
                 value = 0;
                 if (entry != 0) {
-                    value = entry[6];
+                    value = ITEM_FIELD(entry, u8 *, kind);
                 }
 
                 if (value != 0) {
@@ -124,6 +128,8 @@ type_eq_9:
 done:
     return (unsigned int)result >> 31;
 }
+
+#undef ITEM_FIELD
 
 void Menu_ResetInputState(void) {
     g_SavedMenuMode = Menu_GetActiveMode() & 0xFF;

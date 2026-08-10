@@ -1,6 +1,8 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
+#include "pe1/inventory.h"
+
 int g_MenuEquipMode;
 int g_MenuItemRenameMode;
 
@@ -12,7 +14,6 @@ void MenuWidget_SetCurrentNode(int arg0);
 int MenuWidget_GetCurrentNode(void);
 void MenuWidget_ClearCursorY(int arg0);
 void Menu_CloseContextHelpPanel(void);
-unsigned char *Inv_LookupActiveListData(int arg0);
 int Inv_GetActiveListItem(int arg0);
 void Menu_CreateItemUsePanel(int arg0);
 
@@ -26,7 +27,7 @@ int Draw_GetBlendColor(void);
 
 void Menu_ItemUseAction(int arg0, int arg1) {
     int saved;
-    unsigned char *ptr;
+    ItemDataRecord *ptr;
 
     if (arg1 != 0) {
         saved = Inv_GetPackedListItem(MenuWidget_GridCellIndex(MenuWidget_FindByModeAndSelectedBase(2, 0xD)));
@@ -48,7 +49,7 @@ void Menu_ItemUseAction(int arg0, int arg1) {
         g_MenuItemRenameMode = 0;
         Menu_CloseContextHelpPanel();
         ptr = Inv_LookupActiveListData(saved);
-        ptr[0x14]++;
+        ptr->tailCount++;
         Menu_CreateItemUsePanel(Inv_GetActiveListItem(saved));
     }
 }
