@@ -4,8 +4,6 @@
 extern FieldActor *g_FieldActorListHead;
 
 void Battle_SetContextField(int arg0, int arg1);
-void Entity_WriteFieldByCmd(FieldActor *arg0, int arg1, int arg2);
-
 int Entity_SetFieldByTypeId(int **arg0) {
     FieldActor *obj;
     register int type;

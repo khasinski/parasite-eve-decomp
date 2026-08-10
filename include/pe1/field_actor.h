@@ -3,8 +3,10 @@
 
 #include "common.h"
 
+typedef struct FieldActorState FieldActorState;
+
 typedef struct FieldActor {
-    /* 0x000 */ unsigned char pad_000[0x04];
+    /* 0x000 */ FieldActorState *state;  /* script/battle state written by Entity_WriteFieldByCmd */
     /* 0x004 */ struct FieldActor *next;   /* entity list link (g_FieldActorListHead walks this) */
     /* 0x008 */ struct FieldActor *prev;   /* previous entity list link */
     /* 0x00C */ unsigned char type_id;     /* matched against arg id in attachment lookup */
@@ -106,15 +108,29 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, allocation_block) == 0x278,
                   field_actor_allocation_block_offset);
 PE1_STATIC_ASSERT(sizeof(FieldActor) == 0x27C, field_actor_size);
 
-typedef struct FieldActorState {
-    /* 0x00 */ unsigned char pad_00[0x08];
+struct FieldActorState {
+    /* 0x00 */ unsigned int core_flags;
+    /* 0x04 */ union {
+        short value;
+        struct { signed char low; signed char high; } bytes;
+    } id04;
+    /* 0x06 */ union {
+        short value;
+        struct { signed char low; signed char high; } bytes;
+    } id06;
     /* 0x08 */ int progress;
     /* 0x0C */ short amount;
     /* 0x0E */ unsigned short amount_mirror;
-    /* 0x10 */ short actor_threshold;
-    /* 0x12 */ unsigned char saved_actor_mode;
-    /* 0x13 */ unsigned char pad_13;
-    /* 0x14 */ unsigned char pad_14[0x08];
+    /* 0x10 */ union {
+        int command_value;
+        struct {
+            short actor_threshold;
+            unsigned char saved_actor_mode;
+            unsigned char reserved13;
+        } parts;
+    } control10;
+    /* 0x14 */ int action_value14;
+    /* 0x18 */ int action_value18;
     /* 0x1C */ int count_limit;
     /* 0x20 */ int divisor_basis;
     /* 0x24 */ short actor_threshold_delta;
@@ -123,7 +139,10 @@ typedef struct FieldActorState {
     /* 0x2C */ int progress_step;
     /* 0x30 */ int countdown;
     /* 0x34 */ int terminal_delay;
-    /* 0x38 */ unsigned char transition_timers[0x10];
+    /* 0x38 */ unsigned short sub_action_step;
+    /* 0x3A */ unsigned char sub_action_counter;
+    /* 0x3B */ unsigned char sub_action_period;
+    /* 0x3C */ unsigned char transition_timers[0x0C];
     /* 0x48 */ signed char recoil_steps;
     /* 0x49 */ unsigned char recoil_magnitude;
     /* 0x4A */ short recoil_angle;
@@ -131,12 +150,55 @@ typedef struct FieldActorState {
     /* 0x50 */ unsigned char number_desc_0[0x08];
     /* 0x58 */ unsigned char number_desc_1[0x08];
     /* 0x60 */ unsigned char coord_desc[0x08];
-    /* 0x68 */ unsigned char pad_68[0x04];
+    /* 0x68 */ void *action;
     /* 0x6C */ void *substate;
-    /* 0x70 */ unsigned char pad_70[0x68]; /* battle view maps additional command/status fields through 0xD7 */
-} FieldActorState;
+    /* 0x70 */ void *aux_state;
+    /* 0x74 */ unsigned char reserved74[0x14];
+    /* 0x88 */ int script_value88;
+    /* 0x8C */ short script_value8c;
+    /* 0x8E */ short script_value8e;
+    /* 0x90 */ unsigned char effect_chance;
+    /* 0x91 */ unsigned char effect_param91;
+    /* 0x92 */ unsigned char effect_param92;
+    /* 0x93 */ unsigned char effect_param93;
+    /* 0x94 */ unsigned char effect_level;
+    /* 0x95 */ unsigned char effect_duration;
+    /* 0x96 */ short script_value96;
+    /* 0x98 */ short script_value98;
+    /* 0x9A */ short script_value9a;
+    /* 0x9C */ unsigned char reserved9c[2];
+    /* 0x9E */ signed char script_value9e;
+    /* 0x9F */ signed char script_value9f;
+    /* 0xA0 */ short loot_item_id;
+    /* 0xA2 */ short loot_item_aux;
+    /* 0xA4 */ signed char behavior_mode;
+    /* 0xA5 */ unsigned char reserveda5;
+    /* 0xA6 */ short behavior_timer;
+    /* 0xA8 */ unsigned char reserveda8[6];
+    /* 0xAE */ signed char script_valueae;
+    /* 0xAF */ signed char script_valueaf;
+    /* 0xB0 */ short script_values_b0[6];
+    /* 0xBC */ signed char script_valuebc;
+    /* 0xBD */ unsigned char reservedbd[0x0F];
+    /* 0xCC */ unsigned int status_flags2;
+    /* 0xD0 */ short panel_c_value;
+    /* 0xD2 */ unsigned short panel_c_x;
+    /* 0xD4 */ unsigned short panel_c_y;
+    /* 0xD6 */ unsigned char panel_c_timer;
+    /* 0xD7 */ unsigned char panel_c_mode;
+};
 
 PE1_STATIC_ASSERT(sizeof(FieldActorState) == 0xD8, field_actor_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, state) == 0x00,
+                  field_actor_state_pointer_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActorState, script_value88) == 0x88,
+                  field_actor_state_script_value88_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActorState, behavior_mode) == 0xA4,
+                  field_actor_state_behavior_mode_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActorState, status_flags2) == 0xCC,
+                  field_actor_state_status_flags2_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActorState, panel_c_timer) == 0xD6,
+                  field_actor_state_panel_c_timer_offset);
 
 /* Scene movement target record; shared by the E02/E03/E06...E27 overlays. */
 typedef struct FieldMoveTarget {
@@ -191,6 +253,8 @@ typedef struct FieldActorNode {
 #define FIELD_ACTOR_STATE_TERMINAL_DELAY 0x34
 #define FIELD_ACTOR_STATE_FLAGS 0x4C
 #define FIELD_ACTOR_STATE_SUBSTATE 0x6C
+
+void Entity_WriteFieldByCmd(FieldActor *actor, int command, int value);
 
 /*
  * Do not add canonical externs for g_PlayerEntity/g_ActiveActor here yet. Matching
