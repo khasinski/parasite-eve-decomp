@@ -22,6 +22,10 @@ void Battle_ApplyEnemyAttack(u8 *ent);
     (*(char **)((char *)(base) + PE1_OFFSETOF(Combatant, member)))
 #define ATTRIBUTE_U32(base, member) \
     (*(u32 *)((char *)(base) + PE1_OFFSETOF(BattleAttributes, member)))
+#define ENEMY_FIELD(base, type, member) \
+    (*(type *)((char *)(base) + PE1_OFFSETOF(EnemyCombatant, member)))
+#define EFFECT_FIELD(base, type, member) \
+    (*(type *)((char *)(base) + PE1_OFFSETOF(EnemyActionEffect, member)))
 
 void Entity_ResolveDropTable(void *arg0) {
     char *state;
@@ -51,22 +55,23 @@ void Entity_ResolveDropTable(void *arg0) {
         scale = (u16)(((u16)scale * 3) / 10);
     }
 
-    word = U32(entry, 0);
+    word = ENEMY_FIELD(entry, u32, coreFlags);
     if ((int)((word >> 21) & 7) < 3) {
         char *action;
 
-        action = PTR(entry, 0x18);
+        action = ENEMY_FIELD(entry, char *, effect);
         masked = ATTRIBUTE_U32(COMBATANT_PTR(state, attributes), parameterWord) & 0x3FF;
-        if (U8(action, 0xE) == 0) {
-            U8(action, 0) = 4;
-        } else if (U8(action, 0xE) != 1) {
-            U8(action, 0) = 3;
+        if (EFFECT_FIELD(action, u8, category) == 0) {
+            EFFECT_FIELD(action, u8, state) = 4;
+        } else if (EFFECT_FIELD(action, u8, category) != 1) {
+            EFFECT_FIELD(action, u8, state) = 3;
         }
     } else {
         masked = (ATTRIBUTE_U32(COMBATANT_PTR(state, attributes), parameterWord) >> 10) & 0x3FF;
     }
 
-    value = U16(PTR(entry, 0x18), 0xC) - (u16)scale - masked;
+    value = EFFECT_FIELD(ENEMY_FIELD(entry, char *, effect), u16, power) -
+            (u16)scale - masked;
     roll = rand();
 
     {
@@ -76,7 +81,7 @@ void Entity_ResolveDropTable(void *arg0) {
 
         roll_mod = roll % 100;
         chance_state = g_ActiveActor_late[0];
-        chance = ((int)U8(entry, 0x90) *
+        chance = ((int)ENEMY_FIELD(entry, u8, effectChance) *
                   (100 - (int)((ATTRIBUTE_U32(COMBATANT_PTR(chance_state, attributes),
                                                    parameterWord) >> 20) & 0xFF))) /
                  100;
@@ -98,8 +103,8 @@ void Entity_ResolveDropTable(void *arg0) {
             if (value > 0) {
                 char *action;
 
-                action = PTR(entry, 0x18);
-                if (U8(action, 1) == 0xA) {
+                action = ENEMY_FIELD(entry, char *, effect);
+                if (EFFECT_FIELD(action, u8, effectType) == 0xA) {
                     value = (s32)(value + ((u32)value >> 31)) >> 1;
                 }
                 U16(after_state, 0xC) = U16(after_state, 0xC) - value;
@@ -113,18 +118,20 @@ void Entity_ResolveDropTable(void *arg0) {
         } else if (value > 0) {
             char *action;
 
-            action = PTR(entry, 0x18);
-            if (U8(action, 1) == 0xA) {
+            action = ENEMY_FIELD(entry, char *, effect);
+            if (EFFECT_FIELD(action, u8, effectType) == 0xA) {
                 value = (s32)(value + ((u32)value >> 31)) >> 1;
             }
             U32(after_state, 8) -= value * ((S32(after_state, 0x28) * 4) / S16(after_state, 0x1C));
         }
     }
 
-    if (U8(PTR(entry, 0x18), 1) != 0) {
+    if (EFFECT_FIELD(ENEMY_FIELD(entry, char *, effect), u8, effectType) != 0) {
         Battle_ApplyEnemyAttack(entry);
     }
 }
 
 #undef ATTRIBUTE_U32
 #undef COMBATANT_PTR
+#undef EFFECT_FIELD
+#undef ENEMY_FIELD

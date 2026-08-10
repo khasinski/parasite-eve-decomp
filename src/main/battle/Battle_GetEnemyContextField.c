@@ -4,7 +4,7 @@
 #include "../../../tools/m2c/m2c_macros.h"
 
 s32 Battle_GetEnemyContextField(void *arg0, s32 arg1) {
-    Combatant *ctx = *(Combatant **)arg0;
+    EnemyCombatant *ctx = *(EnemyCombatant **)arg0;
     s32 ret = -1000;
     register u32 word asm("$2");
     s32 flags;

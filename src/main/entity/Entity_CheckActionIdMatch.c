@@ -1,4 +1,11 @@
 #include "common.h"
+#include "pe1/battle.h"
+
+#define ENEMY_FIELD(base, type, member) \
+    (*(type *)((base) + PE1_OFFSETOF(EnemyCombatant, member)))
+#define EFFECT_FIELD(base, type, member) \
+    (*(type *)((base) + PE1_OFFSETOF(EnemyActionEffect, member)))
+
 void Entity_CheckActionIdMatch(char **arg0, void *arg1, char **arg2, int arg3) {
     char *entry;
     int i;
@@ -11,16 +18,16 @@ void Entity_CheckActionIdMatch(char **arg0, void *arg1, char **arg2, int arg3) {
         return;
     }
 
-    if (**(char **)(entry + 0x18) != 1) {
+    if (EFFECT_FIELD(ENEMY_FIELD(entry, char *, effect), u8, state) != 1) {
         return;
     }
 
-    kind = (*(u32 *)entry >> 21) & 7;
+    kind = (ENEMY_FIELD(entry, u32, coreFlags) >> 21) & 7;
     if (kind >= 3) {
         return;
     }
 
-    if (*(int *)(entry + 0x10) <= 0) {
+    if (ENEMY_FIELD(entry, s32, hpAlive) <= 0) {
         return;
     }
 
@@ -31,7 +38,7 @@ void Entity_CheckActionIdMatch(char **arg0, void *arg1, char **arg2, int arg3) {
         value = *(s8 *)(offset + (int)entry + (i & 0xFFFF) + 0x7C);
         if (arg3 == value) {
             *(int *)(*arg0 + 0x4C) |= 0x4000;
-            *(u32 *)entry |= 0x80000000;
+            ENEMY_FIELD(entry, u32, coreFlags) |= 0x80000000;
             return;
         }
 
@@ -42,3 +49,6 @@ void Entity_CheckActionIdMatch(char **arg0, void *arg1, char **arg2, int arg3) {
         i++;
     } while ((u16)i < 4);
 }
+
+#undef EFFECT_FIELD
+#undef ENEMY_FIELD

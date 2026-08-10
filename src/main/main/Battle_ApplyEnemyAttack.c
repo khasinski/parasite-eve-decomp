@@ -2,6 +2,10 @@
 #include "pe1/battle.h"
 #define NULL ((void *)0)
 
+#define ENEMY_FIELD(base, type, member) \
+    (*(type *)((base) + PE1_OFFSETOF(EnemyCombatant, member)))
+#define EFFECT_FIELD(base, type, member) \
+    (*(type *)((base) + PE1_OFFSETOF(EnemyActionEffect, member)))
 #define COMBATANT_ATTRIBUTES(base) \
     (*(u8 **)((base) + PE1_OFFSETOF(Combatant, attributes)))
 #define ATTRIBUTE_EFFECT_FLAGS(base) \
@@ -63,7 +67,7 @@ extern struct { char _[16]; } D2E8_ob __asm__("g_FieldMoveLock");
 void Battle_ApplyEnemyAttack(u8 *ent) {
     s32 *ps = (s32 *)(D278_0 + 0x4C);
 
-    switch (*(u8 *)(*(u8 **)(ent + 0x18) + 1)) {
+    switch (EFFECT_FIELD(ENEMY_FIELD(ent, u8 *, effect), u8, effectType)) {
     case 1:
         if ((*ps & 3) == 1) {
             break;
@@ -84,14 +88,14 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
                 u8 lvl;
                 *ps = (f & ~3) | 1;
                 *(s16 *)(pD + 0x40) = 0x2328;
-                lvl = *(u8 *)(ent + 0x94);
+                lvl = ENEMY_FIELD(ent, u8, effectLevel);
                 *(s8 *)(pD + 0x3A) = 0;
                 *(s16 *)(pD + 0x38) = lvl;
             }
         }
         {
             u8 *pD = D278_3;
-            *(s8 *)(pD + 0x3B) = *(u8 *)(ent + 0x95);
+            *(s8 *)(pD + 0x3B) = ENEMY_FIELD(ent, u8, effectDuration);
         }
         break;
     case 2:
@@ -257,11 +261,11 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
         if (ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(D278_15)) & 0x10) {
             s32 r = rand();
             if ((r % 100) >= 0x3C) {
-                *(s16 *)(ent + 0xA0) = Inv_PickRandomItem(r / 100);
-                *(u8 *)(*(u8 **)(ent + 0x18) + 1) = 0;
-                Inv_FindItemById(*(s16 *)(ent + 0xA0));
+                ENEMY_FIELD(ent, s16, lootItemId) = Inv_PickRandomItem(r / 100);
+                EFFECT_FIELD(ENEMY_FIELD(ent, u8 *, effect), u8, effectType) = 0;
+                Inv_FindItemById(ENEMY_FIELD(ent, s16, lootItemId));
                 {
-                    s32 it = *(s16 *)(ent + 0xA0);
+                    s32 it = ENEMY_FIELD(ent, s16, lootItemId);
                     g_BattleSaveOverlayActive = 1;
                     g_CurItemEffectData = Inv_GetItemEffectData(it, 0);
                 }
@@ -272,10 +276,11 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
     case 13:
         if (ATTRIBUTE_EFFECT_FLAGS(COMBATANT_ATTRIBUTES(D278_16)) & 0x10) {
             if ((rand() % 100) >= 0x3C) {
-                Inv_RollRandomItemType(ent + 0xA0, ent + 0xA2);
-                *(u8 *)(*(u8 **)(ent + 0x18) + 1) = 0;
+                Inv_RollRandomItemType(&ENEMY_FIELD(ent, s16, lootItemId),
+                                       &ENEMY_FIELD(ent, s16, lootItemAux));
+                EFFECT_FIELD(ENEMY_FIELD(ent, u8 *, effect), u8, effectType) = 0;
                 {
-                    s32 it = *(s16 *)(ent + 0xA0);
+                    s32 it = ENEMY_FIELD(ent, s16, lootItemId);
                     g_BattleSaveOverlayActive = 1;
                     g_CurItemEffectData = Inv_GetItemEffectData(it, 0);
                 }
@@ -296,3 +301,5 @@ void Battle_ApplyEnemyAttack(u8 *ent) {
 
 #undef ATTRIBUTE_EFFECT_FLAGS
 #undef COMBATANT_ATTRIBUTES
+#undef EFFECT_FIELD
+#undef ENEMY_FIELD

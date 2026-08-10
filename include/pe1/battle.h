@@ -20,7 +20,7 @@
  *   g_PlayerEntity (0x8009D254)  -> BattleEntity   (field-actor node)
  *   g_FieldActorListHead         -> BattleEntity   (singly-linked, +0x04 = next)
  *   g_ActiveActor  (0x8009D278)  == *g_PlayerEntity == BattleEntity.core
- *                                -> Combatant       (the core stat/state record)
+ *                                -> Combatant in the player-side paths below
  *
  *   Proof: Battle_DispatchInit.c:17        g_ActiveActor = *g_PlayerEntity;
  *          Battle_DispatchSpecialAction.c:30 g_ActiveActor = actor->core;
@@ -51,11 +51,22 @@ typedef struct BattleAttributes {
 /* 0x04 */ u32 effectFlags;   /* attack/status capabilities consumed by hit logic */
 } BattleAttributes;
 
+/* Effect descriptor referenced by an enemy's battle-state record. This is a
+ * different pointer from Combatant.action at +0x68.
+ */
+typedef struct EnemyActionEffect {
+/* 0x00 */ u8  state;       /* 1=ready; changed to 3/4 by drop resolution */
+/* 0x01 */ u8  effectType;  /* Battle_ApplyEnemyAttack dispatch id */
+/* 0x02 */ u8  pad_02[0x0A];
+/* 0x0C */ u16 power;
+/* 0x0E */ u8  category;    /* selects which packed BattleAttributes value applies */
+/* 0x0F */ u8  pad_0F;
+} EnemyActionEffect;
+
 /* ----------------------------------------------------------------------------
- * Combatant -- the core stat/state record. g_ActiveActor points here. Same
- * layout for the player (Aya) and enemies. Indexed by Battle_ApplyDamage,
- * Battle_ResetEnemyStats, Battle_IsActive, Battle_Set/GetContextField (ctx),
- * Battle_DrawATBGauge, etc.
+ * Combatant -- the active/player-side stat record. g_ActiveActor points here
+ * in the setup and command paths below. Enemy entity cores share several
+ * offsets but diverge at +0x10; use EnemyCombatant for those records.
  * --------------------------------------------------------------------------*/
 typedef struct Combatant {
 /* 0x00 */ u32  coreFlags;     /* bitfield; &0x6000 / &0xC0000 facing, >>13&3 weapon-cat (Battle_GetEnemyContextField.c:28,44,55) */
@@ -115,7 +126,7 @@ typedef struct Combatant {
 /* 0x67 */ u8   panelAux_mode;
 /* 0x68 */ struct BattleAction *action; /* the queued action/command descriptor; read by nearly every turn func via M2C_FIELD(combatant,void**,0x68) (Battle_Init.c:60; Battle_DrawATBGauge.c:55; Battle_AdvanceTurnSlot.c:70) */
 /* 0x6C */ BattleAttributes *attributes;
-/* 0x70 */ void *actionDesc70; /* action descriptor (target+effect) set on commit. TENTATIVE */
+/* 0x70 */ void *field70;      /* TENTATIVE: no semantic use confirmed yet */
 /* 0x74 */ u8   pad_74[0x14];
 /* 0x88 */ s32  field88;       /* GetEnemyCtx case19, clamped >=0 (Battle_GetEnemyContextField.c:35) */
 /* 0x8C */ u16  field8C;       /* GetEnemyCtx case20 (Battle_GetEnemyContextField.c:41) */
@@ -127,6 +138,43 @@ typedef struct Combatant {
 /* 0xD6 */ u8   panelC_timer;
                                /* ... struct continues; remaining bytes unmapped */
 } Combatant;
+
+/* Enemy entity core. It shares several stat/status offsets with Combatant but
+ * diverges by +0x10: notably +0x18 is an EnemyActionEffect pointer, while the
+ * active player Combatant stores action-mode bytes there. Do not merge these
+ * two views without stronger lifetime evidence.
+ */
+typedef struct EnemyCombatant {
+/* 0x00 */ u32 coreFlags;
+/* 0x04 */ union {
+               s16 fieldId04;
+               struct { u8 rank; u8 field05; } bytes;
+           } field04;
+/* 0x08 */ s32 field08;
+/* 0x0C */ u16 curHP;
+/* 0x0E */ u16 hpMirror;
+/* 0x10 */ s32 hpAlive;
+/* 0x14 */ u8  pad_14[4];
+/* 0x18 */ EnemyActionEffect *effect;
+/* 0x1C */ u8  pad_1C[0x30];
+/* 0x4C */ u32 stateFlags;
+/* 0x50 */ u8  pad_50[0x1C];
+/* 0x6C */ BattleAttributes *attributes;
+/* 0x70 */ u8  pad_70[0x18];
+/* 0x88 */ s32 field88;
+/* 0x8C */ u16 field8C;
+/* 0x8E */ u8  pad_8E[2];
+/* 0x90 */ u8  effectChance;
+/* 0x91 */ u8  pad_91[3];
+/* 0x94 */ u8  effectLevel;
+/* 0x95 */ u8  effectDuration;
+/* 0x96 */ u8  pad_96[0x0A];
+/* 0xA0 */ s16 lootItemId;
+/* 0xA2 */ s16 lootItemAux;
+/* 0xA4 */ u8  pad_A4[0x28];
+/* 0xCC */ u32 statusFlags2;
+/* 0xD0 */ u8  pad_D0[8];
+} EnemyCombatant;
 
 /* ----------------------------------------------------------------------------
  * BattleAction -- the per-actor action/command descriptor (Combatant.action,
@@ -153,7 +201,7 @@ typedef struct BattleAction {
  * ordering).
  * --------------------------------------------------------------------------*/
 typedef struct BattleEntity {
-/* 0x000 */ struct Combatant   *core;  /* pointer to the Combatant record (Battle_DispatchSpecialAction.c:30; Battle_BuildTargetList.c:44) */
+/* 0x000 */ void *core; /* Combatant for player paths, EnemyCombatant for enemy entities */
 /* 0x004 */ struct BattleEntity *next; /* next in actor list (Battle_BuildTargetList.c:63) */
 /* 0x008 */ u8   pad_008[4];
 /* 0x00C */ u8   modelIndex;     /* selects a 0xC0-byte action-pointer table (Entity_SetActionMode) */
@@ -262,6 +310,24 @@ PE1_STATIC_ASSERT(sizeof(BattleAction) == 0x18, battle_action_partial_size);
 PE1_STATIC_ASSERT(sizeof(BattleAttributes) == 0x08, battle_attributes_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleAttributes, effectFlags) == 0x04,
                   battle_attributes_effect_flags_offset);
+PE1_STATIC_ASSERT(sizeof(EnemyActionEffect) == 0x10, enemy_action_effect_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyActionEffect, power) == 0x0C,
+                  enemy_action_effect_power_offset);
+PE1_STATIC_ASSERT(sizeof(EnemyCombatant) == 0xD8, enemy_combatant_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, effect) == 0x18,
+                  enemy_combatant_effect_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, attributes) == 0x6C,
+                  enemy_combatant_attributes_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, effectChance) == 0x90,
+                  enemy_combatant_effect_chance_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, lootItemId) == 0xA0,
+                  enemy_combatant_loot_item_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, statusFlags2) == 0xCC,
+                  enemy_combatant_status_flags_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, curHP) ==
+                  PE1_OFFSETOF(Combatant, curHP), combatant_views_hp_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, attributes) ==
+                  PE1_OFFSETOF(Combatant, attributes), combatant_views_attributes_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, curHP) ==
                   PE1_OFFSETOF(FieldActorState, amount), state_views_hp_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, atbStep) ==
