@@ -118,10 +118,10 @@ void Menu_CreateTwoLineDialog(int line0_id, int line1_id) {
         : "$2", "$4", "$16", "$17", "$19", "$31", "memory");
 
     parent->grid_width = width + 0x14;
-    parent->value_18 = (0x12C - width) >> 1;
+    parent->x = (0x12C - width) >> 1;
     parent->visible_rows += 0xE;
-    child->value_18 = parent->grid_width - 0x44;
-    child->value_1C += 0xE;
+    child->x = parent->grid_width - 0x44;
+    child->y += 0xE;
 
     Queue_Init();
 }

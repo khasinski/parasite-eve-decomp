@@ -1,22 +1,8 @@
 #include "common.h"
+#include "pe1/inventory.h"
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef struct EquipStatPreview {
-    u8 pad0[7];
-    u8 attack;
-    u8 range;
-    u8 bullets;
-    u8 padA[4];
-    s16 attack_delta;
-    s16 range_delta;
-    s16 bullets_delta;
-} EquipStatPreview;
-
-typedef struct MenuWidgetNode {
-    u8 pad0[0x24];
-    s32 kind;
-} MenuWidgetNode;
 
 extern s32 D_8009CF18;
 extern s32 D_8009CF1C;
@@ -26,7 +12,7 @@ void Draw_AllocSprite(int sprite);
 void Draw_PrintNumberWidth4(int value);
 MenuWidgetNode *MenuWidget_GetCurrentNode(void);
 
-void Menu_DrawEquipStatsDelta(EquipStatPreview *preview) {
+void Menu_DrawEquipStatsDelta(ItemDataRecord *preview) {
     int sprite_base;
     int value;
     MenuWidgetNode *node;
@@ -49,28 +35,28 @@ void Menu_DrawEquipStatsDelta(EquipStatPreview *preview) {
 
     if (D_8009CF1C != 0) {
         node = MenuWidget_GetCurrentNode();
-        if (node->kind == 7) {
+        if (node->selected_base == 7) {
             Draw_OffsetCursor(0x18, 0xE);
             return;
         }
     }
 
     Draw_OffsetCursor(0x1E, -0x1C);
-    value = preview->attack + preview->attack_delta;
+    value = preview->baseStats[0] + preview->bonusStats[0];
     if (value >= 0x3E8) {
         value = 0x3E7;
     }
     Draw_PrintNumberWidth4(value);
 
     Draw_OffsetCursor(-0x24, 0xE);
-    value = preview->range + preview->range_delta;
+    value = preview->baseStats[1] + preview->bonusStats[1];
     if (value >= 0x3E8) {
         value = 0x3E7;
     }
     Draw_PrintNumberWidth4(value);
 
     Draw_OffsetCursor(-0x24, 0xE);
-    value = preview->bullets + preview->bullets_delta;
+    value = preview->baseStats[2] + preview->bonusStats[2];
     if (value >= 0x3E8) {
         value = 0x3E7;
     }

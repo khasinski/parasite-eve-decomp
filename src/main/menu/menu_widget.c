@@ -13,7 +13,7 @@ MenuWidgetNode *MenuWidget_FindByFieldValue(int value) {
     while (node != 0) {
         i = 0;
         while (i < 4) {
-            if (((int *)&node->field_08)[i] == value) {
+            if ((int)node->children[i] == value) {
                 break;
             }
             i++;
@@ -27,8 +27,8 @@ MenuWidgetNode *MenuWidget_FindByFieldValue(int value) {
     return result;
 }
 
-int MenuWidget_GetChild(int *arg0, int arg1) {
-    return arg0[arg1 + 2];
+MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *node, int index) {
+    return node->children[index];
 }
 
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base) {

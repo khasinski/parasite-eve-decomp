@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -8,8 +9,8 @@
 
 M2C_UNK BoundsCheck_AssertStub();
 
-extern void *g_MenuWidgetActiveListHead;
-extern void *g_MenuWidgetFreeListHead;
+#define NODE_FIELD(base, type, member) \
+    (*(type)((char *)(base) + PE1_OFFSETOF(MenuWidgetNode, member)))
 
 void *MenuWidget_AllocNode(s32 arg0, void *arg1);
 
@@ -32,25 +33,25 @@ void *MenuWidget_AllocNode(s32 arg0, void *arg1) {
         BoundsCheck_AssertStub(0xA);
     }
     var_a0 = 3;
-    temp_next = M2C_FIELD(temp_s0, void **, 0);
+    temp_next = NODE_FIELD(temp_s0, void **, next);
     temp_v1 = g_MenuWidgetActiveListHead;
     var_a1 = temp_s0 + 0xC;
     g_MenuWidgetActiveListHead = temp_s0;
-    M2C_FIELD(temp_s0, s32 *, 4) = temp_s2;
-    M2C_FIELD(temp_s0, s32 *, 0x2C) = 0;
-    M2C_FIELD(temp_s0, s32 *, 0x30) = 0;
+    NODE_FIELD(temp_s0, s32 *, parent) = temp_s2;
+    NODE_FIELD(temp_s0, s32 *, update) = 0;
+    NODE_FIELD(temp_s0, s32 *, field_30) = 0;
     g_MenuWidgetFreeListHead = temp_next;
-    M2C_FIELD(temp_s0, void **, 0) = temp_v1;
+    NODE_FIELD(temp_s0, void **, next) = temp_v1;
     do {
         M2C_FIELD(var_a1, s32 *, 8) = 0;
         var_a0 -= 1;
         var_a1 -= 4;
     } while (var_a0 >= 0);
-    M2C_FIELD(temp_s0, s32 *, 0x1C) = 0;
-    M2C_FIELD(temp_s0, s32 *, 0x18) = 0;
-    M2C_FIELD(temp_s0, s32 *, 0x24) = 0;
-    M2C_FIELD(temp_s0, s32 *, 0x20) = 0;
-    M2C_FIELD(temp_s0, s32 *, 0x28) = 0;
+    NODE_FIELD(temp_s0, s32 *, y) = 0;
+    NODE_FIELD(temp_s0, s32 *, x) = 0;
+    NODE_FIELD(temp_s0, s32 *, selected_base) = 0;
+    NODE_FIELD(temp_s0, s32 *, mode) = 0;
+    NODE_FIELD(temp_s0, s32 *, field_28) = 0;
     if (temp_s1 != NULL) {
         var_a0_2 = 0;
         var_v1 = temp_s1;
@@ -84,3 +85,5 @@ block_8:
     }
     return temp_s0;
 }
+
+#undef NODE_FIELD

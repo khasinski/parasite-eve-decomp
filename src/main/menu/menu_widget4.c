@@ -39,7 +39,7 @@ void MenuWidget_UpdateAndDraw(void) {
                 node->field_3C = order_flag;
                 order_flag = 1;
             }
-            node = (MenuWidgetNode *)node->field_04;
+            node = node->parent;
         } while (node != 0);
     }
 
@@ -68,8 +68,8 @@ void MenuWidget_UpdateAndDraw(void) {
                 g_TextCursorY = 0;
                 g_DrawTextBoxWidth = node->grid_width;
                 Draw_PushPrimToList(node);
-                g_TextCursorX = node->value_18;
-                g_TextCursorY = node->value_1C;
+                g_TextCursorX = node->x;
+                g_TextCursorY = node->y;
                 g_DrawTextDimmed = node->field_3C;
                 Draw_AllocColorGradient(node->grid_width, node->visible_rows, node->target_x, node->cursor_x);
             }
@@ -80,8 +80,8 @@ void MenuWidget_UpdateAndDraw(void) {
 
 void MenuWidget_OffsetPosition(MenuWidgetNode *ptr, int dx, int dy) {
     if (ptr != 0) {
-        ptr->value_18 += dx;
-        ptr->value_1C += dy;
+        ptr->x += dx;
+        ptr->y += dy;
         g_TextCursorX += dx;
         g_TextCursorY += dy;
     }

@@ -1,15 +1,14 @@
 #ifndef PE1_MENU_WIDGET_H
 #define PE1_MENU_WIDGET_H
 
+#include "common.h"
+
 typedef struct MenuWidgetNode {
     struct MenuWidgetNode *next;
-    void *field_04;
-    int field_08;
-    int field_0C;
-    int field_10;
-    int field_14;
-    int value_18;
-    int value_1C;
+    struct MenuWidgetNode *parent;
+    struct MenuWidgetNode *children[4];
+    int x;
+    int y;
     int mode;
     int selected_base;
     int field_28;
@@ -30,7 +29,7 @@ typedef struct MenuWidgetNode {
     int field_64;
     int field_68;
     int field_6C;
-    int selected_base_mirror;
+    int field_70;             /* initialized from mode; reused by some widget kinds */
     int cell_mask;
     struct MenuWidgetNode *field_78;
     struct MenuWidgetNode *field_7C;
@@ -39,6 +38,22 @@ typedef struct MenuWidgetNode {
     int field_88;
     int field_8C;
 } MenuWidgetNode;
+
+PE1_STATIC_ASSERT(sizeof(MenuWidgetNode) == 0x90, menu_widget_node_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, parent) == 0x04,
+                  menu_widget_parent_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, children) == 0x08,
+                  menu_widget_children_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, x) == 0x18,
+                  menu_widget_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, update) == 0x2C,
+                  menu_widget_update_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, cursor_x) == 0x44,
+                  menu_widget_cursor_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, scroll_y) == 0x5C,
+                  menu_widget_scroll_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, field_70) == 0x70,
+                  menu_widget_field_70_offset);
 
 extern MenuWidgetNode g_MenuWidgetNodePool[];
 extern MenuWidgetNode g_MenuWidgetNodePoolSentinel;

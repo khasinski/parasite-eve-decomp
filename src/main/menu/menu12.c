@@ -40,11 +40,11 @@ void Menu_CreateItemList(void) {
     Menu_SetDeferredCallback(0);
 
     parent->grid_width = 0xDC;
-    parent->value_18 = 0x32;
+    parent->x = 0x32;
     parent->visible_rows += 0xA;
 
-    child->value_18 = parent->grid_width - 0x44;
-    child->value_1C += 8;
+    child->x = parent->grid_width - 0x44;
+    child->y += 8;
 
     D_8009CFC0 = 0x37;
 

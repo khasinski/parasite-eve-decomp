@@ -1,22 +1,19 @@
+#include "pe1/menu_widget.h"
 
-typedef unsigned int u32;
-
-typedef struct MenuWidget MenuWidget;
-
-extern MenuWidget *MenuWidget_GetChild(MenuWidget *arg0, int arg1);
-extern int MenuWidget_GridCellIndex(MenuWidget *arg0);
-extern void MenuWidget_DestroyNode(MenuWidget *arg0);
-extern void Menu_CreateActionSubmenu(MenuWidget *arg0);
-extern void func_8004B03C(MenuWidget *arg0);
-extern void Menu_OpenBlendColorScreen(MenuWidget *arg0);
-extern void Menu_OpenScreenAdjustView(MenuWidget *arg0);
+extern MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *arg0, int arg1);
+extern int MenuWidget_GridCellIndex(MenuWidgetNode *arg0);
+extern void MenuWidget_DestroyNode(MenuWidgetNode *arg0);
+extern void Menu_CreateActionSubmenu(MenuWidgetNode *arg0);
+extern void func_8004B03C(MenuWidgetNode *arg0);
+extern void Menu_OpenBlendColorScreen(MenuWidgetNode *arg0);
+extern void Menu_OpenScreenAdjustView(MenuWidgetNode *arg0);
 extern void Inv_InitMaxLevelInventory(int arg0);
 extern void Menu_CreateBonusPointAllocationView(void);
 extern void Menu_PlayConfirmSound(void);
 extern void Menu_PlayCancelSound(void);
 
-int Menu_MainMenuInputHandler(MenuWidget *arg0, u32 arg1) {
-    MenuWidget *child = MenuWidget_GetChild(arg0, 0);
+int Menu_MainMenuInputHandler(MenuWidgetNode *arg0, u32 arg1) {
+    MenuWidgetNode *child = MenuWidget_GetChild(arg0, 0);
 
     if (arg1 & 0x10000) {
         switch (MenuWidget_GridCellIndex(child)) {

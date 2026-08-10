@@ -1,7 +1,5 @@
 #include "pe1/menu_widget.h"
 
-typedef unsigned int u32;
-
 extern MenuWidgetNode *MenuWidget_CreateSimpleNode(int arg0, MenuWidgetNode *arg1, int arg2, int arg3);
 extern MenuWidgetNode *MenuWidget_CreateNode(int arg0, MenuWidgetNode *arg1, MenuWidgetNode *arg2);
 extern MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *arg0, int arg1);

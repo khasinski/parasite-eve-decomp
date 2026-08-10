@@ -1,22 +1,22 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-typedef struct MenuWidget MenuWidget;
+#include "pe1/menu_widget.h"
 
 extern void Menu_OpenItemList(void);
 extern void Inv_BuildStorageDisplay(void);
 extern void MenuWidget_NavScrollTo(int arg0);
-extern MenuWidget *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);
-extern void MenuWidget_SetCurrentNode(MenuWidget *node);
+extern MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);
+extern void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 extern int Inv_RestoreSelection(int arg0);
 extern void Menu_StepInventoryRoot(int arg0, int arg1, int arg2);
 extern void Menu_PlayCancelSound(void);
 
 extern unsigned int g_MenuSelectedItemList;
 
-int Menu_InventoryNavigate(MenuWidget *arg0, MenuWidget *arg1, unsigned int flags) {
+int Menu_InventoryNavigate(MenuWidgetNode *arg0, MenuWidgetNode *arg1, unsigned int flags) {
     int ret;
-    MenuWidget *node;
+    MenuWidgetNode *node;
 
     ret = 0;
     if (flags & 0x10000) {
