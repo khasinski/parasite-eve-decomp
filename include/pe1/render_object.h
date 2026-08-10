@@ -55,6 +55,22 @@ typedef struct RenderAnimationDataHeader {
     /* 0x0A */ u16 object_value7c;
 } RenderAnimationDataHeader;
 
+/* A nonzero marker selects the inline constant; zero selects frame-indexed
+ * samples beginning at the same value byte/halfword. */
+typedef struct RenderAnimByteChannel {
+    /* 0x00 */ u8 constant_marker;
+    /* 0x01 */ u8 value_or_samples[1];
+    /* 0x02 */ u8 reserved02[2];
+} RenderAnimByteChannel;
+
+typedef struct RenderAnimShortChannel {
+    /* 0x00 */ s16 constant_marker;
+    /* 0x02 */ union {
+        s16 signed_values[1];
+        u16 unsigned_values[1];
+    } samples;
+} RenderAnimShortChannel;
+
 typedef struct RenderRotationOverride {
     /* 0x00 */ u16 x;
     /* 0x02 */ u16 y;
@@ -124,6 +140,10 @@ PE1_STATIC_ASSERT(sizeof(RenderPrimitiveDescriptor) == 0x0C,
                   render_primitive_descriptor_size);
 PE1_STATIC_ASSERT(sizeof(RenderAnimationDataHeader) == 0x0C,
                   render_animation_data_header_size);
+PE1_STATIC_ASSERT(sizeof(RenderAnimByteChannel) == 0x04,
+                  render_anim_byte_channel_size);
+PE1_STATIC_ASSERT(sizeof(RenderAnimShortChannel) == 0x04,
+                  render_anim_short_channel_size);
 PE1_STATIC_ASSERT(sizeof(RenderRotationOverride) == 0x08,
                   render_rotation_override_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectHeader, packet34_count) == 0x08,
@@ -146,9 +166,9 @@ void Render_ClearObjectAnim(RenderObjectEntity *object);
 void Render_CopyFrameData(RenderObjectEntity *dst, RenderObjectEntity *src, s32 frame);
 void Render_CopyFrameDataDouble(RenderObjectEntity *dst, RenderObjectEntity *src, s32 frame);
 void Render_UpdateClutTable(RenderObjectEntity *object, s16 force, s16 buffer_index);
-void Anim_DecodeBoneRotationsByte(RenderObjectEntity *object, void *animation_data,
+void Anim_DecodeBoneRotationsByte(RenderObjectEntity *object, RenderAnimationDataHeader *animation_data,
                                   s16 frame);
-void Anim_DecodeBoneRotationsShort(RenderObjectEntity *object, void *animation_data,
+void Anim_DecodeBoneRotationsShort(RenderObjectEntity *object, RenderAnimationDataHeader *animation_data,
                                    s16 frame);
 
 #endif
