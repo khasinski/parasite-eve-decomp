@@ -1,10 +1,11 @@
 #include "common.h"
+#include "pe1/memcard.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-void *MemCard_GetSlot();
+MemCardSaveSlot *MemCard_GetSlot();
 s32 Save_GetMetadataWindowIndex();
 void *func_8005DD8C();
 M2C_UNK Draw_OffsetCursor();
@@ -26,7 +27,7 @@ extern s32 g_SavedDrawBlendColor[];
 #define g_SavedDrawBlendColor (g_SavedDrawBlendColor[0])
 
 void Menu_DrawSaveSlotEntry(s32 arg0) {
-    register void *slot;
+    register MemCardSaveSlot *slot;
     s32 index;
     M2C_UNK var_a0_2;
     M2C_UNK var_a0_3;
@@ -36,31 +37,31 @@ void Menu_DrawSaveSlotEntry(s32 arg0) {
     index = arg0;
     slot = MemCard_GetSlot(M2C_FIELD(g_MenuActiveWidget, s32 *, 0x24) - 0x25, index);
     if (slot != NULL) {
-        state = M2C_FIELD(slot, u8 *, 0);
+        state = slot->state;
         switch (state) {
         case 1:
             if (index == MenuWidget_GridCellIndex(g_MenuActiveWidget)) {
-                Menu_SetSaveSlotBlendBase(M2C_FIELD(slot, s32 *, 0x20));
+                Menu_SetSaveSlotBlendBase(slot->blendColor);
             } else {
                 Draw_OffsetCursor(-2, -2);
-                func_800614AC(M2C_FIELD(slot, s32 *, 0x20));
+                func_800614AC(slot->blendColor);
                 Draw_EmitWipeBarRect(M2C_FIELD(g_MenuActiveWidget, s32 *, 0x3C), M2C_FIELD(g_MenuActiveWidget, s32 *, 0x40), 1);
                 func_800614AC(g_SavedDrawBlendColor);
                 Draw_OffsetCursor(2, 2);
             }
             Draw_OffsetCursor(2, 2);
             if (Save_GetMetadataWindowIndex() == 0) {
-                Draw_PrintRawText(slot + 4);
+                Draw_PrintRawText(slot->primaryTitle);
             } else {
-                Draw_PrintRawText(slot + 0x14);
+                Draw_PrintRawText(slot->alternateTitle);
             }
             Draw_OffsetCursor(0x58, 0);
-            if (M2C_FIELD(slot, u8 *, 0x2A) != 0) {
+            if (slot->bonusIndex != 0) {
                 Draw_AllocSprite(0x95);
                 Draw_OffsetCursor(0x1A, 2);
                 Draw_AllocSprite(0x96);
                 Draw_OffsetCursor(0x22, 1);
-                Draw_PrintNumberWidth2Unk(M2C_FIELD(slot, u8 *, 0x2A) + 1);
+                Draw_PrintNumberWidth2Unk(slot->bonusIndex + 1);
                 var_a0_2 = 4;
                 var_a1 = -3;
             } else {
@@ -74,28 +75,28 @@ void Menu_DrawSaveSlotEntry(s32 arg0) {
             Draw_OffsetCursor(-0xC4, 0xF);
             Draw_AllocSprite(0x53);
             Draw_OffsetCursor(0x1E, 1);
-            Draw_PrintNumberWidth3Unk(M2C_FIELD(slot, u8 *, 0x28) + 1);
+            Draw_PrintNumberWidth3Unk(slot->levelIndex + 1);
             Draw_OffsetCursor(8, -1);
             Draw_AllocSprite(0x54);
             Draw_OffsetCursor(0x10, 1);
-            Draw_PrintNumberWidth4Unk(M2C_FIELD(slot, s16 *, 0x24));
+            Draw_PrintNumberWidth4Unk(slot->currentHp);
             Draw_AllocSprite(0x4C);
             Draw_OffsetCursor(5, 0);
-            Draw_PrintNumberWidth4Unk(M2C_FIELD(slot, s16 *, 0x26));
+            Draw_PrintNumberWidth4Unk(slot->maxHp);
             Draw_OffsetCursor(8, -1);
             Draw_AllocSprite(0x55);
             Draw_OffsetCursor(0x1A, 1);
-            Draw_PrintTimeValue(M2C_FIELD(slot, s32 *, 0xC), 0);
+            Draw_PrintTimeValue(slot->playTime, 0);
             Draw_OffsetCursor(-0xC0, 0xC);
-            if (M2C_FIELD(slot, u8 *, 0x29) != 0) {
+            if (slot->titleStyleFlag != 0) {
                 func_8005F5B8(0x60);
                 return;
             }
             func_8005F5B8(0xB);
             Draw_OffsetCursor(0x1E, 0);
-            func_800605F8(M2C_FIELD(slot, s16 *, 0x2C));
+            func_800605F8(slot->locationNumber);
             Draw_OffsetCursor(0x14, 0);
-            Draw_PrintRawText(func_8005DD8C(M2C_FIELD(slot, s16 *, 0x2E)));
+            Draw_PrintRawText(func_8005DD8C(slot->locationNameId));
             return;
         case 2:
             Draw_OffsetCursor(0, 0x12);

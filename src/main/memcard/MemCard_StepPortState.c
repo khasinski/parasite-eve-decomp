@@ -1,12 +1,7 @@
 #include "common.h"
-typedef struct MemCardPortStateRaw {
-    u8 flags;
-    u8 pad_01[7];
-    u8 card_state;
-    u8 pad_09[0x40F];
-} MemCardPortStateRaw;
+#include "pe1/memcard.h"
 
-extern MemCardPortStateRaw D_800A0ED4[];
+extern MemCardPortState D_800A0ED4[];
 extern int D_800A1820;
 extern int D_800A1824;
 extern int D_800A1828;
@@ -33,20 +28,20 @@ int Menu_IsMemCardDialogOpen(void);
 void MemCard_StartRead(int port, int arg1);
 
 void MemCard_StepPortState(int port) {
-    MemCardPortStateRaw *state;
+    MemCardPortState *state;
     int value;
 
     state = &D_800A0ED4[port];
 
-    switch (state->card_state) {
+    switch (state->cardState) {
     case 0:
-        state->flags = 0;
+        state->present = 0;
         break;
 
     case 1:
         if (D_800A1820 != 0) {
             D_800A1820 = 0;
-            if ((state->flags & 1) == 0) {
+            if ((state->present & 1) == 0) {
                 TestEvent(D_800BCDB8);
                 TestEvent(D_800BCDBC);
                 TestEvent(D_800BCDC0);
@@ -55,18 +50,18 @@ void MemCard_StepPortState(int port) {
                 D_800A1830 = 0;
                 D_800A182C = 0;
                 MemCard_InitCardSlot(port << 4);
-                state->card_state = 2;
+                state->cardState = 2;
                 return;
             }
-            state->card_state = 4;
+            state->cardState = 4;
             D_800A1840 = 0;
             D_800A183C = D_800A183C < 1;
             return;
         }
         if (D_800A1824 != 0) {
             D_800A1824 = 0;
-            state->card_state = 0;
-            state->flags &= ~4;
+            state->cardState = 0;
+            state->present &= ~4;
             D_800A1840 = 0;
             D_800A183C = D_800A183C < 1;
             return;
@@ -83,7 +78,7 @@ void MemCard_StepPortState(int port) {
         D_800A1830 = 0;
         D_800A182C = 0;
         MemCard_InitCardSlot(port << 4);
-        state->card_state = 2;
+        state->cardState = 2;
         return;
 
     case 2:
@@ -97,7 +92,7 @@ void MemCard_StepPortState(int port) {
             D_800A1824 = 0;
             D_800A1820 = 0;
             _card_load(port << 4);
-            state->card_state = 3;
+            state->cardState = 3;
             return;
         }
         if (D_800A1830 == 0 && D_800A1834 == 0) {
@@ -105,7 +100,7 @@ void MemCard_StepPortState(int port) {
         }
         D_800A1830 = 0;
         D_800A1834 = 0;
-        state->card_state = 0;
+        state->cardState = 0;
         D_800A1840 = 0;
         D_800A183C = D_800A183C < 1;
         return;
@@ -113,13 +108,13 @@ void MemCard_StepPortState(int port) {
     case 3:
         if (D_800A1820 != 0) {
             D_800A1820 = 0;
-            state->card_state = 4;
+            state->cardState = 4;
             if (Menu_IsMemCardDialogOpen() != 0) {
                 D_800A1840 = 0;
                 D_800A183C = D_800A183C < 1;
                 return;
             }
-            state->flags |= 1;
+            state->present |= 1;
             MemCard_StartRead(port, 0);
             D_800A1840 = 0;
             D_800A183C = D_800A183C < 1;
@@ -127,7 +122,7 @@ void MemCard_StepPortState(int port) {
         }
         if (D_800A1824 != 0) {
             D_800A1824 = 0;
-            state->card_state = 0;
+            state->cardState = 0;
             D_800A1840 = 0;
             D_800A183C = D_800A183C < 1;
             return;
@@ -136,14 +131,14 @@ void MemCard_StepPortState(int port) {
             return;
         }
         D_800A1828 = 0;
-        state->card_state = 4;
-        state->flags |= 4;
+        state->cardState = 4;
+        state->present |= 4;
         D_800A1840 = 0;
         D_800A183C = D_800A183C < 1;
         return;
 
     case 4:
-        state->flags |= 1;
+        state->present |= 1;
         break;
 
     default:
@@ -171,5 +166,5 @@ void MemCard_StepPortState(int port) {
     D_800A1824 = 0;
     D_800A1820 = 0;
     _card_info(port << 4);
-    state->card_state = 1;
+    state->cardState = 1;
 }

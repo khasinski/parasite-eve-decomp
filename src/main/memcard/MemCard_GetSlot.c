@@ -1,9 +1,10 @@
 #include "common.h"
+#include "pe1/memcard.h"
 extern u8 D_800A0ED6[];
 extern u8 D_800A0EF1[];
 extern u8 D_800A0EF0[];
 
-void *MemCard_GetSlot(unsigned int port, int slot) {
+MemCardSaveSlot *MemCard_GetSlot(unsigned int port, int slot) {
     int port_offset;
     int slot_offset;
     u8 *base;
@@ -26,5 +27,5 @@ void *MemCard_GetSlot(unsigned int port, int slot) {
     }
 
     base = D_800A0EF0 + port_offset;
-    return base + slot_offset;
+    return (MemCardSaveSlot *)(base + slot_offset);
 }

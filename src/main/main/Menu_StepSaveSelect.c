@@ -1,10 +1,11 @@
 #include "common.h"
+#include "pe1/memcard.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-u8 *MemCard_GetSlot();
+MemCardSaveSlot *MemCard_GetSlot();
 s32 MenuWidget_FindByModeAndSelectedBase();
 s32 MenuWidget_GetCellIndex();
 M2C_UNK MenuWidget_SetCurrentNode();
@@ -59,7 +60,7 @@ s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
     s32 temp_height;
     register s32 var_v1 asm("$3");
     s32 temp_a0;
-    u8 *temp_v0_2;
+    MemCardSaveSlot *temp_v0_2;
     void *temp_s2_2;
     void *temp_v0_3;
 
@@ -78,8 +79,8 @@ s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
             temp_v0_2 = MemCard_GetSlot(g_SaveSelectedSlot, temp_v0);
             if (temp_v0_2 != NULL) {
                 temp_cf50 = g_McDialogMode;
-                if ((temp_cf50 != 0) || (*temp_v0_2 != 2)) {
-                    temp_v0 = *temp_v0_2;
+                if ((temp_cf50 != 0) || (temp_v0_2->state != 2)) {
+                    temp_v0 = temp_v0_2->state;
                     asm volatile("nop");
                     D_8009CF4C = temp_v0;
                     if (temp_cf50 != 0) {

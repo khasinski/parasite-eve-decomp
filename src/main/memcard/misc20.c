@@ -29,24 +29,24 @@ int MemCard_HasAnyPresentFile(void) {
         port = base + 0x418;
         do {
             if (port[-0x417] == state_full) {
-                entry = base + 0x1C;
+                entry = base + PE1_OFFSETOF(MemCardPortState, slots);
                 if (entry < port) {
                     entry_end = port;
                     do {
                         found = 0;
-                        if (entry[0] == entry_active) {
-                            present = entry[0x29];
+                        if (((MemCardSaveSlot *)entry)->state == entry_active) {
+                            present = ((MemCardSaveSlot *)entry)->titleStyleFlag;
                             found = present != 0;
                         }
                         if (found != 0) {
                             break;
                         }
-                        entry += 0x44;
+                        entry += sizeof(MemCardSaveSlot);
                     } while (entry < entry_end);
                 }
             }
-            base += 0x418;
-            port += 0x418;
+            base += sizeof(MemCardPortState);
+            port += sizeof(MemCardPortState);
             if (base >= outer_end) {
                 break;
             }
