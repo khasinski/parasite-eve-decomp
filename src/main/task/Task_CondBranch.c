@@ -14,7 +14,7 @@ int Task_CondBranch(int **arg0) {
     b = arg0[1];
     if (*a != *b) {
         c = arg0[2];
-        g_SceneDataTable0 = g_CurrentEntity[0]->script_base + (*c * 2);
+        g_SceneDataTable0 = (int)(g_CurrentEntity[0]->script_base + (*c * 2));
     }
     return 1;
 }

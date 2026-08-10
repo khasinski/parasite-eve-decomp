@@ -1,8 +1,9 @@
 
 #include "include_asm.h"
+#include "pe1/field_actor.h"
 extern int g_RenderStateFlags;
 
-extern char *g_CurrentEntity;
+extern FieldActor *g_CurrentEntity;
 
 int Task_ClearBattleFlags(void) {
     int *ptr = &g_RenderStateFlags;
@@ -19,6 +20,6 @@ int Task_SetBattleFlags(void) {
 }
 
 int Task_SetCurrentEntityField20(int **arg0) {
-    *(int *)(g_CurrentEntity + 0x20) = *arg0[0];
+    g_CurrentEntity->move_factor = *arg0[0];
     return 1;
 }

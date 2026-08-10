@@ -154,13 +154,17 @@ typedef struct BattleEntity {
                struct { u16 fraction; u16 integer; } parts;
            } animPrev;
 /* 0x01C */ s32  animStep;       /* signed per-update 16.16 animation increment */
-/* 0x020 */ u8   pad_020[8];
+/* 0x020 */ s32  moveFactor;
+/* 0x024 */ u16  fieldSfxId;
+/* 0x026 */ u16  moveSpeed;
 /* 0x028 */ union { s32 fixed; struct { u16 frac; s16 integer; } parts; } posX;
 /* 0x02C */ union { s32 fixed; struct { u16 frac; s16 integer; } parts; } posY;
 /* 0x030 */ union { s32 fixed; struct { u16 frac; s16 integer; } parts; } posZ;
-/* 0x034 */ u8   pad_034[6];
+/* 0x034 */ u8   pad_034[4];
+/* 0x038 */ s16  rotationX;
 /* 0x03A */ s16  facingAngle;   /* facing/heading, set from target (Battle_UpdateEntityFacing.c:71) */
-/* 0x03C */ u8   pad_03C[4];
+/* 0x03C */ s16  rotationZ;
+/* 0x03E */ u8   pad_03E[2];
 /* 0x040 */ s32  baseX;
 /* 0x044 */ s32  baseY;
 /* 0x048 */ s32  baseZ;
@@ -170,16 +174,21 @@ typedef struct BattleEntity {
 /* 0x070 */ s32  motionZ;
 /* 0x074 */ u8   pad_074[0x24];
 /* 0x098 */ u32  entityFlags;   /* &0x40 visible, &0x4000 skip-as-target, &0x40000000 area-target, &0x6000 hit-state (Battle_BuildTargetList.c:46; Battle_SetupEntityTarget.c:60) */
-/* 0x09C */ u8   pad_09C[0xF0];
+/* 0x09C */ u8  *scriptBase;
+/* 0x0A0 */ u8   pad_0A0[0xEC];
 /* 0x18C */ struct BattleEntity *parent; /* parent/owner; linked animations recurse through this entity */
 /* 0x190 */ u8   pad_190[4];
 /* 0x194 */ void *actionCheckFn; /* Entity_CheckActionIdMatch fn ptr (Battle_StartEncounter.c:124) */
-/* 0x198 */ u8   pad_198[0x0C];
+/* 0x198 */ u8   pad_198[4];
+/* 0x19C */ s32  scriptCursor19C;
+/* 0x1A0 */ s32  scriptCursor1A0;
 /* 0x1A4 */ void *collisionFace;
 /* 0x1A8 */ void *collisionFaceMirror;
 /* 0x1AC */ s32  allocationActive; /* nonzero when allocationBlock must be released */
 /* 0x1B0 */ void *actionData;    /* current animation/action record */
-/* 0x1B4 */ u8   renderObject[0x5C]; /* GPU render/color sub-block; passed to Render_FadeEntityColor / Battle_DrawStatusOverlay (entity+0x1B4). See actor_model.h */
+/* 0x1B4 */ u8   renderObject[0x32]; /* GPU render/color sub-block; passed by address. See actor_model.h */
+/* 0x1E6 */ s16  renderField1E6;
+/* 0x1E8 */ u8   renderObjectTail[0x28];
 /* 0x210 */ s16  projX;         /* projected screen X, source for panel x (Battle_PhaseHitReaction.c:188) */
 /* 0x212 */ s16  projY;         /* projected screen Y, source for panel y (Battle_PhaseHitReaction.c:189) */
 /* 0x214 */ u8   pad_214[0x10];
@@ -279,12 +288,22 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, animFrame) ==
                   entity_views_anim_frame_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, posX) ==
                   PE1_OFFSETOF(FieldActor, pos_x), entity_views_pos_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, moveFactor) ==
+                  PE1_OFFSETOF(FieldActor, move_factor), entity_views_move_factor_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, facingAngle) ==
+                  PE1_OFFSETOF(FieldActor, rot_y), entity_views_rotation_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, entityFlags) ==
                   PE1_OFFSETOF(FieldActor, flags), entity_views_flags_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, scriptBase) ==
+                  PE1_OFFSETOF(FieldActor, script_base), entity_views_script_base_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, parent) ==
                   PE1_OFFSETOF(FieldActor, parent), entity_views_parent_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, scriptCursor19C) ==
+                  PE1_OFFSETOF(FieldActor, script_cursor_19c), entity_views_script_cursor_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderObject) ==
                   PE1_OFFSETOF(FieldActor, attachment), entity_views_render_match);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, renderField1E6) ==
+                  PE1_OFFSETOF(FieldActor, render_field_1e6), entity_views_render_field_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleEntity, allocationBlock) ==
                   PE1_OFFSETOF(FieldActor, allocation_block), entity_views_tail_match);
 PE1_STATIC_ASSERT(sizeof(BattleEntity) == sizeof(FieldActor),

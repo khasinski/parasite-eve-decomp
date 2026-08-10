@@ -19,22 +19,24 @@ typedef struct FieldActor {
     } anim;
     /* 0x018 */ int anim_prev;                    /* previous animation position, 16.16 */
     /* 0x01C */ int anim_step;                    /* signed animation increment, 16.16 */
-    /* 0x020 */ unsigned char pad_020[0x08];
+    /* 0x020 */ int move_factor;          /* fixed movement magnitude, scaled for the player */
+    /* 0x024 */ unsigned short field_sfx_id; /* entity value forwarded to Task_QueueFieldSfx */
+    /* 0x026 */ unsigned short move_speed;  /* movement-speed multiplier, written by Task_SetEntityMoveSpeed */
     /* 0x028 */ int pos_x;
     /* 0x02C */ int pos_y;
     /* 0x030 */ int pos_z;
     /* 0x034 */ unsigned char pad_034[0x04];
-    /* 0x038 */ unsigned short rot_x;
-    /* 0x03A */ unsigned short rot_y;   /* facing angle (yaw); 12-bit, 0x1000 = 360deg */
-    /* 0x03C */ unsigned short rot_z;
+    /* 0x038 */ short rot_x;
+    /* 0x03A */ short rot_y;   /* facing angle (yaw); signed 12-bit, 0x1000 = 360deg */
+    /* 0x03C */ short rot_z;
     /* 0x03E */ unsigned char pad_03E[0x02];
     /* 0x040 */ int base_x;             /* pre-move position (rollback target) */
     /* 0x044 */ int base_y;
     /* 0x048 */ int base_z;
     /* 0x04C */ int field_4c;           /* actor status bits (player's 0xC0 mask gates a scene flag check) */
-    /* 0x050 */ unsigned short saved_rot_x;
-    /* 0x052 */ unsigned short saved_rot_y;
-    /* 0x054 */ unsigned short saved_rot_z;
+    /* 0x050 */ short saved_rot_x;
+    /* 0x052 */ short saved_rot_y;
+    /* 0x054 */ short saved_rot_z;
     /* 0x056 */ unsigned char pad_056[0x02];
     /* 0x058 */ int delta_x;            /* extra per-frame displacement added after motion */
     /* 0x05C */ int delta_y;
@@ -53,16 +55,20 @@ typedef struct FieldActor {
     /* 0x090 */ int gravity_z;
     /* 0x094 */ unsigned char pad_094[0x04];
     /* 0x098 */ unsigned int flags;
-    /* 0x09C */ int script_base;                          /* script jump base (Task_JumpIfZero / Task_JumpToEntityOffset) */
+    /* 0x09C */ unsigned char *script_base; /* base of the entity's 16-bit scene script */
     /* 0x0A0 */ struct FieldActorNode *task_node_lists[3]; /* 3 task-node list heads (Entity_MarkNodeFree) */
     /* 0x0AC */ unsigned char pad_0AC[0xE0];
     /* 0x18C */ struct FieldActor *parent; /* parent actor; child copies its pos/rot when flags & 0x400000 */
-    /* 0x190 */ unsigned char pad_190[0x14];
+    /* 0x190 */ unsigned char pad_190[0x0C];
+    /* 0x19C */ int script_cursor_19c;
+    /* 0x1A0 */ int script_cursor_1a0;
     /* 0x1A4 */ int field_1a4;          /* rolled back from field_1a8 alongside pos */
     /* 0x1A8 */ int field_1a8;
     /* 0x1AC */ int allocation_active; /* nonzero when allocation_block must be freed with the actor */
     /* 0x1B0 */ void *action_data;      /* current animation/action record */
-    /* 0x1B4 */ unsigned char attachment[0x5C]; /* render attachment block copied by Entity_CopyAttachmentData */
+    /* 0x1B4 */ unsigned char attachment[0x32]; /* render object; address passed to render/animation helpers */
+    /* 0x1E6 */ short render_field_1e6;          /* script-controlled render parameter */
+    /* 0x1E8 */ unsigned char attachment_tail[0x28];
     /* 0x210 */ short descriptor_value_a;
     /* 0x212 */ short descriptor_value_b;
     /* 0x214 */ unsigned char pad_214[0x10];

@@ -1,3 +1,5 @@
+#include "pe1/field_actor.h"
+
 int Gpu_LoadGeomState(int index);
 
 extern short g_CameraBaseAngleX;
@@ -11,8 +13,8 @@ int CdRom_SetScreenPos(int arg0, int arg1, int arg2, int arg3, unsigned short ar
 
 extern unsigned char g_ScreenTransitionState;
 
-extern char *g_CurrentEntity;
-extern char *g_PlayerEntity;
+extern FieldActor *g_CurrentEntity;
+extern FieldActor *g_PlayerEntity;
 extern short D_800BCFFE;
 
 int Task_LoadGeomState(int **arg0) {
@@ -50,11 +52,11 @@ int Task_ClearEntityFlag40(void) {
 
 int Task_SetEntityMoveSpeed(int **arg0) {
     int **args = arg0;
-    char *current = g_CurrentEntity;
-    char *selected = g_PlayerEntity;
+    FieldActor *current = g_CurrentEntity;
+    FieldActor *selected = g_PlayerEntity;
     int value = *args[0] >> 4;
 
-    *(short *)(current + 0x26) = value;
+    current->move_speed = value;
     if (current == selected) {
         int scaled;
 
