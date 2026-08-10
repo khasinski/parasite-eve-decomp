@@ -81,7 +81,10 @@ typedef struct Combatant {
 /* 0x2C */ s32  atbStep;       /* per-frame increment subtracted from atbRate */
 /* 0x30 */ s32  atbRate;       /* divisor/rate used while charging exp_or_acc */
 /* 0x34 */ s32  atbGauge;      /* ATB / "AT" gauge; reset 0, latched 0xF0 (Battle_ResetEnemyStats.c:41; Battle_StartEncounter.c:119) */
-/* 0x38 */ u8   pad_38[0x10];
+/* 0x38 */ u16  subActionStep;
+/* 0x3A */ u8   subActionCounter;
+/* 0x3B */ u8   subActionPeriod;
+/* 0x3C */ u8   pad_3C[0x0C];
 /* 0x48 */ s8   knockbackFrames;
 /* 0x49 */ u8   knockbackDistance;
 /* 0x4A */ s16  knockbackAngle;
@@ -96,9 +99,11 @@ typedef struct Combatant {
 /* 0x5C */ u16  panelB_y;
 /* 0x5E */ u8   panelB_timer;
 /* 0x5F */ s8   panelB_flag;
-/* 0x60 */ u8   pad_60[6];
-/* 0x66 */ s8   field66;       /* cleared on reset (Battle_ResetEnemyStats.c:92) */
-/* 0x67 */ u8   pad_67[1];
+/* 0x60 */ u16  panelAux_val;
+/* 0x62 */ u16  panelAux_x;
+/* 0x64 */ u16  panelAux_y;
+/* 0x66 */ u8   panelAux_timer; /* set to 0x1E when Battle_SubActionStep emits the descriptor */
+/* 0x67 */ u8   panelAux_mode;
 /* 0x68 */ struct BattleAction *action; /* the queued action/command descriptor; read by nearly every turn func via M2C_FIELD(combatant,void**,0x68) (Battle_Init.c:60; Battle_DrawATBGauge.c:55; Battle_AdvanceTurnSlot.c:70) */
 /* 0x6C */ void *ptr6C;        /* TENTATIVE */
 /* 0x70 */ void *actionDesc70; /* action descriptor (target+effect) set on commit. TENTATIVE */
@@ -233,6 +238,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, atbStep) == 0x2C,
                   combatant_atb_step_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, knockbackFrames) == 0x48,
                   combatant_knockback_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, subActionStep) == 0x38,
+                  combatant_sub_action_step_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, panelAux_val) == 0x60,
+                  combatant_aux_panel_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, action) == 0x68,
                   combatant_action_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, statusFlags2) == 0xCC,
