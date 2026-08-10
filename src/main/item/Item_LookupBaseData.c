@@ -1,8 +1,9 @@
+#include "pe1/inventory.h"
 
 extern int D_800A8034[];
 extern int D_800A8038[];
 
-void *Item_LookupBaseData(unsigned int index)
+ItemDataRecord *Item_LookupBaseData(unsigned int index)
 {
     int *endPtr;
     int base;
@@ -20,5 +21,5 @@ void *Item_LookupBaseData(unsigned int index)
     offset = index << 5;
     asm volatile("" : "=r"(offset) : "0"(offset));
     endPtr = (int *)((char *)endPtr - 0x10);
-    return (void *)(base + (offset + (int)endPtr));
+    return (ItemDataRecord *)(base + (offset + (int)endPtr));
 }

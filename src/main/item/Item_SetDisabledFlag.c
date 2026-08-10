@@ -1,17 +1,17 @@
 #include "common.h"
-void *Item_LookupBaseData(unsigned int index);
+#include "pe1/inventory.h"
 
 void Item_SetDisabledFlag(int arg0, int arg1) {
-    u8 *entry;
+    ItemDataRecord *entry;
     int flags;
 
     entry = Item_LookupBaseData(arg0 - 1);
     if (entry != 0) {
-        flags = entry[5] & 0xBF;
-        entry[5] = flags;
+        flags = entry->flags & 0xBF;
+        entry->flags = flags;
         if (arg1 == 0) {
             flags |= 0x40;
         }
-        entry[5] = flags;
+        entry->flags = flags;
     }
 }

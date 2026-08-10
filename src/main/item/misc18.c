@@ -18,7 +18,6 @@ extern signed char g_AyaEquippedWeaponSlot[];
 extern signed char g_AyaEquippedArmorSlot[];
 
 int Inv_GetAyaSlotLimit(void);
-void *Item_LookupBaseData(unsigned int index);
 
 unsigned int g_SavedMenuMode;
 

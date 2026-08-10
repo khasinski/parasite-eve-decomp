@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "include_asm.h"
@@ -20,15 +21,10 @@ extern s16 D_800C2022[];
 extern u8 D_800A1E6D[];
 extern s16 D_800A1E76[];
 
-typedef struct ItemGridRecord {
-    u8 data[0x20];
-} ItemGridRecord;
-
-extern ItemGridRecord D_800A1E64[];
+extern ItemDataRecord D_800A1E64[];
 
 int Inv_GetAyaSlotLimit(void);
 void Inv_SelectActiveList(int useOverride);
-void *Item_LookupBaseData(int item);
 
 void Util_CopyFFTerminatedBytes(u8 *dst, u8 *src)
 {
@@ -84,11 +80,11 @@ void Inv_BuildItemGridFromCategory(void)
 {
     int i;
     int stride;
-    ItemGridRecord *out;
+    ItemDataRecord *out;
     int div_magic;
     int placeholder;
     s16 *clear;
-    ItemGridRecord *src;
+    ItemDataRecord *src;
     int category;
     int base;
     int lookup;
@@ -109,7 +105,7 @@ void Inv_BuildItemGridFromCategory(void)
         lookup = i;
         i++;
         src = Item_LookupBaseData(lookup);
-    } while (src != 0 && src->data[6] != category);
+    } while (src != 0 && src->kind != category);
 
     D_8009D03C = i;
 

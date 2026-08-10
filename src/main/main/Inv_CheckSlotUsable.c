@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -6,7 +7,6 @@
 extern s16 *D_8009D048;
 extern s32 D_8009D050;
 
-void *Item_LookupBaseData(unsigned int index);
 s32 Inv_FindSlotByIndex();
 s32 Inv_WriteSlotById();
 
@@ -16,7 +16,7 @@ s32 Inv_CheckSlotUsable(s32 arg0) {
     s32 t;
     s16 *cur;
     s16 *end;
-    u8 *ent;
+    ItemDataRecord *ent;
 
     ret = 0;
     cur = D_8009D048;
@@ -42,7 +42,7 @@ s32 Inv_CheckSlotUsable(s32 arg0) {
         if (ent == NULL) {
             return ret;
         }
-        switch (ent[6]) {
+        switch (ent->kind) {
         case 1:
         case 2:
         case 3:

@@ -7,8 +7,6 @@ int g_InvItemPtr;
 extern u8 g_EquipItemDataTable[];
 extern u8 g_KeyItemDataTable[];
 
-ItemDataRecord *Item_LookupBaseData(unsigned int index);
-
 ItemDataRecord *Inv_LookupActiveListData(int index) {
     int value;
     int offset;

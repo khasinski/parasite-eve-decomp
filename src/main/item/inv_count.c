@@ -1,13 +1,13 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
+#include "pe1/inventory.h"
+
 int g_InvSlotLimit;
 
 int Inv_GetActiveListItemType(int arg0);
 
 extern short g_WayneStorageItems[];
-
-void *Item_LookupBaseData(int arg0);
 
 extern short g_AyaInventoryItems[];
 int g_InvItemPtr;
@@ -46,7 +46,7 @@ int WayneStorage_CountItemType(int arg0) {
     do {
         itemId = *item;
         if (itemId != 0) {
-            if (((unsigned char *)Item_LookupBaseData(itemId - 1))[6] == arg0) {
+            if (Item_LookupBaseData(itemId - 1)->kind == arg0) {
                 count++;
             }
         }

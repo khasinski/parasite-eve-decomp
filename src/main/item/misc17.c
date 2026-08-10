@@ -1,7 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern unsigned char *Item_LookupBaseData(int index);
+#include "pe1/inventory.h"
 
 /* The equipped-slot bytes live at 0x800C0E20/0x800C0E22, outside the gp
  * window; incomplete array types keep -G8 from making them small data. */
@@ -11,7 +11,7 @@ extern signed char g_AyaEquippedWeaponSlot[];
 extern signed char g_AyaEquippedArmorSlot[];
 
 int Item_GetBaseType(int index) {
-    return Item_LookupBaseData(index - 1)[6];
+    return Item_LookupBaseData(index - 1)->kind;
 }
 
 int Inv_IsAyaInventorySlotReserved(int arg0) {

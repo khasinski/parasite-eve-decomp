@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/battle_cmd.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -9,13 +10,12 @@ int Inv_SetActiveList(int, s32 *);                       /* extern */
 s32 BattleCmd_GetRemainingAmmo(int);                     /* extern */
 int BattleCmd_ChangeWeaponAndSync(s32);                  /* extern */
 s32 Inv_GetSlotHighlightState(s32, s32);                        /* extern */
-void *Item_LookupBaseData(s32);                           /* extern */
 extern s32 g_MenuBattleEquipMode;
 
 void Battle_UseItem(s32 arg0) {
     s32 sp10;
     s32 temp_s0;
-    void *temp_v0;
+    ItemDataRecord *temp_v0;
     BattleCmdEntry *temp_v0_2;
 
     temp_v0 = Item_LookupBaseData(arg0 + 0xEB);
@@ -29,7 +29,7 @@ void Battle_UseItem(s32 arg0) {
         Inv_SetActiveList(1, &sp10);
         return;
     }
-    if (((u8 *)temp_v0)[0xE] == 1) {
+    if (*(u8 *)&temp_v0->bonusStats[0] == 1) {
         BattleCmd_ChangeWeaponAndSync(arg0);
     }
 }
