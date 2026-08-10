@@ -24,8 +24,8 @@ int BattleCmd_GetRemainingAmmo(int *out) {
 
             while (cursor < g_BattleCmdStackTop) {
                 /* retail compares the whole first word, not the opcode byte */
-                if (*(int *)cursor == 1) {
-                    remaining -= cursor->arg_08;
+                if (cursor->header.word == 1) {
+                    remaining -= cursor->payload.ammo_spend.amount;
                 }
                 cursor++;
             }

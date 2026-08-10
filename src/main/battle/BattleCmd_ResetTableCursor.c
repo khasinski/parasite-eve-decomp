@@ -1,7 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-typedef struct BattleCmdEntry BattleCmdEntry;
+#include "pe1/battle_cmd.h"
 
 extern BattleCmdEntry D_800A1AA0[];
 extern BattleCmdEntry *D_8009D014;

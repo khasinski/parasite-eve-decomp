@@ -1,9 +1,11 @@
 #include "common.h"
+#include "pe1/battle_cmd.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
-extern u32 *D_8009D014;
-extern u32 D_800A1AA0[];
+extern BattleCmdEntry *D_8009D014;
+extern BattleCmdEntry D_800A1AA0[];
 extern s16 D_800C0E48[];
 extern s8 D_800C0E20[];
 extern s8 D_800C0E22[];
@@ -12,9 +14,9 @@ int Inv_CheckSlotUsable(int data);
 int Inv_FindIndexByData(int data);
 
 void BattleCmd_UndoPending(void) {
-    u32 *entry;
-    u32 *entry_tmp;
-    u32 *top;
+    BattleCmdEntry *entry;
+    BattleCmdEntry *entry_tmp;
+    BattleCmdEntry *top;
     int opcode;
     s16 *slot;
     int data;
@@ -22,18 +24,18 @@ void BattleCmd_UndoPending(void) {
 
     top = D_8009D014;
     if (D_800A1AA0 < top) {
-        entry_tmp = top - 9;
-        opcode = top[-9];
+        entry_tmp = top - 1;
+        opcode = (top - 1)->header.word;
         D_8009D014 = entry_tmp;
         asm volatile("" : "=r"(entry) : "0"(entry_tmp));
 
         switch (opcode) {
         case 0:
-            slot = &D_800C0E48[entry[2]];
+            slot = &D_800C0E48[entry->payload.inventory_restore.slot_index];
             if (*slot == 0) {
-                *slot = entry[1];
+                *slot = entry->payload.inventory_restore.item_id;
             } else {
-                Inv_CheckSlotUsable(entry[1]);
+                Inv_CheckSlotUsable(entry->payload.inventory_restore.item_id);
             }
             break;
 
@@ -41,11 +43,12 @@ void BattleCmd_UndoPending(void) {
             break;
 
         case 2:
-            D_800C0E20[0] = Inv_FindIndexByData(entry[1]);
+            D_800C0E20[0] =
+                Inv_FindIndexByData(entry->payload.equip_restore.item_data);
             break;
 
         case 3:
-            data = entry[1];
+            data = entry->payload.equip_restore.item_data;
             index = -1;
             if (data != 0) {
                 index = Inv_FindIndexByData(data);
@@ -54,9 +57,12 @@ void BattleCmd_UndoPending(void) {
             break;
 
         case 4:
-            *(s16 *)(entry[1] + 0xA) = entry[5];
-            *(s16 *)(entry[2] + 0xA) = entry[7];
-            *(s16 *)(entry[3] + 0xA) = entry[8];
+            ((ItemDataRecord *)entry->payload.ammo_restore.item_data0)->ammo =
+                entry->payload.ammo_restore.ammo0;
+            ((ItemDataRecord *)entry->payload.ammo_restore.item_data1)->ammo =
+                entry->payload.ammo_restore.ammo1;
+            ((ItemDataRecord *)entry->payload.ammo_restore.item_data2)->ammo =
+                entry->payload.ammo_restore.ammo2;
             break;
         }
     }
