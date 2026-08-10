@@ -39,7 +39,7 @@ void Menu_DrawSaveSlotEntry(s32 arg0) {
     if (slot != NULL) {
         state = slot->state;
         switch (state) {
-        case 1:
+        case MEMCARD_SLOT_OCCUPIED:
             if (index == MenuWidget_GridCellIndex(g_MenuActiveWidget)) {
                 Menu_SetSaveSlotBlendBase(slot->blendColor);
             } else {
@@ -56,12 +56,12 @@ void Menu_DrawSaveSlotEntry(s32 arg0) {
                 Draw_PrintRawText(slot->alternateTitle);
             }
             Draw_OffsetCursor(0x58, 0);
-            if (slot->bonusIndex != 0) {
+            if (slot->exGameIndex != 0) {
                 Draw_AllocSprite(0x95);
                 Draw_OffsetCursor(0x1A, 2);
                 Draw_AllocSprite(0x96);
                 Draw_OffsetCursor(0x22, 1);
-                Draw_PrintNumberWidth2Unk(slot->bonusIndex + 1);
+                Draw_PrintNumberWidth2Unk(slot->exGameIndex + 1);
                 var_a0_2 = 4;
                 var_a1 = -3;
             } else {
@@ -86,7 +86,7 @@ void Menu_DrawSaveSlotEntry(s32 arg0) {
             Draw_OffsetCursor(8, -1);
             Draw_AllocSprite(0x55);
             Draw_OffsetCursor(0x1A, 1);
-            Draw_PrintTimeValue(slot->playTime, 0);
+            Draw_PrintTimeValue(slot->playTimeMinutes, 0);
             Draw_OffsetCursor(-0xC0, 0xC);
             if (slot->titleStyleFlag != 0) {
                 func_8005F5B8(0x60);
@@ -94,15 +94,15 @@ void Menu_DrawSaveSlotEntry(s32 arg0) {
             }
             func_8005F5B8(0xB);
             Draw_OffsetCursor(0x1E, 0);
-            func_800605F8(slot->locationNumber);
+            func_800605F8(slot->progressStage);
             Draw_OffsetCursor(0x14, 0);
-            Draw_PrintRawText(func_8005DD8C(slot->locationNameId));
+            Draw_PrintRawText(func_8005DD8C(slot->mapNumber));
             return;
-        case 2:
+        case MEMCARD_SLOT_EMPTY:
             Draw_OffsetCursor(0, 0x12);
             var_a0_3 = 0x41;
             goto block_20;
-        case 3:
+        case MEMCARD_SLOT_UNAVAILABLE:
             Draw_OffsetCursor(0, 0x12);
             var_a0_3 = 0x76;
 block_20:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/memcard.h"
 extern int g_MemCardActivePortOneBased;
 extern int g_MemCardActivePromptPending;
 
@@ -6,7 +7,6 @@ void MemCard_StartRead(int port, int arg1);
 
 extern u8 D_800A0EDE[];
 
-extern unsigned char g_MemCardPortStates[];
 extern int g_MemCardReadContext;
 
 void MenuWidget_SaveAndSetCurrentNode(int arg0);
@@ -22,12 +22,12 @@ int MemCard_GetPortFileCount(int arg0) {
 }
 
 void MemCard_StartRead(int port, int arg1) {
-    unsigned char *state = &g_MemCardPortStates[port * 0x418];
+    MemCardPortState *state = &g_MemCardPortStates[port];
 
-    if (state[1] == 0 || state[1] == 12) {
-        state[1] = 1;
-        state[0xB] = 2;
-        *(short *)(state + 0x16) = 10;
+    if (state->managerState == 0 || state->managerState == 12) {
+        state->managerState = 1;
+        state->nextState = 2;
+        state->retryCount = 10;
         MenuWidget_SaveAndSetCurrentNode(0);
         g_MemCardReadContext = arg1;
     }

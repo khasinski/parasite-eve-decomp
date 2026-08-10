@@ -1,8 +1,6 @@
 #include "common.h"
-extern u8 g_MemCardPortStates[];
+#include "pe1/memcard.h"
 extern u8 g_MemCardFileBuffer[];
-extern void *g_MemCardActiveState;
-extern int g_MemCardActiveBytesRemaining;
 void bzero(void *dst, int len);
 void MemCard_CloseAll(void);
 
@@ -12,21 +10,21 @@ void Inv_SetActiveList(int arg0, int arg1);
 int Save_StartReadSlot(int port, int slot)
 {
   register u8 *buffer;
-  u8 *state;
+  MemCardPortState *state;
   int saved_slot;
-  state = &g_MemCardPortStates[port * 0x418];
+  state = &g_MemCardPortStates[port];
   saved_slot = slot;
-  if (state[0] == 1)
+  if (state->present == 1)
   {
     MemCard_CloseAll();
  do { buffer = g_MemCardFileBuffer; } while (0);
-    *((u16 *) (state + 0x14)) = 0x2000;
-    *((u16 *) (state + 0x16)) = 10;
-    state[7] = 2;
-    state[1] = 1;
-    state[0xB] = 5;
-    *((void **) (state + 0x18)) = buffer;
-    state[3] = saved_slot;
+    state->transferSize = 0x2000;
+    state->retryCount = 10;
+    state->pendingError = 2;
+    state->managerState = 1;
+    state->nextState = 5;
+    state->transferData = buffer;
+    state->selectedSlot = saved_slot;
     g_MemCardActiveState = state;
     g_MemCardActiveBytesRemaining = 0x2000;
     bzero(buffer, 0x2000);

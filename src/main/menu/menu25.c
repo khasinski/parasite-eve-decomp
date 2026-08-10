@@ -37,10 +37,10 @@ int Menu_IsMemCardSlotCompatible(int arg0) {
 
     if (g_McDialogMode != 0) {
         ptr = MemCard_GetSlot(*(int *)(g_MenuActiveWidget + 0x24) - 0x25, arg0);
-        result = ptr->state != 3;
+        result = ptr->state != MEMCARD_SLOT_UNAVAILABLE;
     } else {
         ptr = MemCard_GetSlot(*(int *)(g_MenuActiveWidget + 0x24) - 0x25, arg0);
-        if (ptr->state != 1) {
+        if (ptr->state != MEMCARD_SLOT_OCCUPIED) {
             result = 0;
             goto done;
         }

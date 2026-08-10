@@ -79,13 +79,13 @@ s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
             temp_v0_2 = MemCard_GetSlot(g_SaveSelectedSlot, temp_v0);
             if (temp_v0_2 != NULL) {
                 temp_cf50 = g_McDialogMode;
-                if ((temp_cf50 != 0) || (temp_v0_2->state != 2)) {
+                if ((temp_cf50 != 0) || (temp_v0_2->state != MEMCARD_SLOT_EMPTY)) {
                     temp_v0 = temp_v0_2->state;
                     asm volatile("nop");
                     D_8009CF4C = temp_v0;
                     if (temp_cf50 != 0) {
                         Save_SetTitleStyleFlag(g_MenuMemCardConfirmPending, temp_cf50);
-                        if (D_8009CF4C != 2) {
+                        if (D_8009CF4C != MEMCARD_SLOT_EMPTY) {
                             temp_v0_3 = MenuWidget_CreateSimpleNode(0x29, temp_s2, 0, 1);
                             temp_s2_2 = MenuWidget_CreateNode(0x29, temp_v0_3, temp_v0_3);
                             M2C_FIELD(temp_v0_3, M2C_UNK **, 0x30) = &Menu_DrawItemLabel;

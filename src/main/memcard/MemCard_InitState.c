@@ -1,4 +1,4 @@
-extern unsigned char g_MemCardPortStates[];
+#include "pe1/memcard.h"
 extern int D_800A12F8;
 extern int D_800A0EE0;
 extern int g_MemCardServicedPort;
@@ -7,7 +7,6 @@ extern int g_MemCardConnectDebounce;
 extern int D_800A184C;
 extern int D_800A1848;
 extern int g_McOpPending;
-extern int g_MemCardActiveState;
 extern int g_MemCardActivePortOneBased;
 extern int g_MemCardSavePollTimeout;
 extern int g_MemCardActivePromptPending;
@@ -18,7 +17,7 @@ extern int g_MemCardReadContext;
 void bzero(void *ptr, int size);
 
 void MemCard_InitState(void) {
-    bzero(g_MemCardPortStates, 0x830);
+    bzero(g_MemCardPortStates, sizeof(MemCardPortState) * 2);
     D_800A12F8 = -1;
     D_800A0EE0 = -1;
     g_MemCardServicedPort = 0;
