@@ -1,7 +1,7 @@
 #include "common.h"
 #include "pe1/psyq_cd.h"
 
-extern u8 D_8009B558[];
+extern CdRomEventCommandState D_8009B558;
 extern DsDecodedEventFlags g_DsDecodedEventFlags asm("D_8009B588");
 extern u32 D_8009B624[];
 
@@ -20,7 +20,7 @@ void CdRom_ProcessEventByte(int event, u8 *data) {
         goto event_five;
     }
 
-    index = D_8009B624[D_8009B558[0]] - 1;
+    index = D_8009B624[D_8009B558.pendingCommand] - 1;
     if (index < 0) {
         return;
     }

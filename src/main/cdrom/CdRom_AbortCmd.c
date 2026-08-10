@@ -3,24 +3,22 @@
 #include "include_asm.h"
 #include "pe1/psyq_cd.h"
 
-typedef unsigned int u32;
-
-extern u32 D_8009B554[];
+extern CdRomSystemState D_8009B554;
 extern DsReadStatusBlock g_DsReadStatusBlock asm("D_8009B574");
 
 void CD_flush(void);
 
 void CdRom_AbortCmd(void) {
-    u32 *state;
+    CdRomSystemState *state;
     u32 kind;
     u32 cmp;
-    state = D_8009B554;
+    state = &D_8009B554;
     asm volatile("" : "=r"(state) : "0"(state));
-    state[0] = 0;
+    state->enabled = 0;
     CD_flush();
 
-    if (state[8] == 2) {
-        kind = state[9];
+    if (state->command.read.status == 2) {
+        kind = state->command.read.command;
         cmp = 0xB;
         if (kind == cmp) {
             goto abort_pending;

@@ -2,8 +2,6 @@
 
 #include "pe1/psyq_cd.h"
 
-typedef unsigned int u32;
-
 extern char D_80011D74[];
 extern char D_80011D94[];
 extern char D_80011DB0[];

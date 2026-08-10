@@ -1,15 +1,13 @@
 /* MASPSX_FLAGS: --store-return-delay */
 
 #include "include_asm.h"
+#include "pe1/psyq_cd.h"
 
-extern int g_DsReadSysEnabled;
 
 int CdRom_IsDsReadSystemEnabled(void);
 
-typedef unsigned char u_char;
-
 int CdRom_IsDsReadSystemEnabled(void) {
-    return g_DsReadSysEnabled;
+    return g_DsReadSysEnabled.enabled;
 }
 
 void Util_Copy4(unsigned char *dst, unsigned char *src) {

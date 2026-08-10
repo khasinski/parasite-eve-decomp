@@ -1,18 +1,16 @@
 #include "common.h"
 #include "pe1/psyq_cd.h"
 
-extern struct { char _[16]; } D_8009B558_o __asm__("D_8009B558");
+extern CdRomEventCommandState D_8009B558_o __asm__("D_8009B558");
 extern struct { char _[16]; } D_8009B56C_o __asm__("D_8009B56C");
 extern u32 g_DsSyncCallback[] __asm__("D_800A36A4");
 
-#define D_8009B558 ((u8 *)&D_8009B558_o)
+#define D_8009B558 (&D_8009B558_o)
 #define D_8009B56C (*(DsReadyEventWindow *)&D_8009B56C_o)
-#define U8(base, off) (*(u8 *)((u8 *)(base) + (off)))
-#define U32(base, off) (*(u32 *)((u8 *)(base) + (off)))
 
 void CdRom_CmdEventCallback(int event) {
     register u32 event_reg asm("$7");
-    register u8 *cmd_state asm("$6");
+    register CdRomEventCommandState *cmd_state asm("$6");
     int value;
     int status;
     DsReadyEventWindow *ready;
@@ -22,17 +20,17 @@ void CdRom_CmdEventCallback(int event) {
     if (event_reg == 2) {
         cmd_state = D_8009B558;
         asm volatile("" : "=r"(cmd_state) : "0"(cmd_state));
-        status = U8(cmd_state, 0);
+        status = cmd_state->pendingCommand;
         value = 0xE;
         if (status == value) {
-            value = U8(cmd_state, 0x29);
-            status = U8(cmd_state, 1);
+            value = cmd_state->command.read.commandMode;
+            status = cmd_state->pendingMode;
             if (((value ^ status) & 0x80) != 0) {
-                U32(cmd_state, 0x20) = 0xF;
-                U32(cmd_state, 0x1C) = event_reg;
-                U32(cmd_state, 0x3C) = 3;
+                cmd_state->command.read.command = 0xF;
+                cmd_state->command.read.status = event_reg;
+                cmd_state->command.read.syncResult = 3;
             }
-            U8(cmd_state, 0x29) = status;
+            cmd_state->command.read.commandMode = status;
         }
     }
 

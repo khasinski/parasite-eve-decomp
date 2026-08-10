@@ -1,11 +1,10 @@
-typedef unsigned int u32;
+#include "pe1/psyq_cd.h"
 
 extern volatile u32 g_DsPollCallback;
 extern volatile u32 g_DsSyncCallback;
 extern volatile u32 g_DsReadyCallback;
 extern u32 g_CdSyncCallback;
 extern u32 g_CdReadyCallback;
-extern u32 g_DsReadSysEnabled;
 extern u32 D_8009AFD8;
 
 void CD_init(void);
@@ -42,5 +41,5 @@ void CdRom_InitDsCallbacks(void) {
     VSyncCallbacks(0, Render_StepParticlePool);
 
     D_8009AFD8 = 1;
-    g_DsReadSysEnabled = 1;
+    g_DsReadSysEnabled.enabled = 1;
 }

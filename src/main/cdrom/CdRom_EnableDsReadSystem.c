@@ -1,8 +1,9 @@
 /* MASPSX_FLAGS: --store-return-delay */
-extern int g_DsReadSysEnabled;
+
+#include "pe1/psyq_cd.h"
 
 void CdRom_EnableDsReadSystem(void);
 
 void CdRom_EnableDsReadSystem(void) {
-    g_DsReadSysEnabled = 1;
+    g_DsReadSysEnabled.enabled = 1;
 }

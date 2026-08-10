@@ -1,12 +1,11 @@
 #include "common.h"
+#include "pe1/psyq_cd.h"
 /* MASPSX_FLAGS: --stack-return-delay */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK CdIntToPos();
-extern u8 g_DsReadSysEnabled[];
 extern u8 D_8009B560[];
-extern u8 g_CdSeekState[];
 
 void CdRom_InitCmdState(void) {
     s32 var_v1;
@@ -14,17 +13,17 @@ void CdRom_InitCmdState(void) {
     u8 *base554;
     register s8 *var_a0 asm("$4");
     s8 *var_v0;
-    u8 *state;
+    CdRomCommandState *state;
     s32 value;
     s32 zeroArg;
     u8 *pos;
 
     var_v1 = 3;
-    base554 = g_DsReadSysEnabled;
+    base554 = (u8 *)&g_DsReadSysEnabled;
     var_a0 = base554 + 8;
     __asm__ volatile("" : "=r"(base554) : "0"(base554));
-    M2C_FIELD(base554, s32 *, 0) = 0;
-    M2C_FIELD(base554, s8 *, 4) = 0;
+    ((CdRomSystemState *)base554)->enabled = 0;
+    ((CdRomSystemState *)base554)->pendingCommand = 0;
     do {
         *var_a0 = 0;
         var_v1 -= 1;
@@ -38,31 +37,31 @@ void CdRom_InitCmdState(void) {
         var_v1_2 -= 1;
         var_v0 -= 1;
     } while (var_v1_2 >= 0);
-    state = g_CdSeekState;
+    state = &g_CdSeekState;
     __asm__ volatile("" : "=r"(state) : "0"(state));
     value = 2;
-    M2C_FIELD(state, s32 *, 8) = value;
+    state->read.status = value;
     value = 0xE;
-    M2C_FIELD(state, s32 *, 0xC) = value;
+    state->read.command = value;
     value = 0x15;
     zeroArg = 0;
-    pos = state + 0x16;
-    M2C_FIELD(state, s8 *, 0) = 0;
-    M2C_FIELD(state, s32 *, 4) = 0;
-    M2C_FIELD(state, s32 *, 0x10) = value;
-    M2C_FIELD(state, s8 *, 0x14) = 0;
-    M2C_FIELD(state, s8 *, 0x15) = 0;
+    pos = (u8 *)&state->read.currentPos;
+    state->eventStatus = 0;
+    state->eventValue = 0;
+    state->read.sector = value;
+    state->read.lastCommand = 0;
+    state->read.commandMode = 0;
     CdIntToPos(zeroArg, pos);
-    M2C_FIELD(state, s8 *, 0x1A) = 0;
-    M2C_FIELD(state, s8 *, 0x1B) = 0;
-    M2C_FIELD(state, s8 *, 0x1C) = 0;
-    M2C_FIELD(state, s8 *, 0x1D) = 0;
-    M2C_FIELD(state, s8 *, 0x1E) = 0;
-    M2C_FIELD(state, s8 *, 0x1F) = 0;
-    M2C_FIELD(state, s32 *, 0x20) = 0;
-    M2C_FIELD(state, s32 *, 0x24) = 1;
-    M2C_FIELD(state, s32 *, 0x28) = 0;
-    M2C_FIELD(state, s32 *, 0x30) = 0;
-    M2C_FIELD(state, s32 *, 0x2C) = 0;
-    M2C_FIELD(state, s32 *, 0x34) = 0;
+    state->read.retryCount = 0;
+    state->read.commandParam = 0;
+    state->read.eventFlags.bit7 = 0;
+    state->read.eventFlags.bit6 = 0;
+    state->read.eventFlags.bit5 = 0;
+    state->read.eventFlags.bit1 = 0;
+    state->read.reserved18 = 0;
+    state->read.discType = 1;
+    state->read.syncResult = 0;
+    state->retryAttempts = 0;
+    state->read.readyResult = 0;
+    state->reserved34 = 0;
 }

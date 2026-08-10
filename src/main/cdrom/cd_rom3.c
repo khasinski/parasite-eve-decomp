@@ -10,8 +10,6 @@ extern unsigned int g_DsReadyCallback;
 
 extern unsigned int g_DsReadDoneCallback;
 
-typedef unsigned int u32;
-
 extern u32 g_DsReadStatusBlock[];
 
 extern unsigned char g_CdLastCmd;
@@ -24,7 +22,6 @@ extern unsigned char g_CdRetryCount;
 
 extern unsigned char g_CdCmdParam;
 
-extern unsigned char g_CdSeekState;
 
 extern void CD_sync(int, int);
 
@@ -87,7 +84,7 @@ int CdRom_GetCmdParam(void) {
 }
 
 int CdRom_GetSeekState(void) {
-    return g_CdSeekState;
+    return g_CdSeekState.eventStatus;
 }
 
 void CdRom_Sync(int result) {
