@@ -3,7 +3,7 @@
     "aliases": 17,
     "asm_bodies": 142,
     "barriers": 231,
-    "byte_pointer_arithmetic": 286,
+    "byte_pointer_arithmetic": 285,
     "declaration_overrides": 0,
     "directives": 3,
     "externs_in_c": 3528,

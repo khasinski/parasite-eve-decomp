@@ -8,7 +8,7 @@ void Battle_CopyPadStateToRecord(void) {
     action->field00 = D_800A76D8.field00;
     action->range = D_800A76D8.range;
     action->field04 = D_800A76D8.field04;
-    action->actionId = D_800A76D8.actionId;
+    action->actionCode.actionId = D_800A76D8.actionCode.actionId;
     action->field08 = D_800A76D8.field08;
 
     value = action->attackWord;

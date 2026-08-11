@@ -1,22 +1,14 @@
-#include "common.h"
-extern int g_BattleEntitySlotInUse[];
-extern char g_BattleEntitySlotArray[];
+#include "pe1/battle_runtime.h"
 
-void Battle_SlotFree(void **arg0) {
-    u8 i;
-    char *base;
-    int offset;
-    char *slot;
+void Battle_SlotFree(void **combatantPtr) {
+    u8 index;
 
-    i = 0;
-    base = g_BattleEntitySlotArray;
+    index = 0;
     do {
-        offset = (((i * 7) << 3) - i) << 2;
-        slot = (char *)(offset + (int)base);
-        if (slot == *arg0) {
-            *(int *)((char *)g_BattleEntitySlotInUse + offset) = 0;
+        if (&D_800A5D58[index].combatant == *combatantPtr) {
+            D_800A5D58[index].active = 0;
         }
-        i++;
-    } while (i < 7);
-    *arg0 = 0;
+        index++;
+    } while (index < 7);
+    *combatantPtr = 0;
 }

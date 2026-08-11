@@ -43,7 +43,7 @@ void Battle_DispatchEntityEffect(void) {
 
     actor = D_8009D278_A;
     action = actor->action;
-    action_id = action->actionId;
+    action_id = action->actionCode.actionId;
 
     if (action_id == 6) {
         if ((action->attackWord & 0x3FF) == 0) {
@@ -64,7 +64,7 @@ void Battle_DispatchEntityEffect(void) {
 
     actor = D_8009D278_B;
     action2 = actor->action;
-    action_id2 = action2->actionId;
+    action_id2 = action2->actionCode.actionId;
 
     if (action_id2 == 5) {
         goto load_pair5;

@@ -5,7 +5,7 @@ void Battle_FinalizeAttackResult(void) {
     unsigned int attackWord;
 
     action = D_8009D278->action;
-    if (action->actionId == 8) {
+    if (action->actionCode.actionId == 8) {
         D_8009D294 = 1;
         Asset_Find08Alt(0x46c, 0,
                         D_8009D254->posX.parts.integer,

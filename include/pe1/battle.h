@@ -151,6 +151,10 @@ typedef struct EnemyCombatant {
                s16 fieldId04;
                struct { u8 rank; u8 field05; } bytes;
            } field04;
+/* 0x06 */ union {
+               s16 field06;
+               struct { u8 low; u8 entityId; } bytes;
+           } field06;
 /* 0x08 */ s32 field08;
 /* 0x0C */ u16 curHP;
 /* 0x0E */ u16 hpMirror;
@@ -172,7 +176,9 @@ typedef struct EnemyCombatant {
 /* 0x96 */ u8  pad_96[0x0A];
 /* 0xA0 */ s16 lootItemId;
 /* 0xA2 */ s16 lootItemAux;
-/* 0xA4 */ u8  pad_A4[0x28];
+/* 0xA4 */ u8  pad_A4[0x0B];
+/* 0xAF */ u8  deathPersist;
+/* 0xB0 */ u8  pad_B0[0x1C];
 /* 0xCC */ u32 statusFlags2;
 /* 0xD0 */ u8  pad_D0[8];
 } EnemyCombatant;
@@ -185,7 +191,10 @@ typedef struct BattleAction {
 /* 0x00 */ u16  field00;
 /* 0x02 */ s16  range;         /* compared vs target distance for cycling (Battle_CycleTarget.c:93) */
 /* 0x04 */ u16  field04;
-/* 0x06 */ s16  actionId;      /* 5=, 6=fire-weapon, 8=item/special; controls dispatch (Battle_DispatchEntityEffect.c:33-54; Battle_AdvanceTurnSlot.c:67) */
+/* 0x06 */ union {
+               s16 actionId;   /* 5=, 6=fire-weapon, 8=item/special */
+               struct { u8 actionIdByte; u8 field07; } bytes;
+           } actionCode;
 /* 0x08 */ s32  field08;       /* set from anim table (Battle_SetupEnemyAnims.c:52) */
 /* 0x0C */ u32  attackWord;    /* &0x3FF = shot/hit countdown (consumed per hit), >>0x14&3 = weapon category (Battle_DrawATBGauge.c:55; Battle_FinalizeAttackResult.c:34) */
 /* 0x10 */ u32  turnWord;      /* &0xF = remaining actions, >>4&3 = active turn slot, &0xC0 = action mode, 0x100..0x1000 = attack element (Battle_Init.c:60; Battle_AdvanceTurnSlot.c:70; Battle_StartEnemyAttackEffect.c:26) */

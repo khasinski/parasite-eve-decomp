@@ -14,6 +14,11 @@ typedef struct BattleInitSlot {
     s16 field06;
 } BattleInitSlot;
 
+typedef struct BattleEnemySlot {
+    s32 active;
+    EnemyCombatant combatant;
+} BattleEnemySlot;
+
 extern BattleInitSlot D_800BE830[45];
 extern int D_8009D2FC;
 extern int D_8009D258;
@@ -36,6 +41,12 @@ extern BattleEntity *D_8009D20C;
 extern void *D_8009D1F8;
 extern u8 D_8009159C[];
 extern u8 D_800915C0[];
+extern const EnemyCombatant D_800109B0;
+extern BattleEnemySlot D_800A5D58[7];
+extern u8 D_8009D2EC;
+extern u8 D_8009D2A0;
+extern u8 D_8009CE74;
+extern u8 D_8009D244;
 
 void Battle_FinalizeAttackResult(void);
 void Battle_Init(void);
@@ -55,7 +66,18 @@ int Battle_RollEscapeChance(void);
 void Battle_CopyPadStateToRecord(void);
 void Battle_FillActionQueue(void);
 void Battle_AdvanceTurnSlot(void);
+void Entity_AllocSlot(BattleEntity *entity);
+void Battle_StepEntityDeath(void);
+void Anim_SetInterpRate(RenderObjectEntity *object, int rate);
+void Pm_StopAllBoth(void);
+int CD_StepReadState(int mode);
+void Battle_ClearMotionTable(void);
+void Battle_SetupPlayerPalette(void);
+void Battle_ResetEnemyStats(int mode);
+void Battle_SetupEnemyAnims(void);
+void Scene_SetStoryDay(int day);
 
 PE1_STATIC_ASSERT(sizeof(BattleInitSlot) == 8, battle_init_slot_size);
+PE1_STATIC_ASSERT(sizeof(BattleEnemySlot) == 0xDC, battle_enemy_slot_size);
 
 #endif
