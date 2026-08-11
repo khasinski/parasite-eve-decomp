@@ -97,4 +97,6 @@ typedef struct GeomState {                /* header */
 
 extern GeomState * volatile g_GeomState;
 
+int Geo_TransformPoint(GeomEntry *entry, int x, int y, int depth);
+
 #endif /* PE1_GEOM_STATE_H */
