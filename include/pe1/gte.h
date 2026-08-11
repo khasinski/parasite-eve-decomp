@@ -291,6 +291,60 @@
  * Interpolate two two-byte vectors.  The fixed registers reproduce the
  * handwritten PSY-Q wrapper; callers remain normal C functions.
  */
+#define gte_load_average_short(first, second, first_scale, second_scale,      \
+                               output, gpf_command, gpl_command)              \
+    do {                                                                     \
+        register unsigned int x asm("$8");                                   \
+        register int y asm("$9");                                            \
+        register unsigned int z asm("$10");                                  \
+        register void *out asm("$13");                                       \
+        register int lzcr asm("$2");                                         \
+        asm volatile("lw $8,0(%3)\n\t"                                     \
+                     "lw $10,4(%3)\n\t"                                    \
+                     "sra $9,$8,16\n\t"                                    \
+                     "andi $8,$8,0xFFFF\n\t"                               \
+                     "andi $10,$10,0xFFFF"                                   \
+                     : "=r"(x), "=r"(y), "=r"(z)                            \
+                     : "r"(first) : "memory");                              \
+        asm volatile("mtc2 %0,$8\n\t"                                      \
+                     "mtc2 $8,$9\n\t"                                      \
+                     "mtc2 $9,$10\n\t"                                     \
+                     "mtc2 $10,$11"                                          \
+                     : : "r"(first_scale), "r"(x), "r"(y), "r"(z));        \
+        gpf_command;                                                         \
+        asm volatile("lw $8,0(%3)\n\t"                                     \
+                     "lw $10,4(%3)\n\t"                                    \
+                     "sra $9,$8,16\n\t"                                    \
+                     "andi $8,$8,0xFFFF\n\t"                               \
+                     "andi $10,$10,0xFFFF"                                   \
+                     : "=r"(x), "=r"(y), "=r"(z)                            \
+                     : "r"(second) : "memory");                             \
+        asm volatile("mfc2 $2,$31\n\t"                                     \
+                     "mtc2 %1,$8\n\t"                                      \
+                     "mtc2 $8,$9\n\t"                                      \
+                     "mtc2 $9,$10\n\t"                                     \
+                     "mtc2 $10,$11"                                          \
+                     : "=r"(lzcr)                                            \
+                     : "r"(second_scale), "r"(x), "r"(y), "r"(z));         \
+        gpl_command;                                                         \
+        asm volatile("mfc2 $8,$9\n\t"                                      \
+                     "mfc2 $9,$10\n\t"                                     \
+                     "andi $8,$8,0xFFFF\n\t"                               \
+                     "sll $9,$9,16\n\t"                                    \
+                     "or $8,$8,$9"                                           \
+                     : "=r"(x), "=r"(y));                                   \
+        out = (output);                                                      \
+        asm volatile("mfc2 $10,$11\n\t"                                    \
+                     "sw $8,0($13)\n\t"                                    \
+                     "sw $10,4($13)"                                         \
+                     : "=r"(z) : "r"(x), "r"(out) : "memory");             \
+    } while (0)
+
+#define gte_load_average_short0(first, second, first_scale, second_scale,     \
+                                output)                                      \
+    gte_load_average_short(first, second, first_scale, second_scale, output,  \
+                           gte_gpf0(), gte_gpl0())
+
 #define gte_load_average_byte2(first, second, first_scale, second_scale,      \
                                output)                                       \
     do {                                                                     \
