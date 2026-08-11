@@ -1,4 +1,14 @@
-int func_80190A94(char *obj, int query, unsigned int op,
+#ifndef ROOMLIB_CONFIGURE_HANDLER_B_NAME
+#define ROOMLIB_CONFIGURE_HANDLER_B_NAME func_80190A94
+#endif
+#ifndef ROOMLIB_CONFIGURE_HANDLER_B_ARM
+#define ROOMLIB_CONFIGURE_HANDLER_B_ARM RoomLib_ArmWindowA_80190D0C
+#endif
+#ifndef ROOMLIB_CONFIGURE_HANDLER_B_ADVANCE
+#define ROOMLIB_CONFIGURE_HANDLER_B_ADVANCE RoomLib_AdvanceArcToTarget_80191110
+#endif
+
+int ROOMLIB_CONFIGURE_HANDLER_B_NAME(char *obj, int query, unsigned int op,
                   int a, int b, int c) {
     char *state = obj + 0xC;
     FieldActorNode *node;
@@ -47,7 +57,7 @@ int func_80190A94(char *obj, int query, unsigned int op,
     case 10:
         RW8(state, 0xA) = a;
         RW16(state, 0x8) = b;
-        RW32(state, 0x0) = (int)RoomLib_ArmWindowA_80190D0C;
+        RW32(state, 0x0) = (int)ROOMLIB_CONFIGURE_HANDLER_B_ARM;
         break;
     case 11:
         RW8(state, 0xB) = a;
@@ -58,7 +68,7 @@ int func_80190A94(char *obj, int query, unsigned int op,
         break;
     case 18:
         if (RW8(obj, 0x3) == 2) {
-            RW32(state, 0x0) = (int)RoomLib_AdvanceArcToTarget_80191110;
+            RW32(state, 0x0) = (int)ROOMLIB_CONFIGURE_HANDLER_B_ADVANCE;
             RW32(state, 0x74) = a;
             RW8(obj, 0x3) = 3;
         }
@@ -104,3 +114,7 @@ int func_80190A94(char *obj, int query, unsigned int op,
     }
     return 0;
 }
+
+#undef ROOMLIB_CONFIGURE_HANDLER_B_ADVANCE
+#undef ROOMLIB_CONFIGURE_HANDLER_B_ARM
+#undef ROOMLIB_CONFIGURE_HANDLER_B_NAME
