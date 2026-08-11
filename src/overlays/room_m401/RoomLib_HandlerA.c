@@ -2,6 +2,6 @@
 
 extern char *D_8009D254;
 extern int D_800966EC[];
-extern void func_801944A4(void);
+extern void RoomLib_MoveActorLocal_801944A4(void);
 
-ROOMLIB_FACE_ACTOR_WITH_GLOBALS(RoomLib_HandlerA, func_801944A4, D_8009D254, D_800966EC)
+ROOMLIB_FACE_ACTOR_WITH_GLOBALS(RoomLib_HandlerA, RoomLib_MoveActorLocal_801944A4, D_8009D254, D_800966EC)

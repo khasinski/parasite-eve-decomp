@@ -1364,7 +1364,7 @@ extern int func_800D3F64();
 
 /* m063/m083 pair: per-state dispatcher + window-armer via the nested link */
 extern int func_800DFB78();
-extern void func_8018FEF8(RoomEnt *o);
+extern int func_8018FEF8(RoomEnt *o);
 extern void func_801909E0(RoomEnt *o);
 
 #define ROOMLIB_STATE_DISPATCH(name, tickFn) \
