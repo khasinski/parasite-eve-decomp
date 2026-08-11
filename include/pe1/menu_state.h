@@ -1,6 +1,16 @@
 #ifndef PE1_MENU_STATE_H
 #define PE1_MENU_STATE_H
 
+extern int D_8009CF78;
+extern int D_8009CFE8;
+extern int D_8009CFEC;
+extern int D_8009CFF0;
+
+#define g_MenuLevelUpAnimTimer D_8009CF78
+#define g_MenuPendingTotalExp D_8009CFE8
+#define g_MenuExpAllocTarget D_8009CFEC
+#define g_MenuExpReviewLevel D_8009CFF0
+
 /* Menu open/close state (the in-field item/status/equip menu drawn over the
  * paused field). Confirmed live via DuckStation GDB: snapshot-diffed the game
  * state block 0x8009C000..0x8009E000 across field <-> menu transitions; the

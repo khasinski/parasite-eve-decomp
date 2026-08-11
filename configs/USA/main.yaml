@@ -574,7 +574,7 @@ segments:
       - [0x3BE50, c, aya/func_8004B650]
       - [0x3BF0C, asm, aya/misc6]
       - [0x3C10C, c, menu/Menu_CreateExpReviewView]
-      - [0x3C170, asm, menu/Menu_DrawExpReviewPanel]
+      - [0x3C170, c, menu/Menu_DrawExpReviewPanel]
       - [0x3C380, c, menu/Menu_ConfirmExpAllocation]
       - [0x3C480, c, menu/menu14]
       - [0x3C4E8, c, menu/Menu_InitBonusPointAllocState]
