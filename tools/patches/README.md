@@ -8,6 +8,10 @@ call's filled delay slot is followed by a label, the label is bound to the
 delay-slot instruction's address (one word early). It also preserves stale
 post-callback jump relocations that target the callback's delay slot.
 
+`--post-call-jump-target=SYMBOL` handles the related cross-overlay fossil: it
+retargets that post-callback jump to the explicitly named donor tail while the
+C control flow remains shared and free of inline assembly.
+
 Required by overlay files carrying `MASPSX_FLAGS: --label-branch-delay`.
 
 ## What this flag actually reproduces (empirical, 2026-07-20)

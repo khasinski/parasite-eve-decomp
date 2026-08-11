@@ -123,6 +123,10 @@ fi
 if grep -q 'MASPSX_FLAGS:.*--label-branch-delay' "$IN"; then
     MASPSX_EXTRA+=(--label-branch-delay)
 fi
+if grep -q 'MASPSX_FLAGS:.*--post-call-jump-target=' "$IN"; then
+    MASPSX_POST_CALL_TARGET=$(sed -n 's/.*--post-call-jump-target=\([^ ]*\).*/\1/p' "$IN" | head -1)
+    MASPSX_EXTRA+=("--post-call-jump-target=$MASPSX_POST_CALL_TARGET")
+fi
 if [[ "$AS_G_FLAG" != "-G0" ]]; then
     MASPSX_EXTRA+=(--dont-force-G0)
 fi
