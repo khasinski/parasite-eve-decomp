@@ -21,6 +21,15 @@ typedef struct RoomFxVec4 {
     int w;
 } RoomFxVec4;
 
+typedef struct RoomUniformSpriteFxParams {
+    short x;
+    short y;
+    short z;
+    short pad6;
+    short scale;
+    unsigned short depth;
+} RoomUniformSpriteFxParams;
+
 typedef struct RoomSpriteFxParams {
     short x;
     short y;
