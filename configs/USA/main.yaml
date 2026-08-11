@@ -1897,7 +1897,7 @@ segments:
       - [0xBCAC4, asm, engine/func_800CC2C4]
       - [0xBCC40, c, engine/func_800CC440]
       - [0xBCC80, c, engine/func_800CC480]
-      - [0xBCD5C, asm, engine/func_800CC55C]
+      - [0xBCD5C, c, engine/FieldAnim_ProcessInterleavedPoints]
       - [0xBCE44, c, engine/func_800CC644]
       - [0xBCEF8, c, engine/func_800CC6F8]
       - [0xBCFAC, c, engine/FieldAnim_ProcessPointTriples]
