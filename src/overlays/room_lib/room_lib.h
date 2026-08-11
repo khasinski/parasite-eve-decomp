@@ -285,6 +285,7 @@ typedef struct RoomLibHandlerEState {
     unsigned char copyPosition;  /* 0x85 */
 } RoomLibHandlerEState;
 
+
 extern short D_800966EE[];
 extern char *D_8009D254;
 struct FieldActorNode;
