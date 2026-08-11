@@ -93,7 +93,7 @@ segments:
       - [0x33A8, c, func_80192390]
       - [0x33B0, c, func_80192398]
       - [0x3438, c, RoomLib_Notify2ArmB_80192420]
-      - [0x34E0, asm, RoomLib_HandlerE]
+      - [0x34E0, c, RoomLib_HandlerE]
       - [0x3A6C, c, RoomLib_SteerToward_80192A54]
       - [0x3AF0, c, RoomLib_ResetAndSignalB_80192AD8]
       - [0x3B48, c, func_80192B30]

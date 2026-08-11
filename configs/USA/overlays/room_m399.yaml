@@ -71,7 +71,7 @@ segments:
       - [0x225C, c, func_80191244]
       - [0x2264, c, func_8019124C]
       - [0x22EC, c, RoomLib_Notify2ArmB_801912D4]
-      - [0x2394, asm, RoomLib_HandlerE]
+      - [0x2394, c, RoomLib_HandlerE]
       - [0x2920, c, RoomLib_SteerToward_80191908]
       - [0x29A4, c, RoomLib_ResetAndSignalB_8019198C]
       - [0x29FC, c, func_801919E4]
