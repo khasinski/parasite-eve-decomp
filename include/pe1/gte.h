@@ -204,6 +204,30 @@
 #define gte_strgb2(out) \
     asm volatile("swc2 $22,0(%0)" : : "r"(out) : "memory")
 
+#define gte_declare_three_outputs()                                         \
+    register void *gte_out0 asm("$8");                                      \
+    register void *gte_out1 asm("$9");                                      \
+    register void *gte_out2 asm("$10")
+
+#define gte_bind_three_outputs(out0, out1, out2)                            \
+    do {                                                                     \
+        gte_out0 = (out0);                                                   \
+        gte_out1 = (out1);                                                   \
+        gte_out2 = (out2);                                                   \
+    } while (0)
+
+#define gte_dpct_separate()                                                 \
+    asm volatile("nop\n\t"                                                \
+                 ".word 0x4AF8002A"                                         \
+                 : : : "$8", "$9", "$10")
+
+#define gte_strgb0_bound()                                                  \
+    asm volatile("swc2 $20,0($8)" : : "r"(gte_out0) : "memory")
+#define gte_strgb1_bound()                                                  \
+    asm volatile("swc2 $21,0($9)" : : "r"(gte_out1) : "memory")
+#define gte_strgb2_bound()                                                  \
+    asm volatile("swc2 $22,0($10)" : : "r"(gte_out2) : "memory")
+
 /* IR0 is the scalar input used by GPF. */
 #define gte_ldir0(value) \
     asm volatile("mtc2 %0,$8" : : "r"(value))
@@ -287,131 +311,74 @@
     asm volatile("nop\n\t" \
                  ".word 0x4BA8003E")
 
-/*
- * Interpolate two two-byte vectors.  The fixed registers reproduce the
- * handwritten PSY-Q wrapper; callers remain normal C functions.
- */
-#define gte_load_average_short(first, second, first_scale, second_scale,      \
-                               output, gpf_command, gpl_command)              \
+/* Fixed-register staging used by the handwritten PSY-Q transfer wrappers. */
+#define gte_declare_xy_staging()                                             \
+    register int gte_x asm("$8");                                            \
+    register int gte_y asm("$9")
+
+#define gte_declare_xyz_staging()                                            \
+    gte_declare_xy_staging();                                                \
+    register int gte_z asm("$10")
+
+#define gte_declare_shift12() register int gte_shift asm("$11")
+#define gte_set_shift12() (gte_shift = 12)
+
+#define gte_load_byte2(input)                                                \
     do {                                                                     \
-        register unsigned int x asm("$8");                                   \
-        register int y asm("$9");                                            \
-        register unsigned int z asm("$10");                                  \
-        register void *out asm("$13");                                       \
-        register int lzcr asm("$2");                                         \
-        asm volatile("lw $8,0(%3)\n\t"                                     \
-                     "lw $10,4(%3)\n\t"                                    \
-                     "sra $9,$8,16\n\t"                                    \
-                     "andi $8,$8,0xFFFF\n\t"                               \
-                     "andi $10,$10,0xFFFF"                                   \
-                     : "=r"(x), "=r"(y), "=r"(z)                            \
-                     : "r"(first) : "memory");                              \
-        asm volatile("mtc2 %0,$8\n\t"                                      \
-                     "mtc2 $8,$9\n\t"                                      \
-                     "mtc2 $9,$10\n\t"                                     \
-                     "mtc2 $10,$11"                                          \
-                     : : "r"(first_scale), "r"(x), "r"(y), "r"(z));        \
-        gpf_command;                                                         \
-        asm volatile("lw $8,0(%3)\n\t"                                     \
-                     "lw $10,4(%3)\n\t"                                    \
-                     "sra $9,$8,16\n\t"                                    \
-                     "andi $8,$8,0xFFFF\n\t"                               \
-                     "andi $10,$10,0xFFFF"                                   \
-                     : "=r"(x), "=r"(y), "=r"(z)                            \
-                     : "r"(second) : "memory");                             \
-        asm volatile("mfc2 $2,$31\n\t"                                     \
-                     "mtc2 %1,$8\n\t"                                      \
-                     "mtc2 $8,$9\n\t"                                      \
-                     "mtc2 $9,$10\n\t"                                     \
-                     "mtc2 $10,$11"                                          \
-                     : "=r"(lzcr)                                            \
-                     : "r"(second_scale), "r"(x), "r"(y), "r"(z));         \
-        gpl_command;                                                         \
-        asm volatile("mfc2 $8,$9\n\t"                                      \
-                     "mfc2 $9,$10\n\t"                                     \
-                     "andi $8,$8,0xFFFF\n\t"                               \
-                     "sll $9,$9,16\n\t"                                    \
-                     "or $8,$8,$9"                                           \
-                     : "=r"(x), "=r"(y));                                   \
-        out = (output);                                                      \
-        asm volatile("mfc2 $10,$11\n\t"                                    \
-                     "sw $8,0($13)\n\t"                                    \
-                     "sw $10,4($13)"                                         \
-                     : "=r"(z) : "r"(x), "r"(out) : "memory");             \
+        gte_x = ((unsigned char *)(input))[0];                               \
+        gte_y = ((unsigned char *)(input))[1];                               \
     } while (0)
 
-#define gte_load_average_short0(first, second, first_scale, second_scale,     \
-                                output)                                      \
-    gte_load_average_short(first, second, first_scale, second_scale, output,  \
-                           gte_gpf0(), gte_gpl0())
-
-#define gte_load_average_byte2(first, second, first_scale, second_scale,      \
-                               output)                                       \
+#define gte_load_byte3(input)                                                \
     do {                                                                     \
-        register int x asm("$8");                                            \
-        register int y asm("$9");                                            \
-        register int shift asm("$11");                                       \
-        register void *out asm("$13");                                       \
-        register int lzcr asm("$2");                                         \
-        x = ((unsigned char *)(first))[0];                                   \
-        y = ((unsigned char *)(first))[1];                                   \
-        asm volatile("mtc2 %0,$8\n\t"                                      \
-                     "mtc2 $8,$9\n\t"                                      \
-                     "mtc2 $9,$10"                                           \
-                     : : "r"(first_scale), "r"(x), "r"(y));                 \
-        gte_gpf0();                                                          \
-        x = ((unsigned char *)(second))[0];                                  \
-        y = ((unsigned char *)(second))[1];                                  \
-        asm volatile("mfc2 $2,$31\n\t"                                     \
-                     "mtc2 %1,$8\n\t"                                      \
-                     "mtc2 $8,$9\n\t"                                      \
-                     "mtc2 $9,$10"                                           \
-                     : "=r"(lzcr)                                            \
-                     : "r"(second_scale), "r"(x), "r"(y));                  \
-        shift = 12;                                                          \
-        asm volatile(".word 0x4BA0003E" : : "r"(shift));                    \
-        out = (output);                                                      \
+        gte_load_byte2(input);                                               \
+        gte_z = ((unsigned char *)(input))[2];                               \
+    } while (0)
+
+#define gte_load_packed_short3(input)                                        \
+    asm volatile("lw $8,0(%3)\n\t"                                         \
+                 "lw $10,4(%3)\n\t"                                        \
+                 "sra $9,$8,16\n\t"                                        \
+                 "andi $8,$8,0xFFFF\n\t"                                   \
+                 "andi $10,$10,0xFFFF"                                       \
+                 : "=r"(gte_x), "=r"(gte_y), "=r"(gte_z)                    \
+                 : "r"(input) : "memory")
+
+#define gte_ldir0_ir12(scale)                                                \
+    asm volatile("mtc2 %0,$8\n\t"                                          \
+                 "mtc2 $8,$9\n\t"                                          \
+                 "mtc2 $9,$10"                                               \
+                 : : "r"(scale), "r"(gte_x), "r"(gte_y))
+
+#define gte_ldir0_ir123(scale)                                               \
+    asm volatile("mtc2 %0,$8\n\t"                                          \
+                 "mtc2 $8,$9\n\t"                                          \
+                 "mtc2 $9,$10\n\t"                                         \
+                 "mtc2 $10,$11"                                              \
+                 : : "r"(scale), "r"(gte_x), "r"(gte_y), "r"(gte_z))
+
+/* GPL without an inserted hazard slot, for wrappers which already provide it. */
+#define gte_gpl0_now() asm volatile(".word 0x4BA0003E")
+#define gte_gpl12_now() asm volatile(".word 0x4BA8003E")
+
+#define gte_store_mac12_byte2(output)                                        \
+    do {                                                                     \
+        register void *gte_out asm("$13");                                   \
+        gte_out = (output);                                                  \
         asm volatile("mfc2 $8,$25\n\t"                                     \
                      "mfc2 $9,$26\n\t"                                     \
                      "srav $8,$8,$11\n\t"                                  \
                      "srav $9,$9,$11\n\t"                                  \
                      "sb $8,0($13)\n\t"                                    \
                      "sb $9,1($13)"                                          \
-                     : : "r"(out), "r"(shift) : "memory");                  \
+                     : "=r"(gte_x), "=r"(gte_y)                             \
+                     : "r"(gte_out), "r"(gte_shift) : "memory");            \
     } while (0)
 
-/* Three-channel form used for packed colour interpolation. */
-#define gte_load_average_byte3(first, second, first_scale, second_scale,      \
-                               output)                                       \
+#define gte_store_mac123_byte3(output)                                       \
     do {                                                                     \
-        register int x asm("$8");                                            \
-        register int y asm("$9");                                            \
-        register int z asm("$10");                                           \
-        register int shift asm("$11");                                       \
-        register void *out asm("$13");                                       \
-        register int lzcr asm("$2");                                         \
-        x = ((unsigned char *)(first))[0];                                   \
-        y = ((unsigned char *)(first))[1];                                   \
-        z = ((unsigned char *)(first))[2];                                   \
-        asm volatile("mtc2 %0,$8\n\t"                                      \
-                     "mtc2 $8,$9\n\t"                                      \
-                     "mtc2 $9,$10\n\t"                                     \
-                     "mtc2 $10,$11"                                          \
-                     : : "r"(first_scale), "r"(x), "r"(y), "r"(z));        \
-        gte_gpf0();                                                          \
-        x = ((unsigned char *)(second))[0];                                  \
-        y = ((unsigned char *)(second))[1];                                  \
-        z = ((unsigned char *)(second))[2];                                  \
-        asm volatile("mfc2 $2,$31\n\t"                                     \
-                     "mtc2 %1,$8\n\t"                                      \
-                     "mtc2 $8,$9\n\t"                                      \
-                     "mtc2 $9,$10\n\t"                                     \
-                     "mtc2 $10,$11"                                          \
-                     : "=r"(lzcr)                                            \
-                     : "r"(second_scale), "r"(x), "r"(y), "r"(z));         \
-        shift = 12;                                                          \
-        asm volatile(".word 0x4BA0003E" : : "r"(shift));                    \
-        out = (output);                                                      \
+        register void *gte_out asm("$13");                                   \
+        gte_out = (output);                                                  \
         asm volatile("mfc2 $8,$25\n\t"                                     \
                      "mfc2 $9,$26\n\t"                                     \
                      "mfc2 $10,$27\n\t"                                    \
@@ -421,7 +388,24 @@
                      "sb $8,0($13)\n\t"                                    \
                      "sb $9,1($13)\n\t"                                    \
                      "sb $10,2($13)"                                         \
-                     : : "r"(out), "r"(shift) : "memory");                  \
+                     : "=r"(gte_x), "=r"(gte_y), "=r"(gte_z)                \
+                     : "r"(gte_out), "r"(gte_shift) : "memory");            \
+    } while (0)
+
+#define gte_store_ir123_packed_short3(output)                                \
+    do {                                                                     \
+        register void *gte_out asm("$13");                                   \
+        asm volatile("mfc2 $8,$9\n\t"                                      \
+                     "mfc2 $9,$10\n\t"                                     \
+                     "andi $8,$8,0xFFFF\n\t"                               \
+                     "sll $9,$9,16\n\t"                                    \
+                     "or $8,$8,$9"                                           \
+                     : "=r"(gte_x), "=r"(gte_y));                           \
+        gte_out = (output);                                                  \
+        asm volatile("mfc2 $10,$11\n\t"                                    \
+                     "sw $8,0($13)\n\t"                                    \
+                     "sw $10,4($13)"                                         \
+                     : "=r"(gte_z) : "r"(gte_x), "r"(gte_out) : "memory"); \
     } while (0)
 
 #define gte_op0() \
@@ -471,37 +455,43 @@
     asm volatile("nop\n\t" \
                  ".word 0x4A280030")
 
-/*
- * RTPT wrapper used by the separate-output projection API.  Its stack
- * arguments must enter t0..t3 after the command, matching the PSY-Q ABI.
- */
-#define gte_rtpt_store_separate(sxy0, sxy1, sxy2, p, flag, result)          \
-    do {                                                                   \
-        register void *out1 asm("$8");                                     \
-        register void *out2 asm("$9");                                     \
-        register void *depth asm("$10");                                   \
-        register void *flags_out asm("$11");                               \
-        register int flags asm("$3");                                      \
-        register int depth_value asm("$2");                                \
-        asm volatile("nop\n\t"                                          \
-                     ".word 0x4A280030"                                    \
-                     : : : "$8", "$9", "$10", "$11");                     \
-        out1 = (sxy1);                                                     \
-        out2 = (sxy2);                                                     \
-        depth = (p);                                                       \
-        flags_out = (flag);                                                \
-        asm volatile("swc2 $12,0(%0)" : : "r"(sxy0) : "memory");          \
-        asm volatile("swc2 $13,0($8)\n\t"                               \
-                     "swc2 $14,0($9)\n\t"                               \
-                     "swc2 $8,0($10)\n\t"                               \
-                     "cfc2 $3,$31\n\t"                                  \
-                     "mfc2 $2,$19\n\t"                                  \
-                     "sw $3,0($11)"                                        \
-                     : "=r"(flags), "=r"(depth_value)                      \
-                     : "r"(out1), "r"(out2), "r"(depth), "r"(flags_out)   \
-                     : "memory");                                          \
-        (result) = depth_value;                                            \
+#define gte_declare_separate_outputs()                                      \
+    register void *gte_out1 asm("$8");                                      \
+    register void *gte_out2 asm("$9");                                      \
+    register void *gte_depth_out asm("$10");                                \
+    register void *gte_flags_out asm("$11");                                \
+    register int gte_flags asm("$3");                                       \
+    register int gte_depth_value asm("$2")
+
+/* Keep the ABI-bound output registers free until RTPT has completed. */
+#define gte_rtpt_separate()                                                 \
+    asm volatile("nop\n\t"                                                \
+                 ".word 0x4A280030"                                         \
+                 : : : "$8", "$9", "$10", "$11")
+
+#define gte_bind_separate_outputs(out1, out2, depth, flags)                  \
+    do {                                                                     \
+        gte_out1 = (out1);                                                   \
+        gte_out2 = (out2);                                                   \
+        gte_depth_out = (depth);                                             \
+        gte_flags_out = (flags);                                             \
     } while (0)
+
+#define gte_stsxy0(out)                                                     \
+    asm volatile("swc2 $12,0(%0)" : : "r"(out) : "memory")
+#define gte_stsxy1_bound()                                                  \
+    asm volatile("swc2 $13,0($8)" : : "r"(gte_out1) : "memory")
+#define gte_stsxy2_bound()                                                  \
+    asm volatile("swc2 $14,0($9)" : : "r"(gte_out2) : "memory")
+#define gte_stir0_bound()                                                   \
+    asm volatile("swc2 $8,0($10)" : : "r"(gte_depth_out) : "memory")
+#define gte_getflag_bound()                                                 \
+    asm volatile("cfc2 $3,$31" : "=r"(gte_flags))
+#define gte_getsz3_bound()                                                  \
+    asm volatile("mfc2 $2,$19" : "=r"(gte_depth_value))
+#define gte_store_flag_bound()                                              \
+    asm volatile("sw $3,0($11)" : : "r"(gte_flags), "r"(gte_flags_out)     \
+                 : "memory")
 
 #define gte_stsxy012(out) \
     asm volatile("swc2 $12,0(%0)\n\t" \
