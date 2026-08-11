@@ -182,9 +182,9 @@ typedef struct EnemyCombatant {
  * i.e. *(void**)(combatant+0x68)). Holds the queued action id and timing.
  * --------------------------------------------------------------------------*/
 typedef struct BattleAction {
-/* 0x00 */ u8   pad_00[2];
+/* 0x00 */ u16  field00;
 /* 0x02 */ s16  range;         /* compared vs target distance for cycling (Battle_CycleTarget.c:93) */
-/* 0x04 */ u8   pad_04[2];
+/* 0x04 */ u16  field04;
 /* 0x06 */ s16  actionId;      /* 5=, 6=fire-weapon, 8=item/special; controls dispatch (Battle_DispatchEntityEffect.c:33-54; Battle_AdvanceTurnSlot.c:67) */
 /* 0x08 */ s32  field08;       /* set from anim table (Battle_SetupEnemyAnims.c:52) */
 /* 0x0C */ u32  attackWord;    /* &0x3FF = shot/hit countdown (consumed per hit), >>0x14&3 = weapon category (Battle_DrawATBGauge.c:55; Battle_FinalizeAttackResult.c:34) */

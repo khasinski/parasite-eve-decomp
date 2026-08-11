@@ -30,6 +30,7 @@ extern u8 D_8009D1D4;
 extern u8 D_8009CE3C;
 extern unsigned int D_8009D2E8;
 extern int D_8009D28C;
+extern BattleAction D_800A76D8;
 
 void Battle_FinalizeAttackResult(void);
 void Battle_Init(void);
@@ -45,6 +46,7 @@ void Battle_ApplyPlayerHit(void);
 void Battle_AdvancePhase(void);
 void Entity_SetActionMode(BattleEntity *entity, int mode);
 int Battle_RollEscapeChance(void);
+void Battle_CopyPadStateToRecord(void);
 
 PE1_STATIC_ASSERT(sizeof(BattleInitSlot) == 8, battle_init_slot_size);
 
