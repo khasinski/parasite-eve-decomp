@@ -1247,6 +1247,8 @@ segments:
       - [0x68B44, c, psyq/libgte/LoadAverage12]
       - [0x68B94, c, psyq/libgte/LoadAverage0]
       - [0x68BE4, asm, psyq/libgte/msc06_68BE4]
+      - [0x68CF4, c, psyq/libgte/LoadAverageByte]
+      - [0x68D54, asm, psyq/libgte/msc06_68D54]
       - [0x68DD4, asm, psyq/libgte/mtx_000]
       - [0x68EE4, asm, psyq/libgte/mtx_001]
       - [0x68FD4, asm, psyq/libgte/mtx_003]
