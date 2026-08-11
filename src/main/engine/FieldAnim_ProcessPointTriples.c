@@ -33,7 +33,6 @@ void FieldAnim_ProcessPointTriples(void *arg0, void *arg1,
                                    FieldAnimPointData *points) {
     volatile int stack_pad;
     FieldAnimPointTriple *out;
-    short *base;
     unsigned int i;
 
     i = 0;
@@ -42,8 +41,7 @@ void FieldAnim_ProcessPointTriples(void *arg0, void *arg1,
     func_800C2FF0(0x10, 0x10);
     func_800C3238(0);
 
-    base = &D_800E2818.scale;
-    *base = (s32)(points->scale << 24) >> 23;
+    D_800E2818.scale = (s32)(points->scale << 24) >> 23;
 
     if (points->count != 0) {
         out = &D_800E2818.point;
