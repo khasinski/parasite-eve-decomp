@@ -30,6 +30,38 @@ typedef struct RoomUniformSpriteFxParams {
     unsigned short depth;
 } RoomUniformSpriteFxParams;
 
+typedef struct RoomOrbitParticlePosition {
+    unsigned short x;
+    unsigned short y;
+    unsigned short z;
+    unsigned short pad6;
+} RoomOrbitParticlePosition;
+
+typedef struct RoomOrbitParticleVelocity {
+    short x;
+    unsigned short angle;
+    short z;
+    short pad6;
+} RoomOrbitParticleVelocity;
+
+/* View of one position together with its velocity in the parallel array. */
+typedef struct RoomOrbitParticleLaneView {
+    RoomOrbitParticlePosition position;
+    unsigned char remainingPositions[7 * sizeof(RoomOrbitParticlePosition)];
+    RoomOrbitParticleVelocity velocity;
+} RoomOrbitParticleLaneView;
+
+typedef struct RoomOrbitParticleState {
+    RoomOrbitParticlePosition position[8];
+    RoomOrbitParticleVelocity velocity[8];
+    unsigned short height;
+    short decay;
+    unsigned char frame;
+    unsigned char intensity;
+    short radius;
+    short radiusStep;
+} RoomOrbitParticleState;
+
 typedef struct RoomSpriteFxParams {
     short x;
     short y;
