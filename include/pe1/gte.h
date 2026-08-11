@@ -221,12 +221,42 @@
                  ".word 0x4AF8002A"                                         \
                  : : : "$8", "$9", "$10")
 
+#define gte_rtpt_three_outputs()                                            \
+    asm volatile("nop\n\t"                                                \
+                 ".word 0x4A280030"                                         \
+                 : : : "$8", "$9", "$10")
+
+#define gte_rtps_three_outputs()                                            \
+    asm volatile("nop\n\t"                                                \
+                 ".word 0x4A180001"                                         \
+                 : : : "$8", "$9", "$10")
+
 #define gte_strgb0_bound()                                                  \
     asm volatile("swc2 $20,0($8)" : : "r"(gte_out0) : "memory")
 #define gte_strgb1_bound()                                                  \
     asm volatile("swc2 $21,0($9)" : : "r"(gte_out1) : "memory")
 #define gte_strgb2_bound()                                                  \
     asm volatile("swc2 $22,0($10)" : : "r"(gte_out2) : "memory")
+#define gte_stsxy_three_0()                                                 \
+    asm volatile("swc2 $12,0($8)" : : "r"(gte_out0) : "memory")
+#define gte_stsxy_three_1()                                                 \
+    asm volatile("swc2 $13,0($9)" : : "r"(gte_out1) : "memory")
+#define gte_stsxy_three_2()                                                 \
+    asm volatile("swc2 $14,0($10)" : : "r"(gte_out2) : "memory")
+#define gte_stsxy2_three_0()                                                \
+    asm volatile("swc2 $14,0($8)" : : "r"(gte_out0) : "memory")
+#define gte_stir0_three_1()                                                 \
+    asm volatile("swc2 $8,0($9)" : : "r"(gte_out1) : "memory")
+
+#define gte_getflag(out) asm volatile("cfc2 %0,$31" : "=r"(out))
+
+#define gte_declare_rt4_results(first_flags, flags, depth)                   \
+    register int first_flags asm("$3");                                     \
+    register int flags asm("$8");                                           \
+    register int depth asm("$2")
+
+#define gte_store_third_output(value)                                       \
+    asm volatile("sw %0,0($10)" : : "r"(value), "r"(gte_out2) : "memory")
 
 /* IR0 is the scalar input used by GPF. */
 #define gte_ldir0(value) \
