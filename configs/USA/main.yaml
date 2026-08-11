@@ -1979,6 +1979,8 @@ segments:
       - [0xBF620, asm, engine/engine_800CEE20]
       - [0xBFCB4, c, engine/func_800CF4B4]
       - [0xBFDB0, asm, engine/engine_800CEE20_BFDB0]
+      - [0xBFE58, c, engine/Gte_BuildAndLoadRotationMatrix]
+      - [0xBFEF8, asm, engine/engine_800CEE20_BFEF8]
       - [0xC04F4, c, engine/func_800CFCF4]
       - [0xC0550, asm, engine/engine_800CEE20_C0550]
       - [0xC0694, c, engine/func_800CFE94]
