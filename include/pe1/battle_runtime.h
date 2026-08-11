@@ -9,7 +9,7 @@ extern int D_8009D200;
 extern u8 D_8009D294;
 
 typedef struct BattleInitSlot {
-    s32 value;
+    BattleEntity *actor;
     s16 field04;
     s16 field06;
 } BattleInitSlot;
@@ -31,6 +31,11 @@ extern u8 D_8009CE3C;
 extern unsigned int D_8009D2E8;
 extern int D_8009D28C;
 extern BattleAction D_800A76D8;
+extern s8 D_8009D2B0;
+extern BattleEntity *D_8009D20C;
+extern void *D_8009D1F8;
+extern u8 D_8009159C[];
+extern u8 D_800915C0[];
 
 void Battle_FinalizeAttackResult(void);
 void Battle_Init(void);
@@ -44,9 +49,12 @@ void Battle_InitFadeVars(void);
 void Battle_UpdatePlayerTurn(void);
 void Battle_ApplyPlayerHit(void);
 void Battle_AdvancePhase(void);
+void BattleCmd_UndoPending(void);
 void Entity_SetActionMode(BattleEntity *entity, int mode);
 int Battle_RollEscapeChance(void);
 void Battle_CopyPadStateToRecord(void);
+void Battle_FillActionQueue(void);
+void Battle_AdvanceTurnSlot(void);
 
 PE1_STATIC_ASSERT(sizeof(BattleInitSlot) == 8, battle_init_slot_size);
 

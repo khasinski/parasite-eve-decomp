@@ -10,7 +10,7 @@ void Battle_Init(void) {
     D_8009D258 = -1;
     D_8009D208 = -1;
     for (index = 0; index < 45; index++) {
-        D_800BE830[index].value = 0;
+        D_800BE830[index].actor = 0;
         D_800BE830[index].field06 = 0;
         D_800BE830[index].field04 = 0;
     }
