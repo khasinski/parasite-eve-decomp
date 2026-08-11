@@ -2,15 +2,15 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Code bytes decompiled: <b>877300/3759984 (23.3%)</b> · functions (secondary): <b>8460/12237 (69.1%)</b>. A unit counts when it has no INCLUDE_ASM and no inline/register assembly. Pure C is the target. The full build is byte-identical to retail.</p>
+<p>Code bytes decompiled: <b>878132/3759984 (23.4%)</b> · functions (secondary): <b>8458/12233 (69.1%)</b>. A unit counts when it has no INCLUDE_ASM and no inline/register assembly. Pure C is the target. The full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
 <tr><td>SLUS_006.62 (main)</td><td>1259/2555</td><td>49.3%</td><td>124776/843348</td><td>14.8%</td></tr>
 <tr><td>boot_display</td><td>1/16</td><td>6.2%</td><td>240/10240</td><td>2.3%</td></tr>
 <tr><td>fx_common</td><td>0/66</td><td>0.0%</td><td>0/53248</td><td>0.0%</td></tr>
 <tr><td>fx_field</td><td>1/3</td><td>33.3%</td><td>944/4096</td><td>23.0%</td></tr>
-<tr><td>menu_memcard</td><td>6/47</td><td>12.8%</td><td>868/45056</td><td>1.9%</td></tr>
+<tr><td>menu_memcard</td><td>5/45</td><td>11.1%</td><td>1384/45056</td><td>3.1%</td></tr>
 <tr><td>render_clip</td><td>0/2</td><td>0.0%</td><td>0/2048</td><td>0.0%</td></tr>
-<tr><td>scene_e01</td><td>12/21</td><td>57.1%</td><td>760/12768</td><td>6.0%</td></tr>
+<tr><td>scene_e01</td><td>11/20</td><td>55.0%</td><td>760/12768</td><td>6.0%</td></tr>
 <tr><td>scene_e02</td><td>69/96</td><td>71.9%</td><td>4672/25732</td><td>18.2%</td></tr>
 <tr><td>scene_e03</td><td>46/60</td><td>76.7%</td><td>2916/15756</td><td>18.5%</td></tr>
 <tr><td>scene_e04</td><td>15/32</td><td>46.9%</td><td>1080/12176</td><td>8.9%</td></tr>
@@ -34,8 +34,8 @@
 <tr><td>scene_e26</td><td>46/59</td><td>78.0%</td><td>2916/13568</td><td>21.5%</td></tr>
 <tr><td>scene_e27</td><td>46/60</td><td>76.7%</td><td>2916/15756</td><td>18.5%</td></tr>
 <tr><td>sys_reset</td><td>11/19</td><td>57.9%</td><td>648/2048</td><td>31.6%</td></tr>
-<tr><td>room overlays (x162)</td><td>6295/8251</td><td>76.3%</td><td>691108/2390632</td><td>28.9%</td></tr>
-<tr><td>total</td><td>8460/12237</td><td>69.1%</td><td>877300/3759984</td><td>23.3%</td></tr>
+<tr><td>room overlays (x162)</td><td>6295/8250</td><td>76.3%</td><td>691424/2390632</td><td>28.9%</td></tr>
+<tr><td>total</td><td>8458/12233</td><td>69.1%</td><td>878132/3759984</td><td>23.4%</td></tr>
 </table>
 <h2>SLUS_006.62 (main) — 968/1335 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
@@ -1386,10 +1386,11 @@
 <tr><td>src/overlays/fx_field/fx_field_data.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/fx_field/fx_field_header.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 </table>
-<h2>menu_memcard — 6/6 decompiled files</h2>
+<h2>menu_memcard — 7/7 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
+<tr><td>src/overlays/menu_memcard/Memcard_ResetDisplayState_80121A44.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/menu_memcard/func_80122398.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/overlays/menu_memcard/func_8012A848.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/menu_memcard/func_8012A848.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/menu_memcard/func_8012B19C.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/menu_memcard/func_8012B6F0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/menu_memcard/func_8012B710.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1405,7 +1406,7 @@
 <tr><td>src/overlays/scene_e01/func_8018F168.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e01/func_8018F5D4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e01/func_8018F5DC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/overlays/scene_e01/func_8018F6C4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e01/func_8018F6C4.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e01/func_8018F800.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e01/func_801921A4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e01/func_801921B4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>

@@ -1,7 +1,5 @@
 #include "../room_lib/room_lib.h"
 
-extern char *D_8009D20C;
-
 int func_8018F084(char *obj, int arg1, int op, int arg3, int arg4) {
     char *node;
     char *base;
