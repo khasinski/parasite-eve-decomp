@@ -326,6 +326,50 @@
                      : : "r"(out), "r"(shift) : "memory");                  \
     } while (0)
 
+/* Three-channel form used for packed colour interpolation. */
+#define gte_load_average_byte3(first, second, first_scale, second_scale,      \
+                               output)                                       \
+    do {                                                                     \
+        register int x asm("$8");                                            \
+        register int y asm("$9");                                            \
+        register int z asm("$10");                                           \
+        register int shift asm("$11");                                       \
+        register void *out asm("$13");                                       \
+        register int lzcr asm("$2");                                         \
+        x = ((unsigned char *)(first))[0];                                   \
+        y = ((unsigned char *)(first))[1];                                   \
+        z = ((unsigned char *)(first))[2];                                   \
+        asm volatile("mtc2 %0,$8\n\t"                                      \
+                     "mtc2 $8,$9\n\t"                                      \
+                     "mtc2 $9,$10\n\t"                                     \
+                     "mtc2 $10,$11"                                          \
+                     : : "r"(first_scale), "r"(x), "r"(y), "r"(z));        \
+        gte_gpf0();                                                          \
+        x = ((unsigned char *)(second))[0];                                  \
+        y = ((unsigned char *)(second))[1];                                  \
+        z = ((unsigned char *)(second))[2];                                  \
+        asm volatile("mfc2 $2,$31\n\t"                                     \
+                     "mtc2 %1,$8\n\t"                                      \
+                     "mtc2 $8,$9\n\t"                                      \
+                     "mtc2 $9,$10\n\t"                                     \
+                     "mtc2 $10,$11"                                          \
+                     : "=r"(lzcr)                                            \
+                     : "r"(second_scale), "r"(x), "r"(y), "r"(z));         \
+        shift = 12;                                                          \
+        asm volatile(".word 0x4BA0003E" : : "r"(shift));                    \
+        out = (output);                                                      \
+        asm volatile("mfc2 $8,$25\n\t"                                     \
+                     "mfc2 $9,$26\n\t"                                     \
+                     "mfc2 $10,$27\n\t"                                    \
+                     "srav $8,$8,$11\n\t"                                  \
+                     "srav $9,$9,$11\n\t"                                  \
+                     "srav $10,$10,$11\n\t"                                \
+                     "sb $8,0($13)\n\t"                                    \
+                     "sb $9,1($13)\n\t"                                    \
+                     "sb $10,2($13)"                                         \
+                     : : "r"(out), "r"(shift) : "memory");                  \
+    } while (0)
+
 #define gte_op0() \
     asm volatile("nop\n\t" \
                  ".word 0x4B70000C")
