@@ -359,6 +359,146 @@ typedef struct RoomLibHandlerDState {
     unsigned char copyRotation;   /* 0xAC */
 } RoomLibHandlerDState;
 
+/* Argument-controlled state used by HandlerB through RoomEnt + 0x0C. */
+typedef struct RoomLibHandlerBState {
+    void (*callback)(void);       /* 0x00 */
+    int *signal;                  /* 0x04 */
+    short active;                 /* 0x08 */
+    signed char variant;          /* 0x0A */
+    unsigned char optionB;        /* 0x0B */
+    unsigned char optionC;        /* 0x0C */
+    unsigned char flags;          /* 0x0D */
+    char pad0E[0x22];
+    int target[3];                /* 0x30 */
+    char pad3C[0x4];
+    int localOffset[3];           /* 0x40 */
+    char pad4C[0x4];
+    int secondaryX;               /* 0x50 */
+    char pad54[0x4];
+    int secondaryZ;               /* 0x58 */
+    char pad5C[0x4];
+    RoomLink *targetLink;         /* 0x60 */
+    RoomLink *secondaryLink;      /* 0x64 */
+    int speed;                    /* 0x68 */
+    int acceleration;             /* 0x6C */
+    int duration;                 /* 0x70 */
+    int phaseValue;               /* 0x74 */
+    char pad78[0x8];
+    int mode;                     /* 0x80 */
+    char pad84[0x2];
+    short rate;                   /* 0x86 */
+    short heading;                /* 0x88 */
+    short secondaryHeading;       /* 0x8A */
+} RoomLibHandlerBState;
+
+#define ROOMLIB_HANDLER_B_ARGS(name, armHandler, phaseHandler) \
+    int name(RoomEnt *o, int query, unsigned int op, int arg0, int arg1, int arg2) { \
+        RoomLibHandlerBState *state = (RoomLibHandlerBState *)&o->sub; \
+        FieldActorNode *node; \
+        switch (op) { \
+        case 19: \
+            if (query == 0) { \
+                o->flag3 = arg0; \
+            } else { \
+                *(int *)arg0 = o->flag3; \
+            } \
+            break; \
+        case 25: \
+            if (query == 1) { \
+                state->signal = (int *)arg0; \
+                *(int *)arg0 = query; \
+            } \
+            break; \
+        case 4: \
+            state->speed = arg0; \
+            state->acceleration = arg1; \
+            break; \
+        case 2: \
+            state->duration = arg0; \
+            break; \
+        case 12: \
+            state->phaseValue = arg0; \
+            break; \
+        case 13: \
+            state->mode = arg0; \
+            break; \
+        case 14: \
+            state->rate = arg1; \
+            break; \
+        case 6: \
+            state->localOffset[0] = arg0; \
+            state->localOffset[1] = arg1; \
+            state->localOffset[2] = arg2; \
+            break; \
+        case 23: \
+            arg0 = arg0 != 0; \
+            arg1 = (arg1 != 0) << 1; \
+            arg2 = (arg2 != 0) << 2; \
+            state->flags = arg0 | arg1 | arg2; \
+            break; \
+        case 10: \
+            state->variant = arg0; \
+            state->active = arg1; \
+            state->callback = (void (*)(void))armHandler; \
+            break; \
+        case 11: \
+            state->optionB = arg0; \
+            state->optionC = arg1; \
+            break; \
+        case 16: \
+            state->heading = arg0; \
+            break; \
+        case 18: \
+            if (o->flag3 == 2) { \
+                state->callback = (void (*)(void))phaseHandler; \
+                state->phaseValue = arg0; \
+                o->flag3 = 3; \
+            } \
+            break; \
+        case 0: \
+            state->targetLink = (RoomLink *)D_8009D20C; \
+            while (state->targetLink != 0) { \
+                node = (FieldActorNode *)state->targetLink; \
+                if (node->b0C == arg0 && node->b0D == arg1 && \
+                    (node->w98 & 0x10) == 0) { \
+                    break; \
+                } \
+                state->targetLink = (RoomLink *) \
+                    ((FieldActorNode *)state->targetLink)->next; \
+            } \
+            break; \
+        case 17: \
+            state->target[0] = arg0; \
+            state->target[2] = arg2; \
+            if (arg1 != -1) { \
+                state->target[1] = arg1; \
+            } else { \
+                state->target[1] = RW32(D_8009D254, 0x2C); \
+            } \
+            state->targetLink = 0; \
+            break; \
+        case 21: \
+            state->secondaryLink = (RoomLink *)D_8009D20C; \
+            while (state->secondaryLink != 0) { \
+                node = (FieldActorNode *)state->secondaryLink; \
+                if (node->b0C == arg0 && node->b0D == arg1 && \
+                    (node->w98 & 0x10) == 0) { \
+                    break; \
+                } \
+                state->secondaryLink = (RoomLink *) \
+                    ((FieldActorNode *)state->secondaryLink)->next; \
+            } \
+            state->secondaryHeading = arg2; \
+            break; \
+        case 22: \
+            state->secondaryX = arg0; \
+            state->secondaryZ = arg1; \
+            state->secondaryHeading = arg2; \
+            break; \
+        } \
+        return 0; \
+    }
+
 #define ROOMLIB_HANDLER_D_ARGS(name, notifyHandler) \
     int name(RoomEnt *o, int query, unsigned int op, int arg0, int arg1, int arg2) { \
         RoomLibHandlerDState *state = (RoomLibHandlerDState *)&o->sub; \
@@ -662,6 +802,58 @@ extern void RoomLib_NotifyArmB_801911D8(RoomEnt *obj);
 extern void RoomLib_NotifyArmB_801916E0(RoomEnt *obj);
 extern void RoomLib_NotifyArmB_801916E8(RoomEnt *obj);
 extern void RoomLib_NotifyArmB_80193D1C(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190CFC(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D04(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D08(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D10(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D14(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D18(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D1C(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D20(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D30(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D50(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D54(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D5C(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D74(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D90(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80191998(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80191D00(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80191D08(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80191D14(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80191D9C(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80191E64(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80192218(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80192734(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_8019294C(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80192E54(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80192E5C(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80195490(RoomEnt *obj);
+extern void func_80191100(void);
+extern void func_80191108(void);
+extern void func_8019110C(void);
+extern void func_80191114(void);
+extern void func_80191118(void);
+extern void func_8019111C(void);
+extern void func_80191120(void);
+extern void func_80191124(void);
+extern void func_80191134(void);
+extern void func_80191154(void);
+extern void func_80191158(void);
+extern void func_80191160(void);
+extern void func_80191178(void);
+extern void func_80191194(void);
+extern void func_80191D9C(void);
+extern void func_80192104(void);
+extern void func_8019210C(void);
+extern void func_80192118(void);
+extern void func_801921A0(void);
+extern void func_80192268(void);
+extern void func_8019261C(void);
+extern void func_80192B38(void);
+extern void func_80192D50(void);
+extern void func_80193258(void);
+extern void func_80193260(void);
+extern void func_80195894(void);
 extern int RoomLib_Set4ClearSignal_801924D4(RoomEnt *o);
 
 typedef struct RoomLibFxMatrixWords {
