@@ -3,8 +3,10 @@
 Apply to the tools/maspsx (mkst/maspsx) checkout:
     cd tools/maspsx && git apply ../patches/maspsx-label-branch-delay.patch
 
-Adds `--label-branch-delay`: when a branch/jump's inserted delay-slot nop is
-followed by a label, the label is bound to the nop's address (one word early).
+Adds `--label-branch-delay`: when a branch/jump's inserted delay-slot nop or a
+call's filled delay slot is followed by a label, the label is bound to the
+delay-slot instruction's address (one word early). It also preserves stale
+post-callback jump relocations that target the callback's delay slot.
 
 Required by overlay files carrying `MASPSX_FLAGS: --label-branch-delay`.
 

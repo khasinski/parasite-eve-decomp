@@ -7,8 +7,8 @@ and no inline/register assembly. Pure C is the target. Code bytes cover function
 only (baked data carriers are excluded). Every built binary is
 byte-identical to retail (`make check`, `make overlay-check-all`).
 
-**Headline: 866860/3759984 code bytes (23.1%) are decompiled.**
-Function coverage is secondary: 8432/12248 (68.8%).
+**Headline: 866996/3759984 code bytes (23.1%) are decompiled.**
+Function coverage is secondary: 8433/12248 (68.9%).
 
 | Binary | Functions | % | Code bytes | % |
 |---|---:|---:|---:|---:|
@@ -19,7 +19,7 @@ Function coverage is secondary: 8432/12248 (68.8%).
 | `menu_memcard` | 6/47 | 12.8% | 868/45056 | 1.9% |
 | `render_clip` | 0/2 | 0.0% | 0/2048 | 0.0% |
 | `scene_e01` | 12/21 | 57.1% | 760/12768 | 6.0% |
-| `scene_e02` | 67/96 | 69.8% | 4400/25732 | 17.1% |
+| `scene_e02` | 68/96 | 70.8% | 4536/25732 | 17.6% |
 | `scene_e03` | 44/60 | 73.3% | 2644/15756 | 16.8% |
 | `scene_e04` | 15/32 | 46.9% | 1080/12176 | 8.9% |
 | `scene_e05` | 15/32 | 46.9% | 1080/12176 | 8.9% |
@@ -43,4 +43,4 @@ Function coverage is secondary: 8432/12248 (68.8%).
 | `scene_e27` | 44/60 | 73.3% | 2644/15756 | 16.8% |
 | `sys_reset` | 11/19 | 57.9% | 648/2048 | 31.6% |
 | `room overlays (x162)` | 6293/8258 | 76.2% | 685180/2390632 | 28.7% |
-| **total** | **8432/12248** | **68.8%** | **866860/3759984** | **23.1%** |
+| **total** | **8433/12248** | **68.9%** | **866996/3759984** | **23.1%** |

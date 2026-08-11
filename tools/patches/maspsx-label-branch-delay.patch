@@ -35,7 +35,7 @@ index 121d7d1..32dc09c 100644
      try:
          out_lines = maspsx_processor.process_lines()
 diff --git a/maspsx/__init__.py b/maspsx/__init__.py
-index 6ff7f7f..1d2627c 100644
+index 6ff7f7f..50d2072 100644
 --- a/maspsx/__init__.py
 +++ b/maspsx/__init__.py
 @@ -32,6 +32,10 @@ store_mnemonics = {
@@ -49,7 +49,7 @@ index 6ff7f7f..1d2627c 100644
  
  single_reg_loads = {
      "mult",
-@@ -337,6 +341,247 @@ def expand_macro(line: str):
+@@ -337,6 +341,279 @@ def expand_macro(line: str):
      return res
  
  
@@ -250,32 +250,64 @@ index 6ff7f7f..1d2627c 100644
 +    return res
 +
 +
++def _retarget_post_call_jump_to_delay(lines: List[str]) -> List[str]:
++    res = lines[:]
++    serial = 0
++    i = 2
++    while i < len(res):
++        if _is_jump(res[i]) and not _is_return(res[i]):
++            previous_delay = _previous_instruction_index(res, i - 1)
++            previous_call = (
++                _previous_instruction_index(res, previous_delay - 1)
++                if previous_delay is not None
++                else None
++            )
++            next_call = i + 1
++            while next_call < len(res) and not _is_call(res[next_call]):
++                if not _is_non_instruction(res[next_call]) and next_call > i + 1:
++                    break
++                next_call += 1
++            if previous_call is not None and _is_call(res[previous_call]) and next_call < len(res):
++                label = f"$Lmaspsx_delay_{serial}:"
++                op, _ = _split_op(res[i])
++                res[i] = f"{op}\t{label[:-1]}"
++                res.insert(next_call + 1, label)
++                serial += 1
++                i += 1
++        i += 1
++    return res
 +
 +
 +def _bind_label_into_branch_delay(lines: List[str]) -> List[str]:
-+    """ASPSX binds a label that directly follows a branch/jump to the address
-+    of the inserted delay-slot nop; GNU as binds it after the nop. Rewrite
-+    [branch][label] into an explicit noreorder block [branch][label][nop] so
-+    the label lands on the delay slot, matching ASPSX."""
 +    res = []
 +    i = 0
-+    n = len(lines)
-+    while i < n:
++    while i < len(lines):
 +        line = lines[i]
++        label_index = i + 2
++        while (
++            label_index < len(lines)
++            and _is_non_instruction(lines[label_index])
++            and not is_label(lines[label_index])
++        ):
++            label_index += 1
 +        if (
-+            (_is_branch(line) or _is_jump(line))
-+            and i + 2 < n
-+            and _is_nop(lines[i + 1])
-+            and is_label(lines[i + 2])
++            label_index < len(lines)
++            and is_label(lines[label_index])
++            and (
++                ((_is_branch(line) or _is_jump(line)) and _is_nop(lines[i + 1]))
++                or (_is_call(line) and not _is_non_instruction(lines[i + 1]))
++            )
 +        ):
 +            res.append(line)
-+            res.append(lines[i + 2])
++            res.append(lines[label_index])
 +            res.append(lines[i + 1])
-+            i += 3
++            res.extend(lines[i + 2 : label_index])
++            i = label_index + 1
 +            continue
 +        res.append(line)
 +        i += 1
 +    return res
++
 +
 +def _repair_la_branch_after_call_delay(lines: List[str]) -> List[str]:
 +    res = lines[:]
@@ -297,7 +329,7 @@ index 6ff7f7f..1d2627c 100644
  def load_immediate_single(line: str):
      res = []
      r1, value = line[5:].split(",")
-@@ -397,6 +642,15 @@ class MaspsxProcessor:
+@@ -397,6 +674,15 @@ class MaspsxProcessor:
          gp_allow_la=False,
          use_comm_section=False,
          use_comm_for_lcomm=False,
@@ -308,12 +340,12 @@ index 6ff7f7f..1d2627c 100644
 +        store_call_delay=False,
 +        store_jump_delay=False,
 +        store_branch_delay=False,
-+        load_dest_temp=False,
 +        label_branch_delay=False,
++        load_dest_temp=False,
      ):
          self.lines = [x.strip() for x in lines]
  
-@@ -418,6 +672,16 @@ class MaspsxProcessor:
+@@ -418,6 +704,16 @@ class MaspsxProcessor:
          self.use_comm_section = use_comm_section
          self.use_comm_for_lcomm = use_comm_for_lcomm
  
@@ -324,13 +356,13 @@ index 6ff7f7f..1d2627c 100644
 +        self.store_call_delay = store_call_delay
 +        self.store_jump_delay = store_jump_delay
 +        self.store_branch_delay = store_branch_delay
-+        self.load_dest_temp = load_dest_temp
 +        self.label_branch_delay = label_branch_delay
++        self.load_dest_temp = load_dest_temp
 +
          self.bss_entries: dict[str, int] = {}
          self.sbss_entries: dict[str, int] = {}
          self.sdata_entries: dict[str, int] = {}
-@@ -588,6 +852,52 @@ class MaspsxProcessor:
+@@ -588,6 +884,53 @@ class MaspsxProcessor:
                      ]
                  )
  
@@ -367,6 +399,7 @@ index 6ff7f7f..1d2627c 100644
 +                res, _is_jump, _is_store_without_at_expansion
 +            )
 +        if self.label_branch_delay:
++            res = _retarget_post_call_jump_to_delay(res)
 +            res = _bind_label_into_branch_delay(res)
 +        if self.store_branch_delay:
 +            res = _expand_indexed_store_into_delay(
@@ -383,7 +416,7 @@ index 6ff7f7f..1d2627c 100644
          return res
  
      def get_next_instruction(
-@@ -935,7 +1245,15 @@ class MaspsxProcessor:
+@@ -935,7 +1278,15 @@ class MaspsxProcessor:
  
              elif is_addend and r_source:
                  # e.g. lw	$2,test_sym($4)
