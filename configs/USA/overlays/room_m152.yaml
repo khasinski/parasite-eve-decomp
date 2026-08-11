@@ -34,7 +34,10 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, rodata, room_m152_0_220]
+      - [0x0, rodata, room_m152_0_8C]
+      - [0x8C, .rodata, RoomLib_HandlerEArgs_8019000C]
+      - [0x110, rodata, RoomLib_HandlerEArgsPad_8019000C]
+      - [0x114, rodata, room_m152_114_220]
       - [0x220, rodata, RoomLib_DlgRect]
       - [0x230, c, func_8018F218]
       - [0x238, c, RoomLib_InitB_8018F220]
@@ -50,8 +53,7 @@ segments:
       - [0xF98, c, func_8018FF80]
       - [0xFA0, c, func_8018FF88]
       - [0xFA8, c, RoomLib_InitD_8018FF90]
-      - [0x1024, asm, func_8019000C]
-      - [0x1294, c, func_8019027C]
+      - [0x1024, c, RoomLib_HandlerEArgs_8019000C]
       - [0x129C, c, func_80190284]
       - [0x12A4, c, func_8019028C]
       - [0x132C, c, RoomLib_Notify2ArmB_80190314]

@@ -289,7 +289,14 @@ typedef struct RoomLibMotionWork {
 
 /* Motion state addressed by HandlerE through RoomEnt + 0x0C. */
 typedef struct RoomLibHandlerEState {
-    char pad00[0x10];
+    void (*callback)(void);       /* 0x00 */
+    int *signal;                  /* 0x04 */
+    short active;                 /* 0x08 */
+    signed char variant;          /* 0x0A */
+    unsigned char optionB;        /* 0x0B */
+    unsigned char optionC;        /* 0x0C */
+    unsigned char flags;          /* 0x0D */
+    char pad0E[0x2];
     int start[3];                 /* 0x10 */
     char pad1C[0x4];
     int target[3];                /* 0x20 */
@@ -297,12 +304,14 @@ typedef struct RoomLibHandlerEState {
     int delta[3];                 /* 0x30 */
     char pad3C[0x4];
     int localOffset[3];           /* 0x40 */
-    char pad4C[0x14];
+    char pad4C[0x4];
+    int secondary[3];             /* 0x50 */
+    char pad5C[0x4];
     RoomLink *targetLink;         /* 0x60 */
-    char pad64[0x4];
+    RoomLink *secondaryLink;      /* 0x64 */
     int speed;                    /* 0x68 */
     short duration;               /* 0x6C */
-    short pad6E;
+    short secondaryHeading;       /* 0x6E */
     short eased;                  /* 0x70 */
     short heading;                /* 0x72 */
     short mirrorPosition;         /* 0x74 */
@@ -314,9 +323,128 @@ typedef struct RoomLibHandlerEState {
     unsigned char copyPosition;  /* 0x85 */
 } RoomLibHandlerEState;
 
-
+#define ROOMLIB_HANDLER_E_ARGS(name, notifyHandler) \
+    int name(RoomEnt *o, int query, unsigned int op, int arg0, int arg1, int arg2) { \
+        RoomLibHandlerEState *state = (RoomLibHandlerEState *)&o->sub; \
+        FieldActorNode *node; \
+        switch (op) { \
+        case 19: \
+            if (query == 0) { \
+                o->flag3 = arg0; \
+            } else { \
+                *(int *)arg0 = o->flag3; \
+            } \
+            break; \
+        case 25: \
+            if (query == 1) { \
+                state->signal = (int *)arg0; \
+                *(int *)arg0 = query; \
+            } \
+            break; \
+        case 0: \
+            state->targetLink = (RoomLink *)D_8009D20C; \
+            while (state->targetLink != 0) { \
+                node = (FieldActorNode *)state->targetLink; \
+                if (node->b0C == arg0 && node->b0D == arg1 && \
+                    (node->w98 & 0x10) == 0) { \
+                    break; \
+                } \
+                state->targetLink = (RoomLink *) \
+                    ((FieldActorNode *)state->targetLink)->next; \
+            } \
+            break; \
+        case 17: \
+            state->target[0] = arg0; \
+            state->target[2] = arg2; \
+            if (arg1 == -1) { \
+                state->target[1] = RW32(D_8009D254, 0x2C); \
+            } else { \
+                state->target[1] = arg1; \
+            } \
+            state->targetLink = 0; \
+            break; \
+        case 4: \
+            state->speed = arg0; \
+            state->eased = arg1; \
+            state->duration = 0; \
+            break; \
+        case 6: \
+            state->localOffset[0] = arg0; \
+            state->localOffset[1] = arg1; \
+            state->localOffset[2] = arg2; \
+            break; \
+        case 15: \
+            state->duration = arg0; \
+            state->eased = arg1; \
+            break; \
+        case 21: \
+            state->secondaryLink = (RoomLink *)D_8009D20C; \
+            while (state->secondaryLink != 0) { \
+                node = (FieldActorNode *)state->secondaryLink; \
+                if (node->b0C == arg0 && node->b0D == arg1 && \
+                    (node->w98 & 0x10) == 0) { \
+                    break; \
+                } \
+                state->secondaryLink = (RoomLink *) \
+                    ((FieldActorNode *)state->secondaryLink)->next; \
+            } \
+            state->secondaryHeading = arg2; \
+            break; \
+        case 22: \
+            state->secondary[0] = arg0; \
+            state->secondary[2] = arg1; \
+            state->secondaryHeading = arg2; \
+            break; \
+        case 23: \
+            arg0 = arg0 != 0; \
+            arg1 = (arg1 != 0) << 1; \
+            arg2 = (arg2 != 0) << 2; \
+            state->flags = arg0 | arg1 | arg2; \
+            break; \
+        case 10: \
+            state->variant = arg0; \
+            state->active = arg1; \
+            state->mirrorPosition = arg2; \
+            state->callback = (void (*)(void))notifyHandler; \
+            break; \
+        case 11: \
+            state->optionB = arg0; \
+            state->optionC = arg1; \
+            break; \
+        case 24: \
+            if (query == 1) { \
+                *(int *)arg0 = state->heading; \
+            } \
+            break; \
+        case 27: \
+            state->phaseFrame[1] = arg0; \
+            state->phaseFrame[2] = arg1; \
+            state->phaseFrame[3] = arg2; \
+            if (arg0 != -1) { \
+                if (arg1 != -1) { \
+                    if (arg2 == -1) { \
+                        state->frameLimit = 2; \
+                    } else { \
+                        state->frameLimit = 3; \
+                    } \
+                } else { \
+                    state->frameLimit = 1; \
+                } \
+            } else { \
+                state->frameLimit = 0; \
+            } \
+            break; \
+        case 31: \
+            state->lockY = arg0; \
+            break; \
+        case 32: \
+            state->copyPosition = arg0; \
+            break; \
+        } \
+        return 0; \
+    }
 extern short D_800966EE[];
-extern int D_800966EC[];
+extern short D_800966EC[][2];
 extern char *D_8009D254;
 struct FieldActorNode;
 extern struct FieldActorNode *D_8009D20C;
@@ -327,6 +455,33 @@ extern void RoomLib_ArmWindowA_80190D0C(RoomEnt *obj);
 extern void RoomLib_ArmWindowB_80191824(RoomEnt *obj);
 extern void RoomLib_NotifyArmB_8018F598(RoomEnt *obj);
 extern void RoomLib_Notify2ArmB_801902D8(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801902C8(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801902D0(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801902D4(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801902DC(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801902E0(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801902E4(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801902E8(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801902EC(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801902FC(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_8019031C(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80190314(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80190320(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80190328(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80190340(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_8019035C(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80190F64(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801912CC(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801912D4(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801912E0(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80191368(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80191430(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_801917E4(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80191D00(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80191F18(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80192420(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80192428(RoomEnt *obj);
+extern void RoomLib_Notify2ArmB_80194A5C(RoomEnt *obj);
 extern int RoomLib_Set4ClearSignal_801924D4(RoomEnt *o);
 
 typedef struct RoomLibFxMatrixWords {
@@ -523,7 +678,7 @@ extern void func_800DFB20(void *state);
         if (state->mode.word != 0) { \
             angle = FieldEng_VecToAngle(state->anchor, state->position); \
             angle &= 0xFFF; \
-            table = D_800966EC; \
+            table = (int *)D_800966EC; \
             entry = (int *)((char *)table + (angle << 2)); \
             hi = *(short *)((char *)entry + 2); \
             work->matrix[1] = 0; \
@@ -549,7 +704,7 @@ extern void func_800DFB20(void *state);
         } \
         angle = FieldEng_VecToAngle(state->anchor, state->position); \
         angle &= 0xFFF; \
-        table = D_800966EC; \
+        table = (int *)D_800966EC; \
         entry = (int *)((char *)table + (angle << 2)); \
         hi = *(short *)((char *)entry + 2); \
         work->matrix[1] = 0; \

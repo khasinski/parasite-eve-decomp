@@ -1,7 +1,6 @@
 #include "../room_lib/room_lib.h"
 
 extern char *D_8009D254;
-extern int D_800966EC[];
 
 void D_80193868(void);
 
