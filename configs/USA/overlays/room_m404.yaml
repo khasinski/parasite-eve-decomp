@@ -35,7 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m404]
-      - [0xC, rodata, func_8018F2CC]
+      - [0xC, .rodata, RoomLib_HandlerDArgs_8018F2CC]
       - [0x8C, .rodata, RoomLib_HandlerEArgs_80190018]
       - [0x110, rodata, RoomLib_HandlerEArgsPad_80190018]
       - [0x114, rodata, func_80190ADC]
@@ -43,8 +43,7 @@ segments:
       - [0x1F4, rodata, func_80192540]
       - [0x23C, c, func_8018F224]
       - [0x244, c, RoomLib_InitB_8018F22C]
-      - [0x2E4, asm, func_8018F2CC]
-      - [0x560, c, func_8018F548]
+      - [0x2E4, c, RoomLib_HandlerDArgs_8018F2CC]
       - [0x568, c, func_8018F550]
       - [0x570, c, func_8018F558]
       - [0x5F8, c, RoomLib_NotifyArmB_8018F5E0]

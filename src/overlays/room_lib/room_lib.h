@@ -323,6 +323,160 @@ typedef struct RoomLibHandlerEState {
     unsigned char copyPosition;  /* 0x85 */
 } RoomLibHandlerEState;
 
+/* Argument-controlled state used by HandlerD through RoomEnt + 0x0C. */
+typedef struct RoomLibHandlerDState {
+    void (*callback)(void);       /* 0x00 */
+    int *signal;                  /* 0x04 */
+    short active;                 /* 0x08 */
+    signed char variant;          /* 0x0A */
+    unsigned char optionB;        /* 0x0B */
+    unsigned char optionC;        /* 0x0C */
+    unsigned char flags;          /* 0x0D */
+    char pad0E[0x32];
+    int target[4];                /* 0x40 */
+    char pad50[0x10];
+    int positionX;                /* 0x60 */
+    char pad64[0x4];
+    int positionZ;                /* 0x68 */
+    char pad6C[0x4];
+    short rotation[3];            /* 0x70 */
+    char pad76[0xA];
+    RoomLink *targetLink;         /* 0x80 */
+    RoomLink *secondaryLink;      /* 0x84 */
+    int value88;                  /* 0x88 */
+    int value8C;                  /* 0x8C */
+    int value90;                  /* 0x90 */
+    char pad94[0x6];
+    short stateValue;             /* 0x9A */
+    short range[3];               /* 0x9C */
+    short heading;                /* 0xA2 */
+    short duration;               /* 0xA4 */
+    short rate;                   /* 0xA6 */
+    unsigned char mirrorPosition; /* 0xA8 */
+    unsigned char reverse;        /* 0xA9 */
+    unsigned char lockY;          /* 0xAA */
+    unsigned char copyPosition;   /* 0xAB */
+    unsigned char copyRotation;   /* 0xAC */
+} RoomLibHandlerDState;
+
+#define ROOMLIB_HANDLER_D_ARGS(name, notifyHandler) \
+    int name(RoomEnt *o, int query, unsigned int op, int arg0, int arg1, int arg2) { \
+        RoomLibHandlerDState *state = (RoomLibHandlerDState *)&o->sub; \
+        FieldActorNode *node; \
+        switch (op) { \
+        case 19: \
+            if (query == 0) { \
+                o->flag3 = arg0; \
+            } else { \
+                *(int *)arg0 = o->flag3; \
+                *(int *)arg1 = state->stateValue; \
+            } \
+            break; \
+        case 25: \
+            if (query == 1) { \
+                state->signal = (int *)arg0; \
+                *(int *)arg0 = query; \
+            } \
+            break; \
+        case 0: \
+            state->targetLink = (RoomLink *)D_8009D20C; \
+            while (state->targetLink != 0) { \
+                node = (FieldActorNode *)state->targetLink; \
+                if (node->b0C == arg0 && node->b0D == arg1 && \
+                    (node->w98 & 0x10) == 0) { \
+                    break; \
+                } \
+                state->targetLink = (RoomLink *) \
+                    ((FieldActorNode *)state->targetLink)->next; \
+            } \
+            break; \
+        case 17: \
+            state->target[0] = arg0; \
+            state->target[2] = arg2; \
+            if (arg1 == -1) { \
+                state->target[1] = RW32(D_8009D254, 0x2C); \
+            } else { \
+                state->target[1] = arg1; \
+            } \
+            state->targetLink = 0; \
+            break; \
+        case 26: \
+            state->target[0] = arg0; \
+            state->target[1] = o->link->pos[1]; \
+            state->target[2] = arg1; \
+            state->target[3] = arg2; \
+            state->targetLink = 0; \
+            break; \
+        case 4: \
+            state->value88 = arg0; \
+            break; \
+        case 2: \
+            state->value8C = arg0; \
+            break; \
+        case 3: \
+            state->value90 = arg0; \
+            state->rate = arg1; \
+            if (arg2 > 0) { \
+                state->duration = arg2; \
+            } \
+            break; \
+        case 23: \
+            arg0 = arg0 != 0; \
+            arg1 = (arg1 != 0) << 1; \
+            arg2 = (arg2 != 0) << 2; \
+            state->flags = arg0 | arg1 | arg2; \
+            break; \
+        case 10: \
+            state->variant = arg0; \
+            state->active = arg1; \
+            state->mirrorPosition = arg2; \
+            state->callback = (void (*)(void))notifyHandler; \
+            break; \
+        case 11: \
+            state->optionB = arg0; \
+            state->optionC = arg1; \
+            break; \
+        case 6: \
+            state->rotation[0] = arg0 >> 16; \
+            state->rotation[1] = arg1 >> 16; \
+            state->rotation[2] = arg2 >> 16; \
+            break; \
+        case 20: \
+            state->range[0] = arg0; \
+            state->range[1] = arg1; \
+            state->range[2] = arg2; \
+            break; \
+        case 21: \
+            state->secondaryLink = (RoomLink *)D_8009D20C; \
+            while (state->secondaryLink != 0) { \
+                node = (FieldActorNode *)state->secondaryLink; \
+                if (node->b0C == arg0 && node->b0D == arg1 && \
+                    (node->w98 & 0x10) == 0) { \
+                    break; \
+                } \
+                state->secondaryLink = (RoomLink *) \
+                    ((FieldActorNode *)state->secondaryLink)->next; \
+            } \
+            state->heading = arg2 & 0xFFF; \
+            state->reverse = (unsigned int)arg2 >> 31; \
+            break; \
+        case 22: \
+            state->positionX = arg0; \
+            state->positionZ = arg1; \
+            state->heading = arg2 & 0xFFF; \
+            state->reverse = (unsigned int)arg2 >> 31; \
+            break; \
+        case 30: \
+            state->lockY = arg0; \
+            break; \
+        case 31: \
+            state->copyPosition = arg0; \
+            state->copyRotation = arg1; \
+            break; \
+        } \
+        return 0; \
+    }
+
 #define ROOMLIB_HANDLER_E_ARGS(name, notifyHandler) \
     int name(RoomEnt *o, int query, unsigned int op, int arg0, int arg1, int arg2) { \
         RoomLibHandlerEState *state = (RoomLibHandlerEState *)&o->sub; \
@@ -482,6 +636,32 @@ extern void RoomLib_Notify2ArmB_80191F18(RoomEnt *obj);
 extern void RoomLib_Notify2ArmB_80192420(RoomEnt *obj);
 extern void RoomLib_Notify2ArmB_80192428(RoomEnt *obj);
 extern void RoomLib_Notify2ArmB_80194A5C(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F588(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F590(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F594(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F59C(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F5A0(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F5A4(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F5A8(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F5AC(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F5BC(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F5DC(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F5E0(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F5E8(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F600(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8018F61C(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_80190224(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_8019058C(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_80190594(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_801905A0(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_80190628(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_801906F0(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_80190AA4(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_80190FC0(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_801911D8(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_801916E0(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_801916E8(RoomEnt *obj);
+extern void RoomLib_NotifyArmB_80193D1C(RoomEnt *obj);
 extern int RoomLib_Set4ClearSignal_801924D4(RoomEnt *o);
 
 typedef struct RoomLibFxMatrixWords {
