@@ -1,5 +1,4 @@
 #include "common.h"
-/* CC1_FLAGS: -fno-strength-reduce */
 void func_800C2EAC(int arg0);
 void func_800C3098(int arg0);
 void func_800C2FF0(int arg0, int arg1);
@@ -12,11 +11,27 @@ typedef struct FieldAnimPointTriple {
     u16 z;
 } FieldAnimPointTriple;
 
-extern short D_800E2840;
+typedef struct FieldAnimPointData {
+    u8 unused_00[3];
+    u8 scale;
+    s16 count;
+    u16 unused_06;
+    u16 x[16];
+    u16 y[16];
+    u16 z[16];
+} FieldAnimPointData;
 
-void FieldAnim_ProcessPointTriples(void *arg0, void *arg1, u8 *anim) {
+typedef struct FieldAnimPointState {
+    FieldAnimPointTriple point;
+    u8 unused_06[0x22];
+    short scale;
+} FieldAnimPointState;
+
+extern FieldAnimPointState D_800E2818;
+
+void FieldAnim_ProcessPointTriples(void *arg0, void *arg1,
+                                   FieldAnimPointData *points) {
     volatile int stack_pad;
-    u16 *entry;
     FieldAnimPointTriple *out;
     short *base;
     unsigned int i;
@@ -27,22 +42,20 @@ void FieldAnim_ProcessPointTriples(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x10, 0x10);
     func_800C3238(0);
 
-    base = &D_800E2840;
-    *base = (s32)(anim[3] << 24) >> 23;
+    base = &D_800E2818.scale;
+    *base = (s32)(points->scale << 24) >> 23;
 
-    if (*(short *)(anim + 0x4) != 0) {
-        out = (FieldAnimPointTriple *)((u8 *)base - 0x28);
-        entry = (u16 *)anim;
+    if (points->count != 0) {
+        out = &D_800E2818.point;
         /* This one-shot block preserves retail GCC's s1/s2 allocation. */
         do {
             do {
-                out->x = entry[4];
-                out->y = entry[0x14];
-                out->z = entry[0x24];
+                out->x = points->x[i];
+                out->y = points->y[i];
+                out->z = points->z[i];
                 func_800C3B04(out);
                 i++;
-                entry++;
-            } while (i < *(short *)(anim + 0x4));
+            } while (i < points->count);
         } while (0);
     }
 }
