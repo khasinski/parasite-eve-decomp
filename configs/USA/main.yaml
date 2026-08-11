@@ -1917,7 +1917,7 @@ segments:
       - [0xBD798, c, engine/func_800CCF98]
       - [0xBD7A0, c, engine/func_800CCFA0]
       - [0xBD87C, c, engine/func_800CD07C]
-      - [0xBD8BC, asm, engine/func_800CD0BC]
+      - [0xBD8BC, c, engine/FieldAnim_InitRandomOffsetPairs]
       - [0xBD9FC, c, engine/func_800CD1FC]
       - [0xBDADC, c, engine/func_800CD2DC]
       - [0xBDAE4, c, engine/func_800CD2E4]

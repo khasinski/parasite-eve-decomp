@@ -40,7 +40,30 @@ typedef struct FieldAnimInterleavedWindow {
     FieldAnimPointTriple point;
 } FieldAnimInterleavedWindow;
 
+typedef struct FieldAnimBurstWindow {
+    u8 unused_00[0x10];
+    FieldAnimPointTriple point;
+    u8 unused_16[0xA];
+    FieldAnimPointTriple offset;
+} FieldAnimBurstWindow;
+
+typedef struct FieldAnimBurstHeader {
+    u8 unused_00[3];
+    u8 mode;
+    u8 scale[2];
+    u8 duration[2];
+    u8 origin_x[2];
+    u8 origin_y[2];
+    u8 origin_z[2];
+} FieldAnimBurstHeader;
+
+typedef union FieldAnimBurstData {
+    FieldAnimBurstHeader header;
+    u8 bytes[0x30];
+} FieldAnimBurstData;
+
 extern FieldAnimInterleavedState D_800E2260;
 extern FieldAnimPointState D_800E2818;
+extern FieldAnimPointTriple D_800E27F8;
 
 #endif
