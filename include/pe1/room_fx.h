@@ -1,6 +1,8 @@
 #ifndef PE1_ROOM_FX_H
 #define PE1_ROOM_FX_H
 
+#include "common.h"
+
 /* Common room-overlay sprite effect data used by m137-family rooms. */
 typedef struct RoomSpriteMatrix {
     short m[3][3];
