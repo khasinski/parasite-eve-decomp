@@ -73,6 +73,17 @@ typedef struct RoomSpriteFxParams {
     unsigned char alpha;
 } RoomSpriteFxParams;
 
+typedef struct RoomOrbitSpriteFxParams {
+    short x;
+    short y;
+    short z;
+    unsigned char pad6[0xA];
+    short scale;
+    unsigned short depth;
+    unsigned char pad14[2];
+    unsigned short alpha;
+} RoomOrbitSpriteFxParams;
+
 typedef struct RoomSeededSpriteFxParams {
     short x;
     short y;
