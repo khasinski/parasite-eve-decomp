@@ -266,6 +266,11 @@ typedef struct BattleTarget {
 /* 0x0A */ u8   pad_0A[2];
 } BattleTarget;                        /* sizeof == 0xC */
 
+extern BattleTarget g_BattleTargetList[];
+
+void Battle_SwapRecords(char *records, int from, int to);
+void Battle_SortTargets(char *records, int first, int last);
+
 /* These partial records are deliberately padded through their last verified
  * field. Keep the offsets executable: prose comments alone do not protect the
  * shared ABI from an accidental member-width or alignment change. */

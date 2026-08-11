@@ -7,7 +7,6 @@
 #include "../../../tools/m2c/m2c_macros.h"
 s32 Battle_CalcDistToPlayer();
 s32 Gte_Atan2();
-M2C_UNK Battle_SortTargets();
 extern s8 g_BattleTargetIndex;
 extern struct { char _[16]; } D_8009D20C_o __asm__("g_FieldActorListHead");
 #define g_FieldActorListHead (*(void **)&D_8009D20C_o)
