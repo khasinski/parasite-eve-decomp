@@ -1,6 +1,5 @@
 #include "../room_lib/room_lib.h"
 
-extern char *D_8009D20C;
 extern int RoomLib_Set4ClearSignal_80192CBC(RoomEnt *o);
 
 int func_8019255C(RoomEnt *o, int mode, unsigned int op, int arg0, int arg1, int arg2) {
