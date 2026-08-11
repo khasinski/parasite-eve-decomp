@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/sys_reset.h"
 typedef unsigned int size_t;
 
 typedef struct DecDCTEnv {
@@ -6,9 +7,6 @@ typedef struct DecDCTEnv {
     unsigned char iqC[64];
     short dct[64];
 } DecDCTEnv;
-
-extern s32 D_8010DA0C[];
-extern s32 D_8010DA90[];
 
 static inline void CopyWords(long *dst, long *src, size_t count) {
     while (count--) {

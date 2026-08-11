@@ -37,7 +37,7 @@ segments:
     subsegments:
       - [0x0, asm, sys_reset]
       - [0x178, c, func_8010BE70]
-      - [0x204, asm, sys_reset_204]
+      - [0x204, c, SysReset_SaveDecoderState]
       - [0x29C, c, func_8010C29C]
       - [0x2A8, c, func_8010BFA0]
       - [0x324, c, func_8010C324]

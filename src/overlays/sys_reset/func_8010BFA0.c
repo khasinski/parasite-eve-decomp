@@ -1,5 +1,5 @@
 #include "common.h"
-extern void func_8010C1EC(s32 *arg0, u32 arg1);
+#include "pe1/sys_reset.h"
 
 void func_8010BFA0(s32 *arg0, s32 arg1) {
     if (arg1 & 1) {
