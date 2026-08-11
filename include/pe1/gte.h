@@ -334,6 +334,38 @@
     asm volatile("nop\n\t" \
                  ".word 0x4A280030")
 
+/*
+ * RTPT wrapper used by the separate-output projection API.  Its stack
+ * arguments must enter t0..t3 after the command, matching the PSY-Q ABI.
+ */
+#define gte_rtpt_store_separate(sxy0, sxy1, sxy2, p, flag, result)          \
+    do {                                                                   \
+        register void *out1 asm("$8");                                     \
+        register void *out2 asm("$9");                                     \
+        register void *depth asm("$10");                                   \
+        register void *flags_out asm("$11");                               \
+        register int flags asm("$3");                                      \
+        register int depth_value asm("$2");                                \
+        asm volatile("nop\n\t"                                          \
+                     ".word 0x4A280030"                                    \
+                     : : : "$8", "$9", "$10", "$11");                     \
+        out1 = (sxy1);                                                     \
+        out2 = (sxy2);                                                     \
+        depth = (p);                                                       \
+        flags_out = (flag);                                                \
+        asm volatile("swc2 $12,0(%0)" : : "r"(sxy0) : "memory");          \
+        asm volatile("swc2 $13,0($8)\n\t"                               \
+                     "swc2 $14,0($9)\n\t"                               \
+                     "swc2 $8,0($10)\n\t"                               \
+                     "cfc2 $3,$31\n\t"                                  \
+                     "mfc2 $2,$19\n\t"                                  \
+                     "sw $3,0($11)"                                        \
+                     : "=r"(flags), "=r"(depth_value)                      \
+                     : "r"(out1), "r"(out2), "r"(depth), "r"(flags_out)   \
+                     : "memory");                                          \
+        (result) = depth_value;                                            \
+    } while (0)
+
 #define gte_stsxy012(out) \
     asm volatile("swc2 $12,0(%0)\n\t" \
                  "swc2 $13,4(%0)\n\t" \
