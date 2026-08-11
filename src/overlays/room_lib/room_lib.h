@@ -260,6 +260,33 @@ typedef struct RoomEnt {
     unsigned short hBC[4];        /* 0xBC..0xC2 */
 } RoomEnt;
 
+/* Working records used while rotating scripted room motion vectors. */
+typedef struct RoomLibMotionState {
+    char pad00[0x40];
+    int position[3];              /* 0x40 */
+    union {
+        int word;
+        struct {
+            short pad4C;
+            short height;
+        } half;
+    } mode;                       /* 0x4C */
+    int anchor[3];                /* 0x50 */
+    char pad5C[0x14];
+    int localStep[3];             /* 0x70 */
+    char pad7C[0x4];
+    RoomLink *target;             /* 0x80 */
+} RoomLibMotionState;
+
+typedef struct RoomLibMotionWork {
+    short input[3];               /* 0x00 */
+    short pad06;
+    int rotated[3];               /* 0x08 */
+    char pad14[0x14];
+    short matrix[9];              /* 0x28 */
+    short pad3A;
+} RoomLibMotionWork;
+
 /* Motion state addressed by HandlerE through RoomEnt + 0x0C. */
 typedef struct RoomLibHandlerEState {
     char pad00[0x10];
@@ -289,6 +316,7 @@ typedef struct RoomLibHandlerEState {
 
 
 extern short D_800966EE[];
+extern int D_800966EC[];
 extern char *D_8009D254;
 struct FieldActorNode;
 extern struct FieldActorNode *D_8009D20C;
@@ -476,6 +504,71 @@ extern void func_800DFB20(void *state);
                     RW16(D_8009D254, 0x3A), o->h48, o->h46); \
             } \
         } \
+    }
+
+/* Build a yaw matrix and apply the scripted anchor and local motion vectors. */
+#define ROOMLIB_ROTATE_MOTION(name) \
+    void name(RoomLibMotionState *state, RoomLibMotionWork *work) { \
+        int angle; \
+        int *entry; \
+        int *table; \
+        int height; \
+        int lo; \
+        int hi; \
+        if (state->target != 0) { \
+            state->position[0] = state->target->pos[0]; \
+            state->position[1] = state->target->pos[1]; \
+            state->position[2] = state->target->pos[2]; \
+        } \
+        if (state->mode.word != 0) { \
+            angle = FieldEng_VecToAngle(state->anchor, state->position); \
+            angle &= 0xFFF; \
+            table = D_800966EC; \
+            entry = (int *)((char *)table + (angle << 2)); \
+            hi = *(short *)((char *)entry + 2); \
+            work->matrix[1] = 0; \
+            work->matrix[0] = hi; \
+            lo = *entry; \
+            work->matrix[3] = 0; \
+            work->matrix[5] = 0; \
+            work->matrix[7] = 0; \
+            work->input[0] = 0; \
+            work->input[1] = 0; \
+            work->matrix[2] = lo; \
+            work->matrix[4] = 0x1000; \
+            work->matrix[8] = work->matrix[0]; \
+            work->matrix[6] = -(unsigned short)work->matrix[2]; \
+            height = state->mode.half.height; \
+            work->input[2] = height; \
+            gte_ldrotmatrix(work->matrix); \
+            gte_ldv0(work->input); \
+            gte_mvmva(); \
+            gte_stmac(work->rotated); \
+            state->position[0] = state->anchor[0] + (work->rotated[0] << 16); \
+            state->position[2] = state->anchor[2] + (work->rotated[2] << 16); \
+        } \
+        angle = FieldEng_VecToAngle(state->anchor, state->position); \
+        angle &= 0xFFF; \
+        table = D_800966EC; \
+        entry = (int *)((char *)table + (angle << 2)); \
+        hi = *(short *)((char *)entry + 2); \
+        work->matrix[1] = 0; \
+        work->matrix[0] = hi; \
+        lo = *entry; \
+        work->matrix[3] = 0; \
+        work->matrix[5] = 0; \
+        work->matrix[7] = 0; \
+        work->matrix[2] = lo; \
+        work->matrix[4] = 0x1000; \
+        work->matrix[8] = work->matrix[0]; \
+        work->matrix[6] = -(unsigned short)work->matrix[2]; \
+        gte_ldrotmatrix(work->matrix); \
+        gte_ldv0(state->localStep); \
+        gte_mvmva(); \
+        gte_stmac(work->rotated); \
+        state->position[0] += work->rotated[0] << 16; \
+        state->position[1] += work->rotated[1] << 16; \
+        state->position[2] += work->rotated[2] << 16; \
     }
 
 

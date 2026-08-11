@@ -44,7 +44,7 @@ segments:
       - [0x600, c, func_80180600]
       - [0x6A8, asm, func_scene_e22_0006A8]
       - [0xBF0, asm, func_80180BF0]
-      - [0xCD0, asm, func_80180CD0]
+      - [0xCD0, c, RoomLib_RotateMotion_80180CD0]
       - [0xF10, asm, func_80180F10]
       - [0xFAC, c, func_80180FAC]
       - [0xFB4, c, func_80180FB4]
