@@ -54,7 +54,7 @@ segments:
       - [0x938, c, RoomLib_Set3Reset_8018F920]
       - [0x958, asm, func_8018F940]
       - [0xB1C, c, func_8018FB04]
-      - [0xB80, asm, func_8018FB68]
+      - [0xB80, c, RoomLib_InitPairedEmitter_8018FB68]
       - [0xD00, asm, func_8018FCE8]
       - [0xFCC, c, func_8018FFB4]
       - [0x10C0, asm, func_801900A8]

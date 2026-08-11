@@ -3,7 +3,9 @@
 #ifndef ROOM_LIB_H
 #define ROOM_LIB_H
 
+#include "../../../include/common.h"
 #include "../../../include/pe1/gte.h"
+#include "../../../include/pe1/room_fx.h"
 
 typedef struct RoomObj {
     char pad0[0xC];

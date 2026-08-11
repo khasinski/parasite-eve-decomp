@@ -71,4 +71,38 @@ typedef struct RoomFxDriftState {
     unsigned short counter16;
 } RoomFxDriftState;
 
+/* Parameters consumed by func_800C4E50 for the paired room/scene effect. */
+typedef struct RoomFxEmitterParams {
+    void *source;
+    unsigned char color0[3];
+    unsigned char pad07;
+    unsigned char color1[3];
+    unsigned char pad0B;
+    short mode;
+    short extent0;
+    short extent1;
+    short offset;
+    short intensity;
+    short pad16;
+} RoomFxEmitterParams;
+
+typedef struct RoomFxPairedEmitterState {
+    unsigned char header[8];
+    unsigned char sourceData[0x100];
+    RoomFxEmitterParams primary;
+    RoomFxEmitterParams secondary;
+    short timer;
+    short intensity;
+    short phase;
+} RoomFxPairedEmitterState;
+
+PE1_STATIC_ASSERT(sizeof(RoomFxEmitterParams) == 0x18,
+                  room_fx_emitter_params_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxPairedEmitterState, primary) == 0x108,
+                  room_fx_paired_primary_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxPairedEmitterState, secondary) == 0x120,
+                  room_fx_paired_secondary_offset);
+PE1_STATIC_ASSERT(sizeof(RoomFxPairedEmitterState) == 0x140,
+                  room_fx_paired_state_size);
+
 #endif
