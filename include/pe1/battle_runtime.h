@@ -76,6 +76,11 @@ void Battle_SetupPlayerPalette(void);
 void Battle_ResetEnemyStats(int mode);
 void Battle_SetupEnemyAnims(void);
 void Scene_SetStoryDay(int day);
+int Scene_LoadRoomAssets(int assetId, BattleEntity *entity);
+void Battle_StartEnemyAttackEffect(BattleEntity *entity);
+void Battle_DrawATBGauge(void);
+int Inv_GetWeaponCategoryAmmoBase(unsigned int category);
+int Pad_GetMenuPressedBitOrDisabled(void);
 
 PE1_STATIC_ASSERT(sizeof(BattleInitSlot) == 8, battle_init_slot_size);
 PE1_STATIC_ASSERT(sizeof(BattleEnemySlot) == 0xDC, battle_enemy_slot_size);
