@@ -140,11 +140,12 @@ typedef struct CdReadProgressState {
     int callbackToken;
     int startVsync;
     int currentVsync;
+    int inProgress;
 } CdReadProgressState;
 
 typedef void (*CdReadCompleteCallback)(int event, int data);
 
-PE1_STATIC_ASSERT(sizeof(CdReadProgressState) == 0x28,
+PE1_STATIC_ASSERT(sizeof(CdReadProgressState) == 0x2C,
                   cd_read_progress_state_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, sectorSize) == 0x08,
                   cd_read_progress_sector_size_offset);
@@ -181,5 +182,11 @@ int VSync(int mode);
 int CdRom_IsBusy();
 int CdRom_IsBusy2();
 void Save_ProcessDataCallback(void);
+int DsRead_IsBusy(void);
+CdlLOC *CdRom_GetCurrentPos(CdlLOC *destination);
+int Render_BuildParticleFrame();
+int DsDataCallback();
+void CdRom_SetMode2Callback(u_char event);
+void Render_StepParticleCallback(void);
 
 #endif

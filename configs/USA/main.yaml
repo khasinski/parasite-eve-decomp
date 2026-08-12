@@ -1458,7 +1458,7 @@ segments:
       - [0x71534, c, psyq/libds/DsControlF]
       - [0x7155C, c, cdrom/cd_rom4]
       - [0x7162C, c, main/gap_cdrom_cd_rom4_tail_7162C]
-      - [0x71634, asm, cdrom/CdRom_StartRead]
+      - [0x71634, c, cdrom/CdRom_StartRead]
       - [0x71764, c, cdrom/CdRom_SetMode2Callback]
       - [0x71798, c, cdrom/CdRom_ReadProgressCallback]
       - [0x71910, c, main/Render_StepParticleCallback]
