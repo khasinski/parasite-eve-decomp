@@ -51,6 +51,8 @@ segments:
       - [0x2FF8, c, FxCommon_SetMode1]
       - [0x301C, c, FxCommon_SetMode30]
       - [0x3040, asm, fx_common_3040]
+      - [0xA5AC, c, FxCommon_GetOffsetEntryValue]
+      - [0xA5CC, asm, fx_common_A5CC]
       - [0xCF60, c, FxCommon_PrepareBuffer]
       - [0xCF9C, c, FxCommon_LinkBuffer]
       - [0xCFD4, data, D_8019BFC4]

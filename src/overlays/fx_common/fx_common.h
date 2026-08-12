@@ -66,6 +66,19 @@ typedef struct FxCommonShortVec3 {
     s16 z;
 } FxCommonShortVec3;
 
+typedef struct FxCommonOffsetTable {
+    s32 offsets[1];
+} FxCommonOffsetTable;
+
+typedef struct FxCommonOffsetEntry {
+    u8 pad00[0x30];
+    s32 value;
+} FxCommonOffsetEntry;
+
+typedef struct FxCommonOffsetByte {
+    u8 value;
+} FxCommonOffsetByte;
+
 extern s16 D_8019CC50;
 extern FxCommonBucket D_8019CCBC[];
 extern FxCommonSelection D_801E4A8A[];
