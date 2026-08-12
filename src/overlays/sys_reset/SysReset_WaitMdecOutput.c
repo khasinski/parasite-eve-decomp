@@ -1,7 +1,6 @@
 #include "common.h"
 #include "pe1/sys_reset.h"
 
-/* MASPSX_FLAGS: --la-call-delay */
 
 #include "SysReset_WaitMdec.inc"
 

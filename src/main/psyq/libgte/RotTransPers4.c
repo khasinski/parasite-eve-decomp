@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 #include "common.h"
 #include "pe1/gte.h"

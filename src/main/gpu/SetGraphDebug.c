@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay --la-call-delay */
 
 typedef void (*DebugCallback)(char *, int, int, int);
 

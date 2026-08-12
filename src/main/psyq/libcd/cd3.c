@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-return-delay */
 
 void CD_flush(void);
 

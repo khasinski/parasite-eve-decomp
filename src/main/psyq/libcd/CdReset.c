@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 void CD_initintr(void);
 int CD_init(void);

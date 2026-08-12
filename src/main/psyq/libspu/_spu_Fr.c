@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 extern unsigned short g_SpuTransferAddr;
 extern unsigned int _spu_mem_mode_plus;
 

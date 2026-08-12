@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 typedef unsigned int u32;
 

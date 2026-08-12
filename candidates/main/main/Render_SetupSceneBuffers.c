@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 extern volatile unsigned int *D_800956BC;
 extern void (*D_800956C0[])(void);

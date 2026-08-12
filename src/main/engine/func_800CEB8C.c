@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-call-delay */
 
 typedef signed short s16;
 

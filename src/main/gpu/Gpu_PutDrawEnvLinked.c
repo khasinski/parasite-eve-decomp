@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --stack-return-delay */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"

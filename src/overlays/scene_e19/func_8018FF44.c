@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --label-branch-delay */
 
 s32 func_8018FF44(char *obj) {
     char *sub = obj + 0xC;

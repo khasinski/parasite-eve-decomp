@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 extern int g_MemCardPort2Present;
 extern int g_MemCardPort1Present;

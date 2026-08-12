@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 extern int g_SpuTransferActiveFlag;
 extern int _spu_transferCallback;

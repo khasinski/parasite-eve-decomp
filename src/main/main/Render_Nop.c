@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --store-branch-delay */
 
 extern int D_800BE9EC;
 extern int D_800C0DBC;

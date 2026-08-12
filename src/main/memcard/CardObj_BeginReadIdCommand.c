@@ -1,5 +1,4 @@
 /* CC1_FLAGS: -fno-schedule-insns */
-/* MASPSX_FLAGS: --stack-return-delay */
 #include "pe1/card_obj.h"
 
 extern int (*D_8009B740)(void *);

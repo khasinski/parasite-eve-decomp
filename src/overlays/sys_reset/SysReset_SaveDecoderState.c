@@ -1,7 +1,6 @@
 #include "common.h"
 #include "pe1/sys_reset.h"
 
-/* MASPSX_FLAGS: --stack-return-delay */
 
 int *func_8010BEFC(int *source) {
     int *output;

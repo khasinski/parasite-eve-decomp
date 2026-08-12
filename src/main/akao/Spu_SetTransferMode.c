@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay --store-call-delay */
 
 extern int _spu_IRQCallback;
 void _SpuCallback(int arg0);

@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay --store-return-delay */
 
 extern int g_InitPadFlag;
 

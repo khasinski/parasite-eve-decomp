@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --stack-return-delay */
 
 typedef struct ParticleEffectSlot {
     s32 state;

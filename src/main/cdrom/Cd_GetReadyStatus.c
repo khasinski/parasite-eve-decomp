@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 int DsSync(int arg0);
 int CdRom_GetPendingReadCount(void);

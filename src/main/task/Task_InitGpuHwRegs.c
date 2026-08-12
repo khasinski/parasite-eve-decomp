@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-return-delay */
 
 void Task_InitGpuHwRegs(void) {
     register unsigned int zero asm("$0");

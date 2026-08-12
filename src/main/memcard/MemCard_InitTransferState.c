@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --stack-return-delay */
 
 extern int D_8009B75C;
 extern int D_8009B770;

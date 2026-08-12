@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --la-call-delay */
 
 void CdRom_AsyncCallback(void);
 int DsSyncCallback();

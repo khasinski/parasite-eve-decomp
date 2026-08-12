@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-return-delay --store-branch-delay --stack-return-delay */
 /* CC1_FLAGS: -fno-schedule-insns */
 #include "include_asm.h"
 #include "pe1/psyq_cd.h"

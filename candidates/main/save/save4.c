@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay --store-return-delay */
 
 
 #include "include_asm.h"

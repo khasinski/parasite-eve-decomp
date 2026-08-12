@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-return-delay */
 
 #include "include_asm.h"
 #include "pe1/psyq_cd.h"

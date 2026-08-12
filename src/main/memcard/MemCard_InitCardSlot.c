@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 void _new_card(int arg0);
 void _card_write(int arg0, int arg1, int arg2);

@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --la-call-delay */
 
 extern volatile int g_VSyncCount;
 extern char D_800116FC[];

@@ -100,13 +100,9 @@ tools/scripts/setup_maspsx.sh
 ```
 
 Current matching note: `-G8` is part of the expected PSX small-data profile.
-The high-count maspsx flags `--use-comm-section` and `--expand-div` were tested
-for removal on 2026-07-07 and are still required: direct object probes produced
-0 matches for both flag families, removing `--use-comm-section` breaks the final
-link with discarded `.sbss` references, and removing `--expand-div` links but
-fails the retail SHA-1 check. The delay-slot custom flags are likewise kept
-until there is a faithful ASPSX-compatible replacement; this includes the
-opt-in `%lo(symbol)` call/branch delay cases covered by `--la-call-delay`.
+The build uses an unmodified, pinned upstream maspsx checkout. The upstream
+flags `--use-comm-section` and `--expand-div` remain available where required
+by the original compiler output.
 
 ## Quick Start
 

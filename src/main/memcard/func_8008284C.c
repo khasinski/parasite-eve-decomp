@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 #include "pe1/card_obj.h"
 
 extern CardObj *(*D_8009B738)(void);

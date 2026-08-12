@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-branch-delay */
 
 #include "pe1/psyq_cd.h"
 

@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --store-return-delay --stack-return-delay */
 
 extern volatile u32 *D_8009B344;
 extern volatile u8 *D_8009B348;

@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --stack-return-delay */
 
 #include "pe1/psyq_gpu.h"
 

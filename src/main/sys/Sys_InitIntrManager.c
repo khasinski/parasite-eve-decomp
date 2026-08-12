@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --stack-return-delay */
 
 extern u16 D_800945E4[];
 extern u16 D_80094620[];

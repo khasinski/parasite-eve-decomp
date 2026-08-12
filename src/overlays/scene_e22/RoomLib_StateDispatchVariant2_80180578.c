@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --post-call-jump-target=func_8018F5D4 */
 
 #include "../room_lib/room_lib.h"
 

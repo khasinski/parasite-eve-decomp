@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-return-delay --store-branch-delay --stack-return-delay */
 /* CC1_FLAGS: -fno-schedule-insns */
 
 extern int CD_sync(int arg0, void *arg1);

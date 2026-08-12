@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-call-delay --stack-return-delay */
 
 #include "pe1/psyq_cd.h"
 

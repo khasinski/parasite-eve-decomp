@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --stack-return-delay */
 
 int CardObj_CalcReadPayloadSize(void *arg0);
 int CardObj_BeginReadTransfer(void *arg0, void *arg1);

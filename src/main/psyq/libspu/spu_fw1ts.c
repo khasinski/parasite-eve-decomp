@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay --store-jump-delay */
 
 void _spu_Fw1ts(void) {
     volatile int i;

@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --store-return-delay */
 
 extern int g_TimerTimeoutLimit;
 extern int g_TimerTimeoutStart;

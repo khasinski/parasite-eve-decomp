@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --stack-return-delay */
 #include "include_asm.h"
 
 #include "pe1/card_obj.h"

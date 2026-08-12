@@ -1,5 +1,4 @@
 #include "pe1/event.h"
-/* MASPSX_FLAGS: --store-branch-delay */
 
 extern s32 D_80094564;
 extern s32 D_80094568;

@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 extern int D_800C0DB8;
 extern int g_StrDataReadyCallback;

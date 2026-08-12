@@ -1,4 +1,4 @@
-/* MASPSX_FLAGS: --expand-div --stack-return-delay */
+/* MASPSX_FLAGS: --expand-div */
 
 void SetDQA(int dqa);
 void SetDQB(int dqb);

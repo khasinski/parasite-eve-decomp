@@ -1,7 +1,6 @@
 #include "pe1/math64.h"
 #include "pe1/event.h"
 
-/* MASPSX_FLAGS: --stack-return-delay */
 
 int Math_DoubleToInt32(double value) {
     MathDoubleBits input;

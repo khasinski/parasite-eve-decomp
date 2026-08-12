@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --stack-return-delay */
 
 extern u8 *g_CdRegIndexBase;
 extern u8 *g_CdRegPort1;

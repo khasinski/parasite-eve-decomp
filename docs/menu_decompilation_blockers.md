@@ -387,27 +387,6 @@ Why this is hard:
 
 Severity: medium.
 
-### 12. Verification/toolchain friction
-
-This is not a decompilation logic blocker, but it affects confidence and batch
-workflow.
-
-Observed case:
-
-- Full `make check` currently reaches `src/main/cdrom/cd.c` and fails with:
-  `mipsel-none-elf-as: unrecognized option '--store-return-delay'`.
-- This failure is unrelated to the new menu C functions, but it prevents using
-  `make check` as a clean end-to-end gate in the current environment.
-
-What helps:
-
-- Continue building touched objects directly.
-- Use `make split` after YAML changes.
-- Run `make check` anyway and record where it fails.
-- Fix the assembler/tool wrapper separately if we want a reliable full gate.
-
-Severity: medium operationally, low for understanding menu code.
-
 ## Notes From `/Users/hasik/Projects/ps-decomp-ai`
 
 The handbook is now split into focused shards under

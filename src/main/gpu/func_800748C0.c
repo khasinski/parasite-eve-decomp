@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 typedef short s16;
 
 typedef struct {

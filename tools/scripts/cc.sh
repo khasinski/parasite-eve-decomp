@@ -96,37 +96,6 @@ fi
 if grep -q 'MASPSX_FLAGS:.*--use-comm-section' "$IN"; then
     MASPSX_EXTRA+=(--use-comm-section)
 fi
-if grep -q 'MASPSX_FLAGS:.*--stack-return-delay' "$IN"; then
-    MASPSX_EXTRA+=(--stack-return-delay)
-fi
-if grep -q 'MASPSX_FLAGS:.*--store-return-delay' "$IN"; then
-    MASPSX_EXTRA+=(--store-return-delay)
-fi
-if grep -q 'MASPSX_FLAGS:.*--la-return-delay' "$IN"; then
-    MASPSX_EXTRA+=(--la-return-delay)
-fi
-if grep -q 'MASPSX_FLAGS:.*--la-call-delay' "$IN"; then
-    MASPSX_EXTRA+=(--la-call-delay)
-fi
-if grep -q 'MASPSX_FLAGS:.*--store-call-delay' "$IN"; then
-    MASPSX_EXTRA+=(--store-call-delay)
-fi
-if grep -q 'MASPSX_FLAGS:.*--store-jump-delay' "$IN"; then
-    MASPSX_EXTRA+=(--store-jump-delay)
-fi
-if grep -q 'MASPSX_FLAGS:.*--store-branch-delay' "$IN"; then
-    MASPSX_EXTRA+=(--store-branch-delay)
-fi
-if grep -q 'MASPSX_FLAGS:.*--load-dest-temp' "$IN"; then
-    MASPSX_EXTRA+=(--load-dest-temp)
-fi
-if grep -q 'MASPSX_FLAGS:.*--label-branch-delay' "$IN"; then
-    MASPSX_EXTRA+=(--label-branch-delay)
-fi
-if grep -q 'MASPSX_FLAGS:.*--post-call-jump-target=' "$IN"; then
-    MASPSX_POST_CALL_TARGET=$(sed -n 's/.*--post-call-jump-target=\([^ ]*\).*/\1/p' "$IN" | head -1)
-    MASPSX_EXTRA+=("--post-call-jump-target=$MASPSX_POST_CALL_TARGET")
-fi
 if [[ "$AS_G_FLAG" != "-G0" ]]; then
     MASPSX_EXTRA+=(--dont-force-G0)
 fi

@@ -1,6 +1,5 @@
 #include "pe1/math64.h"
 
-/* MASPSX_FLAGS: --stack-return-delay */
 double Math_Int32ToDouble(int value) {
     MathDoubleBits result;
     MathU64 mantissa;

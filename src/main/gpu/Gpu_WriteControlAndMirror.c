@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-return-delay */
 
 extern unsigned int *g_GpuGp1Ptr;
 extern unsigned char g_GpuControlRegMirror[];

@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 extern int EnterCriticalSection(void);
 extern void ExitCriticalSection(void);

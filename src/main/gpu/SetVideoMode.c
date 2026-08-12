@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-return-delay */
 
 extern int D_800956EC;
 

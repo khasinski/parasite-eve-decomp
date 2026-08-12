@@ -1,5 +1,4 @@
 /* CC1_FLAGS: -fno-strength-reduce */
-/* MASPSX_FLAGS: --stack-return-delay */
 
 #include "pe1/psyq_cd.h"
 

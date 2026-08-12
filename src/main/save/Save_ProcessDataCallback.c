@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay --store-return-delay */
 
 extern void CdRom_IssueSetMode(int arg0, int arg1) asm("func_8007FCBC");
 

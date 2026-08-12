@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay --store-return-delay */
 
 #include "pe1/psyq_gpu.h"
 

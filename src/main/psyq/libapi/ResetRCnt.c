@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-jump-delay --store-return-delay */
 
 #include "pe1/psyq_api_internal.h"
 

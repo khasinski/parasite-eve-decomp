@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --la-call-delay */
 #include "pe1/psyq_spu_internal.h"
 
 extern void EnterCriticalSection(void);

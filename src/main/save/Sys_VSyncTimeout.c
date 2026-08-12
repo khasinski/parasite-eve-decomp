@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay --store-return-delay */
 
 extern int VSync(int arg0);
 extern int CdRom_SendQueuedCmd(int arg0);

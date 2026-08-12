@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --stack-return-delay */
 
 s32 VSync(s32 mode);
 void Save_ProcessDataCallback(void);

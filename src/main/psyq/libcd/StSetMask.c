@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-return-delay */
 
 extern int g_CdStreamMask;
 extern int D_800B6918;

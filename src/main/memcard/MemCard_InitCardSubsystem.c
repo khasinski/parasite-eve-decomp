@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 int ChangeClearPAD(int arg0);
 int EnterCriticalSection(void);

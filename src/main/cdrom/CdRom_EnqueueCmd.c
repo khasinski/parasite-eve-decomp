@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 extern int g_CdEnqueueIndex;
 extern unsigned int g_CdEnqueueCmdQueue[];
 extern unsigned char g_CdEnqueueCmdArgs[];

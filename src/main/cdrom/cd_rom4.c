@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 int Render_AllocParticleNode(int arg0, int arg1, int arg2, int arg3);
 int Render_FindParticleEffect(int arg0, int arg1);

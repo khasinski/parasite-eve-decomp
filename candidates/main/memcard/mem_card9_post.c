@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --store-jump-delay */
 
 #include "include_asm.h"
 

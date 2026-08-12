@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --label-branch-delay */
 
 #include "../room_lib/room_lib.h"
 

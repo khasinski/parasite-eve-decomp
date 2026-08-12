@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-return-delay */
 
 extern void func_80084B78(void);
 extern void CardObj_IsTransferActive(void);

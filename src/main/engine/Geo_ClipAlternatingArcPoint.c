@@ -1,6 +1,6 @@
 #include "pe1/geom_state.h"
 #include "pe1/gte.h"
-/* MASPSX_FLAGS: --expand-div --label-branch-delay */
+/* MASPSX_FLAGS: --expand-div */
 
 int Geo_ClipAlternatingArcPoint(int radius, int divisor, int segment) {
     int angle = (segment << 10) / divisor;

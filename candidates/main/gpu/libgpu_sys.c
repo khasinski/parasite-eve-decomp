@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay --store-return-delay */
 
 /* PSY-Q libgpu sys.c utility tail, compiled into the game as one
  * translation unit (LoadTPage..GetVideoMode in SDK order). */

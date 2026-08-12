@@ -1,5 +1,4 @@
 #include "pe1/math64.h"
-/* MASPSX_FLAGS: --stack-return-delay */
 
 MathU64 Math_Neg64(MathU64 value) {
     MathU64 one;

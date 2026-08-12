@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --store-call-delay */
 
 extern void Cd_SetIntrMask(void);
 extern void InterruptCallback(int event, void (*callback)(void));

@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --stack-return-delay */
 
 extern void *memcpy(void *dest, const void *src, unsigned int n);
 extern char g_GpuActiveDispEnv[];

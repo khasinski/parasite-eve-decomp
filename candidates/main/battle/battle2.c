@@ -1,5 +1,4 @@
 #include "common.h"
-/* MASPSX_FLAGS: --store-call-delay */
 #include "include_asm.h"
 
 /* Incomplete array: retail materializes the flag word's address

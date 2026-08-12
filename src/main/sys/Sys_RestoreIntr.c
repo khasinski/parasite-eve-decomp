@@ -1,6 +1,6 @@
 #include "common.h"
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 --stack-return-delay */
+/* MASPSX_FLAGS: -G8 */
 
 typedef struct SysIntrState {
     u16 enabled;

@@ -1,4 +1,3 @@
-/* MASPSX_FLAGS: --stack-return-delay */
 
 extern unsigned char D_8009574E[];
 extern void (*D_80095748[])(char *msg, int arg0);

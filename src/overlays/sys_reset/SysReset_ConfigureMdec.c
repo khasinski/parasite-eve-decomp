@@ -1,7 +1,6 @@
 #include "common.h"
 #include "pe1/sys_reset.h"
 
-/* MASPSX_FLAGS: --store-call-delay --store-jump-delay --la-call-delay */
 
 void func_8010C0FC(int mode) {
     switch (mode) {
