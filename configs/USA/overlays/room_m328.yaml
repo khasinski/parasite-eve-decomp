@@ -56,7 +56,7 @@ segments:
       - [0xB88, asm, func_8018FB70]
       - [0xDE4, c, func_8018FDCC]
       - [0xEC0, c, func_8018FEA8]
-      - [0xF34, asm, func_8018FF1C]
+      - [0xF34, c, RoomLib_DrawGroundSprite_8018FF1C]
       - [0x10C4, c, func_801900AC]
       - [0x10CC, asm, func_801900B4]
       - [0x1290, asm, func_80190278]

@@ -110,6 +110,17 @@ typedef struct RoomFxTrajectoryParticle {
     unsigned short pad6;
 } RoomFxTrajectoryParticle;
 
+typedef struct RoomFxGroundSpriteParams {
+    short x;
+    short pad02;
+    short z;
+    unsigned char pad06[0x7C];
+    unsigned short depth;
+} RoomFxGroundSpriteParams;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxGroundSpriteParams, depth) == 0x82,
+                  room_fx_ground_sprite_depth_offset);
+
 typedef struct RoomFxDriftState {
     unsigned short x;
     short pad02;

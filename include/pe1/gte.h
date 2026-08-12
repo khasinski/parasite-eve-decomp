@@ -22,6 +22,16 @@ int rcos(int angle);
                  "ctc2 $14,$4" \
                  : : "r"(matrix) : "$12", "$13", "$14")
 
+/* Load the three translation-vector words into TRX, TRY, and TRZ. */
+#define gte_ldtransmatrix(matrix) \
+    asm volatile("lw $12,20(%0)\n\t" \
+                 "lw $13,24(%0)\n\t" \
+                 "ctc2 $12,$5\n\t" \
+                 "lw $14,28(%0)\n\t" \
+                 "ctc2 $13,$6\n\t" \
+                 "ctc2 $14,$7" \
+                 : : "r"(matrix) : "$12", "$13", "$14")
+
 /* Preserve and replace the first column of the rotation matrix. */
 #define gte_getrotcol0(x, y, z) \
     asm volatile("cfc2 %0,$0\n\t" \
