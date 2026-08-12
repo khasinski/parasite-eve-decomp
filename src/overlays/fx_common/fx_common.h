@@ -79,6 +79,28 @@ typedef struct FxCommonOffsetByte {
     u8 value;
 } FxCommonOffsetByte;
 
+typedef struct FxCommonMotionVec {
+    s32 x;
+    s32 y;
+    s32 z;
+    s32 pad0C;
+} FxCommonMotionVec;
+
+typedef struct FxCommonMotionLane {
+    s32 value;
+    s32 pad04[3];
+} FxCommonMotionLane;
+
+typedef struct FxCommonMotionByte {
+    u8 value;
+} FxCommonMotionByte;
+
+extern s16 D_8019C058;
+extern FxCommonMotionLane D_8019CAB0[10];
+extern FxCommonMotionByte D_801EA268[1];
+extern FxCommonMotionByte D_801EA26C[1];
+extern FxCommonMotionByte D_801EA270[1];
+
 extern s16 D_8019CC50;
 extern FxCommonBucket D_8019CCBC[];
 extern FxCommonSelection D_801E4A8A[];
