@@ -6,6 +6,7 @@
 typedef unsigned char u_char;
 typedef unsigned short u_short;
 typedef unsigned int u_int;
+typedef void (*DsCallback)(void);
 
 typedef struct CdlLOC {
     u_char minute;
@@ -124,9 +125,24 @@ typedef struct CdDsReadQueueEntry {
     u_int arg14;
 } CdDsReadQueueEntry;
 
+typedef struct DsReadCallbackSlot {
+    int value;
+    int reserved[3];
+} DsReadCallbackSlot;
+
 extern CdDsReadQueueEntry g_CdDsReadQueue[];
 extern int g_CdDsReadIndex;
 extern int g_CdDsReadQueueState;
 extern int g_CdPendingReadCount;
+extern int g_DsReadCallbackState[3] __asm__("D_800B8AB0");
+extern CdQueuedCmdSlot g_CdQueuedCmdSlots[3] __asm__("D_800A3510");
+extern DsReadCallbackSlot g_DsReadCallbackSlots[8] __asm__("D_800A3610");
+extern int g_DsReadCallbackCursor __asm__("D_800A3690");
+
+void CdRom_AbortCmd(void);
+void CQ_clear_queue(void *queue);
+void DS_read_cbready(void);
+DsCallback DsReadCallback(DsCallback callback);
+void CdRom_EnableDsReadSystem(void);
 
 #endif

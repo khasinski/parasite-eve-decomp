@@ -15,8 +15,6 @@ int DsSyncCallback(int callback);
 int DsReadyCallback(int callback);
 int Render_AllocParticleNode(int com, void *param, void *result, int mode);
 
-typedef void (*DsCallback)(void);
-
 extern DsCallback D_8009B708;
 
 int ds_read(int arg0, int arg1, int arg2) {
