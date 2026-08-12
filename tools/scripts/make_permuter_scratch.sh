@@ -9,6 +9,10 @@
 # The permuter searches C variants whose codegen matches the ROM.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+CPP="${PE_CPP:-$ROOT/tools/psyq-gcc-2.7.2/cpp}"
+if [[ ! -x "$CPP" && -x "$ROOT/tools/old-gcc/cpp" ]]; then
+  CPP="$ROOT/tools/old-gcc/cpp"
+fi
 SRC="$1"
 [[ -f "$SRC" ]] || { echo "no such source: $SRC"; exit 1; }
 rel="${SRC#"$ROOT/"}"; rel="${rel#./}"   # path relative to repo root
@@ -32,7 +36,7 @@ fi
 # preserve toolchain flag comment lines (cpp would strip them)
 grep -E '/\* (CC1_FLAGS|MASPSX_FLAGS):' "$SRC" > "$SCR/flags.c" || true
 cp "$SCR/flags.c" "$SCR/base.c"
-"$ROOT/tools/psyq-gcc-2.7.2/cpp" -undef -P -D__GNUC__=2 -D__OPTIMIZE__ -Dmips \
+"$CPP" -undef -P -D__GNUC__=2 -D__OPTIMIZE__ -Dmips \
   -D__mips__ -D__LITTLE_ENDIAN__ -D'__attribute__(x)=' \
   -I"$ROOT/sdk/psyq-4.0/PSX/INCLUDE" -I"$ROOT/include" "$SRC" >> "$SCR/base.c" 2>/dev/null
 cat > "$SCR/compile.sh" <<EOF
