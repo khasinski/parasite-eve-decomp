@@ -2353,6 +2353,8 @@ extern void func_800C2FF0(s32 width, s32 height);
 extern void func_800C3098(s32 depth);
 extern void func_800C3238(s32 mode);
 extern void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, s32 mode);
+extern void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+extern int func_80071A54(void);
 
 #define ROOMLIB_FX_SHIMMER(name) \
     void name(int a, RoomStatePair *st, RoomFxParams *c) { \
@@ -2403,22 +2405,48 @@ typedef struct RoomSpritePacket {
 } RoomSpritePacket;
 
 extern short D_800942EC;
-extern RoomSpritePacket D_80190F90;
-extern RoomSpritePacket D_801926E8;
-extern RoomSpritePacket D_80194700;
-extern RoomSpritePacket D_80194898;
-extern RoomSpritePacket D_80195600;
-
 typedef struct RoomParticleRenderState {
     RoomSpriteMatrix matrix;      /* 0x00 */
     RoomPartVec position[6];      /* 0x20 */
-    char pad50[0x3C];
+    RoomPartVec velocity[6];      /* 0x50 */
+    char pad80[0xC];
     unsigned short depth[6];      /* 0x8C */
     short active[6];              /* 0x98 */
+    short liveCount;              /* 0xA4 */
 } RoomParticleRenderState;
+
+#define ROOMLIB_INIT_PARTICLE_RENDER_STATE(name, scaleObj) \
+    void name(int unused, void *state, RoomParticleRenderState *fx) { \
+        extern RoomFxVec4 scaleObj; \
+        RoomFxVec4 scale; \
+        unsigned int i; \
+        fx->matrix.m[2][2] = 0x1000; \
+        fx->matrix.m[1][1] = 0x1000; \
+        fx->matrix.m[0][0] = 0x1000; \
+        fx->matrix.t[2] = 0; \
+        fx->matrix.t[1] = 0; \
+        fx->matrix.t[0] = 0; \
+        fx->matrix.m[2][1] = 0; \
+        fx->matrix.m[2][0] = 0; \
+        fx->matrix.m[1][2] = 0; \
+        fx->matrix.m[1][0] = 0; \
+        fx->matrix.m[0][2] = 0; \
+        fx->matrix.m[0][1] = 0; \
+        scale = scaleObj; \
+        func_80078CC4(&fx->matrix, &scale); \
+        fx->liveCount = 6; \
+        for (i = 0; i < 6; i++) { \
+            fx->active[i] = 1; \
+            fx->depth[i] = 0x80; \
+            fx->velocity[i].x = func_80071A54() % 31 - 15; \
+            fx->velocity[i].y = -(func_80071A54() % 100 + 50); \
+            fx->velocity[i].z = func_80071A54() % 31 - 15; \
+        } \
+    }
 
 #define ROOMLIB_RENDER_PARTICLE_DEPTHS(name, packetObj, frameY) \
     void name(int unused, void *state, RoomParticleRenderState *fx) { \
+        extern RoomSpritePacket packetObj; \
         RoomClock *clock = func_800C2B50(); \
         unsigned int i; \
         func_800C2EAC(clock->renderOwner); \
