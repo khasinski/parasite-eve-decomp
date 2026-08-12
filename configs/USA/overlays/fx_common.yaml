@@ -35,11 +35,18 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, fx_common]
+      - [0x1D18, c, FxCommon_DestroyNode]
+      - [0x1D4C, asm, fx_common_1D4C]
       - [0x2750, c, FxCommon_ResetSelection]
       - [0x2764, c, FxCommon_SelectRecord]
       - [0x27CC, c, FxCommon_InsertNode]
       - [0x2844, c, FxCommon_RemoveNode]
       - [0x2864, asm, fx_common_2864]
+      - [0x2DF8, c, FxCommon_ConfigureDisplayRange]
+      - [0x2E40, asm, fx_common_2E40]
+      - [0x2FF8, c, FxCommon_SetMode1]
+      - [0x301C, c, FxCommon_SetMode30]
+      - [0x3040, asm, fx_common_3040]
   - [0xD000]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/fx_common.bin bs=2048 skip=1792 count=26
