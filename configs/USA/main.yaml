@@ -1099,7 +1099,7 @@ segments:
       - [0x63B54, asm, math/Math_DoubleToInt32]
       - [0x63C50, asm, math/Math_Stub_80073450]
       - [0x63C54, asm, math/Math_Int32ToDouble]
-      - [0x63D54, asm, math/Math_Neg64]
+      - [0x63D54, c, math/Math_Neg64]
       - [0x63DC4, asm, main/Math_Sqrt64]
       - [0x640D8, asm, math/Math_Mul32To64]
       - [0x641C4, c, event/Evt_Deliver]

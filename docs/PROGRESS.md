@@ -7,12 +7,12 @@ and no inline/register assembly. Pure C is the target. Code bytes cover function
 only (baked data carriers are excluded). Every built binary is
 byte-identical to retail (`make check`, `make overlay-check-all`).
 
-**Headline: 1238860/3759940 code bytes (32.9%) are decompiled.**
-Function coverage is secondary: 8736/11818 (73.9%).
+**Headline: 1238972/3759940 code bytes (33.0%) are decompiled.**
+Function coverage is secondary: 8737/11818 (73.9%).
 
 | Binary | Functions | % | Code bytes | % |
 |---|---:|---:|---:|---:|
-| `SLUS_006.62 (main)` | 1261/2555 | 49.4% | 125604/843348 | 14.9% |
+| `SLUS_006.62 (main)` | 1262/2555 | 49.4% | 125716/843348 | 14.9% |
 | `boot_display` | 1/16 | 6.2% | 240/10240 | 2.3% |
 | `fx_common` | 20/65 | 30.8% | 2328/53204 | 4.4% |
 | `fx_field` | 1/3 | 33.3% | 944/4096 | 23.0% |
@@ -43,4 +43,4 @@ Function coverage is secondary: 8736/11818 (73.9%).
 | `scene_e27` | 46/60 | 76.7% | 2916/15756 | 18.5% |
 | `sys_reset` | 17/19 | 89.5% | 1620/2048 | 79.1% |
 | `room overlays (x162)` | 6542/7837 | 83.5% | 1047124/2390632 | 43.8% |
-| **total** | **8736/11818** | **73.9%** | **1238860/3759940** | **32.9%** |
+| **total** | **8737/11818** | **73.9%** | **1238972/3759940** | **33.0%** |
