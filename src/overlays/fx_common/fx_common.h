@@ -109,6 +109,7 @@ extern FxCommonMotionLane D_8019CAB0[10];
 extern FxCommonMotionByte D_801EA268[1];
 extern FxCommonMotionByte D_801EA26C[1];
 extern FxCommonMotionByte D_801EA270[1];
+extern FxCommonMotionVec g_FxCommonMotionDeltas[10] __asm__("D_801EA268");
 extern FxCommonResourceState g_FxCommonResourceState __asm__("D_8019C140");
 
 extern s16 D_8019CC50;
