@@ -113,6 +113,12 @@
                  "nop\n\t" \
                  ".word 0x4B400006")
 
+#define gte_nclip_now() \
+    asm volatile(".word 0x4B400006")
+
+#define gte_getmac0(out) \
+    asm volatile("mfc2 %0,$24" : "=r"(out))
+
 #define gte_stmac0(out) \
     asm volatile("swc2 $24,0(%0)" : : "r"(out) : "memory")
 
@@ -308,6 +314,9 @@
 
 #define gte_getotz(out) \
     asm volatile("mfc2 %0,$7" : "=r"(out))
+
+#define gte_getflag(out) \
+    asm volatile("cfc2 %0,$31" : "=r"(out))
 
 /* Colour interpolation commands with the current IR vector and IR0. */
 #define gte_dpcl() \
@@ -509,10 +518,14 @@
 
 #define gte_stsxy0(out)                                                     \
     asm volatile("swc2 $12,0(%0)" : : "r"(out) : "memory")
+#define gte_stsxy1(out)                                                     \
+    asm volatile("swc2 $13,0(%0)" : : "r"(out) : "memory")
 #define gte_stsxy1_bound()                                                  \
     asm volatile("swc2 $13,0($8)" : : "r"(gte_out1) : "memory")
 #define gte_stsxy2_bound()                                                  \
     asm volatile("swc2 $14,0($9)" : : "r"(gte_out2) : "memory")
+#define gte_stir0(out)                                                      \
+    asm volatile("swc2 $8,0(%0)" : : "r"(out) : "memory")
 #define gte_stir0_bound()                                                   \
     asm volatile("swc2 $8,0($10)" : : "r"(gte_depth_out) : "memory")
 #define gte_getflag_bound()                                                 \

@@ -1294,7 +1294,7 @@ segments:
       - [0x69AFC, c, main/gap_psyq_libgte_smp_04_tail_69AFC]
       - [0x69B04, c, psyq/libgte/RotTransPers4]
       - [0x69B7C, c, main/gap_psyq_libgte_RotTransPers4_tail_69B7C]
-      - [0x69B84, asm, psyq/libgte/cmb_06]
+      - [0x69B84, c, psyq/libgte/cmb_06]
       - [0x69C14, c, psyq/libgte/cmb_07]
       - [0x69CC4, asm, psyq/libgte/RotMatrix]
       - [0x69F50, asm, main/gap_psyq_libgte_RotMatrix_tail_69F50]
