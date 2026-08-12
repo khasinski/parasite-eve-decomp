@@ -12,13 +12,14 @@ IN="$1"
 OUT="$2"
 shift 2
 
-CPP="${PE_CPP:-$ROOT/tools/psyq-gcc-2.7.2/cpp}"
+CPP="${PE_CPP:-$ROOT/tools/old-gcc/cpp}"
 # Default cc1: native old-gcc 2.7.2-psx; install it with
 # tools/scripts/setup_stock_cc1.sh if missing.
 CC1="${PE_CC1:-$ROOT/tools/scripts/cc1_stock272psx.sh}"
 MASPSX=("$ROOT/.venv/bin/python" "$ROOT/tools/maspsx/maspsx.py")
 MASPSX_ASPSX_VERSION="${PE_MASPSX_ASPSX_VERSION:-2.56}"
 AS=$(command -v mipsel-none-elf-as)
+OBJCOPY=$(command -v mipsel-none-elf-objcopy)
 INCLUDE="$ROOT/sdk/psyq-4.0/PSX/INCLUDE"
 
 CPP_FLAGS="-undef -D__GNUC__=2 -D__OPTIMIZE__ -Dmips -D__mips__ -D__LITTLE_ENDIAN__ -I$INCLUDE -I$ROOT/include -I$ROOT/tools/m2c $*"
@@ -88,6 +89,15 @@ trap 'rm -f "$TMP_I" "$TMP_S" "$TMP_D"' EXIT
 "$CPP" $CPP_FLAGS -M "$IN" | sed "1s|^[^:]*:|$OUT:|" > "$TMP_D"
 "$CPP" $CPP_FLAGS "$IN" -o "$TMP_I"
 "$CC1" $CC1_FLAGS "$TMP_I" -o "$TMP_S"
+
+if grep -q 'ASSEMBLER: gas' "$IN"; then
+    "$AS" -EL "$AS_G_FLAG" -march=r3000 -mtune=r3000 -no-pad-sections \
+        -I "$ROOT" -I "$ROOT/include" -I "$ROOT/asm/USA/main" \
+        -I "$ROOT/asm/USA/overlays" -o "$OUT" "$TMP_S"
+    "$OBJCOPY" --strip-unneeded "$OUT"
+    mv "$TMP_D" "$OUT.d"
+    exit 0
+fi
 
 MASPSX_EXTRA=()
 if grep -q 'MASPSX_FLAGS:.*--expand-div' "$IN"; then

@@ -60,3 +60,4 @@ retry:
 out:
     return result + 1;
 }
+/* ASSEMBLER: gas */

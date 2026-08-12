@@ -21,3 +21,4 @@ int Spu_SetReverbMode(int mode) {
     D_8009B418 = enabled;
     return enabled;
 }
+/* ASSEMBLER: gas */

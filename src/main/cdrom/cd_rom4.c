@@ -33,3 +33,4 @@ int CdRom_ReadSyncAlt(unsigned char arg0, int arg1, int arg2) {
 
     return status == 2;
 }
+/* ASSEMBLER: gas */

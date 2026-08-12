@@ -53,3 +53,4 @@ int CdRom_SetReadCallback(int callback) {
     g_CdReadCallback = callback;
     return old;
 }
+/* ASSEMBLER: gas */

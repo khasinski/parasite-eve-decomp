@@ -9,3 +9,4 @@ void Timer_StartTimeout(int arg0) {
     g_TimerTimeoutLimit = arg0;
     g_TimerTimeoutStart = *timer;
 }
+/* ASSEMBLER: gas */

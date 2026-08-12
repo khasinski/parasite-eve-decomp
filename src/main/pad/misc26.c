@@ -27,3 +27,4 @@ void Pad_Reinitialize(int arg0, int arg1, int arg2, int arg3) {
     PAD_init2(arg0, arg1, arg2, arg3);
     g_InitPadFlag = 1;
 }
+/* ASSEMBLER: gas */

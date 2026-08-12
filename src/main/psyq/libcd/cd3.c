@@ -12,3 +12,4 @@ int CdReadCallback(int callback) {
     g_CdReadCallback = callback;
     return old;
 }
+/* ASSEMBLER: gas */

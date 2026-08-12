@@ -8,3 +8,4 @@ void StSetMask(int mask, int start, int end) {
     D_800B6918 = start;
     g_CdStreamEndSector = end;
 }
+/* ASSEMBLER: gas */

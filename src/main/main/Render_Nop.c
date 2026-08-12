@@ -34,3 +34,4 @@ int Render_Nop(void **out0, void **out1) {
     }
     return 1;
 }
+/* ASSEMBLER: gas */

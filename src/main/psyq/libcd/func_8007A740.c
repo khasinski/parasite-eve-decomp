@@ -69,3 +69,4 @@ sync:
 
     return CD_sync(zero_arg, arg2_reg) == 2;
 }
+/* ASSEMBLER: gas */

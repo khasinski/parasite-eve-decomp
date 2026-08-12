@@ -78,3 +78,4 @@ DsCallback DsReadCallback(DsCallback callback) {
     *slot = callback;
     return old;
 }
+/* ASSEMBLER: gas */

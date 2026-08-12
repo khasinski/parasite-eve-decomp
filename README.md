@@ -80,7 +80,7 @@ The supported compiler path is the native toolchain below. Default local paths:
 
 ```text
 sdk/psyq-4.0/PSX/INCLUDE/
-tools/psyq-gcc-2.7.2/cpp
+tools/old-gcc/cpp
 tools/old-gcc/cc1
 tools/maspsx/maspsx.py
 ```

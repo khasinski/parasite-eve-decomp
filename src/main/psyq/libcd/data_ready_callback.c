@@ -23,3 +23,4 @@ void data_ready_callback(void) {
     }
     g_CdStreamDataReadyFlag = 0;
 }
+/* ASSEMBLER: gas */

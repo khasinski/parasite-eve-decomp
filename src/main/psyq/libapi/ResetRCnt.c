@@ -11,3 +11,4 @@ int ResetRCnt(unsigned int counter) {
     _counters[id].rootCounter = 0;
     return 1;
 }
+/* ASSEMBLER: gas */
