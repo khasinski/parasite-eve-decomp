@@ -134,6 +134,7 @@ int func_80078B38(void);
 void func_8006DFA8(FxCommonShortVec3 *input, int *outA, int *outB);
 void func_800868F0(void *object, int index, int value);
 void func_80086A28(void *object, int index, int value);
+void func_801941A4(int value);
 void func_80191678(s16 id);
 void func_80191834(FxCommonNode *node);
 void func_8019BF8C(void **buffer);
