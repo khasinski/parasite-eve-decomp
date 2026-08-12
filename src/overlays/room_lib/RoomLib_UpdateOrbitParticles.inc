@@ -1,7 +1,8 @@
 #include "common.h"
 #include "pe1/room_fx.h"
 
-void func_801904DC(void *unused, u8 *control, RoomOrbitParticleState *state) {
+void ROOMLIB_UPDATE_ORBIT_PARTICLES_NAME(
+    void *unused, u8 *control, RoomOrbitParticleState *state) {
     unsigned int i;
     u8 intensity;
     u16 height;
