@@ -8,4 +8,3 @@ int SetVideoMode(int mode) {
     D_800956EC = mode;
     return old;
 }
-/* ASSEMBLER: gas */

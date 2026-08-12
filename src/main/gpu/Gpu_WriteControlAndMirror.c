@@ -6,4 +6,3 @@ void Gpu_WriteControlAndMirror(unsigned int value) {
     *g_GpuGp1Ptr = value;
     g_GpuControlRegMirror[value >> 24] = value;
 }
-/* ASSEMBLER: gas */

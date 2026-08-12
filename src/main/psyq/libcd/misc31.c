@@ -41,4 +41,3 @@ done:
 void func_8007C130(int arg0) {
     D_8009B260 = arg0;
 }
-/* ASSEMBLER: gas */

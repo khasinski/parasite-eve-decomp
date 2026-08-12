@@ -97,4 +97,3 @@ void CdRom_SendReadyCommand(int result) {
 int CdRom_GetDiscType(void) {
     return g_CdDiscType;
 }
-/* ASSEMBLER: gas */

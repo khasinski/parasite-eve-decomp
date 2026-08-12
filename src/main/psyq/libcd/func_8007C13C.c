@@ -35,4 +35,3 @@ void Cd_SetIntrMask(void) {
 
     *D_8009B27C = savedMask;
 }
-/* ASSEMBLER: gas */

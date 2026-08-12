@@ -18,4 +18,3 @@ int SetGraphDebug(int debug) {
     }
     return old;
 }
-/* ASSEMBLER: gas */

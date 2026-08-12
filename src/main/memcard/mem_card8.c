@@ -61,4 +61,3 @@ void MemCard_InitTimerCallbacks(void) {
     table[-1] = 0;
     table[2] = 0;
 }
-/* ASSEMBLER: gas */

@@ -12,4 +12,3 @@ void MemCard_SetCallbackVtable(void) {
     g_MemCardIsTransferActiveFn = CardObj_IsTransferActive;
     g_MemCardResponseHandler = CardObj_HandleResponse;
 }
-/* ASSEMBLER: gas */

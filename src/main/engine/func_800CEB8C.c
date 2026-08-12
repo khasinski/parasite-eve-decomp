@@ -43,4 +43,3 @@ int func_800CEB8C(s16 *a, s16 *b, int radius) {
 
     return func_800C6B20((void *)points);
 }
-/* ASSEMBLER: gas */

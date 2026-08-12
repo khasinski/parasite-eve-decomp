@@ -12,4 +12,3 @@ void _spu_Fw1ts(void) {
         i = i + 1;
     }
 }
-/* ASSEMBLER: gas */

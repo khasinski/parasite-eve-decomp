@@ -76,4 +76,3 @@ int CdLastCom(void) {
 CdlLOC *CdLastPos(void) {
     return &g_CdLastPos;
 }
-/* ASSEMBLER: gas */

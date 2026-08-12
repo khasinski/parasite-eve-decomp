@@ -8,4 +8,3 @@ int func_80081254(int callback) {
     D_8009B6D0 = callback;
     return old;
 }
-/* ASSEMBLER: gas */

@@ -8,4 +8,3 @@ int CdReadyCallback(int callback) {
     D_8009AFB8 = callback;
     return old;
 }
-/* ASSEMBLER: gas */

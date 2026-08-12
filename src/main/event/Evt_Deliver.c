@@ -26,4 +26,3 @@ event302:
 done:
     return 0;
 }
-/* ASSEMBLER: gas */

@@ -8,4 +8,3 @@ int CdSyncCallback(int callback) {
     D_8009AFB4 = callback;
     return old;
 }
-/* ASSEMBLER: gas */
