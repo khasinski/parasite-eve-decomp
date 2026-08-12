@@ -164,6 +164,7 @@ extern int func_800C2758(void *o, void *tableA, void *tableB);
 extern void **FieldEng_GetSlot(void);
 extern int func_8003010C(void *o, int arg);
 extern void func_80030220(void *o, int arg, int value);
+extern void func_80192BFC(void);
 
 typedef struct RoomRenderNode {
     int flags;                    /* 0x00: 0x3F000000 owner bits, 0xC0FFFFFF mask dance */
