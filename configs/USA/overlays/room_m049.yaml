@@ -62,7 +62,7 @@ segments:
       - [0x34B4, c, func_8019249C]
       - [0x3698, c, func_80192680]
       - [0x36A0, c, func_80192688]
-      - [0x37AC, asm, func_80192794]
+      - [0x37AC, c, RoomLib_DrawScaledEffect_80192794]
       - [0x39C8, asm, func_room_m049_0039C8]
       - [0x3B74, data, D_80192B5C]
       - [0x3B94, data, D_80192B7C]
