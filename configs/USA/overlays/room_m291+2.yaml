@@ -46,7 +46,7 @@ segments:
       - [0x3220, asm, func_80192208]
       - [0x3A00, c, RoomLib_SetArg1_801929E8]
       - [0x3A10, c, RoomLib_SlotSet_801929F8]
-      - [0x3A54, asm, func_80192A3C]
+      - [0x3A54, c, RoomLib_CaptureFrameSample_80192A3C]
       - [0x3AF4, data, D_80192ADC]
       - [0x3B20, data, D_80192B08]
       - [0x3B58, data, D_80192B40]
