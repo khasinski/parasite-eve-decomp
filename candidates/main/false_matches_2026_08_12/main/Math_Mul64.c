@@ -45,13 +45,13 @@ double Math_Mul64(double left, double right) {
         rhsMantissa = Math_Neg64(rhsMantissa);
     }
 
-    lhsMantissa = Math_Add64WithShift(lhsMantissa, 0, 9);
-    rhsMantissa = Math_Add64WithShift(rhsMantissa, 0, 9);
+    lhsMantissa = Math_Add64WithShift(0, lhsMantissa, 9);
+    rhsMantissa = Math_Add64WithShift(0, rhsMantissa, 9);
     if (rhsExponent < lhsExponent) {
-        rhsMantissa = Math_Add64WithShift(rhsMantissa, 1,
+        rhsMantissa = Math_Add64WithShift(1, rhsMantissa,
                                           lhsExponent - rhsExponent);
     } else {
-        lhsMantissa = Math_Add64WithShift(lhsMantissa, 1,
+        lhsMantissa = Math_Add64WithShift(1, lhsMantissa,
                                           rhsExponent - lhsExponent);
         lhsExponent = rhsExponent;
     }
@@ -65,11 +65,11 @@ double Math_Mul64(double left, double right) {
     }
 
     while ((lhsMantissa.hi & 0xe0000000) == 0) {
-        lhsMantissa = Math_Add64WithShift(lhsMantissa, 0, 1);
+        lhsMantissa = Math_Add64WithShift(0, lhsMantissa, 1);
         lhsExponent--;
     }
     if (lhsMantissa.hi & 0x40000000) {
-        lhsMantissa = Math_Add64WithShift(lhsMantissa, 1, 1);
+        lhsMantissa = Math_Add64WithShift(1, lhsMantissa, 1);
         lhsExponent++;
     }
 
@@ -81,10 +81,10 @@ double Math_Mul64(double left, double right) {
     }
     lhsMantissa = Math_Add64(lhsMantissa, rounding);
     if (lhsMantissa.hi & 0x40000000) {
-        lhsMantissa = Math_Add64WithShift(lhsMantissa, 1, 1);
+        lhsMantissa = Math_Add64WithShift(1, lhsMantissa, 1);
         lhsExponent++;
     }
-    lhsMantissa = Math_Add64WithShift(lhsMantissa, 1, 9);
+    lhsMantissa = Math_Add64WithShift(1, lhsMantissa, 9);
     lhsMantissa.hi &= 0xffefffff;
 
     if (lhsExponent >= 0x7ff) {

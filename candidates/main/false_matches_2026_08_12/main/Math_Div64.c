@@ -38,7 +38,7 @@ double Math_Div64(double numerator, double denominator) {
     divisorMantissa.lo = divisor.bits.lo;
     divisorMantissa.hi = (divisor.bits.hi & 0xfffff) | 0x100000;
     if (Math_Cmp64Pair(dividendMantissa, divisorMantissa) < 0) {
-        dividendMantissa = Math_Add64WithShift(dividendMantissa, 0, 1);
+        dividendMantissa = Math_Add64WithShift(0, dividendMantissa, 1);
         exponent--;
     }
 
@@ -53,7 +53,7 @@ double Math_Div64(double numerator, double denominator) {
             negativeDivisor = Math_Neg64(divisorMantissa);
             dividendMantissa = Math_Add64(dividendMantissa, negativeDivisor);
         }
-        dividendMantissa = Math_Add64WithShift(dividendMantissa, 0, 1);
+        dividendMantissa = Math_Add64WithShift(0, dividendMantissa, 1);
         bit = Math_Shift64(1, bit, 1);
     } while (bit.hi != 0 || bit.lo != 0);
 
