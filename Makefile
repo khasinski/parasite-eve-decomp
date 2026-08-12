@@ -86,7 +86,8 @@ split:
 	@grep -rl 'INCLUDE_ASM(' src/main --include='*.c' 2>/dev/null | xargs touch 2>/dev/null || true
 
 split-if-needed:
-	@if [ ! -f "$(LD_SCRIPT)" ] || [ ! -f "$(ASM_DIR)/header.s" ]; then \
+	@if [ ! -f "$(LD_SCRIPT)" ] || [ ! -f "$(ASM_DIR)/header.s" ] || \
+	    [ "$(SPLAT_CFG)" -nt "$(LD_SCRIPT)" ]; then \
 	    $(MAKE) split; \
 	fi
 

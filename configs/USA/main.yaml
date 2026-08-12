@@ -155,7 +155,7 @@ segments:
       - [0x50E0, asm, main/Camera_TrackRelativeOffset]
       - [0x53A0, c, main/Camera_StepAngleFade]
       - [0x55A0, c, task/task5]
-      - [0x57D8, c, task/Task_PlayEntityAnim]
+      - [0x57D8, asm, task/Task_PlayEntityAnim]
       - [0x5908, c, task/Task_CopyEntityRenderObject]
       - [0x5A40, asm, task/Task_SetGteMatrix]
       - [0x5DFC, c, boot/Boot_CheckModeSwitch]
