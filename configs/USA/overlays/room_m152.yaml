@@ -107,7 +107,7 @@ segments:
       - [0x3D3C, asm, RoomLib_DlgBlob]
       - [0x46FC, c, RoomLib_MsgDispatch_801936E4]
       - [0x49C4, c, RoomLib_SetPair_801939AC]
-      - [0x49E0, asm, func_801939C8]
+      - [0x49E0, c, RoomLib_UpdateTimedRender_801939C8]
       - [0x4B78, asm, func_80193B60]
       - [0x4EBC, data, D_80193EA4]
       - [0x4EF4, data, D_80193EDC]

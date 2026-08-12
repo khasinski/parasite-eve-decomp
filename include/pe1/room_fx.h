@@ -118,6 +118,12 @@ typedef struct RoomFxGroundSpriteParams {
     unsigned short depth;
 } RoomFxGroundSpriteParams;
 
+typedef struct RoomFxTimedRenderState {
+    unsigned char pad00[8];
+    short disabled;
+    unsigned short frame;
+} RoomFxTimedRenderState;
+
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxGroundSpriteParams, depth) == 0x82,
                   room_fx_ground_sprite_depth_offset);
 

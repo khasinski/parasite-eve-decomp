@@ -103,7 +103,7 @@ segments:
       - [0x3914, asm, func_801928FC]
       - [0x3CD4, c, RoomLib_Set4ClearSignal_80192CBC]
       - [0x3CF0, c, func_80192CD8]
-      - [0x3CF8, asm, func_80192CE0]
+      - [0x3CF8, c, RoomLib_UpdateTimedRender_80192CE0]
       - [0x3E90, asm, func_80192E78]
       - [0x41D4, data, D_801931BC]
       - [0x4298, data, D_80193280]

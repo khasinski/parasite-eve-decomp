@@ -128,7 +128,7 @@ segments:
       - [0x4E28, asm, func_80193E10]
       - [0x51E8, c, RoomLib_Set4ClearSignal_801941D0]
       - [0x5204, c, func_801941EC]
-      - [0x520C, asm, func_801941F4]
+      - [0x520C, c, RoomLib_UpdateTimedRender_801941F4]
       - [0x53A4, asm, func_8019438C]
       - [0x56E8, asm, func_801946D0]
       - [0x5828, asm, func_80194810]

@@ -138,7 +138,7 @@ segments:
       - [0x5A6C, asm, func_80194A54]
       - [0x5E2C, c, RoomLib_Set4ClearSignal_80194E14]
       - [0x5E48, c, func_80194E30]
-      - [0x5E50, asm, func_80194E38]
+      - [0x5E50, c, RoomLib_UpdateTimedRender_80194E38]
       - [0x5FE8, asm, func_80194FD0]
       - [0x632C, data, D_80195314]
       - [0x6338, data, RoomLib_TableA_8018F26C]
