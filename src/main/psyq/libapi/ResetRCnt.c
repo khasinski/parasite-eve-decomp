@@ -8,6 +8,6 @@ int ResetRCnt(unsigned int counter) {
     if (id >= 3) {
         return 0;
     }
-    _counters[id].rootCounter = 0;
+    D_8009B7D0[id].rootCounter = 0;
     return 1;
 }

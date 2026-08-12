@@ -21,13 +21,13 @@ typedef struct InterruptControlRegisters {
     s32 mask;
 } InterruptControlRegisters;
 
-extern volatile RootCounter *D_8009B7D0;
+extern RootCounter *D_8009B7D0;
 extern InterruptControlRegisters *D_8009B7CC;
 extern s32 D_8009B7D4[4];
 extern PadToggleFunc jtbl_800A34C8;
 extern PadToggleFunc jtbl_800A34CC;
 
-#define _counters D_8009B7D0
+#define _counters ((volatile RootCounter *)D_8009B7D0)
 #define _interrupt_status_register ((s32 *)D_8009B7CC)
 #define _interrupt_status_masks D_8009B7D4
 
