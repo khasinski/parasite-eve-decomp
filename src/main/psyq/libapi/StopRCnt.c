@@ -4,11 +4,11 @@
 int StopRCnt(unsigned int counter) {
     int offset;
     int mask;
-    register volatile s32 *status asm("$5");
+    register InterruptControlRegisters *status asm("$5");
     register int value asm("$3");
 
     offset = (counter & 0xFFFF) << 2;
-    status = _interrupt_status_register;
+    status = D_8009B7CC;
     /* Match the original %hi/%lo indexed mask load without using $at. */
     asm volatile(
         ".set\tnoreorder\n\t"
@@ -21,6 +21,6 @@ int StopRCnt(unsigned int counter) {
         ".set\treorder"
         : "=r"(mask), "=r"(value)
         : "r"(offset), "r"(status));
-    status[1] = value;
+    status->mask = value;
     return 1;
 }

@@ -5,6 +5,6 @@ int StartRCnt(unsigned int counter) {
     int id;
 
     id = counter & 0xFFFF;
-    _interrupt_status_register[1] |= _interrupt_status_masks[id];
+    D_8009B7CC->mask |= _interrupt_status_masks[id];
     return id < 3;
 }

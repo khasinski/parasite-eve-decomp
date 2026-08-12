@@ -16,14 +16,19 @@ typedef struct RootCounter {
     s32 field_0C;
 } RootCounter;
 
+typedef struct InterruptControlRegisters {
+    s32 status;
+    s32 mask;
+} InterruptControlRegisters;
+
 extern volatile RootCounter *D_8009B7D0;
-extern volatile s32 *D_8009B7CC;
+extern InterruptControlRegisters *D_8009B7CC;
 extern s32 D_8009B7D4[4];
 extern PadToggleFunc jtbl_800A34C8;
 extern PadToggleFunc jtbl_800A34CC;
 
 #define _counters D_8009B7D0
-#define _interrupt_status_register D_8009B7CC
+#define _interrupt_status_register ((s32 *)D_8009B7CC)
 #define _interrupt_status_masks D_8009B7D4
 
 #endif
