@@ -47,6 +47,9 @@ segments:
       - [0x2FF8, c, FxCommon_SetMode1]
       - [0x301C, c, FxCommon_SetMode30]
       - [0x3040, asm, fx_common_3040]
+      - [0xCF60, c, FxCommon_PrepareBuffer]
+      - [0xCF9C, c, FxCommon_LinkBuffer]
+      - [0xCFD4, data, D_8019BFC4]
   - [0xD000]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/fx_common.bin bs=2048 skip=1792 count=26

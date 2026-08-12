@@ -29,6 +29,15 @@ typedef struct FxCommonBucket {
     u8 pad4[104];
 } FxCommonBucket;
 
+typedef struct FxCommonBuffer {
+    void *data;
+    void *allocation;
+} FxCommonBuffer;
+
+typedef struct FxCommonBufferRegion {
+    u8 data[0x15F90];
+} FxCommonBufferRegion;
+
 extern s16 D_8019CC50;
 extern FxCommonBucket D_8019CCBC[];
 extern FxCommonSelection D_801E4A8A[];
@@ -38,9 +47,14 @@ extern u8 D_800B0DCE;
 extern u8 D_800B0DCF;
 extern s16 D_800B0DD0;
 extern s16 D_800B0DD2;
+extern FxCommonBufferRegion *D_800B0E4C;
+extern u8 D_8019C1F8;
+extern FxCommonBuffer *D_8019C9C0;
 
 void func_800868AC(int mode, int arg1);
+void func_800752AC(void *allocation, int size);
 void func_80191678(int id);
 void func_80191834(FxCommonNode *node);
+void func_8019BF8C(void **buffer);
 
 #endif
