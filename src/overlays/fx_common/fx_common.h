@@ -2,6 +2,7 @@
 #define FX_COMMON_H
 
 #include "common.h"
+#include "pe1/room_fx.h"
 
 typedef struct FxCommonSelection {
     s16 record;
@@ -63,16 +64,26 @@ typedef struct FxCommonBufferRegion {
     u8 data[0x15F90];
 } FxCommonBufferRegion;
 
+typedef union FxCommonTransformSeed {
+    RoomFxSeed8 room;
+    s16 component[4];
+} FxCommonTransformSeed;
+
 typedef struct FxCommonTransformNode {
-    u8 pad0[8];
-    s16 matrix[10];               /* 0x08 */
-    s32 translation[3];          /* 0x1C; Z doubles as lifetime */
-    s16 extra[3];                /* 0x28 */
-    u8 pad2E[0x32];
+    u8 pad0[4];
+    void *resource;              /* 0x04 */
+    RoomSpriteMatrix matrix;     /* 0x08; translation Z doubles as lifetime */
+    FxCommonTransformSeed seed;  /* 0x28 */
+    u8 pad30[0x30];
     void *record;                /* 0x60 */
     void *previous;              /* 0x64 */
     void *next;                  /* 0x68 */
 } FxCommonTransformNode;
+
+PE1_STATIC_ASSERT(sizeof(FxCommonTransformSeed) == 8,
+                  fx_common_transform_seed_size);
+PE1_STATIC_ASSERT(sizeof(FxCommonTransformNode) == sizeof(FxCommonRecord),
+                  fx_common_transform_node_record_size);
 
 typedef struct FxCommonVec3 {
     s32 x;
@@ -149,7 +160,8 @@ extern FxCommonBufferRegion *D_800B0E4C;
 extern u8 D_8019C1F8;
 extern FxCommonBuffer *D_8019C9C0;
 extern u8 D_8019C340;
-extern u8 D_8019CC30;
+extern RoomSpriteMatrix D_8019CC30;
+extern RoomSpriteMatrix *D_8019BFF0;
 extern u8 D_801D0260;
 extern void *D_800BCFA4;
 extern void *volatile D_800BCFA8;
@@ -161,6 +173,9 @@ void func_8018F55C(int angle, int radius, void *allocation,
                    FxCommonMotionVec *vector, void *extra);
 int func_8006DF50(void *resource, int arg1, int arg2, int arg3, int enabled);
 void *func_80078A94(void);
+void func_800787D4(RoomSpriteMatrix *left, RoomSpriteMatrix *right,
+                   RoomSpriteMatrix *result);
+void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 void func_80078E94(void *matrix);
 void func_80078E04(void *matrix);
 int func_80078B38(void);
@@ -174,5 +189,6 @@ void func_801941A4(int value);
 void func_80191678(s16 id);
 void func_80191834(FxCommonNode *node);
 void func_8019BF8C(void **buffer);
+void func_80197BA0(void *context, void *resource);
 
 #endif
