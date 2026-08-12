@@ -78,7 +78,7 @@ segments:
       - [0x2040, c, RoomLib_FxShimmer_80191028]
       - [0x20C4, c, RoomLib_Set3Size_801910AC]
       - [0x20D8, c, RoomLib_DrawUniformSprite_801910C0]
-      - [0x21FC, asm, func_801911E4]
+      - [0x21FC, c, RoomLib_UpdateGroundPulse_801911E4]
       - [0x2300, asm, func_801912E8]
       - [0x2488, asm, func_80191470]
       - [0x2598, c, RoomLib_ParticleStep_80191580]

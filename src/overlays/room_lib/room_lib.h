@@ -2338,11 +2338,14 @@ typedef struct RoomStatePair {
 } RoomStatePair;
 
 typedef struct RoomClock {
-    char pad0[0xC];
+    char pad0[0x8];
+    short h8;                     /* 0x08 */
+    short hA;                     /* 0x0A */
     short hC;                     /* 0x0C: current tick */
 } RoomClock;
 
 extern RoomClock *func_800C2B50();
+extern int func_800C6B90(void *position, int radius);
 
 #define ROOMLIB_FX_SHIMMER(name) \
     void name(int a, RoomStatePair *st, RoomFxParams *c) { \
@@ -2355,6 +2358,28 @@ extern RoomClock *func_800C2B50();
             if (v >> 4 == 8) { \
                 st->b1 = 2; \
             } \
+        } \
+    }
+
+#define ROOMLIB_UPDATE_GROUND_PULSE(name) \
+    void name(int unused, RoomStatePair *state, RoomFxParams *fx) { \
+        RoomClock *clock = func_800C2B50(); \
+        if (clock->hC - 0x3C < state->h2) { \
+            if (fx->hA >= 5) { \
+                fx->hA -= 4; \
+            } \
+            if (clock->hC - 0x1E < state->h2 && \
+                fx->h8 > clock->hA * 6) { \
+                fx->h8 -= clock->hA * 6; \
+            } \
+        } else { \
+            fx->h8 += clock->hA; \
+        } \
+        if (func_800C6B90(fx, fx->h8 >> 3) != 0) { \
+            clock->h8 = 1; \
+        } \
+        if (state->h2 == clock->hC) { \
+            state->b1 = 2; \
         } \
     }
 
