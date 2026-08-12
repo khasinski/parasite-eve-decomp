@@ -1,5 +1,6 @@
 #include "pe1/math64.h"
 
+/* MASPSX_FLAGS: --stack-return-delay */
 double Math_Int32ToDouble(int value) {
     MathDoubleBits result;
     MathU64 mantissa;
@@ -29,8 +30,10 @@ double Math_Int32ToDouble(int value) {
 
     mantissa.lo = 0;
     mantissa.hi = value;
-    mantissa = Math_Shift64(mantissa, 1, 10);
+    mantissa = Math_Shift64(1, mantissa, 10);
+    mantissa.hi &= 0xffefffff;
+    result.bits.hi = mantissa.hi | sign;
+    result.bits.hi |= exponent << 20;
     result.bits.lo = mantissa.lo;
-    result.bits.hi = (mantissa.hi & 0xffefffff) | sign | (exponent << 20);
     return result.value;
 }

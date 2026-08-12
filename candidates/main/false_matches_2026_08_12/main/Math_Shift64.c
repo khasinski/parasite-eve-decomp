@@ -1,6 +1,6 @@
 #include "pe1/math64.h"
 
-MathU64 Math_Shift64(MathU64 value, int arithmetic, int amount) {
+MathU64 Math_Shift64(int arithmetic, MathU64 value, int amount) {
     int i;
 
     if (arithmetic == 0) {

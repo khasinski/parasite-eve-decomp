@@ -54,7 +54,7 @@ double Math_Div64(double numerator, double denominator) {
             dividendMantissa = Math_Add64(dividendMantissa, negativeDivisor);
         }
         dividendMantissa = Math_Add64WithShift(dividendMantissa, 0, 1);
-        bit = Math_Shift64(bit, 1, 1);
+        bit = Math_Shift64(1, bit, 1);
     } while (bit.hi != 0 || bit.lo != 0);
 
     rounding.hi = 0;
@@ -70,7 +70,7 @@ double Math_Div64(double numerator, double denominator) {
         exponent = 0;
         shift++;
     }
-    quotient = Math_Shift64(quotient, 1, shift);
+    quotient = Math_Shift64(1, quotient, shift);
     quotient.hi &= 0xffefffff;
 
     if (exponent >= 0x7ff) {
