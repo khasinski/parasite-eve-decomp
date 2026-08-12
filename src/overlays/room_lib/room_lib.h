@@ -2342,10 +2342,17 @@ typedef struct RoomClock {
     short h8;                     /* 0x08 */
     short hA;                     /* 0x0A */
     short hC;                     /* 0x0C: current tick */
+    char padE[0x2];
+    unsigned char renderOwner;   /* 0x10 */
 } RoomClock;
 
 extern RoomClock *func_800C2B50();
 extern int func_800C6B90(void *position, int radius);
+extern void func_800C2EAC(u8 owner);
+extern void func_800C2FF0(s32 width, s32 height);
+extern void func_800C3098(s32 depth);
+extern void func_800C3238(s32 mode);
+extern void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, s32 mode);
 
 #define ROOMLIB_FX_SHIMMER(name) \
     void name(int a, RoomStatePair *st, RoomFxParams *c) { \
@@ -2389,6 +2396,48 @@ typedef struct RoomPartVec {
     unsigned short z;
     short pad6;
 } RoomPartVec;
+
+typedef struct RoomSpritePacket {
+    unsigned char header[0xA];
+    unsigned short depth;
+} RoomSpritePacket;
+
+extern short D_800942EC;
+extern RoomSpritePacket D_80190F90;
+extern RoomSpritePacket D_801926E8;
+extern RoomSpritePacket D_80194700;
+extern RoomSpritePacket D_80194898;
+extern RoomSpritePacket D_80195600;
+
+typedef struct RoomParticleRenderState {
+    RoomSpriteMatrix matrix;      /* 0x00 */
+    RoomPartVec position[6];      /* 0x20 */
+    char pad50[0x3C];
+    unsigned short depth[6];      /* 0x8C */
+    short active[6];              /* 0x98 */
+} RoomParticleRenderState;
+
+#define ROOMLIB_RENDER_PARTICLE_DEPTHS(name, packetObj, frameY) \
+    void name(int unused, void *state, RoomParticleRenderState *fx) { \
+        RoomClock *clock = func_800C2B50(); \
+        unsigned int i; \
+        func_800C2EAC(clock->renderOwner); \
+        func_800C2FF0(0x10, 0x10); \
+        func_800C3098(0x10); \
+        func_800C3238(1); \
+        for (i = 0; i < 6; i++) { \
+            if (fx->active[i] == 1) { \
+                fx->matrix.t[0] = (short)fx->position[i].x; \
+                fx->matrix.t[1] = (short)fx->position[i].y; \
+                fx->matrix.t[2] = (short)fx->position[i].z; \
+                packetObj.depth = fx->depth[i]; \
+                func_800C42A4(&packetObj, &fx->matrix, 1); \
+                packetObj.depth = (short)fx->depth[i] >> 2; \
+                fx->matrix.t[1] = frameY; \
+                func_800C42A4(&packetObj, &fx->matrix, 1); \
+            } \
+        } \
+    }
 
 typedef struct RoomPartSys {
     char pad0[0x20];

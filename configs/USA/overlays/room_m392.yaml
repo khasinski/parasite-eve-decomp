@@ -61,7 +61,7 @@ segments:
       - [0xDB0, c, RoomLib_DrawUniformSprite_8018FD98]
       - [0xED4, c, RoomLib_UpdateGroundPulse_8018FEBC]
       - [0xFD8, asm, func_8018FFC0]
-      - [0x1160, asm, func_80190148]
+      - [0x1160, c, RoomLib_RenderParticleDepths_80190148]
       - [0x1270, c, RoomLib_ParticleStep_80190258]
       - [0x134C, c, func_80190334]
       - [0x1354, c, RoomLib_InitB_8019033C]
