@@ -95,11 +95,20 @@ typedef struct FxCommonMotionByte {
     u8 value;
 } FxCommonMotionByte;
 
+typedef struct FxCommonResourceState {
+    s32 active;
+    union {
+        s16 half;
+        s32 word;
+    } current;
+} FxCommonResourceState;
+
 extern s16 D_8019C058;
 extern FxCommonMotionLane D_8019CAB0[10];
 extern FxCommonMotionByte D_801EA268[1];
 extern FxCommonMotionByte D_801EA26C[1];
 extern FxCommonMotionByte D_801EA270[1];
+extern FxCommonResourceState g_FxCommonResourceState __asm__("D_8019C140");
 
 extern s16 D_8019CC50;
 extern FxCommonBucket D_8019CCBC[];
@@ -134,6 +143,9 @@ int func_80078B38(void);
 void func_8006DFA8(FxCommonShortVec3 *input, int *outA, int *outB);
 void func_800868F0(void *object, int index, int value);
 void func_80086A28(void *object, int index, int value);
+void func_8003746C(int resourceId);
+void func_80038940(int resourceId, int red, int green, int blue);
+void func_800375E0(int resourceId, int mode, s16 *result);
 void func_801941A4(int value);
 void func_80191678(s16 id);
 void func_80191834(FxCommonNode *node);
