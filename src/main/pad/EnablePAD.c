@@ -1,7 +1,4 @@
-typedef void (*PadToggleFunc)(void);
-
-extern PadToggleFunc jtbl_800A34C8;
-extern PadToggleFunc jtbl_800A34CC;
+#include "pe1/psyq_api_internal.h"
 
 void EnablePAD(void)
 {

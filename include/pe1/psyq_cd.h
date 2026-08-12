@@ -124,4 +124,9 @@ typedef struct CdDsReadQueueEntry {
     u_int arg14;
 } CdDsReadQueueEntry;
 
+extern CdDsReadQueueEntry g_CdDsReadQueue[];
+extern int g_CdDsReadIndex;
+extern int g_CdDsReadQueueState;
+extern int g_CdPendingReadCount;
+
 #endif
