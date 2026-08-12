@@ -43,7 +43,7 @@ segments:
       - [0x1A4, asm, func_8018F18C]
       - [0x1AC, asm, func_8018F194]
       - [0x350, asm, func_8018F338]
-      - [0x5EC, asm, func_8018F5D4]
+      - [0x5EC, c, RoomLib_ResetActorMotion_8018F5D4]
       - [0x6D4, c, RoomLib_ResetActorPosition_8018F6BC]
       - [0x810, c, func_8018F7F8]
       - [0x818, asm, func_8018F800]

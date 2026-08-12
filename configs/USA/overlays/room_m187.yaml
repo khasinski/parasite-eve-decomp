@@ -45,7 +45,7 @@ segments:
       - [0x1EC, asm, func_8018F1D4]
       - [0x3B8, c, func_8018F3A0]
       - [0x3C0, c, func_8018F3A8]
-      - [0x3F8, asm, func_8018F3E0]
+      - [0x3F8, c, RoomLib_InitOrbitParticles_8018F3E0]
       - [0x528, asm, func_8018F510]
       - [0x680, asm, func_8018F668]
       - [0x6A0, asm, func_8018F688]
