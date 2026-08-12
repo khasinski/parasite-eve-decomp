@@ -21,13 +21,33 @@ typedef struct FxCommonNode FxCommonNode;
 
 struct FxCommonNode {
     s16 id;
-    u8 pad2[0x5A];
+    s16 type;
+    union {
+        void *payload;
+        struct {
+            s16 variant;
+            s16 subtype;
+            void *payload;
+        } configured;
+    } args;
+    u8 pad0C[0x10];
+    s32 state[4];
+    u8 pad2C[0x06];
+    s16 value32;
+    s16 value34;
+    s16 value36;
+    void *data38;
+    void *data3C;
+    u8 pad40[0x1C];
     s16 bucket;
     u8 pad5E[2];
     FxCommonNode *parent;
     FxCommonNode *previous;
     FxCommonNode *next;
 };
+
+PE1_STATIC_ASSERT(sizeof(FxCommonNode) == sizeof(FxCommonRecord),
+                  fx_common_node_record_size);
 
 typedef struct FxCommonBucket {
     FxCommonNode *head;
