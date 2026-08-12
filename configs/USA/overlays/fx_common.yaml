@@ -51,6 +51,8 @@ segments:
       - [0x2FF8, c, FxCommon_SetMode1]
       - [0x301C, c, FxCommon_SetMode30]
       - [0x3040, asm, fx_common_3040]
+      - [0x48F8, c, FxCommon_InitializeMotionVectors]
+      - [0x49C0, asm, fx_common_49C0]
       - [0x4AC0, c, FxCommon_AdvanceMotionVectors]
       - [0x4B6C, asm, fx_common_4B6C]
       - [0x5118, c, FxCommon_AdjustIntensity]

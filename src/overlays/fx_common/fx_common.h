@@ -104,6 +104,7 @@ typedef struct FxCommonResourceState {
 } FxCommonResourceState;
 
 extern s16 D_8019C058;
+extern FxCommonMotionVec D_8019CAA8[10];
 extern FxCommonMotionLane D_8019CAB0[10];
 extern FxCommonMotionByte D_801EA268[1];
 extern FxCommonMotionByte D_801EA26C[1];
@@ -135,6 +136,8 @@ extern void *volatile D_800BCFA8;
 void func_800868AC(int mode, int arg1);
 void func_800752AC(void *allocation, int size);
 void *func_8006EC6C(void *data, int count);
+void func_8018F55C(int angle, int radius, void *allocation,
+                   FxCommonMotionVec *vector, void *extra);
 int func_8006DF50(void *resource, int arg1, int arg2, int arg3, int enabled);
 void *func_80078A94(void);
 void func_80078E94(void *matrix);
