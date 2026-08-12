@@ -1402,7 +1402,7 @@ segments:
       - [0x6E9D4, asm, pad/PAD_init2]
       - [0x6E9E4, asm, psyq/libapi/SysEnqIntRP]
       - [0x6E9F4, asm, psyq/libapi/SysDeqIntRP]
-      - [0x6EA04, asm, pad/EnablePAD]
+      - [0x6EA04, c, pad/EnablePAD]
       - [0x6EA2C, asm, pad/Pad_DequeueHandler]
       - [0x6EA9C, c, main/gap_pad_Pad_DequeueHandler_tail_6EA9C]
       - [0x6EAA4, asm, pad/Pad_StopHandler]

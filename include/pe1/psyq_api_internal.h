@@ -4,6 +4,7 @@
 typedef signed int s32;
 typedef signed short s16;
 typedef unsigned short u16;
+typedef void (*PadToggleFunc)(void);
 
 typedef struct RootCounter {
     u16 rootCounter;
@@ -18,6 +19,8 @@ typedef struct RootCounter {
 extern volatile RootCounter *D_8009B7D0;
 extern volatile s32 *D_8009B7CC;
 extern s32 D_8009B7D4[4];
+extern PadToggleFunc jtbl_800A34C8;
+extern PadToggleFunc jtbl_800A34CC;
 
 #define _counters D_8009B7D0
 #define _interrupt_status_register D_8009B7CC
