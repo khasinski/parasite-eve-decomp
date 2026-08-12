@@ -39,6 +39,7 @@ segments:
       - [0x1D4C, asm, fx_common_1D4C]
       - [0x2590, c, FxCommon_InitNodeTransform]
       - [0x25EC, asm, fx_common_25EC]
+      - [0x2688, c, FxCommon_RemoveIndex]
       - [0x2750, c, FxCommon_ResetSelection]
       - [0x2764, c, FxCommon_SelectRecord]
       - [0x27CC, c, FxCommon_InsertNode]

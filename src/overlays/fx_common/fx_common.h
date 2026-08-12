@@ -8,6 +8,11 @@ typedef struct FxCommonSelection {
     s16 pad2;
 } FxCommonSelection;
 
+typedef struct FxCommonIndexLink {
+    s16 previous;
+    s16 next;
+} FxCommonIndexLink;
+
 typedef struct FxCommonRecord {
     u8 data[108];
 } FxCommonRecord;
@@ -53,6 +58,10 @@ extern s16 D_8019CC50;
 extern FxCommonBucket D_8019CCBC[];
 extern FxCommonSelection D_801E4A8A[];
 extern FxCommonRecord D_801E4E00[];
+extern s16 D_8019C830[];
+extern s16 D_8019C9D0;
+extern u16 D_8019CBC0;
+extern FxCommonIndexLink D_801E4A88[];
 
 extern u8 D_800B0DCE;
 extern u8 D_800B0DCF;
@@ -65,7 +74,7 @@ extern u8 D_8019C340;
 
 void func_800868AC(int mode, int arg1);
 void func_800752AC(void *allocation, int size);
-void func_80191678(int id);
+void func_80191678(s16 id);
 void func_80191834(FxCommonNode *node);
 void func_8019BF8C(void **buffer);
 
