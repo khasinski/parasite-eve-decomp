@@ -130,6 +130,27 @@ typedef struct DsReadCallbackSlot {
     int reserved[3];
 } DsReadCallbackSlot;
 
+typedef struct CdReadProgressState {
+    int reserved00[2];
+    int sectorSize;
+    int destination;
+    int remainingSectors;
+    int flags;
+    int eventData;
+    int callbackToken;
+    int startVsync;
+    int currentVsync;
+} CdReadProgressState;
+
+typedef void (*CdReadCompleteCallback)(int event, int data);
+
+PE1_STATIC_ASSERT(sizeof(CdReadProgressState) == 0x28,
+                  cd_read_progress_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, sectorSize) == 0x08,
+                  cd_read_progress_sector_size_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, currentVsync) == 0x24,
+                  cd_read_progress_current_vsync_offset);
+
 extern CdDsReadQueueEntry g_CdDsReadQueue[];
 extern int g_CdDsReadIndex;
 extern int g_CdDsReadQueueState;
@@ -138,6 +159,8 @@ extern int g_DsReadCallbackState[3] __asm__("D_800B8AB0");
 extern CdQueuedCmdSlot g_CdQueuedCmdSlots[3] __asm__("D_800A3510");
 extern DsReadCallbackSlot g_DsReadCallbackSlots[8] __asm__("D_800A3610");
 extern int g_DsReadCallbackCursor __asm__("D_800A3690");
+extern CdReadProgressState g_CdReadProgress __asm__("D_8009B6A4");
+extern CdReadCompleteCallback g_CdReadCompleteCallback;
 
 void CdRom_AbortCmd(void);
 void CQ_clear_queue(void *queue);
@@ -154,5 +177,9 @@ void Render_StepParticleNode(void);
 void Render_PlayParticleEffect(void);
 void CdRom_DispatchDsReadyCallback(void);
 void CdRom_PollPendingDsRead(void);
+int VSync(int mode);
+int CdRom_IsBusy();
+int CdRom_IsBusy2();
+void Save_ProcessDataCallback(void);
 
 #endif
