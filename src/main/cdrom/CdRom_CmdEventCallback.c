@@ -24,7 +24,7 @@ void CdRom_CmdEventCallback(int event) {
         value = 0xE;
         if (status == value) {
             value = cmd_state->command.read.commandMode;
-            status = cmd_state->pendingMode;
+            status = cmd_state->pendingParamBytes[0];
             if (((value ^ status) & 0x80) != 0) {
                 cmd_state->command.read.command = 0xF;
                 cmd_state->command.read.status = event_reg;

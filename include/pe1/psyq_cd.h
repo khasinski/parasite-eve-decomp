@@ -66,8 +66,10 @@ typedef struct CdRomSystemState {
 /* View beginning at D_8009B558, four bytes into CdRomSystemState. */
 typedef struct CdRomEventCommandState {
     u_char pendingCommand;
-    u_char pendingMode;
-    u_char reserved02[0x12];
+    u_char pendingParamBytes[4];
+    u_char reserved05[3];
+    u_char *pendingParams;
+    u_char reserved0C[8];
     CdRomCommandState command;
 } CdRomEventCommandState;
 
@@ -97,9 +99,16 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomSystemState, command) == 0x18,
                   cdrom_system_command_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, command) == 0x14,
                   cdrom_event_command_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, pendingParams) == 0x08,
+                  cdrom_event_pending_params_offset);
 
 extern CdRomSystemState g_DsReadSysEnabled;
 extern CdRomCommandState g_CdSeekState;
+extern CdRomEventCommandState g_CdRomEventCommandState
+    __asm__("D_8009B558");
+extern int g_CdRomCmdTimeout __asm__("D_8009B598");
+extern int g_CdRomCmdRetryState __asm__("D_8009B59C");
+extern int g_CdRomCmdLongTimeoutTable[];
 
 typedef struct DsReadyEventWindow {
     u_char eventStatus;
