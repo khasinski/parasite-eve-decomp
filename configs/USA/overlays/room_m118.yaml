@@ -45,7 +45,7 @@ segments:
       - [0x1D4, c, func_8018F1BC]
       - [0x2E0, c, func_8018F2C8]
       - [0x2E8, c, func_8018F2D0]
-      - [0x368, asm, func_8018F350]
+      - [0x368, c, RoomLib_InitPairedEmitterWithSound_8018F350]
       - [0x518, asm, func_8018F500]
       - [0x818, c, func_8018F800]
       - [0x90C, c, func_8018F8F4]
