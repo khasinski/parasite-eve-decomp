@@ -1,5 +1,5 @@
-extern u8 gOrbitSpriteAlpha __asm__("D_80194354");
-extern u16 gOrbitSpriteDepth __asm__("D_8019435A");
+extern u8 ROOMLIB_DRAW_ORBIT_SPRITE_ALPHA;
+extern u16 ROOMLIB_DRAW_ORBIT_SPRITE_DEPTH;
 
 char *func_800C2B50(void);
 void func_800C2EAC(int arg0);
@@ -10,7 +10,8 @@ void func_80071A44(void *arg0, int arg1, int arg2);
 void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C42A4(void *arg0, RoomSpriteMatrix *matrix, int arg2);
 
-void func_80190C0C(void *unused, void *unused2, RoomOrbitSpriteFxParams *fx) {
+void ROOMLIB_DRAW_ORBIT_SPRITE_NAME(
+    void *unused, void *unused2, RoomOrbitSpriteFxParams *fx) {
     RoomSpriteMatrix matrix;
     RoomFxVec4 scratchScale;
     RoomFxVec4 scale;
@@ -37,11 +38,11 @@ void func_80190C0C(void *unused, void *unused2, RoomOrbitSpriteFxParams *fx) {
     scratchScale = scale;
     func_80078CC4(&matrix, &scratchScale);
 
-    drawSlot = &gOrbitSpriteAlpha;
+    drawSlot = &ROOMLIB_DRAW_ORBIT_SPRITE_ALPHA;
     matrix.t[0] = fx->x;
     matrix.t[1] = fx->y;
     matrix.t[2] = fx->z;
     *drawSlot = ((s16)fx->alpha >> 1) << 1;
-    gOrbitSpriteDepth = fx->depth;
+    ROOMLIB_DRAW_ORBIT_SPRITE_DEPTH = fx->depth;
     func_800C42A4(drawSlot - 4, &matrix, 1);
 }
