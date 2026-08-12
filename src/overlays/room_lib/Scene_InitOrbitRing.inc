@@ -1,32 +1,8 @@
 #include "common.h"
 #include "pe1/overlay_math.h"
+#include "scene_orbit_ring.h"
 
 /* CC1_FLAGS: -fno-strength-reduce */
-
-typedef struct SceneOrbitPoint {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad06;
-} SceneOrbitPoint;
-
-typedef struct SceneOrbitDirection {
-    s16 x;
-    s16 pad02;
-    s16 z;
-    s16 pad06;
-} SceneOrbitDirection;
-
-typedef struct SceneOrbitRing {
-    SceneOrbitPoint point[16];
-    SceneOrbitDirection direction[16];
-    s16 radius;
-    s16 height;
-    unsigned char pad104;
-    u8 phase;
-    s16 speed;
-    s16 verticalSpeed;
-} SceneOrbitRing;
 
 typedef struct SceneOrbitAnchor {
     unsigned char pad00[0x18];
@@ -55,7 +31,7 @@ void SCENE_INIT_ORBIT_RING_NAME(int unused0, int unused1, SceneOrbitRing *ring) 
 
     ring->height = 0x80;
     ring->radius = 0x400;
-    ring->verticalSpeed = -0x3C;
+    ring->acceleration = -0x3C;
     ring->phase = 0;
     ring->speed = 0x320;
 }

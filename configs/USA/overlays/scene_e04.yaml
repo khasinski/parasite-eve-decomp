@@ -53,6 +53,7 @@ segments:
       - [0xA74, c, func_8018FA64]
       - [0xA90, c, Scene_InitOrbitRing_8018FA80]
       - [0xB54, asm, scene_e04_A0_CC_1A0_208_454_A90_B54]
+      - [0xDB0, c, Scene_UpdateOrbitRing_8018FDA0]
       - [0xE8C, c, func_8018FE7C]
       - [0xF00, asm, scene_e04_A0_CC_1A0_208_454_F00]
       - [0x1090, c, func_80190080]

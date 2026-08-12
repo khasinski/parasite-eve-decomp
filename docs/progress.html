@@ -2,7 +2,7 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Code bytes decompiled: <b>1252876/3759940 (33.3%)</b> · functions (secondary): <b>8762/11793 (74.3%)</b>. A unit counts when it has no INCLUDE_ASM and no inline/register assembly. Pure C is the target. The full build is byte-identical to retail.</p>
+<p>Code bytes decompiled: <b>1253316/3759940 (33.3%)</b> · functions (secondary): <b>8762/11791 (74.3%)</b>. A unit counts when it has no INCLUDE_ASM and no inline/register assembly. Pure C is the target. The full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
 <tr><td>SLUS_006.62 (main)</td><td>1278/2555</td><td>50.0%</td><td>129228/843348</td><td>15.3%</td></tr>
 <tr><td>boot_display</td><td>1/16</td><td>6.2%</td><td>240/10240</td><td>2.3%</td></tr>
@@ -13,8 +13,8 @@
 <tr><td>scene_e01</td><td>10/19</td><td>52.6%</td><td>760/12768</td><td>6.0%</td></tr>
 <tr><td>scene_e02</td><td>69/96</td><td>71.9%</td><td>4672/25732</td><td>18.2%</td></tr>
 <tr><td>scene_e03</td><td>46/60</td><td>76.7%</td><td>2916/15756</td><td>18.5%</td></tr>
-<tr><td>scene_e04</td><td>15/30</td><td>50.0%</td><td>1496/12176</td><td>12.3%</td></tr>
-<tr><td>scene_e05</td><td>15/30</td><td>50.0%</td><td>1496/12176</td><td>12.3%</td></tr>
+<tr><td>scene_e04</td><td>15/29</td><td>51.7%</td><td>1716/12176</td><td>14.1%</td></tr>
+<tr><td>scene_e05</td><td>15/29</td><td>51.7%</td><td>1716/12176</td><td>14.1%</td></tr>
 <tr><td>scene_e06</td><td>50/65</td><td>76.9%</td><td>2800/15756</td><td>17.8%</td></tr>
 <tr><td>scene_e07</td><td>50/65</td><td>76.9%</td><td>2800/15756</td><td>17.8%</td></tr>
 <tr><td>scene_e08</td><td>110/161</td><td>68.3%</td><td>8536/38540</td><td>22.1%</td></tr>
@@ -35,7 +35,7 @@
 <tr><td>scene_e27</td><td>46/60</td><td>76.7%</td><td>2916/15756</td><td>18.5%</td></tr>
 <tr><td>sys_reset</td><td>17/19</td><td>89.5%</td><td>1620/2048</td><td>79.1%</td></tr>
 <tr><td>room overlays (x162)</td><td>6550/7819</td><td>83.8%</td><td>1055968/2390632</td><td>44.2%</td></tr>
-<tr><td>total</td><td>8762/11793</td><td>74.3%</td><td>1252876/3759940</td><td>33.3%</td></tr>
+<tr><td>total</td><td>8762/11791</td><td>74.3%</td><td>1253316/3759940</td><td>33.3%</td></tr>
 </table>
 <h2>SLUS_006.62 (main) — 986/1353 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
@@ -1573,12 +1573,13 @@
 <tr><td>src/overlays/scene_e03/func_801924DC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e03/func_80192500.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 </table>
-<h2>scene_e04 — 17/17 decompiled files</h2>
+<h2>scene_e04 — 18/18 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/overlays/scene_e04/RoomLib_PlantTable_8018F064.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e04/RoomLib_SetArgs3_80191170.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e04/RoomLib_Spawn6_8018F090.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e04/Scene_InitOrbitRing_8018FA80.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e04/Scene_UpdateOrbitRing_8018FDA0.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e04/Scene_UpdateRisingEffect_8018F848.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e04/func_8018F0BC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e04/func_8018F188.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1593,12 +1594,13 @@
 <tr><td>src/overlays/scene_e04/func_80190080.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e04/func_80191EDC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 </table>
-<h2>scene_e05 — 17/17 decompiled files</h2>
+<h2>scene_e05 — 18/18 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/overlays/scene_e05/RoomLib_PlantTable_8018F064.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e05/RoomLib_SetArgs3_80191170.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e05/RoomLib_Spawn6_8018F090.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e05/Scene_InitOrbitRing_8018FA80.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/overlays/scene_e05/Scene_UpdateOrbitRing_8018FDA0.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e05/Scene_UpdateRisingEffect_8018F848.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e05/func_8018F0BC.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/overlays/scene_e05/func_8018F188.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
