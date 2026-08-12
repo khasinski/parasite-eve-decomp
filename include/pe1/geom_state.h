@@ -90,13 +90,18 @@ typedef struct GeomState {                /* header */
     u8  pad28[4];                         /* +0x28 */
     u16 disp_src_x;                       /* +0x2C */
     u16 disp_src_y;                       /* +0x2E */
-    u8  pad30[8];                         /* +0x30 */
+    s16 clip_min_x;                       /* +0x30 */
+    s16 clip_max_x;                       /* +0x32 */
+    s16 clip_min_y;                       /* +0x34 */
+    s16 clip_max_y;                       /* +0x36 */
     s16 out_disp_x;                       /* +0x38 */
     s16 out_disp_y;                       /* +0x3A */
 } GeomState;
 
 extern GeomState * volatile g_GeomState;
+extern GeomState * volatile D_800B1624;
 
 int Geo_TransformPoint(GeomEntry *entry, int x, int y, int depth);
+int Geo_ClipPoint(int x, int y, int z);
 
 #endif /* PE1_GEOM_STATE_H */

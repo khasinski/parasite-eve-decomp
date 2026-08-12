@@ -2,9 +2,9 @@
 <title>parasite-eve-decomp progress</title>
 <style>body{font:14px/1.5 -apple-system,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:.25rem .5rem;text-align:left}.ok{color:#1a7f37}.no{color:#b35900}h2{margin-top:2rem}</style>
 <h1>parasite-eve-decomp</h1>
-<p>Code bytes decompiled: <b>1251152/3759940 (33.3%)</b> · functions (secondary): <b>8768/11818 (74.2%)</b>. A unit counts when it has no INCLUDE_ASM and no inline/register assembly. Pure C is the target. The full build is byte-identical to retail.</p>
+<p>Code bytes decompiled: <b>1238652/3759940 (32.9%)</b> · functions (secondary): <b>8734/11818 (73.9%)</b>. A unit counts when it has no INCLUDE_ASM and no inline/register assembly. Pure C is the target. The full build is byte-identical to retail.</p>
 <h2>Per binary</h2><table><tr><th>Binary</th><th>Functions</th><th>%</th><th>Code bytes</th><th>%</th></tr>
-<tr><td>SLUS_006.62 (main)</td><td>1293/2555</td><td>50.6%</td><td>137896/843348</td><td>16.4%</td></tr>
+<tr><td>SLUS_006.62 (main)</td><td>1259/2555</td><td>49.3%</td><td>125396/843348</td><td>14.9%</td></tr>
 <tr><td>boot_display</td><td>1/16</td><td>6.2%</td><td>240/10240</td><td>2.3%</td></tr>
 <tr><td>fx_common</td><td>20/65</td><td>30.8%</td><td>2328/53204</td><td>4.4%</td></tr>
 <tr><td>fx_field</td><td>1/3</td><td>33.3%</td><td>944/4096</td><td>23.0%</td></tr>
@@ -35,9 +35,9 @@
 <tr><td>scene_e27</td><td>46/60</td><td>76.7%</td><td>2916/15756</td><td>18.5%</td></tr>
 <tr><td>sys_reset</td><td>17/19</td><td>89.5%</td><td>1620/2048</td><td>79.1%</td></tr>
 <tr><td>room overlays (x162)</td><td>6542/7837</td><td>83.5%</td><td>1047124/2390632</td><td>43.8%</td></tr>
-<tr><td>total</td><td>8768/11818</td><td>74.2%</td><td>1251152/3759940</td><td>33.3%</td></tr>
+<tr><td>total</td><td>8734/11818</td><td>73.9%</td><td>1238652/3759940</td><td>32.9%</td></tr>
 </table>
-<h2>SLUS_006.62 (main) — 1002/1369 decompiled files</h2>
+<h2>SLUS_006.62 (main) — 968/1335 decompiled files</h2>
 <table><tr><th>Translation unit</th><th>Functions</th><th>Status</th></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrAttack.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/akao/AkaoSpuVoice_SetAdsrDecayRate.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -214,15 +214,11 @@
 <tr><td>src/main/battle/BattleCmd_SetCurrentMP.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/BattleCmd_SyncActiveAmmo.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/BattleCmd_UndoPending.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
-<tr><td>src/main/battle/Battle_AdvanceTurnSlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_BeginPlayerAction.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/battle/Battle_ClearMotionTable.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/battle/Battle_CopyPadStateToRecord.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_DispatchEntityEffect.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/battle/Battle_DispatchInit.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_DispatchSpecialAction.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/battle/Battle_DrawATBGauge.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/battle/Battle_FillActionQueue.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_FlushScriptSounds.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/battle/Battle_GetContextField.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_GetEnemyContextField.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
@@ -233,19 +229,14 @@
 <tr><td>src/main/battle/Battle_InitFadeVars.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_ReturnToIdle.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_RollEnemySpawn.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
-<tr><td>src/main/battle/Battle_RollEscapeChance.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_SaveAyaState.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/battle/Battle_SetContextField.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/battle/Battle_SetEntryCoords.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_SetupEnemyAnims.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_SlotFree.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/battle/Battle_StartEnemyAttackEffect.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/battle/Battle_StepEntityDeath.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/battle/Battle_StepScriptEntry.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_SubActionStep.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/battle/Battle_SwapRecords.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Battle_UseItem.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/battle/Entity_AllocSlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Math_IntSqrt.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/Task_SetBattleEntryCoords.c</td><td>11</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/battle/battle.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
@@ -312,6 +303,7 @@
 <tr><td>src/main/engine/FieldEng_Spawn6.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/FieldEng_TurnToward.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/engine/FieldEng_VecToAngle.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
+<tr><td>src/main/engine/Geo_ClipAlternatingArcPoint.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/GsSetOrign.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/Gte_BuildAndLoadRotationMatrix.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/engine/engine_800D4860_D0378.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -652,7 +644,6 @@
 <tr><td>src/main/gpu/SetDefDrawEnv.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/SetDrawMode.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/gpu/SetGraphDebug.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
-<tr><td>src/main/gpu/SetGraphQueue.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/SetLineF2.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/SetPolyF3.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/gpu/SetPolyFT4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -688,13 +679,8 @@
 <tr><td>src/main/item/Inv_BuildFilteredPackedList.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/item/Inv_BuildFilteredPackedListExcluding.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/item/Inv_CanAddActiveListItemToAya.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
-<tr><td>src/main/item/Inv_CheckFreeSlotCapacity.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/Inv_ClearActiveListSlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/item/Inv_CompactActiveListSlots.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/item/Inv_CompareItemsByStatForSort.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/item/Inv_CompareItemsForSort.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/Inv_CountByValue.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/item/Inv_FindFirstEmptySlot.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/Inv_FindIndexByData.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/item/Inv_FindItemById.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/item/Inv_GetActiveListItem.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -747,11 +733,6 @@
 <tr><td>src/main/main/Battle_ApplySpellEffect.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Battle_BuildTargetList.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Battle_DrawSpellName.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
-<tr><td>src/main/main/Battle_DrawStatusValue.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Battle_FinalizeAttackResult.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Battle_Init.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Battle_LayoutStatusPrimRow.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Battle_SortTargets.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Battle_StartDeathAnim.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Battle_SyncEnemyAttributes.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Boot_MemCardStepInit.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
@@ -766,15 +747,9 @@
 <tr><td>src/main/main/Entity_WriteFieldByCmd.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Geo_BuildMeshList.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Geo_ClipPoint.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
-<tr><td>src/main/main/Geo_TransformPoint.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Inv_CheckSlotUsable.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Inv_SetDefaultItemId.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Inv_TransferItem.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
-<tr><td>src/main/main/Math_Add64WithShift.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Math_Div64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Math_Mul64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Math_Shift64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/main/Math_Sqrt64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Menu_StepColorSelect.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/Menu_StepParasiteScreen.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/main/Menu_StepSaveSelect.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
@@ -822,13 +797,7 @@
 <tr><td>src/main/main/gap_psyq_libgte_smp_04_tail_69AFC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/gap_psyq_libspu_SpuStart_tail_6D9CC.c</td><td>0</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/main/misc19.c</td><td>3</td><td><span class=no>not pure C</span></td></tr>
-<tr><td>src/main/math/Math_Add64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/math/Math_Cmp64Pair.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/math/Math_DoubleToInt32.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/Math_FixedMul.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
-<tr><td>src/main/math/Math_Int32ToDouble.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/math/Math_Mul32To64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/math/Math_Neg64.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/math/Math_SqrtApprox3.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/math/math_fixed.c</td><td>4</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/memcard/CardObj_AdvanceReadLayout.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
@@ -1212,7 +1181,6 @@
 <tr><td>src/main/psyq/libgte/LoadAverage0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/LoadAverage12.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/LoadAverageByte.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/LoadAverageCol.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/LoadAverageShort0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/LoadAverageShort12.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/Lzc.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
@@ -1221,7 +1189,6 @@
 <tr><td>src/main/psyq/libgte/RotTransPers4.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/Square0.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/Square12.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
-<tr><td>src/main/psyq/libgte/cmb_06.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/cmb_07.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/psyq/libgte/geo_00.c</td><td>2</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/geo_01.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
@@ -1238,7 +1205,6 @@
 <tr><td>src/main/psyq/libgte/reg12.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/psyq/libgte/reg13.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/psyq/libgte/smp_02.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
-<tr><td>src/main/psyq/libgte/smp_03.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libgte/smp_04.c</td><td>1</td><td><span class=no>not pure C</span></td></tr>
 <tr><td>src/main/psyq/libsnd/ssinit.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>
 <tr><td>src/main/psyq/libspu/SpuInit.c</td><td>1</td><td><span class=ok>decompiled</span></td></tr>

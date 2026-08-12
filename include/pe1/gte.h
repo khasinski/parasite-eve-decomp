@@ -1,6 +1,8 @@
 #ifndef PE1_GTE_H
 #define PE1_GTE_H
 
+int rcos(int angle);
+
 /*
  * PSY-Q-style GTE operations.  Keep these macros limited to COP2 state and
  * commands; the calling function owns all normal CPU-side algorithmic work.
