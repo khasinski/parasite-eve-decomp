@@ -274,7 +274,7 @@ overlay-split: overlay-extract
 	@$(PY) -m splat split $(OVERLAY_CFG)
 
 overlay-build: overlay-split
-	@find $(OVERLAY_ASM_DIR) -path '*/matchings/*' -prune -o -name '*.s' -print | while read asm; do \
+	@find $(OVERLAY_ASM_DIR) \( -path '*/matchings/*' -o -path '*/nonmatchings/*' \) -prune -o -name '*.s' -print | while read asm; do \
 	    obj="$(OVERLAY_BUILD)/$$asm.o"; \
 	    mkdir -p "$$(dirname "$$obj")"; \
 	    $(AS) -EL -G0 -mips4 -32 -no-pad-sections -Iinclude -I$(OVERLAY_ASM_DIR) \
