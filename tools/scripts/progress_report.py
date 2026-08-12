@@ -1176,7 +1176,7 @@ def count_c_file(path: pathlib.Path, seen: set[pathlib.Path] | None = None) -> i
 
     text = path.read_text(errors="ignore")
     count = count_funcs(strip_include_asm(text))
-    for include in re.findall(r'^\s*#include\s+"([^"]+\.c)"', text, re.M):
+    for include in re.findall(r'^\s*#include\s+"([^"]+(?:\.c|\.func\.inc))"', text, re.M):
         count += count_c_file(path.parent / include, seen)
     return count
 
