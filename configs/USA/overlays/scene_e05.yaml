@@ -47,6 +47,7 @@ segments:
       - [0x454, asm, func_8018F444]
       - [0x560, c, func_8018F550]
       - [0x5E0, asm, scene_e05_A0_CC_1A0_208_454_5E0]
+      - [0x858, c, Scene_UpdateRisingEffect_8018F848]
       - [0x934, c, func_8018F924]
       - [0x988, c, func_8018F978]
       - [0xA74, c, func_8018FA64]
