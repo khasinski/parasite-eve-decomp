@@ -64,6 +64,47 @@ typedef struct FxCommonBufferRegion {
     u8 data[0x15F90];
 } FxCommonBufferRegion;
 
+typedef struct FxCommonGradientQuad {
+    u32 tag;
+    u8 color0[4];
+    s16 x0;
+    s16 y0;
+    u8 color1[4];
+    s16 x1;
+    s16 y1;
+    u8 color2[4];
+    s16 x2;
+    s16 y2;
+    u8 color3[4];
+    s16 x3;
+    s16 y3;
+} FxCommonGradientQuad;
+
+typedef struct FxCommonDrawModePacket {
+    u32 tag;
+    u32 command;
+} FxCommonDrawModePacket;
+
+typedef union FxCommonPacketCursor {
+    FxCommonGradientQuad quad;
+    struct {
+        FxCommonDrawModePacket packet;
+        u8 pad08[0x1C];
+    } mode;
+} FxCommonPacketCursor;
+
+typedef union FxCommonAddress {
+    void *pointer;
+    u32 word;
+} FxCommonAddress;
+
+PE1_STATIC_ASSERT(sizeof(FxCommonGradientQuad) == 0x24,
+                  fx_common_gradient_quad_size);
+PE1_STATIC_ASSERT(sizeof(FxCommonDrawModePacket) == 8,
+                  fx_common_draw_mode_packet_size);
+PE1_STATIC_ASSERT(sizeof(FxCommonPacketCursor) == 0x24,
+                  fx_common_packet_cursor_size);
+
 typedef union FxCommonTransformSeed {
     RoomFxSeed8 room;
     s16 component[4];
@@ -167,6 +208,9 @@ extern void *D_800BCFA4;
 extern void *volatile D_800BCFA8;
 
 void func_800868AC(int mode, int arg1);
+void func_80077BC4(FxCommonGradientQuad *packet);
+void func_80077B04(FxCommonGradientQuad *packet, int enabled);
+void func_80077C84(FxCommonDrawModePacket *packet, int x, int y, int tpage);
 void func_800752AC(void *allocation, int size);
 void *func_8006EC6C(void *data, int count);
 void func_8018F55C(int angle, int radius, void *allocation,
