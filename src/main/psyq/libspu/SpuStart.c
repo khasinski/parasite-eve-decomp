@@ -5,34 +5,36 @@ extern void ExitCriticalSection(void);
 extern s32 OpenEvent(s32, s32, s32, void *);
 extern void EnableEvent(s32);
 extern void _SpuDataCallback(SpuCallback callback);
-extern void _spu_FiDMA(void);
 
-extern s32 D_8009B384;
+typedef struct SpuStartDataPage {
+    s32 event;
+    char reserved04[0x64];
+    s32 called;
+    char reserved6C[0x4C10];
+} SpuStartDataPage;
+
+typedef struct SpuCallbackPage {
+    char reserved00[0x29EC];
+} SpuCallbackPage;
+
+register SpuStartDataPage *g_SpuStartDataPage asm("$1");
+register SpuCallbackPage *g_SpuStartCallbackPage asm("$4");
 
 void SpuStart(void) {
     register s32 event asm("$4");
+    register s32 called asm("$2");
 
     if (_spu_isCalled == 0) {
-        __asm__ volatile(
-            "\t.set\tnoreorder\n"
-            "\t.set\tnomacro\n"
-            "addiu $v0, $zero, 1\n"
-            "lui $1, %hi(D_8009B3EC)\n"
-            "jal EnterCriticalSection\n"
-            "sw $v0, %lo(D_8009B3EC)($1)\n"
-            "\t.set\tmacro\n"
-            "\t.set\treorder\n");
-        _SpuDataCallback(_spu_FiDMA);
+        called = 1;
+        g_SpuStartDataPage = (SpuStartDataPage *)0x800A0000;
+        g_SpuStartDataPage[-1].called = called;
+        EnterCriticalSection();
+        g_SpuStartCallbackPage = (SpuCallbackPage *)0x80080000;
+        _SpuDataCallback((SpuCallback)&g_SpuStartCallbackPage[-1]);
         event = OpenEvent(0xF0000009, 0x20, 0x2000, 0);
-        asm volatile("" : : "r"(event));
-        __asm__ volatile(
-            "\t.set\tnoreorder\n"
-            "\t.set\tnomacro\n"
-            "lui $1, %hi(D_8009B384)\n"
-            "jal EnableEvent\n"
-            "sw $a0, %lo(D_8009B384)($1)\n"
-            "\t.set\tmacro\n"
-            "\t.set\treorder\n");
+        g_SpuStartDataPage = (SpuStartDataPage *)0x800A0000;
+        g_SpuStartDataPage[-1].event = event;
+        EnableEvent(event);
         ExitCriticalSection();
     }
 }
