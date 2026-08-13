@@ -24,8 +24,6 @@ typedef struct {
 
 int Gpu_BuildDrawOffsetCmd(int x, int y);
 
-void Gpu_InitDrawMaskSetPacket(void *arg0, int arg1);
-
 void SetTexWindow(GpuCmdPacket *arg0, int arg1) {
     arg0->u0.head.code = 2;
     arg0->field4 = Gpu_BuildTexWindowCmd(arg1);
@@ -48,11 +46,5 @@ void SetDrawMask(void *arg0, int arg1, int arg2) {
     *(char *)((char *)arg0 + 3) = 2;
     *(unsigned int *)((char *)arg0 + 4) =
         (arg1 ? 0xE6000002 : 0xE6000000) | (arg2 != 0);
-    *(int *)((char *)arg0 + 8) = 0;
-}
-
-void Gpu_InitDrawMaskSetPacket(void *arg0, int arg1) {
-    *(char *)((char *)arg0 + 3) = 2;
-    *(unsigned int *)((char *)arg0 + 4) = arg1 ? 0xE6000001 : 0xE6000000;
     *(int *)((char *)arg0 + 8) = 0;
 }
