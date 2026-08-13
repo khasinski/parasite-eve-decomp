@@ -9,7 +9,12 @@ int CdRom_GetCmdParam(void);
 int Render_BuildParticleFrame(int arg0, int arg1, int arg2, void *arg3, int arg4);
 void CdRom_SeekDoneCallback(void);
 
-extern int D_8009B6EC;
+typedef struct CdRestartSeekPage {
+    int position;
+    char reserved04[0x4910];
+} CdRestartSeekPage;
+
+register CdRestartSeekPage *g_CdRestartSeekPage asm("$1");
 
 int CdRom_RestartSeek(void) {
     int temp_s0;
@@ -19,7 +24,8 @@ int CdRom_RestartSeek(void) {
 
     DsSyncCallback(0);
     temp_v0 = CdPosToInt(CdRom_GetCurrentPosPtr());
-    D_8009B6EC = temp_v0;
+    g_CdRestartSeekPage = (CdRestartSeekPage *)0x800A0000;
+    g_CdRestartSeekPage[-1].position = temp_v0;
     cmd_mode = CdRom_GetCmdMode();
     temp_s0 = cmd_mode & 0xFF;
     temp_s1 = (int)CdRom_GetCurrentPosPtr();
