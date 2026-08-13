@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -O1 */
 #include "pe1/event.h"
 
 extern s32 D_80094564;
