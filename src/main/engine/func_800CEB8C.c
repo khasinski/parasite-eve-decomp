@@ -1,6 +1,15 @@
 
 typedef signed short s16;
 
+typedef struct ArcPointComponent {
+    s16 value;
+    s16 reserved02;
+} ArcPointComponent;
+
+typedef struct AlternatingArcPoints {
+    ArcPointComponent component[8];
+} AlternatingArcPoints;
+
 int Gte_Atan2(int y, int x);
 int rsin(int angle);
 int rcos(int angle);
@@ -16,7 +25,7 @@ static inline int div4096(int value) {
 int func_800CEB8C(s16 *a, s16 *b, int radius) {
     /* Match note: target reuses $s0 for the angle and then the x offset. */
     register int angle asm("$16");
-    volatile char points[0x20];
+    AlternatingArcPoints points;
     int dx;
     int dz;
     int x;
@@ -28,18 +37,14 @@ int func_800CEB8C(s16 *a, s16 *b, int radius) {
     x = div4096(rsin(angle) * radius);
     z = div4096(rcos(angle) * radius);
 
-    *(volatile s16 *)(points + 0x00) = a[0] - x;
-    *(volatile s16 *)(points + 0x04) = a[2] - z;
-    *(volatile s16 *)(points + 0x08) = a[0] + x;
-    /* Match note: keep stack point writes scalar and in target load-delay order. */
-    asm volatile("");
-    *(volatile s16 *)(points + 0x0C) = a[2] + z;
-    *(volatile s16 *)(points + 0x10) = b[0] - x;
-    asm volatile("");
-    *(volatile s16 *)(points + 0x14) = b[2] - z;
-    *(volatile s16 *)(points + 0x18) = b[0] + x;
-    asm volatile("");
-    *(volatile s16 *)(points + 0x1C) = b[2] + z;
+    points.component[0].value = a[0] - x;
+    points.component[1].value = a[2] - z;
+    points.component[2].value = a[0] + x;
+    points.component[3].value = a[2] + z;
+    points.component[4].value = b[0] - x;
+    points.component[5].value = b[2] - z;
+    points.component[6].value = b[0] + x;
+    points.component[7].value = b[2] + z;
 
-    return func_800C6B20((void *)points);
+    return func_800C6B20(&points);
 }
