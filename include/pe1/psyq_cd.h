@@ -8,6 +8,13 @@ typedef unsigned short u_short;
 typedef unsigned int u_int;
 typedef void (*DsCallback)(void);
 
+typedef struct CdCallbackDataPage {
+    char reserved00[4];
+    int sync;
+    int ready;
+    char reserved0C[0x5044];
+} CdCallbackDataPage;
+
 typedef struct CdlLOC {
     u_char minute;
     u_char second;
@@ -75,6 +82,12 @@ typedef struct CdRomEventCommandState {
 
 PE1_STATIC_ASSERT(sizeof(DsReadStatusBlock) == 0x28,
                   ds_read_status_block_size);
+PE1_STATIC_ASSERT(sizeof(CdCallbackDataPage) == 0x5050,
+                  cd_callback_data_page_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, sync) == 0x04,
+                  cd_callback_data_page_sync_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, ready) == 0x08,
+                  cd_callback_data_page_ready_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadStatusBlock, lastCommand) == 0x0C,
                   ds_read_status_last_command_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadStatusBlock, currentPos) == 0x0E,
