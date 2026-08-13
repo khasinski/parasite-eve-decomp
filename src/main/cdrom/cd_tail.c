@@ -2,6 +2,7 @@
 #include "pe1/psyq_cd.h"
 
 extern int g_CdReadCallback;
+register CdCallbackDataPage *g_CdRomReadCallbackPage asm("$1");
 
 extern void CD_vol(void);
 
@@ -50,6 +51,7 @@ int CdPosToInt(CdlLOC *p) {
 
 int CdRom_SetReadCallback(int callback) {
     int old = g_CdReadCallback;
-    g_CdReadCallback = callback;
+    g_CdRomReadCallbackPage = (CdCallbackDataPage *)0x800A0000;
+    g_CdRomReadCallbackPage[-1].read = callback;
     return old;
 }

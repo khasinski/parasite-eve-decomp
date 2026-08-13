@@ -11,6 +11,12 @@ typedef int (*MemCardStepFn)(void);
 typedef void (*MemCardErrorFn)(int);
 
 extern int g_MemCardCallbackPending;
+typedef struct MemCardCallbackPendingPage {
+    int pending;
+    unsigned char reserved04[0x4870];
+} MemCardCallbackPendingPage;
+
+register MemCardCallbackPendingPage *g_MemCardCallbackPendingPage asm("$1");
 extern int D_8009B75C;
 extern int D_8009B758;
 extern int D_8009B764;
@@ -122,6 +128,7 @@ int MemCard_TimerCallback(void) {
 
 int MemCard_TakeCallback(void) {
     int old = g_MemCardCallbackPending;
-    g_MemCardCallbackPending = 0;
+    g_MemCardCallbackPendingPage = (MemCardCallbackPendingPage *)0x800A0000;
+    g_MemCardCallbackPendingPage[-1].pending = 0;
     return old;
 }
