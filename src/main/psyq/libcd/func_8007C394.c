@@ -15,7 +15,7 @@ int func_8007C394(u8 *ptr) {
     u8 *base;
     int index;
     int i;
-    register int count asm("$2");
+    int count;
     int limit;
     StRingEntry *entry;
     int status;

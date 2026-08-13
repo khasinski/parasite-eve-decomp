@@ -5,8 +5,7 @@ int StopRCnt(unsigned int counter) {
     int offset;
     int mask;
     register InterruptControlRegisters *status asm("$5");
-    register int value asm("$3");
-
+    int value;
     offset = (counter & 0xFFFF) << 2;
     status = D_8009B7CC;
     /* Match the original %hi/%lo indexed mask load without using $at. */
