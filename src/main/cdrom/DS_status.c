@@ -1,4 +1,6 @@
 
+/* CC1_FLAGS: -fno-schedule-insns */
+
 #include "pe1/psyq_cd.h"
 
 extern char D_80011D74[];
