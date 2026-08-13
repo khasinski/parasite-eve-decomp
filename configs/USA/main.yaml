@@ -1500,6 +1500,7 @@ segments:
       - [0x73174, c, memcard/CardObj_SetCommandPayload]
       - [0x731BC, c, main/gap_memcard_card_obj_tail_731BC]
       - [0x731C4, c, memcard/mem_card8]
+      - [0x732DC, c, memcard/MemCard_InitTimerCallbacks]
       - [0x73308, c, memcard/mem_card9_pre]
       - [0x734F0, c, memcard/MemCard_StartCounterIrq]
       - [0x735BC, c, memcard/func_80082DBC]

@@ -7,10 +7,6 @@ extern int g_MemCardPort2DebounceTimer;
 extern void *g_MemCardObjArray;
 extern void (*g_MemCardObjResetFn)(int);
 
-extern void MemCard_TimerCallback(void);
-int MemCard_TimerReadyCallback(void);
-extern void *D_800A5AB4[];
-
 int MemCard_UpdatePortPresence(int arg0) {
     int arg;
     register int *timer_a asm("$18");
@@ -49,15 +45,4 @@ int MemCard_UpdatePortPresence(int arg0) {
         g_MemCardServiceReady = 1;
     }
     return old;
-}
-
-void MemCard_InitTimerCallbacks(void) {
-    void **table;
-
-    table = D_800A5AB4;
-    asm volatile("" : "=r"(table) : "0"(table));
-    table[0] = MemCard_TimerCallback;
-    table[1] = MemCard_TimerReadyCallback;
-    table[-1] = 0;
-    table[2] = 0;
 }
