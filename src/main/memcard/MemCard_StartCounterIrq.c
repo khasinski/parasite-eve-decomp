@@ -6,6 +6,13 @@ extern int D_8009B758;
 extern void (*D_8009B728)(int);
 extern char D_800A5AC0[];
 
+typedef struct MemCardIrqDataPage {
+    int active;
+    char pad_B760[0x48A0];
+} MemCardIrqDataPage;
+
+register MemCardIrqDataPage *g_MemCardIrqDataPage asm("$1");
+
 void EnterCriticalSection(void);
 void ExitCriticalSection(void);
 void ChangeClearRCnt(int, int);
@@ -19,7 +26,8 @@ void MemCard_StartCounterIrq(void) {
     register int counter asm("$4");
     int value;
 
-    D_8009B75C = 0;
+    g_MemCardIrqDataPage = (MemCardIrqDataPage *)0x800B0000;
+    g_MemCardIrqDataPage[-1].active = 0;
     EnterCriticalSection();
     queue = &D_800A5AB0;
     SysDeqIntRP(2, queue);
