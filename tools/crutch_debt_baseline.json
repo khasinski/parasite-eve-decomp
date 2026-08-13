@@ -10,7 +10,7 @@
     "field_macros": 451,
     "gotos": 396,
     "include_asm": 0,
-    "pins": 742,
+    "pins": 743,
     "pointer_integer_casts": 218,
     "postpass": 0,
     "raw_offset_dereferences": 1452,
