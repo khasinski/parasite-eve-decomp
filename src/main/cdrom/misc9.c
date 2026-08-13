@@ -8,7 +8,7 @@ int DsRead_IsBusy(void);
 
 void CdRom_SeekDoneCallback(unsigned char arg0) {
     if (arg0 == 2) {
-        DsSyncCallback(CdRom_AsyncCallback);
+        DsSyncCallback((void (*)(void))0x80081E70);
     }
 }
 
