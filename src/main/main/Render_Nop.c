@@ -5,6 +5,13 @@ extern int D_800C0DBC;
 extern int D_800C20C4;
 extern u8 *D_800C0DC8;
 
+typedef struct RenderRingIndexPage {
+    int index;
+    char reserved04[0x1610];
+} RenderRingIndexPage;
+
+register RenderRingIndexPage *g_RenderRingIndexPage asm("$1");
+
 int Render_Nop(void **out0, void **out1) {
     void **out0_reg;
     void **out1_reg;
@@ -17,7 +24,8 @@ int Render_Nop(void **out0, void **out1) {
 
     out1_reg = out1;
     if (*(u16 *)entry == 1) {
-        D_800BE9EC = 0;
+        g_RenderRingIndexPage = (RenderRingIndexPage *)0x800C0000;
+        g_RenderRingIndexPage[-1].index = 0;
         if (D_800C0DBC != 0) {
             *(u16 *)entry = 0;
         }
