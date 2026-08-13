@@ -14,7 +14,8 @@ typedef struct CdCallbackDataPage {
     int ready;
     int reserved0C;
     int read;
-    char reserved14[0x503C];
+    int status;
+    char reserved18[0x5038];
 } CdCallbackDataPage;
 
 typedef struct CdlLOC {
@@ -92,6 +93,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, ready) == 0x08,
                   cd_callback_data_page_ready_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, read) == 0x10,
                   cd_callback_data_page_read_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, status) == 0x14,
+                  cd_callback_data_page_status_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadStatusBlock, lastCommand) == 0x0C,
                   ds_read_status_last_command_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadStatusBlock, currentPos) == 0x0E,
