@@ -8,7 +8,7 @@
     "directives": 3,
     "externs_in_c": 3508,
     "field_macros": 451,
-    "gotos": 396,
+    "gotos": 395,
     "include_asm": 0,
     "pins": 751,
     "pointer_integer_casts": 218,

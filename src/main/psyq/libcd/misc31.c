@@ -39,9 +39,6 @@ int CD_getsector(u32 arg0, u32 arg1) {
     *g_CdRegDmaControl = 0x11400100;
     readback = *g_CdRegDmaControl;
 
-    goto done;
-
-done:
     return 0;
 }
 
