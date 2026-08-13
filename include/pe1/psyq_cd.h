@@ -159,6 +159,14 @@ typedef struct DsReadCallbackSlot {
     int reserved[3];
 } DsReadCallbackSlot;
 
+typedef struct CdCallbackDataWindow {
+    int syncCallback;
+    u_char pad_AFB8[0x5048];
+} CdCallbackDataWindow;
+
+PE1_STATIC_ASSERT(sizeof(CdCallbackDataWindow) == 0x504C,
+                  cd_callback_data_window_size);
+
 typedef struct CdReadProgressState {
     int reserved00[2];
     int sectorSize;

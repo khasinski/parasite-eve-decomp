@@ -1,9 +1,12 @@
 /* CC1_FLAGS: -fno-schedule-insns */
 
+#include "pe1/psyq_cd.h"
+
 extern int CD_cw(int arg0, void *arg1, int arg2, int arg3);
 extern int D_8009AF2C[];
 extern int D_8009AFB4;
 extern unsigned char D_8009AFC4;
+register CdCallbackDataWindow *g_CdCallbackDataWindow asm("$1");
 
 int func_8007A60C(int arg0, void *arg1) {
     void *arg1_reg;
@@ -31,7 +34,8 @@ int func_8007A60C(int arg0, void *arg1) {
     minus_one = -1;
 
     do {
-        D_8009AFB4 = 0;
+        g_CdCallbackDataWindow = (CdCallbackDataWindow *)0x800A0000;
+        g_CdCallbackDataWindow[-1].syncCallback = 0;
         if (cmd == one) {
             goto maybe_queue;
         }
