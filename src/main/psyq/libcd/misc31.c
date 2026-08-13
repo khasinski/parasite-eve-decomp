@@ -11,6 +11,13 @@ extern volatile u32 *g_CdRegDmaControl;
 
 extern int D_8009B260;
 
+typedef struct CdSectorDataWindow {
+    int status;
+    u8 pad_B264[0x4D9C];
+} CdSectorDataWindow;
+
+register CdSectorDataWindow *g_CdSectorDataWindow asm("$1");
+
 int CD_getsector(u32 arg0, u32 arg1) {
     volatile u32 readback;
     volatile u8 *status;
@@ -39,5 +46,6 @@ done:
 }
 
 void func_8007C130(int arg0) {
-    D_8009B260 = arg0;
+    g_CdSectorDataWindow = (CdSectorDataWindow *)0x800B0000;
+    g_CdSectorDataWindow[-1].status = arg0;
 }
