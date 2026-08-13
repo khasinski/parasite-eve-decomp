@@ -1,21 +1,26 @@
 
 #include "pe1/psyq_cd.h"
 
-extern unsigned int g_DsPollCallback;
+typedef struct DsCallbackSetPage {
+    char reserved00[0x36A0];
+    unsigned int poll;
+    unsigned int sync;
+    unsigned int ready;
+    unsigned int dispatch;
+} DsCallbackSetPage;
 
-extern unsigned int g_DsSyncCallback;
+typedef struct CdCurrentPosPage {
+    char reserved00[0x4A7E];
+} CdCurrentPosPage;
 
-extern unsigned int g_DsReadyCallback;
-
-extern unsigned int g_DsReadDoneCallback;
+register DsCallbackSetPage *g_DsCallbackSetPage asm("$1");
+register CdCurrentPosPage *g_CdCurrentPosPage asm("$2");
 
 extern u32 g_DsReadStatusBlock[];
 
 extern unsigned char g_CdLastCmd;
 
 extern unsigned char g_CdCmdMode;
-
-extern CdlLOC g_CdCurPosPtr;
 
 extern unsigned char g_CdRetryCount;
 
@@ -33,19 +38,23 @@ void CdRom_SendReadyCommand(int result);
 extern int g_CdDiscType;
 
 void CdRom_SetPollCallback(unsigned int value) {
-    g_DsPollCallback = value;
+    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
+    g_DsCallbackSetPage->poll = value;
 }
 
 void CdRom_SetSyncCallback(unsigned int value) {
-    g_DsSyncCallback = value;
+    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
+    g_DsCallbackSetPage->sync = value;
 }
 
 void CdRom_SetReadyCallback(unsigned int value) {
-    g_DsReadyCallback = value;
+    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
+    g_DsCallbackSetPage->ready = value;
 }
 
 void CdRom_SetDispatchCallback(unsigned int value) {
-    g_DsReadDoneCallback = value;
+    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
+    g_DsCallbackSetPage->dispatch = value;
 }
 
 u32 DsSync(u32 mode) {
@@ -71,7 +80,8 @@ int CdRom_GetCmdMode(void) {
 }
 
 CdlLOC *CdRom_GetCurrentPosPtr(void) {
-    return &g_CdCurPosPtr;
+    g_CdCurrentPosPage = (CdCurrentPosPage *)0x800A0000;
+    return (CdlLOC *)&g_CdCurrentPosPage[-1];
 }
 
 int CdRom_GetRetryCount(void) {
