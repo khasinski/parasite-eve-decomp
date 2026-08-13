@@ -31,21 +31,21 @@ void DS_status(void) {
 
     state = &g_DsReadStatusBlock;
     asm volatile("" : "=r"(state) : "0"(state));
-    printf(D_80011D94, state->status, state->command, state->sector);
+    printf((char *)0x80011D94, state->status, state->command, state->sector);
     b0 = ((u_char *)state)[-0x1C];
     b1 = ((u_char *)state)[-0x1B];
     b2 = ((u_char *)state)[-0x1A];
     b3 = ((u_char *)state)[-0x19];
     b4 = ((u_char *)state)[-0x18];
     printf(D_80011DB0, b0, b1, b2, b3, b4);
-    printf(D_80011DD8, state->readyResult);
-    printf(D_80011DF8, state->syncResult);
-    printf(D_80011E0C, g_DsPollCallback, g_DsSyncCallback, g_DsReadyCallback);
+    printf((char *)0x80011DD8, state->readyResult);
+    printf((char *)0x80011DF8, state->syncResult);
+    printf((char *)0x80011E0C, g_DsPollCallback, g_DsSyncCallback, g_DsReadyCallback);
 
     if (DsRead_IsBusy() != 0) {
-        busy = D_80011E3C;
+        busy = (char *)0x80011E3C;
     } else {
-        busy = D_80011E44;
+        busy = (char *)0x80011E44;
     }
-    printf(D_80011E4C, busy);
+    printf((char *)0x80011E4C, busy);
 }
