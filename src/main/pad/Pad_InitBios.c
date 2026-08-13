@@ -1,4 +1,4 @@
-extern int g_InitPadFlag;
+#include "pe1/pad_internal.h"
 
 void Pad_StopHandler(void);
 void EnterCriticalSection(void);

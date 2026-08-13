@@ -2,7 +2,7 @@ int StartPAD2(void);
 void ChangeClearPAD(int value);
 void EnablePAD(void);
 
-extern int g_InitPadFlag;
+#include "pe1/pad_internal.h"
 
 extern void DisablePAD(void);
 extern void StopPAD2(void);
