@@ -28,8 +28,6 @@ extern unsigned char g_CdMode;
 
 extern unsigned char g_CdLastCom;
 
-extern CdlLOC g_CdLastPos;
-
 void StClearRing(void) {
     int arg1 = g_CdStreamRingSize;
 
@@ -71,8 +69,4 @@ int CdMode(void) {
 
 int CdLastCom(void) {
     return g_CdLastCom;
-}
-
-CdlLOC *CdLastPos(void) {
-    return &g_CdLastPos;
 }

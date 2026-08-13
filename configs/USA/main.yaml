@@ -1314,6 +1314,7 @@ segments:
       - [0x6A9E0, asm, psyq/libgte/func_8007A1E0]
       - [0x6AA40, asm, main/gap_psyq_libgte_func_8007A1E0_tail_6AA40]
       - [0x6AA44, c, psyq/libcd/cd2]
+      - [0x6AB54, c, psyq/libcd/CdLastPos]
       - [0x6AB60, c, psyq/libcd/CdReset]
       - [0x6ABCC, c, psyq/libcd/cd3]
       - [0x6AC00, c, psyq/libcd/CdComstr]
