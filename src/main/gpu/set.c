@@ -1,12 +1,7 @@
 #include "common.h"
 
-extern void *memcpy(void *dest, const void *src, unsigned int n);
-extern char g_GpuActiveDispEnv[];
-
 #include "pe1/gpu_callbacks.h"
 #include "pe1/psyq_gpu.h"
-
-extern GpuCallbacks *g_GpuCallbacks;
 
 int Gpu_BuildTexWindowCmd(int arg0);
 
@@ -30,18 +25,6 @@ typedef struct {
 int Gpu_BuildDrawOffsetCmd(int x, int y);
 
 void Gpu_InitDrawMaskSetPacket(void *arg0, int arg1);
-
-void *GetDispEnv(void *arg0) {
-    void *(*fn)(void *, const void *, unsigned int);
-
-    fn = memcpy;
-    fn(arg0, g_GpuActiveDispEnv, 0x14);
-    return arg0;
-}
-
-int Gpu_PollCallback(void) {
-    return g_GpuCallbacks->callback() < 0;
-}
 
 void SetTexWindow(GpuCmdPacket *arg0, int arg1) {
     arg0->u0.head.code = 2;
