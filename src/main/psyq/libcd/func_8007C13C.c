@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -fno-expensive-optimizations */
 #include "common.h"
 
 extern volatile u8 *D_8009B27C;

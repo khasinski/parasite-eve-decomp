@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -fno-schedule-insns2 */
 
 extern int D_8009B75C;
 extern void *D_800A5AB0;
@@ -26,7 +27,7 @@ void MemCard_StartCounterIrq(void) {
     register int counter asm("$4");
     int value;
 
-    g_MemCardIrqDataPage = (MemCardIrqDataPage *)0x800B0000;
+    g_MemCardIrqDataPage = (MemCardIrqDataPage *)0x800A0000;
     g_MemCardIrqDataPage[-1].active = 0;
     EnterCriticalSection();
     queue = &D_800A5AB0;
