@@ -107,6 +107,18 @@ trap 'rm -f "$TMP_I" "$TMP_S" "$TMP_D"' EXIT
 "$CC1" $CC1_FLAGS "$TMP_I" -o "$TMP_S"
 
 MASPSX_EXTRA=()
+# Sony assembled the PsyQ 4.x libraries with a newer ASPSX than the game
+# code; stock maspsx models the difference behind --aspsx-version, so a
+# library TU may pick its vintage the same way it picks its compiler.
+ASPSX_OVERRIDE=$(grep -oE 'MASPSX_FLAGS:.*--aspsx-version=[0-9.]+' "$IN" | grep -oE '[0-9.]+$' || true)
+if [[ -n "$ASPSX_OVERRIDE" ]]; then
+    MASPSX_ASPSX_VERSION="$ASPSX_OVERRIDE"
+fi
+if grep -q 'MASPSX_FLAGS:.*--dont-expand-li' "$IN"; then
+    MASPSX_EXTRA+=(--dont-expand-li)
+elif grep -qE 'MASPSX_FLAGS:.*--expand-li( |$|\*)' "$IN"; then
+    MASPSX_EXTRA+=(--expand-li)
+fi
 if grep -q 'MASPSX_FLAGS:.*--expand-div' "$IN"; then
     MASPSX_EXTRA+=(--expand-div)
 fi
