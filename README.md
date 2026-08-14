@@ -126,9 +126,32 @@ executable, `make build` compiles and links `build/USA/main.exe`, and
 make func-diff FUNC=SomeFunction SRC=src/main/some_file.c
 make permute FUNC=SomeFunction
 make progress          # docs/PROGRESS.md + docs/progress.html + badges
-make expected          # snapshot a byte-verified build for objdiff
-make report            # objdiff-cli report (build/USA/report.json)
 ```
+
+## decomp.dev report
+
+CI publishes an [objdiff](https://github.com/encounter/objdiff) report for
+[decomp.dev](https://decomp.dev) on every push to `main`. The report accounts
+for **every function in every shipped binary** — the main executable
+(including the PsyQ libraries, under their own progress category) and all
+configured overlays. The target side is a fresh disassembly of the retail
+binaries, never a snapshot of our own build, and translation units that only
+exist as generated split assembly are reported with nothing to match — they
+are the remaining work, not progress.
+
+To reproduce it locally:
+
+```sh
+tools/scripts/setup_objdiff.sh              # pinned objdiff-cli
+make build                                  # base: main executable
+make overlay-build-all                      # base: all overlays
+make expected                               # target: retail disassembly
+make objdiff-config                         # objdiff.json from the linker maps
+make report                                 # build/USA/report.json
+```
+
+`objdiff.json` is generated, not committed; run `make objdiff-config` before
+pointing the objdiff GUI at the repository.
 
 ## License
 

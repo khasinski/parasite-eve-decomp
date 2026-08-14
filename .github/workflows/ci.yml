@@ -1,5 +1,8 @@
 name: ci
 
+# decomp.dev only reads workflow runs on the default branch triggered by a
+# push, and only artifacts named <version>_report. Everything else here exists
+# so that the report always measures a real build of every shipped binary.
 on:
   push:
   pull_request:
@@ -21,3 +24,84 @@ jobs:
 
       - name: Run source-only checks
         run: make ci
+
+  build-and-report:
+    # Forks have no access to the assets repository; skipping keeps their
+    # first push green instead of red.
+    if: github.repository == 'khasinski/parasite-eve-decomp'
+    runs-on: ubuntu-latest
+    env:
+      PE_CPP: ${{ github.workspace }}/tools/old-gcc/cpp
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # The build hard-codes the mipsel-none-elf-* binutils names; Ubuntu
+      # ships the same binaries as mipsel-linux-gnu-*.
+      - name: Install cross binutils
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y binutils-mipsel-linux-gnu
+          for tool in as ld nm objcopy objdump readelf; do
+            sudo ln -sf "/usr/bin/mipsel-linux-gnu-$tool" "/usr/local/bin/mipsel-none-elf-$tool"
+          done
+
+      - name: Install the PSX compiler and maspsx
+        run: |
+          tools/scripts/setup_stock_cc1.sh
+          tools/scripts/setup_maspsx.sh
+          tools/scripts/setup_objdiff.sh
+
+      - name: Install Python dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install -r requirements.txt
+
+      - name: Fetch the retail binaries
+        uses: actions/checkout@v4
+        with:
+          repository: khasinski/parasite-eve-assets
+          ssh-key: ${{ secrets.ASSETS_SSH_KEY }}
+          path: .assets
+
+      - name: Place them where the build expects
+        run: |
+          mkdir -p assets/USA original/USA
+          cp .assets/assets/USA/main.exe assets/USA/
+          cp -R .assets/original/USA/overlays original/USA/overlays
+          rm -rf .assets
+
+      - name: Split and build the main executable
+        run: |
+          make split
+          make -j"$(nproc)" build
+
+      # Red only says the stock-toolchain migration is not finished; the
+      # report below still measures every unit honestly. Flip this to a hard
+      # failure once `make check` is green on main.
+      - name: Verify the main executable against the retail SHA-1
+        continue-on-error: true
+        run: make check
+
+      - name: Build every overlay
+        run: make overlay-build-all OVERLAY_JOBS="$(nproc)"
+
+      - name: Verify the overlays against the retail SHA-1s
+        continue-on-error: true
+        run: make overlay-check-all
+
+      - name: Generate the target objects and the progress report
+        run: |
+          make expected
+          make objdiff-config
+          make report
+
+      - name: Publish the progress report
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: SLUS_006.62_report
+          path: build/USA/report.json

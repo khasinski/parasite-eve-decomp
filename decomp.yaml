@@ -1,0 +1,14 @@
+name: Parasite Eve
+repo: https://github.com/khasinski/parasite-eve-decomp
+platform: psx
+versions:
+  - name: usa
+    fullname: USA (SLUS-006.62) Disc 1
+    sha1: 452fb033f2eaa4b18aa20a5bca60b8125af3a37b
+    paths:
+      target: assets/USA/main.exe
+      build_dir: build/USA
+      map: build/USA/main.map
+      compiled_target: build/USA/main.exe
+      elf: build/USA/main.elf
+      asm: asm/USA/main

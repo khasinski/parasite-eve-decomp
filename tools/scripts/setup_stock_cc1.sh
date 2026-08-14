@@ -15,5 +15,12 @@ curl -fsSL -o "$tmp/cc1.tar.gz" "$REL/$ASSET"
 tar xzf "$tmp/cc1.tar.gz" -C "$tmp"
 cp "$(find "$tmp" -name cc1 -type f | head -1)" "$ROOT/tools/old-gcc/cc1"
 chmod +x "$ROOT/tools/old-gcc/cc1"
+# The same release ships the matching preprocessor; cc.sh reads it from
+# PE_CPP, and a cpp from any other gcc would predefine different macros.
+cpp_bin="$(find "$tmp" -name cpp -type f | head -1)"
+if [[ -n "$cpp_bin" ]]; then
+    cp "$cpp_bin" "$ROOT/tools/old-gcc/cpp"
+    chmod +x "$ROOT/tools/old-gcc/cpp"
+fi
 rm -rf "$tmp"
-echo "stock cc1 installed at tools/old-gcc/cc1"
+echo "stock cc1 (and cpp) installed at tools/old-gcc/"
