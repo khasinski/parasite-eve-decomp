@@ -3,12 +3,6 @@
 #include "pe1/psyq_cd.h"
 
 
-int CdRom_IsDsReadSystemEnabled(void);
-
-int CdRom_IsDsReadSystemEnabled(void) {
-    return g_DsReadSysEnabled.enabled;
-}
-
 void Util_Copy4(unsigned char *dst, unsigned char *src) {
     int i;
 
