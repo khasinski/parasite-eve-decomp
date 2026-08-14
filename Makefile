@@ -75,7 +75,7 @@ OBJS := $(ASM_OBJS) $(C_OBJS)
 C_DEPS := $(C_OBJS:.o=.o.d)
 -include $(C_DEPS)
 
-.PHONY: expected objdiff-config report all build check check-sources ci verify verify-clean clean diff distclean func-build func-diff func-target overlay-build overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress debt debt-check debt-baseline organization-check organization-baseline test drop-pins drop-barriers drop-aliases proposal-smallest proposal-status room-split-audit split split-if-needed tools
+.PHONY: expected objdiff-config report all build check check-sources ci verify verify-clean clean diff distclean func-build func-diff func-target overlay-build overlay-build-all overlay-check overlay-check-all overlay-clean overlay-extract overlay-func-diff overlay-init overlay-permuter-scratch overlay-split overlay-yaml permute progress debt debt-check debt-baseline organization-check organization-baseline test drop-pins drop-barriers drop-aliases proposal-smallest proposal-status room-split-audit split split-if-needed tools
 
 all: verify
 
@@ -207,17 +207,31 @@ drop-aliases:
 room-split-audit:
 	@$(PY) tools/scripts/audit_room_split.py
 
-# Snapshot the current byte-verified build as objdiff's target objects.
-expected: check
-	@rsync -a --delete build/USA/ expected/build/USA/
-	@echo "expected/build/USA refreshed"
+# Disassemble the retail binaries into objdiff's target objects. This is a
+# fresh second split against an empty source tree - never a copy of our own
+# build, which would compare the build against itself and prove nothing.
+# Needs `make build` for the main map and `make overlay-build-all` for the
+# overlay maps; gen_expected says which modules are missing.
+expected:
+	@$(PY) tools/scripts/gen_expected.py
 
 objdiff-config:
 	@$(PY) tools/scripts/objdiff_config.py
 
-report: objdiff-config
-	@tools/objdiff/objdiff-cli report generate -p . -o build/USA/report.json
-	@echo "wrote build/USA/report.json"
+OBJDIFF ?= tools/objdiff/objdiff-cli
+
+# The report decomp.dev ingests: every function in every shipped binary,
+# each compared against its retail disassembly.
+report:
+	@$(OBJDIFF) report generate -p . -o $(BUILD)/report.json
+	@echo "wrote $(BUILD)/report.json"
+
+# Build every configured overlay; OVERLAY_JOBS bounds the parallel makes.
+OVERLAY_JOBS ?= 4
+overlay-build-all:
+	@test -n "$(OVERLAY_NAMES)" || { echo "no configured overlays in configs/$(VERSION)/overlays"; exit 1; }
+	@printf '%s\n' $(OVERLAY_NAMES) | xargs -P $(OVERLAY_JOBS) -I{} \
+	    sh -c '$(MAKE) --no-print-directory overlay-build OVERLAY={} >/dev/null 2>&1 || { echo "FAIL {}"; exit 1; }'
 
 overlay-permuter-scratch:
 	@$(PY) tools/scripts/make_overlay_permuter_scratch.py \
