@@ -1,32 +1,7 @@
 
 #include "pe1/psyq_cd.h"
 
-typedef struct CdCurrentPosPage {
-    char reserved00[0x4A7E];
-} CdCurrentPosPage;
-
-register CdCurrentPosPage *g_CdCurrentPosPage asm("$2");
-
 extern u32 g_DsReadStatusBlock[];
-
-extern unsigned char g_CdLastCmd;
-
-extern unsigned char g_CdCmdMode;
-
-extern unsigned char g_CdRetryCount;
-
-extern unsigned char g_CdCmdParam;
-
-
-extern void CD_sync(int, int);
-
-void CdRom_Sync(int result);
-
-extern void CD_ready(int, int);
-
-void CdRom_SendReadyCommand(int result);
-
-extern int g_CdDiscType;
 
 u32 DsSync(u32 mode) {
     u32 offset = mode;
@@ -40,41 +15,4 @@ u32 DsSync(u32 mode) {
         : "=r"(result), "=r"(offset)
         : "1"(offset));
     return result;
-}
-
-int CdRom_GetLastCmd(void) {
-    return g_CdLastCmd;
-}
-
-int CdRom_GetCmdMode(void) {
-    return g_CdCmdMode;
-}
-
-CdlLOC *CdRom_GetCurrentPosPtr(void) {
-    g_CdCurrentPosPage = (CdCurrentPosPage *)0x800A0000;
-    return (CdlLOC *)&g_CdCurrentPosPage[-1];
-}
-
-int CdRom_GetRetryCount(void) {
-    return g_CdRetryCount;
-}
-
-int CdRom_GetCmdParam(void) {
-    return g_CdCmdParam;
-}
-
-int CdRom_GetSeekState(void) {
-    return g_CdSeekState.eventStatus;
-}
-
-void CdRom_Sync(int result) {
-    CD_sync(1, result);
-}
-
-void CdRom_SendReadyCommand(int result) {
-    CD_ready(1, result);
-}
-
-int CdRom_GetDiscType(void) {
-    return g_CdDiscType;
 }
