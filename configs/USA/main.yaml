@@ -28,7 +28,7 @@ options:
   asm_data_macro: dlabel
   generate_asm_macros_files: False
 
-  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss", "pad"]
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
 
   symbol_addrs_path:
     - configs/USA/sym.main.txt
@@ -914,7 +914,6 @@ segments:
       - [0x55DD4, c, obj/Obj_ResetAllEntries]
       - [0x55E74, asm, main/Scene_CheckBattleFlag]
       - [0x5610C, c, obj/Obj_SetEntryLimit]
-      - [0x56154, pad]
       - [0x56154, c, sys/Sys_SetFlagSlot]
       - [0x5619C, c, obj/obj]
       - [0x561F8, c, obj/Obj_FillEntrySlotValues]
