@@ -1,23 +1,23 @@
 #include "common.h"
 
-typedef struct RoomM141HistoryEntry {
+typedef struct RoomLibTrailHistoryEntry {
     u32 word0;
     u32 word4;
-} __attribute__((aligned(1), packed)) RoomM141HistoryEntry;
+} __attribute__((aligned(1), packed)) RoomLibTrailHistoryEntry;
 
-typedef struct RoomM141Trigger {
+typedef struct RoomLibTrailTrigger {
     u8 pad00;
     u8 state;
     s16 timer;
-} RoomM141Trigger;
+} RoomLibTrailTrigger;
 
-typedef struct RoomM141TrailCursor {
+typedef struct RoomLibTrailCursor {
     u8 pad00[0x76];
     u16 current;
     u16 next;
-} RoomM141TrailCursor;
+} RoomLibTrailCursor;
 
-typedef union RoomM141Particle {
+typedef union RoomLibTrailParticle {
     struct {
         u8 x[2];
         u8 y[2];
@@ -31,18 +31,19 @@ typedef union RoomM141Particle {
         u8 pad64[0x14];
         u8 trailValues[12];
     } storage;
-    RoomM141HistoryEntry history[6];
+    RoomLibTrailHistoryEntry history[6];
     struct {
         u8 pad00[0x0A];
-        RoomM141TrailCursor cursor;
+        RoomLibTrailCursor cursor;
     } trailView;
-} RoomM141Particle;
+} RoomLibTrailParticle;
 
 extern s16 D_800942EC;
 
-void func_80190470(void *unused, RoomM141Trigger *trigger, RoomM141Particle *object) {
-    RoomM141HistoryEntry *history;
-    register RoomM141TrailCursor *trail asm("$8");
+void ROOMLIB_UPDATE_TRAIL_PARTICLE_NAME(
+    void *unused, RoomLibTrailTrigger *trigger, RoomLibTrailParticle *object) {
+    RoomLibTrailHistoryEntry *history;
+    register RoomLibTrailCursor *trail asm("$8");
     int count;
 
     count = 5;
@@ -53,7 +54,7 @@ void func_80190470(void *unused, RoomM141Trigger *trigger, RoomM141Particle *obj
         history--;
         trail->next = trail->current;
         count--;
-        trail = (RoomM141TrailCursor *)((u8 *)trail - 2);
+        trail = (RoomLibTrailCursor *)((u8 *)trail - 2);
     } while (count != 0);
 
     *(u16 *)object->storage.x += (s16)*(u16 *)object->storage.deltaX >> 8;
