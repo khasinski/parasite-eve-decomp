@@ -1,3 +1,4 @@
+/* AS_MODE: reorder */
 
 
 #include "include_asm.h"
