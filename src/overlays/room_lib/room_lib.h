@@ -52,6 +52,13 @@ typedef struct RoomParticleEmitter {
     void name(void) { \
     }
 
+/* Same empty body, but for handlers this header declares with a RoomEnt
+ * argument - gcc 2.7.2 rejects a (void) definition against that prototype.
+ * The signature changes no bytes; an empty function is jr $ra either way. */
+#define ROOMLIB_RETURN_VOID_ENT(name) \
+    void name(RoomEnt *obj) { \
+    }
+
 #define RW32(o, off) (*(int *)((char *)(o) + (off)))
 #define RW16(o, off) (*(short *)((char *)(o) + (off)))
 #define RW8(o, off)  (*(unsigned char *)((char *)(o) + (off)))
@@ -878,6 +885,7 @@ extern struct FieldActorNode *D_8009D20C;
 extern void RoomLib_AdvanceArcToTarget_80191110(RoomEnt *obj);
 extern void RoomLib_AdvanceArcToTargetY_80191D18(RoomEnt *obj);
 extern int RoomLib_ResetAndSignal_801914B0(RoomEnt *obj);
+extern int RoomLib_Set4ClearSignal_80192510(RoomEnt *obj);
 extern void RoomLib_ArmWindowA_80190D0C(RoomEnt *obj);
 extern void RoomLib_ArmWindowB_80191824(RoomEnt *obj);
 extern void RoomLib_NotifyArmB_8018F598(RoomEnt *obj);
@@ -944,6 +952,7 @@ extern void RoomLib_ArmWindowA_80190D18(RoomEnt *obj);
 extern void RoomLib_ArmWindowA_80190D1C(RoomEnt *obj);
 extern void RoomLib_ArmWindowA_80190D20(RoomEnt *obj);
 extern void RoomLib_ArmWindowA_80190D30(RoomEnt *obj);
+extern void RoomLib_ArmWindowA_80190D48(RoomEnt *obj);
 extern void RoomLib_ArmWindowA_80190D50(RoomEnt *obj);
 extern void RoomLib_ArmWindowA_80190D54(RoomEnt *obj);
 extern void RoomLib_ArmWindowA_80190D5C(RoomEnt *obj);
@@ -988,6 +997,7 @@ extern void func_80193258(RoomEnt *obj);
 extern void func_80193260(RoomEnt *obj);
 extern void func_80195894(RoomEnt *obj);
 extern void RoomLib_ArmWindowB_80191814(RoomEnt *obj);
+extern void RoomLib_ArmWindowB_80191860(RoomEnt *obj);
 extern void func_801902C8(RoomEnt *obj);
 extern void func_801902D4(RoomEnt *obj);
 extern void func_80191814(RoomEnt *obj);
@@ -1019,6 +1029,8 @@ extern void RoomLib_ArmWindowB_80193974(RoomEnt *obj);
 extern void RoomLib_ArmWindowB_80195FA8(RoomEnt *obj);
 extern void func_80191D08(void);
 extern void func_80191D10(void);
+extern void func_80191D54(void);
+extern void func_8019114C(RoomEnt *obj);
 extern void func_80191D14(void);
 extern void func_80191D1C(void);
 extern void func_80191D20(void);
