@@ -1,3 +1,5 @@
+/* CC1_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
 
 #include "pe1/psyq_cd.h"
 

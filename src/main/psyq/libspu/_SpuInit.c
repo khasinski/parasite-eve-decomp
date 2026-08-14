@@ -1,3 +1,6 @@
+/* CC1_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses -fno-schedule-insns -fno-schedule-insns2 */
+
 #include "common.h"
 
 typedef struct SpuVolumeState {
@@ -33,7 +36,6 @@ void _SpuInit(int hot) {
     int i;
     int cdVolume;
     int reset;
-    register int regAddr asm("$4");
     u16 *vol;
     SpuVolumeState *state;
 
@@ -41,7 +43,7 @@ void _SpuInit(int hot) {
     _spu_init(hot);
     reset = 0xC000;
     if (hot == 0) {
-        i = 0x17;
+        i = 23;
         vol = &D_8009B3E6;
         do {
             *vol = reset;
@@ -50,9 +52,7 @@ void _SpuInit(int hot) {
         } while (i >= 0);
     }
     SpuStart();
-    regAddr = 0xD1;
     state = &D_8009B3A0;
-    asm volatile("" : "=r"(state) : "0"(state));
     cdVolume = g_SpuCdInputVolumeTable;
     g_SpuCdAudioMixMode = 0;
     g_SpuCdAudioMixModePrev = 0;
@@ -62,7 +62,7 @@ void _SpuInit(int hot) {
     state->unk8 = 0;
     state->unkC = 0;
     g_SpuCdInputVolume = cdVolume;
-    _spu_FsetRXX(regAddr, cdVolume, 0);
+    _spu_FsetRXX(0xD1, cdVolume, 0);
     _spu_AllocBlockNum = 0;
     _spu_AllocLastNum = 0;
     _spu_memList = 0;

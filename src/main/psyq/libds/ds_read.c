@@ -1,3 +1,5 @@
+/* CC1_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
 
 #include "include_asm.h"
 
@@ -8,7 +10,6 @@ int CdRom_StartRead(CdlLOC *loc, int arg1, int arg2, int mode);
 int Sys_VSyncTimeout(int arg0);
 
 extern int g_DsReadBusy;
-extern int D_8009B70C;
 
 int DsSyncCallback(int callback);
 int DsReadyCallback(int callback);
@@ -33,24 +34,20 @@ void CdRom_ReadDoneCallback(void);
 
 int CdRom_InitAsyncRead(DsCallback callback, int arg1) {
     int *state;
-    int one;
-    int saved_callback;
-    state = &D_8009B70C;
-    one = 1;
-    if (*state == one) {
+
+    state = &g_DsReadBusy;
+    if (*state == 1) {
         return 0;
     }
 
-    saved_callback = (int)callback;
-    asm volatile("" : "=r"(state) : "0"(state));
     state[-8] = -1;
     state[-7] = 0;
     state[-5] = 0;
-    state[-6] = saved_callback;
+    state[-6] = (int)callback;
     state[-4] = arg1;
     state[-3] = DsSyncCallback((int)CdRom_AsyncCallback);
     state[-2] = DsReadyCallback((int)CdRom_ReadDoneCallback);
-    *state = one;
+    *state = 1;
     return 1;
 }
 
@@ -58,7 +55,6 @@ void DsReadBreak(void) {
     int *state;
 
     state = &g_DsReadBusy;
-    asm volatile("" : "=r"(state) : "0"(state));
     if (*state == 1) {
         DsSyncCallback(state[-3]);
         DsReadyCallback(state[-2]);
