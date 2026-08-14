@@ -1,49 +1,37 @@
+/* CC1_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses -fno-schedule-insns */
 #include "common.h"
 
-extern u8 *g_CdRegIndexBase;
-extern u8 *g_CdRegPort1;
-extern u8 *g_CdRegDataWrite;
-extern u8 *g_CdRegResponse;
-extern u16 *volatile D_8009B290;
+extern volatile u8 *g_CdRegIndexBase;
+extern volatile u8 *g_CdRegPort1;
+extern volatile u8 *g_CdRegDataWrite;
+extern volatile u8 *g_CdRegResponse;
+extern volatile u16 *D_8009B290;
 
 int CD_initvol(void) {
-    u8 packet[4];
-    u16 *regs = D_8009B290;
-    int value;
-    int ret = 0;
+    volatile u8 vol[4];
 
-    if (regs[0x1B8 / 2] != 0) {
-        goto set_default;
+    if (D_8009B290[0x1B8 / 2] == 0 && D_8009B290[0x1BA / 2] == 0) {
+        D_8009B290[0x180 / 2] = 0x3FFF;
+        D_8009B290[0x182 / 2] = 0x3FFF;
     }
-    if (regs[0x1BA / 2] != 0) {
-        value = 0x3FFF;
-        goto store_common;
-    }
-    value = 0x3FFF;
-    regs[0x180 / 2] = value;
-    regs[0x182 / 2] = value;
-    regs = D_8009B290;
 
-set_default:
-    value = 0x3FFF;
+    D_8009B290[0x1B0 / 2] = 0x3FFF;
+    D_8009B290[0x1B2 / 2] = 0x3FFF;
+    D_8009B290[0x1AA / 2] = 0xC001;
 
-store_common:
-    regs[0x1B0 / 2] = value;
-    regs[0x1B2 / 2] = value;
-    regs[0x1AA / 2] = 0xC001;
-
-    packet[2] = 0x80;
-    packet[0] = 0x80;
-    packet[3] = 0;
-    packet[1] = 0;
+    vol[2] = 0x80;
+    vol[0] = 0x80;
+    vol[3] = 0;
+    vol[1] = 0;
 
     *g_CdRegIndexBase = 2;
-    *g_CdRegDataWrite = packet[0];
-    *g_CdRegResponse = packet[1];
+    *g_CdRegDataWrite = vol[0];
+    *g_CdRegResponse = vol[1];
     *g_CdRegIndexBase = 3;
-    *g_CdRegPort1 = packet[2];
-    *g_CdRegDataWrite = packet[3];
+    *g_CdRegPort1 = vol[2];
+    *g_CdRegDataWrite = vol[3];
     *g_CdRegResponse = 0x20;
 
-    return ret;
+    return 0;
 }

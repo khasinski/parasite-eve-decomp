@@ -1,4 +1,4 @@
-
+/* CC1_VERSION: 2.8.1 */
 #include "pe1/psyq_cd.h"
 
 int CdPosToInt_Local(CdlLOC *p);
@@ -9,12 +9,10 @@ extern CdlLOC D_800A3490;
 extern int D_800A3494;
 
 int StGetBackloc(CdlLOC *arg0) {
-    CdlLOC *saved_arg = arg0;
-
     if (D_800A8020 != 0) {
         return -1;
     }
 
-    CdIntToPos_Local(CdPosToInt_Local((CdlLOC *)0x800A3490) + 1, saved_arg);
+    CdIntToPos_Local(CdPosToInt_Local(&D_800A3490) + 1, arg0);
     return D_800A3494;
 }
