@@ -1,4 +1,3 @@
-/* AS_MODE: reorder */
 extern int g_CdReadyCallback;
 
 int CdReadyCallback(int callback) {

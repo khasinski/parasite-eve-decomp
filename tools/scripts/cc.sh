@@ -106,22 +106,6 @@ trap 'rm -f "$TMP_I" "$TMP_S" "$TMP_D"' EXIT
 "$CPP" $CPP_FLAGS "$IN" -o "$TMP_I"
 "$CC1" $CC1_FLAGS "$TMP_I" -o "$TMP_S"
 
-# Sony assembled the PsyQ libraries with ASPSX in reorder mode, which fills
-# branch and jr delay slots with assembler-macro halves exactly the way GNU
-# as reorder mode does; maspsx deliberately reproduces the game's ASPSX
-# noreorder behavior instead and appends a nop after every branch. A library
-# TU opts into the plain assembler with an `AS_MODE: reorder` comment.
-if grep -q 'AS_MODE: reorder' "$IN"; then
-    # GNU as expands the move alias to `or`; ASPSX expanded it to `addu`.
-    # Spell it out so the assembler has no alias left to choose.
-    sed -E 's/^	move	([^,]+),(.+)$/	addu	\1,\2,$0/' "$TMP_S" > "$TMP_S.reorder"
-    "$AS" -EL "$AS_G_FLAG" -march=r3000 -mtune=r3000 -no-pad-sections \
-        -I "$ROOT" -I "$ROOT/include" -o "$OUT" "$TMP_S.reorder"
-    rm -f "$TMP_S.reorder"
-    mv "$TMP_D" "$OUT.d"
-    exit 0
-fi
-
 MASPSX_EXTRA=()
 if grep -q 'MASPSX_FLAGS:.*--expand-div' "$IN"; then
     MASPSX_EXTRA+=(--expand-div)

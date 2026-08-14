@@ -1,4 +1,3 @@
-/* AS_MODE: reorder */
 extern int g_CdStreamMask;
 extern int D_800B6918;
 extern int g_CdStreamEndSector;

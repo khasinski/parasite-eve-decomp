@@ -1,4 +1,3 @@
-/* AS_MODE: reorder */
 extern int D_800C0DB8;
 extern int g_StrDataReadyCallback;
 extern int D_800A801C;

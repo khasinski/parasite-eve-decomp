@@ -1,4 +1,3 @@
-/* AS_MODE: reorder */
 void CD_flush(void);
 
 extern int g_CdReadCallback;

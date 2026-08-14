@@ -1,4 +1,3 @@
-/* AS_MODE: reorder */
 /* CC1_FLAGS: -fno-schedule-insns */
 #include "pe1/psyq_cd.h"
 

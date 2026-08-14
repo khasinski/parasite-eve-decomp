@@ -1,4 +1,3 @@
-/* AS_MODE: reorder */
 /* CC1_FLAGS: -fno-expensive-optimizations */
 extern volatile int g_VSyncCount;
 extern char D_800116FC[];
