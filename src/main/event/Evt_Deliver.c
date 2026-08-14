@@ -1,4 +1,3 @@
-/* CC1_FLAGS: -O1 */
 #include "pe1/event.h"
 
 extern s32 D_80094564;
@@ -14,11 +13,13 @@ s32 Evt_Deliver(s32 arg0, s32 arg1) {
     register s32 event301 asm("$2") = 0x21;
 
     D_80094564 = arg0;
-    g_EvtDeliverDataPage = (EvtDeliverDataPage *)0x80090000;
-    g_EvtDeliverDataPage->value = arg1;
-
-    if (arg0 == event301) {
-        goto event301;
+    for (;;) {
+        g_EvtDeliverDataPage = (EvtDeliverDataPage *)0x80090000;
+        g_EvtDeliverDataPage->value = arg1;
+        if (arg0 == event301) {
+            goto event301;
+        }
+        break;
     }
     if (arg0 == 0x22) {
         goto event302;
