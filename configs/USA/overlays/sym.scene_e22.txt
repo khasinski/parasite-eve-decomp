@@ -7,3 +7,7 @@ RoomLib_ResetAndSignal_80183108 = 0x80183108; // type:func
 RoomLib_InitTimers_80183174 = 0x80183174; // type:func
 RoomLib_HandlerA = 0x80192290; // type:func
 RoomLib_Set4ClearSignal_8018353C = 0x8018353C; // type:func
+FieldEng_VecToAngle = 0x800DFF80; // absolute:True
+FieldEng_TurnToward = 0x800DFFB8; // absolute:True
+RoomMain_ActorPtr = 0x8009D254; // absolute:True
+RoomMain_RotTable = 0x800966EC; // absolute:True

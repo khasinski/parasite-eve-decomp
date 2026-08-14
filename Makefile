@@ -227,11 +227,15 @@ report:
 	@echo "wrote $(BUILD)/report.json"
 
 # Build every configured overlay; OVERLAY_JOBS bounds the parallel makes.
+# Each overlay logs to build/USA/overlay-build.<name>.log and a failure
+# replays its tail - a parallel build that hides why it failed costs a CI
+# round trip per bug.
 OVERLAY_JOBS ?= 4
-overlay-build-all:
+overlay-build-all: | $(BUILD)
 	@test -n "$(OVERLAY_NAMES)" || { echo "no configured overlays in configs/$(VERSION)/overlays"; exit 1; }
 	@printf '%s\n' $(OVERLAY_NAMES) | xargs -P $(OVERLAY_JOBS) -I{} \
-	    sh -c '$(MAKE) --no-print-directory overlay-build OVERLAY={} >/dev/null 2>&1 || { echo "FAIL {}"; exit 1; }'
+	    sh -c '$(MAKE) --no-print-directory overlay-build OVERLAY={} >$(BUILD)/overlay-build.{}.log 2>&1 \
+	        || { echo "FAIL {}"; tail -40 $(BUILD)/overlay-build.{}.log; exit 1; }'
 
 overlay-permuter-scratch:
 	@$(PY) tools/scripts/make_overlay_permuter_scratch.py \
