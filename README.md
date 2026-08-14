@@ -21,15 +21,17 @@ game and local toolchains.
 
 ## Progress
 
-See [docs/PROGRESS.md](docs/PROGRESS.md) for current per-binary progress
-(regenerate with `make progress`). This README intentionally avoids hardcoded
-function counts, percentages, or byte totals; the generated progress report is
-the source of truth. **Code-byte coverage is the headline metric**; function
-coverage is secondary because short wrappers and overlay handlers otherwise
-dominate the count. A translation unit only counts as decompiled when it is
-decompiled C rather than generated split assembly. Verified builds are
-byte-identical to retail (`make check`, plus overlay checks for touched
-overlays).
+![functions](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkhasinski%2Fparasite-eve-decomp%2Fmain%2Fdocs%2Fbadges%2Ffunctions.json)
+![code](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkhasinski%2Fparasite-eve-decomp%2Fmain%2Fdocs%2Fbadges%2Fcode.json)
+![debt](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkhasinski%2Fparasite-eve-decomp%2Fmain%2Fdocs%2Fbadges%2Fdebt.json)
+
+Progress is measured by objdiff against a disassembly of the retail
+binaries — the same `report.json` CI publishes for decomp.dev. Regenerate
+locally with `make report` and render the badges and per-category table
+with `make progress`. This README intentionally avoids hardcoded numbers.
+A translation unit only counts as decompiled when it is decompiled C
+rather than generated split assembly. Verified builds are byte-identical
+to retail (`make check`, plus overlay checks for touched overlays).
 
 Binary matching is only one quality level. See
 [docs/SOURCE_QUALITY.md](docs/SOURCE_QUALITY.md) for the semantic, crutch-free,
@@ -123,9 +125,9 @@ executable, `make build` compiles and links `build/USA/main.exe`, and
 `make check` verifies its SHA-1 against retail. Useful extras:
 
 ```sh
-make func-diff FUNC=SomeFunction SRC=src/main/some_file.c
+make diff FUNC=SomeFunction
 make permute FUNC=SomeFunction
-make progress          # docs/PROGRESS.md + docs/progress.html + badges
+make progress          # badges + per-category table from build/USA/report.json
 ```
 
 ## decomp.dev report
