@@ -314,7 +314,7 @@ def target_config(module, symbol_file):
 
 
 DIFFER_ALIAS = re.compile(r"^nonmatching\s.*$\n?", re.MULTILINE)
-CODE_LABEL = re.compile(r"^(glabel|endlabel) (\w+)$", re.MULTILINE)
+CODE_LABEL = re.compile(r"^(glabel|endlabel|dlabel|enddlabel) (\w+)$", re.MULTILINE)
 
 
 def strip_differ_aliases(text):
@@ -343,9 +343,14 @@ def retype_data_in_text(text, kinds):
         kind = kinds.get(name)
         if kind is None:
             return match.group(0)
+        opener = macro in ("glabel", "dlabel")
         if kind == "STT_OBJECT":
-            return "%s %s" % ("dlabel" if macro == "glabel" else "enddlabel", name)
-        return ".global %s\n%s:" % (name, name) if macro == "glabel" else ""
+            return "%s %s" % ("dlabel" if opener else "enddlabel", name)
+        # Untyped in the base, so emit the label with no .type and - because
+        # gcc leaves these at size zero while enddlabel would measure them -
+        # no .size either; a sized symbol pairing a sizeless one is the one
+        # shape objdiff refuses to diff at all.
+        return ".global %s\n%s:" % (name, name) if opener else ""
 
     return CODE_LABEL.sub(relabel, text)
 
@@ -438,11 +443,16 @@ def check_coverage(jobs, binary):
     return total, want
 
 
+def committed_symbol_files(config):
+    """symbol_addrs_path as a list; splat accepts a bare string too."""
+    paths = config["options"].get("symbol_addrs_path", [])
+    return [paths] if isinstance(paths, str) else list(paths)
+
+
 def module_symbols(module, config, shared):
     """The symbol file this module's disassembly runs with."""
     table = SymbolTable()
-    committed = config["options"].get("symbol_addrs_path", [])
-    for path in committed:
+    for path in committed_symbol_files(config):
         table.add_file(ROOT / path)
     harvested = harvest(module, config, table)
     if module.name == "main":
@@ -593,7 +603,7 @@ def main(argv=None):
         module = main_module()
         config = yaml.safe_load(module.config.read_text())
         table = SymbolTable()
-        for path in config["options"].get("symbol_addrs_path", []):
+        for path in committed_symbol_files(config):
             table.add_file(ROOT / path)
         harvest(module, config, table)
         linker_symbols(table)

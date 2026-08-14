@@ -54,7 +54,7 @@ unsigned int D_8018F064[] __attribute__((section(".text"))) = {
     0x00000000,
 };
 
-unsigned int jtbl_8018F068[] __attribute__((section(".text"))) = {
+unsigned int D_8018F068[] __attribute__((section(".text"))) = {
     0x00804020, 0x00802040, 0x80195470, 0x8019567C,
     0x80195540, 0x80195548, 0x80195538, 0x8019567C,
     0x801955A8, 0x8019567C, 0x8019567C, 0x8019567C,
@@ -65,7 +65,7 @@ unsigned int jtbl_8018F068[] __attribute__((section(".text"))) = {
     0x80195514, 0x8019567C, 0x8019567C, 0x8019567C,
 };
 
-unsigned int jtbl_8018F0E8[] __attribute__((section(".text"))) = {
+unsigned int D_8018F0E8[] __attribute__((section(".text"))) = {
     0x8019566C, 0x80195674, 0x801961B0, 0x801963BC,
     0x801963BC, 0x801963BC, 0x80196254, 0x801963BC,
     0x80196264, 0x801963BC, 0x801963BC, 0x801963BC,
@@ -77,7 +77,7 @@ unsigned int jtbl_8018F0E8[] __attribute__((section(".text"))) = {
     0x801963BC, 0x801963B0,
 };
 
-unsigned int jtbl_8018F170[] __attribute__((section(".text"))) = {
+unsigned int D_8018F170[] __attribute__((section(".text"))) = {
     0x801963B8, 0x00000000, 0x80196D2C, 0x80196E50,
     0x80196C80, 0x80196E50, 0x80196C74, 0x80196E50,
     0x80196CA0, 0x80196E50, 0x80196E50, 0x80196E50,
@@ -87,7 +87,7 @@ unsigned int jtbl_8018F170[] __attribute__((section(".text"))) = {
     0x80196E44, 0x80196CB0,
 };
 
-unsigned int jtbl_8018F1D8[] __attribute__((section(".text"))) = {
+unsigned int D_8018F1D8[] __attribute__((section(".text"))) = {
     0x80196E50, 0x80196C5C, 0x8019778C, 0x80197968,
     0x80197968, 0x80197968, 0x80197968, 0x80197968,
     0x80197840, 0x80197968, 0x80197968, 0x80197968,

@@ -94,6 +94,17 @@ class DisassemblyRewriteTests(unittest.TestCase):
         self.assertIn(".global Stub\nStub:", out)
         self.assertNotIn("endlabel", out)
 
+    def test_untyped_base_symbols_lose_their_size_too(self):
+        # splat closes a glabel with enddlabel for data in .text; the .size
+        # it would emit pairs a sized symbol against gcc's sizeless one,
+        # which objdiff refuses to diff.
+        text = "glabel Words\n    .word 0\nenddlabel Words\n"
+
+        out = gen_expected.retype_data_in_text(text, {"Words": "STT_NOTYPE"})
+
+        self.assertIn(".global Words\nWords:", out)
+        self.assertNotIn("enddlabel", out)
+
     def test_addresses_below_the_load_address_become_constants_again(self):
         constants = gen_expected.invented_constants(
             "D_7FFFFF = 0x7FFFFF;\nD_80020000 = 0x80020000;\n"
