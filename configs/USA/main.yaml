@@ -1376,7 +1376,7 @@ segments:
       - [0x6D9CC, c, main/gap_psyq_libspu_SpuStart_tail_6D9CC]
       - [0x6D9D4, asm, main/_spu_init]
       - [0x6DC54, asm, psyq/misc32]
-      - [0x6DED0, asm, psyq/spu6]
+      - [0x6DED0, c, psyq/spu6]
       - [0x6E27C, c, psyq/libspu/_spu_Fr]
       - [0x6E2E0, c, psyq/libspu/spu_fsetrxx]
       - [0x6E324, c, psyq/libspu/spu_fsetrxxa]
