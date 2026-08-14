@@ -2,7 +2,7 @@
   "main": {
     "aliases": 17,
     "asm_bodies": 142,
-    "barriers": 227,
+    "barriers": 226,
     "byte_pointer_arithmetic": 285,
     "declaration_overrides": 0,
     "directives": 3,
@@ -10,7 +10,7 @@
     "field_macros": 451,
     "gotos": 395,
     "include_asm": 0,
-    "pins": 760,
+    "pins": 758,
     "pointer_integer_casts": 218,
     "postpass": 0,
     "raw_offset_dereferences": 1452,

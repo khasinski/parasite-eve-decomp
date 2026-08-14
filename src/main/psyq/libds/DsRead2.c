@@ -1,3 +1,4 @@
+/* CC1_VERSION: 2.8.1 */
 
 #include "pe1/psyq_cd.h"
 
@@ -13,7 +14,7 @@ int DsRead2(CdlLOC *pos, int mode) {
     void *saved_data;
     register int saved_mode asm("$16");
     void *saved_sync;
-    register CdlLOC *saved_pos asm("$18");
+    CdlLOC *saved_pos;
     int ret;
 
     saved_pos = pos;
