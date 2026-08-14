@@ -95,5 +95,26 @@ class UnitShapeTests(unittest.TestCase):
         self.assertNotIn("complete", entry["metadata"])
 
 
+class HasmUnitTests(unittest.TestCase):
+    def test_a_hasm_unit_is_a_source_backed_unit(self):
+        entry = objdiff_config.unit(
+            "src/main/psyq/libapi/EnterCriticalSection.s.o",
+            "build/USA/",
+            "main/psyq/libapi/EnterCriticalSection",
+            "main-psyq",
+            "src/main/psyq/libapi/EnterCriticalSection.s",
+            None,
+        )
+
+        self.assertEqual(
+            entry["base_path"],
+            "build/USA/src/main/psyq/libapi/EnterCriticalSection.s.o",
+        )
+        self.assertEqual(
+            entry["metadata"]["source_path"],
+            "src/main/psyq/libapi/EnterCriticalSection.s",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

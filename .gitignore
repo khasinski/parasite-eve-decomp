@@ -24,6 +24,8 @@ __pycache__/
 *.a
 *.elf
 *.s
+# hand-written hasm units live in src/ and are tracked source
+!src/**/*.s
 
 # local reverse-engineering scratch/output
 .cache/

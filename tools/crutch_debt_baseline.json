@@ -6,15 +6,15 @@
     "byte_pointer_arithmetic": 285,
     "declaration_overrides": 0,
     "directives": 3,
-    "externs_in_c": 3503,
+    "externs_in_c": 3506,
     "field_macros": 451,
     "gotos": 395,
     "include_asm": 0,
-    "pins": 758,
+    "pins": 755,
     "pointer_integer_casts": 218,
     "postpass": 0,
     "raw_offset_dereferences": 1452,
-    "statement_expressions": 3,
+    "statement_expressions": 0,
     "unknown_fields": 151
   },
   "overlays": {

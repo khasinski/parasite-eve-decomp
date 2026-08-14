@@ -21,6 +21,9 @@ options:
   gp_value: 0x8009CD70
 
   o_as_suffix: False
+  # Hand-written assembly lives beside the C under src/, not in the
+  # regenerated asm/ tree that every split wipes.
+  hasm_in_src_path: True
   use_legacy_include_asm: False
 
   asm_function_macro: glabel
@@ -1060,8 +1063,8 @@ segments:
       - [0x62F00, asm, main/gap_psyq_libapi_TestEvent_tail_62F00]
       - [0x62F04, asm, psyq/libapi/EnableEvent]
       - [0x62F10, asm, main/gap_psyq_libapi_EnableEvent_tail_62F10]
-      - [0x62F14, asm, psyq/libapi/EnterCriticalSection]
-      - [0x62F24, asm, psyq/libapi/ExitCriticalSection]
+      - [0x62F14, hasm, psyq/libapi/EnterCriticalSection]
+      - [0x62F24, hasm, psyq/libapi/ExitCriticalSection]
       - [0x62F34, asm, psyq/libapi/open]
       - [0x62F40, asm, main/gap_psyq_libapi_open_tail_62F40]
       - [0x62F44, asm, psyq/libapi/lseek]

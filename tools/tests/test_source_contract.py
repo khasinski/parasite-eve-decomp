@@ -73,3 +73,27 @@ class SourceContractTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class HasmContractTests(unittest.TestCase):
+    def test_hasm_subsegments_bind_to_assembly_sources(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            source_root = root / "src"
+            source_root.mkdir()
+            hasm_source = source_root / "stub.s"
+            hasm_source.write_text("glabel stub\n    jr $ra\n")
+
+            config = root / "main.yaml"
+            config.write_text(yaml.safe_dump({
+                "options": {"src_path": str(source_root)},
+                "segments": [{"subsegments": [[0x100, "hasm", "stub"]]}],
+            }))
+
+            missing, extra, untracked = check_c_subseg_sources.source_contract(
+                [config], [source_root], tracked={hasm_source}
+            )
+
+        self.assertEqual(missing, set())
+        self.assertEqual(extra, set())
+        self.assertEqual(untracked, set())

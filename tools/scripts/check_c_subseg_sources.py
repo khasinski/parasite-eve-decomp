@@ -2,9 +2,11 @@
 """Verify the two-way contract between splat manifests and ``src/``.
 
 Every configured C subsegment must have a tracked source, and every C file
-under ``src/main`` or ``src/overlays`` must be configured. Non-matching or
-experimental C belongs under ``candidates/`` so it cannot be compiled, linked,
-or counted as matched accidentally.
+under ``src/main`` or ``src/overlays`` must be configured. The same holds for
+``hasm`` subsegments and their ``.s`` sources - hand-written assembly the
+original programmers never had C for lives in ``src/`` as assembly in its
+final form. Non-matching or experimental C belongs under ``candidates/`` so
+it cannot be compiled, linked, or counted as matched accidentally.
 """
 from __future__ import annotations
 
@@ -29,6 +31,11 @@ def iter_subsegments(config: dict):
             yield from segment.get("subsegments", [])
 
 
+# Subsegment kind -> source suffix. `hasm` is splat's "hand-written assembly
+# kept in src/" type; those sources are as load-bearing as the C.
+SOURCE_KINDS = {"c": ".c", "hasm": ".s"}
+
+
 def configured_source_entries(config_paths=CONFIGS) -> list[pathlib.Path]:
     result = []
     for path in config_paths:
@@ -36,8 +43,9 @@ def configured_source_entries(config_paths=CONFIGS) -> list[pathlib.Path]:
         source_root = ROOT / config["options"]["src_path"]
         for subsegment in iter_subsegments(config):
             if (isinstance(subsegment, list) and len(subsegment) >= 3
-                    and subsegment[1] == "c"):
-                result.append(source_root / f"{subsegment[2]}.c")
+                    and subsegment[1] in SOURCE_KINDS):
+                suffix = SOURCE_KINDS[subsegment[1]]
+                result.append(source_root / f"{subsegment[2]}{suffix}")
     return result
 
 
@@ -53,7 +61,9 @@ def duplicate_configured_sources(config_paths=CONFIGS) -> set[pathlib.Path]:
 def tracked_sources() -> set[pathlib.Path]:
     output = subprocess.check_output(
         ["git", "ls-files", "src/main/*.c", "src/main/**/*.c",
-         "src/overlays/*.c", "src/overlays/**/*.c"],
+         "src/overlays/*.c", "src/overlays/**/*.c",
+         "src/main/*.s", "src/main/**/*.s",
+         "src/overlays/*.s", "src/overlays/**/*.s"],
         cwd=ROOT,
         text=True,
     )
@@ -64,7 +74,8 @@ def filesystem_sources(source_roots=SOURCE_ROOTS) -> set[pathlib.Path]:
     return {
         path
         for source_root in source_roots
-        for path in source_root.rglob("*.c")
+        for suffix in ("*.c", "*.s")
+        for path in source_root.rglob(suffix)
     }
 
 

@@ -310,6 +310,15 @@ def target_config(module, symbol_file):
     options["make_full_disasm_for_code"] = True
     options["disassemble_all"] = True
     options["symbol_addrs_path"] = [str(symbol_file.relative_to(ROOT))]
+    # A hasm unit is hand-written assembly this tree keeps in src/, and splat
+    # leaves those alone. The target side wants every unit disassembled out
+    # of the retail binary, so they go back to being ordinary code here.
+    for segment in config.get("segments", []):
+        if not isinstance(segment, dict):
+            continue
+        for sub in segment.get("subsegments", []):
+            if isinstance(sub, list) and len(sub) > 1 and sub[1] == "hasm":
+                sub[1] = "c"
     return yaml.safe_dump(config, sort_keys=False)
 
 

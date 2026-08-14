@@ -48,11 +48,15 @@ OBJCOPY    := mipsel-none-elf-objcopy
 
 ASM_SRCS := $(shell find $(ASM_DIR) -name '*.s' -not -path '*/matchings/*' -not -path '*/nonmatchings/*' 2>/dev/null)
 C_SRCS   := $(shell find $(SRC_DIR) -name '*.c' 2>/dev/null)
+# Hand-written assembly the original programmers never had C for is kept in
+# src/ as a `hasm` translation unit of its own - assembly is its final form.
+SRC_ASM  := $(shell find $(SRC_DIR) -name '*.s' 2>/dev/null)
 
 ASM_OBJS := $(ASM_SRCS:%.s=$(BUILD)/%.s.o)
 C_OBJS   := $(C_SRCS:%=$(BUILD)/%.o)
+SRC_ASM_OBJS := $(SRC_ASM:%=$(BUILD)/%.o)
 
-OBJS := $(ASM_OBJS) $(C_OBJS)
+OBJS := $(ASM_OBJS) $(C_OBJS) $(SRC_ASM_OBJS)
 
 # Header dependencies are emitted by the stock preprocessor through cc.sh.
 # Without these, editing a shared ABI header can leave stale objects behind
@@ -89,6 +93,11 @@ $(BUILD)/asm/%.s.o: asm/%.s
 $(BUILD)/src/%.c.o: src/%.c | $(BUILD)
 	@mkdir -p $(dir $@)
 	$(CC_WRAPPER) $< $@
+
+# Assemble hand-written hasm units the same way the split asm is assembled.
+$(BUILD)/src/%.s.o: src/%.s | $(BUILD)
+	@mkdir -p $(dir $@)
+	$(AS) -EL -G0 -mips4 -32 -no-pad-sections -Iinclude -I$(ASM_DIR) -o $@ $<
 
 $(BUILD):
 	@mkdir -p $@

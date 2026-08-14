@@ -141,7 +141,10 @@ def module_units(name, config_path, skip):
             continue
         relative = obj[len(build_prefix):]
         if relative.startswith("src/"):
-            site = site_lead + relative[len(src_lead):].removesuffix(".c.o")
+            # <name>.c.o is compiled C; <name>.s.o is a hand-written hasm
+            # unit whose assembly is its final form - both are sources.
+            stem = relative[len(src_lead):].removesuffix(".o")
+            site = site_lead + stem.removesuffix(".c").removesuffix(".s")
             source = relative.removesuffix(".o")
             entry = unit(relative, build_prefix, site, category(relative), source,
                          complete)
