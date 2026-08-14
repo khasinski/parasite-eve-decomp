@@ -1,3 +1,4 @@
+/* CC1_VERSION: 2.8.1 */
 extern int g_CdReadyCallback;
 
 int CdReadyCallback(int callback) {

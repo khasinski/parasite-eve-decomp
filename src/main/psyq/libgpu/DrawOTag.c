@@ -1,5 +1,5 @@
-
-
+/* CC1_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
 #include "include_asm.h"
 typedef unsigned int u32;
 

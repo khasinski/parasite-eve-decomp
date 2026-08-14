@@ -1,3 +1,4 @@
+/* CC1_VERSION: 2.8.1 */
 extern int g_CdStreamMask;
 extern int D_800B6918;
 extern int g_CdStreamEndSector;
