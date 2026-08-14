@@ -59,7 +59,7 @@ segments:
       - [0x10B8, c, func_801900A0]
       - [0x10C0, asm, func_801900A8]
       - [0x1284, asm, func_8019026C]
-      - [0x147C, asm, func_80190464]
+      - [0x147C, c, RoomLib_UpdateTrailParticle_80190464]
       - [0x1558, c, func_80190540]
       - [0x1560, c, RoomLib_PlantTable_80190548]
       - [0x158C, c, RoomLib_Spawn6_80190574]
