@@ -1,42 +1,40 @@
-#include "common.h"
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+typedef unsigned int u32;
 
-extern u8 D_800A32D8[];
-extern struct { char _[16]; } D_800A32D0_o __asm__("D_800A32D0");
+typedef struct SysFileEntry {
+    /* 0x00 */ char *name;
+    /* 0x04 */ unsigned char pad_04[0x30];
+    /* 0x34 */ int hook;
+    /* 0x38 */ unsigned char pad_38[0x18];
+} SysFileEntry; /* size 0x50 */
 
-int strcmp(char *lhs, char *rhs);
+extern int D_800A32D0;
+extern char D_800A32D8[];
 
-#define U32_AT(addr) (*(u32 *)(addr))
-#define PTR_AT(ptr, off) (*(void **)((u8 *)(ptr) + (off)))
-#define D_800A32D0 (*(int (**)(int *result, void *file, void *extra))&D_800A32D0_o)
+int strcmp(const char *s1, const char *s2);
 
-int Sys_FirstFileHookCallback(int *result, void *file, void *extra) {
-    register int *result_reg asm("$18");
-    void *file_reg;
-    void *extra_reg;
-    void *saved_callback;
-    u8 *entry;
-    u8 *end;
+int Sys_FirstFileHookCallback(int *arg0, int arg1, int arg2) {
+    SysFileEntry *entry;
+    SysFileEntry *end0;
+    SysFileEntry *end;
+    int saved;
 
-    result_reg = result;
-    file_reg = file;
-    extra_reg = extra;
-
-    if (*result_reg == 0) {
-        *result_reg = 1;
+    if (*arg0 == 0) {
+        *arg0 = 1;
     }
 
-    entry = (u8 *)U32_AT(0x150);
-    end = entry + ((U32_AT(0x154) / 80) * 0x50);
-    saved_callback = D_800A32D0;
-    while (entry < end) {
-        if (PTR_AT(entry, 0) != 0 && strcmp(PTR_AT(entry, 0), (char *)D_800A32D8) == 0) {
-            PTR_AT(entry, 0x34) = saved_callback;
-            break;
-        }
-        entry += 0x50;
+    entry = *(SysFileEntry **)0x150;
+    saved = D_800A32D0;
+    end0 = entry + (*(u32 *)0x154 / 0x50);
+    if (entry < end0) {
+        end = end0;
+        do {
+            if (entry->name != 0 && strcmp(entry->name, D_800A32D8) == 0) {
+                entry->hook = saved;
+                break;
+            }
+            entry++;
+        } while (entry < end);
     }
 
-    return D_800A32D0(result_reg, file_reg, extra_reg);
+    return ((int (*)(int *, int, int))D_800A32D0)(arg0, arg1, arg2);
 }

@@ -1,118 +1,100 @@
-#include "pe1/psyq_spu_internal.h"
-extern void (*volatile _spu_transferCallback)(void);
-extern int g_SpuDmaDirection;
-extern u16 D_8009B414;
+/* CC1_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
+
+typedef signed int s32;
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef void (*SpuCallback)(void);
+
+typedef struct SpuRegs {
+    /* 0x000 */ unsigned char pad_000[0x1A6];
+    /* 0x1A6 */ volatile u16 transfer_addr;
+    /* 0x1A8 */ volatile u16 transfer_fifo;
+    /* 0x1AA */ volatile u16 spucnt;
+    /* 0x1AC */ unsigned char pad_1AC[2];
+    /* 0x1AE */ volatile u16 transfer_status;
+} SpuRegs;
+
+extern SpuRegs *_spu_RXX;
+extern u16 g_SpuTransferAddr;
+extern s32 g_SpuDmaDirection;
+extern SpuCallback volatile _spu_transferCallback;
 
 void _spu_Fw1ts(void);
-int printf(char *fmt, char *arg);
-void DeliverEvent(unsigned int event, int spec);
+int printf(const char *fmt, ...);
+void DeliverEvent(unsigned int ev, int spec);
 
-extern char D_80011C4C[];
-extern char D_80011C6C[];
-extern char D_80011C80[];
+extern char D_80011C4C[]; /* "SPU:T/O [%s]\n" */
+extern char D_80011C6C[]; /* "wait (wrdy H -> L)" */
+extern char D_80011C80[]; /* "wait (dmaf clear/W)" */
 
-void _spu_FwriteByIO(u16 *src, int size) {
-    SpuRegs *regs;
-    int chunk;
-    int written;
-    int timeout;
-    u16 status;
-    u16 restore_status;
+void _spu_FwriteByIO(u16 *addr, u32 size) {
+    u16 *p = addr;
+    u16 stat0;
+    u16 saved;
+    u16 cnt;
+    long chunk;
+    long k;
+    u32 i;
+    s32 cur;
 
-    regs = _spu_RXX;
-    restore_status = regs->transfer_status & 0x7FF;
-    regs->transfer_addr = D_8009B414;
+    stat0 = _spu_RXX->transfer_status;
+    _spu_RXX->transfer_addr = g_SpuTransferAddr;
+    saved = stat0 & 0x7FF;
     _spu_Fw1ts();
 
     while (size != 0) {
-        if (size < 0x41) {
-            chunk = size;
-        } else {
-            chunk = 0x40;
+        chunk = (size > 0x40) ? 0x40 : size;
+        for (k = 0; k < chunk; k += 2) {
+            _spu_RXX->transfer_fifo = *p++;
         }
-
-        written = 0;
-        while (written < chunk) {
-            regs = _spu_RXX;
-            regs->transfer_fifo = *src++;
-            written += 2;
-        }
-
-        regs = _spu_RXX;
-        regs->spucnt = (regs->spucnt & 0xFFCF) | 0x10;
+        cnt = _spu_RXX->spucnt;
+        *(u16 *)&_spu_RXX->spucnt = (cnt & 0xFFCF) | 0x10;
         _spu_Fw1ts();
-
-        regs = _spu_RXX;
-        if ((regs->transfer_status & 0x400) != 0) {
-            timeout = 1;
-            while (timeout < 0xF01) {
-                regs = _spu_RXX;
-                if ((regs->transfer_status & 0x400) == 0) {
-                    break;
-                }
-                timeout++;
-            }
-            if (timeout >= 0xF01) {
+        i = 0;
+        while (_spu_RXX->transfer_status & 0x400) {
+            i++;
+            if (i > 0xF00) {
                 printf(D_80011C4C, D_80011C6C);
-            }
-        }
-
-        _spu_Fw1ts();
-        _spu_Fw1ts();
-        size -= chunk;
-    }
-
-    regs = _spu_RXX;
-    regs->spucnt &= 0xFFCF;
-    status = regs->transfer_status & 0x7FF;
-    if (status != restore_status) {
-        timeout = 1;
-        while (timeout < 0xF01) {
-            regs = _spu_RXX;
-            status = regs->transfer_status & 0x7FF;
-            if (status == restore_status) {
                 break;
             }
-            timeout++;
         }
-        if (timeout >= 0xF01) {
+        _spu_Fw1ts();
+        size -= chunk;
+        _spu_Fw1ts();
+    }
+
+    cnt = _spu_RXX->spucnt;
+    _spu_RXX->spucnt = cnt & 0xFFCF;
+    i = 0;
+    cur = _spu_RXX->transfer_status & 0x7FF;
+    while (cur != saved) {
+        i++;
+        if (i > 0xF00) {
             printf(D_80011C4C, D_80011C80);
+            return;
         }
+        cur = _spu_RXX->transfer_status & 0x7FF;
     }
 }
 
 void _spu_FiDMA(void) {
-    register SpuRegs *regs asm("$4");
+    u32 i;
 
     if (g_SpuDmaDirection == 0) {
         _spu_Fw1ts();
     }
 
-    regs = _spu_RXX;
-    regs->spucnt &= ~0x30;
-    __asm__ volatile(
-        "\t.set\tnoreorder\n"
-        "\t.set\tnomacro\n"
-        "lhu $v0, 0x1AA($a0)\n"
-        "nop\n"
-        "andi $v0, $v0, 0x30\n"
-        "beq $v0, $zero, 1f\n"
-        "move $v1, $zero\n"
-        "addiu $v1, $v1, 1\n"
-        "0:\n"
-        "sltiu $v0, $v1, 0xF01\n"
-        "beq $v0, $zero, 1f\n"
-        "nop\n"
-        "lhu $v0, 0x1AA($a0)\n"
-        "nop\n"
-        "andi $v0, $v0, 0x30\n"
-        "bne $v0, $zero, 0b\n"
-        "addiu $v1, $v1, 1\n"
-        "1:\n"
-        "\t.set\tmacro\n"
-        "\t.set\treorder\n");
+    _spu_RXX->spucnt &= 0xFFCF;
+    i = 0;
+    while (_spu_RXX->spucnt & 0x30) {
+        i++;
+        if (i > 0xF00) {
+            break;
+        }
+    }
 
-    if (_spu_transferCallback != 0) {
+    if (_spu_transferCallback) {
         _spu_transferCallback();
     } else {
         DeliverEvent(0xF0000009, 0x20);

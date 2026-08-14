@@ -1,22 +1,56 @@
-#include "common.h"
-#define DS_READ_U32(ptr_) \
-    ((unsigned int)((ptr_)[0]) | ((unsigned int)((ptr_)[1]) << 8) | ((unsigned int)((ptr_)[2]) << 16) | ((unsigned int)((ptr_)[3]) << 24))
-#define DS_DIR_ENTRY(i_) ((u8 *)D_800A3CB0 + ((i_) * 0x2C))
-#define DS_CACHE_ENTRY(i_) ((u8 *)D_800A36B0 + ((i_) * 0x18))
+/* CC1_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
 
-int ds_read(int arg0, int arg1, void *arg2);
-int strncmp(char *a, char *b, int n);
-int puts(char *s);
-int printf(char *fmt, ...);
-void *memcpy(void *dst, void *src, int n);
-void *CdIntToPos(int i, void *p);
 
-extern int D_8009AFC0;
-extern int D_8009B6DC;
-extern u8 D_800A36B0[];
-extern u8 D_800A3C8C[];
-extern u8 D_800A3CB0[];
+typedef signed int s32;
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+
+typedef union DsLba {
+    s32 addr;
+    struct {
+        u8 unk0;
+        u8 unk1;
+        u8 unk2;
+        u8 unk3;
+    } i;
+} DsLba;
+
+typedef struct DsLoc {
+    u8 minute;
+    u8 second;
+    u8 sector;
+    u8 track;
+} DsLoc;
+
+extern s32 D_8009AFC0;
+extern s32 D_8009B6DC;
 extern u8 D_800A52B0[];
+
+/* Directory table field views, stride 0x2C. */
+extern s32 D_800A3CB0[];
+extern s32 D_800A3CB4[];
+extern char D_800A3CB8[];
+extern char D_800A3CBC[];
+extern s32 D_800A3C8C[];
+
+/* File table field views, stride 0x18. */
+extern u8 D_800A36B0[];
+extern u8 D_800A36B1[];
+extern u8 D_800A36B2[];
+extern s32 D_800A36B4[];
+extern char D_800A36B8[];
+extern u8 D_800A5AB0[];
+
+int ds_read(int count, int lba, u8 *buf);
+int strncmp(const char *s1, const char *s2, int n);
+int strcmp(const char *s1, const char *s2);
+void *memcpy(char *dst, const char *src, int n);
+char *strcpy(char *dst, const char *src);
+int CdIntToPos(int lba, DsLoc *pos);
+int puts(const char *s);
+int printf(const char *fmt, ...);
 
 extern char D_80011EF8[];
 extern char D_80011F24[];
@@ -27,187 +61,169 @@ extern char D_80011FA0[];
 extern char D_80011FB4[];
 extern char D_80011FD8[];
 extern char D_80011FF8[];
-extern unsigned short D_80012014;
-extern short D_80012018;
-extern signed char D_8001201A;
 extern char D_8001201C[];
 extern char D_80012038[];
 
-int DS_newmedia(void) {
-    u8 *buffer;
-    u8 *entry;
-    u8 *dst;
+s32 DS_newmedia(void) {
+    DsLba lba;
+    u8 *p;
     u8 *end;
-    int count;
-    int sector;
-    int length;
-    int entry_offset;
+    s32 i;
+    s32 off;
 
-    buffer = D_800A52B0;
-    if (ds_read(1, 0x10, buffer) != 1) {
+    if (ds_read(1, 0x10, D_800A52B0) != 1) {
         if (D_8009AFC0 > 0) {
             puts(D_80011EF8);
         }
         return 0;
     }
-
-    if (strncmp((char *)(buffer + 1), D_80011F24, 5) != 0) {
+    if (strncmp((char *)&D_800A52B0[1], D_80011F24, 5) != 0) {
         if (D_8009AFC0 > 0) {
             puts(D_80011F2C);
         }
         return 0;
     }
 
-    sector = DS_READ_U32(buffer + 0x8C);
-    if (ds_read(1, sector, buffer) != 1) {
+    (&lba)->i = ((DsLba *)&D_800A52B0[0x8C])->i;
+    if (ds_read(1, lba.addr, D_800A52B0) != 1) {
         if (D_8009AFC0 > 0) {
-            printf(D_80011F5C, sector);
+            printf(D_80011F5C, lba.addr);
         }
         return 0;
     }
-
-    if (D_8009AFC0 >= 2) {
+    if (D_8009AFC0 > 1) {
         puts(D_80011F80);
     }
 
-    entry = buffer;
-    end = buffer + 0x800;
-    count = 0;
-    while (entry < end && entry[0] != 0) {
-        entry_offset = count * 0x2C;
-        dst = (u8 *)D_800A3CB0 + entry_offset;
-        *(unsigned int *)(dst + 8) = DS_READ_U32(entry + 2);
-        *(unsigned int *)dst = count + 1;
-        *(unsigned int *)(dst + 4) = entry[6];
-        length = entry[0];
-        memcpy(dst + 0xC, entry + 8, length);
-        dst[0xC + length] = 0;
-        entry += length + 8 + (length & 1);
-
-        if (D_8009AFC0 >= 2) {
-            printf(D_80011FA0, *(unsigned int *)(dst + 8), *(unsigned int *)dst,
-                   *(unsigned int *)(dst + 4), dst + 0xC);
+    i = 0;
+    p = D_800A52B0;
+    end = D_800A52B0 + 0x800;
+    while (p < end) {
+        if (p[0] == 0) {
+            break;
         }
-
-        count++;
-        if (count >= 0x80) {
+        off = i * 0x2C;
+        ((DsLba *)(D_800A3CB8 + off))->i = ((DsLba *)&p[2])->i;
+        *(s32 *)((char *)D_800A3CB0 + off) = i + 1;
+        *(s32 *)((char *)D_800A3CB4 + off) = p[6];
+        memcpy(D_800A3CB8 + off + 4, (char *)&p[8], p[0]);
+        (D_800A3CB8 + off + 4)[p[0]] = 0;
+        p += 8 + p[0] + p[0] % 2;
+        if (D_8009AFC0 > 1) {
+            printf(D_80011FA0, *(s32 *)(D_800A3CB8 + off),
+                   *(s32 *)((char *)D_800A3CB0 + off),
+                   *(s32 *)((char *)D_800A3CB4 + off), D_800A3CB8 + off + 4);
+        }
+        if (++i >= 0x80) {
             break;
         }
     }
-
-    if (count < 0x80) {
-        *(unsigned int *)(DS_DIR_ENTRY(count) + 4) = 0;
+    if (i < 0x80) {
+        *(s32 *)((char *)D_800A3CB4 + i * 0x2C) = 0;
     }
 
     D_8009B6DC = 0;
-    if (D_8009AFC0 >= 2) {
-        printf(D_80011FB4, count);
+    if (D_8009AFC0 > 1) {
+        printf(D_80011FB4, i);
     }
-
     return 1;
 }
 
-int strcmp(char *a, char *b);
+s32 DS_searchdir(s32 arg0, char *arg1) {
+    s32 i;
+    char *name;
+    s32 off;
+    s32 v;
 
-extern int D_800A3CB4[];
-extern char D_800A3CBC[];
-
-int DS_searchdir(int dev, char *name) {
-    int saved_dev;
-    register char *saved_name asm("$20");
-    int i;
-    int offset;
-    register char *entry_name asm("$18");
-    int value;
-    saved_dev = dev;
-    saved_name = name;
     i = 0;
-    entry_name = D_800A3CBC;
-    offset = 0;
-    do {
-        value = *(int *)((char *)D_800A3CB4 + offset);
-
-        if (value == 0) {
+    name = D_800A3CBC;
+    off = 0;
+    while (i < 0x80) {
+        v = *(s32 *)((char *)D_800A3CB4 + off);
+        if (v == 0) {
             return -1;
         }
-        if (value == saved_dev) {
-            if (strcmp(saved_name, entry_name) == 0) {
+        if (v == arg0) {
+            if (strcmp(arg1, name) == 0) {
                 return i + 1;
             }
-            entry_name += 0x2C;
-        } else {
-            entry_name += 0x2C;
         }
+        name += 0x2C;
         i++;
-        offset += 0x2C;
-    } while (i < 0x80);
-
+        off += 0x2C;
+    }
     return -1;
 }
 
-int DS_cachefile(int index) {
-    u8 *buffer;
-    u8 *entry;
-    u8 *dst;
-    u8 *end;
-    int count;
-    int offset;
-    int length;
+s32 DS_cachefile(s32 arg0) {
+    DsLba lba;
+    u8 *p;
+    s32 i;
+    s32 off;
+    DsLoc *pos;
+    char *name;
 
-    if (index == D_8009B6DC) {
+    if (arg0 == D_8009B6DC) {
         return 1;
     }
 
-    offset = index * 0x2C;
-    buffer = D_800A52B0;
-    if (ds_read(1, *(int *)(D_800A3C8C + offset), buffer) != 1) {
+    if (ds_read(1, *(s32 *)((char *)D_800A3C8C + arg0 * 0x2C), D_800A52B0) != 1) {
         if (D_8009AFC0 > 0) {
             puts(D_80011FD8);
         }
         return -1;
     }
-
-    if (D_8009AFC0 >= 2) {
+    if (D_8009AFC0 > 1) {
         puts(D_80011FF8);
     }
 
-    entry = buffer;
-    end = buffer + 0x800;
-    count = 0;
-    offset = 0;
-    while (entry < end && entry[0] != 0 && count < 0x40) {
-        dst = D_800A36B0 + offset;
-        CdIntToPos(DS_READ_U32(entry + 2), dst);
-        *(unsigned int *)(dst + 4) = DS_READ_U32(entry + 0xA);
-
-        if (count == 0) {
-            *(unsigned short *)(dst + 8) = D_80012014;
-        } else if (count == 1) {
-            *(short *)(dst + 8) = D_80012018;
-            *(signed char *)(dst + 0xA) = D_8001201A;
-        } else {
-            length = entry[0x20];
-            memcpy(dst + 8, entry + 0x21, length);
-            dst[8 + length] = 0;
-        }
-
-        if (D_8009AFC0 >= 2) {
-            printf(D_8001201C, dst[0], dst[1], dst[2], *(unsigned int *)(dst + 4), dst + 8);
-        }
-
-        offset += 0x18;
-        count++;
-        entry += entry[0];
+    i = 0;
+    off = 0;
+    name = (char *)D_800A36B0 + 8;
+    pos = (DsLoc *)D_800A36B0;
+    p = D_800A52B0;
+    if (p < D_800A52B0 + 0x800) {
+        do {
+            if (p[0] == 0) {
+                break;
+            }
+            (&lba)->i = ((DsLba *)&p[2])->i;
+            CdIntToPos(lba.addr, pos);
+            ((DsLba *)((char *)D_800A36B0 + 4 + off))->i = ((DsLba *)&p[0xA])->i;
+            switch (i) {
+            case 0:
+                strcpy((char *)D_800A36B0 + off + 8, ".");
+                break;
+            case 1:
+                strcpy((char *)D_800A36B0 + off + 8, "..");
+                break;
+            default:
+                memcpy(name, (char *)&p[0x21], p[0x20]);
+                name[p[0x20]] = 0;
+                break;
+            }
+            if (D_8009AFC0 > 1) {
+                printf(D_8001201C, *(u8 *)((char *)D_800A36B0 + off),
+                       *(u8 *)((char *)D_800A36B1 + off),
+                       *(u8 *)((char *)D_800A36B2 + off),
+                       *(s32 *)((char *)D_800A36B4 + off), name);
+            }
+            name += 0x18;
+            off += 0x18;
+            i++;
+            p += p[0];
+            pos = (DsLoc *)((char *)pos + 0x18);
+            if (i >= 0x40) {
+                break;
+            }
+        } while (p < (u8 *)D_800A5AB0);
     }
-
-    D_8009B6DC = index;
-    if (count < 0x40) {
-        DS_CACHE_ENTRY(count)[8] = 0;
+    D_8009B6DC = arg0;
+    if (i < 0x40) {
+        D_800A36B8[i * 0x18] = 0;
     }
-
-    if (D_8009AFC0 >= 2) {
-        printf(D_80012038, count);
+    if (D_8009AFC0 > 1) {
+        printf(D_80012038, i);
     }
-
     return 1;
 }
