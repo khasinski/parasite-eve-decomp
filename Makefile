@@ -273,6 +273,7 @@ overlay-init:
 overlay-split: overlay-extract
 	@test -f $(OVERLAY_CFG) || { echo "missing overlay config: $(OVERLAY_CFG)"; exit 1; }
 	@$(PY) -m splat split $(OVERLAY_CFG)
+	@find $(OVERLAY_ASM_DIR) -name '*.data.s' -o -name '*.rodata.s' | xargs $(PY) tools/scripts/collapse_zero_data.py
 
 overlay-build: overlay-split
 	@find $(OVERLAY_ASM_DIR) \( -path '*/matchings/*' -o -path '*/nonmatchings/*' \) -prune -o -name '*.s' -print | while read asm; do \
