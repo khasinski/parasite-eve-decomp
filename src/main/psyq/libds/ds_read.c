@@ -14,8 +14,6 @@ int DsSyncCallback(int callback);
 int DsReadyCallback(int callback);
 int Render_AllocParticleNode(int com, void *param, void *result, int mode);
 
-extern DsCallback D_8009B708;
-
 int ds_read(int arg0, int arg1, int arg2) {
     CdlLOC loc;
     int status;
@@ -67,14 +65,4 @@ void DsReadBreak(void) {
         Render_AllocParticleNode(9, 0, 0, -1);
     }
     *state = 0;
-}
-
-DsCallback DsReadCallback(DsCallback callback) {
-    DsCallback *slot;
-    DsCallback old;
-
-    slot = &D_8009B708;
-    old = *slot;
-    *slot = callback;
-    return old;
 }

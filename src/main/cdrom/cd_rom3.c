@@ -1,19 +1,10 @@
 
 #include "pe1/psyq_cd.h"
 
-typedef struct DsCallbackSetPage {
-    char reserved00[0x36A0];
-    unsigned int poll;
-    unsigned int sync;
-    unsigned int ready;
-    unsigned int dispatch;
-} DsCallbackSetPage;
-
 typedef struct CdCurrentPosPage {
     char reserved00[0x4A7E];
 } CdCurrentPosPage;
 
-register DsCallbackSetPage *g_DsCallbackSetPage asm("$1");
 register CdCurrentPosPage *g_CdCurrentPosPage asm("$2");
 
 extern u32 g_DsReadStatusBlock[];
@@ -36,26 +27,6 @@ extern void CD_ready(int, int);
 void CdRom_SendReadyCommand(int result);
 
 extern int g_CdDiscType;
-
-void CdRom_SetPollCallback(unsigned int value) {
-    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
-    g_DsCallbackSetPage->poll = value;
-}
-
-void CdRom_SetSyncCallback(unsigned int value) {
-    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
-    g_DsCallbackSetPage->sync = value;
-}
-
-void CdRom_SetReadyCallback(unsigned int value) {
-    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
-    g_DsCallbackSetPage->ready = value;
-}
-
-void CdRom_SetDispatchCallback(unsigned int value) {
-    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
-    g_DsCallbackSetPage->dispatch = value;
-}
 
 u32 DsSync(u32 mode) {
     u32 offset = mode;
