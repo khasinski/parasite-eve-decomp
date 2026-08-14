@@ -47,6 +47,12 @@ if grep -q 'CC1_FLAGS:.*-O1' "$IN"; then
 elif grep -q 'CC1_FLAGS:.*-O3' "$IN"; then
     CC1_FLAGS="${CC1_FLAGS/-O2/-O3}"
 fi
+# 2.8.1 splits lw sym into lui/lw before scheduling and then hoists the
+# lui, wrecking retail block order; this returns it to 2.7.2-style macro
+# loads while keeping the 2.8.1 epilogue.
+if grep -q 'CC1_FLAGS:.*-mno-split-addresses' "$IN"; then
+    CC1_FLAGS="$CC1_FLAGS -mno-split-addresses"
+fi
 if grep -q 'CC1_FLAGS:.*-mdebuga' "$IN"; then
     CC1_FLAGS="$CC1_FLAGS -mdebuga"
 fi

@@ -1,3 +1,5 @@
+/* CC1_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
 
 #include "pe1/psyq_gpu.h"
 
@@ -11,9 +13,6 @@ extern GpuCallbacks *g_GpuCallbacks;
 void checkRECT(char *msg, RECT *rect);
 
 int LoadImage(RECT *rect, u32 *p) {
-    GpuCallbacks *callbacks;
-
     checkRECT(D_800118D4, rect);
-    callbacks = g_GpuCallbacks;
-    return callbacks->addque2(callbacks->u20.dws, rect, 8, p);
+    return g_GpuCallbacks->addque2(g_GpuCallbacks->u20.dws, rect, 8, p);
 }

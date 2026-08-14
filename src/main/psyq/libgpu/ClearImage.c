@@ -1,3 +1,5 @@
+/* CC1_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
 #include "common.h"
 
 #include "pe1/psyq_gpu.h"

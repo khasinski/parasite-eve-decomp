@@ -1,3 +1,5 @@
+/* CC1_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
 
 #include "pe1/psyq_gpu.h"
 
@@ -6,17 +8,15 @@ typedef unsigned int u32;
 #include "pe1/gpu_callbacks.h"
 
 extern char D_800118EC[];
-extern u32 D_800957EC[];
-extern GpuCallbacks *g_GpuCallbacks;
+extern volatile u32 D_800957EC[];
+extern GpuCallbacks * volatile g_GpuCallbacks;
 
 void checkRECT(char *msg, RECT *rect);
 
 int MoveImage(RECT *rect, int x, int y) {
-    register u32 *packet;
+    volatile u32 *packet;
     GpuCallbacks *callbacks;
-    int dst;
     u32 xy;
-    u32 low;
     u32 command;
     u32 wh;
 
@@ -25,10 +25,8 @@ int MoveImage(RECT *rect, int x, int y) {
         return -1;
     }
     if (rect->h != 0) {
-        dst = y << 16;
-        asm volatile("" : "=r"(packet) : "0"(D_800957EC), "r"(dst));
-        low = x & 0xFFFF;
-        command = dst | low;
+        packet = D_800957EC;
+        command = (y << 16) | (x & 0xFFFF);
         xy = *(u32 *)&rect->x;
         callbacks = g_GpuCallbacks;
         packet[1] = command;
