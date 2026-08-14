@@ -167,7 +167,7 @@ segments:
       - [0x9290, c, func_80198280]
       - [0x9298, c, func_80198288]
       - [0x92A0, c, func_80198290]
-      - [0x92DC, asm, func_801982CC]
+      - [0x92DC, c, RoomLib_ArgDispatchRearm_801982CC]
       - [0x9374, c, func_80198364]
       - [0x937C, c, RoomLib_InvokeCallbackC_8019836C]
       - [0x93A4, c, func_80198394]

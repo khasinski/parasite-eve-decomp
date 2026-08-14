@@ -104,7 +104,7 @@ segments:
       - [0x4B80, c, func_80193B70]
       - [0x4B88, c, func_80193B78]
       - [0x4B90, c, RoomLib_InitTimers_80193B80]
-      - [0x4BCC, asm, func_80193BBC]
+      - [0x4BCC, c, RoomLib_ArgDispatchRearm_80193BBC]
       - [0x4C64, c, func_80193C54]
       - [0x4C6C, c, RoomLib_InvokeCallbackC_80193C5C]
       - [0x4C94, c, RoomLib_RearmOnMatch_80193C84]
