@@ -39,3 +39,4 @@ segments:
       - [0xC6C, c, func_8018FC5C]
       - [0xC90, c, fx_field_data]
   - [0x1000]
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/fx_field.bin bs=2048 skip=10994 count=2
