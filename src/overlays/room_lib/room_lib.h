@@ -1346,6 +1346,58 @@ extern void func_800DFB20(void *state);
         return 0; \
     }
 
+/* argument parser variant whose comparison value is stored as the fallback handler */
+#define ROOMLIB_ARG_DISPATCH_REARM_FALLBACK(name, rearm) \
+    int name(RoomEnt *o, int arg1, unsigned int op, int arg3, int sp10, int sp14) { \
+        register int value asm("$2") = 0xA; \
+        if (op == value) { \
+            goto case10; \
+        } \
+        value = op < 0xB; \
+        if (value == 0) { \
+            goto high; \
+        } \
+        value = 4; \
+        if (op == value) { \
+            goto case4; \
+        } \
+        goto store; \
+    high: \
+        value = 0x19; \
+        if (op == value) { \
+            goto case25; \
+        } \
+        value = 0x1C; \
+        if (op == value) { \
+            goto case28; \
+        } \
+        goto store; \
+    case25: \
+        if (arg1 != 1) { \
+            goto done; \
+        } \
+        o->sub.signal = (int *)arg3; \
+        *(int *)arg3 = arg1; \
+        value = 1; \
+        goto store; \
+    case4: \
+        o->pos[0] = arg3; \
+        o->pos[1] = sp10; \
+        o->h44 = sp14; \
+        goto store; \
+    case28: \
+        o->h48 = arg3; \
+        o->h46 = sp10; \
+        goto store; \
+    case10: \
+        value = (int)rearm; \
+    store: \
+        *(volatile unsigned char *)&o->t16 = arg3; \
+        o->sub.cb = (void (*)(void))value; \
+    done: \
+        return 0; \
+    }
+
 
 
 /* rearm default handler when link variant matches t16 */
