@@ -1,3 +1,4 @@
+/* GCC_VERSION: 2.8.1 */
 /* MASPSX_FLAGS: --expand-div */
 
 void SetDQA(int dqa);

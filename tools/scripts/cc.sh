@@ -16,6 +16,11 @@ CPP="${PE_CPP:-$ROOT/tools/psyq-gcc-2.7.2/cpp}"
 # Default cc1: native old-gcc 2.7.2-psx; install it with
 # tools/scripts/setup_stock_cc1.sh if missing.
 CC1="${PE_CC1:-$ROOT/tools/scripts/cc1_stock272psx.sh}"
+# Per-file compiler override: `/* GCC_VERSION: 2.8.1 */` selects the stock
+# gcc-2.8.1 cc1 (fills return delay slots the SN toolchain filled; 2.7.2 does not).
+if [ -z "${PE_CC1:-}" ] && grep -q 'GCC_VERSION:.*2\.8\.1' "$IN"; then
+    CC1="$ROOT/tools/scripts/cc1_stock281psx.sh"
+fi
 MASPSX=("$ROOT/.venv/bin/python" "$ROOT/tools/maspsx/maspsx.py")
 MASPSX_ASPSX_VERSION="${PE_MASPSX_ASPSX_VERSION:-2.56}"
 AS=$(command -v mipsel-none-elf-as)

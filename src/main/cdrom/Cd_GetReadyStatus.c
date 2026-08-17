@@ -1,3 +1,4 @@
+/* GCC_VERSION: 2.8.1 */
 
 int DsSync(int arg0);
 int CdRom_GetPendingReadCount(void);

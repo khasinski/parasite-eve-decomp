@@ -1,3 +1,4 @@
+/* GCC_VERSION: 2.8.1 */
 
 extern int VSync(int arg0);
 extern int CdRom_SendQueuedCmd(int arg0);

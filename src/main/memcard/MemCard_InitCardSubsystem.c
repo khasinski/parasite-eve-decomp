@@ -1,3 +1,4 @@
+/* GCC_VERSION: 2.8.1 */
 
 int ChangeClearPAD(int arg0);
 int EnterCriticalSection(void);

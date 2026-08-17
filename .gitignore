@@ -183,3 +183,4 @@ asm/USA/main/main/*
 
 # room-split WIP parked out of the tracked tree
 wip/
+tools/old-gcc-281/cc1

@@ -1,3 +1,4 @@
+/* GCC_VERSION: 2.8.1 */
 #include "common.h"
 
 #include "include_asm.h"

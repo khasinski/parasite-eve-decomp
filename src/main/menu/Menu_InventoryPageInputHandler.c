@@ -4,9 +4,9 @@
 #include "pe1/menu_inventory.h"
 
 int Menu_InventoryPageInputHandler(MenuWidgetNode *root, u32 flags) {
-    MenuWidgetNode *child;
-    MenuWidgetNode *node;
-    int handled;
+    register MenuWidgetNode *child asm("$16");
+    register MenuWidgetNode *node asm("$17");
+    register int handled asm("$19");
 
     handled = 0;
     child = MenuWidget_GetChild(root, 0);
@@ -30,17 +30,18 @@ int Menu_InventoryPageInputHandler(MenuWidgetNode *root, u32 flags) {
     }
 
     if (flags & 0x1000) {
+        register MenuWidgetNode *node2 asm("$16");
         child->cursor_x = -1;
         if (node == 0) {
-            node = MenuWidget_FindByModeAndSelectedBase(2, 5);
+            node2 = MenuWidget_FindByModeAndSelectedBase(2, 5);
         } else {
-            node = MenuWidget_FindByModeAndSelectedBase(2, 0x1B);
+            node2 = MenuWidget_FindByModeAndSelectedBase(2, 0x1B);
         }
 
-        if (node != 0) {
-            node->cursor_x = 0;
-            node->cursor_y = node->y_limit - 1;
-            MenuWidget_SetCurrentNode(node);
+        if (node2 != 0) {
+            node2->cursor_x = 0;
+            node2->cursor_y = node2->y_limit - 1;
+            MenuWidget_SetCurrentNode(node2);
         }
         Menu_PlayMoveSound();
     }

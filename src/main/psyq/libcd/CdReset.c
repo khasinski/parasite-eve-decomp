@@ -1,3 +1,4 @@
+/* GCC_VERSION: 2.8.1 */
 
 void CD_initintr(void);
 int CD_init(void);

@@ -1,3 +1,4 @@
+/* GCC_VERSION: 2.8.1 */
 #include "common.h"
 
 extern int (*D_8009B72C)(void *obj, int needs_ack);

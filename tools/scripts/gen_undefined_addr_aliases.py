@@ -89,12 +89,17 @@ def main() -> int:
         else:
             missing.append(symbol)
 
-    suspicious = [symbol for symbol in missing if ADDRESS_NAME_RE.match(symbol)]
-    if suspicious:
-        print("ERROR: unresolved address symbols have no known address:")
-        for symbol in suspicious:
-            print(f"  {symbol}")
-        return 1
+    # Address-form names (func_/D_/jtbl_/... followed by an 8-hex address)
+    # encode their own absolute address in the name. When such a symbol is
+    # referenced by a splat-generated `asm` subsegment but defined nowhere and
+    # absent from the catalogue, pin it to the address in its name. This is
+    # tautological (splat names an unnamed symbol by its start address) and
+    # lets an individual C function be flipped to `asm` without the whole
+    # build losing its neighbour references.
+    for symbol in list(missing):
+        if ADDRESS_NAME_RE.match(symbol):
+            pins.append((int(symbol[-8:], 16), symbol))
+            missing.remove(symbol)
 
     lines = [
         "/* Absolute addresses still referenced but defined by no linked object. */",

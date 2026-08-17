@@ -1,3 +1,4 @@
+/* GCC_VERSION: 2.8.1 */
 extern void *memcpy(void *dest, const void *src, unsigned int n);
 extern char g_GpuActiveDispEnv[];
 
