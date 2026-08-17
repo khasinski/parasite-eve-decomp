@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_engine_state.h"
 /* CC1_FLAGS: -fno-schedule-insns */
 
 int FieldEng_GetStatus(char *obj);
@@ -41,20 +42,20 @@ int func_800C251C(char *obj, int (**handlers)(char *obj, void *entry, void *data
     }
 
     for (i = 0; i < 0x40; i++) {
-        u8 *entry = (u8 *)(i * 6 + (int)D_800F34F4);
+        FieldEngSlot *entry = (FieldEngSlot *)(i * 6 + (int)D_800F34F4);
 
-        if ((signed char)entry[1] == 1) {
-            int (*handler)(char *obj, void *entry, void *data) = handlers[entry[0]];
+        if (entry->flag == 1) {
+            int (*handler)(char *obj, void *entry, void *data) = handlers[entry->handler_id];
 
             if (handler != (void *)-1) {
-                handler(obj, entry, D_800F3330 + *(short *)(entry + 4));
+                handler(obj, entry, D_800F3330 + entry->data_offset);
             } else {
                 printf(D_800C20EC);
             }
             {
-                u8 *counter_entry = (u8 *)(i * 6 + (int)D_800F34F4);
+                FieldEngSlot *counter_entry = (FieldEngSlot *)(i * 6 + (int)D_800F34F4);
 
-                *(u16 *)(counter_entry + 2) += 1;
+                counter_entry->counter += 1;
             }
         }
 
@@ -62,7 +63,7 @@ int func_800C251C(char *obj, int (**handlers)(char *obj, void *entry, void *data
             int status_offset = i * 6;
             u8 *status_base = D_800F34F4;
 
-            if ((signed char)((u8 *)(status_offset + (int)status_base))[1] == 2) {
+            if (((FieldEngSlot *)(status_offset + (int)status_base))->flag == 2) {
                 result |= func_800C2DA0((u16)i);
             }
         }

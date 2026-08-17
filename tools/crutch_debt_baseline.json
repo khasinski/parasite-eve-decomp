@@ -3,7 +3,7 @@
     "aliases": 13,
     "asm_bodies": 139,
     "barriers": 196,
-    "byte_pointer_arithmetic": 275,
+    "byte_pointer_arithmetic": 274,
     "declaration_overrides": 0,
     "directives": 3,
     "externs_in_c": 3277,
@@ -13,7 +13,7 @@
     "pins": 717,
     "pointer_integer_casts": 206,
     "postpass": 0,
-    "raw_offset_dereferences": 1449,
+    "raw_offset_dereferences": 1445,
     "statement_expressions": 3,
     "unknown_fields": 125
   },

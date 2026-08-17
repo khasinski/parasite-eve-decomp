@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_engine_state.h"
 extern u8 *D_800F34F4;
 extern char *D_800E2248;
 
@@ -8,7 +9,7 @@ int func_800C2E08(void) {
     register int result asm("$7");
     u32 andMask;
     u32 xorMask;
-    u8 *entry;
+    FieldEngSlot *entry;
 
     result = 0;
     i = 0;
@@ -16,10 +17,10 @@ int func_800C2E08(void) {
     xorMask = 0x01000000;
     offset = 0;
     for (; i < 0x40; i++, offset += 6) {
-        if (((s8 *)(offset + (int)D_800F34F4))[1] != 0) {
+        if (((FieldEngSlot *)(offset + (int)D_800F34F4))->flag != 0) {
             u32 check;
-            entry = (u8 *)((u16)i * 6 + (int)D_800F34F4);
-            entry[1] = 0;
+            entry = (FieldEngSlot *)((u16)i * 6 + (int)D_800F34F4);
+            entry->flag = 0;
             D_800E2248[6]--;
             check = *(u32 *)(D_800E2248 + 4) & andMask;
             asm("xor %0,%0,%3\n\tsltiu %0,%0,1\n\tnegu %0,%0\n\tor %1,%1,%0"
