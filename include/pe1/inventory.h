@@ -13,20 +13,23 @@ enum ItemKind {
 };
 
 /* Common 0x20-byte item-data record returned by Inv_LookupActiveListData.
- * Equipment, consumables and key items reuse the tail differently, so keep
- * the unproven portion generic instead of forcing a single variant's names.
+ * Equipment, consumables and key items reuse the tail differently. The
+ * weapon/armor ("E-Reg") variant is confirmed by the Deconstruction Cheats
+ * Wiki: the record sits 4 bytes before the register base (g_InvItemSlotArray
+ * = 0x800C0EAC, so itemId lands on E-Reg "value" 0x800C0EB0). itemId values
+ * are the ItemId enum; tailData mods are ItemMod codes (see item_ids.h).
  */
 typedef struct ItemDataRecord {
 /* 0x00 */ u8  pad_00[4];
-/* 0x04 */ u8  itemId;
+/* 0x04 */ u8  itemId;       /* ItemId type code (E-Reg value) */
 /* 0x05 */ u8  flags;
 /* 0x06 */ u8  kind;
-/* 0x07 */ u8  baseStats[3];
-/* 0x0A */ u16 ammo;
+/* 0x07 */ u8  baseStats[3]; /* Attack/Range/Bullets (weapon) or Defense/P.Energy/Critical (armor) */
+/* 0x0A */ u16 ammo;         /* loaded rounds; 0 for melee */
 /* 0x0C */ u16 reserveAmmo;
-/* 0x0E */ s16 bonusStats[3];
-/* 0x14 */ u8  tailCount;    /* use count or modifier-entry count by item kind */
-/* 0x15 */ u8  tailData[0x0B];
+/* 0x0E */ s16 bonusStats[3];/* the three "+N" bonuses, same axes as baseStats */
+/* 0x14 */ u8  tailCount;    /* equipment: modification-slot count (max 0x0A); else use count */
+/* 0x15 */ u8  tailData[0x0B];/* equipment: up to 10 ItemMod codes */
 } ItemDataRecord;
 
 /* Historical name retained while older consumers are migrated. */
