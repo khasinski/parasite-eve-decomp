@@ -11,6 +11,15 @@ typedef struct FieldEngSlot {
     /* 0x4 */ short data_offset;         /* byte offset into g_FieldEngineScriptData */
 } FieldEngSlot;
 
+/* Script-state work area (obj+0xC, pointed at by g_FieldEngineScriptState).
+ * Mostly reached through the func_800C2B10/2B28 index accessors (int arrays at
+ * +0x08 and +0x48); only a few header fields are touched by absolute offset
+ * (e.g. an int at +0x70 get/set by func_800C2B50/2B40, still unnamed). */
+typedef struct FieldEngState {
+    /* 0x00 */ unsigned char pad_00[0x40];
+    /* 0x40 */ int abort_flag;          /* set to 1 to abort the current frame (func_800C2B90) */
+} FieldEngState;
+
 extern char *g_FieldEngineScriptState __asm__("D_800E2248");
 extern char *g_FieldEngineScriptObject __asm__("D_800F32A8");
 extern char *g_FieldEngineScriptData __asm__("D_800F3330");

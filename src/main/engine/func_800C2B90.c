@@ -24,7 +24,7 @@ void *func_800C2B90(void *obj, u8 id, u16 *sizes, int (**handlers)(void *, void 
     }
 
     if (slot == -1) {
-        *(int *)(D_800E2248 + 0x40) = 1;
+        ((FieldEngState *)D_800E2248)->abort_flag = 1;
         return 0;
     }
 
