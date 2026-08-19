@@ -18,4 +18,24 @@ typedef float f32;
 
 #define PE1_OFFSETOF(type, member) ((u32)&(((type *)0)->member))
 
+/*
+ * Compiler scheduling helpers for byte-matching GCC 2.7.2 output. These emit
+ * no CPU instructions; they only constrain register allocation or memory
+ * motion when the original schedule depends on it.
+ */
+#define PE1_COMPILER_USE(value) \
+    asm volatile("" : : "r"(value))
+
+#define PE1_COMPILER_LAUNDER(value) \
+    asm volatile("" : "=r"(value) : "0"(value))
+
+#define PE1_COMPILER_LAUNDER_MEM(value) \
+    asm volatile("" : "=r"(value) : "0"(value) : "memory")
+
+#define PE1_COMPILER_LAUNDER2(value0, value1) \
+    asm volatile("" : "=r"(value0), "=r"(value1) : "0"(value0), "1"(value1))
+
+#define PE1_COMPILER_MEMORY_BARRIER() \
+    asm volatile("" : : : "memory")
+
 #endif

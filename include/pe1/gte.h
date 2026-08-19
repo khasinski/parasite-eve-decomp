@@ -8,6 +8,58 @@ int rcos(int angle);
  * commands; the calling function owns all normal CPU-side algorithmic work.
  */
 
+#define gte_cop2_hazard_slot() \
+    asm volatile("nop")
+
+#define gte_ctc2_0(value) \
+    asm volatile("ctc2 %0,$0" : : "r"(value))
+#define gte_ctc2_1(value) \
+    asm volatile("ctc2 %0,$1" : : "r"(value))
+#define gte_ctc2_2(value) \
+    asm volatile("ctc2 %0,$2" : : "r"(value))
+#define gte_ctc2_3(value) \
+    asm volatile("ctc2 %0,$3" : : "r"(value))
+#define gte_ctc2_4(value) \
+    asm volatile("ctc2 %0,$4" : : "r"(value))
+#define gte_ctc2_5(value) \
+    asm volatile("ctc2 %0,$5" : : "r"(value))
+#define gte_ctc2_6(value) \
+    asm volatile("ctc2 %0,$6" : : "r"(value))
+#define gte_ctc2_7(value) \
+    asm volatile("ctc2 %0,$7" : : "r"(value))
+
+#define gte_mtc2_0(value) \
+    asm volatile("mtc2 %0,$0" : : "r"(value))
+#define gte_mtc2_9(value) \
+    asm volatile("mtc2 %0,$9" : : "r"(value))
+#define gte_mtc2_10(value) \
+    asm volatile("mtc2 %0,$10" : : "r"(value))
+#define gte_mtc2_11(value) \
+    asm volatile("mtc2 %0,$11" : : "r"(value))
+
+#define gte_mfc2_9(out) \
+    asm volatile("mfc2 %0,$9" : "=r"(out))
+#define gte_mfc2_10(out) \
+    asm volatile("mfc2 %0,$10" : "=r"(out))
+#define gte_mfc2_11(out) \
+    asm volatile("mfc2 %0,$11" : "=r"(out))
+
+#define gte_lwc2_1_8(ptr) \
+    asm volatile("lwc2 $1,8(%0)" : : "r"(ptr) : "memory")
+
+#define gte_swc2_9_0(ptr) \
+    asm volatile("swc2 $9,0(%0)" : : "r"(ptr) : "memory")
+#define gte_swc2_10_4(ptr) \
+    asm volatile("swc2 $10,4(%0)" : : "r"(ptr) : "memory")
+#define gte_swc2_11_8(ptr) \
+    asm volatile("swc2 $11,8(%0)" : : "r"(ptr) : "memory")
+
+#define gte_mvmva_light_ir_sf0() \
+    asm volatile(".word 0x4A49E012")
+
+#define gte_rtv0tr_sf0() \
+    asm volatile(".word 0x4A480012")
+
 /* Load the five packed words which hold R11..R33. */
 #define gte_ldrotmatrix(matrix) \
     asm volatile("lw $12,0(%0)\n\t" \
