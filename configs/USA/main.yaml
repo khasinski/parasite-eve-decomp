@@ -145,7 +145,7 @@ segments:
       - [0x3BE8, c, task/Task_WaitAnimRange]
       - [0x3D14, c, task/Task_TurnTowardPointStep]
       - [0x3EC0, asm, task/Task_MoveTowardPoint]
-      - [0x4188, asm, main/Camera_TrackEntityAngle]
+      - [0x4188, c, main/Camera_TrackEntityAngle]
       - [0x4434, asm, main/Camera_SnapToEntity]
       - [0x4684, asm, main/Camera_TrackEntityZoom]
       - [0x4A28, c, main/Entity_QueryField]
