@@ -160,7 +160,7 @@ segments:
       - [0x5A40, asm, task/Task_SetGteMatrix]
       - [0x5DFC, c, boot/Boot_CheckModeSwitch]
       - [0x5E48, c, task/Task_GetAngleToEntity]
-      - [0x5F90, asm, main/Scene_SelectMapById]
+      - [0x5F90, c, main/Scene_SelectMapById]
       - [0x6164, c, task/Task_SetFloorByEntityRoll]
       - [0x62B8, c, task/Task_SetActorScreenPos]
       - [0x62F0, c, boot/Boot_InitPhase1]
