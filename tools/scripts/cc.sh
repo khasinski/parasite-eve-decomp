@@ -105,6 +105,9 @@ fi
 if grep -q 'MASPSX_FLAGS:.*--use-comm-section' "$IN"; then
     MASPSX_EXTRA+=(--use-comm-section)
 fi
+if grep -q 'MASPSX_FLAGS:.*--stack-return-delay' "$IN"; then
+    MASPSX_EXTRA+=(--stack-return-delay)
+fi
 if [[ "$AS_G_FLAG" != "-G0" ]]; then
     MASPSX_EXTRA+=(--dont-force-G0)
 fi
