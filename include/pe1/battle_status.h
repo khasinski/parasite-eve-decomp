@@ -36,7 +36,7 @@ extern u8 D_8009E7A0[2][0x70];
 void AddPrim(unsigned int *orderingEntry, unsigned int *primitive);
 void Battle_LayoutStatusPrimRow(int bottomY);
 void Battle_DrawStatusValue(int value, int yOffset);
-void Battle_DrawDecimalNumber(void *buffer, int x, int y, int value, int mode);
+void Battle_DrawDecimalNumber(void *buffer, s16 x, s16 y, s16 value, int mode);
 
 PE1_STATIC_ASSERT(sizeof(BattleStatusLinePrim) == 0x10,
                   battle_status_line_prim_size);
