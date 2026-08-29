@@ -47,6 +47,16 @@ int rcos(int angle);
 #define gte_lwc2_1_8(ptr) \
     asm volatile("lwc2 $1,8(%0)" : : "r"(ptr) : "memory")
 
+/* Load a packed short vector into VXY0/VZ0. */
+#define gte_ldv0_short3(vec) \
+    asm volatile("lhu $13,4(%0)\n\t" \
+                 "lhu $12,0(%0)\n\t" \
+                 "sll $13,$13,16\n\t" \
+                 "or $12,$12,$13\n\t" \
+                 "mtc2 $12,$0\n\t" \
+                 "lwc2 $1,8(%0)" \
+                 : : "r"(vec) : "$12", "$13", "memory")
+
 #define gte_swc2_9_0(ptr) \
     asm volatile("swc2 $9,0(%0)" : : "r"(ptr) : "memory")
 #define gte_swc2_10_4(ptr) \
@@ -56,6 +66,29 @@ int rcos(int angle);
 
 #define gte_mvmva_light_ir_sf0() \
     asm volatile(".word 0x4A49E012")
+
+/* Load a strided matrix column into IR1..3 and apply RTIR12. */
+#define gte_ldrtir12_matrix_column(column) \
+    asm volatile("lhu $12,0(%0)\n\t" \
+                 "lhu $13,6(%0)\n\t" \
+                 "lhu $14,12(%0)\n\t" \
+                 "mtc2 $12,$9\n\t" \
+                 "mtc2 $13,$10\n\t" \
+                 "mtc2 $14,$11\n\t" \
+                 "nop\n\t" \
+                 "nop\n\t" \
+                 ".word 0x4A49E012" \
+                 : : "r"(column) : "$12", "$13", "$14", "memory")
+
+/* Store IR1..3 back to a strided matrix column. */
+#define gte_stir123_matrix_column(column) \
+    asm volatile("mfc2 $12,$9\n\t" \
+                 "mfc2 $13,$10\n\t" \
+                 "mfc2 $14,$11\n\t" \
+                 "sh $12,0(%0)\n\t" \
+                 "sh $13,6(%0)\n\t" \
+                 "sh $14,12(%0)" \
+                 : : "r"(column) : "$12", "$13", "$14", "memory")
 
 #define gte_rtv0tr_sf0() \
     asm volatile(".word 0x4A480012")

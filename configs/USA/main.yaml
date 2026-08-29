@@ -157,7 +157,7 @@ segments:
       - [0x55A0, c, task/task5]
       - [0x57D8, asm, task/Task_PlayEntityAnim]
       - [0x5908, c, task/Task_CopyEntityRenderObject]
-      - [0x5A40, asm, task/Task_SetGteMatrix]
+      - [0x5A40, c, task/Task_SetGteMatrix]
       - [0x5DFC, c, boot/Boot_CheckModeSwitch]
       - [0x5E48, c, task/Task_GetAngleToEntity]
       - [0x5F90, c, main/Scene_SelectMapById]
