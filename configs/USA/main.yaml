@@ -152,7 +152,7 @@ segments:
       - [0x4BB0, c, main/Entity_GetDistanceComponents]
       - [0x4CFC, c, main/Boot_MemCardStepInit]
       - [0x4E94, asm, main/Entity_GetPositionByType]
-      - [0x50E0, asm, main/Camera_TrackRelativeOffset]
+      - [0x50E0, c, main/Camera_TrackRelativeOffset]
       - [0x53A0, c, main/Camera_StepAngleFade]
       - [0x55A0, c, task/task5]
       - [0x57D8, asm, task/Task_PlayEntityAnim]
