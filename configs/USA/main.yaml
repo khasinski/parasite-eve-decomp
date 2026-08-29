@@ -1089,7 +1089,7 @@ segments:
       - [0x63270, asm, main/gap_psyq_libapi_firstfile_tail_63270]
       - [0x63274, asm, main/Math_Mul64]
       - [0x635E8, asm, main/gap_main_Math_Mul64_tail_635E8]
-      - [0x635F4, asm, math/Math_Add64]
+      - [0x635F4, c, math/Math_Add64]
       - [0x636A0, asm, main/gap_math_Math_Add64_tail_636A0]
       - [0x636A4, asm, math/Math_Add64WithShift]
       - [0x63760, asm, math/Math_Stub_80072F60]
