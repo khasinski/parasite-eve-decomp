@@ -139,7 +139,7 @@ segments:
       - [0x3050, c, task/Task_EvalExpr]
       - [0x3420, c, task/Task_SetEntityVec3]
       - [0x367C, c, task/Task_GetEntityVec3]
-      - [0x38B4, asm, task/Task_DispatchCmd]
+      - [0x38B4, c, task/Task_DispatchCmd]
       - [0x39E8, c, task/Task_SpawnChildNode]
       - [0x3B00, c, task/Task_SetEntityActionAndWait]
       - [0x3BE8, c, task/Task_WaitAnimRange]
