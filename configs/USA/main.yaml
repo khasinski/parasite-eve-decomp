@@ -265,7 +265,7 @@ segments:
       - [0xB090, c, entity/Entity_ResetStateGlobals]
       - [0xB118, c, entity/Entity_RelocateSceneData]
       - [0xB1F8, c, entity/Entity_UpdateList]
-      - [0xB278, asm, main/Entity_FindFloor]
+      - [0xB278, c, main/Entity_FindFloor]
       - [0xB4E0, c, entity/Entity_ResolvePosition]
       - [0xB640, asm, entity/Entity_UpdateAndRender]
       - [0xBDFC, asm, main/Geo_ClipToFloorBoundary]
