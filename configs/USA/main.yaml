@@ -147,7 +147,7 @@ segments:
       - [0x3EC0, asm, task/Task_MoveTowardPoint]
       - [0x4188, c, main/Camera_TrackEntityAngle]
       - [0x4434, c, main/Camera_SnapToEntity]
-      - [0x4684, asm, main/Camera_TrackEntityZoom]
+      - [0x4684, c, main/Camera_TrackEntityZoom]
       - [0x4A28, c, main/Entity_QueryField]
       - [0x4BB0, c, main/Entity_GetDistanceComponents]
       - [0x4CFC, c, main/Boot_MemCardStepInit]
