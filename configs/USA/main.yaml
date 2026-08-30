@@ -169,7 +169,7 @@ segments:
       - [0x63AC, c, boot/Boot_InitPhase2]
       - [0x647C, c, boot/Boot_InitPhase3]
       - [0x65AC, c, main/Akao_ProcessCommand]
-      - [0x7110, asm, task/Task_DispatchScriptCmd]
+      - [0x7110, c, task/Task_DispatchScriptCmd]
       - [0x75F8, c, task/task6]
       - [0x7640, c, task/Task_BeginSceneTransition]
       - [0x7710, c, task/Task_OpenSaveLoadMenu]

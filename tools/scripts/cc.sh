@@ -23,6 +23,12 @@ if [ -z "${PE_CC1:-}" ] && grep -q 'GCC_VERSION:.*2\.8\.1' "$IN"; then
 fi
 MASPSX=("$ROOT/.venv/bin/python" "$ROOT/tools/maspsx/maspsx.py")
 MASPSX_ASPSX_VERSION="${PE_MASPSX_ASPSX_VERSION:-2.56}"
+if [ -z "${PE_MASPSX_ASPSX_VERSION:-}" ]; then
+    SOURCE_ASPSX_VERSION=$(sed -n 's/.*ASPSX_VERSION:[[:space:]]*\([0-9][0-9.]*\).*/\1/p' "$IN" | head -1)
+    if [ -n "$SOURCE_ASPSX_VERSION" ]; then
+        MASPSX_ASPSX_VERSION="$SOURCE_ASPSX_VERSION"
+    fi
+fi
 AS=$(command -v mipsel-none-elf-as)
 INCLUDE="$ROOT/sdk/psyq-4.0/PSX/INCLUDE"
 
