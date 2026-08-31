@@ -29,7 +29,7 @@ s32 rcos(s16, void *);                              /* extern */
 s32 rsin(s16, void *);                              /* extern */
 M2C_UNK Entity_ResolveDropTable(void *);                      /* static */
 s16 Entity_ApplyHitAndSetAnim(void *);                 /* static */
-M2C_UNK Entity_UpdateTimers();                            /* static */
+void Entity_UpdateTimers(void);
 extern volatile s32 D_8009CDDC;
 /* Separate declarations preserve the original GCC quantities for each tail. */
 extern volatile s32 draw_slot_entity0 __asm__("D_8009CDDC");

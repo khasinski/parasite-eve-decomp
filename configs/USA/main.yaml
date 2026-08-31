@@ -277,7 +277,7 @@ segments:
       - [0xDB40, c, menu/Menu_MainUpdate]
       - [0xFCD4, c, entity/Entity_ResolveDropTable]
       - [0x10014, c, entity/Entity_ApplyHitAndSetAnim]
-      - [0x101C4, asm, entity/Entity_UpdateTimers]
+      - [0x101C4, c, entity/Entity_UpdateTimers]
       - [0x109DC, c, battle/Battle_SubActionStep]
       - [0x10A88, c, main/Battle_ApplyEnemyAttack]
       - [0x111F0, c, battle/Battle_SetupEnemyAnims]

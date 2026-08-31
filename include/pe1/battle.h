@@ -105,7 +105,12 @@ typedef struct Combatant {
 /* 0x38 */ u16  subActionStep;
 /* 0x3A */ u8   subActionCounter;
 /* 0x3B */ u8   subActionPeriod;
-/* 0x3C */ u8   pad_3C[0x0C];
+/* 0x3C */ u16  statusStep3C;  /* decrement used by status timer groups 0x0C..0xC0 */
+/* 0x3E */ u16  statusStep3E;  /* decrement used by stateFlags group 0x03 */
+/* 0x40 */ u16  statusTimer40;
+/* 0x42 */ u16  statusTimer42;
+/* 0x44 */ u16  statusTimer44;
+/* 0x46 */ u16  statusTimer46;
 /* 0x48 */ s8   knockbackFrames;
 /* 0x49 */ u8   knockbackDistance;
 /* 0x4A */ s16  knockbackAngle;
@@ -295,6 +300,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, knockbackFrames) == 0x48,
                   combatant_knockback_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, subActionStep) == 0x38,
                   combatant_sub_action_step_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, statusStep3C) == 0x3C,
+                  combatant_status_timer_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, panelAux_val) == 0x60,
                   combatant_aux_panel_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, action) == 0x68,
