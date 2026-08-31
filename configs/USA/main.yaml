@@ -274,7 +274,7 @@ segments:
       - [0xCFDC, asm, main/Entity_SlideOnRamp]
       - [0xD2B0, asm, main/geo]
       - [0xDA68, c, entity/Entity_CheckActionIdMatch]
-      - [0xDB40, asm, menu/Menu_MainUpdate]
+      - [0xDB40, c, menu/Menu_MainUpdate]
       - [0xFCD4, c, entity/Entity_ResolveDropTable]
       - [0x10014, c, entity/Entity_ApplyHitAndSetAnim]
       - [0x101C4, asm, entity/Entity_UpdateTimers]
