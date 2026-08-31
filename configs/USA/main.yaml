@@ -1016,7 +1016,7 @@ segments:
       - [0x609B4, c, render/Pm_StopUpperHalf]
       - [0x60ADC, c, render/Pm_StopLowerHalf]
       - [0x60BF4, c, render/Pm_StopAllBoth]
-      - [0x60C1C, asm, render/Render_DecompressAnimFrame]
+      - [0x60C1C, c, render/Render_DecompressAnimFrame]
       - [0x61510, c, task/Task_InitGpuHwRegs]
       - [0x6156C, c, task/Task_GpuFlushPrimQueue]
       - [0x615D0, asm, task/Task_GpuPackPrimColor]
