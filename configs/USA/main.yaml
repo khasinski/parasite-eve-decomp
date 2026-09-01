@@ -1469,7 +1469,7 @@ segments:
       - [0x70E8C, c, cdrom/CdRom_CmdEventCallback]
       - [0x70F78, c, cdrom/CdRom_ReadyEventDispatch]
       - [0x7100C, c, cdrom/CdRom_ProcessEventByte]
-      - [0x710BC, asm, cdrom/CdRom_AbortCmd]
+      - [0x710BC, c, cdrom/CdRom_AbortCmd]
       - [0x71130, c, cdrom/CdRom_EnableDsReadSystem]
       - [0x71140, c, cdrom/CdRom_IsDsReadSystemEnabled]
       - [0x71150, c, cdrom/cd]
