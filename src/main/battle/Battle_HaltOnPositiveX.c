@@ -1,7 +1,11 @@
 #include "pe1/battle.h"
 
+/* CC1_FLAGS: -G1 */
+/* MASPSX_FLAGS: -G1 */
+
 extern char *g_ActiveActor;
 extern char *g_PlayerEntity;
+extern s8 D_8009CE30;
 
 void Entity_SetActionMode(char *arg0, int arg1);
 void Battle_FlushScriptSounds(char *arg0);
@@ -29,7 +33,7 @@ void Battle_HaltOnPositiveX(void) {
         state2 = g_ActiveActor;
         actor2 = g_PlayerEntity;
         flags = COMBATANT_FIELD(state2, int, stateFlags);
-        asm volatile("sb $0, 0xC0($gp)");
+        D_8009CE30 = 0;
         flags |= 0x2000;
         COMBATANT_FIELD(state2, int, stateFlags) = flags;
         ENTITY_FIELD(actor2, int, entityFlags) &= ~0x100;
