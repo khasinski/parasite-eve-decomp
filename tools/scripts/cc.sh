@@ -118,6 +118,9 @@ fi
 if grep -q 'MASPSX_FLAGS:.*--stack-return-delay' "$IN"; then
     MASPSX_EXTRA+=(--stack-return-delay)
 fi
+if grep -q 'MASPSX_FLAGS:.*--store-return-delay' "$IN"; then
+    MASPSX_EXTRA+=(--store-return-delay)
+fi
 if grep -q 'MASPSX_FLAGS:.*--store-call-delay' "$IN"; then
     MASPSX_EXTRA+=(--store-call-delay)
 fi
