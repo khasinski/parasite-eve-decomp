@@ -1,15 +1,10 @@
 
 /* CC1_FLAGS: -fno-schedule-insns */
 /* CC1_FLAGS: -fno-schedule-insns2 */
+/* MASPSX_FLAGS: --store-return-delay */
 
 extern int D_8009B38C;
-
-typedef struct SpuReverbDataPage {
-    int enabled;
-    char reserved04[0x4BE4];
-} SpuReverbDataPage;
-
-register SpuReverbDataPage *g_SpuReverbWritePage asm("$1");
+extern int D_8009B418;
 
 int Spu_SetReverbMode(int mode) {
     int enabled;
@@ -27,7 +22,6 @@ int Spu_SetReverbMode(int mode) {
     }
 
     D_8009B38C = mode;
-    g_SpuReverbWritePage = (SpuReverbDataPage *)0x800A0000;
-    g_SpuReverbWritePage[-1].enabled = enabled;
+    D_8009B418 = enabled;
     return enabled;
 }
