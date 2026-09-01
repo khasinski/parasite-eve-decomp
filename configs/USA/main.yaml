@@ -300,7 +300,7 @@ segments:
       - [0x125E0, asm, battle/Battle_StepScriptEntry]
       - [0x12738, asm, main/Battle_UpdatePlayerTurn]
       - [0x12A10, c, main/Battle_ApplyPlayerHit]
-      - [0x12B94, asm, main/Battle_AdvancePhase]
+      - [0x12B94, c, main/Battle_AdvancePhase]
       - [0x1357C, asm, battle/Battle_StartEnemyAttackEffect]
       - [0x13808, asm, main/Battle_FinalizeAttackResult]
       - [0x1392C, asm, main/Battle_StepCharacterAction]
