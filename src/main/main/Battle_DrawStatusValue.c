@@ -9,9 +9,11 @@ typedef struct ActiveDrawSlotGlobal {
 } ActiveDrawSlotGlobal;
 
 extern ActiveDrawSlotGlobal g_ActiveDrawSlotObject0
-    __asm__("g_ActiveDrawSlot");
+    __asm__("D_8009CDDC");
 extern ActiveDrawSlotGlobal g_ActiveDrawSlotObject1
-    __asm__("g_ActiveDrawSlot");
+    __asm__("D_8009CDDC");
+extern u16 D_8009E360[];
+extern u16 D_8009E362[];
 
 void Battle_DrawStatusValue(int value, int yOffset)
 {
@@ -38,9 +40,9 @@ void Battle_DrawStatusValue(int value, int yOffset)
         } while (0);
         drawSlotOffset = drawSlot << 2;
         markerBase -= 8;
-        y = ((BattleStatusLinePrim *)((u8 *)D_8009E358 + anchorOffset))->y0;
+        y = *(u16 *)((u8 *)D_8009E362 + anchorOffset);
         x = (marker->x =
-            ((BattleStatusLinePrim *)((u8 *)D_8009E358 + anchorOffset))->x0 + 8);
+            *(u16 *)((u8 *)D_8009E360 + anchorOffset) + 8);
         y += yOffset;
     } while (0);
     marker->y = y;
@@ -49,6 +51,7 @@ void Battle_DrawStatusValue(int value, int yOffset)
             (unsigned int *)(markerBase + markerOffset));
     drawSlot = g_ActiveDrawSlotObject1.value;
     Battle_DrawDecimalNumber(
-        D_8009E8B8[drawSlot], D_8009E358[drawSlot * 3].x0 + 0x40,
+        D_8009E8B8[drawSlot],
+        *(u16 *)((u8 *)D_8009E360 + drawSlot * 3 * 0x10) + 0x40,
         (s16)--y, (s16)savedValue, 1);
 }
