@@ -1,6 +1,13 @@
 extern short D_800966EC[][2];
 
-void RoomLib_AdvanceArcToTargetY_80191D18(RoomEnt *obj) {
+#ifndef ROOMLIB_ADVANCE_ARC_Y_NAME
+#define ROOMLIB_ADVANCE_ARC_Y_NAME RoomLib_AdvanceArcToTargetY_80191D18
+#endif
+#ifndef ROOMLIB_ADVANCE_ARC_Y_RESET
+#define ROOMLIB_ADVANCE_ARC_Y_RESET RoomLib_ResetAndSignal_801920A0
+#endif
+
+void ROOMLIB_ADVANCE_ARC_Y_NAME(RoomEnt *obj) {
     register RoomEnt *self asm("$18") = obj;
     register char *state asm("$16") = (char *)self + 0xC;
     register RoomLink *link asm("$19") = self->link;
@@ -121,6 +128,9 @@ void RoomLib_AdvanceArcToTargetY_80191D18(RoomEnt *obj) {
     }
     func_800DFB20(self);
     if (RW32(scratch, 0x48) != 0) {
-        RoomLib_ResetAndSignal_801920A0(self);
+        ROOMLIB_ADVANCE_ARC_Y_RESET(self);
     }
 }
+
+#undef ROOMLIB_ADVANCE_ARC_Y_RESET
+#undef ROOMLIB_ADVANCE_ARC_Y_NAME
