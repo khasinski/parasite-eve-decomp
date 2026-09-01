@@ -15,6 +15,29 @@ Whole-function assembly is not an acceptable decompilation result. A generated
 `INCLUDE_ASM` stub remains the correct representation until the surrounding C
 is understood and can replace it without changing the binary.
 
+Compiler register variables such as `register T value asm("$N")` and empty asm
+barriers are allowed when they reproduce the original allocator or scheduling
+result while leaving the function's control flow and behavior in C. They are
+source-level compiler constraints, not inline instruction sequences. Keep them
+as narrow and few as practical. After obtaining an exact match, explicitly try
+to remove each pin and barrier and retain only those whose removal breaks the
+match. The debt ratchet records the remainder.
+
+The compiler and MASPSX are hard boundaries. Final builds must use the
+unmodified stock compiler and the unmodified, pinned upstream MASPSX revision:
+no local patches, diagnostic builds, postpasses, or options absent from those
+stock tools. A register pin or barrier is preferable to modifying either tool.
+If stock C with allowed constraints does not match, the function remains an
+assembly subsegment until its source reconstruction is corrected.
+
+Inline instructions are allowed only for individual GTE/COP2 hardware
+operations, or in functions with concrete evidence that the original source
+was assembly. Put each permitted instruction sequence behind a small, named,
+central macro and isolate only the instruction window that C cannot express.
+Do not hide surrounding CPU control flow, arithmetic, loads, or stores in that
+macro. Evidence for an originally assembled function must be recorded beside
+the implementation or in this document.
+
 ## GTE and COP2
 
 GTE is a hardware interface, not ordinary scalar C. Game functions may express

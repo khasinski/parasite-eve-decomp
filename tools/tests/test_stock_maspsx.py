@@ -38,7 +38,7 @@ class StockMaspsxTests(unittest.TestCase):
 
         for relative in tracked:
             path = ROOT / relative
-            if path.suffix in {".c", ".h", ".md", ".py", ".sh"}:
+            if path.exists() and path.suffix in {".c", ".h", ".md", ".py", ".sh"}:
                 if pattern.search(path.read_text(errors="replace")):
                     offenders.append(path.relative_to(ROOT))
 
@@ -49,6 +49,15 @@ class StockMaspsxTests(unittest.TestCase):
         self.assertIn('REV="42b862c988fe7a13fe4e7ac0ebec90ed6b9fb763"', setup)
         self.assertNotIn("git apply", setup)
         self.assertNotIn("PATCH=", setup)
+
+    def test_setup_does_not_patch_stock_compilers(self):
+        setup_scripts = (
+            ROOT / "tools" / "scripts" / "setup_stock_cc1.sh",
+            ROOT / "tools" / "scripts" / "setup_stock_cc281.sh",
+        )
+        patch_commands = re.compile(r"(?:git\s+apply|\bpatch\s+-|\bpatch\s+--)")
+        for path in setup_scripts:
+            self.assertIsNone(patch_commands.search(path.read_text()), path)
 
 
 if __name__ == "__main__":

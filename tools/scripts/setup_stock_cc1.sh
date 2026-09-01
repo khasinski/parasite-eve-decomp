@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Download decompals/old-gcc stock gcc-2.7.2-psx cc1 into tools/old-gcc/cc1.
-# This is a source-buildable, patchable compiler.
+# The final build uses this release unmodified; local compiler patches are forbidden.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 REL="https://github.com/decompals/old-gcc/releases/download/0.17"

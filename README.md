@@ -43,10 +43,13 @@ header changes require `make verify-clean`. See [CONTRIBUTING.md](CONTRIBUTING.m
 for the working contract.
 
 The matching policy is conservative: promoted decompilation work must match
-through the stock compiler pipeline. Inline asm, register asm, asm barriers,
-whole-function asm bodies, post-build rewrite passes, and build hacks are not
-acceptable substitutes for decompilation. The only narrow exception is a named,
-central PSY-Q-style GTE/COP2 macro for a documented hardware operation; see
+through the stock compiler pipeline. Register pins and empty asm barriers are
+allowed source-level constraints, but are tracked as debt, kept to a minimum,
+and removed after matching whenever the stock compiler still produces the
+retail bytes. Inline instructions are limited to named, central macros for
+documented GTE/COP2 operations or functions proven to have originated in
+assembly. Whole-function asm bodies are not decompilation results. Compiler or
+MASPSX modifications, post-build rewrites, and build hacks are forbidden. See
 [docs/ASM_AND_GTE_POLICY.md](docs/ASM_AND_GTE_POLICY.md).
 
 ## Layout
@@ -91,7 +94,7 @@ Overridable with environment variables:
 
 ```sh
 export PE_CPP=/path/to/gcc-2.7.2/cpp
-export PE_CC1=/path/to/native/old-gcc/cc1-or-wrapper
+export PE_CC1=/path/to/stock/native/old-gcc/cc1-or-wrapper
 ```
 
 Install the local compiler pieces with:
@@ -102,9 +105,13 @@ tools/scripts/setup_maspsx.sh
 ```
 
 Current matching note: `-G8` is part of the expected PSX small-data profile.
-The build uses an unmodified, pinned upstream maspsx checkout. The upstream
-flags `--use-comm-section` and `--expand-div` remain available where required
-by the original compiler output.
+The final build must use the unmodified stock compiler and the unmodified,
+pinned upstream maspsx checkout. Local patches, diagnostic compiler builds,
+postpasses, and MASPSX flags absent from that revision are forbidden. The
+upstream flags `--use-comm-section` and `--expand-div` remain available where
+required by the original compiler output. A function that cannot match with
+stock maspsx stays undecompiled until its C source is corrected; extending the
+assembler wrapper is not an acceptable matching technique.
 
 ## Quick Start
 
