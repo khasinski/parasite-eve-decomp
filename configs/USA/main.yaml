@@ -1600,7 +1600,7 @@ segments:
       - [0x765C0, asm, main/gap_akao_Spu_SetTransferMode_tail_765C0]
       - [0x765C4, c, psyq/libspu/s_cb]
       - [0x765E8, asm, main/gap_psyq_libspu_s_cb_tail_765E8]
-      - [0x765F4, asm, akao/Spu_ReadFromSpu]
+      - [0x765F4, c, akao/Spu_ReadFromSpu]
       - [0x76650, asm, main/gap_akao_Spu_ReadFromSpu_tail_76650]
       - [0x76654, asm, akao/Spu_UploadToSpu]
       - [0x766B0, asm, main/gap_akao_Spu_UploadToSpu_tail_766B0]
