@@ -1039,7 +1039,7 @@ extern void func_80191D2C(void);
 extern void func_80191D3C(void);
 extern void func_80191D5C(RoomEnt *obj);
 extern void func_80191D60(void);
-extern void func_80191D68(void);
+extern void func_80191D68(RoomEnt *obj);
 extern void func_80191D80(void);
 extern void func_801929A4(RoomEnt *obj);
 extern void func_80192D0C(void);
