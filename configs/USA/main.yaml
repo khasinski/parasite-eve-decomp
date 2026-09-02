@@ -1159,7 +1159,7 @@ segments:
       - [0x657D4, c, gpu/ClearImage2]
       - [0x6586C, c, psyq/libgpu/LoadImage]
       - [0x658CC, c, psyq/libgpu/StoreImage]
-      - [0x6592C, asm, psyq/libgpu/MoveImage]
+      - [0x6592C, c, psyq/libgpu/MoveImage]
       - [0x659E4, asm, gpu/ClearOTag]
       - [0x65AAC, asm, gpu/ClearOTagR]
       - [0x65B58, c, gpu/DrawPrim]
