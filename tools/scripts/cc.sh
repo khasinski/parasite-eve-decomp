@@ -76,6 +76,9 @@ fi
 if grep -q 'CC1_FLAGS:.*-fno-force-mem' "$IN"; then
     CC1_FLAGS="$CC1_FLAGS -fno-force-mem"
 fi
+if grep -q 'CC1_FLAGS:.*-mno-split-addresses' "$IN"; then
+    CC1_FLAGS="$CC1_FLAGS -mno-split-addresses"
+fi
 if grep -q 'CC1_FLAGS:.*-fno-expensive-optimizations' "$IN"; then
     CC1_FLAGS="$CC1_FLAGS -fno-expensive-optimizations"
 fi
