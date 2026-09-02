@@ -1426,7 +1426,7 @@ segments:
       - [0x6EF04, asm, main/Render_DrawParticle]
       - [0x6F0F4, c, cdrom/CdRom_DispatchPendingCmd]
       - [0x6F164, asm, main/Render_StepParticleNode]
-      - [0x6F388, asm, cdrom/CdRom_EnqueueCmd]
+      - [0x6F388, c, cdrom/CdRom_EnqueueCmd]
       - [0x6F414, asm, cdrom/CdRom_InitDsReadSystem]
       - [0x6F558, asm, cdrom/CdRom_ResetDsReadSystem]
       - [0x6F664, c, cdrom/CdRom_ClearDsCallbacksShim]
