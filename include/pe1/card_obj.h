@@ -23,7 +23,8 @@ typedef struct CardObj {
     unsigned char saved_command;       /* 0x37 */
     unsigned char pad_38[0x04];
     unsigned char *response_3c;        /* 0x3C */
-    unsigned char pad_40[0x05];
+    unsigned char *field_40;           /* 0x40 */
+    unsigned char pad_44[0x01];
     unsigned char payload_index;       /* 0x45 */
     unsigned char field_46;           /* 0x46 */
     unsigned char field_47;           /* 0x47 */
@@ -38,7 +39,8 @@ typedef struct CardObj {
     unsigned char field_53;           /* 0x53 */
     unsigned char pad_54[0x03];
     unsigned char field_57[0x06];      /* 0x57 */
-    unsigned char pad_5D[0x86];
+    unsigned char field_5d[0x06];      /* 0x5D */
+    unsigned char pad_63[0x80];
     unsigned char field_e3;           /* 0xE3 */
     unsigned char field_e4;           /* 0xE4 */
     unsigned char pad_e5[0x01];

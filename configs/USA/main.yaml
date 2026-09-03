@@ -1556,7 +1556,7 @@ segments:
       - [0x7481C, asm, memcard/MemCard_WriteDataAndGetSize]
       - [0x748DC, c, memcard/MemCard_WriteByteWithAckCheck]
       - [0x74968, asm, main/Render_SetParticleCallbacks]
-      - [0x74CE4, asm, memcard/MemCard_InitTransferState]
+      - [0x74CE4, c, memcard/MemCard_InitTransferState]
       - [0x74E44, c, memcard/CardObj_ResetFields]
       - [0x74EAC, c, memcard/MemCard_DmaCompleteCallback]
       - [0x74FA0, c, memcard/CardObj_SwapByteField]
