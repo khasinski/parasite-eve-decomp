@@ -1439,7 +1439,7 @@ segments:
       - [0x6FF2C, c, cdrom/Cd_GetReadyStatus]
       - [0x6FF78, c, cdrom/cd_rom2]
       - [0x6FFE8, asm, cdrom/CdRom_PollPendingDsRead]
-      - [0x7008C, asm, main/Render_PlayParticleEffect]
+      - [0x7008C, c, cdrom/Render_PlayParticleEffect]
       - [0x70160, c, cdrom/CdRom_DispatchDsReadyCallback]
       - [0x7018C, c, main/gap_cdrom_CdRom_DispatchDsReadyCallback_tail_7018C]
       - [0x70194, c, cdrom/CdRom_InitDsCallbacks]

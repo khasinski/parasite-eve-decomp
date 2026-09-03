@@ -212,7 +212,7 @@ void CdRom_SetReadyCallback(unsigned int value);
 void CdRom_SetDispatchCallback(unsigned int value);
 void CdRom_SetPollCallback(unsigned int value);
 void Render_StepParticleNode(void);
-void Render_PlayParticleEffect(void);
+int Render_PlayParticleEffect(int command, u8 *payload);
 void CdRom_DispatchDsReadyCallback(void);
 void CdRom_PollPendingDsRead(void);
 int VSync(int mode);
