@@ -1434,7 +1434,7 @@ segments:
       - [0x6F684, asm, main/Render_AllocParticleNode]
       - [0x6F8C8, asm, main/Render_BuildParticleFrame]
       - [0x6FC18, asm, main/Render_FindParticleEffect]
-      - [0x6FE08, asm, cdrom/CdRom_SendQueuedCmd]
+      - [0x6FE08, c, cdrom/CdRom_SendQueuedCmd]
       - [0x6FE9C, c, cdrom/CdRom_ResetFileDescriptors]
       - [0x6FF2C, c, cdrom/Cd_GetReadyStatus]
       - [0x6FF78, c, cdrom/cd_rom2]
