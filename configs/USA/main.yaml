@@ -1443,7 +1443,7 @@ segments:
       - [0x70160, c, cdrom/CdRom_DispatchDsReadyCallback]
       - [0x7018C, c, main/gap_cdrom_CdRom_DispatchDsReadyCallback_tail_7018C]
       - [0x70194, c, cdrom/CdRom_InitDsCallbacks]
-      - [0x7022C, asm, cdrom/CdRom_InitCmdState]
+      - [0x7022C, c, cdrom/CdRom_InitCmdState]
       - [0x70304, c, cdrom/CdRom_ClearDsCallbacks]
       - [0x70344, c, cdrom/CdRom_TryIssueCmd]
       - [0x703C0, c, cdrom/CdRom_SetPollCallback]
