@@ -29,7 +29,7 @@ segments:
   - name: scene_e22
     type: code
     start: 0x0
-    vram: 0x8018EFF0
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
@@ -84,8 +84,7 @@ segments:
       - [0x3250, c, func_80183250]
       - [0x3278, c, func_80183278]
       - [0x32A8, c, func_801832A8]
-      - [0x33BC, asm, func_scene_e22_0033BC]
-      - [0x33C4, asm, func_scene_e22_0033C4]
+      - [0x33BC, c, RoomLib_MoveActorLocal_801923AC]
       - [0x353C, c, RoomLib_Set4ClearSignal_8018353C]
       - [0x3558, c, func_80183558]
       - [0x3560, asm, func_scene_e22_003560]
