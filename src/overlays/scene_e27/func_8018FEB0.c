@@ -1,2 +1,3 @@
-void func_8018FEB0(void) {
-}
+#include "../room_lib/room_lib.h"
+
+ROOMLIB_RESET_SIGNAL_WITH_TARGET_GATE(func_8018FEB0)
