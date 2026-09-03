@@ -12,7 +12,7 @@ typedef union MathDoubleBits {
     MathU64 bits;
 } MathDoubleBits;
 
-MathU64 Math_Add64(MathU64 left, MathU64 right);
+MathU64 *Math_Add64(MathU64 *result, MathU64 left, MathU64 right);
 MathU64 Math_Add64WithShift(int arithmetic, MathU64 value, int amount);
 int Math_Cmp64Pair(MathU64 left, MathU64 right);
 MathU64 *Math_Shift64(MathU64 *result, int arithmetic, MathU64 value, int amount);
