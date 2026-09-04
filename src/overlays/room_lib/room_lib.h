@@ -1026,7 +1026,7 @@ extern void RoomLib_ArmWindowB_80193464(RoomEnt *obj);
 extern void RoomLib_ArmWindowB_8019396C(RoomEnt *obj);
 extern void RoomLib_ArmWindowB_80193974(RoomEnt *obj);
 extern void RoomLib_ArmWindowB_80195FA8(RoomEnt *obj);
-extern void func_80191D08(RoomEnt *obj);
+extern void func_80191D08();
 extern void func_80191D10(void);
 extern void func_80191D54(void);
 extern void func_8019114C(RoomEnt *obj);

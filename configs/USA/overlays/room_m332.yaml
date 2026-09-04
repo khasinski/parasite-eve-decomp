@@ -79,7 +79,7 @@ segments:
       - [0x2804, c, func_801917EC]
       - [0x280C, c, RoomLib_InvokeCallbackC_801917F4]
       - [0x2834, c, RoomLib_ArmWindowB_8019181C]
-      - [0x28A4, asm, RoomLib_HandlerC]
+      - [0x28A4, c, RoomLib_HandlerC]
       - [0x2D20, c, func_80191D08]
       - [0x2D28, c, func_80191D10]
       - [0x30B0, c, RoomLib_ResetAndSignal_80192098]
