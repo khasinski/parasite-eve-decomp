@@ -94,7 +94,7 @@ segments:
       - [0x3370, c, RoomLib_MoveActorLocal_80192358]
       - [0x34F0, c, RoomLib_Set4ClearSignal_801924D8]
       - [0x350C, c, func_801924F4]
-      - [0x3514, asm, func_801924FC]
+      - [0x3514, c, func_801924FC]
       - [0x38B0, asm, func_80192898]
       - [0x4304, c, RoomLib_SlotSet_801932EC]
       - [0x4348, data, D_80193330]

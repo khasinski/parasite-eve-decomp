@@ -57,7 +57,7 @@ segments:
       - [0xB80, c, RoomLib_InitPairedEmitter_8018FB68]
       - [0xD00, asm, func_8018FCE8]
       - [0xFCC, c, func_8018FFB4]
-      - [0x10C0, asm, func_801900A8]
+      - [0x10C0, c, func_801900A8]
       - [0x145C, asm, func_80190444]
       - [0x1EB0, c, RoomLib_SlotSet_80190E98]
       - [0x1EF4, data, D_80190EDC]

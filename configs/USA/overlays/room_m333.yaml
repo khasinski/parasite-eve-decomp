@@ -97,7 +97,7 @@ segments:
       - [0x3524, c, RoomFx_UpdateDrift_8019250C]
       - [0x372C, asm, func_80192714]
       - [0x4174, c, RoomLib_SetArgs3_8019315C]
-      - [0x4198, asm, func_80193180]
+      - [0x4198, c, func_80193180]
       - [0x4534, asm, func_8019351C]
       - [0x4F88, c, RoomLib_SlotSet_80193F70]
       - [0x4FCC, data, D_80193FB4]
