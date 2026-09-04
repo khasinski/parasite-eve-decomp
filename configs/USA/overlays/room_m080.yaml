@@ -59,7 +59,7 @@ segments:
       - [0xF28, c, func_8018FF10]
       - [0xF8C, asm, func_8018FF74]
       - [0x1428, asm, func_80190410]
-      - [0x16E8, asm, func_801906D0]
+      - [0x16E8, c, RoomLib_UpdateParticleMotion_801906D0]
       - [0x189C, asm, func_80190884]
       - [0x1B0C, c, func_80190AF4]
       - [0x1B6C, c, func_80190B54]
