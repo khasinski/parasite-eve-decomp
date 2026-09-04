@@ -74,3 +74,5 @@ func_8019588C = 0x8019588C; // type:func
 func_80195F78 = 0x80195F78; // type:func
 func_80196494 = 0x80196494; // type:func
 Geo_PointInPoly = 0x8001CAB0; // type:func
+memset = 0x80071A44; // type:func
+Gte_ScaleMatrix = 0x80078CC4; // type:func

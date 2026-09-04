@@ -1,0 +1,4 @@
+#define ROOMLIB_DRAW_EIGHT_SCALED_NAME func_801923B0
+#define ROOMLIB_DRAW_EIGHT_SCALED_TABLE D_801929E8
+#define ROOMLIB_DRAW_EIGHT_SCALED_DEPTH D_80192E3A
+#include "../room_lib/RoomLib_DrawEightScaledParticles.inc"

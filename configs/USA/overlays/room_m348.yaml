@@ -79,7 +79,7 @@ segments:
       - [0x3390, c, func_80192378]
       - [0x3398, c, func_80192380]
       - [0x33A0, c, func_80192388]
-      - [0x33C8, asm, func_801923B0]
+      - [0x33C8, c, RoomLib_DrawEightScaledParticles_801923B0]
       - [0x3554, asm, func_8019253C]
       - [0x3860, data, D_80192848]
       - [0x3898, data, D_80192880]

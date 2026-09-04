@@ -23,3 +23,5 @@ func_80192370 = 0x80192370; // type:func
 func_80192378 = 0x80192378; // type:func
 func_80192380 = 0x80192380; // type:func
 func_80192388 = 0x80192388; // type:func
+memset = 0x80071A44; // type:func
+Gte_ScaleMatrix = 0x80078CC4; // type:func

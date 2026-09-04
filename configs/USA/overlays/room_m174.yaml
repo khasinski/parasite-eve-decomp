@@ -104,7 +104,7 @@ segments:
       - [0x44A8, c, func_80193490]
       - [0x44B0, c, func_80193498]
       - [0x44B8, c, func_801934A0]
-      - [0x44E0, asm, func_801934C8]
+      - [0x44E0, c, RoomLib_DrawEightScaledParticles_801934C8]
       - [0x466C, asm, func_80193654]
       - [0x4978, c, func_80193960]
       - [0x4980, c, RoomLib_InitB_80193968]
