@@ -1,4 +1,6 @@
 FieldEng_GetSlot = 0x800C22F8;
+ApplyMatrixSV = 0x80078C34; // type:func
+rand = 0x80071A54; // type:func
 func_8018F034 = 0x8018F034; // type:func
 func_8018F13C = 0x8018F13C; // type:func
 D_80192C08 = 0x80192C08;
