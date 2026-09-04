@@ -59,7 +59,7 @@ segments:
       - [0xF34, c, RoomLib_DrawGroundSprite_8018FF1C]
       - [0x10C4, c, func_801900AC]
       - [0x10CC, c, func_801900B4]
-      - [0x1290, asm, func_80190278]
+      - [0x1290, c, func_80190278]
       - [0x1488, c, RoomLib_UpdateTrailParticle_80190470]
       - [0x1564, asm, RoomLib_DlgBlob]
       - [0x1F24, c, RoomLib_MsgDispatch_80190F0C]
