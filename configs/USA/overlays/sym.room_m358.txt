@@ -37,3 +37,5 @@ func_80192540 = 0x80192540; // type:func
 func_80192548 = 0x80192548; // type:func
 func_8019273C = 0x8019273C; // type:func
 func_801932C8 = 0x801932C8; // type:func
+g_FieldActorListHead = 0x8009D20C;
+g_PlayerEntity = 0x8009D254;

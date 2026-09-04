@@ -2,3 +2,5 @@ RoomLib_StateDispatch_8018F250 = 0x8018F250; // type:func
 RoomLib_ArmWindowVia_8018F2BC = 0x8018F2BC; // type:func
 RoomLib_TickMain = 0x8018FD5C; // type:func
 RoomLib_WindowHandler = 0x8018F320; // type:func
+g_FieldActorListHead = 0x8009D20C;
+g_PlayerEntity = 0x8009D254;
