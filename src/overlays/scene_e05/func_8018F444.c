@@ -1,0 +1,2 @@
+#define ROOMLIB_TICK_TRIGGERED_EFFECT_NAME func_8018F444
+#include "../room_lib/RoomLib_TickTriggeredEffect.inc"

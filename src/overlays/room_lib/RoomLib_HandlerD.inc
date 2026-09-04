@@ -12,9 +12,16 @@
 #ifndef ROOMLIB_HANDLER_D_ROT_TABLE
 #define ROOMLIB_HANDLER_D_ROT_TABLE RoomMain_RotTable
 #endif
+#ifndef ROOMLIB_HANDLER_D_NAME
+#define ROOMLIB_HANDLER_D_NAME RoomLib_HandlerD
+#endif
+#ifndef ROOMLIB_HANDLER_D_NOTIFY
+#define ROOMLIB_HANDLER_D_NOTIFY RoomLib_FxNotify
+#endif
 
 extern void ROOMLIB_HANDLER_D_TRANSFORM(void *state, void *scratch);
 extern int ROOMLIB_HANDLER_D_RESET(RoomEnt *o);
+extern void ROOMLIB_HANDLER_D_NOTIFY(RoomLink *l, struct RoomSub *s, int scratch);
 
 #define ROOMLIB_HANDLER_D_GTE_STORE_MAC8(base) \
     asm volatile("addiu $2,%0,D_1F800008\n\t" \
@@ -30,7 +37,7 @@ extern int ROOMLIB_HANDLER_D_RESET(RoomEnt *o);
                  "swc2 $27,8($2)" \
                  : : "r"(base) : "$2", "memory")
 
-void RoomLib_HandlerD(RoomEnt *o) {
+void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
     RoomEnt *ent = o;
     char *state = (char *)o + 0xC;
     short *scratch = (short *)0x1F800000;
@@ -196,10 +203,12 @@ void RoomLib_HandlerD(RoomEnt *o) {
         }
     }
     if (RW8(state, 0xAA) == 0) {
-        RoomLib_FxNotify(link, (struct RoomSub *)state, (int)scratch);
+        ROOMLIB_HANDLER_D_NOTIFY(link, (struct RoomSub *)state, (int)scratch);
     }
     func_800DFB20(ent);
 }
 
 #undef ROOMLIB_HANDLER_D_GTE_STORE_MAC8
 #undef ROOMLIB_HANDLER_D_GTE_STORE_MAC18
+#undef ROOMLIB_HANDLER_D_NAME
+#undef ROOMLIB_HANDLER_D_NOTIFY

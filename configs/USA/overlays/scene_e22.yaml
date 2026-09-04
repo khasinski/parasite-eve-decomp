@@ -48,7 +48,7 @@ segments:
       - [0x570, c, func_80180570]
       - [0x578, c, RoomLib_StateDispatchVariant2_80180578]
       - [0x600, c, func_80180600]
-      - [0x6A8, asm, func_scene_e22_0006A8]
+      - [0x6A8, c, func_8018F690]
       - [0xBF0, c, RoomLib_FxNotify]
       - [0xCD0, c, RoomLib_RotateMotion_80180CD0]
       - [0xF10, c, func_8018FEF8]
