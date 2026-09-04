@@ -98,7 +98,7 @@ segments:
       - [0x3560, asm, func_80192548]
       - [0x3958, asm, func_80192940]
       - [0x3C80, c, RoomLib_SetArgs3_80192C68]
-      - [0x3CA4, asm, func_80192C8C]
+      - [0x3CA4, c, func_80192C8C]
       - [0x3F84, asm, func_80192F6C]
       - [0x4668, asm, func_80193650]
       - [0x5444, asm, func_8019442C]
