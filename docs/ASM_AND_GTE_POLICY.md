@@ -73,6 +73,22 @@ insufficient. Do not call a function handwritten merely because it contains
 GTE instructions; a normal stack frame and ordinary C control flow are strong
 evidence that it originated as C plus PSY-Q macros.
 
+## PSY-Q BIOS trampolines
+
+The 12-byte A0/B0/C0 veneers shipped in the PsyQ libraries are proven assembled
+stubs. Every instance has the canonical three-instruction BIOS ABI shape: load
+the BIOS table address into `$t2`, jump through `$t2`, and load the service
+selector into `$t1` in the delay slot. They have no C prologue, epilogue, stack
+frame, or ordinary function body, and preserve the caller's argument and return
+registers across the tail call.
+
+These veneers may use `PSYQ_BIOS_TRAMPOLINE` from
+`include/pe1/psyq_bios.h`. The macro owns exactly those three instructions and
+must not grow into a general inline-assembly escape hatch. The table and
+selector constants must be copied from the retail veneer and each generated
+object must still pass normal score, section, linked-range, and executable
+checks.
+
 ## LZCS / LZCR
 
 `gte_ldlzcs`, `gte_stlzcr`, and `gte_getlzcr` are owned by
