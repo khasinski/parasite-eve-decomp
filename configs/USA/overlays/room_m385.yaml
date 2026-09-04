@@ -68,7 +68,7 @@ segments:
       - [0x139C, c, func_80190384]
       - [0x14F4, c, RoomLib_UpdateOrbitParticles_801904DC]
       - [0x15EC, c, func_801905D4]
-      - [0x178C, asm, func_80190774]
+      - [0x178C, c, func_80190774]
       - [0x191C, c, func_80190904]
       - [0x1A70, c, func_80190A58]
       - [0x1C24, c, RoomLib_DrawOrbitSprite_80190C0C]

@@ -62,6 +62,35 @@ typedef struct RoomOrbitParticleState {
     short radiusStep;
 } RoomOrbitParticleState;
 
+typedef struct RoomOrbitBurstVector {
+    short x;
+    short y;
+    short z;
+    short pad6;
+} RoomOrbitBurstVector;
+
+typedef struct RoomOrbitBurstState {
+    RoomOrbitBurstVector position[8];
+    RoomOrbitBurstVector velocity[8];
+    RoomOrbitBurstVector secondary[8];
+    unsigned char active[8];
+    unsigned char frame[8];
+    short scale;
+    unsigned short depth;
+    unsigned char count;
+    unsigned char padD5;
+    short phaseStep;
+} RoomOrbitBurstState;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOrbitBurstState, velocity) == 0x40,
+                  room_orbit_burst_velocity_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOrbitBurstState, secondary) == 0x80,
+                  room_orbit_burst_secondary_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOrbitBurstState, active) == 0xC0,
+                  room_orbit_burst_active_offset);
+PE1_STATIC_ASSERT(sizeof(RoomOrbitBurstState) == 0xD8,
+                  room_orbit_burst_state_size);
+
 typedef struct RoomSpriteFxParams {
     short x;
     short y;

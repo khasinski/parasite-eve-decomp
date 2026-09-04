@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/room_fx.h"
 
 typedef struct RoomOrbitBurstView {
     int pad0;
@@ -7,26 +8,6 @@ typedef struct RoomOrbitBurstView {
     int baseY;
     int baseZ;
 } RoomOrbitBurstView;
-
-typedef struct RoomOrbitBurstVector {
-    short x;
-    short y;
-    short z;
-    short pad6;
-} RoomOrbitBurstVector;
-
-typedef struct RoomOrbitBurstState {
-    RoomOrbitBurstVector position[8];
-    RoomOrbitBurstVector velocity[8];
-    RoomOrbitBurstVector secondary[8];
-    unsigned char active[8];
-    unsigned char frame[8];
-    short scale;
-    unsigned short depth;
-    unsigned char count;
-    unsigned char padD5;
-    short phaseStep;
-} RoomOrbitBurstState;
 
 extern short D_800942EC;
 
