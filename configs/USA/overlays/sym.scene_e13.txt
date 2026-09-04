@@ -21,3 +21,4 @@ RoomLib_SetArgs3_80190D40 = 0x80190D40; // type:func
 RoomSlotA_80190D40 = 0x80191BC0;
 RoomSlotB_80190D40 = 0x80191BC4;
 RoomSlotC_80190D40 = 0x80191BC8;
+Akao_SendTableCommand = 0x8006DF50; // type:func
