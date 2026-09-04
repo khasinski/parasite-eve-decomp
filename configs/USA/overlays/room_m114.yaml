@@ -61,7 +61,7 @@ segments:
       - [0xB1C, c, func_8018FB04]
       - [0xCE0, c, func_8018FCC8]
       - [0xD44, c, RoomLib_InitPairedEmitter_8018FD2C]
-      - [0xEC4, asm, func_8018FEAC]
+      - [0xEC4, c, func_8018FEAC]
       - [0x1190, c, func_80190178]
       - [0x1284, c, func_8019026C]
       - [0x128C, c, RoomLib_InitB_80190274]
