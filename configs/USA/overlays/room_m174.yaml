@@ -79,7 +79,7 @@ segments:
       - [0x1B5C, c, func_80190B44]
       - [0x1B80, asm, func_80190B68]
       - [0x1D64, c, func_80190D4C]
-      - [0x1DBC, asm, func_80190DA4]
+      - [0x1DBC, c, RoomLib_InitFixedEmitterPair_80190DA4]
       - [0x1EFC, asm, func_80190EE4]
       - [0x2218, c, func_80191200]
       - [0x2268, c, func_80191250]
