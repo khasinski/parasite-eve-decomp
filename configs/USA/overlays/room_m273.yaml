@@ -173,7 +173,7 @@ segments:
       - [0xB5EC, c, func_8019A5D4]
       - [0xB640, c, func_8019A628]
       - [0xB724, c, func_8019A70C]
-      - [0xB738, asm, func_8019A720]
+      - [0xB738, c, func_8019A720]
       - [0xB828, data, D_8019A810]
       - [0xB860, data, D_8019A848]
       - [0xB87C, data, D_8019A864]
