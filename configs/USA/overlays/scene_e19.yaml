@@ -65,7 +65,7 @@ segments:
       - [0x1D88, c, func_80190D78]
       - [0x1D90, c, RoomLib_InvokeCallbackC_80190D80]
       - [0x1DB8, c, RoomLib_ArmWindowA_80190DA8]
-      - [0x1E28, asm, scene_e19_330_6EC_107C_142C_1A3C_1A94_1B40_1DB8_1E28]
+      - [0x1E28, c, func_80190E18]
       - [0x21B4, c, func_801911A4]
       - [0x21BC, asm, scene_e19_330_6EC_107C_142C_1A3C_1A94_1B40_1DB8_1E28_21BC]
       - [0x2554, c, func_80191544]

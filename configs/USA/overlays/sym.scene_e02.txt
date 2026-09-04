@@ -1,4 +1,5 @@
 RoomLib_PlantTable_8018F23C = 0x8018F23C; // type:func
+g_PlayerEntity = 0x8009D254;
 FieldEng_GetSlot = 0x800C22F8;
 RoomLib_TableB_8018F23C = 0x801954EC;
 RoomLib_Spawn6_8018F268 = 0x8018F268; // type:func

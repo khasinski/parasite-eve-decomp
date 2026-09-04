@@ -1,4 +1,5 @@
 RoomLib_InitB_8018F280 = 0x8018F280; // type:func
+g_PlayerEntity = 0x8009D254;
 RoomLib_HandlerD = 0x8018F6D4; // type:func
 RoomLib_NotifyArmB_8018F634 = 0x8018F634; // type:func
 RoomLib_FxNotify = 0x8018FC1C; // type:func

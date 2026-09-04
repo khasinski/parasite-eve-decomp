@@ -1,4 +1,5 @@
 RoomLib_Spawn6_8018F27C = 0x8018F27C; // type:func
+g_PlayerEntity = 0x8009D254;
 FieldEng_Spawn6 = 0x800C2AF0;
 RoomLib_CloseTarget_8018F340 = 0x8018F340; // type:func
 FieldEng_GetStatus = 0x800C6CE0;

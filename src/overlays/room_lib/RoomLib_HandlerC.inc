@@ -22,18 +22,22 @@
 extern void ROOMLIB_HANDLER_C_PHASE(void);
 extern int ROOMLIB_HANDLER_C_RESET(RoomEnt *obj);
 
+#ifndef ROOMLIB_HANDLER_C_GTE_LOAD_VECTOR
 #define ROOMLIB_HANDLER_C_GTE_LOAD_VECTOR(base) \
     asm volatile("addiu $2,%0,D_1F800020\n\t" \
                  "lwc2 $0,0($2)\n\t" \
                  "lwc2 $1,4($2)" \
                  : : "r"(base) : "$2", "memory")
+#endif
 
+#ifndef ROOMLIB_HANDLER_C_GTE_STORE_MAC
 #define ROOMLIB_HANDLER_C_GTE_STORE_MAC(base) \
     asm volatile("addiu $2,%0,D_1F800038\n\t" \
                  "swc2 $25,0($2)\n\t" \
                  "swc2 $26,4($2)\n\t" \
                  "swc2 $27,8($2)" \
                  : : "r"(base) : "$2", "memory")
+#endif
 
 void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
     RoomEnt *self = obj;
@@ -42,7 +46,6 @@ void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
     RoomLink *link = self->link;
     short *scratch = (short *)0x1F800000;
     int angle;
-
     if (self->t1A == 0) {
         self->t1A = 1;
         RW8(self, 0xA2) = 0;

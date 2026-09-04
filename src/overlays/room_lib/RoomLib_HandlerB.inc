@@ -22,18 +22,22 @@
 extern void ROOMLIB_HANDLER_B_PHASE();
 extern int ROOMLIB_HANDLER_B_RESET(RoomEnt *obj);
 
+#ifndef ROOMLIB_HANDLER_B_GTE_LOAD_VECTOR
 #define ROOMLIB_HANDLER_B_GTE_LOAD_VECTOR(base) \
     asm volatile("addiu $2,%0,D_1F800020\n\t" \
                  "lwc2 $0,0($2)\n\t" \
                  "lwc2 $1,4($2)" \
                  : : "r"(base) : "$2", "memory")
+#endif
 
+#ifndef ROOMLIB_HANDLER_B_GTE_STORE_MAC
 #define ROOMLIB_HANDLER_B_GTE_STORE_MAC(base) \
     asm volatile("addiu $2,%0,D_1F800028\n\t" \
                  "swc2 $25,0($2)\n\t" \
                  "swc2 $26,4($2)\n\t" \
                  "swc2 $27,8($2)" \
                  : : "r"(base) : "$2", "memory")
+#endif
 
 void ROOMLIB_HANDLER_B_NAME(RoomEnt *obj) {
     RoomEnt *self = obj;
@@ -92,6 +96,9 @@ void ROOMLIB_HANDLER_B_NAME(RoomEnt *obj) {
             RW32(state, 0x7C) = 0;
             if (RW32(state, 0x4) != 0) {
                 RW32((void *)RW32(state, 0x4), 0) = 2;
+#ifdef ROOMLIB_HANDLER_B_RESET_ON_ARM
+                goto reset;
+#endif
             }
             return;
         case 2:
@@ -175,9 +182,18 @@ void ROOMLIB_HANDLER_B_NAME(RoomEnt *obj) {
             RW16(link, 0x3A), angle, RW16(state, 0x8A));
     }
     func_800DFB20(self);
+#ifdef ROOMLIB_HANDLER_B_RESET_ON_ARM
+    if (RW32(scratch, 0x48) == 0) {
+        goto done;
+    }
+reset:
+    ROOMLIB_HANDLER_B_RESET(self);
+done:
+#else
     if (RW32(scratch, 0x48) != 0) {
         ROOMLIB_HANDLER_B_RESET(self);
     }
+#endif
 }
 
 #undef ROOMLIB_HANDLER_B_GTE_LOAD_VECTOR
