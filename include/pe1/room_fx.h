@@ -210,6 +210,65 @@ typedef struct RoomEightParticleContext {
     int baseZ;
 } RoomEightParticleContext;
 
+typedef struct RoomFxTransform {
+    int pad00[5];
+    int x;
+    int y;
+    int z;
+} RoomFxTransform;
+
+typedef struct RoomFxTransformOwner {
+    unsigned char pad00[0x238];
+    RoomFxTransform *transforms;
+} RoomFxTransformOwner;
+
+typedef struct RoomFxControl {
+    unsigned char pad00[2];
+    short frame;
+} RoomFxControl;
+
+/* State shared by the paired rising-sprite effects in the m049 family. */
+typedef struct RoomFxPairedSpriteState {
+    unsigned short x;
+    unsigned short y;
+    unsigned short z;
+    unsigned char pad06[2];
+    short velocityX;
+    short velocityY;
+    short velocityZ;
+    unsigned char pad0E[2];
+    short alpha;
+    unsigned short alphaStep;
+    unsigned short sparkleTimer;
+    unsigned char pad16[2];
+    unsigned short sparkleX;
+    unsigned short sparkleY;
+    unsigned short sparkleZ;
+    unsigned char pad1E[2];
+    unsigned short sparkleAlpha;
+    short sparkleLife;
+    short resourceSelector;
+    short active;
+    short height;
+    short width;
+    short phase;
+    short transformIndex;
+    unsigned int counter;
+} RoomFxPairedSpriteState;
+
+PE1_STATIC_ASSERT(sizeof(RoomFxTransform) == 0x20,
+                  room_fx_transform_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxTransformOwner, transforms) == 0x238,
+                  room_fx_transform_owner_transforms_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxPairedSpriteState, sparkleX) == 0x18,
+                  room_fx_paired_sprite_sparkle_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxPairedSpriteState, resourceSelector) == 0x24,
+                  room_fx_paired_sprite_resource_selector_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxPairedSpriteState, transformIndex) == 0x2E,
+                  room_fx_paired_sprite_transform_index_offset);
+PE1_STATIC_ASSERT(sizeof(RoomFxPairedSpriteState) == 0x34,
+                  room_fx_paired_sprite_state_size);
+
 PE1_STATIC_ASSERT(sizeof(RoomEightParticleVector) == 8,
                   room_eight_particle_vector_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomEightParticleState, velocity) == 0x44,
