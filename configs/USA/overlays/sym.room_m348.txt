@@ -25,3 +25,5 @@ func_80192380 = 0x80192380; // type:func
 func_80192388 = 0x80192388; // type:func
 memset = 0x80071A44; // type:func
 Gte_ScaleMatrix = 0x80078CC4; // type:func
+ApplyMatrixSV = 0x80078C34; // type:func
+rand = 0x80071A54; // type:func

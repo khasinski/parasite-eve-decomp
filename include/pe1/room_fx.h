@@ -179,6 +179,54 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFallingParticleState, velocityX) == 0x18,
 PE1_STATIC_ASSERT(sizeof(RoomFallingParticleState) == 0x1E,
                   room_falling_particle_state_size);
 
+typedef struct RoomEightParticleVector {
+    unsigned short x;
+    unsigned short y;
+    unsigned short z;
+    unsigned short pad06;
+} RoomEightParticleVector;
+
+typedef struct RoomEightParticleState {
+    int activeCount;
+    RoomEightParticleVector position[8];
+    RoomFxSeed8 velocity[8];
+    unsigned short scale[8];
+    short fade[8];
+    unsigned short angle[8];
+    unsigned char active[8];
+} RoomEightParticleState;
+
+typedef struct RoomEightParticleControl {
+    unsigned char pad00;
+    unsigned char state;
+    short frame;
+} RoomEightParticleControl;
+
+typedef struct RoomEightParticleContext {
+    char *root;
+    unsigned char pad04[0x34];
+    int baseX;
+    int baseY;
+    int baseZ;
+} RoomEightParticleContext;
+
+PE1_STATIC_ASSERT(sizeof(RoomEightParticleVector) == 8,
+                  room_eight_particle_vector_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomEightParticleState, velocity) == 0x44,
+                  room_eight_particle_velocity_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomEightParticleState, scale) == 0x84,
+                  room_eight_particle_scale_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomEightParticleState, fade) == 0x94,
+                  room_eight_particle_fade_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomEightParticleState, angle) == 0xA4,
+                  room_eight_particle_angle_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomEightParticleState, active) == 0xB4,
+                  room_eight_particle_active_offset);
+PE1_STATIC_ASSERT(sizeof(RoomEightParticleState) == 0xBC,
+                  room_eight_particle_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomEightParticleContext, baseX) == 0x38,
+                  room_eight_particle_context_base_x_offset);
+
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxGroundSpriteParams, depth) == 0x82,
                   room_fx_ground_sprite_depth_offset);
 

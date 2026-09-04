@@ -76,3 +76,5 @@ func_80196494 = 0x80196494; // type:func
 Geo_PointInPoly = 0x8001CAB0; // type:func
 memset = 0x80071A44; // type:func
 Gte_ScaleMatrix = 0x80078CC4; // type:func
+ApplyMatrixSV = 0x80078C34; // type:func
+rand = 0x80071A54; // type:func
