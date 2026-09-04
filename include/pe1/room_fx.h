@@ -153,6 +153,32 @@ typedef struct RoomFxTimedRenderState {
     unsigned short frame;
 } RoomFxTimedRenderState;
 
+typedef struct RoomFallingParticleControl {
+    unsigned char pad00;
+    unsigned char state;
+} RoomFallingParticleControl;
+
+typedef struct RoomFallingParticleState {
+    unsigned char active;
+    unsigned char pad01;
+    unsigned char frame;
+    unsigned char pad03;
+    unsigned short phase;
+    short intensity;
+    unsigned short x;
+    unsigned short y;
+    unsigned short z;
+    unsigned char pad0E[0xA];
+    unsigned short velocityX;
+    unsigned short velocityY;
+    unsigned short velocityZ;
+} RoomFallingParticleState;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFallingParticleState, velocityX) == 0x18,
+                  room_falling_particle_velocity_x_offset);
+PE1_STATIC_ASSERT(sizeof(RoomFallingParticleState) == 0x1E,
+                  room_falling_particle_state_size);
+
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxGroundSpriteParams, depth) == 0x82,
                   room_fx_ground_sprite_depth_offset);
 

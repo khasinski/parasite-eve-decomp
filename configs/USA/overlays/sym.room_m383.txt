@@ -74,3 +74,4 @@ func_8019588C = 0x8019588C; // type:func
 func_80195F78 = 0x80195F78; // type:func
 func_80196494 = 0x80196494; // type:func
 func_80196C74 = 0x80196C74; // type:func
+Geo_PointInPoly = 0x8001CAB0; // type:func

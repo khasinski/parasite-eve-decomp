@@ -56,7 +56,7 @@ segments:
       - [0x624, c, func_8018F60C]
       - [0x694, asm, func_8018F67C]
       - [0xA90, asm, func_8018FA78]
-      - [0xEB4, asm, func_8018FE9C]
+      - [0xEB4, c, RoomLib_UpdateFallingParticle_8018FE9C]
       - [0x1034, c, func_8019001C]
       - [0x1044, c, func_8019002C]
       - [0x1140, c, func_80190128]
