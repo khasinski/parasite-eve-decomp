@@ -46,7 +46,7 @@ segments:
       - [0x318, c, func_8018F300]
       - [0x320, c, func_8018F308]
       - [0x3A0, c, func_8018F388]
-      - [0x840, asm, func_8018F828]
+      - [0x840, c, func_8018F828]
       - [0xBE4, asm, func_8018FBCC]
       - [0x1010, data, D_8018FFF8]
       - [0x101C, data, RoomLib_TableA_8018F054]

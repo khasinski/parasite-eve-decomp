@@ -52,7 +52,7 @@ segments:
       - [0x530, c, func_8018F518]
       - [0x538, c, func_8018F520]
       - [0x5B8, c, func_8018F5A0]
-      - [0xA58, asm, func_8018FA40]
+      - [0xA58, c, func_8018FA40]
       - [0xDFC, asm, func_8018FDE4]
       - [0x1228, c, func_80190210]
       - [0x1230, c, RoomLib_PlantTable_80190218]

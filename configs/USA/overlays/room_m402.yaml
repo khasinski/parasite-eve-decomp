@@ -52,7 +52,7 @@ segments:
       - [0x4F8, c, func_8018F4E0]
       - [0x500, c, func_8018F4E8]
       - [0x580, c, func_8018F568]
-      - [0xA20, asm, func_8018FA08]
+      - [0xA20, c, func_8018FA08]
       - [0xDC4, asm, func_8018FDAC]
       - [0x11F0, c, func_801901D8]
       - [0x11F8, c, RoomLib_InitB_801901E0]
