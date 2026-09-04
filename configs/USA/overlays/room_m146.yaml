@@ -67,7 +67,7 @@ segments:
       - [0x1600, c, func_801905E8]
       - [0x168C, c, RoomLib_CloseTarget_80190674]
       - [0x1710, c, func_801906F8]
-      - [0x1718, asm, func_80190700]
+      - [0x1718, c, func_80190700]
       - [0x1908, c, func_801908F0]
       - [0x1910, c, func_801908F8]
       - [0x1990, asm, func_80190978]

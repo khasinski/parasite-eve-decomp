@@ -48,7 +48,7 @@ segments:
       - [0x2D8, c, func_8018F2C0]
       - [0x364, c, RoomLib_CloseTarget_8018F34C]
       - [0x3E8, c, func_8018F3D0]
-      - [0x3F0, asm, func_8018F3D8]
+      - [0x3F0, c, func_8018F3D8]
       - [0x5E0, c, func_8018F5C8]
       - [0x5E8, c, func_8018F5D0]
       - [0x668, asm, func_8018F650]
