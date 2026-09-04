@@ -84,7 +84,7 @@ segments:
       - [0x2598, c, RoomLib_ParticleStep_80191580]
       - [0x2674, asm, func_8019165C]
       - [0x27B4, asm, func_8019179C]
-      - [0x30C8, asm, func_801920B0]
+      - [0x30C8, c, func_801920B0]
       - [0x33BC, c, func_801923A4]
       - [0x3460, data, D_80192448]
       - [0x347C, data, RoomLib_TableC]
