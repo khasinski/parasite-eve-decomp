@@ -254,6 +254,7 @@ typedef struct RoomFxPairedSpriteState {
     short phase;
     short transformIndex;
     unsigned int counter;
+    short minimumHeight;
 } RoomFxPairedSpriteState;
 
 PE1_STATIC_ASSERT(sizeof(RoomFxTransform) == 0x20,
@@ -266,7 +267,9 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxPairedSpriteState, resourceSelector) == 0x2
                   room_fx_paired_sprite_resource_selector_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxPairedSpriteState, transformIndex) == 0x2E,
                   room_fx_paired_sprite_transform_index_offset);
-PE1_STATIC_ASSERT(sizeof(RoomFxPairedSpriteState) == 0x34,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxPairedSpriteState, minimumHeight) == 0x34,
+                  room_fx_paired_sprite_minimum_height_offset);
+PE1_STATIC_ASSERT(sizeof(RoomFxPairedSpriteState) == 0x38,
                   room_fx_paired_sprite_state_size);
 
 PE1_STATIC_ASSERT(sizeof(RoomEightParticleVector) == 8,

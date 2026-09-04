@@ -57,7 +57,7 @@ segments:
       - [0x2970, c, RoomLib_UpdateSparkleHeight_80191958]
       - [0x2CAC, c, func_80191C94]
       - [0x2D5C, c, func_80191D44]
-      - [0x3190, asm, func_80192178]
+      - [0x3190, c, RoomLib_UpdateTransformedSparkle_80192178]
       - [0x34AC, c, func_80192494]
       - [0x34B4, c, func_8019249C]
       - [0x3698, c, func_80192680]
