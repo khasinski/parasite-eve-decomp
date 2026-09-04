@@ -51,7 +51,7 @@ segments:
       - [0x3E4, c, RoomLib_InitEffectPaletteB_8018F3CC]
       - [0x528, c, func_8018F510]
       - [0x530, c, func_8018F518]
-      - [0x5B0, asm, func_8018F598]
+      - [0x5B0, c, func_8018F598]
       - [0x8F0, asm, func_8018F8D8]
       - [0xDA8, c, func_8018FD90]
       - [0xEA0, c, func_8018FE88]
