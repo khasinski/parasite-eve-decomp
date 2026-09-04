@@ -47,7 +47,7 @@ segments:
       - [0x2F0, c, func_8018F2E0]
       - [0x2F8, c, func_8018F2E8]
       - [0x378, c, func_8018F368]
-      - [0x528, asm, func_8018F518]
+      - [0x528, c, func_8018F518]
       - [0x828, c, RoomLib_ParticleTickA_8018F818]
       - [0x91C, c, func_8018F90C]
       - [0x924, c, func_8018F914]
