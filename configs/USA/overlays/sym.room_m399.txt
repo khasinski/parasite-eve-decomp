@@ -44,3 +44,5 @@ D_801943A0 = 0x801943A0;
 D_801943A4 = 0x801943A4;
 D_801943A8 = 0x801943A8;
 func_80193CDC = 0x80193CDC; // type:func
+RotMatrixYXZ = 0x80079754; // type:func
+Gte_ScaleMatrix = 0x80078CC4; // type:func

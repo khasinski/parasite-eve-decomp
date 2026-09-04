@@ -48,3 +48,5 @@ RoomMain_ActorPtr2 = 0x8009D254; // absolute:True
 Akao_SendTableCommand = 0x8006DF50; // type:func
 RoomLib_InitE_8019253C = 0x8019253C; // type:func
 RoomLib_HandlerG = 0x8019280C;
+RotMatrixYXZ = 0x80079754; // type:func
+Gte_ScaleMatrix = 0x80078CC4; // type:func

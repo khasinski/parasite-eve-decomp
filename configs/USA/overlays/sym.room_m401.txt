@@ -63,3 +63,5 @@ func_80193944 = 0x80193944; // type:func
 func_80193E60 = 0x80193E60; // type:func
 func_801947C8 = 0x801947C8; // type:func
 func_80194E30 = 0x80194E30; // type:func
+RotMatrixYXZ = 0x80079754; // type:func
+Gte_ScaleMatrix = 0x80078CC4; // type:func

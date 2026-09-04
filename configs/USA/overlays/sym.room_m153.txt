@@ -61,3 +61,4 @@ func_80192614 = 0x80192614; // type:func
 func_80192D00 = 0x80192D00; // type:func
 func_8019321C = 0x8019321C; // type:func
 func_80193B84 = 0x80193B84; // type:func
+RotMatrixYXZ = 0x80079754; // type:func

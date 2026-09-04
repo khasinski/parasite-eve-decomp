@@ -133,7 +133,7 @@ segments:
       - [0x5668, c, RoomLib_InitE_80194650]
       - [0x56CC, c, func_801946B4]
       - [0x57E0, c, func_801947C8]
-      - [0x57E8, asm, func_801947D0]
+      - [0x57E8, c, RoomLib_UpdateTransformScale_801947D0]
       - [0x5938, c, RoomLib_HandlerG]
       - [0x5A6C, asm, func_80194A54]
       - [0x5E2C, c, RoomLib_Set4ClearSignal_80194E14]
