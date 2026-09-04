@@ -53,7 +53,7 @@ segments:
       - [0x5E8, c, func_8018F5D0]
       - [0x668, c, func_8018F650]
       - [0x828, c, func_8018F810]
-      - [0x9F8, asm, func_8018F9E0]
+      - [0x9F8, c, func_8018F9E0]
       - [0xBD4, c, RoomLib_Set3Range_8018FBBC]
       - [0xBEC, c, func_8018FBD4]
       - [0xD18, c, RoomLib_FxShimmer_8018FD00]

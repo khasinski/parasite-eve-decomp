@@ -66,7 +66,7 @@ segments:
       - [0x15D8, c, func_801905C0]
       - [0x1658, c, func_80190640]
       - [0x1818, c, func_80190800]
-      - [0x19E8, asm, func_801909D0]
+      - [0x19E8, c, func_801909D0]
       - [0x1BC4, c, RoomLib_Set3Range_80190BAC]
       - [0x1BDC, c, func_80190BC4]
       - [0x1D08, c, RoomLib_FxShimmer_80190CF0]

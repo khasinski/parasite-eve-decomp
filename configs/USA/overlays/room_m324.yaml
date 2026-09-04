@@ -48,7 +48,7 @@ segments:
       - [0x440, c, func_8018F428]
       - [0x4C0, c, func_8018F4A8]
       - [0x680, c, func_8018F668]
-      - [0x850, asm, func_8018F838]
+      - [0x850, c, func_8018F838]
       - [0xA2C, c, RoomLib_Set3Range_8018FA14]
       - [0xA44, c, func_8018FA2C]
       - [0xB70, c, RoomLib_FxShimmer_8018FB58]

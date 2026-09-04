@@ -1,0 +1,5 @@
+/* CC1_FLAGS: -fno-strength-reduce */
+#define ROOMFX_UPDATE_PAIRED_SPRITE_NAME func_8018F838
+#define ROOMFX_UPDATE_PAIRED_SPRITE_CONFIG D_80190E78
+#define ROOMFX_UPDATE_PAIRED_SPRITE_CALLBACK D_80190E30
+#include "../room_lib/RoomFx_UpdatePairedSprite.inc"
