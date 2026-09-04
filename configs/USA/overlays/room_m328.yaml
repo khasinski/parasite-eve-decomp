@@ -53,7 +53,7 @@ segments:
       - [0x9BC, c, func_8018F9A4]
       - [0xAA8, c, func_8018FA90]
       - [0xAC4, c, func_8018FAAC]
-      - [0xB88, asm, func_8018FB70]
+      - [0xB88, c, func_8018FB70]
       - [0xDE4, c, func_8018FDCC]
       - [0xEC0, c, func_8018FEA8]
       - [0xF34, c, RoomLib_DrawGroundSprite_8018FF1C]
