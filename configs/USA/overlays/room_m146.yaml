@@ -71,7 +71,7 @@ segments:
       - [0x1908, c, func_801908F0]
       - [0x1910, c, func_801908F8]
       - [0x1990, asm, func_80190978]
-      - [0x1B50, asm, func_80190B38]
+      - [0x1B50, c, func_80190B38]
       - [0x1D20, asm, func_80190D08]
       - [0x1EFC, c, RoomLib_Set3Range_80190EE4]
       - [0x1F14, c, func_80190EFC]
