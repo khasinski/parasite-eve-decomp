@@ -521,6 +521,9 @@ def process_module(module, shared, assembler, workers):
             unit = relative[len(src_lead):].removesuffix(".o")
             unit = unit.removesuffix(".c").removesuffix(".s")
             source = asm_root / ("%s.s" % unit)
+            rodata = asm_root / "data" / ("%s.rodata.s" % unit)
+            if rodata.exists() and ".section .rodata" not in source.read_text():
+                source.write_text(source.read_text() + "\n" + rodata.read_text())
             fresh = True
         else:
             source = work / relative.removesuffix(".o")
