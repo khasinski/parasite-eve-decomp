@@ -35,3 +35,6 @@ RoomLib_SetArgs3_80194664 = 0x80194664; // type:func
 RoomSlotA_80194664 = 0x801956C8;
 RoomSlotB_80194664 = 0x801956CC;
 RoomSlotC_80194664 = 0x801956D0;
+rand = 0x80071A54; // type:func
+rsin = 0x80077CF4; // type:func
+rcos = 0x80077DC4; // type:func
