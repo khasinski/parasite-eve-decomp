@@ -101,7 +101,7 @@ segments:
       - [0x3CA4, c, func_80192C8C]
       - [0x3F84, asm, func_80192F6C]
       - [0x4668, asm, func_80193650]
-      - [0x5444, asm, func_8019442C]
+      - [0x5444, c, func_8019442C]
       - [0x5728, c, RoomLib_SetArg1_80194710]
       - [0x5738, data, D_80194720]
       - [0x5770, data, D_80194758]

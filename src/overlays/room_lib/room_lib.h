@@ -2091,6 +2091,8 @@ typedef struct RoomBlob8 {
 
 typedef struct RoomMsgSub {
     short h0;
+    short h2;
+    short h4;
 } RoomMsgSub;
 
 typedef struct RoomMsg {

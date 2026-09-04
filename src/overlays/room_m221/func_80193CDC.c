@@ -1,0 +1,4 @@
+#define ROOMLIB_RUN_BURST_SPAWNER_NAME func_80193CDC
+#define ROOMLIB_BURST_SPAWNER_SEED D_8018F218
+#define ROOMLIB_BURST_SPAWNER_CALLBACK func_80192F00
+#include "../room_lib/RoomLib_RunBurstSpawner.inc"

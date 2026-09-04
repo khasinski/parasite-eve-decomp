@@ -98,7 +98,7 @@ segments:
       - [0x3554, c, func_8019253C]
       - [0x3834, asm, func_8019281C]
       - [0x3F18, asm, func_80192F00]
-      - [0x4CF4, asm, func_80193CDC]
+      - [0x4CF4, c, func_80193CDC]
       - [0x4FD8, c, RoomLib_SetArg1_80193FC0]
       - [0x4FE8, data, D_80193FD0]
       - [0x5020, data, D_80194008]
