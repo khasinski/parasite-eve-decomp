@@ -51,7 +51,7 @@ segments:
       - [0x3B4, c, func_8018F39C]
       - [0x4F8, c, func_8018F4E0]
       - [0x500, c, func_8018F4E8]
-      - [0x580, asm, func_8018F568]
+      - [0x580, c, func_8018F568]
       - [0xA20, asm, func_8018FA08]
       - [0xDC4, asm, func_8018FDAC]
       - [0x11F0, c, func_801901D8]
