@@ -49,7 +49,7 @@ segments:
       - [0x510, c, func_8018F4F8]
       - [0x518, c, func_8018F500]
       - [0x5A0, c, RoomLib_NotifyArmB_8018F588]
-      - [0x648, asm, RoomLib_HandlerD]
+      - [0x648, c, RoomLib_HandlerD]
       - [0xB90, c, RoomLib_FxNotify]
       - [0xC70, c, RoomLib_RotateMotion_8018FC58]
       - [0xEB0, c, func_8018FE98]

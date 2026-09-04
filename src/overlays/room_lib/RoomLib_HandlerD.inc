@@ -16,6 +16,20 @@
 extern void ROOMLIB_HANDLER_D_TRANSFORM(void *state, void *scratch);
 extern int ROOMLIB_HANDLER_D_RESET(RoomEnt *o);
 
+#define ROOMLIB_HANDLER_D_GTE_STORE_MAC8(base) \
+    asm volatile("addiu $2,%0,D_1F800008\n\t" \
+                 "swc2 $25,0($2)\n\t" \
+                 "swc2 $26,4($2)\n\t" \
+                 "swc2 $27,8($2)" \
+                 : : "r"(base) : "$2", "memory")
+
+#define ROOMLIB_HANDLER_D_GTE_STORE_MAC18(base) \
+    asm volatile("addiu $2,%0,D_1F800018\n\t" \
+                 "swc2 $25,0($2)\n\t" \
+                 "swc2 $26,4($2)\n\t" \
+                 "swc2 $27,8($2)" \
+                 : : "r"(base) : "$2", "memory")
+
 void RoomLib_HandlerD(RoomEnt *o) {
     RoomEnt *ent = o;
     char *state = (char *)o + 0xC;
@@ -95,7 +109,7 @@ void RoomLib_HandlerD(RoomEnt *o) {
     gte_ldrotmatrix((void *)((int)scratch | 0x28));
     gte_ldv0((void *)scratch);
     gte_mvmva();
-    gte_stmac((void *)((char *)scratch + 8));
+    ROOMLIB_HANDLER_D_GTE_STORE_MAC8(scratch);
     RW32(state, 0x30) += *(int *)((char *)scratch + 8) << 12;
     RW32(state, 0x38) += *(int *)((char *)scratch + 0x10) << 12;
 
@@ -146,7 +160,7 @@ void RoomLib_HandlerD(RoomEnt *o) {
             gte_ldrotmatrix(state + 0x10);
             gte_ldv0((void *)scratch);
             gte_mvmva();
-            gte_stmac((void *)((char *)scratch + 0x18));
+            ROOMLIB_HANDLER_D_GTE_STORE_MAC18(scratch);
         }
     }
 
@@ -186,3 +200,6 @@ void RoomLib_HandlerD(RoomEnt *o) {
     }
     func_800DFB20(ent);
 }
+
+#undef ROOMLIB_HANDLER_D_GTE_STORE_MAC8
+#undef ROOMLIB_HANDLER_D_GTE_STORE_MAC18
