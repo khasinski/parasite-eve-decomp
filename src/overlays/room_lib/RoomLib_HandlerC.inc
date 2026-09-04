@@ -15,11 +15,14 @@
 #ifndef ROOMLIB_HANDLER_C_ROT_TABLE
 #define ROOMLIB_HANDLER_C_ROT_TABLE RoomMain_RotTable
 #endif
+#ifndef ROOMLIB_HANDLER_C_NAME
+#define ROOMLIB_HANDLER_C_NAME RoomLib_HandlerC
+#endif
 
 extern void ROOMLIB_HANDLER_C_PHASE(void);
 extern int ROOMLIB_HANDLER_C_RESET(RoomEnt *obj);
 
-void RoomLib_HandlerC(RoomEnt *obj) {
+void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
     RoomEnt *self = obj;
     RoomLibHandlerCState *state =
         (RoomLibHandlerCState *)((char *)self + 0xC);

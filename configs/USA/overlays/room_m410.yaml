@@ -80,7 +80,7 @@ segments:
       - [0x2808, c, func_801917F0]
       - [0x2810, c, func_801917F8]
       - [0x2838, c, func_80191820]
-      - [0x28A8, asm, func_80191890]
+      - [0x28A8, c, func_80191890]
       - [0x2D24, c, func_80191D0C]
       - [0x2D2C, c, func_80191D14]
       - [0x30B4, c, func_8019209C]
