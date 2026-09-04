@@ -18,20 +18,35 @@
 #ifndef ROOMLIB_HANDLER_D_NOTIFY
 #define ROOMLIB_HANDLER_D_NOTIFY RoomLib_FxNotify
 #endif
+#ifndef ROOMLIB_HANDLER_D_BUILD_ROT
+#define ROOMLIB_HANDLER_D_BUILD_ROT func_80079754
+#endif
+#ifndef ROOMLIB_HANDLER_D_GTE_OFFSET8
+#define ROOMLIB_HANDLER_D_GTE_OFFSET8 D_1F800008
+#endif
+#ifndef ROOMLIB_HANDLER_D_GTE_OFFSET18
+#define ROOMLIB_HANDLER_D_GTE_OFFSET18 D_1F800018
+#endif
+
+#define ROOMLIB_HANDLER_D_STRINGIFY_1(value) #value
+#define ROOMLIB_HANDLER_D_STRINGIFY(value) ROOMLIB_HANDLER_D_STRINGIFY_1(value)
 
 extern void ROOMLIB_HANDLER_D_TRANSFORM(void *state, void *scratch);
 extern int ROOMLIB_HANDLER_D_RESET(RoomEnt *o);
 extern void ROOMLIB_HANDLER_D_NOTIFY(RoomLink *l, struct RoomSub *s, int scratch);
+extern void ROOMLIB_HANDLER_D_BUILD_ROT(void *rotation, void *matrix);
 
 #define ROOMLIB_HANDLER_D_GTE_STORE_MAC8(base) \
-    asm volatile("addiu $2,%0,D_1F800008\n\t" \
+    asm volatile("addiu $2,%0," \
+                 ROOMLIB_HANDLER_D_STRINGIFY(ROOMLIB_HANDLER_D_GTE_OFFSET8) "\n\t" \
                  "swc2 $25,0($2)\n\t" \
                  "swc2 $26,4($2)\n\t" \
                  "swc2 $27,8($2)" \
                  : : "r"(base) : "$2", "memory")
 
 #define ROOMLIB_HANDLER_D_GTE_STORE_MAC18(base) \
-    asm volatile("addiu $2,%0,D_1F800018\n\t" \
+    asm volatile("addiu $2,%0," \
+                 ROOMLIB_HANDLER_D_STRINGIFY(ROOMLIB_HANDLER_D_GTE_OFFSET18) "\n\t" \
                  "swc2 $25,0($2)\n\t" \
                  "swc2 $26,4($2)\n\t" \
                  "swc2 $27,8($2)" \
@@ -80,7 +95,7 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
             RW32(state, 0x98) = initial_velocity >> 3;
             func_800DFE94(left, right, state + 0x78);
             right = state + 0x78;
-            func_80079754(right, state + 0x10);
+            ROOMLIB_HANDLER_D_BUILD_ROT(right, state + 0x10);
         }
     }
 
@@ -199,7 +214,7 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
             right = state + 0x78;
             RW16(state, 0x7A) = FieldEng_TurnToward(
                 scratch[1], RW16(state, 0x7A), RW16(state, 0x9C)) & 0xFFF;
-            func_80079754(right, state + 0x10);
+            ROOMLIB_HANDLER_D_BUILD_ROT(right, state + 0x10);
         }
     }
     if (RW8(state, 0xAA) == 0) {
@@ -210,5 +225,10 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
 
 #undef ROOMLIB_HANDLER_D_GTE_STORE_MAC8
 #undef ROOMLIB_HANDLER_D_GTE_STORE_MAC18
+#undef ROOMLIB_HANDLER_D_BUILD_ROT
+#undef ROOMLIB_HANDLER_D_GTE_OFFSET8
+#undef ROOMLIB_HANDLER_D_GTE_OFFSET18
+#undef ROOMLIB_HANDLER_D_STRINGIFY
+#undef ROOMLIB_HANDLER_D_STRINGIFY_1
 #undef ROOMLIB_HANDLER_D_NAME
 #undef ROOMLIB_HANDLER_D_NOTIFY
