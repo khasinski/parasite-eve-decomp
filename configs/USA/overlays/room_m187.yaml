@@ -51,7 +51,7 @@ segments:
       - [0x778, asm, func_8018F760]
       - [0x918, asm, func_8018F900]
       - [0xAA8, c, func_8018FA90]
-      - [0xBFC, asm, func_8018FBE4]
+      - [0xBFC, c, func_8018FBE4]
       - [0xDB0, c, RoomLib_DrawOrbitSprite_8018FD98]
       - [0xEE0, c, func_8018FEC8]
       - [0xFC0, data, D_8018FFA8]
