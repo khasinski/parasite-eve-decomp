@@ -22,6 +22,19 @@
 extern void ROOMLIB_HANDLER_C_PHASE(void);
 extern int ROOMLIB_HANDLER_C_RESET(RoomEnt *obj);
 
+#define ROOMLIB_HANDLER_C_GTE_LOAD_VECTOR(base) \
+    asm volatile("addiu $2,%0,D_1F800020\n\t" \
+                 "lwc2 $0,0($2)\n\t" \
+                 "lwc2 $1,4($2)" \
+                 : : "r"(base) : "$2", "memory")
+
+#define ROOMLIB_HANDLER_C_GTE_STORE_MAC(base) \
+    asm volatile("addiu $2,%0,D_1F800038\n\t" \
+                 "swc2 $25,0($2)\n\t" \
+                 "swc2 $26,4($2)\n\t" \
+                 "swc2 $27,8($2)" \
+                 : : "r"(base) : "$2", "memory")
+
 void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
     RoomEnt *self = obj;
     RoomLibHandlerCState *state =
@@ -75,9 +88,9 @@ void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
         scratch[17] = 0;
         scratch[18] = state->localOffset[2] >> 12;
         gte_ldrotmatrix((void *)scratch);
-        gte_ldv0((void *)((char *)scratch + 0x20));
+        ROOMLIB_HANDLER_C_GTE_LOAD_VECTOR(scratch);
         gte_mvmva();
-        gte_stmac((void *)((char *)scratch + 0x38));
+        ROOMLIB_HANDLER_C_GTE_STORE_MAC(scratch);
 
         RW32(state, 0x40) = RW32(scratch, 0x28) +
                             (RW32(scratch, 0x38) << 12);
@@ -153,3 +166,6 @@ void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
         ROOMLIB_HANDLER_C_RESET(self);
     }
 }
+
+#undef ROOMLIB_HANDLER_C_GTE_LOAD_VECTOR
+#undef ROOMLIB_HANDLER_C_GTE_STORE_MAC
