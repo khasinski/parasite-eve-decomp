@@ -35,6 +35,7 @@ RoomLib_Spawn6_8018F258 = 0x8018F258; // type:func
 FieldEng_Spawn6 = 0x800C2AF0;
 RoomLib_PlantTable_8018F22C = 0x8018F22C; // type:func
 FieldEng_GetSlot = 0x800C22F8;
+Asset_SearchByKeyType = 0x8006DC18; // type:func
 Gte_ScaleMatrix = 0x80078CC4; // type:func
 rand = 0x80071A54; // type:func
 rsin = 0x80077CF4; // type:func
