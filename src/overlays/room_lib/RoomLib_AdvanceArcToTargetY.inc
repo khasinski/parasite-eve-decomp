@@ -8,18 +8,18 @@ extern short D_800966EC[][2];
 #endif
 
 void ROOMLIB_ADVANCE_ARC_Y_NAME(RoomEnt *obj) {
-    register RoomEnt *self asm("$18") = obj;
-    register char *state asm("$16") = (char *)self + 0xC;
-    register RoomLink *link asm("$19") = self->link;
-    register short *scratch asm("$17") = (short *)0x1F800000;
+    register RoomEnt *self = obj;
+    register char *state = (char *)self + 0xC;
+    register RoomLink *link = self->link;
+    register short *scratch = (short *)0x1F800000;
     int angle;
     int y;
 
     if (self->t1A == 0) {
         int count;
-        register int step asm("$5");
-        register int targetY asm("$6");
-        register int accel asm("$7");
+        register int step;
+        register int targetY;
+        register int accel;
         self->t1A = 1;
         RW8(self, 0xA2) = 0;
         if (RW32(self, 0x7C) == 0) {
@@ -80,6 +80,7 @@ void ROOMLIB_ADVANCE_ARC_Y_NAME(RoomEnt *obj) {
             count++;
         } while (y < targetY);
         {
+            /* Both horizontal divisions share the v0 numerator lifetime. */
             register int value asm("$2");
             int base;
             value = RW32(state, 0x40);

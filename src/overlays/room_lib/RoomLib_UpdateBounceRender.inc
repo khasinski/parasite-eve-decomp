@@ -1,6 +1,16 @@
 #include "common.h"
 #include "pe1/gte.h"
 
+#ifndef ROOMLIB_BOUNCE_GRAVITY
+#define ROOMLIB_BOUNCE_GRAVITY 1
+#endif
+#ifndef ROOMLIB_BOUNCE_CLUT_X
+#define ROOMLIB_BOUNCE_CLUT_X 0x10
+#endif
+#ifndef ROOMLIB_BOUNCE_FRAME_BASE
+#define ROOMLIB_BOUNCE_FRAME_BASE 0xC8
+#endif
+
 typedef struct RoomBlob4 {
     char b[4];
 } RoomBlob4;
@@ -83,7 +93,7 @@ updateBounce:
         PE1_COMPILER_MEMORY_BARRIER();
         y = fx->y;
         PE1_COMPILER_USE(y);
-        nextVy = rawVy - 1;
+        nextVy = rawVy - ROOMLIB_BOUNCE_GRAVITY;
         fx->vy = nextVy;
         PE1_COMPILER_MEMORY_BARRIER();
         if (y >= g_FrameCount16) {
@@ -147,9 +157,9 @@ drawBounce:
         if (D_800F336C == 4 && D_800F3428 != 0) {
             texture += 4;
         }
-        texture = func_80077AA4(0x10, texture);
+        texture = func_80077AA4(ROOMLIB_BOUNCE_CLUT_X, texture);
         func_800CEE20(fx, 0, saved2, saved2,
-                      D_800F336A * (fx->timer / 6) + 0xC8,
+                      D_800F336A * (fx->timer / 6) + ROOMLIB_BOUNCE_FRAME_BASE,
                       (unsigned short)texture, 1, saved0, 0);
         goto ret0;
     }

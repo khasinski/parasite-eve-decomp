@@ -40,7 +40,7 @@ segments:
       - [0x1248, asm, func_80190230]
       - [0x1524, asm, func_8019050C]
       - [0x18C8, asm, func_801908B0]
-      - [0x1C10, asm, func_80190BF8]
+      - [0x1C10, c, RoomLib_UpdateBounceRender_80190BF8]
       - [0x1FAC, asm, func_80190F94]
       - [0x2BAC, asm, func_80191B94]
       - [0x3220, asm, func_80192208]
