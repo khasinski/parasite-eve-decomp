@@ -4,15 +4,11 @@
 
 extern int g_SceneDataTable0;
 extern int *g_TaskNodePool;
-extern char *g_CurrentEntity;
+extern char *g_CurrentEntity[];
+/* Same symbol; keep the post-call address calculation independent in GCC. */
+extern char *g_CurrentEntityAfterAction[] asm("g_CurrentEntity");
 
 void Entity_SetActionMode(char *arg0, int arg1);
-
-#define LOAD_FIELD_STATE(dst)                                         \
-    asm volatile(                                                     \
-        "lui\t%0, %%hi(g_CurrentEntity)\n"                                 \
-        "lw\t%0, %%lo(g_CurrentEntity)(%0)"                                \
-        : "=r"(dst))
 
 int Task_SetEntityActionAndWait(int **arg0) {
     char *node = (char *)g_TaskNodePool;
@@ -26,13 +22,13 @@ int Task_SetEntityActionAndWait(int **arg0) {
         ptr = arg0[0];
         {
             char *state;
-            LOAD_FIELD_STATE(state);
+            state = g_CurrentEntity[0];
             mode = *(u16 *)ptr;
             Entity_SetActionMode(state, mode);
         }
         {
             char *state;
-            LOAD_FIELD_STATE(state);
+            state = g_CurrentEntityAfterAction[0];
             *(int *)(state + 0x98) &= -0x101;
         }
         goto pop_state;
@@ -40,7 +36,7 @@ int Task_SetEntityActionAndWait(int **arg0) {
         char *state;
         int keep;
 
-        LOAD_FIELD_STATE(state);
+        state = g_CurrentEntity[0];
         if (*(u8 *)(state + 0xF) == 0) {
             goto finish;
         }
@@ -50,7 +46,7 @@ int Task_SetEntityActionAndWait(int **arg0) {
             int result = lhs < rhs;
             keep = result;
         } else {
-            register unsigned int rhs asm("$3") = *(unsigned int *)(state + 0x14);
+            unsigned int rhs = *(unsigned int *)(state + 0x14);
             unsigned int lhs = *(unsigned int *)(state + 0x18);
             int result = lhs < rhs;
             keep = result;

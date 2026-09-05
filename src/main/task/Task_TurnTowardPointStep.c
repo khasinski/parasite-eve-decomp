@@ -4,15 +4,11 @@
 
 extern int g_SceneDataTable0;
 extern char *g_TaskNodePool;
-extern char *g_CurrentEntity;
+extern char *g_CurrentEntity[];
+/* Same symbol; keep the direction read separate from the later angle reads. */
+extern char *g_CurrentEntityForDirection[] asm("g_CurrentEntity");
 
 int Gte_Atan2(int arg0, int arg1);
-
-#define LOAD_FIELD_STATE(reg)                                         \
-    asm volatile(                                                     \
-        "lui\t%0, %%hi(g_CurrentEntity)\n"                                 \
-        "lw\t%0, %%lo(g_CurrentEntity)(%0)"                                \
-        : "=r"(reg))
 
 int Task_TurnTowardPointStep(int **arg0) {
     char *node = g_TaskNodePool;
@@ -58,7 +54,7 @@ have_args:
         int dy;
         register int tmp asm("$2");
 
-        LOAD_FIELD_STATE(state);
+        state = g_CurrentEntityForDirection[0];
         tmp = *(int *)(state + 0x28);
         dx = (tmp - x) >> 16;
         dy = (*(int *)(state + 0x30) - y) >> 16;
@@ -70,7 +66,7 @@ have_args:
 
     {
         char *state;
-        LOAD_FIELD_STATE(state);
+        state = g_CurrentEntity[0];
         angle &= 0xFFF;
         original = *(short *)(state + 0x3A);
     }
@@ -122,7 +118,7 @@ have_args:
     }
     {
         char *state;
-        LOAD_FIELD_STATE(state);
+        state = g_CurrentEntity[0];
         stepped &= 0xFFF;
         *(u16 *)(state + 0x3A) = stepped;
     }

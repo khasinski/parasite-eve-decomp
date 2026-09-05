@@ -33,6 +33,15 @@ Task_TurnTowardPointStep, Entity_GetDistanceComponents and Entity_AllocBlock.
 The corresponding asm-constrained debt baseline increase records previously
 missed debt, not permission to introduce more instruction ASM.
 
+Those four implementations were subsequently restored to semantic C by replacing
+their CPU instructions with C address calculations and loads. Entity_AllocBlock
+uses a pointer register pin; the other three use one extra declaration bound to
+the same linker symbol to prevent old GCC from sharing an address calculation.
+These aliases are matching constraints, not evidence of separate globals or
+reconstructed structures. Two existing pins were removed in the process; no
+new barriers or toolchain changes were needed. Full main SHA verification, not
+the source classifier alone, is required for these promotions.
+
 The project uses the following independent review levels:
 
 1. **Configured** — the binary range and source/assembly representation exist

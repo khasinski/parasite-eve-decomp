@@ -6,21 +6,9 @@ extern void * g_FieldActorListHead[];
 extern void * g_PlayerEntity[];
 #define g_PlayerEntity (g_PlayerEntity[0])
 extern void * g_CurrentEntity[];
+/* Same symbol; do not share the X-read address calculation with Y and Z. */
+extern void *g_CurrentEntityForDistanceX[] asm("g_CurrentEntity");
 #define g_CurrentEntity (g_CurrentEntity[0])
-
-#define LOAD_D2F0(dst)                                                \
-    asm volatile(                                                     \
-        "lui\t%0, %%hi(g_CurrentEntity)\n"                                 \
-        "lw\t%0, %%lo(g_CurrentEntity)(%0)"                                \
-        : "=r"(dst))
-
-#define LOAD_D2F0_AND_OUT(dst, out, base)                             \
-    asm volatile(                                                     \
-        "lui\t%0, %%hi(g_CurrentEntity)\n"                                 \
-        "lw\t%0, %%lo(g_CurrentEntity)(%0)\n"                              \
-        "lw\t%1, 0x8(%2)"                                             \
-        : "=r"(dst), "=r"(out)                                        \
-        : "r"(base))
 
 s32 Entity_GetDistanceComponents(void *arg0) {
     s32 *temp_a0;
@@ -79,7 +67,7 @@ block_10:
         s32 node_x;
         register s32 state_x asm("$7");
         s32 *out;
-        LOAD_D2F0(state);
+        state = g_CurrentEntityForDistanceX[0];
         node_x = M2C_FIELD(node, s32 *, 0x28);
         state_x = M2C_FIELD(state, s32 *, 0x28);
         out = M2C_FIELD(arg0, s32 **, 8);
@@ -92,7 +80,8 @@ block_10:
     {
         void *state;
         s32 *out;
-        LOAD_D2F0_AND_OUT(state, out, arg0);
+        state = g_CurrentEntity;
+        out = M2C_FIELD(arg0, s32 **, 8);
         temp_a3_2 = M2C_FIELD(state, s32 *, 0x2C);
         temp_v0_2 = M2C_FIELD(node, s32 *, 0x2C);
         temp_a2 = *out;
@@ -106,8 +95,9 @@ block_10:
     }
     {
         void *state;
-        register s32 *out asm("$4");
-        LOAD_D2F0_AND_OUT(state, out, arg0);
+        s32 *out;
+        state = g_CurrentEntity;
+        out = M2C_FIELD(arg0, s32 **, 8);
         temp_a2_2 = M2C_FIELD(state, s32 *, 0x30);
         temp_v0_3 = M2C_FIELD(node, s32 *, 0x30);
         temp_a1 = *out;
