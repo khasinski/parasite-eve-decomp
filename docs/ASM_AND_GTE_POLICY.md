@@ -169,6 +169,15 @@ followed by one empty memory barrier; removing it moves the store into the
 return delay slot and moves the depth shift out of that slot. No additional
 register pins or hardware instructions are needed for this correction.
 
+`LoadAverageShort0` and `LoadAverageShort12` unpack their two input words and
+repack the IR results in C. Only `gte_mfc2_9`, `gte_mfc2_10`, and `gte_mfc2_11`
+remain for the result transfers at offsets 0x5C, 0x60 and 0x74. Local volatile
+word loads prevent narrowing the second word load to a halfword, and volatile
+word stores preserve result order. These qualifications constrain codegen;
+they do not identify hardware memory. The left shift uses unsigned arithmetic.
+The existing output-pointer pin is still needed; trial final barriers were
+removed. Both former packed-short instruction macros were deleted.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

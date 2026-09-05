@@ -468,15 +468,6 @@ int rcos(int angle);
         gte_z = ((unsigned char *)(input))[2];                               \
     } while (0)
 
-#define gte_load_packed_short3(input)                                        \
-    asm volatile("lw $8,0(%3)\n\t"                                         \
-                 "lw $10,4(%3)\n\t"                                        \
-                 "sra $9,$8,16\n\t"                                        \
-                 "andi $8,$8,0xFFFF\n\t"                                   \
-                 "andi $10,$10,0xFFFF"                                       \
-                 : "=r"(gte_x), "=r"(gte_y), "=r"(gte_z)                    \
-                 : "r"(input) : "memory")
-
 #define gte_ldir0_ir12(scale)                                                \
     asm volatile("mtc2 %0,$8\n\t"                                          \
                  "mtc2 $8,$9\n\t"                                          \
@@ -507,22 +498,6 @@ int rcos(int angle);
                  "mfc2 $10,$27"                                             \
                  : "=r"(gte_x), "=r"(gte_y), "=r"(gte_z)                    \
                  : "r"(out), "r"(gte_shift) : "memory")
-
-#define gte_store_ir123_packed_short3(output)                                \
-    do {                                                                     \
-        register void *gte_out asm("$13");                                   \
-        asm volatile("mfc2 $8,$9\n\t"                                      \
-                     "mfc2 $9,$10\n\t"                                     \
-                     "andi $8,$8,0xFFFF\n\t"                               \
-                     "sll $9,$9,16\n\t"                                    \
-                     "or $8,$8,$9"                                           \
-                     : "=r"(gte_x), "=r"(gte_y));                           \
-        gte_out = (output);                                                  \
-        asm volatile("mfc2 $10,$11\n\t"                                    \
-                     "sw $8,0($13)\n\t"                                    \
-                     "sw $10,4($13)"                                         \
-                     : "=r"(gte_z) : "r"(gte_x), "r"(gte_out) : "memory"); \
-    } while (0)
 
 #define gte_op0() \
     asm volatile("nop\n\t" \

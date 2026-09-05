@@ -15,7 +15,8 @@ class GteMacReadTests(unittest.TestCase):
         header = source_quality.strip_comments(
             (ROOT / "include/pe1/gte.h").read_text())
         for name in ("gte_store_mac12_byte2", "gte_store_mac123_byte3",
-                     "gte_store_third_output", "gte_store_flag_bound"):
+                     "gte_store_third_output", "gte_store_flag_bound",
+                     "gte_load_packed_short3", "gte_store_ir123_packed_short3"):
             with self.subTest(name=name):
                 self.assertNotRegex(header, r"\b" + name + r"\s*\(")
 

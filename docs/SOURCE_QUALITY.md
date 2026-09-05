@@ -40,6 +40,12 @@ CPU flag-store helpers with C stores. Each needs one empty memory barrier
 after the store to keep the return delay slot occupied by the depth shift.
 This restores two quarantined functions, leaving 27 of that audited group.
 The retired helper names remain quarantined to prevent accidental reuse.
+LoadAverageShort0 and LoadAverageShort12 (136 B each) then moved vector
+unpacking, packing and stores into C, leaving 25 functions in that group.
+Local volatile accesses preserve the original word-load width and store
+order; these are matching constraints, not claims that the buffers are MMIO.
+The existing output pin moved from the deleted helper into each caller.
+No empty barriers were needed after minimization.
 
 The 2026-09-05 classifier correction withdrew semantic credit from four existing
 CPU-ASM implementations (1,308 bytes): Task_SetEntityActionAndWait,
