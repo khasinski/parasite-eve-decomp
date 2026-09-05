@@ -21,6 +21,7 @@ extern s8 g_AyaInventorySlotCount[];
 extern s32 g_AyaParasiteSpellFlags[];
 #define g_AyaParasiteSpellFlags (g_AyaParasiteSpellFlags[0])
 extern u8 g_AyaSaveLevel[];
+extern u8 g_AyaSaveLevel_read[] asm("g_AyaSaveLevel");
 #define g_AyaSaveLevel (g_AyaSaveLevel[0])
 extern s32 g_AyaSaveTotalExp[];
 #define g_AyaSaveTotalExp (g_AyaSaveTotalExp[0])
@@ -35,6 +36,7 @@ void Inv_InitMaxLevelInventory(s32 arg0) {
     void *inv_base;
     s32 spell_flags;
     u16 *spell_ptr;
+    s32 *exp_table;
 
     saved_arg0 = arg0;
     inv_base = &g_AyaInventoryItems;
@@ -42,26 +44,9 @@ void Inv_InitMaxLevelInventory(s32 arg0) {
     if (g_InvItemPtr == inv_base) {
         g_InvSlotLimit = Inv_GetAyaSlotLimit();
     }
-    __asm__ volatile(
-        ".set push\n\t"
-        ".set noat\n\t"
-        ".set noreorder\n\t"
-        "addiu $2, $0, 0x62\n\t"
-        "lui $1, %%hi(g_AyaSaveLevel)\n\t"
-        "sb $2, %%lo(g_AyaSaveLevel)($1)\n\t"
-        ".word 0x0c000000\n\t"
-        ".reloc .-4, R_MIPS_26, Aya_GetLevelExpTable\n\t"
-        "nop\n\t"
-        "lui $3, %%hi(g_AyaSaveLevel)\n\t"
-        "lbu $3, %%lo(g_AyaSaveLevel)($3)\n\t"
-        "nop\n\t"
-        "sll $3, $3, 2\n\t"
-        "addu $3, $3, $2\n\t"
-        "lw $2, 0($3)\n\t"
-        "lui $1, %%hi(g_AyaSaveTotalExp)\n\t"
-        "sw $2, %%lo(g_AyaSaveTotalExp)($1)\n\t"
-        ".set pop"
-        ::: "$1", "$2", "$3", "$31", "memory");
+    g_AyaSaveLevel = 0x62;
+    exp_table = (s32 *)Aya_GetLevelExpTable();
+    g_AyaSaveTotalExp = exp_table[g_AyaSaveLevel_read[0]];
     spell_ptr = func_8005DBAC(0x62);
     spell_flags = 0xFFFFF;
     temp_a1 = (s16 *)((u8 *)inv_base - 0x20);
@@ -78,11 +63,7 @@ void Inv_InitMaxLevelInventory(s32 arg0) {
             var_v0 = 0x3E8;
         } else {
             register s32 cmp asm("$2");
-            __asm__ volatile(
-                "addiu %0, %1, -1\n"
-                "sltiu %0, %0, 2"
-                : "=r"(cmp)
-                : "r"(var_a0));
+            cmp = (u32)(var_a0 - 1) < 2;
             if (cmp != 0) {
                 var_v0 = 0;
             } else {

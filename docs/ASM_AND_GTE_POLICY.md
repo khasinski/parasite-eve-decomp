@@ -411,6 +411,14 @@ old pins remain. A direct pointer declaration replaces the old table-pointer
 alias, allowing default G0 without per-file flags. No new volatile accesses,
 toolchain changes, or target/layout edits are used.
 
+`Inv_InitMaxLevelInventory` now performs the level-table call/indexed load
+and unsigned index-range test in C, removing the raw call word and CPU ASM.
+A distinct same-symbol level-read alias prevents address caching across the
+call. A trial pre-call memory barrier was removable. The two old pins and
+old post-HP-store memory barrier remain after removal and merge trials.
+No new pins, barriers, volatile accesses, flags, toolchain changes, or target
+edits were needed; the additional read alias is explicit source debt.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
