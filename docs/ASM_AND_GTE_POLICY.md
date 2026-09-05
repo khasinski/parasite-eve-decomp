@@ -365,6 +365,14 @@ merging it back changes code generation. This replaces the old draw-slot
 alias, so the number of alias declarations does not increase. No new volatile
 accesses, CPU-instruction ASM, or toolchain/target changes are used.
 
+`Render_StepFontLoad` now expresses the byte remainder/nonzero test and
+initialization of both search indices in C. One empty tied barrier on the
+result and the two initialized values preserves their ordering and the later
+byte narrowing. Its trial memory clobber was removable, as was the old count
+pin. The other four old pins and the old final memory barrier remain after
+removal tests. This adds no pins, symbol aliases, volatile accesses, or flags;
+the stock compiler generates the reciprocal multiply for unsigned modulo 10.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

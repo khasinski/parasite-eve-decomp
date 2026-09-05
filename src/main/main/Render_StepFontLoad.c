@@ -19,7 +19,7 @@ u8 Render_StepFontLoad(void) {
     s32 slot;
     register s32 digit asm("$3");
     s32 i;
-    register s32 count asm("$6");
+    s32 count;
     register s32 found asm("$7");
     u8 *statep;
     int stack_pad[3];
@@ -37,25 +37,11 @@ u8 Render_StepFontLoad(void) {
     D_80091A1E = code;
     Render_LoadFontGlyph(code);
 
-    /* GCC otherwise shifts the modulo-by-10 expansion into different registers. */
-    __asm__ volatile(
-        "lui\t%0,%%hi(D_80091A1D)\n\t"
-        "lbu\t%0,%%lo(D_80091A1D)(%0)\n\t"
-        "lui\t%4,0xCCCC\n\t"
-        "ori\t%4,%4,0xCCCD\n\t"
-        "multu\t%0,%4\n\t"
-        "addu\t%3,$zero,$zero\n\t"
-        "addu\t%1,$zero,$zero\n\t"
-        "mfhi\t$8\n\t"
-        "srl\t$4,$8,3\n\t"
-        "sll\t%4,$4,2\n\t"
-        "addu\t%4,%4,$4\n\t"
-        "sll\t%4,%4,1\n\t"
-        "subu\t%0,%0,%4\n\t"
-        "andi\t%0,%0,0xFF\n\t"
-        "sltu\t%0,$zero,%0"
-        : "=&r"(digit), "=r"(i), "=r"(count), "=r"(found), "=&r"(slot)
-        :);
+    digit = (u8)((u32)D_80091A1D % 10) != 0;
+    found = 0;
+    i = 0;
+    asm("" : "=r"(digit), "=r"(i), "=r"(found)
+        : "0"(digit), "1"(i), "2"(found));
 
     hdr = D_80091A28;
     count = hdr[3];

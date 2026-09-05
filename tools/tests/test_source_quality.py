@@ -36,6 +36,11 @@ class SourceQualityTests(unittest.TestCase):
                 self.assertEqual(source_quality.classify(root / (name + ".c")),
                                  "semantic_c")
 
+    def test_font_step_modulo_is_semantic_c(self):
+        root = pathlib.Path(__file__).resolve().parents[2]
+        self.assertEqual(source_quality.classify(
+            root / "src/main/main/Render_StepFontLoad.c"), "semantic_c")
+
     def test_audited_cpu_helpers_are_not_gte_exemptions(self):
         for name in ("gte_ldv0_short3", "gte_load_packed_short3",
                      "gte_store_ir123_packed_short3", "gte_store_third_output",
