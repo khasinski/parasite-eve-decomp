@@ -391,6 +391,16 @@ memory barriers remain after removal tests. The draw-slot alias was replaced
 by a scalar declaration. No new pins, volatile accesses, flags, toolchain
 changes, or target edits were needed.
 
+`Menu_AlignEquipPanels` now uses the existing `MenuWidgetNode` fields `x`
+and `popup_node`, typed calls, and C control flow for horizontal alignment.
+This removes CPU ASM including raw call/load words and reloc directives.
+Stock G8 replaces the explicit GP-relative mode load. Three new pins (target,
+current x, and displacement) and one new input-only displacement barrier
+remain after removal tests. The trial tied output and `$4` clobber were
+removable. The old node-pointer barrier remains. No new volatile accesses,
+aliases, toolchain modifications, or target/layout edits were used. The old
+m2c macro dependency and untyped declarations are removed from this unit.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
