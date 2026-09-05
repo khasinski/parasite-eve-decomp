@@ -3,7 +3,8 @@
 extern int g_GameState[];
 extern int g_SceneDataTable0;
 extern int *g_TaskNodePool;
-extern int g_GameStateFlags;
+extern int g_GameStateFlags[];
+extern int g_GameStateFlagsWrite[] asm("g_GameStateFlags");
 extern short D_8009D2A4[];
 
 int Menu_InitBonusPointScreen(int arg0, int arg1, int arg2, int *arg3);
@@ -48,16 +49,7 @@ after_builder:
         goto pop_state;
 
 set_pending:
-        asm volatile(
-            "lui $2, %%hi(g_GameStateFlags)\n"
-            "lw $2, %%lo(g_GameStateFlags)($2)\n"
-            "nop\n"
-            "ori $2, $2, 4\n"
-            "lui $1, %%hi(g_GameStateFlags)\n"
-            "sw $2, %%lo(g_GameStateFlags)($1)\n"
-            :
-            :
-            : "$1", "$2", "memory");
+        g_GameStateFlagsWrite[0] = g_GameStateFlags[0] | 4;
 
 pop_state:
         cursor = g_SceneDataTable0;

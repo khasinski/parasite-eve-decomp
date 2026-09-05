@@ -3,13 +3,14 @@
 extern int g_GameState[];
 extern int g_SceneDataTable0;
 extern int *g_TaskNodePool;
-extern int g_GameStateFlags;
+extern int g_GameStateFlags[];
+extern int g_GameStateFlagsWrite[] asm("g_GameStateFlags");
 
 void Render_BeginSceneLoad(void);
 void Menu_OpenSaveLoadEntryPoint(int arg0);
 
 int Task_OpenSaveLoadMenu(int **arg0) {
-    register int *state asm("$16") = g_GameState;
+    int *state = g_GameState;
     int **saved = arg0;
     int *node;
     int flags;
@@ -25,23 +26,18 @@ int Task_OpenSaveLoadMenu(int **arg0) {
         Render_BeginSceneLoad();
         Menu_OpenSaveLoadEntryPoint(**saved);
         {
-            int ret = state[0];
-            register int *tail_node asm("$4") = g_TaskNodePool;
+            register int ret asm("$2") = state[0];
+            int *tail_node = g_TaskNodePool;
             int tail_flags;
 
-            asm volatile(
-                "ori $2, $2, 0x9000\n"
-                "sw $2, 0($16)\n"
-                "lui $2, %%hi(g_GameStateFlags)\n"
-                "lw $2, %%lo(g_GameStateFlags)($2)\n"
-                "lhu $3, 8($4)\n"
-                "ori $2, $2, 4\n"
-                "andi $3, $3, 0xFFDF\n"
-                "lui $1, %%hi(g_GameStateFlags)\n"
-                "sw $2, %%lo(g_GameStateFlags)($1)\n"
-                : "=r"(ret), "=r"(tail_node), "=r"(tail_flags)
-                : "0"(ret), "1"(tail_node)
-                : "$1", "memory");
+            asm volatile("" : : "r"(ret), "r"(tail_node));
+            ret |= 0x9000;
+            state[0] = ret;
+            ret = g_GameStateFlags[0];
+            tail_flags = *(unsigned short *)(tail_node + 2);
+            ret |= 4;
+            tail_flags &= 0xFFDF;
+            g_GameStateFlagsWrite[0] = ret;
             *(unsigned short *)(tail_node + 2) = tail_flags;
         }
     } else {
