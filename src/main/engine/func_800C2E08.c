@@ -6,7 +6,7 @@ extern char *D_800E2248;
 int func_800C2E08(void) {
     int i;
     int offset;
-    register int result asm("$7");
+    int result;
     u32 andMask;
     u32 xorMask;
     FieldEngSlot *entry;
@@ -23,9 +23,9 @@ int func_800C2E08(void) {
             entry->flag = 0;
             D_800E2248[6]--;
             check = *(u32 *)(D_800E2248 + 4) & andMask;
-            asm("xor %0,%0,%3\n\tsltiu %0,%0,1\n\tnegu %0,%0\n\tor %1,%1,%0"
-                : "=r"(check), "=r"(result)
-                : "0"(check), "r"(xorMask), "1"(result));
+            check = check == xorMask;
+            asm("" : "=r"(check) : "0"(check));
+            result |= -check;
         }
     }
 

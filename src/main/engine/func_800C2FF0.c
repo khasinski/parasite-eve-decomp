@@ -19,11 +19,9 @@ void func_800C2FF0(int width, int height) {
     int heightMinus;
     int x;
     int y;
-    asm volatile(
-        "addiu %0,%2,-1\n\t"
-        "addiu %1,%3,-1"
-        : "=r"(widthMinus), "=r"(heightMinus)
-        : "r"(width), "r"(height));
+    widthMinus = width - 1;
+    heightMinus = height - 1;
+    asm("" : : "r"(widthMinus), "r"(heightMinus));
 
     D_800F345C = width;
     x = (width & 0xFF) << 4;

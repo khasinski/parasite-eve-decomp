@@ -287,6 +287,22 @@ pins and all trial barriers were removable. `func_800CC92C` uses a signed-byte
 C load after one empty memory barrier, which prevents forwarding the previous
 byte store. Its old frame pin remains; removing it changes allocation.
 
+Four further engine units now avoid CPU instruction ASM. `func_800C2E08`
+computes the slot-status mask in C, with one tied empty barrier to prevent
+the optimizer replacing the arithmetic mask with a conditional assignment.
+Its old result pin was removed. `func_800C2FF0` computes width/height decrements
+in C with one input-only barrier; both trial pins and the trial tied outputs
+were removable. Neither function retains register pins.
+
+`func_800D3F64` needs no explicit ASM `nop`: the stock pipeline supplies the
+same load hazard spacing. Its two existing pins and two memory barriers were
+tested for removal and remain. `func_800CC878` forms its first output address
+and performs the store in C. It retains one pointer pin, one load-order input
+barrier clobbering `$4`, and one tied pointer barrier preventing address
+folding; removing these changes code generation. No new volatile accesses
+were introduced in this group. These are repairs of constrained sources,
+not independent evidence that all headers are free of CPU instruction ASM.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

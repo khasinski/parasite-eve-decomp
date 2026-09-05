@@ -17,7 +17,6 @@ void func_800D3F64(int arg0, int arg1) {
     child = ctx[2];
     node = (volatile int *)child[0x8E];
     x = node[5];
-    asm volatile("nop");
     sx = x;
     asm volatile("" ::: "memory");
     x = (short)x;

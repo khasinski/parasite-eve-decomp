@@ -18,7 +18,8 @@ class SourceQualityTests(unittest.TestCase):
     def test_repaired_engine_load_and_distance_sources_are_semantic(self):
         root = pathlib.Path(__file__).resolve().parents[2] / "src/main/engine"
         for name in ("func_800CC92C", "func_800C6148", "func_800C6584",
-                     "func_800C6B90", "func_800C6B20"):
+                     "func_800C6B90", "func_800C6B20", "func_800C2E08",
+                     "func_800C2FF0", "func_800D3F64", "func_800CC878"):
             with self.subTest(name=name):
                 self.assertEqual(source_quality.classify(root / (name + ".c")),
                                  "semantic_c")
