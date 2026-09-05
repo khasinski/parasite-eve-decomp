@@ -10,12 +10,17 @@ from tools.scripts import source_quality
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 
+def normalized_rows(segment):
+    return [[r["start"], r["type"], r.get("name")]
+            if isinstance(r, dict) else r for r in segment["subsegments"]]
+
+
 class SceneE19MappingTests(unittest.TestCase):
     def setUp(self):
         self.config = yaml.safe_load(
             (ROOT / "configs/USA/overlays/scene_e19.yaml").read_text())
         self.segment = self.config["segments"][0]
-        self.rows = {row[0]: row for row in self.segment["subsegments"]}
+        self.rows = {row[0]: row for row in normalized_rows(self.segment)}
 
     def test_header_is_loaded_before_directory_buffer(self):
         self.assertEqual(self.segment["vram"], 0x8018EFF0 - 8)
@@ -40,7 +45,7 @@ class SceneE19MappingTests(unittest.TestCase):
                     (ROOT / "src/overlays/scene_e19" / (name + ".c")).is_file())
 
     def test_handlers_have_complete_semantic_c_ranges(self):
-        rows = self.segment["subsegments"]
+        rows = normalized_rows(self.segment)
         ends = {row[0]: following[0] for row, following in zip(rows, rows[1:])}
         for offset, size, name in (
             (0x6EC, 1352, "RoomLib_HandlerD"),
@@ -75,7 +80,7 @@ class SceneE02MappingTests(unittest.TestCase):
         self.config = yaml.safe_load(
             (ROOT / "configs/USA/overlays/scene_e02.yaml").read_text())
         self.segment = self.config["segments"][0]
-        self.rows = self.segment["subsegments"]
+        self.rows = normalized_rows(self.segment)
 
     def test_mapping_and_named_source_entries(self):
         self.assertEqual(self.segment["vram"], 0x8018EFE8)
@@ -140,7 +145,7 @@ class SceneE09E10MappingTests(unittest.TestCase):
             segment = config["segments"][0]
             self.assertEqual(segment["vram"], 0x8018EFE8)
             self.assertEqual(config["sha1"], digest)
-            rows = segment["subsegments"]
+            rows = normalized_rows(segment)
             by_offset = {r[0]: (r, n[0]) for r, n in zip(rows, rows[1:])}
             for offset in self.epilogues:
                 self.assertNotIn(offset, by_offset)
@@ -182,6 +187,62 @@ class SceneE09E10MappingTests(unittest.TestCase):
                     self.assertTrue(0 < restore & 0xFFFF < 0x8000)
                     self.assertEqual(data[offset:offset + 8],
                                      bytes.fromhex("0800e00300000000"))
+
+
+class SceneArgumentParserTests(unittest.TestCase):
+    layouts = {
+        "scene_e02": ((92,220,352,356,460,564,580), (6064,9468,12224,15064)),
+        "scene_e09": ((36,164,296,300,404,508,576), (7432,10836,13592,16432)),
+        "scene_e10": ((36,164,296,300,404,508,576), (7432,10836,13592,16432)),
+        "scene_e19": ((12,140,272,276,380,484,648), (816,4220,6976,9816)),
+    }
+
+    def test_complete_parsers_and_data_ownership(self):
+        for scene, (tables, starts) in self.layouts.items():
+            with self.subTest(scene=scene):
+                config = yaml.safe_load(
+                    (ROOT / "configs/USA/overlays" / (scene + ".yaml")).read_text())
+                rows = normalized_rows(config["segments"][0])
+                ranges = {r[0]: (r, n[0]) for r, n in zip(rows, rows[1:])}
+                self.assertEqual(rows[0], [0, "rodatabin", scene + "_header"])
+                self.assertEqual(ranges[0][1], tables[0])
+                self.assertEqual(ranges[tables[5]],
+                                 ([tables[5], "rodatabin", scene + "_header_tail"], tables[6]))
+                self.assertEqual(ranges[tables[2]],
+                                 ([tables[2], "rodata", "RoomLib_HandlerEArgsPad"], tables[3]))
+                for letter, start, size, table, table_size in zip(
+                        "DEBC", starts, (644, 632, 584, 584),
+                        (tables[0], tables[1], tables[3], tables[4]),
+                        (128, 132, 104, 104)):
+                    name = "RoomLib_Handler" + letter + "Args"
+                    self.assertEqual(ranges[start], ([start, "c", name], start + size))
+                    self.assertEqual(ranges[table],
+                                     ([table, ".rodata", name], table + table_size))
+                    self.assertEqual(source_quality.classify(
+                        ROOT / "src/overlays" / scene / (name + ".c")), "semantic_c")
+
+    def test_e02_leaf_returns_belong_to_parser_switches(self):
+        scene = "scene_e02"
+        config = yaml.safe_load(
+            (ROOT / "configs/USA/overlays/scene_e02.yaml").read_text())
+        offsets = {r[0] for r in normalized_rows(config["segments"][0])}
+        path = ROOT / config["options"]["target_path"]
+        if not path.is_file():
+            self.skipTest("local retail overlay required")
+        data = path.read_bytes()
+        self.assertEqual(hashlib.sha1(data).hexdigest(), config["sha1"])
+        for table, end, ret in (
+                (0x5C, 0xDC, 0x1A2C), (0xDC, 0x160, 0x276C),
+                (0x164, 0x1CC, 0x3200), (0x1CC, 0x234, 0x3D18)):
+            with self.subTest(ret=hex(ret)):
+                self.assertNotIn(ret, offsets)
+                self.assertFalse((ROOT / "src/overlays" / scene /
+                                  ("func_%08X.c" % (0x8018EFE8 + ret))).exists())
+                self.assertEqual(data[ret:ret + 8], bytes.fromhex("0800e00321100000"))
+                targets = [int.from_bytes(data[i:i + 4], "little")
+                           for i in range(table, end, 4)]
+                self.assertTrue(any(0x8018EFE8 + ret - 16 <= t <= 0x8018EFE8 + ret
+                                    for t in targets))
 
 
 class SceneE08MappingTests(unittest.TestCase):

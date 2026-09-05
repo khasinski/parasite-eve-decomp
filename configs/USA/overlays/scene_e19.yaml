@@ -36,10 +36,22 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, scene_e19]
+      - start: 0
+        type: rodatabin
+        name: scene_e19_header
+        dir: scene_e19
+      - [0xC, .rodata, RoomLib_HandlerDArgs]
+      - [0x8C, .rodata, RoomLib_HandlerEArgs]
+      - [0x110, rodata, RoomLib_HandlerEArgsPad]
+      - [0x114, .rodata, RoomLib_HandlerBArgs]
+      - [0x17C, .rodata, RoomLib_HandlerCArgs]
+      - start: 0x1E4
+        type: rodatabin
+        name: scene_e19_header_tail
+        dir: scene_e19
       - [0x288, c, func_8018F270]
       - [0x290, c, RoomLib_InitB_8018F278]
-      - [0x330, asm, scene_e19_330]
+      - [0x330, c, RoomLib_HandlerDArgs]
       - [0x5B4, c, func_8018F59C]
       - [0x5BC, c, RoomLib_StateDispatchVariant2_8018F5A4]
       - [0x644, c, RoomLib_NotifyArmB_8018F62C]
@@ -50,7 +62,7 @@ segments:
       - [0xFF0, c, func_8018FFD8]
       - [0xFF8, c, func_8018FFE0]
       - [0x1000, c, RoomLib_InitD_8018FFE8]
-      - [0x107C, asm, scene_e19_330_6EC_107C]
+      - [0x107C, c, RoomLib_HandlerEArgs]
       - [0x12F4, c, func_801902DC]
       - [0x12FC, c, RoomLib_StateDispatchVariant2_801902E4]
       - [0x1384, c, RoomLib_Notify2ArmB_8019036C]
@@ -60,7 +72,7 @@ segments:
       - [0x1A94, c, func_80190A7C]
       - [0x1A9C, c, func_80190A84]
       - [0x1AA4, c, RoomLib_InitC_80190A8C]
-      - [0x1B40, asm, scene_e19_330_6EC_107C_142C_1A3C_1A94_1B40]
+      - [0x1B40, c, RoomLib_HandlerBArgs]
       - [0x1D88, c, func_80190D70]
       - [0x1D90, c, RoomLib_InvokeCallbackC_80190D78]
       - [0x1DB8, c, RoomLib_ArmWindowA_80190DA0]
@@ -71,7 +83,7 @@ segments:
       - [0x25B8, c, func_801915A0]
       - [0x25C0, c, func_801915A8]
       - [0x25C8, c, RoomLib_InitFull_801915B0]
-      - [0x2658, asm, scene_e19_330_6EC_107C_142C_1A3C_1A94_1B40_1DB8_1E28_25B8_2658]
+      - [0x2658, c, RoomLib_HandlerCArgs]
       - [0x28A0, c, func_80191888]
       - [0x28A8, c, RoomLib_InvokeCallbackC_80191890]
       - [0x28D0, c, RoomLib_ArmWindowB_801918B8]

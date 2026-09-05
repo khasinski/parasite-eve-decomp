@@ -35,7 +35,19 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, scene_e10]
+      - start: 0
+        type: rodatabin
+        name: scene_e10_header
+        dir: scene_e10
+      - [0x24, .rodata, RoomLib_HandlerDArgs]
+      - [0xA4, .rodata, RoomLib_HandlerEArgs]
+      - [0x128, rodata, RoomLib_HandlerEArgsPad]
+      - [0x12C, .rodata, RoomLib_HandlerBArgs]
+      - [0x194, .rodata, RoomLib_HandlerCArgs]
+      - start: 0x1FC
+        type: rodatabin
+        name: scene_e10_header_tail
+        dir: scene_e10
       - [0x240, c, RoomLib_PlantTable_8018F228]
       - [0x26C, c, RoomLib_Spawn6_8018F254]
       - [0x298, c, RoomLib_RegisterTable_8018F280]
@@ -58,7 +70,7 @@ segments:
       - [0x1BB0, c, func_80190B98]
       - [0x1C60, c, func_80190C48]
       - [0x1C68, c, RoomLib_InitB_80190C50]
-      - [0x1D08, asm, scene_e10_26C_298_2E0_428_1D08]
+      - [0x1D08, c, RoomLib_HandlerDArgs]
       - [0x1F8C, c, func_80190F74]
       - [0x1F94, c, RoomLib_StateDispatchVariant2_80190F7C]
       - [0x201C, c, RoomLib_NotifyArmB_80191004]
@@ -69,7 +81,7 @@ segments:
       - [0x29C8, c, func_801919B0]
       - [0x29D0, c, func_801919B8]
       - [0x29D8, c, RoomLib_InitD_801919C0]
-      - [0x2A54, asm, scene_e10_26C_298_2E0_428_1D08_20C4_2A54]
+      - [0x2A54, c, RoomLib_HandlerEArgs]
       - [0x2CCC, c, func_80191CB4]
       - [0x2CD4, c, RoomLib_StateDispatchVariant2_80191CBC]
       - [0x2D5C, c, RoomLib_Notify2ArmB_80191D44]
@@ -79,7 +91,7 @@ segments:
       - [0x346C, c, func_80192454]
       - [0x3474, c, func_8019245C]
       - [0x347C, c, RoomLib_InitC_80192464]
-      - [0x3518, asm, scene_e10_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518]
+      - [0x3518, c, RoomLib_HandlerBArgs]
       - [0x3760, c, func_80192748]
       - [0x3768, c, RoomLib_InvokeCallbackC_80192750]
       - [0x3790, c, RoomLib_ArmWindowA_80192778]
@@ -90,7 +102,7 @@ segments:
       - [0x3F90, c, func_80192F78]
       - [0x3F98, c, func_80192F80]
       - [0x3FA0, c, RoomLib_InitFull_80192F88]
-      - [0x4030, asm, scene_e10_26C_298_2E0_428_1D08_20C4_2A54_2E04_3414_346C_3518_3790_3800_3F90_4030]
+      - [0x4030, c, RoomLib_HandlerCArgs]
       - [0x4278, c, func_80193260]
       - [0x4280, c, RoomLib_InvokeCallbackC_80193268]
       - [0x42A8, c, RoomLib_ArmWindowB_80193290]
