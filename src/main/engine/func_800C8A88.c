@@ -58,10 +58,12 @@ int func_800C8A88(void *arg0, void *arg1, u8 *anim) {
 
     memset((void *)scale, 0, sizeof(scale));
     m0 = *(s16 *)(anim_s0 + 0x6);
-    asm volatile("addiu %0, $sp, 0x10" : "=r"(matrix_s1));
+    matrix_s1 = &matrix;
     scale[0] = m0;
     scale_v0 = *(s16 *)(anim_s0 + 0x6);
-    asm volatile("addu %0, %1, $zero" : "=r"(call_a0) : "r"(matrix_s1));
+    asm("" : : "r"(scale_v0) : "$4");
+    call_a0 = matrix_s1;
+    asm volatile("" : "=r"(call_a0) : "0"(call_a0));
     scale[1] = scale_v0;
     scale[2] = *(s16 *)(anim_s0 + 0x6);
 

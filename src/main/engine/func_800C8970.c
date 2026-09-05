@@ -22,7 +22,7 @@ int func_800C8970(void *arg0, void *arg1, u8 *anim) {
     volatile int scale[4];
     u8 *anim_s0 = anim;
     u16 *field_s1;
-    Matrix *matrix_a0;
+    register Matrix *matrix_a0 asm("$4");
     int scale_v0;
     register int scale2_a2 asm("$6");
     register int scale3_a3 asm("$7");
@@ -45,7 +45,9 @@ int func_800C8970(void *arg0, void *arg1, u8 *anim) {
     memset((void *)scale, 0, sizeof(scale));
     scale[0] = *(s16 *)(anim_s0 + 0x6);
     scale_v0 = *(s16 *)(anim_s0 + 0x6);
-    asm volatile("addiu %0, $sp, 0x10" : "=r"(matrix_a0));
+    asm("" : : "r"(scale_v0) : "$4");
+    matrix_a0 = &matrix;
+    asm volatile("" : "=r"(matrix_a0) : "0"(matrix_a0));
     scale[1] = scale_v0;
     scale[2] = *(s16 *)(anim_s0 + 0x6);
 

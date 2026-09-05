@@ -28,7 +28,7 @@ int func_800CACDC(void *arg0, void *arg1, u8 *anim) {
     register int index_s0 asm("$16");
     u8 *anim_s1 = anim;
     int rot_v0;
-    Matrix *matrix_a0;
+    register Matrix *matrix_a0 asm("$4");
     int scale_v0;
     register int scale2_a2 asm("$6");
     register int scale3_a3 asm("$7");
@@ -62,7 +62,9 @@ int func_800CACDC(void *arg0, void *arg1, u8 *anim) {
     index_s0 >>= 15;
     scale[0] = D_800E0BE8[index_s0 >> 1];
     scale_v0 = D_800E0BE8[index_s0 >> 1];
-    asm volatile("addiu %0, $sp, 0x10" : "=r"(matrix_a0));
+    asm("" : : "r"(scale_v0) : "$4");
+    matrix_a0 = &matrix;
+    asm volatile("" : "=r"(matrix_a0) : "0"(matrix_a0));
     scale[1] = scale_v0;
     scale[2] = D_800E0BE8[index_s0 >> 1];
 

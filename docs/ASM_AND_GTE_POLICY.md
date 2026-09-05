@@ -320,6 +320,21 @@ removal tests changed code generation. The old RHS pins in CDE90 and CDD0C
 were removable. This family adds ten visible barriers and a net three pins,
 which must remain explicit matching debt rather than being hidden in a macro.
 
+Seven matrix/scale setup functions (C8270, C8970, C8A88, C9268, C9EA8, CACDC,
+CB9F8) now form `&matrix` and copy pointers in C instead of ASM stack-address
+instructions. GTE work remains in the existing called routines. Each function
+retains two new empty barriers: an input barrier on the loaded scale value
+clobbering `$4`, followed by a tied pointer barrier. Removing either breaks
+exact comparison. Trial memory clobbers and extra scale inputs on the tied
+barriers were removable across all seven variants.
+
+Five variants retain a new `$4` argument pin. C8A88 and CB9F8, which copy an
+input matrix, need no new pins; their trial `$17` and `$4` pins and both trial
+barriers around the first pointer were removable. Existing index/scale pins
+and the existing memory barrier before the scale call remain after removal
+tests. This adds five visible pins and fourteen barriers, with no new volatile
+accesses, custom toolchain options, or target/layout changes.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

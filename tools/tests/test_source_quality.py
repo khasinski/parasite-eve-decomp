@@ -21,7 +21,10 @@ class SourceQualityTests(unittest.TestCase):
                      "func_800C6B90", "func_800C6B20", "func_800C2E08",
                      "func_800C2FF0", "func_800D3F64", "func_800CC878",
                      "func_800C5EB0", "func_800CC644", "func_800CC6F8",
-                     "func_800CE3B4", "func_800CDE90", "func_800CDD0C"):
+                     "func_800CE3B4", "func_800CDE90", "func_800CDD0C",
+                     "func_800C8270", "func_800C8970", "func_800C8A88",
+                     "func_800C9268", "func_800C9EA8", "func_800CACDC",
+                     "func_800CB9F8"):
             with self.subTest(name=name):
                 self.assertEqual(source_quality.classify(root / (name + ".c")),
                                  "semantic_c")
