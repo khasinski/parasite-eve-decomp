@@ -30,6 +30,7 @@ COP2_OP = re.compile(r'\b(?:cfc2|ctc2|lwc2|swc2|mfc2|mtc2)\b')
 # CPU windows are C; this is not a substitute for full macro-expansion review.
 CPU_ASM_HELPERS = re.compile(
     r'\bgte_(?:ldv0_short3|load_packed_short3|store_ir123_packed_short3|'
+    r'stir123_matrix_column|'
     r'store_mac12_byte2|store_mac123_byte3|store_third_output|store_flag_bound)\s*\('
 )
 

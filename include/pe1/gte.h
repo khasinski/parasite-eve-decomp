@@ -47,15 +47,28 @@ int rcos(int angle);
 #define gte_lwc2_1_8(ptr) \
     asm volatile("lwc2 $1,8(%0)" : : "r"(ptr) : "memory")
 
-/* Load a packed short vector into VXY0/VZ0. */
-#define gte_ldv0_short3(vec) \
-    asm volatile("lhu $13,4(%0)\n\t" \
-                 "lhu $12,0(%0)\n\t" \
-                 "sll $13,$13,16\n\t" \
-                 "or $12,$12,$13\n\t" \
-                 "mtc2 $12,$0\n\t" \
-                 "lwc2 $1,8(%0)" \
-                 : : "r"(vec) : "$12", "$13", "memory")
+/* Pack the low halfwords of X/Y from word-stride input, then transfer V0.
+ * source is an lvalue so callers can reuse the constrained address. */
+#define gte_ldv0_word3(source) \
+    do { \
+        register unsigned int packed asm("$12"); \
+        register unsigned int high asm("$13"); \
+        asm volatile("" : "=r"(source) : "0"(source)); \
+        high = ((volatile unsigned short *)source)[2]; \
+        packed = ((unsigned short *)source)[0]; \
+        asm volatile("" : "=r"(high) : "0"(high), "r"(packed)); \
+        high <<= 16; \
+        packed |= high; \
+        asm volatile("mtc2 %0,$0\n\t" \
+                     "lwc2 $1,8(%1)" \
+                     : : "r"(packed), "r"(source) : "memory"); \
+    } while (0)
+
+#define gte_ldv0_word3_at(vec) \
+    do { \
+        unsigned short *source = (unsigned short *)(vec); \
+        gte_ldv0_word3(source); \
+    } while (0)
 
 #define gte_swc2_9_0(ptr) \
     asm volatile("swc2 $9,0(%0)" : : "r"(ptr) : "memory")

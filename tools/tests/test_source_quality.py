@@ -19,7 +19,7 @@ class SourceQualityTests(unittest.TestCase):
         for name in ("gte_ldv0_short3", "gte_load_packed_short3",
                      "gte_store_ir123_packed_short3", "gte_store_third_output",
                      "gte_store_flag_bound", "gte_store_mac12_byte2",
-                     "gte_store_mac123_byte3"):
+                     "gte_store_mac123_byte3", "gte_stir123_matrix_column"):
             with self.subTest(name=name):
                 self.assertEqual(self.classify("void f(void) { %s(0); }" % name),
                                  "asm_constrained")

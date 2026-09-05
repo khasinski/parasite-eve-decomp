@@ -69,13 +69,16 @@ void ROOMLIB_TRANSFORM_PAIRED_SPRITE_FUNC(void *unused, char *params,
     gte_ldrtir12_matrix_column(&matrix->m[0][2]);
     gte_stir123_matrix_column(&matrix->m[0][2]);
     gte_ldtransmatrix(scaleMatrix);
-    gte_ldv0_short3(matrix->t);
-    gte_cop2_hazard_slot();
-    gte_cop2_hazard_slot();
-    gte_rtv0tr_sf0();
-    gte_swc2_9_0(matrix->t);
-    gte_swc2_10_4(matrix->t);
-    gte_swc2_11_8(matrix->t);
+    {
+        unsigned short *translation = (unsigned short *)matrix->t;
+        gte_ldv0_word3(translation);
+        gte_cop2_hazard_slot();
+        gte_cop2_hazard_slot();
+        gte_rtv0tr_sf0();
+        gte_swc2_9_0(translation);
+        gte_swc2_10_4(translation);
+        gte_swc2_11_8(translation);
+    }
 
     func_800C3238(2);
     table = ROOMLIB_PAIRED_SPRITE_TABLE;

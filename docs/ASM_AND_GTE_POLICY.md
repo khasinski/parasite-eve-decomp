@@ -178,6 +178,28 @@ they do not identify hardware memory. The left shift uses unsigned arithmetic.
 The existing output-pointer pin is still needed; trial final barriers were
 removed. Both former packed-short instruction macros were deleted.
 
+`gte_ldv0_word3(source)` packs the low halfwords of two word-stride vector
+lanes using C, then emits only `mtc2` and `lwc2`. The source argument is a
+pointer lvalue; preserving it across calls and result stores prevents needless
+address recomputation. `gte_ldv0_word3_at(vec)` is the one-shot adapter.
+Both replace the retired `gte_ldv0_short3` CPU packing window.
+
+The shared implementation retains pins for $12/$13 and two empty barriers.
+The pointer barrier prevents folding the address back into stack offsets;
+the high-lane barrier is required by the six two-transform initialization
+variants. Each pin and barrier was tested for removal. A pointer memory
+clobber and low-lane volatile qualifier were removable and are absent.
+Only the high-lane load remains volatile to preserve load ordering. The
+two draw variants also need an input barrier before setup calls to retain
+the original placement of three stack-address calculations.
+
+All 25 affected objects have exact disassembly and relocations after this
+change. They remain ineligible for semantic credit because the separate
+`gte_stir123_matrix_column` still contains CPU halfword stores. A C draft
+with tied output addressing removes offset folding but introduces pointer
+copies when the original base remains live. Fixing that is the next task;
+the full source must keep matching throughout promotion.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

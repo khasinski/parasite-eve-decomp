@@ -16,9 +16,22 @@ class GteMacReadTests(unittest.TestCase):
             (ROOT / "include/pe1/gte.h").read_text())
         for name in ("gte_store_mac12_byte2", "gte_store_mac123_byte3",
                      "gte_store_third_output", "gte_store_flag_bound",
-                     "gte_load_packed_short3", "gte_store_ir123_packed_short3"):
+                     "gte_load_packed_short3", "gte_store_ir123_packed_short3",
+                     "gte_ldv0_short3"):
             with self.subTest(name=name):
                 self.assertNotRegex(header, r"\b" + name + r"\s*\(")
+
+    def test_word_stride_vector_pack_has_only_cop2_instruction_asm(self):
+        header = source_quality.strip_comments(
+            (ROOT / "include/pe1/gte.h").read_text())
+        definition = re.search(r"^#define gte_ldv0_word3\([^\n]*",
+                               header, re.MULTILINE)
+        self.assertIsNotNone(definition)
+        bodies = ["".join(ast.literal_eval(s) for s in re.findall(
+            source_quality.C_STRING, call.group("template")))
+            for call in source_quality.ASM_CALL.finditer(definition.group())]
+        self.assertCountEqual(bodies, ["$12", "$13", "", "",
+                                      "mtc2 %0,$0\n\tlwc2 $1,8(%1)"])
 
     def test_staged_mac_reads_only_transfer_hardware_state(self):
         header = source_quality.strip_comments(

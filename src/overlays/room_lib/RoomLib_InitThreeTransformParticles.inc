@@ -71,29 +71,32 @@ void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
     gte_ldrtir12_matrix_column(clock + 8);
     gte_stir123_matrix_column(&stack.firstMatrix.m[0][2]);
     gte_ldtransmatrix(&stack.firstMatrix);
-    gte_ldv0_short3(clock + 0x18);
-    gte_cop2_hazard_slot();
-    gte_cop2_hazard_slot();
-    gte_rtv0tr_sf0();
-    gte_swc2_9_0(stack.firstMatrix.t);
-    gte_swc2_10_4(stack.firstMatrix.t);
-    gte_swc2_11_8(stack.firstMatrix.t);
+    {
+        unsigned short *translation = (unsigned short *)(clock + 0x18);
+        gte_ldv0_word3(translation);
+        gte_cop2_hazard_slot();
+        gte_cop2_hazard_slot();
+        gte_rtv0tr_sf0();
+        gte_swc2_9_0(stack.firstMatrix.t);
+        gte_swc2_10_4(stack.firstMatrix.t);
+        gte_swc2_11_8(stack.firstMatrix.t);
 
-    gte_ldrotmatrix(&stack.secondMatrix);
-    gte_ldrtir12_matrix_column(clock + 4);
-    gte_stir123_matrix_column(&stack.secondMatrix.m[0][0]);
-    gte_ldrtir12_matrix_column(clock + 6);
-    gte_stir123_matrix_column(&stack.secondMatrix.m[0][1]);
-    gte_ldrtir12_matrix_column(clock + 8);
-    gte_stir123_matrix_column(&stack.secondMatrix.m[0][2]);
-    gte_ldtransmatrix(&stack.secondMatrix);
-    gte_ldv0_short3(clock + 0x18);
-    gte_cop2_hazard_slot();
-    gte_cop2_hazard_slot();
-    gte_rtv0tr_sf0();
-    gte_swc2_9_0(stack.secondMatrix.t);
-    gte_swc2_10_4(stack.secondMatrix.t);
-    gte_swc2_11_8(stack.secondMatrix.t);
+        gte_ldrotmatrix(&stack.secondMatrix);
+        gte_ldrtir12_matrix_column(clock + 4);
+        gte_stir123_matrix_column(&stack.secondMatrix.m[0][0]);
+        gte_ldrtir12_matrix_column(clock + 6);
+        gte_stir123_matrix_column(&stack.secondMatrix.m[0][1]);
+        gte_ldrtir12_matrix_column(clock + 8);
+        gte_stir123_matrix_column(&stack.secondMatrix.m[0][2]);
+        gte_ldtransmatrix(&stack.secondMatrix);
+        gte_ldv0_word3(translation);
+        gte_cop2_hazard_slot();
+        gte_cop2_hazard_slot();
+        gte_rtv0tr_sf0();
+        gte_swc2_9_0(stack.secondMatrix.t);
+        gte_swc2_10_4(stack.secondMatrix.t);
+        gte_swc2_11_8(stack.secondMatrix.t);
+    }
 
     i = 0;
     velocityCursor = workState;

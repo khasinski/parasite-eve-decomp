@@ -66,7 +66,7 @@ void ROOMLIB_INIT_TWELVE_EFFECT_FUNC(void *owner, void *unused, char *state) {
     gte_ldrtir12_matrix_column(&localMatrix->m[0][2]);
     gte_stir123_matrix_column(&stack.sourceMatrix.m[0][2]);
     gte_ldtransmatrix(&stack.sourceMatrix);
-    gte_ldv0_short3(localMatrix->t);
+    gte_ldv0_word3_at(localMatrix->t);
     gte_cop2_hazard_slot();
     gte_cop2_hazard_slot();
     gte_rtv0tr_sf0();

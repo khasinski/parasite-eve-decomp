@@ -109,7 +109,7 @@ int Task_SetGteMatrix(int **args) {
 
     translation_matrix = (GteMatrix *)(D2F0_translation[0] + 0x1E8);
     gte_ldtransmatrix(translation_matrix);
-    gte_ldv0_short3(scale_matrix.t);
+    gte_ldv0_word3_at(scale_matrix.t);
     gte_cop2_hazard_slot();
     gte_cop2_hazard_slot();
     gte_rtv0tr_sf0();

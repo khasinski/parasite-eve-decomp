@@ -47,6 +47,20 @@ order; these are matching constraints, not claims that the buffers are MMIO.
 The existing output pin moved from the deleted helper into each caller.
 No empty barriers were needed after minimization.
 
+The vector packing window was subsequently replaced with matching C in all
+25 remaining users, using `gte_ldv0_word3` and `gte_ldv0_word3_at`. This does
+not yet restore their semantic credit: review found a second CPU-ASM window
+in those same units, `gte_stir123_matrix_column`, whose three ordinary `sh`
+instructions must also move to C. That helper is now quarantined as well.
+Do not count the matching packing improvement as 25 completed functions.
+
+The source-text debt counters do not expand all shared headers or `.inc`
+templates. In particular the new word-stride helper has two pins and two empty
+barriers per expansion, and the draw template has an additional input barrier.
+Those constraints are real even where the current ledger does not count them.
+A preprocessed debt inventory is still required; unchanged counters do not
+prove a change is crutch-free.
+
 The 2026-09-05 classifier correction withdrew semantic credit from four existing
 CPU-ASM implementations (1,308 bytes): Task_SetEntityActionAndWait,
 Task_TurnTowardPointStep, Entity_GetDistanceComponents and Entity_AllocBlock.

@@ -181,13 +181,16 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
     gte_ldrtir12_matrix_column(&stack.matrix.rotation[0][2]);
     gte_stir123_matrix_column(&stack.matrix.rotation[0][2]);
     gte_ldtransmatrix(*matrix_slot);
-    gte_ldv0_short3(&stack.matrix.translation[0]);
-    gte_cop2_hazard_slot();
-    gte_cop2_hazard_slot();
-    gte_rtv0tr_sf0();
-    gte_swc2_9_0(&stack.matrix.translation[0]);
-    gte_swc2_10_4(&stack.matrix.translation[0]);
-    gte_swc2_11_8(&stack.matrix.translation[0]);
+    {
+        unsigned short *translation = (unsigned short *)&stack.matrix.translation[0];
+        gte_ldv0_word3(translation);
+        gte_cop2_hazard_slot();
+        gte_cop2_hazard_slot();
+        gte_rtv0tr_sf0();
+        gte_swc2_9_0(translation);
+        gte_swc2_10_4(translation);
+        gte_swc2_11_8(translation);
+    }
     gte_ldrotmatrix(&stack.matrix);
     gte_ldtransmatrix(&stack.matrix);
     var_t6 = 0;
