@@ -6,7 +6,6 @@ RoomLib_InitD_8018FF60 = 0x8018FF60; // type:func
 RoomLib_HandlerE = 0x80190384; // type:func
 RoomLib_Notify2ArmB_801902E4 = 0x801902E4; // type:func
 RoomLib_FxNotify2 = 0x80190910; // type:func
-RoomLib_SteerToward_80190918 = 0x80190918; // type:func
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
 RoomLib_ResetAndSignalB_8019099C = 0x8019099C; // type:func

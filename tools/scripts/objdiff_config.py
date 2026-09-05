@@ -31,6 +31,11 @@ import re
 
 import yaml
 
+try:
+    from source_quality import classify
+except ImportError:  # imported as tools.scripts.objdiff_config by unit tests
+    from tools.scripts.source_quality import classify
+
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 VERSION = "USA"
 
@@ -97,19 +102,23 @@ def module_verified(config):
     return bool(want) and built.exists() and sha1(built) == want
 
 
-def unit(relative, build_prefix, name, category, source, complete):
+def unit(relative, build_prefix, name, category, source, complete,
+         source_kind=None):
     entry = {
         "name": name,
         "target_path": "expected/%s%s" % (build_prefix, relative),
         "metadata": {"progress_categories": [category]},
     }
     if source is not None:
-        # Only decompiled units get a base: the base is what `make build`
-        # compiled from that source.
-        entry["base_path"] = "%s%s" % (build_prefix, relative)
         entry["metadata"]["source_path"] = source
+        entry["metadata"]["source_kind"] = source_kind
         if complete is not None:
             entry["metadata"]["complete"] = complete
+        # Semantic progress requires both a C implementation and proof that
+        # its complete linked module matches retail. Original/instruction ASM
+        # and units from a mismatching module deliberately receive no base.
+        if complete and source_kind in ("semantic_c", "text_data"):
+            entry["base_path"] = "%s%s" % (build_prefix, relative)
     return entry
 
 
@@ -143,8 +152,9 @@ def module_units(name, config_path, skip):
         if relative.startswith("src/"):
             site = site_lead + relative[len(src_lead):].removesuffix(".c.o")
             source = relative.removesuffix(".o")
+            source_kind = classify(ROOT / source)
             entry = unit(relative, build_prefix, site, category(relative), source,
-                         complete)
+                         complete, source_kind)
         elif info["code"]:
             # Original code still spelled as assembly: report it, match nothing.
             site = site_lead + relative[len(asm_lead):].removesuffix(".s.o")
@@ -161,7 +171,7 @@ def module_units(name, config_path, skip):
             skipped.append(entry["name"])
             continue
         units.append(entry)
-    return units, skipped
+    return units, skipped, bool(complete)
 
 
 def config(units):
@@ -200,6 +210,7 @@ def main(argv=None):
     units = []
     all_skipped = []
     missing = []
+    unverified = []
     names = ["main"] + sorted(
         cfg.stem for cfg in (ROOT / "configs" / VERSION / "overlays").glob("*.yaml")
     )
@@ -213,9 +224,11 @@ def main(argv=None):
         if result is None:
             missing.append(name)
             continue
-        module, skipped = result
+        module, skipped, verified = result
         units.extend(module)
         all_skipped.extend(skipped)
+        if not verified:
+            unverified.append(name)
 
     (ROOT / args.output).write_text(json.dumps(config(units), indent=2) + "\n")
 
@@ -238,10 +251,11 @@ def main(argv=None):
     if all_skipped:
         print("  skipped, objdiff cannot pair their symbols: %s"
               % ", ".join(all_skipped))
-    return 1 if missing else 0
+    if unverified:
+        print("  SHA mismatch, excluded from semantic progress: %s"
+              % ", ".join(unverified))
+    return 1 if missing or unverified or all_skipped else 0
 
 
 if __name__ == "__main__":
-    import sys
-
-    sys.exit(main())
+    raise SystemExit(main())

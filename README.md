@@ -25,13 +25,22 @@ game and local toolchains.
 ![code](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkhasinski%2Fparasite-eve-decomp%2Fmain%2Fdocs%2Fbadges%2Fcode.json)
 ![debt](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkhasinski%2Fparasite-eve-decomp%2Fmain%2Fdocs%2Fbadges%2Fdebt.json)
 
-Progress is measured by objdiff against a disassembly of the retail
-binaries — the same `report.json` CI publishes for decomp.dev. Regenerate
-locally with `make report` and render the badges and per-category table
-with `make progress`. This README intentionally avoids hardcoded numbers.
-A translation unit only counts as decompiled when it is decompiled C
-rather than generated split assembly. Verified builds are byte-identical
-to retail (`make check`, plus overlay checks for touched overlays).
+Progress is measured by objdiff against a disassembly of the retail binaries,
+the same `report.json` CI publishes for decomp.dev. Regenerate locally with
+`make report` and render the badges and per-category table with `make
+progress`. This README intentionally avoids hardcoded numbers.
+
+The badges measure **verified semantic C**, not merely matching bytes. A unit
+is eligible only when its complete executable or overlay matches the retail
+SHA-1. Generated split assembly, original BIOS/SDK assembly, inline CPU
+instruction implementations, and data stored in `.text` receive no semantic-C
+credit. Register pins and empty compiler barriers remain eligible but are
+reported separately as crutch debt. Function counts remain a secondary,
+partly source-dependent estimate: the target generator borrows symbol names
+and sizes from verified C objects so objdiff can pair them. The audit checks
+that the two sides are consistent, but it does not turn those boundaries into
+independent evidence about the original translation units. Code bytes and the
+full linked SHA-1 are the stronger measures.
 
 Binary matching is only one quality level. See
 [docs/SOURCE_QUALITY.md](docs/SOURCE_QUALITY.md) for the semantic, crutch-free,
@@ -140,13 +149,12 @@ make progress          # badges + per-category table from build/USA/report.json
 ## decomp.dev report
 
 CI publishes an [objdiff](https://github.com/encounter/objdiff) report for
-[decomp.dev](https://decomp.dev) on every push to `main`. The report accounts
-for **every function in every shipped binary** — the main executable
-(including the PsyQ libraries, under their own progress category) and all
-configured overlays. The target side is a fresh disassembly of the retail
-binaries, never a snapshot of our own build, and translation units that only
-exist as generated split assembly are reported with nothing to match — they
-are the remaining work, not progress.
+[decomp.dev](https://decomp.dev) on every push to `main`. It covers the main
+executable and all configured overlays, with PsyQ code in a separate category.
+The target side is a fresh disassembly of the retail binaries, never a snapshot
+of our own build. Generated assembly remains visible as unmatched work;
+text-resident data is typed as data rather than guessed functions. Report
+generation fails if any shipped module is absent or fails its retail SHA-1.
 
 To reproduce it locally:
 

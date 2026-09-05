@@ -577,6 +577,12 @@ int rcos(int angle);
 #define gte_getsz3(out) \
     asm volatile("mfc2 %0,$19" : "=r"(out))
 
+#define gte_stsz3_s16(out) \
+    asm volatile("mfc2 $12,$19\n\t" \
+                 "nop\n\t" \
+                 "sh $12,0(%0)" \
+                 : : "r"(out) : "$12", "memory")
+
 /* RTPT: project V0, V1, and V2. */
 #define gte_ldv012(vec) \
     asm volatile("lwc2 $0,0(%0)\n\t" \

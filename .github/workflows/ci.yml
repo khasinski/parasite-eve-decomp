@@ -79,18 +79,13 @@ jobs:
           make split
           make -j"$(nproc)" build
 
-      # Red only says the stock-toolchain migration is not finished; the
-      # report below still measures every unit honestly. Flip this to a hard
-      # failure once `make check` is green on main.
       - name: Verify the main executable against the retail SHA-1
-        continue-on-error: true
         run: make check
 
       - name: Build every overlay
         run: make overlay-build-all OVERLAY_JOBS="$(nproc)"
 
       - name: Verify the overlays against the retail SHA-1s
-        continue-on-error: true
         run: make overlay-check-all
 
       - name: Generate the target objects and the progress report

@@ -17,6 +17,11 @@ import json
 import pathlib
 import re
 
+try:
+    from source_quality import classify
+except ImportError:
+    from tools.scripts.source_quality import classify
+
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 SRC = ROOT / "src"
 BASELINE = ROOT / "tools" / "crutch_debt_baseline.json"
@@ -31,6 +36,9 @@ def strip_comments(text: str) -> str:
 _HW_OPS = "cfc2|ctc2|lwc2|swc2|mfc2|mtc2|nop"
 
 PATTERNS = {
+    # Filled from the source classifier below; unlike regex-only counters this
+    # sees instruction asm inherited from directly included C templates.
+    "asm_constrained_units": re.compile(r"(?!)"),
     "byte_pointer_arithmetic": re.compile(
         r"\(\s*(?:const\s+|volatile\s+)?(?:u8|s8|char)\s*\*\s*\)"
         r"(?!\s*\()[^;=\n]*\+"
@@ -68,7 +76,7 @@ PATTERNS = {
 }
 
 ORDER = [
-    "byte_pointer_arithmetic", "raw_offset_dereferences",
+    "asm_constrained_units", "byte_pointer_arithmetic", "raw_offset_dereferences",
     "pointer_integer_casts", "field_macros", "pins", "barriers", "aliases",
     "asm_bodies", "directives", "gotos", "include_asm", "postpass",
     "statement_expressions", "unknown_fields", "declaration_overrides",
@@ -100,6 +108,7 @@ def collect_debt(source_root: pathlib.Path = SRC):
         text = strip_comments(path.read_text(errors="ignore"))
         sub = subsystem_of(pathlib.PurePath(rel))
         counts = {k: len(PATTERNS[k].findall(text)) for k in ORDER}
+        counts["asm_constrained_units"] = int(classify(path) == "asm_constrained")
         for k, v in counts.items():
             per_sub[sub][k] += v
             totals[k] += v
@@ -142,7 +151,8 @@ def render_report(per_sub, totals, dirty_files) -> str:
         "**directives** = `asm(\".word ...\")` · **gotos** · **include_asm** · **postpass** · "
         "**externs_in_c** = declarations awaiting a subsystem header. Raw offset, pointer, "
         "field-macro, statement-expression, unknown-field, and declaration-override columns "
-        "track semantic/typing scaffolding.",
+        "track semantic/typing scaffolding. **asm_constrained_units** also sees asm "
+        "in directly included C templates and is the progress-exclusion count.",
         "",
         header,
         sep,
@@ -162,7 +172,8 @@ def write_reports(per_sub, totals, dirty_files) -> None:
     )
 
     # ----- badge (date-free, code.json shape) -----
-    msg = (f"{totals['pins']} pins / {totals['barriers']} barriers / "
+    msg = (f"{totals['asm_constrained_units']} asm units / "
+           f"{totals['pins']} pins / {totals['barriers']} barriers / "
            f"{totals['gotos']} gotos / {totals['aliases']} aliases")
     heavy_total = sum(totals[k] for k in HEAVY)
     color = "brightgreen" if heavy_total == 0 else ("yellow" if heavy_total < 500 else "orange" if heavy_total < 1500 else "red")

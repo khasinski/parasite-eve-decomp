@@ -34,6 +34,11 @@ import sys
 import yaml
 from elftools.elf.elffile import ELFFile
 
+try:
+    from source_quality import classify
+except ImportError:  # imported as tools.scripts.gen_expected by unit tests
+    from tools.scripts.source_quality import classify
+
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 VERSION = "USA"
 # Where the executable is loaded. Anything the disassembler names below this
@@ -156,12 +161,16 @@ class SymbolTable:
         self.by_addr = {}  # addr -> (name, attrs)
         self.names = {}  # name -> addr
 
-    def add(self, name, addr, attrs="", replace_generic=False):
+    def add(self, name, addr, attrs="", replace_generic=False,
+            replace_existing=False):
         if GCC_LOCAL.search(name):
             return
         holder = self.by_addr.get(addr)
         if holder is not None:
-            if replace_generic and GENERIC_NAME.match(holder[0]) and not GENERIC_NAME.match(name):
+            if replace_existing or (
+                replace_generic and GENERIC_NAME.match(holder[0])
+                and not GENERIC_NAME.match(name)
+            ):
                 del self.names[holder[0]]
             else:
                 return
@@ -266,7 +275,10 @@ def harvest(module, config, table):
             if size:
                 notes.append("size:0x%X" % size)
             attrs = "// %s" % " ".join(notes) if notes else ""
-            table.add(sym, vram + offset, attrs, replace_generic=True)
+            table.add(
+                sym, vram + offset, attrs, replace_generic=True,
+                replace_existing=(kind == "STT_FUNC"),
+            )
             counted += 1
     return counted
 
@@ -314,7 +326,9 @@ def target_config(module, symbol_file):
 
 
 DIFFER_ALIAS = re.compile(r"^nonmatching\s.*$\n?", re.MULTILINE)
-CODE_LABEL = re.compile(r"^(glabel|endlabel|dlabel|enddlabel) (\w+)$", re.MULTILINE)
+CODE_LABEL = re.compile(
+    r"^\s*(glabel|alabel|endlabel|dlabel|enddlabel) (\w+)$", re.MULTILINE
+)
 
 
 def strip_differ_aliases(text):
@@ -343,7 +357,7 @@ def retype_data_in_text(text, kinds):
         kind = kinds.get(name)
         if kind is None:
             return match.group(0)
-        opener = macro in ("glabel", "dlabel")
+        opener = macro in ("glabel", "alabel", "dlabel")
         if kind == "STT_OBJECT":
             return "%s %s" % ("dlabel" if opener else "enddlabel", name)
         # Untyped in the base, so emit the label with no .type and - because
@@ -353,6 +367,54 @@ def retype_data_in_text(text, kinds):
         return ".global %s\n%s:" % (name, name) if opener else ""
 
     return CODE_LABEL.sub(relabel, text)
+
+
+def retype_all_text_as_data(text):
+    """Prevent disassembler guesses inside a known text-resident data unit."""
+
+    def relabel(match):
+        macro, name = match.groups()
+        opener = macro in ("glabel", "alabel", "dlabel")
+        return "%s %s" % ("dlabel" if opener else "enddlabel", name)
+
+    return CODE_LABEL.sub(relabel, text)
+
+
+def normalize_c_function_labels(text, valid_names):
+    """Type only compiler-emitted C functions as functions in a C unit.
+
+    Splat may infer an extra function at an internal branch target or inherit
+    a stale symbol-file annotation. Keep such names usable for relocations,
+    but make them plain labels. Rebuilding the end markers around the valid
+    labels prevents an internal guess from truncating the preceding function.
+    This changes ELF metadata only, never retail instructions or data.
+    """
+    out = []
+    current = None
+    for line in text.splitlines():
+        match = CODE_LABEL.fullmatch(line)
+        if match:
+            macro, name = match.groups()
+            if macro in ("glabel", "alabel"):
+                if name in valid_names:
+                    if current is not None:
+                        out.append("endlabel %s" % current)
+                    current = name
+                    out.append("glabel %s" % name)
+                else:
+                    out.extend((".global %s" % name, "%s:" % name))
+            elif macro == "endlabel":
+                continue
+            else:
+                out.append(line)
+            continue
+        if current is not None and line.startswith(".section") and ".text" not in line:
+            out.append("endlabel %s" % current)
+            current = None
+        out.append(line)
+    if current is not None:
+        out.append("endlabel %s" % current)
+    return "\n".join(out) + ("\n" if text.endswith("\n") else "")
 
 
 AUTO_SYMBOL = re.compile(r"^(D_[0-9A-Fa-f]+) = 0x([0-9A-Fa-f]+);", re.MULTILINE)
@@ -516,6 +578,9 @@ def process_module(module, shared, assembler, workers):
     jobs = []
     missing = []
     for relative in relatives:
+        source_kind = None
+        valid_functions = None
+        unit_kinds = kinds
         if relative.startswith("src/"):
             # A unit built from C is <name>.c.o; the disassembly is <name>.s.
             unit = relative[len(src_lead):].removesuffix(".o")
@@ -524,6 +589,18 @@ def process_module(module, shared, assembler, workers):
             rodata = asm_root / "data" / ("%s.rodata.s" % unit)
             if rodata.exists() and ".section .rodata" not in source.read_text():
                 source.write_text(source.read_text() + "\n" + rodata.read_text())
+            base_obj = ROOT / (prefix + relative)
+            source_kind = classify(ROOT / relative.removesuffix(".o"))
+            valid_functions = {
+                name for section, name, _offset, kind, _size in defined_symbols(base_obj)
+                if section == ".text" and kind == "STT_FUNC"
+            }
+            unit_kinds = {
+                name: kind
+                for section, name, _offset, kind, _size in defined_symbols(base_obj)
+                if section == ".text" and kind != "STT_FUNC"
+                and name not in valid_functions
+            }
             fresh = True
         else:
             source = work / relative.removesuffix(".o")
@@ -535,7 +612,16 @@ def process_module(module, shared, assembler, workers):
             continue
         if fresh and source.suffix == ".s":
             text = strip_differ_aliases(source.read_text())
-            text = retype_data_in_text(text, kinds)
+            raw_text_data = (
+                module.name == "main" and relative ==
+                "asm/USA/main/main/dtail_gp.s.o"
+            )
+            if raw_text_data:
+                text = retype_all_text_as_data(text)
+            else:
+                text = retype_data_in_text(text, unit_kinds)
+                if valid_functions is not None:
+                    text = normalize_c_function_labels(text, valid_functions)
             source.write_text(inline_constant_pairs(text, constants))
         jobs.append((source, obj))
 

@@ -46,7 +46,7 @@ segments:
       - [0x154, c, func_8018F13C]
       - [0x384, c, func_8018F36C]
       - [0x38C, c, func_8018F374]
-      - [0x13C0, c, func_801013C0]
+      - [0x13C0, c, func_801903A8]
       - [0x1440, c, func_80190428]
       - [0x1880, c, RoomLib_UpdatePairedSprite_80190868]
       - [0x1C10, c, func_80190BF8]

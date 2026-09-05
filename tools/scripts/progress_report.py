@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Render the progress badges from the objdiff report.
 
-The one source of truth for progress is build/USA/report.json - the same
-file CI publishes to decomp.dev - so the badges can never disagree with the
-site. Run `make report` first; `make progress` refuses to invent numbers
-without it. The crutch-debt badge is written by crutch_debt.py, which owns
-that ledger.
+The report is the source of truth for the semantic-C byte metric and the same
+file CI publishes to decomp.dev. Function counts are secondary because target
+symbol boundaries are partly source-assisted. Run `make report` first;
+`make progress` refuses to invent numbers without it. The crutch-debt badge is
+written by crutch_debt.py, which owns that ledger.
 """
 
 import json
@@ -49,11 +49,11 @@ def main():
 
     BADGES.mkdir(parents=True, exist_ok=True)
     (BADGES / "functions.json").write_text(
-        badge("functions matched", "%d/%d (%.1f%%)" % (matched, total, fn_percent),
+        badge("semantic C functions", "%d/%d (%.1f%%)" % (matched, total, fn_percent),
               fn_percent)
     )
     (BADGES / "code.json").write_text(
-        badge("code matched", "%.2f%%" % code_percent, code_percent)
+        badge("semantic C code", "%.2f%%" % code_percent, code_percent)
     )
 
     print("%-12s %9s %8s %8s" % ("category", "functions", "code", "data"))

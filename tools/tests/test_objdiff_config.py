@@ -64,6 +64,7 @@ class UnitShapeTests(unittest.TestCase):
             "main-game",
             "src/main/task/Task_EvalExpr.c",
             True,
+            "semantic_c",
         )
 
         self.assertEqual(
@@ -77,6 +78,23 @@ class UnitShapeTests(unittest.TestCase):
             entry["metadata"]["source_path"], "src/main/task/Task_EvalExpr.c"
         )
         self.assertTrue(entry["metadata"]["complete"])
+        self.assertEqual(entry["metadata"]["source_kind"], "semantic_c")
+
+    def test_asm_constrained_c_gets_no_semantic_progress_base(self):
+        entry = objdiff_config.unit(
+            "src/main/test.c.o", "build/USA/", "main/test", "main-game",
+            "src/main/test.c", True, "asm_constrained",
+        )
+
+        self.assertNotIn("base_path", entry)
+
+    def test_unverified_module_gets_no_semantic_progress_base(self):
+        entry = objdiff_config.unit(
+            "src/main/test.c.o", "build/USA/", "main/test", "main-game",
+            "src/main/test.c", None, "semantic_c",
+        )
+
+        self.assertNotIn("base_path", entry)
 
     def test_an_undecompiled_unit_gets_no_base_to_match(self):
         # Scoring the tree's own assembly against the retail disassembly

@@ -60,7 +60,7 @@ OBJS := $(ASM_OBJS) $(C_OBJS)
 C_DEPS := $(C_OBJS:.o=.o.d)
 -include $(C_DEPS)
 
-.PHONY: expected objdiff-config report all build check check-sources ci verify verify-clean clean diff distclean overlay-build overlay-build-all overlay-check overlay-check-all overlay-clean overlay-extract overlay-permuter-scratch overlay-split permute progress debt debt-check debt-baseline organization-check organization-baseline test drop-pins drop-barriers drop-aliases split split-if-needed tools
+.PHONY: expected objdiff-config progress-audit report all build check check-sources source-policy-check ci verify verify-clean clean diff distclean overlay-build overlay-build-all overlay-check overlay-check-all overlay-clean overlay-extract overlay-permuter-scratch overlay-split permute progress debt debt-check debt-baseline organization-check organization-baseline test drop-pins drop-barriers drop-aliases split split-if-needed tools
 
 all: verify
 
@@ -121,9 +121,12 @@ check: build
 check-sources:
 	@$(PY) tools/scripts/check_c_subseg_sources.py
 
+source-policy-check:
+	@$(PY) tools/scripts/check_source_policy.py
+
 # Source-only checks suitable for a fresh public clone without retail assets or
 # proprietary compiler binaries. Keep this target aligned with GitHub Actions.
-ci: check-sources debt-check organization-check test
+ci: check-sources source-policy-check debt-check organization-check test
 
 # Canonical acceptance target when the local retail image/toolchain is present.
 verify: ci check
@@ -181,11 +184,14 @@ expected:
 objdiff-config:
 	@$(PY) tools/scripts/objdiff_config.py
 
+progress-audit:
+	@$(PY) tools/scripts/audit_progress.py
+
 OBJDIFF ?= tools/objdiff/objdiff-cli
 
 # The report decomp.dev ingests: every function in every shipped binary,
 # each compared against its retail disassembly.
-report:
+report: progress-audit
 	@$(OBJDIFF) report generate -p . -o $(BUILD)/report.json
 	@echo "wrote $(BUILD)/report.json"
 
@@ -196,9 +202,8 @@ report:
 OVERLAY_JOBS ?= 4
 overlay-build-all: | $(BUILD)
 	@test -n "$(OVERLAY_NAMES)" || { echo "no configured overlays in configs/$(VERSION)/overlays"; exit 1; }
-	@printf '%s\n' $(OVERLAY_NAMES) | xargs -P $(OVERLAY_JOBS) -I{} \
-	    sh -c '$(MAKE) --no-print-directory overlay-build OVERLAY={} >$(BUILD)/overlay-build.{}.log 2>&1 \
-	        || { echo "FAIL {}"; tail -40 $(BUILD)/overlay-build.{}.log; exit 1; }'
+	@$(PY) tools/scripts/parallel_overlay_make.py --jobs $(OVERLAY_JOBS) \
+	    --target overlay-build $(OVERLAY_NAMES)
 
 overlay-permuter-scratch:
 	@$(PY) tools/scripts/make_overlay_permuter_scratch.py \
@@ -254,9 +259,7 @@ overlay-check: overlay-build
 
 overlay-check-all:
 	@test -n "$(OVERLAY_NAMES)" || { echo "no configured overlays in configs/$(VERSION)/overlays"; exit 1; }
-	@for overlay in $(OVERLAY_NAMES); do \
-	    $(MAKE) overlay-check OVERLAY=$$overlay || exit $$?; \
-	done
+	@$(PY) tools/scripts/check_overlay_hashes.py
 
 overlay-clean:
 	rm -rf $(OVERLAY_ORIG_DIR) asm/$(VERSION)/overlays linkers/$(VERSION)/overlays $(BUILD)/overlays

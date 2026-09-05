@@ -20,6 +20,14 @@ class SymbolTableTests(unittest.TestCase):
 
         self.assertEqual(table.by_addr[0x8001A680][0], "Entity_SetActionMode")
 
+    def test_verified_c_function_can_replace_a_stale_alias(self):
+        table = gen_expected.SymbolTable()
+        table.add("StaleAlias", 0x80020DD0, "// type:func")
+        table.add("ActualCFunction", 0x80020DD0, "// type:func",
+                  replace_existing=True)
+
+        self.assertEqual(table.by_addr[0x80020DD0][0], "ActualCFunction")
+
     def test_one_name_never_lands_at_two_addresses(self):
         table = gen_expected.SymbolTable()
         table.add("shared_static", 0x80010000)
@@ -104,6 +112,36 @@ class DisassemblyRewriteTests(unittest.TestCase):
 
         self.assertIn(".global Words\nWords:", out)
         self.assertNotIn("enddlabel", out)
+
+    def test_known_text_data_cannot_be_reported_as_functions(self):
+        text = "glabel GuessedFunction\n    .word 0\nendlabel GuessedFunction\n"
+
+        out = gen_expected.retype_all_text_as_data(text)
+
+        self.assertIn("dlabel GuessedFunction", out)
+        self.assertIn("enddlabel GuessedFunction", out)
+        self.assertNotIn("glabel", out)
+
+    def test_internal_function_guess_becomes_a_plain_label(self):
+        text = (
+            "glabel Real\n  nop\nendlabel Real\n"
+            "glabel FalseGuess\n  nop\nendlabel FalseGuess\n"
+        )
+
+        out = gen_expected.normalize_c_function_labels(text, {"Real"})
+
+        self.assertIn("glabel Real", out)
+        self.assertIn(".global FalseGuess\nFalseGuess:", out)
+        self.assertEqual(out.count("endlabel Real"), 1)
+        self.assertNotIn("endlabel FalseGuess", out)
+
+    def test_internal_alternative_entry_loses_function_type(self):
+        text = "glabel Real\n  nop\n  alabel FalseGuess\n  nop\nendlabel Real\n"
+
+        out = gen_expected.normalize_c_function_labels(text, {"Real"})
+
+        self.assertIn(".global FalseGuess\nFalseGuess:", out)
+        self.assertNotIn("alabel FalseGuess", out)
 
     def test_addresses_below_the_load_address_become_constants_again(self):
         constants = gen_expected.invented_constants(

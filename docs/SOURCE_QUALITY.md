@@ -4,6 +4,23 @@ Progress is reported in code bytes first. Function count is useful for work
 planning, but thousands of short wrappers and overlay handlers make it a poor
 headline measure.
 
+The progress report deliberately credits only `semantic_c` units from modules
+whose full linked binary matches retail. It does not credit generated or
+original assembly, BIOS trampolines, units containing ordinary inline CPU
+instruction implementations, or data emitted into `.text`. GTE/COP2 macros
+allowed by `ASM_AND_GTE_POLICY.md` remain semantic C. Pins and empty compiler
+barriers are eligible matching constraints, but their separate debt counters
+prevent the byte-match number from presenting them as clean C.
+
+Function boundaries are inferred during retail disassembly, so their global
+count is necessarily provisional. The target generator also borrows symbol
+names and sizes from verified C objects to make objdiff pairing practical.
+Consequently the function metric is not independent of the source split.
+`make progress-audit` checks target/base `(offset, size)` consistency and
+prevents mismatching or non-semantic units from receiving credit, but the
+code-byte metric and full linked SHA-1 remain stronger evidence. Known
+text-resident data is forcibly represented as data on the target side.
+
 The project uses the following independent review levels:
 
 1. **Configured** — the binary range and source/assembly representation exist
