@@ -4,6 +4,7 @@ D_801923E8 = 0x801923E8;
 RoomLib_HandlerD = 0x8018F6D4; // type:func
 RoomLib_NotifyArmB_8018F62C = 0x8018F62C; // type:func
 RoomLib_FxNotify = 0x8018FC1C; // type:func
+RoomLib_ResetSignalWithTargetGate = 0x8018FF3C; // type:func
 RoomLib_InitD_8018FFE8 = 0x8018FFE8; // type:func
 RoomLib_HandlerE = 0x80190414; // type:func
 RoomLib_Notify2ArmB_8019036C = 0x8019036C; // type:func

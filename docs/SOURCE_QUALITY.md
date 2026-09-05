@@ -140,6 +140,17 @@ The direct-source debt counter gains one `extern` because the existing
 It does not introduce a new global. The existing HandlerB GTE operations and
 constraints remain; this change is not a claim that HandlerB is crutch-free.
 
+With that mapping fixed, scene_e19's HandlerC (1148 bytes), HandlerD (1352),
+HandlerE (1420), and ResetSignalWithTargetGate (156) reproduce their complete
+retail ranges through the existing C implementations. No additional split
+boundaries were introduced. HandlerC and HandlerE reuse their reconstructed
+state types; HandlerD still uses the existing offset-based state view. Their
+shared GTE macros, register pins and compiler barriers are inherited matching
+constraints, not newly reconstructed algorithms or crutch-free code. The
+reset helper uses ordinary C without assembly constraints. The steering
+adapter only converts the common state-prefix pointer for the existing
+RoomLib_FxNotify2 prototype; it does not emit an assembly wrapper.
+
 The project uses the following independent review levels:
 
 1. **Configured** — the binary range and source/assembly representation exist

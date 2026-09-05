@@ -4,6 +4,8 @@ import unittest
 
 import yaml
 
+from tools.scripts import source_quality
+
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
@@ -36,6 +38,21 @@ class SceneE19MappingTests(unittest.TestCase):
                 self.assertEqual(self.rows[offset], [offset, "c", name])
                 self.assertTrue(
                     (ROOT / "src/overlays/scene_e19" / (name + ".c")).is_file())
+
+    def test_handlers_have_complete_semantic_c_ranges(self):
+        rows = self.segment["subsegments"]
+        ends = {row[0]: following[0] for row, following in zip(rows, rows[1:])}
+        for offset, size, name in (
+            (0x6EC, 1352, "RoomLib_HandlerD"),
+            (0xF54, 156, "RoomLib_ResetSignalWithTargetGate"),
+            (0x142C, 1420, "RoomLib_HandlerE"),
+            (0x2940, 1148, "RoomLib_HandlerC"),
+        ):
+            with self.subTest(name=name):
+                self.assertEqual(self.rows[offset], [offset, "c", name])
+                self.assertEqual(ends[offset] - offset, size)
+                path = ROOT / "src/overlays/scene_e19" / (name + ".c")
+                self.assertEqual(source_quality.classify(path), "semantic_c")
 
     def test_retail_epilogues_restore_the_preceding_stack_frame(self):
         path = ROOT / self.config["options"]["target_path"]
