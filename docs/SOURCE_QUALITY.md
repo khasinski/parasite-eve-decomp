@@ -115,6 +115,31 @@ reconstructed structures. Two existing pins were removed in the process; no
 new barriers or toolchain changes were needed. Full main SHA verification, not
 the source classifier alone, is required for these promotions.
 
+### Scene address and boundary audit
+
+`scene_e19` uses file-offset-zero VRAM `0x8018EFE8`, not `0x8018EFF0`.
+`Boot_InitMemoryLayout` subtracts eight from `g_StrFileDirBuffer` for
+`g_LoadedSceneAssetBlock`, which `Scene_LoadRoom` uses as the section load
+destination. Treating the header as code loaded eight bytes later made
+absolute jumps appear to target the wrong instructions. A whole-binary SHA
+match did not detect that interpretation error.
+
+Offsets `0xC2C`, `0x19B0`, `0x2554`, `0x3144`, `0x3578`, and `0x3B20`
+are return epilogues following stack restoration, not separate empty
+functions. They now belong to their preceding functions and receive no
+independent function credit. The real notify entries are `0xC34` and
+`0x19B8`. Correct control flow removes the fabricated notify fade bug,
+argument-dispatch fallback callback, and HandlerB reset-on-arm behavior.
+Two 136-byte state dispatchers now use the existing plain-C macro without
+pins, barriers, extra flags, or modified tools. Their full overlay retains
+the original SHA-1. Other scene mappings still require individual audits;
+this repair does not certify all scene function boundaries.
+
+The direct-source debt counter gains one `extern` because the existing
+`g_PlayerEntity` declaration moves out of the reset-on-arm include wrapper.
+It does not introduce a new global. The existing HandlerB GTE operations and
+constraints remain; this change is not a claim that HandlerB is crutch-free.
+
 The project uses the following independent review levels:
 
 1. **Configured** — the binary range and source/assembly representation exist
