@@ -136,7 +136,7 @@ class SceneE09E10MappingTests(unittest.TestCase):
         "scene_e09": "5bba719fc9e394d1df4d1e1de54646d150b84687",
         "scene_e10": "b1195c5d873cfdc45c0a7ea2e1c8b14e3cf1fd9b",
     }
-    epilogues = (0x39C, 0x2604, 0x3388, 0x3F2C, 0x4B1C, 0x4F50)
+    epilogues = (0x39C, 0x1724, 0x18D8, 0x2604, 0x3388, 0x3F2C, 0x4B1C, 0x4F50)
 
     def test_complete_c_ranges_and_real_entry_names(self):
         for scene, digest in self.hashes.items():
@@ -150,6 +150,7 @@ class SceneE09E10MappingTests(unittest.TestCase):
             for offset in self.epilogues:
                 self.assertNotIn(offset, by_offset)
             for offset, size, name in (
+                (0x172C, 436, "RoomLib_UpdateParticleMotion_80190714"),
                 (0x1F94, 136, "RoomLib_StateDispatchVariant2_80190F7C"),
                 (0x20C4, 1352, "RoomLib_HandlerD"),
                 (0x292C, 156, "RoomLib_ResetSignalWithTargetGate"),
