@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/akao.h"
 /* MASPSX_FLAGS: --expand-div */
 
 extern u32 *D_8009D2C8;
@@ -6,7 +7,7 @@ extern u32 *D_8009D2C8;
 void SeqOp_SetTrack38Mask(void *track);
 
 void SeqOp_NoteOnWithPitchSlide(void *track) {
-    register u8 *base asm("$6");
+    register AkaoTrack *base asm("$6");
     register u8 *seq_first asm("$2");
     u8 *seq;
     int value;
@@ -15,53 +16,47 @@ void SeqOp_NoteOnWithPitchSlide(void *track) {
     int mask;
     register int voice_index asm("$7");
     int check;
-    base = (u8 *)track;
+    base = (AkaoTrack *)track;
     asm volatile("" : "=r"(base) : "0"(base));
 
-    seq_first = *(u8 **)base;
-    *(u8 **)base = seq_first + 1;
+    seq_first = base->pc;
+    base->pc = seq_first + 1;
     step_count = seq_first[0];
-    *(u16 *)(base + 0x60) = step_count;
+    base->pitch_slide_duration = step_count;
     if (step_count == 0) {
         step_count = 0x100;
-        *(u16 *)(base + 0x60) = step_count;
+        base->pitch_slide_duration = step_count;
     }
 
-    seq = *(u8 **)base;
-    pitch_base = *(u16 *)(base + 0x5E) & 0xFF00;
-    *(u8 **)base = seq + 1;
-    value = ((int)(seq[0] << 24) >> 16) - pitch_base;
-    *(u16 *)(base + 0x5E) = pitch_base;
-    *(u16 *)(base + 0xD6) = value / *(u16 *)(base + 0x60);
+    seq = base->pc;
+    pitch_base = base->pitch_slide_current & 0xFF00;
+    base->pc = seq + 1;
+    value = ((int)((u32)seq[0] << 24) >> 16) - pitch_base;
+    base->pitch_slide_current = pitch_base;
+    base->pitch_slide_delta = value / base->pitch_slide_duration;
 
-    if ((*(u32 *)(base + 0x38) & 0x800) == 0) {
+    if ((base->flags & AKAO_TRACK_FLAG_VOICE_ALLOCATED) == 0) {
         voice_index = 0;
         mask = 1;
-                check = (int)D_8009D2C8;
-        asm volatile(
-            ".word 0x3C0800FF\n"
-            ".word 0x8C430004\n"
-            ".word 0x8C420030\n"
-            ".word 0x3508FFFF\n"
-            ".word 0x00621825\n"
-            ".word 0x00641024\n"
-            ".word 0x10400006\n"
-            ".word 0x3C0200FF\n"
-            ".word 0x00042040\n"
-            ".word 0x00881024\n"
-            ".word 0x1440FFFA\n"
-            ".word 0x24E70001\n"
-            ".word 0x3C0200FF\n"
-            ".word 0x3442FFFF\n"
-            ".word 0x00821024\n"
-            : "=r"(check), "=r"(mask), "=r"(voice_index)
-            : "0"(check), "1"(mask), "2"(voice_index)
-            : "$3", "$8");
+        check = (int)D_8009D2C8;
+        {
+            register unsigned int limit asm("$8");
+            unsigned int used = ((u32 *)check)[1] | ((u32 *)check)[12];
+            limit = 0xFFFFFF;
+scan_voice:
+            if ((used & mask) != 0) {
+                mask <<= 1;
+                voice_index++;
+                if ((mask & limit) != 0)
+                    goto scan_voice;
+            }
+            check = mask & 0xFFFFFF;
+        }
 
         if (check != 0) {
             D_8009D2C8[0xC] |= mask;
-            *(u16 *)(base + 0x5C) = voice_index;
-            *(u32 *)(base + 0x38) |= 0x800;
+            base->voice_index = voice_index;
+            base->flags |= AKAO_TRACK_FLAG_VOICE_ALLOCATED;
         }
     }
 

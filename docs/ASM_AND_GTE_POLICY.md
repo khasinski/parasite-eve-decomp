@@ -452,6 +452,17 @@ pin was removable. There are no new aliases, volatile accesses, flags,
 toolchain modifications or target/layout edits. The other nine functions in
 seq_op2.c were already C; their eligibility is restored with this unit.
 
+`SeqOp_NoteOnWithPitchSlide` now searches the 24-voice mask in C instead
+of raw CPU words. The track accesses use existing `AkaoTrack` fields.
+One new valid-mask pin and one backward C goto preserve the target loop;
+structured loop trials duplicated or rotated its occupancy test. Four trial
+barriers and a second goto were removable. The old three pins and entry
+barrier remain after individual removal tests, as does the new mask pin.
+No new aliases, volatile accesses, compiler flags, toolchain modifications
+or target/layout changes were used. The preexisting stock checked-divide
+profile is unchanged. The byte shift now explicitly uses an unsigned input
+before sign extension, without changing the generated instructions.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
