@@ -1,0 +1,14 @@
+#include "common.h"
+void func_80194D74(s32 arg0, s16 *rec, u16 *p) {
+    s16 v;
+
+    p[8] += p[9];
+    p[9] += 10;
+    v = p[10];
+    if (v >= 9) {
+        p[10] = v - 8;
+    }
+    if (rec[1] == 0x3C) {
+        ((s8 *)rec)[1] = 2;
+    }
+}

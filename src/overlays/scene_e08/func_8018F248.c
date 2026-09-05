@@ -1,3 +1,8 @@
-#include "../room_lib/room_lib.h"
+extern char D_801986C8[];
 
-ROOMLIB_RETURN_ZERO(func_8018F248)
+void **func_800C22F8(void);
+
+int func_8018F248(void) {
+    *func_800C22F8() = D_801986C8;
+    return 0;
+}

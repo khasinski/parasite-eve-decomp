@@ -1,2 +1,3 @@
-void RoomLib_FxNotify(void *arg0, void *arg1, void *arg2) {
-}
+#include "../room_lib/room_lib.h"
+
+ROOMLIB_FX_NOTIFY(RoomLib_FxNotify)

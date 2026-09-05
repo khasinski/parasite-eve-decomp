@@ -1,2 +1,7 @@
-void func_8018F504(void) {
+#include "../room_lib/room_lib.h"
+
+void func_8018F504(void *arg0, unsigned char *state) {
+    if (func_800C2B68() == 1) {
+        state[1] = 2;
+    }
 }

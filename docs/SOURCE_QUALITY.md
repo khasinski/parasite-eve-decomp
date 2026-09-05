@@ -191,6 +191,38 @@ outside the old HandlerB include wrapper. This batch does not certify
 the remaining unreviewed scene mappings or remove inherited constraints
 from the shared GTE handlers.
 
+`scene_e08` completes the original ten-dispatcher investigation with its
+corrected `0x8018EFE8` mapping. It also exposes a gap in the earlier boundary
+audit: leaf returns can be false functions even without a stack restore.
+Offsets `0x6694`, `0x73D4`, `0x7E68`, and `0x8980` are common returns
+reached from the preceding argument parsers' switch tables; `0x70D0` is the
+gated reset's own return. Together with five stack epilogues (`0x6D14`,
+`0x7A98`, `0x863C`, `0x922C`, `0x9660`), these ten entries lose their
+independent function credit. Earlier scene audits must still be checked for
+this non-stack form, particularly scene_e02's argument-parser endings.
+
+Ten full scene_e08 functions now use C: two dispatchers, handlers C/D/E,
+gated reset, and the four B/C/D/E argument parsers with reconstructed state
+records. Their 6792 code bytes include the true leaf returns. The parsers'
+four compiler-generated switch tables occupy their original `.rodata`
+locations, not an additional copy before the overlay. The old 600-byte C
+header containing raw arrays in `.text` is replaced by an explicit local
+header-data slice, the compiler tables, and their four-byte alignment pad.
+No generated binary data is committed. The remaining effect-update repair
+removes a store on the wrong side of an absolute jump; it adds no instruction
+assembly or register constraints. As in the other scenes, the old HandlerB
+wrapper's g_PlayerEntity declaration becomes visible to the direct-source
+counter (+1 extern). Full retail SHA verification includes both the new C
+and the emitted jump tables, not merely the function instruction streams.
+
+An isolated objdiff report of the retained old scene_e08 header object
+confirmed that it contributed 13 inferred functions and 568 code bytes to
+the denominator. The source-quality gate had already denied those arrays
+decompilation credit, but it did not remove them from the total. Classifying
+the header as data therefore removes those 13 pseudo-functions in addition
+to the ten epilogues. This denominator repair is separate from the 6712-byte
+net increase in credited C; it must not be presented as newly decompiled code.
+
 The project uses the following independent review levels:
 
 1. **Configured** — the binary range and source/assembly representation exist
