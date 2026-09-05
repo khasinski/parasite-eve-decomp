@@ -38,6 +38,8 @@ CC1_FLAGS="$CC1_FLAGS ${PE_CC1_EXTRA_FLAGS:-}"
 AS_G_FLAG="-G0"
 if grep -q 'CC1_FLAGS:.*-G1' "$IN"; then
     CC1_FLAGS="${CC1_FLAGS/-G0/-G1}"
+elif grep -q 'CC1_FLAGS:.*-G2' "$IN"; then
+    CC1_FLAGS="${CC1_FLAGS/-G0/-G2}"
 elif grep -q 'CC1_FLAGS:.*-G4' "$IN"; then
     CC1_FLAGS="${CC1_FLAGS/-G0/-G4}"
 elif grep -q 'CC1_FLAGS:.*-G8' "$IN"; then
@@ -45,6 +47,8 @@ elif grep -q 'CC1_FLAGS:.*-G8' "$IN"; then
 fi
 if grep -q 'MASPSX_FLAGS:.*-G1' "$IN"; then
     AS_G_FLAG="-G1"
+elif grep -q 'MASPSX_FLAGS:.*-G2' "$IN"; then
+    AS_G_FLAG="-G2"
 elif grep -q 'MASPSX_FLAGS:.*-G4' "$IN"; then
     AS_G_FLAG="-G4"
 elif grep -q 'MASPSX_FLAGS:.*-G8' "$IN"; then
