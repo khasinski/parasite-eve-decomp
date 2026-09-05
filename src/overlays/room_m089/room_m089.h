@@ -22,11 +22,4 @@ extern void func_8006DF50(void *channel, int id, int value, int volume,
                           int pan);
 extern void func_801924F8(void);
 
-#define ROOM_M089_LOAD_EFFECT_LOOKUP(out, index) \
-    asm volatile("sll %1,%1,1\n\t" \
-                 "lui $1,%%hi(D_800E2850)\n\t" \
-                 "addu $1,$1,%1\n\t" \
-                 "lhu %0,%%lo(D_800E2850)($1)" \
-                 : "=r"(out), "=r"(index) : "1"(index) : "$1")
-
 #endif

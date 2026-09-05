@@ -50,14 +50,15 @@ int func_80192A30(int mode, unsigned short *dst, unsigned short *src) {
 
     if (D_800E27EC == 9) {
         void **sound = &D_800B0E64;
-        ROOMLIB_V0_PTR_DECL(current);
+        void *current;
         int volume;
-        ROOMLIB_LOAD_PTR(current, sound);
+        current = *sound;
         if (current != 0) {
             volume = 0x7F;
             random = func_800D3FD8();
             func_8006DF50(*sound, 0x5BB, random, 0x80, volume);
-            ROOMLIB_LOAD_PTR(current, sound);
+            current = *sound;
+            asm("" : : "r"(current) : "memory");
             if (current != 0) {
                 func_8006DF50(*sound, 0x5BC, 0x80, 0x80, volume);
             }
@@ -70,14 +71,15 @@ int func_80192A30(int mode, unsigned short *dst, unsigned short *src) {
 
     case 2:
     {
-        ROOMLIB_V1_INT_DECL(value);
-        ROOMLIB_A0_INT_DECL(index);
+        int value;
+        int index;
         index = D_800E11FA;
         D_800F3368 = 0x20;
         D_800F336A = 2;
         D_800F3376 = 0x20;
         D_800F3378 = 0x20;
-        ROOM_M089_LOAD_EFFECT_LOOKUP(value, index);
+        value = D_800E2850[index];
+        asm("" : : "r"(value) : "$2", "memory");
         D_800F336C = 3;
         D_800F336E = 1;
         D_800F3372 = 0;

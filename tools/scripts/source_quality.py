@@ -32,7 +32,8 @@ CPU_ASM_HELPERS = re.compile(
     r'\b(?:gte_(?:ldv0_short3|load_packed_short3|store_ir123_packed_short3|'
     r'stir123_matrix_column|stsz3_s16|'
     r'store_mac12_byte2|store_mac123_byte3|store_third_output|store_flag_bound)|'
-    r'ROOMLIB_(?:LOAD_S16|LOAD_PTR|LOAD_U16|DIV_V0_A0_CHECKED))\s*\('
+    r'ROOMLIB_(?:LOAD_S16|LOAD_PTR|LOAD_U16|DIV_V0_A0_CHECKED)|'
+    r'ROOM_M089_LOAD_EFFECT_LOOKUP)\s*\('
 )
 
 

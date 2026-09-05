@@ -1,3 +1,4 @@
+/* MASPSX_FLAGS: --expand-div */
 #include "../room_lib/room_lib.h"
 
 extern int RoomLib_ResetAndSignal_801920F0(RoomEnt *obj);

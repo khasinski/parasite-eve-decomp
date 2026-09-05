@@ -35,7 +35,7 @@ class SourceQualityTests(unittest.TestCase):
 
     def test_room_header_cpu_helpers_are_quarantined(self):
         for name in ("ROOMLIB_LOAD_S16", "ROOMLIB_LOAD_PTR", "ROOMLIB_LOAD_U16",
-                     "ROOMLIB_DIV_V0_A0_CHECKED"):
+                     "ROOMLIB_DIV_V0_A0_CHECKED", "ROOM_M089_LOAD_EFFECT_LOOKUP"):
             with self.subTest(name=name):
                 self.assertEqual(self.classify("void f(void) { %s(a, b); }" % name),
                                  "asm_constrained")
@@ -47,6 +47,34 @@ class SourceQualityTests(unittest.TestCase):
         int f(void) { return 1; }
         '''
         self.assertEqual(self.classify(text), "semantic_c")
+
+    def test_retired_room_cpu_helpers_are_not_defined(self):
+        root = pathlib.Path(__file__).resolve().parents[2]
+        for header, names in (
+            ("room_lib/room_lib.h", ("ROOMLIB_LOAD_S16", "ROOMLIB_LOAD_PTR",
+                                    "ROOMLIB_LOAD_U16", "ROOMLIB_DIV_V0_A0_CHECKED")),
+            ("room_m089/room_m089.h", ("ROOM_M089_LOAD_EFFECT_LOOKUP",)),
+        ):
+            text = (root / "src/overlays" / header).read_text()
+            for name in names:
+                with self.subTest(name=name):
+                    self.assertNotIn(name, text)
+
+    def test_arc_divisions_use_c_and_stock_expansion(self):
+        root = pathlib.Path(__file__).resolve().parents[2] / "src/overlays"
+        templates = ("RoomLib_AdvanceArcToTarget.inc", "RoomLib_AdvanceArcToTargetY.inc")
+        for name in templates:
+            text = (root / "room_lib" / name).read_text()
+            self.assertEqual(text.count("value /= count;"), 2)
+            self.assertNotIn("ROOMLIB_DIV_V0_A0_CHECKED", text)
+        callers = 0
+        for source in root.rglob("*.c"):
+            text = source.read_text()
+            if any('room_lib/' + name in text for name in templates):
+                callers += 1
+                with self.subTest(source=str(source)):
+                    self.assertIn("/* MASPSX_FLAGS: --expand-div */", text)
+        self.assertGreater(callers, 0)
 
     def test_cpu_helper_mentions_are_not_calls(self):
         text = '''

@@ -1,3 +1,4 @@
+/* MASPSX_FLAGS: --expand-div */
 #define func_80192118 func_80192118_header_decl
 #define RoomLib_ResetAndSignal_801924B8 RoomLib_ResetAndSignal_801924B8_header_decl
 #include "../room_lib/room_lib.h"

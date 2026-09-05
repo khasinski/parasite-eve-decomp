@@ -79,6 +79,20 @@ implements ordinary CPU division and exception checks, not GTE operations;
 it cannot receive semantic-C credit merely because it reproduces a compiler
 expansion. These 239 withdrawals are independent of the 243 B/C repairs.
 
+The replacement sources now express those divisions and loads in C. The arc
+callers select stock MASPSX `--expand-div`; no custom instruction expansion is
+used. The pointer-load caller also contained `ROOM_M089_LOAD_EFFECT_LOOKUP`,
+an ordinary CPU table lookup now written in C. All five retired helper
+definitions have been deleted and their names remain quarantined against reuse.
+Restoring these 239 functions requires full linked retail verification, not
+merely removing their helper names from the sources. This is recovered semantic
+credit, not 239 newly discovered algorithms. Two empty barriers remain in the
+spawner; 456 arc pin instances and three spawner pins were removed after exact
+comparison. The source-only ledger does not expand those template pins.
+All 191 overlays were subsequently rebuilt and passed retail SHA-1 checks;
+the main executable also passed `make check`. The source-only suite has 83
+passing tests, including guards against reintroducing the deleted helpers.
+
 The source-text debt counters do not expand all shared headers or `.inc`
 templates. In particular the new word-stride helper has two pins and two empty
 barriers per expansion, and the draw template has an additional input barrier.

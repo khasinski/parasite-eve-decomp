@@ -16,7 +16,7 @@ void ROOMLIB_ADVANCE_ARC_NAME(RoomEnt *obj) {
     int y;
 
     if (self->t1A == 0) {
-        register int count asm("$4");
+        int count;
         register int step asm("$5");
         register int targetY asm("$6");
         register int accel asm("$7");
@@ -81,16 +81,16 @@ void ROOMLIB_ADVANCE_ARC_NAME(RoomEnt *obj) {
         } while (y < targetY);
         {
             register int value asm("$2");
-            register int base asm("$3");
+            int base;
             value = RW32(state, 0x30);
             base = link->pos[0];
             value -= base;
-            ROOMLIB_DIV_V0_A0_CHECKED(value, count);
+            value /= count;
             RVW32(state, 0x78) = value;
             value = RW32(state, 0x38);
             base = link->pos[2];
             value -= base;
-            ROOMLIB_DIV_V0_A0_CHECKED(value, count);
+            value /= count;
             RVW32(state, 0x7C) = value;
         }
     }

@@ -16,7 +16,7 @@ void func_8018FC68(char *state, char *work) {
 
     if (RW32(state, 0x4C) != 0) {
         ROOMLIB_ROT_ENTRY_DECL;
-        short localY;
+        int localY;
         angle = FieldEng_VecToAngle(RWPTR(state, 0x50),
                                     RWPTR(state, 0x40)) & 0xFFF;
         base = (int *)D_800966EC;
@@ -35,7 +35,7 @@ void func_8018FC68(char *state, char *work) {
         RVW16(work, 0x30) = 0x1000;
         RVW16(work, 0x38) = savedHi;
         RVW16(work, 0x34) = -RWU16(work, 0x2C);
-        ROOMLIB_LOAD_S16(localY, state + 0x4E);
+        localY = *(short *)(state + 0x4E);
         RVW16(work, 0x04) = localY;
         gte_ldrotmatrix(work + 0x28);
         gte_ldv0(work);

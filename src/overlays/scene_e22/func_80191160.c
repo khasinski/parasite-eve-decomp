@@ -1,3 +1,4 @@
+/* MASPSX_FLAGS: --expand-div */
 #include "../room_lib/room_lib.h"
 
 extern int func_80191500(RoomEnt *obj);

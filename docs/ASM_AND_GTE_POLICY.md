@@ -255,6 +255,21 @@ variants, a footprint missed by the source-only debt ledger. These are
 repairs of withdrawn semantic credit,
 not newly identified algorithms.
 
+## Room CPU Helper Removal
+
+The room arc templates no longer use the raw-word checked-division helper.
+Their two divisions are C `/=` expressions. Each leaf caller selects the
+existing stock MASPSX `--expand-div` option to reproduce the checks and hazard
+spacing. This is not a MASPSX modification. Count and base pins were removable
+in both templates; the result pin remains. No new barriers were needed.
+
+`RoomLib_TransformTargetOffset` uses a signed-halfword C load into an `int`,
+with no added pin or barrier. The room_m089 random-effect spawner uses C pointer
+loads and a C table lookup. It retains two empty barriers: one after the second
+sound-pointer load and one after the lookup (with `$2` and memory clobbers).
+Removing either changes code generation. Three former pins and the trial first
+load barrier were removable. The retired CPU instruction macros are deleted.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
