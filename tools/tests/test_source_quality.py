@@ -19,7 +19,8 @@ class SourceQualityTests(unittest.TestCase):
         for name in ("gte_ldv0_short3", "gte_load_packed_short3",
                      "gte_store_ir123_packed_short3", "gte_store_third_output",
                      "gte_store_flag_bound", "gte_store_mac12_byte2",
-                     "gte_store_mac123_byte3", "gte_stir123_matrix_column"):
+                     "gte_store_mac123_byte3", "gte_stir123_matrix_column",
+                     "gte_stsz3_s16"):
             with self.subTest(name=name):
                 self.assertEqual(self.classify("void f(void) { %s(0); }" % name),
                                  "asm_constrained")
@@ -70,9 +71,21 @@ class SourceQualityTests(unittest.TestCase):
         text = 'void f(int mtc2) { asm("nop" : : "r"(mtc2)); }'
         self.assertEqual(self.classify(text), "asm_constrained")
 
-    def test_gte_template_concatenation_remains_supported(self):
+    def test_gte_address_arithmetic_is_not_automatically_exempt(self):
         text = r'void f(void *p) { asm("addiu $2,%0,32\n\t" "lwc2 $0,0($2)" : : "r"(p)); }'
+        self.assertEqual(self.classify(text), "asm_constrained")
+
+    def test_gte_transfer_only_concatenation_remains_supported(self):
+        text = r'void f(void) { asm("mfc2 $2,$9\n\t" "nop"); }'
         self.assertEqual(self.classify(text), "semantic_c")
+
+    def test_gte_transfer_does_not_hide_cpu_work(self):
+        for suffix in (r'\naddu $2,$3,$4', r'; sh $2,0($4)',
+                       r'\nsll $2,$2,16', r'\n.word 0',
+                       r'\nlabel: nop', r'\nnop # mtc2'):
+            with self.subTest(suffix=suffix):
+                text = 'void f(void) { asm("mtc2 $2,$0%s"); }' % suffix
+                self.assertEqual(self.classify(text), "asm_constrained")
 
     def test_extern_declaration_does_not_hide_file_scope_asm(self):
         text = 'extern int data __attribute__((unused)); asm(".word 0");'
@@ -93,7 +106,7 @@ class SourceQualityTests(unittest.TestCase):
 
     def test_macro_argument_does_not_hide_following_gte_literal(self):
         text = r'void f(void) { asm("addiu $2,$4," STR(OFFSET) "\n\tlwc2 $0,0($2)"); }'
-        self.assertEqual(self.classify(text), "semantic_c")
+        self.assertEqual(self.classify(text), "asm_constrained")
 
     def test_opaque_template_is_not_assumed_empty(self):
         self.assertEqual(self.classify('void f(void) { asm(IMPLEMENTATION); }'),

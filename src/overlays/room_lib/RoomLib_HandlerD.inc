@@ -21,41 +21,15 @@
 #ifndef ROOMLIB_HANDLER_D_BUILD_ROT
 #define ROOMLIB_HANDLER_D_BUILD_ROT func_80079754
 #endif
-#ifndef ROOMLIB_HANDLER_D_GTE_OFFSET8
-#define ROOMLIB_HANDLER_D_GTE_OFFSET8 D_1F800008
-#endif
-#ifndef ROOMLIB_HANDLER_D_GTE_OFFSET18
-#define ROOMLIB_HANDLER_D_GTE_OFFSET18 D_1F800018
-#endif
-
-#define ROOMLIB_HANDLER_D_STRINGIFY_1(value) #value
-#define ROOMLIB_HANDLER_D_STRINGIFY(value) ROOMLIB_HANDLER_D_STRINGIFY_1(value)
-
 extern void ROOMLIB_HANDLER_D_TRANSFORM(void *state, void *scratch);
 extern int ROOMLIB_HANDLER_D_RESET(RoomEnt *o);
 extern void ROOMLIB_HANDLER_D_NOTIFY(RoomLink *l, struct RoomSub *s, int scratch);
 extern void ROOMLIB_HANDLER_D_BUILD_ROT(void *rotation, void *matrix);
 
-#define ROOMLIB_HANDLER_D_GTE_STORE_MAC8(base) \
-    asm volatile("addiu $2,%0," \
-                 ROOMLIB_HANDLER_D_STRINGIFY(ROOMLIB_HANDLER_D_GTE_OFFSET8) "\n\t" \
-                 "swc2 $25,0($2)\n\t" \
-                 "swc2 $26,4($2)\n\t" \
-                 "swc2 $27,8($2)" \
-                 : : "r"(base) : "$2", "memory")
-
-#define ROOMLIB_HANDLER_D_GTE_STORE_MAC18(base) \
-    asm volatile("addiu $2,%0," \
-                 ROOMLIB_HANDLER_D_STRINGIFY(ROOMLIB_HANDLER_D_GTE_OFFSET18) "\n\t" \
-                 "swc2 $25,0($2)\n\t" \
-                 "swc2 $26,4($2)\n\t" \
-                 "swc2 $27,8($2)" \
-                 : : "r"(base) : "$2", "memory")
-
 void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
     RoomEnt *ent = o;
     char *state = (char *)o + 0xC;
-    short *scratch = (short *)0x1F800000;
+    short *scratch;
     RoomLink *link = o->link;
     char *left;
     register char *right asm("$16");
@@ -65,6 +39,9 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
     int rot_y;
     int rot_word;
     register int rot_x asm("$4");
+
+    asm("" : : "r"(state) : "$18");
+    scratch = (short *)0x1F800000;
 
     if (ent->t1A == 0) {
         ent->t1A = 1;
@@ -124,14 +101,21 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
     scratch[0x01] = 0;
     PE1_COMPILER_MEMORY_BARRIER();
     scratch[0x16] = rot_word;
-    scratch[0x18] = 0x1000;
-    scratch[0x1C] = rot_x;
-    scratch[0x1A] = -scratch[0x16];
+    {
+        register int negated asm("$3");
+        negated = *(volatile unsigned short *)&scratch[0x16];
+        scratch[0x18] = 0x1000;
+        scratch[0x1C] = rot_x;
+        asm("" : "=r"(negated) : "0"(negated) : "memory");
+        negated = -negated;
+        scratch[0x1A] = negated;
+    }
     scratch[0x02] = RW32(state, 0x88) >> 12;
     gte_ldrotmatrix((void *)((int)scratch | 0x28));
     gte_ldv0((void *)scratch);
     gte_mvmva();
-    ROOMLIB_HANDLER_D_GTE_STORE_MAC8(scratch);
+    asm("" : "=r"(scratch) : "0"(scratch));
+    gte_stmac((char *)scratch + 8);
     RW32(state, 0x30) += *(int *)((char *)scratch + 8) << 12;
     RW32(state, 0x38) += *(int *)((char *)scratch + 0x10) << 12;
 
@@ -182,7 +166,7 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
             gte_ldrotmatrix(state + 0x10);
             gte_ldv0((void *)scratch);
             gte_mvmva();
-            ROOMLIB_HANDLER_D_GTE_STORE_MAC18(scratch);
+            gte_stmac((char *)scratch + 0x18);
         }
     }
 
@@ -213,7 +197,8 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
             func_800DFE94(state + 0x50, state + 0x40, state + 0x78);
             right = state + 0x78;
             RW16(state, 0x7A) = FieldEng_TurnToward(
-                scratch[1], RW16(state, 0x7A), RW16(state, 0x9C)) & 0xFFF;
+                (short)*(volatile unsigned short *)&scratch[1],
+                RW16(state, 0x7A), RW16(state, 0x9C)) & 0xFFF;
             ROOMLIB_HANDLER_D_BUILD_ROT(right, state + 0x10);
         }
     }
@@ -223,12 +208,6 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
     func_800DFB20(ent);
 }
 
-#undef ROOMLIB_HANDLER_D_GTE_STORE_MAC8
-#undef ROOMLIB_HANDLER_D_GTE_STORE_MAC18
 #undef ROOMLIB_HANDLER_D_BUILD_ROT
-#undef ROOMLIB_HANDLER_D_GTE_OFFSET8
-#undef ROOMLIB_HANDLER_D_GTE_OFFSET18
-#undef ROOMLIB_HANDLER_D_STRINGIFY
-#undef ROOMLIB_HANDLER_D_STRINGIFY_1
 #undef ROOMLIB_HANDLER_D_NAME
 #undef ROOMLIB_HANDLER_D_NOTIFY

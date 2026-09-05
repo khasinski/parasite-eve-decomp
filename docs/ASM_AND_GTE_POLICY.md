@@ -193,12 +193,36 @@ Only the high-lane load remains volatile to preserve load ordering. The
 two draw variants also need an input barrier before setup calls to retain
 the original placement of three stack-address calculations.
 
-All 25 affected objects have exact disassembly and relocations after this
-change. They remain ineligible for semantic credit because the separate
-`gte_stir123_matrix_column` still contains CPU halfword stores. A C draft
-with tied output addressing removes offset folding but introduces pointer
-copies when the original base remains live. Fixing that is the next task;
-the full source must keep matching throughout promotion.
+The subsequent `gte_stir123_column` repair keeps only three `mfc2` operations
+in instruction ASM and performs the strided halfword stores in C. Its tied
+pointer output preserves the caller-owned address; callers retain that pointer
+through related matrix operations to avoid additional copies. Three transfer
+output pins remain necessary. Trial adapter pointer pins, volatile stores and
+a memory clobber were removable. In the renderer, `gte_getsz3_for_store` owns
+only `mfc2` and its hazard slot; the halfword destination store is now C.
+The depth and destination pins remain necessary; a trial final barrier was
+removed. These fixes repair previously withdrawn eligibility.
+
+## Room Handler D MAC Addresses
+
+The two former private STORE_MAC macros in `RoomLib_HandlerD.inc` performed
+ordinary `addiu` address calculations in ASM. Both now use the central
+`gte_stmac` operation with C scratchpad offsets 8 and 0x18. For room_m089,
+the address instructions are at function offsets 0x210 and 0x3A0. Literal
+offsets replace low-half relocations but the linked retail bytes stay identical.
+
+One tied scratch-pointer barrier prevents constant folding to an `ori`; an
+entry input barrier with an $18 clobber preserves initialization order without
+pinning the scratch pointer. A new $3 pin and tied memory barrier preserve
+the matrix component negation after its preceding stores. Two local unsigned
+volatile halfword reads preserve the original load widths; these qualifications
+constrain codegen and do not claim that scratchpad RAM is MMIO.
+
+The scratch-pointer pin, second address barrier and post-negation input barrier
+were removable. Removing the negation pin or its memory clobber breaks exact
+comparison. These constraints are in an included template and are not fully
+represented by the source-only debt ledger. All 119 linked function ranges
+must match retail before treating the family as repaired.
 
 ## OP / Outer Product
 

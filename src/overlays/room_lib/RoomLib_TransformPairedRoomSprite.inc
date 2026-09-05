@@ -58,19 +58,23 @@ void ROOMLIB_TRANSFORM_PAIRED_SPRITE_FUNC(void *unused, char *params,
     stack.scale = stack.sourceScale;
     scaleMatrix = &stack.scaleMatrix;
     func_80078CC4(scaleMatrix, &stack.scale);
-    matrix = &stack.matrix;
-    func_800794C4(&stack.seed, matrix);
+    {
+        register RoomFxSeed8 *seedArg asm("$4") = &stack.seed;
+        asm("" : : "r"(seedArg));
+        matrix = &stack.matrix;
+        func_800794C4(seedArg, matrix);
+    }
 
     gte_ldrotmatrix(scaleMatrix);
-    gte_ldrtir12_matrix_column(&matrix->m[0][0]);
-    gte_stir123_matrix_column(&matrix->m[0][0]);
-    gte_ldrtir12_matrix_column(&matrix->m[0][1]);
-    gte_stir123_matrix_column(&matrix->m[0][1]);
-    gte_ldrtir12_matrix_column(&matrix->m[0][2]);
-    gte_stir123_matrix_column(&matrix->m[0][2]);
+    gte_ldrtir12_matrix_column(&stack.matrix.m[0][0]);
+    gte_stir123_column(matrix);
+    gte_ldrtir12_matrix_column(&stack.matrix.m[0][1]);
+    gte_stir123_column_at(&stack.matrix.m[0][1]);
+    gte_ldrtir12_matrix_column(&stack.matrix.m[0][2]);
+    gte_stir123_column_at(&stack.matrix.m[0][2]);
     gte_ldtransmatrix(scaleMatrix);
     {
-        unsigned short *translation = (unsigned short *)matrix->t;
+        unsigned short *translation = (unsigned short *)stack.matrix.t;
         gte_ldv0_word3(translation);
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
@@ -86,9 +90,9 @@ void ROOMLIB_TRANSFORM_PAIRED_SPRITE_FUNC(void *unused, char *params,
     func_800C3134(table, *(s16 *)(renderParams + 2), workState + 0x10C);
     func_800C3134(table, *(s16 *)(renderParams + 2), workState + 0x124);
     *(s16 *)(workState + 0x11C) = *(u16 *)(workState + 0x13A);
-    matrix->t[0] = *(int *)(owner + 0x14);
-    matrix->t[1] = *(int *)(owner + 0x18) - 0x64;
-    matrix->t[2] = *(int *)(owner + 0x1C);
+    stack.matrix.t[0] = *(int *)(owner + 0x14);
+    stack.matrix.t[1] = *(int *)(owner + 0x18) - 0x64;
+    stack.matrix.t[2] = *(int *)(owner + 0x1C);
     func_800C4FC4(workState + 0x108, matrix, 0);
 }
 

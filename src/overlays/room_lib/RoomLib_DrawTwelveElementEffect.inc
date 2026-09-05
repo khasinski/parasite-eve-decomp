@@ -86,8 +86,8 @@ void ROOMLIB_DRAW_TWELVE_EFFECT_FUNC(void *unused0, void *unused1,
     i = 0;
     primaryMatrix = &stack.primaryMatrix;
     sourceScale = &stack.sourceScale;
+    asm("" : : "r"(primaryMatrix), "r"(sourceScale));
     secondaryMatrix = &stack.secondaryMatrix;
-    asm("" : : "r"(primaryMatrix), "r"(sourceScale), "r"(secondaryMatrix));
     valueCursor = workState;
     func_800C2EAC(*(u8 *)(clock + 0x24));
     func_800C2FF0(0x40, 0x40);
@@ -127,11 +127,11 @@ void ROOMLIB_DRAW_TWELVE_EFFECT_FUNC(void *unused0, void *unused1,
 
             gte_ldrotmatrix(secondaryMatrix);
             gte_ldrtir12_matrix_column(&stack.localMatrix.m[0][0]);
-            gte_stir123_matrix_column(&secondaryMatrix->m[0][0]);
+            gte_stir123_column(secondaryMatrix);
             gte_ldrtir12_matrix_column(&stack.localMatrix.m[0][1]);
-            gte_stir123_matrix_column(&stack.secondaryMatrix.m[0][1]);
+            gte_stir123_column_at(&stack.secondaryMatrix.m[0][1]);
             gte_ldrtir12_matrix_column(&stack.localMatrix.m[0][2]);
-            gte_stir123_matrix_column(&stack.secondaryMatrix.m[0][2]);
+            gte_stir123_column_at(&stack.secondaryMatrix.m[0][2]);
             gte_ldtransmatrix(secondaryMatrix);
             gte_ldv0_word3_at(stack.localMatrix.t);
             gte_cop2_hazard_slot();

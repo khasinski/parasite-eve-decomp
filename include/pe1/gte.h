@@ -94,14 +94,26 @@ int rcos(int angle);
                  : : "r"(column) : "$12", "$13", "$14", "memory")
 
 /* Store IR1..3 back to a strided matrix column. */
-#define gte_stir123_matrix_column(column) \
-    asm volatile("mfc2 $12,$9\n\t" \
-                 "mfc2 $13,$10\n\t" \
-                 "mfc2 $14,$11\n\t" \
-                 "sh $12,0(%0)\n\t" \
-                 "sh $13,6(%0)\n\t" \
-                 "sh $14,12(%0)" \
-                 : : "r"(column) : "$12", "$13", "$14", "memory")
+#define gte_stir123_column(out) \
+    do { \
+        register int x asm("$12"); \
+        register int y asm("$13"); \
+        register int z asm("$14"); \
+        asm volatile("mfc2 %0,$9\n\t" \
+                     "mfc2 %1,$10\n\t" \
+                     "mfc2 %2,$11" \
+                     : "=r"(x), "=r"(y), "=r"(z), "=r"(out) \
+                     : "3"(out)); \
+        ((short *)(out))[0] = x; \
+        ((short *)(out))[3] = y; \
+        ((short *)(out))[6] = z; \
+    } while (0)
+
+#define gte_stir123_column_at(column) \
+    do { \
+        volatile short *out = (volatile short *)(column); \
+        gte_stir123_column(out); \
+    } while (0)
 
 #define gte_rtv0tr_sf0() \
     asm volatile(".word 0x4A480012")
@@ -545,11 +557,9 @@ int rcos(int angle);
 #define gte_getsz3(out) \
     asm volatile("mfc2 %0,$19" : "=r"(out))
 
-#define gte_stsz3_s16(out) \
-    asm volatile("mfc2 $12,$19\n\t" \
-                 "nop\n\t" \
-                 "sh $12,0(%0)" \
-                 : : "r"(out) : "$12", "memory")
+#define gte_getsz3_for_store(value, out) \
+    asm volatile("mfc2 %0,$19\n\t" \
+                 "nop" : "=r"(value) : "r"(out))
 
 /* RTPT: project V0, V1, and V2. */
 #define gte_ldv012(vec) \

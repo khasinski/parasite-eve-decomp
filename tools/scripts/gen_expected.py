@@ -422,13 +422,13 @@ HILO = re.compile(r"%(hi|lo)\((D_[0-9A-Fa-f]+)\)")
 
 
 def invented_constants(auto_syms):
-    """{name: value} for addresses splat named that are not addresses at all.
+    """Resolve low-address auto symbols to fixed numeric operands.
 
-    A lui/addiu pair loading a plain number looks exactly like one loading an
-    address, and the disassembler has to guess. Anything below where the
-    executables are loaded cannot be a pointer, so the guess was wrong: the
-    compiler wrote a constant and the target has to say so too, or the pair
-    reads as a relocation the base does not have.
+    These include both scalar constants and real fixed addresses such as
+    scratchpad RAM and MMIO. Being below executable VRAM does not prove that
+    a value is not a pointer. This normalization removes synthetic relocations
+    while preserving instruction operands; it does not classify code or data
+    or establish the original source's use of symbols versus literals.
     """
     return {
         name: int(value, 16)

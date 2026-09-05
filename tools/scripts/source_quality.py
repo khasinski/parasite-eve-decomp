@@ -30,7 +30,7 @@ COP2_OP = re.compile(r'\b(?:cfc2|ctc2|lwc2|swc2|mfc2|mtc2)\b')
 # CPU windows are C; this is not a substitute for full macro-expansion review.
 CPU_ASM_HELPERS = re.compile(
     r'\bgte_(?:ldv0_short3|load_packed_short3|store_ir123_packed_short3|'
-    r'stir123_matrix_column|'
+    r'stir123_matrix_column|stsz3_s16|'
     r'store_mac12_byte2|store_mac123_byte3|store_third_output|store_flag_bound)\s*\('
 )
 
@@ -82,9 +82,13 @@ def has_instruction_asm(text: str) -> bool:
         if (declaration and not opaque
                 and re.fullmatch(r"[A-Za-z_$][\w.$]*|0x[0-9A-Fa-f]+", body)):
             continue
-        # One surgical asm expression may include address setup around COP2
-        # loads/stores. Treat the whole expression as sanctioned GTE asm.
-        if COP2_OP.search(body):
+        # Only fully visible transfer windows qualify automatically. Mixed CPU
+        # bridges and opaque macro fragments require separate manual review.
+        instructions = [part.strip() for part in re.split(r"[;\n]", body)
+                        if part.strip()]
+        if (not opaque and COP2_OP.search(body) and instructions
+                and all(re.fullmatch(r"(?:cfc2|ctc2|lwc2|swc2|mfc2|mtc2)\s+[^:#]+|nop",
+                                     instruction) for instruction in instructions)):
             continue
         # Nonempty templates are not safe just because their first token is
         # a label or an opcode absent from a hand-maintained instruction list.

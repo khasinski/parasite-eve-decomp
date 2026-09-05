@@ -26,7 +26,10 @@ published matched-code and matched-function totals contain only `semantic_c`.
 Source classification is a conservative source-text heuristic, not a full
 preprocessor or proof of semantic reconstruction. It joins adjacent ASM string
 literals and rejects nonempty unrecognized templates, but does not expand all
-headers/macros. COP2 expressions still require manual review for surgical scope.
+headers/macros. Automatic COP2 exemptions now require fully visible transfer
+instructions and `nop` slots only. Mixed CPU/COP2 expressions and opaque
+template fragments are constrained, pending surgical source reconstruction or
+separately documented review. This does not certify unexpanded header calls.
 The retrospective also found ordinary CPU packing, shifts and stores in seven
 GTE-named helpers. Their callers, including direct `.inc` template users, are
 explicitly quarantined by the classifier. This list is a stopgap for known
@@ -48,11 +51,19 @@ The existing output pin moved from the deleted helper into each caller.
 No empty barriers were needed after minimization.
 
 The vector packing window was subsequently replaced with matching C in all
-25 remaining users, using `gte_ldv0_word3` and `gte_ldv0_word3_at`. This does
-not yet restore their semantic credit: review found a second CPU-ASM window
-in those same units, `gte_stir123_matrix_column`, whose three ordinary `sh`
-instructions must also move to C. That helper is now quarantined as well.
-Do not count the matching packing improvement as 25 completed functions.
+25 remaining users, using `gte_ldv0_word3` and `gte_ldv0_word3_at`. A second
+review then found CPU stores in `gte_stir123_matrix_column` and, in the
+renderer, `gte_stsz3_s16`. These stores are now C too; the replacement helpers
+only transfer COP2 state and preserve required hardware delay spacing. Their
+retired names stay quarantined. This repairs withdrawn credit; it does not
+represent 25 newly discovered functions.
+
+Tightening the visible COP2 exception flagged another 362 configured units,
+mostly repeated room handlers, for review. The 119 `RoomLib_HandlerD` users
+now calculate their MAC output addresses in C instead of ASM `addiu` windows.
+The other flagged families remain constrained until repaired. These are
+eligibility corrections, not changes to retail code targets or evidence that
+the matching binaries ceased to match.
 
 The source-text debt counters do not expand all shared headers or `.inc`
 templates. In particular the new word-stride helper has two pins and two empty

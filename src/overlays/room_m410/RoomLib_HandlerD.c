@@ -3,6 +3,4 @@
 #define ROOMLIB_HANDLER_D_TRANSFORM RoomLib_RotateMotion_8018FC64
 #define ROOMLIB_HANDLER_D_RESET func_8018FEA4
 #define ROOMLIB_HANDLER_D_BUILD_ROT RotMatrixYXZ
-#define ROOMLIB_HANDLER_D_GTE_OFFSET8 8
-#define ROOMLIB_HANDLER_D_GTE_OFFSET18 0x18
 #include "../room_lib/RoomLib_HandlerD.inc"

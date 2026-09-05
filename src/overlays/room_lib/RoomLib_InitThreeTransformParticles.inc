@@ -30,6 +30,9 @@ void func_800C66C8(void *owner, int id, void *state);
 void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
                                                   char *state) {
     RoomInitThreeStack stack;
+    RoomSpriteMatrix *firstMatrix;
+    register RoomSpriteMatrix *secondMatrix asm("$17");
+    RoomInitThreeVec *seed;
     register void *callOwner asm("$23");
     register char *workState asm("$21");
     register char *clock asm("$22");
@@ -53,7 +56,10 @@ void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
     value = func_800C2B28(parameterIndex);
     stack.firstSeed.y = -*value;
     stack.firstSeed.z = 0;
-    func_80079754(&stack.firstSeed, &stack.firstMatrix);
+    seed = &stack.firstSeed;
+    asm("" : : "r"(seed));
+    firstMatrix = &stack.firstMatrix;
+    func_80079754(seed, firstMatrix);
 
     parameterIndex = 3;
     asm("" : "=r"(parameterIndex) : "0"(parameterIndex));
@@ -61,16 +67,19 @@ void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
     value = func_800C2B28(parameterIndex);
     stack.secondSeed.y = *value;
     stack.secondSeed.z = 0;
-    func_80079754(&stack.secondSeed, &stack.secondMatrix);
+    seed = &stack.secondSeed;
+    asm("" : : "r"(seed));
+    secondMatrix = &stack.secondMatrix;
+    func_80079754(seed, secondMatrix);
 
-    gte_ldrotmatrix(&stack.firstMatrix);
+    gte_ldrotmatrix(firstMatrix);
     gte_ldrtir12_matrix_column(clock + 4);
-    gte_stir123_matrix_column(&stack.firstMatrix.m[0][0]);
+    gte_stir123_column(firstMatrix);
     gte_ldrtir12_matrix_column(clock + 6);
-    gte_stir123_matrix_column(&stack.firstMatrix.m[0][1]);
+    gte_stir123_column_at(&stack.firstMatrix.m[0][1]);
     gte_ldrtir12_matrix_column(clock + 8);
-    gte_stir123_matrix_column(&stack.firstMatrix.m[0][2]);
-    gte_ldtransmatrix(&stack.firstMatrix);
+    gte_stir123_column_at(&stack.firstMatrix.m[0][2]);
+    gte_ldtransmatrix(firstMatrix);
     {
         unsigned short *translation = (unsigned short *)(clock + 0x18);
         gte_ldv0_word3(translation);
@@ -81,14 +90,14 @@ void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
         gte_swc2_10_4(stack.firstMatrix.t);
         gte_swc2_11_8(stack.firstMatrix.t);
 
-        gte_ldrotmatrix(&stack.secondMatrix);
+        gte_ldrotmatrix(secondMatrix);
         gte_ldrtir12_matrix_column(clock + 4);
-        gte_stir123_matrix_column(&stack.secondMatrix.m[0][0]);
+        gte_stir123_column(secondMatrix);
         gte_ldrtir12_matrix_column(clock + 6);
-        gte_stir123_matrix_column(&stack.secondMatrix.m[0][1]);
+        gte_stir123_column_at(&stack.secondMatrix.m[0][1]);
         gte_ldrtir12_matrix_column(clock + 8);
-        gte_stir123_matrix_column(&stack.secondMatrix.m[0][2]);
-        gte_ldtransmatrix(&stack.secondMatrix);
+        gte_stir123_column_at(&stack.secondMatrix.m[0][2]);
+        gte_ldtransmatrix(secondMatrix);
         gte_ldv0_word3(translation);
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();

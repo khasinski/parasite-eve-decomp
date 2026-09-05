@@ -96,7 +96,7 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
     u32 *temp_a0_3;
     u32 *temp_a0_4;
     u32 *temp_a0_5;
-    s16 *depth_out;
+    register s16 *depth_out asm("$2");
     RenderAnimLineG2 *negative_line;
     RenderAnimLineG2 *positive_line;
     s16 temp_s1;
@@ -174,25 +174,28 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
     matrix_slot = &D_800BCFA4.value;
     matrix_value = *matrix_slot;
     gte_ldrotmatrix(matrix_value);
-    gte_ldrtir12_matrix_column(&stack.matrix.rotation[0][0]);
-    gte_stir123_matrix_column(&stack.matrix.rotation[0][0]);
-    gte_ldrtir12_matrix_column(&stack.matrix.rotation[0][1]);
-    gte_stir123_matrix_column(&stack.matrix.rotation[0][1]);
-    gte_ldrtir12_matrix_column(&stack.matrix.rotation[0][2]);
-    gte_stir123_matrix_column(&stack.matrix.rotation[0][2]);
-    gte_ldtransmatrix(*matrix_slot);
     {
-        unsigned short *translation = (unsigned short *)&stack.matrix.translation[0];
-        gte_ldv0_word3(translation);
-        gte_cop2_hazard_slot();
-        gte_cop2_hazard_slot();
-        gte_rtv0tr_sf0();
-        gte_swc2_9_0(translation);
-        gte_swc2_10_4(translation);
-        gte_swc2_11_8(translation);
+        short *column = &stack.matrix.rotation[0][0];
+        gte_ldrtir12_matrix_column(column);
+        gte_stir123_column(column);
+        gte_ldrtir12_matrix_column(&stack.matrix.rotation[0][1]);
+        gte_stir123_column_at(&stack.matrix.rotation[0][1]);
+        gte_ldrtir12_matrix_column(&stack.matrix.rotation[0][2]);
+        gte_stir123_column_at(&stack.matrix.rotation[0][2]);
+        gte_ldtransmatrix(*matrix_slot);
+        {
+            unsigned short *translation = (unsigned short *)&stack.matrix.translation[0];
+            gte_ldv0_word3(translation);
+            gte_cop2_hazard_slot();
+            gte_cop2_hazard_slot();
+            gte_rtv0tr_sf0();
+            gte_swc2_9_0(translation);
+            gte_swc2_10_4(translation);
+            gte_swc2_11_8(translation);
+        }
+        gte_ldrotmatrix(column);
+        gte_ldtransmatrix(column);
     }
-    gte_ldrotmatrix(&stack.matrix);
-    gte_ldtransmatrix(&stack.matrix);
     var_t6 = 0;
     item_count = frame->vertex_count;
     var_t7 = (RenderAnimVertex *)(frame + 1);
@@ -203,7 +206,11 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
             gte_rtps();
             gte_stsxy2(&D_8009CDD0[var_t6]);
             depth_out = &D_8009CDD4[var_t6];
-            gte_stsz3_s16(depth_out);
+            {
+                register int depth asm("$12");
+                gte_getsz3_for_store(depth, depth_out);
+                *depth_out = depth;
+            }
             var_a0 += 8;
             var_t6 += 1;
         } while (var_t6 < item_count);

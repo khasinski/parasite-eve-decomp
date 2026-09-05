@@ -51,19 +51,23 @@ void ROOMLIB_TRANSFORM_SIXTEEN_POINT_EFFECT_FUNC(void *arg0, void *arg1,
     stack.scale = stack.sourceScale;
     scaleMatrix = &stack.scaleMatrix;
     Gte_ScaleMatrix(scaleMatrix, &stack.scale);
-    matrix = &stack.matrix;
-    func_800794C4(&stack.seed, matrix);
+    {
+        register RoomFxSeed8 *seedArg asm("$4") = &stack.seed;
+        asm("" : : "r"(seedArg));
+        matrix = &stack.matrix;
+        func_800794C4(seedArg, matrix);
+    }
 
     gte_ldrotmatrix(scaleMatrix);
-    gte_ldrtir12_matrix_column(&matrix->m[0][0]);
-    gte_stir123_matrix_column(&matrix->m[0][0]);
-    gte_ldrtir12_matrix_column(&matrix->m[0][1]);
-    gte_stir123_matrix_column(&matrix->m[0][1]);
-    gte_ldrtir12_matrix_column(&matrix->m[0][2]);
-    gte_stir123_matrix_column(&matrix->m[0][2]);
+    gte_ldrtir12_matrix_column(&stack.matrix.m[0][0]);
+    gte_stir123_column(matrix);
+    gte_ldrtir12_matrix_column(&stack.matrix.m[0][1]);
+    gte_stir123_column_at(&stack.matrix.m[0][1]);
+    gte_ldrtir12_matrix_column(&stack.matrix.m[0][2]);
+    gte_stir123_column_at(&stack.matrix.m[0][2]);
     gte_ldtransmatrix(scaleMatrix);
     {
-        unsigned short *translation = (unsigned short *)matrix->t;
+        unsigned short *translation = (unsigned short *)stack.matrix.t;
         gte_ldv0_word3(translation);
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
@@ -75,9 +79,9 @@ void ROOMLIB_TRANSFORM_SIXTEEN_POINT_EFFECT_FUNC(void *arg0, void *arg1,
 
     func_800C3238(2);
     *(s16 *)(workState + 0x11C) = *(u16 *)(workState + 0x122);
-    matrix->t[0] = *(int *)(owner + 0x18);
-    matrix->t[1] = *(int *)(owner + 0x1C);
-    matrix->t[2] = *(int *)(owner + 0x20);
+    stack.matrix.t[0] = *(int *)(owner + 0x18);
+    stack.matrix.t[1] = *(int *)(owner + 0x1C);
+    stack.matrix.t[2] = *(int *)(owner + 0x20);
     func_800C4FC4(workState + 0x108, matrix, 0);
 }
 

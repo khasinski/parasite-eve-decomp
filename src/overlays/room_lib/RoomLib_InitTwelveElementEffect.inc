@@ -28,6 +28,7 @@ void ROOMLIB_INIT_TWELVE_EFFECT_FUNC(void *owner, void *unused, char *state) {
     register int depth asm("$6");
     register int initialValue asm("$7");
     char *clock;
+    register RoomSpriteMatrix *sourceMatrix asm("$3");
 
     asm("" : "=r"(effectOwner), "=r"(workState) : "0"(owner), "1"(state));
     clock = func_800C2B50();
@@ -58,14 +59,15 @@ void ROOMLIB_INIT_TWELVE_EFFECT_FUNC(void *owner, void *unused, char *state) {
     localMatrix->m[0][1] = 0;
     func_800794C4(&stack.seed, localMatrix);
 
-    gte_ldrotmatrix(&stack.sourceMatrix);
+    sourceMatrix = &stack.sourceMatrix;
+    gte_ldrotmatrix(sourceMatrix);
     gte_ldrtir12_matrix_column(&localMatrix->m[0][0]);
-    gte_stir123_matrix_column(&stack.sourceMatrix.m[0][0]);
+    gte_stir123_column(sourceMatrix);
     gte_ldrtir12_matrix_column(&localMatrix->m[0][1]);
-    gte_stir123_matrix_column(&stack.sourceMatrix.m[0][1]);
+    gte_stir123_column_at(&stack.sourceMatrix.m[0][1]);
     gte_ldrtir12_matrix_column(&localMatrix->m[0][2]);
-    gte_stir123_matrix_column(&stack.sourceMatrix.m[0][2]);
-    gte_ldtransmatrix(&stack.sourceMatrix);
+    gte_stir123_column_at(&stack.sourceMatrix.m[0][2]);
+    gte_ldtransmatrix(sourceMatrix);
     gte_ldv0_word3_at(localMatrix->t);
     gte_cop2_hazard_slot();
     gte_cop2_hazard_slot();

@@ -58,7 +58,7 @@ int Task_SetGteMatrix(int **args) {
     u8 *render_actor;
     u8 *flag_actor;
     GteMatrix scale_matrix;
-    GteMatrix *first_matrix;
+    register GteMatrix *first_matrix asm("$3");
     GteMatrix *second_matrix;
     GteMatrix *third_matrix;
     GteMatrix *translation_matrix;
@@ -97,15 +97,15 @@ int Task_SetGteMatrix(int **args) {
     gte_ldrotmatrix(first_matrix);
 
     gte_ldrtir12_matrix_column(&scale_matrix.m[0][0]);
-    gte_stir123_matrix_column(&first_matrix->m[0][0]);
+    gte_stir123_column(first_matrix);
 
     gte_ldrtir12_matrix_column(&scale_matrix.m[0][1]);
     second_matrix = (GteMatrix *)(D2F0_axis1[0] + 0x1E8);
-    gte_stir123_matrix_column(&second_matrix->m[0][1]);
+    gte_stir123_column_at(&second_matrix->m[0][1]);
 
     gte_ldrtir12_matrix_column(&scale_matrix.m[0][2]);
     third_matrix = (GteMatrix *)(D2F0_axis2[0] + 0x1E8);
-    gte_stir123_matrix_column(&third_matrix->m[0][2]);
+    gte_stir123_column_at(&third_matrix->m[0][2]);
 
     translation_matrix = (GteMatrix *)(D2F0_translation[0] + 0x1E8);
     gte_ldtransmatrix(translation_matrix);
