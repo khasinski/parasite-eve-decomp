@@ -17,9 +17,8 @@ s32 CdRom_TryIssueCmd(s32 cmd, s32 arg);
 
 s32 CdRom_DispatchPendingCmd(void) {
     s32 index;
-    CdRomPendingCmd *entry;
+    register CdRomPendingCmd *entry asm("$3");
     register s32 offset asm("$2");
-    s32 result;
     if (DsSync(0) != 1) {
         return 0;
     }
@@ -31,22 +30,8 @@ s32 CdRom_DispatchPendingCmd(void) {
     offset <<= 3;
     entry = (CdRomPendingCmd *)((u8 *)entry + offset);
 
-    asm volatile(
-        ".set\tnoreorder\n\t"
-        "lw\t%0,0x0(%1)\n\t"
-        "nop\n\t"
-        "beqz\t%0,1f\n\t"
-        "addu\t%0,$zero,$zero\n\t"
-        "lbu\t$4,0x4(%1)\n\t"
-        "lw\t$5,0xC(%1)\n\t"
-        "jal\tCdRom_TryIssueCmd\n\t"
-        "nop\n\t"
-        "sltu\t%0,$zero,$2\n"
-        "1:\n\t"
-        ".set\treorder"
-        : "=r"(result)
-        : "r"(entry)
-        : "$4", "$5", "$31", "memory");
-
-    return result;
+    if (entry->active != 0) {
+        return CdRom_TryIssueCmd(entry->cmd, entry->arg) != 0;
+    }
+    return 0;
 }
