@@ -3,12 +3,6 @@ extern char D_800A7620[];
 extern char g_EntityAllocBlockTable[];
 extern s32 g_RenderScratchBufferBase;
 
-#define LOAD_BASEPTR(dst)                                             \
-    asm volatile(                                                     \
-        "lui\t%0, %%hi(g_RenderScratchBufferBase)\n"                                 \
-        "addiu\t%0, %0, %%lo(g_RenderScratchBufferBase)"                             \
-        : "=r"(dst))
-
 s32 Entity_AllocBlock(u32 arg0) {
     s32 temp_a0;
     u32 var_v0;
@@ -16,7 +10,7 @@ s32 Entity_AllocBlock(u32 arg0) {
     s32 var_a2;
     register s32 var_a3 asm("$7");
     register u32 temp_t0 asm("$8");
-    s32 *temp_t1;
+    register s32 *temp_t1 asm("$9");
     u32 var_a0;
     register u32 var_v1 asm("$3");
 
@@ -36,7 +30,7 @@ block_6:
         var_a1 = 0;
     }
     temp_t0 = var_a3 & 0xFF;
-    LOAD_BASEPTR(temp_t1);
+    temp_t1 = &g_RenderScratchBufferBase;
     var_a0 = var_a1 & 0xFF;
 loop_8:
     var_v1 = var_a0 << 3;
