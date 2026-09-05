@@ -1,3 +1,3 @@
-#include "../room_lib/room_lib.h"
-
-ROOMLIB_RETURN_ZERO(func_80190A1C)
+int func_80190A1C(void) {
+    return 0;
+}

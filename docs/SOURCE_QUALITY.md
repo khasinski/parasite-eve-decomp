@@ -151,6 +151,27 @@ reset helper uses ordinary C without assembly constraints. The steering
 adapter only converts the common state-prefix pointer for the existing
 RoomLib_FxNotify2 prototype; it does not emit an assembly wrapper.
 
+`scene_e02` has now passed the same mapping repair and whole-overlay retail
+SHA check. Its six false epilogues were at offsets `0x370`, `0x20AC`,
+`0x2E30`, `0x39D4`, `0x45C4`, and `0x49F8`. Two state dispatchers, handlers
+C/D/E, and ResetSignalWithTargetGate add six genuine C functions (4348
+bytes), while those six epilogues lose their independent credit. No code
+or data addresses embedded in the retail image were rebased to force a match.
+
+The corrected mapping also exposes two additional control-flow errors in
+existing C: the triggered-effect timer must skip its decrement stores after
+activation, and the mode-config setter writes its last field pair only for
+mode 2. The timer now has a local C implementation because changing its
+shared include would affect unaudited scenes. Stock-compiled, fully linked
+retail-range trials removed two of its seven inherited pins and one of its
+two laundering barriers. The five remaining pins, one laundering barrier,
+and eight-byte frame allocation remain matching constraints; removing each
+in the tested sequence did not match. The direct-source debt counter gains
+five pins and two extern declarations as existing include content becomes
+visible, not because new register constraints were introduced. The common
+timer include and other scene variants remain audit work, not certified C
+semantics solely because an older build passed a SHA check.
+
 The project uses the following independent review levels:
 
 1. **Configured** — the binary range and source/assembly representation exist

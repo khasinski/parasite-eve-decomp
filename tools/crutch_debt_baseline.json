@@ -26,14 +26,14 @@
     "byte_pointer_arithmetic": 154,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 2866,
+    "externs_in_c": 2868,
     "field_macros": 0,
     "gotos": 320,
     "include_asm": 0,
-    "pins": 83,
+    "pins": 88,
     "pointer_integer_casts": 16,
     "postpass": 0,
-    "raw_offset_dereferences": 1379,
+    "raw_offset_dereferences": 1373,
     "statement_expressions": 0,
     "unknown_fields": 44
   }
