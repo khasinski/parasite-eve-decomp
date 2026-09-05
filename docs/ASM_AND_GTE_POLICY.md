@@ -419,6 +419,18 @@ old post-HP-store memory barrier remain after removal and merge trials.
 No new pins, barriers, volatile accesses, flags, toolchain changes, or target
 edits were needed; the additional read alias is explicit source debt.
 
+`Menu_StepItemGrid2` now constructs the memory-card dialog using the existing
+`MenuWidgetNode` fields. Ordinary C replaces the node-result copy, callback
+address setup, active-list call and text-buffer address loads, including the
+old raw call word and relocation directives. Loading the active list before
+storing the option cursor allows the compiler to fill the call delay slot.
+One new kind-argument pin and one input-only barrier remain; the old suffix
+pin and trial label pin, constant barrier and text barriers were removable.
+Two same-symbol text-buffer aliases preserve the distinct address reloads.
+Removing each remaining pin, barrier or alias changes the object. No new
+volatile accesses, flags, toolchain modifications or target/layout edits
+were used. The aliases and compiler constraints remain explicit source debt.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

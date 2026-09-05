@@ -1,12 +1,10 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
-#include "include_asm.h"
+#include "pe1/menu_inventory.h"
 
-void MenuWidget_NavScrollTo(int selected_base);
-int MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
-int MenuWidget_CreateSimpleNode(int kind, int parent, int arg2, int arg3);
-int MenuWidget_CreateNode(int kind, int parent, int sibling);
-void MenuWidget_SaveAndSetCurrentNode(int node);
+MenuWidgetNode *MenuWidget_CreateSimpleNode(int kind, MenuWidgetNode *parent, int arg2, int arg3);
+MenuWidgetNode *MenuWidget_CreateNode(int kind, MenuWidgetNode *parent, MenuWidgetNode *sibling);
+void MenuWidget_SaveAndSetCurrentNode(MenuWidgetNode *node);
 int MemCard_GetActivePort(void);
 int Str_LookupTable4(int index);
 void Util_CopyFFTerminatedBytes(int dst, int src);
@@ -27,18 +25,21 @@ extern int D_8009CFA4;
 extern int D_8009CFA8;
 extern int D_8009CFFC;
 extern unsigned char D_800A19C0[];
+/* Separate compiler identities preserve address reloads across text calls. */
+extern unsigned char D_800A19C0_measure[] asm("D_800A19C0");
+extern unsigned char D_800A19C0_remeasure[] asm("D_800A19C0");
 
 int Menu_MemCardProgressInputHandler(void) {
     return 1;
 }
 
 void Menu_StepItemGrid2(void) {
-    int node;
-    int option_node;
+    MenuWidgetNode *node;
+    MenuWidgetNode *option_node;
     int label;
-    register int suffix_id asm("$19");
+    int suffix_id;
     int callback;
-    int mode;
+    register int mode asm("$4");
     int width;
     int height;
 
@@ -49,34 +50,29 @@ void Menu_StepItemGrid2(void) {
 
         node = MenuWidget_FindByModeAndSelectedBase(2, 0x24);
         label = Str_LookupTable4(MemCard_GetActivePort() + 0x47);
-        node = MenuWidget_CreateSimpleNode(0x2A, node, 0, 1);
-        asm volatile(
-            "addiu %1,$0,0x2A\n\t"
-            "addu %0,$2,$0"
-            : "=r"(node), "=r"(mode));
+        {
+            MenuWidgetNode *result = MenuWidget_CreateSimpleNode(0x2A, node, 0, 1);
+            mode = 0x2A;
+            /* Keep the kind argument ready before copying the returned node. */
+            asm("" : : "r"(result), "r"(mode));
+            node = result;
+        }
         option_node = MenuWidget_CreateNode(mode, node, node);
-        *(void **)(node + 0x30) = Menu_DrawItemLabel;
-        *(void **)(node + 0x2C) = Menu_ConfirmDialogHandler;
-        *(void **)(option_node + 0x30) = Menu_DrawActionOptionList;
+        node->field_30 = Menu_DrawItemLabel;
+        node->update = Menu_ConfirmDialogHandler;
+        option_node->field_30 = Menu_DrawActionOptionList;
         D_8009CF14 = 0x6C;
         MenuWidget_SaveAndSetCurrentNode(option_node);
 
-        asm volatile(
-            ".set push\n\t"
-            ".set noreorder\n\t"
-            "addiu $2,$0,1\n\t"
-            "addiu %1,$0,0x4A\n\t"
-            ".word 0x8F840000\n\t"
-            ".reloc .-4, R_MIPS_GPREL16, D_8009CF10\n\t"
-            "lui %0,%%hi(Menu_HandleMemCardWriteOrError)\n\t"
-            "addiu %0,%0,%%lo(Menu_HandleMemCardWriteOrError)\n\t"
-            ".word 0x0C000000\n\t"
-            ".reloc .-4, R_MIPS_26, Inv_SelectActiveList\n\t"
-            "sw $2,0x44(%2)\n\t"
-            ".set pop"
-            : "=r"(callback), "=r"(suffix_id)
-            : "r"(option_node)
-            : "$2", "$4", "$31", "memory");
+        {
+            int enabled = 1;
+            int active_list;
+            suffix_id = 0x4A;
+            active_list = D_8009CF10;
+            callback = (int)Menu_HandleMemCardWriteOrError;
+            option_node->cursor_x = enabled;
+            Inv_SelectActiveList(active_list);
+        }
 
         if (label != 0) {
             Util_CopyFFTerminatedBytes((int)D_800A19C0, label);
@@ -87,29 +83,23 @@ void Menu_StepItemGrid2(void) {
             int text_buf;
             Util_AppendFFTerminatedBytes((int)D_800A19C0, Str_LookupTable4(0x49));
             D_8009CFA4 = suffix_id;
-            asm volatile(
-                "lui %0, %%hi(D_800A19C0)\n"
-                "addiu %0, %0, %%lo(D_800A19C0)"
-                : "=r"(text_buf));
+            text_buf = (int)D_800A19C0_measure;
             width = Draw_MeasureTextWidth(text_buf);
             if (width < 0x78) {
                 width = 0x78;
             } else {
-                asm volatile(
-                    "lui %0, %%hi(D_800A19C0)\n"
-                    "addiu %0, %0, %%lo(D_800A19C0)"
-                    : "=r"(text_buf));
+                text_buf = (int)D_800A19C0_remeasure;
                 width = Draw_MeasureTextWidth(text_buf);
             }
         }
 
-        *(int *)(node + 0x34) = width + 0x14;
-        *(int *)(node + 0x38) = 0x42;
-        *(int *)(node + 0x18) = (0x12C - width) >> 1;
-        *(int *)(option_node + 0x18) = (*(int *)(node + 0x34) - 0x80) >> 1;
-        height = *(int *)(node + 0x38);
+        node->grid_width = width + 0x14;
+        node->visible_rows = 0x42;
+        node->x = (0x12C - width) >> 1;
+        option_node->x = (node->grid_width - 0x80) >> 1;
+        height = node->visible_rows;
         D_8009CFA8 = callback;
-        *(int *)(option_node + 0x1C) = height - 0x14;
+        option_node->y = height - 0x14;
         return;
     }
 
