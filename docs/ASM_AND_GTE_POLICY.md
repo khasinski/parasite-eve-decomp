@@ -373,6 +373,15 @@ pin. The other four old pins and the old final memory barrier remain after
 removal tests. This adds no pins, symbol aliases, volatile accesses, or flags;
 the stock compiler generates the reciprocal multiply for unsigned modulo 10.
 
+`Inv_LoadWayneItemsAsOverride` loads the unsigned item value and writes the
+first halfword of its 32-byte category-table record in C. An empty input
+barrier on the loaded value clobbering `$2` retains the load-before-offset
+schedule. The explicit byte offset is needed; direct two-dimensional indexing
+changes allocation. Minimization removed the old index pin, all trial pins,
+and two trial barriers. Removing the remaining barrier or its clobber changes
+the object. The existing G8 flags remain; there are no new volatile accesses,
+aliases, toolchain changes, or target edits.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

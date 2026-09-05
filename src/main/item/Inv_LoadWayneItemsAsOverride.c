@@ -4,6 +4,7 @@
 
 extern int g_InvCategoryBaseItemId;
 extern u16 g_BattleCountTable[];
+extern u16 g_InvCategoryItemTable[][16];
 extern u16 *g_InvActiveListOverride;
 extern int g_InvOverrideSlotLimit;
 extern int g_MenuBattleCount;
@@ -25,24 +26,16 @@ int Inv_LoadWayneItemsAsOverride(short *items) {
             }
 
             if ((base <= id) && (id < end)) {
-                register int index asm("$5");
+                u16 value;
                 int temp = id + 6;
 
-                index = temp - base;
-                temp = index + 0x200;
+                id = temp - base;
+                temp = id + 0x200;
                 *out = temp;
-                __asm__ volatile(
-                    ".set push\n"
-                    ".set noat\n"
-                    "lhu $3, 2($4)\n"
-                    "sll $2, $5, 5\n"
-                    "lui $1, %%hi(g_InvCategoryItemTable)\n"
-                    "addu $1, $1, $2\n"
-                    "sh $3, %%lo(g_InvCategoryItemTable)($1)\n"
-                    ".set pop"
-                    :
-                    : "r"(items), "r"(index)
-                    : "$1", "$2", "$3", "memory");
+                value = (u16)items[1];
+                asm("" : : "r"(value) : "$2");
+                temp = id << 5;
+                *(u16 *)((u8 *)g_InvCategoryItemTable + temp) = value;
                 out++;
             } else {
                 *out = id;
