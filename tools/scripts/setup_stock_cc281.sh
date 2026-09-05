@@ -13,10 +13,13 @@ case "$(uname -s)" in
   *) echo "unsupported OS"; exit 1 ;;
 esac
 mkdir -p "$ROOT/tools/old-gcc-281"
-tmp="$(mktemp -d)"
+tmp="$(mktemp -d "$ROOT/tools/old-gcc-281/.install.XXXXXX")"
+trap 'rm -rf "$tmp"' EXIT
 curl -fsSL -o "$tmp/cc1.tar.gz" "$REL/$ASSET"
 tar xzf "$tmp/cc1.tar.gz" -C "$tmp"
-cp "$(find "$tmp" -name cc1 -type f | head -1)" "$ROOT/tools/old-gcc-281/cc1"
-chmod +x "$ROOT/tools/old-gcc-281/cc1"
-rm -rf "$tmp"
+cc1_bin="$(find "$tmp" -name cc1 -type f | head -1)"
+chmod +x "$cc1_bin"
+# Rename a complete executable on the same filesystem; never truncate one
+# that another parallel compiler invocation may already be executing.
+mv -f "$cc1_bin" "$ROOT/tools/old-gcc-281/cc1"
 echo "stock cc1 (gcc-2.8.1) installed at tools/old-gcc-281/cc1"

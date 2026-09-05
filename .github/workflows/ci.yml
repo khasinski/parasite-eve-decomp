@@ -52,6 +52,7 @@ jobs:
       - name: Install the PSX compiler and maspsx
         run: |
           tools/scripts/setup_stock_cc1.sh
+          tools/scripts/setup_stock_cc281.sh
           tools/scripts/setup_maspsx.sh
           tools/scripts/setup_objdiff.sh
 
