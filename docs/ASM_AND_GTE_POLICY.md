@@ -224,6 +224,37 @@ comparison. These constraints are in an included template and are not fully
 represented by the source-only debt ledger. All 119 linked function ranges
 must match retail before treating the family as repaired.
 
+## Room Handler B and C Addresses
+
+HandlerB loads its GTE vector from scratchpad offset 0x20 and stores MAC1..3
+at 0x28; HandlerC uses the same input offset and output offset 0x38. Former
+private macros combined `addiu` with COP2 transfers. The address calculations
+are now C, and only central `gte_ldv0` and `gte_stmac` emit hardware transfers.
+For room_m089 the address windows start at 0x23C/0x254 (B) and 0x1C8/0x1E0
+(C). Resolving fixed-address relocations to literal offsets preserves the
+linked instruction bytes.
+
+Each handler retains an entry input barrier to keep state-pointer setup ahead
+of scratchpad initialization. B clobbers $19 and C clobbers $17 at that point;
+neither pins the scratch pointer. Removing either entry barrier breaks exact
+comparison. HandlerB additionally retains one tied scratch-pointer barrier in
+its existing `do/while (0)` helper; removing the barrier or flattening that
+block changes codegen. The helper contains C address arithmetic and an empty
+barrier, not CPU instruction ASM. Its trial scratch-pointer pin was removable.
+
+HandlerC's trial tied address barrier was removable across all 119 variants.
+Its earlier target-vector argument uses an explicit OR with 0x28, valid for
+the fixed aligned scratchpad base, to preserve the original `ori`. No new
+volatile accesses or register pins were introduced in either family.
+
+The five scene-reset variants reuse the repaired B helper; their private ASM
+overrides were removed, as were the two scene_e22 overrides. All 124 B and
+119 C linked function ranges match retail after minimization. The retained
+barriers total 248 instances across the B variants and 119 across the C
+variants, a footprint missed by the source-only debt ledger. These are
+repairs of withdrawn semantic credit,
+not newly identified algorithms.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

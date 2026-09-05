@@ -61,9 +61,23 @@ represent 25 newly discovered functions.
 Tightening the visible COP2 exception flagged another 362 configured units,
 mostly repeated room handlers, for review. The 119 `RoomLib_HandlerD` users
 now calculate their MAC output addresses in C instead of ASM `addiu` windows.
-The other flagged families remain constrained until repaired. These are
-eligibility corrections, not changes to retail code targets or evidence that
-the matching binaries ceased to match.
+The 119 HandlerB and 119 HandlerC users, together with five scene-reset B
+variants, subsequently moved their address windows into C too. All 243 linked
+function ranges match retail. No new pins remain after minimization; the
+included implementations retain two new barriers per B variant and one per
+C variant. These are eligibility repairs, not newly discovered functions or
+changes to retail targets. Closing this known group does not certify every
+unexpanded header against the policy.
+
+A subsequent header inventory found ordinary CPU instructions in
+`ROOMLIB_LOAD_S16`, `ROOMLIB_LOAD_PTR`, `ROOMLIB_LOAD_U16` and
+`ROOMLIB_DIV_V0_A0_CHECKED` in `room_lib.h`. Known calls are now quarantined:
+10 signed-halfword users (5,760 B), one pointer-load user (676 B), and
+228 checked-division users (208,848 B). The unsigned-halfword helper had no
+source users in the inspected tree. The division macro's raw `.word` sequence
+implements ordinary CPU division and exception checks, not GTE operations;
+it cannot receive semantic-C credit merely because it reproduces a compiler
+expansion. These 239 withdrawals are independent of the 243 B/C repairs.
 
 The source-text debt counters do not expand all shared headers or `.inc`
 templates. In particular the new word-stride helper has two pins and two empty

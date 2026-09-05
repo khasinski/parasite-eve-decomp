@@ -20,8 +20,8 @@
   },
   "overlays": {
     "aliases": 0,
-    "asm_bodies": 4,
-    "asm_constrained_units": 243,
+    "asm_bodies": 0,
+    "asm_constrained_units": 239,
     "barriers": 0,
     "byte_pointer_arithmetic": 154,
     "declaration_overrides": 0,

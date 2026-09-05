@@ -11,6 +11,21 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 
 class GteMacReadTests(unittest.TestCase):
+    def test_handler_b_and_c_addresses_are_c(self):
+        directory = ROOT / "src/overlays/room_lib"
+        for name in ("RoomLib_HandlerB.inc", "RoomLib_HandlerC.inc",
+                     "RoomLib_HandlerBSceneReset.inc"):
+            with self.subTest(name=name):
+                text = (directory / name).read_text()
+                self.assertFalse(source_quality.has_instruction_asm(text))
+                self.assertNotIn("asm volatile(\"addiu", text)
+        b = (directory / "RoomLib_HandlerB.inc").read_text()
+        c = (directory / "RoomLib_HandlerC.inc").read_text()
+        self.assertIn("gte_ldv0((char *)(base) + 0x20);", b)
+        self.assertIn("gte_stmac((char *)scratch + 0x28);", b)
+        self.assertIn("gte_ldv0((char *)scratch + 0x20);", c)
+        self.assertIn("gte_stmac((char *)scratch + 0x38);", c)
+
     def test_handler_d_address_calculation_is_c(self):
         template = (ROOT / "src/overlays/room_lib/RoomLib_HandlerD.inc").read_text()
         self.assertFalse(source_quality.has_instruction_asm(template))

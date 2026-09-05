@@ -26,12 +26,13 @@ FUNCTION_DEF = re.compile(
     re.MULTILINE,
 )
 COP2_OP = re.compile(r'\b(?:cfc2|ctc2|lwc2|swc2|mfc2|mtc2)\b')
-# Audited CPU-ASM helpers hidden in gte.h. Quarantine their callers until the
+# Audited CPU-ASM helpers hidden in headers. Quarantine their callers until the
 # CPU windows are C; this is not a substitute for full macro-expansion review.
 CPU_ASM_HELPERS = re.compile(
-    r'\bgte_(?:ldv0_short3|load_packed_short3|store_ir123_packed_short3|'
+    r'\b(?:gte_(?:ldv0_short3|load_packed_short3|store_ir123_packed_short3|'
     r'stir123_matrix_column|stsz3_s16|'
-    r'store_mac12_byte2|store_mac123_byte3|store_third_output|store_flag_bound)\s*\('
+    r'store_mac12_byte2|store_mac123_byte3|store_third_output|store_flag_bound)|'
+    r'ROOMLIB_(?:LOAD_S16|LOAD_PTR|LOAD_U16|DIV_V0_A0_CHECKED))\s*\('
 )
 
 

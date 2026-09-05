@@ -33,6 +33,21 @@ class SourceQualityTests(unittest.TestCase):
             source.write_text('#include "body.inc"')
             self.assertEqual(source_quality.classify(source), "asm_constrained")
 
+    def test_room_header_cpu_helpers_are_quarantined(self):
+        for name in ("ROOMLIB_LOAD_S16", "ROOMLIB_LOAD_PTR", "ROOMLIB_LOAD_U16",
+                     "ROOMLIB_DIV_V0_A0_CHECKED"):
+            with self.subTest(name=name):
+                self.assertEqual(self.classify("void f(void) { %s(a, b); }" % name),
+                                 "asm_constrained")
+
+    def test_room_helper_mentions_are_not_calls(self):
+        text = '''
+        /* ROOMLIB_LOAD_S16(a, b); */
+        const char *s = "ROOMLIB_DIV_V0_A0_CHECKED(a, b)";
+        int f(void) { return 1; }
+        '''
+        self.assertEqual(self.classify(text), "semantic_c")
+
     def test_cpu_helper_mentions_are_not_calls(self):
         text = '''
         /* gte_ldv0_short3(0); */

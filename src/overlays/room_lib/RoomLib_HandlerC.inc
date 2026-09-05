@@ -22,30 +22,15 @@
 extern void ROOMLIB_HANDLER_C_PHASE(void);
 extern int ROOMLIB_HANDLER_C_RESET(RoomEnt *obj);
 
-#ifndef ROOMLIB_HANDLER_C_GTE_LOAD_VECTOR
-#define ROOMLIB_HANDLER_C_GTE_LOAD_VECTOR(base) \
-    asm volatile("addiu $2,%0,D_1F800020\n\t" \
-                 "lwc2 $0,0($2)\n\t" \
-                 "lwc2 $1,4($2)" \
-                 : : "r"(base) : "$2", "memory")
-#endif
-
-#ifndef ROOMLIB_HANDLER_C_GTE_STORE_MAC
-#define ROOMLIB_HANDLER_C_GTE_STORE_MAC(base) \
-    asm volatile("addiu $2,%0,D_1F800038\n\t" \
-                 "swc2 $25,0($2)\n\t" \
-                 "swc2 $26,4($2)\n\t" \
-                 "swc2 $27,8($2)" \
-                 : : "r"(base) : "$2", "memory")
-#endif
-
 void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
     RoomEnt *self = obj;
     RoomLibHandlerCState *state =
         (RoomLibHandlerCState *)((char *)self + 0xC);
     RoomLink *link = self->link;
-    short *scratch = (short *)0x1F800000;
+    short *scratch;
     int angle;
+    asm("" : : "r"(state) : "$17");
+    scratch = (short *)0x1F800000;
     if (self->t1A == 0) {
         self->t1A = 1;
         RW8(self, 0xA2) = 0;
@@ -67,7 +52,7 @@ void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
             RW32(scratch, 0x30) = state->targetLink->pos[2];
         }
 
-        angle = FieldEng_VecToAngle(link->pos, (int *)((char *)scratch + 0x28)) &
+        angle = FieldEng_VecToAngle(link->pos, (int *)((int)scratch | 0x28)) &
                 0xFFF;
         {
             int *rotBase = (int *)ROOMLIB_HANDLER_C_ROT_TABLE;
@@ -91,9 +76,9 @@ void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
         scratch[17] = 0;
         scratch[18] = state->localOffset[2] >> 12;
         gte_ldrotmatrix((void *)scratch);
-        ROOMLIB_HANDLER_C_GTE_LOAD_VECTOR(scratch);
+        gte_ldv0((char *)scratch + 0x20);
         gte_mvmva();
-        ROOMLIB_HANDLER_C_GTE_STORE_MAC(scratch);
+        gte_stmac((char *)scratch + 0x38);
 
         RW32(state, 0x40) = RW32(scratch, 0x28) +
                             (RW32(scratch, 0x38) << 12);
@@ -169,6 +154,3 @@ void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
         ROOMLIB_HANDLER_C_RESET(self);
     }
 }
-
-#undef ROOMLIB_HANDLER_C_GTE_LOAD_VECTOR
-#undef ROOMLIB_HANDLER_C_GTE_STORE_MAC
