@@ -148,6 +148,19 @@ helpers in `Render_DecompressAnimFrame`, `Render_SetupBoneTransforms`,
 `Render_TransformMorphVertices`, `Render_TransformSkinnedVertices`,
 `Render_TransformVertices`, and `Task_SetGteMatrix`.
 
+## LoadAverage byte results
+
+`LoadAverageByte` and `LoadAverageCol` read MAC1..2 or MAC1..3 with
+`gte_getmac12_staged` and `gte_getmac123_staged`. These macros contain only
+two or three `mfc2` instructions. Their input constraints preserve output and
+shift setup before the transfer; shifts and byte stores live in the C callers.
+The target transfer windows start at function offsets 0x40 and 0x50,
+respectively. A final empty memory barrier preserves the stores before the
+return rather than moving the last store into its delay slot. Removal fails
+exact comparison, as does removing the output-pointer pin. Trial shift
+barriers were removable and are not retained. The output pin already existed
+in the removed helper; moving it into C makes this debt visible to the ledger.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

@@ -24,11 +24,11 @@ int Task_SpawnChildNode(int **args) {
         value_ptr = args[0];
         state = g_CurrentEntity[0];
         entry = (TaskNode *)g_TaskNodeFreeListHead;
-        asm volatile("" : : "r"(entry));
         seq = g_TaskNodeSeqCounter;
         value = *value_ptr;
         base = state[0x9C / 4];
-        asm volatile("lw\t%0,0x24(%1)" : "=r"(next) : "r"(entry));
+        asm volatile("" : "=r"(entry) : "0"(entry), "r"(value), "r"(base));
+        next = entry->next;
         entry->prev = 0;
         entry->next = 0;
         entry->field_0c = 0;
@@ -36,6 +36,7 @@ int Task_SpawnChildNode(int **args) {
         entry->active = 1;
         entry->seq = seq;
         entry->flags = 0;
+        asm volatile("" : "=r"(value) : "0"(value));
         value <<= 1;
         value += base;
         entry->current = value;
@@ -70,9 +71,8 @@ int Task_SpawnChildNode(int **args) {
             }
             node->next = entry;
         } else {
-            register int zero asm("$0");
-            entry->prev = (TaskNode *)zero;
-            entry->next = (TaskNode *)zero;
+            entry->prev = 0;
+            entry->next = 0;
         }
         entry->current = value;
         {

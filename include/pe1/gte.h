@@ -497,36 +497,19 @@ int rcos(int angle);
 #define gte_gpl0_now() asm volatile(".word 0x4BA0003E")
 #define gte_gpl12_now() asm volatile(".word 0x4BA8003E")
 
-#define gte_store_mac12_byte2(output)                                        \
-    do {                                                                     \
-        register void *gte_out asm("$13");                                   \
-        gte_out = (output);                                                  \
-        asm volatile("mfc2 $8,$25\n\t"                                     \
-                     "mfc2 $9,$26\n\t"                                     \
-                     "srav $8,$8,$11\n\t"                                  \
-                     "srav $9,$9,$11\n\t"                                  \
-                     "sb $8,0($13)\n\t"                                    \
-                     "sb $9,1($13)"                                          \
-                     : "=r"(gte_x), "=r"(gte_y)                             \
-                     : "r"(gte_out), "r"(gte_shift) : "memory");            \
-    } while (0)
+/* The extra inputs keep the caller's output/shift setup before MAC reads. */
+#define gte_getmac12_staged(out)                                             \
+    asm volatile("mfc2 $8,$25\n\t"                                         \
+                 "mfc2 $9,$26"                                              \
+                 : "=r"(gte_x), "=r"(gte_y)                                 \
+                 : "r"(out), "r"(gte_shift) : "memory")
 
-#define gte_store_mac123_byte3(output)                                       \
-    do {                                                                     \
-        register void *gte_out asm("$13");                                   \
-        gte_out = (output);                                                  \
-        asm volatile("mfc2 $8,$25\n\t"                                     \
-                     "mfc2 $9,$26\n\t"                                     \
-                     "mfc2 $10,$27\n\t"                                    \
-                     "srav $8,$8,$11\n\t"                                  \
-                     "srav $9,$9,$11\n\t"                                  \
-                     "srav $10,$10,$11\n\t"                                \
-                     "sb $8,0($13)\n\t"                                    \
-                     "sb $9,1($13)\n\t"                                    \
-                     "sb $10,2($13)"                                         \
-                     : "=r"(gte_x), "=r"(gte_y), "=r"(gte_z)                \
-                     : "r"(gte_out), "r"(gte_shift) : "memory");            \
-    } while (0)
+#define gte_getmac123_staged(out)                                            \
+    asm volatile("mfc2 $8,$25\n\t"                                         \
+                 "mfc2 $9,$26\n\t"                                         \
+                 "mfc2 $10,$27"                                             \
+                 : "=r"(gte_x), "=r"(gte_y), "=r"(gte_z)                    \
+                 : "r"(out), "r"(gte_shift) : "memory")
 
 #define gte_store_ir123_packed_short3(output)                                \
     do {                                                                     \

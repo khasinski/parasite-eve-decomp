@@ -26,6 +26,12 @@ FUNCTION_DEF = re.compile(
     re.MULTILINE,
 )
 COP2_OP = re.compile(r'\b(?:cfc2|ctc2|lwc2|swc2|mfc2|mtc2)\b')
+# Audited CPU-ASM helpers hidden in gte.h. Quarantine their callers until the
+# CPU windows are C; this is not a substitute for full macro-expansion review.
+CPU_ASM_HELPERS = re.compile(
+    r'\bgte_(?:ldv0_short3|load_packed_short3|store_ir123_packed_short3|'
+    r'store_mac12_byte2|store_mac123_byte3|store_third_output|store_flag_bound)\s*\('
+)
 
 
 def strip_comments(text: str) -> str:
@@ -92,6 +98,9 @@ def classify(path: pathlib.Path) -> str:
         return "original_asm"
     if TEXT_SECTION.search(expanded) and not FUNCTION_DEF.search(expanded):
         return "text_data"
+    code = re.sub(C_STRING, '""', strip_comments(expanded))
+    if CPU_ASM_HELPERS.search(code):
+        return "asm_constrained"
     if has_instruction_asm(expanded):
         return "asm_constrained"
     return "semantic_c"

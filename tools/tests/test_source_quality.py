@@ -15,6 +15,31 @@ class SourceQualityTests(unittest.TestCase):
     def test_plain_c_is_semantic(self):
         self.assertEqual(self.classify("int f(void) { return 1; }"), "semantic_c")
 
+    def test_audited_cpu_helpers_are_not_gte_exemptions(self):
+        for name in ("gte_ldv0_short3", "gte_load_packed_short3",
+                     "gte_store_ir123_packed_short3", "gte_store_third_output",
+                     "gte_store_flag_bound", "gte_store_mac12_byte2",
+                     "gte_store_mac123_byte3"):
+            with self.subTest(name=name):
+                self.assertEqual(self.classify("void f(void) { %s(0); }" % name),
+                                 "asm_constrained")
+
+    def test_cpu_helper_in_direct_template_is_quarantined(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            (root / "body.inc").write_text("void f(void) { gte_ldv0_short3(0); }")
+            source = root / "unit.c"
+            source.write_text('#include "body.inc"')
+            self.assertEqual(source_quality.classify(source), "asm_constrained")
+
+    def test_cpu_helper_mentions_are_not_calls(self):
+        text = '''
+        /* gte_ldv0_short3(0); */
+        const char *s = "gte_store_third_output(0)";
+        int f(void) { return 1; }
+        '''
+        self.assertEqual(self.classify(text), "semantic_c")
+
     def test_pins_aliases_and_empty_barriers_remain_semantic(self):
         text = '''
         extern int value asm("D_80010000");

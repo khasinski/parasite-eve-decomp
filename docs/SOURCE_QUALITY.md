@@ -27,6 +27,15 @@ Source classification is a conservative source-text heuristic, not a full
 preprocessor or proof of semantic reconstruction. It joins adjacent ASM string
 literals and rejects nonempty unrecognized templates, but does not expand all
 headers/macros. COP2 expressions still require manual review for surgical scope.
+The retrospective also found ordinary CPU packing, shifts and stores in seven
+GTE-named helpers. Their callers, including direct `.inc` template users, are
+explicitly quarantined by the classifier. This list is a stopgap for known
+violations, not a complete header-expansion audit. LoadAverageByte and
+LoadAverageCol now use only MAC transfers in the replacement helpers; their
+shifts and byte stores are C. The remaining 29 affected functions lose semantic
+credit until corrected. The two repaired functions were previously counted,
+so their repair is not two newly added functions.
+
 The 2026-09-05 classifier correction withdrew semantic credit from four existing
 CPU-ASM implementations (1,308 bytes): Task_SetEntityActionAndWait,
 Task_TurnTowardPointStep, Entity_GetDistanceComponents and Entity_AllocBlock.
