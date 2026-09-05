@@ -18,7 +18,8 @@ long RotTransPers3(void *v0, void *v1, void *v2, void *sxy0,
     gte_stir0_bound();
     gte_getflag_bound();
     gte_getsz3_bound();
-    gte_store_flag_bound();
+    *(s32 *)gte_flags_out = gte_flags;
+    asm volatile("" : : : "memory");
     result = gte_depth_value;
     return result >> 2;
 }

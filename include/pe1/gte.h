@@ -358,9 +358,6 @@ int rcos(int angle);
     register int flags asm("$8");                                           \
     register int depth asm("$2")
 
-#define gte_store_third_output(value)                                       \
-    asm volatile("sw %0,0($10)" : : "r"(value), "r"(gte_out2) : "memory")
-
 /* IR0 is the scalar input used by GPF. */
 #define gte_ldir0(value) \
     asm volatile("mtc2 %0,$8" : : "r"(value))
@@ -618,10 +615,6 @@ int rcos(int angle);
     asm volatile("cfc2 $3,$31" : "=r"(gte_flags))
 #define gte_getsz3_bound()                                                  \
     asm volatile("mfc2 $2,$19" : "=r"(gte_depth_value))
-#define gte_store_flag_bound()                                              \
-    asm volatile("sw $3,0($11)" : : "r"(gte_flags), "r"(gte_flags_out)     \
-                 : "memory")
-
 #define gte_stsxy012(out) \
     asm volatile("swc2 $12,0(%0)\n\t" \
                  "swc2 $13,4(%0)\n\t" \

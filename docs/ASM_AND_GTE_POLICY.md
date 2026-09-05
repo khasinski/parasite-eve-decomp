@@ -161,6 +161,14 @@ exact comparison, as does removing the output-pointer pin. Trial shift
 barriers were removable and are not retained. The output pin already existed
 in the removed helper; moving it into C makes this debt visible to the ledger.
 
+The projection wrappers `RotTransPers3` and `RotTransPers4` store their result
+flags with C through the existing pinned output pointers. The former CPU-ASM
+helpers `gte_store_flag_bound` and `gte_store_third_output` were removed.
+Their retail stores are at function offsets 0x48 and 0x6C. Each C store is
+followed by one empty memory barrier; removing it moves the store into the
+return delay slot and moves the depth shift out of that slot. No additional
+register pins or hardware instructions are needed for this correction.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

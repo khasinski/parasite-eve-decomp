@@ -35,6 +35,11 @@ LoadAverageCol now use only MAC transfers in the replacement helpers; their
 shifts and byte stores are C. The remaining 29 affected functions lose semantic
 credit until corrected. The two repaired functions were previously counted,
 so their repair is not two newly added functions.
+RotTransPers3 (84 B) and RotTransPers4 (120 B) subsequently replaced their
+CPU flag-store helpers with C stores. Each needs one empty memory barrier
+after the store to keep the return delay slot occupied by the depth shift.
+This restores two quarantined functions, leaving 27 of that audited group.
+The retired helper names remain quarantined to prevent accidental reuse.
 
 The 2026-09-05 classifier correction withdrew semantic credit from four existing
 CPU-ASM implementations (1,308 bytes): Task_SetEntityActionAndWait,

@@ -11,6 +11,14 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 
 class GteMacReadTests(unittest.TestCase):
+    def test_retired_cpu_store_helpers_are_absent(self):
+        header = source_quality.strip_comments(
+            (ROOT / "include/pe1/gte.h").read_text())
+        for name in ("gte_store_mac12_byte2", "gte_store_mac123_byte3",
+                     "gte_store_third_output", "gte_store_flag_bound"):
+            with self.subTest(name=name):
+                self.assertNotRegex(header, r"\b" + name + r"\s*\(")
+
     def test_staged_mac_reads_only_transfer_hardware_state(self):
         header = source_quality.strip_comments(
             (ROOT / "include/pe1/gte.h").read_text())

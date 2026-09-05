@@ -27,6 +27,7 @@ long RotTransPers4(void *v0, void *v1, void *v2, void *v3,
     gte_getflag(flags);
     gte_getsz3(result);
     flags |= first_flags;
-    gte_store_third_output(flags);
+    *(s32 *)gte_out2 = flags;
+    asm volatile("" : : : "memory");
     return result >> 2;
 }
