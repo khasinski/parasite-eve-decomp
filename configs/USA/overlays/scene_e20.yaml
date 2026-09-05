@@ -28,12 +28,20 @@ segments:
   - name: scene_e20
     type: code
     start: 0x0
-    vram: 0x8018EFF0
+    # Section 3 is loaded at g_StrFileDirBuffer - 8, including its header.
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, scene_e20]
+      - start: 0
+        type: rodatabin
+        name: scene_e20_header
+        dir: scene_e20
+      - [0x40, asm, func_8018F028]
+      - [0x768, asm, func_8018F750]
+      - [0x1704, c, Scene_CommandEffectSlot]
+      - [0x17F8, data, scene_e20_tail]
   - [0x1800]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e20.bin bs=2048 skip=98887 count=3

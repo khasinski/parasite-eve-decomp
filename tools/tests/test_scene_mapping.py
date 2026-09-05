@@ -245,6 +245,49 @@ class SceneArgumentParserTests(unittest.TestCase):
                                     for t in targets))
 
 
+class SceneE20MappingTests(unittest.TestCase):
+    def setUp(self):
+        self.config = yaml.safe_load(
+            (ROOT / "configs/USA/overlays/scene_e20.yaml").read_text())
+        self.segment = self.config["segments"][0]
+
+    def test_three_complete_functions_and_noncode_header(self):
+        self.assertEqual(self.segment["vram"], 0x8018EFE8)
+        self.assertEqual(self.config["sha1"],
+                         "cb847aba4aa80d900b766aa03ca9e306edc140e8")
+        self.assertEqual(normalized_rows(self.segment), [
+            [0, "rodatabin", "scene_e20_header"],
+            [0x40, "asm", "func_8018F028"],
+            [0x768, "asm", "func_8018F750"],
+            [0x1704, "c", "Scene_CommandEffectSlot"],
+            [0x17F8, "data", "scene_e20_tail"],
+        ])
+        source = ROOT / "src/overlays/scene_e20/Scene_CommandEffectSlot.c"
+        self.assertEqual(source_quality.classify(source), "semantic_c")
+
+    def test_retail_switch_targets_are_internal_not_function_entries(self):
+        path = ROOT / self.config["options"]["target_path"]
+        if not path.is_file():
+            self.skipTest("local retail overlay required")
+        data = path.read_bytes()
+        self.assertEqual(hashlib.sha1(data).hexdigest(), self.config["sha1"])
+        word = lambda offset: int.from_bytes(data[offset:offset + 4], "little")
+        targets = [word(i) for i in range(0x24, 0x40, 4)]
+        self.assertEqual(targets, [0x8018F95C, 0x8018FA04, 0x8018FAF4,
+                                   0x8018FBC8, 0x8018FCC4, 0x8018FF38,
+                                   0x8019008C])
+        for target in targets:
+            self.assertTrue(0x8018F750 < target < 0x801906EC)
+        self.assertEqual(word(0x964), 0x8C22F00C)  # switch table at 8018F00C
+        for start, end in ((0x40, 0x768), (0x768, 0x1704), (0x1704, 0x17F8)):
+            self.assertEqual(word(start) >> 16, 0x27BD)
+            self.assertEqual(word(end - 8), 0x03E00008)
+            self.assertEqual(word(end - 4), 0)
+        # Absolute jumps land on the frame restores, not eight bytes later.
+        self.assertEqual(word(0xBC), 0x08063DC8)
+        self.assertEqual(word(0x738), 0x8FBF0080)
+
+
 class SceneE08MappingTests(unittest.TestCase):
     stack_epilogues = (0x6D14, 0x7A98, 0x863C, 0x922C, 0x9660)
     leaf_epilogues = (0x6694, 0x70D0, 0x73D4, 0x7E68, 0x8980)
