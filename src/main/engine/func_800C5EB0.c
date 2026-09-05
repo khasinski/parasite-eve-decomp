@@ -1,41 +1,8 @@
+/* CC1_FLAGS: -fno-strength-reduce */
 #include "common.h"
-#define COPY_BODY_TO_LOCAL(body) \
-    asm volatile( \
-        "lwl $2,19(%0)\n\t" \
-        "lwr $2,16(%0)\n\t" \
-        "lwl $3,23(%0)\n\t" \
-        "lwr $3,20(%0)\n\t" \
-        "swl $2,19($sp)\n\t" \
-        "swr $2,16($sp)\n\t" \
-        "swl $3,23($sp)\n\t" \
-        "swr $3,20($sp)\n\t" \
-        "lwl $2,27(%0)\n\t" \
-        "lwr $2,24(%0)\n\t" \
-        "lwl $3,31(%0)\n\t" \
-        "lwr $3,28(%0)\n\t" \
-        "swl $2,27($sp)\n\t" \
-        "swr $2,24($sp)\n\t" \
-        "swl $3,31($sp)\n\t" \
-        "swr $3,28($sp)\n\t" \
-        "lwl $2,87(%0)\n\t" \
-        "lwr $2,84(%0)\n\t" \
-        "lwl $3,91(%0)\n\t" \
-        "lwr $3,88(%0)\n\t" \
-        "swl $2,35($sp)\n\t" \
-        "swr $2,32($sp)\n\t" \
-        "swl $3,39($sp)\n\t" \
-        "swr $3,36($sp)\n\t" \
-        "lwl $2,95(%0)\n\t" \
-        "lwr $2,92(%0)\n\t" \
-        "lwl $3,99(%0)\n\t" \
-        "lwr $3,96(%0)\n\t" \
-        "swl $2,43($sp)\n\t" \
-        "swr $2,40($sp)\n\t" \
-        "swl $3,47($sp)\n\t" \
-        "swr $3,44($sp)" \
-        : \
-        : "r"(body) \
-        : "$2", "$3", "memory")
+typedef struct {
+    s16 values[4];
+} HalfwordBlock8;
 
 int rand(void);
 int func_800C6B20(void *arg0);
@@ -49,7 +16,7 @@ typedef struct {
 } RingEntry;
 
 int func_800C5EB0(char *data, void *unused, int *hit) {
-    char local[0x28];
+    HalfwordBlock8 local[5];
     char *data_s3 = data;
     char *entries;
     int *hit_s4;
@@ -59,8 +26,8 @@ int func_800C5EB0(char *data, void *unused, int *hit) {
     int countMinus;
     u16 timer;
 
-        entries = *(char **)data_s3;
-    asm volatile("move %0,%1" : "=r"(hit_s4) : "r"(hit));
+    entries = *(char **)data_s3;
+    hit_s4 = hit;
     *hit_s4 = 0;
 
     idx = *(s16 *)(data_s3 + 0xE);
@@ -83,12 +50,15 @@ int func_800C5EB0(char *data, void *unused, int *hit) {
             body[-1] = rnd % 4;
 
             if (entry[0] == 2) {
-                COPY_BODY_TO_LOCAL(body);
+                local[0] = *(HalfwordBlock8 *)(body + 16);
+                local[1] = *(HalfwordBlock8 *)(body + 24);
+                local[2] = *(HalfwordBlock8 *)(body + 84);
+                local[3] = *(HalfwordBlock8 *)(body + 92);
 
-                *(s16 *)(local + 0x2) = 0;
-                *(s16 *)(local + 0xA) = 0;
-                *(s16 *)(local + 0x12) = 0;
-                *(s16 *)(local + 0x1A) = 0;
+                local[0].values[1] = 0;
+                local[1].values[1] = 0;
+                local[2].values[1] = 0;
+                local[3].values[1] = 0;
 
                 if (func_800C6B20(local) == 1) {
                     *hit_s4 = 1;

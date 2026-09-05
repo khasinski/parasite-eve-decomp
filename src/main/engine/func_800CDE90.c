@@ -12,7 +12,8 @@ extern u16 D_800F3410;
 
 int func_800CDE90(void *arg0, void *arg1, u8 *anim) {
     u16 lhs_v0;
-    register u16 rhs_v1 asm("$3");
+    register u16 *output asm("$4");
+    u16 rhs_v1;
 
     func_800C2EAC(3);
     func_800C3098(0x100);
@@ -21,14 +22,11 @@ int func_800CDE90(void *arg0, void *arg1, u8 *anim) {
 
     lhs_v0 = *(u16 *)(anim + 0x4);
     rhs_v1 = *(u16 *)(anim + 0xA);
-    asm volatile(
-        "lui $4,%%hi(D_800F33E8)\n\t"
-        "addiu $4,$4,%%lo(D_800F33E8)\n\t"
-        "addu $2,$2,$3\n\t"
-        "sh $2,0($4)"
-        : "=r"(lhs_v0)
-        : "0"(lhs_v0), "r"(rhs_v1)
-        : "$4", "memory");
+    asm("" : : "r"(lhs_v0), "r"(rhs_v1) : "$4");
+    output = &D_800F33E8;
+    asm("" : "=r"(output) : "0"(output));
+    lhs_v0 += rhs_v1;
+    *output = lhs_v0;
     D_800F33EA = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
     D_800F33EC = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
     D_800F3410 = (s8)anim[1];

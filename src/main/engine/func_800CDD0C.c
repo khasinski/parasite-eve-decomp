@@ -16,7 +16,8 @@ extern u16 D_800E27D8;
 
 int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
     u16 lhs_v0;
-    register u16 rhs_v1 asm("$3");
+    register u16 *output asm("$4");
+    u16 rhs_v1;
     unsigned int i;
     u8 *entry;
 
@@ -27,14 +28,11 @@ int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
 
     lhs_v0 = *(u16 *)(anim + 0x4);
     rhs_v1 = *(u16 *)(anim + 0xA);
-    asm volatile(
-        "lui $4,%%hi(D_800E27B0)\n\t"
-        "addiu $4,$4,%%lo(D_800E27B0)\n\t"
-        "addu $2,$2,$3\n\t"
-        "sh $2,0($4)"
-        : "=r"(lhs_v0)
-        : "0"(lhs_v0), "r"(rhs_v1)
-        : "$4", "memory");
+    asm("" : : "r"(lhs_v0), "r"(rhs_v1) : "$4");
+    output = &D_800E27B0;
+    asm("" : "=r"(output) : "0"(output));
+    lhs_v0 += rhs_v1;
+    *output = lhs_v0;
     D_800E27B2 = *(u16 *)(anim + 0x6) + *(u16 *)(anim + 0xC);
     D_800E27B4 = *(u16 *)(anim + 0x8) + *(u16 *)(anim + 0xE);
     D_800E27C0 = ((s8)anim[3] * 8) + 0x20C;

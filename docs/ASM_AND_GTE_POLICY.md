@@ -303,6 +303,23 @@ folding; removing these changes code generation. No new volatile accesses
 were introduced in this group. These are repairs of constrained sources,
 not independent evidence that all headers are free of CPU instruction ASM.
 
+`func_800C5EB0` replaces its explicit `move` and unaligned copy macro with C.
+Four assignments of halfword-aligned eight-byte records reproduce the
+`lwl/lwr/swl/swr` pairs, including their two-word grouping. The local buffer
+is now an array of `s16[4]` records; names remain neutral because copy width
+and clearing the second halfword do not prove every field's role. The existing
+entry pin remains after removal trials. Stock `-fno-strength-reduce` prevents
+the loop from acquiring a second derived pointer, so the trial empty pointer
+barrier was removable. There are no added barriers or volatile accesses, and
+no compiler or MASPSX changes.
+
+The remaining five variants of CC878's address/store window (CC644, CC6F8,
+CE3B4, CDE90, CDD0C) now use the same C approach, including C addition in the
+last two. Each retains a pointer pin and two empty barriers; individual
+removal tests changed code generation. The old RHS pins in CDE90 and CDD0C
+were removable. This family adds ten visible barriers and a net three pins,
+which must remain explicit matching debt rather than being hidden in a macro.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
