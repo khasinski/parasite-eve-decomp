@@ -23,6 +23,16 @@ text-resident data is forcibly represented as data on the target side.
 After objdiff runs, `make report-audit` independently verifies that the
 published matched-code and matched-function totals contain only `semantic_c`.
 
+Source classification is a conservative source-text heuristic, not a full
+preprocessor or proof of semantic reconstruction. It joins adjacent ASM string
+literals and rejects nonempty unrecognized templates, but does not expand all
+headers/macros. COP2 expressions still require manual review for surgical scope.
+The 2026-09-05 classifier correction withdrew semantic credit from four existing
+CPU-ASM implementations (1,308 bytes): Task_SetEntityActionAndWait,
+Task_TurnTowardPointStep, Entity_GetDistanceComponents and Entity_AllocBlock.
+The corresponding asm-constrained debt baseline increase records previously
+missed debt, not permission to introduce more instruction ASM.
+
 The project uses the following independent review levels:
 
 1. **Configured** — the binary range and source/assembly representation exist

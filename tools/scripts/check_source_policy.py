@@ -30,7 +30,8 @@ def main() -> int:
         if ASM_INCLUDE.search(text):
             errors.append("assembler include under src/: %s" % path.relative_to(ROOT))
     allowed_asm_headers = {ROOT / "include" / "include_asm.h",
-                           ROOT / "include" / "pe1" / "gte.h"}
+                           ROOT / "include" / "pe1" / "gte.h",
+                           ROOT / "include" / "pe1" / "psyq_bios.h"}
     for path in (ROOT / "include").rglob("*.h"):
         if has_instruction_asm(path.read_text(errors="ignore")) and path not in allowed_asm_headers:
             errors.append("inline instruction asm in non-GTE header: %s" %
