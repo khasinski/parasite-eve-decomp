@@ -15,6 +15,14 @@ class SourceQualityTests(unittest.TestCase):
     def test_plain_c_is_semantic(self):
         self.assertEqual(self.classify("int f(void) { return 1; }"), "semantic_c")
 
+    def test_repaired_engine_load_and_distance_sources_are_semantic(self):
+        root = pathlib.Path(__file__).resolve().parents[2] / "src/main/engine"
+        for name in ("func_800CC92C", "func_800C6148", "func_800C6584",
+                     "func_800C6B90", "func_800C6B20"):
+            with self.subTest(name=name):
+                self.assertEqual(source_quality.classify(root / (name + ".c")),
+                                 "semantic_c")
+
     def test_audited_cpu_helpers_are_not_gte_exemptions(self):
         for name in ("gte_ldv0_short3", "gte_load_packed_short3",
                      "gte_store_ir123_packed_short3", "gte_store_third_output",

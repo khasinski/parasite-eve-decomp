@@ -9,7 +9,8 @@ int func_800CC92C(void *arg0, u8 *state, u8 *anim) {
     value = *(u16 *)(anim + 8);
     frame -= 2;
     anim[3] = frame;
-    asm volatile("lb $3,3(%1)" : "=r"(frame) : "r"(anim));
+    asm("" ::: "memory");
+    frame = *(signed char *)(anim + 3);
     value -= 0xA;
     *(u16 *)(anim + 8) = value;
     value = *(u16 *)(anim + 4);

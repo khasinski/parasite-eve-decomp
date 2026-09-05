@@ -270,6 +270,23 @@ sound-pointer load and one after the lookup (with `$2` and memory clobbers).
 Removing either changes code generation. Three former pins and the trial first
 load barrier were removable. The retired CPU instruction macros are deleted.
 
+## Engine CPU Helper Removal
+
+The engine's `func_800C6148`, `func_800C6584`, and `func_800C6B90` now express
+their distance tests as C multiplications and comparisons. Their local
+`volatile int delta[3]` preserves two original stack stores; the third function
+also preserves a short position buffer. These volatile locals are matching
+constraints, not MMIO or independently proven source-level declarations.
+No register pins, empty barriers or instruction ASM remain in these three
+functions. Keeping the Y halfword in an `int` before narrowing it removes a
+trial tied barrier while retaining signed-load code generation.
+
+`func_800C6B20` now uses C position loads and two ordinary calls instead of
+an ASM relocation/call window. One result temporary pin remains; three old
+pins and all trial barriers were removable. `func_800CC92C` uses a signed-byte
+C load after one empty memory barrier, which prevents forwarding the previous
+byte store. Its old frame pin remains; removing it changes allocation.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
