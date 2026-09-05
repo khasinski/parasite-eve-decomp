@@ -172,6 +172,25 @@ visible, not because new register constraints were introduced. The common
 timer include and other scene variants remain audit work, not certified C
 semantics solely because an older build passed a SHA check.
 
+`scene_e09` and `scene_e10` independently pass their different retail SHA
+checks at the corrected `0x8018EFE8` base. Each loses six false epilogue
+entries (`0x39C`, `0x2604`, `0x3388`, `0x3F2C`, `0x4B1C`, `0x4F50`)
+and gains the same six complete C implementations: two dispatchers,
+HandlerC/D/E, and ResetSignalWithTargetGate. This is twelve newly compiled
+function occurrences, not twelve unique algorithms. Their combined 8696
+bytes of new C replace 96 bytes of false epilogue credit, yielding 8600
+additional credited bytes and no net increase in function count.
+
+Both scenes required the notify fade-path, HandlerB reset-on-arm and
+argument-parser fallback corrections already established in scene_e19.
+Their timed-fade source definitions now agree with the real entry address
+in the manifest. Shared implementations and tool settings are unchanged;
+no new pins or barriers were added. The direct-source extern counter rises
+by two because the existing g_PlayerEntity declarations become visible
+outside the old HandlerB include wrapper. This batch does not certify
+the remaining unreviewed scene mappings or remove inherited constraints
+from the shared GTE handlers.
+
 The project uses the following independent review levels:
 
 1. **Configured** — the binary range and source/assembly representation exist
