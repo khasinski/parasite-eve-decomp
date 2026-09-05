@@ -171,7 +171,7 @@ segments:
       - [0x937C, c, RoomLib_InvokeCallbackC_80198364]
       - [0x93A4, c, func_8019838C]
       - [0x93D4, c, func_801983BC]
-      - [0x94E8, asm, func_801984D0]
+      - [0x94E8, c, RoomLib_MoveActorLocal_801984D0]
       - [0x9668, c, RoomLib_Set4ClearSignal_80198650]
       - [0x9684, c, func_8019866C]
       - [0x968C, data]

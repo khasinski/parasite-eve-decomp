@@ -1182,7 +1182,7 @@ extern void func_800DFB20(void *state);
             RW32(D_8009D254, 0x98) &= 0xFFF3FFFF; \
             finish(o); \
         } else { \
-            register volatile short *scratch asm("$3") = (volatile short *)0x1F800000; \
+            volatile short *scratch = (volatile short *)0x1F800000; \
             scratch[0] = 0; \
             scratch[1] = 0; \
             scratch[2] = o->pos[0] >> 12; \

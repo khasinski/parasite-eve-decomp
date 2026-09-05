@@ -99,7 +99,7 @@ segments:
       - [0x3294, c, RoomLib_InvokeCallbackC_8019227C]
       - [0x32BC, c, RoomLib_RearmOnMatch_801922A4]
       - [0x32EC, c, func_801922D4]
-      - [0x3400, asm, func_801923E8]
+      - [0x3400, c, RoomLib_MoveActorLocal_801923E8]
       - [0x3580, c, RoomLib_Set4ClearSignal_80192568]
       - [0x359C, c, func_80192584]
       - [0x35A4, c, func_8019258C]
