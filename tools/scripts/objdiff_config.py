@@ -112,12 +112,12 @@ def unit(relative, build_prefix, name, category, source, complete,
     if source is not None:
         entry["metadata"]["source_path"] = source
         entry["metadata"]["source_kind"] = source_kind
-        if complete is not None:
-            entry["metadata"]["complete"] = complete
         # Semantic progress requires both a C implementation and proof that
         # its complete linked module matches retail. Original/instruction ASM
-        # and units from a mismatching module deliberately receive no base.
-        if complete and source_kind in ("semantic_c", "text_data"):
+        # and text-resident data deliberately receive neither a base nor the
+        # objdiff `complete` override: either one would credit their .text.
+        if complete and source_kind == "semantic_c":
+            entry["metadata"]["complete"] = True
             entry["base_path"] = "%s%s" % (build_prefix, relative)
     return entry
 

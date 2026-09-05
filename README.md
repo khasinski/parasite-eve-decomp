@@ -162,10 +162,13 @@ To reproduce it locally:
 tools/scripts/setup_objdiff.sh              # pinned objdiff-cli
 make build                                  # base: main executable
 make overlay-build-all                      # base: all overlays
-make expected                               # target: retail disassembly
-make objdiff-config                         # objdiff.json from the linker maps
-make report                                 # build/USA/report.json
+make report                                 # fresh retail target + audited report
 ```
+
+`make report` regenerates the target objects directly from the retail binaries,
+rebuilds `objdiff.json`, verifies every configured module SHA-1, and runs the
+progress-input audit before invoking objdiff. A final report audit rejects the
+artifact if any code byte or function outside `semantic_c` receives credit.
 
 `objdiff.json` is generated, not committed; run `make objdiff-config` before
 pointing the objdiff GUI at the repository.

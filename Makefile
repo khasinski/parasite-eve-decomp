@@ -60,7 +60,7 @@ OBJS := $(ASM_OBJS) $(C_OBJS)
 C_DEPS := $(C_OBJS:.o=.o.d)
 -include $(C_DEPS)
 
-.PHONY: expected objdiff-config progress-audit report all build check check-sources source-policy-check ci verify verify-clean clean diff distclean overlay-build overlay-build-all overlay-check overlay-check-all overlay-clean overlay-extract overlay-permuter-scratch overlay-split permute progress debt debt-check debt-baseline organization-check organization-baseline test drop-pins drop-barriers drop-aliases split split-if-needed tools
+.PHONY: expected objdiff-config progress-audit report report-audit all build check check-sources source-policy-check ci verify verify-clean clean diff distclean overlay-build overlay-build-all overlay-check overlay-check-all overlay-clean overlay-extract overlay-permuter-scratch overlay-split permute progress debt debt-check debt-baseline organization-check organization-baseline test drop-pins drop-barriers drop-aliases split split-if-needed tools
 
 all: verify
 
@@ -184,7 +184,7 @@ expected:
 objdiff-config:
 	@$(PY) tools/scripts/objdiff_config.py
 
-progress-audit:
+progress-audit: expected objdiff-config
 	@$(PY) tools/scripts/audit_progress.py
 
 OBJDIFF ?= tools/objdiff/objdiff-cli
@@ -193,7 +193,11 @@ OBJDIFF ?= tools/objdiff/objdiff-cli
 # each compared against its retail disassembly.
 report: progress-audit
 	@$(OBJDIFF) report generate -p . -o $(BUILD)/report.json
+	@$(PY) tools/scripts/audit_report.py
 	@echo "wrote $(BUILD)/report.json"
+
+report-audit:
+	@$(PY) tools/scripts/audit_report.py
 
 # Build every configured overlay; OVERLAY_JOBS bounds the parallel makes.
 # Each overlay logs to build/USA/overlay-build.<name>.log and a failure

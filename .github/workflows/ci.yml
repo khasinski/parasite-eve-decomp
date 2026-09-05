@@ -89,10 +89,7 @@ jobs:
         run: make overlay-check-all
 
       - name: Generate the target objects and the progress report
-        run: |
-          make expected
-          make objdiff-config
-          make report
+        run: make report
 
       - name: Publish the progress report
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

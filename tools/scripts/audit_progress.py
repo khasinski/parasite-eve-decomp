@@ -35,25 +35,37 @@ def main() -> int:
         metadata = unit.get("metadata", {})
         kind = metadata.get("source_kind")
         base = unit.get("base_path")
+        complete = metadata.get("complete")
+        if complete and kind != "semantic_c":
+            errors.append("%s: %s received objdiff complete override" %
+                          (unit["name"], kind))
+            continue
+        if kind not in (None, "semantic_c") and base is not None:
+            errors.append("%s: %s received semantic progress metadata" %
+                          (unit["name"], kind))
+            continue
+        if kind == "text_data":
+            target_functions = functions(ROOT / unit["target_path"])
+            if target_functions:
+                errors.append("%s: text data has %d target functions" %
+                              (unit["name"], len(target_functions)))
         if base is None:
             continue
         # Generated data objects intentionally have a base so objdiff can
         # measure data bytes. They are not source and cannot add code credit.
         if kind is None and "source_path" not in metadata:
+            if functions(ROOT / unit["target_path"]):
+                errors.append("%s: generated data unit contains target functions" %
+                              unit["name"])
             continue
-        if kind not in ("semantic_c", "text_data"):
+        if kind != "semantic_c":
             errors.append("%s: base assigned to %s" % (unit["name"], kind))
             continue
-        if metadata.get("complete") is not True:
+        if complete is not True:
             errors.append("%s: base assigned without verified module SHA" % unit["name"])
             continue
         base_functions = functions(ROOT / base)
         target_functions = functions(ROOT / unit["target_path"])
-        if kind == "text_data":
-            if target_functions:
-                errors.append("%s: text data has %d target functions" %
-                              (unit["name"], len(target_functions)))
-            continue
         semantic_units += 1
         semantic_functions += len(target_functions)
         if base_functions != target_functions:

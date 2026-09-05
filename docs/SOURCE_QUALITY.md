@@ -20,6 +20,8 @@ Consequently the function metric is not independent of the source split.
 prevents mismatching or non-semantic units from receiving credit, but the
 code-byte metric and full linked SHA-1 remain stronger evidence. Known
 text-resident data is forcibly represented as data on the target side.
+After objdiff runs, `make report-audit` independently verifies that the
+published matched-code and matched-function totals contain only `semantic_c`.
 
 The project uses the following independent review levels:
 

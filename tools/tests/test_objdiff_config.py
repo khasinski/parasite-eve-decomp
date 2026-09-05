@@ -1,4 +1,8 @@
+import hashlib
+import pathlib
+import tempfile
 import unittest
+from unittest import mock
 
 from tools.scripts import objdiff_config
 
@@ -87,6 +91,16 @@ class UnitShapeTests(unittest.TestCase):
         )
 
         self.assertNotIn("base_path", entry)
+        self.assertNotIn("complete", entry["metadata"])
+
+    def test_text_data_gets_no_code_progress_base_or_override(self):
+        entry = objdiff_config.unit(
+            "src/main/words.c.o", "build/USA/", "main/words", "main-game",
+            "src/main/words.c", True, "text_data",
+        )
+
+        self.assertNotIn("base_path", entry)
+        self.assertNotIn("complete", entry["metadata"])
 
     def test_unverified_module_gets_no_semantic_progress_base(self):
         entry = objdiff_config.unit(
@@ -111,6 +125,39 @@ class UnitShapeTests(unittest.TestCase):
         self.assertNotIn("base_path", entry)
         self.assertNotIn("source_path", entry["metadata"])
         self.assertNotIn("complete", entry["metadata"])
+
+
+class ModuleVerificationTests(unittest.TestCase):
+    def config(self, digest):
+        return {
+            "sha1": digest,
+            "options": {"build_path": "build/USA", "basename": "main"},
+        }
+
+    def test_missing_binary_is_not_verified(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with mock.patch.object(objdiff_config, "ROOT", pathlib.Path(directory)):
+                self.assertFalse(objdiff_config.module_verified(self.config("0" * 40)))
+
+    def test_wrong_binary_hash_is_not_verified(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            output = root / "build/USA/main.exe"
+            output.parent.mkdir(parents=True)
+            output.write_bytes(b"wrong")
+            with mock.patch.object(objdiff_config, "ROOT", root):
+                self.assertFalse(objdiff_config.module_verified(self.config("0" * 40)))
+
+    def test_exact_binary_hash_is_verified(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            output = root / "build/USA/main.exe"
+            output.parent.mkdir(parents=True)
+            payload = b"retail bytes"
+            output.write_bytes(payload)
+            digest = hashlib.sha1(payload).hexdigest()
+            with mock.patch.object(objdiff_config, "ROOT", root):
+                self.assertTrue(objdiff_config.module_verified(self.config(digest)))
 
 
 if __name__ == "__main__":
