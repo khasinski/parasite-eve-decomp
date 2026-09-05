@@ -1,6 +1,5 @@
 #include "common.h"
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* CC1_FLAGS: -fno-strength-reduce */
 
 typedef struct RgbPrim {
     u8 pad0[4];
@@ -12,13 +11,12 @@ typedef struct RgbPrim {
 
 extern struct { char _[16]; } D_800BCF88_o __asm__("D_800BCF88");
 extern struct { char _[16]; } D_800BCFFC_o __asm__("D_800BCFFC");
-extern struct { char _[16]; } D_8009CDDC_o __asm__("g_ActiveDrawSlot");
+extern volatile s32 g_ActiveDrawSlot;
 extern struct { char _[16]; } D_800B1624_a_o __asm__("D_800B1624");
 extern struct { char _[16]; } D_800B1624_b_o __asm__("D_800B1624");
 
 #define D_800BCF88 (*(s32 *)&D_800BCF88_o)
 #define D_800BCFFC (*(u8 *)&D_800BCFFC_o)
-#define g_ActiveDrawSlot (*(volatile s32 *)&D_8009CDDC_o)
 #define D_800B1624_A (*(u8 **)&D_800B1624_a_o)
 #define D_800B1624_B (*(u8 **)&D_800B1624_b_o)
 #define READ_S32(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
@@ -26,15 +24,15 @@ extern struct { char _[16]; } D_800B1624_b_o __asm__("D_800B1624");
 
 int Render_ApplyScreenTint(void) {
     u8 *geom;
-    u8 *entry;
+    register u8 *entry asm("$4");
     RgbPrim *prim;
     u32 flags;
-    register int tint asm("$5");
+    int tint;
     int tint_loop;
-    register int entry_index asm("$8");
-    register int prim_index asm("$5");
+    int entry_index;
+    int prim_index;
     int entry_count;
-    register int prim_count asm("$6");
+    int prim_count;
     int active_slot;
     s32 stack_pad[4];
 
@@ -58,25 +56,21 @@ int Render_ApplyScreenTint(void) {
         tint_loop = tint;
         do {
             prim = (RgbPrim *)READ_S32(entry, 0x30);
-            asm volatile(
-                "lui\t%0,%%hi(g_ActiveDrawSlot)\n\t"
-                "lw\t%0,%%lo(g_ActiveDrawSlot)(%0)\n\t"
-                "lhu\t%1,0x26(%2)"
-                : "=r"(active_slot), "=r"(prim_count)
-                : "r"(entry));
+            asm("" : : "r"(prim) : "$2");
+            active_slot = g_ActiveDrawSlot;
+            asm("" : : "r"(active_slot) : "$6");
+            prim_count = READ_U16(entry, 0x26);
+            asm("" : "=r"(prim_count) : "0"(prim_count));
             if (active_slot != 0) {
                 prim = prim + prim_count;
             }
             prim_index = 0;
             if (prim_count != 0) {
                 do {
-                    asm volatile(
-                        "sb\t%1,0x6(%0)\n\t"
-                        "sb\t%1,0x5(%0)\n\t"
-                        "sb\t%1,0x4(%0)"
-                        :
-                        : "r"(prim), "r"(tint_loop)
-                        : "memory");
+                    prim->b = tint_loop;
+                    prim->g = tint_loop;
+                    prim->r = tint_loop;
+                    asm("" : : : "memory");
                     prim_index++;
                     prim++;
                 } while ((u32)prim_index < (u32)prim_count);

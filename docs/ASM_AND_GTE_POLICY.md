@@ -335,6 +335,24 @@ and the existing memory barrier before the scale call remain after removal
 tests. This adds five visible pins and fourteen barriers, with no new volatile
 accesses, custom toolchain options, or target/layout changes.
 
+## Render Loads And Screen Tint
+
+`Pm_StopAll` now loads `g_PmSlotTable` in C. Declaring the global as a
+pointer instead of an array with a first-element macro reproduces both loads
+without new constraints. Its existing tied return-value barrier remains;
+removing it changes the generated code.
+
+`Render_ApplyScreenTint` now reads the active draw slot and primitive count,
+and writes the B/G/R fields, in C. The active-slot declaration is a volatile
+scalar, replacing a symbol alias that already exposed volatile reads. Stock
+G0 and `-fno-strength-reduce` retain the original address and loop forms.
+Four empty barriers retain load ordering and store ordering. Minimization
+removed four old pins (tint, both indices, and primitive count), an extra
+clobber and input, and the tied operand on the store barrier. One new entry
+pointer pin and the two old final-flag pins remain. Removal trials for these
+constraints changed the generated code. No CPU-instruction ASM, new volatile
+accesses, toolchain modifications, or target/layout edits were introduced.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

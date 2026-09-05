@@ -4,8 +4,7 @@
 
 s32 Pm_Stop();
 
-extern s32 g_PmSlotTable[];
-#define g_PmSlotTable (g_PmSlotTable[0])
+extern u8 *g_PmSlotTable;
 extern s32 g_PmSlotTable2[];
 #define g_PmSlotTable2 (g_PmSlotTable2[0])
 extern s32 g_PlayerEntity[];
@@ -34,10 +33,7 @@ s32 Pm_StopAll(void) {
     var_s2 = -0xB84;
     var_s1 = 0;
 loop_1:
-    asm volatile(
-        "lui %0,%%hi(g_PmSlotTable)\n"
-        "lw %0,%%lo(g_PmSlotTable)(%0)"
-        : "=r"(base_v0));
+    base_v0 = (u8 *)g_PmSlotTable;
     temp_v1 = M2C_FIELD((base_v0 + var_s1), u8 *, 1);
     if ((temp_v1 < 8U) || ((u32)(temp_v1 - 0x55) < 0x1EU)) {
         var_v0 = Pm_Stop(var_s0, g_PlayerEntity, 1);
@@ -48,10 +44,7 @@ loop_1:
                 if (var_s0 >= 0xBU) {
                     var_a1 = g_PmSlotTable2 + var_s2;
                 } else {
-                    asm volatile(
-                        "lui %0,%%hi(g_PmSlotTable)\n"
-                        "lw %0,%%lo(g_PmSlotTable)(%0)"
-                        : "=r"(base_v0));
+                    base_v0 = (u8 *)g_PmSlotTable;
                     var_a1 = base_v0 + var_s1;
                 }
                 if (M2C_FIELD(var_a1, u8 *, 1) == 0x72) {

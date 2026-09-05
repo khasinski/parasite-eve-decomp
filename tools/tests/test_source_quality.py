@@ -29,6 +29,13 @@ class SourceQualityTests(unittest.TestCase):
                 self.assertEqual(source_quality.classify(root / (name + ".c")),
                                  "semantic_c")
 
+    def test_repaired_render_load_and_tint_sources_are_semantic(self):
+        root = pathlib.Path(__file__).resolve().parents[2] / "src/main/render"
+        for name in ("Pm_StopAll", "Render_ApplyScreenTint"):
+            with self.subTest(name=name):
+                self.assertEqual(source_quality.classify(root / (name + ".c")),
+                                 "semantic_c")
+
     def test_audited_cpu_helpers_are_not_gte_exemptions(self):
         for name in ("gte_ldv0_short3", "gte_load_packed_short3",
                      "gte_store_ir123_packed_short3", "gte_store_third_output",
