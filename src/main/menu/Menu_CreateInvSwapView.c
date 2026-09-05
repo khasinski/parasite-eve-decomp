@@ -1,6 +1,7 @@
 #include "common.h"
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 --dont-expand-li */
+/* ASPSX_VERSION: 2.21 */
 
 #include "include_asm.h"
 
@@ -32,8 +33,6 @@ void Menu_CreateInvSwapView(int parent, u8 *state) {
         u32 value;
 
         value = D_8009CF0C;
-        /* Match note: preserve the load-delay nop before storing the cached value. */
-        asm volatile("nop");
         D_8009CFB8 = value;
     } else {
         register u32 zero asm("$0");

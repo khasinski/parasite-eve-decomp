@@ -30,6 +30,14 @@ stock tools. A register pin or barrier is preferable to modifying either tool.
 If stock C with allowed constraints does not match, the function remains an
 assembly subsegment until its source reconstruction is corrected.
 
+For small-data loads followed by symbolic stores, upstream MASPSX's
+`--aspsx-version=2.21 --dont-expand-li` reproduces the required load hazard
+spacing while leaving `li` expansion to GNU as. The source markers
+`ASPSX_VERSION: 2.21` and `MASPSX_FLAGS: --dont-expand-li` select these stock
+options through `cc.sh`. `Task_AllocNode`, `Menu_CreateInvSwapView`, and
+`Menu_StepSaveSelect` match with these settings after removing handwritten
+`nop` instructions. These flags are per-unit choices, not a global default.
+
 Inline instructions are allowed only for individual GTE/COP2 hardware
 operations, or in functions with concrete evidence that the original source
 was assembly. Put each permitted instruction sequence behind a small, named,

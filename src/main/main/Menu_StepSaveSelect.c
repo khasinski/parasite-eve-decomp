@@ -1,7 +1,8 @@
 #include "common.h"
 #include "pe1/memcard.h"
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 --dont-expand-li */
+/* ASPSX_VERSION: 2.21 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
@@ -81,7 +82,6 @@ s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
                 temp_cf50 = g_McDialogMode;
                 if ((temp_cf50 != 0) || (temp_v0_2->state != MEMCARD_SLOT_EMPTY)) {
                     temp_v0 = temp_v0_2->state;
-                    asm volatile("nop");
                     D_8009CF4C = temp_v0;
                     if (temp_cf50 != 0) {
                         Save_SetTitleStyleFlag(g_MenuMemCardConfirmPending, temp_cf50);

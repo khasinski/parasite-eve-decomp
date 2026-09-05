@@ -1,5 +1,6 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 --dont-expand-li */
+/* ASPSX_VERSION: 2.21 */
 
 #include "pe1/task_node.h"
 
@@ -14,7 +15,6 @@ TaskNode *Task_AllocNode(int arg0, TaskNode *arg1) {
 
     node = g_TaskNodeFreeListHead;
     next = node->next;
-    asm volatile("nop");
     g_TaskNodeFreeListHead = next;
 
     if (arg1 != 0) {

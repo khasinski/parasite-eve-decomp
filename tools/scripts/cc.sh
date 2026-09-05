@@ -112,6 +112,9 @@ trap 'rm -f "$TMP_I" "$TMP_S" "$TMP_D"' EXIT
 "$CC1" $CC1_FLAGS "$TMP_I" -o "$TMP_S"
 
 MASPSX_EXTRA=()
+if grep -q 'MASPSX_FLAGS:.*--dont-expand-li' "$IN"; then
+    MASPSX_EXTRA+=(--dont-expand-li)
+fi
 if grep -q 'MASPSX_FLAGS:.*--expand-div' "$IN"; then
     MASPSX_EXTRA+=(--expand-div)
 fi
