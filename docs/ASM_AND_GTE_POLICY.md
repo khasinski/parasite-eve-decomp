@@ -401,6 +401,16 @@ removable. The old node-pointer barrier remains. No new volatile accesses,
 aliases, toolchain modifications, or target/layout edits were used. The old
 m2c macro dependency and untyped declarations are removed from this unit.
 
+`Menu_FindSelectedEquipSlotItem` now uses a C slot store, reload and nested
+byte lookup, plus compiler-generated frame setup. The 16-byte unused frame
+is explicit padding of unknown original purpose, not a reconstructed struct.
+One memory barrier and a distinct same-symbol read alias preserve the reload;
+removing either changes the object. A new result pin remains after removal
+tests, while the old list pin and unused reload pin were removed. Four other
+old pins remain. A direct pointer declaration replaces the old table-pointer
+alias, allowing default G0 without per-file flags. No new volatile accesses,
+toolchain changes, or target/layout edits are used.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

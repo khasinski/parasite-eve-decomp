@@ -1,25 +1,22 @@
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
-
 extern unsigned char D_80091A1F[];
-extern struct { char _[16]; } D_80091A28_o __asm__("D_80091A28");
-
-#define D_80091A28 (*(unsigned char **)&D_80091A28_o)
+extern unsigned char D_80091A1F_rd[] __asm__("D_80091A1F");
+extern unsigned char *D_80091A28;
 
 int Menu_FindSelectedEquipSlotItem(void) {
     register unsigned char *base asm("$2");
-    register unsigned char *list asm("$4");
+    unsigned char *list;
     register int selected_slot asm("$6");
     int index;
     int count;
     int found;
-    int result;
+    register int result asm("$2");
     register int wanted asm("$5");
     unsigned char *slots;
     register int limit asm("$4");
-    register int reload asm("$3");
+    unsigned char *t;
 
-    asm volatile("addiu $sp,$sp,-16" ::: "memory");
+    /* Retail reserves 16 unused bytes; the original purpose is unknown. */
+    int stack_pad[4];
 
     selected_slot = 0;
     base = D_80091A28;
@@ -57,25 +54,9 @@ int Menu_FindSelectedEquipSlotItem(void) {
     result = 0xFF;
 
 store_result:
-    asm volatile(
-        ".set noat\n\t"
-        "lui $at, %%hi(D_80091A1F)\n\t"
-        "sb %0, %%lo(D_80091A1F)($at)\n\t"
-        "lui %0, %%hi(D_80091A28)\n\t"
-        "lw %0, %%lo(D_80091A28)(%0)\n\t"
-        "lui %1, %%hi(D_80091A1F)\n\t"
-        "lbu %1, %%lo(D_80091A1F)(%1)\n\t"
-        "nop\n\t"
-        "addu %1, %0, %1\n\t"
-        "lbu %1, 0x1D(%1)\n\t"
-        "nop\n\t"
-        "addu %0, %0, %1\n\t"
-        "lbu %0, 0x4(%0)\n\t"
-        ".set at"
-        : "=r"(result), "=&r"(reload)
-        : "0"(result)
-        : "memory");
-
-    asm volatile("addiu $sp,$sp,16" ::: "memory");
+    D_80091A1F[0] = result;
+    asm("" : : : "memory");
+    t = D_80091A28;
+    result = *(t + *(t + D_80091A1F_rd[0] + 0x1D) + 4);
     return result;
 }
