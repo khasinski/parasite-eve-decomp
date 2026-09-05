@@ -2,8 +2,7 @@
 #include "pe1/render_object.h"
 #define NULL ((void *)0)
 
-extern struct { char _[16]; } D_8009CDDC_o __asm__("g_ActiveDrawSlot");
-#define g_ActiveDrawSlot (*(s32 *)&D_8009CDDC_o)
+extern s32 g_ActiveDrawSlot;
 extern s16 g_RenderPageDeltaTable[4][4] __asm__("D_800921D8");
 
 void Field_GetMapEntry(RenderObjectEntity *arg0, s32 arg1) {
@@ -15,13 +14,11 @@ void Field_GetMapEntry(RenderObjectEntity *arg0, s32 arg1) {
     s32 a1;
     register s32 v0 asm("$2");
     register void *v1 asm("$3");
+    /* Retail reserves 16 unused bytes; their original purpose is unknown. */
+    s32 stack_pad[4];
 
-    __asm__ volatile(
-        "addiu $sp,$sp,-0x10\n\t"
-        "addu %0,%1,$zero"
-        : "=r"(t0)
-        : "r"(arg0)
-        : "memory");
+    t0 = arg0;
+    asm("" : "=r"(t0) : "0"(t0));
     v1 = t0->header;
     a3 = g_ActiveDrawSlot;
     a0 = 0;
@@ -84,5 +81,4 @@ has_entry:
             }
         }
     }
-    __asm__ volatile("addiu $sp,$sp,0x10");
 }

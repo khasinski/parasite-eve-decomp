@@ -382,6 +382,15 @@ and two trial barriers. Removing the remaining barrier or its clobber changes
 the object. The existing G8 flags remain; there are no new volatile accesses,
 aliases, toolchain changes, or target edits.
 
+`Field_GetMapEntry` now uses compiler-generated stack adjustment and a C
+pointer assignment instead of explicit CPU ASM. Its unused 16-byte retail
+frame is represented by `stack_pad[4]`; the original purpose is unknown,
+so this is layout padding, not a recovered structure. One new empty tied
+pointer barrier preserves allocation. The three old pins and both old loop
+memory barriers remain after removal tests. The draw-slot alias was replaced
+by a scalar declaration. No new pins, volatile accesses, flags, toolchain
+changes, or target edits were needed.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
