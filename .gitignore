@@ -1,4 +1,4 @@
-.venv/
+.venv
 build/
 disc/extracted/
 disc/*.bin
@@ -7,7 +7,8 @@ disc/*.7z
 disc/*.xml
 # but keep the mkpsxiso layout descriptor (LBA-pinned build recipe, not disc data)
 !disc/disc1.xml
-assets/USA/main.exe
+/assets
+/original
 assets/*.databin.bin
 assets/room_m*/
 original/USA/overlays/
@@ -51,12 +52,14 @@ scratch/mizuchi-runs/
 tools/old-gcc/cc1
 
 # local working materials (never publish)
-sdk/
+sdk
 disc/readme.html
 tools/decomp-permuter/
 tools/m2c/*
 !tools/m2c/m2c_macros.h
-tools/maspsx/
+tools/maspsx
+tools/old-gcc
+tools/old-gcc-281
 tools/splat/
 
 # project working notes and generated reports (local only)
@@ -175,12 +178,13 @@ docs/CRUTCH_DEBT.md
 scratch_*/
 scratch/
 asm/USA/main/
-!asm/USA/main/header.s
-!asm/USA/main/main/
-asm/USA/main/main/*
-!asm/USA/main/main/068774_pre_InitGeom.s
 !linkers/USA/undefined_syms_manual.txt
 
 # room-split WIP parked out of the tracked tree
 wip/
 tools/old-gcc-281/cc1
+
+# Local candidates are not release inputs and do not earn progress credit.
+# Already tracked candidates remain versioned; add new reviewed ones explicitly.
+candidates/
+docs/RETROSPECTIVE_METRICS.md

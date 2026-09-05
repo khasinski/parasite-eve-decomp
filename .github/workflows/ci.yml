@@ -91,9 +91,16 @@ jobs:
       - name: Generate the target objects and the progress report
         run: make report
 
+      - name: Verify README badges match the audited report
+        run: |
+          make progress
+          make debt
+          git diff --exit-code -- docs/badges
+
       - name: Publish the progress report
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
           name: SLUS_006.62_report
           path: build/USA/report.json
+          if-no-files-found: error

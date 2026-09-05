@@ -29,6 +29,9 @@ Progress is measured by objdiff against a disassembly of the retail binaries,
 the same `report.json` CI publishes for decomp.dev. Regenerate locally with
 `make report` and render the badges and per-category table with `make
 progress`. This README intentionally avoids hardcoded numbers.
+CI regenerates the badges after auditing the report and rejects stale committed
+values. Run `make report`, `make progress`, and `make debt` before committing
+changes that affect progress or debt; include `docs/badges/` in that commit.
 
 The badges measure **verified semantic C**, not merely matching bytes. A unit
 is eligible only when its complete executable or overlay matches the retail
@@ -149,7 +152,10 @@ make progress          # badges + per-category table from build/USA/report.json
 ## decomp.dev report
 
 CI publishes an [objdiff](https://github.com/encounter/objdiff) report for
-[decomp.dev](https://decomp.dev) on every push to `main`. It covers the main
+[decomp.dev](https://decomp.dev/khasinski/parasite-eve-decomp) on every push to
+`main`. Local commits and pushes to other branches do not update that page.
+The published `SLUS_006.62_report` artifact and the README badges come from
+the same audited build. It covers the main
 executable and all configured overlays, with PsyQ code in a separate category.
 The target side is a fresh disassembly of the retail binaries, never a snapshot
 of our own build. Generated assembly remains visible as unmatched work;
