@@ -431,6 +431,18 @@ Removing each remaining pin, barrier or alias changes the object. No new
 volatile accesses, flags, toolchain modifications or target/layout edits
 were used. The aliases and compiler constraints remain explicit source debt.
 
+`Menu_CreateTwoLineDialog` now selects the minimum-100-pixel dialog width
+using C comparisons and repeated text-measure calls, replacing the entire
+CPU width-picker window with its raw calls, branches and relocation directives.
+The repeated calls are preserved, not folded into cached widths. Two empty
+barriers and three C gotos preserve the original branch layout and prevent
+layout arithmetic from entering a jump delay slot. Removing either barrier
+or using the tested structured conditional alternatives changes the object.
+Both old line-pointer pins were removable; trial barrier operands were also
+removed. No new pins, aliases, volatile accesses, flags or toolchain/target
+changes are used. The adjacent notification draw routine uses the existing
+`MenuWidgetNode.selected_base` field and a corrected text-pointer prototype.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and

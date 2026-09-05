@@ -10,7 +10,7 @@ extern char g_MenuTwoLineDialogText[];
 extern char D_800A1A20[];
 
 void Draw_OffsetCursor(int x, int y);
-void Draw_PrintCenteredText(int arg0);
+void Draw_PrintCenteredText(char *text);
 int Draw_MeasureTextWidth(char *text);
 void Menu_DrawTwoLineDialogText(void);
 void Menu_SetDeferredCallback(void (*callback)(void));
@@ -25,12 +25,12 @@ void Menu_CloseNotificationDialogs(void) {
     MenuWidget_NavScrollTo(0x3D);
 }
 
-void Menu_DrawNotificationText(int *arg0) {
+void Menu_DrawNotificationText(MenuWidgetNode *node) {
     char *text;
 
     Draw_OffsetCursor(0, 0xA);
     text = g_MenuTwoLineDialogText;
-    if (arg0[9] == 0x3D) {
+    if (node->selected_base == 0x3D) {
         text += 0x40;
     }
     Draw_PrintCenteredText(text);
@@ -39,8 +39,8 @@ void Menu_DrawNotificationText(int *arg0) {
 void Menu_CreateTwoLineDialog(int line0_id, int line1_id) {
     MenuWidgetNode *parent;
     MenuWidgetNode *child;
-    register char *line0 asm("$19");
-    register char *line1 asm("$17");
+    char *line0;
+    char *line1;
     char *text;
     int width;
     parent = MenuWidget_CreateSimpleNode(0x28, MenuWidget_GetCurrentNode(), 0, 1);
@@ -61,62 +61,28 @@ void Menu_CreateTwoLineDialog(int line0_id, int line1_id) {
     line1 = line0 + 0x40;
     Util_CopyFFTerminatedBytes(line1, text);
 
-    /* GCC folds the width tests into a different CFG; keep this picker fixed. */
-    asm volatile(
-        ".set push\n\t"
-        ".set noreorder\n\t"
-        ".word 0x0c000000\n\t"
-        ".reloc .-4, R_MIPS_26, Draw_MeasureTextWidth\n\t"
-        "addu $4,%1,$0\n\t"
-        "addu $4,%2,$0\n\t"
-        ".word 0x0c000000\n\t"
-        ".reloc .-4, R_MIPS_26, Draw_MeasureTextWidth\n\t"
-        "addu $16,$2,$0\n\t"
-        "slt $2,$2,$16\n\t"
-        ".word 0x10400008\n\t"
-        "nop\n\t"
-        ".word 0x0c000000\n\t"
-        ".reloc .-4, R_MIPS_26, Draw_MeasureTextWidth\n\t"
-        "addu $4,%1,$0\n\t"
-        "slti $2,$2,0x64\n\t"
-        ".word 0x10400008\n\t"
-        "addiu $3,$0,0x64\n\t"
-        ".word 0x08000000\n\t"
-        ".reloc .-4, R_MIPS_26, 3f\n\t"
-        "nop\n"
-        "1:\n\t"
-        ".word 0x0c000000\n\t"
-        ".reloc .-4, R_MIPS_26, Draw_MeasureTextWidth\n\t"
-        "addu $4,%2,$0\n\t"
-        "slti $2,$2,0x64\n\t"
-        ".word 0x14400010\n\t"
-        "addiu $3,$0,0x64\n"
-        "2:\n\t"
-        "lui $17,%%hi(D_800A1A20)\n\t"
-        "addiu $17,$17,%%lo(D_800A1A20)\n\t"
-        ".word 0x0c000000\n\t"
-        ".reloc .-4, R_MIPS_26, Draw_MeasureTextWidth\n\t"
-        "addu $4,$17,$0\n\t"
-        "addiu $19,$17,0x40\n\t"
-        "addu $4,$19,$0\n\t"
-        ".word 0x0c000000\n\t"
-        ".reloc .-4, R_MIPS_26, Draw_MeasureTextWidth\n\t"
-        "addu $16,$2,$0\n\t"
-        "slt $2,$2,$16\n\t"
-        ".word 0x14400002\n\t"
-        "addu $4,$17,$0\n\t"
-        "addu $4,$19,$0\n"
-        "4:\n\t"
-        ".word 0x0c000000\n\t"
-        ".reloc .-4, R_MIPS_26, Draw_MeasureTextWidth\n\t"
-        "nop\n\t"
-        "addu $3,$2,$0\n"
-        "3:\n\t"
-        ".set pop"
-        : "=r"(width)
-        : "r"(line0), "r"(line1)
-        : "$2", "$4", "$16", "$17", "$19", "$31", "memory");
-
+    if (Draw_MeasureTextWidth(line0) > Draw_MeasureTextWidth(line1)) {
+        if (Draw_MeasureTextWidth(line0) >= 100)
+            goto measure_wide;
+        width = 100;
+        /* Keep the short-width branch distinct from the second-line test. */
+        asm("");
+        goto width_ready;
+    }
+    if (Draw_MeasureTextWidth(line1) < 100) {
+        width = 100;
+        goto width_ready;
+    }
+measure_wide:
+    {
+        char *first = D_800A1A20;
+        char *second = first + 0x40;
+        width = Draw_MeasureTextWidth(first) > Draw_MeasureTextWidth(second)
+            ? Draw_MeasureTextWidth(first) : Draw_MeasureTextWidth(second);
+    }
+width_ready:
+    /* Do not pull layout arithmetic into the preceding jump delay slot. */
+    asm("");
     parent->grid_width = width + 0x14;
     parent->x = (0x12C - width) >> 1;
     parent->visible_rows += 0xE;
