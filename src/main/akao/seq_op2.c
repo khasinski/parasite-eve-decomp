@@ -1,5 +1,3 @@
-#include "include_asm.h"
-
 #include "pe1/akao.h"
 
 #include "pe1/akao_script.h"
@@ -128,6 +126,7 @@ void SeqOp_SetPitchLFO(void *ptr) {
     int lfo_target;
     unsigned int masked;
     unsigned int depth;
+    register unsigned int lfo_depth asm("$3");
     int scale;
     int scaled;
     int product;
@@ -135,7 +134,7 @@ void SeqOp_SetPitchLFO(void *ptr) {
     int selector;
 
     track = ptr;
-        track->flags |= AKAO_TRACK_FLAG_PITCH_LFO;
+    track->flags |= AKAO_TRACK_FLAG_PITCH_LFO;
 
     if (track->parent_track_id != 0) {
         pc = track->pc;
@@ -180,10 +179,11 @@ void SeqOp_SetPitchLFO(void *ptr) {
         product = depth * scale;
     }
 
-    /* Match note: keep pitch_lfo_depth in $v1 across the selector reload. */
-    asm volatile("srl $3,%0,7" : : "r"(product));
+    lfo_depth = (unsigned int)product >> 7;
+    /* Finish the depth calculation before reloading the stored selector. */
+    asm("" : : "r"(lfo_depth) : "memory");
     selector = track->pitch_lfo_selector;
-    asm volatile("sh $3,0x92(%0)" : : "r"(track));
+    track->pitch_lfo_depth = lfo_depth;
 
     table = D_8009C080[selector];
     track->pitch_lfo_counter = track->pitch_lfo_delay;

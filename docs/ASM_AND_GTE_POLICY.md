@@ -443,6 +443,15 @@ removed. No new pins, aliases, volatile accesses, flags or toolchain/target
 changes are used. The adjacent notification draw routine uses the existing
 `MenuWidgetNode.selected_base` field and a corrected text-pointer prototype.
 
+`SeqOp_SetPitchLFO` now computes its depth with an unsigned C right shift
+and stores it through `AkaoTrack.pitch_lfo_depth`, replacing the handwritten
+CPU shift/store pair. One result pin and one input-plus-memory barrier retain
+the selector reload ordering. Removing the pin, the barrier, its input or
+its memory clobber individually breaks the object match. A trial product
+pin was removable. There are no new aliases, volatile accesses, flags,
+toolchain modifications or target/layout edits. The other nine functions in
+seq_op2.c were already C; their eligibility is restored with this unit.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
