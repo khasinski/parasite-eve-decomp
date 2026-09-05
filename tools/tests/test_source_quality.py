@@ -31,7 +31,7 @@ class SourceQualityTests(unittest.TestCase):
 
     def test_repaired_render_load_and_tint_sources_are_semantic(self):
         root = pathlib.Path(__file__).resolve().parents[2] / "src/main/render"
-        for name in ("Pm_StopAll", "Render_ApplyScreenTint"):
+        for name in ("Pm_StopAll", "Render_ApplyScreenTint", "Render_StepFade"):
             with self.subTest(name=name):
                 self.assertEqual(source_quality.classify(root / (name + ".c")),
                                  "semantic_c")

@@ -1,6 +1,6 @@
 #include "common.h"
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* CC1_FLAGS: -fno-strength-reduce */
+/* MASPSX_FLAGS: --expand-div */
 
 typedef struct RgbPrim {
     u8 pad0[4];
@@ -11,9 +11,10 @@ typedef struct RgbPrim {
 } RgbPrim;
 
 extern struct { char _[16]; } D_800BCF88_o __asm__("D_800BCF88");
+extern struct { char _[16]; } D_800BCF88_store_o __asm__("D_800BCF88");
 extern struct { char _[16]; } D_800BCFFA_o __asm__("D_800BCFFA");
 extern struct { char _[16]; } D_800BCFFB_o __asm__("D_800BCFFB");
-extern struct { char _[16]; } D_8009CDDC_o __asm__("D_8009CDDC");
+extern s32 D_8009CDDC;
 extern struct { char _[16]; } D_800B1624_a_o __asm__("D_800B1624");
 extern struct { char _[16]; } D_800B1624_b_o __asm__("D_800B1624");
 extern struct { char _[16]; } D_800B1624_c_o __asm__("D_800B1624");
@@ -33,15 +34,18 @@ int Render_StepFade(void) {
     u8 *geom;
     register u8 *entry asm("$4");
     RgbPrim *prim;
-    register s32 fade_step asm("$3");
-    register int fade_value asm("$2");
+    s32 fade_step;
+    int fade_value;
     int tint_loop;
-    register int entry_index asm("$8");
-    register int prim_index asm("$5");
+    int entry_index;
+    int prim_index;
     int entry_count;
     int prim_count;
     int active_slot;
-    s32 flags;
+    register s32 flags asm("$2");
+    s32 mask;
+    s32 divisor;
+    u8 *final_geom;
     u8 *fade_ptr;
     u8 frame;
     s32 stack_pad[4];
@@ -50,33 +54,11 @@ int Render_StepFade(void) {
         return 0;
     }
 
-    asm volatile(
-        ".set\tnoreorder\n\t"
-        ".set\tnoat\n\t"
-        "lui\t$3,%%hi(D_800BCFFB)\n\t"
-        "lbu\t$3,%%lo(D_800BCFFB)($3)\n\t"
-        "lui\t$2,%%hi(D_800BCFFA)\n\t"
-        "lbu\t$2,%%lo(D_800BCFFA)($2)\n\t"
-        "sll\t$3,$3,7\n\t"
-        "addiu\t$2,$2,-1\n\t"
-        "div\t$zero,$3,$2\n\t"
-        "bnez\t$2,1f\n\t"
-        "nop\n\t"
-        "break\t7168\n"
-        "1:\n\t"
-        "addiu\t$at,$zero,-1\n\t"
-        "bne\t$2,$at,2f\n\t"
-        "lui\t$at,0x8000\n\t"
-        "bne\t$3,$at,2f\n\t"
-        "nop\n\t"
-        "break\t6144\n"
-        "2:\n\t"
-        "mflo\t$3\n\t"
-        ".set\tat\n\t"
-        ".set\treorder"
-        : "=r"(fade_step)
-        :
-        : "$1", "$2", "hi", "lo", "memory");
+    fade_step = D_800BCFFB;
+    divisor = D_800BCFFA;
+    fade_step <<= 7;
+    divisor--;
+    fade_step /= divisor;
 
     entry_index = 0;
     geom = D_800B1624_A;
@@ -89,25 +71,20 @@ int Render_StepFade(void) {
         tint_loop = fade_value;
         do {
             prim = (RgbPrim *)READ_S32(entry, 0x30);
-            asm volatile(
-                "lui\t%0,%%hi(D_8009CDDC)\n\t"
-                "lw\t%0,%%lo(D_8009CDDC)(%0)\n\t"
-                "lhu\t%1,0x26(%2)"
-                : "=r"(active_slot), "=r"(prim_count)
-                : "r"(entry));
+            asm("" : : "r"(prim) : "$2");
+            active_slot = D_8009CDDC;
+            asm("" : : "r"(active_slot) : "$6");
+            prim_count = READ_U16(entry, 0x26);
             if (active_slot != 0) {
                 prim = prim + prim_count;
             }
             prim_index = 0;
             if (prim_count != 0) {
                 do {
-                    asm volatile(
-                        "sb\t%1,0x6(%0)\n\t"
-                        "sb\t%1,0x5(%0)\n\t"
-                        "sb\t%1,0x4(%0)"
-                        :
-                        : "r"(prim), "r"(tint_loop)
-                        : "memory");
+                    prim->b = tint_loop;
+                    prim->g = tint_loop;
+                    prim->r = tint_loop;
+                    asm("" : : : "memory");
                     prim_index++;
                     prim++;
                 } while ((u32)prim_index < (u32)prim_count);
@@ -125,23 +102,14 @@ int Render_StepFade(void) {
         return 0;
     }
 
-    asm volatile(
-        ".set\tnoat\n\t"
-        "lui\t$2,%%hi(D_800BCF88)\n\t"
-        "lw\t$2,%%lo(D_800BCF88)($2)\n\t"
-        "addiu\t$3,$zero,-0xC01\n\t"
-        "and\t$2,$2,$3\n\t"
-        "lui\t$3,%%hi(D_800B1624)\n\t"
-        "lw\t$3,%%lo(D_800B1624)($3)\n\t"
-        "ori\t$2,$2,0x800\n\t"
-        "lui\t$at,%%hi(D_800BCF88)\n\t"
-        "sw\t$2,%%lo(D_800BCF88)($at)\n\t"
-        "addiu\t$2,$zero,0x1FF0\n\t"
-        "sh\t$2,0x26($3)\n\t"
-        ".set\tat"
-        :
-        :
-        : "$1", "$2", "$3", "memory");
+    flags = D_800BCF88;
+    mask = -0xC01;
+    flags &= mask;
+    final_geom = D_800B1624_C;
+    flags |= 0x800;
+    *(s32 *)&D_800BCF88_store_o = flags;
+    flags = 0x1FF0;
+    WRITE_U16(final_geom, 0x26, flags);
 
     return 0;
 }

@@ -353,6 +353,18 @@ pointer pin and the two old final-flag pins remain. Removal trials for these
 constraints changed the generated code. No CPU-instruction ASM, new volatile
 accesses, toolchain modifications, or target/layout edits were introduced.
 
+`Render_StepFade` also replaces its checked signed divide, draw-slot/count
+loads, RGB stores, and final flag/geometry writes with C. Stock `--expand-div`
+preserves the zero-divisor and signed-overflow checks; default G0 and stock
+`-fno-strength-reduce` preserve address and loop forms. Three empty loop
+barriers remain after removal tests; no barriers are needed around division
+or final writes. Four old pins and all trial pins except a new final-value
+`$2` pin were removed. The existing entry `$4` pin remains. A separate
+same-symbol store alias prevents address reuse at the final flags write;
+merging it back changes code generation. This replaces the old draw-slot
+alias, so the number of alias declarations does not increase. No new volatile
+accesses, CPU-instruction ASM, or toolchain/target changes are used.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
