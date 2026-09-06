@@ -1217,7 +1217,7 @@ segments:
       - [0x67DE8, asm, gpu/LoadImage2]
       - [0x67ED4, asm, gpu/StoreImage2]
       - [0x67FC0, asm, gpu/MoveImage2]
-      - [0x68104, asm, gpu/Gpu_DmaTransfer]
+      - [0x68104, c, gpu/Gpu_DmaTransfer]
       - [0x68200, c, gpu/Gpu_RestoreDmaCallback]
       - [0x68228, c, gpu/GPU_memset]
       - [0x6824C, c, main/gap_gpu_GPU_memset_tail_6824C]
