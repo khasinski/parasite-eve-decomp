@@ -114,7 +114,7 @@ segments:
       - [0x5D14, asm, func_80194CFC]
       - [0x5F1C, c, RoomEffect_OffsetPositionPaletteCallback]
       - [0x607C, asm, func_80195064]
-      - [0x6230, asm, func_80195218]
+      - [0x6230, c, RoomEffect_DelayedTallPaletteCallback]
       - [0x6390, asm, func_80195378]
       - [0x657C, c, RoomEffect_TableScalePaletteCallback]
       - [0x66B4, asm, func_8019569C]
