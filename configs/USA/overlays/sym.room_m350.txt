@@ -1,4 +1,5 @@
 GetClut = 0x80077AA4; // type:func
+g_RoomEffectTrailPositions = 0x8019A834; // size:0x20 allow_addend:true
 Inv_ScrambleGrid = 0x80052B2C; // type:func
 RotMatrixYXZ = 0x80079754; // type:func
 ApplyMatrixSV = 0x80078C34; // type:func
