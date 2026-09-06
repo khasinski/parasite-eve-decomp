@@ -494,6 +494,25 @@ and state restoration packets, dimensions and colors. This fixed-address
 form has the same unlinked relocation-report limitation as `checkRECT`;
 it does not imply portable packet storage or justify changing report credit.
 
+## GPU Reset State And Dimensions
+
+`Render_InitEntityPool` is the legacy name of the SDK ResetGraph routine.
+Its C reconstruction clears a 128-byte GPU state, resets callbacks and the
+queue, loads width/height from four-byte table entries, and invalidates the
+two cached environments. Other modes use the dispatch table's soft reset.
+Three register pins and four empty barriers preserve argument setup and
+indexed width access on stock GCC281/MASPSX. The width read is volatile to
+retain its order relative to the volatile GPU-variant read. A fifth barrier
+after the page/index sum was removable. Diagnostic argument pins were also
+removed; removing the offset or cache pointer pin broke the match.
+The USA state address `0x8009574C` and width-table address `0x800957CC` are
+formed from a fixed page plus offsets in C. These are version-specific
+address calculations, not relocatable declarations. Raw score20 reflects
+the two address pairs; linked score0/9300 covers all 372 bytes. Full retail
+SHA matches. No instructions in ASM, target edits or toolchain changes.
+As with the preceding GPU functions, unlinked objdiff need not grant matched
+credit for a literal-versus-relocation difference; its rules are unchanged.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
