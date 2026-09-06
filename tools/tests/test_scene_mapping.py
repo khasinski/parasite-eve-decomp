@@ -15,6 +15,39 @@ def normalized_rows(segment):
             if isinstance(r, dict) else r for r in segment["subsegments"]]
 
 
+class SceneE01MappingTests(unittest.TestCase):
+    def test_mapping_and_actor_search_range(self):
+        config = yaml.safe_load(
+            (ROOT / "configs/USA/overlays/scene_e01.yaml").read_text())
+        segment = config["segments"][0]
+        self.assertEqual(segment["vram"], 0x8018EFE8)
+        self.assertEqual(config["sha1"], "af522483e6c8a6fee3a0c45f0484450e2cfefcf4")
+        rows = normalized_rows(segment)
+        self.assertEqual(rows[0][1], "rodatabin")
+        ranges = {r[0]: (r, n[0]) for r, n in zip(rows, rows[1:])}
+        self.assertEqual(ranges[0x9C], ([0x9C, "c", "func_8018F084"], 0x148))
+        self.assertNotIn(0x5E4, ranges)
+        for row in rows:
+            if row[1] == "c":
+                self.assertEqual(int(row[2].rsplit("_", 1)[-1], 16),
+                                 segment["vram"] + row[0])
+
+    def test_retail_jump_targets_and_epilogue(self):
+        path = ROOT / "original/USA/overlays/scene_e01.bin"
+        if not path.is_file():
+            self.skipTest("local retail overlay required")
+        data = path.read_bytes()
+        self.assertEqual(hashlib.sha1(data).hexdigest(),
+                         "af522483e6c8a6fee3a0c45f0484450e2cfefcf4")
+        for offset in (0xB8, 0xD0):
+            word = int.from_bytes(data[offset:offset + 4], "little")
+            self.assertEqual(word >> 26, 2)
+            self.assertEqual(0x80000000 | ((word & 0x3FFFFFF) << 2),
+                             0x8018EFE8 + 0x140)
+        self.assertEqual(data[0x5E0:0x5EC],
+                         bytes.fromhex("3800bd270800e00300000000"))
+
+
 class SceneE19MappingTests(unittest.TestCase):
     def setUp(self):
         self.config = yaml.safe_load(

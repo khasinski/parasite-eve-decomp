@@ -28,12 +28,12 @@
     "directives": 0,
     "externs_in_c": 2873,
     "field_macros": 0,
-    "gotos": 317,
+    "gotos": 322,
     "include_asm": 0,
     "pins": 88,
     "pointer_integer_casts": 16,
     "postpass": 0,
-    "raw_offset_dereferences": 1355,
+    "raw_offset_dereferences": 1363,
     "statement_expressions": 0,
     "unknown_fields": 44
   }

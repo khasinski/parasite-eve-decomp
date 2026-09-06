@@ -1,5 +1,5 @@
 extern int RoomSlotA_80192194;
 
-int *func_801921A4(void) {
+int *func_8019219C(void) {
     return &RoomSlotA_80192194;
 }

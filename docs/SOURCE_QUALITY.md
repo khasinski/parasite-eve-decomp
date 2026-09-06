@@ -117,6 +117,16 @@ the source classifier alone, is required for these promotions.
 
 ### Scene address and boundary audit
 
+`scene_e01` now uses the same loader-derived base `0x8018EFE8`.
+The jumps at file offsets `0xB8` and `0xD0` target the return at `0x140`
+only with this mapping. Its actor-search handler at `0x9C` is now 172
+bytes of matching C, reused from the corresponding room_m269 handler.
+The header is data, and the return at `0x5E4` belongs to the preceding
+stack-restoring function rather than an independent empty function.
+Entry names follow the corrected addresses; embedded data addresses are
+unchanged. The whole scene retains SHA-1
+`af522483e6c8a6fee3a0c45f0484450e2cfefcf4`.
+
 `scene_e19` uses file-offset-zero VRAM `0x8018EFE8`, not `0x8018EFF0`.
 `Boot_InitMemoryLayout` subtracts eight from `g_StrFileDirBuffer` for
 `g_LoadedSceneAssetBlock`, which `Scene_LoadRoom` uses as the section load

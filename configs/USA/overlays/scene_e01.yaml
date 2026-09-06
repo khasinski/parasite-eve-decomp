@@ -29,27 +29,26 @@ segments:
   - name: scene_e01
     type: code
     start: 0x0
-    vram: 0x8018EFF0
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, scene_e01_78]
-      - [0x70, c, func_8018F060]
-      - [0x78, c, func_8018F068]
-      - [0x9C, asm, func_8018F08C]
-      - [0x148, c, func_8018F138]
-      - [0x150, c, RoomLib_InvokeCallbackC_8018F140]
-      - [0x178, c, func_8018F168]
+      - [0x0, rodatabin, scene_e01_header]
+      - [0x70, c, func_8018F058]
+      - [0x78, c, func_8018F060]
+      - [0x9C, c, func_8018F084]
+      - [0x148, c, func_8018F130]
+      - [0x150, c, RoomLib_InvokeCallbackC_8018F138]
+      - [0x178, c, func_8018F160]
       - [0x1A4, asm, scene_e01_1A4_5E4]
-      - [0x5E4, c, func_8018F5D4]
-      - [0x5EC, c, func_8018F5DC]
-      - [0x6D4, c, func_8018F6C4]
-      - [0x810, c, func_8018F800]
+      - [0x5EC, c, func_8018F5D4]
+      - [0x6D4, c, func_8018F6BC]
+      - [0x810, c, func_8018F7F8]
       - [0x818, asm, scene_e01_178_818]
-      - [0x31A4, c, RoomLib_SetArg1_80192194]
-      - [0x31B4, c, func_801921A4]
-      - [0x31C4, c, func_801921B4]
+      - [0x31A4, c, RoomLib_SetArg1_8019218C]
+      - [0x31B4, c, func_8019219C]
+      - [0x31C4, c, func_801921AC]
       - [0x31E0, data]
   - [0x3800]
 # source slice: scanner
