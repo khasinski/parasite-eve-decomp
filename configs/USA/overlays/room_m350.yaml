@@ -108,7 +108,7 @@ segments:
       - [0x4D84, asm, func_80193D6C]
       - [0x5064, asm, func_8019404C]
       - [0x5234, asm, func_8019421C]
-      - [0x5508, asm, func_801944F0]
+      - [0x5508, c, RoomEffect_TwoLayerCallback]
       - [0x566C, asm, func_80194654]
       - [0x57D4, asm, func_801947BC]
       - [0x5D14, asm, func_80194CFC]
