@@ -5,7 +5,7 @@ extern unsigned char g_ItemDropRngXorKeyHigh[];
 extern unsigned char g_ItemDropRngTable[];
 extern unsigned char g_ItemDropRngXorKeyLow[];
 
-unsigned char Inv_ScrambleGrid(void)
+int Inv_ScrambleGrid(void)
 {
     int i;
 

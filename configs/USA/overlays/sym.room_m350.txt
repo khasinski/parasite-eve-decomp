@@ -1,4 +1,7 @@
 GetClut = 0x80077AA4; // type:func
+Inv_ScrambleGrid = 0x80052B2C; // type:func
+RotMatrixYXZ = 0x80079754; // type:func
+ApplyMatrixSV = 0x80078C34; // type:func
 Asset_Find08w = 0x8006DCE4; // type:func
 Math_IntSqrt = 0x8005186C; // type:func
 g_PlayerEntity = 0x8009D254;
