@@ -1520,7 +1520,7 @@ segments:
       - [0x714DC, c, cdrom/CdRom_GetCurrentPos]
       - [0x71530, asm, main/gap_cdrom_CdRom_GetCurrentPos_tail_71530]
       - [0x71534, c, psyq/libds/DsControlF]
-      - [0x7155C, asm, cdrom/cd_rom4]
+      - [0x7155C, c, cdrom/cd_rom4]
       - [0x7162C, c, main/gap_cdrom_cd_rom4_tail_7162C]
       - [0x71634, asm, cdrom/CdRom_StartRead]
       - [0x71764, c, cdrom/CdRom_SetMode2Callback]
