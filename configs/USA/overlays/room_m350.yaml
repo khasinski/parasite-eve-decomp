@@ -130,7 +130,7 @@ segments:
       - [0x8234, c, RoomActor_TriggerWithinRadius]
       - [0x837C, asm, func_80197364]
       - [0x85AC, c, RoomEffect_AcceleratedFallCallback]
-      - [0x86E0, asm, func_801976C8]
+      - [0x86E0, c, RoomEffect_QueuedFallController]
       - [0x8864, asm, func_8019784C]
       - [0x8A1C, asm, func_80197A04]
       - [0x8BB0, asm, func_80197B98]
