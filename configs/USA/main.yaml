@@ -1391,7 +1391,7 @@ segments:
       - [0x6D680, c, util/mem2mem]
       - [0x6D6AC, asm, psyq/libcd/dma_execute]
       - [0x6D854, c, psyq/libspu/SpuInit]
-      - [0x6D874, asm, psyq/libspu/_SpuInit]
+      - [0x6D874, c, psyq/libspu/_SpuInit]
       - [0x6D95C, c, psyq/libspu/SpuStart]
       - [0x6D9CC, c, main/gap_psyq_libspu_SpuStart_tail_6D9CC]
       - [0x6D9D4, asm, main/_spu_init]
