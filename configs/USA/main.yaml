@@ -1202,7 +1202,7 @@ segments:
       - [0x66AA0, c, gpu/gpu_build]
       - [0x66B3C, c, gpu/_status]
       - [0x66B54, c, gpu/Gpu_SendOtChain]
-      - [0x66C34, asm, main/Gpu_DmaVramTransfer]
+      - [0x66C34, c, main/Gpu_DmaVramTransfer]
       - [0x66E64, c, gpu/Gpu_WaitDmaComplete]
       - [0x670A0, c, gpu/Gpu_FlushDisplayBuffer]
       - [0x67320, c, gpu/Gpu_WriteControlAndMirror]

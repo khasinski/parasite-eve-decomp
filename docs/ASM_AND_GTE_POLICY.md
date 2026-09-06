@@ -482,6 +482,18 @@ the report does not credit this function or its 284 bytes as matched. The
 progress pipeline is unchanged; linked-byte verification is not substituted
 for its existing relocation-sensitive metric.
 
+## GPU Clear Packet Address
+
+`Gpu_DmaVramTransfer` (the SDK ClearImage packet builder) similarly forms
+its fixed USA packet address `0x800A3300` as page plus offset in C, with one
+empty tied barrier. A second empty barrier preserves the zero return value
+placement; removing it scores 297 versus the matching object's raw 10.
+There are no pins or instruction ASM. Linked score is 0/14000 for 560 bytes
+and the full retail SHA matches. Tests cover aligned fill, unaligned sprite
+and state restoration packets, dimensions and colors. This fixed-address
+form has the same unlinked relocation-report limitation as `checkRECT`;
+it does not imply portable packet storage or justify changing report credit.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
