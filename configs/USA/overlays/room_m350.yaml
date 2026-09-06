@@ -116,7 +116,7 @@ segments:
       - [0x607C, asm, func_80195064]
       - [0x6230, asm, func_80195218]
       - [0x6390, asm, func_80195378]
-      - [0x657C, asm, func_80195564]
+      - [0x657C, c, RoomEffect_TableScalePaletteCallback]
       - [0x66B4, asm, func_8019569C]
       - [0x68F4, asm, func_801958DC]
       - [0x6B7C, asm, func_80195B64]
