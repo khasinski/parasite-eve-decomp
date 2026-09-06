@@ -55,6 +55,15 @@ linking, the same decomp.me comparison against retail scores zero, and the
 full main executable passes its unchanged SHA-1. The pin and barrier are
 recorded in the debt baseline, not presented as unconstrained C.
 
+The adjacent `_spu_Fw` (132 bytes) and `_spu_Fr_` (168 bytes) use the same
+stock compiler profile but need no pins, barriers or instruction ASM.
+`_spu_Fw` selects DMA or programmed-I/O transfer and returns the requested
+size. `_spu_Fr_` programs the SPU transfer address and DMA registers for a
+read. Both score zero against independent retail objects as well as after
+linking; the latter uses the existing named DMA globals rather than new
+address aliases. The pointer-to-integer conversion writes the DMA address
+register and is explicitly included in the debt baseline.
+
 Source classification is a conservative source-text heuristic, not a full
 preprocessor or proof of semantic reconstruction. It joins adjacent ASM string
 literals and rejects nonempty unrecognized templates, but does not expand all

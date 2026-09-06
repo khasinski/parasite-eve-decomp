@@ -6,7 +6,7 @@
 extern s32 D_8009B430;
 extern s32 D_8009B434;
 
-void _spu_Fw(void *address, u32 size);
+u32 _spu_Fw(void *address, u32 size);
 
 u32 Spu_UploadToSpu(void *address, u32 size) {
     if (size > 0x7EFF0) {
