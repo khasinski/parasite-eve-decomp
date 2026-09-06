@@ -463,6 +463,25 @@ or target/layout changes were used. The preexisting stock checked-divide
 profile is unchanged. The byte shift now explicitly uses an unsigned input
 before sign extension, without changing the generated instructions.
 
+## GPU Rectangle Diagnostic Address
+
+`checkRECT` uses the fixed USA message address `0x80011898`, formed in C
+as page `0x80010000` plus string offset `0x1898`. One tied pointer barrier
+keeps those operations separate so stock GCC281 and MASPSX place the offset
+addition in the jump delay slot. This is a USA-specific address calculation,
+not an inferred portable string-pool structure; moving the message requires
+updating this calculation. No instructions are emitted by the barrier.
+The direct symbolic address compiled to an extra delay-slot nop (score 160).
+Removing the remaining height argument pin scores 350 versus 10 for the raw
+matching object; those 10 points are only resolved-symbol versus literal
+address notation. Linked score is 0/7100 and the full retail SHA matches.
+No compiler/MASPSX changes, instruction ASM, or target changes are involved.
+The unlinked objdiff report remains at 99.85915% for this unit because it
+compares the synthetic target relocations to literal addresses. Consequently
+the report does not credit this function or its 284 bytes as matched. The
+progress pipeline is unchanged; linked-byte verification is not substituted
+for its existing relocation-sensitive metric.
+
 ## OP / Outer Product
 
 `gte_pushrotcol0`, `gte_ldopv1`, `gte_ldopv`, `gte_op0`, `gte_op12`, and
