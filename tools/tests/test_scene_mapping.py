@@ -131,6 +131,62 @@ class SceneE02MappingTests(unittest.TestCase):
                                  bytes.fromhex("0800e00300000000"))
 
 
+class SceneE04E05MappingTests(unittest.TestCase):
+    hashes = {
+        "scene_e04": "a76bafa6af76abac5eeed95496ee3a60da57288a",
+        "scene_e05": "52be1f4c5f030fb3143a2d036b478e4dae0ced77",
+    }
+
+    def test_complete_ranges_and_real_entry_names(self):
+        for scene, digest in self.hashes.items():
+            config = yaml.safe_load(
+                (ROOT / "configs/USA/overlays" / (scene + ".yaml")).read_text())
+            segment = config["segments"][0]
+            self.assertEqual(config["sha1"], digest)
+            self.assertEqual(segment["vram"], 0x8018EFE8)
+            rows = normalized_rows(segment)
+            self.assertEqual(rows[0][1], "rodatabin")
+            ranges = {r[0]: (r, n[0]) for r, n in zip(rows, rows[1:])}
+            self.assertNotIn(0x198, ranges)
+            for offset, size, name in (
+                (0x114, 140, "RoomLib_RegisterTablesAt3_8018F0FC"),
+                (0x125C, 504, "RoomLib_DrawSixParticles_80190244"),
+                (0x1530, 520, "RoomLib_UpdateDriftParticle_80190518"),
+                (0x2BF8, 756, "RoomLib_RunSixteenPointState_80191BE0"),
+            ):
+                with self.subTest(scene=scene, name=name):
+                    row, end = ranges[offset]
+                    self.assertEqual(row, [offset, "c", name])
+                    self.assertEqual(end - offset, size)
+                    self.assertEqual(source_quality.classify(
+                        ROOT / "src/overlays" / scene / (name + ".c")), "semantic_c")
+            for row in rows:
+                if row[1] == "c":
+                    self.assertEqual(int(row[2].rsplit("_", 1)[1], 16),
+                                     0x8018EFE8 + row[0])
+
+    def test_retail_jumps_and_distinct_empty_callbacks(self):
+        for scene, digest in self.hashes.items():
+            path = ROOT / "original/USA/overlays" / (scene + ".bin")
+            if not path.is_file():
+                self.skipTest("local retail overlays required")
+            data = path.read_bytes()
+            self.assertEqual(hashlib.sha1(data).hexdigest(), digest)
+            for offset, target_offset in ((0x164, 0x170), (0x155C, 0x171C)):
+                word = int.from_bytes(data[offset:offset + 4], "little")
+                self.assertEqual(word >> 26, 2)
+                target = 0x80000000 | ((word & 0x3FFFFFF) << 2)
+                self.assertEqual(target, 0x8018EFE8 + target_offset)
+            self.assertEqual(int.from_bytes(data[0x194:0x198], "little") >> 16,
+                             0x27BD)
+            for offset in (0x198, 0x200, 0x44C, 0x1090):
+                self.assertEqual(int.from_bytes(data[offset:offset + 4], "little"),
+                                 0x03E00008)
+            for offset in (0x200, 0x44C, 0x1090):
+                self.assertEqual(int.from_bytes(data[offset - 8:offset - 4], "little"),
+                                 0x03E00008)
+
+
 class SceneE09E10MappingTests(unittest.TestCase):
     hashes = {
         "scene_e09": "5bba719fc9e394d1df4d1e1de54646d150b84687",

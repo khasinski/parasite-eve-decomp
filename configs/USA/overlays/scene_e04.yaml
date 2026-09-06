@@ -29,41 +29,45 @@ segments:
   - name: scene_e04
     type: code
     start: 0x0
-    vram: 0x8018EFF0
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, scene_e04]
-      - [0x74, c, RoomLib_PlantTable_8018F064]
-      - [0xA0, c, RoomLib_Spawn6_8018F090]
-      - [0xCC, c, func_8018F0BC]
-      - [0x114, asm, scene_e04_A0_CC_114]
-      - [0x198, c, func_8018F188]
-      - [0x1A0, c, func_8018F190]
-      - [0x200, c, func_8018F1F0]
-      - [0x208, c, func_8018F1F8]
-      - [0x44C, c, func_8018F43C]
-      - [0x454, c, func_8018F444]
-      - [0x560, c, func_8018F550]
-      - [0x5E0, c, func_8018F5D0]
-      - [0x858, c, Scene_UpdateRisingEffect_8018F848]
-      - [0x934, c, func_8018F924]
-      - [0x988, c, func_8018F978]
-      - [0xA74, c, func_8018FA64]
-      - [0xA90, c, Scene_InitOrbitRing_8018FA80]
-      - [0xB54, c, func_8018FB44]
-      - [0xDB0, c, Scene_UpdateOrbitRing_8018FDA0]
-      - [0xE8C, c, func_8018FE7C]
-      - [0xF00, c, func_8018FEF0]
-      - [0x1090, c, func_80190080]
-      - [0x1098, c, func_80190088]
-      - [0x125C, asm, func_8019024C]
-      - [0x1454, c, func_80190444]
-      - [0x1530, asm, func_80190520]
-      - [0x2180, c, RoomLib_SetArgs3_80191170]
+      - start: 0
+        type: rodatabin
+        name: scene_e04_header
+        dir: scene_e04
+      - [0x74, c, RoomLib_PlantTable_8018F05C]
+      - [0xA0, c, RoomLib_Spawn6_8018F088]
+      - [0xCC, c, func_8018F0B4]
+      - [0x114, c, RoomLib_RegisterTablesAt3_8018F0FC]
+      - [0x1A0, c, func_8018F188]
+      - [0x200, c, func_8018F1E8]
+      - [0x208, c, func_8018F1F0]
+      - [0x44C, c, func_8018F434]
+      - [0x454, c, func_8018F43C]
+      - [0x560, c, func_8018F548]
+      - [0x5E0, c, func_8018F5C8]
+      - [0x858, c, Scene_UpdateRisingEffect_8018F840]
+      - [0x934, c, func_8018F91C]
+      - [0x988, c, func_8018F970]
+      - [0xA74, c, func_8018FA5C]
+      - [0xA90, c, Scene_InitOrbitRing_8018FA78]
+      - [0xB54, c, func_8018FB3C]
+      - [0xDB0, c, Scene_UpdateOrbitRing_8018FD98]
+      - [0xE8C, c, func_8018FE74]
+      - [0xF00, c, func_8018FEE8]
+      - [0x1090, c, func_80190078]
+      - [0x1098, c, func_80190080]
+      - [0x125C, c, RoomLib_DrawSixParticles_80190244]
+      - [0x1454, c, func_8019043C]
+      - [0x1530, c, RoomLib_UpdateDriftParticle_80190518]
+      - [0x1738, asm, func_80190720]
+      - [0x2180, c, RoomLib_SetArgs3_80191168]
       - [0x21A4, asm, scene_e04_A0_CC_21A4]
-      - [0x2EEC, c, func_80191EDC]
+      - [0x2BF8, c, RoomLib_RunSixteenPointState_80191BE0]
+      - [0x2EEC, c, func_80191ED4]
       - [0x2F90, data]
   - [0x3000]
 # source slice: scanner

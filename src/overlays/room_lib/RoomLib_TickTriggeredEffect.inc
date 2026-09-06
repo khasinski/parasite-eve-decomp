@@ -33,6 +33,9 @@ void ROOMLIB_TICK_TRIGGERED_EFFECT_NAME(RoomEnt *ent, unsigned char *signal,
         value = ((RoomRenderNode *)destination)->flags;
         value |= 0x80000000;
         ((RoomRenderNode *)destination)->flags = value;
+#if defined(ROOMLIB_TRIGGER_SKIP_COUNTDOWN) && ROOMLIB_TRIGGER_SKIP_COUNTDOWN
+        goto update_signal;
+#endif
     } else {
         value = countdown - 1;
     }
