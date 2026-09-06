@@ -86,6 +86,21 @@ without it the delay-slot pass emits an extra counter correction on loop
 exit. There are no register pins or instruction ASM. The full executable
 continues to pass its original SHA-1 check.
 
+`Spu_SetVoiceAttr` (364 bytes) sets the left and right volume registers and
+their sweep modes for one voice, then runs a two-iteration delay. Both switch
+tables are emitted by stock GCC 2.8.1; the four bytes after the second table
+remain a separate retail data split, not padding invented in C. The retained
+implementation uses an ordinary local work structure, no register pins, and
+one empty memory barrier before initializing the delay counter.
+
+Removing that barrier allows the counter store to move before the seed store
+and leaves the jump delay slot empty. With both objects linked under the same
+section layout, decomp.me's asm-differ score is 165 without the barrier and
+zero with it (9100 maximum). Raw relocatable comparison also displays the C
+object's jump-table reference annotations, so it is not the zero-score check
+used here. The normal full executable passes its unchanged retail SHA-1;
+objdiff credits all 364 code bytes and one new semantic-C function.
+
 Source classification is a conservative source-text heuristic, not a full
 preprocessor or proof of semantic reconstruction. It joins adjacent ASM string
 literals and rejects nonempty unrecognized templates, but does not expand all
