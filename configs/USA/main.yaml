@@ -1201,7 +1201,7 @@ segments:
       - [0x66A08, c, gpu/Gpu_BuildDrawAreaBottomRightCmd]
       - [0x66AA0, c, gpu/gpu_build]
       - [0x66B3C, c, gpu/_status]
-      - [0x66B54, asm, gpu/Gpu_SendOtChain]
+      - [0x66B54, c, gpu/Gpu_SendOtChain]
       - [0x66C34, asm, main/Gpu_DmaVramTransfer]
       - [0x66E64, asm, main/Gpu_WaitDmaComplete]
       - [0x670A0, asm, main/Gpu_FlushDisplayBuffer]
