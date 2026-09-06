@@ -154,7 +154,7 @@ segments:
       - [0xAF44, c, func_80199F2C]
       - [0xB02C, c, func_8019A014]
       - [0xB138, c, func_8019A120]
-      - [0xB14C, asm, func_8019A134]
+      - [0xB14C, c, RoomEffect_Threshold4Callback]
       - [0xB234, asm, func_8019A21C]
       - [0xB330, data, D_8019A318]
       - [0xB368, data, D_8019A350]
