@@ -38,7 +38,7 @@ explicitly tagged in the report config, and the report audit rejects any
 code bytes or function counts attributed to them. This is a metric repair,
 not newly decompiled code or reconstructed C data structures.
 
-### SPU callback setter constraints
+### SPU transfer reconstruction
 
 `Spu_SetTransferMode` at `0x80085D84` is actually a callback setter: it
 replaces `D_8009B438`, calls `_SpuCallback` only when the callback changes,
@@ -63,6 +63,19 @@ read. Both score zero against independent retail objects as well as after
 linking; the latter uses the existing named DMA globals rather than new
 address aliases. The pointer-to-integer conversion writes the DMA address
 register and is explicitly included in the debt baseline.
+
+The 640-byte `_spu_t` dispatcher completes the former `psyq/spu6` unit.
+It handles address setup, read/write mode selection with bounded polling,
+and DMA launch with the block count rounded up to 64-byte blocks. Its
+argument cursor follows the stock PSX compiler's varargs stack layout;
+this is ABI-specific C, not a portable host implementation. The DMA address
+is reloaded through its volatile global, preserving the retail accesses.
+
+It needs no register pins or instruction ASM. One empty volatile barrier
+keeps CHCR bit preparation after the DMA register writes. A provisional
+`$a2` pin was removed without affecting the match. Removing the retained
+barrier gives decomp.me score 160; keeping it gives zero against the
+independent retail object. The full executable SHA-1 remains unchanged.
 
 Source classification is a conservative source-text heuristic, not a full
 preprocessor or proof of semantic reconstruction. It joins adjacent ASM string
