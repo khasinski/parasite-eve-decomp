@@ -125,7 +125,7 @@ segments:
       - [0x78F0, asm, func_801968D8]
       - [0x7A2C, asm, func_80196A14]
       - [0x7C7C, asm, func_80196C64]
-      - [0x7E1C, asm, func_80196E04]
+      - [0x7E1C, c, RoomAnimation_RepeatFourTimesCallback]
       - [0x7F44, asm, func_80196F2C]
       - [0x8234, asm, func_8019721C]
       - [0x837C, asm, func_80197364]
