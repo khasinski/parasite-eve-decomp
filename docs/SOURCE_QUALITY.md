@@ -119,6 +119,20 @@ removed without changing instructions. The normal full executable also
 passes its original SHA-1; the switch tables are compiler-generated rodata,
 not ASM or data counted as code.
 
+`SPU_ReadRegister` (204 bytes) is another historical misnomer: it controls
+reverb enable, not a register read API. Zero disables reverb; one enables it
+unless the work area conflicts with the SPU allocator and the override is
+not one. Other arguments leave the state unchanged. It returns the resulting
+enable state. Its stock GCC 2.8.1 implementation needs no pins, barriers, or
+instruction ASM, scores zero against the independent retail object, and
+passes the full executable SHA-1. The caller now has the correct return type.
+
+Three old CD-audio aliases were renamed, without changing their addresses:
+`g_SpuReverbEnabled` at `0x8009B390`, `g_SpuReverbAllocationOverride` at
+`0x8009B394`, and `g_SpuReverbWorkArea` at `0x8009B398`. The override name
+describes the observed allocation-check bypass; it is not a claim about
+the original SDK's variable spelling.
+
 Source classification is a conservative source-text heuristic, not a full
 preprocessor or proof of semantic reconstruction. It joins adjacent ASM string
 literals and rejects nonempty unrecognized templates, but does not expand all

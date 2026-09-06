@@ -8,6 +8,7 @@ void Seq_MarkTrack38MaskDirty(void);
 void Seq_MarkTrack3CMaskDirty(void);
 
 #include "pe1/akao.h"
+#include "pe1/akao/spu_common.h"
 
 #include "pe1/battle_cmd.h"
 
@@ -15,7 +16,6 @@ extern AkaoQueueEntry D_800B8628[];
 extern int g_AkaoMessageQueueCount;
 
 void Seq_GetGlobalPitch(unsigned int *out);
-void SPU_ReadRegister(int arg0);
 int SPU_StepDmaRead(int arg0);
 
 void Spu_RestoreStoppedVoices(void) {

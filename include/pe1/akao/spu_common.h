@@ -16,4 +16,7 @@ typedef struct SpuCommonSettings {
 /* Historical symbol name: this writes common, not per-voice, registers. */
 void SPU_WriteVoiceRegs(SpuCommonSettings *attr);
 
+/* Historical symbol name: set reverb enable and return its resulting state. */
+int SPU_ReadRegister(int enabled);
+
 #endif
