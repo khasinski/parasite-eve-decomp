@@ -21,6 +21,13 @@ class SpuCommonLayoutTests(unittest.TestCase):
         }
         source = '#include <stddef.h>\n#include "pe1/akao/spu_common.h"\n'
         source += '_Static_assert(sizeof(SpuCommonSettings) == 0x28, "size");\n'
+        source += (
+            '_Static_assert(sizeof(SpuReverbRegisterAttrs) == 0x44, "reverb size");\n'
+            '_Static_assert(offsetof(SpuReverbRegisterAttrs, mask) == 0, "mask");\n'
+            '_Static_assert(offsetof(SpuReverbRegisterAttrs, regs) == 4, "regs");\n'
+            '_Static_assert(offsetof(SpuReverbRegisterAttrs, regs[31]) == 0x42, '
+            '"last reverb register");\n'
+        )
         for field, offset in offsets.items():
             source += (
                 f'_Static_assert(offsetof(SpuCommonSettings, {field}) == '

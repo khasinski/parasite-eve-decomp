@@ -1,12 +1,8 @@
 #include "common.h"
+#include "pe1/akao/spu_common.h"
 extern unsigned char *_spu_RXX;
 
 #define _spu_RXX _spu_RXX
-
-typedef struct SpuReverbRegisterAttrs {
-    u32 mask;
-    u16 regs[32];
-} SpuReverbRegisterAttrs;
 
 void _spu_setReverbAttr(SpuReverbRegisterAttrs *attr) {
     u32 mask = attr->mask;

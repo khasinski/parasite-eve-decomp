@@ -19,4 +19,13 @@ void SPU_WriteVoiceRegs(SpuCommonSettings *attr);
 /* Historical symbol name: set reverb enable and return its resulting state. */
 int SPU_ReadRegister(int enabled);
 
+typedef struct SpuReverbRegisterAttrs {
+    unsigned int mask;
+    unsigned short regs[32];
+} SpuReverbRegisterAttrs;
+
+void _spu_setReverbAttr(SpuReverbRegisterAttrs *attr);
+/* Historical symbol name: select a reverb preset, optionally clearing its RAM. */
+int SPU_StepDmaRead(unsigned int mode);
+
 #endif

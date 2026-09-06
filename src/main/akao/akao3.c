@@ -16,7 +16,6 @@ extern AkaoQueueEntry D_800B8628[];
 extern int g_AkaoMessageQueueCount;
 
 void Seq_GetGlobalPitch(unsigned int *out);
-int SPU_StepDmaRead(int arg0);
 
 void Spu_RestoreStoppedVoices(void) {
     unsigned int pending = g_SpuStoppedVoiceMask;

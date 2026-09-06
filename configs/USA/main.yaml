@@ -1781,7 +1781,7 @@ segments:
       - [0x7D014, c, akao/misc4]
       - [0x7D1DC, c, akao/akao3]
       - [0x7D3A8, asm, main/Akao_EnqueueStagedCommand]
-      - [0x7D770, asm, main/SPU_StepDmaRead]
+      - [0x7D770, c, psyq/libspu/SPU_StepDmaRead]
       - [0x7D93C, asm, main/gap_main_SPU_StepDmaRead_tail_7D93C]
       - [0x7D940, c, psyq/libspu/s_sra]
       - [0x7DE10, asm, main/SPU_StartDmaRead]

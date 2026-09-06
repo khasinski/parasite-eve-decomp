@@ -133,6 +133,23 @@ Three old CD-audio aliases were renamed, without changing their addresses:
 describes the observed allocation-check bypass; it is not a claim about
 the original SDK's variable spelling.
 
+`SPU_StepDmaRead` (460 bytes) selects a reverb preset, rather than reading
+DMA data. It validates the preset and work-area allocation, copies a 68-byte
+register preset, configures delay/feedback defaults, temporarily disables
+reverb, clears effect depth, writes the register set and work-area address,
+and restores the previous enable bit. Flag `0x100` requests a work-area clear.
+The shared `SpuReverbRegisterAttrs` layout is checked by the header test.
+
+One index pin remains with stock GCC 2.8.1; two provisional pins and an empty
+barrier were removed. The retained function scores zero out of 11500 after
+binding relocations to the same addresses. Removing the remaining pin scores
+30. The raw object comparison has a separate 30-point symbol-expression
+difference: retail refers to `0x8009B3AC`, while C addresses element one of the
+delay/feedback pair at `0x8009B3A8`. They resolve to the same address, and the
+full executable SHA-1 and all 460 bytes in objdiff match. Preset, work-area,
+mode and depth globals now use reverb-specific names, including the depth
+alias formerly described as master volume.
+
 Source classification is a conservative source-text heuristic, not a full
 preprocessor or proof of semantic reconstruction. It joins adjacent ASM string
 literals and rejects nonempty unrecognized templates, but does not expand all
