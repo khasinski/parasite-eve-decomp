@@ -369,17 +369,6 @@ def retype_data_in_text(text, kinds):
     return CODE_LABEL.sub(relabel, text)
 
 
-def retype_all_text_as_data(text):
-    """Prevent disassembler guesses inside a known text-resident data unit."""
-
-    def relabel(match):
-        macro, name = match.groups()
-        opener = macro in ("glabel", "alabel", "dlabel")
-        return "%s %s" % ("dlabel" if opener else "enddlabel", name)
-
-    return CODE_LABEL.sub(relabel, text)
-
-
 def normalize_c_function_labels(text, valid_names):
     """Type only compiler-emitted C functions as functions in a C unit.
 
@@ -612,16 +601,9 @@ def process_module(module, shared, assembler, workers):
             continue
         if fresh and source.suffix == ".s":
             text = strip_differ_aliases(source.read_text())
-            raw_text_data = (
-                module.name == "main" and relative ==
-                "asm/USA/main/main/dtail_gp.s.o"
-            )
-            if raw_text_data:
-                text = retype_all_text_as_data(text)
-            else:
-                text = retype_data_in_text(text, unit_kinds)
-                if valid_functions is not None:
-                    text = normalize_c_function_labels(text, valid_functions)
+            text = retype_data_in_text(text, unit_kinds)
+            if valid_functions is not None:
+                text = normalize_c_function_labels(text, valid_functions)
             source.write_text(inline_constant_pairs(text, constants))
         jobs.append((source, obj))
 

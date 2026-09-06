@@ -40,7 +40,7 @@ def main() -> int:
             errors.append("%s: %s received objdiff complete override" %
                           (unit["name"], kind))
             continue
-        if kind not in (None, "semantic_c") and base is not None:
+        if kind not in (None, "semantic_c", "data") and base is not None:
             errors.append("%s: %s received semantic progress metadata" %
                           (unit["name"], kind))
             continue
@@ -53,7 +53,7 @@ def main() -> int:
             continue
         # Generated data objects intentionally have a base so objdiff can
         # measure data bytes. They are not source and cannot add code credit.
-        if kind is None and "source_path" not in metadata:
+        if kind in (None, "data") and "source_path" not in metadata:
             if functions(ROOT / unit["target_path"]):
                 errors.append("%s: generated data unit contains target functions" %
                               unit["name"])

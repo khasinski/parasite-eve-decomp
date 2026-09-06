@@ -1814,7 +1814,18 @@ segments:
       - [0x81620, c, akao/SeqOp_NoteOnWithPitchSlide]
       - [0x81754, c, akao/seq_op9]
       - [0x81880, c, akao/SeqOp_Noop]
-      - [0x818A0, asm, main/dtail_gp]
+      - [0x818A0, data, main/dtail_gp]
+
+  # Data separates the initial code from the field-engine code. Keep a
+  # separate linker segment so section ordering preserves retail addresses.
+  - name: field_engine
+    type: code
+    start: 0xB24A0
+    vram: 0x800C1CA0
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0xB24A0, asm, engine/engine_800C1CA0]
       - [0xB2AF8, c, engine/FieldEng_GetSlot]
       - [0xB2C14, c, engine/FieldEng_Register]

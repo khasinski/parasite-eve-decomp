@@ -167,6 +167,7 @@ def module_units(name, config_path, skip):
             entry = unit(relative, build_prefix, site, category(relative), None,
                          None)
             entry["base_path"] = "%s%s" % (build_prefix, relative)
+            entry["metadata"]["source_kind"] = "data"
         if entry["name"] in skip:
             skipped.append(entry["name"])
             continue

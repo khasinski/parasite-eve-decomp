@@ -35,6 +35,10 @@ def audit(config, report):
         configured = config_units[name]
         measured = report_units[name]["measures"]
         kind = configured.get("metadata", {}).get("source_kind")
+        if kind == "data" and (
+            number(measured, "total_code") or number(measured, "total_functions")
+        ):
+            errors.append("%s: data unit counted as code or functions" % name)
         matched_code = number(measured, "matched_code")
         matched_functions = number(measured, "matched_functions")
         if kind == "semantic_c":

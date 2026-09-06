@@ -1,6 +1,24 @@
 import unittest
+from pathlib import Path
+
+import yaml
 
 from tools.scripts import gen_expected
+
+
+class MainDataLayoutTests(unittest.TestCase):
+    def test_gp_data_is_not_text_and_engine_keeps_its_retail_address(self):
+        root = Path(__file__).resolve().parents[2]
+        config = yaml.safe_load((root / "configs/USA/main.yaml").read_text())
+        segments = {s["name"]: s for s in config["segments"]
+                    if isinstance(s, dict)}
+        self.assertEqual(segments["main"]["subsegments"][-1],
+                         [0x818A0, "data", "main/dtail_gp"])
+        engine = segments["field_engine"]
+        self.assertEqual(engine["start"], 0xB24A0)
+        self.assertEqual(engine["vram"], 0x800C1CA0)
+        self.assertEqual(engine["subsegments"][0],
+                         [0xB24A0, "asm", "engine/engine_800C1CA0"])
 
 
 class SymbolTableTests(unittest.TestCase):
@@ -112,15 +130,6 @@ class DisassemblyRewriteTests(unittest.TestCase):
 
         self.assertIn(".global Words\nWords:", out)
         self.assertNotIn("enddlabel", out)
-
-    def test_known_text_data_cannot_be_reported_as_functions(self):
-        text = "glabel GuessedFunction\n    .word 0\nendlabel GuessedFunction\n"
-
-        out = gen_expected.retype_all_text_as_data(text)
-
-        self.assertIn("dlabel GuessedFunction", out)
-        self.assertIn("enddlabel GuessedFunction", out)
-        self.assertNotIn("glabel", out)
 
     def test_internal_function_guess_becomes_a_plain_label(self):
         text = (

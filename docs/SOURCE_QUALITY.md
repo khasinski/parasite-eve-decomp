@@ -18,10 +18,25 @@ names and sizes from verified C objects to make objdiff pairing practical.
 Consequently the function metric is not independent of the source split.
 `make progress-audit` checks target/base `(offset, size)` consistency and
 prevents mismatching or non-semantic units from receiving credit, but the
-code-byte metric and full linked SHA-1 remain stronger evidence. Known
-text-resident data is forcibly represented as data on the target side.
+code-byte metric and full linked SHA-1 remain stronger evidence.
 After objdiff runs, `make report-audit` independently verifies that the
 published matched-code and matched-function totals contain only `semantic_c`.
+
+### Main GP data classification
+
+The retail range at file offsets `0x818A0..0xB24A0` (199680 bytes) is data,
+including handler pointers and map tables, not a large function. The old
+`main/dtail_gp` ASM split placed it in `.text`. Relabeling its symbols as
+objects did not fix section-based reporting: the report still counted
+199680 code bytes and 317 apparent functions, all unmatched. That inflated
+the remaining-work denominator, not the semantic-C numerator.
+
+The split now emits this range as `.data`; a separate field-engine segment
+preserves the following code's retail address `0x800C1CA0`. The full main
+executable still passes its unchanged SHA-1 check. Generated data units are
+explicitly tagged in the report config, and the report audit rejects any
+code bytes or function counts attributed to them. This is a metric repair,
+not newly decompiled code or reconstructed C data structures.
 
 Source classification is a conservative source-text heuristic, not a full
 preprocessor or proof of semantic reconstruction. It joins adjacent ASM string

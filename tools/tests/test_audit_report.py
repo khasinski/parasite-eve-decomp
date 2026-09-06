@@ -15,6 +15,17 @@ def measured(name, code=0, functions=0):
 
 
 class ReportAuditTests(unittest.TestCase):
+    def test_data_cannot_inflate_unmatched_code_or_function_totals(self):
+        config = {"units": [configured("table", "data")]}
+        for field in ("total_code", "total_functions"):
+            with self.subTest(field=field):
+                unit = measured("table")
+                unit["measures"][field] = 1
+                errors, _, _ = audit_report.audit(
+                    config, {"units": [unit], "measures": {}}
+                )
+                self.assertTrue(any("data unit counted" in e for e in errors))
+
     def test_only_semantic_c_contributes_to_totals(self):
         config = {"units": [configured("good", "semantic_c"),
                             configured("asm", "asm_constrained")]}
