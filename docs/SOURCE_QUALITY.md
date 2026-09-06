@@ -101,6 +101,24 @@ object's jump-table reference annotations, so it is not the zero-score check
 used here. The normal full executable passes its unchanged retail SHA-1;
 objdiff credits all 364 code bytes and one new semantic-C function.
 
+`SPU_WriteVoiceRegs` (892 bytes) is the common-settings writer, despite its
+historical name. Its reconstructed 40-byte `SpuCommonSettings` input contains
+the update mask, master volume and sweep modes, CD and external-input volume,
+and their reverb/mixing switches. A zero mask selects all settings. The layout
+test checks every field offset and the total size; the existing sequencer
+caller now passes its settings pointer through the correct prototype.
+
+The stock GCC 2.8.1 implementation retains one `$t0` pin for the right-volume
+temporary and two empty barriers. The initial barrier prevents copying the
+left zero into the right temporary; the final barrier preserves the temporary
+and shared return block. Removing the pin scores 160, removing the initial
+barrier scores 55, and removing the final barrier scores 745. The retained
+candidate scores zero out of 22300 after independently generated retail and
+C objects are linked with the same layout. A provisional second pin was
+removed without changing instructions. The normal full executable also
+passes its original SHA-1; the switch tables are compiler-generated rodata,
+not ASM or data counted as code.
+
 Source classification is a conservative source-text heuristic, not a full
 preprocessor or proof of semantic reconstruction. It joins adjacent ASM string
 literals and rejects nonempty unrecognized templates, but does not expand all

@@ -1,3 +1,5 @@
+#include "pe1/akao/spu_common.h"
+
 extern unsigned int D_8009B3A0;
 
 extern unsigned short D_8009D2B6;
@@ -5,8 +7,6 @@ extern int D_800C0D90;
 extern unsigned short D_800C0DA0;
 extern unsigned short D_800C0DA2;
 extern int D_800C0DA4;
-
-extern void SPU_WriteVoiceRegs(void);
 
 void Seq_GetGlobalPitch(unsigned int *out)
 {
@@ -22,7 +22,7 @@ void Seq_ApplyGlobalPitch(void) {
     D_800C0DA4 = 0;
     D_800C0DA2 = value;
     D_800C0DA0 = value;
-    SPU_WriteVoiceRegs();
+    SPU_WriteVoiceRegs((SpuCommonSettings *)regs);
 }
 
 void Util_CopyWords(unsigned int *src, unsigned int *dst, unsigned int size)
