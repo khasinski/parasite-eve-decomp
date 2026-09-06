@@ -38,6 +38,23 @@ explicitly tagged in the report config, and the report audit rejects any
 code bytes or function counts attributed to them. This is a metric repair,
 not newly decompiled code or reconstructed C data structures.
 
+### SPU callback setter constraints
+
+`Spu_SetTransferMode` at `0x80085D84` is actually a callback setter: it
+replaces `D_8009B438`, calls `_SpuCallback` only when the callback changes,
+and returns the previous callback. Its 60-byte C implementation uses stock
+GCC 2.8.1 with `-mno-split-addresses`. One `$at` pointer pin and one empty
+barrier preserve the global store in the call delay slot; no instruction
+ASM is used. The explicit page and index resolve to `0x8009B438`.
+
+The symbolic-only candidate scored 160 with decomp.me's asm-differ settings;
+removing the barrier scored 305 and removing the pin scored 20 against the
+relocatable target. The retained candidate scores 10 in that comparison
+solely because its store address is absolute rather than relocated. After
+linking, the same decomp.me comparison against retail scores zero, and the
+full main executable passes its unchanged SHA-1. The pin and barrier are
+recorded in the debt baseline, not presented as unconstrained C.
+
 Source classification is a conservative source-text heuristic, not a full
 preprocessor or proof of semantic reconstruction. It joins adjacent ASM string
 literals and rejects nonempty unrecognized templates, but does not expand all
