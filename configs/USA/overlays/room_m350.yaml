@@ -97,7 +97,7 @@ segments:
       - [0x3520, asm, func_80192508]
       - [0x37BC, c, RoomEffect_PulsingPaletteCallback]
       - [0x38EC, asm, func_801928D4]
-      - [0x3AF4, asm, func_80192ADC]
+      - [0x3AF4, c, RoomEffect_ProductScalePaletteCallback]
       - [0x3C4C, asm, func_80192C34]
       - [0x3E64, asm, func_80192E4C]
       - [0x4624, asm, func_8019360C]
