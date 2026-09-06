@@ -77,6 +77,15 @@ keeps CHCR bit preparation after the DMA register writes. A provisional
 barrier gives decomp.me score 160; keeping it gives zero against the
 independent retail object. The full executable SHA-1 remains unchanged.
 
+`_spu_FiDMA` (188 bytes) finishes a DMA transfer, polls the cleared transfer
+mode with a timeout, and invokes the transfer callback or delivers the BIOS
+event when no callback is installed. Its stock GCC 2.7.2 implementation
+retains both retail reads of the callback through a volatile declaration.
+One empty `$v1` clobber marks the poll counter dead before notification;
+without it the delay-slot pass emits an extra counter correction on loop
+exit. There are no register pins or instruction ASM. The full executable
+continues to pass its original SHA-1 check.
+
 Source classification is a conservative source-text heuristic, not a full
 preprocessor or proof of semantic reconstruction. It joins adjacent ASM string
 literals and rejects nonempty unrecognized templates, but does not expand all
