@@ -10,15 +10,26 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class Room350EffectFallTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_motion_texture_and_post_lookup_state(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_FallingTextureCallback.c").read_text()
+        self.check_variant("RoomEffect_FallingTextureCallback", "func_801937B4",
+                           "D_8019A464", 8192, 1)
+
+    @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
+    def test_accelerated_motion_texture_and_post_lookup_state(self):
+        self.check_variant("RoomEffect_AcceleratedFallCallback", "func_80197594",
+                           "D_8019A62C", 6144, 2)
+
+    def check_variant(self, filename, callback, colors, size, increment):
+        source = (ROOT / f"src/overlays/room_m350/{filename}.c").read_text()
         source = source.replace('register int specialKind asm("$4");',
                                 'int specialKind;')
         # D_800966EE is the high half of a record starting two bytes earlier.
         source = source.replace('extern short D_800966EE[];',
             'static union { int alignment; short values[8194]; } table;\n'
             '#define D_800966EE (table.values + 1)')
-        harness = '#include <assert.h>\n#include <string.h>\n' + source + r'''
-int D_800E27EC, D_800F3428, D_8019A464[4];
+        definitions = (f"#define CALLBACK {callback}\n#define COLORS {colors}\n"
+                       f"#define SIZE {size}\n#define INCREMENT {increment}\n")
+        harness = '#include <assert.h>\n#include <string.h>\n' + definitions + source + r'''
+int D_800E27EC, D_800F3428, COLORS[4];
 unsigned short D_800F336C, D_800E1204[8];
 short D_800F336A;
 static short position[4];
@@ -34,10 +45,10 @@ int GetClut(int mode, int texture) {
 void func_800CEE20(void *point, int a, int b, int c, int scale,
                   unsigned int texture, int flag, int shade, void *colors) {
     assert(draws++ == 0 && lookups == 1 && point == position);
-    assert(a == 0 && b == 8192 && c == 8192 && flag == 1);
+    assert(a == 0 && b == SIZE && c == SIZE && flag == 1);
     assert(scale == expectedScale * (((nextCounter - 1) >> 1) & 7));
     assert(texture == (unsigned short)handleValue && shade == expectedShade >> 5);
-    assert(colors == D_8019A464);
+    assert(colors == COLORS);
 }
 int main(void) {
     const short values[] = {-32768, -33, -1, 0, 32, 32767};
@@ -56,11 +67,11 @@ int main(void) {
             if (counter >= 16) result = 1;
             else {
                 expected[1] = (short)(position[1] - position[3]);
-                expected[3] = (short)(position[3] + 1);
+                expected[3] = (short)(position[3] + INCREMENT);
             }
         }
         D_800E27EC = counter; lookups = draws = 0;
-        assert(func_801937B4(event, position) == result);
+        assert(CALLBACK(event, position) == result);
         assert(memcmp(position, expected, sizeof(position)) == 0);
         assert(lookups == 0 && draws == 0);
     }
@@ -77,7 +88,7 @@ int main(void) {
         handleValue = h ? -1 : 0x12345;
         memcpy(before, position, sizeof(position));
         lookups = draws = 0;
-        assert(func_801937B4(2, position) == 0);
+        assert(CALLBACK(2, position) == 0);
         assert(lookups == 1 && draws == 1);
         assert(memcmp(position, before, sizeof(position)) == 0);
     }
