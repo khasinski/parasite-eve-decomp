@@ -86,6 +86,9 @@ fi
 if grep -q 'CC1_FLAGS:.*-fno-expensive-optimizations' "$IN"; then
     CC1_FLAGS="$CC1_FLAGS -fno-expensive-optimizations"
 fi
+if grep -q 'CC1_FLAGS:.*-fcall-used-\$1' "$IN"; then
+    CC1_FLAGS="$CC1_FLAGS "'-fcall-used-$1'
+fi
 if grep -q 'CC1_FLAGS:.*-fno-gcse' "$IN"; then
     CC1_FLAGS="$CC1_FLAGS -fno-gcse"
 fi

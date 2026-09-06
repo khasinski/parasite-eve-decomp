@@ -1543,7 +1543,7 @@ segments:
       - [0x7265C, c, psyq/libds/DsReadCallback]
       - [0x72670, asm, cdrom/CdRom_AsyncCallback]
       - [0x7294C, c, cdrom/CdRom_ReadDoneCallback]
-      - [0x72A04, asm, cdrom/CdRom_RestartSeek]
+      - [0x72A04, c, cdrom/CdRom_RestartSeek]
       - [0x72A7C, c, cdrom/misc9]
       - [0x72ABC, c, psyq/libds/DS_read_cbready]
       - [0x72B0C, c, main/gap_psyq_libds_DS_read_cbready_tail_72B0C]

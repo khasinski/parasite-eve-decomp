@@ -38,6 +38,15 @@ options through `cc.sh`. `Task_AllocNode`, `Menu_CreateInvSwapView`, and
 `Menu_StepSaveSelect` match with these settings after removing handwritten
 `nop` instructions. These flags are per-unit choices, not a global default.
 
+`CdRom_RestartSeek` selects stock GCC281's `-fcall-used-$1` together with
+`-fno-expensive-optimizations` through a per-file `CC1_FLAGS` marker. This makes
+AT available for the target's split-address store; a single v1 pin keeps the
+later -1 argument out of AT. No instruction ASM or barrier remains. This is
+not permission to change the global register convention: inspect the complete
+generated function for assembler scratch collisions and require its exact
+match and full retail SHA before accepting such a per-file choice. `cc.sh`
+only forwards the stock option; the compiler and MASPSX remain unchanged.
+
 Inline instructions are allowed only for individual GTE/COP2 hardware
 operations, or in functions with concrete evidence that the original source
 was assembly. Put each permitted instruction sequence behind a small, named,
