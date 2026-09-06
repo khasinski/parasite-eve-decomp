@@ -119,7 +119,7 @@ segments:
       - [0x657C, c, RoomEffect_TableScalePaletteCallback]
       - [0x66B4, asm, func_8019569C]
       - [0x68F4, asm, func_801958DC]
-      - [0x6B7C, asm, func_80195B64]
+      - [0x6B7C, c, RoomEffect_ActorOffsetPaletteCallback]
       - [0x6CF8, asm, func_80195CE0]
       - [0x70DC, asm, func_801960C4]
       - [0x78F0, c, RoomEffect_BallisticPaletteCallback]
