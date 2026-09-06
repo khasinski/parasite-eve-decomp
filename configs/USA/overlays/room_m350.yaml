@@ -103,7 +103,7 @@ segments:
       - [0x4624, asm, func_8019360C]
       - [0x47CC, c, RoomEffect_FallingTextureCallback]
       - [0x48FC, asm, func_801938E4]
-      - [0x4A98, asm, func_80193A80]
+      - [0x4A98, c, RoomEffect_TripleSizePaletteCallback]
       - [0x4BE4, asm, func_80193BCC]
       - [0x4D84, asm, func_80193D6C]
       - [0x5064, asm, func_8019404C]
