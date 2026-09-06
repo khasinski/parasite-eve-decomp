@@ -112,7 +112,7 @@ segments:
       - [0x566C, asm, func_80194654]
       - [0x57D4, asm, func_801947BC]
       - [0x5D14, asm, func_80194CFC]
-      - [0x5F1C, asm, func_80194F04]
+      - [0x5F1C, c, RoomEffect_OffsetPositionPaletteCallback]
       - [0x607C, asm, func_80195064]
       - [0x6230, asm, func_80195218]
       - [0x6390, asm, func_80195378]
