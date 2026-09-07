@@ -112,7 +112,7 @@ segments:
       - [0x91C8, asm, func_801891C8]
       - [0x9360, asm, func_scene_e22_009360]
       - [0x9F5C, c, func_80198F44]
-      - [0x9F6C, asm, func_80198F54]
+      - [0x9F6C, c, Scene_WaitForActorSignal]
       - [0xA040, c, func_80199028]
       - [0xA050, c, func_80199038]
       - [0xA060, asm, func_scene_e22_00A060]
