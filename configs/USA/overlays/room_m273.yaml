@@ -157,7 +157,7 @@ segments:
       - [0x9B34, asm, func_80198B1C]
       - [0x9CEC, asm, func_80198CD4]
       - [0x9EAC, asm, func_80198E94]
-      - [0xA408, asm, func_801993F0]
+      - [0xA408, c, RoomEffect_PairedEmitter]
       - [0xA580, c, RoomEffect_DelayedRisingSprite]
       - [0xA6DC, asm, func_801996C4]
       - [0xA968, c, RoomEffect_DualSampleSprite]

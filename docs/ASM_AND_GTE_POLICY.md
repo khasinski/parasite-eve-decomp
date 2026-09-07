@@ -624,3 +624,17 @@ ordinary C, and unsigned motion fields express modulo-16-bit storage only.
 Post-zero removal tests: pin525, volatile Y20, barrier160. Narrowing the local
 Y to unsigned short eliminated redundant masking without an instruction ASM
 workaround. Rendering remains C; there is no padding or instruction ASM.
+
+## Room 273 paired emitter
+
+`RoomEffect_PairedEmitter` (`func_801993F0`) retains one empty tied-pointer
+barrier inside the two-record loop. It prevents induction-variable splitting;
+removing it after score zero gives562. No pins, volatile accesses, frame
+padding or instruction ASM are used.
+
+The partial state view at D_8019AF84 contains two eight-byte records and a
+control byte at offset30; intervening bytes have unknown purpose. The anchor
+uses the enclosing object's byte representation. Source record+6 is flags;
+the allocated record+6 is only known to be cleared, not semantically flags.
+Relocation spelling AF84+30 versus AFA2 gives raw score10; resolving addresses
+gives upstream score0/9400, with the target verified against original bytes.

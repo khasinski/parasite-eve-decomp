@@ -1,4 +1,5 @@
 GetClut = 0x80077AA4; // type:func
+Asset_FindTable08ByU32Key = 0x8006E498; // type:func
 RoomLib_InvokeCallbackC_80190CF0 = 0x80190CF0; // type:func
 RoomLib_InvokeCallbackC_80191808 = 0x80191808; // type:func
 RoomLib_InvokeCallbackC_801921F4 = 0x801921F4; // type:func
