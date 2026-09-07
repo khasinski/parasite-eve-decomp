@@ -100,7 +100,7 @@ segments:
       - [0x3AF4, c, RoomEffect_ProductScalePaletteCallback]
       - [0x3C4C, asm, func_80192C34]
       - [0x3E64, asm, func_80192E4C]
-      - [0x4624, asm, func_8019360C]
+      - [0x4624, c, RoomEffect_PairedAnimationController]
       - [0x47CC, c, RoomEffect_FallingTextureCallback]
       - [0x48FC, asm, func_801938E4]
       - [0x4A98, c, RoomEffect_TripleSizePaletteCallback]
