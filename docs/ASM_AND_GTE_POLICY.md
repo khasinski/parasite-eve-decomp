@@ -915,3 +915,26 @@ shift6. Render builds a Y-rotation matrix, applies a copied sixteen-byte scale
 vector, then reads current translation fields. Helper calls may change the
 asset pointer, phase or scale; the original rereads are retained. Matrix pad
 is not initialized by the original and is not given an invented value.
+
+## Room 273 paired batch emitter
+
+`RoomEffect_PairedBatchEmitter` (`func_80195BD0`, 576 bytes) retains three
+pins (stop address v1, batch base s3, byte offset a0), four empty barriers
+(first pool size, offset before coordinate reads, tied offset between Y/Z,
+index after count read) and eight bytes of unknown frame layout. Removing
+the pins independently scored 25/15/405; removing the barriers scored
+60/160/225/120; removing frame padding scored 90. Two other barriers were
+removed together with score zero preserved. No instruction ASM is used.
+
+The buffer at 0x8019AEB8 has eight halfwords each for X, Y and Z, a signed
+count at offset 0x30 and a stop byte at 0x40. The stop and count symbols
+are aliases within this buffer, not separate allocations. Fourteen bytes
+between count and stop remain unknown. A twelve-byte primary record stores
+XYZ, size and phase; its final halfword is untouched. Each successful primary
+allocation is followed by a secondary pointer-record allocation, unchecked
+in the original. The original therefore requires secondary capacity.
+Coordinates and count are read after those helpers, and pool globals are
+reread. Primary failure stops emission, then clears the pending count and
+updates the secondary pool. A set stop byte still updates that pool and
+returns 2 without clearing count. Render updates the secondary pool before
+reading palette state. Repeated writes to 0x800F3376/78 remain volatile.
