@@ -106,7 +106,7 @@ segments:
       - [0x4A98, c, RoomEffect_TripleSizePaletteCallback]
       - [0x4BE4, c, RoomEffect_PairedScaleController]
       - [0x4D84, asm, func_80193D6C]
-      - [0x5064, asm, func_8019404C]
+      - [0x5064, c, RoomEffect_SizedLayers]
       - [0x5234, asm, func_8019421C]
       - [0x5508, c, RoomEffect_TwoLayerCallback]
       - [0x566C, c, RoomEffect_AnimationBurstCallback]
