@@ -135,7 +135,7 @@ segments:
       - [0x8A1C, c, RoomEffect_ExpandingActorOffsetCallback]
       - [0x8BB0, c, RoomEffect_RadialBurstController]
       - [0x8DC0, asm, func_80197DA8]
-      - [0x91E8, asm, func_801981D0]
+      - [0x91E8, c, RoomEffect_TransformedFlare]
       - [0x9418, asm, func_80198400]
       - [0x9878, asm, func_80198860]
       - [0x9AD4, asm, func_80198ABC]
