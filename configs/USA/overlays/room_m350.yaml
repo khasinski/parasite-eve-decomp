@@ -121,7 +121,7 @@ segments:
       - [0x68F4, c, RoomEffect_SequenceController]
       - [0x6B7C, c, RoomEffect_ActorOffsetPaletteCallback]
       - [0x6CF8, c, RoomEffect_FadingPairEmitter]
-      - [0x70DC, asm, func_801960C4]
+      - [0x70DC, c, RoomEffect_TurningAreaController]
       - [0x78F0, c, RoomEffect_BallisticPaletteCallback]
       - [0x7A2C, c, RoomEffect_DualBallisticSpawner]
       - [0x7C7C, c, RoomEffect_ConfiguredPulseCallback]

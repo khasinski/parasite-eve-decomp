@@ -1,4 +1,9 @@
 GetClut = 0x80077AA4; // type:func
+Asset_FindTable08ByU32Key = 0x8006E498; // type:func
+GetTPage = 0x80077A64; // type:func
+GsSetOrign = 0x800C6EC0; // type:func
+memset = 0x80071A44; // type:func
+Gte_ScaleMatrix = 0x80078CC4; // type:func
 g_RoomEffectTrailPositions = 0x8019A834; // size:0x20 allow_addend:true
 Inv_ScrambleGrid = 0x80052B2C; // type:func
 RotMatrixYXZ = 0x80079754; // type:func
