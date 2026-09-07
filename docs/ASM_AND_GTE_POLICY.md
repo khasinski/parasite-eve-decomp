@@ -820,3 +820,18 @@ draw using the saved frame, not the potentially changed global counter.
 The last draw retains the second sample's shade and reads the floor height
 after the second draw. Rotation and position are passed by address, so helper
 mutations of fields not subsequently overwritten remain observable.
+
+## Room 273 sampled-layer emitter
+
+`RoomEffect_SampledLayerEmitter` (`func_801933A0`, 412 bytes) retains one
+empty memory barrier after copying the first position halfword. Without it,
+the tested address-local candidate scores1440 in upstream decomp.me scoring.
+The address calculation initially used a v0 pin; removing it preserves zero.
+There are no remaining pins, volatile accesses, padding or instruction ASM.
+
+The pool uses twelve-byte records and callback8019320C. A successful emission
+copies XYZ from the current state's transform at594/598/59C, then writes
+three parameter bytes at8/9/A; halfword6 and byteB are untouched. The parameter
+semantics remain unnamed. The frame counter is reread after allocation and
+again after the first two parameter writes, rather than cached. The transform
+chain is also resolved after allocation.
