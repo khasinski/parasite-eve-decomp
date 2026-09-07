@@ -664,3 +664,16 @@ The full vector copy and both render calls stay in C. Samples and signed
 shade are retained across helpers; only the local Y is overwritten from the
 ground-height global between layers. No volatile, frame padding or instruction
 ASM is required. The stack frame follows used locals and outgoing arguments.
+
+## Room 273 growing rising sprite
+
+`RoomEffect_GrowingRisingSprite` (`func_801974DC`) retains one speed pin,
+three empty barriers and three volatile motion reads. These are matching
+constraints, not MMIO. The eight unknown stack bytes represent frame layout,
+not a reconstructed semantic field. No instruction ASM is used.
+
+After score zero, the particle pin, palette barrier and sample barrier memory
+clobber were removed. Removal probes for the early offset barrier, sample
+barrier, motion barrier, speed pin, padding and all volatile reads scored
+215, 695, 160, 525, 90 and 125 respectively. Samples and frame are captured
+before GetClut; scale is read after it. Dimensions remain full integers.
