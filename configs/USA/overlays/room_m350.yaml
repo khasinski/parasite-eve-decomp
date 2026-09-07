@@ -115,7 +115,7 @@ segments:
       - [0x5F1C, c, RoomEffect_OffsetPositionPaletteCallback]
       - [0x607C, c, RoomEffect_PointerQueueController]
       - [0x6230, c, RoomEffect_DelayedTallPaletteCallback]
-      - [0x6390, asm, func_80195378]
+      - [0x6390, c, RoomEffect_PositionQueueController]
       - [0x657C, c, RoomEffect_TableScalePaletteCallback]
       - [0x66B4, asm, func_8019569C]
       - [0x68F4, asm, func_801958DC]
