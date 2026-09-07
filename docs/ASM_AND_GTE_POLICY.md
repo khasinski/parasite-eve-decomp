@@ -729,3 +729,19 @@ The used eight-byte parameter block contains zero, the object's halfword at
 offset58, a wrapping phase and one. Only the context pointer at offset8 and
 that object halfword are identified; surrounding structure fields remain
 unknown. Size and shade are full integers passed to the renderer.
+
+## Room 273 batch rising emitter
+
+`RoomEffect_BatchRisingEmitter` (`func_8019706C`) retains one tied-index
+barrier consuming the old X pointer, and eight unknown frame-layout bytes.
+Removing the barrier after linked score zero gives1276; removing the frame
+bytes gives90. No pins or instruction ASM remain. Only repeated renderer
+configuration writes are volatile. A plain local byte offset reproduces the
+target's address addition without constraining a register.
+
+The partial batch has coordinate arrays at offsets0/24/48, a signed count
+at72 and stop byte93. Twelve elements are inferred from spacing, not a proven
+runtime bound. The count is re-read after allocation and cleared after the
+loop even on allocation failure; the stop path leaves it untouched. Equivalent
+AF0C-relative relocations are verified by linked upstream score zero and full
+retail SHA, not treated as zero by changing the scorer or target.
