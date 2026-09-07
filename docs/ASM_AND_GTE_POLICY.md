@@ -835,3 +835,19 @@ three parameter bytes at8/9/A; halfword6 and byteB are untouched. The parameter
 semantics remain unnamed. The frame counter is reread after allocation and
 again after the first two parameter writes, rather than cached. The transform
 chain is also resolved after allocation.
+
+## Room 273 scaled-layer pair
+
+`RoomEffect_ScaledLayerPair` (`func_8019353C`, 436 bytes) has no pins,
+barriers or instruction ASM. An initial sample v1 pin was removed after
+score zero, preserving the match. Eight bytes of unknown frame layout remain;
+removing them from the pinned candidate gives upstream decomp.me score90.
+They are layout scaffolding, not reconstructed semantic fields.
+
+The initial scale is the signed halfword at input6. The renderer receives a
+local copy of all eight vector bytes and the original parameter pointer at8.
+Its two iterations retain signed sixteen-bit size and shade: the size grows
+by3/2 with truncation toward zero, while shade halves arithmetically. Both
+samples are read before either draw; subsequent helper mutations are not
+grounds for reloading them. Local vector mutations are retained except for
+position.y, overwritten from942EC after each draw.
