@@ -880,3 +880,19 @@ returns2 at counter>=20 or nonzero latch; otherwise player byte14 must be<4
 for allocation. Success latches and resolves the current player transform
 after allocation, storing its position address at transform+20. Failure does
 not latch. Mode2 writes renderer configuration only when the latch is nonzero.
+
+## Room 273 threshold triple
+
+`RoomEffect_ThresholdTriple` (`func_80193F30`, 504 bytes) retains two empty
+barriers: one consumes the first pool size, the other clobbers memory after
+copying X. Removing them individually gives upstream decomp.me scores220
+and635. No pins, padding, volatile or instruction ASM are used.
+
+It creates a sixteen-byte primary pool and four-byte secondary pointer pool.
+The kind9, value22>0, signed value26<=0 predicate emits up to three primary
+records, with phase halfwords0/384/768. Only the first receives a secondary
+pointer record. Primary allocation failure stops further emission; original
+code assumes the secondary allocation succeeds and dereferences it unchecked.
+The captured state pointer survives helper calls, but its transform and the
+primary pool are reread. Secondary update runs even on a false predicate or
+primary failure; the stop byte suppresses it, but not mode2 rendering.
