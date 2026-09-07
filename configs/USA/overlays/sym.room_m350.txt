@@ -5,6 +5,7 @@ RotMatrixYXZ = 0x80079754; // type:func
 ApplyMatrixSV = 0x80078C34; // type:func
 Asset_Find08w = 0x8006DCE4; // type:func
 Math_IntSqrt = 0x8005186C; // type:func
+Gte_Atan2 = 0x80079FB4; // type:func
 g_PlayerEntity = 0x8009D254;
 RoomLib_InvokeCallbackC_80190CF4 = 0x80190CF4; // type:func
 RoomLib_InvokeCallbackC_8019180C = 0x8019180C; // type:func

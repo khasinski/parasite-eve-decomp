@@ -128,7 +128,7 @@ segments:
       - [0x7E1C, c, RoomAnimation_RepeatFourTimesCallback]
       - [0x7F44, asm, func_80196F2C]
       - [0x8234, c, RoomActor_TriggerWithinRadius]
-      - [0x837C, asm, func_80197364]
+      - [0x837C, c, RoomEffect_AimedImpactController]
       - [0x85AC, c, RoomEffect_AcceleratedFallCallback]
       - [0x86E0, c, RoomEffect_QueuedFallController]
       - [0x8864, c, RoomEffect_TrailQueueController]
