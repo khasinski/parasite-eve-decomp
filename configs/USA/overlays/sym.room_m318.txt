@@ -1,3 +1,4 @@
+GetClut = 0x80077AA4; // type:func
 RoomLib_InvokeCallbackC_80190D4C = 0x80190D4C; // type:func
 RoomLib_InvokeCallbackC_80191864 = 0x80191864; // type:func
 RoomLib_InvokeCallbackC_80192250 = 0x80192250; // type:func

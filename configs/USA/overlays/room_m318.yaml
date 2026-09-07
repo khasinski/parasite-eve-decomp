@@ -98,7 +98,7 @@ segments:
       - [0x3638, c, func_80192620]
       - [0x3730, asm, func_80192718]
       - [0x3A94, asm, func_80192A7C]
-      - [0x3DB8, asm, func_80192DA0]
+      - [0x3DB8, c, RoomEffect_FallingPaletteSprite]
       - [0x3EEC, asm, func_80192ED4]
       - [0x4284, asm, func_8019326C]
       - [0x4650, asm, func_80193638]

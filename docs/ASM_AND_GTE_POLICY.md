@@ -560,3 +560,16 @@ five pins and three barriers were removed after reaching score zero.
 The final loop uses ordinary array indexing and an explicit index increment;
 the experimental zero-result pin/barrier and staged area pointer are gone.
 No fabricated frame locals or instruction scheduling postpass is used.
+
+## Room 318 falling palette sprite
+
+`RoomEffect_FallingPaletteSprite` (`func_80192DA0`) uses C for 16-bit motion,
+the 24-frame completion test, palette selection and renderer calls. Three
+register pins and two empty input-only barriers remain as matching constraints.
+Ordered particle reads are volatile for matching, not as a claim of MMIO;
+the motion stores are ordinary C stores. There is no instruction ASM.
+
+Post-zero removal tests eliminated speed, kind and Z pins and the final
+constant/Z barrier. Removing Y, delta or the comparison-constant pin loses
+the match, as does removing either retained barrier or all volatile reads.
+The eight-byte helper output and position vector are used locals, not padding.
