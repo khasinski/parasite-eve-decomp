@@ -789,3 +789,17 @@ their halfword at2 receives the same random angular offset, wrapping to16
 bits. Other bytes remain unnamed and are copied intact. Allocation failure
 stops without undoing an earlier copy. The signed predicate uses kind9,
 value22 >0 and value26 <=0; current/previous naming remains unproven.
+
+## Room 273 threshold burst
+
+`RoomEffect_ThresholdBurst` (`func_801945A8`) retains one empty barrier with
+memory and v0 clobbers. Removing v0 gives90; removing memory gives1535.
+No pins, padding or instruction ASM are used. Only repeated3376/3378 writes
+are volatile. The state predicate uses kind9, value22 >=2 and signed value26
+<2. It rearms four emissions and clears the delay, even during an active burst.
+
+The signed delay is post-decremented whenever the remaining count is nonzero;
+allocation is attempted when the old delay is nonpositive. Failure retains
+that decrement and does not consume an emission. Success copies three player
+coordinates into halfwords, leaves the fourth halfword untouched, resets
+delay to2 and decrements the count. Player data is resolved after allocation.
