@@ -154,7 +154,7 @@ segments:
       - [0x9078, asm, func_80198060]
       - [0x91BC, asm, func_801981A4]
       - [0x9700, asm, func_801986E8]
-      - [0x9B34, asm, func_80198B1C]
+      - [0x9B34, c, RoomEffect_GroundLayerSprite]
       - [0x9CEC, c, RoomEffect_GatedPairEmitter]
       - [0x9EAC, asm, func_80198E94]
       - [0xA408, c, RoomEffect_PairedEmitter]

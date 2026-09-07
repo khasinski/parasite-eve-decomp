@@ -652,3 +652,15 @@ volatile as matching constraints, not MMIO claims. Index/palette pins and
 all other volatile qualifiers were removed after reaching linked score zero.
 Removing the memory clobber with the palette pin present gave raw625.
 There is no frame padding. AF74+46 versus AFA2 gives raw10, linked0/11200.
+
+## Room 273 ground-layer sprite
+
+`RoomEffect_GroundLayerSprite` (`func_80198B1C`) retains one comparison-constant
+pin and one empty shade/size input barrier with a memory clobber. An earlier
+sample-capture barrier was removed after matching. Removing the remaining
+pin gives715 and removing the remaining barrier1305 on upstream scoring.
+
+The full vector copy and both render calls stay in C. Samples and signed
+shade are retained across helpers; only the local Y is overwritten from the
+ground-height global between layers. No volatile, frame padding or instruction
+ASM is required. The stack frame follows used locals and outgoing arguments.
