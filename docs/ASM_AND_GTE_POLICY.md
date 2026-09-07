@@ -587,3 +587,16 @@ scores 10, 35 or 38. Removing the first barrier gives 885, its memory clobber
 680, and the size barrier 295. These are stock-compiler matching constraints,
 not hardware semantics. Helper mutation tests cover the pre-call size capture
 and post-call brightness read with the original captured frame index.
+
+## Room 273 double-sized table sprite
+
+`RoomEffect_DoubleSizedTableSprite` (`func_80194470`) retains one comparison
+constant pin and two empty input-only barriers (one with a memory clobber).
+Capturing the first offset before saving the frame reproduces the original
+instruction order. Feeding that saved frame to the size barrier resolves
+allocation without pinning the frame or size registers.
+
+After matching, position and first-frame pins were removed. Removing the
+remaining pin yields715; removing the first barrier38, the second588, or its
+memory clobber390. The first table access is a signed halfword, the second a
+full word with its low signed halfword used for brightness. Neither is ASM.
