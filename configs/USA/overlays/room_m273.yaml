@@ -122,7 +122,7 @@ segments:
       - [0x4888, asm, func_80193870]
       - [0x49CC, c, RoomEffect_LatchedPlayerEmitter]
       - [0x4B74, c, func_80193B5C]
-      - [0x4CD0, asm, func_80193CB8]
+      - [0x4CD0, c, RoomEffect_ThresholdModel]
       - [0x4F48, c, RoomEffect_ThresholdTriple]
       - [0x5140, asm, func_80194128]
       - [0x529C, c, RoomEffect_ThresholdPair]

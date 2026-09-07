@@ -896,3 +896,22 @@ code assumes the secondary allocation succeeds and dereferences it unchecked.
 The captured state pointer survives helper calls, but its transform and the
 primary pool are reread. Secondary update runs even on a false predicate or
 primary failure; the stop byte suppresses it, but not mode2 rendering.
+
+## Room 273 threshold model
+
+`RoomEffect_ThresholdModel` (`func_80193CB8`, 632 bytes) retains five pins
+(shifted table pointer a0, table base a2, packed sample v0, asset address s1,
+special kind v1) and four empty barriers (index, scale-store ordering, paired
+phase/parameter, page). No instruction ASM, volatile or frame padding is used.
+From the initial zero candidate, removing table/sample/asset/special-kind pins
+gave25/65/160/550; removing the four barriers gave65/335/305/1065. Frame and
+wave-pointer pins were removed together with zero preserved. Removing those
+and the shifted-pointer pin together gave975, so that pin remains.
+
+The sixteen-byte record contains XYZ, phase, XZ scale, Y scale, a renderer
+parameter and one still-unknown halfword. Update sets the scales from paired
+animation samples, increments phase256 and derives parameter12 with signed
+shift6. Render builds a Y-rotation matrix, applies a copied sixteen-byte scale
+vector, then reads current translation fields. Helper calls may change the
+asset pointer, phase or scale; the original rereads are retained. Matrix pad
+is not initialized by the original and is not given an invented value.
