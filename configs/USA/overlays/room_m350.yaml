@@ -123,7 +123,7 @@ segments:
       - [0x6CF8, asm, func_80195CE0]
       - [0x70DC, asm, func_801960C4]
       - [0x78F0, c, RoomEffect_BallisticPaletteCallback]
-      - [0x7A2C, asm, func_80196A14]
+      - [0x7A2C, c, RoomEffect_DualBallisticSpawner]
       - [0x7C7C, c, RoomEffect_ConfiguredPulseCallback]
       - [0x7E1C, c, RoomAnimation_RepeatFourTimesCallback]
       - [0x7F44, asm, func_80196F2C]
