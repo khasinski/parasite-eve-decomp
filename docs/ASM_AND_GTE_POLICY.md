@@ -677,3 +677,16 @@ clobber were removed. Removal probes for the early offset barrier, sample
 barrier, motion barrier, speed pin, padding and all volatile reads scored
 215, 695, 160, 525, 90 and 125 respectively. Samples and frame are captured
 before GetClut; scale is read after it. Dimensions remain full integers.
+
+## Room 273 position emitter
+
+`RoomEffect_PositionEmitter` (`func_80197A48`) uses one empty palette-input
+barrier with memory and v0 clobbers, without pins, padding or instruction ASM.
+The Y/Z source reads and X/Y output stores are volatile matching constraints,
+not MMIO; the X source read and Z output store are ordinary accesses.
+The repeated writes to 3376/3378 also retain volatile qualifiers.
+
+After score zero, X source volatility was removed. Removing Y/Z source
+volatility scores440/840; removing X/Y store volatility365/340. Removing the
+barrier scores805, its memory clobber1270, or its v0 clobber90. The output's
+fourth halfword is unknown and untouched. Flags are observed, not consumed.

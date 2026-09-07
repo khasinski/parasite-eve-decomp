@@ -149,7 +149,7 @@ segments:
       - [0x84F4, c, RoomEffect_GrowingRisingSprite]
       - [0x8660, asm, func_80197648]
       - [0x8810, asm, func_801977F8]
-      - [0x8A60, asm, func_80197A48]
+      - [0x8A60, c, RoomEffect_PositionEmitter]
       - [0x8BD4, asm, func_80197BBC]
       - [0x9078, asm, func_80198060]
       - [0x91BC, asm, func_801981A4]
