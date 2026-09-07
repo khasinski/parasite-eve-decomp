@@ -161,7 +161,7 @@ segments:
       - [0xA580, c, RoomEffect_DelayedRisingSprite]
       - [0xA6DC, asm, func_801996C4]
       - [0xA968, c, RoomEffect_DualSampleSprite]
-      - [0xAAA8, asm, func_80199A90]
+      - [0xAAA8, c, RoomEffect_PeriodicPointerPair]
       - [0xAC68, asm, func_80199C50]
       - [0xAF88, c, func_80199F70]
       - [0xAF9C, asm, func_80199F84]

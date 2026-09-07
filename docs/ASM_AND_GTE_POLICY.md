@@ -703,3 +703,17 @@ the speed-store removal scored315 before the palette barrier was removed.
 The signed halfword counter is postdecremented only when emission is active.
 Allocation failure preserves that decrement; success resets it to two.
 Coordinates are read after allocation, Y is offset by -256, and speed is zero.
+
+## Room 273 periodic pointer pair
+
+`RoomEffect_PeriodicPointerPair` (`func_80199A90`) keeps one empty palette
+input barrier with memory/v0 clobbers and volatile repeated 3376/3378 writes.
+There are no pins, padding or instruction ASM. Initializing the loop counter
+before the position pointer reproduces allocation without register constraints.
+After score zero, removing the barrier scores1405, its v0 clobber90, or its
+memory clobber1455. These constraints express matching, not hardware semantics.
+
+Each allocated four-byte effect holds a live pointer to one of two eight-byte
+position records, not copied coordinates. A failed allocation stops the loop
+without undoing earlier allocations. The completion latch is independent of
+the eight-frame emission interval.
