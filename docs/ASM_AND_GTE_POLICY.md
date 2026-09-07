@@ -938,3 +938,25 @@ reread. Primary failure stops emission, then clears the pending count and
 updates the secondary pool. A set stop byte still updates that pool and
 returns 2 without clearing count. Render updates the secondary pool before
 reading palette state. Repeated writes to 0x800F3376/78 remain volatile.
+
+## Room 273 periodic dual pools
+
+`RoomEffect_PeriodicDualPools` (`func_801960F4`, 596 bytes) retains two empty
+barriers (first pool size input and palette memory/v0 clobber), eight bytes
+of unknown frame layout and a volatile second timer read. No pins or
+instruction ASM remain. Removing the frame bytes scored 58; removing the
+timer volatile read scored 358; removing the two barriers scored 60/1315.
+Removing only the palette v0/memory clobber scored 90/1430. The stop-address
+pin and palette input operand were removed together with score zero retained.
+
+Both pools contain four-byte pointer records and have capacity six. For
+state kind 11, timer values less than 35 whose low three bits are zero emit
+up to two references into each pool. Negative multiples of eight also pass;
+the original does not require a nonnegative timer. The first loop uses the
+position base 0x5C bytes before the stop symbol; the second uses its alias
+0x8019AE9C. Each position occupies eight bytes. A primary allocation failure
+does not suppress the independent secondary loop. Pool globals are reread
+after helpers; the predicate and stop flag are not reevaluated during loops.
+Kind 11 always updates the secondary pool after the predicate, while other
+kinds and an initial stop flag do not. Render runs regardless of that flag
+and reads palette state after its helper. Remaining buffer fields are unknown.

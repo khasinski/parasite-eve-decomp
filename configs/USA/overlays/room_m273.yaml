@@ -138,7 +138,7 @@ segments:
       - [0x6BE8, c, RoomEffect_PairedBatchEmitter]
       - [0x6E28, c, RoomEffect_ColoredRisingSprite]
       - [0x6F90, c, func_80195F78]
-      - [0x710C, asm, func_801960F4]
+      - [0x710C, c, RoomEffect_PeriodicDualPools]
       - [0x7360, asm, func_80196348]
       - [0x7674, asm, func_8019665C]
       - [0x79F0, asm, func_801969D8]
