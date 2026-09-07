@@ -775,3 +775,17 @@ current/previous values is not proven. Remaining bytes are explicitly unknown.
 The scene's pointer at0x238 is read after allocation; position is pointer+20.
 Allocation failure still updates the secondary pool. A nonzero stop byte
 returns2 without touching either pool; initialization returns both pool sizes.
+
+## Room 273 threshold pair
+
+`RoomEffect_ThresholdPair` (`func_80194284`) retains one empty memory barrier
+between palette selection and the final renderer configuration stores.
+Without it score is545; consuming the palette as an input gives zero, but
+removing that input still matches. There are no pins, padding or instruction
+ASM. Only repeated configuration writes at3376/3378 use volatile.
+
+Two eight-byte templates are copied with ordinary C struct assignment, then
+their halfword at2 receives the same random angular offset, wrapping to16
+bits. Other bytes remain unnamed and are copied intact. Allocation failure
+stops without undoing an earlier copy. The signed predicate uses kind9,
+value22 >0 and value26 <=0; current/previous naming remains unproven.

@@ -1,4 +1,5 @@
 GetClut = 0x80077AA4; // type:func
+Inv_ScrambleGrid = 0x80052B2C; // type:func
 g_PlayerEntity = 0x8009D254;
 Asset_FindTable08ByU32Key = 0x8006E498; // type:func
 RoomLib_InvokeCallbackC_80190CF0 = 0x80190CF0; // type:func

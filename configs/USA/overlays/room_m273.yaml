@@ -125,7 +125,7 @@ segments:
       - [0x4CD0, asm, func_80193CB8]
       - [0x4F48, asm, func_80193F30]
       - [0x5140, asm, func_80194128]
-      - [0x529C, asm, func_80194284]
+      - [0x529C, c, RoomEffect_ThresholdPair]
       - [0x5488, c, RoomEffect_DoubleSizedTableSprite]
       - [0x55C0, asm, func_801945A8]
       - [0x57E4, asm, func_801947CC]
