@@ -136,7 +136,7 @@ segments:
       - [0x6600, asm, func_801955E8]
       - [0x699C, asm, func_80195984]
       - [0x6BE8, asm, func_80195BD0]
-      - [0x6E28, asm, func_80195E10]
+      - [0x6E28, c, RoomEffect_ColoredRisingSprite]
       - [0x6F90, c, func_80195F78]
       - [0x710C, asm, func_801960F4]
       - [0x7360, asm, func_80196348]

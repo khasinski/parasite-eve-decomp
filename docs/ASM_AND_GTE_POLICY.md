@@ -745,3 +745,18 @@ runtime bound. The count is re-read after allocation and cleared after the
 loop even on allocation failure; the stop path leaves it untouched. Equivalent
 AF0C-relative relocations are verified by linked upstream score zero and full
 retail SHA, not treated as zero by changing the scorer or target.
+
+## Room 273 colored rising sprite
+
+`RoomEffect_ColoredRisingSprite` (`func_80195E10`) retains two register pins,
+one size-input memory barrier and two volatile speed reads. No instruction
+ASM or frame padding is used. After score zero, removing the motion barrier
+and volatile Y read still matches; removing the speed pin then gives320.
+Removing both volatile speed reads gives125; restoring only the second gives20.
+Removing the render barrier's memory clobber gives1025. Earlier removal of
+the special-kind pin gives330. Initial sample pin and barrier were also removed.
+
+The four-byte color record is copied with ordinary C struct assignment;
+its fourth byte remains unnamed. Size and color are captured before GetClut,
+whereas shade is sampled afterward using the saved frame index. Dimensions
+remain full integers, and the motion halfwords wrap on assignment.
