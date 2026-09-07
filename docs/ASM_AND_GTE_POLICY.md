@@ -866,3 +866,17 @@ It receives the second half of the indexed animation sample. Parameter bytes
 8/9/A receive40, the first sample scaled by40/4096, and0; byteB is untouched.
 The phase counter is reread after byte8 is written. The coordinate transform
 and animation counter are resolved after allocation, not before it.
+
+## Room 273 latched-player emitter
+
+`RoomEffect_LatchedPlayerEmitter` (`func_801939B4`, 424 bytes) retains one
+empty barrier clobbering memory and v0. With a palette input but without v0
+the candidate scores90; removing the palette input after zero preserves zero.
+Removing memory from the minimized candidate gives1420. There are no pins,
+padding or instruction ASM. Only repeated3376/3378 writes are volatile.
+
+Mode0 clears the latch and initializes one four-byte pointer record. Mode1
+returns2 at counter>=20 or nonzero latch; otherwise player byte14 must be<4
+for allocation. Success latches and resolves the current player transform
+after allocation, storing its position address at transform+20. Failure does
+not latch. Mode2 writes renderer configuration only when the latch is nonzero.

@@ -120,7 +120,7 @@ segments:
       - [0x4554, c, RoomEffect_ScaledLayerPair]
       - [0x4708, c, RoomEffect_ScaledLayerEmitter]
       - [0x4888, asm, func_80193870]
-      - [0x49CC, asm, func_801939B4]
+      - [0x49CC, c, RoomEffect_LatchedPlayerEmitter]
       - [0x4B74, c, func_80193B5C]
       - [0x4CD0, asm, func_80193CB8]
       - [0x4F48, asm, func_80193F30]
