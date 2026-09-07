@@ -803,3 +803,20 @@ allocation is attempted when the old delay is nonpositive. Failure retains
 that decrement and does not consume an emission. Success copies three player
 coordinates into halfwords, leaves the fourth halfword untouched, resets
 delay to2 and decrements the count. Player data is resolved after allocation.
+
+## Room 273 triple-layer sprite
+
+`RoomEffect_TripleLayerSprite` (`func_801977F8`, 592 bytes) retains three
+register pins: initial counter v0, saved frame s6 and packed sample v1.
+Removing them individually from the matching candidate gives upstream
+decomp.me scores 20, 1920 and 390 respectively. An empty barrier consuming
+the saved frame and clobbering memory follows the final local vector writes;
+removing either its input or memory clobber gives483. Three earlier input-only
+barriers were unnecessary and removed. No padding or instruction ASM is used.
+
+The callback copies all eight position bytes, renders a sprite and then two
+additional layers. The packed animation sample is reloaded after the first
+draw using the saved frame, not the potentially changed global counter.
+The last draw retains the second sample's shade and reads the floor height
+after the second draw. Rotation and position are passed by address, so helper
+mutations of fields not subsequently overwritten remain observable.
