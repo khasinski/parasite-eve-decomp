@@ -111,7 +111,7 @@ segments:
       - [0x5508, c, RoomEffect_TwoLayerCallback]
       - [0x566C, c, RoomEffect_AnimationBurstCallback]
       - [0x57D4, asm, func_801947BC]
-      - [0x5D14, asm, func_80194CFC]
+      - [0x5D14, c, RoomEffect_SequenceSpawner]
       - [0x5F1C, c, RoomEffect_OffsetPositionPaletteCallback]
       - [0x607C, asm, func_80195064]
       - [0x6230, c, RoomEffect_DelayedTallPaletteCallback]
