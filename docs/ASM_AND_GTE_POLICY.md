@@ -717,3 +717,15 @@ Each allocated four-byte effect holds a live pointer to one of two eight-byte
 position records, not copied coordinates. A failed allocation stops the loop
 without undoing earlier allocations. The completion latch is independent of
 the eight-frame emission interval.
+
+## Room 273 phased pointer sprite
+
+`RoomEffect_PhasedPointerSprite` (`func_8019A4CC`) retains one frame-register
+pin and eight explicitly unknown frame-layout bytes. Removing these after
+score zero gives471 and26 respectively. There are no barriers, volatile
+accesses or instruction ASM. Unknown stack bytes are not semantic fields.
+
+The used eight-byte parameter block contains zero, the object's halfword at
+offset58, a wrapping phase and one. Only the context pointer at offset8 and
+that object halfword are identified; surrounding structure fields remain
+unknown. Size and shade are full integers passed to the renderer.

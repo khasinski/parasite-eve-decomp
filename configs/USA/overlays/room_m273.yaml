@@ -169,7 +169,7 @@ segments:
       - [0xB1B8, c, func_8019A1A0]
       - [0xB2A8, asm, func_8019A290]
       - [0xB3B0, asm, func_8019A398]
-      - [0xB4E4, asm, func_8019A4CC]
+      - [0xB4E4, c, RoomEffect_PhasedPointerSprite]
       - [0xB5EC, c, func_8019A5D4]
       - [0xB640, c, func_8019A628]
       - [0xB724, c, func_8019A70C]
