@@ -110,7 +110,7 @@ segments:
       - [0x5234, c, RoomEffect_ModelShellSpawner]
       - [0x5508, c, RoomEffect_TwoLayerCallback]
       - [0x566C, c, RoomEffect_AnimationBurstCallback]
-      - [0x57D4, asm, func_801947BC]
+      - [0x57D4, c, RoomEffect_HomingTrailController]
       - [0x5D14, c, RoomEffect_SequenceSpawner]
       - [0x5F1C, c, RoomEffect_OffsetPositionPaletteCallback]
       - [0x607C, c, RoomEffect_PointerQueueController]
