@@ -138,7 +138,7 @@ segments:
       - [0x91E8, c, RoomEffect_TransformedFlare]
       - [0x9418, asm, func_80198400]
       - [0x9878, asm, func_80198860]
-      - [0x9AD4, asm, func_80198ABC]
+      - [0x9AD4, c, RoomEffect_AttachedCloudSpawner]
       - [0x9D10, asm, func_80198CF8]
       - [0xA160, c, RoomEffect_FadingAccelerationCallback]
       - [0xA2B8, asm, func_801992A0]
