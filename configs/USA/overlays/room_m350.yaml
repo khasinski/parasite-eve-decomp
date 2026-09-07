@@ -134,7 +134,7 @@ segments:
       - [0x8864, c, RoomEffect_TrailQueueController]
       - [0x8A1C, c, RoomEffect_ExpandingActorOffsetCallback]
       - [0x8BB0, c, RoomEffect_RadialBurstController]
-      - [0x8DC0, asm, func_80197DA8]
+      - [0x8DC0, c, RoomEffect_AnimationEventController]
       - [0x91E8, c, RoomEffect_TransformedFlare]
       - [0x9418, asm, func_80198400]
       - [0x9878, c, RoomEffect_AttachedCloud]
