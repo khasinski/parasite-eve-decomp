@@ -143,7 +143,7 @@ segments:
       - [0xA160, c, RoomEffect_FadingAccelerationCallback]
       - [0xA2B8, asm, func_801992A0]
       - [0xA6D4, c, RoomEffect_SineFadeCallback]
-      - [0xA8A4, asm, func_8019988C]
+      - [0xA8A4, c, RoomEffect_ModelTransformEmitter]
       - [0xAB24, c, func_80199B0C]
       - [0xABAC, c, func_80199B94]
       - [0xACBC, c, func_80199CA4]
