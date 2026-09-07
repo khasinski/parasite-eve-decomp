@@ -5,12 +5,19 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_RisingTableSprite.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_BatchRising.c'
+
+
+def callback_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_80196F2C')
+    emitter = source.index('int func_8019706C')
+    return source[:callback] + source[callback:emitter]
 
 
 class RisingSprite(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = callback_source() + r'''
 typedef char layout[sizeof(Vector)==8 &&
     (unsigned long)&((Vector *)0)->y==2 ? 1:-1];
 '''
@@ -24,7 +31,7 @@ typedef char layout[sizeof(Vector)==8 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = '#include <assert.h>\n#include <limits.h>\n' + SOURCE.read_text() + r'''
+        source = '#include <assert.h>\n#include <limits.h>\n' + callback_source() + r'''
 int D_800E27EC, D_800F3428;
 unsigned short D_800F336C, D_800E1204[8];
 short D_800F336A, D_8019AD68[8];

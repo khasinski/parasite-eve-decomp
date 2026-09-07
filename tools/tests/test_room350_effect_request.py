@@ -10,7 +10,11 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class Room350EffectRequestTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_request_lifecycle_and_render_configuration(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_QueuedFallController.c").read_text()
+        source = (ROOT / "src/overlays/room_m350/RoomEffect_QueuedFall.c").read_text()
+        source = ('extern short D_800F336A;\n'
+                  'extern unsigned short D_800F336C;\n'
+                  'extern int func_80197594(int, short *);\n' +
+                  source[source.index('typedef struct { int reserved[2]; void *pool; } Emitter;'):])
         harness = '#include <assert.h>\n#include <string.h>\n' + source + r'''
 Emitter *D_800F33E0;
 unsigned char D_8019A86E, D_8019A857;

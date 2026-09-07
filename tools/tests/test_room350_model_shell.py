@@ -5,19 +5,26 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_ModelShellSpawner.c'
+SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_ModelShellLayers.c'
+
+
+def spawner_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_8019404C')
+    spawner = source.index('int func_8019421C')
+    return source[:callback] + 'extern int func_8019404C(int, Particle *);\n' + source[spawner:]
 
 
 class ModelShellTests(unittest.TestCase):
     @unittest.skipUnless((ROOT/'tools/old-gcc/cc1').is_file() and shutil.which('mipsel-none-elf-as'), 'PSX tools unavailable')
     def test_target_layout(self):
-        source = SOURCE.read_text().split('extern Emitter', 1)[0] + r'''
+        source = SOURCE.read_text().split('extern Emitter *D_800F33E0', 1)[0] + r'''
 #define OFF(t,f) ((unsigned long)&((t *)0)->f)
 typedef char a[sizeof(Vector)==8 ? 1:-1];
 typedef char b[sizeof(Matrix)==32 ? 1:-1];
 typedef char c[OFF(Matrix,position)==20 ? 1:-1];
 typedef char d[sizeof(Particle)==12 ? 1:-1];
-typedef char e[OFF(Particle,position)==4 ? 1:-1];
+typedef char e[OFF(Particle,x)==4 ? 1:-1];
 typedef char f[OFF(Particle,size)==10 ? 1:-1];
 typedef char g[OFF(Instance,transforms)==0x238 ? 1:-1];
 typedef char h[OFF(Emitter,pool)==8 ? 1:-1];
@@ -25,18 +32,20 @@ typedef char h[OFF(Emitter,pool)==8 ? 1:-1];
         with tempfile.TemporaryDirectory() as directory:
             path = pathlib.Path(directory)/'layout.c'
             path.write_text(source)
-            result = subprocess.run([str(ROOT/'tools/scripts/cc.sh'), str(path), str(path.with_suffix('.o'))], cwd=ROOT, capture_output=True, text=True)
+            result = subprocess.run([str(ROOT/'tools/scripts/cc.sh'), str(path), str(path.with_suffix('.o'))], cwd=ROOT, capture_output=True, text=True, errors='replace')
             self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_rng_transform_boundaries_and_reload(self):
-        source = SOURCE.read_text().replace(' asm("$16")', '')
+        source = spawner_source().replace(' asm("$16")', '')
         # Helper stubs check CPU behavior, not rotation/GTE arithmetic.
         harness = '#include <assert.h>\n#include <stdint.h>\n#include <string.h>\n#include <limits.h>\n' + source + r'''
 Emitter *D_800F33E0;
 Instance *D_8019A7F8;
 int D_800E27EC,D_800966EC[4096];
-volatile short D_800F3368,D_800F336A,D_800F3376,D_800F3378,D_800F336C,D_800F336E,D_800F3372,D_800F3374;
+volatile short D_800F3368,D_800F3376,D_800F3378,D_800F336E,D_800F3372,D_800F3374;
+short D_800F336A;
+unsigned short D_800F336C;
 volatile unsigned short D_800E11E8,D_800F3370;
 unsigned short D_800E2850[65536];
 static Emitter emitters[2];
@@ -65,7 +74,7 @@ int Inv_ScrambleGrid(void) {
     assert(allocs==i+1);
     if(part>=4) {
         assert(applications==i+1 && rotations==i+1);
-        for(j=0;j<3;j++) assert(particles[i].position[j]==expected[i].position[j]);
+        for(j=0;j<3;j++) assert((&particles[i].x)[j]==(&expected[i].x)[j]);
         assert(particles[i].size==expected[i].size);
         D_800E27EC=INT_MAX;
         if(part==6) expected[i].color=signed_word((uint32_t)asr1(rng(i*7+4)) |
@@ -90,7 +99,7 @@ void ApplyMatrixSV(Matrix *m,Vector *v,Vector *out) {
     D_800E27EC=signed_word(seed+(uint32_t)i*0x13579u);
     timer=signed_word((uint32_t)D_800E27EC<<11); index=(timer/40)&4095;
     D_800966EC[index]=signed_word(tableWord); expected[i].size=half(tableWord+4096);
-    for(j=0;j<3;j++) expected[i].position[j]=half((uint32_t)((short *)out)[j]+
+    for(j=0;j<3;j++) (&expected[i].x)[j]=half((uint32_t)((short *)out)[j]+
         (uint32_t)transforms[1][i ? 11:15].position[j]);
 }
 static void reset(void) {

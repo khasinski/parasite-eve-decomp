@@ -7,11 +7,17 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 
+def callback_source():
+    source = (ROOT / "src/overlays/room_m350/RoomEffect_PositionQueue.c").read_text()
+    return source[:source.index('int func_80195378')]
+
+
 class Room350EffectDelayedTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_delay_saved_size_and_reloaded_shade(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_DelayedTallPaletteCallback.c").read_text()
-        source = source.replace('extern short D_800966EE[];',
+        source = callback_source()
+        source = source.replace('extern short D_800F336A, D_800966EE[];',
+            'extern short D_800F336A;\n'
             'static union { int alignment; short values[8194]; } table;\n'
             '#define D_800966EE (table.values + 1)')
         harness = '#include <assert.h>\n#include <string.h>\n' + source + r'''

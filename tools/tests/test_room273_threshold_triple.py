@@ -6,16 +6,25 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_ThresholdTriple.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_ThresholdModelTriple.c'
+
+
+def controller_source():
+    source = SOURCE.read_text()
+    first_function = source.index('int func_80193B5C')
+    controller = source.index('int func_80193F30')
+    preamble = source[:first_function]
+    preamble = preamble.replace('extern void *memset(void *,int,unsigned long);\n', '')
+    return preamble + source[controller:]
 
 
 class ThresholdTriple(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = controller_source() + r'''
 typedef char layout[sizeof(Effect)==16 && sizeof(AssetState)==8 &&
     (unsigned long)&((AssetState *)0)->pool==4 &&
     (unsigned long)&((Effect *)0)->phase==6 &&
-    (unsigned long)&((Effect *)0)->unknown==8 &&
+    (unsigned long)&((Effect *)0)->scaleXZ==8 &&
     (unsigned long)&((Context *)0)->pool==8 &&
     (unsigned long)&((StateContext *)0)->state==8 &&
     (unsigned long)&((State *)0)->kind==14 &&
@@ -35,7 +44,7 @@ typedef char layout[sizeof(Effect)==16 && sizeof(AssetState)==8 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = re.sub(r'asm\(""[^;]*;', '', SOURCE.read_text())
+        source = re.sub(r'asm\(""[^;]*;', '', controller_source())
         source = '#include <assert.h>\n#include <string.h>\n#include <limits.h>\n' + source + r'''
 static Context context;
 static StateContext stateContext;
@@ -100,7 +109,7 @@ int main(void) {
             assert(aux==(successes>0) && secondaryRecord==(successes ? &records[0]:0));
             for(n=0;n<3;++n) {
                 unsigned char untouched[8]; memset(untouched,0xA5,8);
-                assert(memcmp(records[n].unknown,untouched,8)==0);
+                assert(memcmp(&records[n].scaleXZ,untouched,8)==0);
                 if(n<successes) {
                     assert(records[n].x==(short)(65535+n) && records[n].y==100+n);
                     assert(records[n].z==(short)(32768+n) && records[n].phase==n*384);

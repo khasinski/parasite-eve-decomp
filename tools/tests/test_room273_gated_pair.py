@@ -6,12 +6,19 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_GatedPairEmitter.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_GatedGroundPair.c'
+
+
+def emitter_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_80198B1C')
+    emitter = source.index('int func_80198CD4')
+    return source[:callback] + 'extern int func_80198B1C(int, void *);\n' + source[emitter:]
 
 
 class GatedPairEmitter(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = emitter_source() + r'''
 typedef char layout[sizeof(Record)==8 && __alignof__(Record)==2 &&
     (unsigned long)&((State *)0)->stopped==46 &&
     (unsigned long)&((Context *)0)->pool==8 ? 1:-1];
@@ -26,7 +33,7 @@ typedef char layout[sizeof(Record)==8 && __alignof__(Record)==2 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = re.sub(r'asm\(""[^;]*;', '', SOURCE.read_text())
+        source = re.sub(r'asm\(""[^;]*;', '', emitter_source())
         source = '#include <assert.h>\n#include <string.h>\n' + source + r'''
 Context *D_800F33E0;
 State D_8019AF74;

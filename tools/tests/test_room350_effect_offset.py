@@ -7,10 +7,17 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 
+def callback_source():
+    source = (ROOT / "src/overlays/room_m350/RoomEffect_PointerQueue.c").read_text()
+    callback = source[:source.index('int func_80195064')]
+    definition = callback.index('int func_80194F04')
+    return callback[:definition] + 'typedef Vector Position; typedef Particle Effect;\n' + callback[definition:]
+
+
 class Room350EffectOffsetTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_position_copy_offset_and_saved_frame(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_OffsetPositionPaletteCallback.c").read_text()
+        source = callback_source()
         source = source.replace('asm("$3")', '')
         harness = '#include <assert.h>\n#include <string.h>\n' + source + r'''
 int D_800E27EC, D_800F3428, D_800966EC[4096], D_8019A4E8[4];

@@ -5,13 +5,29 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "src/overlays/room_m350/RoomEffect_PositionQueueController.c"
+SOURCE = ROOT / "src/overlays/room_m350/RoomEffect_PositionQueue.c"
+
+
+def controller_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_80195218')
+    controller = source.index('int func_80195378')
+    declarations = source[:callback]
+    for line in (
+        'extern int D_800E27EC, D_800F3428, D_8019A3D0[];\n',
+        'extern unsigned short D_800F336C, D_800E1204[];\n',
+        'extern short D_800F336A, D_800966EE[];\n',
+        'extern int GetClut(int, int);\n',
+        'extern void func_800CEE20(void *, void *, int, int, int, unsigned int, int, int, void *);\n',
+    ):
+        declarations = declarations.replace(line, '')
+    return declarations + 'extern int D_800E27EC;\nextern volatile short D_800F336A,D_800F336C;\nextern int func_80195218(int, Particle *);\n' + source[controller:]
 
 
 class PositionQueueTests(unittest.TestCase):
     @unittest.skipUnless((ROOT / "tools/old-gcc/cc1").is_file() and shutil.which("mipsel-none-elf-as"), "PSX tools unavailable")
     def test_target_layout(self):
-        source = SOURCE.read_text().split("extern Emitter", 1)[0] + r'''
+        source = controller_source().split("extern Emitter", 1)[0] + r'''
 #define OFF(t,f) ((unsigned long)&((t *)0)->f)
 typedef char a[sizeof(Particle)==12 ? 1:-1];
 typedef char b[OFF(Particle,delay)==8 ? 1:-1];
@@ -28,7 +44,7 @@ typedef char f[OFF(Actor,instance)==8 ? 1:-1];
 
     @unittest.skipUnless(shutil.which("cc"), "host compiler unavailable")
     def test_queue_copy_and_helper_reloads(self):
-        source = SOURCE.read_text().replace(' asm("$16")', '')
+        source = controller_source().replace(' asm("$16")', '')
         declarations, body = source.split("extern Emitter", 1)
         body = ("extern Emitter" + body).replace("extern short D_8019A800, D_8019A802;", "extern short D_8019A802;")
         harness = '#include <assert.h>\n#include <string.h>\n' + declarations + '\nstatic Queue pending;\n#define D_8019A800 pending.count\n' + body + r'''

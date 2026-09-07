@@ -10,14 +10,15 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class Room350EffectProductTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_signed_product_palette_and_reload_order(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_ProductScalePaletteCallback.c").read_text()
+        source = (ROOT / "src/overlays/room_m350/RoomEffect_RampedPalettePair.c").read_text()
+        source = source[:source.index('int func_80192C34')]
         harness = '#include <assert.h>\n#include <string.h>\n' + source + r'''
 int D_800E27EC, D_800F3428, D_800966EC[4096], D_8019A3D0[4];
 unsigned short D_800F336C, D_800E1204[8];
 short D_800F336A;
 static int point, replacement, lookups, draws, nextCounter, expectedSize;
 static int expectedScale, expectedShade, handleValue;
-static Effect object;
+static Particle object;
 int GetClut(int x, int y) {
     unsigned int index = ((unsigned int)(nextCounter - 1) << 7) & 0xF80;
     assert(lookups++ == 0 && draws == 0 && x == 32);
@@ -27,7 +28,7 @@ int GetClut(int x, int y) {
     memset(D_800966EC, 0, sizeof(D_800966EC));
     D_800E27EC = nextCounter; D_800F336A = expectedScale;
     D_800966EC[index] = (int)(0x76540000U | (unsigned short)expectedShade);
-    object.position = &replacement; object.scale = 0;
+    object.position = (Vector *)&replacement; object.scale = 0;
     return handleValue;
 }
 void func_800CEE20(void *p, int zero, int a, int b, int scale,
@@ -61,7 +62,7 @@ int main(void) {
         expectedSize = (product + (product < 0 ? 4095 : 0)) >> 12;
         expectedScale = values[s]; expectedShade = values[7-s];
         handleValue = h ? -1 : 0x12345;
-        object.position = &point; object.scale = values[m]; lookups = draws = 0;
+        object.position = (Vector *)&point; object.scale = values[m]; lookups = draws = 0;
         assert(func_80192ADC(2, &object) == 0);
         assert(lookups == 1 && draws == 1);
     }

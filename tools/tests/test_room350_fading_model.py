@@ -6,13 +6,18 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_FadingModelSpawner.c'
+SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_FadingModel.c'
+
+
+def controller_source():
+    source = SOURCE.read_text()
+    return source[:source.index('int func_80199148')] + source[source.index('/* MASPSX_FLAGS: --expand-div */'):]
 
 
 class FadingModelTests(unittest.TestCase):
     @unittest.skipUnless((ROOT/'tools/old-gcc/cc1').is_file() and shutil.which('mipsel-none-elf-as'), 'PSX tools unavailable')
     def test_target_layout(self):
-        source = SOURCE.read_text().split('extern Actor', 1)[0] + r'''
+        source = controller_source().split('extern Actor', 1)[0] + r'''
 #define OFF(t,f) ((unsigned long)&((t *)0)->f)
 typedef char a[sizeof(State)==4 && OFF(State,delay)==2 ? 1:-1];
 typedef char b[sizeof(Particle)==20 && OFF(Particle,velocity)==8 ? 1:-1];
@@ -31,7 +36,7 @@ typedef char h[sizeof(Matrix)==32 && OFF(Matrix,position)==20 && sizeof(Vector)=
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_state_rng_and_gte_boundaries(self):
-        source = re.sub(r' asm\("\$\d+"\)', '', SOURCE.read_text())
+        source = re.sub(r' asm\("\$\d+"\)', '', controller_source())
         source = source.replace('#include "pe1/gte.h"', '')
         source = source.replace('"=l"(product)', '"=r"(product)').replace(': : : "$2"', ': : : "memory"')
         # Only constraints and GTE boundary macros change in the host harness.
@@ -56,7 +61,9 @@ static int ir(int);
 Actor *D_800F32D0;
 Emitter *D_800F33E0;
 unsigned char D_8019A8C4;
-volatile short D_800F3368,D_800F336A,D_800F3376,D_800F3378,D_800F336C,D_800F336E,D_800F3372,D_800F3374;
+volatile short D_800F3368,D_800F3376,D_800F3378,D_800F336E,D_800F3372,D_800F3374;
+short D_800F336A;
+unsigned short D_800F336C;
 volatile unsigned short D_800E11FA,D_800F3370;
 unsigned short D_800E2850[65536];
 static Actor actors[3];

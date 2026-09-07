@@ -10,7 +10,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class Room350EffectExpandTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_expansion_and_post_clut_reloads(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_ExpandingActorOffsetCallback.c").read_text()
+        source = (ROOT / "src/overlays/room_m350/RoomEffect_RadialBurst.c").read_text()
+        source = source[:source.index('/* MASPSX_FLAGS: --expand-div */')]
         harness = '#include <assert.h>\n#include <stddef.h>\n#include <stdint.h>\n#include <string.h>\n' + source + r'''
 Actor *D_800F32D0;
 int D_800E27EC, D_800F3428, D_800966EC[4096], D_8019A634[4];

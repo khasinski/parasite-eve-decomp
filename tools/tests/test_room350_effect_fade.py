@@ -10,7 +10,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class Room350EffectFadeTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_motion_fade_threshold_and_palette(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_FadingAccelerationCallback.c").read_text()
+        source = (ROOT / "src/overlays/room_m350/RoomEffect_FadingModel.c").read_text()
+        source = source[:source.index('/* MASPSX_FLAGS: --expand-div */')]
         source = source.replace('asm("$2")', '').replace('asm("$4")', '')
         harness = '#include <assert.h>\n#include <stddef.h>\n#include <string.h>\n' + source + r'''
 int D_800F3428;

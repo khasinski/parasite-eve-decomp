@@ -7,10 +7,17 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 
+def controller_source():
+    source = (ROOT / "src/overlays/room_m350/RoomEffect_AnimationBurst.c").read_text()
+    callback = source.index('int func_801944F0')
+    controller = source.index('int func_80194654')
+    return source[:callback] + 'extern int func_801944F0(int, void **);\n' + source[controller:]
+
+
 class Room350EffectEmitterTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_animation_crossing_burst_and_allocation_failure(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_AnimationBurstCallback.c").read_text()
+        source = controller_source()
         harness = '#include <assert.h>\n#include <string.h>\n' + source + r'''
 Actor *D_800F32D0;
 Emitter *D_800F33E0;

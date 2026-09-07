@@ -6,12 +6,19 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_GrowingRisingSprite.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_TimedRising.c'
+
+
+def callback_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_801974DC')
+    emitter = source.index('int func_80197648')
+    return source[:callback] + source[callback:emitter]
 
 
 class GrowingRisingSprite(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = callback_source() + r'''
 typedef char layout[sizeof(Particle)==8 &&
     (unsigned long)&((Particle *)0)->y==2 &&
     (unsigned long)&((Particle *)0)->z==4 &&
@@ -27,7 +34,7 @@ typedef char layout[sizeof(Particle)==8 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = re.sub(r' asm\("\$\d+"\)', '', SOURCE.read_text())
+        source = re.sub(r' asm\("\$\d+"\)', '', callback_source())
         source = re.sub(r'asm\(""[^;]*;', '', source)
         source = '#include <assert.h>\n#include <limits.h>\n#include <string.h>\n' + source + r'''
 int D_800E27EC, D_800F3428, D_800966EC[4096];

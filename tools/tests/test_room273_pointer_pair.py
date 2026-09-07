@@ -6,12 +6,19 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_PeriodicPointerPair.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_PeriodicPointers.c'
+
+
+def emitter_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_80199950')
+    emitter = source.index('int func_80199A90')
+    return source[:callback] + 'extern int func_80199950(int, void *);\n' + source[emitter:]
 
 
 class PeriodicPointerPair(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = emitter_source() + r'''
 typedef char layout[sizeof(Position)==8 && sizeof(Effect)==4 &&
     (unsigned long)&((Effect *)0)->position==0 &&
     (unsigned long)&((Context *)0)->pool==8 ? 1:-1];
@@ -26,7 +33,7 @@ typedef char layout[sizeof(Position)==8 && sizeof(Effect)==4 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = re.sub(r'asm\(""[^;]*;', '', SOURCE.read_text())
+        source = re.sub(r'asm\(""[^;]*;', '', emitter_source())
         source = '#include <assert.h>\n#include <limits.h>\n' + source + r'''
 Context *D_800F33E0;
 Position D_8019AF74[2];

@@ -10,12 +10,30 @@ on:
 jobs:
   source-only:
     runs-on: ubuntu-latest
+    env:
+      PE_CPP: ${{ github.workspace }}/tools/old-gcc/cpp
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
+      # Layout tests compile small PSX translation units. They need the same
+      # compiler pipeline as the full build, but do not need retail assets.
+      - name: Install cross binutils
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y binutils-mipsel-linux-gnu
+          for tool in as ld nm objcopy objdump readelf; do
+            sudo ln -sf "/usr/bin/mipsel-linux-gnu-$tool" "/usr/local/bin/mipsel-none-elf-$tool"
+          done
+
+      - name: Install the PSX compiler and maspsx
+        run: |
+          tools/scripts/setup_stock_cc1.sh
+          tools/scripts/setup_stock_cc281.sh
+          tools/scripts/setup_maspsx.sh
 
       - name: Install Python dependencies
         run: |

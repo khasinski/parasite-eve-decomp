@@ -19,7 +19,12 @@ class Room350EffectFallTests(unittest.TestCase):
                            "D_8019A62C", 6144, 2)
 
     def check_variant(self, filename, callback, colors, size, increment):
-        source = (ROOT / f"src/overlays/room_m350/{filename}.c").read_text()
+        if filename == "RoomEffect_FallingTextureCallback":
+            source = (ROOT / "src/overlays/room_m350/RoomEffect_FallingTexturePair.c").read_text()
+            source = source[:source.index('int func_801938E4')]
+        else:
+            source = (ROOT / "src/overlays/room_m350/RoomEffect_QueuedFall.c").read_text()
+            source = source[:source.index('int func_801976C8')]
         source = source.replace('register int specialKind asm("$4");',
                                 'int specialKind;')
         # D_800966EE is the high half of a record starting two bytes earlier.

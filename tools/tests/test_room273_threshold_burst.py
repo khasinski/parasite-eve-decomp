@@ -9,9 +9,16 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_ThresholdBurst.c'
 
 
+def controller_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_80194470')
+    controller = source.index('int func_801945A8')
+    return source[:callback] + 'extern int func_80194470();\n' + source[controller:]
+
+
 class ThresholdBurst(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = controller_source() + r'''
 typedef char layout[sizeof(Vector)==8 &&
     (unsigned long)&((Context *)0)->pool==8 &&
     (unsigned long)&((StateContext *)0)->state==8 &&
@@ -33,7 +40,7 @@ typedef char layout[sizeof(Vector)==8 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = re.sub(r'asm\(""[^;]*;', '', SOURCE.read_text())
+        source = re.sub(r'asm\(""[^;]*;', '', controller_source())
         source = '#include <assert.h>\n#include <string.h>\n#include <limits.h>\n' + source + r'''
 static Context context;
 static StateContext stateContext;

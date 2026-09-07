@@ -1,0 +1,23 @@
+# Translation-unit audit
+
+`tools/scripts/audit_tu_candidates.py` finds contiguous manifest entries where
+a controller directly registers a callback from the immediately preceding
+entry. It is evidence for review, not evidence of an original source boundary.
+
+## Deferred room_m350 pairs
+
+The following pairs are contiguous and directly connected, but are not merged
+until their competing record or instance views are reconciled without changing
+the matching object code:
+
+| Range | Callback and controller | Reason to defer |
+| --- | --- | --- |
+| `0x57D4..0x5F1C` | `HomingTrailController` / `SequenceSpawner` | Two incompatible semantic views of a 28-byte pool record. |
+| `0x6B7C..0x70DC` | `ActorOffsetPaletteCallback` / `FadingPairEmitter` | Callback and controller reconstruct different `Instance` transform views. |
+| `0x91E8..0x9878` | `TransformedFlare` / `SweptAreaEmitter` | Competing `Instance` and `Actor` layouts require a common verified view. |
+| `0x9878..0x9D10` | `AttachedCloud` / `AttachedCloudSpawner` | The callback and controller use different names and meanings for fields after the common prefix. |
+| `0xA6D4..0xAB24` | `SineFadeCallback` / `ModelTransformEmitter` | Common 24-byte particle is established; merge must preserve the callback's `worldY` view at offset `0x200`. |
+
+Every proposed merge must retain manifest order, pass its behavioral tests,
+`make overlay-check OVERLAY=room_m350`, and a clean verification before it is
+accepted.

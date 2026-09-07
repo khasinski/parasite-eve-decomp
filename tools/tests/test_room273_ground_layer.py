@@ -6,12 +6,19 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_GroundLayerSprite.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_GatedGroundPair.c'
+
+
+def callback_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_80198B1C')
+    emitter = source.index('int func_80198CD4')
+    return source[:callback] + source[callback:emitter]
 
 
 class GroundLayerSprite(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = callback_source() + r'''
 typedef char layout[sizeof(Vector)==8 && __alignof__(Vector)==2 &&
     (unsigned long)&((Vector *)0)->y==2 &&
     (unsigned long)&((Vector *)0)->pad==6 ? 1:-1];
@@ -26,7 +33,7 @@ typedef char layout[sizeof(Vector)==8 && __alignof__(Vector)==2 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = re.sub(r' asm\("\$\d+"\)', '', SOURCE.read_text())
+        source = re.sub(r' asm\("\$\d+"\)', '', callback_source())
         source = re.sub(r'asm\(""[^;]*;', '', source)
         source = '#include <assert.h>\n#include <limits.h>\n' + source + r'''
 int D_800E27EC,D_800F3428;

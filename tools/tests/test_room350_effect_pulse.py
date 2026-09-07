@@ -10,15 +10,17 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class Room350EffectPulseTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_pre_lookup_scale_and_post_lookup_shade(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_PulsingPaletteCallback.c").read_text()
+        source = (ROOT / "src/overlays/room_m350/RoomEffect_PulsingPalettePair.c").read_text()
+        source = source[:source.index('int func_801928D4')]
         source = source.replace('extern short D_800966EE[];', '')
         source = source.replace('extern int D_800966EC[];',
             'static int table[4096];\n#define D_800966EC table\n'
             '#define D_800966EE ((short *)table + 1)')
         harness = '#include <assert.h>\n#include <string.h>\n' + source + r'''
 int D_800E27EC, D_800F3428;
-unsigned short D_800F336C, D_800E1204[8];
-static Effect effect;
+unsigned short D_800F336C;
+unsigned short D_800E1204[8];
+static Particle effect;
 static int position, nextPosition, lookups, draws, handleValue;
 static int nextCounter, expectedScale, expectedShade;
 int GetClut(int x, int y) {
@@ -29,7 +31,7 @@ int GetClut(int x, int y) {
     D_800E27EC = nextCounter;
     /* Different high half catches accidental recomputation of pre-call scale. */
     table[index] = (int)(0x7FF00000U | (unsigned short)expectedShade);
-    effect.position = &nextPosition;
+    effect.position = (Vector *)&nextPosition;
     return handleValue;
 }
 void func_800CEE20(void *point, void *context, int a, int b, int c,
@@ -38,11 +40,11 @@ void func_800CEE20(void *point, void *context, int a, int b, int c,
     assert(point == &nextPosition && context == &effect);
     assert(a == expectedScale && b == expectedScale && c == 110);
     assert(handle == (unsigned short)handleValue && flag == 1);
-    assert(shade == expectedShade >> 5 && colors == effect.colors);
+    assert(shade == expectedShade >> 5 && colors == &effect.color);
 }
 int main(void) {
     const int values[] = {-32768, -33, -1, 0, 32, 32767};
-    Effect before;
+    Particle before;
     int counter, event, kind, special, h, s, i;
     for (counter = -16; counter <= 32; ++counter)
     for (event = -1; event <= 3; ++event) {
@@ -63,9 +65,9 @@ int main(void) {
         expectedScale = values[s] * 4 + 2048; expectedShade = values[5-s];
         handleValue = h ? -1 : 0x12345;
         memset(&effect, 0xCC, sizeof(effect));
-        effect.position = &position;
+        effect.position = (Vector *)&position;
         memcpy(&before, &effect, sizeof(effect));
-        before.position = &nextPosition;
+        before.position = (Vector *)&nextPosition;
         lookups = draws = 0;
         assert(func_801927A4(2, &effect) == 0);
         assert(lookups == 1 && draws == 1);

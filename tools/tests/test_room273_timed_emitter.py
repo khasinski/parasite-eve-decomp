@@ -5,16 +5,23 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_TimedRisingEmitter.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_TimedRising.c'
+
+
+def emitter_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_801974DC')
+    emitter = source.index('int func_80197648')
+    return source[:callback] + 'extern int func_801974DC(int, void *);\n' + source[emitter:]
 
 
 class TimedRisingEmitter(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
-typedef char layout[sizeof(Record)==8 && __alignof__(Record)==2 &&
-    (unsigned long)&((Record *)0)->y==2 &&
-    (unsigned long)&((Record *)0)->z==4 &&
-    (unsigned long)&((Record *)0)->speed==6 &&
+        source = emitter_source() + r'''
+typedef char layout[sizeof(Particle)==8 && __alignof__(Particle)==2 &&
+    (unsigned long)&((Particle *)0)->y==2 &&
+    (unsigned long)&((Particle *)0)->z==4 &&
+    (unsigned long)&((Particle *)0)->speed==6 &&
     (unsigned long)&((Context *)0)->pool==8 ? 1:-1];
 '''
         with tempfile.TemporaryDirectory() as directory:
@@ -27,18 +34,19 @@ typedef char layout[sizeof(Record)==8 && __alignof__(Record)==2 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = '#include <assert.h>\n#include <limits.h>\n' + SOURCE.read_text() + r'''
+        source = '#include <assert.h>\n#include <limits.h>\n' + emitter_source() + r'''
 Context *D_800F33E0;
 unsigned char D_8019AF6A,D_8019AF69;
 short D_8019AE84;
 unsigned short D_8019AEFC;
 volatile unsigned short D_8019AEFE,D_8019AF00;
 unsigned short D_800E11E8,D_800E2850[65536];
-unsigned short D_800F3368,D_800F336A,D_800F336C,D_800F336E;
+unsigned short D_800F3368,D_800F336C,D_800F336E;
+short D_800F336A;
 unsigned short D_800F3370,D_800F3372,D_800F3374;
 volatile unsigned short D_800F3376,D_800F3378;
 static Context context;
-static Record output;
+static Particle output;
 static int pool,initCalls,initResult,allocs,fail;
 static short expectedCounter;
 static unsigned short newY;
@@ -49,7 +57,7 @@ int func_800CE560(void *p,int size,int count,int (*callback)(int,void *)) {
     ++initCalls;
     return initResult;
 }
-Record *func_800CE610(void *p) {
+Particle *func_800CE610(void *p) {
     assert(p==&pool && allocs++==0 && D_8019AE84==expectedCounter);
     if(fail) return 0;
     D_8019AEFC=65535; D_8019AEFE=newY; D_8019AF00=32768;
@@ -78,9 +86,9 @@ int main(void) {
             success=calls && !fail;
             assert(allocs==calls);
             assert(D_8019AE84==(!stop && emit ? (success ?2:expectedCounter):counters[c]));
-            assert(output.x==(success ?65535:11));
+            assert((unsigned short)output.x==(success ?65535:11));
             assert(output.y==(success ?(unsigned short)(newY-256):22));
-            assert(output.z==(success ?32768:33) && output.speed==(success ?0:44));
+            assert((unsigned short)output.z==(success ?32768:33) && output.speed==(success ?0:44));
             assert(D_8019AF6A==flags[emit] && D_8019AF69==flags[stop]);
         }
     calls=allocs; D_8019AE84=91;

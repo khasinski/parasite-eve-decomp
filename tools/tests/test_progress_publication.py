@@ -15,6 +15,23 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 
 class ProgressPublicationTests(unittest.TestCase):
+    def test_source_only_ci_installs_the_psx_layout_toolchain(self):
+        workflow = yaml.load((ROOT / ".github/workflows/ci.yml").read_text(),
+                             Loader=yaml.BaseLoader)
+        job = workflow["jobs"]["source-only"]
+        steps = job["steps"]
+        cross_binutils = next(s for s in steps
+                              if s.get("name") == "Install cross binutils")
+        compiler = next(s for s in steps
+                        if s.get("name") == "Install the PSX compiler and maspsx")
+        self.assertIn("binutils-mipsel-linux-gnu", cross_binutils["run"])
+        self.assertIn("mipsel-none-elf-$tool", cross_binutils["run"])
+        self.assertIn("setup_stock_cc1.sh", compiler["run"])
+        self.assertIn("setup_stock_cc281.sh", compiler["run"])
+        self.assertIn("setup_maspsx.sh", compiler["run"])
+        self.assertEqual(job["env"]["PE_CPP"],
+                         "${{ github.workspace }}/tools/old-gcc/cpp")
+
     def test_badges_use_exact_matches_not_fuzzy_or_complete_percent(self):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)

@@ -10,7 +10,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class Room350EffectRadialTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_burst_allocation_random_vectors_and_configuration(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_RadialBurstController.c").read_text()
+        source = (ROOT / "src/overlays/room_m350/RoomEffect_RadialBurst.c").read_text()
+        source = source[source.index('/* MASPSX_FLAGS: --expand-div */'):]
         # Host tests check behavior; the MIPS build separately verifies register allocation.
         source = source.replace(' asm("$16")', '').replace(' asm("$18")', '')
         harness = '#include <assert.h>\n#include <stddef.h>\n#include <string.h>\n' + source + r'''

@@ -5,13 +5,13 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_SizedLayers.c'
+SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_ModelShellLayers.c'
 
 
 class SizedLayersTests(unittest.TestCase):
     @unittest.skipUnless((ROOT/'tools/old-gcc/cc1').is_file() and shutil.which('mipsel-none-elf-as'), 'PSX tools unavailable')
     def test_target_layout(self):
-        source = SOURCE.read_text().split('extern int', 1)[0] + r'''
+        source = SOURCE.read_text().split('extern Emitter', 1)[0] + r'''
 #define OFF(t,f) ((unsigned long)&((t *)0)->f)
 typedef char a[OFF(Particle,x)==4 ? 1:-1];
 typedef char b[OFF(Particle,size)==10 ? 1:-1];
@@ -26,8 +26,10 @@ typedef char c[sizeof(TrigEntry)==4 ? 1:-1];
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_signed_math_and_helper_reloads(self):
         # The PSX symbols are two bytes apart in the same trig table.
-        source = SOURCE.read_text().replace('extern short D_800966EE[];',
-            '#define D_800966EE ((short *)((char *)D_800966EC + 2))')
+        source = SOURCE.read_text()
+        source = source[:source.index('int func_8019421C')]
+        source = source.replace('extern short D_800F336A, D_800966EE[];',
+            'extern short D_800F336A;\n#define D_800966EE ((short *)((char *)D_800966EC + 2))')
         harness = '#include <assert.h>\n#include <stdint.h>\n#include <string.h>\n#include <limits.h>\n' + source + r'''
 int D_800E27EC,D_800F3428,D_800966EC[4096];
 unsigned short D_800F336C,D_800E1204[65536];

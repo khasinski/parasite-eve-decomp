@@ -6,12 +6,19 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_DualSampleSprite.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_PeriodicPointers.c'
+
+
+def callback_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_80199950')
+    emitter = source.index('int func_80199A90')
+    return source[:callback] + source[callback:emitter]
 
 
 class DualSampleSprite(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = callback_source() + r'''
 typedef char layout[sizeof(Effect)==4 &&
     (unsigned long)&((Effect *)0)->position==0 ? 1:-1];
 '''
@@ -25,7 +32,7 @@ typedef char layout[sizeof(Effect)==4 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = re.sub(r' asm\("\$\d+"\)', '', SOURCE.read_text())
+        source = re.sub(r' asm\("\$\d+"\)', '', callback_source())
         source = re.sub(r'asm\(""[^;]*;', '', source)
         source = '#include <assert.h>\n#include <limits.h>\n' + source + r'''
 int D_800E27EC, D_800F3428, D_800966EC[4096];
@@ -39,7 +46,7 @@ unsigned short GetClut(int x, int y) {
     D_800E27EC=999;
     D_800966EC[sizeIndex]=0;
     D_800966EC[shadeIndex]=0;
-    effect.position=&after;
+    effect.position=(Position *)&after;
     return 0xF123;
 }
 void func_800CEE20(void *p, void *rotation, int w, int h, int tile,
@@ -70,7 +77,7 @@ int main(void) {
             D_800F336C=kind; D_800F3428=variant;
             D_800E1204[kind]=65535;
             expectedPalette=65535+(kind==4 && variant ? 7:3);
-            effect.position=&before; cluts=draws=0;
+            effect.position=(Position *)&before; cluts=draws=0;
             assert(func_80199950(2,&effect)==0 && cluts==1 && draws==1);
         }
     assert(func_80199950(0,&effect)==0);

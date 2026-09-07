@@ -6,13 +6,20 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_BatchRisingEmitter.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_BatchRising.c'
+
+
+def emitter_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_80196F2C')
+    emitter = source.index('int func_8019706C')
+    return source[:callback] + 'extern int func_80196F2C(int, void *);\n' + source[emitter:]
 
 
 class BatchRisingEmitter(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
-typedef char layout[sizeof(Particle)==8 &&
+        source = emitter_source() + r'''
+typedef char layout[sizeof(Vector)==8 &&
     (unsigned long)&((Batch *)0)->y==24 &&
     (unsigned long)&((Batch *)0)->z==48 &&
     (unsigned long)&((Batch *)0)->count==72 &&
@@ -29,23 +36,24 @@ typedef char layout[sizeof(Particle)==8 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = re.sub(r'asm\(""[^;]*;', '', SOURCE.read_text())
+        source = re.sub(r'asm\(""[^;]*;', '', emitter_source())
         source = '#include <assert.h>\n#include <string.h>\n' + source + r'''
 Batch D_8019AF0C;
 Context *D_800F33E0;
 unsigned short D_800E11EA,D_800E2850[65536];
-unsigned short D_800F3368,D_800F336A,D_800F336C,D_800F336E;
+unsigned short D_800F3368,D_800F336C,D_800F336E;
+short D_800F336A;
 unsigned short D_800F3370,D_800F3372,D_800F3374;
 volatile unsigned short D_800F3376,D_800F3378;
 static Context context;
-static Particle outputs[12];
+static Vector outputs[12];
 static int pool,allocs,failAt,initCalls,initResult,mutate;
 int func_80196F2C(int mode,void *p) { assert(0); return 0; }
 int func_800CE560(void *p,int size,int count,int (*callback)(int,void *)) {
     assert(p==&pool && size==8 && count==40 && callback==func_80196F2C);
     ++initCalls; return initResult;
 }
-Particle *func_800CE610(void *p) {
+Vector *func_800CE610(void *p) {
     int i=allocs++;
     assert(p==&pool && i<12);
     if(i==failAt) return 0;
@@ -75,9 +83,9 @@ int main(void) {
             assert(allocs==calls && D_8019AF0C.count==(stop ?counts[c]:0));
             for(i=0;i<12;++i) {
                 if(i<success) {
-                    assert(outputs[i].x==65535-i && outputs[i].y==(unsigned short)(i-128));
-                    assert(outputs[i].z==32768+i && outputs[i].speed==0);
-                } else assert(outputs[i].x==0x5555 && outputs[i].speed==0x5555);
+                    assert((unsigned short)outputs[i].x==65535-i && (unsigned short)outputs[i].y==(unsigned short)(i-128));
+                    assert((unsigned short)outputs[i].z==32768+i && outputs[i].pad==0);
+                } else assert((unsigned short)outputs[i].x==0x5555 && (unsigned short)outputs[i].pad==0x5555);
             }
             assert(D_8019AF0C.stopped==(stop ?255:0));
             for(i=0;i<19;++i) assert(D_8019AF0C.unknown[i]==0xA5);

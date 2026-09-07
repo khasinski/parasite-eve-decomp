@@ -5,13 +5,20 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "src/overlays/room_m350/RoomEffect_PairedScaleController.c"
+SOURCE = ROOT / "src/overlays/room_m350/RoomEffect_TripleScalePair.c"
+
+
+def controller_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_80193A80')
+    controller = source.index('int func_80193BCC')
+    return source[:callback] + 'extern int func_80193A80(int, void **);\n' + source[controller:]
 
 
 class PairedScaleTests(unittest.TestCase):
     @unittest.skipUnless((ROOT / "tools/old-gcc/cc1").is_file() and shutil.which("mipsel-none-elf-as"), "PSX tools unavailable")
     def test_target_layout(self):
-        source = SOURCE.read_text().split("extern Actor", 1)[0] + r'''
+        source = controller_source() + r'''
 #define OFF(t,f) ((unsigned long)&((t *)0)->f)
 typedef char a[sizeof(Particle)==4 ? 1:-1];
 typedef char b[sizeof(Vector)==8 ? 1:-1];
@@ -29,12 +36,14 @@ typedef char g[OFF(Emitter,pool)==8 ? 1:-1];
 
     @unittest.skipUnless(shutil.which("cc"), "host compiler unavailable")
     def test_crossing_precedes_completion(self):
-        source = SOURCE.read_text().replace(' asm("$16")', '')
+        source = controller_source().replace(' asm("$16")', '')
         harness = '#include <assert.h>\n#include <string.h>\n' + source + r'''
 Actor *D_800F32D0;
 Emitter *D_800F33E0;
 Vector D_8019A778[2];
-volatile short D_800F3368,D_800F336A,D_800F3376,D_800F3378,D_800F3372,D_800F3374,D_800F336C,D_800F336E;
+volatile short D_800F3368,D_800F3376,D_800F3378,D_800F3372,D_800F3374,D_800F336E;
+unsigned short D_800F336C;
+short D_800F336A;
 volatile unsigned short D_800E11FA,D_800F3370;
 unsigned short D_800E2850[65536];
 static Actor actor;
@@ -42,8 +51,8 @@ static Instance instance;
 static Emitter emitters[2];
 static int pools[2], calls, setups, failAt, setupResult;
 static Particle particles[2], expected[2];
-int func_80193A80(int e, Particle *p) { return 0; }
-int func_800CE560(void *p,int stride,int count,int (*cb)(int,Particle *)) {
+int func_80193A80(int e, void **p) { return 0; }
+int func_800CE560(void *p,int stride,int count,int (*cb)()) {
     assert(p==&pools[0] && stride==4 && count==2 && cb==func_80193A80);
     setups++;
     return setupResult;

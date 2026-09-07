@@ -6,12 +6,19 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_TripleLayerSprite.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_PositionLayers.c'
+
+
+def callback_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_801977F8')
+    emitter = source.index('int func_80197A48')
+    return source[:callback] + source[callback:emitter]
 
 
 class TripleLayer(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = callback_source() + r'''
 typedef char layout[sizeof(Vector)==8 && sizeof(int)==4 &&
     (unsigned long)&((Vector *)0)->x==0 &&
     (unsigned long)&((Vector *)0)->y==2 &&
@@ -28,7 +35,7 @@ typedef char layout[sizeof(Vector)==8 && sizeof(int)==4 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = re.sub(r' asm\("\$\d+"\)', '', SOURCE.read_text())
+        source = re.sub(r' asm\("\$\d+"\)', '', callback_source())
         source = re.sub(r'asm\(""[^;]*;', '', source)
         source = '#include <assert.h>\n#include <string.h>\n#include <limits.h>\n' + source + r'''
 int D_800E27EC,D_800F3428,D_800966EC[4096];

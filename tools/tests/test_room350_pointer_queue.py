@@ -5,16 +5,29 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "src/overlays/room_m350/RoomEffect_PointerQueueController.c"
+SOURCE = ROOT / "src/overlays/room_m350/RoomEffect_PointerQueue.c"
+
+
+def controller_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_80194F04')
+    controller = source.index('int func_80195064')
+    declarations = source[:callback]
+    declarations = declarations.replace('extern int D_800E27EC, D_800F3428, D_800966EC[], D_8019A4E8[];\n', '')
+    declarations = declarations.replace('extern unsigned short D_800F336C, D_800E1204[];\n', '')
+    declarations = declarations.replace('extern short D_800F336A;\n', '')
+    declarations = declarations.replace('extern int GetClut(int, int);\n', '')
+    declarations = declarations.replace('extern void func_800CEE20(void *, int, int, int, int, unsigned int, int, int, void *);\n', '')
+    return declarations + 'extern volatile short D_800F336A,D_800F336C;\nextern int func_80194F04(int, Particle *);\n' + source[controller:]
 
 
 class PointerQueueTests(unittest.TestCase):
     @unittest.skipUnless((ROOT / "tools/old-gcc/cc1").is_file() and shutil.which("mipsel-none-elf-as"), "PSX tools unavailable")
     def test_target_layout(self):
-        source = SOURCE.read_text().split("extern Emitter", 1)[0] + r'''
+        source = controller_source().split("extern Emitter", 1)[0] + r'''
 #define OFF(t,f) ((unsigned long)&((t *)0)->f)
 typedef char a[sizeof(Particle)==8 ? 1:-1];
-typedef char b[OFF(Particle,frame)==4 ? 1:-1];
+typedef char b[OFF(Particle,offset)==4 ? 1:-1];
 typedef char c[OFF(Queue,count)==0x56 ? 1:-1];
 typedef char d[OFF(Emitter,pool)==8 ? 1:-1];
 '''
@@ -26,7 +39,7 @@ typedef char d[OFF(Emitter,pool)==8 ? 1:-1];
 
     @unittest.skipUnless(shutil.which("cc"), "host compiler unavailable")
     def test_queue_mutation_and_failure(self):
-        source = SOURCE.read_text().replace(' asm("$16")', '')
+        source = controller_source().replace(' asm("$16")', '')
         declarations, body = source.split("extern Emitter", 1)
         body = ("extern Emitter" + body).replace("extern short D_8019A7FE, D_8019A802;", "extern short D_8019A802;")
         # Bind the interior count symbol to real storage, preserving aliasing.
@@ -76,7 +89,7 @@ static void run(int count,int stop,int active,int replacement,int failure) {
     assert(calls==expectedCalls && setups==0);
     assert(pending.count==(stopped ? count:0));
     for(i=0;i<successes;i++) {
-        expected[i].position=&positions[i+4]; expected[i].frame=0;
+        expected[i].position=&positions[i+4]; expected[i].offset=0;
     }
     assert(memcmp(expected,particles,sizeof(particles))==0);
     assert(D_8019A804==stop && D_8019A802==active);

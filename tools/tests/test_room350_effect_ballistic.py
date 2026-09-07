@@ -10,7 +10,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class Room350EffectBallisticTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_motion_and_palette_rendering(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_BallisticPaletteCallback.c").read_text()
+        source = (ROOT / "src/overlays/room_m350/RoomEffect_DualBallistic.c").read_text()
+        source = source.split('int func_80196A14', 1)[0]
         harness = '#include <assert.h>\n#include <string.h>\n' + source + r'''
 int D_800E27EC, D_800F3428, D_800966EC[4096], D_8019A598[4];
 unsigned short D_800F336C, D_800E1204[8];

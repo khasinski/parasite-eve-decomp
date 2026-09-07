@@ -5,13 +5,20 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_PairedRandomSpawner.c'
+SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_PulsingPalettePair.c'
+
+
+def emitter_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_801927A4')
+    emitter = source.index('int func_801928D4')
+    return source[:callback] + 'extern int func_801927A4(int, Particle *);\n' + source[emitter:]
 
 
 class PairedRandomTests(unittest.TestCase):
     @unittest.skipUnless((ROOT/'tools/old-gcc/cc1').is_file() and shutil.which('mipsel-none-elf-as'), 'PSX tools unavailable')
     def test_target_layout(self):
-        source = SOURCE.read_text().split('extern Emitter', 1)[0] + r'''
+        source = emitter_source() + r'''
 #define OFF(t,f) ((unsigned long)&((t *)0)->f)
 typedef char a[sizeof(Particle)==16 ? 1:-1];
 typedef char b[OFF(Particle,position)==8 ? 1:-1];
@@ -28,11 +35,12 @@ typedef char f[OFF(Emitter,pool)==8 ? 1:-1];
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_allocation_rng_and_counter_wrap(self):
-        harness = '#include <assert.h>\n#include <stdint.h>\n#include <string.h>\n#include <limits.h>\n' + SOURCE.read_text() + r'''
+        harness = '#include <assert.h>\n#include <stdint.h>\n#include <string.h>\n#include <limits.h>\n' + emitter_source() + r'''
 Emitter *D_800F33E0;
 int D_800E27EC,D_8019A414[8];
 Vector D_8019A778[2];
-volatile short D_800F3368,D_800F336A,D_800F3376,D_800F3378,D_800F336C,D_800F336E,D_800F3372,D_800F3374;
+volatile short D_800F3368,D_800F336A,D_800F3376,D_800F3378,D_800F336E,D_800F3372,D_800F3374;
+unsigned short D_800F336C;
 volatile unsigned short D_800E11EA,D_800F3370;
 unsigned short D_800E2850[65536];
 static Emitter emitters[2];

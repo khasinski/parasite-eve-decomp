@@ -6,12 +6,17 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_DoubleSizedTableSprite.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_ThresholdBurst.c'
+
+
+def callback_source():
+    source = SOURCE.read_text()
+    return source[:source.index('int func_801945A8')]
 
 
 class DoubleSizedSprite(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = callback_source() + r'''
 typedef char layout[sizeof(Vector)==8 &&
     (unsigned long)&((Vector *)0)->z==4 ? 1:-1];
 '''
@@ -25,7 +30,7 @@ typedef char layout[sizeof(Vector)==8 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = re.sub(r' asm\("\$\d+"\)', '', SOURCE.read_text())
+        source = re.sub(r' asm\("\$\d+"\)', '', callback_source())
         source = re.sub(r'asm\(""[^;]*;', '', source)
         source = '#include <assert.h>\n#include <limits.h>\n' + source + r'''
 int D_800E27EC, D_800F3428, D_800966EC[4096];

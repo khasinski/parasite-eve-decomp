@@ -6,17 +6,24 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_ScaledLayerEmitter.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_ScaledLayer.c'
+
+
+def emitter_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_8019353C')
+    emitter = source.index('int func_801936F0')
+    return source[:callback] + 'extern int func_8019353C(int, void *);\n' + source[emitter:]
 
 
 class ScaledLayerEmitter(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = emitter_source() + r'''
 typedef char layout[sizeof(Effect)==12 &&
-    (unsigned long)&((Effect *)0)->x==0 &&
-    (unsigned long)&((Effect *)0)->y==2 &&
-    (unsigned long)&((Effect *)0)->z==4 &&
-    (unsigned long)&((Effect *)0)->scale==6 &&
+    (unsigned long)&((Effect *)0)->position.x==0 &&
+    (unsigned long)&((Effect *)0)->position.y==2 &&
+    (unsigned long)&((Effect *)0)->position.z==4 &&
+    (unsigned long)&((Effect *)0)->position.w==6 &&
     (unsigned long)&((Effect *)0)->parameter==8 &&
     (unsigned long)&((Context *)0)->pool==8 &&
     (unsigned long)&((StateContext *)0)->owner==8 &&
@@ -35,7 +42,7 @@ typedef char layout[sizeof(Effect)==12 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = re.sub(r'asm\(""[^;]*;', '', SOURCE.read_text())
+        source = re.sub(r'asm\(""[^;]*;', '', emitter_source())
         source = '#include <assert.h>\n#include <string.h>\n#include <limits.h>\n' + source + r'''
 static Context context;
 static StateContext state,replacement;
@@ -48,7 +55,7 @@ StateContext *D_800F32D0=&state;
 int D_800E27EC;
 short D_800966EC[8192],D_800966EE[8192];
 static int init,allocations,fail,newCounter;
-int func_8019353C(void) { assert(0); return 0; }
+int func_8019353C(int mode, void *input) { assert(0); return 0; }
 int func_800CE560(void *p,int stride,int count,int (*callback)()) {
     assert(init++==0 && p==pool && stride==12 && count==9 && callback==func_8019353C);
     return 140;
@@ -76,8 +83,8 @@ int main(void) {
         assert(func_801936F0(1)==0 && allocations==1);
         if(f) assert(memcmp(&output,&before,sizeof(output))==0);
         else {
-            assert(output.x==-1 && output.y==-1 && output.z==-32768);
-            assert(output.scale==samples[k] && output.parameter[0]==40);
+            assert(output.position.x==-1 && output.position.y==-1 && output.position.z==-32768);
+            assert(output.position.w==samples[k] && output.parameter[0]==40);
             assert(output.parameter[1]==(unsigned char)((long long)samples[j]*40/4096));
             assert(output.parameter[2]==0 && output.parameter[3]==0xA5);
         }

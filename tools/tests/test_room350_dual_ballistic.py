@@ -5,13 +5,21 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_DualBallisticSpawner.c'
+SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_DualBallistic.c'
+
+
+def controller_source():
+    source = SOURCE.read_text()
+    source = source.split('int func_801968D8', 1)[0] + \
+        'extern int func_801968D8(int, short *);\n' + \
+        'int func_80196A14' + source.split('int func_80196A14', 1)[1]
+    return source.replace('int (*)(int, Particle *)', 'int (*)(int, short *)')
 
 
 class DualBallisticTests(unittest.TestCase):
     @unittest.skipUnless((ROOT/'tools/old-gcc/cc1').is_file() and shutil.which('mipsel-none-elf-as'), 'PSX tools unavailable')
     def test_target_layout(self):
-        source = SOURCE.read_text().split('extern Actor', 1)[0] + r'''
+        source = SOURCE.read_text().split('int func_801968D8', 1)[0] + r'''
 #define OFF(t,f) ((unsigned long)&((t *)0)->f)
 typedef char a[sizeof(Matrix)==32 ? 1:-1];
 typedef char b[OFF(Matrix,position)==20 ? 1:-1];
@@ -30,13 +38,15 @@ typedef char h[OFF(Particle,gravity)==8 ? 1:-1];
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_captured_matrices_fresh_fields_and_request(self):
-        harness = '#include <assert.h>\n#include <stdint.h>\n#include <string.h>\n#include <limits.h>\n' + SOURCE.read_text() + r'''
+        harness = '#include <assert.h>\n#include <stdint.h>\n#include <string.h>\n#include <limits.h>\n' + controller_source() + r'''
 Actor *D_800F32D0;
 Emitter *D_800F33E0;
 Instance *g_PlayerEntity;
 unsigned char D_8019A82F;
 int D_800E27EC;
-volatile short D_800F3368,D_800F336A,D_800F3376,D_800F3378,D_800F336C,D_800F336E,D_800F3372,D_800F3374;
+volatile short D_800F3368,D_800F3376,D_800F3378,D_800F336E,D_800F3372,D_800F3374;
+short D_800F336A;
+unsigned short D_800F336C;
 volatile unsigned short D_800E11E8,D_800F3370;
 unsigned short D_800E2850[65536];
 static Actor actor;
@@ -48,8 +58,8 @@ static int pools[2],allocs,randoms,setups,setupResult,failure,mutation,actorAtte
 static uint32_t seed;
 static int word(uint32_t x) { int result; memcpy(&result,&x,4); return result; }
 static int half(uint32_t x) { x&=65535; return x<32768 ? (int)x:(int)x-65536; }
-int func_801968D8(int e,Particle *p) { return 0; }
-int func_800CE560(void *p,int size,int count,int (*cb)(int,Particle *)) {
+int func_801968D8(int e,short *p) { return 0; }
+int func_800CE560(void *p,int size,int count,int (*cb)(int,short *)) {
     assert(p==&pools[0] && size==12 && count==16 && cb==func_801968D8);
     setups++; return setupResult;
 }

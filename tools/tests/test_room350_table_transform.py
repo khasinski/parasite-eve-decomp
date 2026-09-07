@@ -5,13 +5,21 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "src/overlays/room_m350/RoomEffect_TableTransformSpawner.c"
+SOURCE = ROOT / "src/overlays/room_m350/RoomEffect_TableTransform.c"
+
+
+def controller_source():
+    source = SOURCE.read_text()
+    source = source.split("int func_80195564", 1)[0] + \
+        "extern int func_80195564(int, short *);\n" + \
+        "int func_8019569C" + source.split("int func_8019569C", 1)[1]
+    return source.replace("int (*)(int,Particle *)", "int (*)(int,short *)")
 
 
 class TableTransformTests(unittest.TestCase):
     @unittest.skipUnless((ROOT / "tools/old-gcc/cc1").is_file() and shutil.which("mipsel-none-elf-as"), "PSX tools unavailable")
     def test_target_layout(self):
-        source = SOURCE.read_text().split("extern Actor", 1)[0] + r'''
+        source = SOURCE.read_text().split("int func_80195564", 1)[0] + r'''
 #define OFF(t,f) ((unsigned long)&((t *)0)->f)
 typedef char a[sizeof(Particle)==8 ? 1:-1];
 typedef char b[sizeof(Entry)==2 ? 1:-1];
@@ -30,7 +38,7 @@ typedef char h[OFF(Emitter,pool)==8 ? 1:-1];
 
     @unittest.skipUnless(shutil.which("cc"), "host compiler unavailable")
     def test_table_and_post_allocation_reads(self):
-        source = SOURCE.read_text().replace(' asm("$3")', '').replace(' asm("$2")', '')
+        source = controller_source().replace(' asm("$3")', '').replace(' asm("$2")', '')
         harness = '#include <assert.h>\n#include <stdint.h>\n#include <string.h>\n' + source + r'''
 Actor *D_800F32D0;
 Instance *D_8019A7F8;
@@ -38,7 +46,9 @@ Emitter *D_800F33E0;
 unsigned char D_8019A804;
 Entry D_8019A4D4[26];
 int D_800966EC[4096];
-volatile short D_800F3368,D_800F336A,D_800F3376,D_800F3378,D_800F3372,D_800F3374,D_800F336C,D_800F336E;
+volatile short D_800F3368,D_800F3376,D_800F3378,D_800F3372,D_800F3374,D_800F336E;
+short D_800F336A;
+unsigned short D_800F336C;
 volatile unsigned short D_800E11FA,D_800F3370;
 unsigned short D_800E2850[65536];
 static Actor actors[2];
@@ -48,8 +58,8 @@ static Emitter emitters[2];
 static Particle particles[2],expected[2];
 static int pools[2],calls,setups,setupResult,failAt,frame,indexAfter,alternate,sizeWord;
 static int half(uint32_t x) { x &=65535; return x<32768 ? (int)x:(int)x-65536; }
-int func_80195564(int e,Particle *p) { return 0; }
-int func_800CE560(void *p,int stride,int count,int (*cb)(int,Particle *)) {
+int func_80195564(int e,short *p) { return 0; }
+int func_800CE560(void *p,int stride,int count,int (*cb)(int,short *)) {
     assert(p==&pools[0] && stride==8 && count==10 && cb==func_80195564);
     setups++; return setupResult;
 }

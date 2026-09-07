@@ -7,10 +7,15 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 
+def callback_source():
+    source = (ROOT / "src/overlays/room_m350/RoomEffect_AnimationBurst.c").read_text()
+    return source[:source.index('int func_80194654')]
+
+
 class Room350EffectLayersTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_two_draws_and_inter_call_reloads(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_TwoLayerCallback.c").read_text()
+        source = callback_source()
         harness = '#include <assert.h>\n#include <string.h>\n' + source + r'''
 int D_800E27EC, D_800966EC[4096], D_8019A3C8[4], D_8019A4DC[4], D_8019A4E0[4];
 static int firstPoint, secondPoint, calls, initialCounter, nextCounter;

@@ -5,12 +5,19 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_ScaledLayerPair.c'
+SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_ScaledLayer.c'
+
+
+def callback_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_8019353C')
+    emitter = source.index('int func_801936F0')
+    return source[:callback] + source[callback:emitter]
 
 
 class ScaledLayerPair(unittest.TestCase):
     def test_target_layout(self):
-        source = SOURCE.read_text() + r'''
+        source = callback_source() + r'''
 typedef char layout[sizeof(Vector)==8 && sizeof(Effect)==12 && sizeof(int)==4 &&
     (unsigned long)&((Vector *)0)->x==0 &&
     (unsigned long)&((Vector *)0)->y==2 &&
@@ -28,8 +35,9 @@ typedef char layout[sizeof(Vector)==8 && sizeof(Effect)==12 && sizeof(int)==4 &&
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_behavior(self):
-        source = '#include <assert.h>\n#include <string.h>\n#include <limits.h>\n' + SOURCE.read_text() + r'''
-int D_800E27EC,D_800966EC[4096];
+        source = '#include <assert.h>\n#include <string.h>\n#include <limits.h>\n' + callback_source() + r'''
+int D_800E27EC;
+short D_800966EC[8192];
 unsigned short D_800942EC;
 unsigned char D_8019AB70[4];
 static Effect input,original;
@@ -68,7 +76,8 @@ int main(void) {
         int index;
         D_800E27EC=counters[i]; frame=(short)(counters[i]-1);
         index=(((unsigned int)frame<<9)&0x3E00)/4;
-        memset(D_800966EC,0,sizeof(D_800966EC)); memcpy(&D_800966EC[index],&bits,4);
+        memset(D_800966EC,0,sizeof(D_800966EC));
+        memcpy((char *)D_800966EC + index * 4,&bits,4);
         memset(&input,0xA5,sizeof(input));
         input.position.x=-32768; input.position.y=32767; input.position.z=-1;
         input.position.w=scales[l]; original=input;

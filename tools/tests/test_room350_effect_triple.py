@@ -10,7 +10,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class Room350EffectTripleTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_signed_samples_palette_and_reload_order(self):
-        source = (ROOT / "src/overlays/room_m350/RoomEffect_TripleSizePaletteCallback.c").read_text()
+        source = (ROOT / "src/overlays/room_m350/RoomEffect_TripleScalePair.c").read_text()
+        source = source[:source.index('int func_80193BCC')]
         source = source.replace('asm("$3")', '')
         harness = '#include <assert.h>\n#include <string.h>\n' + source + r'''
 int D_800E27EC, D_800F3428, D_800966EC[4096];

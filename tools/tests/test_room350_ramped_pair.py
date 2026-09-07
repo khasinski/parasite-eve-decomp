@@ -5,13 +5,20 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_RampedPairSpawner.c'
+SOURCE = ROOT / 'src/overlays/room_m350/RoomEffect_RampedPalettePair.c'
+
+
+def emitter_source():
+    source = SOURCE.read_text()
+    callback = source.index('int func_80192ADC')
+    emitter = source.index('int func_80192C34')
+    return source[:callback] + 'extern int func_80192ADC(int, Particle *);\n' + source[emitter:]
 
 
 class RampedPairTests(unittest.TestCase):
     @unittest.skipUnless((ROOT/'tools/old-gcc/cc1').is_file() and shutil.which('mipsel-none-elf-as'), 'PSX tools unavailable')
     def test_target_layout(self):
-        source = SOURCE.read_text().split('extern Emitter', 1)[0] + r'''
+        source = emitter_source() + r'''
 #define OFF(t,f) ((unsigned long)&((t *)0)->f)
 typedef char a[sizeof(Particle)==8 ? 1:-1];
 typedef char b[OFF(Particle,scale)==4 ? 1:-1];
@@ -29,13 +36,15 @@ typedef char g[OFF(Emitter,pool)==8 ? 1:-1];
 
     @unittest.skipUnless(shutil.which('cc'), 'host compiler unavailable')
     def test_signed_ramp_and_allocation_reloads(self):
-        source = SOURCE.read_text().replace(' asm("$16")', '')
+        source = emitter_source().replace(' asm("$16")', '')
         harness = '#include <assert.h>\n#include <stdint.h>\n#include <string.h>\n#include <limits.h>\n' + source + r'''
 Emitter *D_800F33E0;
 Actor *D_800F32D0;
 int D_800E27EC;
 Vector D_8019A778[2];
-volatile short D_800F3368,D_800F336A,D_800F3376,D_800F3378,D_800F336C,D_800F336E,D_800F3372,D_800F3374;
+volatile short D_800F3368,D_800F3376,D_800F3378,D_800F336E,D_800F3372,D_800F3374;
+unsigned short D_800F336C;
+short D_800F336A;
 volatile unsigned short D_800E11E8,D_800F3370;
 unsigned short D_800E2850[65536];
 static Emitter emitters[2];
