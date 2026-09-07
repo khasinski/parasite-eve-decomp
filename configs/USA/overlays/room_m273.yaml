@@ -144,7 +144,7 @@ segments:
       - [0x79F0, asm, func_801969D8]
       - [0x7F44, c, RoomEffect_RisingTableSprite]
       - [0x8084, asm, func_8019706C]
-      - [0x8248, asm, func_80197230]
+      - [0x8248, c, RoomEffect_SizedTableSprite]
       - [0x8378, c, func_80197360]
       - [0x84F4, asm, func_801974DC]
       - [0x8660, asm, func_80197648]

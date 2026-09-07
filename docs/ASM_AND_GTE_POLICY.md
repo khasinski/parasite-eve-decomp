@@ -573,3 +573,17 @@ Post-zero removal tests eliminated speed, kind and Z pins and the final
 constant/Z barrier. Removing Y, delta or the comparison-constant pin loses
 the match, as does removing either retained barrier or all volatile reads.
 The eight-byte helper output and position vector are used locals, not padding.
+
+## Room 273 sized table sprite
+
+`RoomEffect_SizedTableSprite` (`func_80197230`) retains three register pins
+and two empty input-only barriers, one with a memory clobber. They preserve
+the first sample capture, renderer-state read and size-register lifetime.
+Both table accesses remain full-word C reads; dimensions and brightness use
+their low signed halfwords. No instruction ASM or volatile access is needed.
+
+After score zero, removing sample, comparison-constant or size pins yields
+scores 10, 35 or 38. Removing the first barrier gives 885, its memory clobber
+680, and the size barrier 295. These are stock-compiler matching constraints,
+not hardware semantics. Helper mutation tests cover the pre-call size capture
+and post-call brightness read with the original captured frame index.
