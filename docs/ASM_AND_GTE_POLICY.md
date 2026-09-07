@@ -638,3 +638,17 @@ uses the enclosing object's byte representation. Source record+6 is flags;
 the allocated record+6 is only known to be cleared, not semantically flags.
 Relocation spelling AF84+30 versus AFA2 gives raw score10; resolving addresses
 gives upstream score0/9400, with the target verified against original bytes.
+
+## Room 273 gated pair emitter
+
+`RoomEffect_GatedPairEmitter` (`func_80198CD4`) copies two eight-byte records
+using ordinary C struct assignment, producing the original unaligned word
+loads/stores without instruction ASM. Its partial state view starts at AF74;
+the control byte is offset46 and intervening bytes have unknown purpose.
+
+One empty palette-input barrier clobbers memory and v0 to preserve capture
+and constant scheduling. Only the two globals with repeated stores remain
+volatile as matching constraints, not MMIO claims. Index/palette pins and
+all other volatile qualifiers were removed after reaching linked score zero.
+Removing the memory clobber with the palette pin present gave raw625.
+There is no frame padding. AF74+46 versus AFA2 gives raw10, linked0/11200.
