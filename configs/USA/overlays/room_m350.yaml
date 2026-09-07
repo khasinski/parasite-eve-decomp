@@ -141,7 +141,7 @@ segments:
       - [0x9AD4, c, RoomEffect_AttachedCloudSpawner]
       - [0x9D10, c, RoomEffect_CloudController]
       - [0xA160, c, RoomEffect_FadingAccelerationCallback]
-      - [0xA2B8, asm, func_801992A0]
+      - [0xA2B8, c, RoomEffect_FadingModelSpawner]
       - [0xA6D4, c, RoomEffect_SineFadeCallback]
       - [0xA8A4, c, RoomEffect_ModelTransformEmitter]
       - [0xAB24, c, func_80199B0C]
