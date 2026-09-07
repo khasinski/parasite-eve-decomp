@@ -102,7 +102,7 @@ segments:
       - [0x3E64, asm, func_80192E4C]
       - [0x4624, c, RoomEffect_PairedAnimationController]
       - [0x47CC, c, RoomEffect_FallingTextureCallback]
-      - [0x48FC, asm, func_801938E4]
+      - [0x48FC, c, RoomEffect_PlayerRequestSpawner]
       - [0x4A98, c, RoomEffect_TripleSizePaletteCallback]
       - [0x4BE4, c, RoomEffect_PairedScaleController]
       - [0x4D84, asm, func_80193D6C]
