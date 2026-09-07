@@ -851,3 +851,18 @@ by3/2 with truncation toward zero, while shade halves arithmetically. Both
 samples are read before either draw; subsequent helper mutations are not
 grounds for reloading them. Local vector mutations are retained except for
 position.y, overwritten from942EC after each draw.
+
+## Room 273 scaled-layer emitter
+
+`RoomEffect_ScaledLayerEmitter` (`func_801936F0`, 384 bytes) retains a single
+empty memory barrier after the X store and eight unknown frame bytes. Removing
+the barrier in the sample-input-barrier candidate gives upstream decomp.me
+score1070. The sample input barrier was subsequently removed with score zero;
+the remaining int sample local preserves LH. Removing the frame bytes from
+the minimized candidate gives26. No pins, volatile or instruction ASM remain.
+
+The twelve-byte output's halfword6 is a scale, confirmed by callback8019353C.
+It receives the second half of the indexed animation sample. Parameter bytes
+8/9/A receive40, the first sample scaled by40/4096, and0; byteB is untouched.
+The phase counter is reread after byte8 is written. The coordinate transform
+and animation counter are resolved after allocation, not before it.

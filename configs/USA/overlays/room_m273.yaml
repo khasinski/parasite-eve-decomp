@@ -118,7 +118,7 @@ segments:
       - [0x4224, asm, func_8019320C]
       - [0x43B8, c, RoomEffect_SampledLayerEmitter]
       - [0x4554, c, RoomEffect_ScaledLayerPair]
-      - [0x4708, asm, func_801936F0]
+      - [0x4708, c, RoomEffect_ScaledLayerEmitter]
       - [0x4888, asm, func_80193870]
       - [0x49CC, asm, func_801939B4]
       - [0x4B74, c, func_80193B5C]
