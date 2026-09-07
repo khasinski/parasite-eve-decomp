@@ -612,3 +612,15 @@ An early frame/pointer barrier was removed after score zero. Removing the pin
 gave815; removing the memory clobber with the early barrier present gave530.
 Eight explicitly unknown frame bytes are layout scaffolding, not a recovered
 semantic structure. Removing them from the minimized variant gave74.
+
+## Room 273 delayed rising sprite
+
+`RoomEffect_DelayedRisingSprite` (`func_80199568`) retains a speed-register pin,
+one empty barrier tying the 16-bit Y value to the updated speed, and three
+volatile reads. The duplicate speed reads and their order reproduce the
+target; volatile is a matching constraint, not a claim of MMIO. Stores are
+ordinary C, and unsigned motion fields express modulo-16-bit storage only.
+
+Post-zero removal tests: pin525, volatile Y20, barrier160. Narrowing the local
+Y to unsigned short eliminated redundant masking without an instruction ASM
+workaround. Rendering remains C; there is no padding or instruction ASM.
