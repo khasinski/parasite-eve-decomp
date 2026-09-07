@@ -690,3 +690,16 @@ After score zero, X source volatility was removed. Removing Y/Z source
 volatility scores440/840; removing X/Y store volatility365/340. Removing the
 barrier scores805, its memory clobber1270, or its v0 clobber90. The output's
 fourth halfword is unknown and untouched. Flags are observed, not consumed.
+
+## Room 273 timed rising emitter
+
+`RoomEffect_TimedRisingEmitter` (`func_80197648`) has no pins, barriers,
+instruction ASM or padding. The inherited palette barrier was removed after
+score zero. Y/Z source reads, X/Y/speed output stores and repeated writes
+to 3376/3378 remain volatile matching constraints, not MMIO declarations.
+Removing Y/Z read qualifiers scores495/975, X/Y store qualifiers495/570;
+the speed-store removal scored315 before the palette barrier was removed.
+
+The signed halfword counter is postdecremented only when emission is active.
+Allocation failure preserves that decrement; success resets it to two.
+Coordinates are read after allocation, Y is offset by -256, and speed is zero.
