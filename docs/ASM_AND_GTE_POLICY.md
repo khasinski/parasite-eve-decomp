@@ -600,3 +600,15 @@ After matching, position and first-frame pins were removed. Removing the
 remaining pin yields715; removing the first barrier38, the second588, or its
 memory clobber390. The first table access is a signed halfword, the second a
 full word with its low signed halfword used for brightness. Neither is ASM.
+
+## Room 273 dual-sample sprite
+
+`RoomEffect_DualSampleSprite` (`func_80199950`) retains one comparison-constant
+pin and one empty tied-output barrier for size and shade with a memory clobber.
+Both samples are full-word reads captured before GetClut; the position pointer
+is read after that call. No instruction ASM or volatile access is used.
+
+An early frame/pointer barrier was removed after score zero. Removing the pin
+gave815; removing the memory clobber with the early barrier present gave530.
+Eight explicitly unknown frame bytes are layout scaffolding, not a recovered
+semantic structure. Removing them from the minimized variant gave74.

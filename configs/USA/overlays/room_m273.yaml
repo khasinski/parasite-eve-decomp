@@ -160,7 +160,7 @@ segments:
       - [0xA408, asm, func_801993F0]
       - [0xA580, asm, func_80199568]
       - [0xA6DC, asm, func_801996C4]
-      - [0xA968, asm, func_80199950]
+      - [0xA968, c, RoomEffect_DualSampleSprite]
       - [0xAAA8, asm, func_80199A90]
       - [0xAC68, asm, func_80199C50]
       - [0xAF88, c, func_80199F70]
