@@ -136,7 +136,7 @@ segments:
       - [0x8BB0, c, RoomEffect_RadialBurstController]
       - [0x8DC0, c, RoomEffect_AnimationEventController]
       - [0x91E8, c, RoomEffect_TransformedFlare]
-      - [0x9418, asm, func_80198400]
+      - [0x9418, c, RoomEffect_SweptAreaEmitter]
       - [0x9878, c, RoomEffect_AttachedCloud]
       - [0x9AD4, c, RoomEffect_AttachedCloudSpawner]
       - [0x9D10, c, RoomEffect_CloudController]

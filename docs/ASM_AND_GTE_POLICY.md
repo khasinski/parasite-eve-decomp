@@ -543,3 +543,20 @@ The operations are the documented GTE perspective transforms (`0x4A180001` and
 `0x4A280030`); clipping, depth selection, and output-buffer management stay in
 C. Initial users are `Render_DecompressAnimFrame`, `Render_DrawObjectVariant`,
 and `Render_TransformMorphVertices`.
+
+## Room 350 swept-area emitter
+
+`RoomEffect_SweptAreaEmitter` (`func_80198400`) keeps particle emission,
+endpoint publication, quad construction, ownership flags and rendering
+configuration in C. Only NCLIP and its COP2 register transfers use the existing
+GTE macros; no instruction macros or toolchain modifications were added.
+
+Four snapshot-pointer pins, five empty barriers and two same-symbol field-store
+aliases remain after removal tests. The aliases expose the first halfword of
+the complete eight-byte endpoint arrays without changing relocation names.
+Three ordered coordinate reads and the endpoint field writes remain volatile
+as matching constraints, not as claims of MMIO. Five other volatile qualifiers,
+five pins and three barriers were removed after reaching score zero.
+The final loop uses ordinary array indexing and an explicit index increment;
+the experimental zero-result pin/barrier and staged area pointer are gone.
+No fabricated frame locals or instruction scheduling postpass is used.
