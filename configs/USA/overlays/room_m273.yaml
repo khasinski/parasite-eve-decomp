@@ -129,7 +129,7 @@ segments:
       - [0x5488, c, RoomEffect_DoubleSizedTableSprite]
       - [0x55C0, asm, func_801945A8]
       - [0x57E4, asm, func_801947CC]
-      - [0x5A04, asm, func_801949EC]
+      - [0x5A04, c, RoomEffect_ThresholdPools]
       - [0x5B74, asm, func_80194B5C]
       - [0x5D6C, c, func_80194D54]
       - [0x5E84, asm, func_80194E6C]

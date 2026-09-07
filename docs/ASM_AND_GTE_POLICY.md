@@ -760,3 +760,18 @@ The four-byte color record is copied with ordinary C struct assignment;
 its fourth byte remains unnamed. Size and color are captured before GetClut,
 whereas shade is sampled afterward using the saved frame index. Dimensions
 remain full integers, and the motion halfwords wrap on assignment.
+
+## Room 273 threshold pools
+
+`RoomEffect_ThresholdPools` (`func_801949EC`) uses one input-only empty
+barrier for the first pool's returned size. Without it, upstream score is60;
+pinning that size does not help. The memory clobber was removed after zero
+without losing the match. There are no pins, volatile accesses, padding or
+instruction ASM in this function.
+
+The partial state identifies a kind byte at14 and halfwords at22/26. The
+predicate is kind9, signed value22 >=4, signed value26 <4; their meaning as
+current/previous values is not proven. Remaining bytes are explicitly unknown.
+The scene's pointer at0x238 is read after allocation; position is pointer+20.
+Allocation failure still updates the secondary pool. A nonzero stop byte
+returns2 without touching either pool; initialization returns both pool sizes.
