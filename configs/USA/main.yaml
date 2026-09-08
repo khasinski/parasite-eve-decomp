@@ -1165,8 +1165,8 @@ segments:
       - [0x65414, c, gpu/SetGraphQueue]
       - [0x654B8, c, gpu/GetGraphDebug]
       - [0x654C8, c, gpu/DrawSyncCallback]
-      - [0x65528, c, psyq/libgpu/SetDispMask]
-      - [0x655C0, c, psyq/libgpu/DrawSync]
+      # Psy-Q libgpu/sys.c display-mask and synchronization operations.
+      - [0x65528, c, psyq/libgpu/sys_display]
       - [0x65628, c, gpu/checkRECT]
       - [0x65744, c, psyq/libgpu/ClearImage]
       - [0x657D4, c, gpu/ClearImage2]
