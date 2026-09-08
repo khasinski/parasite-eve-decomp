@@ -1131,10 +1131,8 @@ segments:
       - [0x64480, c, main/gap_pad_ChangeClearPAD_tail_64480]
       - [0x64484, c, psyq/libapi/ChangeClearRCnt]
       - [0x64490, c, main/gap_psyq_libapi_ChangeClearRCnt_tail_64490]
-      - [0x64494, c, psyq/misc28]
-      - [0x64524, c, psyq/libapi/VSyncCallback]
-      - [0x64558, c, psyq/misc29]
-      - [0x64610, c, psyq/libapi/SetIntrMask]
+      # Psy-Q etc/intr.c callback facade; functions retain SDK source order.
+      - [0x64494, c, psyq/libapi/intr_callbacks]
       - [0x64628, c, sys/Sys_InitIntrManager]
       - [0x64700, asm, main/Render_InitSceneGeom]
       - [0x648D0, asm, sys/Sys_SetIntrCallback]
