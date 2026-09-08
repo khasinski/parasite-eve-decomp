@@ -1,6 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses -fno-schedule-insns2 */
-extern int D_800B8AB0[], D_800A3510[];
+#include "pe1/psyq_cd.h"
+extern int D_800A3510[];
 extern unsigned char D_800A3515[], D_800A3525[], D_800A3535[];
 typedef struct { int words[6]; } CdQueue;
 typedef struct { int active; int unknown[3]; } CdRequest;
@@ -8,9 +9,7 @@ extern CdQueue D_800A3540[];
 extern CdRequest D_800A3610[];
 extern int D_800A3604, D_800A3600, g_CdPendingReadCount, D_800A3690;
 extern void CdRom_AbortCmd(void);
-extern void CQ_clear_queue(CdQueue *);
 extern void DS_read_cbready(void);
-extern void DsReadCallback(void *);
 extern void CdRom_EnableDsReadSystem(void);
 register int *resetPage asm("$1");
 
@@ -19,7 +18,7 @@ int CdRom_ResetDsReadSystem(void) {
     int *state;
     CdRom_AbortCmd();
     i = 0;
-    state = D_800B8AB0;
+    state = g_DsReadCallbackState;
     state[0] = 0;
     state[1] = 0;
     state[2] = 0;
