@@ -1595,7 +1595,8 @@ segments:
       - [0x76330, asm, psyq/libspu/func_80085B30]
       - [0x76334, c, psyq/libspu/s_m_util]
       - [0x76440, asm, main/gap_psyq_libspu_s_m_util_tail_76440]
-      - [0x76444, asm, akao/SpuSetIRQ]
+      # Psy-Q libspu/s_si.c: SPU IRQ-enable control and timeout polling.
+      - [0x76444, asm, psyq/libspu/s_si]
       - [0x76580, asm, main/gap_akao_SpuSetIRQ_tail_76580]
       - [0x76584, c, akao/Spu_SetTransferMode]
       - [0x765C0, asm, main/gap_akao_Spu_SetTransferMode_tail_765C0]
