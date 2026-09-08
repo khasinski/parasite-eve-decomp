@@ -1457,8 +1457,8 @@ segments:
       - [0x70F78, c, cdrom/CdRom_ReadyEventDispatch]
       - [0x7100C, c, cdrom/CdRom_ProcessEventByte]
       - [0x710BC, c, cdrom/CdRom_AbortCmd]
+      # DS read-system enable/query control unit.
       - [0x71130, c, cdrom/CdRom_EnableDsReadSystem]
-      - [0x71140, c, cdrom/CdRom_IsDsReadSystemEnabled]
       - [0x71150, c, cdrom/cd]
       - [0x711E0, asm, cdrom/DS_status]
       - [0x712BC, c, main/gap_cdrom_DS_status_tail_712BC]

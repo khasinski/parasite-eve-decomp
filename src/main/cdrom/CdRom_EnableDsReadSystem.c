@@ -17,3 +17,7 @@ void CdRom_EnableDsReadSystem(void) {
     g_DsSystemWritePage = (DsSystemDataPage *)0x800A0000;
     g_DsSystemWritePage[-1].state.enabled = g_DsSystemEnabledValue;
 }
+
+int CdRom_IsDsReadSystemEnabled(void) {
+    return g_DsReadSysEnabled.enabled;
+}
