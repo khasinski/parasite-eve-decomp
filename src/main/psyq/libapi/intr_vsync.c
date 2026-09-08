@@ -6,14 +6,15 @@ void setIntrVSync(unsigned int index, void (*callback)(void)) {
     }
 }
 
-void memclrIntrVSync(int *ptr, int count) {
+void memclrIntrVSync(void *ptr, int count) {
+    int *words = ptr;
     int i = count - 1;
 
     if (count != 0) {
         do {
-            *ptr = 0;
+            *words = 0;
             i--;
-            ptr++;
+            words++;
         } while (i != -1);
     }
 }

@@ -1,8 +1,8 @@
-extern int g_IntrVSyncCallbackTable[];
-extern int g_VSyncCount;
+extern void (*g_IntrVSyncCallbackTable[])(void);
+extern volatile int g_VSyncCount;
 extern int *D_800956B0;
 
-void memclrIntrVSync(int *ptr, int count);
+void memclrIntrVSync(void *ptr, int count);
 void trapIntrVSync(void);
 void InterruptCallback(int event, void (*callback)(void));
 void setIntrVSync(unsigned int index, void (*callback)(void));

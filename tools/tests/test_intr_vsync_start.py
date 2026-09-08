@@ -14,16 +14,18 @@ class IntrVSyncStartTests(unittest.TestCase):
         source = (ROOT / "src/main/psyq/libapi/startIntrVSync.c").read_text()
         harness = source + r'''
 #include <assert.h>
-int g_IntrVSyncCallbackTable[8];
-int g_VSyncCount;
+void handler(void) {}
+void (*g_IntrVSyncCallbackTable[8])(void);
+volatile int g_VSyncCount;
 static int timer_mode;
 int *D_800956B0 = &timer_mode;
 static int clear_calls, event, callback;
-void memclrIntrVSync(int *ptr, int count) {
+void memclrIntrVSync(void *ptr, int count) {
     int i;
+    void (**handlers)(void) = (void (**)(void))ptr;
     assert(ptr == g_IntrVSyncCallbackTable && count == 8);
     ++clear_calls;
-    for (i = 0; i < count; ++i) ptr[i] = 0;
+    for (i = 0; i < count; ++i) handlers[i] = 0;
 }
 void trapIntrVSync(void) {}
 void setIntrVSync(unsigned int index, void (*handler)(void)) {
@@ -37,7 +39,7 @@ void InterruptCallback(int irq, void (*handler)(void)) {
 }
 int main(void) {
     int i;
-    for (i = 0; i < 8; ++i) g_IntrVSyncCallbackTable[i] = i + 1;
+    for (i = 0; i < 8; ++i) g_IntrVSyncCallbackTable[i] = handler;
     g_VSyncCount = 99;
     timer_mode = 0;
     assert(startIntrVSync() == setIntrVSync);
