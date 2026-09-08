@@ -1438,10 +1438,8 @@ segments:
       - [0x7022C, c, cdrom/CdRom_InitCmdState]
       - [0x70304, c, cdrom/CdRom_ClearDsCallbacks]
       - [0x70344, c, cdrom/CdRom_TryIssueCmd]
+      # DS callback setter API (poll, sync, ready, dispatch).
       - [0x703C0, c, cdrom/CdRom_SetPollCallback]
-      - [0x703CC, c, cdrom/CdRom_SetSyncCallback]
-      - [0x703D8, c, cdrom/CdRom_SetReadyCallback]
-      - [0x703E4, c, cdrom/CdRom_SetDispatchCallback]
       - [0x703F0, c, cdrom/cd_rom3]
       - [0x70408, c, cdrom/CdRom_GetLastCmd]
       - [0x70418, c, cdrom/CdRom_GetCmdMode]
