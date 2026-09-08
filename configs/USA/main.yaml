@@ -500,8 +500,8 @@ segments:
       - [0x33C74, c, save/Save_ClassifyPlaytime]
       - [0x33CC0, c, menu/Menu_DrawSaveSlotEntry]
       - [0x33FB4, c, menu/menu4]
+      # Inventory tab and bonus-point allocation view setup unit.
       - [0x340EC, c, menu/Menu_CreateInventoryTabView]
-      - [0x341D8, c, menu/Menu_CreateBonusPointAllocationView]
       - [0x3430C, c, menu/Menu_DrawStatusPanel]
       - [0x34464, c, menu/Menu_DrawStatsList]
       - [0x345A4, asm, main/Menu_StepItemSelectScreen]
