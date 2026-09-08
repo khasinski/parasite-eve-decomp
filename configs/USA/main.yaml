@@ -1514,9 +1514,8 @@ segments:
       - [0x72C44, c, psyq/libds/GD_disk_kind]
       - [0x72CA8, asm, main/gap_psyq_libds_GD_disk_kind_tail_72CA8]
       - [0x72CB4, c, psyq/libds/DsStartCallback]
-      - [0x72CC8, c, psyq/libds/DsSyncCallback]
-      - [0x72CDC, c, psyq/libds/DsReadyCallback]
-      - [0x72CF0, c, psyq/libds/DsDataCallback]
+      # Psy-Q libds/dscb.c callback registration helpers, in source order.
+      - [0x72CC8, c, psyq/libds/dscb]
       - [0x72D14, c, memcard/mem_card7]
       - [0x72E80, c, memcard/CardObj_GetField]
       - [0x72F78, c, memcard/func_80082778]
