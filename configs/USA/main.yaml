@@ -1775,7 +1775,6 @@ segments:
       - [0x81554, c, akao/SeqOp_NoteOnWithVoiceAlloc]
       - [0x81620, c, akao/SeqOp_NoteOnWithPitchSlide]
       - [0x81754, c, akao/seq_op9]
-      - [0x81880, c, akao/SeqOp_Noop]
       - [0x818A0, data, main/dtail_gp]
 
   # Data separates the initial code from the field-engine code. Keep a

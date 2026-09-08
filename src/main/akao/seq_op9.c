@@ -63,3 +63,7 @@ void SeqOp_StopVoice(AkaoTrack *track, u32 arg1) {
     Seq_MarkTrack38MaskDirty();
     Seq_MarkTrack3CMaskDirty();
 }
+
+void SeqOp_Noop(AkaoTrack *track, u32 mask) {
+    SeqOp_StopVoice(track, mask);
+}
