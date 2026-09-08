@@ -1,19 +1,34 @@
+#include "common.h"
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 
-#include "common.h"
-
 extern volatile u16 *_spu_RXX;
-extern u16 g_SpuTransferAddr;
-extern s32 _spu_mem_mode_plus;
-extern s32 g_SpuDmaDirection;
-extern volatile u32 D_8009B450;
-extern u32 D_8009B454;
 extern volatile u32 *g_SpuDmaMadrPtr;
 extern volatile u32 *g_SpuDmaBcrPtr;
 extern volatile u32 *g_SpuDmaChcrPtr;
+extern s32 g_SpuDmaDirection;
+extern u16 g_SpuTransferAddr;
+extern s32 _spu_mem_mode_plus;
+extern volatile u32 D_8009B450;
+extern u32 D_8009B454;
+extern s32 D_8009B418;
+void _spu_Fw1ts(void);
 void _spu_FsetDelayR(void);
 void _spu_FsetDelayW(void);
+void _spu_FwriteByIO(void *address, u32 size);
+
+void _spu_Fr_(void *address, u16 spuAddress, u32 blocks)
+{
+    _spu_RXX[0xD3] = spuAddress;
+    _spu_Fw1ts();
+    _spu_RXX[0xD5] |= 0x30;
+    _spu_Fw1ts();
+    _spu_FsetDelayR();
+    *g_SpuDmaMadrPtr = (u32)address;
+    *g_SpuDmaBcrPtr = (blocks << 16) | 0x10;
+    g_SpuDmaDirection = 1;
+    *g_SpuDmaChcrPtr = 0x1000200;
+}
 
 int _spu_t(int command, ...)
 {
@@ -83,4 +98,23 @@ int _spu_t(int command, ...)
         break;
     }
     return 0;
+}
+
+u32 _spu_Fw(void *address, u32 size)
+{
+    if (D_8009B418 == 0) {
+        _spu_t(2, g_SpuTransferAddr << _spu_mem_mode_plus);
+        _spu_t(1);
+        _spu_t(3, address, size);
+    } else {
+        _spu_FwriteByIO(address, size);
+    }
+    return size;
+}
+
+s32 _spu_Fr(void *address, s32 size) {
+    _spu_t(2, g_SpuTransferAddr << _spu_mem_mode_plus);
+    _spu_t(0);
+    _spu_t(3, address, size);
+    return size;
 }
