@@ -11,8 +11,8 @@ int SetGraphDebug(int debugLevel) {
     void (*debugPrint)(char *message, int debugLevel, int queueState,
                        int drawState);
     int currentLevel;
-    int queueState;
-    int drawState;
+    int type;
+    int reverse;
     int oldDebugLevel;
 
     currentDebugLevel = &D_8009574C.queueState.debugLevel;
@@ -30,11 +30,11 @@ int SetGraphDebug(int debugLevel) {
     /* Keep the callback load ahead of its arguments. */
     asm volatile("" : "+r"(debugPrint));
     currentLevel = currentDebugLevel[0];
-    queueState = currentDebugLevel[-2];
-    drawState = currentDebugLevel[1];
+    type = currentDebugLevel[-2];
+    reverse = currentDebugLevel[1];
     /* Materialize the byte arguments before the format string address. */
-    asm volatile("" : "+r"(currentLevel), "+r"(queueState), "+r"(drawState));
-    debugPrint(D_80011814, currentLevel, queueState, drawState);
+    asm volatile("" : "+r"(currentLevel), "+r"(type), "+r"(reverse));
+    debugPrint(D_80011814, currentLevel, type, reverse);
     result = oldDebugLevel;
     return result;
 }

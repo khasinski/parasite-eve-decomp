@@ -14,7 +14,7 @@ typedef struct GpuQueueState {
 } GpuQueueState;
 
 typedef struct GpuDebugState {
-    /* 0x00 */ unsigned char version;
+    /* 0x00 */ unsigned char type;
     /* 0x01 */ GpuQueueState queueState;
     /* 0x03 */ unsigned char reverse;
     /* 0x04 */ short width;
