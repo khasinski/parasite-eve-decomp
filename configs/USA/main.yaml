@@ -1443,8 +1443,8 @@ segments:
       - [0x703F0, c, cdrom/cd_rom3]
       # CD-ROM command-state accessor API.
       - [0x70408, c, cdrom/CdRom_GetLastCmd]
+      # Paired Psy-Q CD sync/ready adapters.
       - [0x70464, c, cdrom/CdRom_Sync]
-      - [0x70488, c, cdrom/CdRom_SendReadyCommand]
       - [0x704AC, c, cdrom/CdRom_GetDiscType]
       - [0x704BC, c, cdrom/CdRom_IssueSetMode]
       - [0x704FC, c, cdrom/CdRom_SendCmd]
