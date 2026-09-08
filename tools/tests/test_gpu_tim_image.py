@@ -11,7 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class GpuTimImageTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_uploads_image_then_optional_clut(self):
-        source = (ROOT / "src/main/psyq/libgpu/misc27.c").read_text()
+        source = (ROOT / "src/main/psyq/libgpu/tim.c").read_text()
         source = source[:source.index("int Str_GetTableEntryA")]
         harness = source + r'''
 #include <assert.h>

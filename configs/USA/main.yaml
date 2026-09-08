@@ -1031,7 +1031,8 @@ segments:
       - [0x61B6C, asm, main/Scene_UpdateEntityFacing]
       - [0x61EA4, c, scene/Scene_SyncEntityAction]
       - [0x61F54, asm, scene/Scene_UpdateEntityFacingFromPad]
-      - [0x620D0, c, psyq/libgpu/misc27]
+      # TIM container parser and VRAM upload helpers.
+      - [0x620D0, c, psyq/libgpu/tim]
       - [0x621E4, c, psyq/libc/exit]
       - [0x621F0, c, main/gap_psyq_libc_exit_tail_621F0]
       - [0x621F4, c, psyq/libc/strcat]
