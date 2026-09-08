@@ -3,11 +3,8 @@
 
 #include "include_asm.h"
 #include "pe1/gpu_callbacks.h"
+#include "pe1/gpu_state.h"
 
-extern unsigned char g_GraphDebug[];
-extern void (*g_GpuDebugPrintf[])(char *msg, int arg0);
-extern GpuCallbacks * g_GpuCallbacks[];
-#define g_GpuCallbacks (g_GpuCallbacks[0])
 extern char D_80011884[];
 
 int DrawSync(int arg0) {
@@ -16,11 +13,11 @@ int DrawSync(int arg0) {
     GpuCallbacks *callbacks;
 
     saved = arg0;
-    if (g_GraphDebug[0] >= 2) {
-        fn = g_GpuDebugPrintf[0];
+    if (D_8009574C.queueState.debugLevel >= 2) {
+        fn = D_80095748;
         fn(D_80011884, saved);
     }
 
-    callbacks = g_GpuCallbacks;
+    callbacks = D_80095744;
     callbacks->callback3C(saved);
 }

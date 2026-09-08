@@ -4,9 +4,9 @@
 #include "common.h"
 #include "pe1/gpu_callbacks.h"
 #include "pe1/psyq_gpu.h"
+#include "pe1/gpu_state.h"
 
 extern char D_800118C8[];
-extern GpuCallbacks *D_80095744;
 
 void checkRECT(char *message, RECT *rect);
 

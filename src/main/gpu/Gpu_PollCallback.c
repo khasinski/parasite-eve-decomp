@@ -1,7 +1,5 @@
-#include "pe1/gpu_callbacks.h"
-
-extern GpuCallbacks *g_GpuCallbacks;
+#include "pe1/gpu_state.h"
 
 int Gpu_PollCallback(void) {
-    return g_GpuCallbacks->callback() < 0;
+    return D_80095744->callback() < 0;
 }

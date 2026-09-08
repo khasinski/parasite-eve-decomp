@@ -16,7 +16,7 @@ class GpuDispatchTests(unittest.TestCase):
         source = source.replace(' asm("$2")', "")
         harness = source + r'''
 #include <assert.h>
-unsigned char D_8009574E;
+GpuDebugState D_8009574C;
 char D_80011928[] = "dispatch";
 int g_GpuDmaTimeoutDeadline, g_GpuDmaWaitLoopCounter;
 static volatile unsigned int dma;
@@ -31,10 +31,10 @@ static void debug(char *message, void *argument) {
     assert(events == 0);
     events = 1;
 }
-void (*D_80095748)(char *, void *) = debug;
+void (*D_80095748)() = (void (*)())debug;
 int VSync(int mode) {
     assert(mode == -1 && ++vsyncCalls == 1);
-    assert(events == (D_8009574E >= 2 ? 1 : 0));
+    assert(events == (D_8009574C.queueState.debugLevel >= 2 ? 1 : 0));
     events = events * 10 + 2;
     return 123;
 }
@@ -51,17 +51,17 @@ void Gpu_RestoreDmaCallback(void) { assert(0); }
 void DMACallback(int channel, void (*callback)(void)) {
     assert(channel == 2 && callback == Gpu_RestoreDmaCallback);
     assert(dma == 0 && gpu == 0x04000000);
-    assert(events == (D_8009574E >= 2 ? 12 : 2));
+    assert(events == (D_8009574C.queueState.debugLevel >= 2 ? 12 : 2));
     events = events * 10 + 3;
 }
 static int send(void *argument) {
     assert(argument == &packet);
-    assert(events == (D_8009574E >= 2 ? 123 : 23));
+    assert(events == (D_8009574C.queueState.debugLevel >= 2 ? 123 : 23));
     events = events * 10 + 4;
     return 77;
 }
 static void check(int debugLevel, int idle, int ready, int timeout) {
-    D_8009574E = debugLevel;
+    D_8009574C.queueState.debugLevel = debugLevel;
     idleAt = idle;
     readyAt = ready;
     timeoutAt = timeout;

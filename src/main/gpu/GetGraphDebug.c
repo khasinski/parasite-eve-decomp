@@ -1,5 +1,5 @@
-extern unsigned char g_GraphDebug;
+#include "pe1/gpu_state.h"
 
 int GetGraphDebug(void) {
-    return g_GraphDebug;
+    return D_8009574C.queueState.debugLevel;
 }

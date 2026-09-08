@@ -2,6 +2,7 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/gpu_callbacks.h"
 #include "pe1/psyq_gpu.h"
+#include "pe1/gpu_state.h"
 extern char D_800118EC[];
 extern unsigned int D_800957EC[3];
 void checkRECT(char *, RECT *);
@@ -9,7 +10,6 @@ extern volatile unsigned int *g_GpuDmaChcrPtr;
 extern unsigned int *g_GpuGp1Ptr;
 extern int g_GpuDmaTimeoutDeadline;
 extern int g_GpuDmaWaitLoopCounter;
-extern GpuCallbacks *D_80095744;
 int VSync(int mode);
 int Gpu_DmaTimeoutCheck(void);
 void Gpu_RestoreDmaCallback(void);

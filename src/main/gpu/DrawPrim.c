@@ -3,8 +3,7 @@
 
 #include "common.h"
 #include "pe1/gpu_callbacks.h"
-
-extern GpuCallbacks *D_80095744;
+#include "pe1/gpu_state.h"
 
 int DrawPrim(void *primitive) {
     u8 *bytes = primitive;
