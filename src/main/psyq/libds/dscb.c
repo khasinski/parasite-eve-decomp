@@ -1,12 +1,10 @@
-extern int D_800B8AB0;
-extern int D_800B8AB4;
-extern int D_800B8AB8;
+#include "pe1/psyq_cd.h"
 
 int DsStartCallback(int callback) {
     int *slot;
     int old;
 
-    slot = &D_800B8AB0;
+    slot = &g_DsReadCallbackState[0];
     old = *slot;
     *slot = callback;
     return old;
@@ -16,7 +14,7 @@ int DsSyncCallback(int callback) {
     int *slot;
     int old;
 
-    slot = &D_800B8AB4;
+    slot = &g_DsReadCallbackState[1];
     old = *slot;
     *slot = callback;
     return old;
@@ -26,7 +24,7 @@ int DsReadyCallback(int callback) {
     int *slot;
     int old;
 
-    slot = &D_800B8AB8;
+    slot = &g_DsReadCallbackState[2];
     old = *slot;
     *slot = callback;
     return old;
