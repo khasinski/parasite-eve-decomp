@@ -1170,9 +1170,8 @@ segments:
       - [0x65628, c, gpu/checkRECT]
       - [0x65744, c, psyq/libgpu/ClearImage]
       - [0x657D4, c, gpu/ClearImage2]
-      - [0x6586C, c, psyq/libgpu/LoadImage]
-      - [0x658CC, c, psyq/libgpu/StoreImage]
-      - [0x6592C, c, psyq/libgpu/MoveImage]
+      # Psy-Q libgpu/sys.c VRAM transfer helpers, in source order.
+      - [0x6586C, c, psyq/libgpu/sys_transfer]
       - [0x659E4, c, gpu/ClearOTag]
       - [0x65AAC, c, gpu/ClearOTagR]
       - [0x65B58, c, gpu/DrawPrim]
