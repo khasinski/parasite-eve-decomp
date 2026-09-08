@@ -86,3 +86,11 @@ clear_entry:
 
     return result;
 }
+
+s32 Pm_StopLowerHalf(void);
+s32 Pm_StopUpperHalf(void);
+
+void Pm_StopAllBoth(void) {
+    Pm_StopLowerHalf();
+    Pm_StopUpperHalf();
+}
