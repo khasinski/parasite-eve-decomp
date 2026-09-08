@@ -276,6 +276,7 @@ extern CdReadProgressState g_CdReadProgress __asm__("D_8009B6A4");
 extern CdReadCompleteCallback g_CdReadCompleteCallback;
 
 void CdRom_AbortCmd(void);
+DslFILE *DsSearchFile(DslFILE *file, char *name);
 void CQ_clear_queue(void *queue);
 void DS_read_cbready(void);
 DsCallback DsReadCallback(DsCallback callback);
