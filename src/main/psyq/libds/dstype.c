@@ -1,7 +1,9 @@
 #include "common.h"
 
+extern int g_DsDiskType;
 extern char D_8001205C[];
 
+void CdRom_InitAsyncRead(void *arg0, int arg1);
 int CdRom_IsBusy(u8 *dst, int sector_size);
 int strncmp(char *s1, char *s2, int n);
 void DsReadBreak(void);
@@ -12,6 +14,16 @@ typedef struct CdDiskKindPage {
 } CdDiskKindPage;
 
 register CdDiskKindPage *g_CdDiskKindPage asm("$1");
+
+void GD_disk_kind(u8 arg0);
+
+void GD_cbsync(unsigned char arg0) {
+    if (arg0 == 2) {
+        CdRom_InitAsyncRead(GD_disk_kind, 0);
+    } else {
+        g_DsDiskType = 2;
+    }
+}
 
 void GD_disk_kind(u8 arg0) {
     u8 buffer[8];
