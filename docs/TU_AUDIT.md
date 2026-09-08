@@ -15,6 +15,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x68B44..0x68DD0` | `psyq/libgte/average` | Six adjacent vector-average API functions form a complete Psy-Q GTE family in API order. Their combined object preserves all 652 `.text` bytes exactly; `make check` is retail-identical. |
 | `0x69834..0x69A40` | `psyq/libgte/pipeline` | Eleven adjacent pipeline API functions occur in the same order in public Psy-Q library implementations. Their combined object preserves all 524 `.text` bytes exactly; `make check` is retail-identical. |
 | `0x6C2C0..0x6C3FC` | `psyq/libcd/bios` | The volume and interrupt initializers occur consecutively in public Psy-Q `libcd/bios.c`. Their shared register declarations and compiler flags produce an object whose 316 `.text` bytes are identical to the two prior objects; `make check` is retail-identical. |
+| `0x6ABCC..0x6ACD0` | `psyq/libcd/sys` | Seven contiguous CD API wrappers occur in public Psy-Q `libcd/sys.c` in this source order. The combined 260-byte object changes only the two relocations for its own `CdComstr` and `CdIntstr` epilogues; `make check` is retail-identical. |
 
 ## Deferred main pairs
 
