@@ -11,6 +11,12 @@ class CdResetSystemTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_reset_order_and_preserved_fields(self):
         source = (ROOT / "src/main/cdrom/CdRom_ResetDsReadSystem.c").read_text()
+        source = source.replace(
+            '#include "pe1/psyq_cd.h"',
+            'extern int D_800B8AB0[];\n'
+            'void CQ_clear_queue(void *);\n'
+            'void DsReadCallback(void *);\n'
+            '#define g_DsReadCallbackState D_800B8AB0')
         # Replace the register binding and map the PS1 data page to host RAM.
         source = source.replace('register int *resetPage asm("$1");',
                                 'static int *resetPage;')
@@ -40,7 +46,8 @@ void CdRom_AbortCmd(void) {
     assert(stage++ == 0 && queues == 0);
     assert(((unsigned char *)D_800B8AB0)[0] == fill);
 }
-void CQ_clear_queue(CdQueue *queue) {
+void CQ_clear_queue(void *raw_queue) {
+    CdQueue *queue = raw_queue;
     int i, j;
     assert(stage == 1 && queue == &D_800A3540[queues]);
     status_cleared();

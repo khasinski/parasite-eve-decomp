@@ -11,15 +11,18 @@ class CdSendCommandTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_command_state_transitions(self):
         source = (ROOT / "src/main/cdrom/CdRom_SendCmd.c").read_text()
-        source = source.replace("extern unsigned char D_8009B558[];", "")
-        source = source.replace("extern int g_CdRomCmdTimeout[], g_CdRomCmdLongTimeoutTable[];", "")
+        source = source.replace(
+            '#include "pe1/psyq_cd.h"',
+            '#define g_CdRomEventCommandState (*(unsigned char (*)[80])storage.bytes)\n'
+            '#define g_CdRomCmdTimeout (*(int *)(storage.bytes + 64))')
+        source = source.replace("extern int g_CdRomCmdLongTimeoutTable[];", "")
         harness = r'''
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
 static union { void *alignment; unsigned char bytes[80]; } storage;
 #define D_8009B558 (storage.bytes)
-#define g_CdRomCmdTimeout ((int *)(storage.bytes + 64))
+#define timeoutWords ((int *)(storage.bytes + 64))
 static int g_CdRomCmdLongTimeoutTable[256];
 static int commandValue, statusValue, hasParam, outcome, flushes, copies, sends;
 static unsigned char parameters[4] = {0x12, 0x34, 0x56, 0x78};
@@ -45,15 +48,15 @@ int CD_cw(int command, void *param, int a, int b) {
     assert((uint32_t)(uintptr_t)param ==
            ((!rewritten && hasParam) ?
             (uint32_t)(uintptr_t)(storage.bytes + 1) : 0));
-    assert(g_CdRomCmdTimeout[0] == (g_CdRomCmdLongTimeoutTable[commandValue] ? 960 : 30));
-    assert(g_CdRomCmdTimeout[1] == 0);
+    assert(timeoutWords[0] == (g_CdRomCmdLongTimeoutTable[commandValue] ? 960 : 30));
+    assert(timeoutWords[1] == 0);
     assert(storage.bytes[40] == 0xCC);
     if (hasParam) assert(memcmp(storage.bytes + 1, parameters, 4) == 0);
     /* The sender's post-call path must reload the command and clear both
        timeout words on failure, even when the low-level call changed them. */
     storage.bytes[0] = 0x5A;
-    g_CdRomCmdTimeout[0] = 111;
-    g_CdRomCmdTimeout[1] = 222;
+    timeoutWords[0] = 111;
+    timeoutWords[1] = 222;
     return outcome;
 }
 int main(void) {
@@ -72,8 +75,8 @@ int main(void) {
         assert(result == (outcome == 0));
         assert(flushes == 1 && copies == p && sends == 1);
         assert(storage.bytes[40] == (outcome ? 0xCC : 0x5A));
-        assert(g_CdRomCmdTimeout[0] == (outcome ? 0 : 111));
-        assert(g_CdRomCmdTimeout[1] == (outcome ? 0 : 222));
+        assert(timeoutWords[0] == (outcome ? 0 : 111));
+        assert(timeoutWords[1] == (outcome ? 0 : 222));
     }
     return 0;
 }
