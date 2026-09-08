@@ -1,4 +1,105 @@
+#include "common.h"
 #include "pe1/akao.h"
+
+void AkaoSpuVoice_SetVolume(u32 index, u32 left, u32 right) {
+    u16 *ptr;
+    u32 mask;
+
+    ptr = (u16 *)(0x1F801C00 + (index * 0x10));
+    asm("" : "=r"(ptr) : "0"(ptr));
+    mask = 0x7FFF;
+    ptr[0] = left & mask;
+    ptr[1] = right & 0x7FFF;
+}
+
+void AkaoSpuVoice_SetPitch(u32 index, u32 value) {
+    u16 *ptr;
+
+    ptr = (u16 *)(0x1F800000 + (index * 0x10));
+    ptr[0x1C04 / 2] = value;
+}
+
+void AkaoSpuVoice_SetStartAddress(u32 index, u32 value) {
+    u16 *ptr;
+
+    ptr = (u16 *)(0x1F800000 + (index * 0x10));
+    ptr[0x1C06 / 2] = value >> 3;
+}
+
+void AkaoSpuVoice_SetRepeatAddress(u32 index, u32 value) {
+    u16 *ptr;
+
+    ptr = (u16 *)(0x1F800000 + (index * 0x10));
+    ptr[0x1C0E / 2] = value >> 3;
+}
+
+void AkaoSpuVoice_SetAdsrAttack(u32 index, u32 left, u32 right) {
+    u16 *ptr;
+    u32 current;
+    u32 value;
+
+    ptr = (u16 *)(0x1F801C08 + (index * 0x10));
+    asm("" : "=r"(ptr) : "0"(ptr));
+    right >>= 2;
+    right <<= 15;
+    left <<= 8;
+    current = *(u8 *)ptr;
+    value = right | left;
+    *ptr = current | value;
+}
+
+void AkaoSpuVoice_SetAdsrDecayRate(u32 index, u32 value) {
+    u16 *ptr;
+    u32 current;
+
+    ptr = (u16 *)(0x1F801C08 + (index * 0x10));
+    current = *ptr;
+    value <<= 4;
+    current &= 0xFF0F;
+    *ptr = current | value;
+}
+
+void AkaoSpuVoice_SetAdsrSustainLevel(u32 index, u32 value) {
+    u16 *ptr;
+    u32 current;
+
+    ptr = (u16 *)(0x1F801C08 + (index * 0x10));
+    current = *ptr;
+    current &= 0xFFF0;
+    *ptr = current | value;
+}
+
+void AkaoSpuVoice_SetAdsrSustainRate(u32 index, u32 left, u32 right) {
+    u16 *ptr;
+    u32 current;
+    u32 value;
+
+    ptr = (u16 *)(0x1F801C0A + (index * 0x10));
+    asm("" : "=r"(ptr) : "0"(ptr));
+    right >>= 1;
+    right <<= 14;
+    left <<= 6;
+    current = *ptr;
+    value = right | left;
+    current &= 0x3F;
+    *ptr = current | value;
+}
+
+void AkaoSpuVoice_SetAdsrReleaseRate(u32 index, u32 left, u32 right) {
+    u16 *ptr;
+    u32 current;
+    u32 value;
+
+    ptr = (u16 *)(0x1F801C0A + (index * 0x10));
+    asm("" : "=r"(ptr) : "0"(ptr));
+    right >>= 2;
+    right <<= 5;
+    current = *ptr;
+    value = right | left;
+    current &= 0xFFC0;
+    *ptr = current | value;
+}
+
 
 void Akao_WriteVoiceParam(int voice_index, AkaoVoiceParams *params)
 {
