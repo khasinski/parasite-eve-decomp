@@ -1150,8 +1150,9 @@ segments:
       - [0x64BB0, c, main/gap_psyq_libapi_HookEntryInt_tail_64BB0]
       - [0x64BB4, c, psyq/libapi/startIntrVSync]
       - [0x64C0C, asm, psyq/libapi/trapIntrVSync]
-      - [0x64C78, c, psyq/misc30]
-      - [0x64CC8, asm, main/gap_psyq_misc30_tail_64CC8]
+      # Psy-Q etc/intr_vb.c callback registration helpers, in source order.
+      - [0x64C78, c, psyq/libapi/intr_vsync]
+      - [0x64CC8, asm, main/gap_psyq_libapi_intr_vsync_tail_64CC8]
       - [0x64CD4, c, psyq/libapi/startIntrDMA]
       - [0x64D20, asm, psyq/libapi/trapIntrDMA]
       # Psy-Q etc/intr_dma.c callback registration helpers, in source order.

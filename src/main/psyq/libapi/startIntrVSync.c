@@ -5,7 +5,7 @@ extern int *D_800956B0;
 void memclrIntrVSync(int *ptr, int count);
 void trapIntrVSync(void);
 void InterruptCallback(int event, void (*callback)(void));
-void setIntrVSync(void);
+void setIntrVSync(unsigned int index, void (*callback)(void));
 
 void *startIntrVSync(void) {
     *D_800956B0 = 0x107;
