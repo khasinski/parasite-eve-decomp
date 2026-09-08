@@ -797,9 +797,8 @@ segments:
       - [0x4A7D0, asm, main/Inv_BuildStorageDisplay]
       - [0x4AB18, asm, item/Inv_TransferItemBetweenLists]
       - [0x4B7FC, c, item/Inv_CompareItemsForSort]
-      # Stat comparator, subrange passes, and the inventory-sort dispatcher share active sort state.
+      # Item comparators, subrange passes, and inventory/container dispatchers share active sort state.
       - [0x4B924, c, item/inventory_sort_stat]
-      - [0x4BF1C, c, item/Sort_ContainerItems]
       - [0x4BFD0, c, item/Sort_InventoryItems]
       - [0x4C090, c, menu/menu31]
       - [0x4C0A8, c, item/stat]

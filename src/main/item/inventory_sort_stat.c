@@ -262,3 +262,30 @@ void Inv_SortInventoryByMode(s32 arg0, s32 arg1) {
     }
     Inv_RebuildSelectableMask();
 }
+
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 */
+
+extern M2C_UNK D_80092410[];
+#define D_80092410 (D_80092410[0])
+extern u16 g_WayneStorageItems[];
+void Inv_TransferItemAlt2(int arg0);
+
+void Sort_ContainerItems(int arg0) {
+    if (arg0 != 0) {
+        g_InvSortRankTable = &g_InvSortRankTableA;
+        g_InvSortTypeRankTable = &g_InvTypeRankTableA;
+    } else {
+        g_InvSortRankTable = &D_80092410;
+        g_InvSortTypeRankTable = &g_InvTypeRankTableB;
+    }
+
+    g_InvSortListBase = g_WayneStorageItems;
+    g_InvSortListCount = 0x64;
+    g_InvLookupPtr = Inv_LookupData;
+    qsort(g_WayneStorageItems, 0x64, 2, Inv_CompareItemsForSort);
+    Inv_SortWeaponSubrange();
+    Inv_SortAmmoSubrange();
+    Inv_SortInventoryByMode(2, arg0);
+    Inv_TransferItemAlt2(0xF400);
+}
