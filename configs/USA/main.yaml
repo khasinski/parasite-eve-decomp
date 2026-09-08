@@ -1166,9 +1166,8 @@ segments:
       - [0x659E4, c, gpu/ClearOTag]
       - [0x65AAC, c, gpu/ClearOTagR]
       - [0x65B58, c, gpu/DrawPrim]
+      # Psy-Q libgpu/sys.c ordering-table and draw-environment submission APIs.
       - [0x65BB4, c, psyq/libgpu/DrawOTag]
-      - [0x65C24, c, psyq/libgpu/PutDrawEnv]
-      - [0x65CE4, c, gpu/Gpu_PutDrawEnvLinked]
       - [0x65DBC, c, gpu/GetDrawEnv]
       - [0x65DF0, asm, main/Render_StepEntityPool]
       - [0x662E8, c, gpu/GetDispEnv]
