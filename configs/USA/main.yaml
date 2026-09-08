@@ -137,8 +137,8 @@ segments:
       - [0x2A0C, c, boot/Boot_MainLoop]
       - [0x2CF8, c, task/Task_InitNodePool]
       - [0x2D74, c, task/Task_RelocBlock]
+      # Scene-map flush and task-node free-list setup unit.
       - [0x2DE0, c, task/Task_DrawSyncAndFlush]
-      - [0x2E6C, c, task/Task_InitNodeFreeList]
       - [0x2F00, c, task/Task_AllocNode]
       - [0x2F74, c, task/Task_GarbageCollectNodes]
       - [0x3050, c, task/Task_EvalExpr]
