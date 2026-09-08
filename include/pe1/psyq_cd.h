@@ -48,6 +48,11 @@ typedef struct DslDirectoryCacheEntry {
     char name[32];
 } DslDirectoryCacheEntry;
 
+enum {
+    DSL_MAX_FILE = 64,
+    DSL_MAX_DIR = 128,
+};
+
 typedef struct DsDecodedEventFlags {
     u_char bit7;
     u_char bit6;
@@ -162,6 +167,11 @@ extern CdRomEventCommandState g_CdRomEventCommandState
 extern int g_CdRomCmdTimeout __asm__("D_8009B598");
 extern int g_CdRomCmdRetryState __asm__("D_8009B59C");
 extern int g_CdRomCmdLongTimeoutTable[];
+
+/* libds/dsfile.c cache tables. */
+extern DslFILE g_DslFileCache[DSL_MAX_FILE] __asm__("D_800A36B0");
+extern DslDirectoryCacheEntry g_DslDirectoryCache[DSL_MAX_DIR]
+    __asm__("D_800A3CB0");
 
 typedef struct DsReadyEventWindow {
     u_char eventStatus;
