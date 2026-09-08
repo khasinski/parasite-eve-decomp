@@ -66,6 +66,12 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x6D874..0x6D9CC` | `_SpuInit` / `SpuStart` | Public Psy-Q `s_ini.c` groups them, and the ranges are contiguous, but `_SpuInit` matches only with GCC 2.8.1 plus `-mno-split-addresses` while `SpuStart` matches with GCC 2.7.2. A combined trial changes both code streams, beyond the expected object-local call relocation. |
 | `0x6C744..0x6C930` | `CD_getsector2` / `CD_getsector` | Public Psy-Q `libcd/bios.c` groups the adjacent low-level sector readers, but the recovered `CD_getsector` uses global `$v0` and `$sp` register variables. Declaring them for the shared object changes the earlier `CD_getsector2` register allocation across its code stream; defer until that recovered register model is reconciled. |
 
+## Semantic candidates awaiting promotion
+
+| Range | Candidate | Evidence and remaining work |
+| --- | --- | --- |
+| `0x62284..0x62B14` | `psyq/libc/Square_Vsprintf` | The candidate reconstructs the variadic formatter's 0x250-byte frame, format-spec template, flags, width/precision parser, and `d i u o p x X c s n` conversions. It must remain matching asm: compiled with the verified GCC 2.8.1 route, it emits 0x860 bytes of `.text` and a private 0xB4-byte switch table, while the 0x890-byte retail object dispatches through the existing global `jtbl_80011644` at `0x80011644`. Promotion requires both the original table ownership and the remaining compiler-shape differences to match. |
+
 ## Deferred room_m350 pairs
 
 The following pairs are contiguous and directly connected, but are not merged
