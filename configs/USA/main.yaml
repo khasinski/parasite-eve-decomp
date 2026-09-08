@@ -1500,8 +1500,8 @@ segments:
       - [0x71EF4, c, psyq/libds/_cmp]
       - [0x71F14, asm, psyq/misc34]
       - [0x72518, c, psyq/libds/ds_read]
-      - [0x72574, c, psyq/libds/CdRom_InitAsyncRead]
-      - [0x725F8, c, psyq/libds/DsReadBreak]
+      # Psy-Q libds read-controller helpers share the async-read state.
+      - [0x72574, c, psyq/libds/dsread_control]
       - [0x7265C, c, psyq/libds/DsReadCallback]
       - [0x72670, asm, cdrom/CdRom_AsyncCallback]
       - [0x7294C, c, cdrom/CdRom_ReadDoneCallback]

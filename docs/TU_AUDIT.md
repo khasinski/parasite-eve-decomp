@@ -23,6 +23,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x6E2E0..0x6E3C8` | `psyq/libspu/spu_register_write` | The consecutive register write helpers occur together in public Psy-Q `libspu/spu.c`. Their 232-byte combined object changes only two relocations for its own return path; `make check` is retail-identical. |
 | `0x6E404..0x6E508` | `psyq/libspu/spu_control` | Controller-priority and delay helpers occur with the SPU hardware wait loop in public Psy-Q `libspu/spu.c`. The 260-byte combined object changes only the wait loop's object-local jump relocation; `make check` is retail-identical. |
 | `0x72CB4..0x72D14` | `psyq/libds/dscb` | Four adjacent stream start, sync, ready, and DMA-data callback registration helpers form the complete local callback block; the latter three occur in public Psy-Q `libds/dscb.c` in this source order. The combined object preserves all 96 `.text` bytes exactly; `make check` is retail-identical. |
+| `0x72574..0x7265C` | `psyq/libds/dsread_control` | The adjacent asynchronous-read initializer and break helper share the `libds` read-controller state and compiler profile. Their combined object preserves all 232 `.text` bytes exactly; `make check` is retail-identical. |
 
 ## Deferred main pairs
 
