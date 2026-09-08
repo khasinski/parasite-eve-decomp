@@ -18,6 +18,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x6ABCC..0x6ACD0` | `psyq/libcd/sys` | Seven contiguous CD API wrappers occur in public Psy-Q `libcd/sys.c` in this source order. The combined 260-byte object changes only the two relocations for its own `CdComstr` and `CdIntstr` epilogues; `make check` is retail-identical. |
 | `0x6DED0..0x6E2E0` | `psyq/libspu/spu_transfer` | Four contiguous DMA transfer functions occur in public Psy-Q `libspu/spu.c` in this source order. The 1040-byte combined object changes only seven calls that become object-local relocations; `make check` is retail-identical. |
 | `0x6E2E0..0x6E3C8` | `psyq/libspu/spu_register_write` | The consecutive register write helpers occur together in public Psy-Q `libspu/spu.c`. Their 232-byte combined object changes only two relocations for its own return path; `make check` is retail-identical. |
+| `0x6E404..0x6E508` | `psyq/libspu/spu_control` | Controller-priority and delay helpers occur with the SPU hardware wait loop in public Psy-Q `libspu/spu.c`. The 260-byte combined object changes only the wait loop's object-local jump relocation; `make check` is retail-identical. |
 
 ## Deferred main pairs
 
