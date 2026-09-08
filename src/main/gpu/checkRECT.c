@@ -1,24 +1,16 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/psyq_gpu.h"
+#include "pe1/gpu_state.h"
 
-typedef struct GpuRectDebugState {
-    unsigned char level;
-    unsigned char padding;
-    short width;
-    short height;
-} GpuRectDebugState;
-
-extern GpuRectDebugState D_8009574E;
-extern void (*D_80095748)();
 extern char D_800118B8[], D_800118A4[];
 
 void checkRECT(char *name, RECT *rect) {
     char *format;
-    switch (D_8009574E.level) {
+    switch (D_8009574C.queueState.debugLevel) {
     case 1:
-        if (rect->w > D_8009574E.width || rect->w + rect->x > D_8009574E.width ||
-            rect->y > D_8009574E.height || rect->y + rect->h > D_8009574E.height ||
+        if (rect->w > D_8009574C.width || rect->w + rect->x > D_8009574C.width ||
+            rect->y > D_8009574C.height || rect->y + rect->h > D_8009574C.height ||
             rect->w <= 0 || rect->x < 0 || rect->y < 0 || rect->h <= 0) {
             /* USA D_80011898: keep page and string offset separate. */
             format = (char *)0x80010000;

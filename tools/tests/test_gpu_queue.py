@@ -17,12 +17,12 @@ class GpuQueueTests(unittest.TestCase):
         source = source.replace(' asm("$17")', "")
         harness = source + r'''
 #include <assert.h>
-GpuQueueState D_8009574D;
+GpuDebugState D_8009574C;
 char D_80011840[] = "queue";
 static int events, expectedOld, expectedNew, mutateOnPrint;
 static int reset(int mode) {
     assert(mode == 1);
-    assert(D_8009574D.queue == expectedOld);
+    assert(D_8009574C.queueState.queue == expectedOld);
     events = events * 10 + 2;
     return 0;
 }
@@ -30,25 +30,25 @@ static void print(char *message, int argument) {
     assert(message == D_80011840);
     assert(argument == expectedNew);
     events = events * 10 + 1;
-    if (mutateOnPrint) D_8009574D.queue = expectedNew;
+    if (mutateOnPrint) D_8009574C.queueState.queue = expectedNew;
 }
 static GpuCallbacks callbacks;
-GpuCallbacks *D_80095744[] = {&callbacks};
-void (*D_80095748[])(char *, int) = {print};
+GpuCallbacks *D_80095744 = &callbacks;
+void (*D_80095748)() = print;
 void DMACallback(int channel, void *callback) {
     assert(channel == 2 && callback == 0);
-    assert(D_8009574D.queue == (unsigned char)expectedNew);
+    assert(D_8009574C.queueState.queue == (unsigned char)expectedNew);
     events = events * 10 + 3;
 }
 static void check(int old, int mode, int debug, int mutate, int expectedEvents) {
-    D_8009574D.queue = expectedOld = old;
-    D_8009574D.debugLevel = debug;
+    D_8009574C.queueState.queue = expectedOld = old;
+    D_8009574C.queueState.debugLevel = debug;
     expectedNew = mode;
     mutateOnPrint = mutate;
     events = 0;
     assert(SetGraphQueue(mode) == old);
     assert(events == expectedEvents);
-    assert(D_8009574D.queue == (unsigned char)mode);
+    assert(D_8009574C.queueState.queue == (unsigned char)mode);
 }
 int main(void) {
     callbacks.reset = reset;

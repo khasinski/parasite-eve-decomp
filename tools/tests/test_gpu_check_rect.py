@@ -13,24 +13,31 @@ class CheckRectTests(unittest.TestCase):
         source = (ROOT / "src/main/gpu/checkRECT.c").read_text()
         self.assertEqual(source.count('asm("$3")'), 1)
         source = source.replace('asm("$3")', "")
-        # Host arm64 variadic calls need a prototype; legacy MIPS does not.
-        source = source.replace('extern void (*D_80095748)();',
-                                'extern void (*D_80095748)(char *, ...);')
+        # The retail MIPS callback is intentionally unprototyped.  Route the
+        # host build through a variadic shim so arm64 passes its arguments in
+        # the ABI locations inspected below.
+        source = source.replace('#include "pe1/gpu_state.h"',
+                                '#include "pe1/gpu_state.h"\n'
+                                'extern void test_debug(char *, ...);')
+        source = source.replace('D_80095748(format, name);',
+                                'test_debug(format, name);')
+        source = source.replace('D_80095748(D_800118A4, x, y, width, height);',
+                                'test_debug(D_800118A4, x, y, width, height);')
         harness = source + r'''
 #include <assert.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <string.h>
-GpuRectDebugState D_8009574E;
+GpuDebugState D_8009574C;
 char D_800118B8[] = "all", D_800118A4[] = "fields";
 static char name[] = "test";
 static RECT before;
 static int calls;
-static void debug(char *format, ...) {
+void test_debug(char *format, ...) {
     va_list ap;
     va_start(ap, format);
     if (calls == 0) {
-        assert(format == (D_8009574E.level == 1
+        assert(format == (D_8009574C.queueState.debugLevel == 1
             ? (char *)(uintptr_t)0x80011898 : D_800118B8));
         assert(va_arg(ap, char *) == name);
     } else {
@@ -43,15 +50,14 @@ static void debug(char *format, ...) {
     va_end(ap);
     ++calls;
 }
-void (*D_80095748)(char *, ...) = debug;
 int main(void) {
     static const short values[] = {-32768, -1, 0, 1, 239, 240, 241,
                                     319, 320, 321, 32767};
     int a, b, c, d, level;
-    D_8009574E.width = 320;
-    D_8009574E.height = 240;
+    D_8009574C.width = 320;
+    D_8009574C.height = 240;
     for (level = 0; level < 5; ++level) {
-        D_8009574E.level = level == 4 ? 255 : level;
+        D_8009574C.queueState.debugLevel = level == 4 ? 255 : level;
         for (a = 0; a < 11; ++a) for (b = 0; b < 11; ++b)
         for (c = 0; c < 11; ++c) for (d = 0; d < 11; ++d) {
             RECT rect = {values[a], values[b], values[c], values[d]};
