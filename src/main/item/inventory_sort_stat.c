@@ -289,3 +289,28 @@ void Sort_ContainerItems(int arg0) {
     Inv_SortInventoryByMode(2, arg0);
     Inv_TransferItemAlt2(0xF400);
 }
+
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 */
+
+extern u16 g_InvItemArray[];
+
+void Sort_InventoryItems(int arg0, int arg1) {
+    if (arg0 != 0) {
+        D_8009D0A4 = arg1;
+        g_InvSortRankTable = &g_InvSortRankTableA;
+    } else {
+        D_8009D0A8 = arg1;
+        g_InvSortRankTable = &D_80092410;
+    }
+
+    g_InvSortListBase = g_InvItemArray;
+    g_InvSortTypeRankTable = &g_InvTypeRankTableA;
+    g_InvSortListCount = 0x52;
+    g_InvLookupPtr = Inv_LookupData;
+    qsort(g_InvItemArray, 0x52, 2, Inv_CompareItemsForSort);
+    Inv_SortWeaponSubrange();
+    Inv_SortAmmoSubrange();
+    Inv_SortInventoryByMode(arg0, arg1);
+    Inv_TransferItemAlt2(0x3803FE);
+}
