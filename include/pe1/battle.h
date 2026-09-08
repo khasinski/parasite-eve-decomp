@@ -283,7 +283,7 @@ typedef struct BattleTarget {
 extern BattleTarget g_BattleTargetList[];
 
 void Battle_SwapRecords(char *records, int from, int to);
-void Battle_SortTargets(char *records, int first, int last);
+void Battle_SortTargets(char *records, s8 first, s8 last);
 
 /* These partial records are deliberately padded through their last verified
  * field. Keep the offsets executable: prose comments alone do not protect the
