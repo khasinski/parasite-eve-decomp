@@ -1,8 +1,8 @@
 /* CC1_FLAGS: -O1 */
+#include "pe1/psyq_cd.h"
 void CdRom_AsyncCallback(void);
 int DsSyncCallback();
 
-extern int g_DsReadBusy;
 register volatile int g_CdCallback asm("$4");
 
 int DsRead_IsBusy(void);
