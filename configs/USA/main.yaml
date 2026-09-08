@@ -1206,10 +1206,8 @@ segments:
       - [0x67944, c, gpu/Gpu_InitDmaQueue]
       - [0x67A94, c, gpu/Gpu_DrainDmaQueue]
       - [0x67BD0, c, gpu/gpu3]
-      - [0x67DE8, c, gpu/LoadImage2]
-      - [0x67ED4, c, gpu/StoreImage2]
-      - [0x67FC0, c, gpu/MoveImage2]
-      - [0x68104, c, gpu/Gpu_DmaTransfer]
+      # DMA transfer controller operations, in source order.
+      - [0x67DE8, c, gpu/dma_transfer]
       - [0x68200, c, gpu/Gpu_RestoreDmaCallback]
       - [0x68228, c, gpu/GPU_memset]
       - [0x6824C, c, main/gap_gpu_GPU_memset_tail_6824C]

@@ -10,12 +10,15 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class GpuImage2Tests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_transfer_dispatch_and_move_packet(self):
-        sources = []
-        for name in ("LoadImage2", "StoreImage2", "MoveImage2"):
-            source = (ROOT / f"src/main/gpu/{name}.c").read_text()
-            self.assertEqual(source.count(' asm("$2")'), 1)
-            sources.append(source.replace(' asm("$2")', ""))
-        harness = "\n".join(sources) + r'''
+        unit = (ROOT / "src/main/gpu/dma_transfer.c").read_text()
+        prefix_end = unit.index("int LoadImage2")
+        store_marker = unit.index("extern char D_800118E0")
+        move_marker = unit.index("extern char D_800118EC")
+        dispatch_marker = unit.index("extern char D_80011928")
+        source = (unit[:prefix_end] + unit[prefix_end:store_marker] +
+                  unit[store_marker:move_marker] + unit[move_marker:dispatch_marker])
+        self.assertEqual(source.count(' asm("$2")'), 3)
+        harness = source.replace(' asm("$2")', "") + r'''
 #include <assert.h>
 char D_800119BC[] = "load", D_800118E0[] = "store", D_800118EC[] = "move";
 static volatile unsigned int dma;

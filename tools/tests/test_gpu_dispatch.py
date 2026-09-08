@@ -11,7 +11,9 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class GpuDispatchTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_ready_states_timeout_and_callback_order(self):
-        source = (ROOT / "src/main/gpu/Gpu_DmaTransfer.c").read_text()
+        unit = (ROOT / "src/main/gpu/dma_transfer.c").read_text()
+        source = (unit[:unit.index("int LoadImage2")] +
+                  unit[unit.index("extern char D_80011928"):])
         self.assertEqual(source.count(' asm("$2")'), 1)
         source = source.replace(' asm("$2")', "")
         harness = source + r'''
