@@ -27,6 +27,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Range | Pair | Reason to defer |
 | --- | --- | --- |
+| `0x653B8..0x654B8` | `SetGraphDebug` / `SetGraphQueue` | Public Psy-Q `libgpu/sys.c` puts the adjacent functions together, but the recovered queue helper requires `-mno-split-addresses` and its callback has a narrower prototype. Reconciling the callback to the shared ABI and compiling with the required flags changes `SetGraphDebug` and produces 260 rather than 256 bytes; defer until the shared GPU callback model matches. |
 | `0x6D874..0x6D9CC` | `_SpuInit` / `SpuStart` | Public Psy-Q `s_ini.c` groups them, and the ranges are contiguous, but `_SpuInit` matches only with GCC 2.8.1 plus `-mno-split-addresses` while `SpuStart` matches with GCC 2.7.2. A combined trial changes both code streams, beyond the expected object-local call relocation. |
 | `0x6C744..0x6C930` | `CD_getsector2` / `CD_getsector` | Public Psy-Q `libcd/bios.c` groups the adjacent low-level sector readers, but the recovered `CD_getsector` uses global `$v0` and `$sp` register variables. Declaring them for the shared object changes the earlier `CD_getsector2` register allocation across its code stream; defer until that recovered register model is reconciled. |
 
