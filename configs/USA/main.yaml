@@ -1388,7 +1388,8 @@ segments:
       - [0x6E6B0, c, pad/ReadInitPadFlag]
       - [0x6E6C0, c, pad/misc26]
       - [0x6E750, c, pad/Pad_InitBios]
-      - [0x6E7E0, c, psyq/misc33]
+      # Psy-Q libapi PAD control entry points: StartPAD and StopPAD.
+      - [0x6E7E0, c, psyq/libapi/pad_control]
       - [0x6E848, c, sys/Sys_SetInterruptHandler]
       - [0x6E8C0, c, pad/RemovePatchPad]
       - [0x6E8F8, c, pad/pad]

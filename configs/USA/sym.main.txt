@@ -323,6 +323,7 @@ StopCARD = 0x8007DE78; // type:func
 SetInitPadFlag = 0x8007DEA4; // type:func
 ReadInitPadFlag = 0x8007DEB0; // type:func
 StopPAD = 0x8007E010; // type:func
+StartPAD = 0x8007DFE0; // type:func
 RemovePatchPad = 0x8007E0C0; // type:func
 InitPAD2 = 0x8007E1A4; // type:func
 StartPAD2 = 0x8007E1B4; // type:func

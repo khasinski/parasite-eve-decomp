@@ -1,4 +1,4 @@
-int StartPAD2(void);
+long StartPAD2(void);
 void ChangeClearPAD(int value);
 void EnablePAD(void);
 
@@ -8,7 +8,7 @@ extern void DisablePAD(void);
 extern void StopPAD2(void);
 int RemovePatchPad(void);
 
-int Pad_Start(void) {
+long StartPAD(void) {
     StartPAD2();
     ChangeClearPAD(0);
     EnablePAD();
