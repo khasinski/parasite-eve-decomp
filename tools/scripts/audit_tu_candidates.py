@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""List contiguous manifest C ranges with a direct callback registration edge.
+"""List contiguous manifest C ranges with a direct cross-segment call edge.
 
 This is evidence discovery only: every candidate still needs a byte-identical
 overlay or main build and a type/layout review before it can be merged.
@@ -12,7 +12,13 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 ENTRY = re.compile(r"\s*- \[(0x[0-9A-Fa-f]+), ([^,\]]+), ([^\]]+)\]")
-FUNCTION = re.compile(r"\b(func_[0-9A-Fa-f]+)\s*\(")
+FUNCTION = re.compile(r"\b([A-Za-z_][A-Za-z0-9_]*)\s*\(")
+FUNCTION_DEFINITION = re.compile(
+    r"^[ \t]*(?:static[ \t]+)?(?:[A-Za-z_]\w*[ \t]+)+"
+    r"([A-Za-z_][A-Za-z0-9_]*)\s*\([^;{}]*\)\s*\{",
+    re.M,
+)
+CONTROL_KEYWORDS = {"if", "for", "switch", "while"}
 
 
 def entries(config: pathlib.Path):
@@ -38,8 +44,8 @@ def source_for(config: pathlib.Path, name: str) -> pathlib.Path | None:
 
 def defined_functions(text: str) -> set[str]:
     return {
-        match.group(1)
-        for match in re.finditer(r"^\s*(?:static\s+)?(?:int|void|short|unsigned\s+\w+)\s+(func_[0-9A-Fa-f]+)\s*\([^;]*\)\s*\{", text, re.M)
+        match.group(1) for match in FUNCTION_DEFINITION.finditer(text)
+        if match.group(1) not in CONTROL_KEYWORDS
     }
 
 
@@ -62,7 +68,7 @@ def main() -> int:
                 candidates.append((config.stem, address, next_address, first, second, shared))
     for overlay, address, next_address, first, second, shared in candidates:
         print(f"{overlay} {address:#06x}-{next_address:#06x}: {first} -> {second} ({', '.join(shared)})")
-    print(f"{len(candidates)} direct contiguous callback candidates")
+    print(f"{len(candidates)} direct contiguous call candidates")
     return 0
 
 

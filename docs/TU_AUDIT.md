@@ -1,7 +1,7 @@
 # Translation-unit audit
 
 `tools/scripts/audit_tu_candidates.py` finds contiguous manifest entries where
-a controller directly registers a callback from the immediately preceding
+the later entry directly calls a function defined by the immediately preceding
 entry. It is evidence for review, not evidence of an original source boundary.
 
 ## Verified main units
