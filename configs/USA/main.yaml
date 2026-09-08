@@ -1744,8 +1744,8 @@ segments:
       - [0x7E37C, asm, akao/Akao_Tick]
       - [0x7EA3C, c, akao/Akao_TimerCallback]
       - [0x7EADC, asm, main/Akao_LookupSampleBankByte]
-      - [0x7ECE8, c, main/Akao_SetVoiceLoopAddr]
-      - [0x7EE64, c, akao/voice_pitch]
+      # AKAO loop-range selection and pitch operations.
+      - [0x7ECE8, c, akao/voice_pitch]
       - [0x7F0D0, asm, main/Akao_StepSampleLoader]
       - [0x7F8D0, c, akao/seq_op]
       - [0x7FB28, c, akao/SeqOp_SetTempoSlide]
