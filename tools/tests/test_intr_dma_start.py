@@ -14,15 +14,17 @@ class IntrDmaStartTests(unittest.TestCase):
         source = (ROOT / "src/main/psyq/libapi/startIntrDMA.c").read_text()
         harness = source + r'''
 #include <assert.h>
-int g_IntrDmaHandlerTable[8];
+void handler(void) {}
+void (*g_IntrDmaHandlerTable[8])(void);
 static int dispatch;
 int *g_IntrDmaDispatchPtr = &dispatch;
 static int clear_calls, event, callback;
 void memclrIntrDMA(int *ptr, int count) {
     int i;
-    assert(ptr == g_IntrDmaHandlerTable && count == 8);
+    void (**handlers)(void) = (void (**)(void))ptr;
+    assert(ptr == (int *)g_IntrDmaHandlerTable && count == 8);
     ++clear_calls;
-    for (i = 0; i < count; ++i) ptr[i] = 0;
+    for (i = 0; i < count; ++i) handlers[i] = 0;
 }
 static void expected_trap(void) {}
 void trapIntrDMA(void) { expected_trap(); }
@@ -37,7 +39,7 @@ void InterruptCallback(int irq, void (*handler)(void)) {
 }
 int main(void) {
     int i;
-    for (i = 0; i < 8; ++i) g_IntrDmaHandlerTable[i] = i + 1;
+    for (i = 0; i < 8; ++i) g_IntrDmaHandlerTable[i] = handler;
     dispatch = 99;
     assert(startIntrDMA() == setIntrDMA);
     assert(clear_calls == 1 && dispatch == 0 && event == 3 && callback == 1);

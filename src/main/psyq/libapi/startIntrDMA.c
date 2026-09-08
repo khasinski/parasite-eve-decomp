@@ -1,4 +1,4 @@
-extern int g_IntrDmaHandlerTable[];
+extern void (*g_IntrDmaHandlerTable[])(void);
 extern int *g_IntrDmaDispatchPtr;
 
 void memclrIntrDMA(int *ptr, int count);
@@ -7,7 +7,7 @@ void *setIntrDMA(int channel, void *callback);
 void InterruptCallback(int event, void (*callback)(void));
 
 void *startIntrDMA(void) {
-    memclrIntrDMA(g_IntrDmaHandlerTable, 8);
+    memclrIntrDMA((int *)g_IntrDmaHandlerTable, 8);
     *g_IntrDmaDispatchPtr = 0;
     InterruptCallback(3, trapIntrDMA);
     return setIntrDMA;
