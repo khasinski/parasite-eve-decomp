@@ -4,6 +4,19 @@
 a controller directly registers a callback from the immediately preceding
 entry. It is evidence for review, not evidence of an original source boundary.
 
+## Verified main units
+
+| Range | Unit | Evidence |
+| --- | --- | --- |
+| `0x64F74..0x65238` | `gpu/libgpu_sys` | Seven contiguous functions match the known Psy-Q `libgpu/sys.c` tail in SDK source order. Their combined object retains every function's retail size; the sole changed relocation is the now object-local `SetDefDrawEnv` → `GetVideoMode` call. `make check` is retail-identical. |
+| `0x76014..0x76180` | `psyq/libapi/counter` | Five contiguous functions match public Psy-Q `libapi/counter.c` in SDK source order. Their combined object retains every function's retail size; only jumps to each function's own epilogue become object-local relocations. `make check` is retail-identical. |
+
+## Deferred main pairs
+
+| Range | Pair | Reason to defer |
+| --- | --- | --- |
+| `0x6D874..0x6D9CC` | `_SpuInit` / `SpuStart` | Public Psy-Q `s_ini.c` groups them, and the ranges are contiguous, but `_SpuInit` matches only with GCC 2.8.1 plus `-mno-split-addresses` while `SpuStart` matches with GCC 2.7.2. A combined trial changes both code streams, beyond the expected object-local call relocation. |
+
 ## Deferred room_m350 pairs
 
 The following pairs are contiguous and directly connected, but are not merged

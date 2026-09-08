@@ -11,7 +11,7 @@ import re
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-ENTRY = re.compile(r"\s*- \[(0x[0-9A-Fa-f]+), c, ([^\]]+)\]")
+ENTRY = re.compile(r"\s*- \[(0x[0-9A-Fa-f]+), ([^,\]]+), ([^\]]+)\]")
 FUNCTION = re.compile(r"\b(func_[0-9A-Fa-f]+)\s*\(")
 
 
@@ -20,7 +20,8 @@ def entries(config: pathlib.Path):
     for line in config.read_text().splitlines():
         match = ENTRY.fullmatch(line)
         if match:
-            result.append((int(match.group(1), 16), match.group(2)))
+            result.append((int(match.group(1), 16), match.group(2).strip(),
+                           match.group(3)))
     return result
 
 
@@ -48,7 +49,9 @@ def main() -> int:
     configs.extend(sorted((ROOT / "configs" / "USA" / "overlays").glob("*.yaml")))
     for config in configs:
         ranges = entries(config)
-        for (address, first), (next_address, second) in zip(ranges, ranges[1:]):
+        for (address, first_type, first), (next_address, second_type, second) in zip(ranges, ranges[1:]):
+            if first_type != "c" or second_type != "c":
+                continue
             left, right = source_for(config, first), source_for(config, second)
             if not left or not right:
                 continue
