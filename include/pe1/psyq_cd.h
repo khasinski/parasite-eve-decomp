@@ -156,8 +156,17 @@ typedef struct CdDsReadQueueEntry {
 
 typedef struct DsReadCallbackSlot {
     int value;
-    int reserved[3];
+    u_char command;
+    u_char payload[8];
+    u_char reserved0D[3];
 } DsReadCallbackSlot;
+
+PE1_STATIC_ASSERT(sizeof(DsReadCallbackSlot) == 0x10,
+                  ds_read_callback_slot_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadCallbackSlot, command) == 0x04,
+                  ds_read_callback_slot_command_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadCallbackSlot, payload) == 0x05,
+                  ds_read_callback_slot_payload_offset);
 
 typedef struct DsAsyncReadState {
     /* g_DsReadBusy names the final active field at offset 0x20. */
