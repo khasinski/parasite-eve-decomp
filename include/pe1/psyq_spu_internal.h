@@ -1,19 +1,24 @@
 #ifndef PE1_PSYQ_SPU_INTERNAL_H
 #define PE1_PSYQ_SPU_INTERNAL_H
 
+#ifndef PE1_COMMON_H
 typedef signed int s32;
 typedef unsigned int u32;
-typedef unsigned long u_long;
 typedef unsigned short u16;
+#endif
+typedef unsigned long u_long;
 typedef void (*SpuCallback)(void);
 
-/* SPU register mirror used by the PSYQ DMA helpers. */
+/*
+ * SPU_RXX register map from Psy-Q libspu.  The three transfer registers are
+ * at the same offsets as the SDK's trans_addr, spucnt, and spustat fields.
+ */
 typedef struct SpuRegs {
     /* 0x000 */ unsigned char pad_000[0x184];
     /* 0x184 */ volatile u16 master_volume_left;
     /* 0x186 */ volatile u16 master_volume_right;
     /* 0x188 */ unsigned char pad_188[0x1E];
-    /* 0x1A6 */ volatile u16 transfer_addr;
+    /* 0x1A6 */ volatile u16 trans_addr;
     /* 0x1A8 */ volatile u16 transfer_fifo;
     /* 0x1AA */ volatile u16 spucnt;
     /* 0x1AC */ unsigned char pad_1AC[2];

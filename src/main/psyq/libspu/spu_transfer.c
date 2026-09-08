@@ -2,7 +2,7 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 
-extern volatile u16 *_spu_RXX;
+#include "pe1/psyq_spu_internal.h"
 extern volatile u32 *g_SpuDmaMadrPtr;
 extern volatile u32 *g_SpuDmaBcrPtr;
 extern volatile u32 *g_SpuDmaChcrPtr;
@@ -19,9 +19,9 @@ void _spu_FwriteByIO(void *address, u32 size);
 
 void _spu_Fr_(void *address, u16 spuAddress, u32 blocks)
 {
-    _spu_RXX[0xD3] = spuAddress;
+    _spu_RXX->trans_addr = spuAddress;
     _spu_Fw1ts();
-    _spu_RXX[0xD5] |= 0x30;
+    _spu_RXX->spucnt |= 0x30;
     _spu_Fw1ts();
     _spu_FsetDelayR();
     *g_SpuDmaMadrPtr = (u32)address;
@@ -43,32 +43,32 @@ int _spu_t(int command, ...)
     case 2:
         size = *(u32 *)((args += 4) - 4);
         g_SpuTransferAddr = size >> _spu_mem_mode_plus;
-        _spu_RXX[0xD3] = g_SpuTransferAddr;
+        _spu_RXX->trans_addr = g_SpuTransferAddr;
         break;
     case 1:
         g_SpuDmaDirection = 0;
         count = 0;
-        while (_spu_RXX[0xD3] != g_SpuTransferAddr) {
+        while (_spu_RXX->trans_addr != g_SpuTransferAddr) {
             if (++count > 0xF00) {
                 return -2;
             }
         }
-        _spu_RXX[0xD5] = (_spu_RXX[0xD5] & ~0x30) | 0x20;
+        _spu_RXX->spucnt = (_spu_RXX->spucnt & ~0x30) | 0x20;
         break;
     case 0:
         g_SpuDmaDirection = 1;
         count = 0;
-        while (_spu_RXX[0xD3] != g_SpuTransferAddr) {
+        while (_spu_RXX->trans_addr != g_SpuTransferAddr) {
             if (++count > 0xF00) {
                 return -2;
             }
         }
-        _spu_RXX[0xD5] |= 0x30;
+        _spu_RXX->spucnt |= 0x30;
         break;
     case 3:
         mode = g_SpuDmaDirection == 1 ? 0x30 : 0x20;
         count = 0;
-        while ((_spu_RXX[0xD5] & 0x30) != mode) {
+        while ((_spu_RXX->spucnt & 0x30) != mode) {
             if (++count > 0xF00) {
                 return -2;
             }

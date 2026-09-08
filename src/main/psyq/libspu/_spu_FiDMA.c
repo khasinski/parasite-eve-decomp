@@ -2,7 +2,7 @@
 
 typedef void (*SpuTransferCallback)(void);
 
-extern volatile u16 *_spu_RXX;
+#include "pe1/psyq_spu_internal.h"
 extern s32 g_SpuDmaDirection;
 extern SpuTransferCallback volatile _spu_transferCallback;
 void _spu_Fw1ts(void);
@@ -15,9 +15,9 @@ void _spu_FiDMA(void)
     if (g_SpuDmaDirection == 0) {
         _spu_Fw1ts();
     }
-    _spu_RXX[0xD5] &= ~0x30;
+    _spu_RXX->spucnt &= ~0x30;
     count = 0;
-    while (_spu_RXX[0xD5] & 0x30) {
+    while (_spu_RXX->spucnt & 0x30) {
         if (++count > 0xF00) {
             break;
         }
