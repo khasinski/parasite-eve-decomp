@@ -1183,9 +1183,8 @@ segments:
       - [0x662E8, c, gpu/GetDispEnv]
       - [0x6631C, c, gpu/Gpu_PollCallback]
       - [0x6634C, c, gpu/set]
-      - [0x66444, c, gpu/SetDrawMask]
-      - [0x6646C, c, gpu/Gpu_InitDrawMaskSetPacket]
-      - [0x66494, c, gpu/Gpu_InitDrawModeTexWindowPacket]
+      # Draw-mask and draw-mode packet initializers share the GpuCmdPacket layout.
+      - [0x66444, c, gpu/packet_init]
       # Shared front/back DRAWENV encoder, in source order.
       - [0x664E8, c, gpu/drawenv]
       - [0x66950, c, gpu/Gpu_BuildDrawModeCmd]
