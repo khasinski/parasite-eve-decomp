@@ -11,7 +11,9 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class GpuReadbackTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_two_waits_cpu_prefix_dma_blocks_and_timeouts(self):
-        source = (ROOT / "src/main/gpu/Gpu_FlushDisplayBuffer.c").read_text()
+        source = (ROOT / "src/main/gpu/vram_transfer.c").read_text()
+        readback = source.index("/* Read VRAM")
+        source = source[:source.index("/* Upload pixels")] + source[readback:]
         self.assertEqual(source.count(' asm("$2")'), 1)
         source = source.replace(' asm("$2")', "")
         harness = source + r'''
