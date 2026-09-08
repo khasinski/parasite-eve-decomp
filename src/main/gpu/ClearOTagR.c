@@ -3,15 +3,11 @@
 
 #include "common.h"
 #include "pe1/gpu_callbacks.h"
+#include "pe1/gpu_state.h"
 
-extern u8 g_GraphDebug;
-extern void (*g_GpuDebugPrintf[])(char *message, void *ot, int count);
-extern GpuCallbacks *g_GpuCallbacks[];
 extern char D_80011910[];
 extern u32 D_800957F8;
 extern u32 D_8009580C;
-
-typedef void (*GpuClearOtCallback)(u32 *ot, int count);
 
 u32 *ClearOTagR(u32 *ot, int count) {
     u32 mask;
@@ -20,11 +16,11 @@ u32 *ClearOTagR(u32 *ot, int count) {
     u32 address;
     u32 command;
 
-    if (g_GraphDebug >= 2) {
-        g_GpuDebugPrintf[0](D_80011910, ot, count);
+    if (D_8009574C.queueState.debugLevel >= 2) {
+        D_80095748(D_80011910, ot, count);
     }
 
-    (*(GpuClearOtCallback *)((u8 *)g_GpuCallbacks[0] + 0x2C))(ot, count);
+    D_80095744->clearOTag(ot, count);
 
     mask = 0xFFFFFF;
     result = ot;

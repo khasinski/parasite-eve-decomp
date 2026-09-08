@@ -16,7 +16,7 @@ class ClearOtTests(unittest.TestCase):
         harness = source + r'''
 #include <assert.h>
 #include <stdint.h>
-u8 g_GraphDebug;
+GpuDebugState D_8009574C;
 char D_800118F8[] = "ot";
 u32 D_800957F8, D_8009580C;
 static u32 storage[130];
@@ -26,11 +26,11 @@ static void debug(char *message, void *ot, int count) {
     assert(storage[1] == 0xA5ABCDEF);
     ++calls;
 }
-void (*g_GpuDebugPrintf[])(char *, void *, int) = {debug};
+void (*D_80095748)() = (void (*)())debug;
 int main(void) {
     int level, count, i;
     for (level = 0; level <= 3; ++level) {
-        g_GraphDebug = level;
+        D_8009574C.queueState.debugLevel = level;
         for (count = 1; count <= 128; ++count) {
             u32 *result;
             expectedCount = count;

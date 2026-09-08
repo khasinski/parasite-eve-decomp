@@ -17,7 +17,10 @@ typedef struct GpuCallbacks {
     /* 0x18 */ union { int (*moveImage)(); void *cwc; void *packet; } u18;
     /* 0x1C */ union { int (*store)(); void *drs; } u1c;
     /* 0x20 */ union { int (*load)(); void *dws; } u20;
-    /* 0x24 */ unsigned char pad_24[0x10];
+    /* 0x24 */ int (*callback24)();
+    /* 0x28 */ int (*callback28)();
+    /* 0x2C */ int (*clearOTag)();
+    /* 0x30 */ int (*callback30)();
     /* 0x34 */ int (*reset)();
     /* 0x38 */ int (*callback)();
     /* 0x3C */ int (*callback3C)();
