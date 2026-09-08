@@ -173,8 +173,8 @@ segments:
       - [0x65AC, c, main/Akao_ProcessCommand]
       - [0x7110, c, task/Task_DispatchScriptCmd]
       - [0x75F8, c, task/task6]
+      # Pending-node launch controller for equip and save/load menus.
       - [0x7640, c, task/Task_BeginSceneTransition]
-      - [0x7710, c, task/Task_OpenSaveLoadMenu]
       - [0x77E0, c, task/Task_GetPlayerInputFlag]
       - [0x7818, asm, task/task7]
       - [0x7A94, c, task/Task_JumpToEntityOffset]
