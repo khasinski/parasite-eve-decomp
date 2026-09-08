@@ -1,0 +1,143 @@
+#include "common.h"
+extern u32 g_TimerTimeoutStart;
+extern u32 g_TimerTimeoutLimit;
+
+extern int g_SpuTransferStatus;
+void SpuSetTransferCallback(void (*callback)(void));
+
+int Spu_CheckTimerElapsed(void) {
+    register u32 current asm("$4");
+    register u32 raw asm("$3");
+    u32 base;
+    register u32 diff asm("$2");
+    u32 limit;
+
+    raw = *(volatile u16 *)0x1F801120;
+    base = g_TimerTimeoutStart;
+    asm volatile("" : "=r"(raw) : "0"(raw));
+    current = raw & 0xFFFF;
+    if (current < base) {
+        if (*(volatile u16 *)0x1F801128 != 0) {
+            current += *(volatile u16 *)0x1F801128;
+        } else {
+            current += 0x10000;
+        }
+    }
+
+    if ((*(volatile u16 *)0x1F801124 & 0x200) != 0) {
+        limit = g_TimerTimeoutLimit;
+        diff = current - g_TimerTimeoutStart;
+        return !(diff < limit);
+    } else {
+        limit = g_TimerTimeoutLimit;
+        diff = (current - g_TimerTimeoutStart) >> 3;
+        return !(diff < limit);
+    }
+}
+
+int Spu_ValidateSampleHeader(void *arg0)
+{
+    return *(int *)arg0 + 0xB0BEB4BF;
+}
+
+void Spu_ClearTransferCallback(void) {
+    SpuSetTransferCallback(0);
+    g_SpuTransferStatus = 0;
+}
+
+extern int g_SpuTransferStatus;
+void Spu_ClearTransferCallback(void);
+void SpuSetTransferCallback(void (*callback)(void));
+
+void Spu_PrepareTransfer(void);
+void Spu_UploadToSpu(int arg0, int arg1);
+
+void Spu_PrepareTransfer(void) {
+    g_SpuTransferStatus = 1;
+    SpuSetTransferCallback(Spu_ClearTransferCallback);
+}
+
+void Spu_UploadWithPrepare(int arg0, int arg1) {
+    Spu_PrepareTransfer();
+    Spu_UploadToSpu(arg0, arg1);
+}
+
+void Spu_PrepareTransfer(void);
+unsigned int Spu_ReadFromSpu(int arg0, unsigned int size);
+
+extern volatile int g_SpuTransferStatus;
+
+void Spu_ReadWithPrepare(int arg0, int arg1) {
+    Spu_PrepareTransfer();
+    Spu_ReadFromSpu(arg0, arg1);
+}
+
+void Spu_WaitTransferDone(void) {
+    while (g_SpuTransferStatus == 1) {
+    }
+}
+
+#include "common.h"
+#include "pe1/akao.h"
+
+void Spu_WaitTransferDone(void);
+s32 Spu_ValidateSampleHeader(void *arg0);
+int Spu_WriteRegChecked(int arg0);
+void Spu_UploadWithPrepare(int arg0, int arg1);
+
+extern s32 g_SpuTransferStatus;
+extern AkaoInstrument g_AkaoInstrumentTable[];
+
+s32 Spu_UploadSampleBlock(void *arg0, s32 arg1) {
+    register s8 *cursor asm("$16");
+    s8 *src;
+    s32 start;
+    s32 flush;
+    s32 end;
+    s32 count;
+    s32 dst_offset;
+    s32 *dst;
+
+    cursor = arg0;
+    flush = arg1;
+    Spu_WaitTransferDone();
+    if (Spu_ValidateSampleHeader(arg0) == 0) {
+        cursor += 0x10;
+        Spu_WriteRegChecked(*(s32 *)cursor);
+        cursor += 4;
+        asm volatile("" : "=r"(cursor) : "0"(cursor));
+        count = *(s32 *)cursor;
+        cursor += 4;
+        asm volatile("" : "=r"(cursor) : "0"(cursor));
+        start = *(s32 *)cursor;
+        cursor += 4;
+        asm volatile("" : "=r"(cursor) : "0"(cursor));
+        end = *(s32 *)cursor;
+        src = cursor + 0x24;
+        if (end == 0) {
+            end = 0x100;
+        }
+
+        cursor = (s8 *)(end - start);
+        Spu_UploadWithPrepare((s32)(src + ((s32)cursor << 6)), count);
+
+        dst_offset = start * sizeof(AkaoInstrument);
+        dst = (s32 *)((s8 *)g_AkaoInstrumentTable + dst_offset);
+        count = (s32)cursor * (sizeof(AkaoInstrument) / sizeof(s32));
+        if (count != 0) {
+            do {
+                count--;
+                *dst++ = *(s32 *)src;
+                src += 4;
+            } while (count != 0);
+        }
+
+        if (flush != 0) {
+            Spu_WaitTransferDone();
+        }
+        return 0;
+    }
+
+    g_SpuTransferStatus = -1;
+    return -1;
+}
