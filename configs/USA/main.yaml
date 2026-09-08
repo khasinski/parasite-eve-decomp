@@ -1169,9 +1169,8 @@ segments:
       - [0x654C8, c, gpu/DrawSyncCallback]
       # Psy-Q libgpu/sys.c display-mask and synchronization operations.
       - [0x65528, c, psyq/libgpu/sys_display]
-      - [0x65628, c, gpu/checkRECT]
-      # Paired clear-image helpers share the queued GPU packet encoder.
-      - [0x65744, c, gpu/clear_image]
+      # Psy-Q libgpu/sys.c rectangle validation and clear-image operations.
+      - [0x65628, c, psyq/libgpu/sys_clear]
       # Psy-Q libgpu/sys.c VRAM transfer helpers, in source order.
       - [0x6586C, c, psyq/libgpu/sys_transfer]
       - [0x659E4, c, gpu/ClearOTag]
