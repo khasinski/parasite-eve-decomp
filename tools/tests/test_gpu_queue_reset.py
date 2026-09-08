@@ -10,7 +10,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class GpuQueueResetTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_modes_masks_buffers_and_query(self):
-        source = (ROOT / "src/main/gpu/Gpu_InitDmaQueue.c").read_text()
+        source = (ROOT / "src/main/gpu/dma_queue.c").read_text()
+        source = source[:source.index("void Gpu_ResetDmaWaitTimer(void);")]
         harness = source + r'''
 #include <assert.h>
 #include <string.h>
@@ -72,7 +73,7 @@ int main(void) {
         with tempfile.TemporaryDirectory() as directory:
             exe = pathlib.Path(directory) / "queue-reset-test"
             result = subprocess.run(
-                ["cc", "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
+                ["cc", "-I", str(ROOT / "include"), "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
                 input=harness, text=True, capture_output=True,
             )
             self.assertEqual(result.returncode, 0, result.stderr)

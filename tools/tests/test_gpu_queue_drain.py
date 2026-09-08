@@ -10,13 +10,20 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class GpuQueueDrainTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_polling_waiting_wraparound_and_timeouts(self):
-        source = (ROOT / "src/main/gpu/Gpu_DrainDmaQueue.c").read_text()
+        source = (ROOT / "src/main/gpu/dma_queue.c").read_text()
+        source = ("extern unsigned int D_80095874;\n"
+                  "extern volatile unsigned int D_80095878;\n"
+                  "extern unsigned int *D_80095860, *D_80095854;\n"
+                  "void Gpu_ResetDmaWaitTimer(void);\n"
+                  "int Gpu_SetDisplayBuffer(void);\n"
+                  "int Gpu_DmaTimeoutCheck(void);\n" +
+                  source[source.index("static __inline__ unsigned int readGpuStatus"):])
         harness = source + r'''
 #include <assert.h>
-unsigned int D_80095874;
-volatile unsigned int D_80095878;
 static unsigned int dma, gpu;
 unsigned int *D_80095860 = &dma, *D_80095854 = &gpu;
+unsigned int D_80095874;
+volatile unsigned int D_80095878;
 static int resets, dispatches, polls, timeoutAt, releaseAt, drain;
 void Gpu_ResetDmaWaitTimer(void) { ++resets; }
 int Gpu_SetDisplayBuffer(void) {
