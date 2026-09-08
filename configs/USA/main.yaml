@@ -1441,12 +1441,8 @@ segments:
       # DS callback setter API (poll, sync, ready, dispatch).
       - [0x703C0, c, cdrom/CdRom_SetPollCallback]
       - [0x703F0, c, cdrom/cd_rom3]
+      # CD-ROM command-state accessor API.
       - [0x70408, c, cdrom/CdRom_GetLastCmd]
-      - [0x70418, c, cdrom/CdRom_GetCmdMode]
-      - [0x70428, c, cdrom/CdRom_GetCurrentPosPtr]
-      - [0x70434, c, cdrom/CdRom_GetRetryCount]
-      - [0x70444, c, cdrom/CdRom_GetCmdParam]
-      - [0x70454, c, cdrom/CdRom_GetSeekState]
       - [0x70464, c, cdrom/CdRom_Sync]
       - [0x70488, c, cdrom/CdRom_SendReadyCommand]
       - [0x704AC, c, cdrom/CdRom_GetDiscType]
