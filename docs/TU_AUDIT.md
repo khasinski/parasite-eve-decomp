@@ -12,6 +12,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x76014..0x76180` | `psyq/libapi/counter` | Five contiguous functions match public Psy-Q `libapi/counter.c` in SDK source order. Their combined object retains every function's retail size; only jumps to each function's own epilogue become object-local relocations. `make check` is retail-identical. |
 | `0x64494..0x64628` | `psyq/libapi/intr_callbacks` | Ten contiguous callback facade functions are grouped in public Psy-Q `etc/intr.c` in the same order. Reconciling their conflicting recovered callback prototypes to an unprototyped function pointer preserves all 404 `.text` bytes exactly; `make check` is retail-identical. |
 | `0x64EA0..0x64F70` | `psyq/libapi/intr_dma` | The adjacent DMA callback registration and clear helpers are in public Psy-Q `etc/intr_dma.c` in the same order. Their combined object preserves all 208 `.text` bytes exactly; `make check` is retail-identical. |
+| `0x68B44..0x68DD0` | `psyq/libgte/average` | Six adjacent vector-average API functions form a complete Psy-Q GTE family in API order. Their combined object preserves all 652 `.text` bytes exactly; `make check` is retail-identical. |
 
 ## Deferred main pairs
 
