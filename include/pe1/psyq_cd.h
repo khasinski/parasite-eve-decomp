@@ -32,6 +32,13 @@ typedef struct CdlATV {
     u_char val3;
 } CdlATV;
 
+/* Psy-Q LIBDS.H's DslFILE, returned by DsSearchFile. */
+typedef struct DslFILE {
+    CdlLOC pos;
+    u_int size;
+    char name[16];
+} DslFILE;
+
 typedef struct DsDecodedEventFlags {
     u_char bit7;
     u_char bit6;
@@ -85,6 +92,11 @@ typedef struct CdRomEventCommandState {
 
 PE1_STATIC_ASSERT(sizeof(DsReadStatusBlock) == 0x28,
                   ds_read_status_block_size);
+PE1_STATIC_ASSERT(sizeof(DslFILE) == 0x18, dsl_file_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DslFILE, size) == 0x04,
+                  dsl_file_size_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DslFILE, name) == 0x08,
+                  dsl_file_name_offset);
 PE1_STATIC_ASSERT(sizeof(CdCallbackDataPage) == 0x5050,
                   cd_callback_data_page_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, sync) == 0x04,
