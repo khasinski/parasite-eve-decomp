@@ -1498,7 +1498,8 @@ segments:
       - [0x71C08, asm, main/gap_cdrom_CdRom_BreakSyncCallback_tail_71C08]
       - [0x71C14, asm, psyq/libds/DsSearchFile]
       - [0x71EF4, c, psyq/libds/_cmp]
-      - [0x71F14, asm, psyq/misc34]
+      # Psy-Q libds/dsfile.c: ISO-9660 directory cache helpers.
+      - [0x71F14, asm, psyq/libds/dsfile]
       - [0x72518, c, psyq/libds/ds_read]
       # Psy-Q libds read-controller helpers share the async-read state.
       - [0x72574, c, psyq/libds/dsread_control]
