@@ -168,9 +168,8 @@ segments:
       - [0x5F90, c, main/Scene_SelectMapById]
       - [0x6164, c, task/Task_SetFloorByEntityRoll]
       - [0x62B8, c, task/Task_SetActorScreenPos]
+      # Startup-menu phase controller.
       - [0x62F0, c, boot/Boot_InitPhase1]
-      - [0x63AC, c, boot/Boot_InitPhase2]
-      - [0x647C, c, boot/Boot_InitPhase3]
       - [0x65AC, c, main/Akao_ProcessCommand]
       - [0x7110, c, task/Task_DispatchScriptCmd]
       - [0x75F8, c, task/task6]
