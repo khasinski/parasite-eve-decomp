@@ -1189,8 +1189,8 @@ segments:
       # Shared front/back DRAWENV encoder, in source order.
       - [0x664E8, c, gpu/drawenv]
       - [0x66950, c, gpu/Gpu_BuildDrawModeCmd]
-      - [0x66970, c, gpu/Gpu_BuildDrawAreaTopLeftCmd]
-      - [0x66A08, c, gpu/Gpu_BuildDrawAreaBottomRightCmd]
+      # Paired draw-area packet encoders, in source order.
+      - [0x66970, c, gpu/drawarea]
       - [0x66AA0, c, gpu/gpu_build]
       - [0x66B3C, c, gpu/_status]
       - [0x66B54, c, gpu/Gpu_SendOtChain]
