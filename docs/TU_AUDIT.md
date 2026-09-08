@@ -8,6 +8,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Range | Unit | Evidence |
 | --- | --- | --- |
+| `0x620D0..0x621E4` | `psyq/libgpu/misc27` | The five contiguous helpers share the PSX TIM container. `Gpu_LoadTimImage` now records the verified TIM header and block layout: flags at `0x04`, an optional CLUT block, and `length + RECT + payload` image blocks. Its typed image and CLUT uploads preserve the complete 276-byte object exactly. |
 | `0x64F74..0x65238` | `gpu/libgpu_sys` | Seven contiguous functions match the known Psy-Q `libgpu/sys.c` tail in SDK source order. Their combined object retains every function's retail size; the sole changed relocation is the now object-local `SetDefDrawEnv` → `GetVideoMode` call. `make check` is retail-identical. |
 | `0x65528..0x65628` | `psyq/libgpu/sys_display` | `SetDispMask` and `DrawSync` are adjacent `libgpu/sys.c` display-control operations. Their recovered aliases converge on the shared GPU callback and debug record; the combined object preserves all 256 `.text` bytes exactly and `make check` is retail-identical. |
 | `0x65744..0x6586C` | `gpu/clear_image` | The adjacent normal and flagged clear-image helpers share the queued packet encoder, callback table, and rectangle validation. The combined object preserves all 296 `.text` bytes exactly; `make check` is retail-identical. |

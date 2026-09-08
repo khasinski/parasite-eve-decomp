@@ -1,22 +1,50 @@
-int LoadImage(int rect, int p);
+typedef struct TimRect {
+    short x;
+    short y;
+    short w;
+    short h;
+} TimRect;
 
-int Gpu_LoadTimImage(int arg0) {
-    int secondary;
-    int image;
-    int pixels;
+typedef struct TimBlock {
+    int length;
+    TimRect rect;
+    int pixels[1];
+} TimBlock;
 
-    secondary = 0;
-    if ((*(int *)(arg0 + 4) & 8) != 0) {
-        secondary = arg0 + 8;
-        image = secondary + *(int *)(arg0 + 8);
+typedef struct TimFile {
+    int magic;
+    int flags;
+    TimBlock first_block;
+} TimFile;
+
+typedef union TimBlockAddress {
+    TimBlock *block;
+    unsigned long address;
+} TimBlockAddress;
+
+int LoadImage(TimRect *rect, int *pixels);
+
+int *Gpu_LoadTimImage(TimFile *tim) {
+    TimBlock *clut;
+    TimBlock *image;
+    int *pixels;
+
+    clut = 0;
+    if ((tim->flags & 8) != 0) {
+        TimBlockAddress next;
+
+        clut = &tim->first_block;
+        next.block = clut;
+        next.address += clut->length;
+        image = next.block;
     } else {
-        image = arg0 + 8;
+        image = &tim->first_block;
     }
 
-    pixels = image + 0xC;
-    LoadImage(image + 4, pixels);
-    if (secondary != 0) {
-        LoadImage(secondary + 4, secondary + 0xC);
+    pixels = image->pixels;
+    LoadImage(&image->rect, pixels);
+    if (clut != 0) {
+        LoadImage(&clut->rect, clut->pixels);
     }
     return pixels;
 }
