@@ -1154,8 +1154,8 @@ segments:
       - [0x64CC8, asm, main/gap_psyq_misc30_tail_64CC8]
       - [0x64CD4, c, psyq/libapi/startIntrDMA]
       - [0x64D20, asm, main/Render_SetupSceneBuffers]
-      - [0x64EA0, c, psyq/libapi/setIntrDMA]
-      - [0x64F4C, c, psyq/libapi/memclrIntrDMA]
+      # Psy-Q etc/intr_dma.c callback registration helpers, in source order.
+      - [0x64EA0, c, psyq/libapi/intr_dma]
       - [0x64F70, asm, main/gap_psyq_libapi_memclrIntrDMA_tail_64F70]
       # Psy-Q libgpu/sys.c tail; functions remain in SDK source order.
       - [0x64F74, c, gpu/libgpu_sys]
