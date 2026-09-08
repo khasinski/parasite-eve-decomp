@@ -2,13 +2,13 @@ extern int g_IntrDmaHandlerTable[];
 extern int *g_IntrDmaDispatchPtr;
 
 void memclrIntrDMA(int *ptr, int count);
-void Render_SetupSceneBuffers(void);
-void setIntrDMA(void);
+void trapIntrDMA(void);
+void *setIntrDMA(int channel, void *callback);
 void InterruptCallback(int event, void (*callback)(void));
 
 void *startIntrDMA(void) {
     memclrIntrDMA(g_IntrDmaHandlerTable, 8);
     *g_IntrDmaDispatchPtr = 0;
-    InterruptCallback(3, Render_SetupSceneBuffers);
+    InterruptCallback(3, trapIntrDMA);
     return setIntrDMA;
 }

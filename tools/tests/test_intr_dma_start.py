@@ -1,0 +1,59 @@
+import pathlib
+import shutil
+import subprocess
+import tempfile
+import unittest
+
+
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+
+
+class IntrDmaStartTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
+    def test_clears_handlers_installs_dma_trap_and_returns_registrar(self):
+        source = (ROOT / "src/main/psyq/libapi/startIntrDMA.c").read_text()
+        harness = source + r'''
+#include <assert.h>
+int g_IntrDmaHandlerTable[8];
+static int dispatch;
+int *g_IntrDmaDispatchPtr = &dispatch;
+static int clear_calls, event, callback;
+void memclrIntrDMA(int *ptr, int count) {
+    int i;
+    assert(ptr == g_IntrDmaHandlerTable && count == 8);
+    ++clear_calls;
+    for (i = 0; i < count; ++i) ptr[i] = 0;
+}
+static void expected_trap(void) {}
+void trapIntrDMA(void) { expected_trap(); }
+void *setIntrDMA(int channel, void *handler) {
+    (void)channel;
+    return handler;
+}
+void InterruptCallback(int irq, void (*handler)(void)) {
+    assert(irq == 3 && handler == trapIntrDMA);
+    event = irq;
+    callback = 1;
+}
+int main(void) {
+    int i;
+    for (i = 0; i < 8; ++i) g_IntrDmaHandlerTable[i] = i + 1;
+    dispatch = 99;
+    assert(startIntrDMA() == setIntrDMA);
+    assert(clear_calls == 1 && dispatch == 0 && event == 3 && callback == 1);
+    for (i = 0; i < 8; ++i) assert(g_IntrDmaHandlerTable[i] == 0);
+    return 0;
+}
+'''
+        with tempfile.TemporaryDirectory() as directory:
+            exe = pathlib.Path(directory) / "intr-dma-start-test"
+            result = subprocess.run(
+                ["cc", "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
+                input=harness, text=True, capture_output=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            subprocess.run([str(exe)], check=True, timeout=10)
+
+
+if __name__ == "__main__":
+    unittest.main()
