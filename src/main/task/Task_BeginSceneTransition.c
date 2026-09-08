@@ -1,12 +1,12 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
+#include "pe1/scene_transition.h"
 extern int g_GameState[];
 extern int g_SceneDataTable0;
 extern int *g_TaskNodePool;
 extern int g_GameStateFlags[];
 extern int g_GameStateFlagsWrite[] asm("g_GameStateFlags");
 
-int Render_BeginSceneLoad(void);
 void Menu_OpenEquipScreen(int arg0);
 
 int Task_BeginSceneTransition(int **arg0) {

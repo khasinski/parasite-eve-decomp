@@ -1,11 +1,11 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
+#include "pe1/scene_transition.h"
 extern int g_SceneDataTable0;
 extern char *g_TaskNodePool;
 extern unsigned short D_8009D2A4[];
 
-void Render_BeginSceneLoad(void);
 void Menu_OpenEquipSlotSwap(int arg0);
 
 int Entity_InitWithTimeout(int **arg0) {
