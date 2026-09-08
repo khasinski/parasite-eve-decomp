@@ -1,6 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 
-extern int g_DsReadBusy;
+#include "pe1/psyq_cd.h"
 
 void DsSyncCallback(int arg0);
 void DsReadyCallback(int arg0);
@@ -10,9 +10,9 @@ void DS_read_cbready(void) {
 
     state = &g_DsReadBusy;
     asm volatile("" : "=r"(state) : "0"(state));
-    if (*state == 1) {
-        DsSyncCallback(state[-3]);
-        DsReadyCallback(state[-2]);
+    if (DS_ASYNC_READ_FIELD(state, active) == 1) {
+        DsSyncCallback(DS_ASYNC_READ_FIELD(state, saved_sync_callback));
+        DsReadyCallback(DS_ASYNC_READ_FIELD(state, saved_ready_callback));
     }
-    *state = 0;
+    DS_ASYNC_READ_FIELD(state, active) = 0;
 }

@@ -3,8 +3,6 @@
 
 #include "pe1/psyq_cd.h"
 
-extern int g_DsReadBusy;
-
 void CdRom_AsyncCallback(void);
 void CdRom_ReadDoneCallback(void);
 int DsSyncCallback(int callback);
@@ -16,19 +14,19 @@ int CdRom_InitAsyncRead(void (*callback)(int, void *, void *), int callbackArg) 
 
     state = &g_DsReadBusy;
     active = 1;
-    if (state[0] == active) {
+    if (DS_ASYNC_READ_FIELD(state, active) == active) {
         return 0;
     }
 
-    state[-8] = -1;
-    state[-7] = 0;
-    state[-5] = 0;
-    state[-6] = (int)callback;
-    state[-4] = callbackArg;
-    state[-3] = DsSyncCallback((int)CdRom_AsyncCallback);
-    state[-2] = DsReadyCallback((int)CdRom_ReadDoneCallback);
+    DS_ASYNC_READ_FIELD(state, result) = -1;
+    DS_ASYNC_READ_FIELD(state, reserved04) = 0;
+    DS_ASYNC_READ_FIELD(state, reserved0C) = 0;
+    DS_ASYNC_READ_FIELD(state, callback) = (int)callback;
+    DS_ASYNC_READ_FIELD(state, callback_arg) = callbackArg;
+    DS_ASYNC_READ_FIELD(state, saved_sync_callback) = DsSyncCallback((int)CdRom_AsyncCallback);
+    DS_ASYNC_READ_FIELD(state, saved_ready_callback) = DsReadyCallback((int)CdRom_ReadDoneCallback);
     asm volatile("" : "+r"(active));
-    state[0] = active;
+    DS_ASYNC_READ_FIELD(state, active) = active;
     return 1;
 }
 
@@ -40,14 +38,14 @@ void DsReadBreak(void) {
     int zeroArg1;
     int zeroArg2;
     state = &g_DsReadBusy;
-    if (state[0] == 1) {
-        DsSyncCallback(state[-3]);
-        DsReadyCallback(state[-2]);
+    if (DS_ASYNC_READ_FIELD(state, active) == 1) {
+        DsSyncCallback(DS_ASYNC_READ_FIELD(state, saved_sync_callback));
+        DsReadyCallback(DS_ASYNC_READ_FIELD(state, saved_ready_callback));
         particleType = 9;
         zeroArg1 = 0;
         asm volatile("" : "+r"(particleType), "+r"(zeroArg1));
         zeroArg2 = 0;
         Render_AllocParticleNode(particleType, zeroArg1, zeroArg2, -1);
     }
-    state[0] = 0;
+    DS_ASYNC_READ_FIELD(state, active) = 0;
 }

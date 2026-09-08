@@ -159,6 +159,29 @@ typedef struct DsReadCallbackSlot {
     int reserved[3];
 } DsReadCallbackSlot;
 
+typedef struct DsAsyncReadState {
+    /* g_DsReadBusy names the final active field at offset 0x20. */
+    int result;
+    int reserved04;
+    int callback;
+    int reserved0C;
+    int callback_arg;
+    int saved_sync_callback;
+    int saved_ready_callback;
+    int reserved1C;
+    int active;
+} DsAsyncReadState;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, active) == 0x20,
+                  ds_async_read_active_offset);
+
+extern int g_DsReadBusy;
+#define DS_ASYNC_READ_STATE_FROM_ACTIVE(active_pointer) \
+    ((DsAsyncReadState *)((char *)(active_pointer) - \
+                          PE1_OFFSETOF(DsAsyncReadState, active)))
+#define DS_ASYNC_READ_FIELD(active_pointer, field) \
+    (DS_ASYNC_READ_STATE_FROM_ACTIVE(active_pointer)->field)
+
 typedef struct CdCallbackDataWindow {
     int syncCallback;
     u_char pad_AFB8[0x5048];
