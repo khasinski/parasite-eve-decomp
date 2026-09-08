@@ -14,9 +14,8 @@ class DrawEnvBuilderTests(unittest.TestCase):
         source = r'''
 #include <assert.h>
 #include <string.h>
-#include "src/main/gpu/Gpu_SetDrawEnvFront.c"
-#include "src/main/gpu/Gpu_SetDrawEnvBack.c"
-short D_80095750 = 1024, D_80095752 = 512;
+#include "src/main/gpu/drawenv.c"
+GpuDebugState D_8009574C;
 unsigned int Gpu_BuildDrawAreaTopLeftCmd(short x, short y) { return 1; }
 unsigned int Gpu_BuildDrawAreaBottomRightCmd(short x, short y) { return 2; }
 unsigned int Gpu_BuildDrawOffsetCmd(short x, short y) { return 3; }
@@ -44,6 +43,8 @@ static void check(int back, int background, short x, short w, short h) {
     env.r0 = 0x12;
     env.g0 = 0x34;
     env.b0 = 0x56;
+    D_8009574C.width = 1024;
+    D_8009574C.height = 512;
     if (back) Gpu_SetDrawEnvBack(&output.packet, &env);
     else Gpu_SetDrawEnvFront(&output.packet, &env);
     assert((output.words[0] & 0xFFFFFF) == 0xA5A5A5);

@@ -1186,8 +1186,8 @@ segments:
       - [0x66444, c, gpu/SetDrawMask]
       - [0x6646C, c, gpu/Gpu_InitDrawMaskSetPacket]
       - [0x66494, c, gpu/Gpu_InitDrawModeTexWindowPacket]
-      - [0x664E8, c, gpu/Gpu_SetDrawEnvFront]
-      - [0x666E0, c, gpu/Gpu_SetDrawEnvBack]
+      # Shared front/back DRAWENV encoder, in source order.
+      - [0x664E8, c, gpu/drawenv]
       - [0x66950, c, gpu/Gpu_BuildDrawModeCmd]
       - [0x66970, c, gpu/Gpu_BuildDrawAreaTopLeftCmd]
       - [0x66A08, c, gpu/Gpu_BuildDrawAreaBottomRightCmd]
