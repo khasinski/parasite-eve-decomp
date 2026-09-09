@@ -1794,3 +1794,6 @@ Pad_InitBios = 0x8007DF50; // type:func
 cd_rom4 = 0x80080D5C; // type:func
 mem_card8 = 0x800829C4; // type:func
 Spu_SetTransferMode = 0x80085D84; // type:func
+
+D_8009B260 = 0x8009B260; // size:0x4
+D_800B6918 = 0x800B6918; // size:0x4

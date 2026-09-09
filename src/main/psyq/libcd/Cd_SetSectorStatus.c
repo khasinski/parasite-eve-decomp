@@ -1,13 +1,7 @@
-#include "common.h"
+/* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -fcall-used-$1 */
+#include "pe1/psyq_cd.h"
 
-typedef struct CdSectorDataWindow {
-    int status;
-    u8 pad_B264[0x4D9C];
-} CdSectorDataWindow;
-
-register CdSectorDataWindow *g_CdSectorDataWindow asm("$1");
-
-void func_8007C130(int arg0) {
-    g_CdSectorDataWindow = (CdSectorDataWindow *)0x800A0000;
-    g_CdSectorDataWindow[-1].status = arg0;
+void func_8007C130(int status) {
+    D_8009B260 = status;
 }

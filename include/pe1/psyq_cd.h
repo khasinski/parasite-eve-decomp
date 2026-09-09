@@ -303,6 +303,10 @@ void CdRom_SetMode2Callback(u_char event);
 void Render_StepParticleCallback(void);
 
 extern CdlLOC g_CdLastPos;
+extern int D_8009B260;
+extern int g_CdStreamMask;
+extern int D_800B6918;
+extern int g_CdStreamEndSector;
 
 /* Low-level LIBCD command retry wrapper and its shared command state. */
 extern u32 D_8009AF2C[];

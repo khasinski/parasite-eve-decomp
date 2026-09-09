@@ -996,3 +996,19 @@ or compiler changes are needed.
 profile. Removing its v1 pin alone, its read/write barrier alone, or both
 preserves 100% upstream objdiff. The ordinary local `ret` now retains the
 required move/branch sequence without source-level constraints.
+
+## Psy-Q scalar CD setters
+
+`func_8007C130` and `StSetMask` now use ordinary global assignments, with
+stock GCC 2.8.1 and the existing per-file `-fcall-used-$1` option. Their
+12-byte and 28-byte ranges match exactly. AT is allocated by the compiler;
+there are no register variables, empty barriers, or instruction ASM. Without
+that option, the sector setter uses v0 instead of AT; enabling it gives
+100% upstream objdiff. No other compiler options are required.
+
+The removed page types only encoded fixed addresses. The actual objects
+are four-byte integers: D_8009B260 at 0x8009B260, g_CdStreamMask at
+0x800C0DC0, D_800B6918 at 0x800B6918, and g_CdStreamEndSector at 0x800C0DBC.
+These are declared separately; no large enclosing structure is inferred.
+All AT uses in the two generated functions were checked against the retail
+instructions, including the final store in each return delay slot.
