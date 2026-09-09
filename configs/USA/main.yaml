@@ -344,8 +344,7 @@ segments:
       - [0x26754, c, entity/Entity_PositionHierarchy]
       - [0x268B4, c, entity/Entity_CollectGarbage]
       - [0x269F4, c, entity/entity5]
-      - [0x26AB8, c, entity/Entity_AllocBlock]
-      - [0x26BF4, c, entity/Entity_FreeAllocationBlock]
+      - [0x26AB8, c, entity/Entity_AllocationBlocks]
       - [0x26C48, asm, main/Scene_UpdateEntityPositions]
 
       # PSYQ 4.0 object signature matches.
