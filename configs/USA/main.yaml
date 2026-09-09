@@ -1396,7 +1396,7 @@ segments:
       - [0x73CE8, c, memcard/MemCard_WaitReadyForTransfer]
       - [0x73D78, c, memcard/MemCard_WaitStatusBit2]
       - [0x73DA0, asm, main/gap_memcard_MemCard_WaitStatusBit2_tail_73DA0]
-      - [0x73DA4, c, memcard/card_obj2]
+      - [0x73DA4, c, memcard/CardObj_PayloadCommandState]
       - [0x73E44, c, memcard/CardObj_AdvanceReadLayout]
       - [0x73F90, c, memcard/CardObj_CalcReadPayloadSize]
       - [0x73FC8, c, memcard/card_obj3]
