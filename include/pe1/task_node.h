@@ -11,9 +11,9 @@ typedef struct TaskNode {
     /* 0x0A */ unsigned short seq;      /* sequence/id, matched in Entity_FindNodeById */
     /* 0x0C */ int field_0c;
     /* 0x10 */ int active;              /* set 1 on alloc/yield */
-    /* 0x14 */ int field_14;
-    /* 0x18 */ int field_18;
-    /* 0x1C */ int field_1c;
+    /* 0x14 */ int target14;
+    /* 0x18 */ int target18;
+    /* 0x1C */ int target1c;
     /* 0x20 */ int field_20;
     /* 0x24 */ struct TaskNode *next;
     /* 0x28 */ struct TaskNode *prev;
