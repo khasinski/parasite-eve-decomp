@@ -41,7 +41,9 @@ typedef struct SpuRegs {
     /* 0x1B2 */ volatile u16 cd_volume_right;
     /* 0x1B4 */ volatile u16 external_volume_left;
     /* 0x1B6 */ volatile u16 external_volume_right;
-    /* 0x1B8 */ unsigned char pad_1B8[8];
+    /* 0x1B8 */ volatile u16 current_master_volume_left;
+    /* 0x1BA */ volatile u16 current_master_volume_right;
+    /* 0x1BC */ unsigned char pad_1BC[4];
     /* 0x1C0 */ volatile u16 reverb[32];
 } SpuRegs;
 typedef char SpuRegsSizeCheck[(sizeof(SpuRegs) == 0x200) ? 1 : -1];

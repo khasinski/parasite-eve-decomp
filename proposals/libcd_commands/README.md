@@ -1,12 +1,14 @@
 # Reconstructed LIBCD interrupt, command and wait routines
 
-`candidate.c` compiles getintr, CD_sync, CD_ready, CD_cw, CD_vol and CD_flush in retail
+`candidate.c` compiles getintr, CD_sync, CD_ready, CD_cw, CD_vol, CD_flush and CD_initvol in retail
 order, using one stock GCC 2.8.1 configuration:
 `-mno-split-addresses -fno-expensive-optimizations`. It includes their current
 candidate sources, so standalone and combined experiments share definitions.
-This covers 4108 retail bytes and is still only part of BIOS_1: other driver
+This covers 4348 retail bytes and is still only part of BIOS_1: other driver
 routines and data ownership remain outside this file. The first four functions remain assembly in production; CD_vol and CD_flush
-already use matching C. The combined candidate includes their production
+already use matching C. The new ordinary-C CD_initvol replaces the legacy
+stack/register model only in this combined reconstruction, pending CD_initintr
+recovery under the same compiler configuration. The combined candidate includes their production
 sources directly.
 
 | Function | Retail bytes | Combined objdiff match |
@@ -17,6 +19,7 @@ sources directly.
 | CD_cw | 1036 | 92.22394% |
 | CD_vol | 136 | 100% |
 | CD_flush | 212 | 100% |
+| CD_initvol | 240 | 100% |
 
 The common configuration retains the previous three-function combined scores.
 getintr alone reaches 95.997086% without `-fno-expensive-optimizations`; its
@@ -28,6 +31,7 @@ and response-copy helpers are shared inline C.
 
 ```sh
 tools/scripts/cc.sh proposals/libcd_commands/candidate.c /tmp/libcd_commands.o
+python proposals/CD_initvol/verify_behavior.py /tmp/libcd_commands.o
 python proposals/getintr/verify_behavior.py /tmp/libcd_commands.o
 python proposals/CD_sync/verify_behavior.py /tmp/libcd_commands.o
 python proposals/CD_ready/verify_behavior.py /tmp/libcd_commands.o
@@ -83,3 +87,10 @@ attempt to execute it encountered a Unicorn CPU exception after its return
 also in unmodified retail code, so it supplies no additional behavior claim.
 The exact instruction/relocation match is the evidence for the combined
 CD_flush body.
+
+The seventh function, CD_initvol, matches all 240 bytes using a real CdlATV
+local and SpuRegs fields, with no pins or artificial stack frame. Its 100-case
+behavior suite also passes on this combined object. Current master-volume
+fields at offsets 0x1B8/0x1BA replace padding in the shared register structure.
+See `../CD_initvol/README.md` for the evidence and remaining production-TU
+constraint with CD_initintr.

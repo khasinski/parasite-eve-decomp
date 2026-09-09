@@ -7,3 +7,4 @@
 #include "../CD_cw/candidate.c"
 #include "../../src/main/psyq/libcd/CD_vol.c"
 #include "../../src/main/psyq/libcd/CD_flush.c"
+#include "../CD_initvol/candidate.c"
