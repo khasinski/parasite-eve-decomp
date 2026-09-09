@@ -10,3 +10,5 @@ void GPU_memset(unsigned char *dst, int value, int count)
         } while (remaining != -1);
     }
 }
+
+static unsigned int GPU_memset_alignment[] __attribute__((section(".text"))) = { 0x00000000, 0x00000000 };
