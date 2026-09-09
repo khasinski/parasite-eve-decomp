@@ -50,11 +50,12 @@ int Gpu_DmaTimeoutCheck(void) {
     return 0;
 }
 void Gpu_RestoreDmaCallback(void) { assert(0); }
-void DMACallback(int channel, void (*callback)(void)) {
+PsyqInterruptHandler DMACallback(int channel, PsyqInterruptHandler callback) {
     assert(channel == 2 && callback == Gpu_RestoreDmaCallback);
     assert(dma == 0 && gpu == 0x04000000);
     assert(events == (D_8009574C.queueState.debugLevel >= 2 ? 12 : 2));
     events = events * 10 + 3;
+    return 0;
 }
 static int send(void *argument) {
     assert(argument == &packet);

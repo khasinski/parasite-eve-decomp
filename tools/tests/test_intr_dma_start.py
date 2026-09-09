@@ -16,8 +16,8 @@ class IntrDmaStartTests(unittest.TestCase):
 #include <assert.h>
 void handler(void) {}
 void (*g_IntrDmaHandlerTable[8])(void);
-static int dispatch;
-int *g_IntrDmaDispatchPtr = &dispatch;
+static unsigned int dispatch;
+unsigned int *g_IntrDmaDispatchPtr = &dispatch;
 static int clear_calls, event, callback;
 void memclrIntrDMA(int *ptr, int count) {
     int i;
@@ -28,14 +28,15 @@ void memclrIntrDMA(int *ptr, int count) {
 }
 static void expected_trap(void) {}
 void trapIntrDMA(void) { expected_trap(); }
-void *setIntrDMA(int channel, void *handler) {
+PsyqInterruptHandler setIntrDMA(int channel, PsyqInterruptHandler handler) {
     (void)channel;
     return handler;
 }
-void InterruptCallback(int irq, void (*handler)(void)) {
+PsyqInterruptHandler InterruptCallback(int irq, PsyqInterruptHandler handler) {
     assert(irq == 3 && handler == trapIntrDMA);
     event = irq;
     callback = 1;
+    return 0;
 }
 int main(void) {
     int i;
@@ -50,7 +51,8 @@ int main(void) {
         with tempfile.TemporaryDirectory() as directory:
             exe = pathlib.Path(directory) / "intr-dma-start-test"
             result = subprocess.run(
-                ["cc", "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
+                ["cc", "-I", str(ROOT / "include"), "-include",
+                 str(ROOT / "tools/tests/host_psyq.h"), "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
                 input=harness, text=True, capture_output=True,
             )
             self.assertEqual(result.returncode, 0, result.stderr)

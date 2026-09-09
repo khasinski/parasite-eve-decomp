@@ -13,6 +13,7 @@ class CdSendCommandTests(unittest.TestCase):
         source = (ROOT / "src/main/cdrom/CdRom_SendCmd.c").read_text()
         source = source.replace(
             '#include "pe1/psyq_cd.h"',
+            'int CD_cw(int, void *, unsigned char *, int);\n'
             '#define g_CdRomEventCommandState (*(unsigned char (*)[80])storage.bytes)\n'
             '#define g_CdRomCmdTimeout (*(int *)(storage.bytes + 64))')
         source = source.replace("extern int g_CdRomCmdLongTimeoutTable[];", "")
@@ -37,7 +38,7 @@ void Util_Copy4(void *dst, const void *src) {
     assert(storage.bytes[0] == commandValue);
     memcpy(dst, src, 4);
 }
-int CD_cw(int command, void *param, int a, int b) {
+int CD_cw(int command, void *param, unsigned char *a, int b) {
     int rewritten = (commandValue == 7 && statusValue == 1) ||
                     (commandValue == 8 && statusValue != 1);
     assert(flushes == 1 && copies == hasParam && sends++ == 0);

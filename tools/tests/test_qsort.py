@@ -13,23 +13,19 @@ class QsortTests(unittest.TestCase):
     def test_sort_and_record_preservation(self):
         source = (ROOT / "src/main/psyq/libc/qsort.c").read_text()
         # Host execution tests the C algorithm; retail SHA tests MIPS constraints.
-        for constraint in (' asm("$20")', ' asm("$22")',
+        for constraint in (' asm("$20")', ' asm("$22")', ' asm("$8")',
+                           'asm volatile("" : "=r"(left) : "0"(left));',
                            'asm volatile("" : "+r"(pivot) : "r"(half));'):
             self.assertEqual(source.count(constraint), 1)
             source = source.replace(constraint, "")
         source = source.replace('#include "common.h"', "")
+        source = source[:source.index("/* Trailing word")]
         harness = r'''
 #include <assert.h>
 #include <string.h>
 #define qsort pe_qsort
-void Mem_SwapBuffers(void *a, void *b, unsigned int size) {
-    unsigned char *left = a, *right = b;
-    while (size--) {
-        unsigned char byte = *left;
-        *left++ = *right;
-        *right++ = byte;
-    }
-}
+typedef unsigned char u8;
+typedef unsigned int u32;
 '''
         harness += source
         harness += r'''

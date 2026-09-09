@@ -35,10 +35,11 @@ static void print(char *message, int argument) {
 static GpuCallbacks callbacks;
 GpuCallbacks *D_80095744 = &callbacks;
 void (*D_80095748)() = print;
-void DMACallback(int channel, void *callback) {
+PsyqInterruptHandler DMACallback(int channel, PsyqInterruptHandler callback) {
     assert(channel == 2 && callback == 0);
     assert(D_8009574C.queueState.queue == (unsigned char)expectedNew);
     events = events * 10 + 3;
+    return 0;
 }
 static void check(int old, int mode, int debug, int mutate, int expectedEvents) {
     D_8009574C.queueState.queue = expectedOld = old;

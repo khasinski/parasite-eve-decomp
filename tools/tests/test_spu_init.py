@@ -24,7 +24,7 @@ int D_8009B418, D_8009B388, D_8009B3B4, D_8009B3B0, D_8009B3E8;
 static int phase, expectedMode;
 static int *late[] = {&D_8009B45C, &D_8009B460, &D_8009B464, &D_8009B38C,
     &D_8009B418, &D_8009B388, &D_8009B3B4, &D_8009B3B0, &D_8009B3E8};
-void ResetCallback(void) { assert(phase == 0); phase = 1; }
+int ResetCallback(void) { assert(phase == 0); phase = 1; return 0; }
 void _spu_init(int mode) { assert(phase == 1 && mode == expectedMode); phase = 2; }
 void SpuStart(void) {
     int i;
@@ -34,7 +34,7 @@ void SpuStart(void) {
     assert(D_8009B390 == 9 && D_8009B3A0.mode == 9);
     phase = 3;
 }
-void _spu_FsetRXX(int reg, int area, int flag) {
+void _spu_FsetRXX(u32 reg, u32 area, u32 flag) {
     int i;
     assert(phase == 3 && reg == 0xD1 && area == 0xF800 && flag == 0);
     assert(D_8009B390 == 0 && D_8009B394 == 0 && D_8009B398 == area);
@@ -64,7 +64,8 @@ int main(void) {
         with tempfile.TemporaryDirectory() as directory:
             exe = pathlib.Path(directory) / "spu-init-test"
             result = subprocess.run(
-                ["cc", "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
+                ["cc", "-I", str(ROOT / "include"), "-include",
+                 str(ROOT / "tools/tests/host_psyq.h"), "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
                 input=harness, text=True, capture_output=True,
             )
             self.assertEqual(result.returncode, 0, result.stderr)

@@ -12,12 +12,12 @@ class GpuTimImageTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_uploads_image_then_optional_clut(self):
         source = (ROOT / "src/main/psyq/libgpu/tim.c").read_text()
-        source = source[:source.index("int Str_GetTableEntryA")]
+        source = source[:source.index("RECT *Str_GetTableEntryA")]
         harness = source + r'''
 #include <assert.h>
-static TimRect *rects[2];
+static RECT *rects[2];
 static int *payloads[2], calls;
-int LoadImage(TimRect *rect, int *pixels) {
+int LoadImage(RECT *rect, void *pixels) {
     rects[calls] = rect;
     payloads[calls++] = pixels;
     return 0;
@@ -42,7 +42,8 @@ int main(void) {
         with tempfile.TemporaryDirectory() as directory:
             exe = pathlib.Path(directory) / "gpu-tim-image-test"
             result = subprocess.run(
-                ["cc", "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
+                ["cc", "-I", str(ROOT / "include"), "-include",
+                 str(ROOT / "tools/tests/host_psyq.h"), "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
                 input=harness, text=True, capture_output=True,
             )
             self.assertEqual(result.returncode, 0, result.stderr)

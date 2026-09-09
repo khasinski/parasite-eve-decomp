@@ -46,10 +46,11 @@ int Gpu_DmaTimeoutCheck(void) {
     return 0;
 }
 void Gpu_RestoreDmaCallback(void) { assert(0); }
-void DMACallback(int channel, void (*callback)(void)) {
+PsyqInterruptHandler DMACallback(int channel, PsyqInterruptHandler callback) {
     assert(phase == 2 && channel == 2 && callback == Gpu_RestoreDmaCallback);
     assert(dma == 0 && gpu == 0x04000000);
     phase = 3;
+    return 0;
 }
 static int transfer(RECT *r, unsigned int *p) {
     assert(phase == 3 && r == &rect && p == data);

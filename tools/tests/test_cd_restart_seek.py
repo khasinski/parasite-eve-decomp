@@ -13,18 +13,15 @@ class RestartSeekTests(unittest.TestCase):
         source = (ROOT / "src/main/cdrom/CdRom_RestartSeek.c").read_text()
         self.assertEqual(source.count('asm("$3")'), 1)
         source = source.replace('asm("$3")', "")
-        # The SDK header also asserts unrelated 32-bit pointer layouts.
-        source = source.replace('#include "pe1/psyq_cd.h"',
-            'typedef struct CdlLOC { unsigned char minute, second, sector, track; } CdlLOC;')
         harness = source + r'''
 #include <assert.h>
 #include <limits.h>
 int D_8009B6EC;
 static CdlLOC first, second;
 static int step, modeValue, commandValue, sectorValue, resultValue;
-int DsSyncCallback(int callback) {
+DsEventCallback DsSyncCallback(DsEventCallback callback) {
     assert(step++ == 0 && callback == 0);
-    return 123;
+    return 0;
 }
 CdlLOC *CdRom_GetCurrentPosPtr(void) {
     if (step == 1) { ++step; return &first; }
@@ -69,7 +66,7 @@ int main(void) {
         with tempfile.TemporaryDirectory() as directory:
             exe = pathlib.Path(directory) / "restart-seek"
             result = subprocess.run(
-                ["cc", "-std=gnu11", "-O2", "-I", str(ROOT / "include"),
+                ["cc", "-include", str(ROOT / "tools/tests/host_psyq.h"), "-std=gnu11", "-O2", "-I", str(ROOT / "include"),
                  "-I", str(ROOT / "tools/m2c"), "-x", "c", "-", "-o", str(exe)],
                 input=harness, text=True, capture_output=True,
             )

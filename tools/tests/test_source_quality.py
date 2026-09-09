@@ -1,4 +1,5 @@
 import pathlib
+import re
 import tempfile
 import unittest
 
@@ -11,6 +12,14 @@ class SourceQualityTests(unittest.TestCase):
             path = pathlib.Path(directory) / "unit.c"
             path.write_text(text)
             return source_quality.classify(path)
+
+    def assert_symbol_is_semantic(self, root, name):
+        # Locate definitions, not call sites or prototypes, after TU merges.
+        pattern = re.compile(r"\b" + re.escape(name) + r"\s*\([^();{}]*\)\s*\{")
+        matches = [path for path in root.glob("*.c")
+                   if pattern.search(path.read_text())]
+        self.assertEqual(len(matches), 1, (name, matches))
+        self.assertEqual(source_quality.classify(matches[0]), "semantic_c")
 
     def test_plain_c_is_semantic(self):
         self.assertEqual(self.classify("int f(void) { return 1; }"), "semantic_c")
@@ -26,15 +35,13 @@ class SourceQualityTests(unittest.TestCase):
                      "func_800C9268", "func_800C9EA8", "func_800CACDC",
                      "func_800CB9F8"):
             with self.subTest(name=name):
-                self.assertEqual(source_quality.classify(root / (name + ".c")),
-                                 "semantic_c")
+                self.assert_symbol_is_semantic(root, name)
 
     def test_repaired_render_load_and_tint_sources_are_semantic(self):
         root = pathlib.Path(__file__).resolve().parents[2] / "src/main/render"
         for name in ("Pm_StopAll", "Render_ApplyScreenTint", "Render_StepFade"):
             with self.subTest(name=name):
-                self.assertEqual(source_quality.classify(root / (name + ".c")),
-                                 "semantic_c")
+                self.assert_symbol_is_semantic(root, name)
 
     def test_font_step_modulo_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]
@@ -44,7 +51,7 @@ class SourceQualityTests(unittest.TestCase):
     def test_wayne_item_table_store_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]
         self.assertEqual(source_quality.classify(
-            root / "src/main/item/Inv_LoadWayneItemsAsOverride.c"), "semantic_c")
+            root / "src/main/item/Inv_ActiveListController.c"), "semantic_c")
 
     def test_field_map_entry_frame_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]
@@ -79,7 +86,7 @@ class SourceQualityTests(unittest.TestCase):
     def test_akao_pitch_lfo_depth_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]
         self.assertEqual(source_quality.classify(
-            root / "src/main/akao/seq_op2.c"), "semantic_c")
+            root / "src/main/akao/Akao_SeqPitchLfo.c"), "semantic_c")
 
     def test_akao_pitch_slide_voice_search_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]

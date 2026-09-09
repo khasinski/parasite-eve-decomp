@@ -28,14 +28,15 @@ void memclrIntrVSync(void *ptr, int count) {
     for (i = 0; i < count; ++i) handlers[i] = 0;
 }
 void trapIntrVSync(void) {}
-void setIntrVSync(unsigned int index, void (*handler)(void)) {
+PsyqInterruptHandler setIntrVSync(unsigned int index, PsyqInterruptHandler handler) {
     (void)index;
-    (void)handler;
+    return handler;
 }
-void InterruptCallback(int irq, void (*handler)(void)) {
+PsyqInterruptHandler InterruptCallback(int irq, PsyqInterruptHandler handler) {
     assert(irq == 0 && handler == trapIntrVSync);
     event = irq;
     callback = 1;
+    return 0;
 }
 int main(void) {
     int i;
@@ -52,7 +53,8 @@ int main(void) {
         with tempfile.TemporaryDirectory() as directory:
             exe = pathlib.Path(directory) / "intr-vsync-start-test"
             result = subprocess.run(
-                ["cc", "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
+                ["cc", "-I", str(ROOT / "include"), "-include",
+                 str(ROOT / "tools/tests/host_psyq.h"), "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
                 input=harness, text=True, capture_output=True,
             )
             self.assertEqual(result.returncode, 0, result.stderr)

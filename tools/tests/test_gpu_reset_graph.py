@@ -64,7 +64,7 @@ void GPU_memset(void *ptr, int value, int size) {
     }
     memset(ptr, value, size);
 }
-void ResetCallback(void) { assert(stage == 1); stage = 2; }
+int ResetCallback(void) { assert(stage == 1); stage = 2; return 0; }
 void GPU_cw(unsigned int command) {
     assert(stage == 2 && command == ((uintptr_t)&callbacks & 0xFFFFFF));
     stage = 3;

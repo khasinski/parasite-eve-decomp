@@ -46,7 +46,8 @@ int main(void) {
         with tempfile.TemporaryDirectory() as directory:
             exe = pathlib.Path(directory) / "cd-control-wait"
             result = subprocess.run(
-                ["cc", "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
+                ["cc", "-I", str(ROOT / "include"), "-include",
+                 str(ROOT / "tools/tests/host_psyq.h"), "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
                 input=harness, text=True, capture_output=True,
             )
             self.assertEqual(result.returncode, 0, result.stderr)
