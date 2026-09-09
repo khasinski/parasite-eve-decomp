@@ -44,4 +44,3 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
     }
     }
 }
-
