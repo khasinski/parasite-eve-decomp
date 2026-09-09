@@ -10,7 +10,7 @@ void CdRom_ReadDoneCallback(unsigned char arg0, unsigned char *arg1) {
     int *state;
     int status;
     register void *data asm("$18");
-    void (*callback)(int, void *, void *);
+    DsAsyncReadCallback callback;
 
     state = &D_8009B708;
     asm volatile("" : "=r"(state) : "0"(state));
@@ -32,7 +32,7 @@ void CdRom_ReadDoneCallback(unsigned char arg0, unsigned char *arg1) {
 
     DsSyncCallback(DS_ASYNC_READ_FIELD(state + 1, saved_sync_callback));
     DsReadyCallback(DS_ASYNC_READ_FIELD(state + 1, saved_ready_callback));
-    callback = (void *)state[-5];
+    callback = DS_ASYNC_READ_FIELD(state + 1, callback);
     state[1] = 0;
     if (callback != 0) {
         callback(status, data, 0);

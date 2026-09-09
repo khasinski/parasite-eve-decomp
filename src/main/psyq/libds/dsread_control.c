@@ -6,7 +6,7 @@
 void CdRom_AsyncCallback(u_char event, u_char *result);
 void CdRom_ReadDoneCallback(u_char event, u_char *result);
 
-int CdRom_InitAsyncRead(void (*callback)(int, void *, void *), int callbackArg) {
+int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg) {
     int *state;
     int active;
 
@@ -19,7 +19,7 @@ int CdRom_InitAsyncRead(void (*callback)(int, void *, void *), int callbackArg) 
     DS_ASYNC_READ_FIELD(state, result) = -1;
     DS_ASYNC_READ_FIELD(state, reserved04) = 0;
     DS_ASYNC_READ_FIELD(state, reserved0C) = 0;
-    DS_ASYNC_READ_FIELD(state, callback) = (int)callback;
+    DS_ASYNC_READ_FIELD(state, callback) = callback;
     DS_ASYNC_READ_FIELD(state, callback_arg) = callbackArg;
     DS_ASYNC_READ_FIELD(state, saved_sync_callback) = DsSyncCallback(CdRom_AsyncCallback);
     DS_ASYNC_READ_FIELD(state, saved_ready_callback) = DsReadyCallback(CdRom_ReadDoneCallback);

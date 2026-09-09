@@ -1507,3 +1507,23 @@ using the actual first parameter and symbolic timeout text yields a 95.76316%
 pure-C candidate under GCC 2.7.2: the address expansion leaves an extra call
 delay-slot nop. A local replacement for its global register variable still
 changes ADDIU to ORI. No production change was accepted for those trials.
+
+## DS asynchronous read callback type (2026-09-09)
+
+`DsAsyncReadState.callback` is now `DsAsyncReadCallback`, a function pointer
+taking an integer status and two pointers. `CdRom_AsyncCallback`'s retail
+indirect calls pass status in `a0`, its data pointer in `a1` and a local
+record address in `a2`; the reconstructed read-done path uses the same ABI
+with a null third argument. This field is no longer stored as an integer.
+
+`CdRom_InitAsyncRead` and both C callers share one declaration, including
+the actual integer return type. `CdRom_ReadDoneCallback` reads the named
+callback field instead of casting a negative-index integer slot. The
+ASM-backed progress callback is declared with its actual callback ABI;
+`GD_disk_kind` accepts those arguments and explicitly retains the original
+low-byte conversion of the event. Full main and all 191 overlay SHA checks
+pass, without new pins or barriers.
+
+Removing each existing DS read-control barrier was also tested: the ready
+helper drops to 70.75%, initialization to 98.181816%, and break to 99.8%.
+They remain in production pending scheduling/source reconstruction.

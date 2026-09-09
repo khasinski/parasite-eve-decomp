@@ -1,8 +1,4 @@
-
-
-#include "include_asm.h"
-void CdRom_ReadProgressCallback(void);
-void CdRom_InitAsyncRead(void (*arg0)(void), int arg1);
+#include "pe1/psyq_cd.h"
 
 void CdRom_SetMode2Callback(unsigned char arg0) {
     if (arg0 == 2) {

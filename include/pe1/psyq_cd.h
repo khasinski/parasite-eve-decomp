@@ -213,11 +213,15 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadCallbackSlot, command) == 0x04,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadCallbackSlot, payload) == 0x05,
                   ds_read_callback_slot_payload_offset);
 
+typedef void (*DsAsyncReadCallback)(int status, void *data, void *detail);
+int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg);
+void CdRom_ReadProgressCallback(int status, void *data, void *detail);
+
 typedef struct DsAsyncReadState {
     /* g_DsReadBusy names the final active field at offset 0x20. */
     int result;
     int reserved04;
-    int callback;
+    DsAsyncReadCallback callback;
     int reserved0C;
     int callback_arg;
     DsEventCallback saved_sync_callback;
