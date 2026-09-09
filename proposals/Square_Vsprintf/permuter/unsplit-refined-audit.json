@@ -1,0 +1,25 @@
+{
+  "run": "darwine:/home/hasik/sprintf-permuter-20260909/unsplit-refined",
+  "compiler": "stock GCC281; -mno-split-addresses -fno-strength-reduce -fno-force-mem; stock MASPSX",
+  "retained_candidate_changed": false,
+  "results": [
+    {
+      "output": "output-235-1",
+      "source_sha256": "3c69200d218bcbe6a12a0e897e658754a01e89e6196bb5f758f1e0e5055aa4df",
+      "objdiff_match_percent": 99.30826,
+      "verification": "emulator error: unaligned read for before:%u:after with argument 0; rejected"
+    },
+    {
+      "output": "output-255-1",
+      "source_sha256": "41e54f174c8c820fe753ecdd68291b72fa2f5143d510a158fa5dfe5e678a38ab",
+      "objdiff_match_percent": 99.26972,
+      "verification": "output mismatch at case 832: before:%x:after with argument 0 emits NUL instead of digit 0; rejected"
+    },
+    {
+      "output": "output-255-2",
+      "source_sha256": "ad0797de78c932a86a5972b4898e006ac1c8c43286750e669a89bcc99eb57e0e",
+      "objdiff_match_percent": 99.27156,
+      "verification": "output mismatch at case 4: before:%d:after with argument 0 emits NUL instead of digit 0; rejected"
+    }
+  ]
+}

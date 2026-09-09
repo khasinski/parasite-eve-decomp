@@ -71,3 +71,13 @@ source-pointer barriers around the hexadecimal prefix stores. None improved
 99.500916%; no such constraints were retained. The remaining diff includes
 uppercase table-address scheduling and prefix pointer/store instructions,
 plus jump-table symbol differences that require linked-byte validation.
+
+## Refined run audit, 2026-09-10
+
+The existing unsplit-refined process was confirmed live at approximately
+92,899 iterations. Three newly saved outputs were compiled locally with the
+same stock flags and tested against retail. Output 255-1 fails hexadecimal
+zero formatting; 255-2 fails decimal zero formatting; 235-1 raises an unaligned
+read emulator error on unsigned zero formatting. None is accepted. Source
+SHA-256 hashes, independent objdiff scores and outcomes are recorded in
+unsplit-refined-audit.json. The maintained 99.500916% candidate is unchanged.
