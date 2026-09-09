@@ -156,6 +156,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xBDF28..0xBE50C` | `engine/FieldAnim_WideBurstSetup` | The wider burst effect combines its state initialization, registration and dispatch helpers, coordinate extraction, and randomized window setup in a 0x5E4-byte TU. Its state callback uses the shared byte-buffer ABI and links retail-identically. |
 | `0xBE50C..0xBE884` | `engine/FieldAnim_WideBurstMotion` | Render setup and the completion, wide-window movement, and randomized-drift callbacks of the wider burst effect share a 0x378-byte TU and link retail-identically. |
 | `0xBE884..0xBEC9C` | `engine/FieldAnim_SparkEffect` | A spark effect unifies its state initialization, registration and dispatch, randomized coordinates, render setup, and lifecycle callbacks in a 0x418-byte TU. The state-reset callback uses its shared character-buffer ABI and links retail-identically. |
+| `0xBECF8..0xBEE10` | `engine/FieldAnim_TaskListSetup` | Three table-list construction helpers share a 0x118-byte TU: lookup of configured values plus initialization of standalone and parent-backed task lists. It links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
