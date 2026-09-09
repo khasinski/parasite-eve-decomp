@@ -23,3 +23,10 @@ ItemDataRecord *Item_LookupBaseData(unsigned int index)
     endPtr = (int *)((char *)endPtr - 0x10);
     return (ItemDataRecord *)(base + (offset + (int)endPtr));
 }
+
+
+extern int g_StatGrowthTable[];
+
+int Stat_GetGrowthTable(int arg0) {
+    return g_StatGrowthTable[0] + (int)((char *)g_StatGrowthTable - 0x10) + (arg0 << 9);
+}
