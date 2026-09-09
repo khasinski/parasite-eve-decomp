@@ -12,7 +12,6 @@ void *memmove(void *dst, const void *src, int len) {
                 out[count] = in[count];
             } while (count-- > 0);
         }
-        goto done;
     } else {
         test = count;
         count--;
@@ -23,7 +22,6 @@ void *memmove(void *dst, const void *src, int len) {
         }
     }
 
-done:
     ret = out;
     asm volatile("" : "=r"(ret) : "0"(ret));
     return ret;

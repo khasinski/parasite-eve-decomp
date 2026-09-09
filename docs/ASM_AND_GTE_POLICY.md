@@ -1064,3 +1064,32 @@ The existing `gte_mvmva` comment incorrectly described opcode 0x4A486012
 as SF=0. Its bit 19 is set, so the comment now says SF=1 (12-bit fraction).
 This follows the [PSX-SPX command encoding](https://psx-spx.consoledev.net/geometrytransformationenginegte/#gte-command-encoding-cop2-imm25-opcodes).
 Only the description changed; the opcode and hazard slots are untouched.
+
+## memmove control flow
+
+The backward-copy arm now falls through the existing if/else join instead
+of using a redundant goto/label. The complete object retains 100% upstream
+objdiff. Tests removing the count pin, temporary-test pin, and return barrier,
+individually and in combinations, did not match. The copy directions and
+existing forward-path return value are unchanged.
+
+## Matrix object boundary evidence
+
+The local SDK archive `LIBGTE.LIB` extracted under `/tmp/psyq46b/LIB`
+contains separate MTX_09, MTX_10 and MTX_11 objects exporting SetRotMatrix,
+SetLightMatrix and SetColorMatrix. Each contains 48 text bytes, all identical
+to its corresponding expected retail object, with no relocations in those
+instruction sequences. This confirms the three object boundaries rather
+than supporting consolidation into an invented common matrix TU.
+
+The archive SHA-256 is `9f5b43f234c3037acf38180c8e8c85e778e442f3a216b87b07a8f99fbcffcdf3`.
+The respective text SHA-256 values are:
+
+- MTX_09: `095799477a23b46afa40d99dc027e7ef467cd14b8e135234d7e5b5c9ebc07883`
+- MTX_10: `b9ce521ecd6cadeda48a0828b73f9b37d260c4f83e4d3b099334608f9e8fe598`
+- MTX_11: `32169d0ce375b3a1a24a5beadfd11cd857ce0a89d610ddf3a1f3855fa6ed34f6`
+
+`psyk list -c` exposes section, export and code records but no source filename
+or language for these members. Neither the matching bytes nor the object
+names prove original handwritten assembly. Their classification is unchanged;
+no new exemption from decompilation is inferred from this evidence.
