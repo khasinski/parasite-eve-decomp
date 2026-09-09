@@ -148,6 +148,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x79664..0x7976C` | `akao/Akao_SpuStereoVoice` | Stereo-slot copy and restoration are complementary operations on the same `AkaoTrack` and voice-state table. Their complete 0x1A8-byte object is retail-identical. |
 | `0x7C98C..0x7CA90` | `akao/Akao_GlobalSlideAndVoices` | Global parameter slides share the `--expand-div` profile with primary/secondary voice initialization and active-voice shutdown. Their complete 0x3D0-byte object is retail-identical. |
 | `0x7B694..0x7B708` | `akao/Akao_PlaybackBank` |
+| `0x93C8..0x9A60` | `task/Task_SystemCommandOps` | Object-entry, collision-table, geometry, CD, camera, fog, and movement setters are consecutive field-script VM handlers; their complete 0x414-byte object is retail-identical. |
 | `0x8454..0x855C` | `task/Task_RenderAndBattleState` | Fog, scroll reset, battle-state, and entity render-value handlers are consecutive field-script commands for the render/battle transition state; their complete 0x108-byte object is retail-identical. |
 | `0x7B5C..0x7C44` | `task/Task_EntityCommandOps` | Spawn-at-position, value assignment, and animation-stop are consecutive field-script command handlers sharing the command-argument ABI and completion status; their complete 0xE8-byte object is retail-identical. |
 | `0x7B39C..0x7B440` | `akao/Akao_VoiceMaskPropagation` | The current-bank and global-bank paths apply the same pending-voice mask to `AkaoTrack::update_flags`; their complete 0xA4-byte object is retail-identical. |
