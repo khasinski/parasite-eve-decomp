@@ -1491,3 +1491,19 @@ Collapsing the enable branch to a similar combined expression is nonmatching
 (99.023254%), so its current ordinary temporaries remain. Full main and all
 191 overlay SHA checks and source/debt gates pass. No toolchain change was
 needed beyond the already selected stock profile.
+
+## DMA setter barrier scope (2026-09-09)
+
+The two exit constraints in `setIntrDMA` now name only `*dmaReg` as a memory
+input instead of clobbering all memory. Each follows the volatile DMA control
+store and preserves that store's order before the return sequence. Empty
+assembly emits no additional register read or instruction. Both functions
+retain 100% object agreement; full main, 191 overlay SHA checks and source
+gates pass. These two barriers remain visible in the debt inventory.
+
+A shared pinned return variable and using the callback parameter directly
+were also tried; both change the register/return sequence. For `v_wait`,
+using the actual first parameter and symbolic timeout text yields a 95.76316%
+pure-C candidate under GCC 2.7.2: the address expansion leaves an extra call
+delay-slot nop. A local replacement for its global register variable still
+changes ADDIU to ORI. No production change was accepted for those trials.

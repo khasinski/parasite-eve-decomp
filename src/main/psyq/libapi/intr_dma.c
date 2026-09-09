@@ -32,7 +32,7 @@ DmaInterruptCallback setIntrDMA(int channel, DmaInterruptCallback callback) {
             tmp |= bitSet;
             maskSet |= tmp;
             *dmaReg = maskSet;
-            asm volatile("" : : : "memory");
+            asm volatile("" : : "m"(*dmaReg));
             ret = old;
             return ret;
         } else {
@@ -48,7 +48,7 @@ DmaInterruptCallback setIntrDMA(int channel, DmaInterruptCallback callback) {
             tmp = ~(1U << (channel + 0x10));
             maskClear &= tmp;
             *dmaReg = maskClear;
-            asm volatile("" : : : "memory");
+            asm volatile("" : : "m"(*dmaReg));
             ret = old;
             return ret;
         }
