@@ -90,8 +90,8 @@ static const char file_entry_format[] __asm__("D_8001201C")
 static const char file_count_format[] __asm__("D_80012038")
     __attribute__((aligned(4))) = "DS_cachefile: %d files found\n";
 
-static int ds_read(int count, int sector, int destination);
-CdlLOC *CdIntToPos(int sector, CdlLOC *position);
+static int ds_read(int count, int sector, void *destination);
+CdlLOC *DsIntToPos(int sector, CdlLOC *position) __asm__("CdIntToPos");
 void *memcpy(void *destination, const void *source, unsigned int size);
 int strncmp(const char *left, const char *right, unsigned int size);
 int strcmp(const char *left, const char *right);
@@ -99,9 +99,10 @@ int printf(const char *format, ...);
 int puts(const char *text);
 
 static int cached_media_state __asm__("D_8009B6E0") = 0;
-int CdRom_GetDiskType(void);
-int CdRom_StartRead(CdlLOC *position, int count, int destination, int mode);
-int Sys_VSyncTimeout(int argument);
+int DsShellOpen(void) __asm__("CdRom_GetDiskType");
+int DsRead(CdlLOC *position, int count, u32 *destination, int mode)
+    __asm__("CdRom_StartRead");
+int DsReadSync(u_char *result) __asm__("Sys_VSyncTimeout");
 static int DS_newmedia(void);
 static int DS_searchdir(int parent, char *name);
 static int DS_cachefile(int directory);
@@ -116,9 +117,9 @@ DslFILE *DsSearchFile(DslFILE *out, char *name) {
     int depth, directory;
     u_int not_found;
     DslFILE *entry;
-    if (cached_media_state < CdRom_GetDiskType()) {
+    if (cached_media_state < DsShellOpen()) {
         if (!DS_newmedia()) return 0;
-        cached_media_state = CdRom_GetDiskType();
+        cached_media_state = DsShellOpen();
     }
     first_character = *(signed char *)name;
     component_start = (signed char *)component;
@@ -175,7 +176,7 @@ static int DS_newmedia(void) {
     int read_status;
     IsoPathRecord *record;
 
-    read_status = ds_read(1, 16, (int)sector_buffer);
+    read_status = ds_read(1, 16, sector_buffer);
     if (read_status != 1) {
         if (D_8009AFC0 > 0) puts(volume_read_error);
         return 0;
@@ -186,7 +187,7 @@ static int DS_newmedia(void) {
         return 0;
     }
     memcpy(&sector, ((IsoVolumePathTable *)sector_buffer)->pathTableSectorLE, 4);
-    if (ds_read(1, sector, (int)sector_buffer) != read_status) {
+    if (ds_read(1, sector, sector_buffer) != read_status) {
         if (D_8009AFC0 > 0) printf(path_table_read_error, sector);
         return 0;
     }
@@ -233,7 +234,7 @@ static int DS_cachefile(int directory) {
 
     if (directory == cached_directory) return 1;
     if (ds_read(1, (directory_cache + directory)[-1].sector,
-                (int)sector_buffer) != 1) {
+                sector_buffer) != 1) {
         if (D_8009AFC0 > 0) puts(directory_read_error);
         return -1;
     }
@@ -242,7 +243,7 @@ static int DS_cachefile(int directory) {
     for (count = 0; (u8 *)cursor < sector_buffer + 2048;) {
         if (cursor->recordLength == 0) break;
         memcpy(&sector, cursor->sectorLE, 4);
-        CdIntToPos(sector, &file_cache[count].pos);
+        DsIntToPos(sector, &file_cache[count].pos);
         memcpy(&file_cache[count].size, cursor->sizeLE, 4);
         switch (count) {
         case 0:
@@ -268,14 +269,14 @@ static int DS_cachefile(int directory) {
     return 1;
 }
 
-static int ds_read(int count, int sector, int destination) {
+static int ds_read(int count, int sector, void *destination) {
     CdlLOC position;
     int status;
 
-    CdIntToPos(sector, &position);
-    CdRom_StartRead(&position, count, destination, 0x80);
+    DsIntToPos(sector, &position);
+    DsRead(&position, count, destination, 0x80);
     do {
-        status = Sys_VSyncTimeout(0);
+        status = DsReadSync(0);
     } while (status > 0);
 
     return status == 0;

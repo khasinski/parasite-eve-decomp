@@ -76,7 +76,8 @@ with `psyk extract LIBDS.LIB` in a temporary directory.
 ## Confirmed historical API aliases
 
 The SDK object's external relocations establish these names for the current
-retail symbols. Production renaming and signature cleanup are still pending.
+retail symbols. The candidate uses these SDK names with aliases to the current linker symbols;
+production renaming and shared signature cleanup are still pending.
 
 | Current symbol | SDK import |
 | --- | --- |
@@ -117,3 +118,18 @@ DS_newmedia 88.830505%, DS_cachefile 95.149704%, DS_searchdir 95.12195%.
 It reproduces the unaligned-copy temporary registers better, but is not a
 matching replacement for the complete TU. The candidate retains GCC 2.8.1;
 selecting a different compiler for each helper would fragment this proven TU.
+
+## Read API types
+
+The candidate's `ds_read` accepts a `void *` buffer, `DsRead` accepts a
+32-bit-word buffer pointer, and `DsReadSync` accepts a byte-result pointer.
+These replace the former integer-address parameters and casts, following
+LIBDS.H and the DSFILE object's verified imports. `DsShellOpen` and
+`DsIntToPos` also use their recovered SDK names. Symbol aliases retain the
+current retail linker names until the production API is renamed together
+with its callers. `u32 *` expresses the PSX SDK's 32-bit `u_long *` buffer
+without depending on the host's `unsigned long` width.
+
+The type/name cleanup preserves every text byte and all 171 text relocations.
+Both behavioral suites (1027 cases) pass, and host syntax checking with
+`-fno-builtin -Werror` now passes without pointer-to-integer warnings.
