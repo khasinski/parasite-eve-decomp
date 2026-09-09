@@ -600,7 +600,6 @@ segments:
       - [0x3FB0C, c, menu/Menu_HandleAyaInventorySelectionInput]
       - [0x3FC48, c, menu/menu21]
       - [0x3FC90, c, menu/Menu_CreateItemUsePanel]
-      - [0x3FE44, c, menu/Menu_DrawEquipStatsPanel]
       - [0x3FF30, c, menu/menu22]
       - [0x3FFD8, c, menu/menu23]
       # The item, selectable-slot, and context-action renderers share one
