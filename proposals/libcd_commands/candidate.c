@@ -5,3 +5,5 @@
 #include "../CD_sync/candidate.c"
 #include "../CD_ready/candidate.c"
 #include "../CD_cw/candidate.c"
+#include "../../src/main/psyq/libcd/CD_vol.c"
+#include "../../src/main/psyq/libcd/CD_flush.c"

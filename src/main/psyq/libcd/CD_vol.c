@@ -1,10 +1,6 @@
 #include "common.h"
 #include "pe1/psyq_cd.h"
 
-extern u8 *g_CdRegIndexBase;
-extern u8 *g_CdRegPort1;
-extern u8 *g_CdRegDataWrite;
-extern u8 *g_CdRegResponse;
 
 int CD_vol(CdlATV *vol) {
     *g_CdRegIndexBase = 2;

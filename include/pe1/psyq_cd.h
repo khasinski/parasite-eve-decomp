@@ -20,6 +20,14 @@ typedef struct CdInterruptEvents {
 
 extern CdInterruptEvents D_8009B294;
 
+/* Shared LIBCD hardware pointers: byte-wide indexed ports and word control. */
+extern volatile u8 *g_CdRegIndexBase;
+extern volatile u8 *g_CdRegPort1;
+extern volatile u8 *g_CdRegDataWrite;
+extern volatile u8 *g_CdRegResponse;
+/* DMA code adds volatile through its access pointer; CD_flush writes once. */
+extern u32 *g_CdRegRequest;
+
 typedef struct CdCallbackDataPage {
     char reserved00[4];
     CdlCB sync;

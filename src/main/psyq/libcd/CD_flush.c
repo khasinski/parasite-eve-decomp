@@ -1,8 +1,4 @@
 #include "pe1/psyq_cd.h"
-extern volatile u8 *g_CdRegIndexBase;
-extern volatile u8 *g_CdRegDataWrite;
-extern volatile u8 *g_CdRegResponse;
-extern s32 *g_CdRegRequest;
 
 void CD_flush(void) {
     register CdInterruptEvents *state asm("$3");

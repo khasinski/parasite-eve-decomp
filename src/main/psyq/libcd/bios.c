@@ -3,10 +3,6 @@
 #include "pe1/psyq_cd.h"
 /* CC1_FLAGS: -fno-schedule-insns -fno-schedule-insns2 */
 
-extern u8 *g_CdRegIndexBase;
-extern u8 *g_CdRegPort1;
-extern u8 *g_CdRegDataWrite;
-extern u8 *g_CdRegResponse;
 extern u16 *volatile D_8009B290;
 extern void Cd_SetIntrMask(void);
 extern int g_CdResultByte;
@@ -18,7 +14,7 @@ typedef struct CdInitVolFrame {
 
 register CdInitVolFrame *g_CdInitVolFrame asm("$29");
 register int g_CdInitVolValue asm("$2");
-register void *g_CdInitVolIo asm("$3");
+register volatile void *g_CdInitVolIo asm("$3");
 register CdCallbackDataPage *g_CdInitCallbackPage asm("$1");
 
 int CD_initvol(void) {
@@ -54,26 +50,26 @@ store_common:
     g_CdInitVolValue = 2;
     g_CdInitVolFrame->packet[3] = 0;
     g_CdInitVolFrame->packet[1] = 0;
-    *(u8 *)g_CdInitVolIo = g_CdInitVolValue;
+    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
 
     g_CdInitVolIo = g_CdRegDataWrite;
     g_CdInitVolValue = g_CdInitVolFrame->packet[0];
-    *(u8 *)g_CdInitVolIo = g_CdInitVolValue;
+    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
     g_CdInitVolIo = g_CdRegResponse;
     g_CdInitVolValue = g_CdInitVolFrame->packet[1];
-    *(u8 *)g_CdInitVolIo = g_CdInitVolValue;
+    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
     g_CdInitVolIo = g_CdRegIndexBase;
     g_CdInitVolValue = 3;
-    *(u8 *)g_CdInitVolIo = g_CdInitVolValue;
+    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
     g_CdInitVolIo = g_CdRegPort1;
     g_CdInitVolValue = g_CdInitVolFrame->packet[2];
-    *(u8 *)g_CdInitVolIo = g_CdInitVolValue;
+    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
     g_CdInitVolIo = g_CdRegDataWrite;
     g_CdInitVolValue = g_CdInitVolFrame->packet[3];
-    *(u8 *)g_CdInitVolIo = g_CdInitVolValue;
+    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
     g_CdInitVolIo = g_CdRegResponse;
     g_CdInitVolValue = 0x20;
-    *(u8 *)g_CdInitVolIo = g_CdInitVolValue;
+    *(volatile u8 *)g_CdInitVolIo = g_CdInitVolValue;
 
     g_CdInitVolValue = 0;
     g_CdInitVolFrame++;

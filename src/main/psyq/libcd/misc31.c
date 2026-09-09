@@ -1,8 +1,5 @@
-#include "common.h"
+#include "pe1/psyq_cd.h"
 
-extern volatile u8 *g_CdRegIndexBase;
-extern volatile u8 *g_CdRegResponse;
-extern volatile u32 *g_CdRegRequest;
 extern volatile u32 *D_8009B2B0;
 extern volatile u32 *D_8009B2B4;
 extern volatile u32 *D_8009B2B8;
