@@ -3,6 +3,8 @@
 int g_MenuActiveWidget;
 
 void Menu_DrawSaveSlot1Item(void);
+void Menu_DrawSaveSlot2Item(int arg0);
+void Menu_DrawSaveSlot3Item(int arg0);
 void MenuWidget_DrawList(int arg0, void (*callback)(void));
 void MenuWidget_GetCurrentNode(void);
 void Draw_SetTextDimmed(int arg0);
@@ -18,5 +20,21 @@ void Menu_DrawMemCardSlot1List(int arg0) {
     Draw_OffsetCursor(0, 0x10);
     Draw_AllocSprite(0x68);
     Draw_OffsetCursor(0, 0x10);
+    Draw_AllocSprite(0x68);
+}
+
+void Menu_DrawMemCardSlot2List(int arg0) {
+    g_MenuActiveWidget = arg0;
+    MenuWidget_DrawList(arg0, Menu_DrawSaveSlot2Item);
+    Draw_SetTextDimmed(1);
+    Draw_AllocSprite(0x68);
+    Draw_OffsetCursor(0, 0x10);
+    Draw_AllocSprite(0x68);
+}
+
+void Menu_DrawMemCardSlot3List(int arg0) {
+    g_MenuActiveWidget = arg0;
+    MenuWidget_DrawList(arg0, Menu_DrawSaveSlot3Item);
+    Draw_SetTextDimmed(1);
     Draw_AllocSprite(0x68);
 }
