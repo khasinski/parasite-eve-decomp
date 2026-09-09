@@ -6,7 +6,6 @@
 extern CdQueuedCmdSlot D_800A3520;
 extern CdQueuedCmdSlot D_800A3530;
 
-void CdRom_SendReadyCommand(int result);
 void Util_Copy8(u8 *destination, u8 *source);
 
 int CdRom_SendQueuedCmd(u8 *destination) {

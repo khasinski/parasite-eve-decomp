@@ -4,8 +4,6 @@ extern void CD_flush(void);
 extern char func_800119CC[];
 extern char *g_CdCmdNameTable[];
 extern char *g_CdIntrStringTable[];
-extern int CD_sync(void);
-extern void CD_ready(void);
 
 register CdCallbackDataPage *g_CdCallbackWritePage asm("$1");
 
@@ -36,12 +34,12 @@ char *CdIntstr(unsigned int index) {
     return g_CdIntrStringTable[index];
 }
 
-void CdSync(void) {
-    CD_sync();
+int CdSync(int mode, u8 *result) {
+    return CD_sync(mode, result);
 }
 
-void CdReady(void) {
-    CD_ready();
+int CdReady(int mode, u8 *result) {
+    return CD_ready(mode, result);
 }
 
 CdlCB CdSyncCallback(CdlCB callback) {
