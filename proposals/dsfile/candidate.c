@@ -45,14 +45,50 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(IsoDirectoryRecord, sizeLE) == 10,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(IsoDirectoryRecord, name) == 33,
                   iso_directory_name_offset);
 
-extern u8 D_800A52B0[2048];
-extern int D_8009B6DC;
+static DslFILE file_cache[DSL_MAX_FILE] __asm__("D_800A36B0");
+static DslDirectoryCacheEntry directory_cache[DSL_MAX_DIR] __asm__("D_800A3CB0");
+static u8 sector_buffer[2048] __asm__("D_800A52B0");
+static int cached_directory __asm__("D_8009B6DC") = 0;
 extern int D_8009AFC0;
-extern char D_80011EF8[], D_80011F24[], D_80011F2C[], D_80011F5C[];
-extern char D_80011F80[], D_80011FA0[], D_80011FB4[], D_80011FD8[];
-extern char D_80011FF8[], D_8001201C[], D_80012038[];
-extern char D_80012014[2] __attribute__((aligned(2)));
-extern char D_80012018[3] __attribute__((aligned(2)));
+
+static const char path_level_error[] __asm__("D_80011E6C")
+    __attribute__((aligned(4))) = "%s: path level (%d) error\n";
+static const char directory_not_found[] __asm__("D_80011E88")
+    __attribute__((aligned(4))) = "%s: dir was not found\n";
+static const char search_disc_error[] __asm__("D_80011EA0")
+    __attribute__((aligned(4))) = "DsSearchFile: disc error\n";
+static const char search_progress[] __asm__("D_80011EBC")
+    __attribute__((aligned(4))) = "DsSearchFile: searching %s...\n";
+static const char search_found[] __asm__("D_80011EDC")
+    __attribute__((aligned(4))) = "%s:  found\n";
+static const char search_not_found[] __asm__("D_80011EE8")
+    __attribute__((aligned(4))) = "%s: not found\n";
+static const char volume_read_error[] __asm__("D_80011EF8")
+    __attribute__((aligned(4))) = "DS_newmedia: Read error in ds_read(PVD)\n";
+static const char volume_signature[] __asm__("D_80011F24")
+    __attribute__((aligned(4))) = "CD001";
+static const char volume_format_error[] __asm__("D_80011F2C")
+    __attribute__((aligned(4))) = "DS_newmedia: Disc format error in ds_read(PVD)\n";
+static const char path_table_read_error[] __asm__("D_80011F5C")
+    __attribute__((aligned(4))) = "DS_newmedia: Read error (PT:%08x)\n";
+static const char directory_progress[] __asm__("D_80011F80")
+    __attribute__((aligned(4))) = "DS_newmedia: sarching dir..\n";
+static const char directory_entry_format[] __asm__("D_80011FA0")
+    __attribute__((aligned(4))) = "\t%08x,%04x,%04x,%s\n";
+static const char directory_count_format[] __asm__("D_80011FB4")
+    __attribute__((aligned(4))) = "DS_newmedia: %d dir entries found\n";
+static const char directory_read_error[] __asm__("D_80011FD8")
+    __attribute__((aligned(4))) = "DS_cachefile: dir not found\n";
+static const char file_progress[] __asm__("D_80011FF8")
+    __attribute__((aligned(4))) = "DS_cachefile: searching...\n";
+static const char current_directory_name[] __asm__("D_80012014")
+    __attribute__((aligned(4))) = ".";
+static const char parent_directory_name[] __asm__("D_80012018")
+    __attribute__((aligned(4))) = "..";
+static const char file_entry_format[] __asm__("D_8001201C")
+    __attribute__((aligned(4))) = "\t(%02x:%02x:%02x) %8d %s\n";
+static const char file_count_format[] __asm__("D_80012038")
+    __attribute__((aligned(4))) = "DS_cachefile: %d files found\n";
 
 static int ds_read(int count, int sector, int destination);
 CdlLOC *CdIntToPos(int sector, CdlLOC *position);
@@ -62,8 +98,7 @@ int strcmp(const char *left, const char *right);
 int printf(const char *format, ...);
 int puts(const char *text);
 
-extern int D_8009B6E0;
-extern char D_80011E6C[], D_80011E88[], D_80011EA0[], D_80011EBC[], D_80011EDC[], D_80011EE8[];
+static int cached_media_state __asm__("D_8009B6E0") = 0;
 int CdRom_GetDiskType(void);
 int CdRom_StartRead(CdlLOC *position, int count, int destination, int mode);
 int Sys_VSyncTimeout(int argument);
@@ -81,9 +116,9 @@ DslFILE *DsSearchFile(DslFILE *out, char *name) {
     int depth, directory;
     u_int not_found;
     DslFILE *entry;
-    if (D_8009B6E0 < CdRom_GetDiskType()) {
+    if (cached_media_state < CdRom_GetDiskType()) {
         if (!DS_newmedia()) return 0;
-        D_8009B6E0 = CdRom_GetDiskType();
+        cached_media_state = CdRom_GetDiskType();
     }
     first_character = *(signed char *)name;
     component_start = (signed char *)component;
@@ -102,28 +137,28 @@ DslFILE *DsSearchFile(DslFILE *out, char *name) {
         if (directory == not_found) { component[0] = 0; break; }
     }
     if (depth >= 8) {
-        if (D_8009AFC0 > 0) printf(D_80011E6C, name, depth);
+        if (D_8009AFC0 > 0) printf(path_level_error, name, depth);
         return 0;
     }
     if (!*component_start) {
-        if (D_8009AFC0 > 0) printf(D_80011E88, name);
+        if (D_8009AFC0 > 0) printf(directory_not_found, name);
         return 0;
     }
     *cursor = 0;
     if (!DS_cachefile(directory)) {
-        if (D_8009AFC0 > 0) puts(D_80011EA0);
+        if (D_8009AFC0 > 0) puts(search_disc_error);
         return 0;
     }
-    if (D_8009AFC0 > 1) printf(D_80011EBC, component);
-    for (depth = 0, entry = g_DslFileCache; depth < 64; depth++, entry++) {
-        if (!*(signed char *)g_DslFileCache[depth].name) break;
+    if (D_8009AFC0 > 1) printf(search_progress, component);
+    for (depth = 0, entry = file_cache; depth < 64; depth++, entry++) {
+        if (!*(signed char *)file_cache[depth].name) break;
         if (_cmp(entry->name, component)) {
-            if (D_8009AFC0 > 1) printf(D_80011EDC, component);
+            if (D_8009AFC0 > 1) printf(search_found, component);
             *out = *entry;
             return entry;
         }
     }
-    if (D_8009AFC0 > 0) printf(D_80011EE8, component);
+    if (D_8009AFC0 > 0) printf(search_not_found, component);
     return 0;
 }
 
@@ -140,28 +175,28 @@ static int DS_newmedia(void) {
     IsoPathRecord *record;
     DslDirectoryCacheEntry *entry;
 
-    read_status = ds_read(1, 16, (int)D_800A52B0);
+    read_status = ds_read(1, 16, (int)sector_buffer);
     if (read_status != 1) {
-        if (D_8009AFC0 > 0) puts(D_80011EF8);
+        if (D_8009AFC0 > 0) puts(volume_read_error);
         return 0;
     }
-    if (strncmp(((IsoVolumePathTable *)D_800A52B0)->identifier,
-                D_80011F24, 5) != 0) {
-        if (D_8009AFC0 > 0) puts(D_80011F2C);
+    if (strncmp(((IsoVolumePathTable *)sector_buffer)->identifier,
+                volume_signature, 5) != 0) {
+        if (D_8009AFC0 > 0) puts(volume_format_error);
         return 0;
     }
-    memcpy(&sector, ((IsoVolumePathTable *)D_800A52B0)->pathTableSectorLE, 4);
-    if (ds_read(1, sector, (int)D_800A52B0) != read_status) {
-        if (D_8009AFC0 > 0) printf(D_80011F5C, sector);
+    memcpy(&sector, ((IsoVolumePathTable *)sector_buffer)->pathTableSectorLE, 4);
+    if (ds_read(1, sector, (int)sector_buffer) != read_status) {
+        if (D_8009AFC0 > 0) printf(path_table_read_error, sector);
         return 0;
     }
-    if (D_8009AFC0 > 1) puts(D_80011F80);
-    cursor = D_800A52B0;
+    if (D_8009AFC0 > 1) puts(directory_progress);
+    cursor = sector_buffer;
     end = cursor + 2048;
     for (count = 0; cursor < end; count++) {
         record = (IsoPathRecord *)cursor;
         if (record->nameLength == 0) break;
-        entry = &g_DslDirectoryCache[count];
+        entry = &directory_cache[count];
         memcpy(&entry->sector, record->sectorLE, 4);
         entry->directoryId = count + 1;
         entry->parentDirectoryId = record->parentDirectoryLE[0];
@@ -169,22 +204,22 @@ static int DS_newmedia(void) {
         entry->name[record->nameLength] = 0;
         cursor += record->nameLength + 8 + (record->nameLength & 1);
         if (D_8009AFC0 > 1)
-            printf(D_80011FA0, entry->sector, entry->directoryId,
+            printf(directory_entry_format, entry->sector, entry->directoryId,
                    entry->parentDirectoryId, entry->name);
         if (count + 1 == DSL_MAX_DIR) { count++; break; }
     }
-    if (count < DSL_MAX_DIR) g_DslDirectoryCache[count].parentDirectoryId = 0;
-    D_8009B6DC = 0;
-    if (D_8009AFC0 > 1) printf(D_80011FB4, count);
+    if (count < DSL_MAX_DIR) directory_cache[count].parentDirectoryId = 0;
+    cached_directory = 0;
+    if (D_8009AFC0 > 1) printf(directory_count_format, count);
     return 1;
 }
 
 static int DS_searchdir(int parent, char *name) {
     int i;
     for (i = 0; i < DSL_MAX_DIR; i++) {
-        if (!g_DslDirectoryCache[i].parentDirectoryId) break;
-        if (g_DslDirectoryCache[i].parentDirectoryId == parent &&
-            strcmp(name, g_DslDirectoryCache[i].name) == 0)
+        if (!directory_cache[i].parentDirectoryId) break;
+        if (directory_cache[i].parentDirectoryId == parent &&
+            strcmp(name, directory_cache[i].name) == 0)
             return i + 1;
     }
     return -1;
@@ -197,38 +232,38 @@ static int DS_cachefile(int directory) {
     IsoDirectoryRecord *record;
     DslFILE *entry;
 
-    if (D_8009B6DC == directory) return 1;
-    if (ds_read(1, g_DslDirectoryCache[directory - 1].sector,
-                (int)D_800A52B0) != 1) {
-        if (D_8009AFC0 > 0) puts(D_80011FD8);
+    if (cached_directory == directory) return 1;
+    if (ds_read(1, directory_cache[directory - 1].sector,
+                (int)sector_buffer) != 1) {
+        if (D_8009AFC0 > 0) puts(directory_read_error);
         return -1;
     }
-    if (D_8009AFC0 > 1) puts(D_80011FF8);
-    cursor = D_800A52B0;
-    for (count = 0; cursor < D_800A52B0 + 2048; count++) {
+    if (D_8009AFC0 > 1) puts(file_progress);
+    cursor = sector_buffer;
+    for (count = 0; cursor < sector_buffer + 2048; count++) {
         record = (IsoDirectoryRecord *)cursor;
         if (record->recordLength == 0) break;
-        entry = &g_DslFileCache[count];
+        entry = &file_cache[count];
         memcpy(&sector, record->sectorLE, 4);
         CdIntToPos(sector, &entry->pos);
         memcpy(&entry->size, record->sizeLE, 4);
         if (count == 0) {
-            memcpy(entry->name, D_80012014, 2);
+            memcpy(entry->name, current_directory_name, 2);
         } else if (count == 1) {
-            memcpy(entry->name, D_80012018, 3);
+            memcpy(entry->name, parent_directory_name, 3);
         } else {
             memcpy(entry->name, record->name, record->nameLength);
             entry->name[record->nameLength] = 0;
         }
         if (D_8009AFC0 > 1)
-            printf(D_8001201C, entry->pos.minute, entry->pos.second,
+            printf(file_entry_format, entry->pos.minute, entry->pos.second,
                    entry->pos.sector, entry->size, entry->name);
         cursor += record->recordLength;
         if (count + 1 == DSL_MAX_FILE) { count++; break; }
     }
-    D_8009B6DC = directory;
-    if (count < DSL_MAX_FILE) g_DslFileCache[count].name[0] = 0;
-    if (D_8009AFC0 > 1) printf(D_80012038, count);
+    cached_directory = directory;
+    if (count < DSL_MAX_FILE) file_cache[count].name[0] = 0;
+    if (D_8009AFC0 > 1) printf(file_count_format, count);
     return 1;
 }
 

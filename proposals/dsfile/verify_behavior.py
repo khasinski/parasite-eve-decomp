@@ -23,7 +23,7 @@ undefined = subprocess.check_output(['mipsel-none-elf-nm', '-u', str(OBJECT)], t
 def symbol(name):
     return int(name[2:], 16) if name.startswith('D_') else SYMS[name]
 script = '\n'.join(f'{name} = {symbol(name):#x};' for name in undefined)
-script += '\nSECTIONS { .text 0x80081414 : { *(.text) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }'
+script += '\nSECTIONS { .rodata 0x80011E6C : { *(.rodata) } .text 0x80081414 : { *(.text) } .data 0x8009B6DC : { *(.data) } .bss 0x800A36B0 (NOLOAD) : { *(.bss) *(COMMON) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }'
 link_script = Path(WORK.name) / 'candidate.ld'
 linked = Path(WORK.name) / 'candidate.elf'
 link_script.write_text(script)
@@ -32,6 +32,14 @@ with linked.open('rb') as stream:
     elf = ELFFile(stream)
     PATCHES = [(s['sh_addr'], s.data()) for s in elf.iter_sections() if s['sh_flags'] & 2 and s['sh_size']]
     ENTRIES = {s.name: s['st_value'] for s in elf.get_section_by_name('.symtab').iter_symbols()}
+    for name, address in ENTRIES.items():
+        if name.startswith('D_'):
+            assert address == int(name[2:], 16), f'incorrect storage placement: {name}'
+    for section_name in ('.rodata', '.data'):
+        section = elf.get_section_by_name(section_name)
+        if section is not None and section['sh_size']:
+            offset = section['sh_addr'] - 0x8000F800
+            assert section.data() == EXE[offset:offset + section['sh_size']], section_name
 
 
 def path_table(count):

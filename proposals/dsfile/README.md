@@ -17,8 +17,16 @@ SDK object without changing the toolchain or input binaries.
 
 The object's 0x2400-byte BSS corresponds exactly to the contiguous storage
 for 64 file entries (0x600), 128 directory entries (0x1600) and one sector
-buffer (0x800). The candidate keeps the current linker-visible externs.
-Restoring C ownership of those storage definitions remains future work.
+buffer (0x800). The candidate now owns these three static arrays, the two
+initialized state words, and all 19 diagnostic/signature/name strings.
+Readable C names retain the retail linker names through symbol aliases.
+Every owned symbol's offset matches retail; the 490 emitted read-only bytes
+and eight initialized state bytes are byte-identical. Storage ownership does
+not change any of the six function match percentages below.
+
+The SDK sections have six additional trailing zero bytes in read-only data
+and eight in initialized data. These remain a layout question for promotion;
+the candidate does not invent unused fields or padding arrays to absorb them.
 
 | Function | TU offset | Retail bytes | Current match |
 | --- | ---: | ---: | ---: |
@@ -38,7 +46,8 @@ The standalone DsSearchFile source was consolidated here.
 
 `verify_behavior.py` compares the three cache helpers against verified retail
 MIPS using synthetic volume descriptors, path tables and directory sectors.
-All 259 cases agree on return values, both complete caches, the sector buffer,
+The checker places owned data at retail addresses and checks its symbols and
+initialized bytes before execution. All 259 cases agree on return values, both complete caches, the sector buffer,
 the cached-directory state and diagnostic/read-call traces. Cases include
 read failures, invalid volume identifiers, empty tables, root/parent names,
 cache hits, directory/file limits and diagnostic levels. `ds_read` is modeled

@@ -19,7 +19,7 @@ syms={n:int(a,16) for n,a in re.findall(r'^(\w+) = (0x[0-9A-Fa-f]+);',Path('conf
 undef=subprocess.check_output(['mipsel-none-elf-nm','-u',str(object_path)],text=True).split()
 names=undef[1::2]
 script='\n'.join(f'{n} = {syms.get(n,int(n[2:],16) if n.startswith("D_") else 0):#x};' for n in names)
-script+='\nSECTIONS { .text 0x80081414 : { *(.text) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }'
+script+='\nSECTIONS { .rodata 0x80011E6C : { *(.rodata) } .text 0x80081414 : { *(.text) } .data 0x8009B6DC : { *(.data) } .bss 0x800A36B0 (NOLOAD) : { *(.bss) *(COMMON) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }'
 Path(link_script).write_text(script)
 subprocess.run(['mipsel-none-elf-ld','-T',link_script,str(object_path),'-o',linked_object],check=True)
 with open(linked_object,'rb') as f:
