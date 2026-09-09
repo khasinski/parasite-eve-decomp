@@ -1,11 +1,10 @@
 #include "pe1/psyq_spu_internal.h"
 
-extern void EnterCriticalSection(void);
+extern int EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
-extern void CloseEvent(s32 event);
-extern void DisableEvent(s32 event);
+extern s32 CloseEvent(s32 event);
+extern s32 DisableEvent(s32 event);
 
-extern s32 D_8009B384;
 
 void SpuQuit(void) {
     if (_spu_isCalled == 1) {
@@ -27,8 +26,8 @@ void SpuQuit(void) {
             "sw $zero, %lo(D_8009B438)($1)\n"
             "\t.set\tmacro\n"
             "\t.set\treorder\n");
-        CloseEvent(D_8009B384);
-        DisableEvent(D_8009B384);
+        CloseEvent(_spu_EVdma);
+        DisableEvent(_spu_EVdma);
         ExitCriticalSection();
     }
 }
