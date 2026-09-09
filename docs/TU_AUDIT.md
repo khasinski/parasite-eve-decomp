@@ -75,7 +75,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Range | Candidate | Evidence and remaining work |
 | --- | --- | --- |
-| `0x62284..0x62B14` | `psyq/libc/Square_Vsprintf` | The candidate reconstructs the variadic formatter's 0x250-byte frame, format-spec template, flags, width/precision parser, and `d i u o p x X c s n` conversions. It must remain matching asm: compiled with the verified GCC 2.8.1 route, it emits 0x860 bytes of `.text` and a private 0xB4-byte switch table, while the 0x890-byte retail object dispatches through the existing global `jtbl_80011644` at `0x80011644`. Promotion requires both the original table ownership and the remaining compiler-shape differences to match. |
+| `0x62284..0x62B14` | `psyq/libc/Square_Vsprintf` | The candidate reconstructs the variadic formatter's 0x250-byte frame, format-spec template, flags, width/precision parser, and `d i u o p x X c s n` conversions. Its generated 45-entry, 0xB4-byte switch table has the exact retail case-to-target topology, establishing that `jtbl_80011644` belongs to this object. It must remain matching asm: GCC 2.8.1 yields the retail frame but 0x860 bytes of `.text` and different allocation; GCC 2.7.2 reproduces the format-copy allocation but has a 0x258-byte frame. Promotion requires reconciling that compiler shape. |
 
 ## Deferred room_m350 pairs
 
