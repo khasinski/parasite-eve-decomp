@@ -1,4 +1,4 @@
-#include "pe1/psyq_callbacks.h"
+#include "pe1/psyq_cd.h"
 void Render_ResetScene(int arg0, int arg1);
 void SpuInit(void);
 void InitGeom(void);
@@ -7,7 +7,6 @@ void SetGeomScreen(int h);
 void MemCard_InitManager(void);
 void Boot_InitMemCard(void);
 void CdRom_InitDsReadSystem(void);
-int CdRom_SetReadCallback(int callback);
 
 void InitSystem(void) {
     ResetCallback();

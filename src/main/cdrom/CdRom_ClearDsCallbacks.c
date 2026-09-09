@@ -6,8 +6,6 @@
 extern void CD_flush(void);
 extern void VSyncCallbacks(int, int);
 
-extern int g_CdSyncCallback;
-extern int g_CdReadyCallback;
 
 typedef struct CdRomSystemDataPage {
     CdRomSystemState state;

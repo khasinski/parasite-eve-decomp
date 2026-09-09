@@ -1588,3 +1588,26 @@ baseline explicitly records the additional pin rather than hiding it.
 Both functions match their previous SHA-verified instruction streams at
 100%, and the complete main executable retains its retail SHA-1.
 All 191 overlay SHA checks and source, organization and debt gates also pass.
+
+## LIBCD callback pointer types (2026-09-09)
+
+The shared header now defines the SDK `CdlCB` type, `void (*)(u_char, u_char *)`,
+and uses it for the sync, ready and read fields of `CdCallbackDataPage`, the
+sync field of `CdCallbackDataWindow`, and the corresponding globals.
+`CdReadCallback`, `CdSyncCallback`, `CdReadyCallback` and the internal read
+setter now accept and return function pointers. The command retry wrapper
+saves/restores a typed callback. Reset paths and C callers share these
+prototypes instead of local integer or void-return declarations.
+
+Psy-Q 4.6 LIBCD.H declares all three public setters with this signature.
+The retail interrupt dispatcher independently loads a byte event into a0
+and a result-buffer pointer into a1 before each sync/ready callback call.
+`CdRom_InitDsCallbacks` now declares its two handlers with their actual C
+signatures and registers them using explicit CdlCB conversions, replacing
+integer address casts. Their existing int event parameters remain: changing
+them to u_char alters the retail masking instructions (91.02128% and
+93.45946%). The conversions document this remaining PSX ABI boundary; they
+are not a claim of full ISO C function-type consistency at those two handlers.
+
+The main executable remains byte-identical, without new pins or barriers.
+All 191 overlay SHA checks and source, organization and debt gates pass.

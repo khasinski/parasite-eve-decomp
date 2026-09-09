@@ -7,15 +7,16 @@
 typedef unsigned char u_char;
 typedef unsigned short u_short;
 typedef unsigned int u_int;
+typedef void (*CdlCB)(u_char event, u_char *result);
 typedef void (*DsCallback)(void);
 typedef void (*DsEventCallback)(u_char event, u_char *result);
 
 typedef struct CdCallbackDataPage {
     char reserved00[4];
-    int sync;
-    int ready;
+    CdlCB sync;
+    CdlCB ready;
     int reserved0C;
-    int read;
+    CdlCB read;
     int status;
     char reserved18[0x5038];
 } CdCallbackDataPage;
@@ -257,7 +258,7 @@ extern int g_DsReadBusy;
     (DS_ASYNC_READ_STATE_FROM_ACTIVE(active_pointer)->field)
 
 typedef struct CdCallbackDataWindow {
-    int syncCallback;
+    CdlCB syncCallback;
     u_char pad_AFB8[0x5048];
 } CdCallbackDataWindow;
 
@@ -343,7 +344,15 @@ extern int g_CdStreamEndSector;
 
 /* Low-level LIBCD command retry wrapper and its shared command state. */
 extern u32 D_8009AF2C[];
-extern int D_8009AFB4;
+extern CdlCB D_8009AFB4;
+extern CdlCB D_8009AFB8;
+extern CdlCB g_CdSyncCallback;
+extern CdlCB g_CdReadyCallback;
+extern CdlCB g_CdReadCallback;
+CdlCB CdReadCallback(CdlCB callback);
+CdlCB CdSyncCallback(CdlCB callback);
+CdlCB CdReadyCallback(CdlCB callback);
+CdlCB CdRom_SetReadCallback(CdlCB callback);
 extern u8 D_8009AFC4;
 int CD_cw(int command, void *parameters, u8 *result, int mode);
 int func_8007A4D0(int command, void *parameters, u8 *result);

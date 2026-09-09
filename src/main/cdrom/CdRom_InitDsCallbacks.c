@@ -3,16 +3,14 @@
 extern volatile u32 g_DsPollCallback;
 extern volatile u32 g_DsSyncCallback;
 extern volatile u32 g_DsReadyCallback;
-extern u32 g_CdSyncCallback;
-extern u32 g_CdReadyCallback;
 extern u32 D_8009AFD8;
 
 void CD_init(void);
 void CD_initvol(void);
 void CdRom_InitCmdState(void);
 void CdRom_SetRetryMode(int mode);
-void Render_DrawParticleGroup(void);
-void CdRom_ReadyEventDispatch(void);
+void Render_DrawParticleGroup(int, void *);
+void CdRom_ReadyEventDispatch(int, u_char *);
 void Render_StepParticlePool(void);
 void VSyncCallbacks(int mode, void *callback);
 
@@ -36,8 +34,8 @@ void CdRom_InitDsCallbacks(void) {
         : "$31", "memory");
     CdRom_SetRetryMode(0);
 
-    g_CdSyncCallback = (u32)Render_DrawParticleGroup;
-    g_CdReadyCallback = (u32)CdRom_ReadyEventDispatch;
+    g_CdSyncCallback = (CdlCB)Render_DrawParticleGroup;
+    g_CdReadyCallback = (CdlCB)CdRom_ReadyEventDispatch;
     VSyncCallbacks(0, Render_StepParticlePool);
 
     D_8009AFD8 = 1;

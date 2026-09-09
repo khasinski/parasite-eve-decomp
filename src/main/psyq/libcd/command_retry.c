@@ -9,7 +9,7 @@ int func_8007A4D0(int cmd, void *param, u8 *extra) {
     register u8 *extra_reg;
     register int cmd_reg;
     register int cmd_byte;
-    register int saved asm("$21");
+    register CdlCB saved asm("$21");
     register u32 *slot;
     register int ret asm("$23");
     register int minus_one;
