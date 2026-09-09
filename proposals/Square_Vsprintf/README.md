@@ -168,3 +168,32 @@ claiming writes to unrelated memory. All three pins and six empty barriers
 were individually tested for removal again; each removal changes the output.
 The remote permuter's checked-in base inputs retain the earlier source as a
 stable starting point for the running experiment.
+
+## Refined address-splitting candidate (2026-09-09)
+
+`constrained_split_gcc281.c` improves the split-address profile from 98.79379%
+to **98.85949%**. An empty read/write constraint on the completed template
+pointer prevents reuse of its high-address temporary for the first field
+load. Pinning `digits` to a3, without a following barrier, also restores both
+digit-table address pairs. The uppercase address now finishes in the jump
+delay slot, exactly as in retail. The complete objdiff has only the switch
+dispatch window and the expected object's three trailing padding nops differing.
+
+The remaining executable window is:
+
+```text
+target                              candidate
+sll   v0, v1, 2                     lui   v0, %hi(table)
+lui   at, %hi(table)                 addiu v0, v0, %lo(table)
+addu  at, at, v0                     sll   v1, v1, 2
+lw    v0, %lo(table)(at)             addu  v1, v1, v0
+                                    lw    v0, 0(v1)
+```
+
+This candidate is an alternative search seed, not an improvement over the
+99.16058% unsplit candidate and not a matched production replacement. It uses
+four pins and seven empty constraints; further minimization follows an exact
+match. On darwine, `split-refined` uses this source with the preprocessor alias
+expanded and the existing split compiler wrapper. Its baseline permuter
+penalty is 325. A separate four-worker search runs alongside the original
+28-worker search, saving all unique improvements over its baseline.
