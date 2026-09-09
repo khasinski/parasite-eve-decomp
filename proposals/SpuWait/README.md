@@ -32,3 +32,28 @@ scheduler/CSE flags did not remove it. `_SpuInit` can use a typed backward
 pointer at 100%, but that source would form a pointer before the array on the
 last iteration; bounded-pointer and indexed-loop variants remain nonmatching
 and were not accepted.
+
+## Full TU reconstruction under GCC 2.8.1
+
+`register_write_gcc281.c` now gives 100% for six of seven functions in the
+shared unit: `_spu_FsetRXX`, `_spu_FgetRXXa`, `_spu_FsetPCR`, both delay-register
+setters and `_spu_Fw1ts`. It contains no CPU instruction assembly.
+
+An empty volatile exit barrier preserves the shared return in `_spu_FsetRXX`.
+The getter performs one typed volatile read, then selects shifted or raw
+value and reaches a shared return. It needs an `a0` value pin and an empty
+exit barrier. Memory clobbers are unnecessary for these exit barriers.
+The opposite condition ordering changes block layout and does not match.
+
+`_spu_FsetRXXa` is still incomplete: 84.02439% when its hand-expanded division
+is replaced by `value % unit`. Keeping the old instruction assembly during
+diagnosis scores 93.78049%, but that is not the saved C reconstruction.
+The saved candidate also removes the now-unnecessary local pin on `unit`.
+No production compiler profile or match accounting has changed.
+
+```sh
+tools/scripts/cc.sh proposals/SpuWait/register_write_gcc281.c /tmp/spu-registers.o
+tools/objdiff/objdiff-cli diff \
+  -1 build/USA/src/main/psyq/libspu/spu_register_write.c.o \
+  -2 /tmp/spu-registers.o -o /tmp/spu-registers.json
+```
