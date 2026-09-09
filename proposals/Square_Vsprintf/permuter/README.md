@@ -49,3 +49,25 @@ Both change the source pointer passed to `memmove` when no prefix is present.
 The search was restarted without `--best-only` so an invalid low penalty
 cannot hide other improvements over the baseline. All unique improvements
 are now saved, still requiring semantic review.
+
+## Corrected unsplit seed
+
+`darwine:/home/hasik/sprintf-permuter-20260909/unsplit-refined` uses the
+`constrained_gcc281.c` source from commit 2c42e1d6 with comments removed and the
+`args` preprocessor alias expanded to `argState[0]`. It retains the unsplit
+compiler wrapper, target and settings. Its Linux-built baseline was copied
+back and independently scored at **99.500916%** with local objdiff. The
+permuter's debug baseline penalty is **270**; this metric must not be confused
+with objdiff percentages or used to compare semantic validity.
+
+The new search runs with two workers at nice 10, `--better-only --stop-on-zero
+--stack-diffs`, logging to `run-unsplit-refined.log`. PID 447715 was verified
+live and advancing past 179 iterations at launch. Existing unsplit/split and
+split-refined searches were left running. Use current process state when
+checking these jobs; recorded PIDs alone do not prove liveness.
+
+Local follow-up tried a digit-table a3 pin and eight combinations of tied
+source-pointer barriers around the hexadecimal prefix stores. None improved
+99.500916%; no such constraints were retained. The remaining diff includes
+uppercase table-address scheduling and prefix pointer/store instructions,
+plus jump-table symbol differences that require linked-byte validation.
