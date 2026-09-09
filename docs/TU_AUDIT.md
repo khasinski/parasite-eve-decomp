@@ -164,6 +164,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xB6EC8..0xB71D4` | `engine/FieldEng_FindAssetAtPosition` | Three variants of status-gated asset lookup share their table ABI and positional coordinate forms in a 0x1D4-byte TU that links retail-identically. |
 | `0xB7320..0xB755C` | `engine/FieldEng_EntityCollision` | Active-entity quadrilateral and radius collision tests plus status-gated collision enabling share a 0x1C0-byte TU and link retail-identically. |
 | `0xB76D8..0xB76F8` | `engine/FieldEng_SetRenderState` | Two adjacent render-state setters form a 0x20-byte TU after `GsSetOrign` and link retail-identically. |
+| `0xC4764..0xC481C` | `engine/FieldEng_QueryActiveNode` | Queries using the active field-engine object share node-coordinate extraction and bounded property lookup in a 0xB8-byte TU that links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
