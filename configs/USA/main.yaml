@@ -502,8 +502,8 @@ segments:
       - [0x35698, c, menu/Menu_ConfirmDialogHandler]
       - [0x3578C, asm, main/Menu_StepItemDetailPanel]
       - [0x35910, c, menu/Menu_OnItemDiscardConfirm]
-      - [0x359D0, c, menu/Menu_CreateAmmoSpendPanel]
-      - [0x35AC0, c, menu/Menu_AmmoSpendInputHandler]
+      # Ammo-spend panel construction and input share selection state.
+      - [0x359D0, c, menu/Menu_AmmoSpendPanel]
       - [0x35BE8, c, menu/Menu_DrawAmmoSpendPanel]
       - [0x35C2C, c, menu/Menu_CreateEquipItemSelectionView]
       - [0x35D1C, c, menu/Menu_DrawEquipStatsDelta]
