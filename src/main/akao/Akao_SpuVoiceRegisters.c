@@ -1,4 +1,49 @@
 #include "common.h"
+extern volatile u16 D_1F801D88;
+extern volatile u16 D_1F801D8A;
+
+void Spu_WriteKeyOn(u32 value) {
+    D_1F801D88 = value;
+    value >>= 16;
+    D_1F801D8A = value;
+}
+#include "common.h"
+extern volatile u16 D_1F801D8C;
+extern volatile u16 D_1F801D8E;
+
+void Spu_WriteKeyOff(u32 value) {
+    D_1F801D8C = value;
+    value >>= 16;
+    D_1F801D8E = value;
+}
+#include "common.h"
+extern volatile u16 D_1F801D98;
+extern volatile u16 D_1F801D9A;
+
+void Spu_WriteReverbEnable(u32 value) {
+    D_1F801D98 = value;
+    value >>= 16;
+    D_1F801D9A = value;
+}
+#include "common.h"
+extern volatile u16 D_1F801D94;
+extern volatile u16 D_1F801D96;
+
+void Spu_WriteNoiseEnable(u32 value) {
+    D_1F801D94 = value;
+    value >>= 16;
+    D_1F801D96 = value;
+}
+#include "common.h"
+extern volatile u16 D_1F801D90;
+extern volatile u16 D_1F801D92;
+
+void Spu_WriteFmEnable(u32 value) {
+    D_1F801D90 = value;
+    value >>= 16;
+    D_1F801D92 = value;
+}
+#include "common.h"
 #include "pe1/akao.h"
 
 void AkaoSpuVoice_SetVolume(u32 index, u32 left, u32 right) {
