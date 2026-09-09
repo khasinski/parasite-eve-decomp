@@ -10,3 +10,5 @@ void RotTrans(void *v, void *out, int *flag) {
     asm volatile("cfc2 %0,$31" : "=r"(flagValue));
     *flag = flagValue;
 }
+
+static unsigned int tail_alignment_69AFC[] __attribute__((section(".text"))) = { 0x00000000, 0x00000000 };

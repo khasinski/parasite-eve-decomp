@@ -11,3 +11,5 @@ static unsigned int GetTPage_alignment __attribute__((section(".text"))) = 0;
 u_short GetClut(int x, int y) {
     return (y << 6) | ((x >> 4) & 0x3F);
 }
+
+static unsigned int tail_alignment_682BC[] __attribute__((section(".text"))) = { 0x00000000, 0x00000000 };

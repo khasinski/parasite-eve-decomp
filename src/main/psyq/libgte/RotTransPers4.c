@@ -31,3 +31,5 @@ long RotTransPers4(void *v0, void *v1, void *v2, void *v3,
     asm volatile("" : : : "memory");
     return result >> 2;
 }
+
+static unsigned int tail_alignment_69B7C[] __attribute__((section(".text"))) = { 0x00000000, 0x00000000 };
