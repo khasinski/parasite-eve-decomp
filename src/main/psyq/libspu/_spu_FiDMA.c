@@ -1,10 +1,6 @@
 #include "common.h"
-
-typedef void (*SpuTransferCallback)(void);
-
 #include "pe1/psyq_spu_internal.h"
 extern s32 g_SpuDmaDirection;
-extern SpuTransferCallback volatile _spu_transferCallback;
 void _spu_Fw1ts(void);
 int DeliverEvent(u32 event, u32 spec);
 

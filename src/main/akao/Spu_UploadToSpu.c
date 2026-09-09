@@ -2,9 +2,9 @@
 /* CC1_FLAGS: -mno-split-addresses */
 
 #include "common.h"
+#include "pe1/psyq_spu_internal.h"
 
 extern s32 D_8009B430;
-extern s32 D_8009B434;
 
 u32 _spu_Fw(void *address, u32 size);
 
@@ -14,7 +14,7 @@ u32 Spu_UploadToSpu(void *address, u32 size) {
     }
 
     _spu_Fw(address, size);
-    if (D_8009B434 == 0) {
+    if (_spu_transferCallback == 0) {
         D_8009B430 = 0;
     }
     {

@@ -1,12 +1,10 @@
-typedef void (*SpuTransferCallbackProc)(void);
+#include "pe1/psyq_spu_internal.h"
 
-extern SpuTransferCallbackProc D_8009B434;
-
-SpuTransferCallbackProc SpuSetTransferCallback(SpuTransferCallbackProc callback) {
-    SpuTransferCallbackProc old = D_8009B434;
+SpuCallback SpuSetTransferCallback(SpuCallback callback) {
+    SpuCallback old = _spu_transferCallback;
 
     if (callback != old) {
-        D_8009B434 = callback;
+        _spu_transferCallback = callback;
     }
 
     return old;

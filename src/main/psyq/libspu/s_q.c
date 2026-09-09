@@ -7,7 +7,6 @@ extern void DisableEvent(s32 event);
 extern void _SpuDataCallback(SpuCallback callback);
 
 extern s32 D_8009B384;
-extern s32 D_8009B434;
 extern s32 D_8009B438;
 
 void SpuQuit(void) {
@@ -21,7 +20,7 @@ void SpuQuit(void) {
             "addu $a0, $zero, $zero\n"
             "\t.set\tmacro\n"
             "\t.set\treorder\n");
-        D_8009B434 = 0;
+        _spu_transferCallback = 0;
         __asm__ volatile(
             "\t.set\tnoreorder\n"
             "\t.set\tnomacro\n"

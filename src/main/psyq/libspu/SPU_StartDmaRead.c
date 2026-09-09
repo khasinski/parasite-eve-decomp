@@ -3,11 +3,11 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "common.h"
+#include "pe1/psyq_spu_internal.h"
 
 extern s32 g_SpuReverbWorkAreaTable[];
 extern s32 _spu_mem_mode_plus;
 extern s32 D_8009B418;
-extern volatile s32 D_8009B434;
 extern s32 D_8009B384;
 extern s32 D_8009C4C0[];
 int _SpuIsInAllocateArea_(u32);
@@ -16,7 +16,7 @@ int WaitEvent(int);
 
 int SPU_StartDmaRead(int mode)
 {
-    volatile s32 callback;
+    SpuCallback volatile callback;
     s32 oldTransmode;
     s32 address;
     s32 more;
@@ -55,9 +55,9 @@ int SPU_StartDmaRead(int mode)
         transmodeCleared = 1;
     }
     more = 1;
-    if (D_8009B434 != 0) {
-        callback = D_8009B434;
-        D_8009B434 = 0;
+    if (_spu_transferCallback != 0) {
+        callback = _spu_transferCallback;
+        _spu_transferCallback = 0;
     }
     do {
         size = 0x400;
@@ -76,7 +76,7 @@ int SPU_StartDmaRead(int mode)
         D_8009B418 = oldTransmode;
     }
     if (callback != 0) {
-        D_8009B434 = callback;
+        _spu_transferCallback = callback;
     }
     return 0;
 }

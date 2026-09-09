@@ -1,9 +1,9 @@
 #include "common.h"
+#include "pe1/psyq_spu_internal.h"
 extern u32 g_TimerTimeoutStart;
 extern u32 g_TimerTimeoutLimit;
 
 extern int g_SpuTransferStatus;
-void SpuSetTransferCallback(void (*callback)(void));
 
 int Spu_CheckTimerElapsed(void) {
     register u32 current asm("$4");
@@ -47,7 +47,6 @@ void Spu_ClearTransferCallback(void) {
 
 extern int g_SpuTransferStatus;
 void Spu_ClearTransferCallback(void);
-void SpuSetTransferCallback(void (*callback)(void));
 
 void Spu_PrepareTransfer(void);
 void Spu_UploadToSpu(int arg0, int arg1);

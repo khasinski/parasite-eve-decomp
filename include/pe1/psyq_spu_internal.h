@@ -39,7 +39,9 @@ extern u32 *_spu_sys_pcr;
 extern u32 *D_8009B410;
 extern s32 D_8009B3EC;
 extern s32 _spu_EVdma;
-extern SpuCallback _spu_transferCallback;
+/* Shared by transfer callers and the DMA interrupt handler. */
+extern SpuCallback volatile _spu_transferCallback;
+SpuCallback SpuSetTransferCallback(SpuCallback callback);
 extern SpuCallback _spu_IRQCallback;
 extern int _spu_AllocBlockNum;
 extern int _spu_AllocLastNum;

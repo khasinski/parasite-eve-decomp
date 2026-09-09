@@ -1309,3 +1309,23 @@ after the SIO pointer load. Thus the remaining difference is the target of
 the backward branch, not an extra or missing instruction. GCC 2.8.1 with
 and without address splitting did not resolve it, and also changed the
 other function. The tool is unchanged; no label or binary postpass is used.
+
+## SPU transfer callback types (2026-09-09)
+
+The object at `0x8009B434` is consistently declared as
+`SpuCallback volatile _spu_transferCallback` in `psyq_spu_internal.h`.
+The DMA interrupt handler and `SPU_StartDmaRead` already required volatile
+accesses; the latter now saves a function pointer, rather than a signed
+integer. The upload/read wrappers, callback setter and shutdown use this
+same declaration, removing the incompatible integer views.
+
+`SpuSetTransferCallback` returns the previous callback. Its shared prototype
+now also covers the AKAO transfer helpers, which previously declared a void
+return. This agrees with Psy-Q 4.6 `LIBSPU.H`'s
+`SpuTransferCallbackProc SpuSetTransferCallback(SpuTransferCallbackProc)`.
+All changes preserve the complete retail executable.
+
+Separating the reverb-area pointer from the remaining byte count in
+`SPU_StartDmaRead` was also tested. A typed `base + mode` expression retains
+the instructions but swaps the live mode and area registers (`s0`/`s1`),
+including their save order. This independent cleanup is not accepted.
