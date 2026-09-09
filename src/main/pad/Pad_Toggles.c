@@ -9,3 +9,10 @@ void EnablePAD(void) {
     callback = jtbl_800A34C8;
         goto *(void *)callback;
 }
+
+void DisablePAD(void) {
+    register PadToggleFunc callback asm("$9");
+
+    callback = jtbl_800A34CC;
+        goto *(void *)callback;
+}
