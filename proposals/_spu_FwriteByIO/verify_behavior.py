@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare _spu_init C against retail with modeled SPU status and external calls."""
+"""Compare SPU FIFO transfer C with retail under finite status traces."""
 import hashlib
 import itertools
 from pathlib import Path
@@ -27,7 +27,7 @@ with tempfile.TemporaryDirectory(prefix='cd-init-') as work:
         entries = {symbol.name: symbol['st_value'] for symbol in elf.get_section_by_name('.symtab').iter_symbols()}
         sections = [(s['sh_addr'] & 0x1FFFFFFF, s.data()) for s in elf.iter_sections() if s.name in ('.text', '.rodata')]
 
-def run(hot, pending, fill, redirect, candidate):
+def run(length, pending, fill, redirect, candidate):
     cpu = Uc(UC_ARCH_MIPS, UC_MODE_MIPS32 | UC_MODE_LITTLE_ENDIAN)
     cpu.mem_map(0, 0x200000)
     start, size = struct.unpack_from('<II', exe, 0x18)
@@ -38,64 +38,80 @@ def run(hot, pending, fill, redirect, candidate):
     def word(address, value):
         cpu.mem_write(address, struct.pack('<I', value & 0xFFFFFFFF))
     word(0x9B3FC, 0x80130000)
-    word(0x9B40C, 0x80131000)
-    for address, size in ((0x130000, 0x400), (0x131000, 4), (0x9B414, 0x28), (0xB68FE, 24)):
-        cpu.mem_write(address, bytes([fill]) * size)
-    trace, reads, waits = [], 0, 0
+    cpu.mem_write(0x9B414, struct.pack('<H', 0x2345))
+    cpu.mem_write(0x130000, bytes([fill]) * 0x400)
+    cpu.mem_write(0x120000, bytes(range(256)))
+    trace, waits, fifo, source_reads = [], 0, [], []
+    phase, polls, chunks = 'initial', 0, 0
+    initial = 0xA221 if fill else 0
     def access(u, kind, address, size, value, user):
-        nonlocal reads
+        nonlocal phase, polls, chunks
         address &= 0x1FFFFFFF
-        if not (0x130000 <= address < 0x130400 or address == 0x131000):
+        if 0x120000 <= address < 0x120100:
+            assert kind != UC_MEM_WRITE and size == 2
+            source_reads.append(address)
             return
-        assert size == (4 if address == 0x131000 else 2)
+        if not 0x130000 <= address < 0x130400:
+            return
+        offset = (address - 0x130000) & 0x1FF
+        assert size == 2
         if kind != UC_MEM_WRITE:
-            if address in (0x1301AE, 0x1303AE):
-                value = 0x7FF if reads < pending else 0
-                reads += 1
+            if offset == 0x1AE:
+                if phase == 'initial':
+                    value = initial
+                elif phase == 'transfer':
+                    value = 0x400 if polls < pending else 0
+                    polls += 1
+                else:
+                    value = (initial & 0x7FF) ^ int(polls < pending)
+                    polls += 1
                 u.mem_write(address, struct.pack('<H', value))
             value = int.from_bytes(u.mem_read(address, size), 'little')
-        trace.append(('write' if kind == UC_MEM_WRITE else 'read', address, size, value))
+        elif offset == 0x1AA:
+            phase = 'transfer' if value & 0x30 == 0x10 else 'restore'
+            polls = 0
+            if phase == 'transfer': chunks += 1
+        elif offset == 0x1A8:
+            fifo.append(value)
+        trace.append(('write' if kind == UC_MEM_WRITE else 'read', address, value))
     cpu.hook_add(UC_HOOK_MEM_READ | UC_HOOK_MEM_WRITE, access)
-    api = {(entries.get(name, int(symbols[name], 16)) if candidate else int(symbols[name], 16)) + 4: name for name in ('_spu_Fw1ts', '_spu_FwriteByIO', 'printf')}
+    api = {int(symbols[name], 16) + 4: name for name in ('_spu_Fw1ts', 'printf')}
     trapped = []
     def trap(u, address, size, user):
         trapped.append(address)
         u.emu_stop()
     for address in api:
-        # Modeled calls must not run their original prologues when a hook stops.
         cpu.mem_write((address - 4) & 0x1FFFFFFF, bytes(8))
         cpu.hook_add(UC_HOOK_CODE, trap, begin=address, end=address)
     cpu.reg_write(UC_MIPS_REG_SP, 0x801F0000)
     cpu.reg_write(UC_MIPS_REG_RA, 0x801E0000)
-    cpu.reg_write(UC_MIPS_REG_A0, hot & 0xFFFFFFFF)
-    pc = entries['_spu_init'] if candidate else 0x8007D1D4
-    for step in range(32):
+    cpu.reg_write(UC_MIPS_REG_A0, 0x80120000)
+    cpu.reg_write(UC_MIPS_REG_A1, length)
+    pc = entries['_spu_FwriteByIO'] if candidate else 0x8007D454
+    for step in range(64):
         cpu.emu_start(pc, 0x801E0000, count=100000)
-        if not trapped:
-            break
+        if not trapped: break
         name = api[trapped.pop()]
         if name == '_spu_Fw1ts':
             waits += 1
             trace.append((name,))
-            if redirect and waits == 1:
-                word(0x9B3FC, 0x80130200)
+            if redirect and waits == 1: word(0x9B3FC, 0x80130200)
         else:
             args = tuple(cpu.reg_read(r) for r in (UC_MIPS_REG_A0, UC_MIPS_REG_A1))
-            assert args == ((0x8009B43C, 16) if name == '_spu_FwriteByIO' else (0x80011C4C, 0x80011C5C))
+            assert args == (0x80011C4C, 0x80011C6C if phase == 'transfer' else 0x80011C80)
             trace.append((name, args))
         cpu.reg_write(UC_MIPS_REG_V0, 0x1234)
         pc = cpu.reg_read(UC_MIPS_REG_RA)
     assert cpu.reg_read(UC_MIPS_REG_PC) == 0x801E0000
     assert cpu.reg_read(UC_MIPS_REG_SP) == 0x801F0000
-    assert cpu.reg_read(UC_MIPS_REG_V0) == 0
-    assert waits == (9 if hot == 0 else 1)
-    assert reads == min(pending + 1, 3841)
-    assert sum(t[0] == 'printf' for t in trace) == int(pending >= 3841)
-    assert bytes(cpu.mem_read(0xB6900, 20)) == bytes(20)
-    assert bytes(cpu.mem_read(0xB68FE, 2)) == bytes([fill]) * 2
-    assert bytes(cpu.mem_read(0xB6914, 2)) == bytes([fill]) * 2
-    return trace, tuple(bytes(cpu.mem_read(a, n)) for a, n in ((0x130000, 0x400), (0x131000, 4), (0x9B414, 0x28)))
+    assert chunks == (length + 63) // 64
+    assert waits == 1 + 3 * chunks
+    assert source_reads == list(range(0x120000, 0x120000 + length, 2))
+    assert fifo == [i | ((i + 1) << 8) for i in range(0, length, 2)]
+    assert sum(t[0] == 'printf' for t in trace) == (chunks + 1 if pending >= 3841 else 0)
+    assert polls == min(pending + 1, 3841)
+    return trace, source_reads, bytes(cpu.mem_read(0x130000, 0x400))
 
-for count, case in enumerate(itertools.product((0, 1, -1), (0, 1, 3840, 3841), (0, 0xA5), (False, True)), 1):
+for count, case in enumerate(itertools.product((0, 1, 2, 63, 64, 65, 128, 129), (0, 1, 3840, 3841), (0, 0xA5), (False, True)), 1):
     assert run(*case, False) == run(*case, True), case
-print(f'PASS {count} cases: hot/cold initialization, timeout boundary, SPU pointer reload, register traces, software state and stack')
+print(f'PASS {count} cases: FIFO words, chunk boundaries, odd lengths, both timeouts, pointer reload and stack')
