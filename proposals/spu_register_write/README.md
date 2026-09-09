@@ -7,12 +7,15 @@ handwritten divu/zero-check/break/mfhi block in _spu_FsetRXXa with
 trap sequence. No compiler or assembler patch is used.
 
 The candidate is not ready for production. _spu_FsetRXXa scores 97.560974%
-(168 candidate bytes versus 164 retail bytes); all six siblings remain 100%.
+(168 candidate bytes versus 164 retail bytes); five siblings remain 100%.
+The new ordinary-C _spu_Fw1ts scores 93.04348% with the common GCC272 configuration.
 MASPSX inserts a nop between mfhi v0 and the dependent beqz v0. Retail has
 that branch immediately after mfhi, with its own nop delay slot. This shifts
 later branch targets by one word. The remainder calculation is reconstructed
 in C, but no new whole-function behavioral or hardware-timing claim is made.
-The existing _spu_Fw1ts synthetic stack/register model also remains unchanged.
+The candidate now includes ../_spu_Fw1ts/candidate.c, using real locals instead
+of the synthetic SP model. Production retains its existing implementation
+until all siblings can match under the same compiler.
 
 ```sh
 tools/scripts/cc.sh proposals/spu_register_write/candidate.c /tmp/spu-register-c.o

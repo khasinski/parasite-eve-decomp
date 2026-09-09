@@ -48,7 +48,7 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
         return value;
     default:
     {
-        unsigned char *base;
+        SpuRegs *base;
         register u32 addr asm("$3");
 
         base = _spu_RXX;

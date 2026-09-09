@@ -75,7 +75,7 @@ def run(length, pending, fill, redirect, candidate):
             fifo.append(value)
         trace.append(('write' if kind == UC_MEM_WRITE else 'read', address, value))
     cpu.hook_add(UC_HOOK_MEM_READ | UC_HOOK_MEM_WRITE, access)
-    api = {int(symbols[name], 16) + 4: name for name in ('_spu_Fw1ts', 'printf')}
+    api = {(entries.get(name, int(symbols[name], 16)) if candidate else int(symbols[name], 16)) + 4: name for name in ('_spu_Fw1ts', 'printf')}
     trapped = []
     def trap(u, address, size, user):
         trapped.append(address)
