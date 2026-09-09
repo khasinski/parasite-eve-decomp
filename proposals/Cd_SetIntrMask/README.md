@@ -24,3 +24,14 @@ With the saved candidate, callback declarations using unspecified arguments,
 MASPSX ASPSX profiles 1.07, 2.08, 2.21, 2.34, 2.79, and 2.86 also retained
 0xE0 text. These size checks rule out an exact match for those trials; they
 are not relocated instruction comparisons or proof of SDK provenance.
+
+## Direct GNU-as diagnostic
+
+Assembling raw GCC281 output directly with GNU as (`-EL -G0 -march=r3000
+-no-pad-sections`) produces the target 0xD8 bytes. After linking with
+diagnostic.ld, only byte 0x3C differs: GNU as encodes the move into s0 as
+`or s0,v0,zero` (0x00408025), whereas retail uses `addu s0,v0,zero`
+(0x00408021). Both callback delay slots then have the retail address adds.
+This is not an exact byte match. More importantly, ASM_AND_GTE_POLICY.md
+requires final builds through stock MASPSX; this diagnostic does not authorize
+bypassing that pipeline. It isolates scheduling from semantic reconstruction.
