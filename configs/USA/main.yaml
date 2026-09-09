@@ -67,9 +67,8 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x800, .rodata, task/Task_EvalExpr]
-      - [0x860, .rodata, task/Task_SetEntityVec3]
-      - [0x87C, rodata, main/rodata_00087C]
-      - [0x880, .rodata, task/Task_GetEntityVec3]
+      # Getter and setter share both FieldActor Vec3 switch tables.
+      - [0x860, .rodata, task/Task_EntityVec3]
       - [0x89C, rodata, main/rodata_00089C]
       - [0x8A0, .rodata, main/Boot_MemCardStepInit]
       - [0x990, .rodata, main/Entity_GetPositionByType]
@@ -142,8 +141,8 @@ segments:
       - [0x2F00, c, task/Task_AllocNode]
       - [0x2F74, c, task/Task_GarbageCollectNodes]
       - [0x3050, c, task/Task_EvalExpr]
-      - [0x3420, c, task/Task_SetEntityVec3]
-      - [0x367C, c, task/Task_GetEntityVec3]
+      # FieldActor Vec3 getter/setter are one default-profile object.
+      - [0x3420, c, task/Task_EntityVec3]
       - [0x38B4, c, task/Task_DispatchCmd]
       # Child-node allocation and action wait share one 0x200-byte -G8 task-node object.
       - [0x39E8, c, task/Task_NodeActions]
