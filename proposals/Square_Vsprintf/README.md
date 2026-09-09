@@ -45,3 +45,41 @@ GCC 2.7.2 optimisation switches did not improve on this profile: for example,
 `-fno-cse-skip-blocks` creates a nearly equal-length body but drops the objdiff
 score to 91.99% by changing the format and variadic-cursor registers.  No
 assembly boundary or binary-match accounting has been changed.
+
+## Constrained stock-pipeline candidate (2026-09-09)
+
+`constrained_registers.c` improves objdiff from 95.88% to **98.9781%**.
+It retains GCC 2.7.2 and `-fno-strength-reduce -fno-force-mem`, with no
+compiler or MASPSX changes and no instruction assembly. Four empty memory
+barriers after the numeric argument-cursor stores prevent speculative flag
+loads. For `%n`, two local register constraints and two input-only barriers
+preserve the flag load, cursor store, and subsequent bit test.
+These constraints are experimental; minimization remains pending an exact match.
+
+The numeric conversions and `%n` now have the target instruction sequence.
+The remaining instruction-order differences are:
+
+- Target +0x594: loading the uppercase digit-table address finishes in the
+  jump delay slot. The candidate completes the address first and adds a nop
+  after the jump, increasing the body by four bytes.
+- Target +0x87C: stack restoration occupies the return delay slot. GCC 2.7.2
+  emits restoration before the return and a nop in the delay slot.
+
+The candidate body is 0x888 bytes; the target body is 0x884. The expected
+objdiff symbol includes another twelve bytes of trailing padding (0x890
+in total), which also affect the reported percentage. Relocated jump targets
+and jump-table entries shift with the extra instruction; 98.9781% is an
+objdiff score, not a byte-match claim.
+
+GCC 2.8.1 fixes the return slot but changes the template-copy registers,
+parser scheduling, and address/switch-table generation. With the same
+constraints and `-mno-split-addresses`, it scores 98.77372%. Disabling the
+second scheduler or changing the aggregate copy did not produce an exact
+candidate. Production remains the original ASM unit.
+
+Reproduce the current comparison from the repository root:
+
+```sh
+tools/scripts/cc.sh proposals/Square_Vsprintf/constrained_registers.c /tmp/sprintf-candidate.o
+tools/objdiff/objdiff-cli diff -1 expected/build/USA/src/main/psyq/libc/Square_Vsprintf.c.o -2 /tmp/sprintf-candidate.o -o /tmp/sprintf-diff.json Square_Vsprintf
+```
