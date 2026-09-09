@@ -36,3 +36,15 @@ This is a verified isolated body match, not production integration: the normal
 MASPSX pipeline still differs, and the public entry boundary still needs audit.
 The direct-assembler result identifies a concrete pipeline compatibility issue
 for this candidate rather than a need to distort its C semantics.
+
+## Current stock-pipeline candidate
+
+The saved candidate now selects GCC281 with `-fcall-used-$1` and
+`-fno-schedule-insns2`. A 16-combination sweep of the two scheduling flags,
+delayed-branch optimization and expensive optimizations found this sufficient
+to reproduce the retail prologue and entire call sequence through stock
+MASPSX. Linked .text is 44 bytes with six differing bytes, all in the epilogue:
+retail restores sp before jr and has a NOP delay slot; this candidate places
+the NOP before jr and restores sp in its delay slot. No pins or barriers.
+Earlier GCC272/direct-as observations above describe the original unannotated
+source; the current production-path candidate is still not an exact match.

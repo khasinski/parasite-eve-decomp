@@ -1,3 +1,5 @@
+/* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -fcall-used-$1 -fno-schedule-insns2 */
 extern void *D_800C0DC8;
 extern unsigned int D_800C20C4;
 void StClearRing(void);
