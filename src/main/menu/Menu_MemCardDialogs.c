@@ -2,10 +2,8 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-#include "include_asm.h"
-
 #define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
+#include "m2c_macros.h"
 
 void MemCard_InitState(void);
 void MemCard_SetDialogActive(s32 active);
@@ -21,6 +19,31 @@ void Menu_DrawContextHelpText(void);
 void Menu_MemCardPortSelectHandler(void);
 void Menu_IsMemCardSlotSelectable(void);
 void Menu_DrawMemCardPortList(void);
+
+void Menu_OpenMemCardSelectDialog(s32 arg0) {
+    void *temp_a0;
+    void *temp_v0;
+
+    temp_v0 = MenuWidget_CreateSimpleNode(0x24, MenuWidget_GetCurrentNode(), 0, 0);
+    temp_a0 = MenuWidget_CreateNode(0x24, temp_v0, temp_v0);
+    M2C_FIELD(temp_v0, M2C_UNK **, 0x2C) = &Menu_MemCardPortSelectHandler;
+    M2C_FIELD(temp_a0, M2C_UNK **, 0x30) = &Menu_DrawMemCardPortList;
+    M2C_FIELD(temp_a0, M2C_UNK **, 0x8C) = &Menu_IsMemCardSlotSelectable;
+    if (M2C_FIELD(temp_a0, s32 *, 0x48) == 2) {
+        M2C_FIELD(temp_a0, s32 *, 0x48) = 0;
+    }
+    MenuWidget_SetCurrentNode(temp_a0);
+    if (MenuWidget_FindByModeAndSelectedBase(1, 0x13) == NULL) {
+        M2C_FIELD(MenuWidget_CreateSimpleNode(0x13, 0, 0, 0), M2C_UNK **, 0x30) = &Menu_DrawContextHelpText;
+    }
+    M2C_FIELD(MenuWidget_FindByModeAndSelectedBase(1, 0x13), s32 *, 0x38) = 0x24;
+    g_McDialogMode = arg0;
+    if (arg0 != 0) {
+        MemCard_SetDialogActive(1);
+        MemCard_InitState();
+    }
+    Queue_Init();
+}
 
 void Menu_OpenStartupMemCardDialog(void) {
     s32 one;
