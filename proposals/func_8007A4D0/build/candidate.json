@@ -1,0 +1,9 @@
+{
+  "best_size": "0x13C",
+  "function": "func_8007A4D0",
+  "nm": "proposals/func_8007A4D0/build/candidate.nm",
+  "objdump": "proposals/func_8007A4D0/build/candidate.objdump",
+  "object": "proposals/func_8007A4D0/build/candidate.o",
+  "source": "src/main/psyq/func_8007A4D0.c",
+  "target_size": "0x13C"
+}

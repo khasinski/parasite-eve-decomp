@@ -1,0 +1,101 @@
+
+/Users/hasik/Projects/parasite-pc/proposals/func_8007A4D0/build/statusscan_candidate.o:     file format elf32-littlemips
+
+
+Disassembly of section .text:
+
+00000000 <func_8007A4D0>:
+   0:	27bdffc8 	addiu	sp,sp,-56
+   4:	afb10014 	sw	s1,20(sp)
+   8:	00a08821 	move	s1,a1
+   c:	afb20018 	sw	s2,24(sp)
+  10:	00c09021 	move	s2,a2
+  14:	afb00010 	sw	s0,16(sp)
+  18:	24100003 	li	s0,3
+  1c:	afb40020 	sw	s4,32(sp)
+  20:	0080a021 	move	s4,a0
+  24:	afb3001c 	sw	s3,28(sp)
+  28:	329300ff 	andi	s3,s4,0xff
+  2c:	00131080 	sll	v0,s3,0x2
+  30:	afb60028 	sw	s6,40(sp)
+  34:	3c160000 	lui	s6,0x0
+			34: R_MIPS_HI16	D_8009AF2C
+  38:	26d60000 	addiu	s6,s6,0
+			38: R_MIPS_LO16	D_8009AF2C
+  3c:	0056b021 	addu	s6,v0,s6
+  40:	afb7002c 	sw	s7,44(sp)
+  44:	0000b821 	move	s7,zero
+  48:	afb50024 	sw	s5,36(sp)
+  4c:	3c150000 	lui	s5,0x0
+			4c: R_MIPS_HI16	D_8009AFB4
+  50:	8eb50000 	lw	s5,0(s5)
+			50: R_MIPS_LO16	D_8009AFB4
+  54:	241effff 	li	s8,-1
+  58:	afbf0030 	sw	ra,48(sp)
+  5c:	3c010000 	lui	at,0x0
+			5c: R_MIPS_HI16	D_8009AFB4
+  60:	ac200000 	sw	zero,0(at)
+			60: R_MIPS_LO16	D_8009AFB4
+  64:	24020001 	li	v0,1
+  68:	1262000b 	beq	s3,v0,98 <func_8007A4D0+0x98>
+  6c:	00000000 	nop
+  70:	3c020000 	lui	v0,0x0
+			70: R_MIPS_HI16	D_8009AFC4
+  74:	90420000 	lbu	v0,0(v0)
+			74: R_MIPS_LO16	D_8009AFC4
+  78:	00000000 	nop
+  7c:	30420010 	andi	v0,v0,0x10
+  80:	10400005 	beqz	v0,98 <func_8007A4D0+0x98>
+  84:	24040001 	li	a0,1
+  88:	00002821 	move	a1,zero
+  8c:	00003021 	move	a2,zero
+  90:	0c000000 	jal	0 <func_8007A4D0>
+			90: R_MIPS_26	CD_cw
+  94:	00003821 	move	a3,zero
+  98:	1220000b 	beqz	s1,c8 <func_8007A4D0+0xc8>
+  9c:	00000000 	nop
+  a0:	8ec20000 	lw	v0,0(s6)
+  a4:	00000000 	nop
+  a8:	10400007 	beqz	v0,c8 <func_8007A4D0+0xc8>
+  ac:	24040002 	li	a0,2
+  b0:	02202821 	move	a1,s1
+  b4:	02403021 	move	a2,s2
+  b8:	0c000000 	jal	0 <func_8007A4D0>
+			b8: R_MIPS_26	CD_cw
+  bc:	00003821 	move	a3,zero
+  c0:	1440000c 	bnez	v0,f4 <func_8007A4D0+0xf4>
+  c4:	00000000 	nop
+  c8:	3c010000 	lui	at,0x0
+			c8: R_MIPS_HI16	D_8009AFB4
+  cc:	ac350000 	sw	s5,0(at)
+			cc: R_MIPS_LO16	D_8009AFB4
+  d0:	328400ff 	andi	a0,s4,0xff
+  d4:	02202821 	move	a1,s1
+  d8:	02403021 	move	a2,s2
+  dc:	0c000000 	jal	0 <func_8007A4D0>
+			dc: R_MIPS_26	CD_cw
+  e0:	00003821 	move	a3,zero
+  e4:	14400004 	bnez	v0,f8 <func_8007A4D0+0xf8>
+  e8:	2610ffff 	addiu	s0,s0,-1
+  ec:	08000042 	j	108 <func_8007A4D0+0x108>
+			ec: R_MIPS_26	.text
+  f0:	24020001 	li	v0,1
+  f4:	2610ffff 	addiu	s0,s0,-1
+  f8:	161effd8 	bne	s0,s8,5c <func_8007A4D0+0x5c>
+  fc:	00001021 	move	v0,zero
+ 100:	3c010000 	lui	at,0x0
+			100: R_MIPS_HI16	D_8009AFB4
+ 104:	ac350000 	sw	s5,0(at)
+			104: R_MIPS_LO16	D_8009AFB4
+ 108:	8fbf0030 	lw	ra,48(sp)
+ 10c:	8fb7002c 	lw	s7,44(sp)
+ 110:	8fb60028 	lw	s6,40(sp)
+ 114:	8fb50024 	lw	s5,36(sp)
+ 118:	8fb40020 	lw	s4,32(sp)
+ 11c:	8fb3001c 	lw	s3,28(sp)
+ 120:	8fb20018 	lw	s2,24(sp)
+ 124:	8fb10014 	lw	s1,20(sp)
+ 128:	8fb00010 	lw	s0,16(sp)
+ 12c:	27bd0038 	addiu	sp,sp,56
+ 130:	03e00008 	jr	ra
+ 134:	00000000 	nop

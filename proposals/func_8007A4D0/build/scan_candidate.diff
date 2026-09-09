@@ -1,0 +1,86 @@
+--- func_8007A4D0.target
++++ func_8007A4D0.scan_candidate
+@@ -3,29 +3,28 @@
+ word  00a08821
+ word  afb20018
+ word  00c09021
++word  afb00010
++word  24100003
+ word  afb40020
+ word  0080a021
+-word  afb00010
+-word  24100003
+ word  afb3001c
+ word  329300ff
+-reloc  lui v1,%hi(D_8009AF2C)
+-reloc  addiu v1,v1,%lo(D_8009AF2C)
++word  00131080
++word  afb60028
++reloc  lui s6,%hi(D_8009AF2C)
++reloc  addiu s6,s6,%lo(D_8009AF2C)
++word  0056b021
++word  afb7002c
++word  0000b821
+ word  afb50024
+ reloc  lui s5,%hi(D_8009AFB4)
+ reloc  lw s5,%lo(D_8009AFB4)(s5)
+-word  00131080
+-word  afb60028
+-word  0043b021
+-word  afb7002c
+-word  0000b821
+-word  afbe0030
+ word  241effff
+-word  afbf0034
++word  afbf0030
+ reloc  lui at,%hi(D_8009AFB4)
+ reloc  sw 0,%lo(D_8009AFB4)(at)
+-word  24080001
+-word  1268000b
++word  24020001
++word  1262000b
+ word  00000000
+ reloc  lui v0,%hi(D_8009AFC4)
+ reloc  lbu v0,%lo(D_8009AFC4)(v0)
+@@ -47,7 +46,7 @@
+ word  02403021
+ reloc  jal CD_cw
+ word  00003821
+-word  1440000a
++word  1440000c
+ word  00000000
+ reloc  lui at,%hi(D_8009AFB4)
+ reloc  sw s5,%lo(D_8009AFB4)(at)
+@@ -56,17 +55,16 @@
+ word  02403021
+ reloc  jal CD_cw
+ word  00003821
+-word  10400008
+-word  26e20001
++word  14400004
+ word  2610ffff
+-word  161effda
+-word  00000000
++local  j 0x108
++word  24020001
++word  2610ffff
++word  161effd8
++word  00001021
+ reloc  lui at,%hi(D_8009AFB4)
+ reloc  sw s5,%lo(D_8009AFB4)(at)
+-word  2417ffff
+-word  26e20001
+-word  8fbf0034
+-word  8fbe0030
++word  8fbf0030
+ word  8fb7002c
+ word  8fb60028
+ word  8fb50024
+@@ -75,5 +73,6 @@
+ word  8fb20018
+ word  8fb10014
+ word  8fb00010
++word  27bd0038
+ word  03e00008
+-word  27bd0038
++word  00000000
