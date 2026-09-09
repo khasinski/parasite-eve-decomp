@@ -23,3 +23,15 @@ saves/restores all nine saved registers, including FP, with the correct
 0x38-byte frame. Register assignment inside the body remains different, so
 this is not an exact match. Explicit `-fcall-saved` experiments on the pinned
 variant did not restore the missing FP save; natural allocation did.
+
+## Constrained comparison variant
+
+`constrained_registers.c` retains natural allocation of the retry sentinel
+(FP), with nine other register pins and the three lifetime barriers. A stock
+GCC281 flag sweep reduced its relocated byte differences to 44/316 by disabling
+the first instruction-scheduling pass. The same constrained source with that
+pass enabled differed in 78 bytes. Moving the return-status barrier alone
+had not improved the previous 76-byte-difference variant.
+
+This experimental file does not supersede the simpler candidate and is not
+a match. Pins and barriers must be minimized after obtaining exact code.
