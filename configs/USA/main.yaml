@@ -1376,7 +1376,7 @@ segments:
       - [0x76204, c, psyq/libspu/s_m_init]
       - [0x76258, asm, main/gap_psyq_libspu_s_m_init_tail_76258]
       - [0x76264, c, psyq/libspu/SPU_ReadRegister]
-      - [0x76330, asm, psyq/libspu/Spu_MallocStub]
+      - [0x76330, asm, main/gap_psyq_libspu_SPU_ReadRegister_tail_76330]
       - [0x76334, c, psyq/libspu/s_m_util]
       - [0x76440, asm, main/gap_psyq_libspu_s_m_util_tail_76440]
       # Psy-Q libspu/s_si.c: SPU IRQ-enable control and timeout polling.

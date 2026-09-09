@@ -805,7 +805,6 @@ func_800655D4 = 0x800655D4; // type:func
 g_StrFileDirBuffer = 0x80011614; // type:u32
 Sys_FirstFileHookStub = 0x80072A50; // type:func
 func_8007C53C = 0x8007C53C; // type:func
-Spu_MallocStub = 0x80085B30; // type:func
 Gte_BuildOrthoBasis = 0x80078254; // type:func
 Gte_ISqrt = 0x80078004; // type:func
 Gte_PopMatrix = 0x80078B38; // type:func
