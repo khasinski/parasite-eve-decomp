@@ -2,7 +2,7 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "common.h"
 
-extern volatile u16 *_spu_RXX;
+#include "pe1/psyq_spu_internal.h"
 
 typedef struct SpuVoiceWaitWork {
     volatile int i;
@@ -17,7 +17,8 @@ void Spu_SetVoiceAttr(int voice, u16 left, u16 right, s16 leftMode, u16 rightMod
 
     left &= 0x7FFF;
     leftFlags = 0;
-    voice <<= 3;
+    /* The original index is measured in halfword registers. */
+    voice *= sizeof(SpuVoiceRegs) / sizeof(u16);
     switch ((s16)(leftMode - 1)) {
     case 0: leftFlags = 0x8000; break;
     case 1: leftFlags = 0x9000; break;
@@ -29,7 +30,7 @@ void Spu_SetVoiceAttr(int voice, u16 left, u16 right, s16 leftMode, u16 rightMod
     }
     leftMode = right & 0x7FFF;
     rightFlags = 0;
-    _spu_RXX[voice] = left | leftFlags;
+    ((SpuVoiceRegs *)((u16 *)_spu_RXX + voice))->volume_left = left | leftFlags;
     switch ((s16)(rightMode - 1)) {
     case 0: rightFlags = 0x8000; break;
     case 1: rightFlags = 0x9000; break;
@@ -39,7 +40,7 @@ void Spu_SetVoiceAttr(int voice, u16 left, u16 right, s16 leftMode, u16 rightMod
     case 5: rightFlags = 0xD000; break;
     case 6: rightFlags = 0xE000; break;
     }
-    _spu_RXX[voice + 1] = leftMode | rightFlags;
+    ((SpuVoiceRegs *)((u16 *)_spu_RXX + voice))->volume_right = leftMode | rightFlags;
     work.value = 1;
     /* Keep the counter initialization after the delay seed store. */
     asm volatile("" : : : "memory");

@@ -13,8 +13,20 @@ typedef void (*SpuCallback)(void);
  * SPU_RXX register map from Psy-Q libspu.  The three transfer registers are
  * at the same offsets as the SDK's trans_addr, spucnt, and spustat fields.
  */
+typedef struct SpuVoiceRegs {
+    volatile u16 volume_left;
+    volatile u16 volume_right;
+    volatile u16 pitch;
+    volatile u16 start_address;
+    volatile u16 adsr_low;
+    volatile u16 adsr_high;
+    volatile u16 envelope;
+    volatile u16 repeat_address;
+} SpuVoiceRegs;
+typedef char SpuVoiceRegsSizeCheck[(sizeof(SpuVoiceRegs) == 0x10) ? 1 : -1];
+
 typedef struct SpuRegs {
-    /* 0x000 */ unsigned char pad_000[0x180];
+    /* 0x000 */ SpuVoiceRegs voice[24];
     /* 0x180 */ volatile u16 master_volume_left;
     /* 0x182 */ volatile u16 master_volume_right;
     /* 0x184 */ volatile u16 reverb_volume_left;

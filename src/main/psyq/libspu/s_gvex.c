@@ -1,8 +1,6 @@
-extern unsigned char *_spu_RXX;
+#include "pe1/psyq_spu_internal.h"
 
 void SpuGetVoiceEnvelope(unsigned long voice, unsigned short *env)
 {
-    voice <<= 4;
-    voice += (unsigned long)_spu_RXX;
-    *env = *(unsigned short *)(voice + 0xC);
+    *env = (voice + _spu_RXX->voice)->envelope;
 }

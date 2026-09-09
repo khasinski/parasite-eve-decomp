@@ -1429,3 +1429,19 @@ field but remains unchanged: the qualified store leaves the return delay
 slot and adds a nop. The existing constraint in `Akao_SetMasterVolume` also
 remains necessary; replacing it with an ordinary pointer assignment changes
 code generation. No new pins or barriers are added.
+
+## SPU per-voice register structure (2026-09-09)
+
+`SpuVoiceRegs` describes the eight halfword registers of one voice, with a
+compile-time 16-byte size check. `SpuRegs.voice[24]` replaces the opaque
+0x180-byte prefix without moving the common register fields. The layout
+follows the [SPU voice register map](https://psx-spx.consoledev.net/soundprocessingunitspu/).
+
+`SpuGetVoiceEnvelope` now reads the named volatile envelope field using a
+voice index, removing the integer representation of the pointer and the
+literal envelope offset. Writing the pointer sum with the index first
+preserves the target register allocation. `Spu_SetVoiceAttr` uses the same
+register type for its left/right stores, retaining its halfword-index
+intermediate; a direct voice index collapses two shifts and does not match.
+Both functions retain 100% object agreement and the full main and all 191
+overlay SHA checks pass. No pins or barriers were introduced.
