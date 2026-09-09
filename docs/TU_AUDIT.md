@@ -137,6 +137,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x8880..0x8AA0` | `entity/Entity_FieldSelection` | Lookup, current-entity write, and type-id-directed write form one field-selection object. They share the `FieldActor` list traversal and the type-zero bridge to battle context; the merged 0x220-byte object is retail-identical apart from its expected globals, calls, and object-local control-flow relocations. |
 | `0x8B00..0x8CEC` | `entity/Entity_AnimationPending` | The pending-animation sweep, its advance pass, and the two node-id variants share the three current-actor task-node lists and `TaskNode` state bits. Their 0x1EC-byte combined object retains the pending-node branch relocation and is retail-identical after linking. |
 | `0x8FC0..0x93C8` | `pm/Pm_ScriptCommands` | The PM script command wrappers share the `Pm_SendCmd` and `Pm_SetGetState` ABI, then continue with the current-entity and geometry command handlers. One 0x408-byte object preserves their call/global relocations and links retail-identically. |
+| `0x97DC..0x98AC` | `task/Task_DrawYield` | The frame-or-draw wait and draw-busy yield use one task suspension ABI: they decrement `g_SceneDataTable0` and set `g_TaskNodePool + 0x10`. The shared `-G8` object is 0xD0 bytes and links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 

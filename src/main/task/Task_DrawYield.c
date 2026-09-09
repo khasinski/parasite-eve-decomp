@@ -28,3 +28,17 @@ int Task_Noop1(void) {
 int Task_Noop2(void) {
     return 1;
 }
+
+
+
+
+int Entity_YieldOnDrawBusy(void) {
+    if ((Gpu_CheckDrawStatus() << 24) != 0) {
+        g_SceneDataTable0 -= 8;
+        *(int *)(g_TaskNodePool + 0x10) = 1;
+    } else {
+        return 1;
+    }
+
+    return 0;
+}
