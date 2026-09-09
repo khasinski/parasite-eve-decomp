@@ -2,6 +2,7 @@
 /* CC1_FLAGS: -mno-split-addresses */
 
 #include "common.h"
+#include "pe1/psyq_api_internal.h"
 
 extern u16 D_800945E4[];
 extern u16 D_80094620[];
@@ -15,7 +16,6 @@ int RawData_80074354(void *dst);
 void Render_InitSceneGeom(void);
 void HookEntryInt(void *entry);
 int startIntrVSync(void);
-int startIntrDMA(void);
 void Sys_HleJumpA0(void *arg);
 void ExitCriticalSection(void);
 
@@ -27,6 +27,7 @@ u16 *Sys_InitIntrManager(void) {
     u32 *ptr;
     u32 *vsyncPtr;
     int result;
+    DmaCallbackSetter dmaSetter;
 
     state = D_800945E4;
     if (state[0] != 0) {
@@ -54,9 +55,9 @@ u16 *Sys_InitIntrManager(void) {
     vsyncPtr = D_8009566C;
     vsyncPtr[5] = result;
 
-    result = startIntrDMA();
+    dmaSetter = startIntrDMA();
     ptr = D_8009566C;
-    ptr[1] = result;
+    ((DmaCallbackSetter *)ptr)[1] = dmaSetter;
 
     Sys_HleJumpA0(D_8009566C);
     state = flag;

@@ -1,26 +1,20 @@
-typedef unsigned int u32;
+#include "pe1/psyq_api_internal.h"
 
-extern void *D_800956C0[];
-extern u32 *D_800956BC;
-
-void *setIntrDMA(int channel, void *callback) {
+DmaInterruptCallback setIntrDMA(int channel, DmaInterruptCallback callback) {
     register int channelReg asm("$6");
-    register void *callbackReg asm("$4");
-    register void **base asm("$3");
-    int index;
-    void **slot;
-    void *old;
-    register void *ret asm("$2");
-    u32 *dmaReg;
+    register DmaInterruptCallback callbackReg asm("$4");
+    register DmaInterruptCallback *base;
+    DmaInterruptCallback *slot;
+    DmaInterruptCallback old;
+    register DmaInterruptCallback ret asm("$2");
+    volatile u32 *dmaReg;
     u32 mask;
-    int bit;
     u32 tmp;
     channelReg = channel;
     asm volatile("" : : "r"(channelReg));
     callbackReg = callback;
-    base = D_800956C0;
-    index = channelReg << 2;
-    slot = (void **)((char *)base + index);
+    base = g_IntrDmaHandlerTable;
+    slot = &base[channelReg];
     old = *slot;
     ret = old;
 
@@ -29,7 +23,7 @@ void *setIntrDMA(int channel, void *callback) {
             register int bitSet asm("$3");
             register u32 maskSet asm("$4");
 
-            dmaReg = D_800956BC;
+            dmaReg = g_IntrDmaDispatchPtr;
             tmp = 0xFFFFFF;
             *slot = callbackReg;
             maskSet = *dmaReg;
@@ -47,9 +41,9 @@ void *setIntrDMA(int channel, void *callback) {
         } else {
             register int bitClear asm("$4");
             register u32 maskClear asm("$3");
-            register void *zeroReg asm("$0");
+            register DmaInterruptCallback zeroReg asm("$0");
 
-            dmaReg = D_800956BC;
+            dmaReg = g_IntrDmaDispatchPtr;
             tmp = 0xFFFFFF;
             *slot = zeroReg;
             maskClear = *dmaReg;

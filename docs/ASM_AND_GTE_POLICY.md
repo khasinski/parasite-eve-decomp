@@ -1093,3 +1093,28 @@ The respective text SHA-256 values are:
 or language for these members. Neither the matching bytes nor the object
 names prove original handwritten assembly. Their classification is unchanged;
 no new exemption from decompilation is inferred from this evidence.
+
+## DMA callback types
+
+`setIntrDMA` and `startIntrDMA` share typed callback declarations through
+`psyq_api_internal.h`. The setter accepts and returns a pointer to a
+no-argument interrupt callback; initialization returns a pointer to that
+setter, which `Sys_InitIntrManager` stores as such. This replaces the
+inconsistent `void *` and integer return declarations. The handler table
+uses ordinary callback-pointer indexing rather than a manual four-byte
+shift and byte-pointer cast.
+
+The setter accesses the dispatch register through a volatile local pointer.
+The retail data word at
+0x800956BC contains 0x1F8010F4, the DMA interrupt control register. This is
+hardware qualification, not a scheduling-only volatile object. Initialization
+retains its original unqualified single store: making that store volatile
+prevents stock GCC 2.7.2 from placing it in the call delay slot and adds a nop.
+Canonical
+linker symbols identify that pointer and the handler table at 0x800956C0.
+
+The table-base v1 pin was removable without changing the generated text or
+relocations. Individual removal of the other setter pins did not preserve
+the match; they remain, along with the existing empty barriers. The typed
+setter and clear helper each retain 100% upstream objdiff. No CPU assembly
+or tool modification was introduced.
