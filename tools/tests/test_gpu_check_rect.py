@@ -10,8 +10,10 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class CheckRectTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_diagnostics_boundaries_and_no_mutation(self):
-        source = (ROOT / "src/main/psyq/libgpu/sys_image.c").read_text()
-        source = source[:source.find("/* GCC_VERSION:", len("/* GCC_VERSION:"))]
+        unit = (ROOT / "src/main/psyq/libgpu/sys_display.c").read_text()
+        check_rect = unit.index("void checkRECT")
+        source = unit[unit.rfind("/* GCC_VERSION:", 0, check_rect):
+                      unit.find("/* GCC_VERSION:", check_rect + 1)]
         self.assertEqual(source.count('asm("$3")'), 1)
         source = source.replace('asm("$3")', "")
         # The retail MIPS callback is intentionally unprototyped.  Route the
