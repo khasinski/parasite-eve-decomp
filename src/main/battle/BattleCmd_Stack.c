@@ -1,10 +1,12 @@
-#include "common.h"
-#include "pe1/battle_cmd.h"
-#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
+#include "common.h"
+#include "pe1/battle_cmd.h"
+#include "pe1/inventory.h"
+
 extern BattleCmdEntry *D_8009D014;
+extern char D_800A1B30[];
 extern BattleCmdEntry D_800A1AA0[];
 extern s16 D_800C0E48[];
 extern s8 D_800C0E20[];
@@ -12,6 +14,35 @@ extern s8 D_800C0E22[];
 
 int Inv_CheckSlotUsable(int data);
 int Inv_FindIndexByData(int data);
+
+BattleCmdEntry *BattleCmd_AllocSlot(void) {
+    BattleCmdEntry *top;
+    register BattleCmdEntry *end asm("$3");
+    register BattleCmdEntry *dst asm("$7");
+    BattleCmdEntry *limit;
+    BattleCmdEntry *next;
+
+    top = D_8009D014;
+    end = (BattleCmdEntry *)D_800A1B30;
+    if (top < end) {
+        next = top + 1;
+        D_8009D014 = next;
+    } else {
+        top = end - 4;
+        end = end - 1;
+        dst = top;
+        if (top < end) {
+            limit = end;
+            do {
+                BattleCmdEntry *src = top + 1;
+                *dst = *src;
+                top += 1;
+                dst = top;
+            } while (top < limit);
+        }
+    }
+    return top;
+}
 
 void BattleCmd_UndoPending(void) {
     BattleCmdEntry *entry;
