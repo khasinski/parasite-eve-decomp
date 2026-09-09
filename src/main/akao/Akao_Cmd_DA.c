@@ -1,9 +1,0 @@
-#include "pe1/akao/commands.h"
-
-void Akao_Cmd_DA(int arg0, int arg1, int arg2) {
-    g_AkaoCmdOpcode = 0xDA;
-    g_AkaoCmdArg0 = arg0;
-    g_AkaoCmdArg1 = arg1 & 0xFF;
-    g_AkaoCmdArg2 = arg2 & 0xFF;
-    Akao_EnqueueStagedCommand();
-}
