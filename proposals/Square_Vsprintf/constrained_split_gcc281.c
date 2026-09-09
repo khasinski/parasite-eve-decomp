@@ -79,7 +79,6 @@ s32 Square_Vsprintf(char *dest, s8 *format, ...)
 
         {
             register FormatSpec *initial asm("$5") = &D_80094528;
-            /* Preserve the completed template address before field loads. */
             asm("" : "+r"(initial));
             {
             u32 flags = initial->header.flags;
@@ -322,8 +321,12 @@ hexadecimal:
                 }
             } while (0);
             if ((work.spec.header.flags >> 2) & 1) {
-                *--src = c;
-                *--src = zero;
+                --src;
+                *src = c;
+                /* Keep the two prefix-byte pointer updates separate. */
+                asm volatile("" : "+r"(src));
+                --src;
+                *src = zero;
                 count += 2;
             }
             break;

@@ -56,7 +56,6 @@ s32 Square_Vsprintf(char *dest, s8 *format, ...)
     s32 zero;
     s32 space;
     s32 plus;
-    u8 *prefixEnd;
     s32 minus;
     s8 *flagBase;
     s8 *precisionBase;
@@ -318,10 +317,12 @@ hexadecimal:
                     count++;
                 }
             } while (0);
-            prefixEnd = src - 1;
             if ((work.spec.header.flags >> 2) & 1) {
-                *prefixEnd = c;
-                src -= 2;
+                --src;
+                *src = c;
+                /* Keep the two prefix-byte pointer updates separate. */
+                asm volatile("" : "+r"(src));
+                --src;
                 *src = zero;
                 count += 2;
             }

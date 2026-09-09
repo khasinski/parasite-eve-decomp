@@ -260,3 +260,32 @@ that reassigned the temporary to `src` scored 99.31193% and 99.484406%; keeping
 the two-byte adjustment together produced the retained result. This repairs
 the invalid permutation rather than accepting its lower permuter penalty.
 Production assembly and match accounting remain unchanged until exactness.
+
+
+## Separate hexadecimal prefix updates (2026-09-10)
+
+The maintained unsplit source now scores **99.68807%** (previously
+99.500916%). Inside the alternate-form condition it decrements `src`, stores
+the conversion character, then decrements `src` again and stores zero. An
+empty `+r` constraint between those two stores preserves the two pointer
+updates instead of folding them into a single subtraction by two. Removing
+that constraint loses the matching prefix instruction sequence. The unused
+`prefixEnd` temporary is removed. There are now three pins and seven empty
+constraints in this candidate; no instruction ASM or tool changes were added.
+
+Ignoring the jump-table symbol name, the only remaining instruction mismatch
+is the uppercase digit-table address: its low-half ADDIU precedes the jump,
+followed by an extra NOP, whereas retail schedules ADDIU in the jump delay
+slot. Candidate text is 2184 bytes versus 2180 retail. This remains a proposal,
+not a replacement for production ASM.
+
+The same prefix update applied to `constrained_split_gcc281.c` improves it to
+**99.39449%**. Its digit-table selection matches, but the switch dispatch
+materializes the jump-table address and indexes it differently. Stock AT
+allocation and scheduler/CSE flag trials did not close that remaining gap.
+
+Both maintained sources pass all 1,471 retail-oracle cases, including zero
+hexadecimal values without alternate form. Percentages are object-diff scores,
+not matched production-function credit. The existing remote `unsplit-refined`
+search was confirmed live at more than 150,000 iterations; its previously
+rejected saved candidates were not accepted or substituted for these sources.
