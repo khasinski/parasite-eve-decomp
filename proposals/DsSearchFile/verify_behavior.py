@@ -23,7 +23,7 @@ script+='\nSECTIONS { .text 0x80081414 : { *(.text) } /DISCARD/ : { *(.reginfo) 
 Path(link_script).write_text(script)
 subprocess.run(['mipsel-none-elf-ld','-T',link_script,str(object_path),'-o',linked_object],check=True)
 with open(linked_object,'rb') as f:
- elf=ELFFile(f);patches=[(s['sh_addr'],s.data()) for s in elf.iter_sections() if s['sh_flags']&2 and s['sh_size']]
+ elf=ELFFile(f);entries={s.name: s['st_value'] for s in elf.get_section_by_name('.symtab').iter_symbols()};patches=[(s['sh_addr'],s.data()) for s in elf.iter_sections() if s['sh_flags']&2 and s['sh_size']]
 def run(case,patch):
  path,hit,cache_ok,media_ok,cached,debug=case
  u=Uc(UC_ARCH_MIPS,UC_MODE_MIPS32|UC_MODE_LITTLE_ENDIAN);u.mem_map(0,0x200000)
@@ -56,14 +56,15 @@ def run(case,patch):
    fmt=rdstr(args[0]);trace.append((fn,fmt,rdstr(args[1]),args[2] if args[0]==0x80011e6c else 0));v=0
   cpu.reg_write(UC_MIPS_REG_V0,v);cpu.reg_write(UC_MIPS_REG_PC,cpu.reg_read(UC_MIPS_REG_RA))
  for n in ['CdRom_GetDiskType','DS_newmedia','DS_searchdir','DS_cachefile','_cmp','puts','printf']:
-  u.hook_add(UC_HOOK_CODE,call,user_data=n,begin=syms[n],end=syms[n])
+  address=entries.get(n,syms[n]) if patch else syms[n]
+  u.hook_add(UC_HOOK_CODE,call,user_data=n,begin=address,end=address)
  u.reg_write(UC_MIPS_REG_A0,0x80110000);u.reg_write(UC_MIPS_REG_A1,0x80100000)
  u.reg_write(UC_MIPS_REG_SP,0x801ff000);u.reg_write(UC_MIPS_REG_RA,0x8000f000)
  u.emu_start(0x80081414,0x8000f000,count=100000)
  assert u.reg_read(UC_MIPS_REG_PC)==0x8000f000
  return u.reg_read(UC_MIPS_REG_V0),bytes(u.mem_read(0x110000,64)),bytes(u.mem_read(0x9b6e0,4)),trace
 paths=[b'',b'FILE.BIN;1',b'\\FILE.BIN;1',b'\\DIR\\FILE.BIN;1',b'\\BAD\\FILE.BIN;1',b'\\',b'\\A\\B\\C\\D\\E\\F\\FILE.BIN;1',b'\\A\\B\\C\\D\\E\\F\\G\\FILE.BIN;1']
-for n,case in enumerate(itertools.product(paths,[-1,0,2,63],[0,1],[0,1],[0,2],[0,2]),1):
+for n,case in enumerate(itertools.product(paths,[-1,0,2,63],[0,1,0xffffffff],[0,1],[0,2],[0,2]),1):
  a,b=run(case,[]),run(case,patches)
  if a!=b:print('FAIL',case,a,b);raise SystemExit(1)
 print('PASS',n,'cases: return pointers, output records, media state and external-call traces')
