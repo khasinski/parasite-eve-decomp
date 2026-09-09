@@ -1384,10 +1384,8 @@ segments:
       - [0x72D14, c, memcard/mem_card7]
       - [0x72E80, c, memcard/CardObj_GetField]
       - [0x72F78, c, memcard/func_80082778]
-      - [0x7304C, c, memcard/func_8008284C]
-      - [0x730F4, c, memcard/CardObj_StartCommand4D]
-      - [0x7312C, c, memcard/CardObj_StartCommandWithBytes]
-      - [0x73174, c, memcard/CardObj_SetCommandPayload]
+      # Card-object lookup and command wrappers share the active-object factory.
+      - [0x7304C, c, memcard/CardObj_CommandFacade]
       - [0x731BC, c, main/gap_memcard_card_obj_tail_731BC]
       - [0x731C4, c, memcard/mem_card8]
       - [0x732DC, c, memcard/MemCard_InitTimerCallbacks]
