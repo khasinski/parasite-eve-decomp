@@ -9,7 +9,7 @@ on:
 
 jobs:
   source-only:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       PE_CPP: ${{ github.workspace }}/tools/old-gcc/cpp
     steps:
@@ -23,8 +23,11 @@ jobs:
       # compiler pipeline as the full build, but do not need retail assets.
       - name: Install cross binutils
         run: |
-          sudo apt-get update
-          sudo apt-get install -y binutils-mipsel-linux-gnu
+          # Binutils comes from Ubuntu; unrelated preinstalled vendor feeds
+          # must not block the build when their package indexes are inconsistent.
+          apt_sources=(-o Dir::Etc::sourcelist=/etc/apt/sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=-)
+          sudo apt-get "${apt_sources[@]}" update
+          sudo apt-get "${apt_sources[@]}" install -y binutils-mipsel-linux-gnu
           for tool in as ld nm objcopy objdump readelf; do
             sudo ln -sf "/usr/bin/mipsel-linux-gnu-$tool" "/usr/local/bin/mipsel-none-elf-$tool"
           done
@@ -47,7 +50,7 @@ jobs:
     # Forks have no access to the assets repository; skipping keeps their
     # first push green instead of red.
     if: github.repository == 'khasinski/parasite-eve-decomp'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       PE_CPP: ${{ github.workspace }}/tools/old-gcc/cpp
     steps:
@@ -61,8 +64,11 @@ jobs:
       # ships the same binaries as mipsel-linux-gnu-*.
       - name: Install cross binutils
         run: |
-          sudo apt-get update
-          sudo apt-get install -y binutils-mipsel-linux-gnu
+          # Binutils comes from Ubuntu; unrelated preinstalled vendor feeds
+          # must not block the build when their package indexes are inconsistent.
+          apt_sources=(-o Dir::Etc::sourcelist=/etc/apt/sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=-)
+          sudo apt-get "${apt_sources[@]}" update
+          sudo apt-get "${apt_sources[@]}" install -y binutils-mipsel-linux-gnu
           for tool in as ld nm objcopy objdump readelf; do
             sudo ln -sf "/usr/bin/mipsel-linux-gnu-$tool" "/usr/local/bin/mipsel-none-elf-$tool"
           done
