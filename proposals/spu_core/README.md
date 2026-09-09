@@ -64,7 +64,7 @@ two local copies. All fourteen combined scores remain unchanged; main retail
 SHA, all 191 overlay SHAs, 290 repository tests and source/organization/debt
 gates pass. The production extern count falls from 3610 to 3603.
 
-The transfer-address qualifier conflict remains unresolved: spu_transfer uses
+Earlier experiments exposed a transfer-address qualifier conflict: spu_transfer uses
 ordinary u16 storage while Spu_WriteRegChecked uses volatile u16. The latter's
 retail code stores then reloads the halfword; the former's polling code does
 not reload it on every iteration. Making the core declaration volatile gives
@@ -79,5 +79,22 @@ no-expensive-optimizations gives 89.347824%. A two-member union with ordinary
 and volatile halfword views preserves all four core functions, but the wrapper
 scores 90.434784% whether its store uses the ordinary or observed member.
 These access-view experiments are not retained or asserted as an original
-structure. Resolving this boundary requires matching both users, not simply
-choosing one declaration globally.
+structure. These unsuccessful experiments preceded the matching resolution below.
+
+The transfer-address boundary is now resolved in production. Both users share
+one ordinary u16 g_SpuTransferAddr declaration. Spu_WriteRegChecked retains
+one empty barrier with read and write memory operands limited to that halfword;
+this prevents forwarding the store value and recovers the original symbolic
+LHU without the extra ADDIU introduced by pointer views. The checked wrapper
+and all four production transfer functions match at 100%, and the main retains
+its retail SHA. No pins or instruction ASM are added.
+
+The barrier was minimized on the final source: removing it gives 74.78261%,
+input-only gives 85.86957%, and output-only gives 91.08696%. A broad memory
+clobber also matches, but is replaced by the narrower halfword operands.
+The unsigned range check now casts the input before subtraction, preserving
+all instructions while making its wraparound defined. The debt baseline
+records the one new barrier (362 → 363) and two fewer local externs.
+All 191 overlays, 290 tests and source/organization/debt gates pass. The
+192-case SPU initialization/real-transfer comparison also passes with the
+shared address declaration.

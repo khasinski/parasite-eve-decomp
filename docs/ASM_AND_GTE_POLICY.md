@@ -1764,3 +1764,17 @@ gates pass. The fourteen-function combined candidate keeps all previous scores.
 The transfer-address volatile mismatch is intentionally still local: attempts
 to unify it regress either _spu_t or Spu_WriteRegChecked, as recorded in the
 spu_core candidate README. No conflicting type is silently overridden.
+
+
+## SPU transfer-address qualifier boundary
+
+Spu_WriteRegChecked and the transfer core now share one ordinary u16 address
+object. A single empty barrier in the checked wrapper has read/write memory
+operands restricted to that halfword, preserving the retail store-and-reload
+sequence without contradictory extern qualifiers. The wrapper and all four
+production transfer functions match at 100%, with the full retail main SHA.
+Removing the barrier or either memory operand breaks the match; measurements
+are recorded in proposals/spu_core/README.md. The retained barrier adds one to
+the debt baseline, with no register pin or instruction ASM. The range check
+casts before subtraction so its arithmetic wraps unsigned, with identical code.
+This supersedes the earlier unresolved-boundary note above.

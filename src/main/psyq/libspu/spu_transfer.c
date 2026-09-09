@@ -3,7 +3,6 @@
 /* CC1_FLAGS: -mno-split-addresses */
 
 #include "pe1/psyq_spu_internal.h"
-extern u16 g_SpuTransferAddr;
 extern volatile u32 D_8009B450;
 extern u32 D_8009B454;
 extern s32 D_8009B418;

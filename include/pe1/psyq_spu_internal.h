@@ -68,6 +68,7 @@ extern volatile u32 *g_SpuDmaMadrPtr;
 extern volatile u32 *g_SpuDmaBcrPtr;
 extern volatile u32 *g_SpuDmaChcrPtr;
 extern s32 g_SpuDmaDirection;
+extern u16 g_SpuTransferAddr;
 extern u32 *D_8009B410;
 extern s32 D_8009B3EC;
 extern s32 _spu_EVdma;

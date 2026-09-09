@@ -1,5 +1,4 @@
 #include "pe1/psyq_spu_internal.h"
-extern u16 g_SpuTransferAddr;
 extern int D_8009B418, D_8009B41C, g_SpuTransferActiveFlag;
 extern volatile u16 D_800B6900[10];
 extern unsigned char D_8009B43C[16];

@@ -1,7 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/psyq_spu_internal.h"
-extern u16 g_SpuTransferAddr;
 extern char D_80011C4C[], D_80011C6C[], D_80011C80[];
 int printf(const char *, ...);
 
