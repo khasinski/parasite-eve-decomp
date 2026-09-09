@@ -1186,3 +1186,24 @@ existing 12-byte storage layout.
 async-state layout instead of raw negative indices. Its result parameter
 and the unused parameters of `CdRom_BreakSyncCallback` now agree with the
 registration ABI. No pins, barriers or instruction ASM were introduced.
+
+## DsRead2 data callback registration
+
+`DsRead2` now calls `DsDataCallback(data_ready_callback)` directly in C.
+Stock GCC 2.8.1 emits the original LUI, JAL and low-address ADDIU in the
+call delay slot, so the handwritten call window and its result-register
+pin are removed. The saved data callback already has its recovered
+function-pointer type.
+
+The saved-position s2 pin was independently removable with identical full
+text. Removing the saved-mode s0 pin, either alone or together with the
+position pin, changed the binary; only the mode pin remains. No new empty
+barrier or pin was introduced. Full linked SHA remains the acceptance gate.
+
+The preceding flag-setting assembly remains. A complete C trial, using an
+ordinary branch and a local constant constrained only in the nonzero arm,
+reproduces the flag window's instruction count and branch layout, but uses
+ordinary temporary address registers instead of the original AT register.
+Making AT allocatable also changes the argument and condition temporaries;
+the tested constrained variants did not match. This partial removal does
+not classify the containing TU as pure C.

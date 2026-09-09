@@ -1,3 +1,4 @@
+/* Experimental full C reconstruction; not an exact match. See README.md. */
 /* GCC_VERSION: 2.8.1 */
 
 #include "pe1/psyq_cd.h"
@@ -12,30 +13,21 @@ int DsRead2(CdlLOC *pos, int mode) {
     DsCallback saved_data;
     register int saved_mode asm("$16");
     DsEventCallback saved_sync;
-    CdlLOC *saved_pos;
+    register CdlLOC *saved_pos asm("$18");
     int ret;
 
     saved_pos = pos;
     saved_mode = mode;
     if (saved_mode & 0x100) {
-        asm volatile(
-            ".set\tnoat\n\t"
-            ".set\tnoreorder\n\t"
-            "andi\t$2,%0,0x20\n\t"
-            "beqz\t$2,1f\n\t"
-            "addiu\t$2,$zero,1\n\t"
-            "lui\t$1,%%hi(g_DsStreamNoLocFlag)\n\t"
-            "j\t2f\n\t"
-            "sw\t$zero,%%lo(g_DsStreamNoLocFlag)($1)\n"
-            "1:\n\t"
-            "lui\t$1,%%hi(g_DsStreamNoLocFlag)\n\t"
-            "sw\t$2,%%lo(g_DsStreamNoLocFlag)($1)\n"
-            "2:\n\t"
-            ".set\treorder\n\t"
-            ".set\tat"
-            :
-            : "r"(saved_mode)
-            : "$2", "$1", "memory");
+        {
+            int one = 1;
+            if (saved_mode & 0x20) {
+                g_DsStreamNoLocFlag = 0;
+            } else {
+                g_DsStreamNoLocFlag = one;
+                asm("" : : "r"(one));
+            }
+        }
         saved_data = DsDataCallback(data_ready_callback);
         saved_sync = DsSyncCallback(CdRom_BreakSyncCallback);
         ret = Render_BuildParticleFrame(saved_mode & 0xFF, saved_pos, 0x1B, 0, -1);
