@@ -3,7 +3,7 @@
 Complete C reconstruction of retail `0x8007BBFC` (480 bytes), using the
 shared callback prototypes, word-sized CD status and `CdInterruptEvents`.
 No register pins, barriers or instruction assembly are needed to express
-its behavior. Stock GCC 2.8.1 with unsplit addresses scores 94.625% in
+its behavior. Stock GCC 2.8.1 with unsplit addresses scores 95.958336% in
 objdiff. Production remains assembly pending a byte-exact match.
 
 The function resets software state and callbacks, registers the CD
@@ -30,7 +30,7 @@ are modeled. Calls are serviced outside emulation to avoid Unicorn restarting
 a code hook when a modeled command writes emulated RAM. Removing the
 command-10 failure check is rejected by the negative control.
 
-Remaining differences are diagnostic/store delay slots, independent zero
+Remaining differences are diagnostic/status-store delay slots, independent zero
 argument registers and stack restoration in the epilogue. The final
 comparison now matches by using an explicit non-success test and early
 return, rather than a conditional expression (previously 89.833336%). GCC 2.7.2 scores
@@ -39,3 +39,10 @@ source, disabling either scheduling pass scores 90.625%; disabling peepholes
 or CSE follow-jumps/skip-blocks leaves 94.625% unchanged. Explicit constrained
 zero-argument helpers regressed the earlier source, and a constrained return
 was worse than this ordinary C branch. No constraints were retained.
+
+The candidate now uses the same u32 word-control access type as CD_flush.
+This moves the single 0x1325 store into the CD_cw call delay slot and removes
+one extra NOP, raising the score from 94.625% to 95.958336% without pins or
+barriers. The same score holds in the nine-function combined source. The
+240-case suite passes there, along with 24 integrated initialization cases
+executing real CD_cw, CD_sync and getintr; see ../libcd_commands/README.md.

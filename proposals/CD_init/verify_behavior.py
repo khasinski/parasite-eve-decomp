@@ -18,11 +18,13 @@ with tempfile.TemporaryDirectory(prefix='cd-init-') as work:
     script, linked = Path(work) / 'candidate.ld', Path(work) / 'candidate.elf'
     undefined = subprocess.check_output(['mipsel-none-elf-nm', '-u', sys.argv[1]], text=True).split()[1::2]
     symbols = dict(re.findall(r'^(\w+) = (0x[0-9A-Fa-f]+);', Path('configs/USA/sym.main.txt').read_text(), re.M))
+    symbols.update(re.findall(r'^(\w+) = (0x[0-9A-Fa-f]+);', Path('linkers/USA/undefined_syms_manual.txt').read_text(), re.M))
     definitions = [f'{name} = ' + ('0x' + name[2:] if name.startswith('D_') else symbols[name]) + ';' for name in undefined]
-    script.write_text('\n'.join(definitions) + '\nSECTIONS { .text 0x8007BBFC : { *(.text) } .rodata 0x80140000 : { *(.rodata*) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }')
+    script.write_text('\n'.join(definitions) + '\nSECTIONS { .text 0x80150000 : { *(.text) } .rodata 0x80140000 : { *(.rodata*) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }')
     subprocess.run(['mipsel-none-elf-ld', '-T', str(script), sys.argv[1], '-o', str(linked)], check=True)
     with linked.open('rb') as stream:
         elf = ELFFile(stream)
+        entries = {symbol.name: symbol['st_value'] for symbol in elf.get_section_by_name('.symtab').iter_symbols()}
         sections = [(s['sh_addr'] & 0x1FFFFFFF, s.data()) for s in elf.iter_sections() if s.name in ('.text', '.rodata')]
 
 def run(pending, status, fail_command, sync_result, candidate):
@@ -58,7 +60,7 @@ def run(pending, status, fail_command, sync_result, candidate):
             u.mem_write(address, bytes([value]))
             trace.append(('read', address, value))
     cpu.hook_add(UC_HOOK_MEM_READ | UC_HOOK_MEM_WRITE, access)
-    api = {int(symbols[name], 16): name for name in ('puts', 'printf', 'ResetCallback', 'InterruptCallback', 'CD_cw', 'CD_sync')}
+    api = {(entries.get(name, int(symbols[name], 16)) if candidate else int(symbols[name], 16)): name for name in ('puts', 'printf', 'ResetCallback', 'InterruptCallback', 'CD_cw', 'CD_sync')}
     def call(u, address, size, user):
         name = api[address]
         args = [u.reg_read(r) for r in (UC_MIPS_REG_A0, UC_MIPS_REG_A1, UC_MIPS_REG_A2, UC_MIPS_REG_A3)]
@@ -90,7 +92,7 @@ def run(pending, status, fail_command, sync_result, candidate):
         cpu.hook_add(UC_HOOK_CODE, trap, begin=address, end=address)
     cpu.reg_write(UC_MIPS_REG_SP, 0x801F0000)
     cpu.reg_write(UC_MIPS_REG_RA, 0x801E0000)
-    pc = 0x8007BBFC
+    pc = entries['CD_init'] if candidate else 0x8007BBFC
     for step in range(32):
         cpu.emu_start(pc, 0x801E0000, count=10000)
         if not trapped:

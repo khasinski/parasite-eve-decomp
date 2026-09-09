@@ -1,10 +1,10 @@
 # Reconstructed LIBCD interrupt, command and wait routines
 
-`candidate.c` compiles getintr, CD_sync, CD_ready, CD_cw, CD_vol, CD_flush, CD_initvol and CD_initintr in retail
+`candidate.c` compiles getintr, CD_sync, CD_ready, CD_cw, CD_vol, CD_flush, CD_initvol, CD_initintr and CD_init in retail
 order, using one stock GCC 2.8.1 configuration:
 `-mno-split-addresses -fno-expensive-optimizations`. It includes their current
 candidate sources, so standalone and combined experiments share definitions.
-This covers 4424 retail bytes and is still only part of BIOS_1: other driver
+This covers 4904 retail bytes and is still only part of BIOS_1: other driver
 routines and data ownership remain outside this file. The first four functions remain assembly in production; CD_vol and CD_flush
 already use matching C. The new ordinary-C CD_initvol replaces the legacy
 stack/register model only in this combined reconstruction, pending CD_initintr
@@ -21,6 +21,7 @@ sources directly.
 | CD_flush | 212 | 100% |
 | CD_initvol | 240 | 100% |
 | CD_initintr | 76 | 84.47369% |
+| CD_init | 480 | 95.958336% |
 
 The common configuration retains the previous three-function combined scores.
 getintr alone reaches 95.997086% without `-fno-expensive-optimizations`; its
@@ -32,6 +33,8 @@ and response-copy helpers are shared inline C.
 
 ```sh
 tools/scripts/cc.sh proposals/libcd_commands/candidate.c /tmp/libcd_commands.o
+python proposals/CD_init/verify_behavior.py /tmp/libcd_commands.o
+python proposals/libcd_commands/verify_init_chain.py /tmp/libcd_commands.o
 python proposals/CD_initintr/verify_behavior.py /tmp/libcd_commands.o
 python proposals/CD_initvol/verify_behavior.py /tmp/libcd_commands.o
 python proposals/getintr/verify_behavior.py /tmp/libcd_commands.o
@@ -102,3 +105,17 @@ and two shared status words instead of a pinned synthetic page. Its 24-case
 suite passes on the combined object, but it does not yet match byte-for-byte.
 The canonical u32 CD_status1 declaration is shared with getintr and production
 initialization; clearing just its low byte is rejected by the negative control.
+
+CD_init is the ninth reconstructed function. Its word-control access uses the
+same u32 pointee type as CD_flush, allowing its single initialization store
+to occupy the original CD_cw call delay slot (94.625% → 95.958336%). It remains
+assembly in production. Its existing 240-case suite passes on the combined
+object. `verify_init_chain.py` adds 24 comparisons executing the actual
+CD_init → CD_cw → CD_sync → getintr bodies on both sides. It covers 0/1/7
+initial pending interrupts, a first NOP with or without lid-open status, and
+command 1/10/12 failures or success. Command-1 errors are ignored; command
+10/12 errors abort initialization. The model supplies eight-byte FIFO
+responses, VSync, callback context, registration and diagnostics. It compares
+MMIO/API traces, status/event words, response buffers, return and stack.
+Timeouts and asynchronous callback delivery are outside this particular suite;
+CD_flush is not invoked. Omitting the command-10 failure branch is rejected.
