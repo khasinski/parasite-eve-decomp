@@ -162,6 +162,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xB6948..0xB6ADC` | `engine/FieldEng_RadiusAndTransform` | A radius test and transformed quadrilateral setup form a 0x194-byte TU before the intervening ASM collision primitive; it links retail-identically. |
 | `0xB6D3C..0xB6DE4` | `engine/FieldEng_RadiusPair` | The paired-entity radius test and its support helper form a 0xA8-byte TU after that ASM primitive and link retail-identically. |
 | `0xB6EC8..0xB71D4` | `engine/FieldEng_FindAssetAtPosition` | Three variants of status-gated asset lookup share their table ABI and positional coordinate forms in a 0x1D4-byte TU that links retail-identically. |
+| `0xB7320..0xB755C` | `engine/FieldEng_EntityCollision` | Active-entity quadrilateral and radius collision tests plus status-gated collision enabling share a 0x1C0-byte TU and link retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
