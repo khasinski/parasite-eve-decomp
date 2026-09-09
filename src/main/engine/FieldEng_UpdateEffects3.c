@@ -235,3 +235,158 @@ int func_800C9C20(char *obj) {
     D_800E27A4 = data;
     func_800CEDA8(0);
 }
+
+
+typedef struct {
+    s16 vx;
+    s16 vy;
+    s16 vz;
+    s16 pad;
+} SVECTOR;
+
+void ApplyMatrixSV();
+int rand(void);
+
+extern char *D_800E27A4;
+extern u16 D_800E2358;
+extern u16 D_800E235A;
+extern u16 D_800E235C;
+
+int func_800C9C8C(void *arg0, void *arg1, u8 *anim) {
+    SVECTOR vec;
+    int (*model)[];
+
+    vec.vx = -(rand() % 3 + 9);
+    vec.vy = -(rand() % 3 + 9);
+    vec.vz = rand() % 5 - 2;
+
+    model = *(int (**)[])(D_800E27A4 + 0x238);
+    ApplyMatrixSV(model, &vec, anim + 0x10);
+
+    *(u16 *)(anim + 0x8) = D_800E2358;
+    *(u16 *)(anim + 0xA) = D_800E235A;
+    *(u16 *)(anim + 0xC) = D_800E235C;
+    anim[2] = 0x14;
+    anim[1] = 0;
+}
+
+
+
+extern char *D_8009D254;
+extern char D_800E0AF8[];
+extern char *D_800E27A4;
+extern u16 D_800E2358;
+extern u16 D_800E235A;
+extern u16 D_800E235C;
+
+int func_800C9D9C(void *arg0, void *arg1, u8 *anim) {
+    u8 *anim_s0 = anim;
+    SVECTOR out;
+    char *data;
+    char *entry;
+    char *model;
+    int m0;
+    int m1;
+    int m2;
+    int m3;
+
+    entry = D_800E0AF8 + (((short)(*(u16 *)(*(char **)(*(char **)D_8009D254 + 0x68) + 6) - 1)) << 3);
+    ApplyMatrixSV(*(char **)(D_800E27A4 + 0x238) + 0x260, entry, &out);
+
+    *(u16 *)(anim_s0 + 0x8) = D_800E2358 + out.vx;
+    *(u16 *)(anim_s0 + 0xA) = D_800E235A + out.vy;
+    data = D_800E27A4;
+    *(u16 *)(anim_s0 + 0xC) = D_800E235C + out.vz;
+
+    model = *(char **)(data + 0x238);
+    m0 = *(int *)(model + 0x260);
+    m1 = *(int *)(model + 0x264);
+    m2 = *(int *)(model + 0x268);
+    m3 = *(int *)(model + 0x26C);
+    *(int *)(anim_s0 + 0x10) = m0;
+    *(int *)(anim_s0 + 0x14) = m1;
+    *(int *)(anim_s0 + 0x18) = m2;
+    *(int *)(anim_s0 + 0x1C) = m3;
+    m0 = *(int *)(model + 0x270);
+    m1 = *(int *)(model + 0x274);
+    m2 = *(int *)(model + 0x278);
+    m3 = *(int *)(model + 0x27C);
+    *(int *)(anim_s0 + 0x20) = m0;
+    *(int *)(anim_s0 + 0x24) = m1;
+    *(int *)(anim_s0 + 0x28) = m2;
+    *(int *)(anim_s0 + 0x2C) = m3;
+    asm volatile("" ::: "memory");
+    *(u16 *)(anim_s0 + 0x4) = 0x7F;
+}
+
+void func_800C9EA0(void) {
+}
+
+
+void func_800C2EAC(int arg0);
+void func_800C2FF0(int arg0, int arg1);
+void func_800C3098(int arg0);
+void func_800C3238(int arg0);
+void func_800C42A4(void *arg0, void *arg1, int arg2);
+void RotMatrix(SVECTOR *rot, Matrix *matrix);
+void *memset(void *dest, int value, unsigned int count);
+
+extern char *D_8009D254;
+extern s16 D_800E0AD8[];
+extern u8 D_800E22F8;
+
+int func_800C9EA8(void *arg0, void *arg1, u8 *anim) {
+    register int index_s0 asm("$16");
+    u8 *anim_s1 = anim;
+    int rot_v0;
+    register Matrix *matrix_a0 asm("$4");
+    int scale_v0;
+    register int scale2_a2 asm("$6");
+    register int scale3_a3 asm("$7");
+    Matrix matrix;
+    SVECTOR rot;
+    int scale_arg[4];
+    volatile int scale[4];
+
+    index_s0 = *(u16 *)(*(char **)(*(char **)D_8009D254 + 0x68) + 6);
+
+    rot.vx = 0;
+    rot.vy = 0;
+    rot_v0 = anim_s1[1];
+    rot_v0 <<= 24;
+    rot_v0 >>= 18;
+    index_s0--;
+    rot.vz = rot_v0;
+    func_800C2EAC(3);
+    func_800C3098(0x10);
+    func_800C2FF0(0x10, 0x10);
+    func_800C3238(0);
+
+    RotMatrix(&rot, &matrix);
+
+    matrix.t[0] = *(s16 *)(anim_s1 + 0x8);
+    matrix.t[1] = *(s16 *)(anim_s1 + 0xA);
+    matrix.t[2] = *(s16 *)(anim_s1 + 0xC);
+
+    memset((void *)scale, 0, sizeof(scale));
+    index_s0 <<= 16;
+    index_s0 >>= 15;
+    scale[0] = D_800E0AD8[index_s0 >> 1];
+    scale_v0 = D_800E0AD8[index_s0 >> 1];
+    asm("" : : "r"(scale_v0) : "$4");
+    matrix_a0 = &matrix;
+    asm volatile("" : "=r"(matrix_a0) : "0"(matrix_a0));
+    scale[1] = scale_v0;
+    scale[2] = D_800E0AD8[index_s0 >> 1];
+
+    scale_arg[0] = scale[0];
+    scale_arg[1] = scale[1];
+    scale2_a2 = scale[2];
+    scale3_a3 = scale[3];
+    scale_arg[2] = scale2_a2;
+    scale_arg[3] = scale3_a3;
+
+    asm volatile("" ::: "memory");
+    Gte_ScaleMatrix(matrix_a0, scale_arg);
+    func_800C42A4(&D_800E22F8, &matrix, 1);
+}
