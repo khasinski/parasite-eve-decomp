@@ -10,7 +10,7 @@ Unsigned intermediate negation/left shifts retain the MIPS bit operations
 without relying on signed overflow for those expressions.
 
 Stock GCC 2.7.2 with the pinned MASPSX `--expand-div` option gives
-**93.548386%** against the 372-byte retail function. Division expansion is
+**96.72043%** against the 372-byte retail function. Division expansion is
 necessary to retain the original divide-by-zero/overflow checks and breaks.
 No pins, barriers, instruction ASM or toolchain changes are used. Remaining
 mismatches include the zero-vector return path, indexed loads through AT
@@ -36,3 +36,21 @@ python3 proposals/Gte_Atan2/verify_behavior.py /tmp/Gte_Atan2.o
 
 The verifier requires Unicorn, pyelftools and MIPS binutils. The authoritative
 comparison target is `expected/build/USA/asm/USA/main/psyq/libgte/Gte_Atan2.s.o`.
+
+
+## Shared return path (2026-09-10)
+
+The zero-vector path now initializes a shared result only inside the `x == 0`
+branch, then reaches the same return as nonzero vectors. After the sign and
+quadrant adjustments the ordinary path assigns `angle` to that result. This
+improves stock GCC272 from 93.548386% to 96.72043%, without pins, barriers,
+instruction ASM or compiler changes. All 2,489 coordinate pairs and five axis
+checks still pass. Changing the half-turn correction to 2047 is rejected.
+
+Initializing the result at function entry scored 94.946236%; initializing it
+only inside the combined zero-vector condition reproduced 93.548386%. The
+retained nested condition produces the closest control-flow shape. Split
+GCC281 variants scored at most 91.6129% in the follow-up trials. Remaining
+mismatches include a comparison not filling the first branch delay slot,
+load-hazard spacing, and indexed table loads through AT rather than v1.
+Production remains ASM; no matching-function credit is claimed.

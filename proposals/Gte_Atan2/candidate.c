@@ -6,9 +6,13 @@ int Gte_Atan2(int y, int x) {
     int negative_x = 0;
     int negative_y = 0;
     int angle;
+    int result;
     if (x < 0) { negative_x = 1; x = (int)(0u - (u32)x); }
     if (y < 0) { negative_y = 1; y = (int)(0u - (u32)y); }
-    if (x == 0 && y == 0) return 0;
+    if (x == 0) {
+        result = 0;
+        if (y == 0) goto done;
+    }
     if (y < x) {
         if (y & 0x7FE00000) y = y / (x >> 10);
         else y = (int)((u32)y << 10) / x;
@@ -20,5 +24,7 @@ int Gte_Atan2(int y, int x) {
     }
     if (negative_x) angle = 2048 - angle;
     if (negative_y) angle = -angle;
-    return angle;
+    result = angle;
+done:
+    return result;
 }
