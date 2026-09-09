@@ -9,8 +9,6 @@ extern int CD_getsector2(void);
 
 extern int CD_getsector(void);
 
-extern int CD_datasync(void);
-
 int Akao_SetCdMixVolume(void) {
     CD_vol();
     return 1;
@@ -24,8 +22,8 @@ int CdRom_IsBusy2(void) {
     return CD_getsector() == 0;
 }
 
-int CdRom_DataSync(void) {
-    return CD_datasync();
+int CdRom_DataSync(int mode) {
+    return CD_datasync(mode);
 }
 
 static inline int ENCODE_BCD(int n) { return ((n / 10) << 4) + (n % 10); }

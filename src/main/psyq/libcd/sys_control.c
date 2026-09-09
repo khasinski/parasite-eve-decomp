@@ -20,10 +20,8 @@ int func_8007A8CC(void) {
 DsCallback CdDataCallback(DsCallback callback) {
     return DMACallback(3, callback);
 }
-void CD_datasync(void);
-
-void CdDataSync(void) {
-    CD_datasync();
+int CdDataSync(int mode) {
+    return CD_datasync(mode);
 }
 
 

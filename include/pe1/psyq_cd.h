@@ -322,6 +322,10 @@ void Render_StepParticleNode(void);
 int Render_PlayParticleEffect(int command, u8 *payload);
 void CdRom_DispatchDsReadyCallback(void);
 void CdRom_PollPendingDsRead(void);
+/* Data DMA synchronization: mode 0 waits; nonzero polls. */
+int CD_datasync(int mode);
+int CdDataSync(int mode);
+int CdRom_DataSync(int mode);
 int VSync(int mode);
 int CdRom_IsBusy();
 int CdRom_IsBusy2();
