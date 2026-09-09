@@ -1,0 +1,6 @@
+{
+  "function": "Square_Vsprintf",
+  "size": "0x884",
+  "size_bytes": 2180,
+  "source": "asm/USA/main/psyq/libc/Square_Vsprintf.s"
+}
