@@ -289,3 +289,22 @@ hexadecimal values without alternate form. Percentages are object-diff scores,
 not matched production-function credit. The existing remote `unsplit-refined`
 search was confirmed live at more than 150,000 iterations; its previously
 rejected saved candidates were not accepted or substituted for these sources.
+
+
+## Cross-host oracle placement (2026-09-10)
+
+The oracle linker now uses `SUBALIGN(4)` for text and rodata, matching
+`linkers/USA/main.ld`, and asserts the actual `Square_Vsprintf` symbol equals
+0x80071A84 before execution. Linux binutils on darwine declares 16-byte text
+alignment. The old test script placed that input's entry at 0x80071A90 while
+execution still began at the retail entry, causing an instruction-budget
+failure unrelated to formatter semantics. The local assembler uses four-byte
+text alignment and did not expose this error.
+
+After the fix, the local and darwine split objects produce identical linked
+text (2184 bytes) and rodata (180 bytes). The darwine split object and local
+unsplit candidate each pass all 1,471 cases. A mutant writing `1` instead of
+`0` in the hexadecimal prefix fails case 857 with `before:1x0:after` instead
+of `before:0x0:after`, confirming the corrected placement still catches a
+semantic error. Earlier saved-permutation audits compiled their sources
+locally; this finding does not overturn their recorded output mismatches.

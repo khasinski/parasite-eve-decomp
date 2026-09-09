@@ -81,3 +81,35 @@ zero formatting; 255-2 fails decimal zero formatting; 235-1 raises an unaligned
 read emulator error on unsigned zero formatting. None is accepted. Source
 SHA-256 hashes, independent objdiff scores and outcomes are recorded in
 unsplit-refined-audit.json. The maintained 99.500916% candidate is unchanged.
+
+
+## Prefix-corrected split search (2026-09-10)
+
+A separate input at `darwine:/home/hasik/sprintf-permuter-20260909/split-prefix-20260910`
+uses `constrained_split_gcc281.c` from f716c7cd. Its source SHA-256 is
+`ad487abefd5b039662f40abdb960c3c923ce8b3369689d271befebbdd2138596`.
+Block comments and the `#define args argState[0]` line are removed, then each
+remaining `args` identifier is expanded to `argState[0]` (the final undef is
+kept as `#undef args`). Expanded input SHA-256:
+`d4a14704c98f8b4c04ee3f26574c9f434fbedbd78d1713eb0f7fd375c4eb22ea`.
+The compile wrapper, target and settings are copied from `split-refined`.
+
+Baseline permuter penalty is 325. Independently compiled on darwine, the input
+scores 99.39449% in local objdiff and passes all 1,471 oracle cases after the
+oracle's cross-host alignment fix. Its linked text and rodata equal the local
+split build. The baseline penalty is not a byte-match percentage.
+
+The first short launch was explicitly stopped while diagnosing oracle
+placement. After validation, a new bounded run was confirmed live with timeout
+PID 693700 and permuter PID 693701, progressing past 372 iterations. It uses:
+
+```sh
+timeout 30m nice -n 15 venv/bin/python -u tools/permuter/permuter.py \
+  split-prefix-20260910 -j 2 --better-only --stop-on-zero --stack-diffs
+```
+
+Output is in `run-split-prefix-20260910-validated.log`. This limits the trial
+to 30 minutes and two low-priority workers without stopping the older searches.
+PIDs and elapsed times are observations, not proof the process remains live;
+recheck the process and saved outputs before continuing. No output from this
+trial is accepted without local compilation and behavioral verification.

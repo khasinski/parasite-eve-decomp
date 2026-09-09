@@ -28,8 +28,8 @@ strlen = 0x80072314;
 memchr = 0x80072324;
 memmove = 0x80072334;
 SECTIONS {
- .text 0x80071A84 : { *(.text) }
- .rodata 0x80011644 : { *(.rodata) }
+ .text 0x80071A84 : SUBALIGN(4) { *(.text) }
+ .rodata 0x80011644 : SUBALIGN(4) { *(.rodata) }
  /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) }
 }
 '''
@@ -130,6 +130,11 @@ def main():
                         '-o', str(linked)], check=True)
         with linked.open('rb') as stream:
             elf = ELFFile(stream)
+            # Match the production linker's SUBALIGN(4), including objects
+            # whose assembler declares a larger input-section alignment.
+            entry = elf.get_section_by_name('.symtab').get_symbol_by_name('Square_Vsprintf')
+            if not entry or entry[0]['st_value'] != ENTRY:
+                raise ValueError('candidate entry was not linked at the retail address')
             patches = [(s['sh_addr'], s.data()) for s in elf.iter_sections()
                        if s['sh_flags'] & 2 and s['sh_size']]
         for count, (fmt, arguments) in enumerate(cases(), 1):
