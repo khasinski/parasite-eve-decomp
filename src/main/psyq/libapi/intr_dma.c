@@ -8,7 +8,6 @@ DmaInterruptCallback setIntrDMA(int channel, DmaInterruptCallback callback) {
     DmaInterruptCallback old;
     register DmaInterruptCallback ret asm("$2");
     volatile u32 *dmaReg;
-    u32 mask;
     u32 tmp;
     callbackReg = callback;
     base = g_IntrDmaHandlerTable;
@@ -18,7 +17,7 @@ DmaInterruptCallback setIntrDMA(int channel, DmaInterruptCallback callback) {
 
     if (callbackReg != old) {
         if (callbackReg != 0) {
-            register int bitSet asm("$3");
+            int bitSet;
             register u32 maskSet asm("$4");
 
             dmaReg = g_IntrDmaDispatchPtr;
@@ -37,20 +36,16 @@ DmaInterruptCallback setIntrDMA(int channel, DmaInterruptCallback callback) {
             ret = old;
             return ret;
         } else {
-            register int bitClear asm("$4");
             register u32 maskClear asm("$3");
 
             dmaReg = g_IntrDmaDispatchPtr;
             tmp = 0xFFFFFF;
             *slot = 0;
             maskClear = *dmaReg;
-            bitClear = channel + 0x10;
             maskClear &= tmp;
             tmp = 0x800000;
             maskClear |= tmp;
-            tmp = 1;
-            tmp <<= bitClear;
-            tmp = ~tmp;
+            tmp = ~(1U << (channel + 0x10));
             maskClear &= tmp;
             *dmaReg = maskClear;
             asm volatile("" : : : "memory");

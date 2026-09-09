@@ -1477,3 +1477,17 @@ SHA-verified object. Each remaining pin and barrier was tested for removal
 after the final source shape; each still changes the output. Full main,
 191 overlay SHA checks and source/debt gates pass. The stock compiler and
 MASPSX are unchanged.
+
+## DMA channel-mask expressions (2026-09-09)
+
+The disable branch of `setIntrDMA` now computes its channel mask directly
+as `~(1U << (channel + 0x10))`. This removes the `bitClear` temporary and
+its register pin. With this expression shape, the enable branch's `bitSet`
+pin is also unnecessary. The unused `mask` local was removed.
+
+Both TU functions retain 100% object agreement. Removal trials for each of
+the remaining four pins and two memory barriers still change the output.
+Collapsing the enable branch to a similar combined expression is nonmatching
+(99.023254%), so its current ordinary temporaries remain. Full main and all
+191 overlay SHA checks and source/debt gates pass. No toolchain change was
+needed beyond the already selected stock profile.
