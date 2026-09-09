@@ -798,8 +798,8 @@ segments:
       - [0x4F518, c, gpu/Draw_EmitGlyph]
       - [0x4F6C8, c, gpu/Draw_SetGlyphAdvance]
       - [0x4F6D4, asm, main/Draw_AllocTexturedQuad]
-      - [0x4F9A0, c, gpu/Draw_MeasureTextWidth]
-      - [0x4FA7C, c, gpu/Draw_PrintRawText]
+      # Text-width measurement and raw text emission are one -G8 helper object.
+      - [0x4F9A0, c, gpu/Draw_TextRawHelpers]
       - [0x4FB54, asm, gpu/Draw_PrintCenteredTextInWidth]
       # Centered and table-indexed text printers form one -G8 helper object.
       - [0x4FD94, c, gpu/Draw_TextPrintHelpers]
