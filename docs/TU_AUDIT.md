@@ -161,6 +161,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xD07B8..0xD0860` | `engine/FieldEng_AngleMath` | Turning an angle toward a target and calculating its shortest signed distance share the required unscheduled compiler profile. The 0xA8-byte TU links retail-identically. |
 | `0xB6948..0xB6ADC` | `engine/FieldEng_RadiusAndTransform` | A radius test and transformed quadrilateral setup form a 0x194-byte TU before the intervening ASM collision primitive; it links retail-identically. |
 | `0xB6D3C..0xB6DE4` | `engine/FieldEng_RadiusPair` | The paired-entity radius test and its support helper form a 0xA8-byte TU after that ASM primitive and link retail-identically. |
+| `0xB6EC8..0xB71D4` | `engine/FieldEng_FindAssetAtPosition` | Three variants of status-gated asset lookup share their table ABI and positional coordinate forms in a 0x1D4-byte TU that links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
