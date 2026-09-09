@@ -7,7 +7,7 @@ extern int (*D_8009B740)(CardObj *obj);
 void func_80083C20(void *obj);
 void func_80083C3C(void *obj);
 
-int card_obj4(CardObj *obj, int command) {
+int CardObj_BeginCommand(CardObj *obj, int command) {
     register int result asm("$2");
     register int active asm("$3");
 
@@ -24,4 +24,12 @@ int card_obj4(CardObj *obj, int command) {
         obj->fn_18 = func_80083C3C;
     }
     return result;
+}
+
+void CardObj_EmitCommand4D(CardObj *arg0) {
+    int value = arg0->field_20;
+
+    arg0->command = 0x4D;
+    arg0->payload_2c_len = 6;
+    arg0->payload_2c = (unsigned char *)value;
 }

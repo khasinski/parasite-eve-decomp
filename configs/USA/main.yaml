@@ -1401,8 +1401,8 @@ segments:
       - [0x73E44, c, memcard/CardObj_ReadTransferState]
       - [0x7409C, c, memcard/CardObj_EmitReadTransferCommand]
       - [0x74144, asm, memcard/CardObj_ProcessReadPayload]
-      - [0x743B8, c, memcard/card_obj4]
-      - [0x74420, c, memcard/CardObj_EmitCommand4D]
+      # Command-4D setup and emission share CardObj::field_20.
+      - [0x743B8, c, memcard/CardObj_Command4DState]
       - [0x7443C, c, main/Render_CheckParticleBounds]
       - [0x74504, c, memcard/CardObj_BeginReadIdCommand]
       # Read-ID dispatch and command emitters share one CardObj command ABI.

@@ -23,10 +23,10 @@ int func_8008284C(int channel, int index0, int index1) {
     }
     return *(unsigned char *)(*(int *)(entry + 4) + index1);
 }
-void func_80083BB8(CardObj *obj, int command);
+int CardObj_BeginCommand(CardObj *obj, int command);
 
 void CardObj_StartCommand4D(int channel, int command) {
-    func_80083BB8(D_8009B738(), command);
+    CardObj_BeginCommand(D_8009B738(), command);
 }
 void CardObj_BeginReadIdCommand(CardObj *obj, int byte1, int byte2);
 
