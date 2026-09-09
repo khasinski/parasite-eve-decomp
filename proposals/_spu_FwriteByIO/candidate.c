@@ -23,8 +23,8 @@ void _spu_FwriteByIO(void *address, u32 size) {
         {
             SpuRegs *spu = _spu_RXX;
             u16 control = spu->spucnt;
-            control = (control & ~0x30) | 0x10;
-            spu->spucnt = control;
+            /* Single control write in the following wait call's delay slot. */
+            *(u16 *)&spu->spucnt = (control & ~0x30) | 0x10;
         }
         _spu_Fw1ts();
         timer = 0;

@@ -64,3 +64,8 @@ Separating each reloaded register pointer into a local block raised the old
 83.20625% source to 86.925%; correcting the return raised it to 88.8625%.
 The change expresses independent pointer lifetimes without register pins.
 Disabling both GCC272 schedulers scores 73.1% with the corrected source.
+
+The combined SPU object additionally supports `--real-io`: 192 cases execute
+both reconstructed functions with independent reset and transfer delays.
+The default 48-case mode still models transfer; both modes pass after the
+transfer's single control-store refinement. See ../spu_init_io/README.md.

@@ -2,9 +2,10 @@
 
 `candidate.c` reconstructs the complete 448-byte retail function at 0x8007D454
 using SpuRegs, halfword source accesses and ordinary C loops. It has no pins,
-barriers or instruction ASM. Stock GCC281 unsplit scores 92.45536%, unchanged
-by disabling expensive optimizations. GCC272 scores 91.82143%; disabling its
-second scheduler scores 80.47321%. The production segment remains ASM at
+barriers or instruction ASM. Stock GCC281 unsplit scores 93.88393%, unchanged
+by disabling expensive optimizations. GCC272 scores 93.25% in the combined source. Earlier, with a volatile
+manual-write-mode store, it scored 91.82143%; disabling its second scheduler
+then scored 80.47321%. The production segment remains ASM at
 psyq/misc32. The label func_8007D5AC in the old dump is inside the final wait,
 not a separate callable function.
 
@@ -41,3 +42,12 @@ following the initialization verifier's handling of call delay slots. This is
 not physical SPU timing verification or a byte-exact match. Negative controls
 for the timeout comparison, 32-byte chunks, a nonadvancing source pointer and
 status bit 0x200 instead of 0x400 are all rejected.
+
+The manual-write-mode update is one ordinary halfword store through a local
+view of spucnt, while its read and the final restore remain volatile. This
+places the store in the following _spu_Fw1ts call delay slot and raises the
+standalone score from 92.45536% to 93.88393%. All 128 register/FIFO traces still
+agree with retail, including timeouts and pointer replacement. Making the
+final restore ordinary too regresses the score to 83.42857%; that change is
+not kept. Widening the control temporary gives no improvement; pinning it to
+a0 regresses to 89.36607%. No constraints were added.
