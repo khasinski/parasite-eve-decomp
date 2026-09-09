@@ -7,6 +7,7 @@ Requires unicorn, pyelftools, and mipsel-none-elf-ld.
 """
 import argparse
 import hashlib
+import re
 from pathlib import Path
 import struct
 import subprocess
@@ -19,8 +20,7 @@ from unicorn.mips_const import UC_MIPS_REG_A0, UC_MIPS_REG_A1, UC_MIPS_REG_A2, U
 ENTRY, RETURN, STACK = 0x8007BDDC, 0x8000F000, 0x801FF000
 SHA1 = '452fb033f2eaa4b18aa20a5bca60b8125af3a37b'
 CALLS = {'VSync': 0x80073A44, 'puts': 0x80073C5C, 'printf': 0x80071A74, 'CD_flush': 0x8007B9EC}
-GLOBALS = [0x800A3478, 0x800A347C, 0x800A3480, 0x80011C20, 0x80011B18, 0x80011B28,
-           0x8009B294, 0x8009AFD5, 0x8009AFDC, 0x8009B05C, 0x8009B2C0]
+
 
 
 def cases():
@@ -33,7 +33,7 @@ def cases():
             yield f'counter={counter:x},mode={mode}', mode, [100] * 8, [1, 1, 1], counter
 
 
-def execute(exe, patches, mode, times, busy, counter):
+def execute(exe, patches, mode, times, busy, counter, entries=None):
     cpu = Uc(UC_ARCH_MIPS, UC_MODE_MIPS32 | UC_MODE_LITTLE_ENDIAN)
     cpu.mem_map(0, 0x200000)
     def write(address, value):
@@ -79,11 +79,13 @@ def execute(exe, patches, mode, times, busy, counter):
         cpu.reg_write(UC_MIPS_REG_V0, result & 0xffffffff)
         cpu.reg_write(UC_MIPS_REG_PC, cpu.reg_read(UC_MIPS_REG_RA))
     for name, address in CALLS.items():
+        if entries is not None:
+            address = entries.get(name, address)
         cpu.hook_add(UC_HOOK_CODE, call, user_data=name, begin=address, end=address)
     cpu.reg_write(UC_MIPS_REG_A0, mode & 0xffffffff)
     cpu.reg_write(UC_MIPS_REG_SP, STACK)
     cpu.reg_write(UC_MIPS_REG_RA, RETURN)
-    cpu.emu_start(ENTRY, RETURN, count=10000)
+    cpu.emu_start(entries["CD_datasync"] if entries is not None else ENTRY, RETURN, count=10000)
     if cpu.reg_read(UC_MIPS_REG_PC) != RETURN:
         raise RuntimeError('instruction budget exhausted')
     return cpu.reg_read(UC_MIPS_REG_V0), trace, bytes(cpu.mem_read(0xA3478, 12))
@@ -99,10 +101,13 @@ def main():
         parser.error('reference EXE does not match retail SHA-1')
     with tempfile.TemporaryDirectory(prefix='cd-datasync-') as temp:
         script, linked = Path(temp)/'link.ld', Path(temp)/'candidate.elf'
-        symbols = dict(CALLS, **{f'D_{a:08X}': a for a in GLOBALS})
-        script.write_text('\n'.join(f'{n} = 0x{a:x};' for n,a in symbols.items()) + '''
+        symbols = dict(re.findall(r'^(\w+) = (0x[0-9A-Fa-f]+);', Path('configs/USA/sym.main.txt').read_text(), re.M))
+        symbols.update(re.findall(r'^(\w+) = (0x[0-9A-Fa-f]+);', Path('linkers/USA/undefined_syms_manual.txt').read_text(), re.M))
+        undefined = subprocess.check_output(['mipsel-none-elf-nm', '-u', str(args.object)], text=True).split()[1::2]
+        definitions = [f'{n} = ' + ('0x' + n[2:] if n.startswith('D_') else symbols[n]) + ';' for n in undefined]
+        script.write_text('\n'.join(definitions) + '''
 SECTIONS {
- .text 0x8007BDDC : { *(.text) }
+ .text 0x80180000 : { *(.text) }
  .rodata 0x80160000 : { *(.rodata) }
  /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) }
 }
@@ -110,9 +115,10 @@ SECTIONS {
         subprocess.run(['mipsel-none-elf-ld', '-T', str(script), str(args.object), '-o', str(linked)], check=True)
         with linked.open('rb') as stream:
             elf = ELFFile(stream)
+            entries = {s.name: s['st_value'] for s in elf.get_section_by_name('.symtab').iter_symbols()}
             patches = [(s['sh_addr'], s.data()) for s in elf.iter_sections() if s['sh_flags'] & 2 and s['sh_size']]
         for count, (name, *case) in enumerate(cases(), 1):
-            expected, actual = execute(exe, [], *case), execute(exe, patches, *case)
+            expected, actual = execute(exe, [], *case), execute(exe, patches, *case, entries=entries)
             if actual != expected:
                 raise SystemExit(f'FAIL {name}\nretail={expected!r}\ncandidate={actual!r}')
             if not any(event[0] == 'dma' for event in expected[1]) and expected[0] != 0xffffffff:

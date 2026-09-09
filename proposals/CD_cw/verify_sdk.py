@@ -9,6 +9,7 @@ import sys
 
 name = sys.argv[2] if len(sys.argv) > 2 else 'CD_cw'
 start, end, next_name, file_start, relocation_count = {
+    'CD_datasync': (0x1330, 0x1498, 'CD_set_test_parmnum', 0x6C5DC, 36),
     'CD_cw': (0xAAC, 0xEB8, 'CD_vol', 0x6BD58, 89),
     'CD_sync': (0x564, 0x7E4, 'CD_ready', 0x6B810, 52),
     'CD_ready': (0x7E4, 0xAAC, 'CD_cw', 0x6BA90, 55),

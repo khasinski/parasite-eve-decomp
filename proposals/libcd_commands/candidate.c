@@ -10,3 +10,4 @@
 #include "../CD_initvol/candidate.c"
 #include "../CD_initintr/candidate.c"
 #include "../CD_init/candidate.c"
+#include "../CD_datasync/candidate.c"

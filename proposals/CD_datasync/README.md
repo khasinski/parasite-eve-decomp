@@ -16,13 +16,32 @@ prints the operation and command/status names, calls CD_flush, and fails.
 The DMA busy test reads bit 24 through the volatile pointer D_8009B2C0.
 These statements are reconstructed directly from the retail disassembly.
 
-## Current experiment
+## Current reconstruction
 
-`candidate.c` uses stock GCC 2.8.1 with its default split addresses and no
-pins or barriers. objdiff against
-`expected/build/USA/asm/USA/main/psyq/libcd/CD_datasync.s.o` gives **72.48889%**.
-The outstanding differences include address hoisting, saved-register
-allocation, symbolic stores, and timeout printf argument scheduling.
+`candidate.c` uses stock GCC 2.8.1 with
+`-mno-split-addresses -fno-expensive-optimizations` and no pins or barriers.
+Objdiff reports **93.577774%**, both standalone and in the ten-function
+LIBCD reconstruction. It uses shared CD callback/status types and the correct
+void CD_flush prototype. The former two-byte nonvolatile event array is now
+the shared CdInterruptEvents structure with volatile sync/ready members.
+
+Command/event-name pointers are initialized after the first VSync. A local
+poll limit is passed into the timeout helper, retaining its lifetime across
+subsequent calls. Shared fixed-limit timeout code first gave 86.666664%; the
+explicit limit raised that to 93.577774% without constraints. The remaining
+differences include saved-register allocation and symbolic delay slots.
+
+The parameterized helper stays local: replacing the common fixed-limit helper
+with it regressed CD_sync (89.90625%), CD_ready (85.6236%) and CD_cw (90.586876%).
+The other functions keep their existing source and scores. All 15 combinations
+of pins on mode/limit/command names/event names scored at most 94.22222%; none
+was retained. Passing the event-state pointer as another helper argument
+scored 88.45556%, independent of argument ordering.
+
+## Earlier experiments
+
+The old split-address candidate scored 72.48889%. The following measurements
+refer to that earlier source, before the shared types and revised lifetimes.
 
 Measured alternatives (2026-09-09):
 
@@ -51,8 +70,7 @@ tools/scripts/cc.sh proposals/CD_datasync/candidate.c /tmp/cd-datasync.o
 python proposals/CD_datasync/verify_behavior.py /tmp/cd-datasync.o
 ```
 
-The oracle checks the reference EXE SHA-1, links the candidate at the retail
-address, and runs both versions as MIPS code. It models VSync, puts, printf,
+The oracle checks the reference EXE SHA-1, links the candidate in separate emulated RAM at 0x80180000, and runs both versions as MIPS code. It models VSync, puts, printf,
 and CD_flush and supplies a simulated DMA register through the retail global
 pointer. It compares the return value, ordered external-call and DMA-read
 traces (including printf's fifth stack argument), and all three timeout globals.
@@ -75,3 +93,18 @@ at its call site reduced the saved frame from 0x40 to 0x38 but still differed
 from retail's 0x30 and scored 71.566666%; disabling force-mem, strength
 reduction or expensive optimizations did not fix it. Do not repeat those
 variants as an unexplored route.
+
+The verifier also accepts the combined LIBCD object, resolves its entry and
+modeled CD_flush address from ELF symbols, and imports only undefined retail
+symbols. All 45 cases and the four negative controls pass with the new source;
+combined-object initialization (24 cases) and CD_cw/CD_sync/getintr interaction
+(3072 cases) also pass. CD_flush remains modeled for this timeout check.
+
+## SDK provenance
+
+`python proposals/CD_cw/verify_sdk.py /path/to/BIOS_1.OBJ CD_datasync`
+verifies the complete SDK range 0x1330..0x1498 against retail 0x8007BDDC:
+360 bytes, 54 identical words and 36 differences confined to relocation
+fields. The following export is CD_set_test_parmnum. This is direct evidence
+for keeping CD_datasync in the same BIOS_1 reconstruction, not a claim that
+the reconstructed C already matches those bytes.

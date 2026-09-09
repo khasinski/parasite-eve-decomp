@@ -1,10 +1,10 @@
 # Reconstructed LIBCD interrupt, command and wait routines
 
-`candidate.c` compiles getintr, CD_sync, CD_ready, CD_cw, CD_vol, CD_flush, CD_initvol, CD_initintr and CD_init in retail
+`candidate.c` compiles getintr, CD_sync, CD_ready, CD_cw, CD_vol, CD_flush, CD_initvol, CD_initintr, CD_init and CD_datasync in retail
 order, using one stock GCC 2.8.1 configuration:
 `-mno-split-addresses -fno-expensive-optimizations`. It includes their current
 candidate sources, so standalone and combined experiments share definitions.
-This covers 4904 retail bytes and is still only part of BIOS_1: other driver
+This covers 5264 retail bytes and is still only part of BIOS_1: other driver
 routines and data ownership remain outside this file. The first four functions remain assembly in production; CD_vol and CD_flush
 already use matching C. The new ordinary-C CD_initvol replaces the legacy
 stack/register model only in this combined reconstruction, pending CD_initintr
@@ -22,6 +22,7 @@ sources directly.
 | CD_initvol | 240 | 100% |
 | CD_initintr | 76 | 84.47369% |
 | CD_init | 480 | 95.958336% |
+| CD_datasync | 360 | 93.577774% |
 
 The common configuration retains the previous three-function combined scores.
 getintr alone reaches 95.997086% without `-fno-expensive-optimizations`; its
@@ -33,6 +34,7 @@ and response-copy helpers are shared inline C.
 
 ```sh
 tools/scripts/cc.sh proposals/libcd_commands/candidate.c /tmp/libcd_commands.o
+python proposals/CD_datasync/verify_behavior.py /tmp/libcd_commands.o
 python proposals/CD_init/verify_behavior.py /tmp/libcd_commands.o
 python proposals/libcd_commands/verify_init_chain.py /tmp/libcd_commands.o
 python proposals/CD_initintr/verify_behavior.py /tmp/libcd_commands.o
@@ -119,3 +121,12 @@ responses, VSync, callback context, registration and diagnostics. It compares
 MMIO/API traces, status/event words, response buffers, return and stack.
 Timeouts and asynchronous callback delivery are outside this particular suite;
 CD_flush is not invoked. Omitting the command-10 failure branch is rejected.
+
+CD_datasync extends the reconstruction to ten functions and 5264 retail bytes.
+It uses the shared typed event state and a local parameterized timeout helper,
+with no pins or barriers. Its 93.577774% score is unchanged by combining;
+all previous nine scores also remain unchanged. Its 45-case DMA-wait suite,
+the 24-case initialization chain and the 3072-case real-sync/getintr suite pass
+on the ten-function object. SDK BIOS_1 offsets 0x1330..0x1498 independently
+prove its full 360-byte retail range, with 36 relocation-field differences.
+The driver TU remains incomplete, and this function is still ASM in production.
