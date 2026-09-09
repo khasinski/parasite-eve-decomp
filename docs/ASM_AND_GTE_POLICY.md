@@ -1778,3 +1778,17 @@ are recorded in proposals/spu_core/README.md. The retained barrier adds one to
 the debt baseline, with no register pin or instruction ASM. The range check
 casts before subtraction so its arithmetic wraps unsigned, with identical code.
 This supersedes the earlier unresolved-boundary note above.
+
+### Noise-clock register type
+
+`SpuSetNoiseClock` now consumes the shared `SpuRegs` declaration instead of
+redeclaring `_spu_RXX` as an incompatible `SpuNoiseControlRegs *`. The partial
+structure with 0x1AA padding is removed. Its control-register read is volatile;
+a single ordinary `u16` store view preserves the SDK SH in the return delay
+slot. Both original v0 pins remain necessary in the tested source: removing
+only the input pin scores 93.888885%, only the bits pin 58.88889%, and both
+83.611115%. Making the final store volatile scores 83.333336% with both pins.
+The shared-type version with the ordinary store scores 100% (72 retail bytes),
+and the complete main image retains its retail SHA-1. All 191 overlays and
+source/organization/debt gates pass. This resolves a type boundary without
+claiming a newly matched function or removing the remaining pin constraints.

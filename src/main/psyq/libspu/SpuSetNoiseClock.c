@@ -1,17 +1,11 @@
-#include "common.h"
-typedef struct SpuNoiseControlRegs {
-    unsigned char pad[0x1AA];
-    u16 spucnt;
-} SpuNoiseControlRegs;
-
-extern SpuNoiseControlRegs *_spu_RXX;
+#include "pe1/psyq_spu_internal.h"
 
 long SpuSetNoiseClock(long clock) {
     register int input asm("$2");
     int value;
     register int bits asm("$2");
     int ret;
-    SpuNoiseControlRegs *state;
+    SpuRegs *state;
     u16 flags;
 
     input = clock;
@@ -29,7 +23,8 @@ long SpuSetNoiseClock(long clock) {
     flags = state->spucnt;
     flags &= 0xC0FF;
     flags |= bits;
-    state->spucnt = flags;
+    /* Ordinary store view preserves the SDK write in the return delay slot. */
+    *(u16 *)&state->spucnt = flags;
     ret = value;
     return ret;
 }
