@@ -197,3 +197,31 @@ match. On darwine, `split-refined` uses this source with the preprocessor alias
 expanded and the existing split compiler wrapper. Its baseline permuter
 penalty is 325. A separate four-worker search runs alongside the original
 28-worker search, saving all unique improvements over its baseline.
+
+## Retail behavioral oracle (2026-09-09)
+
+`verify_behavior.py` links a candidate object at the retail formatter and jump-table
+ addresses, then runs both it and the SHA-1-verified USA executable in
+Unicorn MIPS emulation. The rest of the executable remains retail, including
+`memmove`. The BIOS A0 services used by the retail `strlen` and `memchr` thunks
+are modeled identically for both executions; a PSX BIOS ROM is not required.
+
+The 1,471 deterministic cases cover integer conversions and edge values,
+flags, width/precision (including stack-passed `*` arguments), modifiers,
+strings and the length-prefixed `#s` extension, characters, `%n` writes, and
+mixed arguments. Checks compare return values, destination bytes and guards,
+and argument memory. Both current split and unsplit candidates pass. The
+rejected penalty-120 hexadecimal candidate fails case 832 (`before:%x:after`,
+value zero): it emits a NUL in place of the digit `0`.
+
+```sh
+python3 -m venv /tmp/sprintf-oracle-venv
+/tmp/sprintf-oracle-venv/bin/pip install unicorn pyelftools
+tools/scripts/cc.sh proposals/Square_Vsprintf/constrained_gcc281.c /tmp/sprintf.o
+/tmp/sprintf-oracle-venv/bin/python proposals/Square_Vsprintf/verify_behavior.py /tmp/sprintf.o
+```
+
+The script requires `mipsel-none-elf-ld` on PATH and defaults to
+`build/USA/main.exe`. It rejects an EXE whose SHA-1 differs from retail. These
+finite tests help reject incorrect permutations; they do not establish a full
+semantic proof, model PSX hardware timing or replace exact linked-byte checks.
