@@ -1391,3 +1391,20 @@ and 191 overlay checks pass. The separate GCC 2.8.1 proposal still needs its
 getter constraint; applying this source change there does not match.
 The debt scanner classifies the new scalar `(u32)value` conversion as a
 `pointer_integer_casts` occurrence; no pointer-to-integer conversion was added.
+
+## SPU register access API and reverb volume fields (2026-09-09)
+
+`_spu_FsetRXX` now indexes halfword registers instead of repeating byte-address
+arithmetic. Its existing access qualification is preserved: making the store
+volatile changes scheduling and is not part of this matching cleanup.
+The three generic register helper prototypes are shared in the SPU internal
+header, including the unsigned value and return types of `_spu_FsetRXXa`.
+
+`SPU_StepDmaRead` now uses the shared `SpuRegs` view instead of declaring the
+same `_spu_RXX` object as a volatile-halfword pointer. Five literal register
+accesses become `spucnt`, `reverb_volume_left` and `reverb_volume_right`.
+The latter fields at offsets `0x184`/`0x186` were incorrectly named master
+volume; [the SPU register map](https://psx-spx.consoledev.net/soundprocessingunitspu/#reverb-volume-and-address-registers-rw)
+identifies them as reverb output volume at `0x1F801D84`/`0x1F801D86`.
+The layout and all volatile access widths remain unchanged.
+Full main and all 191 overlay SHA checks pass.

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "pe1/psyq_spu_internal.h"
 #include "include_asm.h"
 
 extern volatile u16 g_SpuTransferAddr;
 extern int _spu_mem_mode_plus;
 
-int _spu_FsetRXXa(int arg0, int arg1);
 
 int Spu_WriteRegChecked(int arg0) {
     int result;

@@ -1,9 +1,9 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "common.h"
+#include "pe1/psyq_spu_internal.h"
 #include "pe1/akao/spu_common.h"
 
-extern volatile u16 *_spu_RXX;
 extern u32 g_SpuReverbWorkAreaTable[];
 extern SpuReverbRegisterAttrs g_SpuReverbPresetRegisters[];
 extern u32 g_SpuReverbMode, g_SpuReverbWorkArea;
@@ -11,7 +11,6 @@ extern int g_SpuReverbDelayFeedback[2];
 extern short g_SpuReverbDepth[2];
 extern int _SpuIsInAllocateArea_(u32);
 extern int SPU_StartDmaRead(int);
-extern void _spu_FsetRXX(u32, u32, u32);
 
 int SPU_StepDmaRead(u32 mode) {
     SpuReverbRegisterAttrs attr;
@@ -57,17 +56,17 @@ int SPU_StepDmaRead(u32 mode) {
         break;
     }
     {
-        u32 current = (_spu_RXX[0xD5] >> 7) & 1;
+        u32 current = (_spu_RXX->spucnt >> 7) & 1;
         enabled = current;
-        if (current) _spu_RXX[0xD5] &= ~0x80;
+        if (current) _spu_RXX->spucnt &= ~0x80;
     }
-    _spu_RXX[0xC2] = 0;
-    _spu_RXX[0xC3] = 0;
+    _spu_RXX->reverb_volume_left = 0;
+    _spu_RXX->reverb_volume_right = 0;
     g_SpuReverbDepth[0] = 0;
     g_SpuReverbDepth[1] = 0;
     _spu_setReverbAttr(&attr);
     if (clear) SPU_StartDmaRead(mode);
     _spu_FsetRXX(0xD1, g_SpuReverbWorkArea, 0);
-    if (enabled) _spu_RXX[0xD5] |= 0x80;
+    if (enabled) _spu_RXX->spucnt |= 0x80;
     return 0;
 }

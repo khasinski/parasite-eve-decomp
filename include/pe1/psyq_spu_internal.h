@@ -15,8 +15,8 @@ typedef void (*SpuCallback)(void);
  */
 typedef struct SpuRegs {
     /* 0x000 */ unsigned char pad_000[0x184];
-    /* 0x184 */ volatile u16 master_volume_left;
-    /* 0x186 */ volatile u16 master_volume_right;
+    /* 0x184 */ volatile u16 reverb_volume_left;
+    /* 0x186 */ volatile u16 reverb_volume_right;
     /* 0x188 */ unsigned char pad_188[0x1E];
     /* 0x1A6 */ volatile u16 trans_addr;
     /* 0x1A8 */ volatile u16 transfer_fifo;
@@ -48,6 +48,9 @@ void _SpuCallback(SpuCallback callback);
 void _SpuDataCallback(SpuCallback callback);
 s32 _spu_Fr(void *address, s32 size);
 u32 _spu_Fw(void *address, u32 size);
+void _spu_FsetRXX(u32 offset, u32 value, u32 mode);
+u32 _spu_FsetRXXa(s32 offset, u32 value);
+u32 _spu_FgetRXXa(u32 offset, s32 mode);
 extern int _spu_AllocBlockNum;
 extern int _spu_AllocLastNum;
 extern SPU_MALLOC *_spu_memList;

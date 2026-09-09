@@ -2,9 +2,9 @@
 
 void _spu_FsetRXX(u32 offset, u32 value, u32 mode) {
     if (mode == 0) {
-        *(unsigned short *)((unsigned char *)_spu_RXX + offset * 2) = value;
+        ((u16 *)_spu_RXX)[offset] = value;
     } else {
-        *(unsigned short *)((unsigned char *)_spu_RXX + offset * 2) =
+        ((u16 *)_spu_RXX)[offset] =
             value >> _spu_mem_mode_plus;
     }
 }
