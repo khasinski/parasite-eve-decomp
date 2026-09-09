@@ -46,3 +46,11 @@ scheduling around diagnostic calls, and event/address register allocation.
 GCC 2.7.2 scores 90.399414%; GCC 2.8.1 split addresses 84.705536%; disabling
 first/second scheduling passes scores 92.63265%/92.64723%. None improves
 the selected unconstrained source. Production remains the retail assembly.
+
+Further source experiments: signed response storage scores 96.09621%, but
+introduces a signed load absent from retail, so it was not selected. Explicit
+event-base pointer pins/barriers also regress the match. Disabling strength
+reduction, CSE-follow-jumps or peepholes leaves 95.997086% unchanged; disabling
+expensive optimizations or CSE-after-loop lowers it to 94.33527%/94.017494%.
+Allowing AT allocation scores 90.55977%. These results leave the existing
+unsigned response buffer and unconstrained event-field accesses preferred.
