@@ -8,6 +8,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Range | Unit | Evidence |
 | --- | --- | --- |
+| `0x23B5C..0x241A0` | `gpu/Gpu_SetupSprites` | Sprite setup, ordering-table enqueue, and status-icon emission form one battle-status renderer. They share the active draw slot, sprite primitive pool, ordering-table table, and `-G8` profile; reconciling `AddPrim` to its `u32 *` API preserves the combined 1604-byte object exactly. |
 | `0x620D0..0x621E4` | `psyq/libgpu/tim` | The five contiguous helpers share the PSX TIM container. `Gpu_LoadTimImage` now records the verified TIM header and block layout: flags at `0x04`, an optional CLUT block, and `length + RECT + payload` image blocks. Its typed image and CLUT uploads preserve the complete 276-byte object exactly. |
 | `0x64F74..0x65238` | `gpu/libgpu_sys` | Seven contiguous functions match the known Psy-Q `libgpu/sys.c` tail in SDK source order. Their combined object retains every function's retail size; the sole changed relocation is the now object-local `SetDefDrawEnv` → `GetVideoMode` call. `make check` is retail-identical. |
 | `0x65528..0x659E4` | `psyq/libgpu/sys_display` | `SetDispMask`, `DrawSync`, rectangle validation, clear-image encoders, and VRAM transfer helpers are contiguous Psy-Q `libgpu/sys.c` APIs. They share GCC 2.8.1 `-mno-split-addresses`, the GPU callback table, debug state, and image packet path; the combined 1212-byte object remains retail-identical. |
