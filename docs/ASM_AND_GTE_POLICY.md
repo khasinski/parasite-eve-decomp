@@ -1710,3 +1710,17 @@ introducing an additional split or claiming the complete TU is matched.
 Production validation: main retail SHA-1, all 191 overlay SHA-1 checks,
 source/organization/debt gates, and fresh progress/report audits pass.
 The audited PsyQ result is 141/254 functions and 44.75% code.
+
+
+## LIBCD sector DMA setup
+
+CD_getsector in misc31.c is ordinary C with no pins or barriers. A volatile
+readback local replaces the synthetic SP frame, and direct typed MMIO accesses
+replace the union and global v0 register views. Its initial byte-ready test
+and inner polling loop retain the original two-stage control flow. All four
+pins (three global and one local) are removed; no instruction ASM remains.
+
+Stock GCC281 with unsplit addresses matches all 236 retail bytes, both alone
+and under the combined LIBCD no-expensive-optimizations configuration. The
+complete main retains its retail SHA-1, all 191 overlays match, and source,
+organization and debt gates pass. The production pin count falls 773 → 769.

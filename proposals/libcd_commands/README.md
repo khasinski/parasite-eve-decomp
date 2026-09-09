@@ -1,10 +1,10 @@
 # Reconstructed LIBCD interrupt, command and wait routines
 
-`candidate.c` compiles getintr, CD_sync, CD_ready, CD_cw, CD_vol, CD_flush, CD_initvol, CD_initintr, CD_init and CD_datasync in retail
+`candidate.c` compiles getintr, CD_sync, CD_ready, CD_cw, CD_vol, CD_flush, CD_initvol, CD_initintr, CD_init, CD_datasync and CD_getsector in retail
 order, using one stock GCC 2.8.1 configuration:
 `-mno-split-addresses -fno-expensive-optimizations`. It includes their current
 candidate sources, so standalone and combined experiments share definitions.
-This covers 5264 retail bytes and is still only part of BIOS_1: other driver
+This covers 5500 retail bytes and is still only part of BIOS_1: other driver
 routines and data ownership remain outside this file. The first four functions remain assembly in production; CD_vol and CD_flush
 already use matching C. The new ordinary-C CD_initvol replaces the legacy
 stack/register model only in this combined reconstruction, pending CD_initintr
@@ -23,6 +23,7 @@ sources directly.
 | CD_initintr | 76 | 84.47369% |
 | CD_init | 480 | 95.958336% |
 | CD_datasync | 360 | 93.577774% |
+| CD_getsector | 236 | 100% |
 
 The common configuration retains the previous three-function combined scores.
 getintr alone reaches 95.997086% without `-fno-expensive-optimizations`; its
@@ -130,3 +131,18 @@ the 24-case initialization chain and the 3072-case real-sync/getintr suite pass
 on the ten-function object. SDK BIOS_1 offsets 0x1330..0x1498 independently
 prove its full 360-byte retail range, with 36 relocation-field differences.
 The driver TU remains incomplete, and this function is still ASM in production.
+
+CD_getsector now uses ordinary C with volatile MMIO, a local index pointer
+and a real volatile readback local. This removes its synthetic frame type,
+global SP/v0 variables, union-based address reinterpretation and all four
+register pins from production misc31.c. Stock GCC281 unsplit matches all
+236 bytes, including in this eleven-function common-configuration object.
+Main retail SHA, all 191 overlay SHA checks and source/debt gates pass.
+This removes four production pins (773 → 769) without adding barriers.
+
+The collected source is not a contiguous SDK 4.6 text range: retail inserts
+CD_getsector2 and CD_getsector between CD_datasync and the final setter and
+dispatcher, while SDK BIOS_1 directly follows CD_datasync with its setter.
+CD_getsector2 is still omitted because part of its production body remains
+instruction ASM. The eleven-function object is not a completed original TU;
+its 5500 represented retail bytes must not be equated with SDK text size.

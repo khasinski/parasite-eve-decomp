@@ -1,6 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses -fno-expensive-optimizations */
-/* Contiguous reconstructed portion of LIBCD BIOS_1, not its complete TU. */
+/* Reconstructed LIBCD BIOS routines in retail order; incomplete TU. */
 #include "../getintr/candidate.c"
 #include "../CD_sync/candidate.c"
 #include "../CD_ready/candidate.c"
@@ -11,3 +11,4 @@
 #include "../CD_initintr/candidate.c"
 #include "../CD_init/candidate.c"
 #include "../CD_datasync/candidate.c"
+#include "../../src/main/psyq/libcd/misc31.c"
