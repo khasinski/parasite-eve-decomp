@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/psyq_spu_internal.h"
 #define NULL ((void *)0)
 s32 EnableEvent(s32);
 s32 OpenEvent(s32, s32, s32, void *);
@@ -10,8 +11,6 @@ void Spu_UploadWithPrepare(void *, s32);
 s32 StartRCnt(s32);
 void Spu_WaitTransferDone(void);
 void Spu_InitVoiceState(void);
-typedef void (*SpuCallback)(void);
-SpuCallback Spu_SetTransferMode(SpuCallback);
 void Spu_WriteRegChecked(s32);
 void Spu_SetReverbMode(s32);
 extern u8 D_8009B7FC[];

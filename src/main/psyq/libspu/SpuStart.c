@@ -4,7 +4,6 @@ extern void EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
 extern s32 OpenEvent(s32, s32, s32, void *);
 extern void EnableEvent(s32);
-extern void _SpuDataCallback(SpuCallback callback);
 
 typedef struct SpuStartDataPage {
     s32 event;

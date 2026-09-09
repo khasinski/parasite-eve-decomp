@@ -1329,3 +1329,20 @@ Separating the reverb-area pointer from the remaining byte count in
 `SPU_StartDmaRead` was also tested. A typed `base + mode` expression retains
 the instructions but swaps the live mode and area registers (`s0`/`s1`),
 including their save order. This independent cleanup is not accepted.
+
+## SPU IRQ callback registration (2026-09-09)
+
+The IRQ setter (`Spu_SetTransferMode`, a historical project name), its AKAO
+initialization caller, and the IRQ/DMA registration wrappers now share
+`SpuCallback` and their declarations through `psyq_spu_internal.h`. The IRQ
+setter reads `_spu_IRQCallback`, the existing symbol at `0x8009B438`; shutdown
+no longer declares that same callback storage as an integer.
+
+The setter's legacy page-address store remains. Replacing it with an ordinary
+symbolic assignment under its unsplit profile adds a nop after the call.
+Stock GCC 2.8.1 with address splitting and `-fcall-used-$1` fills the call slot
+but also shares the high address across the preceding load, changing the
+prologue and removing a required `lui`. Local previous-value pins, scratch
+clobbers and scheduler variants did not restore the complete sequence.
+A direct C shutdown candidate also remains nonmatching; its legacy
+instruction blocks have not been promoted or hidden.

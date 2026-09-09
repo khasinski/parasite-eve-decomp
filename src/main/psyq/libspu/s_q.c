@@ -4,10 +4,8 @@ extern void EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
 extern void CloseEvent(s32 event);
 extern void DisableEvent(s32 event);
-extern void _SpuDataCallback(SpuCallback callback);
 
 extern s32 D_8009B384;
-extern s32 D_8009B438;
 
 void SpuQuit(void) {
     if (_spu_isCalled == 1) {

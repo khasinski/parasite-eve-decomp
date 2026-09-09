@@ -1,15 +1,12 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 
-typedef void (*SpuCallback)(void);
-
-extern SpuCallback D_8009B438;
-extern void _SpuCallback(SpuCallback callback);
+#include "pe1/psyq_spu_internal.h"
 
 /* Historical name: this installs a callback, not a transfer mode. */
 SpuCallback Spu_SetTransferMode(SpuCallback callback)
 {
-    SpuCallback previous = D_8009B438;
+    SpuCallback previous = _spu_IRQCallback;
 
     if (callback != previous) {
         /* 0x800A0000 - 0x4BC8 is D_8009B438. Keep the store address
