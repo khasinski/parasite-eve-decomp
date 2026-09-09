@@ -4,19 +4,26 @@
 
 #define NULL ((void *)0)
 
-extern void *g_InvItemPtr;
-extern void *g_InvActiveListOverride;
+extern u16 g_AyaInventoryItems[];
+extern u16 *g_InvItemPtr;
+extern u16 *g_InvActiveListOverride;
 extern s32 g_InvSlotLimit;
 extern s32 g_InvOverrideSlotLimit;
-extern void *g_InvSelectionBits;
+extern s32 *g_InvSelectionBits;
 extern s32 g_InvSelectionBitWords;
-extern s32 g_InvSavedSelectionIndex[];
-extern s32 g_InvSavedSelectionFromStorage[];
+extern s32 g_InvSavedSelectionIndex[3];
+extern s32 g_InvSavedSelectionFromStorage[3];
 extern s32 g_AyaItemSelectionBits[];
 extern s32 g_InvStorageSelectionBits[];
-extern s16 g_AyaInventoryItems[];
 
 int Inv_GetAyaSlotLimit(void);
+
+void Inv_RememberSelection(unsigned int index, int value) {
+    if (index < 2) {
+        g_InvSavedSelectionIndex[index] = value;
+        g_InvSavedSelectionFromStorage[index] = g_InvItemPtr != g_AyaInventoryItems;
+    }
+}
 
 s32 Inv_RestoreSelection(u32 index) {
     if (index < 2U) {
