@@ -34,7 +34,7 @@ the candidate does not invent unused fields or padding arrays to absorb them.
 | _cmp | 0x2E0 | 32 | 100% |
 | DS_newmedia | 0x300 | 708 | 79.63842% |
 | DS_searchdir | 0x5C4 | 164 | 98.902435% |
-| DS_cachefile | 0x668 | 668 | 66.98203% |
+| DS_cachefile | 0x668 | 668 | 93.97605% |
 | ds_read | 0x904 | 92 | 100% |
 
 This is a source reconstruction candidate, not a promoted production TU.
@@ -89,3 +89,16 @@ Remaining matching work includes pointer/index induction, register allocation,
 unaligned four-byte copies and symbolic-address scheduling. In particular,
 DS_searchdir's indexed load expands through AT rather than the target's v0.
 The compiler and MASPSX remain unmodified.
+
+## DS_cachefile source refinement
+
+`DS_cachefile` improved from 66.98203% to 93.97605% without compiler pins,
+empty barriers or instruction ASM. Its loop uses one typed ISO directory
+record cursor and increments the file count after processing a record,
+breaking at 64 before the next sector-boundary check. A switch selects the
+two fixed cache slots for `.` and `..`; remaining fields use indexed cache
+accesses. The one-based directory lookup retains the subtraction in the
+field address rather than subtracting from the index before multiplication.
+All 1027 behavioral cases still pass and the other five function scores
+are unchanged. Remaining differences include unaligned-copy registers,
+indexed-load expansion and symbolic-address scheduling.

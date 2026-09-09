@@ -226,40 +226,40 @@ static int DS_searchdir(int parent, char *name) {
 }
 
 static int DS_cachefile(int directory) {
-    u8 *cursor;
+    IsoDirectoryRecord *cursor;
     int sector;
     int count;
-    IsoDirectoryRecord *record;
-    DslFILE *entry;
 
-    if (cached_directory == directory) return 1;
-    if (ds_read(1, directory_cache[directory - 1].sector,
+    if (directory == cached_directory) return 1;
+    if (ds_read(1, (directory_cache + directory)[-1].sector,
                 (int)sector_buffer) != 1) {
         if (D_8009AFC0 > 0) puts(directory_read_error);
         return -1;
     }
     if (D_8009AFC0 > 1) puts(file_progress);
-    cursor = sector_buffer;
-    for (count = 0; cursor < sector_buffer + 2048; count++) {
-        record = (IsoDirectoryRecord *)cursor;
-        if (record->recordLength == 0) break;
-        entry = &file_cache[count];
-        memcpy(&sector, record->sectorLE, 4);
-        CdIntToPos(sector, &entry->pos);
-        memcpy(&entry->size, record->sizeLE, 4);
-        if (count == 0) {
-            memcpy(entry->name, current_directory_name, 2);
-        } else if (count == 1) {
-            memcpy(entry->name, parent_directory_name, 3);
-        } else {
-            memcpy(entry->name, record->name, record->nameLength);
-            entry->name[record->nameLength] = 0;
+    cursor = (IsoDirectoryRecord *)sector_buffer;
+    for (count = 0; (u8 *)cursor < sector_buffer + 2048;) {
+        if (cursor->recordLength == 0) break;
+        memcpy(&sector, cursor->sectorLE, 4);
+        CdIntToPos(sector, &file_cache[count].pos);
+        memcpy(&file_cache[count].size, cursor->sizeLE, 4);
+        switch (count) {
+        case 0:
+            memcpy(file_cache[0].name, current_directory_name, 2);
+            break;
+        case 1:
+            memcpy(file_cache[1].name, parent_directory_name, 3);
+            break;
+        default:
+            memcpy(file_cache[count].name, cursor->name, cursor->nameLength);
+            file_cache[count].name[cursor->nameLength] = 0;
         }
         if (D_8009AFC0 > 1)
-            printf(file_entry_format, entry->pos.minute, entry->pos.second,
-                   entry->pos.sector, entry->size, entry->name);
-        cursor += record->recordLength;
-        if (count + 1 == DSL_MAX_FILE) { count++; break; }
+            printf(file_entry_format, file_cache[count].pos.minute,
+                   file_cache[count].pos.second, file_cache[count].pos.sector,
+                   file_cache[count].size, file_cache[count].name);
+        cursor = (IsoDirectoryRecord *)((u8 *)cursor + cursor->recordLength);
+        if (++count >= DSL_MAX_FILE) break;
     }
     cached_directory = directory;
     if (count < DSL_MAX_FILE) file_cache[count].name[0] = 0;
