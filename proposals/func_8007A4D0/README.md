@@ -45,3 +45,9 @@ pin improved the output. The current file retains only the final status
 barrier and eight register pins. Several remaining pins can individually be
 removed without changing this score; their combined removal remains to test.
 The function is still not byte-identical and remains ASM in the build.
+
+Sequential pin removal subsequently eliminated the tries, parameter, extra
+argument, and table-base pins while preserving four differing bytes. The
+current constrained file has four pins and one final-status barrier. Removing
+all individually neutral pins at once was not neutral (15 differing bytes);
+the sequential comparison accounts for allocator interactions.

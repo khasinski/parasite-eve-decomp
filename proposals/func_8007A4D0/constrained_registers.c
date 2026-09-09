@@ -12,9 +12,9 @@ extern u8 D_8009AFC4;
 int CD_cw(int arg0, void *arg1, int arg2, int arg3);
 
 int func_8007A4D0(int cmd, void *param, int extra) {
-    register int tries asm("$16");
-    register void *param_reg asm("$17");
-    register int extra_reg asm("$18");
+    register int tries;
+    register void *param_reg;
+    register int extra_reg;
     register int cmd_reg asm("$20");
     register int cmd_byte asm("$19");
     register u32 saved asm("$21");
@@ -22,7 +22,7 @@ int func_8007A4D0(int cmd, void *param, int extra) {
     register int ret asm("$23");
     register int minus_one;
     register int one;
-    register u32 *table asm("$3");
+    register u32 *table;
 
     param_reg = param;
     extra_reg = extra;
