@@ -151,6 +151,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xBBF50..0xBCAC4` | `engine/FieldEng_UpdateEffects5` | A fifth field-effect family unifies matrix setup, callback dispatch, radial animation, and shared state initialization. The 0xB74-byte object keeps the central initializer's volatile signed views under ABI aliases while callbacks use unsigned views, and links retail-identically. |
 | `0xBCC40..0xBCEF8` | `engine/FieldAnim_UpdateWindows` | Five window-animation callbacks share the setup pipeline and point-window transforms. The 0x2B8-byte object uses the compatible no-prototype view of `func_800C3B04` and links retail-identically. |
 | `0xBCFAC..0xBD3A8` | `engine/FieldAnim_ProcessPoints` | The complementary point-animation callbacks combine triple processing, matrix setup, movement updates, and completion transitions. The 0x3FC-byte object shares point-data structures without collapsing the distinct `func_800C3B04` calling convention, and links retail-identically. |
+| `0xBD6BC..0xBDADC` | `engine/FieldAnim_BurstEffects` | Burst-effect registration, dispatch, point extraction, and randomized offset initialization share one 0x420-byte TU. `D_800E27F8` is represented as its three-component point structure, while ABI aliases preserve the separate relocation symbols for its y and z fields; the merged object links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
