@@ -101,7 +101,7 @@ segments:
       - [0x1834, .rodata, menu/Menu_CreateMainMenuView]
       - [0x184C, rodata, main/rodata_00184C]
       - [0x1944, rodata, main/rodata_001944]
-      - [0x1958, .rodata, battle/BattleCmd_Stack]
+      - [0x1958, .rodata, battle/BattleCmd_StackFlow]
       - [0x196C, rodata, main/rodata_00196C]
       - [0x19A4, rodata, main/rodata_0019A4]
       - [0x19A8, rodata, main/rodata_0019A8]
@@ -626,8 +626,7 @@ segments:
       - [0x41860, c, menu/func_80051060]
       - [0x41884, c, battle/BattleCmd_InitTableCursor]
       # Command-stack allocation and rollback share the cursor and record ABI.
-      - [0x41898, c, battle/BattleCmd_Stack]
-      - [0x41A44, c, battle/BattleCmd_ResetTableCursor]
+      - [0x41898, c, battle/BattleCmd_StackFlow]
       - [0x41AAC, asm, menu/menu29_tail]
       # Command-result accessors share their single result slot.
       - [0x41CF8, c, menu/Menu_CommandResult]
