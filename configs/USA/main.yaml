@@ -150,9 +150,8 @@ segments:
       - [0x3BE8, c, task/Task_WaitAnimRange]
       # Point turn and movement are one 0x474-byte -G8 task-motion object.
       - [0x3D14, c, task/Task_PointMotion]
-      - [0x4188, c, main/Camera_TrackEntityAngle]
-      - [0x4434, c, main/Camera_SnapToEntity]
-      - [0x4684, c, main/Camera_TrackEntityZoom]
+      # Angle, snap, and zoom tracking share one 0x8A0-byte -G8 camera controller object.
+      - [0x4188, c, main/Camera_EntityTracking]
       - [0x4A28, c, main/Entity_QueryField]
       - [0x4BB0, c, main/Entity_GetDistanceComponents]
       - [0x4CFC, c, main/Boot_MemCardStepInit]
