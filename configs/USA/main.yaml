@@ -730,8 +730,8 @@ segments:
       - [0x4495C, c, item/Inv_GetActiveListItemType]
       - [0x44A1C, c, item/misc17]
       - [0x44A88, c, item/inv_get]
-      - [0x44AA0, c, item/Inv_BuildFilteredPackedList]
-      - [0x44BCC, c, item/Inv_BuildFilteredPackedListExcluding]
+      # Filtered active-list builders share one 0x280-byte -G8 inventory object.
+      - [0x44AA0, c, item/Inv_FilteredList]
       - [0x44D20, asm, main/Inv_SetupSlotDisplay]
       - [0x4505C, asm, main/Inv_PickRandomItem]
       - [0x45288, asm, main/Inv_GetItemEffectData]
