@@ -158,6 +158,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xBE884..0xBEC9C` | `engine/FieldAnim_SparkEffect` | A spark effect unifies its state initialization, registration and dispatch, randomized coordinates, render setup, and lifecycle callbacks in a 0x418-byte TU. The state-reset callback uses its shared character-buffer ABI and links retail-identically. |
 | `0xBECF8..0xBEE10` | `engine/FieldAnim_TaskListSetup` | Three table-list construction helpers share a 0x118-byte TU: lookup of configured values plus initialization of standalone and parent-backed task lists. It links retail-identically. |
 | `0xD0444..0xD07B8` | `engine/FieldEng_VectorMath` | Integer square root, fixed-point and short-vector distance calculations, horizontal distance, elevation/heading extraction, and heading conversion share a 0x374-byte TU. Four duplicate `Vec3Fixed` declarations collapse to one definition and the object links retail-identically. |
+| `0xD07B8..0xD0860` | `engine/FieldEng_AngleMath` | Turning an angle toward a target and calculating its shortest signed distance share the required unscheduled compiler profile. The 0xA8-byte TU links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 

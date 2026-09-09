@@ -1693,8 +1693,7 @@ segments:
       - [0xD0320, c, engine/func_800DFB20]
       - [0xD0378, c, engine/engine_800D4860_D0378]
       - [0xD0444, c, engine/FieldEng_VectorMath]
-      - [0xD07B8, c, engine/FieldEng_TurnToward]
-      - [0xD0824, c, engine/func_800E0024]
+      - [0xD07B8, c, engine/FieldEng_AngleMath]
       - [0xD0860, data, main/dtail_0D0860]
 
   - [0x1ee800]
