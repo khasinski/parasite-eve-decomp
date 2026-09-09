@@ -33,7 +33,7 @@ int func_8007A4D0(int cmd, void *param, u8 *extra) {
         D_8009AFB4 = 0;
         one = 1;
         asm volatile("" : "+r"(one));
-        if (cmd_byte != one && (D_8009AFC4 & 0x10) != 0) {
+        if (cmd_byte != one && (*(u8 *)&D_8009AFC4 & 0x10) != 0) {
             register int command = 1;
             register void *payload;
             register u8 *result;

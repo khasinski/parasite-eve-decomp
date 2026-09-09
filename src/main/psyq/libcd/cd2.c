@@ -19,8 +19,6 @@ extern int D_8009AFD8;
 extern unsigned char *D_8009AF1C;
 extern unsigned char *D_8009AF28;
 
-extern unsigned char g_CdStatus;
-
 extern unsigned char g_CdMode;
 
 extern unsigned char g_CdLastCom;
@@ -57,7 +55,7 @@ void CdRom_Shutdown(void) {
 }
 
 int CdStatus(void) {
-    return g_CdStatus;
+    return *(u8 *)&D_8009AFC4;
 }
 
 int CdMode(void) {

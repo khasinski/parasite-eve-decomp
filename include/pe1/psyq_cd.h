@@ -375,7 +375,8 @@ CdlCB CdReadCallback(CdlCB callback);
 CdlCB CdSyncCallback(CdlCB callback);
 CdlCB CdReadyCallback(CdlCB callback);
 CdlCB CdRom_SetReadCallback(CdlCB callback);
-extern u8 D_8009AFC4;
+/* SDK CD_status occupies one word; public getters read its low byte. */
+extern u32 D_8009AFC4;
 int CD_cw(int command, void *parameters, u8 *result, int mode);
 int func_8007A4D0(int command, void *parameters, u8 *result);
 
