@@ -1,5 +1,9 @@
 # Square_Vsprintf
 
+Current best verified candidate: `constrained_gcc281.c`, **99.500916%** under
+stock GCC281/MASPSX, with all 1,471 retail-oracle cases passing. This remains
+a nonmatching proposal. Earlier scores below record the search history.
+
 `Square_Vsprintf` is a variadic Psy-Q formatter at `0x80071A84` (2,180 bytes).
 The `Square_` prefix is this project's symbol name. Psy-Q 4.6 and 4.7
 `LIBC.LIB` archives export the same object as `sprintf`; its ABI is `int (char
@@ -235,6 +239,24 @@ retail output mismatches; output-125-1, output-125-2 and output-125-5 encountere
 CPU exceptions at address zero. Exceptions are recorded separately from
 verified output mismatches. Exact source SHA-256 identities and classifications
 are in `permuter/unsplit-audit.json`; this audit does not claim new matches.
-The current valid 99.16058% candidate remains unchanged. The original remote
+At that audit, the valid 99.16058% candidate remained unchanged. The original remote
 search was confirmed live beyond 1.94 million iterations and split-refined
 beyond 1.26 million; neither was restarted during this audit.
+
+## Corrected hexadecimal prefix scheduling
+
+The remote penalty-120 candidate moved `--src` outside the alternate-form
+condition. That changes the source span even without `#`, causing the zero
+hexadecimal regression. The maintained candidate now computes only
+`prefixEnd = src - 1` before the condition. Inside the condition it writes the
+conversion character through that temporary, subtracts two from `src`, and
+writes the leading zero. Without the flag, `src` remains unchanged.
+
+This ordinary-C change improves objdiff from 99.16058% to **99.500916%** against
+`expected/build/USA/asm/USA/main/psyq/libc/Square_Vsprintf.s.o`. No compiler flags,
+pins or barriers were added. Both the repaired experimental source and the
+readable maintained source pass all 1,471 oracle cases. Two alternative repairs
+that reassigned the temporary to `src` scored 99.31193% and 99.484406%; keeping
+the two-byte adjustment together produced the retained result. This repairs
+the invalid permutation rather than accepting its lower permuter penalty.
+Production assembly and match accounting remain unchanged until exactness.
