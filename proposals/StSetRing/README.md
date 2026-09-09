@@ -23,7 +23,7 @@ and copies the second over it. The zero at 0x8007A210 follows those templates;
 StSetRing starts at 0x8007A214. Neither template is this C function's entry.
 The original StClearRing is a separate SDK object, C_002.OBJ.
 
-Stock GCC 2.7.2 gives **85.454544%** against the correctly bounded 44-byte
+The unannotated source with stock GCC 2.7.2 gives **85.454544%** against the correctly bounded 44-byte
 function. Its sole extra operation is a nop: the second symbolic store is
 emitted before the call instead of in its delay slot, shifting subsequent
 instructions. The 2.21 assembler option does not resolve this. GCC 2.8.1
@@ -34,3 +34,43 @@ permission to change the compiler or assembler.
 The production boundary has not been changed or credited as matching C.
 Promote only after the complete function matches; preserve the verified SDK
 boundary and account for its trailing padding when updating the manifest.
+
+## Retained earlier compiler investigation
+
+
+Inspection of raw GCC 2.7.2 output shows `sw $5,D_800C20C4` immediately
+before `jal StClearRing`, with no explicit delay-slot instruction. The
+current MASPSX/GNU-as pipeline emits the expanded store before the call and
+a NOP after it. Retail instead places the expanded store in the call slot.
+This points to assembler scheduling as a hypothesis to test against original
+ASPSX behavior; it does not justify changing the shared pipeline blindly.
+The `-mdebuga` trial retained the same output. `-mno-gas` was rejected by
+the installed compiler and is not a valid tested configuration.
+
+## Verified direct-assembler match
+
+The unmodified GCC 2.7.2 assembly, assembled directly with GNU as (reorder
+mode, `-EL -G0 -march=r3000 -no-pad-sections`), produces exactly 0x2C bytes.
+Linking it with diagnostic.ld at 0x8007A214 and comparing .text to all eleven
+retail instruction words gives **44/44 bytes identical**. GNU as moves the
+second expanded store into the jal delay slot, preserving the retail return
+sequence. No instruction editing is involved.
+
+This is a verified isolated body match, not production integration: the normal
+MASPSX pipeline still differs, and the public entry boundary still needs audit.
+The direct-assembler result identifies a concrete pipeline compatibility issue
+for this candidate rather than a need to distort its C semantics.
+
+## Current stock-pipeline candidate
+
+The saved candidate now selects GCC281 with `-fcall-used-$1` and
+`-fno-schedule-insns2`. A 16-combination sweep of the two scheduling flags,
+delayed-branch optimization and expensive optimizations found this sufficient
+to reproduce the retail prologue and entire call sequence through stock
+MASPSX. Linked .text is 44 bytes with six differing bytes, all in the epilogue:
+retail restores sp before jr and has a NOP delay slot; this candidate places
+the NOP before jr and restores sp in its delay slot. No pins or barriers.
+Earlier GCC272/direct-as observations above describe the original unannotated
+source; the current production-path candidate is still not an exact match.
+
+The SDK object comparison above now resolves the earlier entry-address uncertainty.

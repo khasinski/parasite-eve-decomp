@@ -1,3 +1,5 @@
+/* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -fcall-used-$1 -fno-schedule-insns2 */
 #include "common.h"
 
 extern u32 *StRingAddr __asm__("D_800C0DC8");
