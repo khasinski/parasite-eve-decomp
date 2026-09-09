@@ -19,10 +19,11 @@ with tempfile.TemporaryDirectory(prefix='getintr-') as work:
     undefined = subprocess.check_output(['mipsel-none-elf-nm', '-u', sys.argv[1]], text=True).split()[1::2]
     symbols = dict(re.findall(r'^(\w+) = (0x[0-9A-Fa-f]+);', Path('configs/USA/sym.main.txt').read_text(), re.M))
     definitions = [f'{name} = ' + ('0x' + name[2:] if name.startswith('D_') else symbols[name]) + ';' for name in undefined]
-    script.write_text('\n'.join(definitions) + '\nSECTIONS { .text 0x8007AAB4 : { *(.text) } .rodata 0x80140000 : { *(.rodata*) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }')
+    script.write_text('\n'.join(definitions) + '\nSECTIONS { .text 0x80150000 : { *(.text) } .rodata 0x80140000 : { *(.rodata*) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }')
     subprocess.run(['mipsel-none-elf-ld', '-T', str(script), sys.argv[1], '-o', str(linked)], check=True)
     with linked.open('rb') as stream:
         elf = ELFFile(stream)
+        entries = {symbol.name: symbol['st_value'] for symbol in elf.get_section_by_name('.symtab').iter_symbols()}
         sections = [(s['sh_addr'] & 0x1FFFFFFF, s.data()) for s in elf.iter_sections() if s.name in ('.text', '.rodata')]
 
 
@@ -84,7 +85,7 @@ def run(event, response, old_status, flags, debug, unstable, candidate):
         cpu.hook_add(UC_HOOK_CODE, call, begin=address, end=address)
     cpu.reg_write(UC_MIPS_REG_SP, 0x801F0000)
     cpu.reg_write(UC_MIPS_REG_RA, 0x801E0000)
-    cpu.emu_start(0x8007AAB4, 0x801E0000, count=10000)
+    cpu.emu_start(entries['getintr'] if candidate else 0x8007AAB4, 0x801E0000, count=10000)
     assert cpu.reg_read(UC_MIPS_REG_PC) == 0x801E0000
     assert trace[:2] == [('write', 0, 1), ('read', 3, event)]
     assert state['fifo'] == (len(response) if event else 0)

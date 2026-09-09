@@ -54,3 +54,10 @@ reduction, CSE-follow-jumps or peepholes leaves 95.997086% unchanged; disabling
 expensive optimizations or CSE-after-loop lowers it to 94.33527%/94.017494%.
 Allowing AT allocation scores 90.55977%. These results leave the existing
 unsigned response buffer and unconstrained event-field accesses preferred.
+
+The response-copy implementation is now shared through
+`../libcd_bios_helpers.h`. Standalone code retains its original score. The
+four-function combined candidate in `../libcd_commands/candidate.c` scores
+94.33527% for getintr under its common no-expensive-optimizations configuration;
+all 8448 getintr cases pass on that object. Its CD_cw integration suite also
+executes this getintr body against modeled FIFO/interrupt inputs in 3072 cases.

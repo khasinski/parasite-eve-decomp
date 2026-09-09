@@ -12,13 +12,7 @@ extern char D_80011B44[], D_80011B50[], D_80011B6C[], D_80011B80[];
 int printf(const char *format, ...);
 int puts(const char *text);
 
-static inline void copy_result(u8 *destination, const u8 *source) {
-    int remaining;
-    if (destination) {
-        remaining = 7;
-        do { *destination++ = *source++; } while (--remaining != -1);
-    }
-}
+#include "../libcd_bios_helpers.h"
 
 int getintr(void) {
     volatile u8 interrupt;

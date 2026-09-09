@@ -19,7 +19,7 @@ with tempfile.TemporaryDirectory(prefix='cd-ready-') as work:
     undefined = subprocess.check_output(['mipsel-none-elf-nm', '-u', sys.argv[1]], text=True).split()[1::2]
     symbols = dict(re.findall(r'^(\w+) = (0x[0-9A-Fa-f]+);', Path('configs/USA/sym.main.txt').read_text(), re.M))
     definitions = [f'{name} = ' + ('0x' + name[2:] if name.startswith('D_') else symbols[name]) + ';' for name in undefined]
-    script.write_text('\n'.join(definitions) + '\nSECTIONS { .text 0x8007B290 : { *(.text) } .rodata 0x80140000 : { *(.rodata*) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }')
+    script.write_text('\n'.join(definitions) + '\nSECTIONS { .text 0x80150000 : { *(.text) } .rodata 0x80140000 : { *(.rodata*) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }')
     subprocess.run(['mipsel-none-elf-ld', '-T', str(script), sys.argv[1], '-o', str(linked)], check=True)
     with linked.open('rb') as stream:
         elf = ELFFile(stream)
@@ -53,7 +53,7 @@ def run(mode, initial, null_result, scenario, callbacks, candidate):
         assert size == 1
         trace.append(('write' if kind == UC_MEM_WRITE else 'read', value if kind == UC_MEM_WRITE else u.mem_read(address, 1)[0]))
     cpu.hook_add(UC_HOOK_MEM_READ | UC_HOOK_MEM_WRITE, access)
-    api = {int(symbols[name], 16): name for name in ('VSync', 'CheckCallback', 'getintr', 'CD_flush', 'puts', 'printf')}
+    api = {(entries.get(name, int(symbols[name], 16)) if candidate else int(symbols[name], 16)): name for name in ('VSync', 'CheckCallback', 'getintr', 'CD_flush', 'puts', 'printf')}
     api.update({0x801D0000: 'sync_callback', 0x801D0100: 'ready_callback'})
     state = {'vsync': 0, 'interrupt': 0}
     def call(u, address):

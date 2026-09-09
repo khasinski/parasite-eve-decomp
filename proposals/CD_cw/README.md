@@ -67,3 +67,9 @@ improves this to 92.22394%. The combined object retains the standalone
 CD_sync/CD_ready matches. Its test suite supports `--real-sync` to execute
 CD_sync rather than model it; all 3072 cases pass, and omitting that call is
 rejected. See the combined candidate README for the limits of this check.
+
+The four-function combined candidate now includes getintr. The verifier's
+`--real-intr` mode executes both CD_sync and getintr; the controller model
+supplies response FIFO bytes and interrupt signals instead of directly setting
+event/result state. All 3072 cases pass, and redirecting the ready response to
+the sync buffer is rejected. See the combined README for modeled dependencies.
