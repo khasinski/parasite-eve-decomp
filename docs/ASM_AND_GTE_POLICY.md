@@ -1270,3 +1270,25 @@ window remains unmatched: stock GCC 2.7.2 moves the flag store out of the
 branch delay slot and changes the timer address/value registers. GCC 2.8.1
 profiles also changed other functions in that TU. Its legacy instruction
 ASM and the callback-pending page constraint remain pending reconstruction.
+
+## Shared memory-card SIO register layout
+
+The retail pointer at 0x8009B788 contains 0x1F801040, the controller/card
+SIO0 block. `MemCardSioRegisters` now gives both timer and transfer TUs one
+shared volatile MMIO view: data at 0, low status at 4, mode at 8, control
+at 10 and baud at 14. Status is exposed as two halfwords so existing
+halfword accesses retain their widths. Layout assertions verify the used
+offsets and 16-byte span. Register names and addresses follow
+[PSX-SPX's SIO map](https://psx-spx.consoledev.net/serialinterfacessio/).
+
+This removes the unused, incomplete TimerRegs view, the duplicate anonymous
+SIO layout and the raw halfword-array declaration of the same pointer.
+The timer's `+0xE` store is now `baud = 0x88`; the poll loop names the status
+field instead of indexing halfword 2. Pointer and register volatility are
+shared consistently. Full main and overlay SHA checks cover the changes.
+
+The explicit nop before MemCard_WaitStatusBit2's loop remains. Removing it
+scores 99.5% against the matching full TU: the loop target includes a
+load-delay nop instead of beginning on the status load. Stock `-mdebugf`,
+either scheduler-disable option, and empty memory/input/tied-pointer
+barriers did not recover the target. No added constraints are retained.

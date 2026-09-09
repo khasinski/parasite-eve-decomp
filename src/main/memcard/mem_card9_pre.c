@@ -23,7 +23,6 @@ extern int D_8009B76C;
 extern int D_8009B774;
 extern int D_8009B778;
 extern int D_8009B78C;
-extern void *D_8009B788;
 extern int D_800A5AC4;
 extern MemCardStepFn D_8009B7A8[];
 extern MemCardErrorFn D_8009B724;
@@ -33,17 +32,6 @@ extern void ExitCriticalSection(void);
 extern void ChangeClearRCnt(int, int);
 extern void SysDeqIntRP(int, void *);
 extern int g_MemCardCounterIrqQueueNode;
-
-typedef struct {
-    unsigned char field0;
-    unsigned char pad1[3];
-    u16 field4;
-    u16 pad6;
-    u16 pad8;
-    u16 fieldA;
-} TimerRegs;
-
-extern TimerRegs * volatile g_MemCardSioRegs;
 
 int Spu_CheckTimerElapsed(void);
 int MemCard_DmaProcess();
@@ -117,7 +105,7 @@ int MemCard_TimerCallback(void) {
                 obj = (void *)(D_8009B758 + (((index << 4) - index) << 4));
                 MemCard_RunCommandStep(obj);
             }
-            *(short *)((char *)D_8009B788 + 0xE) = 0x88;
+            g_MemCardSioRegs->baud = 0x88;
         }
     }
 
