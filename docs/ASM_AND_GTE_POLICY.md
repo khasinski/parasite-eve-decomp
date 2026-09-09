@@ -1805,3 +1805,26 @@ barriers were added. The production object remains identical, the main and
 191 overlay SHA-1 checks pass, and source/organization/debt gates pass. The
 cold/warm initialization test now runs the actual source without its former
 host pointer-width substitutions and passes.
+
+
+## Critical-section BIOS syscalls
+
+`EnterCriticalSection` (0x80072714) and `ExitCriticalSection` (0x80072724)
+are adjacent 16-byte assembled BIOS boundaries. Each retail body loads a0
+with selector 1 or 2, executes `syscall 0`, and returns through ra. Their
+combined C translation unit is `psyq/libapi/critical_section.c`.
+
+`PSYQ_BIOS_SYSCALL` in `include/pe1/psyq_bios.h` owns only the single syscall
+instruction. C sets the selector and returns the result; the compiler emits
+the return sequence. The a0/v0 bindings express the BIOS ABI, and the memory
+clobber prevents compiler memory operations from crossing the boundary. No
+ordinary CPU instruction is hidden in this macro. These functions remain
+classified as `original_asm`, like the existing assembled BIOS trampolines;
+the source reconstruction does not inflate semantic-C progress.
+
+Both functions match 16/16 retail bytes, and the combined range
+matches 32/32. Removing either a0 binding changes the bytes. Removing a v0
+binding happens to preserve the current allocation, but would leave an
+implicit hardware result incorrectly declared as an arbitrary register
+output. These are fixed ABI operands rather than allocator hints; all four
+bindings are retained to state the actual syscall contract.

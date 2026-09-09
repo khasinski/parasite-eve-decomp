@@ -21,4 +21,11 @@
         ".end " #name "\n" \
         ".set reorder\n")
 
+/* Critical-section BIOS ABI: selector in a0, result in v0. The caller
+ * binds these operands to $4/$2; C owns selector setup and the return.
+ * Tied operands use GCC272's syntax instead of its unsupported +r form. */
+#define PSYQ_BIOS_SYSCALL(result, selector) \
+    __asm__ volatile("syscall" : "=r"(result), "=r"(selector) \
+                     : "1"(selector) : "memory")
+
 #endif

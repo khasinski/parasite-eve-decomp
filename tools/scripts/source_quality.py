@@ -101,7 +101,7 @@ def has_instruction_asm(text: str) -> bool:
 def classify(path: pathlib.Path) -> str:
     text = path.read_text(errors="ignore")
     expanded = text + "\n" + included_inc_text(path, text)
-    if "PSYQ_BIOS_TRAMPOLINE" in expanded:
+    if "PSYQ_BIOS_TRAMPOLINE" in expanded or "PSYQ_BIOS_SYSCALL" in expanded:
         return "original_asm"
     if TEXT_SECTION.search(expanded) and not FUNCTION_DEF.search(expanded):
         return "text_data"

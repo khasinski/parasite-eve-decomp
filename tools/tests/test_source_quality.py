@@ -103,6 +103,14 @@ class SourceQualityTests(unittest.TestCase):
                 self.assertEqual(self.classify("void f(void) { %s(0); }" % name),
                                  "asm_constrained")
 
+    def test_critical_section_syscalls_keep_bios_classification(self):
+        root = pathlib.Path(__file__).resolve().parents[2]
+        self.assertEqual(source_quality.classify(
+            root / "src/main/psyq/libapi/critical_section.c"), "original_asm")
+        self.assertEqual(self.classify(
+            "int f(void) { PSYQ_BIOS_SYSCALL(result, selector); return result; }"),
+            "original_asm")
+
     def test_cpu_helper_in_direct_template_is_quarantined(self):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
