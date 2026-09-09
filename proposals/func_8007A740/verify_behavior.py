@@ -9,7 +9,7 @@ import subprocess
 import sys
 import tempfile
 from elftools.elf.elffile import ELFFile
-from unicorn import Uc, UC_ARCH_MIPS, UC_MODE_MIPS32, UC_MODE_LITTLE_ENDIAN, UC_HOOK_CODE, UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE, UC_MEM_WRITE
+from unicorn import Uc, UC_ARCH_MIPS, UC_MODE_MIPS32, UC_MODE_LITTLE_ENDIAN, UC_HOOK_CODE
 from unicorn.mips_const import UC_MIPS_REG_A0, UC_MIPS_REG_A1, UC_MIPS_REG_A2, UC_MIPS_REG_A3, UC_MIPS_REG_V0, UC_MIPS_REG_SP, UC_MIPS_REG_RA, UC_MIPS_REG_PC
 
 
@@ -43,12 +43,20 @@ def run(command, parameter_present, lid, needs_location, outcome, sync_result, c
     word(0x9AFB4, saved); word(0x9AFC4, 0xA5A50000 | (0x10 if lid else 0))
     word(0x9AF2C + (command & 255) * 4, needs_location)
     trace = []
-    def store(u, kind, address, size, value, user):
-        address &= 0x1FFFFFFF
-        if address == 0x9AFB4:
-            assert size == 4
-            trace.append(('callback', value))
-    cpu.hook_add(UC_HOOK_MEM_WRITE, store)
+    # Unicorn 2.1.4 memory-write hooks fail on the retail SW in a branch delay
+    # slot. Observe that SW at instruction entry instead; execute it unchanged.
+    from unicorn.mips_const import UC_MIPS_REG_0
+    def store_instruction(u, address, size, user):
+        instruction = read(address)
+        if instruction >> 26 == 0x2B:
+            base = (instruction >> 21) & 31
+            source = (instruction >> 16) & 31
+            offset = instruction & 0xFFFF
+            if offset & 0x8000: offset -= 0x10000
+            target = (u.reg_read(UC_MIPS_REG_0 + base) + offset) & 0x1FFFFFFF
+            if target == 0x9AFB4:
+                trace.append(('callback', u.reg_read(UC_MIPS_REG_0 + source)))
+    cpu.hook_add(UC_HOOK_CODE, store_instruction)
     apis = {int(symbols[name], 16) + 4: name for name in ('CD_cw', 'CD_sync')}
     trapped = []
     def trap(u, address, size, user): trapped.append(address); u.emu_stop()
@@ -63,11 +71,7 @@ def run(command, parameter_present, lid, needs_location, outcome, sync_result, c
     pc = entries['func_8007A740'] if candidate else int(symbols['func_8007A740'], 16)
     calls = 0; syncs = 0
     for _ in range(20):
-        try:
-            cpu.emu_start(pc, 0x801E0000, count=1000)
-        except Exception:
-            print('CPU', hex(cpu.reg_read(UC_MIPS_REG_PC)), command, parameter_present, lid, needs_location, outcome, sync_result, candidate, trace)
-            raise
+        cpu.emu_start(pc, 0x801E0000, count=1000)
         if not trapped: break
         name = apis[trapped.pop()]
         args = tuple(cpu.reg_read(r) for r in (UC_MIPS_REG_A0, UC_MIPS_REG_A1, UC_MIPS_REG_A2, UC_MIPS_REG_A3))

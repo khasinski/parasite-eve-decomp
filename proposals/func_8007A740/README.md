@@ -29,12 +29,24 @@ tools/objdiff/objdiff-cli diff \
   -2 /tmp/cd-retry.o -o /tmp/cd-retry.json
 ```
 
-**Behavioral verification is incomplete.** `verify_behavior_incomplete.py`
-contains the intended retail comparison with CD_cw/CD_sync modeled through
-NOP entry stubs. It currently fails while executing the unmodified retail
-function on its first case: after the callback-clear store, Unicorn reaches
-0x8007A7D4 and raises a CPU exception with PC zero before any modeled API call.
-Thus no passing-case count or semantic equivalence is claimed. A diagnostic
-attempt to stop/resume at that branch target did not resolve it and was not
-retained. The next verification step must resolve that emulator failure or
-use an independent executor, then exercise all retry and restoration paths.
+`verify_behavior.py` now passes **384 retail-comparison cases**, covering low-byte
+command truncation, null/non-null parameters, lid status, optional location
+commands, four command-result patterns, and three sync results. It compares
+callback-clear/restore instructions, arguments and callback state at every
+modeled API call, return values and result-buffer effects. Mutants with only
+three attempts, the wrong sync success code, or missing callback restoration
+are rejected by assertions. CD_cw and CD_sync remain modeled external APIs;
+this does not yet validate the wrapper with their real bodies.
+
+```sh
+python proposals/func_8007A740/verify_behavior.py /tmp/cd-retry.o
+```
+
+The initial retail CPU exception was isolated to Unicorn 2.1.4's memory-write
+hook while executing SW in a branch delay slot. The same cases pass with that
+hook removed. The final verifier observes the callback SW via an instruction
+hook, records its computed destination and source register, and executes the
+original store unchanged. It also checks stored callback state at API entries
+and at return. No retail function instructions or branches are patched. Only
+the modeled external API entries use the documented NOP stubs. This replaces
+the former incomplete verifier; source match remains 71.53012%.
