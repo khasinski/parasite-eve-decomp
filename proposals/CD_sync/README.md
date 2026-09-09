@@ -46,3 +46,8 @@ It compares status consumption, all result buffers, timeout state, external
 calls and MMIO traces. Resetting a consumed status to 5 instead of 2 is rejected
 as a negative control. Hardware and external calls are modeled; counter
 overflow and infinite waits are outside this finite test set.
+
+The same match is retained when compiling with the other two command/wait
+functions in `../libcd_commands/candidate.c`. This verifier resolves the
+candidate entry from its ELF symbol, and its full suite passes on that
+combined object as well.

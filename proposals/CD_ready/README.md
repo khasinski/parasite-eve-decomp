@@ -43,3 +43,8 @@ thresholds. It compares consumed events, all response buffers, timeout state,
 external calls and MMIO traces. Reading the ready byte in the end-event branch
 is rejected as a negative control. Hardware and external functions are modeled;
 infinite waits and signed-counter overflow are outside this finite test set.
+
+The same match is retained when compiling with the other two command/wait
+functions in `../libcd_commands/candidate.c`. This verifier resolves the
+candidate entry from its ELF symbol, and its full suite passes on that
+combined object as well.

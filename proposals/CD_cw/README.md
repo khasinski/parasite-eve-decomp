@@ -2,7 +2,7 @@
 
 Complete C reconstruction of retail `0x8007B558` (1036 bytes), using the
 shared CD callback prototypes and interrupt-event structure. Stock GCC 2.8.1
-with unsplit addresses scores 91.64865%; there are no pins, barriers or
+with unsplit addresses and `-fno-expensive-optimizations` scores 92.22394%; there are no pins, barriers or
 instruction ASM. The function remains assembly until its full match is
 recovered.
 
@@ -21,7 +21,7 @@ with an explicit do/while loop, raises this to 89.03089%. Reusing an inline
 eight-byte copy helper gives 91.50193%: the output pointer is
 copied into a temporary register rather than modified in its saved register.
 An explicit positive-count check followed by the FIFO do/while loop gives the
-selected 91.64865%. It preserves the count-slot pointer across FIFO writes.
+intermediate 91.64865%. It preserves the count-slot pointer across FIFO writes.
 The timeout, dispatcher and copy helpers now live in
 `../libcd_bios_helpers.h`, shared with CD_sync and CD_ready. All three pass
 their complete behavior suites (3072, 840 and 1008 cases), with unchanged
@@ -61,3 +61,9 @@ traces, external call arguments, callbacks and copied responses. Reversing
 the blocking-mode test is rejected as a negative control. Hardware and
 external calls are modeled; signed-counter overflow and infinite hardware
 waits are outside this finite test set.
+
+The common compiler configuration used by `../libcd_commands/candidate.c`
+improves this to 92.22394%. The combined object retains the standalone
+CD_sync/CD_ready matches. Its test suite supports `--real-sync` to execute
+CD_sync rather than model it; all 3072 cases pass, and omitting that call is
+rejected. See the combined candidate README for the limits of this check.

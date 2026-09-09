@@ -23,6 +23,7 @@ with tempfile.TemporaryDirectory(prefix='cd-ready-') as work:
     subprocess.run(['mipsel-none-elf-ld', '-T', str(script), sys.argv[1], '-o', str(linked)], check=True)
     with linked.open('rb') as stream:
         elf = ELFFile(stream)
+        entries = {symbol.name: symbol['st_value'] for symbol in elf.get_section_by_name('.symtab').iter_symbols()}
         sections = [(s['sh_addr'] & 0x1FFFFFFF, s.data()) for s in elf.iter_sections() if s.name in ('.text', '.rodata')]
 
 
@@ -102,7 +103,7 @@ def run(mode, initial, null_result, scenario, callbacks, candidate):
     cpu.reg_write(UC_MIPS_REG_A1, 0 if null_result else 0x80140100)
     cpu.reg_write(UC_MIPS_REG_SP, 0x801F0000)
     cpu.reg_write(UC_MIPS_REG_RA, 0x801E0000)
-    pc = 0x8007B290
+    pc = entries['CD_ready'] if candidate else 0x8007B290
     for step in range(50):
         cpu.emu_start(pc, 0x801E0000, count=10000)
         if not trapped:
