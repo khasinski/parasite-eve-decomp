@@ -167,6 +167,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xC4764..0xC481C` | `engine/FieldEng_QueryActiveNode` | Queries using the active field-engine object share node-coordinate extraction and bounded property lookup in a 0xB8-byte TU that links retail-identically. |
 | `0xC4E20..0xC4F04` | `engine/FieldEng_ObjectLifecycle` | Object-record initialization and callback dispatch share the record and active-context ABI in one 0xE4-byte TU that links retail-identically. |
 | `0xC5050..0xC5128` | `engine/FieldEng_AssetBootstrap` | State setup and asset-table bootstrap form one 0xD8-byte TU that links retail-identically. |
+| `0x40CF4..0x40D80` | `save/SaveWriteFlow` | Selected-slot write/read adapters and the menu callback scheduler form one 0x8C-byte `-G8` TU that links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
