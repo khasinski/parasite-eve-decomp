@@ -4,7 +4,7 @@
     "asm_bodies": 87,
     "asm_constrained_units": 44,
     "barriers": 355,
-    "byte_pointer_arithmetic": 285,
+    "byte_pointer_arithmetic": 284,
     "declaration_overrides": 0,
     "directives": 0,
     "externs_in_c": 3695,
@@ -14,7 +14,7 @@
     "pins": 781,
     "pointer_integer_casts": 322,
     "postpass": 0,
-    "raw_offset_dereferences": 1451,
+    "raw_offset_dereferences": 1449,
     "statement_expressions": 3,
     "unknown_fields": 175
   },
