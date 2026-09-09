@@ -796,8 +796,8 @@ segments:
       - [0x4CA5C, c, save/Save_BuildHeader]
       - [0x4CB74, c, save/Save_RestoreHeader]
       - [0x4CC88, c, menu/Menu_RequestErrorSound]
-      - [0x4CC98, c, menu/Menu_RunFrameWithArg]
-      - [0x4CD94, c, menu/Menu_RunFrame]
+      # Argument and default entry points share one 0x1F0-byte -G8 menu-frame object.
+      - [0x4CC98, c, menu/Menu_RunFrame]
       - [0x4CE88, asm, main/Inv_RebuildWithBonusSlots]
       - [0x4D2EC, asm, main/Inv_TransferToStorage]
       - [0x4D4A4, asm, item/Inv_InitNewGameInventory]

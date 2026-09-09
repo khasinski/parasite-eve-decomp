@@ -3,7 +3,7 @@
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
+#include "m2c_macros.h"
 M2C_UNK Window_SetBoundsByMode(u8);                 /* extern */
 M2C_UNK MemCard_UpdateSavePolling();                  /* extern */
 M2C_UNK MemCard_DelayedCallback();                            /* extern */
@@ -23,6 +23,35 @@ extern s32 g_MemCardDialogState;
 extern s32 g_MenuErrorSoundPending;
 extern s32 g_MenuActiveListTarget[];
 #define g_MenuActiveListTarget (g_MenuActiveListTarget[0])
+
+s32 Menu_RunFrameWithArg(s32 arg0) {
+    if (Menu_SaveBgIsFadeActive() == 0) {
+        g_MenuActiveListTarget = arg0;
+        Menu_ClearCommandResult();
+        Draw_SelectBuffer();
+        Evt_DeferredExec();
+        MenuInput_DispatchQueuedEvents();
+        Menu_ProcessSwapReturnIfPending();
+        MemCard_DelayedCallback();
+        MenuWidget_UpdateAndDraw();
+        Draw_PresentFrame(1);
+        if (g_MemCardDialogState >= 2) {
+            MemCard_UpdateSavePolling();
+        } else if (g_MemCardDialogState > 0) {
+            g_MemCardDialogState += 1;
+        }
+        if (g_MenuErrorSoundPending != 0) {
+            g_MenuErrorSoundPending = 0;
+            Inv_SetActiveList(9, 0);
+        }
+        if (Menu_GetCommandResult() != 0) {
+            Window_SetBoundsByMode(g_SavedMenuMode);
+        }
+        return Menu_GetCommandResult();
+    }
+    Menu_SaveBgAdvanceFade();
+    return 0;
+}
 
 s32 Menu_RunFrame(void) {
     if (Menu_SaveBgIsFadeActive() == 0) {
