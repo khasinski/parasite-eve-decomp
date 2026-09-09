@@ -18,15 +18,23 @@ int puts(const char *text);
 void CD_flush(void);
 int getintr(void);
 
-static inline int timed_out(void) {
+static inline int timed_out(char **commands, char **events) {
     if (VSync(-1) > D_800A3478 || D_800A347C++ > 0x3C0000) {
         puts(D_80011B18);
-        printf(D_80011B28, D_800A3480, D_8009AFDC[D_8009AFD5],
-               D_8009B05C[D_8009B294.sync], D_8009B05C[D_8009B294.ready]);
+        printf(D_80011B28, D_800A3480, commands[D_8009AFD5],
+               events[D_8009B294.sync], events[D_8009B294.ready]);
         CD_flush();
         return -1;
     }
     return 0;
+}
+
+static inline void copy_result(u8 *destination, const u8 *source) {
+    int remaining;
+    if (destination) {
+        remaining = 7;
+        do { *destination++ = *source++; } while (--remaining != -1);
+    }
 }
 
 int CD_cw(int command, void *parameters, u8 *result, int mode) {
@@ -56,25 +64,26 @@ int CD_cw(int command, void *parameters, u8 *result, int mode) {
     D_800A3478 = VSync(-1) + 0x3C0;
     D_800A347C = 0;
     D_800A3480 = D_80011BCC;
-    while (!D_8009B294.sync) {
-        if (timed_out()) return -1;
-        if (CheckCallback()) {
-            int bank = *D_8009B27C & 3;
-            int pending;
-            while ((pending = getintr()) != 0) {
-                if ((pending & 4) && D_8009AFB8)
-                    D_8009AFB8(D_8009B294.ready, D_800A3468);
-                if ((pending & 2) && D_8009AFB4)
-                    D_8009AFB4(D_8009B294.sync, D_800A3460);
+    if (!D_8009B294.sync) {
+        char **commands = D_8009AFDC;
+        char **events = D_8009B05C;
+
+        do {
+            if (timed_out(commands, events)) return -1;
+            if (CheckCallback()) {
+                int bank = *D_8009B27C & 3;
+                int pending;
+                while ((pending = getintr()) != 0) {
+                    if ((pending & 4) && D_8009AFB8)
+                        D_8009AFB8(D_8009B294.ready, D_800A3468);
+                    if ((pending & 2) && D_8009AFB4)
+                        D_8009AFB4(D_8009B294.sync, D_800A3460);
+                }
+                *D_8009B27C = bank;
             }
-            *D_8009B27C = bank;
-        }
+        } while (!D_8009B294.sync);
     }
-    if (result) {
-        u8 *source = D_800A3460;
-        int remaining = 7;
-        do { *result++ = *source++; } while (--remaining != -1);
-    }
+    copy_result(result, D_800A3460);
     {
         int status = 0;
         if (D_8009B294.sync == 5) status = -1;
