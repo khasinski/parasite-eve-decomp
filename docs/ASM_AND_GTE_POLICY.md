@@ -1044,3 +1044,23 @@ all five functions score 100%. The three C callers of `Gpu_LoadTimImage`
 now include the same pointer-based prototype, replacing their conflicting
 integer argument/return declarations. Full retail main and overlay SHA checks
 remain required for accepting the shared header change.
+
+## GTE matrix control-register setters
+
+`SetRotMatrix`, `SetLightMatrix`, and `SetColorMatrix` now use the shared
+`gte_ctc2_*` hardware-transfer macros in `include/pe1/gte.h`. Rotation uses
+control registers 0..4, light 8..12, and light-color 16..20. Every added macro
+contains exactly one CTC2 transfer; the five ordinary memory loads remain
+in each calling C function. No CPU instruction or scheduling operation was
+moved into a macro.
+
+The five t0..t4 pins in each setter were tested independently against its
+complete generated text. None could be removed without changing the binary,
+so all fifteen remain. This centralizes legitimate COP2 operations and does
+not classify these functions as pure C or claim that hardware transfers have
+been eliminated.
+
+The existing `gte_mvmva` comment incorrectly described opcode 0x4A486012
+as SF=0. Its bit 19 is set, so the comment now says SF=1 (12-bit fraction).
+This follows the [PSX-SPX command encoding](https://psx-spx.consoledev.net/geometrytransformationenginegte/#gte-command-encoding-cop2-imm25-opcodes).
+Only the description changed; the opcode and hazard slots are untouched.

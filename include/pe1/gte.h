@@ -28,6 +28,30 @@ int rcos(int angle);
 #define gte_ctc2_7(value) \
     asm volatile("ctc2 %0,$7" : : "r"(value))
 
+/* Packed light-matrix words L11..L33 (control registers 8..12). */
+#define gte_ctc2_8(value) \
+    asm volatile("ctc2 %0,$8" : : "r"(value))
+#define gte_ctc2_9(value) \
+    asm volatile("ctc2 %0,$9" : : "r"(value))
+#define gte_ctc2_10(value) \
+    asm volatile("ctc2 %0,$10" : : "r"(value))
+#define gte_ctc2_11(value) \
+    asm volatile("ctc2 %0,$11" : : "r"(value))
+#define gte_ctc2_12(value) \
+    asm volatile("ctc2 %0,$12" : : "r"(value))
+
+/* Packed light-color matrix words (control registers 16..20). */
+#define gte_ctc2_16(value) \
+    asm volatile("ctc2 %0,$16" : : "r"(value))
+#define gte_ctc2_17(value) \
+    asm volatile("ctc2 %0,$17" : : "r"(value))
+#define gte_ctc2_18(value) \
+    asm volatile("ctc2 %0,$18" : : "r"(value))
+#define gte_ctc2_19(value) \
+    asm volatile("ctc2 %0,$19" : : "r"(value))
+#define gte_ctc2_20(value) \
+    asm volatile("ctc2 %0,$20" : : "r"(value))
+
 #define gte_mtc2_0(value) \
     asm volatile("mtc2 %0,$0" : : "r"(value))
 #define gte_mtc2_9(value) \
@@ -183,7 +207,7 @@ int rcos(int angle);
                  "lwc2 $5,4(%0)" \
                  : : "r"(vec) : "memory")
 
-/* MVMVA: rotation matrix, V0, no translation, SF=0, LM=0. */
+/* MVMVA: rotation matrix, V0, no translation, SF=1 (12-bit fraction), LM=0. */
 #define gte_mvmva() \
     asm volatile("nop\n\t" \
                  "nop\n\t" \
