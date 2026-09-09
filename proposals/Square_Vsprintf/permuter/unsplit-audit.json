@@ -1,0 +1,92 @@
+[
+  {
+    "candidate": "output-120-1",
+    "source_sha256": "3792de6c71a1ae2465657862d647cdc03b85b1bcfb9b0906dd802a0aa43c34f9",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 832: b'before:%x:after', arguments=[0]"
+  },
+  {
+    "candidate": "output-120-2",
+    "source_sha256": "af8e010bade22f1001367a4bd343061f8bf5e25d9452e0738e0dda7cc5ce63bd",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 4: b'before:%d:after', arguments=[0]"
+  },
+  {
+    "candidate": "output-120-3",
+    "source_sha256": "9eaf7f8fb55b33430dfe5525b59ba8eb63d2a95c00f00ddaef42d671e32ef018",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 832: b'before:%x:after', arguments=[0]"
+  },
+  {
+    "candidate": "output-120-4",
+    "source_sha256": "b818095f1ef65da0bf0c581ca896ed15a9240fc5a447bfcac4628d280a6008ef",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 4: b'before:%d:after', arguments=[0]"
+  },
+  {
+    "candidate": "output-125-1",
+    "source_sha256": "1a84f279da265cba431ee674bd86e6ad4b381e72b33fdd3d2573ea32e502e5c3",
+    "result": "emulator_exception",
+    "diagnostic": "RuntimeError: CPU error at 00000000 for b'before:%o:after', [0]"
+  },
+  {
+    "candidate": "output-125-2",
+    "source_sha256": "53d2ce205e866d7d85baeb613eb50ed256371bf1b8d338c2c2f7fa8e9a0869b8",
+    "result": "emulator_exception",
+    "diagnostic": "RuntimeError: CPU error at 00000000 for b'before:%u:after', [0]"
+  },
+  {
+    "candidate": "output-125-3",
+    "source_sha256": "cc8694cd9f5c53961b930e9a46ed57cb7bbc1d32981c43eba0d83262e19dd67c",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 5: b'before:%d:after', arguments=[1]"
+  },
+  {
+    "candidate": "output-125-4",
+    "source_sha256": "c2ba734a2f7850fd4d6a2d23947bd7d7cf2406aa4a380eb04a594f6c4f9202a7",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 419: b'before:%u:after', arguments=[1]"
+  },
+  {
+    "candidate": "output-125-5",
+    "source_sha256": "e3e46619bfc34808caa0c96663ee39da95fdd135b7e8860313fa19047541645d",
+    "result": "emulator_exception",
+    "diagnostic": "RuntimeError: CPU error at 00000000 for b'before:%x:after', [0]"
+  },
+  {
+    "candidate": "output-130-1",
+    "source_sha256": "8eb82669f32c5e90b7a040a04c2250f22f8bb0f57a8673497b9ef14825432d32",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 4: b'before:%d:after', arguments=[0]"
+  },
+  {
+    "candidate": "output-130-2",
+    "source_sha256": "a8daf1a6aba69fcacd55a146e53f7cf543cb66c8e4fa405868423d0856c189f2",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 832: b'before:%x:after', arguments=[0]"
+  },
+  {
+    "candidate": "output-130-3",
+    "source_sha256": "1055b79960a65cb1d2fb5f342ca6330afc988b22bc417f92276259c7362d79f8",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 4: b'before:%d:after', arguments=[0]"
+  },
+  {
+    "candidate": "output-140-1",
+    "source_sha256": "b3d23143d9732d4fc5e111a7d830dfbaf93ef757626249943219c16535e0b3ea",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 4: b'before:%d:after', arguments=[0]"
+  },
+  {
+    "candidate": "output-145-1",
+    "source_sha256": "aac97daae10d80e9d10d525e0dec9b060e4b2ca16228bf7904d8ed01f7b5d14e",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 5: b'before:%d:after', arguments=[1]"
+  },
+  {
+    "candidate": "output-150-1",
+    "source_sha256": "ea3b9d53385ed1eb1e1dd4698f0d33f69453102355ab26ac1a4111cafa4a549c",
+    "result": "retail_mismatch",
+    "diagnostic": "FAIL case 832: b'before:%x:after', arguments=[0]"
+  }
+]

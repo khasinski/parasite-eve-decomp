@@ -225,3 +225,16 @@ The script requires `mipsel-none-elf-ld` on PATH and defaults to
 `build/USA/main.exe`. It rejects an EXE whose SHA-1 differs from retail. These
 finite tests help reject incorrect permutations; they do not establish a full
 semantic proof, model PSX hardware timing or replace exact linked-byte checks.
+
+## Saved remote permutations: behavioral audit
+
+Rechecked all 15 saved unsplit improvements (penalties 120 through 150) from
+`darwine:/home/hasik/sprintf-permuter-20260909/unsplit` using the local stock
+GCC281/MASPSX configuration and the retail oracle. None passed: 12 produced
+retail output mismatches; output-125-1, output-125-2 and output-125-5 encountered
+CPU exceptions at address zero. Exceptions are recorded separately from
+verified output mismatches. Exact source SHA-256 identities and classifications
+are in `permuter/unsplit-audit.json`; this audit does not claim new matches.
+The current valid 99.16058% candidate remains unchanged. The original remote
+search was confirmed live beyond 1.94 million iterations and split-refined
+beyond 1.26 million; neither was restarted during this audit.
