@@ -138,6 +138,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x8B00..0x8CEC` | `entity/Entity_AnimationPending` | The pending-animation sweep, its advance pass, and the two node-id variants share the three current-actor task-node lists and `TaskNode` state bits. Their 0x1EC-byte combined object retains the pending-node branch relocation and is retail-identical after linking. |
 | `0x8FC0..0x93C8` | `pm/Pm_ScriptCommands` | The PM script command wrappers share the `Pm_SendCmd` and `Pm_SetGetState` ABI, then continue with the current-entity and geometry command handlers. One 0x408-byte object preserves their call/global relocations and links retail-identically. |
 | `0x97DC..0x98AC` | `task/Task_DrawYield` | The frame-or-draw wait and draw-busy yield use one task suspension ABI: they decrement `g_SceneDataTable0` and set `g_TaskNodePool + 0x10`. The shared `-G8` object is 0xD0 bytes and links retail-identically. |
+| `0x9A60..0x9C10` | `task/Task_EntityControl` | Render reset, PM stop, target lookup, and menu-slot commands share the current/player/actor-list selection state. A single 0x1B0-byte object resolves the prior current-entity pointer shapes and links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
