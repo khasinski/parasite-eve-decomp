@@ -13,3 +13,13 @@ Stock GCC281 / -mno-split-addresses compiles candidate.c to 0x134 bytes,
 versus retail 0x13C. No pins, barriers, or instruction ASM. Not an exact match;
 retain production ASM. Callback signature remains opaque because this wrapper
 only saves/restores the pointer and never invokes it.
+
+## Register-lifetime candidate
+
+`natural_registers.c` removes the earlier local register pins and uses three
+empty read/write barriers: initial return status, final failure status, and
+the retry sentinel. Stock GCC281 now emits the retail 0x13C-byte size and
+saves/restores all nine saved registers, including FP, with the correct
+0x38-byte frame. Register assignment inside the body remains different, so
+this is not an exact match. Explicit `-fcall-saved` experiments on the pinned
+variant did not restore the missing FP save; natural allocation did.
