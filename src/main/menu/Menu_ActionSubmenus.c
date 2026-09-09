@@ -3,18 +3,30 @@
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 int g_MenuActionItemData;
+int g_InvItemUsableFlag;
 int g_MenuActiveWidget;
 
+int Inv_RestoreSelection(int arg0);
+u8 *Inv_LookupActiveListData(int arg0);
 int MenuWidget_FindByModeAndSelectedBase(int arg0, int arg1);
 int MenuWidget_GridCellIndex(int arg0);
 void Inv_SelectActiveList(int arg0);
 int MenuWidget_GetChild(int *arg0, int arg1);
 int Inv_GetPackedListItem(int arg0);
 void Inv_RememberSelection(int arg0, int arg1);
-int Inv_RestoreSelection(int arg0);
-u8 *Inv_LookupActiveListData(int arg0);
 void Menu_DrawActionCodeItem(void);
 void MenuWidget_DrawList(int arg0, void (*callback)(void));
+
+void Menu_DrawUsableItemActionList(int arg0) {
+    u8 *ptr;
+
+    ptr = Inv_LookupActiveListData(Inv_RestoreSelection(0));
+    g_MenuActionItemData = (int) ptr;
+    g_InvItemUsableFlag = ptr[6] != 9;
+    Draw_SetPrimCallback(arg0, ptr[0x14]);
+    g_MenuActiveWidget = arg0;
+    MenuWidget_DrawList(arg0, Menu_DrawActionCodeItem);
+}
 
 void Menu_SetupSkillSubmenu(int arg0) {
     int node;
@@ -37,6 +49,15 @@ void Menu_SetupSkillSubmenu(int arg0) {
     ptr = Inv_LookupActiveListData(Inv_RestoreSelection(1));
     g_MenuActionItemData = (int)ptr;
     Draw_SetPrimCallback(arg0, ptr[0x14]);
+    g_MenuActiveWidget = arg0;
+    MenuWidget_DrawList(arg0, Menu_DrawActionCodeItem);
+}
+
+void Menu_DrawUsableItemActionList2(int arg0) {
+    int ptr;
+
+    ptr = Inv_LookupActiveListData(Inv_RestoreSelection(1));
+    g_MenuActionItemData = ptr;
     g_MenuActiveWidget = arg0;
     MenuWidget_DrawList(arg0, Menu_DrawActionCodeItem);
 }
