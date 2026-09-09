@@ -154,6 +154,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xBD6BC..0xBDADC` | `engine/FieldAnim_BurstEffects` | Burst-effect registration, dispatch, point extraction, and randomized offset initialization share one 0x420-byte TU. `D_800E27F8` is represented as its three-component point structure, while ABI aliases preserve the separate relocation symbols for its y and z fields; the merged object links retail-identically. |
 | `0xBDD0C..0xBDF28` | `engine/FieldAnim_BurstMotion` | The burst initializer and its completion, movement, interpolation, and randomized-drift callbacks form a 0x21C-byte TU that links retail-identically. The preceding matrix renderer remains independent because its compiler scheduling flag changes surrounding code generation. |
 | `0xBDF28..0xBE50C` | `engine/FieldAnim_WideBurstSetup` | The wider burst effect combines its state initialization, registration and dispatch helpers, coordinate extraction, and randomized window setup in a 0x5E4-byte TU. Its state callback uses the shared byte-buffer ABI and links retail-identically. |
+| `0xBE50C..0xBE884` | `engine/FieldAnim_WideBurstMotion` | Render setup and the completion, wide-window movement, and randomized-drift callbacks of the wider burst effect share a 0x378-byte TU and link retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
