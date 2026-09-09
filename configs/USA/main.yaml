@@ -148,8 +148,8 @@ segments:
       # Child-node allocation and action wait share one 0x200-byte -G8 task-node object.
       - [0x39E8, c, task/Task_NodeActions]
       - [0x3BE8, c, task/Task_WaitAnimRange]
-      - [0x3D14, c, task/Task_TurnTowardPointStep]
-      - [0x3EC0, c, task/Task_MoveTowardPoint]
+      # Point turn and movement are one 0x474-byte -G8 task-motion object.
+      - [0x3D14, c, task/Task_PointMotion]
       - [0x4188, c, main/Camera_TrackEntityAngle]
       - [0x4434, c, main/Camera_SnapToEntity]
       - [0x4684, c, main/Camera_TrackEntityZoom]
