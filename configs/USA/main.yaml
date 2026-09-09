@@ -593,7 +593,6 @@ segments:
       - [0x3F17C, asm, menu/menu20]
       - [0x3F3CC, c, menu/Menu_DrawEquipListContainer]
       - [0x3F43C, c, menu/Menu_DrawWeaponList]
-      - [0x3F478, c, menu/Menu_DrawArmorList]
       - [0x3F4B4, asm, main/Menu_StepInventoryCategory]
       - [0x3F730, c, menu/Menu_DrawBattleCommandList]
       - [0x3F758, asm, menu/Menu_InventoryPageNavHandler]
