@@ -35,7 +35,7 @@ void CdRom_ProcessEventByte(int event) {
 }
 void Render_DrawParticleSprite(int event, void *data) { dispatched(1, event, data); }
 void Render_DrawParticleAlt(int event, void *data) { dispatched(2, event, data); }
-void CdRom_CmdEventCallback(int event, void *data) { dispatched(3, event, data); }
+void CdRom_CmdEventCallback(int event, u8 *data) { dispatched(3, event, data); }
 int main(void) {
     const int events[] = {INT_MIN, -1, 0, 2, 5, 255, 256, INT_MAX};
     const int commands[] = {-1, 0, 30, 31, 32, 33, 255, INT_MAX};
@@ -57,7 +57,8 @@ int main(void) {
         with tempfile.TemporaryDirectory() as directory:
             exe = pathlib.Path(directory) / "cd-dispatch"
             result = subprocess.run(
-                ["cc", "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
+                ["cc", "-I", str(ROOT / "include"),
+                 "-include", str(ROOT / "tools/tests/host_psyq.h"), "-std=gnu11", "-O2", "-x", "c", "-", "-o", str(exe)],
                 input=harness, text=True, capture_output=True,
             )
             self.assertEqual(result.returncode, 0, result.stderr)

@@ -2,19 +2,15 @@
 #include "pe1/psyq_cd.h"
 
 extern CdRomEventCommandState D_8009B558_o __asm__("D_8009B558");
-extern struct { char _[16]; } D_8009B56C_o __asm__("D_8009B56C");
-extern u32 g_DsSyncCallback[] __asm__("D_800A36A4");
 
 #define D_8009B558 (&D_8009B558_o)
-#define D_8009B56C (*(DsReadyEventWindow *)&D_8009B56C_o)
 
-void CdRom_CmdEventCallback(int event) {
-    register u32 event_reg asm("$7");
+void CdRom_CmdEventCallback(int event, u8 *result) {
+    u32 event_reg;
     register CdRomEventCommandState *cmd_state asm("$6");
     int value;
     int status;
-    DsReadyEventWindow *ready;
-    int stack_pad[4];
+    CdRomCommandState *ready;
 
     event_reg = event & 0xFF;
     if (event_reg == 2) {
@@ -36,41 +32,19 @@ void CdRom_CmdEventCallback(int event) {
 
     status = event & 0xFF;
     if (status == 5) {
-        asm volatile(
-            ".set\tnoreorder\n\t"
-            "lui\t$4,%%hi(D_8009B56C)\n\t"
-            "addiu\t$4,$4,%%lo(D_8009B56C)\n\t"
-            "lbu\t$2,0x0($4)\n\t"
-            "nop\n\t"
-            "andi\t$2,$2,0x10\n\t"
-            "beqz\t$2,1f\n\t"
-            "addiu\t$2,$zero,1\n\t"
-            "lui\t$3,%%hi(D_800A36A4)\n\t"
-            "lw\t$3,%%lo(D_800A36A4)($3)\n\t"
-            "addiu\t$2,$zero,2\n\t"
-            "sw\t$2,0x8($4)\n\t"
-            "addiu\t$2,$zero,0xC\n\t"
-            "beqz\t$3,2f\n\t"
-            "sw\t$2,0xC($4)\n\t"
-            "lw\t$2,-0x18($4)\n\t"
-            "nop\n\t"
-            "beqz\t$2,2f\n\t"
-            "nop\n\t"
-            "lui\t$2,%%hi(D_800A36A4)\n\t"
-            "lw\t$2,%%lo(D_800A36A4)($2)\n\t"
-            "nop\n\t"
-            "jalr\t$2\n\t"
-            "addiu\t$4,$zero,5\n\t"
-            "j\t2f\n\t"
-            "nop\n"
-            "1:\n\t"
-            "sw\t$2,0x8($4)\n\t"
-            "addiu\t$2,$zero,0xB\n\t"
-            "sw\t$2,0xC($4)\n"
-            "2:\n\t"
-            ".set\treorder"
-            :
-            :
-            : "$2", "$3", "$4", "$31", "memory");
+        ready = &g_CdSeekState;
+        asm volatile("" : "=r"(ready) : "0"(ready));
+        if (ready->eventStatus & 0x10) {
+            ready->read.status = 2;
+            ready->read.command = 12;
+            if (g_DsSyncCallback &&
+                ((CdRomSystemState *)((char *)ready -
+                    PE1_OFFSETOF(CdRomSystemState, command)))->enabled) {
+                g_DsSyncCallback(5, result);
+            }
+        } else {
+            ready->read.status = 1;
+            ready->read.command = 11;
+        }
     }
-    }
+}

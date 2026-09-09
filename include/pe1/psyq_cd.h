@@ -379,4 +379,8 @@ extern u8 D_8009AFC4;
 int CD_cw(int command, void *parameters, u8 *result, int mode);
 int func_8007A4D0(int command, void *parameters, u8 *result);
 
+extern DsEventCallback volatile g_DsSyncCallback __asm__("D_800A36A4");
+extern DsEventCallback volatile g_DsReadyCallback __asm__("D_800A36A8");
+void CdRom_CmdEventCallback(int event, u8 *result);
+
 #endif

@@ -1659,3 +1659,18 @@ before its inserted nop. Simple while, do/while, explicit first read, goto,
 and an empty loop-body constraint did not avoid that difference. This is
 not a reason to patch the assembler, add a scheduling instruction, or credit
 the whole function as semantic C before the remaining wait is reconstructed.
+
+## DS command event callback
+
+`CdRom_CmdEventCallback` is entirely C and matches all 236 retail bytes.
+Its second argument is the result-buffer pointer forwarded unchanged in a1
+to the user callback. The caller and definition now share this signature.
+The sync/ready callback globals use volatile function-pointer storage, matching
+the callback reload after checking the system's enabled flag.
+
+The command-state view replaces the anonymous ready window; its enclosing
+system state is recovered using the asserted command-member offset. One a2
+pointer pin and two tied empty pointer barriers remain. With the final source,
+removing the pin gives 98.47458%, the command pointer barrier 87%, and the ready
+pointer barrier 86.33898%. The previous a3 event pin was removable. No
+instruction ASM or compiler/assembler modification is used.

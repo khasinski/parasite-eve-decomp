@@ -4,7 +4,7 @@ extern int D_8009B598[];
 extern void CdRom_ProcessEventByte(int);
 extern void Render_DrawParticleSprite(int, void *);
 extern void Render_DrawParticleAlt(int, void *);
-extern void CdRom_CmdEventCallback();
+#include "pe1/psyq_cd.h"
 
 void Render_DrawParticleGroup(int inputEvent, void *inputResult) {
     void *result = inputResult;

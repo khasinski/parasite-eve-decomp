@@ -1,8 +1,6 @@
 #include "pe1/psyq_cd.h"
 
 extern volatile u32 g_DsPollCallback;
-extern volatile u32 g_DsSyncCallback;
-extern volatile u32 g_DsReadyCallback;
 extern u32 D_8009AFD8;
 
 void CD_init(void);
