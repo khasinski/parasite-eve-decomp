@@ -1143,7 +1143,7 @@ segments:
       - [0x6AB54, c, psyq/libcd/CdLastPos]
       - [0x6AB60, c, psyq/libcd/CdReset]
       - [0x6ABCC, c, psyq/libcd/sys]
-      - [0x6ACD0, asm, psyq/libcd/func_8007A4D0]
+      - [0x6ACD0, c, psyq/libcd/command_retry]
       - [0x6AE0C, asm, psyq/libcd/func_8007A60C]
       - [0x6AF40, asm, psyq/libcd/func_8007A740]
       # Contiguous Psy-Q libcd/sys.c sector, callback, and BCD conversion APIs.

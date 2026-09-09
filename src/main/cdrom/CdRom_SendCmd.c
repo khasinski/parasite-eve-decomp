@@ -4,7 +4,6 @@
 extern int g_CdRomCmdLongTimeoutTable[];
 extern void CD_flush(void);
 extern void Util_Copy4(void *, const void *);
-extern int CD_cw(int, void *, int, int);
 
 int CdRom_SendCmd(unsigned char command, void *param) {
     unsigned char *state;

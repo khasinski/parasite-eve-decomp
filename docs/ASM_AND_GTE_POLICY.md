@@ -960,3 +960,25 @@ after helpers; the predicate and stop flag are not reevaluated during loops.
 Kind 11 always updates the secondary pool after the predicate, while other
 kinds and an initial stop flag do not. Render runs regardless of that flag
 and reads palette state after its helper. Remaining buffer fields are unknown.
+
+## Psy-Q CD command retry wrapper
+
+`func_8007A4D0` in `psyq/libcd/command_retry.c` matches all 316 relocated
+bytes with stock GCC 2.8.1 and stock MASPSX. Three pins retain the saved
+callback, return value, and comparison constant. Removing them independently
+from the final zero candidate causes 15, 35, and 2 differing bytes.
+Five other pins were removed while retaining the match, including two after
+replacing goto edges with a do/while loop and removing the debug-output flag.
+
+Five empty read/write barriers retain the comparison constant, the three
+arguments to the preliminary status command, and the final failure value.
+Removing them independently from the final zero candidate causes 4, 9, 3,
+1, and 34 differing bytes. The argument barriers prevent zero arguments from
+sharing a register and preserve their original order. No instruction assembly
+or tool changes are used. The wrapper attempts the command four times,
+restoring the completion callback before the actual command and after
+exhaustion. The remaining callback representation is opaque integer storage;
+this function does not call it.
+The third command argument is a byte-result pointer: `CD_cw` preserves it
+in s6 and writes response bytes through it at 0x8007B90C. Using `u8 *`
+in the shared prototypes and wrapper preserves the match.

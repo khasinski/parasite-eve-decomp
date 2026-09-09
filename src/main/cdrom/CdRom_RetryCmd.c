@@ -1,6 +1,5 @@
-#include "common.h"
+#include "pe1/psyq_cd.h"
 void CD_flush(void);
-void CD_cw(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 extern s32 D_8009B59C[];
 #define D_8009B59C (D_8009B59C[0])
@@ -33,6 +32,6 @@ s32 CdRom_RetryCmd(void) {
     *(s32 *)((char *)base - 4) = idx;
     value = *(s32 *)((char *)base - 0x3C);
     arg3 = 1;
-    CD_cw(arg0, value, arg2, arg3);
+    CD_cw(arg0, (void *)value, (u8 *)arg2, arg3);
     return 0;
 }

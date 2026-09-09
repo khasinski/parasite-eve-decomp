@@ -83,3 +83,10 @@ Reproduce the current comparison from the repository root:
 tools/scripts/cc.sh proposals/Square_Vsprintf/constrained_registers.c /tmp/sprintf-candidate.o
 tools/objdiff/objdiff-cli diff -1 expected/build/USA/src/main/psyq/libc/Square_Vsprintf.c.o -2 /tmp/sprintf-candidate.o -o /tmp/sprintf-diff.json Square_Vsprintf
 ```
+
+
+Inspection of GCC 2.7.2 `mips_epilogue_delay_slots` explains the remaining
+return ordering: a nonempty frame saving more than RA gets zero epilogue
+delay slots. `function_epilogue` then emits stack restoration before the
+return. This is a compiler limitation for this frame shape, so further work
+should focus on the GCC 2.8.1 source variant, not more 2.7.2 scheduling flags.

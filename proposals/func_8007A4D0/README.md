@@ -51,3 +51,17 @@ argument, and table-base pins while preserving four differing bytes. The
 current constrained file has four pins and one final-status barrier. Removing
 all individually neutral pins at once was not neutral (15 differing bytes);
 the sequential comparison accounts for allocator interactions.
+
+## Production match
+
+The final candidate is now `src/main/psyq/libcd/command_retry.c`.
+It matches 316/316 relocated bytes and scores 100% in upstream objdiff;
+`make check` verifies the complete retail executable. Three pins and five
+empty barriers remain after independent removal tests; three argument pins
+were removed. See `docs/ASM_AND_GTE_POLICY.md` for removal scores.
+The earlier proposal files above are retained as experiment history.
+The three goto edges were subsequently replaced with a do/while retry
+loop and continue statements, preserving the exact match. The debug-output
+compiler flag was also unnecessary and removed.
+The final loop variant also permits sequential removal of the original-command
+and command-byte pins; the saved-callback pin then remains necessary.
