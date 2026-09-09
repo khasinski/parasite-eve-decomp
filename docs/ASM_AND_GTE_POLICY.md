@@ -1292,3 +1292,20 @@ scores 99.5% against the matching full TU: the loop target includes a
 load-delay nop instead of beginning on the status load. Stock `-mdebugf`,
 either scheduler-disable option, and empty memory/input/tied-pointer
 barriers did not recover the target. No added constraints are retained.
+
+## Memory-card wait-loop control flow
+
+`MemCard_WaitReadyForTransfer` now uses a while loop instead of its two goto
+edges and loop/ready labels. The loop keeps reloading the volatile SIO
+pointer, preserves timeout failure, and acknowledges control bit 4 only
+when ready. Both functions in the transfer TU retain 100% object comparison
+against the previously SHA-verified build before full-image verification.
+
+The status-bit-2 nop blocker is now traced to pinned MASPSX's
+`_handle_nop_before_next_instruction`: when the next item is a label, it
+emits that label before the required load-delay nop and skips the original
+label occurrence. The compiler's raw output has the loop label immediately
+after the SIO pointer load. Thus the remaining difference is the target of
+the backward branch, not an extra or missing instruction. GCC 2.8.1 with
+and without address splitting did not resolve it, and also changed the
+other function. The tool is unchanged; no label or binary postpass is used.

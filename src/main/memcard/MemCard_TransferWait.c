@@ -16,24 +16,16 @@ int MemCard_WaitReadyForTransfer(void)
   state->status = value;
   status = regs->status;
   status &= 0x80;
-  if (status == 0)
+  while (status != 0)
   {
-    goto ready;
+    if (Spu_CheckTimerElapsed() != 0)
+    {
+      return 0;
+    }
+    check_regs = g_MemCardSioRegs;
+    status = check_regs->status;
+    status &= 0x80;
   }
-  loop:
-  if (Spu_CheckTimerElapsed() != 0)
-  {
-    return 0;
-  }
-
-  check_regs = g_MemCardSioRegs;
-  status = check_regs->status;
-  status &= 0x80;
-  if (status != 0)
-  {
-    goto loop;
-  }
-  ready:
   regs = g_MemCardSioRegs;
 
   regs->control |= 0x10;
