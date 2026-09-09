@@ -49,3 +49,15 @@ cleanup; the instruction-scheduling mismatch with the 216-byte retail body
 remains. Objdiff reports 93.888885% with the named structure-member relocation
 instead of the old ready-byte alias. This percentage is not new matched code,
 and no production change or new behavioral-equivalence claim is made.
+
+## SDK provenance
+
+Psy-Q 4.6 LIBCD.LIB's BIOS_1.OBJ contains this exact 216-byte dispatcher
+at text offset 0x14A4. Its non-relocation bits match retail
+0x8007C13C..0x8007C214 throughout; differences are confined to 16 relocation
+sites. CD_initintr's relocations at 0x1130/0x1134 form this local function's
+address, followed by the InterruptCallback call at 0x1138. CD_init also
+references the same local entry. The dispatcher is not an exported function
+named Cd_SetIntrMask in that object. Its historical repository name should
+not be used as evidence for interpreting the routine as a mask setter.
+This establishes membership in BIOS_1, not a byte match for the whole object.
