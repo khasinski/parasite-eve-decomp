@@ -1208,7 +1208,6 @@ segments:
       # Contiguous GPU primitive initializer family with compiler padding.
       - [0x68364, c, gpu/SetPolyF3]
       - [0x684B4, c, gpu/Gpu_AppendPacketPrimitive]
-      - [0x684EC, c, main/gap_gpu_Gpu_AppendPacketPrimitive_tail_684EC]
       - [0x684F4, c, psyq/libgte/geo_00]
       - [0x685C0, asm, main/gap_psyq_libgte_geo_00_tail_685C0]
       - [0x685C4, c, psyq/libgte/geo_01]

@@ -10,3 +10,5 @@ int Gpu_AppendPacketPrimitive(unsigned char *packet, int *prim) {
     *prim = 0;
     return 0;
 }
+
+static unsigned int Gpu_AppendPacketPrimitive_alignment[] __attribute__((section(".text"))) = { 0x00000000, 0x00000000 };
