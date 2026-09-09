@@ -1,7 +1,5 @@
 #include "pe1/psyq_cd.h"
 
-extern int D_800A3608;
-
 CdDsReadQueueEntry *Spu_GetQueueEntryPtr(void) {
     volatile int *base;
     int count;
@@ -11,14 +9,14 @@ CdDsReadQueueEntry *Spu_GetQueueEntryPtr(void) {
     int byte_offset;
     unsigned char *entry_base;
 
-    base = &D_800A3608;
+    base = &g_CdPendingReadCount;
     asm volatile("" : "=r"(base) : "0"(base));
     count = base[0];
     if (count >= 8) {
         return 0;
     }
 
-    delta = base[-2];
+    delta = ((volatile CdDsReadQueueWindow *)CD_DS_QUEUE_FROM_PENDING(base))->queue_state;
     index = delta + count;
     if (index >= 8) {
         index -= 8;
@@ -26,6 +24,6 @@ CdDsReadQueueEntry *Spu_GetQueueEntryPtr(void) {
 
     scaled = (index << 1) + index;
     byte_offset = scaled << 3;
-    entry_base = (unsigned char *)((int *)base - 50);
+    entry_base = (unsigned char *)CD_DS_QUEUE_FROM_PENDING(base)->entries;
     return (CdDsReadQueueEntry *)(byte_offset + (int)entry_base);
 }

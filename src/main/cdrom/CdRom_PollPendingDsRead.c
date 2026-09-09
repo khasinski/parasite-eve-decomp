@@ -28,7 +28,7 @@ void CdRom_PollPendingDsRead(void) {
                 work = *workAddress;
                 result = work * sizeof(CdDsReadQueueEntry);
                 PE1_COMPILER_LAUNDER(result);
-                work = (s32)pending - 0xC8;
+                work = (s32)CD_DS_QUEUE_FROM_PENDING(pending);
                 work = result + work;
                 if (((CdDsReadQueueEntry *)work)->active != 0) {
                     CdRom_TryIssueCmd(((CdDsReadQueueEntry *)work)->command,

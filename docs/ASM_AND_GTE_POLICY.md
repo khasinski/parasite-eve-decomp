@@ -1546,3 +1546,21 @@ meaning. Full main, all 191 overlay SHA checks and source/debt gates pass.
 The `DsReadBreak` argument barrier remains necessary: its removal substitutes
 the known-zero `a1` value for `$zero` when preparing `a2` (99.8%); removing
 just the command operand also changes code generation (92%).
+
+## DS queue storage window (2026-09-09)
+
+`CdDsReadQueueWindow` describes the observed contiguous memory window: eight
+24-byte queue entries at 0x800A3540, queue state at 0x800A3600, read index at
+0x800A3604, and pending count at 0x800A3608. A compile-time assertion fixes
+the pending-count offset at 0xC8. This is a shared memory view, not evidence
+that the original source declared the entire region as one object.
+
+`Spu_GetQueueEntryPtr` now reads the named queue-state field and derives its
+entry base through that window; `CdRom_PollPendingDsRead` uses the same base
+calculation. The helper uses the shared pending-count symbol instead of a
+second C extern alias. The entry's `arg10` and `arg14` remain unidentified.
+
+The helper's final pointer/integer addition and existing constraints remain:
+a direct pointer addition exchanges the two ADDU source registers. The named
+window preserves the retail main SHA without new pins or barriers.
+Full main and all 191 overlay SHA checks and source/debt gates pass.

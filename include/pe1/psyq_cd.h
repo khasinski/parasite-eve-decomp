@@ -202,6 +202,19 @@ typedef struct CdDsReadQueueEntry {
     u_int arg14;
 } CdDsReadQueueEntry;
 
+/* Contiguous queue storage and bookkeeping, anchored by the pending count. */
+typedef struct CdDsReadQueueWindow {
+    CdDsReadQueueEntry entries[8];
+    int queue_state;
+    int read_index;
+    int pending_count;
+} CdDsReadQueueWindow;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdDsReadQueueWindow, pending_count) == 0xC8,
+                  ds_queue_pending_count_offset);
+#define CD_DS_QUEUE_FROM_PENDING(pointer) \
+    ((CdDsReadQueueWindow *)((char *)(pointer) - \
+                            PE1_OFFSETOF(CdDsReadQueueWindow, pending_count)))
+
 typedef struct DsReadCallbackSlot {
     int value;
     u_char command;
