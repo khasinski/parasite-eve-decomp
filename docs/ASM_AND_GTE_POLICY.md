@@ -1674,3 +1674,18 @@ pointer pin and two tied empty pointer barriers remain. With the final source,
 removing the pin gives 98.47458%, the command pointer barrier 87%, and the ready
 pointer barrier 86.33898%. The previous a3 event pin was removable. No
 instruction ASM or compiler/assembler modification is used.
+
+## DS ready event dispatch
+
+`CdRom_ReadyEventDispatch` is entirely C under stock GCC 2.8.1 with
+`-mno-split-addresses -fno-schedule-insns`. These options preserve the saved
+argument setup and independent symbolic callback loads. The callback uses
+the shared volatile `DsEventCallback` pointer and its byte-event signature.
+An a0 pin and an input-only empty barrier place the already masked event
+before the final callback load. Removing either gives 96.75676%; the old
+command-state pointer barrier is unnecessary and was removed.
+
+The state accesses now use `CdRomCommandState` and its asserted offset within
+`CdRomSystemState`, replacing the anonymous ready-window alias and negative
+word index. All 148 bytes match, and the main executable plus all 191 overlays
+retain their retail SHA-1. No instruction ASM or toolchain patch remains.
