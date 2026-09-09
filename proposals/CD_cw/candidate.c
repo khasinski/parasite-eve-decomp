@@ -18,24 +18,7 @@ int puts(const char *text);
 void CD_flush(void);
 int getintr(void);
 
-static inline int timed_out(char **commands, char **events) {
-    if (VSync(-1) > D_800A3478 || D_800A347C++ > 0x3C0000) {
-        puts(D_80011B18);
-        printf(D_80011B28, D_800A3480, commands[D_8009AFD5],
-               events[D_8009B294.sync], events[D_8009B294.ready]);
-        CD_flush();
-        return -1;
-    }
-    return 0;
-}
-
-static inline void copy_result(u8 *destination, const u8 *source) {
-    int remaining;
-    if (destination) {
-        remaining = 7;
-        do { *destination++ = *source++; } while (--remaining != -1);
-    }
-}
+#include "../libcd_bios_helpers.h"
 
 int CD_cw(int command, void *parameters, u8 *result, int mode) {
     u8 *parameter = parameters;
@@ -55,8 +38,14 @@ int CD_cw(int command, void *parameters, u8 *result, int mode) {
     D_8009B294.sync = 0;
     if (D_8009B0FC[(u8)command]) D_8009B294.ready = 0;
     *D_8009B27C = 0;
-    for (i = 0; i < D_8009B1FC[(u8)command]; i++)
-        *D_8009B284 = parameter[i];
+    {
+        int *counts = D_8009B1FC;
+        i = 0;
+        if (counts[(u8)command] > 0) {
+            int *count = &counts[(u8)command];
+            do { *D_8009B284 = parameter[i]; } while (++i < *count);
+        }
+    }
     D_8009AFD5 = command;
     *D_8009B280 = command;
     if (mode) return 0;

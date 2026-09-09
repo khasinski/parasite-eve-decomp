@@ -2,7 +2,7 @@
 
 Complete C reconstruction of retail `0x8007B558` (1036 bytes), using the
 shared CD callback prototypes and interrupt-event structure. Stock GCC 2.8.1
-with unsplit addresses scores 91.50193%; there are no pins, barriers or
+with unsplit addresses scores 91.64865%; there are no pins, barriers or
 instruction ASM. The function remains assembly until its full match is
 recovered.
 
@@ -18,11 +18,15 @@ the final status accumulator reproduces the original return structure. These
 improved the initial direct C reconstruction from 81.312744% to 84.200775%.
 Initializing the diagnostic table pointers only after entering the wait,
 with an explicit do/while loop, raises this to 89.03089%. Reusing an inline
-eight-byte copy helper gives the selected 91.50193%: the output pointer is
+eight-byte copy helper gives 91.50193%: the output pointer is
 copied into a temporary register rather than modified in its saved register.
-The final candidate passes all 3072 behavior comparisons. Explicit pointer
-barriers, a parameter-count pointer and extra diagnostic temporaries do not
-improve this source; no constraints were retained.
+An explicit positive-count check followed by the FIFO do/while loop gives the
+selected 91.64865%. It preserves the count-slot pointer across FIFO writes.
+The timeout and copy helpers now live in `../libcd_bios_helpers.h`, shared
+with CD_sync. Both candidates pass their complete behavior suites (3072 and
+840 cases). A pointer initialized before the count check, pointer barriers
+and extra diagnostic temporaries do not improve this source; no constraints
+were retained.
 Remaining differences include table-address computation, register lifetimes,
 and scheduling around diagnostic/callback calls. Earlier experiments with
 the 84.200775% source: an equivalent separate inline dispatcher gave no
