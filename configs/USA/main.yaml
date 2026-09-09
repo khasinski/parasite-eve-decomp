@@ -585,7 +585,6 @@ segments:
       - [0x3E29C, c, menu/menu19]
       - [0x3E4A4, c, menu/Menu_OpenSaveLoadEntryPoint]
       - [0x3E564, c, menu/Menu_OpenRenameScreen]
-      - [0x3E774, c, menu/Menu_DrawSaveMetadataPreview]
       - [0x3E874, asm, main/Menu_StepNameEntry]
       - [0x3EAE4, asm, main/Menu_StepNameEntryAlt]
       - [0x3EF04, asm, menu/Menu_OpenEquipScreen]
