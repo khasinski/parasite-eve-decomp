@@ -30,4 +30,20 @@ static inline void copy_result(u8 *destination, const u8 *source) {
     }
 }
 
+extern volatile u8 *D_8009B27C;
+extern u8 D_800A3460[8], D_800A3468[8];
+int getintr(void);
+
+static inline void dispatch_interrupts(void) {
+    int bank = *D_8009B27C & 3;
+    int pending;
+    while ((pending = getintr()) != 0) {
+        if ((pending & 4) && D_8009AFB8)
+            D_8009AFB8(D_8009B294.ready, D_800A3468);
+        if ((pending & 2) && D_8009AFB4)
+            D_8009AFB4(D_8009B294.sync, D_800A3460);
+    }
+    *D_8009B27C = bank;
+}
+
 #endif

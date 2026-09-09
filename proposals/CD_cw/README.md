@@ -22,9 +22,10 @@ eight-byte copy helper gives 91.50193%: the output pointer is
 copied into a temporary register rather than modified in its saved register.
 An explicit positive-count check followed by the FIFO do/while loop gives the
 selected 91.64865%. It preserves the count-slot pointer across FIFO writes.
-The timeout and copy helpers now live in `../libcd_bios_helpers.h`, shared
-with CD_sync. Both candidates pass their complete behavior suites (3072 and
-840 cases). A pointer initialized before the count check, pointer barriers
+The timeout, dispatcher and copy helpers now live in
+`../libcd_bios_helpers.h`, shared with CD_sync and CD_ready. All three pass
+their complete behavior suites (3072, 840 and 1008 cases), with unchanged
+match scores after factoring the dispatcher. A pointer initialized before the count check, pointer barriers
 and extra diagnostic temporaries do not improve this source; no constraints
 were retained.
 Remaining differences include table-address computation, register lifetimes,

@@ -11,8 +11,9 @@ consumed status. Other statuses continue waiting in mode 0, or return 0 in
 nonzero mode. Even an already-completed or nonblocking call performs timeout
 and callback handling before examining the event byte.
 
-`../libcd_bios_helpers.h` shares the reconstructed timeout and response-copy
-implementations with CD_cw. Initializing the diagnostic table pointers after
+`../libcd_bios_helpers.h` shares the reconstructed timeout, callback-dispatch
+and response-copy implementations with CD_cw and CD_ready. Factoring the
+dispatcher preserves the match percentage. Initializing the diagnostic table pointers after
 the initial VSync call improves match from 82.2875% to 88.58125%. Disabling
 expensive optimizations then gives the selected 91.79375%, retaining the
 ordinary C source and shared callback types. The full 840-case behavior suite
@@ -25,13 +26,13 @@ scheduling.
 
 The SDK BIOS_1.OBJ export range 0x564–0x7E4 matches all 640 retail bytes except
 52 relocation fields; the other 108 words are identical. This proves its
-LIBCD membership, not whole-object equivalence. Its manifest is still under
-main/main pending the remaining driver classification work.
+LIBCD membership, not whole-object equivalence. Its manifest now places it under psyq/libcd, without adding a boundary or
+production C match.
 
 ```sh
 tools/scripts/cc.sh proposals/CD_sync/candidate.c /tmp/CD_sync.o
 tools/objdiff/objdiff-cli diff \
-  -1 expected/build/USA/asm/USA/main/main/CD_sync.s.o \
+  -1 expected/build/USA/asm/USA/main/psyq/libcd/CD_sync.s.o \
   -2 /tmp/CD_sync.o -o /tmp/CD_sync.json
 python proposals/CD_sync/verify_behavior.py /tmp/CD_sync.o
 python proposals/CD_cw/verify_sdk.py /path/to/BIOS_1.OBJ CD_sync

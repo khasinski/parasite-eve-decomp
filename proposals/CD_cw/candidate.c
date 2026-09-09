@@ -60,15 +60,7 @@ int CD_cw(int command, void *parameters, u8 *result, int mode) {
         do {
             if (timed_out(commands, events)) return -1;
             if (CheckCallback()) {
-                int bank = *D_8009B27C & 3;
-                int pending;
-                while ((pending = getintr()) != 0) {
-                    if ((pending & 4) && D_8009AFB8)
-                        D_8009AFB8(D_8009B294.ready, D_800A3468);
-                    if ((pending & 2) && D_8009AFB4)
-                        D_8009AFB4(D_8009B294.sync, D_800A3460);
-                }
-                *D_8009B27C = bank;
+                dispatch_interrupts();
             }
         } while (!D_8009B294.sync);
     }
