@@ -492,8 +492,8 @@ segments:
       - [0x3430C, c, menu/Menu_DrawStatusPanel]
       - [0x34464, c, menu/Menu_DrawStatsList]
       - [0x345A4, asm, main/Menu_StepItemSelectScreen]
-      - [0x34974, c, menu/Menu_CreateEquipScreen]
-      - [0x34A74, c, menu/Menu_OnInventoryItemConfirm]
+      # Equip-screen construction and item-confirm handler share selection state.
+      - [0x34974, c, menu/Menu_EquipScreen]
       - [0x34C44, asm, menu/Menu_InventoryInputHandler]
       - [0x34FF0, c, menu/Menu_DrawAmmoTypeHeader]
       - [0x35124, c, menu/Menu_OpenItemActionSubmenu]
