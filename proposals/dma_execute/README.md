@@ -9,8 +9,9 @@ count, block size, control word, and an unsigned-byte interrupt-enable flag.
 The last two are loaded from caller stack offsets 16 and 20; the flag uses
 lbu. A volatile stack word retains two hardware readbacks.
 
-The candidate models a 16-byte DMA channel with address, block and control
-words at offsets 0, 4 and 8. D_8009B348 is accessed as both a word and byte 2,
+The candidate uses the observed 16-byte DMA channel stride, with address,
+block and control words at offsets 0, 4 and 8. Polling accesses control by
+its direct address; configuration advances a word pointer through the channel. D_8009B348 is accessed as both a word and byte 2,
 represented as a union, rather than unrelated pointer casts. D_8009B344 is a
 word register pointer and D_8009B32C a byte register pointer. These are views
 of the observed hardware accesses, not recovered original source type names.
@@ -25,11 +26,11 @@ Behavior reconstructed from retail:
 - Write the transfer address and `(blockCount << 16) | blockSize`.
 - Wait for CD status bit 6, then write and read back the DMA control word.
 
-Current stock-toolchain objdiff scores:
+Initial stock-toolchain objdiff scores:
 
 | Compiler/options | Percent |
 | --- | ---: |
-| GCC 2.8.1, unsplit addresses (candidate) | 59.896225 |
+| GCC 2.8.1, unsplit addresses (initial candidate) | 59.896225 |
 | GCC 2.8.1, default split | 60.084908 |
 | GCC 2.7.2, default | 61.009434 |
 | GCC 2.7.2, no expensive optimizations | 61.92453 |
@@ -38,3 +39,18 @@ Current stock-toolchain objdiff scores:
 The low score needs source-shape and register-lifetime work, not promotion.
 Channel and transfer sizes are assumed to be valid hardware inputs; the
 candidate's signed shifts have not been generalized to arbitrary integers.
+
+## Addressing and shared-store refinement
+
+The current candidate reaches **78.77358%** with stock GCC 2.8.1,
+`-mno-split-addresses -fno-schedule-insns`, and no pins or barriers.
+Direct control-register addressing improved the original 59.896225% to
+67.5%. Making the interrupt byte store common to both branches gave
+69.57547%; disabling the first scheduling pass gave the current score.
+The second scheduling pass alone gave 71.49056%, no-force-mem 69.669815%,
+and no-expensive-optimizations 64.15094% on that shared-store version.
+
+The remaining diff includes AT versus v0 for polling addresses, printf's
+symbolic address/delay slot, interrupt-byte working registers, and ordering
+of priority, block and readback operations. None of these measurements is
+an exact match or behavioral validation; production remains unchanged.
