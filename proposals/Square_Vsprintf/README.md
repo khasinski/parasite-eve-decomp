@@ -90,3 +90,50 @@ return ordering: a nonempty frame saving more than RA gets zero epilogue
 delay slots. `function_epilogue` then emits stack restoration before the
 return. This is a compiler limitation for this frame shape, so further work
 should focus on the GCC 2.8.1 source variant, not more 2.7.2 scheduling flags.
+
+## GCC 2.8.1 parser reconstruction (2026-09-09)
+
+`constrained_gcc281.c` now scores **99.16058%** under stock GCC 2.8.1,
+`-mno-split-addresses -fno-strength-reduce -fno-force-mem`, and unchanged
+MASPSX. Its return sequence matches. The template copy uses explicit typed
+field loads/stores with three local register constraints and one memory
+barrier after the stores. A fourth pin on the precision value and an
+input barrier on the three loaded values were both removable, including
+when removed together.
+
+The parser preserves the starting format pointer explicitly for the width
+and precision star arms. This reproduces the original `base + 1` and
+`base + 2` accesses and their temporary lifetimes. It eliminates all parser
+instruction differences without parser pins or barriers.
+
+The complete objdiff now has just one executable-code window differing:
+
+```text
+                    target                         candidate
++0x594              lui a3, %hi(digits_upper)       lui a3, %hi(digits_upper)
++0x598              j hexadecimal                  addiu a3, a3, %lo(digits_upper)
++0x59C              addiu a3, a3, %lo(digits_upper)  j hexadecimal
++0x5A0                                             nop
+```
+
+The candidate body remains 0x888 bytes versus the retail 0x884 bytes.
+Objdiff also reports three deleted trailing padding nops, since the expected
+symbol includes the SDK object's padding. This percentage is not an exact
+linked-byte match. Production still uses the original assembly.
+
+Turning address splitting on allows scheduling the low address half into
+the jump slot, but also changes the template-address registers, both digit
+address registers and switch-table dispatch. It does not produce an exact
+replacement. With splitting disabled, GCC represents the address load as an
+indivisible `la` macro; its MIPS `high`/`low` patterns require
+`mips_split_addresses`. See the stock GCC 2.8.1
+[`movsi`, `high` and `low` patterns](https://github.com/gcc-mirror/gcc/blob/releases/gcc-2.8.1/gcc/config/mips/mips.md).
+Further work should resolve those source/register choices with address
+splitting enabled; neither tool patches nor inserted CPU assembly are used.
+
+Reproduce:
+
+```sh
+tools/scripts/cc.sh proposals/Square_Vsprintf/constrained_gcc281.c /tmp/sprintf-gcc281.o
+tools/objdiff/objdiff-cli diff -1 expected/build/USA/src/main/psyq/libc/Square_Vsprintf.c.o -2 /tmp/sprintf-gcc281.o -o /tmp/sprintf-gcc281.json Square_Vsprintf
+```
