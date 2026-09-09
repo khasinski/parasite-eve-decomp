@@ -136,6 +136,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xA404..0xA524` | `task/Task_EntityRoamAndSpawn` | The roam-flag pair, point-facing task, and spawn-position reset are consecutive operations on one current `FieldActor`. Resolving the prior scalar/one-element-array conflict to one `FieldActor *` proves the shared `flags` field at `0x98`; retaining raw reads for the unmodelled spawn fields preserves the 0x120-byte object retail-identically apart from expected global and call relocations. |
 | `0x8880..0x8AA0` | `entity/Entity_FieldSelection` | Lookup, current-entity write, and type-id-directed write form one field-selection object. They share the `FieldActor` list traversal and the type-zero bridge to battle context; the merged 0x220-byte object is retail-identical apart from its expected globals, calls, and object-local control-flow relocations. |
 | `0x8B00..0x8CEC` | `entity/Entity_AnimationPending` | The pending-animation sweep, its advance pass, and the two node-id variants share the three current-actor task-node lists and `TaskNode` state bits. Their 0x1EC-byte combined object retains the pending-node branch relocation and is retail-identical after linking. |
+| `0x8FC0..0x93C8` | `pm/Pm_ScriptCommands` | The PM script command wrappers share the `Pm_SendCmd` and `Pm_SetGetState` ABI, then continue with the current-entity and geometry command handlers. One 0x408-byte object preserves their call/global relocations and links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 

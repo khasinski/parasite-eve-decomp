@@ -1,4 +1,65 @@
-void Pm_SetGetState(int arg0, int arg1, int *arg2);
+#include "common.h"
+
+int Pm_SendCmd();
+int Pm_SetGetState();
+
+
+typedef struct WrapperArgs {
+    int *arg0;
+    int *arg2;
+    int *arg3;
+    int *arg4;
+    int *arg5;
+} WrapperArgs;
+
+
+int Pm_ScriptSendCommand0(WrapperArgs *args) {
+    int *ptr0;
+    int *ptr2;
+    int *ptr3;
+    int *ptr4;
+    int value4;
+    int value0;
+    int value2;
+
+    ptr0 = args->arg0;
+    ptr4 = args->arg4;
+    ptr2 = args->arg2;
+    value4 = *ptr4;
+    value0 = *ptr0;
+    value2 = *ptr2;
+    ptr3 = args->arg3;
+    Pm_SendCmd(value0, 0, value2, *(volatile int *)ptr3, value4, *(volatile int *)args->arg5);
+    return 1;
+}
+
+
+int Pm_SetGetState(int arg0, int arg1, int arg2);
+
+int Pm_ScriptSendCommand1(int **arg0) {
+    int **base;
+    register int *op0;
+    register int *op1;
+    int *stack0;
+    register int first;
+    int second;
+
+    base = arg0;
+    op0 = base[0];
+    op1 = base[1];
+    stack0 = base[3];
+    first = *op0;
+    second = *op1;
+
+    Pm_SendCmd(first, 1, second, base[2], stack0, base[4]);
+    return 1;
+}
+
+int Pm_ScriptSetState(int **arg0) {
+    Pm_SetGetState(*arg0[0], 0, *arg0[1]);
+    return 1;
+}
+
 
 extern char *g_CurrentEntity;
 
