@@ -35,3 +35,17 @@ diagnostic.ld, only byte 0x3C differs: GNU as encodes the move into s0 as
 This is not an exact byte match. More importantly, ASM_AND_GTE_POLICY.md
 requires final builds through stock MASPSX; this diagnostic does not authorize
 bypassing that pipeline. It isolates scheduling from semantic reconstruction.
+
+## Shared event and callback types
+
+The candidate now includes `psyq_cd.h`, uses the shared `CdlCB` declarations,
+and addresses `CdInterruptEvents.ready` and `.sync` directly. This removes
+the two local callbacks with incorrect int event parameters and the pointer
+subtraction from the single ready-event byte to the preceding sync byte.
+The event accesses retain their shared volatile qualification.
+
+All 224 linked candidate text bytes are identical before and after this
+cleanup; the instruction-scheduling mismatch with the 216-byte retail body
+remains. Objdiff reports 93.888885% with the named structure-member relocation
+instead of the old ready-byte alias. This percentage is not new matched code,
+and no production change or new behavioral-equivalence claim is made.
