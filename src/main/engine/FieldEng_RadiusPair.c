@@ -1,3 +1,12 @@
+int func_800C62DC(void *from, void *to);
+
+int func_800C653C(void *arg0, char *arg1) {
+    int first = func_800C62DC(arg0, arg1);
+
+    return first | func_800C62DC(arg0, arg1 + 8);
+}
+
+
 typedef signed short s16;
 
 int func_800C6584(s16 *a, int radiusA, s16 *b, int radiusB) {
