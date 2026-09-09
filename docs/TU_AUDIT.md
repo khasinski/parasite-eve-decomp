@@ -141,6 +141,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x9A60..0x9C10` | `task/Task_EntityControl` | Render reset, PM stop, target lookup, and menu-slot commands share the current/player/actor-list selection state. A single 0x1B0-byte object resolves the prior current-entity pointer shapes and links retail-identically. |
 | `0x9E18..0xA0C4` | `task/Task_FieldEntityCommands` | Field flag, collision-slot, position, and polar-coordinate commands all access `g_CurrentEntity`. The merged 0x2AC-byte object reconciles its former `FieldActor *`, `char *`, and `int *` declaration forms through one address-preserving base and links retail-identically. |
 | `0xB32F0..0xB3390` | `engine/FieldEng_ScriptState` | Spawn and indexed script-state accessors share `g_FieldEngineScriptState` (`D_800E2248`) and its offset-based work area. Their merged 0xA0-byte object retains only expected global relocations and links retail-identically. |
+| `0xB36AC..0xB3B24` | `engine/FieldEng_RenderSetup` | Field renderer page setup, viewport vertices, interpolation, and mode selection share the page and texture state globals. The 0x478-byte merged object preserves its external data, calls, and local switch relocations and links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
