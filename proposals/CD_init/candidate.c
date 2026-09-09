@@ -44,5 +44,9 @@ int CD_init(void) {
     if (D_8009AFC4 & 0x10) CD_cw(1, 0, 0, 0);
     if (CD_cw(10, 0, 0, 0)) return -1;
     if (CD_cw(12, 0, 0, 0)) return -1;
-    return CD_sync(0, 0) == 2 ? 0 : -1;
+    {
+        int status = CD_sync(0, 0);
+        if (status != 2) return -1;
+        return 0;
+    }
 }
