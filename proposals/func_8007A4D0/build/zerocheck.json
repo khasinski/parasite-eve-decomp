@@ -1,9 +1,0 @@
-{
-  "best_size": "0x138",
-  "function": "func_8007A4D0",
-  "nm": "proposals/func_8007A4D0/build/zerocheck.nm",
-  "objdump": "proposals/func_8007A4D0/build/zerocheck.objdump",
-  "object": "proposals/func_8007A4D0/build/zerocheck.o",
-  "source": "proposals/func_8007A4D0/candidate.c",
-  "target_size": "0x13C"
-}

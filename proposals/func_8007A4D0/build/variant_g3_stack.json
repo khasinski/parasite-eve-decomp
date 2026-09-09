@@ -1,9 +1,0 @@
-{
-  "best_size": "0x134",
-  "function": "func_8007A4D0",
-  "nm": "proposals/func_8007A4D0/build/variant_g3_stack.nm",
-  "objdump": "proposals/func_8007A4D0/build/variant_g3_stack.objdump",
-  "object": "proposals/func_8007A4D0/build/variant_g3_stack.o",
-  "source": "proposals/func_8007A4D0/variant_g3_stack.c",
-  "target_size": "0x13C"
-}
