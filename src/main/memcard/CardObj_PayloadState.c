@@ -1,6 +1,14 @@
 #include "common.h"
 #include "pe1/card_obj.h"
 
+void CardObj_SwapByteField(CardObj *obj) {
+    u8 command;
+
+    command = obj->command;
+    obj->command = 0;
+    obj->saved_command = command;
+}
+
 int CardObj_ReadPayloadByte(CardObj *arg0) {
     int index;
     int mode;
