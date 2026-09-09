@@ -1346,3 +1346,17 @@ prologue and removing a required `lui`. Local previous-value pins, scratch
 clobbers and scheduler variants did not restore the complete sequence.
 A direct C shutdown candidate also remains nonmatching; its legacy
 instruction blocks have not been promoted or hidden.
+
+## SPU read/write wrapper return constraints (2026-09-09)
+
+`Spu_ReadFromSpu` and `Spu_UploadToSpu` now return their capped transfer size
+directly. Both local `$2` result pins are unnecessary with the current shared
+volatile callback declaration and stock GCC 2.8.1 unsplit profile. Removing
+each pin gives 100% object agreement against the SHA-verified build; both
+wrappers now contain no register pins, barriers or instruction assembly.
+The complete main executable and all 191 overlays retain their retail SHA-1.
+
+The internal `_spu_Fr`/`_spu_Fw` declarations now live beside the SPU callback
+API. In particular, `_spu_Fr` is declared with its implemented signed-size
+return and argument types, replacing the reader's incorrect void-return
+declaration. The wrapper's capped unsigned size is representable as `s32`.

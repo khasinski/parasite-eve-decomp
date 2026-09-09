@@ -46,6 +46,8 @@ extern SpuCallback _spu_IRQCallback;
 SpuCallback Spu_SetTransferMode(SpuCallback callback);
 void _SpuCallback(SpuCallback callback);
 void _SpuDataCallback(SpuCallback callback);
+s32 _spu_Fr(void *address, s32 size);
+u32 _spu_Fw(void *address, u32 size);
 extern int _spu_AllocBlockNum;
 extern int _spu_AllocLastNum;
 extern SPU_MALLOC *_spu_memList;
