@@ -1640,3 +1640,22 @@ ordering even if a byte store could alias the pointer's storage.
 One v1 pointer pin and one tied empty pointer barrier retain the event-block
 address in a register. Removing the pin gives 98.962265%; removing the
 barrier, with or without the pin, gives 84.49056%. No instruction ASM remains.
+
+## LIBCD second sector-transfer wait
+
+The DMA-busy wait in `CD_getsector2` is C: it reads control bit 24 once,
+then retains a local pointer and mask for repeated volatile reads when busy.
+This replaces the former 14-instruction assembly block without adding pins
+or empty barriers. A single `while (*control & mask)` produces a different
+register allocation; the initial test and inner loop retain retail bytes.
+Each of the function's three existing pins was also tested individually;
+removing any changes the generated text.
+
+The earlier CD-ready byte wait remains legacy ASM. The all-C trial matches
+the remaining executable instructions but sends its back edge to the load
+hazard nop instead of the byte load after it. The pinned upstream MASPSX
+`_handle_nop_before_next_instruction` moves an immediately following label
+before its inserted nop. Simple while, do/while, explicit first read, goto,
+and an empty loop-body constraint did not avoid that difference. This is
+not a reason to patch the assembler, add a scheduling instruction, or credit
+the whole function as semantic C before the remaining wait is reconstructed.

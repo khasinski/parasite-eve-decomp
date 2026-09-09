@@ -36,28 +36,15 @@ int CD_getsector2(u32 arg0, u32 arg1) {
         : "memory");
 
     *D_8009B2C0 = dmaCommand;
-    asm volatile(
-        ".set noreorder\n\t"
-        "lui $4,%%hi(D_8009B2C0)\n\t"
-        "lw $4,%%lo(D_8009B2C0)($4)\n\t"
-        "nop\n\t"
-        "lw $2,0($4)\n\t"
-        "lui $3,0x100\n\t"
-        "and $2,$2,$3\n\t"
-        "beqz $2,2f\n\t"
-        "addu $3,$4,$0\n\t"
-        "lui $4,0x100\n\t"
-        "1:\n\t"
-        "lw $2,0($3)\n\t"
-        "nop\n\t"
-        "and $2,$2,$4\n\t"
-        "bnez $2,1b\n\t"
-        "nop\n\t"
-        "2:\n\t"
-        ".set noreorder"
-        :
-        :
-        : "$2", "$3", "$4", "memory");
+    {
+        volatile u32 *control = D_8009B2C0;
+        if (*control & 0x1000000) {
+            volatile u32 *pending = control;
+            u32 mask = 0x1000000;
+            do {
+            } while (*pending & mask);
+        }
+    }
 
     {
         volatile u32 *request = D_8009B28C;
