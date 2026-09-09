@@ -3,6 +3,7 @@
 import hashlib
 import itertools
 from pathlib import Path
+import re
 import struct
 import subprocess
 import sys
@@ -16,14 +17,19 @@ assert hashlib.sha1(exe).hexdigest() == '452fb033f2eaa4b18aa20a5bca60b8125af3a37
 with tempfile.TemporaryDirectory(prefix='vsync-behavior-') as work:
     script = Path(work) / 'candidate.ld'
     linked = Path(work) / 'candidate.elf'
-    script.write_text('''D_80094574 = 0x80094574; D_80094578 = 0x80094578;
-D_8009457C = 0x8009457C; D_80094580 = 0x80094580;
-g_VSyncCount = 0x800956AC; v_wait = 0x80073BBC;
-SECTIONS { .text 0x80073A44 : { *(.text) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }
-''')
+    undefined = subprocess.check_output(['mipsel-none-elf-nm', '-u', sys.argv[1]], text=True).split()[1::2]
+    symbols = dict(re.findall(r'^(\w+) = (0x[0-9A-Fa-f]+);', Path('configs/USA/sym.main.txt').read_text(), re.M))
+    symbols.update(g_VSyncCount='0x800956AC', v_wait='0x80073BBC')
+    definitions = []
+    for name in undefined:
+        address = '0x' + name[2:] if name.startswith('D_') else symbols[name]
+        definitions.append(f'{name} = {address};')
+    script.write_text('\n'.join(definitions) + '\nSECTIONS { .text 0x80073A44 : { *(.text) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }')
     subprocess.run(['mipsel-none-elf-ld', '-T', str(script), sys.argv[1], '-o', str(linked)], check=True)
     with linked.open('rb') as stream:
-        code = ELFFile(stream).get_section_by_name('.text').data()
+        elf = ELFFile(stream)
+        code = elf.get_section_by_name('.text').data()
+        entries = {symbol.name: symbol['st_value'] for symbol in elf.get_section_by_name('.symtab').iter_symbols()}
 
 
 def run(mode, status, unstable, previous, candidate):
@@ -65,7 +71,8 @@ def run(mode, status, unstable, previous, candidate):
         write(0x956AC, max(read(0x956AC), target))
         u.reg_write(UC_MIPS_REG_V0, 0)
         u.reg_write(UC_MIPS_REG_PC, u.reg_read(UC_MIPS_REG_RA))
-    cpu.hook_add(UC_HOOK_CODE, wait, begin=0x80073BBC, end=0x80073BBC)
+    helper_address = entries['v_wait'] if candidate else 0x80073BBC
+    cpu.hook_add(UC_HOOK_CODE, wait, begin=helper_address, end=helper_address)
     cpu.reg_write(UC_MIPS_REG_A0, mode & 0xFFFFFFFF)
     cpu.reg_write(UC_MIPS_REG_SP, 0x801F0000)
     cpu.reg_write(UC_MIPS_REG_RA, 0x801E0000)

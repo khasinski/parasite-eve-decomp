@@ -4,7 +4,11 @@ extern volatile u32 *hblank_counter __asm__("D_80094578");
 extern volatile u32 last_hblank __asm__("D_8009457C");
 extern int last_vblank __asm__("D_80094580");
 extern volatile int g_VSyncCount;
-void v_wait(int target, int frames);
+static void v_wait(int target, int frames);
+extern char timeout_message[] __asm__("D_800116FC");
+int puts(const char *text);
+void ChangeClearPAD(int mode);
+void ChangeClearRCnt(int counter, int mode);
 
 int VSync(int mode) {
     u32 status;
@@ -35,4 +39,15 @@ int VSync(int mode) {
         last_hblank = *hblank_counter;
     } while (last_hblank != *hblank_counter);
     return elapsed;
+}
+static void v_wait(int target, int frames) {
+    volatile int timeout = frames << 15;
+    while (g_VSyncCount < target) {
+        if (timeout-- == 0) {
+            puts(timeout_message);
+            ChangeClearPAD(0);
+            ChangeClearRCnt(3, 0);
+            return;
+        }
+    }
 }
