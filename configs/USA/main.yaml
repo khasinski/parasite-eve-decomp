@@ -188,8 +188,7 @@ segments:
       - [0x7EFC, c, task/Task_SelectAudio]
       - [0x7F64, c, task/Task_PlayFieldSfx]
       # Table opcodes share the current TaskNode field ABI.
-      - [0x7FAC, c, task/Task_NodeTableOps]
-      - [0x807C, c, entity/Entity_FindNodeById]
+      - [0x7FAC, c, task/Task_NodeLookupOps]
       - [0x8128, c, task/task_get]
       - [0x8188, c, entity/Entity_MarkNodeFree]
       - [0x81F8, c, entity/task]
