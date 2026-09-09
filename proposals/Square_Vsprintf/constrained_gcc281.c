@@ -79,8 +79,8 @@ s32 Square_Vsprintf(char *dest, s8 *format, ...)
 
         {
             register FormatSpec *initial asm("$5") = &D_80094528;
-            register u32 flags asm("$2") = initial->header.flags;
-            register s32 width asm("$3") = initial->width;
+            u32 flags = initial->header.flags;
+            s32 width = initial->width;
             s32 precision = initial->precision;
 
             work.spec.header.flags = flags;
@@ -361,7 +361,6 @@ hexadecimal:
             args += 4;
             asm volatile("" : : "r"(nf));
             isShort = (nf >> 5) & 1;
-            asm volatile("" : : "r"(isShort));
             if (isShort) {
                 *(s16 *)src = length;
             } else {

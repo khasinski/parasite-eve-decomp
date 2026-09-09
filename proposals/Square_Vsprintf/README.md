@@ -137,3 +137,22 @@ Reproduce:
 tools/scripts/cc.sh proposals/Square_Vsprintf/constrained_gcc281.c /tmp/sprintf-gcc281.o
 tools/objdiff/objdiff-cli diff -1 expected/build/USA/src/main/psyq/libc/Square_Vsprintf.c.o -2 /tmp/sprintf-gcc281.o -o /tmp/sprintf-gcc281.json Square_Vsprintf
 ```
+
+## Constraint reduction (2026-09-09, formatter detour)
+
+The GCC 2.8.1 candidate retains **99.16058%** after removing the local
+register pins on the template's `flags` and `width`, and the input-only
+barrier on `%n`'s `isShort` test. Each was tested separately and all three
+were then removed together. The resulting `.text` and `.rodata` are identical
+to the previous candidate, including relocation records. The candidate now
+has three local register pins and six empty barriers. This is a reduction
+in experimental constraints, not promotion to a matched C unit.
+
+A fresh address-splitting trial scores 98.79379%. Pinning the digit pointer
+and constraining the template pointer does not restore the target switch
+dispatch. With splitting enabled, that dispatch materializes the complete
+table address before adding the index (five instructions); the target adds
+the index to the high part and uses the low relocation on the load (four).
+This is separate from the uppercase digit-table scheduling problem. Stock
+GCC's `mips_check_split` commentary describes this indexed-address limitation;
+changing only the digit pointer's register cannot resolve the complete TU.
