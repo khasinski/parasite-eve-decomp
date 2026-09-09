@@ -110,29 +110,27 @@ static int _cmp(char *left, char *right);
 
 DslFILE *DsSearchFile(DslFILE *out, char *name) {
     char component[32];
-    signed char first_character;
     signed char *path;
     signed char *component_start;
     char *cursor;
     int depth, directory;
-    u_int not_found;
+    int not_found;
     DslFILE *entry;
     if (cached_media_state < DsShellOpen()) {
         if (!DS_newmedia()) return 0;
         cached_media_state = DsShellOpen();
     }
-    first_character = *(signed char *)name;
-    component_start = (signed char *)component;
-    if (first_character != '\\') return 0;
+    if (*(signed char *)name != '\\') return 0;
     component[0] = 0;
     directory = 1;
     path = (signed char *)name;
+    component_start = (signed char *)component;
     for (depth = 0; depth < 8; depth++) {
         cursor = component;
+        not_found = -1;
         while (*path != '\\' && *path) *cursor++ = *path++;
         if (!*path) break;
         path++;
-        not_found = -1;
         *cursor = 0;
         directory = DS_searchdir(directory, component);
         if (directory == not_found) { component[0] = 0; break; }

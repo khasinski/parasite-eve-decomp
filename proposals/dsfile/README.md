@@ -30,7 +30,7 @@ the candidate does not invent unused fields or padding arrays to absorb them.
 
 | Function | TU offset | Retail bytes | Current match |
 | --- | ---: | ---: | ---: |
-| DsSearchFile | 0x000 | 736 | 90.46196% |
+| DsSearchFile | 0x000 | 736 | 90.570656% |
 | _cmp | 0x2E0 | 32 | 100% |
 | DS_newmedia | 0x300 | 708 | 90.27683% |
 | DS_searchdir | 0x5C4 | 164 | 98.902435% |
@@ -133,3 +133,19 @@ without depending on the host's `unsigned long` width.
 The type/name cleanup preserves every text byte and all 171 text relocations.
 Both behavioral suites (1027 cases) pass, and host syntax checking with
 `-fno-builtin -Werror` now passes without pointer-to-integer warnings.
+
+## DsSearchFile permutation review
+
+The valid remote `output-1745-1` lifetime change improves DsSearchFile from
+90.46196% to 90.570656%. The cleaned source removes the first-character
+temporary, initializes the component pointer after the initial path check,
+and assigns the signed -1 sentinel at the start of each component iteration.
+No pins or barriers were introduced. Both behavioral suites pass (1027 cases),
+host syntax checking passes with warnings treated as errors, and all other
+function scores are unchanged.
+
+`output-1745-2` reports 91.36957% but is invalid: its diagnostic-name pointer
+is initialized only in the depth-limit branch, which returns, then read in
+the separate directory-not-found branch. It was rejected, as were the earlier
+1695/1708 candidates with uninitialized reads. A lower permutation score alone
+does not establish valid C or equivalent behavior.
