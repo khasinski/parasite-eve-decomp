@@ -670,8 +670,8 @@ segments:
       - [0x41AAC, asm, menu/menu29_tail]
       # Command-result accessors share their single result slot.
       - [0x41CF8, c, menu/Menu_CommandResult]
-      - [0x41D10, c, battle/BattleCmd_SyncActiveAmmo]
-      - [0x41DC0, c, battle/BattleCmd_SetCurrentHP]
+      # Active-stat synchronization and HP writes share the player entity ABI.
+      - [0x41D10, c, battle/BattleCmd_ActiveStats]
       - [0x41DF8, c, battle/BattleCmd_GetRemainingAmmo]
       - [0x41E84, c, battle/BattleCmd_SetCurrentMP]
       - [0x41EB4, c, battle/BattleCmd_CommitAndSyncAmmo]
