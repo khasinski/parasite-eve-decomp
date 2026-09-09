@@ -1,8 +1,6 @@
 #include "common.h"
 
-#include "include_asm.h"
 
-#include "include_asm.h"
 
 #include "pe1/memcard_state.h"
 
@@ -52,12 +50,12 @@ int MemCard_DmaProcess();
 void MemCard_RunCommandStep();
 
 int MemCard_TimerReadyCallback(void) {
-    MemCardState *state = g_MemCardState;
+    MemCardInterruptRegisters *state = g_MemCardState;
 
-    if ((state->field4 & 1) == 0) {
+    if ((state->mask & 1) == 0) {
         return 0;
     }
-    if ((state->field0 & 1) == 0) {
+    if ((state->status & 1) == 0) {
         return 0;
     }
     if (D_8009B74C != 0) {

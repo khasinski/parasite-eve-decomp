@@ -1246,3 +1246,27 @@ Removing the right-value t0 pin rotates the mask, all-fields predicate and
 right temporary among t0..t2. Reordering its initialization or widening the
 value did not recover the target allocation. The pin remains. These changes
 narrow scheduling constraints; they do not classify this TU as pure C.
+
+## Memory-card interrupt register view
+
+The retail pointer at 0x8009B784 (`g_MemCardState`) contains 0x1F801070.
+It addresses I_STAT at offset 0 and I_MASK at offset 4, as documented in
+[PSX-SPX's interrupt register map](https://psx-spx.consoledev.net/interrupts/).
+The shared type is now `MemCardInterruptRegisters`, with named volatile
+32-bit status and mask fields. `MemCard_TimerReadyCallback` checks those
+fields; `MemCard_WaitReadyForTransfer` acknowledges the controller/card IRQ
+through status. Their access widths and instruction sequences are unchanged.
+
+The earlier header comment incorrectly described the RAM words at
+0x800A5AC0/4 as another instance of the same state type. Those words are
+separate signed counters: the timer callback compares them with 150 and
+increments them, while `mem_card8` tests and resets them. No enclosing RAM
+object is inferred here. The duplicate local interrupt-register typedef
+in the transfer TU and two unused include_asm includes in the timer TU
+were removed. No pin, barrier or instruction assembly was added.
+
+A direct C reconstruction of the timer's initial flag/store and increment
+window remains unmatched: stock GCC 2.7.2 moves the flag store out of the
+branch delay slot and changes the timer address/value registers. GCC 2.8.1
+profiles also changed other functions in that TU. Its legacy instruction
+ASM and the callback-pending page constraint remain pending reconstruction.

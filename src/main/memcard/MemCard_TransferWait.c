@@ -1,10 +1,7 @@
 #include "common.h"
 
-typedef struct 
-{
-  unsigned int field0;
-  unsigned int field4;
-} MemCardState;
+#include "pe1/memcard_state.h"
+
 typedef struct 
 {
   volatile unsigned char field0;
@@ -16,20 +13,19 @@ typedef struct
   u16 padC;
   volatile u16 fieldE;
 } MemCardSioRegs;
-extern MemCardState * volatile D_8009B784;
 extern MemCardSioRegs * volatile D_8009B788;
 int Spu_CheckTimerElapsed(void);
 int MemCard_WaitReadyForTransfer(void)
 {
-  register MemCardState *state;
+  register MemCardInterruptRegisters *state;
   MemCardSioRegs *regs;
   MemCardSioRegs *check_regs;
   int value;
   unsigned char status;
-  state = D_8009B784;
+  state = g_MemCardState;
   regs = D_8009B788;
   value = -0x81;
-  state->field0 = value;
+  state->status = value;
   status = regs->field4;
   status &= 0x80;
   if (status == 0)
