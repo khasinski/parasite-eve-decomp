@@ -148,6 +148,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xB9644..0xB9B98` | `engine/FieldEng_UpdateEffects2` | A parallel field-effect dispatch, all callback variants, and matrix draw pass use the `D_800E27A0` context and coordinate globals with the same animation-record ABI. Its 0x554-byte object consolidates the `SVECTOR`/GTE views and links retail-identically. |
 | `0xBA068..0xBA7D8` | `engine/FieldEng_UpdateEffects3` | A third field-effect family combines its matrix pass, state callbacks, render-record setup, dispatch, and all callback variants through the `D_800E27A4` context. The 0x770-byte object consolidates its `SVECTOR`/GTE ABI views and links retail-identically. |
 | `0xBACA8..0xBB60C` | `engine/FieldEng_UpdateEffects4` | A fourth field-effect family combines its setup, state callbacks, matrix-based motion, and render-record callbacks through `D_800E27A8` and `D_800E2360..64`. The 0x964-byte object resolves its shared `SVECTOR` and callback ABI declarations, including the previously conflicting volatile views, and links retail-identically. |
+| `0xBBF50..0xBCAC4` | `engine/FieldEng_UpdateEffects5` | A fifth field-effect family unifies matrix setup, callback dispatch, radial animation, and shared state initialization. The 0xB74-byte object keeps the central initializer's volatile signed views under ABI aliases while callbacks use unsigned views, and links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
