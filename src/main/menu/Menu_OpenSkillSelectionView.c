@@ -7,8 +7,7 @@ M2C_UNK MenuWidget_SetCurrentNode(void *);          /* extern */
 M2C_UNK MenuWidget_SetCursorY(s32);                 /* extern */
 void *MenuWidget_CreateSimpleNode(M2C_UNK, s32, M2C_UNK, M2C_UNK); /* extern */
 void *MenuWidget_CreateNode(M2C_UNK, void *, void *);       /* extern */
-extern M2C_UNK Menu_DrawSkillSelectionList[];
-#define Menu_DrawSkillSelectionList (Menu_DrawSkillSelectionList[0])
+void Menu_DrawSkillSelectionList(int arg0);
 extern M2C_UNK Menu_HandleAyaInventorySelectionInput[];
 #define Menu_HandleAyaInventorySelectionInput (Menu_HandleAyaInventorySelectionInput[0])
 
@@ -24,4 +23,12 @@ void Menu_OpenSkillSelectionView(void) {
     MenuWidget_SetCursorY(MenuWidget_FindByModeAndSelectedBase(1, 0));
     MenuWidget_SetCursorY(MenuWidget_FindByModeAndSelectedBase(1, 1));
     MenuWidget_SetCursorY(MenuWidget_FindByModeAndSelectedBase(1, 0x1B));
+}
+
+
+void Menu_DrawSkillItem(int arg0);
+void MenuWidget_DrawList(int arg0, void (*callback)(void));
+
+void Menu_DrawSkillSelectionList(int arg0) {
+    MenuWidget_DrawList(arg0, Menu_DrawSkillItem);
 }
