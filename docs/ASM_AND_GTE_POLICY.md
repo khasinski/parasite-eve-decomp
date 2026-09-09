@@ -1736,3 +1736,10 @@ meanings are cross-checked with the psx-spx SPU register map linked in the
 candidate README. The routine's 48-case differential suite covers cold/hot
 paths, timeout continuation, full voice initialization and pointer reload.
 The candidate is not a byte match and stays outside the production manifest.
+
+The low-level _spu_init result is int, not void: retail explicitly returns
+zero after both hot and cold initialization. The shared prototype and the
+wrapper test's stub now agree. The candidate uses independent local register
+pointer scopes and explicitly returns zero, improving its score to 88.8625%
+without constraints. All 48 differential cases assert the result; a return-one
+negative control is rejected. Production _SpuInit still ignores the result.

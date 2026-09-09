@@ -2,8 +2,8 @@
 
 `candidate.c` reconstructs all 640 retail bytes at 0x8007D1D4 as C, using
 SpuRegs and SpuVoiceRegs. It has no pins, barriers or instruction ASM.
-Stock GCC272 scores 83.20625%; production remains ASM. GCC281 unsplit scores
-80.33125% with or without expensive optimizations, and split scores 67.2375%.
+Stock GCC272 scores 88.8625%; production remains ASM. GCC281 unsplit scores
+82.06875% with or without expensive optimizations, and split scores 69.93125%.
 Remaining differences include register allocation, address scheduling and
 symbol aliases. These are function scores, not new matched production bytes.
 
@@ -52,3 +52,15 @@ These tests are not physical SPU timing verification or a whole-library proof.
 
 Shared-header validation: main retail SHA-1, all 191 overlay SHA-1 checks,
 290 repository tests and source/organization/debt gates pass.
+
+The original routine explicitly returns zero on both hot and cold paths.
+The shared declaration is now int _spu_init(int hot), replacing the incorrect
+local void declaration in _SpuInit.c. The behavior suite asserts v0 == 0 for
+all 48 cases; returning one is rejected. Two independent local reconstructions
+(psyz libspu/spu.c and sotn-decomp psxsdk/libspu/spu.c) corroborate the int/s32
+return type; retail instructions remain the primary evidence.
+
+Separating each reloaded register pointer into a local block raised the old
+83.20625% source to 86.925%; correcting the return raised it to 88.8625%.
+The change expresses independent pointer lifetimes without register pins.
+Disabling both GCC272 schedulers scores 73.1% with the corrected source.

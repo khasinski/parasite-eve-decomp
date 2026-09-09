@@ -25,7 +25,7 @@ static int phase, expectedMode;
 static int *late[] = {&D_8009B45C, &D_8009B460, &D_8009B464, &D_8009B38C,
     &D_8009B418, &D_8009B388, &D_8009B3B4, &D_8009B3B0, &D_8009B3E8};
 int ResetCallback(void) { assert(phase == 0); phase = 1; return 0; }
-void _spu_init(int mode) { assert(phase == 1 && mode == expectedMode); phase = 2; }
+int _spu_init(int mode) { assert(phase == 1 && mode == expectedMode); phase = 2; return 0; }
 void SpuStart(void) {
     int i;
     assert(phase == 2);

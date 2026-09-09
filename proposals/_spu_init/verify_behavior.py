@@ -87,6 +87,7 @@ def run(hot, pending, fill, redirect, candidate):
         pc = cpu.reg_read(UC_MIPS_REG_RA)
     assert cpu.reg_read(UC_MIPS_REG_PC) == 0x801E0000
     assert cpu.reg_read(UC_MIPS_REG_SP) == 0x801F0000
+    assert cpu.reg_read(UC_MIPS_REG_V0) == 0
     assert waits == (9 if hot == 0 else 1)
     assert reads == min(pending + 1, 3841)
     assert sum(t[0] == 'printf' for t in trace) == int(pending >= 3841)

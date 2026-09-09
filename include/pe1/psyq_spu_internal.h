@@ -76,6 +76,7 @@ void _SpuCallback(SpuCallback callback);
 void _SpuDataCallback(SpuCallback callback);
 s32 _spu_Fr(void *address, s32 size);
 u32 _spu_Fw(void *address, u32 size);
+int _spu_init(int hot);
 void _spu_FsetRXX(u32 offset, u32 value, u32 mode);
 u32 _spu_FsetRXXa(s32 offset, u32 value);
 u32 _spu_FgetRXXa(u32 offset, s32 mode);
