@@ -1,3 +1,9 @@
+
+int CdRom_ReadSectors(int lba, int offset, int dst, int size);
+
+void CdRom_ReadSectorsFromLba(int arg0, int arg1, int arg2) {
+    CdRom_ReadSectors(arg0, 0, arg1, arg2);
+}
 #include "pe1/psyq_cd.h"
 
 int Cd_GetReadyStatus(void);
@@ -51,4 +57,20 @@ int CdRom_ReadSectors(int lba, int offset, int dst, int size) {
     *state &= 0xFEFFBFFF;
     printf(D_8001136C, base, size_reg);
     return -1;
+}
+int Sys_VSyncTimeout(int arg0);
+
+extern int g_GameState;
+
+int CdRom_PollReady(void) {
+    int scratch;
+    int status;
+    int *state;
+
+    status = Sys_VSyncTimeout((int)&scratch);
+    if ((unsigned int)(status + 1) < 2U) {
+        state = &g_GameState;
+        *state &= 0xFEFFBFFF;
+    }
+    return status;
 }
