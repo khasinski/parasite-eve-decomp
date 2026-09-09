@@ -1,5 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
-/* CC1_FLAGS: -mno-split-addresses */
+/* CC1_FLAGS: -mno-split-addresses -fno-expensive-optimizations */
 #include "../libcd_bios_helpers.h"
 
 extern char *D_8009AFDC[], *D_8009B05C[];

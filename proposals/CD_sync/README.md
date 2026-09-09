@@ -1,7 +1,7 @@
 # LIBCD CD_sync
 
 Complete C reconstruction of retail `0x8007B010` (640 bytes). Stock GCC 2.8.1
-with unsplit addresses scores 88.58125%, without pins, barriers or instruction
+with unsplit addresses and `-fno-expensive-optimizations` scores 91.79375%, without pins, barriers or instruction
 ASM. Production remains assembly pending a byte-exact match.
 
 This function initializes the timeout state, checks timeout, drains callbacks
@@ -13,9 +13,15 @@ and callback handling before examining the event byte.
 
 `../libcd_bios_helpers.h` shares the reconstructed timeout and response-copy
 implementations with CD_cw. Initializing the diagnostic table pointers after
-the initial VSync call improves match from 82.2875% to 88.58125%. A barrier
-keeping constant 2 alive worsens match to 85.3875% and was rejected. Remaining
-differences concern register allocation, status masking and call scheduling.
+the initial VSync call improves match from 82.2875% to 88.58125%. Disabling
+expensive optimizations then gives the selected 91.79375%, retaining the
+ordinary C source and shared callback types. The full 840-case behavior suite
+passes with that configuration. Byte-sized local status or switch syntax do
+not improve it. GCC 2.7.2 scores 84.1875%; disabling the first/second scheduling
+pass scores 80.2125%/79.13125% on the unconstrained unsplit source. Barriers
+keeping constant 2 alive regress both configurations and were rejected.
+Remaining differences concern register allocation, status masking and call
+scheduling.
 
 The SDK BIOS_1.OBJ export range 0x564–0x7E4 matches all 640 retail bytes except
 52 relocation fields; the other 108 words are identical. This proves its
