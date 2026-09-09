@@ -32,7 +32,7 @@ the candidate does not invent unused fields or padding arrays to absorb them.
 | --- | ---: | ---: | ---: |
 | DsSearchFile | 0x000 | 736 | 90.46196% |
 | _cmp | 0x2E0 | 32 | 100% |
-| DS_newmedia | 0x300 | 708 | 79.63842% |
+| DS_newmedia | 0x300 | 708 | 90.27683% |
 | DS_searchdir | 0x5C4 | 164 | 98.902435% |
 | DS_cachefile | 0x668 | 668 | 93.97605% |
 | ds_read | 0x904 | 92 | 100% |
@@ -102,3 +102,18 @@ field address rather than subtracting from the index before multiplication.
 All 1027 behavioral cases still pass and the other five function scores
 are unchanged. Remaining differences include unaligned-copy registers,
 indexed-load expansion and symbolic-address scheduling.
+
+## DS_newmedia source refinement
+
+`DS_newmedia` improved from 79.63842% to 90.27683% with indexed directory
+cache fields, a local destination-name pointer, and a post-record count
+increment followed by the 128-entry limit check. The parent byte is read
+before assigning the sequential directory ID. The retail low-byte-only
+parent-ID behavior and byte-oriented four-byte copies are preserved.
+All 1027 behavioral comparisons pass; no pins or barriers were added.
+
+Stock GCC 2.7.2 was also tested with the preceding source iteration:
+DS_newmedia 88.830505%, DS_cachefile 95.149704%, DS_searchdir 95.12195%.
+It reproduces the unaligned-copy temporary registers better, but is not a
+matching replacement for the complete TU. The candidate retains GCC 2.8.1;
+selecting a different compiler for each helper would fragment this proven TU.

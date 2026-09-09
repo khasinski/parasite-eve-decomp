@@ -169,11 +169,11 @@ static int _cmp(char *left, char *right) {
 static int DS_newmedia(void) {
     u8 *cursor;
     u8 *end;
+    char *name;
     int sector;
     int count;
     int read_status;
     IsoPathRecord *record;
-    DslDirectoryCacheEntry *entry;
 
     read_status = ds_read(1, 16, (int)sector_buffer);
     if (read_status != 1) {
@@ -193,20 +193,21 @@ static int DS_newmedia(void) {
     if (D_8009AFC0 > 1) puts(directory_progress);
     cursor = sector_buffer;
     end = cursor + 2048;
-    for (count = 0; cursor < end; count++) {
+    for (count = 0; cursor < end;) {
         record = (IsoPathRecord *)cursor;
         if (record->nameLength == 0) break;
-        entry = &directory_cache[count];
-        memcpy(&entry->sector, record->sectorLE, 4);
-        entry->directoryId = count + 1;
-        entry->parentDirectoryId = record->parentDirectoryLE[0];
-        memcpy(entry->name, record->name, record->nameLength);
-        entry->name[record->nameLength] = 0;
+        name = directory_cache[count].name;
+        memcpy(&directory_cache[count].sector, record->sectorLE, 4);
+        directory_cache[count].parentDirectoryId = record->parentDirectoryLE[0];
+        directory_cache[count].directoryId = count + 1;
+        memcpy(name, record->name, record->nameLength);
+        name[record->nameLength] = 0;
         cursor += record->nameLength + 8 + (record->nameLength & 1);
         if (D_8009AFC0 > 1)
-            printf(directory_entry_format, entry->sector, entry->directoryId,
-                   entry->parentDirectoryId, entry->name);
-        if (count + 1 == DSL_MAX_DIR) { count++; break; }
+            printf(directory_entry_format, directory_cache[count].sector,
+                   directory_cache[count].directoryId,
+                   directory_cache[count].parentDirectoryId, name);
+        if (++count >= DSL_MAX_DIR) break;
     }
     if (count < DSL_MAX_DIR) directory_cache[count].parentDirectoryId = 0;
     cached_directory = 0;
