@@ -11,3 +11,14 @@ Stock GCC 2.7.2 produces 0x30 bytes versus the 0x2C-byte body: the store of
 a1 precedes jal rather than occupying its delay slot. No source integration
 or exact-match claim is made. Separating this C body from the preceding
 exception-context assembly is a useful next boundary investigation.
+
+## Compiler/assembler boundary
+
+Inspection of raw GCC 2.7.2 output shows `sw $5,D_800C20C4` immediately
+before `jal StClearRing`, with no explicit delay-slot instruction. The
+current MASPSX/GNU-as pipeline emits the expanded store before the call and
+a NOP after it. Retail instead places the expanded store in the call slot.
+This points to assembler scheduling as a hypothesis to test against original
+ASPSX behavior; it does not justify changing the shared pipeline blindly.
+The `-mdebuga` trial retained the same output. `-mno-gas` was rejected by
+the installed compiler and is not a valid tested configuration.
