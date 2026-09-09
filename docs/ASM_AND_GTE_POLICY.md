@@ -1025,3 +1025,22 @@ The containing translation unit still has legacy division ASM and a stack
 pointer constraint; this is not a clean-C match claim. A fully arithmetic
 candidate and the remaining stock-MASPSX difference are recorded under
 `proposals/spu_FsetRXXa`.
+
+## TIM block accessors
+
+All five functions in `psyq/libgpu/tim.c` now use the shared `TimFile`,
+`TimBlock` and existing GPU `RECT` layouts. The file's first block begins at
+byte 8; each block holds a four-byte length, eight-byte rectangle and pixel
+words. With flag 8 set, that first block is the CLUT and its length locates
+the image block. The loader no longer converts a block pointer through an
+integer union. The two CLUT accessors and two image accessors return typed
+rectangle/pixel pointers instead of untyped integer addresses.
+
+The image accessors retain their two existing v1 length pins. Removing them
+reduces each getter's upstream objdiff to 97.083336%; the tested stock CSE,
+strength-reduction, force-memory and scheduler flags do not eliminate this
+difference. No barriers or instruction ASM were added. With the pins retained,
+all five functions score 100%. The three C callers of `Gpu_LoadTimImage`
+now include the same pointer-based prototype, replacing their conflicting
+integer argument/return declarations. Full retail main and overlay SHA checks
+remain required for accepting the shared header change.

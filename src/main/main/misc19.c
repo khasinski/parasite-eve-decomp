@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/psyq_tim.h"
 #include "include_asm.h"
 
 int VSync(int arg0);
@@ -6,7 +7,6 @@ void SetDispMask(int arg0);
 int CD_ReadSectors(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
 int CdRom_ReadSectors(int lba, int offset, int dst, int size);
 int Sys_VSyncTimeout(int arg0);
-int Gpu_LoadTimImage(int arg0);
 int DrawSync(int arg0);
 void EnterCriticalSection(void);
 void FlushCache(void);
@@ -87,7 +87,7 @@ retry_first_load:
     main_table = state[0x57];
     for (i = 0; i < 3; i++) {
         table = ((short)i << 2) + main_table;
-        Gpu_LoadTimImage(main_table + *(int *)table);
+        Gpu_LoadTimImage((TimFile *)(main_table + *(int *)table));
     }
 
     if (D_800A77FC & 0x2000) {
@@ -150,7 +150,7 @@ large_load_done:
     large_table = state[0x5B];
     for (i = 0; i < 0x106; i++) {
         table = ((short)i << 2) + large_table;
-        Gpu_LoadTimImage(large_table + *(int *)table);
+        Gpu_LoadTimImage((TimFile *)(large_table + *(int *)table));
     }
 
     DrawSync(0);

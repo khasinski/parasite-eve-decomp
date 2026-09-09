@@ -1,8 +1,8 @@
 #include "common.h"
+#include "pe1/psyq_tim.h"
 s32 DrawSync(s32 arg0);
 s32 CdRom_ReadSectorsFromLba(s32 arg0, s32 arg1, s32 arg2);
 s32 CdRom_PollReady(void);
-s32 Gpu_LoadTimImage(s32 arg0);
 extern s8 D_800B0CE0;
 extern s8 g_LoadedTexturePageId;
 extern s8 g_GameState[];
@@ -45,7 +45,7 @@ s32 Overlay_StreamTexturePage(void)
       }
     }
     while (1);
-    Gpu_LoadTimImage(*((s32 *) (state + 0x194)));
+    Gpu_LoadTimImage(*((TimFile **) (state + 0x194)));
     state[9] = state[8];
   }
   return 0;

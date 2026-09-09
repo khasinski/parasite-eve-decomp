@@ -1,9 +1,9 @@
 #include "common.h"
+#include "pe1/psyq_tim.h"
 extern signed char g_DrawEnabled;
 extern signed char D_800B0DBB;
 extern u16 g_SeqElapsed;
 
-int Gpu_LoadTimImage(int arg0);
 
 int Gpu_CheckDrawStatus(void) {
     int enabled = g_DrawEnabled;
@@ -52,6 +52,6 @@ void Gpu_LoadTimTable(int base, int count) {
     for (i = 0; i < count; i++) {
         int ptr = ((short)i << 2) + base;
         int offset = *(int *)ptr;
-        Gpu_LoadTimImage(base + offset);
+        Gpu_LoadTimImage((TimFile *)(base + offset));
     }
 }
