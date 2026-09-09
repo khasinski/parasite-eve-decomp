@@ -30,8 +30,6 @@ int DsReadyCallback(int callback) {
     return old;
 }
 
-int DMACallback(int channel, int callback);
-
-int DsDataCallback(int callback) {
+DsCallback DsDataCallback(DsCallback callback) {
     return DMACallback(3, callback);
 }

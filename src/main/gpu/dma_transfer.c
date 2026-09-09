@@ -1,3 +1,4 @@
+#include "pe1/psyq_callbacks.h"
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/gpu_callbacks.h"
@@ -12,7 +13,6 @@ extern int g_GpuDmaWaitLoopCounter;
 int VSync(int mode);
 int Gpu_DmaTimeoutCheck(void);
 void Gpu_RestoreDmaCallback(void);
-void DMACallback(int channel, void (*callback)(void));
 
 int LoadImage2(RECT *rect, unsigned int *data)
 {

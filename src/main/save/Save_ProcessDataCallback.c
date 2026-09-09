@@ -1,13 +1,12 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 
-#include "common.h"
+#include "pe1/psyq_cd.h"
 
 extern int D_8009B6CC;
 
 void CdRom_ResetFileDescriptors(void);
 void DS_read_cbready(void);
-int DsDataCallback(int callback);
 int func_8007FCBC(int mode, int unused);
 int Render_AllocParticleNode(int type, int arg1, int arg2, int arg3);
 
@@ -23,8 +22,10 @@ void Save_ProcessDataCallback(void) {
     if (*readInProgress == 1) {
         CdRom_ResetFileDescriptors();
         DS_read_cbready();
-        if (readInProgress[-5] & 1) {
-            DsDataCallback(readInProgress[-3]);
+        if (((CdReadProgressState *)((char *)readInProgress -
+            PE1_OFFSETOF(CdReadProgressState, inProgress)))->flags & 1) {
+            DsDataCallback(((CdReadProgressState *)((char *)readInProgress -
+            PE1_OFFSETOF(CdReadProgressState, inProgress)))->dataCallback);
         }
         func_8007FCBC(1, 0);
         particleType = 9;

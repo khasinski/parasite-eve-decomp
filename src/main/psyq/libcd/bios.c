@@ -9,7 +9,6 @@ extern u8 *g_CdRegDataWrite;
 extern u8 *g_CdRegResponse;
 extern u16 *volatile D_8009B290;
 extern void Cd_SetIntrMask(void);
-extern void InterruptCallback(int event, void (*callback)(void));
 extern int g_CdReadyCallback;
 extern int g_CdSyncCallback;
 extern int g_CdResultByte;

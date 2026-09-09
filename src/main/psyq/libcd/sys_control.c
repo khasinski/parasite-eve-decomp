@@ -1,3 +1,5 @@
+#include "pe1/psyq_cd.h"
+
 void func_8007B964(void *arg0);
 
 int func_8007A88C(void *arg0) {
@@ -15,10 +17,8 @@ int func_8007A8CC(void) {
     return CD_getsector() == 0;
 }
 
-void DMACallback(int channel, int callback);
-
-void CdDataCallback(int callback) {
-    DMACallback(3, callback);
+DsCallback CdDataCallback(DsCallback callback) {
+    return DMACallback(3, callback);
 }
 void CD_datasync(void);
 
@@ -26,7 +26,6 @@ void CdDataSync(void) {
     CD_datasync();
 }
 
-#include "pe1/psyq_cd.h"
 
 static inline int ENCODE_BCD(int n) {
     return ((n / 10) << 4) + (n % 10);

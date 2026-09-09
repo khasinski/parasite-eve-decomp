@@ -15,7 +15,6 @@ extern void init_ring_status(int arg0, int arg1);
 extern int EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
 extern void DsSyncCallback(void *callback);
-extern void CdDataCallback(void *callback);
 extern void CdReadyCallback(void *callback);
 
 extern int D_8009AFD8;

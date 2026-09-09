@@ -2,6 +2,7 @@
 #define PE1_PSYQ_CD_H
 
 #include "common.h"
+#include "pe1/psyq_callbacks.h"
 
 typedef unsigned char u_char;
 typedef unsigned short u_short;
@@ -249,7 +250,7 @@ typedef struct CdReadProgressState {
     int remainingSectors;
     int flags;
     int eventData;
-    int callbackToken;
+    DsCallback dataCallback;
     int startVsync;
     int currentVsync;
     int inProgress;
@@ -257,6 +258,8 @@ typedef struct CdReadProgressState {
 
 typedef void (*CdReadCompleteCallback)(int event, int data);
 
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, dataCallback) == 0x1C,
+                  cd_read_progress_data_callback_offset);
 PE1_STATIC_ASSERT(sizeof(CdReadProgressState) == 0x2C,
                   cd_read_progress_state_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, sectorSize) == 0x08,
@@ -298,7 +301,8 @@ void Save_ProcessDataCallback(void);
 int DsRead_IsBusy(void);
 CdlLOC *CdRom_GetCurrentPos(CdlLOC *destination);
 int Render_BuildParticleFrame();
-int DsDataCallback();
+DsCallback DsDataCallback(DsCallback callback);
+DsCallback CdDataCallback(DsCallback callback);
 void CdRom_SetMode2Callback(u_char event);
 void Render_StepParticleCallback(void);
 

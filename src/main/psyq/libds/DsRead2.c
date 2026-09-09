@@ -4,14 +4,13 @@
 
 extern int g_DsStreamNoLocFlag;
 
-int DsDataCallback(void *arg0);
 int DsSyncCallback(void *arg0);
 int Render_BuildParticleFrame(int arg0, CdlLOC *arg1, int arg2, void *arg3, int arg4);
 void data_ready_callback(void);
 void CdRom_BreakSyncCallback(void);
 
 int DsRead2(CdlLOC *pos, int mode) {
-    void *saved_data;
+    DsCallback saved_data;
     register int saved_mode asm("$16");
     void *saved_sync;
     register CdlLOC *saved_pos asm("$18");
@@ -39,7 +38,7 @@ int DsRead2(CdlLOC *pos, int mode) {
             : "r"(saved_mode)
             : "$2", "$1", "memory");
         {
-            register void *callback_result asm("$2");
+            register DsCallback callback_result asm("$2");
 
             /* Match note: data_ready_callback low half is in the DsDataCallback delay slot. */
             asm volatile(

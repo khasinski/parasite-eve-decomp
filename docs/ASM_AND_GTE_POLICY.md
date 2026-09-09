@@ -1143,3 +1143,25 @@ value accidentally. `startIntrVSync` returns a typed setter pointer, and
 `Sys_InitIntrManager` stores both setters through the shared layout.
 The boot callback is now declared as a function rather than an opaque array.
 No register pins, barriers, or instruction ASM are needed for these changes.
+
+## Callback consumers and saved CD data handler
+
+All C declarations of `InterruptCallback` and `DMACallback` now use the
+shared pointer-returning prototypes in `psyq_callbacks.h`. The SPU, GPU,
+CD and DS callers no longer declare those functions as returning void or
+accepting callback addresses as integers. This follows the reconstructed
+setter implementations; ignored return values remain ignored.
+
+The local SDK `LIBCD.H` and `LIBDS.H` declare `CdDataCallback` and
+`DsDataCallback` as returning the previous function pointer. Both wrappers
+now express that return in C and share typed declarations with their callers.
+`DsRead2` retains its saved DMA callback as a function pointer. Its existing
+instruction ASM is unchanged and remains reconstruction debt.
+
+`CdReadProgressState` offset 0x1C is now `DsCallback dataCallback`, replacing
+an opaque integer token. `Save_ProcessDataCallback` passes that field to the
+DS setter when the flags at offset 0x14 require restoration. Its original
+pointer at offset 0x28 is converted back to the enclosing structure, so the
+existing allocator barrier can remain while accesses use named fields.
+This removes the negative word-index accesses; a static assertion verifies
+the callback field offset. Other fields and their meanings are unchanged.

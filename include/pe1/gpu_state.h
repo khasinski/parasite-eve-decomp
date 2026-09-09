@@ -2,6 +2,7 @@
 #define PE1_GPU_STATE_H
 
 #include "pe1/gpu_callbacks.h"
+#include "pe1/psyq_callbacks.h"
 
 /*
  * libgpu/sys.c state immediately following the GPU dispatch and debug-print
@@ -27,8 +28,5 @@ extern GpuCallbacks *D_80095744;
 extern void (*D_80095748)();
 extern GpuDebugState D_8009574C;
 extern char D_80011840[];
-
-/* Psy-Q accepts distinct callback signatures through this registration API. */
-void DMACallback();
 
 #endif /* PE1_GPU_STATE_H */

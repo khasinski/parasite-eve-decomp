@@ -10,4 +10,7 @@ int RestartCallback(void);
 int CheckCallback(void);
 int VSyncCallback(PsyqInterruptHandler callback);
 
+PsyqInterruptHandler InterruptCallback(int channel, PsyqInterruptHandler callback);
+PsyqInterruptHandler DMACallback(int channel, PsyqInterruptHandler callback);
+
 #endif
