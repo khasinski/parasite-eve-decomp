@@ -638,13 +638,6 @@ segments:
       - [0x412D8, c, menu/menu_draw2]
       - [0x41394, c, menu/Menu_DrawArmorListItem]
       - [0x413E8, c, menu/menu_draw3]
-      - [0x41470, c, menu/Menu_DrawActionSubmenuItem]
-      - [0x414B4, c, menu/Menu_DrawBlendOptionItem]
-      - [0x414F8, c, menu/menu_draw4]
-      - [0x41520, c, menu/Menu_DrawStatAllocationItem]
-      - [0x415C0, c, menu/Menu_DrawScreenModeItem]
-      - [0x41670, c, menu/Menu_DrawParasiteAbilityItem]
-      - [0x41710, c, menu/Menu_DrawItemIcon]
       # Three grid-cell renderers share the same widget and sprite protocol.
       - [0x41764, c, menu/Menu_DrawGridCellVariants]
       - [0x41860, c, menu/func_80051060]
