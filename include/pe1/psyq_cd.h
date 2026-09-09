@@ -52,10 +52,10 @@ typedef struct DslFILE {
 } DslFILE;
 
 /* LIBDS.H defines DslMAXDIR as 128.  DS_newmedia fills this cache from
- * ISO-9660 directory records and DS_searchdir traverses it by these fields. */
+ * ISO-9660 path-table records and DS_searchdir traverses it by these fields. */
 typedef struct DslDirectoryCacheEntry {
+    int directoryId;
     int parentDirectoryId;
-    int recordNameLength;
     u_int sector;
     char name[32];
 } DslDirectoryCacheEntry;
@@ -125,12 +125,12 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(DslFILE, name) == 0x08,
                   dsl_file_name_offset);
 PE1_STATIC_ASSERT(sizeof(DslDirectoryCacheEntry) == 0x2C,
                   dsl_directory_cache_entry_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, parentDirectoryId) ==
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, directoryId) ==
                       0x00,
-                  dsl_directory_cache_parent_id_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, recordNameLength) ==
+                  dsl_directory_cache_id_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, parentDirectoryId) ==
                       0x04,
-                  dsl_directory_cache_name_length_offset);
+                  dsl_directory_cache_parent_id_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, sector) == 0x08,
                   dsl_directory_cache_sector_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, name) == 0x0C,
