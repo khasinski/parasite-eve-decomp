@@ -22,3 +22,17 @@ This points to assembler scheduling as a hypothesis to test against original
 ASPSX behavior; it does not justify changing the shared pipeline blindly.
 The `-mdebuga` trial retained the same output. `-mno-gas` was rejected by
 the installed compiler and is not a valid tested configuration.
+
+## Verified direct-assembler match
+
+The unmodified GCC 2.7.2 assembly, assembled directly with GNU as (reorder
+mode, `-EL -G0 -march=r3000 -no-pad-sections`), produces exactly 0x2C bytes.
+Linking it with diagnostic.ld at 0x8007A214 and comparing .text to all eleven
+retail instruction words gives **44/44 bytes identical**. GNU as moves the
+second expanded store into the jal delay slot, preserving the retail return
+sequence. No instruction editing is involved.
+
+This is a verified isolated body match, not production integration: the normal
+MASPSX pipeline still differs, and the public entry boundary still needs audit.
+The direct-assembler result identifies a concrete pipeline compatibility issue
+for this candidate rather than a need to distort its C semantics.
