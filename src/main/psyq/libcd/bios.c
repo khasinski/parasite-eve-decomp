@@ -5,7 +5,6 @@
 
 extern u16 *volatile D_8009B290;
 extern void Cd_SetIntrMask(void);
-extern int g_CdResultByte;
 
 typedef struct CdInitVolFrame {
     u8 packet[4];
@@ -79,7 +78,7 @@ store_common:
 void CD_initintr(void) {
     g_CdReadyCallback = 0;
     g_CdSyncCallback = 0;
-    g_CdResultByte = 0;
+    D_8009AFC8 = 0;
     g_CdInitCallbackPage = (CdCallbackDataPage *)0x800A0000;
     g_CdInitCallbackPage[-1].status = 0;
     ResetCallback();

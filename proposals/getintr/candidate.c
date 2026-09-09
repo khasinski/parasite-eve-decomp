@@ -3,7 +3,7 @@
 #include "pe1/psyq_cd.h"
 
 extern volatile u8 *D_8009B27C, *D_8009B280, *D_8009B284, *D_8009B288;
-extern int D_8009AFC0, D_8009AFC8, D_8009AFCC;
+extern int D_8009AFC0, D_8009AFCC;
 extern u8 D_8009AFD5;
 extern int D_8009B17C[], D_8009B07C[];
 extern char *D_8009AFDC[];

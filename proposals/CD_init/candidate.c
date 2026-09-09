@@ -4,7 +4,6 @@
 
 extern char D_80011C08[], D_80011C14[], D_8009B298[];
 extern u8 D_8009AFD5, D_8009AFD4;
-extern u32 D_8009AFC8;
 extern volatile u8 *D_8009B27C, *D_8009B288, *D_8009B284;
 extern volatile u32 *D_8009B28C;
 extern void Cd_SetIntrMask(void);
