@@ -57,3 +57,21 @@ tools/objdiff/objdiff-cli diff \
   -1 build/USA/src/main/psyq/libspu/spu_register_write.c.o \
   -2 /tmp/spu-registers.o -o /tmp/spu-registers.json
 ```
+
+## Remaining remainder-operation nop
+
+The full candidate now improves `_spu_FsetRXXa` from 84.02439% to
+**97.560974%**, retaining 100% for the other six functions. The stock
+`MASPSX_FLAGS: --expand-div` option restores the retail divide-by-zero guard.
+Separating `ret` (the intermediate shifted value) from `result` (the common
+return value) restores the switch's register choices and shared exit. The
+local offset pin is also removable with no change in score.
+
+The only instruction difference is an extra nop immediately after `mfhi`,
+before the branch testing its result. This shifts subsequent local jump
+addresses; it is not an exact byte match. The pinned upstream MASPSX
+`divu/remu` handler falls through to `_handle_nop_before_next_instruction`
+after emitting the remainder expansion. Its older-version setting for
+`nop_mflo_mfhi` does not disable this separate dependent-instruction path.
+Profiles 2.21, 2.30 and 2.60 retain this extra nop; the older profiles also
+change the wait helper. No assembler modification or CPU assembly is used.

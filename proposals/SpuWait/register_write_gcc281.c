@@ -1,3 +1,4 @@
+/* MASPSX_FLAGS: --expand-div */
 /* Experimental full TU: six functions match; _spu_FsetRXXa does not. */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
@@ -14,12 +15,13 @@ void _spu_FsetRXX(u32 offset, u32 value, u32 mode) {
 }
 
 u32 _spu_FsetRXXa(s32 arg0, u32 value) {
-    register s32 offset asm("$6");
+    s32 offset;
     register u32 shifted asm("$7");
     u32 rem;
     u32 unit;
     register u32 shift asm("$2");
-    register u32 ret asm("$2");
+    u32 ret;
+    register u32 result asm("$2");
 
     offset = arg0;
 
@@ -39,10 +41,10 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
 
     switch (offset) {
     case -1:
-        ret &= 0xFFFF;
+        result = ret & 0xFFFF;
         break;
     case -2:
-        ret = value;
+        result = value;
         break;
     default:
     {
@@ -53,12 +55,12 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
         addr = offset * 2;
         addr = addr + (u32) base;
         *(u16 *)addr = shifted;
-        ret = value;
+        result = value;
         break;
     }
     }
     asm volatile("");
-    return ret;
+    return result;
 }
 
 u32 _spu_FgetRXXa(u32 offset, s32 mode)
