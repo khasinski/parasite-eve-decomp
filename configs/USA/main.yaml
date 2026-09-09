@@ -837,8 +837,8 @@ segments:
       - [0x4F0C4, c, gpu/Draw_TextCursorState]
       - [0x4F168, c, gpu/Draw_SetColor]
       - [0x4F188, c, gpu/Draw_SetStatCompareColor]
-      - [0x4F1C8, c, main/Draw_AllocPrimRectFull]
-      - [0x4F28C, c, main/Draw_AllocPrimRect]
+      # Full and default rectangle allocators share one -G8 packet object.
+      - [0x4F1C8, c, main/Draw_AllocRect]
       - [0x4F358, c, gpu/Draw_SetTextDimmed]
       - [0x4F364, asm, main/Draw_AllocSprite]
       - [0x4F518, c, gpu/Draw_EmitGlyph]
