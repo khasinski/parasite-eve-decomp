@@ -1374,3 +1374,20 @@ that OR before the DMA register writes and leaves a nop in the branch slot.
 All four functions in `psyq/libspu/spu_transfer.c` compare at 100% against
 the prior SHA-verified object. The entire TU now contains no pins, barriers
 or instruction assembly. Full main and all 191 overlay SHA checks pass.
+
+## SPU register read width (2026-09-09)
+
+`_spu_FgetRXXa` now reads a register once into a `u16` local through a volatile
+halfword pointer and reuses that value for both return paths. This replaces
+three repeated byte-address/dereference expressions in the source, which the
+old compiler had coalesced into one machine read. Typed register indexing
+replaces byte-pointer arithmetic. An explicit `u32` conversion before the
+left shift preserves unsigned arithmetic.
+
+The halfword local is significant: a `u32` local changes register allocation;
+`u16` produces the target naturally, without a pin or barrier. All seven
+functions in the production GCC 2.7.2 TU compare at 100%, and the full main
+and 191 overlay checks pass. The separate GCC 2.8.1 proposal still needs its
+getter constraint; applying this source change there does not match.
+The debt scanner classifies the new scalar `(u32)value` conversion as a
+`pointer_integer_casts` occurrence; no pointer-to-integer conversion was added.

@@ -62,13 +62,11 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
 
 u32 _spu_FgetRXXa(u32 offset, s32 mode)
 {
-  register u32 value;
-  value = *((u16 *) ((unsigned char *)_spu_RXX + (offset * 2)));
-  if (mode == (-1))
-  {
-    return *((u16 *) ((unsigned char *)_spu_RXX + (offset * 2)));
-  }
-  return (*((u16 *) ((unsigned char *)_spu_RXX + (offset * 2)))) << _spu_mem_mode_plus;
+    u16 value = ((volatile u16 *)_spu_RXX)[offset];
+    if (mode == -1) {
+        return value;
+    }
+    return (u32)value << _spu_mem_mode_plus;
 }
 
 #include "pe1/psyq_spu_internal.h"
