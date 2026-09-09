@@ -143,6 +143,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xB32F0..0xB3390` | `engine/FieldEng_ScriptState` | Spawn and indexed script-state accessors share `g_FieldEngineScriptState` (`D_800E2248`) and its offset-based work area. Their merged 0xA0-byte object retains only expected global relocations and links retail-identically. |
 | `0xB36AC..0xB3B24` | `engine/FieldEng_RenderSetup` | Field renderer page setup, viewport vertices, interpolation, and mode selection share the page and texture state globals. The 0x478-byte merged object preserves its external data, calls, and local switch relocations and links retail-identically. |
 | `0xB76F8..0xB79E4` | `engine/FieldEng_ColorTableTransfer` | Color-table save, restore, RGB scaling, uniform RGB set, and saturating channel adjustment form one table API, sharing the data header and `D_800E2370` buffer. Their 0x2EC-byte shared object preserves the buffer relocation and links retail-identically. |
+| `0xB8500..0xB8760` | `engine/FieldEng_UpdateEffects` | Field-engine update wrappers, error handling, effect setup, and the effect callback share one dispatch path and the `D_800E279C` effect context. The 0x260-byte object resolves its byte-pointer views and links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
