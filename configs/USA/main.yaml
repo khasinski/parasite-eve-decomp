@@ -616,9 +616,9 @@ segments:
       - [0x3FE44, c, menu/Menu_DrawEquipStatsPanel]
       - [0x3FF30, c, menu/menu22]
       - [0x3FFD8, c, menu/menu23]
-      - [0x40038, c, menu/Menu_DrawItemList]
-      - [0x400D0, c, menu/Menu_DrawSelectableEquipSlotList]
-      - [0x40110, c, menu/Menu_DrawContextActionList]
+      # The item, selectable-slot, and context-action renderers share one
+      # -G8 list-drawing object and its active-widget state.
+      - [0x40038, c, menu/Menu_DrawListRenderers]
       - [0x40150, c, menu/Menu_DrawActionOptionList]
       - [0x40178, c, menu/Menu_DrawSoundTestList]
       - [0x401A0, c, menu/Menu_ActionSubmenus]

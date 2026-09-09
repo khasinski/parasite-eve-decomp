@@ -4,7 +4,7 @@ int g_MenuActiveWidget;
 int g_MenuBattleStatusOverlayActive;
 
 void Menu_DrawItemSlot(int arg0);
-void MenuWidget_DrawList(void *arg0, void (*arg1)(int));
+void MenuWidget_DrawList();
 void Draw_SetTextDimmed(int value);
 void Draw_AllocSprite(int arg0);
 void Draw_OffsetCursor(int x, int y);
@@ -30,4 +30,24 @@ void Menu_DrawItemList(void *arg0) {
             Battle_DrawActiveStatus();
         }
     }
+}
+
+void Menu_DrawSelectableEquipSlotRow(int arg0);
+void Inv_SelectActiveList(int useOverride);
+
+void Menu_DrawSelectableEquipSlotList(int arg0) {
+    Inv_SelectActiveList(0);
+    g_MenuActiveWidget = arg0;
+    MenuWidget_DrawList(arg0, Menu_DrawSelectableEquipSlotRow);
+}
+
+int g_MenuActiveItemList;
+
+void Sfx_ContextPick(int arg0);
+
+void Menu_DrawContextActionList(int arg0) {
+    int saved = arg0;
+
+    Inv_SelectActiveList(g_MenuActiveItemList);
+    MenuWidget_DrawList(saved, Sfx_ContextPick);
 }
