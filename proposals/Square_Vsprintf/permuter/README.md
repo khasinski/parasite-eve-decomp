@@ -113,3 +113,13 @@ to 30 minutes and two low-priority workers without stopping the older searches.
 PIDs and elapsed times are observations, not proof the process remains live;
 recheck the process and saved outputs before continuing. No output from this
 trial is accepted without local compilation and behavioral verification.
+
+
+The bounded split-prefix trial is now finished. After the 30-minute limit,
+both recorded process handles were absent and the log ended at iteration
+32,643 (915 failed compilations), with no `output-*` directories. It found no
+candidate better than its baseline penalty of 325. This is a finite negative
+search result, not evidence that an exact C reconstruction is impossible.
+Do not restart this identical input automatically; the next trial needs a
+new source or scheduling hypothesis. The maintained candidates and production
+ASM remain unchanged.
