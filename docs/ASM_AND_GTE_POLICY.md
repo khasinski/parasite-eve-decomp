@@ -1197,8 +1197,11 @@ function-pointer type.
 
 The saved-position s2 pin was independently removable with identical full
 text. Removing the saved-mode s0 pin, either alone or together with the
-position pin, changed the binary; only the mode pin remains. No new empty
-barrier or pin was introduced. Full linked SHA remains the acceptance gate.
+position pin, changed the binary while the saved local copies remained.
+Using the original `mode` and `pos` parameters directly subsequently removed
+the mode pin and both unnecessary local copies with identical full text.
+There are now no register pins in this TU. No new empty barrier was
+introduced. Full linked SHA remains the acceptance gate.
 
 The preceding flag-setting assembly remains. A complete C trial, using an
 ordinary branch and a local constant constrained only in the nonzero arm,

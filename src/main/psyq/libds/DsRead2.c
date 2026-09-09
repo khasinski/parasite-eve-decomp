@@ -10,14 +10,10 @@ void CdRom_BreakSyncCallback(u_char event, u_char *result);
 
 int DsRead2(CdlLOC *pos, int mode) {
     DsCallback saved_data;
-    register int saved_mode asm("$16");
     DsEventCallback saved_sync;
-    CdlLOC *saved_pos;
     int ret;
 
-    saved_pos = pos;
-    saved_mode = mode;
-    if (saved_mode & 0x100) {
+    if (mode & 0x100) {
         asm volatile(
             ".set\tnoat\n\t"
             ".set\tnoreorder\n\t"
@@ -34,11 +30,11 @@ int DsRead2(CdlLOC *pos, int mode) {
             ".set\treorder\n\t"
             ".set\tat"
             :
-            : "r"(saved_mode)
+            : "r"(mode)
             : "$2", "$1", "memory");
         saved_data = DsDataCallback(data_ready_callback);
         saved_sync = DsSyncCallback(CdRom_BreakSyncCallback);
-        ret = Render_BuildParticleFrame(saved_mode & 0xFF, saved_pos, 0x1B, 0, -1);
+        ret = Render_BuildParticleFrame(mode & 0xFF, pos, 0x1B, 0, -1);
         if (ret == 0) {
             DsDataCallback(saved_data);
             DsSyncCallback(saved_sync);
@@ -47,5 +43,5 @@ int DsRead2(CdlLOC *pos, int mode) {
         return ret;
     }
 
-    return Render_BuildParticleFrame(saved_mode & 0xFF, saved_pos, 0x1B, 0, -1);
+    return Render_BuildParticleFrame(mode & 0xFF, pos, 0x1B, 0, -1);
 }

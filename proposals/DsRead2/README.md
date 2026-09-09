@@ -7,8 +7,9 @@ bit 0x20 clears g_DsStreamNoLocFlag, otherwise the flag becomes 1.
 Stock GCC 2.8.1 with default address splitting scores 99.0566% against the
 expected object. An empty input barrier on the value 1 after its store
 retains the target branch layout and placement of its constant load.
-The candidate still has the older mode and position pins; it is experimental
-and its constraints have not been minimized for an exact match.
+Using the original mode and position parameters directly removes both old
+register pins without changing this result. The candidate has one empty
+input barrier and no register pins; it is not an exact match.
 
 The remaining instruction-operand differences are in the flag window:
 
@@ -30,3 +31,10 @@ No compiler, assembler or postpass modification is used or proposed.
 tools/scripts/cc.sh proposals/DsRead2/candidate.c /tmp/dsread2-candidate.o
 tools/objdiff/objdiff-cli diff -1 expected/build/USA/src/main/psyq/libds/DsRead2.c.o -2 /tmp/dsread2-candidate.o -o /tmp/dsread2-candidate.json
 ```
+
+Further AT-allocation trials constrained both mode tests to v0 with tied
+outputs and the two -1 stack arguments to their target registers. This
+corrected those operands but changed the prologue schedule and prevented
+the constant 1 from occupying the original branch delay slot. Neither an
+AT clobber in the nonzero arm nor a memory clobber recovered the match.
+Those variants are not retained as the best candidate.
