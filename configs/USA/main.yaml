@@ -1159,10 +1159,8 @@ segments:
       - [0x65414, c, gpu/SetGraphQueue]
       - [0x654B8, c, gpu/GetGraphDebug]
       - [0x654C8, c, gpu/DrawSyncCallback]
-      # Psy-Q libgpu/sys.c display-mask and synchronization operations.
+      # Contiguous Psy-Q libgpu/sys.c display and image APIs.
       - [0x65528, c, psyq/libgpu/sys_display]
-      # Psy-Q libgpu/sys.c image validation, clear, and transfer operations.
-      - [0x65628, c, psyq/libgpu/sys_image]
       - [0x659E4, c, gpu/ClearOTag]
       - [0x65AAC, c, gpu/ClearOTagR]
       - [0x65B58, c, gpu/DrawPrim]
