@@ -1,10 +1,10 @@
+#include "pe1/psyq_callbacks.h"
 #include "common.h"
 /* CC1_FLAGS: -fno-schedule-insns2 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK Save_InitSystem();
-M2C_UNK VSyncCallback();
 M2C_UNK Task_InitNodePool();
 M2C_UNK Entity_ResetStateGlobals();
 M2C_UNK Entity_ResetAllPools();
@@ -27,8 +27,7 @@ extern s32 g_FrameRngCounter[];
 #define g_FrameRngCounter (g_FrameRngCounter[0])
 extern s32 g_SceneDispatchToken[];
 #define g_SceneDispatchToken (g_SceneDispatchToken[0])
-extern M2C_UNK Boot_VsyncCallback[];
-#define Boot_VsyncCallback (Boot_VsyncCallback[0])
+void Boot_VsyncCallback(void);
 
 void Boot_InitSubsystems(void) {
     u32 var_s0;

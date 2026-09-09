@@ -1118,3 +1118,28 @@ relocations. Individual removal of the other setter pins did not preserve
 the match; they remain, along with the existing empty barriers. The typed
 setter and clear helper each retain 100% upstream objdiff. No CPU assembly
 or tool modification was introduced.
+
+## Interrupt callback dispatch layout and return values
+
+`intr_callbacks.c` now dispatches through named, typed fields in
+`InterruptDispatchTable`, replacing a homogeneous array of unprototyped
+void functions. Offsets 4 and 8 hold DMA and interrupt setters; offsets
+12, 16, and 24 hold reset, stop, and restart operations; offset 20 holds
+the VSync setter. The first word remains explicitly unknown. Compile-time
+assertions cover the setter offsets and this 28-byte layout.
+
+The wrappers now pass their channel and callback arguments explicitly and
+return the dispatched result. `ResetCallback`, `StopCallback`,
+`RestartCallback`, `CheckCallback`, and `VSyncCallback` use the public
+signatures from the local Psy-Q 4.6 `INCLUDE/LIBETC.H` (lines 65–71).
+The VSync public API returns int, while its underlying setter returns the
+previous callback pointer. Its single explicit pointer-to-int conversion
+preserves that SDK interface on the target's 32-bit ABI.
+
+`setIntrVSync` now returns the previous callback explicitly: the retail
+function loads it into v0 before comparison and preserves v0 through both
+paths to its return. The formerly void reconstruction only preserved that
+value accidentally. `startIntrVSync` returns a typed setter pointer, and
+`Sys_InitIntrManager` stores both setters through the shared layout.
+The boot callback is now declared as a function rather than an opaque array.
+No register pins, barriers, or instruction ASM are needed for these changes.

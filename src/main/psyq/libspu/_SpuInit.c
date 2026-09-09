@@ -1,3 +1,4 @@
+#include "pe1/psyq_callbacks.h"
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 typedef struct ReverbState {
@@ -11,7 +12,6 @@ extern ReverbState D_8009B3A0;
 extern int D_8009B390, D_8009B394, D_8009B398, D_8009B46C;
 extern int D_8009B45C, D_8009B460, D_8009B464, D_8009B38C;
 extern int D_8009B418, D_8009B388, D_8009B3B4, D_8009B3B0, D_8009B3E8;
-void ResetCallback(void);
 void _spu_init(int);
 void SpuStart(void);
 void _spu_FsetRXX(int, int, int);

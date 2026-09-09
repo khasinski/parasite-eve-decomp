@@ -1,38 +1,36 @@
-typedef void (*EventCallback)();
-
-extern EventCallback *g_EventCallbackTable;
+#include "pe1/psyq_api_internal.h"
 extern unsigned short D_800945E6;
 extern unsigned short *g_IntrMaskRegPtr;
 
-void ResetCallback(void) {
-    g_EventCallbackTable[3]();
+int ResetCallback(void) {
+    return g_EventCallbackTable->reset();
 }
 
-void InterruptCallback(void) {
-    g_EventCallbackTable[2]();
+PsyqInterruptHandler InterruptCallback(int channel, PsyqInterruptHandler callback) {
+    return g_EventCallbackTable->interrupt(channel, callback);
 }
 
-void DMACallback(void) {
-    g_EventCallbackTable[1]();
+PsyqInterruptHandler DMACallback(int channel, PsyqInterruptHandler callback) {
+    return g_EventCallbackTable->dma(channel, callback);
 }
 
-void VSyncCallback(int arg0) {
-    g_EventCallbackTable[5](4, arg0);
+int VSyncCallback(PsyqInterruptHandler callback) {
+    return (int)g_EventCallbackTable->vsync(4, callback);
 }
 
-void VSyncCallbacks(void) {
-    g_EventCallbackTable[5]();
+PsyqInterruptHandler VSyncCallbacks(unsigned int channel, PsyqInterruptHandler callback) {
+    return g_EventCallbackTable->vsync(channel, callback);
 }
 
-void StopCallback(void) {
-    g_EventCallbackTable[4]();
+int StopCallback(void) {
+    return g_EventCallbackTable->stop();
 }
 
-void RestartCallback(void) {
-    g_EventCallbackTable[6]();
+int RestartCallback(void) {
+    return g_EventCallbackTable->restart();
 }
 
-unsigned short CheckCallback(void) {
+int CheckCallback(void) {
     return D_800945E6;
 }
 

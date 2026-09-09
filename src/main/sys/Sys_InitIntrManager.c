@@ -6,7 +6,6 @@
 
 extern u16 D_800945E4[];
 extern u16 D_80094620[];
-extern u32 *D_8009566C;
 extern u16 *D_80095670;
 extern volatile u16 *D_80095674;
 extern u32 *D_80095678;
@@ -15,7 +14,6 @@ void Sys_ClearWordBuf(void *dst, int count);
 int RawData_80074354(void *dst);
 void Render_InitSceneGeom(void);
 void HookEntryInt(void *entry);
-int startIntrVSync(void);
 void Sys_HleJumpA0(void *arg);
 void ExitCriticalSection(void);
 
@@ -24,9 +22,9 @@ u16 *Sys_InitIntrManager(void) {
     u16 *dst;
     volatile u16 *src;
     u16 *flag;
-    u32 *ptr;
-    u32 *vsyncPtr;
-    int result;
+    InterruptDispatchTable *ptr;
+    InterruptDispatchTable *vsyncPtr;
+    VSyncCallbackSetter result;
     DmaCallbackSetter dmaSetter;
 
     state = D_800945E4;
@@ -52,14 +50,14 @@ u16 *Sys_InitIntrManager(void) {
     *flag = 1;
 
     result = startIntrVSync();
-    vsyncPtr = D_8009566C;
-    vsyncPtr[5] = result;
+    vsyncPtr = g_EventCallbackTable;
+    vsyncPtr->vsync = result;
 
     dmaSetter = startIntrDMA();
-    ptr = D_8009566C;
-    ((DmaCallbackSetter *)ptr)[1] = dmaSetter;
+    ptr = g_EventCallbackTable;
+    ptr->dma = dmaSetter;
 
-    Sys_HleJumpA0(D_8009566C);
+    Sys_HleJumpA0(g_EventCallbackTable);
     state = flag;
     ExitCriticalSection();
 

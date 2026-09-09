@@ -1,3 +1,4 @@
+#include "pe1/psyq_callbacks.h"
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/gpu_callbacks.h"
@@ -21,7 +22,6 @@ extern GpuCallbacks *D_80095744;
 extern void (*D_80095748)(char *, int);
 int printf(char *, ...);
 void GPU_memset(void *, int, int);
-void ResetCallback(void);
 void GPU_cw(unsigned int);
 int Gpu_InitDmaQueue(int);
 

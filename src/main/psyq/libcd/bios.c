@@ -1,3 +1,4 @@
+#include "pe1/psyq_callbacks.h"
 #include "common.h"
 #include "pe1/psyq_cd.h"
 /* CC1_FLAGS: -fno-schedule-insns -fno-schedule-insns2 */
@@ -9,7 +10,6 @@ extern u8 *g_CdRegResponse;
 extern u16 *volatile D_8009B290;
 extern void Cd_SetIntrMask(void);
 extern void InterruptCallback(int event, void (*callback)(void));
-extern void ResetCallback(void);
 extern int g_CdReadyCallback;
 extern int g_CdSyncCallback;
 extern int g_CdResultByte;

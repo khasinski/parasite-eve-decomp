@@ -1,4 +1,4 @@
-void ResetCallback(void);
+#include "pe1/psyq_callbacks.h"
 void Render_ResetScene(int arg0, int arg1);
 void SpuInit(void);
 void InitGeom(void);
