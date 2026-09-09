@@ -1,7 +1,6 @@
 #include "common.h"
 #include "pe1/psyq_cd.h"
 
-extern int g_DsDiskType;
 extern char D_8001205C[];
 
 int CdRom_IsBusy(u8 *dst, int sector_size);

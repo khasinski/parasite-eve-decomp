@@ -331,6 +331,8 @@ int CdRom_IsBusy();
 int CdRom_IsBusy2();
 void Save_ProcessDataCallback(void);
 int DsRead_IsBusy(void);
+int DsGetDiskType(void);
+extern volatile int g_DsDiskType;
 CdlLOC *CdRom_GetCurrentPos(CdlLOC *destination);
 int Render_BuildParticleFrame();
 DsEventCallback DsSyncCallback(DsEventCallback callback);

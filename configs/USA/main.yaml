@@ -1309,7 +1309,7 @@ segments:
       - [0x72A7C, c, cdrom/misc9]
       - [0x72ABC, c, psyq/libds/DS_read_cbready]
       - [0x72B0C, c, main/gap_psyq_libds_DS_read_cbready_tail_72B0C]
-      - [0x72B14, asm, psyq/libds/DsGetDiskType]
+      - [0x72B14, c, psyq/libds/DsGetDiskType]
       # Psy-Q libds/dstype.c disk-type callbacks, in source order.
       - [0x72C00, c, psyq/libds/dstype]
       - [0x72CA8, asm, main/gap_psyq_libds_GD_disk_kind_tail_72CA8]

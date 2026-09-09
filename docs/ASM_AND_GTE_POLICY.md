@@ -1611,3 +1611,18 @@ are not a claim of full ISO C function-type consistency at those two handlers.
 
 The main executable remains byte-identical, without new pins or barriers.
 All 191 overlay SHA checks and source, organization and debt gates pass.
+
+
+## LIBDS disk-type query
+
+`DsGetDiskType` is C compiled with stock GCC 2.8.1 and unsplit addresses.
+It retains one empty v1 clobber on the early return of 16: removing it changes
+`addiu v0,zero,16` to a copy of the comparison constant from v1 (98.98305%
+function match). No instruction ASM or register pin remains. Its polled
+`g_DsDiskType` state is shared as a volatile int with the disk-type callbacks.
+
+The adjacent `dstype.c` callbacks still require GCC 2.7.2. A trial compiling
+all three functions together under GCC 2.8.1 moved both callback stack restores
+into the return delay slots, unlike retail. Keep that compiler boundary until
+all three bodies can match as one TU; the query is not claimed as a restored
+complete original translation unit.
