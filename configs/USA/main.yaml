@@ -801,8 +801,8 @@ segments:
       - [0x4F9A0, c, gpu/Draw_MeasureTextWidth]
       - [0x4FA7C, c, gpu/Draw_PrintRawText]
       - [0x4FB54, asm, gpu/Draw_PrintCenteredTextInWidth]
-      - [0x4FD94, c, gpu/Draw_PrintCenteredText]
-      - [0x4FDB8, c, gpu/Draw_PrintTextById]
+      # Centered and table-indexed text printers form one -G8 helper object.
+      - [0x4FD94, c, gpu/Draw_TextPrintHelpers]
       - [0x4FE98, asm, gpu/Draw_PrintTextWrapped]
       - [0x50044, c, gpu/func_8005F844]
       - [0x50074, asm, gpu/draw_print]
