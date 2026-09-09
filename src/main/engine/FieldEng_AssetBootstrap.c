@@ -1,3 +1,9 @@
+#include "common.h"
+int func_800D4850(u8 *state) {
+    state[0] = 4;
+    return 0;
+}
+
 extern void *D_800B0E20;
 extern int D_800E22D4;
 extern int D_800F32D4;
