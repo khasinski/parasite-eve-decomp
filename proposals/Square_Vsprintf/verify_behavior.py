@@ -35,6 +35,27 @@ SECTIONS {
 '''
 
 
+def candidate_layout(object_path):
+    """Keep legacy external-data permutations and data-owning TUs testable."""
+    with object_path.open('rb') as stream:
+        elf = ELFFile(stream)
+        defined = {s.name for s in elf.get_section_by_name('.symtab').iter_symbols()
+                   if s['st_shndx'] != 'SHN_UNDEF'}
+    owned = {name for name in ('D_80094528', 'D_8001161C', 'D_80011630')
+             if name in defined}
+    tables = owned & {'D_8001161C', 'D_80011630'}
+    if tables and len(tables) != 2:
+        raise ValueError('candidate must own both digit tables or neither')
+    script = LINK_SCRIPT
+    for name in owned:
+        address = int(name[2:], 16)
+        script = script.replace(f'{name} = 0x{address:08X};\n', '')
+    if tables:
+        script = script.replace('.rodata 0x80011644', '.rodata 0x8001161C')
+    script = script.replace(' /DISCARD/', ' .data 0x80094528 : SUBALIGN(4) { *(.data) }\n /DISCARD/')
+    return script, owned
+
+
 def cases():
     yield b'plain text', []
     yield b'', []
@@ -125,7 +146,8 @@ def main():
         parser.error('reference EXE does not match the USA retail SHA-1')
     with tempfile.TemporaryDirectory(prefix='sprintf-behavior-') as temp:
         script, linked = Path(temp) / 'link.ld', Path(temp) / 'candidate.elf'
-        script.write_text(LINK_SCRIPT)
+        layout, owned = candidate_layout(args.object)
+        script.write_text(layout)
         subprocess.run(['mipsel-none-elf-ld', '-T', str(script), str(args.object),
                         '-o', str(linked)], check=True)
         with linked.open('rb') as stream:
@@ -135,6 +157,18 @@ def main():
             entry = elf.get_section_by_name('.symtab').get_symbol_by_name('Square_Vsprintf')
             if not entry or entry[0]['st_value'] != ENTRY:
                 raise ValueError('candidate entry was not linked at the retail address')
+            for name in owned:
+                symbol = elf.get_section_by_name('.symtab').get_symbol_by_name(name)[0]
+                address = int(name[2:], 16)
+                if symbol['st_value'] != address:
+                    raise ValueError(f'{name} was not linked at its retail address')
+                section = elf.get_section(symbol['st_shndx'])
+                offset = address - section['sh_addr']
+                size = 12 if name == 'D_80094528' else 17
+                actual_data = section.data()[offset:offset + size]
+                retail_offset = address - 0x8000F800
+                if actual_data != exe[retail_offset:retail_offset + size]:
+                    raise ValueError(f'{name} initializer differs from retail')
             patches = [(s['sh_addr'], s.data()) for s in elf.iter_sections()
                        if s['sh_flags'] & 2 and s['sh_size']]
         for count, (fmt, arguments) in enumerate(cases(), 1):

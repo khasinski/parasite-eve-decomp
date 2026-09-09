@@ -350,3 +350,38 @@ available for the existing oracle module. This is a diagnostic dump comparison,
 not a production linker, compiler postpass or change to the build pipeline.
 The remote experiment is retained at
 `darwine:/home/hasik/psyq-aspsx-sprintf-20260910`. Production remains ASM.
+
+
+## Data ownership in the complete candidate TU (2026-09-10)
+
+Both maintained C variants now define their own two constant digit arrays and
+the zero-initialized `FormatSpec`, replacing three external declarations per
+variant. `digits` is a pointer to const bytes. This reconstructs data ownership
+in the same translation unit; it is still a proposal and does not change the
+production manifest or matched-function count.
+
+The generated layout is:
+
+- `.rodata` at 0x8001161C: uppercase digits, lowercase digits at offset 0x14,
+  and the generated jump table at offset 0x28 (0x80011644), 220 bytes total.
+- `.data` at 0x80094528: the 12-byte zero format template.
+- `.text` at 0x80071A84: the same 2184-byte candidate body.
+
+All 52 newly owned data bytes (40 bytes of digit arrays including alignment,
+and 12 bytes of template) match retail. The linked function and jump table
+are byte-identical to the previous external-data unsplit candidate. Its score
+remains 99.68807%; the additional NOP has not been fixed. External const,
+explicit array sizes, static const arrays and string literals did not remove
+that scheduling difference either.
+
+The oracle detects whether the object owns its data, assigns the appropriate
+retail addresses, and checks the owned symbols and initializer bytes before
+execution. It still accepts older external-data permutations. Full unsplit,
+full split and the previous external-data object each pass all 1,471 cases.
+A deliberately nonzero template initializer is rejected before emulation.
+
+ASPSX 2.56 also assembles the complete TU into the same relocated 2184 text,
+220 rodata and 12 data bytes as MASPSX. `compare_aspsx.py` now handles both
+external-data and complete-TU dumps, including section-relative symbol
+definitions and trailing zero padding in ASPSX fragments. No original
+assembler was added to the production build.

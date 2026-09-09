@@ -32,9 +32,9 @@ typedef struct {
     FormatSpec spec;
 } FormatWork;
 
-extern FormatSpec D_80094528;
-extern u8 D_8001161C[];
-extern u8 D_80011630[];
+FormatSpec D_80094528 = {{0}, 0, 0};
+const u8 D_8001161C[] = "0123456789ABCDEF";
+const u8 D_80011630[] = "0123456789abcdef";
 
 extern s32 strlen(u8 *);
 extern u8 *memchr(u8 *, s32, s32);
@@ -47,7 +47,7 @@ s32 Square_Vsprintf(char *dest, s8 *format, ...)
 #define args argState[0]
     u8 *src;
     u8 *end;
-    u8 *digits;
+    const u8 *digits;
     u32 value;
     s32 length;
     s32 count;
