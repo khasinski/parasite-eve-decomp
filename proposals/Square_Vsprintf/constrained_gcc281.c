@@ -88,7 +88,7 @@ s32 Square_Vsprintf(char *dest, s8 *format, ...)
             work.spec.precision = precision;
         }
         /* Keep the template stores before initializing the flag parser. */
-        asm volatile("" ::: "memory");
+        asm volatile("" : : "m"(work.spec));
         hash = '#';
 
         for (;;) {
@@ -186,7 +186,7 @@ conversion:
         case 'i':
             value = *(s32 *)args;
             args += 4;
-            asm volatile("" ::: "memory");
+            asm volatile("" : : "m"(args));
             if ((work.spec.header.flags >> 5) & 1) {
                 value = (s16)value;
             }
@@ -201,7 +201,7 @@ conversion:
         case 'u':
             value = *(u32 *)args;
             args += 4;
-            asm volatile("" ::: "memory");
+            asm volatile("" : : "m"(args));
             if ((work.spec.header.flags >> 5) & 1) {
                 value &= 0xFFFF;
             }
@@ -244,7 +244,7 @@ decimal:
         case 'o':
             value = *(u32 *)args;
             args += 4;
-            asm volatile("" ::: "memory");
+            asm volatile("" : : "m"(args));
             if ((work.spec.header.flags >> 5) & 1) {
                 value &= 0xFFFF;
             }
@@ -290,7 +290,7 @@ decimal:
 hexadecimal:
             value = *(u32 *)args;
             args += 4;
-            asm volatile("" ::: "memory");
+            asm volatile("" : : "m"(args));
             if ((work.spec.header.flags >> 5) & 1) {
                 value &= 0xFFFF;
             }

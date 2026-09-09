@@ -156,3 +156,15 @@ the index to the high part and uses the low relocation on the load (four).
 This is separate from the uppercase digit-table scheduling problem. Stock
 GCC's `mips_check_split` commentary describes this indexed-address limitation;
 changing only the digit pointer's register cannot resolve the complete TU.
+
+## Narrow memory constraints (2026-09-09)
+
+The five full memory clobbers in `constrained_gcc281.c` are now input-only
+constraints on the actual stored objects: `work.spec` after the template
+copy, and `args` after each numeric argument-cursor update. Fresh stock GCC
+2.8.1 compilations before and after have identical `.text`, `.rodata`,
+`.rel.text`, and `.rel.rodata` contents. This preserves 99.16058% without
+claiming writes to unrelated memory. All three pins and six empty barriers
+were individually tested for removal again; each removal changes the output.
+The remote permuter's checked-in base inputs retain the earlier source as a
+stable starting point for the running experiment.
