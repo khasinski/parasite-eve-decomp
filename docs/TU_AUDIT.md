@@ -144,6 +144,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0xB36AC..0xB3B24` | `engine/FieldEng_RenderSetup` | Field renderer page setup, viewport vertices, interpolation, and mode selection share the page and texture state globals. The 0x478-byte merged object preserves its external data, calls, and local switch relocations and links retail-identically. |
 | `0xB76F8..0xB79E4` | `engine/FieldEng_ColorTableTransfer` | Color-table save, restore, RGB scaling, uniform RGB set, and saturating channel adjustment form one table API, sharing the data header and `D_800E2370` buffer. Their 0x2EC-byte shared object preserves the buffer relocation and links retail-identically. |
 | `0xB8500..0xB8BA0` | `engine/FieldEng_UpdateEffects` | Field-engine update wrappers, error handling, and all effect setup/callback variants share one dispatch path, the `D_800E279C` effect context, and the same animation record layout. The 0x6A0-byte object consolidates their `SVECTOR`/GTE ABI views and links retail-identically. |
+| `0xB9070..0xB9644` | `engine/FieldEng_EffectRender` | Three GTE effect draw variants, their state callbacks, and render-record initialization share the same animation record and renderer setup ABI. The 0x5D4-byte object consolidates `Matrix`/`SVECTOR` definitions and links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 

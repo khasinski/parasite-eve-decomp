@@ -1,8 +1,0 @@
-#include "common.h"
-
-int func_800C8BB4(void *arg0, u8 *state) {
-    int ret = 2;
-
-    state[1] = ret;
-    return ret;
-}
