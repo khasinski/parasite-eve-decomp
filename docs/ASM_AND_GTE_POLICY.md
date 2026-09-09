@@ -1564,3 +1564,27 @@ The helper's final pointer/integer addition and existing constraints remain:
 a direct pointer addition exchanges the two ADDU source registers. The named
 window preserves the retail main SHA without new pins or barriers.
 Full main and all 191 overlay SHA checks and source/debt gates pass.
+
+## Original QSORT translation unit (2026-09-09)
+
+Psy-Q 4.6 `LIBC2.LIB` contains one 400-byte QSORT object: `qsort` at offset
+0, its byte-swap helper at offset 0x150, and a final padding word. Comparison
+with retail 0x800723A4..0x80072534 finds 93 identical words and seven differing
+words, exactly at the SDK relocation offsets 0x68, 0x70, 0x90, 0xCC, 0xF0,
+0x104 and 0x11C. Four calls address the helper within this same object. This
+is direct object evidence for merging the two former C subsegments and their
+trailing padding, rather than a speculative organization change.
+
+`psyq/libc/qsort.c` now contains the complete TU. The helper definition shares
+its caller's `void *` parameter types and converts them to byte pointers
+locally. The separate `util/Mem_SwapBuffers.c` and padding ASM subsegment are
+removed. Both functions compile with stock GCC 2.8.1. One new helper pin on
+`left` (t0) preserves the order of its two initial pointer moves; omitting it
+swaps those instructions (98.666664%). The existing helper barrier still
+cannot be removed (98%). Each of the three pins and two barriers in the
+merged TU was tested separately; none is currently removable. The debt
+baseline explicitly records the additional pin rather than hiding it.
+
+Both functions match their previous SHA-verified instruction streams at
+100%, and the complete main executable retains its retail SHA-1.
+All 191 overlay SHA checks and source, organization and debt gates also pass.

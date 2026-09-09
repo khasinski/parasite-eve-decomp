@@ -940,9 +940,8 @@ segments:
       - [0x62B24, c, psyq/libc/memchr]
       - [0x62B34, c, psyq/libc/memmove]
       - [0x62BA0, asm, main/gap_psyq_libc_memmove_tail_62BA0]
+      # Psy-Q QSORT object: sorting routine, byte-swap helper and padding.
       - [0x62BA4, c, psyq/libc/qsort]
-      - [0x62CF4, c, util/Mem_SwapBuffers]
-      - [0x62D30, asm, main/gap_util_Mem_SwapBuffers_tail_62D30]
       - [0x62D34, asm, psyq/libsn/__SN_ENTRY_POINT]
       - [0x62DDC, asm, psyq/libsn/__main]
       - [0x62E4C, asm, psyq/libsn/__do_global_dtors]
