@@ -16,6 +16,7 @@ DslFILE *DsSearchFile(DslFILE *out, char *name) {
     signed char *path;
     char *cursor;
     int depth, directory;
+    int not_found;
     DslFILE *entry;
     if (D_8009B6E0 < CdRom_GetDiskType()) {
         if (!DS_newmedia()) return 0;
@@ -30,9 +31,10 @@ DslFILE *DsSearchFile(DslFILE *out, char *name) {
         while (*path != '\\' && *path) *cursor++ = *path++;
         if (!*path) break;
         path++;
+        not_found = -1;
         *cursor = 0;
         directory = DS_searchdir(directory, component);
-        if (directory == -1) { component[0] = 0; break; }
+        if (directory == not_found) { component[0] = 0; break; }
     }
     if (depth >= 8) {
         if (D_8009AFC0 > 0) printf(D_80011E6C, name, depth);
