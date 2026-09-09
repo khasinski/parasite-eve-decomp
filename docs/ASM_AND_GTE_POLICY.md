@@ -1792,3 +1792,16 @@ The shared-type version with the ordinary store scores 100% (72 retail bytes),
 and the complete main image retains its retail SHA-1. All 191 overlays and
 source/organization/debt gates pass. This resolves a type boundary without
 claiming a newly matched function or removing the remaining pin constraints.
+
+### Typed voice-table initialization
+
+`_SpuInit` now initializes the 24 halfwords through a local typed base pointer
+and descending index. Unlike direct indexing of the global symbol, the local
+base permits stock GCC281 to reduce the loop to the retail moving-address
+sequence. The source no longer converts the pointer to an unsigned integer
+or converts that integer back on each store. Indices used for accesses are
+23 through 0; no out-of-array pointer arithmetic is needed in C. No pins or
+barriers were added. The production object remains identical, the main and
+191 overlay SHA-1 checks pass, and source/organization/debt gates pass. The
+cold/warm initialization test now runs the actual source without its former
+host pointer-width substitutions and passes.

@@ -11,10 +11,7 @@ class SpuInitTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_cold_warm_init_and_reverb_reset_order(self):
         source = (ROOT / "src/main/psyq/libspu/_SpuInit.c").read_text()
-        # Only widen the PSX address carrier for the host address space.
-        source = source.replace("unsigned int address", "uintptr_t address")
-        source = source.replace("(unsigned int)&D_8009B3B8", "(uintptr_t)&D_8009B3B8")
-        harness = "#include <stdint.h>\n" + source + r'''
+        harness = source + r'''
 #include <assert.h>
 unsigned short D_8009B3B8[24];
 ReverbState D_8009B3A0;

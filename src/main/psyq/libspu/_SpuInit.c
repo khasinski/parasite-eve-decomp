@@ -21,13 +21,11 @@ void _SpuInit(int mode) {
     _spu_init(mode);
     if (!mode) {
         unsigned short value = 0xC000;
-        unsigned int address;
+        unsigned short *base = D_8009B3B8;
         i = 23;
-        address = (unsigned int)&D_8009B3B8[23];
         do {
-            *(unsigned short *)address = value;
+            base[i] = value;
             --i;
-            address -= 2;
         } while (i >= 0);
     }
     SpuStart();
