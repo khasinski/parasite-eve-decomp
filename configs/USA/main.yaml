@@ -1005,7 +1005,7 @@ segments:
       - [0x64B94, c, psyq/libapi/ResetEntryInt]
       - [0x64BA4, c, psyq/libapi/HookEntryInt]
       - [0x64BB4, c, psyq/libapi/startIntrVSync]
-      - [0x64C0C, asm, psyq/libapi/trapIntrVSync]
+      - [0x64C0C, c, psyq/libapi/trapIntrVSync]
       # Psy-Q etc/intr_vb.c callback registration helpers, in source order.
       - [0x64C78, c, psyq/libapi/intr_vsync]
       - [0x64CC8, asm, main/gap_psyq_libapi_intr_vsync_tail_64CC8]

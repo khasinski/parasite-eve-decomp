@@ -1,7 +1,5 @@
 #include "pe1/psyq_api_internal.h"
 
-extern PsyqInterruptHandler g_IntrVSyncCallbackTable[];
-
 PsyqInterruptHandler setIntrVSync(unsigned int index, PsyqInterruptHandler callback) {
     PsyqInterruptHandler previous = g_IntrVSyncCallbackTable[index];
     if (callback != previous) {

@@ -59,6 +59,9 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(InterruptDispatchTable, vsync) == 20, intr_dispat
 PE1_STATIC_ASSERT(sizeof(InterruptDispatchTable) == 28, intr_dispatch_size);
 
 extern InterruptDispatchTable *g_EventCallbackTable;
+extern PsyqInterruptHandler g_IntrVSyncCallbackTable[];
+extern volatile int g_VSyncCount;
+void trapIntrVSync(void);
 VSyncCallbackSetter startIntrVSync(void);
 PsyqInterruptHandler setIntrVSync(unsigned int index, PsyqInterruptHandler callback);
 
