@@ -1,5 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
-extern int Render_AllocParticleNode(int, void *, int, int);
+#include "pe1/psyq_cd.h"
 extern int Render_FindParticleEffect(int, void *);
 
 int cd_rom4(unsigned char command, void *param, void *result) {

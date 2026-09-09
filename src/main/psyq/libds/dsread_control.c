@@ -28,12 +28,11 @@ int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg) {
     return 1;
 }
 
-int Render_AllocParticleNode(int type, int arg1, int arg2, int arg3);
 
 void DsReadBreak(void) {
     int *state;
     int particleType;
-    int zeroArg1;
+    void *zeroArg1;
     int zeroArg2;
     state = &g_DsReadBusy;
     if (DS_ASYNC_READ_FIELD(state, active) == 1) {

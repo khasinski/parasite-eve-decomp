@@ -1,5 +1,5 @@
-int Render_AllocParticleNode(int arg0, int arg1, int arg2, int arg3);
+#include "pe1/psyq_cd.h"
 
-int DsControlF(unsigned char arg0, int arg1) {
-    return Render_AllocParticleNode(arg0, arg1, 0, 0);
+int DsControlF(u_char command, u_char *parameter) {
+    return Render_AllocParticleNode(command, parameter, 0, 0);
 }

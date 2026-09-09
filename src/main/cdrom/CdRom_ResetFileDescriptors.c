@@ -31,7 +31,7 @@ void CdRom_ResetFileDescriptors(void) {
         for (; j >= 0; j--, q--) {
             q[5] = 0;
         }
-        p->arg0C = 0;
+        p->parameter = 0;
         p->arg10 = 0;
         p->arg14 = 0;
         asm volatile("" : "=r"(i) : "0"(i));

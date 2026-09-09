@@ -1527,3 +1527,22 @@ pass, without new pins or barriers.
 Removing each existing DS read-control barrier was also tested: the ready
 helper drops to 70.75%, initialization to 98.181816%, and break to 99.8%.
 They remain in production pending scheduling/source reconstruction.
+
+## DS queued command parameter pointer (2026-09-09)
+
+`CdDsReadQueueEntry.parameter` replaces integer `arg0C`. The retail queue
+producer saves its second argument at offset 0x0C after optionally copying
+four bytes from it; `CdRom_PollPendingDsRead` passes that field to the command
+issuer. These producer and consumer accesses establish the pointer type.
+The queue reset uses the same named pointer field.
+
+All C callers of `Render_AllocParticleNode` now share a prototype with a
+pointer second argument; the existing historical function name remains.
+`DsControlF` uses the Psy-Q LIBDS.H signature with byte command and byte
+pointer parameters. Break/cancel callers use typed null pointer temporaries.
+The two later queue fields remain unnamed integers pending evidence of their
+meaning. Full main, all 191 overlay SHA checks and source/debt gates pass.
+
+The `DsReadBreak` argument barrier remains necessary: its removal substitutes
+the known-zero `a1` value for `$zero` when preparing `a2` (99.8%); removing
+just the command operand also changes code generation (92%).

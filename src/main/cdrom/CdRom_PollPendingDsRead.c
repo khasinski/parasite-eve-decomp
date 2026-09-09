@@ -32,7 +32,7 @@ void CdRom_PollPendingDsRead(void) {
                 work = result + work;
                 if (((CdDsReadQueueEntry *)work)->active != 0) {
                     CdRom_TryIssueCmd(((CdDsReadQueueEntry *)work)->command,
-                                      (void *)((CdDsReadQueueEntry *)work)->arg0C);
+                                      ((CdDsReadQueueEntry *)work)->parameter);
                 }
             }
         }

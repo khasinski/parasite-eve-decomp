@@ -189,12 +189,15 @@ typedef struct CdQueuedCmdSlot {
     u_char unk_0D[3];
 } CdQueuedCmdSlot;
 
+int Render_AllocParticleNode(int command, void *parameter, int arg2, int arg3);
+int DsControlF(u_char command, u_char *parameter);
+
 typedef struct CdDsReadQueueEntry {
     u_int active;
     u_char command;
     u_char payload[4];
     u_char unk_09[3];
-    u_int arg0C;
+    void *parameter;
     u_int arg10;
     u_int arg14;
 } CdDsReadQueueEntry;
