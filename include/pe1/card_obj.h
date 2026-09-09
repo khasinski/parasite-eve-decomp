@@ -1,6 +1,8 @@
 #ifndef PE1_CARD_OBJ_H
 #define PE1_CARD_OBJ_H
 
+#include "common.h"
+
 /* Memory-card command object (CardObj_*). field_46 is unsigned char: stored as 1
  * by BeginCommand4D and compared ==0xFF (lbu) by IsTransferActive. */
 typedef struct CardObj {
@@ -51,5 +53,7 @@ typedef struct CardObj {
     unsigned char pad_eb[0x01];
     int field_ec;                     /* 0xEC */
 } CardObj;
+
+PE1_STATIC_ASSERT(sizeof(CardObj) == 0xF0, card_obj_size);
 
 #endif /* PE1_CARD_OBJ_H */
