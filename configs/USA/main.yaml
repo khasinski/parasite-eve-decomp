@@ -391,9 +391,8 @@ segments:
       - [0x279A4, c, menu/Menu_SetEquipSlotIndex]
       - [0x279B0, asm, menu/menu_set]
       - [0x27C54, c, menu/Menu_SetTextCursorRect]
-      - [0x27C6C, c, table/Tbl_ClearEntry]
-      - [0x27CE8, c, table/Tbl_ResetAll]
-      - [0x27D48, c, table/Tbl_LookupEntry]
+      # Textbox entry clear, reset, and lookup share one 0x38-byte entry ABI.
+      - [0x27C6C, c, table/Textbox_EntryState]
       - [0x27DB4, c, task/Task_MovementFlags]
       - [0x27DE0, asm, main/task3_tail]
       - [0x28064, c, menu/Menu_GetEquipSlotIndex]
