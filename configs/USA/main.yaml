@@ -1427,7 +1427,7 @@ segments:
       - [0x7A348, asm, akao/misc_voice_adsr]
       - [0x7A4F0, c, akao/Seq_MarkTrack3CMaskDirty]
       - [0x7A510, asm, main/Akao_SetVoiceStartAddr]
-      - [0x7A6B8, c, akao/Spu_SetGlobalVolumeField1AA]
+      - [0x7A6B8, c, psyq/libspu/SpuSetNoiseClock]
       - [0x7A700, c, main/gap_akao_Spu_SetGlobalVolumeField1AA_tail_7A700]
       - [0x7A708, c, psyq/libspu/s_gvex]
       - [0x7A724, asm, main/gap_psyq_libspu_s_gvex_tail_7A724]

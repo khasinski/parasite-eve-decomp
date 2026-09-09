@@ -1445,3 +1445,21 @@ register type for its left/right stores, retaining its halfword-index
 intermediate; a direct voice index collapses two shifts and does not match.
 Both functions retain 100% object agreement and the full main and all 191
 overlay SHA checks pass. No pins or barriers were introduced.
+
+## Identified Psy-Q noise-clock setter (2026-09-09)
+
+The function at `0x80089EB8`, formerly `Spu_SetGlobalVolumeField1AA`, is
+`SpuSetNoiseClock`. Psy-Q 4.6 `LIBSPU.H` declares
+`long SpuSetNoiseClock(long n_clock)`, and the recovered Psy-Q `s_snc.c`
+implementation clamps the same six-bit value and writes SPUCNT bits 13:8.
+The production function now has this SDK name/signature and lives under
+`psyq/libspu`; its symbol and source manifest were updated together.
+The neighboring eight-byte padding subsegment remains separate.
+
+The local partial register type is now named `SpuNoiseControlRegs` and its
+control field `spucnt`, replacing misleading AKAO state/anonymous-field names.
+This is still a local unqualified register view: switching to shared volatile
+`SpuRegs` moves the store out of the return delay slot and adds a nop under
+both stock compilers. Removing either or both existing pins also changes the
+function. These unresolved constraints remain visible; this rename is not a
+claim of a newly pure C match. Full main and 191 overlay SHA checks pass.
