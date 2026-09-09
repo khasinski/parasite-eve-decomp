@@ -1012,3 +1012,16 @@ are four-byte integers: D_8009B260 at 0x8009B260, g_CdStreamMask at
 These are declared separately; no large enclosing structure is inferred.
 All AT uses in the two generated functions were checked against the retail
 instructions, including the final store in each return delay slot.
+
+## SPU register address shift
+
+`_spu_FsetRXXa` now expresses `value >> shift` in C. One v0 pin for the
+shift count and one empty read/write barrier on the existing a3 result pin
+replace its old inline nop/srlv block. Removing the shift pin scores
+99.51219%; removing the barrier scores 99.63415%, and reducing it to an
+input-only barrier scores 95%. The existing offset, unit, shifted-result,
+and final-address pins were tested individually and remain necessary.
+The containing translation unit still has legacy division ASM and a stack
+pointer constraint; this is not a clean-C match claim. A fully arithmetic
+candidate and the remaining stock-MASPSX difference are recorded under
+`proposals/spu_FsetRXXa`.

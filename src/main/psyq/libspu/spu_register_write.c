@@ -14,7 +14,7 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
     register u32 shifted asm("$7");
     u32 rem;
     register u32 unit asm("$4");
-    u32 shift;
+    register u32 shift asm("$2");
     u32 ret;
 
     offset = arg0;
@@ -37,11 +37,8 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
     }
 
     shift = _spu_mem_mode_plus;
-    asm volatile(
-        "nop\n\t"
-        "srlv\t%0,%1,%2"
-        : "=r"(shifted)
-        : "r"(value), "r"(shift));
+    shifted = value >> shift;
+    asm volatile("" : "=r"(shifted) : "0"(shifted));
     ret = shifted;
 
     switch (offset) {
