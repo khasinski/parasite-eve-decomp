@@ -27,7 +27,7 @@ Run from that directory:
 ```sh
 venv/bin/python tools/permuter/permuter.py unsplit split --debug
 venv/bin/python -u tools/permuter/permuter.py unsplit split -j 28 \
-  --best-only --better-only --stop-on-zero --stack-diffs > run.log 2>&1
+  --better-only --stop-on-zero --stack-diffs > run.log 2>&1
 ```
 
 Use `--debug` for baseline compilation: the permuter removes comments and
@@ -41,3 +41,11 @@ with objdiff, inspect semantic changes, and require the full retail SHA checks
 before promotion. A permuter score of zero alone is not sufficient evidence.
 
 The live search and its outputs are experimental; production remains ASM.
+
+The initial run used `--best-only` and produced two penalty-120 candidates.
+Both were rejected: one moved the hexadecimal prefix's `--src` outside the
+alternate-form condition; the other did the same for the decimal sign prefix.
+Both change the source pointer passed to `memmove` when no prefix is present.
+The search was restarted without `--best-only` so an invalid low penalty
+cannot hide other improvements over the baseline. All unique improvements
+are now saved, still requiring semantic review.
