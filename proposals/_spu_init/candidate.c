@@ -19,7 +19,8 @@ int _spu_init(int hot) {
         g_SpuTransferAddr = 0;
         spu->master_volume_left = 0;
         spu->master_volume_right = 0;
-        spu->spucnt = 0;
+        /* Single control write in the following wait call's delay slot. */
+        *(u16 *)&spu->spucnt = 0;
     }
     _spu_Fw1ts();
     {
@@ -76,13 +77,15 @@ int _spu_init(int hot) {
         {
             SpuRegs *spu = _spu_RXX;
             spu->key_on[0] = 0xFFFF;
-            spu->key_on[1] = 0xFF;
+            /* Single upper-mask write in the following wait call's delay slot. */
+            *(u16 *)&spu->key_on[1] = 0xFF;
         }
         _spu_Fw1ts(); _spu_Fw1ts(); _spu_Fw1ts(); _spu_Fw1ts();
         {
             SpuRegs *spu = _spu_RXX;
             spu->key_off[0] = 0xFFFF;
-            spu->key_off[1] = 0xFF;
+            /* Single upper-mask write in the following wait call's delay slot. */
+            *(u16 *)&spu->key_off[1] = 0xFF;
         }
         _spu_Fw1ts(); _spu_Fw1ts(); _spu_Fw1ts(); _spu_Fw1ts();
     }
@@ -91,7 +94,8 @@ int _spu_init(int hot) {
         g_SpuTransferActiveFlag = 1;
         spu->spucnt = 0xC000;
         _spu_transferCallback = 0;
-        _spu_IRQCallback = 0;
+        /* Preserve the IRQ callback reset after enabling SPU and clearing DMA callback. */
+        *(SpuCallback volatile *)&_spu_IRQCallback = 0;
     }
     return 0;
 }

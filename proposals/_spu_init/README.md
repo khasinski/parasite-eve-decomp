@@ -2,8 +2,9 @@
 
 `candidate.c` reconstructs all 640 retail bytes at 0x8007D1D4 as C, using
 SpuRegs and SpuVoiceRegs. It has no pins, barriers or instruction ASM.
-Stock GCC272 scores 88.8625%; production remains ASM. GCC281 unsplit scores
-82.06875% with or without expensive optimizations, and split scores 69.93125%.
+Stock GCC272 scores 92.9875%; production remains ASM. Before the single-store
+refinements below, GCC281 unsplit scored 82.06875% with or without expensive
+optimizations, and split scored 69.93125%.
 Remaining differences include register allocation, address scheduling and
 symbol aliases. These are function scores, not new matched production bytes.
 
@@ -69,3 +70,19 @@ The combined SPU object additionally supports `--real-io`: 192 cases execute
 both reconstructed functions with independent reset and transfer delays.
 The default 48-case mode still models transfer; both modes pass after the
 transfer's single control-store refinement. See ../spu_init_io/README.md.
+
+Three writes now use ordinary halfword access views: the initial SPUCNT zero,
+and the upper key-on/key-off masks immediately before delay calls. Each is a
+single store that stock GCC272 places in the original call delay slot. Other
+SPU accesses retain the shared volatile fields. These changes raise the score
+from 88.8625% to 92.7375%. GCC281 unsplit scores
+85.06875% at this stage, with or without expensive optimizations.
+
+The final IRQ callback reset uses a volatile access view so it remains after
+SPU enable and the transfer callback reset, as in retail. This raises the score
+to 92.9875%. The shared callback type is unchanged. The verifier now records
+both callback-word stores in the same trace as MMIO; the former ordinary IRQ
+store is rejected because it moves before SPU enable. Earlier suites compared
+only final callback values and therefore did not establish that ordering.
+All 48 modeled-transfer and 192 real-transfer cases pass with this stricter
+oracle. No pins, empty barriers, instruction ASM or toolchain changes are used.

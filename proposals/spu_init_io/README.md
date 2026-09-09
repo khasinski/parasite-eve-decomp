@@ -8,11 +8,11 @@ instruction ASM in this combined reconstruction.
 
 | Function | Retail bytes | Combined match |
 | --- | ---: | ---: |
-| _spu_init | 640 | 88.8625% |
+| _spu_init | 640 | 92.9875% |
 | _spu_FwriteByIO | 448 | 93.25% |
 
-The transfer alone scores 93.88393% with GCC281 unsplit, but that compiler
-reduces initialization to 82.06875%. The common configuration keeps the
+The transfer alone scores 93.88393% with GCC281 unsplit, but GCC281 has not matched the initialization body; the previous
+three-store variant scored 85.06875% with it. The common configuration keeps the
 better initialization result rather than claiming both individual maxima.
 
 ```sh
@@ -38,3 +38,9 @@ Omitting the transfer call is rejected as a negative control. Wait and printf
 remain modeled; this is finite integration evidence, not physical timing or
 a byte match. Shared SpuRegs/SpuVoiceRegs declarations make the register
 accesses consistent across these two bodies.
+
+Initialization's single-store refinements recover three call delay slots and
+retain the IRQ callback reset after SPU enable. The combined init score is now
+92.9875%, while transfer stays at 93.25%. The shared trace now includes both
+callback-word writes; reverting the ordered IRQ store is rejected. All 192
+real-transfer cases, 48 modeled-transfer cases and 128 transfer cases pass.

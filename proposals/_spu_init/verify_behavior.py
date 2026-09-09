@@ -48,9 +48,9 @@ def run(hot, pending, fill, redirect, io_pending, candidate):
     def access(u, kind, address, size, value, user):
         nonlocal reads, phase, io_reads
         address &= 0x1FFFFFFF
-        if not (0x130000 <= address < 0x130400 or address == 0x131000):
+        if not (0x130000 <= address < 0x130400 or address in (0x131000, 0x9B434, 0x9B438)):
             return
-        assert size == (4 if address == 0x131000 else 2)
+        assert size == (4 if address in (0x131000, 0x9B434, 0x9B438) else 2)
         if kind != UC_MEM_WRITE:
             if address in (0x1301AE, 0x1303AE):
                 if phase == 'reset':
