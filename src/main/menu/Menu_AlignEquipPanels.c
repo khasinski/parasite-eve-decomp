@@ -43,3 +43,11 @@ aligned:
     MenuWidget_OffsetPosition(temp_v0_2, temp_s1, 0);
     MenuWidget_ClearCursorY(temp_v0_2);
 }
+
+void MenuWidget_SetCursorY(MenuWidgetNode *node);
+
+void Menu_SetEquipPanelsCursorY(void) {
+    MenuWidget_SetCursorY(MenuWidget_FindByModeAndSelectedBase(1, 0xF));
+    MenuWidget_SetCursorY(MenuWidget_FindByModeAndSelectedBase(1, 0xB));
+    MenuWidget_SetCursorY(MenuWidget_FindByModeAndSelectedBase(1, 0x2F));
+}

@@ -540,7 +540,6 @@ segments:
       - [0x39038, c, menu/Menu_SaveLoadNavigate]
       - [0x39118, asm, main/Menu_StepInventoryRoot]
       - [0x39724, c, menu/Menu_AlignEquipPanels]
-      - [0x39808, c, menu/Menu_SetEquipPanelsCursorY]
       - [0x3985C, c, menu/Menu_DrawBonusPointSlotValue]
       - [0x398B0, c, menu/Menu_ExitBonusPointAllocation]
       - [0x399C8, asm, menu/Menu_StatSlotInputHandler]
