@@ -728,8 +728,8 @@ segments:
       - [0x43BD4, c, item/Inv_FindIndexByData]
       - [0x43CCC, c, item/Inv_GetActiveListItem]
       # Item-data row renderer and cursor-text selector.
+      # Contiguous item-list row selection and renderer UI helpers.
       - [0x43CE4, c, audio/Sfx_DrawSlotRow]
-      - [0x43EB8, c, audio/Sfx_DrawActiveListSlot]
       - [0x4402C, asm, item/Inv_FindFirstEmptySlot]
       - [0x44168, asm, main/Inv_FindSlotByIndex]
       - [0x44348, asm, main/Inv_WriteSlotById]
