@@ -1743,3 +1743,13 @@ wrapper test's stub now agree. The candidate uses independent local register
 pointer scopes and explicitly returns zero, improving its score to 88.8625%
 without constraints. All 48 differential cases assert the result; a return-one
 negative control is rejected. Production _SpuInit still ignores the result.
+
+
+The SPU IRQ callback's shared storage declaration is volatile, like the DMA
+callback. This preserves the initializer's observed reset order without a
+local qualifier cast; the production setter's existing one-load behavior and
+main retail bytes remain unchanged. The _spu_init candidate also uses a
+volatile ten-halfword initialization buffer to preserve ascending stores.
+Its 48 modeled-transfer and 192 real-transfer tests now compare these writes
+in order; dropping either volatile access property is rejected. The candidate
+scores 95.8125% and remains outside the production manifest.

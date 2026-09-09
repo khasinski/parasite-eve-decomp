@@ -8,7 +8,7 @@ instruction ASM in this combined reconstruction.
 
 | Function | Retail bytes | Combined match |
 | --- | ---: | ---: |
-| _spu_init | 640 | 92.9875% |
+| _spu_init | 640 | 95.8125% |
 | _spu_FwriteByIO | 448 | 93.25% |
 
 The transfer alone scores 93.88393% with GCC281 unsplit, but GCC281 has not matched the initialization body; the previous
@@ -44,3 +44,9 @@ retain the IRQ callback reset after SPU enable. The combined init score is now
 92.9875%, while transfer stays at 93.25%. The shared trace now includes both
 callback-word writes; reverting the ordered IRQ store is rejected. All 192
 real-transfer cases, 48 modeled-transfer cases and 128 transfer cases pass.
+
+Volatile initialization-buffer writes now retain the ascending retail order;
+the shared volatile IRQ callback declaration removes the local access cast.
+The initializer reaches 95.8125%. Its oracle records queue writes as well as
+callback/MMIO ordering, and rejects both an ordinary buffer declaration and a
+nonvolatile IRQ reset view. All 240 initialization comparisons pass.

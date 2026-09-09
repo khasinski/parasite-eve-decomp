@@ -70,7 +70,7 @@ extern s32 _spu_EVdma;
 /* Shared by transfer callers and the DMA interrupt handler. */
 extern SpuCallback volatile _spu_transferCallback;
 SpuCallback SpuSetTransferCallback(SpuCallback callback);
-extern SpuCallback _spu_IRQCallback;
+extern SpuCallback volatile _spu_IRQCallback;
 SpuCallback Spu_SetTransferMode(SpuCallback callback);
 void _SpuCallback(SpuCallback callback);
 void _SpuDataCallback(SpuCallback callback);

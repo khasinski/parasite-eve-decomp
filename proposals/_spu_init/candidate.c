@@ -1,7 +1,7 @@
 #include "pe1/psyq_spu_internal.h"
 extern u16 g_SpuTransferAddr;
 extern int D_8009B418, D_8009B41C, g_SpuTransferActiveFlag;
-extern u16 D_800B6900[10];
+extern volatile u16 D_800B6900[10];
 extern unsigned char D_8009B43C[16];
 extern char D_80011C4C[], D_80011C5C[];
 void _spu_Fw1ts(void);
@@ -95,7 +95,7 @@ int _spu_init(int hot) {
         spu->spucnt = 0xC000;
         _spu_transferCallback = 0;
         /* Preserve the IRQ callback reset after enabling SPU and clearing DMA callback. */
-        *(SpuCallback volatile *)&_spu_IRQCallback = 0;
+        _spu_IRQCallback = 0;
     }
     return 0;
 }

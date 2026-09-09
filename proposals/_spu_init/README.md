@@ -2,7 +2,7 @@
 
 `candidate.c` reconstructs all 640 retail bytes at 0x8007D1D4 as C, using
 SpuRegs and SpuVoiceRegs. It has no pins, barriers or instruction ASM.
-Stock GCC272 scores 92.9875%; production remains ASM. Before the single-store
+Stock GCC272 scores 95.8125%; production remains ASM. Before the single-store
 refinements below, GCC281 unsplit scored 82.06875% with or without expensive
 optimizations, and split scored 69.93125%.
 Remaining differences include register allocation, address scheduling and
@@ -86,3 +86,18 @@ store is rejected because it moves before SPU enable. Earlier suites compared
 only final callback values and therefore did not establish that ordering.
 All 48 modeled-transfer and 192 real-transfer cases pass with this stricter
 oracle. No pins, empty barriers, instruction ASM or toolchain changes are used.
+
+The ten-halfword initialization buffer is now declared volatile. The former
+ordinary array let GCC reverse the clear loop; volatile preserves retail's
+ascending writes. This raises the score from 92.9875% to 94.8125%. The verifier
+now includes all ten halfword writes in its ordered trace rather than checking
+only the final buffer and canaries; removing volatile is rejected.
+
+The IRQ callback storage declaration is now volatile in the shared header,
+matching the existing transfer callback storage. The initializer can use the
+symbol directly instead of casting its address, recovering symbolic stores
+and reaching 95.8125%. Stripping volatile through an access cast is rejected
+by the callback/MMIO ordering trace. Both changes pass the 48 modeled-transfer
+and 192 real-transfer cases. No pins, barriers or instruction ASM were added.
+The production main retains its retail SHA, all 191 overlays match, and source,
+organization and debt gates pass with the shared callback declaration.
