@@ -3,10 +3,8 @@
 
 #include "pe1/psyq_cd.h"
 
-void CdRom_AsyncCallback(void);
-void CdRom_ReadDoneCallback(void);
-int DsSyncCallback(int callback);
-int DsReadyCallback(int callback);
+void CdRom_AsyncCallback(u_char event, u_char *result);
+void CdRom_ReadDoneCallback(u_char event, u_char *result);
 
 int CdRom_InitAsyncRead(void (*callback)(int, void *, void *), int callbackArg) {
     int *state;
@@ -23,8 +21,8 @@ int CdRom_InitAsyncRead(void (*callback)(int, void *, void *), int callbackArg) 
     DS_ASYNC_READ_FIELD(state, reserved0C) = 0;
     DS_ASYNC_READ_FIELD(state, callback) = (int)callback;
     DS_ASYNC_READ_FIELD(state, callback_arg) = callbackArg;
-    DS_ASYNC_READ_FIELD(state, saved_sync_callback) = DsSyncCallback((int)CdRom_AsyncCallback);
-    DS_ASYNC_READ_FIELD(state, saved_ready_callback) = DsReadyCallback((int)CdRom_ReadDoneCallback);
+    DS_ASYNC_READ_FIELD(state, saved_sync_callback) = DsSyncCallback(CdRom_AsyncCallback);
+    DS_ASYNC_READ_FIELD(state, saved_ready_callback) = DsReadyCallback(CdRom_ReadDoneCallback);
     asm volatile("" : "+r"(active));
     DS_ASYNC_READ_FIELD(state, active) = active;
     return 1;

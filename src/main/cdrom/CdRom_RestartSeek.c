@@ -3,7 +3,6 @@
 #include "pe1/psyq_cd.h"
 
 extern int D_8009B6EC;
-extern int DsSyncCallback(int);
 extern CdlLOC *CdRom_GetCurrentPosPtr(void);
 extern int CdPosToInt(CdlLOC *);
 extern int CdRom_GetCmdMode(void);

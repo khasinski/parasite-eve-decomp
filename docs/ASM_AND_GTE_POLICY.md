@@ -1165,3 +1165,24 @@ pointer at offset 0x28 is converted back to the enclosing structure, so the
 existing allocator barrier can remain while accesses use named fields.
 This removes the negative word-index accesses; a static assertion verifies
 the callback field offset. Other fields and their meanings are unchanged.
+
+## DS event callback registry
+
+The SDK's `DslCB` (`LIBDS.H`, line 98) takes an unsigned byte event and an
+unsigned byte result pointer. `DsSyncCallback` and `DsReadyCallback`
+(lines 236–237) exchange callbacks of that type. The reconstruction names
+that signature `DsEventCallback` and uses it in both setters, their callers,
+and the saved sync/ready fields of `DsAsyncReadState`.
+
+The three-word registry at D_800B8AB0 now has named start, sync and ready
+members. Only the latter two have recovered function-pointer signatures;
+the first member retains its opaque integer representation. No callback
+signature is inferred for the start slot. Its size assertion preserves the
+existing 12-byte storage layout.
+
+`CdRom_InitAsyncRead` no longer casts either registered function to int.
+`DsRead2` keeps the previous sync callback as a typed function pointer.
+`CdRom_ReadDoneCallback` restores the saved setters through the existing
+async-state layout instead of raw negative indices. Its result parameter
+and the unused parameters of `CdRom_BreakSyncCallback` now agree with the
+registration ABI. No pins, barriers or instruction ASM were introduced.

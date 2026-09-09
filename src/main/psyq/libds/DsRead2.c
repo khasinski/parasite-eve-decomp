@@ -4,15 +4,14 @@
 
 extern int g_DsStreamNoLocFlag;
 
-int DsSyncCallback(void *arg0);
 int Render_BuildParticleFrame(int arg0, CdlLOC *arg1, int arg2, void *arg3, int arg4);
 void data_ready_callback(void);
-void CdRom_BreakSyncCallback(void);
+void CdRom_BreakSyncCallback(u_char event, u_char *result);
 
 int DsRead2(CdlLOC *pos, int mode) {
     DsCallback saved_data;
     register int saved_mode asm("$16");
-    void *saved_sync;
+    DsEventCallback saved_sync;
     register CdlLOC *saved_pos asm("$18");
     int ret;
 
@@ -52,7 +51,7 @@ int DsRead2(CdlLOC *pos, int mode) {
                 : "$4", "$31", "memory");
             saved_data = callback_result;
         }
-        saved_sync = (void *)DsSyncCallback(CdRom_BreakSyncCallback);
+        saved_sync = DsSyncCallback(CdRom_BreakSyncCallback);
         ret = Render_BuildParticleFrame(saved_mode & 0xFF, saved_pos, 0x1B, 0, -1);
         if (ret == 0) {
             DsDataCallback(saved_data);

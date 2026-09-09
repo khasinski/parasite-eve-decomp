@@ -4,27 +4,27 @@ int DsStartCallback(int callback) {
     int *slot;
     int old;
 
-    slot = &g_DsReadCallbackState[0];
+    slot = &g_DsReadCallbackState.start;
     old = *slot;
     *slot = callback;
     return old;
 }
 
-int DsSyncCallback(int callback) {
-    int *slot;
-    int old;
+DsEventCallback DsSyncCallback(DsEventCallback callback) {
+    DsEventCallback *slot;
+    DsEventCallback old;
 
-    slot = &g_DsReadCallbackState[1];
+    slot = &g_DsReadCallbackState.sync;
     old = *slot;
     *slot = callback;
     return old;
 }
 
-int DsReadyCallback(int callback) {
-    int *slot;
-    int old;
+DsEventCallback DsReadyCallback(DsEventCallback callback) {
+    DsEventCallback *slot;
+    DsEventCallback old;
 
-    slot = &g_DsReadCallbackState[2];
+    slot = &g_DsReadCallbackState.ready;
     old = *slot;
     *slot = callback;
     return old;

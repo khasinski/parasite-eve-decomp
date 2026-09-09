@@ -1,7 +1,6 @@
 /* CC1_FLAGS: -O1 */
 #include "pe1/psyq_cd.h"
-void CdRom_AsyncCallback(void);
-int DsSyncCallback();
+void CdRom_AsyncCallback(u_char event, u_char *result);
 
 register volatile int g_CdCallback asm("$4");
 
@@ -12,7 +11,7 @@ void CdRom_SeekDoneCallback(void) {
     if (g_CdCallback == 2) {
         g_CdCallback = 0x80080000;
         g_CdCallback += 0x1E70;
-        DsSyncCallback((void (*)(void))g_CdCallback);
+        DsSyncCallback((DsEventCallback)g_CdCallback);
     }
 }
 

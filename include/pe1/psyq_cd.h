@@ -8,6 +8,7 @@ typedef unsigned char u_char;
 typedef unsigned short u_short;
 typedef unsigned int u_int;
 typedef void (*DsCallback)(void);
+typedef void (*DsEventCallback)(u_char event, u_char *result);
 
 typedef struct CdCallbackDataPage {
     char reserved00[4];
@@ -219,8 +220,8 @@ typedef struct DsAsyncReadState {
     int callback;
     int reserved0C;
     int callback_arg;
-    int saved_sync_callback;
-    int saved_ready_callback;
+    DsEventCallback saved_sync_callback;
+    DsEventCallback saved_ready_callback;
     int reserved1C;
     int active;
 } DsAsyncReadState;
@@ -271,7 +272,13 @@ extern CdDsReadQueueEntry g_CdDsReadQueue[];
 extern int g_CdDsReadIndex;
 extern int g_CdDsReadQueueState;
 extern int g_CdPendingReadCount;
-extern int g_DsReadCallbackState[3] __asm__("D_800B8AB0");
+typedef struct DsCallbackRegistry {
+    int start; /* The start callback ABI is not recovered yet. */
+    DsEventCallback sync;
+    DsEventCallback ready;
+} DsCallbackRegistry;
+PE1_STATIC_ASSERT(sizeof(DsCallbackRegistry) == 12, ds_callback_registry_size);
+extern DsCallbackRegistry g_DsReadCallbackState __asm__("D_800B8AB0");
 extern CdQueuedCmdSlot g_CdQueuedCmdSlots[3] __asm__("D_800A3510");
 extern DsReadCallbackSlot g_DsReadCallbackSlots[8] __asm__("D_800A3610");
 extern int g_DsReadCallbackCursor __asm__("D_800A3690");
@@ -301,6 +308,8 @@ void Save_ProcessDataCallback(void);
 int DsRead_IsBusy(void);
 CdlLOC *CdRom_GetCurrentPos(CdlLOC *destination);
 int Render_BuildParticleFrame();
+DsEventCallback DsSyncCallback(DsEventCallback callback);
+DsEventCallback DsReadyCallback(DsEventCallback callback);
 DsCallback DsDataCallback(DsCallback callback);
 DsCallback CdDataCallback(DsCallback callback);
 void CdRom_SetMode2Callback(u_char event);

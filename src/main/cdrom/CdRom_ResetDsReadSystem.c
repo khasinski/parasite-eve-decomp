@@ -16,12 +16,13 @@ register int *resetPage asm("$1");
 int CdRom_ResetDsReadSystem(void) {
     int i, j, k, offset;
     int *state;
+    DsCallbackRegistry *callbacks;
     CdRom_AbortCmd();
     i = 0;
-    state = g_DsReadCallbackState;
-    state[0] = 0;
-    state[1] = 0;
-    state[2] = 0;
+    callbacks = &g_DsReadCallbackState;
+    callbacks->start = 0;
+    callbacks->sync = 0;
+    callbacks->ready = 0;
     state = D_800A3510;
     state[8] = 0;
     state[4] = 0;

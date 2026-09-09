@@ -2,8 +2,6 @@
 
 #include "pe1/psyq_cd.h"
 
-void DsSyncCallback(int arg0);
-void DsReadyCallback(int arg0);
 
 void DS_read_cbready(void) {
     int *state;

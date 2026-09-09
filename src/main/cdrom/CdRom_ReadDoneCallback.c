@@ -1,13 +1,12 @@
+#include "pe1/psyq_cd.h"
 /* GCC_VERSION: 2.8.1 */
 
 extern int D_8009B708;
 
-void DsSyncCallback(int arg0);
-void DsReadyCallback(int arg0);
 int CdRom_GetPendingReadCount(void);
 int CdRom_RestartSeek(void);
 
-void CdRom_ReadDoneCallback(unsigned char arg0, void *arg1) {
+void CdRom_ReadDoneCallback(unsigned char arg0, unsigned char *arg1) {
     int *state;
     int status;
     register void *data asm("$18");
@@ -31,8 +30,8 @@ void CdRom_ReadDoneCallback(unsigned char arg0, void *arg1) {
         return;
     }
 
-    DsSyncCallback(state[-2]);
-    DsReadyCallback(state[-1]);
+    DsSyncCallback(DS_ASYNC_READ_FIELD(state + 1, saved_sync_callback));
+    DsReadyCallback(DS_ASYNC_READ_FIELD(state + 1, saved_ready_callback));
     callback = (void *)state[-5];
     state[1] = 0;
     if (callback != 0) {
