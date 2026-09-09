@@ -1724,3 +1724,15 @@ Stock GCC281 with unsplit addresses matches all 236 retail bytes, both alone
 and under the combined LIBCD no-expensive-optimizations configuration. The
 complete main retains its retail SHA-1, all 191 overlays match, and source,
 organization and debt gates pass. The production pin count falls 773 → 769.
+
+## SPU low-level initialization register fields
+
+The _spu_init candidate reconstructs the 640-byte low-level initializer in C.
+Its retail halfword accesses identify pairs at SpuRegs offsets 0x188/0x18C
+(key on/off), 0x190/0x194/0x198 (modulation/noise/reverb enables), and the
+transfer-control halfword at 0x1AC. The shared type replaces padding with
+these fields; its size and subsequent offsets remain unchanged. Register
+meanings are cross-checked with the psx-spx SPU register map linked in the
+candidate README. The routine's 48-case differential suite covers cold/hot
+paths, timeout continuation, full voice initialization and pointer reload.
+The candidate is not a byte match and stays outside the production manifest.

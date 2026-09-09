@@ -31,11 +31,16 @@ typedef struct SpuRegs {
     /* 0x182 */ volatile u16 master_volume_right;
     /* 0x184 */ volatile u16 reverb_volume_left;
     /* 0x186 */ volatile u16 reverb_volume_right;
-    /* 0x188 */ unsigned char pad_188[0x1E];
+    /* 0x188 */ volatile u16 key_on[2];
+    /* 0x18C */ volatile u16 key_off[2];
+    /* 0x190 */ volatile u16 pitch_modulation[2];
+    /* 0x194 */ volatile u16 noise_enable[2];
+    /* 0x198 */ volatile u16 reverb_enable[2];
+    /* 0x19C */ unsigned char pad_19C[0xA];
     /* 0x1A6 */ volatile u16 trans_addr;
     /* 0x1A8 */ volatile u16 transfer_fifo;
     /* 0x1AA */ volatile u16 spucnt;
-    /* 0x1AC */ unsigned char pad_1AC[2];
+    /* 0x1AC */ volatile u16 transfer_control;
     /* 0x1AE */ volatile u16 transfer_status;
     /* 0x1B0 */ volatile u16 cd_volume_left;
     /* 0x1B2 */ volatile u16 cd_volume_right;
