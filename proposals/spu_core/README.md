@@ -55,3 +55,29 @@ _spu_FsetRXXa. It now uses SpuRegs* in the candidate and production source,
 while retaining the existing integer address calculation. This changes no
 retail bytes: main SHA, all 191 overlay SHAs and source/organization/debt gates
 pass. No production function has been promoted based on the combined scores.
+
+DMA MADR/BCR/CHCR pointers and the direction word now have shared declarations
+in psyq_spu_internal.h, alongside the wait, FIFO-write and delay-setting
+prototypes. Twelve duplicate production declarations and three candidate
+prototypes were removed. The existing shared shift-count declaration replaces
+two local copies. All fourteen combined scores remain unchanged; main retail
+SHA, all 191 overlay SHAs, 290 repository tests and source/organization/debt
+gates pass. The production extern count falls from 3610 to 3603.
+
+The transfer-address qualifier conflict remains unresolved: spu_transfer uses
+ordinary u16 storage while Spu_WriteRegChecked uses volatile u16. The latter's
+retail code stores then reloads the halfword; the former's polling code does
+not reload it on every iteration. Making the core declaration volatile gives
+_spu_t 91.4625% while its three siblings remain 100%. Removing volatile from
+the checked wrapper gives 74.78261% under GCC272, or 87.82609% under GCC281
+unsplit. Neither is accepted into production.
+
+An ordinary declaration with a volatile read view gives 95% in the wrapper,
+but introduces an extra address ADDIU before LHU. Making both accesses use
+volatile views gives 90.434784%. No-force-addr and no-force-mem retain 95%;
+no-expensive-optimizations gives 89.347824%. A two-member union with ordinary
+and volatile halfword views preserves all four core functions, but the wrapper
+scores 90.434784% whether its store uses the ordinary or observed member.
+These access-view experiments are not retained or asserted as an original
+structure. Resolving this boundary requires matching both users, not simply
+choosing one declaration globally.

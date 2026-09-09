@@ -3,7 +3,6 @@
 #include "pe1/psyq_spu_internal.h"
 extern u16 g_SpuTransferAddr;
 extern char D_80011C4C[], D_80011C6C[], D_80011C80[];
-void _spu_Fw1ts(void);
 int printf(const char *, ...);
 
 void _spu_FwriteByIO(void *address, u32 size) {

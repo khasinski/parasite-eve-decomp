@@ -1,7 +1,5 @@
 #include "common.h"
 #include "pe1/psyq_spu_internal.h"
-extern s32 g_SpuDmaDirection;
-void _spu_Fw1ts(void);
 int DeliverEvent(u32 event, u32 spec);
 
 void _spu_FiDMA(void)

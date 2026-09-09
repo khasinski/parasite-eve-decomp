@@ -4,8 +4,6 @@ extern int D_8009B418, D_8009B41C, g_SpuTransferActiveFlag;
 extern volatile u16 D_800B6900[10];
 extern unsigned char D_8009B43C[16];
 extern char D_80011C4C[], D_80011C5C[];
-void _spu_Fw1ts(void);
-void _spu_FwriteByIO(void *address, u32 size);
 int printf(const char *, ...);
 
 int _spu_init(int hot) {

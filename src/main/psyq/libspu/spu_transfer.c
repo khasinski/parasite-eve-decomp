@@ -3,19 +3,10 @@
 /* CC1_FLAGS: -mno-split-addresses */
 
 #include "pe1/psyq_spu_internal.h"
-extern volatile u32 *g_SpuDmaMadrPtr;
-extern volatile u32 *g_SpuDmaBcrPtr;
-extern volatile u32 *g_SpuDmaChcrPtr;
-extern s32 g_SpuDmaDirection;
 extern u16 g_SpuTransferAddr;
-extern s32 _spu_mem_mode_plus;
 extern volatile u32 D_8009B450;
 extern u32 D_8009B454;
 extern s32 D_8009B418;
-void _spu_Fw1ts(void);
-void _spu_FsetDelayR(void);
-void _spu_FsetDelayW(void);
-void _spu_FwriteByIO(void *address, u32 size);
 
 void _spu_Fr_(void *address, u16 spuAddress, u32 blocks)
 {

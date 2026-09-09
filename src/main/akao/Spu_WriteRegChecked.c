@@ -3,7 +3,6 @@
 #include "include_asm.h"
 
 extern volatile u16 g_SpuTransferAddr;
-extern int _spu_mem_mode_plus;
 
 
 int Spu_WriteRegChecked(int arg0) {

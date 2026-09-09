@@ -1753,3 +1753,14 @@ volatile ten-halfword initialization buffer to preserve ascending stores.
 Its 48 modeled-transfer and 192 real-transfer tests now compare these writes
 in order; dropping either volatile access property is rejected. The candidate
 scores 95.8125% and remains outside the production manifest.
+
+## Shared SPU DMA declarations
+
+The SPU DMA pointer/direction declarations and internal wait/FIFO/delay
+prototypes are shared through psyq_spu_internal.h. Twelve local production
+declarations are removed without changing instructions, function boundaries
+or constraints. Main retail SHA, all 191 overlays, 290 tests and source/debt
+gates pass. The fourteen-function combined candidate keeps all previous scores.
+The transfer-address volatile mismatch is intentionally still local: attempts
+to unify it regress either _spu_t or Spu_WriteRegChecked, as recorded in the
+spu_core candidate README. No conflicting type is silently overridden.
