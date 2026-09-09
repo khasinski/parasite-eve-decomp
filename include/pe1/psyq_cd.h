@@ -11,6 +11,15 @@ typedef void (*CdlCB)(u_char event, u_char *result);
 typedef void (*DsCallback)(void);
 typedef void (*DsEventCallback)(u_char event, u_char *result);
 
+/* LIBCD's contiguous sync, ready and data-end interrupt event bytes. */
+typedef struct CdInterruptEvents {
+    volatile u8 sync;
+    volatile u8 ready;
+    volatile u8 end;
+} CdInterruptEvents;
+
+extern CdInterruptEvents D_8009B294;
+
 typedef struct CdCallbackDataPage {
     char reserved00[4];
     CdlCB sync;

@@ -1626,3 +1626,17 @@ all three functions together under GCC 2.8.1 moved both callback stack restores
 into the return delay slots, unlike retail. Keep that compiler boundary until
 all three bodies can match as one TU; the query is not claimed as a restored
 complete original translation unit.
+
+
+## LIBCD controller flush
+
+`CD_flush` is entirely C. The controller acknowledgment loop and event reset
+use volatile byte accesses; `CdInterruptEvents` names the adjacent sync,
+ready and data-end event bytes at 0x8009B294. `getintr` writes event 4 to the
+third byte and copies it to the ready byte on data end. The flush reads the
+index-register pointer before writing the sync event, retaining the observed
+ordering even if a byte store could alias the pointer's storage.
+
+One v1 pointer pin and one tied empty pointer barrier retain the event-block
+address in a register. Removing the pin gives 98.962265%; removing the
+barrier, with or without the pin, gives 84.49056%. No instruction ASM remains.
