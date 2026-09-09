@@ -784,8 +784,8 @@ segments:
       - [0x4ED88, c, gpu/Draw_InitBuffers]
       - [0x4EEE4, c, gpu/draw]
       - [0x4EF88, c, gpu/Draw_PresentFrame]
-      - [0x4F050, c, gpu/Draw_SetBaseOffsetPosition]
-      - [0x4F084, c, gpu/Draw_GetBaseY]
+      # Base-offset setter and Y accessor share one default-profile object.
+      - [0x4F050, c, gpu/Draw_BaseOffset]
       - [0x4F094, c, gpu/draw2]
       # Text-cursor stack push/pop form one 164-byte -G8 object.
       - [0x4F0C4, c, gpu/Draw_TextCursorState]
