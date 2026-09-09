@@ -12,6 +12,10 @@ The recovered candidate describes the real formatter rather than a wrapper:
 - parser for `-`, `+`, space, `#`, `0`, decimal width, `*`, precision, and
   `h`/`l`/`L` modifiers;
 - conversions `d`, `i`, `u`, `o`, `p`, `x`, `X`, `c`, `s`, and `n`;
+  floating-point conversions are absent, as documented for Psy-Q `sprintf`;
+- Psy-Q's `#s` extension: when the alternate-form flag is present on `%s`,
+  the pointed-to value is a byte-length-prefixed string.  Ordinary `%s` is
+  NUL-terminated; a precision uses `memchr` to bound that scan;
 - the 0x200-byte reverse numeric workspace, followed by the 12-byte format
   specification copied from `D_80094528`;
 - string and numeric padding behavior implemented by the retail function.
@@ -35,5 +39,9 @@ have a 513-instruction common subsequence out of the retail 545. Its generated
 candidate target. The table therefore belongs to this function and is not a
 separate blocker.
 
-The remaining work is to reproduce Psy-Q's eight scheduler nops from source.
-No assembly boundary or binary-match accounting has been changed.
+The remaining work is to reproduce Psy-Q's eight scheduler nops and the
+few resulting register-allocation choices from source.  A sweep of the stock
+GCC 2.7.2 optimisation switches did not improve on this profile: for example,
+`-fno-cse-skip-blocks` creates a nearly equal-length body but drops the objdiff
+score to 91.99% by changing the format and variadic-cursor registers.  No
+assembly boundary or binary-match accounting has been changed.

@@ -11,12 +11,14 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
+/* The 12-byte template at D_80094528 is all zero.  Only the low-byte
+ * flag field and the following prefix byte are used by this formatter. */
 typedef union {
     u32 flags;
     struct {
         u8 flags;
         s8 prefix;
-        u16 unused;
+        u16 reserved;
     } bytes;
 } FormatHeader;
 
