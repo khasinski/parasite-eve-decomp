@@ -1,7 +1,7 @@
+/* CC1_FLAGS: -fno-cse-follow-jumps */
 #include "pe1/psyq_api_internal.h"
 
 DmaInterruptCallback setIntrDMA(int channel, DmaInterruptCallback callback) {
-    register int channelReg asm("$6");
     register DmaInterruptCallback callbackReg asm("$4");
     register DmaInterruptCallback *base;
     DmaInterruptCallback *slot;
@@ -10,11 +10,9 @@ DmaInterruptCallback setIntrDMA(int channel, DmaInterruptCallback callback) {
     volatile u32 *dmaReg;
     u32 mask;
     u32 tmp;
-    channelReg = channel;
-    asm volatile("" : : "r"(channelReg));
     callbackReg = callback;
     base = g_IntrDmaHandlerTable;
-    slot = &base[channelReg];
+    slot = &base[channel];
     old = *slot;
     ret = old;
 
@@ -27,7 +25,7 @@ DmaInterruptCallback setIntrDMA(int channel, DmaInterruptCallback callback) {
             tmp = 0xFFFFFF;
             *slot = callbackReg;
             maskSet = *dmaReg;
-            bitSet = channelReg + 0x10;
+            bitSet = channel + 0x10;
             maskSet &= tmp;
             tmp = 1;
             tmp <<= bitSet;
@@ -41,13 +39,12 @@ DmaInterruptCallback setIntrDMA(int channel, DmaInterruptCallback callback) {
         } else {
             register int bitClear asm("$4");
             register u32 maskClear asm("$3");
-            register DmaInterruptCallback zeroReg asm("$0");
 
             dmaReg = g_IntrDmaDispatchPtr;
             tmp = 0xFFFFFF;
-            *slot = zeroReg;
+            *slot = 0;
             maskClear = *dmaReg;
-            bitClear = channelReg + 0x10;
+            bitClear = channel + 0x10;
             maskClear &= tmp;
             tmp = 0x800000;
             maskClear |= tmp;

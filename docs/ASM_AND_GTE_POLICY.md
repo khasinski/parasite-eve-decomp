@@ -1463,3 +1463,17 @@ This is still a local unqualified register view: switching to shared volatile
 both stock compilers. Removing either or both existing pins also changes the
 function. These unresolved constraints remain visible; this rename is not a
 claim of a newly pure C match. Full main and 191 overlay SHA checks pass.
+
+## DMA callback setter constraints (2026-09-09)
+
+`setIntrDMA` no longer has a channel pin, channel input barrier or an
+uninitialized callback variable pinned to `$zero`. The stock per-TU option
+`-fno-cse-follow-jumps` preserves a literal-zero callback-table store instead
+of substituting the callback argument known to be zero on that branch.
+This permits `*slot = 0` and direct use of the `channel` parameter.
+
+Both functions in `libapi/intr_dma.c` compare at 100% against the prior
+SHA-verified object. Each remaining pin and barrier was tested for removal
+after the final source shape; each still changes the output. Full main,
+191 overlay SHA checks and source/debt gates pass. The stock compiler and
+MASPSX are unchanged.
