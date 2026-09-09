@@ -302,6 +302,8 @@ int DsDataCallback();
 void CdRom_SetMode2Callback(u_char event);
 void Render_StepParticleCallback(void);
 
+extern CdlLOC g_CdLastPos;
+
 /* Low-level LIBCD command retry wrapper and its shared command state. */
 extern u32 D_8009AF2C[];
 extern int D_8009AFB4;

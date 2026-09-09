@@ -5,7 +5,7 @@ int CD_init(void);
 int CD_initvol(void);
 
 int CdReset(int arg0) {
-    register int ret asm("$3");
+    int ret;
 
     if (arg0 == 2) {
         CD_initintr();
@@ -18,7 +18,6 @@ int CdReset(int arg0) {
 
     if (arg0 == 1) {
         ret = CD_initvol();
-        asm volatile("" : "=r"(ret) : "0"(ret));
         if (ret != 0) {
             return 0;
         }

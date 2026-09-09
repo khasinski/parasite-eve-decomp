@@ -982,3 +982,17 @@ this function does not call it.
 The third command argument is a byte-result pointer: `CD_cw` preserves it
 in s6 and writes response bytes through it at 0x8007B90C. Using `u8 *`
 in the shared prototypes and wrapper preserves the match.
+
+## Psy-Q last CD position
+
+`CdLastPos` is now plain C returning `&g_CdLastPos`, whose existing linker
+symbol is at 0x8009AFD0. The object is a four-byte `CdlLOC`. Stock GCC 2.8.1
+places the low-half address addition in the return delay slot and matches
+all twelve bytes without constraints. This removes the previous synthetic
+64 KiB page type, global volatile register pointer, and v0 pin. No assembler
+or compiler changes are needed.
+
+`CdReset` also matches with plain C under the existing stock GCC 2.8.1
+profile. Removing its v1 pin alone, its read/write barrier alone, or both
+preserves 100% upstream objdiff. The ordinary local `ret` now retains the
+required move/branch sequence without source-level constraints.

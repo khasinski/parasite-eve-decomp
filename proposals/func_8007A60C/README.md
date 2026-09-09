@@ -33,3 +33,9 @@ tools/scripts/cc.sh proposals/func_8007A60C/constrained_registers.c /tmp/cd-mode
 tools/objdiff/objdiff-cli diff -1 expected/build/USA/asm/USA/main/psyq/libcd/func_8007A60C.s.o -2 /tmp/cd-mode1.o -o /tmp/cd-mode1.json func_8007A60C
 mipsel-none-elf-ld -T proposals/func_8007A60C/diagnostic.ld /tmp/cd-mode1.o -o /tmp/cd-mode1.elf
 ```
+
+A follow-up check of the simple candidate with only the failure-status
+barrier, and of the constrained candidate's CSE/scheduler flags, did not
+produce an exact match. Moving the table-pointer constraint into a temporary
+or changing pointer-expression syntax likewise failed. These results do not
+establish an impossibility; the next attempt needs a different source shape.
