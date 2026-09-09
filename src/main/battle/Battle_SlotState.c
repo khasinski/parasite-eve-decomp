@@ -12,3 +12,11 @@ void Battle_SlotFree(void **combatantPtr) {
     } while (index < 7);
     *combatantPtr = 0;
 }
+void Battle_ClearMotionTable(void) {
+    u8 i;
+    i = 0;
+    do {
+        D_800A5D58[i].active = 0;
+        i++;
+    } while (i < 7);
+}
