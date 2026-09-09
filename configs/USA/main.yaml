@@ -605,8 +605,8 @@ segments:
       # The item, selectable-slot, and context-action renderers share one
       # -G8 list-drawing object and its active-widget state.
       - [0x40038, c, menu/Menu_DrawListRenderers]
-      - [0x40150, c, menu/Menu_DrawActionOptionList]
-      - [0x40178, c, menu/Menu_DrawSoundTestList]
+      # Action-option and sound-test list adapters share one object.
+      - [0x40150, c, menu/Menu_DrawOptionListAdapters]
       - [0x401A0, c, menu/Menu_ActionSubmenus]
       - [0x40348, c, menu/Menu_DrawEquipSelectionList]
       - [0x4043C, c, menu/Menu_GetItemSlotAvailability]
