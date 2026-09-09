@@ -1,9 +1,8 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "common.h"
+#include "pe1/psyq_spu_internal.h"
 #include "pe1/akao/spu_common.h"
-
-extern volatile u16 *_spu_RXX;
 
 void SPU_WriteVoiceRegs(SpuCommonSettings *attr) {
     u16 left = 0;
@@ -35,7 +34,7 @@ void SPU_WriteVoiceRegs(SpuCommonSettings *attr) {
             int value = (s16)attr->left;
             left = value > 0x7F ? 0x7F : value < 0 ? 0 : attr->left;
         }
-        _spu_RXX[0xC0] = (left & 0x7FFF) | mode;
+        _spu_RXX->master_volume_left = (left & 0x7FFF) | mode;
     }
     if (all || (mask & 2)) {
         if (all || (mask & 8)) {
@@ -54,27 +53,27 @@ void SPU_WriteVoiceRegs(SpuCommonSettings *attr) {
         if (mode) {
             right = (s16)attr->right > 0x7F ? 0x7F : (s16)attr->right < 0 ? 0 : attr->right;
         }
-        _spu_RXX[0xC1] = (right & 0x7FFF) | mode;
+        _spu_RXX->master_volume_right = (right & 0x7FFF) | mode;
     }
-    if (all || (mask & 0x40)) _spu_RXX[0xD8] = attr->cdLeft;
-    if (all || (mask & 0x80)) _spu_RXX[0xD9] = attr->cdRight;
-    if (all || (mask & 0x400)) _spu_RXX[0xDA] = attr->externalLeft;
-    if (all || (mask & 0x800)) _spu_RXX[0xDB] = attr->externalRight;
+    if (all || (mask & 0x40)) _spu_RXX->cd_volume_left = attr->cdLeft;
+    if (all || (mask & 0x80)) _spu_RXX->cd_volume_right = attr->cdRight;
+    if (all || (mask & 0x400)) _spu_RXX->external_volume_left = attr->externalLeft;
+    if (all || (mask & 0x800)) _spu_RXX->external_volume_right = attr->externalRight;
     if (all || (mask & 0x100)) {
-        if (!attr->cdReverb) _spu_RXX[0xD5] &= ~4;
-        else _spu_RXX[0xD5] |= 4;
+        if (!attr->cdReverb) _spu_RXX->spucnt &= ~4;
+        else _spu_RXX->spucnt |= 4;
     }
     if (all || (mask & 0x200)) {
-        if (!attr->cdMix) _spu_RXX[0xD5] &= ~1;
-        else _spu_RXX[0xD5] |= 1;
+        if (!attr->cdMix) _spu_RXX->spucnt &= ~1;
+        else _spu_RXX->spucnt |= 1;
     }
     if (all || (mask & 0x1000)) {
-        if (!attr->externalReverb) _spu_RXX[0xD5] &= ~8;
-        else _spu_RXX[0xD5] |= 8;
+        if (!attr->externalReverb) _spu_RXX->spucnt &= ~8;
+        else _spu_RXX->spucnt |= 8;
     }
     if (all || (mask & 0x2000)) {
-        if (!attr->externalMix) _spu_RXX[0xD5] &= ~2;
-        else _spu_RXX[0xD5] |= 2;
+        if (!attr->externalMix) _spu_RXX->spucnt &= ~2;
+        else _spu_RXX->spucnt |= 2;
     }
     /* Preserve the right-volume temporary and the common return block. */
     asm volatile("" : : "r"(right));

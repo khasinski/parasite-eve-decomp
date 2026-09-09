@@ -1408,3 +1408,24 @@ volume; [the SPU register map](https://psx-spx.consoledev.net/soundprocessinguni
 identifies them as reverb output volume at `0x1F801D84`/`0x1F801D86`.
 The layout and all volatile access widths remain unchanged.
 Full main and all 191 overlay SHA checks pass.
+
+## Shared SPU common and reverb register window (2026-09-09)
+
+`SpuRegs` now covers the 0x200-byte window through the reverb parameter
+registers. It names the main-volume and CD/external input-volume pairs and
+the 32 halfword reverb registers. A compile-time size check protects the
+window layout. The register meanings and addresses follow the
+[SPU register map](https://psx-spx.consoledev.net/soundprocessingunitspu/).
+
+`SPU_ReadRegister`, `SPU_WriteVoiceRegs`, `_spu_setReverbAttr` and
+`Akao_SetMasterVolume` use this shared view instead of incompatible pointer
+declarations. The reverb parameter setter replaces all 32 literal byte
+addresses with indexed halfword fields; the original mask tests and write
+order remain intact. All four functions match their prior objects at 100%,
+and the full main and all 191 overlay SHA checks pass.
+
+`Spu_SetGlobalVolumeField1AA` was tried with the shared volatile control
+field but remains unchanged: the qualified store leaves the return delay
+slot and adds a nop. The existing constraint in `Akao_SetMasterVolume` also
+remains necessary; replacing it with an ordinary pointer assignment changes
+code generation. No new pins or barriers are added.

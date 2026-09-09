@@ -14,7 +14,9 @@ typedef void (*SpuCallback)(void);
  * at the same offsets as the SDK's trans_addr, spucnt, and spustat fields.
  */
 typedef struct SpuRegs {
-    /* 0x000 */ unsigned char pad_000[0x184];
+    /* 0x000 */ unsigned char pad_000[0x180];
+    /* 0x180 */ volatile u16 master_volume_left;
+    /* 0x182 */ volatile u16 master_volume_right;
     /* 0x184 */ volatile u16 reverb_volume_left;
     /* 0x186 */ volatile u16 reverb_volume_right;
     /* 0x188 */ unsigned char pad_188[0x1E];
@@ -23,7 +25,14 @@ typedef struct SpuRegs {
     /* 0x1AA */ volatile u16 spucnt;
     /* 0x1AC */ unsigned char pad_1AC[2];
     /* 0x1AE */ volatile u16 transfer_status;
+    /* 0x1B0 */ volatile u16 cd_volume_left;
+    /* 0x1B2 */ volatile u16 cd_volume_right;
+    /* 0x1B4 */ volatile u16 external_volume_left;
+    /* 0x1B6 */ volatile u16 external_volume_right;
+    /* 0x1B8 */ unsigned char pad_1B8[8];
+    /* 0x1C0 */ volatile u16 reverb[32];
 } SpuRegs;
+typedef char SpuRegsSizeCheck[(sizeof(SpuRegs) == 0x200) ? 1 : -1];
 
 typedef struct SpuMalloc {
     u32 addr;
