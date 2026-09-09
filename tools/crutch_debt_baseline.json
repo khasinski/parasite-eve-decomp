@@ -3,7 +3,7 @@
     "aliases": 23,
     "asm_bodies": 87,
     "asm_constrained_units": 44,
-    "barriers": 360,
+    "barriers": 359,
     "byte_pointer_arithmetic": 280,
     "declaration_overrides": 0,
     "directives": 0,

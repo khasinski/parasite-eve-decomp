@@ -1360,3 +1360,17 @@ The internal `_spu_Fr`/`_spu_Fw` declarations now live beside the SPU callback
 API. In particular, `_spu_Fr` is declared with its implemented signed-size
 return and argument types, replacing the reader's incorrect void-return
 declaration. The wrapper's capped unsigned size is representable as `s32`.
+
+## SPU DMA command control flow (2026-09-09)
+
+`_spu_t` no longer requires the empty read/write barrier on `control`.
+For DMA command 3, expressing the final CHCR selection as
+`direction != 1 ? control | 0x201 : 0x1000200` keeps low-bit preparation
+in the relevant branch. Stock GCC 2.8.1 then places the `ori` in the branch
+delay slot naturally. The accepted source uses the equivalent `if/else`.
+Simply deleting the barrier while retaining the unconditional OR schedules
+that OR before the DMA register writes and leaves a nop in the branch slot.
+
+All four functions in `psyq/libspu/spu_transfer.c` compare at 100% against
+the prior SHA-verified object. The entire TU now contains no pins, barriers
+or instruction assembly. Full main and all 191 overlay SHA checks pass.

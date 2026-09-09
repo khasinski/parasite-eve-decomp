@@ -88,10 +88,9 @@ int _spu_t(int command, ...)
         D_8009B454 = (size >> 6) + ((size & 0x3F) != 0);
         *g_SpuDmaMadrPtr = D_8009B450;
         *g_SpuDmaBcrPtr = (D_8009B454 << 16) | 0x10;
-        /* Keep CHCR low-bit preparation after the DMA register writes. */
-        asm volatile("" : "+r"(control));
-        control |= 0x201;
-        if (g_SpuDmaDirection == 1) {
+        if (g_SpuDmaDirection != 1) {
+            control |= 0x201;
+        } else {
             control = 0x1000200;
         }
         *g_SpuDmaChcrPtr = control;
