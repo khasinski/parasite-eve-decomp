@@ -18,22 +18,25 @@ int func_8007A4D0(int cmd, void *param, int extra) {
     register int cmd_reg asm("$20");
     register int cmd_byte asm("$19");
     register u32 saved asm("$21");
-    register u32 *slot asm("$22");
+    register u32 *slot;
     register int ret asm("$23");
     register int minus_one;
-    register int one asm("$8");
+    register int one;
+    register u32 *table asm("$3");
 
     param_reg = param;
     extra_reg = extra;
     cmd_reg = cmd;
     tries = 3;
     cmd_byte = cmd_reg & 0xFF;
+    table = D_8009AF2C;
+
     saved = D_8009AFB4;
-    slot = &D_8009AF2C[cmd_byte];
+    slot = &table[cmd_byte];
     ret = 0;
-    asm volatile("" : "+r"(ret));
+
     minus_one = -1;
-    asm volatile("" : "+r"(minus_one));
+
 
 loop:
     D_8009AFB4 = 0;

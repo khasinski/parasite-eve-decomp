@@ -35,3 +35,13 @@ had not improved the previous 76-byte-difference variant.
 
 This experimental file does not supersede the simpler candidate and is not
 a match. Pins and barriers must be minimized after obtaining exact code.
+
+## Constraint removal progress
+
+Sequential one-at-a-time removal of constraints reduced the saved constrained
+variant from 44 to **4 differing bytes out of 316 after relocation**. Removing
+the table barrier, slot pin, initial status barrier, sentinel barrier, and t0
+pin improved the output. The current file retains only the final status
+barrier and eight register pins. Several remaining pins can individually be
+removed without changing this score; their combined removal remains to test.
+The function is still not byte-identical and remains ASM in the build.
