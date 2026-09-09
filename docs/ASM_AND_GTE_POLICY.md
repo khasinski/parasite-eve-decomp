@@ -1210,3 +1210,22 @@ ordinary temporary address registers instead of the original AT register.
 Making AT allocatable also changes the argument and condition temporaries;
 the tested constrained variants did not match. This partial removal does
 not classify the containing TU as pure C.
+
+## DS reset structure reuse
+
+`CdRom_ResetDsReadSystem` uses the shared `CdQueuedCmdSlot` layout for
+its three command slots: state words at offsets 0, 16 and 32, followed by
+result-byte clears at offsets 4, 20 and 36. The source now names the state
+and result members instead of using integer indices and byte casts.
+The six-word local queue placeholder is replaced by `CdDsReadQueueEntry`,
+and the four-word callback-slot placeholder by `DsReadCallbackSlot`.
+The canonical queue symbol is verified at 0x800A3540.
+
+The callback-slot clear loop retains its existing explicit byte offset.
+Replacing it with an indexed record access introduced repeated index shifts
+and changed the retail instruction sequence. The final cursor write also
+retains its legacy AT/page constraint: an ordinary scalar-symbol store
+with this TU's no-split-addresses profile moved out of the following call's
+delay slot and added a nop. Split-address profiles changed other global
+accesses. Neither trial was accepted as a matching cleanup.
+No new constraints, instruction assembly or aliases were introduced.
