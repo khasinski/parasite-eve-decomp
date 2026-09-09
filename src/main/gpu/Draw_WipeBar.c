@@ -39,3 +39,33 @@ void Draw_EmitWipeBarRect(int width, int height, int mode)
 
     Draw_EmitWipeBar(D_800930A8, mode);
 }
+
+void Draw_EmitWipeBarPoly(int arg0, int arg1, u8 *arg2) {
+    u8 *cursor = arg2;
+    u32 value;
+    u16 *end;
+
+    g_DrawVertexWritePtr = g_TextCursorStackTop;
+    value = cursor[0];
+    if (value < 0xFF) {
+        end = g_TextCursorStackTop + 0x18;
+        do {
+            u16 *out = g_DrawVertexWritePtr;
+            int x = value + g_TextCursorX;
+            int y = g_TextCursorY + cursor[1];
+
+            if ((unsigned int)out < (unsigned int)end) {
+                out[1] = x;
+                g_DrawVertexWritePtr = out + 2;
+                out[0] = y;
+            } else {
+                BoundsCheck_AssertStub(4);
+            }
+
+            cursor += 2;
+            value = cursor[0];
+        } while (value < 0xFF);
+    }
+
+    Draw_EmitWipeBar(cursor + 1, 0);
+}

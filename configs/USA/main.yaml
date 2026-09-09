@@ -858,8 +858,8 @@ segments:
       - [0x51CA0, c, gpu/draw3]
       - [0x51D3C, asm, main/Draw_AllocColorRect]
       - [0x52078, asm, gpu/Draw_EmitWipeBar]
-      - [0x5223C, c, gpu/Draw_EmitWipeBarRect]
-      - [0x52380, c, gpu/Draw_EmitWipeBarPoly]
+      # Rectangle and polygon wipe emitters share one 0x1F8-byte -G8 vertex-buffer object.
+      - [0x5223C, c, gpu/Draw_WipeBar]
       - [0x52434, asm, main/Draw_AllocColorGradient]
       - [0x52890, asm, main/Draw_AllocColorTri]
       - [0x52AB0, c, menu/Menu_SetSaveSlotBlendBase]
