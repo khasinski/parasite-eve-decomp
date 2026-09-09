@@ -1,0 +1,385 @@
+{
+  "date": "2026-09-10",
+  "candidate_sha256": "63a75f79cc6c492c49ba9661ade4d84c0fabae47d48d46c6e52c6cf3f2669dfb",
+  "target": "expected/build/USA/asm/USA/main/psyq/libspu/s_si.s.o",
+  "retail_bytes": 316,
+  "production_promoted": false,
+  "results": [
+    {
+      "shape": "base",
+      "compiler": "272",
+      "flags": "",
+      "pin_mode_a0": false,
+      "source_sha256": "14577210c0c39b626f066e09769d8088a3022fda4dfbf8a79994a25f8e5a1545",
+      "bytes": 320,
+      "match_percent": 97.46835
+    },
+    {
+      "shape": "base",
+      "compiler": "272",
+      "flags": "-fno-expensive-optimizations",
+      "pin_mode_a0": false,
+      "source_sha256": "1b04554403682324a13293e1eb17326052cd32b347623161f8dc5b90e2a77451",
+      "bytes": 320,
+      "match_percent": 97.46835
+    },
+    {
+      "shape": "base",
+      "compiler": "272",
+      "flags": "-fno-schedule-insns",
+      "pin_mode_a0": false,
+      "source_sha256": "d3987a8a78ca54b59075ad0672543b74ac7f87fae63b0f00303ef13b3f5cd911",
+      "bytes": 320,
+      "match_percent": 97.46835
+    },
+    {
+      "shape": "base",
+      "compiler": "272",
+      "flags": "-fno-schedule-insns2",
+      "pin_mode_a0": false,
+      "source_sha256": "ab24999254ace205cdf8322a86479765d5f5e7ef2f0e1247ee216127d445e9cd",
+      "bytes": 320,
+      "match_percent": 97.46835
+    },
+    {
+      "shape": "base",
+      "compiler": "272",
+      "flags": "-fno-force-mem",
+      "pin_mode_a0": false,
+      "source_sha256": "818944861b5b6de8c89211c3a110602f10ad54a5d71a223f9a182756ffece352",
+      "bytes": 320,
+      "match_percent": 97.46835
+    },
+    {
+      "shape": "base",
+      "compiler": "272",
+      "flags": "-fno-strength-reduce",
+      "pin_mode_a0": false,
+      "source_sha256": "919d0df7e71582f181d8d80317103f42ce4039e36e55ad6a067f12d259f08989",
+      "bytes": 320,
+      "match_percent": 97.46835
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "",
+      "pin_mode_a0": false,
+      "source_sha256": "1198b7e9203d9e2875310cbc9a4333362978067df4078b4e9c22abd235613fd0",
+      "bytes": 312,
+      "match_percent": 83.29114
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-expensive-optimizations",
+      "pin_mode_a0": false,
+      "source_sha256": "228a3442bbe4dee6f5e213685b68a06e776947e9e611cc0864d7d8208b00e717",
+      "bytes": 312,
+      "match_percent": 83.29114
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-schedule-insns",
+      "pin_mode_a0": false,
+      "source_sha256": "a2e54e428aaff8ec972898e5a1128d90d3fbf96c79738b19d5f8504df4231c52",
+      "bytes": 312,
+      "match_percent": 83.29114
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-schedule-insns2",
+      "pin_mode_a0": false,
+      "source_sha256": "48a5edeb5ade034b0a301f1ea6c15b4d9e949263f39fdd2e1809c21dd8e9e673",
+      "bytes": 312,
+      "match_percent": 83.29114
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-force-mem",
+      "pin_mode_a0": false,
+      "source_sha256": "34289481608e3f0ac4ff761056ba64a1a0758d0454d06a2375cf21398aa3c0ea",
+      "bytes": 312,
+      "match_percent": 83.29114
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-strength-reduce",
+      "pin_mode_a0": false,
+      "source_sha256": "47801f523f80df4164b83a3ceb68d3c1f7542d0ffadda7fbb981296bba01907f",
+      "bytes": 312,
+      "match_percent": 83.29114
+    },
+    {
+      "shape": "goto",
+      "compiler": "272",
+      "flags": "",
+      "pin_mode_a0": false,
+      "source_sha256": "1639753a7ba4e1c934cabcf7814a38085ec32eb4deb9560d02da8f95eb2ade52",
+      "bytes": 284,
+      "match_percent": 58.227848
+    },
+    {
+      "shape": "goto",
+      "compiler": "272",
+      "flags": "-fno-expensive-optimizations",
+      "pin_mode_a0": false,
+      "source_sha256": "ae9fa1eda57492006e638b82cd32b835ccb3e0630c8cc7660752e078650db3bf",
+      "bytes": 284,
+      "match_percent": 58.227848
+    },
+    {
+      "shape": "goto",
+      "compiler": "272",
+      "flags": "-fno-schedule-insns",
+      "pin_mode_a0": false,
+      "source_sha256": "7f9820090a035472b13ec0b30c5a01eafb4ec3ed7aef56f1e4b03b286dfae27a",
+      "bytes": 284,
+      "match_percent": 58.227848
+    },
+    {
+      "shape": "goto",
+      "compiler": "272",
+      "flags": "-fno-schedule-insns2",
+      "pin_mode_a0": false,
+      "source_sha256": "d78c413568d2bf43a6269ca22e2c1ba4c5483aa5eedde21340d3be6fcede3efd",
+      "bytes": 284,
+      "match_percent": 58.227848
+    },
+    {
+      "shape": "goto",
+      "compiler": "272",
+      "flags": "-fno-force-mem",
+      "pin_mode_a0": false,
+      "source_sha256": "13a121a43cd5ba4f9b568fb3466deab71cd571c90bb14a892fefc0d645f36258",
+      "bytes": 284,
+      "match_percent": 58.227848
+    },
+    {
+      "shape": "goto",
+      "compiler": "272",
+      "flags": "-fno-strength-reduce",
+      "pin_mode_a0": false,
+      "source_sha256": "6f6fc4f15328b53656061290226eef78ecccf70e7b85743ca70648a0401a403d",
+      "bytes": 284,
+      "match_percent": 58.227848
+    },
+    {
+      "shape": "goto",
+      "compiler": "281",
+      "flags": "",
+      "pin_mode_a0": false,
+      "source_sha256": "a01febdd6b8850652ab0f9be02a5060068a9287fb704a4eeb34a5cf4d1b8f577",
+      "bytes": 268,
+      "match_percent": 58.594936
+    },
+    {
+      "shape": "goto",
+      "compiler": "281",
+      "flags": "-fno-expensive-optimizations",
+      "pin_mode_a0": false,
+      "source_sha256": "7ba34707f1e3263c1875097f4ad4f08f40f6be5c822fa179138da6b1ff634ddb",
+      "bytes": 268,
+      "match_percent": 58.594936
+    },
+    {
+      "shape": "goto",
+      "compiler": "281",
+      "flags": "-fno-schedule-insns",
+      "pin_mode_a0": false,
+      "source_sha256": "2c38551820e27934d3c589acace40d19c1c36d38051709429313ca939f8eb382",
+      "bytes": 268,
+      "match_percent": 58.594936
+    },
+    {
+      "shape": "goto",
+      "compiler": "281",
+      "flags": "-fno-schedule-insns2",
+      "pin_mode_a0": false,
+      "source_sha256": "2178ca8d026a02f15ea5f5ac56f59d3c0f3299264822fd41822ef2779b3ddd2f",
+      "bytes": 268,
+      "match_percent": 58.594936
+    },
+    {
+      "shape": "goto",
+      "compiler": "281",
+      "flags": "-fno-force-mem",
+      "pin_mode_a0": false,
+      "source_sha256": "72b04cab29e0363af65691ce8e926dcc2edb3a296d12bd6bf12c85bfa656a5fa",
+      "bytes": 268,
+      "match_percent": 58.594936
+    },
+    {
+      "shape": "goto",
+      "compiler": "281",
+      "flags": "-fno-strength-reduce",
+      "pin_mode_a0": false,
+      "source_sha256": "1ce3b18adb7ef3bb72385a2b31ea7ff6874ca41e2873c72510d72720235e44b5",
+      "bytes": 268,
+      "match_percent": 58.594936
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-O1",
+      "pin_mode_a0": false,
+      "source_sha256": "e07162ebed780f75233c4ee544369c89e33a257988d3899ca8da6c613ee098a7",
+      "bytes": 328,
+      "match_percent": 73.79747
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-O1",
+      "pin_mode_a0": true,
+      "source_sha256": "2cbd1f8d294975df327cf8cc7893053384d92d2c39952c4ecc398f2adf386d88",
+      "bytes": 324,
+      "match_percent": 75.31645
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-O1 -fno-schedule-insns2",
+      "pin_mode_a0": false,
+      "source_sha256": "e07162ebed780f75233c4ee544369c89e33a257988d3899ca8da6c613ee098a7",
+      "bytes": 328,
+      "match_percent": 73.79747
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-O1 -fno-schedule-insns2",
+      "pin_mode_a0": true,
+      "source_sha256": "2cbd1f8d294975df327cf8cc7893053384d92d2c39952c4ecc398f2adf386d88",
+      "bytes": 324,
+      "match_percent": 75.31645
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-strength-reduce -fno-expensive-optimizations -fno-schedule-insns2",
+      "pin_mode_a0": false,
+      "source_sha256": "e07162ebed780f75233c4ee544369c89e33a257988d3899ca8da6c613ee098a7",
+      "bytes": 312,
+      "match_percent": 83.29114
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-strength-reduce -fno-expensive-optimizations -fno-schedule-insns2",
+      "pin_mode_a0": true,
+      "source_sha256": "2cbd1f8d294975df327cf8cc7893053384d92d2c39952c4ecc398f2adf386d88",
+      "bytes": 308,
+      "match_percent": 84.81013
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-rerun-cse-after-loop",
+      "pin_mode_a0": false,
+      "source_sha256": "e07162ebed780f75233c4ee544369c89e33a257988d3899ca8da6c613ee098a7",
+      "bytes": 320,
+      "match_percent": 80.0
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-rerun-cse-after-loop",
+      "pin_mode_a0": true,
+      "source_sha256": "2cbd1f8d294975df327cf8cc7893053384d92d2c39952c4ecc398f2adf386d88",
+      "bytes": 316,
+      "match_percent": 81.51899
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-cse-follow-jumps -fno-cse-skip-blocks",
+      "pin_mode_a0": false,
+      "source_sha256": "e07162ebed780f75233c4ee544369c89e33a257988d3899ca8da6c613ee098a7",
+      "bytes": 312,
+      "match_percent": 83.29114
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-cse-follow-jumps -fno-cse-skip-blocks",
+      "pin_mode_a0": true,
+      "source_sha256": "2cbd1f8d294975df327cf8cc7893053384d92d2c39952c4ecc398f2adf386d88",
+      "bytes": 308,
+      "match_percent": 84.81013
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fcall-used-$1",
+      "pin_mode_a0": false,
+      "source_sha256": "e07162ebed780f75233c4ee544369c89e33a257988d3899ca8da6c613ee098a7",
+      "bytes": 308,
+      "match_percent": 77.3924
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fcall-used-$1",
+      "pin_mode_a0": true,
+      "source_sha256": "2cbd1f8d294975df327cf8cc7893053384d92d2c39952c4ecc398f2adf386d88",
+      "bytes": 304,
+      "match_percent": 78.8481
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fcall-used-$1 -fno-expensive-optimizations",
+      "pin_mode_a0": false,
+      "source_sha256": "e07162ebed780f75233c4ee544369c89e33a257988d3899ca8da6c613ee098a7",
+      "bytes": 308,
+      "match_percent": 77.3924
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fcall-used-$1 -fno-expensive-optimizations",
+      "pin_mode_a0": true,
+      "source_sha256": "2cbd1f8d294975df327cf8cc7893053384d92d2c39952c4ecc398f2adf386d88",
+      "bytes": 304,
+      "match_percent": 78.8481
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fcall-used-$1 -fno-schedule-insns2",
+      "pin_mode_a0": false,
+      "source_sha256": "e07162ebed780f75233c4ee544369c89e33a257988d3899ca8da6c613ee098a7",
+      "bytes": 308,
+      "match_percent": 77.3924
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fcall-used-$1 -fno-schedule-insns2",
+      "pin_mode_a0": true,
+      "source_sha256": "2cbd1f8d294975df327cf8cc7893053384d92d2c39952c4ecc398f2adf386d88",
+      "bytes": 304,
+      "match_percent": 78.8481
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-move-all-movables -fno-reduce-all-givs",
+      "pin_mode_a0": false,
+      "source_sha256": "e07162ebed780f75233c4ee544369c89e33a257988d3899ca8da6c613ee098a7",
+      "compile_error": "Stock GCC281 rejects -fno-move-all-movables and -fno-reduce-all-givs"
+    },
+    {
+      "shape": "base",
+      "compiler": "281",
+      "flags": "-fno-move-all-movables -fno-reduce-all-givs",
+      "pin_mode_a0": true,
+      "source_sha256": "2cbd1f8d294975df327cf8cc7893053384d92d2c39952c4ecc398f2adf386d88",
+      "compile_error": "Stock GCC281 rejects -fno-move-all-movables and -fno-reduce-all-givs"
+    }
+  ]
+}
