@@ -140,6 +140,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x97DC..0x98AC` | `task/Task_DrawYield` | The frame-or-draw wait and draw-busy yield use one task suspension ABI: they decrement `g_SceneDataTable0` and set `g_TaskNodePool + 0x10`. The shared `-G8` object is 0xD0 bytes and links retail-identically. |
 | `0x9A60..0x9C10` | `task/Task_EntityControl` | Render reset, PM stop, target lookup, and menu-slot commands share the current/player/actor-list selection state. A single 0x1B0-byte object resolves the prior current-entity pointer shapes and links retail-identically. |
 | `0x9E18..0xA0C4` | `task/Task_FieldEntityCommands` | Field flag, collision-slot, position, and polar-coordinate commands all access `g_CurrentEntity`. The merged 0x2AC-byte object reconciles its former `FieldActor *`, `char *`, and `int *` declaration forms through one address-preserving base and links retail-identically. |
+| `0xB32F0..0xB3390` | `engine/FieldEng_ScriptState` | Spawn and indexed script-state accessors share `g_FieldEngineScriptState` (`D_800E2248`) and its offset-based work area. Their merged 0xA0-byte object retains only expected global relocations and links retail-identically. |
 
 ## Semantic candidates awaiting promotion
 
