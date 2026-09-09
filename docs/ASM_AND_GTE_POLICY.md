@@ -1689,3 +1689,24 @@ The state accesses now use `CdRomCommandState` and its asserted offset within
 `CdRomSystemState`, replacing the anonymous ready-window alias and negative
 word index. All 148 bytes match, and the main executable plus all 191 overlays
 retain their retail SHA-1. No instruction ASM or toolchain patch remains.
+
+
+## VSync counter sampling
+
+VSync is entirely C with stock GCC 2.8.1 and unsplit addresses. All 376
+linked bytes match retail. Volatile samples preserve the two stable-read
+loops, the 16-bit HBlank difference, and the original GPU 0x400000 gate.
+One v0 pin and two empty barriers retain target-frame arithmetic and the
+second v_wait call's argument schedule. Removing them individually yields
+94.84042%, 97.87234%, and 98.297874%; an extra a1 pin and arithmetic barrier
+were removed. No instruction ASM or toolchain modification is used.
+
+SDK VSYNC.OBJ proves VSync and v_wait originally occupied one 528-byte TU.
+The existing boundaries remain for now: v_wait still needs GCC272 and its
+existing constraints, whereas the combined GCC281 candidate does not yet
+match that helper. The promotion replaces the existing ASM segment without
+introducing an additional split or claiming the complete TU is matched.
+
+Production validation: main retail SHA-1, all 191 overlay SHA-1 checks,
+source/organization/debt gates, and fresh progress/report audits pass.
+The audited PsyQ result is 141/254 functions and 44.75% code.

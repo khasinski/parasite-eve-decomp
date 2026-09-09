@@ -985,7 +985,7 @@ segments:
       - [0x641C4, c, event/Evt_Deliver]
       - [0x64228, asm, main/gap_event_Evt_Deliver_tail_64228]
       - [0x64234, c, psyq/libapi/DeliverEvent]
-      - [0x64244, asm, psyq/libapi/VSync]
+      - [0x64244, c, psyq/libapi/VSync]
       - [0x643BC, c, psyq/libapi/v_wait]
       - [0x64454, asm, main/Data_80073C54]
       - [0x6445C, c, psyq/libc/puts]
