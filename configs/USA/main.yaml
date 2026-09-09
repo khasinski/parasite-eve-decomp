@@ -1150,7 +1150,7 @@ segments:
       - [0x6B2B4, asm, psyq/libcd/getintr]
       - [0x6B810, asm, main/CD_sync]
       - [0x6BA90, asm, main/CD_ready]
-      - [0x6BD58, asm, main/CD_cw]
+      - [0x6BD58, asm, psyq/libcd/CD_cw]
       - [0x6C164, c, psyq/libcd/CD_vol]
       - [0x6C1EC, c, psyq/libcd/CD_flush]
       - [0x6C2C0, c, psyq/libcd/bios]
