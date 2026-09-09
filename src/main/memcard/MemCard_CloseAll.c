@@ -1,4 +1,4 @@
-extern unsigned char g_MemCardPortStates[];
+#include "pe1/memcard.h"
 
 int close(int fd);
 
@@ -11,7 +11,7 @@ void MemCard_CloseAll(void) {
     int closedFd;
     int stateClosed;
 
-    base = g_MemCardPortStates;
+    base = (unsigned char *)g_MemCardPortStates;
     if (base < base + 0x830) {
         stateOpen = 8;
         stateBusy = 10;

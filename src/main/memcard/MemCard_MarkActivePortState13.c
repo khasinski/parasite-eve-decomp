@@ -1,7 +1,6 @@
-extern int g_MemCardActivePortOneBased;
-extern unsigned char D_800A0ED5[];
+#include "pe1/memcard.h"
 
 void MemCard_MarkActivePortState13(void) {
     int portIndex = g_MemCardActivePortOneBased - 1;
-    D_800A0ED5[portIndex * 1048] = 0xD;
+    g_MemCardPortStates[portIndex].managerState = 0xD;
 }

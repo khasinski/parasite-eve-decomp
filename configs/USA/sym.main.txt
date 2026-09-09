@@ -567,7 +567,7 @@ Akao_Cmd_AC = 0x80086AE4; // type:func
 Akao_Cmd_AD = 0x80086B1C; // type:func
 
 // Function entry labels required by regenerated asm islands.
-MemCard_GetPortFileCount = 0x80042964; // type:func
+MemCard_GetPortSequence = 0x80042964; // type:func
 MemCard_CloseAllAndResetState = 0x80042A10; // type:func
 MemCard_IsOperationPending = 0x80042B28; // type:func
 Menu_HandleInput = 0x800430A0; // type:func

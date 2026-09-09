@@ -5,8 +5,6 @@ extern int g_MemCardActivePromptPending;
 
 void MemCard_StartRead(int port, int arg1);
 
-extern u8 D_800A0EDE[];
-
 extern int g_MemCardReadContext;
 
 void MenuWidget_SaveAndSetCurrentNode(int arg0);
@@ -17,8 +15,8 @@ void MemCard_StartActivePortRead(void) {
     g_MemCardActivePromptPending = 0;
 }
 
-int MemCard_GetPortFileCount(int arg0) {
-    return D_800A0EDE[arg0 * 0x418];
+int MemCard_GetPortSequence(int arg0) {
+    return g_MemCardPortStates[arg0].sequence;
 }
 
 void MemCard_StartRead(int port, int arg1) {

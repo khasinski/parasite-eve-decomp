@@ -1,4 +1,4 @@
-extern int g_MemCardDelayedCallback;
+extern void (*g_MemCardDelayedCallback)(void);
 
 extern int g_MemCardEventF400Spec0004Flag;
 extern int g_MemCardRemovedEventPending;

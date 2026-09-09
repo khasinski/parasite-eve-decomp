@@ -1,13 +1,12 @@
-#include "common.h"
-extern u8 D_800A0ED5[];
+#include "pe1/memcard.h"
 
 extern int g_McOpPending;
 
-extern volatile int g_MemCardDelayedCallback;
+extern void (*g_MemCardDelayedCallback)(void);
 extern volatile int g_MemCardDelayedCallbackTimer;
 
 int MemCard_IsPortTransferState(int arg0) {
-    u8 value = D_800A0ED5[arg0 * 0x418];
+    u8 value = g_MemCardPortStates[arg0].managerState;
 
     return (value == 3) || (value == 8) || (value == 10);
 }

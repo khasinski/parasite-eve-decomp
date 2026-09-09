@@ -1,6 +1,5 @@
-extern unsigned char g_MemCardPortStates[];
+#include "pe1/memcard.h"
 extern unsigned char D_800A12ED;
-extern unsigned char D_800A0ED5;
 extern int g_McOpPending;
 
 int close(int fd);
@@ -14,7 +13,7 @@ void MemCard_CloseAllAndResetState(void) {
     int closedFd;
     int stateClosed;
 
-    base = g_MemCardPortStates;
+    base = (unsigned char *)g_MemCardPortStates;
     if (base < base + 0x830) {
         stateOpen = 8;
         stateBusy = 10;
@@ -33,6 +32,6 @@ void MemCard_CloseAllAndResetState(void) {
     }
 
     D_800A12ED = 0;
-    D_800A0ED5 = 0;
+    g_MemCardPortStates[0].managerState = 0;
     g_McOpPending = 0;
 }
