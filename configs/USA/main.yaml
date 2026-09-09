@@ -659,9 +659,8 @@ segments:
       - [0x415C0, c, menu/Menu_DrawScreenModeItem]
       - [0x41670, c, menu/Menu_DrawParasiteAbilityItem]
       - [0x41710, c, menu/Menu_DrawItemIcon]
-      - [0x41764, c, menu/func_80050F64]
-      - [0x417B8, c, menu/func_80050FB8]
-      - [0x4180C, c, menu/func_8005100C]
+      # Three grid-cell renderers share the same widget and sprite protocol.
+      - [0x41764, c, menu/Menu_DrawGridCellVariants]
       - [0x41860, c, menu/func_80051060]
       - [0x41884, c, battle/BattleCmd_InitTableCursor]
       # Command-stack allocation and rollback share the cursor and record ABI.
