@@ -1229,3 +1229,20 @@ with this TU's no-split-addresses profile moved out of the following call's
 delay slot and added a nop. Split-address profiles changed other global
 accesses. Neither trial was accepted as a matching cleanup.
 No new constraints, instruction assembly or aliases were introduced.
+
+## SPU common-volume constraints
+
+`SPU_WriteVoiceRegs` retains its two value constraints but no longer marks
+all memory clobbered at either boundary. Removing the initial memory
+clobber and the final memory clobber independently preserved the complete
+text; the combined removal is checked with the full retail executable.
+The initial read/write operand still separates the initial left value, and
+the final input still preserves the right temporary and common return path.
+Removing that final operand or the whole final barrier did not match.
+Making the initial operand input-only or removing its barrier also failed
+full-text comparison after the combined memory-clobber removal.
+
+Removing the right-value t0 pin rotates the mask, all-fields predicate and
+right temporary among t0..t2. Reordering its initialization or widening the
+value did not recover the target allocation. The pin remains. These changes
+narrow scheduling constraints; they do not classify this TU as pure C.

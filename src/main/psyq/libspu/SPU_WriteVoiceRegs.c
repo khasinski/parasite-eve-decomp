@@ -13,7 +13,7 @@ void SPU_WriteVoiceRegs(SpuCommonSettings *attr) {
     u32 mode;
 
     /* Keep the initial zero values independent and before the mask read. */
-    asm volatile("" : "+r"(left) : : "memory");
+    asm volatile("" : "+r"(left));
     mask = attr->mask;
     all = mask == 0;
     right = 0;
@@ -77,5 +77,5 @@ void SPU_WriteVoiceRegs(SpuCommonSettings *attr) {
         else _spu_RXX[0xD5] |= 2;
     }
     /* Preserve the right-volume temporary and the common return block. */
-    asm volatile("" : : "r"(right) : "memory");
+    asm volatile("" : : "r"(right));
 }
