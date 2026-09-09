@@ -852,8 +852,8 @@ segments:
       - [0x5371C, c, menu/MenuWidget_DestroyNode]
       - [0x5373C, c, menu/menu_widget3]
       - [0x537EC, c, menu/menu_widget4]
-      - [0x53998, c, menu/menu_widget5]
-      - [0x53A2C, c, menu/MenuWidget_CreateNode]
+      # Grid-node cursor helpers and construction share the MenuWidgetNode ABI.
+      - [0x53998, c, menu/MenuWidget_GridNode]
       - [0x53C28, c, menu/MenuWidget_GridCellIndex]
       - [0x53C6C, c, menu/MenuWidget_GetCellIndex]
       - [0x53CD4, asm, menu/menu_widget6]
