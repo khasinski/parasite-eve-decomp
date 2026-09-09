@@ -1,8 +1,0 @@
-#include "common.h"
-int func_800CCA78(void *arg0, u8 *state, u8 *anim) {
-    anim[3] -= 6;
-    *(u16 *)(anim + 4) = *(u16 *)(anim + 4) + 0xB4;
-    if (*(s8 *)(anim + 3) < 0x1E) {
-        state[1] = 2;
-    }
-}
