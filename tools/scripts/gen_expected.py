@@ -369,18 +369,29 @@ def retype_data_in_text(text, kinds):
     return CODE_LABEL.sub(relabel, text)
 
 
-def normalize_c_function_labels(text, valid_names):
+def normalize_c_function_labels(text, valid_names, data_names=()):
     """Type only compiler-emitted C functions as functions in a C unit.
 
     Splat may infer an extra function at an internal branch target or inherit
     a stale symbol-file annotation. Keep such names usable for relocations,
     but make them plain labels. Rebuilding the end markers around the valid
     labels prevents an internal guess from truncating the preceding function.
-    This changes ELF metadata only, never retail instructions or data.
+    Known data labels still end that function, keeping padding out of code
+    credit. This changes ELF metadata only, never retail instructions or data.
     """
     out = []
     current = None
     for line in text.splitlines():
+        # retype_data_in_text runs first and may turn a data opener into
+        # either dlabel or a bare label. Neither belongs to the preceding
+        # function, even though both still occupy bytes in .text.
+        stripped = line.strip()
+        data_name = stripped[:-1] if stripped.endswith(":") else None
+        if stripped.startswith("dlabel "):
+            data_name = stripped.split()[1]
+        if current is not None and data_name in data_names:
+            out.append("endlabel %s" % current)
+            current = None
         match = CODE_LABEL.fullmatch(line)
         if match:
             macro, name = match.groups()
@@ -603,7 +614,7 @@ def process_module(module, shared, assembler, workers):
             text = strip_differ_aliases(source.read_text())
             text = retype_data_in_text(text, unit_kinds)
             if valid_functions is not None:
-                text = normalize_c_function_labels(text, valid_functions)
+                text = normalize_c_function_labels(text, valid_functions, unit_kinds)
             source.write_text(inline_constant_pairs(text, constants))
         jobs.append((source, obj))
 

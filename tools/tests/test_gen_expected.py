@@ -152,6 +152,35 @@ class DisassemblyRewriteTests(unittest.TestCase):
         self.assertIn(".global FalseGuess\nFalseGuess:", out)
         self.assertNotIn("alabel FalseGuess", out)
 
+    def test_trailing_text_data_does_not_extend_function_size(self):
+        for kind in ("STT_OBJECT", "STT_NOTYPE"):
+            with self.subTest(kind=kind):
+                text = (
+                    "glabel Real\n  jr $ra\n  nop\nendlabel Real\n"
+                    "glabel Padding\n  .word 0\nenddlabel Padding\n"
+                )
+                text = gen_expected.retype_data_in_text(text, {"Padding": kind})
+                out = gen_expected.normalize_c_function_labels(
+                    text, {"Real"}, {"Padding"}
+                )
+                self.assertEqual(out.count("endlabel Real"), 1)
+                self.assertLess(out.index("endlabel Real"), out.index("  .word 0"))
+                self.assertIn("  .word 0", out)
+
+    def test_text_data_between_functions_is_not_code_credit(self):
+        text = (
+            "glabel First\n  nop\nendlabel First\n"
+            "glabel Padding\n  .word 0\nenddlabel Padding\n"
+            "glabel Second\n  nop\nendlabel Second\n"
+        )
+        text = gen_expected.retype_data_in_text(text, {"Padding": "STT_NOTYPE"})
+        out = gen_expected.normalize_c_function_labels(
+            text, {"First", "Second"}, {"Padding"}
+        )
+        self.assertLess(out.index("endlabel First"), out.index("Padding:"))
+        self.assertEqual(out.count("endlabel First"), 1)
+        self.assertEqual(out.count("endlabel Second"), 1)
+
     def test_addresses_below_the_load_address_become_constants_again(self):
         constants = gen_expected.invented_constants(
             "D_7FFFFF = 0x7FFFFF;\nD_80020000 = 0x80020000;\n"
