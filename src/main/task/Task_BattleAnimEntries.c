@@ -28,3 +28,10 @@ void Task_SetObjAnimEntry5(TaskAnimObj *obj, int index, int arg2, int arg3, u8 a
     dst[3] = arg4;
     *(u16 *)(dst + 0xC) = arg5;
 }
+
+void Battle_SetEntryCoords(TaskAnimObj *arg0, unsigned char arg1, int arg2, int arg3) {
+    TaskAnimEntry *entry = (TaskAnimEntry *)(arg0->base + 0x1C) + arg1;
+
+    entry->coord_x = arg2;
+    entry->coord_y = arg3;
+}
