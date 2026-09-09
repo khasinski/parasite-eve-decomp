@@ -833,8 +833,8 @@ segments:
       - [0x4F050, c, gpu/Draw_SetBaseOffsetPosition]
       - [0x4F084, c, gpu/Draw_GetBaseY]
       - [0x4F094, c, gpu/draw2]
-      - [0x4F0C4, c, gpu/Draw_StatePush]
-      - [0x4F114, c, gpu/Draw_StatePop]
+      # Text-cursor stack push/pop form one 164-byte -G8 object.
+      - [0x4F0C4, c, gpu/Draw_TextCursorState]
       - [0x4F168, c, gpu/Draw_SetColor]
       - [0x4F188, c, gpu/Draw_SetStatCompareColor]
       - [0x4F1C8, c, main/Draw_AllocPrimRectFull]
