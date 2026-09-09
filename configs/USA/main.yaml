@@ -668,8 +668,8 @@ segments:
       - [0x41A44, c, battle/BattleCmd_ResetTableCursor]
       - [0x41A58, c, menu/func_80051258]
       - [0x41AAC, asm, menu/menu29_tail]
-      - [0x41CF8, c, menu/Menu_GetCommandResult]
-      - [0x41D04, c, menu/Menu_ClearCommandResult]
+      # Command-result accessors share their single result slot.
+      - [0x41CF8, c, menu/Menu_CommandResult]
       - [0x41D10, c, battle/BattleCmd_SyncActiveAmmo]
       - [0x41DC0, c, battle/BattleCmd_SetCurrentHP]
       - [0x41DF8, c, battle/BattleCmd_GetRemainingAmmo]
