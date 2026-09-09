@@ -12,14 +12,18 @@ and prints seven channel address registers. DmaChannelRegisters gives those
 records their verified 16-byte stride. The channel-array base is reloaded for
 each diagnostic call, matching the original behavior if printf changes it.
 The source uses shared callback/pointer declarations and volatile views for
-status accesses. There are no pins, barriers, instruction ASM or postpasses.
+status accesses. The register structure and its stride assertion live in
+`include/pe1/psyq_api_internal.h`.
 
-**Not exact:** stock GCC281 unsplit gives 95.25% (372 candidate bytes versus
-384 retail). GCC272 gives 95.052086%; default GCC281 gives 85.03125%.
-Explicit base-pointer/do-loop and indexed-loop variants did not improve the
-maintained candidate. A saved base register, pointer induction and stack
-layout still differ. No production ASM replacement or matching credit is
-claimed.
+**Exact and promoted:** stock GCC281 with `-mno-split-addresses` produces all
+384 retail bytes after linking. The production build now uses
+`src/main/psyq/libapi/trapIntrDMA.c`. There are no register pins, instruction
+ASM or postpasses. One empty compiler barrier preserves initialization order
+of the loop constants before the callback-table base. The earlier 95.25%
+proposal has been replaced by this matching reconstruction. The production
+object scores 100% against the retail-derived reference. The complete main
+SHA-1, all 191 overlay SHA-1 checks, 290 repository tests and source/debt/
+organization checks pass.
 
 ```sh
 tools/scripts/cc.sh proposals/trapIntrDMA/candidate.c /tmp/trap-dma.o

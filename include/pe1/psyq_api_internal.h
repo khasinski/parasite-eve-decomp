@@ -30,6 +30,17 @@ extern PadToggleFunc jtbl_800A34CC;
 #define _interrupt_status_register ((s32 *)D_8009B7CC)
 #define _interrupt_status_masks D_8009B7D4
 
+typedef struct DmaChannelRegisters {
+    u32 address;
+    u32 block_control;
+    u32 channel_control;
+    u32 unused;
+} DmaChannelRegisters;
+PE1_STATIC_ASSERT(sizeof(DmaChannelRegisters) == 16, dma_channel_stride);
+extern DmaChannelRegisters *D_800956E0;
+extern char D_8001177C[];
+extern char D_80011798[];
+
 typedef PsyqInterruptHandler DmaInterruptCallback;
 typedef DmaInterruptCallback (*DmaCallbackSetter)(int channel,
                                                DmaInterruptCallback callback);
