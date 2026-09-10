@@ -1,1 +1,0 @@
-asm/USA/main/psyq/libcd/CdControlB.s
