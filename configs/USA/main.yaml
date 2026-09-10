@@ -1171,7 +1171,7 @@ segments:
       - [0x6C5DC, c, psyq/libcd/CD_datasync]
       - [0x6C744, c, psyq/libcd/sector_read]
       - [0x6C930, c, psyq/libcd/Cd_SetSectorStatus]
-      - [0x6C93C, asm, psyq/libcd/Cd_SetIntrMask]
+      - [0x6C93C, c, psyq/libcd/Cd_SetIntrMask]
       - [0x6CA14, c, psyq/libcd/data_ready_callback]
       - [0x6CAA0, c, psyq/libcd/StGetBackloc]
       - [0x6CAF8, pad]
