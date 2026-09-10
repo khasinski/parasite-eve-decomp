@@ -20,23 +20,28 @@ These statements are reconstructed directly from the retail disassembly.
 
 `candidate.c` uses stock GCC 2.8.1 with
 `-mno-split-addresses -fno-expensive-optimizations` and no pins or barriers.
-Objdiff reports **93.577774%**, both standalone and in the ten-function
-LIBCD reconstruction. It uses shared CD callback/status types and the correct
+Objdiff reports **94.666664%** for the standalone candidate. A distinct
+`savedMode` local recovers the retail `$s2` parameter lifetime and prologue.
+Passing the interrupt-event state explicitly, initialized before the event-name
+table, recovers the retail `$s1`/`$s0` allocation. It uses shared CD
+callback/status types and the correct
 void CD_flush prototype. The former two-byte nonvolatile event array is now
 the shared CdInterruptEvents structure with volatile sync/ready members.
 
 Command/event-name pointers are initialized after the first VSync. A local
 poll limit is passed into the timeout helper, retaining its lifetime across
 subsequent calls. Shared fixed-limit timeout code first gave 86.666664%; the
-explicit limit raised that to 93.577774% without constraints. The remaining
-differences include saved-register allocation and symbolic delay slots.
+explicit limit raised that to 93.577774% without constraints. The additional
+lifetimes raise the current result to 94.666664%. The remaining differences
+are instruction scheduling and symbolic delay slots.
 
 The parameterized helper stays local: replacing the common fixed-limit helper
 with it regressed CD_sync (89.90625%), CD_ready (85.6236%) and CD_cw (90.586876%).
 The other functions keep their existing source and scores. All 15 combinations
 of pins on mode/limit/command names/event names scored at most 94.22222%; none
-was retained. Passing the event-state pointer as another helper argument
-scored 88.45556%, independent of argument ordering.
+was retained. Earlier event-state-argument trials without the recovered mode
+lifetime scored 88.45556%; the combined lifetime and initialization order is
+the retained improvement.
 
 ## Earlier experiments
 
