@@ -12,10 +12,12 @@ class MainDataLayoutTests(unittest.TestCase):
         config = yaml.safe_load((root / "configs/USA/main.yaml").read_text())
         segments = {s["name"]: s for s in config["segments"]
                     if isinstance(s, dict)}
-        self.assertEqual(segments["main"]["subsegments"][-3:], [
+        self.assertEqual(segments["main"]["subsegments"][-5:], [
             [0x818A0, "data", "main/dtail_gp_pre_s016"],
             [0x8B72C, ".data", "psyq/libcd/CdControl"],
-            [0x8B7AC, "data", "main/dtail_gp_post_s016"],
+            [0x8B7AC, "data", "main/dtail_gp_post_s016_pre_bios"],
+            [0x8B7B4, ".data", "psyq/libcd/bios"],
+            [0x8B7DC, "data", "main/dtail_gp_post_bios"],
         ])
         engine = segments["field_engine"]
         self.assertEqual(engine["start"], 0xB24A0)
