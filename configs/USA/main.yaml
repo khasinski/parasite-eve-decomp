@@ -1136,7 +1136,7 @@ segments:
       - [0x6A7B4, asm, psyq/libgte/Gte_Atan2]
       - [0x6A928, pad]
       - [0x6A934, asm, psyq/libgte/St_InstallDmaHandler]
-      - [0x6A9E0, asm, psyq/libgte/St_DmaHandlerTemplates]
+      - [0x6A9E0, c, psyq/libgte/St_DmaHandlerTemplates]
       - [0x6AA14, asm, psyq/libcd/StSetRing]
       - [0x6AA40, pad]
       - [0x6AA44, c, psyq/libcd/StClearRing]
