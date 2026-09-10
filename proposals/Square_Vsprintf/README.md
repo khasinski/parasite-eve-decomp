@@ -396,11 +396,11 @@ relocations unchanged. The now-redundant `-fno-strength-reduce` and
 candidate retains three pins and six narrow constraints.
 
 The same source was compiled with original `CC1PSX.EXE` binaries from PsyQ
-4.0, 4.1, 4.3, 4.4, 4.5 and 4.6, then assembled through unchanged MASPSX.
+4.0, 4.3, 4.4, 4.5 and 4.6, then assembled through unchanged MASPSX.
 PsyQ 4.3's GCC 2.8.0 Build 0007 and PsyQ 4.4's GCC 2.8.1 Build 0010 reproduce
 the native stock GCC 2.8.1 result at 99.68807%, including the remaining
-uppercase-address NOP. PsyQ 4.0 scores 98.801834%, 4.1 scores 99.03486%, 4.5
-scores 92.078896%, and 4.6's GCC 2.95.2 Build 0030 scores 93.097244%.
+uppercase-address NOP. PsyQ 4.0 scores 98.801834%, PsyQ 4.5 scores 92.078896%, and 4.6's
+GCC 2.95.2 Build 0030 scores 93.097244%.
 
 This identifies the 2.8.x compiler family as the correct source-search basis
 and rejects the assumption that the compiler shipped in the PsyQ 4.6 package
