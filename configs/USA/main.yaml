@@ -1000,9 +1000,8 @@ segments:
       - [0x64494, c, psyq/libapi/intr_callbacks]
       - [0x64628, c, sys/Sys_InitIntrManager]
       - [0x64700, asm, main/Render_InitSceneGeom]
-      - [0x648D0, asm, sys/Sys_SetIntrCallback]
-      - [0x64A18, c, sys/Sys_SaveDisableIntr]
-      - [0x64AB8, asm, sys/Sys_RestoreIntr]
+      # LIBETC INTR.OBJ: setIntr, stopIntr, restartIntr (contiguous fragment).
+      - [0x648D0, c, psyq/libapi/intr_state]
       - [0x64B30, c, sys/misc37]
       - [0x64B54, asm, sys/RawData_80074354]
       - [0x64B6C, c, sys/Sys_HleJumpA0]

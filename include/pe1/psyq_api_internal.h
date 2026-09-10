@@ -5,6 +5,44 @@
 #include "pe1/psyq_callbacks.h"
 typedef void (*PadToggleFunc)(void);
 
+/* LIBETC INTR.OBJ state: a 12-word BIOS jump buffer and 4 KiB IRQ stack. */
+typedef struct InterruptCallbackState {
+    u16 active;
+    u16 inCallback;
+    PsyqInterruptHandler handlers[11];
+    u16 enabled;
+    u16 interruptMask;
+    u32 dmaControl;
+    u32 entry[12];
+    s32 interruptStack[1024];
+} InterruptCallbackState;
+
+PE1_STATIC_ASSERT(sizeof(InterruptCallbackState) == 0x1068, intr_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(InterruptCallbackState, handlers) == 4,
+                  intr_state_handlers);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(InterruptCallbackState, enabled) == 0x30,
+                  intr_state_enabled);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(InterruptCallbackState, interruptMask) == 0x32,
+                  intr_state_saved_mask);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(InterruptCallbackState, dmaControl) == 0x34,
+                  intr_state_saved_dma);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(InterruptCallbackState, entry) == 0x38,
+                  intr_state_entry);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(InterruptCallbackState, interruptStack) == 0x68,
+                  intr_state_stack);
+
+/* Legacy halfword storage and the handler-array view into that state. */
+extern u16 D_800945E4[];
+extern PsyqInterruptHandler D_800945E8[11];
+extern u16 *D_80095670;
+extern volatile u16 *D_80095674;
+extern u16 *g_IntrMaskRegPtr;
+extern u32 *D_80095678;
+PsyqInterruptHandler Sys_SetIntrCallback(int channel, PsyqInterruptHandler handler);
+InterruptCallbackState *Sys_SaveDisableIntr(void);
+InterruptCallbackState *Sys_RestoreIntr(void);
+
+
 typedef struct RootCounter {
     u16 rootCounter;
     s16 field_02;

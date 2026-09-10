@@ -5,6 +5,14 @@
 int printf(const char *format, ...);
 int puts(const char *text);
 
+/* Entry-hook and automatic IRQ acknowledgement services used by LIBETC. */
+int EnterCriticalSection(void);
+void ExitCriticalSection(void);
+int ResetEntryInt(void);
+void HookEntryInt(void *entry);
+void ChangeClearPAD(long enabled);
+int ChangeClearRCnt(int counter, int enabled);
+
 #define PE1_STRINGIFY_INNER(value) #value
 #define PE1_STRINGIFY(value) PE1_STRINGIFY_INNER(value)
 
