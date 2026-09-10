@@ -2,7 +2,7 @@
 
 `candidate.c` reconstructs the complete 1372-byte retail function at
 `0x8007AAB4` in C. Stock GCC 2.8.1 with `-mno-split-addresses` scores
-97.50437% in objdiff; it has no register pins, barriers or instruction ASM.
+97.58018% in objdiff; it has no register pins, barriers or instruction ASM.
 It is not yet a byte-exact production replacement.
 
 The routine stabilizes the interrupt register, drains up to eight response
@@ -46,10 +46,12 @@ mask after its byte load and raises the match from 95.997086% to 96.30612%.
 This qualifier is consistent with a response assembled from volatile controller
 register reads. A local pointer to `CdInterruptEvents` on the ready-interrupt
 path then reproduces retail base-plus-field addressing and raises the match to
-97.50437%. Applying that pointer to the end/error paths changes their register
-allocation and regresses the match. Remaining differences include address-load
-scheduling around diagnostic calls and field-address relocation spelling on
-those two paths.
+97.50437%. Block-scoped aliases on the end and error paths recover the same
+base-plus-field relocation pattern without extending their lifetimes, raising
+the match to 97.58018%. A single function-wide alias for all paths instead
+changes register allocation and regresses the match. Remaining differences are
+address-load scheduling around diagnostic calls, one command-table address
+register, and jump-table symbol spelling.
 GCC 2.7.2 scores 90.399414%; GCC 2.8.1 split addresses 84.705536%; disabling
 first/second scheduling passes scores 92.63265%/92.64723%. MASPSX ASPSX
 profiles 2.21, 2.34/2.35 and 2.56 score 85.46064%, 86.68221% and

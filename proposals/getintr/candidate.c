@@ -71,18 +71,22 @@ int getintr(void) {
         *D_8009B27C = 0;
         *D_8009B288 = 0;
         return 4;
-    case 4:
-        D_8009B294.end = 4;
-        D_8009B294.ready = D_8009B294.end;
+    case 4: {
+        CdInterruptEvents *endEvents = &D_8009B294;
+        endEvents->end = 4;
+        endEvents->ready = endEvents->end;
         copy_result(D_800A3470, result);
         copy_result(D_800A3468, result);
         return 4;
-    case 5:
-        D_8009B294.ready = 5;
-        D_8009B294.sync = D_8009B294.ready;
+    }
+    case 5: {
+        CdInterruptEvents *errorEvents = &D_8009B294;
+        errorEvents->ready = 5;
+        errorEvents->sync = errorEvents->ready;
         copy_result(D_800A3460, result);
         copy_result(D_800A3468, result);
         return 6;
+    }
     default:
         puts(D_80011B6C);
         printf(D_80011B80, interrupt);
