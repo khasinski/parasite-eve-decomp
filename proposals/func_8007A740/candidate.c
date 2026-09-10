@@ -4,9 +4,10 @@ int func_8007A740(u_char command, u_char *parameter, u_char *result) {
     static inline int retry_command(u_char command, u_char *parameter,
                                     u_char *result) {
         int retries;
+        int retry_end = -1;
         CdlCB previous_callback = D_8009AFB4;
 
-        for (retries = 3; retries != -1; --retries) {
+        for (retries = 3; retries != retry_end; --retries) {
             D_8009AFB4 = 0;
 
             if (command != 1 && (*(u8 *)&D_8009AFC4 & 0x10) != 0) {

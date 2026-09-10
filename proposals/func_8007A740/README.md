@@ -18,10 +18,11 @@ truncated to its low byte for the table lookup and command call.
 The retained source follows the byte-exact public PsyQ `CdControlB` source
 shape from decomp.me scratch B5sWY: the retry loop is an inline helper and the
 outer function converts its result through `CD_sync`. After adapting only the
-retail symbols, stock GCC272 produces 324 bytes and scores **86.554214%**
-against this game's 332-byte body. This replaces the earlier 71.53012%
-candidate. It has no pins, barriers or instruction asm and is not yet a
-production replacement.
+retail symbols, a named `-1` retry boundary reproduces the retail `$s7`
+lifetime and loop delay slot. Stock GCC272 now produces the exact 332-byte
+size and scores **91.86747%** against this game's body. This replaces the
+earlier 71.53012% candidate. It has no pins, barriers or instruction asm and
+is not yet a production replacement.
 
 ```sh
 tools/scripts/cc.sh proposals/func_8007A740/candidate.c /tmp/cd-retry.o
