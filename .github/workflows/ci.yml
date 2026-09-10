@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
 
       # Layout tests compile small PSX translation units. They need the same
       # compiler pipeline as the full build, but do not need retail assets.
@@ -59,6 +61,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
 
       # The build hard-codes the mipsel-none-elf-* binutils names; Ubuntu
       # ships the same binaries as mipsel-linux-gnu-*.
@@ -99,6 +103,20 @@ jobs:
           cp -R .assets/original/USA/overlays original/USA/overlays
           rm -rf .assets
 
+      # Overlay splitting and compilation dominate the workflow. Main-only
+      # decompilation changes do not affect these products, so retain their
+      # objects, linker maps and generated assembly under an input hash that
+      # covers every shared file that can change their bytes.
+      - name: Restore overlay build
+        id: overlay-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            asm/USA/overlays
+            build/USA/overlays
+            linkers/USA/overlays
+          key: overlays-v1-${{ hashFiles('configs/USA/overlays/**', 'configs/USA/sym.main.txt', 'src/overlays/**', 'include/**', 'tools/scripts/cc.sh', 'tools/scripts/overlay_extra_undefineds.py', 'tools/scripts/parallel_overlay_make.py', 'Makefile') }}
+
       - name: Split and build the main executable
         run: |
           make split
@@ -108,6 +126,7 @@ jobs:
         run: make check
 
       - name: Build every overlay
+        if: steps.overlay-cache.outputs.cache-hit != 'true'
         run: make overlay-build-all OVERLAY_JOBS="$(nproc)"
 
       - name: Verify the overlays against the retail SHA-1s
