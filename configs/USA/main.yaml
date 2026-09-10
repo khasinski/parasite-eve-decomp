@@ -1180,7 +1180,7 @@ segments:
       - [0x6D95C, c, psyq/libspu/SpuStart]
       - [0x6D9CC, c, main/gap_psyq_libspu_SpuStart_tail_6D9CC]
       - [0x6D9D4, asm, main/_spu_init]
-      - [0x6DC54, asm, psyq/misc32]
+      - [0x6DC54, asm, psyq/libspu/_spu_FwriteByIO]
       - [0x6DE14, c, psyq/libspu/_spu_FiDMA]
       - [0x6DED0, c, psyq/libspu/spu_transfer]
       # Contiguous Psy-Q libspu/spu.c register access and control APIs.

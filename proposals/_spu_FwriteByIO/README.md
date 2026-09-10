@@ -6,7 +6,7 @@ barriers or instruction ASM. Stock GCC281 unsplit scores 93.88393%, unchanged
 by disabling expensive optimizations. GCC272 scores 93.25% in the combined source. Earlier, with a volatile
 manual-write-mode store, it scored 91.82143%; disabling its second scheduler
 then scored 80.47321%. The production segment remains ASM at
-psyq/misc32. The label func_8007D5AC in the old dump is inside the final wait,
+psyq/libspu/_spu_FwriteByIO. The label func_8007D5AC in the old dump is inside the final wait,
 not a separate callable function.
 
 The function saves the low eleven SPU status bits, writes the transfer address
@@ -24,7 +24,7 @@ this is not a claim that arbitrary odd-sized caller buffers are safe.
 ```sh
 tools/scripts/cc.sh proposals/_spu_FwriteByIO/candidate.c /tmp/spu-io.o
 tools/objdiff/objdiff-cli diff \
-  -1 expected/build/USA/asm/USA/main/psyq/misc32.s.o \
+  -1 expected/build/USA/asm/USA/main/psyq/libspu/_spu_FwriteByIO.s.o \
   -2 /tmp/spu-io.o -o /tmp/spu-io.json
 python proposals/_spu_FwriteByIO/verify_behavior.py /tmp/spu-io.o
 ```
