@@ -11,7 +11,8 @@ int printf(const char *, ...);
 int CD_flush(void);
 
 int CD_datasync(int mode) {
-    int timeout_limit;
+    char *sync_name;
+    register int timeout_limit asm("$20");
     char **commands;
     CdInterruptEvents *interrupts;
     char **events;
@@ -19,15 +20,16 @@ int CD_datasync(int mode) {
     D_800A3478 = VSync(-1) + 0x3C0;
     timeout_limit = 0x3C0000;
     commands = D_8009AFDC;
-    interrupts = &D_8009B294;
     events = D_8009B05C;
+    interrupts = &D_8009B294;
     D_800A347C = 0;
     D_800A3480 = D_80011C20;
     do {
         if (VSync(-1) > D_800A3478 || D_800A347C++ > timeout_limit) {
             puts(D_80011B18);
+            sync_name = events[interrupts->sync];
             printf(D_80011B28, D_800A3480, commands[D_8009AFD5],
-                   events[interrupts->sync], events[interrupts->ready]);
+                   sync_name, events[interrupts->ready]);
             CD_flush();
             return -1;
         }
