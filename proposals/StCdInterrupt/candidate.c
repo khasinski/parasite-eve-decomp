@@ -33,10 +33,10 @@ extern s32 D_800B89F4;
 extern s32 D_800BCD7C;
 extern s32 D_800BE998;
 extern s32 D_800BE9E4;
-extern s32 D_800C0DB8;
+extern u8 *D_800C0DB8;
 extern u32 D_800C0DBC;
 extern s32 D_800C0DC0;
-extern u16 *D_800C0DC4;
+extern u8 *D_800C0DC4;
 extern StHEADER *D_800C0DC8;
 extern s32 D_800C20C4;
 
@@ -110,7 +110,8 @@ void StCdInterrupt(void) {
     }
     var_t0 = 0x11000000;
     if (D_800C0DB8 != 0) {
-        mem2mem(D_800A34A0, (D_800BCD7C << 0xB) + D_800C0DB8, 8, 0);
+        mem2mem(D_800A34A0,
+                (s32 *)(D_800BCD7C * 0x800 + (u32)D_800C0DB8), 8, 0);
     } else {
         dma_execute(3, D_800A34A0, 0, 8, var_t0, 0, 0);
     }
@@ -208,8 +209,8 @@ void StCdInterrupt(void) {
     D_8009B374 = 10;
     D_800A8018++;
     D_800C0DC4 =
-        (u16 *)((u8 *)&D_800C0DC8[D_800C20C4] +
-                D_800BE998 * STREAM_SECTOR_PAYLOAD_SIZE);
+        (u8 *)&D_800C0DC8[D_800C20C4] +
+        D_800BE998 * STREAM_SECTOR_PAYLOAD_SIZE;
 
     if (D_800A801C != 0) {
         var_t0 = 0x11000000;
@@ -224,7 +225,9 @@ void StCdInterrupt(void) {
         D_800B89F4 = 1;
         if (D_800C0DB8 != 0) {
             mem2mem(
-                D_800C0DC4, (D_800BCD7C << 0xB) + D_800C0DB8 + 0x20, 0x1F8, 1);
+                (s32 *)D_800C0DC4,
+                (s32 *)(D_800BCD7C * 0x800 + (u32)D_800C0DB8 + 0x20),
+                0x1F8, 1);
             D_800BCD7C++;
         } else {
             dma_execute(3, D_800C0DC4, 0, 0x1F8, var_t0, 1, 0);
@@ -235,7 +238,9 @@ void StCdInterrupt(void) {
     } else {
         if (D_800C0DB8 != 0) {
             mem2mem(
-                D_800C0DC4, (D_800BCD7C << 0xB) + D_800C0DB8 + 0x20, 0x1F8, 0);
+                (s32 *)D_800C0DC4,
+                (s32 *)(D_800BCD7C * 0x800 + (u32)D_800C0DB8 + 0x20),
+                0x1F8, 0);
             D_800BCD7C++;
         } else {
             dma_execute(3, D_800C0DC4, 0, 0x1F8, var_t0, 0, 0);

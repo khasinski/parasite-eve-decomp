@@ -45,6 +45,17 @@ than an anonymous `s16[4]`; its `status` and `detail` members retain the
 retail halfword stores at stack offsets 0x22 and 0x24. This second typing step
 is also codegen-neutral.
 
+`D_800C0DB8` is now typed as the optional byte pointer to the staged CD-sector
+buffer. Each `D_800BCD7C` index advances it by one 0x800-byte sector, and the
+payload copies skip the first 0x20-byte sector header. The address expression
+uses an explicit PSX-width `u32` conversion to preserve retail's
+`offset + base` operand order. This replaces the former integer-as-pointer
+declaration without changing text or relocations.
+`D_800C0DC4`, the corresponding payload destination, is likewise a byte
+pointer now. Only the CPU-copy path casts it to the word type required by
+`mem2mem`; the DMA path consumes the address as `void *`. This second pointer
+correction is also codegen-neutral.
+
 ```sh
 tools/scripts/cc.sh proposals/StCdInterrupt/candidate.c /tmp/StCdInterrupt.o
 tools/objdiff/objdiff-cli diff \
