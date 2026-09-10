@@ -19,6 +19,15 @@ bytes, `frameCount` begins at offset 8, and `CdlLOC` occupies the final four
 bytes. This agrees with the ring stride used by `StGetNext`, `StFreeRing`, and
 `init_ring_status`.
 
+The interrupt reconstruction now names the `type`, `secCount`, and `nSectors`
+accesses through that shared structure. These accesses preserve every
+generated instruction. The remaining halfword access at offset 8 is
+intentional: retail reads only the low 16 bits of the 32-bit `frameCount`
+field. Naming it as a full-width field changes the load and is incorrect for
+this routine. The `id` stores also retain their halfword view because changing
+their expression alters GCC's scheduling; both are documented exceptions in
+an otherwise typed header view.
+
 ```sh
 tools/scripts/cc.sh proposals/StCdInterrupt/candidate.c /tmp/StCdInterrupt.o
 tools/objdiff/objdiff-cli diff \

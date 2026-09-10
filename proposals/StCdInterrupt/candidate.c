@@ -9,6 +9,7 @@
 #define NULL ((void *)0)
 
 static volatile u16 *D_800A34A0;
+#define CURRENT_STREAM_HEADER ((volatile StHEADER *)D_800A34A0)
 
 extern volatile s32 *D_8009B33C;
 extern volatile s32 *D_8009B340;
@@ -121,7 +122,7 @@ void StCdInterrupt(void) {
         D_800C0DC0 = 0;
     }
     if ((D_800A34A0[0] != 0x160) ||
-        (((D_800A34A0[1] >> 0xA) & 0x1F) != D_800B8620)) {
+        (((CURRENT_STREAM_HEADER->type >> 0xA) & 0x1F) != D_800B8620)) {
         if (D_800C0DB8 != 0) {
             D_800BCD7C = 0;
         } else {
@@ -131,7 +132,7 @@ void StCdInterrupt(void) {
         D_800A34A0[0] = 0;
         return;
     }
-    if ((D_800A8018 != D_800A34A0[2]) ||
+    if ((D_800A8018 != CURRENT_STREAM_HEADER->secCount) ||
         ((D_800A5D54 != 0) && (D_800A5D54 != D_800A34A0[4]))) {
         D_800A5D54 = 0;
         D_800A8018 = 0;
@@ -144,7 +145,7 @@ void StCdInterrupt(void) {
         D_8009B374 = 6;
         return;
     }
-    if (D_800A34A0[2] == 0) {
+    if (CURRENT_STREAM_HEADER->secCount == 0) {
         D_800A8018 = 0;
         D_800A5D54 = D_800A34A0[4];
         if ((D_800C0DBC != 0) && (D_800A5D54 >= D_800C0DBC)) {
@@ -163,7 +164,8 @@ void StCdInterrupt(void) {
             D_8009B374 = 7;
             return;
         }
-        if ((u32)(D_800C20C4 - D_800BE998 - 1) < D_800A34A0[3]) {
+        if ((u32)(D_800C20C4 - D_800BE998 - 1) <
+            CURRENT_STREAM_HEADER->nSectors) {
             if (D_800C0DBC == 0) {
                 D_800A34A0[0] = 1;
                 D_800C0DC0 = 1;
@@ -207,7 +209,8 @@ void StCdInterrupt(void) {
         *D_8009B33C = 0x21020843;
         var_t0 = 0x11400100;
     }
-    if ((D_800A34A0[3] - 1) == D_800A34A0[2]) {
+    if ((CURRENT_STREAM_HEADER->nSectors - 1) ==
+        CURRENT_STREAM_HEADER->secCount) {
         D_800B89F4 = 1;
         if (D_800C0DB8 != 0) {
             mem2mem(
