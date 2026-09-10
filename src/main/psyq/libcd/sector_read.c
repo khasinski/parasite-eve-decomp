@@ -1,14 +1,19 @@
-#include "common.h"
+/* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
+
+#include "pe1/psyq_cd.h"
+
 extern volatile u8 *D_8009B27C;
 extern volatile u8 *D_8009B288;
 extern volatile u32 *D_8009B28C;
 extern volatile u32 *D_8009B2B0;
 extern volatile u32 *D_8009B2B4;
-extern volatile u32 *D_8009B2B8;
+extern void *volatile *D_8009B2B8;
 extern volatile u32 *D_8009B2BC;
 extern volatile u32 *D_8009B2C0;
+extern volatile u32 *g_CdRegDmaControl;
 
-int CD_getsector2(u32 arg0, u32 arg1) {
+int CD_getsector2(void *destination, int words) {
     register volatile u8 *status asm("$3");
     register u32 dmaCommand asm("$2");
 
@@ -17,8 +22,8 @@ int CD_getsector2(u32 arg0, u32 arg1) {
     *D_8009B2B0 = 0x20943;
     *D_8009B28C = 0x1323;
     *D_8009B2B4 |= 0x8000;
-    *D_8009B2B8 = arg0;
-    *D_8009B2BC = arg1 | 0x10000;
+    *D_8009B2B8 = destination;
+    *D_8009B2BC = words | 0x10000;
 
     status = D_8009B27C;
     asm volatile(
@@ -51,7 +56,27 @@ int CD_getsector2(u32 arg0, u32 arg1) {
         register u32 requestValue asm("$2") = 0x1325;
 
         *request = requestValue;
-
     }
+    return 0;
+}
+
+int CD_getsector(void *destination, int words) {
+    volatile u32 readback;
+    volatile u8 *index;
+
+    *g_CdRegIndexBase = 0;
+    *g_CdRegResponse = 0x80;
+    *D_8009B2B0 = 0x21020843;
+    *(volatile u32 *)g_CdRegRequest = 0x1325;
+    *D_8009B2B4 |= 0x8000;
+    *D_8009B2B8 = destination;
+    *D_8009B2BC = words | 0x10000;
+    index = g_CdRegIndexBase;
+    if (!(*index & 0x40)) {
+        do {
+        } while (!(*index & 0x40));
+    }
+    *g_CdRegDmaControl = 0x11400100;
+    readback = *g_CdRegDmaControl;
     return 0;
 }

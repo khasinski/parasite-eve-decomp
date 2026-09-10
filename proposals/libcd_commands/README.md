@@ -135,14 +135,13 @@ The driver TU remains incomplete, and this function is still ASM in production.
 CD_getsector now uses ordinary C with volatile MMIO, a local index pointer
 and a real volatile readback local. This removes its synthetic frame type,
 global SP/v0 variables, union-based address reinterpretation and all four
-register pins from production misc31.c. Stock GCC281 unsplit matches all
-236 bytes, including in this eleven-function common-configuration object.
+register pins. Stock GCC281 unsplit matches all 236 bytes, including beside
+CD_getsector2 in the shared production `sector_read.c` unit.
 Main retail SHA, all 191 overlay SHA checks and source/debt gates pass.
 This removes four production pins (773 → 769) without adding barriers.
 
 The collected source is not a contiguous SDK 4.6 text range: retail inserts
 CD_getsector2 and CD_getsector between CD_datasync and the final setter and
 dispatcher, while SDK BIOS_1 directly follows CD_datasync with its setter.
-CD_getsector2 is still omitted because part of its production body remains
-instruction ASM. The eleven-function object is not a completed original TU;
+The twelve-function object is not a completed original TU;
 its 5500 represented retail bytes must not be equated with SDK text size.

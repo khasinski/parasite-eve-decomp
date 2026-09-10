@@ -1714,14 +1714,14 @@ The audited PsyQ result is 141/254 functions and 44.75% code.
 
 ## LIBCD sector DMA setup
 
-CD_getsector in misc31.c is ordinary C with no pins or barriers. A volatile
+CD_getsector in `sector_read.c` is ordinary C with no pins or barriers. A volatile
 readback local replaces the synthetic SP frame, and direct typed MMIO accesses
 replace the union and global v0 register views. Its initial byte-ready test
 and inner polling loop retain the original two-stage control flow. All four
 pins (three global and one local) are removed; no instruction ASM remains.
 
 Stock GCC281 with unsplit addresses matches all 236 retail bytes, both alone
-and under the combined LIBCD no-expensive-optimizations configuration. The
+and beside CD_getsector2 in the recovered sector-read unit. The
 complete main retains its retail SHA-1, all 191 overlays match, and source,
 organization and debt gates pass. The production pin count falls 773 → 769.
 

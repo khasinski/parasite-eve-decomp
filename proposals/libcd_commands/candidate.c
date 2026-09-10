@@ -11,4 +11,4 @@
 #include "../CD_initintr/candidate.c"
 #include "../CD_init/candidate.c"
 #include "../CD_datasync/candidate.c"
-#include "../../src/main/psyq/libcd/misc31.c"
+#include "../../src/main/psyq/libcd/sector_read.c"
