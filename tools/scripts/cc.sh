@@ -110,7 +110,8 @@ mkdir -p "$(dirname "$OUT")"
 TMP_I=$(mktemp -t pe1-cc.XXXXXX.i)
 TMP_S=$(mktemp -t pe1-cc.XXXXXX.s)
 TMP_D=$(mktemp -t pe1-cc.XXXXXX.d)
-trap 'rm -f "$TMP_I" "$TMP_S" "$TMP_D"' EXIT
+TMP_GAS=$(mktemp -t pe1-cc.XXXXXX.gas.s)
+trap 'rm -f "$TMP_I" "$TMP_S" "$TMP_D" "$TMP_GAS"' EXIT
 
 # This old cpp predates -MF/-MT, but supports -M. Rewrite its generated object
 # target to the real build path and publish the dependency file atomically.
@@ -119,9 +120,14 @@ trap 'rm -f "$TMP_I" "$TMP_S" "$TMP_D"' EXIT
 "$CC1" $CC1_FLAGS "$TMP_I" -o "$TMP_S"
 
 if grep -q 'ASSEMBLER: GNU' "$IN"; then
+    cat > "$TMP_GAS" <<'EOF'
+.macro move destination, source
+    addu \destination, \source, $zero
+.endm
+EOF
     "$AS" -EL "$AS_G_FLAG" -march=r3000 -mtune=r3000 -no-pad-sections \
         -I "$ROOT" -I "$ROOT/include" -I "$ROOT/asm/USA/main" -I "$ROOT/asm/USA/overlays" \
-        -o "$OUT" "$TMP_S"
+        -o "$OUT" "$TMP_GAS" "$TMP_S"
     mv "$TMP_D" "$OUT.d"
     exit 0
 fi
