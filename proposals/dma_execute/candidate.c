@@ -13,6 +13,7 @@ void dma_execute(int channel, void *address, int blockCount, int blockSize, u32 
     DmaInterrupt *intr;
     u32 bits;
     volatile u32 readback;
+    int priority_bit;
     volatile u32 *dma;
     while (*(volatile u32 *)(0x1f801088 + (channel << 4)) & 0x1000000) {
         if (i == 0x10000) {
@@ -30,8 +31,9 @@ void dma_execute(int channel, void *address, int blockCount, int blockSize, u32 
     }
     intr->bytes[2] = bits;
     readback = D_8009B348->word;
+    priority_bit = 1 << ((channel << 2) + 3);
     dma = (volatile u32 *)(0x1f801080 + (channel << 4));
-    *D_8009B344 |= 1 << ((channel << 2) + 3);
+    *D_8009B344 |= priority_bit;
     *dma++ = (u32)address;
     *dma++ = (blockCount << 16) | blockSize;
     while (!(*D_8009B32C & 0x40)) {}

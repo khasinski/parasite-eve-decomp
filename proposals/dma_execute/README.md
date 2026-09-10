@@ -54,3 +54,20 @@ The remaining diff includes AT versus v0 for polling addresses, printf's
 symbolic address/delay slot, interrupt-byte working registers, and ordering
 of priority, block and readback operations. None of these measurements is
 an exact match or behavioral validation; production remains unchanged.
+
+## C_011 object and Darwin search
+
+Psy-Q 4.6 `LIBCD.LIB` proves that `dma_execute` is the local function at
+offset `0x948` in `C_011.OBJ`; the object exports `StCdInterrupt` and has
+exactly 2800 text bytes, matching the complete retail range through this
+helper. This replaces the earlier assumption that the preceding code belonged
+to the renderer.
+
+A stock GCC 2.8.1 search is running on `darwine` in
+`/home/hasik/sprintf-permuter-20260909/dma-execute`, bounded to 20 minutes and
+four low-priority workers. Its target is the freshly generated 424-byte retail
+object. Moving the DMA priority bit into a named temporary is semantically
+neutral and reduced the permuter penalty from 1820 to 985. Independently
+compiling that source locally and comparing it with objdiff raises the function
+match from 78.77358% to **86.68868%**. It remains a proposal until the generated
+code is exact and the MMIO behavior has been reviewed.
