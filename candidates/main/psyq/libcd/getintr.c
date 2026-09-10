@@ -89,7 +89,7 @@ int getintr(void) {
 
     switch (intr) {
     case 1:
-        if (status_mask != 0 && D_8009B294[1] == 1) {
+        if (status_mask != 0 && i == 1) {
             status_mask = 0;
         }
         D_8009B294[1] = status_mask ? 5 : 1;
