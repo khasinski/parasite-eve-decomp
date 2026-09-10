@@ -7,6 +7,7 @@
 #define CdlDiskError 5
 #define true 1
 #define NULL ((void *)0)
+#define STREAM_SECTOR_PAYLOAD_SIZE 0x7E0
 
 static volatile u16 *D_800A34A0;
 #define CURRENT_STREAM_HEADER ((volatile StHEADER *)D_800A34A0)
@@ -199,7 +200,9 @@ void StCdInterrupt(void) {
     }
     D_8009B374 = 10;
     D_800A8018++;
-    D_800C0DC4 = &D_800C0DC8[D_800C20C4] + (D_800BE998 * 0x3F);
+    D_800C0DC4 =
+        (u16 *)((u8 *)&D_800C0DC8[D_800C20C4] +
+                D_800BE998 * STREAM_SECTOR_PAYLOAD_SIZE);
 
     if (D_800A801C != 0) {
         var_t0 = 0x11000000;

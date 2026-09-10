@@ -28,6 +28,13 @@ this routine. The `id` stores also retain their halfword view because changing
 their expression alters GCC's scheduling; both are documented exceptions in
 an otherwise typed header view.
 
+The payload destination is now expressed in bytes: the ring stores all
+32-byte `StHEADER` records first, followed by one 0x7E0-byte payload area per
+entry. The previous `StHEADER *` expression multiplied the payload index by
+`0x3f` headers to obtain the same 2016-byte stride, obscuring this layout.
+The explicit byte calculation produces identical text and relocations while
+making the two-array organization of the streaming ring visible in C.
+
 ```sh
 tools/scripts/cc.sh proposals/StCdInterrupt/candidate.c /tmp/StCdInterrupt.o
 tools/objdiff/objdiff-cli diff \
