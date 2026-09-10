@@ -407,3 +407,17 @@ and rejects the assumption that the compiler shipped in the PsyQ 4.6 package
 necessarily built its archived `SPRINTF.OBJ`. The 4.6 output still passes all
 1,471 behavioral cases, but its instruction layout is much farther from
 retail.
+
+## Refined-permuter result audit (2026-09-10)
+
+`unsplit-refined/output-125-1` is not a valid improvement. Recompiled locally
+with its GCC 2.8.1 profile, it produces 2180 text bytes and scores 99.502754%,
+but moves the hexadecimal source pointer on the non-alternate path. The retail
+oracle rejects case 832: formatting zero with `before:%x:after` writes a NUL
+byte where retail writes the digit `0`. The candidate is therefore excluded
+regardless of its lower permuter penalty.
+
+Natural spellings of the uppercase digit-table address (`array`, `&array[0]`,
+an integer-pointer cast, and a comma expression) all reproduce the maintained
+99.68807% object and its one extra NOP. Reversing the `x` and `X` case order
+scores 99.66055%. None is retained as a source change.
