@@ -8,7 +8,7 @@ the retail loads, stores, and the neighboring stream API functions.
 
 The retail `StCdInterrupt` is **2332 bytes** (`0x91c`). Stock GCC 2.8.1 with
 `-mno-split-addresses` currently emits 2408 bytes for the reconstruction and
-objdiff reports **90.69297%**. The candidate also emits the following 44-byte `mem2mem` helper
+objdiff reports **90.79588%**. The candidate also emits the following 44-byte `mem2mem` helper
 exactly. Production remains on the retail assembly until the exported routine
 matches exactly; this candidate is now the source-level basis for completing
 the entire translation unit instead of treating its routines as unrelated
