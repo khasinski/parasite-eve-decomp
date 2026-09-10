@@ -33,7 +33,6 @@ extern s32 D_800B89F4;
 extern s32 D_800BCD7C;
 extern s32 D_800BE998;
 extern s32 D_800BE9E4;
-extern u8 *D_800C0DB8;
 extern u32 D_800C0DBC;
 extern s32 D_800C0DC0;
 extern u8 *D_800C0DC4;

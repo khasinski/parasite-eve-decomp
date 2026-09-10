@@ -28,6 +28,9 @@ extern volatile u8 *g_CdRegResponse;
 /* DMA code adds volatile through its access pointer; CD_flush writes once. */
 extern u32 *g_CdRegRequest;
 
+/* Optional 2048-byte-sector staging buffer used by the streaming CD path. */
+extern u8 *D_800C0DB8;
+
 typedef struct CdCallbackDataPage {
     char reserved00[4];
     CdlCB sync;

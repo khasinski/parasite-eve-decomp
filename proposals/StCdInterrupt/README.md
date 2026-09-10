@@ -56,6 +56,12 @@ pointer now. Only the CPU-copy path casts it to the word type required by
 `mem2mem`; the DMA path consumes the address as `void *`. This second pointer
 correction is also codegen-neutral.
 
+The sector-buffer declaration is shared through `psyq_cd.h`. This resolves a
+real cross-TU conflict: production `StSetStream` formerly declared the same
+symbol as `volatile s32`, even though it stores a null pointer and the
+interrupt routine performs byte-addressed sector arithmetic. Compiling
+`StSetStream` with the shared `u8 *` type preserves its complete text section.
+
 ```sh
 tools/scripts/cc.sh proposals/StCdInterrupt/candidate.c /tmp/StCdInterrupt.o
 tools/objdiff/objdiff-cli diff \

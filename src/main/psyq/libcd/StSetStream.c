@@ -1,9 +1,8 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 
-#include "common.h"
+#include "pe1/psyq_cd.h"
 
-extern volatile s32 D_800C0DB8;
 extern void (*volatile g_StrDataReadyCallback)(void);
 extern volatile s32 D_800A801C;
 extern volatile s32 D_800B8620;
