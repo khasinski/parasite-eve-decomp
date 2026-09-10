@@ -942,9 +942,8 @@ segments:
       - [0x62BA0, asm, main/gap_psyq_libc_memmove_tail_62BA0]
       # Psy-Q QSORT object: sorting routine, byte-swap helper and padding.
       - [0x62BA4, c, psyq/libc/qsort]
-      - [0x62D34, asm, psyq/libsn/__SN_ENTRY_POINT]
-      - [0x62DDC, asm, psyq/libsn/__main]
-      - [0x62E4C, asm, psyq/libsn/__do_global_dtors]
+      # Psy-Q 4.6 LIBSN.LIB SNMAIN object: startup plus ctor/dtor runtime.
+      - [0x62D34, asm, psyq/libsn/SNMAIN]
       - [0x62EB4, c, psyq/libapi/InitHeap]
       - [0x62EC4, c, psyq/libapi/FlushCache]
       - [0x62ED4, c, psyq/libapi/_bu_init]
