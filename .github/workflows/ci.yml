@@ -115,7 +115,9 @@ jobs:
             asm/USA/overlays
             build/USA/overlays
             linkers/USA/overlays
-          key: overlays-v1-${{ hashFiles('configs/USA/overlays/**', 'configs/USA/sym.main.txt', 'src/overlays/**', 'include/**', 'tools/scripts/cc.sh', 'tools/scripts/overlay_extra_undefineds.py', 'tools/scripts/parallel_overlay_make.py', 'Makefile') }}
+          key: overlays-v2-${{ hashFiles('configs/USA/overlays/**', 'configs/USA/sym.main.txt', 'src/overlays/**', 'include/**', 'tools/m2c/**', 'tools/scripts/cc.sh', 'tools/scripts/overlay_extra_undefineds.py', 'tools/scripts/parallel_overlay_make.py', 'Makefile', 'requirements.txt') }}
+          restore-keys: |
+            overlays-v2-
 
       - name: Split and build the main executable
         run: |
