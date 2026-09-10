@@ -102,6 +102,76 @@ const char *g_CdInterruptNames[8] = {
     g_CdBiosNames.disk_error, g_CdBiosNames.unknown, g_CdBiosNames.unknown,
 };
 
+u32 g_CdCommandAckOnly[32] = {
+    0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+    0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+};
+
+u32 g_CdCommandClearsReady[32] = {
+    0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+};
+
+u32 g_CdCommandUpdatesStatus[32] = {
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+};
+
+u32 g_CdCommandParamCount[32] = {
+    0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 0,
+    0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+};
+
+typedef struct CdBiosInitDescriptor {
+    CdInterruptEvents *events;
+    u8 *sync_result;
+    u8 *command;
+    u32 *status;
+    u8 *position;
+    const char *version;
+} CdBiosInitDescriptor;
+
+typedef struct CdBiosHardwareState {
+    volatile u8 *index;
+    volatile u8 *port1;
+    volatile u8 *data_write;
+    volatile u8 *response;
+    u32 *request;
+    u16 *spu;
+    CdInterruptEvents events;
+    u8 pad1B;
+    CdBiosInitDescriptor init;
+    volatile u32 *dma_madr;
+    volatile u32 *dma_bcr;
+    void *volatile *dma_address;
+} CdBiosHardwareState;
+
+typedef char CdBiosHardwareState_size[
+    (sizeof(CdBiosHardwareState) == 0x40) ? 1 : -1];
+
+CdBiosHardwareState g_CdBiosHardwareState
+    __attribute__((section(".data"))) = {
+        (volatile u8 *)0x1F801800,
+        (volatile u8 *)0x1F801801,
+        (volatile u8 *)0x1F801802,
+        (volatile u8 *)0x1F801803,
+        (u32 *)0x1F801020,
+        (u16 *)0x1F801C00,
+        {0, 0, 0},
+        0,
+        {
+            (CdInterruptEvents *)0x8009B294,
+            (u8 *)0x800A3460,
+            (u8 *)0x8009AFD5,
+            (u32 *)0x8009AFC4,
+            (u8 *)0x8009AFD0,
+            (const char *)0x80011BD4,
+        },
+        (volatile u32 *)0x1F801018,
+        (volatile u32 *)0x1F8010F0,
+        (void *volatile *)0x1F8010B0,
+    };
+
 int CD_initvol(void) {
     g_CdInitVolIo = D_8009B290;
     g_CdInitVolValue = ((u16 *)g_CdInitVolIo)[0x1B8 / 2];

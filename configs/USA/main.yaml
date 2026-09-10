@@ -1506,7 +1506,7 @@ segments:
       - [0x8B7AC, data, main/dtail_gp_post_s016_pre_bios]
       # Psy-Q 4.6 LIBCD BIOS_1.OBJ state through DS_active.
       - [0x8B7B4, .data, psyq/libcd/bios]
-      - [0x8B87C, data, main/dtail_gp_post_bios]
+      - [0x8BABC, data, main/dtail_gp_post_bios]
 
   # Data separates the initial code from the field-engine code. Keep a
   # separate linker segment so section ordering preserves retail addresses.
