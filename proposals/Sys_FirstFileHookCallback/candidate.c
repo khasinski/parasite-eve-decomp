@@ -16,14 +16,15 @@ extern char D_800A32D8[];
 extern int strcmp(const char *, const char *);
 
 int Sys_FirstFileHookCallback(int *state, void *arg1, void *arg2) {
+    int *state_ptr = state;
     FirstFileDevice *entry;
     FirstFileDevice *end;
     FirstFileCallback original;
     u32 bytes;
 
-    if (*state == 0) *state = 1;
-    bytes = *(volatile u32 *)0x154;
-    entry = *(FirstFileDevice *volatile *)0x150;
+    if (*state_ptr == 0) *state_ptr = 1;
+    bytes = *(u32 *)0x154;
+    entry = *(FirstFileDevice **)0x150;
     original = D_800A32D0;
     end = entry + bytes / sizeof(FirstFileDevice);
     while (entry < end) {
@@ -33,5 +34,5 @@ int Sys_FirstFileHookCallback(int *state, void *arg1, void *arg2) {
         }
         entry++;
     }
-    return D_800A32D0(state, arg1, arg2);
+    return D_800A32D0(state_ptr, arg1, arg2);
 }

@@ -1,0 +1,1 @@
+asm/USA/main/psyq/libsn/__do_global_dtors.s

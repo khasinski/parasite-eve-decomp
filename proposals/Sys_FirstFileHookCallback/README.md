@@ -15,10 +15,16 @@ three original arguments, forwarding its return value. The field name follows
 the existing hook name; no additional opaque record fields are inferred.
 
 The candidate uses ordinary C with no pins, barriers or instruction asm.
-Stock GCC281 with unsplit addresses scores **90.5625%**, producing 264 bytes
-against retail's 256. Default GCC281 scores 86.171875%, GCC272 88.71875%, and
-GCC281 with its first scheduling pass disabled 74.859375%. Disabling expensive
-optimizations in the unsplit profile does not improve its score.
+Stock GCC281 with unsplit addresses scores **95.28125%** and produces the
+retail function's complete 256-byte size. Reading the kernel table entries as
+ordinary memory gives the target's direct zero-based loads at `0x150` and
+`0x154`; the previous unjustified volatile qualifiers generated two extra
+address-materialization instructions. A local state alias also recovers the
+target allocation of that long-lived argument to `$s2` without a register pin.
+Remaining differences are prologue scheduling, preservation of the computed
+table end across `strcmp`, and the string-address call delay slot. Default
+GCC281 scores 86.171875%, GCC272 88.71875%, and GCC281 with its first
+scheduling pass disabled 74.859375%.
 
 ```sh
 tools/scripts/cc.sh proposals/Sys_FirstFileHookCallback/candidate.c /tmp/first-hook.o
