@@ -49,6 +49,18 @@ static DslFILE file_cache[DSL_MAX_FILE] __asm__("D_800A36B0");
 extern char file_cache_names[DSL_MAX_FILE][sizeof(DslFILE)]
     __asm__("D_800A36B8");
 static DslDirectoryCacheEntry directory_cache[DSL_MAX_DIR] __asm__("D_800A3CB0");
+typedef struct DsStridedParentId {
+    int value;
+    char remainder[sizeof(DslDirectoryCacheEntry) - sizeof(int)];
+} DsStridedParentId;
+typedef struct DsStridedDirectoryName {
+    char value[32];
+    char remainder[sizeof(DslDirectoryCacheEntry) - 32];
+} DsStridedDirectoryName;
+extern DsStridedParentId directory_parent_ids[DSL_MAX_DIR]
+    __asm__("D_800A3CB4");
+extern DsStridedDirectoryName directory_names[DSL_MAX_DIR]
+    __asm__("D_800A3CBC");
 static u8 sector_buffer[2048] __asm__("D_800A52B0");
 static int cached_directory __asm__("D_8009B6DC") = 0;
 extern int D_8009AFC0;
@@ -223,9 +235,9 @@ static int DS_newmedia(void) {
 static int DS_searchdir(int parent, char *name) {
     int i;
     for (i = 0; i < DSL_MAX_DIR; i++) {
-        if (!directory_cache[i].parentDirectoryId) break;
-        if (directory_cache[i].parentDirectoryId == parent &&
-            strcmp(name, directory_cache[i].name) == 0)
+        if (!directory_parent_ids[i].value) break;
+        if (directory_parent_ids[i].value == parent &&
+            strcmp(name, directory_names[i].value) == 0)
             return i + 1;
     }
     return -1;

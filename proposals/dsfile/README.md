@@ -33,7 +33,7 @@ the candidate does not invent unused fields or padding arrays to absorb them.
 | DsSearchFile | 0x000 | 736 | 92.353264% |
 | _cmp | 0x2E0 | 32 | 100% |
 | DS_newmedia | 0x300 | 708 | 90.27683% |
-| DS_searchdir | 0x5C4 | 164 | 98.902435% |
+| DS_searchdir | 0x5C4 | 164 | 99.39024% |
 | DS_cachefile | 0x668 | 668 | 93.97605% |
 | ds_read | 0x904 | 92 | 100% |
 
@@ -142,6 +142,13 @@ indexed empty-name check distinct recovers the original loop's independent
 induction values and raises the match from 90.570656% to 92.353264%.  The
 alias points eight bytes into the owned `DslFILE` cache and advances by the
 verified 0x18-byte record size; it does not introduce additional storage.
+
+The directory cache likewise exposes the original internal symbols at the
+`parentDirectoryId` (`D_800A3CB4`) and `name` (`D_800A3CBC`) fields as
+0x2C-strided views. Using those views in `DS_searchdir` recovers all of its
+symbolic field relocations and raises the match from 98.902435% to 99.39024%.
+The remaining difference is one equivalent zero initialization (`s1 = s0`
+instead of `s1 = 0`).
 
 The valid remote `output-1745-1` lifetime change improves DsSearchFile from
 90.46196% to 90.570656%. The cleaned source removes the first-character
