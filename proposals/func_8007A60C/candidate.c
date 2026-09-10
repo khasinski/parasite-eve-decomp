@@ -8,21 +8,20 @@ int CdControlF_Impl(int cmd, void *param) __asm__("CdControlF");
 int CdControlF_Impl(int cmd, void *param) {
     register int tries;
     register void *param_reg;
-    u16 command_mask;
+    int one;
     register int cmd_reg;
     register int cmd_byte;
     register CdlCB saved asm("$20");
     register u32 *slot;
     register int ret asm("$22");
     register int minus_one;
-    register int one asm("$8");
     register u32 *table;
 
     param_reg = param;
     cmd_reg = cmd;
     tries = 3;
-    command_mask = 0xFF;
-    cmd_byte = cmd_reg & command_mask;
+    one = 1;
+    cmd_byte = cmd_reg & 0xFF;
     table = D_8009AF2C;
     saved = D_8009AFB4;
     slot = &table[cmd_byte];
@@ -30,20 +29,11 @@ int CdControlF_Impl(int cmd, void *param) {
     minus_one = -1;
 
     do {
-        D_8009AFB4 = 0;
-        one = 1;
-        asm volatile("" : "+r"(one));
-        if (cmd_byte != one && (*(u8 *)&D_8009AFC4 & 0x10) != 0) {
-            register int command = 1;
-            register void *payload;
-            register u8 *result;
+        int call_result;
 
-            asm volatile("" : "+r"(command));
-            payload = 0;
-            asm volatile("" : "+r"(payload));
-            result = 0;
-            asm volatile("" : "+r"(result));
-            CD_cw(command, payload, result, 0);
+        D_8009AFB4 = 0;
+        if (cmd_byte != one && (*(u8 *)&D_8009AFC4 & 0x10) != 0) {
+            CD_cw(1, 0, 0, 0);
         }
         if (param_reg != 0 && slot[0] != 0) {
             if (CD_cw(2, param_reg, 0, 0) != 0) {
@@ -51,7 +41,9 @@ int CdControlF_Impl(int cmd, void *param) {
             }
         }
         D_8009AFB4 = saved;
-        if (CD_cw(cmd_reg & command_mask, param_reg, 0, 1) != 0) {
+        call_result = CD_cw(cmd_reg & 0xFF, param_reg, 0, 1);
+        asm volatile("" : : "r"(one));
+        if (call_result != 0) {
             continue;
         }
         return ret + 1;
@@ -59,6 +51,6 @@ int CdControlF_Impl(int cmd, void *param) {
 
     D_8009AFB4 = saved;
     ret = -1;
-    asm volatile("" : "+r"(ret));
+    asm volatile("" : "+r"(ret) : "r"(one));
     return ret + 1;
 }

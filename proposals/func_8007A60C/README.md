@@ -15,12 +15,14 @@ submission returns 1. The callback is restored on both exits.
 `candidate.c` now keeps the control-flow and temporary shape of the adjacent,
 fully matched `CdControl` wrapper. It removes that function's result-buffer
 parameter and changes only the final `CD_cw` mode to one. Stock GCC 2.8.1 with
-`-mno-split-addresses -fno-schedule-insns` emits the target's complete 0x134
-bytes and scores 95.7013% upstream objdiff. A shared 16-bit `0xFF` mask for
-the table index and final command conversion produces the target frame and
-register lifetime. Five local instruction-difference groups remain.
-The candidate retains three register bindings and five
-empty constraints; it is not a production match.
+`-mno-split-addresses -fno-schedule-insns` emits the target's exact 308-byte
+size and scores 97.1039% upstream objdiff. Keeping the constant one live until
+the final command call removes the false long-lived `0xFF` mask and two extra
+loop instructions from the previous candidate. The remaining differences are
+a permutation of three saved registers, zero argument register selection, and
+the callback-clear store not entering the comparison branch's delay slot.
+The candidate retains two register bindings and two empty constraints; it is
+not a production match.
 
 `constrained_registers.c` is an experiment derived from the adjacent matched
 wrapper. Upstream objdiff scores it 89.72727%. Its remaining differences
