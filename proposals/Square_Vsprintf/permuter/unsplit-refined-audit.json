@@ -20,6 +20,12 @@
       "source_sha256": "ad0797de78c932a86a5972b4898e006ac1c8c43286750e669a89bcc99eb57e0e",
       "objdiff_match_percent": 99.27156,
       "verification": "output mismatch at case 4: before:%d:after with argument 0 emits NUL instead of digit 0; rejected"
+    },
+    {
+      "output": "output-240-1",
+      "source_sha256": "f1f008571de797427860f035d7688d7a95a53f035974139ac21fb119ee643d5c",
+      "objdiff_match_percent": 99.29908,
+      "verification": "output mismatch at case 857: before:%#x:after with argument 0 emits 0\\0x instead of 0x0; extra src decrement in hexadecimal prefix; rejected"
     }
   ]
 }
