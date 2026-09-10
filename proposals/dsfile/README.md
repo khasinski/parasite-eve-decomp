@@ -1,20 +1,41 @@
-# DS_searchdir promotion
+# Media and directory cache promotion
 
-[`src/main/psyq/libds/DS_searchdir.c`](../../src/main/psyq/libds/DS_searchdir.c)
-now reproduces all **164 retail bytes** with stock GCC 2.7.2 and the GNU
-assembler profile. It uses the shared `DslDirectoryCacheEntry` directly, with
-no strided field aliases or register constraints. References to the cache base
-plus 4 and 12 resolve to the original parent-ID and name addresses.
+[`src/main/psyq/libds/dsfile_cache.c`](../../src/main/psyq/libds/dsfile_cache.c)
+now contains three contiguous DSFILE.OBJ helpers, compiled with unmodified
+stock GCC 2.7.2 and the GNU assembler profile:
 
-Both the linked function bytes and the complete `main.exe` match retail.
-`DS_newmedia` and `DS_cachefile` remain ASM at their original boundaries; the
-combined candidate below is still a reconstruction in progress.
+| Function | Retail bytes | Linked byte match |
+| --- | ---: | ---: |
+| DS_newmedia | 708 | 100% |
+| DS_searchdir (previously matched) | 164 | 100% |
+| DS_cachefile | 668 | 100% |
 
-The earlier remote DS_searchdir search accidentally used the three-function
-target object. A corrected single-function target changes its GCC 2.8.1 seed
-penalty from 34405 to 5; those earlier search results are not evidence against
-matching the individual function. GCC 2.7.2 eliminates that remaining zero-copy
-difference without changing the source algorithm.
+This adds **two newly matched functions / 1376 bytes**. The complete
+`main.exe` retains retail SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+The three former manifest entries are now one C unit at 0x71F14..0x72518.
+The standalone `DS_searchdir.c` was absorbed into that unit.
+
+The source uses byte-oriented ISO volume, path-table and directory-record
+structures with layout assertions. Directory fields use the shared
+`DslDirectoryCacheEntry` directly. File-position diagnostic columns retain
+three byte views with a `DslFILE` stride, all aliasing the existing cache.
+The two short directory-name strings declare their actual word alignment so
+GCC emits the original halfword copies.
+
+`DS_newmedia` uses explicit loop-entry/back-edge labels and separate scan-bound
+and cache-field base pointers. This reproduces the original loop preheader
+without register pins, instruction ASM, barriers or compiler changes.
+A permuter found that a named source pointer for the volume-sector copy avoids
+GCC's extra address materialization; the remaining loop shape was resolved
+manually. All object-diff differences are symbol/addend spellings, resolved
+and checked against retail bytes after linking.
+
+The existing behavior checker passes 259 cases against the promoted object,
+covering return values, full caches, the sector buffer, cached-directory state
+and call traces.
+
+The candidate and measurements below document the earlier full-TU exploration;
+they do not describe the current production match status.
 
 # Psy-Q DSFILE translation unit
 
@@ -46,7 +67,7 @@ The SDK sections have six additional trailing zero bytes in read-only data
 and eight in initialized data. These remain a layout question for promotion;
 the candidate does not invent unused fields or padding arrays to absorb them.
 
-| Function | TU offset | Retail bytes | Current match |
+| Function | TU offset | Retail bytes | Historical candidate match |
 | --- | ---: | ---: | ---: |
 | DsSearchFile | 0x000 | 736 | 92.353264% |
 | _cmp | 0x2E0 | 32 | 100% |

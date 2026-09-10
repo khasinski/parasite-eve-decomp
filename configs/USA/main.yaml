@@ -1314,9 +1314,7 @@ segments:
       - [0x71C14, asm, psyq/libds/DsSearchFile]
       - [0x71EF4, c, psyq/libds/dsfile]
       # Psy-Q libds/dsfile.c: ISO-9660 directory cache helpers.
-      - [0x71F14, asm, psyq/libds/DS_newmedia]
-      - [0x721D8, c, psyq/libds/DS_searchdir]
-      - [0x7227C, asm, psyq/libds/DS_cachefile]
+      - [0x71F14, c, psyq/libds/dsfile_cache]
       - [0x72518, c, psyq/libds/ds_read]
       # Psy-Q libds read-controller helpers share the async-read state.
       - [0x72574, c, psyq/libds/dsread_control]
