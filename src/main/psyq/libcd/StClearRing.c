@@ -1,6 +1,5 @@
 #include "pe1/psyq_cd.h"
 
-extern int g_CdStreamRingSize;
 extern int g_CdStreamRingWritePtr;
 extern int g_CdStreamRingReadSlot;
 extern int D_800BE998;
@@ -9,10 +8,8 @@ extern int D_800B0CD0;
 extern short g_StStreamState;
 extern int g_StStreamReadState;
 
-extern void init_ring_status(int mode, int size);
-
 void StClearRing(void) {
-    int size = g_CdStreamRingSize;
+    u32 size = StRingSize;
 
     g_CdStreamRingWritePtr = 0;
     g_CdStreamRingReadSlot = 0;

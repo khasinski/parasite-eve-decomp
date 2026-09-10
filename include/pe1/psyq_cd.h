@@ -70,8 +70,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(StHEADER, loc) == 0x1C,
                   st_header_location_offset);
 
 /* LIBCD streaming ring: StRingSize headers followed by sector payloads. */
-extern StHEADER *StRingAddr __asm__("D_800C0DC8");
-extern u32 StRingSize __asm__("D_800C20C4");
+extern StHEADER *StRingAddr;
+extern u32 StRingSize;
 
 typedef struct CdlATV {
     u_char val0;
@@ -381,6 +381,7 @@ int CdStatus(void);
 int CdMode(void);
 int CdLastCom(void);
 void StClearRing(void);
+void init_ring_status(int start, u32 count);
 void StSetMask(u32 mask, u32 start, u32 end);
 void StSetStream(u32 mode, u32 startFrame, u32 endFrame,
                  void (*callback1)(void), void (*callback2)(void));
