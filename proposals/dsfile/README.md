@@ -32,9 +32,9 @@ the candidate does not invent unused fields or padding arrays to absorb them.
 | --- | ---: | ---: | ---: |
 | DsSearchFile | 0x000 | 736 | 92.353264% |
 | _cmp | 0x2E0 | 32 | 100% |
-| DS_newmedia | 0x300 | 708 | 90.27683% |
+| DS_newmedia | 0x300 | 708 | 90.44633% |
 | DS_searchdir | 0x5C4 | 164 | 99.39024% |
-| DS_cachefile | 0x668 | 668 | 93.97605% |
+| DS_cachefile | 0x668 | 668 | 94.09581% |
 | ds_read | 0x904 | 92 | 100% |
 
 This is a source reconstruction candidate, not a promoted production TU.
@@ -149,6 +149,14 @@ The directory cache likewise exposes the original internal symbols at the
 symbolic field relocations and raises the match from 98.902435% to 99.39024%.
 The remaining difference is one equivalent zero initialization (`s1 = s0`
 instead of `s1 = 0`).
+
+The same field-symbol reconstruction is now used wherever the object exposes
+it: `DS_newmedia` accesses `parentDirectoryId` through `D_800A3CB4`, while
+`DS_cachefile` reads the three `CdlLOC` bytes through `D_800A36B0`,
+`D_800A36B1` and `D_800A36B2`. This raises their matches from 90.27683% to
+90.44633% and from 93.97605% to 94.09581%, respectively. Trials using aliases
+for the whole position, size, sector and file-name destinations changed
+register allocation away from retail and were not retained.
 
 The valid remote `output-1745-1` lifetime change improves DsSearchFile from
 90.46196% to 90.570656%. The cleaned source removes the first-character

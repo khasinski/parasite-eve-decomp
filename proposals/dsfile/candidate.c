@@ -46,6 +46,13 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(IsoDirectoryRecord, name) == 33,
                   iso_directory_name_offset);
 
 static DslFILE file_cache[DSL_MAX_FILE] __asm__("D_800A36B0");
+typedef struct DsStridedFileByte {
+    u8 value;
+    char remainder[sizeof(DslFILE) - sizeof(u8)];
+} DsStridedFileByte;
+extern DsStridedFileByte file_minutes[DSL_MAX_FILE] __asm__("D_800A36B0");
+extern DsStridedFileByte file_seconds[DSL_MAX_FILE] __asm__("D_800A36B1");
+extern DsStridedFileByte file_sectors[DSL_MAX_FILE] __asm__("D_800A36B2");
 extern char file_cache_names[DSL_MAX_FILE][sizeof(DslFILE)]
     __asm__("D_800A36B8");
 static DslDirectoryCacheEntry directory_cache[DSL_MAX_DIR] __asm__("D_800A3CB0");
@@ -215,7 +222,7 @@ static int DS_newmedia(void) {
         if (record->nameLength == 0) break;
         name = directory_cache[count].name;
         memcpy(&directory_cache[count].sector, record->sectorLE, 4);
-        directory_cache[count].parentDirectoryId = record->parentDirectoryLE[0];
+        directory_parent_ids[count].value = record->parentDirectoryLE[0];
         directory_cache[count].directoryId = count + 1;
         memcpy(name, record->name, record->nameLength);
         name[record->nameLength] = 0;
@@ -223,10 +230,10 @@ static int DS_newmedia(void) {
         if (D_8009AFC0 > 1)
             printf(directory_entry_format, directory_cache[count].sector,
                    directory_cache[count].directoryId,
-                   directory_cache[count].parentDirectoryId, name);
+                   directory_parent_ids[count].value, name);
         if (++count >= DSL_MAX_DIR) break;
     }
-    if (count < DSL_MAX_DIR) directory_cache[count].parentDirectoryId = 0;
+    if (count < DSL_MAX_DIR) directory_parent_ids[count].value = 0;
     cached_directory = 0;
     if (D_8009AFC0 > 1) printf(directory_count_format, count);
     return 1;
@@ -273,8 +280,8 @@ static int DS_cachefile(int directory) {
             file_cache[count].name[cursor->nameLength] = 0;
         }
         if (D_8009AFC0 > 1)
-            printf(file_entry_format, file_cache[count].pos.minute,
-                   file_cache[count].pos.second, file_cache[count].pos.sector,
+            printf(file_entry_format, file_minutes[count].value,
+                   file_seconds[count].value, file_sectors[count].value,
                    file_cache[count].size, file_cache[count].name);
         cursor = (IsoDirectoryRecord *)((u8 *)cursor + cursor->recordLength);
         if (++count >= DSL_MAX_FILE) break;
