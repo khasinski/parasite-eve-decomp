@@ -12,8 +12,10 @@ submission returns 1. The callback is restored on both exits.
 `candidate.c` now keeps the control-flow and temporary shape of the adjacent,
 fully matched `func_8007A4D0` wrapper. It removes that function's result-buffer
 parameter and changes only the final `CD_cw` mode to one. Stock GCC 2.8.1 with
-`-mno-split-addresses -fno-schedule-insns` emits 0x130 bytes, four bytes
-shorter than the 0x134-byte target, and scores 91.87013% upstream objdiff.
+`-mno-split-addresses -fno-schedule-insns` emits the target's complete 0x134
+bytes and scores 95.58442% upstream objdiff. A dedicated zero temporary for
+the final null result buffer produces the target frame and register lifetime;
+the other null result uses remain direct constants.
 The candidate retains three register bindings and five
 empty constraints; it is not a production match.
 

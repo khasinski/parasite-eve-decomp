@@ -6,6 +6,7 @@
 int func_8007A60C(int cmd, void *param) {
     register int tries;
     register void *param_reg;
+    int no_result;
     register int cmd_reg;
     register int cmd_byte;
     register CdlCB saved asm("$20");
@@ -18,6 +19,7 @@ int func_8007A60C(int cmd, void *param) {
     param_reg = param;
     cmd_reg = cmd;
     tries = 3;
+    no_result = 0;
     cmd_byte = cmd_reg & 0xFF;
     table = D_8009AF2C;
     saved = D_8009AFB4;
@@ -47,7 +49,7 @@ int func_8007A60C(int cmd, void *param) {
             }
         }
         D_8009AFB4 = saved;
-        if (CD_cw(cmd_reg & 0xFF, param_reg, 0, 1) != 0) {
+        if (CD_cw(cmd_reg & 0xFF, param_reg, no_result, 1) != 0) {
             continue;
         }
         return ret + 1;
