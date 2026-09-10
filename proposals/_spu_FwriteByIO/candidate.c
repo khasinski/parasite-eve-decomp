@@ -32,8 +32,8 @@ void _spu_FwriteByIO(void *address, u32 size) {
                 break;
             }
         }
-        size -= count;
         _spu_Fw1ts();
+        size -= count;
         _spu_Fw1ts();
     }
     {

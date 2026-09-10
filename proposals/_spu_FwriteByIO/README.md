@@ -2,7 +2,7 @@
 
 `candidate.c` reconstructs the complete 448-byte retail function at 0x8007D454
 using SpuRegs, halfword source accesses and ordinary C loops. It has no pins,
-barriers or instruction ASM. Stock GCC281 unsplit scores 93.88393%, unchanged
+barriers or instruction ASM. Stock GCC281 unsplit scores 95.35714%, unchanged
 by disabling expensive optimizations. GCC272 scores 93.25% in the combined source. Earlier, with a volatile
 manual-write-mode store, it scored 91.82143%; disabling its second scheduler
 then scored 80.47321%. The production segment remains ASM at
@@ -51,3 +51,10 @@ agree with retail, including timeouts and pointer replacement. Making the
 final restore ordinary too regresses the score to 83.42857%; that change is
 not kept. Widening the control temporary gives no improvement; pinning it to
 a0 regresses to 89.36607%. No constraints were added.
+
+The first settling wait now precedes the local `size` decrement, matching the
+SDK donor and the retail execution order. GCC places the decrement in that
+call's delay slot instead of moving it into the timeout `printf` delay slot.
+This removes one instruction and raises the match from 93.88393% to
+95.35714%; the candidate is 460 bytes versus 448 retail bytes. The 128-case
+MMIO/FIFO oracle remains unchanged and passes without a pin or barrier.
