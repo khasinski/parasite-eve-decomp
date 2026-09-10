@@ -56,4 +56,14 @@ hook, records its computed destination and source register, and executes the
 original store unchanged. It also checks stored callback state at API entries
 and at return. No retail function instructions or branches are patched. Only
 the modeled external API entries use the documented NOP stubs. This replaces
-the former incomplete verifier; source match remains 71.53012%.
+the former incomplete verifier; the retained source remains at 91.86747%.
+
+A compiler audit rejects the version-only explanation for the remaining gap.
+The same source produces 332 bytes at 82.686745% with native GCC 2.8.0 and
+324 bytes at 81.24097% with GCC 2.8.1; GCC 2.7.2 remains decisively closest.
+Disabling the first scheduler pass gives 91.24097%, the second gives
+71.80723%, and disabling delayed branches gives 69.26506%. A named ordinary
+`one` local does recover the retail `$fp = 1` lifetime and the exact `$v0`
+loop-exit values, but changes initialization order and grows the function to
+340 bytes (90.89156% at best), so it is retained only as source-shape evidence.
+`register volatile` instead spills the value and is rejected.
