@@ -47,8 +47,15 @@ void mem2mem(s32 *dst, s32 *src, u32 count, u32 unused);
 void dma_execute(s32 channel, void *address, s32 block_count, s32 block_size,
                  u32 control, u8 interrupt, u32 unused);
 
+typedef struct StCdResponseWords {
+    s16 reserved0;
+    s16 status;
+    s16 detail;
+    s16 reserved6;
+} StCdResponseWords;
+
 void StCdInterrupt(void) {
-    volatile s16 subroutine_arg8[4];
+    volatile StCdResponseWords response_words;
     CdlLOC loc;
     u_char result[8];
     u32* var_a1;
@@ -72,9 +79,9 @@ void StCdInterrupt(void) {
     if (CdReady(1, result) == CdlDiskError) {
         return;
     }
-    subroutine_arg8[1] = result[0];
-    subroutine_arg8[2] = result[1];
-    if (subroutine_arg8[1] & 4) {
+    response_words.status = result[0];
+    response_words.detail = result[1];
+    if (response_words.status & 4) {
         D_8009B374 = 3;
         return;
     }
@@ -93,10 +100,10 @@ void StCdInterrupt(void) {
     *D_8009B33C = 0x20943;
     *D_8009B340 = 0x1323;
     if (D_800A8020 == 0) {
-        var_v1 = (u8*)&subroutine_arg8[4];
+        var_v1 = (u8 *)&loc;
         do {
             *var_v1++ = *D_8009B334;
-        } while (var_v1 < &subroutine_arg8[6]);
+        } while (var_v1 < (u8 *)&loc + sizeof(loc));
         for (var_v1_2 = 0; var_v1_2 < 8; var_v1_2++) {
             *D_8009B334;
         }

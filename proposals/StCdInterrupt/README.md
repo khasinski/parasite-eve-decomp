@@ -35,6 +35,16 @@ entry. The previous `StHEADER *` expression multiplied the payload index by
 The explicit byte calculation produces identical text and relocations while
 making the two-array organization of the streaming ring visible in C.
 
+The four response bytes read before the DMA transfer now target the local
+`CdlLOC` object directly. The donor-shaped reconstruction previously reached
+that object by indexing beyond a neighboring four-element `s16` array and
+depending on their stack placement. The typed pointer removes that undefined
+C behavior while preserving the exact stack offsets, text, and relocations.
+The neighboring temporary is now a named `StCdResponseWords` structure rather
+than an anonymous `s16[4]`; its `status` and `detail` members retain the
+retail halfword stores at stack offsets 0x22 and 0x24. This second typing step
+is also codegen-neutral.
+
 ```sh
 tools/scripts/cc.sh proposals/StCdInterrupt/candidate.c /tmp/StCdInterrupt.o
 tools/objdiff/objdiff-cli diff \
