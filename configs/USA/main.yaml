@@ -128,6 +128,9 @@ segments:
       - [0x2500, rodata, main/rodata_002500]
       - [0x250C, rodata, main/rodata_00250C]
       - [0x2574, rodata, main/rodata_002574]
+      # Psy-Q 4.6 DSFILE.OBJ private strings (0x1F0-byte .rdata).
+      - [0x266C, .rodata, psyq/libds/dsfile]
+      - [0x285C, rodata, main/rodata_00285C]
       - [0x2868, rodata, main/rodata_002868]
       - [0x286C, .rodata, memcard/func_80082778]
       - [0x2880, rodata, main/rodata_002880]
@@ -1307,9 +1310,9 @@ segments:
       - [0x71BE8, c, cdrom/CdRom_BreakSyncCallback]
       - [0x71C08, asm, main/gap_cdrom_CdRom_BreakSyncCallback_tail_71C08]
       - [0x71C14, asm, psyq/libds/DsSearchFile]
-      - [0x71EF4, c, psyq/libds/_cmp]
+      - [0x71EF4, c, psyq/libds/dsfile]
       # Psy-Q libds/dsfile.c: ISO-9660 directory cache helpers.
-      - [0x71F14, asm, psyq/libds/dsfile]
+      - [0x71F14, asm, psyq/libds/dsfile_code_asm]
       - [0x72518, c, psyq/libds/ds_read]
       # Psy-Q libds read-controller helpers share the async-read state.
       - [0x72574, c, psyq/libds/dsread_control]
@@ -1507,6 +1510,9 @@ segments:
       # Psy-Q 4.6 LIBCD BIOS_1.OBJ state through DS_active.
       - [0x8B7B4, .data, psyq/libcd/bios]
       - [0x8BABC, data, main/dtail_gp_post_bios]
+      # Psy-Q 4.6 DSFILE.OBJ media-state words and section padding.
+      - [0x8BEDC, .data, psyq/libds/dsfile]
+      - [0x8BEEC, data, main/dtail_gp_post_dsfile]
 
   # Data separates the initial code from the field-engine code. Keep a
   # separate linker segment so section ordering preserves retail addresses.
