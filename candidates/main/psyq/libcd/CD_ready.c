@@ -1,0 +1,92 @@
+/* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
+#include "pe1/psyq_cd.h"
+
+extern u8 D_8009AFD5;
+extern int D_800A3478, D_800A347C;
+extern char *D_800A3480;
+extern char D_80011B18[], D_80011B28[];
+int printf(const char *format, ...);
+int puts(const char *text);
+void CD_flush(void);
+
+static inline int timed_out(char **commands, char **events) {
+    if (VSync(-1) > D_800A3478 || D_800A347C++ > 0x3C0000) {
+        puts(D_80011B18);
+        printf(D_80011B28, D_800A3480, commands[D_8009AFD5],
+               events[D_8009B294.sync], events[D_8009B294.ready]);
+        CD_flush();
+        return -1;
+    }
+    return 0;
+}
+
+static inline void copy_result(u8 *destination, const u8 *source) {
+    int remaining;
+    if (destination) {
+        remaining = 7;
+        do { *destination++ = *source++; } while (--remaining != -1);
+    }
+}
+
+extern volatile u8 *D_8009B27C;
+extern u8 D_800A3460[8], D_800A3468[8], D_800A3470[8];
+int getintr(void);
+
+static inline void dispatch_interrupts(void) {
+    int bank = *D_8009B27C & 3;
+    int pending;
+    while ((pending = getintr()) != 0) {
+        if ((pending & 4) && D_8009AFB8)
+            D_8009AFB8(D_8009B294.ready, D_800A3468);
+        if ((pending & 2) && D_8009AFB4)
+            D_8009AFB4(D_8009B294.sync, D_800A3460);
+    }
+    *D_8009B27C = bank;
+}
+
+
+
+extern char *D_8009AFDC[], *D_8009B05C[];
+extern volatile u8 *D_8009B27C;
+extern u8 D_800A3460[8], D_800A3468[8], D_800A3470[8];
+extern char D_80011BA8[];
+int getintr(void);
+
+int CD_ready(int mode, u8 *result) {
+    char **commands;
+    char **events;
+    D_800A3478 = VSync(-1) + 0x3C0;
+    commands = D_8009AFDC;
+    events = D_8009B05C;
+    D_800A347C = 0;
+    D_800A3480 = D_80011BA8;
+    do {
+        u8 status;
+        if (timed_out(commands, events)) return -1;
+        if (CheckCallback()) {
+            int bank = *D_8009B27C & 3;
+            int pending;
+            while ((pending = getintr()) != 0) {
+                if ((pending & 4) && D_8009AFB8)
+                    D_8009AFB8(D_8009B294.ready, D_800A3468);
+                if ((pending & 2) && D_8009AFB4)
+                    D_8009AFB4(D_8009B294.sync, D_800A3460);
+            }
+            *D_8009B27C = bank;
+        }
+        status = D_8009B294.end;
+        if (status != 0) {
+            D_8009B294.end = 0;
+            copy_result(result, D_800A3470);
+            return status;
+        }
+        status = D_8009B294.ready;
+        if (status != 0) {
+            D_8009B294.ready = 0;
+            copy_result(result, D_800A3468);
+            return status;
+        }
+    } while (!mode);
+    return 0;
+}
