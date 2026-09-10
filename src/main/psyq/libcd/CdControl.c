@@ -3,6 +3,13 @@
 
 #include "pe1/psyq_cd.h"
 
+u32 D_8009AF2C[32] = {
+    0, 0, 0, 1, 0, 0, 1, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 1, 1, 0,
+    0, 0, 0, 1, 0, 0, 0, 0,
+};
+
 /* LIBCD.H exposes u_char/pointer arguments, while S_016 was compiled from an
  * internal definition that still treats the command as an promoted int. */
 int CdControl_Impl(int cmd, void *param, u8 *extra) __asm__("CdControl");

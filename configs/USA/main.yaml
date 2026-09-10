@@ -1499,7 +1499,10 @@ segments:
       - [0x812AC, c, akao/Akao_SeqNoteOn]
       - [0x81620, c, akao/SeqOp_NoteOnWithPitchSlide]
       - [0x81754, c, akao/seq_op9]
-      - [0x818A0, data, main/dtail_gp]
+      - [0x818A0, data, main/dtail_gp_pre_s016]
+      # Psy-Q 4.6 LIBCD S_016.OBJ owns this 32-entry command table.
+      - [0x8B72C, .data, psyq/libcd/CdControl]
+      - [0x8B7AC, data, main/dtail_gp_post_s016]
 
   # Data separates the initial code from the field-engine code. Keep a
   # separate linker segment so section ordering preserves retail addresses.
