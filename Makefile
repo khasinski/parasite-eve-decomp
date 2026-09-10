@@ -244,7 +244,8 @@ overlay-build: overlay-split
 	    --out $(OVERLAY_EXTRA_UNDEFINEDS) \
 	    --existing $(OVERLAY_UNDEFINED_FUNCS) \
 	    --existing $(OVERLAY_UNDEFINED_SYMS) \
-	    --symbols $(OVERLAY_CONFIG_DIR)/sym.$(OVERLAY).txt
+	    --symbols $(OVERLAY_CONFIG_DIR)/sym.$(OVERLAY).txt \
+	    --symbols configs/$(VERSION)/sym.$(BASENAME).txt
 	$(LD) -EL -T $(OVERLAY_LD) -T $(OVERLAY_UNDEFINED_FUNCS) -T $(OVERLAY_UNDEFINED_SYMS) -T $(OVERLAY_EXTRA_UNDEFINEDS) \
 	    -Map $(OVERLAY_BUILD)/$(OVERLAY).map -o $(OVERLAY_BUILD)/$(OVERLAY).elf
 	$(OBJCOPY) -O binary $(OVERLAY_BUILD)/$(OVERLAY).elf $(OVERLAY_OUT)

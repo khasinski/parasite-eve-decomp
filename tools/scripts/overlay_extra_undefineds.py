@@ -76,7 +76,7 @@ def main() -> int:
     parser.add_argument("build_dir", type=Path)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--existing", type=Path, action="append", default=[])
-    parser.add_argument("--symbols", type=Path, default=None,
+    parser.add_argument("--symbols", type=Path, action="append", default=[],
                         help="splat symbol_addrs file; unresolved symbols "
                              "listed there are emitted as PROVIDE() pins")
     args = parser.parse_args()
@@ -86,8 +86,10 @@ def main() -> int:
         symbols.update(undefined_symbols(obj))
 
     known: dict[str, int] = {}
-    if args.symbols and args.symbols.exists():
-        for line in args.symbols.read_text().splitlines():
+    for symbols_path in args.symbols:
+        if not symbols_path.exists():
+            continue
+        for line in symbols_path.read_text().splitlines():
             match = re.match(r"^(?://\s*provide:\s*)?(\w+)\s*=\s*(0x[0-9A-Fa-f]+);", line)
             if match:
                 known[match.group(1)] = int(match.group(2), 16)
