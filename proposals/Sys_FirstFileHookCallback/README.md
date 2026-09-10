@@ -4,6 +4,12 @@ New C reconstruction of the 256-byte retail function at 0x80072950. The
 previous proposal directory contained target/build artifacts but no candidate
 C. Production remains assembly until an exact match is obtained.
 
+This is a Square first-file hook rather than a Psy-Q library routine. The
+preceding function at 0x800727B4 copies the device name, saves the matching
+kernel device's original first-file callback in D_800A32D0 and installs this
+entry in its place. This callback restores the saved entry before forwarding
+the request. The production manifest therefore classifies it under `main`.
+
 The function initializes a zero state word to one, reads the table byte count
 from address 0x154 and its base pointer from 0x150, and scans complete 80-byte
 records. Each record has a name pointer at offset zero and a first-file
@@ -29,7 +35,7 @@ scheduling pass disabled 74.859375%.
 ```sh
 tools/scripts/cc.sh proposals/Sys_FirstFileHookCallback/candidate.c /tmp/first-hook.o
 tools/objdiff/objdiff-cli diff \
-  -1 expected/build/USA/asm/USA/main/psyq/Sys_FirstFileHookCallback.s.o \
+  -1 expected/build/USA/asm/USA/main/main/Sys_FirstFileHookCallback.s.o \
   -2 /tmp/first-hook.o -o /tmp/first-hook.json
 python proposals/Sys_FirstFileHookCallback/verify_behavior.py /tmp/first-hook.o
 ```

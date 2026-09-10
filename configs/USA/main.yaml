@@ -960,7 +960,7 @@ segments:
       - [0x62F94, c, psyq/libapi/nextfile]
       - [0x62FA4, c, psyq/libapi/erase]
       - [0x62FB4, asm, main/Scene_CreateEntityNode]
-      - [0x63150, asm, psyq/Sys_FirstFileHookCallback]
+      - [0x63150, asm, main/Sys_FirstFileHookCallback]
       - [0x63250, pad]
       - [0x63254, c, psyq/libc/strcmp]
       - [0x63264, c, psyq/libapi/firstfile]

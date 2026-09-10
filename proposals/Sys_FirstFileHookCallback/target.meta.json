@@ -1,0 +1,6 @@
+{
+  "function": "Sys_FirstFileHookCallback",
+  "size": "0x100",
+  "size_bytes": 256,
+  "source": "asm/USA/main/main/Sys_FirstFileHookCallback.s"
+}
