@@ -1,3 +1,20 @@
+# _spu_FwriteByIO — matched
+
+The production source is now
+[`src/main/psyq/libspu/_spu_FwriteByIO.c`](../../src/main/psyq/libspu/_spu_FwriteByIO.c).
+Stock GCC 2.7.2 and the GNU assembler profile reproduce all **448 retail
+bytes** after linking. The function uses the shared `SpuRegs` layout.
+An explicit `count > 0` guard followed by a do/while FIFO-copy loop avoids
+the unused stack slot generated for the equivalent for-loop: the frame is
+now the retail 40 bytes instead of 48. There are no register pins, empty
+barriers, instruction ASM, or compiler patches.
+
+The full `main.exe` retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+The existing `verify_behavior.py` also passes 128 cases covering FIFO words,
+chunk boundaries, odd lengths, both timeouts, pointer reloads and stack state.
+The candidates and measurements below are historical experiments.
+
 # SPU FIFO transfer
 
 `candidate.c` reconstructs the complete 448-byte retail function at 0x8007D454

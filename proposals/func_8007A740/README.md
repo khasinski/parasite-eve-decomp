@@ -1,3 +1,17 @@
+# CdControlB — matched
+
+The production source is now
+[`src/main/psyq/libcd/CdControlB.c`](../../src/main/psyq/libcd/CdControlB.c).
+Stock GCC 2.7.2 with `-fno-schedule-insns` and the GNU assembler profile
+reproduces all **332 retail bytes** after linking. The inline retry helper
+retains the callback and command-table lifetimes, retries at most four times,
+and polls `CD_sync` only after successful submission. No register pins, empty
+barriers, instruction ASM, or compiler patches are used.
+
+The full `main.exe` retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+The candidates and measurements below are historical experiments.
+
 # Synchronous LIBCD command retry wrapper
 
 `candidate.c` reconstructs the 332-byte assembly function at 0x8007A740 in

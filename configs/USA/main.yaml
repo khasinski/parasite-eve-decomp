@@ -1155,7 +1155,7 @@ segments:
       # Psy-Q LIBCD S_016.OBJ: CdControl, CdControlF, CdControlB.
       - [0x6ACD0, c, psyq/libcd/CdControl]
       - [0x6AE0C, c, psyq/libcd/CdControlF]
-      - [0x6AF40, asm, psyq/libcd/CdControlB]
+      - [0x6AF40, c, psyq/libcd/CdControlB]
       - [0x6B08C, c, psyq/libcd/CdMix]
       - [0x6B0AC, c, psyq/libcd/CdGetSector2]
       - [0x6B0CC, c, psyq/libcd/CdGetSector]
@@ -1198,7 +1198,7 @@ segments:
       - [0x6D95C, c, psyq/libspu/SpuStart]
       - [0x6D9CC, pad]
       - [0x6D9D4, asm, main/_spu_init]
-      - [0x6DC54, asm, psyq/libspu/_spu_FwriteByIO]
+      - [0x6DC54, c, psyq/libspu/_spu_FwriteByIO]
       - [0x6DE14, c, psyq/libspu/_spu_FiDMA]
       - [0x6DED0, c, psyq/libspu/spu_transfer]
       # Contiguous Psy-Q libspu/spu.c register access and control APIs.
