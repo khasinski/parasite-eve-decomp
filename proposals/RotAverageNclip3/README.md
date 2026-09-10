@@ -1,9 +1,6 @@
 # RotAverageNclip3 reconstruction
 
-The source now lives in
-[`src/main/psyq/libgte/RotAverageNclip3.c`](../../src/main/psyq/libgte/RotAverageNclip3.c).
-It reconstructs the complete 136-byte retail entry at 0x80079384;
-`candidate.c` remains the proposal's reproducible compiler input.
+New C reconstruction of the 136-byte retail entry at 0x80079384.
 It loads three vectors, executes RTPT, stores its flags before NCLIP, and
 returns the signed NCLIP MAC0 value. Only a strictly positive value enables
 the three SXY stores, IR0 depth store, AVSZ3 and final OTZ store. Rejected
