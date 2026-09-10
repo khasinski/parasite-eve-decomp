@@ -14,10 +14,10 @@ matches exactly; this candidate is now the source-level basis for completing
 the entire translation unit instead of treating its routines as unrelated
 files.
 
-The recovered `StHEADER` layout is 32 bytes. Its first five halfwords are the
-stream id, type, sector index, sector count, and frame number; `CdlLOC` occupies
-the final four bytes. This agrees with the ring stride used by `StGetNext`,
-`StFreeRing`, and `init_ring_status`.
+The shared `StHEADER` now uses the official Psy-Q `LIBCD.H` fields. It is 32
+bytes, `frameCount` begins at offset 8, and `CdlLOC` occupies the final four
+bytes. This agrees with the ring stride used by `StGetNext`, `StFreeRing`, and
+`init_ring_status`.
 
 ```sh
 tools/scripts/cc.sh proposals/StCdInterrupt/candidate.c /tmp/StCdInterrupt.o

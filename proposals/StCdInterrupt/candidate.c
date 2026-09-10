@@ -8,16 +8,6 @@
 #define true 1
 #define NULL ((void *)0)
 
-typedef struct StHEADER {
-    u16 id;
-    u16 type;
-    u16 sector;
-    u16 sectors;
-    u16 frame;
-    u16 reserved[9];
-    CdlLOC loc;
-} StHEADER;
-
 static volatile u16 *D_800A34A0;
 
 extern volatile s32 *D_8009B33C;

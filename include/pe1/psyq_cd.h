@@ -45,6 +45,27 @@ typedef struct CdlLOC {
     u_char track;
 } CdlLOC;
 
+/* Psy-Q LIBCD.H streaming-sector header. Each ring entry is 32 bytes. */
+typedef struct StHEADER {
+    u_short id;
+    u_short type;
+    u_short secCount;
+    u_short nSectors;
+    u32 frameCount;
+    u32 frameSize;
+    u_short width;
+    u_short height;
+    u32 dummy1;
+    u32 dummy2;
+    CdlLOC loc;
+} StHEADER;
+
+PE1_STATIC_ASSERT(sizeof(StHEADER) == 0x20, st_header_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(StHEADER, frameCount) == 0x08,
+                  st_header_frame_count_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(StHEADER, loc) == 0x1C,
+                  st_header_location_offset);
+
 typedef struct CdlATV {
     u_char val0;
     u_char val1;
