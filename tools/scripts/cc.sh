@@ -118,6 +118,14 @@ trap 'rm -f "$TMP_I" "$TMP_S" "$TMP_D"' EXIT
 "$CPP" $CPP_FLAGS "$IN" -o "$TMP_I"
 "$CC1" $CC1_FLAGS "$TMP_I" -o "$TMP_S"
 
+if grep -q 'ASSEMBLER: GNU' "$IN"; then
+    "$AS" -EL "$AS_G_FLAG" -march=r3000 -mtune=r3000 -no-pad-sections \
+        -I "$ROOT" -I "$ROOT/include" -I "$ROOT/asm/USA/main" -I "$ROOT/asm/USA/overlays" \
+        -o "$OUT" "$TMP_S"
+    mv "$TMP_D" "$OUT.d"
+    exit 0
+fi
+
 MASPSX_EXTRA=()
 if grep -q 'MASPSX_FLAGS:.*--dont-expand-li' "$IN"; then
     MASPSX_EXTRA+=(--dont-expand-li)
