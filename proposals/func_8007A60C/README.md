@@ -9,9 +9,13 @@ retries up to four times. Unlike that wrapper, every result-buffer argument
 is null and the final CD_cw call uses mode 1. Exhaustion returns 0; successful
 submission returns 1. The callback is restored on both exits.
 
-`candidate.c` expresses that behavior without pins, barriers or instruction
-ASM. Stock GCC 2.8.1 with -mno-split-addresses emits 0x128 bytes, twelve
-bytes shorter than the target. This is not a production match.
+`candidate.c` now keeps the control-flow and temporary shape of the adjacent,
+fully matched `func_8007A4D0` wrapper. It removes that function's result-buffer
+parameter and changes only the final `CD_cw` mode to one. Stock GCC 2.8.1 with
+`-mno-split-addresses -fno-schedule-insns` emits 0x130 bytes, four bytes
+shorter than the 0x134-byte target, and scores 91.87013% upstream objdiff.
+The candidate retains three register bindings and five
+empty constraints; it is not a production match.
 
 `constrained_registers.c` is an experiment derived from the adjacent matched
 wrapper. Upstream objdiff scores it 89.72727%. Its remaining differences
