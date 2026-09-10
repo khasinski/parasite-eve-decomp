@@ -11,6 +11,7 @@ from elftools.elf.elffile import ELFFile
 
 ROOT = Path(__file__).resolve().parents[2]
 FUNCTIONS = (
+    ('Render_InitSceneGeom', 0x64700, 464),
     ('Sys_SetIntrCallback', 0x648D0, 328),
     ('Sys_SaveDisableIntr', 0x64A18, 160),
     ('Sys_RestoreIntr', 0x64AB8, 120),
@@ -35,7 +36,7 @@ def verify(work):
     script = work / 'intr_state.ld'
     linked = work / 'intr_state.elf'
     script.write_text('\n'.join(definitions) +
-                      '\nSECTIONS { .text 0x800740D0 : { *(.text) } '
+                      '\nSECTIONS { .text 0x80073F00 : { *(.text) } '
                       '/DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) '
                       '*(.comment) *(.gnu.attributes) } }')
     subprocess.run(['mipsel-none-elf-ld', '-T', str(script), str(obj),

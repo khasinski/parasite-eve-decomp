@@ -81,6 +81,10 @@ void _SpuCallback(SpuCallback callback);
 void _SpuDataCallback(SpuCallback callback);
 s32 _spu_Fr(void *address, s32 size);
 u32 _spu_Fw(void *address, u32 size);
+/* SPU.OBJ initialization state and its ten-halfword request buffer. */
+extern int D_8009B418, D_8009B41C, D_8009B430;
+extern u16 D_800B6900[10], D_8009B43C[];
+extern char D_80011C4C[], D_80011C5C[];
 int _spu_init(int hot);
 void _spu_Fw1ts(void);
 void _spu_FwriteByIO(void *address, u32 size);

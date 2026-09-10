@@ -999,9 +999,8 @@ segments:
       # Psy-Q etc/intr.c callback facade; functions retain SDK source order.
       - [0x64494, c, psyq/libapi/intr_callbacks]
       - [0x64628, c, sys/Sys_InitIntrManager]
-      - [0x64700, asm, main/Render_InitSceneGeom]
-      # LIBETC INTR.OBJ: setIntr, stopIntr, restartIntr (contiguous fragment).
-      - [0x648D0, c, psyq/libapi/intr_state]
+      # LIBETC INTR.OBJ: trapIntr, setIntr, stopIntr, restartIntr fragment.
+      - [0x64700, c, psyq/libapi/intr_state]
       - [0x64B30, c, sys/misc37]
       - [0x64B54, asm, sys/RawData_80074354]
       - [0x64B6C, c, sys/Sys_HleJumpA0]
@@ -1196,7 +1195,8 @@ segments:
       - [0x6D874, c, psyq/libspu/_SpuInit]
       - [0x6D95C, c, psyq/libspu/SpuStart]
       - [0x6D9CC, pad]
-      - [0x6D9D4, asm, main/_spu_init]
+      # Psy-Q LIBSPU SPU.OBJ initialization fragment.
+      - [0x6D9D4, c, psyq/libspu/spu_init]
       - [0x6DC54, c, psyq/libspu/_spu_FwriteByIO]
       - [0x6DE14, c, psyq/libspu/_spu_FiDMA]
       - [0x6DED0, c, psyq/libspu/spu_transfer]

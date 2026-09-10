@@ -33,6 +33,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(InterruptCallbackState, interruptStack) == 0x68,
 
 /* Legacy halfword storage and the handler-array view into that state. */
 extern u16 D_800945E4[];
+extern u16 D_800945E6, D_80094614;
+extern int D_8009567C;
+extern char D_80011740[], D_8001175C[];
+void Render_InitSceneGeom(void);
 extern PsyqInterruptHandler D_800945E8[11];
 extern u16 *D_80095670;
 extern volatile u16 *D_80095674;

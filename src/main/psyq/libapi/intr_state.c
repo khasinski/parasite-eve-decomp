@@ -5,7 +5,73 @@
 #include "pe1/psyq_api_internal.h"
 #include "pe1/psyq_bios.h"
 
-/* Contiguous setIntr, stopIntr and restartIntr fragment of LIBETC INTR.OBJ. */
+/* Contiguous trapIntr, setIntr, stopIntr and restartIntr from INTR.OBJ. */
+/* Legacy project name: this is LIBETC trapIntr, not scene setup. */
+void Render_InitSceneGeom(void)
+{
+    InterruptCallbackState *state = (InterruptCallbackState *) D_800945E4;
+    unsigned short pending;
+    unsigned short bits;
+    int channel;
+    PsyqInterruptHandler *handlers;
+    if (!state->active)
+    {
+        printf(D_80011740, *D_80095670);
+        ReturnFromException();
+    }
+    state->inCallback = 1;
+    bits = (state->enabled & (*D_80095670)) & (*((u16 *) D_80095674));
+    pending = bits;
+    if (bits)
+    {
+        int bit = 1;
+        handlers = state->handlers;
+        do
+        {
+            for (channel = 0; pending && (channel < 11); channel++, pending >>= 1)
+            {
+                if (pending & 1)
+                {
+                    *D_80095670 = ~(bit << channel);
+                    if (handlers[channel])
+                    {
+                        handlers[channel]();
+                    }
+                }
+            }
+
+            bits = (D_80094614 & (*D_80095670)) & (*((u16 *) D_80095674));
+            pending = bits;
+        }
+        while (bits);
+    }
+
+    if ((*D_80095670) & (*((u16 *) D_80095674)))
+    {
+        if ((D_8009567C++) > 0x800)
+        {
+            const char *format = D_8001175C;
+            /* These equivalent calls let GCC merge the branch after scheduling
+              * the format address before the two MMIO reads, as in the SDK. */
+            if (D_80095670) {
+                printf(format, *D_80095670, *((u16 *)D_80095674));
+            } else {
+                printf(D_8001175C, *D_80095670, *((u16 *)D_80095674));
+            }
+            D_8009567C = 0;
+            *D_80095670 = 0;
+        }
+    }
+    else
+    {
+        D_8009567C = 0;
+    }
+
+    D_800945E6 = 0;
+    ReturnFromException();
+}
+
+
 PsyqInterruptHandler Sys_SetIntrCallback(int channel, PsyqInterruptHandler handler) {
     PsyqInterruptHandler *handlers = D_800945E8;
     InterruptCallbackState *state;

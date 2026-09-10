@@ -9,6 +9,7 @@ int puts(const char *text);
 int EnterCriticalSection(void);
 void ExitCriticalSection(void);
 int ResetEntryInt(void);
+void ReturnFromException(void);
 void HookEntryInt(void *entry);
 void ChangeClearPAD(long enabled);
 int ChangeClearRCnt(int counter, int enabled);
