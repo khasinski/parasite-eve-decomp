@@ -15,12 +15,13 @@ command result leads to CD_sync(0, result), with success only for sync result
 two. Exhaustion restores the callback and returns zero. The full command is
 truncated to its low byte for the table lookup and command call.
 
-Stock GCC281 default addressing gives **71.53012%** objdiff. GCC272 scores
-69%, GCC281 unsplit 70.69879%, with no improvement from disabling expensive
-optimizations in the unsplit profile. An earlier direct-return source scored
-64.90362% under GCC281 unsplit. The retained source uses a shared completion
-path. It has no pins, barriers or instruction asm and is not a production
-replacement.
+The retained source follows the byte-exact public PsyQ `CdControlB` source
+shape from decomp.me scratch B5sWY: the retry loop is an inline helper and the
+outer function converts its result through `CD_sync`. After adapting only the
+retail symbols, stock GCC272 produces 324 bytes and scores **86.554214%**
+against this game's 332-byte body. This replaces the earlier 71.53012%
+candidate. It has no pins, barriers or instruction asm and is not yet a
+production replacement.
 
 ```sh
 tools/scripts/cc.sh proposals/func_8007A740/candidate.c /tmp/cd-retry.o
