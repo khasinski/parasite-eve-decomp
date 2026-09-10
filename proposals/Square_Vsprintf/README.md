@@ -1,6 +1,6 @@
 # Square_Vsprintf
 
-Current best verified candidate: `constrained_gcc281.c`, **99.500916%** under
+Current best verified candidate: `constrained_gcc281.c`, **99.68807%** under
 stock GCC281/MASPSX, with all 1,471 retail-oracle cases passing. This remains
 a nonmatching proposal. Earlier scores below record the search history.
 
@@ -270,8 +270,9 @@ the conversion character, then decrements `src` again and stores zero. An
 empty `+r` constraint between those two stores preserves the two pointer
 updates instead of folding them into a single subtraction by two. Removing
 that constraint loses the matching prefix instruction sequence. The unused
-`prefixEnd` temporary is removed. There are now three pins and seven empty
-constraints in this candidate; no instruction ASM or tool changes were added.
+`prefixEnd` temporary is removed. At this stage there were three pins and
+seven empty constraints; the later cleanup below removes one of them. No
+instruction ASM or tool changes were added.
 
 Ignoring the jump-table symbol name, the only remaining instruction mismatch
 is the uppercase digit-table address: its low-half ADDIU precedes the jump,
@@ -385,3 +386,24 @@ ASPSX 2.56 also assembles the complete TU into the same relocated 2184 text,
 external-data and complete-TU dumps, including section-relative symbol
 definitions and trailing zero padding in ASPSX fragments. No original
 assembler was added to the production build.
+
+## Constraint and compiler cleanup (2026-09-10)
+
+The maintained source no longer needs the read/write constraint between the
+two hexadecimal-prefix stores. Removing it leaves `.text`, `.rodata` and all
+relocations unchanged. The now-redundant `-fno-strength-reduce` and
+`-fno-force-mem` switches likewise have no effect and were removed. The
+candidate retains three pins and six narrow constraints.
+
+The same source was compiled with original `CC1PSX.EXE` binaries from PsyQ
+4.0, 4.1, 4.3, 4.4, 4.5 and 4.6, then assembled through unchanged MASPSX.
+PsyQ 4.3's GCC 2.8.0 Build 0007 and PsyQ 4.4's GCC 2.8.1 Build 0010 reproduce
+the native stock GCC 2.8.1 result at 99.68807%, including the remaining
+uppercase-address NOP. PsyQ 4.0 scores 98.801834%, 4.1 scores 99.03486%, 4.5
+scores 92.078896%, and 4.6's GCC 2.95.2 Build 0030 scores 93.097244%.
+
+This identifies the 2.8.x compiler family as the correct source-search basis
+and rejects the assumption that the compiler shipped in the PsyQ 4.6 package
+necessarily built its archived `SPRINTF.OBJ`. The 4.6 output still passes all
+1,471 behavioral cases, but its instruction layout is much farther from
+retail.

@@ -1,6 +1,6 @@
 /* Unmodified stock GCC 2.8.1 and MASPSX; experimental, not an exact match. */
 /* GCC_VERSION: 2.8.1 */
-/* CC1_FLAGS: -mno-split-addresses -fno-strength-reduce -fno-force-mem */
+/* CC1_FLAGS: -mno-split-addresses */
 /* Experimental scheduling constraints; not an exact match. See README.md. */
 
 typedef unsigned char u8;
@@ -320,8 +320,6 @@ hexadecimal:
             if ((work.spec.header.flags >> 2) & 1) {
                 --src;
                 *src = c;
-                /* Keep the two prefix-byte pointer updates separate. */
-                asm volatile("" : "+r"(src));
                 --src;
                 *src = zero;
                 count += 2;
