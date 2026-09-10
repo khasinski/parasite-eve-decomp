@@ -367,6 +367,17 @@ void Render_StepParticleNode(void);
 int Render_PlayParticleEffect(int command, u8 *payload);
 void CdRom_DispatchDsReadyCallback(void);
 void CdRom_PollPendingDsRead(void);
+/* BIOS_1.OBJ polling state, result buffers and timeout diagnostics. */
+extern u8 D_8009AFD5;
+extern char *D_8009AFDC[], *D_8009B05C[];
+extern volatile u8 *D_8009B27C;
+extern u8 D_800A3460[8], D_800A3468[8], D_800A3470[8];
+extern int D_800A3478, D_800A347C;
+extern char *D_800A3480;
+extern char D_80011B18[], D_80011B28[], D_80011BA0[], D_80011BA8[];
+int getintr(void);
+void CD_flush(void);
+
 /* Command/ready event polling; result is an optional eight-byte buffer. */
 int CD_sync(int mode, u8 *result);
 int CD_ready(int mode, u8 *result);

@@ -1,9 +1,16 @@
 # LIBCD CD_ready
 
-Complete C reconstruction of retail `0x8007B290` (712 bytes). Stock GCC 2.8.1
-with unsplit addresses and `-fno-expensive-optimizations` scores 89.15169%.
-There are no register pins, barriers or instruction ASM. Production remains
-assembly until the entire function matches.
+Promoted to `src/main/psyq/libcd/bios_poll.c`: all 712 bytes at retail
+`0x8007B290` match with stock native GCC 2.7.2, GNU assembly and
+`-fno-expensive-optimizations`. No register pins, barriers, instruction ASM,
+compiler patches or assembly postpasses are used.
+
+CD_sync and CD_ready occupy the contiguous retail range `0x6B810..0x6BD58`
+and share timeout, interrupt-dispatch and response-copy helpers in this TU.
+The SDK BIOS_1.OBJ exports them at `0x564` and `0x7E4`, with CD_cw next at
+`0xAAC`; their instruction words agree with retail outside relocation fields.
+This is a matched portion of BIOS_1.OBJ, not a claim that the whole object has
+been reconstructed.
 
 After checking timeout and dispatching pending callbacks, CD_ready consumes
 the end event first, clears that byte and copies the end-response buffer.
@@ -13,27 +20,17 @@ nonzero mode returns 0 when neither event exists. The consumed event value is
 returned unchanged. Timeout precedes event consumption, including nonblocking
 calls and already-pending events.
 
-The timeout, callback dispatcher and eight-byte copy are shared with CD_sync
-and CD_cw through `../libcd_bios_helpers.h`. All three preserve their previous
-match percentages after factoring the dispatcher. Disabling expensive
-optimizations improves CD_ready from 86.146065% to 89.15169%. A byte-sized
-local status or explicit end-event pointer regresses it (86.42135% and
-88.505615%). Remaining differences include status masking, event-pointer
-register allocation and call scheduling.
-
-LIBCD BIOS_1.OBJ exports CD_ready at 0x7E4 and CD_cw at 0xAAC. The intervening
-712 bytes match retail: 123 identical words, 55 differences confined to
-relocation fields. Together with the verified CD_sync range, this establishes
-their LIBCD classification. The manifest now places both under psyq/libcd;
-no new boundary or production C match is introduced.
+The poll-count helper preserves the pre-increment value and commits the
+incremented counter separately. Together with explicit event-byte views and
+the descending eight-byte copy loop, this produces the retail register
+allocation and instruction order. The adjacent functions also match when
+compiled together. The older local `candidate.c` and shared proposal helper
+are retained as historical experiments; they are not the production source.
 
 ```sh
-tools/scripts/cc.sh proposals/CD_ready/candidate.c /tmp/CD_ready.o
-tools/objdiff/objdiff-cli diff \
-  -1 expected/build/USA/asm/USA/main/psyq/libcd/CD_ready.s.o \
-  -2 /tmp/CD_ready.o -o /tmp/CD_ready.json
-python proposals/CD_ready/verify_behavior.py /tmp/CD_ready.o
-python proposals/CD_cw/verify_sdk.py /path/to/BIOS_1.OBJ CD_ready
+tools/scripts/cc.sh src/main/psyq/libcd/bios_poll.c /tmp/bios_poll.o
+.venv/bin/python proposals/CD_ready/verify_behavior.py /tmp/bios_poll.o
+make verify-clean
 ```
 
 The verifier requires Unicorn and pyelftools. Its 1008 cases compare retail
@@ -44,7 +41,6 @@ external calls and MMIO traces. Reading the ready byte in the end-event branch
 is rejected as a negative control. Hardware and external functions are modeled;
 infinite waits and signed-counter overflow are outside this finite test set.
 
-The same match is retained when compiling with the other two command/wait
-functions in `../libcd_commands/candidate.c`. This verifier resolves the
-candidate entry from its ELF symbol, and its full suite passes on that
-combined object as well.
+Validation: the linked function bytes match retail exactly, and
+`make -j4 verify-clean` passes all 292 repository tests and the full main
+SHA-1 check (`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`).

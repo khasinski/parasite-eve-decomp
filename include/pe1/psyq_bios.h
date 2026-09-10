@@ -1,6 +1,10 @@
 #ifndef PE1_PSYQ_BIOS_H
 #define PE1_PSYQ_BIOS_H
 
+/* Character-output services reached through the LIBC BIOS veneers. */
+int printf(const char *format, ...);
+int puts(const char *text);
+
 #define PE1_STRINGIFY_INNER(value) #value
 #define PE1_STRINGIFY(value) PE1_STRINGIFY_INNER(value)
 

@@ -1164,8 +1164,8 @@ segments:
       # Local position helpers at the beginning of BIOS_1.OBJ.
       - [0x6B130, c, psyq/libcd/bios_position]
       - [0x6B2B4, c, psyq/libcd/getintr]
-      - [0x6B810, asm, psyq/libcd/CD_sync]
-      - [0x6BA90, asm, psyq/libcd/CD_ready]
+      # Adjacent CD_sync/CD_ready polling routines from BIOS_1.OBJ.
+      - [0x6B810, c, psyq/libcd/bios_poll]
       - [0x6BD58, asm, psyq/libcd/CD_cw]
       - [0x6C164, c, psyq/libcd/bios_commands]
       - [0x6C2C0, c, psyq/libcd/bios]

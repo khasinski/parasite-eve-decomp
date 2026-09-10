@@ -1,8 +1,16 @@
 # LIBCD CD_sync
 
-Complete C reconstruction of retail `0x8007B010` (640 bytes). Stock GCC 2.8.1
-with unsplit addresses and `-fno-expensive-optimizations` scores 91.79375%, without pins, barriers or instruction
-ASM. Production remains assembly pending a byte-exact match.
+Promoted to `src/main/psyq/libcd/bios_poll.c`: all 640 bytes at retail
+`0x8007B010` match with stock native GCC 2.7.2, GNU assembly and
+`-fno-expensive-optimizations`. No register pins, barriers, instruction ASM,
+compiler patches or assembly postpasses are used.
+
+CD_sync and CD_ready occupy the contiguous retail range `0x6B810..0x6BD58`
+and share timeout, interrupt-dispatch and response-copy helpers in this TU.
+The SDK BIOS_1.OBJ exports them at `0x564` and `0x7E4`, with CD_cw next at
+`0xAAC`; their instruction words agree with retail outside relocation fields.
+This is a matched portion of BIOS_1.OBJ, not a claim that the whole object has
+been reconstructed.
 
 This function initializes the timeout state, checks timeout, drains callbacks
 when required, then consumes a completion/error status (2 or 5). It resets
@@ -11,31 +19,17 @@ consumed status. Other statuses continue waiting in mode 0, or return 0 in
 nonzero mode. Even an already-completed or nonblocking call performs timeout
 and callback handling before examining the event byte.
 
-`../libcd_bios_helpers.h` shares the reconstructed timeout, callback-dispatch
-and response-copy implementations with CD_cw and CD_ready. Factoring the
-dispatcher preserves the match percentage. Initializing the diagnostic table pointers after
-the initial VSync call improves match from 82.2875% to 88.58125%. Disabling
-expensive optimizations then gives the selected 91.79375%, retaining the
-ordinary C source and shared callback types. The full 840-case behavior suite
-passes with that configuration. Byte-sized local status or switch syntax do
-not improve it. GCC 2.7.2 scores 84.1875%; disabling the first/second scheduling
-pass scores 80.2125%/79.13125% on the unconstrained unsplit source. Barriers
-keeping constant 2 alive regress both configurations and were rejected.
-Remaining differences concern register allocation, status masking and call
-scheduling.
-
-The SDK BIOS_1.OBJ export range 0x564–0x7E4 matches all 640 retail bytes except
-52 relocation fields; the other 108 words are identical. This proves its
-LIBCD membership, not whole-object equivalence. Its manifest now places it under psyq/libcd, without adding a boundary or
-production C match.
+The poll-count helper preserves the pre-increment value and commits the
+incremented counter separately. Together with explicit event-byte views and
+the descending eight-byte copy loop, this produces the retail register
+allocation and instruction order. The adjacent functions also match when
+compiled together. The older local `candidate.c` and shared proposal helper
+are retained as historical experiments; they are not the production source.
 
 ```sh
-tools/scripts/cc.sh proposals/CD_sync/candidate.c /tmp/CD_sync.o
-tools/objdiff/objdiff-cli diff \
-  -1 expected/build/USA/asm/USA/main/psyq/libcd/CD_sync.s.o \
-  -2 /tmp/CD_sync.o -o /tmp/CD_sync.json
-python proposals/CD_sync/verify_behavior.py /tmp/CD_sync.o
-python proposals/CD_cw/verify_sdk.py /path/to/BIOS_1.OBJ CD_sync
+tools/scripts/cc.sh src/main/psyq/libcd/bios_poll.c /tmp/bios_poll.o
+.venv/bin/python proposals/CD_sync/verify_behavior.py /tmp/bios_poll.o
+make verify-clean
 ```
 
 The behavior verifier requires Unicorn and pyelftools. Its 840 cases compare
@@ -47,7 +41,6 @@ calls and MMIO traces. Resetting a consumed status to 5 instead of 2 is rejected
 as a negative control. Hardware and external calls are modeled; counter
 overflow and infinite waits are outside this finite test set.
 
-The same match is retained when compiling with the other two command/wait
-functions in `../libcd_commands/candidate.c`. This verifier resolves the
-candidate entry from its ELF symbol, and its full suite passes on that
-combined object as well.
+Validation: the linked function bytes match retail exactly, and
+`make -j4 verify-clean` passes all 292 repository tests and the full main
+SHA-1 check (`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`).
