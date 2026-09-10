@@ -15,7 +15,7 @@ has 16 initialized bytes containing the four CD controller register addresses.
 The candidate currently references the existing globals rather than owning
 all of that object storage.
 
-The current manifest incorrectly folds the function into
+The old manifest incorrectly folded the function into
 `psyq/libgte/St_DmaCompleteCallback`, whose symbol begins at 0x8007A1E0.
 The preceding 0x30 bytes are two six-word exception-handler templates:
 `St_InstallDmaHandler` compares the first template with the kernel handler
@@ -31,9 +31,13 @@ with split addresses fills the call delay slot, but changes address registers,
 prologue scheduling and the return delay slot. These are experiments, not
 permission to change the compiler or assembler.
 
-The production boundary has not been changed or credited as matching C.
-Promote only after the complete function matches; preserve the verified SDK
-boundary and account for its trailing padding when updating the manifest.
+The manifest now records the verified boundary explicitly:
+`psyq/libgte/St_DmaHandlerTemplates` covers 0x8007A1E0..0x8007A214 and
+`psyq/libcd/StSetRing` covers the 44-byte callable body through 0x8007A240.
+The separate four-byte alignment segment begins there. `St_DmaCompleteCallback`
+is classified as a label and `StSetRing` as a function in `sym.main.txt`.
+Both ranges remain ASM until their representations match; this boundary fix
+does not claim C matching credit.
 
 ## Retained earlier compiler investigation
 
