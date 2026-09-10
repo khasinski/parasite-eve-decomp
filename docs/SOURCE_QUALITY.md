@@ -119,19 +119,16 @@ removed without changing instructions. The normal full executable also
 passes its original SHA-1; the switch tables are compiler-generated rodata,
 not ASM or data counted as code.
 
-`SPU_ReadRegister` (204 bytes) is another historical misnomer: it controls
-reverb enable, not a register read API. Zero disables reverb; one enables it
+`SpuSetReverb` (204 bytes) uses its original Psy-Q API name. Zero disables reverb; one enables it
 unless the work area conflicts with the SPU allocator and the override is
 not one. Other arguments leave the state unchanged. It returns the resulting
 enable state. Its stock GCC 2.8.1 implementation needs no pins, barriers, or
 instruction ASM, scores zero against the independent retail object, and
 passes the full executable SHA-1. The caller now has the correct return type.
 
-Three old CD-audio aliases were renamed, without changing their addresses:
-`g_SpuReverbEnabled` at `0x8009B390`, `g_SpuReverbAllocationOverride` at
-`0x8009B394`, and `g_SpuReverbWorkArea` at `0x8009B398`. The override name
-describes the observed allocation-check bypass; it is not a claim about
-the original SDK's variable spelling.
+The matching source now also uses the original internal Psy-Q symbols
+`_spu_rev_flag`, `_spu_rev_reserve_wa`, and `_spu_rev_offsetaddr` at
+`0x8009B390`, `0x8009B394`, and `0x8009B398`.
 
 `SPU_StepDmaRead` (460 bytes) selects a reverb preset, rather than reading
 DMA data. It validates the preset and work-area allocation, copies a 68-byte

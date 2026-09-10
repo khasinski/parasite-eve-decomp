@@ -1384,7 +1384,7 @@ segments:
       - [0x761F8, pad]
       - [0x76204, c, psyq/libspu/s_m_init]
       - [0x76258, pad]
-      - [0x76264, c, psyq/libspu/SPU_ReadRegister]
+      - [0x76264, c, psyq/libspu/SpuSetReverb]
       - [0x76330, pad]
       - [0x76334, c, psyq/libspu/s_m_util]
       - [0x76440, pad]

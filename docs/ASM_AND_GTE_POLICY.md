@@ -1417,7 +1417,7 @@ the 32 halfword reverb registers. A compile-time size check protects the
 window layout. The register meanings and addresses follow the
 [SPU register map](https://psx-spx.consoledev.net/soundprocessingunitspu/).
 
-`SPU_ReadRegister`, `SPU_WriteVoiceRegs`, `_spu_setReverbAttr` and
+`SpuSetReverb`, `SPU_WriteVoiceRegs`, `_spu_setReverbAttr` and
 `Akao_SetMasterVolume` use this shared view instead of incompatible pointer
 declarations. The reverb parameter setter replaces all 32 literal byte
 addresses with indexed halfword fields; the original mask tests and write

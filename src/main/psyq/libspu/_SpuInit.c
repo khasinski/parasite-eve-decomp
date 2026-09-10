@@ -10,7 +10,8 @@ typedef struct ReverbState {
 } ReverbState;
 extern unsigned short D_8009B3B8[24];
 extern ReverbState D_8009B3A0;
-extern int D_8009B390, D_8009B394, D_8009B398, D_8009B46C;
+extern int _spu_rev_flag, _spu_rev_reserve_wa, _spu_rev_offsetaddr,
+    D_8009B46C;
 extern int D_8009B45C, D_8009B460, D_8009B464, D_8009B38C;
 extern int D_8009B418, D_8009B388, D_8009B3B4, D_8009B3B0, D_8009B3E8;
 void SpuStart(void);
@@ -29,15 +30,15 @@ void _SpuInit(int mode) {
         } while (i >= 0);
     }
     SpuStart();
-    D_8009B390 = 0;
-    D_8009B394 = 0;
+    _spu_rev_flag = 0;
+    _spu_rev_reserve_wa = 0;
     D_8009B3A0.mode = 0;
     D_8009B3A0.depth[0] = 0;
     D_8009B3A0.depth[1] = 0;
     D_8009B3A0.delay = 0;
     D_8009B3A0.feedback = 0;
-    D_8009B398 = D_8009B46C;
-    _spu_FsetRXX(0xD1, D_8009B398, 0);
+    _spu_rev_offsetaddr = D_8009B46C;
+    _spu_FsetRXX(0xD1, _spu_rev_offsetaddr, 0);
     D_8009B45C = 0;
     D_8009B460 = 0;
     D_8009B464 = 0;

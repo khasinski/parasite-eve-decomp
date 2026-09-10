@@ -6,7 +6,7 @@
 
 extern u32 g_SpuReverbWorkAreaTable[];
 extern SpuReverbRegisterAttrs g_SpuReverbPresetRegisters[];
-extern u32 g_SpuReverbMode, g_SpuReverbWorkArea;
+extern u32 g_SpuReverbMode, _spu_rev_offsetaddr;
 extern int g_SpuReverbDelayFeedback[2];
 extern short g_SpuReverbDepth[2];
 extern int _SpuIsInAllocateArea_(u32);
@@ -34,7 +34,7 @@ int SPU_StepDmaRead(u32 mode) {
     dst = (unsigned char *)&attr;
     if (occupied) return -1;
     g_SpuReverbMode = mode;
-    g_SpuReverbWorkArea = *area;
+    _spu_rev_offsetaddr = *area;
     src = (unsigned char *)&g_SpuReverbPresetRegisters[mode];
     for (i = sizeof(attr) - 1; i != -1; i--) {
         unsigned char byte = *src++;
@@ -66,7 +66,7 @@ int SPU_StepDmaRead(u32 mode) {
     g_SpuReverbDepth[1] = 0;
     _spu_setReverbAttr(&attr);
     if (clear) SPU_StartDmaRead(mode);
-    _spu_FsetRXX(0xD1, g_SpuReverbWorkArea, 0);
+    _spu_FsetRXX(0xD1, _spu_rev_offsetaddr, 0);
     if (enabled) _spu_RXX->spucnt |= 0x80;
     return 0;
 }

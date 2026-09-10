@@ -227,8 +227,8 @@ void Seq_SetParamWithReset(unsigned int arg0) {
 
     Seq_GetGlobalPitch(&value);
     if (value != arg0) {
-        SPU_ReadRegister(0);
+        SpuSetReverb(0);
         SPU_StepDmaRead(arg0 | 0x100);
-        SPU_ReadRegister(1);
+        SpuSetReverb(1);
     }
 }

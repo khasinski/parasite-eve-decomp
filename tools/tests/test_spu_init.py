@@ -15,7 +15,7 @@ class SpuInitTests(unittest.TestCase):
 #include <assert.h>
 unsigned short D_8009B3B8[24];
 ReverbState D_8009B3A0;
-int D_8009B390, D_8009B394, D_8009B398, D_8009B46C;
+int _spu_rev_flag, _spu_rev_reserve_wa, _spu_rev_offsetaddr, D_8009B46C;
 int D_8009B45C, D_8009B460, D_8009B464, D_8009B38C;
 int D_8009B418, D_8009B388, D_8009B3B4, D_8009B3B0, D_8009B3E8;
 static int phase, expectedMode;
@@ -28,13 +28,14 @@ void SpuStart(void) {
     assert(phase == 2);
     for (i = 0; i < 24; ++i)
         assert(D_8009B3B8[i] == (expectedMode ? 0x100 + i : 0xC000));
-    assert(D_8009B390 == 9 && D_8009B3A0.mode == 9);
+    assert(_spu_rev_flag == 9 && D_8009B3A0.mode == 9);
     phase = 3;
 }
 void _spu_FsetRXX(u32 reg, u32 area, u32 flag) {
     int i;
     assert(phase == 3 && reg == 0xD1 && area == 0xF800 && flag == 0);
-    assert(D_8009B390 == 0 && D_8009B394 == 0 && D_8009B398 == area);
+    assert(_spu_rev_flag == 0 && _spu_rev_reserve_wa == 0 &&
+           _spu_rev_offsetaddr == area);
     assert(D_8009B3A0.mode == 0 && D_8009B3A0.depth[0] == 0);
     assert(D_8009B3A0.depth[1] == 0 && D_8009B3A0.delay == 0);
     assert(D_8009B3A0.feedback == 0);
@@ -47,7 +48,7 @@ int main(void) {
         expectedMode = mode; phase = 0;
         for (i = 0; i < 24; ++i) D_8009B3B8[i] = 0x100 + i;
         for (i = 0; i < 9; ++i) *late[i] = 9;
-        D_8009B390 = D_8009B394 = D_8009B398 = 9;
+        _spu_rev_flag = _spu_rev_reserve_wa = _spu_rev_offsetaddr = 9;
         D_8009B46C = 0xF800;
         D_8009B3A0.mode = D_8009B3A0.delay = D_8009B3A0.feedback = 9;
         D_8009B3A0.depth[0] = D_8009B3A0.depth[1] = 9;
