@@ -20,6 +20,7 @@ int getintr(void) {
     int count;
     int errors = 0;
     int i;
+    CdInterruptEvents *events;
     *D_8009B27C = 1;
     interrupt = *D_8009B288 & 7;
     if (interrupt == 0) return 0;
@@ -64,7 +65,8 @@ int getintr(void) {
         return 2;
     case 1:
         if (errors && count == 1) errors = 0;
-        D_8009B294.ready = errors ? 5 : 1;
+        events = &D_8009B294;
+        events->ready = errors ? 5 : 1;
         copy_result(D_800A3468, result);
         *D_8009B27C = 0;
         *D_8009B288 = 0;
