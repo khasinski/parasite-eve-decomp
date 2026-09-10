@@ -10,7 +10,7 @@ Unsigned intermediate negation/left shifts retain the MIPS bit operations
 without relying on signed overflow for those expressions.
 
 Stock GCC 2.7.2 with the pinned MASPSX `--expand-div` option gives
-**96.72043%** against the 372-byte retail function. Division expansion is
+**96.77419%** against the 372-byte retail function. Division expansion is
 necessary to retain the original divide-by-zero/overflow checks and breaks.
 No pins, barriers, instruction ASM or toolchain changes are used. Remaining
 mismatches include the zero-vector return path, indexed loads through AT
@@ -51,6 +51,17 @@ Initializing the result at function entry scored 94.946236%; initializing it
 only inside the combined zero-vector condition reproduced 93.548386%. The
 retained nested condition produces the closest control-flow shape. Split
 GCC281 variants scored at most 91.6129% in the follow-up trials. Remaining
-mismatches include a comparison not filling the first branch delay slot,
-load-hazard spacing, and indexed table loads through AT rather than v1.
+mismatches include the repeated comparison described below, load-hazard
+spacing, and indexed table loads through AT rather than v1.
 Production remains ASM; no matching-function credit is claimed.
+
+## Ratio comparison ordering (2026-09-10)
+
+The comparison selecting the smaller coordinate is now evaluated before the
+zero-axis special case and repeated on its nonzero fallthrough. This reproduces
+the retail `slt` in the first branch delay slot and raises the score from
+96.72043% to 96.77419%, with the same 380-byte candidate size and no source
+constraints. GCC constant-folds the repeated comparison under `x == 0` to
+`y < 0`; retail emits the general `y < x` instruction again. The remaining
+two extra instructions are MASPSX load-hazard nops after `mflo`; table-index
+address expansion also uses AT where retail uses v1.

@@ -7,13 +7,16 @@ int Gte_Atan2(int y, int x) {
     int negative_y = 0;
     int angle;
     int result;
+    int y_less_than_x;
     if (x < 0) { negative_x = 1; x = (int)(0u - (u32)x); }
     if (y < 0) { negative_y = 1; y = (int)(0u - (u32)y); }
+    y_less_than_x = y < x;
     if (x == 0) {
         result = 0;
         if (y == 0) goto done;
+        y_less_than_x = y < x;
     }
-    if (y < x) {
+    if (y_less_than_x) {
         if (y & 0x7FE00000) y = y / (x >> 10);
         else y = (int)((u32)y << 10) / x;
         angle = atan_table[y];
