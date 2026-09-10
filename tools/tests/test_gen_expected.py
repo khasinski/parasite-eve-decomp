@@ -17,7 +17,7 @@ class MainDataLayoutTests(unittest.TestCase):
             [0x8B72C, ".data", "psyq/libcd/CdControl"],
             [0x8B7AC, "data", "main/dtail_gp_post_s016_pre_bios"],
             [0x8B7B4, ".data", "psyq/libcd/bios"],
-            [0x8B7DC, "data", "main/dtail_gp_post_bios"],
+            [0x8B87C, "data", "main/dtail_gp_post_bios"],
         ])
         engine = segments["field_engine"]
         self.assertEqual(engine["start"], 0xB24A0)
