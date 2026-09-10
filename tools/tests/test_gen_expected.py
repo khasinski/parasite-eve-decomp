@@ -96,6 +96,23 @@ class SubsegmentSliceTests(unittest.TestCase):
         self.assertEqual(slices["task/Task_DispatchCmd"][".text"], 0x800130B4)
         self.assertEqual(spans, [(0x80010000, 0x800130B4)])
 
+    def test_configured_padding_counts_unnamed_ranges(self):
+        config = {
+            "segments": [{
+                "start": 0x800,
+                "vram": 0x80010000,
+                "subsegments": [
+                    [0x1000, "c", "before"],
+                    [0x1010, "pad"],
+                    [0x1014, "c", "middle"],
+                    [0x1020, "pad"],
+                    [0x1028, "asm", "after"],
+                ],
+            }]
+        }
+
+        self.assertEqual(gen_expected.configured_pad_bytes(config), 12)
+
 
 class DisassemblyRewriteTests(unittest.TestCase):
     def test_differ_aliases_are_stripped(self):

@@ -490,7 +490,21 @@ def object_section_bytes(path):
     return total
 
 
-def check_coverage(jobs, binary):
+def configured_pad_bytes(config):
+    """Bytes deliberately classified as padding rather than object content."""
+    total = 0
+    for segment in config.get("segments", []):
+        if not isinstance(segment, dict):
+            continue
+        rows = [row for row in segment.get("subsegments", [])
+                if isinstance(row, list)]
+        for row, following in zip(rows, rows[1:]):
+            if len(row) >= 2 and row[1] == "pad":
+                total += following[0] - row[0]
+    return total
+
+
+def check_coverage(jobs, binary, padding=0):
     """The units together must account for every loaded byte of the binary.
 
     objdiff happily reports on a unit list that quietly lost a function - it
@@ -500,7 +514,7 @@ def check_coverage(jobs, binary):
     means a unit's disassembly is missing something; an excess means something
     was counted twice.
     """
-    total = sum(object_section_bytes(obj) for _, obj in jobs)
+    total = sum(object_section_bytes(obj) for _, obj in jobs) + padding
     want = binary.stat().st_size
     return total, want
 
@@ -648,7 +662,7 @@ def process_module(module, shared, assembler, workers):
         list(pool.map(assemble, jobs))
 
     binary = ROOT / base_config["options"]["target_path"]
-    total, want = check_coverage(jobs, binary)
+    total, want = check_coverage(jobs, binary, configured_pad_bytes(base_config))
     status = "ok" if total == want else "off by 0x%X bytes" % abs(want - total)
     print(
         "%s: %d units (%d from the tree, %d names from the base), 0x%X of 0x%X bytes [%s]"
