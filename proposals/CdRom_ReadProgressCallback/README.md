@@ -17,14 +17,15 @@ check causes cleanup and event two/five notification. State and callback are
 read again after cleanup, so its changes are honored. The third argument in
 the existing callback ABI is unused by retail.
 
-Stock GCC281 unsplit addressing scores **99.606384%**. The candidate anchors
+Stock GCC281 unsplit addressing scores **99.94681%**. The candidate anchors
 the recovered state view at `currentVsync`, matching retail's `$s0` value and
 negative field displacements while preserving the shared structure layout.
 Default addressing gives 94.606384% and GCC272 70.5%. Disabling expensive
 optimizations in the default profile does not improve it. There are no pins,
-barriers or instruction asm. This is not an exact match: the remaining
-executable differences are the order of two saved-argument register pairs in
-the prologue and one jump target. Objdiff's percentage does
+barriers or instruction asm. A distinct local for the incoming status makes
+GCC reproduce the retail argument-register allocation and prologue order. This
+is not an exact match: the sole remaining executable difference is a jump
+target four bytes before the shared signed-count test. Objdiff's percentage does
 not establish linked-byte equivalence, and production remains assembly.
 
 ```sh

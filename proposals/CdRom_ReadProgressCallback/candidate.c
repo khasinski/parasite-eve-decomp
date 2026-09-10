@@ -11,6 +11,7 @@ extern CdReadCompleteCallback D_8009B6D0;
               sizeof(int)])
 
 void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
+    int savedStatus = status;
     int *state = &g_CdReadCurrentVsync;
     CD_READ_FIELD(state, currentVsync) = VSync(-1);
     if (CD_READ_FIELD(state, flags) & 1) {
@@ -21,8 +22,8 @@ void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
         } else {
             Save_ProcessDataCallback();
             if (D_8009B6D0) {
-                if (CD_READ_FIELD(state, remainingSectors) < 0) status = 5;
-                D_8009B6D0((u8)status, (int)data);
+                if (CD_READ_FIELD(state, remainingSectors) < 0) savedStatus = 5;
+                D_8009B6D0((u8)savedStatus, (int)data);
             }
         }
     } else {
@@ -39,8 +40,9 @@ void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
             VSync(-1) > CD_READ_FIELD(state, startVsync) + 1200) {
             Save_ProcessDataCallback();
             if (D_8009B6D0) {
-                status = CD_READ_FIELD(state, remainingSectors) < 0 ? 5 : 2;
-                D_8009B6D0((u8)status, (int)data);
+                savedStatus =
+                    CD_READ_FIELD(state, remainingSectors) < 0 ? 5 : 2;
+                D_8009B6D0((u8)savedStatus, (int)data);
             }
         }
     }
