@@ -27,14 +27,11 @@ extern s32 D_800A8020;
 extern void (*D_800B0CCC)(void);
 extern s32 D_800B0CD0;
 extern s32 D_800B6914;
-extern s32 D_800B6918;
 extern s32 D_800B8620;
 extern s32 D_800B89F4;
 extern s32 D_800BCD7C;
 extern s32 D_800BE998;
 extern s32 D_800BE9E4;
-extern u32 D_800C0DBC;
-extern s32 D_800C0DC0;
 extern u8 *D_800C0DC4;
 
 int CdReady(int mode, u8 *result);
@@ -117,7 +114,7 @@ void StCdInterrupt(void) {
     ((StHEADER*)D_800A34A0)->loc = loc;
     *D_8009B33C = 0x20843;
     *D_8009B340 = 0x1325;
-    if ((D_800C0DC0 == 1) && (D_800B6918 != 0)) {
+    if ((g_CdStreamMask == 1) && (D_800B6918 != 0)) {
         if (D_800B6918 != D_800A34A0[4]) {
             D_800A34A0[0] = 0;
             if (D_800C0DB8 != 0) {
@@ -125,7 +122,7 @@ void StCdInterrupt(void) {
             }
             return;
         }
-        D_800C0DC0 = 0;
+        g_CdStreamMask = 0;
     }
     if ((D_800A34A0[0] != 0x160) ||
         (((CURRENT_STREAM_HEADER->type >> 0xA) & 0x1F) != D_800B8620)) {
@@ -154,13 +151,14 @@ void StCdInterrupt(void) {
     if (CURRENT_STREAM_HEADER->secCount == 0) {
         D_800A8018 = 0;
         D_800A5D54 = D_800A34A0[4];
-        if ((D_800C0DBC != 0) && (D_800A5D54 >= D_800C0DBC)) {
+        if ((g_CdStreamEndSector != 0) &&
+            (D_800A5D54 >= g_CdStreamEndSector)) {
             D_800A5D54 = 0;
             D_800A8018 = 0;
             init_ring_status(D_800BE9E4, D_800BE998 - D_800BE9E4);
             D_800BE998 = D_800BE9E4;
             D_800A34A0[0] = 0;
-            D_800C0DC0 = 1;
+            g_CdStreamMask = 1;
             if (D_800B0CCC != NULL) {
                 D_800B0CCC();
             }
@@ -172,9 +170,9 @@ void StCdInterrupt(void) {
         }
         if ((u32)(StRingSize - D_800BE998 - 1) <
             CURRENT_STREAM_HEADER->nSectors) {
-            if (D_800C0DBC == 0) {
+            if (g_CdStreamEndSector == 0) {
                 D_800A34A0[0] = 1;
-                D_800C0DC0 = 1;
+                g_CdStreamMask = 1;
                 if (D_800B0CCC != NULL) {
                     D_800B0CCC();
                 }

@@ -1,7 +1,6 @@
 #include "pe1/psyq_cd.h"
 
 extern int D_800BE9EC;
-extern int D_800C0DBC;
 
 typedef struct StRingIndexPage {
     int index;
@@ -24,7 +23,7 @@ u32 StGetNext(u32 **addr, u32 **header) {
     if (*(u16 *)entry == 1) {
         g_StRingIndexPage = (StRingIndexPage *)0x800C0000;
         g_StRingIndexPage[-1].index = 0;
-        if (D_800C0DBC != 0) {
+        if (g_CdStreamEndSector != 0) {
             *(u16 *)entry = 0;
         }
         index = D_800BE9EC;

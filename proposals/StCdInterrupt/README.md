@@ -68,6 +68,13 @@ the PsyQ implementation: its initial region is an array of headers and the
 following region contains 0x7E0-byte payloads. This removes the competing
 local declaration while preserving all 2452 bytes of candidate text.
 
+The stream mask and end-frame bound now use the shared SDK-style globals
+`g_CdStreamMask` and `g_CdStreamEndSector`. PsyQ's `StSetMask` implementation
+declares all three parameters and backing fields as `u_long`; the shared
+declarations and the `StSetMask`/`StSetStream` prototypes therefore use `u32`.
+The signed/unsigned correction preserves the complete text of `StSetMask`,
+`StSetStream`, `StGetNext`, and this candidate.
+
 ```sh
 tools/scripts/cc.sh proposals/StCdInterrupt/candidate.c /tmp/StCdInterrupt.o
 tools/objdiff/objdiff-cli diff \

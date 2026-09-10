@@ -381,6 +381,9 @@ int CdStatus(void);
 int CdMode(void);
 int CdLastCom(void);
 void StClearRing(void);
+void StSetMask(u32 mask, u32 start, u32 end);
+void StSetStream(u32 mode, u32 startFrame, u32 endFrame,
+                 void (*callback1)(void), void (*callback2)(void));
 void StUnSetRing(void);
 u32 StFreeRing(u32 *base);
 u32 StGetNext(u32 **addr, u32 **header);
@@ -404,9 +407,9 @@ void Render_StepParticleCallback(void);
 
 extern CdlLOC g_CdLastPos;
 extern int D_8009B260;
-extern int g_CdStreamMask;
-extern int D_800B6918;
-extern int g_CdStreamEndSector;
+extern u32 g_CdStreamMask;
+extern u32 D_800B6918;
+extern u32 g_CdStreamEndSector;
 
 /* Low-level LIBCD command retry wrapper and its shared command state. */
 extern u32 D_8009AF2C[];
