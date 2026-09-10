@@ -1154,7 +1154,7 @@ segments:
       - [0x6ABCC, c, psyq/libcd/sys]
       # Psy-Q LIBCD S_016.OBJ: CdControl, CdControlF, CdControlB.
       - [0x6ACD0, c, psyq/libcd/CdControl]
-      - [0x6AE0C, asm, psyq/libcd/CdControlF]
+      - [0x6AE0C, c, psyq/libcd/CdControlF]
       - [0x6AF40, asm, psyq/libcd/CdControlB]
       - [0x6B08C, c, psyq/libcd/CdMix]
       - [0x6B0AC, c, psyq/libcd/CdGetSector2]
@@ -1314,7 +1314,9 @@ segments:
       - [0x71C14, asm, psyq/libds/DsSearchFile]
       - [0x71EF4, c, psyq/libds/dsfile]
       # Psy-Q libds/dsfile.c: ISO-9660 directory cache helpers.
-      - [0x71F14, asm, psyq/libds/dsfile_code_asm]
+      - [0x71F14, asm, psyq/libds/DS_newmedia]
+      - [0x721D8, c, psyq/libds/DS_searchdir]
+      - [0x7227C, asm, psyq/libds/DS_cachefile]
       - [0x72518, c, psyq/libds/ds_read]
       # Psy-Q libds read-controller helpers share the async-read state.
       - [0x72574, c, psyq/libds/dsread_control]

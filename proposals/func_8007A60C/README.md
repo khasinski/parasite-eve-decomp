@@ -1,4 +1,19 @@
-# CD command retry with mode 1
+# CdControlF — matched
+
+The production implementation is now
+[`src/main/psyq/libcd/CdControlF.c`](../../src/main/psyq/libcd/CdControlF.c).
+Stock GCC 2.7.2, `-fno-schedule-insns`, and the GNU assembler profile reproduce
+all **308 retail bytes**. Saving the callback before the other initializations
+gives the required register allocation naturally; a shared exit preserves the
+return-status lifetime. There are no register pins, empty barriers, instruction
+ASM, or compiler patches. The public byte-command declaration is preserved;
+the implementation symbol alias retains the incoming argument word until its
+two explicit masks.
+
+The combined `main.exe` passes the retail SHA-1 check. The older candidates
+and measurements below are historical experiments, not the production source.
+
+## Earlier reconstruction
 
 Retail range: 0x8007A60C..0x8007A740 (308 bytes).
 

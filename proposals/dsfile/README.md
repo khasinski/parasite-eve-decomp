@@ -1,3 +1,21 @@
+# DS_searchdir promotion
+
+[`src/main/psyq/libds/DS_searchdir.c`](../../src/main/psyq/libds/DS_searchdir.c)
+now reproduces all **164 retail bytes** with stock GCC 2.7.2 and the GNU
+assembler profile. It uses the shared `DslDirectoryCacheEntry` directly, with
+no strided field aliases or register constraints. References to the cache base
+plus 4 and 12 resolve to the original parent-ID and name addresses.
+
+Both the linked function bytes and the complete `main.exe` match retail.
+`DS_newmedia` and `DS_cachefile` remain ASM at their original boundaries; the
+combined candidate below is still a reconstruction in progress.
+
+The earlier remote DS_searchdir search accidentally used the three-function
+target object. A corrected single-function target changes its GCC 2.8.1 seed
+penalty from 34405 to 5; those earlier search results are not evidence against
+matching the individual function. GCC 2.7.2 eliminates that remaining zero-copy
+difference without changing the source algorithm.
+
 # Psy-Q DSFILE translation unit
 
 `candidate.c` contains all six functions of the original TU in one C file. It uses the shared
