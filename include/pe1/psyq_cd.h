@@ -390,6 +390,11 @@ int CD_cw(int command, void *parameters, u8 *result, int mode);
 int CdControl(u_char command, u_char *parameters, u_char *result);
 int CdControlF(u_char command, u_char *parameters);
 int CdControlB(u_char command, u_char *parameters, u_char *result);
+int CdMix(CdlATV *volume);
+int CdGetSector(void *address, int size);
+int CdGetSector2(void *address, int size);
+DsCallback CdDataCallback(DsCallback callback);
+int CdDataSync(int mode);
 
 extern DsEventCallback volatile g_DsSyncCallback __asm__("D_800A36A4");
 extern DsEventCallback volatile g_DsReadyCallback __asm__("D_800A36A8");

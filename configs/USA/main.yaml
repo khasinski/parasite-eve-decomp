@@ -1145,8 +1145,13 @@ segments:
       - [0x6ACD0, c, psyq/libcd/CdControl]
       - [0x6AE0C, asm, psyq/libcd/CdControlF]
       - [0x6AF40, asm, psyq/libcd/CdControlB]
-      # Contiguous Psy-Q libcd/sys.c sector, callback, and BCD conversion APIs.
-      - [0x6B08C, c, psyq/libcd/sys_control]
+      - [0x6B08C, c, psyq/libcd/CdMix]
+      - [0x6B0AC, c, psyq/libcd/CdGetSector2]
+      - [0x6B0CC, c, psyq/libcd/CdGetSector]
+      - [0x6B0EC, c, psyq/libcd/CdDataCallback]
+      - [0x6B110, c, psyq/libcd/CdDataSync]
+      # Local position helpers at the beginning of BIOS_1.OBJ.
+      - [0x6B130, c, psyq/libcd/bios_position]
       - [0x6B2B4, asm, psyq/libcd/getintr]
       - [0x6B810, asm, psyq/libcd/CD_sync]
       - [0x6BA90, asm, psyq/libcd/CD_ready]
