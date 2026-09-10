@@ -24,6 +24,9 @@ extern volatile s32 *D_8009B33C;
 extern volatile s32 *D_8009B340;
 extern volatile s32 *D_8009B34C;
 extern volatile s32 *D_8009B35C;
+extern volatile u8 *D_8009B32C;
+extern volatile u8 *D_8009B334;
+extern volatile u8 *D_8009B338;
 extern s32 D_8009B374;
 extern s32 D_800A5D54;
 extern s16 D_800A8018;
@@ -91,19 +94,19 @@ void StCdInterrupt(void) {
         D_8009B374 = 4;
         return;
     }
-    *g_CdRegIndexBase = 0;
-    *g_CdRegDataWrite = 0;
-    *g_CdRegIndexBase = 0;
-    *g_CdRegDataWrite = 0x80;
+    *D_8009B32C = 0;
+    *D_8009B338 = 0;
+    *D_8009B32C = 0;
+    *D_8009B338 = 0x80;
     *D_8009B33C = 0x20943;
     *D_8009B340 = 0x1323;
     if (D_800A8020 == 0) {
         var_v1 = (u8*)&subroutine_arg8[4];
         do {
-            *var_v1++ = *g_CdRegResponse;
+            *var_v1++ = *D_8009B334;
         } while (var_v1 < &subroutine_arg8[6]);
         for (var_v1_2 = 0; var_v1_2 < 8; var_v1_2++) {
-            *g_CdRegResponse;
+            *D_8009B334;
         }
     }
     var_t0 = 0x11000000;
