@@ -963,7 +963,7 @@ and reads palette state after its helper. Remaining buffer fields are unknown.
 
 ## Psy-Q CD command retry wrapper
 
-`func_8007A4D0` in `psyq/libcd/command_retry.c` matches all 316 relocated
+`CdControl` in `psyq/libcd/CdControl.c` matches all 316 relocated
 bytes with stock GCC 2.8.1 and stock MASPSX. Three pins retain the saved
 callback, return value, and comparison constant. Removing them independently
 from the final zero candidate causes 15, 35, and 2 differing bytes.

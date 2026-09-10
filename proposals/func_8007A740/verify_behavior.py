@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare ordinary-C func_8007A740 against retail, modeling external APIs."""
+"""Compare ordinary-C CdControlB against retail, modeling external APIs."""
 import hashlib
 import itertools
 from pathlib import Path
@@ -68,7 +68,7 @@ def run(command, parameter_present, lid, needs_location, outcome, sync_result, c
     cpu.reg_write(UC_MIPS_REG_A2, result)
     cpu.reg_write(UC_MIPS_REG_SP, 0x801F0000)
     cpu.reg_write(UC_MIPS_REG_RA, 0x801E0000)
-    pc = entries['func_8007A740'] if candidate else int(symbols['func_8007A740'], 16)
+    pc = entries['CdControlB'] if candidate else int(symbols['CdControlB'], 16)
     calls = 0; syncs = 0
     for _ in range(20):
         cpu.emu_start(pc, 0x801E0000, count=1000)

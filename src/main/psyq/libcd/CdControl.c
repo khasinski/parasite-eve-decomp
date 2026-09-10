@@ -3,7 +3,11 @@
 
 #include "pe1/psyq_cd.h"
 
-int func_8007A4D0(int cmd, void *param, u8 *extra) {
+/* LIBCD.H exposes u_char/pointer arguments, while S_016 was compiled from an
+ * internal definition that still treats the command as an promoted int. */
+int CdControl_Impl(int cmd, void *param, u8 *extra) __asm__("CdControl");
+
+int CdControl_Impl(int cmd, void *param, u8 *extra) {
     register int tries;
     register void *param_reg;
     register u8 *extra_reg;

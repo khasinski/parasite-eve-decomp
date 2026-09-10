@@ -1,6 +1,6 @@
 #include "pe1/psyq_cd.h"
 
-int func_8007A740(u_char command, u_char *parameter, u_char *result) {
+int CdControlB(u_char command, u_char *parameter, u_char *result) {
     static inline int retry_command(u_char command, u_char *parameter,
                                     u_char *result) {
         int retries;

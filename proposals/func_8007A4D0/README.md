@@ -54,7 +54,7 @@ the sequential comparison accounts for allocator interactions.
 
 ## Production match
 
-The final candidate is now `src/main/psyq/libcd/command_retry.c`.
+The final candidate is now `src/main/psyq/libcd/CdControl.c`.
 It matches 316/316 relocated bytes and scores 100% in upstream objdiff;
 `make check` verifies the complete retail executable. Three pins and five
 empty barriers remain after independent removal tests; three argument pins
@@ -65,3 +65,11 @@ loop and continue statements, preserving the exact match. The debug-output
 compiler flag was also unnecessary and removed.
 The final loop variant also permits sequential removal of the original-command
 and command-byte pins; the saved-callback pin then remains necessary.
+
+Psy-Q 4.6 `LIBCD.LIB` identifies the complete source unit directly:
+`S_016.OBJ` exports `CdControl` at text offset 0, `CdControlF` at 0x13C and
+`CdControlB` at 0x270. Its first range is the 316-byte retail function at
+0x8007A4D0. Production therefore exports the SDK name `CdControl`; the
+internal definition retains an int command parameter because that promoted
+form is required by the original generated instructions, while the public
+header retains LIBCD.H's u_char prototype.

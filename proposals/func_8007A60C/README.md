@@ -2,15 +2,18 @@
 
 Retail range: 0x8007A60C..0x8007A740 (308 bytes).
 
+Psy-Q 4.6 `LIBCD.LIB` identifies this as `CdControlF`: `S_016.OBJ` exports it
+at text offset 0x13C, immediately after `CdControl` and before `CdControlB`.
+
 The function has two arguments: command and parameter pointer. Like
-func_8007A4D0, it temporarily clears the completion callback, optionally
+CdControl, it temporarily clears the completion callback, optionally
 issues status command 1 and location command 2, restores the callback, and
 retries up to four times. Unlike that wrapper, every result-buffer argument
 is null and the final CD_cw call uses mode 1. Exhaustion returns 0; successful
 submission returns 1. The callback is restored on both exits.
 
 `candidate.c` now keeps the control-flow and temporary shape of the adjacent,
-fully matched `func_8007A4D0` wrapper. It removes that function's result-buffer
+fully matched `CdControl` wrapper. It removes that function's result-buffer
 parameter and changes only the final `CD_cw` mode to one. Stock GCC 2.8.1 with
 `-mno-split-addresses -fno-schedule-insns` emits the target's complete 0x134
 bytes and scores 95.7013% upstream objdiff. A shared 16-bit `0xFF` mask for
@@ -28,7 +31,7 @@ emits the symbolic store before the branch and leaves a nop. Enabling split
 addresses changes callback-address hoisting and allocation, rather than
 providing a drop-in fix. Testing all 64 subsets of its six pins did not match.
 
-Production remains ASM. Do not merge this into command_retry.c until both
+Production remains ASM. Do not merge this into CdControl.c until all three
 functions match together using the same stock pipeline. The linker script
 allows standalone relocated byte comparison at the retail address.
 
@@ -36,7 +39,7 @@ Reproduce the constrained comparison:
 
 ```sh
 tools/scripts/cc.sh proposals/func_8007A60C/constrained_registers.c /tmp/cd-mode1.o
-tools/objdiff/objdiff-cli diff -1 expected/build/USA/asm/USA/main/psyq/libcd/func_8007A60C.s.o -2 /tmp/cd-mode1.o -o /tmp/cd-mode1.json func_8007A60C
+tools/objdiff/objdiff-cli diff -1 expected/build/USA/asm/USA/main/psyq/libcd/CdControlF.s.o -2 /tmp/cd-mode1.o -o /tmp/cd-mode1.json CdControlF
 mipsel-none-elf-ld -T proposals/func_8007A60C/diagnostic.ld /tmp/cd-mode1.o -o /tmp/cd-mode1.elf
 ```
 

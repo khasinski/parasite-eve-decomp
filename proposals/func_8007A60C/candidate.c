@@ -3,7 +3,9 @@
 
 #include "pe1/psyq_cd.h"
 
-int func_8007A60C(int cmd, void *param) {
+int CdControlF_Impl(int cmd, void *param) __asm__("CdControlF");
+
+int CdControlF_Impl(int cmd, void *param) {
     register int tries;
     register void *param_reg;
     u16 command_mask;

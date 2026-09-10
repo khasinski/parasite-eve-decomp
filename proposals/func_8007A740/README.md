@@ -5,6 +5,11 @@ ordinary C using the shared LIBCD callback, status and command declarations.
 The old `variant_fp_stack.c` is a historical pinned experiment with unsupported
 postpass flags; it is not the current candidate or validation baseline.
 
+Psy-Q 4.6 `LIBCD.LIB` confirms the public name and TU: `S_016.OBJ` exports
+`CdControlB` at text offset 0x270 after `CdControl` and `CdControlF`. The
+object's final zero word is section padding and is not part of the 332-byte
+retail function body.
+
 The wrapper allows four attempts (counter 3 through 0), suppressing the sync
 callback during optional setup commands. Unless the low command byte is one,
 a status byte with bit 0x10 triggers command one; that command's return value
@@ -27,7 +32,7 @@ is not yet a production replacement.
 ```sh
 tools/scripts/cc.sh proposals/func_8007A740/candidate.c /tmp/cd-retry.o
 tools/objdiff/objdiff-cli diff \
-  -1 expected/build/USA/asm/USA/main/psyq/libcd/func_8007A740.s.o \
+  -1 expected/build/USA/asm/USA/main/psyq/libcd/CdControlB.s.o \
   -2 /tmp/cd-retry.o -o /tmp/cd-retry.json
 ```
 

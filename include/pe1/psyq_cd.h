@@ -387,7 +387,9 @@ CdlCB CdRom_SetReadCallback(CdlCB callback);
 extern u32 D_8009AFC4;
 extern u32 D_8009AFC8; /* SDK CD_status1, also stored as a full word. */
 int CD_cw(int command, void *parameters, u8 *result, int mode);
-int func_8007A4D0(int command, void *parameters, u8 *result);
+int CdControl(u_char command, u_char *parameters, u_char *result);
+int CdControlF(u_char command, u_char *parameters);
+int CdControlB(u_char command, u_char *parameters, u_char *result);
 
 extern DsEventCallback volatile g_DsSyncCallback __asm__("D_800A36A4");
 extern DsEventCallback volatile g_DsReadyCallback __asm__("D_800A36A8");

@@ -4,7 +4,10 @@ extern void (*D_8009AFB4)(void);
 extern unsigned char D_8009AFC4;
 extern int D_8009AF2C[];
 int CD_cw(int command, void *parameter, void *result, int mode);
-int func_8007A4D0(int command, void *parameter, void *result) {
+int CdControl_Impl(int command, void *parameter, void *result)
+    __asm__("CdControl");
+
+int CdControl_Impl(int command, void *parameter, void *result) {
     int retries = 3;
     int status = 0;
     unsigned int code = (unsigned char)command;
