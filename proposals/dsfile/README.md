@@ -30,7 +30,7 @@ the candidate does not invent unused fields or padding arrays to absorb them.
 
 | Function | TU offset | Retail bytes | Current match |
 | --- | ---: | ---: | ---: |
-| DsSearchFile | 0x000 | 736 | 90.570656% |
+| DsSearchFile | 0x000 | 736 | 92.353264% |
 | _cmp | 0x2E0 | 32 | 100% |
 | DS_newmedia | 0x300 | 708 | 90.27683% |
 | DS_searchdir | 0x5C4 | 164 | 98.902435% |
@@ -135,6 +135,13 @@ Both behavioral suites (1027 cases) pass, and host syntax checking with
 `-fno-builtin -Werror` now passes without pointer-to-integer warnings.
 
 ## DsSearchFile permutation review
+
+The file-name field now has its own typed stride alias at the SDK object's
+internal `D_800A36B8` symbol.  Keeping the record cursor, name cursor and
+indexed empty-name check distinct recovers the original loop's independent
+induction values and raises the match from 90.570656% to 92.353264%.  The
+alias points eight bytes into the owned `DslFILE` cache and advances by the
+verified 0x18-byte record size; it does not introduce additional storage.
 
 The valid remote `output-1745-1` lifetime change improves DsSearchFile from
 90.46196% to 90.570656%. The cleaned source removes the first-character

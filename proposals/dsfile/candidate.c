@@ -46,6 +46,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(IsoDirectoryRecord, name) == 33,
                   iso_directory_name_offset);
 
 static DslFILE file_cache[DSL_MAX_FILE] __asm__("D_800A36B0");
+extern char file_cache_names[DSL_MAX_FILE][sizeof(DslFILE)]
+    __asm__("D_800A36B8");
 static DslDirectoryCacheEntry directory_cache[DSL_MAX_DIR] __asm__("D_800A3CB0");
 static u8 sector_buffer[2048] __asm__("D_800A52B0");
 static int cached_directory __asm__("D_8009B6DC") = 0;
@@ -116,6 +118,7 @@ DslFILE *DsSearchFile(DslFILE *out, char *name) {
     int depth, directory;
     int not_found;
     DslFILE *entry;
+    char *entry_name;
     if (cached_media_state < DsShellOpen()) {
         if (!DS_newmedia()) return 0;
         cached_media_state = DsShellOpen();
@@ -149,9 +152,12 @@ DslFILE *DsSearchFile(DslFILE *out, char *name) {
         return 0;
     }
     if (D_8009AFC0 > 1) printf(search_progress, component);
-    for (depth = 0, entry = file_cache; depth < 64; depth++, entry++) {
-        if (!*(signed char *)file_cache[depth].name) break;
-        if (_cmp(entry->name, component)) {
+    for (depth = 0, entry = (DslFILE *)(file_cache_names[0] - 8),
+         entry_name = file_cache_names[0];
+         depth < 64;
+         depth++, entry++, entry_name += sizeof(DslFILE)) {
+        if (!*(signed char *)file_cache_names[depth]) break;
+        if (_cmp(entry_name, component)) {
             if (D_8009AFC0 > 1) printf(search_found, component);
             *out = *entry;
             return entry;
