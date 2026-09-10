@@ -1,8 +1,7 @@
 # CD_datasync matching state
 
 This candidate reconstructs the complete DMA wait routine, including the
-shared LIBCD timeout report and polling of DMA CHCR bit `0x01000000`. Stock GCC
-2.8.1 emits `0x16C` bytes against retail's `0x168`.
+shared LIBCD timeout report and polling of DMA CHCR bit `0x01000000`. Stock GCC 2.7.2 emits `0x174` bytes against retail's `0x168` and reproduces the retail prologue and saved-register count. It has 58 reloc-masked differing words; the earlier 2.8.1 candidate had 83.
 
 Reproduce the comparison by temporarily placing `CD_datasync.c` under
 `src/main/psyq/libcd/` and running:
