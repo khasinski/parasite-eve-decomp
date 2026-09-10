@@ -42,7 +42,6 @@ int CdControlF_Impl(int cmd, void *param) {
         }
         D_8009AFB4 = saved;
         call_result = CD_cw(cmd_reg & 0xFF, param_reg, 0, 1);
-        asm volatile("" : : "r"(one));
         if (call_result != 0) {
             continue;
         }
@@ -51,6 +50,6 @@ int CdControlF_Impl(int cmd, void *param) {
 
     D_8009AFB4 = saved;
     ret = -1;
-    asm volatile("" : "+r"(ret) : "r"(one));
+    asm volatile("" : "+r"(ret));
     return ret + 1;
 }

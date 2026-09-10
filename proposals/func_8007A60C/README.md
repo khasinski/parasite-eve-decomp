@@ -16,13 +16,13 @@ submission returns 1. The callback is restored on both exits.
 fully matched `CdControl` wrapper. It removes that function's result-buffer
 parameter and changes only the final `CD_cw` mode to one. Stock GCC 2.8.1 with
 `-mno-split-addresses -fno-schedule-insns` emits the target's exact 308-byte
-size and scores 97.1039% upstream objdiff. Keeping the constant one live until
-the final command call removes the false long-lived `0xFF` mask and two extra
-loop instructions from the previous candidate. The remaining differences are
-a permutation of three saved registers, zero argument register selection, and
-the callback-clear store not entering the comparison branch's delay slot.
-The candidate retains two register bindings and two empty constraints; it is
-not a production match.
+size and scores 97.72727% upstream objdiff. Making the constant one a normal
+loop invariant removes the false long-lived `0xFF` mask, two extra loop
+instructions, and two empty constraints from the previous candidate. GCC then
+assigns every saved register exactly as retail. The remaining differences are
+zero argument register selection and the callback-clear store not entering the
+comparison branch's delay slot. The candidate retains two register bindings
+and one empty constraint; it is not a production match.
 
 `constrained_registers.c` is an experiment derived from the adjacent matched
 wrapper. Upstream objdiff scores it 89.72727%. Its remaining differences
