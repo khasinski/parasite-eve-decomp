@@ -11,7 +11,7 @@ typedef struct StRingEntry {
     u8 pad_08[0x18];
 } StRingEntry;
 
-int func_8007C394(u8 *ptr) {
+u32 StFreeRing(u32 *ptr) {
     u8 *base;
     int index;
     int i;
@@ -23,7 +23,7 @@ int func_8007C394(u8 *ptr) {
     int expected_status;
     int next_index;
     base = D_800C0DC8;
-    index = ((ptr - (base + (D_800C20C4 << 5))) >> 2) / 504;
+    index = (ptr - (u32 *)(base + (D_800C20C4 << 5))) / 504;
     entry = (StRingEntry *)(base + (index << 5));
     /* Keep the status literal from scheduling before the entry address math. */
     
