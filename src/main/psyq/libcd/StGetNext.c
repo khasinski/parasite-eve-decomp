@@ -1,9 +1,7 @@
-#include "common.h"
+#include "pe1/psyq_cd.h"
 
 extern int D_800BE9EC;
 extern int D_800C0DBC;
-extern int D_800C20C4;
-extern u8 *D_800C0DC8;
 
 typedef struct StRingIndexPage {
     int index;
@@ -20,7 +18,7 @@ u32 StGetNext(u32 **addr, u32 **header) {
 
     addr_reg = addr;
     index = D_800BE9EC;
-    entry = D_800C0DC8 + (index << 5);
+    entry = (u8 *)&StRingAddr[index];
 
     header_reg = header;
     if (*(u16 *)entry == 1) {
@@ -30,13 +28,14 @@ u32 StGetNext(u32 **addr, u32 **header) {
             *(u16 *)entry = 0;
         }
         index = D_800BE9EC;
-        entry = D_800C0DC8 + (index << 5);
+        entry = (u8 *)&StRingAddr[index];
     }
 
     asm volatile("" : : : "memory");
     if (*(u16 *)entry == 2) {
         *(u16 *)entry = 4;
-        *addr_reg = (u32 *)(D_800C0DC8 + (D_800C20C4 << 5) + (((D_800BE9EC << 6) - D_800BE9EC) << 5));
+        *addr_reg = (u32 *)(&StRingAddr[StRingSize] +
+                            D_800BE9EC * 0x3F);
         *header_reg = (u32 *)entry;
         return 0;
     }

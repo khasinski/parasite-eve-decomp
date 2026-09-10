@@ -3,6 +3,8 @@
 `candidate.c` reconstructs `StSetRing` using LIBCD.H's pointer and 32-bit
 size parameters. It stores `StRingAddr`, stores `StRingSize`, and calls
 `StClearRing`. The SDK names alias the existing retail data symbols.
+Their declarations now live in `psyq_cd.h`, shared with the other streaming
+ring routines.
 No instruction ASM, pins or barriers are used.
 
 Psy-Q 4.6 LIBCD.LIB's **CDROM.OBJ** exports StSetRing at text offset zero.

@@ -62,6 +62,12 @@ symbol as `volatile s32`, even though it stores a null pointer and the
 interrupt routine performs byte-addressed sector arithmetic. Compiling
 `StSetStream` with the shared `u8 *` type preserves its complete text section.
 
+The ring storage and size now use the SDK names `StRingAddr` and `StRingSize`
+from the same shared header. `StRingAddr` uses the `StHEADER *` type found in
+the PsyQ implementation: its initial region is an array of headers and the
+following region contains 0x7E0-byte payloads. This removes the competing
+local declaration while preserving all 2452 bytes of candidate text.
+
 ```sh
 tools/scripts/cc.sh proposals/StCdInterrupt/candidate.c /tmp/StCdInterrupt.o
 tools/objdiff/objdiff-cli diff \

@@ -36,8 +36,6 @@ extern s32 D_800BE9E4;
 extern u32 D_800C0DBC;
 extern s32 D_800C0DC0;
 extern u8 *D_800C0DC4;
-extern StHEADER *D_800C0DC8;
-extern s32 D_800C20C4;
 
 int CdReady(int mode, u8 *result);
 void init_ring_status(int start, u32 count);
@@ -84,7 +82,7 @@ void StCdInterrupt(void) {
         D_8009B374 = 3;
         return;
     }
-    D_800A34A0 = (u16*)&D_800C0DC8[D_800BE998];
+    D_800A34A0 = (u16 *)&StRingAddr[D_800BE998];
     if (D_800A34A0[0] != 0) {
         if (D_800C0DB8 != 0) {
             D_800BCD7C++;
@@ -172,7 +170,7 @@ void StCdInterrupt(void) {
             D_8009B374 = 7;
             return;
         }
-        if ((u32)(D_800C20C4 - D_800BE998 - 1) <
+        if ((u32)(StRingSize - D_800BE998 - 1) <
             CURRENT_STREAM_HEADER->nSectors) {
             if (D_800C0DBC == 0) {
                 D_800A34A0[0] = 1;
@@ -186,7 +184,7 @@ void StCdInterrupt(void) {
                 D_8009B374 = 8;
                 return;
             }
-            if ((s16)D_800C0DC8->id != 0) {
+            if ((s16)StRingAddr->id != 0) {
                 D_800A34A0[0] = 0;
                 if (D_800C0DB8 != 0) {
                     D_800BCD7C++;
@@ -195,20 +193,20 @@ void StCdInterrupt(void) {
                 return;
             }
             D_800A34A0[0] = 1;
-            var_a1 = D_800C0DC8;
+            var_a1 = StRingAddr;
             var_a0 = D_800A34A0;
             D_800BE998 = 0;
             for (var_v1_3 = 0; var_v1_3 < 8; var_v1_3++) {
                 *var_a1++ = *var_a0++;
             }
-            D_800A34A0 = D_800C0DC8;
+            D_800A34A0 = (u16 *)StRingAddr;
         }
         D_800BE9E4 = D_800BE998;
     }
     D_8009B374 = 10;
     D_800A8018++;
     D_800C0DC4 =
-        (u8 *)&D_800C0DC8[D_800C20C4] +
+        (u8 *)&StRingAddr[StRingSize] +
         D_800BE998 * STREAM_SECTOR_PAYLOAD_SIZE;
 
     if (D_800A801C != 0) {
