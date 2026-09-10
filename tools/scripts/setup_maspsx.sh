@@ -8,7 +8,7 @@ REV="42b862c988fe7a13fe4e7ac0ebec90ed6b9fb763"
 
 if [[ ! -d "$MASPSX_DIR/.git" ]]; then
     mkdir -p "$(dirname "$MASPSX_DIR")"
-    git clone https://github.com/mkst/maspsx.git "$MASPSX_DIR"
+    git clone --no-checkout https://github.com/mkst/maspsx.git "$MASPSX_DIR"
 fi
 
 if [[ -n "$(git -C "$MASPSX_DIR" status --porcelain)" ]]; then
@@ -18,6 +18,8 @@ if [[ -n "$(git -C "$MASPSX_DIR" status --porcelain)" ]]; then
 fi
 
 git -C "$MASPSX_DIR" fetch --tags origin
+git -C "$MASPSX_DIR" sparse-checkout init --no-cone
+git -C "$MASPSX_DIR" sparse-checkout set --no-cone '/*' '!/aspsx/'
 git -C "$MASPSX_DIR" checkout "$REV"
 
 echo "stock maspsx installed at tools/maspsx"

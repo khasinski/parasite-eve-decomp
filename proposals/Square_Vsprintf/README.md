@@ -311,48 +311,6 @@ semantic error. Earlier saved-permutation audits compiled their sources
 locally; this finding does not overturn their recorded output mismatches.
 
 
-## Original ASPSX comparison (2026-09-10)
-
-The remaining NOP is also present when the unmodified GCC281 output is
-assembled by original **ASPSX 2.56 and 2.86**. Both produce exactly the same
-relocated 2184 text bytes and 180 jump-table bytes as stock MASPSX. Switching
-to either tested original assembler therefore does not fix this candidate.
-This rejects the assembler-substitution hypothesis for these versions; it is
-not a proof that no C source can match retail.
-
-The input was `constrained_gcc281.c` with SHA-256
-`62d4c7494c5762071f7912600f67c83bb78adf3d6c47a3276ba6ea980eca216b`,
-preprocessed with the normal CPP definitions and compiled by stock GCC281
-using `-O2 -G0 -funsigned-char -mips1 -mcpu=3000 -mno-split-addresses
--fno-strength-reduce -fno-force-mem`. The emitted assembly was unchanged except
-for converting LF line endings to CRLF, required by the Windows assembler.
-Each original assembler ran under Wine with `-G0 -o output.obj input.s` and
-reported zero errors. ASPSX 2.56 came from the PsyQ4.0 archive referenced by
-`tools/maspsx/aspsx/download.sh`; 2.86 came from the existing PsyQ4.6 archive.
-Executable SHA-256 identities:
-
-- 2.56: `7f928fa89e143facd75737822b08bb63fb41a06415ba943393db727aa398efc8`
-- 2.86: `d79cd4c9c9731ff0263bc5a25a380d28df6e574541f0e4790a0e3c153bfbeab2`
-
-The diagnostic `permuter/compare_aspsx.py` reads `psyk list -d` dumps, resolves
-the formatter's known HI16, LO16, jump and word relocations at retail section
-addresses, and compares both complete sections against a linked MASPSX ELF
-object. It rejects unsupported relocation forms. Altering either a code word
-or a digit-table LO16 relocation causes its comparison to fail.
-
-```sh
-psyk list -d output256.obj > output256.dump
-psyk list -d output286.obj > output286.dump
-python permuter/compare_aspsx.py /tmp/sprintf.o output256.dump output286.dump
-```
-
-Run the last command from this proposal directory, with Unicorn and pyelftools
-available for the existing oracle module. This is a diagnostic dump comparison,
-not a production linker, compiler postpass or change to the build pipeline.
-The remote experiment is retained at
-`darwine:/home/hasik/psyq-aspsx-sprintf-20260910`. Production remains ASM.
-
-
 ## Data ownership in the complete candidate TU (2026-09-10)
 
 Both maintained C variants now define their own two constant digit arrays and
@@ -380,12 +338,6 @@ retail addresses, and checks the owned symbols and initializer bytes before
 execution. It still accepts older external-data permutations. Full unsplit,
 full split and the previous external-data object each pass all 1,471 cases.
 A deliberately nonzero template initializer is rejected before emulation.
-
-ASPSX 2.56 also assembles the complete TU into the same relocated 2184 text,
-220 rodata and 12 data bytes as MASPSX. `compare_aspsx.py` now handles both
-external-data and complete-TU dumps, including section-relative symbol
-definitions and trailing zero padding in ASPSX fragments. No original
-assembler was added to the production build.
 
 ## Constraint and compiler cleanup (2026-09-10)
 

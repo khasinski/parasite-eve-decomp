@@ -47,6 +47,8 @@ class StockMaspsxTests(unittest.TestCase):
     def test_setup_installs_unmodified_pinned_upstream(self):
         setup = (ROOT / "tools" / "scripts" / "setup_maspsx.sh").read_text()
         self.assertIn('REV="42b862c988fe7a13fe4e7ac0ebec90ed6b9fb763"', setup)
+        self.assertIn("sparse-checkout", setup)
+        self.assertIn("'!/aspsx/'", setup)
         self.assertNotIn("git apply", setup)
         self.assertNotIn("PATCH=", setup)
 
