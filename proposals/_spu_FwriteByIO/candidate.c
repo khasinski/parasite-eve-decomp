@@ -9,6 +9,7 @@ void _spu_FwriteByIO(void *address, u32 size) {
     u16 initial_status;
     u32 timer;
     int count, i;
+    u16 control;
     {
         SpuRegs *spu = _spu_RXX;
         initial_status = spu->transfer_status & 0x7FF;
@@ -20,7 +21,7 @@ void _spu_FwriteByIO(void *address, u32 size) {
         for (i = 0; i < count; i += 2) _spu_RXX->transfer_fifo = *source++;
         {
             SpuRegs *spu = _spu_RXX;
-            u16 control = spu->spucnt;
+            control = spu->spucnt;
             /* Single control write in the following wait call's delay slot. */
             *(u16 *)&spu->spucnt = (control & ~0x30) | 0x10;
         }
@@ -38,7 +39,7 @@ void _spu_FwriteByIO(void *address, u32 size) {
     }
     {
         SpuRegs *spu = _spu_RXX;
-        u16 control = spu->spucnt;
+        control = spu->spucnt;
         spu->spucnt = control & ~0x30;
     }
     timer = 0;
