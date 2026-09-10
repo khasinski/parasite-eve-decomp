@@ -6,12 +6,16 @@ ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 MASPSX_DIR="$ROOT/tools/maspsx"
 REV="42b862c988fe7a13fe4e7ac0ebec90ed6b9fb763"
 
+FRESH_CLONE=0
 if [[ ! -d "$MASPSX_DIR/.git" ]]; then
     mkdir -p "$(dirname "$MASPSX_DIR")"
     git clone --no-checkout https://github.com/mkst/maspsx.git "$MASPSX_DIR"
+    FRESH_CLONE=1
 fi
 
-if [[ -n "$(git -C "$MASPSX_DIR" status --porcelain)" ]]; then
+# A no-checkout clone reports every tracked file as deleted until the first
+# checkout. Only protect edits when reusing an already initialized checkout.
+if [[ "$FRESH_CLONE" -eq 0 && -n "$(git -C "$MASPSX_DIR" status --porcelain)" ]]; then
     echo "Error: tools/maspsx has local changes; stock maspsx is required" >&2
     echo "       Remove or restore that checkout, then rerun this script." >&2
     exit 1
