@@ -356,6 +356,7 @@ void StClearRing(void);
 void StUnSetRing(void);
 u32 StFreeRing(u32 *base);
 u32 StGetNext(u32 **addr, u32 **header);
+void StCdInterrupt(void);
 int CdRom_DataSync(int mode);
 int VSync(int mode);
 int CdRom_IsBusy();

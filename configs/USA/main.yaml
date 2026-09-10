@@ -1183,8 +1183,9 @@ segments:
       - [0x6CD3C, pad]
       - [0x6CD44, c, psyq/libcd/StSetMask]
       - [0x6CD60, asm, main/gap_psyq_libcd_StSetMask_tail_6CD60]
-      - [0x6CD64, asm, main/Render_InitParticlePool]
-      - [0x6D680, c, util/mem2mem]
+      # Psy-Q LIBCD C_011.OBJ: StCdInterrupt and its two local helpers.
+      - [0x6CD64, asm, psyq/libcd/StCdInterrupt]
+      - [0x6D680, c, psyq/libcd/mem2mem]
       - [0x6D6AC, asm, psyq/libcd/dma_execute]
       - [0x6D854, c, psyq/libspu/SpuInit]
       - [0x6D874, c, psyq/libspu/_SpuInit]
