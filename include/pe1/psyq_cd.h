@@ -349,6 +349,11 @@ void CdRom_SendReadyCommand(u8 *result);
 /* Data DMA synchronization: mode 0 waits; nonzero polls. */
 int CD_datasync(int mode);
 int CdDataSync(int mode);
+int CdStatus(void);
+int CdMode(void);
+int CdLastCom(void);
+void StClearRing(void);
+void StUnSetRing(void);
 int CdRom_DataSync(int mode);
 int VSync(int mode);
 int CdRom_IsBusy();
