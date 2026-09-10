@@ -44,13 +44,13 @@ Checkouts used for the central comparison:
 
 ## First Verified Adaptation
 
-PE's historical `SPU_StartDmaRead` name obscures its actual role:
+The original `SpuClearReverbWorkArea` name describes its actual role:
 `SpuClearReverbWorkArea`. It validates the selected preset and SPU allocation,
 temporarily switches transfer state and disables the transfer callback, clears
 the reverb work area in chunks of up to 1024 bytes, waits for DMA completion,
 then restores the previous transfer state and callback.
 
-The adapted source is `src/main/psyq/libspu/SPU_StartDmaRead.c`, based on Sozud's
+The adapted source is `src/main/psyq/libspu/SpuClearReverbWorkArea.c`, based on Sozud's
 `src/spu/s_crwa.c`, with attribution and MIT terms in `THIRD_PARTY_NOTICES.md`.
 The old exported symbol is retained to avoid unrelated caller churn.
 

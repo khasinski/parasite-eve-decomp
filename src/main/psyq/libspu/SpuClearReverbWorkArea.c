@@ -14,7 +14,7 @@ int _SpuIsInAllocateArea_(u32);
 int _spu_t(int, ...);
 int WaitEvent(int);
 
-int SPU_StartDmaRead(int mode)
+int SpuClearReverbWorkArea(int mode)
 {
     SpuCallback volatile callback;
     s32 oldTransmode;

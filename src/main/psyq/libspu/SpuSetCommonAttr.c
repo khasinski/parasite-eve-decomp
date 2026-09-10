@@ -4,7 +4,7 @@
 #include "pe1/psyq_spu_internal.h"
 #include "pe1/akao/spu_common.h"
 
-void SPU_WriteVoiceRegs(SpuCommonSettings *attr) {
+void SpuSetCommonAttr(SpuCommonSettings *attr) {
     u16 left = 0;
     register u16 right asm("$8");
     u32 mask;

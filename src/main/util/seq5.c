@@ -22,7 +22,7 @@ void Seq_ApplyGlobalPitch(void) {
     D_800C0DA4 = 0;
     D_800C0DA2 = value;
     D_800C0DA0 = value;
-    SPU_WriteVoiceRegs((SpuCommonSettings *)regs);
+    SpuSetCommonAttr((SpuCommonSettings *)regs);
 }
 
 void Util_CopyWords(unsigned int *src, unsigned int *dst, unsigned int size)

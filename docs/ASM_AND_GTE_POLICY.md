@@ -1232,7 +1232,7 @@ No new constraints, instruction assembly or aliases were introduced.
 
 ## SPU common-volume constraints
 
-`SPU_WriteVoiceRegs` retains its two value constraints but no longer marks
+`SpuSetCommonAttr` retains its two value constraints but no longer marks
 all memory clobbered at either boundary. Removing the initial memory
 clobber and the final memory clobber independently preserved the complete
 text; the combined removal is checked with the full retail executable.
@@ -1314,7 +1314,7 @@ other function. The tool is unchanged; no label or binary postpass is used.
 
 The object at `0x8009B434` is consistently declared as
 `SpuCallback volatile _spu_transferCallback` in `psyq_spu_internal.h`.
-The DMA interrupt handler and `SPU_StartDmaRead` already required volatile
+The DMA interrupt handler and `SpuClearReverbWorkArea` already required volatile
 accesses; the latter now saves a function pointer, rather than a signed
 integer. The upload/read wrappers, callback setter and shutdown use this
 same declaration, removing the incompatible integer views.
@@ -1326,7 +1326,7 @@ return. This agrees with Psy-Q 4.6 `LIBSPU.H`'s
 All changes preserve the complete retail executable.
 
 Separating the reverb-area pointer from the remaining byte count in
-`SPU_StartDmaRead` was also tested. A typed `base + mode` expression retains
+`SpuClearReverbWorkArea` was also tested. A typed `base + mode` expression retains
 the instructions but swaps the live mode and area registers (`s0`/`s1`),
 including their save order. This independent cleanup is not accepted.
 
@@ -1417,7 +1417,7 @@ the 32 halfword reverb registers. A compile-time size check protects the
 window layout. The register meanings and addresses follow the
 [SPU register map](https://psx-spx.consoledev.net/soundprocessingunitspu/).
 
-`SpuSetReverb`, `SPU_WriteVoiceRegs`, `_spu_setReverbAttr` and
+`SpuSetReverb`, `SpuSetCommonAttr`, `_spu_setReverbAttr` and
 `Akao_SetMasterVolume` use this shared view instead of incompatible pointer
 declarations. The reverb parameter setter replaces all 32 literal byte
 addresses with indexed halfword fields; the original mask tests and write

@@ -101,8 +101,8 @@ object's jump-table reference annotations, so it is not the zero-score check
 used here. The normal full executable passes its unchanged retail SHA-1;
 objdiff credits all 364 code bytes and one new semantic-C function.
 
-`SPU_WriteVoiceRegs` (892 bytes) is the common-settings writer, despite its
-historical name. Its reconstructed 40-byte `SpuCommonSettings` input contains
+`SpuSetCommonAttr` (892 bytes) uses its original Psy-Q API name. Its
+reconstructed 40-byte `SpuCommonSettings` input contains
 the update mask, master volume and sweep modes, CD and external-input volume,
 and their reverb/mixing switches. A zero mask selects all settings. The layout
 test checks every field offset and the total size; the existing sequencer

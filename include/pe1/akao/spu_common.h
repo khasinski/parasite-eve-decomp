@@ -13,8 +13,7 @@ typedef struct SpuCommonSettings {
     /* 0x20 */ int externalReverb, externalMix;
 } SpuCommonSettings;
 
-/* Historical symbol name: this writes common, not per-voice, registers. */
-void SPU_WriteVoiceRegs(SpuCommonSettings *attr);
+void SpuSetCommonAttr(SpuCommonSettings *attr);
 
 /* Historical symbol name: set reverb enable and return its resulting state. */
 int SpuSetReverb(int on_off);
@@ -27,5 +26,6 @@ typedef struct SpuReverbRegisterAttrs {
 void _spu_setReverbAttr(SpuReverbRegisterAttrs *attr);
 /* Historical symbol name: select a reverb preset, optionally clearing its RAM. */
 int SPU_StepDmaRead(unsigned int mode);
+int SpuClearReverbWorkArea(int mode);
 
 #endif
