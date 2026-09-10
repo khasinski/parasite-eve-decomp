@@ -243,8 +243,9 @@ static int DS_searchdir(int parent, char *name) {
     int i;
     for (i = 0; i < DSL_MAX_DIR; i++) {
         if (!directory_parent_ids[i].value) break;
-        if (directory_parent_ids[i].value == parent &&
-            strcmp(name, directory_names[i].value) == 0)
+        if (directory_parent_ids[i].value != parent)
+            continue;
+        if (strcmp(name, directory_names[i].value) == 0)
             return i + 1;
     }
     return -1;

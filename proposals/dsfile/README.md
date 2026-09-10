@@ -150,6 +150,13 @@ symbolic field relocations and raises the match from 98.902435% to 99.39024%.
 The remaining difference is one equivalent zero initialization (`s1 = s0`
 instead of `s1 = 0`).
 
+The public SOTN PsyQ reconstruction uses the same early return, separate
+parent-mismatch `continue`, and name comparison. Adapting that control-flow
+shape to the PE symbols produces the same 164-byte object and the same single
+initialization difference. This confirms the retained source structure while
+ruling out continued random permutation as a useful way to resolve that one
+instruction.
+
 The same field-symbol reconstruction is now used wherever the object exposes
 it: `DS_newmedia` accesses `parentDirectoryId` through `D_800A3CB4`, while
 `DS_cachefile` reads the three `CdlLOC` bytes through `D_800A36B0`,
