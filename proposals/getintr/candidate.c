@@ -16,7 +16,7 @@ int puts(const char *text);
 
 int getintr(void) {
     volatile u8 interrupt;
-    u8 result[8];
+    volatile u8 result[8];
     int count;
     int errors = 0;
     int i;

@@ -22,7 +22,7 @@ static inline int timed_out(char **commands, char **events) {
     return 0;
 }
 
-static inline void copy_result(u8 *destination, const u8 *source) {
+static inline void copy_result(u8 *destination, const volatile u8 *source) {
     int remaining;
     if (destination) {
         remaining = 7;
