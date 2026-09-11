@@ -951,7 +951,6 @@ segments:
       - [0x62BA4, c, psyq/libc/qsort]
       # Psy-Q 4.6 LIBSN.LIB SNMAIN object: startup plus ctor/dtor runtime.
       - [0x62D34, asm, psyq/libsn/SNMAIN]
-      - [0x62E4C, c, psyq/libsn/__do_global_dtors]
       - [0x62EB4, c, psyq/libapi/InitHeap]
       - [0x62EC4, c, psyq/libapi/FlushCache]
       - [0x62ED4, c, psyq/libapi/_bu_init]

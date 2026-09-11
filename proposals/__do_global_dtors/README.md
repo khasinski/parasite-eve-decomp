@@ -6,20 +6,21 @@ after checking the shared initialization flag, it walks the linker-provided
 function table and calls each entry while decrementing its count.
 
 The source is derived from the neighboring runtime body and GCC's documented
-global-constructor/destructor traversal. The loop and control flow are C. The
-linker count, indirect call and four-word runtime frame remain narrow inline
-assembly/compiler constraints because this SN startup module deliberately
-bypasses the normal MIPS calling convention.
+global-constructor/destructor traversal. The indirect call and linker count
+materialization remain inline assembly because this runtime stub deliberately
+does not use the normal MIPS outgoing-call frame. The loop and control flow are
+expressed in C.
 
-Stock GCC 2.7.2 produces the exact **104/104 retail bytes**. Registers `sp`,
-`s0`, `s1` and `t0` are pinned. Stock `-fcall-used-$16` and
-`-fcall-used-$17` options prevent GCC from adding a second save area while the
-source preserves those registers in the retail 4/8/12 slots. Removing the
-final empty constraint drops the `s0`/`s1` reloads; removing the `t0` pin makes
-GCC allocate `at` for both the flag and indirect call.
+Stock GCC 2.7.2 produces the exact retail size and scores **99.38461%**.
+Every body instruction agrees. The only differences are the prologue and
+epilogue save offsets: the candidate saves `s0`, `s1`, and `ra` at 0/4/8,
+while retail leaves the first word unused and saves them at 4/8/12. Adding a
+normal C indirect call creates a 32-byte frame and a 108-byte function, so it
+does not represent this runtime ABI. Production remains assembly until the
+four-word frame convention is reproduced with the stock pipeline.
 
 ```sh
-tools/scripts/cc.sh src/main/psyq/libsn/__do_global_dtors.c /tmp/dtors.o
+tools/scripts/cc.sh proposals/__do_global_dtors/candidate.c /tmp/dtors.o
 tools/objdiff/objdiff-cli diff \
   -1 expected/build/USA/asm/USA/main/psyq/libsn/__do_global_dtors.s.o \
   -2 /tmp/dtors.o -o /tmp/dtors.json __do_global_dtors
