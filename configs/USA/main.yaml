@@ -1164,7 +1164,7 @@ segments:
       - [0x6B2B4, c, psyq/libcd/getintr]
       # Adjacent CD_sync/CD_ready polling routines from BIOS_1.OBJ.
       - [0x6B810, c, psyq/libcd/bios_poll]
-      - [0x6BD58, asm, psyq/libcd/CD_cw]
+      - [0x6BD58, c, psyq/libcd/CD_cw]
       - [0x6C164, c, psyq/libcd/bios_commands]
       - [0x6C2C0, c, psyq/libcd/bios]
       - [0x6C3FC, asm, psyq/libcd/CD_init]

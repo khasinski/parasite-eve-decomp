@@ -3,7 +3,7 @@
 #include "pe1/psyq_cd.h"
 
 extern int D_8009AFC0;
-extern int D_8009B1FC[], D_8009B0FC[];
+extern int D_8009B1FC[];
 extern char *D_8009AFDC[], *D_8009B05C[];
 /* BIOS_1 exports these as CD_pos, CD_mode and CD_com. */
 extern u8 D_8009AFD0[4], D_8009AFD4, D_8009AFD5;
@@ -36,7 +36,7 @@ int CD_cw(int command, void *parameters, u8 *result, int mode) {
     }
     if ((u8)command == 14) D_8009AFD4 = parameter[0];
     D_8009B294.sync = 0;
-    if (D_8009B0FC[(u8)command]) D_8009B294.ready = 0;
+    if (D_8009B0FC.ready_flags[(u8)command]) D_8009B294.ready = 0;
     *D_8009B27C = 0;
     {
         int *counts = D_8009B1FC;

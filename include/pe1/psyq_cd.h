@@ -378,6 +378,23 @@ extern char D_80011B18[], D_80011B28[], D_80011BA0[], D_80011BA8[];
 int getintr(void);
 void CD_flush(void);
 
+/* BIOS_1 command tables, three adjacent 32-command arrays. The middle
+ * table controls status updates on interrupt 3 (see getintr). */
+typedef struct CdCommandTables {
+    int ready_flags[32];
+    int update_status_on_ack[32];
+    int parameter_counts[32];
+} CdCommandTables;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCommandTables, parameter_counts) == 0x100,
+                  cd_command_parameter_counts_offset);
+PE1_STATIC_ASSERT(sizeof(CdCommandTables) == 0x180, cd_command_tables_size);
+extern CdCommandTables D_8009B0FC;
+extern int D_8009B1FC[];
+extern int D_8009AFC0;
+extern u8 D_8009AFD0[4], D_8009AFD4;
+extern volatile u8 *D_8009B280, *D_8009B284;
+extern char D_80011BB4[], D_80011BBC[], D_80011BCC[];
+
 /* Command/ready event polling; result is an optional eight-byte buffer. */
 int CD_sync(int mode, u8 *result);
 int CD_ready(int mode, u8 *result);

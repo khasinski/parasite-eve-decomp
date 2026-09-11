@@ -1,75 +1,47 @@
 # LIBCD CD_cw
 
-Complete C reconstruction of retail `0x8007B558` (1036 bytes), using the
-shared CD callback prototypes and interrupt-event structure. Stock GCC 2.8.1
-with unsplit addresses and `-fno-expensive-optimizations` scores 92.22394%; there are no pins, barriers or
-instruction ASM. The function remains assembly until its full match is
-recovered.
+`src/main/psyq/libcd/CD_cw.c` replaces all 1036 bytes at retail
+`0x8007B558`. Stock GCC 2.8.1, `-mno-split-addresses`,
+`-fno-expensive-optimizations` and GNU assembly produce an exact object
+comparison and an exact linked byte comparison. No register pins, compiler
+barriers, instruction assembly or compiler modifications are needed.
 
-The source validates required parameters, waits for an earlier command,
-caches Setloc/Setmode parameters, resets completion state and writes the
+The function validates required parameters, waits for the previous command,
+caches Setloc/Setmode parameters, resets completion state, and writes the
 parameter FIFO followed by the command register. Nonzero mode returns
-immediately. Blocking mode waits for completion, dispatches pending callbacks
-when necessary, checks both frame and iteration timeouts, copies the eight
-response bytes, and reports disk-error completion as -1.
+immediately. Blocking mode handles completion callbacks and both timeouts,
+copies the optional eight-byte response, and returns -1 for disk errors.
 
-An inline timeout helper reproduces the original intermediate failure result;
-the final status accumulator reproduces the original return structure. These
-improved the initial direct C reconstruction from 81.312744% to 84.200775%.
-Initializing the diagnostic table pointers only after entering the wait,
-with an explicit do/while loop, raises this to 89.03089%. Reusing an inline
-eight-byte copy helper gives 91.50193%: the output pointer is
-copied into a temporary register rather than modified in its saved register.
-An explicit positive-count check followed by the FIFO do/while loop gives the
-intermediate 91.64865%. It preserves the count-slot pointer across FIFO writes.
-The timeout, dispatcher and copy helpers now live in
-`../libcd_bios_helpers.h`, shared with CD_sync and CD_ready. All three pass
-their complete behavior suites (3072, 840 and 1008 cases), with unchanged
-match scores after factoring the dispatcher. A pointer initialized before the count check, pointer barriers
-and extra diagnostic temporaries do not improve this source; no constraints
-were retained.
-Remaining differences include table-address computation, register lifetimes,
-and scheduling around diagnostic/callback calls. Earlier experiments with
-the 84.200775% source: an equivalent separate inline dispatcher gave no
-improvement, split addresses scored
-77.189186%, disabling first scheduling 79.084946%, and disabling expensive
-optimizations 84.11969%; none improved that stock configuration.
+`CdCommandTables` describes the three adjacent 32-entry arrays at
+`0x8009B0FC`, `0x8009B17C` and `0x8009B1FC`. CD_cw uses the first array to
+reset ready events and the third to count parameters; getintr uses the middle
+array to control status updates on interrupt 3. Field offsets and total size
+are asserted in the shared header. The initial parameter-count check retains
+the existing symbol for the third array; the FIFO loop addresses the same
+array through the structure, without stepping beyond a separate C array.
 
-Provenance: LIBCD `BIOS_1.OBJ` exports `CD_cw` at text offset 0xAAC and the
-following `CD_vol` at 0xEB8. This exact 1036-byte range matches retail:
-170 identical words and 89 differences restricted to relocation fields.
-`verify_sdk.py` reproduces that check using `psyk`. This establishes membership
-in LIBCD and corrects its old `main/main/CD_cw` manifest classification to
-`main/psyq/libcd/CD_cw`, without adding a function boundary or C match credit.
-It does not prove that the whole BIOS_1 object matches.
+The separate parameter/opcode captures, the zero initialized before parameter
+validation, and the unsigned-short completion snapshot retain the stock
+compiler's matching register lifetimes. They are source-shape constraints,
+not evidence that these were the original local names or declarations.
+
+LIBCD `BIOS_1.OBJ` exports `CD_cw` at text offset `0xAAC` and the following
+`CD_vol` at `0xEB8`. This 1036-byte SDK range has 170 identical words and
+89 differences confined to relocation fields when compared with retail.
+This is one matching fragment of BIOS_1, not a whole-object match claim.
 
 ```sh
-tools/scripts/cc.sh proposals/CD_cw/candidate.c /tmp/CD_cw.o
-tools/objdiff/objdiff-cli diff \
-  -1 expected/build/USA/asm/USA/main/psyq/libcd/CD_cw.s.o \
-  -2 /tmp/CD_cw.o -o /tmp/CD_cw.json
-python proposals/CD_cw/verify_behavior.py /tmp/CD_cw.o
-python proposals/CD_cw/verify_sdk.py /path/to/BIOS_1.OBJ
+tools/scripts/cc.sh src/main/psyq/libcd/CD_cw.c /tmp/CD_cw.o
+.venv/bin/python proposals/CD_cw/verify_bytes.py
+.venv/bin/python proposals/CD_cw/verify_behavior.py /tmp/CD_cw.o
+.venv/bin/python proposals/CD_cw/verify_sdk.py /path/to/BIOS_1.OBJ
 ```
 
-The behavior verifier requires Unicorn and pyelftools. It covers 3072 cases:
-required/null parameters, nullable result buffers, command-byte truncation,
-blocking/nonblocking mode, debug levels, immediate/polled/callback completion,
-combined and separate callback events, disk errors and both timeout paths,
-including their exact thresholds. It compares returns, state, FIFO/MMIO
-traces, external call arguments, callbacks and copied responses. Reversing
-the blocking-mode test is rejected as a negative control. Hardware and
-external calls are modeled; signed-counter overflow and infinite hardware
-waits are outside this finite test set.
-
-The common compiler configuration used by `../libcd_commands/candidate.c`
-improves this to 92.22394%. The combined object retains the standalone
-CD_sync/CD_ready matches. Its test suite supports `--real-sync` to execute
-CD_sync rather than model it; all 3072 cases pass, and omitting that call is
-rejected. See the combined candidate README for the limits of this check.
-
-The four-function combined candidate now includes getintr. The verifier's
-`--real-intr` mode executes both CD_sync and getintr; the controller model
-supplies response FIFO bytes and interrupt signals instead of directly setting
-event/result state. All 3072 cases pass, and redirecting the ready response to
-the sync buffer is rejected. See the combined README for modeled dependencies.
+The behavior suite passes 3072 retail/candidate comparisons covering parameter
+validation, nullable results, command-byte truncation, blocking/nonblocking
+mode, debug levels, callbacks, disk errors and both timeout thresholds. It
+compares return values, state, FIFO/MMIO traces, external call arguments and
+copied responses. CD_sync and hardware are modeled in this standalone suite;
+infinite waits and signed-counter overflow are outside the finite test set.
+The byte verifier links at the original address and compares every byte with
+the SHA-1-checked retail executable.
