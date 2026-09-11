@@ -1190,7 +1190,7 @@ segments:
       # Psy-Q LIBCD C_011.OBJ: StCdInterrupt and its two local helpers.
       - [0x6CD64, asm, psyq/libcd/StCdInterrupt]
       - [0x6D680, c, psyq/libcd/mem2mem]
-      - [0x6D6AC, asm, psyq/libcd/dma_execute]
+      - [0x6D6AC, c, psyq/libcd/dma_execute]
       - [0x6D854, c, psyq/libspu/SpuInit]
       - [0x6D874, c, psyq/libspu/_SpuInit]
       - [0x6D95C, c, psyq/libspu/SpuStart]

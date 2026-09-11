@@ -1,15 +1,17 @@
 # dma_execute reconstruction
 
-Retail entry 0x8007CEAC, 424 bytes. `candidate.c` is a first C reconstruction,
-not a production match and not yet behaviorally verified against hardware or
-an emulator. The manifest remains ASM.
+Retail entry 0x8007CEAC, 424 bytes. The implementation has been promoted to
+`src/main/psyq/libcd/dma_execute.c` and is a 100% byte match with stock GCC
+2.8.1, GNU assembly and MASPSX. It uses `-mno-split-addresses
+-fno-schedule-insns`; there are no compiler patches, ABI-changing options or
+instruction asm.
 
 Disassembly establishes six parameters: DMA channel, memory address, block
 count, block size, control word, and an unsigned-byte interrupt-enable flag.
 The last two are loaded from caller stack offsets 16 and 20; the flag uses
 lbu. A volatile stack word retains two hardware readbacks.
 
-The candidate uses the observed 16-byte DMA channel stride, with address,
+The implementation uses the observed 16-byte DMA channel stride, with address,
 block and control words at offsets 0, 4 and 8. Polling accesses control by
 its direct address; configuration advances a word pointer through the channel. D_8009B348 is accessed as both a word and byte 2,
 represented as a union, rather than unrelated pointer casts. D_8009B344 is a
@@ -26,7 +28,13 @@ Behavior reconstructed from retail:
 - Write the transfer address and `(blockCount << 16) | blockSize`.
 - Wait for CD status bit 6, then write and read back the DMA control word.
 
-Initial stock-toolchain objdiff scores:
+The exact source needs three local register pins and one empty tied constraint.
+The pins select v1 for the interrupt-register pointer, v0 for its bit value and
+a2 for the priority shift. The constraint keeps the two shift operations
+separate so GCC does not fold them into one immediate. These constraints are
+counted by the repository's crutch-debt check.
+
+Earlier stock-toolchain objdiff scores were:
 
 | Compiler/options | Percent |
 | --- | ---: |
@@ -36,9 +44,7 @@ Initial stock-toolchain objdiff scores:
 | GCC 2.7.2, no expensive optimizations | 61.92453 |
 | GCC 2.8.1, split, no expensive optimizations | 56.75472 |
 
-The low score needs source-shape and register-lifetime work, not promotion.
-Channel and transfer sizes are assumed to be valid hardware inputs; the
-candidate's signed shifts have not been generalized to arbitrary integers.
+Channel and transfer sizes are assumed to be valid hardware inputs.
 
 ## Addressing and shared-store refinement
 
@@ -50,10 +56,8 @@ Direct control-register addressing improved the original 59.896225% to
 The second scheduling pass alone gave 71.49056%, no-force-mem 69.669815%,
 and no-expensive-optimizations 64.15094% on that shared-store version.
 
-The remaining diff includes AT versus v0 for polling addresses, printf's
-symbolic address/delay slot, interrupt-byte working registers, and ordering
-of priority, block and readback operations. None of these measurements is
-an exact match or behavioral validation; production remains unchanged.
+Those differences were resolved through source shape, typed MMIO declarations,
+the three pins and the empty constraint described above.
 
 ## C_011 object and Darwin search
 
@@ -63,11 +67,15 @@ exactly 2800 text bytes, matching the complete retail range through this
 helper. This replaces the earlier assumption that the preceding code belonged
 to the renderer.
 
-A stock GCC 2.8.1 search is running on `darwine` in
-`/home/hasik/sprintf-permuter-20260909/dma-execute`, bounded to 20 minutes and
-four low-priority workers. Its target is the freshly generated 424-byte retail
-object. Moving the DMA priority bit into a named temporary is semantically
-neutral and reduced the permuter penalty from 1820 to 985. Independently
-compiling that source locally and comparing it with objdiff raises the function
-match from 78.77358% to **86.68868%**. It remains a proposal until the generated
-code is exact and the MMIO behavior has been reviewed.
+The final object was also checked with the retail behavioral harness. All 390
+cases pass, covering DMA and interrupt state, MMIO access traces, the busy
+timeout, ready polling and preserved registers.
+
+Reproduce the checks from the repository root:
+
+```sh
+tools/scripts/cc.sh src/main/psyq/libcd/dma_execute.c /tmp/dma_execute.o
+tools/objdiff/objdiff-cli diff \
+  -1 expected/build/USA/asm/USA/main/psyq/libcd/dma_execute.s.o \
+  -2 /tmp/dma_execute.o -o /tmp/dma_execute.json dma_execute
+```
