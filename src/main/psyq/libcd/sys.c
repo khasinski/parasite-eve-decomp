@@ -6,16 +6,13 @@ extern char func_800119CC[];
 extern char *g_CdCmdNameTable[];
 extern char *g_CdIntrStringTable[];
 
-register CdCallbackDataPage *g_CdCallbackWritePage asm("$1");
-
 void CdFlush(void) {
     CD_flush();
 }
 
 CdlCB CdReadCallback(CdlCB callback) {
     CdlCB old = g_CdReadCallback;
-    g_CdCallbackWritePage = (CdCallbackDataPage *)0x800A0000;
-    g_CdCallbackWritePage[-1].read = callback;
+    g_CdReadCallback = callback;
     return old;
 }
 

@@ -1,3 +1,4 @@
+/* ASSEMBLER: GNU */
 #include "pe1/psyq_callbacks.h"
 #include "common.h"
 #include "pe1/psyq_cd.h"
@@ -14,7 +15,6 @@ typedef struct CdInitVolFrame {
 register CdInitVolFrame *g_CdInitVolFrame asm("$29");
 register int g_CdInitVolValue asm("$2");
 register volatile void *g_CdInitVolIo asm("$3");
-register CdCallbackDataPage *g_CdInitCallbackPage asm("$1");
 
 /* BIOS_1.OBJ state. Parasite Eve adds cd_read_callback between cd_debug and
  * cd_status, shifting the remainder of the SDK layout by one word. */
@@ -235,8 +235,7 @@ void CD_initintr(void) {
     g_CdReadyCallback = 0;
     g_CdSyncCallback = 0;
     D_8009AFC8 = 0;
-    g_CdInitCallbackPage = (CdCallbackDataPage *)0x800A0000;
-    g_CdInitCallbackPage[-1].status = 0;
+    D_8009AFC4 = 0;
     ResetCallback();
     InterruptCallback(2, Cd_SetIntrMask);
 }
