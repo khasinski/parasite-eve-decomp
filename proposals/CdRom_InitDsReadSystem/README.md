@@ -1,5 +1,15 @@
 # DS read-system initialization
 
+**Matched and integrated** in `src/main/cdrom/CdRom_InitDsReadSystem.c`.
+All 324 linked bytes match retail using stock native GCC 2.8.1 with
+`-mno-split-addresses` and the existing GNU assembler path. The source uses
+the shared DS structures, no register pins, no empty barriers, and no
+instruction assembly. The full EXE SHA-1 matches retail; all 18 behavioral
+cases below pass with the production object. Linked bytes are guarded by
+`tools/tests/test_gpu_submission_ds_init.py`.
+
+## Historical proposal (before integration)
+
 New ordinary-C reconstruction of `CdRom_InitDsReadSystem`, 324 retail bytes
 at 0x8007EC14. The previous directory contained target/build artifacts but no
 candidate C. This uses the already recovered DS queue and callback structures.
