@@ -26,6 +26,15 @@ typedef struct GpuDmaState {
     /* 0x3C */ int waitLoopCounter;
 } GpuDmaState;
 
+/* 64 entries at 0x800BD030; the callback receives the two stored words. */
+typedef struct GpuQueueEntry {
+    /* 0x00 */ void (*function)(u32, u32);
+    /* 0x04 */ u32 argument0;
+    /* 0x08 */ u32 argument1;
+    /* 0x0C */ u32 packet[21];
+} GpuQueueEntry;
+
+extern GpuQueueEntry D_800BD030[64];
 extern GpuDmaState D_80095850;
 
 #endif /* PE1_GPU_DMA_STATE_H */

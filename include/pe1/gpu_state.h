@@ -20,7 +20,7 @@ typedef struct GpuDebugState {
     /* 0x03 */ unsigned char reverse;
     /* 0x04 */ short width;
     /* 0x06 */ short height;
-    /* 0x08 */ unsigned char reserved[4];
+    /* 0x08 */ unsigned int syncCallbackPending;
     /* 0x0C */ void (*drawSyncCallback)();
 } GpuDebugState;
 

@@ -13,7 +13,6 @@ extern u32 D_80095874;
 extern volatile u32 D_80095878;
 extern u32 *D_80095860, *D_80095854;
 extern unsigned char D_800A3348[];
-extern unsigned char D_800BD030[];
 
 int SetIntrMask(int mask);
 void GPU_memset(unsigned char *dst, int value, int count);
@@ -36,7 +35,7 @@ int Gpu_InitDmaQueue(int mode) {
         *g_GpuDmaControlRegPtr |= 0x800;
         *g_GpuGp1Ptr = 0;
         GPU_memset(D_800A3348, 0, 0x100);
-        GPU_memset(D_800BD030, 0, 0x1800);
+        GPU_memset((unsigned char *)D_800BD030, 0, 0x1800);
         break;
 
     case 1:

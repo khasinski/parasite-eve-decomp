@@ -1,5 +1,20 @@
 # Square_Vsprintf
 
+**Matched and integrated** in `src/main/psyq/libc/Square_Vsprintf.c`.
+Stock native GCC 2.8.1 (`-mno-split-addresses`) with stock GNU as 2.8.1
+produces all 2,180 function bytes plus 12 bytes of text padding, 220 bytes
+of private read-only tables, and the 12-byte format template exactly.
+The assembler schedules the uppercase digit address into the jump delay slot,
+closing the last difference in the constrained GCC 2.8.1 candidate.
+No compiler, assembler, or emitted-instruction patches are used.
+The three register pins and six empty barriers are tracked in the debt report.
+
+Validation: the full linked-section regression is
+`tools/tests/test_formatter_gpu_drain.py`; the retail behavior oracle below
+passes all 1,471 cases with the production object.
+
+## Historical search notes (before integration)
+
 Current best verified candidate: `constrained_gcc281.c`, **99.68807%** under
 stock GCC281/MASPSX, with all 1,471 retail-oracle cases passing. This remains
 a nonmatching proposal. Earlier scores below record the search history.

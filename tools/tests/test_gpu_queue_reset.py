@@ -20,7 +20,8 @@ u32 *g_GpuGp1Ptr = &gp1, *g_GpuDmaChcrPtr = &chcr;
 u32 *g_GpuDmaControlRegPtr = &control;
 u32 g_GpuDmaQueueHead, D_80095884;
 volatile u32 g_GpuDmaQueueTail;
-unsigned char D_800A3348[256], D_800BD030[6144];
+unsigned char D_800A3348[256];
+GpuQueueEntry D_800BD030[64];
 static int masks, clears, queries, currentMode;
 int SetIntrMask(int mask) {
     if (++masks == 1) assert(mask == 0);
@@ -34,7 +35,7 @@ void GPU_memset(unsigned char *dst, int value, int count) {
     assert(masks == 1 && value == 0);
     assert(chcr == 0x401 && gp1 == 0 && control == 0x812);
     if (++clears == 1) assert(dst == D_800A3348 && count == 256);
-    else assert(clears == 2 && dst == D_800BD030 && count == 6144);
+    else assert(clears == 2 && dst == (unsigned char *)D_800BD030 && count == 6144);
     memset(dst, value, count);
 }
 int Gpu_QueryStatus(int mode) {
@@ -65,7 +66,8 @@ int main(void) {
         for (i = 0; i < sizeof(D_800A3348); ++i)
             assert(D_800A3348[i] == (full ? 0 : 0xA5));
         for (i = 0; i < sizeof(D_800BD030); ++i)
-            assert(D_800BD030[i] == (full ? 0 : 0xA5));
+            /* Host pointers may widen entries; the retail clear is exactly 6144 bytes. */
+            assert(((unsigned char *)D_800BD030)[i] == (full && i < 6144 ? 0 : 0xA5));
     }
     return 0;
 }
