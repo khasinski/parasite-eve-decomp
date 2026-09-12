@@ -3,9 +3,16 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 DEST="${PE_GAS281_DIR:-$ROOT/tools/gas-2.8.1}"
-[ ! -x "$DEST/as" ] || exit 0
+# Rebuild binaries installed before the host optimization fix.
+BUILD_CONFIG=host-o0-v1
+if [ -x "$DEST/as" ] && [ "$(cat "$DEST/build-config" 2>/dev/null || true)" = "$BUILD_CONFIG" ]; then
+    exit 0
+fi
 HOST_CC="${PE_HOST_CC:-cc}"
-FLAGS='-O2 -fcommon -std=gnu89 -D_POSIX_C_SOURCE=200809L'
+# Modern host GCC at -O2 can miscompile this vintage assembler: Linux builds
+# duplicate the lw opcode over its preceding lui during macro relaxation.
+# Keep host optimization disabled; the linked-byte regression covers both hosts.
+FLAGS='-O0 -fcommon -std=gnu89 -D_POSIX_C_SOURCE=200809L'
 if [ "$(uname -s)" = Darwin ]; then
     if [ -z "${PE_HOST_CC:-}" ]; then
         HOST_CC=''
@@ -36,4 +43,5 @@ mkdir "$WORK/build"
 )
 chmod +x "$WORK/build/gas/as.new"
 mv -f "$WORK/build/gas/as.new" "$DEST/as"
+printf '%s\n' "$BUILD_CONFIG" >"$DEST/build-config"
 echo "Native GNU GAS 2.8.1 installed at $DEST/as"

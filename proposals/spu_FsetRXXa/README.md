@@ -16,7 +16,11 @@ break 7 and mfhi sequence. It also avoids the redundant nops which GNU as 2.7
 places at reorder boundaries in two neighboring functions. No assembler or
 compiler source is patched, and no binary rewriting is used. The original TU
 remains intact. `setup_gas281.sh` pins the release tarball's SHA-256 and CI
-caches the native assembler.
+caches the native assembler. The assembler itself is built with host `-O0`:
+modern Linux GCC at `-O2` produces a broken build that duplicates the `lw`
+opcode over the preceding `lui` in symbol-load macros. This host build setting
+does not change the PSX compiler's `-O2`. The linked bytes have been checked
+with native assembler builds on macOS and Linux.
 
 `tools/tests/test_counter_spu_address.py` verifies the entire linked TU against
 a retail SHA-256, including the neighboring functions and all relocations.
