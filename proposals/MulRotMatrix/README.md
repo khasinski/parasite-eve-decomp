@@ -1,44 +1,31 @@
-# MulRotMatrix CPU-side reconstruction
+# MulRotMatrix
 
-New C reconstruction of the 232-byte retail function at 0x800786E4.
-The function multiplies each input matrix column through the rotation matrix
-already held in GTE control registers. It does not load or replace those
-control registers. All three input columns are consumed before output writes,
-so the matrix is safely updated in place. Translation is preserved. The
-retail final SWC2 writes the whole IR3 word, including the matrix padding;
-the C writes that padding explicitly from the signed IR3 result.
+Production matches **232/232 linked function bytes** at `0x800786E4` and
+**240/240 bytes** of the complete original TU, including trailing alignment.
+Native GCC 2.7.2 and unmodified MASPSX are used; no postpasses, binary rewriting,
+compiler/assembler patches, or ABI-changing call-used flags are involved.
 
-CPU packing, indexing and stores are C. Hardware transfers and the MVMVA
-command remain COP2 operations using the existing pe1/gte.h interface plus
-an MTC2 register-1 transfer. No register pins, empty barriers, CPU instruction
-assembly or postpasses are added. The two hazard NOPs come from the existing
-gte_mvmva macro. A macro groups the three output reads because pointer output
-parameters in an inline function caused this old compiler to spill them.
+Transforms the three columns of its matrix using the rotation matrix already
+held in GTE control registers, and writes the result in place. It does not
+replace the GTE rotation control registers.
 
-**Not an instruction match:** stock GCC272 produces 228 bytes against
-232 retail and objdiff reports 0.0%. The register allocation, halfword
-accesses, packing, instruction order and hazard spacing differ. A packed-word
-variant also scored 0.0% and was not retained. Production ASM is unchanged;
-this contributes no matching-function credit.
+CPU packing, shifts, masks and stores are C over the shared `GteMatrix` layout.
+Each GTE transfer and MVMVA command has its own single-instruction macro.
+Translation is preserved. The final IR3 store writes a full word, so its high
+half overwrites the matrix padding exactly as in retail.
+
+Ten register pins and eight empty barriers remain, all counted in debt. These
+keep three column results live and preserve the original access/packing order.
+The `$1` pin holds only the ordinary C high-halfword mask; its lifetime ends
+before any assembler-generated address expansion. Seven unnecessary barriers were removed across the pair before integration.
+
+`tools/tests/test_matrix_products.py` compares every linked TU byte with its
+retail SHA-256. The existing `verify_behavior.py` passes **1,367 cases** with
+scripted GTE results, checking CPU-side packing, preservation and pointer
+returns. It does not emulate GTE arithmetic or timing. Exact byte equality is
+the production acceptance criterion.
 
 ```sh
-tools/scripts/cc.sh proposals/MulRotMatrix/candidate.c /tmp/mul-rot.o
-python proposals/MulRotMatrix/verify_behavior.py /tmp/mul-rot.o
+tools/scripts/cc.sh src/main/psyq/libgte/MulRotMatrix.c /tmp/MulRotMatrix.o
+.venv/bin/python proposals/MulRotMatrix/verify_behavior.py /tmp/MulRotMatrix.o
 ```
-
-**Verification is limited to CPU-side behavior and the GTE interface.**
-Unicorn does not execute the PSX GTE here. The verifier replaces COP2
-instructions in both bodies with NOPs and services their transfers and
-commands from a code hook. MVMVA returns scripted signed-halfword IR values;
-its arithmetic, flags and timing are not emulated. VZ transfers are normalized
-to their low signed halfword. This checks the same consumed vectors and
-commands, rather than requiring unused upper bits of the raw VZ source word
-to be identical.
-
-All 1,367 cases pass: 343 boundary-result combinations plus 1,024 random
-matrix/result cases. Assertions check three input columns, command and result
-read order, all output bytes, final modeled data registers, padding,
-translation, return pointer, SP and canaries. Mutants selecting the wrong
-first-column input or preserving the old padding are rejected by assertion.
-This does not establish complete GTE hardware equivalence, instruction timing,
-memory access widths or behavior with concurrent observers.

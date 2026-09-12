@@ -1093,8 +1093,8 @@ segments:
       # Psy-Q libgte vector average API, in library source order.
       - [0x68B44, c, psyq/libgte/average]
       - [0x68DD0, pad]
-      - [0x68DD4, asm, psyq/libgte/MulMatrix0]
-      - [0x68EE4, asm, psyq/libgte/MulRotMatrix]
+      - [0x68DD4, c, psyq/libgte/MulMatrix0]
+      - [0x68EE4, c, psyq/libgte/MulRotMatrix]
       - [0x68FD4, asm, psyq/libgte/CompMatrix]
       - [0x69134, asm, gte/Gte_RotateVec]
       - [0x69294, asm, gte/Gte_PushMatrix]

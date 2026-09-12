@@ -14,6 +14,9 @@ int rcos(int angle);
     asm volatile("lwc2 $0,0(%0)" : : "r"(ptr) : "memory")
 #define gte_lwc2_1_4(ptr) \
     asm volatile("lwc2 $1,4(%0)" : : "r"(ptr) : "memory")
+#define gte_swc2_11_16(ptr) \
+    asm volatile("swc2 $11,16(%0)" : : "r"(ptr) : "memory")
+
 #define gte_swc2_25_0(ptr) \
     asm volatile("swc2 $25,0(%0)" : : "r"(ptr) : "memory")
 #define gte_swc2_26_4(ptr) \
@@ -74,6 +77,9 @@ int rcos(int angle);
     asm volatile("ctc2 %0,$19" : : "r"(value))
 #define gte_ctc2_20(value) \
     asm volatile("ctc2 %0,$20" : : "r"(value))
+
+#define gte_mtc2_1(value) \
+    asm volatile("mtc2 %0,$1" : : "r"(value))
 
 #define gte_mtc2_0(value) \
     asm volatile("mtc2 %0,$0" : : "r"(value))

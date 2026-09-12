@@ -1,45 +1,31 @@
-# MulMatrix0 CPU-side reconstruction
+# MulMatrix0
 
-New C reconstruction of the 268-byte retail function at 0x800785D4.
-The proposal directory previously contained only target metadata.
-The function loads the left matrix into five GTE rotation control registers,
-processes the three columns of the right matrix with MVMVA, and writes the
-rotation result to a third matrix. All inputs are consumed before output
-stores. The result may therefore overlap either input in the tested layouts.
-The output translation remains unchanged; padding receives the high half of
-the final signed IR3 word, matching the original full-word store.
+Production matches **268/268 linked function bytes** at `0x800785D4` and
+**272/272 bytes** of the complete original TU, including trailing alignment.
+Native GCC 2.7.2 and unmodified MASPSX are used; no postpasses, binary rewriting,
+compiler/assembler patches, or ABI-changing call-used flags are involved.
 
-Indexing, packing and stores are C. COP2 transfers and commands use the
-existing pe1/gte.h hardware interface plus an MTC2 register-1 transfer.
-The shared MVMVA macro supplies hazard NOPs. There are no register pins,
-empty barriers, CPU algorithm instruction assembly or postpasses.
+Loads the left rotation matrix into GTE control registers, then transforms
+the three columns of the right matrix into the output matrix. Inputs are
+consumed before output writes, retaining the retail overlap behavior.
 
-**Not an instruction match:** stock GCC272 and GCC281 each produce 324 bytes
-and objdiff reports 0.0% against the 268-byte retail body. The candidate uses
-GCC272. Access widths, register allocation, packing, scheduling and hazard
-spacing differ. Production ASM is unchanged and no matching-function credit
-is claimed.
+CPU packing, shifts, masks and stores are C over the shared `GteMatrix` layout.
+Each GTE transfer and MVMVA command has its own single-instruction macro.
+Translation is preserved. The final IR3 store writes a full word, so its high
+half overwrites the matrix padding exactly as in retail.
+
+Ten register pins and eight empty barriers remain, all counted in debt. These
+keep three column results live and preserve the original access/packing order.
+The `$1` pin holds only the ordinary C high-halfword mask; its lifetime ends
+before any assembler-generated address expansion. Seven unnecessary barriers were removed across the pair before integration.
+
+`tools/tests/test_matrix_products.py` compares every linked TU byte with its
+retail SHA-256. The existing `verify_behavior.py` passes **12,303 cases** with
+scripted GTE results, checking CPU-side packing, preservation and pointer
+returns. It does not emulate GTE arithmetic or timing. Exact byte equality is
+the production acceptance criterion.
 
 ```sh
-tools/scripts/cc.sh proposals/MulMatrix0/candidate.c /tmp/mul-matrix0.o
-python proposals/MulMatrix0/verify_behavior.py /tmp/mul-matrix0.o
+tools/scripts/cc.sh src/main/psyq/libgte/MulMatrix0.c /tmp/MulMatrix0.o
+.venv/bin/python proposals/MulMatrix0/verify_behavior.py /tmp/MulMatrix0.o
 ```
-
-**The verifier tests CPU-side behavior and the GTE interface, not GTE
-arithmetic or timing.** COP2 instructions are replaced with NOPs in both
-bodies and serviced by a code hook. Commands receive scripted signed-halfword
-IR results. Rotation control register 4 and VZ transfers are normalized to
-their low signed halfword; unused raw upper bits are not compared.
-
-All **12,303 cases** pass: 343 boundary-result combinations plus 1,024 random
-matrix/result cases, each in nine memory layouts. Layouts cover separate
-buffers, output equal to either input, identical inputs/all three buffers,
-and four partial-overlap arrangements. Assertions check control-register
-write order and values at every command, all three input columns, result-read
-order, the entire 192-byte arena, final modeled registers, padding, returned
-pointer, SP and canaries. Mutants targeting the wrong control register,
-selecting the wrong input column or preserving padding fail assertions.
-
-This is finite interface coverage, not proof of full hardware equivalence,
-GTE flags, pipeline hazards, exact memory access widths, concurrent observers
-or every possible overlap.
