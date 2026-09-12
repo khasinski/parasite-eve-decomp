@@ -1167,7 +1167,7 @@ segments:
       - [0x6BD58, c, psyq/libcd/CD_cw]
       - [0x6C164, c, psyq/libcd/bios_commands]
       - [0x6C2C0, c, psyq/libcd/bios]
-      - [0x6C3FC, asm, psyq/libcd/CD_init]
+      - [0x6C3FC, c, psyq/libcd/CD_init]
       - [0x6C5DC, c, psyq/libcd/CD_datasync]
       - [0x6C744, c, psyq/libcd/sector_read]
       - [0x6C930, c, psyq/libcd/Cd_SetSectorStatus]
