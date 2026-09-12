@@ -1,3 +1,4 @@
+/* ASSEMBLER: GNU */
 #include "pe1/psyq_cd.h"
 
 extern void CD_flush(void);
@@ -46,8 +47,7 @@ CdlCB CdSyncCallback(CdlCB callback) {
     CdlCB old;
 
     old = D_8009AFB4;
-    g_CdCallbackWritePage = (CdCallbackDataPage *)0x800A0000;
-    g_CdCallbackWritePage[-1].sync = callback;
+    D_8009AFB4 = callback;
     return old;
 }
 
@@ -55,7 +55,6 @@ CdlCB CdReadyCallback(CdlCB callback) {
     CdlCB old;
 
     old = D_8009AFB8;
-    g_CdCallbackWritePage = (CdCallbackDataPage *)0x800A0000;
-    g_CdCallbackWritePage[-1].ready = callback;
+    D_8009AFB8 = callback;
     return old;
 }
