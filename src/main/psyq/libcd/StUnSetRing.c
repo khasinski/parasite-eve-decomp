@@ -1,3 +1,5 @@
+/* GAS_VERSION: 2.7 */
+/* GAS 2.7 retains the load-delay nop before ExitCriticalSection. */
 #include "pe1/psyq_cd.h"
 
 extern int D_8009AFD8;
@@ -17,7 +19,6 @@ void StUnSetRing(void) {
     }
     *D_8009AF1C = 0;
     interrupt_enable = D_8009AF28;
-    asm volatile("nop");
     *interrupt_enable = 0;
     ExitCriticalSection();
 }
