@@ -1,7 +1,7 @@
 # SpuStart with named storage and callback
 
-The candidate reconstructs startup using `_spu_isCalled`, `_spu_EVdma` and
-`_spu_FiDMA`. It removes the production source's fabricated data/callback page
+The source reconstructs startup using `_spu_isCalled`, `_spu_EVdma` and
+`_spu_FiDMA`. It replaces the former fabricated data/callback page
 structures, absolute page addresses and four register pins. There are no
 barriers or instruction asm in this candidate.
 
@@ -13,18 +13,11 @@ returns, matching retail. API return types follow PsyQ LIBAPI.H: int critical
 entry, signed 32-bit OpenEvent/EnableEvent returns and a signed 32-bit event
 callback return (the callback argument here is null).
 
-Stock GCC281 produces 108 bytes against retail's 112 bytes and scores **91.25%**
-against `expected/build/USA/src/main/psyq/libspu/SpuStart.c.o`. The called flag's
-address is shared across its load and store, the event store uses v0 rather
-than AT, and the stack restoration occupies the return delay slot. The
-production object contains literal addresses from its synthetic page source;
-comparison against that object instead gives 91.07143%, so it is not the score
-reported above. GCC272's source has additional NOPs around the symbolic stores
-and callback address setup. GCC281 unsplit addressing and call-used-AT variants
-did not improve the initial production-object comparison.
-
-This is a proposal, not a production replacement or a newly matched function.
-It does not establish the original SDK translation-unit boundaries.
+Production matches all **112/112 linked retail bytes** using native GCC 2.7.2
+and unmodified GNU as. The assembler schedules symbolic stores and the DMA
+callback address into the retail call delay slots. There are no pins,
+barriers, fabricated pages or instruction asm. The exact-byte regression in
+`tools/tests/test_spu_lifecycle.py` checks relocations at the retail address.
 
 ```sh
 tools/scripts/cc.sh proposals/SpuStart/candidate.c /tmp/spu-start.o

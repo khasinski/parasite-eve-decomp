@@ -1,4 +1,4 @@
-/* GCC_VERSION: 2.8.1 */
+/* ASSEMBLER: GNU */
 #include "pe1/psyq_spu_internal.h"
 
 extern int EnterCriticalSection(void);

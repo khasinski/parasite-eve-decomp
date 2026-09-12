@@ -1,10 +1,10 @@
+/* ASSEMBLER: GNU */
 #include "pe1/psyq_spu_internal.h"
 
 extern int EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
 extern s32 CloseEvent(s32 event);
 extern s32 DisableEvent(s32 event);
-
 
 void SpuQuit(void) {
     if (_spu_isCalled == 1) {

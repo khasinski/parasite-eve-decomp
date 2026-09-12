@@ -7,20 +7,11 @@ closes and disables the DMA event, then exits the critical section. The function
 acts only when the called flag equals one. It reloads the event handle after
 CloseEvent. API return values are ignored.
 
-Stock GCC272 gives 88.965515%. The two symbolic zero stores precede their calls
-instead of occupying the call delay slots; the argument setup also differs.
-The production body still contains its legacy ASM windows until a byte match
-is recovered. GCC281 unsplit scored 84.13793% before event-symbol cleanup;
-GCC272 with call-used-AT scored 87.24138%, GCC281 76.51724%, and disabling both
-GCC281 schedulers with call-used-AT scored 45.103447%. No such flags are kept.
-
-The candidate and production source use the shared _spu_EVdma declaration,
-removing the duplicate local D_8009B384 alias. Local API declarations now use
-int for EnterCriticalSection and PSX-width s32 results for CloseEvent and
-DisableEvent; ExitCriticalSection remains void. Psy-Q 4.6 INCLUDE/LIBAPI.H
-lines 36/40/77/78 declares the event results as long (32-bit on PSX), critical
-entry as int, and exit as void. These type corrections do not remove the
-production ASM windows or claim new matching-function credit.
+Production matches all **116/116 linked retail bytes** using native GCC 2.7.2
+and unmodified GNU as. Both former instruction-asm windows are now ordinary C;
+the assembler places the global stores in the retail call delay slots. There
+are no pins or barriers. The exact-byte regression in
+`tools/tests/test_spu_lifecycle.py` includes relocations at the retail address.
 
 ```sh
 tools/scripts/cc.sh proposals/SpuQuit/candidate.c /tmp/spuquit.o
