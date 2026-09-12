@@ -8,6 +8,23 @@ int rcos(int angle);
  * commands; the calling function owns all normal CPU-side algorithmic work.
  */
 
+/* Single-instruction transfers used by ApplyMatrix and ApplyMatrixSV.
+ * Hazard slots are explicit at the call site, separate from the command. */
+#define gte_lwc2_0_0(ptr) \
+    asm volatile("lwc2 $0,0(%0)" : : "r"(ptr) : "memory")
+#define gte_lwc2_1_4(ptr) \
+    asm volatile("lwc2 $1,4(%0)" : : "r"(ptr) : "memory")
+#define gte_swc2_25_0(ptr) \
+    asm volatile("swc2 $25,0(%0)" : : "r"(ptr) : "memory")
+#define gte_swc2_26_4(ptr) \
+    asm volatile("swc2 $26,4(%0)" : : "r"(ptr) : "memory")
+#define gte_swc2_27_8(ptr) \
+    asm volatile("swc2 $27,8(%0)" : : "r"(ptr) : "memory")
+
+/* MVMVA: SF=1, rotation matrix, V0, no translation, LM=0. */
+#define gte_mvmva_rotation_v0_sf12() \
+    asm volatile(".word 0x4A486012")
+
 #define gte_cop2_hazard_slot() \
     asm volatile("nop")
 
