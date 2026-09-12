@@ -49,6 +49,18 @@ int rcos(int angle);
 #define gte_mvmva_rotation_v0_translation_sf12() \
     asm volatile(".word 0x4A480012")
 
+/* Individual MAC transfers and rotation commands for long-vector inputs. */
+#define gte_mfc2_25(value) \
+    asm volatile("mfc2 %0,$25" : "=r"(value))
+#define gte_mfc2_26(value) \
+    asm volatile("mfc2 %0,$26" : "=r"(value))
+#define gte_mfc2_27(value) \
+    asm volatile("mfc2 %0,$27" : "=r"(value))
+#define gte_mvmva_rotation_ir_sf0() \
+    asm volatile(".word 0x4A41E012")
+#define gte_mvmva_rotation_ir_sf12() \
+    asm volatile(".word 0x4A49E012")
+
 #define gte_cop2_hazard_slot() \
     asm volatile("nop")
 

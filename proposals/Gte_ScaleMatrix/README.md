@@ -1,31 +1,28 @@
-# Gte_ScaleMatrix reconstruction
+# Gte_ScaleMatrix
 
-Ordinary-C reconstruction of the 312-byte retail function at 0x80078CC4.
-The production unit remains ASM. A historical source under local/postpassed
-requires an instruction-rewriting postpass, register pins and barriers; this
-maintained candidate uses none of those mechanisms and returns the matrix
-pointer as the original does.
+Production matches **312/312 linked bytes** at `0x80078CC4`, using native
+GCC 2.7.2 and unmodified MASPSX with the default flags. CPU multiplication,
+packing, shifts and stores are C; no instruction asm or postpasses are used.
 
-The three signed 32-bit scale components multiply columns of the signed
-16-bit rotation matrix. Each multiply retains its low 32 bits before an
-arithmetic shift by 12. All three scale inputs are loaded before matrix
-writes, including when the scale array overlaps the matrix.
+The three scale values multiply columns of the `GteMatrix` rotation block.
+All scale inputs are read before output writes. Each product is truncated
+to its low 32 bits before the signed Q12 shift, retaining retail overflow
+behavior. The last store writes a full word, including the matrix padding;
+translation remains unchanged.
 
-The original final store is a full word: it writes m[2][2] and overwrites the
-two padding bytes with the high half of the shifted 32-bit result. The C
-preserves that observable behavior explicitly. Translation is preserved.
-Using a full 64-bit product changes the padding for overflowing products;
-simply preserving padding also differs from retail.
+Seven register pins and 42 empty barriers are recorded in debt. Nine of
+those barriers bind a C unsigned 64-bit product in HI/LO (`x`) to its low
+word in LO (`=l`). This retains MULTU while extracting only the low word;
+it emits no instruction itself. Other barriers retain packed-word access
+widths and the original mask/shift order. Six redundant barriers were removed.
 
-**Semantic reconstruction, not an exact instruction match:** stock GCC272,
-default GCC281 and GCC281 with unsplit addresses all score 21.346153%
-(240 candidate bytes versus 312 retail). The candidate uses GCC272.
-Retail packs pairs into word stores; the typed C uses halfword accesses.
-No production replacement or matching-function credit is claimed.
+`tools/tests/test_scale_long_vector.py` checks the SHA-256 of every linked
+text byte at the retail address. The full main executable also retains its
+retail SHA-1.
 
 ```sh
-tools/scripts/cc.sh proposals/Gte_ScaleMatrix/candidate.c /tmp/scale-matrix.o
-python proposals/Gte_ScaleMatrix/verify_behavior.py /tmp/scale-matrix.o
+tools/scripts/cc.sh src/main/gte/Gte_ScaleMatrix.c /tmp/scale-matrix.o
+.venv/bin/python proposals/Gte_ScaleMatrix/verify_behavior.py /tmp/scale-matrix.o
 ```
 
 The C and SHA-1-checked retail body pass **19,852 cases** against each other
