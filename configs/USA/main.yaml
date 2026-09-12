@@ -656,7 +656,7 @@ segments:
       # Item-data row renderer and cursor-text selector.
       # Contiguous item-list row selection and renderer UI helpers.
       - [0x43CE4, c, audio/Sfx_DrawSlotRow]
-      - [0x4402C, asm, item/Inv_FindFirstEmptySlot]
+      - [0x4402C, c, item/Inv_FindFirstEmptySlot]
       - [0x44168, asm, main/Inv_FindSlotByIndex]
       - [0x44348, asm, main/Inv_WriteSlotById]
       - [0x4452C, c, main/Inv_CheckSlotUsable]
@@ -671,7 +671,7 @@ segments:
       - [0x44D20, asm, main/Inv_SetupSlotDisplay]
       - [0x4505C, asm, main/Inv_PickRandomItem]
       - [0x45288, asm, main/Inv_GetItemEffectData]
-      - [0x454F8, asm, item/Inv_CompactActiveListSlots]
+      - [0x454F8, c, item/Inv_CompactActiveListSlots]
       - [0x4564C, c, item/Inv_CheckFreeSlotCapacity]
       - [0x45758, asm, main/Inv_CheckItemEquippable]
       - [0x45BA4, asm, main/Inv_RollRandomItemType]
