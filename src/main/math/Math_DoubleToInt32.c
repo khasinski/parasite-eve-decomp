@@ -4,9 +4,6 @@
 /* GCC_VERSION: 2.8.1 */
 
 void Evt_Deliver(s32 event, s32 argument);
-MathU64 *Math_Add64WithShiftInto(MathU64 *result, int arithmetic,
-                                 MathU64 value, int amount)
-    __asm__("Math_Add64WithShift");
 
 s32 Math_DoubleToInt32(register double value)
 {
@@ -37,7 +34,7 @@ s32 Math_DoubleToInt32(register double value)
 
     parts.hi = (input.bits.hi & 0xFFFFF) | 0x100000;
     parts.lo = input.bits.lo;
-    Math_Add64WithShiftInto(&parts, 0, parts, 10);
+    Math_Add64WithShift(&parts, 0, parts, 10);
     mantissa = parts.hi;
     if ((u32)(exponent - 0x3FE) >= 0x20) goto zero;
     if (mantissa == 0) goto zero;
