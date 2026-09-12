@@ -1,0 +1,54 @@
+[
+  {
+    "sdk_function": "DsCommand",
+    "sdk_version": "4.3",
+    "library": "LIBDS.LIB",
+    "object": "DSSYS_2.OBJ",
+    "sdk_text_offset": 2288,
+    "retail_address": "0x8007ee84",
+    "size": 580,
+    "retail_sha256": "a6c3f604b7b1f56f3403c8bb820cba33e833f98beda849ca524d46c08634af57",
+    "signature_json_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+    "compared_nonrelocation_bytes": 482,
+    "wildcard_bytes": 98
+  },
+  {
+    "sdk_function": "DsPacket",
+    "sdk_version": "4.3",
+    "library": "LIBDS.LIB",
+    "object": "DSSYS_2.OBJ",
+    "sdk_text_offset": 2868,
+    "retail_address": "0x8007f0c8",
+    "size": 848,
+    "retail_sha256": "5c9c7e3533b61fe6c52eacfa4cac2b7934a7cfbba68c55089109db8c8604ad80",
+    "signature_json_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+    "compared_nonrelocation_bytes": 755,
+    "wildcard_bytes": 93
+  },
+  {
+    "sdk_function": "DsSync",
+    "sdk_version": "4.3",
+    "library": "LIBDS.LIB",
+    "object": "DSSYS_2.OBJ",
+    "sdk_text_offset": 3716,
+    "retail_address": "0x8007f418",
+    "size": 496,
+    "retail_sha256": "c018b588ed802f03b26a85aee4f61d0ea564189571df88d77de96c8edc3e0f30",
+    "signature_json_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+    "compared_nonrelocation_bytes": 421,
+    "wildcard_bytes": 75
+  },
+  {
+    "sdk_function": "_copy_memcard_patch",
+    "sdk_version": "4.3",
+    "library": "LIBCARD.LIB",
+    "object": "PATCH.OBJ",
+    "sdk_text_offset": 412,
+    "retail_address": "0x8007e4e0",
+    "size": 52,
+    "retail_sha256": "0bc985425d463a2e112f769b960b427690574663c0f7db56c71594c0467fb564",
+    "signature_json_sha256": "39d40b974414debbdb3c5c6beeda97d2b52118915eb2b07a20d805cfe6004d36",
+    "compared_nonrelocation_bytes": 44,
+    "wildcard_bytes": 8
+  }
+]
