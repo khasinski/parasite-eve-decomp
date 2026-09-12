@@ -1,4 +1,4 @@
-/* GCC_VERSION: 2.8.1 */
+/* ASSEMBLER: GNU */
 
 #include "pe1/psyq_cd.h"
 
@@ -14,24 +14,19 @@ int DsRead2(CdlLOC *pos, int mode) {
     int ret;
 
     if (mode & 0x100) {
-        asm volatile(
-            ".set\tnoat\n\t"
-            ".set\tnoreorder\n\t"
-            "andi\t$2,%0,0x20\n\t"
-            "beqz\t$2,1f\n\t"
-            "addiu\t$2,$zero,1\n\t"
-            "lui\t$1,%%hi(g_DsStreamNoLocFlag)\n\t"
-            "j\t2f\n\t"
-            "sw\t$zero,%%lo(g_DsStreamNoLocFlag)($1)\n"
-            "1:\n\t"
-            "lui\t$1,%%hi(g_DsStreamNoLocFlag)\n\t"
-            "sw\t$2,%%lo(g_DsStreamNoLocFlag)($1)\n"
-            "2:\n\t"
-            ".set\treorder\n\t"
-            ".set\tat"
-            :
-            : "r"(mode)
-            : "$2", "$1", "memory");
+        {
+            register int one asm("$2");
+            int mask = mode & 0x20;
+
+            if (mask) {
+                g_DsStreamNoLocFlag = 0;
+            } else {
+                one = 1;
+                g_DsStreamNoLocFlag = one;
+                /* Keep 1 in v0 through the store and the branch delay slot. */
+                asm("" : : "r"(one));
+            }
+        }
         saved_data = DsDataCallback(data_ready_callback);
         saved_sync = DsSyncCallback(CdRom_BreakSyncCallback);
         ret = Render_BuildParticleFrame(mode & 0xFF, pos, 0x1B, 0, -1);

@@ -1,5 +1,4 @@
-/* Experimental full C reconstruction; not an exact match. See README.md. */
-/* GCC_VERSION: 2.8.1 */
+/* ASSEMBLER: GNU */
 
 #include "pe1/psyq_cd.h"
 
@@ -16,11 +15,15 @@ int DsRead2(CdlLOC *pos, int mode) {
 
     if (mode & 0x100) {
         {
-            int one = 1;
-            if (mode & 0x20) {
+            register int one asm("$2");
+            int mask = mode & 0x20;
+
+            if (mask) {
                 g_DsStreamNoLocFlag = 0;
             } else {
+                one = 1;
                 g_DsStreamNoLocFlag = one;
+                /* Keep 1 in v0 through the store and the branch delay slot. */
                 asm("" : : "r"(one));
             }
         }

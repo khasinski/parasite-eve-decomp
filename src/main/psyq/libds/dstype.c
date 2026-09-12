@@ -1,3 +1,4 @@
+/* ASSEMBLER: GNU */
 #include "common.h"
 #include "pe1/psyq_cd.h"
 
@@ -6,13 +7,6 @@ extern char D_8001205C[];
 int CdRom_IsBusy(u8 *dst, int sector_size);
 int strncmp(char *s1, char *s2, int n);
 void DsReadBreak(void);
-
-typedef struct CdDiskKindPage {
-    char reserved00[0x28F8];
-    int disk_type;
-} CdDiskKindPage;
-
-register CdDiskKindPage *g_CdDiskKindPage asm("$1");
 
 void GD_disk_kind(int event, void *data, void *detail);
 
@@ -27,6 +21,7 @@ void GD_cbsync(unsigned char arg0) {
 void GD_disk_kind(int event, void *data, void *detail) {
     u8 arg0 = event;
     u8 buffer[8];
+    /* Preserve the branch result in the strncmp return register. */
     register int disk_type asm("$2");
 
     if (arg0 == 1) {
@@ -40,7 +35,6 @@ void GD_disk_kind(int event, void *data, void *detail) {
         disk_type = 2;
     }
 
-    g_CdDiskKindPage = (CdDiskKindPage *)0x800B0000;
-    g_CdDiskKindPage->disk_type = disk_type;
+    g_DsDiskType = disk_type;
     DsReadBreak();
 }
