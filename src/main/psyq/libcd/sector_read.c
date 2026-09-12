@@ -1,3 +1,4 @@
+/* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 
@@ -26,19 +27,10 @@ int CD_getsector2(void *destination, int words) {
     *D_8009B2BC = words | 0x10000;
 
     status = D_8009B27C;
-    asm volatile(
-        ".set noreorder\n\t"
-        "nop\n\t"
-        "1:\n\t"
-        "lbu %0,0(%1)\n\t"
-        "nop\n\t"
-        "andi %0,%0,0x40\n\t"
-        "beqz %0,1b\n\t"
-        "lui %0,0x1100\n\t"
-        ".set noreorder"
-        : "=r"(dmaCommand)
-        : "r"(status)
-        : "memory");
+    do {
+        dmaCommand = *status & 0x40;
+    } while (!dmaCommand);
+    dmaCommand = 0x11000000;
 
     *D_8009B2C0 = dmaCommand;
     {

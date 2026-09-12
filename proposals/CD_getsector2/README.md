@@ -1,26 +1,14 @@
-# CD_getsector2 ordinary-C reconstruction
+# CD sector DMA read
 
-This candidate reconstructs the complete 256-byte low-level LIBCD sector
-reader with the SDK pointer/count signature and typed volatile MMIO accesses.
-It contains no register pins, barriers or instruction assembly. Stock GCC
-2.8.1 with `-mno-split-addresses` emits the retail size and scores 98.828125%
-in objdiff. After resolving the production symbol aliases, only byte `0x98`
-differs: the immediate of one branch target.
+Production `CD_getsector2` at `0x8007BF44` matches all **256/256 linked bytes**.
+The complete `sector_read` TU matches **492/492 bytes**, including its already-C
+`CD_getsector` neighbor. Native GCC 2.8.1 with unsplit addresses and unmodified
+GNU as compile the status polling loop as ordinary C. GNU as places the
+backward branch label after the load-delay nop, as in retail.
 
-The target loads the status pointer, executes its load-hazard `nop` once, then
-branches back to the byte load at offset `0x8C`. MASPSX places that generated
-hazard `nop` at the loop label, so the ordinary-C object branches to `0x88`.
-All other linked instruction bytes match. The production source retains its
-constrained status loop until the stock pipeline can express this label
-placement without CPU instruction assembly.
-
-`CD_getsector2` and `CD_getsector` are built together in production
-`src/main/psyq/libcd/sector_read.c`, matching the complete 492-byte retail
-range and recording their shared Psy-Q `libcd/bios.c` provenance.
-
-```sh
-tools/scripts/cc.sh proposals/CD_getsector2/candidate.c /tmp/CD_getsector2.o
-tools/objdiff/objdiff-cli diff \
-  -1 expected/build/USA/src/main/psyq/libcd/sector_read.c.o \
-  -2 /tmp/CD_getsector2.o -o /tmp/CD_getsector2.json CD_getsector2
-```
+The function waits for the sector-ready bit, starts DMA, waits for DMA to
+finish, and restores the CD request register. No instruction asm remains.
+The three existing pins are unchanged; no empty barriers were added.
+`tools/tests/test_sector_file_search.py` checks all linked TU bytes against
+the retail SHA-256, including relocations. No compiler or assembler patches,
+postpasses, or binary rewriting are used.

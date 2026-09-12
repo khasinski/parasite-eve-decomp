@@ -1312,7 +1312,7 @@ segments:
       - [0x71B14, c, psyq/libds/DsRead2]
       - [0x71BE8, c, cdrom/CdRom_BreakSyncCallback]
       - [0x71C08, asm, main/gap_cdrom_CdRom_BreakSyncCallback_tail_71C08]
-      - [0x71C14, asm, psyq/libds/DsSearchFile]
+      - [0x71C14, c, psyq/libds/DsSearchFile]
       - [0x71EF4, c, psyq/libds/dsfile]
       # Psy-Q libds/dsfile.c: ISO-9660 directory cache helpers.
       - [0x71F14, c, psyq/libds/dsfile_cache]
