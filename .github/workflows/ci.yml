@@ -34,11 +34,18 @@ jobs:
             sudo ln -sf "/usr/bin/mipsel-linux-gnu-$tool" "/usr/local/bin/mipsel-none-elf-$tool"
           done
 
-      - name: Install the PSX compiler and maspsx
+      - name: Cache native GAS 2.7
+        uses: actions/cache@v4
+        with:
+          path: tools/gas-2.7
+          key: gas27-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/scripts/setup_gas27.sh') }}
+
+      - name: Install the PSX compiler and assemblers
         run: |
           tools/scripts/setup_stock_cc1.sh
           tools/scripts/setup_stock_cc281.sh
           tools/scripts/setup_maspsx.sh
+          tools/scripts/setup_gas27.sh
 
       - name: Install Python dependencies
         run: |
@@ -77,11 +84,18 @@ jobs:
             sudo ln -sf "/usr/bin/mipsel-linux-gnu-$tool" "/usr/local/bin/mipsel-none-elf-$tool"
           done
 
-      - name: Install the PSX compiler and maspsx
+      - name: Cache native GAS 2.7
+        uses: actions/cache@v4
+        with:
+          path: tools/gas-2.7
+          key: gas27-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/scripts/setup_gas27.sh') }}
+
+      - name: Install the PSX compiler and assemblers
         run: |
           tools/scripts/setup_stock_cc1.sh
           tools/scripts/setup_stock_cc281.sh
           tools/scripts/setup_maspsx.sh
+          tools/scripts/setup_gas27.sh
           tools/scripts/setup_objdiff.sh
 
       - name: Install Python dependencies

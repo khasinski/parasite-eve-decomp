@@ -42,7 +42,7 @@ VERSION = "USA"
 SCHEMA = "https://raw.githubusercontent.com/encounter/objdiff/main/config.schema.json"
 
 MAP_PLACEMENT = re.compile(
-    r"^\s(\.\w+)\s+0x[0-9a-f]+\s+0x([0-9a-f]+)\s+(build/\S+\.o)$", re.MULTILINE
+    r"^\s(\.[\w.]+)\s+0x[0-9a-f]+\s+0x([0-9a-f]+)\s+(build/\S+\.o)$", re.MULTILINE
 )
 
 CATEGORIES = [
@@ -59,7 +59,7 @@ def linked_objects(map_text):
     seen = {}
     for section, size, obj in MAP_PLACEMENT.findall(map_text):
         entry = seen.setdefault(obj, {"code": False})
-        if section == ".text" and int(size, 16) > 0:
+        if (section == ".text" or section.startswith(".text.")) and int(size, 16) > 0:
             entry["code"] = True
     return seen
 
@@ -178,11 +178,12 @@ def module_units(name, config_path, skip):
 def config(units):
     return {
         "$schema": SCHEMA,
-        "min_version": "2.0.0",
+        "min_version": "3.6.1",
         "custom_make": "make",
         "custom_args": ["-j"],
         "build_target": False,
         "build_base": True,
+        "options": {"combineTextSections": True},
         "watch_patterns": [
             "src/**/*.c",
             "src/**/*.h",

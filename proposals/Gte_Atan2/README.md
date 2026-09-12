@@ -1,67 +1,42 @@
-# Gte_Atan2 C reconstruction
+# Gte_Atan2: exact C reconstruction
 
-`candidate.c` reconstructs the integer angle calculation at 0x80079FB4.
-It records coordinate signs, chooses a ratio no greater than one, indexes
-the signed 16-bit angle table, then applies quarter-turn, half-turn and
-sign corrections. When scaling the smaller coordinate by 1024 could
-cross the signed range, it instead shifts the denominator down by ten.
-The original 0x7FE00000 test and truncating signed divisions are preserved.
-Unsigned intermediate negation/left shifts retain the MIPS bit operations
-without relying on signed overflow for those expressions.
+`src/main/psyq/libgte/Gte_Atan2.c` matches all 372 retail bytes at 0x80079FB4,
+including resolved relocations. SHA-256 of the linked function:
+`e5b0edc7308d715c3fd821bd7f75478555d6937ec97c9a8278f6c7746ad0f820`.
 
-Stock GCC 2.7.2 with the pinned MASPSX `--expand-div` option gives
-**96.77419%** against the 372-byte retail function. Division expansion is
-necessary to retain the original divide-by-zero/overflow checks and breaks.
-No pins, barriers, instruction ASM or toolchain changes are used. Remaining
-mismatches include the zero-vector return path, indexed loads through AT
-instead of v1 and instruction spacing. GCC281 unsplit gives 91.129036%;
-GCC281 split gives 85.32258%. Production remains ASM.
+The build uses native stock GCC 2.7.2 and unmodified GNU GAS from binutils 2.7,
+with MIPS I / R3000 settings. `setup_gas27.sh` downloads the original GNU
+archive, verifies its SHA-256, and builds a native assembler. Host-only C89,
+POSIX and signal-header compatibility flags require no upstream source edits.
+Both native macOS arm64 and Linux x86_64 assembler builds reproduce the bytes.
+CI installs and caches this assembler; MASPSX remains unchanged.
+The macOS bootstrap uses Homebrew GCC (`brew install gcc`); Linux uses `cc`.
+Set `PE_HOST_CC` to choose the host compiler explicitly.
 
-`verify_behavior.py` runs retail and candidate MIPS with the real table.
-It compares 2489 pairs: Cartesian products of axis, scaling-boundary and
-large signed coordinates plus 2048 deterministic random pairs. Five explicit
-axis results are also checked. A negative control changing the half-turn
-correction from 2048 to 2047 is rejected.
+GAS 2.7 emits `div; bnez; nop; break 7` and uses the destination register for
+indexed symbolic loads. Contemporary GAS rearranges the division checks;
+MASPSX uses AT for the load and adds different MFLO spacing. Pins alone did
+not fix those macro-expansion differences.
 
-The verified input domain excludes INT_MIN. Its magnitude cannot be
-represented as a positive signed 32-bit value; the original wrapped negation
-can subsequently reach exceptional division or out-of-range table accesses.
-This reconstruction does not introduce a new mathematical result for those
-inputs, and the finite test suite makes no equivalence claim for them.
+One v1 pin and four empty barriers retain the zero-axis comparison, place the
+index shifts before jumps (GAS fills the delay slots), and keep the table
+value in v1 before the quarter-turn correction. These are tracked as debt.
+The ordinary function-section attribute avoids GAS 2.7's mandatory 16-byte
+padding of its default `.text` section. The linker includes `.text*` with the
+existing 4-byte subalignment. No instructions or object bytes are rewritten.
+
+`verify_behavior.py` passes 2489 coordinate pairs plus five axis cases using
+the retail lookup table. Its finite input domain excludes INT_MIN, whose
+wrapped absolute value may trigger exceptional division or out-of-range
+access in the original. The CI regression independently checks the full
+linked instruction stream against the retail digest without needing assets.
 
 ```sh
-tools/scripts/cc.sh proposals/Gte_Atan2/candidate.c /tmp/Gte_Atan2.o
-python3 proposals/Gte_Atan2/verify_behavior.py /tmp/Gte_Atan2.o
+tools/scripts/setup_gas27.sh
+tools/scripts/cc.sh src/main/psyq/libgte/Gte_Atan2.c /tmp/Gte_Atan2.o
+.venv/bin/python proposals/Gte_Atan2/verify_behavior.py /tmp/Gte_Atan2.o
+.venv/bin/python -m unittest tools.tests.test_gte_atan2
+make check
 ```
 
-The verifier requires Unicorn, pyelftools and MIPS binutils. The authoritative
-comparison target is `expected/build/USA/asm/USA/main/psyq/libgte/Gte_Atan2.s.o`.
-
-
-## Shared return path (2026-09-10)
-
-The zero-vector path now initializes a shared result only inside the `x == 0`
-branch, then reaches the same return as nonzero vectors. After the sign and
-quadrant adjustments the ordinary path assigns `angle` to that result. This
-improves stock GCC272 from 93.548386% to 96.72043%, without pins, barriers,
-instruction ASM or compiler changes. All 2,489 coordinate pairs and five axis
-checks still pass. Changing the half-turn correction to 2047 is rejected.
-
-Initializing the result at function entry scored 94.946236%; initializing it
-only inside the combined zero-vector condition reproduced 93.548386%. The
-retained nested condition produces the closest control-flow shape. Split
-GCC281 variants scored at most 91.6129% in the follow-up trials. Remaining
-mismatches include the repeated comparison described below, load-hazard
-spacing, and indexed table loads through AT rather than v1.
-Production remains ASM; no matching-function credit is claimed.
-
-## Ratio comparison ordering (2026-09-10)
-
-The comparison selecting the smaller coordinate is now evaluated before the
-zero-axis special case and repeated on its nonzero fallthrough. This reproduces
-the retail `slt` in the first branch delay slot and raises the score from
-96.72043% to 96.77419%, with the same 380-byte candidate size and no source
-constraints. GCC constant-folds the repeated comparison under `x == 0` to
-`y < 0`; retail emits the general `y < x` instruction again. The remaining
-two extra instructions are MASPSX load-hazard nops after `mflo`; table-index
-address expansion also uses AT where retail uses v1.
+Original assembler source: https://ftp.gnu.org/gnu/binutils/binutils-2.7.tar.gz

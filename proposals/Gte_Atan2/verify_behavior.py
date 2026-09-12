@@ -17,7 +17,7 @@ assert hashlib.sha1(exe).hexdigest() == '452fb033f2eaa4b18aa20a5bca60b8125af3a37
 with tempfile.TemporaryDirectory(prefix='atan-behavior-') as work:
     script = Path(work) / 'candidate.ld'
     linked = Path(work) / 'candidate.elf'
-    script.write_text('D_8009A6EC = 0x8009A6EC;\nSECTIONS { .text 0x80079FB4 : { *(.text) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }')
+    script.write_text('D_8009A6EC = 0x8009A6EC;\nSECTIONS { .text 0x80079FB4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) *(.MIPS.abiflags) *(.pdr) *(.comment) *(.gnu.attributes) } }')
     subprocess.run(['mipsel-none-elf-ld', '-T', str(script), sys.argv[1], '-o', str(linked)], check=True)
     with linked.open('rb') as stream:
         code = ELFFile(stream).get_section_by_name('.text').data()

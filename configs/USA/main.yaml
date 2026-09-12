@@ -13,6 +13,8 @@ options:
   build_path: build/USA
 
   ld_script_path: linkers/USA/main.ld
+  # Include ordinary C function sections, including the unpadded GAS 2.7 TU.
+  ld_wildcard_sections: True
 
   migrate_rodata_to_functions: False
   find_file_boundaries: True
@@ -1136,7 +1138,7 @@ segments:
       - [0x6A60C, pad]
       - [0x6A614, asm, psyq/libgte/RotMatrixZ]
       - [0x6A7AC, pad]
-      - [0x6A7B4, asm, psyq/libgte/Gte_Atan2]
+      - [0x6A7B4, c, psyq/libgte/Gte_Atan2]
       - [0x6A928, pad]
       - [0x6A934, asm, psyq/libgte/St_InstallDmaHandler]
       - [0x6A9E0, c, psyq/libgte/St_DmaHandlerTemplates]

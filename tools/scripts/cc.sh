@@ -119,6 +119,14 @@ trap 'rm -f "$TMP_I" "$TMP_S" "$TMP_D" "$TMP_GAS"' EXIT
 "$CPP" $CPP_FLAGS "$IN" -o "$TMP_I"
 "$CC1" $CC1_FLAGS "$TMP_I" -o "$TMP_S"
 
+if grep -q 'GAS_VERSION:.*2\.7' "$IN"; then
+    GAS27="${PE_GAS27_DIR:-$ROOT/tools/gas-2.7}/as"
+    [ -x "$GAS27" ] || "$ROOT/tools/scripts/setup_gas27.sh" >&2
+    "$GAS27" -EL "$AS_G_FLAG" -mips1 -mcpu=r3000 -o "$OUT" "$TMP_S"
+    mv "$TMP_D" "$OUT.d"
+    exit 0
+fi
+
 if grep -q 'ASSEMBLER: GNU' "$IN"; then
     cat > "$TMP_GAS" <<'EOF'
 .macro move destination, source

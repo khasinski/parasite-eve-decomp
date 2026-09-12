@@ -23,12 +23,13 @@ class ProgressPublicationTests(unittest.TestCase):
         cross_binutils = next(s for s in steps
                               if s.get("name") == "Install cross binutils")
         compiler = next(s for s in steps
-                        if s.get("name") == "Install the PSX compiler and maspsx")
+                        if "setup_stock_cc1.sh" in s.get("run", ""))
         self.assertIn("binutils-mipsel-linux-gnu", cross_binutils["run"])
         self.assertIn("mipsel-none-elf-$tool", cross_binutils["run"])
         self.assertIn("setup_stock_cc1.sh", compiler["run"])
         self.assertIn("setup_stock_cc281.sh", compiler["run"])
         self.assertIn("setup_maspsx.sh", compiler["run"])
+        self.assertIn("setup_gas27.sh", compiler["run"])
         self.assertEqual(job["env"]["PE_CPP"],
                          "${{ github.workspace }}/tools/old-gcc/cpp")
 

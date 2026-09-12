@@ -188,3 +188,6 @@ tools/old-gcc-281/cc1
 # Already tracked candidates remain versioned; add new reviewed ones explicitly.
 candidates/
 docs/RETROSPECTIVE_METRICS.md
+
+# Native historical GNU assembler, built from checksum-pinned upstream sources.
+tools/gas-2.7/

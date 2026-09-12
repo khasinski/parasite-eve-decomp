@@ -46,7 +46,7 @@ VERSION = "USA"
 VRAM_START = 0x80010000
 
 MAP_PLACEMENT = re.compile(
-    r"^\s(\.\w+)\s+0x([0-9a-f]+)\s+0x([0-9a-f]+)\s+(build/\S+\.o)$", re.MULTILINE
+    r"^\s(\.[\w.]+)\s+0x([0-9a-f]+)\s+0x([0-9a-f]+)\s+(build/\S+\.o)$", re.MULTILINE
 )
 
 # gcc litters every object with bookkeeping labels that never appear in a
@@ -226,15 +226,28 @@ def defined_symbols(obj_path):
         if table is None:
             return out
         sections = {i: elf.get_section(i).name for i in range(elf.num_sections())}
+        # The project links .text* in ELF section order with SUBALIGN(4).
+        # Normalize function-section symbols to offsets within the retail TU.
+        text_offsets = {}
+        text_size = 0
+        for index, section in enumerate(elf.iter_sections()):
+            if section.name == ".text" or section.name.startswith(".text."):
+                text_size = (text_size + 3) & ~3
+                text_offsets[index] = text_size
+                text_size += section["sh_size"]
         for symbol in table.iter_symbols():
             info = symbol["st_info"]
             if info["type"] not in ("STT_FUNC", "STT_OBJECT", "STT_NOTYPE"):
                 continue
             shndx = symbol["st_shndx"]
             section = sections.get(shndx) if isinstance(shndx, int) else None
+            offset = symbol["st_value"]
+            if shndx in text_offsets:
+                section = ".text"
+                offset += text_offsets[shndx]
             if section and symbol.name:
                 out.append(
-                    (section, symbol.name, symbol["st_value"], info["type"],
+                    (section, symbol.name, offset, info["type"],
                      symbol["st_size"])
                 )
     return out
@@ -485,7 +498,7 @@ def object_section_bytes(path):
     with path.open("rb") as handle:
         elf = ELFFile(handle)
         for section in elf.iter_sections():
-            if section.name in (".text", ".data", ".rodata", ".sdata"):
+            if section.name in (".text", ".data", ".rodata", ".sdata") or section.name.startswith(".text."):
                 total += section["sh_size"]
     return total
 
