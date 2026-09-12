@@ -25,6 +25,12 @@ int rcos(int angle);
 #define gte_mvmva_rotation_v0_sf12() \
     asm volatile(".word 0x4A486012")
 
+/* Single commands; callers place their required transfer hazard slots. */
+#define gte_rtps_command() \
+    asm volatile(".word 0x4A180001")
+#define gte_mvmva_rotation_v0_translation_sf12() \
+    asm volatile(".word 0x4A480012")
+
 #define gte_cop2_hazard_slot() \
     asm volatile("nop")
 

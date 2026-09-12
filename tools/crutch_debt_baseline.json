@@ -2,7 +2,7 @@
   "main": {
     "aliases": 22,
     "asm_bodies": 84,
-    "asm_constrained_units": 31,
+    "asm_constrained_units": 29,
     "barriers": 398,
     "byte_pointer_arithmetic": 285,
     "declaration_overrides": 0,
