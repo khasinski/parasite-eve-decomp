@@ -1,10 +1,9 @@
 # Start CD read
 
-New C reconstruction of the 304-byte function at 0x80080E34. The previous
-proposal directory contained only target/build artifacts. The source uses
-`CdlLOC` and the recovered `CdReadProgressState`; it has no pins, barriers,
-instruction asm or fabricated page structures. The project currently labels
-this symbol main-game; upstream SDK attribution is not established here.
+Exact C reconstruction of the 304-byte function at 0x80080E34, using
+`CdlLOC` and the recovered `CdReadProgressState`. Its empty constraints are
+tracked as debt. The project labels this symbol main-game; upstream SDK
+attribution is not established here.
 
 A progress flag equal to one returns zero immediately; otherwise a nonzero
 DsRead_IsBusy result also rejects the request. Before issuing a command the
@@ -16,9 +15,12 @@ already-written request state intact. Success records VSync(-1), conditionally
 installs the data callback and saves its previous value, sets inProgress to
 one and returns the original command result (not a normalized boolean).
 
-Stock GCC281 unsplit scores **84.67105%**. Default GCC281 gives 81.302635%,
-GCC272 75.63158%, and disabling the first scheduling pass in the unsplit
-profile 84.35526%. This remains a nonmatching proposal; production is unchanged.
+Production now matches all **304/304 linked bytes** using native GCC 2.7.2
+and unmodified GNU as. Two register pins and four empty constraints are
+recorded in the debt baseline; there is no instruction asm. The state anchors
+preserve the recovered layout. Both position branches issue the same command;
+GCC merges their tails with the retail argument scheduling. The entry
+constraint preserves the saved-register order and incoming mode lifetime.
 
 ```sh
 tools/scripts/cc.sh proposals/CdRom_StartRead/candidate.c /tmp/cd-start.o

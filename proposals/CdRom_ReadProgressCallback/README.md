@@ -1,10 +1,9 @@
 # CD read-progress callback
 
-New ordinary-C reconstruction of the 376-byte function at 0x80080F98. Its
-previous proposal directory contained target/build artifacts but no candidate
-C. It uses the recovered `CdReadProgressState` and shared API declarations.
-The current project categorizes this symbol as main-game; no upstream SDK
-object attribution or progress-category change is made here.
+Exact C reconstruction of the 376-byte function at 0x80080F98, using the
+recovered `CdReadProgressState` and shared API declarations. The project
+categorizes this symbol as main-game; upstream SDK attribution is not
+established here.
 
 Every invocation records VSync(-1). With flag bit zero set, positive remaining
 sectors start CdRom_IsBusy2 and save the incoming data word; nonpositive counts
@@ -17,16 +16,11 @@ check causes cleanup and event two/five notification. State and callback are
 read again after cleanup, so its changes are honored. The third argument in
 the existing callback ABI is unused by retail.
 
-Stock GCC281 unsplit addressing scores **99.94681%**. The candidate anchors
-the recovered state view at `currentVsync`, matching retail's `$s0` value and
-negative field displacements while preserving the shared structure layout.
-Default addressing gives 94.606384% and GCC272 70.5%. Disabling expensive
-optimizations in the default profile does not improve it. There are no pins,
-barriers or instruction asm. A distinct local for the incoming status makes
-GCC reproduce the retail argument-register allocation and prologue order. This
-is not an exact match: the sole remaining executable difference is a jump
-target four bytes before the shared signed-count test. Objdiff's percentage does
-not establish linked-byte equivalence, and production remains assembly.
+Production now matches all **376/376 linked bytes** using native GCC 2.8.1,
+unsplit addressing and unmodified GNU as. GNU as places the shared branch
+label after the load-delay nop, resolving the remaining linked jump-target
+difference. The candidate has no pins or barriers. The recovered state view
+remains anchored at `currentVsync`, preserving the retail field offsets.
 
 ```sh
 tools/scripts/cc.sh proposals/CdRom_ReadProgressCallback/candidate.c /tmp/cd-progress.o
