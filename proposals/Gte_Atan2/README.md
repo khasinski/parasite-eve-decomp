@@ -10,6 +10,12 @@ archive, verifies its SHA-256, and builds a native assembler. Host-only C89,
 POSIX and signal-header compatibility flags require no upstream source edits.
 Both native macOS arm64 and Linux x86_64 assembler builds reproduce the bytes.
 CI installs and caches this assembler; MASPSX remains unchanged.
+The linker must use the bare-metal `mipsel-none-elf` backend: its historical
+MIPS ELF support accepts GAS 2.7's symbol-table layout. Ubuntu's Linux-target
+linker rejects it, even when renamed to `mipsel-none-elf-ld`. CI builds and
+caches unmodified binutils 2.45 ld with `setup_linker.sh`; this does not
+rewrite or repair input objects. To install it locally, run that script and
+prepend `tools/binutils-2.45/bin` to PATH.
 The macOS bootstrap uses Homebrew GCC (`brew install gcc`); Linux uses `cc`.
 Set `PE_HOST_CC` to choose the host compiler explicitly.
 

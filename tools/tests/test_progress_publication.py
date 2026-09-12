@@ -33,6 +33,20 @@ class ProgressPublicationTests(unittest.TestCase):
         self.assertEqual(job["env"]["PE_CPP"],
                          "${{ github.workspace }}/tools/old-gcc/cpp")
 
+    def test_both_ci_jobs_use_bare_metal_linker_before_building(self):
+        workflow = yaml.load((ROOT / ".github/workflows/ci.yml").read_text(),
+                             Loader=yaml.BaseLoader)
+        for name in ("source-only", "build-and-report"):
+            with self.subTest(job=name):
+                steps = workflow["jobs"][name]["steps"]
+                install = next(i for i, step in enumerate(steps)
+                               if "setup_linker.sh" in step.get("run", ""))
+                build = next(i for i, step in enumerate(steps)
+                             if "make " in step.get("run", ""))
+                self.assertLess(install, build)
+                self.assertIn('tools/binutils-2.45/bin" >> "$GITHUB_PATH"',
+                              steps[install]["run"])
+
     def test_badges_use_exact_matches_not_fuzzy_or_complete_percent(self):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)

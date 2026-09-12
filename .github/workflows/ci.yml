@@ -34,6 +34,19 @@ jobs:
             sudo ln -sf "/usr/bin/mipsel-linux-gnu-$tool" "/usr/local/bin/mipsel-none-elf-$tool"
           done
 
+      # Linux-target ld rejects the historical symbol layout emitted by GAS
+      # 2.7. Use the same bare-metal MIPS backend as the local PSX toolchain.
+      - name: Cache bare-metal MIPS linker
+        uses: actions/cache@v4
+        with:
+          path: tools/binutils-2.45
+          key: linker245-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/scripts/setup_linker.sh') }}
+
+      - name: Install bare-metal MIPS linker
+        run: |
+          tools/scripts/setup_linker.sh
+          echo "$GITHUB_WORKSPACE/tools/binutils-2.45/bin" >> "$GITHUB_PATH"
+
       - name: Cache native GAS 2.7
         uses: actions/cache@v4
         with:
@@ -71,8 +84,8 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.txt
 
-      # The build hard-codes the mipsel-none-elf-* binutils names; Ubuntu
-      # ships the same binaries as mipsel-linux-gnu-*.
+      # Reuse Ubuntu cross utilities under the PSX tool names. The linker
+      # is replaced below because its target backend differs.
       - name: Install cross binutils
         run: |
           # Binutils comes from Ubuntu; unrelated preinstalled vendor feeds
@@ -83,6 +96,19 @@ jobs:
           for tool in as ld nm objcopy objdump readelf; do
             sudo ln -sf "/usr/bin/mipsel-linux-gnu-$tool" "/usr/local/bin/mipsel-none-elf-$tool"
           done
+
+      # Linux-target ld rejects the historical symbol layout emitted by GAS
+      # 2.7. Use the same bare-metal MIPS backend as the local PSX toolchain.
+      - name: Cache bare-metal MIPS linker
+        uses: actions/cache@v4
+        with:
+          path: tools/binutils-2.45
+          key: linker245-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/scripts/setup_linker.sh') }}
+
+      - name: Install bare-metal MIPS linker
+        run: |
+          tools/scripts/setup_linker.sh
+          echo "$GITHUB_WORKSPACE/tools/binutils-2.45/bin" >> "$GITHUB_PATH"
 
       - name: Cache native GAS 2.7
         uses: actions/cache@v4
