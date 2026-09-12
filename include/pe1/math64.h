@@ -20,7 +20,7 @@ MathU64 Math_Neg64(MathU64 value);
 double Math_Int32ToDouble(int value);
 int Math_DoubleToInt32(double value);
 double Math_Div64(double numerator, double denominator);
-MathU64 Math_Mul32To64(unsigned int left, unsigned int right);
+MathU64 *Math_Mul32To64(MathU64 *result, unsigned int left, unsigned int right);
 double Math_Mul64(double left, double right);
 double Math_Sqrt64(double left, double right);
 
