@@ -191,4 +191,5 @@ docs/RETROSPECTIVE_METRICS.md
 
 # Native historical GNU assembler, built from checksum-pinned upstream sources.
 tools/gas-2.7/
+tools/gas-2.8.1/
 tools/binutils-2.45/

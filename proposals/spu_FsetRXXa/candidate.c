@@ -1,5 +1,4 @@
-/* ASPSX_VERSION: 2.21 */
-/* MASPSX_FLAGS: --dont-expand-li --expand-div */
+/* GAS_VERSION: 2.8.1 */
 #include "pe1/psyq_spu_internal.h"
 
 u32 _spu_FsetRXXa(s32 arg0, u32 value) {
@@ -33,7 +32,7 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
         return value;
     default:
     {
-        unsigned char *base;
+        SpuRegs *base;
         register u32 addr asm("$3");
 
         base = _spu_RXX;

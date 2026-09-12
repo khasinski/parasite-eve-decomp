@@ -1,27 +1,22 @@
 # SPU register address rounding
 
-`_spu_FsetRXXa` rounds a nonaligned address upward when the SPU memory mode
-requires it, then shifts the address by `_spu_mem_mode_plus`. Offset -1 returns
-the shifted low sixteen bits, -2 returns the adjusted byte address, and other
-offsets write the shifted halfword into the indexed SPU register before
-returning the adjusted byte address.
+Production matches all **164/164 linked bytes** of _spu_FsetRXXa at
+`0x8007DB24`, and all **552/552 bytes** of its complete TU. Native GCC 2.7.2
+and unmodified GNU as 2.8.1 compile the remainder operation as ordinary C.
+There are no instruction-asm blocks; existing pins and the empty constraint
+on the shifted result remain accounted for in debt.
 
-Production now expresses the shift in C. Its v0 shift-count pin and the
-read/write barrier on the a3 result retain the target allocation. The previous
-inline nop and srlv instruction block is removed. The older division block
-still remains; production is not yet plain C.
+When SPU memory mode requires it, a nonaligned address is rounded upward to
+a memory unit and shifted by _spu_mem_mode_plus. Offset -1 returns the shifted
+low halfword, -2 returns the adjusted byte address, and other offsets write
+the shifted halfword to the indexed SPU register, returning the byte address.
 
-`candidate.c` also replaces that block with unsigned `%`, using only stock
-MASPSX --expand-div to reproduce the divide-by-zero branch and break 7.
-It is not an exact match: MASPSX adds a nop after mfhi before the dependent
-branch. In the full source-unit trial it scores 97.560974% in upstream objdiff;
-all remaining instruction differences are consequences of that extra nop.
-Source-input/output barriers on the remainder did not remove it. ASPSX 2.21
-and --dont-expand-li do not change this result; the default 2.56 has the same
-extra instruction. The stock processor's remu handler calls
-_handle_nop_before_next_instruction after expansion when no HI/LO spacing
-nops are returned. No tool patch or postpass was made.
+GNU as 2.8.1 expands unsigned remainder to the retail division, zero check,
+break 7 and mfhi sequence. It also avoids the redundant nops which GNU as 2.7
+places at reorder boundaries in two neighboring functions. No assembler or
+compiler source is patched, and no binary rewriting is used. The original TU
+remains intact. `setup_gas281.sh` pins the release tarball's SHA-256 and CI
+caches the native assembler.
 
-The candidate is kept separate from the build until its generated code is
-exact. A switch to GCC 2.8.1 additionally changes allocation and scheduling;
-the tested split-address and scheduler settings did not match.
+`tools/tests/test_counter_spu_address.py` verifies the entire linked TU against
+a retail SHA-256, including the neighboring functions and all relocations.

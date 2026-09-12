@@ -1,3 +1,4 @@
+/* GAS_VERSION: 2.8.1 */
 #include "pe1/psyq_spu_internal.h"
 
 void _spu_FsetRXX(u32 offset, u32 value, u32 mode) {
@@ -21,15 +22,7 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
 
     if (_spu_mem_mode != 0) {
         unit = _spu_mem_mode_unit;
-        asm volatile(
-            "divu\t$0,%1,%2\n\t"
-            "bnez\t%2,1f\n\t"
-            "nop\n\t"
-            ".word\t0x0007000d\n"
-            "1:\n\t"
-            "mfhi\t%0"
-            : "=r"(rem)
-            : "r"(value), "r"(unit));
+        rem = value % unit;
         if (rem != 0) {
             value += unit;
             value &= ~_spu_mem_mode_unitM;
