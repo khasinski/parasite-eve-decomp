@@ -1,26 +1,30 @@
-# RotAverageNclip3 reconstruction
+# RotAverageNclip3
 
-New C reconstruction of the 136-byte retail entry at 0x80079384.
-It loads three vectors, executes RTPT, stores its flags before NCLIP, and
-returns the signed NCLIP MAC0 value. Only a strictly positive value enables
-the three SXY stores, IR0 depth store, AVSZ3 and final OTZ store. Rejected
-triangles leave those five outputs unchanged; flags are still written.
-Output stores preserve retail order, including when pointers coincide.
+Production matches **136/136 linked function bytes** at `0x80079384` and
+**144/144 bytes** of the complete TU, including eight alignment bytes.
+Native GCC 2.7.2 and unmodified MASPSX produce the match with the default
+build flags. No compiler/assembler patches or instruction postpasses are used.
 
-The source uses the shared GteRotation layout and pe1/gte.h hardware macros.
-Control flow and ordinary stores are C; COP2 transfers/commands stay hardware
-operations. Explicit hazard slots follow the flag, MAC0 and OTZ reads.
-There are no register pins, empty barriers, CPU algorithm instruction
-assembly or postpasses.
+Loads three `GteShortVector` inputs, executes RTPT, stores its flags before
+NCLIP, and returns signed MAC0. Only a strictly positive clip enables the
+three screen stores, IR0 depth store, AVSZ3 and OTZ store. Rejected triangles
+leave those five outputs unchanged. Stores retain the retail overlap order.
+Each GTE transfer and command uses an individual single-instruction macro;
+CPU loads, stores and control flow are C.
 
-**Not exact:** stock GCC272 gives 55.14706% (140 bytes versus 136 retail).
-GCC281 gives 51.764706% (144 bytes). The maintained candidate uses GCC272.
-Stack-argument load timing, branch structure and register allocation still
-differ. Production ASM is unchanged; no matching-function credit is claimed.
+Eight register pins and one empty output barrier are recorded in debt.
+The barrier defines a value in architectural `$0`, retaining the original
+BGTZ / unconditional BEQ rejection path without an uninitialized C read or
+CPU instruction assembly. Volatile pointer parameters retain the original
+stack-argument load order. Three redundant barriers were removed before
+integration; the zero-register definition remains necessary for source validity.
+
+`tools/tests/test_nclip_projection.py` checks every linked TU byte against
+its retail SHA-256, including the branches and trailing alignment.
 
 ```sh
-tools/scripts/cc.sh proposals/RotAverageNclip3/candidate.c /tmp/rot-average.o
-python proposals/RotAverageNclip3/verify_behavior.py /tmp/rot-average.o
+tools/scripts/cc.sh src/main/psyq/libgte/RotAverageNclip3.c /tmp/rot-average.o
+.venv/bin/python proposals/RotAverageNclip3/verify_behavior.py /tmp/rot-average.o
 ```
 
 All **675 cases** pass against the SHA-1-checked retail body: five signed clip
