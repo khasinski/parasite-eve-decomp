@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Audit objdiff inputs so progress cannot exceed verified semantic C."""
+"""Audit objdiff inputs so progress cannot exceed verified semantic C
+plus byte-matching BIOS-call trampolines (original_asm)."""
 from __future__ import annotations
 
 import json
@@ -10,6 +11,12 @@ from elftools.elf.elffile import ELFFile
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
+
+# Kinds that may be credited complete. `original_asm` is the BIOS-call
+# trampolines (PSYQ_BIOS_TRAMPOLINE / PSYQ_BIOS_SYSCALL): C cannot express
+# their kernel-jump register protocol and delay slot, so a byte-matching
+# trampoline is as done as the function gets and is credited like semantic C.
+CREDITED = ("semantic_c", "original_asm")
 
 
 def functions(path):
@@ -36,11 +43,11 @@ def main() -> int:
         kind = metadata.get("source_kind")
         base = unit.get("base_path")
         complete = metadata.get("complete")
-        if complete and kind != "semantic_c":
+        if complete and kind not in CREDITED:
             errors.append("%s: %s received objdiff complete override" %
                           (unit["name"], kind))
             continue
-        if kind not in (None, "semantic_c", "data") and base is not None:
+        if kind not in (None, "data") + CREDITED and base is not None:
             errors.append("%s: %s received semantic progress metadata" %
                           (unit["name"], kind))
             continue
@@ -58,7 +65,7 @@ def main() -> int:
                 errors.append("%s: generated data unit contains target functions" %
                               unit["name"])
             continue
-        if kind != "semantic_c":
+        if kind not in CREDITED:
             errors.append("%s: base assigned to %s" % (unit["name"], kind))
             continue
         if complete is not True:

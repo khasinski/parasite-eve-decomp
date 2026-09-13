@@ -115,10 +115,13 @@ def unit(relative, build_prefix, name, category, source, complete,
         entry["metadata"]["source_path"] = source
         entry["metadata"]["source_kind"] = source_kind
         # Semantic progress requires both a C implementation and proof that
-        # its complete linked module matches retail. Original/instruction ASM
-        # and text-resident data deliberately receive neither a base nor the
-        # objdiff `complete` override: either one would credit their .text.
-        if complete and source_kind == "semantic_c":
+        # its complete linked module matches retail. `original_asm` is the
+        # BIOS-call trampolines (PSYQ_BIOS_TRAMPOLINE / PSYQ_BIOS_SYSCALL):
+        # C cannot express their kernel-jump register protocol and delay slot,
+        # so a byte-matching trampoline is as done as the function gets and is
+        # credited complete on decomp.dev. Text-resident data still receives
+        # neither a base nor the override, which would wrongly credit its .text.
+        if complete and source_kind in ("semantic_c", "original_asm"):
             entry["metadata"]["complete"] = True
             entry["base_path"] = "%s%s" % (build_prefix, relative)
     return entry
