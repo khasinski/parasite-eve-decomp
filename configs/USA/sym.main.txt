@@ -1260,6 +1260,7 @@ Gpu_DmaTimeoutCheck = 0x80077404; // type:func
 Gpu_RestoreDmaCallback = 0x80077A00; // type:func
 Gte_SetDepthParams = 0x80077E64; // type:func
 Gte_NormalizeVec = 0x80078134; // type:func
+VectorNormalSS = 0x80078164; // type:func
 Gte_ScaleMatrix = 0x80078CC4; // type:func
 Gte_Atan2 = 0x80079FB4; // type:func
 Cd_SetIntrMask = 0x8007C13C; // type:func

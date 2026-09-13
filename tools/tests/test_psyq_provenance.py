@@ -1,5 +1,8 @@
 """SDK attribution must survive decompilation and reject uncovered code."""
 import unittest
+import json
+import pathlib
+import re
 from tools.scripts.psyq_provenance import identity
 
 
@@ -38,3 +41,18 @@ class PsyqProvenanceTests(unittest.TestCase):
         e['labels'] = [dict(offset=0x10, name='text_3A0')]
         self.assertEqual(identity([(0x80001010, 0x20)], 'main/Render', [e]),
                          'main/psyq/libpad/PADSEQD/text_3A0')
+
+
+class PsyqNormalizationBoundariesTests(unittest.TestCase):
+    def test_all_public_normalization_entries_have_function_symbols(self):
+        root = pathlib.Path(__file__).resolve().parents[2]
+        evidence = json.loads((root / 'configs/USA/psyq_provenance.json').read_text())['evidence']
+        obj = next(e for e in evidence if e['object'] == 'MSC02'
+                   and int(e['address'], 16) == 0x80078094)
+        symbols = (root / 'configs/USA/sym.main.txt').read_text()
+        for sdk_name, link_name in [('VectorNormalS', 'Gte_NormalizeVecS32toS16'),
+                                    ('VectorNormal', 'Gte_NormalizeVec'),
+                                    ('VectorNormalSS', 'VectorNormalSS')]:
+            offset = next(label['offset'] for label in obj['labels'] if label['name'] == sdk_name)
+            address = int(obj['address'], 16) + offset
+            self.assertRegex(symbols, rf'(?m)^{re.escape(link_name)} = 0x{address:08X}; // type:func$')

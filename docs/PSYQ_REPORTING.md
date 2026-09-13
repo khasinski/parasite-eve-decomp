@@ -99,3 +99,13 @@ text order. A distinct readonly section prevents the linker's earlier
 `.rodata*` collection from moving them to the beginning of the executable.
 Objdiff therefore counts the 16 bytes as data, while the full retail SHA-1
 still verifies their exact content and placement. No code match is awarded.
+
+## Shared vector-normalization entry points
+
+The verified `MSC02` object labels three public entries: `VectorNormalS` at
+`0x80078120`, `VectorNormal` at `0x80078134`, and `VectorNormalSS` at
+`0x80078164`. The last entry was previously included in the reported extent of
+`Gte_NormalizeVec`. Its explicit function symbol restores the third boundary
+inside the existing shared ASM unit. It remains unmatched; no bytes are added
+or removed and no C progress is awarded. `VectorNormalS` branches into the
+shared suffix of `VectorNormalSS`, so these entries remain in one unit.
