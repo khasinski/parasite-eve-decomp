@@ -5298,5 +5298,115 @@
       "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
       "retail_sha256": "d4a957a4fbf9022276e20058e1dd9e312b8a65ecaa375d329302bcda85cbdc91"
     }
+  ],
+  "padding": [
+    {
+      "address": "0x80072DE8",
+      "size": 12
+    },
+    {
+      "address": "0x80072EA0",
+      "size": 4
+    },
+    {
+      "address": "0x80072F60",
+      "size": 4
+    },
+    {
+      "address": "0x80073350",
+      "size": 4
+    },
+    {
+      "address": "0x80073450",
+      "size": 4
+    },
+    {
+      "address": "0x80073A28",
+      "size": 12
+    },
+    {
+      "address": "0x80074A38",
+      "size": 12
+    },
+    {
+      "address": "0x80077B00",
+      "size": 4
+    },
+    {
+      "address": "0x80077F68",
+      "size": 12
+    },
+    {
+      "address": "0x80078088",
+      "size": 12
+    },
+    {
+      "address": "0x8007DDA8",
+      "size": 12
+    },
+    {
+      "address": "0x8007DEA0",
+      "size": 4
+    },
+    {
+      "address": "0x8007E1A0",
+      "size": 4
+    },
+    {
+      "address": "0x80080D30",
+      "size": 4
+    },
+    {
+      "address": "0x80081408",
+      "size": 12
+    },
+    {
+      "address": "0x80083EF8",
+      "size": 12
+    },
+    {
+      "address": "0x80084B40",
+      "size": 4
+    },
+    {
+      "address": "0x80084FB8",
+      "size": 12
+    },
+    {
+      "address": "0x80085D80",
+      "size": 4
+    },
+    {
+      "address": "0x80085DC0",
+      "size": 4
+    },
+    {
+      "address": "0x80085E50",
+      "size": 4
+    },
+    {
+      "address": "0x80085EB0",
+      "size": 4
+    },
+    {
+      "address": "0x80085F10",
+      "size": 4
+    },
+    {
+      "address": "0x80085F68",
+      "size": 12
+    },
+    {
+      "address": "0x800862F0",
+      "size": 4
+    },
+    {
+      "address": "0x8008D13C",
+      "size": 4
+    },
+    {
+      "address": "0x8008D7A4",
+      "size": 12
+    }
   ]
 }

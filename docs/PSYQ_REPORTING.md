@@ -70,3 +70,20 @@ ranges and their exact relocation offsets, types and symbols. Thus returning
 to fixed addresses fails the regression even if the final EXE still matches.
 This corrects report credit for two existing C reconstructions; it is not a
 claim that 108 previously unimplemented code bytes were newly decompiled.
+
+## SDK object padding
+
+The `padding` list in `psyq_provenance.json` records 27 additional zero-filled
+object tails, totaling 196 physical bytes. Every range immediately follows
+`jr $ra` and its delay slot, ends at a verified complete SDK object boundary,
+and contains no SDK label. `main.yaml` now represents those ranges as `pad`;
+the linker retains their bytes without manufacturing one-function ASM units.
+`test_psyq_padding.py` checks the manifest against the SDK boundary records and,
+when retail is available, checks every zero byte and the preceding return.
+The full executable SHA-1 remains the final layout and byte check.
+
+This removes 27 spurious functions (108 reported code bytes), not 27 newly
+completed decompilations. Padding is still included in the expected-object
+coverage audit. The two nonzero SDK signatures and the exception-handler
+instruction templates are separate data-classification work; they are not
+included in this zero-padding correction.
