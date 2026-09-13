@@ -61,6 +61,21 @@ void func_800D0728(GteShortVector *position, int arg1, int arg2, int arg3,
                    void *data, void *color, int intensity, int mode);
 int FieldEng_RotatingEffect(int mode);
 
+typedef struct RenderColor {
+    u8 r, g, b, code;
+} RenderColor;
+
+PE1_STATIC_ASSERT(sizeof(RenderColor) == 4, render_color_size);
+
+extern u8 D_800E1EE8[];
+extern u16 D_800F336C;
+extern u16 D_800E1204[];
+extern int D_800F3428;
+void func_800CEE20(GteShortVector *position, GteRotation *rotation,
+                   int scale_x, int scale_y, int texture, int clut,
+                   int page, int intensity, RenderColor *color);
+int FieldEng_DriftingEffect(int mode, GteShortVector *position);
+
 /* Shared runtime object layout used by the morph and draw paths. */
 typedef struct RenderVec3s {
     signed short x;

@@ -503,6 +503,31 @@ A scratch differential test compares host C with original retail MIPS across
 callback identity, return values and untouched payload bytes. Helpers use
 controlled implementations; full executable byte identity is the final check.
 
+### Drifting field effect
+
+`FieldEng_DriftingEffect` at `0x800DC910` matches all 368 retail bytes with
+stock GCC 2.7.2 and unmodified default MASPSX, without pins, barriers or
+instruction ASM. Mode 1 adds independent random X/Z offsets in -3..4,
+subtracts 2..5 from Y, then returns completion at time 32. Mode 2 samples
+color, sets Z rotation to time * 24 and equal scales to 8192 + time * 128,
+selects the CLUT row and submits the effect. Other modes return zero.
+Valid draw times are nonnegative and keep the signed arithmetic representable.
+
+The existing vector and rotation layouts supply the geometry ABI. The draw
+helper reads the color's R/G/B bytes separately, supporting `RenderColor`
+rather than an opaque word; this structure also reproduces the retail stack
+layout. Its fourth byte is the packed color command byte. `GetClut` retains
+the unsigned-short return type of its existing C definition.
+The extracted range `0x800DC910..0x800DCA80` is a function boundary inside
+remaining field-engine ASM, not a recovered original TU boundary.
+
+A scratch differential test compares host C with original retail MIPS over
+4096 cases: the 31/32 completion boundary, random calls, halfword wrapping,
+untouched vector padding, palette branches, rotation, scale and all draw
+arguments. Helpers use controlled implementations. The nearby sequence
+emitter candidate at 0x800DF6AC still has six differing instruction words
+and remains outside the build and matched-code totals.
+
 ## Migration order
 
 For a subsystem, prefer this order:

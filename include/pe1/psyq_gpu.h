@@ -61,6 +61,7 @@ typedef struct DISPENV {
 } DISPENV;
 
 DISPENV *PutDispEnv(DISPENV *env);
+u_short GetClut(int x, int y);
 
 /*
  * Many GPU helpers in src/main/main currently keep local callback-table
