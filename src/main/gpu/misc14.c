@@ -2,7 +2,6 @@
 
 void VSync(int arg0);
 void SetDispMask(int arg0);
-void PutDispEnv(void *env) __asm__("Render_StepEntityPool");
 void ClearImage(RECT *rect, int r, int g, int b);
 void DrawSync(int arg0);
 void Draw_InitBuffers(void);
@@ -61,7 +60,7 @@ int Gpu_InitDisplay(int mode) {
     mode_reg = mode;
     VSync(0);
     SetDispMask(0);
-    PutDispEnv(g_RenderDispEnvArray);
+    PutDispEnv((DISPENV *)g_RenderDispEnvArray);
 
     rect.x = 0;
     rect.y = 0;

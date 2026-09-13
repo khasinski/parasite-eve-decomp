@@ -1,3 +1,4 @@
+#include "pe1/psyq_gpu.h"
 #include "common.h"
 
 extern u8 D_800BCDC8[];
@@ -31,7 +32,6 @@ void SetDispMask(int mask);
 void ClearImage(s16 *rect, int r, int g, int b);
 void SetDefDispEnv(void *env, int x, int y, int w, int h);
 void SetDefDrawEnv(void *env, int x, int y, int w, int h);
-void Render_StepEntityPool(void *arg0);
 
 void Render_ResetScene(int width, int height)
 {
@@ -80,5 +80,5 @@ void Render_ResetScene(int width, int height)
     D_800BCDE3 = 0;
     g_ActiveDrawSlot = 0;
 
-    Render_StepEntityPool(disp - 0x11);
+    PutDispEnv((DISPENV *)(disp - 0x11));
 }

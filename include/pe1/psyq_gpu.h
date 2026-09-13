@@ -60,6 +60,8 @@ typedef struct DISPENV {
     u_char pad1;
 } DISPENV;
 
+DISPENV *PutDispEnv(DISPENV *env);
+
 /*
  * Many GPU helpers in src/main/main currently keep local callback-table
  * structs because register allocation is sensitive there. Centralize RECT

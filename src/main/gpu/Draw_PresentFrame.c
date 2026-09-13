@@ -1,3 +1,4 @@
+#include "pe1/psyq_gpu.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -13,7 +14,6 @@ int VSync(int arg0);
 void DrawSync(int arg0);
 void Render_InitEntityPool(int arg0);
 void PutDrawEnv(int arg0);
-void PutDispEnv(int arg0) __asm__("Render_StepEntityPool");
 void LoadImage(s16 *rect, int image);
 void DrawOTag(int arg0);
 
@@ -39,7 +39,7 @@ void Draw_PresentFrame(int arg0) {
     VSync(mode);
     Render_InitEntityPool(1);
     PutDrawEnv(D_8009D0FC);
-    PutDispEnv(D_8009D0FC + 0x5C);
+    PutDispEnv((DISPENV *)(D_8009D0FC + 0x5C));
 
     image = g_DrawPresentImage;
     if (image != 0) {

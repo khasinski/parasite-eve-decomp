@@ -8,7 +8,6 @@
 
 s32 Akao_Cmd_F0();
 s32 VSync();
-s32 PutDispEnv() __asm__("Render_StepEntityPool");
 s32 EnterCriticalSection();
 s32 ExitCriticalSection();
 s32 FlushCache();

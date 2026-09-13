@@ -1,4 +1,8 @@
-void mem2mem(int *dst, int *src, unsigned int count) {
+#include "pe1/psyq_cd.h"
+
+void mem2mem(void *destination, void *source, unsigned int count, int reserved) {
+    int *dst = destination;
+    int *src = source;
     unsigned int i;
     int value;
 

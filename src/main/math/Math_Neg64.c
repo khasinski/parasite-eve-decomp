@@ -1,16 +1,10 @@
 /* GCC_VERSION: 2.8.1 */
 #include "common.h"
+#include "pe1/math64.h"
 
-typedef struct MathPair {
-    u32 lo;
-    s32 hi;
-} MathPair;
-
-void Math_Add64(MathPair *out, MathPair left, MathPair right);
-
-MathPair *Math_Neg64(MathPair *out, MathPair value)
+MathU64 *Math_Neg64(MathU64 *out, MathU64 value)
 {
-    MathPair one;
+    MathU64 one;
 
     one.hi = 0;
     one.lo = 1;

@@ -1,3 +1,4 @@
+#include "pe1/psyq_gpu.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -9,7 +10,6 @@ void VSync(int arg0);
 int Seq_GetElapsed(void);
 void SetDispMask(int arg0);
 void Render_InitEntityPool(int arg0);
-void PutDispEnv(void *arg0) __asm__("Render_StepEntityPool");
 int Gpu_CheckDrawStatus(void);
 void PutDrawEnv(void *arg0);
 void Gpu_PutDrawEnvLinked(int arg0, void *arg1);
@@ -50,7 +50,7 @@ void Gpu_RenderFrame(void) {
         offset += idx;
         offset <<= 2;
         base = g_RenderDispEnvArray;
-        PutDispEnv(base + offset);
+        PutDispEnv((DISPENV *)(base + offset));
     }
 
     status = Gpu_CheckDrawStatus();

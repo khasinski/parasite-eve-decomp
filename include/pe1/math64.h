@@ -16,12 +16,12 @@ MathU64 *Math_Add64(MathU64 *result, MathU64 left, MathU64 right);
 MathU64 *Math_Add64WithShift(MathU64 *result, int arithmetic, MathU64 value, int amount);
 int Math_Cmp64Pair(MathU64 left, MathU64 right);
 MathU64 *Math_Shift64(MathU64 *result, int arithmetic, MathU64 value, int amount);
-MathU64 Math_Neg64(MathU64 value);
+MathU64 *Math_Neg64(MathU64 *result, MathU64 value);
 double Math_Int32ToDouble(int value);
 int Math_DoubleToInt32(double value);
-double Math_Div64(double numerator, double denominator);
+double __divdf3(double numerator, double denominator);
 MathU64 *Math_Mul32To64(MathU64 *result, unsigned int left, unsigned int right);
-double Math_Mul64(double left, double right);
+double __adddf3(double left, double right);
 double Math_Sqrt64(double left, double right);
 
 #endif

@@ -1,0 +1,58 @@
+[
+  {
+    "sdk_symbol": "__divdf3",
+    "legacy_symbol": "Math_Div64",
+    "sdk_version": "4.3",
+    "library": "LIBMATH.LIB",
+    "object": "DIVDF3.OBJ",
+    "sdk_text_offset": 0,
+    "retail_address": "0x80072f64",
+    "size": 736,
+    "retail_sha256": "566525621fb9cefc8d54330a0eceaab78727efcf5e25149fe242fdd3b5e69a6f",
+    "signature_json_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+    "compared_nonrelocation_bytes": 691,
+    "wildcard_bytes": 45
+  },
+  {
+    "sdk_symbol": "__adddf3",
+    "legacy_symbol": "Math_Mul64",
+    "sdk_version": "4.3",
+    "library": "LIBMATH.LIB",
+    "object": "ADDDF3.OBJ",
+    "sdk_text_offset": 0,
+    "retail_address": "0x80072a74",
+    "size": 884,
+    "retail_sha256": "3060f098b67be7758d285c025aca8d2dfc4db7a0b07501b9c929bdb914f11835",
+    "signature_json_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+    "compared_nonrelocation_bytes": 830,
+    "wildcard_bytes": 54
+  },
+  {
+    "sdk_symbol": "PutDispEnv",
+    "legacy_symbol": "Render_StepEntityPool",
+    "sdk_version": "4.3",
+    "library": "LIBGPU.LIB",
+    "object": "SYS.OBJ",
+    "sdk_text_offset": 2988,
+    "retail_address": "0x800755f0",
+    "size": 1272,
+    "retail_sha256": "c8dc390773e463aadf9158ed73f3cb4467a6c8b2af8f853c3950512ef0577ca1",
+    "signature_json_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+    "compared_nonrelocation_bytes": 1185,
+    "wildcard_bytes": 87
+  },
+  {
+    "sdk_symbol": "StCdInterrupt",
+    "legacy_symbol": "StCdInterrupt",
+    "sdk_version": "4.3",
+    "library": "LIBCD.LIB",
+    "object": "C_011.OBJ",
+    "sdk_text_offset": 0,
+    "retail_address": "0x8007c564",
+    "size": 2332,
+    "retail_sha256": "7c4ca8096a8921313e5b9a5f036f2b9341d656633afed2132b62af8d40aa8c74",
+    "signature_json_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+    "compared_nonrelocation_bytes": 1725,
+    "wildcard_bytes": 607
+  }
+]
