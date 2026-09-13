@@ -79,6 +79,15 @@ int FieldEng_DriftingEffect(int mode, GteShortVector *position);
 void FieldEng_RotateVector(const GteMatrixWords *matrix,
                            const GteShortVector *input, GteShortVector *output);
 
+typedef struct RenderMatrixSlot {
+    s32 *value;
+    u8 reserved[8];
+} RenderMatrixSlot;
+
+extern RenderMatrixSlot D_800BCFA4;
+void FieldEng_TransformTranslation(const GteShortVector *input,
+                                  GteMatrixWords *output);
+
 /* Shared runtime object layout used by the morph and draw paths. */
 typedef struct RenderVec3s {
     signed short x;

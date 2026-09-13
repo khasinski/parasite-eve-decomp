@@ -561,6 +561,38 @@ identity covers the actual instruction stream. The extracted range
 The sine-drift candidate at 0x800DC5BC remains outside the build with four
 differing instruction words.
 
+### Transforming the GTE translation
+
+`FieldEng_TransformTranslation` at `0x800CF5B0` matches all 168 retail bytes
+with stock GCC 2.7.2 and unmodified default MASPSX. It loads the current
+matrix's rotation and translation, transforms the input vector with SF=12,
+writes MAC1/2/3 into the output matrix's translation, and reloads those words
+into TRX/TRY/TRZ. A null output uses a local matrix; its rotation is neither
+initialized nor accessed. A supplied output retains its rotation words and
+may alias the current matrix.
+
+The existing `RenderMatrixSlot` declaration moves unchanged from
+`Render_DecompressAnimFrame.c` to `pe1/render_object.h`; that function's text
+remains byte-identical. The slot's s32 pointer is viewed through the existing
+packed `GteMatrixWords` ABI. Every COP2 transfer, command and hazard NOP uses
+an existing individual macro; ordinary CPU loads and pointer handling stay
+in C. No compiler or assembler changes are involved.
+
+Four pins ($3/$12/$13/$14) and one empty pointer barrier are recorded in debt.
+The barrier preserves the separate address of the matrix slot. Removing the
+matrix pin produces nine differing instruction words; removing the transfer
+pins individually produces 39, eight and six differences. Removing the
+barrier shortens the function from 168 to 160 bytes. These are compiler
+constraints, not evidence that the original function was handwritten ASM.
+
+A scratch differential test compares host C and retail MIPS over 4096 cases
+with modeled COP2 transfers and MAC arithmetic: full-range coefficients,
+vectors and translations, null output, current-matrix aliasing, preserved
+rotation/input bytes and final control/MAC registers. GTE flags and IR
+saturation are not modeled. Full linked byte identity verifies the complete
+instruction stream. The range `0x800CF5B0..0x800CF658` is a function boundary;
+the original TU boundary remains unresolved.
+
 ## Migration order
 
 For a subsystem, prefer this order:

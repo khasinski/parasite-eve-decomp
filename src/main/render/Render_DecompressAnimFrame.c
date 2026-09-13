@@ -79,12 +79,6 @@ struct _m2c_stack_Render_DecompressAnimFrame {
 
 void RotMatrixY(s32, u16 *);
 void SetDrawMode(void *, s32, s32, s32);
-typedef struct RenderMatrixSlot {
-    s32 *value;
-    u8 reserved[8];
-} RenderMatrixSlot;
-
-extern RenderMatrixSlot D_800BCFA4;
 extern u32 *D_8009CDD0;
 extern s16 *D_8009CDD4;
 

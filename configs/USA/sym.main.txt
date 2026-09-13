@@ -1806,3 +1806,4 @@ FieldEng_RotatingEffect = 0x800DF87C; // type:func
 FieldEng_PointEmitter = 0x800DF9B0; // type:func
 FieldEng_DriftingEffect = 0x800DC910; // type:func
 FieldEng_RotateVector = 0x800CEAE8; // type:func
+FieldEng_TransformTranslation = 0x800CF5B0; // type:func
