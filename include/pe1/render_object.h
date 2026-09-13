@@ -2,6 +2,27 @@
 #define PE1_RENDER_OBJECT_H
 
 #include "common.h"
+#include "pe1/gte_types.h"
+
+/* Packed geometry at 0x800C7AE0: two groups of 12-byte records and two
+ * groups of 16-byte records precede the 8-byte vertex array. The record
+ * kinds and the remaining header words are not identified yet. */
+typedef union RenderPackedGeometry {
+    struct {
+        u16 record12_counts[2];
+        u16 record16_counts[2];
+        u16 reserved[4];
+    } counts;
+    /* Variable-size asset view; the header is followed by records/vertices. */
+    u8 bytes[1];
+} RenderPackedGeometry;
+
+PE1_STATIC_ASSERT(sizeof(RenderPackedGeometry) == 16,
+                  render_packed_geometry_header_size);
+
+void FieldEng_TransformPackedVertex(RenderPackedGeometry *geometry,
+                                   GteMatrix *matrix, u16 index,
+                                   GteShortVector *out);
 
 /* Shared runtime object layout used by the morph and draw paths. */
 typedef struct RenderVec3s {

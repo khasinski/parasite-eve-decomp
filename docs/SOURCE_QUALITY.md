@@ -387,6 +387,26 @@ C files under `candidates/` are explicitly below level 2. They may be semantic
 and well typed, but are not reported as matched until promoted into the
 manifest and `src/` with byte verification.
 
+### Packed field vertex transformation
+
+`FieldEng_TransformPackedVertex` at `0x800C7AE0` is 192 bytes of stock
+GCC 2.7.2 C, with no pins, compiler barriers or instruction ASM. Four unsigned
+halfword counts describe two groups of 12-byte records and two groups of
+16-byte records after a 16-byte geometry header. Their semantic record kinds
+remain unknown. The vertex-array byte offset wraps to 16 bits before selecting
+an 8-byte vertex; `ApplyMatrixSV` rotates it, then each matrix translation
+component is added with 16-bit output truncation. The output padding is untouched.
+
+The extracted range is the final function of the remaining ASM region
+`0x800C71E4..0x800C7BA0`. This establishes a function boundary, not an original
+translation-unit boundary. The packed-asset view lives in `render_object.h`;
+the exact existing SDK function declaration lives in `gte_types.h`.
+
+The linked function matches all 192 retail bytes. A scratch MIPS execution
+check covered 4096 cases of offset wrapping, helper arguments, translation
+wrapping, padding, stack and callee-saved registers, with `ApplyMatrixSV`
+intercepted to supply known rotated coordinates.
+
 ## Migration order
 
 For a subsystem, prefer this order:
