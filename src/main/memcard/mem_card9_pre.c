@@ -34,7 +34,7 @@ extern void SysDeqIntRP(int, void *);
 extern int g_MemCardCounterIrqQueueNode;
 
 int Spu_CheckTimerElapsed(void);
-int MemCard_DmaProcess();
+int _padInitSioMode();
 void MemCard_RunCommandStep();
 
 int MemCard_TimerReadyCallback(void) {
@@ -95,7 +95,7 @@ int MemCard_TimerCallback(void) {
             obj = (void *)(D_8009B758 + (((index << 4) - index) << 4));
             D_8009B768 = 0;
             D_8009B764 = index;
-            if (MemCard_DmaProcess(obj) == 0) {
+            if (_padInitSioMode(obj) == 0) {
                 D_8009B724(0xFFFF);
             }
 

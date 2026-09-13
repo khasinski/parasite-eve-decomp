@@ -85,13 +85,13 @@ int CardObj_CalcReadPayloadSize(CardObj *arg0) {
 extern int (*g_MemCardIsTransferActiveFn)(void);
 
 void CardObj_EmitReadTransferCommand(CardObj *obj);
-void LIBPAD_PADCMD_text_3A0(CardObj *obj);
+int LIBPAD_PADCMD_text_3A0(CardObj *obj);
 
 int CardObj_StartReadTransfer(CardObj *obj, unsigned char *buffer) {
     int cursor;
     int result;
     int state;
-    register void (*processFn)(void *) asm("$4");
+    register int (*processFn)(CardObj *) asm("$4");
     int rowCount;
     int columnCount;
 

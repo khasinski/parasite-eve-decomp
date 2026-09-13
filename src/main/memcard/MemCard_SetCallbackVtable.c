@@ -3,7 +3,7 @@
 
 extern void func_80084B78(void);
 extern void CardObj_IsTransferActive(void);
-extern void CardObj_HandleResponse(void);
+extern void LIBPAD_PADSEQD_text_108(void);
 
 typedef struct MemCardCallbackDataPage {
     void (*response_handler)(void);
@@ -20,7 +20,7 @@ void MemCard_SetCallbackVtable(void) {
 
     g_MemCardStateDispatchFn = func_80084B78;
     g_MemCardIsTransferActiveFn = CardObj_IsTransferActive;
-    response_handler = CardObj_HandleResponse;
+    response_handler = LIBPAD_PADSEQD_text_108;
     g_MemCardCallbackWritePage = (MemCardCallbackDataPage *)0x800A0000;
     g_MemCardCallbackWritePage[-1].response_handler = response_handler;
 }

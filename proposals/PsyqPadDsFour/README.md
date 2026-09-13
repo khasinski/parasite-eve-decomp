@@ -39,10 +39,14 @@ that test.
   not proof of protocol semantics. In particular the existing `reserved34`
   field receives 1200 on the read-command path.
 
-Legacy link symbols remain intact. The functions reside under `psyq/libpad`
-and `psyq/libds`, and the switch table belongs to its C unit.
+The original matching commit retained legacy link symbols. Commit `0028a7cb`
+subsequently replaced them with SDK labels and corrected report attribution;
+see `docs/PSYQ_REPORTING.md`. The functions reside under `psyq/libpad` and
+`psyq/libds`, and the switch table belongs to its C unit.
 
-## Validation and debt
+## Validation and debt at the original matching commit
+
+The category totals below predate the attribution correction in `0028a7cb`.
 
 - Native, unmodified GCC 2.7.2 and the existing GNU assembler route.
 - `make -j8 check`: the entire main.exe matches retail SHA-1

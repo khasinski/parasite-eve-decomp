@@ -1,0 +1,58 @@
+[
+  {
+    "sdk_symbol": "text_A9C",
+    "legacy_symbol": "Render_DrawParticleAlt",
+    "sdk_version": "4.3",
+    "library": "LIBDS.LIB",
+    "object": "DSSYS_1.OBJ",
+    "sdk_text_offset": 2716,
+    "retail_address": "0x80080404",
+    "size": 648,
+    "retail_sha256": "c1e84ce0b64fd483bcd85563e24d4cff81d138cfaefafdce980fbf26de32fa9f",
+    "signature_json_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+    "compared_nonrelocation_bytes": 587,
+    "wildcard_bytes": 61
+  },
+  {
+    "sdk_symbol": "text_108",
+    "legacy_symbol": "CardObj_HandleResponse",
+    "sdk_version": "4.2",
+    "library": "LIBPAD.LIB",
+    "object": "PADSEQD.OBJ",
+    "sdk_text_offset": 264,
+    "retail_address": "0x80084c4c",
+    "size": 612,
+    "retail_sha256": "47c760223bf315e045fd97140986def718e5d1852e262838a9e3760a18a433b8",
+    "signature_json_sha256": "61ac0b55d7988d73e78ff1f8f9668c6c4da0702ead1451e0373a88127dc2366e",
+    "compared_nonrelocation_bytes": 577,
+    "wildcard_bytes": 35
+  },
+  {
+    "sdk_symbol": "text_3D0",
+    "legacy_symbol": "Render_StepParticleNode",
+    "sdk_version": "4.3",
+    "library": "LIBDS.LIB",
+    "object": "DSSYS_2.OBJ",
+    "sdk_text_offset": 976,
+    "retail_address": "0x8007e964",
+    "size": 548,
+    "retail_sha256": "70a363e79ed71476b8961d2cb1c2a537c881a4c232bd3902a148f31bef32fc11",
+    "signature_json_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+    "compared_nonrelocation_bytes": 495,
+    "wildcard_bytes": 53
+  },
+  {
+    "sdk_symbol": "_padInitSioMode",
+    "legacy_symbol": "MemCard_DmaProcess",
+    "sdk_version": "4.2",
+    "library": "LIBPAD.LIB",
+    "object": "PADMAIN.OBJ",
+    "sdk_text_offset": 1084,
+    "retail_address": "0x80082e00",
+    "size": 532,
+    "retail_sha256": "38dae3a9445d323f640baf1405b4c53ff44fc742dc7298f0d2a062266e1be513",
+    "signature_json_sha256": "61ac0b55d7988d73e78ff1f8f9668c6c4da0702ead1451e0373a88127dc2366e",
+    "compared_nonrelocation_bytes": 463,
+    "wildcard_bytes": 69
+  }
+]

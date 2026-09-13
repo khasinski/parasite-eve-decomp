@@ -39,7 +39,7 @@ int CdRom_InitDsReadSystem(void) {
         ((DsReadCallbackSlot *)((unsigned char *)D_800A3610 + offset))->value = 0;
     D_800A3690 = 0;
     CdRom_InitDsCallbacks();
-    CdRom_SetSyncCallback((unsigned int)Render_StepParticleNode);
+    CdRom_SetSyncCallback((unsigned int)LIBDS_DSSYS_2_text_3D0);
     CdRom_SetReadyCallback((unsigned int)Render_PlayParticleEffect);
     CdRom_SetDispatchCallback((unsigned int)CdRom_DispatchDsReadyCallback);
     CdRom_SetPollCallback((unsigned int)CdRom_PollPendingDsRead);

@@ -21,7 +21,7 @@ extern MemCardTransferControl *D_8009B7BC;
 
 void _dirFailAuto(CardObj *obj);
 void CardObj_SwapByteField(CardObj *obj);
-int MemCard_DmaProcess(CardObj *obj);
+int _padInitSioMode(CardObj *obj);
 
 int MemCard_DmaCompleteCallback(int result) {
     register int callbackResult asm("$5") = result;
@@ -66,7 +66,7 @@ int MemCard_DmaCompleteCallback(int result) {
         g_MemCardDmaStoredIndex = index;
         asm volatile("" : : : "memory");
         if (limit >= index) {
-            nextResult = MemCard_DmaProcess(
+            nextResult = _padInitSioMode(
                 (CardObj *)((((index << 4) - index) << 4) +
                             (int)objects));
         } else {

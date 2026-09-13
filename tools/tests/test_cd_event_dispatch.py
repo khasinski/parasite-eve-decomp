@@ -34,7 +34,7 @@ void CdRom_ProcessEventByte(int event) {
     stateWords[1] = commandValue;
 }
 void LIBDS_DSSYS_1_text_8B8(int event, void *data) { dispatched(1, event, data); }
-void Render_DrawParticleAlt(int event, void *data) { dispatched(2, event, data); }
+void LIBDS_DSSYS_1_text_A9C(int event, void *data) { dispatched(2, event, data); }
 void CdRom_CmdEventCallback(int event, u8 *data) { dispatched(3, event, data); }
 int main(void) {
     const int events[] = {INT_MIN, -1, 0, 2, 5, 255, 256, INT_MAX};

@@ -24,7 +24,7 @@ int CardObj_BeginReadIdCommand(CardObj *obj, int byte1, int byte2) {
     flag = 1;
     obj->field_46 = flag;
     obj->fn_14 = (void (*)(void *))CardObj_EmitReadIdCommand;
-    obj->fn_18 = (void (*)(void *))CardObj_CheckAbortOrDispatch;
+    obj->fn_18 = CardObj_CheckAbortOrDispatch;
     obj->field_51 = byte1;
     obj->field_52 = byte2;
     flag = (compareByte & 0xFF) ^ obj->field_e4;

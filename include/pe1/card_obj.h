@@ -29,7 +29,7 @@ typedef struct CardObj {
     unsigned char *field_0c;           /* 0x0C */
     struct CardObj *field_10;          /* 0x10 */
     void (*fn_14)(void *);            /* 0x14 */
-    void (*fn_18)(void *);            /* 0x18 */
+    int (*fn_18)(struct CardObj *);            /* 0x18 */
     unsigned char pad_1C[0x04];
     int field_20;                     /* 0x20 */
     unsigned char pad_24[0x04];

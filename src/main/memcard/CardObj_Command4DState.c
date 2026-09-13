@@ -5,7 +5,7 @@
 extern int (*D_8009B740)(CardObj *obj);
 
 void func_80083C20(void *obj);
-void func_80083C3C(void *obj);
+int func_80083C3C(CardObj *obj);
 
 int CardObj_BeginCommand(CardObj *obj, int command) {
     register int result asm("$2");

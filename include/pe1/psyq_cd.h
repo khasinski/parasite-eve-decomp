@@ -373,7 +373,7 @@ void CdRom_SetSyncCallback(unsigned int value);
 void CdRom_SetReadyCallback(unsigned int value);
 void CdRom_SetDispatchCallback(unsigned int value);
 void CdRom_SetPollCallback(unsigned int value);
-void Render_StepParticleNode(void);
+void LIBDS_DSSYS_2_text_3D0(int event, u8 *result);
 int Render_PlayParticleEffect(int command, u8 *payload);
 void CdRom_DispatchDsReadyCallback(void);
 void CdRom_PollPendingDsRead(void);

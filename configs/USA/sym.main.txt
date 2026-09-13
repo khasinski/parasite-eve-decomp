@@ -41,7 +41,7 @@ Overlay_LoadTables = 0x8006ECEC; // type:func
 
 // Memory card / save DMA.
 CardObj_GetField = 0x80082680; // type:func
-MemCard_DmaProcess = 0x80082E00; // type:func
+_padInitSioMode = 0x80082E00; // type:func
 MemCard_ReadByte = 0x800830DC; // type:func
 MemCard_WriteByte = 0x800832B4; // type:func
 
@@ -1269,7 +1269,7 @@ Spu_DrainQueueEntry = 0x8007E5C4; // type:func
 Spu_GetQueueEntryPtr = 0x8007E6B0; // type:func
 LIBDS_DSSYS_2_text_170 = 0x8007E704; // type:func
 CdRom_DispatchPendingCmd = 0x8007E8F4; // type:func
-Render_StepParticleNode = 0x8007E964; // type:func
+LIBDS_DSSYS_2_text_3D0 = 0x8007E964; // type:func
 CdRom_EnqueueCmd = 0x8007EB88; // type:func
 Render_AllocParticleNode = 0x8007EE84; // type:func
 Render_BuildParticleFrame = 0x8007F0C8; // type:func
@@ -1292,7 +1292,7 @@ Render_StepParticlePool = 0x8007FE24; // type:func
 CdRom_RetryCmd = 0x800800F4; // type:func
 Render_DrawParticleGroup = 0x80080164; // type:func
 LIBDS_DSSYS_1_text_8B8 = 0x80080220; // type:func
-Render_DrawParticleAlt = 0x80080404; // type:func
+LIBDS_DSSYS_1_text_A9C = 0x80080404; // type:func
 CdRom_CmdEventCallback = 0x8008068C; // type:func
 CdRom_ReadyEventDispatch = 0x80080778; // type:func
 CdRom_AbortCmd = 0x800808BC; // type:func
@@ -1328,7 +1328,7 @@ Render_AccumParticleAlpha = 0x8008486C; // type:func
 CardObj_GetChannelId = 0x80084AE8; // type:func
 CardObj_LookupByChannelId = 0x80084B20; // type:func
 MemCard_SetCallbackVtable = 0x80084B44; // type:func
-CardObj_HandleResponse = 0x80084C4C; // type:func
+LIBPAD_PADSEQD_text_108 = 0x80084C4C; // type:func
 CardObj_IsTransferActive = 0x80084F8C; // type:func
 Spu_ValidateSampleHeader = 0x80085084; // type:func
 SpuSetCommonAttr = 0x80085F74; // type:func
