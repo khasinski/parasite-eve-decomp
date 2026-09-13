@@ -8,5 +8,7 @@ extern int g_DrawPrimaryColor __asm__("D_8009D110");
 extern int g_DrawAlternateColor __asm__("D_8009D114");
 extern unsigned int *g_DrawOrderingTableEntry __asm__("D_8009D11C");
 extern int *g_TextCursorStack __asm__("D_8009D12C");
+extern int g_DrawSpriteX __asm__("D_8009D124");
+extern int g_DrawSpriteY __asm__("D_8009D128");
 
 #endif /* PE1_DRAW_STATE_H */
