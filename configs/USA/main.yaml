@@ -1618,6 +1618,8 @@ segments:
       - [0xBFDB0, asm, engine/engine_800CEE20_BFDB0]
       - [0xBFE58, c, engine/Gte_BuildAndLoadRotationMatrix]
       - [0xBFEF8, asm, engine/engine_800CEE20_BFEF8]
+      - [0xC02A8, c, engine/FieldEng_CalculateLookAngles]
+      - [0xC037C, asm, engine/engine_800CEE20_C037C]
       - [0xC04F4, c, engine/func_800CFCF4]
       - [0xC0550, asm, engine/engine_800CEE20_C0550]
       - [0xC0694, c, engine/func_800CFE94]

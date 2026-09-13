@@ -1799,3 +1799,4 @@ D_8009B260 = 0x8009B260; // size:0x4
 D_800B6918 = 0x800B6918; // size:0x4
 
 FieldEng_TransformPackedVertex = 0x800C7AE0; // type:func
+FieldEng_CalculateLookAngles = 0x800CFAA8; // type:func

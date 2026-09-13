@@ -37,6 +37,8 @@ typedef struct GteVector {
 
 GteShortVector *ApplyMatrixSV(const GteMatrix *matrix,
                             const GteShortVector *v, GteShortVector *out);
+int Gte_Atan2(int y, int x);
+int Gte_ISqrt(int value);
 
 PE1_STATIC_ASSERT(sizeof(GteMatrix) == 32, gte_matrix_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GteMatrix, t) == 20, gte_matrix_translation_offset);

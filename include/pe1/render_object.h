@@ -23,6 +23,8 @@ PE1_STATIC_ASSERT(sizeof(RenderPackedGeometry) == 16,
 void FieldEng_TransformPackedVertex(RenderPackedGeometry *geometry,
                                    GteMatrix *matrix, u16 index,
                                    GteShortVector *out);
+void FieldEng_CalculateLookAngles(GteShortVector *from, GteShortVector *to,
+                                 GteShortVector *out);
 
 /* Shared runtime object layout used by the morph and draw paths. */
 typedef struct RenderVec3s {

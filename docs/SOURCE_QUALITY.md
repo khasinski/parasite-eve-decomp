@@ -407,6 +407,24 @@ check covered 4096 cases of offset wrapping, helper arguments, translation
 wrapping, padding, stack and callee-saved registers, with `ApplyMatrixSV`
 intercepted to supply known rotated coordinates.
 
+### Field look angles
+
+`FieldEng_CalculateLookAngles` at `0x800CFAA8` reconstructs 212 retail bytes
+with stock GCC 2.7.2 and the default MASPSX pipeline, without pins, barriers,
+or instruction ASM. It computes yaw as a quarter-turn minus `Gte_Atan2(dz, dx)`,
+then pitch from the vertical difference and `Gte_ISqrt(dx*dx + dz*dz)`.
+Unsigned products preserve the retail 32-bit wrapping of the squared distance.
+Both angles are masked to 12 bits, roll is zero, and vector padding is untouched.
+The yaw store remains before the vertical-coordinate loads, including when
+output aliases an input vector. A scratch test compares host C with original
+MIPS across 4096 cases, including both input aliases, with controlled SDK
+helper results and exact checks of helper arguments and vector bytes.
+
+The extracted range `0x800CFAA8..0x800CFB7C` is a function boundary within the
+remaining field-engine ASM, not evidence of a separate original translation
+unit. SDK math declarations share `gte_types.h`; the game API is declared
+with the other render transforms in `render_object.h`.
+
 ## Migration order
 
 For a subsystem, prefer this order:
