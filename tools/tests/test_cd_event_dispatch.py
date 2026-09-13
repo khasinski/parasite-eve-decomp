@@ -33,7 +33,7 @@ void CdRom_ProcessEventByte(int event) {
     ((unsigned char *)stateWords)[0] = flagsValue;
     stateWords[1] = commandValue;
 }
-void Render_DrawParticleSprite(int event, void *data) { dispatched(1, event, data); }
+void LIBDS_DSSYS_1_text_8B8(int event, void *data) { dispatched(1, event, data); }
 void Render_DrawParticleAlt(int event, void *data) { dispatched(2, event, data); }
 void CdRom_CmdEventCallback(int event, u8 *data) { dispatched(3, event, data); }
 int main(void) {

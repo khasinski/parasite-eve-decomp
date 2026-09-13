@@ -85,7 +85,7 @@ int CardObj_CalcReadPayloadSize(CardObj *arg0) {
 extern int (*g_MemCardIsTransferActiveFn)(void);
 
 void CardObj_EmitReadTransferCommand(CardObj *obj);
-void CardObj_ProcessReadPayload(CardObj *obj);
+void LIBPAD_PADCMD_text_3A0(CardObj *obj);
 
 int CardObj_StartReadTransfer(CardObj *obj, unsigned char *buffer) {
     int cursor;
@@ -120,7 +120,7 @@ initialize:
     asm volatile("" ::: "memory");
     rowCount = obj->field_e3;
     asm volatile("" : "+r"(rowCount) : : "memory");
-    processFn = CardObj_ProcessReadPayload;
+    processFn = LIBPAD_PADCMD_text_3A0;
     obj->fn_18 = processFn;
     asm volatile("" ::: "memory");
     columnCount = obj->field_e9;

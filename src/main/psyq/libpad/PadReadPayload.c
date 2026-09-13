@@ -3,7 +3,7 @@
  * See proposals/PsyqPadDsFour for byte-match evidence and constraint debt. */
 #include "pe1/card_obj.h"
 extern u8 *D_800A5AD0;
-int CardObj_ProcessReadPayload(CardObj *inPort) {
+int LIBPAD_PADCMD_text_3A0(CardObj *inPort) {
     register CardObj *port = inPort;
     register int result asm("$2");
     switch (port->field_46) {

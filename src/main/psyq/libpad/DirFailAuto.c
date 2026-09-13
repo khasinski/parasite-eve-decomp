@@ -2,7 +2,7 @@
 /* Psy-Q LIBPAD/PADSEQD.OBJ _dirFailAuto.
  * See proposals/PsyqPadDsFour for byte-match evidence and constraint debt. */
 #include "pe1/psyq_pad_main.h"
-void MemCard_OutputHandler(CardObj *port) {
+void _dirFailAuto(CardObj *port) {
     port->field_4c++;
     switch (port->field_46) {
     case 0:

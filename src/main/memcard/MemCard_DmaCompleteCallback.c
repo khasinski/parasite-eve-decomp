@@ -19,7 +19,7 @@ extern int g_MemCardPort2Present;
 extern int D_8009B77C[];
 extern MemCardTransferControl *D_8009B7BC;
 
-void MemCard_OutputHandler(CardObj *obj);
+void _dirFailAuto(CardObj *obj);
 void CardObj_SwapByteField(CardObj *obj);
 int MemCard_DmaProcess(CardObj *obj);
 
@@ -50,7 +50,7 @@ int MemCard_DmaCompleteCallback(int result) {
                 offset = index << 2;
                 *(int *)(offset + (int)channelResults) = 0;
             } else {
-                MemCard_OutputHandler(obj);
+                _dirFailAuto(obj);
                 CardObj_SwapByteField(obj);
             }
         }

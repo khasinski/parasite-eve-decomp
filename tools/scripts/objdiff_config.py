@@ -32,8 +32,10 @@ import re
 import yaml
 
 try:
+    import psyq_provenance
     from source_quality import classify
 except ImportError:  # imported as tools.scripts.objdiff_config by unit tests
+    from tools.scripts import psyq_provenance
     from tools.scripts.source_quality import classify
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -42,7 +44,7 @@ VERSION = "USA"
 SCHEMA = "https://raw.githubusercontent.com/encounter/objdiff/main/config.schema.json"
 
 MAP_PLACEMENT = re.compile(
-    r"^\s(\.[\w.]+)\s+0x[0-9a-f]+\s+0x([0-9a-f]+)\s+(build/\S+\.o)$", re.MULTILINE
+    r"^\s(\.[\w.]+)\s+0x([0-9a-f]+)\s+0x([0-9a-f]+)\s+(build/\S+\.o)$", re.MULTILINE
 )
 
 CATEGORIES = [
@@ -57,10 +59,11 @@ CATEGORIES = [
 def linked_objects(map_text):
     """Objects the map places, in link order, with whether they carry code."""
     seen = {}
-    for section, size, obj in MAP_PLACEMENT.findall(map_text):
-        entry = seen.setdefault(obj, {"code": False})
+    for section, address, size, obj in MAP_PLACEMENT.findall(map_text):
+        entry = seen.setdefault(obj, {"code": False, "text_ranges": []})
         if (section == ".text" or section.startswith(".text.")) and int(size, 16) > 0:
             entry["code"] = True
+            entry["text_ranges"].append((int(address, 16), int(size, 16)))
     return seen
 
 
@@ -73,11 +76,10 @@ def overlay_category(name):
 
 
 def main_category(relative):
-    """Which half of the main executable an object belongs to.
+    """Fallback for explicitly organized SDK units without signature evidence.
 
-    Sony's libraries live under psyq/ and everything this project wrote lives
-    elsewhere. Both are reported; the category only decides which subtotal
-    the unit lands in.
+    module_units first classifies linked text addresses using SDK provenance.
+    Directory names alone cannot identify all remaining library code.
     """
     return "main-psyq" if "/psyq/" in relative else "main-game"
 
@@ -145,6 +147,7 @@ def module_units(name, config_path, skip):
     complete = True if module_verified(config) else None
     units = []
     skipped = []
+    sdk_evidence = psyq_provenance.load() if name == "main" else []
     for obj, info in linked_objects(map_path.read_text()).items():
         if not obj.startswith(build_prefix):
             continue
@@ -168,7 +171,12 @@ def module_units(name, config_path, skip):
                          None)
             entry["base_path"] = "%s%s" % (build_prefix, relative)
             entry["metadata"]["source_kind"] = "data"
-        if entry["name"] in skip:
+        if name == "main" and info["code"]:
+            sdk_name = psyq_provenance.identity(info["text_ranges"], site, sdk_evidence)
+            if sdk_name:
+                entry["name"] = sdk_name
+                entry["metadata"]["progress_categories"] = ["main-psyq"]
+        if entry["name"] in skip or site in skip:
             skipped.append(entry["name"])
             continue
         units.append(entry)

@@ -2,7 +2,7 @@
 /* CC1_FLAGS: -mno-split-addresses */
 extern int D_8009B598[];
 extern void CdRom_ProcessEventByte(int);
-extern void Render_DrawParticleSprite(int, void *);
+extern void LIBDS_DSSYS_1_text_8B8(int, void *);
 extern void Render_DrawParticleAlt(int, void *);
 #include "pe1/psyq_cd.h"
 
@@ -19,7 +19,7 @@ void Render_DrawParticleGroup(int inputEvent, void *inputResult) {
     if (((unsigned char *)state)[-44] & 0x10) event = 5;
     switch (state[-10]) {
     case 0x1F:
-        Render_DrawParticleSprite((unsigned char)event, result);
+        LIBDS_DSSYS_1_text_8B8((unsigned char)event, result);
         break;
     case 0x20:
         Render_DrawParticleAlt((unsigned char)event, result);

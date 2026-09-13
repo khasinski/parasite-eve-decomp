@@ -1,0 +1,5302 @@
+{
+  "schema_version": 1,
+  "retail_sha1": "452fb033f2eaa4b18aa20a5bca60b8125af3a37b",
+  "evidence": [
+    {
+      "address": "0x80036DC8",
+      "size": 48,
+      "library": "LIBSND",
+      "object": "SSINIT_C",
+      "sdk_version": "420",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SsInit",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 39,
+      "signature_sha256": "c433ad090000ed0c796d99c387a0d1d9d87b9c7e2ce185ce6c82d058ea9c5f3d",
+      "retail_sha256": "0b214255df3d263b8d27e59cad2dc794f697830883e9bb769210f8a05b464802"
+    },
+    {
+      "address": "0x80036DC8",
+      "size": 48,
+      "library": "LIBSND",
+      "object": "SSINIT_H",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SsInitHot",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 39,
+      "signature_sha256": "cdb371e812b7240fdbc889ba37c89bbc97e15eccd4d8c504e4ae17d92bd3ebf8",
+      "retail_sha256": "0b214255df3d263b8d27e59cad2dc794f697830883e9bb769210f8a05b464802"
+    },
+    {
+      "address": "0x80071A84",
+      "size": 2192,
+      "library": "LIBC",
+      "object": "SPRINTF",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "sprintf",
+          "offset": 0
+        },
+        {
+          "name": "text_94",
+          "offset": 148
+        },
+        {
+          "name": "text_1C0",
+          "offset": 448
+        },
+        {
+          "name": "text_25C",
+          "offset": 604
+        },
+        {
+          "name": "text_2A0",
+          "offset": 672
+        },
+        {
+          "name": "text_2C4",
+          "offset": 708
+        },
+        {
+          "name": "text_2D0",
+          "offset": 720
+        },
+        {
+          "name": "text_2DC",
+          "offset": 732
+        },
+        {
+          "name": "text_2E8",
+          "offset": 744
+        },
+        {
+          "name": "text_308",
+          "offset": 776
+        },
+        {
+          "name": "text_360",
+          "offset": 864
+        },
+        {
+          "name": "text_394",
+          "offset": 916
+        },
+        {
+          "name": "text_480",
+          "offset": 1152
+        },
+        {
+          "name": "text_580",
+          "offset": 1408
+        },
+        {
+          "name": "text_594",
+          "offset": 1428
+        },
+        {
+          "name": "text_5A0",
+          "offset": 1440
+        },
+        {
+          "name": "text_5A8",
+          "offset": 1448
+        },
+        {
+          "name": "text_6A8",
+          "offset": 1704
+        },
+        {
+          "name": "text_6C8",
+          "offset": 1736
+        },
+        {
+          "name": "text_754",
+          "offset": 1876
+        },
+        {
+          "name": "text_788",
+          "offset": 1928
+        },
+        {
+          "name": "text_7A0",
+          "offset": 1952
+        },
+        {
+          "name": "text_82C",
+          "offset": 2092
+        }
+      ],
+      "known_bytes": 2098,
+      "signature_sha256": "715e0a577e0c26ff96432e72d449971920ff3586b96628d3872ed74262c03a38",
+      "retail_sha256": "3f21dbc67784752f7ff40a3661fa4c650b3efa4c427f4be5c35d2889ff6ec866"
+    },
+    {
+      "address": "0x80072334",
+      "size": 112,
+      "library": "LIBC",
+      "object": "MEMMOVE",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "memmove",
+          "offset": 0
+        },
+        {
+          "name": "text_64",
+          "offset": 100
+        }
+      ],
+      "known_bytes": 109,
+      "signature_sha256": "715e0a577e0c26ff96432e72d449971920ff3586b96628d3872ed74262c03a38",
+      "retail_sha256": "1489c965f93db491ab07bbdf083eedc21fd95e54f9015ba6fde799bc8fbaf497"
+    },
+    {
+      "address": "0x80072334",
+      "size": 112,
+      "library": "LIBC2",
+      "object": "MEMMOVE",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "memmove",
+          "offset": 0
+        },
+        {
+          "name": "text_64",
+          "offset": 100
+        }
+      ],
+      "known_bytes": 109,
+      "signature_sha256": "29a5de76acb30fca0f433f4118abf61388ac9c77efe67d5dd6f49ab9dfffc0f1",
+      "retail_sha256": "1489c965f93db491ab07bbdf083eedc21fd95e54f9015ba6fde799bc8fbaf497"
+    },
+    {
+      "address": "0x800723A4",
+      "size": 400,
+      "library": "LIBC",
+      "object": "QSORT",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "qsort",
+          "offset": 0
+        },
+        {
+          "name": "text_124",
+          "offset": 292
+        },
+        {
+          "name": "text_150",
+          "offset": 336
+        }
+      ],
+      "known_bytes": 379,
+      "signature_sha256": "715e0a577e0c26ff96432e72d449971920ff3586b96628d3872ed74262c03a38",
+      "retail_sha256": "3f7c71c66faf71b1b61a729a8a4f14e6c259d58ca5b2d87a033f586c3106c1b2"
+    },
+    {
+      "address": "0x800723A4",
+      "size": 400,
+      "library": "LIBC2",
+      "object": "QSORT",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "qsort",
+          "offset": 0
+        },
+        {
+          "name": "text_124",
+          "offset": 292
+        },
+        {
+          "name": "text_150",
+          "offset": 336
+        }
+      ],
+      "known_bytes": 379,
+      "signature_sha256": "29a5de76acb30fca0f433f4118abf61388ac9c77efe67d5dd6f49ab9dfffc0f1",
+      "retail_sha256": "3f7c71c66faf71b1b61a729a8a4f14e6c259d58ca5b2d87a033f586c3106c1b2"
+    },
+    {
+      "address": "0x80072534",
+      "size": 384,
+      "library": "LIBSN",
+      "object": "SNMAIN",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "__SN_ENTRY_POINT",
+          "offset": 0
+        },
+        {
+          "name": "__main",
+          "offset": 168
+        },
+        {
+          "name": "__do_global_dtors",
+          "offset": 280
+        }
+      ],
+      "known_bytes": 310,
+      "signature_sha256": "8e525abd0520705d059e8af7abeeeeb144d905203be89707834465c9a2054e5c",
+      "retail_sha256": "9e0448c5958cf1a5824abd4ac2905751e82bf59b991f5acef53d2efd4a3c9f58"
+    },
+    {
+      "address": "0x800727B4",
+      "size": 672,
+      "library": "LIBAPI",
+      "object": "FIRST",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "firstfile",
+          "offset": 0
+        },
+        {
+          "name": "text_D0",
+          "offset": 208
+        },
+        {
+          "name": "text_174",
+          "offset": 372
+        },
+        {
+          "name": "text_180",
+          "offset": 384
+        },
+        {
+          "name": "text_19C",
+          "offset": 412
+        },
+        {
+          "name": "text_25C",
+          "offset": 604
+        }
+      ],
+      "known_bytes": 616,
+      "signature_sha256": "97df7d60fe59efcb305bfbbf6aeb1e899696a939e0cc83dec3f90c56fa64d9f9",
+      "retail_sha256": "a8da6672e3b65f43832be8c80df56e48d296e1ae75816a77d6c4453a6cda152f"
+    },
+    {
+      "address": "0x80072A74",
+      "size": 896,
+      "library": "LIBMATH",
+      "object": "ADDDF3",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "__adddf3",
+          "offset": 0
+        },
+        {
+          "name": "text_188",
+          "offset": 392
+        },
+        {
+          "name": "text_340",
+          "offset": 832
+        },
+        {
+          "name": "text_348",
+          "offset": 840
+        }
+      ],
+      "known_bytes": 842,
+      "signature_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+      "retail_sha256": "2e50a096dbee419c1106527892a4aae8eb4a4cab3f1196141174511393b52a01"
+    },
+    {
+      "address": "0x80072DF4",
+      "size": 176,
+      "library": "LIBMATH",
+      "object": "ADDMANT",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_add_mant_d",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 176,
+      "signature_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+      "retail_sha256": "f59a369dc9012a72d80eea2347818a7dfb351c3c653c3868836820cd678e836a"
+    },
+    {
+      "address": "0x80072EA4",
+      "size": 192,
+      "library": "LIBMATH",
+      "object": "DBSHIFT",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_dbl_shift",
+          "offset": 0
+        },
+        {
+          "name": "text_20",
+          "offset": 32
+        }
+      ],
+      "known_bytes": 189,
+      "signature_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+      "retail_sha256": "d39a61eb13b367eb124590b952a8d71e2ca38a0741f73782225b462cfd47f463"
+    },
+    {
+      "address": "0x80072F64",
+      "size": 816,
+      "library": "LIBMATH",
+      "object": "DIVDF3",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "__divdf3",
+          "offset": 0
+        },
+        {
+          "name": "text_24C",
+          "offset": 588
+        },
+        {
+          "name": "text_2B4",
+          "offset": 692
+        },
+        {
+          "name": "_comp_mant",
+          "offset": 736
+        },
+        {
+          "name": "text_328",
+          "offset": 808
+        }
+      ],
+      "known_bytes": 768,
+      "signature_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+      "retail_sha256": "3b46f2ee4ed2d17e27f2c2e19afe53b7fa403a7333b3e9b633dd2551bfccd101"
+    },
+    {
+      "address": "0x80073294",
+      "size": 192,
+      "library": "LIBMATH",
+      "object": "DBSHIFTU",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_dbl_shift_us",
+          "offset": 0
+        },
+        {
+          "name": "text_20",
+          "offset": 32
+        }
+      ],
+      "known_bytes": 189,
+      "signature_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+      "retail_sha256": "afa0d7f439d8fdf51de0f42c8b1c7a25bd0c751735abf5a2f2d724162c2c3738"
+    },
+    {
+      "address": "0x80073354",
+      "size": 256,
+      "library": "LIBMATH",
+      "object": "FIXDFSI",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "__fixdfsi",
+          "offset": 0
+        },
+        {
+          "name": "text_D4",
+          "offset": 212
+        },
+        {
+          "name": "text_E0",
+          "offset": 224
+        }
+      ],
+      "known_bytes": 238,
+      "signature_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+      "retail_sha256": "adc13aa1af1805460929b566de4fe285bb7c3e8939ea878e983b7644a543a414"
+    },
+    {
+      "address": "0x80073454",
+      "size": 256,
+      "library": "LIBMATH",
+      "object": "FLTSIDF",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "__floatsidf",
+          "offset": 0
+        },
+        {
+          "name": "text_DC",
+          "offset": 220
+        }
+      ],
+      "known_bytes": 250,
+      "signature_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+      "retail_sha256": "e573de21ab0c5cc4ee09974e395737ca6cf3330c3cecc77d21b259f6365b46ba"
+    },
+    {
+      "address": "0x80073554",
+      "size": 112,
+      "library": "LIBMATH",
+      "object": "MAINASU",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_mainasu",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 109,
+      "signature_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+      "retail_sha256": "04abb854efa3184ef143aaf1dda65d94a7e823f496904800a3c829051d7eeb40"
+    },
+    {
+      "address": "0x800735C4",
+      "size": 1024,
+      "library": "LIBMATH",
+      "object": "MULDF3",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "__muldf3",
+          "offset": 0
+        },
+        {
+          "name": "text_278",
+          "offset": 632
+        },
+        {
+          "name": "text_2DC",
+          "offset": 732
+        },
+        {
+          "name": "_mul_mant_d",
+          "offset": 788
+        }
+      ],
+      "known_bytes": 967,
+      "signature_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+      "retail_sha256": "e1aebadc811ba84da2cc8868a33f9df18ff73f5ac4d1d92d2bce95f710aa1c6a"
+    },
+    {
+      "address": "0x800739C4",
+      "size": 112,
+      "library": "LIBMATH",
+      "object": "FERR",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_err_math",
+          "offset": 0
+        },
+        {
+          "name": "text_4C",
+          "offset": 76
+        },
+        {
+          "name": "text_54",
+          "offset": 84
+        }
+      ],
+      "known_bytes": 95,
+      "signature_sha256": "257982c94be770bb52f760d1c3a416198a8652cf09269ed76d67c4c0510bd0f2",
+      "retail_sha256": "1ad1b29b1a13912e5598f10ce5c3766361b370320ef0e436e120ea4304d23b66"
+    },
+    {
+      "address": "0x80073A44",
+      "size": 528,
+      "library": "LIBETC",
+      "object": "VSYNC",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "VSync",
+          "offset": 0
+        },
+        {
+          "name": "text_A4",
+          "offset": 164
+        },
+        {
+          "name": "text_164",
+          "offset": 356
+        },
+        {
+          "name": "text_178",
+          "offset": 376
+        },
+        {
+          "name": "text_200",
+          "offset": 512
+        }
+      ],
+      "known_bytes": 436,
+      "signature_sha256": "5db3f871c53da2419d7c0e9ea08e8594e59ed8dabeb19bb7fdbcd2d338ccb7d2",
+      "retail_sha256": "e356692b0a159f0f9e07da321a2ea515c4789379094ff39d6d77f42858169af4"
+    },
+    {
+      "address": "0x80073C54",
+      "size": 32,
+      "library": "LIBC",
+      "object": "A63",
+      "sdk_version": "420",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "puts",
+          "offset": 8
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "49943c992b861d9237342944ca9d30e9c7ca1dd01a647adf6342e48c5e957be0",
+      "retail_sha256": "a122eae96c02e753628e13112c46ef37f57b1442ec54e6d84aa424aaf6ce80d3"
+    },
+    {
+      "address": "0x80073C94",
+      "size": 1728,
+      "library": "LIBETC",
+      "object": "INTR",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "ResetCallback",
+          "offset": 0
+        },
+        {
+          "name": "InterruptCallback",
+          "offset": 48
+        },
+        {
+          "name": "DMACallback",
+          "offset": 96
+        },
+        {
+          "name": "VSyncCallback",
+          "offset": 144
+        },
+        {
+          "name": "VSyncCallbacks",
+          "offset": 196
+        },
+        {
+          "name": "StopCallback",
+          "offset": 244
+        },
+        {
+          "name": "RestartCallback",
+          "offset": 292
+        },
+        {
+          "name": "CheckCallback",
+          "offset": 340
+        },
+        {
+          "name": "GetIntrMask",
+          "offset": 356
+        },
+        {
+          "name": "SetIntrMask",
+          "offset": 380
+        },
+        {
+          "name": "text_194",
+          "offset": 404
+        },
+        {
+          "name": "text_26C",
+          "offset": 620
+        },
+        {
+          "name": "text_410",
+          "offset": 1040
+        },
+        {
+          "name": "text_43C",
+          "offset": 1084
+        },
+        {
+          "name": "text_4EC",
+          "offset": 1260
+        },
+        {
+          "name": "text_584",
+          "offset": 1412
+        },
+        {
+          "name": "text_624",
+          "offset": 1572
+        },
+        {
+          "name": "text_68C",
+          "offset": 1676
+        },
+        {
+          "name": "text_69C",
+          "offset": 1692
+        }
+      ],
+      "known_bytes": 1476,
+      "signature_sha256": "5db3f871c53da2419d7c0e9ea08e8594e59ed8dabeb19bb7fdbcd2d338ccb7d2",
+      "retail_sha256": "1c12fe04abf7aede0f1c56d723ea1aa57ea547d7f53cf14612462f87e9e66daa"
+    },
+    {
+      "address": "0x80074364",
+      "size": 32,
+      "library": "LIBAPI",
+      "object": "C114",
+      "sdk_version": "420",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_96_remove",
+          "offset": 8
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "d206216e5f90f73c0d407395c29981e9e7d36a568a94c36c041dbe697743e8fe",
+      "retail_sha256": "9188e8d7225c02a4744dbd65549043d50b80ccf0f0fa485f5db645ba48fc18b9"
+    },
+    {
+      "address": "0x800743B4",
+      "size": 288,
+      "library": "LIBETC",
+      "object": "INTR_VB",
+      "sdk_version": "420",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "startIntrVSync",
+          "offset": 0
+        },
+        {
+          "name": "text_58",
+          "offset": 88
+        },
+        {
+          "name": "text_C4",
+          "offset": 196
+        },
+        {
+          "name": "text_F0",
+          "offset": 240
+        }
+      ],
+      "known_bytes": 246,
+      "signature_sha256": "e3244c93d01955c188c26732d6522cf4e80d7735c12166e364f330ddd238cb60",
+      "retail_sha256": "0eab62994602df9cbf1b841b3eee2004edc5009dc6f99cef48170ec33b82c771"
+    },
+    {
+      "address": "0x800744D4",
+      "size": 672,
+      "library": "LIBETC",
+      "object": "INTR_DMA",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "startIntrDMA",
+          "offset": 0
+        },
+        {
+          "name": "text_4C",
+          "offset": 76
+        },
+        {
+          "name": "text_1CC",
+          "offset": 460
+        },
+        {
+          "name": "text_270",
+          "offset": 624
+        },
+        {
+          "name": "text_278",
+          "offset": 632
+        }
+      ],
+      "known_bytes": 597,
+      "signature_sha256": "5db3f871c53da2419d7c0e9ea08e8594e59ed8dabeb19bb7fdbcd2d338ccb7d2",
+      "retail_sha256": "f3c43671142ee31830b45b2e86e549697dbe2027b4c150587157037e00496c53"
+    },
+    {
+      "address": "0x80074774",
+      "size": 672,
+      "library": "LIBGPU",
+      "object": "EXT",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "LoadTPage",
+          "offset": 0
+        },
+        {
+          "name": "text_A8",
+          "offset": 168
+        },
+        {
+          "name": "text_AC",
+          "offset": 172
+        },
+        {
+          "name": "LoadClut",
+          "offset": 232
+        },
+        {
+          "name": "LoadClut2",
+          "offset": 332
+        },
+        {
+          "name": "SetDefDrawEnv",
+          "offset": 432
+        },
+        {
+          "name": "text_228",
+          "offset": 552
+        },
+        {
+          "name": "SetDefDispEnv",
+          "offset": 612
+        }
+      ],
+      "known_bytes": 636,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "3a25ec7c5052da04717d07bcd8e6a892675b1e1652248db012e7694c95229a75"
+    },
+    {
+      "address": "0x80074A14",
+      "size": 48,
+      "library": "LIBETC",
+      "object": "VMODE",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetVideoMode",
+          "offset": 0
+        },
+        {
+          "name": "GetVideoMode",
+          "offset": 20
+        }
+      ],
+      "known_bytes": 36,
+      "signature_sha256": "5db3f871c53da2419d7c0e9ea08e8594e59ed8dabeb19bb7fdbcd2d338ccb7d2",
+      "retail_sha256": "edd765a941520f68b005f957898cc1536ca90f05720c691516a5cdb8ffba12a8"
+    },
+    {
+      "address": "0x80074A44",
+      "size": 12304,
+      "library": "LIBGPU",
+      "object": "SYS",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "ResetGraph",
+          "offset": 0
+        },
+        {
+          "name": "text_110",
+          "offset": 272
+        },
+        {
+          "name": "text_160",
+          "offset": 352
+        },
+        {
+          "name": "SetGraphDebug",
+          "offset": 372
+        },
+        {
+          "name": "SetGraphQueue",
+          "offset": 464
+        },
+        {
+          "name": "GetGraphDebug",
+          "offset": 628
+        },
+        {
+          "name": "DrawSyncCallback",
+          "offset": 644
+        },
+        {
+          "name": "SetDispMask",
+          "offset": 740
+        },
+        {
+          "name": "DrawSync",
+          "offset": 892
+        },
+        {
+          "name": "text_3E4",
+          "offset": 996
+        },
+        {
+          "name": "text_4B4",
+          "offset": 1204
+        },
+        {
+          "name": "text_4F0",
+          "offset": 1264
+        },
+        {
+          "name": "ClearImage",
+          "offset": 1280
+        },
+        {
+          "name": "ClearImage2",
+          "offset": 1424
+        },
+        {
+          "name": "LoadImage",
+          "offset": 1576
+        },
+        {
+          "name": "StoreImage",
+          "offset": 1672
+        },
+        {
+          "name": "MoveImage",
+          "offset": 1768
+        },
+        {
+          "name": "text_788",
+          "offset": 1928
+        },
+        {
+          "name": "ClearOTag",
+          "offset": 1952
+        },
+        {
+          "name": "ClearOTagR",
+          "offset": 2152
+        },
+        {
+          "name": "DrawPrim",
+          "offset": 2324
+        },
+        {
+          "name": "DrawOTag",
+          "offset": 2416
+        },
+        {
+          "name": "PutDrawEnv",
+          "offset": 2528
+        },
+        {
+          "name": "DrawOTagEnv",
+          "offset": 2720
+        },
+        {
+          "name": "GetDrawEnv",
+          "offset": 2936
+        },
+        {
+          "name": "PutDispEnv",
+          "offset": 2988
+        },
+        {
+          "name": "text_D4C",
+          "offset": 3404
+        },
+        {
+          "name": "text_F64",
+          "offset": 3940
+        },
+        {
+          "name": "text_FF4",
+          "offset": 4084
+        },
+        {
+          "name": "text_100C",
+          "offset": 4108
+        },
+        {
+          "name": "GetDispEnv",
+          "offset": 4260
+        },
+        {
+          "name": "GetODE",
+          "offset": 4312
+        },
+        {
+          "name": "SetTexWindow",
+          "offset": 4360
+        },
+        {
+          "name": "SetDrawArea",
+          "offset": 4416
+        },
+        {
+          "name": "SetDrawOffset",
+          "offset": 4544
+        },
+        {
+          "name": "SetPriority",
+          "offset": 4608
+        },
+        {
+          "name": "SetDrawStp",
+          "offset": 4648
+        },
+        {
+          "name": "text_1244",
+          "offset": 4676
+        },
+        {
+          "name": "SetDrawMode",
+          "offset": 4688
+        },
+        {
+          "name": "SetDrawEnv",
+          "offset": 4772
+        },
+        {
+          "name": "text_1400",
+          "offset": 5120
+        },
+        {
+          "name": "text_149C",
+          "offset": 5276
+        },
+        {
+          "name": "text_15F8",
+          "offset": 5624
+        },
+        {
+          "name": "text_16F0",
+          "offset": 5872
+        },
+        {
+          "name": "text_170C",
+          "offset": 5900
+        },
+        {
+          "name": "text_172C",
+          "offset": 5932
+        },
+        {
+          "name": "text_17A8",
+          "offset": 6056
+        },
+        {
+          "name": "text_17C4",
+          "offset": 6084
+        },
+        {
+          "name": "text_1840",
+          "offset": 6208
+        },
+        {
+          "name": "text_185C",
+          "offset": 6236
+        },
+        {
+          "name": "text_1878",
+          "offset": 6264
+        },
+        {
+          "name": "text_18F0",
+          "offset": 6384
+        },
+        {
+          "name": "text_18F8",
+          "offset": 6392
+        },
+        {
+          "name": "text_1910",
+          "offset": 6416
+        },
+        {
+          "name": "text_19F0",
+          "offset": 6640
+        },
+        {
+          "name": "text_1A48",
+          "offset": 6728
+        },
+        {
+          "name": "text_1A88",
+          "offset": 6792
+        },
+        {
+          "name": "text_1BF8",
+          "offset": 7160
+        },
+        {
+          "name": "text_1C20",
+          "offset": 7200
+        },
+        {
+          "name": "text_1C88",
+          "offset": 7304
+        },
+        {
+          "name": "text_1CC4",
+          "offset": 7364
+        },
+        {
+          "name": "text_1E38",
+          "offset": 7736
+        },
+        {
+          "name": "text_1E5C",
+          "offset": 7772
+        },
+        {
+          "name": "text_1EBC",
+          "offset": 7868
+        },
+        {
+          "name": "text_1EF8",
+          "offset": 7928
+        },
+        {
+          "name": "text_20BC",
+          "offset": 8380
+        },
+        {
+          "name": "text_20DC",
+          "offset": 8412
+        },
+        {
+          "name": "text_2100",
+          "offset": 8448
+        },
+        {
+          "name": "text_2114",
+          "offset": 8468
+        },
+        {
+          "name": "text_2154",
+          "offset": 8532
+        },
+        {
+          "name": "text_219C",
+          "offset": 8604
+        },
+        {
+          "name": "text_21CC",
+          "offset": 8652
+        },
+        {
+          "name": "text_21F0",
+          "offset": 8688
+        },
+        {
+          "name": "text_223C",
+          "offset": 8764
+        },
+        {
+          "name": "text_233C",
+          "offset": 9020
+        },
+        {
+          "name": "text_23F4",
+          "offset": 9204
+        },
+        {
+          "name": "text_2484",
+          "offset": 9348
+        },
+        {
+          "name": "text_24A0",
+          "offset": 9376
+        },
+        {
+          "name": "text_2700",
+          "offset": 9984
+        },
+        {
+          "name": "text_281C",
+          "offset": 10268
+        },
+        {
+          "name": "text_2850",
+          "offset": 10320
+        },
+        {
+          "name": "text_2870",
+          "offset": 10352
+        },
+        {
+          "name": "text_2888",
+          "offset": 10376
+        },
+        {
+          "name": "text_297C",
+          "offset": 10620
+        },
+        {
+          "name": "text_298C",
+          "offset": 10636
+        },
+        {
+          "name": "text_29C0",
+          "offset": 10688
+        },
+        {
+          "name": "text_2AF4",
+          "offset": 10996
+        },
+        {
+          "name": "text_2B04",
+          "offset": 11012
+        },
+        {
+          "name": "text_2B9C",
+          "offset": 11164
+        },
+        {
+          "name": "LoadImage2",
+          "offset": 11172
+        },
+        {
+          "name": "text_2C20",
+          "offset": 11296
+        },
+        {
+          "name": "StoreImage2",
+          "offset": 11408
+        },
+        {
+          "name": "text_2D0C",
+          "offset": 11532
+        },
+        {
+          "name": "MoveImage2",
+          "offset": 11644
+        },
+        {
+          "name": "text_2E00",
+          "offset": 11776
+        },
+        {
+          "name": "text_2EA8",
+          "offset": 11944
+        },
+        {
+          "name": "DrawOTag2",
+          "offset": 11968
+        },
+        {
+          "name": "text_2F50",
+          "offset": 12112
+        },
+        {
+          "name": "text_2FBC",
+          "offset": 12220
+        },
+        {
+          "name": "text_2FE4",
+          "offset": 12260
+        }
+      ],
+      "known_bytes": 10670,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "1e1f6835996506bc24848955859f2d4bdc2d1692b587b27f157d480e861c580d"
+    },
+    {
+      "address": "0x80077A64",
+      "size": 64,
+      "library": "LIBGPU",
+      "object": "P00",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "GetTPage",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 64,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "cedb02810b550389d1f46b7fbe3450e618f4512be2faacbf75dda5357506aa6f"
+    },
+    {
+      "address": "0x80077AA4",
+      "size": 32,
+      "library": "LIBGPU",
+      "object": "P01",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "GetClut",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "7158fec7f274391ed03daa7da08daff7e63217cf2b52a1244346e194d7ce5957"
+    },
+    {
+      "address": "0x80077AC4",
+      "size": 64,
+      "library": "LIBGPU",
+      "object": "P06",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "AddPrim",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 64,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "b50e8398dbadd05dcfc65f92b54c55231af4514ca072f6da2aa7d64f3c57f80d"
+    },
+    {
+      "address": "0x80077B04",
+      "size": 48,
+      "library": "LIBGPU",
+      "object": "P10",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetSemiTrans",
+          "offset": 0
+        },
+        {
+          "name": "text_20",
+          "offset": 32
+        }
+      ],
+      "known_bytes": 45,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "90a902877338c016d0c5d39f7ca93b8e5e7683d63d1bc541796068e54d6f7608"
+    },
+    {
+      "address": "0x80077B34",
+      "size": 48,
+      "library": "LIBGPU",
+      "object": "P11",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetShadeTex",
+          "offset": 0
+        },
+        {
+          "name": "text_20",
+          "offset": 32
+        }
+      ],
+      "known_bytes": 45,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "7283303c091c5a014239e6ba0062e0b517d578db35840913c490c5246f1fd4d3"
+    },
+    {
+      "address": "0x80077B64",
+      "size": 32,
+      "library": "LIBGPU",
+      "object": "P12",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetPolyF3",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "1cd99d4350dee7c65d8e20a2c387e57332000a3b22a9beee853e6bf37e09de77"
+    },
+    {
+      "address": "0x80077B84",
+      "size": 32,
+      "library": "LIBGPU",
+      "object": "P14",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetPolyG3",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "e0fd624c540cae1495bb2dd0932d5e6a7959b6ed9eb539d793f59745d5ba232a"
+    },
+    {
+      "address": "0x80077BA4",
+      "size": 32,
+      "library": "LIBGPU",
+      "object": "P17",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetPolyFT4",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "c5241d9944ab109074ec22ee89217cf81cd63d464ea2ce5ec75815d5867ac1ce"
+    },
+    {
+      "address": "0x80077BC4",
+      "size": 32,
+      "library": "LIBGPU",
+      "object": "P18",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetPolyG4",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "0a85bf14fda03422a127945195876a4f68c9176e359d3c82188fddf5e11463aa"
+    },
+    {
+      "address": "0x80077BE4",
+      "size": 32,
+      "library": "LIBGPU",
+      "object": "P19",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetPolyGT4",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "6d9def0867fd4044a303b515691f6accc48545a2b52f386c8e04ceb73bc614e4"
+    },
+    {
+      "address": "0x80077C04",
+      "size": 32,
+      "library": "LIBGPU",
+      "object": "P22",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetSprt",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "1134be0a8722a9c97d1b443e6e2c66e1cd8785c6bd86eabd0be276480478010c"
+    },
+    {
+      "address": "0x80077C24",
+      "size": 32,
+      "library": "LIBGPU",
+      "object": "P23",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetTile1",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "0f9b6b094ea4815f2a617b55f4a886b5c40098629de2cc57be58413a79dad873"
+    },
+    {
+      "address": "0x80077C44",
+      "size": 32,
+      "library": "LIBGPU",
+      "object": "P26",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetTile",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "43162cf19d3210572cd8fcea308c74aa92b6017b776b4f9b0ae336b8f7d3c5ad"
+    },
+    {
+      "address": "0x80077C64",
+      "size": 32,
+      "library": "LIBGPU",
+      "object": "P27",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetLineF2",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "8bd8f3ce3fb00b284ba820318cea9c37f5de4552828e4ef96f9ccbc7dd2dd02f"
+    },
+    {
+      "address": "0x80077C84",
+      "size": 48,
+      "library": "LIBGPU",
+      "object": "P33",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetDrawTPage",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 48,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "8f2afb037973385634daf3f66d0bfba3b30aac6924abac21b2f95f996ac9af1d"
+    },
+    {
+      "address": "0x80077CB4",
+      "size": 64,
+      "library": "LIBGPU",
+      "object": "P36",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "MargePrim",
+          "offset": 0
+        },
+        {
+          "name": "text_30",
+          "offset": 48
+        }
+      ],
+      "known_bytes": 61,
+      "signature_sha256": "8ac8c0719fe87dfee8465a1af8138f1bc3c4548401e33603b15bd6a6ee4ca252",
+      "retail_sha256": "90311fcaf9786b7b6122b96dfdc651cf9c3c5aa1f9aa622dd0e5487efb73059c"
+    },
+    {
+      "address": "0x80077CF4",
+      "size": 208,
+      "library": "LIBGTE",
+      "object": "GEO_00",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "rsin",
+          "offset": 0
+        },
+        {
+          "name": "text_2C",
+          "offset": 44
+        },
+        {
+          "name": "sin_1",
+          "offset": 60
+        },
+        {
+          "name": "text_C4",
+          "offset": 196
+        }
+      ],
+      "known_bytes": 174,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "59b28fc102362fe830acdb445b112afab4c73b974fd20ef28ee926dab37f948a"
+    },
+    {
+      "address": "0x80077DC4",
+      "size": 160,
+      "library": "LIBGTE",
+      "object": "GEO_01",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "rcos",
+          "offset": 0
+        },
+        {
+          "name": "text_98",
+          "offset": 152
+        }
+      ],
+      "known_bytes": 135,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "42a01d993875f0235428e98e55a064a5ece684098ceefe8a4b7152870e7959af"
+    },
+    {
+      "address": "0x80077E64",
+      "size": 272,
+      "library": "LIBGTE",
+      "object": "FOG_02",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetFogNearFar",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 266,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "40db69486b3a424e3397ac56cd7171b85f4ab1a61a58154e034054a57f182c77"
+    },
+    {
+      "address": "0x80077F74",
+      "size": 144,
+      "library": "LIBGTE",
+      "object": "MSC00",
+      "sdk_version": "420",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "InitGeom",
+          "offset": 8
+        }
+      ],
+      "known_bytes": 133,
+      "signature_sha256": "e6c824a659568840b28768645ee4320fb50a08d9441529ccc50ed3a74eb34da7",
+      "retail_sha256": "a83ec9a39e7f47880a37cfbda86a29734cdbe20e5c69dc13768566c66f8e0637"
+    },
+    {
+      "address": "0x80078004",
+      "size": 144,
+      "library": "LIBGTE",
+      "object": "MSC01",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SquareRoot0",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 140,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "72a2b3d1c6b73073ce931e2d0dabcf3865685afe626fd4717e6c7f3164acf913"
+    },
+    {
+      "address": "0x80078094",
+      "size": 688,
+      "library": "LIBGTE",
+      "object": "MSC02",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "InvSquareRoot",
+          "offset": 0
+        },
+        {
+          "name": "VectorNormalS",
+          "offset": 140
+        },
+        {
+          "name": "VectorNormal",
+          "offset": 160
+        },
+        {
+          "name": "VectorNormalSS",
+          "offset": 208
+        },
+        {
+          "name": "text_100",
+          "offset": 256
+        },
+        {
+          "name": "MatrixNormal",
+          "offset": 448
+        }
+      ],
+      "known_bytes": 665,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "e7575b50577d1e23ccbf546ef9ba3eca48a96d6ae9cca66b54e9bba8df001a28"
+    },
+    {
+      "address": "0x80078344",
+      "size": 656,
+      "library": "LIBGTE",
+      "object": "MSC06",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "LoadAverage12",
+          "offset": 0
+        },
+        {
+          "name": "LoadAverage0",
+          "offset": 80
+        },
+        {
+          "name": "LoadAverageShort12",
+          "offset": 160
+        },
+        {
+          "name": "LoadAverageShort0",
+          "offset": 296
+        },
+        {
+          "name": "LoadAverageByte",
+          "offset": 432
+        },
+        {
+          "name": "LoadAverageCol",
+          "offset": 528
+        }
+      ],
+      "known_bytes": 656,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "4c5307974d7cf8bafe6bedbd300f7d51ca2fc4814a61a17e0cab9886f43da840"
+    },
+    {
+      "address": "0x80078344",
+      "size": 80,
+      "library": "LIBGTE",
+      "object": "MSC06_1",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "LoadAverage12",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 80,
+      "signature_sha256": "ea04843704983b92beb5af1495320a58eaf75228c12d99791ec3d17838eb4b15",
+      "retail_sha256": "d1e7c7fa4cbef491462db13059c88f6aa2f2c13d38edc51ac833af2ca5991502"
+    },
+    {
+      "address": "0x80078394",
+      "size": 80,
+      "library": "LIBGTE",
+      "object": "MSC06_2",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "LoadAverage0",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 80,
+      "signature_sha256": "ea04843704983b92beb5af1495320a58eaf75228c12d99791ec3d17838eb4b15",
+      "retail_sha256": "0fc3fd229ea157d3583052e7c86e2b4435abbba963e5eda76cf7426f2f5bf784"
+    },
+    {
+      "address": "0x800784F4",
+      "size": 96,
+      "library": "LIBGTE",
+      "object": "MSC06_5",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "LoadAverageByte",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 96,
+      "signature_sha256": "ea04843704983b92beb5af1495320a58eaf75228c12d99791ec3d17838eb4b15",
+      "retail_sha256": "04c84bee49e9c4c92422a4f0f0d32d9d220a79ecde178bc0ff24b930d1a4e730"
+    },
+    {
+      "address": "0x80078554",
+      "size": 128,
+      "library": "LIBGTE",
+      "object": "MSC06_6",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "LoadAverageCol",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 128,
+      "signature_sha256": "ea04843704983b92beb5af1495320a58eaf75228c12d99791ec3d17838eb4b15",
+      "retail_sha256": "dea9269b529eb5676e85450ff33360a2d34c9bf85172ebc50a2a209ae1c592ee"
+    },
+    {
+      "address": "0x800785D4",
+      "size": 272,
+      "library": "LIBGTE",
+      "object": "MTX_000",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "MulMatrix0",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 272,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "7a49e69bb3a862fd80e3ad3cfb677ca2a9a1700cb4b77c185d22661a19ebbef4"
+    },
+    {
+      "address": "0x800786E4",
+      "size": 240,
+      "library": "LIBGTE",
+      "object": "MTX_001",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "MulRotMatrix",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 240,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "5feab422d94002fbb586c007cc2de09ccca57fa5dfae96755e38c67bda55ad49"
+    },
+    {
+      "address": "0x800787D4",
+      "size": 352,
+      "library": "LIBGTE",
+      "object": "MTX_003",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "CompMatrix",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 352,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "484fff1d2984fac9730786048ad50065c006672118c2d6b4698dfb787d7b155c"
+    },
+    {
+      "address": "0x80078934",
+      "size": 352,
+      "library": "LIBGTE",
+      "object": "MTX_004",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "ApplyMatrixLV",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 352,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "704b7d8ebd6995ceb4134b7c68371678756cff1becec9850d930302d8aeabd02"
+    },
+    {
+      "address": "0x80078A94",
+      "size": 336,
+      "library": "LIBGTE",
+      "object": "MTX_006",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "PushMatrix",
+          "offset": 0
+        },
+        {
+          "name": "PopMatrix",
+          "offset": 164
+        }
+      ],
+      "known_bytes": 282,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "fed77894a13ccbc326e42f93cf76a4ea5be19eaf05ecd3dae0c3c8009f0cba8d"
+    },
+    {
+      "address": "0x80078BE4",
+      "size": 80,
+      "library": "LIBGTE",
+      "object": "MTX_05",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "ApplyMatrix",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 80,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "b096f04a8aded97409fb838a52099375501261af496b816374e6c520a19b30b8"
+    },
+    {
+      "address": "0x80078C34",
+      "size": 96,
+      "library": "LIBGTE",
+      "object": "MTX_06",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "ApplyMatrixSV",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 96,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "5671759d042709c8260fadbcc7477ce4685da5630c71226c7078f5c9269c815e"
+    },
+    {
+      "address": "0x80078C94",
+      "size": 48,
+      "library": "LIBGTE",
+      "object": "MTX_07",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "TransMatrix",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 48,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "76e279d785a33faaa549a9fd86174713d87230858e0b12d2c54132d33274ea1e"
+    },
+    {
+      "address": "0x80078CC4",
+      "size": 320,
+      "library": "LIBGTE",
+      "object": "MTX_08",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "ScaleMatrix",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 320,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "59a23606a2e71d1c64ba746a3f010425eec126c7ad59a57f09d606213c371030"
+    },
+    {
+      "address": "0x80078E04",
+      "size": 48,
+      "library": "LIBGTE",
+      "object": "MTX_09",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetRotMatrix",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 48,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "095799477a23b46afa40d99dc027e7ef467cd14b8e135234d7e5b5c9ebc07883"
+    },
+    {
+      "address": "0x80078E34",
+      "size": 48,
+      "library": "LIBGTE",
+      "object": "MTX_10",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetLightMatrix",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 48,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "b9ce521ecd6cadeda48a0828b73f9b37d260c4f83e4d3b099334608f9e8fe598"
+    },
+    {
+      "address": "0x80078E64",
+      "size": 48,
+      "library": "LIBGTE",
+      "object": "MTX_11",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetColorMatrix",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 48,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "32169d0ce375b3a1a24a5beadfd11cd857ce0a89d610ddf3a1f3855fa6ed34f6"
+    },
+    {
+      "address": "0x80078E94",
+      "size": 32,
+      "library": "LIBGTE",
+      "object": "MTX_12",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetTransMatrix",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "2f228789930df0a6d6db76e145ba3301694d7c01b9df2dbf45d2f48ad7aaee1e"
+    },
+    {
+      "address": "0x80078EB4",
+      "size": 272,
+      "library": "LIBGTE",
+      "object": "REG03",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetVertex0",
+          "offset": 0
+        },
+        {
+          "name": "SetVertex1",
+          "offset": 16
+        },
+        {
+          "name": "SetVertex2",
+          "offset": 32
+        },
+        {
+          "name": "SetVertexTri",
+          "offset": 48
+        },
+        {
+          "name": "SetRGBfifo",
+          "offset": 80
+        },
+        {
+          "name": "SetIR123",
+          "offset": 100
+        },
+        {
+          "name": "SetIR0",
+          "offset": 120
+        },
+        {
+          "name": "SetSZfifo3",
+          "offset": 132
+        },
+        {
+          "name": "SetSZfifo4",
+          "offset": 152
+        },
+        {
+          "name": "SetSXSYfifo",
+          "offset": 176
+        },
+        {
+          "name": "SetRii",
+          "offset": 196
+        },
+        {
+          "name": "SetMAC123",
+          "offset": 216
+        },
+        {
+          "name": "SetData32",
+          "offset": 236
+        },
+        {
+          "name": "SetDQA",
+          "offset": 248
+        },
+        {
+          "name": "SetDQB",
+          "offset": 260
+        }
+      ],
+      "known_bytes": 272,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "4674d70cb0c260791a8e0b05545da89c4e70f6349656f3be64fa056da9b2a1c3"
+    },
+    {
+      "address": "0x80078EE4",
+      "size": 32,
+      "library": "LIBGTE",
+      "object": "REG03_4",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetVertexTri",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "ea04843704983b92beb5af1495320a58eaf75228c12d99791ec3d17838eb4b15",
+      "retail_sha256": "3eccebd144d7b6f0d0646a1f467529f2fc7e48c9710d690f881bd866ac476944"
+    },
+    {
+      "address": "0x80078FC4",
+      "size": 32,
+      "library": "LIBGTE",
+      "object": "REG10",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetBackColor",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "e4dc8b65f4b8d01e34793cfd9e1ecc838abd27d016ca1c2a4291a20b613ab61e"
+    },
+    {
+      "address": "0x80078FE4",
+      "size": 32,
+      "library": "LIBGTE",
+      "object": "REG11",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetFarColor",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "7c5febbc8fceb4e4b3065c8276416832651867316006f05c53e0a20b893d522d"
+    },
+    {
+      "address": "0x80079004",
+      "size": 32,
+      "library": "LIBGTE",
+      "object": "REG12",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetGeomOffset",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "9dea63b6a2984fc5f10a791e9a62d26dc22f571773be574799f9a1e77432dfa2"
+    },
+    {
+      "address": "0x80079034",
+      "size": 528,
+      "library": "LIBGTE",
+      "object": "SMP_00",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "LightColor",
+          "offset": 0
+        },
+        {
+          "name": "DpqColorLight",
+          "offset": 40
+        },
+        {
+          "name": "DpqColor3",
+          "offset": 80
+        },
+        {
+          "name": "Intpl",
+          "offset": 140
+        },
+        {
+          "name": "Square12",
+          "offset": 176
+        },
+        {
+          "name": "Square0",
+          "offset": 216
+        },
+        {
+          "name": "AverageZ3",
+          "offset": 256
+        },
+        {
+          "name": "AverageZ4",
+          "offset": 288
+        },
+        {
+          "name": "OuterProduct12",
+          "offset": 324
+        },
+        {
+          "name": "OuterProduct0",
+          "offset": 412
+        },
+        {
+          "name": "Lzc",
+          "offset": 500
+        }
+      ],
+      "known_bytes": 528,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "b27c0ee13776270526f0d5ccd67c89859228b831e7c0b35dd9aea3a20c82e2ab"
+    },
+    {
+      "address": "0x80079134",
+      "size": 32,
+      "library": "LIBGTE",
+      "object": "SMP_00_7",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "AverageZ3",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 32,
+      "signature_sha256": "ea04843704983b92beb5af1495320a58eaf75228c12d99791ec3d17838eb4b15",
+      "retail_sha256": "72234e789d3afcc248b054abf035921eb4c095bb91a156c0df29e023db02b263"
+    },
+    {
+      "address": "0x80079244",
+      "size": 48,
+      "library": "LIBGTE",
+      "object": "SMP_02",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "RotTransPers",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 48,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "a7543a7fc880359e87aa85722d3155a9ec4ba246a771a939b181225039e14c49"
+    },
+    {
+      "address": "0x80079274",
+      "size": 96,
+      "library": "LIBGTE",
+      "object": "SMP_03",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "RotTransPers3",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 96,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "4e23a8636fe942858b29ef91c90e22f335fe3f778c4d9c01109abd3f69a989d2"
+    },
+    {
+      "address": "0x800792D4",
+      "size": 48,
+      "library": "LIBGTE",
+      "object": "SMP_04",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "RotTrans",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 48,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "070b39be84985197f580f9e06e2ba32990bcf3ddd3ba0d5f958aec5bb0b66145"
+    },
+    {
+      "address": "0x80079304",
+      "size": 128,
+      "library": "LIBGTE",
+      "object": "CMB_00",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "RotTransPers4",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 128,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "1f11e4a24b15b89878f31d5d558c0b8131cb7bbeb9c81a43b1c8d9c9f54f5dd3"
+    },
+    {
+      "address": "0x80079384",
+      "size": 144,
+      "library": "LIBGTE",
+      "object": "CMB_06",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "RotAverageNclip3",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 144,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "9ef9708ea083f53e0bb2c6806f29f722f878aa67c806c3e153fa76c994bee47a"
+    },
+    {
+      "address": "0x80079414",
+      "size": 176,
+      "library": "LIBGTE",
+      "object": "CMB_07",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "RotAverageNclip4",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 176,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "d062f19aeae238f13bd03addd2372276ecdc41d6ca43448db3f5a9c34732756a"
+    },
+    {
+      "address": "0x800794C4",
+      "size": 656,
+      "library": "LIBGTE",
+      "object": "FGO_01",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "RotMatrix",
+          "offset": 0
+        },
+        {
+          "name": "text_64",
+          "offset": 100
+        },
+        {
+          "name": "text_CC",
+          "offset": 204
+        },
+        {
+          "name": "text_160",
+          "offset": 352
+        }
+      ],
+      "known_bytes": 623,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "8498faab21f88636435555c34029cdc3c2b01cf7b9f51952d75bc8afcc31fe42"
+    },
+    {
+      "address": "0x80079754",
+      "size": 656,
+      "library": "LIBGTE",
+      "object": "FGO_02",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "RotMatrixYXZ",
+          "offset": 0
+        },
+        {
+          "name": "text_68",
+          "offset": 104
+        },
+        {
+          "name": "text_CC",
+          "offset": 204
+        },
+        {
+          "name": "text_160",
+          "offset": 352
+        }
+      ],
+      "known_bytes": 623,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "f4027f19c4f5fdb3d7b5ec839112eb8c832b7f450dd2e757a450f5d4785b5741"
+    },
+    {
+      "address": "0x800799E4",
+      "size": 656,
+      "library": "LIBGTE",
+      "object": "FGO_03",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "RotMatrixZYX",
+          "offset": 0
+        },
+        {
+          "name": "text_64",
+          "offset": 100
+        },
+        {
+          "name": "text_CC",
+          "offset": 204
+        },
+        {
+          "name": "text_160",
+          "offset": 352
+        }
+      ],
+      "known_bytes": 623,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "a15ed0ab894f9f6712c343fd193fba83dd1671e698349463e83c10bdb1123242"
+    },
+    {
+      "address": "0x80079C74",
+      "size": 416,
+      "library": "LIBGTE",
+      "object": "FGO_05",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "RotMatrixY",
+          "offset": 0
+        },
+        {
+          "name": "text_64",
+          "offset": 100
+        }
+      ],
+      "known_bytes": 405,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "5bca86831a307807a7f0577c1e138d06555fee2230ac96cf98602136c6873d04"
+    },
+    {
+      "address": "0x80079E14",
+      "size": 416,
+      "library": "LIBGTE",
+      "object": "FGO_06",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "RotMatrixZ",
+          "offset": 0
+        },
+        {
+          "name": "text_64",
+          "offset": 100
+        }
+      ],
+      "known_bytes": 405,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "aef870d5327cb21db00298fe58db8419e5bc599bd1264cf218d5b9bc5df88618"
+    },
+    {
+      "address": "0x80079FB4",
+      "size": 384,
+      "library": "LIBGTE",
+      "object": "RATAN",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "ratan2",
+          "offset": 0
+        },
+        {
+          "name": "text_B4",
+          "offset": 180
+        },
+        {
+          "name": "text_13C",
+          "offset": 316
+        },
+        {
+          "name": "text_150",
+          "offset": 336
+        }
+      ],
+      "known_bytes": 367,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "fcdea2718cced5285a6987ff5cc0327678066682ff19bac19601cfcd6a06e5a2"
+    },
+    {
+      "address": "0x8007A134",
+      "size": 224,
+      "library": "LIBGTE",
+      "object": "PATCHGTE",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_patch_gte",
+          "offset": 0
+        },
+        {
+          "name": "text_AC",
+          "offset": 172
+        },
+        {
+          "name": "text_C4",
+          "offset": 196
+        },
+        {
+          "name": "text_DC",
+          "offset": 220
+        }
+      ],
+      "known_bytes": 191,
+      "signature_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+      "retail_sha256": "5c6c3b540693edad109d9106f8a56b3245901915bb23c9db7978316994dfcc86"
+    },
+    {
+      "address": "0x8007A214",
+      "size": 48,
+      "library": "LIBCD",
+      "object": "CDROM",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "StSetRing",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 37,
+      "signature_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+      "retail_sha256": "4d6d9a73b55f22c3020a8b811f439bb0eac823de37ce5ee089883e88c47f9ff7"
+    },
+    {
+      "address": "0x8007A244",
+      "size": 96,
+      "library": "LIBCD",
+      "object": "C_002",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "StClearRing",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 61,
+      "signature_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+      "retail_sha256": "be9001c4af959d678340c4d233f6f8d169420493ddde920f7e86e483c284f78d"
+    },
+    {
+      "address": "0x8007A2A4",
+      "size": 128,
+      "library": "LIBCD",
+      "object": "C_003",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "StUnSetRing",
+          "offset": 0
+        },
+        {
+          "name": "text_4C",
+          "offset": 76
+        }
+      ],
+      "known_bytes": 95,
+      "signature_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+      "retail_sha256": "82d7dbeefed8d22c2f5c115863222cae7bd34f45ee458cf35155659cf2bc74b9"
+    },
+    {
+      "address": "0x8007A324",
+      "size": 1936,
+      "library": "LIBCD",
+      "object": "SYS",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "CdStatus",
+          "offset": 0
+        },
+        {
+          "name": "CdMode",
+          "offset": 16
+        },
+        {
+          "name": "CdLastCom",
+          "offset": 32
+        },
+        {
+          "name": "CdLastPos",
+          "offset": 48
+        },
+        {
+          "name": "CdReset",
+          "offset": 60
+        },
+        {
+          "name": "text_98",
+          "offset": 152
+        },
+        {
+          "name": "CdFlush",
+          "offset": 168
+        },
+        {
+          "name": "CdSetDebug",
+          "offset": 200
+        },
+        {
+          "name": "CdComstr",
+          "offset": 220
+        },
+        {
+          "name": "text_108",
+          "offset": 264
+        },
+        {
+          "name": "CdIntstr",
+          "offset": 272
+        },
+        {
+          "name": "text_13C",
+          "offset": 316
+        },
+        {
+          "name": "CdSync",
+          "offset": 324
+        },
+        {
+          "name": "CdReady",
+          "offset": 356
+        },
+        {
+          "name": "CdSyncCallback",
+          "offset": 388
+        },
+        {
+          "name": "CdReadyCallback",
+          "offset": 408
+        },
+        {
+          "name": "CdControl",
+          "offset": 428
+        },
+        {
+          "name": "CdControlF",
+          "offset": 744
+        },
+        {
+          "name": "CdControlB",
+          "offset": 1052
+        },
+        {
+          "name": "text_538",
+          "offset": 1336
+        },
+        {
+          "name": "CdMix",
+          "offset": 1384
+        },
+        {
+          "name": "CdGetSector",
+          "offset": 1416
+        },
+        {
+          "name": "CdGetSector2",
+          "offset": 1448
+        },
+        {
+          "name": "CdDataCallback",
+          "offset": 1480
+        },
+        {
+          "name": "CdDataSync",
+          "offset": 1516
+        },
+        {
+          "name": "CdIntToPos",
+          "offset": 1548
+        },
+        {
+          "name": "CdPosToInt",
+          "offset": 1808
+        }
+      ],
+      "known_bytes": 1733,
+      "signature_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+      "retail_sha256": "f77dc050a305b4f5c5a00d082313ac32300eb00d6256ccc5450d55521b69072a"
+    },
+    {
+      "address": "0x8007AA34",
+      "size": 128,
+      "library": "LIBCD",
+      "object": "SYS",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "CdPosToInt",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 128,
+      "signature_sha256": "9da3ed05347d635887bd09831c900da916fdbc3c697dd574be41e47e3d5a9527",
+      "retail_sha256": "91ea1fb723b4ee635699703080fc31c086af6ade091e87f0fb3c93316bdfecf2"
+    },
+    {
+      "address": "0x8007AA34",
+      "size": 128,
+      "library": "LIBDS",
+      "object": "D3_006",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsPosToInt",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 128,
+      "signature_sha256": "982d8d9841df665bab888b524a45df7f4c8108a9f7260be5adabca05b91c921b",
+      "retail_sha256": "91ea1fb723b4ee635699703080fc31c086af6ade091e87f0fb3c93316bdfecf2"
+    },
+    {
+      "address": "0x8007AAB4",
+      "size": 5984,
+      "library": "LIBCD",
+      "object": "BIOS",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "text_64",
+          "offset": 100
+        },
+        {
+          "name": "text_25C",
+          "offset": 604
+        },
+        {
+          "name": "text_35C",
+          "offset": 860
+        },
+        {
+          "name": "text_3A8",
+          "offset": 936
+        },
+        {
+          "name": "text_428",
+          "offset": 1064
+        },
+        {
+          "name": "text_4A8",
+          "offset": 1192
+        },
+        {
+          "name": "text_548",
+          "offset": 1352
+        },
+        {
+          "name": "CD_sync",
+          "offset": 1372
+        },
+        {
+          "name": "text_694",
+          "offset": 1684
+        },
+        {
+          "name": "text_6C4",
+          "offset": 1732
+        },
+        {
+          "name": "text_7AC",
+          "offset": 1964
+        },
+        {
+          "name": "CD_ready",
+          "offset": 2012
+        },
+        {
+          "name": "text_914",
+          "offset": 2324
+        },
+        {
+          "name": "text_944",
+          "offset": 2372
+        },
+        {
+          "name": "text_A74",
+          "offset": 2676
+        },
+        {
+          "name": "CD_cw",
+          "offset": 2724
+        },
+        {
+          "name": "text_D70",
+          "offset": 3440
+        },
+        {
+          "name": "text_DA0",
+          "offset": 3488
+        },
+        {
+          "name": "text_E88",
+          "offset": 3720
+        },
+        {
+          "name": "CD_vol",
+          "offset": 3760
+        },
+        {
+          "name": "CD_flush",
+          "offset": 3896
+        },
+        {
+          "name": "CD_initvol",
+          "offset": 4108
+        },
+        {
+          "name": "CD_initintr",
+          "offset": 4348
+        },
+        {
+          "name": "CD_init",
+          "offset": 4424
+        },
+        {
+          "name": "text_1318",
+          "offset": 4888
+        },
+        {
+          "name": "CD_datasync",
+          "offset": 4904
+        },
+        {
+          "name": "text_1440",
+          "offset": 5184
+        },
+        {
+          "name": "CD_getsector",
+          "offset": 5264
+        },
+        {
+          "name": "CD_getsector2",
+          "offset": 5520
+        },
+        {
+          "name": "CD_set_test_parmnum",
+          "offset": 5756
+        },
+        {
+          "name": "text_1688",
+          "offset": 5768
+        },
+        {
+          "name": "text_16BC",
+          "offset": 5820
+        }
+      ],
+      "known_bytes": 4898,
+      "signature_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+      "retail_sha256": "f6937700664da662eb12155c33e62910d7c43a31463a6fc1dc130696e008138a"
+    },
+    {
+      "address": "0x8007BF44",
+      "size": 256,
+      "library": "LIBCD",
+      "object": "BIOS_2",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "CD_getsector",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 212,
+      "signature_sha256": "9da3ed05347d635887bd09831c900da916fdbc3c697dd574be41e47e3d5a9527",
+      "retail_sha256": "b720d750f889ab880933d18d04fa6295fa17a276a6fe5ea3ddb0a1bb97776d15"
+    },
+    {
+      "address": "0x8007C214",
+      "size": 240,
+      "library": "LIBCD",
+      "object": "C_004",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "data_ready_callback",
+          "offset": 0
+        },
+        {
+          "name": "StGetBackloc",
+          "offset": 140
+        },
+        {
+          "name": "text_D4",
+          "offset": 212
+        }
+      ],
+      "known_bytes": 187,
+      "signature_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+      "retail_sha256": "c76d36e4fa1088bb6c019955cc302537b1dab69040a071152e5976b70ec75d1f"
+    },
+    {
+      "address": "0x8007C304",
+      "size": 144,
+      "library": "LIBCD",
+      "object": "C_005",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "StSetStream",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 109,
+      "signature_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+      "retail_sha256": "1208f319470bf07555ceb561e2da07b04426bb6bde5ecfbbc773f109f4b4122f"
+    },
+    {
+      "address": "0x8007C394",
+      "size": 176,
+      "library": "LIBCD",
+      "object": "C_007",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "StFreeRing",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 160,
+      "signature_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+      "retail_sha256": "4a78a87934110774a6aac9edfdd74437b5d0228d29e5179009972f1f8d342195"
+    },
+    {
+      "address": "0x8007C444",
+      "size": 64,
+      "library": "LIBCD",
+      "object": "C_008",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "init_ring_status",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 60,
+      "signature_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+      "retail_sha256": "66301f0f781119ad17619c46aba88c6dac7a6d33f9f57a45c6d78bd16bfc2511"
+    },
+    {
+      "address": "0x8007C484",
+      "size": 192,
+      "library": "LIBCD",
+      "object": "C_009",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "StGetNext",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 156,
+      "signature_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+      "retail_sha256": "2cd2b37a6c0e79d3e6dc40d187b330d121aedf3ecc331a3afed24547c395ed05"
+    },
+    {
+      "address": "0x8007C564",
+      "size": 2800,
+      "library": "LIBCD",
+      "object": "C_011",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "StCdInterrupt",
+          "offset": 0
+        },
+        {
+          "name": "text_258",
+          "offset": 600
+        },
+        {
+          "name": "text_3AC",
+          "offset": 940
+        },
+        {
+          "name": "text_778",
+          "offset": 1912
+        },
+        {
+          "name": "text_814",
+          "offset": 2068
+        },
+        {
+          "name": "text_8B0",
+          "offset": 2224
+        },
+        {
+          "name": "text_90C",
+          "offset": 2316
+        },
+        {
+          "name": "text_91C",
+          "offset": 2332
+        },
+        {
+          "name": "text_948",
+          "offset": 2376
+        },
+        {
+          "name": "text_9C4",
+          "offset": 2500
+        },
+        {
+          "name": "text_A20",
+          "offset": 2592
+        }
+      ],
+      "known_bytes": 2160,
+      "signature_sha256": "2eec8cfdb5ecee5d8516e545ce5544d3cf91bde2d1b6ac6ecc263e0c977d8ecc",
+      "retail_sha256": "330341cb393082fa7f61dcf1d5de06f10e8202ce1a89aae4769a08dc8fcca6d5"
+    },
+    {
+      "address": "0x8007D074",
+      "size": 352,
+      "library": "LIBSPU",
+      "object": "S_INI",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_SpuInit",
+          "offset": 0
+        },
+        {
+          "name": "SpuStart",
+          "offset": 232
+        }
+      ],
+      "known_bytes": 249,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "c04d1c0879f9b4193c60950788c6989eb87e4fdbee0d17e2a12ba3ab1ac9ce08"
+    },
+    {
+      "address": "0x8007D1D4",
+      "size": 2880,
+      "library": "LIBSPU",
+      "object": "SPU",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_spu_init",
+          "offset": 0
+        },
+        {
+          "name": "text_D4",
+          "offset": 212
+        },
+        {
+          "name": "text_280",
+          "offset": 640
+        },
+        {
+          "name": "text_390",
+          "offset": 912
+        },
+        {
+          "name": "text_424",
+          "offset": 1060
+        },
+        {
+          "name": "_spu_FiDMA",
+          "offset": 1088
+        },
+        {
+          "name": "text_4EC",
+          "offset": 1260
+        },
+        {
+          "name": "_spu_Fr_",
+          "offset": 1276
+        },
+        {
+          "name": "_spu_t",
+          "offset": 1444
+        },
+        {
+          "name": "text_78C",
+          "offset": 1932
+        },
+        {
+          "name": "text_814",
+          "offset": 2068
+        },
+        {
+          "name": "_spu_Fw",
+          "offset": 2084
+        },
+        {
+          "name": "text_894",
+          "offset": 2196
+        },
+        {
+          "name": "_spu_Fr",
+          "offset": 2216
+        },
+        {
+          "name": "_spu_FsetRXX",
+          "offset": 2316
+        },
+        {
+          "name": "text_948",
+          "offset": 2376
+        },
+        {
+          "name": "_spu_FsetRXXa",
+          "offset": 2384
+        },
+        {
+          "name": "text_9EC",
+          "offset": 2540
+        },
+        {
+          "name": "_spu_FgetRXXa",
+          "offset": 2548
+        },
+        {
+          "name": "text_A28",
+          "offset": 2600
+        },
+        {
+          "name": "_spu_FsetPCR",
+          "offset": 2608
+        },
+        {
+          "name": "text_A7C",
+          "offset": 2684
+        },
+        {
+          "name": "text_A88",
+          "offset": 2696
+        },
+        {
+          "name": "text_AB0",
+          "offset": 2736
+        },
+        {
+          "name": "_spu_Fw1ts",
+          "offset": 2776
+        },
+        {
+          "name": "text_B18",
+          "offset": 2840
+        }
+      ],
+      "known_bytes": 2380,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "8bc2b5860d13cc6a367d0769c4d802b7b7e3364c796f06d40a4aa508461e8546"
+    },
+    {
+      "address": "0x8007DD14",
+      "size": 48,
+      "library": "LIBSPU",
+      "object": "S_DCB",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_SpuDataCallback",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 45,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "1d8e3f10200cc7cac88373118d809280b95508e05e3187ed26c8deada4f4f3ac"
+    },
+    {
+      "address": "0x8007DD74",
+      "size": 64,
+      "library": "LIBCARD",
+      "object": "CARD",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_card_clear",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 58,
+      "signature_sha256": "39d40b974414debbdb3c5c6beeda97d2b52118915eb2b07a20d805cfe6004d36",
+      "retail_sha256": "e2f3c525c4a245f17b8c556522e6bd9feb876aa60703c489c17ad1d0a3c7339c"
+    },
+    {
+      "address": "0x8007DDD4",
+      "size": 208,
+      "library": "LIBCARD",
+      "object": "INIT",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "InitCARD",
+          "offset": 0
+        },
+        {
+          "name": "StartCARD",
+          "offset": 108
+        },
+        {
+          "name": "StopCARD",
+          "offset": 164
+        }
+      ],
+      "known_bytes": 166,
+      "signature_sha256": "39d40b974414debbdb3c5c6beeda97d2b52118915eb2b07a20d805cfe6004d36",
+      "retail_sha256": "a5a5f7819d6acac803a29c7c4d0e8c2593a6145747cd6fcf3093e2c8a09162e1"
+    },
+    {
+      "address": "0x8007DEA4",
+      "size": 768,
+      "library": "LIBAPI",
+      "object": "PAD",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetInitPadFlag",
+          "offset": 0
+        },
+        {
+          "name": "ReadInitPadFlag",
+          "offset": 12
+        },
+        {
+          "name": "PAD_init",
+          "offset": 28
+        },
+        {
+          "name": "InitPAD",
+          "offset": 172
+        },
+        {
+          "name": "StartPAD",
+          "offset": 316
+        },
+        {
+          "name": "StopPAD",
+          "offset": 364
+        },
+        {
+          "name": "text_1A4",
+          "offset": 420
+        },
+        {
+          "name": "text_21C",
+          "offset": 540
+        },
+        {
+          "name": "text_254",
+          "offset": 596
+        },
+        {
+          "name": "text_2BC",
+          "offset": 700
+        }
+      ],
+      "known_bytes": 635,
+      "signature_sha256": "97df7d60fe59efcb305bfbbf6aeb1e899696a939e0cc83dec3f90c56fa64d9f9",
+      "retail_sha256": "5cafe24e7767c8684277559abca1e1aa9153af890e01719c051d85342a27a51b"
+    },
+    {
+      "address": "0x8007E204",
+      "size": 160,
+      "library": "LIBAPI",
+      "object": "PATCH",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "EnablePAD",
+          "offset": 0
+        },
+        {
+          "name": "DisablePAD",
+          "offset": 20
+        },
+        {
+          "name": "_patch_pad",
+          "offset": 40
+        }
+      ],
+      "known_bytes": 130,
+      "signature_sha256": "97df7d60fe59efcb305bfbbf6aeb1e899696a939e0cc83dec3f90c56fa64d9f9",
+      "retail_sha256": "354bd0d6569f45d9af0e421d1f30ae0cd8597654c15473208d981ce19b60e22a"
+    },
+    {
+      "address": "0x8007E2A4",
+      "size": 112,
+      "library": "LIBAPI",
+      "object": "CHCLRPAD",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_remove_ChgclrPAD",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 95,
+      "signature_sha256": "97df7d60fe59efcb305bfbbf6aeb1e899696a939e0cc83dec3f90c56fa64d9f9",
+      "retail_sha256": "52e2d792439c10ed145f53f506da51ebcd545199be115143141edb248d466736"
+    },
+    {
+      "address": "0x8007E344",
+      "size": 464,
+      "library": "LIBCARD",
+      "object": "PATCH",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "text_70",
+          "offset": 112
+        },
+        {
+          "name": "text_84",
+          "offset": 132
+        },
+        {
+          "name": "_patch_card",
+          "offset": 152
+        },
+        {
+          "name": "_patch_card2",
+          "offset": 300
+        },
+        {
+          "name": "_copy_memcard_patch",
+          "offset": 412
+        }
+      ],
+      "known_bytes": 412,
+      "signature_sha256": "39d40b974414debbdb3c5c6beeda97d2b52118915eb2b07a20d805cfe6004d36",
+      "retail_sha256": "e4742e4090b95912200eba5fdb8a67dc86f50b1a62be0869d2e70377750b13a0"
+    },
+    {
+      "address": "0x8007E514",
+      "size": 128,
+      "library": "LIBCARD",
+      "object": "END",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_ExitCard",
+          "offset": 0
+        },
+        {
+          "name": "text_70",
+          "offset": 112
+        },
+        {
+          "name": "text_7C",
+          "offset": 124
+        }
+      ],
+      "known_bytes": 103,
+      "signature_sha256": "39d40b974414debbdb3c5c6beeda97d2b52118915eb2b07a20d805cfe6004d36",
+      "retail_sha256": "28720233b880b69c959dc22eee2fd6f167dd8b60515e9a04b9bdd76fbaeb0e44"
+    },
+    {
+      "address": "0x8007E594",
+      "size": 5120,
+      "library": "LIBDS",
+      "object": "DSSYS_2",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "text_30",
+          "offset": 48
+        },
+        {
+          "name": "text_11C",
+          "offset": 284
+        },
+        {
+          "name": "text_170",
+          "offset": 368
+        },
+        {
+          "name": "text_26C",
+          "offset": 620
+        },
+        {
+          "name": "text_360",
+          "offset": 864
+        },
+        {
+          "name": "text_3D0",
+          "offset": 976
+        },
+        {
+          "name": "text_528",
+          "offset": 1320
+        },
+        {
+          "name": "text_538",
+          "offset": 1336
+        },
+        {
+          "name": "text_5F4",
+          "offset": 1524
+        },
+        {
+          "name": "DsInit",
+          "offset": 1664
+        },
+        {
+          "name": "DsReset",
+          "offset": 1988
+        },
+        {
+          "name": "DsClose",
+          "offset": 2256
+        },
+        {
+          "name": "DsCommand",
+          "offset": 2288
+        },
+        {
+          "name": "text_9B8",
+          "offset": 2488
+        },
+        {
+          "name": "text_AA0",
+          "offset": 2720
+        },
+        {
+          "name": "DsPacket",
+          "offset": 2868
+        },
+        {
+          "name": "text_C18",
+          "offset": 3096
+        },
+        {
+          "name": "text_CD4",
+          "offset": 3284
+        },
+        {
+          "name": "text_D10",
+          "offset": 3344
+        },
+        {
+          "name": "text_DCC",
+          "offset": 3532
+        },
+        {
+          "name": "text_E00",
+          "offset": 3584
+        },
+        {
+          "name": "text_E54",
+          "offset": 3668
+        },
+        {
+          "name": "text_E58",
+          "offset": 3672
+        },
+        {
+          "name": "DsSync",
+          "offset": 3716
+        },
+        {
+          "name": "text_1040",
+          "offset": 4160
+        },
+        {
+          "name": "text_1060",
+          "offset": 4192
+        },
+        {
+          "name": "DsReady",
+          "offset": 4212
+        },
+        {
+          "name": "text_10EC",
+          "offset": 4332
+        },
+        {
+          "name": "DsFlush",
+          "offset": 4360
+        },
+        {
+          "name": "DsSystemStatus",
+          "offset": 4504
+        },
+        {
+          "name": "DsQueueLen",
+          "offset": 4580
+        },
+        {
+          "name": "DsStatus",
+          "offset": 4596
+        },
+        {
+          "name": "DsShellOpen",
+          "offset": 4628
+        },
+        {
+          "name": "DsLastCom",
+          "offset": 4660
+        },
+        {
+          "name": "text_1254",
+          "offset": 4692
+        },
+        {
+          "name": "text_12F8",
+          "offset": 4856
+        },
+        {
+          "name": "text_1388",
+          "offset": 5000
+        },
+        {
+          "name": "text_139C",
+          "offset": 5020
+        },
+        {
+          "name": "text_13CC",
+          "offset": 5068
+        }
+      ],
+      "known_bytes": 4451,
+      "signature_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+      "retail_sha256": "d6e34a899bd718f920302fd7ef1a76e986e8f6f1863c90b17e903da249149f38"
+    },
+    {
+      "address": "0x8007FE24",
+      "size": 720,
+      "library": "LIBDS",
+      "object": "DSSYS_1",
+      "sdk_version": "430",
+      "sdk_offset": 1188,
+      "scope": "function",
+      "labels": [
+        {
+          "name": "text_4A4",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 603,
+      "signature_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+      "retail_sha256": "7df21a00b56e81e4d4a811bd38215db6ff65f4246173802e2e0beb262734fabd"
+    },
+    {
+      "address": "0x80080220",
+      "size": 484,
+      "library": "LIBDS",
+      "object": "DSSYS_1",
+      "sdk_version": "430",
+      "sdk_offset": 2232,
+      "scope": "function",
+      "labels": [
+        {
+          "name": "text_8B8",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 412,
+      "signature_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+      "retail_sha256": "bac5290de82e938bb8034314056c4e9780ad94fab23e8224e2d4ad252fb94546"
+    },
+    {
+      "address": "0x80080404",
+      "size": 648,
+      "library": "LIBDS",
+      "object": "DSSYS_1",
+      "sdk_version": "430",
+      "sdk_offset": 2716,
+      "scope": "function",
+      "labels": [
+        {
+          "name": "text_A9C",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 587,
+      "signature_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+      "retail_sha256": "c1e84ce0b64fd483bcd85563e24d4cff81d138cfaefafdce980fbf26de32fa9f"
+    },
+    {
+      "address": "0x80080AC4",
+      "size": 624,
+      "library": "LIBDS",
+      "object": "DSSYS_3",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsMix",
+          "offset": 0
+        },
+        {
+          "name": "DsGetSector",
+          "offset": 32
+        },
+        {
+          "name": "DsGetSector2",
+          "offset": 64
+        },
+        {
+          "name": "DsDataSync",
+          "offset": 96
+        },
+        {
+          "name": "DsIntToPos",
+          "offset": 128
+        },
+        {
+          "name": "DsPosToInt",
+          "offset": 388
+        },
+        {
+          "name": "DsSetDebug",
+          "offset": 516
+        },
+        {
+          "name": "DsLastPos",
+          "offset": 536
+        },
+        {
+          "name": "text_25C",
+          "offset": 604
+        }
+      ],
+      "known_bytes": 595,
+      "signature_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+      "retail_sha256": "6d94081e6a0272e3d5cb376ec5bf99216fc2f2095a4c46f59ae0e42cb9caefa4"
+    },
+    {
+      "address": "0x80080C48",
+      "size": 128,
+      "library": "LIBCD",
+      "object": "SYS",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "CdPosToInt",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 128,
+      "signature_sha256": "9da3ed05347d635887bd09831c900da916fdbc3c697dd574be41e47e3d5a9527",
+      "retail_sha256": "91ea1fb723b4ee635699703080fc31c086af6ade091e87f0fb3c93316bdfecf2"
+    },
+    {
+      "address": "0x80080C48",
+      "size": 128,
+      "library": "LIBDS",
+      "object": "D3_006",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsPosToInt",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 128,
+      "signature_sha256": "982d8d9841df665bab888b524a45df7f4c8108a9f7260be5adabca05b91c921b",
+      "retail_sha256": "91ea1fb723b4ee635699703080fc31c086af6ade091e87f0fb3c93316bdfecf2"
+    },
+    {
+      "address": "0x80080D34",
+      "size": 256,
+      "library": "LIBDS",
+      "object": "DSSYS_4",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsControlF",
+          "offset": 0
+        },
+        {
+          "name": "DsControl",
+          "offset": 40
+        },
+        {
+          "name": "text_7C",
+          "offset": 124
+        },
+        {
+          "name": "DsControlB",
+          "offset": 144
+        },
+        {
+          "name": "text_E4",
+          "offset": 228
+        }
+      ],
+      "known_bytes": 235,
+      "signature_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+      "retail_sha256": "3b15f4f490b3d14cf80241efdab40c02df5fbab9b41ec24c02065ebb56ab3813"
+    },
+    {
+      "address": "0x80080DC4",
+      "size": 112,
+      "library": "LIBDS",
+      "object": "D4_002",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsControl",
+          "offset": 0
+        },
+        {
+          "name": "text_54",
+          "offset": 84
+        }
+      ],
+      "known_bytes": 103,
+      "signature_sha256": "982d8d9841df665bab888b524a45df7f4c8108a9f7260be5adabca05b91c921b",
+      "retail_sha256": "88d7f51cc1f94252bf582be9d759b423ccd67531735faa1fba35e8749c66e4c5"
+    },
+    {
+      "address": "0x80080DC4",
+      "size": 112,
+      "library": "LIBDS",
+      "object": "D4_003",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsControlB",
+          "offset": 0
+        },
+        {
+          "name": "text_54",
+          "offset": 84
+        }
+      ],
+      "known_bytes": 103,
+      "signature_sha256": "982d8d9841df665bab888b524a45df7f4c8108a9f7260be5adabca05b91c921b",
+      "retail_sha256": "88d7f51cc1f94252bf582be9d759b423ccd67531735faa1fba35e8749c66e4c5"
+    },
+    {
+      "address": "0x80081314",
+      "size": 256,
+      "library": "LIBDS",
+      "object": "DSREAD2",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsRead2",
+          "offset": 0
+        },
+        {
+          "name": "text_44",
+          "offset": 68
+        },
+        {
+          "name": "text_BC",
+          "offset": 188
+        },
+        {
+          "name": "text_D4",
+          "offset": 212
+        }
+      ],
+      "known_bytes": 213,
+      "signature_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+      "retail_sha256": "799b205fe12e8124113eb9f10238069947efc82a579132c7bf19070301998fb9"
+    },
+    {
+      "address": "0x80081414",
+      "size": 2400,
+      "library": "LIBDS",
+      "object": "DSFILE",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsSearchFile",
+          "offset": 0
+        },
+        {
+          "name": "text_110",
+          "offset": 272
+        },
+        {
+          "name": "text_2AC",
+          "offset": 684
+        },
+        {
+          "name": "text_2B8",
+          "offset": 696
+        },
+        {
+          "name": "text_2E0",
+          "offset": 736
+        },
+        {
+          "name": "text_300",
+          "offset": 768
+        },
+        {
+          "name": "text_59C",
+          "offset": 1436
+        },
+        {
+          "name": "text_5C4",
+          "offset": 1476
+        },
+        {
+          "name": "text_648",
+          "offset": 1608
+        },
+        {
+          "name": "text_668",
+          "offset": 1640
+        },
+        {
+          "name": "text_7DC",
+          "offset": 2012
+        },
+        {
+          "name": "text_7F8",
+          "offset": 2040
+        },
+        {
+          "name": "text_8DC",
+          "offset": 2268
+        },
+        {
+          "name": "text_904",
+          "offset": 2308
+        }
+      ],
+      "known_bytes": 2011,
+      "signature_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+      "retail_sha256": "f1a95ac713de5590f315ff692f9ca6b99c09e6d06a94892364cf8f3dc8bbd2ec"
+    },
+    {
+      "address": "0x80081D74",
+      "size": 1440,
+      "library": "LIBDS",
+      "object": "DSREADY",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsStartReadySystem",
+          "offset": 0
+        },
+        {
+          "name": "text_70",
+          "offset": 112
+        },
+        {
+          "name": "DsEndReadySystem",
+          "offset": 132
+        },
+        {
+          "name": "DsReadySystemMode",
+          "offset": 232
+        },
+        {
+          "name": "text_FC",
+          "offset": 252
+        },
+        {
+          "name": "text_218",
+          "offset": 536
+        },
+        {
+          "name": "text_2FC",
+          "offset": 764
+        },
+        {
+          "name": "text_3B4",
+          "offset": 948
+        },
+        {
+          "name": "text_3BC",
+          "offset": 956
+        },
+        {
+          "name": "text_3D8",
+          "offset": 984
+        },
+        {
+          "name": "text_478",
+          "offset": 1144
+        },
+        {
+          "name": "text_490",
+          "offset": 1168
+        },
+        {
+          "name": "text_508",
+          "offset": 1288
+        },
+        {
+          "name": "ER_active",
+          "offset": 1336
+        },
+        {
+          "name": "ER_clear",
+          "offset": 1352
+        }
+      ],
+      "known_bytes": 1238,
+      "signature_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+      "retail_sha256": "a3420beafa31814a1db0d607b9e363bcb009a3b4695d57f4d581e2520cc94673"
+    },
+    {
+      "address": "0x80082314",
+      "size": 416,
+      "library": "LIBDS",
+      "object": "DSTYPE",
+      "sdk_version": "420",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsGetDiskType",
+          "offset": 0
+        },
+        {
+          "name": "text_D8",
+          "offset": 216
+        },
+        {
+          "name": "text_EC",
+          "offset": 236
+        },
+        {
+          "name": "text_120",
+          "offset": 288
+        },
+        {
+          "name": "text_130",
+          "offset": 304
+        },
+        {
+          "name": "text_178",
+          "offset": 376
+        }
+      ],
+      "known_bytes": 336,
+      "signature_sha256": "52a571ccb0f4aa09d4bbeedfbc5edc107893711d7c002e65f18043d4dfee41fb",
+      "retail_sha256": "dd23ab045cc368e567853cd7782a878f3540c2be64ec7fd09149b6160f796e32"
+    },
+    {
+      "address": "0x800824B4",
+      "size": 96,
+      "library": "LIBDS",
+      "object": "DSCB",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsSyncCallback",
+          "offset": 0
+        },
+        {
+          "name": "DsReadyCallback",
+          "offset": 20
+        },
+        {
+          "name": "DsStartCallback",
+          "offset": 40
+        },
+        {
+          "name": "DsDataCallback",
+          "offset": 60
+        }
+      ],
+      "known_bytes": 81,
+      "signature_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+      "retail_sha256": "fc93b6b7084550eb05711bd6d3bcf5cdfd0c31effac234ab59eb83008b35fc7d"
+    },
+    {
+      "address": "0x800824C8",
+      "size": 76,
+      "library": "LIBDS",
+      "object": "DSCB",
+      "sdk_version": "400",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "DsSyncCallback",
+          "offset": 0
+        },
+        {
+          "name": "DsReadyCallback",
+          "offset": 20
+        },
+        {
+          "name": "DsDataCallback",
+          "offset": 40
+        }
+      ],
+      "known_bytes": 65,
+      "signature_sha256": "b09fbccff15eee19829e14c81374668d6dda27d1ff32da253d0fa34714337c97",
+      "retail_sha256": "344e235c7a592ca9f7f8207b587f6430ec0bfa9db274475c17feaf4efa925e31"
+    },
+    {
+      "address": "0x80082514",
+      "size": 1200,
+      "library": "LIBPAD",
+      "object": "PADENTRY",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "PadChkVsync",
+          "offset": 0
+        },
+        {
+          "name": "PadStartCom",
+          "offset": 32
+        },
+        {
+          "name": "PadStopCom",
+          "offset": 64
+        },
+        {
+          "name": "PadChkMtap",
+          "offset": 96
+        },
+        {
+          "name": "text_A4",
+          "offset": 164
+        },
+        {
+          "name": "PadGetState",
+          "offset": 172
+        },
+        {
+          "name": "text_158",
+          "offset": 344
+        },
+        {
+          "name": "text_15C",
+          "offset": 348
+        },
+        {
+          "name": "PadInfoMode",
+          "offset": 364
+        },
+        {
+          "name": "text_250",
+          "offset": 592
+        },
+        {
+          "name": "PadInfoAct",
+          "offset": 612
+        },
+        {
+          "name": "text_2E4",
+          "offset": 740
+        },
+        {
+          "name": "text_2F0",
+          "offset": 752
+        },
+        {
+          "name": "text_2FC",
+          "offset": 764
+        },
+        {
+          "name": "text_308",
+          "offset": 776
+        },
+        {
+          "name": "text_314",
+          "offset": 788
+        },
+        {
+          "name": "text_324",
+          "offset": 804
+        },
+        {
+          "name": "PadInfoComb",
+          "offset": 824
+        },
+        {
+          "name": "text_3CC",
+          "offset": 972
+        },
+        {
+          "name": "PadSetActAlign",
+          "offset": 992
+        },
+        {
+          "name": "PadSetMainMode",
+          "offset": 1048
+        },
+        {
+          "name": "PadSetAct",
+          "offset": 1120
+        }
+      ],
+      "known_bytes": 1079,
+      "signature_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+      "retail_sha256": "9426bcbe4fccd00c608fc9e36764d3c8bb64d145790b44e68b125046d7a88d9c"
+    },
+    {
+      "address": "0x80082CF0",
+      "size": 272,
+      "library": "LIBPAD",
+      "object": "PDMAIINI",
+      "sdk_version": "460",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "PadStartCom",
+          "offset": 0
+        },
+        {
+          "name": "PadStopCom",
+          "offset": 204
+        }
+      ],
+      "known_bytes": 205,
+      "signature_sha256": "9cb0b8ff46ba19a40197ded82fd34bfe7d9ffabc6ace7a8d5c23419ef372f4da",
+      "retail_sha256": "96186f027bf45675cde44ce88990d17fdeccca2851cf27ed4085075435c75e2b"
+    },
+    {
+      "address": "0x80082E00",
+      "size": 532,
+      "library": "LIBPAD",
+      "object": "PADMAIN",
+      "sdk_version": "420",
+      "sdk_offset": 1084,
+      "scope": "function",
+      "labels": [
+        {
+          "name": "_padInitSioMode",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 463,
+      "signature_sha256": "61ac0b55d7988d73e78ff1f8f9668c6c4da0702ead1451e0373a88127dc2366e",
+      "retail_sha256": "38dae3a9445d323f640baf1405b4c53ff44fc742dc7298f0d2a062266e1be513"
+    },
+    {
+      "address": "0x80083014",
+      "size": 200,
+      "library": "LIBPAD",
+      "object": "PADMAIN",
+      "sdk_version": "430",
+      "sdk_offset": 1904,
+      "scope": "function",
+      "labels": [
+        {
+          "name": "text_770",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 163,
+      "signature_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+      "retail_sha256": "c3ba3f12547108abdc045aa509fd58c8873482a66bffc381af9b3dc6c01861dc"
+    },
+    {
+      "address": "0x800830DC",
+      "size": 472,
+      "library": "LIBPAD",
+      "object": "PADMAIN",
+      "sdk_version": "430",
+      "sdk_offset": 2104,
+      "scope": "function",
+      "labels": [
+        {
+          "name": "_padSioRW",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 423,
+      "signature_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+      "retail_sha256": "481ec7da58da60808de11d9bf5c47c8eb3781eb80d6f31459513131603634a03"
+    },
+    {
+      "address": "0x800835A4",
+      "size": 2400,
+      "library": "LIBPAD",
+      "object": "PADCMD",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_padSetAct",
+          "offset": 0
+        },
+        {
+          "name": "_padSetCmd",
+          "offset": 12
+        },
+        {
+          "name": "_padSendAtLoadInfo",
+          "offset": 28
+        },
+        {
+          "name": "text_90",
+          "offset": 144
+        },
+        {
+          "name": "_padRecvAtLoadInfo",
+          "offset": 160
+        },
+        {
+          "name": "text_18C",
+          "offset": 396
+        },
+        {
+          "name": "text_1D8",
+          "offset": 472
+        },
+        {
+          "name": "text_1DC",
+          "offset": 476
+        },
+        {
+          "name": "_padGetActSize",
+          "offset": 492
+        },
+        {
+          "name": "_padLoadActInfo",
+          "offset": 548
+        },
+        {
+          "name": "text_2E4",
+          "offset": 740
+        },
+        {
+          "name": "text_2F8",
+          "offset": 760
+        },
+        {
+          "name": "text_390",
+          "offset": 912
+        },
+        {
+          "name": "text_3A0",
+          "offset": 928
+        },
+        {
+          "name": "text_538",
+          "offset": 1336
+        },
+        {
+          "name": "text_560",
+          "offset": 1376
+        },
+        {
+          "name": "text_5C4",
+          "offset": 1476
+        },
+        {
+          "name": "text_608",
+          "offset": 1544
+        },
+        {
+          "name": "text_60C",
+          "offset": 1548
+        },
+        {
+          "name": "_padSetActAlign",
+          "offset": 1556
+        },
+        {
+          "name": "text_67C",
+          "offset": 1660
+        },
+        {
+          "name": "text_698",
+          "offset": 1688
+        },
+        {
+          "name": "text_72C",
+          "offset": 1836
+        },
+        {
+          "name": "_padSetMainMode",
+          "offset": 1888
+        },
+        {
+          "name": "text_7F8",
+          "offset": 2040
+        },
+        {
+          "name": "text_844",
+          "offset": 2116
+        },
+        {
+          "name": "text_84C",
+          "offset": 2124
+        },
+        {
+          "name": "text_898",
+          "offset": 2200
+        },
+        {
+          "name": "text_89C",
+          "offset": 2204
+        },
+        {
+          "name": "_padCmdParaMode",
+          "offset": 2220
+        },
+        {
+          "name": "text_8CC",
+          "offset": 2252
+        },
+        {
+          "name": "text_8E0",
+          "offset": 2272
+        },
+        {
+          "name": "text_900",
+          "offset": 2304
+        },
+        {
+          "name": "text_920",
+          "offset": 2336
+        },
+        {
+          "name": "text_940",
+          "offset": 2368
+        }
+      ],
+      "known_bytes": 2232,
+      "signature_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+      "retail_sha256": "05b8b2359eabb3233c0ef7b2d2e42402f7c90c44c8e324eae14cd8e72c9267dc"
+    },
+    {
+      "address": "0x80084168",
+      "size": 892,
+      "library": "LIBPAD",
+      "object": "PADIF",
+      "sdk_version": "430",
+      "sdk_offset": 620,
+      "scope": "function",
+      "labels": [
+        {
+          "name": "text_26C",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 755,
+      "signature_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+      "retail_sha256": "a435b3916bf94b1ffe701eb59664b0f9a9b3b57710343a2f3e1a7f39070089c3"
+    },
+    {
+      "address": "0x800844E4",
+      "size": 1632,
+      "library": "LIBPAD",
+      "object": "PADPORTD",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "PadInitDirect",
+          "offset": 0
+        },
+        {
+          "name": "text_160",
+          "offset": 352
+        },
+        {
+          "name": "text_1C8",
+          "offset": 456
+        },
+        {
+          "name": "text_23C",
+          "offset": 572
+        },
+        {
+          "name": "text_298",
+          "offset": 664
+        },
+        {
+          "name": "text_2BC",
+          "offset": 700
+        },
+        {
+          "name": "text_2CC",
+          "offset": 716
+        },
+        {
+          "name": "text_330",
+          "offset": 816
+        },
+        {
+          "name": "text_35C",
+          "offset": 860
+        },
+        {
+          "name": "text_380",
+          "offset": 896
+        },
+        {
+          "name": "text_388",
+          "offset": 904
+        },
+        {
+          "name": "text_45C",
+          "offset": 1116
+        },
+        {
+          "name": "text_4A8",
+          "offset": 1192
+        },
+        {
+          "name": "text_5F4",
+          "offset": 1524
+        },
+        {
+          "name": "text_604",
+          "offset": 1540
+        },
+        {
+          "name": "text_63C",
+          "offset": 1596
+        }
+      ],
+      "known_bytes": 1437,
+      "signature_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+      "retail_sha256": "076e7846484bdfdec25a234713daad32faf4d6b14368148c5de5acdebd60a8af"
+    },
+    {
+      "address": "0x80084B44",
+      "size": 1152,
+      "library": "LIBPAD",
+      "object": "PADSEQD",
+      "sdk_version": "420",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_padInitDirSeq",
+          "offset": 0
+        },
+        {
+          "name": "text_34",
+          "offset": 52
+        },
+        {
+          "name": "text_D0",
+          "offset": 208
+        },
+        {
+          "name": "text_F8",
+          "offset": 248
+        },
+        {
+          "name": "text_108",
+          "offset": 264
+        },
+        {
+          "name": "text_1A0",
+          "offset": 416
+        },
+        {
+          "name": "text_30C",
+          "offset": 780
+        },
+        {
+          "name": "text_320",
+          "offset": 800
+        },
+        {
+          "name": "text_348",
+          "offset": 840
+        },
+        {
+          "name": "text_358",
+          "offset": 856
+        },
+        {
+          "name": "_dirFailAuto",
+          "offset": 876
+        },
+        {
+          "name": "text_438",
+          "offset": 1080
+        },
+        {
+          "name": "text_448",
+          "offset": 1096
+        }
+      ],
+      "known_bytes": 1059,
+      "signature_sha256": "61ac0b55d7988d73e78ff1f8f9668c6c4da0702ead1451e0373a88127dc2366e",
+      "retail_sha256": "fcc2ed61de3b2f8e9f18109bf139f16c15a0b07e414a4e69639f79bb2e7b0677"
+    },
+    {
+      "address": "0x80084FC4",
+      "size": 192,
+      "library": "LIBPAD",
+      "object": "WAITRC2",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "setRC2wait",
+          "offset": 0
+        },
+        {
+          "name": "chkRC2wait",
+          "offset": 32
+        },
+        {
+          "name": "text_68",
+          "offset": 104
+        },
+        {
+          "name": "text_B4",
+          "offset": 180
+        }
+      ],
+      "known_bytes": 158,
+      "signature_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+      "retail_sha256": "1795d848e518e058eb629903c8f624ed60f2d7b4315c553f78207b376a3a9b92"
+    },
+    {
+      "address": "0x80085814",
+      "size": 368,
+      "library": "LIBAPI",
+      "object": "COUNTER",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SetRCnt",
+          "offset": 0
+        },
+        {
+          "name": "text_74",
+          "offset": 116
+        },
+        {
+          "name": "text_94",
+          "offset": 148
+        },
+        {
+          "name": "GetRCnt",
+          "offset": 156
+        },
+        {
+          "name": "text_CC",
+          "offset": 204
+        },
+        {
+          "name": "StartRCnt",
+          "offset": 212
+        },
+        {
+          "name": "StopRCnt",
+          "offset": 260
+        },
+        {
+          "name": "ResetRCnt",
+          "offset": 312
+        },
+        {
+          "name": "text_164",
+          "offset": 356
+        }
+      ],
+      "known_bytes": 324,
+      "signature_sha256": "97df7d60fe59efcb305bfbbf6aeb1e899696a939e0cc83dec3f90c56fa64d9f9",
+      "retail_sha256": "78b3e65c8f48ac921d1566545d851b89bb3cab091a7239da7e96344297f16c22"
+    },
+    {
+      "address": "0x80085984",
+      "size": 128,
+      "library": "LIBSPU",
+      "object": "S_Q",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuQuit",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 89,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "455ef94feab01512f70604d6482a632c5064c6bb5907b8cb23cb99e2b056fad5"
+    },
+    {
+      "address": "0x80085A04",
+      "size": 96,
+      "library": "LIBSPU",
+      "object": "S_M_INIT",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuInitMalloc",
+          "offset": 0
+        },
+        {
+          "name": "text_4C",
+          "offset": 76
+        }
+      ],
+      "known_bytes": 77,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "312a3dd00944291417e390adf1745a74cffd53ba40b1731e1cd6952c06fe4c5b"
+    },
+    {
+      "address": "0x80085A64",
+      "size": 208,
+      "library": "LIBSPU",
+      "object": "S_SR",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuSetReverb",
+          "offset": 0
+        },
+        {
+          "name": "text_B0",
+          "offset": 176
+        },
+        {
+          "name": "text_B4",
+          "offset": 180
+        }
+      ],
+      "known_bytes": 160,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "6576ed69d0c7be31720ec19f7d97f5825899fbb63d1af5ec144eda2e0b6d5815"
+    },
+    {
+      "address": "0x80085B34",
+      "size": 272,
+      "library": "LIBSPU",
+      "object": "S_M_UTIL",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_SpuIsInAllocateArea",
+          "offset": 0
+        },
+        {
+          "name": "text_2C",
+          "offset": 44
+        },
+        {
+          "name": "text_78",
+          "offset": 120
+        },
+        {
+          "name": "_SpuIsInAllocateArea_",
+          "offset": 128
+        },
+        {
+          "name": "text_B8",
+          "offset": 184
+        },
+        {
+          "name": "text_104",
+          "offset": 260
+        }
+      ],
+      "known_bytes": 248,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "9d2715fceed2b815f76752f989051c312c644498e9c4e8bfdca722767337703c"
+    },
+    {
+      "address": "0x80085C44",
+      "size": 320,
+      "library": "LIBSPU",
+      "object": "S_SI",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuSetIRQ",
+          "offset": 0
+        },
+        {
+          "name": "text_F4",
+          "offset": 244
+        },
+        {
+          "name": "text_12C",
+          "offset": 300
+        }
+      ],
+      "known_bytes": 279,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "e2b0875a52f2e0142eaaa277d2e2140a9e88d3c6b92d33f5324fc8b14b3112e2"
+    },
+    {
+      "address": "0x80085D84",
+      "size": 64,
+      "library": "LIBSPU",
+      "object": "S_SIC",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuSetIRQCallback",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 53,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "26c9931bad9f8322fec8eec796729b3f749641dd98c25e998c5c3266689a782b"
+    },
+    {
+      "address": "0x80085DC4",
+      "size": 48,
+      "library": "LIBSPU",
+      "object": "S_CB",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_SpuCallback",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 45,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "9b20a23d958f899ccddf679ed269f8a8dc07db1f2609816562ba4e4dadcfd5c0"
+    },
+    {
+      "address": "0x80085DF4",
+      "size": 96,
+      "library": "LIBSPU",
+      "object": "S_R",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuRead",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 85,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "efd499a28dbe37e8fc5c1187b936b6e89250bd1c6dcd19ee124510001c606322"
+    },
+    {
+      "address": "0x80085DF4",
+      "size": 96,
+      "library": "LIBSPU",
+      "object": "S_W",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuWrite",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 85,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "efd499a28dbe37e8fc5c1187b936b6e89250bd1c6dcd19ee124510001c606322"
+    },
+    {
+      "address": "0x80085E54",
+      "size": 96,
+      "library": "LIBSPU",
+      "object": "S_R",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuRead",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 85,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "eadedd77d83f3fbed5898190e19e47c0ea03181d7fb16e2b49e0e2286496db49"
+    },
+    {
+      "address": "0x80085E54",
+      "size": 96,
+      "library": "LIBSPU",
+      "object": "S_W",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuWrite",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 85,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "eadedd77d83f3fbed5898190e19e47c0ea03181d7fb16e2b49e0e2286496db49"
+    },
+    {
+      "address": "0x80085EB4",
+      "size": 96,
+      "library": "LIBSPU",
+      "object": "S_STSA",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuSetTransferStartAddr",
+          "offset": 0
+        },
+        {
+          "name": "text_4C",
+          "offset": 76
+        }
+      ],
+      "known_bytes": 78,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "c383a3d5b811cb9e76c3ecc704ca71f669960e3582343be7ad2d6102d48d8759"
+    },
+    {
+      "address": "0x80085F14",
+      "size": 48,
+      "library": "LIBSPU",
+      "object": "S_STM",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuSetTransferMode",
+          "offset": 0
+        },
+        {
+          "name": "text_1C",
+          "offset": 28
+        }
+      ],
+      "known_bytes": 37,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "134e29bc16aa82935dc5bf1526921eca7242026ae951ebcb936eeb9cd001121e"
+    },
+    {
+      "address": "0x80085F44",
+      "size": 48,
+      "library": "LIBSPU",
+      "object": "S_STC",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuSetTransferCallback",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 40,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "e2e2b65acb7397568492f97b4deac48c3786fc0a34e331e516b9109b201f77ac"
+    },
+    {
+      "address": "0x80085F74",
+      "size": 896,
+      "library": "LIBSPU",
+      "object": "S_SCA",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuSetCommonAttr",
+          "offset": 0
+        },
+        {
+          "name": "text_58",
+          "offset": 88
+        },
+        {
+          "name": "text_60",
+          "offset": 96
+        },
+        {
+          "name": "text_68",
+          "offset": 104
+        },
+        {
+          "name": "text_70",
+          "offset": 112
+        },
+        {
+          "name": "text_78",
+          "offset": 120
+        },
+        {
+          "name": "text_80",
+          "offset": 128
+        },
+        {
+          "name": "text_88",
+          "offset": 136
+        },
+        {
+          "name": "text_90",
+          "offset": 144
+        },
+        {
+          "name": "text_98",
+          "offset": 152
+        },
+        {
+          "name": "text_118",
+          "offset": 280
+        },
+        {
+          "name": "text_120",
+          "offset": 288
+        },
+        {
+          "name": "text_128",
+          "offset": 296
+        },
+        {
+          "name": "text_130",
+          "offset": 304
+        },
+        {
+          "name": "text_138",
+          "offset": 312
+        },
+        {
+          "name": "text_140",
+          "offset": 320
+        },
+        {
+          "name": "text_148",
+          "offset": 328
+        },
+        {
+          "name": "text_150",
+          "offset": 336
+        },
+        {
+          "name": "text_158",
+          "offset": 344
+        },
+        {
+          "name": "text_274",
+          "offset": 628
+        },
+        {
+          "name": "text_2C8",
+          "offset": 712
+        },
+        {
+          "name": "text_31C",
+          "offset": 796
+        },
+        {
+          "name": "text_370",
+          "offset": 880
+        }
+      ],
+      "known_bytes": 778,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "56767fc769172001e012d2b6fe282fd5725f23d1c7e8c48f8e940e20ff35e245"
+    },
+    {
+      "address": "0x800862F4",
+      "size": 368,
+      "library": "LIBSPU",
+      "object": "S_SVVA",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuSetVoiceVolumeAttr",
+          "offset": 0
+        },
+        {
+          "name": "text_44",
+          "offset": 68
+        },
+        {
+          "name": "text_4C",
+          "offset": 76
+        },
+        {
+          "name": "text_54",
+          "offset": 84
+        },
+        {
+          "name": "text_5C",
+          "offset": 92
+        },
+        {
+          "name": "text_64",
+          "offset": 100
+        },
+        {
+          "name": "text_6C",
+          "offset": 108
+        },
+        {
+          "name": "text_74",
+          "offset": 116
+        },
+        {
+          "name": "text_78",
+          "offset": 120
+        },
+        {
+          "name": "text_C8",
+          "offset": 200
+        },
+        {
+          "name": "text_D0",
+          "offset": 208
+        },
+        {
+          "name": "text_D8",
+          "offset": 216
+        },
+        {
+          "name": "text_E0",
+          "offset": 224
+        },
+        {
+          "name": "text_E8",
+          "offset": 232
+        },
+        {
+          "name": "text_F0",
+          "offset": 240
+        },
+        {
+          "name": "text_F8",
+          "offset": 248
+        },
+        {
+          "name": "text_FC",
+          "offset": 252
+        },
+        {
+          "name": "text_150",
+          "offset": 336
+        }
+      ],
+      "known_bytes": 313,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "ccc2fd78193178a21dd9cb5b98816635fef5aeebfc232c5473919da1ceb5335e"
+    },
+    {
+      "address": "0x80089EB8",
+      "size": 80,
+      "library": "LIBSPU",
+      "object": "S_SNC",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuSetNoiseClock",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 76,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "614693589bfc6c98b326d01453e8bbccd5662f69417b7cce7fe0f3551045c686"
+    },
+    {
+      "address": "0x80089F28",
+      "size": 48,
+      "library": "LIBSPU",
+      "object": "S_SRMD",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuSetReverbModeDepth",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 40,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "bd0035198ac0547f73d8ff4ef9e0dc0a49b7b415c1144a56109ad3a58f8964b6"
+    },
+    {
+      "address": "0x8008CF70",
+      "size": 464,
+      "library": "LIBSPU",
+      "object": "S_SRMT",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuSetReverbModeType",
+          "offset": 0
+        },
+        {
+          "name": "text_FC",
+          "offset": 252
+        },
+        {
+          "name": "text_10C",
+          "offset": 268
+        },
+        {
+          "name": "text_1B4",
+          "offset": 436
+        }
+      ],
+      "known_bytes": 392,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "e397d3ddaff603942ade06b708cd8fe49be86ab32c1ef2926752f221cbf0c8d9"
+    },
+    {
+      "address": "0x8008D140",
+      "size": 1232,
+      "library": "LIBSPU",
+      "object": "S_SRA",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "_spu_setReverbAttr",
+          "offset": 0
+        }
+      ],
+      "known_bytes": 1104,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "fa1b6933b36e24a9143f208e13f3b42c06719c3435f927bfccd057e909570f4e"
+    },
+    {
+      "address": "0x8008D610",
+      "size": 416,
+      "library": "LIBSPU",
+      "object": "S_CRWA",
+      "sdk_version": "430",
+      "sdk_offset": 0,
+      "scope": "object",
+      "labels": [
+        {
+          "name": "SpuClearReverbWorkArea",
+          "offset": 0
+        },
+        {
+          "name": "text_9C",
+          "offset": 156
+        },
+        {
+          "name": "text_170",
+          "offset": 368
+        }
+      ],
+      "known_bytes": 347,
+      "signature_sha256": "696dc16b2306731a4e88c725726e203662161f5449d03c2c6e442752a1929e17",
+      "retail_sha256": "d4a957a4fbf9022276e20058e1dd9e312b8a65ecaa375d329302bcda85cbdc91"
+    }
+  ]
+}

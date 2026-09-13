@@ -6,7 +6,7 @@ extern CdQueuedCmdSlot D_800A3520;
 extern CdQueuedCmdSlot D_800A3530;
 extern int D_800B8AB4;
 
-void Render_DrawParticle(int command);
+void LIBDS_DSSYS_2_text_170(int command);
 void Util_Copy8(u8 *destination, u8 *source);
 
 int Render_PlayParticleEffect(int command, u8 *payload) {
@@ -17,7 +17,7 @@ int Render_PlayParticleEffect(int command, u8 *payload) {
 
     command_byte = command;
     if (command_byte == 5 && (payload[0] & 0x10)) {
-        Render_DrawParticle(5);
+        LIBDS_DSSYS_2_text_170(5);
     }
 
     switch (command_byte) {

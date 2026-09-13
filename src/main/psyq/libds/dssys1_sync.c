@@ -14,7 +14,7 @@
 extern u8 D_8009B581, D_8009B586, D_8009B587;
 extern CdlLOC D_8009B582;
 extern DsReadStatusBlock D_8009B574;
-void Render_DrawParticleSprite(int inEvent, u8 *inResult) {
+void LIBDS_DSSYS_1_text_8B8(int inEvent, u8 *inResult) {
     register int event = inEvent;
     register u8 *result = inResult;
     register int masked = (u8)event;

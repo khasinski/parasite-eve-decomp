@@ -2,7 +2,7 @@
 /* Psy-Q LIBDS/DSSYS_2.OBJ private text_170.
  * See proposals/PsyqPadDsFour for byte-match evidence and constraint debt. */
 #include "pe1/psyq_ds_queue.h"
-void Render_DrawParticle(int event, u8 *data) {
+void LIBDS_DSSYS_2_text_170(int event, u8 *data) {
     DsQueueCallback callbacks[8];
     register u8 *result = data;
     register int savedEvent asm("$22") = event;
