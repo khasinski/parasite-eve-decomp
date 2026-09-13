@@ -493,12 +493,12 @@ def run(cmd, **kwargs):
 
 
 def object_section_bytes(path):
-    """Total allocated non-bss bytes in one object."""
+    """Allocated program bytes, excluding BSS and ELF ABI/debug metadata."""
     total = 0
     with path.open("rb") as handle:
         elf = ELFFile(handle)
         for section in elf.iter_sections():
-            if section.name in (".text", ".data", ".rodata", ".sdata") or section.name.startswith(".text."):
+            if section["sh_type"] == "SHT_PROGBITS" and section["sh_flags"] & 2:
                 total += section["sh_size"]
     return total
 
@@ -509,10 +509,14 @@ def configured_pad_bytes(config):
     for segment in config.get("segments", []):
         if not isinstance(segment, dict):
             continue
-        rows = [row for row in segment.get("subsegments", [])
-                if isinstance(row, list)]
+        rows = []
+        for row in segment.get("subsegments", []):
+            if isinstance(row, dict):
+                rows.append((row["start"], row.get("type")))
+            elif isinstance(row, list):
+                rows.append((row[0], row[1] if len(row) > 1 else None))
         for row, following in zip(rows, rows[1:]):
-            if len(row) >= 2 and row[1] == "pad":
+            if row[1] == "pad":
                 total += following[0] - row[0]
     return total
 

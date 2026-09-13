@@ -20,7 +20,8 @@ class PsyqPaddingTests(unittest.TestCase):
             rows = segment.get("subsegments", [])
             for row, following in zip(rows, rows[1:]):
                 if isinstance(row, list) and row[1] == "pad":
-                    manifest[row[0] + 0x8000F800] = following[0] - row[0]
+                    end = following["start"] if isinstance(following, dict) else following[0]
+                    manifest[row[0] + 0x8000F800] = end - row[0]
         approved = {int(p["address"], 16): p["size"] for p in PROVENANCE["padding"]}
         self.assertEqual({start: manifest.get(start) for start in approved}, approved)
         for start, size in approved.items():

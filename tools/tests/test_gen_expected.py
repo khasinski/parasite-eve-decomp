@@ -1,4 +1,7 @@
 import unittest
+import shutil
+import subprocess
+import tempfile
 from pathlib import Path
 
 import yaml
@@ -121,6 +124,35 @@ class SubsegmentSliceTests(unittest.TestCase):
         }
 
         self.assertEqual(gen_expected.configured_pad_bytes(config), 12)
+
+
+    def test_padding_stops_at_dictionary_form_data_segment(self):
+        config = {"segments": [{"subsegments": [
+            [0x1000, "pad"],
+            {"start": 0x1004, "type": "rodata", "name": "signature",
+             "linker_section_order": ".text", "linker_section": ".psyq_signature"},
+            [0x100C, "asm", "function"],
+        ]}]}
+        self.assertEqual(gen_expected.configured_pad_bytes(config), 4)
+
+
+class ObjectCoverageTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which("mipsel-none-elf-as"), "MIPS assembler unavailable")
+    def test_counts_custom_allocated_data_but_not_bss_or_metadata(self):
+        with tempfile.TemporaryDirectory() as directory:
+            obj = Path(directory) / "sections.o"
+            subprocess.run(["mipsel-none-elf-as", "-EL", "-no-pad-sections",
+                            "-o", str(obj)], input="""
+.section .text, "ax"
+.word 0
+.section .psyq_signature, "a"
+.word 0x21017350, 0x004237ad
+.section .debug_test, ""
+.space 20
+.section .bss, "aw", @nobits
+.space 32
+""", text=True, check=True, capture_output=True)
+            self.assertEqual(gen_expected.object_section_bytes(obj), 12)
 
 
 class DisassemblyRewriteTests(unittest.TestCase):

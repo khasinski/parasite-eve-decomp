@@ -1003,7 +1003,7 @@ segments:
       - [0x64234, c, psyq/libapi/DeliverEvent]
       - [0x64244, c, psyq/libapi/VSync]
       - [0x643BC, c, psyq/libapi/v_wait]
-      - [0x64454, asm, main/Data_80073C54]
+      - {start: 0x64454, type: rodata, name: psyq/libc/A63_signature, linker_section_order: .text, linker_section: .psyq_signature}
       - [0x6445C, c, psyq/libc/puts]
       - [0x64474, c, pad/ChangeClearPAD]
       - [0x64484, c, psyq/libapi/ChangeClearRCnt]
@@ -1089,7 +1089,7 @@ segments:
       - [0x685C4, c, psyq/libgte/geo_01]
       - [0x68664, c, gte/Gte_SetDepthParams]
       - [0x68768, pad]
-      - [0x68774, asm, main/068774_pre_InitGeom]
+      - {start: 0x68774, type: rodata, name: psyq/libgte/MSC00_signature, linker_section_order: .text, linker_section: .psyq_signature}
       - [0x6877C, asm, psyq/libgte/InitGeom]
       - [0x687FC, pad]
       - [0x68804, asm, gte/Gte_ISqrt]

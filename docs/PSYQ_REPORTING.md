@@ -84,6 +84,18 @@ The full executable SHA-1 remains the final layout and byte check.
 
 This removes 27 spurious functions (108 reported code bytes), not 27 newly
 completed decompilations. Padding is still included in the expected-object
-coverage audit. The two nonzero SDK signatures and the exception-handler
-instruction templates are separate data-classification work; they are not
-included in this zero-padding correction.
+coverage audit. The nonzero SDK signatures discussed below and the exception-handler
+instruction templates are not included in this zero-padding correction.
+
+## SDK signature records
+
+The eight-byte records at `0x80073C54` and `0x80077F74` belong to the verified
+`A63.OBJ` and `MSC00.OBJ` images. Their first SDK function labels are `puts`
+and `InitGeom`, both at object offset eight. The records are readonly data,
+not callable functions or zero padding.
+
+The manifest places their `.psyq_signature` input sections in the original
+text order. A distinct readonly section prevents the linker's earlier
+`.rodata*` collection from moving them to the beginning of the executable.
+Objdiff therefore counts the 16 bytes as data, while the full retail SHA-1
+still verifies their exact content and placement. No code match is awarded.
