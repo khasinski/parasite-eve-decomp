@@ -132,7 +132,7 @@ segments:
       - [0x23A0, rodata, main/rodata_0023A0_post_getintr]
       - [0x249C, .rodata, psyq/libds/DsPacket]
       - [0x2500, rodata, main/rodata_002500]
-      - [0x250C, rodata, main/rodata_00250C]
+      - [0x250C, .rodata, psyq/libds/dssys1_sync]
       - [0x2574, rodata, main/rodata_002574]
       # Psy-Q 4.6 DSFILE.OBJ private strings (0x1F0-byte .rdata).
       - [0x266C, .rodata, psyq/libds/dsfile]
@@ -1252,7 +1252,7 @@ segments:
       - [0x6ED94, c, psyq/libds/CQ_clear_queue]
       - [0x6EDC4, c, psyq/libds/Spu_DrainQueueEntry]
       - [0x6EEB0, c, cdrom/Spu_GetQueueEntryPtr]
-      - [0x6EF04, asm, main/Render_DrawParticle]
+      - [0x6EF04, c, psyq/libds/dssys2_flush]
       - [0x6F0F4, c, cdrom/CdRom_DispatchPendingCmd]
       - [0x6F164, asm, main/Render_StepParticleNode]
       - [0x6F388, c, cdrom/CdRom_EnqueueCmd]
@@ -1287,7 +1287,7 @@ segments:
       - [0x70624, asm, main/Render_StepParticlePool]
       - [0x708F4, c, cdrom/CdRom_RetryCmd]
       - [0x70964, c, main/Render_DrawParticleGroup]
-      - [0x70A20, asm, main/Render_DrawParticleSprite]
+      - [0x70A20, c, psyq/libds/dssys1_sync]
       - [0x70C04, asm, main/Render_DrawParticleAlt]
       - [0x70E8C, c, cdrom/CdRom_CmdEventCallback]
       - [0x70F78, c, cdrom/CdRom_ReadyEventDispatch]
@@ -1356,7 +1356,7 @@ segments:
       # Read-layout advance, sizing, and transfer start share CardObj state.
       - [0x73E44, c, memcard/CardObj_ReadTransferState]
       - [0x7409C, c, memcard/CardObj_EmitReadTransferCommand]
-      - [0x74144, asm, memcard/CardObj_ProcessReadPayload]
+      - [0x74144, c, psyq/libpad/PadReadPayload]
       # Command-4D setup and emission share CardObj::field_20.
       - [0x743B8, c, memcard/CardObj_Command4DState]
       - [0x7443C, c, main/Render_CheckParticleBounds]
@@ -1380,6 +1380,7 @@ segments:
       - [0x75344, c, memcard/MemCard_SetCallbackVtable]
       - [0x75378, c, memcard/func_80084B78]
       - [0x7544C, asm, memcard/mem_7544C]
+      - [0x756B0, c, psyq/libpad/DirFailAuto]
       - [0x7578C, c, memcard/CardObj_IsTransferActive]
       - [0x757B8, asm, main/gap_memcard_mem_tail_757B8]
       - [0x757C4, c, util/Timer_StartTimeout]

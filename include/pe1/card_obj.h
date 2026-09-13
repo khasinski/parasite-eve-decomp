@@ -3,6 +3,23 @@
 
 #include "common.h"
 
+/* PADCMD.OBJ capability response tables addressed by CardObj field_04/08.
+ * The protocol meaning of each capability byte is not yet named. */
+typedef struct PadCapabilityRecord {
+    u8 bytes[4];
+    u8 high_bit;
+} PadCapabilityRecord;
+typedef struct PadDataRecord {
+    u8 length;
+    u8 reserved[3];
+    u8 *data;
+} PadDataRecord;
+PE1_STATIC_ASSERT(sizeof(PadCapabilityRecord) == 5, pad_capability_record_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(PadCapabilityRecord, high_bit) == 4,
+                  pad_capability_high_bit_offset);
+PE1_STATIC_ASSERT(sizeof(PadDataRecord) == 8, pad_data_record_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(PadDataRecord, data) == 4, pad_data_record_pointer);
+
 /* LIBPAD per-port command object (legacy CardObj_* names). field_46 is unsigned char: stored as 1
  * by BeginCommand4D and compared ==0xFF (lbu) by IsTransferActive. */
 typedef struct CardObj {

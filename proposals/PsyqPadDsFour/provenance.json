@@ -1,0 +1,58 @@
+[
+  {
+    "sdk_symbol": "_dirFailAuto",
+    "legacy_symbol": "MemCard_OutputHandler",
+    "sdk_version": "4.3",
+    "library": "LIBPAD.LIB",
+    "object": "PADSEQD.OBJ",
+    "sdk_text_offset": 900,
+    "retail_address": "0x80084eb0",
+    "size": 220,
+    "retail_sha256": "47e8a6fba0fec4977c4010c8939c74c7c6df252963140491477700e6124c0c7e",
+    "signature_json_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+    "compared_nonrelocation_bytes": 210,
+    "wildcard_bytes": 10
+  },
+  {
+    "sdk_symbol": "text_3A0",
+    "legacy_symbol": "CardObj_ProcessReadPayload",
+    "sdk_version": "4.3",
+    "library": "LIBPAD.LIB",
+    "object": "PADCMD.OBJ",
+    "sdk_text_offset": 928,
+    "retail_address": "0x80083944",
+    "size": 628,
+    "retail_sha256": "ba83b67dddbf9a9076dfcba0b38d448dbf688b2b114704e9ccf1f1732f54736d",
+    "signature_json_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+    "compared_nonrelocation_bytes": 593,
+    "wildcard_bytes": 35
+  },
+  {
+    "sdk_symbol": "text_170",
+    "legacy_symbol": "Render_DrawParticle",
+    "sdk_version": "4.3",
+    "library": "LIBDS.LIB",
+    "object": "DSSYS_2.OBJ",
+    "sdk_text_offset": 368,
+    "retail_address": "0x8007e704",
+    "size": 496,
+    "retail_sha256": "cc34f5b089194c02b861b44bdc80af68287db290a4f3fd5cf00e639d62e56e7e",
+    "signature_json_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+    "compared_nonrelocation_bytes": 458,
+    "wildcard_bytes": 38
+  },
+  {
+    "sdk_symbol": "text_8B8",
+    "legacy_symbol": "Render_DrawParticleSprite",
+    "sdk_version": "4.3",
+    "library": "LIBDS.LIB",
+    "object": "DSSYS_1.OBJ",
+    "sdk_text_offset": 2232,
+    "retail_address": "0x80080220",
+    "size": 484,
+    "retail_sha256": "bac5290de82e938bb8034314056c4e9780ad94fab23e8224e2d4ad252fb94546",
+    "signature_json_sha256": "07e202575a2829eab0fcc26010269c89f9e528d3b6563284e6a0790169a2e79d",
+    "compared_nonrelocation_bytes": 412,
+    "wildcard_bytes": 72
+  }
+]
