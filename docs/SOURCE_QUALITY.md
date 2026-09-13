@@ -593,6 +593,41 @@ saturation are not modeled. Full linked byte identity verifies the complete
 instruction stream. The range `0x800CF5B0..0x800CF658` is a function boundary;
 the original TU boundary remains unresolved.
 
+### Transforming a point by an indexed object matrix
+
+`FieldEng_TransformMatrixPoint` at `0x800CE8F0` matches all 228 retail bytes
+with stock GCC 2.7.2 and unmodified default MASPSX. It selects a 32-byte
+matrix from the owner's table, loads its rotation, clears GTE translation,
+and transforms the input with SF=12. CPU-side unsigned addition applies the
+selected matrix's translation modulo 32 bits before narrowing to output
+halfwords. This preserves retail wrapping without signed-overflow undefined
+behavior. The output padding is untouched; input and output may alias.
+
+The existing `RoomFxTransformOwner` supplies the table pointer at +0x238.
+Its `RoomFxTransform` entries already describe the translation at +0x14;
+`GteMatrixWords` supplies the packed rotation view. No competing owner layout
+is introduced. The function reloads the owner's table for each output
+coordinate, as in retail, and leaves the selected rotation and zero
+translation in GTE control registers. Every COP2 transfer, command and hazard
+NOP uses an existing individual macro; ordinary loads and arithmetic stay in C.
+
+Three transfer pins ($12/$13/$14) and one empty pointer barrier remain in
+debt. The three scalar `(u32)` conversions are also counted by the current
+syntactic `pointer_integer_casts` rule; they convert signed MAC values, not
+pointers. Removing the pins individually gives 54, six and four differing
+instruction words; removing the barrier shortens the function to 224 bytes
+and gives 42 differing words. The barrier retains base-plus-field addressing
+for the local zero-translation matrix. The partial local matrix's other
+words are neither initialized nor accessed.
+
+A scratch differential test checks host C against retail MIPS over 4096
+cases using modeled COP2 transfers and MAC arithmetic: valid positive and
+negative indices within an array, full-range coefficients/vectors/translations,
+input/output aliasing, narrowing, padding, unchanged owner/matrices and final
+control/MAC registers. GTE flags and IR saturation are not modeled; full
+linked byte identity verifies the actual instruction stream. The extracted
+range `0x800CE8F0..0x800CE9D4` is a function boundary, not a recovered original TU.
+
 ## Migration order
 
 For a subsystem, prefer this order:

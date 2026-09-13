@@ -88,6 +88,11 @@ extern RenderMatrixSlot D_800BCFA4;
 void FieldEng_TransformTranslation(const GteShortVector *input,
                                   GteMatrixWords *output);
 
+struct RoomFxTransformOwner;
+void FieldEng_TransformMatrixPoint(struct RoomFxTransformOwner *owner, int index,
+                                  const GteShortVector *input,
+                                  GteShortVector *output);
+
 /* Shared runtime object layout used by the morph and draw paths. */
 typedef struct RenderVec3s {
     signed short x;
