@@ -11,16 +11,15 @@ class ResetGraphTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_reset_modes_order_layout_and_dimensions(self):
         source = (ROOT / "src/main/main/Render_InitEntityPool.c").read_text()
-        for pin in ('$4', '$2', '$3'):
+        for pin in ('$4', '$2'):
             self.assertEqual(source.count('asm("%s")' % pin), 1)
             source = source.replace('asm("%s")' % pin, '')
         source = source.replace('::: "$6"', '::: "memory"')
         source = source.replace(': "$3");', ': "memory");')
-        # Preserve the PSX state layout and map only its fixed-address page.
+        # Preserve the PSX state layout on the host.
         source = source.replace('void (*done)(void);', 'unsigned int done;')
-        source = source.replace('(unsigned char *)0x80090000', 'testPage')
         source = source.replace('printf', 'testPrintf')
-        harness = 'static unsigned char testPage[0x6000];\n' + source + r'''
+        harness = source + r'''
 #include <assert.h>
 #include <stdarg.h>
 #include <stdint.h>
@@ -29,6 +28,7 @@ class ResetGraphTests(unittest.TestCase):
 GpuState D_8009574C;
 unsigned char D_8009574E, D_80095704[4];
 char D_800117E0[] = "reset", D_80011800[] = "soft";
+unsigned short D_800957CC[3][2];
 unsigned short D_800957D8[3][2] = {{241, 999}, {481, 999}, {513, 999}};
 static GpuCallbacks callbacks;
 GpuCallbacks *D_80095744 = &callbacks;
@@ -38,7 +38,7 @@ int testPrintf(char *format, ...) {
     assert(stage == 0 && format == D_800117E0);
     va_start(ap, format);
     assert(va_arg(ap, unsigned char *) == D_80095704);
-    assert(va_arg(ap, unsigned char *) == testPage + 0x574C);
+    assert(va_arg(ap, unsigned char *) == (unsigned char *)&D_8009574C);
     va_end(ap);
     ++prints;
     return 0;
@@ -86,7 +86,7 @@ int main(void) {
     assert(offsetof(GpuState, displayCache) == 0x6C);
     callbacks.reset = softReset;
     for (variant = 0; variant < 3; ++variant)
-        *(unsigned short *)(testPage + 0x57CC + 4 * variant) = 321 + 100 * variant;
+        D_800957CC[variant][0] = 321 + 100 * variant;
     for (mode = -8; mode < 24; ++mode) for (level = 0; level < 4; ++level)
     for (variant = 0; variant < 3; ++variant) {
         unsigned char before[128], expected[128] = {0};

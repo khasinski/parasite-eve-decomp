@@ -1,3 +1,4 @@
+/* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses -fno-schedule-insns2 */
 #include "pe1/psyq_cd.h"
@@ -7,7 +8,6 @@ extern int D_800A3604, D_800A3600, g_CdPendingReadCount, D_800A3690;
 extern void CdRom_AbortCmd(void);
 extern void DS_read_cbready(void);
 extern void CdRom_EnableDsReadSystem(void);
-register int *resetPage asm("$1");
 
 int CdRom_ResetDsReadSystem(void) {
     int i, j, k, offset;
@@ -37,8 +37,7 @@ int CdRom_ResetDsReadSystem(void) {
     g_CdPendingReadCount = 0;
     for (k = 7, offset = 112; k >= 0; --k, offset -= 16)
         *(int *)((unsigned char *)D_800A3610 + offset) = 0;
-    resetPage = (int *)0x800A0000;
-    resetPage[0x3690 / 4] = 0;
+    D_800A3690 = 0;
     DS_read_cbready();
     DsReadCallback(0);
     CdRom_EnableDsReadSystem();

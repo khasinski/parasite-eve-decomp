@@ -1,3 +1,5 @@
+/* CC1_FLAGS: -mno-split-addresses */
+/* ASSEMBLER: GNU */
 #include "common.h"
 #include "pe1/psyq_gpu.h"
 
@@ -10,14 +12,7 @@ u_short GetTPage(int mode, int blend, int x, int y);
 u_short GetClut(int x, int y);
 int GetVideoMode(void);
 
-extern int D_800956EC;
-
-typedef struct VideoModeDataPage {
-    char reserved00[0x56EC];
-    int video_mode;
-} VideoModeDataPage;
-
-register VideoModeDataPage *g_VideoModeWritePage asm("$1");
+extern int g_VideoMode;
 
 u32 Gpu_LoadTexImageAndGetTPage(u_long *pixels, int mode, int blend,
                                     int x, int y, int width, int height)
@@ -143,16 +138,14 @@ DISPENV *SetDefDispEnv(DISPENV *env, int x, int y, int w, int h)
     return env;
 }
 
-
 int SetVideoMode(int mode) {
     int old;
 
-    old = D_800956EC;
-    g_VideoModeWritePage = (VideoModeDataPage *)0x80090000;
-    g_VideoModeWritePage->video_mode = mode;
+    old = g_VideoMode;
+    g_VideoMode = mode;
     return old;
 }
 
 int GetVideoMode(void) {
-    return D_800956EC;
+    return g_VideoMode;
 }

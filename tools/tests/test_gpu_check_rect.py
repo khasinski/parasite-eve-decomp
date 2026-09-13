@@ -32,7 +32,7 @@ class CheckRectTests(unittest.TestCase):
 #include <stdint.h>
 #include <string.h>
 GpuDebugState D_8009574C;
-char D_800118B8[] = "all", D_800118A4[] = "fields";
+char D_80011898[] = "invalid", D_800118B8[] = "all", D_800118A4[] = "fields";
 static char name[] = "test";
 static RECT before;
 static int calls;
@@ -41,7 +41,7 @@ void test_debug(char *format, ...) {
     va_start(ap, format);
     if (calls == 0) {
         assert(format == (D_8009574C.queueState.debugLevel == 1
-            ? (char *)(uintptr_t)0x80011898 : D_800118B8));
+            ? D_80011898 : D_800118B8));
         assert(va_arg(ap, char *) == name);
     } else {
         assert(calls == 1 && format == D_800118A4);

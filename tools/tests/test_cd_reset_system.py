@@ -11,17 +11,13 @@ class CdResetSystemTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_reset_order_and_preserved_fields(self):
         source = (ROOT / "src/main/cdrom/CdRom_ResetDsReadSystem.c").read_text()
-        # Replace the register binding and map the PS1 data page to host RAM.
-        source = source.replace('register int *resetPage asm("$1");',
-                                'static int *resetPage;')
-        source = source.replace('(int *)0x800A0000', 'resetMemory')
         source = source.replace(
             'extern unsigned char D_800A3515[], D_800A3525[], D_800A3535[];',
             '#define D_800A3515 ((unsigned char *)g_CdQueuedCmdSlots + 5)\n'
             '#define D_800A3525 ((unsigned char *)g_CdQueuedCmdSlots + 21)\n'
             '#define D_800A3535 ((unsigned char *)g_CdQueuedCmdSlots + 37)')
-        harness = '#include <assert.h>\n#include <string.h>\n' \
-                  'static int resetMemory[0x4000 / 4];\n' + source + r'''
+        harness = '#include <assert.h>\n#include <string.h>\n' + \
+                  source + r'''
 DsCallbackRegistry g_DsReadCallbackState;
 CdQueuedCmdSlot g_CdQueuedCmdSlots[3];
 CdDsReadQueueEntry g_CdDsReadQueue[8];
@@ -46,6 +42,7 @@ void CQ_clear_queue(void *raw_queue) {
     CdDsReadQueueEntry *queue = raw_queue;
     int i, j;
     assert(stage == 1 && queue == &g_CdDsReadQueue[queues]);
+    assert(D_800A3690 == fill);
     status_cleared();
     assert(D_800A3600 == 123 && D_800A3604 == 456 && g_CdPendingReadCount == 789);
     for (i = 0; i < 8; ++i) for (j = 0; j < sizeof(CdDsReadQueueEntry); ++j)
@@ -60,9 +57,7 @@ void DS_read_cbready(void) {
     assert(D_800A3600 == 0 && D_800A3604 == 0 && g_CdPendingReadCount == 0);
     for (i = 0; i < 8; ++i) for (j = 0; j < 16; ++j)
         assert(((unsigned char *)&D_800A3610[i])[j] == (j < 4 ? 0 : fill));
-    for (i = 0; i < sizeof(resetMemory); ++i)
-        assert(((unsigned char *)resetMemory)[i] ==
-               (i >= 0x3690 && i < 0x3694 ? 0 : fill));
+    assert(D_800A3690 == 0);
 }
 DsCallback DsReadCallback(DsCallback callback) {
     assert(stage++ == 2 && callback == 0);
@@ -75,7 +70,7 @@ int main(void) {
         memset(g_CdQueuedCmdSlots, fill, sizeof(g_CdQueuedCmdSlots));
         memset(g_CdDsReadQueue, fill, sizeof(g_CdDsReadQueue));
         memset(D_800A3610, fill, sizeof(D_800A3610));
-        memset(resetMemory, fill, sizeof(resetMemory));
+        D_800A3690 = fill;
         D_800A3600 = 123; D_800A3604 = 456; g_CdPendingReadCount = 789;
         stage = queues = 0;
         assert(CdRom_ResetDsReadSystem() == 1);

@@ -25,7 +25,7 @@ unsigned int _param(int parameter) {
     return 0x12300 + parameter;
 }
 void Gpu_StartDmaTransfer(unsigned int packet) {
-    assert(packet == 0x800A3300 && starts == 0);
+    assert(packet == (unsigned int)(uintptr_t)D_800A3300 && starts == 0);
     assert(params == (slow ? 3 : 0));
     if (slow) assert(D_800A3328[3] == 0xE5012305);
     ++starts;

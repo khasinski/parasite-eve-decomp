@@ -1,3 +1,4 @@
+/* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 
@@ -63,7 +64,7 @@ int DrawSync(int arg0) {
 #include "pe1/psyq_gpu.h"
 #include "pe1/gpu_state.h"
 
-extern char D_800118B8[], D_800118A4[];
+extern char D_800118B8[], D_800118A4[], D_80011898[];
 
 void checkRECT(char *name, RECT *rect) {
     char *format;
@@ -72,10 +73,7 @@ void checkRECT(char *name, RECT *rect) {
         if (rect->w > D_8009574C.width || rect->w + rect->x > D_8009574C.width ||
             rect->y > D_8009574C.height || rect->y + rect->h > D_8009574C.height ||
             rect->w <= 0 || rect->x < 0 || rect->y < 0 || rect->h <= 0) {
-            /* USA D_80011898: keep page and string offset separate. */
-            format = (char *)0x80010000;
-            asm volatile("" : "=r"(format) : "0"(format));
-            format += 0x1898;
+            format = D_80011898;
             break;
         }
         return;

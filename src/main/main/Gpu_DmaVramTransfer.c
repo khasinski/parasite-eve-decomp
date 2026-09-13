@@ -1,3 +1,4 @@
+/* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/psyq_gpu.h"
@@ -45,10 +46,7 @@ int Gpu_DmaVramTransfer(RECT *rect, unsigned int color) {
         D_800A3300[5] = *(unsigned int *)&rect->w;
     }
     {
-        /* Fixed USA packet address; keep page and offset separate. */
-        unsigned int packet = 0x800A0000;
-        asm volatile("" : "+r"(packet));
-        Gpu_StartDmaTransfer(packet + 0x3300);
+        Gpu_StartDmaTransfer((unsigned int)D_800A3300);
     }
     {
         int result = 0;
