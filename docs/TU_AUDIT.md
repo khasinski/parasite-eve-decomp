@@ -8,6 +8,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Range | Unit | Evidence |
 | --- | --- | --- |
+| `0x6CA14..0x6CB04` | `psyq/libcd/c_004` | Verified SDK `LIBCD/C_004.OBJ` boundary: `data_ready_callback` and `StGetBackloc` now compile together with stock GCC 2.7.2 / GNU as. All 228 code bytes match; the remaining 12 bytes stay explicit manifest padding. `StHEADER.id`, `.frameCount` and `.loc` replace raw header offsets, and streaming declarations are shared with `StClearRing`/`StCdInterrupt`. One empty load-order barrier is recorded in debt; the former per-function GCC 2.8.1 override is removed. |
 | `0x23B5C..0x241A0` | `gpu/Gpu_SetupSprites` | Sprite setup, ordering-table enqueue, and status-icon emission form one battle-status renderer. They share the active draw slot, sprite primitive pool, ordering-table table, and `-G8` profile; reconciling `AddPrim` to its `u32 *` API preserves the combined 1604-byte object exactly. |
 | `0x620D0..0x621E4` | `psyq/libgpu/tim` | The five contiguous helpers share the PSX TIM container. `Gpu_LoadTimImage` now records the verified TIM header and block layout: flags at `0x04`, an optional CLUT block, and `length + RECT + payload` image blocks. Its typed image and CLUT uploads preserve the complete 276-byte object exactly. |
 | `0x64F74..0x65238` | `gpu/libgpu_sys` | Seven contiguous functions match the known Psy-Q `libgpu/sys.c` tail in SDK source order. Their combined object retains every function's retail size; the sole changed relocation is the now object-local `SetDefDrawEnv` → `GetVideoMode` call. `make check` is retail-identical. |
@@ -236,3 +237,24 @@ the matching object code:
 Every proposed merge must retain manifest order, pass its behavioral tests,
 `make overlay-check OVERLAY=room_m350`, and a clean verification before it is
 accepted.
+
+## GTE matrix word layout
+
+`GteMatrixWords` is an explicit transfer view of the existing `GteMatrix`, not
+an assertion about an original SDK C typedef. Its five rotation words are
+`r11_r12`, `r13_r21`, `r22_r23`, `r31_r32` and `r33_pad`; translation begins at
+byte 20. Size and layout assertions tie this 32-byte view to `GteMatrix`.
+The final rotation word includes the matrix alignment halfword, so treating
+it as a vector component or the beginning of translation would be incorrect.
+
+`ApplyMatrix`, `ApplyMatrixSV`, `Gte_RotateVec`, `MulMatrix0`, `MulRotMatrix`,
+`SetRotMatrix` and `SetLightMatrix` now access those named fields. The latter
+two accept a matrix pointer instead of an untyped sequence of integer words.
+These functions remain separate TUs: their known SDK object identities do
+not justify merging them into a single source object. Existing full linked-byte
+tests and the retail EXE SHA-1 check pass with this shared layout.
+
+C_004 retains a byte-aligned source alias for its CdlLOC copy. Declaring that
+alias as `StHEADER *` lets GCC replace the retail unaligned copy with aligned
+word transfers. Field names are recovered without hiding that remaining
+alignment constraint or claiming it as clean portable C.

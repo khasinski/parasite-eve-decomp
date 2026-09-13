@@ -10,16 +10,14 @@ extern s32 D_8009B374;
 extern StHEADER *D_800A34A0;
 extern u32 D_800A5D54;
 extern s16 D_800A8018;
-extern s32 D_800A801C, D_800A8020;
+extern s32 D_800A801C;
 extern void (*D_800B0CCC)(void);
-extern s32 D_800B0CD0, D_800B6914, D_800B8620, D_800B89F4, D_800BCD7C, D_800BE998,
-    D_800BE9E4;
+extern s32 D_800B0CD0, D_800B6914, D_800B8620, D_800B89F4, D_800BCD7C, D_800BE9E4;
 extern u32 D_800C0DBC;
 extern s32 D_800C0DC0;
 extern u8 *D_800C0DC4;
 extern StHEADER *D_800C0DC8;
 extern s32 D_800C20C4;
-void data_ready_callback(void);
 
 /* Streaming comparisons deliberately use only the low 16 bits of frameCount. */
 #define ST_FRAME_INDEX(header) (*(u16 *)&(header)->frameCount)

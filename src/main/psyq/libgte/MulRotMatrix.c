@@ -14,12 +14,12 @@ GteMatrix *MulRotMatrix(GteMatrix *right) {
     register u32 mask asm("$1");
     GteMatrix *ret;
     GteMatrix *out = right;
-    const u32 *b = (const u32 *)right;
-    u32 *c = (u32 *)out;
+    const GteMatrixWords *b = (const GteMatrixWords *)right;
+    GteMatrixWords *c = (GteMatrixWords *)out;
     /* Pack column zero as VXY0 and VZ0. All input columns precede output stores. */
-    xy = b[0];
-    packed = b[1];
-    z = b[3];
+    xy = b->r11_r12;
+    packed = b->r13_r21;
+    z = b->r31_r32;
     asm volatile("" : "=r"(xy), "=r"(packed), "=r"(z) : "0"(xy), "1"(packed), "2"(z));
     xy &= 0xffff;
     mask = 0xffff0000U;
@@ -32,7 +32,7 @@ GteMatrix *MulRotMatrix(GteMatrix *right) {
     gte_mvmva_rotation_v0_sf12();
     /* Start column one while retaining column zero in scalar registers. */
     xy = (u16)right->m[0][1];
-    packed = b[2];
+    packed = b->r22_r23;
     z = right->m[2][1];
     asm volatile("" : "=r"(xy), "=r"(packed), "=r"(z) : "0"(xy), "1"(packed), "2"(z));
     packed <<= 16;
@@ -46,8 +46,8 @@ GteMatrix *MulRotMatrix(GteMatrix *right) {
     gte_mvmva_rotation_v0_sf12();
     /* Start column two while retaining column one. */
     xy = (u16)right->m[0][2];
-    packed = b[2];
-    z = b[4];
+    packed = b->r22_r23;
+    z = b->r33_pad;
     asm volatile("" : "=r"(xy), "=r"(packed), "=r"(z) : "0"(xy), "1"(packed), "2"(z));
     mask = 0xffff0000U;
     asm volatile("" : "=r"(mask) : "0"(mask));
@@ -63,23 +63,23 @@ GteMatrix *MulRotMatrix(GteMatrix *right) {
     firstX &= 0xffff;
     secondX <<= 16;
     secondX |= firstX;
-    c[0] = secondX;
-    asm volatile("" : "=r"(firstZ), "=r"(secondZ) : "0"(firstZ), "1"(secondZ), "m"(c[0]));
+    c->r11_r12 = secondX;
+    asm volatile("" : "=r"(firstZ), "=r"(secondZ) : "0"(firstZ), "1"(secondZ), "m"(c->r11_r12));
     firstZ &= 0xffff;
     secondZ <<= 16;
     secondZ |= firstZ;
-    c[3] = secondZ;
+    c->r31_r32 = secondZ;
     gte_mfc2_9(xy);
     gte_mfc2_10(packed);
     xy &= 0xffff;
     firstY <<= 16;
     xy |= firstY;
-    c[1] = xy;
-    asm volatile("" : "=r"(secondY), "=r"(packed) : "0"(secondY), "1"(packed), "m"(c[1]));
+    c->r13_r21 = xy;
+    asm volatile("" : "=r"(secondY), "=r"(packed) : "0"(secondY), "1"(packed), "m"(c->r13_r21));
     secondY &= 0xffff;
     packed <<= 16;
     packed |= secondY;
-    c[2] = packed;
+    c->r22_r23 = packed;
     gte_swc2_11_16(out);
     ret = out;
     asm volatile("" : "=r"(ret) : "0"(ret));

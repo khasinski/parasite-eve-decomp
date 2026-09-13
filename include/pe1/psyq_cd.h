@@ -83,6 +83,23 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(StHEADER, loc) == 0x1C,
 extern StHEADER *StRingAddr;
 extern u32 StRingSize;
 
+/* C_004 streaming completion and back-location state. The byte-view alias
+ * retains the retail unaligned CdlLOC copy; entries still use StHEADER fields.
+ */
+extern u8 *g_CdRingBufPtr;
+extern int g_CdStreamRingReadSlot;
+extern int g_CdStreamDataReadyFlag;
+extern int D_800BE998;
+extern CdlLOC D_800A3490;
+extern int D_800A3494;
+extern int D_800A8020;
+extern DsCallback g_StrDataReadyCallback;
+int CdPosToInt_Local(CdlLOC *p);
+CdlLOC *CdIntToPos_Local(int i, CdlLOC *p);
+void data_ready_callback(void);
+int StGetBackloc(CdlLOC *position);
+
+
 typedef struct CdlATV {
     u_char val0;
     u_char val1;

@@ -13,12 +13,12 @@ GteVector *Gte_RotateVec(const GteMatrix *matrix, const GteVector *v, GteVector 
     register s32 hz asm("$13");
     register int zero asm("$0");
     register GteVector *dst asm("$6") = out;
-    const u32 *m = (const u32 *)matrix;
-    x = m[0];
-    y = m[1];
-    z = m[2];
-    hx = m[3];
-    hy = m[4];
+    const GteMatrixWords *m = (const GteMatrixWords *)matrix;
+    x = m->r11_r12;
+    y = m->r13_r21;
+    z = m->r22_r23;
+    hx = m->r31_r32;
+    hy = m->r33_pad;
     gte_ctc2_0(x);
     gte_ctc2_1(y);
     gte_ctc2_2(z);
