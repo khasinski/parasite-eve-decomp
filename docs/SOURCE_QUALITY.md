@@ -441,6 +441,25 @@ field-engine ASM region, not a claim about original translation units.
 A scratch test compares host-compiled C with original retail MIPS over 4096
 cases, including signed counts, overlapping input and padding, with no mocks.
 
+### Field cosine effect
+
+`FieldEng_CosineEffect` at `0x800DAB98` matches all 268 retail bytes with
+stock GCC 2.7.2 and unmodified MASPSX, without pins, barriers or instruction
+ASM. Mode 1 computes X from the amplitude and cosine of elapsed time divided
+by duration, using signed division by 4096 (truncation toward zero), increases
+Y by 16, and returns completion when the time reaches the duration. Mode 2
+samples the color track and submits the draw helper with scale 128 and mode 1;
+other modes return zero. `RenderCosineEffect` captures the four halfword fields.
+The existing `--expand-div` option preserves the retail zero/overflow checks;
+valid update inputs have a nonzero duration and representable scaled time.
+
+The extracted function range `0x800DAB98..0x800DACA4` remains a partial
+field-engine reconstruction, not a recovered original TU boundary.
+A scratch differential test checks host C against original MIPS over 4096
+cases, including signed divisors, rounding, Y wrapping, completion and exact
+helper arguments (with controlled helper results). The color-track helper
+at 0x800CF3AC remains ASM; its separate candidate is not credited as a match.
+
 ## Migration order
 
 For a subsystem, prefer this order:

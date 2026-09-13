@@ -38,6 +38,21 @@ PE1_STATIC_ASSERT(sizeof(RenderHistoryPoint) == 8, render_history_point_size);
 void FieldEng_UpdatePointHistory(RenderHistoryPoint *history, s16 count,
                                  RenderHistoryPoint *value, int reset);
 
+typedef struct RenderCosineEffect {
+    s16 x;
+    s16 amplitude;
+    s16 y;
+    s16 duration;
+} RenderCosineEffect;
+
+PE1_STATIC_ASSERT(sizeof(RenderCosineEffect) == 8, render_cosine_effect_size);
+
+extern int D_800E27EC;
+extern u8 D_800E1C04[];
+void func_800CF3AC(void *track, void *color, int time);
+void func_800D27FC(int x, int y, void *color, int scale, int mode);
+int FieldEng_CosineEffect(int mode, RenderCosineEffect *effect);
+
 /* Shared runtime object layout used by the morph and draw paths. */
 typedef struct RenderVec3s {
     signed short x;
