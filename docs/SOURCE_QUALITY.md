@@ -641,3 +641,38 @@ For a subsystem, prefer this order:
 
 This ordering keeps cleanup reviewable and avoids hiding ABI changes inside
 large mechanical source moves.
+
+### LIBCARD interrupt patch continuation
+
+`CardPatchFunctions` at 0x8007E370 now matches all 68 retail bytes without
+instruction ASM. This is a copied fragment of LIBCARD/PATCH, not a public
+Psy-Q API or a newly established original translation unit. Its former C
+source had an uninitialized pointer and an inline-ASM continuation jump.
+The incoming I/O base is now an explicit global v1 register binding, and
+`CardPatchIoRegisters` names the observed 0x1044/0x1074 word accesses. Their
+mapping to serial status and interrupt mask agrees with the
+[PSX I/O map](https://psx-spx.consoledev.net/iomap/).
+
+The fragment returns when interrupt-mask bit 0x80 is clear; otherwise it
+waits for serial-status bit 0x80 to clear, then jumps through the continuation
+slot at 0xDFFC. The adjacent installer at 0x8007E3DC writes that slot after
+copying its patch. A GNU computed goto expresses the BIOS continuation without
+changing ra. This is intentionally a compiler-specific BIOS patch boundary,
+not portable ISO C or an ordinary call to another C function.
+
+Stock GCC 2.7.2 and unchanged upstream MASPSX produce an exact 68-byte linked
+match. There are no empty barriers or explicit NOPs. The one v1 binding is
+part of the entry ABI: removing it adds three pointer-load instructions and
+produces 80 bytes instead of 68. Debt records one additional pin and computed
+goto, with one fewer instruction-ASM unit. The existing manifest boundary
+and historical name are retained; this repairs a constrained C unit rather
+than discovering another library export.
+
+A scratch Unicorn check covers 2048 differential cases (4096 executions) at
+retail and relocated patch addresses, with randomized interrupt masks and
+status words and zero to 31 busy polls. It checks ordered 32-bit reads, both
+exit destinations, unchanged v1/sp/ra, and no stores. Status is modeled input;
+this is not a full BIOS or serial-hardware timing test.
+
+Clean production verification passes all 340 tests and the main retail SHA-1;
+all 191 overlay binaries also retain their retail SHA-1.

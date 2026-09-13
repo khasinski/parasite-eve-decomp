@@ -1,16 +1,13 @@
-typedef unsigned int u32;
+#include "pe1/psyq_card.h"
 
+/* The copied BIOS patch enters with its I/O base in v1, not in a0. */
+register CardPatchIoRegisters *cardPatchIo asm("$3");
 void CardPatchFunctions(void) {
-    volatile u32 *v1;
-
-    if ((v1[0x1074 / 4] & 0x80) != 0) {
-        while ((v1[0x1044 / 4] & 0x80) != 0) {
+    if (cardPatchIo->interruptMask & 0x80) {
+        while (cardPatchIo->serialStatus & 0x80) {
         }
-        __asm__ volatile(
-            "lui $2,0x1\n\t"
-            "lw $2,-0x2004($2)\n\t"
-            "nop\n\t"
-            "jr $2\n\t"
-            "nop");
+        /* GNU computed goto: continue the installed BIOS code without
+         * changing ra. This is a patch entry, not a normal C-callable API. */
+        goto *g_CardPatchContinuation;
     }
 }
