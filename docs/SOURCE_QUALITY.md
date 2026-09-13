@@ -425,6 +425,22 @@ remaining field-engine ASM, not evidence of a separate original translation
 unit. SDK math declarations share `gte_types.h`; the game API is declared
 with the other render transforms in `render_object.h`.
 
+### Field point history
+
+`FieldEng_UpdatePointHistory` at `0x800D3AFC` matches all 204 retail bytes
+using stock GCC 2.7.2 and the default MASPSX pipeline, without pins, barriers
+or instruction ASM. Reset increments the signed 16-bit count and fills XYZ
+in each selected entry, leaving padding intact. The other path copies entries
+backwards by two aligned words and inserts the supplied entry at the front,
+including its padding. Input may overlap the history: reads stay in their
+retail order rather than caching the supplied point before the shift.
+`RenderHistoryPoint` records both views of this eight-byte, word-aligned data.
+
+The range `0x800D3AFC..0x800D3BC8` is a function extraction from a larger
+field-engine ASM region, not a claim about original translation units.
+A scratch test compares host-compiled C with original retail MIPS over 4096
+cases, including signed counts, overlapping input and padding, with no mocks.
+
 ## Migration order
 
 For a subsystem, prefer this order:

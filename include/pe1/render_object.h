@@ -26,6 +26,18 @@ void FieldEng_TransformPackedVertex(RenderPackedGeometry *geometry,
 void FieldEng_CalculateLookAngles(GteShortVector *from, GteShortVector *to,
                                  GteShortVector *out);
 
+/* History entries use halfword XYZ writes when filled, but aligned word
+ * copies (including padding) when shifted or replaced. */
+typedef union RenderHistoryPoint {
+    GteShortVector vector;
+    u32 words[2];
+} RenderHistoryPoint;
+
+PE1_STATIC_ASSERT(sizeof(RenderHistoryPoint) == 8, render_history_point_size);
+
+void FieldEng_UpdatePointHistory(RenderHistoryPoint *history, s16 count,
+                                 RenderHistoryPoint *value, int reset);
+
 /* Shared runtime object layout used by the morph and draw paths. */
 typedef struct RenderVec3s {
     signed short x;
