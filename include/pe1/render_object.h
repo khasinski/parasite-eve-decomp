@@ -53,6 +53,14 @@ void func_800CF3AC(void *track, void *color, int time);
 void func_800D27FC(int x, int y, void *color, int scale, int mode);
 int FieldEng_CosineEffect(int mode, RenderCosineEffect *effect);
 
+extern s16 D_800F3374;
+extern u8 D_800E1494[];
+void func_800CE870(char *object, int mode, s16 *position);
+void func_800D0728(GteShortVector *position, int arg1, int arg2, int arg3,
+                   GteRotation *rotation, int scale_x, int scale_y,
+                   void *data, void *color, int intensity, int mode);
+int FieldEng_RotatingEffect(int mode);
+
 /* Shared runtime object layout used by the morph and draw paths. */
 typedef struct RenderVec3s {
     signed short x;

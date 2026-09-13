@@ -460,6 +460,29 @@ cases, including signed divisors, rounding, Y wrapping, completion and exact
 helper arguments (with controlled helper results). The color-track helper
 at 0x800CF3AC remains ASM; its separate candidate is not credited as a match.
 
+### Rotating field effect
+
+`FieldEng_RotatingEffect` at `0x800DF87C` matches all 308 retail bytes with
+stock GCC 2.7.2 and unmodified default MASPSX, without pins, barriers or
+instruction ASM. Mode 1 returns completion at time 24. Mode 2 clears the
+render flag, obtains the current entity position, subtracts 300 from Y,
+samples a color track, and submits rotation and equal sine-based X/Y scales.
+Other modes return zero. Valid draw times are nonnegative and keep the
+shifted time representable as a signed 32-bit value.
+
+The existing `GteShortVector`, `GteRotation` and battle entity declaration
+supply the ABI. The draw helper passes the rotation to `RotMatrixYXZ` and
+uses its fourth halfword to select `MulRotMatrix`, supporting the rotation
+view rather than treating those eight bytes as anonymous stack storage.
+The extracted range `0x800DF87C..0x800DF9B0` is a function boundary within
+remaining ASM; the original TU boundary is not yet established.
+
+A scratch differential test compares host C with original retail MIPS across
+4096 cases, including the 23/24 completion boundary, position truncation,
+rotation, scale, render flag and all eleven draw arguments. Position, color,
+sine and draw helpers use controlled test implementations; full executable
+byte identity remains the final acceptance check.
+
 ## Migration order
 
 For a subsystem, prefer this order:

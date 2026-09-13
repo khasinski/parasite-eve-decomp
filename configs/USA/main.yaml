@@ -1642,6 +1642,8 @@ segments:
       - [0xCB4A4, asm, engine/engine_800D4860_CB4A4]
       - [0xCBDF4, c, engine/func_800DB5F4]
       - [0xCBEBC, asm, engine/engine_800D4860_CBEB8]
+      - [0xD007C, c, engine/FieldEng_RotatingEffect]
+      - [0xD01B0, asm, engine/engine_800D4860_D01B0]
       - [0xD0320, c, engine/func_800DFB20]
       - [0xD0378, c, engine/engine_800D4860_D0378]
       - [0xD0444, c, engine/FieldEng_VectorMath]

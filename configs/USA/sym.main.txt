@@ -1802,3 +1802,4 @@ FieldEng_TransformPackedVertex = 0x800C7AE0; // type:func
 FieldEng_CalculateLookAngles = 0x800CFAA8; // type:func
 FieldEng_UpdatePointHistory = 0x800D3AFC; // type:func
 FieldEng_CosineEffect = 0x800DAB98; // type:func
+FieldEng_RotatingEffect = 0x800DF87C; // type:func

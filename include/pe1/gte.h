@@ -2,6 +2,7 @@
 #define PE1_GTE_H
 
 int rcos(int angle);
+int rsin(int angle);
 
 /*
  * PSY-Q-style GTE operations.  Keep these macros limited to COP2 state and
