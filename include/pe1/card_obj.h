@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-/* Memory-card command object (CardObj_*). field_46 is unsigned char: stored as 1
+/* LIBPAD per-port command object (legacy CardObj_* names). field_46 is unsigned char: stored as 1
  * by BeginCommand4D and compared ==0xFF (lbu) by IsTransferActive. */
 typedef struct CardObj {
     unsigned char *field_00;           /* 0x00 */
@@ -26,7 +26,7 @@ typedef struct CardObj {
     unsigned char pad_38[0x04];
     unsigned char *response_3c;        /* 0x3C */
     unsigned char *field_40;           /* 0x40 */
-    unsigned char pad_44[0x01];
+    unsigned char response_index;     /* 0x44: received-byte cursor */
     unsigned char payload_index;       /* 0x45 */
     unsigned char field_46;           /* 0x46 */
     unsigned char field_47;           /* 0x47 */
@@ -54,6 +54,8 @@ typedef struct CardObj {
     int field_ec;                     /* 0xEC */
 } CardObj;
 
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CardObj, response_index) == 0x44, card_response_index);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CardObj, payload_index) == 0x45, card_payload_index);
 PE1_STATIC_ASSERT(sizeof(CardObj) == 0xF0, card_obj_size);
 
 #endif /* PE1_CARD_OBJ_H */

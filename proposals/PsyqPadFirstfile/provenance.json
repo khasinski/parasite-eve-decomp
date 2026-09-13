@@ -1,0 +1,58 @@
+[
+  {
+    "sdk_symbol": "_padStartCom",
+    "legacy_symbol": "MemCard_StartCounterIrq",
+    "sdk_version": "4.3",
+    "library": "LIBPAD.LIB",
+    "object": "PADMAIN.OBJ",
+    "sdk_text_offset": 812,
+    "retail_address": "0x80082cf0",
+    "size": 204,
+    "retail_sha256": "076b8ee57e1d1411d223e73ccc826bf4bd9094e504ed1881540730f58d14f197",
+    "signature_json_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+    "compared_nonrelocation_bytes": 153,
+    "wildcard_bytes": 51
+  },
+  {
+    "sdk_symbol": "text_770",
+    "legacy_symbol": "MemCard_RunCommandStep",
+    "sdk_version": "4.3",
+    "library": "LIBPAD.LIB",
+    "object": "PADMAIN.OBJ",
+    "sdk_text_offset": 1904,
+    "retail_address": "0x80083014",
+    "size": 200,
+    "retail_sha256": "c3ba3f12547108abdc045aa509fd58c8873482a66bffc381af9b3dc6c01861dc",
+    "signature_json_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+    "compared_nonrelocation_bytes": 163,
+    "wildcard_bytes": 37
+  },
+  {
+    "sdk_symbol": "_padSioRW",
+    "legacy_symbol": "MemCard_ReadByte",
+    "sdk_version": "4.3",
+    "library": "LIBPAD.LIB",
+    "object": "PADMAIN.OBJ",
+    "sdk_text_offset": 2104,
+    "retail_address": "0x800830dc",
+    "size": 472,
+    "retail_sha256": "481ec7da58da60808de11d9bf5c47c8eb3781eb80d6f31459513131603634a03",
+    "signature_json_sha256": "c79895a92d02ae260867012195c503b71457a9a370e604c367871437aa6909d3",
+    "compared_nonrelocation_bytes": 423,
+    "wildcard_bytes": 49
+  },
+  {
+    "sdk_symbol": "firstfile",
+    "legacy_symbol": "Scene_CreateEntityNode",
+    "sdk_version": "4.3",
+    "library": "LIBAPI.LIB",
+    "object": "FIRST.OBJ",
+    "sdk_text_offset": 0,
+    "retail_address": "0x800727b4",
+    "size": 412,
+    "retail_sha256": "fb4487ddf042d75ff65995232a434817de7de7f5b772bee5593ad0e2e850e24a",
+    "signature_json_sha256": "97df7d60fe59efcb305bfbbf6aeb1e899696a939e0cc83dec3f90c56fa64d9f9",
+    "compared_nonrelocation_bytes": 374,
+    "wildcard_bytes": 38
+  }
+]
