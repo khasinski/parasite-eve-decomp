@@ -1,19 +1,9 @@
+/* ASSEMBLER: GNU */
+#include "pe1/psyq_spu_internal.h"
 
-/* CC1_FLAGS: -fno-schedule-insns */
-/* CC1_FLAGS: -fno-schedule-insns2 */
-
-extern int D_8009B38C;
-
-typedef struct SpuReverbDataPage {
-    int enabled;
-    char reserved04[0x4BE4];
-} SpuReverbDataPage;
-
-register SpuReverbDataPage *g_SpuReverbWritePage asm("$1");
-
+/* Historical link name; Psy-Q LIBSPU SpuSetTransferMode. */
 int Spu_SetReverbMode(int mode) {
     int enabled;
-
     switch (mode) {
     case 0:
         enabled = 0;
@@ -25,9 +15,7 @@ int Spu_SetReverbMode(int mode) {
         enabled = 0;
         break;
     }
-
     D_8009B38C = mode;
-    g_SpuReverbWritePage = (SpuReverbDataPage *)0x800A0000;
-    g_SpuReverbWritePage[-1].enabled = enabled;
+    D_8009B418 = enabled;
     return enabled;
 }

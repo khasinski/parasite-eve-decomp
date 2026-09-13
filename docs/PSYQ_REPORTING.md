@@ -49,3 +49,24 @@ Validation of this correction: `make -j8 check`, all 325 tests in `make ci`,
 and `make report` pass. Global credited code remains 2,400,916 bytes / 10,517
 functions. Moving 238 functions into the SDK category changes `main-psyq` to
 385/516 functions and 74.50% code. All four renamed functions remain at 100%.
+
+## Symbolic stores in the two SPU setters
+
+`SpuSetIRQCallback` and `SpuSetTransferMode` (historical link names
+`Spu_SetTransferMode` and `Spu_SetReverbMode`) previously matched the retail
+EXE after linking, but their object comparisons were below 100%. Their final
+stores used a hard-coded `0x800A0000` page base and negative offsets instead
+of HI16/LO16 relocations against `_spu_IRQCallback` and `D_8009B418`.
+
+Direct C assignments through the existing shared declarations, compiled with
+stock native GCC 2.7.2 and the existing GNU assembler route, retain every
+linked byte and now match the symbolic object comparisons at 100%. No report
+masking, toolchain changes or new instruction macros are involved. The fake
+page structure, two register pins, one empty barrier and per-function compiler
+and scheduling overrides have been removed.
+
+`test_spu_symbolic_setters.py` checks the complete 60-byte and 48-byte linked
+ranges and their exact relocation offsets, types and symbols. Thus returning
+to fixed addresses fails the regression even if the final EXE still matches.
+This corrects report credit for two existing C reconstructions; it is not a
+claim that 108 previously unimplemented code bytes were newly decompiled.
