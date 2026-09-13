@@ -34,15 +34,15 @@ done:
 }
 
 
-#include "common.h"
-int func_800CE560(char *out, int stride, int count, int value)
+#include "pe1/field_anim.h"
+int func_800CE560(char *out, int stride, int count, FieldAnimTaskCallback callback)
 {
   int i;
   register char *entry;
   stride += 4;
   entry = out;
   entry = entry + 0xC;
-  *((int *) (out + 8)) = value;
+  *((FieldAnimTaskCallback *) (out + 8)) = callback;
   *((int *) (out + 0)) = stride;
   *((int *) (out + 4)) = count;
   for (i = 0; i < count; i++)
@@ -56,7 +56,6 @@ int func_800CE560(char *out, int stride, int count, int value)
 
 
 
-extern void *D_800F33E0;
 
 int func_800CE5AC(void *arg0, int arg1, int arg2, int arg3, void *arg4) {
     char *header;

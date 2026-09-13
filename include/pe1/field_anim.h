@@ -3,6 +3,37 @@
 
 #include "common.h"
 
+typedef int (*FieldAnimTaskCallback)(int mode, void *state);
+
+typedef struct FieldAnimTaskSlot {
+    u32 control;
+    char *start;
+    char *end;
+} FieldAnimTaskSlot;
+
+extern FieldAnimTaskSlot *D_800F33E0;
+int func_800CE560(char *out, int stride, int count, FieldAnimTaskCallback callback);
+void *func_800CE610(char *list);
+
+typedef struct FieldAnimEmitter {
+    int angle;
+} FieldAnimEmitter;
+
+/* Prefix of the 16-byte payload allocated by this emitter. */
+typedef struct FieldAnimEmittedPoint {
+    s16 position[3];
+    s16 state;
+    s16 value08;
+    s16 angle;
+    s16 phase;
+} FieldAnimEmittedPoint;
+
+extern u8 *D_800F32D8;
+extern s16 D_800E220C[];
+void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);
+int func_800D9A8C(int mode, void *state);
+int FieldEng_PointEmitter(int mode, FieldAnimEmitter *state);
+
 typedef struct FieldAnimPointTriple {
     u16 x;
     u16 y;

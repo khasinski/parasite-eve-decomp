@@ -483,6 +483,26 @@ rotation, scale, render flag and all eleven draw arguments. Position, color,
 sine and draw helpers use controlled test implementations; full executable
 byte identity remains the final acceptance check.
 
+### Field point emitter
+
+`FieldEng_PointEmitter` at `0x800DF9B0` matches all 368 retail bytes with
+stock GCC 2.7.2 and unmodified default MASPSX, without pins, barriers or
+instruction ASM. Mode 0 seeds the angle and returns the pool creation result.
+Mode 1 emits a point every six ticks before time 40, updates its angle and
+finishes at time 70; mode 2 copies the current battle actor position.
+
+`FieldAnimEmitter` describes the angle state; `FieldAnimEmittedPoint` names
+only the accessed prefix of each 16-byte payload. The shared task slot and
+callback declarations replace a local untyped pointer and correct the pool
+creation callback argument. That existing function retains identical bytes.
+The range `0x800DF9B0..0x800DFB20` establishes a function boundary, not a
+recovered original TU boundary.
+
+A scratch differential test compares host C with original retail MIPS across
+4096 cases, including timing boundaries, exhausted pools, random values,
+callback identity, return values and untouched payload bytes. Helpers use
+controlled implementations; full executable byte identity is the final check.
+
 ## Migration order
 
 For a subsystem, prefer this order:
