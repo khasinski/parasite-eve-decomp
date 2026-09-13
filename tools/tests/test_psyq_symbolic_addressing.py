@@ -1,4 +1,4 @@
-"""Whole retail TU byte regressions for twelve symbolic-addressing fixes.
+"""Whole retail TU byte regressions for symbolic-addressing fixes.
 
 Link addresses and SHA256 digests are frozen from the USA retail code ranges;
 these tests need no extracted game assets or pre-existing build products.
@@ -153,6 +153,25 @@ CASES = [('src/main/pad/SetInitPadFlag.c',
   'D_800957EC = 0x800957ec;\n'
   'SECTIONS { .text 0x80074d28 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }')]
+
+# The same GNU addressing also removes the CPU-ASM window in gpu2.c.
+CASES.append(('src/main/gpu/gpu2.c',
+ 84,
+ 'c8e3bc6a8ef0c53b908507260b670e6f2cc196a51b8cd4bd155ed16c7d498c57',
+ 'g_GpuControlRegMirror = 0x800a3348;\n'
+ 'g_GpuGp1Ptr = 0x80095854;\n'
+ 'g_GpuGp0Ptr = 0x80095850;\n'
+ 'SECTIONS { .text 0x80076b44 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
+ '*(.mdebug) } }'))
+
+# GNU as 2.8.1 preserves the SDK checked-division expansion without CPU ASM.
+CASES.append(('src/main/gte/Gte_SetDepthParams.c',
+ 260,
+ 'd889825ceeab879eec23a3ab2bd7a3c2f01de7a49cd6aff48e9ce203cfbca58f',
+ 'SetDQA = 0x80078fac;\n'
+ 'SetDQB = 0x80078fb8;\n'
+ 'SECTIONS { .text 0x80077e64 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
+ '*(.mdebug) } }'))
 
 
 class PsyqSymbolicAddressingTests(unittest.TestCase):
