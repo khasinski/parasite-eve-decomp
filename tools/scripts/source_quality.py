@@ -26,6 +26,9 @@ FUNCTION_DEF = re.compile(
     re.MULTILINE,
 )
 COP2_OP = re.compile(r'\b(?:cfc2|ctc2|lwc2|swc2|mfc2|mtc2)\b')
+# The audited PE1_NOP* macros emit only individually authorized scheduling
+# NOPs and remain semantic C with nop_barriers debt. Their definitions are
+# guarded by test_crutch_debt; raw instruction ASM is still excluded.
 # Audited CPU-ASM helpers hidden in headers. Quarantine their callers until the
 # CPU windows are C; this is not a substitute for full macro-expansion review.
 CPU_ASM_HELPERS = re.compile(

@@ -1,0 +1,67 @@
+[
+  {
+    "sdk_symbol": "RotMatrix",
+    "sdk_version": "4.3",
+    "library": "LIBGTE.LIB",
+    "object": "FGO_01.OBJ",
+    "sdk_text_offset": 0,
+    "retail_address": "0x800794c4",
+    "size": 652,
+    "retail_sha256": "19a788c448e9f29638e673adaa9be46de34a81b53a99fbb389b4833a7a77ac7c",
+    "signature_json_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+    "compared_nonrelocation_bytes": 619,
+    "wildcard_bytes": 33
+  },
+  {
+    "sdk_symbol": "RotMatrixYXZ",
+    "sdk_version": "4.3",
+    "library": "LIBGTE.LIB",
+    "object": "FGO_02.OBJ",
+    "sdk_text_offset": 0,
+    "retail_address": "0x80079754",
+    "size": 652,
+    "retail_sha256": "3f3b635a4043f2431742fdd17f3c0b6151693091b20996071e6f360e41ab915d",
+    "signature_json_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+    "compared_nonrelocation_bytes": 619,
+    "wildcard_bytes": 33
+  },
+  {
+    "sdk_symbol": "RotMatrixZYX",
+    "sdk_version": "4.3",
+    "library": "LIBGTE.LIB",
+    "object": "FGO_03.OBJ",
+    "sdk_text_offset": 0,
+    "retail_address": "0x800799e4",
+    "size": 652,
+    "retail_sha256": "eb29f1f088bca83efc058df957cfe2cd49bcfbd3a215d41df7986888d2b9bba3",
+    "signature_json_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+    "compared_nonrelocation_bytes": 619,
+    "wildcard_bytes": 33
+  },
+  {
+    "sdk_symbol": "RotMatrixY",
+    "sdk_version": "4.3",
+    "library": "LIBGTE.LIB",
+    "object": "FGO_05.OBJ",
+    "sdk_text_offset": 0,
+    "retail_address": "0x80079c74",
+    "size": 408,
+    "retail_sha256": "6ec71ba3f3bc10c8c31db8b2e186f0609c31ba04a46bfe124ea36da8ae2d1d89",
+    "signature_json_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+    "compared_nonrelocation_bytes": 397,
+    "wildcard_bytes": 11
+  },
+  {
+    "sdk_symbol": "RotMatrixZ",
+    "sdk_version": "4.3",
+    "library": "LIBGTE.LIB",
+    "object": "FGO_06.OBJ",
+    "sdk_text_offset": 0,
+    "retail_address": "0x80079e14",
+    "size": 408,
+    "retail_sha256": "01dc9ce87f9f78efdbd99d5740e80f3d5a92d6973a621874ea178834426546f2",
+    "signature_json_sha256": "9be48ce46a57a0a2869fd67b3bb9dc9cf636366d35a944871f5781c6bc68c340",
+    "compared_nonrelocation_bytes": 397,
+    "wildcard_bytes": 11
+  }
+]

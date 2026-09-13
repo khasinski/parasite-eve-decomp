@@ -28,6 +28,27 @@ class CrutchDebtTests(unittest.TestCase):
         self.assertEqual(scopes["overlays"]["pins"], 1)
         self.assertEqual(scopes["overlays"]["barriers"], 0)
 
+    def test_counts_individual_nop_macro_invocations(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            source = root / "main" / "test.c"
+            source.parent.mkdir(parents=True)
+            source.write_text('''void f(void) {
+                PE1_NOP();
+                PE1_NOP_DEP("x", product);
+                PE1_NOP_MEMORY_DEP("r", value);
+                /* PE1_NOP(); */
+            }''')
+            _, totals, _, _ = crutch_debt.collect_debt(root)
+        self.assertEqual(totals["nop_barriers"], 3)
+        self.assertEqual(totals["asm_constrained_units"], 0)
+
+    def test_nop_header_has_only_individual_nop_instructions(self):
+        import re
+        header = crutch_debt.ROOT / "include/pe1/psyq_nop.h"
+        bodies = re.findall(r'asm volatile\("([^"\n]*)"', header.read_text())
+        self.assertEqual(bodies, ["nop", "nop", "nop"])
+
     def test_comments_do_not_count_as_debt(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp)

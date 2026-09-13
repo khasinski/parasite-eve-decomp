@@ -36,6 +36,8 @@ def strip_comments(text: str) -> str:
 _HW_OPS = "cfc2|ctc2|lwc2|swc2|mfc2|mtc2|nop"
 
 PATTERNS = {
+    # One explicitly authorized scheduling instruction per macro invocation.
+    "nop_barriers": re.compile(r"\bPE1_NOP(?:_DEP|_MEMORY_DEP)?\s*\("),
     # Filled from the source classifier below; unlike regex-only counters this
     # sees instruction asm inherited from directly included C templates.
     "asm_constrained_units": re.compile(r"(?!)"),
@@ -77,7 +79,7 @@ PATTERNS = {
 
 ORDER = [
     "asm_constrained_units", "byte_pointer_arithmetic", "raw_offset_dereferences",
-    "pointer_integer_casts", "field_macros", "pins", "barriers", "aliases",
+    "pointer_integer_casts", "field_macros", "pins", "barriers", "nop_barriers", "aliases",
     "asm_bodies", "directives", "gotos", "include_asm", "postpass",
     "statement_expressions", "unknown_fields", "declaration_overrides",
     "externs_in_c",
@@ -147,6 +149,7 @@ def render_report(per_sub, totals, dirty_files) -> str:
         "Read-only; regenerate with `make debt`. Watch these shrink._",
         "",
         "**pins** = `register T x asm(\"$r\")` · **barriers** = empty `asm(\"\")` · "
+        "**nop_barriers** = explicit one-NOP scheduling macros · "
         "**aliases** = `extern T x asm(\"sym\")` · **asm_bodies** = real instructions · "
         "**directives** = `asm(\".word ...\")` · **gotos** · **include_asm** · **postpass** · "
         "**externs_in_c** = declarations awaiting a subsystem header. Raw offset, pointer, "
@@ -174,7 +177,7 @@ def write_reports(per_sub, totals, dirty_files) -> None:
     # ----- badge (date-free, code.json shape) -----
     msg = (f"{totals['asm_constrained_units']} asm units / "
            f"{totals['pins']} pins / {totals['barriers']} barriers / "
-           f"{totals['gotos']} gotos / {totals['aliases']} aliases")
+           f"{totals['nop_barriers']} nops / {totals['gotos']} gotos / {totals['aliases']} aliases")
     heavy_total = sum(totals[k] for k in HEAVY)
     color = "brightgreen" if heavy_total == 0 else ("yellow" if heavy_total < 500 else "orange" if heavy_total < 1500 else "red")
     (ROOT / "docs" / "badges" / "debt.json").write_text(json.dumps({
