@@ -1,6 +1,6 @@
 #include "pe1/akao/spu_common.h"
+#include "pe1/psyq_spu_internal.h"
 
-extern unsigned int g_SpuReverbMode;
 
 extern unsigned short D_8009D2B6;
 extern int D_800C0D90;
@@ -10,7 +10,7 @@ extern int D_800C0DA4;
 
 void Seq_GetGlobalPitch(unsigned int *out)
 {
-    *out = g_SpuReverbMode;
+    *out = D_8009B3A0.mode;
 }
 
 void Seq_ApplyGlobalPitch(void) {

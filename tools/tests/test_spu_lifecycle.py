@@ -8,10 +8,28 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
-# SpuStart at 0x8007D15C, SpuQuit at 0x80085984.
-CASES = [('SpuStart',
-  112,
-  '7f204cbc87e3cfa107a01cb94317e7bfd2733e7cc2aba8c89edbf7c8c287ef7e',
+# Full S_INI (_SpuInit + SpuStart) at 0x8007D074, SpuQuit at 0x80085984.
+CASES = [('s_ini',
+  344,
+  '97918bec7c23678f83611325741017d2af8343a3064ef950570f3bf61acedf86',
+  'ResetCallback = 0x80073C94;\n'
+  '_spu_init = 0x8007D1D4;\n'
+  'D_8009B3B8 = 0x8009B3B8;\n'
+  'D_8009B3A0 = 0x8009B3A0;\n'
+  'D_8009B46C = 0x8009B46C;\n'
+  '_spu_rev_flag = 0x8009B390;\n'
+  '_spu_rev_reserve_wa = 0x8009B394;\n'
+  '_spu_rev_offsetaddr = 0x8009B398;\n'
+  '_spu_FsetRXX = 0x8007DAE0;\n'
+  'D_8009B45C = 0x8009B45C;\n'
+  'D_8009B460 = 0x8009B460;\n'
+  'D_8009B464 = 0x8009B464;\n'
+  'D_8009B38C = 0x8009B38C;\n'
+  'D_8009B418 = 0x8009B418;\n'
+  'D_8009B388 = 0x8009B388;\n'
+  'D_8009B3B4 = 0x8009B3B4;\n'
+  'D_8009B3B0 = 0x8009B3B0;\n'
+  'D_8009B3E8 = 0x8009B3E8;\n'
   'D_8009B3EC = 0x8009B3EC;\n'
   'EnterCriticalSection = 0x80072714;\n'
   '_spu_FiDMA = 0x8007D614;\n'
@@ -20,7 +38,7 @@ CASES = [('SpuStart',
   '_spu_EVdma = 0x8009B384;\n'
   'EnableEvent = 0x80072704;\n'
   'ExitCriticalSection = 0x80072724;\n'
-  'SECTIONS { .text 0x8007d15c : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
+  'SECTIONS { .text 0x8007d074 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('s_q',
   116,

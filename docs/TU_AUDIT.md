@@ -8,6 +8,8 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Range | Unit | Evidence |
 | --- | --- | --- |
+| `0x63764..0x63A94` | `psyq/libmath/divdf3` | Complete SDK `LIBMATH/DIVDF3.OBJ`: `__divdf3` and `_comp_mant` (retained link name `Math_Cmp64Pair`) share the existing `MathU64` value ABI. Combining both definitions preserves every one of the 816 linked code bytes without additional pins, barriers or compiler flags. |
+| `0x6D874..0x6D9D4` | `psyq/libspu/s_ini` | Complete SDK `LIBSPU/S_INI.OBJ`: `_SpuInit` and `SpuStart`, with 344 matched code bytes and eight manifest padding bytes. A shared `SpuReverbState` and explicit local base pointer allow both functions to use stock GCC 2.7.2 / GNU as. Two operand barriers preserve selector/base setup, replacing the former final memory barrier; no register pins or NOPs are added. Cold/warm initialization and reset order retain their behavioral test, and the linked-byte test now covers both functions together. |
 | `0x6CA14..0x6CB04` | `psyq/libcd/c_004` | Verified SDK `LIBCD/C_004.OBJ` boundary: `data_ready_callback` and `StGetBackloc` now compile together with stock GCC 2.7.2 / GNU as. All 228 code bytes match; the remaining 12 bytes stay explicit manifest padding. `StHEADER.id`, `.frameCount` and `.loc` replace raw header offsets, and streaming declarations are shared with `StClearRing`/`StCdInterrupt`. One empty load-order barrier is recorded in debt; the former per-function GCC 2.8.1 override is removed. |
 | `0x23B5C..0x241A0` | `gpu/Gpu_SetupSprites` | Sprite setup, ordering-table enqueue, and status-icon emission form one battle-status renderer. They share the active draw slot, sprite primitive pool, ordering-table table, and `-G8` profile; reconciling `AddPrim` to its `u32 *` API preserves the combined 1604-byte object exactly. |
 | `0x620D0..0x621E4` | `psyq/libgpu/tim` | The five contiguous helpers share the PSX TIM container. `Gpu_LoadTimImage` now records the verified TIM header and block layout: flags at `0x04`, an optional CLUT block, and `length + RECT + payload` image blocks. Its typed image and CLUT uploads preserve the complete 276-byte object exactly. |
@@ -258,3 +260,12 @@ C_004 retains a byte-aligned source alias for its CdlLOC copy. Declaring that
 alias as `StHEADER *` lets GCC replace the retail unaligned copy with aligned
 word transfers. Field names are recovered without hiding that remaining
 alignment constraint or claiming it as clean portable C.
+
+The internal `SpuReverbState` used by S_INI has mode at byte 0, signed left/right
+depths at bytes 4/6, delay at byte 8 and feedback at byte 12. Its size is 16 bytes;
+compile-time assertions guard these offsets.
+The preset selector `SPU_StepDmaRead`, reverb depth setter and mode getter now
+use this same structure, replacing three separate aliases for its interior.
+All 460 bytes of the preset selector remain exact. Sharing declarations exposed
+an int/u32 conflict for `_spu_rev_offsetaddr`; it is now consistently a `u32`
+SPU RAM address in initialization and reverb users.

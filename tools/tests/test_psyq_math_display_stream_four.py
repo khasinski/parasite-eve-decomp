@@ -9,10 +9,9 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('libmath/__divdf3',
-  736,
-  '566525621fb9cefc8d54330a0eceaab78727efcf5e25149fe242fdd3b5e69a6f',
-  'Math_Cmp64Pair = 0x80073244;\n'
+CASES = [('libmath/divdf3',
+  816,
+  '3b46f2ee4ed2d17e27f2c2e19afe53b7fa403a7333b3e9b633dd2551bfccd101',
   'Math_Add64WithShift = 0x80072EA4;\n'
   'Math_Neg64 = 0x80073554;\n'
   'Math_Add64 = 0x80072DF4;\n'

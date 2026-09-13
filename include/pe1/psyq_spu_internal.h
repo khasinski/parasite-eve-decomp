@@ -53,6 +53,32 @@ typedef struct SpuRegs {
 } SpuRegs;
 typedef char SpuRegsSizeCheck[(sizeof(SpuRegs) == 0x200) ? 1 : -1];
 
+/* S_INI.OBJ's 16-byte reverb state at D_8009B3A0. Depths are signed
+ * left/right halfwords; delay and feedback begin at offsets 8 and 12.
+ */
+typedef struct SpuReverbState {
+    u32 mode;
+    short depth[2];
+    s32 delay;
+    s32 feedback;
+} SpuReverbState;
+typedef char SpuReverbStateSizeCheck[(sizeof(SpuReverbState) == 16) ? 1 : -1];
+typedef char SpuReverbStateDepthCheck[
+    ((unsigned long)&((SpuReverbState *)0)->depth == 4) ? 1 : -1];
+typedef char SpuReverbStateDelayCheck[
+    ((unsigned long)&((SpuReverbState *)0)->delay == 8) ? 1 : -1];
+typedef char SpuReverbStateFeedbackCheck[
+    ((unsigned long)&((SpuReverbState *)0)->feedback == 12) ? 1 : -1];
+extern SpuReverbState D_8009B3A0;
+extern u16 D_8009B3B8[24];
+extern int _spu_rev_flag, _spu_rev_reserve_wa, D_8009B46C;
+extern u32 _spu_rev_offsetaddr;
+extern int D_8009B45C, D_8009B460, D_8009B464, D_8009B38C;
+extern int D_8009B388, D_8009B3B4, D_8009B3B0, D_8009B3E8;
+void _SpuInit(int mode);
+void SpuStart(void);
+void _spu_FiDMA(void);
+
 typedef struct SpuMalloc {
     u32 addr;
     u32 size;

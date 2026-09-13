@@ -10,12 +10,16 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class SpuInitTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_cold_warm_init_and_reverb_reset_order(self):
-        source = (ROOT / "src/main/psyq/libspu/_SpuInit.c").read_text()
+        source = (ROOT / "src/main/psyq/libspu/s_ini.c").read_text()
+        # Exercise _SpuInit with a checked SpuStart stub; the complete TU is
+        # covered separately by the linked-byte lifecycle regression.
+        source = source.split("\nvoid SpuStart(void) {", 1)[0]
         harness = source + r'''
 #include <assert.h>
 unsigned short D_8009B3B8[24];
-ReverbState D_8009B3A0;
-int _spu_rev_flag, _spu_rev_reserve_wa, _spu_rev_offsetaddr, D_8009B46C;
+SpuReverbState D_8009B3A0;
+int _spu_rev_flag, _spu_rev_reserve_wa, D_8009B46C;
+u32 _spu_rev_offsetaddr;
 int D_8009B45C, D_8009B460, D_8009B464, D_8009B38C;
 int D_8009B418, D_8009B388, D_8009B3B4, D_8009B3B0, D_8009B3E8;
 static int phase, expectedMode;

@@ -988,8 +988,8 @@ segments:
       - [0x636A0, asm, main/gap_math_Math_Add64_tail_636A0]
       - [0x636A4, c, math/Math_Add64WithShift]
       - [0x63760, asm, math/Math_Stub_80072F60]
-      - [0x63764, c, psyq/libmath/__divdf3]
-      - [0x63A44, c, math/Math_Cmp64Pair]
+      # Psy-Q LIBMATH DIVDF3.OBJ: division and its comparison helper.
+      - [0x63764, c, psyq/libmath/divdf3]
       - [0x63A94, c, math/Math_Shift64]
       - [0x63B50, asm, math/Math_Stub_80073350]
       - [0x63B54, c, math/Math_DoubleToInt32]
@@ -1203,8 +1203,8 @@ segments:
       - [0x6D680, c, psyq/libcd/mem2mem]
       - [0x6D6AC, c, psyq/libcd/dma_execute]
       - [0x6D854, c, psyq/libspu/SpuInit]
-      - [0x6D874, c, psyq/libspu/_SpuInit]
-      - [0x6D95C, c, psyq/libspu/SpuStart]
+      # Psy-Q LIBSPU S_INI.OBJ: cold/warm initialization and startup.
+      - [0x6D874, c, psyq/libspu/s_ini]
       - [0x6D9CC, pad]
       # Psy-Q LIBSPU SPU.OBJ initialization fragment.
       - [0x6D9D4, c, psyq/libspu/spu_init]

@@ -6,9 +6,6 @@
 
 extern u32 g_SpuReverbWorkAreaTable[];
 extern SpuReverbRegisterAttrs g_SpuReverbPresetRegisters[];
-extern u32 g_SpuReverbMode, _spu_rev_offsetaddr;
-extern int g_SpuReverbDelayFeedback[2];
-extern short g_SpuReverbDepth[2];
 extern int _SpuIsInAllocateArea_(u32);
 extern int SpuClearReverbWorkArea(int);
 
@@ -33,7 +30,7 @@ int SPU_StepDmaRead(u32 mode) {
     occupied = _SpuIsInAllocateArea_(*area);
     dst = (unsigned char *)&attr;
     if (occupied) return -1;
-    g_SpuReverbMode = mode;
+    D_8009B3A0.mode = mode;
     _spu_rev_offsetaddr = *area;
     src = (unsigned char *)&g_SpuReverbPresetRegisters[mode];
     for (i = sizeof(attr) - 1; i != -1; i--) {
@@ -43,16 +40,16 @@ int SPU_StepDmaRead(u32 mode) {
     attr.mask = 0;
     switch (mode) {
     case 7:
-        g_SpuReverbDelayFeedback[1] = 0x7F;
-        g_SpuReverbDelayFeedback[0] = 0x7F;
+        D_8009B3A0.feedback = 0x7F;
+        D_8009B3A0.delay = 0x7F;
         break;
     case 8:
-        g_SpuReverbDelayFeedback[1] = 0;
-        g_SpuReverbDelayFeedback[0] = 0x7F;
+        D_8009B3A0.feedback = 0;
+        D_8009B3A0.delay = 0x7F;
         break;
     default:
-        g_SpuReverbDelayFeedback[1] = 0;
-        g_SpuReverbDelayFeedback[0] = 0;
+        D_8009B3A0.feedback = 0;
+        D_8009B3A0.delay = 0;
         break;
     }
     {
@@ -62,8 +59,8 @@ int SPU_StepDmaRead(u32 mode) {
     }
     _spu_RXX->reverb_volume_left = 0;
     _spu_RXX->reverb_volume_right = 0;
-    g_SpuReverbDepth[0] = 0;
-    g_SpuReverbDepth[1] = 0;
+    D_8009B3A0.depth[0] = 0;
+    D_8009B3A0.depth[1] = 0;
     _spu_setReverbAttr(&attr);
     if (clear) SpuClearReverbWorkArea(mode);
     _spu_FsetRXX(0xD1, _spu_rev_offsetaddr, 0);
