@@ -76,6 +76,9 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
                    int page, int intensity, RenderColor *color);
 int FieldEng_DriftingEffect(int mode, GteShortVector *position);
 
+void FieldEng_RotateVector(const GteMatrixWords *matrix,
+                           const GteShortVector *input, GteShortVector *output);
+
 /* Shared runtime object layout used by the morph and draw paths. */
 typedef struct RenderVec3s {
     signed short x;

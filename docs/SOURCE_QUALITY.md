@@ -528,6 +528,39 @@ arguments. Helpers use controlled implementations. The nearby sequence
 emitter candidate at 0x800DF6AC still has six differing instruction words
 and remains outside the build and matched-code totals.
 
+### Field vector rotation through GTE
+
+`FieldEng_RotateVector` at `0x800CEAE8` matches all 164 retail bytes with
+stock GCC 2.7.2 and unmodified default MASPSX. It loads the packed rotation
+matrix, clears GTE translation, transforms the input with SF=12, and narrows
+MAC1/2/3 to the output halfwords. The output padding is untouched; input and
+output may alias. It leaves the supplied rotation and zero translation in
+GTE control registers.
+
+Every COP2 instruction uses an existing individual macro in `pe1/gte.h`.
+The two hazard NOPs are likewise separate existing macros. Ordinary loads,
+zero stores and output conversion remain in C; no grouped transfer macro
+hides CPU loads. `GteMatrixWords` supplies the packed control-register ABI.
+The 48-byte frame holds a result vector and a partial local matrix whose only
+initialized and accessed fields are its zero translation words.
+
+Three transfer-register pins ($12/$13/$14) and two empty barriers remain in
+the debt baseline, as permitted by the project's compiler-constraint policy.
+Removing the pins individually gives 36, 6 and 4 differing instruction words;
+removing the store-order barrier gives 6 differences, and removing the
+pointer barrier shortens the function by four bytes (26 differing words).
+Volatile qualifiers were removed with no byte change. The barriers preserve
+zero stores before matrix loads and the local matrix-base addressing.
+
+A scratch test compares host C with retail MIPS across 4096 cases using a
+COP2 model for transfers and MAC arithmetic: full-range coefficients and
+vectors, aliasing, truncation, padding, control registers and MAC results.
+The model does not validate GTE flags or IR saturation; full linked byte
+identity covers the actual instruction stream. The extracted range
+`0x800CEAE8..0x800CEB8C` is a function boundary, not an established original TU.
+The sine-drift candidate at 0x800DC5BC remains outside the build with four
+differing instruction words.
+
 ## Migration order
 
 For a subsystem, prefer this order:
