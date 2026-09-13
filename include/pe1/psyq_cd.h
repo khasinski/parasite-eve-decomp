@@ -291,17 +291,22 @@ void CdRom_ReadProgressCallback(int status, void *data, void *detail);
 
 typedef struct DsAsyncReadState {
     /* g_DsReadBusy names the final active field at offset 0x20. */
-    int result;
-    int reserved04;
+    int nextSector;
+    int lastDeliveredSector;
     DsAsyncReadCallback callback;
-    int reserved0C;
-    int callback_arg;
+    int retryPending;
+    int retriesRemaining;
     DsEventCallback saved_sync_callback;
     DsEventCallback saved_ready_callback;
     int reserved1C;
     int active;
 } DsAsyncReadState;
 
+PE1_STATIC_ASSERT(sizeof(DsAsyncReadState) == 0x24, ds_async_read_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, retryPending) == 0x0C,
+                  ds_async_read_retry_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, retriesRemaining) == 0x10,
+                  ds_async_read_retries_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, active) == 0x20,
                   ds_async_read_active_offset);
 

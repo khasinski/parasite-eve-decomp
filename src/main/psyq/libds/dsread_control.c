@@ -3,7 +3,7 @@
 
 #include "pe1/psyq_cd.h"
 
-void CdRom_AsyncCallback(u_char event, u_char *result);
+void LIBDS_DSREADY_text_FC(int event, u_char *result);
 void CdRom_ReadDoneCallback(u_char event, u_char *result);
 
 int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg) {
@@ -16,12 +16,12 @@ int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg) {
         return 0;
     }
 
-    DS_ASYNC_READ_FIELD(state, result) = -1;
-    DS_ASYNC_READ_FIELD(state, reserved04) = 0;
-    DS_ASYNC_READ_FIELD(state, reserved0C) = 0;
+    DS_ASYNC_READ_FIELD(state, nextSector) = -1;
+    DS_ASYNC_READ_FIELD(state, lastDeliveredSector) = 0;
+    DS_ASYNC_READ_FIELD(state, retryPending) = 0;
     DS_ASYNC_READ_FIELD(state, callback) = callback;
-    DS_ASYNC_READ_FIELD(state, callback_arg) = callbackArg;
-    DS_ASYNC_READ_FIELD(state, saved_sync_callback) = DsSyncCallback(CdRom_AsyncCallback);
+    DS_ASYNC_READ_FIELD(state, retriesRemaining) = callbackArg;
+    DS_ASYNC_READ_FIELD(state, saved_sync_callback) = DsSyncCallback((DsEventCallback)LIBDS_DSREADY_text_FC);
     DS_ASYNC_READ_FIELD(state, saved_ready_callback) = DsReadyCallback(CdRom_ReadDoneCallback);
     asm volatile("" : "+r"(active));
     DS_ASYNC_READ_FIELD(state, active) = active;

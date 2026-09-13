@@ -1,6 +1,6 @@
 /* CC1_FLAGS: -O1 */
 #include "pe1/psyq_cd.h"
-void CdRom_AsyncCallback(u_char event, u_char *result);
+void LIBDS_DSREADY_text_FC(int event, u_char *result);
 
 register volatile int g_CdCallback asm("$4");
 

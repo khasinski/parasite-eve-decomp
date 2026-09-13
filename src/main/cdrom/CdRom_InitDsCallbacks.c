@@ -9,7 +9,7 @@ void CdRom_InitCmdState(void);
 void CdRom_SetRetryMode(int mode);
 void Render_DrawParticleGroup(int, void *);
 void CdRom_ReadyEventDispatch(int, u_char *);
-void Render_StepParticlePool(void);
+void LIBDS_DSSYS_1_text_4A4(void);
 void VSyncCallbacks(int mode, void *callback);
 
 void CdRom_InitDsCallbacks(void) {
@@ -34,7 +34,7 @@ void CdRom_InitDsCallbacks(void) {
 
     g_CdSyncCallback = (CdlCB)Render_DrawParticleGroup;
     g_CdReadyCallback = (CdlCB)CdRom_ReadyEventDispatch;
-    VSyncCallbacks(0, Render_StepParticlePool);
+    VSyncCallbacks(0, LIBDS_DSSYS_1_text_4A4);
 
     D_8009AFD8 = 1;
     g_DsReadSysEnabled.enabled = 1;

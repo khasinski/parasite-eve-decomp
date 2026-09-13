@@ -36,7 +36,7 @@ Gpu_PutDrawEnvLinked = 0x800754E4; // type:func
 // CD-ROM.
 CdRom_ReadSectors = 0x8006E6D4; // type:func
 CdRom_PollReady = 0x8006E7E8; // type:func
-CdRom_AsyncCallback = 0x80081E70; // type:func
+LIBDS_DSREADY_text_FC = 0x80081E70; // type:func
 Overlay_LoadTables = 0x8006ECEC; // type:func
 
 // Memory card / save DMA.
@@ -1288,7 +1288,7 @@ CdRom_GetCmdMode = 0x8007FC18; // type:func
 CdRom_GetCurrentPosPtr = 0x8007FC28; // type:func
 CdRom_Sync = 0x8007FC64; // type:func
 CdRom_SendCmd = 0x8007FCFC; // type:func
-Render_StepParticlePool = 0x8007FE24; // type:func
+LIBDS_DSSYS_1_text_4A4 = 0x8007FE24; // type:func
 CdRom_RetryCmd = 0x800800F4; // type:func
 Render_DrawParticleGroup = 0x80080164; // type:func
 LIBDS_DSSYS_1_text_8B8 = 0x80080220; // type:func
@@ -1313,7 +1313,7 @@ CardObj_EmitReadTransferCommand = 0x8008389C; // type:func
 LIBPAD_PADCMD_text_3A0 = 0x80083944; // type:func
 CardObj_WriteCommandByte = 0x80083F44; // type:func
 MemCard_WriteByteWithAckCheck = 0x800840DC; // type:func
-Render_SetParticleCallbacks = 0x80084168; // type:func
+LIBPAD_PADIF_text_26C = 0x80084168; // type:func
 MemCard_InitTransferState = 0x800844E4; // type:func
 MemCard_DmaCompleteCallback = 0x800846AC; // type:func
 CardObj_SwapByteField = 0x800847A0; // type:func
@@ -1324,7 +1324,7 @@ CardObj_EmitCommand46 = 0x80083EA4; // type:func
 CardObj_EmitCommand47 = 0x80083EC4; // type:func
 CardObj_EmitCommand4B = 0x80083EE4; // type:func
 CardObj_ReadPayloadByte = 0x800847B0; // type:func
-Render_AccumParticleAlpha = 0x8008486C; // type:func
+LIBPAD_PADPORTD_text_388 = 0x8008486C; // type:func
 CardObj_GetChannelId = 0x80084AE8; // type:func
 CardObj_LookupByChannelId = 0x80084B20; // type:func
 MemCard_SetCallbackVtable = 0x80084B44; // type:func

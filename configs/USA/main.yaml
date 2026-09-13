@@ -1284,7 +1284,7 @@ segments:
       - [0x704AC, c, cdrom/CdRom_GetDiscType]
       - [0x704BC, c, cdrom/CdRom_IssueSetMode]
       - [0x704FC, c, cdrom/CdRom_SendCmd]
-      - [0x70624, asm, main/Render_StepParticlePool]
+      - [0x70624, c, psyq/libds/dssys1_vsync]
       - [0x708F4, c, cdrom/CdRom_RetryCmd]
       - [0x70964, c, main/Render_DrawParticleGroup]
       - [0x70A20, c, psyq/libds/dssys1_sync]
@@ -1324,7 +1324,7 @@ segments:
       # Psy-Q libds read-controller helpers share the async-read state.
       - [0x72574, c, psyq/libds/dsread_control]
       - [0x7265C, c, psyq/libds/DsReadCallback]
-      - [0x72670, asm, cdrom/CdRom_AsyncCallback]
+      - [0x72670, c, psyq/libds/dsready_callback]
       - [0x7294C, c, cdrom/CdRom_ReadDoneCallback]
       - [0x72A04, c, cdrom/CdRom_RestartSeek]
       - [0x72A7C, c, cdrom/misc9]
@@ -1367,13 +1367,13 @@ segments:
       - [0x74704, c, memcard/MemCard_ReadByteWithCallbackValue]
       - [0x74744, c, memcard/MemCard_WriteProtocol]
       - [0x748DC, c, memcard/MemCard_WriteByteWithAckCheck]
-      - [0x74968, asm, main/Render_SetParticleCallbacks]
+      - [0x74968, c, psyq/libpad/padif_transfer]
       - [0x74CE4, c, memcard/MemCard_InitTransferState]
       - [0x74E44, c, memcard/CardObj_ResetFields]
       - [0x74EAC, c, memcard/MemCard_DmaCompleteCallback]
       # Command-byte state and payload reads share the full CardObj layout.
       - [0x74FA0, c, memcard/CardObj_PayloadState]
-      - [0x7506C, asm, memcard/card_obj6_tail]
+      - [0x7506C, c, psyq/libpad/padportd_outputs]
       # Channel encode/decode share the two-entry CardObj array.
       - [0x752E8, c, memcard/CardObj_ChannelLookup]
       - [0x75340, asm, main/gap_memcard_CardObj_LookupByChannelId_tail_75340]
