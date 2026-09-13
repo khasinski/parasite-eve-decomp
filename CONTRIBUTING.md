@@ -38,6 +38,25 @@ Do not add splat's complete auto-undefined files back to the linker command.
 The generated selective alias file is what lets real object definitions take
 ownership while retaining absolute pins only for unresolved layout debt.
 
+Before pushing a change that affects progress or crutch counts, regenerate
+and commit the README badges from the audited report:
+
+```sh
+make overlay-build-all OVERLAY_JOBS=8
+make overlay-check-all
+make report
+make progress
+make debt
+git add docs/badges
+```
+
+Run this after `make verify` (or `make verify-clean` when required).
+`verify-clean` removes overlay build products, so build them again before
+creating the report. `make progress` alone reads the existing report and can
+therefore reproduce stale numbers. `make verify-clean` does not check badge
+freshness; CI checks it after auditing all binaries and refuses to publish a
+report when the committed badges differ.
+
 For an overlay change, also run:
 
 ```sh
