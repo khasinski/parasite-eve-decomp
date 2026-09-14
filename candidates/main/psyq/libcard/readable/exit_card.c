@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -fno-schedule-insns -fno-schedule-insns2 */
 /* Semantic reconstruction of LIBCARD/END; not yet a byte match.
  * GetC0Table is an explicit BIOS API dependency, not a hidden ASM macro.
  */
@@ -17,15 +18,16 @@ extern const unsigned cardIrqDisabledPatch[CARD_IRQ_HOOK_WORDS];
 
 void _ExitCard(void)
 {
-    volatile unsigned *hook;
-    unsigned i;
+    volatile unsigned *handler;
+    const unsigned *source;
 
     EnterCriticalSection();
-    hook = GetC0Table()[C0_EXCEPTION_HANDLER]
-         + CARD_IRQ_HOOK_OFFSET / sizeof(unsigned);
+    handler = GetC0Table()[C0_EXCEPTION_HANDLER];
 
-    for (i = 0; i < CARD_IRQ_HOOK_WORDS; ++i)
-        hook[i] = cardIrqDisabledPatch[i];
+    for (source = cardIrqDisabledPatch;
+         source != cardIrqDisabledPatch + CARD_IRQ_HOOK_WORDS;
+         ++source, ++handler)
+        handler[CARD_IRQ_HOOK_OFFSET / sizeof(unsigned)] = *source;
 
     FlushCache();
     ExitCriticalSection();

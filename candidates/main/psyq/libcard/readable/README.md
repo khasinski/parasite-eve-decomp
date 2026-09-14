@@ -29,7 +29,7 @@ Do not represent those operations as uninitialized C locals.
 ## Measurements and proposed transformations
 
 Stock native PSX GCC272/281, O1/O2/O3, indexed/moving/unrolled copies: 18
-compiled and linked probes, none exact. The indexed baseline is 104 bytes
+compiled and linked probes, none exact. The initial indexed baseline (commit ebb23e4a) is 104 bytes
 at O2 on both compilers (retail is 112). Smaller size is not a match score.
 
 A nineteenth probe keeps the handler base and uses a moving source pointer,
@@ -69,3 +69,37 @@ or hardware equivalence; they do not test the original private RA slot.
 Sources, 19 compiler probes, linked objects, outputs and test harnesses:
 `/tmp/psyq-exit-readable/`. `probe.py`, `shape.py`, `test.c` and
 `test-relative.c` reproduce the experiments from the repository root.
+
+## Follow-up: scheduling without pins or barriers
+
+181 further PSX compiler probes (168 shape/type/scheduling combinations plus
+13 count/bounds variants) produced no complete byte match. The retained
+source uses an ordinary moving-pointer for loop and stock flags
+`-fno-schedule-insns -fno-schedule-insns2`. It contains no register bindings,
+empty ASM barriers, instruction ASM or explicit NOP macro.
+
+The six-operation loop now has the retail sequence:
+load word, load-hazard NOP, store at offset 0x70, advance source by four,
+branch-not-equal by -5 instructions, advance destination by four in the delay
+slot. Opcodes/immediates agree after ignoring register fields; five of six
+instruction words still differ because the registers are different. This
+is scheduling evidence, not a 24-byte match or a progress percentage.
+
+The whole candidate is 104 bytes, with a 24-byte frame, a direct call to the
+explicit GetC0Table dependency, and a pre-loop equality test. Those differ
+from the 112-byte retail function. The post-test-loop experiments omit that
+entry test but were not selected as the readable baseline. Changing the
+counter type or direction did not solve the complete match. Using the real
+end-marker address at 0x8007E590 recreates its separate address load, but
+still leaves the entry test and register differences.
+
+The retained source was compiled and linked again after formatting: its
+bytes equal the selected `272-moving-3-0` probe. It passed 1024 native cases
+under ASan/UBSan and 256 differential MIPS cases. The MIPS comparison models
+GetC0Table as the same logical BIOS query and checks copied words, external
+call order and returned SP/callee-saved registers; the SDK private global RA
+slot and private stack traffic are deliberately excluded. This semantic test
+is not evidence of instruction or private-state equivalence.
+
+New experiments: `/tmp/psyq-exit-loop/search.py`, `bounds.py`, `results.json`,
+`final.{o,elf,bin}`, `verify.py` and `host-test`. Production remains unchanged.
