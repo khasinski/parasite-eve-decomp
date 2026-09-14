@@ -1,6 +1,19 @@
 #ifndef PE1_FIELD_COLLISION_H
 #define PE1_FIELD_COLLISION_H
 
+/* Little-endian 16.16 X/Z pair. The containment test reads only the
+ * signed integer halves, at offsets 2 and 6 of each eight-byte vertex. */
+typedef struct {
+    unsigned short xFraction;
+    short x;
+    unsigned short zFraction;
+    short z;
+} PolygonVertex;
+
+/* vertices must contain count > 0 entries. x and z are 16.16 coordinates. */
+int Geo_PointInPoly(int x, int z, const PolygonVertex *vertices,
+                    unsigned short count);
+
 /* Field floor / collision geometry (what keeps Aya on the walkable mesh and
  * sets her ground height Y). See field_movement.h for how motion drives pos;
  * after integration, Entity_ResolvePosition() snaps pos_y to the floor and the

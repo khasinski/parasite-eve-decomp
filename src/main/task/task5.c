@@ -1,5 +1,5 @@
 #include "common.h"
-int Geo_PointInPoly(int arg0, int arg1, int *arg2, int arg3);
+#include "pe1/field_collision.h"
 
 void EnterCriticalSection(void);
 void ExitCriticalSection(void);
@@ -33,7 +33,7 @@ int Task_PointInPoly(int **arg0) {
         local[i * 2 + 1] = *arg0[i * 2 + 1];
     }
 
-    *arg0[10] = Geo_PointInPoly(*arg0[8], *arg0[9], local, 4);
+    *arg0[10] = Geo_PointInPoly(*arg0[8], *arg0[9], (const PolygonVertex *)local, 4);
     return 1;
 }
 

@@ -754,3 +754,35 @@ correct LIBMATH/MULDF3/__muldf3 identity.
 
 Clean production verification passes all 340 tests and the complete main retail
 SHA-1. All 191 overlay binaries also retain their retail SHA-1.
+
+### Polygon containment reconstruction
+
+`Geo_PointInPoly` at `0x8001CAB0` is reconstructed as C, with a complete
+240-byte linked match under stock GCC 2.7.2 and unchanged MASPSX. It tests
+integer halves of 16.16 X/Z vertices by counting horizontal ray crossings.
+The shared `PolygonVertex` declaration identifies the eight-byte record and
+its signed halfwords at offsets 2 and 6; callers now share its prototype.
+The original requires at least one vertex. Cross products explicitly keep
+the low 32 bits using widened multiplication, preserving retail behavior
+without signed multiplication overflow in C.
+
+Two local register bindings remain: the inside accumulator (`t3`) and the
+edge comparison result (`v0`). Removing them individually changes 10 and 3
+instruction words; removing both changes 13. An 800-variant declaration,
+type and temporary-reuse search found no unpinned exact match. There are no
+empty barriers, instruction ASM, explicit NOPs, EABI or compiler changes.
+Both pins are recorded as matching debt, not clean-C progress.
+
+The existing `main/geo` assembly range is split only at the function end,
+`0x8001CBA0`; the remaining functions stay together. This is an incremental
+matching boundary, not evidence of an original source-file boundary.
+The C algorithm passed 6000 host cases against an independent rational
+ray-intersection reference, with randomized fractional coordinate halves.
+Host execution removes only the two MIPS register-placement constraints.
+Experiment sources, full-byte comparisons and the host checker are under
+`/tmp/pe-point-in-poly/`.
+
+Clean-build validation preserves the complete main retail SHA-1 and all 191
+overlay SHA-1 values. `make verify` passes all 340 tests and the source,
+organization and debt gates. This adds one game function (240 code bytes),
+not a Psy-Q function.

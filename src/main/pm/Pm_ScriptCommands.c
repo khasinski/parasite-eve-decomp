@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_collision.h"
 
 int Pm_SendCmd();
 int Pm_SetGetState();
@@ -63,7 +64,6 @@ int Pm_ScriptSetState(int **arg0) {
 
 extern char *g_CurrentEntity;
 
-int Geo_PointInPoly(int arg0, int arg1, int *arg2, int arg3);
 
 void Entity_AllocSlot(void *arg0);
 
@@ -112,7 +112,7 @@ int Task_PlayerPointInPoly(int **arg0) {
     *arg0[8] = Geo_PointInPoly(
         *(int *)(g_CurrentEntity + 0x28),
         *(int *)(g_CurrentEntity + 0x30),
-        values,
+        (const PolygonVertex *)values,
         4);
     return 1;
 }

@@ -1,8 +1,8 @@
 #include "common.h"
+#include "pe1/field_collision.h"
 #include "pe1/field_actor.h"
 extern FieldActor *g_CurrentEntity;
 
-int Geo_PointInPoly(int arg0, int arg1, int arg2, int arg3);
 
 int Entity_CallAction(int **arg0) {
     int **args;
@@ -28,7 +28,7 @@ int Entity_CallAction(int **arg0) {
     base = (int)current->script_base;
     arg0_ptr = args[0];
     arg2 <<= 1;
-    result = Geo_PointInPoly(*arg0_ptr, arg1, base + arg2, arg3);
+    result = Geo_PointInPoly(*arg0_ptr, arg1, (const PolygonVertex *)(base + arg2), arg3);
     *args[4] = result;
     return 1;
 }

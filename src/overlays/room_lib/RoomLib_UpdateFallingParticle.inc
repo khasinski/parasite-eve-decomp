@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_collision.h"
 #include "pe1/room_fx.h"
 
 extern s32 D_8009D248;
@@ -7,7 +8,6 @@ extern u16 D_800942EC;
 extern u8 ROOMLIB_FALLING_PARTICLE_CONFIG[];
 extern u8 ROOMLIB_FALLING_PARTICLE_CALLBACK[];
 
-int Geo_PointInPoly(s32 x, s32 z, s32 arg2, s32 arg3);
 u16 *func_800C2B90(void *owner, int kind, void *config, void *callback);
 
 void ROOMLIB_UPDATE_FALLING_PARTICLE_NAME(
@@ -25,7 +25,7 @@ void ROOMLIB_UPDATE_FALLING_PARTICLE_NAME(
 
     state->frame++;
     if (Geo_PointInPoly((s16)state->x << 16, (s16)state->z << 16,
-                        D_8009D248, D_8009D1CC)) {
+                        (const PolygonVertex *)D_8009D248, D_8009D1CC)) {
         if ((s8)state->frame % 3 == 0) {
             spawn = func_800C2B90(owner, 3,
                                   ROOMLIB_FALLING_PARTICLE_CONFIG,
@@ -40,7 +40,7 @@ void ROOMLIB_UPDATE_FALLING_PARTICLE_NAME(
     }
 
     if (!Geo_PointInPoly((s16)state->x << 16, (s16)state->z << 16,
-                         D_8009D248, D_8009D1CC)) {
+                         (const PolygonVertex *)D_8009D248, D_8009D1CC)) {
         control->state = 2;
         state->active = 0;
     }
