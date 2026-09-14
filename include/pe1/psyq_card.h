@@ -20,4 +20,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CardPatchIoRegisters, interruptMask) == 0x1074,
 /* BIOS continuation slot written by the LIBCARD patch installer. */
 extern void *volatile g_CardPatchContinuation;
 
+/* Installed uncached entry: _copy_memcard_patch copies the first patch to
+ * 0xDF80, placing CardPatchFunctions at offset 0x2C (0xDFAC). */
+extern const u8 D_A000DFAC[];
+extern const u32 func_8007E344[];
+void func_8007E3B4(void);
+
 #endif

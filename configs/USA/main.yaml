@@ -1253,7 +1253,10 @@ segments:
       - [0x6EB34, c, memcard/StopCARD2]
       - [0x6EB44, asm, memcard/func_8007E344]
       - [0x6EB70, c, memcard/CardPatchFunctions]
-      - [0x6EBB4, asm, memcard/CardPatchFunctionsTail]
+      # The first redirect is C in CardPatchFunctions. Its copied 20-byte
+      # template ends with one padding word; the second starts at 0x6EBC8.
+      - [0x6EBC4, pad]
+      - [0x6EBC8, asm, memcard/CardPatchFunctionsTail]
       - [0x6ECE0, c, psyq/libcard/CopyMemcardPatch]
       - [0x6ED14, asm, memcard/CardExitTail]
       - [0x6ED94, c, psyq/libds/CQ_clear_queue]

@@ -676,3 +676,37 @@ this is not a full BIOS or serial-hardware timing test.
 
 Clean production verification passes all 340 tests and the main retail SHA-1;
 all 191 overlay binaries also retain their retail SHA-1.
+
+### LIBCARD installed-patch redirect
+
+`func_8007E3B4` is now a 16-byte C redirect, appended to the existing
+`CardPatchFunctions` unit. The combined 84-byte C range matches retail.
+There are no new pins, empty barriers, NOP macros or instruction ASM; the
+GNU computed goto preserves the BIOS return address and incoming v1. It
+enters the uncached address 0xA000DFAC, which is the previous wait fragment
+copied to 0xDF80 + 0x2C by `_copy_memcard_patch`. This is an internal copied
+patch entry, not a newly identified public Psy-Q API.
+
+The installer at 0x8007E3DC copies 0x8007E3B4..0x8007E3C8: 16 bytes of
+redirect instructions and one trailing zero word. The other installer at
+0x8007E470 copies the separate 0x8007E3C8..0x8007E3DC template. These two
+copy ranges establish a boundary that the old 36-byte disassembly function
+crossed. The first padding word is now an explicit pad segment; the second
+template and both installers remain assembly. This fixes an inferred boundary
+as well as adding 16 matching C bytes; changes in the total function count or
+padding denominator are not additional decompilation progress.
+
+The shared LIBCARD header declares the new entry as a function. The existing
+copy helper converts its address to the instruction-word end pointer, instead
+of redeclaring the function as an array. Its object instructions are unchanged.
+The installed uncached address is declared in the manual linker symbols,
+since it lies outside the executable's own image. One new computed goto and
+one fewer C-file extern are recorded in debt.
+
+The redirected path passes 2048 differential cases (4096 Unicorn executions):
+both retail and relocated redirect entries execute the installed wait fragment
+at its uncached address. Assertions cover ordered status reads, return versus
+BIOS continuation, no stores, and preservation of v1/sp/ra. Serial status is
+modeled input, not a full device simulation. Clean validation passes 340 tests
+and the complete main retail SHA-1.
+All 191 overlay binaries also retain their retail SHA-1.

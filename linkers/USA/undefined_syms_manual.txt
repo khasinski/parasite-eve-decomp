@@ -3082,3 +3082,6 @@ func_8007E370 = 0x8007E370;
 
 /* LIBCARD/PATCH stores its BIOS continuation outside the executable image. */
 g_CardPatchContinuation = 0x0000DFFC;
+
+/* Uncached address of the installed LIBCARD wait patch (0xDF80 + 0x2C). */
+D_A000DFAC = 0xA000DFAC;

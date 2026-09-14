@@ -11,3 +11,9 @@ void CardPatchFunctions(void) {
         goto *g_CardPatchContinuation;
     }
 }
+
+/* The first LIBCARD/PATCH redirect template enters the installed wait patch.
+ * GNU computed goto preserves the incoming BIOS return address and v1. */
+void func_8007E3B4(void) {
+    goto *(void *)D_A000DFAC;
+}
