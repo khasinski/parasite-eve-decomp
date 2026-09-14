@@ -710,3 +710,47 @@ BIOS continuation, no stores, and preservation of v1/sp/ra. Serial status is
 modeled input, not a full device simulation. Clean validation passes 340 tests
 and the complete main retail SHA-1.
 All 191 overlay binaries also retain their retail SHA-1.
+
+### LIBMATH double multiplication
+
+`Math_Sqrt64` is the historical project symbol for Psy-Q `__muldf3`, not a
+square-root operation. Its 788 bytes at 0x800735C4 now match retail with stock
+native GCC 2.7.2 and the existing `ASSEMBLER: GNU` path in `cc.sh`. Neither the
+compiler nor the assembler pipeline was changed. The implementation reconstructs
+mantissa partial products, rounding and normalization, sign packing, and the
+original overflow event and infinity result. It preserves the library's actual
+edge-case behavior rather than replacing it with host floating-point arithmetic.
+
+Two input exponent variables let GCC retain their common sum as an unnamed
+value and spill it to sp+80. The alternate adjusted exponent is calculated in C
+after the ten-bit shift call; GCC schedules the arithmetic before that call and
+reloads the spilled sum between the two mantissa argument loads. A separate
+`MathDoubleBits` result also gives the original final low-word copy. This
+replaces the unsuccessful explicit stack field and both fixed t3 variables.
+There are no register pins, loops, NOP macros or instruction ASM.
+
+One tied empty barrier keeps the initial adjusted exponent independent of the
+shared sum. Removing it produces 784 bytes instead of 788, with 95 differing
+instruction words in a linked comparison. The old final memory barrier and
+both pins are absent. Temporary reuse in the C expressions is retained where
+simplifying it changes allocation; the unused mask alias, unused local and
+redundant scopes were removed while preserving byte identity. Debt increases
+by exactly one empty barrier.
+
+The source uses the shared math and event declarations, including the actual
+integer return type of `Evt_Deliver`. A differential check executes 2169 input
+pairs against retail with the original integer helpers, comparing result bits,
+overflow events, stack pointer and callee-saved registers. This includes zero,
+subnormal, exponent-boundary and randomized bit patterns; byte identity verifies
+the complete instruction stream independently of those sampled cases.
+
+The SDK provenance inventory identifies a 1024-byte MULDF3 object containing
+`__muldf3` and the adjacent `_mul_mant_d` (`Math_Mul32To64`). The latter's existing
+236-byte match still uses a separate GCC 2.8.1 unit. The new `muldf3.c` therefore
+covers the 788-byte function subrange, not a newly inferred full object boundary.
+The obsolete non-matching candidate was removed; the earlier false-match archive
+remains historical evidence. The report's address-based SDK mapping retains the
+correct LIBMATH/MULDF3/__muldf3 identity.
+
+Clean production verification passes all 340 tests and the complete main retail
+SHA-1. All 191 overlay binaries also retain their retail SHA-1.
