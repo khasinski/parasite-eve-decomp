@@ -884,3 +884,41 @@ comparison are in `/tmp/pe-font-slot/`.
 `make verify-clean` passes all 340 tests and the source, organization and
 tracked-debt gates. The complete main image and all 191 rebuilt overlays
 preserve their retail SHA-1 values. The manual stack-frame debt above remains.
+
+### Equipment modifier loading reconstruction
+
+`BattleCmd_LoadWeaponModifiers` at `0x80051CC4` matches all 308 retail code
+bytes with stock GCC 2.7.2, unchanged MASPSX and `-G8`. The C switch also
+reproduces all 32 bytes of its jump table at `0x800111F8`; the manifest now
+places that compiler-generated `.rodata` at the original address. This is one
+new game function, not Psy-Q; the jump table is data, not added code progress.
+
+Despite the historical weapon-oriented name, the lookup reads the signed
+equipped armor index at `0x800C0E22`. It saves the active-list selection,
+selects the normal list, clears the modifier mask and seven modifier words,
+then interprets the low five bits of each `ItemDataRecord.tailData` entry.
+Later entries overwrite earlier values in the same output slot; mask values
+are assigned, not accumulated with OR. The stat recalculation and both final
+list-selection calls remain in their retail order even for a missing record.
+
+The existing item record supplies the count and modifier fields. The seven
+output words are represented as an array, matching the descending clear loop.
+The armor index retains the existing signed-byte-array view used by command
+rollback code, which preserves non-GP addressing under GCC 2.7.2; migrating
+these older save-state views to `AyaSaveState` remains type debt. No fake
+padding structs, new symbol aliases, register pins, compiler barriers, NOPs,
+unused stack arrays, instruction ASM or EABI are introduced. Shared interfaces
+are in `pe1/battle_modifiers.h`; the incremental split does not establish an
+original translation-unit boundary.
+
+The production C passes 8192 native cases under ASan/UBSan against a separate
+modifier reference, including every encoded modifier byte, all signed byte
+indices, missing/empty records and mixed modifier sequences. Mocked inventory
+helpers check clearing before lookup, final outputs, call order and restoration
+of the saved selection. Item records remain unchanged. The test does not
+exercise the inventory helpers themselves. Scratch tests and linked code/data
+comparisons are in `/tmp/pe-weapon-modifiers/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates. The complete main image and all 191 rebuilt overlays retain their
+retail SHA-1 values.
