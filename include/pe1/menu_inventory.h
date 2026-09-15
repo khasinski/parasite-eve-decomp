@@ -15,4 +15,12 @@ void Menu_CreateBonusPointAllocationView(void);
 void Menu_PlayCancelSound(void);
 void Menu_PlayMoveSound(void);
 
+extern int D_8009CF18, D_8009CFB0;
+int MenuWidget_GridCellIndex(MenuWidgetNode *node);
+MenuWidgetNode *MenuWidget_GetCurrentNode(void);
+void Menu_OpenItemUsePanelAtIndex(int index);
+void Menu_CreateNotificationDialog(int message, int arg);
+void MenuInput_SetPollingPaused(int paused);
+void Menu_OnEquipConfirm(int unused, int confirmed);
+
 #endif

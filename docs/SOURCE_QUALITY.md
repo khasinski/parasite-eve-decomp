@@ -995,3 +995,29 @@ harness and linked comparison are in `/tmp/pe-save-overlay/`.
 `make verify-clean` passes all 340 tests and the source, organization and
 updated-debt gates. The complete main image and all 191 rebuilt overlays
 preserve their retail SHA-1 values.
+
+### Equipment confirmation callback reconstruction
+
+`Menu_OnEquipConfirm` at `0x80046574` matches all 332 retail bytes with stock
+GCC 2.7.2, unchanged MASPSX and `-G8`. The callback ignores unconfirmed input.
+On confirmation it dispatches the selected grid cell to the item-use helper
+or the existing status-returning `Inv_GetSlotItemData` operation. A failed
+operation opens notification `0x1D`; successful paths hide the selection
+cursor and transfer focus to panel 5 or 6. It then rebuilds the filtered list,
+resets the cursor of panel 6 when focused, and pauses polling in item-use mode.
+
+The existing `MenuWidgetNode` supplies both cursor fields. The mode global
+is reloaded after helper calls, as in retail. Selecting the focus node with
+an expression directly in `MenuWidget_SetCurrentNode` preserves the original
+branch layout without register pins, compiler barriers, instruction ASM,
+unused stack padding or extra compiler flags. Shared declarations are in the
+menu-inventory and inventory headers. The historical helper names remain;
+`Inv_GetSlotItemData` returns a status despite its name. This is game code,
+not Psy-Q, and no original translation-unit boundary is claimed.
+
+The narrow linked comparison is exact for all 332 bytes. Scratch source and
+comparison artifacts are in `/tmp/pe-equip-confirm/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates without increasing debt. The complete main image and all 191 rebuilt
+overlays preserve their retail SHA-1 values.
