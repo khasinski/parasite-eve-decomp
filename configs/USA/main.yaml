@@ -1445,6 +1445,7 @@ segments:
       - [0x779AC, asm, akao/akao_cmd_note]
       - [0x77C14, c, akao/Spu_SetStreamModeB]
       - [0x77C28, asm, akao/akao_cmd_stream]
+      - [0x77DFC, c, akao/Spu_UploadStreamBlockB]
       - [0x77F0C, c, akao/Akao_SpuVoiceRegisters]
       # AKAO SPU voice-register primitives and parameter write dispatcher.
       - [0x782A8, asm, akao/Spu_UpdateVoiceRegisters]

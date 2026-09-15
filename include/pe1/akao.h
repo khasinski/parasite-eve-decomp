@@ -12,4 +12,14 @@
  * either game yet.
  */
 
+/* Sample transfer and stream instrument relocation. Addresses passed to the
+ * upload wrapper are 32-bit main-memory addresses in the PSX ABI. */
+int Spu_ValidateSampleHeader(void *header);
+int Spu_WriteRegChecked(int address);
+void Spu_UploadWithPrepare(int source, int size);
+void Spu_RebaseStreamAddrs(unsigned char *instruments, int address, int count);
+int Spu_UploadStreamBlockB(unsigned bank, unsigned char *cursor);
+/* Stream instrument scratch table; bank selection advances by 0x400 bytes. */
+extern unsigned D_800B4900[];
+
 #endif

@@ -824,3 +824,31 @@ Clean-build validation preserves the complete main retail SHA-1 and all 191
 overlay SHA-1 values. `make verify` passes all 340 tests and the source,
 organization and debt gates. This adds one game function (248 code bytes),
 not a Psy-Q function, and introduces no matching debt.
+
+### Stream sample block reconstruction
+
+`Spu_UploadStreamBlockB` at `0x800875FC` is semantic C matching all 272
+retail bytes with stock GCC 2.7.2 and unchanged MASPSX. It belongs to the game's
+AKAO sound engine, not Psy-Q. The function validates bank 0/1 and the sample
+header, locates the sample payload after the instrument records, uploads it,
+rebases instrument addresses, then copies the relocated records to the stream
+scratch table. An encoded exclusive instrument end of zero means 256.
+
+The reconstruction adds no register bindings, barriers, NOPs, instruction ASM,
+EABI or compiler changes. Reusing the transfer-size variable as the later word
+count and the SPU-address variable as the later scratch-table offset reproduces
+the retail allocation without constraints. Header words are read through a
+32-bit cursor; this is an incremental function boundary, not evidence of an
+original translation-unit boundary. Shared declarations live in `pe1/akao.h`.
+
+A native test of the production C passes 323 cases under ASan/UBSan, covering
+both banks, 1–16 records, the zero-end encoding, invalid banks and invalid
+headers. Mocked transfer helpers check call order and arguments; the relocation
+stub changes record addresses before the test checks every copied word and
+untouched scratch-table word. The test does not exercise SPU hardware. The
+linked byte comparison and test harness are in `/tmp/pe-stream-block-b/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates. The complete main image retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`; all 191 rebuilt overlays also retain
+their retail SHA-1 values.
