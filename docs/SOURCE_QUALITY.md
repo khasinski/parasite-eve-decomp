@@ -852,3 +852,35 @@ linked byte comparison and test harness are in `/tmp/pe-stream-block-b/`.
 gates. The complete main image retains retail SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`; all 191 rebuilt overlays also retain
 their retail SHA-1 values.
+
+### Glyph slot lookup reconstruction
+
+`Render_DrawTextDigit` at `0x80038BC0` matches all 292 retail bytes with stock
+GCC 2.7.2 and unchanged MASPSX. Despite its historical name it draws nothing:
+it selects a code from the mode and font state, searches the code list, then
+returns the corresponding slot index or `0xFF`. A missing code uses code-list
+index zero, preserving the retail fallback. A null input uses `D_80091A28`.
+This is game code, not Psy-Q.
+
+`pe1/font.h` describes the observed table layout: the first count at +3,
+codes at +4, the second count at +0x1C and trailing indices at +0x1D. The
+unknown prefix bytes remain unnamed; the 24-byte codes region is inferred
+from the next count's fixed offset. This partial layout is not a claim that
+the original font format or translation-unit boundary has been identified.
+
+**Manual matching debt: one unused local array (`stack_pad[2]`).** It retains
+the retail 16-byte leaf stack frame; the original local variables are unknown.
+The automated debt tracker currently does not count unused stack padding,
+so an unchanged numerical baseline must not be read as zero new debt. There
+are no register pins, compiler barriers, NOPs, instruction ASM or EABI here.
+
+The production C passes 131072 native cases under ASan/UBSan against an
+independent two-search reference: all byte-valued modes and font states,
+explicit and default table pointers, generated list lengths including empty
+lists, absent codes, repeated entries and unchanged input data. The harness
+checks the recovered field offsets too. Scratch proof and linked byte
+comparison are in `/tmp/pe-font-slot/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and
+tracked-debt gates. The complete main image and all 191 rebuilt overlays
+preserve their retail SHA-1 values. The manual stack-frame debt above remains.

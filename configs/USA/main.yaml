@@ -379,6 +379,7 @@ segments:
       - [0x29110, c, gpu/misc10]
       - [0x29154, c, main/func_80038954]
       - [0x291DC, asm, main/menu2]
+      - [0x293C0, c, main/Render_DrawTextDigit]
       - [0x294E4, c, main/func_80038CE4]
       - [0x2950C, c, menu/Menu_IsEquipSlotActive]
       - [0x2951C, c, menu/Menu_ConsumeEquipSlotFlag]
