@@ -922,3 +922,42 @@ comparisons are in `/tmp/pe-weapon-modifiers/`.
 `make verify-clean` passes all 340 tests and the source, organization and debt
 gates. The complete main image and all 191 rebuilt overlays retain their
 retail SHA-1 values.
+
+### Color-track interpolation reconstruction
+
+`func_800CF3AC` at `0x800CF3AC` now matches all 264 retail bytes in
+`engine/FieldEng_InterpolateColorTrack.c`, using stock GCC 2.7.2 and unchanged
+MASPSX. It initializes cached duration/start halfwords for a sentinel-terminated
+RGB track, records its total time and segment count, clamps time at the end,
+finds the applicable segment backwards and calls `LoadAverageCol` with two
+12-bit complementary weights. The existing symbol and void-pointer API remain
+compatible with the effect callers. This is game code, not Psy-Q.
+
+`RenderColorKey` is eight bytes: RGB plus an encoded one-byte segment duration,
+followed by two cached timing halfwords. `RenderColorTrack` has an eight-byte
+header and trailing keys. The zero-duration terminal key supplies the final
+RGB value; its timing halfwords are not initialized. Valid inputs have at least
+one positive-duration segment and nonnegative time. No new validation is added
+for malformed tracks; retail's division checks are preserved by the existing
+MASPSX `--expand-div` option.
+
+Matching debt is one `$8` count pin, recorded in the numerical baseline. The
+byte cursor into timing fields, including the preceding duration-byte read,
+also remains manual source-shape debt: its intermediate view reproduces the
+retail addressing. The automatic pointer-arithmetic patterns do not count all
+these `unsigned char *` expressions. There are no empty barriers, NOPs, unused
+stack arrays, instruction ASM, EABI or tool modifications. Keeping the header
+writes inside the terminating branch reproduces the initialization loop shape;
+pins alone did not resolve the earlier rotated loop.
+
+The production algorithm passes 5120 native cases under ASan/UBSan with 1–128
+segments, uncached/cached paths, boundary times and end clamping. A mocked
+`LoadAverageCol` verifies the two selected keys, output pointer and both weights;
+checks also cover every cached timing value and the untouched terminal timing.
+The host build suppresses the PSX register binding and unrelated 32-bit-pointer
+layout assertions, then checks the new pointer-free layouts explicitly. It does
+not emulate GTE arithmetic. Scratch proof is in `/tmp/pe-color-track/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and
+updated-debt gates. The complete main image and all 191 rebuilt overlays
+preserve their retail SHA-1 values.

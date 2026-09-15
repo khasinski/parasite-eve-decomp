@@ -49,6 +49,9 @@ PE1_STATIC_ASSERT(sizeof(RenderCosineEffect) == 8, render_cosine_effect_size);
 
 extern int D_800E27EC;
 extern u8 D_800E1C04[];
+/* Initializes cached key times, clamps time at the end and blends colors.
+ * The track requires at least one positive-duration key and a zero-duration
+ * terminator carrying the final RGB value. Call with nonnegative time. */
 void func_800CF3AC(void *track, void *color, int time);
 void func_800D27FC(int x, int y, void *color, int scale, int mode);
 int FieldEng_CosineEffect(int mode, RenderCosineEffect *effect);
@@ -66,6 +69,32 @@ typedef struct RenderColor {
 } RenderColor;
 
 PE1_STATIC_ASSERT(sizeof(RenderColor) == 4, render_color_size);
+
+/* In a color-track key, color.code stores the encoded segment duration. */
+typedef struct RenderColorKeyTiming {
+    u16 length;
+    u16 start;
+} RenderColorKeyTiming;
+
+typedef struct RenderColorKey {
+    RenderColor color;
+    RenderColorKeyTiming timing;
+} RenderColorKey;
+
+typedef struct RenderColorTrack {
+    int duration; /* Zero means the timing cache has not been initialized. */
+    int count;
+    RenderColorKey keys[0];
+} RenderColorTrack;
+
+PE1_STATIC_ASSERT(sizeof(RenderColorKey) == 8, render_color_key_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderColorKey, timing) == 4,
+                  render_color_key_timing_offset);
+PE1_STATIC_ASSERT(sizeof(RenderColorTrack) == 8, render_color_track_header_size);
+
+void LoadAverageCol(void *first, void *second, int first_scale,
+                    int second_scale, void *output);
+
 
 extern u8 D_800E1EE8[];
 extern u16 D_800F336C;
