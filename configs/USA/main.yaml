@@ -258,6 +258,7 @@ segments:
       - [0xCFDC, asm, main/Entity_SlideOnRamp]
       - [0xD2B0, c, field/Geo_PointInPoly]
       - [0xD3A0, asm, main/geo]
+      - [0xD970, c, field/Entity_ApplyCollisionResponse]
       - [0xDA68, c, entity/Entity_CheckActionIdMatch]
       - [0xDB40, c, menu/Menu_MainUpdate]
       - [0xFCD4, c, entity/Entity_ResolveDropTable]
@@ -1537,6 +1538,8 @@ segments:
       # Psy-Q 4.6 DSFILE.OBJ media-state words and section padding.
       - [0x8BEDC, .data, psyq/libds/dsfile]
       - [0x8BEEC, data, main/dtail_gp_post_dsfile]
+      - [0x8DA54, .data, field/Entity_ApplyCollisionResponse]
+      - [0x8DA58, data, main/dtail_gp_post_collision_actor]
 
   # Data separates the initial code from the field-engine code. Keep a
   # separate linker segment so section ordering preserves retail addresses.

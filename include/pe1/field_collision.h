@@ -14,6 +14,21 @@ typedef struct {
 int Geo_PointInPoly(int x, int z, const PolygonVertex *vertices,
                     unsigned short count);
 
+struct BattleEntity;
+
+/* Shared collision query state. The response routine publishes the scaled
+ * half-width before querying and sliding against this polygon. */
+extern volatile unsigned short D_8009CE2C;
+extern PolygonVertex *D_8009D2F8;
+extern unsigned short D_8009D264;
+
+int Geo_FindNearestEdge(int x, int z, const PolygonVertex *vertices,
+                       unsigned short count);
+void Entity_SlideOnWall(struct BattleEntity *actor, const PolygonVertex *vertices,
+                       unsigned short count, short edge, int oldX, int oldZ);
+/* The retail caller passes an argument; this routine uses D_8009D254. */
+void Entity_ApplyCollisionResponse(int unused);
+
 /* Field floor / collision geometry (what keeps Aya on the walkable mesh and
  * sets her ground height Y). See field_movement.h for how motion drives pos;
  * after integration, Entity_ResolvePosition() snaps pos_y to the floor and the

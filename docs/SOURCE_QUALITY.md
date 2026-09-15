@@ -786,3 +786,41 @@ Clean-build validation preserves the complete main retail SHA-1 and all 191
 overlay SHA-1 values. `make verify` passes all 340 tests and the source,
 organization and debt gates. This adds one game function (240 code bytes),
 not a Psy-Q function.
+
+### Collision response reconstruction
+
+`Entity_ApplyCollisionResponse` at `0x8001D170` now matches all 248 retail
+code bytes using stock GCC 2.7.2 and unchanged MASPSX with `-G8`. It publishes
+the collision half-width, queries the nearest polygon edge, attempts a wall
+slide, and restores the saved X/Y/Z position if the second query still reports
+an edge. The incoming argument is unused in retail; the routine reads the
+shared actor slot instead. Signed 16-bit narrowing of the query results and
+the low-word multiply followed by signed division are preserved explicitly.
+
+The existing `BattleEntity` fields describe all actor accesses. Separate
+locals preserve the post-call reloads of the shared actor pointer. There are
+no register bindings, empty barriers, NOPs, instruction ASM or EABI.
+
+The four zero bytes at `0x8009D254` are now a real C pointer definition in
+`.data`, with the compatible declaration already in `battle_runtime.h`.
+The existing `g_PlayerEntity` linker alias still identifies the same slot.
+This definition also reproduces the retail non-GP accesses to that symbol,
+while the three collision-query globals retain GP-relative accesses. A plain
+external pointer declaration under GCC 2.7.2 and `-G8` selected GP-relative
+loads instead. No padding struct, symbol-type alias or assembler rewrite is
+used to force the addressing. The four data bytes are not counted as new code.
+The incremental boundary retains the two remaining `main/geo` functions in
+assembly; it does not claim an original source-file boundary.
+
+A 512-case host test runs the production function with mocked edge/slide
+helpers and a test actor view retaining the accessed retail offsets. It covers
+all exit paths, wrapped products, signed result narrowing, saved-position
+arguments and changes of the shared actor pointer between calls. ASan and
+UBSan pass. Only ELF section placement is disabled for the Mach-O host build;
+the algorithm is unchanged. Scratch sources and byte comparisons are in
+`/tmp/pe-collision-response/`.
+
+Clean-build validation preserves the complete main retail SHA-1 and all 191
+overlay SHA-1 values. `make verify` passes all 340 tests and the source,
+organization and debt gates. This adds one game function (248 code bytes),
+not a Psy-Q function, and introduces no matching debt.
