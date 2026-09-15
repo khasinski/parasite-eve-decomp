@@ -1021,3 +1021,41 @@ comparison artifacts are in `/tmp/pe-equip-confirm/`.
 `make verify-clean` passes all 340 tests and the source, organization and debt
 gates without increasing debt. The complete main image and all 191 rebuilt
 overlays preserve their retail SHA-1 values.
+
+### Field task allocation reconstruction
+
+`func_800D401C` in `FieldEng_AllocateTask.c` matches all 288 retail bytes with
+stock GCC 2.7.2 and unchanged MASPSX. It scans eight task slots for the `0xFFFF`
+sentinel, returns -1 when full, and otherwise assigns the task id and clears
+its age. A dispatch table supplies the initial payload size and callback.
+The 16-bit used-byte counter is updated before testing the `0x97C` arena
+limit, preserving retail wraparound. The callback receives mode 0, the payload
+and the context argument; its additional size advances the cursor and counter.
+A zero callback result clears the slot's end pointer. Context fields are
+reloaded after the callback, preserving callback-side updates.
+
+`FieldAnimTaskSlot` now exposes its id and age halfwords. The shared header
+also describes the context and the task-table prefix, with target layout
+assertions. The neighboring initializer `func_800D4620` confirms the slot
+stride, sentinel and arena start; `func_800D413C` and its update path confirm
+the script cursor, delay, halfword variables and slot age. The table prefix
+ends before the later lifecycle callback at +0x30. Unknown flag semantics
+and the context argument's ultimate type remain unclaimed. Existing raw
+context views in other translation units are not migrated by this change.
+
+There are no pins, barriers, NOPs, instruction ASM, stack padding or custom
+compiler flags. The scan counter is reused for the callback result to recover
+retail register allocation. The function's existing symbol is retained; the
+file name describes its observed role and makes no original TU claim.
+This is game code, not Psy-Q.
+
+The production C passes 3456 ASan/UBSan host cases covering every first-free
+slot and a full pool, all eight callback indices, three payload sizes, four
+counter boundaries (including 16-bit wraparound), zero/nonzero callback
+results, and callback changes to the cursor/counter. The host test suppresses
+only PSX layout assertions; the linked target comparison checks all 288 bytes.
+Scratch comparison and harness are in `/tmp/pe-task-slot/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates with no debt increase. Main and all 191 rebuilt overlays preserve their
+retail SHA-1 values.

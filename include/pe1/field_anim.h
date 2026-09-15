@@ -6,10 +6,52 @@
 typedef int (*FieldAnimTaskCallback)(int mode, void *state);
 
 typedef struct FieldAnimTaskSlot {
-    u32 control;
+    u16 id;              /* 0xFFFF marks a free slot. */
+    u16 age;
     char *start;
     char *end;
 } FieldAnimTaskSlot;
+
+/* Task dispatch prefix; the owning table also has later lifecycle callbacks. */
+typedef struct FieldAnimTaskTable {
+    int (*callbacks[8])(int mode, void *state, int argument);
+    u16 sizes[8];
+} FieldAnimTaskTable;
+
+typedef struct FieldAnimTaskContext {
+    u16 *script;
+    char *cursor;
+    int argument;
+    u8 count;
+    u8 flags;
+    u16 delay;
+    u16 used;
+    s16 variables[7];
+    FieldAnimTaskSlot slots[8];
+    FieldAnimTaskTable *table;
+    char arena[0x97C];
+} FieldAnimTaskContext;
+
+PE1_STATIC_ASSERT(sizeof(FieldAnimTaskSlot) == 0xC, field_anim_task_slot_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskSlot, start) == 4,
+                  field_anim_task_slot_start);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskTable, sizes) == 0x20,
+                  field_anim_task_table_sizes);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskContext, count) == 0xC,
+                  field_anim_task_context_count);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskContext, used) == 0x10,
+                  field_anim_task_context_used);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskContext, slots) == 0x20,
+                  field_anim_task_context_slots);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskContext, table) == 0x80,
+                  field_anim_task_context_table);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskContext, arena) == 0x84,
+                  field_anim_task_context_arena);
+PE1_STATIC_ASSERT(sizeof(FieldAnimTaskContext) == 0xA00,
+                  field_anim_task_context_size);
+
+extern FieldAnimTaskContext *D_800E2368;
+int func_800D401C(int id);
 
 extern FieldAnimTaskSlot *D_800F33E0;
 int func_800CE560(char *out, int stride, int count, FieldAnimTaskCallback callback);
