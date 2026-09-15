@@ -23,4 +23,10 @@ typedef struct TextboxEntry {
 
 extern TextboxEntry g_TextboxEntries[];      /* = D_800BCEA8 */
 
+void Tbl_ResetAll(void);
+void Menu_SetTextCursorRect(int x, int y, int width, int height);
+void Render_SetupColorTable(int index, int mode, short *colors);
+void Draw_SetCursor(int x, int y);
+void Draw_AllocColorGradient(int width, int height, int arg2, int arg3);
+
 #endif /* PE1_TEXTBOX_H */

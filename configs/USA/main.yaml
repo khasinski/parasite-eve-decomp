@@ -349,6 +349,7 @@ segments:
       - [0x24240, asm, main/Battle_DrawActiveStatus]
       - [0x24904, asm, main/Battle_DrawEnemyHP]
       - [0x24FB4, asm, menu/misc23]
+      - [0x255E0, c, menu/Menu_SaveOverlayDraw]
       - [0x25710, c, entity/Entity_ResetAllPools]
       - [0x257C4, c, entity/Entity_InitFreePool]
       - [0x25838, asm, main/Scene_LoadMap]

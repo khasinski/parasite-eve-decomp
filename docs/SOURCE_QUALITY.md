@@ -961,3 +961,37 @@ not emulate GTE arithmetic. Scratch proof is in `/tmp/pe-color-track/`.
 `make verify-clean` passes all 340 tests and the source, organization and
 updated-debt gates. The complete main image and all 191 rebuilt overlays
 preserve their retail SHA-1 values.
+
+### Save notification drawing reconstruction
+
+`Menu_SaveOverlayDraw` at `0x80034DE0` now matches all 304 retail bytes with
+stock GCC 2.7.2, unchanged MASPSX and `-G8`. State 1 resets the text tables,
+chooses the cursor rectangle from the metadata window and layout selector,
+sets the color table, then activates the first textbox with the message and
+flag `0x02000000`. State 2 resets the tables when its timer is zero. Every
+call decrements the byte timer and draws the background strip, including
+inactive states: zero wraps to 255, and a newly assigned 75 becomes 74.
+
+The existing `TextboxEntry` supplies the state, message and flags fields;
+there are no raw textbox offsets or new layout aliases. The state and message
+are reloaded after the setup helper, preserving callback-visible updates.
+The existing function name and retail global names are retained; no original
+translation-unit boundary is claimed. This is game code, not Psy-Q.
+
+Matching debt is one `$4` state pin and one empty memory barrier, both recorded
+in the baseline. The barrier preserves the message load after activation and
+timer stores. No instruction ASM, NOPs, unused stack padding, EABI or compiler/
+assembler modifications are introduced. Shared declarations live in the save
+and textbox subsystem headers.
+
+The production algorithm passes 262144 native cases under ASan/UBSan:
+all 256 states and timer values across layout selectors 0, 1, 2 and 255.
+Mocked helpers check call order, coordinates, color arguments, final textbox
+contents, timer wrapping and state/message changes during setup. The host
+build suppresses the register binding and empty barrier; the test does not
+exercise actual text rendering or helper implementations. Scratch source,
+harness and linked comparison are in `/tmp/pe-save-overlay/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and
+updated-debt gates. The complete main image and all 191 rebuilt overlays
+preserve their retail SHA-1 values.
