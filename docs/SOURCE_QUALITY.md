@@ -1090,3 +1090,39 @@ linked comparison validate the PSX binary. Scratch proof is in
 `make verify-clean` passes all 340 tests and the source, organization and debt
 gates without a debt increase. Main and all 191 rebuilt overlays retain their
 retail SHA-1 values.
+
+### Sine field effect reconstruction
+
+`func_800DAF8C` in `FieldEng_SineEffect.c` matches all 324 retail bytes with
+stock GCC 2.7.2 and unchanged MASPSX, without extra flags. Mode 1 adds the
+stored Y velocity, advances Z by 8, decays X from its initial amplitude over
+64 ticks, and updates the angle from `rsin(age << 5) / 64`. Scale decays from
+1600 by `age * 1000 / 64`; completion is reported at age 64. Mode 2 blends
+the color track and dispatches drawing with the current position, scale and
+angle. Other modes return zero.
+
+The shared `RenderSineEffect` describes the observed 16-byte state using the
+existing position vector and four halfwords. Static assertions check its
+size and field offsets. The position vector's padding is untouched. The
+original symbol is retained, and the file's descriptive name makes no
+original translation-unit claim. This is game code, not Psy-Q.
+
+No pins, barriers, NOPs, instruction ASM, unused stack padding or toolchain
+modifications are needed. State and globals remain observable across helper
+calls: the age is reloaded after sine evaluation, and rendering reads the
+scale and angle after color interpolation.
+
+The production algorithm passes 655501 native ASan/UBSan cases. These cover
+all signed-halfword amplitudes at ages 0, 1, 63, 64 and 65; positive/negative
+mock sine outputs; halfword coordinate wrapping; age changes during sine
+evaluation; render-state changes during color interpolation; and inactive
+modes. Mock draw calls check the data, position, color and all scalar
+arguments. This verifies the callback, not the sine or renderer themselves.
+The host build suppresses unrelated target layout assertions and explicitly
+checks the new 16-byte state size. Target compilation and the narrow linked
+comparison verify the PSX layout and all 324 bytes. Scratch proof is in
+`/tmp/pe-sine-effect/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates without increasing debt. Main and all 191 rebuilt overlays retain their
+retail SHA-1 values.

@@ -47,6 +47,28 @@ typedef struct RenderCosineEffect {
 
 PE1_STATIC_ASSERT(sizeof(RenderCosineEffect) == 8, render_cosine_effect_size);
 
+typedef struct RenderSineEffect {
+    GteShortVector position;
+    s16 angle;
+    s16 scale;
+    s16 amplitude;
+    s16 velocity_y;
+} RenderSineEffect;
+
+PE1_STATIC_ASSERT(sizeof(RenderSineEffect) == 0x10, render_sine_effect_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSineEffect, angle) == 8,
+                  render_sine_effect_angle);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSineEffect, amplitude) == 0xC,
+                  render_sine_effect_amplitude);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSineEffect, velocity_y) == 0xE,
+                  render_sine_effect_velocity);
+
+extern u8 D_800E1C2C[];
+extern u8 D_800E221C[];
+int func_800DAF8C(int mode, RenderSineEffect *state);
+void func_800D0E88(void *data, GteShortVector *position, int scale, int angle,
+                   void *color, int arg5, int arg6, int intensity, int mode);
+
 extern int D_800E27EC;
 extern u8 D_800E1C04[];
 /* Initializes cached key times, clamps time at the end and blends colors.
