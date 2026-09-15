@@ -96,6 +96,7 @@ void LoadAverageCol(void *first, void *second, int first_scale,
                     int second_scale, void *output);
 
 
+extern u8 D_800E1988[];
 extern u8 D_800E1EE8[];
 extern u16 D_800F336C;
 extern u16 D_800E1204[];
@@ -104,6 +105,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
                    int scale_x, int scale_y, int texture, int clut,
                    int page, int intensity, RenderColor *color);
 int FieldEng_DriftingEffect(int mode, GteShortVector *position);
+int func_800D7E78(int mode, GteShortVector *state);
 
 void FieldEng_RotateVector(const GteMatrixWords *matrix,
                            const GteShortVector *input, GteShortVector *output);

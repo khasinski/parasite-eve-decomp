@@ -1059,3 +1059,34 @@ Scratch comparison and harness are in `/tmp/pe-task-slot/`.
 `make verify-clean` passes all 340 tests and the source, organization and debt
 gates with no debt increase. Main and all 191 rebuilt overlays preserve their
 retail SHA-1 values.
+
+### Shrinking field effect reconstruction
+
+`func_800D7E78` in `FieldEng_ShrinkingEffect.c` matches all 324 retail bytes
+with stock GCC 2.7.2 and unchanged MASPSX, without extra compiler flags.
+Mode 1 decrements Y and returns completion when the task age is at least 6.
+Mode 2 snapshots XYZ, interpolates its color track, computes scale
+`4096 - (age << 12) / 6`, selects a palette and draws texture `0x8A`.
+Palette selector 4 adds four rows when the asset flag is nonzero. Other
+modes return zero without work.
+
+The source uses the existing `GteShortVector` and `RenderColor` types. Only
+XYZ is copied; the vector's padding is not initialized or used by this
+function. Position is captured before the color helper, while task age and
+palette globals are read afterward, preserving callback-visible changes.
+The historical symbol is retained, and the descriptive filename makes no
+original TU claim. This is game code, not Psy-Q.
+
+No pins, barriers, NOPs, instruction ASM, unused stack padding or compiler/
+assembler modifications are needed. The production C passes 132105 native
+ASan/UBSan cases: all signed halfword Y values at ages 5 and 6; rendering at
+ages 0–31 with eight palettes, both asset-flag states, and callback mutations
+of age and input coordinates; and inactive modes. Mock helpers check call
+order, the position snapshot, color, scale and draw arguments. The host build
+suppresses unrelated target layout assertions; target compilation and the
+linked comparison validate the PSX binary. Scratch proof is in
+`/tmp/pe-shrinking-effect/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates without a debt increase. Main and all 191 rebuilt overlays retain their
+retail SHA-1 values.
