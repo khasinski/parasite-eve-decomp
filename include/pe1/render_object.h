@@ -47,6 +47,17 @@ typedef struct RenderCosineEffect {
 
 PE1_STATIC_ASSERT(sizeof(RenderCosineEffect) == 8, render_cosine_effect_size);
 
+typedef struct RenderArcingEffect {
+    s16 x, y, z;
+    s16 velocity_y;
+} RenderArcingEffect;
+
+PE1_STATIC_ASSERT(sizeof(RenderArcingEffect) == 8, render_arcing_effect_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderArcingEffect, velocity_y) == 6,
+                  render_arcing_effect_velocity);
+int func_800D7A1C(int mode, RenderArcingEffect *state);
+extern u8 D_800E18C0[];
+
 typedef struct RenderSineEffect {
     GteShortVector position;
     s16 angle;
@@ -99,6 +110,8 @@ int FieldEng_RotatingEffect(int mode);
 typedef struct RenderColor {
     u8 r, g, b, code;
 } RenderColor;
+
+extern RenderColor D_800C22DC;
 
 PE1_STATIC_ASSERT(sizeof(RenderColor) == 4, render_color_size);
 

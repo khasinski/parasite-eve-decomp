@@ -1160,3 +1160,38 @@ bytes. Scratch comparison and harness are in `/tmp/pe-sine-emitter/`.
 `make verify-clean` passes all 340 tests and the source, organization and debt
 gates with no debt increase. Main, including the previous sine callback, and
 all 191 rebuilt overlays preserve their retail SHA-1 values.
+
+### Arcing field effect reconstruction
+
+`func_800D7A1C` in `FieldEng_ArcingEffect.c` matches all 340 retail bytes with
+stock GCC 2.7.2 and unchanged MASPSX, without extra flags. Mode 1 subtracts
+Y velocity from Y, then decrements that velocity, completing at age 24.
+Mode 2 interpolates color, copies the current XYZ and draws texture `0x8B`
+at scale 4096. Palette selector 4 adds four rows when the asset flag is set.
+All calls initialize a local color from `D_800C22DC`, including inactive
+modes; the four-byte `RenderColor` assignment preserves the unaligned copy
+instructions seen in retail.
+
+`RenderArcingEffect` names the observed eight-byte state: three position
+halfwords and a Y velocity at +6. The last field is active velocity, not
+vector padding. Shared size/offset assertions verify that distinction.
+Position is copied after color interpolation, preserving helper-side updates;
+only XYZ is written in the local draw vector. The historical symbol remains,
+and the descriptive filename makes no original TU claim. This is game code,
+not Psy-Q.
+
+No pins, barriers, NOPs, instruction ASM, unused stack padding or toolchain
+modifications are needed. Separate position and velocity assignments recover
+the original memory access order. The production algorithm passes 132105
+ASan/UBSan host cases: all signed-halfword velocities at ages 23 and 24,
+coordinate/velocity wrapping, rendering at ages 0–31 across eight palettes
+and both asset states, helper-side position changes, and inactive modes.
+Mocks check the initial color copy, helper order and all draw arguments.
+The host build suppresses unrelated target assertions and checks the new
+state size explicitly; target compilation and the narrow linked comparison
+validate the PSX layout and all 340 bytes. Scratch proof is in
+`/tmp/pe-arcing-effect/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates without increasing debt. Main and all 191 rebuilt overlays retain
+their retail SHA-1 values.
