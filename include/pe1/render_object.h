@@ -63,8 +63,18 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSineEffect, amplitude) == 0xC,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSineEffect, velocity_y) == 0xE,
                   render_sine_effect_velocity);
 
+typedef struct RenderSineEmitter {
+    GteShortVector position;
+    int phase;
+} RenderSineEmitter;
+
+PE1_STATIC_ASSERT(sizeof(RenderSineEmitter) == 0xC, render_sine_emitter_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSineEmitter, phase) == 8,
+                  render_sine_emitter_phase);
+int func_800DB0D0(int mode, RenderSineEmitter *state);
+
 extern u8 D_800E1C2C[];
-extern u8 D_800E221C[];
+extern GteShortVector D_800E221C;
 int func_800DAF8C(int mode, RenderSineEffect *state);
 void func_800D0E88(void *data, GteShortVector *position, int scale, int angle,
                    void *color, int arg5, int arg6, int intensity, int mode);

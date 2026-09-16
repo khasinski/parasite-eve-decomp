@@ -1126,3 +1126,37 @@ comparison verify the PSX layout and all 324 bytes. Scratch proof is in
 `make verify-clean` passes all 340 tests and the source, organization and debt
 gates without increasing debt. Main and all 191 rebuilt overlays retain their
 retail SHA-1 values.
+
+### Sine effect emitter reconstruction
+
+`func_800DB0D0` in `FieldEng_SineEmitter.c` matches all 396 retail bytes with
+stock GCC 2.7.2 and unchanged MASPSX. Mode 0 seeds its phase, obtains the
+actor position and creates a list of sixteen 16-byte `RenderSineEffect`
+payloads using `func_800DAF8C` as the callback. Mode 1 requests at most one
+new payload per call through age 16, initializes amplitude, Y, Z and Y
+velocity, and advances the phase. It completes at age 73. Mode 2 publishes
+the emitter position and sets the depth-related global to 8.
+
+The shared `RenderSineEmitter` exposes its position and phase, with assertions
+for its 12-byte layout. `D_800E221C` is now a `GteShortVector`, replacing the
+raw byte-array declaration; the previous sine effect passes its address to
+the renderer. Keeping the three coordinate writes in this one vector view
+recovers the original instruction order without barriers. Its padding remains
+untouched. The existing symbol and generic task-callback convention are
+retained; the descriptive filename makes no original TU claim. This is game
+code, not Psy-Q.
+
+There are no pins, barriers, NOPs, instruction ASM, unused stack padding or
+extra toolchain flags. The production C passes 142601 ASan/UBSan host cases:
+256 initialization seeds; ages 0–74 across 256 random sequences, available/
+full lists and phase changes during the final random call; every halfword
+coordinate value for position publication; and inactive modes. The mocked
+list initializer checks stride, count and callback identity; tests also check
+uninitialized payload fields remain untouched. Host tests suppress unrelated
+PSX layout assertions and explicitly check the new emitter size. Target
+compilation and the linked comparison validate the PSX layout and all 396
+bytes. Scratch comparison and harness are in `/tmp/pe-sine-emitter/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates with no debt increase. Main, including the previous sine callback, and
+all 191 rebuilt overlays preserve their retail SHA-1 values.

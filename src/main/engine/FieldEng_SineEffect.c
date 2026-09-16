@@ -15,7 +15,7 @@ int func_800DAF8C(int mode, RenderSineEffect *state)
         break;
     case 2:
         func_800CF3AC(D_800E1C2C, &color, D_800E27EC);
-        func_800D0E88(D_800E221C, &state->position, state->scale, state->angle,
+        func_800D0E88(&D_800E221C, &state->position, state->scale, state->angle,
                      &color, 0, 0, 128, 1);
         break;
     }
