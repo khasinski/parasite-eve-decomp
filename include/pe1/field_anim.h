@@ -56,6 +56,9 @@ int func_800D401C(int id);
 extern FieldAnimTaskSlot *D_800F33E0;
 int func_800CE560(char *out, int stride, int count, FieldAnimTaskCallback callback);
 void *func_800CE610(char *list);
+int func_800CE5AC(void *arg0, int arg1, int arg2, int arg3, void *arg4);
+int func_800CE688(char *arg0);
+int func_800CE78C(char *arg0);
 
 typedef struct FieldAnimEmitter {
     int angle;

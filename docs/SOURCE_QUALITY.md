@@ -1270,3 +1270,47 @@ all 972 target bytes; scratch proof is in `/tmp/pe-orbiting-effect/`.
 `make verify-clean` passes all 340 tests and the source, organization and
 updated-debt gates. Main and all 191 rebuilt overlays preserve their retail
 SHA-1 values.
+
+
+### Orbiting burst emitter reconstruction
+
+`func_800D868C` in `FieldEng_OrbitingBurst.c` matches all 748 retail bytes
+with stock GCC 2.7.2 and unchanged MASPSX. Initialization seeds the angle and
+allocates three 16-byte orbiting effects plus eighteen 8-byte particles.
+At age 1 it makes three allocation attempts, initializes successful effects
+with radius 700 and actor Y minus 400, and steps their phases by -0x555.
+It updates and publishes the particle list until age 43. Drawing transfers
+eight matrix words to GTE, draws the particle list with 16-unit parameters,
+updates the shared orbit center, and installs 32-unit effect parameters.
+
+`RenderOrbitingEmitter` describes the observed 8-byte state (phase and
+particle-list pointer), with target size/offset assertions. Shared helper
+prototypes retain their existing signatures. The historical function symbol
+remains; the filename does not claim an original TU boundary. This is game
+code, not Psy-Q. The neighboring continuous emitter `func_800D8388` remains
+ASM: its candidate still differs in two register-bearing instructions and
+is not counted as decompiled.
+
+Matching debt is four GTE pins (`$8`, `$12`, `$13`, `$14`) and one empty
+pointer barrier, included in the ratchet. Two volatile halfword accesses
+preserve the parameter00 stores before texture lookups; these are additional
+source-shape debt documented here, not hardware volatility claims. GTE uses
+eight existing macros, each containing one control-register transfer. No
+ordinary CPU instruction ASM, NOPs, EABI or toolchain modifications are used.
+One integer local is reused for initialization size and the emission loop;
+separate locals select the wrong saved register in three instructions.
+
+The production algorithm passes 1866 ASan/UBSan host cases covering seeds,
+ages -1 through 45, all eight allocation-success masks, signed coordinate
+boundaries, all pairs of eight texture indices, and inactive modes. Mocks
+check pool dimensions, callbacks, initialized and untouched fields, list
+publication after the update, both upload parameter sets, and GTE transfer
+order and values. The host copy removes the empty barrier; its prelude
+suppresses pins and unrelated target assertions and records individual GTE
+transfers. This tests CPU behavior and transfers, not GTE hardware emulation.
+Target compilation and the linked comparison verify the PSX layout and
+all 748 bytes. Scratch proof is in `/tmp/pe-orbiting-burst/`.
+
+`make verify-clean` passes all 340 tests and source, organization and updated
+debt gates. The complete main image and all 191 rebuilt overlays preserve
+their retail SHA-1 values.

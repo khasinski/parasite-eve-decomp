@@ -82,6 +82,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderArcingEmitter, radius) == 0xC,
 int func_800D7B70(int mode, RenderArcingEmitter *state);
 extern u8 D_800E18F0[];
 extern u16 D_800E11E6;
+extern u16 D_800E11F6;
 extern u16 D_800E2850[];
 void func_800CEDA8(int index);
 
@@ -101,6 +102,16 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderOrbitingEffect, x) == 6,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderOrbitingEffect, radius) == 0xC,
                   render_orbiting_effect_radius);
 int func_800D7FBC(int mode, RenderOrbitingEffect *state);
+typedef struct RenderOrbitingEmitter {
+    int phase;
+    char *particles;
+} RenderOrbitingEmitter;
+
+PE1_STATIC_ASSERT(sizeof(RenderOrbitingEmitter) == 8,
+                  render_orbiting_emitter_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderOrbitingEmitter, particles) == 4,
+                  render_orbiting_emitter_particles);
+int func_800D868C(int mode, RenderOrbitingEmitter *state);
 extern GteShortVector D_800E21EC;
 extern char *D_800E21F4;
 

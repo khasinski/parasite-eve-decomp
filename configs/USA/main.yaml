@@ -1659,6 +1659,8 @@ segments:
       - [0xC8678, c, engine/FieldEng_ShrinkingEffect]
       - [0xC87BC, c, engine/FieldEng_OrbitingEffect]
       - [0xC8B88, asm, engine/engine_800D4860_C8B88]
+      - [0xC8E8C, c, engine/FieldEng_OrbitingBurst]
+      - [0xC9178, asm, engine/engine_800D4860_C9178]
       - [0xCB398, c, engine/FieldEng_CosineEffect]
       - [0xCB4A4, asm, engine/engine_800D4860_CB4A4]
       - [0xCB78C, c, engine/FieldEng_SineEffect]
