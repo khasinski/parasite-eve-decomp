@@ -47,6 +47,44 @@ typedef struct RenderCosineEffect {
 
 PE1_STATIC_ASSERT(sizeof(RenderCosineEffect) == 8, render_cosine_effect_size);
 
+/* Observed halfword parameter block at 0x800F3368. Individual legacy
+ * declarations still exist in other units; this declaration owns no storage. */
+typedef struct RenderEffectParameters {
+    u16 parameter00;
+    u16 parameter02;
+    u16 palette;
+    u16 parameter06;
+    u16 tpage;
+    u16 parameter0A;
+    s16 depth;
+    u16 extent_x;
+    u16 extent_y;
+} RenderEffectParameters;
+
+PE1_STATIC_ASSERT(sizeof(RenderEffectParameters) == 0x12,
+                  render_effect_parameters_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderEffectParameters, palette) == 4,
+                  render_effect_parameters_palette);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderEffectParameters, depth) == 0xC,
+                  render_effect_parameters_depth);
+extern RenderEffectParameters D_800F3368;
+
+typedef struct RenderArcingEmitter {
+    GteShortVector position;
+    int phase;
+    int radius;
+} RenderArcingEmitter;
+
+PE1_STATIC_ASSERT(sizeof(RenderArcingEmitter) == 0x10,
+                  render_arcing_emitter_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderArcingEmitter, radius) == 0xC,
+                  render_arcing_emitter_radius);
+int func_800D7B70(int mode, RenderArcingEmitter *state);
+extern u8 D_800E18F0[];
+extern u16 D_800E11E6;
+extern u16 D_800E2850[];
+void func_800CEDA8(int index);
+
 typedef struct RenderArcingEffect {
     s16 x, y, z;
     s16 velocity_y;

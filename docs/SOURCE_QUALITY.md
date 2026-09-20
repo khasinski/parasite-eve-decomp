@@ -1195,3 +1195,39 @@ validate the PSX layout and all 340 bytes. Scratch proof is in
 `make verify-clean` passes all 340 tests and the source, organization and debt
 gates without increasing debt. Main and all 191 rebuilt overlays retain
 their retail SHA-1 values.
+
+### Arcing effect emitter reconstruction
+
+`func_800D7B70` in `FieldEng_ArcingEmitter.c` matches all 776 retail bytes
+with stock GCC 2.7.2 and unchanged MASPSX, without extra flags. Mode 0
+seeds the phase, clears the radius, obtains the actor position and creates
+24 eight-byte `RenderArcingEffect` payloads. Mode 1 emits through age 50,
+using cosine/sine offsets around the stored position, randomizes Y velocity
+and advances phase. Completion is reported at age 74. Mode 2 draws the
+rotating central effect through age 50, updates the radius, configures the
+particle parameters and requests texture upload via `func_800CEDA8`.
+
+`RenderArcingEmitter` describes the 16-byte state. The new 18-byte
+`RenderEffectParameters` describes the halfword block at `0x800F3368`;
+using one structure recovers retail store ordering without pins or barriers.
+Parameter names remain offset-based where their semantics are unresolved.
+Existing scalar declarations in other units are still views into the same
+retail storage; this change adds no definition, linker alias or claim that
+all consumers have been migrated. Both layouts have target assertions.
+The historical function symbol remains, and the filename makes no original
+TU claim. This is game code, not Psy-Q.
+
+No pins, barriers, NOPs, instruction ASM, stack padding or toolchain patches
+are introduced. The production C passes 39784 native ASan/UBSan cases:
+initialization seeds, ages 0–75, full/available lists, positive/negative
+mock sine and cosine values, coordinate narrowing, random parameter masks,
+eight texture-table indices, rendering cutoffs and inactive modes. Mock
+helpers verify pool dimensions, callback identity, emitted state, draw
+arguments and parameter values at upload time. The host test suppresses
+unrelated PSX assertions and checks both new sizes explicitly; target
+compilation and the linked comparison verify the PSX layout and 776 bytes.
+Scratch source and proof are in `/tmp/pe-arcing-emitter/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates with no debt increase. The complete main image and all 191 rebuilt
+overlays preserve their retail SHA-1 values.
