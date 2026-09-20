@@ -85,6 +85,25 @@ extern u16 D_800E11E6;
 extern u16 D_800E2850[];
 void func_800CEDA8(int index);
 
+typedef struct RenderOrbitingEffect {
+    s16 stage;
+    s16 angle;
+    s16 timer;
+    s16 x, y, z;
+    s16 radius;
+    s16 reserved0E;
+} RenderOrbitingEffect;
+
+PE1_STATIC_ASSERT(sizeof(RenderOrbitingEffect) == 0x10,
+                  render_orbiting_effect_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderOrbitingEffect, x) == 6,
+                  render_orbiting_effect_position);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderOrbitingEffect, radius) == 0xC,
+                  render_orbiting_effect_radius);
+int func_800D7FBC(int mode, RenderOrbitingEffect *state);
+extern GteShortVector D_800E21EC;
+extern char *D_800E21F4;
+
 typedef struct RenderArcingEffect {
     s16 x, y, z;
     s16 velocity_y;
@@ -150,6 +169,7 @@ typedef struct RenderColor {
 } RenderColor;
 
 extern RenderColor D_800C22DC;
+extern RenderColor D_800C22E0;
 
 PE1_STATIC_ASSERT(sizeof(RenderColor) == 4, render_color_size);
 

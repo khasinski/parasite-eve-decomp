@@ -1231,3 +1231,42 @@ Scratch source and proof are in `/tmp/pe-arcing-emitter/`.
 `make verify-clean` passes all 340 tests and the source, organization and debt
 gates with no debt increase. The complete main image and all 191 rebuilt
 overlays preserve their retail SHA-1 values.
+
+### Orbiting field effect reconstruction
+
+`func_800D7FBC` in `FieldEng_OrbitingEffect.c` matches all 972 retail bytes
+with stock GCC 2.7.2 and unchanged MASPSX. Mode 1 orbits around `D_800E21EC`,
+advances angle by 96 and recomputes radius from a 36-tick cosine curve. It
+emits jittered particles every tick when context variable 6 equals 11,
+otherwise every third tick, increments its halfword timer and completes at
+age 36. Mode 2 runs the fade-in, steady and shrinking stages, then draws
+texture 36 with the selected palette and the copied constant color.
+
+`RenderOrbitingEffect` is 16 bytes: stage, angle, timer, XYZ, radius and an
+untouched final halfword. The neighboring initializer `func_800D8388`
+requests 16-byte payloads and initializes the observed fields. Shared
+assertions check size and offsets. The center uses `GteShortVector`; the
+particle list is declared separately. Existing symbols remain and the file
+name makes no original TU claim. This is game code, not Psy-Q.
+
+Matching debt is one `$3` pin for the palette comparison constant. The
+unpinned source was five instructions away after counter reuse; nested/
+inverted conditions, shift forms, call-site scaling, declaration orders and
+ordinary `register` hints did not recover that allocation. The pin is in the
+ratchet baseline. There are no barriers, NOPs, instruction ASM, stack padding
+or compiler/assembler modifications. `--expand-div` emits retail's divide
+checks for the variable remainder operation; the ordinary pipeline's default
+omits those checks. It does not change the C algorithm.
+
+The production C passes 16560 ASan/UBSan host cases covering ages 0–40,
+both emission intervals, available/full lists, signed mock trig values,
+all random jitter masks, halfword coordinate/timer wrapping, each rendering
+stage and its transition, eight palettes and both asset-flag states. Helpers
+check trig arguments, particle coordinates, color and all draw arguments.
+The host build suppresses the pin and unrelated target layout assertions,
+then checks the new state size explicitly. The linked comparison verifies
+all 972 target bytes; scratch proof is in `/tmp/pe-orbiting-effect/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and
+updated-debt gates. Main and all 191 rebuilt overlays preserve their retail
+SHA-1 values.
