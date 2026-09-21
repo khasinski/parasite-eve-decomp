@@ -4123,3 +4123,36 @@ SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays match retail. The report credits 2481320 semantic
 code bytes and 10720 functions; dirty files increase by one for the documented
 NOP constraints, with all other debt categories unchanged.
+
+### Battle item-menu input handling
+
+`Battle_HandleItemMenu` is 1816 exact code bytes using stock native GCC 2.7.2
+and unmodified MASPSX. Its three byte-sized local flags explain register
+allocation without pins; a switch preserves targeting-mode dispatch. Inline
+helpers express the repeated finish-action scan and audio command dispatch.
+No new barriers, NOPs, instruction ASM, aliases or other debt are needed.
+
+The existing BattleInitSlot array supplies the unsigned-halfword command
+read at entry offset four. The first command gates scans for queued actions
+1/2; command ranges 3..406 and 387..407 retain their distinct bounds. Shared
+headers now declare the called interfaces. Battle_FillActionQueue's previous
+void parameter list was incorrect: this caller passes a BattleTarget entry
+and the retail callee consumes the pointer. Active-slot and menu-state bytes
+use their existing signed aliases, including truncation of callback results.
+
+100000 ASan/UBSan model cases compare return values, complete callback traces
+and resulting player/global state. They cover empty/full valid queues,
+command-range boundaries, input combinations, cancellation, target submission,
+item-menu opening, turn advance, signed callback-result narrowing and callback
+mutations of player pointers, buttons and active-slot state. Every reachable
+callback is covered; the original redundant menu-state-2 undo branch remains
+in C but is not asserted reachable with separate global backing. The model
+uses direct range bounds and a lookup table for targeting mode, independently
+of the production unsigned-range expressions and switch. Host-only headers
+disable target-layout assertions. Evidence: /tmp/pe-handle-item-menu/
+(check.py, test.c and acceptance logs).
+
+`make -j8 verify-clean` passes 341 tool tests and main's unchanged retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays match retail. The audited report credits 2483136
+semantic code bytes and 10721 functions, with unchanged debt counts.

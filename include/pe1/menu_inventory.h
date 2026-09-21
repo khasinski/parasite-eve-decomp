@@ -3,6 +3,9 @@
 
 #include "pe1/menu_widget.h"
 
+void MenuWidget_InitPool(void);
+void Inventory_OpenAyaItemList(unsigned int mode);
+
 MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *node, int index);
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode,
                                                      int selectedBase);

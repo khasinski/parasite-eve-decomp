@@ -300,7 +300,7 @@ segments:
       - [0x15DE4, c, battle/Battle_RollEscapeChance]
       - [0x160CC, c, battle/Battle_CycleTarget]
       - [0x163D8, c, battle/Battle_SetupEntityTarget]
-      - [0x166E8, asm, main/Battle_HandleItemMenu]
+      - [0x166E8, c, battle/Battle_HandleItemMenu]
       - [0x16E00, asm, battle/Battle_FillActionQueue]
       - [0x17024, asm, main/Battle_StepEnemyTurn]
       - [0x174F0, asm, battle/Battle_AdvanceTurnSlot]
