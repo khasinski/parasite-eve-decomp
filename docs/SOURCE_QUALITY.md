@@ -3414,3 +3414,45 @@ The complete main executable retains retail SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including the caller compiled
 against the corrected return type.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Inserting an ammunition pool ID (0x80053B48)
+
+`Inv_WriteSlotById` matches all 484 retail bytes with stock native GCC 2.7.2
+and unmodified MASPSX. Its historical name is retained. Kinds 1..5 map to
+ammunition category 0, kinds 6..7 to 1..2, and kinds 16..18 to 0..2. Other
+kinds return failure without modifying records or slots. For a valid category
+it searches the active list for the pool ID, then inserts it into the first
+empty slot if necessary. A full list returns failure, but still adds the
+source ammunition to the pool. Addition narrows to u16 before clamping to
+min(baseStats[2] + bonusStats[2], 999); negative limits retain retail's signed
+comparison and final halfword conversion. The source may alias the pool.
+
+The ClampAmmo expression follows the already matched Inv_SelectionState
+helper. A single search-key pin to $a3 is retained and counted in debt:
+removing it exchanges $a2/$a3 and changes 11 instruction words. There are no
+empty barriers, CPU instruction ASM, NOPs or compiler changes.
+
+The function shares FindFreeActiveSlot with the immediately preceding record
+allocator in Inv_InsertItem.c. The contiguous 964-byte unit at
+0x80053968..0x80053D2C matches exactly; 484 bytes and one function are new.
+This groups two inventory insertion operations with shared active-list state
+and a common search, without claiming an independently recovered original
+object boundary. Both signatures now live in inventory.h. Both ammunition callers use the
+canonical declaration; the second caller also drops its stale void-pointer
+base-lookup declaration. Its object text and relocations are unchanged.
+
+112200 ASan/UBSan model cases cover all 256 kinds, list lengths 0..50, every
+slot position, existing/absent pool IDs, full lists, random signed bonus and
+unsigned ammunition values, and source records aliasing pool records. The
+model compares complete list/pool state and return values. The preceding
+allocator's 212160 cases also pass against the merged unit (324360 total).
+Host testing removes the one register binding and target ABI assertions;
+arithmetic and control flow are unchanged. Valid record pointers and list
+ranges are required; malformed pointer ranges are outside this model.
+Evidence: /tmp/pe-add-ammo/ (check-unit.py, test.c, test-allocate.c and logs).
+
+`make -j8 verify-clean` passes all 341 tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+The subsequent caller-only prototype correction passes `make -j8 verify`
+again (341 tests and unchanged main SHA-1).
+All 191 rebuilt overlays retain their retail SHA-1 values.

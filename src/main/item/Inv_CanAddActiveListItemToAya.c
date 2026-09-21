@@ -1,4 +1,4 @@
-#include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -13,9 +13,7 @@ extern s32 g_InvSelectionBits __asm__("D_8009D058");
 extern s32 g_AyaItemSelectionBits[] __asm__("D_8009D05C");
 extern s32 g_InvSelectionBitWords __asm__("D_8009D064");
 
-void *Item_LookupBaseData(unsigned int index);
 int Inv_GetAyaSlotLimit(void);
-int Inv_WriteSlotById(void *data);
 
 int Inv_CanAddActiveListItemToAya(int index) {
     int slot_index;
