@@ -1660,3 +1660,44 @@ proof is in `/tmp/pe-cosine-emitter/` (`production-check.py`, `test.c`).
 without a baseline change. Main retains SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Projected four-line diamond reconstruction
+
+`func_800DB25C` in `FieldEng_LineDiamond.c` matches all 920 retail bytes
+with stock GCC 2.7.2 and unchanged MASPSX. It reserves 64 packet bytes,
+projects the input point with GTE, applies screen offsets, computes two
+opposite point pairs from sine/cosine at angle and angle+1024, then fills
+and queues four flat-color line packets. RGB is multiplied by the signed
+intensity and divided by 128; endpoints and colors retain halfword/byte
+truncation. The active ordering-table slot is read again for each edge.
+
+`RenderLinePacket` describes the observed 16-byte tag/RGB/code/XY layout.
+`RenderBufferPrefix` covers the buffer-pointer prefix initialized by
+`Boot_InitMemoryLayout`: two ordering buffers, six other buffer pointers,
+and two packet buffers at +0x20. Assertions pin the target layout. This
+replaces the candidate's overly broad flat pointer table without adding
+symbol aliases. Shared declarations live in `render_prim.h`; no original
+TU boundary or Psy-Q provenance is claimed for this game function.
+
+Four GTE instructions each use an existing single-instruction macro:
+two vertex loads, RTPS, and SXY2 store. The two retail hazard NOPs use
+`PE1_NOP` and add exactly two `nop_barriers` to the documented baseline,
+under the user's explicit NOP allowance. There are no new register pins,
+empty barriers, volatile data accesses, CPU instruction bodies beyond those
+NOPs, EABI, or compiler/assembler changes. Ordinary packet construction and
+all arithmetic are C; the edge macro only repeats C statements.
+
+The production source passes 2744 ASan/UBSan cases checking both draw slots,
+packet offsets, signed coordinate/radius extremes, signed intensity/color
+truncation, positive and negative sine/cosine products, untouched packet
+regions, and exact four-edge ordering. A mock flips the active draw slot
+between submissions to verify each lookup is fresh. Host GTE hooks check
+transfer/NOP/command/store ordering and supply projected screen coordinates;
+they do not claim to emulate GTE projection. Target byte comparison verifies
+the actual GTE opcodes and scheduling. Host checks assert the 16-byte packet
+size; unrelated target assertions are suppressed. Proof is under
+`/tmp/pe-line-diamond/` (`check.py`, `test.c`, `host-prelude.h`).
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
