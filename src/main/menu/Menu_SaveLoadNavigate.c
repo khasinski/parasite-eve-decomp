@@ -6,7 +6,6 @@ int MenuWidget_GetChild(int *arg0, int arg1);
 int MenuWidget_GridCellIndex(MenuWidgetNode *ptr);
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
-extern void Inv_ClearDisplaySlots(void);
 void MenuWidget_InitPool(void);
 extern void Inv_SetActiveList(int arg0, int arg1);
 void Menu_PlayConfirmSound(void);

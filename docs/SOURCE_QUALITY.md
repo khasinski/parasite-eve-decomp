@@ -3494,3 +3494,52 @@ Evidence: /tmp/pe-transfer-active-list/ (check.py, test.c and acceptance logs).
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 The main local-extern debt baseline decreases from 3665 to 3664.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Materializing mutable equipment records (0x80058670)
+
+`Inv_ClearDisplaySlots` matches all 636 retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX. Despite its historical name, it clears the list
+override, selects Aya's list, and converts base equipment into private mutable
+records. For each current slot it resolves the item kind (null/invalid lookup
+is kind zero). Kinds 1..9 whose subsequently re-read raw slot ID is outside
+256..383 allocate the first equipment record with a zero leading byte. If a
+record is available, the function copies the full 32-byte base record and
+replaces the current slot ID with 256 + record index. A full record table
+leaves the slot untouched. It copies the occupancy byte rather than forcing
+it nonzero. Lookup and slot-limit callbacks may change pointers, limits,
+records or the override; subsequent operations observe those changes.
+
+One empty tied-register barrier on the equipment search pointer preserves
+retail's independent base load alongside its separately cached bound. It
+emits no instructions and is counted in debt. There are no pins, NOPs or
+compiler changes. A separate overlapping D_800C0EAC declaration also matched
+in an experiment, but was rejected in favor of keeping pointer comparisons
+and subtraction within the single typed InventoryRuntime equipment array.
+
+The adjacent pending-transfer command shares LookupItem in
+Inv_InventoryImport.c. Both are called by Menu_SaveLoadNavigate; their
+contiguous range 0x80058454..0x800588EC matches all 1176 bytes. Only the latter
+636 bytes and one function are new. This grouping follows adjacency, common
+state and lookup logic, without claiming recovered original object metadata.
+The new public declaration lives in inventory.h; its caller drops a local
+extern. Debt changes are +1 empty barrier and -1 local extern.
+
+171312 ASan/UBSan model cases cover every raw halfword ID, all 256 kinds,
+every free record position and a full table, active limits 0..50 and -1,
+null base results on the kind-query path, and callback changes to pointers,
+limits, occupancy and override state. Base sources can alias equipment
+records, including the destination. Tests compare complete state and exact
+ordered callback traces. The prior 93440 pending-transfer cases also pass
+against the combined unit (264752 cases total). Host fixtures remove only
+the empty barrier and target ABI assertions, and bind D_800C0E48 to the slots
+field of D_800C0E20, reproducing the shared retail address.
+
+The copy path requires a current base ID 1..255 and a non-null full-record
+lookup result; arbitrary callback mutations or low kinds on ammunition IDs
+can violate that precondition. Slot ranges must remain within valid storage.
+Partial record overlaps are outside the tested contract. Evidence:
+/tmp/pe-materialize-equipment/ (check-unit.py, test.c, test-transfer.c, logs).
+
+`make -j8 verify-clean` passes all 341 tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
