@@ -604,7 +604,9 @@ typedef struct RenderObjectEntity {
     /* 0x80 */ RenderAnimationLookupEntry *animation_entries;
     /* 0x84 */ RenderMatrix *matrices;
     /* 0x88 */ unsigned char shade;
-    /* 0x89 */ unsigned char pad_89[0x0E];
+    /* 0x89 */ u8 lightNegativeY;
+    /* 0x8A */ u8 lightPositiveY;
+    /* 0x8B */ unsigned char pad_8B[0x0C];
     /* 0x97 */ u8 script_param97;
     /* 0x98 */ u8 script_param98;
     /* 0x99 */ u8 script_param99;

@@ -4636,3 +4636,48 @@ Clean verification and the final verification both pass 341 tests. Main keeps
 retail SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`; all 191 rebuilt overlays
 match. The audited report credits 2489748 semantic code bytes and 10734
 functions (70.12% of code), with 2286 dirty files.
+
+### Object lighting matrices (2026-09-22)
+
+`Render_InitRoomPrimState` is 468 exact retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX. Despite its existing name, it prepares two
+opposite Y-direction lights and uploads their color matrix to GTE control
+registers 16..20. Base shade at object offset 0x88 is added to the unsigned
+positive/negative Y brightness fields at 0x8A/0x89, clamped to 0..255, scaled
+by 16 and multiplied by captured RGB bytes with signed division by 256.
+The third light direction and color column are cleared.
+
+RenderObjectEntity now names the two brightness bytes without changing its
+layout. RenderLightingMatrix combines the SDK MATRIX arithmetic view with
+its eight-word storage view; the globals are spaced by 32 bytes. Existing
+absolute halfword symbols retain their overlap with these matrices. The GTE
+reads five packed words, including the preexisting alignment halfword after
+the nine coefficients. Padding and translation fields are not initialized
+by this routine and are preserved. The existing caller uses the same shared
+matrix declaration and the actual int-returning function prototype.
+
+Four register pins bind only the GTE transfer address and scratch values.
+Four empty barriers retain the complete signed result before its halfword
+store, materialize the matrix address after overlapping alias stores, and
+preserve the two/three load groups. Each CTC2 is a separate existing GTE macro;
+there are no ordinary CPU instruction bodies, new NOPs, directives or compiler
+changes. Keeping the last color result in a short instead of int reduced the
+three scheduling differences to one but selected a logical shift. The explicit
+result barrier retains the full signed computation and matches all bytes.
+
+10000 independent MIPS/model cases pass for both retail and compiled C.
+The tests compare both complete 32-byte matrices, the unchanged input object
+and RGB globals, and the ordered five GTE control-register writes. Cases cover
+zero, unsaturated and saturated brightness, threshold/end-point input bytes,
+random RGB values and nonzero original padding/translations. COP2 transfers
+are observed through hooks; no GTE arithmetic command needs emulation here.
+Evidence: /tmp/pe-lighting-init/{check.py,test.py,base.bin,target.bin}.
+
+Main debt records four added pins (1041 -> 1045), four barriers (910 -> 914)
+and one removed file-local extern (3658 -> 3657). All other categories remain
+unchanged, including ASM bodies, directives, NOPs and aliases.
+
+Clean acceptance passes 341 tests and preserves main retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
+The audited report credits 2490216 semantic code bytes and 10735 functions
+(70.13% of code), with 2287 dirty files.

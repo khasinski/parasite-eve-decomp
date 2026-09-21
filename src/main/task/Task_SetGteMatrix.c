@@ -1,3 +1,4 @@
+#include "pe1/render_lighting.h"
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
@@ -41,10 +42,8 @@ extern GlobalIntSlot CDDC_toggle1_store __asm__("D_8009CDDC");
 extern int *D_8009CE00;
 extern u8 *D_8009D300;
 extern u32 D_800B89F8[];
-extern u32 D_800BEA40[];
 
 void RotMatrix(GteRotation *rotation, GteMatrix *matrix);
-void Render_InitRoomPrimState(u8 *object);
 void Anim_BuildRotationMatrices(u8 *object, u8 *animation, int frame, int mode);
 void Render_TransformVertices(u8 *object);
 void Render_TransformSkinnedVertices(u8 *object, u32 *view_matrix);
@@ -128,7 +127,7 @@ int Task_SetGteMatrix(int **args) {
                                PTR_AT(render_actor, 0x1B0), 0, 1);
     Render_TransformVertices(D2F0_render2[0] + 0x1B4);
     Render_TransformSkinnedVertices(D2F0_render3[0] + 0x1B4, D_800B89F8);
-    Render_DrawObject(D2F0_render4[0] + 0x1B4, D_800BEA40);
+    Render_DrawObject(D2F0_render4[0] + 0x1B4, D_800BEA40.words);
     Render_UpdateClutTable(D2F0_render5[0] + 0x1B4, 1,
                            (s16)CDDC_draw0.value);
 
@@ -137,7 +136,7 @@ int Task_SetGteMatrix(int **args) {
         first_draw_slot = CDDC_toggle0_load.value;
         first_draw_slot ^= 1;
         CDDC_toggle0_store.value = first_draw_slot;
-        Render_DrawObject(flag_actor + 0x1B4, D_800BEA40);
+        Render_DrawObject(flag_actor + 0x1B4, D_800BEA40.words);
         Render_UpdateClutTable(D2F0_redraw[0] + 0x1B4, 1,
                                (s16)CDDC_draw1.value);
         second_draw_slot = CDDC_toggle1_load.value;
