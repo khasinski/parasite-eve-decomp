@@ -255,6 +255,21 @@ typedef struct RenderColor {
     u8 r, g, b, code;
 } RenderColor;
 
+/* The emitter at 0x800DDD70 allocates this 16-byte callback state. */
+typedef struct RenderSettlingSprite {
+    GteShortVector position;
+    s16 stage, timer, phase, reserved;
+} RenderSettlingSprite;
+PE1_STATIC_ASSERT(sizeof(RenderSettlingSprite) == 16, render_settling_sprite_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSettlingSprite, stage) == 8,
+                  render_settling_sprite_stage);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSettlingSprite, phase) == 12,
+                  render_settling_sprite_phase);
+extern GteShortVector D_800E223C;
+extern u8 D_800E20AC[];
+int func_800DD9E4(int mode, RenderSettlingSprite *state);
+int func_800DDD70(int mode, GteShortVector *state);
+
 /* 0x800DD76C allocates 16-byte particles for 0x800DD380. */
 typedef struct RenderConvergingSprite {
     GteShortVector position;

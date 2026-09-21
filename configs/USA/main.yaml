@@ -1683,6 +1683,8 @@ segments:
       - [0xCD99C, c, engine/FieldEng_RotatingFlash]
       - [0xCDB80, c, engine/FieldEng_ConvergingSprite]
       - [0xCE1E4, asm, engine/engine_800D4860_CE1E4]
+      - [0xCE570, c, engine/FieldEng_SettlingEmitter]
+      - [0xCE8A8, asm, engine/engine_800D4860_CE8A8]
       - [0xD007C, c, engine/FieldEng_RotatingEffect]
       - [0xD01B0, c, engine/FieldEng_PointEmitter]
       - [0xD0320, c, engine/func_800DFB20]

@@ -1953,3 +1953,44 @@ instruction bytes. Scratch proof is in `/tmp/pe-converging-sprite/`
 without a baseline change. Main retains SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Settling particle emitter reconstruction
+
+`func_800DDD70` in `FieldEng_SettlingEmitter.c` matches all 824 retail bytes
+with stock GCC 2.7.2 and unchanged MASPSX. Initialization captures an eight-byte
+position and allocates thirty-two 16-byte particles for `func_800DD9E4`.
+`RenderSettlingSprite` names the observed position, stage, timer and phase;
+the final halfword remains reserved. Size and offset assertions accompany it.
+The callback remains ASM and receives no new progress credit: its separate
+candidate still differs in eight division register operands when the GTE
+matrix pointer is pinned. No original TU boundary is claimed by this split.
+
+Emission occurs below age 67, offsets X/Z by independent nine-bit jitter and
+subtracts signed `rand()%600` from Y, initializes stage/timer, and captures a
+random phase. Padding and the reserved halfword remain untouched. Update
+completes at age 86. Draw reads the actor's matrix array at entity offset
+0x238: offsets 0x274/0x278/0x27C are the translation of matrix 19, using the
+existing `RenderMatrix` layout. It truncates these coordinates to signed
+halfwords and updates D_800E223C. Below age 87 it renders two layers at scale
+2048+age*4096/86, clearing only the local blue component for the second layer.
+Texture setup runs even after that draw cutoff; depth remains unchanged then.
+
+This is game code, not Psy-Q. The new function has no pins, barriers, volatile
+accesses, NOPs or instruction ASM, and no ratcheted debt increase. Splitting
+around the matched emitter leaves two manifest ASM ranges without adding
+ASM code or crediting the callback. The audited debt counts stay unchanged.
+
+The production function passes 20733 ASan/UBSan cases covering capture and
+allocation parameters, allocation failure, lifetime/emission cutoffs, signed
+random extremes, coordinate wrapping, preserved payload fields, matrix-19
+translation truncation, both draw calls and color modification, palette/texture
+setup, depth preservation and inactive modes. Host tests assert the payload
+sizes and suppress unrelated target layout assertions. Independent linking
+matches both retail disassembly and executable bytes. Scratch proof is in
+`/tmp/pe-settling-emitter/` (`check.py`, `test.c`); the unresolved callback
+experiment is under `candidates/settling_sprite/` and `/tmp/pe-settling-sprite/`.
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates
+without a baseline change. Main retains SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
