@@ -2668,3 +2668,35 @@ target-layout assertions only. Evidence is in `/tmp/pe-item-dispatch/`
 `make verify-clean` passes all 340 tests and source, organization and debt
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including
 the argument-forwarding wrapper. All 191 rebuilt overlays retain retail SHA-1.
+
+### Slot eligibility excluding equipped weapon and armor
+
+`Inv_IsSlotEquipped` matches all 424 retail bytes at 0x80058E44 using
+stock native GCC 2.7.2 and unmodified MASPSX with `-G8`. The inherited
+name is retained, but the observed predicate excludes both tracked weapon
+and armor slots when the active list is Aya's inventory. Flag 0x20 also
+rejects the item. An unresolved record returns 1. Kind 8 additionally
+requires at least two entries of that kind in the active list, even when
+the flag or equipped-slot check has already rejected the item. The loop
+reloads the active-list bound after each type-query call. No stronger
+meaning is assigned to flag 0x20 or kind 8.
+
+The C uses the existing typed inventory layout and canonical lookup/type-query
+APIs. There are no register pins, CPU instruction ASM, NOPs, or new casts
+between pointers and integers. One empty lookup-merge barrier is retained:
+removing it produces 420 rather than 424 bytes and changes 68 compared words.
+This raises the main barrier baseline from 899 to 900, within the explicitly
+authorized barrier debt. It is not an emitted instruction.
+
+1050368 ASan/UBSan host cases cover every 16-bit item ID, all combinations
+of flags and kinds, both active-list identities, and neither/either/both
+equipped slots. Additional cases cover signed-byte slot boundaries and
+shrinking/growing list bounds during type queries. Hooks change active-list
+state during base-item lookup and mutate the record during counting. The
+fixture includes the production source unchanged, disabling target-layout
+assertions only. Narrow byte-diff and host evidence: `/tmp/pe-slot-equipped/`
+(`check.py`, `test.c`, `no-barrier.c`).
+
+`make verify-clean` passes all 340 tests and source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

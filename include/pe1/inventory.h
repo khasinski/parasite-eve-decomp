@@ -43,6 +43,7 @@ extern ItemDataRecord g_InvItemSlotArray[128];
 /* Historical name: this operation returns a status, not an item pointer. */
 int Inv_GetSlotItemData(int index);
 int Inv_IsSlotSelectable(int index);
+int Inv_IsSlotEquipped(int index);
 void Inv_BuildEquipSlotDisplay(int index);
 int Inv_RemoveActiveListItem(int index);
 void Inv_RebuildSelectableMask(void);

@@ -707,7 +707,7 @@ segments:
       - [0x493BC, c, item/Inv_LookupItemData]
       - [0x4944C, asm, item/inv4]
       - [0x49608, c, item/Inv_GetWayneListItemByIndex]
-      - [0x49644, asm, main/Inv_IsSlotEquipped]
+      - [0x49644, c, item/Inv_IsSlotEquipped]
       - [0x497EC, asm, main/Inv_RebuildWithSlotLimit]
       - [0x49D34, c, item/Menu_OpenItemUsePanelAtIndex]
       - [0x49E8C, asm, main/Inv_GetSlotItemData]
