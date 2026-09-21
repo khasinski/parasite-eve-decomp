@@ -24,7 +24,7 @@ void Menu_OpenBonusPointSpendDialog(MenuWidgetNode *arg0, s32 arg1) {
     InvItemSlot *record;
 
     node = MenuWidget_CreateSimpleNode(9, arg0, 0, 1);
-    node->field_30 = Menu_DrawBonusPointSpendPanel;
+    node->draw = Menu_DrawBonusPointSpendPanel;
     node->update = Spend_BonusPoints;
     node->field_28 = 1;
     MenuWidget_SetCurrentNode(node);

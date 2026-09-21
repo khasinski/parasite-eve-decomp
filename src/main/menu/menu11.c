@@ -21,11 +21,11 @@ void Menu_CreateEquipStatsPanel(int arg0) {
     MenuWidgetNode *child;
 
     node = MenuWidget_CreateSimpleNode(0xA, arg0, 0, 0);
-    node->field_30 = Menu_DrawEquipStats;
+    node->draw = Menu_DrawEquipStats;
     node->update = Menu_EquipStatsInputHandler;
 
     child = MenuWidget_CreateNode(0x1C, node, node);
-    child->field_30 = Menu_DrawItemListInvPanel;
+    child->draw = Menu_DrawItemListInvPanel;
     child->cursor_x = -1;
 }
 

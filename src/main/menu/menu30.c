@@ -2,6 +2,7 @@
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/save.h"
+#include "pe1/menu_inventory.h"
 
 extern unsigned int g_AkaoPendingBgmVolumeFade;
 
@@ -51,7 +52,7 @@ unsigned int Menu_GetActionSubmenuSelection(void) {
     return g_MenuActionSubmenuSel;
 }
 
-void BoundsCheck_AssertStub(void)
+void BoundsCheck_AssertStub(int code)
 {
 }
 

@@ -39,7 +39,6 @@ MenuWidgetNode *MenuWidget_FindLastMode1WithCursorX(void) {
 }
 void BoundsCheck_AssertStub(int arg0);
 void Menu_StepScrollCursor(void);
-void Draw_SwapPrimBuffers(void *node);
 void MenuWidget_ApplyColumnLayout(void *node);
 
 #define W(base, off) (*(s32 *)((char *)(base) + (off)))

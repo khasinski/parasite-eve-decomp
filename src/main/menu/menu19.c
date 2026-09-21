@@ -58,9 +58,9 @@ void Menu_StepItemGrid2(void) {
             node = result;
         }
         option_node = MenuWidget_CreateNode(mode, node, node);
-        node->field_30 = Menu_DrawItemLabel;
+        node->draw = Menu_DrawItemLabel;
         node->update = Menu_ConfirmDialogHandler;
-        option_node->field_30 = Menu_DrawActionOptionList;
+        option_node->draw = Menu_DrawActionOptionList;
         D_8009CF14 = 0x6C;
         MenuWidget_SaveAndSetCurrentNode(option_node);
 

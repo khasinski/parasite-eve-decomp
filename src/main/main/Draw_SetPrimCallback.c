@@ -3,8 +3,6 @@
 
 #include "pe1/menu_widget.h"
 
-void Draw_SwapPrimBuffers(void);
-
 void Draw_SetPrimCallback(MenuWidgetNode *arg0, s32 arg1) {
     MenuWidgetNode *temp_a1_2;
     s32 temp_a2;
@@ -61,7 +59,7 @@ void Draw_SetPrimCallback(MenuWidgetNode *arg0, s32 arg1) {
     } else {
         t58b = arg0->y_limit;
         if (arg0->visible_rows_mirror < t58b) {
-            Draw_SwapPrimBuffers();
+            Draw_SwapPrimBuffers(arg0);
         }
     }
 }

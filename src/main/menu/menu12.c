@@ -32,9 +32,9 @@ void Menu_CreateItemList(void) {
     parent = MenuWidget_CreateSimpleNode(0x28, MenuWidget_GetCurrentNode(), 0, 1);
     child = MenuWidget_CreateNode(0x28, parent, parent);
 
-    parent->field_30 = Menu_DrawItemListHeader;
+    parent->draw = Menu_DrawItemListHeader;
     parent->update = Menu_HandleDeferredCallbackInput;
-    child->field_30 = Menu_DrawNotificationDialogContent;
+    child->draw = Menu_DrawNotificationDialogContent;
     MenuWidget_SetCurrentNode(child);
 
     Menu_SetDeferredCallback(0);

@@ -804,7 +804,7 @@ segments:
       - [0x55254, c, menu/menu_widget8]
       - [0x55454, c, menu/MenuWidget_DrawCenteredTableText]
       - [0x55480, c, menu/Draw_DropShadow]
-      - [0x55508, asm, menu/menu32]
+      - [0x55508, c, menu/Draw_SwapPrimBuffers]
       - [0x55690, c, menu/MenuWidget_DestroyPopupNode]
       - [0x556B4, asm, main/Draw_FlushFrontBuffer]
       - [0x558E0, c, menu/Menu_StepListNavigate]

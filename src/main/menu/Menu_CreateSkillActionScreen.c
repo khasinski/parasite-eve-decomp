@@ -17,7 +17,7 @@ void Menu_CreateSkillActionScreen(int arg0) {
     parent = MenuWidget_CreateSimpleNode(8, arg0, 0, 0);
     child = MenuWidget_CreateNode(8, parent, parent);
     parent->update = Menu_SkillActionHandler;
-    child->field_30 = Menu_DrawEquipModList;
+    child->draw = Menu_DrawEquipModList;
     child->field_8C = (int)Menu_GetItemSlotAvailability;
     MenuWidget_SetCurrentNode(child);
     Item_PackParasiteSpells();

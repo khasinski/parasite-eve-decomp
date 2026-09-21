@@ -4353,3 +4353,41 @@ assertions are disabled for the host. Evidence: /tmp/pe-stat-slot/ and
 All 191 rebuilt overlays match their retail SHA-1.
 The audited report credits 2485732 semantic code bytes and 10727 functions
 (70.01% of code). All debt counters and the 2281 dirty-file count are unchanged.
+
+### Constructing a list-navigation widget
+
+`Draw_SwapPrimBuffers` is 392 exact bytes with stock native GCC 2.7.2 and
+unmodified MASPSX, without pins, barriers, NOPs or instruction ASM. Despite
+its historical name, it allocates a mode-3 list-navigation widget. Inline
+helpers express the active-list owner search and free-list allocation.
+The existing MenuWidgetListNavigation view describes its managed-list pointer
+and copied flags; untouched pool fields retain their previous contents.
+
+The first active owner containing the list receives the new widget in its
+first empty child slot. A full owner calls diagnostic 11 and continues;
+an empty free list calls diagnostic 10 before the original null access.
+The test stops at diagnostic 10, without claiming recovery is supported.
+Diagnostic 16 is retained but unreachable after a valid allocation.
+
+5000 cases execute the compiled MIPS instructions in Unicorn and compare all
+node bytes, list heads and diagnostic-time snapshots against an independent
+array model. Cases include absent owners, all four free child slots, full
+owners, empty pools, arbitrary retained data, and diagnostic callbacks that
+change the active head and source flags. This uses the actual 32-bit layouts,
+including the overlapping navigation/grid views, without host pointer-size
+adaptations. Evidence: /tmp/pe-create-nav/ (check.py, test.py and logs).
+
+The shared constructor prototype now takes MenuWidgetNode *. Its existing
+Draw_SetPrimCallback caller explicitly supplies that pointer; its object text
+is unchanged. BoundsCheck_AssertStub now accepts the diagnostic code already
+passed by callers. The field at 0x30 is named draw: Draw_PushPrimToList invokes
+it with the widget after applying its text-cursor coordinates, and menu
+constructors populate it with their rendering callbacks. This reduces the
+unknown-field baseline from 248 to 231, including the new constructor's
+still-unresolved field_28 initialization. Compiler-crutch counts do not rise.
+
+`make -j8 verify-clean` passes 341 tests and main retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
+The audited report credits 2486124 semantic code bytes and 10728 functions
+(70.02% of code). The retained unknown initialization adds one dirty file
+(2282 total); pins, barriers, NOPs and instruction-ASM counts are unchanged.

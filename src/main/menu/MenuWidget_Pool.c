@@ -58,7 +58,7 @@ void *MenuWidget_AllocNode(s32 arg0, void *arg1) {
     g_MenuWidgetActiveListHead = temp_s0;
     NODE_FIELD(temp_s0, s32 *, parent) = temp_s2;
     NODE_FIELD(temp_s0, s32 *, update) = 0;
-    NODE_FIELD(temp_s0, s32 *, field_30) = 0;
+    NODE_FIELD(temp_s0, s32 *, draw) = 0;
     g_MenuWidgetFreeListHead = temp_next;
     NODE_FIELD(temp_s0, void **, next) = temp_v1;
     do {

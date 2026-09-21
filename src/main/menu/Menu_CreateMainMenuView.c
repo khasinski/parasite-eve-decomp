@@ -14,7 +14,7 @@ void Menu_CreateMainMenuView(int arg0) {
     parent = MenuWidget_CreateSimpleNode(0x20, arg0, 0, 0);
     child = MenuWidget_CreateNode(0x20, parent, parent);
     parent->update = Menu_MainMenuInputHandler;
-    child->field_30 = Menu_DrawMainMenuList;
+    child->draw = Menu_DrawMainMenuList;
     MenuWidget_SetCurrentNode(child);
     Draw_SetPrimCallback(child, 4);
 }
@@ -94,7 +94,7 @@ void Menu_CreateActionSubmenu(MenuWidgetNode *arg0) {
     created = MenuWidget_CreateSimpleNode(0x21, arg0, 0, 0);
     node = MenuWidget_CreateNode(0x21, created, created);
     created->update = func_8004AFA4;
-    node->field_30 = Menu_DrawActionSubmenuList;
+    node->draw = Menu_DrawActionSubmenuList;
     MenuWidget_SetCurrentNode(node);
 }
 
@@ -122,7 +122,7 @@ void func_8004B03C(MenuWidgetNode *arg0) {
     created = MenuWidget_CreateSimpleNode(0x23, arg0, 0, 0);
     node = MenuWidget_CreateNode(0x23, created, created);
     created->update = func_8004B0A4;
-    node->field_30 = Menu_DrawBlendColorOptionListUnk;
+    node->draw = Menu_DrawBlendColorOptionListUnk;
     MenuWidget_SetCurrentNode(node);
 }
 

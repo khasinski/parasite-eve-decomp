@@ -20,7 +20,7 @@ void Menu_CreateItemDetailView(MenuWidgetNode *arg0) {
     parent = MenuWidget_CreateSimpleNode(0xB, arg0, 0, 0);
     node = MenuWidget_CreateNode(0xB, parent, parent);
     parent->update = Menu_DetailViewInput;
-    node->field_30 = Menu_DrawUsableItemActionList2;
+    node->draw = Menu_DrawUsableItemActionList2;
 
     Inv_SelectActiveList(0);
     Draw_SetPrimCallback(node, ((char *)Inv_LookupActiveListData(Inv_RestoreSelection(1)))[0x14]);

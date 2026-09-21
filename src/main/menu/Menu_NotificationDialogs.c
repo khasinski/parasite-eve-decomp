@@ -14,9 +14,9 @@ void Menu_CreateNotificationDialog(int message, int suffix) {
     }
     parent = MenuWidget_CreateSimpleNode(mode, MenuWidget_GetCurrentNode(), 0, 1);
     child = MenuWidget_CreateNode(mode, parent, parent);
-    parent->field_30 = Menu_DrawNotificationText;
+    parent->draw = Menu_DrawNotificationText;
     parent->update = Menu_HandleDeferredCallbackInput;
-    child->field_30 = Menu_DrawNotificationDialogContent;
+    child->draw = Menu_DrawNotificationDialogContent;
     MenuWidget_SetCurrentNode(child);
     Menu_SetDeferredCallback(0);
     messageText = Str_LookupTable4(message);
@@ -58,9 +58,9 @@ void Menu_CreateTwoLineDialog(int line0_id, int line1_id) {
     parent = MenuWidget_CreateSimpleNode(0x28, MenuWidget_GetCurrentNode(), 0, 1);
     child = MenuWidget_CreateNode(0x28, parent, parent);
 
-    parent->field_30 = Menu_DrawTwoLineDialogText;
+    parent->draw = Menu_DrawTwoLineDialogText;
     parent->update = Menu_HandleDeferredCallbackInput;
-    child->field_30 = Menu_DrawNotificationDialogContent;
+    child->draw = Menu_DrawNotificationDialogContent;
 
     MenuWidget_SetCurrentNode(child);
     Menu_SetDeferredCallback(0);
