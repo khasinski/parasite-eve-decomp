@@ -2799,3 +2799,53 @@ with isolated 644/840-byte proofs in `/tmp/pe-wayne-storage/` and
 `make verify-clean` passes all 341 tests and source, organization and debt
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Armor change with capacity check and rollback
+
+`Inv_GetSlotItemData` matches all 948 retail bytes at 0x8005968C using stock
+native GCC 2.7.2 and unmodified MASPSX (`-G8`). Its inherited name is retained:
+the function changes equipped armor and returns a status, rather than returning
+an item-data pointer. It compares the old and selected armor's slot reserves,
+publishes the selected slot, checks capacity for the reserve difference, and
+always runs compaction. Exactly status 1 queues an opcode-3 command containing
+the previous armor record and calls `Inv_SetActiveList(3, 0)`. Every other
+status restores the saved equipped-slot byte and is returned unchanged.
+
+The old armor may be unresolved, yielding zero reserve, but the newly selected
+record retains retail's valid-record precondition. The filtered-index helper
+returns slot zero for an out-of-range index, matching the executable. The
+previous slot and rollback record are read again after resolving the new armor,
+and the filtered slot is read again before publication. These repeated reads
+are preserved because lookup calls can change inventory state; the earlier
+reserve scan's pointer is not silently reused for rollback.
+
+The function joins the adjacent 516-byte capacity checker in
+`Inv_ArmorCapacity.c`. The complete contiguous 0x8005968C..0x80059C44 range is
+1464/1464 bytes, with both original entry addresses preserved. Their shared
+lookup retains the existing single empty barrier definition, now expanded in
+both callers; the source barrier baseline remains 901. The second lookup
+variant retains one `$16` pointer pin, expanded twice in the armor-change
+function. Main pins increase from 1030 to 1031. Removing this pin in the tested
+source shape produces 952 bytes instead of 948; ordinary `register` and a
+volatile-pointer trial also fail to match. There are no new CPU instruction ASM,
+NOPs, symbol aliases, file-local externs or pointer/integer casts. The existing
+typed opcode-3 rollback payload holds an `ItemDataRecord *`.
+
+637990 ASan/UBSan host cases cover every supported old/new item-ID pair plus
+missing old armor, signed-byte equipped-slot boundaries, invalid filtered-index
+fallbacks, every modifier byte at every position for tail lengths 0..11, and
+status values 0, 1, 2, -1, INT_MIN and INT_MAX. Hooks verify the capacity argument,
+publication before the check, unconditional compaction, success-only queue and
+list calls, the rollback payload, and restoration after callbacks change the
+tracked slot. Lookup hooks change the tracked and filtered selections between
+lookups to verify that the later reads and rollback pointer are retained.
+The merged checker also passes its previous 376320 reserve/capacity cases.
+Host fixtures extract the production functions and shared helper unchanged
+except for removing the target register annotation; target-only command-layout
+assertions are disabled on the 64-bit host. Evidence:
+`/tmp/pe-armor-switch/` (`check-unit.py`, `test.c`, no-pin trials) and
+`/tmp/pe-active-slot-count/test.c` with its regenerated production excerpt.
+
+`make verify-clean` passes all 341 tests and source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
