@@ -1314,3 +1314,44 @@ all 748 bytes. Scratch proof is in `/tmp/pe-orbiting-burst/`.
 `make verify-clean` passes all 340 tests and source, organization and updated
 debt gates. The complete main image and all 191 rebuilt overlays preserve
 their retail SHA-1 values.
+
+
+### Vertical field effect and emitter reconstruction
+
+`func_800D8978` and `func_800D8B6C` share `FieldEng_VerticalEffect.c` and
+match 500 and 424 retail bytes respectively (924 bytes together), using
+stock GCC 2.7.2 and unchanged MASPSX. The callback follows the shared X/Z
+center and computes Y as center Y minus age times 900 divided by 24. It
+advances the halfword angle/timer and completes at age 24. Drawing starts
+with a sine-controlled scale, switches to a fixed scale at timer 8, samples
+the color track, selects a palette, and draws texture 68.
+
+The emitter allocates fourteen 12-byte payloads, emits on odd ages below 32,
+initializes stage/timer/angle/Y, and completes at age 50. Its update mode
+intentionally falls through into the center/parameter refresh; drawing mode
+performs only that refresh. The 12-byte `RenderVerticalEffect` layout follows
+the accesses and the allocator stride, with size/offset assertions. The
+center declaration is a view into existing storage, not a new definition.
+Both original symbols remain. Grouping these neighboring, cooperating
+functions makes no claim about the original TU boundary. This is game code,
+not Psy-Q.
+
+Matching debt is one `$3` pin for the palette comparison constant, included
+in the ratchet. The emitter needs no pins. There are no added barriers, NOPs,
+volatile accesses, GTE instruction macros, ordinary CPU instruction ASM,
+stack padding, EABI or toolchain changes. Ordering the angle update before
+the timer update recovers the retail scheduling without extra constraints.
+
+The production source passes 6078 ASan/UBSan host cases covering vertical
+motion and signed-coordinate narrowing, angle/timer wrapping, all scale
+stages around timer 8, five signed sine results, eight palettes and both
+asset-flag states, color/draw arguments, emitter allocation failure/success,
+odd/even ages across both cutoffs, position capture, center refresh and
+render parameters. The host prelude suppresses the pin and unrelated target
+assertions, then checks the new state size explicitly. The linked target
+comparison verifies all 924 bytes. Scratch proof is in
+`/tmp/pe-rising-effect/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and
+updated-debt gates. The complete main image and all 191 rebuilt overlays
+preserve their retail SHA-1 values.

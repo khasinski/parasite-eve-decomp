@@ -115,6 +115,25 @@ int func_800D868C(int mode, RenderOrbitingEmitter *state);
 extern GteShortVector D_800E21EC;
 extern char *D_800E21F4;
 
+/* The neighboring emitter allocates 12-byte payloads for this callback. */
+typedef struct RenderVerticalEffect {
+    s16 stage;
+    s16 angle;
+    s16 timer;
+    s16 x, y, z;
+} RenderVerticalEffect;
+
+PE1_STATIC_ASSERT(sizeof(RenderVerticalEffect) == 0xC,
+                  render_vertical_effect_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderVerticalEffect, timer) == 4,
+                  render_vertical_effect_timer);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderVerticalEffect, x) == 6,
+                  render_vertical_effect_position);
+int func_800D8978(int mode, RenderVerticalEffect *state);
+int func_800D8B6C(int mode, void *state);
+extern GteShortVector D_800E21F8;
+extern u8 D_800E1A14[];
+
 typedef struct RenderArcingEffect {
     s16 x, y, z;
     s16 velocity_y;
