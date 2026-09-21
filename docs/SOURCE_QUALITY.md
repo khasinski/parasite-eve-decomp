@@ -2519,3 +2519,52 @@ The clean main rebuild and final `make verify` retain retail SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`; all 340 tests and source,
 organization and debt gates pass. All 191 rebuilt overlays retain their
 retail SHA-1 values.
+
+### Inventory selectability predicate
+
+`Inv_IsSlotSelectable` matches all 396 retail bytes. An unresolved item record
+returns 1, including an invalid list index; this surprising behavior is
+preserved. For a resolved record, flag 0x40 disables selection. The tracked
+weapon slot is also excluded when the current list is Aya's inventory. For
+kind 8, the routine counts all items of that kind and additionally requires at
+least two. It still performs this count when the earlier checks disabled the
+selection. The loop reloads the active-list bound after each type-query call.
+
+The inlined lookup uses the existing typed inventory layout and equipment
+array. The function joins the adjacent `Item_SetDisabledFlag` in
+`Inv_Selectability.c`; both operate on the same availability flag. The setter
+body is retained, and all 480 bytes at 0x80057654..0x80057834 match. This is a
+semantic grouping, not proof of an original object-file boundary.
+
+The shared type-query prototype returns `int`. Its prior reconstructed
+implementation declared `u8`, whereas callers used an integer result. A narrow
+return declaration introduces a caller-side mask absent in retail. Correcting
+the implementation declaration to `int` preserves all 192 bytes of
+`Inv_GetActiveListItemType`, including the unsigned byte field load. Thus the
+shared interface and implementation agree without changing either function's
+retail behavior; this does not identify the original source declaration.
+
+Stock native GCC 2.7.2 and unmodified MASPSX use the existing `-G8` mode.
+Constraint subset checks remove both provisional lookup pins. One empty
+barrier separates the valid-index result merge from the invalid-index exit;
+removing it merges the branches and loses the retail layout. An explicit
+local kind value of 8 before counter initialization reproduces the loop's
+constant scheduling without a pin or extra barrier. The reviewed main debt
+baseline raises barriers 898 to 899; pins remain 1030. No CPU instruction ASM,
+NOP, alias, pointer/integer cast or raw field-offset access is added.
+
+526080 ASan/UBSan host cases cover every 16-bit item ID, every flag and kind
+byte, both list identities, equipped versus other slots, signed-byte index
+boundaries, and zero/one/multiple kind-8 matches. Hooks switch list identity
+inside base-data lookup, shrink or grow the iteration bound during type
+queries, and mutate the original record after its flags/kind were read.
+Assertions verify the retained selection decision, callback order/count,
+null-record result and absence of counting for other kinds. The fixture uses
+the production function and helper unchanged, disabling only target-layout
+assertions. Evidence is in `/tmp/pe-selectable/` (`check-unit.py`, `test.c`,
+`type-int.bin` and candidate subset trials).
+
+The clean main rebuild and final `make verify` retain retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`; all 340 tests and source,
+organization and debt gates pass.
+All 191 rebuilt overlays retain their retail SHA-1 values.

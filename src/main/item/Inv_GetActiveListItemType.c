@@ -15,9 +15,9 @@ extern M2C_UNK g_KeyItemDataTable[];
 extern M2C_UNK g_EquipItemDataTable[];
 #define g_EquipItemDataTable (g_EquipItemDataTable[0])
 
-u8 Inv_GetActiveListItemType(s32 index);
+int Inv_GetActiveListItemType(s32 index);
 
-u8 Inv_GetActiveListItemType(s32 index)
+int Inv_GetActiveListItemType(s32 index)
 {
     register s32 item_id asm("$3");
     register s32 saved_item_id asm("$5");
