@@ -2467,3 +2467,55 @@ The clean main rebuild retains retail SHA-1
 test's renamed TU path, `make verify` passes all 340 tests and the source,
 organization and debt gates.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Item-use selection and equipment rollback pointer
+
+`Menu_OpenItemUsePanelAtIndex` matches all 344 retail bytes with native stock
+GCC 2.7.2, unmodified MASPSX and the existing `-G8` small-data mode. It allocates
+a command, writes opcode 2, resolves the previously tracked equipment slot,
+and stores its item-data pointer for rollback. It then reads the selected
+filtered-list slot twice, narrows one copy into the tracked selection byte,
+and passes the full-width local copy to `Inv_SetActiveList(2, &slot)`.
+Out-of-range selections yield zero, and an invalid previous slot yields null.
+The inherited function name is retained; these are the observed operations,
+not a new claim about the surrounding UI flow.
+
+`InventoryRuntime` describes the contiguous view used by retail's address
+calculation: tracked selections at 0x800C0E20, 50 halfword item slots at +0x28,
+and 128 existing `ItemDataRecord` equipment records at +0x8C. Offset assertions
+check those boundaries. Uninterpreted bytes remain reserved. Equipment lookup
+uses the real array and an ID minus 0x100, rather than an invented pre-array
+pointer or arithmetic on the tracked-selection pointer. This records verified
+adjacency, without claiming an original source-level structure declaration.
+
+The opcode 2/3 `equip_restore.item_data` field is now an `ItemDataRecord *`.
+Its rollback consumer and the `Inv_FindIndexByData` declaration use pointer
+types too; the PSX layout stays 0x24 bytes. The full main checksum verifies
+that the corrected consumer and users of the inventory header retain their
+retail bytes. Both command consumers now use the shared inventory view instead
+of their scalar/array declarations of the same symbol. Three file-local
+externs are removed (3688 to 3685). New cross-unit declarations are in
+subsystem headers.
+
+Two retained pins in the inlined lookup select `$5` for the saved item ID and
+`$3` for the key-item byte offset. A subset check of these constraints finds
+that both are needed in this source shape. Rewriting the filtered-list helper
+to merge into a local result removes the provisional empty barrier entirely.
+The reviewed main baseline increases pins 1028 to 1030; barriers stay at 898.
+There is no new CPU instruction ASM, NOP, alias, pointer/integer cast or raw
+field-offset access. The bounded key-item branch retains the established
+biased table symbol and byte indexing used by neighboring lookup functions.
+
+396288 ASan/UBSan host cases cover all 65536 item IDs, every signed-byte tracked
+index, valid and invalid list bounds, equipment/base/key-item lookup ranges,
+signed-halfword selections and byte narrowing. Hooks change the tracked slot
+inside command allocation and change the filtered-list bound inside base-item
+lookup, verifying the retail reload order. The final hook checks the rollback
+pointer, command opcode, full-width local slot and already-updated tracked
+byte. Host adaptation removes only register annotations and target layout
+assertions. Evidence is in `/tmp/pe-item-use/` (`check.py`, `test.c`, candidates).
+
+The clean main rebuild and final `make verify` retain retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`; all 340 tests and source,
+organization and debt gates pass. All 191 rebuilt overlays retain their
+retail SHA-1 values.

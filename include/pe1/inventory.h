@@ -42,6 +42,7 @@ extern ItemDataRecord g_InvItemSlotArray[128];
 
 /* Historical name: this operation returns a status, not an item pointer. */
 int Inv_GetSlotItemData(int index);
+int Inv_FindIndexByData(void *needle);
 void Inv_BuildFilteredPackedList(int mask);
 ItemDataRecord *Inv_LookupActiveListData(int index);
 ItemDataRecord *Item_LookupBaseData(unsigned int index);

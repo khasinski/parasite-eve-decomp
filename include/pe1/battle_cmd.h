@@ -1,6 +1,8 @@
 #ifndef PE1_BATTLE_CMD_H
 #define PE1_BATTLE_CMD_H
 
+struct ItemDataRecord;
+
 typedef struct SquareMessageEntry {
     /* 0x00 */ unsigned char opcode;
     /* 0x01 */ unsigned char status;
@@ -63,7 +65,7 @@ typedef union BattleCmdPayload {
     } ammo_spend;
     /* opcodes 2 and 3: restore the previous equipped item. */
     struct {
-        int item_data;
+        struct ItemDataRecord *item_data;
         unsigned char reserved08[0x1C];
     } equip_restore;
     /* opcode 4: restore ammo values across three item-data records. */
@@ -98,6 +100,8 @@ BATTLE_CMD_STATIC_ASSERT(
     BATTLE_CMD_OFFSETOF(BattleCmdEntry, payload.ammo_restore.ammo2) == 0x20,
     restore_tail_offset);
 BATTLE_CMD_STATIC_ASSERT(sizeof(BattleCmdEntry) == 0x24, entry_size);
+
+BattleCmdEntry *BattleCmd_AllocSlot(void);
 
 #undef BATTLE_CMD_STATIC_ASSERT
 #undef BATTLE_CMD_OFFSETOF

@@ -1,9 +1,9 @@
 #include "common.h"
 #include "pe1/battle.h"
 #include "pe1/inventory.h"
+#include "pe1/inventory_slots.h"
 extern void **D_8009D254;
 extern short D_800C0E08;
-extern s8 D_800C0E20;
 
 int Inv_IsActiveListOverrideSelected(void);
 void Inv_SelectActiveList(int mode);
@@ -32,7 +32,7 @@ int BattleCmd_CommitAmmoAndUpdate(void *out) {
             }
             saved = Inv_IsActiveListOverrideSelected();
             Inv_SelectActiveList(0);
-            entry = Inv_LookupActiveListData(D_800C0E20);
+            entry = Inv_LookupActiveListData(g_InvTrackedSlots[0]);
             if (entry != 0) {
                 ITEM_FIELD(entry, short *, ammo) = ACTION_FIELD(
                     COMBATANT_FIELD(current, void **, action), int *, attackWord) & 0x3FF;

@@ -4,16 +4,14 @@
 #include "common.h"
 #include "pe1/battle_cmd.h"
 #include "pe1/inventory.h"
+#include "pe1/inventory_slots.h"
 
 extern BattleCmdEntry *D_8009D014;
 extern char D_800A1B30[];
 extern BattleCmdEntry D_800A1AA0[];
-extern s16 D_800C0E48[];
-extern s8 D_800C0E20[];
 extern s8 D_800C0E22[];
 
 int Inv_CheckSlotUsable(int data);
-int Inv_FindIndexByData(int data);
 
 BattleCmdEntry *BattleCmd_AllocSlot(void) {
     BattleCmdEntry *top;
@@ -50,7 +48,7 @@ void BattleCmd_UndoPending(void) {
     BattleCmdEntry *top;
     int opcode;
     s16 *slot;
-    int data;
+    ItemDataRecord *data;
     int index;
 
     top = D_8009D014;
@@ -74,7 +72,7 @@ void BattleCmd_UndoPending(void) {
             break;
 
         case 2:
-            D_800C0E20[0] =
+            g_InvTrackedSlots[0] =
                 Inv_FindIndexByData(entry->payload.equip_restore.item_data);
             break;
 
