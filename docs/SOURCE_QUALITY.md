@@ -4156,3 +4156,34 @@ disable target-layout assertions. Evidence: /tmp/pe-handle-item-menu/
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays match retail. The audited report credits 2483136
 semantic code bytes and 10721 functions, with unchanged debt counts.
+
+### Filling the battle action queue
+
+`Battle_FillActionQueue` is 548 exact code bytes with stock native GCC 2.7.2
+and unmodified MASPSX (--expand-div preserves retail's signed-remainder
+checks). Existing BattleTarget and BattleInitSlot layouts account for all
+accesses. C inline helpers separate writing a slot from resolving its index;
+no pins, barriers, NOPs, instruction ASM or new debt are introduced.
+
+Mode 0xC0 walks the null-terminated target list, independently of the target
+count. Mode 0x40 chooses random targets for floor(3 * action-count / 2)
+entries; its loop bound is reloaded after every random call. Other modes
+append the selected actor and decrement the byte-sized remaining count,
+including wraparound from zero. The random path explicitly captures the
+queue index before rand(), then loads the target count and signed action
+index afterwards. The queue count increment uses the current global value,
+which can differ from the captured destination after a callback mutation.
+
+100000 ASan/UBSan model cases compare all queue entries, callback-time queue
+snapshots and resulting globals. They cover every mode and low-nibble count,
+empty/full target lists, signed action indices, remaining-count wraparound,
+0 and 22 random draws, plus callbacks that change the queue index, target
+count, active action byte and player pointer. Tests use separate backing,
+positive divisors, bounded null-terminated lists and queue destinations below
+45. Target-layout assertions alone are disabled for the host. Evidence:
+/tmp/pe-fill-action-queue/ (check.py, test.c and acceptance logs).
+
+`make -j8 verify-clean` passes all 341 tool tests and main retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays match retail. The audited report credits 2483684
+semantic code bytes and 10722 functions, with unchanged debt counts.
