@@ -37,6 +37,8 @@ typedef struct GteVector {
 
 GteShortVector *ApplyMatrixSV(const GteMatrix *matrix,
                             const GteShortVector *v, GteShortVector *out);
+void LoadAverageShort12(void *first, void *second, int first_scale,
+                        int second_scale, void *output);
 int Gte_Atan2(int y, int x);
 int Gte_ISqrt(int value);
 

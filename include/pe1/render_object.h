@@ -255,6 +255,25 @@ typedef struct RenderColor {
     u8 r, g, b, code;
 } RenderColor;
 
+/* 0x800DD76C allocates 16-byte particles for 0x800DD380. */
+typedef struct RenderConvergingSprite {
+    GteShortVector position;
+    s16 stage, timer, bursts, phase;
+} RenderConvergingSprite;
+typedef struct RenderConvergingEmitter {
+    GteShortVector position, target;
+} RenderConvergingEmitter;
+PE1_STATIC_ASSERT(sizeof(RenderConvergingSprite) == 16, render_converging_sprite_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderConvergingSprite, stage) == 8,
+                  render_converging_sprite_stage);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderConvergingSprite, phase) == 14,
+                  render_converging_sprite_phase);
+PE1_STATIC_ASSERT(sizeof(RenderConvergingEmitter) == 16, render_converging_emitter_size);
+extern GteShortVector D_800E2234;
+extern u8 D_800E1FEC[];
+int func_800DD380(int mode, RenderConvergingSprite *state);
+int func_800DD76C(int mode, RenderConvergingEmitter *state);
+
 /* Callback 0x800DCCCC and its emitter 0x800DCE94 use a 16-byte payload.
  * The rotation prefix is passed directly to RotMatrixYXZ by 0x800D2370. */
 typedef struct RenderTiltingSprite {

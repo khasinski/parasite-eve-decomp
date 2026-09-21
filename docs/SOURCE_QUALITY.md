@@ -1902,3 +1902,54 @@ is in `/tmp/pe-rotating-flash/` (`check.py`, `test.c`).
 without a baseline change. Main retains SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Converging sprite and emitter reconstruction
+
+`func_800DD380` (1004 bytes) and `func_800DD76C` (632 bytes) form the
+contiguous `FieldEng_ConvergingSprite.c` unit. Stock GCC 2.7.2 and unchanged
+MASPSX reproduce all 1636 bytes, checked against both retail disassembly and
+the executable range. The actual allocation stride and callback pointer
+establish the grouping, without claiming an original TU boundary. This is
+game code, not Psy-Q. There are no pins, barriers, NOPs, volatile accesses or
+instruction ASM, and no ratcheted debt increase.
+
+`RenderConvergingSprite` has an eight-byte position followed by signed
+halfwords for stage, timer, burst count and phase. Its emitter holds initial
+and target short vectors. Size/offset assertions document these layouts.
+The shared `LoadAverageShort12` declaration preserves the implementation's
+existing void-pointer interface; it does not retype the GTE implementation.
+
+Update increments the timer and finishes once stage reaches two. Draw stage
+zero interpolates toward D_800E2234 over 52 ticks, adds an X sine wobble,
+lowers the stored Y by two, evaluates the color track, and transitions to
+stage one. Stage one uses a sine scale and packed color, then selects a new
+random position around the target every twelve ticks until the fourth burst
+finishes the effect. The current draw retains the position captured before
+that reset. As in retail, draw mode requires stage zero or one; other stage
+values leave its position/color locals undefined. No fallback is invented.
+
+The packed color store deliberately uses the target's little-endian word
+view of a four-byte-aligned `RenderColor`. The cast is a compiler/ABI-specific
+representation constraint, not a claim of portable strict-aliasing C. The
+host harness uses `-fno-strict-aliasing`; the production stock GCC profile is
+unchanged. Temporary union/dummy-pointer experiments are not retained.
+
+The emitter captures its starting position and a target 550 units above it,
+allocates twenty-four 16-byte particles, emits on odd ages below 49, and
+finishes at age 140. Emission preserves untouched payload fields and padding.
+Its draw mode updates the shared target and texture parameters.
+
+The production unit passes 37145 ASan/UBSan cases covering signed-short
+wraparound, timer/stage boundaries, burst resets, both color paths, signed
+random inputs, palette selection, all draw arguments, allocation failure and
+success, target setup and inactive modes. The interpolation mock checks the
+input pointers and weights and supplies known coordinates; it does not
+emulate the GTE. The host asserts both payload sizes and suppresses unrelated
+target assertions. Linked target comparison proves the actual calls and all
+instruction bytes. Scratch proof is in `/tmp/pe-converging-sprite/`
+(`check.py`, `test.c`).
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates
+without a baseline change. Main retains SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
