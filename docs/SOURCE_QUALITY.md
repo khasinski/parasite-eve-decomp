@@ -3682,3 +3682,38 @@ the expanded unit (637792 host cases total). Retail jump-table entry 7 at
 `make -j8 verify-clean` passes all 341 tests and source/debt/organization
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Filtering records with tail capacity (0x8005CAEC)
+
+`Inv_TransferToStorage` matches all 440 retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX. Despite the retained historical name, it selects
+the Aya inventory, builds a filtered list using mask 0x3FE, clears selection
+bits, and marks each filtered position whose item tailCount is less than
+pad_00[1]. It returns the number of marked positions. The observed predicate
+suggests available modification capacity, but no field rename or storage
+transfer claim is made from that inference alone.
+
+Separate inline bit clearing and a while loop with an explicit break retain
+the original top-of-loop length reload and 40-byte stack frame. A for loop
+with the same condition rotates differently in GCC 2.7.2. No pins, barriers,
+gotos, instruction ASM, NOPs or extra compiler flags are added. Existing
+ItemDataRecord and InventoryRuntime types cover the operation, including
+the established biased D_8009DE64 lookup view. The canonical prototype
+records the returned count. Adjacent entries remain unmatched and are not
+wrapped into this C unit as assembler bodies.
+
+194896 ASan/UBSan model cases cover every pair of the two compared byte
+values, all 392 supported record IDs, filtered counts -1..64, negative/zero/
+positive bit-word counts, and callbacks changing the active list, selection
+bit pointer, or filtered length. Comparisons include the returned count,
+complete record/list/bitset state, and callback arguments/counts. Production
+code is tested unchanged except target ABI assertions and host backing for
+the existing retail address aliases. A resolved filtered record must be
+non-null, and callback-provided lengths/indexes must fit their backing arrays:
+retail dereferences the result without a null guard. The tested maximum
+filtered length is 64 and active length is 50; larger backing configurations
+are not claimed. Evidence: /tmp/pe-filter-mod-capacity/ (check.py, test.c).
+
+`make -j8 verify-clean` passes all 341 tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

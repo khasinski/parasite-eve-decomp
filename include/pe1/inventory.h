@@ -49,6 +49,7 @@ ItemDataRecord *Inv_FindSlotByIndex(int id);
 int Inv_WriteSlotById(ItemDataRecord *item);
 void Inv_StepScrollDisplay(void);
 int Inv_DrawSlotItemIcon(void);
+int Inv_TransferToStorage(void);
 int Inv_CanAddActiveListItemToAya(int index);
 void Inv_TransferItemAlt(void);
 void Inv_ClearDisplaySlots(void);

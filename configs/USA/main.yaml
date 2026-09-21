@@ -713,7 +713,7 @@ segments:
       # Argument and default entry points share one 0x1F0-byte -G8 menu-frame object.
       - [0x4CC98, c, menu/Menu_RunFrame]
       - [0x4CE88, asm, main/Inv_RebuildWithBonusSlots]
-      - [0x4D2EC, asm, main/Inv_TransferToStorage]
+      - [0x4D2EC, c, item/Inv_TransferToStorage]
       - [0x4D4A4, asm, item/Inv_InitNewGameInventory]
       - [0x4D820, asm, main/Inv_MergeStorageToSlot]
       - [0x4DAB4, asm, main/Menu_InitBonusPointScreen]
