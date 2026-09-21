@@ -97,6 +97,49 @@ typedef struct GeomEntry {                /* 0x38 */
     u8  pad34[4];                         /* +0x34 */
 } GeomEntry;
 
+/* Scrolling view of a 56-byte GeomEntry. Fractions are read as bytes but
+ * stored as halfwords, clearing the unused high byte. */
+typedef union GeomScrollFraction {
+    u16 word;
+    u8 byte;
+} GeomScrollFraction;
+
+typedef struct GeomScrollEntry {
+    u8 flags, padding[3];
+    u16 modulusX, modulusY;
+    s16 baseX, baseY, x, y;
+    u8 reserved10[12];
+    s16 speedX, speedY;
+    GeomScrollFraction fractionX, fractionY;
+    u8 reserved24[20];
+} GeomScrollEntry;
+
+/* Observed prefix of the scroll state, not a claim about its full extent.
+ * The origin pair is also written by script dispatch at 0x800BD028/2A. */
+typedef struct GeomScrollCoordinates {
+    s16 x, y;
+    u16 savedX, savedY;
+    u8 reserved08[0x94];
+    s16 originX, originY;
+} GeomScrollCoordinates;
+
+typedef struct GeomScrollState {
+    u32 flags;
+    GeomScrollCoordinates position;
+} GeomScrollState;
+
+PE1_STATIC_ASSERT(sizeof(GeomScrollEntry) == 0x38, geom_scroll_entry_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollEntry, x) == 0x0C,
+                  geom_scroll_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollEntry, speedX) == 0x1C,
+                  geom_scroll_speed_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollEntry, fractionX) == 0x20,
+                  geom_scroll_fraction_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollState, position) == 4,
+                  geom_scroll_position_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollCoordinates, originX) == 0x9C,
+                  geom_scroll_origin_offset);
+
 typedef struct GeomState {                /* header */
     u8  pad00[4];                         /* +0x00 */
     u16 entry_count;                      /* +0x04 */
@@ -124,6 +167,12 @@ extern GeomState * volatile D_800B1624;
 
 extern u8 g_GeomGroupSel;
 int Scene_CheckBattleFlag(void);
+int Scene_IsBattleMode(void);
+
+/* Existing absolute symbols expose overlapping views of the scroll state. */
+extern GeomScrollState D_800BCF88;
+extern GeomScrollCoordinates D_800BCF8C;
+extern u16 D_800BCF8E, D_800BCF90, D_800BCF92;
 
 int Geo_TransformPoint(GeomEntry *entry, int x, int y, int depth);
 int Geo_ClipPoint(int x, int y, int z);

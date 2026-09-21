@@ -4510,3 +4510,48 @@ acceptance logs).
 The audited report credits 2487812 semantic code bytes and 10731 functions
 (70.07% of code). Compiler-crutch counts are unchanged; the three relative
 address calculations raise the dirty-file count to 2283.
+
+### Texture scrolling and camera-relative parallax
+
+`Scene_IsBattleMode` is 504 exact bytes with stock native GCC 2.7.2 and
+unmodified MASPSX (--expand-div), without pins, barriers, NOPs or instruction
+ASM. It updates texture coordinates and camera-relative parallax despite its
+historical name. GeomScrollEntry supplies a 56-byte view of GeomEntry with
+signed coordinates, unsigned moduli, signed velocities and fraction unions:
+fractions are read as low bytes and written as whole halfwords.
+
+GeomScrollState describes the observed prefix at 0x800BCF88: flags followed
+by coordinates at 0x800BCF8C, saved coordinates at 0x800BCF90/92 and the origin
+pair at 0x800BD028/2A. Script dispatch also writes that origin pair. The type
+ends at the last observed field; its size does not claim the full extent of
+the surrounding state. Existing absolute symbols retain their overlapping
+views, with no new aliases. A scalar flags declaration differed by 13 words;
+the actual containing-record view reproduces address materialization exactly.
+
+Flag 4 applies signed fixed-point scrolling and signed remainders. Flag 8
+then overrides it with parallax. The final parallax sum uses unsigned word
+arithmetic before conversion to target signed int, preserving MIPS wrapping
+without overflowing a signed C addition. Camera flag 0x80 triggers saving the
+current coordinates and is cleared independently of the geometry count.
+Both volatile header-pointer reads are retained: the first supplies count
+and offset, while the second supplies the record-array base.
+
+10000 MIPS/model cases compare complete geometry buffers, camera state and
+relevant globals. They include empty arrays, both gate bits, all update-mode
+combinations, negative signed remainders, full signed-halfword coordinate and
+velocity boundaries, 32-bit parallax overflow, clearing fraction high bytes,
+camera save/retain paths, and a pointer change between the two volatile reads.
+The independent model uses byte offsets, mathematical fixed-point operations,
+explicit word wrapping and signed remainder calculation. Scroll divisors are
+positive as required by the original routine. Evidence: /tmp/pe-geom-scroll/
+(check.py, test.py and acceptance logs).
+
+One byte-relative addition decodes the serialized render-table offset. It is
+recorded in the byte_pointer_arithmetic baseline (333 -> 334), rather than
+presented as an opaque field access or compiler constraint.
+
+`make -j8 verify-clean` passes 341 tests and main retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
+The audited report credits 2488316 semantic code bytes and 10732 functions
+(70.08% of code). Compiler-crutch counts are unchanged; the serialized-offset
+calculation raises the dirty-file count to 2284.
