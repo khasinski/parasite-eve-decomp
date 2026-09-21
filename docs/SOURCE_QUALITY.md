@@ -1874,3 +1874,31 @@ Scratch proof is in `/tmp/pe-tilting-sprite/` (`check.py`, `test.c`).
 source/organization/debt gates without a baseline change. Main retains SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Rotating three-layer flash reconstruction
+
+`func_800DD19C` in `FieldEng_RotatingFlash.c` matches all 484 retail bytes
+with stock GCC 2.7.2 and unchanged MASPSX. It reuses `RenderSparkEmitter`,
+`GteShortVector`, `GteRotation` and `RenderColor`; no new layout is introduced.
+Initialization stores a random phase, captures position with mode one and
+lowers Y by 510. Update completes at age 64 without changing the state.
+Drawing sets depth 60 and renders three layers: 500x500 with growing scale,
+410x500 at scale 4096, and 400x100 with growing scale and Z rotation age*16.
+The scale is 4096+age*32; the first two layers use D_800E1FA4's color track
+and the third uses D_800E1FCC. State padding and phase remain untouched by
+update and draw. This is game code, not Psy-Q, and no original TU is claimed.
+There are no new pins, barriers, volatile accesses, NOPs, instruction ASM or
+other ratcheted debt.
+
+The production function passes 503 ASan/UBSan cases covering random extremes,
+position capture and short-coordinate wraparound, lifetime cutoffs, state
+preservation, color reuse and call order, all three draw calls and inactive
+modes. Host checks assert the 12-byte payload while suppressing unrelated
+target layout assertions. An independent linked comparison verifies every
+byte against both retail disassembly and the executable range. Scratch proof
+is in `/tmp/pe-rotating-flash/` (`check.py`, `test.c`).
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates
+without a baseline change. Main retains SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

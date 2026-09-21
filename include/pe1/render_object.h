@@ -325,6 +325,9 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
                    int page, int intensity, RenderColor *color);
 int FieldEng_DriftingEffect(int mode, GteShortVector *position);
 int func_800DCA80(int mode, GteShortVector *position);
+extern u8 D_800E1FA4[];
+extern u8 D_800E1FCC[];
+int func_800DD19C(int mode, RenderSparkEmitter *state);
 int func_800D7E78(int mode, GteShortVector *state);
 
 void FieldEng_RotateVector(const GteMatrixWords *matrix,
