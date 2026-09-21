@@ -255,6 +255,24 @@ typedef struct RenderColor {
     u8 r, g, b, code;
 } RenderColor;
 
+typedef struct RenderDiamondEmitter {
+    GteShortVector position;
+    int x, y, angle, size, radius;
+} RenderDiamondEmitter;
+extern GteShortVector D_800E2224;
+extern u8 D_800E1CC8[];
+typedef struct RenderDiamondParticle {
+    s16 x, y, angle, size, reserved, color_time;
+} RenderDiamondParticle;
+PE1_STATIC_ASSERT(sizeof(RenderDiamondEmitter) == 28, render_diamond_emitter_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderDiamondEmitter, radius) == 24,
+                  render_diamond_emitter_radius);
+PE1_STATIC_ASSERT(sizeof(RenderDiamondParticle) == 12, render_diamond_particle_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderDiamondParticle, color_time) == 10,
+                  render_diamond_particle_color_time);
+int func_800DB5F4(int mode, RenderDiamondParticle *state);
+int func_800DB6BC(int mode, RenderDiamondEmitter *state);
+
 /* The emitter at 0x800DDD70 allocates this 16-byte callback state. */
 typedef struct RenderSettlingSprite {
     GteShortVector position;

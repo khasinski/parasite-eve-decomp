@@ -1994,3 +1994,61 @@ experiment is under `candidates/settling_sprite/` and `/tmp/pe-settling-sprite/`
 without a baseline change. Main retains SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Diamond emitter and GCC reload reconstruction
+
+`func_800DB6BC` now matches all 992 retail bytes. It joins the contiguous
+200-byte `func_800DB5F4` particle callback in `FieldEng_DiamondEmitter.c`;
+all 1192 linked bytes match the executable range. The emitter's callback
+pointer and twelve-byte allocation stride establish the grouping, without
+claiming an original TU boundary. `RenderDiamondEmitter` has an eight-byte
+position and five word fields; `RenderDiamondParticle` has six halfwords.
+Their sizes and relevant offsets are asserted. The final two particle
+halfwords remain untouched by emission; the callback reads color time at +10.
+This is game code, not Psy-Q.
+
+The blocker was GCC 2.7.2 reload allocation: using `$8` explicitly for the GTE
+matrix pointer excludes it from the spill-register candidates in
+`reload1.c:order_regs_for_reload`, moving constant division's multiply-high
+reload into `$9`. Stock GCC 2.8.1 and the tested optimization flags did not
+match. The compiler and MASPSX remain unchanged.
+
+Both divisions by 24 are now equivalent signed C arithmetic. With arithmetic
+right shift and `sign = value >> 31`, compute `high = value/6 + sign`, then
+`(high >> 2) - sign`. For nonnegative values this is floor(value/24); for
+negative values the sign correction gives truncation toward zero. These
+intermediates stay in range for every signed 32-bit input. Inlining allows
+GCC to cancel the first sign correction and retain its native multiply-high
+sequence. The high word is pinned to `$8`; the two shifted results use `$5`
+and `$2`, respectively. No multiply/divide instruction ASM is introduced.
+
+The final debt is eight pins (four in the two division helpers and four in
+the GTE transfer block) and one empty pointer barrier, recorded under the
+user's authorization for documented pins/barriers. Each of the eight GTE
+control-register transfers uses an existing single-instruction macro.
+Exploratory clobber barriers and 64-bit multiplication variants are absent.
+Consolidation removes three file-local extern declarations and one address
+filename; both ratchets were updated from the isolated acceptance tree.
+
+Initialization captures actor position and creates ten particles. Updates
+through age 24 compute radius, angle, offsets and size; later updates zero
+both offsets, and age 72 completes the emitter. Rendering loads the matrix,
+copies the shared position, samples color and draws one diamond. Ages 24..39
+add two expanded layers with intensities 64 and 96. The particle callback
+retains its existing eight-tick lifetime and fading draw behavior.
+
+The production unit passes 3319327 ASan/UBSan checks, mostly signed-division
+comparisons around values spanning the full 32-bit range plus 100000
+pseudorandom inputs. They also cover initialization, allocation failure,
+particle writes and preserved fields, arithmetic/trig arguments, lifetime
+cutoffs, all draw layers, color time, and callback behavior. GTE hooks check
+all eight transfer values and their order; pins and the empty barrier are
+suppressed on the host. Exact linked bytes prove target register allocation
+and GTE opcodes. This is sampled arithmetic testing plus the identity above,
+not an exhaustive execution of all 2^32 inputs. Scratch proof is under
+`/tmp/pe-diamond-emitter/` (`check-pair.py`, `test.c`, `host-prelude.h`);
+compiler investigation and rejected variants are under `/tmp/pe-t0-probe/`.
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
