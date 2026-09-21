@@ -4463,3 +4463,50 @@ Evidence: /tmp/pe-dispatch-sfx/ (check.py, test.py and acceptance logs).
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
 The audited report credits 2487148 semantic code bytes and 10730 functions
 (70.05% of code). Compiler-crutch counts and 2282 dirty files are unchanged.
+
+### Advancing geometry animations
+
+`Scene_CheckBattleFlag` is 664 exact bytes with stock native GCC 2.7.2,
+-fno-force-mem and unmodified MASPSX (--expand-div). Despite its historical
+name, it advances room geometry animations. No pins, barriers, NOPs or CPU
+instruction ASM are needed. The permuter reached no improvement over score
+10 before being stopped; source shaping produced the final score zero.
+
+GeomAnimationControl provides a 16-byte view of the existing GeomCtrlEntry:
+a flag/count word, low-byte group plus signed 24-bit position with eight
+fractional bits, signed step, unsigned 16-bit elapsed time and relative slot
+offset. Each two-byte slot contains a render-entry index and signed duration.
+Compile-time assertions check sizes and non-bitfield offsets. The common
+integer typedefs now replace geom_state.h's duplicate primitive definitions.
+
+An indexed control loop avoids an extra induction pointer. Keeping the
+narrowed elapsed value in a local preserves the original 16-bit wrap before
+comparison. The slot lookup uses subtraction of a negated frame index; this
+is equivalent within the valid slot array and preserves retail's commutative
+address-add operand order. Ordinary addition differs by exactly one word.
+The signed 24-bit bitfield expresses truncation without left-shifting a
+negative C value. Its representation is intentionally target-ABI-dependent.
+
+The function gates updates on game flags and group, clears every animation
+slot's render-selection bit, selects the current slot and advances its timer.
+Negative durations are cleared and stop this entire update immediately.
+Forward/reverse stepping supports wrapping or resetting and preserves retail's
+endpoint formulas. Three byte-address additions decode serialized relative
+control-table, render-table and slot-array offsets; these are recorded in the
+byte_pointer_arithmetic baseline (330 -> 333).
+
+10000 MIPS/model cases compare the complete serialized state and return value.
+They cover both gates, inactive flags, group filtering, zero control count,
+duplicate render indices, negative/zero/positive durations, 16-bit timer wrap,
+signed steps, interior advancement and forward/reverse wrap/reset paths.
+Fixtures use valid initial slot indices, nonzero lengths 1..8 and bounded
+serialized arrays. The independent model uses integer offsets, explicit
+24-bit truncation and mathematical floor division. No host layout adaptation
+is involved. Evidence: /tmp/pe-geom-animation/ (check.py, score.py, test.py and
+acceptance logs).
+
+`make -j8 verify-clean` passes 341 tests and main retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
+The audited report credits 2487812 semantic code bytes and 10731 functions
+(70.07% of code). Compiler-crutch counts are unchanged; the three relative
+address calculations raise the dirty-file count to 2283.

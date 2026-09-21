@@ -34,5 +34,6 @@ typedef struct Pe1GameState {
 } Pe1GameState;
 
 extern Pe1GameState g_GameState;
+extern unsigned int g_GameStateFlags;
 
 #endif

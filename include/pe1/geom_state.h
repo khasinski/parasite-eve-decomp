@@ -18,12 +18,7 @@
  * are intentionally NOT migrated to this header yet (see notes in the files).
  */
 
-typedef signed char    s8;
-typedef unsigned char  u8;
-typedef short          s16;
-typedef unsigned short u16;
-typedef int            s32;
-typedef unsigned int   u32;
+#include "common.h"
 
 /* 16-byte control entry. base = g_GeomState->ctrl_offset (+0x10), index << 4. */
 typedef struct GeomCtrlEntry {            /* 0x10 */
@@ -37,6 +32,32 @@ typedef struct GeomCtrlEntry {            /* 0x10 */
     u16 fieldA;                           /* +0x0A */
     s32 slot_offset;                      /* +0x0C  added to entry base -> slot array */
 } GeomCtrlEntry;
+
+/* Animation view of GeomCtrlEntry. Position is a signed 24-bit value
+ * with eight fractional bits; the low byte of that word selects the group. */
+typedef struct GeomAnimationSlot {
+    u8 entry;
+    s8 duration;
+} GeomAnimationSlot;
+
+typedef struct GeomAnimationControl {
+    union { u32 packed; struct { u8 flags; u8 padding[3]; } b; } head;
+    unsigned int group : 8;
+    signed int position : 24;
+    s16 step;
+    u16 elapsed;
+    s32 slotOffset;
+} GeomAnimationControl;
+
+PE1_STATIC_ASSERT(sizeof(GeomAnimationSlot) == 2, geom_animation_slot_size);
+PE1_STATIC_ASSERT(sizeof(GeomAnimationControl) == sizeof(GeomCtrlEntry),
+                  geom_animation_control_view_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomAnimationControl, step) == 8,
+                  geom_animation_step_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomAnimationControl, elapsed) == 10,
+                  geom_animation_elapsed_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomAnimationControl, slotOffset) == 12,
+                  geom_animation_slots_offset);
 
 /* 56-byte render/mesh entry. base = entry_offset (+0x14) or entry_offset_1C (+0x1C). */
 typedef struct GeomEntry {                /* 0x38 */
@@ -100,6 +121,9 @@ typedef struct GeomState {                /* header */
 
 extern GeomState * volatile g_GeomState;
 extern GeomState * volatile D_800B1624;
+
+extern u8 g_GeomGroupSel;
+int Scene_CheckBattleFlag(void);
 
 int Geo_TransformPoint(GeomEntry *entry, int x, int y, int depth);
 int Geo_ClipPoint(int x, int y, int z);
