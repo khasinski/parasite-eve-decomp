@@ -1401,3 +1401,47 @@ scratch source and proof are in `/tmp/pe-helical-effect/`.
 `make verify-clean` passes all 340 tests and the source, organization and
 updated-debt gates. The complete main image and all 191 rebuilt overlays
 preserve their retail SHA-1 values.
+
+
+### Helical emitter reconstruction
+
+`func_800D927C` now joins its two callbacks in `FieldEng_HelicalEffect.c`.
+The emitter matches all 728 retail bytes, and the combined three-function
+unit matches all 2112 bytes with stock GCC 2.7.2 and unchanged MASPSX.
+Initialization seeds the phase and allocates four 16-byte helical effects
+plus thirty-two 8-byte particles. At ages below 2 it attempts two allocations,
+initializes their angles half a revolution apart and direction from the age,
+and advances the emitter phase by 1024 even if allocations fail. It updates
+and publishes the particle list until age 70. Drawing transfers the matrix
+to GTE, renders particles with the 16-unit parameters, refreshes the shared
+center and installs the 32-unit effect parameters.
+
+The emitter reuses `RenderOrbitingEmitter`: the same observed 8-byte layout
+of phase and particle-list pointer, already protected by size/offset asserts.
+The original symbol remains and the adjacent ASM boundary moves to
+`0x800D9554`. This groups the controller and its callbacks without claiming
+an original TU boundary. This is game code, not Psy-Q.
+
+Additional matching debt is four GTE register pins (`$8`, `$12`, `$13`, `$14`)
+and one empty pointer barrier, included in the ratchet. Two volatile halfword
+stores preserve parameter00 ordering before texture lookups; these are
+source-shape debt, not claims that the parameter block is hardware volatile.
+The eight GTE transfers each use an existing single-instruction macro. There
+are no ordinary CPU instruction ASM, NOPs, EABI, compiler or assembler
+modifications. Capturing the phase before initializing effect fields recovers
+the retail load ordering without another constraint.
+
+The production emitter body passes 658 ASan/UBSan host cases covering seeds,
+ages -1 through 72, every two-allocation success mask, angle narrowing,
+direction values, untouched XYZ fields, list publication after update,
+all pairs of eight texture indices, center capture, both parameter uploads,
+GTE transfer order/values, and inactive modes. The host harness extracts the
+emitter body, removes its empty barrier, suppresses pins/target assertions,
+and mocks each GTE transfer individually; it does not emulate GTE hardware.
+The linked combined-unit comparison verifies the layout and all 2112 bytes,
+including the previously matched callbacks. Scratch proof is in
+`/tmp/pe-helical-emitter/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and
+updated-debt gates. The complete main image and all 191 rebuilt overlays
+preserve their retail SHA-1 values.

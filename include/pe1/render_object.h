@@ -152,6 +152,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderHelicalEffect, direction) == 0xE,
                   render_helical_effect_direction);
 int func_800D8D14(int mode, GteShortVector *state);
 int func_800D8E74(int mode, RenderHelicalEffect *state);
+int func_800D927C(int mode, RenderOrbitingEmitter *state);
 extern u8 D_800E1AA0[];
 extern GteShortVector D_800E2200;
 extern char *D_800E2208;
