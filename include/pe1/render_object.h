@@ -38,6 +38,23 @@ PE1_STATIC_ASSERT(sizeof(RenderHistoryPoint) == 8, render_history_point_size);
 void FieldEng_UpdatePointHistory(RenderHistoryPoint *history, s16 count,
                                  RenderHistoryPoint *value, int reset);
 
+typedef struct RenderBouncingSprite {
+    s16 x, y, z;
+    s16 velocity_x, velocity_y, velocity_z;
+    s16 duration, angle;
+} RenderBouncingSprite;
+
+PE1_STATIC_ASSERT(sizeof(RenderBouncingSprite) == 16, render_bouncing_sprite_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderBouncingSprite, velocity_x) == 6,
+                  render_bouncing_sprite_velocity);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderBouncingSprite, duration) == 12,
+                  render_bouncing_sprite_duration);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderBouncingSprite, angle) == 14,
+                  render_bouncing_sprite_angle);
+int func_800D5010(int mode, RenderBouncingSprite *state);
+int func_800D4EA4(int mode);
+extern u8 D_800E1518[], D_800E1540[];
+
 typedef struct RenderCosineEffect {
     s16 x;
     s16 amplitude;

@@ -2170,3 +2170,51 @@ source, organization and debt gates and the rebuilt main checksum:
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values. Debt counts remain
 unchanged.
+
+### Expanding flash and bouncing sprite
+
+`func_800D4EA4` in `FieldEng_ExpandingFlash.c` matches all 364 retail bytes.
+It completes on update at age 20. Rendering captures actor position, lowers
+Y by 300, chooses a color track from context variable 6, and draws an eight-
+segment effect with sine-driven scale. Track time uses `age * 24 / 20`;
+scale uses `rsin((age << 10) / 20) / 2 + 2048`. The two track declarations
+belong to the shared rendering header, not file-local externs.
+
+`func_800D5010` in `FieldEng_BouncingSprite.c` matches all 640 retail bytes.
+`RenderBouncingSprite` has XYZ and three velocity halfwords, followed by
+duration at +12 and angle at +14; size and offsets are asserted. Updates
+advance all coordinates, damp X/Z velocity by signed `31 / 32`, reverse Y
+velocity when the updated Y is positive, and add three to Y velocity before
+checking lifetime. Rendering computes fading intensity, rotating angle and
+sine-driven scale, selects the palette row (including the special row offset),
+and draws with an age-dependent texture argument.
+
+The last opcode difference was the signed load before reversing Y velocity.
+Writing `velocity_y *= -1` reproduces retail `lh`; unary negation allowed
+stock GCC to use `lhu` before the halfword store. Both expressions give the
+same stored halfword on the target, but only the former matches its bytes.
+No pin, barrier, volatile scheduling access, inline ASM, or compiler override
+is needed. The sprite uses the existing MASPSX `--expand-div` option for the
+three retail signed-division guard sequences. Compiler and MASPSX sources
+remain unchanged.
+
+These adjacent functions are promoted as two explicit source ranges; shared
+rendering dependencies alone are not claimed to prove an original object
+boundary. Existing surrounding ASM ranges remain outside the semantic-C
+progress count.
+
+The final production sources pass 480001 ASan/UBSan host cases: 80000 for the
+flash and 400001 for the sprite. Independent 64-bit arithmetic and explicit
+16-bit wrapping check movement, damping, bounce, lifetime and rendering.
+Coverage includes signed halfword extremes, both palette branches, preserved
+state, unsupported modes, and all sampled sine results across -4096..4096.
+Call hooks mutate age/parameters to verify the original later global reads.
+Tests avoid zero durations and signed overflow in shifts/products; they test
+caller behavior, not the implementations of sine, palette lookup or drawing.
+Evidence is under `/tmp/pe-expanding-flash/` and `/tmp/pe-bouncing-sprite/`
+(`check.py`, `test.c` in each directory).
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values. Debt counts remain
+unchanged.
