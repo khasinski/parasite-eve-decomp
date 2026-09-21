@@ -1,6 +1,8 @@
 #ifndef PE1_MENU_QUEUE_H
 #define PE1_MENU_QUEUE_H
 
+void Queue_Init(void);
+
 typedef struct MenuQueueEntry {
     struct MenuQueueEntry *next;
     int value0;

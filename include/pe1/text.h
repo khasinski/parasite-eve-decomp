@@ -1,6 +1,15 @@
 #ifndef PE1_TEXT_H
 #define PE1_TEXT_H
 
+#include "common.h"
+
+void *Str_LookupTable4(unsigned int index);
+void Util_CopyFFTerminatedBytes(u8 *dst, u8 *src);
+void Util_AppendFFTerminatedBytes(u8 *dst, u8 *src);
+int Draw_MeasureTextWidth(u8 *text);
+void Draw_OffsetCursor(int x, int y);
+void Draw_PrintCenteredText(u8 *text);
+
 /* Text / dialogue rendering subsystem (message boxes, menu labels, numbers).
  * Verified from code + live DuckStation GDB (talked to an NPC on the first
  * field screen).

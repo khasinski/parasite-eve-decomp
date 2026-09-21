@@ -2427,3 +2427,43 @@ tests dispatch rather than callback internals or GTE timing. Evidence is in
 `make verify-clean` passes all 340 tests and source, organization and debt
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Notification dialog creation
+
+`Menu_CreateNotificationDialog` matches all 348 retail bytes using stock native
+GCC 2.7.2 and unmodified MASPSX, without flags, pins, barriers or instruction
+ASM. It selects the normal or alternate notification widget, initializes the
+parent and child callbacks, copies a 0xFF-terminated message and optionally
+appends a second message, then sizes and centers the parent. Widths below 100
+use 100; the other path deliberately calls the measurement routine again,
+matching retail's call order rather than assuming the result is immutable.
+The alternate-buffer selector is a `short` whose value is always zero or one.
+This source shape yields the retail register allocation; it does not establish
+the original declaration's type.
+
+The function joins the four contiguous notification helpers previously in
+`menu16.c`, now `Menu_NotificationDialogs.c`. The entire 980-byte range
+0x8004CC50..0x8004D024 matches, including the unchanged earlier routines.
+The two 64-byte notification buffers and widget fields use typed accesses;
+shared declarations live in subsystem headers. This grouping follows dialog
+ownership and shared storage, not a claim about original object boundaries.
+The new function adds no matching constraints. The two pre-existing empty
+barriers in the two-line helper remain. The reviewed debt change removes two
+file-local externs and records two additional accesses to the existing opaque
+`field_30` callback member (252 to 254); it adds no raw offsets or aliases.
+The organization baseline drops one placeholder filename (69 to 68).
+
+23058 ASan/UBSan host cases exercise both buffers, absent/present suffixes
+(including a negative ID passed through the unsigned lookup interface), widths
+-256..1024 and changing results on the second measurement. Hooks verify call
+order, callback installation, text destination, untouched alternate storage,
+width and centering, preserved vertical positions, and queue initialization.
+The host fixture extracts the new production function without code changes;
+only target-layout assertions are disabled for host pointer sizes. Evidence
+is in `/tmp/pe-notification/` (`check-unit.py`, `test.c`, source-shape trials).
+
+The clean main rebuild retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. After updating the source-quality
+test's renamed TU path, `make verify` passes all 340 tests and the source,
+organization and debt gates.
+All 191 rebuilt overlays retain their retail SHA-1 values.

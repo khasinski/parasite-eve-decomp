@@ -1,24 +1,36 @@
-#include "pe1/menu_widget.h"
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_queue.h"
+#include "pe1/text.h"
 
-void MenuWidget_NavScrollTo(int selected_base);
-MenuWidgetNode *MenuWidget_GetCurrentNode(void);
-MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent, int arg2, int arg3);
-MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *parent, MenuWidgetNode *sibling);
-void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
-
-extern char g_MenuTwoLineDialogText[];
-extern char D_800A1A20[];
-
-void Draw_OffsetCursor(int x, int y);
-void Draw_PrintCenteredText(char *text);
-int Draw_MeasureTextWidth(char *text);
-void Menu_DrawTwoLineDialogText(void);
-void Menu_SetDeferredCallback(void (*callback)(void));
-int Menu_HandleDeferredCallbackInput(int arg0, int arg1);
-void Menu_DrawNotificationDialogContent(void);
-char *Str_LookupTable4(int id);
-void Util_CopyFFTerminatedBytes(char *dst, char *src);
-void Queue_Init(void);
+void Menu_CreateNotificationDialog(int message, int suffix) {
+    MenuWidgetNode *parent, *child;
+    short alternate;
+    int mode, width;
+    u8 *text, *messageText;
+    alternate = MenuWidget_FindByModeAndSelectedBase(1, 0x28) != 0;
+    mode = 0x28;
+    if (alternate) {
+        mode = 0x3D;
+    }
+    parent = MenuWidget_CreateSimpleNode(mode, MenuWidget_GetCurrentNode(), 0, 1);
+    child = MenuWidget_CreateNode(mode, parent, parent);
+    parent->field_30 = Menu_DrawNotificationText;
+    parent->update = Menu_HandleDeferredCallbackInput;
+    child->field_30 = Menu_DrawNotificationDialogContent;
+    MenuWidget_SetCurrentNode(child);
+    Menu_SetDeferredCallback(0);
+    messageText = Str_LookupTable4(message);
+    text = D_800A1A20[alternate];
+    Util_CopyFFTerminatedBytes(text, messageText);
+    if (suffix) {
+        Util_AppendFFTerminatedBytes(text, Str_LookupTable4(suffix));
+    }
+    width = Draw_MeasureTextWidth(text) < 100 ? 100 : Draw_MeasureTextWidth(text);
+    parent->grid_width = width + 20;
+    parent->x = (300 - width) >> 1;
+    child->x = parent->grid_width - 68;
+    Queue_Init();
+}
 
 void Menu_CloseNotificationDialogs(void) {
     MenuWidget_NavScrollTo(0x28);
@@ -26,7 +38,7 @@ void Menu_CloseNotificationDialogs(void) {
 }
 
 void Menu_DrawNotificationText(MenuWidgetNode *node) {
-    char *text;
+    u8 *text;
 
     Draw_OffsetCursor(0, 0xA);
     text = g_MenuTwoLineDialogText;
@@ -39,9 +51,9 @@ void Menu_DrawNotificationText(MenuWidgetNode *node) {
 void Menu_CreateTwoLineDialog(int line0_id, int line1_id) {
     MenuWidgetNode *parent;
     MenuWidgetNode *child;
-    char *line0;
-    char *line1;
-    char *text;
+    u8 *line0;
+    u8 *line1;
+    u8 *text;
     int width;
     parent = MenuWidget_CreateSimpleNode(0x28, MenuWidget_GetCurrentNode(), 0, 1);
     child = MenuWidget_CreateNode(0x28, parent, parent);
@@ -54,7 +66,7 @@ void Menu_CreateTwoLineDialog(int line0_id, int line1_id) {
     Menu_SetDeferredCallback(0);
 
     text = Str_LookupTable4(line0_id);
-    line0 = D_800A1A20;
+    line0 = D_800A1A20[0];
     Util_CopyFFTerminatedBytes(line0, text);
 
     text = Str_LookupTable4(line1_id);
@@ -75,8 +87,8 @@ void Menu_CreateTwoLineDialog(int line0_id, int line1_id) {
     }
 measure_wide:
     {
-        char *first = D_800A1A20;
-        char *second = first + 0x40;
+        u8 *first = D_800A1A20[0];
+        u8 *second = first + 0x40;
         width = Draw_MeasureTextWidth(first) > Draw_MeasureTextWidth(second)
             ? Draw_MeasureTextWidth(first) : Draw_MeasureTextWidth(second);
     }
