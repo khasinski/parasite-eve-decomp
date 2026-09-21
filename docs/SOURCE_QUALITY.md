@@ -1623,3 +1623,40 @@ The linked target check verifies all 1048 bytes. Proof is under
 `make verify-clean` passes all 340 tests and source/organization/debt gates.
 Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Cosine particle emitter reconstruction
+
+`func_800DACA4` now shares `FieldEng_CosineEffect.c` with its callback.
+The emitter matches all 744 retail bytes; the combined unit matches all 1012
+bytes with stock GCC 2.7.2 and unchanged MASPSX. Existing `RenderSparkEmitter`
+(position and phase), `RenderCosineEffect` (8-byte particle) and `RenderColor`
+types cover its accesses. Shared declarations replace candidate-local externs.
+The render helper's rotation argument is supported by its call to RotMatrixYXZ
+and read of rotation flags at +6; its two color arguments are read as RGB bytes.
+No original TU claim is made, and this is game code rather than Psy-Q.
+
+Initialization stores a random phase, captures actor position in mode zero
+and allocates 24 eight-byte particles. Updates emit before age 51, choosing
+amplitude 500..755 and duration 22..25, copying phase into particle Y and
+advancing it by 2218..2249. The particle X is left untouched. The emitter
+finishes at age 80. Drawing through age 80 inclusive sets depth 60 and draws
+three layers with shared sine intensity and growing scale; every draw-mode
+call then restores depth 64 and updates the translation. The two local color
+copies preserve the original unaligned four-byte transfers at function entry.
+
+There are no new pins, barriers, volatile accesses, instruction ASM or other
+ratcheted debt. The production unit passes 198592 ASan/UBSan emitter cases:
+initialization, allocation failure/success, emission and lifetime cutoffs,
+random masks including signed extremes, all phase increments, untouched
+fields, draw cutoff/intensity/coordinates, all layer arguments and inactive
+modes. A mock changes the second color global during the first draw to verify
+that the later draw uses its entry-time local copy. Host checks assert both
+payload sizes; unrelated target layout assertions are suppressed. The existing
+callback is not exercised by this emitter harness, but the linked comparison
+covers the complete 1012-byte unit against the retail executable. Scratch
+proof is in `/tmp/pe-cosine-emitter/` (`production-check.py`, `test.c`).
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates
+without a baseline change. Main retains SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

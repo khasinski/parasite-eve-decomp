@@ -249,6 +249,12 @@ typedef struct RenderColor {
 extern RenderColor D_800C22DC;
 extern RenderColor D_800C22E0;
 extern RenderColor D_800C22E4;
+extern RenderColor D_800C22E8;
+extern RenderColor D_800C22EC;
+void func_800D004C(GteShortVector *position, int width, int height, int segments,
+                   GteRotation *rotation, int scale_x, int scale_y,
+                   RenderColor *color0, RenderColor *color1, int intensity, int mode);
+int func_800DACA4(int mode, RenderSparkEmitter *state);
 
 PE1_STATIC_ASSERT(sizeof(RenderColor) == 4, render_color_size);
 
