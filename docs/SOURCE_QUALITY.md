@@ -2287,3 +2287,50 @@ unchanged.
 organization/debt checks with the reviewed baseline. Main retains SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`; all 191 rebuilt overlays also
 retain their retail SHA-1 values.
+
+### Matrix-derived look angles and vector helpers
+
+`func_800CE9D4` matches all 276 retail bytes. It selects the 32-byte matrix at
+index `index` from the existing owner table at +0x238, loads its rotation and
+zero translation into GTE, and transforms a copied direction vector. It then
+narrows the three MAC results to signed halfwords and calls
+`FieldEng_CalculateLookAngles` using a separately copied origin. Retail data
+at `D_800C2258` is `(0, 0, -16384, 0)` and `D_800C2260` is zero. Both vector
+declarations now live in the shared rendering header.
+
+The newly closed range lies directly between `FieldEng_TransformMatrixPoint`
+and `FieldEng_RotateVector`. All three use the same matrix-word transfers,
+zero-translation setup and vector narrowing; the first two also select the
+same +0x238 owner table with a 32-byte stride. They are consolidated into
+`FieldEng_MatrixVectors.c` in original address order. The whole contiguous
+0x800CE8F0..0x800CEB8C range matches all 668 bytes; the two existing functions
+retain their C bodies. This is a supported source grouping, not proof of the
+original object-file boundary.
+
+The new function needs only the three GTE transfer-register pins `$12`..`$14`.
+A subset search removed the provisional matrix/vector address pins while
+preserving the match. Two empty barriers retain local-vector address setup
+and loads from the zeroed translation fields. Their operands are initialized,
+and neither emits CPU instructions. Each GTE operation remains in its own
+existing macro, including the two explicit transfer hazard NOPs. No compiler
+or MASPSX modification, EABI, instruction block or new ASM-body wrapper is used.
+The reviewed main baseline records pins 1015 to 1018 and barriers 892 to 894;
+these increases account for the new function rather than hide its constraints.
+
+200000 ASan/UBSan host cases verify selection among eight matrices, all eight
+GTE control writes, both vector loads, hazard/command/store order, zero
+translation, signed-halfword narrowing and the look-angle call arguments.
+Tests use 64-bit fixed-point products plus arbitrary sampled MAC values and
+mutate the source globals during transfer to verify both vectors were copied
+first. GTE instructions are replaced by trace hooks and only hard-register
+annotations are removed for the host; empty barriers remain. These tests
+verify the caller's transfer contract, not GTE timing or look-angle arithmetic.
+Evidence is under `/tmp/pe-matrix-angles/` (`check-unit.py`, `test.c`, and the
+pin/barrier search scripts).
+
+The consolidated layout passes `make verify-clean`; final `make verify` after
+separating the three pin declarations for accurate debt counting also passes
+all 340 tests and source/organization/debt gates. The final TU remains an
+exact 668-byte match. Main retains SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, and all 191 rebuilt overlays retain
+their retail SHA-1 values.

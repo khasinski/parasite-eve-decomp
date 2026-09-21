@@ -417,6 +417,9 @@ void FieldEng_TransformTranslation(const GteShortVector *input,
                                   GteMatrixWords *output);
 
 struct RoomFxTransformOwner;
+extern GteShortVector D_800C2258, D_800C2260;
+void func_800CE9D4(struct RoomFxTransformOwner *owner, int index,
+                   GteShortVector *out);
 void FieldEng_TransformMatrixPoint(struct RoomFxTransformOwner *owner, int index,
                                   const GteShortVector *input,
                                   GteShortVector *output);
