@@ -1445,3 +1445,53 @@ including the previously matched callbacks. Scratch proof is in
 `make verify-clean` passes all 340 tests and the source, organization and
 updated-debt gates. The complete main image and all 191 rebuilt overlays
 preserve their retail SHA-1 values.
+
+
+### Damped spark and emitter reconstruction
+
+`func_800D9554` and `func_800D96F4` share `FieldEng_DampedSpark.c` and match
+all 416 and 920 retail bytes respectively (1336 together), with stock GCC
+2.7.2 and unchanged MASPSX. The particle updates XYZ from its velocity,
+adds random X/Y jitter, damps X/Z velocity by 31/32, reverses vertical
+acceleration at age 19, and completes at age 40. Drawing samples a color
+track before age 19, then randomly selects packed color 0xC8C8 or zero.
+
+The emitter captures the actor position and seeds a phase, allocates 24
+12-byte particles, attempts two emissions per update before age 12, and
+completes at age 70. Successful allocations receive speed 43–50, horizontal
+velocity from sine/cosine, vertical velocity -10–21 and a phase step of
+0x955. Rendering uploads the 32-unit parameters, draws texture 66 with
+animated scale/intensity before age 33, then restores the GTE matrix and
+depth parameter on every rendering call.
+
+`RenderDampedSpark` describes six signed halfwords (XYZ and velocity), and
+`RenderSparkEmitter` describes an 8-byte position followed by a 32-bit phase.
+Both 12-byte layouts have size/offset assertions; particle stride is also
+confirmed by the emitter allocation. The color remains a packed 32-bit
+local where retail writes full words. Helper/global declarations live in
+the shared header. Symbols remain unchanged; grouping this pair makes no
+original-TU claim. This is game code, not Psy-Q.
+
+The particle needs no matching constraints. Emitter debt is five pins (four
+GTE transfer registers and the palette comparison constant) and two empty
+barriers (matrix pointer and completed scale), included in the ratchet. The
+scale barrier keeps its addition ahead of palette selection; without it,
+the pinned comparison changes scheduling. Eight existing single-instruction
+GTE macros express the transfers. There are no added NOPs, volatile accesses,
+ordinary CPU instruction ASM, stack padding, EABI or toolchain changes.
+
+The production algorithm passes 77181 ASan/UBSan host cases: velocity and
+coordinate extremes, damping of both signs, acceleration/lifetime cutoffs,
+random jitter and color choices, allocation success masks, signed trig
+results, phase steps, all texture/palette indices and both asset-flag states,
+render cutoff and matrix/depth restoration. A mocked upload changes the
+palette selector to exercise every branch after that call. The host copy
+removes the two empty barriers; its prelude suppresses pins and unrelated
+target assertions and records each GTE transfer. This verifies CPU behavior
+and transfers, not GTE hardware emulation. Target assertions and linked
+comparison verify both layouts and all 1336 bytes. Scratch proof is in
+`/tmp/pe-damped-spark-emitter/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and
+updated-debt gates. The complete main image and all 191 rebuilt overlays
+preserve their retail SHA-1 values.

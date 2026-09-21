@@ -157,6 +157,27 @@ extern u8 D_800E1AA0[];
 extern GteShortVector D_800E2200;
 extern char *D_800E2208;
 
+typedef struct RenderDampedSpark {
+    s16 x, y, z;
+    s16 vx, vy, vz;
+} RenderDampedSpark;
+
+typedef struct RenderSparkEmitter {
+    GteShortVector position;
+    int phase;
+} RenderSparkEmitter;
+
+PE1_STATIC_ASSERT(sizeof(RenderDampedSpark) == 0xC, render_damped_spark_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderDampedSpark, vx) == 6,
+                  render_damped_spark_velocity);
+PE1_STATIC_ASSERT(sizeof(RenderSparkEmitter) == 0xC, render_spark_emitter_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSparkEmitter, phase) == 8,
+                  render_spark_emitter_phase);
+int func_800D9554(int mode, RenderDampedSpark *state);
+int func_800D96F4(int mode, RenderSparkEmitter *state);
+void func_800D1DEC(void *position, void *color, int scale, int flags);
+extern u8 D_800E1AC8[];
+
 typedef struct RenderArcingEffect {
     s16 x, y, z;
     s16 velocity_y;
@@ -223,6 +244,7 @@ typedef struct RenderColor {
 
 extern RenderColor D_800C22DC;
 extern RenderColor D_800C22E0;
+extern RenderColor D_800C22E4;
 
 PE1_STATIC_ASSERT(sizeof(RenderColor) == 4, render_color_size);
 
