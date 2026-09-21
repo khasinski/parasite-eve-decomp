@@ -11,6 +11,8 @@ typedef unsigned int Pe1U32;
  * padding keeps the observed retail offsets stable while the remaining
  * substructures are reconstructed.
  */
+struct SceneAssetBlob;
+
 typedef struct Pe1GameState {
     Pe1U32 flags;                    /* 0x000 */
     Pe1U8 unk_004[0x08];
@@ -27,7 +29,8 @@ typedef struct Pe1GameState {
     Pe1U32 voice_bank_base;          /* 0x150 */
     Pe1U32 voice_bank_base_1400;     /* 0x154 */
     Pe1U32 voice_bank_base_2800;     /* 0x158 */
-    Pe1U8 unk_15c[0x34];
+    Pe1U8 unk_15c[0x30];
+    struct SceneAssetBlob *loaded_scene_assets; /* 0x18C */
 } Pe1GameState;
 
 extern Pe1GameState g_GameState;

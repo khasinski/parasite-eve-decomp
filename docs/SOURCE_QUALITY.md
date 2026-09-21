@@ -4261,3 +4261,47 @@ explicitly so the debt scanner counts both, `make -j8 verify` and the narrow
 byte comparison pass again. All 191 rebuilt overlays match retail.
 The audited report credits 2484468 semantic code bytes and 10724 functions.
 The dirty-file count is 2280; pins, NOPs and instruction-ASM counts are unchanged.
+
+### Scene asset unload callbacks and directory layout
+
+`Asset_UnloadTableEntries` is 484 exact code bytes with stock native GCC
+2.7.2, the standard -fno-force-mem option and unmodified MASPSX. The default
+flag profile differs by one commutative pointer-add operand order. No pins,
+empty barriers, NOPs or instruction ASM are introduced.
+
+The shared scene_assets.h header identifies the handler's unload callback
+at 0x18, 12-byte records with a handler byte at offset 7, and the directory
+word containing a 22-bit blob-relative byte offset and 10-bit record count.
+Pe1GameState now names its loaded_scene_assets pointer at 0x18C, preserving
+the prior layout. This resolves to the existing g_LoadedSceneAssetBlock
+address (0x800B0E64), also used by Boot_InitMemoryLayout and Asset_Find08w.
+The 104-entry object table uses its existing D_800E1044 name, already read
+by func_800CE49C; this routine clears entries 30..103.
+
+When the scene-loaded flag is set, callbacks run for handler slots 0..7,
+then slot 85, then eligible IDs 8..84 encountered in the scene records.
+The loaded blob is captured after the first nine callback opportunities.
+Each record iteration reloads its count, while its original record base and
+directory pointers remain captured across callbacks. Handler-table loads
+also remain fresh. The flag is cleared after callbacks. Independently of
+the flag, slots 8..84 of the current handler table and object slots 30..103
+are cleared; the other slots are retained.
+
+50000 ASan/UBSan model cases compare callback order and callback-time state
+snapshots as well as final flags, complete tables, blobs and return values.
+They cover absent handlers/callbacks, invalid record IDs, counts 0..16,
+25 callbacks, table and blob swaps, callback changes to directory counts
+and offsets, and retained table ranges. The model uses integer table IDs
+and array indices independently of the production pointer traversal. Host
+fixtures use allocated serialized blobs; only target-layout assertions are
+disabled. Evidence: /tmp/pe-unload-assets/ (check.py, test.c and logs).
+
+Two blob-relative byte-address calculations are recorded in the existing
+byte_pointer_arithmetic baseline (main: 328 -> 330); these decode serialized
+offsets rather than bypassing the reconstructed record/handler layouts.
+`make -j8 verify-clean` passes all 341 tests and main retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays match their retail SHA-1.
+The audited report credits 2484952 semantic code bytes and 10725 functions.
+Compiler-crutch counts are unchanged; the two serialized-offset operations
+increase the dirty-file count to 2281.
