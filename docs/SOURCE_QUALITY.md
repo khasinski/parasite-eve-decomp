@@ -4038,3 +4038,25 @@ ABI assertions are disabled only for the host harness. Evidence:
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`,
 including the existing equip-list and battle-state initialization functions.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Escape probability
+
+`Battle_RollEscapeChance` is 744 exact code bytes plus its 20-byte switch
+table, compiled with stock native GCC 2.7.2 and unmodified MASPSX. It uses
+existing BattleEntity, EnemyCombatant and Combatant layouts, with no pins,
+barriers, instruction ASM or added debt. Enemy hpAlive is a signed word;
+player HP comparisons explicitly use signed halfwords. The probability is
+signed eight-bit, including wraparound after multipliers. The player pointer
+is reloaded after the metadata-window callback before incrementing attempts.
+
+100000 ASan/UBSan model cases cover list filtering, signed ranks, escape
+blocking, HP thresholds, all attempt values, probability wraparound, both
+message windows and callback redirection of the player pointer. The model
+uses explicit integer narrowing and compares return values, state and call
+counts. Narrow comparison confirms both code and jump-table bytes against
+retail. Local evidence: /tmp/pe-escape/ (check.py, test.c, acceptance logs).
+
+Clean acceptance passes all 341 tool tests and the unchanged main SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match
+retail. The audited report credits 2479756 semantic code bytes and 10718
+functions; debt counts remain unchanged.
