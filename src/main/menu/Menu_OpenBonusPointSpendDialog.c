@@ -3,7 +3,7 @@
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/inventory.h"
-#include "pe1/menu_widget.h"
+#include "pe1/menu_inventory.h"
 
 extern s32 g_BonusPointDisplayValue;
 extern s32 g_MenuSpendArrowDirection;
@@ -19,7 +19,7 @@ s32 Inv_RestoreSelection(u32 index);
 void Menu_DrawBonusPointSpendPanel(void);
 s32 Spend_BonusPoints(s32);
 
-void Menu_OpenBonusPointSpendDialog(s32 arg0, s32 arg1) {
+void Menu_OpenBonusPointSpendDialog(MenuWidgetNode *arg0, s32 arg1) {
     MenuWidgetNode *node;
     InvItemSlot *record;
 

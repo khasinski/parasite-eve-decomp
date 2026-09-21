@@ -4305,3 +4305,51 @@ All 191 rebuilt overlays match their retail SHA-1.
 The audited report credits 2484952 semantic code bytes and 10725 functions.
 Compiler-crutch counts are unchanged; the two serialized-offset operations
 increase the dirty-file count to 2281.
+
+### Stat-slot input and list navigation widgets
+
+`Menu_StatSlotInputHandler` (396 bytes) and `Menu_StepListNavigate` (384 bytes)
+are exact with stock native GCC 2.7.2 and unmodified MASPSX. Both are semantic
+C without pins, barriers, NOPs, instruction ASM or new debt. The former uses
+the existing g_MenuItemUseMode alias and MenuWidgetNode layout. Its choice of
+176/162/156 as a target X coordinate is expressed directly as a conditional
+expression, keeping the shared offset across subsequent callback calls.
+
+The stat handler always obtains child zero first. Input bit 0x4000 takes
+precedence over 0x10000 and 0x40: it resets/selects the stat list and aligns
+three panels with one captured displacement. Confirmation opens the spend
+dialog at grid index + 5; cancellation invokes the existing cleanup callback.
+Shared menu declarations now describe the called interfaces. The dialog's
+first parameter is corrected from an integer to MenuWidgetNode *, matching
+its use as the parent argument to MenuWidget_CreateSimpleNode.
+
+The mode-3 navigation widget has a list pointer at 0x34, where ordinary grid
+widgets store a width. MenuWidgetListNavigation provides this typed view and
+asserts the list/flags offsets. Draw_SwapPrimBuffers's retail constructor
+stores the managed node at 0x34 and copies its layout flags to 0x40; the new
+navigation function consumes precisely those fields. The typed view avoids
+routing a host pointer through the grid_width integer.
+
+Navigation prioritizes 0x1004 over 0x4008, waits while scroll_adjust is nonzero,
+and applies the original lower-bound/upper-bound clamp order. The managed
+list's 0x40 value supplies signed half-speed, rounded toward zero. Sound is
+played only when the scroll position changes. Navigation keys are handled
+even without movement; otherwise flag 0x40 controls input propagation.
+
+100000 stat-handler ASan/UBSan cases compare complete callback traces,
+callback-time field snapshots, cursor state, positions and dialog indices.
+They include all three-action priority combinations, all target X choices
+and callbacks changing the mode, popup and panel position. A separate 262144
+navigation-case model covers every low-16 input mask, preexisting animation,
+negative/positive steps and speeds, clamp ordering (including inverted
+limits), return values and sound callbacks changing state. The navigation
+model uses wider arithmetic and explicit signed half-speed rounding; the
+stat model uses a panel array instead of repeated calls. Only target-layout
+assertions are disabled for the host. Evidence: /tmp/pe-stat-slot/ and
+/tmp/pe-list-nav/ (check.py, test.c and acceptance logs).
+
+`make -j8 verify-clean` passes all 341 tests and main retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays match their retail SHA-1.
+The audited report credits 2485732 semantic code bytes and 10727 functions
+(70.01% of code). All debt counters and the 2281 dirty-file count are unchanged.

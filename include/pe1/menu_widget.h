@@ -58,6 +58,21 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, aux_index) == 0x70,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, popup_node) == 0x80,
                   menu_widget_popup_node_offset);
 
+/* Mode-3 list navigator: +0x34 is a managed-list pointer, whereas ordinary
+ * grid widgets store grid_width there. The rest of this prefix is shared. */
+typedef struct MenuWidgetListNavigation {
+    u8 widgetPrefix[0x34];
+    MenuWidgetNode *list;
+    int visibleRows;
+    int drawState;
+    unsigned int flags;
+} MenuWidgetListNavigation;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetListNavigation, list) == 0x34,
+                  menu_list_navigation_list_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetListNavigation, flags) == 0x40,
+                  menu_list_navigation_flags_offset);
+
 typedef struct MenuWidgetSimpleDescriptor {
 /* 0x00 */ s32 x;      /* zero requests horizontal centering */
 /* 0x04 */ s32 y;      /* when x is zero, nonzero selects the upper anchor */

@@ -45,4 +45,14 @@ void Menu_CopyPromptCodes(u8 *source);
 void Menu_SetActionSubmenuSelection(int value);
 void MenuWidget_SetColumnLayoutMode(int mode);
 
+extern int g_MenuItemUseMode;
+void MenuWidget_ClampScroll(MenuWidgetNode *node);
+void MenuWidget_OffsetPosition(MenuWidgetNode *node, int dx, int dy);
+void MenuWidget_ClearCursorY(MenuWidgetNode *node);
+void Menu_OpenBonusPointSpendDialog(MenuWidgetNode *node, int stat);
+void Menu_PlayConfirmSound(void);
+void func_800490B0(void);
+int Menu_StatSlotInputHandler(MenuWidgetNode *node, unsigned int flags);
+int Menu_StepListNavigate(MenuWidgetListNavigation *node, unsigned int flags);
+
 #endif
