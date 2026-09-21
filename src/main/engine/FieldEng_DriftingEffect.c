@@ -1,6 +1,8 @@
 #include "pe1/render_object.h"
 #include "pe1/random.h"
 #include "pe1/psyq_gpu.h"
+#include "pe1/battle_runtime.h"
+#include "pe1/field_anim.h"
 
 int FieldEng_DriftingEffect(int mode, GteShortVector *position) {
     RenderColor color;
@@ -27,6 +29,41 @@ int FieldEng_DriftingEffect(int mode, GteShortVector *position) {
             palette += 4;
         func_800CEE20(position, &rotation, scale, scale, 130,
                       GetClut(48, palette), 1, 128, &color);
+        break;
+    }
+    return 0;
+}
+
+int func_800DCA80(int mode, GteShortVector *state)
+{
+    GteShortVector *particle;
+    switch (mode) {
+    case 0:
+        func_800CE870((char *)D_8009D254, 1, &state->x);
+        return func_800CE560(D_800F33E0->end, 8, 20,
+                            (FieldAnimTaskCallback)FieldEng_DriftingEffect);
+    case 1:
+        if (D_800E27EC < 33 && (D_800E27EC & 1)) {
+            particle = func_800CE610(D_800F33E0->end);
+            if (particle) {
+                particle->x = state->x + rand() % 800 - 400;
+                particle->y = state->y + rand() % 400 - 700;
+                particle->z = state->z + rand() % 800 - 400;
+            }
+        }
+        if (D_800E27EC >= 60) return 1;
+        break;
+    case 2:
+        D_800F3368.parameter00 = 32;
+        D_800F3368.parameter02 = 2;
+        D_800F3368.extent_x = 32;
+        D_800F3368.extent_y = 32;
+        D_800F3368.tpage = D_800E2850[D_800E11E6];
+        D_800F3368.palette = 1;
+        func_800CEDA8(1);
+        D_800F3368.parameter06 = 0;
+        D_800F3368.parameter0A = 0;
+        D_800F3368.depth = 16;
         break;
     }
     return 0;

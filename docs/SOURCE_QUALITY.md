@@ -1807,3 +1807,33 @@ in `/tmp/pe-radial-flash/` (`check.py`, `test.c`).
 without a baseline change. Main retains SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Drifting particle emitter reconstruction
+
+`func_800DCA80` matches all 588 retail bytes with stock GCC 2.7.2 and
+unchanged MASPSX. It joins the contiguous `FieldEng_DriftingEffect` callback
+in its existing unit; all 956 bytes of the combined unit match retail.
+The relationship follows the emitter's actual callback pointer and shared
+eight-byte `GteShortVector` payload, without claiming an original TU boundary.
+This is game code, not Psy-Q. No pins, barriers, volatile accesses, NOPs,
+instruction ASM or other ratcheted debt are added.
+
+Initialization captures position through `func_800CE870` and allocates twenty
+eight-byte particles. Updates emit on odd ages below 33, with independent
+X/Z offsets `rand()%800-400` and Y offset `rand()%400-700`, and finish at age
+60. Signed remainder behavior is preserved. Rendering configures the selected
+texture, 32-unit extents and depth 16. Particle padding remains untouched.
+
+The production unit passes 94792 ASan/UBSan host cases covering captured
+coordinates, callback/stride/count, allocation failures, odd/even ages and
+lifetime cutoffs, signed random extremes, short-coordinate wraparound,
+preserved padding, texture setup and inactive modes. Host checks assert the
+eight-byte payload while suppressing unrelated target layout assertions.
+The independent linked comparison verifies the entire combined unit against
+retail executable bytes. Scratch proof is in `/tmp/pe-drifting-emitter/`
+(`check.py`, `test.c`), with the standalone function check also retained.
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates
+without a baseline change. Main retains SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

@@ -302,6 +302,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
                    int scale_x, int scale_y, int texture, int clut,
                    int page, int intensity, RenderColor *color);
 int FieldEng_DriftingEffect(int mode, GteShortVector *position);
+int func_800DCA80(int mode, GteShortVector *position);
 int func_800D7E78(int mode, GteShortVector *state);
 
 void FieldEng_RotateVector(const GteMatrixWords *matrix,
