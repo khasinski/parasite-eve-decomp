@@ -23,6 +23,7 @@ PE1_STATIC_ASSERT(sizeof(RenderPackedGeometry) == 16,
 void FieldEng_TransformPackedVertex(RenderPackedGeometry *geometry,
                                    GteMatrix *matrix, u16 index,
                                    GteShortVector *out);
+void func_800CFB7C(GteShortVector *angles, int distance, GteShortVector *out);
 void FieldEng_CalculateLookAngles(GteShortVector *from, GteShortVector *to,
                                  GteShortVector *out);
 

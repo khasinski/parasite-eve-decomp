@@ -2334,3 +2334,48 @@ all 340 tests and source/organization/debt gates. The final TU remains an
 exact 668-byte match. Main retains SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, and all 191 rebuilt overlays retain
 their retail SHA-1 values.
+
+### Rotation-derived offset with GTE restoration
+
+`func_800CFB7C` in `FieldEng_RotationOffset.c` matches all 376 retail bytes
+with native stock GCC 2.7.2 and unmodified MASPSX. It copies the vector at
+`D_800C2260`, saves the current matrix pointer, zeros the caller's Z angle,
+and builds a local YXZ rotation matrix from the three angle halfwords. GTE
+uses that rotation with zero translation to transform the copied vector whose
+Z component is replaced by the requested distance. The function restores all
+eight GTE control words from the saved matrix pointer before narrowing MAC
+results into the output vector. The saved pointer is captured before the call,
+but its matrix contents are read when restoring; it is not a value snapshot.
+
+The shared GTE header now gives `RotMatrixYXZ` its implemented return and
+argument types: `GteMatrix *(GteShortVector *, GteMatrix *)`. Four existing
+main callers drop conflicting file-local void declarations and explicitly
+convert their compatible rotation/matrix views. The exact main executable
+check verifies those caller updates introduce no instruction changes.
+
+Subset searches reduced the initial nine pins to six and four empty barriers
+to three. The retained pins are `$5` for argument staging, `$16` and `$19` for
+local/saved matrices, and `$12`..`$14` for GTE transfers. Empty barriers retain
+argument lifetimes, delay local matrix register setup, and preserve matrix-
+relative loads. All inputs are initialized; the `$16` clobber precedes that
+variable's initialization. The reviewed main debt baseline increases pins
+1018 to 1024 and barriers 894 to 897. GTE operations and the two transfer
+hazard NOPs use existing individual macros, with no CPU instruction block,
+new toolchain flag or modified compiler/assembler.
+
+181074 ASan/UBSan host cases cover every signed-halfword distance, sampled
+32-bit distances including INT32_MIN/MAX, vector aliasing, signed narrowing,
+and exact GTE operation order. Hooks verify the angle Z mutation precedes
+`RotMatrixYXZ`, the input vector was copied beforehand, zero translation is
+loaded, the original matrix pointer is used even if the call changes the
+global slot, and late changes to the original matrix are restored. They also
+check that computed-result stores follow the final restore; the initial Z
+mutation remains visible when input and output alias. Host adaptation removes
+hard-register annotations and the architecture-specific clobber, retains
+empty barriers, and replaces GTE instructions with trace hooks. These tests
+check the caller contract, not trigonometry or GTE timing. Evidence lives in
+`/tmp/pe-rotation-offset/` (`check.py`, `test.c`, pin/barrier search scripts).
+
+`make verify-clean` passes all 340 tests and source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

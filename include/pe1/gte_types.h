@@ -35,6 +35,8 @@ typedef struct GteVector {
     s32 x, y, z, pad;
 } GteVector;
 
+GteMatrix *RotMatrixYXZ(GteShortVector *angles, GteMatrix *matrix);
+
 GteShortVector *ApplyMatrixSV(const GteMatrix *matrix,
                             const GteShortVector *v, GteShortVector *out);
 void LoadAverageShort12(void *first, void *second, int first_scale,

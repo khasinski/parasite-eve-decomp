@@ -1,6 +1,5 @@
 #include "common.h"
 #include "pe1/render_object.h"
-void RotMatrixYXZ();
 
 void Anim_DecodeBoneRotationsShort(RenderObjectEntity *arg0, RenderAnimationDataHeader *arg1, s16 arg2) {
     register u16 *var_s2 asm("$18");
@@ -76,7 +75,7 @@ void Anim_DecodeBoneRotationsShort(RenderObjectEntity *arg0, RenderAnimationData
             }
             var_s1[0] = var_v0_4;
             __asm__ volatile("");
-            RotMatrixYXZ(var_s2, var_s4);
+            RotMatrixYXZ((GteShortVector *)var_s2, (GteMatrix *)var_s4);
             var_s4 += 0x20;
             var_s1 += 4;
             temp_v0_2 = var_s3 + 1;

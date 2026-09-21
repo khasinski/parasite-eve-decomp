@@ -1,6 +1,5 @@
 #include "common.h"
 #include "pe1/render_object.h"
-void RotMatrixYXZ(void *rot, void *matrix);
 
 #define UH(ptr, off) (*(u16 *)((char *)(ptr) + (off)))
 #define UB(ptr, off) (*(u8 *)((char *)(ptr) + (off)))
@@ -66,7 +65,7 @@ void Anim_BuildRotationMatrices(char *obj, RenderAnimationDataHeader *data, int 
             APPLY_COMPONENT(s0, count, scratch, 4, 0xA4, 0x20, 0x04);
             rot = (char *)((u32)scratch | (count << 3));
             mat_base = (char *)((RenderObjectEntity *)s1)->active_matrix;
-            RotMatrixYXZ(rot, mat_base + (count << 5));
+            RotMatrixYXZ((GteShortVector *)rot, (GteMatrix *)(mat_base + (count << 5)));
         }
         s0 += 8;
     } while ((s32)s0 < (s32)(s1 + 0x10));
