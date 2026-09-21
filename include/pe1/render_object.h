@@ -46,6 +46,9 @@ typedef struct RenderCosineEffect {
 } RenderCosineEffect;
 
 PE1_STATIC_ASSERT(sizeof(RenderCosineEffect) == 8, render_cosine_effect_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderCosineEffect, duration) == 6,
+                  render_cosine_effect_duration);
+int func_800D5898(int mode, RenderCosineEffect *state);
 
 /* Observed halfword parameter block at 0x800F3368. Individual legacy
  * declarations still exist in other units; this declaration owns no storage. */
@@ -254,6 +257,8 @@ int FieldEng_RotatingEffect(int mode);
 typedef struct RenderColor {
     u8 r, g, b, code;
 } RenderColor;
+
+extern RenderColor D_800C22C0;
 
 typedef struct RenderDiamondEmitter {
     GteShortVector position;

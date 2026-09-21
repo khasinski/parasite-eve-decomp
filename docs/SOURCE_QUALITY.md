@@ -2133,3 +2133,40 @@ SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values, including the
 three users of the corrected room-renderer declaration. Debt counts remain
 unchanged.
+
+### Cosine pulse callback
+
+`func_800D5898` in `FieldEng_CosinePulse.c` matches all 360 retail bytes using
+unchanged stock GCC 2.7.2 and MASPSX. Mode 1 scales the initial amplitude by
+`rcos((age << 10) / duration) / 4096` and ends when age reaches duration.
+Mode 2 draws with the stored radial position, the second coordinate/angle,
+a local copy of `D_800C22C0`, and cosine-derived scale `/64 + 64`.
+The eight-byte state reuses `RenderCosineEffect`; its duration offset +6 is
+now asserted. The following emitter allocates 24 entries with stride 8 and
+passes this callback, confirming its state size. The draw routine rotates the
+first argument around Z by the second; the existing generic x/y member names
+are retained. No original TU boundary is inferred from this function split.
+
+There are no pins, barriers, volatile scheduling accesses, inline ASM, or
+compiler flag overrides in this source. The existing `--expand-div` MASPSX
+option restores the retail divide-by-zero and signed-division-overflow checks
+for both variable divisions; MASPSX itself is unchanged. The color struct's
+byte alignment also reproduces the original unaligned four-byte copy.
+
+400001 ASan/UBSan host cases cover lifecycle and unsupported modes, all
+cosine results from -4096 through 4096 plus repeated sampled values, signed
+halfword state values, duration boundaries, and the draw arguments. A 64-bit
+reference checks arithmetic and truncation. Tests use nonnegative ages up to
+0x1FFFFF and nonzero signed durations, avoiding C division/shift undefined
+behavior; real emission initializes duration to 12..15. The draw hook verifies
+that color was copied before the trigonometric call by having that call mutate
+the source global. This checks the callback contract, not the implementation
+of cosine or rendering. Evidence is under `/tmp/pe-cosine-ring/` (`check.py`,
+`test.c`). The neighboring emitter remains an unaccepted candidate with three
+register-operand differences; it is not included in progress.
+
+`make verify-clean` passes all 340 tests. The final source also passes the
+source, organization and debt gates and the rebuilt main checksum:
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values. Debt counts remain
+unchanged.
