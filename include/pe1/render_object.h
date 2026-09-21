@@ -189,6 +189,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderArcingEffect, velocity_y) == 6,
 int func_800D7A1C(int mode, RenderArcingEffect *state);
 int func_800D9E5C(int mode, RenderArcingEffect *state);
 int func_800DA780(int mode, RenderArcingEffect *state);
+int func_800DA934(int mode, GteShortVector *state);
 int func_800D9FD4(int mode, GteShortVector *state);
 extern u8 D_800E18C0[];
 

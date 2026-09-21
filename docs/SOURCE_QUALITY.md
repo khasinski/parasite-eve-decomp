@@ -1585,3 +1585,41 @@ byte comparison are in `/tmp/pe-rotating-ballistic/`.
 `make verify-clean` passes all 340 tests and the source, organization and
 debt gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays preserve their retail SHA-1 values as well.
+
+### Rotating ballistic sprite emitter reconstruction
+
+`func_800DA934` now shares `FieldEng_RotatingBallisticSprite.c` with its
+callback `func_800DA780`. The emitter matches 612 retail bytes; the complete
+unit matches 1048 bytes using stock GCC 2.7.2 and unchanged MASPSX.
+Initialization captures the active owner's actor target XYZ, replaces Y with
+`D_800942EC`, and allocates twelve eight-byte particles. The existing owner
+prefix and `FieldActor` target fields supply the offsets; no duplicate
+structure or original-TU claim is introduced.
+
+Updates attempt emission on odd ages below 40 and complete at age 70.
+Successful allocations jitter X/Z by signed `rand() % 400 - 200`, lower Y
+by 800, and choose upward velocity 42 through 49. Drawing installs 32-unit
+render parameters, uploads the texture and sets depth to 32.
+
+The emitter adds one register pin for the stride argument (`$5`) and one
+empty memory barrier. The pin prepares the argument before the position
+loads; the barrier consumes the task-slot pointer and preserves the retail
+ordering of target-Z storage and the height override. Three exploratory
+pointer pins were removed. There are no CPU instruction bodies, volatile
+accesses, NOPs, EABI or compiler/assembler changes. These two constraints
+are counted in the debt baseline under the user's permission for documented
+pins and empty barriers.
+
+The combined production unit passes 134622 ASan/UBSan cases, including the
+callback's existing checks, position capture across signed-short extremes,
+allocation failure/success, emission and lifetime boundaries, signed random
+modulo, all velocity masks, texture upload parameters, unchanged state and
+inactive modes. Mocks verify allocation stride, count and callback identity.
+Host compilation removes the target register annotation/empty barrier and
+unrelated target layout assertions; the particle's eight-byte size is checked.
+The linked target check verifies all 1048 bytes. Proof is under
+`/tmp/pe-rotating-emitter/` (`production-check.py`, `test.c`).
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
