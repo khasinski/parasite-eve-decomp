@@ -1,26 +1,18 @@
-int Inv_IsAyaInventorySlotReserved(void *arg0);
-int Inv_TestSelectionBit(void *arg0);
-void *Inv_GetWayneListItemByIndex(void);
-void Sfx_DrawActiveListSlot(void *arg0);
-void Draw_SetTextDimmed(int arg0);
-void Draw_DropShadow(void);
+#include "pe1/inventory.h"
+#include "pe1/menu_item_rows.h"
 
-void Menu_DrawArmorItemDetail(void);
+void Menu_DrawInventoryItemRow(int index) {
+    int slot = Inv_GetWayneListItemByIndex(index);
 
-void MenuWidget_DrawCenteredTableText(int arg0);
-
-void Menu_DrawInventoryItemRow(void) {
-    void *obj = Inv_GetWayneListItemByIndex();
-
-    Draw_SetTextDimmed(Inv_TestSelectionBit(obj) == 0);
-    Sfx_DrawActiveListSlot(obj);
-    if (Inv_IsAyaInventorySlotReserved(obj) != 0) {
+    Draw_SetTextDimmed(Inv_TestSelectionBit(slot) == 0);
+    Sfx_DrawActiveListSlot(slot);
+    if (Inv_IsAyaInventorySlotReserved(slot) != 0) {
         Draw_DropShadow();
     }
 }
 
-void Menu_DrawArmorItemRow(void) {
-    Menu_DrawArmorItemDetail();
+void Menu_DrawArmorItemRow(int index) {
+    Menu_DrawArmorItemDetail(index);
 }
 
 void Menu_DrawBattleCommandItem(int arg0) {

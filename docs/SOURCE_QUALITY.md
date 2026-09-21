@@ -2849,3 +2849,62 @@ assertions are disabled on the 64-bit host. Evidence:
 `make verify-clean` passes all 341 tests and source, organization and debt
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Inventory/storage exchange and explicit row-index forwarding
+
+`Inv_RebuildWithSlotLimit` matches all 1352 retail bytes at 0x80058FEC with
+stock native GCC 2.7.2 and unmodified MASPSX (`-G8`). Its inherited name is
+retained; the observed routine exchanges inventory/storage entries. It selects
+Aya's list first. Equal mode-0x34 endpoints exchange raw storage entries; equal
+mode-0x33 endpoints resolve the filtered slots, exchange Aya entries, and update
+both tracked equipped-slot bytes independently. Mixed paths check the Aya slot
+with `Inv_IsSlotEquipped` and reject storage-record kinds 19..21, then set the
+swap-return flag and rebuild the list. Failure returns zero without exchanging
+entries or rebuilding. The two conditional record lookups remain separate:
+callbacks may change the record before the second kind test.
+
+The three XOR assignments are intentional retail behavior, including clearing
+a slot when both addresses are identical. They are not replaced by an ordinary
+temporary-value swap. Filtered indices outside the valid range resolve to slot
+zero; raw storage indices and record dereferences retain their retail validity
+preconditions. A callback that changes the active-list pointer during the initial
+slot-limit query is respected by subsequent accesses.
+
+The function joins its two physically adjacent helpers in `Inv_InventorySwap.c`:
+`Inv_GetWayneListItemByIndex` (60 bytes) and `Inv_IsSlotEquipped` (424 bytes).
+The entire 0x80058E08..0x80059534 range matches all 1836 bytes and preserves
+all entry addresses. The swap's ordinary local copies in `SwapAyaSlots` suffice
+for the retail register assignment. All experimental register pins and empty
+barriers were removed from the new function; even ordinary `register` keywords
+were removed. The existing eligibility helper's one empty barrier is unchanged.
+Pins, barriers, NOPs, ASM aliases and pointer/integer casts do not increase.
+The shared inventory header replaces two file-local extern declarations.
+
+Canonicalizing the filtered-slot getter exposed a real source-level omission
+in `menu_draw.c`: it declared a zero-argument pointer-returning getter and
+relied on the incoming row index remaining in a0. `Menu_DrawInventoryItemRow`
+now takes the index explicitly, passes it to the getter, and uses its integer
+slot result for selection, rendering and equipped-slot queries. The armor-row
+adapter similarly forwards its index explicitly. `Menu_DrawWeaponList.c` uses
+the correct `void (*)(int)` callback signatures and a widget pointer through
+the shared item-row header. The retail renderer passes the calculated row index
+in a0 at 0x8006361C..0x80063620. These are argument/type repairs, not additional
+newly decompiled functions; their byte identity is checked by the full main SHA.
+
+207618 ASan/UBSan swap cases cover all kind bytes, both mode-0x33/0x34 paths,
+all pairs of eight slot positions, matching addresses, signed tracked-slot
+boundaries, rejected eligibility, filtered-index fallbacks, active-list mutation,
+and a record-kind change between the two lookup calls. The resolver is separately
+exercised on all 65536 halfword IDs. The merged eligibility helper passes its
+previous 1050368 cases. Another 327680 host cases pass every signed-halfword
+row index through the actual weapon/armor list adapters and row callbacks,
+checking the mapped integer slot and dimming/render/shadow call order. Host
+fixtures extract or include production function bodies unchanged and disable
+only target-layout assertions. Evidence: `/tmp/pe-inventory-swap/`
+(`check-unit.py`, `test.c`, `test-rows.c`, plain-source and constraint-removal
+trials) and `/tmp/pe-slot-equipped/` with its regenerated production excerpt.
+
+`make verify-clean` passes all 341 tests and source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including
+the explicit row-index forwarding repairs.
+All 191 rebuilt overlays retain their retail SHA-1 values.

@@ -13,6 +13,7 @@ int Menu_InventoryNavigate(MenuWidgetNode *current, MenuWidgetNode *node,
                            u32 flags);
 void Menu_CreateBonusPointAllocationView(void);
 void Menu_PlayCancelSound(void);
+void Menu_SetSwapReturnFlag(void);
 void Menu_PlayMoveSound(void);
 
 extern int D_8009CF18, D_8009CFB0;

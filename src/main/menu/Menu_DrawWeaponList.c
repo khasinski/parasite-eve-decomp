@@ -1,17 +1,12 @@
-void Menu_DrawInventoryItemRow(void);
-void Inv_SelectActiveList(int useOverride);
-void MenuWidget_DrawList(int arg0, void (*callback)(void));
+#include "pe1/menu_item_rows.h"
+#include "pe1/battle_modifiers.h"
 
-void Menu_DrawWeaponList(int arg0) {
+void Menu_DrawWeaponList(MenuWidgetNode *node) {
     Inv_SelectActiveList(0);
-    MenuWidget_DrawList(arg0, Menu_DrawInventoryItemRow);
+    MenuWidget_DrawList(node, Menu_DrawInventoryItemRow);
 }
 
-void Menu_DrawArmorItemRow(void);
-void Inv_SelectActiveList(int useOverride);
-void MenuWidget_DrawList(int arg0, void (*callback)(void));
-
-void Menu_DrawArmorList(int arg0) {
+void Menu_DrawArmorList(MenuWidgetNode *node) {
     Inv_SelectActiveList(1);
-    MenuWidget_DrawList(arg0, Menu_DrawArmorItemRow);
+    MenuWidget_DrawList(node, Menu_DrawArmorItemRow);
 }

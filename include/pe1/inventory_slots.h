@@ -20,6 +20,9 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(InventoryRuntime, equipment) == 0x8C,
                   inventory_runtime_equipment_offset);
 extern InventoryRuntime D_800C0E20;
 extern s32 D_8009D040;
+extern s32 D_8009D044;
+extern s16 D_800A1E00[];
+extern s16 *D_8009D07C;
 extern s16 D_800A1D9C[];
 extern u8 D_8009DE64[];
 void Inv_SetActiveList(int mode, int *slot);
