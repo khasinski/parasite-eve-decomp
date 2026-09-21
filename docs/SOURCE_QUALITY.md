@@ -3456,3 +3456,41 @@ gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 The subsequent caller-only prototype correction passes `make -j8 verify`
 again (341 tests and unchanged main SHA-1).
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Transferring pending item IDs (0x80058454)
+
+`Inv_TransferItemAlt` matches all 540 retail bytes with stock native GCC 2.7.2
+and unmodified MASPSX, with no pins, barriers, instruction ASM or new flags.
+It selects Aya's list, then walks the pending halfword IDs at D_800A1FD4 using
+the current count at D_8009D078. It resolves each ID through the typed base,
+equipment or ammunition records. The second kind comparison performs another
+lookup: callback changes must not be hidden by caching the first pointer or
+kind. Kinds passing both comparisons use Inv_CanAddActiveListItemToAya; a
+zero result clears the pending entry. Otherwise IDs below 512 are inserted
+into the first empty active slot and cleared from the pending list. IDs of
+512 or above outside that kind path remain pending. The active pointer/limit
+and pending count are observed again after callbacks, and the function always
+finishes with Inv_RebuildSelectableMask.
+
+Canonical declarations live in inventory.h and inventory_slots.h; the menu
+caller drops its local extern declaration. Typed record lookup and the free
+slot search already established by adjacent inventory work suffice for the
+match. This retains the existing split boundary rather than asserting a
+recovered original object boundary.
+
+93440 ASan/UBSan model cases include the production source unchanged (only
+target ABI assertions disabled). They cover all 256 kinds, pending counts
+0..10 and -1, list capacities 0..50, equipment/base/ammunition IDs, and callback
+changes to kinds, pointers, limits, counts and pending entries. They compare
+complete list/record state, callback counts and an ordered call trace, plus
+final selection state after the rebuild callback. Pending IDs must resolve
+to non-null records whenever visited; invalid IDs, null base results and
+malformed pointer ranges are outside the contract because retail dereferences
+the lookup result directly. Callback-mutated counts must stay within the
+pending allocation. Fixture size 10 does not establish a global array bound.
+Evidence: /tmp/pe-transfer-active-list/ (check.py, test.c and acceptance logs).
+
+`make -j8 verify-clean` passes all 341 tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+The main local-extern debt baseline decreases from 3665 to 3664.
+All 191 rebuilt overlays retain their retail SHA-1 values.

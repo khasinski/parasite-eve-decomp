@@ -1,9 +1,9 @@
 
 #include "pe1/menu_widget.h"
+#include "pe1/inventory.h"
 
 int MenuWidget_GetChild(int *arg0, int arg1);
 int MenuWidget_GridCellIndex(MenuWidgetNode *ptr);
-extern void Inv_TransferItemAlt(void);
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 extern void Inv_ClearDisplaySlots(void);

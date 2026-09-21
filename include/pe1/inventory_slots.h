@@ -39,6 +39,9 @@ extern u32 *D_8009D058;
 extern s32 D_8009D064;
 extern s32 D_8009D06C;
 extern s32 D_8009D068;
+/* Pending item IDs and the current number to transfer. */
+extern s32 D_8009D078;
+extern s16 D_800A1FD4[];
 
 #define g_AyaInventoryItems D_800C0E48
 #define g_InvItemPtr D_8009D048
