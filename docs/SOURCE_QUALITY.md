@@ -1495,3 +1495,41 @@ comparison verify both layouts and all 1336 bytes. Scratch proof is in
 `make verify-clean` passes all 340 tests and the source, organization and
 updated-debt gates. The complete main image and all 191 rebuilt overlays
 preserve their retail SHA-1 values.
+
+
+### Ballistic sprite and emitter reconstruction
+
+`func_800D9E5C` and `func_800D9FD4` share `FieldEng_BallisticSprite.c` and
+match all 376 and 552 retail bytes respectively (928 together), using stock
+GCC 2.7.2 and unchanged MASPSX. The particle moves Y by its velocity, decreases
+that velocity by 2 before age 19, and completes at age 24. Drawing rotates
+around Y and draws texture 136 with fixed scale, sine-based intensity,
+CLUT X=96 and a null color pointer.
+
+The emitter captures the actor position, allocates twelve 8-byte particles,
+and attempts an emission on odd ages below 32. Successful allocations copy
+Y, jitter X/Z with signed `rand() % 400 - 200`, and choose initial vertical
+velocity -16 through -23. It completes at age 70. Drawing installs the
+32-unit render parameters and uploads the selected texture.
+
+The particle reuses the existing 8-byte `RenderArcingEffect` (XYZ and
+vertical velocity), whose assertions and the emitter's allocation stride
+agree. The emitter uses the existing short-vector view and does not modify
+its padding halfword. Original symbols remain; grouping this controller
+and callback makes no original-TU claim. This is game code, not Psy-Q.
+There are no new pins, barriers, NOPs, volatile accesses, instruction ASM,
+stack padding, EABI, compiler/assembler changes or other ratcheted debt.
+
+The production source passes 81487 ASan/UBSan host cases covering coordinate
+and velocity extremes, acceleration/lifetime cutoffs, signed sine outputs,
+every palette and both asset-flag states, allocation failure/success,
+negative and boundary random values for signed modulo, all velocity masks,
+position capture, parameter upload, unchanged fields and inactive modes.
+Mocks check callback identity and every draw argument, including the null
+color pointer. Only unrelated target assertions are suppressed for the host;
+the reused particle size is checked explicitly. Linked target comparison
+verifies all 928 bytes. Scratch proof is in `/tmp/pe-ballistic-sprite/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and
+debt gates without increasing the baseline. Main and all 191 rebuilt overlays
+preserve their retail SHA-1 values.
