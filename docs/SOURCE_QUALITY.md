@@ -2218,3 +2218,31 @@ Evidence is under `/tmp/pe-expanding-flash/` and `/tmp/pe-bouncing-sprite/`
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values. Debt counts remain
 unchanged.
+
+### Battle script entry dispatch
+
+`Battle_StepScriptEntry` matches all 344 retail bytes with native stock GCC
+2.7.2 and unmodified MASPSX. Its existing `-G2` small-data layout is reproduced
+with the compiler and assembler options; no register pins, barriers, inline
+ASM, volatile scheduling accesses or new declarations are needed. The source
+uses the existing `BattleInitSlot`, `BattleEntity` and `Combatant` fields.
+The manifest promotes the existing function range without claiming a newly
+established original object boundary.
+
+The dispatcher clears motion while a queued entry exists, waits until action
+mode 4, then selects player-turn, hit, phase, special-action or escape handling
+by the signed command halfword. The escape result is explicitly narrowed to a
+signed byte, as in retail. The special-action path rereads the entity pointer,
+queue index and flags after `Entity_SetActionMode`; caching those values across
+the call would change behavior.
+
+197633 ASan/UBSan host cases cover every signed command value, all byte-valued
+action modes and queue indices, exhausted queues, escape-result narrowing and
+callee mutations of the globals that must be reread. They test dispatch and
+state changes, not the called battle operations. Reproduction evidence lives
+under `/tmp/pe-battle-script/` (`check.py`, `test.c`).
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values. Debt counts remain
+unchanged.
