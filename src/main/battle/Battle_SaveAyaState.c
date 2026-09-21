@@ -1,4 +1,6 @@
 #include "common.h"
+#include "pe1/battle.h"
+#include "pe1/battle_modifiers.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -15,7 +17,6 @@ typedef struct {
 
 extern AyaBattleState D_80010928;
 extern BattleStateTail D_80010998;
-extern s32 g_BattleEquipStateBlock;
 extern s32 D_8009D1B4[];
 #define D_8009D1B4 (D_8009D1B4[0])
 extern BattleStateTail g_SavedBattleStateTail;
@@ -38,7 +39,7 @@ void Battle_SaveAyaState(void) {
     asm volatile("" ::: "memory");
     {
         volatile s32 *zeros = &state.zero0;
-        g_BattleEquipStateBlock = zeros[0];
+        g_BattleEquipStateBlock.parameterWord.raw = zeros[0];
         D_8009D1B4 = zeros[1];
     }
 }

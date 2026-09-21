@@ -3993,3 +3993,48 @@ cases pass with the revised shared header. Evidence: /tmp/pe-recalc-stats/.
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`,
 including the existing bonus-point input and stat-derivation consumers.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Packing equipped armor parameters (0x80051E64)
+
+`Inv_BuildArmorList` matches all 808 retail code bytes and its 68-byte
+compiler-generated jump table with stock native GCC 2.7.2 and unmodified
+MASPSX. The historical name is retained: the operation packs three armor
+parameters and effect flags rather than constructing a list. It selects
+Aya, resolves the tracked armor slot, combines base and signed bonus stats,
+and calls BattleCmd_LoadWeaponModifiers on both the present and absent paths.
+
+The first two sums are capped at 999, with no invented lower clamp, and
+stored modulo 1024. The third capped sum uses floor(sqrt(value * 3000))/10
+below 85 (zero for negative inputs), otherwise (value * 249 / 208 + 402)/10.
+The integer square-root loop is ordinary C and reproduces all instructions.
+Effect codes use the low five bits of each tail byte. Codes 8..10 replace
+the four-bit subgroup at bits 5..8, so the last such code wins; other known
+codes accumulate flags. Missing armor clears the three parameter fields
+while preserving the high reserved nibble.
+
+BattleParameterWord supplies both a raw word and unsigned 10/10/8/4-bit
+fields inside the existing eight-byte BattleAttributes layout. Field names
+remain positional because their gameplay meanings have not been established.
+The native object match verifies target bit ordering; host tests independently
+compare the raw masks. Existing offset-based consumers retain their layout.
+The previously scalar g_BattleEquipStateBlock is now consistently declared
+as the full BattleAttributes object in its two users. Its existing second-word
+view and matching constraints are retained. Shared declarations lower local
+extern debt by two. No new pins, barriers, instruction ASM, aliases, address
+casts, gotos or compiler flags are needed.
+
+100000 ASan/UBSan model cases cover every signed-halfword third bonus,
+negative and capped sums, the 84/85 boundary, every encoded effect byte,
+empty/full valid tails, both exclusive-effect orders, absent armor and
+callback mutations of the selected slot/output. The independent model uses
+binary search for square root and raw integer masks rather than bitfields.
+Full state and callback order/arguments are compared. Records and output
+have separate backing, and tailCount is bounded by the eleven-byte tail;
+unchecked retail behavior outside that domain is not claimed safe. Target
+ABI assertions are disabled only for the host harness. Evidence:
+/tmp/pe-armor-parameters/ (check.py, test.c and acceptance logs).
+
+`make -j8 verify-clean` passes all 341 tool tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`,
+including the existing equip-list and battle-state initialization functions.
+All 191 rebuilt overlays retain their retail SHA-1 values.

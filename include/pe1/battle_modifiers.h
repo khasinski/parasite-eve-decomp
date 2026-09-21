@@ -6,6 +6,9 @@
 int Inv_IsActiveListOverrideSelected(void);
 void Inv_SelectActiveList(int useOverride);
 void Inv_RecalcSlotStats(void);
+struct BattleAttributes;
+extern struct BattleAttributes g_BattleEquipStateBlock;
+void Inv_BuildArmorList(struct BattleAttributes *out);
 
 /* Seven modifier words cleared before scanning the equipped item record. */
 extern int D_800A1B30[7];

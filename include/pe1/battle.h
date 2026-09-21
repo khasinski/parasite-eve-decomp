@@ -49,8 +49,18 @@ extern u8 *g_CurItemEffectData;
  * bit ranges in parameterWord are proven, but their gameplay names are still
  * uncertain; keep them packed until those meanings are corroborated.
  */
+typedef union BattleParameterWord {
+    u32 raw;
+    struct {
+        unsigned int first : 10;
+        unsigned int second : 10;
+        unsigned int third : 8;
+        unsigned int reserved : 4;
+    } fields;
+} BattleParameterWord;
+
 typedef struct BattleAttributes {
-/* 0x00 */ u32 parameterWord; /* 10-bit values at bits 0 and 10; 8-bit at 20 */
+/* 0x00 */ BattleParameterWord parameterWord;
 /* 0x04 */ u32 effectFlags;   /* attack/status capabilities consumed by hit logic */
 } BattleAttributes;
 
@@ -316,6 +326,7 @@ PE1_STATIC_ASSERT(sizeof(Combatant) == 0xD8, combatant_partial_size);
 PE1_STATIC_ASSERT(sizeof(BattleAction) == 0x18, battle_action_partial_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleAction, turnWord) == 0x10,
                   battle_action_turn_word_offset);
+PE1_STATIC_ASSERT(sizeof(BattleParameterWord) == 4, battle_parameter_word_size);
 PE1_STATIC_ASSERT(sizeof(BattleAttributes) == 0x08, battle_attributes_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleAttributes, effectFlags) == 0x04,
                   battle_attributes_effect_flags_offset);
