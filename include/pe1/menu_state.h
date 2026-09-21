@@ -2,6 +2,7 @@
 #define PE1_MENU_STATE_H
 
 extern int g_MenuBattleEquipMode;
+int Menu_GetEquipMode(void);
 
 extern int D_8009CF78;
 extern int D_8009CFE8;

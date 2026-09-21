@@ -1,6 +1,8 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 #include "pe1/inventory_slots.h"
+#include "pe1/aya.h"
+#include "pe1/menu_state.h"
 
 static inline ItemDataRecord *LookupItem(int value) {
     int saved = value;
@@ -53,6 +55,65 @@ static inline int CountBits(void) {
     for (i = 0; i < D_8009D050; i++)
         count += (D_8009D058[i >> 5] & (1u << (i & 31))) > 0;
     return count;
+}
+
+static inline int Kind(int index) {
+    ItemDataRecord *item = LookupActiveItem(index);
+    return item ? item->kind : 0;
+}
+static inline u8 ConsumableEffect(ItemDataRecord *item) {
+    return ((u8 *)item->bonusStats)[0];
+}
+/* First discover available equipment, then rebuild masks for the current menu.
+ * Resolved record kinds must be below 32 for the weapon-kind variable shift. */
+void Inv_RebuildSelectableMask(void) {
+    int hasWeapon = 0, hasArmor = 0, list = 0;
+    int wasStorage = D_8009D048 != D_800C0E48;
+    int i;
+    ItemDataRecord *item;
+    for (list = 0; list < ListCount(); list++) {
+        RestoreList(list);
+        for (i = 0; i < D_8009D050; i++)
+            if ((0xFE >> Kind(i)) & 1) break;
+        hasWeapon |= i < D_8009D050;
+        for (i = 0; i < D_8009D050; i++)
+            if (Kind(i) == 9) break;
+        hasArmor |= i < D_8009D050;
+    }
+    for (list = 0; list < ListCount(); list++) {
+        RestoreList(list);
+        ClearBits();
+        if (Menu_GetEquipMode()) {
+            for (i = 0; i < D_8009D050; i++) {
+                if (i >= 0 && i < D_8009D050) item = LookupItem(D_8009D048[i]);
+                else item = 0;
+                if (item) {
+                    int flags = item->flags;
+                    u32 selected = g_MenuBattleEquipMode ? ((flags >> 1) & 1) : (flags & 1);
+                    if (item->kind == 10 && ConsumableEffect(item) == 2) selected = 0;
+                    if ((unsigned)(item->itemId - 6) < 5 && D_800C0E00.current_hp >= D_800C0E00.max_hp) selected = 0;
+                    D_8009D058[i >> 5] |= selected << (i & 31);
+                }
+            }
+        } else {
+            for (i = 0; i < D_8009D050; i++) {
+                if (i >= 0 && i < D_8009D050) item = LookupItem(D_8009D048[i]);
+                else item = 0;
+                if (item) {
+                    int flags = item->flags;
+                    u32 selected = g_MenuBattleEquipMode ? ((flags >> 1) & 1) : (flags & 1);
+                    if (item->kind == 10) {
+                        unsigned effect = ConsumableEffect(item);
+                        if ((unsigned)(effect - 4) < 3) selected &= hasWeapon;
+                        else if ((unsigned)(effect - 12) < 3) selected &= hasArmor;
+                    }
+                    if ((unsigned)(item->itemId - 6) < 5 && D_800C0E00.current_hp >= D_800C0E00.max_hp) selected = 0;
+                    D_8009D058[i >> 5] |= selected << (i & 31);
+                }
+            }
+        }
+    }
+    RestoreList(wasStorage);
 }
 
 /* Historical name: rebuild selectable slots, excluding tracked equipment

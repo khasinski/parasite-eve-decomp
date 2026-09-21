@@ -682,9 +682,8 @@ segments:
       - [0x45E10, c, item/Item_PackParasiteSpells]
       - [0x45E68, c, aya/Aya_UnlockParasiteSpellById]
       - [0x45EE8, c, item/inv3]
-      - [0x45F60, asm, main/Inv_RebuildSelectableMask]
-      # Selection masks, searches, ammo transfer and snapshots share a 0x11A4-byte unit.
-      - [0x46614, c, item/Inv_AmmoSelection]
+      # Menu selection, masks, searches, ammo transfer and snapshots share a 0x1858-byte unit.
+      - [0x45F60, c, item/Inv_AmmoSelection]
       - [0x477B8, c, menu/Menu_DrawWeaponComparisonPanel]
       - [0x47894, asm, main/Inv_StepScrollDisplay]
       - [0x47CA8, asm, main/Inv_DrawSlotItemIcon]

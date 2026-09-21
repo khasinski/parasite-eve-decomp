@@ -3190,3 +3190,56 @@ symbol table resolves both D_8009D058 and g_InvSelectionBits to absolute address
 0x8009D058; the four pointer bytes at file offset 0x8D858 remain zero, identical
 to retail. This verifies the common-symbol/type migration in the actual link.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Menu-dependent selection masks (0x80055760)
+
+`Inv_RebuildSelectableMask` matches all 1716 retail bytes with stock native
+GCC 2.7.2 and unmodified MASPSX. It first scans the available logical lists for
+weapon kinds 1..7 and armor kind 9. A second pass clears each list's bitset and
+selects records according to the menu mode, flag bit 0 or 1, consumable effect
+and current/max HP. List availability is checked each iteration. The function
+restores the original logical list after both passes. Slot-limit/menu callbacks
+can change the override, list pointer, limit, bitset pointer, battle flag and HP;
+subsequent operations observe those changes.
+
+The nonzero menu mode excludes consumable effect 2. In zero mode, consumable
+effects 4..6 require a weapon and effects 12..14 require armor. Regardless of
+kind, item IDs 6..10 are excluded when current HP is at least maximum HP.
+Capturing flags in an int before selecting the flag bit preserves the retail
+load scheduling and arithmetic shift. ConsumableEffect reads the first byte of
+the existing bonusStats member through a character pointer, matching the byte
+view already used in Inv_ItemActions without a numeric field offset or aliasing
+violation. The existing AyaSaveState layout supplies current_hp/max_hp through
+a typed D_800C0E00 declaration; no new layout or field macro is invented.
+
+The weapon-kind variable shift requires resolved kinds below 32. The USA retail
+base table supports that contract: Scene_LoadSceneData loads PE.IMG sectors
+72..87 to 0x800A8028; Item_TableLookup's offsets at +12/+16 are 0x35E0..0x55C0,
+covering 255 records whose kind bytes are all 0..21. The table SHA-1 is
+0ef3b123b2571b6ddadfdcb5dc4defb4553c3888. This is evidence for that table, not a
+claim that all runtime equipment mutations or arbitrary save records have been
+exhaustively audited. Host fixtures explicitly use the valid 0..31 kind domain.
+Invalid raw IDs resolve to kind zero.
+
+The function joins the shared helpers in `Inv_AmmoSelection.c`; the full
+0x80055760..0x80056FB8 range matches all 6232 bytes and nine entry addresses.
+Only 1716 bytes and one function are newly decompiled. No pins, barriers, NOPs,
+ASM, gotos, extra flags, file-local externs or tracked debt counts are added.
+Canonical declarations live in aya.h and menu_state.h.
+
+226608 ASan/UBSan cases include the production merged unit unchanged and compare
+both passes against an independent model. They cover every raw halfword ID,
+all flag/effect byte combinations in both menu modes, equipment availability,
+HP conditions, random 50/100-slot lists, nonpositive limits, and combinations
+of callback mutations listed above. They check complete bitsets, final globals,
+HP/flag state and callback counts. The existing 517210 host cases for the other
+functions also pass with the expanded production file. Only target ABI asserts
+are disabled. Exactness is separately established by the 6232-byte comparison.
+Evidence: `/tmp/pe-rebuild-mask/` (`check-unit.py`, `test-production.c`, older
+function fixtures, `inspect-retail-table.py`, `table-evidence.txt`, build logs).
+
+`make verify-clean` passes all 341 tests and source/debt/organization gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. The full linked
+symbol table resolves typed D_800C0E00 to 0x800C0E00, the same address as the
+existing g_AyaSaveTotalExp alias, without a new manual linker assignment.
+All 191 rebuilt overlays retain their retail SHA-1 values.

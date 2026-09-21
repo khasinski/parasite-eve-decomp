@@ -77,6 +77,8 @@ typedef struct AyaSaveState {
     /* 0x48 */ u16 inventory_items[1];   /* g_AyaInventoryItems: variable-length item-id array */
 } AyaSaveState;                          /* extends past 0x48 with the item list */
 
+extern AyaSaveState D_800C0E00;
+
 /* ------------------------------------------------------------------------- */
 /* Per-level stat record. The level table base is reached via                */
 /* Aya_LookupLevelStats(level) = tableBase + level*0x18 (0x63 levels).       */
