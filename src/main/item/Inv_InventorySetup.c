@@ -4,6 +4,10 @@
 #include "pe1/aya.h"
 #include "pe1/menu_inventory.h"
 #include "pe1/menu_state.h"
+#include "pe1/battle_cmd.h"
+#include "pe1/menu_queue.h"
+#include "pe1/memcard.h"
+#include "pe1/game_state.h"
 
 static inline void SelectAya(void) {
     D_8009D048 = D_800C0E00.inventory_items;
@@ -129,4 +133,128 @@ void Inv_MergeStorageToSlot(void) {
     D_800C0E20.tracked[0] = FindKind(7, -1);
     g_MenuBattleEquipMode = 0;
     Inv_SetActiveList(2, 0);
+}
+
+/* The caller supplies a fourth script argument; these commands ignore it. */
+static inline int FindItem(int id) {
+    s16 *p = D_8009D048;
+    while (p < D_8009D048 + D_8009D050) {
+        if (*p == id) break;
+        p++;
+    }
+    if (p < D_8009D048 + D_8009D050) return p - D_8009D048;
+    return -1;
+}
+
+static inline void SetCapacity(int value) {
+    if (value > 50) value = 50;
+    D_800C0E00.inventory_slot_count = value;
+    if (D_8009D048 == D_800C0E48) D_8009D050 = Inv_GetAyaSlotLimit();
+}
+
+int Menu_InitBonusPointScreen(int command, int value, int other, int *unused) {
+    switch (command) {
+    case 1100: {
+        s16 *p;
+        int count = 0;
+        SelectAya();
+        for (p = D_8009D048; p < D_8009D048 + D_8009D050; p++)
+            count += (*p != 0);
+        return count;
+    }
+    case 1101: {
+        int bonus = Inv_GetBonusSlotCount();
+        if (g_InvBaseCapacityForLimit[0] + bonus < 51) {
+            bonus = Inv_GetBonusSlotCount();
+            return g_InvBaseCapacityForResult[0] + bonus;
+        }
+        return 50;
+    }
+    case 1102: {
+        int count = 0;
+        s16 *p;
+        if (value >= D_8009D03C && value < D_8009D03C + 3)
+            count = D_800A1E64[value - D_8009D03C].ammo;
+        else for (p = D_8009D048; p < D_8009D048 + D_8009D050; p++) {
+            unsigned short id = *p;
+            if ((unsigned)(id - 256) < 128)
+                count += (D_800C0E20.equipment[(short)id - 256].itemId == value);
+            else
+                count += ((short)id == value);
+        }
+        return count;
+    }
+    case 1103:
+        D_8009D0CC = value;
+        D_8009D0D0 = other;
+        return 0;
+    case 1104:
+        return Inv_RebuildWithBonusSlots(value, other);
+    case 1105:
+        SetCapacity(value);
+        return 0;
+    case 1106:
+        return D_800C0E00.current_hp;
+    case 1107:
+        return D_800C0E00.max_hp;
+    case 1108:
+        BattleCmd_SetCurrentHP(value);
+        return 0;
+    case 1109:
+        return BattleCmd_GetRemainingAmmo(0);
+    case 1110: {
+        int result;
+        BattleCmd_GetRemainingAmmo(&result);
+        return result;
+    }
+    case 1111:
+        BattleCmd_SetCurrentMP(value);
+        return 0;
+    case 1112: {
+        int index;
+        SelectAya();
+        index = FindItem(value);
+        if (index < 0) return index;
+        Inv_RemoveActiveListItem(index);
+        return 0;
+    }
+    case 1113:
+        Inv_TransferToStorage();
+        Queue_Init();
+        Menu_StepInventoryRoot(0, -3, -1);
+        Menu_CreateContextHelpPanel();
+        return 0;
+    case 1114:
+        Menu_ComputeGammaLut(value, other);
+        return 0;
+    case 1115:
+        MemCard_InitSlotState();
+        return 0;
+    case 1116:
+        Menu_SaveBgStartFadeOut();
+        return 0;
+    case 1117:
+        Inv_RebuildSelectionBitset();
+        g_GameState.pending_story_day = 1;
+        Menu_SetMemCardConfirmPending();
+        if (D_800C0E00.pad_0B + 1 < 100) D_800C0E00.pad_0B++;
+        else D_800C0E00.pad_0B = 99;
+        Inv_InitNewGameInventory();
+        return 0;
+    case 1118:
+        Menu_InitBonusPointAllocState(value);
+        return 0;
+    case 1119: {
+        s16 *p;
+        int missing;
+        for (p = D_800C0E20.storage; p < D_800C0E20.storage + 100; p++)
+            if (*p == value) break;
+        missing = !(p < D_800C0E20.storage + 100);
+        if (!missing) *p = 0;
+        return missing;
+    }
+    case 1120:
+        Inv_MergeStorageToSlot();
+    }
+    return 0;
 }

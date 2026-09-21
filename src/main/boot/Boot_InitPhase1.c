@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "pe1/scene_transition.h"
+#include "pe1/menu_inventory.h"
 extern int g_GameState[];
 extern int g_SceneDataTable0;
 extern int *g_TaskNodePool;
@@ -11,7 +12,6 @@ void Menu_OpenStartupMemCardDialog(void);
 
 void Menu_CreateItemUsePanel(int arg0);
 extern short D_8009D2A4[];
-int Menu_InitBonusPointScreen(int arg0, int arg1, int arg2, int *arg3);
 int MenuWidget_HasActiveNodes(void);
 
 int Boot_InitPhase1(void) {

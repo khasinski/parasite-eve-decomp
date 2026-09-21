@@ -104,4 +104,6 @@ extern int g_MemCardActiveBytesRemaining;
 extern int g_MemCardActivePromptPending;
 extern int g_MemCardLoadSucceeded;
 
+void MemCard_InitSlotState(void);
+
 #endif

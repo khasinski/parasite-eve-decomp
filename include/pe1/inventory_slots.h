@@ -97,4 +97,6 @@ int Inv_FindFirstEmptySlot(int neededSlots);
 void Inv_CompactActiveListSlots(void);
 int Inv_CheckFreeSlotCapacity(int requestedSlots);
 
+extern int D_8009D03C; /* First base-item ID represented by the three ammo pools. */
+
 #endif

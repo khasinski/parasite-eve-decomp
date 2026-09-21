@@ -111,7 +111,7 @@ segments:
       - [0x1A18, rodata, main/rodata_001A18]
       - [0x1A5C, .rodata, main/Inv_CheckSlotUsable]
       - [0x1AA4, .rodata, item/Inv_ItemActions]
-      - [0x1ADC, rodata, main/rodata_001ADC]
+      - [0x1ADC, .rodata, item/Inv_InventorySetup]
       - [0x1B30, rodata, main/rodata_001B30]
       - [0x1B88, rodata, main/rodata_001B88]
       - [0x1BB0, rodata, main/rodata_001BB0]
@@ -715,7 +715,6 @@ segments:
       # Threshold and tail-capacity selection share the filtered inventory state.
       - [0x4CE88, c, item/Inv_EquipmentSelection]
       - [0x4D4A4, c, item/Inv_InventorySetup]
-      - [0x4DAB4, asm, main/Menu_InitBonusPointScreen]
       - [0x4DEF4, asm, menu/Save_InitMetadataState]
       - [0x4E140, c, save/Save_GetCurrentMapNumber]
       - [0x4E170, c, menu/Menu_InitScrollDirection]

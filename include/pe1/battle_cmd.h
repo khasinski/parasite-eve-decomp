@@ -108,4 +108,7 @@ void BattleCmd_CommitAndSyncAmmo(int item);
 #undef BATTLE_CMD_STATIC_ASSERT
 #undef BATTLE_CMD_OFFSETOF
 
+void BattleCmd_SetCurrentHP(int value);
+void BattleCmd_SetCurrentMP(int value);
+
 #endif

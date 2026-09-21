@@ -29,4 +29,11 @@ void Menu_OnEquipConfirm(int unused, int confirmed);
 int Menu_ClampRange(int value);
 void Menu_SaveBgInitFade(void);
 
+int Menu_InitBonusPointScreen(int command, int value, int other, int *unused);
+void Menu_CreateContextHelpPanel(void);
+void Menu_ComputeGammaLut(int initial, int threshold);
+void Menu_SaveBgStartFadeOut(void);
+void Menu_SetMemCardConfirmPending(void);
+void Menu_InitBonusPointAllocState(int gainedPoints);
+
 #endif

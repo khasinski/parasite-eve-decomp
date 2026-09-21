@@ -3852,3 +3852,50 @@ cases pass against the combined source. Evidence is under
 `make -j8 verify-clean` passes all 341 tool tests and source/debt/organization
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Inventory and menu command dispatcher (0x8005D2B4)
+
+`Menu_InitBonusPointScreen` is a historical name for a dispatcher covering
+commands 1100..1120, not solely a bonus-point screen initializer. All 1088
+code bytes and the 84-byte compiler-generated jump table match retail with
+stock native GCC 2.7.2 and unmodified MASPSX. It joins the adjacent inventory
+initializers in `item/Inv_InventorySetup.c`; the combined 2640 code bytes
+and table match exactly. The boot interpreter's fourth pointer argument is
+retained in the shared prototype, although this dispatcher does not use it.
+
+Commands count occupied slots or occurrences of an item (generated equipment
+is compared by its base item ID), query or set capacity, query/change battle
+stats, remove an active item or the first matching normal-storage reference,
+and invoke menu, equipment and new-game setup operations. The ammo query
+special-cases three pools indexed from D_8009D03C. Command 1117 sets the
+existing game state's pending story day to one, increments save byte 0x0B
+with saturation at 99, and calls the new-game initializer. Neutral names
+remain for incompletely understood state; the historical function name is
+not offered as semantic evidence.
+
+A separate inlined capacity setter preserves the original argument copy.
+The ammo-count branch shares its return variable with the inventory scan;
+the saturating increment uses explicit if/else. No new pins, barriers,
+address casts, aliases, gotos, instruction ASM or compiler flags are needed.
+The capacity query uses the two existing, audited views of the same byte.
+Its bonus queries are explicitly sequenced before each byte read. A host
+test with a mutating query exposed unspecified operand evaluation order in
+the initial draft; explicit sequencing fixes that without changing target
+bytes. Shared subsystem declarations replace the new draft's local externs.
+
+100000 ASan/UBSan comparisons cover all 21 commands plus defaults, capacities
+0..50, signed slot IDs, equipment base IDs, ammo pools, present/absent item
+searches, first-match storage removal, byte wrapping for negative capacity
+inputs, and saturation for every value of save byte 0x0B. Callback traces
+check order, arguments and results, including queries mutating the capacity
+and redirecting the active list. Valid list backing and non-overflowing
+ammo-base arithmetic are the tested domain. Callees are mocked, so their
+implementations are not inferred from the dispatcher harness. The harness
+extracts the dispatcher and its inline helpers unchanged from production;
+only target ABI assertions are omitted for the host. The neighboring two
+functions also pass their existing 173728 sanitizer cases with the expanded
+TU. Evidence: /tmp/pe-bonus-dispatch/ (check-unit.py, test.c, tested.c and logs).
+
+`make -j8 verify-clean` passes all 341 tool tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

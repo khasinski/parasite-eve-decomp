@@ -53,6 +53,7 @@ int Inv_RebuildWithBonusSlots(int minSecond, int minThird);
 int Inv_TransferToStorage(void);
 void Inv_InitNewGameInventory(void);
 void Inv_MergeStorageToSlot(void);
+void Inv_RebuildSelectionBitset(void);
 int Inv_CheckSlotUsable(int id);
 int Inv_CanAddActiveListItemToAya(int index);
 void Inv_TransferItemAlt(void);
