@@ -3243,3 +3243,42 @@ Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. The full linked
 symbol table resolves typed D_800C0E00 to 0x800C0E00, the same address as the
 existing g_AyaSaveTotalExp alias, without a new manual linker assignment.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Random ammunition-pool withdrawal (0x800553A4)
+
+`Inv_RollRandomItemType` matches all 620 retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX. Null argument pointers leave state untouched.
+A zero type counts nonempty ammunition fields in the first three records at
+D_800A1E64 and, if that count is nonzero, chooses 1 + count * randomByte / 256.
+Retail writes a local list of available indices but never reads it; this is
+preserved, including the fact that the chosen type is not remapped through it.
+Types outside 1..3 do nothing further. Zero amount draws a random fraction of
+the chosen stock; negative amount requests that percentage of the stock.
+The result is narrowed to signed 16 bits, clamped against stock using a signed
+amount comparison, and subtracted from the unsigned 16-bit stock. Narrowing
+and wraparound quirks are preserved, rather than imposing new domain checks.
+
+The stock accesses use the existing ItemDataRecord.ammo field. This structure
+also recovers retail's indexed first loop without pins or barriers. The random
+generator is a single 521-byte array: on wrap it XORs each byte with the byte
+489 positions ahead modulo 521, in order, so later iterations see earlier
+writes. The three retail address labels are views within that one array, not
+independent buffers. The initializer in Inv_SetDefaultItemId confirms the
+521-byte extent and initializes the cursor to 520. This reconstruction requires
+a valid cursor in 0..520 on entry. No new layout, ASM, pins, barriers, NOPs,
+gotos, compiler flags or tracked debt is introduced. Canonical declarations
+live in inventory.h and random.h; the battle caller uses the typed prototype.
+
+284448 ASan/UBSan cases include the production function unchanged and compare
+an independent model's arguments, complete record array, random state and
+cursor. They cover all 65536 type bit patterns, all 65536 amount bit patterns,
+every valid cursor, stock boundaries, randomized records and null/aliased
+argument pointers (including signed/unsigned views of stock). Only target ABI
+assertions are disabled for the host harness. Linked retail comparison proves
+620/620 bytes independently of those tests. Evidence: /tmp/pe-roll-random/
+(target.s, check.py, test.c, and acceptance logs).
+
+`make verify-clean` passes all 341 tests and source/debt/organization gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including the
+battle caller after replacing its untyped argument declaration.
+All 191 rebuilt overlays retain their retail SHA-1 values.

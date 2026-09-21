@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/battle.h"
+#include "pe1/inventory.h"
 #define NULL ((void *)0)
 
 #define ENEMY_FIELD(base, type, member) \
@@ -14,7 +15,6 @@
 s32 Inv_PickRandomItem(s32);
 int Inv_FindItemById(int arg0);
 s32 Inv_GetItemEffectData(s16, s32);
-void Inv_RollRandomItemType(void *, void *);
 
 extern struct { char _[16]; } D278_o0 __asm__("g_ActiveActor");
 #define D278_0 (*(u8 **)&D278_o0)

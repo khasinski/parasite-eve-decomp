@@ -44,6 +44,7 @@ extern ItemDataRecord g_InvItemSlotArray[128];
 
 /* Historical name: this operation returns a status, not an item pointer. */
 int Inv_GetSlotItemData(int index);
+void Inv_RollRandomItemType(s16 *type, s16 *amount);
 int Inv_IsSlotSelectable(int index);
 int Inv_IsSlotEquipped(int index);
 int Inv_GetWayneListItemByIndex(int index);
