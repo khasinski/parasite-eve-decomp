@@ -228,6 +228,9 @@ void func_800D0E88(void *data, GteShortVector *position, int scale, int angle,
 extern int D_800E27EC;
 extern u8 D_800E1C04[];
 extern u8 D_800E1DA4[];
+extern u8 D_800E1E64[];
+int func_800DC5BC(int mode, GteShortVector *state);
+int func_800DC750(int mode, GteShortVector *state);
 int func_800DBCD8(int mode, GteShortVector *state);
 int func_800DBE6C(int mode, GteShortVector *state);
 /* Initializes cached key times, clamps time at the end and blends colors.

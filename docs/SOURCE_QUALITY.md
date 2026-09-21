@@ -1736,3 +1736,42 @@ is in `/tmp/pe-jitter-sprite/` (`check.py`, `test.c`).
 without a baseline change. Main retains SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Sine-scaled jitter sprite and emitter reconstruction
+
+`func_800DC5BC` and `func_800DC750` share `FieldEng_SineJitterSprite.c`
+and match all 404 and 448 retail bytes respectively (852 together), using
+stock GCC 2.7.2 and unchanged MASPSX. It reuses the existing
+short-vector payload, jitters X/Z by -3..4, decreases Y by 2..5 and
+completes at age 14. Drawing uses the D_800E1E64 color track, Z rotation
+age*128 and scale rsin(age*2048/14), texture 226 and intensity 128.
+CLUT X is zero; the palette adds six in the special asset case and two
+otherwise. Payload padding and all state in draw mode remain untouched.
+This is game code, not Psy-Q; no original TU claim is made.
+
+The final source adds one pin for the palette comparison constant in `$3`
+and one empty input barrier after rsin. Together they preserve the retail
+placement of the sine result and the constant/index registers. Exploratory
+selector/offset pins and raw pointer indexing were removed; the final lookup
+is a normal array access. The two constraints are included in the debt
+baseline under the user's permission for documented pins and empty barriers.
+There are no volatile accesses, instruction ASM, NOPs, EABI or toolchain changes.
+
+The production unit passes 111542 ASan/UBSan cases covering signed-short
+wraparound, all random masks, the lifetime boundary, every palette and both
+asset states, positive/zero/negative sine results, color copies, rotation,
+scale, every draw argument, unchanged state and inactive modes. The host
+checks the eight-byte payload size and suppresses unrelated target assertions
+and the pin/empty barrier; the linked target comparison verifies all bytes.
+The emitter captures actor position in mode zero, allocates twenty eight-byte
+particles, emits at ages below 40 and finishes at age 53. Each coordinate
+gets independent -256..255 jitter. Render setup selects D_800E11F6's texture,
+sets parameter06 to one, and uses depth 16. It adds no pins or barriers.
+Additional tests check capture, allocation failures, signed random values,
+all coordinate writes and preserved padding, both lifetime boundaries,
+texture setup and inactive modes. The linked comparison covers the full
+852-byte unit. Proof is in `/tmp/pe-sine-jitter/` (`check.py`, `test.c`).
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
