@@ -3588,3 +3588,50 @@ for arbitrary callback-mutated lengths. Evidence:
 `make -j8 verify-clean` passes all 341 tests and source/debt/organization
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Reloading the tracked weapon (0x800574A8)
+
+`Inv_DrawSlotItemIcon` matches all 428 retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX. Its historical name is retained: it resolves
+tracked slot 0, chooses the corresponding ammunition pool, transfers ammo
+and returns the signed amount. Kinds 1..5 select pool 0, 6..7 select 1..2,
+kinds 19 and above select kind-19, and other kinds use the fallback record.
+The amount is min(pool ammo, min(base capacity + signed bonus, 999) - loaded
+ammo). This may be negative: the reconstruction preserves reverse transfers
+and halfword wrapping. Pool subtraction happens before the weapon's ammo is
+read for addition. When both pointers alias, the two stores cancel modulo
+65536 even though the returned amount can be nonzero.
+
+Explicit signed category-index conversions preserve retail's subtraction
+before scaling instead of folding the offset into the pool address. Separate
+locals for the second capacity calculation reproduce the allocation without
+pins or barriers. No new flags, instruction ASM, NOPs or crutch debt are added.
+The canonical prototype in inventory.h replaces the battle caller's local
+declaration; that caller returns the transferred amount.
+
+The reload operation joins the contiguous item-action unit, retaining both
+lookup contracts: raw-ID lookup for reloading and bounds-checked tracked-slot
+lookup for the existing actions. All five entries in
+0x800574A8..0x80057B70 match 1736 bytes, and the dispatcher jump table at
+0x800112A4 matches all 56 bytes. Only 428 code bytes and one function are new.
+This grouping follows adjacency, common inventory state and item operations,
+without claiming recovered original object metadata.
+
+306368 ASan/UBSan cases cover every halfword ammo value, all supported raw
+record IDs and kinds 0..27, signed capacity extremes, source/pool/fallback
+aliasing, and base-lookup callbacks changing kind, ammo, tracked selection,
+active pointer and limit. They compare complete record/list state, return
+values and callback arguments/counts. The previous 231424 dispatcher cases
+also pass against the expanded production unit (537792 total). Host tests
+disable target ABI assertions only and discard uncalled functions at link
+time; the tested production code and existing empty barrier are unchanged.
+
+The tracked index must initially lie in the active range and resolve to a
+non-null record, as retail dereferences it directly. Kinds beyond 27 index
+outside the established nine-record pool array and are not in the tested
+contract. Full-record aliases are tested; arbitrary partial overlaps are not.
+Evidence: /tmp/pe-reload-weapon/ (check-unit.py, test.c, test-dispatch.c, logs).
+
+`make -j8 verify-clean` passes all 341 tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

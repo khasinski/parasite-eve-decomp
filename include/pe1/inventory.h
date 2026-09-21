@@ -47,6 +47,7 @@ int Inv_GetSlotItemData(int index);
 /* Historical name: allocate a copied equipment record and insert its ID. */
 ItemDataRecord *Inv_FindSlotByIndex(int id);
 int Inv_WriteSlotById(ItemDataRecord *item);
+int Inv_DrawSlotItemIcon(void);
 int Inv_CanAddActiveListItemToAya(int index);
 void Inv_TransferItemAlt(void);
 void Inv_ClearDisplaySlots(void);

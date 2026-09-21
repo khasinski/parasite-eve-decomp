@@ -7,6 +7,58 @@
 #include "pe1/menu_state.h"
 #include "pe1/inventory_slots.h"
 
+static inline ItemDataRecord *LookupItem(int value) {
+    int saved = value;
+    ItemDataRecord *result;
+    if ((unsigned)(value - 0x100) < 0x80) {
+        result = &D_800C0E20.equipment[value - 0x100];
+    } else {
+        if ((unsigned)(value - 1) < 0xFF) {
+            result = Item_LookupBaseData(value - 1);
+        } else if ((unsigned)(saved - 0x200) < 9) {
+            result = &D_800A1E64[saved - 512];
+        } else {
+            result = 0;
+        }
+    }
+    return result;
+}
+
+/* Historical name: reload the tracked weapon and return the signed transfer. */
+int Inv_DrawSlotItemIcon(void) {
+    ItemDataRecord *weapon = 0, *pool;
+    unsigned kind;
+    int amount, available, loaded;
+    int index = D_800C0E20.tracked[0];
+
+    if (index >= 0 && index < D_8009D050)
+        weapon = LookupItem(D_8009D048[index]);
+    kind = weapon->kind;
+    if (kind && kind < 8) {
+        pool = &D_800A1E64[0];
+        if ((int)(kind - 4) > 0)
+            pool = &D_800A1E64[(int)(kind - 5)];
+    } else if (kind >= 19) {
+        pool = &D_800A1E64[(int)(kind - 19)];
+    } else {
+        pool = &D_800A1E44;
+    }
+    amount = weapon->baseStats[2] + weapon->bonusStats[2];
+    available = pool->ammo;
+    loaded = weapon->ammo;
+    if (amount < 1000 ? amount - loaded < available : 999 - loaded < available) {
+        int current, capacity;
+        capacity = weapon->baseStats[2] + weapon->bonusStats[2];
+        current = weapon->ammo;
+        amount = capacity < 1000 ? capacity - current : 999 - current;
+    } else {
+        amount = pool->ammo;
+    }
+    pool->ammo -= amount;
+    weapon->ammo += amount;
+    return amount;
+}
+
 static inline ItemDataRecord *LookupTrackedItem(int index) {
     int value, saved;
     ItemDataRecord *result;

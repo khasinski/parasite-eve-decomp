@@ -7,7 +7,6 @@ extern short D_800C0E08;
 
 int Inv_IsActiveListOverrideSelected(void);
 void Inv_SelectActiveList(int mode);
-int Inv_DrawSlotItemIcon(void);
 void Inv_BuildWeaponList(int unused, void *out);
 
 #define COMBATANT_FIELD(base, type, member) \
