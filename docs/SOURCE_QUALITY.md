@@ -4555,3 +4555,37 @@ presented as an opaque field access or compiler constraint.
 The audited report credits 2488316 semantic code bytes and 10732 functions
 (70.08% of code). Compiler-crutch counts are unchanged; the serialized-offset
 calculation raises the dirty-file count to 2284.
+
+### Camera transition update (2026-09-22)
+
+`Scene_IsNotBattleMode` is 824 exact retail bytes with stock native GCC 2.7.2
+and unmodified MASPSX (`--expand-div`). No pins, barriers, inline assembly,
+new aliases or compiler changes are needed. Its existing name is misleading:
+the routine advances a linear or cosine camera transition, centers the selected
+viewport and updates the transition timer and completion flags.
+
+The viewport records have a 52-byte stride and halfword dimensions at offsets
+40 and 42, distinct from the 56-byte geometry entries. Their shared type records
+only these observed fields. Existing scalar aliases retain the camera state's
+original addressing. Separate unsigned word temporaries for the centered
+coordinates preserve the signed loads before the final halfword stores; direct
+assignment otherwise produces two `lhu` instructions instead of retail `lh`.
+
+10000 independent MIPS/model comparisons cover gate bits, all mode values,
+linear/cosine interpolation, signed halfword boundaries, timer wrap, completion
+flags and negative viewport dimensions. Callback probes change the start
+coordinates, timer and duration during `rcos`: the code reloads the starts and
+timer but keeps its captured duration. A hook also swaps the geometry pointer
+between its two volatile reads, verifying that the first supplies the offset
+and the second the base. Nonzero signed durations respect the retail division
+precondition. Evidence: `/tmp/pe-camera-transition/check.py` and `test.py`.
+
+One byte-relative addition decodes the serialized viewport-table offset and
+raises the main byte_pointer_arithmetic baseline from 334 to 335. No compiler
+crutch counts increase.
+
+Clean acceptance passes 341 tests and preserves main retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
+The audited report credits 2489140 semantic code bytes and 10733 functions
+(70.10% of code). Dirty files increase from 2284 to 2285 due to the serialized
+offset calculation; all compiler-crutch totals remain unchanged.

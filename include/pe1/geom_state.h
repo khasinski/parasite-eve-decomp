@@ -168,6 +168,21 @@ extern GeomState * volatile D_800B1624;
 extern u8 g_GeomGroupSel;
 int Scene_CheckBattleFlag(void);
 int Scene_IsBattleMode(void);
+int Scene_IsNotBattleMode(void);
+
+/* 52-byte viewport records addressed through header offset 0x1C. */
+typedef struct CameraViewport {
+    u8 prefix[40];
+    u16 width, height;
+    u8 tail[8];
+} CameraViewport;
+PE1_STATIC_ASSERT(sizeof(CameraViewport) == 52, camera_viewport_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CameraViewport, width) == 40,
+                  camera_viewport_width_offset);
+
+extern int g_RenderStateFlags;
+extern u16 D_800BCF94, D_800BCF96, D_800BCF98, D_800BCF9A;
+extern u16 D_800BCF9C, D_800BCF9E, D_800BCFA0, D_800BCFA2;
 
 /* Existing absolute symbols expose overlapping views of the scroll state. */
 extern GeomScrollState D_800BCF88;
