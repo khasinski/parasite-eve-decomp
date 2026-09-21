@@ -22,4 +22,7 @@ int Spu_UploadStreamBlockB(unsigned bank, unsigned char *cursor);
 /* Stream instrument scratch table; bank selection advances by 0x400 bytes. */
 extern unsigned D_800B4900[];
 
+extern void * volatile g_AkaoBgmHandle;
+int Akao_SendTableCommand(void *table, int command, int arg1, int arg2, int arg3);
+
 #endif

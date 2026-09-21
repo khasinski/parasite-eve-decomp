@@ -56,6 +56,13 @@ int Pm_SendCmd(int command, int arg1, int arg2, int arg3, int arg4, int arg5);
 int Akao_SetPos3D(int arg0, int arg1, int x, int y, int z);
 int Asset_Find08Alt(int id, int arg1, int x, int y, int z);
 void Tbl_ResetAll(void);
+extern s8 g_BattleTargetIndex;
+extern unsigned int D_8009D1F4;
+
+void Battle_CycleTarget(s8 mode);
+void Battle_MarkActiveEntities(BattleTarget *targets, int index);
+void Battle_StepPlayerTurn(BattleTarget *targets, int index, int mode);
+void Battle_DrawStatusOverlay(RenderObjectEntity *object, int mode, int outOfRange, int entityId);
 void Battle_InitFadeVars(void);
 void Battle_UpdatePlayerTurn(void);
 void Battle_ApplyPlayerHit(void);

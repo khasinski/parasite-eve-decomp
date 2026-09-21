@@ -667,4 +667,6 @@ void Anim_DecodeBoneRotationsByte(RenderObjectEntity *object, RenderAnimationDat
 void Anim_DecodeBoneRotationsShort(RenderObjectEntity *object, RenderAnimationDataHeader *animation_data,
                                    s16 frame);
 
+void Render_AnimationFrame(void);
+
 #endif

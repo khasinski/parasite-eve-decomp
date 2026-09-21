@@ -4060,3 +4060,32 @@ Clean acceptance passes all 341 tool tests and the unchanged main SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match
 retail. The audited report credits 2479756 semantic code bytes and 10718
 functions; debt counts remain unchanged.
+
+### Battle target cycling
+
+`Battle_CycleTarget` is 780 exact code bytes plus its 36-byte switch table.
+Stock native GCC 2.7.2, G0 and stock MASPSX G8 with --expand-div reproduce
+retail's signed remainder checks. There are no new pins, barriers, instruction
+ASM or aliases. The existing BattleTarget layout explains the twelve-byte
+stride and distance field, and EnemyCombatant supplies the entity-id byte.
+The out-of-range flag is narrowed to a byte before being passed to the UI.
+
+The audio handle uses the existing volatile-pointer view from the menu sound
+routines: its test and subsequent command argument are separate reads. The
+shared AKAO declaration uses the implementation's void-pointer parameter.
+The target index uses its existing signed-byte alias at 0x8009CE44; the
+common declaration emits GP-relative accesses and the existing linker alias
+keeps it at the retail address, without allocating replacement storage.
+
+100000 ASan/UBSan model cases compare state and complete callback traces for
+all signed-byte modes, zero through eight targets, both input bits, range
+checks and mutations by marking, fade, audio, animation and UI callbacks.
+Valid indices and nonzero divisors after callbacks bound the tested domain.
+Host-only headers disable target-layout assertions; production keeps them.
+Narrow checks prove both code and switch-table bytes. Evidence:
+/tmp/pe-cycle-target/ (check.py, test.c and acceptance logs).
+
+`make -j8 verify-clean` passes 341 tool tests and the unchanged retail main
+SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays match retail; the audited report credits 2480536
+semantic code bytes and 10719 functions. Debt counts remain unchanged.
