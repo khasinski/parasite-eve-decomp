@@ -806,7 +806,7 @@ segments:
       - [0x55480, c, menu/Draw_DropShadow]
       - [0x55508, c, menu/Draw_SwapPrimBuffers]
       - [0x55690, c, menu/MenuWidget_DestroyPopupNode]
-      - [0x556B4, asm, main/Draw_FlushFrontBuffer]
+      - [0x556B4, c, menu/Draw_FlushFrontBuffer]
       - [0x558E0, c, menu/Menu_StepListNavigate]
       - [0x55A60, c, menu/MenuWidget_EaseNodePosition]
       - [0x55B6C, c, task/Task_FieldSfxQueue]

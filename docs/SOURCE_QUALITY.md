@@ -4391,3 +4391,36 @@ still-unresolved field_28 initialization. Compiler-crutch counts do not rise.
 The audited report credits 2486124 semantic code bytes and 10728 functions
 (70.02% of code). The retained unknown initialization adds one dirty file
 (2282 total); pins, barriers, NOPs and instruction-ASM counts are unchanged.
+
+### Drawing list-navigation indicators
+
+`Draw_FlushFrontBuffer` is 556 exact bytes with stock native GCC 2.7.2 and
+unmodified MASPSX. Its historical name describes neither its input nor its
+behavior: it draws the mode-3 list navigator's blinking highlight, background
+and up/down scroll indicators. The existing widget and navigation layouts
+supply every field. Inline helpers express owner lookup, relative cursor
+movement and cursor-stack restoration; no pins, barriers, NOPs, instruction
+ASM or new debt are needed.
+
+The owner determines the color selection. The routine saves the cursor,
+positions the indicators beside the managed list, optionally draws a blinking
+highlight for the focused navigator, draws its background, and emits arrows
+according to the list's scroll position. It restores the cursor from the
+current stack pointer after callbacks. Overflow and underflow invoke the
+existing diagnostic stub. A null managed list is ignored; a non-null list
+requires an active owner, as retail dereferences the lookup result unchecked.
+
+5000 cases execute the generated MIPS code in Unicorn and compare complete
+callback traces, callback-time memory snapshots, and final widget, drawing
+state and cursor-stack memory against an array model. They cover null lists,
+each owner child slot, focus and both blink phases, color choices, stack
+bounds, both arrow conditions, and callbacks changing cursor coordinates,
+stack depth, drawing height, managed-list pointer and scroll bounds. The
+original captured list remains in use when a callback changes the navigator's
+list pointer. Tests use the real target layouts and bounded signed arithmetic.
+Evidence: /tmp/pe-draw-nav/ (check.py, test.py and acceptance logs).
+
+`make -j8 verify-clean` passes 341 tests and main retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
+The audited report credits 2486680 semantic code bytes and 10729 functions
+(70.04% of code). All debt counters, including 2282 dirty files, are unchanged.
