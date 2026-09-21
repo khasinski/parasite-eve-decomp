@@ -7,6 +7,95 @@
 #include "pe1/menu_state.h"
 #include "pe1/inventory_slots.h"
 
+static inline ItemDataRecord *LookupComparisonItem(int value) {
+    int saved = value;
+    ItemDataRecord *result;
+    if ((unsigned)(value - 0x100) < 0x80) {
+        result = &D_800C0E20.equipment[value - 0x100];
+    } else {
+        if ((unsigned)(value - 1) < 0xFF) {
+            result = Item_LookupBaseData(value - 1);
+        } else if ((unsigned)(saved - 0x200) < 9) {
+            int shifted = saved << 5;
+            result = (ItemDataRecord *)(D_8009DE64 + shifted);
+        } else {
+            result = 0;
+        }
+    }
+    return result;
+}
+
+static inline ItemDataRecord *LookupComparisonActiveItem(int index) {
+    if (index >= 0 && index < D_8009D050) return LookupComparisonItem(D_8009D048[index]);
+    return 0;
+}
+
+/* Commit comparison snapshots, recording previous ammo for opcode-4 rollback. */
+void Inv_StepScrollDisplay(void) {
+    BattleCmdEntry *entry;
+    ItemDataRecord *pool, *tracked;
+    /* Mode 7 ignores the buffer; mode 5 consumes the selected record pointer. */
+    int selection[2];
+    int mode;
+    if (g_InvCompareSlotLeft.ammo == D_8009D070->ammo &&
+        g_InvCompareSlotRight.ammo == D_8009D074->ammo) return;
+    entry = BattleCmd_AllocSlot();
+    entry->header.word = 4;
+    entry->payload.ammo_restore.item_data2 = 0;
+    entry->payload.ammo_restore.item_data0 = (int)D_8009D070;
+    entry->payload.ammo_restore.item_data1 = (int)D_8009D074;
+    if (g_InvCompareSlotLeft.reserveAmmo) {
+        pool = &D_800A1E44 + g_InvCompareSlotLeft.tailData[10];
+        entry->payload.ammo_restore.item_data2 = (int)pool;
+        if (pool) {
+            entry->payload.ammo_restore.ammo2 = pool->ammo;
+            {
+                u16 result;
+                int total = pool->ammo + g_InvCompareSlotLeft.reserveAmmo;
+                int capacity = pool->baseStats[2] + pool->bonusStats[2];
+                if (capacity < 1000 ? capacity < total : 999 < total) {
+                    result = pool->baseStats[2] + pool->bonusStats[2] < 1000 ?
+                        pool->baseStats[2] + (u16)pool->bonusStats[2] : 999;
+                } else {
+                    result = pool->ammo + g_InvCompareSlotLeft.reserveAmmo;
+                }
+                pool->ammo = result;
+            }
+        }
+    } else if (g_InvCompareSlotRight.reserveAmmo) {
+        pool = &D_800A1E44 + g_InvCompareSlotRight.tailData[10];
+        entry->payload.ammo_restore.item_data2 = (int)pool;
+        if (pool) {
+            entry->payload.ammo_restore.ammo2 = pool->ammo;
+            {
+                u16 result;
+                int total = pool->ammo + g_InvCompareSlotRight.reserveAmmo;
+                int capacity = pool->baseStats[2] + pool->bonusStats[2];
+                if (capacity < 1000 ? capacity < total : 999 < total) {
+                    result = pool->baseStats[2] + pool->bonusStats[2] < 1000 ?
+                        pool->baseStats[2] + (u16)pool->bonusStats[2] : 999;
+                } else {
+                    result = pool->ammo + g_InvCompareSlotRight.reserveAmmo;
+                }
+                pool->ammo = result;
+            }
+        }
+    }
+    entry->payload.ammo_restore.ammo0 = D_8009D070->ammo;
+    entry->payload.ammo_restore.ammo1 = D_8009D074->ammo;
+    *D_8009D070 = g_InvCompareSlotLeft;
+    *D_8009D074 = g_InvCompareSlotRight;
+    tracked = LookupComparisonActiveItem(D_800C0E20.tracked[0]);
+    if (tracked == D_8009D070) {
+        mode = 5;
+        selection[0] = (int)tracked;
+    } else if (tracked == D_8009D074) {
+        selection[0] = (int)tracked;
+        mode = 5;
+    } else mode = 7;
+    Inv_SetActiveList(mode, selection);
+}
+
 static inline ItemDataRecord *LookupItem(int value) {
     int saved = value;
     ItemDataRecord *result;

@@ -3635,3 +3635,50 @@ Evidence: /tmp/pe-reload-weapon/ (check-unit.py, test.c, test-dispatch.c, logs).
 `make -j8 verify-clean` passes all 341 tests and source/debt/organization
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Committing the ammunition comparison (0x80057094)
+
+`Inv_StepScrollDisplay` matches all 1044 retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX. The historical name is retained. If either
+comparison snapshot's ammo differs from its current item, the function
+allocates opcode 4, records the item pointers, returns the left snapshot's
+reserve ammo (or the right's when the left reserve is zero) to the pool
+selected by tailData[10], and records the previous ammo for rollback.
+It then copies both complete snapshots back in left-to-right order and
+notifies Inv_SetActiveList. The mode is 5 when the tracked weapon is either
+updated item, otherwise 7; mode 7 does not consume the selection buffer.
+
+Pool ammo is clamped before halfword narrowing: min(current + reserve,
+min(base capacity + signed bonus, 999)). Negative capacity and wrapping are
+preserved. The local result is u16, with signed comparison and unsigned
+narrowing in the selected capacity expression. This source shape reproduces
+the original allocation without pins, empty barriers or instruction ASM.
+The two-item comparison and copy operation uses the existing ItemDataRecord
+and BattleCmdEntry layouts; no new opaque byte-offset accesses are needed.
+The pool index uses the established contiguous fallback-plus-nine-pools
+retail layout. Valid pool indexes are 0..9; larger indexes are outside the
+established contract. Existing raw-ID lookup keeps the D_8009DE64 biased
+address view, whose layout is already represented in inventory_slots.h.
+
+This contiguous entry joins Inv_ItemActions.c: all six functions match
+2780 code bytes, and the existing jump table matches all 56 bytes. Only
+1044 bytes and one function are new. The canonical void prototype replaces
+the menu caller's unspecified local declaration. Grouping is based on
+adjacency and shared item state, not claimed original object metadata.
+
+100000 ASan/UBSan model cases exercise both reserves, all established pool
+indexes, negative and large capacity bonuses, valid and invalid tracked
+indexes/IDs, overlapping full records, no-change early returns, and allocation
+or lookup callbacks mutating active item pointers or snapshots. Tests compare
+all record/command state and callback counts and arguments. The host harness
+provides the retail contiguous pool/biased-ID backing layout and removes only
+target ABI assertions; unrelated functions are discarded at link time.
+Arbitrary partial overlaps and command-memory aliases are not covered.
+Evidence: /tmp/pe-commit-ammo-comparison/ (check.py, check-unit.py, test.c).
+The previous 306368 reload and 231424 dispatcher cases also pass against
+the expanded unit (637792 host cases total). Retail jump-table entry 7 at
+0x8001118C targets 0x800514D0, confirming that mode 7 never reads the buffer.
+
+`make -j8 verify-clean` passes all 341 tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
