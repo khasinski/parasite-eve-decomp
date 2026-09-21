@@ -3027,3 +3027,51 @@ covered by the whole-unit byte comparison. Evidence: `/tmp/pe-filter-kinds/`
 Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including both
 caller declaration repairs.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Ammunition-compatible selection masks (0x800562A4)
+
+`Inv_BuildCompatibleWeaponBitset` matches all 2176 retail bytes with stock native
+GCC 2.7.2 and unmodified MASPSX. It clears the active selection mask, selects
+compatible records except the source slot, counts the selected bits, and repeats
+on the other logical list when available. Only the original list excludes the
+source index. It restores the original logical list, not an arbitrary saved raw
+pointer. The source slot must resolve to a record, as in the original unchecked
+kind load. All 256 kind bytes are supported by the reconstructed arithmetic.
+
+Kinds 1..7 map to category max(kind - 4, 1); kinds >=19 map to kind - 18; other
+kinds map to zero. Sources of kind 19..21 select any record in the same category;
+other sources select only kind 19..21 records in that category. The category is
+cached before list-switch callbacks. Aya slot-limit callbacks can redirect the
+active pointer or remove the override; subsequent iteration/restoration observes
+these changes.
+
+The C uses no pins, barriers, NOPs, instruction ASM or extra compiler flags.
+Sharing the initial and loop item pointer removes the trial's last register pin.
+The five bounded lookups share one raw-ID resolver. The two halfword candidate
+kind temporaries retain the retail byte-narrowing instructions; replacing them
+with byte or word temporaries removes those instructions. Conditional category
+expressions preserve the split zero-category paths; an inline category function
+changes those paths. The bit counts compare unsigned masked words with zero.
+
+The key-item resolver retains one signed offset into a byte table before
+accessing the shared `ItemDataRecord` layout. This is byte-pointer arithmetic
+debt. The current regex also counts four boolean-to-u32 casts as
+`pointer_integer_casts` (737 -> 741 in main), although all four operands are
+boolean expressions, not pointers. These counted conversions make shifts at
+bit 31 unsigned and are retained explicitly in the baseline. Caller declarations
+move to the canonical `int (int)` prototype in `inventory.h`.
+
+218192 ASan/UBSan cases include the production file unchanged (only target ABI
+assertions are disabled). They cover every pair of kind bytes on both lists,
+every raw halfword destination ID, every valid source ID, random 50/100-slot
+lists, high mask bits, alternate active pointers, absent/present overrides,
+callback redirection/removal, nonpositive callback limits, restored globals,
+returned counts and complete mask buffers. The independent host model verifies
+semantics; a separate linked-object comparison establishes the retail byte match.
+Evidence: `/tmp/pe-compatible/` (`target.s`, `check.py`, source-shape trials,
+`test.c`, and acceptance logs).
+
+`make verify-clean` passes all 341 tests and source/debt/organization gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including the
+shared caller prototypes.
+All 191 rebuilt overlays retain their retail SHA-1 values.

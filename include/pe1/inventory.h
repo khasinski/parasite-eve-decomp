@@ -46,6 +46,7 @@ int Inv_IsSlotSelectable(int index);
 int Inv_IsSlotEquipped(int index);
 int Inv_GetWayneListItemByIndex(int index);
 int Inv_TransferItemAlt2(int kindMask);
+int Inv_BuildCompatibleWeaponBitset(int sourceIndex);
 int Inv_RebuildWithSlotLimit(int fromMode, int fromIndex, int toMode, int toIndex);
 int Inv_TestSelectionBit(int index);
 int Inv_IsAyaInventorySlotReserved(int index);

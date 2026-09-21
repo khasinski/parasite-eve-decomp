@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 #include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -7,7 +8,6 @@
 #include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK MenuWidget_SetCurrentNode();
 s32 Inv_GetAyaSlotLimit();
-M2C_UNK Inv_RebuildSelectableMask();
 void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
 extern s32 g_MenuActionSubmenuOpen;
@@ -65,10 +65,8 @@ M2C_UNK Menu_CreateAmmoSpendPanel();
 M2C_UNK Inv_SelectActiveList();
 s32 func_80052F0C();
 s32 Inv_GetAyaSlotLimit();
-M2C_UNK Inv_RebuildSelectableMask();
 s32 Inv_TestSelectionBit();
 M2C_UNK Inv_InitSlotDisplay(void *, void *);
-s32 Inv_BuildCompatibleWeaponBitset();
 s32 MenuWidget_GridCellIndex();
 extern s32 g_InvAmmoSpendActiveList;
 extern s32 g_InvSelectedItemIndex;

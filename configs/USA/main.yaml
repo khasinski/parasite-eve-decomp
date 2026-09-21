@@ -687,7 +687,7 @@ segments:
       - [0x467B4, c, item/Inv_SetSelectionBit]
       - [0x467E0, c, item/Inv_TestSelectionBit]
       - [0x4680C, asm, main/Inv_InitSlotDisplay]
-      - [0x46AA4, asm, item/Inv_BuildCompatibleWeaponBitset]
+      - [0x46AA4, c, item/Inv_BuildCompatibleWeaponBitset]
       - [0x47324, c, item/Spend_Ammo]
       - [0x47414, c, item/Inv_GetWeaponCategoryAmmoBase]
       - [0x47440, asm, main/Inv_BuildDisplayFromList]

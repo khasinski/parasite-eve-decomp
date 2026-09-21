@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 #include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -62,10 +63,7 @@ M2C_UNK MenuWidget_CreateSimpleNode();
 M2C_UNK MenuWidget_CreateNode();
 M2C_UNK MenuWidget_SetCurrentNode();
 s32 Battle_IsInputAllowedWrapped();
-s32 Inv_BuildCompatibleWeaponBitset();
 s32 Battle_GetStateFlag1();
-M2C_UNK Inv_RebuildSelectableMask();
-M2C_UNK Inv_LookupActiveListData();
 s32 Inv_TestSelectionBit();
 extern s32 g_MenuItemActionContext;
 extern s32 g_MenuActiveItemSlot;
