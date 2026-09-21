@@ -50,6 +50,7 @@ int Inv_WriteSlotById(ItemDataRecord *item);
 int Inv_CanAddActiveListItemToAya(int index);
 void Inv_TransferItemAlt(void);
 void Inv_ClearDisplaySlots(void);
+int Inv_StepScrollDisplay2(int special);
 int Inv_SetupSlotDisplay(int mask);
 int Inv_PickRandomItem(int unused);
 u8 *Inv_GetItemEffectData(int item, int mode);

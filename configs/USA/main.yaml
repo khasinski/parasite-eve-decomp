@@ -691,7 +691,6 @@ segments:
       - [0x48830, c, main/Inv_TransferItem]
       - [0x48B3C, c, item/Inv_CanAddActiveListItemToAya]
       - [0x48C54, c, item/Inv_InventoryImport]
-      - [0x490EC, asm, main/Inv_StepScrollDisplay2]
       - [0x492A8, c, menu/Menu_DrawArmorItemDetail]
       - [0x493BC, c, item/Inv_LookupItemData]
       # Kind filtering, filtered-slot lookup, eligibility and swaps form one 0x8E8-byte unit.

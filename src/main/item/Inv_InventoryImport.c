@@ -112,3 +112,42 @@ void Inv_ClearDisplaySlots(void) {
         }
     }
 }
+
+/* Select a storage list, adding the special item ID when needed. */
+int Inv_StepScrollDisplay2(int special) {
+    if (special) {
+        int i, found;
+        D_8009D07C = D_800C1F80;
+        for (i = 0; i < 82; i++)
+            if (D_8009D07C[i] == 516)
+                break;
+        found = i < 82;
+        if (!found) {
+            for (i = 0; i < D_8009D050; i++) {
+                ItemDataRecord *item;
+                if (i >= 0 && i < D_8009D050)
+                    item = LookupItem(D_8009D048[i]);
+                else
+                    item = 0;
+                if (item && item->kind == 6)
+                    break;
+            }
+            if (i < D_8009D050) {
+                /* If slots 0..80 are occupied, retail writes slot 81 unchecked. */
+                for (i = 0; i < 81; i++)
+                    if (!D_8009D07C[i])
+                        break;
+                if (i < 82) {
+                    D_8009D07C[i] = 516;
+                    found = 1;
+                }
+            }
+        }
+        D_8009D080 = 80 + found;
+    } else {
+        D_8009D07C = D_800C1EB8;
+        D_8009D080 = 100;
+    }
+    g_InvActiveListOverride = D_8009D07C;
+    return g_InvOverrideSlotLimit = D_8009D080;
+}

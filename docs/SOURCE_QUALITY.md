@@ -3543,3 +3543,48 @@ Partial record overlaps are outside the tested contract. Evidence:
 `make -j8 verify-clean` passes all 341 tests and source/debt/organization
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Selecting a storage list and its limit (0x800588EC)
+
+`Inv_StepScrollDisplay2` matches all 444 retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX, without new pins, barriers, instruction ASM or
+flags. Its historical name is retained. A zero argument selects D_800C1EB8
+and a limit of 100. A nonzero argument selects D_800C1F80 and scans 82 entries
+for ID 516. If absent, it searches the current active list for a resolved
+kind-6 item, with null/bounds checks. A found item causes insertion into the
+current D_8009D07C list, which callbacks can have changed. The resulting limit
+is 80 or 81. Finally the selected pointer/limit become the override, and the
+limit is returned. The ASM caller Menu_OpenEquipScreen at 0x8004E810 saves
+the returned v0 in s4; returning the limit resolves four final register
+allocation differences present in the initial void candidate.
+
+The two scan bounds deliberately differ: the presence scan visits 0..81,
+whereas the empty-slot scan visits only 0..80. If those 81 entries are all
+occupied, retail overwrites entry 81 without testing it for zero. A preexisting
+516 at entry 81 counts as present and prevents insertion. The reconstruction
+preserves these operations and does not infer a corrected container policy.
+
+The function extends adjacent Inv_InventoryImport.c and shares LookupItem.
+All three entries in 0x80058454..0x80058AA8 match the complete 1620-byte range;
+444 bytes and one function are new. This is a grouping by adjacency and common
+inventory state, not a claim of recovered object metadata. Canonical data and
+function declarations live in inventory_slots.h and inventory.h. Existing
+crutch counts, including the materialization helper's one barrier, are unchanged.
+
+215184 ASan/UBSan cases cover every raw halfword ID, all kinds, both argument
+branches (including a negative nonzero value), limits 0..50 and -1, every
+presence/empty position 0..81 and absence/full cases, null base results and
+callback changes to active/selected pointers, limits, kind and override state.
+They compare returned limits, complete list/record snapshots and ordered
+lookup traces. The previous 171312 materialization and 93440 transfer cases
+also pass against the expanded unit (479936 cases total). Host fixtures bind
+retail's slot-array aliases, disable target ABI assertions and omit only the
+existing empty barrier. Active storage ranges must be valid and non-null
+lookup results must point to complete records. Tests keep callback-selected
+storage at least 82 entries long; they do not establish a global maximum
+for arbitrary callback-mutated lengths. Evidence:
+/tmp/pe-select-storage-list/ (check-unit.py and the three test*.c fixtures).
+
+`make -j8 verify-clean` passes all 341 tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
