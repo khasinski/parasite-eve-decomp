@@ -3,10 +3,6 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-/* Separate views prevent the base-capacity address from being retained
- * across calls, as in Inv_CheckFreeSlotCapacity. Both aliases are debt. */
-extern u8 g_InvBaseCapacityForLimit[] asm("D_800C0E0C");
-extern u8 g_InvBaseCapacityForResult[] asm("D_800C0E0C");
 
 void Inv_CompactActiveListSlots(void) {
     int index, limit, from;

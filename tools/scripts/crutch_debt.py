@@ -96,7 +96,8 @@ def subsystem_of(rel: pathlib.PurePath) -> str:
     return parts[1] if len(parts) > 1 else "src"
 
 
-def collect_debt(source_root: pathlib.Path = SRC):
+def collect_debt(source_root: pathlib.Path = SRC,
+                 include_root: pathlib.Path | None = None):
     from collections import defaultdict
 
     per_sub = defaultdict(lambda: {k: 0 for k in ORDER} | {"dirty_files": 0})
@@ -117,6 +118,20 @@ def collect_debt(source_root: pathlib.Path = SRC):
         if any(counts[k] for k in HEAVY):
             per_sub[sub]["dirty_files"] += 1
             dirty_files += 1
+
+    # Shared header aliases remain matching debt after declaration centralization.
+    # Count each declaration once, rather than once per including C unit.
+    if include_root is None and source_root == SRC:
+        include_root = ROOT / "include"
+    if include_root is not None:
+        for path in sorted(include_root.rglob("*.h")):
+            count = len(PATTERNS["aliases"].findall(
+                strip_comments(path.read_text(errors="ignore"))))
+            if count:
+                per_sub["main/header-aliases"]["aliases"] += count
+                per_sub["main/header-aliases"]["dirty_files"] += 1
+                totals["aliases"] += count
+                dirty_files += 1
 
     scopes = {
         "main": {k: 0 for k in ORDER},
@@ -150,7 +165,7 @@ def render_report(per_sub, totals, dirty_files) -> str:
         "",
         "**pins** = `register T x asm(\"$r\")` · **barriers** = empty `asm(\"\")` · "
         "**nop_barriers** = explicit one-NOP scheduling macros · "
-        "**aliases** = `extern T x asm(\"sym\")` · **asm_bodies** = real instructions · "
+        "**aliases** = `extern T x asm(\"sym\")` (C and shared headers) · **asm_bodies** = real instructions · "
         "**directives** = `asm(\".word ...\")` · **gotos** · **include_asm** · **postpass** · "
         "**externs_in_c** = declarations awaiting a subsystem header. Raw offset, pointer, "
         "field-macro, statement-expression, unknown-field, and declaration-override columns "

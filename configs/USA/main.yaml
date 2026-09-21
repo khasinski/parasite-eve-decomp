@@ -711,7 +711,7 @@ segments:
       - [0x497EC, asm, main/Inv_RebuildWithSlotLimit]
       - [0x49D34, c, item/Menu_OpenItemUsePanelAtIndex]
       - [0x49E8C, asm, main/Inv_GetSlotItemData]
-      - [0x4A240, asm, main/Inv_GetActiveSlotCount]
+      - [0x4A240, c, item/Inv_GetActiveSlotCount]
       - [0x4A444, asm, main/Inv_InitWayneStorage]
       # Selection save/restore helpers share one 0x108-byte -G8 item-state object.
       - [0x4A6C8, c, item/Inv_SelectionState]

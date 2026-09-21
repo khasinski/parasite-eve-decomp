@@ -3,8 +3,6 @@
 /* CC1_FLAGS: -G4 */
 /* MASPSX_FLAGS: -G4 */
 
-extern u8 g_InvBaseCapacityForLimit[] asm("D_800C0E0C");
-extern u8 g_InvBaseCapacityForResult[] asm("D_800C0E0C");
 
 int Inv_CheckFreeSlotCapacity(int requested_slots) {
     s16 *slot;

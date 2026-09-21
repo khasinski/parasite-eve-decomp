@@ -28,6 +28,28 @@ class CrutchDebtTests(unittest.TestCase):
         self.assertEqual(scopes["overlays"]["pins"], 1)
         self.assertEqual(scopes["overlays"]["barriers"], 0)
 
+    def test_shared_header_alias_survives_declaration_move(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp) / "src"
+            header_root = pathlib.Path(tmp) / "include"
+            root.mkdir()
+            header_root.mkdir()
+            source = root / "one.c"
+            declaration = 'extern char view[] asm("storage");\n'
+            source.write_text(declaration)
+            _, before, _, _ = crutch_debt.collect_debt(root, header_root)
+            source.write_text('#include "shared.h"\n')
+            (root / "two.c").write_text('#include "shared.h"\n')
+            (header_root / "shared.h").write_text(
+                declaration + '/* extern char ignored[] asm("ignored"); */\n')
+            _, after, dirty, scopes = crutch_debt.collect_debt(root, header_root)
+        self.assertEqual(before["aliases"], 1)
+        self.assertEqual(after["aliases"], before["aliases"])
+        self.assertEqual(after["externs_in_c"], 0)
+        self.assertEqual(scopes["main"]["aliases"], 1)
+        self.assertEqual(scopes["overlays"]["aliases"], 0)
+        self.assertEqual(dirty, 1)
+
     def test_counts_individual_nop_macro_invocations(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp)

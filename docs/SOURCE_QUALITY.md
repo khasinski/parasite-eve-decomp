@@ -2700,3 +2700,49 @@ assertions only. Narrow byte-diff and host evidence: `/tmp/pe-slot-equipped/`
 `make verify-clean` passes all 340 tests and source, organization and debt
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Armor-derived inventory reserve check
+
+`Inv_GetActiveSlotCount` matches all 516 retail bytes at 0x80059A40 with
+stock native GCC 2.7.2 and unmodified MASPSX (`-G8`). Its historical name is
+retained, but it returns whether free capacity meets the armor-derived reserve,
+not a slot count. It resolves the currently tracked armor through the active
+list and scans its tail entries. The first entry whose low five bits are
+8, 9 or 10 yields a reserve of 1, 2 or 4 respectively; no matching entry or
+no resolved armor yields zero. It then computes capped capacity, selects Aya's
+inventory and selection-bit storage, counts nonzero signed-halfword item IDs,
+and optionally writes the reserve through the output pointer. The list pointer
+is reloaded after `Inv_GetAyaSlotLimit`, preserving the retail call boundary.
+
+The two bonus queries are intentional: the second runs only when the first
+base-plus-bonus result is below 51. The second result is not clamped again.
+Each base-capacity byte is explicitly read after its query, avoiding C's
+unspecified operand evaluation order. This source clarification preserves all
+retail bytes and was prompted by a host hook that mutates capacity in the query.
+
+There are no new register pins, CPU instruction ASM or NOPs. The existing
+inline item lookup requires one empty merge barrier, raising the main barrier
+baseline from 900 to 901. The function reuses the two capacity-address views
+already required by `Inv_CheckFreeSlotCapacity` and `Inv_CompactActiveListSlots`.
+Their four duplicated private alias declarations move to two shared declarations
+in `inventory_slots.h`; these are explicitly still matching debt. The debt
+tracker now counts shared-header aliases once, in the main scope, including the
+previously uncounted AKAO queue alias. Main aliases therefore move from 24 to 23
+(24 - 4 + 2 + 1), and file-local extern declarations decrease by four. This is
+source deduplication plus corrected accounting, not elimination of the two
+address-reload constraints. A regression test verifies that moving an alias
+to a header does not erase its debt or multiply it by the number of users.
+
+376320 ASan/UBSan host cases exercise all 16-bit item IDs, signed tracked-slot
+bounds, every tail byte value at each position for lengths 0..11, first-match
+precedence, capacity/occupancy boundaries, null output pointers, negative item
+IDs, and callbacks changing capacity and active-list state. The production
+function and aliases are used unchanged; host adaptation disables target-layout
+assertions and gives the capacity fixture the explicit assembly symbol name
+required by the Mach-O host. Evidence: `/tmp/pe-active-slot-count/`
+(`check.py`, `test.c`, source-shape and compiler-option trials).
+
+`make verify-clean` passes all 341 tests and source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including
+the existing users of the centralized capacity aliases.
+All 191 rebuilt overlays retain their retail SHA-1 values.
