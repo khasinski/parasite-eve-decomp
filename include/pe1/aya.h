@@ -48,7 +48,8 @@ typedef struct AyaSaveState {
     /* 0x08 */ u16 current_hp;           /* g_AyaHpCurrent  [CONFIRMED] current HP (status left side); synced from battle slot +0x0C */
     /* 0x0A */ u8  level;                /* g_AyaSaveLevel: 0-based, status shows +1 [CONFIRMED 0 -> "LEVEL 1"]; clamp 0..0x62 */
     /* 0x0B */ u8  pad_0B;
-    /* 0x0C */ u32 inventory_slot_count; /* g_AyaInventorySlotCount [CONFIRMED 10 at new game]; <=0x32 */
+    /* 0x0C */ u8 inventory_slot_count; /* g_AyaInventorySlotCount [CONFIRMED 10 at new game]; <=0x32 */
+    /* 0x0D */ u8 pad_0D[3];
     /* 0x10 */ u32 bonus_points;         /* g_AyaBonusPoints [CONFIRMED 0 -> "BONUS POINT 0"]; clamp 0x1869F */
     /* 0x14 */ u8  pad_14[0x0A];
     /* 0x1E */ u16 pe_bonus_pool;        /* D_800C0E1E  TENTATIVE: pool cleared to 0 on level-up (Aya_SetTotalExp) */
@@ -74,10 +75,18 @@ typedef struct AyaSaveState {
     /* 0x36 */ u8  pad_36[0x0A];
     /* 0x40 */ u16 menu_clamp_value;     /* D_800C0E40  [CONFIRMED 0x3D] set via Menu_ClampRange(0x3D) at init */
     /* 0x42 */ u8  pad_42[0x06];         /* 0x44..0x46 observed = 40 40 40 (per-category cursor?) */
-    /* 0x48 */ u16 inventory_items[1];   /* g_AyaInventoryItems: variable-length item-id array */
-} AyaSaveState;                          /* extends past 0x48 with the item list */
+    /* 0x48 */ s16 inventory_items[50];   /* g_AyaInventoryItems: 50 item-ID slots */
+} AyaSaveState;                          /* ends at 0xAC, where equipment records begin */
 
+PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, inventory_slot_count) == 0x0C,
+                  aya_inventory_capacity_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, inventory_items) == 0x48,
+                  aya_inventory_items_offset);
+PE1_STATIC_ASSERT(sizeof(AyaSaveState) == 0xAC, aya_save_state_prefix_size);
 extern AyaSaveState D_800C0E00;
+extern u16 D_800C0E28[7];
+/* Growth tables have multiple consumers: 32-bit thresholds and initial u16. */
+void *Stat_GetGrowthTable(int category);
 
 /* ------------------------------------------------------------------------- */
 /* Per-level stat record. The level table base is reached via                */
@@ -89,14 +98,20 @@ typedef struct AyaLevelStats {
     /* 0x00 */ u16 hp;        /* [CONFIRMED] base HP per level: 45,49,53,64,67,72,92,... (L0 HP=45 == status "45/45") */
     /* 0x02 */ u16 offense;   /* [CONFIRMED] base offense: 30,35,40,45,55,60,65,... (NOT the status "OFFENSE 1" allocation level) */
     /* 0x04 */ u16 defense;   /* [CONFIRMED] base defense: 10,15,20,25,40,50,65,... */
-    /* 0x06 */ u16 field_06;  /* TENTATIVE: grows +257/level (2610,2867,3124,...) */
+    /* 0x06 */ u8 field_06;  /* Meaning not yet established. */
+    /* 0x07 */ u8 inventoryCapacity; /* Initial slot capacity, read by Inv_InitNewGameInventory. */
     /* 0x08 */ s32 field_08;  /* TENTATIVE: looks 16.16 fixed (0x500000=80.0, +4.0/level) -- likely P.Energy */
     /* 0x0C */ s32 field_0c;  /* TENTATIVE: ~8500, slow growth (status recovery?) */
     /* 0x10 */ s32 field_10;  /* TENTATIVE: 7864,8650,11337,... (active-time / speed?) */
     /* 0x14 */ u16 field_14;  /* TENTATIVE: constant 15 (active-time rate?) */
-    /* 0x16 */ u8  field_16;  /* TENTATIVE: constant 10 (base item capacity?) */
+    /* 0x16 */ u8  field_16;  /* TENTATIVE: constant 10; meaning not established. */
     /* 0x17 */ u8  field_17;  /* TENTATIVE: constant 0 */
 } AyaLevelStats;             /* 0x18 bytes. Table base = *(u32*)0x800A803C + 0x800A8028, indexed level*0x18 (0..0x62). */
+
+PE1_STATIC_ASSERT(sizeof(AyaLevelStats) == 0x18, aya_level_stats_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaLevelStats, inventoryCapacity) == 7,
+                  aya_level_inventory_capacity_offset);
+AyaLevelStats *Aya_LookupLevelStats(int level);
 
 /* EXP threshold table (Aya_GetLevelExpTable): base = *(u32*)0x800A8040 + 0x800A8028,
  * 4 bytes/level, cumulative EXP to REACH each level [CONFIRMED live]:

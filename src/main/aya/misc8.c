@@ -4,7 +4,6 @@ extern unsigned short g_AyaStatPeEnergyMax;
 extern int g_StatLevelOffsetType3;
 
 extern void Stat_QueryLevelAndSubLevel(int, unsigned int, int *, int);
-AyaLevelStats *Aya_LookupLevelStats(int arg0);
 
 extern unsigned int *g_PlayerEntity;
 void Inv_RecalcSlotStats(void);

@@ -51,6 +51,8 @@ void Inv_StepScrollDisplay(void);
 int Inv_DrawSlotItemIcon(void);
 int Inv_RebuildWithBonusSlots(int minSecond, int minThird);
 int Inv_TransferToStorage(void);
+void Inv_InitNewGameInventory(void);
+int Inv_CheckSlotUsable(int id);
 int Inv_CanAddActiveListItemToAya(int index);
 void Inv_TransferItemAlt(void);
 void Inv_ClearDisplaySlots(void);

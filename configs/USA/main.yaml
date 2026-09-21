@@ -714,7 +714,7 @@ segments:
       - [0x4CC98, c, menu/Menu_RunFrame]
       # Threshold and tail-capacity selection share the filtered inventory state.
       - [0x4CE88, c, item/Inv_EquipmentSelection]
-      - [0x4D4A4, asm, item/Inv_InitNewGameInventory]
+      - [0x4D4A4, c, item/Inv_InitNewGameInventory]
       - [0x4D820, asm, main/Inv_MergeStorageToSlot]
       - [0x4DAB4, asm, main/Menu_InitBonusPointScreen]
       - [0x4DEF4, asm, menu/Save_InitMetadataState]

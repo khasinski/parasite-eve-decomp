@@ -1,4 +1,5 @@
 #include "pe1/inventory.h"
+#include "pe1/aya.h"
 
 extern int D_800A8034[];
 extern int D_800A8038[];
@@ -27,6 +28,6 @@ ItemDataRecord *Item_LookupBaseData(unsigned int index)
 
 extern int g_StatGrowthTable[];
 
-int Stat_GetGrowthTable(int arg0) {
-    return g_StatGrowthTable[0] + (int)((char *)g_StatGrowthTable - 0x10) + (arg0 << 9);
+void *Stat_GetGrowthTable(int arg0) {
+    return (void *)(g_StatGrowthTable[0] + (int)((char *)g_StatGrowthTable - 0x10) + (arg0 << 9));
 }

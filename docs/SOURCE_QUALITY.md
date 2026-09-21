@@ -3762,3 +3762,55 @@ previous /tmp/pe-filter-mod-capacity/test.c.
 `make -j8 verify-clean` passes all 341 tests and source/debt/organization
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Initializing a new-game inventory (0x8005CCA4)
+
+`Inv_InitNewGameInventory` matches all 892 retail bytes with stock native
+GCC 2.7.2 and unmodified MASPSX. It initializes seven stat-allocation values
+from the growth tables, loads level-zero HP and capacity, unlocks the first
+spell, clears the first three ammo pools, selects Aya and clamps capacity to
+50. It clears 50 active slots backwards, adds the five initial item IDs,
+then carries forward the first allocated flag-0x10 non-armor and armor
+records. Their first matching references are removed from the 82-slot
+special storage list before insertion. It sets equipped slots, menu context,
+EXP and level, and initializes the menu background.
+
+The storage address reuse exposes a missing aggregate relationship:
+InventoryRuntime now includes the 12-byte gap after equipment, 100 normal
+storage slots at offset 0x1098, and 82 special slots at 0x1160. Those bounds
+also agree with the previously matched storage selection. Offset assertions
+record this layout. AyaSaveState's placeholder one-element list is replaced
+by its 50 signed slots, ending at equipment offset 0xAC. Its capacity is a
+byte at 0x0C, with the remaining three bytes explicitly reserved. The level
+table's old u16 field at 0x06 is split: byte 7 is the initial inventory
+capacity. Other unknown fields retain neutral names. The initializer accesses
+these real members directly, without new biased pointer arithmetic or aliases.
+
+The growth-table API now consistently returns a data pointer rather than an
+integer in its definition and an int pointer at its callers. Its consumers
+use 32-bit threshold rows and, here, the initial low halfword. The level-table
+API consistently returns AyaLevelStats*, including the HP consumer. Shared
+inventory/menu declarations cover the initializer's calls. This is signature
+and layout reconciliation; the existing functions must retain their bytes.
+
+A write cursor for the seven allocations reproduces the initial register
+order. The iteration variable is reused for the two selected record IDs
+after the loops finish. Combined with the storage fields, this reproduces
+all bytes without pins, barriers, gotos, instruction ASM, NOPs or new flags.
+
+73728 ASan/UBSan cases cover every halfword HP value, every byte capacity,
+clamping, absent/first/last tagged records, kinds including zero, storage
+removal including slot 81, and callbacks changing capacity, active-list
+pointers, and the armor candidate between insertions. The host harness uses
+shared backing for the overlapping save/inventory/stat views, verifies their
+physical offsets, and compares full state plus callback order and arguments.
+Only target ABI assertions are disabled. Tables are valid, non-overlapping
+backing objects; arbitrary table/runtime aliasing is not claimed. Mocked
+insertion callbacks test this function's interaction order, not the complete
+item-add implementation. Evidence: /tmp/pe-new-game-inventory/ (check.py,
+test.c and build logs).
+
+`make -j8 verify-clean` passes all 341 tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`,
+including every existing function affected by the shared-type corrections.
+All 191 rebuilt overlays retain their retail SHA-1 values.

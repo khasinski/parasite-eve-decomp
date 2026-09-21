@@ -26,4 +26,7 @@ void Menu_CreateNotificationDialog(int message, int arg);
 void MenuInput_SetPollingPaused(int paused);
 void Menu_OnEquipConfirm(int unused, int confirmed);
 
+int Menu_ClampRange(int value);
+void Menu_SaveBgInitFade(void);
+
 #endif

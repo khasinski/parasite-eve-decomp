@@ -2,7 +2,7 @@
 
 #include "include_asm.h"
 
-int *Stat_GetGrowthTable(int arg0);
+#include "pe1/aya.h"
 
 int Stat_BinarySearch(int value, int *table) {
     int step;

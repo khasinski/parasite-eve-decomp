@@ -12,12 +12,19 @@ typedef struct InventoryRuntime {
     u8 reserved04[0x24];
     s16 slots[50];
     ItemDataRecord equipment[128];
+    u8 reserved108C[12];
+    s16 storage[100];
+    s16 specialStorage[82];
 } InventoryRuntime;
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(InventoryRuntime, slots) == 0x28,
                   inventory_runtime_slots_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(InventoryRuntime, equipment) == 0x8C,
                   inventory_runtime_equipment_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(InventoryRuntime, storage) == 0x1098,
+                  inventory_runtime_storage_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(InventoryRuntime, specialStorage) == 0x1160,
+                  inventory_runtime_special_storage_offset);
 extern InventoryRuntime D_800C0E20;
 extern s32 D_8009D040;
 extern s32 D_8009D044;
