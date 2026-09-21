@@ -7,7 +7,6 @@
 extern s16 *D_8009D048;
 extern s32 D_8009D050;
 
-s32 Inv_FindSlotByIndex();
 s32 Inv_WriteSlotById();
 
 s32 Inv_CheckSlotUsable(s32 arg0) {

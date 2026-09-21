@@ -3382,3 +3382,35 @@ by the complete 2008-byte retail comparison. Evidence: /tmp/pe-setup-slot/
 `make verify-clean` passes all 341 tests and source/debt/organization gates.
 Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Allocating a copied equipment record (0x80053968)
+
+`Inv_FindSlotByIndex` matches all 480 retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX. Despite its historical name, it finds the first
+equipment record whose leading byte is zero and the first empty active slot.
+If either is unavailable it returns null. Otherwise it copies the complete
+32-byte base record, selects Aya's list, and inserts the new record ID using
+the slot index found before selection. The slot-limit callback can change the
+active pointer; the final write follows that pointer, as retail does.
+
+Typed record assignment and the shared InventoryRuntime layout reproduce the
+copy and address reuse. A local index in the record search preserves the
+retail intermediate calculation without pins, barriers, ASM or new flags.
+The canonical return type is ItemDataRecord *, and its existing caller only
+tests it against null.
+
+212160 ASan/UBSan model cases cover every free equipment position (and full),
+every free slot in a 50-slot list (and full), limits 0..50, Aya/storage lists,
+callback pointer changes, and base sources aliasing equipment. They compare
+whole record/list state, result pointers and callback counts/arguments. The
+contract requires a valid non-null base lookup for IDs 1..255, valid list
+ranges, and a preselected slot valid in the final list. Arbitrary malformed
+IDs, negative limits and partial record overlaps are not covered. Only target
+ABI assertions are disabled for host testing. Evidence is recorded under
+/tmp/pe-allocate-equipment/.
+
+`make verify-clean` passes all 341 tests and source/debt/organization gates.
+The complete main executable retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including the caller compiled
+against the corrected return type.
+All 191 rebuilt overlays retain their retail SHA-1 values.
