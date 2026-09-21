@@ -2052,3 +2052,38 @@ compiler investigation and rejected variants are under `/tmp/pe-t0-probe/`.
 `make verify-clean` passes all 340 tests and source/organization/debt gates.
 Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Scattered field-particle initialization
+
+`func_800CC2C4` in `FieldAnim_ScatteredParticles.c` matches all 380 retail
+bytes with unchanged stock GCC 2.7.2 and MASPSX. It is game field-animation
+code. The source uses ordinary C, with no register pins, empty barriers,
+volatile scheduling accesses, inline ASM, or compiler flag overrides.
+
+The initializer sets scale to 127 and selects four entries for action ID 3,
+otherwise sixteen. Each entry copies the shared XYZ origin and consumes three
+random values: X/Z use `(rand() % 11 - 5) * 256`; Y uses
+`-(rand() % 16 + 20) * 256`. Multiplication preserves the original fixed-point
+scaling without a C left shift of a negative value. Signed remainder behavior
+is preserved, including inputs outside the normal nonnegative RNG range.
+
+`FieldAnimScatteredParticles` extends the existing `FieldAnimPointData`
+prefix with three parallel 16-element signed-halfword velocity arrays. The
+observed offsets are 0x68, 0x88 and 0xA8; the complete written extent is 0xC8.
+Compile-time assertions check these boundaries. The six origin bytes at
+`D_800E2290` are declared as `FieldAnimPointTriple` in the engine-state header;
+older independent scalar declarations elsewhere remain migration debt. No
+alias or new file-local extern is introduced. The manifest promotes only this
+function's existing range; the filename does not claim a recovered original
+translation-unit boundary.
+
+The production source passes 20000 ASan/UBSan host cases. An independent
+64-bit arithmetic reference checks signed RNG extremes and pseudorandom
+inputs, both entry counts, XYZ bit patterns, random-call order/count, and all
+untouched bytes (including inactive entries). Scratch evidence is in
+`/tmp/pe-scattered-particles/` (`check.py`, `test.c`).
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values. Debt counts remain
+unchanged.

@@ -108,6 +108,28 @@ typedef struct FieldAnimPointData {
     u16 z[16];
 } FieldAnimPointData;
 
+/* Scatter initializer writes positions plus three parallel velocity arrays.
+ * The point prefix is shared with the point renderer. */
+typedef struct FieldAnimScatteredParticles {
+    FieldAnimPointData points;
+    s16 velocity_x[16];
+    s16 velocity_y[16];
+    s16 velocity_z[16];
+} FieldAnimScatteredParticles;
+
+PE1_STATIC_ASSERT(sizeof(FieldAnimPointData) == 0x68,
+                  field_anim_point_data_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimScatteredParticles, velocity_x) == 0x68,
+                  field_anim_scattered_velocity_x);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimScatteredParticles, velocity_y) == 0x88,
+                  field_anim_scattered_velocity_y);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimScatteredParticles, velocity_z) == 0xA8,
+                  field_anim_scattered_velocity_z);
+PE1_STATIC_ASSERT(sizeof(FieldAnimScatteredParticles) == 0xC8,
+                  field_anim_scattered_particles_size);
+
+void func_800CC2C4(void *arg0, void *arg1, FieldAnimScatteredParticles *state);
+
 typedef struct FieldAnimPointState {
     FieldAnimPointTriple point;
     u8 unused_06[0x22];

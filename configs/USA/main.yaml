@@ -1601,7 +1601,7 @@ segments:
       - [0xBACA8, c, engine/FieldEng_UpdateEffects4]
       - [0xBB60C, asm, engine/engine_800CAE0C]
       - [0xBBF50, c, engine/FieldEng_UpdateEffects5]
-      - [0xBCAC4, asm, engine/func_800CC2C4]
+      - [0xBCAC4, c, engine/FieldAnim_ScatteredParticles]
       - [0xBCC40, c, engine/FieldAnim_UpdateWindows]
       - [0xBCFAC, c, engine/FieldAnim_ProcessPoints]
       - [0xBD3A8, asm, engine/func_800CCBA8]
