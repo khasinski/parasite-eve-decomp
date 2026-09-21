@@ -4424,3 +4424,42 @@ Evidence: /tmp/pe-draw-nav/ (check.py, test.py and acceptance logs).
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
 The audited report credits 2486680 semantic code bytes and 10729 functions
 (70.04% of code). All debt counters, including 2282 dirty files, are unchanged.
+
+### Dispatching queued field events to actor tasks
+
+`Scene_UpdateEntityList` is 468 exact bytes with stock native GCC 2.7.2 and
+unmodified MASPSX, without pins, barriers, NOPs or instruction ASM. It consumes
+the field-event queue and prepends new tasks to actors' third task lists.
+The existing FieldActor and TaskNode layouts describe the script cursor,
+actor identifiers, task flags, payload and reciprocal task links.
+
+FieldSfxQueueEntry now names its type/subtype, task argument and task value.
+Its actor selector is enqueued as a full word but dispatched using only the
+low byte, represented by a named union. Layout assertions retain the 12-byte
+stride and offsets 4/8. The producer uses the word view and the consumer uses
+the byte view. This lowers the unknown-field baseline from 231 to 227 even
+with the new use of the still-unresolved TaskNode.field_0c slot.
+
+A nonzero selector stops at the first matching field_sfx_id, including when
+that actor has no script. A zero selector visits all actors matching the
+16-bit type filter and byte subtype, provided their script cursor is nonzero.
+The allocator runs before event arguments and the previous task-list head are
+read. The queue count and actor links remain fresh across allocator calls;
+the count is cleared after dispatch. Allocation success is an original
+precondition, not a newly added recovery path.
+
+5000 cases execute generated MIPS instructions in Unicorn against an
+independent byte-addressed model. They compare allocator arguments, complete
+callback-time memory snapshots and final queue, actor, task and global state.
+Cases cover empty queues/lists, both filters, high selector-word bits,
+16-bit type IDs outside the actor-byte range, duplicate IDs, missing scripts,
+empty/nonempty task chains and callback mutations of parameters, queue count,
+actor-list links and task-list heads. Fixtures keep queue counts within the
+28-entry capacity and allocate distinct valid task nodes. Target layouts are
+used directly, without host pointer-size substitutions.
+Evidence: /tmp/pe-dispatch-sfx/ (check.py, test.py and acceptance logs).
+
+`make -j8 verify-clean` passes 341 tests and main retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
+The audited report credits 2487148 semantic code bytes and 10730 functions
+(70.05% of code). Compiler-crutch counts and 2282 dirty files are unchanged.

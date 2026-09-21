@@ -20,10 +20,10 @@ void Task_ClearSfxTable(void) {
 void Task_QueueFieldSfx(int arg0, int arg1, int arg2, int arg3, int arg4) {
     FieldSfxQueueEntry *entry = &g_FieldSfxQueue[g_FieldSfxQueueCount];
 
-    entry->field_3 = arg0;
-    entry->field_2 = arg1;
-    entry->field_8 = arg3;
-    entry->field_0 = arg2;
-    entry->field_4 = arg4;
+    entry->taskArgument = arg0;
+    entry->subId = arg1;
+    entry->taskValue = arg3;
+    entry->typeId = arg2;
+    entry->actorSelector.word = arg4;
     g_FieldSfxQueueCount++;
 }

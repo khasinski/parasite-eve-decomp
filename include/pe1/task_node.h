@@ -19,4 +19,6 @@ typedef struct TaskNode {
     /* 0x28 */ struct TaskNode *prev;
 } TaskNode;
 
+TaskNode *Task_AllocNode(int current, TaskNode *previous);
+
 #endif /* PE1_TASK_NODE_H */

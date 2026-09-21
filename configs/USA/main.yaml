@@ -810,7 +810,7 @@ segments:
       - [0x558E0, c, menu/Menu_StepListNavigate]
       - [0x55A60, c, menu/MenuWidget_EaseNodePosition]
       - [0x55B6C, c, task/Task_FieldSfxQueue]
-      - [0x55C00, asm, main/Scene_UpdateEntityList]
+      - [0x55C00, c, task/Scene_UpdateEntityList]
       - [0x55DD4, c, obj/Obj_ResetAllEntries]
       - [0x55E74, asm, main/Scene_CheckBattleFlag]
       - [0x5610C, c, obj/Obj_SetEntryLimit]
