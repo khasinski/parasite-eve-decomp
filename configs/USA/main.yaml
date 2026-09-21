@@ -709,9 +709,8 @@ segments:
       - [0x49608, c, item/Inv_InventorySwap]
       - [0x49D34, c, item/Menu_OpenItemUsePanelAtIndex]
       - [0x49E8C, c, item/Inv_ArmorCapacity]
+      # Snapshots, selection restoration, and modifier/stat transfer share a 0x13B8-byte unit.
       - [0x4A444, c, item/Inv_SelectionState]
-      # Selection save/restore helpers share one 0x108-byte -G8 item-state object.
-      - [0x4AB18, asm, item/Inv_TransferItemBetweenLists]
       # Item comparators, subrange passes, and all sort dispatchers share active sort state.
       - [0x4B7FC, c, item/Inv_CompareItemsForSort]
       - [0x4C090, c, menu/menu31]

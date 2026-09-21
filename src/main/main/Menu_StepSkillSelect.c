@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -14,7 +15,6 @@ M2C_UNK Menu_PlayConfirmSound();
 M2C_UNK Menu_PlayCancelSound();
 s32 func_80052F0C();
 s32 Inv_RestoreSelection();
-M2C_UNK Inv_TransferItemBetweenLists();
 s32 MenuWidget_GetChild();
 M2C_UNK MenuWidget_DestroyNode();
 extern s32 g_MenuSelectedItemList;

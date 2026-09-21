@@ -49,6 +49,7 @@ int Inv_RebuildWithSlotLimit(int fromMode, int fromIndex, int toMode, int toInde
 int Inv_TestSelectionBit(int index);
 int Inv_IsAyaInventorySlotReserved(int index);
 int Inv_GetActiveSlotCount(int *requiredReserve);
+void Inv_TransferItemBetweenLists(unsigned selection, int modifier, int flags, int cost);
 void Inv_BuildEquipSlotDisplay(int index);
 int Inv_RemoveActiveListItem(int index);
 void Inv_RebuildSelectableMask(void);

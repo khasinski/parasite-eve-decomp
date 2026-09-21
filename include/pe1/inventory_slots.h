@@ -66,6 +66,10 @@ extern u8 D_800A1FE8[];
 extern u8 *D_8009D084;
 extern s32 D_8009D088, D_8009D08C;
 extern ItemDataRecord D_800A204C, D_800A206C;
+/* Global fallback and category-specific ammunition records; storage tool IDs. */
+extern ItemDataRecord D_800A1E44;
+extern ItemDataRecord D_800A1E64[];
+extern s16 D_800C1EB8[];
 
 void Inv_InitWayneStorage(void);
 void Inv_RememberSelection(unsigned int index, int value);

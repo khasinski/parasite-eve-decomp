@@ -2908,3 +2908,76 @@ trials) and `/tmp/pe-slot-equipped/` with its regenerated production excerpt.
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including
 the explicit row-index forwarding repairs.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Inventory modifier/stat transfer and selection unit (0x8005A318)
+
+`Inv_TransferItemBetweenLists` matches all 3300 retail bytes at 0x8005A318
+with stock native GCC 2.7.2 and unmodified MASPSX. It transfers one modifier
+or all three signed bonus stats between remembered item selections, optionally
+consumes a type-12/13 tool, and optionally removes the donor. The historical
+entry name is retained; the function returns void and takes four arguments.
+Its caller now uses the shared inventory prototype. The caller is not counted
+as another newly decompiled function.
+
+The function extends the contiguous `Inv_SelectionState.c` unit containing the
+two record snapshots, remembered selection accessors, and snapshot restoration.
+The full 0x80059C44..0x8005AFFC range matches all 5048 bytes, preserving every
+entry address. The public selection-restoration entry and the transfer's inline
+restoration share one implementation. Two lookup result shapes remain: snapshot
+copies need the merged output, while type queries use the early return. They
+have identical item-ID rules but different stock-compiler register behavior.
+
+The stat comparisons use signed bonuses and cap only the upper result at 999.
+Their stored sums explicitly convert the operands to u16. Since the destination
+is a halfword, these conversions preserve the low 16 result bits for all inputs,
+including negative bonuses and aliasing donor/receiver records. Two ammunition
+clamps use the same distinction between signed comparison and halfword storage.
+This source typing reproduces both the retail register copies and the full
+160-byte frame; there is no invented stack padding. The unsigned modifier-mask
+copy, scoped list comparisons, tracked-slot accessors, and declaration order
+in the ammunition-room calculation finish the match without register pins or
+empty barriers. There is no CPU/GTE ASM, NOP, postpass, or compiler modification.
+
+Modifier replacement first searches for the same nonzero high-bit group, then
+for an entry whose low five bits are zero. A full receiver reports notification
+7 but still proceeds to the tool/donor-consumption phase. The donor byte is
+cleared after the receiver write, including aliased records. Stat transfer
+clears all donor bonuses after updating the receiver. Non-armor excess ammo is
+limited by receiver capacity; the remainder goes to the category ammo record.
+When removing the donor, its remaining ammo is also returned to that record.
+Deleting an equipment ID clears record byte 0, not its flags at byte 5.
+
+The active list and tracked slots are re-read at the same callback boundaries
+as retail. Removing equipped armor queries reserve before deletion, clears its
+tracked index, checks capacity, compacts, and synchronizes equipment. Subsequent
+weapon/armor replacement observes callback changes, including a different active
+list or a restored armor index. Selected records and slot indices must be valid;
+deleted IDs >= 256 must name valid equipment records. The retail weapon-
+replacement loop has no null-record guard; tests use
+resolvable entries on that path rather than silently adding a guard to the C.
+
+Debt review for this promotion: the byte-pointer-arithmetic baseline increases
+from 324 to 328. These four expressions select 32-byte category ammo records in
+two source paths. Explicit signed shifts retain retail's subtract-then-shift
+address formation; ordinary typed array indexing folds the subtraction into a
+different base address. The expressions retain `ItemDataRecord` at every field
+access and are recorded as debt, not concealed behind aliases or tool changes.
+Pins, barriers, NOPs, pointer/integer casts, field macros, and ASM counts do not
+increase. No source-organization baseline changes are needed.
+
+The actual production unit passes 100000 ASan/UBSan transfer cases, covering all
+four flag combinations, capped signed stats, halfword overflow, aliasing records,
+full modifier slots, tool consumption, donor deletion, and all donor kind bytes
+in the no-cost paths. Another 65624 cases cover every raw halfword ID, selection
+overrides, both remembered selection indices, callback-driven active-list changes,
+and weapon/armor replacement at every index and with no matching item. The older
+snapshot/restoration routines retain their 219218 host cases using an unchanged
+production excerpt. Host fixtures disable target ABI assertions only; there are
+no pins or assembly statements to strip. These tests use an independent C model
+and callback fixtures; exactness is established separately by the retail bytes.
+
+Evidence: `/tmp/pe-transfer/` (`target.s`, `check.py`, `check-unit.py`, source-shape
+trials, `test-production.c`, `test-selection.c`, and verification logs).
+`make verify-clean` passes all 341 tests, source/debt/organization gates, and main
+SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
