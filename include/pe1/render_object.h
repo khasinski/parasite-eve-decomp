@@ -134,6 +134,28 @@ int func_800D8B6C(int mode, void *state);
 extern GteShortVector D_800E21F8;
 extern u8 D_800E1A14[];
 
+/* The controller at 0x800D927C allocates 16-byte effects and 8-byte particles. */
+typedef struct RenderHelicalEffect {
+    s16 stage;
+    s16 angle;
+    s16 timer;
+    s16 x, y, z;
+    s16 radius;
+    s16 direction;
+} RenderHelicalEffect;
+
+PE1_STATIC_ASSERT(sizeof(RenderHelicalEffect) == 0x10,
+                  render_helical_effect_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderHelicalEffect, x) == 6,
+                  render_helical_effect_position);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderHelicalEffect, direction) == 0xE,
+                  render_helical_effect_direction);
+int func_800D8D14(int mode, GteShortVector *state);
+int func_800D8E74(int mode, RenderHelicalEffect *state);
+extern u8 D_800E1AA0[];
+extern GteShortVector D_800E2200;
+extern char *D_800E2208;
+
 typedef struct RenderArcingEffect {
     s16 x, y, z;
     s16 velocity_y;

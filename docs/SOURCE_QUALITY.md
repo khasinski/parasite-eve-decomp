@@ -1355,3 +1355,49 @@ comparison verifies all 924 bytes. Scratch proof is in
 `make verify-clean` passes all 340 tests and the source, organization and
 updated-debt gates. The complete main image and all 191 rebuilt overlays
 preserve their retail SHA-1 values.
+
+
+### Helical field effect and contracting particle reconstruction
+
+`func_800D8D14` and `func_800D8E74` share `FieldEng_HelicalEffect.c` and
+match all 352 and 1032 retail bytes respectively (1384 together), with stock
+GCC 2.7.2 and unchanged MASPSX. The small particle moves Y by -3 per update,
+completes at age 12, and draws texture 138 with linearly decreasing scale,
+a sampled color track and the palette selected at CLUT X=112.
+
+The helical effect orbits the shared center, advances its angle by 96,
+changes radius along a 36-tick cosine curve, and moves vertically in one of
+two directions. It emits jittered particles on even ages and completes at
+age 36. Rendering preserves the three scale stages, radius expansion in the
+last stage, constant color and texture 228. The stage-zero `rsin` call is
+retained even though retail discards its result; the source does not assume
+that call can be deleted.
+
+`RenderHelicalEffect` is a 16-byte state with stage, angle, timer, XYZ,
+radius and direction. Size/offset assertions accompany the recovered fields.
+The neighboring controller `func_800D927C` requests 16-byte effects and
+8-byte particles and initializes direction at offset 0xE. The particle uses
+the existing `GteShortVector` and leaves its final halfword untouched. Both
+historical symbols remain; grouping the collaborating callbacks does not
+claim an original TU boundary. This is game code, not Psy-Q.
+
+Matching debt is one `$3` palette-comparison pin in the helical callback,
+included in the ratchet; the particle needs no pins. A signed-halfword cast
+on one vertical offset keeps the retail evaluation order before adding the
+center. This has the same final halfword result over the effect's input
+range. No barriers, NOPs, volatile accesses, instruction ASM, stack padding,
+EABI or compiler/assembler modifications are introduced.
+
+The production source passes 20173 ASan/UBSan host cases covering ages around
+both completion cutoffs, both vertical directions and zero/nonzero selector
+values, signed trig results, allocation failure/success, all jitter masks,
+coordinate/angle/timer narrowing, every scale stage and transition, eight
+palettes and both asset-flag states, sampled/constant color, and all draw
+arguments. Mocks also verify the otherwise unused sine call. The host
+prelude suppresses the pin and unrelated target assertions, then checks both
+state sizes explicitly. Linked target comparison verifies all 1384 bytes;
+scratch source and proof are in `/tmp/pe-helical-effect/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and
+updated-debt gates. The complete main image and all 191 rebuilt overlays
+preserve their retail SHA-1 values.
