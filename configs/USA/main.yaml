@@ -1666,6 +1666,8 @@ segments:
       - [0xCA28C, asm, engine/engine_800D4860_CA28C]
       - [0xCA65C, c, engine/FieldEng_BallisticSprite]
       - [0xCA9FC, asm, engine/engine_800D4860_CA9FC]
+      - [0xCADD4, c, engine/FieldEng_AttachedPointEmitter]
+      - [0xCAF80, asm, engine/engine_800D4860_CAF80]
       - [0xCB398, c, engine/FieldEng_CosineEffect]
       - [0xCB4A4, asm, engine/engine_800D4860_CB4A4]
       - [0xCB78C, c, engine/FieldEng_SineEffect]

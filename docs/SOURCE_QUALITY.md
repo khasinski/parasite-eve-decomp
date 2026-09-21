@@ -1533,3 +1533,30 @@ verifies all 928 bytes. Scratch proof is in `/tmp/pe-ballistic-sprite/`.
 `make verify-clean` passes all 340 tests and the source, organization and
 debt gates without increasing the baseline. Main and all 191 rebuilt overlays
 preserve their retail SHA-1 values.
+
+### Attached point emitter reconstruction
+
+`func_800DA5D4` in `FieldEng_AttachedPointEmitter.c` matches all 428 retail
+bytes with stock GCC 2.7.2 and unchanged MASPSX. It seeds the emitter angle,
+allocates 24 payloads of 16 bytes, emits every sixth age below 40, and ends
+at age 70. Allocation failure leaves the angle unchanged. A successful
+emission initializes the existing point prefix and subtracts 1365 plus the
+low random byte from the emitter angle.
+
+Drawing copies the active owner's actor target coordinates and overrides Y
+with `D_800942EC`. The observed owner prefix has an actor pointer at +8;
+`FieldActor.render_object.target_x/y/z` supplies the existing +0x268/26A/26C
+layout rather than introducing a duplicate actor structure. No meaning is
+claimed for the owner's first eight bytes or the height global beyond these
+accesses. This is game code, not Psy-Q; no original TU boundary is asserted.
+
+There are no new pins, barriers, volatile accesses, instruction ASM or other
+ratcheted debt. The production C passes 90368 ASan/UBSan cases checking all
+ages -12 through 75, both allocation outcomes, 512 random values, payload
+fields left untouched, initialization callback/stride/count, signed position
+extremes and inactive modes. Linked comparison verifies all 428 bytes;
+scratch proof is in `/tmp/pe-attached-point/`.
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates.
+The rebuilt main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays also retain their retail SHA-1 values.

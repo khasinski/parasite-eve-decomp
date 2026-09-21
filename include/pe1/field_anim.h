@@ -73,6 +73,19 @@ typedef struct FieldAnimEmittedPoint {
     s16 phase;
 } FieldAnimEmittedPoint;
 
+/* Observed prefix of the active effect owner; actor is at +0x08. */
+typedef struct FieldAnimObjectPrefix {
+    u32 unknown00[2];
+    struct FieldActor *actor;
+} FieldAnimObjectPrefix;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimObjectPrefix, actor) == 8,
+                  field_anim_object_actor_offset);
+extern FieldAnimObjectPrefix *D_800F32D0;
+extern s16 D_800E2214[3];
+extern s16 D_800942EC;
+int func_800DA1FC(int mode, void *state);
+int func_800DA5D4(int mode, FieldAnimEmitter *state);
+
 extern u8 *D_800F32D8;
 extern s16 D_800E220C[];
 void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);
