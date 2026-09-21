@@ -10,7 +10,6 @@ void func_800C2FF0(int width, int height);
 void func_800C3098(int value);
 void func_800C3238(int mode);
 void *memset(void *dest, int value, unsigned int size);
-void Gte_ScaleMatrix(GteMatrix *matrix, int *scale);
 void func_800C3134(void *table, int step, void *out);
 void func_800C42A4(void *packet, GteMatrix *matrix, int mode);
 
@@ -77,7 +76,7 @@ void ROOMLIB_DRAW_EIGHT_SCALED_NAME(
             scaleArg[2] = scale2;
             scaleArg[3] = scale3;
             asm volatile("" ::: "$5");
-            Gte_ScaleMatrix(matrixArg, scaleArg);
+            Gte_ScaleMatrix(matrixArg, (const GteVector *)scaleArg);
 
             *depthOut = *(u16 *)(scalarCursor + 0x94);
             matrix.t[0] = *(s16 *)(positionCursor + 4);

@@ -2,6 +2,31 @@
 #define PE1_FIELD_ANIM_H
 
 #include "common.h"
+#include "pe1/gte_types.h"
+
+/* Twelve-byte parameter blocks used by the burst render callbacks.
+ * Byte 3 and halfword 6 are not written by setup. */
+typedef struct FieldAnimBurstParameters {
+    u8 r, g, b, reserved03;
+    u8 parameter04, parameter05;
+    u16 reserved06;
+    s16 parameter08, parameter0A;
+} FieldAnimBurstParameters;
+
+PE1_STATIC_ASSERT(sizeof(FieldAnimBurstParameters) == 12,
+                  field_anim_burst_parameters_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimBurstParameters, parameter04) == 4,
+                  field_anim_burst_parameter04);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimBurstParameters, parameter08) == 8,
+                  field_anim_burst_parameter08);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimBurstParameters, parameter0A) == 10,
+                  field_anim_burst_parameter0a);
+
+extern GteMatrix D_800F3478, D_800F33C0, D_800F32B0;
+extern GteVector D_800C220C, D_800C221C, D_800C222C;
+extern FieldAnimBurstParameters D_800E2298, D_800E2250, D_800E27E0, D_800F3460;
+extern char D_800E0EB8[];
+int func_800CCBA8(char *object);
 
 typedef int (*FieldAnimTaskCallback)(int mode, void *state);
 

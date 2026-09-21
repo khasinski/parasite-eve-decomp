@@ -2087,3 +2087,49 @@ untouched bytes (including inactive entries). Scratch evidence is in
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values. Debt counts remain
 unchanged.
+
+### Burst matrix and parameter setup
+
+`func_800CCBA8` reconstructs 788 retail bytes with unchanged stock GCC 2.7.2
+and MASPSX. The function registers script `D_800E0EB8`, initializes three
+identity matrices, scales each using its own copied vector, and initializes
+four twelve-byte burst parameter blocks. This is game field-animation code.
+It adds no pins, barriers, volatile scheduling accesses, inline ASM, NOPs,
+or compiler flag overrides. An ordinary inline helper shares the identity
+initialization; assignments preserve the MATRIX alignment halfword.
+
+The function joins the immediately following `FieldAnim_BurstEffects.c`
+range. Retail table `D_800E0E90` contains this initializer followed by
+`func_800CCEBC`, `func_800CCEE8`, `func_800CCF10`, `func_800CCF80` and
+`func_800CCF90`, with `func_800CCF98` preceding it in the same descriptor.
+This supplies dispatch evidence for the contiguous grouping, rather than
+claiming an original object boundary from filenames alone.
+
+`FieldAnimBurstParameters` describes RGB bytes, two parameter bytes, and two
+signed halfwords at +8/+10; byte +3 and halfword +6 remain unchanged. Unknown
+parameter meanings retain offset names. Size and offset assertions document
+the 12-byte layout. Existing GTE matrix/vector types describe the three
+matrix globals and three copied constants. Shared declarations live in the
+field-animation and engine-state headers. The GTE header now owns the
+`Gte_ScaleMatrix` prototype from its existing definition; the rotation-loader
+caller uses that declaration instead of its older local void-return prototype.
+The shared eight-particle room renderer had the same obsolete prototype; it
+also uses the canonical declaration now (rooms m174, m348 and m383). These
+scale pointer casts preserve the existing XYZ storage and machine code.
+
+4096 ASan/UBSan host cases exercise the initializer extracted unchanged from
+the production TU. Hooks verify the object argument and registration, exact
+matrix identity values and untouched alignment bytes, separate local vector
+copies (including their padding word), sequential copy/call timing, all
+parameter values, and untouched bytes. Hooks also mutate later input vectors
+and matrix outputs to check call effects and ordering. This tests setup and
+its call contract, not GTE scaling arithmetic itself. Scratch evidence is in
+`/tmp/pe-burst-setup/` (`check.py`, `test.c`, `setup-under-test.c`).
+
+The independently linked merged TU matches all 1844 retail bytes, including
+the previously reconstructed callbacks (`check-unit.py`). `make verify-clean`
+passes all 340 tests and the source, organization and debt gates. Main retains
+SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values, including the
+three users of the corrected room-renderer declaration. Debt counts remain
+unchanged.
