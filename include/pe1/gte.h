@@ -65,6 +65,12 @@ int rsin(int angle);
 #define gte_cop2_hazard_slot() \
     asm volatile("nop")
 
+/* Perspective center in signed 16.16 screen coordinates. */
+#define gte_ctc2_24(value) \
+    asm volatile("ctc2 %0,$24" : : "r"(value))
+#define gte_ctc2_25(value) \
+    asm volatile("ctc2 %0,$25" : : "r"(value))
+
 #define gte_ctc2_0(value) \
     asm volatile("ctc2 %0,$0" : : "r"(value))
 #define gte_ctc2_1(value) \

@@ -825,7 +825,7 @@ segments:
       - [0x569A4, c, render/Render_GteScreenOffset]
       - [0x569EC, c, render/Render_SetScrollMode]
       - [0x56A68, c, render/Scene_IsNotBattleMode]
-      - [0x56DA0, asm, render/Render_UpdateScrollPosition]
+      - [0x56DA0, c, render/Render_UpdateScrollPosition]
       - [0x57000, c, gpu/Gpu_LoadGeomState]
       - [0x5718C, asm, render/Render_InitRoomPrimState]
       - [0x57360, c, cdrom/cd_rom]

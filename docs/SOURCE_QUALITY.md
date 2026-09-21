@@ -4589,3 +4589,50 @@ Clean acceptance passes 341 tests and preserves main retail SHA-1
 The audited report credits 2489140 semantic code bytes and 10733 functions
 (70.10% of code). Dirty files increase from 2284 to 2285 due to the serialized
 offset calculation; all compiler-crutch totals remain unchanged.
+
+### Projected camera-transition target (2026-09-22)
+
+`Render_UpdateScrollPosition` is 608 exact retail bytes with stock native
+GCC 2.7.2 and unmodified MASPSX. It captures the current camera coordinates,
+projects the signed high halves of a 16.16 position through the GTE, centers
+and clamps the projected point within a selected viewport, and initializes
+transition target, duration, elapsed time and mode flags. Duration -1 defaults
+to 30; mode -1 preserves the interpolation bit. The disabled path returns -21.
+Shared declarations now record the actual int return type at both callers.
+
+The recovered camera prefix has start/target pairs, elapsed/duration and a
+matrix-word pointer at state offset 0x1C. The existing 52-byte viewport gains
+signed min/max bounds at 44/46/48/50. Structure extents and preexisting aliases
+are preserved. Matrix words are transferred in the retail 2/3/2/1 load groups;
+each GTE transfer/command is an individual hardware macro. All ordinary CPU
+loads, shifts, clamping, flag handling and stores are C.
+
+Matching constraints: nine register pins, six empty barriers and two explicit
+PE1_NOP hazard slots. One pinned center input is volatile unsigned short.
+Without volatility, the generated function differs only in its stack
+adjustments (16 bytes instead of 24). This is compiler debt, not evidence that
+the original author used that volatile type. No invented padding or oversized
+buffer is used. Native GCC frame-layout source inspection and the permuter
+isolated this constraint; the successful source then passed the raw 608-byte
+comparison. The initial parallel permuter harness reused a temporary filename
+on macOS; that run was discarded. A corrected harness creates a unique
+temporary directory per compilation and reached score 0 after 685 trials.
+
+5000 independent MIPS/model cases pass for both retail and candidate. COP2
+instructions are intercepted: the test checks all center/matrix registers
+and the six meaningful input-vector bytes, supplies a controlled packed
+projection result, then checks all camera state and relevant global buffers.
+Coverage includes both gate paths, signed coordinates/dimensions, clamping
+(including inverted bounds), arbitrary/default durations and mode flag masks.
+This tests the surrounding CPU algorithm and GTE interface, not GTE hardware
+arithmetic. The target and candidate issue identical GTE instruction bytes.
+Evidence: /tmp/pe-camera-target/{check.py,test.py,permuter-clean.log}.
+
+Debt records pins 1032 -> 1041, barriers 904 -> 910, NOPs 145 -> 147 and
+byte-relative table addressing 335 -> 336 in main. Shared declarations remove
+two file-local externs (3660 -> 3658). ASM-body and directive counts do not grow.
+
+Clean verification and the final verification both pass 341 tests. Main keeps
+retail SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`; all 191 rebuilt overlays
+match. The audited report credits 2489748 semantic code bytes and 10734
+functions (70.12% of code), with 2286 dirty files.

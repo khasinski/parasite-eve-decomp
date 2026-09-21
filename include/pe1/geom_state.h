@@ -119,7 +119,12 @@ typedef struct GeomScrollEntry {
 typedef struct GeomScrollCoordinates {
     s16 x, y;
     u16 savedX, savedY;
-    u8 reserved08[0x94];
+    u16 screenOffsetX, screenOffsetY;
+    u16 startX, startY;
+    u16 targetX, targetY;
+    u16 elapsed, duration;
+    u32 *matrixWords;
+    u8 reserved1C[0x80];
     s16 originX, originY;
 } GeomScrollCoordinates;
 
@@ -174,12 +179,18 @@ int Scene_IsNotBattleMode(void);
 typedef struct CameraViewport {
     u8 prefix[40];
     u16 width, height;
-    u8 tail[8];
+    s16 minX, maxX, minY, maxY;
 } CameraViewport;
 PE1_STATIC_ASSERT(sizeof(CameraViewport) == 52, camera_viewport_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CameraViewport, width) == 40,
                   camera_viewport_width_offset);
 
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CameraViewport, minX) == 44,
+                  camera_viewport_min_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollCoordinates, matrixWords) == 24,
+                  camera_matrix_words_offset);
+int Render_UpdateScrollPosition(void *position, int duration, int mode);
+extern s16 D_800BCFFE;
 extern int g_RenderStateFlags;
 extern u16 D_800BCF94, D_800BCF96, D_800BCF98, D_800BCF9A;
 extern u16 D_800BCF9C, D_800BCF9E, D_800BCFA0, D_800BCFA2;

@@ -1,3 +1,4 @@
+#include "pe1/geom_state.h"
 #include "common.h"
 
 /* CC1_FLAGS: -G8 */
@@ -54,7 +55,6 @@ extern ScriptMenuByte g_ScriptMenuValue2 __asm__("D_800BD027");
 extern ScriptMenuShort g_ScriptMenuPositionX __asm__("D_800BD028");
 extern ScriptMenuShort g_ScriptMenuPositionY __asm__("D_800BD02A");
 
-void Render_UpdateScrollPosition(void *position, int x, int y);
 void Task_SetCollisionFlag(int value);
 void func_800E00CC(ScriptPosition *position, int mode, int arg2, int arg3,
                    int arg4, int arg5, int arg6);
