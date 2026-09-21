@@ -3,8 +3,6 @@
 
 #include "pe1/aya.h"
 
-typedef short s16;
-
 extern int g_MenuPendingTotalExp;
 extern int g_MenuExpAllocTarget;
 extern int g_MenuLevelDisplayValue;

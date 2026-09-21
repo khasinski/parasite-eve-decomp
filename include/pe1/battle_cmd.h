@@ -102,6 +102,7 @@ BATTLE_CMD_STATIC_ASSERT(
 BATTLE_CMD_STATIC_ASSERT(sizeof(BattleCmdEntry) == 0x24, entry_size);
 
 BattleCmdEntry *BattleCmd_AllocSlot(void);
+int BattleCmd_GetRemainingAmmo(int *out);
 
 #undef BATTLE_CMD_STATIC_ASSERT
 #undef BATTLE_CMD_OFFSETOF

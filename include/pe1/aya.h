@@ -22,11 +22,19 @@
  * For the PC port, treat HP/stats as derived from (level, EXP, bonus alloc).
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef signed char    s8;
-typedef int            s32;
-typedef unsigned int   u32;
+#include "common.h"
+
+/* Four-byte entries traversed by Aya_UnlockParasiteSpellById and read by
+ * Inv_GetSlotHighlightState. The table has 20 entries. */
+typedef struct ParasiteSpellEntry {
+    u16 unlockKey;
+    u16 cost;
+} ParasiteSpellEntry;
+
+PE1_STATIC_ASSERT(sizeof(ParasiteSpellEntry) == 4, parasite_spell_entry_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(ParasiteSpellEntry, cost) == 2,
+                  parasite_spell_cost_offset);
+void *Aya_GetParasiteSpellUnlockTable(void);
 
 /* ------------------------------------------------------------------------- */
 /* Persistent character/save state, based at 0x800C0E00.                     */

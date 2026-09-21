@@ -43,6 +43,7 @@ extern ItemDataRecord g_InvItemSlotArray[128];
 /* Historical name: this operation returns a status, not an item pointer. */
 int Inv_GetSlotItemData(int index);
 int Inv_IsSlotSelectable(int index);
+int Inv_GetSlotHighlightState(int spell, int available);
 int Inv_GetActiveListItemType(int index);
 void Item_SetDisabledFlag(int itemId, int enabled);
 int Inv_FindIndexByData(void *needle);

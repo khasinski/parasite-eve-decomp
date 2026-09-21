@@ -7,9 +7,7 @@
 #define NULL ((void *)0)
 BattleCmdEntry *BattleCmd_AllocSlot();                    /* extern */
 int Inv_SetActiveList(int, s32 *);                       /* extern */
-s32 BattleCmd_GetRemainingAmmo(int);                     /* extern */
 int BattleCmd_ChangeWeaponAndSync(s32);                  /* extern */
-s32 Inv_GetSlotHighlightState(s32, s32);                        /* extern */
 extern s32 g_MenuBattleEquipMode;
 
 void Battle_UseItem(s32 arg0) {

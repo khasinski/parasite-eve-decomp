@@ -2568,3 +2568,51 @@ The clean main rebuild and final `make verify` retain retail SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`; all 340 tests and source,
 organization and debt gates pass.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Parasite resource-cost calculation
+
+`Inv_GetSlotHighlightState` matches all 412 retail bytes with stock native
+GCC 2.7.2, unmodified MASPSX and the existing `-G8` small-data mode. The inherited
+name is retained, but the reconstructed operations calculate a resource cost:
+IDs 6 and 19 return the supplied availability; ID 5 obtains the output value
+from `BattleCmd_GetRemainingAmmo` and divides it by 3, ignoring that function's
+return value. Other IDs read the table's unsigned halfword cost and inspect
+the armor slot at tracked-selection byte 2. Modifier byte 0x0E reduces the
+cost to `(cost * 2) / 3`. A missing item record or absent modifier leaves the
+cost unchanged. These are observed operations, not a renaming of other
+historically labeled ammo/item interfaces.
+
+`ParasiteSpellEntry` describes the four-byte table entries: a halfword unlock
+key followed by a halfword cost. The first field and 20-entry bound are also
+read by `Aya_UnlockParasiteSpellById`. Compile-time assertions cover size and
+cost offset. The archive getter retains its existing `void *` interface.
+The new caller decodes it through this typed view. `aya.h` now uses the shared
+scalar types from `common.h`; one redundant consumer-local `s16` typedef is
+removed. The output-pointer prototype for `BattleCmd_GetRemainingAmmo` is
+shared with the existing `Battle_UseItem` caller, replacing its integer-argument
+declaration. No existing function body changes are needed.
+
+The lookup uses `InventoryRuntime` and the existing equipment records; stock
+GCC naturally reuses the address of tracked byte 2 for equipment addressing.
+The modifier scan is an ordinary `for` loop, with no pins. One empty lookup
+barrier retains the retail separation between an invalid index and an invalid
+item ID; removing it changes the function from 412 to 408 bytes. The reviewed
+main baseline increases barriers 899 to 900, with pins unchanged at 1030.
+No CPU instruction ASM, NOP, alias, pointer/integer cast or raw field-offset
+access is introduced.
+
+364207 ASan/UBSan host cases cover every 16-bit cost with and without the
+modifier, every 16-bit item ID, all signed-halfword resource values, 100000
+sampled 32-bit values and INT_MIN/MAX division boundaries. They also exercise
+all 20 spell IDs, both passthrough cases, null/missing armor, signed-byte slot
+boundaries, modifier positions and absence for tail lengths 0..11. Hooks
+publish the inventory state inside the table getter and change the table cost
+inside base-item lookup, proving the cost was read before that lookup. The
+ID-5 hook returns a value different from its output to verify which value is
+used. The host fixture uses the production function unchanged and disables
+only target-layout assertions. Evidence is in `/tmp/pe-spell-cost/`
+(`check.py`, `test.c`, `direct.c` and source-shape trials).
+
+`make verify-clean` passes all 340 tests and the source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
