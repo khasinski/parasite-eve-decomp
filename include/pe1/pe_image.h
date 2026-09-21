@@ -88,4 +88,6 @@
 extern unsigned int   g_PeImageBaseLba;    /* =0x800B0DD8: PE.IMG start sector, found at boot */
 extern signed char    g_PeImageMountFlags; /* =0x800B0DCD: bit0 CD1 (FMV1), bit1 CD2 (FMV2) */
 
+int Asset_SearchByKeyType(int type);
+
 #endif /* PE1_PE_IMAGE_H */

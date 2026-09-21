@@ -100,11 +100,29 @@ typedef struct FieldAnimEmittedPoint {
 
 /* Observed prefix of the active effect owner; actor is at +0x08. */
 typedef struct FieldAnimObjectPrefix {
-    u32 unknown00[2];
+    u8 reserved00;
+    u8 asset_type;
+    u8 reserved02[6];
     struct FieldActor *actor;
 } FieldAnimObjectPrefix;
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimObjectPrefix, actor) == 8,
                   field_anim_object_actor_offset);
+/* Task context embedded immediately after the observed owner prefix. */
+typedef struct FieldAnimTaskOwner {
+    FieldAnimObjectPrefix prefix;
+    FieldAnimTaskContext tasks;
+} FieldAnimTaskOwner;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimObjectPrefix, asset_type) == 1,
+                  field_anim_owner_asset_type);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskOwner, tasks) == 0xC,
+                  field_anim_owner_tasks);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskOwner, tasks.slots) == 0x2C,
+                  field_anim_owner_slots);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskOwner, tasks.flags) == 0x19,
+                  field_anim_owner_flags);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskOwner, tasks.table) == 0x8C,
+                  field_anim_owner_table);
+int func_800D4704(FieldAnimTaskOwner *owner);
 extern FieldAnimObjectPrefix *D_800F32D0;
 extern s16 D_800E2214[3];
 extern s16 D_800942EC;

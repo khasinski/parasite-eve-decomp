@@ -1647,7 +1647,6 @@ segments:
       - [0xC481C, c, engine/FieldEng_AllocateTask]
       - [0xC493C, asm, engine/engine_800CEE20_C493C]
       - [0xC4E20, c, engine/FieldEng_ObjectLifecycle]
-      - [0xC4F04, asm, engine/engine_800CEE20_tail_2]
       - [0xC5050, c, engine/FieldEng_AssetBootstrap]
       - [0xC5128, asm, engine/engine_800D4860]
       - [0xC56A4, c, engine/FieldEng_ExpandingFlash]

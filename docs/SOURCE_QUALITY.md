@@ -2379,3 +2379,51 @@ check the caller contract, not trigonometry or GTE timing. Evidence lives in
 `make verify-clean` passes all 340 tests and source, organization and debt
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Effect-owner task rendering
+
+`func_800D4704` matches all 332 retail bytes. It establishes the current owner
+and task context, optionally looks up the asset-type flag, and traverses all
+eight task slots. Each non-0xFFFF slot reloads the current matrix into GTE,
+publishes its slot and unsigned halfword age, calls the selected callback in
+mode 2, and then renders its non-null child list. Callback return values are
+ignored. The child-list pointer is reread after the callback, and the table,
+argument and current matrix are looked up again for later active slots.
+
+`FieldAnimTaskOwner` gives this access pattern a typed view using the existing
+owner prefix followed by `FieldAnimTaskContext`. Assertions cover context
++0x0C, flags +0x19, slots +0x2C, and table +0x8C. The previously opaque prefix
+now names the asset-type selector at byte 1 without changing actor offset +8.
+This describes the observed embedding, not a newly inferred allocation size.
+The asset lookup prototype belongs to the shared asset-archive header.
+
+The function is added to the adjacent `FieldEng_ObjectLifecycle.c` TU.
+`func_800D4620` initializes these same slots and arena; `func_800D4698` invokes
+the lifecycle callback using the same context and table offsets. Their bodies
+remain unchanged. Together the contiguous 0x800D4620..0x800D4850 range matches
+all 560 bytes. The grouping follows shared ownership and lifecycle operations;
+it does not claim to establish the original object-file boundary.
+
+Stock native GCC 2.7.2 and unmodified MASPSX produce the match without custom
+flags. Subset searches removed the provisional context, loop-index and slot-
+address pins. The four retained pins are the matrix pointer `$7` and GTE
+transfer registers `$12`..`$14`. One empty barrier keeps loop initialization
+and matrix-slot setup after optional asset lookup; its `$20` clobber precedes
+matrix-slot initialization. All GTE writes are individual existing macros.
+The reviewed main baseline records pins 1024 to 1028 and barriers 897 to 898.
+No new instruction ASM, NOP, alias or raw-offset access is introduced.
+
+131072 ASan/UBSan host cases cover all 256 active-slot masks, all byte flag
+values, both child-list paths and lookup returns -1/0/1. Hooks change callback
+tables, arguments, current matrix pointers and the current slot's child list
+to check the retail reload points. Tests verify the fixed eight-slot traversal
+with the context count set to zero, unsigned ages, skipped inactive slots,
+publication of globals and all eight GTE writes per active slot. The host
+adapter extracts the new function from the production TU, removes hard-
+register annotations/clobbers and replaces GTE writes with trace hooks. It
+tests dispatch rather than callback internals or GTE timing. Evidence is in
+`/tmp/pe-draw-tasks/` (`check-unit.py`, `test.c`, `minimize.py`).
+
+`make verify-clean` passes all 340 tests and source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
