@@ -131,6 +131,15 @@ int rsin(int angle);
 #define gte_mfc2_11(out) \
     asm volatile("mfc2 %0,$11" : "=r"(out))
 
+#define gte_lwc2_9_0(ptr) \
+    asm volatile("lwc2 $9,0(%0)" : : "r"(ptr) : "memory")
+#define gte_lwc2_10_4(ptr) \
+    asm volatile("lwc2 $10,4(%0)" : : "r"(ptr) : "memory")
+#define gte_lwc2_11_8(ptr) \
+    asm volatile("lwc2 $11,8(%0)" : : "r"(ptr) : "memory")
+#define gte_op_sf12_command() \
+    asm volatile(".word 0x4B78000C")
+
 #define gte_lwc2_1_8(ptr) \
     asm volatile("lwc2 $1,8(%0)" : : "r"(ptr) : "memory")
 

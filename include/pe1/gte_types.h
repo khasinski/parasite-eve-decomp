@@ -27,6 +27,14 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(GteMatrixWords, r33_pad) == 16,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GteMatrixWords, tx) == PE1_OFFSETOF(GteMatrix, t),
                   gte_matrix_words_translation_offset);
 
+/* Full MATRIX storage with its packed COP2 transfer view. */
+typedef union GteMatrixStorage {
+    GteMatrix matrix;
+    u32 words[8];
+} GteMatrixStorage;
+
+PE1_STATIC_ASSERT(sizeof(GteMatrixStorage) == 32, gte_matrix_storage_size);
+
 typedef struct GteShortVector {
     s16 x, y, z, pad;
 } GteShortVector;

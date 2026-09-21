@@ -4681,3 +4681,49 @@ Clean acceptance passes 341 tests and preserves main retail SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
 The audited report credits 2490216 semantic code bytes and 10735 functions
 (70.13% of code), with 2287 dirty files.
+
+### Camera orientation basis (2026-09-22)
+
+`Render_DrawSprite` is 632 exact retail bytes with stock native GCC 2.7.2
+and unmodified MASPSX. The existing name is misleading: it builds a camera
+orientation matrix. Input-mode bits select one of two yaw values. When the
+active battle entity exists and mode bit 0x10 is set, its core state flags
+add a quadrant offset and a half-turn. The angle is masked to 12 bits before
+both trigonometric calls. The shared BattleEntity/Combatant types describe
+the pointer chain; no new partial actor type or alias is introduced.
+
+The function builds a Y rotation, transforms the forward axis using MVMVA,
+and uses two OP commands to obtain right = up cross forward and corrected
+up = forward cross right. These vectors become the output matrix columns;
+translation is zeroed and its alignment halfword is preserved. GteMatrixStorage
+provides arithmetic and packed-word views of the full 32-byte SDK matrix.
+Every GTE transfer/command is wrapped individually; CPU-side work is C.
+
+The 128-byte frame follows directly from MATRIX at +0x10, SVECTOR at +0x30,
+four VECTOR objects at +0x38/+0x48/+0x58/+0x68, argument space and saved s0/ra.
+There is no invented padding. Twelve register pins are confined to GTE
+transfer addresses and scratch words. Eleven empty barriers preserve memory
+visibility, load grouping and address scheduling; six PE1_NOP slots cover
+COP2 transfer hazards. All constraints are explicit in the production source,
+rather than hidden behind repeated CPU-operation macros.
+
+5000 MIPS/GTE model cases pass for retail and compiled C. Trigonometric
+callbacks return controlled values in the ordinary fixed-point range, clobber
+caller-saved registers and optionally mutate yaw/mode globals. Both calls must
+still receive the captured angle. The GTE model implements the relevant MVMVA
+and OP fixed-point arithmetic for these bounded inputs; expected output uses
+an independent closed-form yaw basis, including integer normalization error.
+Checks cover both yaw sources, null/present actors, quadrant adjustment,
+command sequence, complete output matrix including preserved padding, input
+globals and s0/SP restoration. This is not a general GTE emulator or a test
+of the existing trigonometric implementations. Evidence:
+/tmp/pe-camera-basis/{check.py,test.py,base.bin,target.bin}.
+
+Main debt increases by 12 pins (1045 -> 1057), 11 barriers (914 -> 925) and
+six NOPs (147 -> 153). All other categories, including ordinary ASM bodies,
+directives, aliases and raw pointer arithmetic, remain unchanged.
+
+Clean acceptance passes 341 tests and preserves main retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
+The audited report credits 2490848 semantic code bytes and 10736 functions
+(70.15% of code).

@@ -1,4 +1,4 @@
-int Render_DrawSprite(void);
+#include "pe1/render_camera.h"
 int Scene_CheckBattleFlag(void);
 int Scene_IsBattleMode(void);
 int Geo_BuildMeshList(void);

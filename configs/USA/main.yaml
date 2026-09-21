@@ -830,7 +830,7 @@ segments:
       - [0x5718C, c, render/Render_InitRoomPrimState]
       - [0x57360, c, cdrom/cd_rom]
       - [0x5747C, c, render/Render_SetFadeColour]
-      - [0x574E8, asm, render/Render_DrawSprite]
+      - [0x574E8, c, render/Render_DrawSprite]
       - [0x57760, asm, main/Geo_LoadMeshEntry]
       - [0x579C8, c, main/Geo_TransformPoint]
       - [0x57A94, asm, render/Render_DrawSpriteEntry]
