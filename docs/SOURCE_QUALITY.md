@@ -3717,3 +3717,48 @@ are not claimed. Evidence: /tmp/pe-filter-mod-capacity/ (check.py, test.c).
 `make -j8 verify-clean` passes all 341 tests and source/debt/organization
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Threshold-qualified equipment selection (0x8005C688)
+
+`Inv_RebuildWithBonusSlots` matches all 1124 retail bytes with stock native
+GCC 2.7.2 and unmodified MASPSX. It selects the Aya list and builds kind mask
+0x1FE when D_8009D0CC is nonzero, otherwise 0x200. It clears the selection bits
+and marks filtered positions whose three base-plus-signed-bonus values meet
+the global first-stat threshold and the two argument thresholds. Item IDs
+0x93 and 0x61 are excluded. If the count is nonzero, it scans all 128 equipment
+records for a nonzero allocation marker, flag 0x10, and kind below 9 in the
+first mode or exactly 9 in the second. Finding such a record negates the
+count. D_8009D068 receives count != 0, including for negative counts.
+
+The two scans use empty-body for loops with the full search predicate in
+the condition. Stock GCC's normal passes then expand the first two scan
+iterations exactly as retail does. Keeping the scan pointer separate from
+the earlier resolved-item local gives the original allocation. No explicit
+unrolling, pins, barriers, gotos, instruction ASM, NOPs, or new flags are
+needed. A plain loop with break generated a shorter but nonmatching scan;
+compiler changes and unroll flags were unnecessary.
+
+The contiguous threshold and tail-capacity filters now form
+Inv_EquipmentSelection.c, sharing record lookup and bit clearing. Both
+entries match all 1564 bytes; only 1124 bytes and one function are new. The
+former Inv_TransferToStorage.c is absorbed into this unit. The two filter
+globals and the function signature have canonical inventory declarations.
+This grouping follows shared state and adjacency, not recovered object names.
+
+104736 ASan/UBSan model cases cover all supported 392 IDs, every signed
+halfword value for the argument thresholds, both filter modes, excluded item
+IDs, negative bonuses, no results, beginning/end/absent tagged records, and
+callbacks mutating the selected list, bit pointer, filtered length, mode and
+first-stat threshold. The previous 194896 tail-capacity cases also pass
+against the combined production source (299632 total). Tests compare whole
+record/list/bitset state, returned signed counts and callback arguments/counts.
+Host aliases reproduce the existing retail backing layout, with only target
+ABI assertions disabled. Filtered entries must resolve to valid records;
+array lengths/indexes must fit their backing allocations. Tests use filtered
+lengths through 64 and active lists of 50, not arbitrary larger allocations.
+Evidence: /tmp/pe-rebuild-bonus/ (check.py, check-unit.py, test.c), plus the
+previous /tmp/pe-filter-mod-capacity/test.c.
+
+`make -j8 verify-clean` passes all 341 tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

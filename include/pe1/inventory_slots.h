@@ -41,6 +41,8 @@ extern u32 *D_8009D058;
 extern s32 D_8009D064;
 extern s32 D_8009D06C;
 extern s32 D_8009D068;
+/* Equipment comparison filter: nonzero selects kinds 1..8, zero kind 9; first-stat floor. */
+extern s32 D_8009D0CC, D_8009D0D0;
 /* Pending item IDs and the current number to transfer. */
 extern s32 D_8009D078;
 extern s16 D_800A1FD4[];
