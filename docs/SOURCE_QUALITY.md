@@ -3341,3 +3341,44 @@ text-table-evidence.txt, caller-before/after.dump, and acceptance logs).
 Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including both
 new functions and the typed pointer stores in Battle_ApplyEnemyAttack.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Checking availability of two mod-bearing items (0x80054520)
+
+`Inv_SetupSlotDisplay` matches all 828 retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX. Its historical name is retained: it counts records
+whose kind bit is enabled by the supplied mask and whose tailCount is nonzero,
+then returns whether at least two qualify. It always starts by selecting the
+Aya list. It also selects/scans the override list when one remains available
+after the first scan and mask bit 0x100 is clear. All loop conditions observe
+the current slot limit. Finally it selects the original logical list (determined
+by initial pointer equality with Aya's list), observing override availability
+and slot-limit callback effects at that point. It does not restore an arbitrary
+saved raw pointer, stop after the second match, or clear/write selection bits.
+
+The new function shares typed lookup and selection helpers with the adjacent
+selection/message code in Inv_RandomSelectionText.c. The full 2008-byte range
+0x80054520..0x80054CF8 and all three entries are exact; only 828 bytes and one
+function are new. The local item pointer is assigned in both sides of the
+bounds check, preserving retail's branches without pins or barriers. There
+are no new ASM, NOPs, gotos, flags, local externs or ratchet changes.
+
+As in other kind-mask queries, resolved kinds must be below 32 for the C shift.
+The previously audited USA base table has kinds 0..21. This does not establish
+the range of arbitrary runtime mutations or malformed saved items. Tests use
+kinds 0..31 and valid list capacities. Signed-mask shifts retain the native
+compiler's arithmetic-shift behavior; bit tests are checked independently with
+unsigned masks in the host model.
+
+96057 ASan/UBSan cases include the production unit unchanged: every raw halfword
+ID, random Aya/override lists and masks, nonpositive limits, and callback changes
+to list pointers, limits and override availability, including null base lookup
+results. The model checks the return value, final list/bitset pointers and
+limits, record state, and callback counts. The prior 96057 selection and 31230
+text cases also pass with the expanded production unit (223344 cases total).
+Only target ABI assertions are disabled. Exactness is independently established
+by the complete 2008-byte retail comparison. Evidence: /tmp/pe-setup-slot/
+(check-unit.py, test.c, test-pick.c, test-text.c, and acceptance logs).
+
+`make verify-clean` passes all 341 tests and source/debt/organization gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

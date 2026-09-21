@@ -44,6 +44,7 @@ extern ItemDataRecord g_InvItemSlotArray[128];
 
 /* Historical name: this operation returns a status, not an item pointer. */
 int Inv_GetSlotItemData(int index);
+int Inv_SetupSlotDisplay(int mask);
 int Inv_PickRandomItem(int unused);
 u8 *Inv_GetItemEffectData(int item, int mode);
 extern u8 D_800A1B50[];

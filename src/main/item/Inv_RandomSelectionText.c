@@ -24,6 +24,45 @@ static inline ItemDataRecord *LookupActiveItem(int index) {
     if (index >= 0 && index < D_8009D050) return LookupItem(D_8009D048[index]);
     return 0;
 }
+static inline void RestoreList(int storage) {
+    if (storage && g_InvActiveListOverride != 0) {
+        D_8009D048 = g_InvActiveListOverride;
+        D_8009D058 = g_InvStorageSelectionBits;
+        D_8009D064 = 4;
+        D_8009D050 = g_InvOverrideSlotLimit;
+    } else {
+        D_8009D048 = D_800C0E48;
+        D_8009D050 = Inv_GetAyaSlotLimit();
+        D_8009D058 = D_8009D05C;
+        D_8009D064 = 2;
+    }
+}
+
+static inline int ListCount(void) {
+    if (g_InvActiveListOverride) return 2;
+    return 1;
+}
+
+
+static inline int Eligible(int index,int mask) {
+    ItemDataRecord *item;
+    if (index >= 0 && index < D_8009D050) item=LookupItem(D_8009D048[index]);
+    else item=0;
+    return item && ((mask >> item->kind) & 1) && item->tailCount != 0;
+}
+int Inv_SetupSlotDisplay(int mask) {
+    int i=0, count=0;
+    int wasStorage=D_8009D048 != D_800C0E48;
+    RestoreList(0);
+    for (; i<D_8009D050; ++i) count += Eligible(i,mask);
+    if (ListCount() >= 2 && !(mask & 0x100)) {
+        RestoreList(1);
+        for (i=0; i<D_8009D050; ++i) count += Eligible(i,mask);
+    }
+    RestoreList(wasStorage);
+    return count>=2;
+}
+
 static inline int RandomByte(void) {
     int i = 0;
     if (++D_8009D038 >= 521) {

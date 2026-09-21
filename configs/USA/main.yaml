@@ -672,8 +672,7 @@ segments:
       - [0x44A88, c, item/inv_get]
       # Filtered active-list builders share one 0x280-byte -G8 inventory object.
       - [0x44AA0, c, item/Inv_FilteredList]
-      - [0x44D20, asm, main/Inv_SetupSlotDisplay]
-      - [0x4505C, c, item/Inv_RandomSelectionText]
+      - [0x44D20, c, item/Inv_RandomSelectionText]
       - [0x454F8, c, item/Inv_CompactActiveListSlots]
       - [0x4564C, c, item/Inv_CheckFreeSlotCapacity]
       - [0x45758, asm, main/Inv_CheckItemEquippable]
