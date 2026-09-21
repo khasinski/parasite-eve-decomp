@@ -65,6 +65,38 @@ static inline ItemDataRecord *LookupTrackedItem(int index) {
 }
 
 
+static inline ItemDataRecord *LookupActiveItem(int index) {
+    if (index >= 0 && index < D_8009D050) return LookupItem(D_8009D048[index]);
+    return 0;
+}
+
+static inline int ItemKind(int slot) {
+    ItemDataRecord *item = LookupActiveItem(slot);
+    if (item) return item->kind;
+    return 0;
+}
+/* Historical name: collect kind-filtered slots, rebuild selection, then append
+ * empty slots. Return the final row count consumed by inventory menus.
+ * The C variable shift requires item kinds below 32. */
+int Inv_TransferItemAlt2(int mask) {
+    s16 *out = D_800A1E00;
+    int i;
+    D_8009D048 = D_800C0E48;
+    D_8009D050 = Inv_GetAyaSlotLimit();
+    D_8009D058 = D_8009D05C;
+    D_8009D064 = 2;
+    for (i = 0; i < D_8009D050; i++) {
+        if ((mask >> ItemKind(i)) & 1) *out++ = i;
+    }
+    D_8009D044 = out - D_800A1E00;
+    Inv_RebuildSelectableMask();
+    for (i = 0; i < D_8009D050; i++) {
+        if (D_8009D048[i] == 0) *out++ = i;
+    }
+    D_8009D044 = out - D_800A1E00;
+    return D_8009D044;
+}
+
 int Inv_GetWayneListItemByIndex(int index) {
     if (index >= 0 && index < D_8009D044) {
         return D_800A1E00[index];

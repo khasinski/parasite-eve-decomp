@@ -705,8 +705,8 @@ segments:
       - [0x490EC, asm, main/Inv_StepScrollDisplay2]
       - [0x492A8, c, menu/Menu_DrawArmorItemDetail]
       - [0x493BC, c, item/Inv_LookupItemData]
-      - [0x4944C, asm, item/inv4]
-      - [0x49608, c, item/Inv_InventorySwap]
+      # Kind filtering, filtered-slot lookup, eligibility and swaps form one 0x8E8-byte unit.
+      - [0x4944C, c, item/Inv_InventorySwap]
       - [0x49D34, c, item/Menu_OpenItemUsePanelAtIndex]
       - [0x49E8C, c, item/Inv_ArmorCapacity]
       # Snapshots, selection restoration, and modifier/stat transfer share a 0x13B8-byte unit.

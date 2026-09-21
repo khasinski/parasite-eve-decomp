@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 #include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -8,9 +9,6 @@
 s32 MenuWidget_FindByModeAndSelectedBase(M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK Inv_SelectActiveList(s32);                         /* extern */
 s32 Inv_GetAyaSlotLimit();                                /* extern */
-M2C_UNK Inv_RebuildSelectableMask();                            /* extern */
-M2C_UNK Inv_RemoveActiveListItem(s32);                         /* extern */
-s32 Inv_TransferItemAlt2(M2C_UNK);                         /* extern */
 M2C_UNK MenuWidget_DestroyNode(s32);                         /* extern */
 extern s32 g_MenuActiveItemSlot;
 extern s32 g_MenuEquipMode;

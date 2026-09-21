@@ -2981,3 +2981,49 @@ trials, `test-production.c`, `test-selection.c`, and verification logs).
 `make verify-clean` passes all 341 tests, source/debt/organization gates, and main
 SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Kind-filtered inventory rows and explicit row count (0x80058C4C)
+
+`Inv_TransferItemAlt2` matches all 444 retail bytes with stock native GCC 2.7.2
+and unmodified MASPSX. Despite its historical name, it selects Aya's list,
+collects indices selected by a kind bitmask, publishes the partial count,
+rebuilds selection state, then appends empty slots and returns the final count.
+The output cursor survives the callback, while active-list pointer and limit
+are re-read for the second pass. A callback's overwrite of the count does not
+replace the cursor-derived final count.
+
+The entry is merged with the contiguous filtered-index getter, slot eligibility
+check and swap operation in `Inv_InventorySwap.c`. The complete
+0x80058C4C..0x80059534 range matches all 2280 bytes and preserves entry addresses.
+The new bounded lookup reuses the swap's existing raw-ID resolver; it does not
+copy another resolver or add a barrier. The old eligibility helper's barrier
+is unchanged. All debt and source-organization baseline counts remain unchanged.
+
+The return type is int, not void. The retail `Menu_OnItemDiscardConfirm` object
+calls the function at offset 0x98 and forwards v0 into the item-count argument
+of `Draw_SetPrimCallback` at offset 0xA8. Returning `D_8009D044` explicitly retains
+the exact function bytes. Both the discard menu and sorting code now use the
+shared inventory declaration; the old contradictory void declaration is removed.
+These caller declaration repairs are not credited as new decompilations.
+
+The C shift requires resolved item kinds below 32. Tests cover all 32 such kinds
+and the sign bit of the signed mask. An explicit `& 31` would broaden this C
+contract but adds an instruction with the stock compiler, so it is not silently
+substituted for the retail source shape. Invalid raw item IDs resolve to kind
+zero. With mask bit zero set, an empty slot can be collected in both phases;
+that behavior is retained. The known callers use 0xF400 or 0x3803FE, both with
+bit zero clear. Tests keep all generated output within the 50-slot buffer.
+
+214531 ASan/UBSan cases include the production unit unchanged, exercise all
+65536 raw halfword IDs, all legal kinds, individual and combined mask bits,
+negative/zero initial limits, callback redirection of the initial/second list,
+partial-count observation, count corruption, output-prefix mutation, final
+return values, and untouched output tails. Only target-layout assertions are
+disabled in the host fixture. The existing matching functions are additionally
+covered by the whole-unit byte comparison. Evidence: `/tmp/pe-filter-kinds/`
+(`target.s`, `check.py`, `check-unit.py`, `test-production.c`, and build logs).
+
+`make verify-clean` passes all 341 tests and source/debt/organization gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including both
+caller declaration repairs.
+All 191 rebuilt overlays retain their retail SHA-1 values.
