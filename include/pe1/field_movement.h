@@ -16,8 +16,7 @@
  *   actor": same object is the battle participant in battle context).
  */
 
-typedef int   s32;
-typedef short s16;
+#include "pe1/battle.h"
 
 /* ---- Field pad bits (g_FieldInputState / D_8009D26C), confirmed by live walking ---- */
 #define FIELD_PAD_UP    0x20   /* north, -Z, facing angle 0x000 */
@@ -57,5 +56,13 @@ typedef short s16;
  *   Task_MoveTowardPoint(), Task_TurnTowardPointStep()  scripted/NPC movement & turning
  *   Camera base angle: D_800BD020/D_800BD022 ; analog stick: D_800BE9A0/A6/A7
  */
+
+/* Pad packet header and left-stick coordinates read by the facing update. */
+extern u16 D_800BE9A0;
+extern u8 D_800BE9A6, D_800BE9A7;
+extern u16 D_800BD020, D_800BD022;
+extern unsigned int D_8009D26C;
+
+void Scene_UpdateEntityFacingFromPad(BattleEntity *entity);
 
 #endif /* PE1_FIELD_MOVEMENT_H */

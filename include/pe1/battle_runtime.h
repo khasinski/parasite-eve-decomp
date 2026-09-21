@@ -74,6 +74,7 @@ void Battle_ApplyPlayerHit(void);
 void Battle_AdvancePhase(void);
 void BattleCmd_UndoPending(void);
 void Entity_SetActionMode(BattleEntity *entity, int mode);
+void Entity_SetAction(BattleEntity *entity, int mode);
 int Battle_RollEscapeChance(void);
 void Battle_CopyPadStateToRecord(void);
 int Battle_HandleItemMenu(void);

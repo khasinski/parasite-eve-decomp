@@ -920,7 +920,7 @@ segments:
       - [0x618A4, asm, main/Scene_UpdatePlayerEntity]
       - [0x61B6C, asm, main/Scene_UpdateEntityFacing]
       - [0x61EA4, c, scene/Scene_SyncEntityAction]
-      - [0x61F54, asm, scene/Scene_UpdateEntityFacingFromPad]
+      - [0x61F54, c, scene/Scene_UpdateEntityFacingFromPad]
       # TIM container parser and VRAM upload helpers.
       - [0x620D0, c, psyq/libgpu/tim]
       - [0x621E4, c, psyq/libc/exit]

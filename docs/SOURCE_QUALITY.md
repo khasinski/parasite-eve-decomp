@@ -4222,3 +4222,42 @@ All 191 rebuilt overlays match retail. The unknown-field usage baseline
 falls from 252 to 248; compiler-crutch counts do not increase.
 The audited report credits 2484088 semantic code bytes and 10723 functions;
 the dirty-file count falls from 2280 to 2279.
+
+### Pad-driven entity facing
+
+`Scene_UpdateEntityFacingFromPad` is 380 exact code bytes with stock native
+GCC 2.7.2 and unmodified MASPSX. It uses the existing BattleEntity facingAngle
+and player Combatant stateFlags fields. Shared headers declare its pad and
+camera inputs and Entity_SetAction interface; no local externs or pointer
+casts are added.
+
+Analog packets (header high nibble 7) use Gte_Atan2 on the centered left-stick
+coordinates, subtract a quarter turn, conditionally add a full turn and
+apply the analog camera angle. Digital input preserves down/up/left/right
+precedence, including simultaneous directions, and retains the previous
+signed heading when no direction is pressed. The player-state adjustment
+and optional reflection happen after applying the relevant camera angle.
+
+Two explicitly accounted empty compiler barriers retain retail scheduling.
+The first preserves the adjusted angle as the basis for the negative-angle
+correction; removing it changes one instruction. The memory barrier after
+storing the masked heading preserves the subsequent mode and heading reads.
+No pins, NOPs or CPU instruction ASM are used. The main barrier baseline
+increases from 902 to 904 (1050 including overlays).
+
+262144 ASan/UBSan model cases cover every pair of analog input bytes, all
+65536 prior heading bit patterns with no digital direction, simultaneous
+button combinations, both camera offsets, wraparound, null/non-null player
+pointers, player-state orientation bits and reflection. The independent
+model uses an ordered direction table and arithmetic quarter-turn selection.
+Entity_SetAction and Gte_Atan2 stubs also mutate relevant state to check that
+reads occur after the appropriate callback. Call counts and analog arguments
+are checked. Only target-layout assertions are disabled for the host.
+Evidence: /tmp/pe-pad-facing/ (check.py, test.c and acceptance logs).
+
+`make -j8 verify-clean` passes 341 tests and the unchanged main retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. After spelling the two barriers
+explicitly so the debt scanner counts both, `make -j8 verify` and the narrow
+byte comparison pass again. All 191 rebuilt overlays match retail.
+The audited report credits 2484468 semantic code bytes and 10724 functions.
+The dirty-file count is 2280; pins, NOPs and instruction-ASM counts are unchanged.
