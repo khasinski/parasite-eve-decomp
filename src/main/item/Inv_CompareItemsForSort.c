@@ -242,11 +242,9 @@ void Inv_SortAmmoSubrange(void) {
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 s32 Inv_GetAyaSlotLimit();
-M2C_UNK Inv_RebuildSelectableMask();
 void Inv_SortWeaponSubrange(void);
 void Inv_SortAmmoSubrange(void);
 M2C_UNK qsort();
-M2C_UNK Inv_RebuildSelectableMask();
 extern M2C_UNK g_InvSortRankTableA[];
 #define g_InvSortRankTableA (g_InvSortRankTableA[0])
 extern M2C_UNK D_80092428[];

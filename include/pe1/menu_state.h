@@ -1,6 +1,8 @@
 #ifndef PE1_MENU_STATE_H
 #define PE1_MENU_STATE_H
 
+extern int g_MenuBattleEquipMode;
+
 extern int D_8009CF78;
 extern int D_8009CFE8;
 extern int D_8009CFEC;

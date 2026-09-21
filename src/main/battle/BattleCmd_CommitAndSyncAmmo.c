@@ -2,13 +2,13 @@
 /* Incomplete arrays: retail addresses these absolutely (g_PlayerEntity is
  * in the gp window but not small data; the Aya fields are outside it). */
 #include "pe1/battle.h"
+#include "pe1/battle_cmd.h"
 #include "pe1/inventory.h"
 
 extern void **g_PlayerEntity[];
 extern short g_AyaHpCurrent[];
 extern signed char g_AyaEquippedWeaponSlot[];
 
-void Battle_ApplyDamage(void);
 int Inv_IsActiveListOverrideSelected(void);
 void Inv_SelectActiveList(int useOverride);
 #define COMBATANT_FIELD(base, type, member) \
@@ -18,13 +18,13 @@ void Inv_SelectActiveList(int useOverride);
 #define ITEM_FIELD(base, type, member) \
     (*(type)((char *)(base) + PE1_OFFSETOF(ItemDataRecord, member)))
 
-void BattleCmd_CommitAndSyncAmmo(void) {
+void BattleCmd_CommitAndSyncAmmo(int item) {
     void **entity;
     void *current;
     void *entry;
     int saved;
 
-    Battle_ApplyDamage();
+    Battle_ApplyDamage(item);
     entity = g_PlayerEntity[0];
     if (entity != 0) {
         current = entity[0];

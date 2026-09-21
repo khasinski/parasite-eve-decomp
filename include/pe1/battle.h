@@ -457,4 +457,6 @@ int Battle_RollEscapeChance(void);
  *   likely reached via BattleEntity.defPtr@0x238).
  * ==========================================================================*/
 
+void Battle_ApplyDamage(int action);
+
 #endif /* PE1_BATTLE_H */

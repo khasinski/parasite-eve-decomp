@@ -75,7 +75,6 @@ M2C_UNK Menu_PlayConfirmSound();
 M2C_UNK Menu_PlayCancelSound();
 M2C_UNK Menu_PlayMoveSound();
 M2C_UNK Menu_PlayErrorSound();
-M2C_UNK Inv_RebuildSelectableMask();
 M2C_UNK Inv_StepScrollDisplay();
 s32 func_8005E120();
 M2C_UNK MenuWidget_DestroyNode();

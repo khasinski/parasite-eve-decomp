@@ -2616,3 +2616,55 @@ only target-layout assertions. Evidence is in `/tmp/pe-spell-cost/`
 `make verify-clean` passes all 340 tests and the source, organization and debt
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Item-action dispatch and explicit argument forwarding
+
+`Inv_BuildEquipSlotDisplay` matches all 416 retail code bytes, and its ordinary
+C switch emits all 56 bytes of the jump table at 0x800112A4. The manifest now
+assigns that `.rodata` to the C object. The inherited display-oriented name is
+retained: the observed routine dispatches item actions. It first resolves the
+record, then reads the queued-action mode. In queued mode it allocates an
+opcode-0 rollback command, reloads the active list after allocation, saves the
+signed item ID and slot, calls `Inv_SetActiveList(0, &item)` and removes the
+slot. In immediate mode it dispatches the byte at the start of `bonusStats`:
+1 applies/synchronizes the item, removes it and rebuilds the list; 2 opens the
+skill view; 4..6 and 12..14 route through menu modes 0xFE and 0x200. Other byte
+values do nothing. The unsigned-char view of the existing member is a legal
+object-representation access, not an invented field offset. The immediate
+path retains retail's valid-record precondition.
+
+The dispatcher joins its three adjacent C functions in `Inv_ItemActions.c`:
+selectability, the disabled-flag setter and the resource-cost calculation.
+The entire 0x80057654..0x80057B70 range matches all 1308 bytes, plus the switch
+table above. Their identical inline lookup is now defined once. The source
+debt baseline decreases from 900 to 899 barrier sites because two copies become
+one shared site, used by three callers. This is source deduplication, not a
+claim that emitted functions need fewer optimizer constraints. There are no
+new pins, CPU instruction ASM, NOPs, aliases or pointer/integer casts. Stock
+native GCC 2.7.2 and unmodified MASPSX use the existing `-G8` mode.
+
+The dispatch call exposed a semantic omission in the earlier
+`BattleCmd_CommitAndSyncAmmo` reconstruction. Retail leaves the item/action ID
+in `$a0` for the first call, and `Battle_ApplyDamage` explicitly consumes it.
+The C wrapper now accepts `int item` and calls `Battle_ApplyDamage(item)`, with
+shared matching prototypes, rather than relying on the register happening to
+survive two zero-argument declarations. Three obsolete `M2C_UNK` list-rebuild
+declarations are removed from two existing header consumers. The unchanged
+wrapper bytes are verified by the full main checksum.
+
+231424 ASan/UBSan dispatcher cases cover all 16-bit item IDs in queued mode,
+valid and rejected lookup bounds, and all 256 action bytes for every supported
+record ID. Hooks mutate the mode during lookup and the active-list pointer
+during command allocation. They verify signed IDs, command payload, the second
+item read, exact call order, slot removal, menu arguments and default actions.
+A separate 65538-case production-wrapper test verifies explicit forwarding of
+every signed-halfword value and INT_MIN/MAX through the null-entity path; it
+does not retest the wrapper's pre-existing synchronization internals.
+The merged production helper/functions also pass the previous 526080
+selectability and 364207 resource-cost host cases. Host adaptation disables
+target-layout assertions only. Evidence is in `/tmp/pe-item-dispatch/`
+(`check-unit.py`, `test.c`, `test-forward.c`) and the two reused host fixtures.
+
+`make verify-clean` passes all 340 tests and source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including
+the argument-forwarding wrapper. All 191 rebuilt overlays retain retail SHA-1.
