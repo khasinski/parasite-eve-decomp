@@ -46,6 +46,29 @@ extern s32 D_8009D06C;
 #define g_InvTrackedSlots D_800C0E20.tracked
 #define g_InvBaseCapacity D_800C0E0C
 
+/* Two remembered selections. The retail indexed accesses use full addresses;
+ * fixed-slot accesses use the individual small-data symbols below. Keeping
+ * incomplete arrays avoids the old, overlapping three-element declarations. */
+extern s32 g_InvSavedSelectionIndex[];
+extern s32 g_InvSavedSelectionFromStorage[];
+extern s32 D_8009D090, D_8009D094; /* indices 0, 1 */
+extern s32 D_8009D098, D_8009D09C; /* storage flags 0, 1 */
+extern s16 *g_InvActiveListOverride;
+extern s32 g_InvOverrideSlotLimit;
+extern u32 g_InvStorageSelectionBits[];
+#define g_AyaItemSelectionBits D_8009D05C
+
+/* Scratch state and full record snapshots used by the item-detail operation. */
+extern u8 D_800A1FE8[];
+extern u8 *D_8009D084;
+extern s32 D_8009D088, D_8009D08C;
+extern ItemDataRecord D_800A204C, D_800A206C;
+
+void Inv_InitWayneStorage(void);
+void Inv_RememberSelection(unsigned int index, int value);
+int Inv_RestoreSelection(unsigned int index);
+void Inv_BuildStorageDisplay(void);
+
 int Inv_GetAyaSlotLimit(void);
 int Inv_GetBonusSlotCount(void);
 int Inv_FindFirstEmptySlot(int neededSlots);

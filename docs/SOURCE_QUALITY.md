@@ -2746,3 +2746,56 @@ required by the Mach-O host. Evidence: `/tmp/pe-active-slot-count/`
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including
 the existing users of the centralized capacity aliases.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Full selected-record snapshots and restoration
+
+`Inv_InitWayneStorage` and `Inv_BuildStorageDisplay` match all 644 and 840
+retail bytes respectively, adding 1484 bytes of semantic C. Their inherited
+names are retained; the observed operations snapshot and restore the complete
+32-byte records for the two remembered selections. The copies are ordinary
+`ItemDataRecord` assignments. Stock native GCC 2.7.2 emits the retail unaligned
+load/store sequences without instruction ASM, register pins, barriers or NOPs.
+Initialization also selects the scratch buffer and clears its two state words;
+their further meaning is not inferred from these stores alone.
+
+Both functions join the two existing selection helpers physically between them
+in `Inv_SelectionState.c`. All 1748 bytes of the contiguous range
+0x80059C44..0x8005A318 match, preserving each function address. Shared selection
+state and the snapshot/restore call relationship support this boundary; it is
+not a claim that an original object file has been recovered. The inline lookup
+uses a normal merged result, with no optimizer barrier. Restoration shares a
+private list-selection helper; snapshot initialization retains its two calls
+to `Inv_RestoreSelection`, exactly as in retail.
+
+The shared inventory header now owns the selection and snapshot declarations,
+removing eleven file-local extern declarations. Item-list pointers use the
+existing signed-halfword inventory type, supported by the `lh` ID loads; bitset
+pointers use the existing unsigned-word bitset type. These unify previous
+pointer-only declarations, without changing widths, addresses or emitted code.
+The old three-element remembered-index declaration overlapped the storage-flag
+array: the observed slots are at D090/D094 and D098/D09C, and helper bounds
+permit only indices 0 and 1. The header therefore uses incomplete array views
+for indexed addressing and the four existing scalar symbols for fixed slots.
+These are overlapping views of the same state, explicitly documented, not four
+additional objects. A two-element sized array causes indexed stores to use the
+small-data expansion and shortens the unit by eight bytes; retaining incomplete
+views reproduces the retail full-address indexed accesses. No new linker
+assignment, ASM symbol alias or type override is introduced.
+
+219218 ASan/UBSan host cases cover every pair of the 392 supported item IDs,
+all 65536 raw halfword IDs in the lookup, selection bounds, both remembered
+storage flags, absent/present override lists, and all bytes of each record.
+Distinct edits to the two snapshots verify restore direction and order even
+when both selections resolve to the same record. A callback changes a remembered
+index during the slot-limit query, verifying its subsequent reload. Snapshot
+and restore callers retain the retail precondition that both selected records
+resolve; the null-result cases are tested on the lookup without dereferencing
+null. Host adaptation maps the four scalar state views to their corresponding
+array elements and uses the host's built-in offsetof; production function bodies
+are included unchanged. Evidence: `/tmp/pe-storage-unit/` (`check.py`, `test.c`),
+with isolated 644/840-byte proofs in `/tmp/pe-wayne-storage/` and
+`/tmp/pe-storage-restore/`.
+
+`make verify-clean` passes all 341 tests and source, organization and debt
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.
