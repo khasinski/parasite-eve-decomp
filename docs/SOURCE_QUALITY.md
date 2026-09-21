@@ -3814,3 +3814,41 @@ test.c and build logs).
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`,
 including every existing function affected by the shared-type corrections.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Updating the special equipment selection (0x8005D020)
+
+`Inv_MergeStorageToSlot` matches all 660 retail bytes with stock native
+GCC 2.7.2 and unmodified MASPSX. The historical name is retained without
+claiming that this is a storage merge: it selects Aya's list, removes the
+first generated equipment record with itemId 0x61, adds raw item ID 0x93,
+and selects the first kind-7 record as the tracked weapon. Removing tracked
+armor preserves the capacity query, release, compaction and mode-3 update;
+the final update clears battle equipment mode and uses mode 2.
+
+The function shares `item/Inv_InventorySetup.c` with the adjacent new-game
+initializer. All 1552 bytes of the combined object match. Initializing the
+excluded-slot address before the search cursor and preserving the operand
+order of the armor comparisons reproduce the register allocation without
+pins, barriers, gotos, instruction ASM, NOPs or new compiler flags.
+
+Two pointer-to-integer casts are explicitly added to the debt baseline.
+The inlined search retains retail's excluded-index comparison with -1.
+Unsigned address arithmetic represents that sentinel without forming a C
+pointer before the list. This is target address-model debt, not portable
+pointer arithmetic: unsigned long holds a pointer on the target and host
+harness. The search otherwise stays within one valid list backing object.
+It requires each visited ID to resolve to a non-null record, as retail does.
+No new null check or upper-bound guard is invented in the removal path.
+
+100000 ASan/UBSan model comparisons exercise capacities 0..50, base,
+generated and ammo-pool records, missing and present matches, tracked armor,
+and callbacks redirecting the list or changing its tracked selection.
+Callbacks are mocked; these tests establish interaction order and arguments,
+not the complete insertion/compaction implementations. Redirected removal
+IDs remain within the equipment backing. Another 73728 existing new-game
+cases pass against the combined source. Evidence is under
+/tmp/pe-special-equipment/ (check-unit.py, test.c, test-newgame.c and logs).
+
+`make -j8 verify-clean` passes all 341 tool tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

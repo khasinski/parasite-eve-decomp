@@ -3,6 +3,7 @@
 #include "pe1/inventory_slots.h"
 #include "pe1/aya.h"
 #include "pe1/menu_inventory.h"
+#include "pe1/menu_state.h"
 
 static inline void SelectAya(void) {
     D_8009D048 = D_800C0E00.inventory_items;
@@ -63,4 +64,69 @@ void Inv_InitNewGameInventory(void) {
     D_800C0E00.total_exp = 0;
     D_800C0E00.level = 0;
     Menu_SaveBgInitFade();
+}
+
+static inline ItemDataRecord *LookupItem(int value) {
+    int saved = value;
+    ItemDataRecord *result;
+    if ((unsigned)(value - 0x100) < 0x80) {
+        result = &D_800C0E20.equipment[value - 0x100];
+    } else {
+        if ((unsigned)(value - 1) < 0xFF) {
+            result = Item_LookupBaseData(value - 1);
+        } else if ((unsigned)(saved - 0x200) < 9) {
+            int shifted = saved << 5;
+            result = (ItemDataRecord *)(D_8009DE64 + shifted);
+        } else {
+            result = 0;
+        }
+    }
+    return result;
+}
+
+
+/* Remove the selected record, preserving armor-capacity bookkeeping. */
+static inline void RemoveItem(int index) {
+    int required, id;
+    if (D_8009D048 == D_800C0E48 && D_800C0E20.tracked[2] == index)
+        Inv_GetActiveSlotCount(&required);
+    id = D_8009D048[index];
+    D_8009D048[index] = 0;
+    if (id >= 256) D_800C0E20.equipment[id - 256].pad_00[0] = 0;
+    if (D_8009D048 == D_800C0E48 && D_800C0E20.tracked[2] == index) {
+        D_800C0E20.tracked[2] = -1;
+        Inv_CheckFreeSlotCapacity(required);
+        Inv_CompactActiveListSlots();
+        Inv_SetActiveList(3, 0);
+    }
+}
+
+static inline int FindKind(int kind, int excluded) {
+    /* -1 is an address sentinel; do not form an out-of-bounds C pointer. */
+    unsigned long skip = (unsigned long)D_8009D048 + excluded * sizeof(s16);
+    s16 *p = D_8009D048;
+    while (p < D_8009D048 + D_8009D050) {
+        if ((unsigned long)p != skip && LookupItem(*p)->kind == kind) break;
+        p++;
+    }
+    if (p < D_8009D048 + D_8009D050) return p - D_8009D048;
+    return -1;
+}
+
+void Inv_MergeStorageToSlot(void) {
+    int i;
+    D_8009D048 = D_800C0E48;
+    D_8009D050 = Inv_GetAyaSlotLimit();
+    D_8009D058 = D_8009D05C;
+    D_8009D064 = 2;
+    for (i = 0; i < D_8009D050; i++) {
+        unsigned short id = D_8009D048[i];
+        if ((unsigned)(id - 256) < 128 &&
+            D_800C0E20.equipment[(short)id - 256].itemId == 0x61) break;
+    }
+    if (i < D_8009D050) RemoveItem(i);
+    Inv_CheckSlotUsable(0x93);
+    D_800C0E20.tracked[0] = FindKind(7, -1);
+    g_MenuBattleEquipMode = 0;
+    Inv_SetActiveList(2, 0);
 }
