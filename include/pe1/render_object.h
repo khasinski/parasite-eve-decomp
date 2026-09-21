@@ -227,6 +227,9 @@ void func_800D0E88(void *data, GteShortVector *position, int scale, int angle,
 
 extern int D_800E27EC;
 extern u8 D_800E1C04[];
+extern int D_800E1D60;
+extern u8 D_800E1D64[], D_800E1D84[];
+int func_800DBA9C(int mode, RenderSparkEmitter *state);
 extern u8 D_800E1DA4[];
 extern u8 D_800E1E64[];
 int func_800DC5BC(int mode, GteShortVector *state);

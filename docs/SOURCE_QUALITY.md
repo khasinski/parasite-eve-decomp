@@ -1775,3 +1775,35 @@ texture setup and inactive modes. The linked comparison covers the full
 `make verify-clean` passes all 340 tests and source/organization/debt gates.
 Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Radial three-layer flash reconstruction
+
+`func_800DBA9C` in `FieldEng_RadialFlash.c` matches all 572 retail bytes
+with stock GCC 2.7.2 and unchanged MASPSX. It reuses `RenderSparkEmitter`
+(position and phase), `GteShortVector`, and `RenderColor`; no new layout is
+introduced. Initialization captures the shared phase, advances it by 1365,
+captures actor position in mode zero, lowers Y by 100 and adds the
+radius-300 sine/cosine offsets to X/Z. Its direct return preserves the
+retail return-value scheduling. Update completes at age eight.
+
+Drawing sets depth 60 and copies position, then renders three layers:
+500x500 with growing scale, 410x500 at scale 4096, and 500x100 with growing
+scale. The first two use the D_800E1D64 color track; the last uses D_800E1D84.
+The common intensity is 128 and growing scale is 2048+age*512. All arithmetic
+and control flow are C. There are no new pins, barriers, volatile accesses,
+NOPs, instruction ASM or other ratcheted debt. This is game code rather than
+Psy-Q, and no original TU boundary is claimed.
+
+The production function passes 1652 ASan/UBSan cases covering phase capture
+and advancement, signed-short coordinate wraparound, positive/negative
+trigonometric division, initialization call ordering, lifetime cutoffs,
+position/color copies, every draw argument and inactive modes. Tests keep
+phase advancement in the signed-int domain, including INT_MAX-1365.
+The host asserts the 12-byte state and suppresses unrelated target layout
+assertions. Linked target comparison verifies every byte. Scratch proof is
+in `/tmp/pe-radial-flash/` (`check.py`, `test.c`).
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates
+without a baseline change. Main retains SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

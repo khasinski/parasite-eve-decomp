@@ -1674,6 +1674,7 @@ segments:
       - [0xCBA5C, c, engine/FieldEng_LineDiamond]
       - [0xCBDF4, c, engine/func_800DB5F4]
       - [0xCBEBC, asm, engine/engine_800D4860_CBEB8]
+      - [0xCC29C, c, engine/FieldEng_RadialFlash]
       - [0xCC4D8, c, engine/FieldEng_JitterSprite]
       - [0xCC858, asm, engine/engine_800D4860_CC858]
       - [0xCCDBC, c, engine/FieldEng_SineJitterSprite]
