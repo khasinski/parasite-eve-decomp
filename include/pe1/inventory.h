@@ -48,6 +48,8 @@ int Inv_IsSlotSelectable(int index);
 int Inv_IsSlotEquipped(int index);
 int Inv_GetWayneListItemByIndex(int index);
 int Inv_TransferItemAlt2(int kindMask);
+void Inv_SortSlotsByPriority(void);
+void Inv_SetSelectionBit(int index);
 void Inv_InitSlotDisplay(int *list, int *index);
 int Inv_BuildCompatibleWeaponBitset(int sourceIndex);
 void Inv_BuildDisplayFromList(int leftStorage, int leftIndex, int rightStorage, int rightIndex);

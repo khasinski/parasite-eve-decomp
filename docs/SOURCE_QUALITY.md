@@ -3144,3 +3144,49 @@ for the complete 4012-byte comparison.
 Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including both
 caller declaration changes and the five-function translation unit.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Selectable flag mask and unsigned bit accessors (0x80055E14)
+
+`Inv_SortSlotsByPriority` matches all 416 retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX. Its historical name is misleading: it clears the
+active selection bitset, excludes the tracked weapon and armor indices, calls
+Inv_IsSlotSelectable on the other slots, and selects resolved records whose
+flag bits 0xE0 are all clear. The tracked-index exclusion also applies when the
+active list is storage. Callback changes to the active pointer, limit, bitset
+pointer and tracked armor index affect subsequent operations. A null lookup
+retains the old bitset word; the nullable conditional expression preserves the
+retail branch/store structure that a logical-AND expression collapses.
+
+The entry and both contiguous 44-byte bit accessors join `Inv_AmmoSelection.c`.
+The full 0x80055E14..0x80056FB8 range matches all 4516 bytes and eight entry
+addresses. Only the 416-byte function is newly decompiled. The former signed
+int pointer in the accessor files becomes the shared u32 pointer D_8009D058;
+its tentative definition remains in the merged unit. Both accessors use
+unsigned masks, including bit 31, and retain their exact retail bytes. Their
+old signed left shifts are no longer necessary. The caller uses the canonical
+void(void) declaration from inventory.h.
+
+There are no new pins, barriers, NOPs, ASM, gotos or compiler flags. One new
+boolean-to-u32 conversion is counted by the existing pointer_integer_casts
+regex (741 -> 742 in main); its operand is a boolean, not a pointer. The old
+file-local bitset extern is removed (3667 -> 3666); the lowered count is retained
+in the baseline. These are the only baseline count changes.
+
+172336 ASan/UBSan cases include the production file unchanged and cover all raw
+halfword IDs, all flag bytes at every index with each tracked-index exclusion,
+callback order, redirected pointers/limits/bitsets, callback changes to tracked
+indices, and nonpositive limits/clear-word counts. Another 2048 cases verify
+both unsigned accessors at every bit 0..127 with zero, full and random words,
+including preservation of unrelated bits. The prior 51578 snapshot, 218192
+compatibility and 73056 selection-search cases also include the expanded unit.
+Only target ABI assertions are disabled. Exactness is independently established
+by the linked 4516-byte retail comparison. Evidence: `/tmp/pe-select-flags/`
+(`target.s`, `check-unit.py`, `test-unit.c`, `test-snapshot.c`,
+`test-compatible.c`, `test-search.c`, and acceptance logs).
+
+`make verify-clean` passes all 341 tests and source/debt/organization gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. The full linked
+symbol table resolves both D_8009D058 and g_InvSelectionBits to absolute address
+0x8009D058; the four pointer bytes at file offset 0x8D858 remain zero, identical
+to retail. This verifies the common-symbol/type migration in the actual link.
+All 191 rebuilt overlays retain their retail SHA-1 values.

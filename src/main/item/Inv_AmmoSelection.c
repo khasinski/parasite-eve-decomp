@@ -55,6 +55,31 @@ static inline int CountBits(void) {
     return count;
 }
 
+/* Historical name: rebuild selectable slots, excluding tracked equipment
+ * and records whose high three flag bits are set. */
+void Inv_SortSlotsByPriority(void) {
+    int i;
+    ItemDataRecord *item;
+    ClearBits();
+    for (i = 0; i < D_8009D050; i++) {
+        if (i != D_800C0E20.tracked[0] && i != D_800C0E20.tracked[2] && Inv_IsSlotSelectable(i)) {
+            if (i >= 0 && i < D_8009D050) item = LookupItem(D_8009D048[i]);
+            else item = 0;
+            D_8009D058[i >> 5] |= (u32)(item ? !(item->flags & 0xE0) : 0) << (i & 31);
+        }
+    }
+}
+
+u32 *D_8009D058;
+void Inv_SetSelectionBit(int index) {
+    D_8009D058[index >> 5] |= 1u << (index & 31);
+}
+int Inv_TestSelectionBit(int index) {
+    u32 word = D_8009D058[index >> 5];
+    u32 mask = 1u << (index & 31);
+    return (word & mask) > 0;
+}
+
 /* Find a selected alternative, switching lists when necessary. Update the
  * caller's logical list/index pair, then restore the original logical list. */
 void Inv_InitSlotDisplay(int *list, int *index) {

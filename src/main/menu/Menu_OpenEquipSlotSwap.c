@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 #include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -9,8 +10,6 @@ void *MenuWidget_FindByModeAndSelectedBase();
 M2C_UNK MenuWidget_SetCurrentNode();
 M2C_UNK Menu_CreateContextHelpPanel();
 s32 Inv_GetAyaSlotLimit();
-M2C_UNK Inv_RebuildSelectableMask();
-M2C_UNK Inv_SortSlotsByPriority();
 M2C_UNK Menu_SetBattleEquipMode();
 M2C_UNK Queue_Init();
 void *MenuWidget_CreateSimpleNode();
