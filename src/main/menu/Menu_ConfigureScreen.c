@@ -41,8 +41,8 @@ void Menu_ConfigureScreen(void) {
 
     node = MenuWidget_FindByModeAndSelectedBase(2, 0x1B);
     other = MenuWidget_FindByModeAndSelectedBase(2, 0x1C);
-    node->field_7C = other;
-    other->field_78 = node;
+    node->linkedNext = other;
+    other->linkedPrevious = node;
 
     node = MenuWidget_FindByModeAndSelectedBase(2, 5);
     if (node != 0) {

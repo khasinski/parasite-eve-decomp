@@ -31,8 +31,9 @@ typedef struct MenuWidgetNode {
     int visible_rows_mirror;
     int aux_index;            /* initialized from mode; reused by some widget kinds */
     int cell_mask;
-    struct MenuWidgetNode *field_78;
-    struct MenuWidgetNode *field_7C;
+    /* Reciprocal links: A.linkedNext = B, B.linkedPrevious = A. */
+    struct MenuWidgetNode *linkedPrevious;
+    struct MenuWidgetNode *linkedNext;
     struct MenuWidgetNode *popup_node;
     int field_84;
     int field_88;

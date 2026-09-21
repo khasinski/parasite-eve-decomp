@@ -4187,3 +4187,38 @@ positive divisors, bounded null-terminated lists and queue destinations below
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays match retail. The audited report credits 2483684
 semantic code bytes and 10722 functions, with unchanged debt counts.
+
+### Recursive widget destruction
+
+`MenuWidget_DestroyNodeRecursive` is 404 exact code bytes with stock native
+GCC 2.7.2 and unmodified MASPSX. The existing MenuWidgetNode layout accounts
+for the linked lists, four child pointers and mode-2 references at 0x78/0x7C.
+The reciprocal links are named linkedPrevious/linkedNext, based on paired
+writes in Menu_ConfigureScreen and Menu_CreateItemDetailView. These names
+describe the observed topology, without claiming a navigation direction.
+No pins, barriers, NOPs or instruction ASM are introduced.
+
+The node is removed from the active list and prepended to the free list
+before its mode-2 callback and recursive child destruction. The current-node
+check happens after the children return. Remaining active nodes then lose
+parent/child references to the removed node, and mode-2 nodes also lose the
+two auxiliary references. Missing nodes are ignored; unlinking before
+recursion also terminates cycles and repeated references without revisiting
+a freed node. Globals use existing named aliases, and called interfaces are
+declared in the shared menu header.
+
+100000 ASan/UBSan cases compare against an independent model that maintains
+the active order in an integer array. They check all node references, free
+and active list heads, focus, and complete callback traces, including list
+heads observed by the mode-2 callback. Cases include empty/full lists, absent
+nodes, self-links, cycles, shared children and callbacks that change the
+removed node's child, parent and current focus. Host-only headers disable
+target-layout assertions. Evidence: /tmp/pe-destroy-widget/ (check.py,
+test.c and acceptance logs).
+
+`make -j8 verify-clean` passes 341 tool tests and main retains retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays match retail. The unknown-field usage baseline
+falls from 252 to 248; compiler-crutch counts do not increase.
+The audited report credits 2484088 semantic code bytes and 10723 functions;
+the dirty-file count falls from 2280 to 2279.

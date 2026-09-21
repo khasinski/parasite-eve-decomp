@@ -780,7 +780,7 @@ segments:
       - [0x52ABC, asm, main/Draw_AllocColorTriGradient]
       # Pool initialization and node allocation use the same free/active-list state.
       - [0x52D68, c, menu/MenuWidget_Pool]
-      - [0x52E9C, asm, main/MenuWidget_DestroyNodeRecursive]
+      - [0x52E9C, c, menu/MenuWidget_DestroyNodeRecursive]
       - [0x53030, c, main/Draw_PushPrimToList]
       - [0x531B0, c, menu/MenuWidget_HasActiveNodes]
       - [0x531BC, c, menu/menu_widget]

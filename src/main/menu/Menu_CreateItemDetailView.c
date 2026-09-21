@@ -28,8 +28,8 @@ void Menu_CreateItemDetailView(MenuWidgetNode *arg0) {
 
     link = MenuWidget_FindByModeAndSelectedBase(2, 6);
     if (link != 0) {
-        node->field_78 = link;
-        link->field_7C = node;
+        node->linkedPrevious = link;
+        link->linkedNext = node;
     }
 
     Inv_InitWayneStorage();
