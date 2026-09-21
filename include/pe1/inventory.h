@@ -52,6 +52,7 @@ int Inv_DrawSlotItemIcon(void);
 int Inv_RebuildWithBonusSlots(int minSecond, int minThird);
 int Inv_TransferToStorage(void);
 void Inv_InitNewGameInventory(void);
+void Inv_SetAyaSlotCount(int count);
 void Inv_MergeStorageToSlot(void);
 void Inv_RebuildSelectionBitset(void);
 int Inv_CheckSlotUsable(int id);

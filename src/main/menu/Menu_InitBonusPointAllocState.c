@@ -19,7 +19,6 @@ extern int g_BonusPointStatMultipliers[];
 extern AyaSaveState D_800C0E00;
 
 void BattleCmd_SyncActiveAmmo(void);
-void Stat_QueryLevelAndSubLevel(int stat, int value, int *out, int arg3);
 void Inv_LoadWayneItemsAsOverride(int arg0);
 void Menu_CreateLevelUpResultPanel(void);
 void *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
@@ -52,7 +51,7 @@ void Menu_InitBonusPointAllocState(int gained_points) {
     }
     g_MenuBonusPointDisplayTarget = D_800C0E00.bonus_points + gained_points;
 
-    source = (s16 *)&D_800C0E00.stat_agility;
+    source = (s16 *)D_800C0E00.stat_allocations;
     stat = 0;
     multipliers = g_BonusPointStatMultipliers;
     query_results = g_BonusPointStatQueryResults;

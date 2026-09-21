@@ -3942,3 +3942,54 @@ with the revised shared headers. Evidence: /tmp/pe-save-init/.
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`,
 including the pre-existing full save-block copy and inventory functions.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Recalculating Aya's runtime battle stats (0x8005218C)
+
+`Inv_RecalcSlotStats` matches all 620 retail bytes with stock native GCC 2.7.2
+and unmodified MASPSX. It computes saved maximum HP even without a player
+entity; with a live core it updates maximum HP, applies signed-halfword
+clamps to the two battle HP fields and an unsigned clamp to saved current
+HP, then queries growth categories 1..6 to fill the remaining combat stats.
+Capacity has no category offset and is passed to Inv_SetAyaSlotCount before
+the entity's displayed level is refreshed from the save state.
+
+AyaSaveState now exposes the seven contiguous allocation values as one
+array at offset 0x28, replacing tentative individual labels. A signed
+halfword cursor traverses that array using the permitted corresponding
+signed/unsigned type view. This lets the compiler derive saved max HP from
+the same aggregate address without out-of-bounds pointer arithmetic. The
+bonus-point input consumer uses the shared array too.
+
+AyaLevelStats offset 0x16 is a u16, not two independent byte fields: retail
+loads the complete halfword into Combatant.statusStep3E. Other previously
+unnamed table fields are named for their observed Combatant destinations,
+including battleMaxAtk, battleAtbRate and battleAtbStep. These names record
+the copy relationship, not a new claim about their broader gameplay meaning.
+Shared declarations reconcile Stat_QueryLevelAndSubLevel's signed input and
+pointer output with its definition. Layout assertions preserve all sizes
+and relevant offsets.
+
+Putting the maxHP assignment inside the first clamp condition reproduces
+the retail value flow without pins, barriers, gotos, instruction ASM or new
+flags. The function joins its adjacent Aya_DeriveStats/Battle_SyncEquipSlots
+consumers in Aya_StatDerivation.c; all 836 bytes match. Existing constraints
+and legacy pointer views in those consumers are retained. The audited
+baseline drops one local extern, two unknown-field uses and one placeholder
+filename; none of the matching crutch counts increases.
+
+100000 ASan/UBSan model comparisons exercise every halfword base HP, signed
+HP comparisons, both null exits, all seven stat categories, nonzero high
+bytes in the recovered status-step field, and callbacks mutating modifiers,
+future allocation inputs, the player pointer and saved level. The captured
+combatant remains the destination when later callbacks change the global
+player pointer. HP multiplication and level-offset addition are tested in
+their non-overflowing domain; table records are valid, separate objects.
+Callees are mocked and callback order/arguments plus full state are compared.
+The harness extracts the new function unchanged from production and disables
+only target ABI assertions for host compilation. Another 73728 new-game
+cases pass with the revised shared header. Evidence: /tmp/pe-recalc-stats/.
+
+`make -j8 verify-clean` passes all 341 tool tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`,
+including the existing bonus-point input and stat-derivation consumers.
+All 191 rebuilt overlays retain their retail SHA-1 values.

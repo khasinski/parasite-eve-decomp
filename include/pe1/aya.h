@@ -64,13 +64,7 @@ typedef struct AyaSaveState {
      * func_8005DB8C) and read via the g_AyaStat* accessors. These are the
      * bonus-point allocation levels per category (all 0 at new game ->
      * every status stat shows "1"), NOT the final combat values. */
-    /* 0x28 */ u16 stat_agility;         /* g_AyaStatAgility  Battle_GetAgilityBonus; 7th/hidden stat, NOT on the status screen */
-    /* 0x2A */ u16 stat_offense;         /* g_AyaStatOffense        [CONFIRMED -> "OFFENSE"] */
-    /* 0x2C */ u16 stat_defense;         /* g_AyaStatDefense        [CONFIRMED -> "DEFENSE"] */
-    /* 0x2E */ u16 stat_pe_energy_max;   /* g_AyaStatPeEnergyMax    [CONFIRMED -> "P.ENERGY"] */
-    /* 0x30 */ u16 stat_status_recovery; /* g_AyaStatStatusRecovery [CONFIRMED -> "STATUS RECOVER"] */
-    /* 0x32 */ u16 stat_active_time_rate;/* g_AyaStatActiveTimeRate [CONFIRMED -> "ACTIVE TIME"] (Aya_GetActiveTimeRate) */
-    /* 0x34 */ u16 stat_item_capacity;   /* g_AyaStatItemCapacity   [CONFIRMED -> "ITEM CAPACITY"] */
+    /* 0x28 */ u16 stat_allocations[7]; /* Growth categories 0..6. */
 
     /* 0x36 */ u8  pad_36[0x0A];
     /* 0x40 */ u16 menu_clamp_value;     /* D_800C0E40  [CONFIRMED 0x3D] set via Menu_ClampRange(0x3D) at init */
@@ -85,32 +79,36 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, inventory_items) == 0x48,
                   aya_inventory_items_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, blend_color) == 0x44,
                   aya_saved_blend_color_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, stat_allocations) == 0x28,
+                  aya_stat_allocations_offset);
 PE1_STATIC_ASSERT(sizeof(AyaSaveState) == 0xAC, aya_save_state_prefix_size);
 extern AyaSaveState D_800C0E00;
 extern u16 D_800C0E28[7];
 /* Growth tables have multiple consumers: 32-bit thresholds and initial u16. */
 void *Stat_GetGrowthTable(int category);
+void Stat_QueryLevelAndSubLevel(int category, int value, int *level, int *sublevel);
 
 /* ------------------------------------------------------------------------- */
 /* Per-level stat record. The level table base is reached via                */
 /* Aya_LookupLevelStats(level) = tableBase + level*0x18 (0x63 levels).       */
-/* Field layout is TENTATIVE, inferred from Inv_RecalcSlotStats /            */
-/* Aya_DeriveStats indexing; confirm against the runtime table.              */
+/* Layout and destination-field mappings are verified by Inv_RecalcSlotStats. */
+/* Broader gameplay meanings and units remain tentative.                    */
 /* ------------------------------------------------------------------------- */
 typedef struct AyaLevelStats {
     /* 0x00 */ u16 hp;        /* [CONFIRMED] base HP per level: 45,49,53,64,67,72,92,... (L0 HP=45 == status "45/45") */
     /* 0x02 */ u16 offense;   /* [CONFIRMED] base offense: 30,35,40,45,55,60,65,... (NOT the status "OFFENSE 1" allocation level) */
     /* 0x04 */ u16 defense;   /* [CONFIRMED] base defense: 10,15,20,25,40,50,65,... */
-    /* 0x06 */ u8 field_06;  /* Meaning not yet established. */
+    /* 0x06 */ u8 battleStat22;  /* Copied to Combatant.stat22. */
     /* 0x07 */ u8 inventoryCapacity; /* Initial slot capacity, read by Inv_InitNewGameInventory. */
-    /* 0x08 */ s32 field_08;  /* TENTATIVE: looks 16.16 fixed (0x500000=80.0, +4.0/level) -- likely P.Energy */
-    /* 0x0C */ s32 field_0c;  /* TENTATIVE: ~8500, slow growth (status recovery?) */
-    /* 0x10 */ s32 field_10;  /* TENTATIVE: 7864,8650,11337,... (active-time / speed?) */
-    /* 0x14 */ u16 field_14;  /* TENTATIVE: constant 15 (active-time rate?) */
-    /* 0x16 */ u8  field_16;  /* TENTATIVE: constant 10; meaning not established. */
-    /* 0x17 */ u8  field_17;  /* TENTATIVE: constant 0 */
+    /* 0x08 */ s32 battleMaxAtk;  /* Copied to Combatant.maxAtk; units remain tentative. */
+    /* 0x0C */ s32 battleAtbRate;  /* Copied to Combatant.atbRate. */
+    /* 0x10 */ s32 battleAtbStep;  /* Copied to Combatant.atbStep. */
+    /* 0x14 */ u16 statusStep3C;  /* Copied to Combatant.statusStep3C. */
+    /* 0x16 */ u16 statusStep3E; /* Status timer step, read as a halfword. */
 } AyaLevelStats;             /* 0x18 bytes. Table base = *(u32*)0x800A803C + 0x800A8028, indexed level*0x18 (0..0x62). */
 
+PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaLevelStats, statusStep3E) == 0x16,
+                  aya_status_step_offset);
 PE1_STATIC_ASSERT(sizeof(AyaLevelStats) == 0x18, aya_level_stats_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaLevelStats, inventoryCapacity) == 7,
                   aya_level_inventory_capacity_offset);
@@ -125,9 +123,9 @@ AyaLevelStats *Aya_LookupLevelStats(int level);
  *   void *Aya_GetLevelExpTable(void);        // 0x8005DBF8 alias; 4 bytes/level EXP thresholds
  *   AyaLevelStats *Aya_LookupLevelStats(int level); // tableBase + level*0x18
  *   int  Stat_BinarySearch(...);             // EXP -> level
- *   void Stat_QueryLevelAndSubLevel(int cat, u32 value, int *outLevel, int flag);
+ *   void Stat_QueryLevelAndSubLevel(int cat, int value, int *outLevel, int *outSublevel);
  *   void Aya_DeriveStats(int *out_max, int *out_current);
- *   int  Battle_GetScaledMaxHP(void);        // (D_800A1B30+0x14)*levelHp/20
+ *   int  Battle_GetScaledMaxHP(int level);        // (D_800A1B30+0x14)*levelHp/20
  *   void Inv_RecalcSlotStats(void);          // pushes save-state stats into the active battle slot
  * Stat scaling parameters live at D_800A1B30..D_800A1B44 (per-category offsets).
  */
