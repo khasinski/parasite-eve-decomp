@@ -1701,3 +1701,38 @@ size; unrelated target assertions are suppressed. Proof is under
 `make verify-clean` passes all 340 tests and source/organization/debt gates.
 Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Jitter sprite and emitter reconstruction
+
+`func_800DBCD8` and `func_800DBE6C` share `FieldEng_JitterSprite.c` and
+match 404 and 492 retail bytes respectively (896 together), with stock
+GCC 2.7.2 and unchanged MASPSX. Both use the existing eight-byte short-vector
+payload and leave its padding halfword untouched. The emitter's position
+capture reuses the existing active-owner prefix and actor target fields.
+There are no new structures, pins, barriers, volatile accesses, NOPs,
+instruction ASM or other ratcheted debt. This is game code, not Psy-Q;
+the grouping makes no original TU claim.
+
+The particle jitters X/Z by -3..4, advances Y by 0..3, and completes at
+age 32. Drawing uses the color track at D_800E1DA4, Z rotation age*12,
+scale 6144+age*128, CLUT X=192 and texture
+192 + signed parameter02*(age/8+2), with fixed intensity 128. The emitter
+allocates twenty eight-byte particles, emits each update below age 21,
+jitters each captured coordinate by -256..255, and completes at age 53.
+Its render setup uploads the selected texture with 32-unit extents and
+depth 16.
+
+The production unit passes 135226 ASan/UBSan cases covering coordinate
+wraparound, every update mask, age cutoffs, color/rotation/scale/texture
+arguments, all palettes and both asset flags, signed texture parameters,
+actor position capture, allocation failure/success, signed and boundary
+random values, preserved padding, render setup and inactive modes. Mocks
+check allocation stride/count/callback and every draw argument. The host
+explicitly checks the eight-byte payload; unrelated target assertions are
+suppressed. The linked byte comparison covers all 896 bytes. Scratch proof
+is in `/tmp/pe-jitter-sprite/` (`check.py`, `test.c`).
+
+`make verify-clean` passes all 340 tests and source/organization/debt gates
+without a baseline change. Main retains SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

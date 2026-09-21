@@ -1674,6 +1674,8 @@ segments:
       - [0xCBA5C, c, engine/FieldEng_LineDiamond]
       - [0xCBDF4, c, engine/func_800DB5F4]
       - [0xCBEBC, asm, engine/engine_800D4860_CBEB8]
+      - [0xCC4D8, c, engine/FieldEng_JitterSprite]
+      - [0xCC858, asm, engine/engine_800D4860_CC858]
       - [0xCD110, c, engine/FieldEng_DriftingEffect]
       - [0xCD280, asm, engine/engine_800D4860_CD280]
       - [0xD007C, c, engine/FieldEng_RotatingEffect]
