@@ -66,7 +66,6 @@ M2C_UNK Inv_SelectActiveList();
 s32 func_80052F0C();
 s32 Inv_GetAyaSlotLimit();
 s32 Inv_TestSelectionBit();
-M2C_UNK Inv_InitSlotDisplay(void *, void *);
 s32 MenuWidget_GridCellIndex();
 extern s32 g_InvAmmoSpendActiveList;
 extern s32 g_InvSelectedItemIndex;

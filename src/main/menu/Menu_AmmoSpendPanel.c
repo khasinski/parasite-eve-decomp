@@ -11,7 +11,6 @@
 void MenuWidget_SetCurrentNode(void *node);
 void Inv_SelectActiveList(s32 useOverride);
 void Inv_ClearSelectionBitset(void);
-void Inv_BuildDisplayFromList(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void *MenuWidget_CreateSimpleNode(s32 mode, s32 arg1, s32 arg2, s32 arg3);
 
 #define ITEM_FIELD(base, type, member) \

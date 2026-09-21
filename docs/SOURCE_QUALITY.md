@@ -3075,3 +3075,72 @@ Evidence: `/tmp/pe-compatible/` (`target.s`, `check.py`, source-shape trials,
 Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including the
 shared caller prototypes.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Comparison snapshots in the ammunition unit (0x80056C40)
+
+`Inv_BuildDisplayFromList` matches all 888 retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX. It selects the two requested logical lists, retains
+the resolved record pointers at D_8009D070/D_8009D074, copies the two complete
+32-byte records into the comparison snapshots, then clears tailData[10] and
+reserveAmmo in both copies. Both retained pointers must be valid at copy time.
+The copies remain sequential: the first destination write can affect the second source when they
+alias. The second list-switch callback can replace the retained first pointer,
+and the snapshots observe that replacement. The final active list is the second
+selection. Menu_AmmoSpendPanel already called the function as void with four
+integer arguments; it now uses the shared declaration.
+
+The snapshot function shares `Inv_AmmoSelection.c` with the contiguous
+compatibility-mask builder, Spend_Ammo, category-ammo accessor and the selected
+alternative search described below. The complete unit matches all 4012 bytes;
+the snapshot contributes 888 new bytes. The bounded lookup wrapper and compatibility loops share one raw-ID resolver; logical list
+restoration is shared too. The record pointers and existing halfword category
+table now have header ownership. There are no new pins, barriers, NOPs, ASM,
+compiler flags, field macros or casts.
+
+The production merged unit passes 51578 ASan/UBSan snapshot cases, including all
+392 mapped source IDs, 50/100-slot boundaries, every combination of logical list
+selectors, alternate list pointers, callbacks removing the override or replacing
+the first record pointer (including rescue of a null first lookup), and
+sequential source/destination aliasing. The prior compatibility builder retains all 218192 host cases using the merged production
+file unchanged. Only target ABI assertions are disabled in these host fixtures.
+Exactness is independently established by the linked 4012-byte retail comparison.
+Evidence: `/tmp/pe-compare-snapshot/` (`target.s`, `check-expanded.py`,
+`test-unit-snapshot.c`, `test-unit-compatible.c`, and acceptance logs).
+
+### Selected alternative search (0x8005600C)
+
+`Inv_InitSlotDisplay` matches all 664 retail bytes with stock native GCC 2.7.2
+and unmodified MASPSX. It searches the requested logical list's selection bits
+for a slot other than the caller's current index. If none is found, it searches
+the other logical list without excluding that index. Success updates the index
+and, on the second pass, negates the logical list selector; failure writes -1
+to the selector while retaining the index. It finally restores the original
+logical list. The pointers to the selector and index may alias; stores retain
+the retail order. Slot-limit callbacks may change these pointed-to values,
+redirect Aya's list pointer or remove the storage override, all observed by the
+following operations. The result is conveyed through the pointers, not a return
+value; Menu_EquipScreen now uses the canonical void(int *, int *) declaration.
+
+This entry extends the same `Inv_AmmoSelection.c` unit to
+0x8005600C..0x80056FB8: all 4012 bytes and five function entry addresses match.
+The two newly reconstructed functions account for 1552 bytes. The search reuses
+the existing list restoration helper and uses ordinary for loops and unsigned
+bit tests. No pins, barriers, NOPs, ASM, gotos, field macros or casts are added.
+The header move lowers main externs_in_c from 3668 to 3667; other baseline
+counts are unchanged.
+
+73056 ASan/UBSan cases include the production merged unit unchanged. They cover
+all pairs of four-bit masks, non-boolean selectors, excluded indices, aliased
+output pointers, random 50/100-slot masks, all bit positions including bits
+outside the active limit, nonpositive limits, three initial pointer identities,
+absent/present overrides and all callback combinations described above. They
+check final outputs, restored globals and untouched bitsets against a separate
+model. The expanded production file also passes the 51578 snapshot cases and
+218192 compatibility cases. Evidence: `/tmp/pe-find-selection/` (`target.s`,
+`check.py`, `test-production.c`), and `/tmp/pe-compare-snapshot/check-expanded.py`
+for the complete 4012-byte comparison.
+
+`make verify-clean` passes all 341 tests and source/debt/organization gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including both
+caller declaration changes and the five-function translation unit.
+All 191 rebuilt overlays retain their retail SHA-1 values.

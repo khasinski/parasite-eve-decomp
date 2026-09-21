@@ -686,11 +686,8 @@ segments:
       - [0x46614, asm, main/Inv_SortSlotsByPriority]
       - [0x467B4, c, item/Inv_SetSelectionBit]
       - [0x467E0, c, item/Inv_TestSelectionBit]
-      - [0x4680C, asm, main/Inv_InitSlotDisplay]
-      - [0x46AA4, c, item/Inv_BuildCompatibleWeaponBitset]
-      - [0x47324, c, item/Spend_Ammo]
-      - [0x47414, c, item/Inv_GetWeaponCategoryAmmoBase]
-      - [0x47440, asm, main/Inv_BuildDisplayFromList]
+      # Selected-slot search, compatibility masks, ammo transfer and snapshots share a 0xFAC-byte unit.
+      - [0x4680C, c, item/Inv_AmmoSelection]
       - [0x477B8, c, menu/Menu_DrawWeaponComparisonPanel]
       - [0x47894, asm, main/Inv_StepScrollDisplay]
       - [0x47CA8, asm, main/Inv_DrawSlotItemIcon]

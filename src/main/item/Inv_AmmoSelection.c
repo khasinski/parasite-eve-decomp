@@ -20,6 +20,10 @@ static inline ItemDataRecord *LookupItem(int value) {
     return result;
 }
 
+static inline ItemDataRecord *LookupActiveItem(int index) {
+    if (index >= 0 && index < D_8009D050) return LookupItem(D_8009D048[index]);
+    return 0;
+}
 static inline void RestoreList(int storage) {
     if (storage && g_InvActiveListOverride != 0) {
         D_8009D048 = g_InvActiveListOverride;
@@ -49,6 +53,28 @@ static inline int CountBits(void) {
     for (i = 0; i < D_8009D050; i++)
         count += (D_8009D058[i >> 5] & (1u << (i & 31))) > 0;
     return count;
+}
+
+/* Find a selected alternative, switching lists when necessary. Update the
+ * caller's logical list/index pair, then restore the original logical list. */
+void Inv_InitSlotDisplay(int *list, int *index) {
+    int wasStorage = D_8009D048 != D_800C0E48;
+    int i;
+    RestoreList(*list);
+    for (i = 0; i < D_8009D050; i++)
+        if ((D_8009D058[i >> 5] & (1u << (i & 31))) > 0 && i != *index) break;
+    if (i < D_8009D050) {
+        *index = i;
+    } else {
+        RestoreList(!*list);
+        for (i = 0; i < D_8009D050; i++)
+            if ((D_8009D058[i >> 5] & (1u << (i & 31))) > 0) break;
+        if (i < D_8009D050) {
+            *list = !*list;
+            *index = i;
+        } else *list = -1;
+    }
+    RestoreList(wasStorage);
 }
 
 /* Build ammunition-compatible selections in the current list and, when present,
@@ -129,4 +155,86 @@ int Inv_BuildCompatibleWeaponBitset(int sourceIndex) {
         RestoreList(wasStorage);
     }
     return count;
+}
+
+
+int Spend_Ammo(int amount) {
+    InvItemSlot *src;
+    InvItemSlot *dst;
+    int new_src;
+    int new_dst;
+    int max;
+    int ret;
+
+    ret = 0;
+    if (amount > 0) {
+        src = &g_InvCompareSlotLeft;
+        dst = &g_InvCompareSlotRight;
+    } else {
+        src = &g_InvCompareSlotRight;
+        dst = &g_InvCompareSlotLeft;
+        amount = -amount;
+    }
+
+    if (src != 0 && dst != 0) {
+        new_src = src->ammo - amount;
+        new_dst = dst->ammo + amount;
+        if (new_src < 0) {
+            new_dst += new_src;
+            new_src = 0;
+            ret = 1;
+        }
+
+        max = dst->baseStats[2] + dst->bonusStats[2];
+        if (max >= 1000) {
+            max = 999;
+        }
+        if (max < new_dst) {
+            max = dst->baseStats[2] + dst->bonusStats[2];
+            if (max >= 1000) {
+                max = 999;
+            }
+            new_src += new_dst - max;
+            new_dst = dst->baseStats[2] + dst->bonusStats[2];
+            ret = 2;
+            if (new_dst >= 1000) {
+                new_dst = 999;
+            }
+        }
+
+        src->ammo = new_src;
+        dst->ammo = new_dst;
+        if (new_src == 0 && src->reserveAmmo != 0) {
+            src->ammo = src->reserveAmmo;
+            src->reserveAmmo = 0;
+        }
+    } else {
+        ret = 3;
+    }
+
+    return ret;
+}
+
+
+int Inv_GetWeaponCategoryAmmoBase(unsigned int arg0) {
+    if (arg0 >= 3) {
+        return 0;
+    }
+    return g_InvCategoryItemTable[arg0 * 0x10];
+}
+
+/* Keep resolved pointers for the comparison UI, then snapshot both records.
+ * Both retained pointers must be valid at copy time. Copies are sequential,
+ * including when aliased. */
+void Inv_BuildDisplayFromList(int leftStorage, int leftIndex, int rightStorage, int rightIndex) {
+    RestoreList(leftStorage);
+    D_8009D070 = LookupActiveItem(leftIndex);
+    RestoreList(rightStorage);
+    D_8009D074 = LookupActiveItem(rightIndex);
+    g_InvCompareSlotLeft = *D_8009D070;
+    g_InvCompareSlotRight = *D_8009D074;
+    g_InvCompareSlotRight.tailData[10] = 0;
+    g_InvCompareSlotLeft.tailData[10] = 0;
+    g_InvCompareSlotRight.reserveAmmo = 0;
+    g_InvCompareSlotLeft.reserveAmmo = 0;
 }

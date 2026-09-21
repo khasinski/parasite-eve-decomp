@@ -37,6 +37,8 @@ typedef ItemDataRecord InvItemSlot;
 
 extern ItemDataRecord g_InvCompareSlotLeft;
 extern ItemDataRecord g_InvCompareSlotRight;
+extern ItemDataRecord *D_8009D070, *D_8009D074;
+extern u16 g_InvCategoryItemTable[];
 extern ItemDataRecord D_800A1A00;
 extern ItemDataRecord g_InvItemSlotArray[128];
 
@@ -46,7 +48,9 @@ int Inv_IsSlotSelectable(int index);
 int Inv_IsSlotEquipped(int index);
 int Inv_GetWayneListItemByIndex(int index);
 int Inv_TransferItemAlt2(int kindMask);
+void Inv_InitSlotDisplay(int *list, int *index);
 int Inv_BuildCompatibleWeaponBitset(int sourceIndex);
+void Inv_BuildDisplayFromList(int leftStorage, int leftIndex, int rightStorage, int rightIndex);
 int Inv_RebuildWithSlotLimit(int fromMode, int fromIndex, int toMode, int toIndex);
 int Inv_TestSelectionBit(int index);
 int Inv_IsAyaInventorySlotReserved(int index);
