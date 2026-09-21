@@ -1837,3 +1837,40 @@ retail executable bytes. Scratch proof is in `/tmp/pe-drifting-emitter/`
 without a baseline change. Main retains SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Tilting sprite and emitter reconstruction
+
+`func_800DCCCC` (456 bytes) and `func_800DCE94` (776 bytes) form the
+contiguous `FieldEng_TiltingSprite.c` unit. Stock GCC 2.7.2 and unchanged
+MASPSX reproduce all 1232 bytes, independently compared with both the retail
+disassembly and executable range. No pins, barriers, volatile accesses, NOPs,
+instruction ASM or other ratcheted debt are added. This is game code, not
+Psy-Q, and the grouping does not claim an original TU boundary.
+
+The emitter allocates sixteen 16-byte particles. Its writes and the callback's
+reads establish `RenderTiltingSprite`: an eight-byte rotation prefix, height,
+width, initial X tilt and Y angular velocity. The draw routine passes that
+prefix to `RotMatrixYXZ`. Header assertions cover size and key offsets.
+The existing 12-byte `RenderSparkEmitter` holds the emitter position and phase.
+
+The particle advances Y rotation by its velocity and Z by eight, decreases
+X tilt by initial_tilt*age/128, sets height 114 and width 200+rcos(age*16)/4,
+and completes at age 64. Rendering selects an eight-frame UV sequence,
+CLUT X=176 and the D_800E1F18 color track. The emitter captures position,
+emits below age 17, advances phase by 2218 plus five random bits, and completes
+at age 73. Through age 64 it draws three layers with growing and sine-scaled
+sizes. It always updates the shared position and texture setup in draw mode.
+Fields not written by the retail emitter or callback remain untouched.
+
+The production unit passes 37020 ASan/UBSan cases covering rotation wraparound,
+signed division, initial tilt and angular velocity, lifetime boundaries, UV
+frames and palettes, all draw arguments, allocation failure/success, signed
+random inputs, phase advancement, preserved fields and inactive modes.
+Emitter phase tests stay within the signed-int arithmetic domain. Tests assert
+both payload sizes while suppressing unrelated target layout assertions.
+Scratch proof is in `/tmp/pe-tilting-sprite/` (`check.py`, `test.c`).
+
+`make verify-clean` and final `make verify` pass all 340 tests and the
+source/organization/debt gates without a baseline change. Main retains SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays retain their retail SHA-1 values.

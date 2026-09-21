@@ -255,6 +255,28 @@ typedef struct RenderColor {
     u8 r, g, b, code;
 } RenderColor;
 
+/* Callback 0x800DCCCC and its emitter 0x800DCE94 use a 16-byte payload.
+ * The rotation prefix is passed directly to RotMatrixYXZ by 0x800D2370. */
+typedef struct RenderTiltingSprite {
+    GteRotation rotation;
+    s16 height, width;
+    s16 initial_tilt, velocity_y;
+} RenderTiltingSprite;
+
+PE1_STATIC_ASSERT(sizeof(RenderTiltingSprite) == 16, render_tilting_sprite_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderTiltingSprite, height) == 8,
+                  render_tilting_sprite_height);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderTiltingSprite, initial_tilt) == 12,
+                  render_tilting_sprite_initial_tilt);
+extern u8 D_800E1F18[];
+extern GteShortVector D_800E222C;
+int func_800DCCCC(int mode, RenderTiltingSprite *state);
+int func_800DCE94(int mode, RenderSparkEmitter *state);
+void func_800D2370(GteShortVector *position, GteRotation *rotation,
+                   int width, int height, int u, int v, int texture_width,
+                   int texture_height, int clut, RenderColor *color0,
+                   RenderColor *color1, int intensity, int mode);
+
 extern RenderColor D_800C22DC;
 extern RenderColor D_800C22E0;
 extern RenderColor D_800C22E4;
