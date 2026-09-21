@@ -4727,3 +4727,38 @@ Clean acceptance passes 341 tests and preserves main retail SHA-1
 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`. All 191 rebuilt overlays match.
 The audited report credits 2490848 semantic code bytes and 10736 functions
 (70.15% of code).
+
+### Camera projection initialization (2026-09-22)
+
+`Render_PrepareFrame` matches all 332 retail bytes with stock native GCC
+2.7.2 and unmodified MASPSX. It initializes the camera context, loads geometry,
+returns -2 if that load fails, sets the projection distance, resets objects,
+and projects the active actor's integer world coordinates (or zero when no
+actor exists). The packed screen coordinates are saved at 0x800BCFB4.
+The existing BattleEntity position fields supply the signed high halfwords.
+
+Eight register pins, two empty barriers and two explicit PE1_NOP slots remain;
+every COP2 operation uses an individual GTE macro. No CPU instruction assembly,
+compiler changes or new aliases are introduced. A narrow volatile center input
+retains GCC's retail 48-byte stack frame; this is compiler debt, not a recovered
+original type. The local aggregate holds the eight-byte vector, four-byte
+loader output and four-byte projection output, with no invented padding.
+Four provisional pins and eight provisional barriers were removed while
+preserving the match. The two existing callers now use the shared int-returning
+prototype. Main debt grows by eight pins, two barriers and two NOPs.
+
+5000 MIPS/model cases pass independently for both retail and compiled C.
+Checks cover load failure, null/present actors, signed-coordinate extremes,
+ordered callbacks, mutations of projection distance and actor state during
+callbacks, caller-register clobbers, all ten GTE control writes, input vector,
+controlled projected output, return value and preserved s0/SP. COP2 transfers
+are hooked and RTPS supplies a controlled result; this verifies the CPU logic
+and GTE interface, not the hardware projection arithmetic. Evidence:
+`/tmp/pe-prepare-frame/{check.py,test.py,base.bin,target.bin}`.
+
+Clean verification passes 341 tests and preserves main retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlay binaries also retain their retail SHA-1.
+The audited report credits 2491180 semantic code bytes and 10737 functions
+(70.16% of code). Total debt is 1291 pins, 1073 barriers and 155 NOPs;
+ordinary ASM bodies and directives remain unchanged.

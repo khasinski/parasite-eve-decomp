@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/render_camera.h"
 #include "pe1/psyq_gpu.h"
 
 extern u32 g_GameState;
@@ -6,7 +7,6 @@ extern unsigned char g_DiscChangeFlags;
 
 int ClearImage(RECT *rect, u8 r, u8 g, u8 b);
 int DrawSync(int arg0);
-void Render_PrepareFrame(void);
 
 void Gpu_ClearOnFlag(void) {
     u32 *state = &g_GameState;

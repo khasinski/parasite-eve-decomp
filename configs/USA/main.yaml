@@ -846,7 +846,7 @@ segments:
       - [0x58814, asm, render/Render_DrawRoom]
       - [0x58EA0, c, render/Render_SetPrimColour]
       - [0x58F10, asm, render/Render_SortOt]
-      - [0x59394, asm, render/Render_PrepareFrame]
+      - [0x59394, c, render/Render_PrepareFrame]
       - [0x594E0, c, render/Render_Update]
       - [0x59528, c, cdrom/CdRom_InitScreenState]
       - [0x59624, asm, main/Render_SetCDDCSlot]

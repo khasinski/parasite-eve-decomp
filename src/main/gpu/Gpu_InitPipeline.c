@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/render_camera.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -40,8 +41,6 @@ void Entity_InitFreePool(void);
 void Task_InitNodeFreeList(void);
 void Gte_SetBackColor(void *arg0, int arg1, int arg2, int arg3);
 void Gte_SetLightColor(void *arg0, int arg1, int arg2, int arg3, int arg4);
-void Render_PrepareFrame(void);
-void SetGeomScreen(int arg0);
 int CdRom_DetectDiscChange(void);
 int Scene_LoadEntityTexture(void);
 void Scene_SetStoryDay(s8 storyDay);
