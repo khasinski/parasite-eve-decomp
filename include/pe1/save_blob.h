@@ -23,8 +23,13 @@ typedef struct SaveBytes800 {
     SaveU8 b[0x800];
 } SaveBytes800;
 
+typedef struct SaveMetadataWindow {
+    SaveU8 text[0x10];
+} SaveMetadataWindow;
+
 typedef struct SaveBytes12E4 {
-    SaveU8 b[0x12E4];
+    SaveMetadataWindow metadata[2];
+    SaveU8 remainder[0x12C4];
 } SaveBytes12E4;
 
 #endif /* PE1_SAVE_BLOB_H */

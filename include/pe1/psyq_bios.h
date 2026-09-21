@@ -41,4 +41,6 @@ int ChangeClearRCnt(int counter, int enabled);
     __asm__ volatile("syscall" : "=r"(result), "=r"(selector) \
                      : "1"(selector) : "memory")
 
+void bzero(void *destination, int length);
+
 #endif

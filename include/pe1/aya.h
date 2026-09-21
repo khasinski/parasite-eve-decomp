@@ -74,7 +74,8 @@ typedef struct AyaSaveState {
 
     /* 0x36 */ u8  pad_36[0x0A];
     /* 0x40 */ u16 menu_clamp_value;     /* D_800C0E40  [CONFIRMED 0x3D] set via Menu_ClampRange(0x3D) at init */
-    /* 0x42 */ u8  pad_42[0x06];         /* 0x44..0x46 observed = 40 40 40 (per-category cursor?) */
+    /* 0x42 */ u8  pad_42[2];
+    /* 0x44 */ u32 blend_color;         /* Saved draw blend color, initialized to 0x404040. */
     /* 0x48 */ s16 inventory_items[50];   /* g_AyaInventoryItems: 50 item-ID slots */
 } AyaSaveState;                          /* ends at 0xAC, where equipment records begin */
 
@@ -82,6 +83,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, inventory_slot_count) == 0x0C,
                   aya_inventory_capacity_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, inventory_items) == 0x48,
                   aya_inventory_items_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(AyaSaveState, blend_color) == 0x44,
+                  aya_saved_blend_color_offset);
 PE1_STATIC_ASSERT(sizeof(AyaSaveState) == 0xAC, aya_save_state_prefix_size);
 extern AyaSaveState D_800C0E00;
 extern u16 D_800C0E28[7];

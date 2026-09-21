@@ -3899,3 +3899,46 @@ TU. Evidence: /tmp/pe-bonus-dispatch/ (check-unit.py, test.c, tested.c and logs)
 `make -j8 verify-clean` passes all 341 tool tests and source/debt/organization
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Initializing save metadata and runtime defaults (0x8005D6F4)
+
+`Save_InitMetadataState` matches all 588 retail bytes with stock native
+GCC 2.7.2 and unmodified MASPSX, without new pins, barriers, gotos, aliases,
+address casts, instruction ASM or flags. Separating the buffer fill from
+its captured copy destination and using an ordinary destination/source copy
+helper reproduces allocation and the first expanded string-copy iteration.
+
+The function clears the complete 0x12E4-byte runtime save block. It initializes
+the same second metadata window twice: both eight-byte fills, both table-4
+lookups of entry 30 and both FF-terminated copies are retained. This is an
+observed repetition, not an assumption that two different windows were
+intended. It copies a third lookup to the prompt, initializes the inventory,
+sets special-storage slot zero to raw ID 515, sets the saved/draw blend color
+to 0x404040, clears four timer values, configures draw/menu defaults and
+writes FF to the leading bytes of the two later display-text buffers.
+
+SaveBytes12E4 now exposes the two existing 16-byte metadata windows rather
+than only an opaque byte array; the remainder stays uninterpreted. The
+shared SaveMetadataWindow type retains its size, and assertions cover the
+whole block and second-window offset. Existing full-block assignments keep
+the same type and size. AyaSaveState's offset 0x44 becomes blend_color,
+corroborated by the initializer and Save_RestoreHeader's Draw_BlendColor
+call. It replaces four reserved bytes without changing layout. The canonical
+metadata globals and subsystem declarations are reused; no duplicate
+address aliases are added.
+
+100000 ASan/UBSan cases compare the complete overlapping save/Aya/inventory
+backing, timer values, prompt contents and callback traces. They exercise
+all terminating positions within a 16-byte metadata window, differing
+strings across the repeated lookups, empty strings, final text sentinels and
+callbacks redirecting the metadata cursor. The destination is captured
+before lookup, as in retail. Strings must terminate within valid backing;
+the unchecked retail copy is not claimed to be bounds-safe for invalid
+input. Mock callbacks validate interaction ordering rather than the callees'
+implementations. Another 273728 existing inventory/dispatcher cases pass
+with the revised shared headers. Evidence: /tmp/pe-save-init/.
+
+`make -j8 verify-clean` passes all 341 tool tests and source/debt/organization
+gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`,
+including the pre-existing full save-block copy and inventory functions.
+All 191 rebuilt overlays retain their retail SHA-1 values.

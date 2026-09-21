@@ -715,7 +715,7 @@ segments:
       # Threshold and tail-capacity selection share the filtered inventory state.
       - [0x4CE88, c, item/Inv_EquipmentSelection]
       - [0x4D4A4, c, item/Inv_InventorySetup]
-      - [0x4DEF4, asm, menu/Save_InitMetadataState]
+      - [0x4DEF4, c, save/Save_InitMetadataState]
       - [0x4E140, c, save/Save_GetCurrentMapNumber]
       - [0x4E170, c, menu/Menu_InitScrollDirection]
       - [0x4E194, c, item/Inv_InitMaxLevelInventory]

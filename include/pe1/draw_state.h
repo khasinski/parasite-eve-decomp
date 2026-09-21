@@ -11,4 +11,8 @@ extern int *g_TextCursorStack __asm__("D_8009D12C");
 extern int g_DrawSpriteX __asm__("D_8009D124");
 extern int g_DrawSpriteY __asm__("D_8009D128");
 
+void Draw_BlendColor(int color);
+int Draw_GetBaseY(void);
+void Draw_SetBaseOffsetPosition(int x, int y);
+
 #endif /* PE1_DRAW_STATE_H */

@@ -36,4 +36,8 @@ void Menu_SaveBgStartFadeOut(void);
 void Menu_SetMemCardConfirmPending(void);
 void Menu_InitBonusPointAllocState(int gainedPoints);
 
+void Menu_CopyPromptCodes(u8 *source);
+void Menu_SetActionSubmenuSelection(int value);
+void MenuWidget_SetColumnLayoutMode(int mode);
+
 #endif
