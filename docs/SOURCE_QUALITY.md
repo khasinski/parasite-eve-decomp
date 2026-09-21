@@ -2246,3 +2246,44 @@ under `/tmp/pe-battle-script/` (`check.py`, `test.c`).
 gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays retain their retail SHA-1 values. Debt counts remain
 unchanged.
+
+### Draw-mode packet queueing
+
+`func_800CF6F8` in `FieldEng_QueueDrawMode.c` matches all 332 retail bytes
+with stock native GCC 2.7.2 and unmodified MASPSX. It uses ordinary C without
+pins, barriers, inline ASM, volatile scheduling accesses or custom flags.
+The inline `link_packet` helper preserves each DMA tag's high length byte
+while replacing its low 24-bit link, including the ordering-table tag.
+
+For modes other than 255, the function allocates eight bytes from the active
+packet buffer, sets the draw mode, marks an optional primitive as translucent,
+and links the primitive followed by the draw-mode packet. Mode 255 links only
+the optional primitive and allocates nothing. Allocation uses the existing
+`RenderBufferPrefix.packets` array at +0x20, confirmed by the retail reference
+to `D_800B0E58`; no new buffer-layout hypothesis is needed. The shared header
+now declares `GetTPage` and the four-argument `SetDrawMode` implementation.
+The surrounding ASM range is split at 0xC0044; this promotion does not claim
+that the single-function range proves an original object boundary.
+
+231072 ASan/UBSan host cases check tag linking, length-byte preservation,
+translucency, both buffer slots, nullable primitives, the mode-255 bypass,
+all signed-halfword mode values and additional sampled 32-bit modes. The
+GPU-call hooks verify allocation precedes the calls and mutate the active
+buffer/cursor, ensuring the function keeps using the already allocated packet.
+They test this function's contract rather than the SDK routines. Narrow byte
+comparison and host-test evidence are in `/tmp/pe-draw-mode/` (`check.py`,
+`test.c`).
+
+Debt review: `main.pointer_integer_casts` increases from 736 to 737 for the
+single `(u32)packet` conversion in `link_packet`. This conversion is the
+hardware DMA-address encoding itself, not a scheduling workaround. Keeping
+it explicit is preferable to hiding the address conversion through a union
+or assembly. The reviewed baseline records this target-ABI dependency, as
+with the existing SPU DMA address conversions. This also adds one file to the
+audit's dirty-file total (2272 to 2273); pins, barriers, NOPs and aliases are
+unchanged.
+
+`make verify-clean` passes all 340 tests, the source/manifest contract and
+organization/debt checks with the reviewed baseline. Main retains SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`; all 191 rebuilt overlays also
+retain their retail SHA-1 values.

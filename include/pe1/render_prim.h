@@ -46,7 +46,9 @@ PE1_STATIC_ASSERT(sizeof(RenderBufferPrefix) == 0x28,
 extern RenderBufferPrefix D_800B0E38;
 extern int D_8009CDD8, D_8009CDDC;
 void SetLineF2(RenderLinePacket *packet);
-void func_800CF6F8(void *ordering, void *packet, int depth);
+u16 GetTPage(int tp, int abr, int x, int y);
+void SetDrawMode(char *packet, int drawTexture, int dither, int tpage);
+void func_800CF6F8(void *ordering, void *packet, int mode);
 struct RenderColor;
 void func_800DB25C(GteShortVector *position, int x, int y, int angle,
                    int radius, int depth, int intensity, struct RenderColor *color);
