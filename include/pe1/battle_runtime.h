@@ -59,6 +59,8 @@ void Tbl_ResetAll(void);
 extern s8 g_BattleTargetIndex;
 extern unsigned int D_8009D1F4;
 
+void Battle_SetupEntityTarget(BattleEntity *actor);
+void Battle_DispatchEntityEffect(void);
 void Battle_CycleTarget(s8 mode);
 void Battle_MarkActiveEntities(BattleTarget *targets, int index);
 void Battle_StepPlayerTurn(BattleTarget *targets, int index, int mode);

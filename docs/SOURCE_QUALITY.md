@@ -4089,3 +4089,37 @@ Narrow checks prove both code and switch-table bytes. Evidence:
 SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays match retail; the audited report credits 2480536
 semantic code bytes and 10719 functions. Debt counts remain unchanged.
+
+### Target selection and action queue setup
+
+`Battle_SetupEntityTarget` is 784 exact code bytes with stock native GCC 2.7.2
+and unmodified MASPSX. It uses the existing BattleEntity, EnemyCombatant,
+BattleAction and eight-byte BattleInitSlot structures. The four animation
+bytes remain a single array. Three PE1_NOP_DEP calls retain retail load-delay
+slots before stores to its nonzero GP offsets; these use the user's approved
+NOP-only exception and increase nop_barriers from 142 to 145. No pins, empty
+barriers, other CPU instruction ASM or toolchain changes are introduced.
+
+The first scan deliberately retains the retail check of actor->entityFlags,
+not target->entityFlags. With stable, separate backing this cannot select a
+target in the branch entered for bit 0x40000000. Replacing it with the likely
+intended candidate check would change behavior. The child-target path tests
+parent, signed state byte and word-sized hpAlive. Queue entries retain the
+signed-byte action index in a signed halfword. The effect callback is followed
+by a fresh player-pointer load before marking the action committed.
+
+100000 ASan/UBSan model cases cover all four routing paths, empty/nonempty
+lists, null candidate cores, living/dead children, queue counts 0..15, all four
+turn modes and callback redirection/state changes. Complete queue contents,
+callback snapshots and global outputs are compared. The first-path model
+uses the stable-flag invariant independently of the production scan. Inputs
+use separate backing and valid queue capacity (initial count 0..29, at most
+15 new entries); unchecked overflow behavior is not claimed safe. Production
+NOP macros remain active in the host harness; only target-layout assertions
+are disabled. Evidence: /tmp/pe-setup-target/ (check.py, test.c, acceptance logs).
+
+`make -j8 verify-clean` passes all 341 tool tests and main's unchanged retail
+SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays match retail. The report credits 2481320 semantic
+code bytes and 10720 functions; dirty files increase by one for the documented
+NOP constraints, with all other debt categories unchanged.
