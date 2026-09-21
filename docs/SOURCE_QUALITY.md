@@ -3282,3 +3282,62 @@ assertions are disabled for the host harness. Linked retail comparison proves
 Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including the
 battle caller after replacing its untyped argument declaration.
 All 191 rebuilt overlays retain their retail SHA-1 values.
+
+### Random selection and item messages (0x8005485C)
+
+`Inv_PickRandomItem` (556 bytes) and `Inv_GetItemEffectData` (624 bytes) form
+one 1180-byte `Inv_RandomSelectionText.c` unit, exact with stock native GCC
+2.7.2 and unmodified MASPSX. They add no pins, barriers, NOPs, ASM, gotos or
+compiler flags. Lookup helpers address equipment and ammunition as existing
+typed record arrays, including raw IDs 512..520, without byte-pointer arithmetic.
+The historical function names are retained for callers.
+
+The first function packs indices of valid records with flag 0x80, excluding
+tracked weapon/armor indices only for the Aya list. It observes list, limit,
+record and tracking changes made by base-data lookup callbacks. It clears
+D_8009D068, publishes the count in D_8009D040, and returns zero without advancing
+the RNG when no eligible record exists. Otherwise it draws one byte from the
+521-byte generator and returns the raw item ID at the chosen packed index.
+The original ignores its integer argument; the prototype retains it because
+the battle caller computes and passes r / 100. The generator requires a valid
+cursor in 0..520, and the caller must provide valid lists and enough packed
+output capacity. The incomplete-array declarations do not assert a new extent.
+
+The second function returns an FF-terminated message pointer, not integer
+item-effect data. Item zero selects table4[19]; mode >= 2 selects table4[18].
+Otherwise it concatenates table8[item - 1] and table4[mode + 16], reversing
+order when D_8009D218 is nonzero. It rescans the destination after the second
+lookup, preserving callback-visible changes before appending. The caller must
+supply valid table indices and terminated strings that fit the shared buffer;
+the reconstruction does not add bounds checks absent from retail.
+
+The USA resource loaded by Scene_LoadSceneData from PE.IMG sectors 72..87
+contains the string tables. Str_LookupTables uses the resource's word at +4
+as its relative base, then offsets +4/+8 to tables at resource offsets 0x44
+and 0x800. Their counts are 120 and 255. Table8 payloads are at most 14 bytes;
+table4[16..19] payload lengths are 11, 6, 23, 22. Thus normal modes 0/1 yield
+at most 26 bytes including FF, and the two fallback messages use 24/23 bytes.
+Resource SHA-1: 9c645d27d8bb9c820aa778d4eb7145bd773b8f73. This establishes the
+retail table case, not arbitrary runtime replacements or invalid arguments.
+
+Canonical prototypes are in inventory.h/text.h. Battle_ApplyEnemyAttack now
+stores the typed return value through a real u8-pointer declaration in battle.h,
+removing its synthetic 16-byte alias and integer view. Its compiled instructions
+and relocations remain identical. The main file-local extern count falls from
+3666 to 3665; the remaining ratchet counts do not change.
+
+The production unit passes 96057 ASan/UBSan selection cases and 31230 text cases.
+Selection tests cover every raw halfword ID, random lists, tracked indices,
+nonpositive limits, every valid RNG cursor, and callback mutations of the list,
+limit, record flags, tracked index, RNG cursor, and null lookup results. Text
+tests cover empty/full 31-byte source pairs, all nonterminator byte values,
+mode/order branches and mutation by the second lookup. Fixtures provide valid
+output capacities and disable only target ABI assertions. Exactness is proved
+separately by the complete 1180-byte retail comparison. Evidence:
+/tmp/pe-pick-text/ (check.py, test-pick.c, test-text.c, inspect-text-tables.py,
+text-table-evidence.txt, caller-before/after.dump, and acceptance logs).
+
+`make verify-clean` passes all 341 tests and source/debt/organization gates.
+Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`, including both
+new functions and the typed pointer stores in Battle_ApplyEnemyAttack.
+All 191 rebuilt overlays retain their retail SHA-1 values.

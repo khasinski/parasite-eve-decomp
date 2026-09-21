@@ -4,6 +4,8 @@
 #include "common.h"
 #include "pe1/field_actor.h"
 
+extern u8 *g_CurItemEffectData;
+
 /* Battle subsystem (ATB combat). Layout reverse-engineered from the battle code
  * (src/main/battle, src/main/main/Battle_) and validated live on real
  * BIOS (DuckStation GDB) by fighting the first Carnegie Hall encounter and

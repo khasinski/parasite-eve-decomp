@@ -4,6 +4,8 @@
 #include "common.h"
 
 void *Str_LookupTable4(unsigned int index);
+void *Str_LookupTable8(unsigned int index);
+extern int D_8009D218;
 void Util_CopyFFTerminatedBytes(u8 *dst, u8 *src);
 void Util_AppendFFTerminatedBytes(u8 *dst, u8 *src);
 int Draw_MeasureTextWidth(u8 *text);

@@ -38,6 +38,7 @@ extern s32 D_8009D050;
 extern u32 *D_8009D058;
 extern s32 D_8009D064;
 extern s32 D_8009D06C;
+extern s32 D_8009D068;
 
 #define g_AyaInventoryItems D_800C0E48
 #define g_InvItemPtr D_8009D048

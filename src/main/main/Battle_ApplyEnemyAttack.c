@@ -12,9 +12,7 @@
 #define ATTRIBUTE_EFFECT_FLAGS(base) \
     (*(s32 *)((base) + PE1_OFFSETOF(BattleAttributes, effectFlags)))
 
-s32 Inv_PickRandomItem(s32);
 int Inv_FindItemById(int arg0);
-s32 Inv_GetItemEffectData(s16, s32);
 
 extern struct { char _[16]; } D278_o0 __asm__("g_ActiveActor");
 #define D278_0 (*(u8 **)&D278_o0)
@@ -57,8 +55,6 @@ extern struct { char _[16]; } D228_o __asm__("g_ActorEffectFlag100Timer");
 #define g_ActorEffectFlag100Timer (*(s16 *)&D228_o)
 extern struct { char _[16]; } D1CE_o __asm__("g_BattleSaveOverlayActive");
 #define g_BattleSaveOverlayActive (*(s8 *)&D1CE_o)
-extern struct { char _[16]; } D1F8_o __asm__("g_CurItemEffectData");
-#define g_CurItemEffectData (*(s32 *)&D1F8_o)
 extern struct { char _[16]; } D2E8_oa __asm__("g_FieldMoveLock");
 extern struct { char _[16]; } D2E8_ob __asm__("g_FieldMoveLock");
 #define D2E8A (*(s32 *)&D2E8_oa)
