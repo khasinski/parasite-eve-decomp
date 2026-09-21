@@ -1560,3 +1560,28 @@ scratch proof is in `/tmp/pe-attached-point/`.
 `make verify-clean` passes all 340 tests and source/organization/debt gates.
 The rebuilt main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
 All 191 rebuilt overlays also retain their retail SHA-1 values.
+
+### Rotating ballistic sprite reconstruction
+
+`func_800DA780` in `FieldEng_RotatingBallisticSprite.c` matches all 436
+retail bytes with stock GCC 2.7.2 and unchanged MASPSX. It reuses the existing
+8-byte `RenderArcingEffect` payload. Updates add vertical velocity to Y,
+decrease velocity by one before age 19, and finish at age 24. Drawing copies
+XYZ, uses Z rotation X + Y + age * 32, sine intensity divided by 128, fixed
+scale 4096 and texture 96 + signed parameter02 * (age / 6). The signed cast
+is supported by the original `lh` at 0x800DA8D8. The palette adjustment,
+CLUT X=96 and null color argument follow the retail call sequence.
+
+There are no new pins, barriers, volatile accesses, instruction ASM or other
+ratcheted debt. This is game code, not Psy-Q, and the filename makes no claim
+about the original TU. The production source passes 37154 ASan/UBSan cases:
+short-coordinate/velocity extremes, age cutoffs, signed sine division around
+128, all palettes and asset flag states, signed texture parameters including
+-32768/32767, unchanged draw state and inactive modes. Mock draw calls check
+all arguments. The host explicitly checks the 8-byte payload size; unrelated
+target layout assertions are suppressed. Scratch proof and the exact linked
+byte comparison are in `/tmp/pe-rotating-ballistic/`.
+
+`make verify-clean` passes all 340 tests and the source, organization and
+debt gates. Main retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays preserve their retail SHA-1 values as well.
