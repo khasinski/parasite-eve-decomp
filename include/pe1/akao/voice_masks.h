@@ -5,6 +5,7 @@
 
 extern AkaoSequencerBank *g_AkaoCurTrack;
 extern AkaoTrack g_AkaoVoiceStateTable[], g_AkaoVoiceStateTable2[];
+extern AkaoTrack g_AkaoVoiceChannelTable[];
 extern unsigned g_SpuActiveVoiceMask, g_SpuStoppedVoiceMask;
 extern unsigned g_SpuPendingKeyOffMask;
 extern AkaoVoiceEnvelopeSlot g_AkaoVoiceEnvelopeTable[];
@@ -12,6 +13,11 @@ extern unsigned g_AkaoVoicePortamentoResetMask;
 extern unsigned g_AkaoTrack34Mask, g_AkaoTrack38Mask, g_AkaoTrack3CMask;
 extern unsigned g_AkaoVoiceUpdateFlags;
 extern unsigned D_800C0DD0, D_800C0DD4, D_800C0DD8;
+
+void Spu_ManageVoices(int id, int control);
+void Seq_StartNestedTrack(AkaoTrack *track, AkaoNestedSource *source, unsigned mask, void *script);
+void Seq_ClearTrackVoiceId(AkaoTrack *track, unsigned voice_id);
+void Seq_StartNestedStreams(AkaoNestedSource *source, void *first, void *second);
 
 void Spu_VoiceMaskCompose(AkaoTrack *track, int *mask_out, int mask, int mask_keep);
 void Seq_MarkTrack34MaskDirty(void);

@@ -5447,3 +5447,35 @@ all 191 overlay retail SHA-1 checks, and report/progress/debt. The report
 credits 2,501,432 semantic-C bytes and 10,758/11,647 functions: 70.45% code
 overall, main-game 1,604/1,878 functions and 54.75% code. Aggregate
 pins/barriers/NOPs are 1,303/1,083/155.
+
+
+## Seq_StartNestedStreams — exact retail C (2026-09-22)
+
+Promoted the 496-byte function at `0x8008A92C` from `akao/seq` to
+`akao/Seq_StartNestedStreams`. It allocates one nested stream or a pair
+of adjacent voice slots, searches from the highest available voice, and
+retries after asking the voice manager to release occupied slots. It
+starts the selected tracks, clears their previous voice assignments and
+marks the shared masks dirty.
+
+The source uses the existing `AkaoTrack` and `AkaoNestedSource` structures.
+The last slot is expressed as `&g_AkaoVoiceChannelTable[11]`, replacing
+the opaque interior address `D_800BCC34`; shared declarations live in
+`akao/voice_masks.h`. Native stock GCC 2.7.2 with default options and
+unmodified MASPSX produces all 496 retail bytes exactly. No pins, empty
+barriers, volatile accesses, explicit NOPs or instruction ASM are needed.
+A single goto to the exhausted allocation path preserves retail control
+flow without loop peeling; main's goto baseline rises from 694 to 695.
+
+An independent model passes 2048 cases against retail and the final C:
+empty, single and paired stream requests; free, fragmented and full voice
+masks; eviction retries and failure; signed-status aborts; and mutable
+callbacks affecting track assignments, flags and source state. The checks
+compare memory and call traces and verify stack/callee-saved registers
+while callbacks clobber caller-saved registers and HI/LO.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay retail SHA-1 checks, and report/progress/debt. Semantic C
+now covers 2,501,928 bytes and 10,759/11,647 functions: 70.46% code overall,
+main-game 1,605/1,878 functions and 54.84% code. Aggregate pins/barriers/NOPs
+remain 1,303/1,083/155; gotos rise from 1,155 to 1,156.
