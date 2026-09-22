@@ -36,23 +36,15 @@ CPP_FLAGS="-undef -D__GNUC__=2 -D__OPTIMIZE__ -Dmips -D__mips__ -D__LITTLE_ENDIA
 CC1_FLAGS="-w -O2 -G0 -funsigned-char -mips1 -mcpu=3000"
 CC1_FLAGS="$CC1_FLAGS ${PE_CC1_EXTRA_FLAGS:-}"
 AS_G_FLAG="-G0"
-if grep -q 'CC1_FLAGS:.*-G1' "$IN"; then
-    CC1_FLAGS="${CC1_FLAGS/-G0/-G1}"
-elif grep -q 'CC1_FLAGS:.*-G2' "$IN"; then
-    CC1_FLAGS="${CC1_FLAGS/-G0/-G2}"
-elif grep -q 'CC1_FLAGS:.*-G4' "$IN"; then
-    CC1_FLAGS="${CC1_FLAGS/-G0/-G4}"
-elif grep -q 'CC1_FLAGS:.*-G8' "$IN"; then
-    CC1_FLAGS="${CC1_FLAGS/-G0/-G8}"
+# Keep compiler address-lowering and assembler small-data thresholds separate.
+# Read the complete number: prefix matching silently treated -G16 as -G1.
+SOURCE_CC1_G=$(sed -nE 's/.*CC1_FLAGS:.*-G([0-9]+).*/\1/p' "$IN" | head -1)
+SOURCE_AS_G=$(sed -nE 's/.*MASPSX_FLAGS:.*-G([0-9]+).*/\1/p' "$IN" | head -1)
+if [ -n "$SOURCE_CC1_G" ]; then
+    CC1_FLAGS="${CC1_FLAGS/-G0/-G$SOURCE_CC1_G}"
 fi
-if grep -q 'MASPSX_FLAGS:.*-G1' "$IN"; then
-    AS_G_FLAG="-G1"
-elif grep -q 'MASPSX_FLAGS:.*-G2' "$IN"; then
-    AS_G_FLAG="-G2"
-elif grep -q 'MASPSX_FLAGS:.*-G4' "$IN"; then
-    AS_G_FLAG="-G4"
-elif grep -q 'MASPSX_FLAGS:.*-G8' "$IN"; then
-    AS_G_FLAG="-G8"
+if [ -n "$SOURCE_AS_G" ]; then
+    AS_G_FLAG="-G$SOURCE_AS_G"
 fi
 if grep -q 'CC1_FLAGS:.*-O1' "$IN"; then
     CC1_FLAGS="${CC1_FLAGS/-O2/-O1}"

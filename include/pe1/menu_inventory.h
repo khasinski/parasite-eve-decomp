@@ -64,4 +64,9 @@ extern int D_8009CF3C; /* Restricts selected parasite actions when nonzero. */
 extern u16 D_800C0E08[]; /* Current HP. */
 extern u16 D_800C0E06[]; /* Maximum HP. */
 
+int Menu_StepNameEntry(MenuWidgetNode *parent, unsigned int flags);
+void Menu_PlayErrorSound(void);
+extern u8 *D_8009CF54;
+extern int D_8009D004;
+
 #endif

@@ -5849,3 +5849,47 @@ all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
 covers 2,508,312 bytes and 10,770/11,647 functions: 70.64% code overall,
 main-game 1,616/1,878 functions and 55.97% code. Aggregate pins/barriers/
 NOPs/gotos remain 1,310/1,084/156/1,158.
+
+
+## Menu_StepNameEntry — exact retail C (2026-09-22)
+
+The 624-byte name-entry input handler at `0x8004E074` is reproduced using
+shared menu-widget, save-metadata and game-state types. It switches focus
+between character pages, appends or deletes a metadata character, rejects
+empty/all-space names (`0x0F` spaces, `0xFF` terminator), and accepts valid
+names by clearing the name-entry game-state flag. The source preserves
+callback order, including publishing the character table before querying
+the selected cell. Nested conditions reproduce the row routing without
+a goto. All external declarations are in shared headers.
+
+Stock native GCC 2.7.2 uses `-G4096` for this TU; unmodified MASPSX and GNU
+as retain `-G8`. GCC's `ENCODE_SECTION_INFO` uses the compiler threshold
+when classifying symbolic object references. Covering the 0x95C-byte
+`g_GameState` avoids the shared address-register lowering of its flag
+read/modify/write. The assembler independently chooses actual GP-relative
+versus full-address accesses using the object's declared size and `-G8`.
+This is a matching compiler profile, not evidence that the original build
+used exactly `-G4096`; retain it as a documented matching constraint to
+revisit. No compiler or assembler implementation was modified.
+
+`cc.sh` now reads complete numeric `-G` values independently for compiler
+and assembler. The previous prefix checks misread `-G16` as `-G1` and
+`-G4096` as `-G4`. The relocation regression covers 0/1/2/4/8/16/4096 and
+mixed 4096/8 and 8/4096 profiles, checking scalar and 16-byte record symbols.
+The C needs no pins, empty barriers, explicit NOPs, gotos, volatile
+accesses, pointer/integer casts or aliases. Existing debt counters are
+unchanged; the per-TU threshold profile above is the remaining constraint.
+
+An independent model passes 2048 cases against retail and final C:
+all flag-priority combinations, signed row/page boundaries and arithmetic
+wrapping, absent character-page widgets, empty/all-space/nonblank names,
+delete success/failure, node aliases, and callback mutations of widget,
+character and global state. It checks every call's arguments and memory
+snapshot, final memory, return value, stack and callee-saved registers;
+callbacks clobber caller-saved state and HI/LO.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
+covers 2,508,936 bytes and 10,771/11,647 functions: 70.66% code overall,
+main-game 1,617/1,878 functions and 56.08% code. Aggregate pins/barriers/
+NOPs/gotos remain 1,310/1,084/156/1,158.

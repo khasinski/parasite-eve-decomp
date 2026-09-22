@@ -24,14 +24,19 @@ class SmallDataCompileTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             source = pathlib.Path(directory) / "threshold.c"
             obj = pathlib.Path(directory) / "threshold.o"
-            for threshold in (0, 1, 2, 4, 8):
-                with self.subTest(threshold=threshold):
+            for compiler_threshold, assembler_threshold in (
+                    (0, 0), (1, 1), (2, 2), (4, 4), (8, 8),
+                    (16, 16), (4096, 4096), (4096, 8), (8, 4096)):
+                with self.subTest(compiler=compiler_threshold,
+                                  assembler=assembler_threshold):
                     source.write_text(
                         "/* CC1_FLAGS: -G%d */\n/* MASPSX_FLAGS: -G%d */\n"
                         "extern char small_byte;\nextern short small_half;\n"
                         "extern int small_word;\n"
+                        "extern struct { int flags; char reserved[12]; } large_record;\n"
                         "void store(void) { small_byte = 0; small_half = 0;"
-                        " small_word = 0; }\n" % (threshold, threshold)
+                        " small_word = 0; large_record.flags = 0; }\n"
+                        % (compiler_threshold, assembler_threshold)
                     )
                     subprocess.run(
                         [str(ROOT / "tools/scripts/cc.sh"), str(source), str(obj)],
@@ -47,9 +52,9 @@ class SmallDataCompileTests(unittest.TestCase):
                             name = symbols.get_symbol(relocation["r_info_sym"]).name
                             actual.setdefault(name, set()).add(relocation["r_info_type"])
                     for name, size in (("small_byte", 1), ("small_half", 2),
-                                       ("small_word", 4)):
+                                       ("small_word", 4), ("large_record", 16)):
                         # R_MIPS_GPREL16 versus R_MIPS_HI16/R_MIPS_LO16.
-                        self.assertEqual(actual[name], {7} if size <= threshold else {5, 6})
+                        self.assertEqual(actual[name], {7} if size <= assembler_threshold else {5, 6})
 
 
 if __name__ == "__main__":

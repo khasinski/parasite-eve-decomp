@@ -26,6 +26,8 @@ extern SaveMetadataWindow g_CursorRenderMetadataWindows[2]
     __asm__("g_CursorRenderDataBlock");
 
 int Save_GetMetadataWindowIndex(void);
+void Save_AppendMetadataChar(unsigned char ch);
+int Save_DeleteMetadataChar(void);
 char *Save_GetActiveMetadataBuffer(void);
 u8 *Save_GetMetadataCursor(void);
 u32 Save_GetMetadataRemainingChars(void);
