@@ -5726,3 +5726,32 @@ all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
 covers 2,505,400 bytes and 10,766/11,647 functions: 70.56% code overall,
 main-game 1,612/1,878 functions and 55.46% code. Aggregate pins/barriers/
 NOPs/gotos are 1,310/1,084/155/1,158.
+
+
+## Menu_OpenEquipScreen — exact retail C (2026-09-22)
+
+Promoted the 584-byte function at `0x8004E704` to C. It reuses or creates
+the mode-50 root, builds linked mode-51/52 lists with input/draw/item
+callbacks, selects the inventory mask by mode, and offsets the second
+parent when the first list lacks a popup. It reuses or creates the
+mode-19 help panel, clears menu flags and initializes the event queue.
+
+The function uses the shared `MenuWidgetNode` callback types introduced
+with the previous list constructor. All external declarations are in
+shared headers, including the two-argument category handler. Native
+stock GCC 2.7.2 with `-G8` and unmodified MASPSX produces all 584 retail
+bytes without pins, barriers, explicit NOPs, instruction ASM, gotos,
+volatile accesses or pointer/integer casts. Debt is unchanged.
+
+An independent model passes 2048 cases against retail and the final C,
+with orthogonal mode/root/help/popup combinations, including zero,
+positive, negative and arbitrary mode arguments. It checks mask and
+count propagation, every callback's arguments and node/global snapshot,
+live mutations, node aliases, final memory, stack and callee-saved
+registers. Callbacks clobber caller-saved registers and HI/LO.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
+covers 2,505,984 bytes and 10,767/11,647 functions: 70.58% code overall,
+main-game 1,613/1,878 functions and 55.56% code. Aggregate pins/barriers/
+NOPs/gotos remain 1,310/1,084/155/1,158.

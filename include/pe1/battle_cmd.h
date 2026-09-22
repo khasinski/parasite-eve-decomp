@@ -114,4 +114,6 @@ void BattleCmd_SetCurrentMP(int value);
 
 int Battle_GetEnemyEscapeFlag(void);
 
+void BattleCmd_SyncActiveAmmo(void);
+
 #endif

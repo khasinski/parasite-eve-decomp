@@ -22,4 +22,11 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, itemAction) == 0x84,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, refreshItems) == 0x88,
                   menu_widget_refresh_items_offset);
 
+void Menu_OpenEquipScreen(int mode);
+int Menu_StepInventoryCategory(MenuWidgetNode *node, unsigned int flags);
+void Menu_DrawEquipListContainer(void *node);
+void Menu_DrawContextHelpText(void);
+void Menu_SetBattleEquipMode(int mode);
+extern int D_8009CF0C, D_8009CEFC;
+
 #endif
