@@ -5022,3 +5022,34 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
 credits 2494532 semantic bytes and 10744 functions (70.26% of code).
 Total debt is 1299 pins, 1079 barriers and 155 NOPs.
+
+### Enemy combatant slot allocation
+
+`Entity_AllocSlot` (408 bytes at `0x8002F7D8`) copies the 0xD8-byte
+`EnemyCombatant` template to a local snapshot, scans seven 0xDC-byte
+`BattleEnemySlot` records, and initializes the first inactive slot. The local
+snapshot and both aggregate assignments reproduce the original block copies
+without hand-written copy loops. An eight-bit index preserves the retail
+masking, and the existing shared structures provide all field offsets.
+
+The allocated payload pointer supplies the entity-ID store; subsequent mask
+and action-effect stores reload `entity->core`, as retail does. The sequence
+counter wraps at eight bits. Unless entity flag 0x2000 is set, the action-effect
+pointer targets the payload's embedded storage, action mode becomes 2, and
+the active-action count increments after the callback. A full pool is unchanged.
+
+Stock native GCC 2.7.2 with default flags and unmodified MASPSX matches all
+408 bytes. No pins, barriers, volatile views, NOPs or instruction ASM are used.
+
+An independent MIPS/model harness passes 2048 cases for retail and compiled C:
+all 128 occupancy masks, both values of the action-suppression flag, nonboolean
+occupied markers, randomized complete templates and payloads, and eight-bit
+counter wraparound. Full pool/entity/template/counter snapshots are compared
+at the action callback and on return. The callback changes the active count,
+entity core and template and clobbers caller-saved registers; stack and
+callee-saved registers remain intact.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
+credits 2494940 semantic bytes and 10745 functions (70.27% of code).
+Total debt remains 1299 pins, 1079 barriers and 155 NOPs.
