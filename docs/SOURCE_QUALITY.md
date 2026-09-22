@@ -5371,3 +5371,39 @@ all 191 overlay retail SHA-1 checks, and report/progress/debt. The report
 credits 2,500,432 semantic-C bytes and 10,756/11,647 functions: 70.42% code
 overall, main-game 1,602/1,878 functions and 54.57% code. Aggregate
 pins/barriers/NOPs remain 1,303/1,081/155.
+
+## AKAO pending key-off requests (2026-09-22)
+
+`Akao_SetVoicePitch` retains its legacy symbol name, but its observed role is
+to compose and submit pending key-off requests through `Spu_WriteKeyOff`.
+It now matches all 476 retail bytes. The existing sequencer-bank field at
+0x18 is named `key_off_request_mask`: pending-track calls consume selected
+bits, and remaining-track calls clear the entire request field. The final
+mask incorporates and unconditionally drains `g_SpuPendingKeyOffMask`, then
+calls the key-off writer only if the result is nonzero.
+
+The routine and adjacent `Spu_VoiceMaskCompose` join the existing
+`Akao_VoiceMasks.c` TU; its complete 1940 bytes at 0x80089724 match retail.
+The old single-function compose file is removed. Declarations and prototypes
+remain in the shared `akao/voice_masks.h` header.
+
+One explicit empty memory barrier prevents GCC from folding the primary
+pending-mask reload and inversion into the earlier read. It adds no machine
+instruction. Main's barrier baseline rises 935 to 936; no pins, volatile,
+NOPs or ordinary CPU instruction ASM are introduced. All other debt counts
+are unchanged. Compilation uses stock native GCC 2.7.2 and unmodified MASPSX
+with their default production options.
+
+An independent model passes 2048 cases for each of the four mask routines
+(8192 total), comparing retail with the combined production TU. The new
+routine's checks include selective/full request clearing, global-mask drain,
+zero/nonzero final key-off calls, callback mutation and bank redirection,
+caller-saved clobbers, full memory and call traces, stack and callee-saved
+registers. The three previously accepted routines remain covered after the
+TU merge. No return value is assumed for these void routines.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay retail SHA-1 checks, and report/progress/debt. The report
+credits 2,500,908 semantic-C bytes and 10,757/11,647 functions: 70.44% code
+overall, main-game 1,603/1,878 functions and 54.66% code. Aggregate
+pins/barriers/NOPs are 1,303/1,082/155.

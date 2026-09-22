@@ -139,7 +139,7 @@ typedef struct AkaoSequencerBank {
     /* 0x0C */ AkaoU32 field_0C;
     /* 0x10 */ AkaoU32 field_10;
     /* 0x14 */ AkaoU32 allocated_voice_mask;
-    /* 0x18 */ AkaoU32 field_18;
+    /* 0x18 */ AkaoU32 key_off_request_mask;
     /* 0x1C */ AkaoU32 pending_restore_mask;
     /* 0x20 */ AkaoU32 field_20[5];
     /* 0x34 */ AkaoU32 key_off_dirty_mask;
