@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_collision.h"
 
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -9,11 +10,8 @@
 #define S32_AT(ptr, off) (*(s32 *)((u8 *)(ptr) + (off)))
 #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
 
-extern u8 *D_8009D1FC;
-extern u8 *volatile D_8009D1D8;
 extern u8 **D_8009CE08;
 
-int Geo_PointInTri(void *triangle, int x, int z);
 int Math_FixedMul(int a, int b);
 
 void Entity_FindFloor(u8 *entity)

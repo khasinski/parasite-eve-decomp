@@ -5656,3 +5656,38 @@ checks, and report/progress/debt. Semantic C now covers 2,504,460 bytes
 and 10,764/11,647 functions: 70.54% code overall, main-game 1,610/1,878
 functions and 55.29% code. Aggregate pins/barriers/NOPs/gotos remain
 1,308/1,084/155/1,158.
+
+
+## Geo_PointInTri — exact retail C (2026-09-22)
+
+Promoted the 456-byte containment test at `0x8001C614` to C. It walks the
+three edges and toggles crossing parity, handling the flat XZ and sloped
+XYZ vertex tables. Signed halfword coordinates and direction-dependent
+cross-product comparisons preserve the retail edge-boundary behavior.
+A normal `while` loop reproduces the original instruction sequence.
+
+Shared `CollisionVertexXZ`, `CollisionVertexXYZ`, and `CollisionDatabase`
+types describe the 4/6-byte vertex records and vertex pointer at offset
+0x18. The plane-table selector retains the volatile pointer declaration
+used by existing floor queries. `Entity_FindFloor` and
+`Entity_ResolvePosition` now use the shared function declaration; both
+retain identical instructions and symbolic relocations.
+
+Stock native GCC 2.7.2 with `-G8` and unmodified MASPSX matches all bytes.
+One parity-result pin in `$8` and four explicit `u32` pointer conversions
+preserve register allocation and vertex-address operand order. There are
+no empty barriers, explicit NOPs or instruction ASM. Main's debt changes
+are pins 1,082 to 1,083, pointer/integer conversions 754 to 758, and local
+extern declarations 3,654 to 3,652. Other debt categories are unchanged.
+
+An independent model passes 4096 cases against retail and the final C:
+both vertex layouts, signed coordinate boundaries and upper argument bits,
+vertex/edge equality, degenerate triangles and wrapped cross products.
+It checks the return value, absence of memory writes, stack preservation
+and callee-saved registers.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
+covers 2,504,916 bytes and 10,765/11,647 functions: 70.55% code overall,
+main-game 1,611/1,878 functions and 55.37% code. Aggregate pins/barriers/
+NOPs/gotos are 1,309/1,084/155/1,158.

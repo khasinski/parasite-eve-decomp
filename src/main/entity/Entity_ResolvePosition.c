@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_collision.h"
 #include "pe1/battle.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -8,7 +9,6 @@ extern char *g_CollisionPlaneTable;
 extern char *g_RegionHeightTable;
 
 int Math_FixedMul(int arg0, int arg1);
-int Geo_PointInTri(char *arg0, int arg1, int arg2);
 
 void Entity_ResolvePosition(BattleEntity *actor, int index) {
     BattleEntity *actor_s2;

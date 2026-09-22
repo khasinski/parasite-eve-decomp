@@ -1,6 +1,8 @@
 #ifndef PE1_FIELD_COLLISION_H
 #define PE1_FIELD_COLLISION_H
 
+#include "common.h"
+
 /* Little-endian 16.16 X/Z pair. The containment test reads only the
  * signed integer halves, at offsets 2 and 6 of each eight-byte vertex. */
 typedef struct {
@@ -28,6 +30,29 @@ void Entity_SlideOnWall(struct BattleEntity *actor, const PolygonVertex *vertice
                        unsigned short count, short edge, int oldX, int oldZ);
 /* The retail caller passes an argument; this routine uses D_8009D254. */
 void Entity_ApplyCollisionResponse(int unused);
+
+/* Packed vertex tables used by the flat and sloped triangle formats.
+ * Coordinates are loaded as halfwords and interpreted as signed for geometry. */
+typedef struct CollisionVertexXZ {
+    u16 x, z;
+} CollisionVertexXZ;
+typedef struct CollisionVertexXYZ {
+    u16 x, y, z;
+} CollisionVertexXYZ;
+typedef struct CollisionDatabase {
+    u32 reserved[6];
+    void *vertices;                  /* 0x18: XZ or XYZ array. */
+} CollisionDatabase;
+
+extern CollisionDatabase *D_8009D1FC;
+/* Plane-table pointer; existing floor queries require a fresh read. */
+extern u8 *volatile D_8009D1D8;
+int Geo_PointInTri(void *triangle, s16 x, s16 z);
+
+PE1_STATIC_ASSERT(sizeof(CollisionVertexXZ) == 4, collision_vertex_xz_size);
+PE1_STATIC_ASSERT(sizeof(CollisionVertexXYZ) == 6, collision_vertex_xyz_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionDatabase, vertices) == 0x18,
+                  collision_database_vertices_offset);
 
 /* Field floor / collision geometry (what keeps Aya on the walkable mesh and
  * sets her ground height Y). See field_movement.h for how motion drives pos;
