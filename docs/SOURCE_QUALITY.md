@@ -5519,3 +5519,39 @@ all 191 overlay retail SHA-1 checks, and report/progress/debt. Semantic C
 now covers 2,502,436 bytes and 10,760/11,647 functions: 70.48% code overall,
 main-game 1,606/1,878 functions and 54.93% code. Aggregate pins/barriers/NOPs
 are 1,304/1,083/155; gotos remain 1,156.
+
+
+## Battle_DrawDecimalNumber — exact retail C (2026-09-22)
+
+Promoted the 560-byte renderer at `0x800328DC` to C. It decomposes a signed
+16-bit value into least-significant decimal digits, then draws the highest
+place first at six-pixel spacing. It uses the existing 0x1C-byte
+`BattleGaugePrim` texture-page/sprite packet. Mode 1 copies the current
+status color, adding 40 to red with byte wrapping. The function returns the
+highest digit index, not a digit count; its shared declaration now records
+that integer result and the 16-bit mode argument. Existing callers retain
+their exact bytes.
+
+Native stock GCC 2.7.2 with default options and unmodified MASPSX matches
+all 560 bytes. The ordinary digit-extraction loop produces the retail
+peeled first iteration. There are no register pins, empty barriers,
+volatile accesses, explicit NOPs or instruction ASM. One explicit `u32`
+pointer conversion preserves the operand order of the retail packet
+address sum; main's pointer/integer conversion baseline rises 750 to 751.
+No other debt category changes.
+
+An independent model passes 2048 cases against retail and the final C:
+zero and decimal-place boundaries, negative values including -32768,
+upper argument bits and signed narrowing, coordinate/UV wrapping, mode
+and color-byte overflow, output aliases to the source-color packets,
+live slot/color changes between AddPrim calls, and ordering-table links.
+It compares the packet snapshot for every draw, full memory, the return
+value, stack and callee-saved registers; callbacks clobber caller-saved
+registers and HI/LO. Negative remainders retain retail's byte conversion
+behavior rather than adding unsupported minus-sign rendering.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay retail SHA-1 checks, and report/progress/debt. Semantic C
+now covers 2,502,996 bytes and 10,761/11,647 functions: 70.49% code overall,
+main-game 1,607/1,878 functions and 55.03% code. Aggregate pins/barriers/NOPs
+remain 1,304/1,083/155; gotos remain 1,156.

@@ -341,7 +341,7 @@ segments:
       - [0x22BC8, asm, main/Battle_DrawStatusSymbol]
       - [0x22DDC, c, battle/Battle_DrawATBGauge]
       - [0x22FD8, c, main/Battle_DrawStatusValue]
-      - [0x230DC, asm, main/Battle_DrawDecimalNumber]
+      - [0x230DC, c, main/Battle_DrawDecimalNumber]
       - [0x2330C, asm, main/Battle_DrawStatusPanel]
       # Contiguous battle-status sprite and ordering-table renderer.
       - [0x23B5C, c, gpu/Gpu_SetupSprites]
