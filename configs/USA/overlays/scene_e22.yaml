@@ -115,7 +115,8 @@ segments:
       - [0x9F6C, c, Scene_WaitForActorSignal]
       - [0xA040, c, func_80199028]
       - [0xA050, c, func_80199038]
-      - [0xA060, asm, func_scene_e22_00A060]
+      - [0xA060, c, func_80199048]
+      - [0xA0D8, asm, func_scene_e22_00A0D8]
   - [0xA800]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e22.bin bs=2048 skip=99270 count=21
