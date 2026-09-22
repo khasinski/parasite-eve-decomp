@@ -4808,3 +4808,36 @@ All 191 rebuilt overlays preserve their retail SHA-1 as well.
 The audited report credits 2491796 semantic code bytes and 10738 functions
 (70.18% of code). Total debt is 1292 pins, 1074 barriers and 155 NOPs;
 ordinary ASM bodies and directives are unchanged.
+
+### Item discard confirmation panel
+
+`Menu_StepItemDetailPanel` (388 bytes at `0x80044F8C`) constructs the
+mode-0x29 item-discard dialog and its action child using `MenuWidgetNode`.
+It copies the selected item's label (or emits an empty 0xFF-terminated
+string), appends table-4 message 4, and sizes/centers the widgets with a
+minimum text width of 120. The second width query on the wide-text path is
+preserved. The child initially selects action 1; the final callback is
+`Menu_OnItemDiscardConfirm`. The active inventory list is selected twice,
+as in retail, including after widget construction.
+
+Stock native GCC 2.7.2 with `-G8 -fno-expensive-optimizations` and unmodified
+MASPSX produces all 388 retail bytes. One local `$a0` pin and one empty
+input barrier keep mode 0x29 materialized before copying the newly returned
+parent pointer. Without that pin the candidate grows by four bytes; without
+the barrier/pin pair the two setup instructions swap. Both constraints are
+recorded in debt. There is no instruction ASM, NOP, EABI, or compiler change.
+Shared declarations use existing named globals and the existing widget layout.
+
+An independent MIPS/model harness passes 1000 cases for both the retail
+function and compiled C. It checks null/non-null labels, the 119/120 width
+boundary and an independently varying second width result, callback order
+and arguments, active-list mutation during widget construction, all widget
+bytes (including untouched fields), the final confirmation callback, and
+preservation of the stack and callee-saved registers while callees clobber
+caller-saved registers.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail
+main SHA-1; all 191 overlay binaries also retain their retail SHA-1.
+The final declaration correction was rebuilt and rechecked against retail.
+The audited report credits 2492184 semantic bytes and 10739 functions
+(70.19% of code). Total debt is 1293 pins, 1075 barriers and 155 NOPs.
