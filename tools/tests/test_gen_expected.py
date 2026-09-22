@@ -15,7 +15,7 @@ class MainDataLayoutTests(unittest.TestCase):
         config = yaml.safe_load((root / "configs/USA/main.yaml").read_text())
         segments = {s["name"]: s for s in config["segments"]
                     if isinstance(s, dict)}
-        self.assertEqual(segments["main"]["subsegments"][-11:], [
+        self.assertEqual(segments["main"]["subsegments"][-13:], [
             [0x818A0, "data", "main/dtail_gp_pre_s016"],
             [0x84D28, ".data", "psyq/libc/Square_Vsprintf"],
             [0x84D34, "data", "main/dtail_gp_post_sprintf"],
@@ -25,6 +25,9 @@ class MainDataLayoutTests(unittest.TestCase):
             [0x8BABC, "data", "main/dtail_gp_post_bios"],
             [0x8BEDC, ".data", "psyq/libds/dsfile"],
             [0x8BEEC, "data", "main/dtail_gp_post_dsfile"],
+            {"start": 0x8D5A0, "type": ".sdata",
+             "name": "render/Render_TickObject", "linker_section_order": ".data"},
+            [0x8D5A4, "data", "main/dtail_gp_post_render_color"],
             [0x8DA54, ".data", "field/Entity_ApplyCollisionResponse"],
             [0x8DA58, "data", "main/dtail_gp_post_collision_actor"],
         ])

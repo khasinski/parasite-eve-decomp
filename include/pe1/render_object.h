@@ -618,9 +618,12 @@ typedef struct RenderObjectEntity {
     /* 0x88 */ unsigned char shade;
     /* 0x89 */ u8 lightNegativeY;
     /* 0x8A */ u8 lightPositiveY;
-    /* 0x8B */ unsigned char pad_8B[5];
+    /* 0x8B */ u8 reserved8b;
+    /* 0x8C */ s8 fade_remaining, fade_duration;
+    /* 0x8E */ u8 fade_red_step, fade_green_step;
     /* 0x90 */ u8 primitive_red, primitive_green, primitive_blue;
-    /* 0x93 */ u8 reserved93[4];
+    /* 0x93 */ u8 fade_blue_step;
+    /* 0x94 */ u8 fade_red, fade_green, fade_blue;
     /* 0x97 */ u8 script_param97;
     /* 0x98 */ u8 script_param98;
     /* 0x99 */ u8 script_param99;
@@ -683,8 +686,30 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, primitive_green) == 0x91,
                   render_object_primitive_green_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, primitive_blue) == 0x92,
                   render_object_primitive_blue_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, fade_remaining) == 0x8C,
+                  render_object_fade_remaining_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, fade_duration) == 0x8D,
+                  render_object_fade_duration_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, fade_red_step) == 0x8E,
+                  render_object_fade_red_step_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, fade_green_step) == 0x8F,
+                  render_object_fade_green_step_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, fade_blue_step) == 0x93,
+                  render_object_fade_blue_step_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, fade_red) == 0x94,
+                  render_object_fade_red_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, fade_green) == 0x95,
+                  render_object_fade_green_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, fade_blue) == 0x96,
+                  render_object_fade_blue_offset);
 PE1_STATIC_ASSERT(sizeof(RenderObjectEntity) == 0xBC, render_object_entity_size);
 
+union RenderLightingMatrix;
+void Render_DrawObject(RenderObjectEntity *object, union RenderLightingMatrix *matrix);
+extern u32 D_8009CDA0;
+int Render_TickObject(RenderObjectEntity *object);
+void Field_GetMapEntry(RenderObjectEntity *object, int mode);
+void Render_SetEntityBlendMode(RenderObjectEntity *object, int mode);
 void Render_FadeEntityColor(RenderObjectEntity *object, int r, int g, int b);
 void Render_OffsetObjectTextureCoordinates(RenderObjectEntity *object,
                                            int du, int dv, int clutOffset);

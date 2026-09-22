@@ -410,7 +410,7 @@ segments:
       - [0x2C8B4, asm, render/Render_DrawObjectAlt]
       - [0x2CAE0, asm, render/Render_DrawObjectVariant]
       - [0x2CDD8, c, anim/Anim_SetInterpRate]
-      - [0x2CE38, asm, render/Render_TickObject]
+      - [0x2CE38, c, render/Render_TickObject]
       - [0x2D018, asm, main/Render_ColorEntity]
       - [0x2D2EC, c, render/Render_FadeEntityColor]
       - [0x2D4B0, asm, main/Render_SetEntityBlendMode]
@@ -1517,6 +1517,8 @@ segments:
       # Psy-Q 4.6 DSFILE.OBJ media-state words and section padding.
       - [0x8BEDC, .data, psyq/libds/dsfile]
       - [0x8BEEC, data, main/dtail_gp_post_dsfile]
+      - {start: 0x8D5A0, type: .sdata, name: render/Render_TickObject, linker_section_order: .data}
+      - [0x8D5A4, data, main/dtail_gp_post_render_color]
       - [0x8DA54, .data, field/Entity_ApplyCollisionResponse]
       - [0x8DA58, data, main/dtail_gp_post_collision_actor]
 

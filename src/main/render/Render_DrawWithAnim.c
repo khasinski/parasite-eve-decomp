@@ -5,7 +5,6 @@
 
 M2C_UNK Anim_BuildRotationMatrices();
 M2C_UNK Render_TransformVertices();
-M2C_UNK Render_DrawObject();
 M2C_UNK Render_CopyMatrixBlock();
 
 extern struct { char _[16]; } D_80091A38_o __asm__("g_IdentityMatrixSource");

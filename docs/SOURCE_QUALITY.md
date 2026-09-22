@@ -5180,3 +5180,41 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
 credits 2496564 semantic bytes and 10749 functions (70.31% of code).
 Total debt remains 1303 pins, 1081 barriers and 155 NOPs.
+
+### Object color-fade tick
+
+`Render_TickObject` (480 bytes at `0x8003C638`) advances an object's color
+fade and draws it. A null header or zero draw count returns 1. An expired
+counter is changed to -1 before resetting map/primitive/blend state and
+setting flags 0x820. A negative counter starts the fade, clears its RGB
+accumulators, preserves the object's original RGB across primitive clearing,
+and loads the duration. Active frames draw using the packed accumulator
+color, optionally update the selected CLUT, restore neutral color 0x808080,
+and advance the byte accumulators and counter with wrapping arithmetic.
+
+The shared `RenderObjectEntity` now names the signed counter/duration at
+0x8C/0x8D, unsigned channel increments at 0x8E/0x8F/0x93 and accumulators at
+0x94..0x96. All eight offsets have assertions. The `Render_DrawObject`
+prototype is shared; `Render_DrawWithAnim` no longer declares it locally.
+
+Stock native GCC 2.7.2 with `-G8` and unmodified MASPSX with the default
+assembler `-G0` match all 480 bytes. The TU also defines the real initialized
+packed-color word `D_8009CDA0` in `.sdata`, allowing MASPSX to emit its two
+GP-relative stores while retaining the absolute selector load. The manifest
+places those four data bytes at their retail offset 0x8D5A0, interleaved with
+`.data`. This is current C ownership, not proof of the original TU boundary.
+No oversized global declarations, pins, barriers, volatile views, NOPs or
+instruction ASM are used.
+
+An independent MIPS/model harness passes 1024 cases for retail and C,
+covering every signed-byte counter value, guards, negative draw counts,
+duration boundaries, wrapping colors and the signed low half of the buffer
+selector. Callback stubs clobber caller-saved registers and selectively
+change flags, duration, counter, RGB and increments. Complete object and
+packed-color snapshots are checked at every callback, together with final
+memory, return value, stack and callee-saved registers.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1.
+The audited report credits 2497044 semantic bytes and 10750 functions
+(70.33% of code). Total debt remains 1303 pins, 1081 barriers and 155 NOPs.
