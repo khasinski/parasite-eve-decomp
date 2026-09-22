@@ -487,7 +487,7 @@ segments:
       # Equip-item selection view construction and stat preview renderer.
       - [0x35C2C, c, menu/Menu_EquipItemSelectionView]
       - [0x35E70, asm, main/Menu_StepItemGridScroll]
-      - [0x36298, asm, main/Menu_StepEquipSlotSelect]
+      - [0x36298, c, menu/Menu_StepEquipSlotSelect]
       - [0x3650C, c, main/Menu_StepSkillScreen]
       - [0x366E4, c, menu/Menu_CreateInventoryListView]
       - [0x367A4, asm, menu/Menu_DrawItemDetailPanel]

@@ -36,4 +36,8 @@ void Menu_OpenInventoryScreen(void);
 extern int D_8009CFB8, D_8009CF1C;
 extern int g_StatBaseTable[4];
 
+void Menu_StepEquipSlotSelect(void);
+void Menu_DrawEquipStatsDelta(ItemDataRecord *preview);
+void Menu_StepItemGridScroll(ItemDataRecord *item, ItemDataRecord *other);
+
 #endif

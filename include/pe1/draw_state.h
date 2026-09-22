@@ -42,4 +42,7 @@ void Draw_BlendColor(int color);
 int Draw_GetBaseY(void);
 void Draw_SetBaseOffsetPosition(int x, int y);
 
+void Draw_PrintNumberWidth4Unk(int value);
+void Draw_PrintSignedNumberWidth4(int value);
+
 #endif /* PE1_DRAW_STATE_H */

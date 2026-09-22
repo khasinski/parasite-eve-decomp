@@ -5788,3 +5788,33 @@ unchanged; final `make -j8 verify` also passes all 341 tests and main SHA-1.
 Semantic C covers 2,506,620 bytes and 10,768/11,647 functions: 70.60% code
 overall, main-game 1,614/1,878 functions and 55.67% code. Aggregate
 pins/barriers/NOPs/gotos are 1,310/1,084/156/1,158.
+
+
+## Menu_StepEquipSlotSelect — exact retail C (2026-09-22)
+
+The 628-byte function at `0x80045A98` selects the equipment preview item,
+remembers the active list selection, and draws either a comparison view or
+the item's three unsigned base stats and signed bonuses. It reuses the
+shared `MenuWidgetNode`, `InventoryRuntime` and `ItemDataRecord` types.
+The original live reads across external calls are retained, including
+mode flags, tracked signed-byte selections and item stats.
+
+Stock native GCC 2.7.2 with `-G8` and unmodified MASPSX matches all bytes.
+Separating the initial list-query pointer from the later current-widget
+query gives the retail register allocation naturally. No pins, empty
+barriers, explicit NOPs, gotos, volatile accesses or pointer/integer casts
+are needed. External declarations live in shared headers; debt is unchanged.
+
+An independent model passes 2048 cases against retail and the final C:
+list-query presence and precedence, signed cursor/index limits, selection
+save/restore, null and aliased item pointers, comparison-widget identity,
+unsigned byte stats and signed-halfword bonuses at their boundaries,
+and live global/item mutations during callbacks. It verifies every call's
+arguments and complete memory snapshots, final memory, stack and
+callee-saved registers while callbacks clobber caller-saved state and HI/LO.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
+covers 2,507,248 bytes and 10,769/11,647 functions: 70.61% code overall,
+main-game 1,615/1,878 functions and 55.78% code. Aggregate pins/barriers/
+NOPs/gotos remain 1,310/1,084/156/1,158.

@@ -99,4 +99,6 @@ int Inv_CheckFreeSlotCapacity(int requestedSlots);
 
 extern int D_8009D03C; /* First base-item ID represented by the three ammo pools. */
 
+int Inv_GetPackedListItem(int index);
+
 #endif
