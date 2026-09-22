@@ -28,6 +28,21 @@ typedef struct RenderLinePacket {
     s16 x0, y0, x1, y1;
 } RenderLinePacket;
 
+/* Four-vertex textured GPU packet. The final halfwords are packet padding. */
+typedef struct RenderTexturedQuad {
+    union { u32 word; struct { u8 address[3], length; } bytes; } tag;
+    union { u32 word; struct { u8 r, g, b, code; } bytes; } color;
+    u16 x0, y0; u8 u0, v0; u16 clut;
+    u16 x1, y1; u8 u1, v1; u16 tpage;
+    u16 x2, y2; u8 u2, v2; u16 pad2;
+    u16 x3, y3; u8 u3, v3; u16 pad3;
+} RenderTexturedQuad;
+
+PE1_STATIC_ASSERT(sizeof(RenderTexturedQuad) == 40, render_textured_quad_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderTexturedQuad, clut) == 14, render_quad_clut_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderTexturedQuad, tpage) == 22, render_quad_tpage_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderTexturedQuad, x3) == 32, render_quad_x3_offset);
+
 /* Variable-size textured sprite packet used by the glyph renderer. */
 typedef struct RenderSpritePacket {
     union { u32 word; struct { u8 address[3], length; } bytes; } tag;

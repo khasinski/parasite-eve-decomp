@@ -4881,3 +4881,38 @@ SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
 credits 2492620 semantic bytes and 10740 functions (70.20% of code).
 Total debt is 1297 pins, 1077 barriers and 155 NOPs; instruction ASM counts
 remain unchanged.
+
+### Digit quad packet construction
+
+`Draw_EmitDigitSprite` (456 bytes at `0x8005F874`) allocates a 40-byte textured
+quad, sets its four screen corners to a 5-by-7 rectangle, and selects the last
+decimal digit for nonnegative inputs. Negative inputs use fixed UV (88,164).
+Coordinates and UV additions wrap at the packet's 16-bit and 8-bit fields.
+It selects the primary/alternate draw color, stores CLUT and texture page 7,
+and links the packet into the ordering table while preserving tag high bytes.
+Allocation uses the strict arena-end comparison; as in retail, a returning
+assertion stub leaves the code continuing with a zero packet pointer.
+
+The shared `RenderTexturedQuad` records the complete 40-byte GPU packet with
+layout assertions. Stock native GCC 2.7.2 with `-G8` and unmodified MASPSX
+produces all retail bytes. Only one `$a0` tag-value pin remains, counted in
+debt, plus the GPU link pointer-to-integer cast. There are no empty barriers,
+NOPs or instruction ASM. Four provisional pins and both barriers were removed
+without changing the bytes. Three narrow volatile reads preserve y0/u0/v0
+reloads; these are matching constraints, not evidence that the original source
+declared the packet volatile. Three other provisional volatile qualifiers
+were removed. Removing the final pin changes 21 instruction words.
+
+An independent MIPS/model harness passes 2000 cases for retail and C,
+including INT_MIN/INT_MAX, negative/single/multiple-digit inputs, all coordinate
+and UV wraparound widths, both colors, strict allocation-limit boundaries,
+and failure callbacks that modify cursor, color selection, screen position,
+font origin and ordering-table pointer. It compares the whole packet arena,
+low-memory failure destination and globals at callbacks and return, checks
+untouched padding, and verifies the stack and callee-saved registers despite
+caller-saved register clobbers.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays preserve their retail SHA-1. The audited report
+credits 2493076 semantic bytes and 10741 functions (70.22% of code).
+Total debt is 1298 pins, 1077 barriers and 155 NOPs.

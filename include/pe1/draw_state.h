@@ -28,6 +28,9 @@ extern int g_TextCursorStackBottom[], g_TextCursorStackTop[];
 
 void Draw_AllocColorTri(int width, int height, int mode);
 void Draw_AllocSprite(int sprite);
+void Draw_EmitDigitSprite(int digit);
+extern int g_DrawDigitFontBaseTexU, g_DrawDigitFontBaseTexV;
+extern int g_DrawDigitFontTpageClut;
 void Draw_BlendColor(int color);
 int Draw_GetBaseY(void);
 void Draw_SetBaseOffsetPosition(int x, int y);
