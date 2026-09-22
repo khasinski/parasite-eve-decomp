@@ -4916,3 +4916,40 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays preserve their retail SHA-1. The audited report
 credits 2493076 semantic bytes and 10741 functions (70.22% of code).
 Total debt is 1298 pins, 1077 barriers and 155 NOPs.
+
+### Wrapped text rendering
+
+`Draw_PrintTextWrapped` (428 bytes at `0x8005F698`) consumes a 0xFF-terminated
+byte string in rows of the requested width. Each row pushes the cursor,
+draws bytes while accumulated glyph widths remain below the limit, restores
+the cursor, and advances Y by 14. Width is checked before drawing the next
+glyph, so a row can exceed the limit by its final glyph. The function handles
+font-prefix bytes 250..254, discards their width, and reloads both the input
+byte and font state after the drawing callback before measuring. The glyph
+advance global is reloaded after the metrics callback as in retail.
+
+Cursor push/pop retain bounds checks and assertion codes 2/3. A nonempty
+string with a nonpositive width does not advance its text pointer and keeps
+moving down rows; this retail behavior is preserved. Empty strings return
+without changing the cursor or stack.
+
+Stock native GCC 2.7.2 with `-G8` and unmodified MASPSX matches all 428 bytes,
+with no pins, empty barriers, NOPs or instruction ASM. A single narrow volatile
+read retains the otherwise redundant X read/write during the final vertical
+move. Separate push/pop local pointer lifetimes reproduce the original
+register allocation without register pins.
+
+An independent MIPS/model harness passes 2000 cases for retail and C: empty
+and nonempty strings, font-control bytes, widths below/above a glyph advance,
+stack overflow/underflow, drawing callbacks that mutate the consumed byte,
+font mode and cursor, and metrics callbacks that mutate advance and stack.
+Memory snapshots cover text, cursor stack and globals at every callback and
+return. Callees clobber caller-saved registers; returning cases preserve the
+stack and callee-saved registers. Nonpositive-width/nonempty cases are stopped
+after three rows and checked against the model's unchanged text consumption
+and repeated vertical movement, rather than being treated as terminating.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
+credits 2493504 semantic bytes and 10742 functions (70.23% of code).
+Debt remains 1298 pins, 1077 barriers and 155 NOPs.

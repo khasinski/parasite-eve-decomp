@@ -756,7 +756,7 @@ segments:
       - [0x4FB54, asm, gpu/Draw_PrintCenteredTextInWidth]
       # Centered and table-indexed text printers form one -G8 helper object.
       - [0x4FD94, c, gpu/Draw_TextPrintHelpers]
-      - [0x4FE98, asm, gpu/Draw_PrintTextWrapped]
+      - [0x4FE98, c, gpu/Draw_PrintTextWrapped]
       - [0x50044, c, gpu/func_8005F844]
       - [0x50074, c, gpu/Draw_EmitDigitSprite]
       - [0x5023C, c, gpu/Draw_PrintNumberWidth2Unk]
