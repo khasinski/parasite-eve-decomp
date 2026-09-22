@@ -28,6 +28,20 @@ typedef struct RenderLinePacket {
     s16 x0, y0, x1, y1;
 } RenderLinePacket;
 
+/* Variable-size textured sprite packet used by the glyph renderer. */
+typedef struct RenderSpritePacket {
+    union { u32 word; struct { u8 address[3], length; } bytes; } tag;
+    union { u32 word; struct { u8 r, g, b, code; } bytes; } color;
+    u16 x, y;
+    u8 u, v;
+    u16 clut, width, height;
+} RenderSpritePacket;
+
+PE1_STATIC_ASSERT(sizeof(RenderSpritePacket) == 20, render_sprite_packet_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSpritePacket, x) == 8, render_sprite_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSpritePacket, clut) == 14, render_sprite_clut_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSpritePacket, width) == 16, render_sprite_width_offset);
+
 /* Fixed-size textured sprite and texture-page packets built for room tiles.
  * The three-byte address is preserved while the packet length is initialized. */
 typedef struct RenderTilePacket {

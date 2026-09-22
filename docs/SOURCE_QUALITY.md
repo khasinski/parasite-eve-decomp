@@ -4841,3 +4841,43 @@ main SHA-1; all 191 overlay binaries also retain their retail SHA-1.
 The final declaration correction was rebuilt and rechecked against retail.
 The audited report credits 2492184 semantic bytes and 10739 functions
 (70.19% of code). Total debt is 1293 pins, 1075 barriers and 155 NOPs.
+
+### Glyph sprite packet construction
+
+`Draw_AllocSprite` (436 bytes at `0x8005EB64`) builds a 20-byte variable-size
+textured sprite and an eight-byte draw-mode allocation. The recovered
+`RenderSpritePacket` names the tag, packed color/code, coordinates, UV,
+CLUT, width and height fields. `DrawGlyphDescriptor` has the eight-byte
+stride established by the descriptor lookup; its final byte remains unnamed
+reserved data. Both layouts have compile-time offset/size checks.
+
+The allocator uses a strict end-before-arena-limit comparison, chooses the
+normal or alternate color, and links each packet through its low 24 tag bits
+while preserving the high byte. Draw mode selects `(glyph->mode & 3) << 7`
+plus page 7. The ordering-table pointer is reloaded after `SetDrawMode`.
+The retail allocation-failure path calls the assertion stub but continues
+with a zero packet pointer; the reconstruction preserves that target-specific
+behavior rather than adding a new early return.
+
+Stock native GCC 2.7.2 with `-G8` and unmodified MASPSX matches all 436 bytes.
+Four register pins and two empty compiler barriers preserve descriptor save,
+tag construction and call-argument scheduling. Two provisional pins and one
+barrier were removed with byte-identical output. There is no instruction ASM,
+NOP, compiler modification or EABI. The constraints are counted in debt.
+
+An independent MIPS/model harness passes 1000 cases for retail and C,
+covering exact allocation boundaries (including equality), both color paths,
+all descriptor bytes, full packet/arena/low-memory snapshots at callbacks and
+return, preserved tag high bytes, assertion callbacks that replace the packet
+cursor and glyph mode, and draw-mode callbacks that replace the ordering-table
+pointer. It checks call arguments, stack and callee-saved registers while
+callbacks clobber caller-saved registers. The draw-mode callback is a controlled
+stub; these tests verify this caller's behavior, not the callee's implementation.
+The two pointer-to-integer casts encode the GPU's 24-bit packet links and are
+also recorded in debt.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
+credits 2492620 semantic bytes and 10740 functions (70.20% of code).
+Total debt is 1297 pins, 1077 barriers and 155 NOPs; instruction ASM counts
+remain unchanged.
