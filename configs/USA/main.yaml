@@ -771,7 +771,7 @@ segments:
       - [0x51844, asm, main/Draw_AllocColorQuad]
       - [0x51CA0, c, gpu/draw3]
       - [0x51D3C, asm, main/Draw_AllocColorRect]
-      - [0x52078, asm, gpu/Draw_EmitWipeBar]
+      - [0x52078, c, gpu/Draw_EmitWipeBar]
       # Rectangle and polygon wipe emitters share one 0x1F8-byte -G8 vertex-buffer object.
       - [0x5223C, c, gpu/Draw_WipeBar]
       - [0x52434, asm, main/Draw_AllocColorGradient]

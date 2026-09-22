@@ -27,6 +27,8 @@ extern int g_DrawSpriteY __asm__("D_8009D128");
 extern int g_TextCursorStackBottom[], g_TextCursorStackTop[];
 
 void Draw_AllocColorTri(int width, int height, int mode);
+void Draw_AllocColorRect(int firstVertex, int secondVertex, int width, int mode);
+void Draw_EmitWipeBar(u8 *edges, int mode);
 void Draw_AllocSprite(int sprite);
 void Draw_EmitDigitSprite(int digit);
 void Draw_AllocTexturedQuad(int glyph);

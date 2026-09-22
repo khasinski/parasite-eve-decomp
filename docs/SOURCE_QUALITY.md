@@ -4985,3 +4985,40 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
 credits 2494080 semantic bytes and 10743 functions (70.24% of code).
 Total debt is 1299 pins, 1078 barriers and 155 NOPs.
+
+### Wipe edge packet construction
+
+`Draw_EmitWipeBar` (452 bytes at `0x80061878`) allocates two eight-byte draw-mode
+packets and processes two lists of byte-sized vertex-index pairs. A negative
+signed first byte ends each list; only one separator byte is skipped between
+lists. The first list calls `Draw_AllocColorRect` with width +2 and the original
+mode; the second uses width -2 and logical-not mode. These arguments are vertex
+indices, not coordinates: the callee masks them with 0x7F and indexes four-byte
+vertices at `0x800A22B0`. The existing rectangle/polygon wrappers fill that array.
+
+The first mode packet uses `((mode + 1) & 3) << 5`, the second
+`((2 - mode) & 3) << 5`. Each packet is linked after its corresponding edge
+list, reloading the ordering-table pointer and preserving tag high bytes.
+Both allocations preserve the strict arena limit and returning-assertion
+behavior of retail, including subsequent tag accesses through a zero packet.
+
+Stock native GCC 2.7.2 with `-G8` and unmodified MASPSX matches all 452 bytes.
+There are no pins, volatile views, NOPs or instruction ASM. One empty input
+barrier keeps second-mode selection before its allocation; the provisional
+allocator pin was removed byte-identically. The barrier and two GPU-link
+pointer-to-integer conversions are counted in debt.
+
+An independent MIPS/model harness passes 2000 cases for retail and C.
+It covers empty/mixed-length edge lists, all signed separator categories,
+signed second indices, both list widths/modes, strict allocation boundaries,
+and assertion recovery. Mode callbacks modify packet cursor and ordering-table
+selection; edge callbacks change the list head and later input bytes.
+Full packet-arena, low-memory, edge-stream, ordering-table and global snapshots
+are compared at callbacks and return. Stack and callee-saved registers survive
+caller-register clobbers. External drawing routines are controlled stubs in
+this harness; it verifies this caller's sequencing and state, not those callees.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
+credits 2494532 semantic bytes and 10744 functions (70.26% of code).
+Total debt is 1299 pins, 1079 barriers and 155 NOPs.
