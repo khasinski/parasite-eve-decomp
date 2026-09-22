@@ -618,7 +618,9 @@ typedef struct RenderObjectEntity {
     /* 0x88 */ unsigned char shade;
     /* 0x89 */ u8 lightNegativeY;
     /* 0x8A */ u8 lightPositiveY;
-    /* 0x8B */ unsigned char pad_8B[0x0C];
+    /* 0x8B */ unsigned char pad_8B[5];
+    /* 0x90 */ u8 primitive_red, primitive_green, primitive_blue;
+    /* 0x93 */ u8 reserved93[4];
     /* 0x97 */ u8 script_param97;
     /* 0x98 */ u8 script_param98;
     /* 0x99 */ u8 script_param99;
@@ -675,8 +677,15 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, target_x) == 0xB4,
                   render_object_target_x_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, target_z) == 0xB8,
                   render_object_target_z_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, primitive_red) == 0x90,
+                  render_object_primitive_red_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, primitive_green) == 0x91,
+                  render_object_primitive_green_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, primitive_blue) == 0x92,
+                  render_object_primitive_blue_offset);
 PE1_STATIC_ASSERT(sizeof(RenderObjectEntity) == 0xBC, render_object_entity_size);
 
+void Render_FadeEntityColor(RenderObjectEntity *object, int r, int g, int b);
 void Render_OffsetObjectTextureCoordinates(RenderObjectEntity *object,
                                            int du, int dv, int clutOffset);
 void Render_SetObjectAnim(RenderObjectEntity *object, RenderObjectEntity *source,

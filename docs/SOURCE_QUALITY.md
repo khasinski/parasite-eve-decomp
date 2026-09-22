@@ -5148,3 +5148,35 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
 credits 2496112 semantic bytes and 10748 functions (70.30% of code).
 Total debt is 1303 pins, 1081 barriers and 155 NOPs.
+
+### Entity primitive colors
+
+`Render_FadeEntityColor` (452 bytes at `0x8003CAEC`) writes the low eight
+bits of each RGB argument to the object's color bytes and all vertex-color
+words in the selected primitive buffer. The other buffer is skipped, and each
+packet's first command byte is preserved across the word stores. It handles
+0x34-, 0x28-, 0x24- and 0x1C-byte packets using the existing shared packet
+structures. A null model header or zero draw count leaves the object and
+packets unchanged; negative nonzero draw counts follow the active path.
+
+The recovered RGB fields occupy offsets 0x90..0x92 in `RenderObjectEntity`,
+with layout assertions. Loop bounds reload the header counts after every
+primitive. `for (i = -1; ++i < count; ...)` yields the retail placement of
+count loads and counter increments without scheduling barriers.
+
+Stock native GCC 2.7.2 with default flags and unmodified MASPSX match all
+452 bytes. No pins, barriers, volatile views, NOPs or instruction ASM are used.
+
+An independent MIPS/model harness passes 2048 cases for retail and C: both
+buffer slots, every combination of 0..3 counts for all four packet classes,
+randomized full-width RGB inputs, zero/null early exits and negative draw
+counts. Controlled header/packet overlap changes a live count during the
+first packet write. Complete object, header, packet-arena and buffer-selector
+snapshots agree with the model, including untouched command bytes, other
+packet fields and the unselected buffer. Stack and callee-saved registers
+remain intact.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
+credits 2496564 semantic bytes and 10749 functions (70.31% of code).
+Total debt remains 1303 pins, 1081 barriers and 155 NOPs.

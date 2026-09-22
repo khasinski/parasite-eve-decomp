@@ -412,7 +412,7 @@ segments:
       - [0x2CDD8, c, anim/Anim_SetInterpRate]
       - [0x2CE38, asm, render/Render_TickObject]
       - [0x2D018, asm, main/Render_ColorEntity]
-      - [0x2D2EC, asm, main/Render_FadeEntityColor]
+      - [0x2D2EC, c, render/Render_FadeEntityColor]
       - [0x2D4B0, asm, main/Render_SetEntityBlendMode]
       - [0x2D6F8, c, field/Field_GetMapEntry]
       - [0x2D850, asm, main/Render_SetupEntityPrims]
