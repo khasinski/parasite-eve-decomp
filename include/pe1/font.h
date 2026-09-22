@@ -59,4 +59,9 @@ unsigned char Render_GetOrLoadFontGlyph(unsigned char action);
 unsigned char Render_FindFontGlyphSlot(void);
 unsigned char Render_StepFontLoad(void);
 
+extern unsigned char D_80091A1E, D_80091A1F, D_80091A20;
+extern unsigned char D_8009EE22[];
+int Render_LoadFontGlyph(unsigned char code);
+unsigned char Render_SetFontGlyphByCode(unsigned char code);
+
 #endif

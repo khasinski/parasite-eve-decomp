@@ -391,7 +391,7 @@ segments:
       - [0x29984, c, main/Render_StepFontLoad]
       - [0x29AEC, c, menu/Menu_GetEquipSlotStateOrIndex]
       - [0x29B10, c, main/Render_FindFontGlyphSlot]
-      - [0x29C4C, asm, main/Render_SetFontGlyphByCode]
+      - [0x29C4C, c, main/Render_SetFontGlyphByCode]
       - [0x29E78, c, main/Render_GetOrLoadFontGlyph]
       - [0x2A098, c, menu/Menu_FindSelectedEquipSlotItem]
       - [0x2A170, c, menu/Menu_ResetEquipSlotState]

@@ -6002,3 +6002,42 @@ all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
 covers 2,510,776 bytes and 10,774/11,647 functions: 70.71% code overall,
 main-game 1,620/1,878 functions and 56.41% code. Aggregate pins/barriers/
 NOPs/gotos remain 1,310/1,084/156/1,158; the debt baseline is unchanged.
+
+## Render_SetFontGlyphByCode — exact retail C (2026-09-22)
+
+The 556-byte routine at `0x8003944C` now loads the table selected by input
+codes 2..70 and selects a slot using shared font-table types. Codes 0/1
+set state 1 and return 255; codes 71..255 set the failure byte and return
+255. After the loader, failure byte 1 selects group code 0/1 according to
+the decimal remainder of the live state byte; other values select group 3.
+A missing group uses group index zero, a missing slot uses index 255, and
+the final lookup clears the failure byte. Historical symbol names remain.
+
+Two inlined helper calls and ordinary locals reproduce the 56-byte retail
+stack frame without padding. The group code is an unsigned byte; the final
+index is an int. These types reproduce register allocation and add operand
+order with stock native GCC 2.7.2, default `-G0` and unchanged MASPSX.
+There are no pins, NOPs, gotos, volatile data accesses, pointer/integer casts
+or instruction ASM.
+
+One empty barrier keeps the selected-byte store and reload. Its read/write
+memory operands cover only `D_80091A1F`; a provisional broad memory clobber
+was removed. Without the barrier the function is 560 bytes with 60 differing
+words; output-only gives 540/32, input-only 560/62, and a volatile read
+instead gives 560/16. The retained barrier matches 556/556 bytes and adds
+one barrier to debt. All new external declarations are shared in `font.h`.
+
+An independent model passes 4096 cases against retail and compiled C:
+every input byte, boundary codes, missing groups/slots, decimal-group
+selection, loader replacement and mutation of table/state, and table data
+aliasing the selection/failure bytes. It checks callback arguments and full
+memory snapshots, final memory, return, stack and saved registers with
+caller-saved registers and HI/LO clobbered by the callback. Extended storage
+supports machine-level large byte-count/index cases, not a host-safe API
+claim for out-of-range table accesses.
+
+Acceptance passes: `make -j8 verify-clean` (342 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
+covers 2,511,332 bytes and 10,775/11,647 functions: 70.73% code overall,
+main-game 1,621/1,878 functions and 56.51% code. Aggregate pins/barriers/
+NOPs/gotos are 1,310/1,085/156/1,158; debt gains the one barrier above.
