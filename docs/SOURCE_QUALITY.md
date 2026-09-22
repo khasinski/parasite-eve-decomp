@@ -5893,3 +5893,34 @@ all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
 covers 2,508,936 bytes and 10,771/11,647 functions: 70.66% code overall,
 main-game 1,617/1,878 functions and 56.08% code. Aggregate pins/barriers/
 NOPs/gotos remain 1,310/1,084/156/1,158.
+
+## Menu_StepEquipScreen — exact retail C (2026-09-22)
+
+The 704-byte action-menu handler at `0x80044B0C` now uses shared
+`MenuWidgetNode`, `ItemDataRecord` and `InventoryRuntime` types. It routes
+the selected action through equipment confirmation, selection-bit setup,
+item-detail or notification display, and item confirmation; cancel destroys
+the menu and plays its own sound. Confirm takes precedence over cancel.
+Callback order and live state reads are preserved. The kind-10 restriction
+reads an unsigned byte at record offset `0x0E`; the explicit byte view avoids
+misinterpreting it as the equipment variant's signed bonus. Its higher-level
+meaning is not claimed here.
+
+Stock native GCC 2.7.2 with compiler/assembler `-G8` and unchanged MASPSX
+matches all 704 bytes. No pins, empty barriers, explicit NOPs, gotos,
+volatile accesses, pointer/integer casts or aliases are needed. All external
+declarations are shared. The debt baseline is unchanged.
+
+An independent model passes 2048 cases for both retail and compiled C:
+all four actions and unknown actions, confirm/cancel priority, selection
+restrictions, signed tracked-slot IDs, the kind-10 byte boundary, aliased
+parent widgets, wrapped cursor arithmetic, and callback mutations of live
+item, cursor and menu state. It checks call arguments and memory snapshots,
+final memory, return value, stack and callee-saved registers; callbacks
+clobber caller-saved registers and HI/LO.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
+covers 2,509,640 bytes and 10,772/11,647 functions: 70.68% code overall,
+main-game 1,618/1,878 functions and 56.21% code. Aggregate pins/barriers/
+NOPs/gotos remain 1,310/1,084/156/1,158.

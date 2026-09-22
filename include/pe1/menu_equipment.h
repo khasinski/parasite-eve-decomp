@@ -40,4 +40,10 @@ void Menu_StepEquipSlotSelect(void);
 void Menu_DrawEquipStatsDelta(ItemDataRecord *preview);
 void Menu_StepItemGridScroll(ItemDataRecord *item, ItemDataRecord *other);
 
+int Menu_StepEquipScreen(MenuWidgetNode *node, unsigned int flags);
+void Menu_OnInventoryItemConfirm(int index);
+extern int D_8009CF10, D_8009CF04, D_8009CF08, D_8009CDA8;
+/* Three action IDs per menu configuration, indexed by the selected child cell. */
+extern int D_80092234[][3];
+
 #endif

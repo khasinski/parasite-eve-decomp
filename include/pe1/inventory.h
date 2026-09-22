@@ -108,4 +108,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(ItemDataRecord, tailCount) == 0x14,
 int Inv_CountByCategory(int category);
 int WayneStorage_CountItemType(int category);
 
+void Inv_ClearSelectionBitset(void);
+int Inv_IsActiveListOverrideSelected(void);
+
 #endif /* PE1_INVENTORY_H */
