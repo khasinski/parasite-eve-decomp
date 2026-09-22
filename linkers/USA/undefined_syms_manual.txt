@@ -3085,3 +3085,6 @@ g_CardPatchContinuation = 0x0000DFFC;
 
 /* Uncached address of the installed LIBCARD wait patch (0xDF80 + 0x2C). */
 D_A000DFAC = 0xA000DFAC;
+
+/* Selection index +3 and table pointer +0xC share the observed state prefix. */
+g_FontSelectionState = 0x80091A1C;

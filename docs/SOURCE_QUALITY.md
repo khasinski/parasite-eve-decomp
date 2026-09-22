@@ -5962,3 +5962,43 @@ all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
 covers 2,510,232 bytes and 10,773/11,647 functions: 70.70% code overall,
 main-game 1,619/1,878 functions and 56.31% code. Aggregate pins/barriers/
 NOPs/gotos remain 1,310/1,084/156/1,158; main byte-pointer arithmetic is 340.
+
+## Render_GetOrLoadFontGlyph — exact retail C (2026-09-22)
+
+The 544-byte function at `0x80039678` now navigates a slot table using shared
+font-table and selection-state types. Actions 20/22 find the preceding or
+following slot with the same group key; 21/23 decrement/increment the byte
+index. Specific current codes route 20/22 through the existing helper
+functions instead. Unknown actions retain the selection. The final lookup
+reloads the table and selected index. Historical names are retained without
+claiming an identified original font format.
+
+`FontGlyphSlots` now describes the three 100-byte lists copied by
+`Render_LoadFontGlyph`; navigation uses the second list's keys. The third
+list remains opaque. A 16-byte selection-state view at `0x80091A1C` places
+the selected byte at +3 and table pointer at +0xC. Retail derives the former
+address from the latter minus nine. Layout assertions check these offsets.
+The other state bytes remain opaque; older consumers retain their existing
+views rather than undergoing an unrelated migration.
+
+Stock native GCC 2.7.2 with default `-G0` and unchanged MASPSX matches all
+544 bytes. The aggregate state view and separate final table local reproduce
+the address reuse and register allocation with no pins, barriers, NOPs,
+gotos, volatile accesses, pointer/integer casts, byte-pointer arithmetic or
+ASM aliases. The debt baseline is unchanged. The state symbol receives an
+ordinary address binding in the manual linker symbol file.
+
+An independent model passes 4096 cases against retail and compiled C:
+action/code dispatch, byte-index wrapping, searches in both directions,
+missing matches, aliasing the selection with table data, and helper mutation
+of state and arbitrary upper result bits. It verifies calls and memory
+snapshots, final memory, return, stack and saved registers while helpers
+clobber caller-saved registers and HI/LO. Extended backing storage permits
+machine-level checks at byte-index boundaries; this is not a host-safe API
+claim for out-of-range table indices.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
+covers 2,510,776 bytes and 10,774/11,647 functions: 70.71% code overall,
+main-game 1,620/1,878 functions and 56.41% code. Aggregate pins/barriers/
+NOPs/gotos remain 1,310/1,084/156/1,158; the debt baseline is unchanged.
