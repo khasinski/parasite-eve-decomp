@@ -113,6 +113,12 @@ typedef struct AkaoVoiceParams {
     /* 0x2A */ AkaoS16 volume_right;
 } AkaoVoiceParams;
 
+/* Eight-byte envelope slot; level zero denotes an available SPU voice. */
+typedef struct AkaoVoiceEnvelopeSlot {
+    AkaoS16 level;
+    unsigned char reserved02[6];
+} AkaoVoiceEnvelopeSlot;
+
 /* Source descriptor passed when a nested AKAO stream allocates a voice. */
 typedef struct AkaoNestedSource {
     /* 0x00 */ unsigned char pad_00[4];
@@ -133,11 +139,11 @@ typedef struct AkaoNestedVoiceSlot {
 /* One 0x68-byte bank in the sequencer control state. Primary and secondary
  * banks are adjacent; code switches the active bank by adding 0x68. */
 typedef struct AkaoSequencerBank {
-    /* 0x00 */ AkaoU32 field_00;
+    /* 0x00 */ AkaoU32 status_flags;
     /* 0x04 */ AkaoU32 active_voice_mask;
     /* 0x08 */ AkaoU32 pending_voice_mask;
     /* 0x0C */ AkaoU32 field_0C;
-    /* 0x10 */ AkaoU32 field_10;
+    /* 0x10 */ AkaoU32 key_on_request_mask;
     /* 0x14 */ AkaoU32 allocated_voice_mask;
     /* 0x18 */ AkaoU32 key_off_request_mask;
     /* 0x1C */ AkaoU32 pending_restore_mask;

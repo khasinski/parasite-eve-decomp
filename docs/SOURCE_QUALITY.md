@@ -5407,3 +5407,43 @@ all 191 overlay retail SHA-1 checks, and report/progress/debt. The report
 credits 2,500,908 semantic-C bytes and 10,757/11,647 functions: 70.44% code
 overall, main-game 1,603/1,878 functions and 54.66% code. Aggregate
 pins/barriers/NOPs are 1,303/1,082/155.
+
+## AKAO note-to-voice allocation (2026-09-22)
+
+`Akao_StepVoiceNote` now matches all 524 bytes at 0x8008900C. It processes
+selected tracks, assigns their direct voice index or scans the 24 envelope
+slots for the first available voice, reserves the slot, accumulates key-on
+bits and dispatches voice parameters. Exhausting the pool stores index 24
+and sets bank status bit 0. The request mask is captured before callbacks;
+the live bank pointer and global reset mask are reloaded where retail does.
+
+`AkaoVoiceEnvelopeSlot` describes the eight-byte table stride with a signed
+level halfword at offset 0. The existing bank fields at 0x10 and 0x00 are now
+`key_on_request_mask` and `status_flags`. Shared types/declarations live in
+`akao/track.h` and `akao/voice_masks.h`; the new C file has no local externs
+or function declarations. The existing `AkaoVoiceParams` view supplies the
+parameter-block pointer. `Akao_WriteVoiceParam` keeps an unprototyped shared
+declaration because existing retail callers pass differing numbers of
+unused trailing arguments.
+
+One explicit empty memory barrier after the envelope-slot reservation
+preserves the retail ordering of the subsequent update-flag load. The
+compiler otherwise schedules the load earlier and omits its load-delay
+NOP, yielding 520 bytes. The barrier itself emits no instruction. Main's
+barrier baseline rises 936 to 937; no other debt changes. There are no pins,
+volatile accesses, explicit NOPs or ordinary CPU instruction ASM. The
+native stock GCC 2.7.2 / unmodified MASPSX pipeline uses default options.
+
+The independent model exercises 2048 cases against retail and production C:
+empty/sparse/full/high-bit track masks, direct/free/exhausted allocation,
+mutating callbacks and redirected bank pointers, output aliases to track
+or envelope fields, captured versus live state, volume-halfword resets,
+allocation/update flags and argument/output traces. Full memory, stack and
+callee-saved registers are compared, with caller-saved registers and HI/LO
+clobbered by the call stubs. Physical track masks are limited to 24 bits.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay retail SHA-1 checks, and report/progress/debt. The report
+credits 2,501,432 semantic-C bytes and 10,758/11,647 functions: 70.45% code
+overall, main-game 1,604/1,878 functions and 54.75% code. Aggregate
+pins/barriers/NOPs are 1,303/1,083/155.
