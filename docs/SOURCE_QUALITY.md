@@ -5555,3 +5555,40 @@ all 191 overlay retail SHA-1 checks, and report/progress/debt. Semantic C
 now covers 2,502,996 bytes and 10,761/11,647 functions: 70.49% code overall,
 main-game 1,607/1,878 functions and 55.03% code. Aggregate pins/barriers/NOPs
 remain 1,304/1,083/155; gotos remain 1,156.
+
+
+## Battle_DrawTargetHighlight — exact retail C (2026-09-22)
+
+Promoted the 500-byte function at `0x80031E68` to C. It draws up to three
+highlight sprites according to the current action's bits 4–5, selecting
+the U coordinate from the active-turn slot and placing the sprites at
+24-pixel intervals above the status anchor. It rechecks the current actor
+and count after every AddPrim call.
+
+The shared `BattleGaugePrim` describes the two banks of three 0x1C-byte
+texture-page/sprite packets at `D_8009E3B8`. A small static inline helper
+expresses sprite addressing; it emits no separate function body. All
+external declarations remain in shared headers. Native stock GCC 2.7.2
+with default flags and unmodified MASPSX produces all 500 retail bytes.
+
+Three pins retain the two packet offsets in `$4`/`$5` and the texture-V
+constant in `$18`. One empty memory barrier preserves the V store before
+recomputing the packet offset; it emits no instruction. Three explicit
+`u32` pointer conversions preserve the retail address-sum operand order.
+Main's baseline changes are pins 1,078 to 1,081, barriers 937 to 938,
+and pointer/integer conversions 751 to 754. There are no volatile memory
+accesses, explicit NOPs, CPU instruction ASM or toolchain modifications.
+
+An independent model passes 2048 cases against retail and the final C:
+zero through three slots, signed active-selection boundaries, selected
+and unselected UVs, coordinate wrapping, and callbacks that change the
+actor, action count, draw slot, selection and anchors. It compares each
+submitted packet, ordering-table links, full memory and call arguments,
+and checks stack and callee-saved registers while callbacks clobber
+caller-saved registers and HI/LO.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay retail SHA-1 checks, and report/progress/debt. Semantic C
+now covers 2,503,496 bytes and 10,762/11,647 functions: 70.51% code overall,
+main-game 1,608/1,878 functions and 55.12% code. Aggregate pins/barriers/NOPs
+are 1,307/1,084/155; gotos remain 1,156.

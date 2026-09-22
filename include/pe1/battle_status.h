@@ -19,7 +19,7 @@ typedef struct BattleStatusMarkerBody {
     u8 pad0C[0x10];
 } BattleStatusMarkerBody;
 
-/* Texture-page command followed by the ammunition icon sprite. */
+/* Texture-page command followed by a variable-size UI sprite. */
 typedef struct BattleGaugePrim {
     RenderTexturePagePacket texture_page;
     RenderSpritePacket sprite;
@@ -29,12 +29,14 @@ extern BattleStatusLinePrim D_8009E358[6];
 extern int g_ActiveDrawSlot;
 extern BattleStatusMarkerBody D_8009E888[2];
 extern u8 D_8009E8B8[2][0x38];
+extern BattleGaugePrim D_8009E3B8[2][3];
 extern BattleGaugePrim D_8009E460[2];
 extern BattleGaugePrim D_8009E768[2];
 extern u8 D_8009E7A0[2][0x70];
 
 void AddPrim(unsigned int *orderingEntry, unsigned int *primitive);
 void Battle_LayoutStatusPrimRow(int bottomY);
+void Battle_DrawTargetHighlight(void);
 void Battle_DrawStatusValue(int value, int yOffset);
 /* Returns the highest digit index (number of rendered digits minus one). */
 int Battle_DrawDecimalNumber(void *buffer, s16 x, s16 y, s16 value, s16 mode);
