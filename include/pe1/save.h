@@ -46,4 +46,8 @@ void Menu_SaveOverlayDraw(void);
 extern unsigned int D_800A76A4[], D_800A76B0[], D_800A76BC[], D_800A76C8[];
 extern unsigned char D_800C20A4[], D_800C20B4[];
 
+/* Contiguous save-title arguments consumed by Save_SprintfSjis. */
+extern int D_800A1708;
+void Save_SprintfSjis(unsigned char *dst, unsigned char *fmt);
+
 #endif /* PE1_SAVE_H */

@@ -6041,3 +6041,38 @@ all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
 covers 2,511,332 bytes and 10,775/11,647 functions: 70.73% code overall,
 main-game 1,621/1,878 functions and 56.51% code. Aggregate pins/barriers/
 NOPs/gotos are 1,310/1,085/156/1,158; debt gains the one barrier above.
+
+## Save_SprintfSjis — exact retail C (2026-09-22)
+
+The 420-byte save-title formatter at `0x8004006C` reads integer arguments
+from the contiguous block at `D_800A1708`. `%d` writes two SJIS digits,
+`(value / 10) % 10` and `value % 10`, so hundreds are dropped. `%D` writes
+the single digit `value % 10`. `%s` copies a C string and skips a null
+pointer or an empty string. Any other specifier writes nothing. Remaining
+bytes are copied, and the destination is NUL-terminated. Each digit is
+`0x824F` plus that digit, stored high byte then low byte. Signed `/ 10` and
+`% 10` produce the retail multiply-high sequence.
+
+Stock native GCC 2.7.2, default `-G0`, and unmodified MASPSX match all 420
+bytes. There are no pins, gotos, explicit NOPs, volatile data accesses, or
+instruction ASM. One empty barrier hides the loaded byte's range so the
+retail `andi` survives; `lbu` already zero-extends, and without the barrier
+the object is 416 bytes with 97 differing words. Placing `0x824F` at each
+use schedules the magic multiplier before the digit base. A named base
+assigned before the loop swaps those two instructions. Declarations are in
+`save.h`. The routine is a leaf, so the behavior test clobbers caller-saved
+registers and HI/LO before entry rather than from a callee.
+
+An independent model passes the shipped object and the retail bytes on
+empty input, plain text, `%d`/`%D` across 0, 9/10, 99/100, and the signed
+32-bit limits, null and empty `%s`, unknown specifiers, a specifier that
+consumes the format NUL, and mixed random formats. It checks the
+destination, the untouched argument block, stack, callee-saved registers,
+and that retail and compiled C leave the same `v0`. Empty input preserves
+the incoming `v0`.
+
+Acceptance passes: `make -j8 verify-clean` (343 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
+covers 2,511,752 bytes and 10,776/11,647 functions: 70.74% code overall,
+main-game 1,622/1,878 functions and 56.58% code. Aggregate pins/barriers/
+NOPs/gotos are 1,310/1,086/156/1,158; debt gains the one barrier above.
