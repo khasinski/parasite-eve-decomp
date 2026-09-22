@@ -29,4 +29,11 @@ void Menu_DrawContextHelpText(void);
 void Menu_SetBattleEquipMode(int mode);
 extern int D_8009CF0C, D_8009CEFC;
 
+int Menu_EquipOptionsInputHandler(int node, int flags);
+void Menu_DrawEquipOptionsList(int node);
+void MenuWidget_SetCursorY(MenuWidgetNode *node);
+void Menu_OpenInventoryScreen(void);
+extern int D_8009CFB8, D_8009CF1C;
+extern int g_StatBaseTable[4];
+
 #endif

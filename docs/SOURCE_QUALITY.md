@@ -5755,3 +5755,36 @@ all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
 covers 2,505,984 bytes and 10,767/11,647 functions: 70.58% code overall,
 main-game 1,613/1,878 functions and 55.56% code. Aggregate pins/barriers/
 NOPs/gotos remain 1,310/1,084/155/1,158.
+
+
+## Menu_StepInventoryCategory — exact retail C (2026-09-22)
+
+The 636-byte category input handler at `0x8004ECB4` is reproduced in C,
+along with its 20-byte compiler-generated jump table at `0x80011144`.
+It selects the equipment list, opens equipment options, prepares inventory
+and storage resource counts, opens the alternate inventory view, or returns
+to the inventory screen. Confirm takes precedence over cancel; mode 1
+remaps category 2 to the return action.
+
+The four resource counters use the existing `g_StatBaseTable[4]` object,
+and callbacks use their existing source names instead of address aliases.
+All external declarations are in shared headers. Stock native GCC 2.7.2
+with `-G8` and unmodified MASPSX matches the function and jump table.
+There are no register pins, empty barriers, gotos, volatile accesses or
+pointer/integer casts. One authorized `PE1_NOP()` preserves the retail
+load-delay slot when saving the equipment mode; this adds one NOP debt.
+
+An independent model passes 2048 cases against retail and the final C.
+It covers all five categories and out-of-range indices, flag precedence,
+mode remapping, conditional inventory/storage count queries, callback
+arguments and full memory snapshots, live global changes, node aliases,
+return value, stack and callee-saved registers. External callbacks clobber
+caller-saved registers and HI/LO.
+
+Acceptance passes: clean verification (341 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Switching the local
+NOP macro to the shared counted `PE1_NOP()` leaves all function bytes
+unchanged; final `make -j8 verify` also passes all 341 tests and main SHA-1.
+Semantic C covers 2,506,620 bytes and 10,768/11,647 functions: 70.60% code
+overall, main-game 1,614/1,878 functions and 55.67% code. Aggregate
+pins/barriers/NOPs/gotos are 1,310/1,084/156/1,158.

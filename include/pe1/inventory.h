@@ -105,4 +105,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(ItemDataRecord, bonusStats) == 0x0E,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(ItemDataRecord, tailCount) == 0x14,
                   item_data_record_tail_offset);
 
+int Inv_CountByCategory(int category);
+int WayneStorage_CountItemType(int category);
+
 #endif /* PE1_INVENTORY_H */
