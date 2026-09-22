@@ -455,7 +455,7 @@ segments:
       - [0x33478, c, menu/Menu_SaveBgInitFade]
       - [0x334B8, c, menu/Menu_SaveBgSetFadeTarget]
       - [0x334C4, c, menu/Menu_ComputeGammaLut]
-      - [0x33540, asm, menu/menu_save_fade_step]
+      - [0x33540, c, menu/Menu_SaveBgApplyFadeStep]
       - [0x336D0, c, menu/Menu_SaveBgIsFadeActive]
       - [0x336DC, c, memcard/MemCard_InitSlotState]
       - [0x33720, c, menu/menu_save2]

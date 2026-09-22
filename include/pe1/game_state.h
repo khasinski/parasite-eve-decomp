@@ -29,7 +29,10 @@ typedef struct Pe1GameState {
     Pe1U32 voice_bank_base;          /* 0x150 */
     Pe1U32 voice_bank_base_1400;     /* 0x154 */
     Pe1U32 voice_bank_base_2800;     /* 0x158 */
-    Pe1U8 unk_15c[0x30];
+    Pe1U8 unk_15c[0x1C];
+    unsigned short *save_background_source;      /* 0x178 */
+    unsigned short *save_background_destination; /* 0x17C */
+    Pe1U8 unk_180[0x0C];
     struct SceneAssetBlob *loaded_scene_assets; /* 0x18C */
 } Pe1GameState;
 

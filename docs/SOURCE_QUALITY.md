@@ -5053,3 +5053,30 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
 credits 2494940 semantic bytes and 10745 functions (70.27% of code).
 Total debt remains 1299 pins, 1079 barriers and 155 NOPs.
+
+### Save-menu background fade
+
+`Menu_SaveBgApplyFadeStep` (400 bytes at `0x80042D40`) advances and clamps
+the fade curve, transforms nonzero 16-bit pixels by channel, and updates
+the background RGB of both `DRAWENV` records. The source and destination
+pointers occupy offsets 0x178 and 0x17C of `Pe1GameState`; the existing
+0x5C-byte `DRAWENV` structure supplies the six background-color stores.
+The loop reloads its block count on each iteration and preserves the original
+transparent-pixel path, signed channel arithmetic and logical backdrop shift.
+
+Stock native GCC 2.7.2 (`-G8`) and unmodified MASPSX match all 400 bytes.
+Four register pins remain (destination, scalar product, pixel and red channel);
+there are no empty barriers, volatile views, NOPs or instruction ASM.
+Declarations and layout assertions live in the shared menu-background header.
+
+An independent MIPS/model harness passes 1024 cases for retail and compiled C,
+covering all 65536 input pixel values, curve endpoint clamps, signed steps,
+negative/zero/multiple block counts, extreme fade parameters, in-place and
+overlapping buffers, and a destination that changes the live block count.
+Complete image, curve, draw-environment and state snapshots agree with the
+model; stack and callee-saved registers remain intact.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
+credits 2495340 semantic bytes and 10746 functions (70.28% of code).
+Total debt is 1303 pins, 1079 barriers and 155 NOPs.
