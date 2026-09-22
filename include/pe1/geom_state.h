@@ -59,6 +59,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomAnimationControl, elapsed) == 10,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomAnimationControl, slotOffset) == 12,
                   geom_animation_slots_offset);
 
+struct RenderTexturePagePacket;
+
 /* 56-byte render/mesh entry. base = entry_offset (+0x14) or entry_offset_1C (+0x1C). */
 typedef struct GeomEntry {                /* 0x38 */
     u8  flags;                            /* +0x00  bits 2,4,8,0x14,0x20 */
@@ -94,8 +96,16 @@ typedef struct GeomEntry {                /* 0x38 */
         void *prim;
         struct { s16 min_y; s16 max_y; } by;
     } u30;
-    u8  pad34[4];                         /* +0x34 */
+    union {                               /* +0x34: second packet-array base */
+        struct RenderTexturePagePacket *pagePackets;
+        u8 storage[4];
+    } u34;
 } GeomEntry;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomEntry, u34) == 0x34, geom_entry_page_offset);
+struct RenderTilePacket;
+int Geo_LoadMeshEntry(GeomEntry *entry, struct RenderTilePacket *buffer, void **end);
+
 
 /* Scrolling view of a 56-byte GeomEntry. Fractions are read as bytes but
  * stored as halfwords, clearing the unused high byte. */

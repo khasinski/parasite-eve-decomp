@@ -28,6 +28,32 @@ typedef struct RenderLinePacket {
     s16 x0, y0, x1, y1;
 } RenderLinePacket;
 
+/* Fixed-size textured sprite and texture-page packets built for room tiles.
+ * The three-byte address is preserved while the packet length is initialized. */
+typedef struct RenderTilePacket {
+    u8 address[3], length;
+    u8 r, g, b, code;
+    u16 x, y;
+    u8 u, v;
+    u16 clut;
+} RenderTilePacket;
+
+typedef struct RenderTexturePagePacket {
+    u8 address[3], length;
+    u32 command;
+} RenderTexturePagePacket;
+
+typedef union RenderTileTexture {
+    u32 words[2];
+    u8 bytes[8];
+} RenderTileTexture;
+
+PE1_STATIC_ASSERT(sizeof(RenderTilePacket) == 16, render_tile_packet_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderTilePacket, clut) == 14, render_tile_clut_offset);
+PE1_STATIC_ASSERT(sizeof(RenderTexturePagePacket) == 8, render_texture_page_packet_size);
+PE1_STATIC_ASSERT(sizeof(RenderTileTexture) == 8, render_tile_texture_size);
+extern u8 D_800BD024;
+
 /* Prefix of the buffer pointers initialized by Boot_InitMemoryLayout.
  * The active draw slot selects one of the two ordering/packet buffers.
  * Six unrelated buffer pointers separate the two pairs. */

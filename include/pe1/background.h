@@ -53,9 +53,10 @@
  *       entry with flag bit 0x2 set AND group(+0x24)==g_GeomGroupSel(0x800BCFFD),
  *       calls Render_DrawSpriteEntry 0x80067294.
  *     Geo_LoadMeshEntry 0x80066F60 is the BUILD step that decodes an entry's
- *       POS/UV tiles into GPU prims (this is the format Layer 1 documents; the
- *       UV word's bit 0x1000 -> sets the entry's drawable flag 0x2; it builds
- *       TWO LOD prim buffers at entry +0x30 and +0x34).
+ *       POS/UV tiles into GPU prims. Entry +0x30 points to two consecutive
+ *       sprite frame buffers; +0x34 points to two texture-page frame buffers.
+ *       Bit 0x10000000 of UV word 1 sets each sprite's semitransparency bit.
+ *       This builder does not set the entry's drawable flag.
  *     Render_DrawSpriteEntry 0x80067294 only RE-POSITIONS/clips the already-built
  *       prims each frame (clips vs 320/224); texture+CLUT were baked at build.
  *   So a room's layout is one obj with N mesh entries, partitioned into GROUPS

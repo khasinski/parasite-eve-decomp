@@ -4762,3 +4762,49 @@ All 191 rebuilt overlay binaries also retain their retail SHA-1.
 The audited report credits 2491180 semantic code bytes and 10737 functions
 (70.16% of code). Total debt is 1291 pins, 1073 barriers and 155 NOPs;
 ordinary ASM bodies and directives remain unchanged.
+
+### Room tile packet construction (2026-09-22)
+
+`Geo_LoadMeshEntry` matches all 616 retail bytes with stock native GCC 2.7.2,
+unmodified MASPSX and -fno-strength-reduce -fno-expensive-optimizations.
+It builds two frame buffers of 16-byte textured tile sprites, followed by two
+buffers of eight-byte texture-page packets. The returned end pointer advances
+by 48 bytes per tile. RGB is 128; low 24-bit packet addresses are preserved.
+CLUT and texture-page calls use packed descriptors; palette tracking preserves
+the original signed comparison against the initial palette byte plus 479.
+The descriptor word is reloaded after GetClut. Zero tiles produce no callbacks
+and leave the palette byte unchanged.
+
+Shared packet and descriptor types have checked sizes and field offsets.
+GeomEntry+0x34 now names the texture-page pointer and exposes its four-byte
+storage view. The store through that byte view retains GCC's original alias
+scheduling; direct assignment to the pointer member changes twelve words.
+This source constraint remains explicit rather than being called padding or
+hidden in a macro. Two byte-relative additions decode serialized array offsets.
+The background documentation now distinguishes sprite/page packet arrays and
+frame buffering; this routine does not set the geometry entry's drawable flag.
+
+Matching constraints are one palette-input pin and one empty memory-operand
+barrier on disp_x. There are no instruction ASM bodies, new NOPs, aliases or
+compiler modifications. Removing the pin changes 19 words; removing the barrier
+from the final direct-Y form changes 13. The relational loop guard i<count,
+with i initialized to zero, leaves a comparison USE pseudo in GCC's RTL; its
+reload slot accounts for the retail 104-byte frame. A direct count!=0 guard
+instead generates a 96-byte frame. No artificial local or padding was added.
+
+5000 independent MIPS/model cases pass for both retail and compiled C, comparing
+complete exposed buffers at every callback and on return. They cover zero
+through seven tiles, both frame buffers, packet tag preservation, random
+callback results and caller-register clobbers, and callbacks that modify current
+descriptors, coordinates, count, serialized offsets and palette state. A hook
+swaps the geometry-header pointer between its two volatile reads; X and Y must
+use the respective headers. All callee-saved registers and SP are preserved.
+Evidence: /tmp/pe-geom-load-mesh/{check.py,test.py,base.bin,target.bin,rtl/}.
+Main debt records one pin, one barrier and two byte-relative additions.
+
+Clean verification passes 341 tests and preserves main retail SHA-1
+`452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+All 191 rebuilt overlays preserve their retail SHA-1 as well.
+The audited report credits 2491796 semantic code bytes and 10738 functions
+(70.18% of code). Total debt is 1292 pins, 1074 barriers and 155 NOPs;
+ordinary ASM bodies and directives are unchanged.
