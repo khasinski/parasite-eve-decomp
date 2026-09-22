@@ -848,7 +848,7 @@ segments:
       - [0x59394, c, render/Render_PrepareFrame]
       - [0x594E0, c, render/Render_Update]
       - [0x59528, c, cdrom/CdRom_InitScreenState]
-      - [0x59624, asm, main/Render_SetCDDCSlot]
+      - [0x59624, c, render/Render_SetCDDCSlot]
       - [0x5994C, asm, main/Asset_LoadTimTextures]
       - [0x59D94, c, pm/Pm_RunPrimary]
       - [0x59E60, c, pm/Pm_RunBatch]

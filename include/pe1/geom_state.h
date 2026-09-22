@@ -19,6 +19,7 @@
  */
 
 #include "common.h"
+#include "pe1/render_tint.h"
 
 /* 16-byte control entry. base = g_GeomState->ctrl_offset (+0x10), index << 4. */
 typedef struct GeomCtrlEntry {            /* 0x10 */
@@ -125,6 +126,7 @@ typedef struct GeomScrollEntry {
 } GeomScrollEntry;
 
 /* Observed prefix of the scroll state, not a claim about its full extent.
+ * This address-based view spans the interleaved screen-tint block too.
  * The origin pair is also written by script dispatch at 0x800BD028/2A. */
 typedef struct GeomScrollCoordinates {
     s16 x, y;
@@ -134,7 +136,9 @@ typedef struct GeomScrollCoordinates {
     u16 targetX, targetY;
     u16 elapsed, duration;
     u32 *matrixWords;
-    u8 reserved1C[0x80];
+    u8 reserved1C[0x10];
+    RenderTintState tint;
+    u8 reserved70[0x2C];
     s16 originX, originY;
 } GeomScrollCoordinates;
 
@@ -154,6 +158,9 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollState, position) == 4,
                   geom_scroll_position_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollCoordinates, originX) == 0x9C,
                   geom_scroll_origin_offset);
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollState, position.tint) == 0x30,
+                  geom_scroll_tint_offset);
 
 typedef struct GeomState {                /* header */
     u8  pad00[4];                         /* +0x00 */

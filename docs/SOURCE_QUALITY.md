@@ -5289,3 +5289,48 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays retain their retail SHA-1.
 The audited report credits 2498352 semantic bytes and 10752 functions
 (70.36% of code). Total debt remains 1303 pins, 1081 barriers and 155 NOPs.
+
+### Screen tint packets and GPU tag fields
+
+`Render_SetCDDCSlot` (808 bytes at `0x80068E24`) updates the active screen-tint
+TILE and draw-mode packets and links them into ordering bucket 3. Mode 0
+returns immediately; mode 2 interpolates signed RGB halfwords using the
+current frame and a divisor clamped to at least 1; other modes copy the low
+color bytes. The draw-mode command is E1000400 plus the two blend bits. An
+interpolated fade advances its 16-bit frame and switches the mode to 0 or 1
+when it reaches the current duration, according to the cached stop flag.
+
+The existing `GeomScrollState` view now describes the interleaved tint block
+at offset 0x30 instead of padding. Shared types identify two 16-byte TILEs,
+two 8-byte draw-mode packets, target/start RGB halfwords, fade/blend flags,
+duration and frame. Assertions preserve packet sizes and field offsets,
+including the existing scroll origin at its original location.
+
+The GPU tag is represented with its actual 24-bit address and 8-bit length
+fields. This removes the mask-register differences produced by manual
+word-mask expressions. Distinct local indices preserve the slot cached for
+the first link/length write and the slot reloaded for the draw-mode command.
+The linking macro re-evaluates the ordering pointer after the packet-tag
+write; caching the evaluated pointer in an inline helper loses retail alias
+behavior. Index-plus-array forms retain the retail ADDU operand order.
+
+Stock native GCC 2.7.2 and unmodified MASPSX with `--expand-div` reproduce all
+808 bytes. No pins, barriers, volatile views, NOPs or instruction ASM are
+introduced. The one pointer-to-integer conversion encodes a packet address
+in the GPU tag; main's tracked pointer/integer-cast baseline rises 749 to
+750. Other crutch totals are unchanged.
+
+An independent model passes 2048 cases for retail and C: all 256 mode-byte
+values, both slots, signed RGB inputs in -4096..4095, duration/frame edges
+including 0/1/65535, and 16-bit frame wrap. Products remain within signed
+32-bit range. Aliasing tests place ordering word 3 on a draw-mode tag, the
+duration-containing word, an ordering-array pointer or a TILE tag, exercising
+live reloads and pointer changes. Full state, buffer, selector and ordering
+snapshots agree, including untouched bytes; return value, stack and all
+callee-saved registers are checked.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the main retail
+SHA-1; all 191 overlays retain their retail SHA-1. Report/progress/debt
+checks pass: 2,499,160 semantic-C bytes, 10,753/11,647 functions and 70.39%
+code overall (main-game 1,599/1,878, 54.35%). Total pins/barriers/NOPs remain
+1,303/1,081/155.
