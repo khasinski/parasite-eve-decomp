@@ -19,13 +19,22 @@ typedef struct Pe1GameState {
     Pe1S8 current_story_day;         /* 0x00C */
     Pe1S8 pending_story_day;         /* 0x00D */
     Pe1U8 story_day_flags;           /* 0x00E */
-    Pe1U8 unk_00f[0x05];
+    Pe1U8 unk_00f[2];
+    Pe1U8 bank_state_11, bank_state_12;
+    Pe1U8 unk_013;
     Pe1U8 scene_work[0x0C4];         /* 0x014 */
     Pe1U8 draw_prim_a[0x10];         /* 0x0D8 */
-    Pe1U8 unk_0e8[0x01C];
+    Pe1U8 unk_0e8[0x0E];
+    Pe1U8 bank_value_f6, bank_value_f7;
+    unsigned short bank_value_f8, bank_value_fa;
+    Pe1U8 unk_0fc[8];
     Pe1U8 draw_prim_b[0x10];         /* 0x104 */
     Pe1U8 draw_prim_c[0x10];         /* 0x114 */
-    Pe1U8 unk_124[0x02C];
+    Pe1U32 bank_asset_table;          /* 0x124 */
+    Pe1U32 bank_work_base;           /* 0x128 */
+    Pe1U32 bank_work_end;            /* 0x12C */
+    Pe1U8 unk_130[0x1C];
+    void *bank_asset_source;         /* 0x14C */
     Pe1U32 voice_bank_base;          /* 0x150 */
     Pe1U32 voice_bank_base_1400;     /* 0x154 */
     Pe1U32 voice_bank_base_2800;     /* 0x158 */
@@ -34,6 +43,16 @@ typedef struct Pe1GameState {
     unsigned short *save_background_destination; /* 0x17C */
     Pe1U8 unk_180[0x0C];
     struct SceneAssetBlob *loaded_scene_assets; /* 0x18C */
+    Pe1U8 unk_190[8];
+    /* Reset bounds establish these arrays; individual element roles unknown. */
+    Pe1U32 bank_slots[10];           /* 0x198 */
+    Pe1U32 bank_rows[10][48];        /* 0x1C0 */
+    Pe1U32 bank_reset_940[1];
+    Pe1U32 bank_reset_944[1];
+    Pe1U32 bank_reset_948[1];
+    Pe1U32 bank_reset_94c[1];
+    Pe1U32 bank_reset_950[2];
+    Pe1U32 bank_reset_958[1];
 } Pe1GameState;
 
 extern Pe1GameState g_GameState;

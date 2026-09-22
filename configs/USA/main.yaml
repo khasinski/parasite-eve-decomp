@@ -865,7 +865,7 @@ segments:
       - [0x5B0D4, c, boot/Boot_InitMemoryLayout]
       - [0x5B1E4, c, main/Scene_LoadSceneData]
       - [0x5B540, asm, main/Scene_LoadFieldBg]
-      - [0x5BB5C, asm, main/Akao_LoadVoiceBankAlt]
+      - [0x5BB5C, c, akao/Akao_LoadVoiceBankAlt]
       - [0x5BCF8, asm, gpu/Scene_LoadRoom]
       - [0x5C568, c, overlay/Overlay_StreamTexturePage]
       - [0x5C64C, c, cdrom/CdRom_DetectDiscChange]

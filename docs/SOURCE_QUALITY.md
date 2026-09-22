@@ -5623,3 +5623,36 @@ all 191 overlay retail SHA-1 checks, and report/progress/debt. Semantic C
 now covers 2,504,048 bytes and 10,763/11,647 functions: 70.52% code overall,
 main-game 1,609/1,878 functions and 55.22% code. Aggregate pins/barriers/NOPs
 are 1,308/1,084/155; gotos are 1,158.
+
+
+## Akao_LoadVoiceBankAlt — exact retail C (2026-09-22)
+
+Promoted the 412-byte initializer at `0x8006B35C` into the AKAO directory.
+Its historical name is retained; it resets state arrays and selects an
+asset table with key `0x5EAF6804`. The shared `Pe1GameState` now describes
+ten slots, ten rows of 48 words, the smaller reset arrays, and previously
+opaque configuration fields. Static assertions verify the array offsets
+and the resulting 0x95C-byte extent. Element roles remain unidentified.
+
+A single `SceneBankResetPair` describes the four 8-byte records at
+`D_80094488`. The initializer clears each record's halfwords at offsets
+6 and 4, preserving their write order. The same shared type supports
+both the advancing pointer and indexed access; no overlapping alias
+is needed.
+All external declarations live in shared headers. Native stock GCC 2.7.2
+with default flags and unmodified MASPSX matches all 412 retail bytes.
+There are no pins, barriers, volatile accesses, explicit NOPs, instruction
+ASM, gotos or pointer/integer casts. The debt baseline is unchanged.
+
+An independent model passes 2048 cases against retail and the final C.
+It checks the exact reset ranges and store order, surrounding untouched
+bytes, the state snapshot and arguments at the asset query, callback
+mutations, address arithmetic wrapping, and stack/callee-saved registers.
+Callbacks clobber caller-saved registers and HI/LO.
+
+Acceptance passes on the final single-record-view source: `make -j8
+verify-clean` (341 tests and main retail SHA-1), all 191 overlay SHA-1
+checks, and report/progress/debt. Semantic C now covers 2,504,460 bytes
+and 10,764/11,647 functions: 70.54% code overall, main-game 1,610/1,878
+functions and 55.29% code. Aggregate pins/barriers/NOPs/gotos remain
+1,308/1,084/155/1,158.

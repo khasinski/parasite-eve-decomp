@@ -46,4 +46,26 @@ extern void *D_800E1044[104];
 
 int Asset_UnloadTableEntries(void);
 
+/* The initializer clears each record's halfwords at offsets 6 and 4. */
+typedef struct SceneBankResetPair {
+    u32 reserved;
+    u16 first, second;
+} SceneBankResetPair;
+extern SceneBankResetPair D_80094488[4];
+int Asset_FindTable08ByU32Key(void *base, s32 key);
+void Akao_LoadVoiceBankAlt(void);
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, bank_asset_table) == 0x124,
+                  game_state_bank_asset_table_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, bank_asset_source) == 0x14C,
+                  game_state_bank_asset_source_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, bank_slots) == 0x198,
+                  game_state_bank_slots_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, bank_rows) == 0x1C0,
+                  game_state_bank_rows_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, bank_reset_940) == 0x940,
+                  game_state_bank_reset_offset);
+PE1_STATIC_ASSERT(sizeof(Pe1GameState) == 0x95C, game_state_size);
+PE1_STATIC_ASSERT(sizeof(SceneBankResetPair) == 8, scene_bank_reset_pair_size);
+
 #endif
