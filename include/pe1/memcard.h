@@ -104,6 +104,19 @@ extern int g_MemCardActiveBytesRemaining;
 extern int g_MemCardActivePromptPending;
 extern int g_MemCardLoadSucceeded;
 
+extern int D_800A1838;
+extern char D_8009EE70[];
+extern s8 D_80010F4C[];
+extern s8 *D_80092224;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardSaveSlot, titleStyleFlag) == 0x29,
+                  memcard_save_slot_title_style_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardPortState, selectedSlot) == 3,
+                  memcard_port_selected_slot_offset);
+
+void Save_CancelUiFlow(void);
+void Menu_CloseSaveSlotListView(int slot);
+void MemCard_AbortActiveOperation(MemCardPortState *state);
 void MemCard_InitSlotState(void);
 
 #endif

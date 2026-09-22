@@ -5112,3 +5112,39 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
 credits 2495720 semantic bytes and 10747 functions (70.29% of code).
 Total debt is 1303 pins, 1080 barriers and 155 NOPs.
+
+### Aborting an active memory-card operation
+
+`MemCard_AbortActiveOperation` (392 bytes at `0x80040F80`) cancels the save UI
+immediately when a load has succeeded. Otherwise it closes an existing
+nonnegative descriptor, optionally removes a state-9 save file, closes the
+slot list, clears the port's manager/has-files bytes and active-operation
+globals, and restores the saved current widget. Opening the removable file
+is retried at most ten times; any result other than -1 is passed to `close`
+and followed by `erase`. Exhaustion skips these two calls.
+
+The existing 0x418-byte `MemCardPortState` and its 0x44-byte slots replace
+raw-offset indexing. The filename uses the selected slot's `titleStyleFlag`
+at slot offset 0x29, and pointer subtraction supplies the port index. Shared
+headers supply all declarations, including the formatter's variadic prototype.
+
+Stock native GCC 2.7.2 with default flags and unmodified MASPSX match all
+392 bytes. No pins, aliases, volatile views, NOPs or instruction ASM remain.
+One empty scheduling barrier ties the filename-buffer operand to the port
+comparison.
+
+An independent MIPS caller-model harness passes 512 cases for retail and C:
+both ports, loaded/nonloaded paths, nonnegative and negative descriptors,
+state 9 and other states, randomized selected slots/style bytes, 0..11
+simulated open failures, and negative/nonnegative successful results other
+than -1. It checks exact callback arguments/order and final port/global state,
+and compares complete port/global/buffer snapshots at callbacks. Selected
+initial-close callbacks mutate manager state, selected slot and style before
+the subsequent branch and filename construction. Callback stubs clobber
+caller-saved registers; stack and callee-saved registers remain intact.
+Formatting and filesystem routines are controlled stubs, not verified callees.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
+credits 2496112 semantic bytes and 10748 functions (70.30% of code).
+Total debt is 1303 pins, 1081 barriers and 155 NOPs.

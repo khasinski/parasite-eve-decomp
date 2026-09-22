@@ -5,6 +5,11 @@
 int printf(const char *format, ...);
 int puts(const char *text);
 
+/* File services used by the memory-card manager. */
+int open(char *path, int mode);
+int close(int descriptor);
+int erase(char *path);
+
 /* Entry-hook and automatic IRQ acknowledgement services used by LIBETC. */
 int EnterCriticalSection(void);
 void ExitCriticalSection(void);

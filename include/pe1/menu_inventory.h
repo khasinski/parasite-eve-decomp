@@ -11,6 +11,7 @@ MenuWidgetNode *MenuWidget_GetChild(MenuWidgetNode *node, int index);
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode,
                                                      int selectedBase);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
+void MenuWidget_RestoreSavedCurrentNode(void);
 void MenuWidget_DestroyNode(MenuWidgetNode *node);
 void MenuWidget_DestroyNodeRecursive(MenuWidgetNode *node);
 void func_80064A54(MenuWidgetNode *node);
