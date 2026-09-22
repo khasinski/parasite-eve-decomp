@@ -1,4 +1,4 @@
-#include "pe1/akao.h"
+#include "pe1/akao/voice_masks.h"
 
 void Spu_VoiceMaskCompose(AkaoTrack *track, int *mask_out, int mask, int mask_keep) {
     int bit;

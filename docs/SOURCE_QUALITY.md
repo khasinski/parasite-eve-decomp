@@ -5334,3 +5334,40 @@ SHA-1; all 191 overlays retain their retail SHA-1. Report/progress/debt
 checks pass: 2,499,160 semantic-C bytes, 10,753/11,647 functions and 70.39%
 code overall (main-game 1,599/1,878, 54.35%). Total pins/barriers/NOPs remain
 1,303/1,081/155.
+
+## AKAO voice-mask composition (2026-09-22)
+
+`Akao_SetVoiceVolume`, `Akao_SetVoiceAdsr` and `Akao_SetVoiceStartAddr`
+now compile from C, each matching all 424 retail bytes. Their legacy names
+are retained; the observed operation builds SPU voice masks from sequencer
+banks and calls `Spu_VoiceMaskCompose`, rather than writing the named SPU
+parameter registers directly. They use the existing 0x68-byte
+`AkaoSequencerBank` and its active, pending and dirty masks at 0x34/38/3C.
+
+The three routines and their adjacent dirty-flag setters form one
+`akao/Akao_VoiceMasks.c` translation unit, matching the full 1368 bytes at
+0x80089960. Three tiny setter files are removed. `akao/voice_masks.h`
+centralizes declarations and the compose prototype, also used by the
+existing compose implementation. The lowered debt baseline removes three
+file-local extern declarations (main 3657 to 3654); no pins, barriers,
+volatile, NOPs, instruction ASM or other new crutches are needed. Native
+stock GCC 2.7.2 and unmodified MASPSX use their default production options.
+
+Each routine first handles pending secondary and primary tracks, then the
+remaining secondary and primary tracks. Calls may alter the current-bank
+pointer and pending masks: C preserves the retail reloads and applies the
+bank decrement to the global pointer read after the call. Each output incorporates
+its extra global mask and sets update flag 0x100.
+
+An independent model passes 2048 cases per routine (6144 total), for retail
+and the combined C binary. It covers zero/full/sparse/high-bit masks, all
+four possible calls, callback updates to pending masks, output masks and
+flags, redirected bank pointers and caller-saved register clobbers. It
+compares call arguments, accumulated masks, full state snapshots, stack and
+callee-saved registers. These functions have no return-value contract.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay retail SHA-1 checks, and report/progress/debt. The report
+credits 2,500,432 semantic-C bytes and 10,756/11,647 functions: 70.42% code
+overall, main-game 1,602/1,878 functions and 54.57% code. Aggregate
+pins/barriers/NOPs remain 1,303/1,081/155.
