@@ -861,7 +861,7 @@ segments:
       - [0x5AB18, asm, gpu/misc12]
       - [0x5ADBC, c, main/func_8006A5BC]
       - [0x5AE4C, c, gpu/func_8006A64C]
-      - [0x5AE74, asm, main/Akao_ClearVoiceBank]
+      - [0x5AE74, c, akao/Akao_ClearVoiceBank]
       - [0x5B0D4, c, boot/Boot_InitMemoryLayout]
       - [0x5B1E4, c, main/Scene_LoadSceneData]
       - [0x5B540, asm, main/Scene_LoadFieldBg]

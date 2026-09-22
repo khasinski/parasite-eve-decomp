@@ -1,5 +1,6 @@
+#include "pe1/scene_assets.h"
+
 void func_8006A8D4(void);
-void Akao_ClearVoiceBank(void);
 
 void func_8006A64C(void)
 {

@@ -32,6 +32,10 @@ typedef float f32;
 #define PE1_COMPILER_LAUNDER_MEM(value) \
     asm volatile("" : "=r"(value) : "0"(value) : "memory")
 
+/* Keep a register value tied to a preceding store to the named byte. */
+#define PE1_COMPILER_LAUNDER_AFTER_MEM(value, input, memory) \
+    asm volatile("" : "=r"(value) : "0"(input), "m"(memory))
+
 #define PE1_COMPILER_LAUNDER2(value0, value1) \
     asm volatile("" : "=r"(value0), "=r"(value1) : "0"(value0), "1"(value1))
 

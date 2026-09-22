@@ -6109,3 +6109,33 @@ report/progress/debt. Semantic C now covers 2,512,236 bytes and
 functions and 56.67% code. Aggregate pins/barriers/NOPs/gotos are
 1,316/1,086/156/1,161. The debt baseline gains six pins and three gotos;
 its barrier counter does not count `PE1_COMPILER_LAUNDER` macro uses.
+
+## Akao_ClearVoiceBank — exact retail C (2026-09-23)
+
+The 608-byte AKAO reset at `0x8006A674` initializes the shared game-state
+header, clears 49 state words, resets two byte pairs, clears four
+`SceneBankResetPair` entries, and initializes the bank's primitive and work
+ranges. It preserves the voice-bank base at `+0x150` and derives work values
+at `+0x128`, `+0x12C`, and `+0x130` from it. The last field is now named
+`bank_work_far_end` in `Pe1GameState`; known state and bank fields use the
+shared type, while unidentified offsets remain explicit.
+
+Stock native GCC 2.7.2, default `-G0`, and unmodified MASPSX match all 608
+bytes. The source has 16 register pins and 11 empty compiler constraints to
+keep the retail ordering of stores and register values. None emits a CPU
+instruction. `PE1_COMPILER_LAUNDER_AFTER_MEM` records the dependency between
+a stored byte and a later register value; it is the same empty constraint
+used during matching, now named in the shared compiler-helper header.
+
+An independent behavior test compiles and links the shipped C, checks its
+bytes against retail, and executes both images on 128 randomized states.
+It checks the complete state and pair windows, untouched bytes, wrapping
+of the work addresses at the 32-bit boundary, and preservation of stack and
+callee-saved registers.
+
+Acceptance passes: `make -j8 verify-clean` (344 existing tests and main retail
+SHA-1), the new focused behavior test, all 191 overlay SHA-1 checks, and
+report/progress/debt. Semantic C now covers 2,512,844 bytes and
+10,778/11,647 functions: 70.77% code overall, main-game 1,624/1,878
+functions and 56.78% code. Aggregate pins/barriers/NOPs/gotos are
+1,332/1,086/156/1,161; the debt baseline gains 16 pins.

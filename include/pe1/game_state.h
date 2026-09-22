@@ -33,7 +33,8 @@ typedef struct Pe1GameState {
     Pe1U32 bank_asset_table;          /* 0x124 */
     Pe1U32 bank_work_base;           /* 0x128 */
     Pe1U32 bank_work_end;            /* 0x12C */
-    Pe1U8 unk_130[0x1C];
+    Pe1U32 bank_work_far_end;        /* 0x130: voice bank base + 0x2800 */
+    Pe1U8 unk_134[0x18];
     void *bank_asset_source;         /* 0x14C */
     Pe1U32 voice_bank_base;          /* 0x150 */
     Pe1U32 voice_bank_base_1400;     /* 0x154 */

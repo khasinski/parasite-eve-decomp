@@ -54,6 +54,7 @@ typedef struct SceneBankResetPair {
 extern SceneBankResetPair D_80094488[4];
 int Asset_FindTable08ByU32Key(void *base, s32 key);
 void Akao_LoadVoiceBankAlt(void);
+void Akao_ClearVoiceBank(void);
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, bank_asset_table) == 0x124,
                   game_state_bank_asset_table_offset);
