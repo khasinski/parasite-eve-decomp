@@ -5592,3 +5592,34 @@ all 191 overlay retail SHA-1 checks, and report/progress/debt. Semantic C
 now covers 2,503,496 bytes and 10,762/11,647 functions: 70.51% code overall,
 main-game 1,608/1,878 functions and 55.12% code. Aggregate pins/barriers/NOPs
 are 1,307/1,084/155; gotos remain 1,156.
+
+
+## Menu_CheckItemAffordable — exact retail C (2026-09-22)
+
+Promoted the 552-byte function at `0x8004324C` to C. It checks parasite
+action availability against mode flags and resource thresholds, restricts
+selected actions under the global flag, checks escape eligibility, and
+handles weapon ammunition and full-HP exclusions. The historical function
+name is retained. Item and weapon fields use the shared `ItemDataRecord`;
+the equipped slot uses `InventoryRuntime`. All declarations are in shared
+headers.
+
+Native stock GCC 2.7.2 with `-G8` and unmodified MASPSX matches every byte.
+One action pin in `$17` preserves the retail allocation across queries.
+There are no empty barriers, volatile accesses, explicit NOPs or instruction
+ASM. Two gotos skip the permission grant for restricted actions. Main's
+debt baseline changes only in pins (1,081 to 1,082) and gotos (695 to 697).
+
+An independent model passes 2048 cases against retail and the final C:
+resource boundaries including signed division by three, weapon categories
+and ammunition, mode flags, signed action/slot indices, HP and restriction
+checks, and callbacks that mutate item flags, weapon fields and global
+state. It checks call order and arguments, memory, return value, stack and
+callee-saved registers while callbacks clobber caller-saved registers and
+HI/LO.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay retail SHA-1 checks, and report/progress/debt. Semantic C
+now covers 2,504,048 bytes and 10,763/11,647 functions: 70.52% code overall,
+main-game 1,609/1,878 functions and 55.22% code. Aggregate pins/barriers/NOPs
+are 1,308/1,084/155; gotos are 1,158.

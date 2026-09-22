@@ -57,4 +57,11 @@ void func_800490B0(void);
 int Menu_StatSlotInputHandler(MenuWidgetNode *node, unsigned int flags);
 int Menu_StepListNavigate(MenuWidgetListNavigation *node, unsigned int flags);
 
+int Menu_CheckItemAffordable(int actionId);
+int Menu_GetBattleEquipMode(void);
+extern int D_8009CF3C; /* Restricts selected parasite actions when nonzero. */
+/* Incomplete arrays retain the retail full-address HP accesses with -G8. */
+extern u16 D_800C0E08[]; /* Current HP. */
+extern u16 D_800C0E06[]; /* Maximum HP. */
+
 #endif

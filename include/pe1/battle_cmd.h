@@ -112,4 +112,6 @@ void BattleCmd_CommitAndSyncAmmo(int item);
 void BattleCmd_SetCurrentHP(int value);
 void BattleCmd_SetCurrentMP(int value);
 
+int Battle_GetEnemyEscapeFlag(void);
+
 #endif
