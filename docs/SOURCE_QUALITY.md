@@ -5253,3 +5253,39 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays retain their retail SHA-1.
 The audited report credits 2497628 semantic bytes and 10751 functions
 (70.34% of code). Total debt remains 1303 pins, 1081 barriers and 155 NOPs.
+
+### Entity fade-out in the shared fade TU
+
+`Render_ColorEntity` (724 bytes at `0x8003C818`) fades an object's color out.
+It returns 1 for null headers, zero draw counts and an expired counter; the
+expired path sets the counter to -1 and restores packed neutral color. At
+counter 1 it hides the object. A negative counter starts the fade, enables
+blending, updates map state, clamps each base color to 128, computes signed
+per-channel steps from the duration and initializes the accumulators.
+Subsequent frames subtract byte steps and clear wrapped values above 128.
+The duration-minus-one frame only refreshes blend/map state. Active paths
+draw the object, conditionally update its CLUT, restore neutral packed
+color and decrement the current counter.
+
+The function follows `Render_TickObject` in the same C TU, as it does in the
+retail image, sharing the real `D_8009CDA0` definition. This preserves the
+mixed GP-relative packed-color and absolute buffer-selector addressing.
+Stock native GCC 2.7.2 `-G8`, unmodified MASPSX `--expand-div` and assembler
+`-G0` reproduce all 1204 bytes of both functions. The existing division
+expansion option also reproduces the retail divide guards; no pins,
+barriers, volatile views, NOPs or instruction ASM are introduced.
+
+Independent models each pass 1024 cases against retail and the two function
+slices extracted from the combined TU. Fade-out cases cover all signed-byte
+counter values, guards, negative draw counts, duration boundaries, wrapping
+subtraction, base-color clamping and signed division. Callback stubs clobber
+caller-saved registers and change object state and the selected buffer.
+Object and packed-color snapshots are checked at each callback and exit;
+normal returns preserve the stack and callee-saved registers. Zero duration
+on the initialization path raises the exact retail BREAK 7, with the
+expected pre-trap object/color state.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1.
+The audited report credits 2498352 semantic bytes and 10752 functions
+(70.36% of code). Total debt remains 1303 pins, 1081 barriers and 155 NOPs.

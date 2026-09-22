@@ -711,6 +711,7 @@ union RenderLightingMatrix;
 void Render_DrawObject(RenderObjectEntity *object, union RenderLightingMatrix *matrix);
 extern u32 D_8009CDA0;
 int Render_TickObject(RenderObjectEntity *object);
+int Render_ColorEntity(RenderObjectEntity *object);
 void Field_GetMapEntry(RenderObjectEntity *object, int mode);
 void Render_SetEntityBlendMode(RenderObjectEntity *object, int mode);
 void Render_FadeEntityColor(RenderObjectEntity *object, int r, int g, int b);
