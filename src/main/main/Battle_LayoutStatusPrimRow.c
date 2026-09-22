@@ -18,7 +18,7 @@ void Battle_LayoutStatusPrimRow(int bottomY)
     savedBottomY = bottomY;
     row = 0;
     bufferBase.line = D_8009E358;
-    orderingBase = D_800B0E38;
+    orderingBase = (unsigned int **)D_800B0E38.ordering;
     do {
         slot = g_ActiveDrawSlot;
         line = (BattleStatusLinePrim *)

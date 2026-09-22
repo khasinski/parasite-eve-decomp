@@ -47,7 +47,7 @@ void Battle_DrawStatusValue(int value, int yOffset)
     } while (0);
     marker->y = y;
 
-    AddPrim(*(unsigned int **)((u8 *)D_800B0E38 + drawSlotOffset) + 4,
+    AddPrim(*(unsigned int **)((u8 *)D_800B0E38.ordering + drawSlotOffset) + 4,
             (unsigned int *)(markerBase + markerOffset));
     drawSlot = g_ActiveDrawSlotObject1.value;
     Battle_DrawDecimalNumber(

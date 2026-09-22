@@ -5479,3 +5479,43 @@ all 191 overlay retail SHA-1 checks, and report/progress/debt. Semantic C
 now covers 2,501,928 bytes and 10,759/11,647 functions: 70.46% code overall,
 main-game 1,605/1,878 functions and 54.84% code. Aggregate pins/barriers/NOPs
 remain 1,303/1,083/155; gotos rise from 1,155 to 1,156.
+
+
+## Battle_DrawATBGauge — exact retail C (2026-09-22)
+
+Promoted the 508-byte function at `0x800325DC` from assembly to C. Despite
+its existing name, the routine draws the ammunition icon and remaining
+count: it combines the category base with the action's shot count, deducts
+queued shots/actions, clamps the signed halfword result at zero and draws
+the number beside the icon. The legacy symbol name is retained.
+
+The 0x1C-byte `BattleGaugePrim` is now modeled as the existing eight-byte
+`RenderTexturePagePacket` followed by the existing 20-byte
+`RenderSpritePacket`. Sprite coordinates therefore reside at packet
+offsets 0x10/0x12. The old unused declaration incorrectly placed them at
+0x08/0x0A. A static assertion checks the sprite's interior offset.
+Including the shared packet types exposed an incompatible declaration of
+`D_800B0E38`; battle drawing now uses its existing `RenderBufferPrefix`
+definition and ordering array. The two existing callers were adjusted to
+that declaration, retaining their exact bytes in the verified main binary.
+
+Stock native GCC 2.7.2 with default options and unmodified MASPSX produces
+all 508 retail bytes. One `$17` pin keeps the signed queue index initialized
+across the ammo-base callback. There are no empty barriers, volatile
+accesses, explicit NOPs or CPU instruction ASM. The interior sprite/packet
+address calculation adds one byte-pointer-arithmetic debt occurrence.
+Main's pin baseline rises 1,077 to 1,078 and byte-pointer arithmetic 338
+to 339; no other debt baseline changes.
+
+An independent model passes 2048 cases for retail and the production C:
+all weapon categories, ammo and signed-halfword boundaries, coordinate
+wrapping, signed callback count narrowing, queued deduction types, live
+draw-slot/actor changes and linked ordering-table updates. It compares
+memory and argument traces, checks stack and callee-saved registers, and
+clobbers caller-saved registers and HI/LO in the callback stubs.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay retail SHA-1 checks, and report/progress/debt. Semantic C
+now covers 2,502,436 bytes and 10,760/11,647 functions: 70.48% code overall,
+main-game 1,606/1,878 functions and 54.93% code. Aggregate pins/barriers/NOPs
+are 1,304/1,083/155; gotos remain 1,156.
