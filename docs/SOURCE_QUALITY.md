@@ -5818,3 +5818,34 @@ all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
 covers 2,507,248 bytes and 10,769/11,647 functions: 70.61% code overall,
 main-game 1,615/1,878 functions and 55.78% code. Aggregate pins/barriers/
 NOPs/gotos remain 1,310/1,084/156/1,158.
+
+
+## Menu_StepItemGridScroll — exact retail C (2026-09-22)
+
+The 1,064-byte function at `0x80045670` draws equipment stat comparisons.
+With two item records it displays raw bonuses or capped base-plus-bonus
+sums, depending on the live mode flag. Without the original item it draws
+stat labels and compares the candidate's uncapped totals against zero.
+Displayed totals are capped above at 999; negative totals are retained.
+The function reloads mode and item fields across rendering callbacks.
+
+`ItemDataRecord` supplies the unsigned byte base stats and signed halfword
+bonuses. A small `static inline` helper names the upper-bound calculation
+without introducing a separate function in the retail text. Shared draw
+prototypes match existing implementations. Stock native GCC 2.7.2 with
+`-G8` and unmodified MASPSX matches all 1,064 bytes, without pins, empty
+barriers, explicit NOPs, gotos, volatile accesses or pointer/integer casts.
+Debt is unchanged.
+
+An independent model passes 2048 cases against retail and final C: null
+and aliased item pointers, both presentation modes, all three stat axes,
+signed limits, sums just below/at/above 999, and callback mutations of
+flags and records. It verifies call arguments and full memory snapshots,
+final memory, stack and callee-saved registers while external callbacks
+clobber caller-saved state and HI/LO.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
+covers 2,508,312 bytes and 10,770/11,647 functions: 70.64% code overall,
+main-game 1,616/1,878 functions and 55.97% code. Aggregate pins/barriers/
+NOPs/gotos remain 1,310/1,084/156/1,158.

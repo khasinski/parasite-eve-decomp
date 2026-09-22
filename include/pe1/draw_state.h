@@ -45,4 +45,8 @@ void Draw_SetBaseOffsetPosition(int x, int y);
 void Draw_PrintNumberWidth4Unk(int value);
 void Draw_PrintSignedNumberWidth4(int value);
 
+void Draw_SetStatCompareColor(int current, int candidate);
+void Draw_PrintNumberWidth4(int value);
+void Draw_SetColor(int color);
+
 #endif /* PE1_DRAW_STATE_H */
