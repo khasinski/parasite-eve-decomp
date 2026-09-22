@@ -5080,3 +5080,35 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
 credits 2495340 semantic bytes and 10746 functions (70.28% of code).
 Total debt is 1303 pins, 1079 barriers and 155 NOPs.
+
+### Object texture-coordinate offsets
+
+`Render_OffsetObjectTextureCoordinates` (formerly `func_8003E474`, 380 bytes
+at `0x8003E474`) offsets UV and CLUT fields in both copies of each 0x34-byte
+and 0x28-byte primitive. Existing `RenderPacket34` and `RenderPacket28`
+structures now expose these fields with checked offsets; their size and
+existing fields remain unchanged. The object/header structures already supply
+the primitive-buffer pointer and the two live packet counts.
+
+UV addition wraps at eight bits. CLUT addition sign-extends only the low byte
+of its argument and wraps at sixteen bits. Retail updates all four V values
+but only the first three U values for 0x34-byte packets; the fourth U value
+is deliberately left untouched. Each logical primitive has two packet copies,
+and the packet count is reloaded after each pair.
+
+Stock native GCC 2.7.2 with default flags and unmodified MASPSX reproduces all
+380 bytes. No pins, volatile views, NOPs or instruction ASM are used. One empty
+barrier preserves separate lifetimes for the two signed-byte CLUT conversions;
+the saved CLUT temporaries are required for the matched register allocation.
+
+An independent MIPS/model harness passes 1152 cases for retail and compiled C:
+all 256 low-byte CLUT arguments with randomized upper bits, UV and CLUT
+wraparound, empty and mixed packet classes, two copies per primitive, untouched
+packet fields/guards, and overlapping header/packet storage that changes the
+live loop bound. Complete object/header/buffer snapshots agree with the model;
+stack and callee-saved registers remain intact.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
+credits 2495720 semantic bytes and 10747 functions (70.29% of code).
+Total debt is 1303 pins, 1080 barriers and 155 NOPs.

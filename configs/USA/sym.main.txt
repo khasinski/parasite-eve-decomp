@@ -927,6 +927,7 @@ Battle_DrawDecimalNumber = 0x800328DC; // type:func
 Battle_DrawStatusPanel = 0x80032B0C; // type:func
 Battle_DrawActiveStatus = 0x80033A40; // type:func
 Battle_DrawEnemyHP = 0x80034104; // type:func
+Render_OffsetObjectTextureCoordinates = 0x8003E474; // type:func
 Render_IncrementCounter = 0x8003E5F0; // type:func
 Scene_LoadMap = 0x80035038; // type:func
 Entity_FrameUpdate = 0x80035558; // type:func

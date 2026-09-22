@@ -478,25 +478,37 @@ typedef union RenderPacketValue {
 typedef struct RenderPacket34 {
     /* 0x00 */ u32 tag;
     /* 0x04 */ RenderPacketValue values0;
-    /* 0x08 */ u8 reserved08[8];
+    /* 0x08 */ u8 reserved08[4];
+    /* 0x0C */ u8 u0, v0;
+    /* 0x0E */ u16 clut;
     /* 0x10 */ u32 value1;
-    /* 0x14 */ u8 reserved14[6];
+    /* 0x14 */ u8 reserved14[4];
+    /* 0x18 */ u8 u1, v1;
     /* 0x1A */ u16 page_bits;
     /* 0x1C */ u32 value2;
-    /* 0x20 */ u8 reserved20[8];
+    /* 0x20 */ u8 reserved20[4];
+    /* 0x24 */ u8 u2, v2;
+    /* 0x26 */ u16 reserved26;
     /* 0x28 */ u32 value3;
-    /* 0x2C */ u8 reserved2c[8];
+    /* 0x2C */ u8 reserved2c[4];
+    /* 0x30 */ u8 u3, v3;
+    /* 0x32 */ u16 reserved32;
 } RenderPacket34;
 
 typedef struct RenderPacket28 {
     /* 0x00 */ u32 tag;
     /* 0x04 */ RenderPacketValue values0;
-    /* 0x08 */ u8 reserved08[8];
+    /* 0x08 */ u8 reserved08[4];
+    /* 0x0C */ u8 u0, v0;
+    /* 0x0E */ u16 clut;
     /* 0x10 */ u32 value1;
-    /* 0x14 */ u8 reserved14[6];
+    /* 0x14 */ u8 reserved14[4];
+    /* 0x18 */ u8 u1, v1;
     /* 0x1A */ u16 page_bits;
     /* 0x1C */ u32 value2;
-    /* 0x20 */ u8 reserved20[8];
+    /* 0x20 */ u8 reserved20[4];
+    /* 0x24 */ u8 u2, v2;
+    /* 0x26 */ u16 reserved26;
 } RenderPacket28;
 
 typedef struct RenderPacket24 {
@@ -630,6 +642,13 @@ PE1_STATIC_ASSERT(sizeof(RenderPacketState) == 0x1C,
 PE1_STATIC_ASSERT(sizeof(RenderPacketValue) == 0x04, render_packet_value_size);
 PE1_STATIC_ASSERT(sizeof(RenderPacket34) == 0x34, render_packet34_size);
 PE1_STATIC_ASSERT(sizeof(RenderPacket28) == 0x28, render_packet28_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket34, clut) == 0x0E, render_packet34_clut);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket34, u1) == 0x18, render_packet34_uv1);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket34, u2) == 0x24, render_packet34_uv2);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket34, v3) == 0x31, render_packet34_v3);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket28, clut) == 0x0E, render_packet28_clut);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket28, u1) == 0x18, render_packet28_uv1);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket28, u2) == 0x24, render_packet28_uv2);
 PE1_STATIC_ASSERT(sizeof(RenderPacket24) == 0x24, render_packet24_size);
 PE1_STATIC_ASSERT(sizeof(RenderPacket1C) == 0x1C, render_packet1c_size);
 PE1_STATIC_ASSERT(sizeof(RenderAnimationDataHeader) == 0x0C,
@@ -658,6 +677,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, target_z) == 0xB8,
                   render_object_target_z_offset);
 PE1_STATIC_ASSERT(sizeof(RenderObjectEntity) == 0xBC, render_object_entity_size);
 
+void Render_OffsetObjectTextureCoordinates(RenderObjectEntity *object,
+                                           int du, int dv, int clutOffset);
 void Render_SetObjectAnim(RenderObjectEntity *object, RenderObjectEntity *source,
                           short animation_id);
 void Render_ClearObjectAnim(RenderObjectEntity *object);
