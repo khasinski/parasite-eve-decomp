@@ -32,6 +32,7 @@ void Draw_EmitDigitSprite(int digit);
 void Draw_AllocTexturedQuad(int glyph);
 int Draw_LookupGlyphMetrics(int glyph);
 void Draw_PrintTextWrapped(u8 *text, int width);
+void Draw_PrintCenteredTextInWidth(u8 *text, int width);
 extern int g_TextRenderMode, g_DrawGlyphAdvance;
 extern int g_DrawDigitFontBaseTexU, g_DrawDigitFontBaseTexV;
 extern int g_DrawDigitFontTpageClut;

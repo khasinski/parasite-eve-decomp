@@ -4953,3 +4953,35 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
 credits 2493504 semantic bytes and 10742 functions (70.23% of code).
 Debt remains 1298 pins, 1077 barriers and 155 NOPs.
+
+### Centered text rendering within a width
+
+`Draw_PrintCenteredTextInWidth` (576 bytes at `0x8005F354`) saves the cursor,
+measures a 0xFF-terminated glyph-code string, offsets X by
+`(width - (measured + 4)) >> 1`, then draws the string under a second cursor
+save/restore and finally restores the caller's position. Font-prefix state
+is updated during measurement and is not reset before drawing. Measurement
+reloads the glyph-advance global after each metrics callback. Stack bounds
+checks retain assertion codes 2 and 3 for both nested saves/restores.
+
+Stock native GCC 2.7.2 with `-G8 -fno-cse-skip-blocks` and unmodified MASPSX
+matches all retail bytes. A local inline decoder gives the input code and
+decoded glyph distinct lifetimes. One `$a0` input pin and one empty tied-output
+barrier on the measuring cursor remain, recorded in debt; no volatile views,
+NOPs, instruction ASM or compiler modifications are required. Pruning removed
+two provisional pins, six empty barriers and the provisional volatile Y read.
+
+An independent MIPS/model harness passes 2000 cases for retail and C,
+covering empty/control-code strings, positive/negative centering offsets,
+stack limits and both nested restore paths. Metrics callbacks modify font
+state, advance, cursor and stack; draw callbacks modify later text bytes,
+cursor and stack. Full text/stack/global snapshots are checked at callbacks
+and return, with caller-register clobbers and callee-register/SP preservation.
+Controlled low-memory cases verify the retail distinction between measuring
+address zero and skipping its draw phase; this is target behavior, not a claim
+that dereferencing a null pointer is portable C.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1. The audited report
+credits 2494080 semantic bytes and 10743 functions (70.24% of code).
+Total debt is 1299 pins, 1078 barriers and 155 NOPs.
