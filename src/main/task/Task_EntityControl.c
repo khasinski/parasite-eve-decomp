@@ -1,3 +1,4 @@
+#include "pe1/pm.h"
 #include "pe1/field_actor.h"
 
 extern char *g_CurrentEntity;
@@ -27,12 +28,6 @@ int Menu_SetModeState8(void) {
 
 extern char *g_PlayerEntity;
 extern char *g_FieldActorListHead;
-
-
-int Pm_Stop(int arg0, void *arg1, int arg2);
-
-
-void Scene_FreeEntityTable(void *arg0);
 
 void Pm_StopAllBoth(void);
 

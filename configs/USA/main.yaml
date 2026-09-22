@@ -904,7 +904,7 @@ segments:
       - [0x5FB9C, asm, main/Scene_LoadRoomAssets]
       - [0x5FED4, c, pm/pm]
       - [0x601F0, c, pm/pm2]
-      - [0x60614, asm, main/Scene_FreeEntityTable]
+      - [0x60614, c, pm/Scene_FreeEntityTable]
       - [0x60864, c, render/Pm_StopAll]
       # Paired particle-model stop passes and their wrapper.
       - [0x609B4, c, render/Pm_StopLowerHalf]

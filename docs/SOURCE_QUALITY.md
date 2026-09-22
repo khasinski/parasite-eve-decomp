@@ -5924,3 +5924,41 @@ all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
 covers 2,509,640 bytes and 10,772/11,647 functions: 70.68% code overall,
 main-game 1,618/1,878 functions and 56.21% code. Aggregate pins/barriers/
 NOPs/gotos remain 1,310/1,084/156/1,158.
+
+## Scene_FreeEntityTable — exact retail C (2026-09-22)
+
+The 592-byte function at `0x8006FE14` now scans both process-manager
+banks, stops slots belonging to the requested owner, and clears successful
+slots. A null owner returns -25, and the first nonzero `Pm_Stop` result
+terminates the scan. Command `0x72` also clears buffer words 108..114 and
+game-state bit `0x10000`. Table pointers are reloaded after the stop callback.
+
+The shared `pm.h` describes the common 12-byte prefix and the observed
+`0xA0C`/`0x10C` bank strides, with compile-time layout assertions. Command
+dispatch at +1 and the incremented counter at +4 are corroborated by
+`Pm_Exec`; owner comparisons use +8. Remaining tails stay opaque. The two
+callers now share the correct integer return declaration instead of local
+void declarations. Older PM implementations retain their existing local
+views; this change does not claim a full subsystem type migration.
+
+Stock native GCC 2.7.2, default compiler/assembler `-G0` and unchanged MASPSX
+match all 592 bytes. No pins, barriers, NOPs, gotos, volatile accesses or
+instruction ASM are needed. Local header pointers preserve the retail add
+operand order. One signed byte-offset expression for the secondary bank
+preserves loop strength reduction; direct array indexing emits 20 extra
+bytes. This adds one byte-pointer-arithmetic entry to the debt baseline.
+The provisional `-G4096` compiler profile was removed after confirming the
+default profile gives identical bytes.
+
+An independent model passes 2048 cases against both retail and compiled C:
+null and absent owners, sparse/full matches in both banks, nonzero stop
+results, command `0x72` cleanup, aliased banks, and callback replacement of
+table pointers and mutation of slot/game state. It checks call arguments,
+full memory snapshots, final memory, return value, stack and saved registers;
+callbacks clobber caller-saved registers and HI/LO.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
+covers 2,510,232 bytes and 10,773/11,647 functions: 70.70% code overall,
+main-game 1,619/1,878 functions and 56.31% code. Aggregate pins/barriers/
+NOPs/gotos remain 1,310/1,084/156/1,158; main byte-pointer arithmetic is 340.

@@ -1,3 +1,4 @@
+#include "pe1/pm.h"
 #include "common.h"
 #include "pe1/field_actor.h"
 /* MASPSX_FLAGS: -G8 --use-comm-section */
@@ -10,7 +11,6 @@ Entity *g_PlayerEntity;
 u16 g_EntityFreePoolCount;
 int g_FieldMoveLock;
 
-void Scene_FreeEntityTable(Entity *arg0);
 void Entity_FreeAllocationBlock(int arg0);
 int Util_ReturnTrue(void *unused);
 
