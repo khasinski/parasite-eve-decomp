@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+typedef int (*MenuWidgetItemAction)(int, int, int, int);
+
 typedef struct MenuWidgetNode {
     struct MenuWidgetNode *next;
     struct MenuWidgetNode *parent;
@@ -35,8 +37,8 @@ typedef struct MenuWidgetNode {
     struct MenuWidgetNode *linkedPrevious;
     struct MenuWidgetNode *linkedNext;
     struct MenuWidgetNode *popup_node;
-    int field_84;
-    int field_88;
+    MenuWidgetItemAction itemAction; /* +0x84 inventory transfer callback. */
+    void (*refreshItems)(void); /* +0x88 rebuild the selectable-item mask. */
     int field_8C;
 } MenuWidgetNode;
 

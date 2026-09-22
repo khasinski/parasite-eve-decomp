@@ -5691,3 +5691,38 @@ all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
 covers 2,504,916 bytes and 10,765/11,647 functions: 70.55% code overall,
 main-game 1,611/1,878 functions and 55.37% code. Aggregate pins/barriers/
 NOPs/gotos are 1,309/1,084/155/1,158.
+
+
+## Menu_StepSaveLoadScreen — exact retail C (2026-09-22)
+
+Promoted the 484-byte function at `0x80048654` to C. The historical name
+is retained: the routine creates mode-12/13/14 inventory widgets, installs
+input/draw/transfer callbacks, links the two lists, and initializes the
+cursor from the available-slot queries with a fallback request for one
+slot. It creates the context-help panel and clears the menu-state flag.
+
+The shared `MenuWidgetNode` now describes offsets 0x84 and 0x88 as
+`itemAction` and `refreshItems` callback fields; they were previously
+declared as integers. Static assertions preserve the offsets and node
+size. Shared declarations are in `menu_equipment.h`, and generic update
+callbacks retain the existing widget callback representation. No function
+address is converted to an integer in the new C.
+
+Native stock GCC 2.7.2 with `-G8` and unmodified MASPSX matches all bytes.
+Of eight tested pin combinations, only the transfer-callback pin in `$16`
+is needed. There are no barriers, NOPs, instruction ASM, gotos, volatile
+accesses or pointer/integer casts. Main's pin baseline rises 1,083 to 1,084;
+all other debt categories are unchanged.
+
+An independent model passes 2048 cases against retail and the final C:
+callback wiring, creation and query arguments, full node/global snapshots
+at every call, mutable counts/state, successful/fallback/failed cursor
+selection, node aliases and arithmetic wrapping. It checks final memory,
+stack and callee-saved registers while callbacks clobber caller-saved
+registers and HI/LO.
+
+Acceptance passes: `make -j8 verify-clean` (341 tests and main retail SHA-1),
+all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
+covers 2,505,400 bytes and 10,766/11,647 functions: 70.56% code overall,
+main-game 1,612/1,878 functions and 55.46% code. Aggregate pins/barriers/
+NOPs/gotos are 1,310/1,084/155/1,158.
