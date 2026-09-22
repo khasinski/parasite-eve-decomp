@@ -5218,3 +5218,38 @@ Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
 SHA-1. All 191 rebuilt overlays retain their retail SHA-1.
 The audited report credits 2497044 semantic bytes and 10750 functions
 (70.33% of code). Total debt remains 1303 pins, 1081 barriers and 155 NOPs.
+
+### Entity primitive blend mode
+
+`Render_SetEntityBlendMode` (584 bytes at `0x8003CCB0`) sets or clears bit 1
+of each primitive command in the selected buffer, preserving all other bits
+and the unselected buffer. It traverses paired 0x34-, 0x28-, 0x24- and
+0x1C-byte packets and their 12-byte descriptors. Descriptor kinds 11, 16, 21
+and 26 respectively force blending on; other kinds use the signed low
+halfword of the requested mode. Null headers and zero draw counts return
+without changes; negative nonzero draw counts remain active.
+
+The shared descriptor now names `kind` at offset 3, with an assertion.
+Counts are reloaded through the object header after each command write.
+Two small inline helpers express mode selection and the command-bit update.
+The mode helper uses an early return for the forced kind; this source shape
+produces the retail branch direction and register reuse. A direct ternary
+and several equivalent source forms did not produce the same code.
+
+Stock native GCC 2.7.2 with default flags and unmodified MASPSX match all
+584 bytes, without pins, barriers, volatile views, NOPs or instruction ASM.
+
+An independent MIPS/model harness passes 2048 cases for retail and C:
+every combination of 0..3 counts across the four classes, both buffers,
+full-width and signed mode inputs, forced kinds, guards and negative draw
+counts. It checks complete object, header, descriptor, packet-arena and
+selector snapshots, plus the stack and callee-saved registers. Controlled
+packet/descriptor overlap and aligned packet/header overlap verify live
+reads; in the latter, the first command write changes the loop count from
+515 to 3. Lower-scoring permuter outputs with potentially uninitialized
+variables were rejected before promotion.
+
+Acceptance: `make -j8 verify-clean` passes all 341 tests and the retail main
+SHA-1. All 191 rebuilt overlays retain their retail SHA-1.
+The audited report credits 2497628 semantic bytes and 10751 functions
+(70.34% of code). Total debt remains 1303 pins, 1081 barriers and 155 NOPs.

@@ -454,7 +454,8 @@ typedef struct RenderObjectHeader {
 } RenderObjectHeader;
 
 typedef struct RenderPrimitiveDescriptor {
-    /* 0x00 */ unsigned char reserved00[4];
+    /* 0x00 */ unsigned char reserved00[3];
+    /* 0x03 */ u8 kind;
     /* 0x04 */ u16 lookup_indices[4];
 } RenderPrimitiveDescriptor;
 
@@ -640,6 +641,8 @@ typedef struct RenderObjectEntity {
 } RenderObjectEntity;
 
 PE1_STATIC_ASSERT(sizeof(RenderMatrix) == 0x20, render_matrix_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPrimitiveDescriptor, kind) == 3,
+                  render_primitive_descriptor_kind_offset);
 PE1_STATIC_ASSERT(sizeof(RenderPrimitiveDescriptor) == 0x0C,
                   render_primitive_descriptor_size);
 PE1_STATIC_ASSERT(sizeof(RenderPacketState) == 0x1C,

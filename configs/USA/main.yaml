@@ -413,7 +413,7 @@ segments:
       - [0x2CE38, c, render/Render_TickObject]
       - [0x2D018, asm, main/Render_ColorEntity]
       - [0x2D2EC, c, render/Render_FadeEntityColor]
-      - [0x2D4B0, asm, main/Render_SetEntityBlendMode]
+      - [0x2D4B0, c, render/Render_SetEntityBlendMode]
       - [0x2D6F8, c, field/Field_GetMapEntry]
       - [0x2D850, asm, main/Render_SetupEntityPrims]
       - [0x2E02C, c, util/Util_ReturnTrue]
