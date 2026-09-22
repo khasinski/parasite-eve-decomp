@@ -25,6 +25,14 @@ typedef struct FontGlyphTable {
     FontGlyphSlots slots;
 } FontGlyphTable;
 
+/* The disc-load view begins at the PE.IMG base LBA. Its destination pointer
+ * is also read through D_800B0E6C while copying the selected glyph table. */
+typedef struct FontGlyphLoadState {
+    u32 baseLba;
+    u8 unknown04[0x90];
+    u8 *buffer;
+} FontGlyphLoadState;
+
 /* The selection byte is nine bytes before the table pointer. Navigation
  * derives its address from the pointer member's address in retail code. */
 typedef struct FontGlyphSelectionState {
@@ -46,10 +54,16 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FontGlyphSelectionState, table) == 0xC,
                   font_selection_table_offset);
 PE1_STATIC_ASSERT(sizeof(FontGlyphSelectionState) == 0x10,
                   font_selection_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FontGlyphLoadState, buffer) == 0x94,
+                  font_glyph_load_buffer_offset);
 
 extern FontGlyphSelectionState g_FontSelectionState;
 extern FontGlyphTable *D_80091A28;
 extern unsigned char D_80091A1D;
+extern FontGlyphTable D_8009ECD8;
+extern FontGlyphLoadState D_800B0DD8;
+extern u8 *D_800B0E6C;
+extern u16 D_80093176[2];
 
 /* Historical name: returns a slot index, or 0xFF; performs no drawing.
  * A null table selects D_80091A28. */

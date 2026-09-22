@@ -6076,3 +6076,36 @@ all 191 overlay SHA-1 checks, and report/progress/debt. Semantic C now
 covers 2,511,752 bytes and 10,776/11,647 functions: 70.74% code overall,
 main-game 1,622/1,878 functions and 56.58% code. Aggregate pins/barriers/
 NOPs/gotos are 1,310/1,086/156/1,158; debt gains the one barrier above.
+
+## Render_LoadFontGlyph — exact retail C (2026-09-22)
+
+The 484-byte loader at `0x800389DC` reads the fixed font-glyph sector range
+from PE.IMG into the scene scratch buffer. A failed read retries that read;
+a polling result of `-1` restarts the outer read, other nonzero results keep
+polling. On success it selects the 328-byte record for the low byte of the
+requested code and copies its payload (offsets 1..328) into the static font
+glyph table. The record's leading byte is skipped, and the table's leading
+byte remains untouched. `FontGlyphLoadState` records the shared LBA/buffer
+layout at `D_800B0DD8` and `FontGlyphTable` names the copied fields.
+
+Stock native GCC 2.7.2 with `-fno-schedule-insns`, default `-G0`, and
+unmodified MASPSX matches all 484 bytes. The source has six register pins
+and seven empty compiler barriers to preserve the retail register choices
+and separate offset additions. There is no CPU instruction ASM. The retry
+branches are written as labels because the original restarts the sector
+read from a different scope than its polling loop.
+
+The behavior test links the shipped source independently, checks every byte
+against retail, and runs both images through CD read/poll sequences. It
+checks the read arguments, retry counts, all 328 output bytes, the untouched
+leading byte, return value, stack, and saved registers while callbacks
+clobber caller-saved registers and HI/LO. It also passes code arguments
+with nonzero upper 24 bits to verify the retail low-byte selection.
+
+Acceptance passes: `make -j8 verify-clean` (343 existing tests and main retail
+SHA-1), the new focused behavior test, all 191 overlay SHA-1 checks, and
+report/progress/debt. Semantic C now covers 2,512,236 bytes and
+10,777/11,647 functions: 70.76% code overall, main-game 1,623/1,878
+functions and 56.67% code. Aggregate pins/barriers/NOPs/gotos are
+1,316/1,086/156/1,161. The debt baseline gains six pins and three gotos;
+its barrier counter does not count `PE1_COMPILER_LAUNDER` macro uses.
