@@ -6139,3 +6139,21 @@ report/progress/debt. Semantic C now covers 2,512,844 bytes and
 10,778/11,647 functions: 70.77% code overall, main-game 1,624/1,878
 functions and 56.78% code. Aggregate pins/barriers/NOPs/gotos are
 1,332/1,086/156/1,161; the debt baseline gains 16 pins.
+
+## Menu_StepEquipConfirm — exact retail C (2026-09-23)
+
+`Menu_StepEquipConfirm` at `0x800466C0` is now a 1,020-byte C subsegment in
+`src/main/menu`. Stock native GCC with `-G8` and unmodified MASPSX produces
+all 1,020 retail bytes exactly; the full main image SHA-1 also matches.
+The function handles item eligibility, equip confirmation, dialog layout,
+and cancel navigation. The four inventory-state words at `0x800A1888` through
+`0x800A1894` use incomplete-array declarations so GCC emits the retail
+full-address loads without claiming a known array length.
+
+The source has five register pins and three empty compiler constraints. The
+constraints preserve the retail AND/SLTIU flag test, preparation of the
+second dialog mode argument before copying a returned node, and movement of
+the second dialog parent before the next lookup. They emit no CPU instruction.
+The debt baseline also records 15 gotos and 11 local external declarations;
+the latter remain candidates for shared-header migration. The old unmatched
+candidate is removed.

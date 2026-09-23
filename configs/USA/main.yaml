@@ -494,7 +494,7 @@ segments:
       - [0x36B34, c, event/Evt_DeferredExec]
       - [0x36B78, c, main/Menu_StepSkillList]
       - [0x36D74, c, menu/Menu_OnEquipConfirm]
-      - [0x36EC0, asm, main/Menu_StepEquipConfirm]
+      - [0x36EC0, c, menu/Menu_StepEquipConfirm]
       - [0x372BC, c, menu/Menu_CreateSkillActionScreen]
       - [0x37358, c, menu/menu6]
       - [0x375FC, c, menu/Menu_CreateInvSwapView]
