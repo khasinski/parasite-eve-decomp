@@ -107,6 +107,7 @@ segments:
       - [0x1944, .rodata, menu/Menu_StepInventoryCategory]
       - [0x1958, .rodata, battle/BattleCmd_StackFlow]
       - [0x196C, rodata, main/rodata_00196C]
+      - [0x1970, .rodata, item/Inv_SetActiveList]
       - [0x19A4, rodata, main/rodata_0019A4]
       - [0x19A8, rodata, main/rodata_0019A8]
       - [0x19F8, .rodata, battle/BattleCmd_LoadWeaponModifiers]
@@ -628,7 +629,7 @@ segments:
       - [0x41884, c, battle/BattleCmd_InitTableCursor]
       # Command-stack allocation and rollback share the cursor and record ABI.
       - [0x41898, c, battle/BattleCmd_StackFlow]
-      - [0x41AAC, asm, menu/menu29_tail]
+      - [0x41AAC, c, item/Inv_SetActiveList]
       # Command-result accessors share their single result slot.
       - [0x41CF8, c, menu/Menu_CommandResult]
       # Active-stat synchronization and HP writes share the player entity ABI.
