@@ -2,6 +2,7 @@
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/aya.h"
+#include "pe1/psyq_nop.h"
 
 void Menu_SetBattleEquipMode(s32 mode);
 void BattleCmd_SyncActiveAmmo(void);
@@ -62,7 +63,7 @@ void Aya_SetTotalExp(s32 exp_delta, s32 pe_bonus_delta, void *wayne_items) {
     save = &D_800C0E00_array[0];
     asm volatile("" : "=r"(save) : "0"(save));
     previous_exp = save->total_exp;
-    asm volatile("nop");
+    PE1_NOP();
     D_8009CFE8 = previous_exp;
     asm volatile("" : : : "memory");
     D_8009CFEC = previous_exp + exp_delta_reg;
