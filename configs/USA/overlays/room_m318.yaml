@@ -102,7 +102,7 @@ segments:
       - [0x3EEC, asm, func_80192ED4]
       - [0x4284, asm, func_8019326C]
       - [0x4650, asm, func_80193638]
-      - [0x49C4, asm, func_801939AC]
+      - [0x49C4, c, RoomEffect_DriftingPaletteSprite]
       - [0x4B78, asm, func_80193B60]
       - [0x4DA0, asm, func_80193D88]
       - [0x4FDC, c, RoomEffect_ExpandingPaletteSprite]
