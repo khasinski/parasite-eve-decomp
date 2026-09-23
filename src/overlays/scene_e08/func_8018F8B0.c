@@ -1,18 +1,9 @@
-#include "common.h"
+#include "scene_e08.h"
 typedef struct {
     char pad_00[1];
     u8 status;
     s16 target;
 } Ovl178FadeInput;
-
-typedef struct {
-    char pad_000[0x230];
-    s16 field_230[2];
-    char pad_234[0x20];
-    s16 field_254[4];
-    s16 field_25C[4];
-    s16 field_264;
-} Ovl178FadeState;
 
 void func_8018F8B0(void *arg0, Ovl178FadeInput *input, Ovl178FadeState *state) {
     unsigned int i;
