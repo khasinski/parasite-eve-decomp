@@ -1,13 +1,4 @@
-#include "pe1/render_object.h"
-
-typedef struct {
-    s16 x, y, z, pad;
-} RoomM273Vector;
-
-typedef struct {
-    signed int low : 16;
-    signed int high : 16;
-} RoomM273TrigEntry;
+#include "room_m273.h"
 
 typedef struct {
     char pad_00[4];
@@ -18,8 +9,6 @@ typedef struct {
     u16 step;
 } RoomM273PulseState;
 
-extern RoomM273TrigEntry D_800966EC[];
-extern char D_8019AB70[];
 
 int func_80199F84(int mode, RoomM273PulseState *state) {
     RoomM273Vector position, rotation;
