@@ -313,7 +313,7 @@ segments:
       - [0x19448, asm, main/Battle_UpdateEntityFacing]
       - [0x19694, c, battle/Battle_StepEntityAnimState]
       - [0x19B88, c, save/Save_InitSystem]
-      - [0x19BF4, asm, main/Battle_ResetEnemyStats]
+      - [0x19BF4, c, battle/Battle_ResetEnemyStats]
       - [0x19DE4, c, battle/Battle_SetupPlayerPalette]
       - [0x1A010, c, battle/Battle_StartEncounter]
       - [0x1A1CC, asm, main/battle3]
