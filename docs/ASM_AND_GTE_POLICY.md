@@ -40,7 +40,12 @@ retained. No CPU instruction assembly or empty barrier is used.
 `PE1_NOP_DEP` reproduces the original load-to-store gap when detaching an
 event from the queue. A `$2` pin and one empty barrier preserve the zero stores
 on the empty-queue path. Trial pins on the event and local-copy pointers were
-removable and are not retained.
+removable and are not retained. The preceding
+`MenuInput_EnqueueStatusChanges` also matches all 480 bytes; both functions
+now share one translation unit. Seven pins reproduce the two event types and
+short-lived flag calculations, and one empty memory barrier keeps the first
+free-list `next` load before the queue-tail load. Trial pins on `tail`, `mapped`, and
+`released` were removable and are not retained.
 
 For small-data loads followed by symbolic stores, upstream MASPSX's
 `--aspsx-version=2.21 --dont-expand-li` reproduces the required load hazard

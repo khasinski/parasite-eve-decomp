@@ -1,8 +1,6 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
-
-
-#include "include_asm.h"
+#include "pe1/psyq_nop.h"
 
 typedef struct MenuInputQueuedEvent {
     struct MenuInputQueuedEvent *next;
@@ -20,20 +18,6 @@ typedef struct MenuInputWidget {
 
 MenuInputWidget *MenuWidget_GetCurrentNode(void);
 
-/* Function body emitted as asm() (PSYQ GCC 2.7.2 register
- * allocation / scheduling diverges from the ROM pervasively).
- * Wrapped via maspsx's INCLUDE_ASM hack so the body is passed
- * through verbatim; bare global loads gp-rel via the .extern size
- * hints + `as -G8`. See tools/maspsx/PE1_IMPROVEMENTS.md. */
-void __maspsx_include_asm_hack_MenuInput_EnqueueStatusChanges(void);
-
-/* Function body emitted as asm() (PSYQ GCC 2.7.2 register
- * allocation / scheduling diverges from the ROM pervasively).
- * Wrapped via maspsx's INCLUDE_ASM hack so the body is passed
- * through verbatim; bare global loads gp-rel via the .extern size
- * hints + `as -G8`. See tools/maspsx/PE1_IMPROVEMENTS.md. */
-void __maspsx_include_asm_hack_MenuInput_DispatchQueuedEvents(void);
-
 extern int D_8009D0EC;
 extern MenuInputQueuedEvent *D_8009D0E0;
 extern MenuInputQueuedEvent *D_8009D0E4;
@@ -47,29 +31,35 @@ int Draw_RemapStatusFlags(int flags);
 void BoundsCheck_AssertStub(int arg0);
 
 void MenuInput_EnqueueStatusChanges(int flags) {
-    register int flags_reg asm("$21");
+    int flags_reg;
     MenuInputQueuedEvent *event;
     MenuInputQueuedEvent *tail;
-    register int mapped asm("$18");
-    register int released asm("$17");
+    int mapped;
+    int released;
     int timer;
-    int prev_flags;
+    register int prev_flags asm("$3");
     int repeat_reset;
     int repeat_step;
-    int type;
+    register int type asm("$2");
     register int release_type asm("$20");
 
     flags_reg = flags;
     repeat_reset = 0;
     mapped = Draw_RemapStatusFlags(flags_reg);
     if (D_8009D0E8 != 0) {
+        register int inverse asm("$2");
         prev_flags = D_8009D0F0;
-        released = ~mapped & prev_flags;
+        inverse = ~mapped;
+        released = inverse & prev_flags;
         if (released != 0) {
             event = D_8009D0DC;
             release_type = 4;
             if (event != 0) {
-                D_8009D0DC = event->next;
+                {
+                    MenuInputQueuedEvent *next = event->next;
+                    asm("" : : "r"(next) : "memory");
+                    D_8009D0DC = next;
+                }
                 event->next = 0;
                 tail = D_8009D0E4;
                 if (tail != 0) {
@@ -110,20 +100,25 @@ reset_repeat:
         }
         D_8009D0F4 = repeat_step;
 
-        released = mapped & ~D_8009D0F0;
+        {
+            register int previous asm("$2");
+            previous = D_8009D0F0;
+            released = mapped & ~previous;
+        }
         if (released != 0) {
-            type = 1;
-            if (repeat_reset != 0) {
-                if ((released & 0x40) != 0) {
-                    goto done;
-                }
-                type = 2;
+            if (repeat_reset != 0 && (released & 0x40) != 0) {
+                goto done;
             }
-            if (D_8009D0DC != 0) {
-                event = D_8009D0DC;
-                D_8009D0DC = event->next;
-                event->next = 0;
+            type = repeat_reset != 0 ? 2 : 1;
+            event = D_8009D0DC;
+            if (event != 0) {
+                register MenuInputQueuedEvent *next asm("$2");
+                register int event_type asm("$19");
+                event_type = type;
+                next = event->next;
                 tail = D_8009D0E4;
+                event->next = 0;
+                D_8009D0DC = next;
                 if (tail != 0) {
                     tail->next = event;
                 } else {
@@ -133,7 +128,7 @@ reset_repeat:
                     D_8009D0E0 = event;
                 }
                 D_8009D0E4 = event;
-                event->type = type;
+                event->type = event_type;
                 event->flags = released;
             }
         }
@@ -143,14 +138,15 @@ done:
         D_8009D0E8 = 1;
     }
 }
+
 void MenuInput_DispatchQueuedEvents(void) {
     MenuInputWidget *node;
-    register MenuInputQueuedEvent *event asm("$6");
+    MenuInputQueuedEvent *event;
     MenuInputQueuedEvent *prev;
     register MenuInputQueuedEvent *head asm("$2");
     MenuInputQueuedEvent *free_head;
     MenuInputQueuedEvent local;
-    register MenuInputQueuedEvent *localp asm("$7");
+    MenuInputQueuedEvent *localp;
     int type;
     int flags;
     int handled;
@@ -174,38 +170,42 @@ void MenuInput_DispatchQueuedEvents(void) {
             if (prev != 0) {
                 prev->next = event->next;
             } else {
-                D_8009D0E0 = event->next;
+                MenuInputQueuedEvent *next = event->next;
+                PE1_NOP_DEP("r", next);
+                D_8009D0E0 = next;
             }
-            if (D_8009D0E4 == event) {
+            if (event == D_8009D0E4) {
                 D_8009D0E4 = prev;
             }
             free_head = D_8009D0DC;
             D_8009D0DC = event;
             event->next = free_head;
-            localp->next = *(MenuInputQueuedEvent * volatile *)&event->next;
-            localp->type = event->type;
-            localp->flags = event->flags;
+            *localp = *event;
         } else {
             localp->type = 0;
             localp->flags = 0;
         }
     } else {
-        localp->type = 0;
-        localp->flags = 0;
+        asm("" : "=r"(head) : "0"(head));
+        local.type = 0;
+        local.flags = 0;
     }
 
-    type = localp->type;
+    type = local.type;
     if (type <= 0) {
         return;
     }
 
+    if (type >= 3 && type != 4) {
+        return;
+    }
     if (type < 3) {
         if (node == 0) {
             return;
         }
         do {
-            flags = localp->flags;
-            if (localp->type == 2) {
+            flags = local.flags;
+            if (local.type == 2) {
                 flags |= 0x20000;
             }
             handled = node->handler(node, flags);
@@ -214,8 +214,8 @@ void MenuInput_DispatchQueuedEvents(void) {
             }
             node = node->next;
         } while (node != 0);
-    } else if (type == 4) {
-        if ((localp->flags & 0x20) == 0) {
+    } else {
+        if ((local.flags & 0x20) == 0) {
             return;
         }
         node = MenuWidget_GetCurrentNode();
