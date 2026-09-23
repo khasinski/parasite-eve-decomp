@@ -580,7 +580,7 @@ segments:
       - [0x3F43C, c, menu/Menu_DrawWeaponList]
       - [0x3F4B4, c, menu/Menu_StepInventoryCategory]
       - [0x3F730, c, menu/Menu_DrawBattleCommandList]
-      - [0x3F758, asm, menu/Menu_InventoryPageNavHandler]
+      - [0x3F758, c, menu/Menu_InventoryPageNavHandler]
       - [0x3FA3C, c, menu/Menu_OpenSkillSelectionView]
       - [0x3FB0C, c, menu/Menu_HandleAyaInventorySelectionInput]
       - [0x3FC48, c, menu/menu21]
