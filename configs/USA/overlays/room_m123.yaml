@@ -95,7 +95,7 @@ segments:
       - [0x3510, c, RoomLib_Set4ClearSignal_801924F8]
       - [0x352C, c, func_80192514]
       - [0x3534, asm, func_8019251C]
-      - [0x3A14, asm, func_801929FC]
+      - [0x3A14, c, func_801929FC]
       - [0x3BF4, asm, func_80192BDC]
       - [0x3F24, asm, func_80192F0C]
       - [0x4630, asm, func_80193618]
