@@ -401,7 +401,7 @@ segments:
       - [0x2A888, asm, render/Render_TransformVertices]
       - [0x2AEA8, asm, render/Render_TransformSkinnedVertices]
       - [0x2B490, asm, render/Render_TransformMorphVertices]
-      - [0x2B714, asm, main/Render_DrawEntity]
+      - [0x2B714, c, render/Render_DrawEntity]
       - [0x2B944, asm, render/Render_DrawTexturedQuads]
       - [0x2BF08, c, main/Render_BuildEntityMatrix]
       - [0x2C17C, asm, render/Render_DrawObject]
