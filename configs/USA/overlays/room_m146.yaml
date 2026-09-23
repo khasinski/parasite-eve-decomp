@@ -82,7 +82,7 @@ segments:
       - [0x2300, c, RoomLib_InitParticleRenderState_801912E8]
       - [0x2488, c, RoomLib_RenderParticleDepths_80191470]
       - [0x2598, c, RoomLib_ParticleStep_80191580]
-      - [0x2674, asm, func_8019165C]
+      - [0x2674, c, RoomEffect_IndexedPaletteSprite]
       - [0x27B4, asm, func_8019179C]
       - [0x30C8, c, func_801920B0]
       - [0x33BC, c, func_801923A4]
