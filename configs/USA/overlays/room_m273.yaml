@@ -119,7 +119,7 @@ segments:
       - [0x43B8, c, RoomEffect_SampledLayerEmitter]
       # The emitter initializes the callback's contiguous twelve-byte records.
       - [0x4554, c, RoomEffect_ScaledLayer]
-      - [0x4888, asm, func_80193870]
+      - [0x4888, c, RoomEffect_PointerPaletteSprite]
       - [0x49CC, c, RoomEffect_LatchedPlayerEmitter]
       # Both pool callbacks and their controller share the model asset and its
       # sixteen-byte effect record.
