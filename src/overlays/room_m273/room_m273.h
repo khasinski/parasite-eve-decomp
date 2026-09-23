@@ -45,4 +45,26 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementState, active) == 0x3F,
 
 void func_80192C00(RoomPlacementOwner *owner, RoomPlacementState *state);
 
+typedef struct RoomOscillationEffect {
+    u8 pad_00[8];
+    struct FieldActor *actor;
+    int *angleOut;
+    int *distanceOut;
+    u8 pad_14[4];
+    int frame;
+    int baseHeight;
+    s16 active;
+    s16 amplitude;
+    s16 period;
+} RoomOscillationEffect;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOscillationEffect, actor) == 0x08,
+                  room_oscillation_actor_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOscillationEffect, frame) == 0x18,
+                  room_oscillation_frame_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOscillationEffect, period) == 0x24,
+                  room_oscillation_period_offset);
+
+int func_80192F5C(RoomOscillationEffect *effect);
+
 #endif

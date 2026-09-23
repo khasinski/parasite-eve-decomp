@@ -110,7 +110,6 @@ segments:
       - [0x3E64, c, func_80192E4C]
       - [0x3E7C, c, func_80192E64]
       - [0x3F6C, c, func_80192F54]
-      - [0x3F74, asm, func_80192F5C]
       - [0x4100, c, func_801930E8]
       - [0x4124, c, func_8019310C]
       - [0x412C, c, func_80193114]
