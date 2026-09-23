@@ -533,7 +533,7 @@ segments:
       - [0x39CAC, asm, menu/Menu_ItemListInputHandler]
       - [0x3A8C8, c, menu/Menu_StepEquipSlotSelect2]
       - [0x3AD70, c, menu/Menu_OpenBonusPointSpendDialog]
-      - [0x3AECC, asm, menu/Menu_DrawBonusPointSpendPanel]
+      - [0x3AECC, c, menu/Menu_DrawBonusPointSpendPanel]
       - [0x3B1A0, asm, main/Spend_BonusPoints]
       - [0x3B59C, c, menu/Menu_CreateMainMenuView]
       - [0x3B93C, c, menu/Menu_OpenBlendColorScreen]
