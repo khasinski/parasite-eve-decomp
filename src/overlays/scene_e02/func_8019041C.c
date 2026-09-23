@@ -1,0 +1,9 @@
+#include "common.h"
+#include "pe1/room_fx.h"
+
+#define ROOMLIB_DRAW_SIX_PARTICLES_FUNC func_8019041C
+#define ROOMLIB_SIX_PARTICLE_PACKET_CODE D_8019570C
+#define ROOMLIB_SIX_PARTICLE_PACKET_MODE D_8019570D
+#define ROOMLIB_SIX_PARTICLE_PACKET_DEPTH D_80195712
+#define ROOMLIB_SIX_PARTICLE_FRAME D_800942EC
+#include "../room_lib/RoomLib_DrawSixParticles.inc"
