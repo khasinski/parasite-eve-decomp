@@ -45,7 +45,7 @@ segments:
       - [0x380, c, func_8010C078]
       - [0x3BC, c, func_8010C0B4]
       - [0x3E0, c, func_8010C0D8]
-      - [0x404, asm, SysReset_ConfigureMdec]
+      - [0x404, c, func_8010C0FC]
       - [0x4F4, c, func_8010C1EC]
       - [0x584, c, func_8010C27C]
       - [0x610, c, SysReset_WaitMdecInput]
