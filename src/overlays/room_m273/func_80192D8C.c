@@ -1,8 +1,8 @@
 #include "common.h"
+#include "room_m273.h"
 extern void **D_8009D254;
 
 void func_80020CE4(void);
-void func_80192C00(void *arg0, void *arg1);
 
 s32 func_80192D8C(char *arg0) {
     char *link;
@@ -25,7 +25,8 @@ s32 func_80192D8C(char *arg0) {
                 func_80020CE4();
             }
         }
-        func_80192C00(*(void **)(arg0 + 8), link);
+        func_80192C00(*(RoomPlacementOwner **)(arg0 + 8),
+                      (RoomPlacementState *)link);
     }
 
     return 0;

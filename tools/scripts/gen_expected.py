@@ -338,6 +338,23 @@ def target_config(module, symbol_file):
     return yaml.safe_dump(config, sort_keys=False)
 
 
+def merge_c_function_splits(text, asm_root, unit, functions):
+    """Collect every retail function in a C object, in object text order.
+
+    Splat emits later functions in a multi-function C unit under
+    nonmatchings/<unit>/ even though the base build has just one object.
+    """
+    present = set(re.findall(r"^\s*glabel (\w+)$", text, re.MULTILINE))
+    for _offset, name in sorted(functions):
+        if name in present:
+            continue
+        split = asm_root / "nonmatchings" / unit / (name + ".s")
+        if split.exists():
+            text += "\n" + split.read_text()
+            present.add(name)
+    return text
+
+
 DIFFER_ALIAS = re.compile(r"^nonmatching\s.*$\n?", re.MULTILINE)
 CODE_LABEL = re.compile(
     r"^\s*(glabel|alabel|endlabel|dlabel|enddlabel) (\w+)$", re.MULTILINE
@@ -617,15 +634,20 @@ def process_module(module, shared, assembler, workers):
             unit = relative[len(src_lead):].removesuffix(".o")
             unit = unit.removesuffix(".c").removesuffix(".s")
             source = asm_root / ("%s.s" % unit)
-            rodata = asm_root / "data" / ("%s.rodata.s" % unit)
-            if rodata.exists() and ".section .rodata" not in source.read_text():
-                source.write_text(source.read_text() + "\n" + rodata.read_text())
             base_obj = ROOT / (prefix + relative)
             source_kind = classify(ROOT / relative.removesuffix(".o"))
-            valid_functions = {
-                name for section, name, _offset, kind, _size in defined_symbols(base_obj)
+            functions = [
+                (_offset, name)
+                for section, name, _offset, kind, _size in defined_symbols(base_obj)
                 if section == ".text" and kind == "STT_FUNC"
-            }
+            ]
+            valid_functions = {name for _offset, name in functions}
+            text = merge_c_function_splits(source.read_text(), asm_root, unit,
+                                           functions)
+            rodata = asm_root / "data" / ("%s.rodata.s" % unit)
+            if rodata.exists() and ".section .rodata" not in text:
+                text += "\n" + rodata.read_text()
+            source.write_text(text)
             unit_kinds = {
                 name: kind
                 for section, name, _offset, kind, _size in defined_symbols(base_obj)

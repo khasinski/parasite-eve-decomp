@@ -161,6 +161,22 @@ class ObjectCoverageTests(unittest.TestCase):
 
 
 class DisassemblyRewriteTests(unittest.TestCase):
+    def test_multi_function_c_unit_keeps_later_retail_functions(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            asm_root = Path(tmp)
+            split = asm_root / "nonmatchings" / "room" / "First"
+            split.mkdir(parents=True)
+            (split / "Second.s").write_text("glabel Second\n  nop\nendlabel Second\n")
+            first = "glabel First\n  jr $ra\nendlabel First\n"
+
+            merged = gen_expected.merge_c_function_splits(
+                first, asm_root, "room/First", [(0, "First"), (4, "Second")]
+            )
+
+            self.assertLess(merged.index("glabel First"), merged.index("glabel Second"))
+            self.assertEqual(merged.count("glabel First"), 1)
+            self.assertEqual(merged.count("glabel Second"), 1)
+
     def test_differ_aliases_are_stripped(self):
         text = "nonmatching func_80010000, 0x10\nglabel func_80010000\n"
 

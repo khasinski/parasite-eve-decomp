@@ -16,4 +16,33 @@ extern char D_8019AB70[];
 extern char D_8019ACC8[];
 extern char D_8019ACCC[];
 
+typedef struct RoomPlacementMap {
+    u8 pad_000[0x594];
+    s32 x;
+    s32 y;
+    s32 z;
+} RoomPlacementMap;
+
+typedef struct RoomPlacementOwner {
+    u8 pad_000[0x238];
+    RoomPlacementMap *map;
+} RoomPlacementOwner;
+
+typedef struct RoomPlacementState {
+    u8 pad_00[0x34];
+    s32 fallback_x;
+    s32 fallback_z;
+    u8 pad_3c[3];
+    u8 active;
+} RoomPlacementState;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementOwner, map) == 0x238,
+                  room_placement_map_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementMap, x) == 0x594,
+                  room_placement_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementState, active) == 0x3F,
+                  room_placement_active_offset);
+
+void func_80192C00(RoomPlacementOwner *owner, RoomPlacementState *state);
+
 #endif
