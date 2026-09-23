@@ -1,4 +1,4 @@
-#include "common.h"
+#include "pe1/render_prim.h"
 #define NULL ((void *)0)
 
 s16 GetClut(s32, s32);
@@ -190,4 +190,54 @@ void Battle_DrawSpellName(void) {
             }
         } while (1);
     }
+}
+
+typedef struct StatusSymbolTemplate {
+    u8 bytes[18];
+} StatusSymbolTemplate;
+typedef struct StatusSymbolSlot {
+    StatusSymbolTemplate data;
+    u8 padding[6];
+} StatusSymbolSlot;
+extern StatusSymbolTemplate D_80010DFC;
+extern StatusSymbolTemplate D_80010E10;
+extern StatusSymbolTemplate D_80010E24;
+extern u8 D_8009E93C[];
+extern u8 D_8009E93D[];
+extern u8 D_8009E930[];
+extern u8 D_8009E360[];
+void AddPrim(void *, void *);
+
+void Battle_DrawStatusSymbol(s8 which) {
+    StatusSymbolSlot first;
+    StatusSymbolSlot second;
+    StatusSymbolSlot third;
+    u8 spare[8]; /* Preserve the original stack frame around the copied templates. */
+    u32 slot;
+    u8 *packet;
+    u32 packetOffset;
+    u32 index;
+    u8 *a, *b, *c;
+    register u8 *packetBase asm("$9");
+    u8 *thirdBase;
+    first.data = D_80010DFC;
+    second.data = D_80010E10;
+    third.data = D_80010E24;
+    index = which * 2;
+    a = first.data.bytes + index;
+    b = second.data.bytes + index;
+    packetBase = D_8009E930;
+    thirdBase = third.data.bytes;
+    D_8009E93C[D_8009CDDC * 28] = a[0];
+    c = thirdBase + index;
+    D_8009E93D[D_8009CDDC * 28] = a[1];
+    slot = D_8009CDDC;
+    packetOffset = slot * 28;
+    packet = packetBase + packetOffset;
+    *(u16 *)(packet + 16) = b[0];
+    *(u16 *)(packet + 18) = b[1];
+    *(u16 *)(packet + 8) = *(u16 *)(D_8009E360 + slot * 48) + c[0];
+    *(u16 *)(packet + 10) = *(u16 *)(D_8009E360 + slot * 48 + 2) + c[1];
+    packetBase -= 8;
+    AddPrim((u8 *)D_800B0E38.ordering[slot] + 16, packetBase + packetOffset);
 }
