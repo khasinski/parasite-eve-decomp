@@ -317,6 +317,8 @@ segments:
       - [0x19DE4, c, battle/Battle_SetupPlayerPalette]
       - [0x1A010, c, battle/Battle_StartEncounter]
       - [0x1A1CC, asm, main/battle3]
+      - [0x1B8E8, c, battle/Battle_StepLevelUp]
+      - [0x1BA9C, asm, main/Battle_StepPostBattle]
       - [0x1C14C, asm, main/Battle_StepEscapeOrDeath]
       - [0x1C490, asm, battle/Battle_PhaseInitEnemyTurn]
       - [0x1D9F0, asm, battle/Battle_PhaseHitReaction]
