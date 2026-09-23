@@ -312,7 +312,7 @@ segments:
       - [0x18208, asm, main/Battle_ProcessActionSlot]
       - [0x18514, asm, battle/Battle_UpdateEnemy]
       - [0x18D74, asm, main/Battle_StepEnemyMovement]
-      - [0x19448, asm, main/Battle_UpdateEntityFacing]
+      - [0x19448, c, main/Battle_UpdateEntityFacing]
       - [0x19694, c, battle/Battle_StepEntityAnimState]
       - [0x19B88, c, save/Save_InitSystem]
       - [0x19BF4, c, battle/Battle_ResetEnemyStats]
