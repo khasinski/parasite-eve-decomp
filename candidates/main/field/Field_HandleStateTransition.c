@@ -1,8 +1,15 @@
 #include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
+/* Nonmatching candidate: 281/348 aligned instructions at stock GCC 2.7.2. */
 
-extern struct { char _[16]; } D_8009D1A0_o __asm__("D_8009D1A0");
+extern u32 field_flags_read_0[4] __asm__("D_8009D1A0");
+extern u32 field_flags_read_1[4] __asm__("D_8009D1A0");
+extern u32 field_flags_read_3[4] __asm__("D_8009D1A0");
+extern u32 field_flags_read_4[4] __asm__("D_8009D1A0");
+extern u32 field_flags_read_5[4] __asm__("D_8009D1A0");
+extern u32 field_flags_read_6[4] __asm__("D_8009D1A0");
+extern u32 field_flags_write[4] __asm__("D_8009D1A0");
 extern struct { char _[16]; } D_800B0CD8_o __asm__("D_800B0CD8");
 extern struct { char _[16]; } D_800BE9A0_o __asm__("D_800BE9A0");
 extern struct { char _[16]; } D_800BE9A2_o __asm__("D_800BE9A2");
@@ -10,7 +17,7 @@ extern struct { char _[16]; } D_800BE9A6_o __asm__("D_800BE9A6");
 extern struct { char _[16]; } D_800BE9A7_o __asm__("D_800BE9A7");
 extern struct { char _[16]; } D_800B0DBF_o __asm__("D_800B0DBF");
 
-#define D_8009D1A0 (*(u32 *)&D_8009D1A0_o)
+
 #define D_800B0CD8 (*(u32 *)&D_800B0CD8_o)
 #define D_800BE9A0 (*(u16 *)&D_800BE9A0_o)
 #define D_800BE9A2 (*(u16 *)&D_800BE9A2_o)
@@ -31,7 +38,7 @@ extern u32 D_80092200[];
 extern u32 D_800A76F0[];
 extern u32 D_800A7770[];
 
-int CardObj_GetModeClass(void);
+int CardObj_GetModeClass();
 int CardObj_GetField(int arg0, int mode, int index);
 void CardObj_SetCommandPayload(int arg0, void *payload, int size);
 void CardObj_StartCommandWithBytes(int arg0, int byte1, int byte2);
@@ -52,43 +59,49 @@ void Field_HandleStateTransition(void) {
     int i;
     u8 analog;
 
-    if (CardObj_GetModeClass() == 0) {
-        flags = D_8009D1A0;
-        if ((flags & 0x4001) == 0) {
+    if (CardObj_GetModeClass(0) == 0) {
+        u32 initial_flags = field_flags_read_0[0];
+        if ((initial_flags & 0x4001) == 0) {
             D_8009D1F4 = 4;
             D_8009D26C = 4;
             D_8009D1E4 = 0;
-            D_8009D1A0 = flags | 0x4000;
+            field_flags_write[0] = initial_flags | 0x4000;
             return;
         }
-        D_8009D1A0 = flags | 0x4000;
+        field_flags_write[0] = initial_flags | 0x4000;
     }
 
     mode = D_800BE9A0 & 0xF000;
     if ((mode != 0x4000) && (mode != 0x7000)) {
-        D_8009D26C = 0;
-        D_8009D1F4 = 0;
-        D_8009D1E4 = 0;
-        return;
+        goto clear_input;
     }
 
-    if (D_8009D1A0 & 0x4000) {
-        mode = CardObj_GetModeClass();
+    if (field_flags_read_1[0] & 0x4000) {
+        mode = CardObj_GetModeClass(0);
         if (mode == 2) {
-            D_8009D1A0 &= ~0x4000;
-        } else if (mode == 1) {
-            CardObj_SetCommandPayload(0, D_8009D1C0, 2);
-        } else if (mode == 6) {
-            if (CardObj_GetField(0, 2, 0) != 0) {
-                if ((D_8009D1A0 & 0x8000) == 0) {
-                    CardObj_StartCommandWithBytes(0, 1, 0);
-                    D_8009D1A0 |= 0x8000;
-                } else {
-                    CardObj_StartCommand4D(0, D_800921F8);
-                    D_8009D1A0 &= ~0x4000;
-                }
-            }
+            goto clear_4000;
         }
+        if (mode == 1) {
+            CardObj_SetCommandPayload(0, D_8009D1C0, 2);
+            goto after_mode;
+        }
+        if (mode != 6) {
+            goto after_mode;
+        }
+        if (CardObj_GetField(0, 2, 0) == 0) {
+            goto after_mode;
+        }
+        if ((field_flags_read_3[0] & 0x8000) == 0) {
+            CardObj_StartCommandWithBytes(0, 1, 0);
+            field_flags_write[0] = field_flags_read_4[0] | 0x8000;
+            goto after_mode;
+        }
+        CardObj_StartCommand4D(0, D_800921F8);
+clear_4000:
+        field_flags_write[0] = field_flags_read_5[0] & ~0x4000;
+after_mode:
+        ;
+
     }
 
     pad = D_800BE9A2;
@@ -113,7 +126,7 @@ void Field_HandleStateTransition(void) {
         }
     }
 
-    flags = D_8009D1A0;
+    flags = field_flags_read_6[0];
     if ((flags & 1) != 0) {
         pad_bits = D_8009D26C;
         if ((int)pad_bits < 0) {
@@ -124,7 +137,7 @@ void Field_HandleStateTransition(void) {
                     D_8009D2A8++;
                     if (D_8009D2A8 == 9) {
                         D_8009D280 = 0xAA108448;
-                        D_8009D1A0 = flags | 0x12000;
+                        field_flags_write[0] = flags | 0x12000;
                     }
                 } else {
                     D_8009D2A8 = 0;
@@ -210,4 +223,10 @@ void Field_HandleStateTransition(void) {
     changed = pad_bits ^ old_pad_bits;
     D_8009D1F4 = changed & pad_bits;
     D_8009D1E4 = changed & old_pad_bits;
+    return;
+
+clear_input:
+    D_8009D26C = 0;
+    D_8009D1F4 = 0;
+    D_8009D1E4 = 0;
 }
