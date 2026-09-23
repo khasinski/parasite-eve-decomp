@@ -444,6 +444,7 @@ segments:
       - [0x31380, asm, save/Save_BuildCardFile]
       - [0x31780, c, memcard/MemCard_AbortActiveOperation]
       - [0x31908, asm, memcard/tu_031908]
+      - [0x32820, c, memcard/Save_StartWriteSlot]
       # Memory-card read setup, cancellation callback, and load/CRC flow.
       - [0x32970, c, save/Save_LoadCardFileIntoRuntime]
       - [0x32C64, c, memcard/MemCard_GetActiveProgressBlocks]

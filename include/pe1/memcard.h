@@ -106,6 +106,8 @@ extern int g_MemCardLoadSucceeded;
 
 extern int D_800A1838;
 extern char D_8009EE70[];
+/* Separate declaration keeps the retail address load at the card-file call. */
+extern char g_MemCardPathForCardFile[] asm("D_8009EE70");
 extern s8 D_80010F4C[];
 extern s8 *D_80092224;
 
@@ -118,5 +120,9 @@ void Save_CancelUiFlow(void);
 void Menu_CloseSaveSlotListView(int slot);
 void MemCard_AbortActiveOperation(MemCardPortState *state);
 void MemCard_InitSlotState(void);
+void MemCard_CloseAll(void);
+void Save_BuildHeader(void);
+int Save_BuildCardFile(char *path);
+void Save_StartWriteSlot(int port, int slot);
 
 #endif
