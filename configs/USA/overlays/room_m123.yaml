@@ -104,7 +104,7 @@ segments:
       - [0x5A88, asm, func_80194A70]
       - [0x5C1C, asm, func_80194C04]
       - [0x5F80, c, RoomEffect_OscillatingPaletteSprite]
-      - [0x612C, asm, func_80195114]
+      - [0x612C, c, func_80195114]
       - [0x6368, c, func_80195350]
       - [0x6394, c, func_8019537C]
       - [0x63EC, c, RoomLib_SetArg1_801953D4]
