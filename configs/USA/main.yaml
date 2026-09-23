@@ -1439,7 +1439,7 @@ segments:
       - [0x79664, c, akao/Akao_SpuStereoVoice]
       - [0x7980C, c, akao/Akao_StepVoiceNote]
       - [0x79A18, c, akao/voice_envelopes]
-      - [0x79B28, asm, main/Akao_ProcessVoiceQueue]
+      - [0x79B28, c, akao/Akao_ProcessVoiceQueue]
       - [0x79F24, c, akao/Akao_VoiceMasks]
       - [0x7A6B8, c, psyq/libspu/SpuSetNoiseClock]
       - [0x7A700, c, main/gap_akao_Spu_SetGlobalVolumeField1AA_tail_7A700]
