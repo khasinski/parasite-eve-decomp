@@ -575,7 +575,7 @@ segments:
       - [0x3EF04, c, menu/Menu_OpenEquipScreen]
       - [0x3F14C, c, menu/Menu_ReopenEquipScreen]
       - [0x3F170, c, menu/Menu_GetEquipMode]
-      - [0x3F17C, asm, menu/menu20]
+      - [0x3F17C, c, menu/Menu_OpenInventoryScreen]
       - [0x3F3CC, c, menu/Menu_DrawEquipListContainer]
       - [0x3F43C, c, menu/Menu_DrawWeaponList]
       - [0x3F4B4, c, menu/Menu_StepInventoryCategory]
