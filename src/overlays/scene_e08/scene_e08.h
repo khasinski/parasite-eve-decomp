@@ -39,9 +39,22 @@ typedef struct {
     s32 field_2C;
 } Ovl178EffectState;
 
+typedef struct {
+    u8 pad_00[8];
+    s16 field_08;
+    s16 field_0A;
+    s16 offsets[12];
+    union {
+        s16 variation[3];
+        u8 flags[10];
+    } tail;
+} Ovl178RandomizedEffect;
+
 Ovl178Position *func_800C2B50(void);
 s32 *func_800C2B10(int index);
 s32 *func_800C2B28(int index);
+extern s16 D_80199590[];
+extern s16 D_80199658[];
 void func_800C4E50(void *item);
 
 #endif
