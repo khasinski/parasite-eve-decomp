@@ -123,6 +123,35 @@ typedef struct RoomSeededSpriteFxParams {
     unsigned short depth;
 } RoomSeededSpriteFxParams;
 
+typedef struct RoomDoubleSpriteFxParams {
+    short x;
+    short y;
+    short z;
+    unsigned char pad6[2];
+    RoomFxSeed8 seed;
+    short scale;
+    unsigned short depth;
+    unsigned char alpha;
+} RoomDoubleSpriteFxParams;
+
+/* The paired sprite pass writes alpha and depth into one runtime block. */
+typedef struct RoomDoubleSpriteGlobals {
+    unsigned char alpha;
+    unsigned char pad1[5];
+    unsigned short depth;
+} RoomDoubleSpriteGlobals;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomDoubleSpriteFxParams, seed) == 8,
+                  room_double_sprite_seed_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomDoubleSpriteFxParams, scale) == 0x10,
+                  room_double_sprite_scale_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomDoubleSpriteFxParams, depth) == 0x12,
+                  room_double_sprite_depth_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomDoubleSpriteFxParams, alpha) == 0x14,
+                  room_double_sprite_alpha_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomDoubleSpriteGlobals, depth) == 6,
+                  room_double_sprite_global_depth_offset);
+
 /* Per-particle state for the room sparkle/drift effect. */
 typedef struct RoomFxDriftParticle {
     short x;
