@@ -31,6 +31,8 @@ extern BattleStatusMarkerBody D_8009E888[2];
 extern u8 D_8009E8B8[2][0x38];
 extern BattleGaugePrim D_8009E3B8[2][3];
 extern BattleGaugePrim D_8009E460[2];
+/* Status symbols use the same texture-page and sprite packet layout. */
+extern BattleGaugePrim D_8009E730[2];
 extern BattleGaugePrim D_8009E768[2];
 extern u8 D_8009E7A0[2][0x70];
 
