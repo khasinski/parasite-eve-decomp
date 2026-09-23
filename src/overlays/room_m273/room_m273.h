@@ -36,6 +36,30 @@ typedef struct RoomPlacementState {
     u8 active;
 } RoomPlacementState;
 
+typedef struct RoomSelectionState RoomSelectionState;
+struct RoomSelectionState {
+    u8 pad_00[8];
+    struct FieldActor *actor;
+    void (*callback)(RoomSelectionState *);
+    int *signal;
+    u8 pad_14[8];
+    RenderMatrix matrix;
+    u8 pad_3c[4];
+    int savedX;
+    int savedZ;
+    u8 pad_48[3];
+    u8 activated;
+};
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, actor) == 0x08,
+                  room_selection_actor_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, matrix) == 0x1c,
+                  room_selection_matrix_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, activated) == 0x4b,
+                  room_selection_activated_offset);
+
+void func_80192664(RoomSelectionState *state);
+
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementOwner, map) == 0x238,
                   room_placement_map_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementMap, x) == 0x594,

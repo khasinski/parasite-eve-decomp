@@ -101,7 +101,6 @@ segments:
       - [0x3620, c, func_80192608]
       - [0x3628, c, RoomLib_InvokeCallbackC_80192610]
       - [0x3650, c, func_80192638]
-      - [0x367C, asm, func_80192664]
       - [0x3850, asm, func_80192838]
       - [0x3C18, c, func_80192C00]
       - [0x3DA4, c, func_80192D8C]
