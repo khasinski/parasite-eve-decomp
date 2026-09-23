@@ -1603,7 +1603,6 @@ segments:
       - [0xC02A8, c, engine/FieldEng_CalculateLookAngles]
       - [0xC037C, c, engine/FieldEng_RotationOffset]
       - [0xC04F4, c, engine/func_800CFCF4]
-      - [0xC0550, asm, engine/engine_800CEE20_C0550]
       - [0xC0694, c, engine/func_800CFE94]
       - [0xC070C, c, engine/func_800CFF0C]
       - [0xC07AC, c, engine/func_800CFFAC]
