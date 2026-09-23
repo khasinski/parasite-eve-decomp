@@ -34,6 +34,9 @@ void Menu_DrawEquipOptionsList(int node);
 void MenuWidget_SetCursorY(MenuWidgetNode *node);
 void Menu_OpenInventoryScreen(void);
 extern int D_8009CFB8, D_8009CF1C;
+/* Equipment selection state and stat preview. */
+extern int D_8009CF30, D_8009CF34, D_8009CF38;
+extern int D_8009CFC4, D_8009CFC8, D_8009CFCC;
 extern int g_StatBaseTable[4];
 
 void Menu_StepEquipSlotSelect(void);
