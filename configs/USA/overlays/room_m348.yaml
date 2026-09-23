@@ -54,7 +54,6 @@ segments:
       - [0xA44, c, func_8018FA2C]
       - [0xC4C, c, func_8018FC34]
       - [0xCA4, c, RoomLib_InitFixedEmitterPair_8018FC8C]
-      - [0xDE4, asm, func_8018FDCC]
       - [0x1100, c, func_801900E8]
       - [0x1150, c, func_80190138]
       - [0x11E4, asm, func_801901CC]

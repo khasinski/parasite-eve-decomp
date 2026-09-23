@@ -152,6 +152,21 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomDoubleSpriteFxParams, alpha) == 0x14,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomDoubleSpriteGlobals, depth) == 6,
                   room_double_sprite_global_depth_offset);
 
+typedef struct RoomLayeredSpriteParams {
+    short x;
+    short y;
+    short z;
+    unsigned char pad6[10];
+    short scale;
+    unsigned short pad12;
+    unsigned short depth;
+} RoomLayeredSpriteParams;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomLayeredSpriteParams, scale) == 0x10,
+                  room_layered_sprite_scale_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomLayeredSpriteParams, depth) == 0x14,
+                  room_layered_sprite_depth_offset);
+
 /* Per-particle state for the room sparkle/drift effect. */
 typedef struct RoomFxDriftParticle {
     short x;
