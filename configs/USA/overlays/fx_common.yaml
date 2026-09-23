@@ -35,6 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, fx_common]
+      - [0x19A8, c, func_80190998]
       - [0x1AFC, c, FxCommon_AllocateNode]
       - [0x1B88, c, FxCommon_AllocateTypedNode]
       - [0x1C2C, c, FxCommon_AllocateConfiguredNode]
