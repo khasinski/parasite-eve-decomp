@@ -187,15 +187,26 @@ typedef struct EnemyCombatant {
 /* 0x8C */ u16 field8C;
 /* 0x8E */ u8  pad_8E[2];
 /* 0x90 */ u8  effectChance;
-/* 0x91 */ u8  pad_91[3];
+/* 0x91 */ u8  deathAnimFrame;
+/* 0x92 */ u8  pad_92[2];
 /* 0x94 */ u8  effectLevel;
 /* 0x95 */ u8  effectDuration;
-/* 0x96 */ u8  pad_96[0x0A];
+/* 0x96 */ u8  pad_96[2];
+/* 0x98 */ u16 rewardBase;
+/* 0x9A */ u16 rewardFactorA;
+/* 0x9C */ u16 rewardFactorB;
+/* 0x9E */ u8  rewardSlotId;
+/* 0x9F */ u8  pad_9F;
 /* 0xA0 */ s16 lootItemId;
 /* 0xA2 */ s16 lootItemAux;
-/* 0xA4 */ u8  pad_A4[0x0B];
+/* 0xA4 */ u8  pad_A4[8];
+/* 0xAC */ u8  deathAnimPhase;
+/* 0xAD */ u8  deathFadeStep;
+/* 0xAE */ u8  deathAssetEnabled;
 /* 0xAF */ u8  deathPersist;
-/* 0xB0 */ u8  pad_B0[0x1C];
+/* 0xB0 */ u8  pad_B0[4];
+/* 0xB4 */ u16 deathAssetId;
+/* 0xB6 */ u8  pad_B6[0x16];
 /* 0xCC */ u32 statusFlags2;
 /* 0xD0 */ u8  pad_D0[8];
 } EnemyCombatant;
@@ -340,8 +351,14 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, attributes) == 0x6C,
                   enemy_combatant_attributes_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, effectChance) == 0x90,
                   enemy_combatant_effect_chance_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, rewardBase) == 0x98,
+                  enemy_combatant_reward_base_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, lootItemId) == 0xA0,
                   enemy_combatant_loot_item_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, deathAnimPhase) == 0xAC,
+                  enemy_combatant_death_phase_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, deathAssetId) == 0xB4,
+                  enemy_combatant_death_asset_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, statusFlags2) == 0xCC,
                   enemy_combatant_status_flags_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, curHP) ==

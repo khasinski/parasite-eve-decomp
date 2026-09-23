@@ -311,7 +311,7 @@ segments:
       - [0x18514, asm, battle/Battle_UpdateEnemy]
       - [0x18D74, asm, main/Battle_StepEnemyMovement]
       - [0x19448, asm, main/Battle_UpdateEntityFacing]
-      - [0x19694, asm, main/Battle_StepEntityAnimState]
+      - [0x19694, c, battle/Battle_StepEntityAnimState]
       - [0x19B88, c, save/Save_InitSystem]
       - [0x19BF4, asm, main/battle3]
       - [0x1C14C, asm, main/Battle_StepEscapeOrDeath]
