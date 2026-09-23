@@ -69,6 +69,8 @@ segments:
       - [0x530C, asm, fx_common_51B4_530C]
       - [0x68E4, c, FxCommon_UpdateResource]
       - [0x69A4, asm, fx_common_69A4]
+      - [0x6D4C, c, func_80195D3C]
+      - [0x6E5C, asm, fx_common_6E5C]
       - [0xA5AC, c, FxCommon_GetOffsetEntryValue]
       - [0xA5CC, asm, fx_common_A5CC]
       - [0xCF60, c, FxCommon_PrepareBuffer]
