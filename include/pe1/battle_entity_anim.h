@@ -3,11 +3,6 @@
 
 #include "pe1/battle.h"
 
-typedef struct BattleRewardSlot {
-    s16 id;
-    s16 extra;
-} BattleRewardSlot;
-
 extern BattleEntity *g_FieldActorListHead;
 extern BattleEntity *D_8009D254;
 extern Combatant *g_ActiveActor;

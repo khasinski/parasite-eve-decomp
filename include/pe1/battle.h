@@ -4,6 +4,11 @@
 #include "common.h"
 #include "pe1/field_actor.h"
 
+typedef struct BattleRewardSlot {
+    s16 id;
+    s16 extra;
+} BattleRewardSlot;
+
 extern u8 *g_CurItemEffectData;
 
 /* Battle subsystem (ATB combat). Layout reverse-engineered from the battle code
