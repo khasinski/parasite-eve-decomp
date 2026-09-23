@@ -1,5 +1,4 @@
-#include "common.h"
-void *func_800C2B50(void);
+#include "scene_e08.h"
 
 typedef struct {
     int x;
@@ -15,13 +14,6 @@ typedef struct {
     s16 field_20;
     u8 field_22;
 } Ovl178MotionState;
-
-typedef struct {
-    char pad_00[0x18];
-    int x;
-    int y;
-    int z;
-} Ovl178Position;
 
 void func_80194988(void *arg0, void *arg1, Ovl178MotionState *state) {
     Ovl178MotionState *state_reg;
