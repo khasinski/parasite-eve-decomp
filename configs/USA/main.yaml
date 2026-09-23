@@ -480,7 +480,7 @@ segments:
       - [0x345A4, asm, main/Menu_StepItemSelectScreen]
       # Equip-screen construction and item-confirm handler share selection state.
       - [0x34974, c, menu/Menu_EquipScreen]
-      - [0x34C44, asm, menu/Menu_InventoryInputHandler]
+      - [0x34C44, c, menu/Menu_InventoryInputHandler]
       - [0x34FF0, c, menu/Menu_DrawAmmoTypeHeader]
       - [0x3530C, c, menu/Menu_StepEquipScreen]
       - [0x355CC, c, menu/menu5]
