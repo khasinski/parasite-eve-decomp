@@ -30,7 +30,7 @@ extern unsigned int D_800B89F8[];
 extern volatile int D_800B0E40;
 extern short D_800BCFB4, D_800BCFB6;
 int Menu_InitGlobals(void *matrix, void *screen);
-int Geo_RenderMeshList(int source, void *result);
+int Geo_RenderMeshList(void *buffer, void **end);
 int func_800655D4(void);
 void SetGeomScreen(int distance);
 int Render_PrepareFrame(void);

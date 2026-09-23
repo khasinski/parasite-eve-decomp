@@ -9,12 +9,12 @@
 int Render_PrepareFrame(void) {
     struct {
         short vector[4];
-        int result;
+        void *result;
         union { int word; short xy[2]; } projected;
     } local;
     unsigned int *state = D_800B89F8;
     Menu_InitGlobals(state, state + 8);
-    if (Geo_RenderMeshList(D_800B0E40, &local.result)) return -2;
+    if (Geo_RenderMeshList((void *)D_800B0E40, &local.result)) return -2;
     SetGeomScreen(state[8]);
     func_800655D4();
     if (D_8009D254) {
