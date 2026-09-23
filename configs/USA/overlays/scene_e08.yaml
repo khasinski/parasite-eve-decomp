@@ -124,6 +124,7 @@ segments:
       - [0x5D8C, c, func_80194D74]
       - [0x5DE8, c, func_80194DD0]
       - [0x5DF0, asm, scene_e08_2B8_3D4_F54_1070_2450_5DF0]
+      - [0x6228, c, func_80195210]
       - [0x6370, c, func_80195358]
       - [0x6378, c, RoomLib_InitB_80195360]
       - [0x6418, c, RoomLib_HandlerDArgs]
