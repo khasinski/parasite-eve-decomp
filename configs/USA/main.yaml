@@ -146,7 +146,7 @@ segments:
       - [0x28BC, .rodata, psyq/libspu/SpuSetCommonAttr]
       - [0x28FC, .rodata, psyq/libspu/Spu_SetVoiceAttr]
       - [0x2938, rodata, main/rodata_002938]
-      - [0x293C, rodata, main/rodata_00293C]
+      - [0x293C, .rodata, akao/Akao_LookupSampleBankByte]
       - [0x2A0C, c, boot/Boot_MainLoop]
       - [0x2CF8, c, task/Task_InitNodePool]
       - [0x2D74, c, task/Task_RelocBlock]
@@ -1481,7 +1481,7 @@ segments:
       - [0x7E044, asm, main/SPU_StepReverbLoad]
       - [0x7E37C, asm, akao/Akao_Tick]
       - [0x7EA3C, c, akao/Akao_TimerCallback]
-      - [0x7EADC, asm, main/Akao_LookupSampleBankByte]
+      - [0x7EADC, c, akao/Akao_LookupSampleBankByte]
       # AKAO loop-range selection and pitch operations.
       - [0x7ECE8, c, akao/voice_pitch]
       - [0x7F0D0, asm, main/Akao_StepSampleLoader]

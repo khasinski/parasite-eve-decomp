@@ -3,13 +3,13 @@
     "aliases": 26,
     "asm_bodies": 70,
     "asm_constrained_units": 25,
-    "barriers": 982,
+    "barriers": 983,
     "byte_pointer_arithmetic": 346,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 3765,
+    "externs_in_c": 3768,
     "field_macros": 671,
-    "gotos": 721,
+    "gotos": 732,
     "include_asm": 0,
     "nop_barriers": 158,
     "pins": 1174,
@@ -17,7 +17,7 @@
     "postpass": 0,
     "raw_offset_dereferences": 1456,
     "statement_expressions": 2,
-    "unknown_fields": 236
+    "unknown_fields": 237
   },
   "overlays": {
     "aliases": 2,
