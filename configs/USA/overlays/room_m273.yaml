@@ -151,7 +151,7 @@ segments:
       # The position emitter fills the callback's contiguous eight-byte records.
       - [0x8810, c, RoomEffect_PositionLayers]
       - [0x8BD4, asm, func_80197BBC]
-      - [0x9078, asm, func_80198060]
+      - [0x9078, c, func_80198060]
       - [0x91BC, asm, func_801981A4]
       - [0x9700, asm, func_801986E8]
       # The emitter creates the callback's eight-byte record pool; SHA-verified as one TU.
