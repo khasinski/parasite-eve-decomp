@@ -325,7 +325,7 @@ segments:
       - [0x1C490, asm, battle/Battle_PhaseInitEnemyTurn]
       - [0x1D9F0, asm, battle/Battle_PhaseHitReaction]
       - [0x1E458, asm, battle/Battle_PhaseEndTurn]
-      - [0x1F8B0, asm, battle/Battle_StepEntityDeath]
+      - [0x1F8B0, c, battle/Battle_StepEntityDeath]
       - [0x1FB00, c, main/Battle_StartDeathAnim]
       - [0x1FE58, c, battle/Battle_SaveAyaState]
       - [0x1FF6C, c, battle/Battle_InitEquipLists]
