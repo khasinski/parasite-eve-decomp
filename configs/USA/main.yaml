@@ -866,7 +866,7 @@ segments:
       - [0x5A8E8, c, main/Akao_StepVoiceTable]
       - [0x5AA5C, c, sys/Sys_Shutdown]
       - [0x5AAE8, c, gpu/func_8006A2E8]
-      - [0x5AB18, asm, gpu/misc12]
+      - [0x5AB18, c, akao/Akao_LoadVoiceBank]
       - [0x5ADBC, c, main/func_8006A5BC]
       - [0x5AE4C, c, gpu/func_8006A64C]
       - [0x5AE74, c, akao/Akao_ClearVoiceBank]
