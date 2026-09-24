@@ -22,6 +22,20 @@ code-byte metric and full linked SHA-1 remain stronger evidence.
 After objdiff runs, `make report-audit` independently verifies that the
 published matched-code and matched-function totals contain only `semantic_c`.
 
+### room_m256 pulsing sprite callback
+
+`func_8019552C` is now C in `RoomEffect_PulsingSpriteCallback.c`. Its two
+active modes advance a 16-frame particle or sample the scale waveform,
+configure the sprite palette, load the rotation matrix into GTE control
+registers, and draw the result. A 16-bit CLUT result is required to reproduce
+the retail `andi` before the draw call. The function matches all 508 retail
+code bytes, and the linked `room_m256` overlay retains its retail SHA-1.
+
+Four register pins and one empty address barrier preserve the original matrix
+load sequence. Removing each one individually lowered objdiff's match from
+100% to 99.65%, 97.19%, 99.76%, 99.84%, and 99.13%, respectively. The debt
+baseline records them; each GTE transfer is a separate instruction macro.
+
 ### Main GP data classification
 
 The retail range at file offsets `0x818A0..0xB24A0` (199680 bytes) is data,
