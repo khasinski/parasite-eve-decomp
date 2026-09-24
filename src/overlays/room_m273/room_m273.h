@@ -10,13 +10,40 @@ typedef struct {
     signed int high : 16;
 } RoomM273TrigEntry;
 
+typedef struct RoomM273PaletteWord {
+    u8 bytes[4];
+} RoomM273PaletteWord;
+
+typedef struct RoomM273PaletteEffect {
+    RoomM273PaletteWord color;
+    GteVector *source;
+    s16 size;
+    s16 depth;
+    s16 x;
+    s16 y;
+} RoomM273PaletteEffect;
+
+typedef struct RoomM273PaletteInput {
+    GteVector *source;
+    s16 size;
+} RoomM273PaletteInput;
+
+PE1_STATIC_ASSERT(sizeof(RoomM273PaletteWord) == 4, room_m273_palette_word_size);
+PE1_STATIC_ASSERT(sizeof(RoomM273PaletteEffect) == 16, room_m273_palette_effect_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PaletteInput, size) == 4,
+                  room_m273_palette_input_size_offset);
+
 extern RoomM273TrigEntry D_800966EC[];
 extern s16 D_8019AE98;
 extern int D_8019ABFC[];
+extern void *D_8019AE94;
+extern RoomM273PaletteWord D_8019AC30[];
 extern u16 D_800942EC;
 extern char D_8019AB70[];
 extern char D_8019ACC8[];
 extern char D_8019ACCC[];
+RoomM273PaletteEffect *func_800CE610(void *pool);
+int Inv_ScrambleGrid(void);
 
 typedef struct RoomPlacementMap {
     u8 pad_000[0x594];

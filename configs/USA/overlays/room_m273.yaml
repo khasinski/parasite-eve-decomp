@@ -125,7 +125,7 @@ segments:
       - [0x529C, c, RoomEffect_ThresholdPair]
       # The controller owns and fills the callback's four Vector records.
       - [0x5488, c, RoomEffect_ThresholdBurst]
-      - [0x57E4, asm, func_801947CC]
+      - [0x57E4, c, RoomEffect_ThresholdPalette]
       - [0x5A04, c, RoomEffect_ThresholdPools]
       - [0x5B74, c, RoomEffect_TwoPassScaledLayer]
       - [0x5D6C, c, func_80194D54]
