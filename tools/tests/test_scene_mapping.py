@@ -1,5 +1,6 @@
 import hashlib
 import pathlib
+import re
 import unittest
 
 import yaml
@@ -26,11 +27,18 @@ class SceneE01MappingTests(unittest.TestCase):
         self.assertEqual(rows[0][1], "rodatabin")
         ranges = {r[0]: (r, n[0]) for r, n in zip(rows, rows[1:])}
         self.assertEqual(ranges[0x9C], ([0x9C, "c", "func_8018F084"], 0x148))
+        self.assertEqual(ranges[0x1A4],
+                         ([0x1A4, "c", "RoomEffect_StartMotionOnProximity"], 0x350))
+        self.assertEqual(ranges[0x350],
+                         ([0x350, "c", "RoomEffect_AdvanceMotion"], 0x5EC))
         self.assertNotIn(0x5E4, ranges)
         for row in rows:
             if row[1] == "c":
-                self.assertEqual(int(row[2].rsplit("_", 1)[-1], 16),
-                                 segment["vram"] + row[0])
+                name = row[2]
+                self.assertTrue((ROOT / "src/overlays/scene_e01" / (name + ".c")).is_file())
+                suffix = name.rsplit("_", 1)[-1]
+                if re.fullmatch(r"[0-9A-Fa-f]{8}", suffix):
+                    self.assertEqual(int(suffix, 16), segment["vram"] + row[0])
 
     def test_retail_jump_targets_and_epilogue(self):
         path = ROOT / "original/USA/overlays/scene_e01.bin"
