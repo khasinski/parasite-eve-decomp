@@ -95,7 +95,7 @@ segments:
       - [0x3510, c, RoomLib_Set4ClearSignal_801924F8]
       - [0x352C, c, func_80192514]
       - [0x3534, asm, func_8019251C]
-      - [0x40CC, asm, func_801930B4]
+      - [0x40CC, c, RoomEffect_TimedSixthSpawn]
       - [0x4318, asm, func_80193300]
       - [0x48A8, asm, func_80193890]
       - [0x4BE4, asm, func_80193BCC]

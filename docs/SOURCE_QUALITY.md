@@ -47,6 +47,16 @@ stack slots that this function never writes. One empty compiler barrier per
 overlay preserves the palette lookup before the effect-register stores; both
 barriers are recorded in the debt baseline.
 
+### room_m188 and room_m390 timed sixth spawn
+
+`func_801930B4` is now C in both overlays. It initializes a particle pool,
+samples a starting position, emits a particle every sixth frame while the
+counter remains positive, and sets the palette parameters. Each 588-byte
+function matches retail exactly; both linked overlay SHA-1 hashes remain
+unchanged. The source needs no register pins. One empty compiler barrier in
+each overlay preserves the palette lookup order and is counted in the debt
+baseline.
+
 ### Main GP data classification
 
 The retail range at file offsets `0x818A0..0xB24A0` (199680 bytes) is data,
