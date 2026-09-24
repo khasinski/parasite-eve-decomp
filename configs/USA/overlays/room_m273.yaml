@@ -138,7 +138,7 @@ segments:
       - [0x710C, c, RoomEffect_PeriodicDualPools]
       - [0x7360, asm, func_80196348]
       - [0x7674, asm, func_8019665C]
-      - [0x79F0, asm, func_801969D8]
+      - [0x79F0, c, RoomEffect_DirectedRings]
       # The batch emitter fills the callback's contiguous eight-byte records.
       - [0x7F44, c, RoomEffect_BatchRising]
       - [0x8248, c, RoomEffect_SizedTableSprite]

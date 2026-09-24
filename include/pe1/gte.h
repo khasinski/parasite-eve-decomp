@@ -11,10 +11,12 @@ int rsin(int angle);
 
 /* Single-instruction transfers used by ApplyMatrix and ApplyMatrixSV.
  * Hazard slots are explicit at the call site, separate from the command. */
+#define GTE_INSN_LWC2_0_0 "lwc2 $0,0(%0)"
+#define GTE_INSN_LWC2_1_4 "lwc2 $1,4(%0)"
 #define gte_lwc2_0_0(ptr) \
-    asm volatile("lwc2 $0,0(%0)" : : "r"(ptr) : "memory")
+    asm volatile(GTE_INSN_LWC2_0_0 : : "r"(ptr) : "memory")
 #define gte_lwc2_1_4(ptr) \
-    asm volatile("lwc2 $1,4(%0)" : : "r"(ptr) : "memory")
+    asm volatile(GTE_INSN_LWC2_1_4 : : "r"(ptr) : "memory")
 #define gte_lwc2_2_0(p) \
     asm volatile("lwc2 $2,0(%0)" : : "r"(p) : "memory")
 #define gte_lwc2_3_4(p) \
@@ -265,8 +267,8 @@ int rsin(int angle);
                  : : "r"(x), "r"(y), "r"(z))
 
 #define gte_ldv0(vec) \
-    asm volatile("lwc2 $0,0(%0)\n\t" \
-                 "lwc2 $1,4(%0)" \
+    asm volatile(GTE_INSN_LWC2_0_0 "\n\t" \
+                 GTE_INSN_LWC2_1_4 \
                  : : "r"(vec) : "memory")
 
 #define gte_ldv1(vec) \

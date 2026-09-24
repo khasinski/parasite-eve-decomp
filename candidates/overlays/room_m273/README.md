@@ -1,4 +1,11 @@
-# Directed particle rings: matching candidate
+# Directed particle rings: promoted matching source
+
+Promoted to `src/overlays/room_m273/RoomEffect_DirectedRings.c` and the
+`room_m273` manifest. The retained file is a record of the matching work and
+host behavior test. The production source replaces CPU `lw` instructions in
+the original matrix macros with C loads, and composes the two `lwc2` GTE
+instruction templates with one pointer operand to preserve the retail register
+allocation. The resulting whole overlay still matches the retail SHA-1 below.
 
 Continuation of the `.codex2` work last committed as `37c0682c`.
 The interrupted experiment was `scratch/room273-directed-rings.c`.
@@ -6,7 +13,7 @@ This directory preserves the improved source and self-contained verification;
 it does not depend on that scratch file or the previous session's `/tmp` tools.
 
 `func_801969D8`, retail file offset `0x79F0`, VRAM `0x801969D8`, length
-`0x554` (1364 bytes), now matches with stock `tools/scripts/cc.sh`.
+`0x554` (1364 bytes), matches with stock `tools/scripts/cc.sh`.
 The initial resumed object scored 2814/34100 in upstream asm-differ;
 the final candidate scores 0/34100. More decisively, linking this object in
 place of the configured assembly object preserves **every byte** of the
@@ -61,13 +68,10 @@ are mocks: it checks CPU inputs, output stores, and call sequencing, not
 hardware GTE arithmetic. Host address aliases model the evidenced PSX window;
 `-fno-strict-aliasing` is used only for this test, not the target build.
 
-## Remaining constraints and promotion work
+## Original candidate constraints
 
-This is a **matched candidate**, not configured production C and not new
-progress credit. Promotion would currently increase the independent debt
-ratchets in `CONTRIBUTING.md` and `docs/CODE_ORGANIZATION.md`. Do not raise
-those baselines just to integrate it, or move constraints into a header merely
-to hide them from the direct-source counter.
+This section records the original candidate analysis. Production promotion
+updates the debt baseline for the retained pins, barriers, and declarations.
 
 After achieving an exact match, each pin and barrier was removed individually
 and recompiled; two output-pointer pins were removable together. The retained
@@ -87,9 +91,8 @@ These are local minimization results, not proof that a better C shape cannot
 eliminate them. No ordinary CPU instruction ASM, new GTE macro, compiler
 modification, or postpass was added.
 
-Next work: remove remaining constraints or offset them with independently
-verified debt reductions; centralize exact cross-unit declarations in a
-suitable subsystem header; replace the provisional origin/heading byte window
-with an evidenced shared record; and promote source plus manifest only with
-the required clean verification. The current partial local record types and
-extern declarations are candidate scaffolding, not a completed ABI audit.
+Remaining work: reduce the retained constraints; centralize exact cross-unit
+declarations in a suitable subsystem header; and replace the provisional
+origin/heading byte window with an evidenced shared record. The current
+partial local record types and extern declarations are candidate scaffolding,
+not a completed ABI audit.
