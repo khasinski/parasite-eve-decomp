@@ -52,6 +52,7 @@ segments:
       - [0x27CC, c, FxCommon_InsertNode]
       - [0x2844, c, FxCommon_RemoveNode]
       - [0x2864, asm, fx_common_2864]
+      - [0x2CA4, c, func_80191C94]
       - [0x2DF8, c, FxCommon_ConfigureDisplayRange]
       - [0x2E40, c, FxCommon_RunRenderOperation]
       - [0x2F0C, c, FxCommon_ApplyRenderVector]
