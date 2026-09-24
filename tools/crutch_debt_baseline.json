@@ -27,15 +27,15 @@
     "byte_pointer_arithmetic": 225,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 3780,
+    "externs_in_c": 3781,
     "field_macros": 0,
     "gotos": 529,
     "include_asm": 0,
     "nop_barriers": 0,
-    "pins": 293,
+    "pins": 297,
     "pointer_integer_casts": 27,
     "postpass": 0,
-    "raw_offset_dereferences": 1431,
+    "raw_offset_dereferences": 1450,
     "statement_expressions": 0,
     "unknown_fields": 62
   }
