@@ -45,7 +45,7 @@ segments:
       - [0x5EC, c, RoomLib_ResetActorMotion_8018F5D4]
       - [0x6D4, c, RoomLib_ResetActorPosition_8018F6BC]
       - [0x810, c, func_8018F7F8]
-      - [0x818, asm, func_8018F800]
+      - [0x818, c, RoomEffect_RenderMotionSprite]
       - [0xA7C, asm, func_8018FA64]
       - [0x1724, asm, func_8019070C]
       - [0x1D50, asm, func_80190D38]
