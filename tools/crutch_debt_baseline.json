@@ -3,7 +3,7 @@
     "aliases": 26,
     "asm_bodies": 70,
     "asm_constrained_units": 25,
-    "barriers": 1044,
+    "barriers": 1045,
     "byte_pointer_arithmetic": 352,
     "declaration_overrides": 0,
     "directives": 0,
@@ -12,12 +12,12 @@
     "gotos": 781,
     "include_asm": 0,
     "nop_barriers": 158,
-    "pins": 1290,
+    "pins": 1301,
     "pointer_integer_casts": 795,
     "postpass": 0,
     "raw_offset_dereferences": 1458,
     "statement_expressions": 2,
-    "unknown_fields": 239
+    "unknown_fields": 242
   },
   "overlays": {
     "aliases": 2,

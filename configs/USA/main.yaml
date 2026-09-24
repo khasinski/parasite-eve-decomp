@@ -1434,7 +1434,7 @@ segments:
       - [0x77F0C, c, akao/Akao_SpuVoiceRegisters]
       # AKAO SPU voice-register primitives and parameter write dispatcher.
       - [0x782A8, c, akao/Spu_UpdateVoiceRegisters]
-      - [0x787A0, asm, akao/Spu_TickVoiceEnvelopes]
+      - [0x787A0, c, akao/Spu_TickVoiceEnvelopes]
       - [0x78B44, asm, main/Akao_SetVoiceKeyOff]
       - [0x79180, asm, main/Akao_SetVoiceKeyOn]
       - [0x79664, c, akao/Akao_SpuStereoVoice]
