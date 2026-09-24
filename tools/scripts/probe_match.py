@@ -45,7 +45,7 @@ for i in range(0, min(len(data), size), 4):
         # difference the old whole-word mask missed. For R_MIPS_26 (jal) the
         # whole target is in the low 26 bits, so compare only the opcode.
         t = relocs[i]
-        shift = 26 if t == 'R_MIPS_26' else 16 if t in ('R_MIPS_HI16', 'R_MIPS_LO16') else None
+        shift = 26 if t == 'R_MIPS_26' else 16 if t in ('R_MIPS_HI16', 'R_MIPS_LO16', 'R_MIPS_GPREL16') else None
         if shift is not None and (r >> shift) != (b >> shift):
             print(f"  +{i:03x} retail {r:08x}  built {b:08x}  [reloc {t}: {dis.get(f'{i:x}', '?')}]"); diffs += 1
         continue

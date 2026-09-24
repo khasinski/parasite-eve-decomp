@@ -757,7 +757,7 @@ segments:
       - [0x4F364, c, gpu/Draw_AllocSprite]
       - [0x4F518, c, gpu/Draw_EmitGlyph]
       - [0x4F6C8, c, gpu/Draw_SetGlyphAdvance]
-      - [0x4F6D4, asm, main/Draw_AllocTexturedQuad]
+      - [0x4F6D4, c, main/Draw_AllocTexturedQuad]
       # Text-width measurement and raw text emission are one -G8 helper object.
       - [0x4F9A0, c, gpu/Draw_TextRawHelpers]
       - [0x4FB54, c, gpu/Draw_PrintCenteredTextInWidth]
