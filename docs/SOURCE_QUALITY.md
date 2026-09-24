@@ -36,6 +36,17 @@ load sequence. Removing each one individually lowered objdiff's match from
 100% to 99.65%, 97.19%, 99.76%, 99.84%, and 99.13%, respectively. The debt
 baseline records them; each GTE transfer is a separate instruction macro.
 
+### room_m188 and room_m390 staggered pool callback
+
+`func_80194588` is now C in both overlays. Its initialization path arms an
+effect pool; later calls emit particles and update the palette.
+Native GCC 2.7.2 with unmodified MASPSX matches all 532 code bytes in each
+overlay, and both linked overlay SHA-1 hashes match retail. The C source
+retains an unresolved retail behavior: three halfwords are read from local
+stack slots that this function never writes. One empty compiler barrier per
+overlay preserves the palette lookup before the effect-register stores; both
+barriers are recorded in the debt baseline.
+
 ### Main GP data classification
 
 The retail range at file offsets `0x818A0..0xB24A0` (199680 bytes) is data,
