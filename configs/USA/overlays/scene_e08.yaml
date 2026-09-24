@@ -71,6 +71,8 @@ segments:
       - [0x12E4, asm, scene_e08_2B8_3D4_F54_1264]
       - [0x1610, c, Scene_UpdateFadeSlots_801905F8]
       - [0x16D4, asm, scene_e08_2B8_3D4_F54_1264_16D4]
+      - [0x1F24, c, func_80190F0C]
+      - [0x2064, asm, scene_e08_2064]
       - [0x2360, c, func_80191348]
       - [0x23F0, c, func_801913D8]
       - [0x23F8, c, func_801913E0]
