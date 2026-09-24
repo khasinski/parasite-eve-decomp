@@ -1427,7 +1427,7 @@ segments:
       - [0x77850, c, akao/Akao_SpuSampleTransfer]
       - [0x778F0, c, akao/Spu_SetVoiceVolume]
       - [0x77998, c, akao/Spu_SetStreamModeA]
-      - [0x779AC, asm, akao/akao_cmd_note]
+      - [0x779AC, c, akao/Akao_StepNoteSequencer]
       - [0x77C14, c, akao/Spu_SetStreamModeB]
       - [0x77C28, c, akao/Spu_UploadStreamBlockA]
       - [0x77DFC, c, akao/Spu_UploadStreamBlockB]
