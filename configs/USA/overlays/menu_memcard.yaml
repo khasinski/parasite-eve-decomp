@@ -60,7 +60,7 @@ segments:
       - [0x5A04, asm, func_menu_memcard_005A04]
       - [0x5DE4, asm, func_menu_memcard_005DE4]
       - [0x5F98, asm, func_menu_memcard_005F98]
-      - [0x6B04, asm, func_80127848]
+      - [0x6B04, c, func_80127848]
       - [0x6C78, asm, func_menu_memcard_006C78]
       - [0x7014, asm, func_menu_memcard_007014]
       - [0x7168, asm, func_menu_memcard_007168]
