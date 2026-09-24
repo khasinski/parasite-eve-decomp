@@ -11,6 +11,8 @@ typedef struct {
 } RoomM273TrigEntry;
 
 extern RoomM273TrigEntry D_800966EC[];
+extern s16 D_8019AE98;
+extern int D_8019ABFC[];
 extern u16 D_800942EC;
 extern char D_8019AB70[];
 extern char D_8019ACC8[];
