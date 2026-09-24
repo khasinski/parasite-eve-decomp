@@ -57,6 +57,15 @@ unchanged. The source needs no register pins. One empty compiler barrier in
 each overlay preserves the palette lookup order and is counted in the debt
 baseline.
 
+### room_m188 and room_m390 randomized triple effect
+
+`func_80193890` is now C in both overlays. It samples a spawn position,
+constructs three randomized motion components, optionally scales them, and
+transforms the motion through the room map. The map pointer at offset `0x238`
+has an explicit struct field. Each function matches all 828 retail bytes and
+both linked overlay SHA-1 hashes remain unchanged. No register pins are
+needed; one empty palette-order barrier per overlay is recorded in debt.
+
 ### Main GP data classification
 
 The retail range at file offsets `0x818A0..0xB24A0` (199680 bytes) is data,
