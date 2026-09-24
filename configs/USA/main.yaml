@@ -309,7 +309,7 @@ segments:
       - [0x177D0, c, battle/Battle_InitFadeVars]
       - [0x177F8, asm, main/Battle_StepPlayerTurn]
       - [0x17DCC, asm, battle/Battle_MarkActiveEntities]
-      - [0x18208, asm, main/Battle_ProcessActionSlot]
+      - [0x18208, c, main/Battle_ProcessActionSlot]
       - [0x18514, asm, battle/Battle_UpdateEnemy]
       - [0x18D74, asm, main/Battle_StepEnemyMovement]
       - [0x19448, c, main/Battle_UpdateEntityFacing]
