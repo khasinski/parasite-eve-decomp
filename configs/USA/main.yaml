@@ -861,7 +861,7 @@ segments:
       - [0x59D94, c, pm/Pm_RunPrimary]
       - [0x59E60, c, pm/Pm_RunBatch]
       - [0x59EF0, c, asset/Asset_UnloadTableEntries]
-      - [0x5A0D4, asm, cdrom/OpenPeImage]
+      - [0x5A0D4, c, cdrom/OpenPeImage]
       - [0x5A308, asm, main/Render_InitDisplayLists]
       - [0x5A8E8, c, main/Akao_StepVoiceTable]
       - [0x5AA5C, c, sys/Sys_Shutdown]
