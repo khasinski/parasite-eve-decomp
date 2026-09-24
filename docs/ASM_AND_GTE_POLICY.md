@@ -30,6 +30,14 @@ stock tools. A register pin or barrier is preferable to modifying either tool.
 If stock C with allowed constraints does not match, the function remains an
 assembly subsegment until its source reconstruction is corrected.
 
+`func_80190410` matches all 704 retail bytes in `room_m075`, `room_m080`, and
+`room_m082` with typed motion state and matrix views. Its short-lived transform
+source pointer needs one `$2` register pin; removing it changes 37 instruction
+positions. Stock GCC's `-fno-strength-reduce` keeps the indexed lookup in the
+retail form, and an eight-byte scale scratch tail retains the retail stack
+frame. Removing either also breaks the match. The pin and the remaining packet
+byte offset are recorded in the debt ratchet.
+
 `Spu_UpdateVoiceRegisters` matches all 1272 retail bytes with an `AkaoTrack`
 source and an inlined volume calculation. Seven local register pins reproduce
 the original allocation around the three LFO paths; removing any one changes
