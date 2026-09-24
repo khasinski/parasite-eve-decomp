@@ -75,6 +75,7 @@ segments:
       - [0x6F7C, asm, fx_common_6F7C]
       - [0xA5AC, c, FxCommon_GetOffsetEntryValue]
       - [0xA5CC, asm, fx_common_A5CC]
+      - [0xCD88, c, func_8019BD78]
       - [0xCF60, c, FxCommon_PrepareBuffer]
       - [0xCF9C, c, FxCommon_LinkBuffer]
       - [0xCFD4, data, D_8019BFC4]
