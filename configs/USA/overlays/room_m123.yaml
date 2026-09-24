@@ -101,7 +101,7 @@ segments:
       - [0x4630, asm, func_80193618]
       - [0x5604, c, RoomEffect_PaletteSpriteCallback]
       - [0x5780, asm, func_80194768]
-      - [0x5A88, asm, func_80194A70]
+      - [0x5A88, c, RoomEffect_M123PulseCallback]
       - [0x5C1C, asm, func_80194C04]
       - [0x5F80, c, RoomEffect_OscillatingPaletteSprite]
       - [0x612C, c, func_80195114]
