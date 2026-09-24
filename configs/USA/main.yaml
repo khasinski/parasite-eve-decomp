@@ -782,7 +782,7 @@ segments:
       # Rectangle and polygon wipe emitters share one 0x1F8-byte -G8 vertex-buffer object.
       - [0x5223C, c, gpu/Draw_WipeBar]
       - [0x52434, asm, main/Draw_AllocColorGradient]
-      - [0x52890, asm, main/Draw_AllocColorTri]
+      - [0x52890, c, main/Draw_AllocColorTri]
       - [0x52AB0, c, menu/Menu_SetSaveSlotBlendBase]
       - [0x52ABC, asm, main/Draw_AllocColorTriGradient]
       # Pool initialization and node allocation use the same free/active-list state.
