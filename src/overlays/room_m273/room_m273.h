@@ -33,18 +33,40 @@ typedef struct RoomM273PulseInput {
     u16 velocity;
 } RoomM273PulseInput;
 
+typedef struct RoomM273TemplatePoint {
+    u16 x;
+    u16 y;
+    u16 z;
+    u16 flags;
+} RoomM273TemplatePoint;
+
+typedef struct RoomM273PoolContext {
+    int reserved[2];
+    void *pool;
+} RoomM273PoolContext;
+
 PE1_STATIC_ASSERT(sizeof(RoomM273PaletteWord) == 4, room_m273_palette_word_size);
 PE1_STATIC_ASSERT(sizeof(RoomM273PaletteEffect) == 16, room_m273_palette_effect_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PaletteInput, size) == 4,
                   room_m273_palette_input_size_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PulseInput, velocity) == 8,
                   room_m273_pulse_velocity_offset);
+PE1_STATIC_ASSERT(sizeof(RoomM273TemplatePoint) == 8,
+                  room_m273_template_point_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PoolContext, pool) == 8,
+                  room_m273_pool_context_pool_offset);
 
 extern RoomM273TrigEntry D_800966EC[];
 extern s16 D_8019AE98;
 extern int D_8019ABFC[];
 extern s16 D_800F336A;
 extern s16 D_8019ACC0[];
+extern RoomM273PoolContext *D_800F33E0;
+extern u8 D_8019AFA2;
+extern u8 D_8019AF8A[];
+extern u16 D_800E11E8;
+extern volatile u16 D_800F3376;
+extern volatile u16 D_800F3378;
 extern void *D_8019AE94;
 extern RoomM273PaletteWord D_8019AC30[];
 extern u16 D_800942EC;
@@ -53,6 +75,8 @@ extern char D_8019ACC8[];
 extern char D_8019ACCC[];
 RoomM273PaletteEffect *func_800CE610(void *pool);
 int Inv_ScrambleGrid(void);
+int func_80199568(int mode, void *particle);
+int func_800CE560(void *pool, int size, int count, int (*callback)());
 
 typedef struct RoomPlacementMap {
     u8 pad_000[0x594];
