@@ -6157,3 +6157,17 @@ the second dialog parent before the next lookup. They emit no CPU instruction.
 The debt baseline also records 15 gotos and 11 local external declarations;
 the latter remain candidates for shared-header migration. The old unmatched
 candidate is removed.
+
+## room_m256::func_80195320 — exact retail C (2026-09-24)
+
+The room_m256 dispatcher at `0x80195320` is now a 524-byte C subsegment.
+Native GCC 2.7.2 plus unmodified MASPSX emits the retail instructions and
+relocations; the linked room_m256 overlay matches SHA-1
+`618fb891329d4ac903ec617a210c4b1e0af742d1`. The mode-2 path reads the
+palette index and entry before writing effect parameters. One `$v0` register
+pin and two empty compiler barriers preserve the retail register use and
+schedule; the candidate has moved into `src/`. The task context's first
+variable and flags, task-slot end pointer, and active actor pointer now use
+the existing field-animation structures. Overlay-specific declarations live
+in `include/pe1/room_m256.h`. The debt baseline records the remaining pin,
+barriers, raw offset dereferences, and mode-dispatch gotos.
