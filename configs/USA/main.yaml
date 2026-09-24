@@ -1383,7 +1383,7 @@ segments:
       - [0x757B8, pad]
       - [0x757C4, c, util/Timer_StartTimeout]
       - [0x757E4, c, akao/spu_transfer]
-      - [0x75A90, asm, akao/Spu_InitVoiceState]
+      - [0x75A90, c, akao/Spu_InitVoiceState]
       - [0x75E44, c, akao/Spu_InitHardware]
       - [0x75F28, c, akao/spu4]
       - [0x75FE4, c, psyq/libapi/CloseEvent]
