@@ -176,6 +176,17 @@ typedef struct FxCommonResourceState {
 } FxCommonResourceState;
 
 extern s16 D_8019C058;
+extern volatile s32 D_8019C810, D_8019C814, D_8019C818;
+extern volatile s32 D_8019C330, D_8019C334, D_8019C338;
+extern volatile s32 D_8019C08C, D_8019C090, D_8019C094;
+extern volatile s32 D_8019C05C, D_8019C060, D_8019C064;
+extern volatile s32 D_8019C09C, D_8019C0A0, D_8019C0A4;
+extern volatile s32 D_8019C06C, D_8019C070, D_8019C074;
+extern volatile s16 D_8019C0AC, D_8019C0AE, D_8019C0B0;
+extern volatile s16 D_8019C0B4, D_8019C0B6, D_8019C0B8;
+extern volatile s16 D_8019C07C, D_8019C07E, D_8019C080;
+extern volatile s16 D_8019C084, D_8019C086, D_8019C088;
+extern volatile s16 D_8019C056, D_8019C054, D_8019C052, D_8019C050;
 extern FxCommonMotionVec D_8019CAA8[10];
 extern FxCommonMotionLane D_8019CAB0[10];
 extern FxCommonMotionByte D_801EA268[1];
