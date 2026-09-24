@@ -44,7 +44,7 @@ segments:
       - [0xF04, asm, func_menu_memcard_000F04]
       - [0x1348, asm, func_menu_memcard_001348]
       - [0x1654, c, func_80122398]
-      - [0x16A8, asm, func_801223EC]
+      - [0x16A8, c, func_801223EC]
       - [0x16F4, asm, menu_memcard_data_0016F4]
       - [0x2060, asm, func_menu_memcard_002060]
       - [0x244C, asm, func_menu_memcard_00244C]
