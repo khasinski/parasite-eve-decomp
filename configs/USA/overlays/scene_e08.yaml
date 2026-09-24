@@ -122,7 +122,7 @@ segments:
       - [0x4F90, c, func_80193F78]
       - [0x5010, c, func_80193FF8]
       - [0x50A8, c, func_80194090]
-      - [0x522C, asm, scene_e08_522C]
+      - [0x522C, c, func_80194214]
       - [0x53E4, c, func_801943CC]
       - [0x54B0, asm, scene_e08_54B0]
       - [0x59A0, c, func_80194988]
