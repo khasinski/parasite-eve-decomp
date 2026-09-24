@@ -28,14 +28,23 @@ typedef struct RoomM273PaletteInput {
     s16 size;
 } RoomM273PaletteInput;
 
+typedef struct RoomM273PulseInput {
+    GteShortVector position;
+    u16 velocity;
+} RoomM273PulseInput;
+
 PE1_STATIC_ASSERT(sizeof(RoomM273PaletteWord) == 4, room_m273_palette_word_size);
 PE1_STATIC_ASSERT(sizeof(RoomM273PaletteEffect) == 16, room_m273_palette_effect_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PaletteInput, size) == 4,
                   room_m273_palette_input_size_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PulseInput, velocity) == 8,
+                  room_m273_pulse_velocity_offset);
 
 extern RoomM273TrigEntry D_800966EC[];
 extern s16 D_8019AE98;
 extern int D_8019ABFC[];
+extern s16 D_800F336A;
+extern s16 D_8019ACC0[];
 extern void *D_8019AE94;
 extern RoomM273PaletteWord D_8019AC30[];
 extern u16 D_800942EC;
