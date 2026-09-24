@@ -1,26 +1,8 @@
 /* room_m269, file offset 0x1A4, 428 retail-matching bytes. */
 #include "common.h"
-#include "pe1/field_actor.h"
+#include "pe1/room_motion_trigger.h"
 
 typedef struct { s32 x, y, z; } Vec3Fixed;
-
-typedef struct RoomMotionTrigger {
-    u8 reserved00[8];
-    FieldActor *probe_actor;
-    void (*callback)(void);
-    u8 reserved10[0xC];
-    FieldActor *source_actor;
-    s32 saved_x;
-    s32 saved_z;
-    u8 activated;
-} RoomMotionTrigger;
-
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionTrigger, probe_actor) == 0x08,
-                  room_motion_trigger_probe_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionTrigger, source_actor) == 0x1C,
-                  room_motion_trigger_source_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionTrigger, activated) == 0x28,
-                  room_motion_trigger_active_offset);
 
 extern FieldActor *D_8009D254;
 
@@ -30,7 +12,7 @@ void func_80020C74(void);
 s32 func_80077DC4(s32 arg0);
 s32 func_80077CF4(s32 arg0);
 void func_8018F6BC(void *arg);
-void func_8018F338(void);
+void func_8018F338(RoomMotionTrigger *arg);
 
 void func_8018F18C(RoomMotionTrigger *arg) {
     u8 mode = D_8009D254->mode;
