@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/psyq_nop.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -65,15 +66,10 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
             s32 sum;
             s32 glyphDim;
 
-            asm volatile(
-                "lbu %1, 0x4(%2)\n"
-                "lhu %0, 0x8(%3)\n"
-                "nop\n"
-                "addu %0, %0, %1"
-                : "=&r"(sum), "=&r"(glyphDim)
-                : "r"(glyph), "r"(ptr)
-                : "memory");
-            temp = sum;
+            glyphDim = M2C_FIELD(glyph, volatile u8 *, 4);
+            sum = M2C_FIELD(ptr, volatile u16 *, 8);
+            PE1_NOP();
+            temp = sum + glyphDim;
         }
         M2C_FIELD(ptr, s16 *, 0x20) = temp;
         M2C_FIELD(ptr, s16 *, 0x10) = temp;
