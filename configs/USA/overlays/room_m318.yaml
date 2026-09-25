@@ -115,7 +115,7 @@ segments:
       - [0x6D38, asm, func_80195D20]
       - [0x7484, asm, func_8019646C]
       - [0x7838, asm, func_80196820]
-      - [0x7C60, asm, func_80196C48]
+      - [0x7C60, c, RoomEffect_DriftingPalettePulse]
       - [0x7E64, asm, func_80196E4C]
       - [0x8630, asm, func_80197618]
       - [0x8CD4, asm, func_80197CBC]

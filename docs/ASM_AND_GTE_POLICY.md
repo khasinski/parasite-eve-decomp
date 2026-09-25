@@ -51,6 +51,14 @@ final sound-call argument timing. Trial pins on the sound pointer, scale, pan,
 volume, and other constants, plus three barriers, were removed after exact
 comparison. No CPU instruction is embedded in the source.
 
+`room_m318::func_80196C48` matches all 516 retail bytes with a typed pulse
+state and a normal two-case switch. Two pins retain the update value and palette
+argument registers; two empty tied constraints preserve the order in which
+the palette call argument and effect-setting address are prepared. The frame
+rate is read through the effect-setting pointer, matching the original data
+dependency. An unnecessary pin on the constant `1` was removed after exact
+comparison. No CPU instruction is embedded in the source.
+
 `Save_StartWriteSlot` matches all 336 retail bytes using the shared memory-card
 state and slot structures. The slot's `$16` pin and empty tied-output constraint
 keep the retail slot-array address calculation; one empty memory barrier keeps
