@@ -100,7 +100,7 @@ segments:
       - [0x371C, c, func_80192704]
       - [0x37A0, c, func_80192788]
       - [0x37C0, c, func_801927A8]
-      - [0x391C, asm, scene_e08_391C]
+      - [0x391C, c, Scene_UpdateMovingRadius_80192904]
       - [0x3C90, c, func_80192C78]
       - [0x3C9C, c, func_80192C84]
       - [0x3CE4, c, func_80192CCC]

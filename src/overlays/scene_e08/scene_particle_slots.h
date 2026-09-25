@@ -58,6 +58,7 @@ typedef struct SceneMovingSlots {
     s16 angle[16];
     s16 range[16];
     s16 radius[16];
+    s16 extraRadius[16];
 } SceneMovingSlots;
 
 typedef struct SceneMovingState {
