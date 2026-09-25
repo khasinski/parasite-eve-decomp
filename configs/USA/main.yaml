@@ -1202,6 +1202,7 @@ segments:
       - [0x6DED0, c, psyq/libspu/spu_transfer]
       # Contiguous Psy-Q libspu/spu.c register access and control APIs.
       - [0x6E2E0, c, psyq/libspu/spu_register_write]
+      - [0x6E4AC, c, psyq/libspu/_spu_Fw1ts]
       - [0x6E508, pad]
       - [0x6E514, c, psyq/libspu/s_dcb]
       - [0x6E538, pad]

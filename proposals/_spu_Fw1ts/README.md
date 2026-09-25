@@ -7,11 +7,15 @@ the original MIPS wraparound a defined C meaning. The initial counter store
 uses an ordinary access view so it can occupy the entry jump's delay slot;
 subsequent accesses remain volatile. There are no pins or barriers.
 
-Stock GCC281 matches all 92 retail bytes when compiled standalone. Under the
-common GCC272 SPU-core configuration it is 96 bytes and scores 93.04348%:
-stack restoration precedes JR instead of occupying its delay slot. Production
-spu_register_write.c still requires GCC272 for its siblings and retains its
-legacy loop. No new production split or matching-function credit is claimed.
+Production now compiles `_spu_Fw1ts` as its own C unit at 0x6E4AC with stock
+GCC 2.8.1. All 92 linked bytes match retail, and the full `main.exe` SHA-1
+matches. The six preceding functions stay in `spu_register_write.c` under
+their existing GCC 2.7.2 configuration. The split removes the synthetic stack
+pointer pin previously used by the shared unit.
+
+Under the old common GCC 2.7.2 configuration, the standalone candidate was
+96 bytes and scored 93.04348%: stack restoration preceded JR instead of
+occupying its delay slot.
 
 ```sh
 tools/scripts/cc.sh proposals/_spu_Fw1ts/candidate.c /tmp/spu-wait.o
