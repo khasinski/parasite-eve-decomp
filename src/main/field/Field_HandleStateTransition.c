@@ -1,17 +1,17 @@
 #include "common.h"
+#include "pe1/psyq_nop.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-/* Nonmatching candidate: 281/348 aligned instructions at stock GCC 2.7.2. */
 
-extern u32 field_flags_read_0[4] __asm__("D_8009D1A0");
-extern u32 field_flags_read_1[4] __asm__("D_8009D1A0");
-extern u32 field_flags_read_3[4] __asm__("D_8009D1A0");
-extern u32 field_flags_read_4[4] __asm__("D_8009D1A0");
-extern u32 field_flags_read_5[4] __asm__("D_8009D1A0");
-extern u32 field_flags_read_6[4] __asm__("D_8009D1A0");
-extern u32 field_flags_write[4] __asm__("D_8009D1A0");
-extern struct { char _[16]; } D_800B0CD8_o __asm__("D_800B0CD8");
-extern struct { char _[16]; } D_800BE9A0_o __asm__("D_800BE9A0");
+extern u32 field_flags_read_0[4] __asm__("g_GameStateFlags");
+extern u32 field_flags_read_1[4] __asm__("g_GameStateFlags");
+extern u32 field_flags_read_3[4] __asm__("g_GameStateFlags");
+extern u32 field_flags_read_4[4] __asm__("g_GameStateFlags");
+extern u32 field_flags_read_5[4] __asm__("g_GameStateFlags");
+extern u32 field_flags_read_6[4] __asm__("g_GameStateFlags");
+extern u32 field_flags_write[4] __asm__("g_GameStateFlags");
+extern struct { char _[16]; } D_800B0CD8_o __asm__("g_GameState");
+extern struct { char _[16]; } D_800BE9A0_o __asm__("g_AnalogStickState");
 extern struct { char _[16]; } D_800BE9A2_o __asm__("D_800BE9A2");
 extern struct { char _[16]; } D_800BE9A6_o __asm__("D_800BE9A6");
 extern struct { char _[16]; } D_800BE9A7_o __asm__("D_800BE9A7");
@@ -28,8 +28,8 @@ extern struct { char _[16]; } D_800B0DBF_o __asm__("D_800B0DBF");
 extern u32 D_8009D1E4;
 extern u32 D_8009D1F4;
 extern u32 D_8009D238;
-extern u32 D_8009D26C;
-extern u32 D_8009D280;
+extern u32 D_8009D26C __asm__("g_FieldPadBits");
+extern u32 D_8009D280[] __asm__("g_SceneDispatchToken");
 extern u32 D_8009D2A8;
 extern u32 D_8009D2D4;
 extern u8 D_8009D1C0[];
@@ -48,15 +48,21 @@ void *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 void Field_HandleStateTransition(void) {
     u32 flags;
     u32 pad_bits;
-    u32 old_pad_bits;
-    u32 changed;
+    register u32 base_bits asm("$3");
+    register u32 old_pad_bits asm("$2");
+    register u32 pad_mask asm("$2");
+    register u32 active_pad asm("$4");
+    register u32 save_pad asm("$2");
+    register u32 final_pad asm("$2");
+    register u32 final_old asm("$4");
+    register u32 changed asm("$3");
     u32 mask;
     u32 sequence_mask;
     u32 menu_open;
-    u16 pad;
+    register u32 pad asm("$4");
     u32 inverted;
     int mode;
-    int i;
+    u16 i;
     u8 analog;
 
     if (CardObj_GetModeClass(0) == 0) {
@@ -105,12 +111,17 @@ after_mode:
     }
 
     pad = D_800BE9A2;
-    inverted = ~pad;
-    pad_bits = inverted & 0xFFFF9FFF;
+    asm volatile("" : : "r"(pad));
+    pad_mask = 0xFFFF9FFF;
+    asm volatile("" : : "r"(pad_mask));
+    base_bits = (~pad) & pad_mask;
+    asm volatile("" : "=r"(pad) : "0"(pad));
     old_pad_bits = D_8009D26C;
     D_8009D238 = old_pad_bits;
+    inverted = ~pad;
+    pad_bits = base_bits;
     if (inverted & 0x2000) {
-        pad_bits |= 0x4000;
+        pad_bits = base_bits | 0x4000;
     }
     if (inverted & 0x4000) {
         pad_bits |= 0x2000;
@@ -128,15 +139,15 @@ after_mode:
 
     flags = field_flags_read_6[0];
     if ((flags & 1) != 0) {
-        pad_bits = D_8009D26C;
-        if ((int)pad_bits < 0) {
-            mask = ((pad_bits ^ D_8009D2D4) & pad_bits) & 0x7000007E;
+        active_pad = D_8009D26C;
+        if ((int)active_pad < 0) {
+            mask = ((active_pad ^ D_8009D2D4) & active_pad) & 0x7000007E;
             if (mask != 0) {
                 sequence_mask = D_80092200[D_8009D2A8];
                 if ((mask & sequence_mask) == sequence_mask) {
                     D_8009D2A8++;
                     if (D_8009D2A8 == 9) {
-                        D_8009D280 = 0xAA108448;
+                        D_8009D280[0] = 0xAA108448;
                         field_flags_write[0] = flags | 0x12000;
                     }
                 } else {
@@ -146,7 +157,9 @@ after_mode:
         } else {
             D_8009D2A8 = 0;
         }
-        D_8009D2D4 = D_8009D26C;
+        save_pad = D_8009D26C;
+        PE1_NOP();
+        D_8009D2D4 = save_pad;
     }
 
     menu_open = D_800B0CD8;
@@ -176,8 +189,8 @@ after_mode:
         D_8009D26C &= ~0x79;
         menu_open = MenuWidget_FindByModeAndSelectedBase(1, 0) != 0;
 
-        analog = D_800BE9A7;
         if (menu_open) {
+            analog = D_800BE9A7;
             if (analog < 0x14) {
                 D_8009D26C |= 0x8;
             } else if (analog >= 0xE7) {
@@ -191,6 +204,7 @@ after_mode:
                 D_8009D26C |= 0x10;
             }
         } else {
+            analog = D_800BE9A7;
             if (analog < 0x5A) {
                 D_8009D26C |= 0x8;
                 if (analog < 0x14) {
@@ -218,11 +232,11 @@ after_mode:
         }
     }
 
-    pad_bits = D_8009D26C;
-    old_pad_bits = D_8009D238;
-    changed = pad_bits ^ old_pad_bits;
-    D_8009D1F4 = changed & pad_bits;
-    D_8009D1E4 = changed & old_pad_bits;
+    final_pad = D_8009D26C;
+    final_old = D_8009D238;
+    changed = final_pad ^ final_old;
+    D_8009D1F4 = changed & final_pad;
+    D_8009D1E4 = changed & final_old;
     return;
 
 clear_input:
