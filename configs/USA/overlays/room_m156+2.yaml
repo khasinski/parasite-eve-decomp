@@ -37,7 +37,7 @@ segments:
       - [0x0, rodata, room_m156+2_header]
       - [0x24, rodata, room_m156+2_jtbl]
       - [0x70, asm, func_8018F058]
-      - [0x1248, asm, func_80190230]
+      - [0x1248, c, RoomEffect_OrbitingPairController]
       - [0x1524, asm, func_8019050C]
       - [0x18C8, asm, func_801908B0]
       - [0x1C10, c, RoomLib_UpdateBounceRender_80190BF8]
