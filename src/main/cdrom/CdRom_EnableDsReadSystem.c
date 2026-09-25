@@ -1,23 +1,22 @@
-
+/* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -fcall-used-$1 */
 #include "pe1/psyq_cd.h"
-
-typedef struct DsSystemDataPage {
-    char reserved00[4];
-    CdRomSystemState state;
-    char reserved54[0x4A5C];
-} DsSystemDataPage;
-
-register DsSystemDataPage *g_DsSystemWritePage asm("$1");
-register int g_DsSystemEnabledValue asm("$2");
 
 void CdRom_EnableDsReadSystem(void);
 
 void CdRom_EnableDsReadSystem(void) {
-    g_DsSystemEnabledValue = 1;
-    g_DsSystemWritePage = (DsSystemDataPage *)0x800A0000;
-    g_DsSystemWritePage[-1].state.enabled = g_DsSystemEnabledValue;
+    register int enabled asm("$2");
+    enabled = 1;
+    g_DsReadSysEnabled.enabled = enabled;
 }
 
 int CdRom_IsDsReadSystemEnabled(void) {
-    return g_DsReadSysEnabled.enabled;
+    register int scratch asm("$1");
+    int enabled;
+
+    /* Keep $at live so the load uses $v0 as both base and destination. */
+    asm volatile("" : "=r"(scratch));
+    enabled = g_DsReadSysEnabled.enabled;
+    asm volatile("" : : "r"(scratch));
+    return enabled;
 }
