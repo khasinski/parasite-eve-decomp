@@ -55,7 +55,7 @@ segments:
       - [0x514, c, func_8018F4FC]
       - [0x51C, c, func_8018F504]
       - [0x554, c, func_8018F53C]
-      - [0x658, asm, scene_e08_2B8_51C]
+      - [0x658, c, Scene_DrawFadeLayers]
       - [0x8C8, c, func_8018F8B0]
       - [0x970, c, Scene_InitParticleCluster_8018F958]
       - [0xBBC, c, Scene_DrawParticleCluster]
