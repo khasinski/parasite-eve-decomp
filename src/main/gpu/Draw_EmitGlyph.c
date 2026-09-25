@@ -32,6 +32,8 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
 
     packet = 0;
     glyph = Draw_LookupGlyphDescriptor(arg0);
+    /* Preserve the descriptor's register across packet setup. */
+    asm volatile("" : "=r"(glyph) : "0"(glyph));
     oldPacket = g_ActiveDrawBuffer;
     nextPacket = oldPacket + 0x28;
     if (nextPacket < (u32)(g_DrawPacketBufferBase + 0x4000)) {
@@ -78,15 +80,10 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
             s32 sum;
             s32 glyphDim;
 
-            asm volatile(
-                "lbu %1, 0x5(%2)\n"
-                "lhu %0, 0xA(%3)\n"
-                "nop\n"
-                "addu %0, %0, %1"
-                : "=&r"(sum), "=&r"(glyphDim)
-                : "r"(glyph), "r"(ptr)
-                : "memory");
-            temp = sum;
+            glyphDim = M2C_FIELD(glyph, volatile u8 *, 5);
+            sum = M2C_FIELD(ptr, volatile u16 *, 0xA);
+            PE1_NOP();
+            temp = sum + glyphDim;
         }
         M2C_FIELD(ptr, s16 *, 0x22) = temp;
         M2C_FIELD(ptr, s16 *, 0x1A) = temp;
