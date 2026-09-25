@@ -22,4 +22,16 @@ typedef struct SceneParticleSlots {
     s16 elapsedFrames;
 } SceneParticleSlots;
 
+typedef struct SceneEmitterSlots {
+    SceneParticleOffset position[4];
+    s16 field20[4];
+    s16 field28[4];
+    u8 field30[4];
+    u8 field34[4];
+    u8 field38[4];
+    u8 field3C[4];
+    u8 field40[4];
+    u8 activeSlots;
+} SceneEmitterSlots;
+
 #endif
