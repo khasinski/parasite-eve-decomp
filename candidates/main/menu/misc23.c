@@ -1,6 +1,6 @@
 #include "common.h"
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* Save_DrawSlotMetadata: 1152 candidate bytes vs. 1156 retail; 90.52941%
+ * objdiff with the stock GCC 2.7.2/MASPSX pipeline. Not a byte match. */
 
 typedef struct {
     int value;
@@ -28,7 +28,7 @@ typedef unsigned int u32_2;
 typedef short s16_2;
 
 extern struct { char _[16]; } D_8009D1A8_o __asm__("D_8009D1A8");
-extern struct { char _[16]; } D_8009D1AC_o __asm__("D_8009D1AC");
+extern u32_2 D_8009D1AC;
 extern struct { char _[16]; } g_SaveMetadataTextPtr_o __asm__("g_SaveMetadataTextPtr");
 extern struct { char _[16]; } D_800BCEB4_o __asm__("D_800BCEB4");
 extern u8_2 g_BattleSaveOverlayActive;
@@ -47,8 +47,7 @@ extern u8_2 D_80091544[];
 extern u8_2 D_80091570[];
 
 #define D_8009D1A8 (*(void **)&D_8009D1A8_o)
-#define D_8009D1AC (*(u32_2 *)&D_8009D1AC_o)
-#define D_8009D1AC_BYTE (*(u8_2 *)&D_8009D1AC_o)
+#define D_8009D1AC_BYTE (*(u8_2 *)&D_8009D1AC)
 #define g_SaveMetadataTextPtr (*(u8_2 **)&g_SaveMetadataTextPtr_o)
 #define D_800BCEB4 (*(u32_2 *)&D_800BCEB4_o)
 
@@ -122,7 +121,6 @@ void Render_AnimationFrame(void) {
 
 void Save_DrawSlotMetadata(void) {
     void *overlay;
-    void *entry;
     u32_2 state;
     int phase;
     int prompt;
@@ -138,9 +136,8 @@ void Save_DrawSlotMetadata(void) {
     phase = (state >> 8) & 3;
 
     if (phase == 1) {
-        entry = *(void **)D_8009D1A8;
-        colors[0] = *(int *)((u8_2 *)entry + 0x10);
-        colors[1] = *(int *)((u8_2 *)entry + 0x88);
+        colors[0] = *(int *)((u8_2 *)*(void **)D_8009D1A8 + 0x10);
+        colors[1] = *(int *)((u8_2 *)*(void **)D_8009D1A8 + 0x88);
         colors[2] = 0;
 
         Tbl_ResetAll();
