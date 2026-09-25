@@ -55,6 +55,8 @@ s32 *func_800C2B10(int index);
 s32 *func_800C2B28(int index);
 extern s16 D_80199590[];
 extern s16 D_80199658[];
+extern s32 D_8019956C;
+extern s32 D_8019957C;
 void func_800C4E50(void *item);
 
 #endif

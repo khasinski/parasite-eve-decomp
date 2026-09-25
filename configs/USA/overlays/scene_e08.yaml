@@ -91,7 +91,7 @@ segments:
       - [0x2988, c, func_80191970]
       - [0x29A8, c, func_80191990]
       - [0x29C8, c, func_801919B0]
-      - [0x2B2C, asm, scene_e08_2B8_3D4_F54_1070_2450_29C8]
+      - [0x2B2C, c, Scene_UpdateMovingSlots_80191B14]
       - [0x2DD0, c, Scene_InitParticleSlots_80191DB8]
       - [0x2E90, asm, scene_e08_2B8_3D4_F54_1070_2450_2E90]
       - [0x31E0, c, Scene_UpdateParticleSlots_801921C8]

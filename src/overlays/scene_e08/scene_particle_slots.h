@@ -34,4 +34,36 @@ typedef struct SceneEmitterSlots {
     u8 activeSlots;
 } SceneEmitterSlots;
 
+typedef struct SceneMovingVector {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad06;
+    s16 combinedX;
+    s16 combinedY;
+    s16 combinedZ;
+    s16 pad0E;
+    s16 dx;
+    s16 dy;
+    s16 dz;
+    s16 pad16;
+} SceneMovingVector;
+
+typedef struct SceneMovingSlots {
+    SceneMovingVector vector[16];
+    s32 life[16];
+    s16 active[16];
+    s16 timer[16];
+    s16 initialSize[16];
+    s16 angle[16];
+    s16 range[16];
+    s16 radius[16];
+} SceneMovingSlots;
+
+typedef struct SceneMovingState {
+    u8 pad00;
+    u8 status;
+    s16 elapsedFrames;
+} SceneMovingState;
+
 #endif
