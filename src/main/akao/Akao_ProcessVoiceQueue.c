@@ -4,7 +4,6 @@ extern unsigned short g_AkaoTrack5ATransposeValue;
 extern AkaoTrack g_AkaoVoiceChannelTable[];
 void Akao_UpdateVoiceEnvelopes(unsigned);
 void Akao_StepVoiceNote(AkaoTrack *, unsigned, unsigned, unsigned *);
-void Akao_SetVoiceKeyOn(AkaoTrack *, unsigned);
 void Akao_WriteVoiceParam(int, int *, unsigned);
 void Akao_SetMasterVolume(short, short);
 long SpuSetNoiseClock(long);

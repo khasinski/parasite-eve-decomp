@@ -13,6 +13,10 @@ extern unsigned g_AkaoVoicePortamentoResetMask;
 extern unsigned g_AkaoTrack34Mask, g_AkaoTrack38Mask, g_AkaoTrack3CMask;
 extern unsigned g_AkaoVoiceUpdateFlags;
 extern unsigned D_800C0DD0, D_800C0DD4, D_800C0DD8;
+extern int D_8009D2C0;
+extern short D_8009B8F8[], D_8009B9F8[];
+
+void Akao_SetVoiceKeyOn(AkaoTrack *voice, unsigned int voice_mask);
 
 void Spu_ManageVoices(int id, int control);
 void Seq_StartNestedTrack(AkaoTrack *track, AkaoNestedSource *source, unsigned mask, void *script);
