@@ -34,6 +34,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, scene_e19_2]
+      - [0x61F0, c, SceneE19_StateAccessors]
       - [0x626C, data]
   - [0x6800]
 # source slice: scanner
