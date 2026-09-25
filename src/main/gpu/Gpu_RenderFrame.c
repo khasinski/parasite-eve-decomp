@@ -83,7 +83,8 @@ draw_buffer:
 
         idx_b = g_ActiveDrawSlot;
         tmp = idx_b << 2;
-        asm("addu %0,%1,%2" : "=r"(tmp) : "r"(state_ptr), "r"(tmp));
+        asm volatile("" : "=r"(state_ptr) : "0"(state_ptr));
+        tmp = (int)state_ptr + tmp;
         arg1 = (idx_b << 1) + idx_b;
         arg1 <<= 3;
         arg1 -= idx_b;
