@@ -4,7 +4,11 @@
 #include "common.h"
 
 typedef struct MenuMemcardFadeState {
-    u8 reserved00[0x1C];
+    u8 reserved00[0x06];
+    s16 displayTop;
+    u8 reserved08[0x02];
+    s16 displayBottom;
+    u8 reserved0C[0x10];
     s32 level;
     s32 velocity;
     s32 increment;
@@ -14,6 +18,10 @@ typedef struct MenuMemcardFadeState {
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, level) == 0x1C,
                   menu_memcard_fade_level_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, displayTop) == 0x06,
+                  menu_memcard_fade_display_top_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, displayBottom) == 0x0A,
+                  menu_memcard_fade_display_bottom_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, velocity) == 0x20,
                   menu_memcard_fade_velocity_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, increment) == 0x24,

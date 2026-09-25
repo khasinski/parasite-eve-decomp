@@ -1901,3 +1901,13 @@ gives 98.84% and removing the barrier gives 97.08%. Dropping each volatile read
 also breaks the match. An initial gravity pin and ground-pointer use barrier
 proved unnecessary and were removed before integration. No CPU instruction
 assembly is present.
+
+## Menu memcard fade display
+
+`Memcard_UpdateFadeDisplay` matches all 148 retail bytes. The shared
+`MenuMemcardFadeState` now names the display halfwords at offsets 6 and 10.
+Volatile accesses preserve the original velocity reloads and the upper display
+store. One empty compiler barrier keeps the lower display floor constant in
+the branch delay slot; removing it yields 152 bytes with ten differing words.
+All trial register pins were removable, and the function contains no CPU
+instruction assembly. The complete `menu_memcard` overlay SHA-1 still matches.

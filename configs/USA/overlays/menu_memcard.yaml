@@ -81,7 +81,7 @@ segments:
       - [0xA4F8, asm, func_menu_memcard_00A4F8]
       - [0xA7F8, asm, func_menu_memcard_00A7F8]
       - [0xA894, c, Memcard_AdvanceFade]
-      - [0xA8E8, asm, func_menu_memcard_00A8E8]
+      - [0xA8E8, c, Memcard_UpdateFadeDisplay]
       - [0xA97C, c, Memcard_DecreaseFade]
       - [0xA9AC, c, func_8012B6F0]
       - [0xA9CC, c, func_8012B710]
