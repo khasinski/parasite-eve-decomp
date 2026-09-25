@@ -1,4 +1,5 @@
 // provide: InitSystem = 0x8003E610;
+// provide: Boot_VsyncCallback = 0x8003E91C;
 g_BootDisplayTPage = 0x80172CA0;
 g_BootDisplayClut = 0x80172CA2;
 g_BootDisplayTextScrollX = 0x80172CA4;
