@@ -38,4 +38,8 @@ void func_80077B04(void *primitive, s32 code);
 void func_80077C84(void *primitive, s32 x, s32 y, u16 tpage);
 void func_80077CB4(void *primitive, void *next);
 
+/* Callable entry points inside neighboring boot-display code. */
+s32 func_80123B1C(u8 color);
+void func_8012462C(void *primitive, u16 x, u16 y, s32 u, s32 v);
+
 #endif
