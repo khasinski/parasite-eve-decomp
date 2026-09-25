@@ -1,30 +1,12 @@
 #include "common.h"
 #include "pe1/random.h"
-
-typedef struct SceneParticleOffset {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad06;
-} SceneParticleOffset;
-
-typedef struct SceneParticleSlots {
-    unsigned char pad00[8];
-    SceneParticleOffset offset[4];
-    s32 phase[4];
-    s16 verticalOffset[4];
-    unsigned char pad40[8];
-    s16 timer[4];
-    unsigned char pad50[8];
-    s16 activeCount;
-    s16 completedCount;
-} SceneParticleSlots;
+#include "scene_particle_slots.h"
 
 void Scene_InitParticleSlots_80191DB8(int unused0, int unused1, SceneParticleSlots *slots) {
     unsigned int i;
 
-    slots->activeCount = 0;
-    slots->completedCount = 0;
+    slots->motionRamp = 0;
+    slots->elapsedFrames = 0;
     for (i = 0; i < 4; i++) {
         slots->phase[i] = i << 11;
         slots->verticalOffset[i] = 0;
