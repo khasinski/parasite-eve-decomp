@@ -34,6 +34,7 @@ loop:
         glyph = -1;
     }
     ch = glyph;
+    asm volatile("" : "=r"(ch) : "0"(ch));
     if (ch >= 0) {
         spacing = 0;
         if (ch < 10 || ch == 15) {
@@ -49,12 +50,14 @@ loop:
 test:
     ch = *cursor;
     sentinel = 0xFF;
-    asm volatile("andi %0,%1,0xFF" : "=r"(terminator_check) : "r"(ch));
+    terminator_check = ch & 0xFF;
+    asm volatile("" : "=r"(terminator_check) : "0"(terminator_check));
+    cursor++;
     if (terminator_check != sentinel) {
-        cursor++;
         goto loop;
     }
-    asm volatile("addiu $16,$16,-1");
+    cursor--;
+    asm volatile("" : : "r"(cursor));
     return width;
 }
 
