@@ -39,6 +39,8 @@ segments:
       - [0x1204, c, func_80124604]
       - [0x12F4, c, func_801246F4]
       - [0x139C, asm, boot_display_139C]
+      - [0x1F44, c, Boot_CallInitSystem]
+      - [0x1F64, asm, boot_display_1F64]
       - [0x2394, c, func_80125794]
       - [0x2480, asm, boot_display_2480]
       - [0x25F0, c, func_801259F0]
