@@ -62,7 +62,11 @@ extern u16 D_800BE9A0;
 extern u8 D_800BE9A6, D_800BE9A7;
 extern u16 D_800BD020, D_800BD022;
 extern unsigned int D_8009D26C;
+extern u32 D_8009D1A0;
 
 void Scene_UpdateEntityFacingFromPad(BattleEntity *entity);
+void Scene_UpdateEntityFacing(BattleEntity *entity, int *actionState);
+void Scene_UpdatePlayerEntity(BattleEntity *entity, int *actionState);
+int Math_FixedMul(int lhs, int rhs);
 
 #endif /* PE1_FIELD_MOVEMENT_H */

@@ -13,7 +13,7 @@
     "include_asm": 0,
     "nop_barriers": 158,
     "pins": 1313,
-    "pointer_integer_casts": 795,
+    "pointer_integer_casts": 796,
     "postpass": 0,
     "raw_offset_dereferences": 1470,
     "statement_expressions": 2,

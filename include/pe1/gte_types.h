@@ -47,6 +47,8 @@ GteMatrix *RotMatrixYXZ(GteShortVector *angles, GteMatrix *matrix);
 
 GteShortVector *ApplyMatrixSV(const GteMatrix *matrix,
                             const GteShortVector *v, GteShortVector *out);
+GteVector *Gte_RotateVec(const GteMatrix *matrix, const GteVector *v,
+                         GteVector *out);
 void LoadAverageShort12(void *first, void *second, int first_scale,
                         int second_scale, void *output);
 GteMatrix *Gte_ScaleMatrix(GteMatrix *matrix, const GteVector *scale);
