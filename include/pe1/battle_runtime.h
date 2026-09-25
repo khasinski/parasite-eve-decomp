@@ -8,6 +8,13 @@ extern BattleEntity *D_8009D254;
 extern int D_8009D200;
 extern u8 D_8009D294;
 
+typedef struct BattleEvasionOutcome {
+    s8 status;   /* -1: invalid target, 0: unresolved, 1: resolved */
+    s8 reaction; /* effect code, 0..4 */
+} BattleEvasionOutcome;
+
+PE1_STATIC_ASSERT(sizeof(BattleEvasionOutcome) == 2, battle_evasion_outcome_size);
+
 typedef struct BattleInitSlot {
     BattleEntity *actor;
     s16 field04;
@@ -71,6 +78,9 @@ void Battle_DrawStatusOverlay(RenderObjectEntity *object, int mode, int outOfRan
 void Battle_InitFadeVars(void);
 void Battle_UpdatePlayerTurn(void);
 void Battle_ApplyPlayerHit(void);
+int Battle_CalcDistToPlayer(BattleEntity *actor, BattleEntity *player);
+void Battle_CheckEvasion(BattleEntity *actor, BattleEvasionOutcome *outcome,
+                         int attackType);
 void Battle_AdvancePhase(void);
 void BattleCmd_UndoPending(void);
 void Entity_SetActionMode(BattleEntity *entity, int mode);
