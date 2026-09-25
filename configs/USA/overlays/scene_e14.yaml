@@ -26,10 +26,13 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
+  # Retail absolute jumps use two link-address bases: the jump at file 0x114
+  # resolves with 0x8018EFE8, while the one at 0xB40 resolves with
+  # 0x8018EFF0. Separate code sections preserve both without changing bytes.
   - name: scene_e14
     type: code
     start: 0x0
-    vram: 0x8018EFF0
+    vram: 0x8018EFE8
     align: 4
     subalign: 4
     bss_size: 0x0
@@ -38,8 +41,7 @@ segments:
       - [0x24, c, RoomLib_PlantTable_8018F014]
       - [0x50, c, RoomLib_Spawn6_8018F040]
       - [0x7C, c, RoomLib_RegisterTable_8018F06C]
-      - [0xC4, asm, scene_e14_50_7C_C4]
-      - [0x148, c, func_8018F138]
+      - [0xC4, c, func_8018F0AC]
       - [0x150, c, RoomLib_CloseTarget_8018F140]
       - [0x1D4, c, func_8018F1C4]
       - [0x1DC, c, func_8018F1CC]
@@ -54,6 +56,15 @@ segments:
       - [0x92C, c, func_8018F91C]
       - [0x934, c, func_8018F924]
       - [0x954, c, func_8018F944]
+  - [0xB18]
+  - name: scene_e14_late
+    type: code
+    start: 0xB18
+    vram: 0x8018FB08
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0xB18, c, func_8018FB08]
       - [0xB7C, c, func_8018FB6C]
       - [0xCFC, c, func_8018FCEC]
