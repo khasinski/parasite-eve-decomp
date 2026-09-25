@@ -121,7 +121,7 @@ segments:
       - [0x4B84, c, func_80193B6C]
       - [0x4BF4, c, RoomLib_CloseTarget_80193BDC]
       - [0x4C78, c, func_80193C60]
-      - [0x4C80, asm, scene_e08_2B8_3D4_F54_1070_2450_4C80]
+      - [0x4C80, c, Scene_InitEffectPalettes]
       - [0x4F88, c, func_80193F70]
       - [0x4F90, c, func_80193F78]
       - [0x5010, c, func_80193FF8]
