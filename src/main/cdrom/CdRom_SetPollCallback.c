@@ -1,21 +1,23 @@
-#include "pe1/cdrom_callback_internal.h"
+/* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -fcall-used-$1 */
+
+extern unsigned int D_800A36A0;
+extern unsigned int D_800A36A4;
+extern unsigned int D_800A36A8;
+extern unsigned int D_800A36AC;
 
 void CdRom_SetPollCallback(unsigned int value) {
-    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
-    g_DsCallbackSetPage->poll = value;
+    D_800A36A0 = value;
 }
 
 void CdRom_SetSyncCallback(unsigned int value) {
-    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
-    g_DsCallbackSetPage->sync = value;
+    D_800A36A4 = value;
 }
 
 void CdRom_SetReadyCallback(unsigned int value) {
-    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
-    g_DsCallbackSetPage->ready = value;
+    D_800A36A8 = value;
 }
 
 void CdRom_SetDispatchCallback(unsigned int value) {
-    g_DsCallbackSetPage = (DsCallbackSetPage *)0x800A0000;
-    g_DsCallbackSetPage->dispatch = value;
+    D_800A36AC = value;
 }
