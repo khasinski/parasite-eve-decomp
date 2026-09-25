@@ -40,7 +40,7 @@ segments:
       - [0x12F4, c, func_801246F4]
       - [0x139C, asm, boot_display_139C]
       - [0x2394, c, func_80125794]
-      - [0x23EC, asm, boot_display_23EC]
+      - [0x2480, asm, boot_display_2480]
   - [0x2800]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/boot_display.bin bs=2048 skip=1116 count=5
