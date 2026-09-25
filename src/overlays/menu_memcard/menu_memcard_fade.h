@@ -8,7 +8,10 @@ typedef struct MenuMemcardFadeState {
     s16 displayTop;
     u8 reserved08[0x02];
     s16 displayBottom;
-    u8 reserved0C[0x10];
+    s32 phase;
+    u8 reserved10[0x04];
+    void (*onStep)(struct MenuMemcardFadeState *);
+    u8 reserved18[0x04];
     s32 level;
     s32 velocity;
     s32 increment;
@@ -22,6 +25,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, displayTop) == 0x06,
                   menu_memcard_fade_display_top_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, displayBottom) == 0x0A,
                   menu_memcard_fade_display_bottom_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, phase) == 0x0C,
+                  menu_memcard_fade_phase_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, onStep) == 0x14,
+                  menu_memcard_fade_on_step_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, velocity) == 0x20,
                   menu_memcard_fade_velocity_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, increment) == 0x24,

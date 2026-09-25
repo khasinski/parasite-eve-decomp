@@ -24,10 +24,10 @@
     "asm_bodies": 0,
     "asm_constrained_units": 0,
     "barriers": 219,
-    "byte_pointer_arithmetic": 234,
+    "byte_pointer_arithmetic": 233,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 3991,
+    "externs_in_c": 3990,
     "field_macros": 0,
     "gotos": 587,
     "include_asm": 0,
@@ -35,7 +35,7 @@
     "pins": 331,
     "pointer_integer_casts": 29,
     "postpass": 0,
-    "raw_offset_dereferences": 1555,
+    "raw_offset_dereferences": 1554,
     "statement_expressions": 0,
     "unknown_fields": 70
   }
