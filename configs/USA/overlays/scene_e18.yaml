@@ -100,6 +100,8 @@ segments:
       - [0x4324, c, func_8019330C]
       - [0x44A0, c, func_80193488]
       - [0x4608, asm, scene_e18_tail_4608]
+      - [0x4A70, c, func_80193A58]
+      - [0x4C3C, asm, scene_e18_tail_4C3C]
       - [0x4EF4, data]
   - [0x5000]
 # source slice: scanner
