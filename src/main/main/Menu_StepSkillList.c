@@ -44,12 +44,11 @@ void Menu_StepSkillList(s32 arg0, s32 arg1) {
         } else {
             s32 mask;
             temp_shift = Inv_GetActiveListItemType(temp_v0);
-            asm volatile(
-                "addiu $3, $0, 1\n"
-                "sllv %0, $3, %1"
-                : "=r"(mask)
-                : "r"(temp_shift)
-                : "$3");
+            {
+                register s32 one asm("$3") = 1;
+                asm volatile("" : "=r"(one) : "0"(one));
+                mask = one << temp_shift;
+            }
             Inv_BuildFilteredPackedListExcluding(mask, temp_v0);
         }
         temp_v0_2 = MenuWidget_FindByModeAndSelectedBase(1, 0x2F);
