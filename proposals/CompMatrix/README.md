@@ -52,3 +52,17 @@ for the final sums. The C uses signed addition and has undefined behavior on
 signed overflow; these tests deliberately do not exercise that domain.
 Overflow exceptions, full GTE hardware equivalence, timing, access widths,
 concurrent observers and arbitrary memory layouts remain unverified.
+
+## Near-exact register-constrained candidate
+
+`candidates/main/psyq/libgte/CompMatrix.c` is a separate reconstruction with
+individual GTE operations through `pe1/gte.h`, register pins and empty
+constraints. Stock GCC 2.7.2 with `-fno-schedule-insns2` emits exactly 352
+bytes. A direct comparison with retail `main.exe` finds only three differing
+instruction words, at offsets 0x13C, 0x140 and 0x144: retail uses trapping
+signed `add`, while both stock GCC 2.7.2 and 2.8.1 emit `addu` for the C sums.
+The candidate scores 97.954544% in objdiff and passes the existing 12,303-case
+CPU/GTE-hook verifier outside signed-overflow cases. It is **not** a byte match
+or an overflow-equivalent replacement. The current source policy permits GTE
+operation macros and NOPs, but does not permit replacing these CPU additions
+with inline instructions.
