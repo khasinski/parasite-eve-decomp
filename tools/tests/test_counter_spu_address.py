@@ -8,8 +8,9 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
-# Complete retail TUs: counter at 0x80085814 (StopRCnt at +0x104),
+# Current retail TUs: counter at 0x80085814 (StopRCnt at +0x104),
 # SPU register helpers at 0x8007DAE0 (_spu_FsetRXXa at +0x44).
+# The following 92 bytes are now a separate _spu_Fw1ts C subsegment.
 CASES = [('libapi/counter',
   364,
   'be6a3c32260308417c8b34ea9797a82befe166d3bb582ccc42a8043bc9ce3b90',
@@ -19,8 +20,8 @@ CASES = [('libapi/counter',
   'SECTIONS { .text 0x80085814 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libspu/spu_register_write',
-  552,
-  '51d8aaa835d28a54bae2e84948b52c900867d28f05b95065295c2c3fdb78f3e0',
+  460,
+  '60a11aca2eea89f6e73cd2bd905014a7c52910c713da57126c5b6ca40704c835',
   '_spu_RXX = 0x8009B3FC;\n'
   '_spu_mem_mode_plus = 0x8009B424;\n'
   '_spu_mem_mode = 0x8009B420;\n'

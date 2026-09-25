@@ -81,6 +81,7 @@ def has_instruction_asm(text: str) -> bool:
             continue
         declaration = re.search(
             r'(?:\b(?:extern|register)\b[^=]*|\}\s*\w+|'
+            r'\b[A-Za-z_]\w*\s+\**[A-Za-z_]\w+|'
             r'\b\w+(?:\s|\*)+\w+(?:\s*\[[^\]]*\])+|'
             r'\b\w+(?:\s|\*)+\w+\s*\([^{};]*\))\s*$', statement, re.S
         )

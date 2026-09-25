@@ -71,6 +71,15 @@ class SymbolTableTests(unittest.TestCase):
         self.assertEqual(table.names["shared_static"], 0x80010000)
         self.assertNotIn(0x80020000, table.by_addr)
 
+    def test_verified_function_replaces_its_stale_committed_address(self):
+        table = gen_expected.SymbolTable()
+        table.add("RoomLib_PlantTable_8018F058", 0x8018F058, "// type:func")
+        table.add("RoomLib_PlantTable_8018F058", 0x8018F050,
+                  "// type:func size:0x2C", replace_existing=True)
+
+        self.assertEqual(table.names["RoomLib_PlantTable_8018F058"], 0x8018F050)
+        self.assertNotIn(0x8018F058, table.by_addr)
+
     def test_compiler_bookkeeping_names_are_dropped(self):
         table = gen_expected.SymbolTable()
         table.add("gcc2_compiled.", 0x80010000)

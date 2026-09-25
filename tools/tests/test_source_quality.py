@@ -181,6 +181,13 @@ class SourceQualityTests(unittest.TestCase):
         '''
         self.assertEqual(self.classify(text), "semantic_c")
 
+    def test_global_scalar_link_alias_is_semantic(self):
+        text = '''
+        signed char target_mode asm("D_8009CE40");
+        int f(void) { return target_mode; }
+        '''
+        self.assertEqual(self.classify(text), "semantic_c")
+
     def test_instruction_asm_is_constrained(self):
         self.assertEqual(self.classify('void f(void) { asm("nop"); }'),
                          "asm_constrained")

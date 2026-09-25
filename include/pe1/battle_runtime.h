@@ -5,6 +5,7 @@
 
 extern Combatant *D_8009D278;
 extern BattleEntity *D_8009D254;
+extern s16 D_8009D2A4;
 extern int D_8009D200;
 extern u8 D_8009D294;
 
@@ -72,6 +73,7 @@ extern unsigned int D_8009D1F4;
 void Battle_SetupEntityTarget(BattleEntity *actor);
 void Battle_DispatchEntityEffect(void);
 void Battle_CycleTarget(s8 mode);
+void Battle_SyncEnemyAttributes(void);
 void Battle_MarkActiveEntities(BattleTarget *targets, int index);
 void Battle_StepPlayerTurn(BattleTarget *targets, int index, int mode);
 void Battle_DrawStatusOverlay(RenderObjectEntity *object, int mode, int outOfRange, int entityId);

@@ -30,6 +30,12 @@ stock tools. A register pin or barrier is preferable to modifying either tool.
 If stock C with allowed constraints does not match, the function remains an
 assembly subsegment until its source reconstruction is corrected.
 
+`Battle_StepEnemyTurn` now matches all 1228 retail code bytes in C, including
+the 56-byte switch table in its original read-only-data range. Two short-lived
+argument pins and two empty input barriers preserve the original sound-call
+tail and undo-call delay slot. Removing any one changes the linked bytes. No
+CPU instruction assembly is used; the complete main EXE still matches retail.
+
 `func_80190410` matches all 704 retail bytes in `room_m075`, `room_m080`, and
 `room_m082` with typed motion state and matrix views. Its short-lived transform
 source pointer needs one `$2` register pin; removing it changes 37 instruction

@@ -25,6 +25,7 @@ directory.
 
 import argparse
 import concurrent.futures
+import hashlib
 import pathlib
 import re
 import shutil
@@ -175,9 +176,14 @@ class SymbolTable:
             else:
                 return
         if name in self.names:
-            # The same name at two addresses would attach to whichever one
-            # splat reads last; dropping the newcomer keeps the first honest.
-            return
+            if not replace_existing:
+                # The same name at two addresses would attach to whichever
+                # one splat reads last; keep the first unless this is a
+                # function recovered from the built object.
+                return
+            old_addr = self.names.pop(name)
+            if self.by_addr.get(old_addr, (None,))[0] == name:
+                del self.by_addr[old_addr]
         self.by_addr[addr] = (name, attrs)
         self.names[name] = addr
 
@@ -264,6 +270,11 @@ def harvest(module, config, table):
     the one place the error can surface.
     """
     slices, _ = subsegment_slices(config)
+    options = config["options"]
+    built = ROOT / options["build_path"] / (options["basename"] + (".exe" if module.name == "main" else ".bin"))
+    retail_sha = config.get("sha1")
+    complete = bool(retail_sha and built.exists() and
+                    hashlib.sha1(built.read_bytes()).hexdigest() == retail_sha)
     counted = 0
     for name, sections in slices.items():
         if ".text" not in sections:
@@ -280,7 +291,8 @@ def harvest(module, config, table):
             # retail; placing the name would collide with the identical name
             # splat auto-invents at the real address and break assembly.
             generic = GENERIC_NAME.match(sym)
-            if generic and int(sym.rsplit("_", 1)[1], 16) != vram + offset:
+            if (generic and int(sym.rsplit("_", 1)[1], 16) != vram + offset
+                    and not (complete and kind == "STT_FUNC")):
                 continue
             notes = []
             if kind == "STT_FUNC" or section == ".text":
