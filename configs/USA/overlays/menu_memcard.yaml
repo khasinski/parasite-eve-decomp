@@ -99,7 +99,26 @@ segments:
     subsegments:
       - [0xA4F8, asm, func_menu_memcard_00A4F8]
       - [0xA7A8, c, Memcard_InitFadeForNode]
-      - [0xA7F8, asm, func_menu_memcard_00A7F8]
+  - [0xA7F8]
+  # The retail jump to the shared epilogue retained this earlier link address.
+  - name: menu_memcard_fade_linkbase
+    type: code
+    start: 0xA7F8
+    vram: 0x80192F9C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0xA7F8, c, Memcard_UpdateFadeCounter_8012B53C]
+  - [0xA894]
+  - name: menu_memcard_fade_late
+    type: code
+    start: 0xA894
+    vram: 0x8012B5D8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0xA894, c, Memcard_AdvanceFade]
       - [0xA8E8, c, Memcard_UpdateFadeDisplay]
       - [0xA97C, c, Memcard_DecreaseFade]

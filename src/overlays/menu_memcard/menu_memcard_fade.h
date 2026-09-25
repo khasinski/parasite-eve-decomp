@@ -15,7 +15,8 @@ typedef struct MenuMemcardFadeState {
     s32 level;
     s32 velocity;
     s32 increment;
-    u8 reserved28[0x08];
+    s32 callbackAt;
+    u8 reserved2C[0x04];
     s32 finished;
 } MenuMemcardFadeState;
 
@@ -31,6 +32,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, onStep) == 0x14,
                   menu_memcard_fade_on_step_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, velocity) == 0x20,
                   menu_memcard_fade_velocity_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, callbackAt) == 0x28,
+                  menu_memcard_fade_callback_at_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, increment) == 0x24,
                   menu_memcard_fade_increment_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuMemcardFadeState, finished) == 0x30,
