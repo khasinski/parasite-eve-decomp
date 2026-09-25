@@ -43,7 +43,7 @@ ISO_CUE    := $(BUILD)/parasite-eve-$(VERSION)-disc1.cue
 CC_WRAPPER := tools/scripts/cc.sh
 AS         := mipsel-none-elf-as
 LD         := mipsel-none-elf-ld
-OVERLAY_VMA_OVERLAP := scene_e11 scene_e12 scene_e13 scene_e14
+OVERLAY_VMA_OVERLAP := boot_display scene_e11 scene_e12 scene_e13 scene_e14
 NM         := mipsel-none-elf-nm
 OBJCOPY    := mipsel-none-elf-objcopy
 

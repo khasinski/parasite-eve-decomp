@@ -45,7 +45,26 @@ segments:
       - [0x139C, c, Boot_InitDisplayBuffers]
       - [0x15A4, asm, boot_display_15A4]
       - [0x1F44, c, Boot_CallInitSystem]
-      - [0x1F64, asm, boot_display_1F64]
+  - [0x1F64]
+  # Retail's local jump retained a link address 0x100 above the load address.
+  - name: boot_display_bright_linkbase
+    type: code
+    start: 0x1F64
+    vram: 0x80125464
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x1F64, c, Boot_BrightenImageRegion_80125364]
+  - [0x20A4]
+  - name: boot_display_late
+    type: code
+    start: 0x20A4
+    vram: 0x801254A4
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0x20A4, c, Boot_WaitForCdAndRestoreCallbacks]
       - [0x212C, asm, boot_display_212C]
       - [0x2394, c, func_80125794]
