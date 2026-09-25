@@ -683,7 +683,7 @@ segments:
       - [0x44D20, c, item/Inv_RandomSelectionText]
       - [0x454F8, c, item/Inv_CompactActiveListSlots]
       - [0x4564C, c, item/Inv_CheckFreeSlotCapacity]
-      - [0x45758, asm, main/Inv_CheckItemEquippable]
+      - [0x45758, c, main/Inv_CheckItemEquippable]
       - [0x45BA4, c, item/Inv_RollRandomItemType]
       - [0x45E10, c, item/Item_PackParasiteSpells]
       - [0x45E68, c, aya/Aya_UnlockParasiteSpellById]
