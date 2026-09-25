@@ -35,7 +35,8 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, boot_display_0_1204]
+      - [0x0, asm, boot_display_0_112C]
+      - [0x112C, c, Boot_InitSprite16]
       - [0x1204, c, func_80124604]
       - [0x12F4, c, func_801246F4]
       - [0x139C, asm, boot_display_139C]

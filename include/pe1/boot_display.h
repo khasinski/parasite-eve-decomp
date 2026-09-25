@@ -1,0 +1,41 @@
+#ifndef PE1_BOOT_DISPLAY_H
+#define PE1_BOOT_DISPLAY_H
+
+#include "common.h"
+
+typedef struct {
+    s32 tag;
+    s32 code;
+} BootDisplayDrawModePrim;
+
+typedef struct {
+    s32 tag;
+    u8 r0;
+    u8 g0;
+    u8 b0;
+    u8 code;
+    u16 x0;
+    u16 y0;
+    u8 u0;
+    u8 v0;
+    u16 clut;
+    u16 w;
+    u16 h;
+} BootDisplaySpritePrim;
+
+typedef struct {
+    BootDisplayDrawModePrim draw_mode;
+    BootDisplaySpritePrim sprite;
+} BootDisplaySpritePacket;
+
+extern char *g_BootDisplayOrderingTable;
+extern u16 g_BootDisplayTPage;
+extern u16 g_BootDisplayClut;
+extern char *g_BootDisplayPrimitiveCursor;
+
+void func_80077AC4(void *ordering_table, void *primitive);
+void func_80077B04(void *primitive, s32 code);
+void func_80077C84(void *primitive, s32 x, s32 y, u16 tpage);
+void func_80077CB4(void *primitive, void *next);
+
+#endif

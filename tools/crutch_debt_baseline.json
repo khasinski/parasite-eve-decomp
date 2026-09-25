@@ -27,7 +27,7 @@
     "byte_pointer_arithmetic": 234,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 4008,
+    "externs_in_c": 4000,
     "field_macros": 0,
     "gotos": 587,
     "include_asm": 0,

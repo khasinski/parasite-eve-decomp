@@ -1,41 +1,7 @@
-#include "common.h"
-typedef struct {
-    s32 tag;
-    s32 code;
-} DrawModePrim;
-
-typedef struct {
-    s32 tag;
-    u8 r0;
-    u8 g0;
-    u8 b0;
-    u8 code;
-    u16 x0;
-    u16 y0;
-    u8 u0;
-    u8 v0;
-    u16 clut;
-    u16 w;
-    u16 h;
-} SpritePrim;
-
-typedef struct {
-    DrawModePrim draw_mode;
-    SpritePrim sprite;
-} BootSpritePrim;
-
-extern char *g_BootDisplayOrderingTable;
-extern u16 g_BootDisplayTPage;
-extern u16 g_BootDisplayClut;
-extern char *g_BootDisplayPrimitiveCursor;
-
-extern void func_80077AC4(void *ordering_table, void *primitive);
-extern void func_80077B04(void *primitive, s32 code);
-extern void func_80077C84(void *primitive, s32 x, s32 y, u16 tpage);
-extern void func_80077CB4(void *primitive, void *next);
+#include "pe1/boot_display.h"
 
 void func_80124604(s32 color) {
-    BootSpritePrim *primitive = (BootSpritePrim *)g_BootDisplayPrimitiveCursor;
+    BootDisplaySpritePacket *primitive = (BootDisplaySpritePacket *)g_BootDisplayPrimitiveCursor;
 
     func_80077C84(&primitive->draw_mode, 0, 0, g_BootDisplayTPage);
     ((u8 *)&primitive->sprite.tag)[3] = 4;
