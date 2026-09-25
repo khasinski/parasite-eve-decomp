@@ -72,6 +72,17 @@ segments:
       - [0x1100, asm, scene_e13_94_C0_108_218_33C_968_1100]
       - [0x1D50, c, RoomLib_SetArgs3_80190D40]
       - [0x1D74, asm, scene_e13_94_C0_108_218_1D74]
+  - [0x2734]
+  # Retail jumps in this tail were linked with the earlier 0x8018EFE8 base.
+  - name: scene_e13_earlybase_tail
+    type: code
+    start: 0x2734
+    vram: 0x8019171C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x2734, c, RoomLib_MsgDispatch_80191724]
       - [0x29FC, c, func_801919EC]
       - [0x2A18, data]
   - [0x3000]
