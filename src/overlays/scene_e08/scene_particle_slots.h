@@ -67,4 +67,18 @@ typedef struct SceneMovingState {
     s16 elapsedFrames;
 } SceneMovingState;
 
+typedef struct SceneParticleCluster {
+    SceneParticleOffset position[30];
+    s16 fieldF0[30];
+    s16 angle[30];
+    s16 brightness[30];
+    u8 texture[30];
+    u8 mode[30];
+    u8 counter[30];
+    u8 field1FE[30];
+    u8 active[30];
+    u8 timer[30];
+    u8 count;
+} SceneParticleCluster;
+
 #endif
