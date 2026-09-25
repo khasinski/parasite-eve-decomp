@@ -43,6 +43,7 @@ ISO_CUE    := $(BUILD)/parasite-eve-$(VERSION)-disc1.cue
 CC_WRAPPER := tools/scripts/cc.sh
 AS         := mipsel-none-elf-as
 LD         := mipsel-none-elf-ld
+OVERLAY_VMA_OVERLAP := scene_e11 scene_e12 scene_e13 scene_e14
 NM         := mipsel-none-elf-nm
 OBJCOPY    := mipsel-none-elf-objcopy
 
@@ -246,8 +247,8 @@ overlay-build: overlay-split
 	    --existing $(OVERLAY_UNDEFINED_SYMS) \
 	    --symbols $(OVERLAY_CONFIG_DIR)/sym.$(OVERLAY).txt \
 	    --symbols configs/$(VERSION)/sym.$(BASENAME).txt
-	# These three scenes contain a tail linked at an earlier VMA, overlapping the preceding section by 8 bytes.
-	$(LD) $(if $(filter $(OVERLAY),scene_e11 scene_e12 scene_e13),--no-check-sections) -EL -T $(OVERLAY_LD) -T $(OVERLAY_UNDEFINED_FUNCS) -T $(OVERLAY_UNDEFINED_SYMS) -T $(OVERLAY_EXTRA_UNDEFINEDS) \
+	# These scenes contain functions linked at an earlier VMA, overlapping the preceding section by 8 bytes.
+	$(LD) $(if $(filter $(OVERLAY),$(OVERLAY_VMA_OVERLAP)),--no-check-sections) -EL -T $(OVERLAY_LD) -T $(OVERLAY_UNDEFINED_FUNCS) -T $(OVERLAY_UNDEFINED_SYMS) -T $(OVERLAY_EXTRA_UNDEFINEDS) \
 	    -Map $(OVERLAY_BUILD)/$(OVERLAY).map -o $(OVERLAY_BUILD)/$(OVERLAY).elf
 	$(OBJCOPY) -O binary $(OVERLAY_BUILD)/$(OVERLAY).elf $(OVERLAY_OUT)
 

@@ -69,7 +69,27 @@ segments:
       - [0xB7C, c, func_8018FB6C]
       - [0xCFC, c, func_8018FCEC]
       - [0xFC8, c, func_8018FFB8]
-      - [0x10BC, asm, scene_e14_50_7C_C4_1D4_2F8_924_10BC]
+  - [0x10BC]
+  # Retail jump targets in this function use the earlier 0x8018EFE8 base.
+  - name: scene_e14_drift_earlybase
+    type: code
+    start: 0x10BC
+    vram: 0x801900A4
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x10BC, c, RoomFx_UpdateDrift_801900AC]
+  - [0x12C4]
+  - name: scene_e14_late_rest
+    type: code
+    start: 0x12C4
+    vram: 0x801902B4
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x12C4, asm, scene_e14_50_7C_C4_1D4_2F8_924_12C4]
       - [0x1D0C, c, func_80190CFC]
       - [0x1D30, data]
   - [0x2000]
