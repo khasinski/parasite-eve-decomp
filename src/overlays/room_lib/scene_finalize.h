@@ -1,5 +1,5 @@
-#ifndef PE1_SCENE_E11_H
-#define PE1_SCENE_E11_H
+#ifndef PE1_SCENE_FINALIZE_H
+#define PE1_SCENE_FINALIZE_H
 
 #include "../room_lib/room_lib.h"
 
