@@ -925,7 +925,7 @@ segments:
       - [0x617AC, c, math/Math_SqrtApprox3]
       - [0x61834, c, scene/Scene_Init]
       - [0x618A4, c, main/Scene_UpdatePlayerEntity]
-      - [0x61B6C, asm, main/Scene_UpdateEntityFacing]
+      - [0x61B6C, c, main/Scene_UpdateEntityFacing]
       - [0x61EA4, c, scene/Scene_SyncEntityAction]
       - [0x61F54, c, scene/Scene_UpdateEntityFacingFromPad]
       # TIM container parser and VRAM upload helpers.
