@@ -77,7 +77,26 @@ segments:
       - [0x9D08, asm, func_menu_memcard_009D08]
       - [0xA14C, asm, func_menu_memcard_00A14C]
       - [0xA458, c, func_8012B19C]
-      - [0xA4AC, asm, func_8012B1F0]
+  - [0xA4AC]
+  # This copied handler retained its original 0x80192CE0 link address.
+  - name: menu_memcard_copied_handler
+    type: code
+    start: 0xA4AC
+    vram: 0x80192CE0
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0xA4AC, c, Memcard_UpdateEventFlag_8012B1F0]
+  - [0xA4F8]
+  - name: menu_memcard_late
+    type: code
+    start: 0xA4F8
+    vram: 0x8012B23C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0xA4F8, asm, func_menu_memcard_00A4F8]
       - [0xA7A8, c, Memcard_InitFadeForNode]
       - [0xA7F8, asm, func_menu_memcard_00A7F8]
