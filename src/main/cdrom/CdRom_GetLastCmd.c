@@ -1,10 +1,5 @@
+/* GCC_VERSION: 2.8.1 */
 #include "pe1/psyq_cd.h"
-
-typedef struct CdCurrentPosPage {
-    char reserved00[0x4A7E];
-} CdCurrentPosPage;
-
-register CdCurrentPosPage *g_CdCurrentPosPage asm("$2");
 
 extern unsigned char g_CdLastCmd;
 
@@ -19,8 +14,7 @@ int CdRom_GetCmdMode(void) {
 }
 
 CdlLOC *CdRom_GetCurrentPosPtr(void) {
-    g_CdCurrentPosPage = (CdCurrentPosPage *)0x800A0000;
-    return (CdlLOC *)&g_CdCurrentPosPage[-1];
+    return &g_CdCurPosPtr;
 }
 
 extern unsigned char g_CdRetryCount;

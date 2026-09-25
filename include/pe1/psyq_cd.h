@@ -467,6 +467,7 @@ void CdRom_SetMode2Callback(u_char event);
 void Render_StepParticleCallback(void);
 
 extern CdlLOC g_CdLastPos;
+extern CdlLOC g_CdCurPosPtr;
 extern int D_8009B260;
 extern u32 g_CdStreamMask;
 extern u32 D_800B6918;
