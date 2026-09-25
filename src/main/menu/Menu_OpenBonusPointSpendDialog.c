@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/psyq_nop.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -38,7 +39,7 @@ void Menu_OpenBonusPointSpendDialog(MenuWidgetNode *arg0, s32 arg1) {
         MenuWidget_OffsetPosition(node, 0xA, 0);
     } else {
         s32 value = g_BonusPointStatDeltas[arg1];
-        __asm__ volatile("nop");
+        PE1_NOP();
         g_BonusPointSpendCurrentValue = value;
     }
     g_MenuSpendArrowDirection = 0;

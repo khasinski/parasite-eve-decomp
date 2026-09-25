@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/psyq_nop.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -34,7 +35,7 @@ s32 Menu_HandleAyaInventorySelectionInput(s32 arg0, s32 arg1)
             s32 item_id;
 
             item_id = g_AyaInventoryItems[MenuWidget_GridCellIndex(temp_v0)];
-            __asm__ volatile("nop");
+            PE1_NOP();
             D_8009CF9C = item_id;
         }
         temp_v0_2 = MenuWidget_GridCellIndex(temp_v0) | (M2C_FIELD(temp_v0, s32 *, 0x5C) << 8);

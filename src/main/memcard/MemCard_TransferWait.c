@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/psyq_nop.h"
 
 #include "pe1/memcard_state.h"
 
@@ -36,7 +37,7 @@ void MemCard_WaitStatusBit2(void) {
     MemCardSioRegisters *ptr = g_MemCardSioRegs;
 
     /* Keep the poll loop target on the lhu, not the load-delay nop. */
-    asm volatile("nop");
+    PE1_NOP();
     while ((ptr->status & 2) == 0) {
     }
 }
