@@ -129,7 +129,7 @@ segments:
       - [0x522C, c, func_80194214]
       - [0x53E4, c, func_801943CC]
       - [0x54B0, c, Scene_DrawLayeredSprite]
-      - [0x56EC, asm, scene_e08_56EC]
+      - [0x56EC, c, Scene_UpdateLayeredSprite]
       - [0x59A0, c, func_80194988]
       - [0x5A0C, c, func_801949F4]
       - [0x5B5C, c, func_80194B44]

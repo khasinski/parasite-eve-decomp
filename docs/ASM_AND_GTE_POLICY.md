@@ -1870,3 +1870,19 @@ binding happens to preserve the current allocation, but would leave an
 implicit hardware result incorrectly declared as an arbitrary register
 output. These are fixed ABI operands rather than allocator hints; all four
 bindings are retained to state the actual syscall contract.
+
+## Scene E08 layered-sprite update
+
+`func_801946D4` matches all 692 retail bytes. The two descending seed-copy
+loops, position integration, ground collision, and final point test remain in
+C. Explicit position and velocity samples give GCC the retail load order.
+Three volatile motion reads constrain that order; they do not model MMIO.
+
+The cursor's `$6` pin preserves the seed-copy addressing. The Y velocity and
+later screen limit each use `$7`, and an empty memory barrier preserves the
+ground-height reload after velocities are cleared. Removing the cursor or
+Y-velocity pin changes the output to 93.75% or 95.26%; removing the limit pin
+gives 98.84% and removing the barrier gives 97.08%. Dropping each volatile read
+also breaks the match. An initial gravity pin and ground-pointer use barrier
+proved unnecessary and were removed before integration. No CPU instruction
+assembly is present.
