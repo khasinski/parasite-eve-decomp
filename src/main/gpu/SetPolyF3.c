@@ -63,7 +63,8 @@ static unsigned int SetLineF2_alignment[] __attribute__((section(".text"))) = { 
 
 void SetDrawMode(char *prim, int drawTexture, int dither, int tpage) {
     int code;
-    register int packedTpage asm("$2");
+    int packedTpage;
+    int *command = (int *)(prim + 4);
 
     prim[3] = 1;
     code = 0xE1000000;
@@ -75,9 +76,11 @@ void SetDrawMode(char *prim, int drawTexture, int dither, int tpage) {
     packedTpage = tpage & 0x9FF;
     if (drawTexture != 0) {
         packedTpage |= 0x400;
+        *command = packedTpage | code;
+        return;
     }
 
-    *(int *)(prim + 4) = code | packedTpage;
+    *command = code | packedTpage;
 }
 
 static unsigned int SetDrawMode_alignment[] __attribute__((section(".text"))) = { 0x00000000 };
