@@ -35,7 +35,7 @@ void Boot_InitDisplayBuffers(void) {
     start = base + delta;
     delta += 0x54000;
     end = D_80011610 + delta;
-    D_80125B88 = start;
+    D_80125B88[0] = start;
     D_80125B90 = end;
     D_80125B98 = end;
     D_80125BA0 = start;

@@ -37,13 +37,54 @@ segments:
     subsegments:
       - [0x0, asm, boot_display_0_908]
       - [0x908, c, Boot_InitDisplayResources]
-      - [0xA8C, asm, boot_display_A8C]
+  - [0xA8C]
+  # The frame-buffer fragment retains a link VMA 0x100 above its load address.
+  - name: boot_display_frame_buffers_linkbase
+    type: code
+    start: 0xA8C
+    vram: 0x80123F8C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0xA8C, c, Boot_SelectFrameBuffers]
+  - [0xB34]
+  - name: boot_display_sprite_commands
+    type: code
+    start: 0xB34
+    vram: 0x80123F34
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0xB34, c, Boot_DisplayNoOp]
+      - [0xB3C, asm, boot_display_B3C]
       - [0x1098, c, Boot_QueueTintedSprite]
       - [0x112C, c, Boot_InitSprite16]
       - [0x1204, c, func_80124604]
       - [0x12F4, c, func_801246F4]
       - [0x139C, c, Boot_InitDisplayBuffers]
-      - [0x15A4, asm, boot_display_15A4]
+  - [0x15A4]
+  # Present-frame local jumps retain a link address 0x100 above load address.
+  - name: boot_display_present_frame_linkbase
+    type: code
+    start: 0x15A4
+    vram: 0x80124AA4
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x15A4, c, Boot_PresentFrame]
+  - [0x1704]
+  - name: boot_display_image_commands
+    type: code
+    start: 0x1704
+    vram: 0x80124B04
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x1704, asm, boot_display_1704]
       - [0x1F44, c, Boot_CallInitSystem]
   - [0x1F64]
   # Retail's local jump retained a link address 0x100 above the load address.
@@ -66,9 +107,59 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x20A4, c, Boot_WaitForCdAndRestoreCallbacks]
-      - [0x212C, asm, boot_display_212C]
+  - [0x212C]
+  # The init fragment retains a link address 0x18 above its load address.
+  - name: boot_display_file_init_linkbase
+    type: code
+    start: 0x212C
+    vram: 0x80125544
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x212C, c, Boot_InitPlaybackFile]
+  - [0x2244]
+  # Local jumps retain a link address 0x100 above the load address.
+  - name: boot_display_start_playback_linkbase
+    type: code
+    start: 0x2244
+    vram: 0x80125744
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x2244, c, Boot_StartPlayback]
+  - [0x2394]
+  - name: boot_display_read_commands
+    type: code
+    start: 0x2394
+    vram: 0x80125794
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0x2394, c, func_80125794]
-      - [0x2480, asm, boot_display_2480]
+  - [0x2480]
+  # Local jumps retain a link address 0x100 above this function's load address.
+  - name: boot_display_playback_linkbase
+    type: code
+    start: 0x2480
+    vram: 0x80125980
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x2480, c, Boot_StepPlaybackTransfer]
+      - [0x2540, c, Boot_CheckPlaybackTime]
+  - [0x25F0]
+  - name: boot_display_tail
+    type: code
+    start: 0x25F0
+    vram: 0x801259F0
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0x25F0, c, func_801259F0]
       - [0x2648, asm, boot_display_2648]
   - [0x2800]

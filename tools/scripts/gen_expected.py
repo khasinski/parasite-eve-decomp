@@ -459,6 +459,33 @@ def normalize_c_function_labels(text, valid_names, data_names=()):
     return "\n".join(out) + ("\n" if text.endswith("\n") else "")
 
 
+def restore_c_function_names(text, functions, unit_vram):
+    """Restore names lost by splat when independently linked fragments overlap.
+
+    Addresses come from the manifest and compiler symbol offsets, as in
+    harvest(). Only labels are added; instruction lines remain retail input.
+    """
+    present = set(re.findall(r"^\s*(?:glabel|alabel) (\w+)$", text, re.MULTILINE))
+    missing = {unit_vram + offset: name for offset, name in functions
+               if name not in present}
+    out = []
+    in_text = False
+    for line in text.splitlines():
+        if line.startswith(".section"):
+            in_text = bool(re.match(r"\.section\s+\.text(?:\s|,|$)", line))
+        match = re.match(r"^\s*/\*\s+[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})\s+", line)
+        if in_text and match:
+            name = missing.pop(int(match.group(1), 16), None)
+            if name is not None:
+                out.append("glabel %s" % name)
+        out.append(line)
+    if missing:
+        raise ValueError("No retail instruction at C function address: " +
+                         ", ".join("%s@0x%X" % (name, address)
+                                   for address, name in sorted(missing.items())))
+    return "\n".join(out) + ("\n" if text.endswith("\n") else "")
+
+
 AUTO_SYMBOL = re.compile(r"^(D_[0-9A-Fa-f]+) = 0x([0-9A-Fa-f]+);", re.MULTILINE)
 HILO = re.compile(r"%(hi|lo)\((D_[0-9A-Fa-f]+)\)")
 
@@ -607,6 +634,7 @@ def process_module(module, shared, assembler, workers):
     (work / "src").mkdir()
 
     base_config = yaml.safe_load(module.config.read_text())
+    slices, _spans = subsegment_slices(base_config)
     table, harvested = module_symbols(module, base_config, shared)
     symbol_file = work / "symbols.txt"
     table.write(symbol_file)
@@ -679,6 +707,7 @@ def process_module(module, shared, assembler, workers):
             text = strip_differ_aliases(source.read_text())
             text = retype_data_in_text(text, unit_kinds)
             if valid_functions is not None:
+                text = restore_c_function_names(text, functions, slices[unit][".text"])
                 text = normalize_c_function_labels(text, valid_functions, unit_kinds)
             source.write_text(inline_constant_pairs(text, constants))
         jobs.append((source, obj))

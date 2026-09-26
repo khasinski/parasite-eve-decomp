@@ -218,6 +218,7 @@ extern u8 D_8019C340;
 extern RoomSpriteMatrix D_8019CC30;
 extern RoomSpriteMatrix *D_8019BFF0;
 extern u8 D_801D0260;
+extern u8 D_801EA378[];
 extern void *D_800BCFA4;
 extern void *volatile D_800BCFA8;
 

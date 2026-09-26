@@ -291,5 +291,30 @@ class DisassemblyRewriteTests(unittest.TestCase):
         self.assertEqual(high, 0x80)
 
 
+class OverlappingFunctionNameTests(unittest.TestCase):
+    def test_lost_entry_name_is_restored_without_changing_instructions(self):
+        instruction = "    /* 212C 80125544 D0FFBD27 */  addiu $sp, $sp, -0x30"
+        text = '.section .text, "ax"\nglabel func_80125544\n' + instruction + '\n'
+        restored = gen_expected.restore_c_function_names(
+            text, [(0, "Boot_InitPlaybackFile")], 0x80125544)
+        normalized = gen_expected.normalize_c_function_labels(
+            restored, {"Boot_InitPlaybackFile"})
+        self.assertIn(".global func_80125544\nfunc_80125544:", normalized)
+        self.assertIn("glabel Boot_InitPlaybackFile\n" + instruction, normalized)
+        self.assertIn("endlabel Boot_InitPlaybackFile", normalized)
+        self.assertEqual([line for line in normalized.splitlines() if "/*" in line],
+                         [instruction])
+
+    def test_existing_function_name_is_not_added_twice(self):
+        text = '.section .text, "ax"\nglabel Real\n  nop\n'
+        self.assertEqual(gen_expected.restore_c_function_names(
+            text, [(0, "Real")], 0x80125544), text)
+
+    def test_missing_instruction_address_fails_instead_of_inventing_a_boundary(self):
+        text = '.section .text, "ax"\n/* 212C 80125544 D0FFBD27 */ addiu $sp, $sp, -0x30\n'
+        with self.assertRaisesRegex(ValueError, "Missing@0x80125548"):
+            gen_expected.restore_c_function_names(text, [(4, "Missing")], 0x80125544)
+
+
 if __name__ == "__main__":
     unittest.main()
