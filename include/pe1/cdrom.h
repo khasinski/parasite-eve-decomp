@@ -5,5 +5,7 @@ int cd_rom4(unsigned char command, void *param, void *result);
 int func_80080DC4(unsigned char command, void *param, void *result);
 int Cd_GetReadyStatus(void);
 int CdRom_GetPendingReadCount(void);
+int CdRom_ReadSectorsFromLba(unsigned int lba, void *destination, int count);
+int CdRom_PollReady(void);
 
 #endif

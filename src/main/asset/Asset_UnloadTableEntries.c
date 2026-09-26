@@ -20,9 +20,9 @@ int Asset_UnloadTableEntries(void) {
         {
             SceneAssetBlob *blob = state->loaded_scene_assets;
             SceneAssetDirectory *directory =
-                (SceneAssetDirectory *)((u8 *)blob + blob->directoryOffset);
+                SceneAsset_ResolveOffset(blob, blob->directoryOffset);
             SceneAssetRecord *entry =
-                (SceneAssetRecord *)((u8 *)blob + (directory->entries & 0x3FFFFF));
+                SceneAsset_ResolveOffset(blob, directory->entries & 0x3FFFFF);
 
             for (i = 0; i < (int)(directory->entries >> 22); i++) {
                 unsigned int id = entry[i].handlerId;

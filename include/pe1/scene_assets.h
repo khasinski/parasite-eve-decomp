@@ -4,9 +4,10 @@
 #include "common.h"
 #include "pe1/game_state.h"
 
-/* Only the callback used during scene unloading is identified here. */
+/* Scene startup and teardown callbacks; other handlers remain unidentified. */
 typedef struct SceneAssetHandler {
-    u8 reserved[0x18];
+    void (*init)(void);
+    u8 reserved[0x14];
     void (*unload)(void);
 } SceneAssetHandler;
 
@@ -20,6 +21,8 @@ typedef struct SceneAssetDirectory {
     unsigned int reserved;
     /* Low 22 bits: byte offset from the blob; high 10 bits: record count. */
     unsigned int entries;
+    unsigned int reserved08[8];
+    unsigned int timEntries; /* 0x28: same offset/count encoding */
 } SceneAssetDirectory;
 
 typedef struct SceneAssetBlob {
@@ -27,8 +30,43 @@ typedef struct SceneAssetBlob {
     unsigned int directoryOffset;
 } SceneAssetBlob;
 
+/* Scene containers encode byte offsets relative to their loaded base. */
+static inline void *SceneAsset_ResolveOffset(void *base, unsigned int offset)
+{
+    return (u8 *)base + offset;
+}
+
+typedef struct TimUploadRecord { u32 words[5]; } TimUploadRecord;
+typedef struct TimPackedImage {
+    u32 key;
+    union {
+        u32 offsetAndHeight;
+        struct { u8 offset[3]; u8 height; } bytes;
+    } source;
+    u32 geometry;
+} TimPackedImage;
+
+PE1_STATIC_ASSERT(sizeof(TimUploadRecord) == 20, scene_tim_upload_record_size);
+PE1_STATIC_ASSERT(sizeof(TimPackedImage) == 12, scene_tim_packed_image_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TimPackedImage, source.bytes.height) == 7,
+                  scene_tim_image_height_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TimPackedImage, geometry) == 8,
+                  scene_tim_image_geometry_offset);
+
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneAssetHandler, unload) == 0x18,
                   scene_asset_unload_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneAssetHandler, init) == 0,
+                  scene_asset_init_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneAssetDirectory, timEntries) == 0x28,
+                  scene_asset_tim_entries_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, tim_load_state) == 0xEF,
+                  game_state_tim_load_state_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, pe_image_base_lba) == 0x100,
+                  game_state_pe_image_base_lba_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_process_slots) == 0x188,
+                  game_state_scene_process_slots_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_load_scratch) == 0x194,
+                  game_state_scene_load_scratch_offset);
 PE1_STATIC_ASSERT(sizeof(SceneAssetRecord) == 12, scene_asset_record_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneAssetRecord, handlerId) == 7,
                   scene_asset_handler_id_offset);
@@ -45,6 +83,9 @@ extern void **g_PmCmdHandlerTable;
 extern void *D_800E1044[104];
 
 int Asset_UnloadTableEntries(void);
+int Asset_LoadTimTextures(int force);
+int Gpu_LoadTimAsset(TimUploadRecord *record, void *base);
+extern u16 D_800930E2, D_800930E4;
 
 /* The initializer clears each record's halfwords at offsets 6 and 4. */
 typedef struct SceneBankResetPair {

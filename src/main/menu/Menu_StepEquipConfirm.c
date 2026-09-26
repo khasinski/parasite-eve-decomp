@@ -200,8 +200,6 @@ no_confirm:
         MenuWidget_SetCurrentNode(MenuWidget_FindByModeAndSelectedBase(2, 5));
     }
 
-    goto cancel;
-
 cancel:
     handled = 1;
     Menu_PlayCancelSound();

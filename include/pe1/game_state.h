@@ -12,6 +12,7 @@ typedef unsigned int Pe1U32;
  * substructures are reconstructed.
  */
 struct SceneAssetBlob;
+struct PmSlotBanks;
 
 typedef struct Pe1GameState {
     Pe1U32 flags;                    /* 0x000 */
@@ -24,10 +25,13 @@ typedef struct Pe1GameState {
     Pe1U8 unk_013;
     Pe1U8 scene_work[0x0C4];         /* 0x014 */
     Pe1U8 draw_prim_a[0x10];         /* 0x0D8 */
-    Pe1U8 unk_0e8[0x0E];
+    Pe1U8 unk_0e8[7];
+    Pe1U8 tim_load_state;            /* 0x0EF: 0, 0x34, 0x35, 0x36 */
+    Pe1U8 reserved_0f0[6];
     Pe1U8 bank_value_f6, bank_value_f7;
     unsigned short bank_value_f8, bank_value_fa;
-    Pe1U8 unk_0fc[8];
+    Pe1U8 unk_0fc[4];
+    Pe1U32 pe_image_base_lba;        /* 0x100: g_PeImageBaseLba */
     Pe1U8 draw_prim_b[0x10];         /* 0x104 */
     Pe1U8 draw_prim_c[0x10];         /* 0x114 */
     Pe1U32 bank_asset_table;          /* 0x124 */
@@ -42,9 +46,11 @@ typedef struct Pe1GameState {
     Pe1U8 unk_15c[0x1C];
     unsigned short *save_background_source;      /* 0x178 */
     unsigned short *save_background_destination; /* 0x17C */
-    Pe1U8 unk_180[0x0C];
+    Pe1U8 unk_180[8];
+    struct PmSlotBanks *scene_process_slots; /* 0x188 */
     struct SceneAssetBlob *loaded_scene_assets; /* 0x18C */
-    Pe1U8 unk_190[8];
+    Pe1U8 unk_190[4];
+    struct SceneAssetBlob *scene_load_scratch; /* 0x194: g_SceneLoadScratchBuffer */
     /* Reset bounds establish these arrays; individual element roles unknown. */
     Pe1U32 bank_slots[10];           /* 0x198 */
     Pe1U32 bank_rows[10][48];        /* 0x1C0 */

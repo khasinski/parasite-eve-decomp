@@ -437,7 +437,6 @@ archive_match:
         Akao_Cmd_92(*args->arg1);
         goto done;
     }
-    goto done;
 done:
     return 1;
 }
