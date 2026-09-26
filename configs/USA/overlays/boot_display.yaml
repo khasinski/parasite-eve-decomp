@@ -1,6 +1,6 @@
-# vram: jal-bounded estimate, feasible [0x801230F0, 0x80123950]; calls into 0x8010Bxxx module
+# Includes preceding switch tables; code fragments retain their copied link VMAs.
 name: boot_display.bin
-sha1: a9e7093f70207b46780fcefd60f2f48032b01bb8
+sha1: cc65efe48c03e5fb1411d85619db32b4328d46a6
 options:
   basename: boot_display
   target_path: original/USA/overlays/boot_display.bin
@@ -27,243 +27,264 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: boot_display
+  - name: boot_display_main_switch_table
     type: code
     start: 0x0
-    vram: 0x80123400
+    vram: 0x80122FA4
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, boot_display_0_9C]
-  - [0x9C]
+      - [0x0, .rodata, Boot_RunDisplay]
+  - [0x14]
+  - name: boot_display_font_table_prefix
+    type: code
+    start: 0x14
+    vram: 0x80122FB8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x14, rodata, boot_display_font_tables_prefix]
+  - [0x55C]
+  - name: boot_display
+    type: code
+    start: 0x55C
+    vram: 0x80123500
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x55C, rodata, boot_display_font_table_tail]
+  - [0x5F8]
   - name: boot_display_sprite_switch_table
     type: code
-    start: 0x9C
+    start: 0x5F8
     vram: 0x8012359C
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x9C, .rodata, Boot_StepImageSprite]
-  - [0xBC]
+      - [0x5F8, .rodata, Boot_StepImageSprite]
+  - [0x618]
   # The switch table retains the copied routine's original link address.
   - name: boot_display_image_switch_table
     type: code
-    start: 0xBC
+    start: 0x618
     vram: 0x801235BC
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0xBC, .rodata, Boot_StepImageDisplay]
-  - [0xDC]
+      - [0x618, .rodata, Boot_StepImageDisplay]
+  - [0x638]
   - name: boot_display_early_code
     type: code
-    start: 0xDC
-    vram: 0x801234DC
+    start: 0x638
+    vram: 0x801235DC
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0xDC, asm, boot_display_DC_450]
-  - [0x450]
+      - [0x638, c, Boot_RunDisplay]
+  - [0x9AC]
   # The text renderer retains its original copied link VMA.
   - name: boot_display_text_linkbase
     type: code
-    start: 0x450
+    start: 0x9AC
     vram: 0x80123950
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x450, c, Boot_DrawTextBlock]
-  - [0x61C]
+      - [0x9AC, c, Boot_DrawTextBlock]
+  - [0xB78]
   - name: boot_display_glyph_helpers
     type: code
-    start: 0x61C
+    start: 0xB78
     vram: 0x80123A1C
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x61C, asm, boot_display_61C_908]
-      - [0x908, c, Boot_InitDisplayResources]
-  - [0xA8C]
+      - [0xB78, asm, boot_display_61C_908]
+      - [0xE64, c, Boot_InitDisplayResources]
+  - [0xFE8]
   # The frame-buffer fragment retains a link VMA 0x100 above its load address.
   - name: boot_display_frame_buffers_linkbase
     type: code
-    start: 0xA8C
+    start: 0xFE8
     vram: 0x80123F8C
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0xA8C, c, Boot_SelectFrameBuffers]
-  - [0xB34]
+      - [0xFE8, c, Boot_SelectFrameBuffers]
+  - [0x1090]
   - name: boot_display_sprite_commands
     type: code
-    start: 0xB34
+    start: 0x1090
     vram: 0x80123F34
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0xB34, c, Boot_DisplayNoOp]
-  - [0xB3C]
+      - [0x1090, c, Boot_DisplayNoOp]
+  - [0x1098]
   # Sprite callback local jumps retain the original copied link VMA.
   - name: boot_display_image_sprite_linkbase
     type: code
-    start: 0xB3C
+    start: 0x1098
     vram: 0x8012403C
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0xB3C, c, Boot_StepImageSprite]
-  - [0x1098]
+      - [0x1098, c, Boot_StepImageSprite]
+  - [0x15F4]
   - name: boot_display_sprite_helpers
     type: code
-    start: 0x1098
+    start: 0x15F4
     vram: 0x80124498
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x1098, c, Boot_QueueTintedSprite]
-      - [0x112C, c, Boot_InitSprite16]
-      - [0x1204, c, func_80124604]
-      - [0x12F4, c, func_801246F4]
-      - [0x139C, c, Boot_InitDisplayBuffers]
-  - [0x15A4]
+      - [0x15F4, c, Boot_QueueTintedSprite]
+      - [0x1688, c, Boot_InitSprite16]
+      - [0x1760, c, func_80124604]
+      - [0x1850, c, func_801246F4]
+      - [0x18F8, c, Boot_InitDisplayBuffers]
+  - [0x1B00]
   # Present-frame local jumps retain a link address 0x100 above load address.
   - name: boot_display_present_frame_linkbase
     type: code
-    start: 0x15A4
+    start: 0x1B00
     vram: 0x80124AA4
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x15A4, c, Boot_PresentFrame]
-  - [0x1704]
+      - [0x1B00, c, Boot_PresentFrame]
+  - [0x1C60]
   # The glyph routine retains its original link VMA, 0x100 above load.
   - name: boot_display_glyph_linkbase
     type: code
-    start: 0x1704
+    start: 0x1C60
     vram: 0x80124C04
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x1704, c, Boot_BrightenGlyph]
-  - [0x1A40]
+      - [0x1C60, c, Boot_BrightenGlyph]
+  - [0x1F9C]
   # The display initializer retains its original link VMA, 0x100 above load.
   - name: boot_display_image_display_linkbase
     type: code
-    start: 0x1A40
+    start: 0x1F9C
     vram: 0x80124F40
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x1A40, c, Boot_SetImageDisplay]
-  - [0x1B94]
+      - [0x1F9C, c, Boot_SetImageDisplay]
+  - [0x20F0]
   - name: boot_display_image_state_linkbase
     type: code
-    start: 0x1B94
+    start: 0x20F0
     vram: 0x80125094
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x1B94, c, Boot_StepImageDisplay]
-  - [0x1F44]
+      - [0x20F0, c, Boot_StepImageDisplay]
+  - [0x24A0]
   - name: boot_display_call_init
     type: code
-    start: 0x1F44
+    start: 0x24A0
     vram: 0x80125344
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x1F44, c, Boot_CallInitSystem]
-  - [0x1F64]
+      - [0x24A0, c, Boot_CallInitSystem]
+  - [0x24C0]
   # Retail's local jump retained a link address 0x100 above the load address.
   - name: boot_display_bright_linkbase
     type: code
-    start: 0x1F64
+    start: 0x24C0
     vram: 0x80125464
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x1F64, c, Boot_BrightenImageRegion_80125364]
-  - [0x20A4]
+      - [0x24C0, c, Boot_BrightenImageRegion_80125364]
+  - [0x2600]
   - name: boot_display_late
     type: code
-    start: 0x20A4
+    start: 0x2600
     vram: 0x801254A4
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x20A4, c, Boot_WaitForCdAndRestoreCallbacks]
-  - [0x212C]
+      - [0x2600, c, Boot_WaitForCdAndRestoreCallbacks]
+  - [0x2688]
   # The init fragment retains a link address 0x18 above its load address.
   - name: boot_display_file_init_linkbase
     type: code
-    start: 0x212C
+    start: 0x2688
     vram: 0x80125544
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x212C, c, Boot_InitPlaybackFile]
-  - [0x2244]
+      - [0x2688, c, Boot_InitPlaybackFile]
+  - [0x27A0]
   # Local jumps retain a link address 0x100 above the load address.
   - name: boot_display_start_playback_linkbase
     type: code
-    start: 0x2244
+    start: 0x27A0
     vram: 0x80125744
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x2244, c, Boot_StartPlayback]
-  - [0x2394]
+      - [0x27A0, c, Boot_StartPlayback]
+  - [0x28F0]
   - name: boot_display_read_commands
     type: code
-    start: 0x2394
+    start: 0x28F0
     vram: 0x80125794
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x2394, c, func_80125794]
-  - [0x2480]
+      - [0x28F0, c, func_80125794]
+  - [0x29DC]
   # Local jumps retain a link address 0x100 above this function's load address.
   - name: boot_display_playback_linkbase
     type: code
-    start: 0x2480
+    start: 0x29DC
     vram: 0x80125980
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x2480, c, Boot_StepPlaybackTransfer]
-      - [0x2540, c, Boot_CheckPlaybackTime]
-  - [0x25F0]
+      - [0x29DC, c, Boot_StepPlaybackTransfer]
+      - [0x2A9C, c, Boot_CheckPlaybackTime]
+  - [0x2B4C]
   - name: boot_display_tail
     type: code
-    start: 0x25F0
+    start: 0x2B4C
     vram: 0x801259F0
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x25F0, c, func_801259F0]
-      - [0x2648, asm, boot_display_2648]
-  - [0x2800]
-# source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/boot_display.bin bs=2048 skip=1116 count=5
+      - [0x2B4C, c, func_801259F0]
+      - [0x2BA4, asm, boot_display_2648]
+  - [0x2D5C]
+# source slice: scanner, extended to include the preceding switch tables
+# Previous 0x2800-byte slice is the suffix at 0x55C: a9e7093f70207b46780fcefd60f2f48032b01bb8
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/boot_display.bin bs=1 skip=2284196 count=11612

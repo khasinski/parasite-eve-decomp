@@ -42,7 +42,7 @@ typedef struct {
     void (*step)(void);
     s32 (*text)(void);
     void (*glyph)(s16, s16, u8);
-    void (*transition)(void);
+    void (*transition)(u8);
     void (*present)(void);
     void (*shutdown)(void);
 } BootDisplayCallbacks;
