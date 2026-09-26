@@ -36,6 +36,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, sys_reset]
+      - [0x144, c, DecDCTReset]
       - [0x178, c, func_8010BE70]
       - [0x204, c, func_8010BEFC]
       - [0x29C, c, func_8010BF94]
