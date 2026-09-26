@@ -135,7 +135,7 @@ void func_800754E4(void *dst, void *src);
 void func_80124F40(s32 value);
 
 /* Callable entry points inside neighboring boot-display code. */
-s32 func_80123B1C(u8 color);
+s32 Boot_GetGlyphIndex(u8 character);
 void func_8012462C(void *primitive, u16 x, u16 y, s32 u, s32 v);
 
 #endif

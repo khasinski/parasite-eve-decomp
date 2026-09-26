@@ -45,7 +45,9 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x14, rodata, boot_display_font_tables_prefix]
+      - [0x14, rodata, boot_display_font_tables_pad]
+      - [0x18, .rodata, Boot_GetGlyphIndex]
+      - [0x308, rodata, boot_display_width_tables_prefix]
   - [0x55C]
   - name: boot_display
     type: code
@@ -99,15 +101,25 @@ segments:
     subsegments:
       - [0x9AC, c, Boot_DrawTextBlock]
   - [0xB78]
-  - name: boot_display_glyph_helpers
+  - name: boot_display_glyph_index_linkbase
     type: code
     start: 0xB78
-    vram: 0x80123A1C
+    vram: 0x80123B1C
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0xB78, asm, boot_display_61C_908]
+      - [0xB78, c, Boot_GetGlyphIndex]
+  - [0xD08]
+  - name: boot_display_glyph_width_and_init
+    type: code
+    start: 0xD08
+    vram: 0x80123BAC
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0xD08, asm, boot_display_D08_E64]
       - [0xE64, c, Boot_InitDisplayResources]
   - [0xFE8]
   # The frame-buffer fragment retains a link VMA 0x100 above its load address.

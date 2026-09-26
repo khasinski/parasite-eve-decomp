@@ -20,7 +20,7 @@ void Boot_BrightenGlyph(s32 x, s32 y, u8 character) {
     s32 savedX = x;
     register s32 row asm("$18") = y;
     char *screen = D_80125B88[g_BootDisplayBufferIndex * 4];
-    s32 glyph = func_80123B1C(character);
+    s32 glyph = Boot_GetGlyphIndex(character);
     s32 low = glyph & 15;
     s32 high = glyph & 240;
     s32 imageOffset;
