@@ -48,7 +48,7 @@ int FxCommon_CheckBoundsWithMargin(int *point, int margin)
     {
       if (first >= 0)
       {
- distance = first / D_8019CBC8;
+        distance = first / D_8019CBC8;
       }
       else
       {
