@@ -66,7 +66,28 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0xDC, asm, boot_display_DC_908]
+      - [0xDC, asm, boot_display_DC_450]
+  - [0x450]
+  # The text renderer retains its original copied link VMA.
+  - name: boot_display_text_linkbase
+    type: code
+    start: 0x450
+    vram: 0x80123950
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x450, c, Boot_DrawTextBlock]
+  - [0x61C]
+  - name: boot_display_glyph_helpers
+    type: code
+    start: 0x61C
+    vram: 0x80123A1C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x61C, asm, boot_display_61C_908]
       - [0x908, c, Boot_InitDisplayResources]
   - [0xA8C]
   # The frame-buffer fragment retains a link VMA 0x100 above its load address.

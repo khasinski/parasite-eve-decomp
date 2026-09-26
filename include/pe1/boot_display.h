@@ -37,6 +37,20 @@ typedef struct {
 } BootDisplayImageBuffer;
 extern BootDisplayImageBuffer g_BootDisplayImageBuffers[2] __asm__("D_80125B84");
 
+typedef struct {
+    void (*init)(void);
+    void (*step)(void);
+    s32 (*text)(void);
+    void (*glyph)(s16, s16, u8);
+    void (*transition)(void);
+    void (*present)(void);
+    void (*shutdown)(void);
+} BootDisplayCallbacks;
+extern BootDisplayCallbacks *g_BootDisplayCallbacks;
+extern u16 g_BootDisplayFontStyle;
+extern const u8 *D_80125C88[];
+extern const u8 **g_BootDisplayTextCursor;
+
 extern char *g_BootDisplayOrderingTable;
 extern u16 g_BootDisplayTPage;
 extern u16 g_BootDisplayClut;
