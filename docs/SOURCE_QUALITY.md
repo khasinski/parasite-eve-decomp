@@ -6255,3 +6255,23 @@ The debt tracker records 47 pins and 19 empty barriers added by this function. T
 stock GCC 2.7.2 and assembler use -G8 to reproduce the gp-relative base-colour
 load. Compiler, assembler and maspsx remain unmodified. Linked function
 SHA-1: 05c9868956b82cb8513170c06bdcf92ee86e5b78.
+
+
+### Render_TransformVertices
+
+The 1568-byte function now uses C and individually wrapped GTE operations.
+It copies animation data for states 1/3, returns immediately for state 3,
+composes the parent matrix for state 4, and interprets the signed matrix
+command stream. Push/pop use scratchpad 0x1F80000C and do not advance the
+output-matrix pointer. Ordinary commands compose matrix columns and
+translation, then transform the visible part's bounds.
+
+The part's word at +8 supplies the non-root translation vector Z component
+through scratchpad 0x1F800008; it is now RenderObjectPart.translation_z.
+RenderObjectEntity.matrix_commands replaces unknown padding at +0x20.
+Layout assertions preserve the 12-byte part and 0xBC-byte entity.
+Matching debt includes pins, empty barriers, volatile accesses, raw-offset
+accessors and an artificial two-word frame reservation. The debt tracker
+records 49 pins, 16 empty barriers and 12 raw-offset dereferences. Native stock
+GCC 2.7.2 and maspsx remain unmodified; no per-file compiler flags are used.
+Linked function SHA-1: d4781a492a9953b67639e551c75d82ce6e44ce9a.

@@ -408,7 +408,7 @@ segments:
       - [0x2A374, c, anim/Anim_BuildRotationMatrices]
       - [0x2A524, c, anim/Anim_DecodeBoneRotationsByte]
       - [0x2A6D4, c, anim/Anim_DecodeBoneRotationsShort]
-      - [0x2A888, asm, render/Render_TransformVertices]
+      - [0x2A888, c, render/Render_TransformVertices]
       - [0x2AEA8, asm, render/Render_TransformSkinnedVertices]
       - [0x2B490, asm, render/Render_TransformMorphVertices]
       - [0x2B714, c, render/Render_DrawEntity]

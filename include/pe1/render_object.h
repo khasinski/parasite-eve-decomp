@@ -437,8 +437,14 @@ typedef struct RenderObjectPart {
     unsigned short vertex_start;
     unsigned short vertex_count;
     unsigned char visible;
-    unsigned char pad_05[7];
+    unsigned char pad_05[3];
+    /* Supplies the Z component of the non-root matrix translation vector. */
+    s32 translation_z;
 } RenderObjectPart;
+
+PE1_STATIC_ASSERT(sizeof(RenderObjectPart) == 12, render_object_part_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectPart, translation_z) == 8,
+                  render_object_part_translation_z);
 
 typedef struct RenderObjectHeader {
     unsigned char pad_00[2];
@@ -592,7 +598,8 @@ typedef struct RenderObjectEntity {
     /* 0x10 */ RenderPrimitiveDescriptor *primitive_descriptors;
     /* 0x14 */ void *model_section14;
     /* 0x18 */ RenderVec3s *bounds_vertices;
-    /* 0x1C */ unsigned char pad_1C[0x08];
+    /* 0x1C */ unsigned char pad_1C[0x04];
+    /* 0x20 */ s8 *matrix_commands;
     /* 0x24 */ struct RenderObjectEntity *animation_source;
     /* 0x28 */ s16 animation_state;
     /* 0x2A */ s16 animation_id;

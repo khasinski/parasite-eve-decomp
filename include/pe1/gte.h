@@ -75,6 +75,16 @@ int rsin(int angle);
 #define gte_swc2_21_0(p) asm volatile("swc2 $21,0(%0)" : : "r"(p) : "memory")
 #define gte_swc2_22_0(p) asm volatile("swc2 $22,0(%0)" : : "r"(p) : "memory")
 
+/* Read the current packed rotation/translation control words. */
+#define gte_cfc2_0(v) asm volatile("cfc2 %0,$0" : "=r"(v))
+#define gte_cfc2_1(v) asm volatile("cfc2 %0,$1" : "=r"(v))
+#define gte_cfc2_2(v) asm volatile("cfc2 %0,$2" : "=r"(v))
+#define gte_cfc2_3(v) asm volatile("cfc2 %0,$3" : "=r"(v))
+#define gte_cfc2_4(v) asm volatile("cfc2 %0,$4" : "=r"(v))
+#define gte_cfc2_5(v) asm volatile("cfc2 %0,$5" : "=r"(v))
+#define gte_cfc2_6(v) asm volatile("cfc2 %0,$6" : "=r"(v))
+#define gte_cfc2_7(v) asm volatile("cfc2 %0,$7" : "=r"(v))
+
 #define gte_cop2_hazard_slot() \
     asm volatile("nop")
 
