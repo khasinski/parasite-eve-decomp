@@ -6386,3 +6386,27 @@ volatile packed-word rereads, gotos and a 32-byte artificial local frame.
 All iteration guards are genuine nonempty-range checks; there are no CPU
 instruction ASM templates in this source.
 Linked function SHA-1: b025a182e2644e54d5d786320b550aa9c145e52d.
+
+
+### Render_SetViewport
+
+The 860-byte function projects a world position through individual RTPS/GTE
+macros, averages signed screen coordinates toward zero, selects the shared
+52-byte CameraViewport, and clamps scroll offsets and camera coordinates.
+It uses the existing GeomScrollState and GeomState layouts. Input halfwords
+come from the high halves of the three fixed-point position components.
+The two initial geometry pointer reads, signed width/height conversions,
+and final signed-16-bit coordinate truncation preserve retail behavior.
+
+Stock native GCC 2.7.2 with unmodified maspsx matches all linked retail
+bytes; Levenshtein on linked instruction bytes is zero. Relocatable objects
+score 20 solely from g_GeomGroupSel versus its D_800BCFFD alias. The full
+main executable retains its retail SHA-1. 400 deterministic CPU comparisons
+cover flags, signed coordinate extremes and viewport bounds with controlled
+RTPS results; hardware GTE projection is mocked in those extra checks.
+
+Exact-match reduction removed 15 register bindings and five empty barriers.
+Remaining debt: 25 pins, eight empty constraints (including a $v1 clobber),
+explicit signed-halving steps, gotos and 40 bytes of aggregate frame padding.
+GTE transfers and the two authorized hazard nops use individual macros.
+Linked function SHA-1: 8681e145fecfd7110462b5ce79480fdf81d24a92.

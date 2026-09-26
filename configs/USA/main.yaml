@@ -830,7 +830,7 @@ segments:
       - [0x56370, c, menu/Menu_InitGlobals]
       - [0x56438, c, render/Render_ClampCameraPosition]
       - [0x56544, c, render/render3]
-      - [0x56648, asm, render/Render_SetViewport]
+      - [0x56648, c, render/Render_SetViewport]
       # GTE screen-offset setter and resetter are one helper object.
       - [0x569A4, c, render/Render_GteScreenOffset]
       - [0x569EC, c, render/Render_SetScrollMode]

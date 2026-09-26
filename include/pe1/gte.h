@@ -94,6 +94,10 @@ int rsin(int angle);
 #define gte_ctc2_25(value) \
     asm volatile("ctc2 %0,$25" : : "r"(value))
 
+/* Projection distance (H). */
+#define gte_ctc2_26(value) \
+    asm volatile("ctc2 %0,$26" : : "r"(value))
+
 #define gte_ctc2_0(value) \
     asm volatile("ctc2 %0,$0" : : "r"(value))
 #define gte_ctc2_1(value) \
