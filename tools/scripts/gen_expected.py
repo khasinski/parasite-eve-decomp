@@ -369,7 +369,7 @@ def merge_c_function_splits(text, asm_root, unit, functions):
 
 DIFFER_ALIAS = re.compile(r"^nonmatching\s.*$\n?", re.MULTILINE)
 CODE_LABEL = re.compile(
-    r"^\s*(glabel|alabel|endlabel|dlabel|enddlabel) (\w+)$", re.MULTILINE
+    r"^\s*(glabel|alabel|endlabel|dlabel|enddlabel) ([\w.$]+)$", re.MULTILINE
 )
 
 
@@ -456,6 +456,42 @@ def normalize_c_function_labels(text, valid_names, data_names=()):
         out.append(line)
     if current is not None:
         out.append("endlabel %s" % current)
+    return "\n".join(out) + ("\n" if text.endswith("\n") else "")
+
+
+def normalize_c_jump_table_relocations(text, unit_vram):
+    """Relocate literal jump-table pointers to this unit's retail instructions.
+
+    Splat can leave cross-segment tables as absolute words. GCC emits section
+    relocations instead. Only addresses present in the retail disassembly are
+    eligible; no instruction or table value comes from the compiled candidate.
+    """
+    instruction = re.compile(
+        r"^\s*/\* [0-9A-Fa-f]+ ([0-9A-Fa-f]{8}) [0-9A-Fa-f]{8} \*/\s+[A-Za-z]"
+    )
+    addresses = set()
+    section = None
+    for line in text.splitlines():
+        if line.startswith(".section"):
+            section = line.split()[1].rstrip(",")
+        match = instruction.match(line)
+        if section == ".text" and match:
+            addresses.add(int(match.group(1), 16))
+    out = []
+    table = False
+    for line in text.splitlines():
+        if line.startswith(".section"):
+            section = line.split()[1].rstrip(",")
+            table = False
+        if line.startswith("dlabel "):
+            table = section == ".rodata" and line.split()[1].startswith(("jtbl_", "jpt_"))
+        match = re.search(r"\.word (0x[0-9A-Fa-f]+)\b", line) if table else None
+        if match and int(match.group(1), 16) in addresses:
+            offset = int(match.group(1), 16) - unit_vram
+            line = line[:match.start(1)] + (".text + 0x%X" % offset) + line[match.end(1):]
+        if line.startswith("enddlabel "):
+            table = False
+        out.append(line)
     return "\n".join(out) + ("\n" if text.endswith("\n") else "")
 
 
@@ -709,6 +745,7 @@ def process_module(module, shared, assembler, workers):
             if valid_functions is not None:
                 text = restore_c_function_names(text, functions, slices[unit][".text"])
                 text = normalize_c_function_labels(text, valid_functions, unit_kinds)
+                text = normalize_c_jump_table_relocations(text, slices[unit][".text"])
             source.write_text(inline_constant_pairs(text, constants))
         jobs.append((source, obj))
 

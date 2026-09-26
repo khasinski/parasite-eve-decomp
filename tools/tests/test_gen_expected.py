@@ -240,6 +240,38 @@ class DisassemblyRewriteTests(unittest.TestCase):
         self.assertIn(".global FalseGuess\nFalseGuess:", out)
         self.assertNotIn("alabel FalseGuess", out)
 
+    def test_local_function_guess_in_rodata_loses_function_type(self):
+        text = (
+            "glabel Real\n  nop\nendlabel Real\n"
+            '.section .rodata\n'
+            "glabel .L801235C0\n  .word 0\nendlabel .L801235C0\n"
+        )
+
+        out = gen_expected.normalize_c_function_labels(text, {"Real"})
+
+        self.assertIn(".global .L801235C0\n.L801235C0:", out)
+        self.assertNotIn("glabel .L801235C0", out)
+        self.assertNotIn("endlabel .L801235C0", out)
+        self.assertEqual(out.count("endlabel Real"), 1)
+
+    def test_cross_segment_jump_table_uses_retail_text_relocations(self):
+        text = (
+            '.section .text, "ax"\n'
+            '/* 100 80125000 00000000 */ nop\n'
+            '/* 104 80125004 00000000 */ nop\n'
+            '/* 108 80125008 00000000 */ .word 0\n'
+            '.section .rodata, "a"\n'
+            'dlabel jtbl_801235BC\n'
+            '.word 0x80125004\n.word 0x80129999\n.word 0x80125008\n'
+            'enddlabel jtbl_801235BC\n'
+            'dlabel OrdinaryData\n.word 0x80125000\n'
+        )
+        out = gen_expected.normalize_c_jump_table_relocations(text, 0x80125000)
+        self.assertIn('.word .text + 0x4', out)
+        self.assertIn('.word 0x80129999', out)
+        self.assertIn('.word 0x80125008', out)
+        self.assertIn('dlabel OrdinaryData\n.word 0x80125000', out)
+
     def test_trailing_text_data_does_not_extend_function_size(self):
         for kind in ("STT_OBJECT", "STT_NOTYPE"):
             with self.subTest(kind=kind):

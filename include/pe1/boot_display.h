@@ -28,6 +28,15 @@ typedef struct {
     BootDisplaySpritePrim sprite;
 } BootDisplaySpritePacket;
 
+/* One 16-byte record per display buffer: GPU position, pixels, and decode target. */
+typedef struct {
+    u16 x, y;
+    char *pixels;
+    u16 transferX, transferY;
+    char *decodeTarget;
+} BootDisplayImageBuffer;
+extern BootDisplayImageBuffer g_BootDisplayImageBuffers[2] __asm__("D_80125B84");
+
 extern char *g_BootDisplayOrderingTable;
 extern u16 g_BootDisplayTPage;
 extern u16 g_BootDisplayClut;

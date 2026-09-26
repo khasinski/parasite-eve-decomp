@@ -35,7 +35,28 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, boot_display_0_908]
+      - [0x0, asm, boot_display_0_BC]
+  - [0xBC]
+  # The switch table retains the copied routine's original link address.
+  - name: boot_display_image_switch_table
+    type: code
+    start: 0xBC
+    vram: 0x801235BC
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0xBC, .rodata, Boot_StepImageDisplay]
+  - [0xDC]
+  - name: boot_display_early_code
+    type: code
+    start: 0xDC
+    vram: 0x801234DC
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0xDC, asm, boot_display_DC_908]
       - [0x908, c, Boot_InitDisplayResources]
   - [0xA8C]
   # The frame-buffer fragment retains a link VMA 0x100 above its load address.
@@ -98,15 +119,24 @@ segments:
     subsegments:
       - [0x1A40, c, Boot_SetImageDisplay]
   - [0x1B94]
-  - name: boot_display_image_state
+  - name: boot_display_image_state_linkbase
     type: code
     start: 0x1B94
-    vram: 0x80124F94
+    vram: 0x80125094
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x1B94, asm, boot_display_1B94]
+      - [0x1B94, c, Boot_StepImageDisplay]
+  - [0x1F44]
+  - name: boot_display_call_init
+    type: code
+    start: 0x1F44
+    vram: 0x80125344
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0x1F44, c, Boot_CallInitSystem]
   - [0x1F64]
   # Retail's local jump retained a link address 0x100 above the load address.
