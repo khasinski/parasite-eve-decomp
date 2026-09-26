@@ -412,7 +412,7 @@ segments:
       - [0x2AEA8, c, render/Render_TransformSkinnedVertices]
       - [0x2B490, c, render/Render_TransformMorphVertices]
       - [0x2B714, c, render/Render_DrawEntity]
-      - [0x2B944, asm, render/Render_DrawTexturedQuads]
+      - [0x2B944, c, render/Render_DrawTexturedQuads]
       - [0x2BF08, c, main/Render_BuildEntityMatrix]
       - [0x2C17C, c, render/Render_DrawObject]
       - [0x2C4E0, c, render/Render_UpdateClutTable]

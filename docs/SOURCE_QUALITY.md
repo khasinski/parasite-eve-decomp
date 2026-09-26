@@ -6338,3 +6338,26 @@ the authorized hazard nops. Exact-match reduction removed 11 register
 bindings and seven empty barriers. Remaining debt: 23 pins, 11 empty
 barriers, raw pointer casts/access. Levenshtein score is zero before link.
 Linked function SHA-1: d7a2e299a4112b43bbe9241073355f5fb18981be.
+
+
+### Render_DrawTexturedQuads
+
+The 1476-byte function submits four primitive groups (packet sizes 0x34,
+0x28, 0x24 and 0x1C) to the selected ordering table. It caches the active
+draw slot and screen/depth buffers, reloads group counts after packet
+writes, and preserves the original backface and depth rejection behavior.
+Quad depth is sum >> 4; triangle depth is (sum / 3) >> 2, including signed
+rounding. The first three packed screen coordinates are cached before
+NCLIP; the fourth quad coordinate is loaded after ordering-table linkage.
+Previously reserved packet fields are now named sxy0 through sxy3, with
+shared layout assertions.
+
+Native stock GCC 2.7.2 with unchanged flags and maspsx gives Levenshtein 0
+and all linked bytes match retail. Delaying the XY/Z pointer initializers
+until after a scheduling-only scratch-register dependency reproduces the
+prologue save order. The scratch pointer is assigned before dereferencing.
+Exact-match reduction removed 58 register bindings and 36 empty barriers.
+Remaining debt: 48 pins, 29 empty barriers, pointer/integer casts and an
+artificial 32-byte frame reservation. GTE instructions and authorized
+hazard nops use individual macros.
+Linked function SHA-1: de9fa8bf2c803326c983052ab5b3f70bc8397e06.

@@ -488,19 +488,19 @@ typedef union RenderPacketValue {
 typedef struct RenderPacket34 {
     /* 0x00 */ u32 tag;
     /* 0x04 */ RenderPacketValue values0;
-    /* 0x08 */ u8 reserved08[4];
+    /* 0x08 */ u32 sxy0;
     /* 0x0C */ u8 u0, v0;
     /* 0x0E */ u16 clut;
     /* 0x10 */ u32 value1;
-    /* 0x14 */ u8 reserved14[4];
+    /* 0x14 */ u32 sxy1;
     /* 0x18 */ u8 u1, v1;
     /* 0x1A */ u16 page_bits;
     /* 0x1C */ u32 value2;
-    /* 0x20 */ u8 reserved20[4];
+    /* 0x20 */ u32 sxy2;
     /* 0x24 */ u8 u2, v2;
     /* 0x26 */ u16 reserved26;
     /* 0x28 */ u32 value3;
-    /* 0x2C */ u8 reserved2c[4];
+    /* 0x2C */ u32 sxy3;
     /* 0x30 */ u8 u3, v3;
     /* 0x32 */ u16 reserved32;
 } RenderPacket34;
@@ -508,15 +508,15 @@ typedef struct RenderPacket34 {
 typedef struct RenderPacket28 {
     /* 0x00 */ u32 tag;
     /* 0x04 */ RenderPacketValue values0;
-    /* 0x08 */ u8 reserved08[4];
+    /* 0x08 */ u32 sxy0;
     /* 0x0C */ u8 u0, v0;
     /* 0x0E */ u16 clut;
     /* 0x10 */ u32 value1;
-    /* 0x14 */ u8 reserved14[4];
+    /* 0x14 */ u32 sxy1;
     /* 0x18 */ u8 u1, v1;
     /* 0x1A */ u16 page_bits;
     /* 0x1C */ u32 value2;
-    /* 0x20 */ u8 reserved20[4];
+    /* 0x20 */ u32 sxy2;
     /* 0x24 */ u8 u2, v2;
     /* 0x26 */ u16 reserved26;
 } RenderPacket28;
@@ -524,23 +524,23 @@ typedef struct RenderPacket28 {
 typedef struct RenderPacket24 {
     /* 0x00 */ u32 tag;
     /* 0x04 */ RenderPacketValue values0;
-    /* 0x08 */ u8 reserved08[4];
+    /* 0x08 */ u32 sxy0;
     /* 0x0C */ u32 value1;
-    /* 0x10 */ u8 reserved10[4];
+    /* 0x10 */ u32 sxy1;
     /* 0x14 */ u32 value2;
-    /* 0x18 */ u8 reserved18[4];
+    /* 0x18 */ u32 sxy2;
     /* 0x1C */ u32 value3;
-    /* 0x20 */ u8 reserved20[4];
+    /* 0x20 */ u32 sxy3;
 } RenderPacket24;
 
 typedef struct RenderPacket1C {
     /* 0x00 */ u32 tag;
     /* 0x04 */ RenderPacketValue values0;
-    /* 0x08 */ u8 reserved08[4];
+    /* 0x08 */ u32 sxy0;
     /* 0x0C */ u32 value1;
-    /* 0x10 */ u8 reserved10[4];
+    /* 0x10 */ u32 sxy1;
     /* 0x14 */ u32 value2;
-    /* 0x18 */ u8 reserved18[4];
+    /* 0x18 */ u32 sxy2;
 } RenderPacket1C;
 
 typedef struct RenderAnimationLookupEntry {
@@ -758,5 +758,21 @@ void Anim_DecodeBoneRotationsShort(RenderObjectEntity *object, RenderAnimationDa
                                    s16 frame);
 
 void Render_AnimationFrame(void);
+
+/* Packed screen coordinates written by Render_DrawTexturedQuads. */
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket34, sxy0) == 0x08, render_packet34_sxy0);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket34, sxy1) == 0x14, render_packet34_sxy1);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket34, sxy2) == 0x20, render_packet34_sxy2);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket34, sxy3) == 0x2C, render_packet34_sxy3);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket28, sxy0) == 0x08, render_packet28_sxy0);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket28, sxy1) == 0x14, render_packet28_sxy1);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket28, sxy2) == 0x20, render_packet28_sxy2);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket24, sxy0) == 0x08, render_packet24_sxy0);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket24, sxy1) == 0x10, render_packet24_sxy1);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket24, sxy2) == 0x18, render_packet24_sxy2);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket24, sxy3) == 0x20, render_packet24_sxy3);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket1C, sxy0) == 0x08, render_packet1c_sxy0);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket1C, sxy1) == 0x10, render_packet1c_sxy1);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket1C, sxy2) == 0x18, render_packet1c_sxy2);
 
 #endif
