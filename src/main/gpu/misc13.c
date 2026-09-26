@@ -1,26 +1,27 @@
 #include "common.h"
-#include "pe1/psyq_gpu.h"
-
-int LoadImage(RECT *rect, int image);
+#include "pe1/psyq_tim.h"
+#include "pe1/scene_assets.h"
 
 typedef unsigned char u8_1;
 
 extern u8_1 g_Base32CharTable[];
 
-int Gpu_LoadTimAsset(unsigned int *asset, int base) {
+int Gpu_LoadTimAsset(TimUploadRecord *asset, void *base) {
     RECT rect;
     int mask;
-    int saved_base;
-    register unsigned int packed asm("$2");
+    u8 *saved_base;
+    unsigned int packed;
     int h;
-    register int offset asm("$5");
+    unsigned int offset;
     int secondary;
+    unsigned int image_offset;
+    u8 *image_address;
 
-    packed = asset[2];
+    packed = asset->words[2];
     rect.x = (packed >> 10) & 0x7FF;
-    packed = asset[2];
+    packed = asset->words[2];
     rect.y = packed >> 21;
-    packed = asset[2];
+    packed = asset->words[2];
     rect.w = packed & 0x3FF;
     saved_base = base;
     packed = ((u8 *)asset)[7];
@@ -32,22 +33,21 @@ int Gpu_LoadTimAsset(unsigned int *asset, int base) {
 
     mask = 0xFFFFFF;
     rect.h = h;
-    offset = asset[1] & mask;
-    LoadImage(&rect, saved_base + offset);
+    LoadImage(&rect, saved_base + (asset->words[1] & mask));
 
-    secondary = asset[3] & mask;
+    secondary = asset->words[3] & mask;
     if (secondary != 0) {
-        packed = asset[4];
+        packed = asset->words[4];
         rect.x = (packed >> 10) & 0x7FF;
-        packed = asset[4];
+        packed = asset->words[4];
         rect.y = packed >> 21;
-        packed = asset[4];
+        packed = asset->words[4];
         rect.w = packed & 0x3FF;
         rect.h = ((u8 *)asset)[0xF];
-        packed = asset[1] & mask;
-        packed = saved_base + packed;
-        offset = asset[3] & mask;
-        LoadImage(&rect, packed + offset);
+        image_offset = asset->words[1] & mask;
+        image_address = saved_base + image_offset;
+        offset = asset->words[3] & mask;
+        LoadImage(&rect, offset + image_address);
     }
 
     return 0;

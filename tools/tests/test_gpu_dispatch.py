@@ -14,8 +14,7 @@ class GpuDispatchTests(unittest.TestCase):
         unit = (ROOT / "src/main/gpu/dma_transfer.c").read_text()
         source = (unit[:unit.index("int LoadImage2")] +
                   unit[unit.index("extern char D_80011928"):])
-        self.assertEqual(source.count(' asm("$2")'), 1)
-        source = source.replace(' asm("$2")', "")
+        self.assertNotRegex(source, r'\b(?:asm|__asm__)\b')
         harness = source + r'''
 #include <assert.h>
 GpuDebugState D_8009574C;
@@ -24,7 +23,7 @@ int g_GpuDmaTimeoutDeadline, g_GpuDmaWaitLoopCounter;
 static volatile unsigned int dma;
 static unsigned int gpu;
 volatile unsigned int *g_GpuDmaChcrPtr = &dma;
-unsigned int *g_GpuGp1Ptr = &gpu;
+volatile unsigned int *g_GpuGp1Ptr = &gpu;
 static GpuCallbacks callbacks;
 GpuCallbacks *D_80095744 = &callbacks;
 static int packet, polls, idleAt, readyAt, timeoutAt, events, vsyncCalls;

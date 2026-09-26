@@ -17,8 +17,15 @@ void PutDrawEnv(int arg0);
 void LoadImage(s16 *rect, int image);
 void DrawOTag(int arg0);
 
+static inline int NormalizeSyncMode(int mode) {
+    if (mode == 1) {
+        mode = 0;
+    }
+    return mode;
+}
+
 void Draw_PresentFrame(int arg0) {
-    register int index asm("$16");
+    int index;
     s16 rect[4];
     int mode;
     int image;
@@ -33,10 +40,7 @@ void Draw_PresentFrame(int arg0) {
     DrawSync(0);
     mode = index;
     index = 0xFFF;
-    if (mode == 1) {
-        mode = 0;
-    }
-    VSync(mode);
+    VSync(NormalizeSyncMode(mode));
     Render_InitEntityPool(1);
     PutDrawEnv(D_8009D0FC);
     PutDispEnv((DISPENV *)(D_8009D0FC + 0x5C));
@@ -55,7 +59,7 @@ void Draw_PresentFrame(int arg0) {
     }
 
     {
-        register int offset asm("$4");
+        int offset;
 
         offset = index * 4;
         DrawOTag(D_8009D118 + offset);

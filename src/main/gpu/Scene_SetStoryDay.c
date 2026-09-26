@@ -1,50 +1,44 @@
 #include "common.h"
-extern struct { char _[16]; } D_800B0CD8_o __asm__("D_800B0CD8");
-extern struct { char _[16]; } D_8009D1A0_o __asm__("D_8009D1A0");
+#include "pe1/game_state.h"
+
 extern u32 D_8009D2E8;
-extern u8 g_CurrentStoryDay __asm__("D_800B0CE4");
-extern u8 g_PendingStoryDay __asm__("D_800B0CE5");
-extern u8 g_StoryDayFlags __asm__("D_800B0CE6");
-
-#define GAME_STATE ((u8 *)&D_800B0CD8_o)
-#define D_8009D1A0 (*(u32 *)&D_8009D1A0_o)
-
-#define SCENE_STORY_DAY_CURRENT GAME_STATE[0x0C]
-#define SCENE_STORY_DAY_PENDING GAME_STATE[0x0D]
-#define SCENE_STORY_DAY_FLAGS GAME_STATE[0x0E]
+/* Existing byte symbols for the shared state's pending/current day and flags.
+ * Preserve the unsigned pending-byte read before its signed-day conversion. */
+extern volatile u8 D_800B0CE5;
+extern u8 D_800B0CE4, D_800B0CE6;
 
 int Scene_SetStoryDay(s32 storyDay) {
-    u8 *gameState = GAME_STATE;
+    Pe1GameState *gameState = &g_GameState;
     u8 flags;
 
     if (storyDay == -1) {
-        register u8 pending asm("$4");
+        u8 pending;
         u8 storyFlags;
-        pending = g_PendingStoryDay;
-        storyFlags = g_StoryDayFlags;
+        pending = D_800B0CE5;
+        storyFlags = D_800B0CE6;
         storyDay = (s8)pending;
-        g_CurrentStoryDay = pending;
-        g_StoryDayFlags = storyFlags | 3;
+        D_800B0CE4 = pending;
+        D_800B0CE6 = storyFlags | 3;
     }
 
-    if (((D_8009D1A0 & 2) != 0) || ((*(u32 *)gameState & 2) != 0)) {
-        g_StoryDayFlags |= 2;
+    if (((g_GameStateFlags & 2) != 0) || ((gameState->flags & 2) != 0)) {
+        D_800B0CE6 |= 2;
         D_8009D2E8 &= ~2U;
     }
 
-    flags = gameState[0x0E];
+    flags = gameState->story_day_flags;
     if ((flags & 4) != 0) {
-        gameState[0x0E] = (flags | 3) & ~4;
+        gameState->story_day_flags = (flags | 3) & ~4;
     }
 
-    if ((u32)(storyDay - 1) < 8U) {
-        if (storyDay != (s8)gameState[0x0D]) {
-            register s32 newStoryDay asm("$3");
+    if (((u32)storyDay - 1U) < 8U) {
+        if (storyDay != (s8)gameState->pending_story_day) {
+            s8 newStoryDay;
 
             newStoryDay = storyDay;
-            gameState[0x0D] = newStoryDay;
-            gameState[0x0C] = newStoryDay;
-            gameState[0x0E] |= 1;
+            gameState->pending_story_day = newStoryDay;
+            gameState->current_story_day = newStoryDay;
+            gameState->story_day_flags |= 1;
         }
     }
 

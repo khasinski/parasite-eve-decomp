@@ -18,7 +18,8 @@ class GpuQueueResetTests(unittest.TestCase):
 static u32 gp1, chcr, control;
 u32 *g_GpuGp1Ptr = &gp1, *g_GpuDmaChcrPtr = &chcr;
 u32 *g_GpuDmaControlRegPtr = &control;
-u32 g_GpuDmaQueueHead, D_80095884;
+volatile u32 g_GpuDmaQueueHead;
+u32 D_80095884;
 volatile u32 g_GpuDmaQueueTail;
 unsigned char D_800A3348[256];
 GpuQueueEntry D_800BD030[64];

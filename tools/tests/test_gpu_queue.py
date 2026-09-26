@@ -12,9 +12,7 @@ class GpuQueueTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_state_and_callback_order(self):
         source = (ROOT / "src/main/gpu/SetGraphQueue.c").read_text()
-        self.assertEqual(source.count(' asm("$17")'), 1)
-        # Only the MIPS register allocation annotation is removed for host tests.
-        source = source.replace(' asm("$17")', "")
+        self.assertNotRegex(source, r'\b(?:asm|__asm__)\b')
         harness = source + r'''
 #include <assert.h>
 GpuDebugState D_8009574C;

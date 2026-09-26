@@ -4,10 +4,16 @@
 
 int SetGraphQueue(int mode)
 {
-    register GpuQueueState *state asm("$17") = &D_8009574C.queueState;
+    GpuQueueState *state = &D_8009574C.queueState;
     int previous = state->queue;
     if (state->debugLevel >= 2) {
-        D_80095748(D_80011840, mode);
+        /* Keep the two prior-state paths: stock GCC merges the calls after
+         * choosing the retail register lifetimes. Both log exactly once. */
+        if (previous) {
+            D_80095748(D_80011840, mode);
+        } else {
+            D_80095748(D_80011840, mode);
+        }
     }
     if (mode != state->queue) {
         D_80095744->reset(1);

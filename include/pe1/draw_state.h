@@ -14,15 +14,26 @@ PE1_STATIC_ASSERT(sizeof(DrawGlyphDescriptor) == 8, draw_glyph_descriptor_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DrawGlyphDescriptor, mode) == 6, draw_glyph_mode_offset);
 void *Draw_LookupGlyphDescriptor(int index);
 
-extern unsigned char *g_DrawPacketCursor __asm__("D_8009D100");
-extern unsigned char *g_DrawPacketArenaBase __asm__("D_8009D104");
-extern int g_DrawColorSelect __asm__("D_8009D10C");
-extern int g_DrawPrimaryColor __asm__("D_8009D110");
-extern int g_DrawAlternateColor __asm__("D_8009D114");
-extern unsigned int *g_DrawOrderingTableEntry __asm__("D_8009D11C");
-extern int *g_TextCursorStack __asm__("D_8009D12C");
-extern int g_DrawSpriteX __asm__("D_8009D124");
-extern int g_DrawSpriteY __asm__("D_8009D128");
+/* Semantic C names for the existing, independently addressed linker objects. */
+extern unsigned char *D_8009D100;
+extern unsigned char *D_8009D104;
+extern int D_8009D10C;
+extern int D_8009D110;
+extern int D_8009D114;
+extern unsigned int *D_8009D11C;
+extern int *D_8009D12C;
+extern int D_8009D124;
+extern int D_8009D128;
+
+#define g_DrawPacketCursor D_8009D100
+#define g_DrawPacketArenaBase D_8009D104
+#define g_DrawColorSelect D_8009D10C
+#define g_DrawPrimaryColor D_8009D110
+#define g_DrawAlternateColor D_8009D114
+#define g_DrawOrderingTableEntry D_8009D11C
+#define g_TextCursorStack D_8009D12C
+#define g_DrawSpriteX D_8009D124
+#define g_DrawSpriteY D_8009D128
 
 extern int g_TextCursorStackBottom[], g_TextCursorStackTop[];
 

@@ -1,5 +1,3 @@
-#include "include_asm.h"
-
 extern int g_GpuDmaTimeoutDeadline;
 extern int g_GpuDmaWaitLoopCounter;
 
@@ -14,7 +12,8 @@ extern u32 *g_GpuGp1Ptr;
 extern volatile u32 *g_GpuDmaMadrPtr;
 extern volatile u32 *g_GpuDmaChcrPtr;
 extern volatile u32 *g_GpuDmaControlRegPtr;
-extern u32 g_GpuDmaQueueHead;
+/* Queue indices can change asynchronously; preserve ordered status reads. */
+extern volatile u32 g_GpuDmaQueueHead;
 extern volatile u32 g_GpuDmaQueueTail;
 extern u32 D_80095884;
 extern char D_80011988[];
@@ -31,8 +30,8 @@ int Gpu_DmaTimeoutCheck(void) {
     int *counter;
     int mask;
     volatile u32 *ptr;
-    register volatile u32 *gp1 asm("$6");
-    register u32 head asm("$5");
+    volatile u32 *gp1;
+    u32 head;
 
     now = VSync(-1);
     if (g_GpuDmaTimeoutDeadline >= now) {
@@ -47,7 +46,6 @@ int Gpu_DmaTimeoutCheck(void) {
     }
 
     gp1 = g_GpuGp1Ptr;
-    asm volatile("" : "=r"(gp1) : "0"(gp1));
     (void)*gp1;
     head = g_GpuDmaQueueHead;
 

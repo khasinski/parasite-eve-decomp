@@ -1,6 +1,6 @@
 
 int Gpu_BuildDrawModeCmd(int arg0, int arg1, int arg2) {
-    register int bits asm("$2");
+    int bits;
     int cmd;
 
     cmd = 0xE1000000;
@@ -10,6 +10,7 @@ int Gpu_BuildDrawModeCmd(int arg0, int arg1, int arg2) {
     bits = arg2 & 0x9FF;
     if (arg0 != 0) {
         bits |= 0x400;
+        return cmd | bits;
     }
-    return cmd | bits;
+    return bits | cmd;
 }

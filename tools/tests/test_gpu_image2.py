@@ -17,14 +17,14 @@ class GpuImage2Tests(unittest.TestCase):
         dispatch_marker = unit.index("extern char D_80011928")
         source = (unit[:prefix_end] + unit[prefix_end:store_marker] +
                   unit[store_marker:move_marker] + unit[move_marker:dispatch_marker])
-        self.assertEqual(source.count(' asm("$2")'), 3)
-        harness = source.replace(' asm("$2")', "") + r'''
+        self.assertNotRegex(source, r'\b(?:asm|__asm__)\b')
+        harness = source + r'''
 #include <assert.h>
 char D_800119BC[] = "load", D_800118E0[] = "store", D_800118EC[] = "move";
 static volatile unsigned int dma;
 static unsigned int gpu, data[16];
 volatile unsigned int *g_GpuDmaChcrPtr = &dma;
-unsigned int *g_GpuGp1Ptr = &gpu;
+volatile unsigned int *g_GpuGp1Ptr = &gpu;
 int g_GpuDmaTimeoutDeadline, g_GpuDmaWaitLoopCounter;
 unsigned int D_800957EC[3];
 static GpuCallbacks table;

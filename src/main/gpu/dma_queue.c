@@ -6,7 +6,7 @@
 extern u32 *g_GpuGp1Ptr;
 extern u32 *g_GpuDmaChcrPtr;
 extern u32 *g_GpuDmaControlRegPtr;
-extern u32 g_GpuDmaQueueHead;
+extern volatile u32 g_GpuDmaQueueHead;
 extern volatile u32 g_GpuDmaQueueTail;
 extern u32 D_80095884;
 extern u32 D_80095874;

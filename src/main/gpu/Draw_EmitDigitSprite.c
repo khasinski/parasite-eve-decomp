@@ -24,7 +24,7 @@ void Draw_EmitDigitSprite(int digit) {
     }
     {
         RenderTexturedQuad *p;
-        register u32 oldTag asm("$4");
+        u32 oldTag;
         u32 mask24;
         u16 x = *(u16 *)&g_DrawSpriteX, y = *(u16 *)&g_DrawSpriteY;
         p = quad;
@@ -45,9 +45,9 @@ void Draw_EmitDigitSprite(int digit) {
         if (digit >= 0) p->v1 = g_DrawDigitFontBaseTexV;
         else p->v1 = 164;
         mask24 = 0xFFFFFF;
-        oldTag = p->tag.word;
+        oldTag = *(volatile u32 *)&p->tag.word;
         {
-            u8 value = p->v1;
+            u8 value = *(volatile u8 *)&p->v1;
             int rightU = *(volatile u8 *)&p->u0;
             int bottomV;
             p->v0 = value;
