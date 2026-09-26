@@ -35,7 +35,17 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, boot_display_0_BC]
+      - [0x0, asm, boot_display_0_9C]
+  - [0x9C]
+  - name: boot_display_sprite_switch_table
+    type: code
+    start: 0x9C
+    vram: 0x8012359C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x9C, .rodata, Boot_StepImageSprite]
   - [0xBC]
   # The switch table retains the copied routine's original link address.
   - name: boot_display_image_switch_table
@@ -79,7 +89,26 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0xB34, c, Boot_DisplayNoOp]
-      - [0xB3C, asm, boot_display_B3C]
+  - [0xB3C]
+  # Sprite callback local jumps retain the original copied link VMA.
+  - name: boot_display_image_sprite_linkbase
+    type: code
+    start: 0xB3C
+    vram: 0x8012403C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0xB3C, c, Boot_StepImageSprite]
+  - [0x1098]
+  - name: boot_display_sprite_helpers
+    type: code
+    start: 0x1098
+    vram: 0x80124498
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0x1098, c, Boot_QueueTintedSprite]
       - [0x112C, c, Boot_InitSprite16]
       - [0x1204, c, func_80124604]
