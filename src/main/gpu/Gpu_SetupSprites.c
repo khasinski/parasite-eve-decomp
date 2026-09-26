@@ -66,10 +66,9 @@ void Gpu_QueuePrimitive(void) {
     index = g_ActiveDrawSlot[0];
     prim_offset = ((index << 3) - index) << 2;
     ot_offset = index << 2;
-    *(u16 *)(D_8009EC4A + prim_offset) = *(u16 *)(D_8009EC4A + prim_offset) - 2;
-    asm volatile("" ::: "memory");
+    *(volatile u16 *)(D_8009EC4A + prim_offset) = *(volatile u16 *)(D_8009EC4A + prim_offset) - 2;
     prim = D_8009EC38 + prim_offset;
-    ot = *(char **)((char *)g_OtBufferTable + ot_offset);
+    ot = *(char *volatile *)((char *)g_OtBufferTable + ot_offset);
     AddPrim(ot + 0x1C, prim);
     g_BattleSpritePrimCountdown--;
 }
