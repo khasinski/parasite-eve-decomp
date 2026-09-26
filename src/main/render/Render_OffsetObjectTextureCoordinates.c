@@ -1,10 +1,10 @@
 #include "pe1/render_object.h"
 void Render_OffsetObjectTextureCoordinates(RenderObjectEntity *object, int du, int dv, int clutOffset) {
-    int savedClut = clutOffset;
+    u8 savedClut = clutOffset;
     RenderPacket34 *quad = (RenderPacket34 *)object->primitive_buffer;
     RenderPacket28 *tri;
     int i, j;
-    int triClut;
+    u8 triClut;
     for (i = 0; i < object->header->packet34_count; i++) {
         for (j = 0; j < 2; j++, quad++) {
             quad->v0 += dv;
@@ -19,8 +19,7 @@ void Render_OffsetObjectTextureCoordinates(RenderObjectEntity *object, int du, i
         }
     }
     triClut = savedClut;
-    /* Keep distinct lifetimes for the two signed-byte CLUT conversions. */
-    asm("" : "=r"(clutOffset) : "0"(clutOffset));
+    /* Byte-sized copies preserve the two signed CLUT conversions in plain C. */
     tri = (RenderPacket28 *)quad;
     for (i = 0; i < object->header->packet28_count; i++) {
         for (j = 0; j < 2; j++, tri++) {
