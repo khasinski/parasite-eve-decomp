@@ -36,7 +36,8 @@ segments:
     subsegments:
       - [0x0, asm, fx_common]
       - [0x1004, c, FxCommon_CheckBounds]
-      - [0x1264, asm, fx_common_1264]
+      - [0x1264, c, FxCommon_CheckBoundsWithMargin]
+      - [0x14C0, asm, fx_common_14C0]
       - [0x19A8, c, func_80190998]
       - [0x1AFC, c, FxCommon_AllocateNode]
       - [0x1B88, c, FxCommon_AllocateTypedNode]
