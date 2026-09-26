@@ -122,8 +122,8 @@ void AddPrim(unsigned int *ot, unsigned int *prim);
 #define EMIT_BASE(base_sym) do { \
     char *base; \
     int idx; \
-    register void *prim asm("$5"); \
-    register void *packet asm("$2"); \
+    void *prim; \
+    void *packet; \
     base = (base_sym); \
     idx = g_ActiveDrawSlot[0]; \
     prim = base - 8; \
@@ -139,7 +139,7 @@ void AddPrim(unsigned int *ot, unsigned int *prim);
 
 #define EMIT_BASE_LAST(base_sym) do { \
     int idx; \
-    register char *base asm("$6"); \
+    char *base; \
     int idx_off; \
     register void *packet asm("$3"); \
     idx = g_ActiveDrawSlot[0]; \
