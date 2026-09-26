@@ -6361,3 +6361,28 @@ Remaining debt: 48 pins, 29 empty barriers, pointer/integer casts and an
 artificial 32-byte frame reservation. GTE instructions and authorized
 hazard nops use individual macros.
 Linked function SHA-1: de9fa8bf2c803326c983052ab5b3f70bc8397e06.
+
+
+### Render_SortOt
+
+The 1156-byte function selects a packed ordering-table entry on a 16-unit
+coordinate grid. Restart chooses the highest/lowest row and its furthest
+X coordinate. Continuation first seeks the exact next X, then a nearer
+entry on the current row or the next row; failure recursively restarts.
+It uses the shared PrimObj count at +0x26 and preserves the zero-count
+entry-0 read and the original strict comparisons.
+
+Native stock GCC 2.7.2 with -G8 and unmodified maspsx gives Levenshtein 0
+and all linked bytes match retail. An empty $a0 clobber forces the initial
+entry-pointer copy before the branch; explicit scan cursors and guarded
+bounds reproduce the remaining register allocation. Coordinate words are
+reread after index stores, including when the entries buffer aliases the
+state globals. The candidate also passes 1212 deterministic retail/C
+checks of return value, state, SP and callee-saved registers.
+
+Exact-match reduction removed 19 register bindings and one empty barrier.
+Remaining debt: 12 pins, six empty barriers (including the $a0 clobber),
+volatile packed-word rereads, gotos and a 32-byte artificial local frame.
+All iteration guards are genuine nonempty-range checks; there are no CPU
+instruction ASM templates in this source.
+Linked function SHA-1: b025a182e2644e54d5d786320b550aa9c145e52d.
