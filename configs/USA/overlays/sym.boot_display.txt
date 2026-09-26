@@ -16,3 +16,5 @@ g_BootDisplayState = 0x80172CCC;
 g_BootDisplayTransition = 0x80172CDC;
 g_BootDisplayCallbacks = 0x80172CD0;
 g_BootDisplayFrameCounter = 0x80172CD4;
+
+g_BootDisplayLowercaseWidths = 0x80125A9C;

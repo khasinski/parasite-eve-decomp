@@ -48,6 +48,9 @@ typedef struct {
 } BootDisplayCallbacks;
 extern BootDisplayCallbacks *g_BootDisplayCallbacks;
 extern u16 g_BootDisplayFontStyle;
+extern const u8 D_80125B1C[][4];
+extern const u8 D_80125B1E[][4];
+extern const u8 g_BootDisplayLowercaseWidths[][4];
 extern const u8 *D_80125C88[];
 extern const u8 **g_BootDisplayTextCursor;
 
@@ -136,6 +139,7 @@ void func_80124F40(s32 value);
 
 /* Callable entry points inside neighboring boot-display code. */
 s32 Boot_GetGlyphIndex(u8 character);
+u16 Boot_GetGlyphWidth(u8 character);
 void func_8012462C(void *primitive, u16 x, u16 y, s32 u, s32 v);
 
 #endif

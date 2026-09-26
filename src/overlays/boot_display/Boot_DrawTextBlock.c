@@ -1,5 +1,4 @@
 #include "pe1/boot_display.h"
-extern u16 func_80123CAC(u8);
 s32 Boot_DrawTextBlock(void) {
     const u8 *line;
     u32 x = 24;
@@ -21,19 +20,19 @@ s32 Boot_DrawTextBlock(void) {
                     if (line[1]) {
                         scan = line + 1;
                         do {
-                            width += func_80123CAC(*scan++);
+                            width += Boot_GetGlyphWidth(*scan++);
                         } while (*scan);
                     }
                     x = (320 - width) >> 1;
                     goto next_character;
                 case '\t':
-                    x += func_80123CAC(' ') * 14;
+                    x += Boot_GetGlyphWidth(' ') * 14;
                     goto next_character;
                 default:
                     g_BootDisplayCallbacks->glyph((s16)x, (s16)y, *line);
                     break;
                 }
-                x += func_80123CAC(*line);
+                x += Boot_GetGlyphWidth(*line);
             next_character:
                 ++line;
             }
