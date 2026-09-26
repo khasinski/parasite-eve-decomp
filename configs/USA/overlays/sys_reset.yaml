@@ -36,6 +36,8 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, sys_reset]
+      - [0x54, c, SysReset_ExpandDecoderTable]
+      - [0x138, asm, sys_reset_decoder_padding]
       - [0x144, c, DecDCTReset]
       - [0x178, c, func_8010BE70]
       - [0x204, c, func_8010BEFC]
