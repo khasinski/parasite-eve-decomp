@@ -6215,3 +6215,15 @@ variable and flags, task-slot end pointer, and active actor pointer now use
 the existing field-animation structures. Overlay-specific declarations live
 in `include/pe1/room_m256.h`. The debt baseline records the remaining pin,
 barriers, raw offset dereferences, and mode-dispatch gotos.
+
+
+### Render_DrawObjectAlt
+
+The 556-byte function is expressed in C using the shared RenderObjectEntity,
+RenderObjectPart and RenderVec3s types and individual GTE macros. It retains
+38 register pins and two empty barriers, including a 16-byte artificial local frame
+reservation; these are matching debt, not evidence of original source locals.
+The genuine guarded do/while loops handle nonzero part and vertex counts.
+Stock native GCC 2.7.2 uses the per-file -fno-schedule-insns flag. Linked function
+bytes match the retail main.exe slice at 0x2C8B4..0x2CAE0 (SHA-1
+79291794e4798cffc54950abb06c9f8149388243).

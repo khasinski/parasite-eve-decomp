@@ -416,7 +416,7 @@ segments:
       - [0x2BF08, c, main/Render_BuildEntityMatrix]
       - [0x2C17C, asm, render/Render_DrawObject]
       - [0x2C4E0, c, render/Render_UpdateClutTable]
-      - [0x2C8B4, asm, render/Render_DrawObjectAlt]
+      - [0x2C8B4, c, render/Render_DrawObjectAlt]
       - [0x2CAE0, asm, render/Render_DrawObjectVariant]
       - [0x2CDD8, c, anim/Anim_SetInterpRate]
       - [0x2CE38, c, render/Render_TickObject]
