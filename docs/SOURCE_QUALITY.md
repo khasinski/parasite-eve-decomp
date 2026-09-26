@@ -6240,3 +6240,18 @@ Matching debt added: 35 register pins and five empty barriers.
 There is no artificial frame reservation or per-file compiler flag; stock
 native GCC 2.7.2 produces the original eight-byte stack frame. Linked
 function SHA-1: c281ae5753875c81d0a5b1e27faec7934bce6049.
+
+
+### Render_DrawObject
+
+The 868-byte function uses C and individually wrapped GTE instructions.
+The lighting matrix occupies scratchpad 0x1F800004; the base colour occupies
+0x1F800000. It transforms all three matrix columns, shades normal triples,
+and selects the first vertex colour with a nonzero fourth byte for an
+optional second shading pass. Shared entity, part and vertex types are used.
+Matching debt includes register pins, empty barriers, three volatile shade
+reads, three gotos and a 16-byte artificial local frame reservation.
+The debt tracker records 47 pins and 19 empty barriers added by this function. The native
+stock GCC 2.7.2 and assembler use -G8 to reproduce the gp-relative base-colour
+load. Compiler, assembler and maspsx remain unmodified. Linked function
+SHA-1: 05c9868956b82cb8513170c06bdcf92ee86e5b78.

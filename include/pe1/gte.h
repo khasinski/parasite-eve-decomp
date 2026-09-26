@@ -64,6 +64,17 @@ int rsin(int angle);
 #define gte_mvmva_rotation_ir_sf12() \
     asm volatile(".word 0x4A49E012")
 
+/* Far-colour controls and three-vertex colour output for NCCT.
+ * Each macro contains exactly one GTE instruction. */
+#define gte_ctc2_13(v) asm volatile("ctc2 %0,$13" : : "r"(v))
+#define gte_ctc2_14(v) asm volatile("ctc2 %0,$14" : : "r"(v))
+#define gte_ctc2_15(v) asm volatile("ctc2 %0,$15" : : "r"(v))
+#define gte_lwc2_6_0(p) asm volatile("lwc2 $6,0(%0)" : : "r"(p))
+#define gte_ncct_command() asm volatile(".word 0x4B18043F")
+#define gte_swc2_20_0(p) asm volatile("swc2 $20,0(%0)" : : "r"(p) : "memory")
+#define gte_swc2_21_0(p) asm volatile("swc2 $21,0(%0)" : : "r"(p) : "memory")
+#define gte_swc2_22_0(p) asm volatile("swc2 $22,0(%0)" : : "r"(p) : "memory")
+
 #define gte_cop2_hazard_slot() \
     asm volatile("nop")
 
