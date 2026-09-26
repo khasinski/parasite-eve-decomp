@@ -7,7 +7,6 @@
 #include "pe1/gte.h"
 #include "pe1/render_object.h"
 
-extern u8 D_800B1638[];
 extern s16 D_8009CDDC;
 
 #define Render_LoadObjectMatrix(matrix)                                                            \
@@ -114,7 +113,7 @@ void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green
                             vertices = (RenderVec3s *)((u8 *)vertexBase + vertexOffset);
                             first <<= 2;
                             {
-                                register u8 *clutBase asm("$2") = D_800B1638;
+                                register u8 *clutBase asm("$2") = (u8 *)D_800B1638;
                                 register s32 vertexCount asm("$4") = part->vertex_count;
                                 clut = clutBase + first;
                                 vertexIndex = 0;

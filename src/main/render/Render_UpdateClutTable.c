@@ -1,7 +1,6 @@
 #include "common.h"
 #include "pe1/render_object.h"
 #define NULL ((void *)0)
-extern u32 D_800A6360[];
 extern u32 g_RenderClutLookupTable[];
 
 void Render_UpdateClutTable(RenderObjectEntity *arg0, s16 arg1, s16 arg2) {

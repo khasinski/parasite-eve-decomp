@@ -664,6 +664,28 @@ int rsin(int angle);
     asm volatile("nop\n\t" \
                  ".word 0x4A49E012")
 
+/* Individual triple-vertex transfers for the morph projection path. */
+#define gte_lwc2_2_8(p) \
+    asm volatile("lwc2 $2,8(%0)" : : "r"(p) : "memory")
+#define gte_lwc2_3_12(p) \
+    asm volatile("lwc2 $3,12(%0)" : : "r"(p) : "memory")
+#define gte_lwc2_4_16(p) \
+    asm volatile("lwc2 $4,16(%0)" : : "r"(p) : "memory")
+#define gte_lwc2_5_20(p) \
+    asm volatile("lwc2 $5,20(%0)" : : "r"(p) : "memory")
+#define gte_swc2_12_0(p) \
+    asm volatile("swc2 $12,0(%0)" : : "r"(p) : "memory")
+#define gte_swc2_13_4(p) \
+    asm volatile("swc2 $13,4(%0)" : : "r"(p) : "memory")
+#define gte_swc2_14_8(p) \
+    asm volatile("swc2 $14,8(%0)" : : "r"(p) : "memory")
+#define gte_swc2_17_0(p) \
+    asm volatile("swc2 $17,0(%0)" : : "r"(p) : "memory")
+#define gte_swc2_18_4(p) \
+    asm volatile("swc2 $18,4(%0)" : : "r"(p) : "memory")
+#define gte_swc2_19_8(p) \
+    asm volatile("swc2 $19,8(%0)" : : "r"(p) : "memory")
+
 /* RTPS: project V0 and update SXY2/SZ3. */
 #define gte_rtps() \
     asm volatile("nop\n\t" \

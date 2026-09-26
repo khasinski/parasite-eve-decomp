@@ -6,7 +6,7 @@
 #include "pe1/gte.h"
 #include "pe1/render_object.h"
 extern RenderVec3s D_80091A58[];
-extern u32 D_8009CDA0, D_800A6360[], D_800B1638[];
+extern u32 D_8009CDA0;
 
 #define Draw_LoadMatrix(m, n)                                                                      \
     {                                                                                              \
