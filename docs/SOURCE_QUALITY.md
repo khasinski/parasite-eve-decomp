@@ -6319,3 +6319,22 @@ Relocatable-object Levenshtein score is 15 solely because three target
 scratchpad offsets use symbolic %lo relocations while C uses numeric
 constants. Resolving both objects yields Levenshtein 0 and full byte match.
 Linked function SHA-1: 288427bfaa59b65dc7d81a5286908970317428c8.
+
+
+### Render_SetupBoneTransforms
+
+The 748-byte headerless-object path uses the shared entity layout and
+individual GTE operations. It obtains the selected matrix/bounds point
+from animation_source, executes one world-space transform, and reads its
+IR results into three output locations. It then composes that matrix with
+the view matrix in scratchpad 0x1F800000 and projects the vector at +0x2C
+twice, temporarily adding the +0x70 halfword to its X component. The input
+X is restored after the second projection. In this mode +0xA0 is a position
+output sharing storage with the rotation override prefix.
+
+Native stock GCC 2.7.2 reproduces all 748 linked bytes with no compiler
+flag override, artificial frame reservation or CPU instruction ASM beyond
+the authorized hazard nops. Exact-match reduction removed 11 register
+bindings and seven empty barriers. Remaining debt: 23 pins, 11 empty
+barriers, raw pointer casts/access. Levenshtein score is zero before link.
+Linked function SHA-1: d7a2e299a4112b43bbe9241073355f5fb18981be.

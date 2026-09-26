@@ -429,7 +429,7 @@ segments:
       - [0x2E14C, asm, main/Render_InitPrimBlock]
       - [0x2E3E4, c, render/Render_FrameDataCopies]
       - [0x2E750, c, render/render]
-      - [0x2E988, asm, render/Render_SetupBoneTransforms]
+      - [0x2E988, c, render/Render_SetupBoneTransforms]
       - [0x2EC74, c, render/Render_OffsetObjectTextureCoordinates]
       - [0x2EDF0, c, render/Render_IncrementCounter]
       - [0x2EE0C, asm, main/D_8003E60C]
