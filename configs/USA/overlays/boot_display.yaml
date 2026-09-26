@@ -85,6 +85,27 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x1704, asm, boot_display_1704]
+  - [0x1A40]
+  # The display initializer retains its original link VMA, 0x100 above load.
+  - name: boot_display_image_display_linkbase
+    type: code
+    start: 0x1A40
+    vram: 0x80124F40
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x1A40, c, Boot_SetImageDisplay]
+  - [0x1B94]
+  - name: boot_display_image_state
+    type: code
+    start: 0x1B94
+    vram: 0x80124F94
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x1B94, asm, boot_display_1B94]
       - [0x1F44, c, Boot_CallInitSystem]
   - [0x1F64]
   # Retail's local jump retained a link address 0x100 above the load address.
