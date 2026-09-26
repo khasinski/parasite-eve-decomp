@@ -455,7 +455,10 @@ typedef struct RenderObjectHeader {
     unsigned short packet28_count;
     unsigned short packet24_count;
     unsigned short packet1c_count;
-    unsigned char pad_10[0x0A];
+    /* Input Y and matrix selection for the transformed anchor position. */
+    u16 anchor_y;
+    u16 anchor_matrix_index;
+    unsigned char pad_14[6];
     unsigned short visible_part_count;
 } RenderObjectHeader;
 
@@ -598,7 +601,7 @@ typedef struct RenderObjectEntity {
     /* 0x10 */ RenderPrimitiveDescriptor *primitive_descriptors;
     /* 0x14 */ void *model_section14;
     /* 0x18 */ RenderVec3s *bounds_vertices;
-    /* 0x1C */ unsigned char pad_1C[0x04];
+    /* 0x1C */ RenderVec3s *projection_origin;
     /* 0x20 */ s8 *matrix_commands;
     /* 0x24 */ struct RenderObjectEntity *animation_source;
     /* 0x28 */ s16 animation_state;
@@ -612,7 +615,9 @@ typedef struct RenderObjectEntity {
     /* 0x58 */ RenderMatrix *active_matrix;
     /* 0x5C */ s16 projected_x;
     /* 0x5E */ s16 projected_y;
-    /* 0x60 */ unsigned char pad_60[0x10];
+    /* 0x60 */ unsigned char pad_60[4];
+    /* 0x64 */ s16 projected_target_x, projected_target_y;
+    /* 0x68 */ RenderVec3s anchor_position;
     /* 0x70 */ u16 table_value70;
     /* 0x72 */ unsigned char pad_72[2];
     /* 0x74 */ u16 animation_value74;
@@ -712,6 +717,16 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, fade_green) == 0x95,
                   render_object_fade_green_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, fade_blue) == 0x96,
                   render_object_fade_blue_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectHeader, anchor_y) == 0x10,
+                  render_object_header_anchor_y);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectHeader, anchor_matrix_index) == 0x12,
+                  render_object_header_anchor_matrix_index);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, projection_origin) == 0x1C,
+                  render_object_projection_origin);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, projected_target_x) == 0x64,
+                  render_object_projected_target);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, anchor_position) == 0x68,
+                  render_object_anchor_position);
 PE1_STATIC_ASSERT(sizeof(RenderObjectEntity) == 0xBC, render_object_entity_size);
 
 union RenderLightingMatrix;
@@ -727,6 +742,10 @@ void Render_OffsetObjectTextureCoordinates(RenderObjectEntity *object,
 void Render_SetObjectAnim(RenderObjectEntity *object, RenderObjectEntity *source,
                           short animation_id);
 void Render_ClearObjectAnim(RenderObjectEntity *object);
+void Render_SetupBoneTransforms(RenderObjectEntity *object, s32 *view_matrix);
+void Render_TransformSkinnedVertices(RenderObjectEntity *object, u32 *view_matrix);
+extern u8 D_8009CD98[];
+extern s16 D_8009CD9A;
 void Render_CopyFrameData(RenderObjectEntity *dst, RenderObjectEntity *src, s32 frame);
 void Render_CopyFrameDataDouble(RenderObjectEntity *dst, RenderObjectEntity *src, s32 frame);
 void Render_UpdateClutTable(RenderObjectEntity *object, s16 force, s16 buffer_index);

@@ -6275,3 +6275,25 @@ accessors and an artificial two-word frame reservation. The debt tracker
 records 49 pins, 16 empty barriers and 12 raw-offset dereferences. Native stock
 GCC 2.7.2 and maspsx remain unmodified; no per-file compiler flags are used.
 Linked function SHA-1: d4781a492a9953b67639e551c75d82ce6e44ce9a.
+
+
+### Render_TransformSkinnedVertices
+
+The 1512-byte function uses the shared entity/header layouts and individual
+GTE macros. With no header it delegates to Render_SetupBoneTransforms.
+Otherwise it transforms the header-selected anchor, the root-model offset
+and the selected bone's bounds point. It composes root/selected matrices
+with the view matrix and projects the origin and selected bounds point.
+The matrix scratchpad is 0x1F800000; the intermediate vector is 0x1F800020.
+Translation input packs the low halves of X/Y and loads Z separately, as
+retail does, rather than treating the three words as a short-vector array.
+
+The header's +0x10/+0x12 fields are now anchor_y/anchor_matrix_index.
+Entity +0x1C is projection_origin; +0x64 holds the projected target pair;
++0x68 holds anchor_position. Offset assertions preserve existing layouts.
+Matching debt: 41 register pins, 24 empty barriers and byte-pointer/raw
+accessor casts. Native stock GCC 2.7.2 and the assembler use -G8 for the
+anchor input's gp-relative halfword store. There is no artificial frame
+reservation or statement expression. Instruction macros contain only GTE
+operations and the authorized hazard nops. Linked function SHA-1:
+ed242d94a6534fbc8769ac9e1623d8e178b6d50c.

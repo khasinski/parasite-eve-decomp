@@ -8,8 +8,6 @@ extern u32 D_800B89F8[];
 
 void Render_InitObjectFromTable(RenderObjectEntity *object,
                                 RenderObjectEntity *source, int index);
-void Render_TransformSkinnedVertices(RenderObjectEntity *object,
-                                     u32 *view_matrix);
 
 int Task_CopyEntityRenderObject(int **args) {
     register FieldActor *source asm("$16");
