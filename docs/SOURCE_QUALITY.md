@@ -6227,3 +6227,16 @@ The genuine guarded do/while loops handle nonzero part and vertex counts.
 Stock native GCC 2.7.2 uses the per-file -fno-schedule-insns flag. Linked function
 bytes match the retail main.exe slice at 0x2C8B4..0x2CAE0 (SHA-1
 79291794e4798cffc54950abb06c9f8149388243).
+
+
+### Render_DrawObjectVariant
+
+The 760-byte C function uses the shared entity, part and vertex structures
+and individual GTE macros. Scratchpad vector writes use 0x1F800000 and
+the RTPS result uses 0x1F800008. The CLUT pointer advances before each
+conditional write, as in retail. Register pins and empty barriers preserve
+initialization order and prevent matrix loads moving before vertex setup.
+Matching debt added: 35 register pins and five empty barriers.
+There is no artificial frame reservation or per-file compiler flag; stock
+native GCC 2.7.2 produces the original eight-byte stack frame. Linked
+function SHA-1: c281ae5753875c81d0a5b1e27faec7934bce6049.
