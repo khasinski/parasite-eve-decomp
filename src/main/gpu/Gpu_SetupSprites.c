@@ -25,15 +25,13 @@ void Gpu_SetupSprites(void *arg0, int arg1, int arg2) {
     do {
         int i_u8;
         int dst_offset;
-        register int src_offset asm("$3");
+        int src_offset;
         char *dst;
         u16 val;
 
         i_u8 = (u8)i;
         dst_offset = ((i_u8 << 3) - i_u8) << 2;
-        asm volatile("" : "=r"(dst_offset) : "0"(dst_offset));
-        src_offset = (((((i_u8 * 3) << 3) - i_u8) << 2) - i_u8) << 2;
-        src_offset = src_base + src_offset;
+        src_offset = src_base + i_u8 * 364;
         dst = (char *)(dst_offset + (int)dst_base);
 
         dst[0xC] = *(u8 *)(D_8009E974 + src_offset);
