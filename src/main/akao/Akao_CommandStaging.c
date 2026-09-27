@@ -24,8 +24,8 @@ void Akao_Cmd_40(void) {
 #include "pe1/akao/commands.h"
 
 int Akao_Cmd_19_Then_C0(int arg0, int arg1) {
-    register int *opcode asm("$17");
-    register int saved_arg asm("$16");
+    int *opcode;
+    int saved_arg;
     int next_opcode;
     int ret;
 
@@ -36,7 +36,6 @@ int Akao_Cmd_19_Then_C0(int arg0, int arg1) {
     ret = Akao_EnqueueStagedCommand();
 
     next_opcode = 0xC0;
-    asm volatile("" : : "r"(next_opcode));
     *opcode = next_opcode;
     saved_arg &= 0x7F;
     g_AkaoCmdArg0 = saved_arg;
