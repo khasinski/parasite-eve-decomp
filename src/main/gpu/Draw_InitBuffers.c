@@ -1,8 +1,8 @@
 #include "common.h"
+#include "pe1/psyq_gpu.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-#include "include_asm.h"
 
 #define NULL ((void *)0)
 
@@ -75,18 +75,16 @@ void Draw_InitBuffers(void) {
     SetDefDispEnv(bufferBase + 0x60, 0, 0, 0x140, 0xE0);
     {
         s32 color;
+        register u8 *screenBase asm("$16") = bufferBase;
 
-        asm volatile(
-            "lui $4, 0x80\n"
-            "addiu $2, $0, 0x8\n"
-            "sh $2, 0x6A($16)\n"
-            "sh $2, -0xE($16)\n"
-            "addiu $2, $0, 0xE0\n"
-            "sh $2, 0x6E($16)\n"
-            "sh $2, -0xA($16)"
-            : "=r"(color)
-            :
-            : "v0", "memory");
+        /* Match debt: stop CSE rematerializing the four screen addresses.
+         * A separate local keeps earlier buffer initialization unchanged. */
+        asm volatile("" : "=r"(screenBase) : "0"(screenBase));
+        color = 0x800000;
+        ((DISPENV *)(screenBase + 0x60))->screen.y = 8;
+        ((DISPENV *)(screenBase - 0x18))->screen.y = 8;
+        ((DISPENV *)(screenBase + 0x60))->screen.h = 0xE0;
+        ((DISPENV *)(screenBase - 0x18))->screen.h = 0xE0;
         g_TextCursorY = 0;
         g_TextCursorX = 0;
         g_TextCursorStackPtr = &g_TextCursorStackBottom;
