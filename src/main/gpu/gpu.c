@@ -7,20 +7,23 @@ extern u16 g_SeqElapsed;
 
 int Gpu_CheckDrawStatus(void) {
     int enabled = g_DrawEnabled;
-    int enabled2;
     register int value asm("$2");
     int result;
     register int flag asm("$3");
 
-    asm volatile("addiu $sp,$sp,-8");
+    /* Matching debt: retail reserves an otherwise unused eight-byte frame. */
+    volatile int matchingStackReserve[2];
+    /* Preserve retail's second comparison of the enabled snapshot. */
+    flag = enabled;
     if (enabled != 0) {
-        asm volatile("" : "=r"(enabled2) : "0"(enabled));
+        asm volatile("" : "=r"(flag) : "0"(flag));
         value = -1;
-        if (enabled2 != 0) {
+        if (flag != 0) {
             value = g_SeqElapsed;
-            value <<= 16;
+            value = (unsigned int)value << 16;
         } else {
-            asm("sll %0,%1,16" : "=r"(value) : "0"(value));
+            asm("" : "=r"(value) : "0"(value));
+            value = (unsigned int)value << 16;
         }
         if (value > 0) {
             flag = D_800B0DBB;
@@ -36,22 +39,21 @@ int Gpu_CheckDrawStatus(void) {
     result = 0;
 
 done:
-    asm volatile("addiu $sp,$sp,8");
     return result;
 }
 
 int Gpu_GetTimTableEntry(int base, int index) {
-    int offset = (short)index << 2;
-    int ptr = offset + base;
-    return base + *(int *)ptr;
+    int offset = (short)index * 4;
+    int ptr = (unsigned int)offset + (unsigned int)base;
+    return (unsigned int)base + (unsigned int)*(int *)ptr;
 }
 
 void Gpu_LoadTimTable(int base, int count) {
     int i;
 
     for (i = 0; i < count; i++) {
-        int ptr = ((short)i << 2) + base;
+        int ptr = (unsigned int)((short)i * 4) + (unsigned int)base;
         int offset = *(int *)ptr;
-        Gpu_LoadTimImage((TimFile *)(base + offset));
+        Gpu_LoadTimImage((TimFile *)((unsigned int)base + (unsigned int)offset));
     }
 }
