@@ -51,8 +51,8 @@ void Akao_ProcessVoiceQueue(void)
     Akao_StepVoiceNote(g_AkaoVoiceStateTable, primary & g_AkaoCurTrack->pending_voice_mask, excluded, &result);
     bank = g_AkaoCurTrack;
     primary &= ~bank->pending_voice_mask;
-    asm("" : : : "memory");
-    bank->key_on_request_mask &= ~bank->pending_voice_mask;
+    /* Retail reloads the pending mask for this independent flag update. */
+    bank->key_on_request_mask &= ~*(volatile unsigned *)&bank->pending_voice_mask;
   }
   asm("" : : "r"(secondary));
   if (secondary)
