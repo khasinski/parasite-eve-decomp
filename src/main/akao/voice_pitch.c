@@ -77,27 +77,25 @@ block_14:
 void Akao_SetVoiceLoopAddrAlt(AkaoTrack *track, u32 arg1) {
     s32 temp_a1_2;
     s32 temp_a2;
-    s32 var_a0;
+    s32 count_or_note;
     s32 var_v1;
     s32 temp_a1;
     s32 temp_a0_2;
     u16 var_a1;
-    u8 temp_a0;
     u8 temp_v0;
     s32 temp_v1;
     u8 tmp6;
     AkaoVoiceLoopRange *var_s0;
 
-    var_a0 = 1;
+    count_or_note = 1;
     var_s0 = (AkaoVoiceLoopRange *)track->repeat_target;
     temp_a2 = -((*g_AkaoCurTrack & 0x100) != 0) & 0x30;
     while (var_s0->note < 0x80U) {
         var_s0 += 1;
-        var_a0 += 1;
+        count_or_note += 1;
     }
     var_s0 = (AkaoVoiceLoopRange *)track->repeat_target;
-    var_v1 = var_a0;
-    __asm__("" : "=r"(var_v1) : "0"(var_v1));
+    var_v1 = count_or_note;
     var_s0 = (AkaoVoiceLoopRange *)((u8 *)var_s0 + ((var_v1 - 1) * 8));
     if (var_v1 != 0) {
 loop_4:
@@ -109,13 +107,13 @@ loop_4:
             }
         }
     }
-    temp_a0 = var_s0->note;
+    count_or_note = var_s0->note;
     temp_a1 = track->note_pitch;
-    if (temp_a0 < 0x20U) {
-        if (temp_a1 != temp_a0) {
+    if (count_or_note < 0x20U) {
+        if (temp_a1 != count_or_note) {
             goto block_10;
         }
-    } else if (temp_a1 != (temp_a0 + temp_a2)) {
+    } else if (temp_a1 != (count_or_note + temp_a2)) {
 block_10:
         if (var_v1 != 0) {
             temp_v1 = var_s0[-1].note;
