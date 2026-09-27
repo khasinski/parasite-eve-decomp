@@ -790,4 +790,22 @@ extern u8 D_800E1694[];
 extern s16 D_800F336A;
 int func_800D5CE4(int mode, RenderRisingEffect *state);
 
+typedef struct RenderFadeEmitter {
+    s16 count, intensity;
+} RenderFadeEmitter;
+typedef struct RenderFadeParticle {
+    s16 position[3];
+    s16 kind;
+    s16 reserved[4];
+    s16 phase, timer;
+} RenderFadeParticle;
+PE1_STATIC_ASSERT(sizeof(RenderFadeEmitter) == 4, render_fade_emitter_size);
+PE1_STATIC_ASSERT(sizeof(RenderFadeParticle) == 20, render_fade_particle_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderFadeParticle, kind) == 6, render_fade_particle_kind);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderFadeParticle, phase) == 16, render_fade_particle_phase);
+extern u8 D_800E2164[];
+extern u16 D_800E2244;
+int func_800DEFFC(int mode, void *state);
+int func_800DF6AC(int mode, RenderFadeEmitter *state);
+
 #endif

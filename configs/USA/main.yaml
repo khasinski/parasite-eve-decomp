@@ -1674,6 +1674,7 @@ segments:
       - [0xCE1E4, asm, engine/engine_800D4860_CE1E4]
       - [0xCE570, c, engine/FieldEng_SettlingEmitter]
       - [0xCE8A8, asm, engine/engine_800D4860_CE8A8]
+      - [0xCFEAC, c, engine/FieldEng_FadingEmitter]
       - [0xD007C, c, engine/FieldEng_RotatingEffect]
       - [0xD01B0, c, engine/FieldEng_PointEmitter]
       - [0xD0320, c, engine/func_800DFB20]
