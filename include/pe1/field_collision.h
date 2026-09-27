@@ -18,6 +18,24 @@ int Geo_PointInPoly(int x, int z, const PolygonVertex *vertices,
 
 struct BattleEntity;
 
+/* Selected ramp edge: integer length and 16.16 direction in the X/Z plane. */
+typedef struct RampEdge {
+    s16 reserved;
+    s16 length;
+    s32 directionX;
+    s32 directionZ;
+} RampEdge;
+
+extern s16 D_8009CE0C, D_8009CE0E, D_8009CE10, D_8009CE12;
+extern RampEdge *D_8009CE14;
+extern u16 D_8009CE18;
+void Entity_SlideOnRamp(struct BattleEntity *entity);
+
+PE1_STATIC_ASSERT(sizeof(RampEdge) == 12, ramp_edge_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RampEdge, length) == 2, ramp_edge_length_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RampEdge, directionX) == 4, ramp_edge_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RampEdge, directionZ) == 8, ramp_edge_z_offset);
+
 /* Shared collision query state. The response routine publishes the scaled
  * half-width before querying and sliding against this polygon. */
 extern volatile unsigned short D_8009CE2C;

@@ -263,7 +263,7 @@ segments:
       - [0xBDFC, asm, main/Geo_ClipToFloorBoundary]
       - [0xC964, asm, main/Geo_ClipToFloorBoundarySub]
       - [0xCE14, c, main/Geo_PointInTri]
-      - [0xCFDC, asm, main/Entity_SlideOnRamp]
+      - [0xCFDC, c, main/Entity_SlideOnRamp]
       - [0xD2B0, c, field/Geo_PointInPoly]
       - [0xD3A0, asm, main/geo]
       - [0xD970, c, field/Entity_ApplyCollisionResponse]
