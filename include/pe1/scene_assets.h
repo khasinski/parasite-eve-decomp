@@ -21,7 +21,10 @@ typedef struct SceneAssetDirectory {
     unsigned int reserved;
     /* Low 22 bits: byte offset from the blob; high 10 bits: record count. */
     unsigned int entries;
-    unsigned int reserved08[8];
+    unsigned int reserved08;
+    unsigned int bankRootEntries; /* 0x0C */
+    unsigned int bankRowEntries;  /* 0x10 */
+    unsigned int reserved14[5];
     unsigned int timEntries; /* 0x28: same offset/count encoding */
     unsigned int reserved2c;
     unsigned int trackEntries; /* 0x30: same offset/count encoding */
@@ -33,6 +36,29 @@ typedef struct SceneTrackRecord {
     u16 bank;
     u16 key;
 } SceneTrackRecord;
+
+typedef struct SceneBankAssetRecord {
+    u32 reserved;
+    union {
+        u32 offsetAndId;
+        struct { u8 offset[3]; u8 id; } bytes;
+    } source;
+    u32 trailing;
+} SceneBankAssetRecord;
+
+PE1_STATIC_ASSERT(sizeof(SceneBankAssetRecord) == 12, scene_bank_asset_record_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneBankAssetRecord, source.bytes.id) == 7,
+                  scene_bank_asset_id_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneAssetDirectory, bankRootEntries) == 0xC,
+                  scene_bank_root_entries_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneAssetDirectory, bankRowEntries) == 0x10,
+                  scene_bank_row_entries_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, requested_entity_bank) == 0xA,
+                  scene_requested_entity_bank_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, loaded_entity_bank) == 0xB,
+                  scene_loaded_entity_bank_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, entity_texture_phase) == 0xEC,
+                  scene_entity_texture_phase_offset);
 
 PE1_STATIC_ASSERT(sizeof(SceneTrackRecord) == 12, scene_track_record_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneTrackRecord, bank) == 8, scene_track_bank_offset);

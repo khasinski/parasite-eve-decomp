@@ -36,6 +36,8 @@ def strip_comments(text: str) -> str:
 _HW_OPS = "cfc2|ctc2|lwc2|swc2|mfc2|mtc2|nop"
 
 PATTERNS = {
+    # Explicitly named frame reservations retained solely for matching.
+    "stack_reserves": re.compile(r"\bvolatile\s+\w+\s+matchingStackReserve\s*\["),
     # One explicitly authorized scheduling instruction per macro invocation.
     "nop_barriers": re.compile(r"\bPE1_NOP(?:_DEP|_MEMORY_DEP|_IO2_DEP)?\s*\("),
     # Filled from the source classifier below; unlike regex-only counters this
@@ -82,7 +84,7 @@ ORDER = [
     "pointer_integer_casts", "field_macros", "pins", "barriers", "nop_barriers", "aliases",
     "asm_bodies", "directives", "gotos", "include_asm", "postpass",
     "statement_expressions", "unknown_fields", "declaration_overrides",
-    "externs_in_c",
+    "externs_in_c", "stack_reserves",
 ]
 HEAVY = [key for key in ORDER if key != "gotos"]
 
@@ -165,6 +167,7 @@ def render_report(per_sub, totals, dirty_files) -> str:
         "",
         "**pins** = `register T x asm(\"$r\")` · **barriers** = empty `asm(\"\")` · "
         "**nop_barriers** = explicit one-NOP scheduling macros · "
+        "**stack_reserves** = explicitly named unused matchingStackReserve arrays · "
         "**aliases** = `extern T x asm(\"sym\")` (C and shared headers) · **asm_bodies** = real instructions · "
         "**directives** = `asm(\".word ...\")` · **gotos** · **include_asm** · **postpass** · "
         "**externs_in_c** = declarations awaiting a subsystem header. Raw offset, pointer, "

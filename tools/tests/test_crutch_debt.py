@@ -83,6 +83,18 @@ class CrutchDebtTests(unittest.TestCase):
 
         self.assertEqual(totals["pins"], 0)
 
+    def test_counts_explicit_stack_reserves(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            (root / "test.c").write_text('''void f(void) {
+                volatile u32 matchingStackReserve[8];
+                volatile u32 hardwareValue;
+                /* volatile u32 matchingStackReserve[4]; */
+            }''')
+            _, totals, _, _ = crutch_debt.collect_debt(root)
+        self.assertEqual(totals["stack_reserves"], 1)
+        self.assertEqual(totals["asm_constrained_units"], 0)
+
     def test_collects_semantic_and_typing_scaffolding(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp)

@@ -27,7 +27,9 @@ typedef union Pe1SceneAudioState {
 
 typedef struct Pe1GameState {
     Pe1U32 flags;                    /* 0x000 */
-    Pe1U8 unk_004[0x08];
+    Pe1U8 unk_004[6];
+    Pe1U8 requested_entity_bank;    /* 0x00A */
+    Pe1U8 loaded_entity_bank;       /* 0x00B */
     Pe1S8 current_story_day;         /* 0x00C */
     Pe1S8 pending_story_day;         /* 0x00D */
     Pe1U8 story_day_flags;           /* 0x00E */
@@ -38,7 +40,8 @@ typedef struct Pe1GameState {
     Pe1SceneAudioState scene_audio; /* 0x0D8: cached track banks and keys */
     short pending_sample_bank;      /* 0x0E8: -1 means no sample upload */
     Pe1U8 pending_stream_banks[2];  /* 0x0EA: zero means no stream upload */
-    Pe1U8 unk_0ec[3];
+    Pe1U8 entity_texture_phase;     /* 0x0EC */
+    Pe1U8 unk_0ed[2];
     Pe1U8 tim_load_state;            /* 0x0EF: 0, 0x34, 0x35, 0x36 */
     Pe1U8 cd_read_phase;            /* 0x0F0 */
     Pe1U8 cd_track_phase;           /* 0x0F1 */
