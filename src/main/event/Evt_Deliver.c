@@ -6,15 +6,10 @@ extern s32 D_80094568;
 void DeliverEvent(unsigned int arg0, int arg1);
 
 s32 Evt_Deliver(s32 arg0, s32 arg1) {
-    register s32 event301 asm("$2") = 0x21;
-
     D_80094564 = arg0;
-    for (;;) {
-        D_80094568 = arg1;
-        if (arg0 == event301) {
-            goto event301;
-        }
-        break;
+    D_80094568 = arg1;
+    if (arg0 == 0x21) {
+        goto event301;
     }
     if (arg0 == 0x22) {
         goto event302;
