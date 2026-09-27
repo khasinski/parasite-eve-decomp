@@ -171,9 +171,11 @@ typedef struct GeomState {                /* header */
     s32 entry_offset;                     /* +0x14  -> GeomEntry[] */
     u8  pad18[4];                         /* +0x18 */
     s32 entry_offset_1C;                  /* +0x1C  -> GeomEntry[] (alt base) */
-    u8  pad20[6];                         /* +0x20 */
+    u8  pad20[4];                         /* +0x20 */
+    u16 depth_offset;                     /* +0x24  Geo_ClipPoint input Z offset */
     u16 field26;                          /* +0x26 */
-    u8  pad28[4];                         /* +0x28 */
+    u16 clip_offset_x;                    /* +0x28  Geo_ClipPoint input X offset */
+    u16 clip_offset_y;                    /* +0x2A  Geo_ClipPoint input Y offset */
     u16 disp_src_x;                       /* +0x2C */
     u16 disp_src_y;                       /* +0x2E */
     s16 clip_min_x;                       /* +0x30 */
@@ -183,6 +185,13 @@ typedef struct GeomState {                /* header */
     s16 out_disp_x;                       /* +0x38 */
     s16 out_disp_y;                       /* +0x3A */
 } GeomState;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomState, depth_offset) == 0x24,
+                  geom_depth_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomState, clip_offset_x) == 0x28,
+                  geom_clip_offset_x);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomState, clip_offset_y) == 0x2A,
+                  geom_clip_offset_y);
 
 extern GeomState * volatile g_GeomState;
 extern GeomState * volatile D_800B1624;
