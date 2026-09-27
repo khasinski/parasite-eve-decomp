@@ -1,4 +1,4 @@
-"""Partial hit-animation cleanup with angle boundaries and pointer reloads."""
+"""Plain-C hit animation with angle boundaries and callback pointer reloads."""
 from pathlib import Path
 import itertools
 import random
@@ -12,10 +12,8 @@ ROOT = Path(__file__).resolve().parents[2]
 class HitAnimConstraintTests(unittest.TestCase):
     def test_constraints_removed(self):
         source = (ROOT / 'src/main/entity/Entity_ApplyHitAndSetAnim.c').read_text()
-        self.assertNotIn('asm("$', source)
-        self.assertEqual(len(re.findall(r'\basm\(', source)), 4)
-        for name in ('Mode', 'Submode', 'Param'):
-            self.assertNotIn('asm("g_BattleHitAction'+name+'")', source)
+        source = re.sub(r'/\*.*?\*/|//[^\n]*', '', source, flags=re.S)
+        self.assertIsNone(re.search(r'\b(?:asm|__asm__|INCLUDE_ASM|CC_POSTPASS|REGALLOC_BARRIER)\b', source))
 
     @unittest.skipUnless((ROOT / 'assets/USA/main.exe').is_file() and
                          (ROOT / 'build/USA/main.exe').is_file(), 'retail/build unavailable')

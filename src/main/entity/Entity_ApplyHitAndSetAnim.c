@@ -3,10 +3,6 @@
 /* MASPSX_FLAGS: -G8 */
 
 extern char *g_PlayerEntity[];
-extern char *g_PlayerEntity_call[] asm("g_PlayerEntity");
-extern char *g_PlayerEntity_anim[] asm("g_PlayerEntity");
-extern char *g_PlayerEntity_effect[] asm("g_PlayerEntity");
-extern char *g_PlayerEntity_flags[] asm("g_PlayerEntity");
 extern char *g_ActiveActor[];
 extern u16 D_8009D298;
 extern u8 g_BattleHitActionMode[];
@@ -21,6 +17,10 @@ void Asset_Find08Alt(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 #define S16(base, off) (*(s16 *)((char *)(base) + (off)))
 #define U32(base, off) (*(u32 *)((char *)(base) + (off)))
 
+static inline char *CurrentPlayer(void) {
+    return g_PlayerEntity[0];
+}
+
 s16 Entity_ApplyHitAndSetAnim(void *arg0) {
     void *saved_arg;
     s32 value;
@@ -32,7 +32,7 @@ s16 Entity_ApplyHitAndSetAnim(void *arg0) {
 
     saved_arg = arg0;
     value = 0;
-    switch_actor = g_PlayerEntity[0];
+    switch_actor = CurrentPlayer();
 
     switch (U8(switch_actor, 0xE)) {
     case 6:
@@ -46,7 +46,7 @@ s16 Entity_ApplyHitAndSetAnim(void *arg0) {
         u8 mode;
         u8 submode;
 
-        case_actor = g_PlayerEntity[0];
+        case_actor = CurrentPlayer();
         mode = U8(case_actor, 0xE);
         g_BattleHitActionMode[0] = mode;
         submode = U8(case_actor, 0xF);
@@ -62,7 +62,7 @@ s16 Entity_ApplyHitAndSetAnim(void *arg0) {
         u8 mode;
         u8 submode;
 
-        case_actor = g_PlayerEntity[0];
+        case_actor = CurrentPlayer();
         mode = U8(case_actor, 0xE);
         g_BattleHitActionMode[0] = mode;
         submode = U8(case_actor, 0xF);
@@ -75,7 +75,7 @@ s16 Entity_ApplyHitAndSetAnim(void *arg0) {
 
     state = g_ActiveActor[0];
     if ((U32(state, 0x4C) & 0x12000) == 0) {
-        value = Battle_CalcRelativeAngle(saved_arg, g_PlayerEntity_call[0]);
+        value = Battle_CalcRelativeAngle(saved_arg, CurrentPlayer());
         if ((s16)value < 0x200) {
             bucket = 0;
         } else if ((s16)value < 0x600) {
@@ -88,19 +88,19 @@ s16 Entity_ApplyHitAndSetAnim(void *arg0) {
             bucket = 0;
         }
 
-        Entity_SetActionMode(g_PlayerEntity_anim[0], bucket);
+        Entity_SetActionMode(CurrentPlayer(), bucket);
 
         {
             char *effect_actor;
 
-            effect_actor = g_PlayerEntity_effect[0];
+            effect_actor = CurrentPlayer();
             Asset_Find08Alt(0x46A, 0, S16(effect_actor, 0x2A), S16(effect_actor, 0x2E), S16(effect_actor, 0x32));
         }
 
         {
             char *flag_actor;
 
-            flag_actor = g_PlayerEntity_flags[0];
+            flag_actor = CurrentPlayer();
             flags = U32(flag_actor, 0x98);
             actor = flag_actor;
         }

@@ -1,13 +1,13 @@
 {
   "main": {
-    "aliases": 23,
-    "asm_bodies": 60,
+    "aliases": 19,
+    "asm_bodies": 56,
     "asm_constrained_units": 18,
     "barriers": 1229,
     "byte_pointer_arithmetic": 399,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 3909,
+    "externs_in_c": 3905,
     "field_macros": 646,
     "gotos": 825,
     "include_asm": 0,
