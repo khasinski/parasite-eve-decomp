@@ -9,25 +9,22 @@ int DsSync(int mode);
 void CdRom_TryIssueCmd(u8 opcode, void *arg);
 
 void CdRom_PollPendingDsRead(void) {
-    register int status asm("$16");
-    register s32 *pending asm("$17");
-    register s32 *workAddress asm("$3");
-    register s32 work asm("$3");
-    int result;
+    int status;
+    s32 *pending;
+    s32 *workAddress;
+    s32 work;
+    unsigned int result;
 
     status = DsSync(0);
     if (status == 1) {
-        PE1_COMPILER_MEMORY_BARRIER();
         pending = &g_CdPendingReadCount;
-        PE1_COMPILER_LAUNDER(pending);
         if (*pending > 0) {
             result = DsSync(0);
             if (result == status) {
-                PE1_COMPILER_MEMORY_BARRIER();
                 workAddress = &D_800A3604;
                 work = *workAddress;
-                result = work * sizeof(CdDsReadQueueEntry);
-                PE1_COMPILER_LAUNDER(result);
+                result = work * 3;
+                result <<= 3;
                 work = (s32)CD_DS_QUEUE_FROM_PENDING(pending);
                 work = result + work;
                 if (((CdDsReadQueueEntry *)work)->active != 0) {
