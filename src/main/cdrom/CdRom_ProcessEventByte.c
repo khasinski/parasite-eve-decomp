@@ -1,14 +1,14 @@
 #include "common.h"
 #include "pe1/psyq_cd.h"
 
-extern DsDecodedEventFlags g_DsDecodedEventFlags asm("D_8009B588");
+extern DsDecodedEventFlags D_8009B588;
 extern u32 D_8009B624[];
 
 void Util_Copy8(u8 *dst, u8 *src);
 
 void CdRom_ProcessEventByte(int event, u8 *data) {
     u8 *data_reg;
-    register DsDecodedEventFlags *state asm("$4");
+    DsDecodedEventFlags *state;
     u8 value;
     u8 *src;
     int index;
@@ -32,7 +32,7 @@ process:
     src = data_reg + index;
     value = src[0];
     asm volatile("" : : "r"(value));
-    state = &g_DsDecodedEventFlags;
+    state = &D_8009B588;
     asm volatile("" : "=r"(state) : "0"(state));
     state->bit7 = value >> 7;
     state->bit6 = (value >> 6) & 1;
