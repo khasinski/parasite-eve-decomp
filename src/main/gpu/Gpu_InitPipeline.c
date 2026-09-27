@@ -154,15 +154,19 @@ void Gpu_InitPipeline(void) {
         a0p = g_GameState;
         g_GameStateFlags = tmp & v1;
     }
-    asm volatile(
-        "lui $2, %%hi(g_FieldMoveLock)\n"
-        "lw $2, %%lo(g_FieldMoveLock)($2)\n"
-        "addiu $3, $0, -13\n"
-        "and $2, $2, $3\n"
-        "lui $1, %%hi(g_FieldMoveLock)\n"
-        "sw $2, %%lo(g_FieldMoveLock)($1)\n"
-        :
-        :
-        : "$1", "$2", "$3", "memory");
+    asm volatile("" : : : "memory");
+    {
+        /* g_FieldMoveLock is at 0x8009D2E8 in the USA image. */
+        register u32 load_page asm("$2") = 0x800A0000u;
+        register u32 store_page asm("$1");
+        register u32 flags asm("$2");
+        asm volatile("" : "=r"(load_page) : "0"(load_page));
+        flags = *(volatile u32 *)(load_page - 0x2D18u);
+        flags &= ~0xCu;
+        asm volatile("" : : "r"(flags));
+        store_page = 0x800A0000u;
+        asm volatile("" : "=r"(store_page) : "0"(store_page));
+        *(volatile u32 *)(store_page - 0x2D18u) = flags;
+    }
     W(a0p) &= ~0x402;
 }
