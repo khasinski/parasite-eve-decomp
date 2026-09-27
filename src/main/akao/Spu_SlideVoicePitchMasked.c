@@ -5,15 +5,18 @@
 extern char g_AkaoVoiceChannelTable[];
 extern u32 g_SpuActiveVoiceMask;
 
+static inline short PitchDelta(int target, int current, int step) {
+    return (short)((target << 8) - current) / (short)step;
+}
+
 void Spu_SlideVoicePitchMasked(int *arg0) {
-    register char *base asm("$3");
+    char *base;
     u32 active;
     u32 mask;
     u32 i;
-    register char *voice asm("$6");
+    AkaoTrack *voice;
     int step;
-    register int delta asm("$3");
-    int denom;
+    int delta;
 
     base = g_AkaoVoiceChannelTable;
     active = g_SpuActiveVoiceMask;
@@ -21,52 +24,40 @@ void Spu_SlideVoicePitchMasked(int *arg0) {
 
     if (arg0[2] != 0) {
         i = 0;
-        voice = base + 0x70;
+        voice = (AkaoTrack *)base;
         do {
             if ((active & mask) != 0) {
-                if ((*(u32 *)(voice - 0x44) & arg0[2]) != 0) {
+                if ((voice->key_on_mask & arg0[2]) != 0) {
                     step = 1;
                     if (arg0[3] != 0) {
                         step = arg0[3];
                     }
-                    delta = ((u8 *)arg0)[0x10];
-                    denom = *(int *)(voice - 0x34);
-                    delta <<= 8;
-                    delta -= denom;
-                    delta = (short)delta;
-                    denom = (short)step;
-                    delta = delta / denom;
-                    *(short *)voice = step;
-                    *(int *)(voice - 0x30) = (short)delta;
+                    delta = PitchDelta(((u8 *)arg0)[0x10], (int)voice->voice_mask_b, step);
+                    voice->pan_base = (short)delta;
+                    voice->field_70 = step;
                 }
             }
             i++;
-            voice += sizeof(AkaoTrack);
+            voice++;
             mask <<= 1;
         } while (i < 12);
     } else {
         i = 0;
-        voice = base + 0x70;
+        voice = (AkaoTrack *)base;
         do {
             if ((active & mask) != 0) {
-                if (*(int *)(voice - 0x48) == arg0[1]) {
+                if ((int)voice->key_off_mask == arg0[1]) {
                     step = 1;
                     if (arg0[3] != 0) {
                         step = arg0[3];
                     }
-                    delta = ((u8 *)arg0)[0x10];
-                    denom = *(int *)(voice - 0x34);
-                    delta <<= 8;
-                    delta -= denom;
-                    delta = (short)delta;
-                    denom = (short)step;
-                    delta = delta / denom;
-                    *(short *)voice = step;
-                    *(int *)(voice - 0x30) = (short)delta;
+                    delta = PitchDelta(((u8 *)arg0)[0x10], (int)voice->voice_mask_b, step);
+                    voice->pan_base = (short)delta;
+                    voice->field_70 = step;
                 }
             }
             i++;
-            voice += sizeof(AkaoTrack);
+            voice++;
             mask <<= 1;
         } while (i < 12);
     }
