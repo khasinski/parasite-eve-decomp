@@ -6,7 +6,7 @@
 s32 Battle_GetEnemyContextField(void *arg0, s32 arg1) {
     EnemyCombatant *ctx = *(EnemyCombatant **)arg0;
     s32 ret = -1000;
-    register u32 word asm("$2");
+    u32 word;
     s32 flags;
 
     switch (((u8)arg1) - 0x29) {
@@ -26,8 +26,7 @@ s32 Battle_GetEnemyContextField(void *arg0, s32 arg1) {
         word = ctx->coreFlags;
         word >>= 17;
         word &= 0x70;
-        word = (u32)ctx + word;
-        ret = *(u8 *)(word + 0x1C);
+        ret = *((u8 *)ctx + word + 0x1C);
         break;
     case 19:
         ret = ctx->field88;
@@ -50,8 +49,7 @@ s32 Battle_GetEnemyContextField(void *arg0, s32 arg1) {
     case 89:
         flags = ctx->statusFlags2;
         if (flags & 0x1000000) {
-            word = ctx->coreFlags & 0xC0000;
-            if (word == 0xC0000) {
+            if ((ctx->coreFlags & 0xC0000) == 0xC0000) {
                 ctx->statusFlags2 = flags & 0xFEFFFFFF;
                 ret = 1;
             } else {
