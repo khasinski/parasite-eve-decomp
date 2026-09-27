@@ -4,29 +4,21 @@
 #include "pe1/draw_state.h"
 #include "pe1/render_prim.h"
 #include "pe1/menu_inventory.h"
-void Draw_EmitWipeBar(u8 *edges, int mode) {
-    u32 *first = 0;
-    int firstMode = mode + 1;
-    u32 *second;
-    int secondMode;
+static inline u32 *AllocateDrawMode(int mode) {
+    u32 *packet = 0;
     u8 *old = g_DrawPacketCursor;
     u8 *next = old + 8;
     if (next < g_DrawPacketArenaBase + 0x4000) {
         g_DrawPacketCursor = next;
-        first = (u32 *)old;
+        packet = (u32 *)old;
     } else BoundsCheck_AssertStub(1);
-    if (first) SetDrawMode((char *)first, 0, 0, (firstMode & 3) << 5);
-    secondMode = 2 - mode;
-    /* Finish selecting the second mode before beginning its allocation. */
-    asm("" : : "r"(secondMode));
-    second = 0;
-    old = g_DrawPacketCursor;
-    next = old + 8;
-    if (next < g_DrawPacketArenaBase + 0x4000) {
-        g_DrawPacketCursor = next;
-        second = (u32 *)old;
-    } else BoundsCheck_AssertStub(1);
-    if (second) SetDrawMode((char *)second, 0, 0, (secondMode & 3) << 5);
+    if (packet) SetDrawMode((char *)packet, 0, 0, (mode & 3) << 5);
+    return packet;
+}
+
+void Draw_EmitWipeBar(u8 *edges, int mode) {
+    u32 *first = AllocateDrawMode(mode + 1);
+    u32 *second = AllocateDrawMode(2 - mode);
     while ((s8)edges[0] >= 0) {
         Draw_AllocColorRect((s8)edges[0], (s8)edges[1], 2, mode);
         edges += 2;
