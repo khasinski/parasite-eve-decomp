@@ -113,18 +113,14 @@ void Draw_FlushPrimList(int textId) {
     if (cursor != 0) {
         PUSH_CURSOR2();
 
-        ch = *cursor;
         {
-            int masked;
-            register int end asm("$2") = 0xFF;
-            asm volatile("" : "=r"(ch) : "0"(ch));
-            masked = ch & 0xFF;
-            if (masked != end) {
-                do {
-                    Draw_AllocTexturedQuad(ch);
-                    cursor++;
-                    ch = *cursor;
-                } while (ch != 0xFF);
+            u8 code = *cursor;
+            if ((code & 0xFF) != 0xFF) {
+                for (;;) {
+                    Draw_AllocTexturedQuad(code);
+                    code = *++cursor;
+                    if (code == 0xFF) break;
+                }
             }
         }
 
