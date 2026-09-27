@@ -1,5 +1,4 @@
 #include "common.h"
-#include "pe1/psyq_nop.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -70,7 +69,6 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
 
             glyphDim = M2C_FIELD(glyph, volatile u8 *, 4);
             sum = M2C_FIELD(ptr, volatile u16 *, 8);
-            PE1_NOP();
             temp = sum + glyphDim;
         }
         M2C_FIELD(ptr, s16 *, 0x20) = temp;
@@ -82,7 +80,6 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
 
             glyphDim = M2C_FIELD(glyph, volatile u8 *, 5);
             sum = M2C_FIELD(ptr, volatile u16 *, 0xA);
-            PE1_NOP();
             temp = sum + glyphDim;
         }
         M2C_FIELD(ptr, s16 *, 0x22) = temp;
