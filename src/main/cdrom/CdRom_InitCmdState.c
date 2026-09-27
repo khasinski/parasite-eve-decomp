@@ -1,9 +1,11 @@
 /* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
+/* Retail keeps one base address for each initialization block. */
 
 #include "common.h"
 #include "pe1/psyq_cd.h"
 
-extern u_int D_8009B560;
+extern u_int D_8009B560[3];
 
 CdlLOC *CdIntToPos(int sector, CdlLOC *position);
 
@@ -14,8 +16,9 @@ void CdRom_InitCmdState(void) {
     u_char *cursor;
     int i;
     i = 3;
-    asm("" : "=r"(state) : "0"(&g_DsReadSysEnabled));
-    cursor = &state->reserved06[2];
+    state = &g_DsReadSysEnabled;
+    /* Clear pendingMode and the first three reserved bytes backwards. */
+    cursor = (u_char *)state + 8;
     state->enabled = 0;
     state->pendingCommand = 0;
     do {
@@ -24,7 +27,7 @@ void CdRom_InitCmdState(void) {
         cursor--;
     } while (i >= 0);
 
-    asm("" : "=r"(preSeek) : "0"(&D_8009B560));
+    preSeek = (u_char *)&D_8009B560;
     *(u_int *)preSeek = 0;
     i = 7;
     preSeek += 11;
@@ -34,7 +37,7 @@ void CdRom_InitCmdState(void) {
         preSeek--;
     } while (i >= 0);
 
-    asm("" : "=r"(command) : "0"(&g_CdSeekState));
+    command = &g_CdSeekState;
     command->read.status = 2;
     command->read.command = 14;
     command->eventStatus = 0;
