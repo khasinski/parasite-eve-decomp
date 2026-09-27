@@ -6,18 +6,17 @@
 #define ADVANCE_ENV_PTR(voice, off)                                  \
     do {                                                            \
         if (table[0] == 0 && table[1] == 0) {                        \
-            register s16 *next asm("$2") = table + table[2];        \
+            register s16 *next = table + table[2];        \
             U32((voice), (off)) = (u32)next;                         \
         }                                                           \
-        asm volatile("" : : : "memory");                            \
         table = (s16 *)U32((voice), (off));                          \
         U32((voice), (off)) = (u32)(table + 1);                      \
         { register int raw asm("$4") = *table;                      \
-          asm volatile("" : : "r"(raw)); sample = raw; }             \
+           sample = raw; }             \
     } while (0)
 void Akao_SetVoiceKeyOn(AkaoTrack *voice, u32 voice_mask) {
-    register u32 flags asm("$8");
-    register int base_volume asm("$7");
+    register u32 flags;
+    register int base_volume;
     u32 later_flags;
     int value;
     int sample;
@@ -31,7 +30,7 @@ void Akao_SetVoiceKeyOn(AkaoTrack *voice, u32 voice_mask) {
     if ((flags & 1) != 0) {
         U16(voice, 0x8E)--;
         if (U16(voice, 0x8E) == 0) {
-            register int value asm("$3");
+            register int value;
             table = (s16 *)U32(voice, 0x1C);
             U16(voice, 0x8E) = U16(voice, 0x8C);
             ADVANCE_ENV_PTR(voice, 0x1C);
@@ -54,10 +53,10 @@ void Akao_SetVoiceKeyOn(AkaoTrack *voice, u32 voice_mask) {
             table = (s16 *)U32(voice, 0x20);
             U16(voice, 0xA2) = U16(voice, 0xA0);
             if (table[0] == 0 && table[1] == 0) {
-                register s16 *next asm("$2") = table + table[2];
+                register s16 *next = table + table[2];
                 U32(voice, 0x20) = (u32)next;
             }
-            asm volatile("" ::: "memory");
+
             volume_product = base_volume * (U16(voice, 0xA6) >> 8);
             table = (s16 *)U32(voice, 0x20);
             U32(voice, 0x20) = (u32)(table + 1);
@@ -78,19 +77,19 @@ void Akao_SetVoiceKeyOn(AkaoTrack *voice, u32 voice_mask) {
     if ((later_flags & 4) != 0) {
         U16(voice, 0xB0)--;
         if (U16(voice, 0xB0) == 0) {
-            register int value asm("$3");
+            register int value;
             int scale;
             table = (s16 *)U32(voice, 0x24);
             U16(voice, 0xB0) = U16(voice, 0xAE);
             if (table[0] == 0 && table[1] == 0) {
-                register s16 *next asm("$2") = table + table[2];
+                register s16 *next = table + table[2];
                 U32(voice, 0x24) = (u32)next;
             }
-            asm volatile("" ::: "memory");
+
             table = (s16 *)U32(voice, 0x24);
             U32(voice, 0x24) = (u32)(table + 1);
             scale = U16(voice, 0xB4) >> 8;
-            { register int raw asm("$4") = *table; asm volatile("" : : "r"(raw)); sample = raw; }
+            { register int raw asm("$4") = *table;  sample = raw; }
             value = (scale * sample) >> 15;
             if (value != S16(voice, 0xEC)) {
                 U16(voice, 0xEC) = value;

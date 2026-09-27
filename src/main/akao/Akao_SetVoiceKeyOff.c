@@ -99,7 +99,7 @@ extern s16 D_8009B9F8[];
 extern char D_800B8AC0[];
 
 void Akao_SetVoiceKeyOff(AkaoTrack *cursor, u32 voice_mask, int index) {
-    register void *voice asm("$6") = cursor;
+    register void *voice = cursor;
     u32 flags;
     register int base_volume asm("$4");
     int value;
@@ -143,7 +143,7 @@ void Akao_SetVoiceKeyOff(AkaoTrack *cursor, u32 voice_mask, int index) {
             U32(voice, 0x20) = (u32)(table + 1);
             sample = *table;
             { register int shifted asm("$2") = value << 9; register int upper asm("$7") = shifted >> 16;
-              register int final_value asm("$7") = (upper * sample) >> 15;
+              register int final_value = (upper * sample) >> 15;
               if (final_value != S16(voice, 0xEA)) {
                   U16(voice, 0xEA) = final_value;
                   U32(voice, 0xF4) |= 3;
@@ -165,9 +165,9 @@ void Akao_SetVoiceKeyOff(AkaoTrack *cursor, u32 voice_mask, int index) {
             }
             table = (s16 *)U32(voice, 0x24);
             U32(voice, 0x24) = (u32)(table + 1);
-            { register int scale asm("$2") = U16(voice, 0xB4) >> 8;
+            { register int scale = U16(voice, 0xB4) >> 8;
               sample = *table;
-              { register int final_value asm("$7") = (scale * sample) >> 15;
+              { register int final_value = (scale * sample) >> 15;
                 if (final_value != S16(voice, 0xEC)) {
                     U16(voice, 0xEC) = final_value;
                     U32(voice, 0xF4) |= 3;
@@ -184,13 +184,13 @@ void Akao_SetVoiceKeyOff(AkaoTrack *cursor, u32 voice_mask, int index) {
     }
 
     if ((U32(voice, 0xF4) & 3) != 0) {
-        { int product; int mode; register int one asm("$2");
+        { int product; int mode; register int one;
           base_volume += S16(voice, 0xEA);
           product = base_volume * (U16(D_8009D2C8, 0x4A) & 0x7F);
-          { register int raw_pan asm("$2") = U16(voice, 0x76); register int bias asm("$3") = S16(voice, 0xEC); register int shifted asm("$2") = raw_pan >> 8; register int sum asm("$2") = shifted + bias; pan = sum & 0xFF; }
+          { register int raw_pan = U16(voice, 0x76); register int bias = S16(voice, 0xEC); register int shifted asm("$2") = raw_pan >> 8; register int sum asm("$2") = shifted + bias; pan = sum & 0xFF; }
           one = 1;
           mode = D_8009D2C0;
-          asm volatile("" : : "r"(mode));
+
           base_volume = product >> 7;
           MIX_PAN_DISPATCH(voice, base_volume, pan, voice_mask, primary, mode, one);
         }
@@ -218,7 +218,7 @@ void Akao_SetVoiceKeyOff(AkaoTrack *cursor, u32 voice_mask, int index) {
         U32(voice, 0xF4) |= 0x10;
     } else if ((U32(voice, 0xF4) & 0x10) != 0) {
         register int depth asm("$7") = D_8009D2CE;
-        register int pitch asm("$3") = U32(voice, 0x30) + S16(voice, 0xE8) + S16(voice, 0x36);
+        register int pitch = U32(voice, 0x30) + S16(voice, 0xE8) + S16(voice, 0x36);
         SCALE_GLOBAL_DEPTH(pitch, depth);
         { register int masked asm("$2") = pitch & 0x3FFF; U16(voice, 0x10C) = masked; }
     }
