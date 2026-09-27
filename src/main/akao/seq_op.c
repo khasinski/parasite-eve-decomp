@@ -92,21 +92,17 @@ void SeqOp_SetTempo(void *ptr)
 }
 
 void SeqOp_SetPitchSlideTarget(void *ptr) {
-    register void *stream asm("$5");
     u8_1 *pc;
-    register int value asm("$2");
-
-    stream = ptr;
 
     {
-        register u8_1 *pc0 asm("$2");
-        register char *track asm("$3");
+        int value;
+        u8_1 *pc0;
+        char *track;
 
-        pc0 = *(u8_1 **)stream;
-        *(u8_1 **)stream = pc0 + 1;
+        pc0 = *(u8_1 **)ptr;
+        *(u8_1 **)ptr = pc0 + 1;
         track = g_AkaoCurTrack;
-        value = pc0[0];
-        *(u16 *)(track + 0x52) = value;
+        value = (*(u16 *)(track + 0x52) = *pc0);
         if (value == 0) {
             value = 0x100;
             *(u16 *)(track + 0x52) = value;
@@ -114,14 +110,15 @@ void SeqOp_SetPitchSlideTarget(void *ptr) {
     }
 
     {
-        register int high asm("$3");
+        int value;
+        int high;
         char *track;
         int current;
 
-        pc = *(u8_1 **)stream;
-        *(u8_1 **)stream = pc + 1;
+        pc = *(u8_1 **)ptr;
+        *(u8_1 **)ptr = pc + 1;
         value = pc[0];
-        *(u8_1 **)stream = pc + 2;
+        *(u8_1 **)ptr = pc + 2;
         high = pc[1];
 
         track = g_AkaoCurTrack;
