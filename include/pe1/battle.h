@@ -75,10 +75,13 @@ typedef struct BattleAttributes {
 typedef struct EnemyActionEffect {
 /* 0x00 */ u8  state;       /* 1=ready; changed to 3/4 by drop resolution */
 /* 0x01 */ u8  effectType;  /* Battle_ApplyEnemyAttack dispatch id */
-/* 0x02 */ u8  pad_02[0x0A];
+/* 0x02 */ u8  enterMode;
+/* 0x03 */ u8  exitMode;
+/* 0x04 */ s32 enterStep;
+/* 0x08 */ s32 exitStep;
 /* 0x0C */ u16 power;
 /* 0x0E */ u8  category;    /* selects which packed BattleAttributes value applies */
-/* 0x0F */ u8  pad_0F;
+/* 0x0F */ u8  frame;       /* animation frame that changes state to 3 */
 } EnemyActionEffect;
 
 /* ----------------------------------------------------------------------------
