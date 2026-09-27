@@ -45,6 +45,16 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_audio.tracks.keys) == 0xDC,
                   scene_track_keys_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, cd_track_phase) == 0xF1,
                   scene_track_phase_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_audio.tracks.pending_key) == 0xE0,
+                  scene_pending_track_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, pending_sample_bank) == 0xE8,
+                  scene_pending_sample_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, pending_stream_banks) == 0xEA,
+                  scene_pending_streams_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, cd_transition_phase) == 0xF2,
+                  scene_transition_phase_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, transition_volume) == 0xFE,
+                  scene_transition_volume_offset);
 
 typedef struct SceneAssetBlob {
     unsigned int reserved;

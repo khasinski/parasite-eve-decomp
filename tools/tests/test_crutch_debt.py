@@ -59,17 +59,18 @@ class CrutchDebtTests(unittest.TestCase):
                 PE1_NOP();
                 PE1_NOP_DEP("x", product);
                 PE1_NOP_MEMORY_DEP("r", value);
+                PE1_NOP_IO2_DEP(first, second, value);
                 /* PE1_NOP(); */
             }''')
             _, totals, _, _ = crutch_debt.collect_debt(root)
-        self.assertEqual(totals["nop_barriers"], 3)
+        self.assertEqual(totals["nop_barriers"], 4)
         self.assertEqual(totals["asm_constrained_units"], 0)
 
     def test_nop_header_has_only_individual_nop_instructions(self):
         import re
         header = crutch_debt.ROOT / "include/pe1/psyq_nop.h"
         bodies = re.findall(r'asm volatile\("([^"\n]*)"', header.read_text())
-        self.assertEqual(bodies, ["nop", "nop", "nop"])
+        self.assertEqual(bodies, ["nop", "nop", "nop", "nop"])
 
     def test_comments_do_not_count_as_debt(self):
         with tempfile.TemporaryDirectory() as tmp:

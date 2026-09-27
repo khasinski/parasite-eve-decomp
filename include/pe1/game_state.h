@@ -20,7 +20,8 @@ typedef union Pe1SceneAudioState {
         Pe1U8 reserved[2];
         Pe1U8 banks[2];
         Pe1S8 keys[2][2];
-        Pe1U8 trailing[8];
+        Pe1S8 pending_key, pending_bank; /* 0xE0, 0xE1 in game state */
+        Pe1U8 trailing[6];
     } tracks;
 } Pe1SceneAudioState;
 
@@ -35,14 +36,19 @@ typedef struct Pe1GameState {
     Pe1U8 unk_013;
     Pe1U8 scene_work[0x0C4];         /* 0x014 */
     Pe1SceneAudioState scene_audio; /* 0x0D8: cached track banks and keys */
-    Pe1U8 unk_0e8[7];
+    short pending_sample_bank;      /* 0x0E8: -1 means no sample upload */
+    Pe1U8 pending_stream_banks[2];  /* 0x0EA: zero means no stream upload */
+    Pe1U8 unk_0ec[3];
     Pe1U8 tim_load_state;            /* 0x0EF: 0, 0x34, 0x35, 0x36 */
     Pe1U8 cd_read_phase;            /* 0x0F0 */
     Pe1U8 cd_track_phase;           /* 0x0F1 */
-    Pe1U8 reserved_0f2[4];
+    Pe1U8 cd_transition_phase;      /* 0x0F2 */
+    Pe1U8 reserved_0f3[3];
     Pe1U8 bank_value_f6, bank_value_f7;
     unsigned short bank_value_f8, bank_value_fa;
-    Pe1U8 unk_0fc[4];
+    Pe1U8 unk_0fc[2];
+    Pe1U8 transition_volume;        /* 0x0FE */
+    Pe1U8 unk_0ff;
     Pe1U32 pe_image_base_lba;        /* 0x100: g_PeImageBaseLba */
     Pe1U8 draw_prim_b[0x10];         /* 0x104 */
     Pe1U8 draw_prim_c[0x10];         /* 0x114 */

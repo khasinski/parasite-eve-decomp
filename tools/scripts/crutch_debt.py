@@ -37,7 +37,7 @@ _HW_OPS = "cfc2|ctc2|lwc2|swc2|mfc2|mtc2|nop"
 
 PATTERNS = {
     # One explicitly authorized scheduling instruction per macro invocation.
-    "nop_barriers": re.compile(r"\bPE1_NOP(?:_DEP|_MEMORY_DEP)?\s*\("),
+    "nop_barriers": re.compile(r"\bPE1_NOP(?:_DEP|_MEMORY_DEP|_IO2_DEP)?\s*\("),
     # Filled from the source classifier below; unlike regex-only counters this
     # sees instruction asm inherited from directly included C templates.
     "asm_constrained_units": re.compile(r"(?!)"),
