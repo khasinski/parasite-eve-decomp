@@ -9,9 +9,9 @@ extern char *g_PlayerEntity_effect[] asm("g_PlayerEntity");
 extern char *g_PlayerEntity_flags[] asm("g_PlayerEntity");
 extern char *g_ActiveActor[];
 extern u16 D_8009D298;
-extern u8 D_8009D29A_abs[] asm("g_BattleHitActionMode");
-extern u8 D_8009D29B_abs[] asm("g_BattleHitActionSubmode");
-extern u32 D_8009D29C_abs[] asm("g_BattleHitActionParam");
+extern u8 g_BattleHitActionMode[];
+extern u8 g_BattleHitActionSubmode[];
+extern u32 g_BattleHitActionParam[];
 
 s32 Battle_CalcRelativeAngle(void *arg0, void *actor);
 void Entity_SetActionMode(void *actor, s32 bucket);
@@ -27,7 +27,7 @@ s16 Entity_ApplyHitAndSetAnim(void *arg0) {
     char *switch_actor;
     char *actor;
     char *state;
-    register s32 bucket asm("$2");
+    short bucket;
     u32 flags;
 
     saved_arg = arg0;
@@ -48,11 +48,11 @@ s16 Entity_ApplyHitAndSetAnim(void *arg0) {
 
         case_actor = g_PlayerEntity[0];
         mode = U8(case_actor, 0xE);
-        D_8009D29A_abs[0] = mode;
+        g_BattleHitActionMode[0] = mode;
         submode = U8(case_actor, 0xF);
         D_8009D298 = 1;
-        D_8009D29B_abs[0] = submode;
-        D_8009D29C_abs[0] = U32(case_actor, 0x14);
+        g_BattleHitActionSubmode[0] = submode;
+        g_BattleHitActionParam[0] = U32(case_actor, 0x14);
         break;
     }
     case 7:
@@ -64,11 +64,11 @@ s16 Entity_ApplyHitAndSetAnim(void *arg0) {
 
         case_actor = g_PlayerEntity[0];
         mode = U8(case_actor, 0xE);
-        D_8009D29A_abs[0] = mode;
+        g_BattleHitActionMode[0] = mode;
         submode = U8(case_actor, 0xF);
         D_8009D298 = 1;
-        D_8009D29B_abs[0] = submode;
-        D_8009D29C_abs[0] = U8(case_actor, 0xF) << 16;
+        g_BattleHitActionSubmode[0] = submode;
+        g_BattleHitActionParam[0] = U8(case_actor, 0xF) << 16;
         break;
     }
     }
