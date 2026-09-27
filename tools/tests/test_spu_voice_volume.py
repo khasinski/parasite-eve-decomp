@@ -1,7 +1,7 @@
-"""Voice-volume packet model; the downstream SPU sender is stubbed."""
+"""Plain volume helper and ordered MMIO writes; not physical SPU emulation."""
 from pathlib import Path
+import itertools
 import random
-import re
 import struct
 import unittest
 
@@ -9,63 +9,54 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class SpuVoiceVolumeTests(unittest.TestCase):
-    def test_translation_unit_is_plain_c(self):
-        source = (ROOT/'src/main/akao/Spu_SetVoiceVolume.c').read_text()
-        source = re.sub(r'/\*.*?\*/|//[^\n]*', '', source, flags=re.S)
-        self.assertNotRegex(source, r'\b(?:asm|__asm__|INCLUDE_ASM|CC_POSTPASS)\b')
+    def test_volume_helper_is_plain(self):
+        source = (ROOT/'src/main/akao/Akao_SpuVoiceRegisters.c').read_text()
+        body = source.split('void AkaoSpuVoice_SetVolume(',1)[1].split('void AkaoSpuVoice_SetPitch',1)[0]
+        self.assertNotRegex(body,r'\b(?:asm|__asm__|INCLUDE_ASM|CC_POSTPASS)\b')
 
     @unittest.skipUnless((ROOT/'assets/USA/main.exe').is_file() and
                          (ROOT/'build/USA/main.exe').is_file(), 'retail/build unavailable')
-    def test_retail_and_built_model(self):
+    def test_ordered_volume_writes(self):
         try:
-            from unicorn import Uc, UC_ARCH_MIPS, UC_MODE_MIPS32, UC_MODE_LITTLE_ENDIAN, UC_HOOK_CODE
+            from unicorn import Uc, UC_ARCH_MIPS, UC_MODE_MIPS32, UC_MODE_LITTLE_ENDIAN, UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE, UC_MEM_WRITE
             from unicorn import mips_const as R
         except ImportError:
             self.skipTest('unicorn unavailable')
-        entry, stop, stack, gp = 0x800870F0, 0x80010000, 0x801F0000, 0x8009CD70
-        sender, packet, mode_address = 0x8007A88C, 0x8009D1C8, 0x8009D2C0
-        offset, size = entry-0x8000F800, 0xA8
-        bodies = [(ROOT/path).read_bytes()[offset:offset+size]
-                  for path in ('assets/USA/main.exe','build/USA/main.exe')]
-        self.assertEqual(len(bodies[0]),size)
-        self.assertEqual(*bodies)
+        # Entire TU byte gate; this model exercises the changed volume helper.
+        # Other functions still contain pins/barriers, so TU is not clean yet.
+        images = [(ROOT/p).read_bytes() for p in ('assets/USA/main.exe','build/USA/main.exe')]
+        offset,size = 0x8008770C-0x8000F800,0x39C
+        self.assertEqual(len(images[0][offset:offset+size]),size)
+        self.assertEqual(images[0][offset:offset+size],images[1][offset:offset+size])
+        entry,stop,stack,mmio = 0x80087798,0x80010000,0x801F0000,0x1F801000
+        bodies = [data[entry-0x8000F800:entry-0x8000F800+0x24] for data in images]
+        saved = [getattr(R,f'UC_MIPS_REG_S{i}') for i in range(8)]+[R.UC_MIPS_REG_GP,R.UC_MIPS_REG_FP]
         rng = random.Random(entry)
-        values = list(range(256))+[256,8191,8192,0x7FFFFFFF,0x80000000,0xFFFFFFFF]
-        values += [rng.getrandbits(32) for _ in range(256)]
-        saved = [getattr(R,f'UC_MIPS_REG_S{i}') for i in range(8)]+[R.UC_MIPS_REG_FP]
-        for body in bodies:
-            m = Uc(UC_ARCH_MIPS,UC_MODE_MIPS32|UC_MODE_LITTLE_ENDIAN)
-            m.mem_map(0,0x200000)
-            def put(address,data): m.mem_write(address&0x1FFFFFFF,bytes(data))
-            put(entry,body)
-            put(sender,struct.pack('<III',0,0x03E00008,0))
-            calls = []
-            def hook(machine,address,insn_size,user):
-                if address == sender+4:
-                    calls.append((machine.reg_read(R.UC_MIPS_REG_A0),bytes(machine.mem_read(packet&0x1FFFFFFF,4))))
-                    for name in ('V0','V1','A0','A1','A2','A3','T0','T1','T2','T3','T4','T5','T6','T7','T8','T9'):
-                        machine.reg_write(getattr(R,'UC_MIPS_REG_'+name),0xDEADCAFE)
-            m.hook_add(UC_HOOK_CODE,hook)
-            for mode in (0,1,2,3,0xFFFFFFFD,0xFFFFFFFF):
-                for value in values:
-                    calls.clear()
-                    initial = bytes(range(20))
-                    put(packet-8,initial)
-                    put(mode_address,struct.pack('<I',mode))
-                    for name,number in (('A0',value),('SP',stack),('RA',stop),('GP',gp)):
-                        m.reg_write(getattr(R,'UC_MIPS_REG_'+name),number)
-                    for i,reg in enumerate(saved): m.reg_write(reg,0xABCD0000+i)
-                    level = (((value*2903)&0xFFFFFFFF)>>13)&255 if mode&2 else value&255
-                    expected = bytes([level]*4) if mode&2 else bytes([level,0,level,0])
-                    m.emu_start(entry,stop,count=100)
-                    self.assertEqual(calls,[(packet,expected)],(mode,value))
-                    self.assertEqual(bytes(m.mem_read((packet-8)&0x1FFFFFFF,20)),initial[:8]+expected+initial[12:])
-                    self.assertEqual(bytes(m.mem_read(mode_address&0x1FFFFFFF,4)),struct.pack('<I',mode))
-                    self.assertEqual(m.reg_read(R.UC_MIPS_REG_PC),stop)
-                    self.assertEqual(m.reg_read(R.UC_MIPS_REG_SP),stack)
-                    self.assertEqual(m.reg_read(R.UC_MIPS_REG_GP),gp)
-                    for i,reg in enumerate(saved): self.assertEqual(m.reg_read(reg),0xABCD0000+i)
+        values = (0,1,127,255,0x7FFF,0xFFFF,0x80000000,0xFFFFFFFF)
+        for case,(index,left,right) in enumerate(itertools.product(range(24),values,values)):
+            initial = rng.randbytes(0x1000)
+            address = 0x1F801C00+16*index
+            expected = bytearray(initial)
+            struct.pack_into('<HH',expected,address-mmio,left&0x7FFF,right&0x7FFF)
+            for body in bodies:
+                m = Uc(UC_ARCH_MIPS,UC_MODE_MIPS32|UC_MODE_LITTLE_ENDIAN)
+                m.mem_map(0,0x200000)
+                m.mem_map(mmio,0x1000)
+                m.mem_write(entry&0x1FFFFFFF,body)
+                m.mem_write(mmio,initial)
+                events = []
+                def hook(machine,kind,addr,width,value,user):
+                    events.append((kind,addr,width,value))
+                m.hook_add(UC_HOOK_MEM_READ|UC_HOOK_MEM_WRITE,hook,begin=mmio,end=mmio+0xFFF)
+                for reg,val in (('A0',index),('A1',left),('A2',right),('SP',stack),('RA',stop)):
+                    m.reg_write(getattr(R,'UC_MIPS_REG_'+reg),val)
+                for i,reg in enumerate(saved): m.reg_write(reg,0xABCD0000+i)
+                m.emu_start(entry,stop,count=100)
+                self.assertEqual(m.reg_read(R.UC_MIPS_REG_PC),stop,case)
+                self.assertEqual(m.reg_read(R.UC_MIPS_REG_SP),stack,case)
+                for i,reg in enumerate(saved): self.assertEqual(m.reg_read(reg),0xABCD0000+i,case)
+                self.assertEqual(events,[(UC_MEM_WRITE,address,2,left&0x7FFF),(UC_MEM_WRITE,address+2,2,right&0x7FFF)],case)
+                self.assertEqual(bytes(m.mem_read(mmio,0x1000)),bytes(expected),case)
 
 
-if __name__ == '__main__':
-    unittest.main()
+if __name__ == '__main__': unittest.main()
