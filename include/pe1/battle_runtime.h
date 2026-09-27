@@ -16,12 +16,6 @@ typedef struct BattleEvasionOutcome {
 
 PE1_STATIC_ASSERT(sizeof(BattleEvasionOutcome) == 2, battle_evasion_outcome_size);
 
-typedef struct BattleInitSlot {
-    BattleEntity *actor;
-    s16 field04;
-    s16 field06;
-} BattleInitSlot;
-
 typedef struct BattleEnemySlot {
     s32 active;
     EnemyCombatant combatant;
@@ -109,7 +103,6 @@ void Battle_DrawATBGauge(void);
 int Inv_GetWeaponCategoryAmmoBase(unsigned int category);
 int Pad_GetMenuPressedBitOrDisabled(void);
 
-PE1_STATIC_ASSERT(sizeof(BattleInitSlot) == 8, battle_init_slot_size);
 PE1_STATIC_ASSERT(sizeof(BattleEnemySlot) == 0xDC, battle_enemy_slot_size);
 
 #endif

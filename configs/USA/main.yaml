@@ -309,7 +309,7 @@ segments:
       - [0x166E8, c, battle/Battle_HandleItemMenu]
       - [0x16E00, c, battle/Battle_FillActionQueue]
       - [0x17024, c, main/Battle_StepEnemyTurn]
-      - [0x174F0, asm, battle/Battle_AdvanceTurnSlot]
+      - [0x174F0, c, battle/Battle_AdvanceTurnSlot]
       - [0x177D0, c, battle/Battle_InitFadeVars]
       - [0x177F8, asm, main/Battle_StepPlayerTurn]
       - [0x17DCC, c, battle/Battle_MarkActiveEntities]

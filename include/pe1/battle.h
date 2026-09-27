@@ -308,6 +308,14 @@ typedef struct BattleTarget {
 /* 0x0A */ u8   pad_0A[2];
 } BattleTarget;                        /* sizeof == 0xC */
 
+typedef struct BattleInitSlot {
+    BattleEntity *actor;
+    s16 field04;
+    s16 field06;
+} BattleInitSlot;
+
+PE1_STATIC_ASSERT(sizeof(BattleInitSlot) == 8, battle_init_slot_size);
+
 extern BattleTarget g_BattleTargetList[];
 
 void Battle_SwapRecords(char *records, int from, int to);
