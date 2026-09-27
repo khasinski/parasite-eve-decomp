@@ -15,8 +15,9 @@ use, so the names the C defines are read back out of the base objects and
 placed at their retail addresses - the address a name gets here is computed
 from the committed splat manifest, never from the current build's layout,
 which need not match the retail image while decompilation is in progress.
-Only the names are borrowed. Every byte in the result is disassembled from
-the retail binary.
+Names and the choice of literal versus symbolic address operands may be
+borrowed. Every instruction byte still comes from the retail disassembly;
+literal normalization requires equality with an unrelocated base word.
 
 Every object under expected/build/USA mirrors build/USA, so a unit's path
 appears once in objdiff.json and both sides differ only in the leading
@@ -561,6 +562,59 @@ def inline_constant_pairs(text, constants):
     return HILO.sub(replace, text)
 
 
+def literal_text_words(obj_path):
+    """Unrelocated words, used only to recognize literal address operands."""
+    with obj_path.open("rb") as handle:
+        elf = ELFFile(handle)
+        sections = list(elf.iter_sections())
+        text_index = next((i for i, section in enumerate(sections)
+                           if section.name == ".text"), None)
+        if text_index is None:
+            return {}
+        relocated = set()
+        for section in sections:
+            if section["sh_type"] in ("SHT_REL", "SHT_RELA") and section["sh_info"] == text_index:
+                relocated.update(relocation["r_offset"] for relocation in section.iter_relocations())
+        data = sections[text_index].data()
+        order = "little" if elf.little_endian else "big"
+        return {offset: int.from_bytes(data[offset:offset + 4], order)
+                for offset in range(0, len(data) - 3, 4) if offset not in relocated}
+
+
+def normalize_literal_address_operands(text, unit_vram, literal_words):
+    """Remove invented HI/LO relocations where C uses the same literal word.
+
+    The retail disassembler invents symbols for addresses even when source
+    uses a fixed numeric address. Borrow only that representation choice:
+    the emitted immediate comes from the retail instruction, and requires
+    its entire word to equal an unrelocated base word at the same offset.
+    No instruction bytes, labels, or mismatching operands are replaced.
+    """
+    instruction = re.compile(r"^\s*/\*\s+[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})\s+([0-9A-Fa-f]{8})\s+\*/")
+    operand = re.compile(r"%(hi|lo)\([^()]+\)")
+    output = []
+    for line in text.splitlines():
+        match = instruction.match(line)
+        if match:
+            offset = int(match[1], 16) - unit_vram
+            word = int.from_bytes(bytes.fromhex(match[2]), "little")
+            if literal_words.get(offset) == word:
+                opcode = word >> 26
+                def replace(part):
+                    half = part[1]
+                    if half == "hi" and opcode == 15:
+                        return "0x%X" % (word & 65535)
+                    if half == "lo" and opcode in (8, 9, 12, 13, 14, 32, 33, 35, 36, 37, 40, 41, 43):
+                        immediate = word & 65535
+                        if opcode not in (12, 13, 14) and immediate >= 32768:
+                            immediate -= 65536
+                        return str(immediate)
+                    return part[0]
+                line = operand.sub(replace, line)
+        output.append(line)
+    return "\n".join(output) + ("\n" if text.endswith("\n") else "")
+
+
 def base_text_types(placement):
     """{symbol: ELF type} for base .text symbols that are not plain functions."""
     kinds = {}
@@ -746,6 +800,9 @@ def process_module(module, shared, assembler, workers):
                 text = restore_c_function_names(text, functions, slices[unit][".text"])
                 text = normalize_c_function_labels(text, valid_functions, unit_kinds)
                 text = normalize_c_jump_table_relocations(text, slices[unit][".text"])
+                if source_kind == "semantic_c":
+                    text = normalize_literal_address_operands(
+                        text, slices[unit][".text"], literal_text_words(base_obj))
             source.write_text(inline_constant_pairs(text, constants))
         jobs.append((source, obj))
 

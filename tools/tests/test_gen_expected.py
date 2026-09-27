@@ -9,6 +9,40 @@ import yaml
 from tools.scripts import gen_expected
 
 
+class LiteralAddressOperandTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which("mipsel-none-elf-as"), "MIPS assembler unavailable")
+    def test_literal_words_exclude_text_relocations_but_not_other_sections(self):
+        with tempfile.TemporaryDirectory() as directory:
+            work = Path(directory)
+            source, obj = work / 'test.s', work / 'test.o'
+            source.write_text('.text\n.word 0x3C01800A\nlui $at,%hi(flag)\n'
+                              '.section .rodata\n.word flag\n')
+            subprocess.run(['mipsel-none-elf-as', '-EL', '-no-pad-sections',
+                            '-o', str(obj), str(source)], check=True, capture_output=True)
+            self.assertEqual(gen_expected.literal_text_words(obj), {0: 0x3C01800A})
+
+    def test_identical_literal_words_drop_only_synthetic_relocations(self):
+        text = ('/* 733BC 80082BBC 0A80013C */ lui $at, %hi(flag)\n'
+                '/* 733C0 80082BC0 8CB722AC */ sw $v0, %lo(flag)($at)\n')
+        result = gen_expected.normalize_literal_address_operands(
+            text, 0x80082BBC, {0: 0x3C01800A, 4: 0xAC22B78C})
+        self.assertEqual(result, text.replace('%hi(flag)', '0x800A').replace('%lo(flag)', '-18548'))
+
+    def test_different_words_and_relocated_words_keep_retail_operands(self):
+        text = ('/* 733BC 80082BBC 0A80013C */ lui $at, %hi(flag)\n'
+                '/* 733C0 80082BC0 8CB722AC */ sw $v0, %lo(flag)($at)\n')
+        self.assertEqual(gen_expected.normalize_literal_address_operands(
+            text, 0x80082BBC, {0: 0x3C02800A}), text)
+
+    def test_opcode_labels_and_comment_bytes_remain_retail_input(self):
+        text = ('glabel example\n'
+                '/* 10000 80010000 01800234 */ ori $v0,$zero,%lo(flag)\n'
+                '/* 10004 80010004 0180013C */ lui $at,%lo(flag)\n')
+        result = gen_expected.normalize_literal_address_operands(
+            text, 0x80010000, {0: 0x34028001, 4: 0x3C018001})
+        self.assertEqual(result, text.replace('ori $v0,$zero,%lo(flag)', 'ori $v0,$zero,32769'))
+
+
 class MainDataLayoutTests(unittest.TestCase):
     def test_gp_data_is_not_text_and_engine_keeps_its_retail_address(self):
         root = Path(__file__).resolve().parents[2]
