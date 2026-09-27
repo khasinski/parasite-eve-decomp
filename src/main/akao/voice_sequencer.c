@@ -68,27 +68,15 @@ void Spu_RebaseStreamAddrs(unsigned char *ptr, int value, int count) {
 M2C_UNK func_80089960();
 M2C_UNK func_80089B28();
 M2C_UNK func_80089CF0();
-extern struct { char _[16]; } D_8009B8F4_o __asm__("g_AkaoDefaultVoiceProgram");
-#define g_AkaoDefaultVoiceProgram (*(M2C_UNK *)&D_8009B8F4_o)
-extern struct { char _[16]; } D_8009CDE8_o __asm__("g_AkaoVoiceKeyOnState");
-#define g_AkaoVoiceKeyOnState (*(s32 *)&D_8009CDE8_o)
-extern struct { char _[16]; } D_8009D2C4_o __asm__("g_AkaoVoiceUpdateFlags");
-#define g_AkaoVoiceUpdateFlags (*(s32 *)&D_8009D2C4_o)
-extern struct { char _[16]; } g_AkaoCurTrack_o __asm__("g_AkaoCurTrack");
-extern struct { char _[16]; } g_AkaoCurTrack_b __asm__("g_AkaoCurTrack");
-extern struct { char _[16]; } g_AkaoCurTrack_c __asm__("g_AkaoCurTrack");
-extern struct { char _[16]; } g_AkaoCurTrack_d __asm__("g_AkaoCurTrack");
-#define g_AkaoCurTrack (*(void **)&g_AkaoCurTrack_o)
-extern struct { char _[16]; } D_8009D2DC_o __asm__("g_AkaoSeqPendingFlags");
-#define g_AkaoSeqPendingFlags (*(s32 *)&D_8009D2DC_o)
-extern struct { char _[16]; } D_800B8AC0_o __asm__("g_AkaoVoiceStateTable");
-#define g_AkaoVoiceStateTable (*(M2C_UNK **)&D_800B8AC0_o)
-extern struct { char _[16]; } D_800BA560_o __asm__("g_AkaoVoiceStateTable2");
-#define g_AkaoVoiceStateTable2 (*(M2C_UNK *)&D_800BA560_o)
-extern struct { char _[16]; } D_800BCD50_o __asm__("g_SpuActiveVoiceMask");
-#define g_SpuActiveVoiceMask (*(s32 *)&D_800BCD50_o)
-extern s32 D_800BCD5C_r[] __asm__("g_SpuPendingKeyOffMask");
-extern s32 D_800BCD5C_w[] __asm__("g_SpuPendingKeyOffMask");
+extern unsigned char g_AkaoDefaultVoiceProgram[];
+extern s32 g_AkaoVoiceKeyOnState;
+extern s32 g_AkaoVoiceUpdateFlags;
+extern void *g_AkaoCurTrack;
+extern s32 g_AkaoSeqPendingFlags;
+extern AkaoTrack g_AkaoVoiceStateTable[];
+extern AkaoTrack g_AkaoVoiceStateTable2[];
+extern s32 g_SpuActiveVoiceMask;
+extern s32 g_SpuPendingKeyOffMask;
 
 void Akao_StepSequencerVoice(void *arg0) {
     void *arg0v;
@@ -126,13 +114,13 @@ void Akao_StepSequencerVoice(void *arg0) {
     M2C_FIELD(p2c8a, void **, 0x2C) = arg0v;
     tld = M2C_FIELD(arg0v, s32 *, 0);
     mask = tld & kFFFa;
-    tret = Akao_ForEachVoiceMasked(&g_AkaoVoiceStateTable2, M2C_FIELD(p2c8a, s32 *, 0x6C));
+    tret = Akao_ForEachVoiceMasked(g_AkaoVoiceStateTable2, M2C_FIELD(p2c8a, s32 *, 0x6C));
     tnor = ~tret;
     tcd = ~g_SpuActiveVoiceMask & kFFFa;
     tand = tnor & tcd;
-    p2c8b = (*(void **)&g_AkaoCurTrack_b);
+    p2c8b = g_AkaoCurTrack;
     t2dc = g_AkaoSeqPendingFlags;
-    D_800BCD5C_w[0] = D_800BCD5C_r[0] | tand;
+    g_SpuPendingKeyOffMask |= tand;
     M2C_FIELD(p2c8b, s32 *, 0x18) = 0;
     if (t2dc & 1) {
         M2C_FIELD(p2c8b, s32 *, 4) = 0;
@@ -146,11 +134,11 @@ void Akao_StepSequencerVoice(void *arg0) {
     tw1 = *(s32 *)walk;
     walk += 4;
         bit = 1;
-    pvoice = (u8 *)&D_800B8AC0_o;
+    pvoice = (u8 *)g_AkaoVoiceStateTable;
     kFFF5 = 0xFFFFFF;
     base = pvoice + 0x116;
     km102 = -0x102;
-        p2c8c = (*(void **)&g_AkaoCurTrack_c);
+        p2c8c = g_AkaoCurTrack;
     M2C_FIELD(p2c8c, s32 *, 8) = tw1 & kFFFb;
     tw2 = *(s32 *)walk;
     walk += 8;
@@ -201,7 +189,7 @@ void Akao_StepSequencerVoice(void *arg0) {
         } else {
             M2C_FIELD(base, s16 *, -0xC0) = 3;
             M2C_FIELD(base, s16 *, -0xBE) = 1;
-            *(void **)pvoice = (void *)&D_8009B8F4_o;
+            *(void **)pvoice = g_AkaoDefaultVoiceProgram;
             M2C_FIELD(base, s16 *, 0) = 5;
             M2C_FIELD(base, s32 *, -0x22) = (s32) (M2C_FIELD(base, s32 *, -0x22) | 0x4400);
             __asm__ __volatile__("");
@@ -213,7 +201,7 @@ void Akao_StepSequencerVoice(void *arg0) {
         pvoice += 0x11C;
         bit *= 2;
     } while (kFFF5 != 0);
-        pend = (*(void **)&g_AkaoCurTrack_d);
+        pend = g_AkaoCurTrack;
     M2C_FIELD(pend, s32 *, 0x20) = 0xFFFF0000;
     M2C_FIELD(pend, s32 *, 0x28) = 1;
     M2C_FIELD(pend, s16 *, 0x52) = 0;
