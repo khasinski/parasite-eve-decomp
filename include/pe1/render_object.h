@@ -775,4 +775,17 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket1C, sxy0) == 0x08, render_packet1c_sx
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket1C, sxy1) == 0x10, render_packet1c_sxy1);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderPacket1C, sxy2) == 0x18, render_packet1c_sxy2);
 
+/* Position and velocity words wrap at 16 bits in this particle update. */
+typedef struct RenderRisingEffect {
+    u16 x, y, z;
+    u16 vx, vy, vz;
+    u16 angle;
+} RenderRisingEffect;
+PE1_STATIC_ASSERT(sizeof(RenderRisingEffect) == 14, render_rising_effect_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderRisingEffect, angle) == 12,
+                  render_rising_effect_angle);
+extern u8 D_800E1694[];
+extern s16 D_800F336A;
+int func_800D5CE4(int mode, RenderRisingEffect *state);
+
 #endif

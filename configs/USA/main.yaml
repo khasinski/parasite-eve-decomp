@@ -1638,6 +1638,8 @@ segments:
       - [0xC5A90, asm, engine/engine_800D4860_C5A90]
       - [0xC6098, c, engine/FieldEng_CosinePulse]
       - [0xC6200, asm, engine/engine_800D4860_C6200]
+      - [0xC64E4, c, engine/FieldEng_RisingEffect]
+      - [0xC66B4, asm, engine/engine_800D4860_C66B4]
       - [0xC78C0, c, engine/func_800D70C0]
       - [0xC79B8, asm, engine/engine_800D4860_C79B8]
       - [0xC821C, c, engine/FieldEng_ArcingEffect]
