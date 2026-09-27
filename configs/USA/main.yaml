@@ -892,7 +892,7 @@ segments:
       - [0x5D5A4, asm, main/CD_ReadSectors]
       - [0x5D878, c, main/CD_FindNextDataSector]
       - [0x5DA4C, c, akao/Akao_ResetPositionalState]
-      - [0x5DAB8, asm, main/CD_SeekToTrack]
+      - [0x5DAB8, c, main/CD_SeekToTrack]
       - [0x5DE0C, asm, main/CD_StepReadState]
       - [0x5E348, c, overlay/Overlay_RegisterAudioSlot]
       - [0x5E39C, c, overlay/Overlay_GetAudioSlotByKey]

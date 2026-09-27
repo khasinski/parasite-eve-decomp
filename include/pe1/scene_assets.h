@@ -23,7 +23,28 @@ typedef struct SceneAssetDirectory {
     unsigned int entries;
     unsigned int reserved08[8];
     unsigned int timEntries; /* 0x28: same offset/count encoding */
+    unsigned int reserved2c;
+    unsigned int trackEntries; /* 0x30: same offset/count encoding */
 } SceneAssetDirectory;
+
+typedef struct SceneTrackRecord {
+    u32 size;   /* Low 24 bits: bytes copied to the selected bank workspace. */
+    u32 offset; /* Low 24 bits: source offset in the loaded scene blob. */
+    u16 bank;
+    u16 key;
+} SceneTrackRecord;
+
+PE1_STATIC_ASSERT(sizeof(SceneTrackRecord) == 12, scene_track_record_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneTrackRecord, bank) == 8, scene_track_bank_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneTrackRecord, key) == 10, scene_track_key_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneAssetDirectory, trackEntries) == 0x30,
+                  scene_track_entries_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_audio.tracks.banks) == 0xDA,
+                  scene_track_banks_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_audio.tracks.keys) == 0xDC,
+                  scene_track_keys_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, cd_track_phase) == 0xF1,
+                  scene_track_phase_offset);
 
 typedef struct SceneAssetBlob {
     unsigned int reserved;

@@ -30,8 +30,8 @@ void Akao_LoadVoiceBankAlt(void)
     state->bank_work_end = base + 0x1400;
     state->bank_asset_table =
         Asset_FindTable08ByU32Key(state->bank_asset_source, 0x5EAF6804);
-    state->draw_prim_a[8] = 0x27;
-    state->draw_prim_a[9] = 13;
+    state->scene_audio.bytes[8] = 0x27;
+    state->scene_audio.bytes[9] = 13;
     state->bank_state_11 = 0;
     state->bank_state_12 = 0;
     state->flags &= ~0x400000;

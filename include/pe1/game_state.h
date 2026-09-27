@@ -14,6 +14,16 @@ typedef unsigned int Pe1U32;
 struct SceneAssetBlob;
 struct PmSlotBanks;
 
+typedef union Pe1SceneAudioState {
+    Pe1U8 bytes[0x10];
+    struct {
+        Pe1U8 reserved[2];
+        Pe1U8 banks[2];
+        Pe1S8 keys[2][2];
+        Pe1U8 trailing[8];
+    } tracks;
+} Pe1SceneAudioState;
+
 typedef struct Pe1GameState {
     Pe1U32 flags;                    /* 0x000 */
     Pe1U8 unk_004[0x08];
@@ -24,10 +34,12 @@ typedef struct Pe1GameState {
     Pe1U8 bank_state_11, bank_state_12;
     Pe1U8 unk_013;
     Pe1U8 scene_work[0x0C4];         /* 0x014 */
-    Pe1U8 draw_prim_a[0x10];         /* 0x0D8 */
+    Pe1SceneAudioState scene_audio; /* 0x0D8: cached track banks and keys */
     Pe1U8 unk_0e8[7];
     Pe1U8 tim_load_state;            /* 0x0EF: 0, 0x34, 0x35, 0x36 */
-    Pe1U8 reserved_0f0[6];
+    Pe1U8 cd_read_phase;            /* 0x0F0 */
+    Pe1U8 cd_track_phase;           /* 0x0F1 */
+    Pe1U8 reserved_0f2[4];
     Pe1U8 bank_value_f6, bank_value_f7;
     unsigned short bank_value_f8, bank_value_fa;
     Pe1U8 unk_0fc[4];
