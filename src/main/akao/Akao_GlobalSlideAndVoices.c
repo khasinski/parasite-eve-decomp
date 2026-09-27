@@ -50,13 +50,11 @@ void Akao_SetGlobalD2CCImmediate(AkaoGlobalParamCommand *cmd) {
 }
 /* MASPSX_FLAGS: --expand-div */
 #include "pe1/akao.h"
+#include "pe1/akao/voice_state.h"
 
 extern short g_AkaoGlobalD2CCSlideCounter;
 extern int g_AkaoGlobalD2CCSlideStep;
 extern int D_8009D2CC;
-
-extern AkaoVoiceBank g_AkaoVoiceBanks[] __asm__("g_AkaoVoiceStateTable");
-extern AkaoSequencerBank *g_AkaoCurTrack;
 
 void Akao_InitVoices(int arg0, char *arg1);
 
@@ -104,22 +102,22 @@ void Akao_SlideGlobalD2CCFromStartToTarget(AkaoGlobalSlideRangeCommand *cmd) {
 }
 
 void Akao_InitPrimarySecondaryVoices(void) {
-    AkaoVoiceBank *base = g_AkaoVoiceBanks;
+    AkaoTrack *base = g_AkaoVoiceStateTable;
 
     Akao_InitVoices(0, (char *)&base[0]);
     g_AkaoCurTrack++;
-    Akao_InitVoices(0, (char *)&base[1]);
+    Akao_InitVoices(0, (char *)&base[AKAO_VOICE_COUNT]);
     g_AkaoCurTrack--;
 }
 
 void Akao_InitPrimarySecondaryVoicesWithMode(AkaoValueCommand *cmd) {
-    AkaoVoiceBank *base = g_AkaoVoiceBanks;
+    AkaoTrack *base = g_AkaoVoiceStateTable;
     int value = cmd->field_4;
 
     Akao_InitVoices(value, (char *)&base[0]);
     if (cmd->field_4 != 0) {
         g_AkaoCurTrack++;
-        Akao_InitVoices(cmd->field_4, (char *)&base[1]);
+        Akao_InitVoices(cmd->field_4, (char *)&base[AKAO_VOICE_COUNT]);
         g_AkaoCurTrack--;
     }
 }

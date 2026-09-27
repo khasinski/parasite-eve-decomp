@@ -1,8 +1,5 @@
 #include "common.h"
-#include "pe1/akao.h"
-
-extern u16 g_AkaoSelectedBankId;
-extern char *g_AkaoCurTrack;
+#include "pe1/akao/voice_state.h"
 
 void Akao_UpdateVoiceMask(int arg0);
 void Akao_StepSequencerVoice(void *arg0);
@@ -14,17 +11,12 @@ void Seq_SelectPlaybackBank(int *arg0) {
     if ((value != 0) && (value == arg0[3])) {
         Akao_UpdateVoiceMask(arg0[1]);
     } else {
-        Akao_StepSequencerVoice(arg0[1]);
+        Akao_StepSequencerVoice((void *)arg0[1]);
         ((AkaoTrack *)g_AkaoCurTrack)->parent_track_id = arg0[3];
     }
 }
 #include "common.h"
-#include "pe1/akao.h"
-
-extern char g_AkaoTrackStateBackup[];
-extern AkaoVoiceBank g_AkaoVoiceStateBackup[];
-extern AkaoVoiceBank g_AkaoVoiceBanks[] __asm__("g_AkaoVoiceStateTable");
-extern char *g_AkaoCurTrack;
+#include "pe1/akao/voice_state.h"
 
 void Util_CopyWords(unsigned int *src, unsigned int *dst, unsigned int size);
 
@@ -34,14 +26,14 @@ void Seq_RestorePrimaryState(void) {
     u32 flags;
     u16 value;
 
-    if (*(u32 *)(g_AkaoCurTrack + 4) != 0) {
-        Util_CopyWords(g_AkaoCurTrack, g_AkaoTrackStateBackup, 0x68);
-        Util_CopyWords((u32 *)&g_AkaoVoiceBanks[0], (u32 *)&g_AkaoVoiceStateBackup[0], sizeof(AkaoVoiceBank));
+    if (g_AkaoCurTrack->active_voice_mask != 0) {
+        Util_CopyWords((u32 *)g_AkaoCurTrack, (u32 *)&g_AkaoTrackStateBackup, sizeof(AkaoSequencerBank));
+        Util_CopyWords((u32 *)g_AkaoVoiceStateTable, (u32 *)&g_AkaoVoiceStateBackup, sizeof(AkaoVoiceBank));
 
-        flags = *(u32 *)g_AkaoTrackStateBackup;
+        flags = g_AkaoTrackStateBackup.status_flags;
         if ((flags & 0x100) != 0) {
             i = 0;
-            track = g_AkaoVoiceStateBackup[0].tracks;
+            track = g_AkaoVoiceStateBackup.tracks;
             do {
                 value = track->note_pitch;
                 if (value >= 0x50) {
