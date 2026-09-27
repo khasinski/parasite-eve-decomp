@@ -11,12 +11,10 @@ typedef struct {
 } Unk8003C5D8;
 
 void Anim_SetInterpRate(Unk8003C5D8 *obj, int arg1) {
-    register int original asm("$5") = arg1;
-    int value = original;
+    short value = arg1;
     int divisor;
 
-    original <<= 16;
-    if (original == 0) {
+    if ((short)arg1 == 0) {
         value = 1;
     }
     divisor = 0x80 / (short)value;
