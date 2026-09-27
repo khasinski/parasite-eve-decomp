@@ -84,9 +84,7 @@ void AkaoSpuVoice_SetAdsrAttack(u32 index, u32 left, u32 right) {
     u32 value;
 
     ptr = (u16 *)(0x1F801C08 + (index * 0x10));
-    asm("" : "=r"(ptr) : "0"(ptr));
-    right >>= 2;
-    right <<= 15;
+    right = (right >> 2) << 15;
     left <<= 8;
     current = *(u8 *)ptr;
     value = right | left;
@@ -120,9 +118,7 @@ void AkaoSpuVoice_SetAdsrSustainRate(u32 index, u32 left, u32 right) {
     u32 value;
 
     ptr = (u16 *)(0x1F801C0A + (index * 0x10));
-    asm("" : "=r"(ptr) : "0"(ptr));
-    right >>= 1;
-    right <<= 14;
+    right = (right >> 1) << 14;
     left <<= 6;
     current = *ptr;
     value = right | left;
@@ -136,9 +132,7 @@ void AkaoSpuVoice_SetAdsrReleaseRate(u32 index, u32 left, u32 right) {
     u32 value;
 
     ptr = (u16 *)(0x1F801C0A + (index * 0x10));
-    asm("" : "=r"(ptr) : "0"(ptr));
-    right >>= 2;
-    right <<= 5;
+    right = (right >> 2) << 5;
     current = *ptr;
     value = right | left;
     current &= 0xFFC0;
