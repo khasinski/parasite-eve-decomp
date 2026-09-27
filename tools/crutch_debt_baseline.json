@@ -7,18 +7,18 @@
     "byte_pointer_arithmetic": 408,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 3955,
+    "externs_in_c": 3959,
     "field_macros": 641,
     "gotos": 832,
     "include_asm": 0,
     "nop_barriers": 168,
     "pins": 1724,
-    "pointer_integer_casts": 964,
+    "pointer_integer_casts": 976,
     "postpass": 0,
     "raw_offset_dereferences": 1468,
     "stack_reserves": 3,
     "statement_expressions": 2,
-    "unknown_fields": 256
+    "unknown_fields": 257
   },
   "overlays": {
     "aliases": 2,
