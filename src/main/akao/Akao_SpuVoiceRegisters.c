@@ -149,34 +149,22 @@ void Akao_WriteVoiceParam(int voice_index, AkaoVoiceParams *params)
     if (flags != 0) {
         if (flags & AKAO_VOICE_PARAM_PITCH) {
             AkaoSpuVoice_SetPitch(voice_index, params->pitch);
-            {
-                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_PITCH;
-                cur = params->flags & mask;
-            }
-            params->flags = cur;
-            if (cur == 0) {
+            params->flags &= ~AKAO_VOICE_PARAM_PITCH;
+            if (params->flags == 0) {
                 return;
             }
         }
         if (flags & AKAO_VOICE_PARAM_VOLUME) {
             AkaoSpuVoice_SetVolume(voice_index, params->volume_left, params->volume_right);
-            {
-                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_VOLUME;
-                cur = params->flags & mask;
-            }
-            params->flags = cur;
-            if (cur == 0) {
+            params->flags &= ~AKAO_VOICE_PARAM_VOLUME;
+            if (params->flags == 0) {
                 return;
             }
         }
         if (flags & AKAO_VOICE_PARAM_START_ADDR) {
             AkaoSpuVoice_SetStartAddress(voice_index, params->start_address);
-            {
-                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_START_ADDR;
-                cur = params->flags & mask;
-            }
-            params->flags = cur;
-            if (cur == 0) {
+            params->flags &= ~AKAO_VOICE_PARAM_START_ADDR;
+            if (params->flags == 0) {
                 return;
             }
         }
@@ -190,34 +178,22 @@ void Akao_WriteVoiceParam(int voice_index, AkaoVoiceParams *params)
         }
         if (flags & AKAO_VOICE_PARAM_ADSR_SUSTAIN) {
             AkaoSpuVoice_SetAdsrSustainRate(voice_index, params->adsr_sustain_rate, params->adsr_sustain_mode);
-            {
-                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_ADSR_SUSTAIN;
-                cur = params->flags & mask;
-            }
-            params->flags = cur;
-            if (cur == 0) {
+            params->flags &= ~AKAO_VOICE_PARAM_ADSR_SUSTAIN;
+            if (params->flags == 0) {
                 return;
             }
         }
         if (flags & AKAO_VOICE_PARAM_ADSR_ATTACK) {
             AkaoSpuVoice_SetAdsrAttack(voice_index, params->adsr_attack_rate, params->adsr_attack_mode);
-            {
-                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_ADSR_ATTACK;
-                cur = params->flags & mask;
-            }
-            params->flags = cur;
-            if (cur == 0) {
+            params->flags &= ~AKAO_VOICE_PARAM_ADSR_ATTACK;
+            if (params->flags == 0) {
                 return;
             }
         }
         if (flags & AKAO_VOICE_PARAM_ADSR_RELEASE) {
             AkaoSpuVoice_SetAdsrReleaseRate(voice_index, params->adsr_release_rate, params->adsr_release_mode);
-            {
-                register unsigned int mask asm("$3") = ~AKAO_VOICE_PARAM_ADSR_RELEASE;
-                cur = params->flags & mask;
-            }
-            params->flags = cur;
-            if (cur == 0) {
+            params->flags &= ~AKAO_VOICE_PARAM_ADSR_RELEASE;
+            if (params->flags == 0) {
                 return;
             }
         }
