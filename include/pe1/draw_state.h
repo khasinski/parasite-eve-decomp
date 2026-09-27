@@ -44,6 +44,7 @@ void Draw_EmitWipeBar(u8 *edges, int mode);
 void Draw_AllocSprite(int sprite);
 void Draw_EmitDigitSprite(int digit);
 void Draw_AllocTexturedQuad(int glyph);
+void Draw_AllocTexturedRect(int value, int width);
 int Draw_LookupGlyphMetrics(int glyph);
 void Draw_PrintTextWrapped(u8 *text, int width);
 void Draw_PrintCenteredTextInWidth(u8 *text, int width);

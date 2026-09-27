@@ -777,7 +777,7 @@ segments:
       - [0x505F0, c, gpu/Draw_PrintNumberWidth4Unk]
       - [0x50728, c, gpu/Draw_PrintSignedNumberWidth4]
       - [0x5086C, c, gpu/Draw_PrintTimeValue]
-      - [0x50AD0, asm, gpu/draw_print_50AD0]
+      - [0x50AD0, c, gpu/Draw_AllocTexturedRect]
       - [0x50D28, c, gpu/Draw_PrintNumberWidths]
       - [0x50E2C, asm, main/Draw_AllocTexturedRectAlt]
       - [0x51844, c, main/Draw_AllocColorQuad]
