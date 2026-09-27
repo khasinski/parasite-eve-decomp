@@ -54,6 +54,7 @@ void LoadAverageShort12(void *first, void *second, int first_scale,
 GteMatrix *Gte_ScaleMatrix(GteMatrix *matrix, const GteVector *scale);
 int Gte_Atan2(int y, int x);
 int Gte_ISqrt(int value);
+void Gte_NormalizeVec(GteVector *vector, GteVector *unit);
 
 PE1_STATIC_ASSERT(sizeof(GteMatrix) == 32, gte_matrix_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GteMatrix, t) == 20, gte_matrix_translation_offset);
