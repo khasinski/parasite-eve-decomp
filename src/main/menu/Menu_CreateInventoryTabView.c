@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/menu_widget.h"
+#include "pe1/psyq_nop.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -15,25 +16,23 @@ void *MenuWidget_CreateNode(M2C_UNK, void *, void *);       /* extern */
 extern s32 g_MenuItemContextFlag;
 extern s32 g_MenuBattleStatusOverlayActive;
 extern s32 g_MenuSelectionLocked;
-extern M2C_UNK Menu_StepItemSelectScreen[];
-#define Menu_StepItemSelectScreen (Menu_StepItemSelectScreen[0])
-extern M2C_UNK Menu_DrawItemList[];
-#define Menu_DrawItemList (Menu_DrawItemList[0])
+int Menu_StepItemSelectScreen(MenuWidgetNode *node, unsigned int flags);
+void Menu_DrawItemList(void *node);
 
 void Menu_CreateInventoryTabView(void) {
     s32 var_a0;
     s32 var_a1;
     s32 var_v1;
-    void *temp_a0;
-    void *temp_s1;
-    void *temp_v0;
+    MenuWidgetNode *temp_a0;
+    MenuWidgetNode *temp_s1;
+    MenuWidgetNode *temp_v0;
 
     if (MenuWidget_FindByModeAndSelectedBase(1, 0) == 0) {
         temp_v0 = MenuWidget_CreateSimpleNode(0, 0, 0, 0);
         temp_s1 = MenuWidget_CreateNode(0, temp_v0, temp_v0);
         temp_a0 = temp_s1;
-        M2C_FIELD(temp_v0, M2C_UNK **, 0x2C) = &Menu_StepItemSelectScreen;
-        M2C_FIELD(temp_s1, M2C_UNK **, 0x30) = &Menu_DrawItemList;
+        temp_v0->update = (void (*)())Menu_StepItemSelectScreen;
+        temp_s1->draw = (void (*)())Menu_DrawItemList;
         MenuWidget_SetCurrentNode(temp_a0);
         if (Menu_GetBattleEquipMode() != 0) {
             var_v1 = g_MenuItemContextFlag & 0x1F;
@@ -99,15 +98,16 @@ void Menu_CreateBonusPointAllocationView(void) {
     u8 *var_s4;
     u16 temp_v0_3;
     s32 temp_v0_final;
-    void *temp_v0;
-    void *temp_v0_2;
-    register void *temp_v1_reg asm("$3");
+    MenuWidgetNode *temp_v0;
+    MenuWidgetNode *temp_v0_2;
+    register MenuWidgetNode *temp_v1_reg asm("$3");
 
     temp_v0 = MenuWidget_CreateSimpleNode(0x12, 0, 0, 0);
     temp_v1_reg = temp_v0;
-    M2C_FIELD(temp_v1_reg, M2C_UNK **, 0x30) = &Menu_DrawStatusPanel;
+    temp_v1_reg->draw = (void (*)())&Menu_DrawStatusPanel;
     M2C_FIELD(temp_v1_reg, M2C_UNK **, 0x4C) = &D_80092258;
-    M2C_FIELD(MenuWidget_CreateSimpleNode(0x18, 0, 0, 0), M2C_UNK **, 0x30) = &Menu_DrawBonusPointSlotValue;
+    ((MenuWidgetNode *)MenuWidget_CreateSimpleNode(0x18, 0, 0, 0))->draw =
+        (void (*)())&Menu_DrawBonusPointSlotValue;
     temp_v0_2 = MenuWidget_CreateSimpleNode(0x2D, 0, 0, 0);
     temp_v1_reg = temp_v0_2;
     var_s4 = (u8 *) &g_AyaStatAgility;
@@ -115,7 +115,7 @@ void Menu_CreateBonusPointAllocationView(void) {
     var_s0 = (u8 *) &g_BonusPointStatDeltas;
     var_s3 = (u8 *) &g_BonusPointStatQueryResults;
     var_s2 = (u8 *) &g_BonusPointStatMultipliers;
-    M2C_FIELD(temp_v1_reg, M2C_UNK **, 0x30) = &Menu_DrawStatsList;
+    temp_v1_reg->draw = (void (*)())&Menu_DrawStatsList;
     M2C_FIELD(temp_v1_reg, M2C_UNK **, 0x4C) = &D_80092298;
     do {
         temp_v0_3 = M2C_FIELD(var_s4, u16 *, 0);
@@ -134,6 +134,6 @@ void Menu_CreateBonusPointAllocationView(void) {
         Stat_QueryLevelAndSubLevel(temp_a0, temp_a1, temp_a2, temp_a3);
     } while (var_s1 < 7);
     temp_v0_final = g_AyaBonusPoints;
-    __asm__ volatile("nop");
+    PE1_NOP();
     g_BonusPointDisplayValue = temp_v0_final;
 }
