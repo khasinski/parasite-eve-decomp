@@ -37,19 +37,17 @@ typedef struct AkaoVoiceBankState {
 
 extern AkaoVoiceBankEntry D_80094488[];
 extern AkaoVoiceBankState D_800B0CD8;
-extern struct { char _[16]; } D_8009D254_o __asm__("D_8009D254");
-extern struct { char _[16]; } D_8009D1A0_o __asm__("D_8009D1A0");
-#define D_8009D254 (*(AkaoVoiceActor **)&D_8009D254_o)
-#define D_8009D1A0 (*(int *)&D_8009D1A0_o)
+extern AkaoVoiceActor *D_8009D254;
+extern int D_8009D1A0;
 
 int Akao_LoadVoiceBank(AkaoVoiceActor *actor) {
-    register AkaoVoiceActor *actor_reg asm("$17") = actor;
-    register int frame asm("$19");
-    register int step asm("$22");
-    register int target asm("$21");
-    register int i asm("$18");
+    AkaoVoiceActor *actor_reg = actor;
+    int frame;
+    int step;
+    int target;
+    int i;
     int offset;
-    register AkaoVoiceBankState *state asm("$23");
+    AkaoVoiceBankState *state;
     int id;
 
     if (actor_reg == 0) {
@@ -62,21 +60,21 @@ int Akao_LoadVoiceBank(AkaoVoiceActor *actor) {
     target = actor_reg->field_1a;
 
     if (step > 0 && frame < target) {
-        register int next_frame asm("$2");
-        register int extra asm("$3");
+        int next_frame;
+        int extra;
         next_frame = frame + 1;
         extra = actor_reg->field_0f;
         frame = next_frame + extra;
     } else if (step < 0 && target < frame) {
-        register int next_frame asm("$2");
-        register int extra asm("$3");
+        int next_frame;
+        int extra;
         next_frame = frame - 1;
         extra = actor_reg->field_0f;
         frame = next_frame - extra;
     }
 
     if (actor_reg == D_8009D254 && (D_8009D1A0 & 2) == 0 && (state->flags & 0x800000) == 0) {
-        register u16 *entry_ids asm("$20");
+        u16 *entry_ids;
         entry_ids = D_80094488[0].ids;
         offset = 0;
         for (i = 0; i < 4; entry_ids += 4, i++, offset += 8) {
