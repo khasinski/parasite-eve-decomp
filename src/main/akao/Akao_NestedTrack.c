@@ -54,158 +54,193 @@ body:
     } while (i < 0x18);
 }
 
-void Spu_ManageVoices(int arg0, int arg1) {
+void Spu_ManageVoices(int arg0, int arg1)
+{
     u32 mask;
     u32 i;
-    register char *field asm("$18");
-    char *voice;
+    unsigned int mode_bits;
+    AkaoTrack *field;
+    AkaoTrack *voice;
     u32 id;
     u32 active;
-    register int control asm("$22");
-    register u32 flag1 asm("$23");
+    int control;
     int value;
     int flags;
     int best;
-
     control = arg1;
     mask = AKAO_SPU_VOICE_SFX_START_MASK;
-    id = (u16_1)arg0;
-
-    if (id == 0xFFFF) {
+    id = (u16_1) arg0;
+    if (id == 0xFFFF)
+    {
         return;
     }
-
-    voice = g_AkaoVoiceChannelTable;
+    voice = (AkaoTrack *) g_AkaoVoiceChannelTable;
+    mode_bits = control;
     active = g_SpuActiveVoiceMask;
-
-    if ((control & 0x0FFFFFFF) != 0) {
+    if ((mode_bits & 0x0FFFFFFF) != 0)
+    {
+        u32 flag1;
+        u32 id;
         i = 0;
         flag1 = 0x100000;
         id = 0x200000;
-        field = voice + 0x38;
-        do {
-            if ((active & mask) != 0) {
-                if ((*(int *)(field - 0xC) & control) != 0) {
-                    flags = *(int *)(field + 0);
+        field = voice;
+        do
+        {
+            if ((active & mask) != 0)
+            {
+                if ((field->key_on_mask & arg1) != 0)
+                {
+                    flags = field->flags;
                     value = flags & flag1;
-                    if (value != 0) {
+                    if (value != 0)
+                    {
                         value = flags | id;
-                        *(int *)(field + 0) = value;
-                    } else {
+                        field->flags = value;
+                    }
+                    else
+                    {
                         g_SpuPendingKeyOffMask |= mask;
-                        SeqOp_DeactivateVoice(voice, mask);
-                        *(int *)(field + 0) = 0;
+                        SeqOp_DeactivateVoice((char *) voice, mask);
+                        field->flags = 0;
                     }
                 }
             }
             i++;
-            field += sizeof(AkaoTrack);
-            voice += sizeof(AkaoTrack);
+            field++;
+            voice++;
             mask <<= 1;
-        } while (i < 12);
+        }
+        while (i < 12);
         goto finish;
     }
-
-    if (control < 0) {
-        value = (((id << 3) + id) << 3) - id;
-        voice = g_AkaoVoiceChannelTable + (value << 2);
+    if (arg1 < 0)
+    {
+        voice = ((AkaoTrack *) g_AkaoVoiceChannelTable) + id;
         mask <<= id;
-        if ((active & mask) != 0) {
-            Spu_ManageVoices(*(int *)(voice + 0x28), 0);
+        if ((active & mask) != 0)
+        {
+            Spu_ManageVoices(voice->key_off_mask, 0);
         }
         mask <<= 1;
-        voice += sizeof(AkaoTrack);
+        voice++;
         value = active & mask;
-        if (value != 0) {
-            Spu_ManageVoices(*(int *)(voice + 0x28), 0);
+        if (value != 0)
+        {
+            Spu_ManageVoices(voice->key_off_mask, 0);
         }
         return;
     }
-
-    i = 0;
-    value = control & 0x40000000;
-    if (value != 0) {
-        do {
-            value = *(int *)(voice + 0x2C);
-            if (value != 0) {
+    value = mode_bits & 0x40000000;
+    if (value != 0)
+    {
+        u32 flag1;
+        int control;
+        i = 0;
+        do
+        {
+            value = voice->key_on_mask;
+            if (value != 0)
+            {
                 active &= ~mask;
             }
             i++;
-            voice += sizeof(AkaoTrack);
+            voice++;
             mask <<= 1;
-        } while (i < 12);
-
-        voice = g_AkaoVoiceChannelTable;
+        }
+        while (i < 12);
+        voice = (AkaoTrack *) g_AkaoVoiceChannelTable;
         mask = AKAO_SPU_VOICE_SFX_START_MASK;
         best = 0;
         i = 0;
-        do {
-            if ((active & mask) != 0) {
-                flags = *(int *)(voice + 0x50);
-                if (best < flags) {
+        do
+        {
+            if ((active & mask) != 0)
+            {
+                flags = *((int *) (&voice->field_50_duration));
+                if (best < flags)
+                {
                     best = flags;
                 }
             }
             i++;
-            voice += sizeof(AkaoTrack);
+            voice++;
             mask <<= 1;
-        } while (i < 12);
-
-        voice = g_AkaoVoiceChannelTable;
+        }
+        while (i < 12);
+        voice = (AkaoTrack *) g_AkaoVoiceChannelTable;
         mask = AKAO_SPU_VOICE_SFX_START_MASK;
         i = 0;
         flag1 = 0x100000;
         control = 0x200000;
-        field = voice + 0x38;
-        do {
-            if ((active & mask) != 0) {
-                if (best == *(int *)(field + 0x18)) {
-                    flags = *(int *)(field + 0);
+        field = voice;
+        do
+        {
+            if ((active & mask) != 0)
+            {
+                if (best == (*((int *) (&field->field_50_duration))))
+                {
+                    flags = field->flags;
                     value = flags & flag1;
-                    if (value != 0) {
+                    if (value != 0)
+                    {
                         value = flags | control;
-                        *(int *)(field + 0) = value;
-                    } else {
+                        field->flags = value;
+                    }
+                    else
+                    {
                         g_SpuPendingKeyOffMask |= mask;
-                        SeqOp_DeactivateVoice(voice, mask);
-                        *(int *)(field + 0) = 0;
+                        SeqOp_DeactivateVoice((char *) voice, mask);
+                        field->flags = 0;
                     }
                 }
             }
             i++;
-            field += sizeof(AkaoTrack);
-            voice += sizeof(AkaoTrack);
+            field++;
+            voice++;
             mask <<= 1;
-        } while (i < 12);
+        }
+        while (i < 12);
         goto finish;
     }
-
-    flag1 = 0x100000;
-    control = 0x200000;
-    field = voice + 0x38;
-    do {
-        if ((active & mask) != 0) {
-            if (*(int *)(field - 0x10) == id) {
-                flags = *(int *)(field + 0);
-                value = flags & flag1;
-                if (value != 0) {
-                    value = flags | control;
-                    *(int *)(field + 0) = value;
-                } else {
-                    g_SpuPendingKeyOffMask |= mask;
-                    SeqOp_DeactivateVoice(voice, mask);
-                    *(int *)(field + 0) = 0;
+    {
+        u32 flag1;
+        int control;
+        i = 0;
+        flag1 = 0x100000;
+        control = 0x200000;
+        field = voice;
+        do
+        {
+            if ((active & mask) != 0)
+            {
+                if (field->key_off_mask == id)
+                {
+                    flags = field->flags;
+                    value = flags & flag1;
+                    if (value != 0)
+                    {
+                        value = flags | control;
+                        field->flags = value;
+                    }
+                    else
+                    {
+                        g_SpuPendingKeyOffMask |= mask;
+                        SeqOp_DeactivateVoice((char *) voice, mask);
+                        field->flags = 0;
+                    }
                 }
             }
+            i++;
+            field++;
+            voice++;
+            mask <<= 1;
         }
-        i++;
-        field += sizeof(AkaoTrack);
-        voice += sizeof(AkaoTrack);
-        mask <<= 1;
-    } while (i < 12);
-
+        while (i < 12);
+    }
 finish:
     g_AkaoVoiceUpdateFlags |= AKAO_VOICE_PARAM_PITCH;
+
     Seq_MarkTrack34MaskDirty();
     Seq_MarkTrack38MaskDirty();
     Seq_MarkTrack3CMaskDirty();
