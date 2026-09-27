@@ -3,8 +3,6 @@ void CD_flush(void);
 
 extern s32 D_8009B59C[];
 #define D_8009B59C (D_8009B59C[0])
-extern s32 g_CdRomCmdLongTimeoutTable[];
-#define g_CdRomCmdLongTimeoutTable (g_CdRomCmdLongTimeoutTable[0])
 
 s32 CdRom_RetryCmd(void) {
     void *base;
@@ -22,7 +20,13 @@ s32 CdRom_RetryCmd(void) {
     value += 1;
     idx = idx << 2;
     *(s32 *)base = value;
-    asm volatile("lui %0,%%hi(g_CdRomCmdLongTimeoutTable)\n\taddu %0,%0,%1\n\tlw %0,%%lo(g_CdRomCmdLongTimeoutTable)(%0)" : "=r"(value) : "r"(idx));
+    asm volatile("" : : "r"(value) : "memory");
+    {
+        /* g_CdRomCmdLongTimeoutTable is at 0x8009B5A4 in the USA image. */
+        register u32 table_page asm("$2") = 0x800A0000u;
+        asm volatile("" : "=r"(table_page) : "0"(table_page));
+        value = *(s32 *)(table_page + (u32)idx - 0x4A5Cu);
+    }
     idx = 0x1E;
     if (value != 0) {
         idx = 0x3C0;
