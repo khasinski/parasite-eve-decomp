@@ -5,16 +5,16 @@ void Spu_TickVoiceEnvelopes(AkaoTrack *track, unsigned voice_mask)
 {
     register unsigned old_value asm("$3");
     unsigned new_value;
-    register unsigned delta asm("$4");
+    unsigned delta;
     register int scaled asm("$5");
     unsigned product;
-    register unsigned pitch_depth asm("$2");
+    unsigned pitch_depth;
     register unsigned pitch_masked asm("$3");
     register int doubled_pitch asm("$2");
-    register int volume_stage asm("$3");
+    int volume_stage;
     register int shifted_volume asm("$2");
-    register int wave_sample asm("$3");
-    register short *wave asm("$4");
+    int wave_sample;
+    short *wave;
 
     if (track->expression_duration) {
         old_value = track->expression_value;
@@ -41,7 +41,7 @@ void Spu_TickVoiceEnvelopes(AkaoTrack *track, unsigned voice_mask)
     }
 
     if (track->pitch_lfo_slide_duration) {
-        register unsigned pitch_weight asm("$4");
+        unsigned pitch_weight;
         --track->pitch_lfo_slide_duration;
         track->pitch_lfo_target += track->pitch_lfo_delta;
         pitch_masked = track->pitch_lfo_target & 0x7F00;
