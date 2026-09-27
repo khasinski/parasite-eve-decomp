@@ -158,43 +158,41 @@ void Akao_SetNotePitchBounded(AkaoTrack *track, int arg1) {
 }
 
 int Akao_LookupPitchPeriod(int arg0, int arg1, int arg2) {
-    register int offset asm("$2");
+    int offset;
     int row;
     register int shift asm("$5");
-    int shamt;
-    int value;
-    int table;
-    int *base;
+    int address_or_period;
     int row_offset;
 
     arg1 = (u8)arg1;
     row_offset = arg0 << 6;
-    table = (int)g_AkaoPitchPeriodTable;
-    base = (int *)(row_offset + table);
+    address_or_period = (int)g_AkaoPitchPeriodTable;
     row = (unsigned int)arg1 / 12;
     offset = arg1 - (row * 12);
     offset <<= 2;
-    value = *(int *)(offset + (int)base);
+    row_offset += address_or_period;
+    offset += row_offset;
+    address_or_period = *(int *)offset;
     shift = row;
 
     if (arg2 != 0) {
-        value += (unsigned int)(value * arg2) >> 7;
+        address_or_period += (unsigned int)(address_or_period * arg2) >> 7;
     }
 
     if ((unsigned int)shift < 7) {
         goto less_than_7;
     }
-    shamt = shift - 6;
-    value <<= shamt;
+    offset = shift - 6;
+    address_or_period <<= offset;
     goto done;
 
 less_than_7:
     if ((unsigned int)row >= 6) {
         goto done;
     }
-    shamt = 6 - row;
-    value = (unsigned int)value >> shamt;
+    offset = 6 - row;
+    address_or_period = (unsigned int)address_or_period >> offset;
 
 done:
-    return value & 0xFFFF;
+    return address_or_period & 0xFFFF;
 }
