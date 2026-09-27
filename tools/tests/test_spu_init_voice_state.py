@@ -10,8 +10,8 @@ ROOT = Path(__file__).resolve().parents[2]
 class SpuInitVoiceStateTests(unittest.TestCase):
     def test_redundant_constraints_are_gone(self):
         source = (ROOT/'src/main/akao/Spu_InitVoiceState.c').read_text()
-        self.assertNotIn('asm volatile', source)
-        self.assertLessEqual(source.count('asm("$'), 2)
+        self.assertNotRegex(source, r'\b(?:asm|__asm__|INCLUDE_ASM|REGALLOC_BARRIER)\b')
+        self.assertIn('track = (u8 *)g_AkaoVoiceChannelTable;', source)
         for name in ('voice_base', 'voice_count', 'track_enabled', 'track_volume'):
             self.assertNotRegex(source, name+r'\s+asm')
 
@@ -73,6 +73,21 @@ class SpuInitVoiceStateTests(unittest.TestCase):
                                  [('common', (0x800C0D90,))] +
                                  [('voice', (i,0,0,0,0)) for i in list(range(24))*2] +
                                  [('reset', (4,)), ('reverb', (1,))])
+                # Independent field oracle for both banks and twelve nested slots.
+                for index in range(48):
+                    voice = 0x800B8AC0 + index*0x11C
+                    for field, width, expected in ((0x38,4,0), (0xF0,4,24),
+                                                   (0x54,2,0), (0x50,4,0)):
+                        self.assertEqual(int.from_bytes(read(voice+field,width),'little'), expected,
+                                         (case,index,field))
+                for index in range(12):
+                    track = 0x800BC000 + index*0x11C
+                    for field, width, expected in ((0x38,4,0), (0xF0,4,index+12),
+                                                   (0x54,2,1), (0x50,4,0),
+                                                   (0xD8,2,0x7F00), (0x74,2,0),
+                                                   (0x70,2,0), (0x3C,4,0)):
+                        self.assertEqual(int.from_bytes(read(track+field,width),'little'), expected,
+                                         (case,index,field))
                 results.append((events, state()))
             self.assertEqual(results[0], results[1], case)
 

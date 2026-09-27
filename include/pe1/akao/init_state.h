@@ -9,7 +9,6 @@ extern u32 D_8009D200;
 extern u32 D_800BCD50;
 extern u8 D_800B6980[];
 extern u8 D_800B8AC0[];
-extern u8 D_800BC03C[];
 extern u8 D_800C0D90[];
 
 void Spu_InitVoiceState(void);

@@ -1,4 +1,5 @@
 #include "pe1/akao/init_state.h"
+#include "pe1/akao/voice_masks.h"
 #define U16(base, off) (*(u16 *)((u8 *)(base) + (off)))
 #define U32(base, off) (*(u32 *)((u8 *)(base) + (off)))
 #define G9_U16(off) (*(u16 *)((u8 *)&D_8009D200 + (off)))
@@ -7,10 +8,10 @@
 
 void Spu_InitVoiceState(void) {
     u16 i;
-    register u8 *voice asm("$16");
+    u8 *voice;
     u8 *voice_base;
     u32 voice_count;
-    register u8 *track asm("$3");
+    u8 *track;
     u32 track_enabled;
     u32 track_volume;
     u32 initial_flags;
@@ -84,23 +85,23 @@ void Spu_InitVoiceState(void) {
     G9_U32(0xF4) = initial_flags;
     G9_U32(0xDC) = initial_flags;
     G9_U32(0xE0) = initial_flags;
-    voice = voice_base + 0x50;
+    voice = voice_base;
     for (; i < 24; i++, voice += 0x11C, voice_base += 0x11C) {
-        U32(voice, -0x18) = 0;
-        U32(voice, 0xA0) = voice_count;
-        U16(voice, 0x04) = 0;
-        U32(voice, 0x00) = 0;
+        U32(voice, 0x38) = 0;
+        U32(voice, 0xF0) = voice_count;
+        U16(voice, 0x54) = 0;
+        U32(voice, 0x50) = 0;
         Spu_SetVoiceAttr(i, 0, 0, 0, 0);
     }
 
     i = 0;
     voice_count = 24;
-    voice = voice_base + 0x50;
+    voice = voice_base;
     for (; i < 24; i++) {
-        U32(voice, -0x18) = 0;
-        U32(voice, 0xA0) = voice_count;
-        U16(voice, 0x04) = 0;
-        U32(voice, 0x00) = 0;
+        U32(voice, 0x38) = 0;
+        U32(voice, 0xF0) = voice_count;
+        U16(voice, 0x54) = 0;
+        U32(voice, 0x50) = 0;
         Spu_SetVoiceAttr(i, 0, 0, 0, 0);
         voice += 0x11C;
     }
@@ -108,16 +109,16 @@ void Spu_InitVoiceState(void) {
     i = 12;
     track_enabled = 1;
     track_volume = 0x7F00;
-    track = D_800BC03C;
+    track = (u8 *)g_AkaoVoiceChannelTable;
     for (; i < 24; i++, track += 0x11C) {
-        U32(track, -4) = 0;
-        U32(track, 0xB4) = i;
-        U16(track, 0x18) = track_enabled;
-        U32(track, 0x14) = 0;
-        U16(track, 0x9C) = track_volume;
-        U16(track, 0x38) = 0;
-        U16(track, 0x34) = 0;
-        U32(track, 0x00) = 0;
+        U32(track, 0x38) = 0;
+        U32(track, 0xF0) = i;
+        U16(track, 0x54) = track_enabled;
+        U32(track, 0x50) = 0;
+        U16(track, 0xD8) = track_volume;
+        U16(track, 0x74) = 0;
+        U16(track, 0x70) = 0;
+        U32(track, 0x3C) = 0;
     }
 
     state = (u8 *)G9_U32(0xC8);
