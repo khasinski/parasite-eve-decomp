@@ -3,7 +3,7 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/psyq_cd.h"
 extern int VSync(int mode);
-extern int g_CdReadCurrentVsync __asm__("D_8009B6C8");
+extern int D_8009B6C8;
 extern CdReadCompleteCallback D_8009B6D0;
 
 #define CD_READ_FIELD(anchor, field)                                      \
@@ -13,7 +13,7 @@ extern CdReadCompleteCallback D_8009B6D0;
 
 void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
     int savedStatus = status;
-    int *state = &g_CdReadCurrentVsync;
+    int *state = &D_8009B6C8;
     CD_READ_FIELD(state, currentVsync) = VSync(-1);
     if (CD_READ_FIELD(state, flags) & 1) {
         if (CD_READ_FIELD(state, remainingSectors) > 0) {
