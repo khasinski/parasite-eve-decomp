@@ -77,6 +77,8 @@ segments:
       - [0x9AC, rodata, main/rodata_0009AC]
       - [0x9B0, .rodata, main/Akao_ProcessCommand]
       - [0xE8C, rodata, main/rodata_000E8C]
+      - [0xE90, .rodata, task/Task_RunQueue]
+      - [0xEA4, rodata, main/rodata_000EA4]
       - [0xEE4, .rodata, entity/Entity_ApplyHitAndSetAnim]
       - [0xF0C, .rodata, main/Battle_ApplyEnemyAttack]
       - [0xF4C, rodata, main/rodata_000F4C]
@@ -191,7 +193,7 @@ segments:
       # Pending-node launch controller for equip and save/load menus.
       - [0x7640, c, task/Task_BeginSceneTransition]
       - [0x77E0, c, task/Task_GetPlayerInputFlag]
-      - [0x7818, asm, task/task7]
+      - [0x7818, c, task/Task_RunQueue]
       - [0x7A94, c, task/Task_JumpToEntityOffset]
       - [0x7ABC, c, entity/Entity_MarkCurrentDead]
       - [0x7AE0, c, entity/entity]
