@@ -15,10 +15,10 @@ int Akao_StepNoteSequencer(unsigned char *cursor, unsigned size)
     register unsigned char *rebase_instruments asm("$4");
     register unsigned rebase_address asm("$5");
     register unsigned next_address asm("$2");
-    register unsigned remaining_payload asm("$2");
+    unsigned remaining_payload;
     unsigned start;
     unsigned *dest;
-    register unsigned *dest_base asm("$2");
+    unsigned *dest_base;
     unsigned result;
     register unsigned mode asm("$3");
     register unsigned clear_bits asm("$4");
