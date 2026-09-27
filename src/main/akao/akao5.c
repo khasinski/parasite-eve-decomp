@@ -18,7 +18,7 @@ extern unsigned int g_SpuActiveVoiceMask;
 void SeqOp_SetVoiceInstrument(AkaoTrack *track_arg, AkaoInstrument *instrument_arg, int sample_header);
 
 void Akao_SetExpressionSlide(AkaoTrack *track) {
-    register u8 *pc asm("$2");
+    u8 *pc;
     u8 *pc2;
     int duration;
     int current;
@@ -26,8 +26,7 @@ void Akao_SetExpressionSlide(AkaoTrack *track) {
 
     pc = track->pc;
     track->pc = pc + 1;
-    duration = pc[0];
-    track->expression_duration = duration;
+    duration = (track->expression_duration = *pc);
     if (duration == 0) {
         duration = 0x100;
         track->expression_duration = duration;
