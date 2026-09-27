@@ -2,9 +2,9 @@
 /* CC1_FLAGS: -G2 */
 /* MASPSX_FLAGS: -G2 */
 
-extern int g_EntityControlFlags __asm__("D_8009D2E8");
-extern char *g_PlayerEntity __asm__("D_8009D254");
-extern char *g_ActiveActor __asm__("D_8009D278");
+extern int D_8009D2E8;
+extern char *D_8009D254;
+extern char *D_8009D278;
 extern short D_8009D298;
 
 void Entity_SetActionMode(char *arg0, int arg1);
@@ -19,18 +19,16 @@ void Battle_BeginPlayerAction(void) {
     char *player;
     char *actor;
     int mask;
-    register int flags asm("$2");
+    int flags;
 
     mask = -0x101;
-    g_EntityControlFlags |= 1;
-    player = g_PlayerEntity;
+    D_8009D2E8 |= 1;
+    player = D_8009D254;
     flags = ENTITY_FIELD(player, int, entityFlags);
-    actor = g_ActiveActor;
+    actor = D_8009D278;
     flags &= mask;
     ENTITY_FIELD(player, int, entityFlags) = flags;
-    flags = COMBATANT_FIELD(actor, int, stateFlags);
-    flags |= 0x10000;
-    COMBATANT_FIELD(actor, int, stateFlags) = flags;
+    COMBATANT_FIELD(actor, int, stateFlags) |= 0x10000;
     D_8009D298 = 0;
     Entity_SetActionMode(player, 0x12);
     Battle_FlushScriptSounds();
