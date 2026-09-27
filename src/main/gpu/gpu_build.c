@@ -29,8 +29,8 @@ u32 Gpu_BuildTexWindowCmd(TexWindow *tw) {
     int w;
     int h_raw;
     int h;
-    register u32 command asm("$4");
-    register u32 result asm("$2");
+    u32 command;
+    u32 result;
 
     g_GpuTexWindowWork--;
     if (tw == 0) {
@@ -44,11 +44,11 @@ u32 Gpu_BuildTexWindowCmd(TexWindow *tw) {
         g_GpuTexWindowWork->slots[1] = y;
         y <<= 15;
         h_raw = tw->h;
-        command = 0xE2000000;
         h = ((-h_raw) & 0xFF) >> 3;
         g_GpuTexWindowWork->slots[3] = h;
 
-        result = y | ((x << 10) | command) | (h << 5) | w;
+        command = (x << 10) | 0xE2000000;
+        result = y | command | (h << 5) | w;
     }
 
     g_GpuTexWindowWork++;
