@@ -6,6 +6,14 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class DrawEmitGlyphTests(unittest.TestCase):
+    def test_typed_fields_remove_clut_register_pin(self):
+        source = (ROOT/'src/main/gpu/Draw_EmitGlyph.c').read_text()
+        self.assertIn('RenderTexturedQuad *packet;', source)
+        self.assertIn('DrawGlyphDescriptor *glyph;', source)
+        self.assertNotIn('M2C_FIELD', source)
+        self.assertNotIn('m2c_macros.h', source)
+        self.assertLessEqual(source.count('asm("$4")'), 1)
+
     def test_load_delays_need_no_explicit_nops(self):
         source = (ROOT/'src/main/gpu/Draw_EmitGlyph.c').read_text()
         self.assertNotIn('PE1_NOP', source)

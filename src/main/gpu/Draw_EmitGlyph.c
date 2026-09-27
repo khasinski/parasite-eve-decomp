@@ -1,10 +1,8 @@
 #include "common.h"
+#include "pe1/render_prim.h"
+#include "pe1/draw_state.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-#define NULL ((void *)0)
-
-#include "../../../tools/m2c/m2c_macros.h"
 
 void *Draw_LookupGlyphDescriptor(s32 index);
 void BoundsCheck_AssertStub(s32 arg0);
@@ -19,10 +17,10 @@ extern u16 g_TextCursorX;
 extern u16 g_TextCursorY;
 
 void Draw_EmitGlyph(s32 arg0, s32 arg1) {
-    u8 *glyph;
+    DrawGlyphDescriptor *glyph;
     u32 oldPacket;
     u32 nextPacket;
-    u32 packet;
+    RenderTexturedQuad *packet;
     u16 base_x;
     u16 base_y;
     s32 temp;
@@ -37,83 +35,83 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
     nextPacket = oldPacket + 0x28;
     if (nextPacket < (u32)(g_DrawPacketBufferBase + 0x4000)) {
         g_ActiveDrawBuffer = nextPacket;
-        packet = oldPacket;
+        packet = (RenderTexturedQuad *)oldPacket;
     } else {
         BoundsCheck_AssertStub(1);
     }
 
     if (packet != 0) {
         if (g_DrawTextDimmed != 0) {
-            M2C_FIELD(packet, s32 *, 4) = g_DrawColorShaded;
+            packet->color.word = g_DrawColorShaded;
         } else {
-            M2C_FIELD(packet, s32 *, 4) = g_DrawPrimColor;
+            packet->color.word = g_DrawPrimColor;
         }
-        M2C_FIELD(packet, s8 *, 3) = 9;
-        M2C_FIELD(packet, s8 *, 7) = 0x2C;
+        packet->tag.bytes.length = 9;
+        packet->color.bytes.code = 0x2C;
     }
 
     {
-        register u32 ptr asm("$4");
+        register RenderTexturedQuad *ptr asm("$4");
 
         base_x = g_TextCursorX;
         base_y = g_TextCursorY;
         ptr = packet;
-        M2C_FIELD(ptr, volatile u16 *, 0x18) = base_x;
-        M2C_FIELD(ptr, volatile u16 *, 8) = base_x;
-        M2C_FIELD(ptr, volatile u16 *, 0x12) = base_y;
-        M2C_FIELD(ptr, volatile u16 *, 0xA) = base_y;
+        *(volatile u16 *)&ptr->x2 = base_x;
+        *(volatile u16 *)&ptr->x0 = base_x;
+        *(volatile u16 *)&ptr->y1 = base_y;
+        *(volatile u16 *)&ptr->y0 = base_y;
 
         {
             s32 sum;
             s32 glyphDim;
 
-            glyphDim = M2C_FIELD(glyph, volatile u8 *, 4);
-            sum = M2C_FIELD(ptr, volatile u16 *, 8);
+            glyphDim = *(volatile u8 *)&glyph->width;
+            sum = *(volatile u16 *)&ptr->x0;
             temp = sum + glyphDim;
         }
-        M2C_FIELD(ptr, s16 *, 0x20) = temp;
-        M2C_FIELD(ptr, s16 *, 0x10) = temp;
+        ptr->x3 = temp;
+        ptr->x1 = temp;
 
         {
             s32 sum;
             s32 glyphDim;
 
-            glyphDim = M2C_FIELD(glyph, volatile u8 *, 5);
-            sum = M2C_FIELD(ptr, volatile u16 *, 0xA);
+            glyphDim = *(volatile u8 *)&glyph->height;
+            sum = *(volatile u16 *)&ptr->y0;
             temp = sum + glyphDim;
         }
-        M2C_FIELD(ptr, s16 *, 0x22) = temp;
-        M2C_FIELD(ptr, s16 *, 0x1A) = temp;
+        ptr->y3 = temp;
+        ptr->y2 = temp;
 
         if (arg1 == 2) {
-            temp = glyph[0] + glyph[4] - 1;
-            M2C_FIELD(ptr, u8 *, 0x1C) = temp;
-            M2C_FIELD(ptr, u8 *, 0xC) = temp;
-            temp = glyph[1] + glyph[5] - 1;
-            M2C_FIELD(ptr, u8 *, 0x15) = temp;
-            M2C_FIELD(ptr, u8 *, 0xD) = temp;
-            temp = glyph[0] - 1;
-            M2C_FIELD(ptr, u8 *, 0x24) = temp;
-            M2C_FIELD(ptr, u8 *, 0x14) = temp;
-            temp = glyph[1] - 1;
-            M2C_FIELD(ptr, u8 *, 0x25) = temp;
-            M2C_FIELD(ptr, u8 *, 0x1D) = temp;
+            temp = glyph->u + glyph->width - 1;
+            ptr->u2 = temp;
+            ptr->u0 = temp;
+            temp = glyph->v + glyph->height - 1;
+            ptr->v1 = temp;
+            ptr->v0 = temp;
+            temp = glyph->u - 1;
+            ptr->u3 = temp;
+            ptr->u1 = temp;
+            temp = glyph->v - 1;
+            ptr->v3 = temp;
+            ptr->v2 = temp;
         }
     }
 
-    oldTag = M2C_FIELD(packet, volatile u32 *, 0);
+    oldTag = *(volatile u32 *)&packet->tag.word;
     {
         u32 mask24;
         u32 maskTop;
-        register s32 tpage asm("$4");
+        s32 clut;
 
         mask24 = 0xFFFFFF;
-        tpage = M2C_FIELD(glyph, volatile u16 *, 2);
-        M2C_FIELD(packet, u16 *, 0xE) = tpage;
+        clut = *(volatile u16 *)&glyph->clut;
+        packet->clut = clut;
         ot = g_OtListTail;
         maskTop = 0xFF000000;
-        M2C_FIELD(packet, s16 *, 0x16) = 7;
-        M2C_FIELD(packet, u32 *, 0) = (oldTag & maskTop) | (*ot & mask24);
-        *ot = (*ot & maskTop) | (packet & mask24);
+        packet->tpage = 7;
+        packet->tag.word = (oldTag & maskTop) | (*ot & mask24);
+        *ot = (*ot & maskTop) | ((u32)packet & mask24);
     }
 }
