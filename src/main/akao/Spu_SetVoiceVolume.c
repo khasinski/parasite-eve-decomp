@@ -6,19 +6,24 @@ extern unsigned char D_8009D1CB;
 
 void func_8007A88C(void *arg0);
 
+static inline unsigned char ScaleVolume(int volume) {
+    unsigned int value = volume;
+
+    value <<= 1;
+    value += volume;
+    value <<= 2;
+    value -= volume;
+    value += value << 5;
+    value <<= 3;
+    value -= volume;
+    return value >> 13;
+}
+
 void Spu_SetVoiceVolume(int arg0) {
-    register unsigned int value asm("$2");
+    unsigned char value;
 
     if (D_8009D2C0 & 2) {
-        value = arg0;
-        value <<= 1;
-        value += arg0;
-        value <<= 2;
-        value -= arg0;
-        value += value << 5;
-        value <<= 3;
-        value -= arg0;
-        value >>= 13;
+        value = ScaleVolume(arg0);
         D_8009D1CB = value;
         D_8009D1C9 = value;
         D_8009D1CA = value;
