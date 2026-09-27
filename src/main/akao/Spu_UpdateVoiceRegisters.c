@@ -21,13 +21,13 @@ static inline int compute_volume(AkaoTrack *voice, s16 *table) {
 }
 
 void Spu_UpdateVoiceRegisters(AkaoTrack *voice, u32 voice_mask) {
-    register u32 old_value asm("$3");
     u32 new_value;
     int value;
     int scaled;
     s16 *table;
 
     if (voice->expression_duration != 0) {
+        u32 old_value;
         old_value = voice->expression_value;
         new_value = old_value + voice->expression_delta;
         voice->expression_duration--;
@@ -44,6 +44,7 @@ void Spu_UpdateVoiceRegisters(AkaoTrack *voice, u32 voice_mask) {
     }
 
     if (voice->volume_duration != 0) {
+        u32 old_value;
         old_value = voice->volume_base;
         new_value = old_value + voice->volume_delta;
         voice->volume_duration--;
@@ -66,6 +67,7 @@ void Spu_UpdateVoiceRegisters(AkaoTrack *voice, u32 voice_mask) {
     }
 
     if (voice->panpot_slide_duration != 0) {
+        u32 old_value;
         old_value = voice->panpot;
         new_value = old_value + voice->panpot_delta;
         voice->panpot_slide_duration--;
@@ -165,6 +167,7 @@ void Spu_UpdateVoiceRegisters(AkaoTrack *voice, u32 voice_mask) {
     }
 
     if (voice->field_7A != 0) {
+        u32 old_value;
         old_value = voice->voice_mask_a;
         new_value = old_value + voice->field_4C;
         voice->field_7A--;
