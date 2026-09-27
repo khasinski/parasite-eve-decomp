@@ -1,9 +1,6 @@
 typedef unsigned int u32;
 
-#include "pe1/akao.h"
-
-extern AkaoVoiceBank g_AkaoVoiceBanks[] __asm__("g_AkaoVoiceStateTable");
-extern char *g_AkaoCurTrack;
+#include "pe1/akao/voice_state.h"
 
 void Util_CopyWords(unsigned int *src, unsigned int *dst, unsigned int size);
 void Akao_StepSequencerVoice(void *arg0);
@@ -19,10 +16,11 @@ void Seq_RestoreSecondaryStateAndSelect(int *arg0) {
     state = (AkaoSequencerBank *)g_AkaoCurTrack;
     if ((state->active_voice_mask != 0) && ((state + 1)->active_voice_mask == 0)) {
         Util_CopyWords((u32 *)state, (u32 *)(state + 1), sizeof(*state));
-        Util_CopyWords((u32 *)&g_AkaoVoiceBanks[0], (u32 *)&g_AkaoVoiceBanks[1], sizeof(AkaoVoiceBank));
+        Util_CopyWords((u32 *)g_AkaoVoiceStateTable,
+                       (u32 *)&g_AkaoVoiceStateTable[AKAO_VOICE_COUNT], sizeof(AkaoVoiceBank));
     }
 
-    Akao_StepSequencerVoice(arg0[1]);
+    Akao_StepSequencerVoice((void *)arg0[1]);
     ((AkaoTrack *)g_AkaoCurTrack)->parent_track_id = arg0[3];
 }
 

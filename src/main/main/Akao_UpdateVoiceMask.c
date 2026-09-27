@@ -30,7 +30,7 @@ void Akao_UpdateVoiceMask(int new_base) {
     Util_CopyWords((unsigned int *)&g_AkaoVoiceStateBackup,
                    (unsigned int *)&g_AkaoVoiceStateTable, sizeof(AkaoVoiceBank));
 
-    track = g_AkaoVoiceStateTable.tracks;
+    track = g_AkaoVoiceStateTable;
     remaining = AKAO_VOICE_COUNT;
     bit = 1;
     magic_flags = 0x1ff93;
