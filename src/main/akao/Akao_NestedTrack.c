@@ -261,18 +261,17 @@ extern AkaoNestedVoiceSlot D_800BC000[];
 void Akao_InitVoiceState(AkaoTrack *track, void *script);
 
 void Seq_StartNestedTrack(AkaoTrack *track, AkaoNestedSource *source, unsigned int voice_mask, void *script) {
-    register AkaoTrack *track_reg asm("$8");
+    AkaoTrack *track_reg;
     unsigned int mask = voice_mask;
     int pan;
     int pan_target;
-    register unsigned int *active_mask asm("$4");
+    unsigned int *active_mask;
     unsigned int old_active_mask;
     unsigned int old_pending_mask;
 
     track_reg = track;
     track_reg->key_off_mask = source->key_off_mask;
     track_reg->key_on_mask = source->key_on_mask;
-    asm volatile("" : : : "memory");
     pan = source->pan << 8;
     track_reg->panpot_slide_duration = 0;
     track_reg->panpot = pan;
@@ -302,32 +301,31 @@ void Seq_StartNestedTrack(AkaoTrack *track, AkaoNestedSource *source, unsigned i
     D_800BCD74 &= mask;
 
     if ((D_8009D2DC & 2) != 0) {
-        AkaoNestedVoiceSlot *slot;
-        register unsigned int busy_mask asm("$7");
-        register unsigned int *active_loop_mask asm("$6");
+        unsigned int busy_mask;
+        unsigned int *active_loop_mask;
         int count;
 
         mask = 0x1000;
-        slot = D_800BC000;
+        track_reg = (AkaoTrack *)D_800BC000;
         count = 0xC;
         busy_mask = 0x02000000;
         active_loop_mask = active_mask;
         do {
-            if ((slot->flags & busy_mask) == 0) {
+            if ((track_reg->key_on_mask & busy_mask) == 0) {
                 unsigned int not_mask;
                 unsigned int active_value;
-                register unsigned int off_value asm("$4");
+                unsigned int off_value;
 
                 not_mask = ~mask;
-                active_value = *active_loop_mask;
                 off_value = D_800BCD60;
+                active_value = *active_loop_mask;
                 active_value &= not_mask;
                 off_value |= mask;
                 *active_loop_mask = active_value;
                 D_800BCD60 = off_value;
             }
             count--;
-            slot++;
+            track_reg++;
             mask <<= 1;
         } while (count != 0);
     }
