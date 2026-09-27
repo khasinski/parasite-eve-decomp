@@ -37,6 +37,19 @@ typedef struct SceneTrackRecord {
     u16 key;
 } SceneTrackRecord;
 
+/* Sector offsets follow the archive's absolute base LBA in variable-size data. */
+typedef struct SceneSectorDirectory {
+    u32 base_lba;
+    u16 offsets[0];
+} SceneSectorDirectory;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneSectorDirectory, offsets) == 4,
+                  scene_sector_offsets_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, cd_read_phase) == 0xF0,
+                  scene_cd_read_phase_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, pe_image_base_lba) == 0x100,
+                  scene_cd_image_base_offset);
+
 typedef struct SceneBankAssetRecord {
     u32 reserved;
     union {
