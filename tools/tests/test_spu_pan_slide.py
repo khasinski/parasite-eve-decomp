@@ -1,0 +1,79 @@
+"""Pan-slide models for twelve voices; no SPU hardware is invoked."""
+from pathlib import Path
+import itertools
+import random
+import re
+import struct
+import unittest
+
+ROOT = Path(__file__).resolve().parents[2]
+
+
+class SpuPanSlideTests(unittest.TestCase):
+    def test_translation_unit_is_plain_c(self):
+        source = (ROOT/'src/main/akao/Spu_SlideAllVoicePan.c').read_text()
+        source = re.sub(r'/\*.*?\*/|//[^\n]*', '', source, flags=re.S)
+        self.assertNotRegex(source, r'\b(?:asm|__asm__|INCLUDE_ASM|CC_POSTPASS)\b')
+        for field in ('key_on_mask','panpot','panpot_delta','panpot_slide_duration'):
+            self.assertIn('voice->'+field,source)
+
+    @unittest.skipUnless((ROOT/'assets/USA/main.exe').is_file() and
+                         (ROOT/'build/USA/main.exe').is_file(), 'retail/build unavailable')
+    def test_retail_and_built_model(self):
+        try:
+            from unicorn import Uc, UC_ARCH_MIPS, UC_MODE_MIPS32, UC_MODE_LITTLE_ENDIAN
+            from unicorn import mips_const as R
+        except ImportError:
+            self.skipTest('unicorn unavailable')
+        entry,stop,stack,arg = 0x8008BD08,0x80010000,0x801F0000,0x80110000
+        tracks,active_address = 0x800BC000,0x800BCD50
+        offset,size = entry-0x8000F800,0xC0
+        bodies = [(ROOT/path).read_bytes()[offset:offset+size]
+                  for path in ('assets/USA/main.exe','build/USA/main.exe')]
+        self.assertEqual(len(bodies[0]),size)
+        self.assertEqual(*bodies)
+        cases = list(itertools.product((0,0x1000,0x800000,0xFFF000,0x555000,0xAAA000,0xFFF,0xFFFFFFFF),
+                                       (0,1,2,127,32767,32768,65535,0xFFFF0001),
+                                       (0,1,127,128,254,255),(0,0x555,0xFFF)))
+        saved = [getattr(R,f'UC_MIPS_REG_S{i}') for i in range(8)]+[R.UC_MIPS_REG_FP,R.UC_MIPS_REG_GP]
+        initial = random.Random(entry).randbytes(12*0x11C)
+        def signed16(x): return (x&32767)-(x&32768)
+        # Arguments and tracks are disjoint. Full32 nonzero durations whose
+        # low16 is zero trigger a divide trap and are outside this model.
+        for body in bodies:
+            m = Uc(UC_ARCH_MIPS,UC_MODE_MIPS32|UC_MODE_LITTLE_ENDIAN)
+            m.mem_map(0,0x200000)
+            def put(address,data): m.mem_write(address&0x1FFFFFFF,bytes(data))
+            put(entry,body)
+            for active,step,target,blocked in cases:
+                before = bytearray(initial)
+                for i in range(12):
+                    struct.pack_into('<I',before,i*0x11C+0x2C,0x2000000 if blocked&(1<<i) else 0)
+                    struct.pack_into('<H',before,i*0x11C+0x76,(0,1,0x7FFF,0x8000,0xFFFF,0xFF00)[i%6])
+                expected = bytearray(before)
+                duration = step or 1
+                for i in range(12):
+                    if active&(0x1000<<i) and not blocked&(1<<i):
+                        current = struct.unpack_from('<H',before,i*0x11C+0x76)[0]
+                        delta,denom = signed16((target<<8)-current),signed16(duration)
+                        quotient = (abs(delta)//abs(denom))*(-1 if (delta<0)!=(denom<0) else 1)
+                        struct.pack_into('<H',expected,i*0x11C+0x78,duration&65535)
+                        struct.pack_into('<H',expected,i*0x11C+0xDC,quotient&65535)
+                put(tracks,before)
+                put(active_address,struct.pack('<I',active))
+                arguments = struct.pack('<III',0xAABBCCDD,step,target)
+                put(arg,arguments)
+                for name,value in (('A0',arg),('SP',stack),('RA',stop)):
+                    m.reg_write(getattr(R,'UC_MIPS_REG_'+name),value)
+                for i,reg in enumerate(saved): m.reg_write(reg,0xABCD0000+i)
+                m.emu_start(entry,stop,count=1500)
+                self.assertEqual(bytes(m.mem_read(tracks&0x1FFFFFFF,len(expected))),expected,(active,step,target,blocked))
+                self.assertEqual(bytes(m.mem_read(arg&0x1FFFFFFF,12)),arguments)
+                self.assertEqual(bytes(m.mem_read(active_address&0x1FFFFFFF,4)),struct.pack('<I',active))
+                self.assertEqual(m.reg_read(R.UC_MIPS_REG_PC),stop)
+                self.assertEqual(m.reg_read(R.UC_MIPS_REG_SP),stack)
+                for i,reg in enumerate(saved): self.assertEqual(m.reg_read(reg),0xABCD0000+i)
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -12,10 +12,10 @@
     "gotos": 825,
     "include_asm": 0,
     "nop_barriers": 164,
-    "pins": 1783,
+    "pins": 1781,
     "pointer_integer_casts": 863,
     "postpass": 0,
-    "raw_offset_dereferences": 1506,
+    "raw_offset_dereferences": 1503,
     "statement_expressions": 2,
     "unknown_fields": 263
   },
