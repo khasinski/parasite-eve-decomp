@@ -2,6 +2,7 @@
 #define PE1_BATTLE_RUNTIME_H
 
 #include "pe1/battle.h"
+#include "pe1/pm.h"
 
 extern Combatant *D_8009D278;
 extern BattleEntity *D_8009D254;
@@ -97,7 +98,6 @@ void Battle_SetupPlayerPalette(void);
 void Battle_ResetEnemyStats(int mode);
 void Battle_SetupEnemyAnims(void);
 void Scene_SetStoryDay(int day);
-int Scene_LoadRoomAssets(int assetId, BattleEntity *entity);
 void Battle_StartEnemyAttackEffect(BattleEntity *entity);
 void Battle_DrawATBGauge(void);
 int Inv_GetWeaponCategoryAmmoBase(unsigned int category);

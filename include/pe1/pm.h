@@ -14,6 +14,15 @@ typedef struct PmSlotHeader {
     void *owner;
 } PmSlotHeader;
 
+typedef struct PmCommand {
+    void *reserved;
+    void (*initialize)(PmSlotHeader *);
+} PmCommand;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(PmCommand, initialize) == 4,
+                  pm_command_initializer_offset);
+int Scene_LoadRoomAssets(u32 command, void *owner);
+
 typedef struct PmPrimarySlot {
     PmSlotHeader header;
     u8 reserved0C[0xA00];
