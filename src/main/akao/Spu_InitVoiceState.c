@@ -8,11 +8,11 @@
 void Spu_InitVoiceState(void) {
     u16 i;
     register u8 *voice asm("$16");
-    register u8 *voice_base asm("$18");
-    register u32 voice_count asm("$19");
+    u8 *voice_base;
+    u32 voice_count;
     register u8 *track asm("$3");
-    register u32 track_enabled asm("$5");
-    register u32 track_volume asm("$4");
+    u32 track_enabled;
+    u32 track_volume;
     u32 initial_flags;
     u8 *state;
 
@@ -94,8 +94,6 @@ void Spu_InitVoiceState(void) {
     }
 
     i = 0;
-    /* Keep the second bank's loop count initialization independent. */
-    asm volatile("" : "=r"(voice_count) : "0"(voice_count));
     voice_count = 24;
     voice = voice_base + 0x50;
     for (; i < 24; i++) {
