@@ -1,9 +1,7 @@
 #include "common.h"
 #include "pe1/psyq_cd.h"
 
-extern CdRomEventCommandState D_8009B558_o __asm__("D_8009B558");
-
-#define D_8009B558 (&D_8009B558_o)
+extern CdRomEventCommandState D_8009B558;
 
 void CdRom_CmdEventCallback(int event, u8 *result) {
     u32 event_reg;
@@ -14,7 +12,7 @@ void CdRom_CmdEventCallback(int event, u8 *result) {
 
     event_reg = event & 0xFF;
     if (event_reg == 2) {
-        cmd_state = D_8009B558;
+        cmd_state = &D_8009B558;
         asm volatile("" : "=r"(cmd_state) : "0"(cmd_state));
         status = cmd_state->pendingCommand;
         value = 0xE;
