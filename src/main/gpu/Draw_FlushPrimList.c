@@ -19,11 +19,10 @@ void BoundsCheck_AssertStub(int arg0);
 #define PUSH_CURSOR()                                                      \
     do {                                                                   \
         int *cursor = g_TextCursorStackPtr;                                \
-        register int *next asm("$3") = cursor + 2;                          \
         if ((u32)cursor < (u32)g_TextCursorStackTop) {                     \
             int x = g_TextCursorX;                                         \
             int y = g_TextCursorY;                                         \
-            g_TextCursorStackPtr = next;                                   \
+            g_TextCursorStackPtr = cursor + 2;                             \
             cursor[0] = x;                                                 \
             cursor[1] = y;                                                 \
         } else {                                                           \
@@ -106,11 +105,8 @@ void Draw_FlushPrimList(int textId) {
         int center = D_8009D138 - adjusted;
         int y = g_TextCursorY;
         int x = g_TextCursorX;
-        asm volatile("" : : "r"(x));
         center >>= 1;
-        asm volatile("" : "=r"(y) : "0"(y));
         g_TextCursorY = y;
-        asm volatile("" : : "m"(g_TextCursorY));
         g_TextCursorX = x + center;
     }
 
