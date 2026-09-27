@@ -1,5 +1,6 @@
 #include "pe1/psyq_cd.h"
 /* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
 
 extern int D_8009B708;
 
@@ -9,11 +10,10 @@ int CdRom_RestartSeek(void);
 void CdRom_ReadDoneCallback(unsigned char arg0, unsigned char *arg1) {
     int *state;
     int status;
-    register void *data asm("$18");
+    void *data;
     DsAsyncReadCallback callback;
 
     state = &D_8009B708;
-    asm volatile("" : "=r"(state) : "0"(state));
     data = arg1;
     if (state[0] == 0) {
         return;
