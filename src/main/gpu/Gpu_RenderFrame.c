@@ -21,11 +21,18 @@ extern char g_RenderDrawEnvArray[];
 
 #define D_800B0CD8_WORD (g_GameState[0])
 
+static inline char *DispAddress(int index) {
+    return g_RenderDispEnvArray + index * 20;
+}
+
+static inline char *DrawAddress(int index) {
+    return g_RenderDrawEnvArray + index * 92;
+}
+
 void Gpu_RenderFrame(void) {
     int idx;
     int state;
     int status;
-    register int offset asm("$4");
     int *state_ptr;
 
     DrawSync(0);
@@ -42,16 +49,8 @@ void Gpu_RenderFrame(void) {
 
     Render_InitEntityPool(1);
 
-    {
-        char *base;
-
-        idx = g_ActiveDrawSlot;
-        offset = idx << 2;
-        offset += idx;
-        offset <<= 2;
-        base = g_RenderDispEnvArray;
-        PutDispEnv((DISPENV *)(base + offset));
-    }
+    idx = g_ActiveDrawSlot;
+    PutDispEnv((DISPENV *)DispAddress(idx));
 
     status = Gpu_CheckDrawStatus();
     if ((status << 24) != 0) {
@@ -66,11 +65,7 @@ void Gpu_RenderFrame(void) {
 
 draw_direct:
     idx = g_ActiveDrawSlot;
-    offset = (idx << 1) + idx;
-    offset <<= 3;
-    offset -= idx;
-    offset <<= 2;
-    PutDrawEnv(g_RenderDrawEnvArray + offset);
+    PutDrawEnv(DrawAddress(idx));
     goto done;
 
 draw_buffer:
