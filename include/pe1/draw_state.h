@@ -17,6 +17,7 @@ void *Draw_LookupGlyphDescriptor(int index);
 /* Semantic C names for the existing, independently addressed linker objects. */
 extern unsigned char *D_8009D100;
 extern unsigned char *D_8009D104;
+extern int D_8009D108;
 extern int D_8009D10C;
 extern int D_8009D110;
 extern int D_8009D114;

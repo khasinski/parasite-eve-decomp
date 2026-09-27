@@ -105,6 +105,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetGridDescriptor, yLimit) == 0x10,
 MenuWidgetSimpleDescriptor *MenuWidget_LookupSimpleDescriptor(unsigned int index);
 MenuWidgetGridDescriptor *MenuWidget_LookupGridDescriptor(unsigned int index);
 void Draw_SwapPrimBuffers(MenuWidgetNode *list);
+void Draw_AllocPrimWithMask(MenuWidgetNode *node);
 void Draw_FlushFrontBuffer(MenuWidgetListNavigation *node);
 void Draw_SetPrimCallback(MenuWidgetNode *node, int item_count);
 void MenuWidget_DestroyPopupNode(MenuWidgetNode *node);

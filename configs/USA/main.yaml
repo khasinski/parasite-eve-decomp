@@ -807,6 +807,8 @@ segments:
       # Grid-cell index calculation and mask filtering share the node cursor ABI.
       - [0x53C28, c, menu/MenuWidget_CellIndex]
       - [0x53CD4, asm, menu/menu_widget6]
+      - [0x53F4C, c, menu/Draw_AllocPrimWithMask]
+      - [0x540D8, asm, menu/MenuWidget_DrawList]
       # Cursor bounds and scrolling use one MenuWidgetNode viewport model.
       - [0x54530, c, menu/MenuWidget_CursorClamp]
       - [0x5460C, asm, main/Menu_StepScrollCursor]
