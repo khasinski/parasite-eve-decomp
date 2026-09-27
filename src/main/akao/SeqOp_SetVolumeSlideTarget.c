@@ -3,30 +3,30 @@
 
 extern char *g_AkaoCurTrack;
 
-void SeqOp_SetVolumeSlideTarget(void *ptr) {
-    register void *stream asm("$5");
-    u8 *pc;
-    register int value asm("$2");
+static inline u8 **SetDuration(u8 **cursor) {
+    u8 *pc = *cursor;
+    char *track;
+    int value;
 
-    stream = ptr;
-
-    {
-        register u8 *pc0 asm("$2");
-        register char *track asm("$3");
-
-        pc0 = *(u8 **)stream;
-        *(u8 **)stream = pc0 + 1;
-        track = g_AkaoCurTrack;
-        value = pc0[0];
-        *(u16 *)(track + 0x58) = value;
-        if (value == 0) {
-            value = 0x100;
-            *(u16 *)(track + 0x58) = value;
-        }
+    *cursor = pc + 1;
+    track = g_AkaoCurTrack;
+    value = pc[0];
+    *(u16 *)(track + 0x58) = value;
+    if (value == 0) {
+        *(u16 *)(track + 0x58) = 0x100;
     }
+    return cursor;
+}
+
+void SeqOp_SetVolumeSlideTarget(void *ptr) {
+    void *stream;
+    u8 *pc;
+    int value;
+
+    stream = SetDuration((u8 **)ptr);
 
     {
-        register int high asm("$3");
+        int high;
         char *track;
         int current;
 
