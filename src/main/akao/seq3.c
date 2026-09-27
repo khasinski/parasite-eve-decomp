@@ -54,12 +54,12 @@ void Seq_SetTrackPitchImmediate(int *arg0) {
     char *track;
     char *primary_track;
     char *next_track;
-    register int value asm("$2");
     char *base;
 
     msg = arg0;
     selector = msg[4];
     if (selector == 0 || selector == *(u16_1 *)(g_AkaoCurTrack + 0x54)) {
+        int value;
         base = g_AkaoVoiceStateTable;
         value = msg[1];
         primary_track = g_AkaoCurTrack;
@@ -71,6 +71,7 @@ void Seq_SetTrackPitchImmediate(int *arg0) {
     } else if (selector != 0) {
         track = g_AkaoCurTrack;
         if (selector == *(u16_1 *)(track + 0xBC)) {
+            int value;
             next_track = track + 0x68;
             base = g_AkaoVoiceStateTable2;
             value = msg[1];
