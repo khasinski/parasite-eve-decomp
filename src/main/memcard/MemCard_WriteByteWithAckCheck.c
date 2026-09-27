@@ -12,6 +12,7 @@ int MemCard_WriteByteWithAckCheck(void *obj) {
     int value;
     register int result asm("$3");
     int ret;
+    register u32 zero asm("$0");
     card = obj;
     needs_ack = 0;
     if ((*(u8 *)*(void **)((u8 *)card + 0x3C) >> 4) == 8) {
@@ -21,18 +22,27 @@ int MemCard_WriteByteWithAckCheck(void *obj) {
     asm volatile("" : : : "$4");
     call_obj = card;
     value = D_8009B72C(call_obj, needs_ack);
-        call_obj = card;
+    call_obj = card;
     result = MemCard_WriteByte(call_obj, value & 0xFF);
-    asm volatile(
-        ".word 0x2402005A\n"
-        ".word 0x10620006\n"
-        ".word 0x00601021\n"
-        ".word 0x10600004\n"
-        ".word 0x00000000\n"
-        ".word 0x04610002\n"
-        ".word 0x2402FFF7\n"
-        ".word 0x00601021\n"
-        : "=r"(ret)
-        : "r"(result));
+    /* Match debt: architectural zero keeps the result copy in the first
+     * branch delay slot; the barriers preserve the shared return path. */
+    asm volatile("" : "=r"(zero));
+    ret = 90;
+    asm volatile("" : "=r"(ret) : "0"(ret));
+    if (result == ret) {
+        ret = (u32)result + zero;
+        goto done;
+    }
+    ret = (u32)result + zero;
+    asm volatile("" : "=r"(result), "=r"(ret) : "0"(result), "1"(ret));
+    if (result == 0)
+        goto done;
+    /* Retail returns -9 for positive values other than 90, and preserves
+     * negative values. The BGEZ delay slot assigns -9 before branching. */
+    ret = -9;
+    if (result >= 0)
+        goto done;
+    ret = result;
+done:
     return ret;
 }
