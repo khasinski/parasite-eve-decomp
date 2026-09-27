@@ -14,13 +14,27 @@ typedef struct PmSlotHeader {
     void *owner;
 } PmSlotHeader;
 
+typedef int (*PmSendCallback)(PmSlotHeader *, int, int, int *, int *, int *);
+
 typedef struct PmCommand {
     void *reserved;
     void (*initialize)(PmSlotHeader *);
+    PmSendCallback send;
+    int (*start)(void);
+    int (*execute)(PmSlotHeader *);
+    int (*stop)(void);
 } PmCommand;
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(PmCommand, initialize) == 4,
                   pm_command_initializer_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(PmCommand, send) == 8,
+                  pm_command_send_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(PmCommand, start) == 12,
+                  pm_command_start_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(PmCommand, execute) == 16,
+                  pm_command_execute_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(PmCommand, stop) == 20,
+                  pm_command_stop_offset);
 int Scene_LoadRoomAssets(u32 command, void *owner);
 
 typedef struct PmPrimarySlot {
