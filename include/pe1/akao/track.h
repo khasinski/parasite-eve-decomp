@@ -154,7 +154,7 @@ typedef struct AkaoSequencerBank {
     /* 0x40 */ AkaoU32 field_40[2];
     /* 0x48 */ AkaoU32 pitch_current;
     /* 0x4C */ AkaoU32 pitch_delta;
-    /* 0x50 */ AkaoU16 pitch_slide_duration;
+    /* 0x50 */ AkaoS16 pitch_slide_duration; /* signed countdown in SPU_StepReverbLoad */
     /* 0x52 */ AkaoU16 field_52;
     /* 0x54 */ AkaoU16 bank_id;
     /* 0x56 */ AkaoU16 field_56;
