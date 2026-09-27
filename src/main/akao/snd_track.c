@@ -15,19 +15,19 @@ void sndTrackReadVolume(AkaoTrack *track) {
     track->volume_base = value << 8;
 }
 
+static inline int ReadVolumeByte(u8 **cursor) {
+    u8 *pc = *cursor;
+    *cursor = pc + 1;
+    return pc[0];
+}
+
 void sndTrackSlideVolume(AkaoTrack *track) {
     u8 *pc;
     int duration;
     int current;
     int next;
 
-    {
-        register u8 *pc0 asm("$2");
-
-        pc0 = track->pc;
-        track->pc = pc0 + 1;
-        duration = pc0[0];
-    }
+    duration = ReadVolumeByte(&track->pc);
     track->volume_duration = duration;
     if (duration == 0) {
         duration = 0x100;
