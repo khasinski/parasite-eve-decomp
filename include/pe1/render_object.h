@@ -53,6 +53,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderBouncingSprite, duration) == 12,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderBouncingSprite, angle) == 14,
                   render_bouncing_sprite_angle);
 int func_800D5010(int mode, RenderBouncingSprite *state);
+int func_800D6C58(int mode, RenderBouncingSprite *state);
 int func_800D4EA4(int mode);
 extern u8 D_800E1518[], D_800E1540[];
 
@@ -277,6 +278,7 @@ typedef struct RenderColor {
 } RenderColor;
 
 extern RenderColor D_800C22C0;
+extern RenderColor D_800C22D0;
 
 typedef struct RenderDiamondEmitter {
     GteShortVector position;
