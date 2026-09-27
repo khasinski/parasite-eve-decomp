@@ -5,7 +5,6 @@ extern u32 g_AkaoTrack38Mask;
 void Seq_MarkTrack38MaskDirty(void);
 
 typedef unsigned int u32_1;
-extern char *g_AkaoCurTrack_1 __asm__("g_AkaoCurTrack");
 extern u32_1 g_AkaoVoiceUpdateFlags;
 extern u16 g_AkaoTrack5ATransposeValue;
 
@@ -70,11 +69,11 @@ unsigned int SeqOp_SetTrack5AValue(void *ptr)
     if ((value & 0xC0) != 0)
     {
       ;
-      *((u16 *) (g_AkaoCurTrack_1 + 0x5A)) = ((*((u16 *) (g_AkaoCurTrack_1 + 0x5A))) + (value & 0x3F)) & 0x3F;
+      *((u16 *) (g_AkaoCurTrack + 0x5A)) = ((*((u16 *) (g_AkaoCurTrack + 0x5A))) + (value & 0x3F)) & 0x3F;
     }
     else
     {
-      track = g_AkaoCurTrack_1;
+      track = g_AkaoCurTrack;
       *((u16 *) (track + 0x5A)) = value;
     }
   }
