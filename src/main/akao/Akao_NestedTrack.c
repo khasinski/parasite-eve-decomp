@@ -23,41 +23,34 @@ void Akao_InitVoices(int arg0, char *arg1) {
     int mode1;
     char *fallback;
     int mode5;
-    char *voice;
-    register char *field asm("$4");
-    int flags;
+    AkaoTrack *voice;
 
     if (arg0 == 0) {
-        if (*(int *)(g_AkaoCurTrack + 4) != 0) {
+        if (((AkaoSequencerBank *)g_AkaoCurTrack)->active_voice_mask != 0) {
             goto body;
         }
         return;
-    } else if (arg0 != *(u16 *)(g_AkaoCurTrack + 0x54)) {
+    } else if (arg0 != ((AkaoSequencerBank *)g_AkaoCurTrack)->bank_id) {
         return;
     }
 
 body:
-    *(int *)(g_AkaoCurTrack + 0x18) = 0xFFFFFF;
+    ((AkaoSequencerBank *)g_AkaoCurTrack)->key_off_request_mask = 0xFFFFFF;
 
     i = 0;
     mode3 = 3;
     mode1 = 1;
     fallback = g_AkaoDefaultVoiceProgram;
     mode5 = 5;
-    field = arg1 + 0x116;
-    voice = arg1;
-
+    voice = (AkaoTrack *)arg1;
     do {
         i++;
-        *(u16 *)(field - 0xC0) = mode3;
-        *(u16 *)(field - 0xBE) = mode1;
-        *(char **)(voice + 0) = fallback;
-        flags = *(int *)(field - 0x22);
-        voice += sizeof(AkaoTrack);
-        *(u16 *)(field + 0) = mode5;
-        flags |= AKAO_VOICE_PARAM_ADSR_RELEASE;
-        *(int *)(field - 0x22) = flags;
-        field += sizeof(AkaoTrack);
+        voice->field_56 = mode3;
+        voice->pan_duration = mode1;
+        voice->pc = (AkaoU8 *)fallback;
+        voice->update_flags |= AKAO_VOICE_PARAM_ADSR_RELEASE;
+        voice->adsr_release_rate = mode5;
+        voice++;
     } while (i < 0x18);
 }
 
