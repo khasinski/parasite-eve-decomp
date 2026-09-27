@@ -4,7 +4,7 @@
 void Battle_DrawATBGauge(void)
 {
     short ammo;
-    register signed char i asm("$17");
+    signed char i;
     short y;
     RenderSpritePacket *sprite;
     BattleGaugePrim *packet;
