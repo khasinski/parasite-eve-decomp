@@ -1357,7 +1357,6 @@ segments:
       - [0x757B8, pad]
       - [0x757C4, c, util/Timer_StartTimeout]
       - [0x757E4, c, akao/spu_transfer]
-      - [0x75A90, c, akao/Spu_Initialize]
       - [0x75F28, c, akao/spu4]
       - [0x75FE4, c, psyq/libapi/CloseEvent]
       - [0x75FF4, c, psyq/libapi/DisableEvent]
