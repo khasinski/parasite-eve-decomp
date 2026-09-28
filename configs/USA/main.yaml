@@ -761,8 +761,8 @@ segments:
       - [0x4FD94, c, gpu/Draw_TextPrintHelpers]
       - [0x4FE98, c, gpu/Draw_PrintTextWrapped]
       - [0x50044, c, gpu/func_8005F844]
-      - [0x50074, c, gpu/Draw_EmitDigitSprite]
-      - [0x5023C, c, gpu/Draw_PrintNumberWidth2Unk]
+      # One -G8 digit packet emitter and its contiguous number printers.
+      - [0x50074, c, gpu/Draw_NumberSpritePrint]
       - [0x5086C, c, gpu/Draw_PrintTimeValue]
       - [0x50AD0, c, gpu/Draw_AllocTexturedRect]
       - [0x50D28, c, gpu/Draw_PrintNumberWidths]
