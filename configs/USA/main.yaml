@@ -1310,9 +1310,8 @@ segments:
       - [0x72A7C, c, cdrom/misc9]
       - [0x72ABC, c, psyq/libds/DS_read_cbready]
       - [0x72B0C, pad]
-      - [0x72B14, c, psyq/libds/DsGetDiskType]
-      # Psy-Q libds/dstype.c disk-type callbacks, in source order.
-      - [0x72C00, c, psyq/libds/dstype]
+      # Psy-Q 4.6 LIBDS.LIB DSTYPE.OBJ: query plus async disk callbacks.
+      - [0x72B14, c, psyq/libds/dstype]
       - [0x72CA8, pad]
       # Psy-Q libds/dscb.c callback registration helpers, in source order.
       - [0x72CB4, c, psyq/libds/dscb]
