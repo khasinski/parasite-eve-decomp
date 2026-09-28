@@ -708,9 +708,8 @@ segments:
       # Kind filtering, filtered-slot lookup, eligibility and swaps form one 0x8E8-byte unit.
       - [0x4944C, c, item/Inv_InventorySwap]
       - [0x49D34, c, item/Menu_OpenItemUsePanelAtIndex]
+      # Armor capacity, snapshots, selection restore and transfers share the item-runtime state.
       - [0x49E8C, c, item/Inv_ArmorCapacity]
-      # Snapshots, selection restoration, and modifier/stat transfer share a 0x13B8-byte unit.
-      - [0x4A444, c, item/Inv_SelectionState]
       # Item comparators, subrange passes, and all sort dispatchers share active sort state.
       - [0x4B7FC, c, item/Inv_CompareItemsForSort]
       - [0x4C090, c, menu/menu31]
