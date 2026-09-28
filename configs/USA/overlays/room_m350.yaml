@@ -128,8 +128,7 @@ segments:
       # The controller owns sixteen vectors transformed by this callback.
       - [0x8A1C, c, RoomEffect_RadialBurst]
       - [0x8DC0, c, RoomEffect_AnimationEventController]
-      - [0x91E8, c, RoomEffect_TransformedFlare]
-      - [0x9418, c, RoomEffect_SweptAreaEmitter]
+      - [0x91E8, c, RoomEffect_SweptTransformFlare]
       - [0x9878, c, RoomEffect_AttachedCloud]
       - [0x9AD4, c, RoomEffect_AttachedCloudSpawner]
       - [0x9D10, c, RoomEffect_CloudController]

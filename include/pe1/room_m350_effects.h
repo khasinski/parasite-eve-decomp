@@ -41,6 +41,13 @@ typedef struct RoomM350Particle {
     RoomM350ParticleTail tail;
 } RoomM350Particle;
 
+typedef struct RoomM350FlareParticle {
+    s16 y;
+    s16 z;
+    s16 shade;
+    s16 size;
+} RoomM350FlareParticle;
+
 typedef struct RoomM350EffectOwner {
     u32 flags;
     u32 reserved04;
@@ -59,8 +66,8 @@ typedef struct RoomM350EffectInstance {
     u16 previousFrame;
     u8 reserved1C[30];
     u16 yaw;
-    u8 reserved3C[0x1C0];
-    s32 position[3];
+    u8 reserved3C[0x1AC];
+    GteMatrix transform;
     u8 reserved208[0x30];
     GteMatrix *transforms;
 } RoomM350EffectInstance;
@@ -81,6 +88,8 @@ PE1_STATIC_ASSERT(sizeof(RoomM350ParticleTail) == 12,
                   room_m350_particle_tail_size);
 PE1_STATIC_ASSERT(sizeof(RoomM350Particle) == 28,
                   room_m350_particle_size);
+PE1_STATIC_ASSERT(sizeof(RoomM350FlareParticle) == 8,
+                  room_m350_flare_particle_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350Particle, motion) == 8,
                   room_m350_particle_motion_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350Particle, tail) == 16,
@@ -95,7 +104,9 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350EffectInstance, frame) == 0x16,
                   room_m350_instance_frame_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350EffectInstance, yaw) == 0x3A,
                   room_m350_instance_yaw_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350EffectInstance, position) == 0x1FC,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350EffectInstance, transform) == 0x1E8,
+                  room_m350_instance_transform_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350EffectInstance, transform.t) == 0x1FC,
                   room_m350_instance_position_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350EffectInstance, transforms) == 0x238,
                   room_m350_instance_transforms_offset);

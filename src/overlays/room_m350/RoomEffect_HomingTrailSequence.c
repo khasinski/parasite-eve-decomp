@@ -33,7 +33,7 @@ int func_801947BC(int event,RoomM350Particle *p)
             else {
                 int *trig=D_800966EC;
                 int speed=*(short *)((char *)trig+((timer<<6)&0x3FC0))/4;
-                int angle=FieldEng_VecToAngle(g_PlayerEntity->position,D_800F32D0->instance->position);
+                int angle=FieldEng_VecToAngle(g_PlayerEntity->transform.t,D_800F32D0->instance->transform.t);
                 int yaw=FieldEng_TurnToward(p->motion.value.rotation.y,(short)angle,speed);
                 int sum,product;
                 p->motion.value.rotation.y=yaw;
@@ -63,8 +63,8 @@ int func_801947BC(int event,RoomM350Particle *p)
         }
         p->tail.value.active.brightness=brightness;
         if(!p->tail.value.active.hit && g_PlayerEntity->animation>=4) {
-            int dx=g_PlayerEntity->position[0]-p->position.x;
-            int dz=g_PlayerEntity->position[2]-p->position.z;
+            int dx=g_PlayerEntity->transform.t[0]-p->position.x;
+            int dz=g_PlayerEntity->transform.t[2]-p->position.z;
             if(Math_IntSqrt((unsigned int)dx*dx+(unsigned int)dz*dz)<128) {
                 short *count;
                 short n;
