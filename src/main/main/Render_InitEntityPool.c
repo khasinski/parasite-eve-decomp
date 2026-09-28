@@ -20,7 +20,7 @@ extern unsigned char D_80095704[];
 extern char D_800117E0[], D_80011800[];
 extern unsigned short D_800957CC[][2], D_800957D8[][2];
 extern GpuCallbacks *D_80095744;
-extern void (*D_80095748)(char *, int);
+extern GpuDebugPrintf D_80095748;
 int printf(char *, ...);
 void GPU_memset(void *, int, int);
 void GPU_cw(unsigned int);

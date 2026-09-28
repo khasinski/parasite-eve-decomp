@@ -1,6 +1,9 @@
 #ifndef PE1_GPU_CALLBACKS_H
 #define PE1_GPU_CALLBACKS_H
 
+/* libgpu's debug callback accepts different argument counts across APIs. */
+typedef void (*GpuDebugPrintf)(char *format, ...);
+
 /* Canonical libgpu callback/dispatch table shared by the gpu/*.c helpers.
  * Every slot is a 32-bit word (lw/sw); fn-ptr slots use unprototyped void(*)()
  * so any assignment/call compiles with a byte-identical store. Offsets 0x18/

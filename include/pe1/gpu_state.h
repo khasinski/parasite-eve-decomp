@@ -25,7 +25,7 @@ typedef struct GpuDebugState {
 } GpuDebugState;
 
 extern GpuCallbacks *D_80095744;
-extern void (*D_80095748)();
+extern GpuDebugPrintf D_80095748;
 extern GpuDebugState D_8009574C;
 extern char D_80011840[];
 

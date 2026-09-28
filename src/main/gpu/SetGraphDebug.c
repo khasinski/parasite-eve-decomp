@@ -8,8 +8,7 @@ extern char D_80011814[];
 int SetGraphDebug(int debugLevel) {
     register u8 *currentDebugLevel asm("$3");
     register int result asm("$2");
-    void (*debugPrint)(char *message, int debugLevel, int queueState,
-                       int drawState);
+    GpuDebugPrintf debugPrint;
     int currentLevel;
     int type;
     int reverse;

@@ -7,7 +7,7 @@
 
 extern char D_80011870[];
 extern GpuCallbacks *g_GpuCallbacks[];
-extern void (*g_GpuDebugPrintf[])(char *message, int argument);
+extern GpuDebugPrintf g_GpuDebugPrintf[];
 extern u8 g_GraphDebug[];
 
 void GPU_memset(void *destination, int value, int size);
