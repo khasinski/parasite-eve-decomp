@@ -62,10 +62,19 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(PmSlotBanks, secondary) == 0x6E84,
                   pm_secondary_bank_offset);
 PE1_STATIC_ASSERT(sizeof(PmSlotBanks) == 0x7A08, pm_slot_banks_size);
 
+#ifdef PE1_PM_TYPES_ONLY
+/* The legacy pm2 definitions keep raw global views; typed operations in the
+ * same translation unit use these aliases for the very same linker symbols. */
+extern PmPrimarySlot *g_PmSlotTableTyped __asm__("g_PmSlotTable");
+extern PmSecondarySlot *g_PmSlotTable2Typed __asm__("g_PmSlotTable2");
+extern u32 g_PmSlotBufferTyped[] __asm__("g_PmSlotBuffer");
+int Pm_Stop(int slot, int owner, int mode);
+#else
 extern PmPrimarySlot *g_PmSlotTable;
 extern PmSecondarySlot *g_PmSlotTable2;
 extern u32 g_PmSlotBuffer[];
 int Pm_Stop(int slot, void *owner, int mode);
 int Scene_FreeEntityTable(void *owner);
+#endif
 
 #endif

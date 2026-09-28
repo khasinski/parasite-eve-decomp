@@ -83,7 +83,11 @@ typedef struct Pe1GameState {
     Pe1U32 bank_reset_958[1];
 } Pe1GameState;
 
+#ifdef PE1_GAME_STATE_TYPES_ONLY
+extern Pe1GameState g_GameStateTyped __asm__("g_GameState");
+#else
 extern Pe1GameState g_GameState;
 extern unsigned int g_GameStateFlags;
+#endif
 
 #endif

@@ -1,4 +1,10 @@
 #include "common.h"
+#define PE1_GAME_STATE_TYPES_ONLY
+#define PE1_PM_TYPES_ONLY
+#include "pe1/game_state.h"
+#include "pe1/pm.h"
+#undef PE1_GAME_STATE_TYPES_ONLY
+#undef PE1_PM_TYPES_ONLY
 extern char *g_PmSlotTable;
 extern char *g_PmSlotTable2;
 extern int **g_PmCmdHandlerTable;
@@ -198,5 +204,59 @@ int Pm_Stop(int arg0, int arg1, int arg2) {
         *(int *)(arg1 + 8) = 0;
     }
 
+    return result;
+}
+
+
+static inline void clearSlot(int slot)
+{
+    PmSlotHeader *entry;
+    unsigned int i;
+    if ((unsigned int)slot < 22) {
+        if ((unsigned int)slot >= 11) {
+            /* Signed byte offset preserves the retail loop strength reduction. */
+            entry = (PmSlotHeader *)((u8 *)g_PmSlotTable2Typed +
+                (slot - 11) * (int)sizeof(PmSecondarySlot));
+        } else {
+            entry = &g_PmSlotTableTyped[slot].header;
+        }
+        if (entry->command == 0x72) {
+            for (i = 0x6C; i < 0x73; ++i)
+                g_PmSlotBufferTyped[i] = 0;
+            g_GameStateTyped.flags &= ~0x10000;
+        }
+        entry->state = 0;
+        entry->command = 0xFF;
+        entry->field02 = 0xFF;
+        entry->field03 = 0xFF;
+        entry->ticks = 0;
+        entry->owner = 0;
+    }
+}
+int Scene_FreeEntityTable(void *owner)
+{
+    int result;
+    int i;
+    if (!owner)
+        return -25;
+    result = 0;
+    for (i = 0; i < 11; ++i) {
+        PmSlotHeader *entry = &g_PmSlotTableTyped[i].header;
+        if (entry->owner == owner) {
+            result = Pm_Stop(i, (int)owner, 1);
+            if (result)
+                return result;
+            clearSlot(i);
+        }
+    }
+    for (i = 0; i < 11; ++i) {
+        PmSlotHeader *entry = &g_PmSlotTable2Typed[i].header;
+        if (entry->owner == owner) {
+            result = Pm_Stop(i + 11, (int)owner, 1);
+            if (result)
+                return result;
+            clearSlot(i + 11);
+        }
+    }
     return result;
 }
