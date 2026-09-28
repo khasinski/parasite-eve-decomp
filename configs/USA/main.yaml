@@ -1436,7 +1436,6 @@ segments:
       - [0x7A728, c, akao/Akao_SetMasterVolume]
       - [0x7A750, c, main/gap_akao_Akao_SetMasterVolume_tail_7A750]
       - [0x7A758, c, akao/Akao_VoiceSequence]
-      - [0x7B12C, c, akao/Seq_StartNestedStreams]
       - [0x7B31C, c, akao/func_8008AB1C]
       - [0x7B39C, c, akao/Akao_VoiceMaskPropagation]
       - [0x7B440, c, main/Akao_UpdateVoiceMask]
