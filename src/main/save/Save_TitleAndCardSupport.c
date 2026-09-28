@@ -1,18 +1,72 @@
 #include "common.h"
+#include "pe1/save.h"
+
+
+void Save_SprintfSjis(unsigned char *dst, unsigned char *fmt)
+{
+    SaveSjisFormatArgument *args;
+    int ch;
+    unsigned char *out;
+    int value;
+    unsigned int code;
+    unsigned char *text;
+    int byte;
+
+    out = dst;
+    ch = *fmt;
+    args = (SaveSjisFormatArgument *)&g_SaveSjisFormatArguments;
+    while (ch != 0) {
+        /* lbu already zero-extends; this keeps the retail andi on v1. */
+        asm volatile("" : "=r"(ch) : "0"(ch));
+        ch &= 0xFF;
+        fmt++;
+        if (ch == '%') {
+            ch = *fmt++;
+            switch (ch) {
+            case 'd':
+                value = args++->number;
+                code = (value / 10) % 10 + 0x824Fu;
+                *out++ = code >> 8;
+                *out++ = (unsigned char)code;
+                code = value % 10 + 0x824Fu;
+                *out++ = code >> 8;
+                *out++ = (unsigned char)code;
+                break;
+            case 'D':
+                value = args++->number;
+                code = value % 10 + 0x824Fu;
+                *out++ = code >> 8;
+                *out++ = (unsigned char)code;
+                break;
+            case 's':
+                text = args++->text;
+                if (text == 0) break;
+                byte = *text;
+                if (byte == 0) break;
+                do {
+                    text++;
+                    *out++ = byte;
+                    byte = *text;
+                } while (byte != 0);
+                break;
+            default:
+                break;
+            }
+        } else {
+            *out++ = *(fmt - 1);
+        }
+        ch = *fmt;
+    }
+    *out = 0;
+}
+
 extern u8 g_SaveTitleBuffer[];
 extern int g_SaveTitleStyleFlag;
-extern int D_800A1708;
-extern int D_800A170C;
-extern int D_800A1710;
-extern int D_800A1714;
-extern int D_800A1718;
-extern int D_800A171C;
 extern int g_PlayTimeFrameCounter;
-extern char *g_SaveTitleFormatLongPtr;
-extern char *g_SaveTitleFormatShortPtr;
+extern u8 *g_SaveTitleFormatLongPtr;
+extern u8 *g_SaveTitleFormatShortPtr;
 
 void bzero(void *dst, int len);
-void Save_SprintfSjis(u8 *dst, char *fmt);
 int Save_ClassifyPlaytime(int arg0);
 int Save_GetCurrentMapNumber(void);
 u8 *Tbl_FindNthNonEmpty(int arg0);
@@ -58,19 +112,20 @@ u8 *Save_FormatTitle(int chapter, int playtime_seconds) {
     minutes = minutes_total - (hours * 60);
     seconds = playtime_seconds - (minutes_total * 60);
 
-    D_800A1708 = chapter;
-    D_800A170C = hours;
-    D_800A1710 = minutes;
-    D_800A1714 = seconds;
+    g_SaveSjisFormatArguments.chapter = chapter;
+    g_SaveSjisFormatArguments.hours = hours;
+    g_SaveSjisFormatArguments.minutes = minutes;
+    g_SaveSjisFormatArguments.seconds = seconds;
 
     if (g_SaveTitleStyleFlag != 0) {
         value = Tbl_FindNthNonEmpty(-1);
-        D_800A1718 = (int)value;
+        g_SaveSjisFormatArguments.primary.text = value;
         Save_SprintfSjis(g_SaveTitleBuffer, g_SaveTitleFormatShortPtr);
     } else {
-        D_800A1718 = Save_ClassifyPlaytime(g_PlayTimeFrameCounter);
+        g_SaveSjisFormatArguments.primary.number =
+            Save_ClassifyPlaytime(g_PlayTimeFrameCounter);
         value = Tbl_FindNthNonEmpty(Save_GetCurrentMapNumber());
-        D_800A171C = (int)value;
+        g_SaveSjisFormatArguments.secondary.text = value;
         Save_SprintfSjis(g_SaveTitleBuffer, g_SaveTitleFormatLongPtr);
     }
 

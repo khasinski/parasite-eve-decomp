@@ -46,8 +46,34 @@ void Menu_SaveOverlayDraw(void);
 extern unsigned int D_800A76A4[], D_800A76B0[], D_800A76BC[], D_800A76C8[];
 extern unsigned char D_800C20A4[], D_800C20B4[];
 
-/* Contiguous save-title arguments consumed by Save_SprintfSjis. */
-extern int D_800A1708;
+/* The save-title formatter consumes four numeric fields and two variant
+ * arguments from this contiguous six-word slot array. Each variant slot is
+ * either a numeric value or a pointer to SJIS text. */
+typedef union SaveSjisFormatArgument {
+    int number;
+    unsigned char *text;
+} SaveSjisFormatArgument;
+
+typedef struct SaveSjisFormatArguments {
+    int chapter;
+    int hours;
+    int minutes;
+    int seconds;
+    SaveSjisFormatArgument primary;
+    SaveSjisFormatArgument secondary;
+} SaveSjisFormatArguments;
+
+PE1_STATIC_ASSERT(sizeof(SaveSjisFormatArgument) == 4,
+                  save_sjis_format_argument_size);
+PE1_STATIC_ASSERT(sizeof(SaveSjisFormatArguments) == 0x18,
+                  save_sjis_format_arguments_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SaveSjisFormatArguments, primary) == 0x10,
+                  save_sjis_primary_argument_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SaveSjisFormatArguments, secondary) == 0x14,
+                  save_sjis_secondary_argument_offset);
+
+extern SaveSjisFormatArguments g_SaveSjisFormatArguments
+    __asm__("D_800A1708");
 void Save_SprintfSjis(unsigned char *dst, unsigned char *fmt);
 
 #endif /* PE1_SAVE_H */
