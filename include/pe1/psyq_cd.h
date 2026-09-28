@@ -473,6 +473,12 @@ extern u32 g_CdStreamMask;
 extern u32 D_800B6918;
 extern u32 g_CdStreamEndSector;
 
+/* CD streaming state shared by StSetStream, StSetRing and StCdInterrupt. */
+extern s32 D_800A5D54;
+extern s16 D_800A8018;
+extern s32 D_800A801C;
+extern u32 D_800C20C4;
+
 /* Low-level LIBCD command retry wrapper and its shared command state. */
 extern u32 D_8009AF2C[];
 extern CdlCB D_8009AFB4;

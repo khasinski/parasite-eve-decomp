@@ -4,11 +4,8 @@
 #include "pe1/psyq_cd.h"
 
 extern void (*volatile g_StrDataReadyCallback)(void);
-extern volatile s32 D_800A801C;
 extern volatile s32 D_800B8620;
 extern volatile s32 D_800B6914;
-extern volatile s16 D_800A8018;
-extern volatile s32 D_800A5D54;
 extern void (*volatile D_800B0CCC)(void);
 
 void StSetStream(u32 mode, u32 startFrame, u32 endFrame,
