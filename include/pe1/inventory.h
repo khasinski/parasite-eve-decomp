@@ -35,6 +35,8 @@ typedef struct ItemDataRecord {
 /* Historical name retained while older consumers are migrated. */
 typedef ItemDataRecord InvItemSlot;
 
+extern u8 g_EquipItemDataTable[] __asm__("D_800BEEAC");
+extern u8 g_KeyItemDataTable[] __asm__("D_8009DE64");
 extern ItemDataRecord g_InvCompareSlotLeft;
 extern ItemDataRecord g_InvCompareSlotRight;
 extern ItemDataRecord *D_8009D070, *D_8009D074;
