@@ -10,4 +10,9 @@ typedef struct RoomM123Particle {
     u16 reserved06;
 } RoomM123Particle;
 
+typedef struct RoomPulseParticle {
+    u16 x, y, z, pad;
+    s16 state, frame;
+} RoomPulseParticle;
+
 #endif
