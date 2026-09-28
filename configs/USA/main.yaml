@@ -1356,7 +1356,7 @@ segments:
       - [0x735BC, c, memcard/func_80082DBC]
       - [0x73600, c, psyq/libpad/PadInitSioMode]
       - [0x73814, c, psyq/libpad/padmain_sio]
-      - [0x73AB4, asm, memcard/PadSioRW2]
+      - [0x73AB4, c, memcard/MemCard_WriteByte]
       - [0x73CE8, c, memcard/MemCard_TransferWait]
       - [0x73DA0, asm, main/gap_memcard_MemCard_WaitStatusBit2_tail_73DA0]
       - [0x73DA4, c, memcard/CardObj_PayloadCommandState]
