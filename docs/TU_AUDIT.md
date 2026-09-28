@@ -120,6 +120,12 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `room_m350: 0x9878..0x9D10` | `RoomEffect_AttachedCloudSequence` | The spawner and callback share a 20-byte pool record: its spawn-time reserved words at `+0xC..+0x13` become `animatedSize`, the two shade values and one reserved halfword during callback updates. `RoomM350CloudParticle` models these as a union; both functions now use the shared actor, emitter and GTE transform array. The full overlay retains its retail SHA-1. |
 | `room_m350: 0xA6D4..0xAB24` | `RoomEffect_SineTransformSequence` | The emitter's 24-byte record is the callback's position, four controls and four trailing halfwords; it now uses one `RoomM350SineParticle` type. `worldY` at `+0x200` resolves to `RoomM350EffectInstance.transform.t[1]`. The same instance model pointer at `+0x1B4`, inline GTE matrix and transform array cover both controller and callback views; the overlay SHA remains retail-identical. |
 
+## Verified menu overlay units
+
+| Range | Unit | Evidence |
+| --- | --- | --- |
+| `menu_memcard 0x7514..0x7874` | `Memcard_CreateImageFlow` | The image-group constructor directly creates the fixed image node; both routines initialize the shared `MemcardImageNode` and use the same preset layout. Combining the adjacent linkbase segments preserves all `0x360` bytes, and the full overlay retains retail SHA-1 `e9adf978d2984be64397ec48b4da7b3e83f07aa8`. |
+
 ## Shared record layouts
 
 | Layout | Evidence and use |

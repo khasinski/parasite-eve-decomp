@@ -157,17 +157,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x7514, c, Memcard_CreateFixedImageNode]
-  - [0x762C]
-  - name: menu_memcard_image_group_linkbase
-    type: code
-    start: 0x762C
-    vram: 0x8018FE1C
-    align: 4
-    subalign: 4
-    bss_size: 0x0
-    subsegments:
-      - [0x762C, c, Memcard_CreateImageGroup]
+      - [0x7514, c, Memcard_CreateImageFlow]
   - [0x7874]
   - name: menu_memcard_image_node_late
     type: code
