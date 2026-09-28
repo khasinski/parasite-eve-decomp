@@ -45,6 +45,11 @@ typedef struct RoomM273PoolContext {
     void *pool;
 } RoomM273PoolContext;
 
+typedef struct RoomM273SampledLayerEffect {
+    GteShortVector position;
+    u8 parameter[4];
+} RoomM273SampledLayerEffect;
+
 PE1_STATIC_ASSERT(sizeof(RoomM273PaletteWord) == 4, room_m273_palette_word_size);
 PE1_STATIC_ASSERT(sizeof(RoomM273PaletteEffect) == 16, room_m273_palette_effect_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PaletteInput, size) == 4,
@@ -73,7 +78,7 @@ extern u16 D_800942EC;
 extern char D_8019AB70[];
 extern char D_8019ACC8[];
 extern char D_8019ACCC[];
-RoomM273PaletteEffect *func_800CE610(void *pool);
+void *func_800CE610(void *pool);
 int Inv_ScrambleGrid(void);
 int func_80199568(int mode, void *particle);
 int func_800CE560(void *pool, int size, int count, int (*callback)());
@@ -89,6 +94,11 @@ typedef struct RoomPlacementOwner {
     u8 pad_000[0x238];
     RoomPlacementMap *map;
 } RoomPlacementOwner;
+
+typedef struct RoomPlacementStateContext {
+    u8 reserved[8];
+    RoomPlacementOwner *owner;
+} RoomPlacementStateContext;
 
 typedef struct RoomPlacementState {
     u8 pad_00[0x34];
@@ -124,6 +134,12 @@ void func_80192664(RoomSelectionState *state);
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementOwner, map) == 0x238,
                   room_placement_map_offset);
+PE1_STATIC_ASSERT(sizeof(RoomM273SampledLayerEffect) == 12,
+                  room_m273_sampled_layer_effect_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273SampledLayerEffect, parameter) == 8,
+                  room_m273_sampled_layer_effect_parameter_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementStateContext, owner) == 8,
+                  room_placement_state_context_owner_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementMap, x) == 0x594,
                   room_placement_x_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementState, active) == 0x3F,

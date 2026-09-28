@@ -112,8 +112,7 @@ segments:
       - [0x4100, c, func_801930E8]
       - [0x4124, c, func_8019310C]
       - [0x412C, c, func_80193114]
-      - [0x4224, c, RoomEffect_TwoPassLayer]
-      - [0x43B8, c, RoomEffect_SampledLayerEmitter]
+      - [0x4224, c, RoomEffect_TwoPassSampledLayer]
       # The emitter initializes the callback's contiguous twelve-byte records.
       - [0x4554, c, RoomEffect_ScaledLayer]
       - [0x4888, c, RoomEffect_PointerPaletteSprite]
