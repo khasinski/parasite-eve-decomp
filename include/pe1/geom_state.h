@@ -104,6 +104,7 @@ typedef struct GeomEntry {                /* 0x38 */
     } u34;
 } GeomEntry;
 
+PE1_STATIC_ASSERT(sizeof(GeomEntry) == 0x38, geom_entry_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomEntry, u34) == 0x34, geom_entry_page_offset);
 struct RenderTilePacket;
 int Geo_LoadMeshEntry(GeomEntry *entry, struct RenderTilePacket *buffer, void **end);
@@ -155,6 +156,12 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollEntry, speedX) == 0x1C,
                   geom_scroll_speed_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollEntry, fractionX) == 0x20,
                   geom_scroll_fraction_offset);
+typedef union GeomEntryView {
+    GeomEntry render;
+    GeomScrollEntry scroll;
+} GeomEntryView;
+PE1_STATIC_ASSERT(sizeof(GeomEntryView) == 0x38, geom_entry_view_size);
+
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollState, position) == 4,
                   geom_scroll_position_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollCoordinates, originX) == 0x9C,
