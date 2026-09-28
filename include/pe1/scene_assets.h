@@ -3,13 +3,10 @@
 
 #include "common.h"
 #include "pe1/game_state.h"
+#include "pe1/pm_types.h"
 
 /* Scene startup and teardown callbacks; other handlers remain unidentified. */
-typedef struct SceneAssetHandler {
-    void (*init)(void);
-    u8 reserved[0x14];
-    void (*unload)(void);
-} SceneAssetHandler;
+typedef PmCommand SceneAssetHandler;
 
 typedef struct SceneAssetRecord {
     u8 reserved[7];
@@ -189,7 +186,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, loaded_scene_assets) == 0x18C,
 
 extern unsigned int g_GameStateFlags;
 /* Opaque handler pointers; the unload path reads the prefix declared above. */
-extern void **g_PmCmdHandlerTable;
+extern PmCommand **g_PmCmdHandlerTable;
 extern void *D_800E1044[104];
 
 int CD_ReadSectors(unsigned int kind, unsigned int index, int channel,

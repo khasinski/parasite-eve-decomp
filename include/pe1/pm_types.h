@@ -17,13 +17,15 @@ typedef struct PmSlotHeader {
 
 typedef int (*PmSendCallback)(PmSlotHeader *, int, int, int *, int *, int *);
 
+/* Handler table entries expose both scene-asset and process-manager callbacks. */
 typedef struct PmCommand {
-    void *reserved;
+    void (*init)(void);
     void (*initialize)(PmSlotHeader *);
     PmSendCallback send;
     int (*start)(void);
     int (*execute)(PmSlotHeader *);
     int (*stop)(void);
+    void (*unload)(void);
 } PmCommand;
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(PmCommand, initialize) == 4,
@@ -36,6 +38,9 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(PmCommand, execute) == 16,
                   pm_command_execute_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(PmCommand, stop) == 20,
                   pm_command_stop_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(PmCommand, unload) == 24,
+                  pm_command_unload_offset);
+PE1_STATIC_ASSERT(sizeof(PmCommand) == 0x1C, pm_command_size);
 
 typedef struct PmPrimarySlot {
     PmSlotHeader header;

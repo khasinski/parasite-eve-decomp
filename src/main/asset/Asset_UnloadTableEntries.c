@@ -34,7 +34,7 @@ int Asset_UnloadTableEntries(void) {
         g_GameStateFlags &= ~0x80;
     }
     for (i = 8; i < 85; i++) {
-        void **slot = &g_PmCmdHandlerTable[i];
+        PmCommand **slot = &g_PmCmdHandlerTable[i];
         if (*slot) {
             *slot = 0;
         }
