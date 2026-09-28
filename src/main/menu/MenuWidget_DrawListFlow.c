@@ -5,6 +5,13 @@
 #include "pe1/draw_state.h"
 #include "pe1/draw_area.h"
 
+void BoundsCheck_AssertStub(int);
+int VSync(int);
+void Draw_AllocColorTri(int, int, int);
+
+typedef DrawTextCursorPair CursorPair;
+extern CursorPair D_800A2270[], D_800A22B0[];
+
 static inline MenuWidgetNode *FindOwner(MenuWidgetNode *node)
 {
     MenuWidgetNode *found = 0;
@@ -65,6 +72,75 @@ static inline u32 Dimension(u32 size, u32 count)
     return size * count;
 }
 
+static inline void RowMoveCursor(u32 dx, u32 dy)
+{
+    D_8009D124 = D_8009D124 + dx;
+    D_8009D128 = D_8009D128 + dy;
+}
+
+static inline void RowPopCursor(void)
+{
+    CursorPair *stack = (CursorPair *)g_TextCursorStack;
+    if ((u32)D_800A2270 < (u32)stack) {
+        g_TextCursorStack = (int *)(stack - 1);
+        D_8009D124 = stack[-1].x;
+        D_8009D128 = stack[-1].y;
+    } else {
+        BoundsCheck_AssertStub(3);
+    }
+}
+
+void MenuWidget_DrawListRow(MenuWidgetNode *node,
+                            void (*draw_callback)(int),
+                            int row, int draw_cursor)
+{
+    u32 index = (u32)node->x_limit * ((u32)row + node->scroll_y);
+    /* Stock MIPS GCC emits SLLV, which masks the shift count to five bits. */
+    u32 bit = 1u << index;
+    int x, enabled, dimmed;
+    CursorPair *stack = (CursorPair *)g_TextCursorStack;
+    int (*select_callback)(int);
+
+    if ((u32)stack < (u32)D_800A22B0) {
+        g_TextCursorStack = (int *)(stack + 1);
+        stack->x = D_8009D124;
+        stack->y = D_8009D128;
+    } else {
+        BoundsCheck_AssertStub(2);
+    }
+    D_8009D124 += 2;
+    D_8009D128 += 2;
+    for (x = 0; x < node->grid_width; x++) {
+        select_callback = node->selectionAvailable;
+        enabled = 1;
+        if (select_callback) {
+            enabled = select_callback(index++);
+            node->cell_mask &= ~bit;
+            if (enabled) node->cell_mask |= bit;
+            bit <<= 1;
+        }
+        dimmed = 0;
+        if (!enabled || (draw_cursor &&
+            (x != node->cursor_x || (u32)row + node->scroll_y != (u32)node->cursor_y)))
+            dimmed = 1;
+        D_8009D10C = dimmed;
+        if (draw_callback)
+            draw_callback((u32)node->grid_width * ((u32)node->scroll_y + row) + x);
+        if ((VSync(-1) & 8) && x == node->target_x &&
+            (u32)row + node->scroll_y == (u32)node->target_y) {
+            D_8009D124 -= 2;
+            D_8009D128 -= 2;
+            Draw_AllocColorTri(node->draw_state, node->disabled, 0);
+            D_8009D124 += 2;
+            D_8009D128 += 2;
+        }
+        RowMoveCursor(node->draw_state, 0);
+    }
+    RowPopCursor();
+    RowMoveCursor(0, node->disabled);
+}
+
+
 void Draw_AllocPrimWithMask(MenuWidgetNode *node)
 {
     u32 x, y;
@@ -110,6 +186,7 @@ static inline void PopCursor(void)
         BoundsCheck_AssertStub(3);
     }
 }
+
 
 /* Coordinate offsets use the low 32 bits of the original MIPS arithmetic. */
 static inline u32 Product(u32 size, u32 count)

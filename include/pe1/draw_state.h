@@ -10,6 +10,11 @@ typedef struct DrawGlyphDescriptor {
     u8 width, height, mode, reserved;
 } DrawGlyphDescriptor;
 
+typedef struct DrawTextCursorPair {
+    u32 x;
+    u32 y;
+} DrawTextCursorPair;
+
 PE1_STATIC_ASSERT(sizeof(DrawGlyphDescriptor) == 8, draw_glyph_descriptor_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DrawGlyphDescriptor, mode) == 6, draw_glyph_mode_offset);
 void *Draw_LookupGlyphDescriptor(int index);

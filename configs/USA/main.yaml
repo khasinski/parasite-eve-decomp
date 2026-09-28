@@ -788,8 +788,7 @@ segments:
       # Grid-cell index calculation and mask filtering share the node cursor ABI.
       - [0x53C28, c, menu/MenuWidget_CellIndex]
       # List row rendering and its node mask share one widget draw flow.
-      - [0x53CD4, c, menu/MenuWidget_DrawListRow]
-      - [0x53F4C, c, menu/MenuWidget_DrawListFlow]
+      - [0x53CD4, c, menu/MenuWidget_DrawListFlow]
       # Cursor bounds and scrolling use one MenuWidgetNode viewport model.
       - [0x54530, c, menu/MenuWidget_CursorClamp]
       - [0x5460C, asm, main/Menu_StepScrollCursor]
