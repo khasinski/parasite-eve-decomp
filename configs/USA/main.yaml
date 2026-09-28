@@ -1438,7 +1438,6 @@ segments:
       - [0x7A758, c, akao/Akao_VoiceSequence]
       - [0x7B31C, c, akao/func_8008AB1C]
       - [0x7B39C, c, akao/Akao_VoiceMaskPropagation]
-      - [0x7B440, c, main/Akao_UpdateVoiceMask]
       - [0x7B694, c, akao/Akao_PlaybackFlow]
       - [0x7B968, c, akao/seq3]
       - [0x7BDB8, c, akao/seq_slide]
