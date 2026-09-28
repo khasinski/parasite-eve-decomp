@@ -1,32 +1,63 @@
-#include "pe1/menu_widget.h"
-#include "pe1/inventory.h"
-
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* MASPSX_FLAGS: --use-comm-section -G8 */
 
-extern int D_8009CF24, D_8009CF28, D_8009CFBC, D_8009CF18;
-extern int D_8009CF2C, D_8009CF0C, D_8009CF14;
-extern int D_800A1888[], D_800A188C[], D_800A1890[], D_800A1894[];
+#include "pe1/menu_equipment.h"
+#include "pe1/text.h"
+#include "pe1/draw_state.h"
 
-extern MenuWidgetNode *MenuWidget_GetCurrentNode(void);
-extern int MenuWidget_GridCellIndex(MenuWidgetNode *node);
-extern int Inv_RestoreSelection(int list);
-extern int Inv_CheckItemEquippable(int list, int slot);
-extern int Inv_GetActiveListItemType(int item);
-extern MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent, int arg2, int arg3);
-extern MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *parent, MenuWidgetNode *sibling);
-extern void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
-extern void Menu_CreateItemList(void);
-extern void Menu_CreateNotificationDialog(int text, int arg1);
-extern void Menu_PlayConfirmSound(void);
-extern void Menu_PlayErrorSound(void);
-extern void Menu_DrawEquipScreenHeader(void);
-extern void Menu_InventoryItemHandler(void);
-extern void Menu_DrawScreenModeList(void);
-extern void Menu_GetStatBaseValue(void);
-extern void Menu_DrawItemActionSubmenu(void);
-extern void Menu_StepSkillSelect(void);
-extern void Menu_DrawActionOptionList(void);
+void Menu_DrawItemListHeader(void);
+
+int D_8009CFC0;
+
+void Menu_CreateItemList(void) {
+    MenuWidgetNode *parent;
+    MenuWidgetNode *child;
+    ItemDataRecord *data;
+    int i;
+    int value;
+
+    parent = MenuWidget_CreateSimpleNode(0x28, MenuWidget_GetCurrentNode(), 0, 1);
+    child = MenuWidget_CreateNode(0x28, parent, parent);
+
+    parent->draw = Menu_DrawItemListHeader;
+    parent->update = Menu_HandleDeferredCallbackInput;
+    child->draw = Menu_DrawNotificationDialogContent;
+    MenuWidget_SetCurrentNode(child);
+
+    Menu_SetDeferredCallback(0);
+
+    parent->grid_width = 0xDC;
+    parent->x = 0x32;
+    parent->visible_rows += 0xA;
+
+    child->x = parent->grid_width - 0x44;
+    child->y += 8;
+
+    D_8009CFC0 = 0x37;
+
+    if (g_InvTrackedSlots[2] >= 0) {
+        Inv_SelectActiveList(0);
+        data = Inv_LookupActiveListData(g_InvTrackedSlots[2]);
+
+        for (i = 0; i < data->tailCount; i++) {
+            if ((data->tailData[i] & 0xE0) == 0xA0) {
+                break;
+            }
+        }
+
+        value = D_8009CFC0 - 1;
+        D_8009CFC0 = value + (data->tailData[i] & 0x1F);
+    }
+}
+
+void Menu_DrawItemListHeader(void) {
+    Draw_OffsetCursor(4, 4);
+    Draw_AllocSprite(D_8009CFC0);
+    Draw_OffsetCursor(0x20, 0);
+    Draw_PrintTextById(0x1C);
+    Draw_OffsetCursor(-0x20, 0x10);
+    Draw_PrintTextById(0x1D);
+}
 
 void Menu_OpenItemList(void)
 {
@@ -87,7 +118,7 @@ void Menu_OpenItemList(void)
             }
             equip_child = raw_child;
             equip_child->draw = Menu_DrawScreenModeList;
-            equip_child->field_8C = (int)Menu_GetStatBaseValue;
+            equip_child->selectionAvailable = Menu_GetStatBaseValue;
             if (D_8009CF0C != 0) {
                 parent->visible_rows += 0x10;
                 equip_child->visible_rows = 2;

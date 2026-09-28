@@ -8,7 +8,7 @@ void Item_PackParasiteSpells(void);
 int Inv_GetPackedListCount(void);
 void Menu_SkillActionHandler(void);
 void Menu_DrawEquipModList(void);
-void Menu_GetItemSlotAvailability(void);
+int Menu_GetItemSlotAvailability(int index);
 
 void Menu_CreateSkillActionScreen(int arg0) {
     MenuWidgetNode *parent;
@@ -18,7 +18,7 @@ void Menu_CreateSkillActionScreen(int arg0) {
     child = MenuWidget_CreateNode(8, parent, parent);
     parent->update = Menu_SkillActionHandler;
     child->draw = Menu_DrawEquipModList;
-    child->field_8C = (int)Menu_GetItemSlotAvailability;
+    child->selectionAvailable = Menu_GetItemSlotAvailability;
     MenuWidget_SetCurrentNode(child);
     Item_PackParasiteSpells();
     Draw_SetPrimCallback(child, Inv_GetPackedListCount());

@@ -58,7 +58,7 @@ void MenuWidget_DrawListRow(MenuWidgetNode *node,
     D_8009D124 += 2;
     D_8009D128 += 2;
     for (x = 0; x < node->grid_width; x++) {
-        select_callback = (int (*)(int))node->field_8C;
+        select_callback = node->selectionAvailable;
         enabled = 1;
         if (select_callback) {
             enabled = select_callback(index++);

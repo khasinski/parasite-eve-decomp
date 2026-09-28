@@ -46,6 +46,7 @@ extern ItemDataRecord g_InvItemSlotArray[128];
 
 /* Historical name: this operation returns a status, not an item pointer. */
 int Inv_GetSlotItemData(int index);
+int Inv_CheckItemEquippable(int list, int slot);
 /* Historical name: allocate a copied equipment record and insert its ID. */
 ItemDataRecord *Inv_FindSlotByIndex(int id);
 int Inv_WriteSlotById(ItemDataRecord *item);

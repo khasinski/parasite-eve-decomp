@@ -38,6 +38,16 @@ extern int D_8009CFB8, D_8009CF1C;
 extern int D_8009CF30, D_8009CF34, D_8009CF38;
 extern int D_8009CFC4, D_8009CFC8, D_8009CFCC;
 extern int g_StatBaseTable[4];
+extern int D_8009CF24, D_8009CF28, D_8009CFBC, D_8009CF2C;
+extern int D_8009CF14;
+extern int D_800A1888[], D_800A188C[], D_800A1890[], D_800A1894[];
+
+void Menu_DrawEquipScreenHeader(void);
+int Menu_InventoryItemHandler(MenuWidgetNode *node, int flags);
+void Menu_DrawScreenModeList(MenuWidgetNode *node);
+int Menu_GetStatBaseValue(int index);
+void Menu_DrawItemActionSubmenu(void);
+int Menu_StepSkillSelect(MenuWidgetNode *node, int flags);
 
 void Menu_StepEquipSlotSelect(void);
 void Menu_DrawEquipStatsDelta(ItemDataRecord *preview);

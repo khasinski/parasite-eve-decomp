@@ -39,7 +39,7 @@ typedef struct MenuWidgetNode {
     struct MenuWidgetNode *popup_node;
     MenuWidgetItemAction itemAction; /* +0x84 inventory transfer callback. */
     void (*refreshItems)(void); /* +0x88 rebuild the selectable-item mask. */
-    int field_8C;
+    int (*selectionAvailable)(int index); /* +0x8C item-slot filter callback. */
 } MenuWidgetNode;
 
 PE1_STATIC_ASSERT(sizeof(MenuWidgetNode) == 0x90, menu_widget_node_size);
