@@ -96,6 +96,12 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x71C14..0x72574` | `psyq/libds/dsfile` | The original Psy-Q `LIBDS.LIB` member `DSFILE` exports `DsSearchFile` and carries the diagnostic strings for the whole directory-cache flow. Public Psy-Q `libds/dsfile.c` orders `DsSearchFile`, `_cmp`, `DS_newmedia`, `DS_searchdir`, `DS_cachefile`, and `ds_read` exactly across this contiguous range. The reconstructed ISO-9660 directory-cache flow and symbols independently confirm the formerly anonymous 1028-byte assembly span; the existing compiled fragments remain separate until their shared object matches. |
 | `0x76444..0x76580` | `psyq/libspu/s_si` | The exported `SpuSetIRQ` is the complete public Psy-Q `libspu/s_si.c` routine: it toggles bit `0x40` of `spucnt`, polls the result, and emits the SDK timeout diagnostics. Its current constrained assembly remains retail-identical while the manifest records the original library unit. |
 
+## Shared record layouts
+
+| Layout | Evidence and use |
+| --- | --- |
+| `GameTimerEntry` at `D_800A76A0` | `Scene_TickTimers` walks four records with a `0x0C` stride: flags, current value, and limit. `game_time2.c` initializes the same words through linker aliases (`D_800A76A0`/`g_GameTimeTable`/`D_800A76A8`, and the corresponding records at `+0x0C` and `+0x18`). The shared record definition lives in `include/pe1/game_timers.h`; stock GCC 2.7.2 emits identical assembly after extraction. Keep the initializer aliases for now: expressing those stores through array members changes address materialization and register allocation. |
+
 ## Deferred main pairs
 
 | Range | Pair | Reason to defer |

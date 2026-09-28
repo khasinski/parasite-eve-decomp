@@ -1,20 +1,14 @@
-typedef unsigned int u32;
-
-typedef struct Unk800A76A0 {
-    u32 flags;
-    int current;
-    int limit;
-} Unk800A76A0;
+#include "pe1/game_timers.h"
 
 extern u32 g_GameStateFlags;
-extern Unk800A76A0 D_800A76A0[4];
+extern GameTimerEntry D_800A76A0[4];
 
 int Gpu_CheckDrawStatus(void);
 
 #define LAUNDER(x) asm volatile("" : "=r"(x) : "0"(x))
 
 void Scene_TickTimers(void) {
-    register Unk800A76A0 *entry asm("$5");
+    register GameTimerEntry *entry asm("$5");
     int *current_p;
     u32 *flags_p;
     int *limit_p;
@@ -32,7 +26,7 @@ void Scene_TickTimers(void) {
 
     i = 0;
     flags_p = &D_800A76A0[0].flags;
-    entry = (Unk800A76A0 *)flags_p;
+    entry = (GameTimerEntry *)flags_p;
     limit_p = &entry->limit;
     current_p = &entry->current;
 
