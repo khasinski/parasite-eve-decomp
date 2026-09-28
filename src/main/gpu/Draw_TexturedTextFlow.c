@@ -1,23 +1,7 @@
 #include "common.h"
+#include "pe1/render_prim.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef struct TexturedQuadPrim {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    u16 x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    u16 x1, y1;
-    u8 u1, v1;
-    u16 tpage;
-    u16 x2, y2;
-    u8 u2, v2;
-    u16 pad2;
-    u16 x3, y3;
-    u8 u3, v3;
-    u16 pad3;
-} TexturedQuadPrim;
 
 extern u8 *D_8009D100;
 extern u8 *D_8009D104;
@@ -33,7 +17,7 @@ extern int D_8009D0D8;
 int Draw_LookupGlyphMetrics(int glyph);
 void Draw_AllocSprite(int glyph);
 u16 GetTPage(int tp, int abr, int x, int y);
-void BoundsCheck_AssertStub(int arg0);
+void BoundsCheck_AssertStub(int arg0, ...);
 
 void Draw_AllocTexturedQuad(int code) {
     int low;
@@ -49,7 +33,7 @@ void Draw_AllocTexturedQuad(int code) {
     int column;
     int row;
     register int arg0 asm("$4");
-    TexturedQuadPrim *prim;
+    RenderTexturedQuad *prim;
     u8 *old, *next;
 
     current = raw & 0xFF;
@@ -91,23 +75,23 @@ void Draw_AllocTexturedQuad(int code) {
 
     prim = 0;
     old = D_8009D100;
-    next = old + sizeof(TexturedQuadPrim);
+    next = old + sizeof(RenderTexturedQuad);
     if (next >= D_8009D104 + 0x4000) goto alloc_fail;
     D_8009D100 = next;
-    prim = (TexturedQuadPrim *)old;
+    prim = (RenderTexturedQuad *)old;
     goto alloc_done;
 alloc_fail:
     BoundsCheck_AssertStub(1);
 alloc_done:
     if (prim != 0) {
         if (D_8009D10C == 0) goto primary_color;
-        *(u32 *)&prim->r0 = D_8009D114;
+        prim->color.word = D_8009D114;
         goto color_done;
     primary_color:
-        *(u32 *)&prim->r0 = D_8009D110;
+        prim->color.word = D_8009D110;
     color_done:
         ((u8 *)prim)[3] = 9;
-        prim->code = 0x2C;
+        prim->color.bytes.code = 0x2C;
     }
 
     metrics = Draw_LookupGlyphMetrics(glyph);
@@ -166,7 +150,7 @@ alloc_done:
         u16 tpage = GetTPage(arg0, 0, 0x140, 0);
         register u32 mask24 asm("$6") = 0xFFFFFF;
         register u32 maskTop asm("$8") = 0xFF000000;
-        register u32 tag asm("$3") = prim->tag;
+        register u32 tag asm("$3") = prim->tag.word;
         register u32 *ot asm("$7") = D_8009D11C;
         register int y asm("$5") = *(volatile int *)&D_8009D128;
         u32 otValue, linkedTag;
@@ -180,7 +164,7 @@ alloc_done:
         linkedTag = (tag & maskTop) | (otValue & mask24);
         asm volatile("" : : "r"(linkedTag));
         mask24 &= (u32)prim;
-        prim->tag = linkedTag;
+        prim->tag.word = linkedTag;
         asm volatile("" ::: "memory");
         extra = D_8009CDB0;
         otNew = *ot;
@@ -190,5 +174,116 @@ alloc_done:
         otNew = (otNew & maskTop) | mask24;
         D_8009D124 = newX;
         *ot = otNew;
+    }
+}
+
+
+#include "common.h"
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 */
+
+int Draw_MeasureTextWidth(u8 *text) {
+    u8 *cursor;
+    int width;
+    int ch;
+    int glyph;
+    int terminator_check;
+    register int sentinel asm("$2");
+    int escape_page;
+    int spacing;
+    int metrics;
+
+    cursor = text;
+    width = 0;
+    goto test;
+loop:
+    glyph = ch & 0xFF;
+    if (D_8009D0D8 != 0) {
+        glyph += D_8009D0D8 << 8;
+        D_8009D0D8 = 0;
+    }
+    ch &= 0xFF;
+    if ((unsigned int)ch >= 0xFA) {
+        escape_page = ch - 0xFA;
+        D_8009D0D8 = escape_page;
+        glyph = -1;
+    }
+    ch = glyph;
+    asm volatile("" : "=r"(ch) : "0"(ch));
+    if (ch >= 0) {
+        spacing = 0;
+        if (ch < 10 || ch == 15) {
+            spacing = 1;
+        }
+        D_8009CDB0 = spacing + 1;
+        if (ch >= 0x100) {
+            ch -= 0x13;
+        }
+        metrics = Draw_LookupGlyphMetrics(ch);
+        width += ((metrics >> 4) & 0xF) + D_8009CDB0;
+    }
+test:
+    ch = *cursor;
+    sentinel = 0xFF;
+    terminator_check = ch & 0xFF;
+    asm volatile("" : "=r"(terminator_check) : "0"(terminator_check));
+    cursor++;
+    if (terminator_check != sentinel) {
+        goto loop;
+    }
+    cursor--;
+    asm volatile("" : : "r"(cursor));
+    return width;
+}
+
+#include "common.h"
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 */
+
+#define NULL ((void *)0)
+#include "../../../tools/m2c/m2c_macros.h"
+extern s32 g_TextCursorX;
+extern s32 g_TextCursorY;
+extern u32 g_TextCursorStackPtr;
+extern M2C_UNK g_TextCursorStackBottom[];
+#define g_TextCursorStackBottom (g_TextCursorStackBottom[0])
+extern M2C_UNK g_TextCursorStackTop[];
+#define g_TextCursorStackTop (g_TextCursorStackTop[0])
+
+void Draw_PrintRawText(u8 *arg0) {
+    s32 temp_a0;
+    s32 temp_v0;
+    u32 temp_a1;
+    u8 *var_s0;
+    u8 var_a0;
+
+    var_s0 = arg0;
+    if (var_s0 != NULL) {
+        temp_a1 = g_TextCursorStackPtr;
+        if (temp_a1 < (u32) &g_TextCursorStackTop) {
+            s32 t0 = g_TextCursorX; s32 t1 = g_TextCursorY;
+            g_TextCursorStackPtr = temp_a1 + 8;
+            M2C_FIELD(temp_a1, s32 *, 0) = t0;
+            M2C_FIELD(temp_a1, s32 *, 4) = t1;
+        } else {
+            BoundsCheck_AssertStub(2, temp_a1);
+        }
+        var_a0 = *var_s0;
+        if ((var_a0 & 0xFF) != 0xFF) {
+            do {
+                var_s0 += 1;
+                Draw_AllocTexturedQuad(var_a0);
+                var_a0 = *var_s0;
+            } while (var_a0 != 0xFF);
+        }
+        if ((u32) &g_TextCursorStackBottom < (u32) g_TextCursorStackPtr) {
+            temp_v0 = M2C_FIELD(g_TextCursorStackPtr, s32 *, -8);
+            temp_a0 = M2C_FIELD(g_TextCursorStackPtr, s32 *, -4);
+            g_TextCursorStackPtr -= 8;
+            g_TextCursorX = temp_v0;
+            g_TextCursorY = temp_a0;
+            return;
+        }
+        BoundsCheck_AssertStub(3);
     }
 }

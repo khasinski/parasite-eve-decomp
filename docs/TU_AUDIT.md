@@ -141,7 +141,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x413E8..0x41764` | `menu/Menu_ListItemRenderers` | Eleven contiguous list-item renderers cover armor, memory-card ports, main-menu and action options, notifications, stat allocation, screen modes, parasite abilities, and item icons. They form one renderer-family object up to the following `-G8` grid-cell block; its complete 0x37C-byte range is retail-identical. |
 | `0x41A44..0x41AAC` | `battle/BattleCmd_Rollback` | Resetting the pending-command cursor and undoing every pending `BattleCmdEntry` share `D_8009D014`, the `D_800A1AA0` table base, and the same `-G8` profile. The complete 0x68-byte command-rollback object is retail-identical. |
 | `0x4FD94..0x4FE98` | `gpu/Draw_TextPrintHelpers` | Centered-text dispatch and the contiguous table-indexed printer share the `-G8` text-rendering profile. The wrapper reads `g_DrawTextBoxWidth`; the printer looks up its text then preserves and restores the same text cursor around glyph allocation. Their complete 0x104-byte object is retail-identical. |
-| `0x4F9A0..0x4FB54` | `gpu/Draw_TextRawHelpers` | Width measurement and contiguous raw-text emission process the same glyph stream under `-G8`: the first resolves escape-page glyph metrics, while the second saves the text cursor and allocates the glyph quads. Their complete 0x1B4-byte object is retail-identical. |
+| `0x4F6D4..0x4FB54` | `gpu/Draw_TexturedTextFlow` | Glyph-quad allocation, width measurement, and raw-text emission share one `-G8` object and the shared `RenderTexturedQuad` packet type. The complete 0x480-byte range is retail-identical. |
 | `0x40150..0x401A0` | `menu/Menu_DrawOptionListAdapters` | The action-option and sound-test adapters are symmetric default-profile wrappers over `MenuWidget_DrawList`, each providing its corresponding row renderer. Their complete 0x50-byte object is retail-identical. |
 | `0x4E344..0x4E3AC` | `item/Item_TableLookup` | Item-base lookup bounds an index against its 0x20-byte record table, followed by the contiguous stat-growth table address calculation with 0x200-byte stride. Both use the same relocated table-base idiom under the default profile; the full 0x68-byte object is retail-identical. |
 | `0x4F050..0x4F094` | `gpu/Draw_BaseOffset` | Base-offset placement and the following Y accessor share the signed-byte `g_DrawBaseY` state. Reconciling its false one-element-array view to `signed char` preserves the full 0x44-byte default-profile object retail-identically. |
@@ -256,6 +256,13 @@ the matching object code:
 Every proposed merge must retain manifest order, pass its behavioral tests,
 `make overlay-check OVERLAY=room_m350`, and a clean verification before it is
 accepted.
+
+## Shared render packet layouts
+
+`RenderColorTilePacket` and `RenderDrawModePacket` in `pe1/render_prim.h` now
+replace duplicate local declarations in `Draw_AllocColorQuad` and
+`Draw_AllocColorTri`. Their 16-byte tile and 8-byte draw-mode layouts are
+asserted in the shared header; the retail EXE SHA-1 remains unchanged.
 
 ## GTE matrix word layout
 

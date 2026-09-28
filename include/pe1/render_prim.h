@@ -28,6 +28,19 @@ typedef struct RenderLinePacket {
     s16 x0, y0, x1, y1;
 } RenderLinePacket;
 
+/* Fixed-size flat-color tile and draw-mode packets emitted by the main
+ * renderer. */
+typedef struct RenderColorTilePacket {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    u16 x0, y0, w, h;
+} RenderColorTilePacket;
+
+typedef struct RenderDrawModePacket {
+    u32 tag;
+    u32 command;
+} RenderDrawModePacket;
+
 /* Four-vertex textured GPU packet. The final halfwords are packet padding. */
 typedef struct RenderTexturedQuad {
     union { u32 word; struct { u8 address[3], length; } bytes; } tag;
@@ -92,6 +105,14 @@ typedef struct RenderBufferPrefix {
     char *packets[2];
 } RenderBufferPrefix;
 PE1_STATIC_ASSERT(sizeof(RenderLinePacket) == 16, render_line_packet_size);
+PE1_STATIC_ASSERT(sizeof(RenderColorTilePacket) == 16,
+                  render_color_tile_packet_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderColorTilePacket, x0) == 8,
+                  render_color_tile_coordinates);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderColorTilePacket, w) == 12,
+                  render_color_tile_dimensions);
+PE1_STATIC_ASSERT(sizeof(RenderDrawModePacket) == 8,
+                  render_draw_mode_packet_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderLinePacket, x0) == 8,
                   render_line_packet_points);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderBufferPrefix, packets) == 0x20,

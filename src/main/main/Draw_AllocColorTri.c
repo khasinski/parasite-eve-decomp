@@ -1,18 +1,10 @@
 #include "common.h"
+#include "pe1/render_prim.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-typedef struct TilePrim {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    u16 x0, y0;
-    u16 w, h;
-} TilePrim;
-
-typedef struct DrawModePrim {
-    u32 tag;
-    u32 code;
-} DrawModePrim;
+typedef RenderColorTilePacket TilePrim;
+typedef RenderDrawModePacket DrawModePrim;
 
 extern u8 *D_8009D100;
 extern u8 *D_8009D104;
@@ -24,7 +16,7 @@ extern int D_8009D124;
 extern int D_8009D128;
 
 int VSync(int mode);
-void SetDrawMode(void *packet, int dfe, int dtd, int tpage);
+void SetDrawMode(char *packet, int dfe, int dtd, int tpage);
 void BoundsCheck_AssertStub(int arg0);
 
 void Draw_AllocColorTri(int width, int height, int pulse) {

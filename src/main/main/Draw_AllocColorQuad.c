@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/render_prim.h"
 /* CC1_FLAGS: -G8 -fno-schedule-insns */
 /* MASPSX_FLAGS: -G8 --expand-div */
 
@@ -14,16 +15,8 @@ typedef struct ColorQuadPrim {
     u16 x3, y3;
 } ColorQuadPrim;
 
-typedef struct DrawModePrim {
-    u32 tag;
-    u32 command;
-} DrawModePrim;
-
-typedef struct ColorTilePrim {
-    u32 tag;
-    u8 r, g, b, code;
-    u16 x, y, width, height;
-} ColorTilePrim;
+typedef RenderDrawModePacket DrawModePrim;
+typedef RenderColorTilePacket ColorTilePrim;
 
 extern u8 *D_8009D100;
 extern u8 *D_8009D104;
@@ -227,31 +220,31 @@ tile_fail:
 tile_done:
     if (tile != 0) {
         if (D_8009D10C == 0) goto tile_primary_color;
-        *(u32 *)&tile->r = D_8009D114;
+        *(u32 *)&tile->r0 = D_8009D114;
         goto tile_color_done;
     tile_primary_color:
-        *(u32 *)&tile->r = D_8009D110;
+        *(u32 *)&tile->r0 = D_8009D110;
     tile_color_done:
         ((u8 *)tile)[3] = 3;
         tile->code = 0x60;
     }
     tileMask24 = 0xFFFFFF;
     asm volatile("" : "=r"(tileMask24) : "0"(tileMask24));
-    tile->x = 0xDD;
+    tile->x0 = 0xDD;
     asm volatile("" ::: "memory");
     tileY = shadeOffset + 0xA6;
     asm volatile("" : "=r"(tileY) : "0"(tileY));
-    tile->y = tileY;
+    tile->y0 = tileY;
     tileWidth = 0x54;
     tileHeight = 0x0B;
     asm volatile("" : "=r"(tileWidth) : "0"(tileWidth));
     asm volatile("" : "=r"(tileHeight) : "0"(tileHeight));
     tileMaskTop = 0xFF000000;
     asm volatile("" : "=r"(tileMaskTop) : "0"(tileMaskTop));
-    tile->width = tileWidth;
+    tile->w = tileWidth;
     asm volatile("" ::: "memory");
     tileCode = tile->code;
-    tile->height = tileHeight;
+    tile->h = tileHeight;
     tile->code = tileCode | 2;
     ot = D_8009D11C;
     tile->tag = (tile->tag & tileMaskTop) | (*ot & tileMask24);
