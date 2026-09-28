@@ -12,7 +12,6 @@ void Menu_DrawArmorSelectionList(int node);
 void Menu_DrawSelectableEquipSlotList(int node);
 void Menu_RebuildSelectableMask(void);
 int Inv_TransferItem(int arg0, int arg1, int arg2, int arg3);
-void MenuWidget_ClearColumnLayout(void *node);
 int Menu_GetBattleCount(void);
 void MenuWidget_ClampCursor(MenuWidgetNode *node, int x, int y);
 extern int D_8009CF94, D_8009CF8C, D_8009CF00;
@@ -32,6 +31,7 @@ extern int D_8009CF0C, D_8009CEFC;
 int Menu_EquipOptionsInputHandler(int node, int flags);
 void Menu_DrawEquipOptionsList(int node);
 void MenuWidget_SetCursorY(MenuWidgetNode *node);
+void MenuWidget_ClearColumnLayout(void *node);
 void Menu_OpenInventoryScreen(void);
 extern int D_8009CFB8, D_8009CF1C;
 /* Equipment selection state and stat preview. */

@@ -1,9 +1,92 @@
+#include "common.h"
 #include "pe1/menu_equipment.h"
-#include "pe1/menu_inventory.h"
 #include "pe1/draw_state.h"
 #include "pe1/text.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
+
+extern s32 g_InvItemUsableFlag;
+extern s32 g_MenuLayoutLocked;
+extern s32 Menu_StepSkillScreen(void *node, s32 flags);
+extern void Menu_DrawSoundTestList(void *node);
+extern void Menu_DrawItemListInvPanel(int node);
+
+void Menu_CreateEquipItemSelectionView(MenuWidgetNode *parent)
+{
+    MenuWidgetNode *root;
+    MenuWidgetNode *node;
+
+    root = MenuWidget_CreateSimpleNode(5, parent, 0, 0);
+    node = MenuWidget_CreateNode(5, root, root);
+    root->draw = Menu_StepEquipSlotSelect;
+    root->update = (void (*)())Menu_StepSkillScreen;
+    node->draw = Menu_DrawSoundTestList;
+    if (g_MenuLayoutLocked != 0) {
+        MenuWidget_ClearColumnLayout(node);
+    } else if (g_InvItemUsableFlag == 0) {
+        MenuWidget_SetColumnLayout(node, 0x12);
+    }
+    if (node->cursor_x >= 0) {
+        MenuWidget_SetCurrentNode(node);
+    }
+    root->disabled = 1;
+    node = MenuWidget_CreateNode(0x1B, root, root);
+    node->draw = (void (*)())Menu_DrawItemListInvPanel;
+    MenuWidget_ClearColumnLayout(node);
+}
+
+void Menu_DrawEquipStatsDelta(ItemDataRecord *preview) {
+    int sprite_base;
+    int value;
+    MenuWidgetNode *node;
+
+    if (preview == 0) {
+        return;
+    }
+
+    sprite_base = 0x7F;
+    if (D_8009CF18 != 0) {
+        sprite_base = 0x7C;
+    }
+
+    Draw_OffsetCursor(4, 0x1C);
+    Draw_AllocSprite(sprite_base);
+    Draw_OffsetCursor(0, 0xE);
+    Draw_AllocSprite(sprite_base + 1);
+    Draw_OffsetCursor(0, 0xE);
+    Draw_AllocSprite(sprite_base + 2);
+
+    if (D_8009CF1C != 0) {
+        node = MenuWidget_GetCurrentNode();
+        if (node->selected_base == 7) {
+            Draw_OffsetCursor(0x18, 0xE);
+            return;
+        }
+    }
+
+    Draw_OffsetCursor(0x1E, -0x1C);
+    value = preview->baseStats[0] + preview->bonusStats[0];
+    if (value >= 0x3E8) {
+        value = 0x3E7;
+    }
+    Draw_PrintNumberWidth4(value);
+
+    Draw_OffsetCursor(-0x24, 0xE);
+    value = preview->baseStats[1] + preview->bonusStats[1];
+    if (value >= 0x3E8) {
+        value = 0x3E7;
+    }
+    Draw_PrintNumberWidth4(value);
+
+    Draw_OffsetCursor(-0x24, 0xE);
+    value = preview->baseStats[2] + preview->bonusStats[2];
+    if (value >= 0x3E8) {
+        value = 0x3E7;
+    }
+    Draw_PrintNumberWidth4(value);
+
+    Draw_OffsetCursor(-0x24, 0xE);
+}
 
 /* The retail display clamps only the upper bound; negative totals survive. */
 static inline int clampedStatTotal(ItemDataRecord *item, int index)

@@ -108,6 +108,7 @@ void Draw_SwapPrimBuffers(MenuWidgetNode *list);
 void Draw_AllocPrimWithMask(MenuWidgetNode *node);
 void Draw_FlushFrontBuffer(MenuWidgetListNavigation *node);
 void Draw_SetPrimCallback(MenuWidgetNode *node, int item_count);
+void MenuWidget_SetColumnLayout(void *node, int layout);
 void MenuWidget_DestroyPopupNode(MenuWidgetNode *node);
 
 extern MenuWidgetNode g_MenuWidgetNodePool[];
