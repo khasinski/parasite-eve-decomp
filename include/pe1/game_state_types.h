@@ -33,7 +33,8 @@ typedef struct Pe1GameState {
     Pe1S8 current_story_day;         /* 0x00C */
     Pe1S8 pending_story_day;         /* 0x00D */
     Pe1U8 story_day_flags;           /* 0x00E */
-    Pe1U8 unk_00f[2];
+    Pe1U8 unk_00f;
+    Pe1U8 cd_range_read_mode;      /* 0x010: CD_FindNextDataSector */
     Pe1U8 bank_state_11, bank_state_12;
     Pe1U8 unk_013;
     Pe1U8 scene_work[0x0C4];         /* 0x014 */
@@ -46,7 +47,8 @@ typedef struct Pe1GameState {
     Pe1U8 cd_read_phase;            /* 0x0F0 */
     Pe1U8 cd_track_phase;           /* 0x0F1 */
     Pe1U8 cd_transition_phase;      /* 0x0F2 */
-    Pe1U8 reserved_0f3[3];
+    Pe1U8 cd_range_state;          /* 0x0F3: CD_FindNextDataSector */
+    Pe1U8 reserved_0f4[2];
     Pe1U8 bank_value_f6, bank_value_f7;
     unsigned short bank_value_f8, bank_value_fa;
     Pe1U8 unk_0fc[2];

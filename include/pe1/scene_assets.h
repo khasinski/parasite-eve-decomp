@@ -52,16 +52,6 @@ typedef struct CdArchiveHeader {
     u32 range_info;
 } CdArchiveHeader;
 
-/* CD range-scan view of the shared game-state work area. */
-typedef struct CdFindState {
-    u8 _00[0x10];
-    u8 read_mode;
-    u8 _11[0xE2];
-    u8 state;
-    u8 _F4[0xA0];
-    void *buffer;
-} CdFindState;
-
 typedef struct CdRange {
     u8 _00[3];
     u8 flags;
@@ -76,12 +66,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CdArchiveRoot, directoryOffset) == 4,
                   cd_archive_root_directory_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdArchiveHeader, range_info) == 0x24,
                   cd_archive_range_info_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdFindState, read_mode) == 0x10,
-                  cd_find_read_mode_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdFindState, state) == 0xF3,
-                  cd_find_state_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdFindState, buffer) == 0x194,
-                  cd_find_buffer_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, cd_range_read_mode) == 0x10,
+                  game_state_cd_range_read_mode_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, cd_range_state) == 0xF3,
+                  game_state_cd_range_state_offset);
 PE1_STATIC_ASSERT(sizeof(CdRange) == 8, cd_range_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRange, flags) == 3, cd_range_flags_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, cd_read_phase) == 0xF0,

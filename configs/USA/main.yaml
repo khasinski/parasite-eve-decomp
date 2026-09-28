@@ -128,9 +128,8 @@ segments:
       - [0x1BCC, rodata, main/rodata_001BCC]
       - [0x1BD0, .rodata, main/Scene_InitEntityPlayer]
       - [0x1BF0, rodata, main/rodata_001BF0]
-      - [0x1C28, .rodata, main/CD_ReadSectors]
-      - [0x1C54, rodata, main/rodata_001C54]
-      - [0x1C58, .rodata, main/CD_FindNextDataSector]
+      # Both sector-state jump tables now belong to the shared object.
+      - [0x1C28, .rodata, main/CD_SectorReadFlow]
       - [0x1D08, .rodata, main/CD_SeekToTrack]
       - [0x1E0C, rodata, main/rodata_001E0C]
       - [0x1E1C, .rodata, psyq/libc/Square_Vsprintf]
@@ -872,8 +871,8 @@ segments:
       - [0x5CCC4, c, gpu/Scene_SetStoryDay]
       - [0x5CDBC, asm, main/Scene_LoadEntityTextures]
       - [0x5D468, c, gpu/Scene_UpdateBgDraw]
-      - [0x5D5A4, c, main/CD_ReadSectors]
-      - [0x5D878, c, main/CD_FindNextDataSector]
+      # The range scanner repeatedly drives the shared CD sector-read state.
+      - [0x5D5A4, c, main/CD_SectorReadFlow]
       - [0x5DA4C, c, akao/Akao_ResetPositionalState]
       - [0x5DAB8, c, main/CD_SeekToTrack]
       - [0x5E348, c, overlay/Overlay_RegisterAudioSlot]
