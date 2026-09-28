@@ -1,43 +1,15 @@
-#include "common.h"
+#include "pe1/scene_assets.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-typedef struct CdArchiveRoot {
-    u8 reserved[4];
-    u32 header_offset;
-} CdArchiveRoot;
-
-typedef struct CdArchiveHeader {
-    u8 reserved[0x24];
-    u32 range_info;
-} CdArchiveHeader;
-
-typedef struct CdFindState {
-    u8 _00[0x10];
-    u8 read_mode;
-    u8 _11[0xE2];
-    u8 state;
-    u8 _F4[0xA0];
-    void *buffer;
-} CdFindState;
-
-typedef struct CdRange {
-    u8 _00[3];
-    u8 flags;
-    u16 first;
-    u16 last;
-} CdRange;
-
 extern CdFindState D_800B0CD8;
 extern u8 D_800B0E64[16];
-extern int D_8009CDCC;
-int CD_ReadSectors(int, int, int, void *, int, int);
 
 int CD_FindNextDataSector(void)
 {
     u8 *base = *(u8 **)D_800B0E64;
     CdFindState *state = &D_800B0CD8;
-    CdArchiveHeader *header = (CdArchiveHeader *)(base + ((CdArchiveRoot *)base)->header_offset);
+    CdArchiveHeader *header = (CdArchiveHeader *)(base + ((CdArchiveRoot *)base)->directoryOffset);
     CdRange *ranges = (CdRange *)(base + (header->range_info & 0x3fffff));
 
 dispatch:

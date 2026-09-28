@@ -43,8 +43,50 @@ typedef struct SceneSectorDirectory {
     u16 offsets[0];
 } SceneSectorDirectory;
 
+typedef struct SceneAssetBlob {
+    unsigned int reserved;
+    unsigned int directoryOffset;
+} SceneAssetBlob;
+
+typedef SceneAssetBlob CdArchiveRoot;
+
+typedef struct CdArchiveHeader {
+    u8 reserved[0x24];
+    u32 range_info;
+} CdArchiveHeader;
+
+/* CD range-scan view of the shared game-state work area. */
+typedef struct CdFindState {
+    u8 _00[0x10];
+    u8 read_mode;
+    u8 _11[0xE2];
+    u8 state;
+    u8 _F4[0xA0];
+    void *buffer;
+} CdFindState;
+
+typedef struct CdRange {
+    u8 _00[3];
+    u8 flags;
+    u16 first;
+    u16 last;
+} CdRange;
+
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneSectorDirectory, offsets) == 4,
                   scene_sector_offsets_offset);
+PE1_STATIC_ASSERT(sizeof(CdArchiveRoot) == 8, cd_archive_root_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdArchiveRoot, directoryOffset) == 4,
+                  cd_archive_root_directory_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdArchiveHeader, range_info) == 0x24,
+                  cd_archive_range_info_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdFindState, read_mode) == 0x10,
+                  cd_find_read_mode_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdFindState, state) == 0xF3,
+                  cd_find_state_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdFindState, buffer) == 0x194,
+                  cd_find_buffer_offset);
+PE1_STATIC_ASSERT(sizeof(CdRange) == 8, cd_range_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRange, flags) == 3, cd_range_flags_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, cd_read_phase) == 0xF0,
                   scene_cd_read_phase_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, pe_image_base_lba) == 0x100,
@@ -95,10 +137,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, cd_transition_phase) == 0xF2,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, transition_volume) == 0xFE,
                   scene_transition_volume_offset);
 
-typedef struct SceneAssetBlob {
-    unsigned int reserved;
-    unsigned int directoryOffset;
-} SceneAssetBlob;
+/* Range-table cursor used by CD_FindNextDataSector. */
+extern int D_8009CDCC;
 
 /* Scene containers encode byte offsets relative to their loaded base. */
 static inline void *SceneAsset_ResolveOffset(void *base, unsigned int offset)
@@ -151,6 +191,10 @@ extern unsigned int g_GameStateFlags;
 /* Opaque handler pointers; the unload path reads the prefix declared above. */
 extern void **g_PmCmdHandlerTable;
 extern void *D_800E1044[104];
+
+int CD_ReadSectors(unsigned int kind, unsigned int index, int channel,
+                   void *buffer, u32 maximum, int blocking);
+int CD_FindNextDataSector(void);
 
 int Asset_UnloadTableEntries(void);
 int Asset_LoadTimTextures(int force);

@@ -16,8 +16,6 @@ int Akao_Cmd_10(u32);
 void Akao_SendTableCommand(void *, int, int, int, int);
 void Akao_Cmd_C1_WithSlot(int, int, int);
 void Akao_Cmd_C0_WithSlot(int, int);
-int CD_FindNextDataSector(void);
-int CD_ReadSectors(int, unsigned, int, void *, u32, int);
 int CD_SeekToTrack(int, int, int, int *, int);
 void Overlay_RegisterAudioSlot(int, int, int, int);
 

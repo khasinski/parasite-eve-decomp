@@ -1,10 +1,10 @@
 #include "common.h"
 #include "pe1/psyq_tim.h"
+#include "pe1/scene_assets.h"
 #include "include_asm.h"
 
 int VSync(int arg0);
 void SetDispMask(int arg0);
-int CD_ReadSectors(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
 int CdRom_ReadSectors(int lba, int offset, int dst, int size);
 int Sys_VSyncTimeout(int arg0);
 int DrawSync(int arg0);
@@ -16,7 +16,6 @@ extern int g_PeImageBaseLba;
 extern int g_SceneLoadScratchBuffer;
 extern int D_800A77FC;
 extern int g_StrFileDirBuffer;
-extern int g_GameState[];
 extern int D_800B0CD8_word __asm__("g_GameState");
 extern u16 g_MainAssetLbaTbl[];
 extern u16 g_LargeTexLbaTbl[];
@@ -54,7 +53,7 @@ int Overlay_LoadTables(void) {
 
     VSync(0);
     SetDispMask(0);
-    state = g_GameState;
+    state = (int *)&g_GameState;
     CD_ReadSectors(1, 0xCC, 0, g_SceneLoadScratchBuffer, 0x21, 1);
 
 retry_first_load:

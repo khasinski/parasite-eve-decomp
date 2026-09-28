@@ -5,7 +5,6 @@ extern SceneAssetBlob *D_800B0E64[];
 extern SceneTrackRecord *D_8009D180;
 extern s16 D_8009D184;
 void Akao_Cmd_F0(void);
-int CD_ReadSectors(int, unsigned, int, void *, u32, int);
 void *memcpy(void *, const void *, unsigned);
 
 /* Matching debt: finished is pinned to s1. The empty count barrier preserves
