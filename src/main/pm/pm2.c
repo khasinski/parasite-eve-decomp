@@ -9,7 +9,6 @@ extern char *g_PmSlotTable;
 extern char *g_PmSlotTable2;
 extern int **g_PmCmdHandlerTable;
 extern int g_GameState;
-extern int D_800E10A0[];
 
 int Pm_Exec(int arg0) {
     register int offset asm("$2");
@@ -76,7 +75,7 @@ int Pm_Exec(int arg0) {
             }
             if (*(u8 *)(cleanup + 1) == 0x72) {
                 for (i = 0x6C; i < 0x73; i++) {
-                    D_800E10A0[i - 0x6C] = 0;
+                    g_PmAuxiliaryPointerTable.entries[i - 0x6C] = 0;
                 }
                 g_GameState &= 0xFFFEFFFF;
             }
@@ -192,7 +191,7 @@ int Pm_Stop(int arg0, int arg1, int arg2) {
         }
         if (*(u8 *)(arg1 + 1) == 0x72) {
             for (i = 0x6C; i < 0x73; i++) {
-                D_800E10A0[i - 0x6C] = 0;
+                g_PmAuxiliaryPointerTable.entries[i - 0x6C] = 0;
             }
             g_GameState &= 0xFFFEFFFF;
         }

@@ -7,7 +7,7 @@
     "byte_pointer_arithmetic": 421,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 3999,
+    "externs_in_c": 3993,
     "field_macros": 617,
     "gotos": 879,
     "include_asm": 0,
@@ -15,7 +15,7 @@
     "pins": 1746,
     "pointer_integer_casts": 980,
     "postpass": 0,
-    "raw_offset_dereferences": 1469,
+    "raw_offset_dereferences": 1467,
     "stack_reserves": 3,
     "statement_expressions": 3,
     "unknown_fields": 257

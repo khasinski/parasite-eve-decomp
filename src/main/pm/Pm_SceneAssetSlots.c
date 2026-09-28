@@ -1,4 +1,51 @@
+#define PE1_PM_LEGACY_RAW_VIEWS
 #include "pe1/pm.h"
+#undef PE1_PM_LEGACY_RAW_VIEWS
+extern int g_GameState;
+
+int Pm_FreeSlot(int arg0) {
+    int offset;
+    PmSlotHeader *entry;
+    unsigned int i;
+
+    if ((unsigned int)arg0 >= 0x16) {
+        return -1;
+    }
+
+    if ((unsigned int)arg0 >= 0xB) {
+        int idx;
+        int offset_hi;
+        idx = arg0 - 0xB;
+        offset_hi = idx << 4;
+        offset_hi += idx;
+        offset_hi <<= 2;
+        offset_hi -= idx;
+        entry = (PmSlotHeader *)(g_PmSlotTable2Raw + (offset_hi << 2));
+    } else {
+        offset = (((((arg0 * 4) + arg0) << 5) + arg0) << 2) - arg0;
+        offset <<= 2;
+        entry = (PmSlotHeader *)(g_PmSlotTableRaw + offset);
+    }
+
+    if (entry->command == 0x72) {
+        for (i = 0x6C; i < 0x73; i++) {
+            g_PmAuxiliaryPointerTable.entries[i - 0x6C] = 0;
+        }
+        {
+            int *state = &g_GameState;
+            *state &= 0xFFFEFFFF;
+        }
+    }
+
+    entry->state = 0;
+    entry->command = -1;
+    entry->field02 = -1;
+    entry->field03 = -1;
+    entry->ticks = 0;
+    entry->owner = 0;
+
+    return 0;
+}
 #include "pe1/cdrom.h"
 extern PmCommand **D_800942E0;
 extern PmPrimarySlot *D_800942E4;
@@ -6,8 +53,6 @@ extern PmSecondarySlot *D_800942E8;
 extern u32 D_800B0CD8[], D_800B0DD8;
 extern u16 D_80093162[];
 extern void *D_80011618;
-extern void *D_800E10A0, *D_800E10A4, *D_800E10A8, *D_800E10AC;
-extern void *D_800E10B0, *D_800E10B4, *D_800E10B8;
 extern u8 D_801F1BD8[], D_801F1C58[], D_801F1D00[], D_801F1D8C[];
 extern u8 D_801F1E18[], D_801F1EA4[], D_801F1EF0[];
 void EnterCriticalSection(void);
@@ -64,13 +109,13 @@ retry:
         EnterCriticalSection();
         FlushCache();
         ExitCriticalSection();
-        D_800E10A0 = D_801F1BD8;
-        D_800E10A4 = D_801F1C58;
-        D_800E10A8 = D_801F1D00;
-        D_800E10AC = D_801F1D8C;
-        D_800E10B0 = D_801F1E18;
-        D_800E10B4 = D_801F1EA4;
-        D_800E10B8 = D_801F1EF0;
+        g_PmAuxiliaryPointerTable.entries[0] = D_801F1BD8;
+        g_PmAuxiliaryPointerTable.entries[1] = D_801F1C58;
+        g_PmAuxiliaryPointerTable.entries[2] = D_801F1D00;
+        g_PmAuxiliaryPointerTable.entries[3] = D_801F1D8C;
+        g_PmAuxiliaryPointerTable.entries[4] = D_801F1E18;
+        g_PmAuxiliaryPointerTable.entries[5] = D_801F1EA4;
+        g_PmAuxiliaryPointerTable.entries[6] = D_801F1EF0;
         D_800B0CD8[0] |= 0x10000;
     }
     Asset_LoadTimTextures(0);

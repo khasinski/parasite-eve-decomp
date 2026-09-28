@@ -53,6 +53,11 @@ typedef struct PmSlotBanks {
     PmSecondarySlot secondary[11];
 } PmSlotBanks;
 
+/* Seven adjacent pointer slots used by PM asset commands at 0x800E10A0. */
+typedef struct PmAuxiliaryPointerTable {
+    void *entries[7];
+} PmAuxiliaryPointerTable;
+
 PE1_STATIC_ASSERT(sizeof(PmSlotHeader) == 0x0C, pm_slot_header_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(PmSlotHeader, ticks) == 4, pm_slot_ticks_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(PmSlotHeader, owner) == 8, pm_slot_owner_offset);
@@ -61,6 +66,8 @@ PE1_STATIC_ASSERT(sizeof(PmSecondarySlot) == 0x10C, pm_secondary_slot_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(PmSlotBanks, secondary) == 0x6E84,
                   pm_secondary_bank_offset);
 PE1_STATIC_ASSERT(sizeof(PmSlotBanks) == 0x7A08, pm_slot_banks_size);
+PE1_STATIC_ASSERT(sizeof(PmAuxiliaryPointerTable) == 0x1C,
+                  pm_auxiliary_pointer_table_size);
 
 
 #endif
