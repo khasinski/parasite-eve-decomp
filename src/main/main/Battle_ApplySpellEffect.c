@@ -10,13 +10,12 @@
 #define ATTRIBUTE_EFFECT_FLAGS(base) \
     (*(s32 *)((base) + PE1_OFFSETOF(BattleAttributes, effectFlags)))
 
-typedef struct { char b[0x28]; } __attribute__((aligned(1), packed)) Tbl40;
+extern BattleActionSoundTable D_80010760;
 
 void Entity_SetActionMode(void *, s32, s32, s32);
 void Akao_SendPositionalCmdStereo(u16, s32, s16, s16, s32);
 s32 rand(void);
 
-extern Tbl40 D_80010760;
 extern struct { char _[16]; } D_8009D1A0_o __asm__("g_GameStateFlags");
 #define g_GameStateFlags (*(s32 *)&D_8009D1A0_o)
 extern void *g_BattleActiveEntity;
@@ -191,17 +190,14 @@ extern struct { char _[16]; } g_FieldMoveLock_ob __asm__("g_FieldMoveLock");
 #define D2E8B (*(s32 *)&g_FieldMoveLock_ob)
 
 void Battle_ApplySpellEffect(u32 idx, u8 *ent) {
-    union {
-        Tbl40 t;
-        u16 w[20];
-    } buf;
+    BattleActionSoundTable soundTable;
     s32 dmg;
     register u8 *pshared asm("$2");
 
     dmg = 0;
     if (!(g_GameStateFlags & 2)) {
-        buf.t = D_80010760;
-        Akao_SendPositionalCmdStereo(buf.w[idx], 1, *(s16 *)(D254A + 0x2A), *(s16 *)(D254A + 0x2E), *(s16 *)(D254A + 0x32));
+        soundTable = D_80010760;
+        Akao_SendPositionalCmdStereo(soundTable.soundId[idx], 1, *(s16 *)(D254A + 0x2A), *(s16 *)(D254A + 0x2E), *(s16 *)(D254A + 0x32));
         D278_1 = *(u8 **)D254B;
     }
     switch (idx) {

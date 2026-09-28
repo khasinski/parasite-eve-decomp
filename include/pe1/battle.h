@@ -9,6 +9,14 @@ typedef struct BattleRewardSlot {
     s16 extra;
 } BattleRewardSlot;
 
+/* Sound effect selected by each battle action. The table at 0x80010760 is
+ * copied as a 40-byte block by Battle_AdvancePhase and indexed by action. */
+typedef struct BattleActionSoundTable {
+    u16 soundId[20];
+} BattleActionSoundTable;
+PE1_STATIC_ASSERT(sizeof(BattleActionSoundTable) == 0x28,
+                  battle_action_sound_table_size);
+
 extern u8 *g_CurItemEffectData;
 
 /* Battle subsystem (ATB combat). Layout reverse-engineered from the battle code

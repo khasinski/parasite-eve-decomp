@@ -5,7 +5,7 @@
 #include "pe1/battle_cmd.h"
 #include "pe1/inventory.h"
 
-extern void **g_PlayerEntity[];
+extern BattleEntity *g_PlayerEntity;
 extern short g_AyaHpCurrent[];
 extern signed char g_AyaEquippedWeaponSlot[];
 
@@ -18,16 +18,27 @@ void Inv_SelectActiveList(int useOverride);
 #define ITEM_FIELD(base, type, member) \
     (*(type)((char *)(base) + PE1_OFFSETOF(ItemDataRecord, member)))
 
+void BattleCmd_SetCurrentMP(int arg0) {
+    void *current;
+
+    if (g_PlayerEntity != 0) {
+        current = g_PlayerEntity->core;
+        if (current != 0) {
+            *(int *)((char *)current + 8) = arg0 << 16;
+        }
+    }
+}
+
 void BattleCmd_CommitAndSyncAmmo(int item) {
-    void **entity;
+    BattleEntity *entity;
     void *current;
     void *entry;
     int saved;
 
     Battle_ApplyDamage(item);
-    entity = g_PlayerEntity[0];
+    entity = g_PlayerEntity;
     if (entity != 0) {
-        current = entity[0];
+        current = entity->core;
         if (current != 0) {
             g_AyaHpCurrent[0] = COMBATANT_FIELD(current, unsigned short *, curHP);
             if (COMBATANT_FIELD(current, void **, action) != 0) {

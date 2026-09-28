@@ -43,7 +43,11 @@ typedef struct GteVector {
     s32 x, y, z, pad;
 } GteVector;
 
+GteMatrix *RotMatrix(GteShortVector *angles, GteMatrix *matrix);
 GteMatrix *RotMatrixYXZ(GteShortVector *angles, GteMatrix *matrix);
+GteMatrix *RotMatrixZYX(GteShortVector *angles, GteMatrix *matrix);
+GteMatrix *RotMatrixY(s32 angle, GteMatrix *matrix);
+GteMatrix *RotMatrixZ(s32 angle, GteMatrix *matrix);
 
 GteShortVector *ApplyMatrixSV(const GteMatrix *matrix,
                             const GteShortVector *v, GteShortVector *out);

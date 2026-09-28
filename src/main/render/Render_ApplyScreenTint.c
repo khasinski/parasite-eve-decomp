@@ -1,13 +1,6 @@
 #include "common.h"
+#include "pe1/render_prim.h"
 /* CC1_FLAGS: -fno-strength-reduce */
-
-typedef struct RgbPrim {
-    u8 pad0[4];
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 pad7[9];
-} RgbPrim;
 
 extern struct { char _[16]; } D_800BCF88_o __asm__("D_800BCF88");
 extern struct { char _[16]; } D_800BCFFC_o __asm__("D_800BCFFC");
@@ -25,7 +18,7 @@ extern struct { char _[16]; } D_800B1624_b_o __asm__("D_800B1624");
 int Render_ApplyScreenTint(void) {
     u8 *geom;
     register u8 *entry asm("$4");
-    RgbPrim *prim;
+    PrimEntry *prim;
     u32 flags;
     int tint;
     int tint_loop;
@@ -55,7 +48,7 @@ int Render_ApplyScreenTint(void) {
     if (entry_count != 0) {
         tint_loop = tint;
         do {
-            prim = (RgbPrim *)READ_S32(entry, 0x30);
+            prim = (PrimEntry *)READ_S32(entry, 0x30);
             asm("" : : "r"(prim) : "$2");
             active_slot = g_ActiveDrawSlot;
             asm("" : : "r"(active_slot) : "$6");

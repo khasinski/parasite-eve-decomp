@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 /* CC1_FLAGS: -fno-strength-reduce */
 #include "../room_lib/RoomLib_DrawMotion.h"
 

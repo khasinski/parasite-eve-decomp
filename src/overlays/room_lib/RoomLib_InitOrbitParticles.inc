@@ -1,4 +1,4 @@
-extern char *func_800C2B50(void);
+#include "pe1/field_script_context.h"
 extern int func_80071A54(void);
 extern int func_80077CF4(int angle);
 extern int func_80077DC4(int angle);

@@ -1,22 +1,15 @@
+#include "pe1/field_script_context.h"
 #include "common.h"
 #include "pe1/room_fx.h"
-
-typedef struct RoomOrbitBurstView {
-    int pad0;
-    unsigned char transform[0x14];
-    int baseX;
-    int baseY;
-    int baseZ;
-} RoomOrbitBurstView;
+#include "RoomLib_RenderLayouts.h"
 
 extern short D_800942EC;
 
-RoomOrbitBurstView *func_800C2B50(void);
 int func_80071A54(void);
 
 void ROOMLIB_INIT_ORBIT_BURST_NAME(
     void *unused0, void *unused1, RoomOrbitBurstState *state) {
-    RoomOrbitBurstView *view;
+    RoomLibOrbitView *view;
     short *particle;
     unsigned int i;
 

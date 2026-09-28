@@ -77,7 +77,7 @@ struct _m2c_stack_Render_DecompressAnimFrame {
     /* 0x20 */ s32 sp30;
 };
 
-void RotMatrixY(s32, u16 *);
+GteMatrix *RotMatrixY(s32, GteMatrix *);
 void SetDrawMode(void *, s32, s32, s32);
 extern u32 *D_8009CDD0;
 extern s16 *D_8009CDD4;
@@ -164,7 +164,7 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
     stack.matrix.translation[0] = (s32) M2C_FIELD(arg1, s16 *, 2);
     stack.matrix.translation[1] = (s32) M2C_FIELD(arg1, s16 *, 6);
     stack.matrix.translation[2] = (s32) M2C_FIELD(arg1, s16 *, 0xA);
-    RotMatrixY(arg3 & 0xFFFF, (u16 *)&stack.matrix);
+    RotMatrixY(arg3 & 0xFFFF, (GteMatrix *)&stack.matrix);
     matrix_slot = &D_800BCFA4.value;
     matrix_value = *matrix_slot;
     gte_ldrotmatrix(matrix_value);

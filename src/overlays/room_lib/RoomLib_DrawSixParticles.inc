@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 #ifndef ROOMLIB_DRAW_SIX_PARTICLES_FUNC
 #error "ROOMLIB_DRAW_SIX_PARTICLES_FUNC must name the room entry point"
 #endif
@@ -11,7 +12,6 @@ typedef struct RoomSixParticlePacket {
     u8 pad0C[4];
 } RoomSixParticlePacket;
 
-char *func_800C2B50(void);
 void func_800C2EAC(u8 owner);
 void func_800C2FF0(int width, int height);
 void func_800C3098(int depth);

@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 #ifndef ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC
 #error "ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC must name the room entry point"
 #endif
@@ -17,7 +18,6 @@ typedef struct RoomInitThreeStack {
     RoomSpriteMatrix secondMatrix;
 } RoomInitThreeStack;
 
-char *func_800C2B50(void);
 int *func_800C2B28(int index);
 int *func_800C2B10(int index);
 void func_80079754(RoomInitThreeVec *seed, RoomSpriteMatrix *matrix);

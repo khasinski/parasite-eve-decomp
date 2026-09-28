@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 #include "common.h"
 #include "pe1/room_fx.h"
 
@@ -13,7 +14,6 @@ extern unsigned char ROOMLIB_ORBIT_BURST_CONFIG_A;
 extern unsigned char ROOMLIB_ORBIT_BURST_CONFIG_B;
 extern short D_800942EC;
 
-char *func_800C2B50(void);
 void func_800C2EAC(int value);
 void func_800C2FF0(int x, int y);
 void func_800C3098(int value);

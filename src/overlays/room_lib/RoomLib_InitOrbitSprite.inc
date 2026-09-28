@@ -1,13 +1,7 @@
+#include "pe1/field_script_context.h"
 #include "common.h"
 #include "pe1/room_fx.h"
-
-typedef struct RoomOrbitInitView {
-    int pad0;
-    unsigned char transform[0x14];
-    int baseX;
-    int baseY;
-    int baseZ;
-} RoomOrbitInitView;
+#include "RoomLib_RenderLayouts.h"
 
 #ifdef ROOMLIB_INIT_ORBIT_SPRITE_COMPACT_SEEDS
 #define ROOMLIB_ORBIT_SEED0 D_8018EFF4
@@ -27,7 +21,6 @@ extern RoomFxSeed8 ROOMLIB_ORBIT_SEED2;
 extern RoomFxSeed8 ROOMLIB_ORBIT_SEED3;
 extern short D_800942EC;
 
-RoomOrbitInitView *func_800C2B50(void);
 int *func_800C2B10(int index);
 void func_80078C34(
     void *transform, RoomFxSeed8 *seed, unsigned short *output);
@@ -39,7 +32,7 @@ void ROOMLIB_INIT_ORBIT_SPRITE_NAME(
     RoomFxSeed8 seed2;
     RoomFxSeed8 seed3;
     unsigned short position[4];
-    RoomOrbitInitView *view;
+    RoomLibOrbitView *view;
 
     view = func_800C2B50();
     seed0 = ROOMLIB_ORBIT_SEED0;

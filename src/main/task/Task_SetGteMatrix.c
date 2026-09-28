@@ -43,7 +43,7 @@ extern int *D_8009CE00;
 extern u8 *D_8009D300;
 extern u32 D_800B89F8[];
 
-void RotMatrix(GteRotation *rotation, GteMatrix *matrix);
+GteMatrix *RotMatrix(GteShortVector *rotation, GteMatrix *matrix);
 void Anim_BuildRotationMatrices(u8 *object, u8 *animation, int frame, int mode);
 void Render_TransformVertices(u8 *object);
 void Render_TransformSkinnedVertices(u8 *object, u32 *view_matrix);
@@ -75,7 +75,7 @@ int Task_SetGteMatrix(int **args) {
     U16_AT(setup_actor, 0x1E0) = U16_AT(setup_actor, 0x38);
     U16_AT(setup_actor, 0x1E2) = U16_AT(setup_actor, 0x3A);
     U16_AT(setup_actor, 0x1E4) = U16_AT(setup_actor, 0x3C);
-    RotMatrix((GteRotation *)(setup_actor + 0x1E0),
+    RotMatrix((GteShortVector *)(setup_actor + 0x1E0),
               (GteMatrix *)(setup_actor + 0x1E8));
 
     matrix_actor = D2F0_matrix[0];

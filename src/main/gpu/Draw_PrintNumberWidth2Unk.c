@@ -36,3 +36,143 @@ void Draw_PrintNumberWidth2Unk(int value) {
         place /= 10;
     }
 }
+
+void Draw_PrintNumberWidth3Unk(int value) {
+    int width = 3;
+    int place = 1;
+    int i;
+    int x;
+    int y;
+
+    if (value < 0) {
+        value = -value;
+        Draw_AllocSprite(0x52);
+        width = 2;
+        x = g_DrawSpriteX;
+        y = g_DrawSpriteY;
+        g_DrawSpriteX = x + 5;
+        g_DrawSpriteY = y;
+    }
+    for (i = 1; i < width; i++) {
+        place *= 10;
+    }
+    for (i = 0; i < width; i++) {
+        int q = value / place;
+        int digit = (i < width - 1 && q == 0) ? -1 : q;
+        Draw_EmitDigitSprite(digit);
+        x = g_DrawSpriteX;
+        y = g_DrawSpriteY;
+        g_DrawSpriteX = x + 5;
+        g_DrawSpriteY = y;
+        place /= 10;
+    }
+}
+
+void Draw_PrintSignedNumberWidth3(int value) {
+    int width = 3;
+    int place = 1;
+    int i;
+    int x;
+    int y;
+    int sprite;
+
+    if (value < 0) {
+        value = -value;
+        sprite = 0x52;
+    } else {
+        if (value <= 0) {
+            goto digits;
+        }
+        sprite = 0x89;
+    }
+    Draw_AllocSprite(sprite);
+    width = 2;
+    x = g_DrawSpriteX;
+    y = g_DrawSpriteY;
+    g_DrawSpriteX = x + 5;
+    g_DrawSpriteY = y;
+digits:
+    for (i = 1; i < width; i++) {
+        place *= 10;
+    }
+    for (i = 0; i < width; i++) {
+        int q = value / place;
+        int digit = (i < width - 1 && q == 0) ? -1 : q;
+        Draw_EmitDigitSprite(digit);
+        x = g_DrawSpriteX;
+        y = g_DrawSpriteY;
+        g_DrawSpriteX = x + 5;
+        g_DrawSpriteY = y;
+        place /= 10;
+    }
+}
+
+void Draw_PrintNumberWidth4Unk(int value) {
+    int width = 4;
+    int place = 1;
+    int i;
+    int x;
+    int y;
+
+    if (value < 0) {
+        value = -value;
+        Draw_AllocSprite(0x52);
+        width = 3;
+        x = g_DrawSpriteX;
+        y = g_DrawSpriteY;
+        g_DrawSpriteX = x + 5;
+        g_DrawSpriteY = y;
+    }
+    for (i = 1; i < width; i++) {
+        place *= 10;
+    }
+    for (i = 0; i < width; i++) {
+        int q = value / place;
+        int digit = (i < width - 1 && q == 0) ? -1 : q;
+        Draw_EmitDigitSprite(digit);
+        x = g_DrawSpriteX;
+        y = g_DrawSpriteY;
+        g_DrawSpriteX = x + 5;
+        g_DrawSpriteY = y;
+        place /= 10;
+    }
+}
+
+void Draw_PrintSignedNumberWidth4(int value) {
+    int width = 4;
+    int place = 1;
+    int i;
+    int x;
+    int y;
+    int sprite;
+
+    if (value < 0) {
+        value = -value;
+        sprite = 0x52;
+    } else {
+        if (value <= 0) {
+            goto digits;
+        }
+        sprite = 0x89;
+    }
+    Draw_AllocSprite(sprite);
+    width = 3;
+    x = g_DrawSpriteX;
+    y = g_DrawSpriteY;
+    g_DrawSpriteX = x + 5;
+    g_DrawSpriteY = y;
+digits:
+    for (i = 1; i < width; i++) {
+        place *= 10;
+    }
+    for (i = 0; i < width; i++) {
+        int q = value / place;
+        int digit = (i < width - 1 && q == 0) ? -1 : q;
+        Draw_EmitDigitSprite(digit);
+        x = g_DrawSpriteX;
+        y = g_DrawSpriteY;
+        g_DrawSpriteX = x + 5;
+        g_DrawSpriteY = y;
+        place /= 10;
+    }
+}

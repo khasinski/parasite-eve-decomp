@@ -1,12 +1,12 @@
 #include "common.h"
 #include "pe1/room_fx.h"
+#include "pe1/field_script_context.h"
 
 extern RoomFxVec4 ROOMFX_DRAW_PAIRED_SPRITES_SCALE;
 extern unsigned char ROOMFX_DRAW_PAIRED_SPRITES_PACKET[];
 extern unsigned short ROOMFX_DRAW_PAIRED_SPRITES_DEPTH;
 extern short g_FrameCount16;
 
-extern char *func_800C2B50(void);
 extern void func_80071A44(void *arg0, int arg1, int arg2);
 extern void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 extern void func_800C2EAC(unsigned char owner);

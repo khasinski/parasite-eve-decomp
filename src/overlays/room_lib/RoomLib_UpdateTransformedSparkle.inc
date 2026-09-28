@@ -1,9 +1,9 @@
+#include "pe1/field_script_context.h"
 #include "common.h"
 #include "pe1/room_fx.h"
 
 extern RoomFxSeed8 D_8018F01C;
 
-RoomFxTransformOwner **func_800C2B50(void);
 void ApplyMatrixSV(void *matrix, RoomFxSeed8 *seed, unsigned short *out);
 int rand(void);
 

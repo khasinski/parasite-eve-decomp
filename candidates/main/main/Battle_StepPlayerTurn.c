@@ -1,15 +1,16 @@
 #include "common.h"
+/* Scratch candidate only: not a linked byte match. */
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern struct { char _[16]; } D_8009D20C_o __asm__("g_FieldActorListHead");
+extern u8 *D_8009D20C;
 extern struct { char _[16]; } D_8009D254_o __asm__("D_8009D254");
 extern struct { char _[16]; } D_8009D278_o __asm__("D_8009D278");
 
-#define g_FieldActorListHead (*(u8 **)&D_8009D20C_o)
+#define g_FieldActorListHead D_8009D20C
 #define D_8009D254 (*(u8 **)&D_8009D254_o)
 #define D_8009D278 (*(u8 **)&D_8009D278_o)
-#define TARGET_ENTRY(list, index) ((u8 *)(list) + ((u8)(index) * 12))
+#define TARGET_ENTRY(list, index) ((u8 *)(list) + ((index) * 12))
 #define TARGET_ENTITY(list, index) (*(u8 **)TARGET_ENTRY((list), (index)))
 #define TARGET_ANGLE(list, index) (*(s16 *)(TARGET_ENTRY((list), (index)) + 8))
 #define U8_AT(ptr, offset) (*(u8 *)((u8 *)(ptr) + (offset)))
@@ -17,7 +18,8 @@ extern struct { char _[16]; } D_8009D278_o __asm__("D_8009D278");
 #define U32_AT(ptr, offset) (*(u32 *)((u8 *)(ptr) + (offset)))
 #define FADE_PTR(entity) ((u8 *)(entity) + 0x1B4)
 
-extern s8 D_8009D2B0;
+extern struct { char _[16]; } D_8009D2B0_o __asm__("D_8009D2B0");
+#define D_8009D2B0 (*(s8 *)&D_8009D2B0_o)
 extern u8 D_8009CE68;
 extern s8 D_8009CE6C;
 
@@ -31,6 +33,7 @@ void Battle_StepPlayerTurn(void *target_list, int target_index, int step) {
     int low;
     int high;
     int selected_angle;
+    int below_high;
     u8 *entity;
     u8 *core;
     u8 *iter;
@@ -46,14 +49,15 @@ void Battle_StepPlayerTurn(void *target_list, int target_index, int step) {
         D_8009CE6C = -8;
     }
 
-    alpha = D_8009CE68 + D_8009CE6C;
+    alpha = D_8009CE68 + *(u8 *)&D_8009CE6C;
     D_8009CE68 = alpha;
 
     if ((s8)step < 4) {
         action = *(u8 **)(D_8009D278 + 0x68);
         mode = (U32_AT(action, 0x10) >> 6) & 3;
 
-        if (mode == 0) {
+        switch (mode) {
+        case 0: {
             entity = TARGET_ENTITY(target_list, (s8)target_index);
             core = *(u8 **)entity;
 
@@ -72,7 +76,7 @@ void Battle_StepPlayerTurn(void *target_list, int target_index, int step) {
             return;
         }
 
-        if (mode == 2) {
+        case 2: {
             selected_angle = TARGET_ANGLE(target_list, (s8)target_index);
             if (selected_angle < -0x600) {
                 low = selected_angle + 0x200;
@@ -85,17 +89,21 @@ void Battle_StepPlayerTurn(void *target_list, int target_index, int step) {
                 high = selected_angle - 0x200;
             }
 
-            for (i = 0; TARGET_ENTITY(target_list, i) != 0; i++) {
-                angle = TARGET_ANGLE(target_list, i);
-                if (selected_angle >= -0x600 && selected_angle < 0x600) {
+            below_high = selected_angle < 0x600;
+            for (i = 0; TARGET_ENTITY(target_list, (u8)i) != 0; i++) {
+                if (selected_angle >= -0x600 && below_high) {
+                    angle = TARGET_ANGLE(target_list, (u8)i);
                     if (angle < low || high < angle) {
                         continue;
                     }
-                } else if (!(angle < high || low < angle)) {
-                    continue;
+                } else {
+                    angle = TARGET_ANGLE(target_list, (u8)i);
+                    if (!(angle < high || low < angle)) {
+                        continue;
+                    }
                 }
 
-                entity = TARGET_ENTITY(target_list, i);
+                entity = TARGET_ENTITY(target_list, (u8)i);
                 core = *(u8 **)entity;
                 if (S8_AT(core, 5) == 1) {
                     Render_FadeEntityColor(FADE_PTR(*(u8 **)(entity + 0x18C)), D_8009CE68, D_8009CE68,
@@ -114,9 +122,10 @@ void Battle_StepPlayerTurn(void *target_list, int target_index, int step) {
             return;
         }
 
-        if ((mode == 1) || (mode == 3)) {
-            for (i = 0; TARGET_ENTITY(target_list, i) != 0; i++) {
-                entity = TARGET_ENTITY(target_list, i);
+        case 1:
+        case 3: {
+            for (i = 0; TARGET_ENTITY(target_list, (u8)i) != 0; i++) {
+                entity = TARGET_ENTITY(target_list, (u8)i);
                 core = *(u8 **)entity;
                 if (S8_AT(core, 5) == 1) {
                     Render_FadeEntityColor(FADE_PTR(*(u8 **)(entity + 0x18C)), D_8009CE68, D_8009CE68,
@@ -133,6 +142,7 @@ void Battle_StepPlayerTurn(void *target_list, int target_index, int step) {
                 }
             }
             return;
+        }
         }
     } else if ((s8)step < 8) {
         entity = TARGET_ENTITY(target_list, (s8)target_index);

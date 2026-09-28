@@ -1,8 +1,8 @@
+#include "pe1/field_script_context.h"
 #ifndef ROOMLIB_INIT_SIX_PARTICLES_FUNC
 #error "ROOMLIB_INIT_SIX_PARTICLES_FUNC must name the room entry point"
 #endif
 
-char *func_800C2B50(void);
 void *func_800C2B28(int index);
 int rand(void);
 int rsin(int angle);

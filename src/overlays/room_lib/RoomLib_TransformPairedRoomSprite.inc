@@ -1,16 +1,9 @@
+#include "pe1/field_script_context.h"
+#include "RoomLib_RenderLayouts.h"
 #ifndef ROOMLIB_TRANSFORM_PAIRED_SPRITE_FUNC
 #error "ROOMLIB_TRANSFORM_PAIRED_SPRITE_FUNC must name the room entry point"
 #endif
 
-typedef struct RoomPairedTransformStack {
-    RoomFxSeed8 seed;
-    RoomSpriteMatrix scaleMatrix;
-    RoomSpriteMatrix matrix;
-    RoomFxVec4 scale;
-    RoomFxVec4 sourceScale;
-} RoomPairedTransformStack;
-
-char *func_800C2B50(void);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
 void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
@@ -24,7 +17,7 @@ extern unsigned char ROOMLIB_PAIRED_SPRITE_TABLE[];
 /* Retail marks this function handwritten; only its COP2 windows remain ASM. */
 void ROOMLIB_TRANSFORM_PAIRED_SPRITE_FUNC(void *unused, char *params,
                                           char *state) {
-    RoomPairedTransformStack stack;
+    RoomLibSpriteTransformStack stack;
     register RoomSpriteMatrix *scaleMatrix asm("$16");
     register unsigned char *table asm("$17");
     register char *workState asm("$18");

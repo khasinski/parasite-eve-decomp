@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 extern RoomFxSeed8 ROOMLIB_DRAW_UNIFORM_SPRITE_SEED;
 extern u16 ROOMLIB_DRAW_UNIFORM_SPRITE_DEPTH;
 extern void func_80071A44(void *arg0, int arg1, int arg2);

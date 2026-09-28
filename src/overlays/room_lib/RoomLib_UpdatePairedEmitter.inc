@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 #include "room_lib.h"
 
 #ifndef ROOMLIB_UPDATE_PAIRED_EMITTER_NAME

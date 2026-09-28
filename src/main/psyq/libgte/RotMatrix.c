@@ -1,7 +1,7 @@
 /* ASSEMBLER: GNU */
 #include "pe1/gte_types.h"
+#include "pe1/gte_sine_table.h"
 #include "pe1/psyq_nop.h"
-extern u32 D_800966EC[];
 
 /* Q12 rotation with retail wrap/rounding order. Pins, empty HI/LO and
  * scheduling constraints, and individual NOPs are tracked matching debt.

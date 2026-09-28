@@ -1,15 +1,11 @@
 #include "common.h"
-typedef struct {
-    s16 m[3][3];
-    int t[3];
-} Matrix;
+#include "pe1/gte_types.h"
 
 void func_800C2EAC(int arg0);
 void func_800C2FF0(int arg0, int arg1);
 void func_800C3098(int arg0);
 void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
-void Gte_ScaleMatrix(Matrix *matrix, int *scale);
 void *memset(void *dest, int value, unsigned int count);
 
 extern u8 D_800E2338;
@@ -17,7 +13,7 @@ extern u16 D_800E2342;
 
 int func_800CB750(void *arg0, void *arg1, u8 *anim) {
     u16 *field_s4 = &D_800E2342;
-    Matrix matrix;
+    GteMatrix matrix;
     int scale;
     u16 field;
     int localScale[4];
@@ -54,7 +50,7 @@ int func_800CB750(void *arg0, void *arg1, u8 *anim) {
     localScale[1] = scale;
     localScale[2] = scale;
 
-    Gte_ScaleMatrix(&matrix, localScale);
+    Gte_ScaleMatrix(&matrix, (const GteVector *)localScale);
     func_800C42A4((u8 *)field_s4 - 10, &matrix, 1);
 
     matrix.m[2][2] = 0x1000;
@@ -79,37 +75,28 @@ int func_800CB750(void *arg0, void *arg1, u8 *anim) {
     localScale2[1] = scale;
     localScale2[2] = scale;
 
-    Gte_ScaleMatrix(&matrix, localScale2);
+    Gte_ScaleMatrix(&matrix, (const GteVector *)localScale2);
     func_800C42A4((u8 *)field_s4 - 10, &matrix, 1);
 }
 
 #include "common.h"
-typedef struct {
-    s16 vx;
-    s16 vy;
-    s16 vz;
-    s16 pad;
-} SVECTOR;
-
 
 void func_800C2EAC(int arg0);
 void func_800C2FF0(int arg0, int arg1);
 void func_800C3098(int arg0);
 void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
-void Gte_ScaleMatrix(Matrix *matrix, int *scale);
-void RotMatrix(SVECTOR *rot, Matrix *matrix);
 void *memset(void *dest, int value, unsigned int count);
 
-extern SVECTOR D_800C2204;
+extern GteShortVector D_800C2204;
 extern u8 D_800F34E8;
 extern s16 D_800F34F2;
 
 int func_800CB8E0(void *arg0, void *arg1, u8 *anim) {
     u16 *field_s1 = &D_800F34F2;
-    Matrix *matrix_a0;
-    Matrix matrix;
-    SVECTOR rot;
+    GteMatrix *matrix_a0;
+    GteMatrix matrix;
+    GteShortVector rot;
     int scale_arg[4];
     volatile int scale[4];
     register int scale2_a2 asm("$6");
@@ -144,7 +131,7 @@ int func_800CB8E0(void *arg0, void *arg1, u8 *anim) {
     scale_arg[3] = scale3_a3;
     asm volatile("" ::: "$5");
 
-    Gte_ScaleMatrix(matrix_a0, scale_arg);
+    Gte_ScaleMatrix(matrix_a0, (const GteVector *)scale_arg);
     func_800C42A4((u8 *)field_s1 - 10, &matrix, 0);
 }
 
@@ -155,7 +142,6 @@ void func_800C2FF0(int arg0, int arg1);
 void func_800C3098(int arg0);
 void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
-void Gte_ScaleMatrix(Matrix *matrix, int *scale);
 void *memset(void *dest, int value, unsigned int count);
 
 extern u8 D_800F34E8;
@@ -163,12 +149,12 @@ extern s16 D_800F34F2;
 
 int func_800CB9F8(void *arg0, void *arg1, u8 *anim) {
     u16 *field_s2 = &D_800F34F2;
-    Matrix *matrix_s1;
-    Matrix *call_a0;
+    GteMatrix *matrix_s1;
+    GteMatrix *call_a0;
     int scale_v0;
     register int scale2_a2 asm("$6");
     register int scale3_a3 asm("$7");
-    Matrix matrix;
+    GteMatrix matrix;
     int scale_arg[4];
     volatile int scale[4];
     int m0;
@@ -223,7 +209,7 @@ int func_800CB9F8(void *arg0, void *arg1, u8 *anim) {
     scale_arg[3] = scale3_a3;
 
     asm volatile("" ::: "memory");
-    Gte_ScaleMatrix(call_a0, scale_arg);
+    Gte_ScaleMatrix(call_a0, (const GteVector *)scale_arg);
     func_800C42A4((u8 *)field_s2 - 10, matrix_s1, 0);
 }
 

@@ -1,25 +1,25 @@
 #include "common.h"
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR;
-int func_800C62DC(SVECTOR *from, void *to);
+#include "pe1/gte_types.h"
+
+int func_800C62DC(GteShortVector *from, void *to);
 extern char *D_8009D254;
 
 int func_800C6B20(void *arg0) {
-    SVECTOR pos;
+    GteShortVector pos;
     char *entity = D_8009D254;
     int first;
     register int value asm("$2");
-    SVECTOR *ptr;
+    GteShortVector *ptr;
     value = *(s16 *)(entity + 0x2A);
     ptr = &pos;
-    pos.vx = value;
+    pos.x = value;
     value = *(s16 *)(entity + 0x2E);
-    pos.vy = value;
+    pos.y = value;
     value = *(s16 *)(entity + 0x32);
-    pos.vz = value;
+    pos.z = value;
     first = func_800C62DC(ptr, arg0);
     return first | func_800C62DC(ptr, (char *)arg0 + 8);
 }
-
 
 extern char *D_8009D254;
 
@@ -51,7 +51,6 @@ int func_800C6B90(s16 *pos, int extraRadius) {
     delta[2] = z;
     return x_sq + z_sq < radius_sq;
 }
-
 
 #include "common.h"
 int FieldEng_GetStatus(char *obj);

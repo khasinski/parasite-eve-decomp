@@ -6,6 +6,7 @@
 #include "../../../include/common.h"
 #include "../../../include/pe1/gte.h"
 #include "../../../include/pe1/room_fx.h"
+#include "../../../include/pe1/field_script_context.h"
 
 typedef struct RoomObj {
     char pad0[0xC];
@@ -125,11 +126,12 @@ typedef struct RoomLibTick12Rec {
 
 
 
-extern void RoomLib_HandlerA();
-extern void RoomLib_HandlerB(void);
-extern void RoomLib_HandlerC(void);
-extern void RoomLib_HandlerD(void);
-extern void RoomLib_HandlerE();
+struct RoomEnt;
+extern void RoomLib_HandlerA(struct RoomEnt *obj);
+extern void RoomLib_HandlerB(struct RoomEnt *obj);
+extern void RoomLib_HandlerC(struct RoomEnt *obj);
+extern void RoomLib_HandlerD(struct RoomEnt *obj);
+extern void RoomLib_HandlerE(struct RoomEnt *obj);
 extern void RoomLib_HandlerF();
 extern int FieldEng_VecToAngle(int *vec, int *ref);
 extern int FieldEng_TurnToward(short cur, short target, short rate);
@@ -266,6 +268,24 @@ typedef struct RoomLibMotionWork {
     short matrix[9];              /* 0x28 */
     short pad3A;
 } RoomLibMotionWork;
+
+/* Four lanes of three-component values with increments and a shared timer. */
+typedef struct RoomLibStepRecords {
+    char pad00[0x30];
+    unsigned short value[4][4];  /* 0x30: 8-byte lane stride */
+    unsigned short increment[4][4]; /* 0x50 */
+    char pad70[0x8];
+    unsigned short timer[4];     /* 0x78 */
+} RoomLibStepRecords;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomLibStepRecords, value) == 0x30,
+                  room_lib_step_values_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomLibStepRecords, increment) == 0x50,
+                  room_lib_step_increments_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomLibStepRecords, timer) == 0x78,
+                  room_lib_step_timer_offset);
+PE1_STATIC_ASSERT(sizeof(RoomLibStepRecords) == 0x80,
+                  room_lib_step_records_size);
 
 /* Motion state addressed by HandlerE through RoomEnt + 0x0C. */
 typedef struct RoomLibHandlerEState {
@@ -1024,7 +1044,7 @@ extern void func_80193740(void);
 extern void func_80193958(void);
 extern void func_80193E60(void);
 extern void func_80193E68(void);
-extern void func_8019649C(void);
+extern void func_8019649C(struct RoomEnt *obj);
 extern int RoomLib_Set4ClearSignal_801924D4(RoomEnt *o);
 
 typedef struct RoomLibFxMatrixWords {
@@ -1049,7 +1069,6 @@ typedef struct RoomLibPacked8 {
     int hi;
 } __attribute__((packed)) RoomLibPacked8;
 
-extern void func_800C2B40(void *state);
 extern void *func_8006DC18(int type);
 
 #define ROOMLIB_JOIN_RAW(a, b) a##b
@@ -2384,7 +2403,6 @@ typedef struct RoomClock {
     unsigned char renderOwner;   /* 0x10 */
 } RoomClock;
 
-extern RoomClock *func_800C2B50();
 extern int func_800C6B90(void *position, int radius);
 extern void func_800C2EAC(u8 owner);
 extern void func_800C2FF0(s32 width, s32 height);

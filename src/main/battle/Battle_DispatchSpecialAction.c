@@ -31,3 +31,23 @@ void Battle_DispatchSpecialAction(int arg0) {
         break;
     }
 }
+
+void Battle_DispatchInit(int arg0) {
+    if (g_GameStateFlags & 2) {
+        return;
+    }
+
+    g_ActiveActor = (int)g_PlayerEntity->core;
+
+    switch (arg0) {
+    case 0x197:
+        Battle_CopyPadStateToRecord();
+        Battle_SetupEnemyAnims();
+        break;
+    case 0x198:
+        Battle_SyncEnemyAttributes();
+        break;
+    default:
+        break;
+    }
+}

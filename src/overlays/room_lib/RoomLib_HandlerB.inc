@@ -1,7 +1,5 @@
 /* MASPSX_FLAGS: --expand-div */
-#define RoomLib_HandlerB RoomLib_HandlerB_decl
 #include "room_lib.h"
-#undef RoomLib_HandlerB
 
 #ifndef ROOMLIB_HANDLER_B_PHASE
 #define ROOMLIB_HANDLER_B_PHASE func_80191108

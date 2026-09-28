@@ -1,9 +1,9 @@
+#include "pe1/field_script_context.h"
 #include "common.h"
 #include "pe1/room_fx.h"
 
 extern char ROOMLIB_STAGE_SEED_CALLBACK[];
 extern char ROOMLIB_STAGE_SEED_DATA[];
-extern char *func_800C2B50(void);
 extern char *func_800C2B90(void *, int, char *, char *);
 
 void ROOMLIB_STAGE_SEED_NAME(void *effect, char *state, RoomFxSeed8 *seed) {

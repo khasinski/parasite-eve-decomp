@@ -1,16 +1,9 @@
+#include "pe1/field_script_context.h"
+#include "RoomLib_RenderLayouts.h"
 #ifndef ROOMLIB_TRANSFORM_SIXTEEN_POINT_EFFECT_FUNC
 #error "ROOMLIB_TRANSFORM_SIXTEEN_POINT_EFFECT_FUNC must name the room entry point"
 #endif
 
-typedef struct RoomSixteenTransformStack {
-    RoomFxSeed8 seed;
-    RoomSpriteMatrix scaleMatrix;
-    RoomSpriteMatrix matrix;
-    RoomFxVec4 scale;
-    RoomFxVec4 sourceScale;
-} RoomSixteenTransformStack;
-
-char *func_800C2B50(void);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
 void Gte_ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
@@ -21,7 +14,7 @@ extern RoomFxSeed8 D_8018EFF4;
 /* The retail function is marked handwritten and uses four explicit GTE windows. */
 void ROOMLIB_TRANSFORM_SIXTEEN_POINT_EFFECT_FUNC(void *arg0, void *arg1,
                                                   char *state) {
-    RoomSixteenTransformStack stack;
+    RoomLibSpriteTransformStack stack;
     register RoomSpriteMatrix *matrix asm("$16");
     register RoomSpriteMatrix *scaleMatrix asm("$17");
     register char *workState asm("$18");

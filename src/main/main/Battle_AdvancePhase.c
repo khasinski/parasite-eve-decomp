@@ -7,7 +7,6 @@
 
 #define NULL ((void *)0)
 typedef struct { u8 bytes[0x14]; } __attribute__((packed)) Tbl20;
-typedef struct { u8 bytes[0x28]; } __attribute__((packed)) Tbl40;
 typedef struct { s32 words[4]; } Copy16;
 typedef struct { u8 bytes[0x10]; } __attribute__((packed)) PackedCopy16;
 typedef struct { u8 bytes[8]; } __attribute__((packed)) PackedCopy8;
@@ -32,7 +31,7 @@ void Inv_CheckSlotUsable();
 void Pm_StopAll();
 s32 Scene_LoadRoomAssets();
 extern const Tbl20 D_8001074C;
-extern const Tbl40 D_80010760;
+extern const BattleActionSoundTable D_80010760;
 extern LargeSymbol D_800942E4_o __asm__("D_800942E4");
 extern s8 D_8009CE38;
 extern s8 D_8009CE39;
@@ -105,7 +104,7 @@ extern QueueCommand D_800BE834[];
 
 void Battle_AdvancePhase(void) {
     Tbl20 sp18;
-    Tbl40 sp30;
+    BattleActionSoundTable sp30;
     M2C_UNK *temp_v1_2;
     M2C_UNK *var_a2;
     M2C_UNK *var_a3;
@@ -182,8 +181,8 @@ void Battle_AdvancePhase(void) {
     }
     if (M2C_FIELD(D278(0), s32 *, 0x4C) & 0x200000) {
         sp18 = D_8001074C;
-        copy_dst = sp30.bytes;
-        copy_src = D_80010760.bytes;
+        copy_dst = (u8 *)sp30.soundId;
+        copy_src = (const u8 *)D_80010760.soundId;
         copy_end = copy_src + 0x20;
         if (((u32)copy_dst | (u32)copy_src) & 3) {
             do {
@@ -313,12 +312,12 @@ block_39:
         }
         if (((u32) (action - 7) < 2U) || (action == 0xA)) {
             temp_v0_3 = M2C_FIELD(temp_s2, s32 *, 0);
-            var_a0_3 = *(u16 *)&sp30.bytes[action * 2];
+            var_a0_3 = sp30.soundId[action];
             var_a2_2 = M2C_FIELD(temp_v0_3, s16 *, 0x268);
             var_a3_2 = M2C_FIELD(temp_v0_3, s16 *, 0x26A);
             var_v0_5 = M2C_FIELD(temp_v0_3, s16 *, 0x26C);
         } else {
-            var_a0_3 = *(u16 *)&sp30.bytes[action * 2];
+            var_a0_3 = sp30.soundId[action];
             var_a2_2 = M2C_FIELD(D254(7), s16 *, 0x2A);
             var_a3_2 = M2C_FIELD(D254(7), s16 *, 0x2E);
             var_v0_5 = M2C_FIELD(D254(7), s16 *, 0x32);

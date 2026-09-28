@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 #ifndef ROOMLIB_INIT_PARTICLE_RENDER_PAIR_NAME
 #error "ROOMLIB_INIT_PARTICLE_RENDER_PAIR_NAME must name the room entry point"
 #endif
@@ -30,7 +31,6 @@ extern char D_801940C8;
 extern char D_80194370;
 extern s16 D_800942EC;
 
-void **func_800C2B50(void);
 void func_800C5538(RoomParticleRenderRecord *record);
 void func_800C66C8(void *owner, int message, RoomSpriteMatrix *matrix);
 

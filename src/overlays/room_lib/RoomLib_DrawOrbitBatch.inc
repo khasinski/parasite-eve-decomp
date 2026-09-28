@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 #include "common.h"
 #include "pe1/room_fx.h"
 
@@ -16,7 +17,6 @@ typedef struct RoomOrbitBatchFxParams {
 
 extern unsigned short ROOMLIB_DRAW_ORBIT_BATCH_DEPTH;
 
-char *func_800C2B50(void);
 void func_800C2EAC(int arg0);
 void func_800C2FF0(int arg0, int arg1);
 void func_800C3098(int arg0);

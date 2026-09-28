@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/room_fx.h"
@@ -15,7 +16,6 @@ extern unsigned short ROOMLIB_DRAW_GROUND_SPRITE_DEPTH;
 extern RoomSpriteMatrix *D_800BCFA4;
 extern short ROOMLIB_DRAW_GROUND_SPRITE_FLOOR;
 
-extern char *func_800C2B50(void);
 extern void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 extern void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 extern void func_800C2EAC(unsigned char owner);

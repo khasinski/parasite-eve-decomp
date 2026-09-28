@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 #ifndef ROOMLIB_DRAW_TWELVE_EFFECT_FUNC
 #error "ROOMLIB_DRAW_TWELVE_EFFECT_FUNC must name the room entry point"
 #endif
@@ -25,7 +26,6 @@ typedef struct RoomTwelveEffectDrawStack {
     RoomFxVec4 sourceScale;
 } RoomTwelveEffectDrawStack;
 
-char *func_800C2B50(void);
 void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 void func_800C2EAC(u8 owner);
 void func_800C2FF0(int width, int height);

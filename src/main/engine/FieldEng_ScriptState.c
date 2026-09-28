@@ -29,12 +29,12 @@ void *func_800C2B28(int index) {
     return base + offset;
 }
 
-void func_800C2B40(int value) {
-    *(int *)(g_FieldEngineScriptState + 0x70) = value;
+void func_800C2B40(void *context) {
+    ((FieldEngState *)g_FieldEngineScriptState)->current_context = context;
 }
 
-int func_800C2B50(void) {
-    return *(int *)(g_FieldEngineScriptState + 0x70);
+void *func_800C2B50(void) {
+    return ((FieldEngState *)g_FieldEngineScriptState)->current_context;
 }
 
 int func_800C2B68(void) {

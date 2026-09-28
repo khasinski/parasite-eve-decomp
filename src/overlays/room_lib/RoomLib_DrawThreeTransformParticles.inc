@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 #ifndef ROOMLIB_DRAW_THREE_PARTICLES_FUNC
 #error "ROOMLIB_DRAW_THREE_PARTICLES_FUNC must name the room entry point"
 #endif
@@ -41,7 +42,6 @@ typedef struct RoomDrawThreeStack {
     s16 *args;
 } RoomDrawThreeStack;
 
-char *func_800C2B50(void);
 void func_800C2EAC(u8 owner);
 void func_800C3098(int depth);
 void func_80079754(RoomDrawThreeVec *seed, RoomSpriteMatrix *matrix);

@@ -1,13 +1,7 @@
 #include "common.h"
+#include "pe1/psyq_gpu.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef struct BootClearRect {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} BootClearRect;
 
 extern u32 D_8009D1C4;
 extern u32 D_8009D280;
@@ -55,7 +49,7 @@ void Render_SetFadeColour(int amount);
 int VSync(int mode);
 void Sys_Shutdown(void);
 void Akao_StepVoiceTable(void);
-void ClearImage(BootClearRect *rect, int r, int g, int b);
+void ClearImage(RECT *rect, int r, int g, int b);
 void DrawSync(int mode);
 void Akao_Cmd_F1(void);
 void Render_Noop(int mode);
@@ -63,7 +57,7 @@ void Asset_UnloadTableEntries(void);
 
 void Boot_RunFrame(void)
 {
-    BootClearRect clear_rect;
+    RECT clear_rect;
     u32 flags;
     u32 status;
     u32 *game_flags;

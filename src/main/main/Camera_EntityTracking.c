@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/global_pointer_slot.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -8,11 +9,6 @@
 #define U32_AT(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))
 #define S32_AT(ptr, off) (*(s32 *)((u8 *)(ptr) + (off)))
 #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
-
-typedef struct GlobalPointerSlot {
-    u8 *value;
-    u8 pad[8];
-} GlobalPointerSlot;
 
 extern u8 *D_8009D20C[];
 extern GlobalPointerSlot D_8009D254;

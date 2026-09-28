@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/room_fx.h"
+#include "pe1/field_script_context.h"
 
 typedef struct RoomPairedSpriteView {
     unsigned char pad0[0xA0];
@@ -32,7 +33,6 @@ typedef struct RoomPairedSpriteState {
 extern RoomFxSeed8 ROOMFX_INIT_PAIRED_SPRITE_POSITION_SEED;
 extern RoomFxSeed8 ROOMFX_INIT_PAIRED_SPRITE_VELOCITY_SEED;
 
-extern RoomPairedSpriteRoot **func_800C2B50(void);
 extern int *func_800C2B10(int index);
 extern void func_80078C34(
     void *transform, RoomFxSeed8 *seed, unsigned short *out);

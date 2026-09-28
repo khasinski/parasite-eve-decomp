@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 typedef struct RoomDriftView {
     char pad0[0x1A0];
     char transform[0x14];
@@ -29,7 +30,6 @@ typedef struct RoomDriftMatrixSeed {
     char bytes[8];
 } RoomDriftMatrixSeed;
 
-RoomDriftRoot **func_800C2B50(void);
 void ApplyMatrixSV(void *transform, RoomDriftMatrixSeed *seed, u16 *out);
 s32 rand(void);
 
@@ -51,7 +51,7 @@ void func_801929B0(void *arg0, void *arg1, RoomDriftEffect *effect) {
     u16 velocity_z;
 
     asm("" : "=r"(initial) : "0"(effect));
-    view = (*func_800C2B50())->view;
+    view = (*(RoomDriftRoot **)func_800C2B50())->view;
     seed = D_8018F01C;
     ApplyMatrixSV(&view->transform, &seed, out);
 

@@ -1,7 +1,7 @@
+#include "pe1/field_script_context.h"
 #include "common.h"
 #include "pe1/room_fx.h"
 
-RoomFxTransformOwner **func_800C2B50(void);
 int rand(void);
 
 void ROOMLIB_UPDATE_SPARKLE_HEIGHT_NAME(

@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 typedef struct RoomLibEffectMatrix {
     short m[3][3];
     short pad12;

@@ -1,6 +1,8 @@
 #ifndef PE1_FIELD_ENGINE_STATE_H
 #define PE1_FIELD_ENGINE_STATE_H
 
+#include "pe1/field_script_context.h"
+
 /* One dispatch slot in g_FieldEngineSlotTable (0x40 entries, 6 bytes each).
  * The field engine walks the table every frame: flag==1 dispatches the
  * handler_id'th handler, flag==2 marks the slot for teardown. */
@@ -13,11 +15,13 @@ typedef struct FieldEngSlot {
 
 /* Script-state work area (obj+0xC, pointed at by g_FieldEngineScriptState).
  * Mostly reached through the func_800C2B10/2B28 index accessors (int arrays at
- * +0x08 and +0x48); only a few header fields are touched by absolute offset
- * (e.g. an int at +0x70 get/set by func_800C2B50/2B40, still unnamed). */
+ * +0x08 and +0x48); the active context pointer at +0x70 is shared by
+ * func_800C2B50/2B40. */
 typedef struct FieldEngState {
     /* 0x00 */ unsigned char pad_00[0x40];
     /* 0x40 */ int abort_flag;          /* set to 1 to abort the current frame (func_800C2B90) */
+    /* 0x44 */ unsigned char pad_44[0x2C];
+    /* 0x70 */ void *current_context;   /* active field object or its effect context */
 } FieldEngState;
 
 extern char *g_FieldEngineScriptState __asm__("D_800E2248");

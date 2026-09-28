@@ -1,14 +1,7 @@
 #include "common.h"
+#include "pe1/render_prim.h"
 /* CC1_FLAGS: -fno-strength-reduce */
 /* MASPSX_FLAGS: --expand-div */
-
-typedef struct RgbPrim {
-    u8 pad0[4];
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 pad7[9];
-} RgbPrim;
 
 extern struct { char _[16]; } D_800BCF88_o __asm__("D_800BCF88");
 extern struct { char _[16]; } D_800BCF88_store_o __asm__("D_800BCF88");
@@ -33,7 +26,7 @@ extern struct { char _[16]; } D_800B1624_c_o __asm__("D_800B1624");
 int Render_StepFade(void) {
     u8 *geom;
     register u8 *entry asm("$4");
-    RgbPrim *prim;
+    PrimEntry *prim;
     s32 fade_step;
     int fade_value;
     int tint_loop;
@@ -70,7 +63,7 @@ int Render_StepFade(void) {
     if (entry_count != 0) {
         tint_loop = fade_value;
         do {
-            prim = (RgbPrim *)READ_S32(entry, 0x30);
+            prim = (PrimEntry *)READ_S32(entry, 0x30);
             asm("" : : "r"(prim) : "$2");
             active_slot = D_8009CDDC;
             asm("" : : "r"(active_slot) : "$6");

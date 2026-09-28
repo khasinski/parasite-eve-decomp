@@ -1,10 +1,5 @@
 #include "common.h"
-typedef struct RECT {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} RECT;
+#include "pe1/psyq_gpu.h"
 
 extern u16 D_800F336C;
 extern u16 D_800E1204[];

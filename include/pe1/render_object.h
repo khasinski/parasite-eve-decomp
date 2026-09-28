@@ -231,10 +231,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSineEffect, amplitude) == 0xC,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSineEffect, velocity_y) == 0xE,
                   render_sine_effect_velocity);
 
-typedef struct RenderSineEmitter {
-    GteShortVector position;
-    int phase;
-} RenderSineEmitter;
+/* The sine and spark modes use the same runtime emitter record. */
+typedef RenderSparkEmitter RenderSineEmitter;
 
 PE1_STATIC_ASSERT(sizeof(RenderSineEmitter) == 0xC, render_sine_emitter_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSineEmitter, phase) == 8,

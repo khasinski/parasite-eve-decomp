@@ -1,3 +1,6 @@
+#include "common.h"
+#include "pe1/vector_types.h"
+
 int func_800DFC44(int value) {
     int result = 0;
     int shift = 0x1E;
@@ -17,7 +20,6 @@ int func_800DFC44(int value) {
 }
 
 
-#include "common.h"
 typedef struct {
     s32 x;
     s32 y;
@@ -82,14 +84,7 @@ s32 func_800DFC80(Vec3Fixed *lhs, Vec3Fixed *rhs) {
 }
 
 
-#include "common.h"
-typedef struct
-{
-  s16 x;
-  s16 y;
-  s16 z;
-} Vec3s;
-s32 func_800DFD54(Vec3s *lhs, Vec3s *rhs)
+s32 func_800DFD54(Pe1Vec3s *lhs, Pe1Vec3s *rhs)
 {
   register s32 lhs_x = lhs->x;
   register s32 rhs_x = rhs->x;

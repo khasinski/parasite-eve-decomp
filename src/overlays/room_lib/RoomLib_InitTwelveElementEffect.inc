@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 #ifndef ROOMLIB_INIT_TWELVE_EFFECT_FUNC
 #error "ROOMLIB_INIT_TWELVE_EFFECT_FUNC must name the room entry point"
 #endif
@@ -8,7 +9,6 @@ typedef struct RoomTwelveEffectStack {
     RoomSpriteMatrix localMatrix;
 } RoomTwelveEffectStack;
 
-char *func_800C2B50(void);
 int *func_800C2B28(int index);
 void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 int func_800C66C8(void *owner, int id, RoomSpriteMatrix *matrix);

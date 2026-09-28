@@ -1,12 +1,15 @@
+#include "pe1/field_script_context.h"
 #include "common.h"
+#include "pe1/gte_types.h"
 #include "pe1/room_fx.h"
 
 extern RoomFxSeed8 ROOMLIB_UPDATE_EIGHT_SEED0;
 extern RoomFxSeed8 ROOMLIB_UPDATE_EIGHT_SEED1;
 extern RoomFxSeed8 ROOMLIB_UPDATE_EIGHT_SEED2;
 
-RoomEightParticleContext *func_800C2B50(void);
-void ApplyMatrixSV(void *matrix, RoomFxSeed8 *seed, u16 *out);
+GteShortVector *ApplyMatrixSV(const GteMatrix *matrix,
+                              const GteShortVector *seed,
+                              GteShortVector *out);
 int rand(void);
 
 void ROOMLIB_UPDATE_EIGHT_NAME(void *unused,
@@ -53,9 +56,15 @@ void ROOMLIB_UPDATE_EIGHT_NAME(void *unused,
             if (slot == i && frame < 90) {
                 activeCursor[0xB4] = 1;
                 state->activeCount++;
-                ApplyMatrixSV(matrix, &seed0, (u16 *)&transformed0);
-                ApplyMatrixSV(matrix, &seed1, (u16 *)&transformed1);
-                ApplyMatrixSV(matrix, &seed2, (u16 *)&transformed2);
+                ApplyMatrixSV((const GteMatrix *)matrix,
+                              (const GteShortVector *)&seed0,
+                              (GteShortVector *)&transformed0);
+                ApplyMatrixSV((const GteMatrix *)matrix,
+                              (const GteShortVector *)&seed1,
+                              (GteShortVector *)&transformed1);
+                ApplyMatrixSV((const GteMatrix *)matrix,
+                              (const GteShortVector *)&seed2,
+                              (GteShortVector *)&transformed2);
 
                 *(u16 *)(positionCursor + 4) =
                     *(u16 *)&transformed0.bytes[0] + context->baseX;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "pe1/gte_types.h"
+#include "pe1/gte_types.h"
 
 int func_800CA4A8(void *arg0, u8 *state) {
     int ret = 2;
@@ -231,15 +233,8 @@ int func_800CA7B8(char *obj) {
 }
 
 #include "common.h"
-typedef struct {
-    s16 vx;
-    s16 vy;
-    s16 vz;
-    s16 pad;
-} SVECTOR;
 
 int rand(void);
-void ApplyMatrixSV(void *matrix, SVECTOR *in, SVECTOR *out);
 
 extern char *D_800E27A8;
 extern u16 D_800E2360;
@@ -247,11 +242,11 @@ extern volatile u16 D_800E2362;
 extern u16 D_800E2364;
 
 int func_800CA824(void *arg0, void *arg1, u8 *anim) {
-    SVECTOR vec;
+    GteShortVector vec;
 
-    vec.vx = -((rand() % 3) + 9);
-    vec.vy = -((rand() % 3) + 9);
-    vec.vz = (rand() % 5) - 2;
+    vec.x = -((rand() % 3) + 9);
+    vec.y = -((rand() % 3) + 9);
+    vec.z = (rand() % 5) - 2;
 
     ApplyMatrixSV(*(void **)(D_800E27A8 + 0x238), &vec, anim + 0x10);
 
@@ -269,9 +264,6 @@ int func_800CA824(void *arg0, void *arg1, u8 *anim) {
 
 #include "common.h"
 
-
-void ApplyMatrixSV(void *matrix, SVECTOR *in, SVECTOR *out);
-
 extern char *D_8009D254;
 extern char D_800E0C08[];
 extern char *D_800E27A8;
@@ -281,7 +273,7 @@ extern u16 D_800E2364;
 
 int func_800CA934(void *arg0, void *arg1, u8 *anim) {
     u8 *anim_s0 = anim;
-    SVECTOR out;
+    GteShortVector out;
     char *data;
     char *entry;
     char *model;
@@ -293,10 +285,10 @@ int func_800CA934(void *arg0, void *arg1, u8 *anim) {
     entry = D_800E0C08 + (((short)(*(u16 *)(*(char **)(*(char **)D_8009D254 + 0x68) + 6) - 1)) << 3);
     ApplyMatrixSV(*(char **)(D_800E27A8 + 0x238) + 0x260, entry, &out);
 
-    *(u16 *)(anim_s0 + 0x8) = D_800E2360 + out.vx;
-    *(u16 *)(anim_s0 + 0xA) = D_800E2362 + out.vy;
+    *(u16 *)(anim_s0 + 0x8) = D_800E2360 + out.x;
+    *(u16 *)(anim_s0 + 0xA) = D_800E2362 + out.y;
     data = D_800E27A8;
-    *(u16 *)(anim_s0 + 0xC) = D_800E2364 + out.vz;
+    *(u16 *)(anim_s0 + 0xC) = D_800E2364 + out.z;
 
     model = *(char **)(data + 0x238);
     m0 = *(int *)(model + 0x260);
@@ -321,11 +313,8 @@ int func_800CA934(void *arg0, void *arg1, u8 *anim) {
 
 #include "common.h"
 
-
-void ApplyMatrixSV(void *matrix, SVECTOR *in, SVECTOR *out);
-
-extern SVECTOR D_800C21C4;
-extern SVECTOR D_800C21CC;
+extern GteShortVector D_800C21C4;
+extern GteShortVector D_800C21CC;
 extern char *D_800E27A8;
 extern u16 D_800E2360;
 extern u16 D_800E2362;
@@ -334,14 +323,14 @@ extern u16 D_800E2364;
 int func_800CAA38(void *arg0, void *arg1, u8 *anim) {
     u8 *anim_s0;
     u16 *field_s1;
-    SVECTOR *out_s2;
+    GteShortVector *out_s2;
     register int y_base_v0 asm("$2");
     register u16 y_out_v1 asm("$3");
     register int z_base_v1 asm("$3");
     u16 z_out_a0;
-    SVECTOR in0;
-    SVECTOR in1;
-    SVECTOR out;
+    GteShortVector in0;
+    GteShortVector in1;
+    GteShortVector out;
     char *data;
 
     anim_s0 = anim;
@@ -352,19 +341,19 @@ int func_800CAA38(void *arg0, void *arg1, u8 *anim) {
 
     ApplyMatrixSV(*(char **)(D_800E27A8 + 0x238) + 0x260, &in0, out_s2);
     field_s1 = &D_800E2360;
-    *(u16 *)(anim_s0 + 0x8) = field_s1[0] + out.vx;
-    *(u16 *)(anim_s0 + 0xA) = D_800E2362 + out.vy;
+    *(u16 *)(anim_s0 + 0x8) = field_s1[0] + out.x;
+    *(u16 *)(anim_s0 + 0xA) = D_800E2362 + out.y;
     data = D_800E27A8;
-    *(u16 *)(anim_s0 + 0xC) = D_800E2364 + out.vz;
+    *(u16 *)(anim_s0 + 0xC) = D_800E2364 + out.z;
 
     ApplyMatrixSV(*(char **)(data + 0x238) + 0x260, &in1, out_s2);
-    *(u16 *)(anim_s0 + 0x10) = field_s1[0] + out.vx;
+    *(u16 *)(anim_s0 + 0x10) = field_s1[0] + out.x;
     y_base_v0 = D_800E2362;
     asm volatile("" : "=r"(y_base_v0) : "0"(y_base_v0));
-    y_out_v1 = out.vy;
+    y_out_v1 = out.y;
     *(u16 *)(anim_s0 + 0x12) = y_base_v0 + y_out_v1;
     z_base_v1 = D_800E2364;
-    z_out_a0 = out.vz;
+    z_out_a0 = out.z;
     *(u16 *)(anim_s0 + 0x4) = 0x7F;
     *(u16 *)(anim_s0 + 0x6) = 0;
     *(u16 *)(anim_s0 + 0x14) = z_base_v1 + z_out_a0;
@@ -392,9 +381,6 @@ int func_800CAB88(void *arg0, void *arg1, u8 *anim) {
 
 #include "common.h"
 
-
-void ApplyMatrixSV(void *matrix, SVECTOR *in, SVECTOR *out);
-
 extern char *D_8009D254;
 extern char D_800E0C48[];
 extern char *D_800E27A8;
@@ -404,7 +390,7 @@ extern u16 D_800E2364;
 
 int func_800CABC8(void *arg0, void *arg1, u8 *anim) {
     u8 *anim_s0 = anim;
-    SVECTOR out;
+    GteShortVector out;
     char *data;
     char *entry;
     char *model;
@@ -416,10 +402,10 @@ int func_800CABC8(void *arg0, void *arg1, u8 *anim) {
     entry = D_800E0C48 + (((short)(*(u16 *)(*(char **)(*(char **)D_8009D254 + 0x68) + 6) - 1)) << 3);
     ApplyMatrixSV(*(char **)(D_800E27A8 + 0x238) + 0x260, entry, &out);
 
-    *(u16 *)(anim_s0 + 0x8) = D_800E2360 + out.vx;
-    *(u16 *)(anim_s0 + 0xA) = D_800E2362 + out.vy;
+    *(u16 *)(anim_s0 + 0x8) = D_800E2360 + out.x;
+    *(u16 *)(anim_s0 + 0xA) = D_800E2362 + out.y;
     data = D_800E27A8;
-    *(u16 *)(anim_s0 + 0xC) = D_800E2364 + out.vz;
+    *(u16 *)(anim_s0 + 0xC) = D_800E2364 + out.z;
 
     model = *(char **)(data + 0x238);
     m0 = *(int *)(model + 0x260);
@@ -448,19 +434,11 @@ void func_800CACD4(void) {
 
 #include "common.h"
 
-
-typedef struct {
-    s16 m[3][3];
-    int t[3];
-} Matrix;
-
 void func_800C2EAC(int arg0);
 void func_800C2FF0(int arg0, int arg1);
 void func_800C3098(int arg0);
 void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
-void Gte_ScaleMatrix(Matrix *matrix, int *scale);
-void RotMatrix(SVECTOR *rot, Matrix *matrix);
 void *memset(void *dest, int value, unsigned int count);
 
 extern char *D_8009D254;
@@ -471,24 +449,24 @@ int func_800CACDC(void *arg0, void *arg1, u8 *anim) {
     register int index_s0 asm("$16");
     u8 *anim_s1 = anim;
     int rot_v0;
-    register Matrix *matrix_a0 asm("$4");
+    register GteMatrix *matrix_a0 asm("$4");
     int scale_v0;
     register int scale2_a2 asm("$6");
     register int scale3_a3 asm("$7");
-    Matrix matrix;
-    SVECTOR rot;
+    GteMatrix matrix;
+    GteShortVector rot;
     int scale_arg[4];
     volatile int scale[4];
 
     index_s0 = *(u16 *)(*(char **)(*(char **)D_8009D254 + 0x68) + 6);
 
-    rot.vx = 0;
-    rot.vy = 0;
+    rot.x = 0;
+    rot.y = 0;
     rot_v0 = anim_s1[1];
     rot_v0 <<= 24;
     rot_v0 >>= 18;
     index_s0--;
-    rot.vz = rot_v0;
+    rot.z = rot_v0;
     func_800C2EAC(3);
     func_800C3098(0x10);
     func_800C2FF0(0x10, 0x10);
@@ -519,6 +497,6 @@ int func_800CACDC(void *arg0, void *arg1, u8 *anim) {
     scale_arg[3] = scale3_a3;
 
     asm volatile("" ::: "memory");
-    Gte_ScaleMatrix(matrix_a0, scale_arg);
+    Gte_ScaleMatrix(matrix_a0, (const GteVector *)scale_arg);
     func_800C42A4(&D_800E2308, &matrix, 1);
 }

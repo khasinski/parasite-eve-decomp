@@ -1,11 +1,5 @@
-typedef signed short s16;
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} RECT;
+#include "common.h"
+#include "pe1/psyq_gpu.h"
 
 int LoadImage(RECT *rect, void *pixels);
 

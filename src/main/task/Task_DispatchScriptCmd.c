@@ -1,5 +1,6 @@
 #include "pe1/geom_state.h"
 #include "common.h"
+#include "pe1/vector_types.h"
 
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
@@ -26,12 +27,6 @@ typedef struct TaskScriptArgs {
 #define ARG_WORD(ptr) (*(int *)(ptr))
 #define ARG_BYTE(ptr) (*(u8 *)(ptr))
 
-typedef struct ScriptPosition {
-    s16 x;
-    s16 y;
-    s16 z;
-} ScriptPosition;
-
 typedef struct ScriptMenuByte {
     u8 value;
     u8 pad1[8];
@@ -56,7 +51,7 @@ extern ScriptMenuShort g_ScriptMenuPositionX __asm__("D_800BD028");
 extern ScriptMenuShort g_ScriptMenuPositionY __asm__("D_800BD02A");
 
 void Task_SetCollisionFlag(int value);
-void func_800E00CC(ScriptPosition *position, int mode, int arg2, int arg3,
+void func_800E00CC(Pe1Vec3s *position, int mode, int arg2, int arg3,
                    int arg4, int arg5, int arg6);
 u8 *Scene_LoadMap(char *map_id, u8 *entity, int mode);
 void Battle_DrawActiveStatus(void);
@@ -65,8 +60,8 @@ int Asset_LoadTimTextures(int mode);
 
 int Task_DispatchScriptCmd(TaskScriptArgs *args)
 {
-    ScriptPosition position;
-    ScriptPosition position2;
+    Pe1Vec3s position;
+    Pe1Vec3s position2;
     char map_id[2];
     u8 *entity;
     u8 *loaded;

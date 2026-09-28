@@ -1,17 +1,18 @@
+#include "pe1/field_script_context.h"
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/room_fx.h"
 
 extern u8 ROOMLIB_DRAW_EIGHT_SCALED_TABLE[];
 extern u16 ROOMLIB_DRAW_EIGHT_SCALED_DEPTH;
 
-char *func_800C2B50(void);
-void func_800C2EAC(int mode);
+void func_800C2EAC(u8 owner);
 void func_800C2FF0(int width, int height);
 void func_800C3098(int value);
 void func_800C3238(int mode);
 void *memset(void *dest, int value, unsigned int size);
 void func_800C3134(void *table, int step, void *out);
-void func_800C42A4(void *packet, GteMatrix *matrix, int mode);
+void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 
 void ROOMLIB_DRAW_EIGHT_SCALED_NAME(
     void *unused0, void *unused1, char *stateArg) {
@@ -22,10 +23,10 @@ void ROOMLIB_DRAW_EIGHT_SCALED_NAME(
     register char *packet asm("$21");
     register char *scalarCursor asm("$16");
     register char *positionCursor asm("$17");
-    GteMatrix matrix;
+    RoomSpriteMatrix matrix;
     int scaleArg[4];
     volatile int sourceScale[4];
-    GteMatrix *matrixArg;
+    RoomSpriteMatrix *matrixArg;
     register int scale2 asm("$6");
     register int scale3 asm("$7");
     char *context;

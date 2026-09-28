@@ -1,0 +1,108 @@
+#include "../room_lib/room_lib.h"
+
+extern char RoomLib_TableA_8018F0D0[];
+extern char RoomLib_TableB_8018F078[];
+extern char D_80190E30[];
+extern char D_80190E60[];
+extern char D_80190E78[];
+
+int RoomLib_CloseTarget_8018F1A4(RoomEnt *obj);
+
+ROOMLIB_RETURN_ZERO(func_8018F070)
+ROOMLIB_PLANT_TABLE(RoomLib_PlantTable_8018F078, RoomLib_TableB_8018F078)
+ROOMLIB_SPAWN6(RoomLib_Spawn6_8018F0A4)
+ROOMLIB_REGISTER_TABLE(RoomLib_RegisterTable_8018F0D0, RoomLib_TableA_8018F0D0)
+
+int func_8018F118(RoomEnt *obj)
+{
+    int result;
+
+    if ((unsigned int)FieldEng_GetStatus() >= 2) {
+        result = func_800C251C(obj, D_80190E60);
+        result |= func_800C2758(obj, D_80190E30, D_80190E78);
+    } else {
+        result = -1;
+    }
+
+    if (result == -1) {
+        RoomLib_CloseTarget_8018F1A4(obj);
+    }
+
+    return 0;
+}
+
+ROOMLIB_CLOSE_TARGET(RoomLib_CloseTarget_8018F1A4)
+
+int func_8018F228(void)
+{
+    return 0;
+}
+
+#define ROOMFX_INIT_RENDER_CONFIGS_NAME func_8018F230
+#define ROOMFX_INIT_RENDER_CONFIGS_78 D_80190F78
+#define ROOMFX_INIT_RENDER_CONFIGS_68 D_80190F68
+#define ROOMFX_INIT_RENDER_CONFIGS_84 D_80190F84
+#define ROOMFX_INIT_RENDER_CONFIGS_88 D_80190F88
+#define ROOMFX_INIT_RENDER_CONFIGS_74 D_80190F74
+#define ROOMFX_INIT_RENDER_CONFIGS_75 D_80190F75
+#define ROOMFX_INIT_RENDER_CONFIGS_7A D_80190F7A
+#define ROOMFX_INIT_RENDER_CONFIGS_70 D_80190F70
+#define ROOMFX_INIT_RENDER_CONFIGS_71 D_80190F71
+#define ROOMFX_INIT_RENDER_CONFIGS_72 D_80190F72
+#define ROOMFX_INIT_RENDER_CONFIGS_76 D_80190F76
+#define ROOMFX_INIT_RENDER_CONFIGS_64 D_80190F64
+#define ROOMFX_INIT_RENDER_CONFIGS_65 D_80190F65
+#define ROOMFX_INIT_RENDER_CONFIGS_6A D_80190F6A
+#define ROOMFX_INIT_RENDER_CONFIGS_60 D_80190F60
+#define ROOMFX_INIT_RENDER_CONFIGS_61 D_80190F61
+#define ROOMFX_INIT_RENDER_CONFIGS_62 D_80190F62
+#define ROOMFX_INIT_RENDER_CONFIGS_66 D_80190F66
+#define ROOMFX_INIT_RENDER_CONFIGS_85 D_80190F85
+#define ROOMFX_INIT_RENDER_CONFIGS_8A D_80190F8A
+#define ROOMFX_INIT_RENDER_CONFIGS_80 D_80190F80
+#define ROOMFX_INIT_RENDER_CONFIGS_81 D_80190F81
+#define ROOMFX_INIT_RENDER_CONFIGS_82 D_80190F82
+#define ROOMFX_INIT_RENDER_CONFIGS_86 D_80190F86
+#define ROOMFX_INIT_RENDER_CONFIGS_94 D_80190F94
+#define ROOMFX_INIT_RENDER_CONFIGS_95 D_80190F95
+#define ROOMFX_INIT_RENDER_CONFIGS_98 D_80190F98
+#define ROOMFX_INIT_RENDER_CONFIGS_9A D_80190F9A
+#define ROOMFX_INIT_RENDER_CONFIGS_90 D_80190F90
+#define ROOMFX_INIT_RENDER_CONFIGS_91 D_80190F91
+#define ROOMFX_INIT_RENDER_CONFIGS_92 D_80190F92
+#define ROOMFX_INIT_RENDER_CONFIGS_96 D_80190F96
+#define ROOMFX_INIT_RENDER_CONFIGS_58 D_80190F58
+#define ROOMFX_INIT_RENDER_CONFIGS_5A D_80190F5A
+#define ROOMFX_INIT_RENDER_CONFIGS_54 D_80190F54
+#define ROOMFX_INIT_RENDER_CONFIGS_55 D_80190F55
+#define ROOMFX_INIT_RENDER_CONFIGS_50 D_80190F50
+#define ROOMFX_INIT_RENDER_CONFIGS_51 D_80190F51
+#define ROOMFX_INIT_RENDER_CONFIGS_52 D_80190F52
+#define ROOMFX_INIT_RENDER_CONFIGS_56 D_80190F56
+#include "../room_lib/RoomFx_InitRenderConfigs.inc"
+
+void func_8018F420(void)
+{
+}
+
+void func_8018F428(int arg0, char *arg1, char *arg2) {
+    short *state = (short *)arg2;
+
+    if (state[3] != 0) {
+        state[3]--;
+    }
+
+    if (state[4] == 1) {
+        int timer = state[3];
+
+        state[4] = 0;
+        if (timer == 0) {
+            state[3] = *(unsigned short *)(arg2 + 4);
+            func_800C6C18(arg0);
+        }
+    }
+
+    if (func_800C2B68() == 1) {
+        arg1[1] = 2;
+    }
+}

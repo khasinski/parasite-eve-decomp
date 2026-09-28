@@ -1,3 +1,4 @@
+#include "pe1/field_script_context.h"
 #ifndef ROOMLIB_DRAW_SCALED_SPRITE_FUNC
 #error "ROOMLIB_DRAW_SCALED_SPRITE_FUNC must name the room entry point"
 #endif
@@ -8,7 +9,6 @@ typedef struct RoomScaledSpriteStack {
     RoomFxVec4 sourceScale;
 } RoomScaledSpriteStack;
 
-char *func_800C2B50(void);
 void func_800794C4(void *seed, RoomSpriteMatrix *matrix);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
 void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);

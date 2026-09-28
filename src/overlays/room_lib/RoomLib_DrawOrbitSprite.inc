@@ -1,7 +1,7 @@
+#include "pe1/field_script_context.h"
 extern u8 ROOMLIB_DRAW_ORBIT_SPRITE_ALPHA;
 extern u16 ROOMLIB_DRAW_ORBIT_SPRITE_DEPTH;
 
-char *func_800C2B50(void);
 void func_800C2EAC(int arg0);
 void func_800C2FF0(int arg0, int arg1);
 void func_800C3098(int arg0);
