@@ -445,7 +445,7 @@ segments:
       - [0x2F304, c, field/Field_HandleStateTransition]
       - [0x2F874, c, gpu/Gpu_InitPipeline]
       - [0x2FAFC, c, boot/Boot_FlushSceneFast]
-      - [0x2FBC4, asm, boot/Boot_RunFrame]
+      - [0x2FBC4, c, boot/Boot_RunFrame]
       - [0x2FF58, c, gpu/Gte_LightingState]
       - [0x30000, c, save/Save_SerializeTail]
       - [0x303D8, c, save/Save_DeserializeTail]
