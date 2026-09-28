@@ -63,3 +63,10 @@ void Menu_OpenEquipScreen(int mode)
     D_8009CEFC = 0;
     Queue_Init();
 }
+
+extern int g_MenuEquipMode;
+
+/* Reopen the equip screen with the current menu mode restored. */
+void Menu_ReopenEquipScreen(void) {
+    Menu_OpenEquipScreen(g_MenuEquipMode - 1);
+}

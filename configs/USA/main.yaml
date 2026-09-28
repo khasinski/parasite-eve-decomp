@@ -581,7 +581,6 @@ segments:
       - [0x3E874, c, menu/Menu_StepNameEntry]
       - [0x3EAE4, c, menu/Menu_StepNameEntryAlt]
       - [0x3EF04, c, menu/Menu_OpenEquipScreen]
-      - [0x3F14C, c, menu/Menu_ReopenEquipScreen]
       - [0x3F170, c, menu/Menu_GetEquipMode]
       - [0x3F17C, c, menu/Menu_OpenInventoryScreen]
       - [0x3F3CC, c, menu/Menu_DrawEquipListContainer]
