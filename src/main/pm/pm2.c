@@ -271,7 +271,7 @@ extern s32 D_800B0CD8_w[] __asm__("g_GameState");
 s32 Pm_StopAll(void) {
     u8 *clear_base;
     u8 *base_v0;
-    s32 *var_v1;
+    u32 *var_v1;
     s32 var_a2;
     s32 var_s1;
     s32 var_s2;
@@ -332,4 +332,166 @@ block_13:
         }
     }
     return var_v0;
+}
+
+
+/* Both passes share the PM slot ABI but walk their banks in opposite order. */
+s32 Pm_StopUpperHalf(void) {
+    u32 loop_index;
+    u8 *clear_base;
+    s32 table1_offset;
+    s32 table2_offset;
+    u32 slot;
+    s32 result;
+    PmSlotHeader *entry;
+    u8 *base;
+    register u32 fill asm("$2");
+    u32 marker;
+    u32 clear_index;
+    u32 *clear_ptr;
+    register s32 mask asm("$3");
+    register s32 game_state asm("$2");
+
+    loop_index = 0;
+    clear_base = (u8 *)g_PmSlotBufferTyped;
+    table2_offset = 0x6E84;
+    table1_offset = 0;
+    slot = 0xB;
+    do {
+        {
+            s32 arg0 = slot;
+            s32 arg1 = 0;
+            s32 arg2 = 1;
+            result = Pm_Stop(arg0, arg1, arg2);
+        }
+        if (result != 0) {
+            return result;
+        }
+
+        if (slot < 0x16U) {
+            if (slot >= 0xBU) {
+                base = (u8 *)g_PmSlotTable2Typed;
+                entry = (PmSlotHeader *)(base + table1_offset);
+            } else {
+                base = (u8 *)g_PmSlotTableTyped;
+                entry = (PmSlotHeader *)(base + table2_offset);
+            }
+
+            marker = entry->command;
+            fill = 0x72;
+            if (marker != fill) {
+                fill = 0xFF;
+                goto clear_entry;
+            }
+            fill = 0xFF;
+            clear_index = 0x6C;
+            clear_ptr = (s32 *)(clear_base + 0x1B0);
+            do {
+                *clear_ptr = 0;
+                clear_index++;
+                clear_ptr++;
+            } while (clear_index < 0x73U);
+            mask = 0xFFFEFFFF;
+            game_state = D_800B0CD8_r[0];
+            game_state &= mask;
+            D_800B0CD8_w[0] = game_state;
+            fill = 0xFF;
+
+clear_entry:
+            entry->state = 0;
+            entry->command = fill;
+            entry->field02 = fill;
+            entry->field03 = fill;
+            entry->ticks = 0;
+            entry->owner = 0;
+        }
+
+        table2_offset += 0xA0C;
+        table1_offset += 0x10C;
+        loop_index++;
+        slot++;
+    } while ((s32)loop_index < 0xB);
+
+    return result;
+}
+
+s32 Pm_StopLowerHalf(void) {
+    u32 slot;
+    s32 table1_offset;
+    s32 table2_offset;
+    u8 *clear_base;
+    s32 result;
+    PmSlotHeader *entry;
+    u8 *base;
+    register u32 fill asm("$2");
+    u32 marker;
+    u32 clear_index;
+    u32 *clear_ptr;
+    register s32 mask asm("$3");
+    register s32 game_state asm("$2");
+
+    slot = 0;
+    clear_base = (u8 *)g_PmSlotBufferTyped;
+    table1_offset = 0;
+    table2_offset = -0xB84;
+    do {
+        {
+            s32 arg0 = slot;
+            s32 arg1 = 0;
+            s32 arg2 = 1;
+            result = Pm_Stop(arg0, arg1, arg2);
+        }
+        if (result != 0) {
+            return result;
+        }
+
+        if (slot < 0x16U) {
+            if (slot >= 0xBU) {
+                base = (u8 *)g_PmSlotTable2Typed;
+                entry = (PmSlotHeader *)(base + table2_offset);
+            } else {
+                base = (u8 *)g_PmSlotTableTyped;
+                entry = (PmSlotHeader *)(base + table1_offset);
+            }
+
+            marker = entry->command;
+            fill = 0x72;
+            if (marker != fill) {
+                fill = 0xFF;
+                goto clear_entry;
+            }
+            fill = 0xFF;
+            clear_index = 0x6C;
+            clear_ptr = (s32 *)(clear_base + 0x1B0);
+            do {
+                *clear_ptr = 0;
+                clear_index++;
+                clear_ptr++;
+            } while (clear_index < 0x73U);
+            mask = 0xFFFEFFFF;
+            game_state = D_800B0CD8_r[0];
+            game_state &= mask;
+            D_800B0CD8_w[0] = game_state;
+            fill = 0xFF;
+
+clear_entry:
+            entry->state = 0;
+            entry->command = fill;
+            entry->field02 = fill;
+            entry->field03 = fill;
+            entry->ticks = 0;
+            entry->owner = 0;
+        }
+
+        table1_offset += 0xA0C;
+        slot++;
+        table2_offset += 0x10C;
+    } while ((s32)slot < 0xB);
+
+    return result;
+}
+
+void Pm_StopAllBoth(void) {
+    Pm_StopLowerHalf();
+    Pm_StopUpperHalf();
 }

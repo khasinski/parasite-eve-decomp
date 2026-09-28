@@ -906,8 +906,6 @@ segments:
       - [0x5FB9C, c, main/Scene_LoadRoomAssets]
       - [0x5FED4, c, pm/pm]
       - [0x601F0, c, pm/pm2]
-      # Paired particle-model stop passes and their wrapper.
-      - [0x609B4, c, render/Pm_StopLowerHalf]
       - [0x60C1C, c, render/Render_DecompressAnimFrame]
       - [0x61510, c, task/Task_InitGpuHwRegs]
       - [0x6156C, c, task/Task_GpuFlushPrimQueue]
