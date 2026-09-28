@@ -31,7 +31,7 @@ void Menu_OpenSkillSelectionView(void);
 void Menu_StepInventoryRoot(int mode, int index, int arg);
 void Menu_CreateNotificationDialog(int message, int arg);
 void MenuInput_SetPollingPaused(int paused);
-void Menu_OnEquipConfirm(int unused, int confirmed);
+void Menu_OnEquipConfirm(MenuWidgetNode *unused, int confirmed);
 
 int Menu_ClampRange(int value);
 void Menu_SaveBgInitFade(void);
