@@ -105,6 +105,12 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x71C14..0x72574` | `psyq/libds/dsfile` | Psy-Q `LIBDS.LIB` identifies one `DSFILE.OBJ`, and public `libds/dsfile.c` gives the exact order `DsSearchFile`, `_cmp`, `DS_newmedia`, `DS_searchdir`, `DS_cachefile`, `ds_read`. A combined TU under stock GCC 2.8.1 changes text size by `-0x44` with default flags and `+0x2C` with `-mno-split-addresses`, so keep the current byte-matching object boundaries. The ISO-9660 records and shared DSFILE helper prototypes now live in `psyq_ds.h`; `ds_read` consistently takes a destination pointer. The split implementation passes the retail EXE SHA-1 check. |
 | `0x76444..0x76580` | `psyq/libspu/s_si` | The exported `SpuSetIRQ` is the complete public Psy-Q `libspu/s_si.c` routine: it toggles bit `0x40` of `spucnt`, polls the result, and emits the SDK timeout diagnostics. Its current constrained assembly remains retail-identical while the manifest records the original library unit. |
 
+## Verified room overlay units
+
+| Range | Unit | Evidence |
+| --- | --- | --- |
+| `room_m350: 0x57D4..0x5F1C` | `RoomEffect_HomingTrailSequence` | The sequence controller initializes the same 28-byte pool record later consumed by its callback. `RoomM350Particle` overlays spawn fields (`speed/yaw/phase`, `size/duration/frame/state`) with active fields (`rotation`, `speed/brightness/frame/hit`), guarded by size and offset assertions in `room_m350_effects.h`. The shared actor/instance layout also reconciles the callback's owner/position view with the controller's animation/frame/yaw view. Both functions now share one TU and the entire overlay matches its retail SHA-1. |
+
 ## Shared record layouts
 
 | Layout | Evidence and use |
@@ -251,7 +257,6 @@ the matching object code:
 
 | Range | Callback and controller | Reason to defer |
 | --- | --- | --- |
-| `0x57D4..0x5F1C` | `HomingTrailController` / `SequenceSpawner` | Two incompatible semantic views of a 28-byte pool record. |
 | `0x6B7C..0x70DC` | `ActorOffsetPaletteCallback` / `FadingPairEmitter` | Callback and controller reconstruct different `Instance` transform views. |
 | `0x91E8..0x9878` | `TransformedFlare` / `SweptAreaEmitter` | Competing `Instance` and `Actor` layouts require a common verified view. |
 | `0x9878..0x9D10` | `AttachedCloud` / `AttachedCloudSpawner` | The callback and controller use different names and meanings for fields after the common prefix. |

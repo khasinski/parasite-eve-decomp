@@ -105,8 +105,7 @@ segments:
       - [0x5064, c, RoomEffect_ModelShellLayers]
       # The controller owns four pointer records consumed by this callback.
       - [0x5508, c, RoomEffect_AnimationBurst]
-      - [0x57D4, c, RoomEffect_HomingTrailController]
-      - [0x5D14, c, RoomEffect_SequenceSpawner]
+      - [0x57D4, c, RoomEffect_HomingTrailSequence]
       # The queue controller fills the callback's sixteen eight-byte records.
       - [0x5F1C, c, RoomEffect_PointerQueue]
       # The controller initializes the callback's fifty twelve-byte records.
