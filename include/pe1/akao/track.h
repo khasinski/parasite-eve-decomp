@@ -118,6 +118,8 @@ typedef struct AkaoVoiceEnvelopeSlot {
     AkaoS16 level;
     unsigned char reserved02[6];
 } AkaoVoiceEnvelopeSlot;
+typedef char AkaoVoiceEnvelopeSlotSizeCheck[
+    (sizeof(AkaoVoiceEnvelopeSlot) == 8) ? 1 : -1];
 
 /* Source descriptor passed when a nested AKAO stream allocates a voice. */
 typedef struct AkaoNestedSource {
@@ -162,6 +164,8 @@ typedef struct AkaoSequencerBank {
     /* 0x5A */ AkaoU16 field_5A;
     /* 0x5C */ AkaoU32 field_5C[3];
 } AkaoSequencerBank;
+typedef char AkaoSequencerBankSizeCheck[
+    (sizeof(AkaoSequencerBank) == 0x68) ? 1 : -1];
 
 typedef struct AkaoSequencerState {
     AkaoSequencerBank primary;

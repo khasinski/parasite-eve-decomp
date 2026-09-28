@@ -1,12 +1,62 @@
+#include "common.h"
 #include "pe1/akao/voice_masks.h"
+#include "pe1/psyq_spu_internal.h"
+
+/* The tracked voice ID is AkaoTrack::assigned_voice_index (+0xF0); retain
+ * the original word-stride loop while exposing the shared track type in the API. */
+void Akao_RemoveVoice(AkaoTrack *voices, int voiceIndex) {
+    int *assignedVoiceIndex = (int *)voices;
+    int i = 0;
+    int unusedVoice = 0x18;
+
+    assignedVoiceIndex += 0x3C;
+    do {
+        if (voiceIndex == *assignedVoiceIndex) {
+            *assignedVoiceIndex = unusedVoice;
+        }
+        i++;
+        assignedVoiceIndex += 0x47;
+    } while ((unsigned int)i < 0x18);
+}
+
+void Akao_UpdateVoiceEnvelopes(s32 protectedMask) {
+    AkaoVoiceEnvelopeSlot *envelope;
+    s32 combinedMask;
+    u32 voiceIndex;
+    u32 mask;
+    AkaoTrack *voiceBase;
+
+    voiceIndex = 0;
+    mask = 1;
+    voiceBase = &g_AkaoVoiceStateTable[0];
+    envelope = &g_AkaoVoiceEnvelopeTable[0];
+    combinedMask = (((*((s32 *) (((u8 *) g_AkaoCurTrack) + 4))) & (*((s32 *) (((u8 *) g_AkaoCurTrack) + 0xC)))) | ((*((s32 *) (((u8 *) g_AkaoCurTrack) + 0x6C))) & (*((s32 *) (((u8 *) g_AkaoCurTrack) + 0x74))))) | protectedMask;
+    do {
+        if (combinedMask & (mask << voiceIndex)) {
+            register s32 level = 0x7FFF;
+            envelope->level = level;
+        } else {
+            SpuGetVoiceEnvelope(voiceIndex, (unsigned short *)envelope);
+            if (envelope->level == 0) {
+                if (envelope) {
+                    Akao_RemoveVoice(voiceBase, voiceIndex);
+                    Akao_RemoveVoice(voiceBase + AKAO_VOICE_COUNT, voiceIndex);
+                } else {
+                    Akao_RemoveVoice(voiceBase, voiceIndex);
+                    Akao_RemoveVoice(voiceBase + AKAO_VOICE_COUNT, voiceIndex);
+                }
+            }
+        }
+        voiceIndex += 1;
+        envelope++;
+    } while (voiceIndex < 0x18U);
+}
+
 extern unsigned D_800BCD58, g_AkaoVoiceMaskScratch;
 extern unsigned short g_AkaoTrack5ATransposeValue;
 extern AkaoTrack g_AkaoVoiceChannelTable[];
-void Akao_UpdateVoiceEnvelopes(unsigned);
-void Akao_StepVoiceNote(AkaoTrack *, unsigned, unsigned, unsigned *);
 void Akao_WriteVoiceParam(int, int *, unsigned);
 void Akao_SetMasterVolume(short, short);
-long SpuSetNoiseClock(long);
 void Spu_WriteReverbEnable(unsigned);
 void Spu_WriteNoiseEnable(unsigned);
 void Spu_WriteFmEnable(unsigned);

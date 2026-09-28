@@ -120,6 +120,7 @@ void _spu_FsetRXX(u32 offset, u32 value, u32 mode);
 u32 _spu_FsetRXXa(s32 offset, u32 value);
 u32 _spu_FgetRXXa(u32 offset, s32 mode);
 long SpuSetNoiseClock(long clock);
+void SpuGetVoiceEnvelope(unsigned long voice, unsigned short *env);
 extern int _spu_AllocBlockNum;
 extern int _spu_AllocLastNum;
 extern SPU_MALLOC *_spu_memList;
