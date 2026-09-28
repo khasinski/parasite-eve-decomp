@@ -1,57 +1,11 @@
 /* ASSEMBLER: GNU */
-#include "pe1/psyq_cd.h"
-
-/* Psy-Q DSFILE.OBJ: ISO-9660 media and directory cache helpers.
- * Byte arrays preserve unaligned, little-endian on-disc fields. */
-typedef struct IsoVolumePathTable {
-    u8 type;
-    char identifier[5];
-    u8 version;
-    u8 reserved07[133];
-    u8 pathTableSectorLE[4];
-} IsoVolumePathTable;
-
-typedef struct IsoPathRecord {
-    u8 nameLength;
-    u8 extendedAttributeLength;
-    u8 sectorLE[4];
-    u8 parentDirectoryLE[2];
-    char name[1];
-} IsoPathRecord;
-
-typedef struct IsoDirectoryRecord {
-    u8 recordLength;
-    u8 extendedAttributeLength;
-    u8 sectorLE[4];
-    u8 sectorBE[4];
-    u8 sizeLE[4];
-    u8 sizeBE[4];
-    u8 timestamp[7];
-    u8 flags;
-    u8 fileUnitSize;
-    u8 interleaveGapSize;
-    u8 volumeSequenceLE[2];
-    u8 volumeSequenceBE[2];
-    u8 nameLength;
-    char name[1];
-} IsoDirectoryRecord;
-
-PE1_STATIC_ASSERT(PE1_OFFSETOF(IsoVolumePathTable, pathTableSectorLE) == 140,
-                  iso_volume_path_table_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(IsoPathRecord, name) == 8,
-                  iso_path_name_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(IsoDirectoryRecord, sizeLE) == 10,
-                  iso_directory_size_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(IsoDirectoryRecord, name) == 33,
-                  iso_directory_name_offset);
+#include "pe1/psyq_ds.h"
 
 extern u8 D_800A52B0[2048];
 extern int D_8009B6DC;
 extern int D_8009AFC0;
-int ds_read(int count, int sector, void *destination);
 CdlLOC *CdIntToPos(int sector, CdlLOC *position);
 void *memcpy(void *, const void *, unsigned int);
-int strncmp(const char *, const char *, unsigned int);
 int strcmp(const char *, const char *);
 int printf(const char *, ...);
 int puts(const char *);

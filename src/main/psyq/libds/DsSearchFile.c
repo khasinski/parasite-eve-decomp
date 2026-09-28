@@ -1,7 +1,7 @@
 /* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 PE1_STATIC_ASSERT(sizeof(DslFILE) == 24, ds_search_file_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DslFILE, name) == 8, ds_search_file_name_offset);
 
@@ -9,10 +9,6 @@ extern int D_8009B6E0, D_8009AFC0;
 extern char D_80011E6C[], D_80011E88[], D_80011EA0[], D_80011EBC[], D_80011EDC[], D_80011EE8[];
 extern char D_800A36B8[DSL_MAX_FILE][sizeof(DslFILE)];
 int CdRom_GetDiskType(void);
-int DS_newmedia(void);
-int DS_searchdir(int, char *);
-int DS_cachefile(int);
-int _cmp(char *, char *);
 int printf(const char *, ...);
 int puts(const char *);
 DslFILE *DsSearchFile(DslFILE *output, char *input_name) {
