@@ -129,8 +129,7 @@ segments:
       - [0x8A1C, c, RoomEffect_RadialBurst]
       - [0x8DC0, c, RoomEffect_AnimationEventController]
       - [0x91E8, c, RoomEffect_SweptTransformFlare]
-      - [0x9878, c, RoomEffect_AttachedCloud]
-      - [0x9AD4, c, RoomEffect_AttachedCloudSpawner]
+      - [0x9878, c, RoomEffect_AttachedCloudSequence]
       - [0x9D10, c, RoomEffect_CloudController]
       # The spawner owns ten twenty-byte records updated by this callback.
       - [0xA160, c, RoomEffect_FadingModel]

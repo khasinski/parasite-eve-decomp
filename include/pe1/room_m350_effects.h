@@ -48,6 +48,25 @@ typedef struct RoomM350FlareParticle {
     s16 size;
 } RoomM350FlareParticle;
 
+typedef struct RoomM350CloudParticleState {
+    union {
+        struct {
+            s16 animatedSize;
+            s16 firstShade;
+            s16 secondShade;
+            s16 reserved12;
+        } active;
+        s32 spawnReserved[2];
+    } value;
+} RoomM350CloudParticleState;
+
+typedef struct RoomM350CloudParticle {
+    s32 *anchor;
+    s16 position[3];
+    s16 size;
+    RoomM350CloudParticleState state;
+} RoomM350CloudParticle;
+
 typedef struct RoomM350EffectOwner {
     u32 flags;
     u32 reserved04;
@@ -90,6 +109,16 @@ PE1_STATIC_ASSERT(sizeof(RoomM350Particle) == 28,
                   room_m350_particle_size);
 PE1_STATIC_ASSERT(sizeof(RoomM350FlareParticle) == 8,
                   room_m350_flare_particle_size);
+PE1_STATIC_ASSERT(sizeof(RoomM350CloudParticleState) == 8,
+                  room_m350_cloud_particle_state_size);
+PE1_STATIC_ASSERT(sizeof(RoomM350CloudParticle) == 20,
+                  room_m350_cloud_particle_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350CloudParticle, position) == 4,
+                  room_m350_cloud_particle_position_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350CloudParticle, size) == 0xA,
+                  room_m350_cloud_particle_size_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350CloudParticle, state) == 0xC,
+                  room_m350_cloud_particle_state_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350Particle, motion) == 8,
                   room_m350_particle_motion_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350Particle, tail) == 16,

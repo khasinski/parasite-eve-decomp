@@ -112,6 +112,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `room_m350: 0x57D4..0x5F1C` | `RoomEffect_HomingTrailSequence` | The sequence controller initializes the same 28-byte pool record later consumed by its callback. `RoomM350Particle` overlays spawn fields (`speed/yaw/phase`, `size/duration/frame/state`) with active fields (`rotation`, `speed/brightness/frame/hit`), guarded by size and offset assertions in `room_m350_effects.h`. The shared actor/instance layout reconciles the callback's owner/position view with the controller's animation/frame/yaw view. Both functions share one TU and the entire overlay matches its retail SHA-1. |
 | `room_m350: 0x6B7C..0x70DC` | `RoomEffect_ActorOffsetPaletteSequence` | The palette callback reads its origin through a padded `Transform.position` at `+0x434`; this is `transforms[33].t` in the emitter's `GteMatrix` array. Both paths share `RoomM350EffectInstance`/`RoomM350EffectOwner`, and the callback's four halfwords are the emitter's `GteShortVector` plus its `pad` size. The whole overlay remains SHA-identical. |
 | `room_m350: 0x91E8..0x9878` | `RoomEffect_SweptTransformFlare` | The flare callback and swept-area emitter share the same 8-byte pool record (`y/z/shade/size` over the GTE vector's final halfword), actor, owner, and instance. The instance's inline transform is at `+0x1E8`, its translation at `+0x1FC`, and its transform-array pointer at `+0x238`; the old padded views reduce to these shared GTE fields. The complete overlay remains SHA-identical. |
+| `room_m350: 0x9878..0x9D10` | `RoomEffect_AttachedCloudSequence` | The spawner and callback share a 20-byte pool record: its spawn-time reserved words at `+0xC..+0x13` become `animatedSize`, the two shade values and one reserved halfword during callback updates. `RoomM350CloudParticle` models these as a union; both functions now use the shared actor, emitter and GTE transform array. The full overlay retains its retail SHA-1. |
 
 ## Shared record layouts
 
@@ -259,7 +260,6 @@ the matching object code:
 
 | Range | Callback and controller | Reason to defer |
 | --- | --- | --- |
-| `0x9878..0x9D10` | `AttachedCloud` / `AttachedCloudSpawner` | The callback and controller use different names and meanings for fields after the common prefix. |
 | `0xA6D4..0xAB24` | `SineFadeCallback` / `ModelTransformEmitter` | Common 24-byte particle is established; merge must preserve the callback's `worldY` view at offset `0x200`. |
 
 Every proposed merge must retain manifest order, pass its behavioral tests,
