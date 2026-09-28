@@ -105,6 +105,7 @@ void BattleCmd_ResetTableCursor(void);
 BattleCmdEntry *BattleCmd_AllocSlot(void);
 int BattleCmd_GetRemainingAmmo(int *out);
 void BattleCmd_CommitAndSyncAmmo(int item);
+void BattleCmd_ChangeWeaponAndSync(int item);
 
 #undef BATTLE_CMD_STATIC_ASSERT
 #undef BATTLE_CMD_OFFSETOF

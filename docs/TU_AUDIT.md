@@ -6,6 +6,8 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 ## Verified main units
 
+| `0x47894..0x48410` | `item/Inv_ItemActions` | The inventory action and battle item-use paths are adjacent in the same `-G8` profile and share `ItemDataRecord`, `InventoryRuntime`, the battle command queue, and selected-item state. Folding `Battle_UseItem` into the existing action unit also removes its conflicting local `Inv_SetActiveList` declaration; `BattleCmd_ChangeWeaponAndSync` now has one shared API prototype. All `0xB7C` bytes remain retail-identical under `make check`. |
+
 | Range | Unit | Evidence |
 | --- | --- | --- |
 | `0x5DAB8..0x5DE0C` | `main/CD_SeekToTrack` | Track lookup/bank initialization flows directly into the CD read-transition state machine; both entries use the same `-G8` profile and shared `Pe1GameState`/CD APIs. Combining `CD_SeekToTrack` and `CD_StepReadState` preserves all 2192 text bytes and `0x104` bytes of rodata exactly. This is a verified cohesive TU, though the original source-file boundary is not independently established. |

@@ -276,3 +276,25 @@ int Inv_GetSlotHighlightState(int spell, int available) {
     }
     return cost;
 }
+
+void Battle_UseItem(s32 arg0) {
+    s32 sp10;
+    s32 temp_s0;
+    ItemDataRecord *temp_v0;
+    BattleCmdEntry *temp_v0_2;
+
+    temp_v0 = Item_LookupBaseData(arg0 + 0xEB);
+    if (g_MenuBattleEquipMode != 0) {
+        temp_s0 = Inv_GetSlotHighlightState(arg0, BattleCmd_GetRemainingAmmo(0));
+        temp_v0_2 = BattleCmd_AllocSlot();
+        temp_v0_2->header.word = 1;
+        temp_v0_2->payload.ammo_spend.item_index = arg0;
+        temp_v0_2->payload.ammo_spend.amount = temp_s0;
+        sp10 = arg0;
+        Inv_SetActiveList(1, &sp10);
+        return;
+    }
+    if (*(u8 *)&temp_v0->bonusStats[0] == 1) {
+        BattleCmd_ChangeWeaponAndSync(arg0);
+    }
+}
