@@ -1,27 +1,56 @@
 /* CC1_FLAGS: -G0 */
 /* MASPSX_FLAGS: -G8 --use-comm-section --expand-div */
-#include "pe1/akao.h"
 #include "pe1/battle_runtime.h"
 #include "pe1/random.h"
-u8 D_8009D2D8, D_8009CE3C, D_8009CE60, D_8009D25C;
-/* Signed view of the target-mode byte at D_8009CE40. */
+#include "pe1/akao.h"
+u8 D_8009D2D8, D_8009CE3C, D_8009D1DC;
+u8 D_8009CE60, D_8009D25C;
 s8 g_ItemTargetMode asm("D_8009CE40");
 u16 D_8009CE50;
 s8 g_BattleTargetIndex;
 
-static inline void StoreSlot(BattleInitSlot *slot, BattleEntity *actor, s16 kind, s16 turn) {
+static inline void StoreSlot(BattleInitSlot *slot, BattleEntity *actor, s16 kind, s16 actionIndex) {
     slot->actor = actor;
     slot->field04 = kind;
-    slot->field06 = turn;
+    slot->field06 = actionIndex;
 }
-static inline void SetSlot(int index, BattleEntity *actor, s16 kind, s16 turn) {
-    StoreSlot(&D_800BE830[index], actor, kind, turn);
+
+static inline void SetSlot(int index, BattleEntity *actor, s16 kind, s16 actionIndex) {
+    StoreSlot(&D_800BE830[index], actor, kind, actionIndex);
 }
+
+void Battle_FillActionQueue(BattleTarget *target) {
+    unsigned int mode = D_8009D278->action->turnWord & 0xC0;
+    if (mode == 0xC0) {
+        u8 i;
+        for (i = 0; g_BattleTargetList[i].actor; i++) {
+            StoreSlot(&D_800BE830[D_8009CE3C], g_BattleTargetList[i].actor, 2, (s8)D_8009D2D8);
+            D_8009CE3C++;
+        }
+        D_8009D1DC = 0;
+    } else if (mode == 0x40) {
+        u8 i;
+        for (i = 0; i < (int)(D_8009D278->action->turnWord & 15) * 3 / 2; i++) {
+            int index = D_8009CE3C;
+            int randomValue = rand();
+            BattleEntity *actor = g_BattleTargetList[randomValue % D_8009D2B0].actor;
+            SetSlot(index, actor, 2, (s8)D_8009D2D8);
+            D_8009CE3C++;
+        }
+        D_8009D1DC = 0;
+    } else {
+        SetSlot(D_8009CE3C, target->actor, 1, (s8)D_8009D2D8);
+        D_8009CE3C++;
+        D_8009D1DC--;
+    }
+}
+
 static inline void Sound(int command) {
     void *volatile *slot = &g_AkaoBgmHandle;
     if (*slot)
         Akao_SendTableCommand(*slot, command, 0, 128, 127);
 }
+
 int Battle_StepEnemyTurn(s8 mode) {
     if (mode == 1) {
         int command = D_8009D2A4;
@@ -110,8 +139,9 @@ int Battle_StepEnemyTurn(s8 mode) {
             if (!g_ItemTargetMode)
                 Sound(0x44C);
             D_8009CE50 = D_8009D2A4;
-        } else if (command == -1)
+        } else if (command == -1) {
             mode = 0;
+        }
     } else if (mode == 2) {
         Battle_CycleTarget(g_ItemTargetMode);
         if (D_8009D1F4 & 0x200) {
