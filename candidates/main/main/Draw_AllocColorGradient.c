@@ -1,6 +1,7 @@
 #include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
+/* Nonmatching candidate: 67.16129% objdiff, 1132 bytes vs. 1116-byte target. */
 
 typedef struct Rect {
     s16 x, y, w, h;
@@ -34,8 +35,9 @@ extern int D_8009D114;
 extern u32 *D_8009D11C;
 extern int D_8009D124;
 extern int D_8009D128;
-extern u16 g_TextCursorStackTop[];
-extern u16 *g_DrawVertexWritePtr;
+extern u16 D_800A22B0[];
+extern u16 D_800A22E0[];
+extern u16 *D_8009D148;
 extern u8 D_800930A8[];
 
 void SetTexWindow(void *packet, Rect *rect);
@@ -63,17 +65,18 @@ void BoundsCheck_AssertStub(int arg0);
         *ot = (*ot & 0xFF000000) | ((u32)(packet) & 0x00FFFFFF);                  \
     } while (0)
 
-#define PUSH_WIPE_BAR_VERTEX(x, y)                         \
-    do {                                                   \
-        u16 *out = g_DrawVertexWritePtr;                   \
-                                                           \
-        if ((u32)out < (u32)(g_TextCursorStackTop + 0x18)) { \
-            out[1] = (x);                                  \
-            g_DrawVertexWritePtr = out + 2;                \
-            out[0] = (y);                                  \
-        } else {                                           \
-            BoundsCheck_AssertStub(4);                     \
-        }                                                  \
+#define PUSH_WIPE_BAR_VERTEX(x, y, limit)             \
+    do {                                               \
+        int xv = (x);                                  \
+        int yv = (y);                                  \
+        u16 *out = D_8009D148;                         \
+        if ((u32)out >= (u32)(limit)) {                 \
+            BoundsCheck_AssertStub(4);                 \
+        } else {                                       \
+            out[1] = xv;                               \
+            D_8009D148 = out + 2;                      \
+            out[0] = yv;                               \
+        }                                              \
     } while (0)
 
 void Draw_AllocColorGradient(int width, int height, u8 *points, int enableMask) {
@@ -85,18 +88,18 @@ void Draw_AllocColorGradient(int width, int height, u8 *points, int enableMask) 
 
     if (points != 0) {
         cursor = points;
-        g_DrawVertexWritePtr = g_TextCursorStackTop;
+        D_8009D148 = D_800A22B0;
         while (cursor[0] < 0xFF) {
-            PUSH_WIPE_BAR_VERTEX(D_8009D124 + cursor[0], D_8009D128 + cursor[1]);
+            PUSH_WIPE_BAR_VERTEX(D_8009D124 + cursor[0], D_8009D128 + cursor[1], D_800A22B0 + 0x18);
             cursor += 2;
         }
         Draw_EmitWipeBar(cursor + 1, 0);
     } else {
-        g_DrawVertexWritePtr = g_TextCursorStackTop;
-        PUSH_WIPE_BAR_VERTEX(D_8009D124, D_8009D128);
-        PUSH_WIPE_BAR_VERTEX(D_8009D124 + width, D_8009D128);
-        PUSH_WIPE_BAR_VERTEX(D_8009D124, D_8009D128 + height);
-        PUSH_WIPE_BAR_VERTEX(D_8009D124 + width, D_8009D128 + height);
+        D_8009D148 = D_800A22B0;
+        PUSH_WIPE_BAR_VERTEX(D_8009D124, D_8009D128, D_8009D148 + 0x18);
+        PUSH_WIPE_BAR_VERTEX(D_8009D124 + width, D_8009D128, D_800A22E0);
+        PUSH_WIPE_BAR_VERTEX(D_8009D124, D_8009D128 + height, D_800A22E0);
+        PUSH_WIPE_BAR_VERTEX(D_8009D124 + width, D_8009D128 + height, D_800A22E0);
         Draw_EmitWipeBar(D_800930A8, 0);
     }
 

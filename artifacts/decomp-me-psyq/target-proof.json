@@ -1,0 +1,12 @@
+[
+  {
+    "function": "_ExitCard",
+    "bytes": 112,
+    "target_sha256": "1a015396c49b62fc04510e787020cdeabc33cdd74e0d262d2345c0cbc6aa0aa6"
+  },
+  {
+    "function": "_patch_card2",
+    "bytes": 112,
+    "target_sha256": "52d272cf95e2863eaef8e901126f37b4785a5364c7f383385b2e3c7724220936"
+  }
+]
