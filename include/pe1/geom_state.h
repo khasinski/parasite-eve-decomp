@@ -2,12 +2,13 @@
 #define PE1_GEOM_STATE_H
 
 /* g_GeomState (RAM 0x800B1624): the field/room GPU draw context. It is a header
- * (GeomState) holding baked offsets to two parallel entry arrays:
+ * (GeomState) holding baked offsets to control, render, and viewport arrays:
  *   - GeomCtrlEntry[] : 0x10-byte records, base = header->ctrl_offset (+0x10),
  *                       index << 4. The obj/menu/sys control entries.
- *   - GeomEntry[]     : 0x38-byte records, base = header->entry_offset (+0x14)
- *                       or header->entry_offset_1C (+0x1C). The render/mesh
- *                       draw entries.
+ *   - GeomEntry[]     : 0x38-byte render/mesh records, base =
+ *                       header->entry_offset (+0x14).
+ *   - CameraViewport[]: 0x34-byte viewport records, base =
+ *                       header->entry_offset_1C (+0x1C).
  *
  * Layout reverse-engineered from the ~28 files that touch g_GeomState; offsets
  * verified at 32-bit pointer width. Several offsets are reused with different
@@ -62,7 +63,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomAnimationControl, slotOffset) == 12,
 
 struct RenderTexturePagePacket;
 
-/* 56-byte render/mesh entry. base = entry_offset (+0x14) or entry_offset_1C (+0x1C). */
+/* 56-byte render/mesh entry. Base = entry_offset (+0x14). */
 typedef struct GeomEntry {                /* 0x38 */
     u8  flags;                            /* +0x00  bits 2,4,8,0x14,0x20 */
     u8  pad01[3];                         /* +0x01 */
@@ -170,7 +171,7 @@ typedef struct GeomState {                /* header */
     s32 ctrl_offset;                      /* +0x10  -> GeomCtrlEntry[] */
     s32 entry_offset;                     /* +0x14  -> GeomEntry[] */
     u8  pad18[4];                         /* +0x18 */
-    s32 entry_offset_1C;                  /* +0x1C  -> GeomEntry[] (alt base) */
+    s32 entry_offset_1C;                  /* +0x1C  -> CameraViewport[] */
     u8  pad20[4];                         /* +0x20 */
     u16 depth_offset;                     /* +0x24  Geo_ClipPoint input Z offset */
     u16 field26;                          /* +0x26 */
@@ -202,8 +203,35 @@ int Scene_IsBattleMode(void);
 int Scene_IsNotBattleMode(void);
 
 /* 52-byte viewport records addressed through header offset 0x1C. */
+/* GPU state loading reads this 0x20-byte prefix of each viewport record using
+ * halfword and word transfers. */
+typedef struct GeomViewportGpuPrefix {
+    u16 geom_screen;
+    u16 half02;
+    u16 half04;
+    u16 half06;
+    u16 half08;
+    u16 half0A;
+    u16 half0C;
+    u16 half0E;
+    u16 half10;
+    u16 half12;
+    u32 word14;
+    u32 word18;
+    u32 word1C;
+} GeomViewportGpuPrefix;
+PE1_STATIC_ASSERT(sizeof(GeomViewportGpuPrefix) == 0x20,
+                  geom_viewport_gpu_prefix_size);
+
+typedef struct GeomViewportPrefix {
+    GeomViewportGpuPrefix gpu;
+    u8 padding20[8];
+} GeomViewportPrefix;
+PE1_STATIC_ASSERT(sizeof(GeomViewportPrefix) == 40,
+                  geom_viewport_prefix_size);
+
 typedef struct CameraViewport {
-    u8 prefix[40];
+    GeomViewportPrefix prefix;
     u16 width, height;
     s16 minX, maxX, minY, maxY;
 } CameraViewport;
