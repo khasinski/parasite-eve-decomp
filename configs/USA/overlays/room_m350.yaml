@@ -133,8 +133,7 @@ segments:
       - [0x9D10, c, RoomEffect_CloudController]
       # The spawner owns ten twenty-byte records updated by this callback.
       - [0xA160, c, RoomEffect_FadingModel]
-      - [0xA6D4, c, RoomEffect_SineFadeCallback]
-      - [0xA8A4, c, RoomEffect_ModelTransformEmitter]
+      - [0xA6D4, c, RoomEffect_SineTransformSequence]
       - [0xAB24, c, func_80199B0C]
       - [0xABAC, c, func_80199B94]
       - [0xACBC, c, func_80199CA4]

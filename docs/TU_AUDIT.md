@@ -113,6 +113,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `room_m350: 0x6B7C..0x70DC` | `RoomEffect_ActorOffsetPaletteSequence` | The palette callback reads its origin through a padded `Transform.position` at `+0x434`; this is `transforms[33].t` in the emitter's `GteMatrix` array. Both paths share `RoomM350EffectInstance`/`RoomM350EffectOwner`, and the callback's four halfwords are the emitter's `GteShortVector` plus its `pad` size. The whole overlay remains SHA-identical. |
 | `room_m350: 0x91E8..0x9878` | `RoomEffect_SweptTransformFlare` | The flare callback and swept-area emitter share the same 8-byte pool record (`y/z/shade/size` over the GTE vector's final halfword), actor, owner, and instance. The instance's inline transform is at `+0x1E8`, its translation at `+0x1FC`, and its transform-array pointer at `+0x238`; the old padded views reduce to these shared GTE fields. The complete overlay remains SHA-identical. |
 | `room_m350: 0x9878..0x9D10` | `RoomEffect_AttachedCloudSequence` | The spawner and callback share a 20-byte pool record: its spawn-time reserved words at `+0xC..+0x13` become `animatedSize`, the two shade values and one reserved halfword during callback updates. `RoomM350CloudParticle` models these as a union; both functions now use the shared actor, emitter and GTE transform array. The full overlay retains its retail SHA-1. |
+| `room_m350: 0xA6D4..0xAB24` | `RoomEffect_SineTransformSequence` | The emitter's 24-byte record is the callback's position, four controls and four trailing halfwords; it now uses one `RoomM350SineParticle` type. `worldY` at `+0x200` resolves to `RoomM350EffectInstance.transform.t[1]`. The same instance model pointer at `+0x1B4`, inline GTE matrix and transform array cover both controller and callback views; the overlay SHA remains retail-identical. |
 
 ## Shared record layouts
 
@@ -260,7 +261,6 @@ the matching object code:
 
 | Range | Callback and controller | Reason to defer |
 | --- | --- | --- |
-| `0xA6D4..0xAB24` | `SineFadeCallback` / `ModelTransformEmitter` | Common 24-byte particle is established; merge must preserve the callback's `worldY` view at offset `0x200`. |
 
 Every proposed merge must retain manifest order, pass its behavioral tests,
 `make overlay-check OVERLAY=room_m350`, and a clean verification before it is

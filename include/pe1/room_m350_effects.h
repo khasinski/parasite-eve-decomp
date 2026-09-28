@@ -67,6 +67,20 @@ typedef struct RoomM350CloudParticle {
     RoomM350CloudParticleState state;
 } RoomM350CloudParticle;
 
+typedef struct RoomM350SineParticle {
+    GteShortVector position;
+    s16 controls[4];
+    s16 brightness;
+    s16 size;
+    s16 amplitude;
+    s16 reserved16;
+} RoomM350SineParticle;
+
+typedef struct RoomM350Model {
+    u8 reserved[2];
+    u8 transformCount;
+} RoomM350Model;
+
 typedef struct RoomM350EffectOwner {
     u32 flags;
     u32 reserved04;
@@ -85,7 +99,9 @@ typedef struct RoomM350EffectInstance {
     u16 previousFrame;
     u8 reserved1C[30];
     u16 yaw;
-    u8 reserved3C[0x1AC];
+    u8 reserved3C[0x178];
+    RoomM350Model *model;
+    u8 reserved1B8[0x30];
     GteMatrix transform;
     u8 reserved208[0x30];
     GteMatrix *transforms;
@@ -113,6 +129,15 @@ PE1_STATIC_ASSERT(sizeof(RoomM350CloudParticleState) == 8,
                   room_m350_cloud_particle_state_size);
 PE1_STATIC_ASSERT(sizeof(RoomM350CloudParticle) == 20,
                   room_m350_cloud_particle_size);
+PE1_STATIC_ASSERT(sizeof(RoomM350SineParticle) == 24,
+                  room_m350_sine_particle_size);
+PE1_STATIC_ASSERT(sizeof(RoomM350Model) == 3, room_m350_model_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350SineParticle, controls) == 8,
+                  room_m350_sine_particle_controls_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350SineParticle, brightness) == 0x10,
+                  room_m350_sine_particle_brightness_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350Model, transformCount) == 2,
+                  room_m350_model_transform_count_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350CloudParticle, position) == 4,
                   room_m350_cloud_particle_position_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350CloudParticle, size) == 0xA,
@@ -133,6 +158,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350EffectInstance, frame) == 0x16,
                   room_m350_instance_frame_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350EffectInstance, yaw) == 0x3A,
                   room_m350_instance_yaw_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350EffectInstance, model) == 0x1B4,
+                  room_m350_instance_model_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350EffectInstance, transform) == 0x1E8,
                   room_m350_instance_transform_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350EffectInstance, transform.t) == 0x1FC,
