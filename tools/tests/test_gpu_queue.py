@@ -15,6 +15,7 @@ class GpuQueueTests(unittest.TestCase):
         self.assertNotRegex(source, r'\b(?:asm|__asm__)\b')
         harness = source + r'''
 #include <assert.h>
+#include <stdarg.h>
 GpuDebugState D_8009574C;
 char D_80011840[] = "queue";
 static int events, expectedOld, expectedNew, mutateOnPrint;
@@ -24,7 +25,12 @@ static int reset(int mode) {
     events = events * 10 + 2;
     return 0;
 }
-static void print(char *message, int argument) {
+static void print(char *message, ...) {
+    va_list args;
+    int argument;
+    va_start(args, message);
+    argument = va_arg(args, int);
+    va_end(args);
     assert(message == D_80011840);
     assert(argument == expectedNew);
     events = events * 10 + 1;
@@ -32,7 +38,7 @@ static void print(char *message, int argument) {
 }
 static GpuCallbacks callbacks;
 GpuCallbacks *D_80095744 = &callbacks;
-void (*D_80095748)() = print;
+GpuDebugPrintf D_80095748 = print;
 PsyqInterruptHandler DMACallback(int channel, PsyqInterruptHandler callback) {
     assert(channel == 2 && callback == 0);
     assert(D_8009574C.queueState.queue == (unsigned char)expectedNew);

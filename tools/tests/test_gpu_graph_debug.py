@@ -17,15 +17,23 @@ class GpuGraphDebugTests(unittest.TestCase):
             source = source.replace(annotation, "")
         harness = source + r'''
 #include <assert.h>
+#include <stdarg.h>
 GpuDebugState D_8009574C;
 char D_80011814[] = "SetGraphDebug";
 static int calls, expected_level, expected_type, expected_reverse;
-static void print(char *format, int level, int type, int reverse) {
+static void print(char *format, ...) {
+    va_list args;
+    int level, type, reverse;
+    va_start(args, format);
+    level = va_arg(args, int);
+    type = va_arg(args, int);
+    reverse = va_arg(args, int);
+    va_end(args);
     assert(format == D_80011814 && level == expected_level);
     assert(type == expected_type && reverse == expected_reverse);
     ++calls;
 }
-void (*D_80095748)() = (void (*)())print;
+GpuDebugPrintf D_80095748 = print;
 static void check(int old, int level, int type, int reverse) {
     D_8009574C.queueState.debugLevel = old;
     D_8009574C.type = expected_type = type;

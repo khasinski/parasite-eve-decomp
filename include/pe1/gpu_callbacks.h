@@ -4,7 +4,7 @@
 /* libgpu's debug callback accepts different argument counts across APIs. */
 typedef void (*GpuDebugPrintf)(char *format, ...);
 
-/* Canonical libgpu callback/dispatch table shared by the gpu/*.c helpers.
+/* Canonical libgpu callback/dispatch table shared by the GPU source files.
  * Every slot is a 32-bit word (lw/sw); fn-ptr slots use unprototyped void(*)()
  * so any assignment/call compiles with a byte-identical store. Offsets 0x18/
  * 0x1C/0x20 are reused as either a fn-ptr or a data pointer across files, so

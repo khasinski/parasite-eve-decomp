@@ -17,6 +17,7 @@ class GpuDispatchTests(unittest.TestCase):
         self.assertNotRegex(source, r'\b(?:asm|__asm__)\b')
         harness = source + r'''
 #include <assert.h>
+#include <stdarg.h>
 GpuDebugState D_8009574C;
 char D_80011928[] = "dispatch";
 int g_GpuDmaTimeoutDeadline, g_GpuDmaWaitLoopCounter;
@@ -27,12 +28,17 @@ volatile unsigned int *g_GpuGp1Ptr = &gpu;
 static GpuCallbacks callbacks;
 GpuCallbacks *D_80095744 = &callbacks;
 static int packet, polls, idleAt, readyAt, timeoutAt, events, vsyncCalls;
-static void debug(char *message, void *argument) {
+static void debug(char *message, ...) {
+    va_list args;
+    void *argument;
+    va_start(args, message);
+    argument = va_arg(args, void *);
+    va_end(args);
     assert(message == D_80011928 && argument == &packet);
     assert(events == 0);
     events = 1;
 }
-void (*D_80095748)() = (void (*)())debug;
+GpuDebugPrintf D_80095748 = debug;
 int VSync(int mode) {
     assert(mode == -1 && ++vsyncCalls == 1);
     assert(events == (D_8009574C.queueState.debugLevel >= 2 ? 1 : 0));

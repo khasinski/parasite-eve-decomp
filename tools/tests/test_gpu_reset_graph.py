@@ -43,11 +43,16 @@ int testPrintf(char *format, ...) {
     ++prints;
     return 0;
 }
-static void debug(char *format, int mode) {
+static void debug(char *format, ...) {
+    va_list args;
+    int mode;
+    va_start(args, format);
+    mode = va_arg(args, int);
+    va_end(args);
     assert(stage == 0 && format == D_80011800 && mode == modeExpected);
     ++prints;
 }
-void (*D_80095748)(char *, int) = debug;
+GpuDebugPrintf D_80095748 = debug;
 void GPU_memset(void *ptr, int value, int size) {
     if (stage == 0) {
         assert(ptr == &D_8009574C && value == 0 && size == 128);

@@ -15,18 +15,26 @@ class ClearOtTests(unittest.TestCase):
         source = source.replace(' asm("$5")', "")
         harness = source + r'''
 #include <assert.h>
+#include <stdarg.h>
 #include <stdint.h>
 GpuDebugState D_8009574C;
 char D_800118F8[] = "ot";
 u32 D_800957F8, D_8009580C;
 static u32 storage[130];
 static int calls, expectedCount;
-static void debug(char *message, void *ot, int count) {
+static void debug(char *message, ...) {
+    va_list args;
+    void *ot;
+    int count;
+    va_start(args, message);
+    ot = va_arg(args, void *);
+    count = va_arg(args, int);
+    va_end(args);
     assert(message == D_800118F8 && ot == storage + 1 && count == expectedCount);
     assert(storage[1] == 0xA5ABCDEF);
     ++calls;
 }
-void (*D_80095748)() = (void (*)())debug;
+GpuDebugPrintf D_80095748 = debug;
 int main(void) {
     int level, count, i;
     for (level = 0; level <= 3; ++level) {
