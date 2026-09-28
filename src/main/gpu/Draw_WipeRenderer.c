@@ -1,6 +1,10 @@
-#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
+#include "common.h"
+#include "pe1/draw_state.h"
+#include "pe1/render_prim.h"
+#include "pe1/menu_inventory.h"
+
 
 typedef struct ColorTriPrim {
     u32 tag;
@@ -122,4 +126,109 @@ void Draw_AllocColorRect(int firstVertex, int secondVertex, int width, int mode)
     p->second.tag = (p->second.tag & maskTop) | (*ot & mask24);
     *ot = (*ot & maskTop) | ((u32)&p->second & mask24);
     PE1_COMPILER_USE(p);
+}
+
+
+
+extern int g_TextCursorX;
+extern int g_TextCursorY;
+extern u16 *g_DrawVertexWritePtr;
+extern u8 D_800930A8[];
+
+void BoundsCheck_AssertStub(int arg0);
+
+static inline u32 *AllocateDrawMode(int mode) {
+    u32 *packet = 0;
+    u8 *old = g_DrawPacketCursor;
+    u8 *next = old + 8;
+    if (next < g_DrawPacketArenaBase + 0x4000) {
+        g_DrawPacketCursor = next;
+        packet = (u32 *)old;
+    } else BoundsCheck_AssertStub(1);
+    if (packet) SetDrawMode((char *)packet, 0, 0, (mode & 3) << 5);
+    return packet;
+}
+
+void Draw_EmitWipeBar(u8 *edges, int mode) {
+    u32 *first = AllocateDrawMode(mode + 1);
+    u32 *second = AllocateDrawMode(2 - mode);
+    while ((s8)edges[0] >= 0) {
+        Draw_AllocColorRect((s8)edges[0], (s8)edges[1], 2, mode);
+        edges += 2;
+    }
+    ++edges;
+    {
+        u32 mask24 = 0xffffff, maskTop = 0xff000000;
+        u32 *ot = g_DrawOrderingTableEntry;
+        *first = (*first & maskTop) | (*ot & mask24);
+        *ot = (*ot & maskTop) | ((u32)first & mask24);
+    }
+    while ((s8)edges[0] >= 0) {
+        Draw_AllocColorRect((s8)edges[0], (s8)edges[1], -2, !mode);
+        edges += 2;
+    }
+    {
+        u32 mask24 = 0xffffff, maskTop = 0xff000000;
+        u32 *ot = g_DrawOrderingTableEntry;
+        *second = (*second & maskTop) | (*ot & mask24);
+        *ot = (*ot & maskTop) | ((u32)second & mask24);
+    }
+}
+
+#define PUSH_WIPE_BAR_VERTEX(xValue, yValue)                     \
+    {                                                           \
+        int x = (xValue);                                       \
+        int y = (yValue);                                       \
+        u16 *out = g_DrawVertexWritePtr;                         \
+                                                                \
+        if ((unsigned int)out <                                  \
+            (unsigned int)((u16 *)g_TextCursorStackTop + 0x18)) { \
+            out[1] = x;                                          \
+            g_DrawVertexWritePtr = out + 2;                      \
+            out[0] = y;                                          \
+        } else {                                                 \
+            BoundsCheck_AssertStub(4);                           \
+        }                                                       \
+    }
+
+void Draw_EmitWipeBarRect(int width, int height, int mode)
+{
+    g_DrawVertexWritePtr = (u16 *)g_TextCursorStackTop;
+
+    PUSH_WIPE_BAR_VERTEX(g_TextCursorX, g_TextCursorY);
+    PUSH_WIPE_BAR_VERTEX(g_TextCursorX + width, g_TextCursorY);
+    PUSH_WIPE_BAR_VERTEX(g_TextCursorX, g_TextCursorY + height);
+    PUSH_WIPE_BAR_VERTEX(g_TextCursorX + width, g_TextCursorY + height);
+
+    Draw_EmitWipeBar(D_800930A8, mode);
+}
+
+void Draw_EmitWipeBarPoly(int arg0, int arg1, u8 *arg2) {
+    u8 *cursor = arg2;
+    u32 value;
+    u16 *end;
+
+    g_DrawVertexWritePtr = (u16 *)g_TextCursorStackTop;
+    value = cursor[0];
+    if (value < 0xFF) {
+        end = (u16 *)g_TextCursorStackTop + 0x18;
+        do {
+            u16 *out = g_DrawVertexWritePtr;
+            int x = value + g_TextCursorX;
+            int y = g_TextCursorY + cursor[1];
+
+            if ((unsigned int)out < (unsigned int)end) {
+                out[1] = x;
+                g_DrawVertexWritePtr = out + 2;
+                out[0] = y;
+            } else {
+                BoundsCheck_AssertStub(4);
+            }
+
+            cursor += 2;
+            value = cursor[0];
+        } while (value < 0xFF);
+    }
+
+    Draw_EmitWipeBar(cursor + 1, 0);
 }
