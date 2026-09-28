@@ -1,10 +1,10 @@
 #include "common.h"
-#define PE1_GAME_STATE_TYPES_ONLY
-#define PE1_PM_TYPES_ONLY
+#define PE1_GAME_STATE_LEGACY_RAW_VIEW
+#define PE1_PM_LEGACY_RAW_VIEWS
 #include "pe1/game_state.h"
 #include "pe1/pm.h"
-#undef PE1_GAME_STATE_TYPES_ONLY
-#undef PE1_PM_TYPES_ONLY
+#undef PE1_GAME_STATE_LEGACY_RAW_VIEW
+#undef PE1_PM_LEGACY_RAW_VIEWS
 extern char *g_PmSlotTable;
 extern char *g_PmSlotTable2;
 extern int **g_PmCmdHandlerTable;
