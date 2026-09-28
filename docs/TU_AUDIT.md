@@ -253,19 +253,6 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | --- | --- | --- |
 | `0x62284..0x62B14` | `psyq/libc/Square_Vsprintf` | The candidate reconstructs Psy-Q's variadic `sprintf(char *dest, char *format, ...)`: its format-spec template, flags, width/precision parser, and `d i u o p x X c s n` conversions. Psy-Q 4.6 and 4.7 `LIBC.LIB` export the exact `0x890`-byte object and record `C:\PSX\SRC\C2\SPRINTF.C`; 514 words are retail-identical and the other 34 are link-time relocations for globals, local control-flow targets, and imported libc calls. Its 45-entry, 0xB4-byte switch table therefore belongs to this object. GCC 2.7.2 with `-fno-strength-reduce -fno-force-mem` emits the retail `0x250` frame and exact register-save layout; its only code-generation difference is eight absent nops, leaving a `0x864` rather than `0x884` body. Objdiff reports 95.88%, with a 513-instruction normalized common subsequence from the retail 545, so it must remain matching asm. |
 
-## Deferred room_m350 pairs
-
-The following pairs are contiguous and directly connected, but are not merged
-until their competing record or instance views are reconciled without changing
-the matching object code:
-
-| Range | Callback and controller | Reason to defer |
-| --- | --- | --- |
-
-Every proposed merge must retain manifest order, pass its behavioral tests,
-`make overlay-check OVERLAY=room_m350`, and a clean verification before it is
-accepted.
-
 ## Shared render packet layouts
 
 `RenderColorTilePacket` and `RenderDrawModePacket` in `pe1/render_prim.h` now
