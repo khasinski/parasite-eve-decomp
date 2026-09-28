@@ -1,6 +1,6 @@
 #include "common.h"
 #include "pe1/render_prim.h"
-/* CC1_FLAGS: -G8 */
+/* CC1_FLAGS: -G8 -fno-cse-skip-blocks */
 /* MASPSX_FLAGS: -G8 */
 
 extern u8 *D_8009D100;
@@ -178,9 +178,6 @@ alloc_done:
 }
 
 
-#include "common.h"
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
 
 int Draw_MeasureTextWidth(u8 *text) {
     u8 *cursor;
@@ -236,19 +233,19 @@ test:
     return width;
 }
 
-#include "common.h"
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-extern s32 g_TextCursorX;
-extern s32 g_TextCursorY;
-extern u32 g_TextCursorStackPtr;
-extern M2C_UNK g_TextCursorStackBottom[];
-#define g_TextCursorStackBottom (g_TextCursorStackBottom[0])
-extern M2C_UNK g_TextCursorStackTop[];
-#define g_TextCursorStackTop (g_TextCursorStackTop[0])
+extern int g_TextCursorStackBottom[], g_TextCursorStackTop[];
+typedef union TextCursorStackPointer {
+    int *pointer;
+    u32 word;
+} TextCursorStackPointer;
+extern TextCursorStackPointer g_TextCursorStackState __asm__("D_8009D12C");
+#define g_TextCursorX D_8009D124
+#define g_TextCursorY D_8009D128
+#define g_TextCursorStackWord g_TextCursorStackState.word
+#define g_TextCursorStack g_TextCursorStackState.pointer
 
 void Draw_PrintRawText(u8 *arg0) {
     s32 temp_a0;
@@ -259,10 +256,10 @@ void Draw_PrintRawText(u8 *arg0) {
 
     var_s0 = arg0;
     if (var_s0 != NULL) {
-        temp_a1 = g_TextCursorStackPtr;
+        temp_a1 = g_TextCursorStackWord;
         if (temp_a1 < (u32) &g_TextCursorStackTop) {
             s32 t0 = g_TextCursorX; s32 t1 = g_TextCursorY;
-            g_TextCursorStackPtr = temp_a1 + 8;
+            g_TextCursorStackWord = temp_a1 + 8;
             M2C_FIELD(temp_a1, s32 *, 0) = t0;
             M2C_FIELD(temp_a1, s32 *, 4) = t1;
         } else {
@@ -276,14 +273,109 @@ void Draw_PrintRawText(u8 *arg0) {
                 var_a0 = *var_s0;
             } while (var_a0 != 0xFF);
         }
-        if ((u32) &g_TextCursorStackBottom < (u32) g_TextCursorStackPtr) {
-            temp_v0 = M2C_FIELD(g_TextCursorStackPtr, s32 *, -8);
-            temp_a0 = M2C_FIELD(g_TextCursorStackPtr, s32 *, -4);
-            g_TextCursorStackPtr -= 8;
+        if ((u32) &g_TextCursorStackBottom < (u32) g_TextCursorStackWord) {
+            temp_v0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -8);
+            temp_a0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -4);
+            g_TextCursorStackWord -= 8;
             g_TextCursorX = temp_v0;
             g_TextCursorY = temp_a0;
             return;
         }
         BoundsCheck_AssertStub(3);
+    }
+}
+
+static inline int DecodeGlyph(int input) {
+    register int code asm("$4") = input;
+    int glyph;
+    glyph = (u8)code;
+    if (D_8009D0D8) {
+        int page = D_8009D0D8 << 8;
+        glyph += page;
+        D_8009D0D8 = 0;
+    }
+    if ((u8)code >= 250) {
+        D_8009D0D8 = (u8)code - 250;
+        glyph = -1;
+    }
+    return glyph;
+}
+
+void Draw_PrintCenteredTextInWidth(u8 *text, int width) {
+    u8 *cursor;
+    int measured;
+    int savedY;
+    {
+        int *stack = g_TextCursorStack;
+        if (stack < g_TextCursorStackTop) {
+            int x = D_8009D124, y = D_8009D128;
+            g_TextCursorStack = stack + 2;
+            stack[0] = x;
+            stack[1] = y;
+        } else BoundsCheck_AssertStub(2);
+    }
+    cursor = text;
+    /* Keep the original text pointer distinct from the measuring cursor. */
+    asm("" : "=r"(cursor) : "0"(cursor));
+    measured = 0;
+    if (*text != 255) {
+        do {
+            int narrow;
+            int glyph;
+            glyph = DecodeGlyph(*cursor++);
+            if (glyph >= 0) {
+                narrow = 0;
+                if (glyph < 10 || glyph == 15) narrow = 1;
+                D_8009CDB0 = narrow + 1;
+                if (glyph >= 256) glyph -= 19;
+                measured += ((Draw_LookupGlyphMetrics(glyph) >> 4) & 15)
+                    + D_8009CDB0;
+            }
+        } while (*cursor != 255);
+        cursor = text;
+    }
+    {
+        int padded = measured + 4;
+        int x;
+        x = D_8009D124 + ((width - padded) >> 1);
+        savedY = D_8009D128;
+        D_8009D124 = x;
+        D_8009D128 = savedY;
+    }
+    if (cursor) {
+        int *stack = g_TextCursorStack;
+        if (stack < g_TextCursorStackTop) {
+            stack[0] = D_8009D124;
+            stack[1] = savedY;
+            g_TextCursorStack = stack + 2;
+        } else BoundsCheck_AssertStub(2);
+        {
+            u8 code = *cursor;
+            if ((code & 255) != 255) {
+                do {
+                    ++cursor;
+                    Draw_AllocTexturedQuad(code);
+                    code = *cursor;
+                } while (code != 255);
+            }
+        }
+        {
+            int *restore = g_TextCursorStack;
+            if (g_TextCursorStackBottom < restore) {
+                int x = restore[-2], y = restore[-1];
+                g_TextCursorStack = restore - 2;
+                D_8009D124 = x;
+                D_8009D128 = y;
+            } else BoundsCheck_AssertStub(3);
+        }
+    }
+    {
+        int *restore = g_TextCursorStack;
+        if (g_TextCursorStackBottom < restore) {
+            int x = restore[-2], y = restore[-1];
+            g_TextCursorStack = restore - 2;
+            D_8009D124 = x;
+            D_8009D128 = y;
+        } else BoundsCheck_AssertStub(3);
     }
 }
