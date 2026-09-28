@@ -763,7 +763,7 @@ segments:
       - [0x50044, c, gpu/func_8005F844]
       # One -G8 digit packet emitter and its contiguous number printers.
       - [0x50074, c, gpu/Draw_NumberSpritePrint]
-      - [0x5086C, c, gpu/Draw_PrintTimeValue]
+      # Digit packet emission, number printers, and time display share one -G8 TU.
       - [0x50AD0, c, gpu/Draw_AllocTexturedRect]
       - [0x50D28, c, gpu/Draw_PrintNumberWidths]
       - [0x50E2C, asm, main/Draw_AllocTexturedRectAlt]
