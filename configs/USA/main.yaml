@@ -717,7 +717,6 @@ segments:
       - [0x4CC98, c, menu/Menu_RunFrame]
       # Bonus-slot selection and inventory bootstrap share the inventory runtime.
       - [0x4CE88, c, item/Inv_EquipmentSelection]
-      - [0x4DEF4, c, save/Save_InitMetadataState]
       - [0x4E140, c, save/Save_GetCurrentMapNumber]
       - [0x4E170, c, menu/Menu_InitScrollDirection]
       - [0x4E194, c, item/Inv_InitMaxLevelInventory]
