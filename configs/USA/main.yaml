@@ -104,7 +104,7 @@ segments:
       - [0x1734, .rodata, memcard/MemCard_StepPortState]
       - [0x1748, rodata, main/rodata_001748]
       - [0x17AC, .rodata, menu/menu3]
-      - [0x17CC, rodata, main/rodata_0017CC]
+      - [0x17CC, .rodata, main/Menu_StepItemSelectScreen]
       - [0x17F0, rodata, main/rodata_0017F0]
       - [0x1834, .rodata, menu/Menu_CreateMainMenuView]
       - [0x184C, rodata, main/rodata_00184C]
@@ -485,7 +485,7 @@ segments:
       - [0x340EC, c, menu/Menu_CreateInventoryTabView]
       - [0x3430C, c, menu/Menu_DrawStatusPanel]
       - [0x34464, c, menu/Menu_DrawStatsList]
-      - [0x345A4, asm, main/Menu_StepItemSelectScreen]
+      - [0x345A4, c, main/Menu_StepItemSelectScreen]
       # Equip-screen construction and item-confirm handler share selection state.
       - [0x34974, c, menu/Menu_EquipScreen]
       - [0x34C44, c, menu/Menu_InventoryInputHandler]
