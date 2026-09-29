@@ -1,6 +1,7 @@
 /* ASSEMBLER: GNU */
 
 #include "pe1/psyq_cd.h"
+#include "pe1/cdrom.h"
 
 #define READ_STATE(anchor, field) ((CdReadProgressState *)((char *)(anchor) - PE1_OFFSETOF(CdReadProgressState, field)))
 

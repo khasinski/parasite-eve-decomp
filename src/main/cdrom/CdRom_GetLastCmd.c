@@ -1,5 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 #include "pe1/psyq_cd.h"
+#include "pe1/cdrom.h"
 
 extern unsigned char g_CdLastCmd;
 

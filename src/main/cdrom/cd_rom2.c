@@ -6,8 +6,6 @@ int CdRom_GetSeekState(void);
 
 int CdRom_GetDiscType(void);
 
-int CdRom_GetLastCmd(void);
-
 int CdRom_GetPendingReadCount(void) {
     return g_CdPendingReadCount;
 }

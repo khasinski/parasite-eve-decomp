@@ -4,9 +4,7 @@
 #include "pe1/cdrom.h"
 
 extern int D_8009B6EC;
-extern CdlLOC *CdRom_GetCurrentPosPtr(void);
 extern int CdPosToInt(CdlLOC *);
-extern int CdRom_GetCmdMode(void);
 extern int func_8007FC44(void);
 extern void func_8008227C(void);
 extern int Render_BuildParticleFrame(int, CdlLOC *, int, void (*)(void), int);

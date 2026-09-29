@@ -1,10 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 
 #include "pe1/psyq_cd.h"
-
-CdlLOC *CdRom_GetCurrentPosPtr(void);
-
-CdlLOC *CdRom_GetCurrentPos(CdlLOC *dst);
+#include "pe1/cdrom.h"
 
 CdlLOC *CdRom_GetCurrentPos(CdlLOC *dst) {
     if (dst != 0) {
