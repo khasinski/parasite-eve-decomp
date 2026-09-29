@@ -352,6 +352,9 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, active) == 0x20,
                   ds_async_read_active_offset);
 
 extern DsAsyncReadState g_DsAsyncReadState __asm__("D_8009B6EC");
+extern int g_DsAsyncReadRetryPending __asm__("D_8009B6F8");
+extern DsEventCallback g_DsAsyncReadSavedSyncCallback __asm__("D_8009B700");
+extern DsEventCallback g_DsAsyncReadSavedReadyCallback __asm__("D_8009B704");
 extern int g_DsReadBusy;
 #define DS_ASYNC_READ_STATE_FROM_ACTIVE(active_pointer) \
     ((DsAsyncReadState *)((char *)(active_pointer) - \

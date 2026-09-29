@@ -1,7 +1,5 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_cd.h"
-extern int D_8009B6F8;
-extern DsEventCallback D_8009B700, D_8009B704;
 CdlLOC *CdRom_GetCurrentPosPtr(void);
 int CdPosToInt(CdlLOC *);
 int CdRom_GetCmdMode(void);
@@ -77,7 +75,7 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
         }
     }
     {
-        register int *pending asm("$16") = &D_8009B6F8;
+        register int *pending asm("$16") = &g_DsAsyncReadRetryPending;
         asm("" : "=r"(pending) : "0"(pending));
         if (*pending == 1) {
             if (ASYNC_FROM_RETRY(pending)->retriesRemaining > 0 ||
@@ -87,15 +85,15 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
                     --ASYNC_FROM_RETRY(pending)->retriesRemaining;
             } else {
                 if (g_DsReadBusy == *pending) {
-                    DsSyncCallback(D_8009B700);
-                    DsReadyCallback(D_8009B704);
+                    DsSyncCallback(g_DsAsyncReadSavedSyncCallback);
+                    DsReadyCallback(g_DsAsyncReadSavedReadyCallback);
                     Render_AllocParticleNode(9, 0, 0, -1);
                 }
                 g_DsReadBusy = 0;
                 if (ASYNC_FROM_RETRY(pending)->callback)
                     ASYNC_FROM_RETRY(pending)->callback(5, result, detail);
             }
-            D_8009B6F8 = 0;
+            g_DsAsyncReadRetryPending = 0;
         }
     }
 done:;
