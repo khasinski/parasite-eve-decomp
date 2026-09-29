@@ -1,6 +1,5 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_cd.h"
-extern DsAsyncReadState D_8009B6EC;
 extern int D_8009B6F8, D_8009B70C;
 extern DsEventCallback D_8009B700, D_8009B704;
 CdlLOC *CdRom_GetCurrentPosPtr(void);
@@ -19,7 +18,7 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
     /* Order prologue saves. This temporary output is used only by the next
      * empty constraint, then replaced with the incoming event. */
     asm("" : "=r"(event));
-    state = &D_8009B6EC;
+    state = &g_DsAsyncReadState;
     asm("" : "=r"(state) : "0"(state), "r"(event));
     event = inEvent;
     if (state->nextSector == -1)
@@ -54,7 +53,7 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
             }
         }
         {
-            register DsAsyncReadState *current = &D_8009B6EC;
+            register DsAsyncReadState *current = &g_DsAsyncReadState;
             current->nextSector++;
         }
     } else if (event == 4) {

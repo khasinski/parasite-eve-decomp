@@ -351,6 +351,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, retriesRemaining) == 0x10,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, active) == 0x20,
                   ds_async_read_active_offset);
 
+extern DsAsyncReadState g_DsAsyncReadState __asm__("D_8009B6EC");
 extern int g_DsReadBusy;
 #define DS_ASYNC_READ_STATE_FROM_ACTIVE(active_pointer) \
     ((DsAsyncReadState *)((char *)(active_pointer) - \
