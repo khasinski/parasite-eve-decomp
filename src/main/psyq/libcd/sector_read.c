@@ -4,8 +4,6 @@
 
 #include "pe1/psyq_cd.h"
 
-extern volatile u8 *D_8009B27C;
-extern volatile u8 *D_8009B288;
 extern volatile u32 *D_8009B28C;
 extern volatile u32 *D_8009B2B0;
 extern volatile u32 *D_8009B2B4;

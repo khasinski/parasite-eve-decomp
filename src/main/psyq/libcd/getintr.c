@@ -4,12 +4,8 @@
 
 #include "bios_internal.h"
 
-extern volatile u8 *D_8009B27C, *D_8009B280, *D_8009B284, *D_8009B288;
-extern int D_8009AFC0, D_8009AFCC;
-extern u8 D_8009AFD5;
+extern int D_8009AFCC;
 extern int D_8009B17C[], D_8009B07C[];
-extern char *D_8009AFDC[];
-extern u8 D_800A3460[8], D_800A3468[8], D_800A3470[8];
 extern char D_80011B44[], D_80011B50[], D_80011B6C[], D_80011B80[];
 int printf(const char *format, ...);
 int puts(const char *text);

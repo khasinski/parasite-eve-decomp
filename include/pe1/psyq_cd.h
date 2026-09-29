@@ -261,7 +261,7 @@ void CdRom_AbortCmd(void);
 /* BIOS_1.OBJ polling state, result buffers and timeout diagnostics. */
 extern u8 D_8009AFD5;
 extern char *D_8009AFDC[], *D_8009B05C[];
-extern volatile u8 *D_8009B27C;
+extern volatile u8 *D_8009B27C, *D_8009B288;
 extern u8 D_800A3460[8], D_800A3468[8], D_800A3470[8];
 extern int D_800A3478, D_800A347C;
 extern char *D_800A3480;
