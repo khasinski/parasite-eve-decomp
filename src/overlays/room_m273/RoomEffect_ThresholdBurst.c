@@ -1,14 +1,12 @@
 #include "room_m273_effects.h"
 
 typedef struct { short x, y, z, pad; } Vector;
-typedef struct { int unknown[5]; int x,y,z; } Transform;
-typedef struct { unsigned char unknown[0x238]; Transform *transform; } Owner;
 extern int D_800E27EC, D_800F3428, D_800966EC[];
 extern unsigned short D_800F336C, D_800E1204[];
 extern unsigned short GetClut(int, int);
 extern void func_800CEE20(Vector *, void *, int, int, int, int, int, int, void *);
 extern RoomM273EffectStateContext *D_800F32D0;
-extern Owner *g_PlayerEntity;
+extern RoomM273PlayerActorView *g_PlayerEntity;
 extern unsigned char D_8019AE9A;
 extern short D_8019AE60,D_8019AE64;
 extern unsigned short D_800E11FA,D_800E2850[];
@@ -66,10 +64,10 @@ int func_801945A8(int mode) {
             if(old<=0) {
                 Vector *position=func_800CE610(D_800F33E0->pool);
                 if(position) {
-                    Transform *transform=g_PlayerEntity->transform;
-                    position->x=transform->x;
-                    position->y=transform->y;
-                    position->z=transform->z;
+                    RoomM273PlayerTransform *transform=g_PlayerEntity->transform;
+                    position->x=transform->position.x;
+                    position->y=transform->position.y;
+                    position->z=transform->position.z;
                     D_8019AE64=2;
                     D_8019AE60--;
                 }

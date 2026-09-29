@@ -1,17 +1,7 @@
 #include "room_m273.h"
 #include "pe1/psyq_gpu.h"
 
-typedef struct {
-    s32 reserved[5];
-    s32 xyz[3];
-} RoomM273PlayerTransform;
-
-typedef struct {
-    char reserved[0x238];
-    RoomM273PlayerTransform *volatile transform;
-} RoomM273Player;
-
-extern RoomM273Player *g_PlayerEntity;
+extern RoomM273PlayerActorView *g_PlayerEntity;
 extern RoomM273EffectStateContext *D_800F32D0;
 extern u8 D_8019AE9A;
 extern RoomM273PulseSeed D_8019AC20[2];
@@ -32,14 +22,14 @@ int func_80194128(int mode, GteRotation *rotation) {
     if (mode == 1) {
         if (D_800E27EC >= 16) return 1;
     } else if (mode == 2) {
-        RoomM273Player *player;
+        RoomM273PlayerActorView *player;
         /* The loop index is reused for the sampled scale below. */
         size = 0;
         asm volatile("" : : "r"(size));
         player = g_PlayerEntity;
         for (; size < 3; size++) {
             RoomM273PlayerTransform *transform = player->transform;
-            ((s16 *)&position)[size] = transform->xyz[size];
+            ((s16 *)&position)[size] = ((s32 *)&transform->position.x)[size];
         }
 
         frame = D_800E27EC - 1;

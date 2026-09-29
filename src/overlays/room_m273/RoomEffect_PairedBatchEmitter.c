@@ -1,5 +1,4 @@
 #include "room_m273_effects.h"
-typedef struct { unsigned short x,y,z,size,phase,unknown10; } Effect;
 typedef struct { unsigned short x[8],y[8],z[8]; short count; unsigned char unknown[14],stopped; } Batch;
 extern unsigned char D_8019AEF8;
 extern short D_8019AEE8;
@@ -37,8 +36,8 @@ int func_80195BD0(int mode) {
             unsigned short *x=batch->x;
             int count;
             do {
-                Effect *effect=func_800CE610(D_800F33E0->pool);
-                Effect **pointer;
+                RoomM273PulseEmitterView *effect=func_800CE610(D_800F33E0->pool);
+                RoomM273PulseEmitterView **pointer;
                 register int offset asm("$4");
                 unsigned short y;
                 if(!effect) break;

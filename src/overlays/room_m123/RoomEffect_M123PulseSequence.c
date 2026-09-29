@@ -40,11 +40,6 @@ int func_80194A70(int mode, RoomPulseParticle *particle, int *reference)
     return 0;
 }
 
-typedef struct RoomPulseContext {
-    u8 pad[8];
-    void *pool;
-} RoomPulseContext;
-
 typedef struct RoomPulseObject RoomPulseObject;
 typedef struct RoomPulsePool {
     RoomPulseObject *object;
@@ -61,7 +56,6 @@ typedef struct RoomPulseGlobal {
     u32 flags;
 } RoomPulseGlobal;
 
-extern RoomPulseContext *D_800F32D0, *D_800F33E0;
 extern RoomPulseGlobal **D_8009D254;
 extern u8 *D_800E2368;
 extern int D_800E27EC;
@@ -81,7 +75,7 @@ int func_80194C04(int mode, RoomPulseParticle *particle)
     RoomPulseParticle *next;
     RoomPulsePool *pool;
     RoomPulseObject *object;
-    RoomPulseContext *context;
+    RoomM123Pool *context;
     void **soundSlot;
     void *currentSound;
     int time;

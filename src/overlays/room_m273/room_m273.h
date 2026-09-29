@@ -32,7 +32,13 @@ typedef struct RoomM273PaletteInput {
 typedef struct RoomM273PulseInput {
     GteShortVector position;
     u16 velocity;
+    u16 unknown_0A;
 } RoomM273PulseInput;
+
+typedef union RoomM273PulseRecord {
+    RoomM273PulseInput callback;
+    RoomM273PulseEmitterView emitter;
+} RoomM273PulseRecord;
 
 typedef struct RoomM273TemplatePoint {
     u16 x;
@@ -52,6 +58,12 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PaletteInput, size) == 4,
                   room_m273_palette_input_size_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PulseInput, velocity) == 8,
                   room_m273_pulse_velocity_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PulseInput, unknown_0A) == 0x0A,
+                  room_m273_pulse_unknown_offset);
+PE1_STATIC_ASSERT(sizeof(RoomM273PulseInput) == 0x0C,
+                  room_m273_pulse_input_size);
+PE1_STATIC_ASSERT(sizeof(RoomM273PulseRecord) == 0x0C,
+                  room_m273_pulse_record_size);
 PE1_STATIC_ASSERT(sizeof(RoomM273TemplatePoint) == 8,
                   room_m273_template_point_size);
 
@@ -94,11 +106,17 @@ typedef struct RoomPlacementStateContext {
 } RoomPlacementStateContext;
 
 typedef struct RoomPlacementState {
-    u8 pad_00[0x34];
+    u8 pad_00[4];
+    int *signal;
+    s16 phase_countdown;
+    u8 pad_0A[0x26];
+    s32 vertical_step;
     s32 fallback_x;
     s32 fallback_z;
-    u8 pad_3c[3];
+    s16 vertical_ticks;
+    u8 placement_checked;
     u8 active;
+    u8 pending_action;
 } RoomPlacementState;
 
 typedef struct RoomSelectionState RoomSelectionState;
@@ -137,6 +155,16 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementMap, x) == 0x594,
                   room_placement_x_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementState, active) == 0x3F,
                   room_placement_active_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementState, signal) == 4,
+                  room_placement_signal_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementState, phase_countdown) == 8,
+                  room_placement_phase_countdown_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementState, vertical_step) == 0x30,
+                  room_placement_vertical_step_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementState, vertical_ticks) == 0x3C,
+                  room_placement_vertical_ticks_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementState, placement_checked) == 0x3E,
+                  room_placement_checked_offset);
 
 void func_80192C00(RoomPlacementOwner *owner, RoomPlacementState *state);
 

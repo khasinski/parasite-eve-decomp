@@ -1,15 +1,9 @@
-#include "common.h"
+#include "room_m123_effects.h"
 
 typedef struct RoomM123Vector {
     u16 x, y, z;
 } RoomM123Vector;
 
-typedef struct RoomM123Pool {
-    char pad[8];
-    void *pool;
-} RoomM123Pool;
-
-extern RoomM123Pool *D_800F33E0;
 extern int D_800E27EC;
 extern volatile u16 D_800E11EA;
 extern u16 D_800E2850[];

@@ -101,7 +101,7 @@ segments:
       - [0x3620, c, func_80192608]
       - [0x3628, c, RoomLib_InvokeCallbackC_80192610]
       - [0x3650, c, func_80192638]
-      - [0x3850, asm, func_80192838]
+      - [0x3850, c, func_80192838]
       - [0x3C18, c, func_80192C00]
       - [0x3DA4, c, func_80192D8C]
       - [0x3E54, c, func_80192E3C]
@@ -116,7 +116,6 @@ segments:
       # The emitter initializes the callback's contiguous twelve-byte records.
       - [0x4554, c, RoomEffect_ScaledLayer]
       - [0x4888, c, RoomEffect_PointerPaletteSprite]
-      - [0x49CC, c, RoomEffect_LatchedPlayerEmitter]
       # Both pool callbacks and their controller share the model asset and its
       # sixteen-byte effect record.
       - [0x4B74, c, RoomEffect_ThresholdModelTriple]
@@ -129,7 +128,7 @@ segments:
       - [0x5B74, c, RoomEffect_TwoPassScaledLayer]
       - [0x5D6C, c, func_80194D54]
       - [0x5E84, asm, func_80194E6C]
-      - [0x6600, asm, func_801955E8]
+      - [0x6600, c, func_801955E8]
       - [0x699C, c, RoomEffect_DualPalettePulse]
       - [0x6BE8, c, RoomEffect_PairedBatchEmitter]
       - [0x6E28, c, RoomEffect_ColoredRisingSprite]

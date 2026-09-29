@@ -25,6 +25,39 @@ typedef struct RoomM273PulseSeed {
     u8 reserved_06[4];
 } RoomM273PulseSeed;
 
+/* Emitter interpretation of the shared 12-byte pool record. */
+typedef struct RoomM273PulseEmitterView {
+    u16 x;
+    u16 y;
+    u16 z;
+    u16 size;
+    u16 phase;
+    u16 unknown10;
+} RoomM273PulseEmitterView;
+
+/* Position payload shared by the player-following effect callbacks. */
+typedef struct RoomM273WorldPosition {
+    s32 x;
+    s32 y;
+    s32 z;
+} RoomM273WorldPosition;
+
+typedef struct RoomM273PlayerTransform {
+    u8 reserved_00[0x14];
+    RoomM273WorldPosition position;
+} RoomM273PlayerTransform;
+
+typedef struct RoomM273PlayerActorView {
+    u8 reserved_00[0x0E];
+    u8 kind;
+    u8 reserved_0F[0x229];
+    RoomM273PlayerTransform *transform;
+} RoomM273PlayerActorView;
+
+typedef struct RoomM273SpritePoolEffect {
+    RoomM273WorldPosition *position;
+} RoomM273SpritePoolEffect;
+
 typedef struct RoomM273ThresholdTransform {
     u8 reserved_00[0x594];
     s32 x;
@@ -50,6 +83,10 @@ typedef struct RoomM273EffectStateContext {
 } RoomM273EffectStateContext;
 
 extern RoomM273PoolContext *D_800F33E0;
+extern int D_800E27EC;
+extern u16 D_800F336C, D_800E1204[];
+extern int D_800F3428;
+extern volatile u16 D_800F3376, D_800F3378;
 
 PE1_STATIC_ASSERT(sizeof(RoomM273PoolContext) == 0x0C,
                   room_m273_pool_context_size);
@@ -64,6 +101,34 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273EffectModeState, value26) == 0x1A,
 PE1_STATIC_ASSERT(sizeof(RoomM273EffectModeState) == 0x1C,
                   room_m273_effect_state_size);
 PE1_STATIC_ASSERT(sizeof(RoomM273PulseSeed) == 8, room_m273_pulse_seed_size);
+PE1_STATIC_ASSERT(sizeof(RoomM273PulseEmitterView) == 0x0C,
+                  room_m273_pulse_emitter_view_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PulseEmitterView, x) == 0,
+                  room_m273_pulse_emitter_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PulseEmitterView, y) == 2,
+                  room_m273_pulse_emitter_y_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PulseEmitterView, z) == 4,
+                  room_m273_pulse_emitter_z_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PulseEmitterView, size) == 6,
+                  room_m273_pulse_emitter_size_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PulseEmitterView, phase) == 8,
+                  room_m273_pulse_emitter_phase_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PulseEmitterView, unknown10) == 0x0A,
+                  room_m273_pulse_emitter_unknown_offset);
+PE1_STATIC_ASSERT(sizeof(RoomM273WorldPosition) == 0x0C,
+                  room_m273_world_position_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PlayerTransform, position) == 0x14,
+                  room_m273_player_transform_position_offset);
+PE1_STATIC_ASSERT(sizeof(RoomM273PlayerTransform) == 0x20,
+                  room_m273_player_transform_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PlayerActorView, kind) == 0x0E,
+                  room_m273_player_actor_kind_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PlayerActorView, transform) == 0x238,
+                  room_m273_player_actor_transform_offset);
+PE1_STATIC_ASSERT(sizeof(RoomM273PlayerActorView) == 0x23C,
+                  room_m273_player_actor_view_size);
+PE1_STATIC_ASSERT(sizeof(RoomM273SpritePoolEffect) == 4,
+                  room_m273_sprite_pool_effect_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273ThresholdTransform, x) == 0x594,
                   room_m273_threshold_transform_x_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273ThresholdEntityState, transform) == 0x238,

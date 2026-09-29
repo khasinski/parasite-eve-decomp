@@ -45,13 +45,7 @@ int func_801945EC(int mode, RoomM123Particle *particle) {
     return 0;
 }
 
-typedef struct RoomM123Context {
-    u8 pad[8];
-    void *pool;
-} RoomM123Context;
-
 extern GteShortVector D_8018F1E0;
-extern RoomM123Context *D_800F32D0, *D_800F33E0;
 extern int D_800E27EC;
 extern u16 D_800E11EA, D_800E2850[];
 extern u16 D_800F3368, D_800F336C, D_800F336E;
@@ -74,7 +68,7 @@ int func_80194768(int mode)
     int time;
     int scale;
     u16 outX, outY, outZ;
-    RoomM123Context *context;
+    RoomM123Pool *context;
     void *texture;
     u16 palette;
 
