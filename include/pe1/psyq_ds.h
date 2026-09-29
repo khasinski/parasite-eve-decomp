@@ -38,6 +38,8 @@ typedef struct IsoDirectoryRecord {
     char name[1];
 } IsoDirectoryRecord;
 
+extern u8 g_DsFileSectorBuffer[2048] __asm__("D_800A52B0");
+
 PE1_STATIC_ASSERT(PE1_OFFSETOF(IsoVolumePathTable, pathTableSectorLE) == 140,
                   iso_volume_path_table_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(IsoPathRecord, name) == 8,

@@ -1,7 +1,6 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_ds.h"
 
-extern u8 D_800A52B0[2048];
 extern int D_8009B6DC;
 extern int D_8009AFC0;
 CdlLOC *CdIntToPos(int sector, CdlLOC *position);
@@ -29,24 +28,24 @@ int DS_newmedia(void) {
     char *sectors;
     char *names;
 
-    read_status = ds_read(1, 16, D_800A52B0);
+    read_status = ds_read(1, 16, g_DsFileSectorBuffer);
     if (read_status != 1) {
         if (D_8009AFC0 > 0) puts(D_80011EF8);
         return 0;
     }
-    if (strncmp(((IsoVolumePathTable *)D_800A52B0)->identifier,
+    if (strncmp(((IsoVolumePathTable *)g_DsFileSectorBuffer)->identifier,
                 D_80011F24, 5) != 0) {
         if (D_8009AFC0 > 0) puts(D_80011F2C);
         return 0;
     }
-    end = ((IsoVolumePathTable *)D_800A52B0)->pathTableSectorLE;
+    end = ((IsoVolumePathTable *)g_DsFileSectorBuffer)->pathTableSectorLE;
     memcpy(&sector, end, 4);
-    if (ds_read(1, sector, D_800A52B0) != read_status) {
+    if (ds_read(1, sector, g_DsFileSectorBuffer) != read_status) {
         if (D_8009AFC0 > 0) printf(D_80011F5C, sector);
         return 0;
     }
     if (D_8009AFC0 > 1) puts(D_80011F80);
-    cursor = D_800A52B0;
+    cursor = g_DsFileSectorBuffer;
     end = cursor + 2048;
     count = 0;
     if (cursor >= end) goto finished;
@@ -107,13 +106,13 @@ int DS_cachefile(int directory) {
 
     if (directory == D_8009B6DC) return 1;
     if (ds_read(1, (g_DslDirectoryCache + directory)[-1].sector,
-                D_800A52B0) != 1) {
+                g_DsFileSectorBuffer) != 1) {
         if (D_8009AFC0 > 0) puts(D_80011FD8);
         return -1;
     }
     if (D_8009AFC0 > 1) puts(D_80011FF8);
-    cursor = (IsoDirectoryRecord *)D_800A52B0;
-    for (count = 0; (u8 *)cursor < D_800A52B0 + 2048;) {
+    cursor = (IsoDirectoryRecord *)g_DsFileSectorBuffer;
+    for (count = 0; (u8 *)cursor < g_DsFileSectorBuffer + 2048;) {
         if (cursor->recordLength == 0) break;
         memcpy(&sector, cursor->sectorLE, 4);
         CdIntToPos(sector, &g_DslFileCache[count].pos);
