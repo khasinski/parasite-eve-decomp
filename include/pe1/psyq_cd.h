@@ -36,6 +36,16 @@ extern volatile u32 *D_8009B344;
 extern volatile u8 *D_8009B32C;
 extern char D_80011C2C[];
 
+typedef void (*CdReadCompleteCallback)(int event, void *data);
+
+typedef struct CdReadCompleteCallbackPage {
+    CdReadCompleteCallback callback;
+    char reserved04[0x492C];
+} CdReadCompleteCallbackPage;
+
+PE1_STATIC_ASSERT(sizeof(CdReadCompleteCallbackPage) == 0x4930,
+                  cd_read_callback_page_size);
+
 /* Optional 2048-byte-sector staging buffer used by the streaming CD path. */
 extern u8 *D_800C0DB8;
 
@@ -46,7 +56,8 @@ typedef struct CdCallbackDataPage {
     int reserved0C;
     CdlCB read;
     int status;
-    char reserved18[0x5038];
+    char reserved18[0x708];
+    CdReadCompleteCallbackPage readComplete;
 } CdCallbackDataPage;
 
 typedef struct CdlLOC {
@@ -168,6 +179,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, read) == 0x10,
                   cd_callback_data_page_read_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, status) == 0x14,
                   cd_callback_data_page_status_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, readComplete) == 0x720,
+                  cd_callback_data_page_read_complete_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadStatusBlock, lastCommand) == 0x0C,
                   ds_read_status_last_command_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadStatusBlock, currentPos) == 0x0E,
@@ -214,14 +227,6 @@ typedef void (*DsAsyncReadCallback)(int status, void *data, void *detail);
 int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg);
 void CdRom_ReadProgressCallback(int status, void *data, void *detail);
 
-typedef struct CdCallbackDataWindow {
-    CdlCB syncCallback;
-    u_char pad_AFB8[0x5048];
-} CdCallbackDataWindow;
-
-PE1_STATIC_ASSERT(sizeof(CdCallbackDataWindow) == 0x504C,
-                  cd_callback_data_window_size);
-
 typedef struct CdReadProgressState {
     int reserved00[2];
     int sectorSize;
@@ -234,16 +239,6 @@ typedef struct CdReadProgressState {
     int currentVsync;
     int inProgress;
 } CdReadProgressState;
-
-typedef void (*CdReadCompleteCallback)(int event, void *data);
-
-typedef struct CdReadCompleteCallbackPage {
-    CdReadCompleteCallback callback;
-    char reserved04[0x492C];
-} CdReadCompleteCallbackPage;
-
-PE1_STATIC_ASSERT(sizeof(CdReadCompleteCallbackPage) == 0x4930,
-                  cd_read_callback_page_size);
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, dataCallback) == 0x1C,
                   cd_read_progress_data_callback_offset);
