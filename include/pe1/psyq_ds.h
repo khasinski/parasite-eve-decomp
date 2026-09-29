@@ -3,6 +3,48 @@
 
 #include "pe1/psyq_cd.h"
 
+/* Psy-Q LIBDS.H file record returned by DsSearchFile. */
+typedef struct DslFILE {
+    CdlLOC pos;
+    u_int size;
+    char name[16];
+} DslFILE;
+
+/* DS_newmedia fills this table from ISO-9660 path-table records. */
+typedef struct DslDirectoryCacheEntry {
+    int directoryId;
+    int parentDirectoryId;
+    u_int sector;
+    char name[32];
+} DslDirectoryCacheEntry;
+
+enum {
+    DSL_MAX_FILE = 64,
+    DSL_MAX_DIR = 128,
+};
+
+extern DslFILE g_DslFileCache[DSL_MAX_FILE] __asm__("D_800A36B0");
+extern DslDirectoryCacheEntry g_DslDirectoryCache[DSL_MAX_DIR]
+    __asm__("D_800A3CB0");
+
+PE1_STATIC_ASSERT(sizeof(DslFILE) == 0x18, dsl_file_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DslFILE, size) == 0x04,
+                  dsl_file_size_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DslFILE, name) == 0x08,
+                  dsl_file_name_offset);
+PE1_STATIC_ASSERT(sizeof(DslDirectoryCacheEntry) == 0x2C,
+                  dsl_directory_cache_entry_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, directoryId) ==
+                      0x00,
+                  dsl_directory_cache_id_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, parentDirectoryId) ==
+                      0x04,
+                  dsl_directory_cache_parent_id_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, sector) == 0x08,
+                  dsl_directory_cache_sector_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, name) == 0x0C,
+                  dsl_directory_cache_name_offset);
+
 /* ISO-9660 structures used by Psy-Q LIBDS/DSFILE.OBJ. Disk integers are byte
  * arrays because several fields are unaligned and little-endian. */
 typedef struct IsoVolumePathTable {
@@ -56,6 +98,7 @@ int DS_newmedia(void);
 int DS_searchdir(int parent, char *name);
 int DS_cachefile(int directory);
 int _cmp(char *left, char *right);
+DslFILE *DsSearchFile(DslFILE *file, char *name);
 int strncmp(const char *left, const char *right, unsigned int count);
 int strcmp(const char *left, const char *right);
 

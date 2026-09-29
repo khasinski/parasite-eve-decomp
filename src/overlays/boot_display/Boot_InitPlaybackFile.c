@@ -1,5 +1,5 @@
 #include "pe1/boot_display.h"
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 #include "pe1/psyq_ds_queue.h"
 
 s32 Boot_InitPlaybackFile(void) {

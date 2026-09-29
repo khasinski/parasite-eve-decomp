@@ -130,27 +130,6 @@ typedef struct CdlATV {
     u_char val3;
 } CdlATV;
 
-/* Psy-Q LIBDS.H's DslFILE, returned by DsSearchFile. */
-typedef struct DslFILE {
-    CdlLOC pos;
-    u_int size;
-    char name[16];
-} DslFILE;
-
-/* LIBDS.H defines DslMAXDIR as 128.  DS_newmedia fills this cache from
- * ISO-9660 path-table records and DS_searchdir traverses it by these fields. */
-typedef struct DslDirectoryCacheEntry {
-    int directoryId;
-    int parentDirectoryId;
-    u_int sector;
-    char name[32];
-} DslDirectoryCacheEntry;
-
-enum {
-    DSL_MAX_FILE = 64,
-    DSL_MAX_DIR = 128,
-};
-
 typedef struct DsDecodedEventFlags {
     u_char bit7;
     u_char bit6;
@@ -204,23 +183,6 @@ typedef struct CdRomEventCommandState {
 
 PE1_STATIC_ASSERT(sizeof(DsReadStatusBlock) == 0x28,
                   ds_read_status_block_size);
-PE1_STATIC_ASSERT(sizeof(DslFILE) == 0x18, dsl_file_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DslFILE, size) == 0x04,
-                  dsl_file_size_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DslFILE, name) == 0x08,
-                  dsl_file_name_offset);
-PE1_STATIC_ASSERT(sizeof(DslDirectoryCacheEntry) == 0x2C,
-                  dsl_directory_cache_entry_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, directoryId) ==
-                      0x00,
-                  dsl_directory_cache_id_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, parentDirectoryId) ==
-                      0x04,
-                  dsl_directory_cache_parent_id_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, sector) == 0x08,
-                  dsl_directory_cache_sector_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DslDirectoryCacheEntry, name) == 0x0C,
-                  dsl_directory_cache_name_offset);
 PE1_STATIC_ASSERT(sizeof(CdCallbackDataPage) == 0x5050,
                   cd_callback_data_page_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, sync) == 0x04,
@@ -266,11 +228,6 @@ extern CdRomEventCommandState g_CdRomEventCommandState
 extern int g_CdRomCmdTimeout __asm__("D_8009B598");
 extern int g_CdRomCmdRetryState __asm__("D_8009B59C");
 extern int g_CdRomCmdLongTimeoutTable[];
-
-/* libds/dsfile.c cache tables. */
-extern DslFILE g_DslFileCache[DSL_MAX_FILE] __asm__("D_800A36B0");
-extern DslDirectoryCacheEntry g_DslDirectoryCache[DSL_MAX_DIR]
-    __asm__("D_800A3CB0");
 
 typedef struct DsReadyEventWindow {
     u_char eventStatus;
@@ -424,7 +381,6 @@ extern CdReadCompleteCallback g_CdReadCompleteCallback;
 CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback);
 
 void CdRom_AbortCmd(void);
-DslFILE *DsSearchFile(DslFILE *file, char *name);
 void CQ_clear_queue(void *queue);
 void DS_read_cbready(void);
 DsCallback DsReadCallback(DsCallback callback);

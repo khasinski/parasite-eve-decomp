@@ -1,4 +1,4 @@
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 #include "pe1/pe_image.h"
 
 extern char D_80011330[];
