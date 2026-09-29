@@ -78,27 +78,6 @@ CASES = [('src/main/pad/SetInitPadFlag.c',
   'D_800A3348 = 0x800a3348;\n'
   'SECTIONS { .text 0x80076b20 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/cdrom/CdRom_ResetDsReadSystem.c',
-  268,
-  '3280fd8e2aaa2af9897f49d8430b7040c41e1b434af50a3b65500c0ccb196a32',
-  'CdRom_AbortCmd = 0x800808bc;\n'
-  'D_800B8AB0 = 0x800b8ab0;\n'
-  'D_800A3510 = 0x800a3510;\n'
-  'D_800A3515 = 0x800a3515;\n'
-  'D_800A3525 = 0x800a3525;\n'
-  'D_800A3535 = 0x800a3535;\n'
-  'g_CdDsReadQueue = 0x800a3540;\n'
-  'CQ_clear_queue = 0x8007e594;\n'
-  'D_800A3604 = 0x800a3604;\n'
-  'D_800A3600 = 0x800a3600;\n'
-  'g_CdPendingReadCount = 0x800a3608;\n'
-  'D_800A3610 = 0x800a3610;\n'
-  'D_800A3690 = 0x800a3690;\n'
-  'DS_read_cbready = 0x800822bc;\n'
-  'DsReadCallback = 0x80081e5c;\n'
-  'CdRom_EnableDsReadSystem = 0x80080930;\n'
-  'SECTIONS { .text 0x8007ed58 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
-  '*(.mdebug) } }'),
  ('src/main/main/Render_InitEntityPool.c',
   372,
   '255d8a0293b214dabba1d7fca566f2a9df422640a04b1930a82e8eb5d7319bd8',

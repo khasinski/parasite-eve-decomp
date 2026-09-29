@@ -1,14 +1,17 @@
 /* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
-/* CC1_FLAGS: -mno-split-addresses */
+/* CC1_FLAGS: -mno-split-addresses -fno-schedule-insns2 */
 #include "pe1/psyq_cd.h"
+
+/* These adjacent retail functions share DS queue reset state:
+ * CdRom_InitDsReadSystem at 0x8007EC14 and CdRom_ResetDsReadSystem at
+ * 0x8007ED58. Their combined GNU 2.8.1 object preserves both code ranges. */
 extern unsigned char D_800A3515[], D_800A3525[], D_800A3535[];
 extern DsReadCallbackSlot D_800A3610[];
 extern int D_800A3604, D_800A3600, g_CdPendingReadCount, D_800A3690;
 extern void DS_read_cbready(void);
-
-/* Initialize the DS queues and callbacks only when the subsystem is disabled.
- * Reserved bytes in command and callback records retain their old contents. */
+extern void CdRom_AbortCmd(void);
+extern void CdRom_EnableDsReadSystem(void);
 int CdRom_InitDsReadSystem(void) {
     int i, j, k, offset;
     CdQueuedCmdSlot *state;
@@ -45,5 +48,40 @@ int CdRom_InitDsReadSystem(void) {
     CdRom_SetPollCallback((unsigned int)CdRom_PollPendingDsRead);
     DS_read_cbready();
     DsReadCallback(0);
+    return 1;
+}
+
+int CdRom_ResetDsReadSystem(void) {
+    int i, j, k, offset;
+    CdQueuedCmdSlot *state;
+    DsCallbackRegistry *callbacks;
+    CdRom_AbortCmd();
+    i = 0;
+    callbacks = &g_DsReadCallbackState;
+    callbacks->start = 0;
+    callbacks->sync = 0;
+    callbacks->ready = 0;
+    state = g_CdQueuedCmdSlots;
+    state[2].state = 0;
+    state[1].state = 0;
+    state[0].state = 0;
+    state[2].result = 0;
+    state[1].result = 0;
+    state[0].result = 0;
+    for (; i < 8; ++i) {
+        D_800A3515[i] = 0;
+        D_800A3525[i] = 0;
+        D_800A3535[i] = 0;
+    }
+    for (j = 0; j < 8; ++j) CQ_clear_queue(&g_CdDsReadQueue[j]);
+    D_800A3604 = 0;
+    D_800A3600 = 0;
+    g_CdPendingReadCount = 0;
+    for (k = 7, offset = 112; k >= 0; --k, offset -= 16)
+        *(int *)((unsigned char *)D_800A3610 + offset) = 0;
+    D_800A3690 = 0;
+    DS_read_cbready();
+    DsReadCallback(0);
+    CdRom_EnableDsReadSystem();
     return 1;
 }

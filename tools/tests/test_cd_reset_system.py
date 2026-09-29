@@ -10,7 +10,10 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class CdResetSystemTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_reset_order_and_preserved_fields(self):
-        source = (ROOT / "src/main/cdrom/CdRom_ResetDsReadSystem.c").read_text()
+        source = (ROOT / "src/main/cdrom/CdRom_DsReadSystemLifecycle.c").read_text()
+        reset_start = source.index("int CdRom_ResetDsReadSystem(void)")
+        init_start = source.index("int CdRom_InitDsReadSystem(void)")
+        source = source[:init_start] + source[reset_start:]
         source = source.replace(
             'extern unsigned char D_800A3515[], D_800A3525[], D_800A3535[];',
             '#define D_800A3515 ((unsigned char *)g_CdQueuedCmdSlots + 5)\n'

@@ -26,9 +26,9 @@ CASES = [('main/Gpu_SwapDisplayBuffers',
   'D_800BD030 = 0x800BD030;\n'
   'SECTIONS { .text 0x80076c34 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('cdrom/CdRom_InitDsReadSystem',
-  324,
-  '26f2de2fd362c72fda26ab8368fb82d03a4456e898d42a65d0c43764b608b7f1',
+ ('cdrom/CdRom_DsReadSystemLifecycle',
+  592,
+  '71cb6c36483078eb7a6513f2ac8d01d326f1a29003be05a55e261046ffa14825',
   'CdRom_IsDsReadSystemEnabled = 0x80080940;\n'
   'D_800B8AB0 = 0x800B8AB0;\n'
   'D_800A3510 = 0x800A3510;\n'
@@ -53,6 +53,8 @@ CASES = [('main/Gpu_SwapDisplayBuffers',
   'CdRom_SetPollCallback = 0x8007FBC0;\n'
   'DS_read_cbready = 0x800822BC;\n'
   'DsReadCallback = 0x80081E5C;\n'
+  'CdRom_AbortCmd = 0x800808BC;\n'
+  'CdRom_EnableDsReadSystem = 0x80080930;\n'
   'SECTIONS { .text 0x8007ec14 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }')]
 
