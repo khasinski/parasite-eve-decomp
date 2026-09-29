@@ -5,7 +5,6 @@
 #include "pe1/psyq_ds.h"
 
 void CdRom_ResetFileDescriptors(void);
-void DS_read_cbready(void);
 int func_8007FCBC(int mode, int unused);
 
 void Save_ProcessDataCallback(void) {

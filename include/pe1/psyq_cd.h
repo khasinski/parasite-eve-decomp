@@ -260,17 +260,6 @@ extern CdReadCompleteCallback g_CdReadCompleteCallback;
 CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback);
 
 void CdRom_AbortCmd(void);
-void CQ_clear_queue(void *queue);
-void DS_read_cbready(void);
-void CdRom_InitDsCallbacks(void);
-void CdRom_SetSyncCallback(unsigned int value);
-void CdRom_SetReadyCallback(unsigned int value);
-void CdRom_SetDispatchCallback(unsigned int value);
-void CdRom_SetPollCallback(unsigned int value);
-void LIBDS_DSSYS_2_text_3D0(int event, u8 *result);
-int Render_PlayParticleEffect(int command, u8 *payload);
-void CdRom_DispatchDsReadyCallback(void);
-void CdRom_PollPendingDsRead(void);
 /* BIOS_1.OBJ polling state, result buffers and timeout diagnostics. */
 extern u8 D_8009AFD5;
 extern char *D_8009AFDC[], *D_8009B05C[];

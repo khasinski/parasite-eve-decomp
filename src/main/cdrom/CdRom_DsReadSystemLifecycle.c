@@ -11,7 +11,6 @@
 extern unsigned char D_800A3515[], D_800A3525[], D_800A3535[];
 extern DsReadCallbackSlot D_800A3610[];
 extern int D_800A3604, D_800A3600, g_CdPendingReadCount, D_800A3690;
-extern void DS_read_cbready(void);
 extern void CdRom_AbortCmd(void);
 int CdRom_InitDsReadSystem(void) {
     int i, j, k, offset;
