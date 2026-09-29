@@ -13,8 +13,6 @@ extern char D_80011B28[];
 extern char D_80011C20[];
 extern char *D_8009AFDC[];
 extern char *D_8009B05C[];
-extern volatile u32 *D_8009B2C0;
-
 int printf(const char *format, ...);
 int puts(const char *text);
 void CD_flush(void);

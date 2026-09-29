@@ -4,14 +4,6 @@
 
 #include "pe1/psyq_cd.h"
 
-extern volatile u32 *D_8009B28C;
-extern volatile u32 *D_8009B2B0;
-extern volatile u32 *D_8009B2B4;
-extern void *volatile *D_8009B2B8;
-extern volatile u32 *D_8009B2BC;
-extern volatile u32 *D_8009B2C0;
-extern volatile u32 *g_CdRegDmaControl;
-
 int CD_getsector2(void *destination, int words) {
     register volatile u8 *status asm("$3");
     register u32 dmaCommand asm("$2");

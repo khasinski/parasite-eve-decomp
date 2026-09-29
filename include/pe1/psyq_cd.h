@@ -34,6 +34,13 @@ extern volatile u32 *D_8009B344;
 extern volatile u8 *D_8009B32C;
 extern char D_80011C2C[];
 
+/* LIBCD keeps DMA register addresses in shared pointer slots. */
+extern volatile u32 *D_8009B28C;
+extern volatile u32 *D_8009B2B0, *D_8009B2B4;
+extern void *volatile *D_8009B2B8;
+extern volatile u32 *D_8009B2BC, *D_8009B2C0;
+extern volatile u32 *g_CdRegDmaControl;
+
 typedef void (*CdReadCompleteCallback)(int event, void *data);
 
 typedef struct CdReadProgressState {
