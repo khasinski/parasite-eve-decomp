@@ -1,4 +1,4 @@
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 int DsStartCallback(int callback) {
     int *slot;

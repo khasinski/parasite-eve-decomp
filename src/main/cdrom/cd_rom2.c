@@ -1,4 +1,5 @@
 #include "pe1/cdrom.h"
+#include "pe1/psyq_ds.h"
 
 extern int g_CdPendingReadCount;
 

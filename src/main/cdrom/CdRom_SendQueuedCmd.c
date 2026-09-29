@@ -2,6 +2,7 @@
 /* CC1_FLAGS: -mno-split-addresses */
 
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 #include "pe1/cdrom.h"
 
 extern CdQueuedCmdSlot D_800A3520;

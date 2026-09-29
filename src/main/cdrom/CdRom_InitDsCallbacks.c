@@ -1,4 +1,5 @@
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 extern u32 D_8009AFD8;
 

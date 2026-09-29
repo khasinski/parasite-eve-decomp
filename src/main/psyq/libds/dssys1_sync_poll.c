@@ -1,5 +1,5 @@
 /* ASSEMBLER: GNU */
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 /* Contiguous private routines from Psy-Q LIBDS/DSSYS_1.OBJ:
  * text_8B8 is at 0x80080220 and text_A9C follows at 0x80080404.

@@ -27,6 +27,94 @@ extern DslFILE g_DslFileCache[DSL_MAX_FILE] __asm__("D_800A36B0");
 extern DslDirectoryCacheEntry g_DslDirectoryCache[DSL_MAX_DIR]
     __asm__("D_800A3CB0");
 
+typedef union DsCallbackValue {
+    DsCallback poll;
+    DsEventCallback event;
+    u32 word;
+} DsCallbackValue;
+
+PE1_STATIC_ASSERT(sizeof(DsCallbackValue) == 4, ds_callback_value_size);
+
+/* Runtime callback pointers at D_800A36A0 are a contiguous four-word window. */
+typedef struct DsRuntimeCallbacks {
+    DsCallback volatile poll;
+    DsEventCallback volatile sync;
+    DsEventCallback volatile ready;
+    DsEventCallback volatile dispatch;
+} DsRuntimeCallbacks;
+
+PE1_STATIC_ASSERT(sizeof(DsRuntimeCallbacks) == 16,
+                  ds_runtime_callbacks_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsRuntimeCallbacks, sync) == 4,
+                  ds_runtime_sync_callback_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsRuntimeCallbacks, ready) == 8,
+                  ds_runtime_ready_callback_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsRuntimeCallbacks, dispatch) == 12,
+                  ds_runtime_dispatch_callback_offset);
+
+typedef struct CdQueuedCmdSlot {
+    u_int state;
+    u_char result;
+    u_char payload[8];
+    u_char unk_0D[3];
+} CdQueuedCmdSlot;
+
+typedef struct CdDsReadQueueEntry {
+    u_int active;
+    u_char command;
+    u_char payload[4];
+    u_char unk_09[3];
+    void *parameter;
+    u_int arg10;
+    u_int arg14;
+} CdDsReadQueueEntry;
+
+/* Contiguous queue storage and bookkeeping, anchored by the pending count. */
+typedef struct CdDsReadQueueWindow {
+    CdDsReadQueueEntry entries[8];
+    int queue_state;
+    int read_index;
+    int pending_count;
+} CdDsReadQueueWindow;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdDsReadQueueWindow, pending_count) == 0xC8,
+                  ds_queue_pending_count_offset);
+#define CD_DS_QUEUE_FROM_PENDING(pointer) \
+    ((CdDsReadQueueWindow *)((char *)(pointer) - \
+                            PE1_OFFSETOF(CdDsReadQueueWindow, pending_count)))
+
+typedef struct DsReadCallbackSlot {
+    int value;
+    u_char command;
+    u_char payload[8];
+    u_char reserved0D[3];
+} DsReadCallbackSlot;
+
+PE1_STATIC_ASSERT(sizeof(DsReadCallbackSlot) == 0x10,
+                  ds_read_callback_slot_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadCallbackSlot, command) == 0x04,
+                  ds_read_callback_slot_command_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadCallbackSlot, payload) == 0x05,
+                  ds_read_callback_slot_payload_offset);
+
+typedef struct DsCallbackRegistry {
+    int start; /* The start callback ABI is not recovered yet. */
+    DsEventCallback sync;
+    DsEventCallback ready;
+} DsCallbackRegistry;
+PE1_STATIC_ASSERT(sizeof(DsCallbackRegistry) == 12, ds_callback_registry_size);
+
+extern DsCallbackRegistry g_DsReadCallbackState __asm__("D_800B8AB0");
+extern CdQueuedCmdSlot g_CdQueuedCmdSlots[3] __asm__("D_800A3510");
+extern DsReadCallbackSlot g_DsReadCallbackSlots[8] __asm__("D_800A3610");
+extern int g_DsReadCallbackCursor __asm__("D_800A3690");
+extern DsEventCallback volatile g_DsSyncCallback __asm__("D_800A36A4");
+extern DsEventCallback volatile g_DsReadyCallback __asm__("D_800A36A8");
+extern DsCallback volatile g_DsPollCallback __asm__("g_DsPollCallback");
+extern DsEventCallback volatile g_DsDispatchCallback __asm__("D_800A36AC");
+extern CdDsReadQueueEntry g_CdDsReadQueue[];
+extern int g_CdDsReadQueueState;
+extern int g_CdPendingReadCount;
+
 PE1_STATIC_ASSERT(sizeof(DslFILE) == 0x18, dsl_file_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DslFILE, size) == 0x04,
                   dsl_file_size_offset);

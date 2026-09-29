@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 extern CdRomEventCommandState D_8009B558;
 

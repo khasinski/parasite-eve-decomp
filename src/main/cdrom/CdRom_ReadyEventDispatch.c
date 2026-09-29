@@ -2,6 +2,7 @@
 /* CC1_FLAGS: -mno-split-addresses -fno-schedule-insns */
 #include "common.h"
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 void CdRom_ProcessEventByte(int event, u8 *data);
 

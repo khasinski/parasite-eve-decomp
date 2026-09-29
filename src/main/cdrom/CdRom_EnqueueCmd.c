@@ -2,6 +2,7 @@
 /* CC1_FLAGS: -mno-split-addresses */
 
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 void Util_Copy8(u8 *destination, u8 *source);
 

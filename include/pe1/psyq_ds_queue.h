@@ -1,7 +1,7 @@
 #ifndef PE1_PSYQ_DS_QUEUE_H
 #define PE1_PSYQ_DS_QUEUE_H
 
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 /* DSSYS_2.OBJ's stack packet, distinct from its 24-byte pending queue entry.
  * The callback word is forwarded unchanged; this code never calls it. */

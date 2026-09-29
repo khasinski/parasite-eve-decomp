@@ -1,5 +1,5 @@
 /* ASSEMBLER: GNU */
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 extern int D_8009B594, D_8009B598, D_8009B6A4, D_8009B570;
 void CdRom_RetryCmd(void);
 int CdRom_SendCmd(int, void *);

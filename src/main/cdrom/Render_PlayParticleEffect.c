@@ -1,6 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 extern CdQueuedCmdSlot D_800A3520;
 extern CdQueuedCmdSlot D_800A3530;

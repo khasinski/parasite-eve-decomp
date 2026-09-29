@@ -9,31 +9,6 @@ typedef void (*CdlCB)(u_char event, u_char *result);
 typedef void (*DsCallback)(void);
 typedef void (*DsEventCallback)(u_char event, u_char *result);
 
-typedef union DsCallbackValue {
-    DsCallback poll;
-    DsEventCallback event;
-    u32 word;
-} DsCallbackValue;
-
-PE1_STATIC_ASSERT(sizeof(DsCallbackValue) == 4, ds_callback_value_size);
-
-/* Runtime callback pointers at D_800A36A0 are a contiguous four-word window. */
-typedef struct DsRuntimeCallbacks {
-    DsCallback volatile poll;
-    DsEventCallback volatile sync;
-    DsEventCallback volatile ready;
-    DsEventCallback volatile dispatch;
-} DsRuntimeCallbacks;
-
-PE1_STATIC_ASSERT(sizeof(DsRuntimeCallbacks) == 16,
-                  ds_runtime_callbacks_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DsRuntimeCallbacks, sync) == 4,
-                  ds_runtime_sync_callback_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DsRuntimeCallbacks, ready) == 8,
-                  ds_runtime_ready_callback_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DsRuntimeCallbacks, dispatch) == 12,
-                  ds_runtime_dispatch_callback_offset);
-
 /* LIBCD's contiguous sync, ready and data-end interrupt event bytes. */
 typedef struct CdInterruptEvents {
     volatile u8 sync;
@@ -229,59 +204,11 @@ extern int g_CdRomCmdTimeout __asm__("D_8009B598");
 extern int g_CdRomCmdRetryState __asm__("D_8009B59C");
 extern int g_CdRomCmdLongTimeoutTable[];
 
-typedef struct DsReadyEventWindow {
-    u_char eventStatus;
-    u_char unk_01[7];
-    u_int status;
-    u_int command;
-} DsReadyEventWindow;
-
-typedef struct CdQueuedCmdSlot {
-    u_int state;
-    u_char result;
-    u_char payload[8];
-    u_char unk_0D[3];
-} CdQueuedCmdSlot;
+/* This word is also the base address used by CdRom_DispatchPendingCmd. */
+extern int g_CdDsReadIndex;
 
 int Render_AllocParticleNode(int command, void *parameter, int arg2, int arg3);
 int DsControlF(u_char command, u_char *parameter);
-
-typedef struct CdDsReadQueueEntry {
-    u_int active;
-    u_char command;
-    u_char payload[4];
-    u_char unk_09[3];
-    void *parameter;
-    u_int arg10;
-    u_int arg14;
-} CdDsReadQueueEntry;
-
-/* Contiguous queue storage and bookkeeping, anchored by the pending count. */
-typedef struct CdDsReadQueueWindow {
-    CdDsReadQueueEntry entries[8];
-    int queue_state;
-    int read_index;
-    int pending_count;
-} CdDsReadQueueWindow;
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdDsReadQueueWindow, pending_count) == 0xC8,
-                  ds_queue_pending_count_offset);
-#define CD_DS_QUEUE_FROM_PENDING(pointer) \
-    ((CdDsReadQueueWindow *)((char *)(pointer) - \
-                            PE1_OFFSETOF(CdDsReadQueueWindow, pending_count)))
-
-typedef struct DsReadCallbackSlot {
-    int value;
-    u_char command;
-    u_char payload[8];
-    u_char reserved0D[3];
-} DsReadCallbackSlot;
-
-PE1_STATIC_ASSERT(sizeof(DsReadCallbackSlot) == 0x10,
-                  ds_read_callback_slot_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadCallbackSlot, command) == 0x04,
-                  ds_read_callback_slot_command_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadCallbackSlot, payload) == 0x05,
-                  ds_read_callback_slot_payload_offset);
 
 typedef void (*DsAsyncReadCallback)(int status, void *data, void *detail);
 int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg);
@@ -327,20 +254,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, sectorSize) == 0x08,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, currentVsync) == 0x24,
                   cd_read_progress_current_vsync_offset);
 
-extern CdDsReadQueueEntry g_CdDsReadQueue[];
-extern int g_CdDsReadIndex;
-extern int g_CdDsReadQueueState;
-extern int g_CdPendingReadCount;
-typedef struct DsCallbackRegistry {
-    int start; /* The start callback ABI is not recovered yet. */
-    DsEventCallback sync;
-    DsEventCallback ready;
-} DsCallbackRegistry;
-PE1_STATIC_ASSERT(sizeof(DsCallbackRegistry) == 12, ds_callback_registry_size);
-extern DsCallbackRegistry g_DsReadCallbackState __asm__("D_800B8AB0");
-extern CdQueuedCmdSlot g_CdQueuedCmdSlots[3] __asm__("D_800A3510");
-extern DsReadCallbackSlot g_DsReadCallbackSlots[8] __asm__("D_800A3610");
-extern int g_DsReadCallbackCursor __asm__("D_800A3690");
 extern CdReadProgressState g_CdReadProgress __asm__("D_8009B6A4");
 extern int g_CdReadStartVsync __asm__("D_8009B6C4");
 extern int g_CdReadCurrentVsync __asm__("D_8009B6C8");
@@ -467,10 +380,6 @@ int CdGetSector2(void *address, int size);
 DsCallback CdDataCallback(DsCallback callback);
 int CdDataSync(int mode);
 
-extern DsEventCallback volatile g_DsSyncCallback __asm__("D_800A36A4");
-extern DsEventCallback volatile g_DsReadyCallback __asm__("D_800A36A8");
-extern DsCallback volatile g_DsPollCallback __asm__("g_DsPollCallback");
-extern DsEventCallback volatile g_DsDispatchCallback __asm__("D_800A36AC");
 void CdRom_CmdEventCallback(int event, u8 *result);
 
 #endif
