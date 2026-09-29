@@ -281,13 +281,17 @@ PE1_STATIC_ASSERT(sizeof(CdReadProgressState) == 0x2C,
                   cd_read_progress_state_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, sectorSize) == 0x08,
                   cd_read_progress_sector_size_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, startVsync) == 0x20,
+                  cd_read_progress_start_vsync_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, currentVsync) == 0x24,
                   cd_read_progress_current_vsync_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, inProgress) == 0x28,
+                  cd_read_progress_in_progress_offset);
 
 extern CdReadProgressState g_CdReadProgress __asm__("D_8009B6A4");
-extern int g_CdReadStartVsync __asm__("D_8009B6C4");
-extern int g_CdReadCurrentVsync __asm__("D_8009B6C8");
-extern int g_CdReadInProgress __asm__("D_8009B6CC");
+#define g_CdReadStartVsync (g_CdReadProgress.startVsync)
+#define g_CdReadCurrentVsync (g_CdReadProgress.currentVsync)
+#define g_CdReadInProgress (g_CdReadProgress.inProgress)
 extern CdReadCompleteCallback g_CdReadCompleteCallback;
 CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback);
 
