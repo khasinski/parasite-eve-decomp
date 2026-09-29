@@ -5,7 +5,6 @@
 PE1_STATIC_ASSERT(sizeof(DslFILE) == 24, ds_search_file_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DslFILE, name) == 8, ds_search_file_name_offset);
 
-extern int D_8009B6E0, D_8009AFC0;
 extern char D_80011E6C[], D_80011E88[], D_80011EA0[], D_80011EBC[], D_80011EDC[], D_80011EE8[];
 extern char D_800A36B8[DSL_MAX_FILE][sizeof(DslFILE)];
 int CdRom_GetDiskType(void);
@@ -27,9 +26,9 @@ DslFILE *DsSearchFile(DslFILE *output, char *input_name) {
     register char *entry_name;
     /* $zero supplies the independent cache offset without a redundant move. */
     asm volatile("" : "=r"(zero) : "r"(out));
-    if (D_8009B6E0 < CdRom_GetDiskType()) {
+    if (g_DsCachedDiskType < CdRom_GetDiskType()) {
         if (!DS_newmedia()) return 0;
-        D_8009B6E0 = CdRom_GetDiskType();
+        g_DsCachedDiskType = CdRom_GetDiskType();
     }
     if (*(signed char *)name != '\\') return 0;
     component[0] = 0;

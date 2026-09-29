@@ -1,8 +1,6 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_ds.h"
 
-extern int D_8009B6DC;
-extern int D_8009AFC0;
 CdlLOC *CdIntToPos(int sector, CdlLOC *position);
 void *memcpy(void *, const void *, unsigned int);
 int strcmp(const char *, const char *);
@@ -75,7 +73,7 @@ next_record:
     }
 finished:
     if (count < DSL_MAX_DIR) g_DslDirectoryCache[count].parentDirectoryId = 0;
-    D_8009B6DC = 0;
+    g_DsCachedDirectory = 0;
     if (D_8009AFC0 > 1) printf(D_80011FB4, count);
     return 1;
 }
@@ -104,7 +102,7 @@ int DS_cachefile(int directory) {
     int sector;
     int count;
 
-    if (directory == D_8009B6DC) return 1;
+    if (directory == g_DsCachedDirectory) return 1;
     if (ds_read(1, (g_DslDirectoryCache + directory)[-1].sector,
                 g_DsFileSectorBuffer) != 1) {
         if (D_8009AFC0 > 0) puts(D_80011FD8);
@@ -136,7 +134,7 @@ int DS_cachefile(int directory) {
         cursor = (IsoDirectoryRecord *)((u8 *)cursor + cursor->recordLength);
         if (++count >= DSL_MAX_FILE) break;
     }
-    D_8009B6DC = directory;
+    g_DsCachedDirectory = directory;
     if (count < DSL_MAX_FILE) g_DslFileCache[count].name[0] = 0;
     if (D_8009AFC0 > 1) printf(D_80012038, count);
     return 1;

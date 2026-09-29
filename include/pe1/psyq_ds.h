@@ -39,6 +39,8 @@ typedef struct IsoDirectoryRecord {
 } IsoDirectoryRecord;
 
 extern u8 g_DsFileSectorBuffer[2048] __asm__("D_800A52B0");
+extern int g_DsCachedDirectory __asm__("D_8009B6DC");
+extern int g_DsCachedDiskType __asm__("D_8009B6E0");
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(IsoVolumePathTable, pathTableSectorLE) == 140,
                   iso_volume_path_table_offset);
