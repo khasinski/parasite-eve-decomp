@@ -3,7 +3,6 @@
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds.h"
 
-extern int D_8009AFD8;
 extern unsigned char *D_8009AF1C;
 extern unsigned char *D_8009AF28;
 

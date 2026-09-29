@@ -1,8 +1,6 @@
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds.h"
 
-extern u32 D_8009AFD8;
-
 void CD_init(void);
 void CD_initvol(void);
 void CdRom_InitCmdState(void);

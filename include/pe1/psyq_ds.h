@@ -7,6 +7,9 @@ typedef PsyqEventCallback DslCB;
 typedef CdlLOC DslLOC;
 PE1_STATIC_ASSERT(sizeof(DslLOC) == 4, dsl_loc_size);
 
+/* Selects whether StUnSetRing clears the LIBDS or LIBCD callbacks. */
+extern u32 D_8009AFD8;
+
 /* Psy-Q LIBDS.H file record returned by DsSearchFile. */
 typedef struct DslFILE {
     DslLOC pos;
