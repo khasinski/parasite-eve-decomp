@@ -44,7 +44,8 @@ extern volatile u32 *g_CdRegDmaControl;
 typedef void (*CdReadCompleteCallback)(int event, void *data);
 
 typedef struct CdReadProgressState {
-    int reserved00[2];
+    s32 commandPollToggle;
+    s32 reserved04;
     int sectorSize;
     int destination;
     int remainingSectors;
@@ -60,6 +61,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, dataCallback) == 0x1C,
                   cd_read_progress_data_callback_offset);
 PE1_STATIC_ASSERT(sizeof(CdReadProgressState) == 0x2C,
                   cd_read_progress_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, commandPollToggle) == 0,
+                  cd_read_progress_command_poll_toggle_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, reserved04) == 4,
+                  cd_read_progress_reserved04_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, sectorSize) == 0x08,
                   cd_read_progress_sector_size_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, startVsync) == 0x20,
@@ -248,6 +253,8 @@ extern DsReadStatusBlock g_DsReadStatusBlock __asm__("D_8009B574");
 extern CdRomCommandState g_CdSeekState;
 extern CdRomEventCommandState g_CdRomEventCommandState
     __asm__("D_8009B558");
+extern s32 g_CdRomCommandEventValue __asm__("D_8009B570");
+extern s32 g_DsSyncResultCountdown __asm__("D_8009B594");
 extern int g_CdRomCmdTimeout __asm__("D_8009B598");
 extern int g_CdRomCmdRetryState __asm__("D_8009B59C");
 extern int g_CdRomCmdLongTimeoutTable[];
@@ -258,6 +265,8 @@ extern int g_CdDsReadIndex;
 void CdRom_ReadProgressCallback(int status, void *data, void *detail);
 
 extern CdReadProgressState g_CdReadProgress __asm__("D_8009B6A4");
+/* Direct alias preserves the SDK's word access to the first state field. */
+extern s32 g_CdReadCommandPollToggle __asm__("D_8009B6A4");
 #define g_CdReadStartVsync (g_CdReadProgress.startVsync)
 #define g_CdReadCurrentVsync (g_CdReadProgress.currentVsync)
 #define g_CdReadInProgress (g_CdReadProgress.inProgress)

@@ -1,6 +1,5 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_ds.h"
-extern int D_8009B594, D_8009B598, D_8009B6A4, D_8009B570;
 void CdRom_RetryCmd(void);
 int CdRom_SendCmd(int, void *);
 #define READ(p)                                                                        \
@@ -13,12 +12,12 @@ void LIBDS_DSSYS_1_text_4A4(void) {
     register int pending;
     register int one;
     register int *timer;
-    register int *retry = &D_8009B598;
+    register int *retry = &g_CdRomCmdTimeout;
     if (*retry > 0 && --*retry == 0) {
         CdRom_RetryCmd();
         goto done;
     }
-    timer = &D_8009B594;
+    timer = &g_DsSyncResultCountdown;
     asm("" : "=r"(timer) : "0"(timer));
     if (*timer > 0)
         --*timer;
@@ -31,24 +30,24 @@ void LIBDS_DSSYS_1_text_4A4(void) {
         if (state == eleven)
             goto callbacks;
         if (state == 12) {
-            if (D_8009B6A4) {
+            if (g_CdReadCommandPollToggle) {
                 register u8 *arg = &parameter;
                 parameter = 0;
-                if (D_8009B598 <= 0) {
+                if (g_CdRomCmdTimeout <= 0) {
                     CMD(timer)->eventValue = 32;
                     CdRom_SendCmd(14, arg);
                 }
-                D_8009B6A4 = 0;
+                g_CdReadCommandPollToggle = 0;
             } else {
-                if (D_8009B598 <= 0) {
+                if (g_CdRomCmdTimeout <= 0) {
                     CMD(timer)->eventValue = 32;
                     CdRom_SendCmd(1, 0);
                 }
-                D_8009B6A4 = one;
+                g_CdReadCommandPollToggle = one;
             }
         } else if (state == 13) {
-            pending = D_8009B598;
-            D_8009B6A4 = 0;
+            pending = g_CdRomCmdTimeout;
+            g_CdReadCommandPollToggle = 0;
             goto check_timeout;
         } else if (state == 14) {
             int step = READ(timer)->sector;
@@ -56,11 +55,11 @@ void LIBDS_DSSYS_1_text_4A4(void) {
                 goto poll;
             else if (step == 22) {
                 READ(timer)->reserved18++;
-                if (D_8009B598 > 0)
+                if (g_CdRomCmdTimeout > 0)
                     goto callbacks;
                 goto send_status;
             } else if (step == 23) {
-                if (D_8009B598 <= 0) {
+                if (g_CdRomCmdTimeout <= 0) {
                     CMD(timer)->eventValue = 32;
                     CdRom_SendCmd(19, 0);
                 }
@@ -86,7 +85,7 @@ void LIBDS_DSSYS_1_text_4A4(void) {
         }
         goto callbacks;
     poll:
-        pending = D_8009B598;
+        pending = g_CdRomCmdTimeout;
     check_timeout:
         if (pending > 0)
             goto callbacks;
@@ -101,8 +100,8 @@ callbacks:
         register DsReadStatusBlock *read asm("$4") = &g_DsReadStatusBlock;
         asm("" : "=r"(read) : "0"(read));
         if ((read->status == 1 && !read->eventFlags.bit1) || read->status == 3) {
-            if (D_8009B598 <= 0) {
-                D_8009B570 = 33;
+            if (g_CdRomCmdTimeout <= 0) {
+                g_CdRomCommandEventValue = 33;
                 CdRom_SendCmd(1, 0);
             }
         }
