@@ -1,6 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
-#include "pe1/psyq_cd.h"
-extern int Render_FindParticleEffect(int, void *);
+#include "pe1/psyq_ds_queue.h"
 
 int cd_rom4(unsigned char command, void *param, void *result) {
     int request;

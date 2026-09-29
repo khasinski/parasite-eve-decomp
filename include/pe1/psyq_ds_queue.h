@@ -49,6 +49,8 @@ extern int D_8009B4BC[];
 extern u32 D_8009B53C;
 extern int D_800A3608, D_800A3604;
 extern CdDsReadQueueEntry D_800A3540[];
+int Render_AllocParticleNode(int command, void *parameter, int callback,
+                             int count);
 CdDsReadQueueEntry *Spu_GetQueueEntryPtr(void);
 void Util_Copy4(void *, const void *);
 void Util_Copy8(void *, const void *);

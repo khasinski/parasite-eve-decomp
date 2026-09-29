@@ -1,7 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 
-#include "pe1/psyq_ds.h"
+#include "pe1/psyq_ds_queue.h"
 
 void LIBDS_DSREADY_text_FC(int event, u_char *result);
 void CdRom_ReadDoneCallback(u_char event, u_char *result);

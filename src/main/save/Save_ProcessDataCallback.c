@@ -2,7 +2,7 @@
 /* CC1_FLAGS: -mno-split-addresses */
 
 #include "pe1/psyq_cd.h"
-#include "pe1/psyq_ds.h"
+#include "pe1/psyq_ds_queue.h"
 
 void CdRom_ResetFileDescriptors(void);
 int func_8007FCBC(int mode, int unused);

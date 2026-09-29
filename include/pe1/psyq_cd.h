@@ -248,8 +248,6 @@ extern int g_CdRomCmdLongTimeoutTable[];
 /* This word is also the base address used by CdRom_DispatchPendingCmd. */
 extern int g_CdDsReadIndex;
 
-int Render_AllocParticleNode(int command, void *parameter, int arg2, int arg3);
-
 void CdRom_ReadProgressCallback(int status, void *data, void *detail);
 
 extern CdReadProgressState g_CdReadProgress __asm__("D_8009B6A4");

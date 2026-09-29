@@ -1,5 +1,5 @@
 /* ASSEMBLER: GNU */
-#include "pe1/psyq_ds.h"
+#include "pe1/psyq_ds_queue.h"
 #include "pe1/cdrom.h"
 int CdPosToInt(CdlLOC *);
 #define ASYNC_FROM_RETRY(p)                                                            \
