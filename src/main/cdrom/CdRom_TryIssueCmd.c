@@ -1,5 +1,4 @@
-#include "common.h"
-extern int g_CdRomCmdTimeout __asm__("D_8009B598");
+#include "pe1/psyq_cd.h"
 s32 CdRom_SendCmd(s32 arg0);
 
 s32 CdRom_TryIssueCmd(s32 arg0) {

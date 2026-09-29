@@ -247,12 +247,27 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, command) == 0x14,
                   cdrom_event_command_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, pendingParams) == 0x08,
                   cdrom_event_pending_params_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, command) +
+                      PE1_OFFSETOF(CdRomCommandState, eventValue) == 0x18,
+                  cdrom_event_value_address_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, command) +
+                      PE1_OFFSETOF(CdRomCommandState, read) +
+                      PE1_OFFSETOF(DsReadStatusBlock, syncResult) == 0x3C,
+                  cdrom_sync_result_countdown_address_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, command) +
+                      PE1_OFFSETOF(CdRomCommandState, read) +
+                      PE1_OFFSETOF(DsReadStatusBlock, readyResult) == 0x40,
+                  cdrom_ready_result_timeout_address_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, command) +
+                      PE1_OFFSETOF(CdRomCommandState, retryAttempts) == 0x44,
+                  cdrom_retry_attempts_address_offset);
 
 extern CdRomSystemState g_DsReadSysEnabled;
 extern DsReadStatusBlock g_DsReadStatusBlock __asm__("D_8009B574");
 extern CdRomCommandState g_CdSeekState;
 extern CdRomEventCommandState g_CdRomEventCommandState
     __asm__("D_8009B558");
+/* Direct word aliases of the overlapping command-state structure fields. */
 extern s32 g_CdRomCommandEventValue __asm__("D_8009B570");
 extern s32 g_DsSyncResultCountdown __asm__("D_8009B594");
 extern int g_CdRomCmdTimeout __asm__("D_8009B598");
