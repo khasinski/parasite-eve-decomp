@@ -124,9 +124,8 @@ segments:
       - [0x1ADC, .rodata, item/Inv_EquipmentSelection]
       - [0x1B30, rodata, main/rodata_001B30]
       - [0x1B88, rodata, main/rodata_001B88]
-      - [0x1BB0, .rodata, main/Scene_LoadEntityTexture]
-      - [0x1BCC, rodata, main/rodata_001BCC]
-      - [0x1BD0, .rodata, main/Scene_InitEntityPlayer]
+      # Both aligned scene startup jump tables are in the shared TU's 0x40 bytes.
+      - [0x1BB0, .rodata, main/Scene_LoadTextureAndPlayer]
       - [0x1BF0, rodata, main/rodata_001BF0]
       # Both sector-state jump tables now belong to the shared object.
       - [0x1C28, .rodata, main/CD_SectorReadFlow]
@@ -863,8 +862,8 @@ segments:
       - [0x5BCF8, asm, gpu/Scene_LoadRoom]
       - [0x5C568, c, overlay/Overlay_StreamTexturePage]
       - [0x5C64C, c, cdrom/CdRom_DetectDiscChange]
-      - [0x5C6CC, c, main/Scene_LoadEntityTexture]
-      - [0x5C9CC, c, main/Scene_InitEntityPlayer]
+      # Scene startup texture loading and player initialization share one TU.
+      - [0x5C6CC, c, main/Scene_LoadTextureAndPlayer]
       - [0x5CCC4, c, gpu/Scene_SetStoryDay]
       - [0x5CDBC, asm, main/Scene_LoadEntityTextures]
       - [0x5D468, c, gpu/Scene_UpdateBgDraw]

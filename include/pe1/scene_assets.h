@@ -99,6 +99,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, loaded_entity_bank) == 0xB,
                   scene_loaded_entity_bank_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, entity_texture_phase) == 0xEC,
                   scene_entity_texture_phase_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_init_phase) == 0xED,
+                  scene_init_phase_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, scene_init_subphase) == 0xEE,
+                  scene_init_subphase_offset);
 
 PE1_STATIC_ASSERT(sizeof(SceneTrackRecord) == 12, scene_track_record_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneTrackRecord, bank) == 8, scene_track_bank_offset);

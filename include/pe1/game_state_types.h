@@ -42,7 +42,8 @@ typedef struct Pe1GameState {
     short pending_sample_bank;      /* 0x0E8: -1 means no sample upload */
     Pe1U8 pending_stream_banks[2];  /* 0x0EA: zero means no stream upload */
     Pe1U8 entity_texture_phase;     /* 0x0EC */
-    Pe1U8 unk_0ed[2];
+    Pe1U8 scene_init_phase;      /* 0x0ED */
+    Pe1U8 scene_init_subphase;   /* 0x0EE */
     Pe1U8 tim_load_state;            /* 0x0EF: 0, 0x34, 0x35, 0x36 */
     Pe1U8 cd_read_phase;            /* 0x0F0 */
     Pe1U8 cd_track_phase;           /* 0x0F1 */

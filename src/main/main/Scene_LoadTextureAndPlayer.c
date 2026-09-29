@@ -1,11 +1,140 @@
 #include "common.h"
-#define NULL ((void *)0)
+#include "pe1/scene_assets.h"
+#include "pe1/cdrom.h"
 #include "../../../tools/m2c/m2c_macros.h"
+extern u8 D_800B0CE2[], D_8009D25C[];
+extern u32 D_800B0DD8[];
+extern u16 D_800930D8[], D_800930DA[];
+/* Matching debt: four pins, six empty barriers, one retry jump, and a
+ * 32-byte unused stack reserve retain retail allocation and scheduling.
+ * The shifted state view preserves the bank-row address calculation. */
+int Scene_LoadEntityTexture(void)
+{
+    int bank = *D_800B0CE2;
+    u32 lba = *D_800B0DD8;
+    Pe1GameState *state = &g_GameState;
+    SceneAssetBlob *blob;
+    SceneAssetDirectory *directory;
+    TimUploadRecord *tim;
+    register TimUploadRecord *firstTim asm("$4");
+    register u32 timOffset asm("$2");
+    SceneBankAssetRecord *record;
+    register SceneBankAssetRecord *firstRecord asm("$3");
+    register unsigned i asm("$16");
+    u32 packed;
+    u32 offsetMask;
+    int index;
+    int result;
+    volatile u32 matchingStackReserve[8];
+retry:
+    switch (state->entity_texture_phase) {
+    case 0:
+        if (state->flags & 0x200000)
+            state->entity_texture_phase = 1;
+        else
+            state->entity_texture_phase = 6;
+        break;
+    case 1:
+        index = bank + 3;
+        asm("" : "=r"(index) : "0"(index));
+        if (CdRom_ReadSectorsFromLba(lba + D_800930D8[index],
+                state->scene_load_scratch,
+                D_800930DA[index] - D_800930D8[index]) != -1)
+            state->entity_texture_phase = 2;
+        return 1;
+    case 2:
+        result = CdRom_PollReady();
+        if (result == -1) {
+            state->entity_texture_phase = 1;
+            return 1;
+        }
+        if (result != 0)
+            return 1;
+        if (state->flags & 0x20000) {
+            if (!(state->flags & 0x80000) && *D_8009D25C < 2)
+                return 1;
+            state->flags |= 0x40000;
+        }
+        state->entity_texture_phase = 3;
+        break;
+    case 3:
+        blob = state->scene_load_scratch;
+        directory = SceneAsset_ResolveOffset(blob, blob->directoryOffset);
+        timOffset = directory->timEntries & 0x3fffff;
+        asm("" : "=r"(timOffset) : "0"(timOffset));
+        firstTim = SceneAsset_ResolveOffset(blob, timOffset);
+        i = 0;
+        if (directory->timEntries >> 22) {
+            tim = firstTim;
+            do {
+                Gpu_LoadTimAsset(tim, blob);
+                packed = directory->timEntries;
+                asm volatile("" : "=r"(packed) : "0"(packed));
+                ++i;
+                ++tim;
+            } while (i < (packed >> 22));
+        }
+        state->entity_texture_phase = 4;
+        break;
+    case 4:
+        index = bank + 8;
+        asm("" : "=r"(index) : "0"(index));
+        if (CdRom_ReadSectorsFromLba(lba + D_800930D8[index],
+                (void *)state->voice_bank_base_1400,
+                D_800930DA[index] - D_800930D8[index]) != -1)
+            state->entity_texture_phase = 5;
+        return 1;
+    case 5:
+        result = CdRom_PollReady();
+        if (result == -1) {
+            state->entity_texture_phase = 4;
+            return 1;
+        }
+        if (result != 0)
+            return 1;
+        state->entity_texture_phase = 6;
+        break;
+    case 6:
+        blob = (SceneAssetBlob *)state->voice_bank_base_1400;
+        directory = SceneAsset_ResolveOffset(blob, blob->directoryOffset);
+        {
+            SceneBankAssetRecord *root = SceneAsset_ResolveOffset(blob, directory->bankRootEntries & 0x3fffff);
+            state->bank_slots[0] = (u32)SceneAsset_ResolveOffset(blob, root->source.offsetAndId & 0xffffff);
+        }
+        firstRecord = SceneAsset_ResolveOffset(blob, directory->bankRowEntries & 0x3fffff);
+        i = 0;
+        if (directory->bankRowEntries >> 22) {
+            offsetMask = 0xffffff;
+            record = firstRecord;
+            do {
+                unsigned id;
+                Pe1GameState *destination;
+                asm("" : "=r"(record) : "0"(record), "r"(offsetMask));
+                id = record->source.bytes.id;
+                destination = (Pe1GameState *)(id * 4 + (u32)state);
+                destination->bank_rows[0][0] = (u32)SceneAsset_ResolveOffset(
+                    blob, record->source.offsetAndId & offsetMask);
+                packed = directory->bankRowEntries;
+                asm volatile("" : "=r"(packed) : "0"(packed));
+                ++i;
+                ++record;
+            } while (i < (packed >> 22));
+        }
+        state->entity_texture_phase = 0;
+        state->loaded_entity_bank = state->requested_entity_bank;
+        state->flags &= ~0x200000;
+        return 0;
+    default:
+        return 0;
+    }
+    goto retry;
+}
+
 M2C_UNK Entity_SetActionMode(void *, M2C_UNK);      /* extern */
 M2C_UNK Render_SetupEntityPrims(void *, s32, s32, M2C_UNK, s32, s32, s32, s32, M2C_UNK *, s32); /* extern */
 M2C_UNK Render_DrawWithAnim(void *, s32, M2C_UNK, M2C_UNK *, M2C_UNK *); /* extern */
 M2C_UNK Render_InitRoomPrimState(void *);                      /* extern */
-s32 Scene_LoadEntityTexture();                                /* extern */
+int Scene_LoadEntityTexture(void);
 M2C_UNK Scene_SetStoryDay(s8 storyDay);                          /* extern */
 s32 Scene_LoadEntityTextures();                                /* extern */
 extern struct { char _[16]; } g_PlayerEntity_o __asm__("g_PlayerEntity");
@@ -21,9 +150,8 @@ extern struct { char _[16]; } g_PlayerEntity_s8 __asm__("g_PlayerEntity");
 extern struct { char _[16]; } g_PlayerEntity_s9 __asm__("g_PlayerEntity");
 extern struct { char _[16]; } g_PlayerEntity_s10 __asm__("g_PlayerEntity");
 extern struct { char _[16]; } g_PlayerEntity_s11 __asm__("g_PlayerEntity");
-extern struct { char _[16]; } D_800B0CD8_o __asm__("g_GameState");
-extern struct { char _[16]; } D_800B0CD8_b __asm__("g_GameState");
-#define g_GameState (*(M2C_UNK *)&D_800B0CD8_o)
+/* Keep independent C lvalues for the retail flag loads across switch cases. */
+extern Pe1GameState g_GameStateFlagsCase32 __asm__("g_GameState");
 extern struct { char _[16]; } D_800B0CE2_o __asm__("g_SceneAreaType");
 extern struct { char _[16]; } D_800B0CE2_w __asm__("g_SceneAreaType");
 #define g_SceneAreaType (*(u8 *)&D_800B0CE2_o)
@@ -36,10 +164,10 @@ extern struct { char _[16]; } D_800B0CE6_o __asm__("g_DiscChangeFlags");
 extern struct { char _[16]; } D_800B0CE6_w __asm__("g_DiscChangeFlags");
 extern struct { char _[16]; } D_800B0CE6_o2 __asm__("g_DiscChangeFlags");
 extern struct { char _[16]; } D_800B0CE6_w2 __asm__("g_DiscChangeFlags");
-extern struct { char _[16]; } D_800B0CD8_c __asm__("g_GameState");
-extern struct { char _[16]; } D_800B0CD8_cw __asm__("g_GameState");
-extern struct { char _[16]; } D_800B0CD8_d __asm__("g_GameState");
-extern struct { char _[16]; } D_800B0CD8_dw __asm__("g_GameState");
+extern Pe1GameState g_GameStateFlagsBeforeSceneSwitch __asm__("g_GameState");
+extern Pe1GameState g_GameStateFlagsAfterSceneSwitch __asm__("g_GameState");
+extern Pe1GameState g_GameStateFlagsBeforePlayerInit __asm__("g_GameState");
+extern Pe1GameState g_GameStateFlagsAfterPlayerInit __asm__("g_GameState");
 #define g_DiscChangeFlags (*(u8 *)&D_800B0CE6_o)
 extern struct { char _[16]; } D_800B0CEB_o __asm__("g_SceneAreaTypeDiscSwapBackup");
 #define g_SceneAreaTypeDiscSwapBackup (*(u8 *)&D_800B0CEB_o)
@@ -55,7 +183,7 @@ extern struct { char _[16]; } D_800BEA40_o __asm__("D_800BEA40");
 #define D_800BEA40 (*(M2C_UNK *)&D_800BEA40_o)
 
 s32 Scene_InitEntityPlayer(s32 arg0) {
-    u8 *p0cd8;
+    Pe1GameState *gameState;
     register s32 arg0v asm("$17");
     M2C_UNK sp28;
     s32 var_v0_2;
@@ -75,10 +203,10 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
     register u8 ttb asm("$2");
 
     arg0v = arg0;
-    p0cd8 = (u8 *)&D_800B0CD8_o;
+    gameState = &g_GameState;
     switch (D_800B0DC5) {
     case 32:
-        (*(s32 *)&D_800B0CD8_b) = (*(s32 *)&D_800B0CD8_b) | 0x20000;
+        g_GameStateFlagsCase32.flags = g_GameStateFlagsCase32.flags | 0x20000;
         if (arg0v != 0) {
             temp_v1 = g_SceneAreaType;
             k0e = 0xE;
@@ -103,7 +231,7 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
         if (temp_a1 < 5U) {
             tce3 = g_SavedSceneAreaType;
             if (g_SceneAreaType != tce3) {
-                (*(s32 *)&D_800B0CD8_cw) = (s32) ((*(s32 *)&D_800B0CD8_c) | 0x200000);
+                g_GameStateFlagsAfterSceneSwitch.flags = (s32) (g_GameStateFlagsBeforeSceneSwitch.flags | 0x200000);
             }
             th1 = temp_a1 >> 1;
             if (th1 != ((s32) (tce3 - 0xA) / 2)) {
@@ -125,12 +253,12 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
     case 37:
         g_DiscChangeFlags |= 4;
         Scene_SetStoryDay(g_CurrentStoryDay);
-        M2C_FIELD(p0cd8, s8 *, 0xED) = 0x26;
+        gameState->scene_init_phase = 0x26;
         return 1;
     case 38:
         var_v0 = 0x27;
         if (Scene_LoadEntityTextures() == 1) {
-            if ((u8) M2C_FIELD(p0cd8, u8 *, 0xEE) >= 0xBU) {
+            if ((u8) gameState->scene_init_subphase >= 0xBU) {
                 goto block_19;
             }
             goto block_21;
@@ -141,7 +269,7 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
 block_19:
         var_v0 = 0x27;
 block_20:
-        M2C_FIELD(p0cd8, s8 *, 0xED) = var_v0;
+        gameState->scene_init_phase = var_v0;
 block_21:
         return 1;
     case 39:
@@ -157,15 +285,15 @@ block_21:
         Render_DrawWithAnim(p39d + 0x1B4, M2C_FIELD(p39d, s32 *, 0x1B0), 0, &D_800BEA40, &g_EntityRenderScratch);
         p39e = (*(void **)&g_PlayerEntity_s5);
         M2C_FIELD(M2C_FIELD(p39e, void **, 0x1B4), s16 *, 0x14) = (s16) (M2C_FIELD(p39e, s16 *, 0x224) * 2);
-        (*(s32 *)&D_800B0CD8_dw) = (s32) ((*(s32 *)&D_800B0CD8_d) & 0xFFF9FFFF);
+        g_GameStateFlagsAfterPlayerInit.flags = (s32) (g_GameStateFlagsBeforePlayerInit.flags & 0xFFF9FFFF);
         if (arg0v != 0) {
-            tld2 = M2C_FIELD(p0cd8, s32 *, 0);
+            tld2 = M2C_FIELD(gameState, s32 *, 0);
             var_v0_2 = tld2 | 0x80000;
         } else {
-            var_v0_2 = M2C_FIELD(p0cd8, s32 *, 0) & 0xFFF7FFFF;
+            var_v0_2 = M2C_FIELD(gameState, s32 *, 0) & 0xFFF7FFFF;
         }
-        M2C_FIELD(p0cd8, s32 *, 0) = var_v0_2;
-        M2C_FIELD(p0cd8, s8 *, 0xED) = 0x20;
+        M2C_FIELD(gameState, s32 *, 0) = var_v0_2;
+        gameState->scene_init_phase = 0x20;
         /* fallthrough */
     default:
         return 0;
