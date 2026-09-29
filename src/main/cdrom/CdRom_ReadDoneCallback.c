@@ -29,8 +29,8 @@ void CdRom_ReadDoneCallback(unsigned char arg0, unsigned char *arg1) {
         return;
     }
 
-    DsSyncCallback(DS_ASYNC_READ_FIELD(state + 1, saved_sync_callback));
-    DsReadyCallback(DS_ASYNC_READ_FIELD(state + 1, saved_ready_callback));
+    DsSyncCallback(DS_ASYNC_READ_FIELD(state + 1, savedSyncCallback));
+    DsReadyCallback(DS_ASYNC_READ_FIELD(state + 1, savedReadyCallback));
     callback = DS_ASYNC_READ_FIELD(state + 1, callback);
     state[1] = 0;
     if (callback != 0) {

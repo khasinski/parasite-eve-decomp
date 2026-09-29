@@ -21,8 +21,8 @@ int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg) {
     DS_ASYNC_READ_FIELD(state, retryPending) = 0;
     DS_ASYNC_READ_FIELD(state, callback) = callback;
     DS_ASYNC_READ_FIELD(state, retriesRemaining) = callbackArg;
-    DS_ASYNC_READ_FIELD(state, saved_sync_callback) = DsSyncCallback((DsEventCallback)LIBDS_DSREADY_text_FC);
-    DS_ASYNC_READ_FIELD(state, saved_ready_callback) = DsReadyCallback(CdRom_ReadDoneCallback);
+    DS_ASYNC_READ_FIELD(state, savedSyncCallback) = DsSyncCallback((DsEventCallback)LIBDS_DSREADY_text_FC);
+    DS_ASYNC_READ_FIELD(state, savedReadyCallback) = DsReadyCallback(CdRom_ReadDoneCallback);
     asm volatile("" : "+r"(active));
     DS_ASYNC_READ_FIELD(state, active) = active;
     return 1;
@@ -36,8 +36,8 @@ void DsReadBreak(void) {
     int zeroArg2;
     state = &g_DsReadBusy;
     if (DS_ASYNC_READ_FIELD(state, active) == 1) {
-        DsSyncCallback(DS_ASYNC_READ_FIELD(state, saved_sync_callback));
-        DsReadyCallback(DS_ASYNC_READ_FIELD(state, saved_ready_callback));
+        DsSyncCallback(DS_ASYNC_READ_FIELD(state, savedSyncCallback));
+        DsReadyCallback(DS_ASYNC_READ_FIELD(state, savedReadyCallback));
         particleType = 9;
         zeroArg1 = 0;
         asm volatile("" : "+r"(particleType), "+r"(zeroArg1));

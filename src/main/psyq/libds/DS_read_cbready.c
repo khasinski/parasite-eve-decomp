@@ -9,8 +9,8 @@ void DS_read_cbready(void) {
     state = &g_DsReadBusy;
     asm volatile("" : "=r"(state) : "0"(state));
     if (DS_ASYNC_READ_FIELD(state, active) == 1) {
-        DsSyncCallback(DS_ASYNC_READ_FIELD(state, saved_sync_callback));
-        DsReadyCallback(DS_ASYNC_READ_FIELD(state, saved_ready_callback));
+        DsSyncCallback(DS_ASYNC_READ_FIELD(state, savedSyncCallback));
+        DsReadyCallback(DS_ASYNC_READ_FIELD(state, savedReadyCallback));
     }
     DS_ASYNC_READ_FIELD(state, active) = 0;
 }

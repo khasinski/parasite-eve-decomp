@@ -60,8 +60,8 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
                 DsSyncCallback(0);
                 goto done;
             }
-            DsSyncCallback(state->saved_sync_callback);
-            DsReadyCallback(state->saved_ready_callback);
+            DsSyncCallback(state->savedSyncCallback);
+            DsReadyCallback(state->savedReadyCallback);
             state->active = 0;
             if (state->callback)
                 state->callback(event, result, detail);
