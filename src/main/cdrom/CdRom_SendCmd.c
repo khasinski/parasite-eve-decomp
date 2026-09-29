@@ -1,8 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/psyq_cd.h"
-extern int g_CdRomCmdLongTimeoutTable[];
-extern void CD_flush(void);
 extern void Util_Copy4(void *, const void *);
 
 int CdRom_SendCmd(unsigned char command, void *param) {
