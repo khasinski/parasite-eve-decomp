@@ -249,7 +249,6 @@ extern int g_CdRomCmdLongTimeoutTable[];
 extern int g_CdDsReadIndex;
 
 int Render_AllocParticleNode(int command, void *parameter, int arg2, int arg3);
-int DsControlF(u_char command, u_char *parameter);
 
 void CdRom_ReadProgressCallback(int status, void *data, void *detail);
 
@@ -263,7 +262,6 @@ CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback);
 void CdRom_AbortCmd(void);
 void CQ_clear_queue(void *queue);
 void DS_read_cbready(void);
-DsCallback DsReadCallback(DsCallback callback);
 void CdRom_InitDsCallbacks(void);
 void CdRom_SetSyncCallback(unsigned int value);
 void CdRom_SetReadyCallback(unsigned int value);
@@ -328,8 +326,6 @@ int VSync(int mode);
 int CdRom_IsBusy();
 int CdRom_IsBusy2();
 void Save_ProcessDataCallback(void);
-int DsRead_IsBusy(void);
-extern volatile int g_DsDiskType;
 int Render_BuildParticleFrame();
 DsCallback CdDataCallback(DsCallback callback);
 void CdRom_SetMode2Callback(u_char event);

@@ -12,7 +12,6 @@ extern char D_80011E0C[];
 extern char D_80011E3C[];
 extern char D_80011E44[];
 extern char D_80011E4C[];
-int DsRead_IsBusy(void);
 int printf(char *fmt, ...);
 
 void DS_status(void) {

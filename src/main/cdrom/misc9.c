@@ -3,8 +3,6 @@
 #include "pe1/psyq_ds.h"
 void LIBDS_DSREADY_text_FC(int event, u_char *result);
 
-int DsRead_IsBusy(void);
-
 void CdRom_SeekDoneCallback(u_char event) {
     if (event == 2) {
         DsSyncCallback((DsEventCallback)LIBDS_DSREADY_text_FC);
