@@ -385,6 +385,14 @@ typedef struct CdReadProgressState {
 
 typedef void (*CdReadCompleteCallback)(int event, int data);
 
+typedef struct CdReadCompleteCallbackPage {
+    CdReadCompleteCallback callback;
+    char reserved04[0x492C];
+} CdReadCompleteCallbackPage;
+
+PE1_STATIC_ASSERT(sizeof(CdReadCompleteCallbackPage) == 0x4930,
+                  cd_read_callback_page_size);
+
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, dataCallback) == 0x1C,
                   cd_read_progress_data_callback_offset);
 PE1_STATIC_ASSERT(sizeof(CdReadProgressState) == 0x2C,
@@ -413,6 +421,7 @@ extern int g_CdReadStartVsync __asm__("D_8009B6C4");
 extern int g_CdReadCurrentVsync __asm__("D_8009B6C8");
 extern int g_CdReadInProgress __asm__("D_8009B6CC");
 extern CdReadCompleteCallback g_CdReadCompleteCallback;
+CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback);
 
 void CdRom_AbortCmd(void);
 DslFILE *DsSearchFile(DslFILE *file, char *name);

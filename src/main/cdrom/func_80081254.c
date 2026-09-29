@@ -1,18 +1,13 @@
 
-extern int D_8009B6D0;
+#include "pe1/psyq_cd.h"
 
-typedef struct CdCallbackDataPage {
-    int callback;
-    char reserved04[0x492C];
-} CdCallbackDataPage;
+register CdReadCompleteCallbackPage *g_CdCallbackWritePage asm("$1");
 
-register CdCallbackDataPage *g_CdCallbackWritePage asm("$1");
+CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback) {
+    CdReadCompleteCallback old;
 
-int func_80081254(int callback) {
-    int old;
-
-    old = D_8009B6D0;
-    g_CdCallbackWritePage = (CdCallbackDataPage *)0x800A0000;
+    old = g_CdReadCompleteCallback;
+    g_CdCallbackWritePage = (CdReadCompleteCallbackPage *)0x800A0000;
     g_CdCallbackWritePage[-1].callback = callback;
     return old;
 }
