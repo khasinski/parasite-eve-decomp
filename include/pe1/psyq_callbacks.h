@@ -5,7 +5,8 @@
 
 typedef void (*PsyqInterruptHandler)(void);
 typedef void (*DsCallback)(void);
-typedef void (*DsEventCallback)(u_char event, u_char *result);
+typedef void (*PsyqEventCallback)(u_char event, u_char *result);
+typedef PsyqEventCallback DsEventCallback;
 
 /* Public signatures from Psy-Q LIBETC.H. */
 int ResetCallback(void);

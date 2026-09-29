@@ -5,7 +5,7 @@
 #include "pe1/psyq_callbacks.h"
 #include "pe1/psyq_types.h"
 
-typedef void (*CdlCB)(u_char event, u_char *result);
+typedef PsyqEventCallback CdlCB;
 
 /* LIBCD's contiguous sync, ready and data-end interrupt event bytes. */
 typedef struct CdInterruptEvents {
