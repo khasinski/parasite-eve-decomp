@@ -1,7 +1,7 @@
 #include "pe1/psyq_ds.h"
+#include "pe1/cdrom.h"
 
 extern void CdRom_AbortCmd(void);
-void CdRom_EnableDsReadSystem(void);
 
 extern int g_CdDsReadQueueState;
 extern int g_CdDsReadIndex;

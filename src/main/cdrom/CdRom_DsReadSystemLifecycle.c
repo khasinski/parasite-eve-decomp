@@ -2,6 +2,7 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses -fno-schedule-insns2 */
 #include "pe1/psyq_cd.h"
+#include "pe1/cdrom.h"
 
 /* These adjacent retail functions share DS queue reset state:
  * CdRom_InitDsReadSystem at 0x8007EC14 and CdRom_ResetDsReadSystem at
@@ -11,7 +12,6 @@ extern DsReadCallbackSlot D_800A3610[];
 extern int D_800A3604, D_800A3600, g_CdPendingReadCount, D_800A3690;
 extern void DS_read_cbready(void);
 extern void CdRom_AbortCmd(void);
-extern void CdRom_EnableDsReadSystem(void);
 int CdRom_InitDsReadSystem(void) {
     int i, j, k, offset;
     CdQueuedCmdSlot *state;

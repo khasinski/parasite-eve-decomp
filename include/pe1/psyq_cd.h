@@ -384,8 +384,6 @@ void CdRom_AbortCmd(void);
 void CQ_clear_queue(void *queue);
 void DS_read_cbready(void);
 DsCallback DsReadCallback(DsCallback callback);
-void CdRom_EnableDsReadSystem(void);
-int CdRom_IsDsReadSystemEnabled(void);
 void CdRom_InitDsCallbacks(void);
 void CdRom_SetSyncCallback(unsigned int value);
 void CdRom_SetReadyCallback(unsigned int value);

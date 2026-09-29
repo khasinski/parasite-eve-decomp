@@ -5,8 +5,6 @@
 
 extern int D_8009B708;
 
-int CdRom_RestartSeek(void);
-
 void CdRom_ReadDoneCallback(unsigned char arg0, unsigned char *arg1) {
     int *state;
     int status;

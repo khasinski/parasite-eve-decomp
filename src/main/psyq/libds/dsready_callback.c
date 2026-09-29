@@ -4,7 +4,6 @@
 CdlLOC *CdRom_GetCurrentPosPtr(void);
 int CdPosToInt(CdlLOC *);
 int CdRom_GetCmdMode(void);
-int CdRom_RestartSeek(void);
 #define ASYNC_FROM_RETRY(p)                                                            \
     ((DsAsyncReadState *)((u8 *)(p) - PE1_OFFSETOF(DsAsyncReadState, retryPending)))
 void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {

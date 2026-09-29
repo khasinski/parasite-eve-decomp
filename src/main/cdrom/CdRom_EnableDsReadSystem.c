@@ -1,8 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -fcall-used-$1 */
 #include "pe1/psyq_cd.h"
-
-void CdRom_EnableDsReadSystem(void);
+#include "pe1/cdrom.h"
 
 void CdRom_EnableDsReadSystem(void) {
     register int enabled asm("$2");
