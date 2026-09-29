@@ -2,12 +2,6 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "common.h"
 #include "pe1/psyq_spu_internal.h"
-#include "pe1/akao/spu_common.h"
-
-extern u32 g_SpuReverbWorkAreaTable[];
-extern SpuReverbRegisterAttrs g_SpuReverbPresetRegisters[];
-extern int _SpuIsInAllocateArea_(u32);
-extern int SpuClearReverbWorkArea(int);
 
 int SPU_StepDmaRead(u32 mode) {
     SpuReverbRegisterAttrs attr;

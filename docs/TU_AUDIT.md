@@ -300,3 +300,9 @@ use this same structure, replacing three separate aliases for its interior.
 All 460 bytes of the preset selector remain exact. Sharing declarations exposed
 an int/u32 conflict for `_spu_rev_offsetaddr`; it is now consistently a `u32`
 SPU RAM address in initialization and reverb users.
+
+The shared `SpuReverbRegisterAttrs` packet and the reverb area/preset table
+declarations now live in `psyq_spu_reverb.h`, alongside the LIBSPU prototypes
+that consume them. This removes the Psy-Q implementation's dependency on the
+game's `akao/spu_common.h` and gives the reverb area table one unsigned address
+type across both preset selection and RAM clearing.

@@ -2,9 +2,6 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "common.h"
 #include "pe1/psyq_spu_internal.h"
-#include "pe1/akao/spu_common.h"
-
-extern s32 _SpuIsInAllocateArea_(u32);
 
 int SpuSetReverb(int on_off) {
     switch (on_off) {

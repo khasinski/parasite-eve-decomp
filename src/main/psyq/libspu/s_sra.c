@@ -1,6 +1,5 @@
 #include "common.h"
 #include "pe1/psyq_spu_internal.h"
-#include "pe1/akao/spu_common.h"
 
 void _spu_setReverbAttr(SpuReverbRegisterAttrs *attr) {
     u32 mask = attr->mask;

@@ -5,12 +5,10 @@
 #include "common.h"
 #include "pe1/psyq_spu_internal.h"
 
-extern s32 g_SpuReverbWorkAreaTable[];
 extern s32 _spu_mem_mode_plus;
 extern s32 D_8009B418;
 extern s32 D_8009B384;
 extern s32 D_8009C4C0[];
-int _SpuIsInAllocateArea_(u32);
 int _spu_t(int, ...);
 int WaitEvent(int);
 
@@ -31,19 +29,19 @@ int SpuClearReverbWorkArea(int mode)
     }
     {
         u32 offset;
-        s32 *base = g_SpuReverbWorkAreaTable;
+        u32 *base = g_SpuReverbWorkAreaTable;
         offset = mode << 2;
         /* Reuse the address temporary for the remaining byte count below. */
         length = offset + (u32)base;
     }
-    if (_SpuIsInAllocateArea_(*(s32 *)length) != 0) {
+    if (_SpuIsInAllocateArea_(*(u32 *)length) != 0) {
         return -1;
     }
     if (mode == 0) {
         length = 0x10 << _spu_mem_mode_plus;
         address = 0xFFF0 << _spu_mem_mode_plus;
     } else {
-        s32 start = *(s32 *)length;
+        u32 start = *(u32 *)length;
         length = (0x10000 - start) << _spu_mem_mode_plus;
         address = start << _spu_mem_mode_plus;
     }
