@@ -1,8 +1,6 @@
 /* CC1_FLAGS: -fno-schedule-insns */
 #include "pe1/font.h"
-
-int CdRom_ReadSectorsFromLba(int lba, u8 *dst, int count);
-int CdRom_PollReady(void);
+#include "pe1/cdrom.h"
 
 int Render_LoadFontGlyph(u8 code)
 {

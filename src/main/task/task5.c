@@ -1,13 +1,12 @@
 #include "common.h"
 #include "pe1/cdrom_buffers.h"
-#include "pe1/cdrom_runtime.h"
+#include "pe1/cdrom.h"
 #include "pe1/field_collision.h"
 
 void EnterCriticalSection(void);
 void ExitCriticalSection(void);
 void FlushCache(void);
 void VSync(s32);
-s32 CdRom_PollReady(void);
 void Render_InitEntityPool(s32);
 void SetDispMask(s32);
 void DrawSync(s32);

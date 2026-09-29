@@ -2,13 +2,12 @@
 #define NULL ((void *)0)
 
 #include "pe1/psyq_gpu.h"
+#include "pe1/cdrom.h"
 
 typedef struct { char b[16]; } __attribute__((aligned(1), packed)) Copy16u;
 typedef struct { u32 w[4]; } Copy16a;
 
 int ClearImage(RECT *rect, u8 r, u8 g, u8 b);
-s32 CdRom_ReadSectorsFromLba(s32, s32, s32);
-int CdRom_PollReady(void);
 void Menu_FullInit(void);
 int Asset_FindTable08ByU32Key(void *arg0, s32 arg1);
 void Spu_UploadSampleBlockBlocking(int arg0, int arg1);
@@ -44,7 +43,7 @@ void Scene_LoadSceneData(void) {
 
 restart1:
     p0 = (u8 *)&D_800930DC_o;
-    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, (s32)&D_800A8028_o, *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
+    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, (void *)(s32)&D_800A8028_o, *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
     t = 1;
     do {
         if (t == -1) {
@@ -56,7 +55,7 @@ restart1:
     flag = 0;
 restart2:
     p0 = (u8 *)&D_800930DE_o;
-    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, *(s32 *)(gb + 0x194), *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
+    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, (void *)*(s32 *)(gb + 0x194), *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
     t = 1;
     do {
         if (flag == 0) {
@@ -93,7 +92,7 @@ restart2:
 
 restart3:
     p0 = (u8 *)&D_800930E4_o;
-    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, *(s32 *)(gb + 0x194), *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
+    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, (void *)*(s32 *)(gb + 0x194), *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
     t = 1;
     do {
         if (t == -1) {
@@ -106,7 +105,7 @@ restart3:
 
 restart4:
     p0 = (u8 *)&D_800930E6_o;
-    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, *(s32 *)(gb + 0x194), *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
+    while (CdRom_ReadSectorsFromLba(lba + *(u16 *)p0, (void *)*(s32 *)(gb + 0x194), *(u16 *)(p0 + 2) - *(u16 *)p0) == -1) {}
     t = 1;
     do {
         if (t == -1) {

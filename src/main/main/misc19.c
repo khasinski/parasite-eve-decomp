@@ -1,5 +1,5 @@
 #include "common.h"
-#include "pe1/cdrom_runtime.h"
+#include "pe1/cdrom.h"
 #include "pe1/cdrom_buffers.h"
 #include "pe1/psyq_tim.h"
 #include "pe1/scene_assets.h"

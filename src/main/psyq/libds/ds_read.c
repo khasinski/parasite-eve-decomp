@@ -2,7 +2,7 @@
 /* CC1_FLAGS: -mno-split-addresses */
 
 #include "pe1/psyq_ds.h"
-#include "pe1/cdrom_runtime.h"
+#include "pe1/cdrom.h"
 
 CdlLOC *CdIntToPos(int sector, CdlLOC *position);
 

@@ -1,6 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 
-#include "pe1/cdrom_runtime.h"
+#include "pe1/cdrom.h"
 
 extern int VSync(int arg0);
 extern void Save_ProcessDataCallback(void);

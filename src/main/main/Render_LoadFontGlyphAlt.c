@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/cdrom.h"
 
 /* MASPSX_FLAGS: --expand-div */
 extern struct { char _[0x98]; } D_800B0DD8;
@@ -14,8 +15,6 @@ extern u8 D_8009ECD8[];
 extern volatile u8 D_8009EE24[];
 extern u8 *D_80091A28;
 
-int CdRom_ReadSectorsFromLba(int lba, void *dst, int sectors);
-int CdRom_PollReady(void);
 int rand(void);
 void srand(unsigned int seed);
 void Render_LoadFontGlyph(int glyph);

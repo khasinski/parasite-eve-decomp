@@ -1,8 +1,7 @@
 #include "common.h"
+#include "pe1/cdrom.h"
 #include "pe1/psyq_tim.h"
 s32 DrawSync(s32 arg0);
-s32 CdRom_ReadSectorsFromLba(s32 arg0, s32 arg1, s32 arg2);
-s32 CdRom_PollReady(void);
 extern s8 D_800B0CE0;
 extern s8 g_LoadedTexturePageId;
 extern s8 g_GameState[];
@@ -30,7 +29,7 @@ s32 Overlay_StreamTexturePage(void)
       offset = (state[8] + 0x2B) * 2;
       start = *((u16 *) (offset + ((s32) ranges)));
     }
-    while (CdRom_ReadSectorsFromLba((*((s32 *) (state + 0x100))) + start, *((s32 *) (state + 0x194)), (*((u16 *) (offset + ((s32) next_ranges)))) - start) == retry);
+    while (CdRom_ReadSectorsFromLba((*((s32 *) (state + 0x100))) + start, (void *)*((s32 *) (state + 0x194)), (*((u16 *) (offset + ((s32) next_ranges)))) - start) == retry);
     ;
     do
     {
