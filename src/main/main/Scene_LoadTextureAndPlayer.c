@@ -1,6 +1,7 @@
 #include "common.h"
 #include "pe1/scene_assets.h"
 #include "pe1/cdrom.h"
+#include "pe1/field_actor.h"
 #include "../../../tools/m2c/m2c_macros.h"
 extern u8 D_800B0CE2[], D_8009D25C[];
 extern u32 D_800B0DD8[];
@@ -130,26 +131,19 @@ retry:
     goto retry;
 }
 
-M2C_UNK Entity_SetActionMode(void *, M2C_UNK);      /* extern */
+void Entity_SetActionMode(void *entity, int mode);
 M2C_UNK Render_SetupEntityPrims(void *, s32, s32, M2C_UNK, s32, s32, s32, s32, M2C_UNK *, s32); /* extern */
 M2C_UNK Render_DrawWithAnim(void *, s32, M2C_UNK, M2C_UNK *, M2C_UNK *); /* extern */
-M2C_UNK Render_InitRoomPrimState(void *);                      /* extern */
+int Render_InitRoomPrimState(void *object);
 int Scene_LoadEntityTexture(void);
-M2C_UNK Scene_SetStoryDay(s8 storyDay);                          /* extern */
-s32 Scene_LoadEntityTextures();                                /* extern */
-extern struct { char _[16]; } g_PlayerEntity_o __asm__("g_PlayerEntity");
-#define g_PlayerEntity (*(void **)&g_PlayerEntity_o)
-extern struct { char _[16]; } g_PlayerEntity_s1 __asm__("g_PlayerEntity");
-extern struct { char _[16]; } g_PlayerEntity_s2 __asm__("g_PlayerEntity");
-extern struct { char _[16]; } g_PlayerEntity_s3 __asm__("g_PlayerEntity");
-extern struct { char _[16]; } g_PlayerEntity_s4 __asm__("g_PlayerEntity");
-extern struct { char _[16]; } g_PlayerEntity_s5 __asm__("g_PlayerEntity");
-extern struct { char _[16]; } g_PlayerEntity_s6 __asm__("g_PlayerEntity");
-extern struct { char _[16]; } g_PlayerEntity_s7 __asm__("g_PlayerEntity");
-extern struct { char _[16]; } g_PlayerEntity_s8 __asm__("g_PlayerEntity");
-extern struct { char _[16]; } g_PlayerEntity_s9 __asm__("g_PlayerEntity");
-extern struct { char _[16]; } g_PlayerEntity_s10 __asm__("g_PlayerEntity");
-extern struct { char _[16]; } g_PlayerEntity_s11 __asm__("g_PlayerEntity");
+void Scene_SetStoryDay(int storyDay);
+int Scene_LoadEntityTextures(void);
+/* Local typed aliases retain the independent player-pointer load sites. */
+extern FieldActor *g_PlayerEntityForActionMode __asm__("g_PlayerEntity");
+extern FieldActor *g_PlayerEntityForRenderSetup __asm__("g_PlayerEntity");
+extern FieldActor *g_PlayerEntityForRoomPrims __asm__("g_PlayerEntity");
+extern FieldActor *g_PlayerEntityForAnimation __asm__("g_PlayerEntity");
+extern FieldActor *g_PlayerEntityForScaleUpdate __asm__("g_PlayerEntity");
 /* Keep independent C lvalues for the retail flag loads across switch cases. */
 extern Pe1GameState g_GameStateFlagsCase32 __asm__("g_GameState");
 extern struct { char _[16]; } D_800B0CE2_o __asm__("g_SceneAreaType");
@@ -193,11 +187,11 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
     u8 temp_v1;
     u8 tce6;
     u8 tce3;
-    void *p39a;
-    void *p39b;
-    void *p39c;
-    void *p39d;
-    void *p39e;
+    void *playerForActionMode;
+    void *playerForRenderSetup;
+    void *playerForRoomPrims;
+    void *playerForAnimation;
+    void *playerForScaleUpdate;
     u32 th1;
     register u8 k0e asm("$2");
     register u8 ttb asm("$2");
@@ -273,18 +267,18 @@ block_20:
 block_21:
         return 1;
     case 39:
-        p39a = g_PlayerEntity;
-        M2C_FIELD(p39a, s32 *, 0x1AC) = (s32) g_SceneMapPrimBaseTable;
-        M2C_FIELD(p39a, s32 *, 0x1B0) = (s32) D_800B0EEC;
-        Entity_SetActionMode(p39a, 0x15);
-        p39b = (*(void **)&g_PlayerEntity_s2);
-        Render_SetupEntityPrims(p39b + 0x1B4, M2C_FIELD(p39b, s32 *, 0x1AC), M2C_FIELD(p39b, s32 *, 0x278) + 0x50, 0x3C0, 0x100, 0, 0x1C0, 2, &sp28, 1);
-        p39c = (*(void **)&g_PlayerEntity_s3);
-        Render_InitRoomPrimState(p39c + 0x1B4);
-        p39d = (*(void **)&g_PlayerEntity_s4);
-        Render_DrawWithAnim(p39d + 0x1B4, M2C_FIELD(p39d, s32 *, 0x1B0), 0, &D_800BEA40, &g_EntityRenderScratch);
-        p39e = (*(void **)&g_PlayerEntity_s5);
-        M2C_FIELD(M2C_FIELD(p39e, void **, 0x1B4), s16 *, 0x14) = (s16) (M2C_FIELD(p39e, s16 *, 0x224) * 2);
+        playerForActionMode = g_PlayerEntityForActionMode;
+        M2C_FIELD(playerForActionMode, s32 *, 0x1AC) = (s32) g_SceneMapPrimBaseTable;
+        M2C_FIELD(playerForActionMode, s32 *, 0x1B0) = (s32) D_800B0EEC;
+        Entity_SetActionMode(playerForActionMode, 0x15);
+        playerForRenderSetup = g_PlayerEntityForRenderSetup;
+        Render_SetupEntityPrims(playerForRenderSetup + 0x1B4, M2C_FIELD(playerForRenderSetup, s32 *, 0x1AC), M2C_FIELD(playerForRenderSetup, s32 *, 0x278) + 0x50, 0x3C0, 0x100, 0, 0x1C0, 2, &sp28, 1);
+        playerForRoomPrims = g_PlayerEntityForRoomPrims;
+        Render_InitRoomPrimState(playerForRoomPrims + 0x1B4);
+        playerForAnimation = g_PlayerEntityForAnimation;
+        Render_DrawWithAnim(playerForAnimation + 0x1B4, M2C_FIELD(playerForAnimation, s32 *, 0x1B0), 0, &D_800BEA40, &g_EntityRenderScratch);
+        playerForScaleUpdate = g_PlayerEntityForScaleUpdate;
+        M2C_FIELD(M2C_FIELD(playerForScaleUpdate, void **, 0x1B4), s16 *, 0x14) = (s16) (M2C_FIELD(playerForScaleUpdate, s16 *, 0x224) * 2);
         g_GameStateFlagsAfterPlayerInit.flags = (s32) (g_GameStateFlagsBeforePlayerInit.flags & 0xFFF9FFFF);
         if (arg0v != 0) {
             tld2 = M2C_FIELD(gameState, s32 *, 0);
