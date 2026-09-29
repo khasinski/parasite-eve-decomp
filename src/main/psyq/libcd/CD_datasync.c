@@ -4,15 +4,9 @@
 
 #include "pe1/psyq_cd.h"
 
-extern u8 D_8009AFD5;
-extern int D_800A3478;
-extern int D_800A347C;
-extern char *D_800A3480;
 extern char D_80011B18[];
 extern char D_80011B28[];
 extern char D_80011C20[];
-extern char *D_8009AFDC[];
-extern char *D_8009B05C[];
 int printf(const char *format, ...);
 int puts(const char *text);
 void CD_flush(void);

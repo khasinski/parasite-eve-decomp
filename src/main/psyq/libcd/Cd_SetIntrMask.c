@@ -4,10 +4,7 @@
 
 #include "pe1/psyq_cd.h"
 
-extern volatile u8 *D_8009B27C;
 extern volatile u8 cd_ready_event __asm__("D_8009B295");
-extern u8 D_800A3460[];
-extern u8 D_800A3468[];
 
 int getintr(void);
 
