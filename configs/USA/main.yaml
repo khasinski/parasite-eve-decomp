@@ -142,7 +142,7 @@ segments:
       - [0x23A0, rodata, main/rodata_0023A0_post_getintr]
       - [0x249C, .rodata, psyq/libds/DsPacket]
       - [0x2500, rodata, main/rodata_002500]
-      - [0x250C, .rodata, psyq/libds/dssys1_sync]
+      - [0x250C, .rodata, psyq/libds/dssys1_sync_poll]
       - [0x2574, rodata, main/rodata_002574]
       # Psy-Q 4.6 DSFILE.OBJ private strings (0x1F0-byte .rdata).
       - [0x266C, .rodata, psyq/libds/dsfile]
@@ -1257,8 +1257,7 @@ segments:
       - [0x70624, c, psyq/libds/dssys1_vsync]
       - [0x708F4, c, cdrom/CdRom_RetryCmd]
       - [0x70964, c, main/Render_DrawParticleGroup]
-      - [0x70A20, c, psyq/libds/dssys1_sync]
-      - [0x70C04, c, psyq/libds/dssys1_poll]
+      - [0x70A20, c, psyq/libds/dssys1_sync_poll]
       - [0x70E8C, c, cdrom/CdRom_CmdEventCallback]
       - [0x70F78, c, cdrom/CdRom_ReadyEventDispatch]
       - [0x7100C, c, cdrom/CdRom_ProcessEventByte]

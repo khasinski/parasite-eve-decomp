@@ -1,4 +1,4 @@
-"""Full linked-byte regression for four Psy-Q LIBPAD/LIBDS functions."""
+"""Full linked-byte regressions for Psy-Q LIBPAD/LIBDS functions."""
 import hashlib
 import pathlib
 import shutil
@@ -31,21 +31,7 @@ CASES = [('libpad/DirFailAuto',
   'D_800A3604 = 0x800A3604;\n'
   'SECTIONS { .text 0x8007e704 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libds/dssys1_sync',
-  484,
-  'bac5290de82e938bb8034314056c4e9780ad94fab23e8224e2d4ad252fb94546',
-  'D_8009B558 = 0x8009B558;\n'
-  'D_8009B581 = 0x8009B581;\n'
-  'D_8009B582 = 0x8009B582;\n'
-  'D_8009B586 = 0x8009B586;\n'
-  'D_8009B587 = 0x8009B587;\n'
-  'D_8009B574 = 0x8009B574;\n'
-  'g_CdSeekState = 0x8009B56C;\n'
-  'D_800A36A4 = 0x800A36A4;\n'
-  'g_DsReadSysEnabled = 0x8009B554;\n'
-  'SECTIONS { .text 0x80080220 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
-  '*(.mdebug) } }\n'
-  'SECTIONS { .rodata 0x80011D0C : SUBALIGN(4) { *(.rodata .rodata.*) } }')]
+]
 
 
 class PsyqPadDsFourTests(unittest.TestCase):
@@ -66,12 +52,3 @@ class PsyqPadDsFourTests(unittest.TestCase):
                 code = data.read_bytes()
                 self.assertEqual(len(code), size)
                 self.assertEqual(hashlib.sha256(code).hexdigest(), digest)
-
-                if name == "libds/dssys1_sync":
-                    subprocess.run(["mipsel-none-elf-objcopy", "-O", "binary",
-                                    "--only-section=.rodata", str(elf), str(data)],
-                                   check=True)
-                    table = data.read_bytes()
-                    self.assertEqual(len(table), 104)
-                    self.assertEqual(hashlib.sha256(table).hexdigest(),
-                                     "236c0e52fbe57b0c488c89ed3b79342be22b3d94f3bd2b3c9f8a08a938425317")

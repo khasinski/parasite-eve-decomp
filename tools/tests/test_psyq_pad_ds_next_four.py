@@ -1,4 +1,4 @@
-"""Full linked-byte regression for four Psy-Q LIBPAD/LIBDS functions."""
+"""Full linked-byte regression for four Psy-Q LIBPAD/LIBDS translation units."""
 import hashlib
 import pathlib
 import shutil
@@ -9,16 +9,24 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('libds/dssys1_poll',
-  648,
-  'c1e84ce0b64fd483bcd85563e24d4cff81d138cfaefafdce980fbf26de32fa9f',
+CASES = [('libds/dssys1_sync_poll',
+  1132,
+  '874e1573e083468d37007a587a05b1a50a10c1e3e08972b4756809d819c3be4e',
+  'D_8009B558 = 0x8009B558;\n'
+  'D_8009B581 = 0x8009B581;\n'
+  'D_8009B582 = 0x8009B582;\n'
+  'D_8009B586 = 0x8009B586;\n'
+  'D_8009B587 = 0x8009B587;\n'
+  'D_8009B574 = 0x8009B574;\n'
+  'g_CdSeekState = 0x8009B56C;\n'
+  'D_800A36A4 = 0x800A36A4;\n'
   'D_8009B578 = 0x8009B578;\n'
   'D_800A36AC = 0x800A36AC;\n'
   'D_800A36A8 = 0x800A36A8;\n'
-  'D_800A36A4 = 0x800A36A4;\n'
   'g_DsReadSysEnabled = 0x8009B554;\n'
-  'SECTIONS { .text 0x80080404 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
-  '*(.mdebug) } }'),
+  'SECTIONS { .text 0x80080220 : SUBALIGN(4) { *(.text .text.*) }'
+  '.rodata 0x80011D0C : SUBALIGN(4) { *(.rodata .rodata.*) }'
+  '/DISCARD/ : { *(.reginfo) *(.mdebug) } }'),
  ('libpad/padseqd_response',
   612,
   '47c760223bf315e045fd97140986def718e5d1852e262838a9e3760a18a433b8',
@@ -74,3 +82,12 @@ class PsyqPadDsNextFourTests(unittest.TestCase):
                 code = data.read_bytes()
                 self.assertEqual(len(code), size)
                 self.assertEqual(hashlib.sha256(code).hexdigest(), digest)
+
+                if name == "libds/dssys1_sync_poll":
+                    subprocess.run(["mipsel-none-elf-objcopy", "-O", "binary",
+                                    "--only-section=.rodata", str(elf), str(data)],
+                                   check=True)
+                    table = data.read_bytes()
+                    self.assertEqual(len(table), 104)
+                    self.assertEqual(hashlib.sha256(table).hexdigest(),
+                                     "236c0e52fbe57b0c488c89ed3b79342be22b3d94f3bd2b3c9f8a08a938425317")
