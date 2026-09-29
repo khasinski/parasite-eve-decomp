@@ -253,8 +253,6 @@ extern int g_CdDsReadIndex;
 int Render_AllocParticleNode(int command, void *parameter, int arg2, int arg3);
 int DsControlF(u_char command, u_char *parameter);
 
-typedef void (*DsAsyncReadCallback)(int status, void *data, void *detail);
-int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg);
 void CdRom_ReadProgressCallback(int status, void *data, void *detail);
 
 extern CdReadProgressState g_CdReadProgress __asm__("D_8009B6A4");

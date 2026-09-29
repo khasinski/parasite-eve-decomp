@@ -172,6 +172,8 @@ extern u8 g_DsFileSectorBuffer[2048] __asm__("D_800A52B0");
 extern int g_DsCachedDirectory __asm__("D_8009B6DC");
 extern int g_DsCachedDiskType __asm__("D_8009B6E0");
 
+typedef void (*DsAsyncReadCallback)(int status, void *data, void *detail);
+
 typedef struct DsAsyncReadState {
     /* g_DsReadBusy names the final active field at offset 0x20. */
     int nextSector;
@@ -184,6 +186,8 @@ typedef struct DsAsyncReadState {
     int reserved1C;
     int active;
 } DsAsyncReadState;
+
+int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg);
 
 PE1_STATIC_ASSERT(sizeof(DsAsyncReadState) == 0x24, ds_async_read_state_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, retryPending) == 0x0C,
