@@ -1,14 +1,13 @@
+#include "room_m273_effects.h"
 /* room_m273, file offset 0x79F0, 1364 retail-matching bytes. */
 #include "pe1/gte.h"
 typedef struct { short x,y,z,w; } Vector;
 typedef struct { short m[3][3]; int t[3]; } Matrix;
 typedef struct { Vector position,rotation,velocity; } Particle;
-typedef struct { unsigned char unknown[8]; void *pool; } Context;
 typedef struct { unsigned char unknown[0x2A]; short x,unknown2C,y,unknown30,z; } Player;
 typedef struct { unsigned char unknown[8]; void *value; } Owner;
 typedef struct { Owner *owner; } State;
 typedef struct { unsigned char unknown[8]; State *state; } StateContext;
-extern Context *D_800F33E0;
 extern StateContext *D_800F32D0;
 extern Player *g_PlayerEntity;
 extern unsigned char D_8019AF69,D_8019AF68;

@@ -1,7 +1,7 @@
+#include "room_m273_effects.h"
 typedef struct { short x,y,z,pad; } Vector;
 typedef struct { unsigned short value[4]; } Record;
 typedef struct { Record records[2]; unsigned char unknown[30]; unsigned char stopped; } State;
-typedef struct { int unknown[2]; void *pool; } Context;
 
 /* The emitter owns the eight-byte pool whose entries this callback renders. */
 
@@ -13,7 +13,6 @@ extern volatile unsigned short D_800F3376,D_800F3378;
 extern unsigned short D_800E1204[],D_800E11FA,D_800E2850[],D_800942EC;
 extern Vector D_8019AB68;
 extern unsigned char D_8019AE18[],D_8019AB70[];
-extern Context *D_800F33E0;
 extern State D_8019AF74;
 extern short D_8019AF94,D_8019AF96,D_8019AF98;
 extern unsigned short GetClut(int,int);

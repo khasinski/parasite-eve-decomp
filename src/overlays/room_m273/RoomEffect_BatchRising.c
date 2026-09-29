@@ -1,5 +1,5 @@
+#include "room_m273_effects.h"
 typedef struct { short x, y, z, pad; } Vector;
-typedef struct { int unknown[2]; void *pool; } Context;
 typedef struct {
     unsigned short x[12],y[12],z[12];
     short count;
@@ -16,7 +16,6 @@ extern volatile unsigned short D_800F3376,D_800F3378;
 extern short D_8019AD68[];
 extern int D_800966EC[];
 extern Batch D_8019AF0C;
-extern Context *D_800F33E0;
 extern unsigned short GetClut(int, int);
 extern void func_800CEE20(Vector *, void *, int, int, int, int, int, int, void *);
 extern int func_800CE560(void *,int,int,int (*)());

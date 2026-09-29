@@ -1,10 +1,11 @@
 #include "common.h"
+
+#include "room_m273_effects.h"
 extern s32 D_800E27EC;
 extern u8 D_8019AF6B;
 extern u16 D_8019AEFC;
 extern u16 D_8019AEFE;
 extern u16 D_8019AF00;
-extern char **D_800F33E0;
 
 extern void func_8019A720(void);
 extern s32 func_800CE560(void *arg0, s32 arg1, s32 arg2, void (*arg3)(void));
@@ -20,7 +21,7 @@ s32 func_8019A628(s32 arg0) {
         if (arg0 != 0) {
             return 0;
         }
-        return func_800CE560(D_800F33E0[2], 8, 5, func_8019A720);
+        return func_800CE560(D_800F33E0->pool, 8, 5, func_8019A720);
     }
 
     if (D_8019AF6B != 0) {
@@ -30,7 +31,7 @@ s32 func_8019A628(s32 arg0) {
         return 0;
     }
 
-    obj = func_800CE610(D_800F33E0[2]);
+    obj = func_800CE610(D_800F33E0->pool);
     if (obj != 0) {
         *(u16 *)(obj + 0) = D_8019AEFC;
         *(u16 *)(obj + 2) = D_8019AEFE;

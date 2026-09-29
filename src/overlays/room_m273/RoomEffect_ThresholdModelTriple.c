@@ -1,14 +1,8 @@
+#include "room_m273_effects.h"
+
 typedef struct { short x,y,z,phase,scaleXZ,scaleY; unsigned short parameter12,unknown14; } Effect;
 typedef struct { short m[3][3],pad; int t[3]; } Matrix;
 typedef struct { int x,y,z,pad; } Vector;
-typedef struct { unsigned char unknown[0x594]; int x,y,z; } Transform;
-typedef struct {
-    unsigned char unknown[14],kind,unknown15[7];
-    short value22; unsigned char unknown24[2]; unsigned short value26;
-    unsigned char unknown28[0x21C]; Transform *transform;
-} State;
-typedef struct { unsigned char unknown[8]; State *state; } StateContext;
-typedef struct { unsigned char unknown[8]; void *pool; } Context;
 typedef struct { void *asset,*pool; } AssetState;
 
 extern int D_800E27EC;
@@ -16,8 +10,7 @@ extern short D_8019AC18[];
 extern int D_8019AC0C[];
 extern int D_800F3428,D_800966EC[];
 extern unsigned short D_800E11FA,D_800E2850[],D_800F336C,D_800E1204[];
-extern Context *D_800F33E0;
-extern StateContext *D_800F32D0;
+extern RoomM273EffectStateContext *D_800F32D0;
 extern AssetState D_8019AE8C;
 extern void *D_8019AE90,*D_800B0E64;
 extern unsigned char D_8019AE9A;
@@ -159,12 +152,12 @@ int func_80193F30(int mode) {
         return size+func_800CE5AC(&D_8019AE8C.pool,size,4,2,func_80193B5C);
     }
     case 1: {
-        State *state;
+        RoomM273ThresholdEntityState *state;
         if(D_8019AE9A) return 2;
-        state=D_800F32D0->state;
-        if(state->kind==9) {
-            unsigned short value=state->value26;
-            if(state->value22>0 && (short)value<=0) {
+        state=D_800F32D0->state.threshold;
+        if(state->mode.kind==9) {
+            unsigned short value=state->mode.value26;
+            if(state->mode.value22>0 && (short)value<=0) {
                 short i=0;
                 do {
                     Effect *effect=func_800CE610(D_800F33E0->pool);

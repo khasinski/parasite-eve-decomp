@@ -1,13 +1,12 @@
+#include "room_m273_effects.h"
 typedef struct { unsigned short value[4]; } Position;
 typedef struct { Position *position; } Effect;
-typedef struct { int unknown[2]; void *pool; } Context;
 
 /* The emitter owns the pointer entries rendered by this callback. */
 extern int D_800E27EC, D_800F3428, D_800966EC[];
 extern unsigned short D_800F3368,D_800F336A,D_800F336C,D_800F336E,D_800E1204[];
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
 extern volatile unsigned short D_800F3376,D_800F3378;
-extern Context *D_800F33E0;
 extern Position D_8019AF74[2];
 extern short D_8019AE88,D_8019AF94,D_8019AF96;
 extern unsigned short D_800E11FA,D_800E2850[];

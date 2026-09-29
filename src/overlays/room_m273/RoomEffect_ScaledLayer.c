@@ -1,12 +1,11 @@
+#include "room_m273_effects.h"
 typedef struct { short x,y,z,w; } Vector;
 typedef struct { Vector position; unsigned char parameter[4]; } Effect;
 typedef struct { unsigned char unknown[0x594]; int x,y,z; } Transform;
 typedef struct { unsigned char unknown[0x238]; Transform *transform; } Owner;
 typedef struct { unsigned char unknown[8]; Owner *owner; } StateContext;
-typedef struct { unsigned char unknown[8]; void *pool; } Context;
 
 /* The emitter owns the twelve-byte records rendered by this callback. */
-extern Context *D_800F33E0;
 extern StateContext *D_800F32D0;
 extern int D_800E27EC;
 extern short D_800966EC[],D_800966EE[];

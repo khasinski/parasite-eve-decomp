@@ -1,5 +1,5 @@
+#include "room_m273_effects.h"
 typedef struct { short x,y,z,pad; } Vector;
-typedef struct { int unknown[2]; void *pool; } Context;
 
 /* The position emitter fills the eight-byte records rendered by this callback. */
 extern int D_800E27EC,D_800F3428,D_800966EC[];
@@ -7,7 +7,6 @@ extern unsigned short D_800F3368,D_800F336A,D_800F336C,D_800F336E,D_800E1204[],D
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
 extern volatile unsigned short D_800F3376,D_800F3378;
 extern unsigned char D_8019AB70[],D_8019AD74[],D_8019AD78[],D_8019AF68,D_8019AF69;
-extern Context *D_800F33E0;
 extern unsigned short D_8019AEFC,D_800E11EA,D_800E2850[];
 extern volatile unsigned short D_8019AEFE,D_8019AF00;
 extern unsigned short GetClut(int,int);

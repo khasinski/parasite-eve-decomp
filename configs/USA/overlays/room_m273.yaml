@@ -120,8 +120,8 @@ segments:
       # Both pool callbacks and their controller share the model asset and its
       # sixteen-byte effect record.
       - [0x4B74, c, RoomEffect_ThresholdModelTriple]
-      - [0x5140, c, func_80194128]
-      - [0x529C, c, RoomEffect_ThresholdPair]
+      # The pool controller and its threshold callback share one typed effect TU.
+      - [0x5140, c, RoomEffect_ThresholdPair]
       # The controller owns and fills the callback's four Vector records.
       - [0x5488, c, RoomEffect_ThresholdBurst]
       - [0x57E4, c, RoomEffect_ThresholdPalette]

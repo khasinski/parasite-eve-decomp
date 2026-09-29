@@ -1,8 +1,9 @@
 #include "common.h"
 
+#include "room_m273_effects.h"
+
 extern s32 D_800E27EC;
 extern char **D_800F32D0;
-extern char **D_800F33E0;
 extern u8 D_8019AE68;
 
 void func_80194B5C(void);
@@ -23,7 +24,7 @@ s32 func_8019A068(s32 state) {
             return 0;
         }
         D_8019AE68 = 0;
-        return func_800CE560(D_800F33E0[2], 8, 5, func_80194B5C);
+        return func_800CE560(D_800F33E0->pool, 8, 5, func_80194B5C);
     }
     if (D_8019AE68 != 0) {
         return 2;
@@ -39,7 +40,7 @@ s32 func_8019A068(s32 state) {
         return 0;
     }
 
-    obj = func_800CE610(D_800F33E0[2]);
+    obj = func_800CE610(D_800F33E0->pool);
     if (obj != 0) {
         root = D_800F32D0[2];
         source = *(char **)(root + 0x238);

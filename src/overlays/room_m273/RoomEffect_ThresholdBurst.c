@@ -1,18 +1,13 @@
+#include "room_m273_effects.h"
+
 typedef struct { short x, y, z, pad; } Vector;
-typedef struct { unsigned char unknown[8]; void *pool; } Context;
-typedef struct {
-    unsigned char unknown[14],kind,unknown15[7];
-    short value22; unsigned char unknown24[2]; unsigned short value26;
-} State;
-typedef struct { unsigned char unknown[8]; State *state; } StateContext;
 typedef struct { int unknown[5]; int x,y,z; } Transform;
 typedef struct { unsigned char unknown[0x238]; Transform *transform; } Owner;
 extern int D_800E27EC, D_800F3428, D_800966EC[];
 extern unsigned short D_800F336C, D_800E1204[];
 extern unsigned short GetClut(int, int);
 extern void func_800CEE20(Vector *, void *, int, int, int, int, int, int, void *);
-extern Context *D_800F33E0;
-extern StateContext *D_800F32D0;
+extern RoomM273EffectStateContext *D_800F32D0;
 extern Owner *g_PlayerEntity;
 extern unsigned char D_8019AE9A;
 extern short D_8019AE60,D_8019AE64;
@@ -57,9 +52,9 @@ int func_801945A8(int mode) {
         D_8019AE60=0; D_8019AE64=0;
         return func_800CE560(D_800F33E0->pool,8,4,func_80194470);
     case 1: {
-        State *state;
+        RoomM273EffectModeState *state;
         if(D_8019AE9A) return 2;
-        state=D_800F32D0->state;
+        state=D_800F32D0->state.mode;
         if(state->kind==9) {
             unsigned short value=state->value26;
             if(state->value22>=2 && (short)value<2) {

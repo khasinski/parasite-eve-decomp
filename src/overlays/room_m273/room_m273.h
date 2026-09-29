@@ -2,6 +2,7 @@
 #define ROOM_M273_H
 
 #include "pe1/render_object.h"
+#include "room_m273_effects.h"
 
 typedef GteShortVector RoomM273Vector;
 
@@ -40,11 +41,6 @@ typedef struct RoomM273TemplatePoint {
     u16 flags;
 } RoomM273TemplatePoint;
 
-typedef struct RoomM273PoolContext {
-    int reserved[2];
-    void *pool;
-} RoomM273PoolContext;
-
 typedef struct RoomM273SampledLayerEffect {
     GteShortVector position;
     u8 parameter[4];
@@ -58,15 +54,12 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PulseInput, velocity) == 8,
                   room_m273_pulse_velocity_offset);
 PE1_STATIC_ASSERT(sizeof(RoomM273TemplatePoint) == 8,
                   room_m273_template_point_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PoolContext, pool) == 8,
-                  room_m273_pool_context_pool_offset);
 
 extern RoomM273TrigEntry D_800966EC[];
 extern s16 D_8019AE98;
 extern int D_8019ABFC[];
 extern s16 D_800F336A;
 extern s16 D_8019ACC0[];
-extern RoomM273PoolContext *D_800F33E0;
 extern u8 D_8019AFA2;
 extern u8 D_8019AF8A[];
 extern u16 D_800E11E8;

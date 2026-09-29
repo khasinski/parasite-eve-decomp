@@ -1,9 +1,8 @@
+#include "room_m273_effects.h"
 /* Partial storage views; the allocated entry's fourth halfword is unnamed. */
 typedef struct { unsigned short x, y, z, flags; } Entry;
 typedef struct { Entry entries[2]; unsigned char unknown[14]; unsigned char stopped; } EmitterState;
-typedef struct { int unknown[2]; void *pool; } Context;
 extern void *D_800B0E64, *D_8019AF6C;
-extern Context *D_800F33E0;
 extern EmitterState D_8019AF84;
 extern short D_800F3372, D_800F3374;
 extern void *Asset_FindTable08ByU32Key(void *, unsigned int);

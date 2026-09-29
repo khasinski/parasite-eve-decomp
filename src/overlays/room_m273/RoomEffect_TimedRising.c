@@ -1,5 +1,5 @@
+#include "room_m273_effects.h"
 typedef struct { short x; unsigned short y; short z; unsigned short speed; } Particle;
-typedef struct { int unknown[2]; void *pool; } Context;
 
 /* The timed emitter fills the eight-byte records rendered by this callback. */
 extern int D_800E27EC, D_800F3428, D_800966EC[];
@@ -8,7 +8,6 @@ extern unsigned short D_800F3368,D_800F336C,D_800F336E,D_800E1204[];
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
 extern volatile unsigned short D_800F3376,D_800F3378;
 extern unsigned char D_8019AD70[],D_8019AF6A,D_8019AF69;
-extern Context *D_800F33E0;
 extern unsigned short D_8019AEFC,D_800E11E8,D_800E2850[];
 extern volatile unsigned short D_8019AEFE,D_8019AF00;
 extern unsigned short GetClut(int, int);

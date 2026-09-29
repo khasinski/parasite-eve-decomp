@@ -1,9 +1,8 @@
+#include "room_m273_effects.h"
 typedef struct { int x,y,z; } Position;
 typedef struct { unsigned char unknown[20]; Position position; } Transform;
 typedef struct { unsigned char unknown[14],kind,unknown15[0x229]; Transform *transform; } Owner;
-typedef struct { unsigned char unknown[8]; void *pool; } Context;
 typedef struct { Position *position; } Effect;
-extern Context *D_800F33E0;
 extern Owner *g_PlayerEntity;
 extern int D_800E27EC;
 extern unsigned char D_8019AE5C;

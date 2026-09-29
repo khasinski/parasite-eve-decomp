@@ -1,13 +1,8 @@
-typedef struct { unsigned char unknown[8]; void *pool; } Context;
-typedef struct {
-    unsigned char unknown[14]; unsigned char kind; unsigned char unknown15[7];
-    short value22; unsigned char unknown24[2]; unsigned short value26;
-} State;
-typedef struct { unsigned char unknown[8]; State *state; } StateContext;
+#include "room_m273_effects.h"
+
 typedef struct { unsigned char unknown[0x238]; unsigned char *object; } Scene;
 typedef struct { void *position; } Effect;
-extern Context *D_800F33E0;
-extern StateContext *D_800F32D0;
+extern RoomM273EffectStateContext *D_800F32D0;
 extern Scene *g_PlayerEntity;
 extern void *D_8019AE94;
 extern unsigned char D_8019AE9A;
@@ -25,9 +20,9 @@ int func_801949EC(int mode) {
         return size + func_800CE5AC(&D_8019AE94, size, 16, 9, func_80199F84);
     }
     case 1: {
-        State *state;
+        RoomM273EffectModeState *state;
         if (D_8019AE9A) return 2;
-        state = D_800F32D0->state;
+        state = D_800F32D0->state.mode;
         if (state->kind == 9) {
             unsigned short value = state->value26;
             if (state->value22 >= 4 && (short)value < 4) {

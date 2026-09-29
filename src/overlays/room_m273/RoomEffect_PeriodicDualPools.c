@@ -1,8 +1,7 @@
+#include "room_m273_effects.h"
 typedef struct { short x,y,z,w; } Vector;
-typedef struct { unsigned char unknown[8]; void *pool; } Context;
 typedef struct { unsigned char unknown[14],kind,unknown15[7]; short timer; } State;
 typedef struct { unsigned char unknown[8]; State *state; } StateContext;
-extern Context *D_800F33E0;
 extern StateContext *D_800F32D0;
 extern unsigned char D_8019AEF8;
 extern Vector D_8019AE9C[];
