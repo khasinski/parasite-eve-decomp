@@ -4,6 +4,15 @@
 #include "pe1/akao/init_state.h"
 #include "pe1/akao/voice_masks.h"
 
+extern int D_8009D240;
+extern int D_8009D260;
+extern char D_8009B81C[0x40];
+int StopRCnt(unsigned int);
+int UnDeliverEvent(unsigned int, int);
+int DisableEvent(int);
+int CloseEvent(int);
+
+
 #define U16(base, off) (*(u16 *)((u8 *)(base) + (off)))
 #define U32(base, off) (*(u32 *)((u8 *)(base) + (off)))
 #define G9_U16(off) (*(u16 *)((u8 *)&D_8009D200 + (off)))
@@ -324,4 +333,33 @@ void Spu_InitHardware(void) {
     do {
 
     } while (EnableEvent(g_AkaoTimerEventDesc) == 0);
+}
+
+void Spu_SetSampleTableBase(int arg0) {
+    D_8009D240 = arg0;
+    D_8009D260 = arg0 + 0x800;
+}
+
+void Spu_Shutdown(void) {
+    unsigned int counter;
+
+    if (g_SpuTransferStatus == 1) {
+        Spu_UploadWithPrepare(D_8009B81C, 0x40);
+        Spu_WaitTransferDone();
+    }
+
+    do {
+        counter = 0xF2000002;
+    } while (StopRCnt(counter) == 0);
+
+    UnDeliverEvent(0xF2000002, 2);
+
+    while (DisableEvent(g_AkaoTimerEventDesc) == 0) {
+    }
+
+    while (CloseEvent(g_AkaoTimerEventDesc) == 0) {
+    }
+
+    Spu_WriteKeyOff(0xFFFFFF);
+    SpuQuit();
 }
