@@ -97,6 +97,7 @@ int ds_read(int count, int sector, void *destination);
 int DS_newmedia(void);
 int DS_searchdir(int parent, char *name);
 int DS_cachefile(int directory);
+void DsReadBreak(void);
 int _cmp(char *left, char *right);
 DslFILE *DsSearchFile(DslFILE *file, char *name);
 int DsGetDiskType(void);

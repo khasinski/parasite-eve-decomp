@@ -5,7 +5,6 @@
 extern char D_8001205C[];
 
 u32 DsSync(u32 mode);
-void DsReadBreak(void);
 CdlLOC *CdIntToPos(int sector, CdlLOC *position);
 void GD_cbsync(unsigned char event);
 
