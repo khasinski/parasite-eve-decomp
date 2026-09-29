@@ -1,7 +1,6 @@
 #include "pe1/psyq_cd.h"
 
 extern int g_CdStreamRingWritePtr;
-extern int D_800B0CD0;
 extern short g_StStreamState;
 extern int g_StStreamReadState;
 

@@ -329,6 +329,9 @@ extern s32 D_800A5D54;
 extern s16 D_800A8018;
 extern s32 D_800A801C;
 extern u32 D_800C20C4;
+extern s32 D_800B0CD0;
+extern volatile s32 D_800B6914, D_800B8620;
+extern void (*D_800B0CCC)(void);
 extern s32 g_CdStreamRingReadIndex __asm__("D_800BE9EC");
 extern StHEADER *D_800C0DC8;
 
