@@ -17,16 +17,6 @@ extern const char D_80011FD8[], D_80011FF8[], D_8001201C[], D_80012038[];
 extern const char D_80012014[] __attribute__((aligned(4)));
 extern const char D_80012018[] __attribute__((aligned(4)));
 
-/* Diagnostic columns traverse the minute, second and sector bytes with
- * the DslFILE stride. All three views share g_DslFileCache storage. */
-typedef struct DsStridedFileByte {
-    u8 value;
-    char remainder[sizeof(DslFILE) - sizeof(u8)];
-} DsStridedFileByte;
-extern DsStridedFileByte file_minutes[DSL_MAX_FILE] __asm__("D_800A36B0");
-extern DsStridedFileByte file_seconds[DSL_MAX_FILE] __asm__("D_800A36B1");
-extern DsStridedFileByte file_sectors[DSL_MAX_FILE] __asm__("D_800A36B2");
-
 int DS_newmedia(void) {
     u8 *cursor;
     u8 *end;
@@ -140,8 +130,9 @@ int DS_cachefile(int directory) {
             g_DslFileCache[count].name[cursor->nameLength] = 0;
         }
         if (D_8009AFC0 > 1)
-            printf(D_8001201C, file_minutes[count].value,
-                   file_seconds[count].value, file_sectors[count].value,
+            printf(D_8001201C, g_DslFileCache[count].pos.minute,
+                   g_DslFileCache[count].pos.second,
+                   g_DslFileCache[count].pos.sector,
                    g_DslFileCache[count].size, g_DslFileCache[count].name);
         cursor = (IsoDirectoryRecord *)((u8 *)cursor + cursor->recordLength);
         if (++count >= DSL_MAX_FILE) break;
