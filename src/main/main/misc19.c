@@ -6,7 +6,6 @@
 
 int VSync(int arg0);
 void SetDispMask(int arg0);
-int CdRom_ReadSectors(int lba, int offset, int dst, int size);
 int DrawSync(int arg0);
 void EnterCriticalSection(void);
 void FlushCache(void);
@@ -15,7 +14,7 @@ void ExitCriticalSection(void);
 extern int g_PeImageBaseLba;
 extern int g_SceneLoadScratchBuffer;
 extern int D_800A77FC;
-extern int g_StrFileDirBuffer;
+extern u8 *g_StrFileDirBuffer;
 extern int D_800B0CD8_word __asm__("g_GameState");
 extern u16 g_MainAssetLbaTbl[];
 extern u16 g_LargeTexLbaTbl[];
@@ -23,8 +22,8 @@ extern u16 D_8009316C[];
 extern u16 g_FontUiLbaTbl[];
 extern u16 D_8009315E[];
 extern u16 D_80093166[];
-extern int D_8001160C;
-extern int D_80011610;
+extern u8 *D_8001160C;
+extern u8 *D_80011610;
 extern int D_800B0DD8;
 extern signed char D_800B0DB2;
 extern signed char D_800B0DB3;

@@ -1,9 +1,7 @@
 #include "pe1/cdrom_runtime.h"
 
-int CdRom_ReadSectors(int lba, int offset, int dst, int size);
-
-void CdRom_ReadSectorsFromLba(int arg0, int arg1, int arg2) {
-    CdRom_ReadSectors(arg0, 0, arg1, arg2);
+int CdRom_ReadSectorsFromLba(u32 lba, void *destination, u32 size) {
+    return CdRom_ReadSectors(lba, 0, destination, size);
 }
 #include "pe1/psyq_cd.h"
 
@@ -12,14 +10,14 @@ int CdRom_GetPendingReadCount(void);
 int CdRom_GetDiskType(void);
 void exit(int code);
 CdlLOC *CdIntToPos(int i, CdlLOC *p);
-int CdRom_StartRead(CdlLOC *loc, int size, int dst, int mode);
+int CdRom_StartRead(CdlLOC *loc, int size, void *destination, int mode);
 int printf(char *fmt, ...);
 
 extern int g_GameState;
 extern u_short g_CdDiskType;
 extern char D_8001136C[];
 
-int CdRom_ReadSectors(int lba, int offset, int dst, int size) {
+int CdRom_ReadSectors(u32 lba, u32 offset, void *destination, u32 size) {
     register int base;
     register int rel;
     register int dst_reg;
@@ -30,7 +28,7 @@ int CdRom_ReadSectors(int lba, int offset, int dst, int size) {
 
     base = lba;
     rel = offset;
-    dst_reg = dst;
+    dst_reg = (int)destination;
     size_reg = size;
     state = &g_GameState;
 
@@ -50,7 +48,7 @@ int CdRom_ReadSectors(int lba, int offset, int dst, int size) {
     *state |= 0x1004000;
     base += rel;
     CdIntToPos(base, &loc);
-    ret = CdRom_StartRead(&loc, size_reg, dst_reg, 0x80);
+    ret = CdRom_StartRead(&loc, size_reg, (void *)dst_reg, 0x80);
     if (ret != 0) {
         return ret;
     }
@@ -94,10 +92,9 @@ extern s8 D_800B0DB5;
 extern s8 D_800B0DB6;
 extern s8 D_800B0DB7;
 extern s32 g_PeImageBaseLba;
-extern s32 g_StrFileDirBuffer;
+extern u8 *g_StrFileDirBuffer;
 extern u16 g_StrFileDirLba[];
 
-s32 CdRom_ReadSectors(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 SetDispMask(s32 arg0);
 
 s32 Overlay_LoadInitialImage(void) {

@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "pe1/scene_assets.h"
+#include "pe1/cdrom_runtime.h"
 extern u8 D_8009317C[];
 extern u32 D_8009D170;
 extern u32 D_8009D174;
@@ -8,7 +9,6 @@ extern u32 D_8009D178;
 extern u32 D_8009D17C;
 extern int Spu_SetStreamModeA(void);
 extern int Spu_SetStreamModeB(void);
-extern int CdRom_ReadSectors(u32, u32, void *, u32);
 extern int CdRom_PollReady(void);
 extern int Akao_StepNoteSequencer(void *, u32);
 extern int Spu_UploadSampleBlockBlocking(void *, int);

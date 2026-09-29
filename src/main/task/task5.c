@@ -1,11 +1,11 @@
 #include "common.h"
+#include "pe1/cdrom_runtime.h"
 #include "pe1/field_collision.h"
 
 void EnterCriticalSection(void);
 void ExitCriticalSection(void);
 void FlushCache(void);
 void VSync(s32);
-s32 CdRom_ReadSectorsFromLba(s32, s32, s32);
 s32 CdRom_PollReady(void);
 void Render_InitEntityPool(s32);
 void SetDispMask(s32);
@@ -14,10 +14,8 @@ void func_801216C4(s32, s32 *);
 void func_80121C04(s32);
 void func_801223A8(s32);
 
-extern s32 D_8001160C[];
-#define D_8001160C (D_8001160C[0])
-extern s32 D_80011610[];
-#define D_80011610 (D_80011610[0])
+extern u8 *D_8001160C;
+extern u8 *D_80011610;
 extern u16 g_SceneInitLbaTbl0[];
 extern u16 g_SceneInitLbaTbl1[];
 extern u16 g_SceneAssetLbaTbl[];
@@ -40,7 +38,10 @@ int Task_PointInPoly(int **arg0) {
 s32 Task_LoadSceneData(s16 **arg0) {
     s16 **arg0_reg = arg0;
     s32 *base = g_GameState;
-    s32 sp[2];
+    union {
+        s32 words[2];
+        u8 *buffers[2];
+    } sp;
     s32 ret;
 
     base[0] |= 0x8200;
@@ -99,9 +100,9 @@ retry_second:
     FlushCache();
     ExitCriticalSection();
 
-    sp[1] = 0;
-    sp[0] = D_80011610 + ((g_SceneAssetLbaTbl - g_SceneInitLbaTbl1[0]) << 0xB);
-    func_801216C4(1, sp);
+    sp.words[1] = 0;
+    sp.buffers[0] = D_80011610 + ((g_SceneAssetLbaTbl - g_SceneInitLbaTbl1[0]) << 0xB);
+    func_801216C4(1, sp.words);
     func_80121C04(**arg0_reg);
     func_801223A8(1);
     return 1;
