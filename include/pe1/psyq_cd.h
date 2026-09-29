@@ -265,6 +265,7 @@ extern CdReadCompleteCallback g_CdReadCompleteCallback;
 CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback);
 
 void CdRom_AbortCmd(void);
+void Cd_SetIntrMask(void);
 /* BIOS_1.OBJ polling state, result buffers and timeout diagnostics. */
 extern u8 D_8009AFD5;
 extern char *D_8009AFDC[], *D_8009B05C[];

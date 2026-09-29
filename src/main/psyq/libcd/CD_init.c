@@ -3,8 +3,6 @@
 #include "pe1/psyq_cd.h"
 
 extern char D_80011C08[], D_80011C14[], D_8009B298[];
-extern u8 D_8009AFD5, D_8009AFD4;
-extern void Cd_SetIntrMask(void);
 int puts(const char *text);
 int printf(const char *format, ...);
 

@@ -5,7 +5,6 @@
 /* CC1_FLAGS: -fno-schedule-insns -fno-schedule-insns2 */
 
 extern u16 *volatile D_8009B290;
-extern void Cd_SetIntrMask(void);
 
 typedef struct CdInitVolFrame {
     u8 packet[4];
