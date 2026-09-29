@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/render_prim.h"
+#include "pe1/text.h"
 /* CC1_FLAGS: -G8 -fno-cse-skip-blocks */
 /* MASPSX_FLAGS: -G8 */
 
@@ -377,5 +378,49 @@ void Draw_PrintCenteredTextInWidth(u8 *text, int width) {
             D_8009D124 = x;
             D_8009D128 = y;
         } else BoundsCheck_AssertStub(3);
+    }
+}
+
+extern int g_DrawTextBoxWidth;
+
+void Draw_PrintCenteredText(u8 *text) {
+    Draw_PrintCenteredTextInWidth(text, g_DrawTextBoxWidth);
+}
+
+void Draw_PrintTextById(unsigned int textId) {
+    s32 temp_a0;
+    s32 temp_v0;
+    u32 temp_a1;
+    u8 *var_s0;
+    u8 var_a0;
+
+    var_s0 = (u8 *)Str_LookupTable4(textId);
+    if (var_s0 != NULL) {
+        temp_a1 = g_TextCursorStackWord;
+        if (temp_a1 < (u32) &g_TextCursorStackTop) {
+            s32 t0 = g_TextCursorX; s32 t1 = g_TextCursorY;
+            g_TextCursorStackWord = temp_a1 + 8;
+            M2C_FIELD(temp_a1, s32 *, 0) = t0;
+            M2C_FIELD(temp_a1, s32 *, 4) = t1;
+        } else {
+            BoundsCheck_AssertStub(2, temp_a1);
+        }
+        var_a0 = *var_s0;
+        if ((var_a0 & 0xFF) != 0xFF) {
+            do {
+                var_s0 += 1;
+                Draw_AllocTexturedQuad(var_a0);
+                var_a0 = *var_s0;
+            } while (var_a0 != 0xFF);
+        }
+        if ((u32) &g_TextCursorStackBottom < (u32) g_TextCursorStackWord) {
+            temp_v0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -8);
+            temp_a0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -4);
+            g_TextCursorStackWord -= 8;
+            g_TextCursorX = temp_v0;
+            g_TextCursorY = temp_a0;
+            return;
+        }
+        BoundsCheck_AssertStub(3);
     }
 }

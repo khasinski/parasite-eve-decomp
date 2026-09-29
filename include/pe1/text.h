@@ -11,6 +11,7 @@ void Util_AppendFFTerminatedBytes(u8 *dst, u8 *src);
 int Draw_MeasureTextWidth(u8 *text);
 void Draw_OffsetCursor(int x, int y);
 void Draw_PrintCenteredText(u8 *text);
+void Draw_PrintTextById(unsigned int textId);
 
 /* Text / dialogue rendering subsystem (message boxes, menu labels, numbers).
  * Verified from code + live DuckStation GDB (talked to an NPC on the first
@@ -24,7 +25,7 @@ void Draw_PrintCenteredText(u8 *text);
  *   Draw_AllocTexturedQuad(code) -> one textured quad sampling the glyph from
  *   the VRAM font cache. Printers:
  *     Draw_PrintRawText(u8 *s)              -- raw string
- *     Draw_PrintTextById(void)              -- string from a table (Str_LookupTable4)
+ *     Draw_PrintTextById(index)             -- string from a table (Str_LookupTable4)
  *     Draw_PrintTextWrapped(u8 *s, int w)   -- word-wrap to width w
  *     Draw_PrintCenteredText / *InWidth     -- centered
  *     Draw_PrintNumberWidth2..6 / Signed*   -- numeric fields
