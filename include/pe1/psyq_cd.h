@@ -6,8 +6,6 @@
 #include "pe1/psyq_types.h"
 
 typedef void (*CdlCB)(u_char event, u_char *result);
-typedef void (*DsCallback)(void);
-typedef void (*DsEventCallback)(u_char event, u_char *result);
 
 /* LIBCD's contiguous sync, ready and data-end interrupt event bytes. */
 typedef struct CdInterruptEvents {
