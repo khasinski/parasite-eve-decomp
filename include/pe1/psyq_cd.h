@@ -148,16 +148,7 @@ typedef struct CdRomCommandState {
     u_int reserved34;
 } CdRomCommandState;
 
-typedef struct CdRomSystemState {
-    u_int enabled;
-    u_char pendingCommand;
-    u_char pendingMode;
-    u_char reserved06[6];
-    u_char preSeekState[0x0C];
-    CdRomCommandState command;
-} CdRomSystemState;
-
-/* View beginning at D_8009B558, four bytes into CdRomSystemState. */
+/* View beginning at D_8009B558, four bytes into the system-state window. */
 typedef struct CdRomEventCommandState {
     u_char pendingCommand;
     u_char pendingParamBytes[4];
@@ -166,6 +157,33 @@ typedef struct CdRomEventCommandState {
     u_char reserved0C[8];
     CdRomCommandState command;
 } CdRomEventCommandState;
+
+typedef struct CdRomSystemFields {
+    u_char pendingCommand;
+    u_char pendingMode;
+    u_char reserved06[6];
+    u_char preSeekState[0x0C];
+    CdRomCommandState command;
+} CdRomSystemFields;
+
+typedef union CdRomSystemViews {
+    CdRomSystemFields system;
+    CdRomEventCommandState event;
+} CdRomSystemViews;
+
+typedef struct CdRomSystemState {
+    u_int enabled;
+    CdRomSystemViews view;
+} CdRomSystemState;
+
+#define CDROM_SYSTEM_COMMAND_OFFSET \
+    (PE1_OFFSETOF(CdRomSystemState, view) + \
+     PE1_OFFSETOF(CdRomSystemViews, system) + \
+     PE1_OFFSETOF(CdRomSystemFields, command))
+#define CDROM_SYSTEM_READ_COMMAND_OFFSET \
+    (CDROM_SYSTEM_COMMAND_OFFSET + \
+     PE1_OFFSETOF(CdRomCommandState, read) + \
+     PE1_OFFSETOF(DsReadStatusBlock, command))
 
 PE1_STATIC_ASSERT(sizeof(DsReadStatusBlock) == 0x28,
                   ds_read_status_block_size);
@@ -197,11 +215,28 @@ PE1_STATIC_ASSERT(sizeof(CdRomCommandState) == 0x38,
                   cdrom_command_state_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomCommandState, read) == 0x08,
                   cdrom_command_read_offset);
+PE1_STATIC_ASSERT(sizeof(CdRomSystemFields) == 0x4C,
+                  cdrom_system_fields_size);
+PE1_STATIC_ASSERT(sizeof(CdRomEventCommandState) == 0x4C,
+                  cdrom_event_command_state_size);
+PE1_STATIC_ASSERT(sizeof(CdRomSystemViews) == 0x4C,
+                  cdrom_system_views_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomSystemFields, command) == 0x14,
+                  cdrom_system_fields_command_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomSystemViews, event) == 0,
+                  cdrom_system_views_event_offset);
 PE1_STATIC_ASSERT(sizeof(CdRomSystemState) == 0x50,
                   cdrom_system_state_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomSystemState, pendingCommand) == 0x04,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomSystemState, view) +
+                      PE1_OFFSETOF(CdRomSystemViews, event) == 0x04,
+                  cdrom_system_event_view_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomSystemState, view) +
+                      PE1_OFFSETOF(CdRomSystemViews, system) +
+                      PE1_OFFSETOF(CdRomSystemFields, pendingCommand) == 0x04,
                   cdrom_system_pending_command_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomSystemState, command) == 0x18,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomSystemState, view) +
+                      PE1_OFFSETOF(CdRomSystemViews, system) +
+                      PE1_OFFSETOF(CdRomSystemFields, command) == 0x18,
                   cdrom_system_command_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, command) == 0x14,
                   cdrom_event_command_offset);

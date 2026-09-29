@@ -17,8 +17,8 @@ void CdRom_AbortCmd(void)
     state->enabled = 0;
     CD_flush();
 
-    if (state->command.read.status == 2) {
-        kind = state->command.read.command;
+    if (state->view.system.command.read.status == 2) {
+        kind = state->view.system.command.read.command;
         cmp = 0xB;
         if (kind == cmp) {
             goto abortPending;

@@ -23,7 +23,7 @@ extern u32 D_8009B578;
     ((CdRomCommandState *)((u8 *)(p) - PE1_OFFSETOF(CdRomCommandState, read.command)))
 #define SYSTEM(p)                                                                      \
     ((CdRomSystemState *)((u8 *)(p) -                                                  \
-                          PE1_OFFSETOF(CdRomSystemState, command.read.command)))
+                          CDROM_SYSTEM_READ_COMMAND_OFFSET))
 
 void LIBDS_DSSYS_1_text_8B8(int inEvent, u8 *inResult) {
     register int event = inEvent;

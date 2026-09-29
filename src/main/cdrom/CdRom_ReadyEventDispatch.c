@@ -24,7 +24,7 @@ void CdRom_ReadyEventDispatch(int event, u8 *data) {
 
     if (g_DsReadyCallback != 0) {
         pending = ((CdRomSystemState *)((char *)state -
-            PE1_OFFSETOF(CdRomSystemState, command)))->enabled;
+            CDROM_SYSTEM_COMMAND_OFFSET))->enabled;
         event_arg = event_reg;
         if (pending != 0) {
             g_DsReadyCallback(event_arg, data_reg);

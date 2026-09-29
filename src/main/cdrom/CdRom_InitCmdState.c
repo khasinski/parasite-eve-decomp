@@ -20,7 +20,7 @@ void CdRom_InitCmdState(void) {
     /* Clear pendingMode and the first three reserved bytes backwards. */
     cursor = (u_char *)state + 8;
     state->enabled = 0;
-    state->pendingCommand = 0;
+    state->view.system.pendingCommand = 0;
     do {
         *cursor = 0;
         i--;

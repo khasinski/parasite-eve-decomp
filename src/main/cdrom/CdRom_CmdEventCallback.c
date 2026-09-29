@@ -38,7 +38,7 @@ void CdRom_CmdEventCallback(int event, u8 *result) {
             ready->read.command = 12;
             if (g_DsSyncCallback &&
                 ((CdRomSystemState *)((char *)ready -
-                    PE1_OFFSETOF(CdRomSystemState, command)))->enabled) {
+                    CDROM_SYSTEM_COMMAND_OFFSET))->enabled) {
                 g_DsSyncCallback(5, result);
             }
         } else {
