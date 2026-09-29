@@ -25,7 +25,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: scene_e19_2
+  - name: scene_pre
     type: code
     start: 0x0
     vram: 0x8018EFF0
@@ -33,7 +33,25 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, scene_e19_2]
+      - [0x0, asm, scene_pre]
+  - name: scene_main
+    type: code
+    start: 0x4B4
+    vram: 0x8019549C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x4B4, c, func_8019549C]
+      - [0x10DC, asm, scene_tail]
+  - name: scene_accessors
+    type: code
+    start: 0x61F0
+    vram: 0x8019B1D8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0x61F0, c, SceneE19_StateAccessors]
       - [0x626C, data]
   - [0x6800]
