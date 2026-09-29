@@ -1,19 +1,16 @@
 /* ASSEMBLER: GNU */
-#include "common.h"
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
+#include "pe1/cdrom.h"
 
 extern char D_8001205C[];
 
 u32 DsSync(u32 mode);
-int Cd_GetReadyStatus(void);
 void DsReadBreak(void);
 CdlLOC *CdIntToPos(int sector, CdlLOC *position);
 void GD_cbsync(unsigned char event);
 
 
 int CdRom_IsBusy(u8 *dst, int sector_size);
-int strncmp(char *s1, char *s2, int n);
-
 void GD_disk_kind(int event, void *data, void *detail);
 
 int DsGetDiskType(void) {

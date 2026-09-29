@@ -6,9 +6,6 @@ int CdRom_ReadSectorsFromLba(u32 lba, void *destination, u32 size) {
 }
 #include "pe1/psyq_cd.h"
 
-int Cd_GetReadyStatus(void);
-int CdRom_GetPendingReadCount(void);
-int CdRom_GetDiskType(void);
 void exit(int code);
 CdlLOC *CdIntToPos(int i, CdlLOC *p);
 int printf(char *fmt, ...);

@@ -1,9 +1,9 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_cd.h"
+#include "pe1/cdrom.h"
 CdlLOC *CdRom_GetCurrentPosPtr(void);
 int CdPosToInt(CdlLOC *);
 int CdRom_GetCmdMode(void);
-int CdRom_GetPendingReadCount(void);
 int CdRom_RestartSeek(void);
 #define ASYNC_FROM_RETRY(p)                                                            \
     ((DsAsyncReadState *)((u8 *)(p) - PE1_OFFSETOF(DsAsyncReadState, retryPending)))

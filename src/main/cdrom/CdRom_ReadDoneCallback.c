@@ -1,10 +1,10 @@
 #include "pe1/psyq_cd.h"
+#include "pe1/cdrom.h"
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 
 extern int D_8009B708;
 
-int CdRom_GetPendingReadCount(void);
 int CdRom_RestartSeek(void);
 
 void CdRom_ReadDoneCallback(unsigned char arg0, unsigned char *arg1) {

@@ -99,6 +99,7 @@ int DS_searchdir(int parent, char *name);
 int DS_cachefile(int directory);
 int _cmp(char *left, char *right);
 DslFILE *DsSearchFile(DslFILE *file, char *name);
+int DsGetDiskType(void);
 int strncmp(const char *left, const char *right, unsigned int count);
 int strcmp(const char *left, const char *right);
 

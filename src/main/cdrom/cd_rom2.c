@@ -1,6 +1,6 @@
-extern int g_CdPendingReadCount;
+#include "pe1/cdrom.h"
 
-int CdRom_GetPendingReadCount(void);
+extern int g_CdPendingReadCount;
 
 int CdRom_GetSeekState(void);
 

@@ -8,6 +8,7 @@ struct CdlLOC;
 int cd_rom4(unsigned char command, void *param, void *result);
 int func_80080DC4(unsigned char command, void *param, void *result);
 int Cd_GetReadyStatus(void);
+int CdRom_GetDiskType(void);
 int CdRom_GetPendingReadCount(void);
 int CdRom_PollReady(void);
 int Sys_VSyncTimeout(void *argument);
