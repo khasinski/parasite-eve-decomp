@@ -1,7 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
+#include "pe1/psyq_cd.h"
 extern int D_8009B6B0[];
-extern void (*D_8009B6D0)(int, void *);
 extern int VSync(int);
 extern void Save_ProcessDataCallback(void);
 
@@ -16,6 +16,7 @@ void Render_StepParticleCallback(void) {
     if (VSync(query) > state[5] + 1200) state[1] = -1;
     if (!state[1] || VSync(-1) > state[5] + 1200) {
         Save_ProcessDataCallback();
-        if (D_8009B6D0) D_8009B6D0(state[1] < 0 ? 5 : 2, (void *)state[3]);
+        if (g_CdReadCompleteCallback)
+            g_CdReadCompleteCallback(state[1] < 0 ? 5 : 2, (void *)state[3]);
     }
 }

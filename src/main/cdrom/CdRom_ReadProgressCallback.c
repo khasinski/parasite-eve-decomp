@@ -22,7 +22,7 @@ void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
             Save_ProcessDataCallback();
             if (g_CdReadCompleteCallback) {
                 if (CD_READ_FIELD(state, remainingSectors) < 0) savedStatus = 5;
-                g_CdReadCompleteCallback((u8)savedStatus, (int)data);
+                g_CdReadCompleteCallback((u8)savedStatus, data);
             }
         }
     } else {
@@ -41,7 +41,7 @@ void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
             if (g_CdReadCompleteCallback) {
                 savedStatus =
                     CD_READ_FIELD(state, remainingSectors) < 0 ? 5 : 2;
-                g_CdReadCompleteCallback((u8)savedStatus, (int)data);
+                g_CdReadCompleteCallback((u8)savedStatus, data);
             }
         }
     }

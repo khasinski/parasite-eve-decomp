@@ -3,8 +3,6 @@
 
 #include "pe1/psyq_cd.h"
 
-extern int D_8009B6CC;
-
 void CdRom_ResetFileDescriptors(void);
 void DS_read_cbready(void);
 int func_8007FCBC(int mode, int unused);
@@ -15,7 +13,7 @@ void Save_ProcessDataCallback(void) {
     register void *zeroArg1 asm("$5");
     register int zeroArg2 asm("$6");
 
-    readInProgress = &D_8009B6CC;
+    readInProgress = &g_CdReadInProgress;
     asm volatile("" : "+r"(readInProgress));
 
     if (*readInProgress == 1) {
@@ -35,6 +33,6 @@ void Save_ProcessDataCallback(void) {
         Render_AllocParticleNode(particleType, zeroArg1, zeroArg2, -1);
     }
 
-    D_8009B6CC = 0;
+    g_CdReadInProgress = 0;
     asm volatile("" : : : "memory");
 }

@@ -383,7 +383,7 @@ typedef struct CdReadProgressState {
     int inProgress;
 } CdReadProgressState;
 
-typedef void (*CdReadCompleteCallback)(int event, int data);
+typedef void (*CdReadCompleteCallback)(int event, void *data);
 
 typedef struct CdReadCompleteCallbackPage {
     CdReadCompleteCallback callback;

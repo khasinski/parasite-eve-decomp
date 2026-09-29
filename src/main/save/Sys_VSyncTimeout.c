@@ -1,11 +1,10 @@
 /* GCC_VERSION: 2.8.1 */
 
 #include "pe1/cdrom.h"
+#include "pe1/psyq_cd.h"
 
 extern int VSync(int arg0);
 extern void Save_ProcessDataCallback(void);
-
-extern int D_8009B6C4;
 
 int Sys_VSyncTimeout(void *argument) {
     int v0;
@@ -13,7 +12,7 @@ int Sys_VSyncTimeout(void *argument) {
     int *state;
 
     v0 = VSync(-1);
-    state = &D_8009B6C4;
+    state = &g_CdReadStartVsync;
     asm volatile("" : "=r"(state) : "0"(state));
 
     if ((state[0] + 0x4B0) < v0) {
