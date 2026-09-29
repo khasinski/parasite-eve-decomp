@@ -114,7 +114,7 @@ extern int D_800BE998;
 extern CdlLOC D_800A3490;
 extern int D_800A3494;
 extern int D_800A8020;
-extern DsCallback g_StrDataReadyCallback;
+extern volatile DsCallback g_StrDataReadyCallback;
 int CdPosToInt_Local(CdlLOC *p);
 CdlLOC *CdIntToPos_Local(int i, CdlLOC *p);
 void data_ready_callback(void);
