@@ -350,7 +350,7 @@ extern CdStreamReadyState D_800B0CD0;
 extern s16 g_CdStreamReadyHalfword __asm__("D_800B0CD0");
 extern volatile s32 D_800B6914, D_800B8620;
 extern void (*D_800B0CCC)(void);
-extern s32 g_CdStreamRingReadIndex __asm__("D_800BE9EC");
+extern s32 g_CdStreamRingIndex __asm__("D_800BE9EC");
 extern StHEADER *D_800C0DC8;
 
 /* Low-level LIBCD command retry wrapper and its shared command state. */

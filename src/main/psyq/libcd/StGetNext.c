@@ -8,16 +8,16 @@ u32 StGetNext(u32 **addr, u32 **header) {
     int index;
 
     addr_reg = addr;
-    index = g_CdStreamRingReadIndex;
+    index = g_CdStreamRingIndex;
     entry = (u8 *)&StRingAddr[index];
 
     header_reg = header;
     if (*(u16 *)entry == 1) {
-        g_CdStreamRingReadIndex = 0;
+        g_CdStreamRingIndex = 0;
         if (g_CdStreamEndSector != 0) {
             *(u16 *)entry = 0;
         }
-        index = g_CdStreamRingReadIndex;
+        index = g_CdStreamRingIndex;
         entry = (u8 *)&StRingAddr[index];
     }
 
@@ -25,7 +25,7 @@ u32 StGetNext(u32 **addr, u32 **header) {
     if (*(u16 *)entry == 2) {
         *(u16 *)entry = 4;
         *addr_reg = (u32 *)(&StRingAddr[StRingSize] +
-                            g_CdStreamRingReadIndex * 0x3F);
+                            g_CdStreamRingIndex * 0x3F);
         *header_reg = (u32 *)entry;
         return 0;
     }

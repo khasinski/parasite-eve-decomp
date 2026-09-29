@@ -33,6 +33,6 @@ u32 StFreeRing(u32 *ptr) {
     }
 
     next_index = i + index;
-    g_CdStreamRingReadIndex = next_index;
+    g_CdStreamRingIndex = next_index;
     return 0;
 }
