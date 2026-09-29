@@ -2,6 +2,7 @@
 #include "pe1/boot.h"
 #include "pe1/cdrom.h"
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 #include "pe1/psyq_callbacks.h"
 
 s32 Boot_WaitForCdAndRestoreCallbacks(void) {

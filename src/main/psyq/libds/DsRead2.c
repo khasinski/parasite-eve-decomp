@@ -1,6 +1,6 @@
 /* ASSEMBLER: GNU */
 
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 extern int g_DsStreamNoLocFlag;
 

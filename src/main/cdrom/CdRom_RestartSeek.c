@@ -1,6 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -fno-expensive-optimizations -fcall-used-$1 */
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 #include "pe1/cdrom.h"
 
 extern int D_8009B6EC;

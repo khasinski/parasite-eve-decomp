@@ -1,8 +1,8 @@
 #include "pe1/psyq_ds.h"
 
-int DsStartCallback(int callback) {
-    int *slot;
-    int old;
+DsEventCallback DsStartCallback(DsEventCallback callback) {
+    DsEventCallback *slot;
+    DsEventCallback old;
 
     slot = &g_DsReadCallbackState.start;
     old = *slot;

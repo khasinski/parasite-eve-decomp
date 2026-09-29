@@ -2,6 +2,7 @@
 /* CC1_FLAGS: -mno-split-addresses */
 
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 void CdRom_ResetFileDescriptors(void);
 void DS_read_cbready(void);

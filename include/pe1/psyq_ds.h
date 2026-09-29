@@ -97,7 +97,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadCallbackSlot, payload) == 0x05,
                   ds_read_callback_slot_payload_offset);
 
 typedef struct DsCallbackRegistry {
-    int start; /* The start callback ABI is not recovered yet. */
+    DsEventCallback start;
     DsEventCallback sync;
     DsEventCallback ready;
 } DsCallbackRegistry;
@@ -111,6 +111,10 @@ extern DsEventCallback volatile g_DsSyncCallback __asm__("D_800A36A4");
 extern DsEventCallback volatile g_DsReadyCallback __asm__("D_800A36A8");
 extern DsCallback volatile g_DsPollCallback __asm__("g_DsPollCallback");
 extern DsEventCallback volatile g_DsDispatchCallback __asm__("D_800A36AC");
+DsEventCallback DsStartCallback(DsEventCallback callback);
+DsEventCallback DsSyncCallback(DsEventCallback callback);
+DsEventCallback DsReadyCallback(DsEventCallback callback);
+DsCallback DsDataCallback(DsCallback callback);
 extern CdDsReadQueueEntry g_CdDsReadQueue[];
 extern int g_CdDsReadQueueState;
 extern int g_CdPendingReadCount;

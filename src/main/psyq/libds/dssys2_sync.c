@@ -75,7 +75,7 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
         }
     }
     if (g_DsReadCallbackState.start)
-        ((DsEventCallback)g_DsReadCallbackState.start)(savedEvent, result);
+        g_DsReadCallbackState.start(savedEvent, result);
     {
         int ready = DsSync(0);
         if (ready == 1) {
