@@ -193,6 +193,48 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, retriesRemaining) == 0x10,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, active) == 0x20,
                   ds_async_read_active_offset);
 
+/* LIBCD callback page contains LIBDS async-read state in its reserved span. */
+typedef struct CdReadCompleteCallbackPage {
+    CdReadCompleteCallback callback;
+    char reserved04[0x18];
+    DsAsyncReadState asyncRead;
+    char reserved40[0x48F0];
+} CdReadCompleteCallbackPage;
+
+typedef struct CdCallbackDataPage {
+    CdlCB sync;
+    CdlCB ready;
+    int reserved08;
+    CdlCB read;
+    int status;
+    char reserved14[0x6DC];
+    CdReadProgressState readProgress;
+    CdReadCompleteCallbackPage readComplete;
+} CdCallbackDataPage;
+
+PE1_STATIC_ASSERT(sizeof(CdReadCompleteCallbackPage) == 0x4930,
+                  cd_read_callback_page_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadCompleteCallbackPage, asyncRead) == 0x1C,
+                  cd_read_callback_async_state_offset);
+PE1_STATIC_ASSERT(sizeof(CdCallbackDataPage) == 0x504C,
+                  cd_callback_data_page_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, sync) == 0x00,
+                  cd_callback_data_page_sync_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, ready) == 0x04,
+                  cd_callback_data_page_ready_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, read) == 0x0C,
+                  cd_callback_data_page_read_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, status) == 0x10,
+                  cd_callback_data_page_status_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, readProgress) == 0x6F0,
+                  cd_callback_data_page_read_progress_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, readComplete) == 0x71C,
+                  cd_callback_data_page_read_complete_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, readComplete) +
+                      PE1_OFFSETOF(CdReadCompleteCallbackPage, asyncRead) ==
+                      0x738,
+                  cd_callback_data_page_async_state_offset);
+
 extern DsAsyncReadState g_DsAsyncReadState __asm__("D_8009B6EC");
 extern int g_DsAsyncReadRetryPending __asm__("D_8009B6F8");
 extern DsEventCallback g_DsAsyncReadSavedSyncCallback __asm__("D_8009B700");

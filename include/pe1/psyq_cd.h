@@ -38,14 +38,6 @@ extern char D_80011C2C[];
 
 typedef void (*CdReadCompleteCallback)(int event, void *data);
 
-typedef struct CdReadCompleteCallbackPage {
-    CdReadCompleteCallback callback;
-    char reserved04[0x492C];
-} CdReadCompleteCallbackPage;
-
-PE1_STATIC_ASSERT(sizeof(CdReadCompleteCallbackPage) == 0x4930,
-                  cd_read_callback_page_size);
-
 typedef struct CdReadProgressState {
     int reserved00[2];
     int sectorSize;
@@ -74,18 +66,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CdReadProgressState, inProgress) == 0x28,
 
 /* Optional 2048-byte-sector staging buffer used by the streaming CD path. */
 extern u8 *D_800C0DB8;
-
-/* Window from the sync callback at D_8009AFB4 through address 0x800A0000. */
-typedef struct CdCallbackDataPage {
-    CdlCB sync;
-    CdlCB ready;
-    int reserved08;
-    CdlCB read;
-    int status;
-    char reserved14[0x6DC];
-    CdReadProgressState readProgress;
-    CdReadCompleteCallbackPage readComplete;
-} CdCallbackDataPage;
 
 typedef struct CdlLOC {
     u_char minute;
@@ -214,20 +194,6 @@ typedef struct CdRomSystemState {
 
 PE1_STATIC_ASSERT(sizeof(DsReadStatusBlock) == 0x28,
                   ds_read_status_block_size);
-PE1_STATIC_ASSERT(sizeof(CdCallbackDataPage) == 0x504C,
-                  cd_callback_data_page_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, sync) == 0x00,
-                  cd_callback_data_page_sync_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, ready) == 0x04,
-                  cd_callback_data_page_ready_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, read) == 0x0C,
-                  cd_callback_data_page_read_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, status) == 0x10,
-                  cd_callback_data_page_status_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, readProgress) == 0x6F0,
-                  cd_callback_data_page_read_progress_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, readComplete) == 0x71C,
-                  cd_callback_data_page_read_complete_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadStatusBlock, lastCommand) == 0x0C,
                   ds_read_status_last_command_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadStatusBlock, currentPos) == 0x0E,

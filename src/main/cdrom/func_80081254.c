@@ -1,5 +1,5 @@
 
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 register CdReadCompleteCallbackPage *g_CdCallbackWritePage asm("$1");
 
