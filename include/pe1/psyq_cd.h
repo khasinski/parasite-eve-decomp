@@ -355,13 +355,26 @@ extern CdlLOC g_CdCurPosPtr;
 extern int D_8009B260;
 extern u32 g_CdStreamMask;
 extern u32 D_800B6918;
-extern u32 g_CdStreamEndSector;
 
 /* CD streaming state shared by StSetStream, StSetRing and StCdInterrupt. */
 extern s32 D_800A5D54;
 extern s16 D_800A8018;
 extern s32 D_800A801C;
 extern u32 D_800C20C4;
+/* Contiguous end-of-stream controls. StCdInterrupt retains its two interior
+ * scalar aliases because field-based addressing changes its retail schedule. */
+typedef struct CdStreamEndState {
+    u32 endSector;
+    s32 endSectorPending;
+    u8 *dmaBuffer;
+} CdStreamEndState;
+PE1_STATIC_ASSERT(sizeof(CdStreamEndState) == 0x0C,
+                  cd_stream_end_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdStreamEndState, endSectorPending) == 0x04,
+                  cd_stream_end_pending_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdStreamEndState, dmaBuffer) == 0x08,
+                  cd_stream_dma_buffer_offset);
+extern CdStreamEndState g_CdStreamEndState __asm__("g_CdStreamEndSector");
 typedef union CdStreamReadyState {
     s32 word;
     struct {

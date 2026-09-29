@@ -5,5 +5,5 @@
 void StSetMask(u32 mask, u32 start, u32 end) {
     g_CdStreamMask = mask;
     D_800B6918 = start;
-    g_CdStreamEndSector = end;
+    g_CdStreamEndState.endSector = end;
 }

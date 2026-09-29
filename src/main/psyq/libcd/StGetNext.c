@@ -14,7 +14,7 @@ u32 StGetNext(u32 **addr, u32 **header) {
     header_reg = header;
     if (*(u16 *)entry == 1) {
         g_CdStreamRingIndex = 0;
-        if (g_CdStreamEndSector != 0) {
+        if (g_CdStreamEndState.endSector != 0) {
             *(u16 *)entry = 0;
         }
         index = g_CdStreamRingIndex;

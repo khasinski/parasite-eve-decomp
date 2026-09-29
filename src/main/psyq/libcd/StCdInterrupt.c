@@ -9,7 +9,7 @@ extern volatile u32 *D_8009B35C;
 extern s32 D_8009B374;
 extern StHEADER *D_800A34A0;
 extern s32 D_800B89F4, D_800BCD7C, D_800BE9E4;
-extern u32 D_800C0DBC;
+/* Separate aliases retain the retail handler's address-load schedule. */
 extern s32 D_800C0DC0;
 extern u8 *D_800C0DC4;
 
@@ -143,7 +143,7 @@ void StCdInterrupt(void) {
                 if (D_800A34A0->secCount == 0) {
                     register u32 limit;
                     frame = ST_FRAME_INDEX(D_800A34A0);
-                    limit = D_800C0DBC;
+                    limit = g_CdStreamEndState.endSector;
                     D_800A8018 = 0;
                     frame &= 0xffff;
                     D_800A5D54 = frame;
@@ -166,7 +166,7 @@ void StCdInterrupt(void) {
                     }
                     if ((u32)((D_800C20C4 - D_800BE998) - 1) <
                         (u16)D_800A34A0->nSectors) {
-                        if (D_800C0DBC == 0) {
+                        if (g_CdStreamEndState.endSector == 0) {
                             D_800A34A0->id = 1;
                             asm volatile("" ::: "memory");
                             D_800C0DC0 = 1;
