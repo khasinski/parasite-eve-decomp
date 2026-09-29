@@ -2,7 +2,7 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 
-#include "pe1/psyq_cd.h"
+#include "bios_internal.h"
 
 extern volatile u8 *D_8009B27C, *D_8009B280, *D_8009B284, *D_8009B288;
 extern int D_8009AFC0, D_8009AFCC;
@@ -13,14 +13,6 @@ extern u8 D_800A3460[8], D_800A3468[8], D_800A3470[8];
 extern char D_80011B44[], D_80011B50[], D_80011B6C[], D_80011B80[];
 int printf(const char *format, ...);
 int puts(const char *text);
-
-static inline void copy_result(u8 *destination, const volatile u8 *source) {
-    int remaining;
-    if (destination) {
-        remaining = 7;
-        do { *destination++ = *source++; } while (--remaining != -1);
-    }
-}
 
 int getintr(void) {
     volatile u8 interrupt;
