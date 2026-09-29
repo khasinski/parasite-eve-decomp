@@ -2,6 +2,7 @@
 #define PE1_BOOT_DISPLAY_H
 
 #include "common.h"
+#include "pe1/cdrom_buffers.h"
 
 typedef struct {
     s32 tag;
@@ -71,7 +72,6 @@ extern s32 D_80172C98;
 extern s32 D_80172C9C;
 extern u16 D_80093166;
 extern u16 D_80093168;
-extern char *D_80011610;
 extern char D_8012682C[];
 /* Two buffer records, each holding four image addresses. */
 extern char *D_80125B88[8];

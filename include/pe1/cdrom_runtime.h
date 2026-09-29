@@ -5,8 +5,6 @@
 
 struct CdlLOC;
 
-extern u8 *g_StrFileDirBuffer;
-
 int Sys_VSyncTimeout(void *argument);
 int CdRom_SendQueuedCmd(u8 *destination);
 int CdRom_ReadSectors(u32 lba, u32 offset, void *destination, u32 size);

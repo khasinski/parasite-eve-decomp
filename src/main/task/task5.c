@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/cdrom_buffers.h"
 #include "pe1/cdrom_runtime.h"
 #include "pe1/field_collision.h"
 
@@ -14,8 +15,6 @@ void func_801216C4(s32, s32 *);
 void func_80121C04(s32);
 void func_801223A8(s32);
 
-extern u8 *D_8001160C;
-extern u8 *D_80011610;
 extern u16 g_SceneInitLbaTbl0[];
 extern u16 g_SceneInitLbaTbl1[];
 extern u16 g_SceneAssetLbaTbl[];

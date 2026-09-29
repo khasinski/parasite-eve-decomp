@@ -1,7 +1,6 @@
-#include "common.h"
+#include "pe1/cdrom_buffers.h"
 extern s32 g_ActiveDrawSlot __asm__("D_8009CDDC");
 extern u16 D_80093168, D_80093166;
-extern char *D_80011610;
 extern char *volatile g_BootDisplayOrderingTable;
 extern char *volatile g_BootDisplayPrimitiveCursor;
 extern void func_800752AC(void *, s32);
@@ -21,8 +20,8 @@ void Boot_SelectFrameBuffers(void) {
     orderingOffset = sectorOffset + orderingOffset;
 
     {
-        register char *base asm("$3") = D_80011610;
-        register char *orderingBuffer;
+        register u8 *base asm("$3") = D_80011610;
+        register u8 *orderingBuffer;
         sectorOffset += primitiveOffset;
         orderingBuffer = base + orderingOffset;
         base = base + sectorOffset;

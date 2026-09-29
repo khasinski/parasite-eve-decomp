@@ -1,5 +1,5 @@
 #include "pe1/psyq_gpu.h"
-#include "pe1/cdrom_runtime.h"
+#include "pe1/cdrom_buffers.h"
 
 void VSync(int arg0);
 void SetDispMask(int arg0);

@@ -1,4 +1,5 @@
 #include "pe1/cdrom_runtime.h"
+#include "pe1/cdrom_buffers.h"
 
 int CdRom_ReadSectorsFromLba(u32 lba, void *destination, u32 size) {
     return CdRom_ReadSectors(lba, 0, destination, size);

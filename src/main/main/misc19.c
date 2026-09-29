@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/cdrom_runtime.h"
+#include "pe1/cdrom_buffers.h"
 #include "pe1/psyq_tim.h"
 #include "pe1/scene_assets.h"
 #include "include_asm.h"
@@ -21,8 +22,6 @@ extern u16 D_8009316C[];
 extern u16 g_FontUiLbaTbl[];
 extern u16 D_8009315E[];
 extern u16 D_80093166[];
-extern u8 *D_8001160C;
-extern u8 *D_80011610;
 extern int D_800B0DD8;
 extern signed char D_800B0DB2;
 extern signed char D_800B0DB3;

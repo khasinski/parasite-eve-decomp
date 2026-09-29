@@ -1,5 +1,5 @@
 #include "common.h"
-#include "pe1/cdrom_runtime.h"
+#include "pe1/cdrom_buffers.h"
 extern char D_800F34F8[];
 extern char D_8010BD00[];
 extern char D_80120D08[];

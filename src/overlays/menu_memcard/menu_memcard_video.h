@@ -2,6 +2,7 @@
 #define MENU_MEMCARD_VIDEO_H
 
 #include "common.h"
+#include "pe1/cdrom_buffers.h"
 
 typedef struct VideoFrame { u32 reserved[2], time, reserved0c; u16 width, height; } VideoFrame;
 typedef struct VideoEntry { u8 reserved[8]; s16 end; } VideoEntry;
@@ -48,8 +49,6 @@ typedef struct VideoPlaybackEntry { u8 reserved[4],enabled,reserved05[15]; } Vid
 extern VideoPlaybackEntry D_801D0E00[];
 extern VideoDiscRange D_8009315E;
 extern u16 D_80093160,D_80093162;
-extern void *D_8001160C;
-extern u8 *D_80011610;
 extern u32 D_800B0DD8,D_8009D26C;
 extern s32 func_8006E6A8(u32,void *,s32),CdRom_PollReady(void),func_80192934(void),func_801924F8(s16);
 extern void SetDispMask(s32),DrawSync(s32),func_80074A44(s32),func_80072714(void),func_800726C4(void),func_80072724(void),func_8003EB04(void),func_8010C0D8(s32),func_8007A2A4(void),func_80080DC4(s32,s32,s32),Gpu_RenderFrame(void);
