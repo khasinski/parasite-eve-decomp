@@ -13,7 +13,6 @@ extern s32 D_800B0CD0, D_800B6914, D_800B8620, D_800B89F4, D_800BCD7C, D_800BE9E
 extern u32 D_800C0DBC;
 extern s32 D_800C0DC0;
 extern u8 *D_800C0DC4;
-extern StHEADER *D_800C0DC8;
 
 /* Streaming comparisons deliberately use only the low 16 bits of frameCount. */
 #define ST_FRAME_INDEX(header) (*(u16 *)&(header)->frameCount)

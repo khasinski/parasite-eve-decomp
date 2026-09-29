@@ -329,6 +329,8 @@ extern s32 D_800A5D54;
 extern s16 D_800A8018;
 extern s32 D_800A801C;
 extern u32 D_800C20C4;
+extern s32 g_CdStreamRingReadIndex __asm__("D_800BE9EC");
+extern StHEADER *D_800C0DC8;
 
 /* Low-level LIBCD command retry wrapper and its shared command state. */
 extern u32 D_8009AF2C[];

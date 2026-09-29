@@ -1,7 +1,5 @@
 #include "pe1/psyq_cd.h"
 
-extern int D_800BE9EC;
-
 u32 StFreeRing(u32 *ptr) {
     StHEADER *base;
     int index;
@@ -35,6 +33,6 @@ u32 StFreeRing(u32 *ptr) {
     }
 
     next_index = i + index;
-    D_800BE9EC = next_index;
+    g_CdStreamRingReadIndex = next_index;
     return 0;
 }
