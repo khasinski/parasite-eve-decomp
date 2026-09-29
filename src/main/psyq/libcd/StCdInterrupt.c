@@ -37,7 +37,7 @@ void StCdInterrupt(void) {
 
     if (D_800B89F4 != 1) {
         if ((D_800A801C != 0) && (*D_8009B34C & 0x01000000)) {
-            D_800B0CD0 = 1;
+            D_800B0CD0.word = 1;
             if (D_800C0DB8 != 0) {
                 D_800BCD7C += 1;
             }

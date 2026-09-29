@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/cdrom_buffers.h"
+#include "pe1/psyq_cd.h"
 
 typedef struct VideoFrame { u32 reserved[2], time, reserved0c; u16 width, height; } VideoFrame;
 typedef struct VideoEntry { u8 reserved[8]; s16 end; } VideoEntry;
@@ -25,7 +26,6 @@ extern VideoRect D_801D147A[2];
 extern volatile u8 D_801D1478;
 extern u8 D_801D148A,D_801D1494,D_801D0DC0;
 extern void *D_801D1470[2];
-extern s16 D_800B0CD0;
 extern s32 D_8009CDDC;
 extern void func_8007C564(void),func_8010C01C(void *,s32),func_801918F8(s8,s8);
 extern void func_8007506C(void *,void *);

@@ -8,7 +8,7 @@ void Memcard_UploadVideoSlice(void) {
     register s16 width asm("$5");
     register s32 region asm("$6");
     register volatile u8 *buffer asm("$7");
-    if (D_800B0DBB && D_800B0CD0) { func_8007C564(); D_800B0CD0=0; }
+    if (D_800B0DBB && g_CdStreamReadyHalfword) { func_8007C564(); g_CdStreamReadyHalfword = 0; }
     {
         register VideoRect *source asm("$5") = (VideoRect *)&D_801D148C;
         rectangle = *source;
