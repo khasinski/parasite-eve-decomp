@@ -79,7 +79,6 @@ extern u32 _spu_rev_offsetaddr;
 extern int D_8009B45C, D_8009B460, D_8009B464, D_8009B38C;
 extern int D_8009B388, D_8009B3B4, D_8009B3B0, D_8009B3E8;
 void _SpuInit(int mode);
-void SpuStart(void);
 void _spu_FiDMA(void);
 
 typedef struct SpuMalloc {

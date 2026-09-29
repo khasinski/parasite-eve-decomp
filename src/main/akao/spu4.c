@@ -1,3 +1,5 @@
+#include "pe1/psyq_spu_api.h"
+
 extern int D_8009D240;
 extern int D_8009D260;
 
@@ -12,7 +14,6 @@ int UnDeliverEvent(unsigned int arg0, int arg1);
 int DisableEvent(int arg0);
 int CloseEvent(int arg0);
 void Spu_WriteKeyOff(unsigned int value);
-void SpuQuit(void);
 
 void Spu_SetSampleTableBase(int arg0) {
     D_8009D240 = arg0;

@@ -1,6 +1,6 @@
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_spu_api.h"
 void Render_ResetScene(int arg0, int arg1);
-void SpuInit(void);
 void InitGeom(void);
 void SetGeomOffset(int x, int y);
 void SetGeomScreen(int h);
