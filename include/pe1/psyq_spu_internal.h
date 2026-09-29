@@ -6,7 +6,7 @@ typedef signed int s32;
 typedef unsigned int u32;
 typedef unsigned short u16;
 #endif
-typedef unsigned long u_long;
+#include "pe1/psyq_types.h"
 typedef void (*SpuCallback)(void);
 
 /*

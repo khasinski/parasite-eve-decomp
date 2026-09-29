@@ -1,12 +1,13 @@
 /* GCC_VERSION: 2.8.1 */
 
+#include "pe1/cdrom_runtime.h"
+
 extern int VSync(int arg0);
-extern int CdRom_SendQueuedCmd(int arg0);
 extern void Save_ProcessDataCallback(void);
 
 extern int D_8009B6C4;
 
-int Sys_VSyncTimeout(int arg0) {
+int Sys_VSyncTimeout(void *argument) {
     int v0;
     int s0;
     int *state;
@@ -22,6 +23,6 @@ int Sys_VSyncTimeout(int arg0) {
         s0 = state[-4];
     }
 
-    CdRom_SendQueuedCmd(arg0);
+    CdRom_SendQueuedCmd(argument);
     return s0;
 }

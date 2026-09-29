@@ -3,10 +3,8 @@
 
 #include "common.h"
 #include "pe1/psyq_callbacks.h"
+#include "pe1/psyq_types.h"
 
-typedef unsigned char u_char;
-typedef unsigned short u_short;
-typedef unsigned int u_int;
 typedef void (*CdlCB)(u_char event, u_char *result);
 typedef void (*DsCallback)(void);
 typedef void (*DsEventCallback)(u_char event, u_char *result);

@@ -1,10 +1,7 @@
 #ifndef PE1_PSYQ_GPU_H
 #define PE1_PSYQ_GPU_H
 
-typedef signed char s_char;
-typedef unsigned char u_char;
-typedef unsigned short u_short;
-typedef unsigned long u_long;
+#include "pe1/psyq_types.h"
 
 typedef struct RECT {
     short x;

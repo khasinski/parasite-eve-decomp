@@ -2,10 +2,10 @@
 /* CC1_FLAGS: -mno-split-addresses */
 
 #include "pe1/psyq_ds.h"
+#include "pe1/cdrom_runtime.h"
 
 CdlLOC *CdIntToPos(int sector, CdlLOC *position);
 int CdRom_StartRead(CdlLOC *position, int count, int destination, int mode);
-int Sys_VSyncTimeout(int argument);
 
 int ds_read(int count, int sector, void *destination) {
     CdlLOC position;
