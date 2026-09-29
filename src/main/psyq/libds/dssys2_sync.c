@@ -42,7 +42,7 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
             if (base[index].active != entry->active) {
                 CdRom_EnqueueCmd(entry->active, 2, result);
                 {
-                    register DsEventCallback cb = (DsEventCallback)entry->arg10;
+                    register DslCB cb = entry->callback;
                     if (cb)
                         cb(2, result);
                 }
@@ -56,15 +56,15 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
             break;
         }
         case 5: {
-            int retries = (int)entry->arg14;
+            int retries = entry->count;
             if (retries > 0 || retries == -1) {
                 *current = ((CdDsReadQueueWindow *)base)->queue_state;
-                if ((int)entry->arg14 != -1)
-                    entry->arg14--;
+                if (entry->count != -1)
+                    entry->count--;
             } else {
                 CdRom_EnqueueCmd(entry->active, 5, result);
                 {
-                    register DsEventCallback cb = (DsEventCallback)entry->arg10;
+                    register DslCB cb = entry->callback;
                     if (cb)
                         cb(5, result);
                 }

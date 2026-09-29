@@ -3,12 +3,12 @@
  * Empty constraints preserve the retail schedule; see proposals/PsyqQueueFour. */
 #include "pe1/psyq_ds_queue.h"
 
-int Render_BuildParticleFrame(int inMode, CdlLOC *inPosition, int inCommand,
-                              int inCallback, unsigned inCount) {
+int Render_BuildParticleFrame(int inMode, DslLOC *inPosition, int inCommand,
+                              DslCB inCallback, int inCount) {
     DsPacketCommand commands[5];
     register CdlLOC *position = inPosition;
     register CdlLOC *callPosition asm("$4");
-    register int callback = inCallback;
+    register DslCB callback = inCallback;
     register int mode = inMode;
     register int command asm("$17") = inCommand;
     register unsigned count = inCount;
@@ -16,7 +16,7 @@ int Render_BuildParticleFrame(int inMode, CdlLOC *inPosition, int inCommand,
     register int i, total;
     register DsPacketCommand *ptr asm("$3"), *list, *item;
     register CdDsReadQueueEntry *entry;
-    register unsigned *field asm("$18");
+    register DslCB *field asm("$18");
     register unsigned previous, next;
     register unsigned ticket asm("$21");
     register unsigned result;
@@ -90,10 +90,9 @@ int Render_BuildParticleFrame(int inMode, CdlLOC *inPosition, int inCommand,
                     entry->parameter = payload;
                 } else
                     entry->parameter = 0;
-                next = *field;
+                entry->callback = *field;
                 field += 4;
-                entry->arg14 = count;
-                entry->arg10 = next;
+                entry->count = count;
                 asm("" : "=r"(i), "=r"(list) : "0"(i), "1"(list) : "memory");
                 next = D_800A3608;
                 asm("" : "=r"(next), "=r"(i) : "0"(next), "1"(i));
@@ -145,10 +144,9 @@ int Render_BuildParticleFrame(int inMode, CdlLOC *inPosition, int inCommand,
                     entry->parameter = payload;
                 } else
                     entry->parameter = 0;
-                next = *field;
+                entry->callback = *field;
                 field += 4;
-                entry->arg14 = count;
-                entry->arg10 = next;
+                entry->count = count;
                 asm("" : "=r"(i), "=r"(list) : "0"(i), "1"(list) : "memory");
                 next = D_800A3608;
                 asm("" : "=r"(next), "=r"(i) : "0"(next), "1"(i));

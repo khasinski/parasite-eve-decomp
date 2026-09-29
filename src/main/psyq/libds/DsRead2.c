@@ -1,10 +1,9 @@
 /* ASSEMBLER: GNU */
 
-#include "pe1/psyq_ds.h"
+#include "pe1/psyq_ds_queue.h"
 
 extern int g_DsStreamNoLocFlag;
 
-int Render_BuildParticleFrame(int arg0, CdlLOC *arg1, int arg2, void *arg3, int arg4);
 void data_ready_callback(void);
 void CdRom_BreakSyncCallback(u_char event, u_char *result);
 

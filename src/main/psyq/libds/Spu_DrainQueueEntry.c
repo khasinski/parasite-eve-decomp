@@ -46,8 +46,8 @@ again:
         ptr--;
     } while (i >= 0);
     entry->parameter = 0;
-    entry->arg10 = 0;
-    entry->arg14 = 0;
+    entry->callback = 0;
+    entry->count = 0;
     state[0]++;
     if (state[0] >= 8) state[0] = 0;
     state[2]--;

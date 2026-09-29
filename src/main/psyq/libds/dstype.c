@@ -1,10 +1,9 @@
 /* ASSEMBLER: GNU */
-#include "pe1/psyq_ds.h"
+#include "pe1/psyq_ds_queue.h"
 #include "pe1/cdrom.h"
 
 extern char D_8001205C[];
 
-u32 DsSync(u32 mode);
 CdlLOC *CdIntToPos(int sector, CdlLOC *position);
 void GD_cbsync(unsigned char event);
 
@@ -30,7 +29,7 @@ int DsGetDiskType(void) {
     }
     CdIntToPos(16, &pos);
     g_DsDiskType = 0;
-    if (!Render_BuildParticleFrame(32, &pos, 27, GD_cbsync, 0)) {
+    if (!Render_BuildParticleFrame(32, &pos, 27, (DslCB)GD_cbsync, 0)) {
         return 2;
     }
     while (!g_DsDiskType) {

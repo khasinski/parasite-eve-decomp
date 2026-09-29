@@ -33,7 +33,7 @@ void DsReadBreak(void) {
     int *state;
     int particleType;
     void *zeroArg1;
-    int zeroArg2;
+    DslCB callback;
     state = &g_DsReadBusy;
     if (DS_ASYNC_READ_FIELD(state, active) == 1) {
         DsSyncCallback(DS_ASYNC_READ_FIELD(state, savedSyncCallback));
@@ -41,8 +41,8 @@ void DsReadBreak(void) {
         particleType = 9;
         zeroArg1 = 0;
         asm volatile("" : "+r"(particleType), "+r"(zeroArg1));
-        zeroArg2 = 0;
-        Render_AllocParticleNode(particleType, zeroArg1, zeroArg2, -1);
+        callback = 0;
+        Render_AllocParticleNode(particleType, zeroArg1, callback, -1);
     }
     DS_ASYNC_READ_FIELD(state, active) = 0;
 }

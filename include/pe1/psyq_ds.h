@@ -3,9 +3,13 @@
 
 #include "pe1/psyq_cd.h"
 
+typedef PsyqEventCallback DslCB;
+typedef CdlLOC DslLOC;
+PE1_STATIC_ASSERT(sizeof(DslLOC) == 4, dsl_loc_size);
+
 /* Psy-Q LIBDS.H file record returned by DsSearchFile. */
 typedef struct DslFILE {
-    CdlLOC pos;
+    DslLOC pos;
     u_int size;
     char name[16];
 } DslFILE;
@@ -59,15 +63,22 @@ typedef struct CdQueuedCmdSlot {
     u_char unk_0D[3];
 } CdQueuedCmdSlot;
 
+/* LIBDS command entry: callback and retry count follow its argument pointer. */
 typedef struct CdDsReadQueueEntry {
     u_int active;
     u_char command;
     u_char payload[4];
     u_char unk_09[3];
     void *parameter;
-    u_int arg10;
-    u_int arg14;
+    DslCB callback;
+    int count;
 } CdDsReadQueueEntry;
+PE1_STATIC_ASSERT(sizeof(CdDsReadQueueEntry) == 0x18,
+                  ds_command_entry_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdDsReadQueueEntry, callback) == 0x10,
+                  ds_command_callback_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdDsReadQueueEntry, count) == 0x14,
+                  ds_command_retry_count_offset);
 
 /* Contiguous queue storage and bookkeeping, anchored by the pending count. */
 typedef struct CdDsReadQueueWindow {

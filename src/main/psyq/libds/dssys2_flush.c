@@ -37,7 +37,7 @@ void LIBDS_DSSYS_2_text_170(int event, u8 *data) {
                     CdRom_EnqueueCmd(id, savedEvent, result);
                     previous = id;
                 }
-                callback = (DsEventCallback)D_800A3540[index].arg10;
+                callback = D_800A3540[index].callback;
                 if (callback) {
                     {
                         register int sentinel asm("$7") = -1;
@@ -85,8 +85,8 @@ void LIBDS_DSSYS_2_text_170(int event, u8 *data) {
                     clear[PE1_OFFSETOF(CdDsReadQueueEntry, payload)] = 0;
             }
             entry->parameter = 0;
-            entry->arg10 = 0;
-            entry->arg14 = 0;
+            entry->callback = 0;
+            entry->count = 0;
             asm("" : : "m"(*entry));
         }
     }

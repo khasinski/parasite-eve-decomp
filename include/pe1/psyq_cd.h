@@ -313,7 +313,6 @@ int VSync(int mode);
 int CdRom_IsBusy();
 int CdRom_IsBusy2();
 void Save_ProcessDataCallback(void);
-int Render_BuildParticleFrame();
 DsCallback CdDataCallback(DsCallback callback);
 void CdRom_SetMode2Callback(u_char event);
 void Render_StepParticleCallback(void);

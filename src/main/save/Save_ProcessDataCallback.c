@@ -11,7 +11,7 @@ void Save_ProcessDataCallback(void) {
     int *readInProgress;
     register int particleType asm("$4");
     register void *zeroArg1 asm("$5");
-    register int zeroArg2 asm("$6");
+    register DslCB callback asm("$6");
 
     readInProgress = &g_CdReadInProgress;
     asm volatile("" : "+r"(readInProgress));
@@ -28,9 +28,9 @@ void Save_ProcessDataCallback(void) {
         particleType = 9;
         zeroArg1 = 0;
         asm volatile("" : "+r"(particleType), "+r"(zeroArg1));
-        zeroArg2 = 0;
-        asm volatile("" : "+r"(zeroArg2));
-        Render_AllocParticleNode(particleType, zeroArg1, zeroArg2, -1);
+        callback = 0;
+        asm volatile("" : "+r"(callback));
+        Render_AllocParticleNode(particleType, zeroArg1, callback, -1);
     }
 
     g_CdReadInProgress = 0;

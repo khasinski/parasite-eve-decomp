@@ -1,7 +1,7 @@
 /* ASSEMBLER: GNU */
 
 #include "pe1/psyq_cd.h"
-#include "pe1/psyq_ds.h"
+#include "pe1/psyq_ds_queue.h"
 #include "pe1/cdrom.h"
 
 #define READ_STATE(anchor, field) ((CdReadProgressState *)((char *)(anchor) - PE1_OFFSETOF(CdReadProgressState, field)))
@@ -32,11 +32,13 @@ start:
     if (!position) {
         location = *CdRom_GetCurrentPos(0);
         mode |= 0x20;
-        mode = Render_BuildParticleFrame((u8)mode, &location, 6, CdRom_SetMode2Callback, -1);
+        mode = Render_BuildParticleFrame((u8)mode, &location, 6,
+                                         (DslCB)CdRom_SetMode2Callback, -1);
     } else {
         location = *position;
         mode |= 0x20;
-        mode = Render_BuildParticleFrame((u8)mode, &location, 6, CdRom_SetMode2Callback, -1);
+        mode = Render_BuildParticleFrame((u8)mode, &location, 6,
+                                         (DslCB)CdRom_SetMode2Callback, -1);
     }
     result = 0;
     if (!mode) goto done;

@@ -3,10 +3,10 @@
  * Empty constraints preserve the retail schedule; see proposals/PsyqQueueFour. */
 #include "pe1/psyq_ds_queue.h"
 
-int Render_AllocParticleNode(int inCommand, void *inParameter, int inCallback,
+int Render_AllocParticleNode(int inCommand, void *inParameter, DslCB inCallback,
                              int inCount) {
     register void *parameter = inParameter;
-    register int callback = inCallback;
+    register DslCB callback = inCallback;
     register int command = inCommand;
     register int count = inCount;
     unsigned previous;
@@ -40,8 +40,8 @@ int Render_AllocParticleNode(int inCommand, void *inParameter, int inCallback,
                 asm("" : "=r"(parameter) : "0"(parameter));
                 entry->parameter = 0;
             }
-            entry->arg10 = 0;
-            entry->arg14 = 0;
+            entry->callback = 0;
+            entry->count = 0;
             asm("" ::: "memory");
             D_800A3608++;
             if (DsSync(0) == 1 && D_800A3540[D_800A3604].active == ticket)
@@ -77,8 +77,8 @@ int Render_AllocParticleNode(int inCommand, void *inParameter, int inCallback,
             asm("" : "=r"(parameter) : "0"(parameter));
             entry->parameter = 0;
         }
-        entry->arg10 = callback;
-        entry->arg14 = count;
+        entry->callback = callback;
+        entry->count = count;
         asm("" ::: "memory");
         D_800A3608++;
         if (DsSync(0) == 1 && D_800A3540[D_800A3604].active == ticket)

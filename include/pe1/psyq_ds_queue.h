@@ -7,10 +7,10 @@
  * The callback word is forwarded unchanged; this code never calls it. */
 typedef struct DsPacketCommand {
     u8 command;
-    CdlLOC payload;
+    DslLOC payload;
     u8 reserved05[3];
     void *parameter;
-    u32 callback;
+    DslCB callback;
 } DsPacketCommand;
 
 /* History and the published sync result share all four words, including pad. */
@@ -49,8 +49,10 @@ extern int D_8009B4BC[];
 extern u32 D_8009B53C;
 extern int D_800A3608, D_800A3604;
 extern CdDsReadQueueEntry D_800A3540[];
-int Render_AllocParticleNode(int command, void *parameter, int callback,
+int Render_AllocParticleNode(int command, void *parameter, DslCB callback,
                              int count);
+int Render_BuildParticleFrame(int mode, DslLOC *position, int command,
+                              DslCB callback, int count);
 CdDsReadQueueEntry *Spu_GetQueueEntryPtr(void);
 void Util_Copy4(void *, const void *);
 void Util_Copy8(void *, const void *);

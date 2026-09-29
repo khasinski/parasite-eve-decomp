@@ -3,10 +3,10 @@
 
 int cd_rom4(unsigned char command, void *param, void *result) {
     int request;
-    int zero = 0;
+    DslCB callback = 0;
     unsigned char status;
-    asm("" : "+r"(zero));
-    request = Render_AllocParticleNode(command, param, zero, 0);
+    asm("" : "+r"(callback));
+    request = Render_AllocParticleNode(command, param, callback, 0);
     if (!request) return 0;
     do {
         status = Render_FindParticleEffect(request, result);
@@ -16,10 +16,10 @@ int cd_rom4(unsigned char command, void *param, void *result) {
 
 int func_80080DC4(unsigned char command, void *param, void *result) {
     int request;
-    int zero = 0;
+    DslCB callback = 0;
     unsigned char status;
-    asm("" : "+r"(zero));
-    request = Render_AllocParticleNode(command, param, zero, 0);
+    asm("" : "+r"(callback));
+    request = Render_AllocParticleNode(command, param, callback, 0);
     if (!request) return 0;
     do {
         status = Render_FindParticleEffect(request, result);
