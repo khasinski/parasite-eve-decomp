@@ -10,7 +10,6 @@ int CdRom_GetPendingReadCount(void);
 int CdRom_GetDiskType(void);
 void exit(int code);
 CdlLOC *CdIntToPos(int i, CdlLOC *p);
-int CdRom_StartRead(CdlLOC *loc, int size, void *destination, int mode);
 int printf(char *fmt, ...);
 
 extern int g_GameState;
