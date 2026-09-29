@@ -38,7 +38,7 @@ int CD_cw(int command, void *parameters, u8 *result, int mode)
   }
   if (((u8) opcode) == 14)
   {
-    D_8009AFD4 = payload[0];
+    g_CdMode = payload[0];
   }
   {
     CdCommandTables *tables = &D_8009B0FC;
@@ -62,7 +62,7 @@ int CD_cw(int command, void *parameters, u8 *result, int mode)
       }
     }
   }
-  D_8009AFD5 = opcode;
+  g_CdLastCom = opcode;
   *D_8009B280 = opcode;
   if (mode)
   {

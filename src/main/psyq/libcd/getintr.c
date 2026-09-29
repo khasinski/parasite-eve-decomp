@@ -29,7 +29,7 @@ int getintr(void) {
     *D_8009B27C = 1;
     *D_8009B288 = 7;
     *D_8009B284 = 7;
-    if (interrupt != 3 || D_8009B17C[D_8009AFD5]) {
+    if (interrupt != 3 || D_8009B17C[g_CdLastCom]) {
         if (!(D_8009AFC4 & 0x10) && (result[0] & 0x10)) D_8009AFCC++;
         D_8009AFC4 = result[0];
         errors = D_8009AFC4 & 0x1D;
@@ -38,7 +38,7 @@ int getintr(void) {
     if (interrupt == 5 && D_8009AFC0 > 0) {
         printf(D_80011B44);
         if (D_8009AFC0 > 0)
-            printf(D_80011B50, D_8009AFDC[D_8009AFD5], D_8009AFC4, D_8009AFC8);
+            printf(D_80011B50, D_8009AFDC[g_CdLastCom], D_8009AFC4, D_8009AFC8);
     }
     switch (interrupt) {
     case 3:
@@ -47,7 +47,7 @@ int getintr(void) {
             copy_result(D_800A3460, result);
             return 2;
         }
-        if (D_8009B07C[D_8009AFD5]) {
+        if (D_8009B07C[g_CdLastCom]) {
             D_8009B294.sync = 3;
             copy_result(D_800A3460, result);
             return 1;

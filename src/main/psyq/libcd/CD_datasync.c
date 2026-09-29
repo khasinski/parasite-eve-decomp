@@ -15,7 +15,7 @@ static inline int data_timed_out(char **commands, char **events, int limit,
                                  CdInterruptEvents *state) {
     if (VSync(-1) > D_800A3478 || D_800A347C++ > limit) {
         puts(D_80011B18);
-        printf(D_80011B28, D_800A3480, commands[D_8009AFD5],
+        printf(D_80011B28, D_800A3480, commands[g_CdLastCom],
                events[state->sync], events[state->ready]);
         CD_flush();
         return -1;

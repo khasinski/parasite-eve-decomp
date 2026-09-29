@@ -267,7 +267,6 @@ CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback);
 void CdRom_AbortCmd(void);
 void Cd_SetIntrMask(void);
 /* BIOS_1.OBJ polling state, result buffers and timeout diagnostics. */
-extern u8 D_8009AFD5;
 extern char *D_8009AFDC[], *D_8009B05C[];
 extern volatile u8 *D_8009B27C, *D_8009B288;
 extern u8 D_800A3460[8], D_800A3468[8], D_800A3470[8];
@@ -290,7 +289,9 @@ PE1_STATIC_ASSERT(sizeof(CdCommandTables) == 0x180, cd_command_tables_size);
 extern CdCommandTables D_8009B0FC;
 extern int D_8009B1FC[];
 extern int D_8009AFC0;
-extern u8 D_8009AFD0[4], D_8009AFD4;
+extern u8 D_8009AFD0[4];
+extern u8 g_CdMode __asm__("D_8009AFD4");
+extern u8 g_CdLastCom __asm__("D_8009AFD5");
 extern volatile u8 *D_8009B280, *D_8009B284;
 extern char D_80011BB4[], D_80011BBC[], D_80011BCC[];
 
