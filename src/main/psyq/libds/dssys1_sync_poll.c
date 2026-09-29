@@ -20,7 +20,6 @@ extern CdlLOC D_8009B582;
 extern DsReadStatusBlock D_8009B574;
 
 extern u32 D_8009B578;
-extern DsEventCallback volatile D_800A36AC;
 #define STATE(p)                                                                       \
     ((CdRomCommandState *)((u8 *)(p) - PE1_OFFSETOF(CdRomCommandState, read.command)))
 #define SYSTEM(p)                                                                      \
@@ -159,9 +158,9 @@ void LIBDS_DSSYS_1_text_A9C(int event, u8 *inResult) {
                         }
                         if ((int)STATE(command)->read.reserved18 >= 301) {
                             STATE(command)->read.status = 3;
-                            if (D_800A36AC) {
+                            if (g_DsDispatchCallback) {
                                 callbackEvent = 5;
-                                callback = D_800A36AC;
+                                callback = g_DsDispatchCallback;
                                 goto notify;
                             }
                         }
@@ -173,7 +172,7 @@ void LIBDS_DSSYS_1_text_A9C(int event, u8 *inResult) {
                         STATE(command)->read.sector = next;
                     } else if (step == 24) {
                         if (STATE(command)->eventStatus == two) {
-                            register DsEventCallback available = D_800A36AC;
+                            register DsEventCallback available = g_DsDispatchCallback;
                             register int value asm("$2") = 1;
                             STATE(command)->read.status = value;
                             value = 11;
@@ -181,7 +180,7 @@ void LIBDS_DSSYS_1_text_A9C(int event, u8 *inResult) {
                             STATE(command)->read.sector = 0;
                             if (available) {
                                 callbackEvent = 2;
-                                callback = D_800A36AC;
+                                callback = g_DsDispatchCallback;
                                 goto notify;
                             }
                         }

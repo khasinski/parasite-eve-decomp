@@ -1,7 +1,6 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_cd.h"
 extern int D_8009B574, D_8009B594, D_8009B598, D_8009B6A4, D_8009B570;
-extern DsCallback volatile D_800A36A0;
 void CdRom_RetryCmd(void);
 int CdRom_SendCmd(int, void *);
 #define READ(p)                                                                        \
@@ -96,8 +95,8 @@ void LIBDS_DSSYS_1_text_4A4(void) {
         CdRom_SendCmd(1, 0);
     }
 callbacks:
-    if (D_800A36A0 && g_DsReadSysEnabled.enabled)
-        D_800A36A0();
+    if (g_DsPollCallback && g_DsReadSysEnabled.enabled)
+        g_DsPollCallback();
     {
         register DsReadStatusBlock *read asm("$4") = (DsReadStatusBlock *)&D_8009B574;
         asm("" : "=r"(read) : "0"(read));

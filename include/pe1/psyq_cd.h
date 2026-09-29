@@ -9,6 +9,14 @@ typedef void (*CdlCB)(u_char event, u_char *result);
 typedef void (*DsCallback)(void);
 typedef void (*DsEventCallback)(u_char event, u_char *result);
 
+typedef union DsCallbackValue {
+    DsCallback poll;
+    DsEventCallback event;
+    u32 word;
+} DsCallbackValue;
+
+PE1_STATIC_ASSERT(sizeof(DsCallbackValue) == 4, ds_callback_value_size);
+
 /* Runtime callback pointers at D_800A36A0 are a contiguous four-word window. */
 typedef struct DsRuntimeCallbacks {
     DsCallback volatile poll;
@@ -524,6 +532,8 @@ int CdDataSync(int mode);
 
 extern DsEventCallback volatile g_DsSyncCallback __asm__("D_800A36A4");
 extern DsEventCallback volatile g_DsReadyCallback __asm__("D_800A36A8");
+extern DsCallback volatile g_DsPollCallback __asm__("g_DsPollCallback");
+extern DsEventCallback volatile g_DsDispatchCallback __asm__("D_800A36AC");
 void CdRom_CmdEventCallback(int event, u8 *result);
 
 #endif

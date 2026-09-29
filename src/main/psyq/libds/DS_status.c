@@ -13,9 +13,6 @@ extern char D_80011E3C[];
 extern char D_80011E44[];
 extern char D_80011E4C[];
 extern DsReadStatusBlock g_DsReadStatusBlock __asm__("D_8009B574");
-extern u32 D_800A36A0;
-extern u32 D_800A36A4;
-extern u32 D_800A36A8;
 
 int DsRead_IsBusy(void);
 int printf(char *fmt, ...);
@@ -51,7 +48,13 @@ void DS_status(void) {
     printf(D_80011DB0, b0, b1, b2, b3, b4);
     printf(D_80011DD8, state->readyResult);
     printf(D_80011DF8, state->syncResult);
-    printf(D_80011E0C, D_800A36A0, D_800A36A4, D_800A36A8);
+    {
+        DsCallbackValue poll, sync, ready;
+        poll.poll = g_DsPollCallback;
+        sync.event = g_DsSyncCallback;
+        ready.event = g_DsReadyCallback;
+        printf(D_80011E0C, poll.word, sync.word, ready.word);
+    }
 
     {
         int active = DsRead_IsBusy();
