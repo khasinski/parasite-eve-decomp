@@ -259,6 +259,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CdRomEventCommandState, pendingParams) == 0x08,
                   cdrom_event_pending_params_offset);
 
 extern CdRomSystemState g_DsReadSysEnabled;
+extern DsReadStatusBlock g_DsReadStatusBlock __asm__("D_8009B574");
 extern CdRomCommandState g_CdSeekState;
 extern CdRomEventCommandState g_CdRomEventCommandState
     __asm__("D_8009B558");

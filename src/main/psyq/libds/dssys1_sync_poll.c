@@ -17,7 +17,6 @@
                                                          command.read.commandParam)))
 extern u8 D_8009B581, D_8009B586, D_8009B587;
 extern CdlLOC D_8009B582;
-extern DsReadStatusBlock D_8009B574;
 
 extern u32 D_8009B578;
 #define STATE(p)                                                                       \
@@ -90,7 +89,7 @@ void LIBDS_DSSYS_1_text_8B8(int inEvent, u8 *inResult) {
         }
         }
         {
-            register DsReadStatusBlock *read = &D_8009B574;
+            register DsReadStatusBlock *read = &g_DsReadStatusBlock;
             asm("" : "=r"(read) : "0"(read));
             read->status = 1;
             read->command = 11;

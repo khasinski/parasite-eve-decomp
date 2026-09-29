@@ -1,8 +1,6 @@
 
 #include "pe1/psyq_cd.h"
 
-extern u32 g_DsReadStatusBlock[];
-
 u32 DsSync(u32 mode) {
     u32 offset;
     register u32 table_page asm("$2");

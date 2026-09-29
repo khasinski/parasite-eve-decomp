@@ -4,8 +4,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 
-extern CdRomSystemState D_8009B554;
-extern DsReadStatusBlock D_8009B574;
 
 void CD_flush(void);
 
@@ -15,7 +13,7 @@ void CdRom_AbortCmd(void)
     u32 kind;
     u32 cmp;
 
-    state = &D_8009B554;
+    state = &g_DsReadSysEnabled;
     state->enabled = 0;
     CD_flush();
 
@@ -35,7 +33,7 @@ void CdRom_AbortCmd(void)
             u32 value;
 
 abortPending:
-            slot = &D_8009B574;
+            slot = &g_DsReadStatusBlock;
             value = 1;
             slot->status = value;
             slot->command = 0xB;

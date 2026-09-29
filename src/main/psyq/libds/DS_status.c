@@ -12,8 +12,6 @@ extern char D_80011E0C[];
 extern char D_80011E3C[];
 extern char D_80011E44[];
 extern char D_80011E4C[];
-extern DsReadStatusBlock g_DsReadStatusBlock __asm__("D_8009B574");
-
 int DsRead_IsBusy(void);
 int printf(char *fmt, ...);
 
