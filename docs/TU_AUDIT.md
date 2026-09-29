@@ -306,3 +306,6 @@ declarations now live in `psyq_spu_reverb.h`, alongside the LIBSPU prototypes
 that consume them. This removes the Psy-Q implementation's dependency on the
 game's `akao/spu_common.h` and gives the reverb area table one unsigned address
 type across both preset selection and RAM clearing.
+The public `SpuCommonSettings` layout and its LIBSPU entry-point prototypes now
+live in `psyq_spu_api.h`; the game header forwards to that interface, and the
+LIBSPU implementation no longer includes a game-owned header for its type.

@@ -8,6 +8,7 @@ typedef unsigned short u16;
 #endif
 #include "pe1/psyq_types.h"
 #include "pe1/psyq_callbacks.h"
+#include "pe1/psyq_spu_api.h"
 #include "pe1/psyq_spu_reverb.h"
 typedef PsyqVoidCallback SpuCallback;
 

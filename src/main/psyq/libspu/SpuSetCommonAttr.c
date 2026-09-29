@@ -2,7 +2,6 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "common.h"
 #include "pe1/psyq_spu_internal.h"
-#include "pe1/akao/spu_common.h"
 
 void SpuSetCommonAttr(SpuCommonSettings *attr) {
     u16 left = 0;
