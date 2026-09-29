@@ -3,8 +3,9 @@
 
 #include "pe1/psyq_types.h"
 
-typedef void (*PsyqInterruptHandler)(void);
-typedef void (*DsCallback)(void);
+typedef void (*PsyqVoidCallback)(void);
+typedef PsyqVoidCallback PsyqInterruptHandler;
+typedef PsyqVoidCallback DsCallback;
 typedef void (*PsyqEventCallback)(u_char event, u_char *result);
 typedef PsyqEventCallback DsEventCallback;
 

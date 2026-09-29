@@ -7,7 +7,8 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 #endif
 #include "pe1/psyq_types.h"
-typedef void (*SpuCallback)(void);
+#include "pe1/psyq_callbacks.h"
+typedef PsyqVoidCallback SpuCallback;
 
 /*
  * SPU_RXX register map from Psy-Q libspu.  The three transfer registers are
