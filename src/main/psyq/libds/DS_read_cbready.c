@@ -1,6 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 
 
 void DS_read_cbready(void) {

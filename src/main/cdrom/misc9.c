@@ -1,6 +1,6 @@
 /* ASSEMBLER: GNU */
 /* CC1_FLAGS: -O1 */
-#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 void LIBDS_DSREADY_text_FC(int event, u_char *result);
 
 int DsRead_IsBusy(void);

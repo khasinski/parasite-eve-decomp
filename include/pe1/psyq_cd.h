@@ -287,38 +287,6 @@ typedef void (*DsAsyncReadCallback)(int status, void *data, void *detail);
 int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg);
 void CdRom_ReadProgressCallback(int status, void *data, void *detail);
 
-typedef struct DsAsyncReadState {
-    /* g_DsReadBusy names the final active field at offset 0x20. */
-    int nextSector;
-    int lastDeliveredSector;
-    DsAsyncReadCallback callback;
-    int retryPending;
-    int retriesRemaining;
-    DsEventCallback saved_sync_callback;
-    DsEventCallback saved_ready_callback;
-    int reserved1C;
-    int active;
-} DsAsyncReadState;
-
-PE1_STATIC_ASSERT(sizeof(DsAsyncReadState) == 0x24, ds_async_read_state_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, retryPending) == 0x0C,
-                  ds_async_read_retry_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, retriesRemaining) == 0x10,
-                  ds_async_read_retries_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, active) == 0x20,
-                  ds_async_read_active_offset);
-
-extern DsAsyncReadState g_DsAsyncReadState __asm__("D_8009B6EC");
-extern int g_DsAsyncReadRetryPending __asm__("D_8009B6F8");
-extern DsEventCallback g_DsAsyncReadSavedSyncCallback __asm__("D_8009B700");
-extern DsEventCallback g_DsAsyncReadSavedReadyCallback __asm__("D_8009B704");
-extern int g_DsReadBusy;
-#define DS_ASYNC_READ_STATE_FROM_ACTIVE(active_pointer) \
-    ((DsAsyncReadState *)((char *)(active_pointer) - \
-                          PE1_OFFSETOF(DsAsyncReadState, active)))
-#define DS_ASYNC_READ_FIELD(active_pointer, field) \
-    (DS_ASYNC_READ_STATE_FROM_ACTIVE(active_pointer)->field)
-
 typedef struct CdCallbackDataWindow {
     CdlCB syncCallback;
     u_char pad_AFB8[0x5048];

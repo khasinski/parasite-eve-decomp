@@ -1,4 +1,5 @@
 #include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
 #include "pe1/cdrom.h"
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
