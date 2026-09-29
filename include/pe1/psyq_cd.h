@@ -409,6 +409,9 @@ extern CdQueuedCmdSlot g_CdQueuedCmdSlots[3] __asm__("D_800A3510");
 extern DsReadCallbackSlot g_DsReadCallbackSlots[8] __asm__("D_800A3610");
 extern int g_DsReadCallbackCursor __asm__("D_800A3690");
 extern CdReadProgressState g_CdReadProgress __asm__("D_8009B6A4");
+extern int g_CdReadStartVsync __asm__("D_8009B6C4");
+extern int g_CdReadCurrentVsync __asm__("D_8009B6C8");
+extern int g_CdReadInProgress __asm__("D_8009B6CC");
 extern CdReadCompleteCallback g_CdReadCompleteCallback;
 
 void CdRom_AbortCmd(void);

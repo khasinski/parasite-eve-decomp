@@ -2,8 +2,6 @@
 
 #include "pe1/psyq_cd.h"
 
-extern int D_8009B6CC;
-extern int D_8009B6C4;
 #define READ_STATE(anchor, field) ((CdReadProgressState *)((char *)(anchor) - PE1_OFFSETOF(CdReadProgressState, field)))
 
 int CdRom_StartRead(CdlLOC *position, int sectors, void *destination, int incomingMode) {
@@ -14,7 +12,7 @@ int CdRom_StartRead(CdlLOC *position, int sectors, void *destination, int incomi
     register int result asm("$2");
     /* Empty constraints preserve the retail saves and incoming a3 lifetime. */
     asm("" : "=r"(incoming) : "0"(incoming) : "$17", "$16");
-    state = &D_8009B6CC;
+    state = &g_CdReadInProgress;
     asm volatile("" : "=r"(state), "=r"(incoming) : "0"(state), "1"(incoming));
     mode = incoming;
     if (*state != 1) {
@@ -41,7 +39,7 @@ start:
     result = 0;
     if (!mode) goto done;
     result = VSync(-1);
-    state = &D_8009B6C4;
+    state = &g_CdReadStartVsync;
     asm volatile("" : "=r"(state) : "0"(state));
     *state = result;
     if (READ_STATE(state, startVsync)->flags & 1)

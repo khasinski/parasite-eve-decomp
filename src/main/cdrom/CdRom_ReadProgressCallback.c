@@ -3,8 +3,6 @@
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/psyq_cd.h"
 extern int VSync(int mode);
-extern int D_8009B6C8;
-extern CdReadCompleteCallback D_8009B6D0;
 
 #define CD_READ_FIELD(anchor, field)                                      \
     ((anchor)[(PE1_OFFSETOF(CdReadProgressState, field) -                  \
@@ -13,7 +11,7 @@ extern CdReadCompleteCallback D_8009B6D0;
 
 void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
     int savedStatus = status;
-    int *state = &D_8009B6C8;
+    int *state = &g_CdReadCurrentVsync;
     CD_READ_FIELD(state, currentVsync) = VSync(-1);
     if (CD_READ_FIELD(state, flags) & 1) {
         if (CD_READ_FIELD(state, remainingSectors) > 0) {
@@ -22,9 +20,9 @@ void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
             CD_READ_FIELD(state, eventData) = (int)data;
         } else {
             Save_ProcessDataCallback();
-            if (D_8009B6D0) {
+            if (g_CdReadCompleteCallback) {
                 if (CD_READ_FIELD(state, remainingSectors) < 0) savedStatus = 5;
-                D_8009B6D0((u8)savedStatus, (int)data);
+                g_CdReadCompleteCallback((u8)savedStatus, (int)data);
             }
         }
     } else {
@@ -40,10 +38,10 @@ void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
         if (CD_READ_FIELD(state, remainingSectors) == 0 ||
             VSync(-1) > CD_READ_FIELD(state, startVsync) + 1200) {
             Save_ProcessDataCallback();
-            if (D_8009B6D0) {
+            if (g_CdReadCompleteCallback) {
                 savedStatus =
                     CD_READ_FIELD(state, remainingSectors) < 0 ? 5 : 2;
-                D_8009B6D0((u8)savedStatus, (int)data);
+                g_CdReadCompleteCallback((u8)savedStatus, (int)data);
             }
         }
     }
