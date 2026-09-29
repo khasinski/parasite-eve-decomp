@@ -1,4 +1,5 @@
 #include "pe1/psyq_gpu.h"
+#include "pe1/cdrom_runtime.h"
 
 void VSync(int arg0);
 void SetDispMask(int arg0);
@@ -16,7 +17,6 @@ extern char D_800F34F8[];
 extern char D_8010BD00[];
 extern char D_80120D08[];
 extern char D_801ED800[];
-extern int g_StrFileDirBuffer;
 extern int g_ActiveDrawSlot;
 extern unsigned char g_ScreenTransitionState;
 extern volatile unsigned char D_800B0DC6;

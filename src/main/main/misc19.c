@@ -14,7 +14,6 @@ void ExitCriticalSection(void);
 extern int g_PeImageBaseLba;
 extern int g_SceneLoadScratchBuffer;
 extern int D_800A77FC;
-extern u8 *g_StrFileDirBuffer;
 extern int D_800B0CD8_word __asm__("g_GameState");
 extern u16 g_MainAssetLbaTbl[];
 extern u16 g_LargeTexLbaTbl[];

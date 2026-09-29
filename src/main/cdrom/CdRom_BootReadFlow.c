@@ -91,7 +91,6 @@ extern s8 D_800B0DB5;
 extern s8 D_800B0DB6;
 extern s8 D_800B0DB7;
 extern s32 g_PeImageBaseLba;
-extern u8 *g_StrFileDirBuffer;
 extern u16 g_StrFileDirLba[];
 
 s32 SetDispMask(s32 arg0);
