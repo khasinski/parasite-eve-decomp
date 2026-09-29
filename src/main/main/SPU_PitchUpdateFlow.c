@@ -5,7 +5,8 @@
 
 
 extern unsigned short D_8009D2B6;
-extern int D_800C0D90;
+extern SpuCommonSettings D_800C0D90;
+/* These field aliases keep the retail absolute stores byte-identical. */
 extern unsigned short D_800C0DA0;
 extern unsigned short D_800C0DA2;
 extern int D_800C0DA4;
