@@ -9,6 +9,23 @@ typedef void (*CdlCB)(u_char event, u_char *result);
 typedef void (*DsCallback)(void);
 typedef void (*DsEventCallback)(u_char event, u_char *result);
 
+/* Runtime callback pointers at D_800A36A0 are a contiguous four-word window. */
+typedef struct DsRuntimeCallbacks {
+    DsCallback volatile poll;
+    DsEventCallback volatile sync;
+    DsEventCallback volatile ready;
+    DsEventCallback volatile dispatch;
+} DsRuntimeCallbacks;
+
+PE1_STATIC_ASSERT(sizeof(DsRuntimeCallbacks) == 16,
+                  ds_runtime_callbacks_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsRuntimeCallbacks, sync) == 4,
+                  ds_runtime_sync_callback_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsRuntimeCallbacks, ready) == 8,
+                  ds_runtime_ready_callback_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsRuntimeCallbacks, dispatch) == 12,
+                  ds_runtime_dispatch_callback_offset);
+
 /* LIBCD's contiguous sync, ready and data-end interrupt event bytes. */
 typedef struct CdInterruptEvents {
     volatile u8 sync;
