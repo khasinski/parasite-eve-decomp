@@ -1134,8 +1134,8 @@ segments:
       - [0x6B130, c, psyq/libcd/BIOS1_PositionAndInterrupt]
       # Adjacent CD_sync/CD_ready polling routines from BIOS_1.OBJ.
       - [0x6B810, c, psyq/libcd/bios_poll]
-      - [0x6BD58, c, psyq/libcd/CD_cw]
-      - [0x6C164, c, psyq/libcd/bios_commands]
+      # BIOS_1.OBJ command and volume routines in retail source order.
+      - [0x6BD58, c, psyq/libcd/BIOS1_CommandAndVolume]
       - [0x6C2C0, c, psyq/libcd/bios]
       - [0x6C3FC, c, psyq/libcd/CD_init]
       - [0x6C5DC, c, psyq/libcd/CD_datasync]
