@@ -157,6 +157,34 @@ their one memory barrier that preserves the second sound-owner read, which
 the debt baseline now records. The 740-byte function matches retail exactly
 with no register pins, and the linked overlay SHA-1 is unchanged.
 
+### Eleven-room debris triplet update
+
+`func_8018FBCC` (room_m065, room_m085) and its byte-identical copies in
+room_m087, room_m391, room_m393, room_m394, room_m395, room_m396,
+room_m399, room_m401 and room_m402 now share
+`RoomLib_UpdateDebrisTriplet.inc`. Each frame it steps three pieces of
+debris: countdown and growth of the piece, velocity integration scaled by
+the shared speed, randomized swing and phase while below the swing limit,
+floor collision through the map lookup, lifetime expiry, and the actor
+proximity test that marks a landing. Indexing the four-element arrays by
+the loop counter reproduces retail's four strength-reduced cursors, and the
+16.16 integer halves are read as `>> 16`, which the compiler narrows to the
+halfword loads retail uses. Each 1068-byte instance matches retail with no
+pins or barriers, and all eleven linked overlay SHA-1 hashes are unchanged.
+
+### Seven-overlay homing spark particle
+
+`func_801924FC` in room_m162, room_m163, room_m398, room_m400, room_m403,
+scene_e24 and scene_e25 now shares `RoomEffect_HomingSparkParticle.inc`.
+State 0 steers the spark toward the player, flags the battle actor when it
+arrives, and emits a trailing child on odd frames; states 1 and 2 play the
+hit and fade animations. Mode 2 draws the three states with different
+intensities and the compiler merges their common call tail as retail does.
+The three palette lookups keep their temporaries block-scoped so each gets
+retail's register, and the sub-state returns fall through to the shared
+return. Each 1388-byte instance matches retail with no pins or barriers,
+and all seven linked overlay SHA-1 hashes are unchanged.
+
 ### room_m188 and room_m390 staggered pool callback
 
 `func_80194588` is now C in both overlays. Its initialization path arms an

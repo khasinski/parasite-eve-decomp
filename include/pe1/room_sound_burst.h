@@ -99,5 +99,26 @@ extern u16 func_80077AA4(int, int);
 extern void func_800CF844(void *, void *, int, void *, int, int);
 extern int func_800C6B90(void *position, int radius);
 extern void func_800CEE20(void *, void *, int, int, int, int, int, int, void *);
+extern void func_800CE870(void *object, int mode, void *position);
+extern void func_800CFAA8(void *from, void *to, void *angles);
+extern void func_800CFD50(void *angles, void *out, int speed);
+extern void func_800CFB7C(void *angles, int distance, void *out);
+
+/* Homing spark: anchor, heading vector, state, timer and sound handle. */
+typedef struct RoomHomingSpark {
+    s16 x, y, z, reserved06;
+    s16 hx, hy, hz, reserved0E;   /* 0x08: heading */
+    s16 state;                    /* 0x10 */
+    s16 timer;                    /* 0x12 */
+    s16 soundHandle;              /* 0x14 */
+} RoomHomingSpark;
+
+typedef struct RoomHomingSparkParams {
+    s16 distance;                 /* 0x00 */
+    s16 reserved02;
+    u16 speed;                    /* 0x04 */
+} RoomHomingSparkParams;
+
+PE1_STATIC_ASSERT(sizeof(RoomHomingSpark) == 0x16, room_homing_spark_size);
 
 #endif

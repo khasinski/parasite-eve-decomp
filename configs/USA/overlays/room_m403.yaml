@@ -94,7 +94,7 @@ segments:
       - [0x3370, c, RoomLib_MoveActorLocal_80192358]
       - [0x34F0, c, RoomLib_Set4ClearSignal_801924D8]
       - [0x350C, c, func_801924F4]
-      - [0x3514, asm, func_801924FC]
+      - [0x3514, c, RoomEffect_HomingSparkParticle_801924FC]
       - [0x3A80, asm, func_80192A68]
       - [0x4130, c, RoomLib_SetArgs3_80193118]
       - [0x4154, data, D_8019313C]
