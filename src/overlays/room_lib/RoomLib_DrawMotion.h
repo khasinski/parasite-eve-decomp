@@ -21,14 +21,6 @@ typedef struct RoomMotionLookup {
     s16 pad;
 } RoomMotionLookup;
 
-typedef struct RoomMotionState {
-    RoomSpriteMatrix matrix[2];
-    u8 pad40[0x120];
-    RoomMotionLookup lookup[8];
-    u16 depth;
-    s16 count;
-} RoomMotionState;
-
 typedef struct RoomMotionParticle {
     s16 primaryX;
     s16 primaryY;
@@ -40,6 +32,21 @@ typedef struct RoomMotionParticle {
     s16 pad4E;
 } RoomMotionParticle;
 
+typedef struct RoomMotionScale {
+    s16 x;
+    s16 y;
+} RoomMotionScale;
+
+typedef struct RoomMotionState {
+    RoomSpriteMatrix matrix[2];
+    RoomMotionParticle particle[8];
+    RoomMotionParticle velocity[8];
+    RoomMotionScale scale[8];
+    RoomMotionLookup lookup[8];
+    u16 depth;
+    s16 count;
+} RoomMotionState;
+
 typedef struct RoomMotionCursor {
     u8 pad00[0x40];
     RoomMotionParticle particle;
@@ -49,6 +56,12 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionContext, owner) == 0x6C,
                   room_motion_context_owner_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionTransform, secondary) == 0x1A0,
                   room_motion_secondary_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionState, velocity) == 0xC0,
+                  room_motion_velocity_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionState, scale) == 0x140,
+                  room_motion_scale_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionState, lookup) == 0x160,
+                  room_motion_lookup_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionState, depth) == 0x180,
                   room_motion_depth_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionCursor, particle.secondaryZ) == 0x4C,

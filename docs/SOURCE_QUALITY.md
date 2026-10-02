@@ -245,6 +245,31 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m075, room_m080 and room_m082 motion seeding and anchored sprite quad
+
+`func_8018FF74` in room_m075, room_m080 and room_m082 now shares
+`RoomLib_SeedMotionParticles.inc` on the widened `RoomMotionState` (the
+padding became the particle, velocity and scale arrays). It seeds three or
+six motion particles depending on the first scene flag, giving each a random
+anchor offset, sprite lookup and drift that is slower and sideways when the
+flag is set. The count is written as a plain if/else so the delay-slot
+filler can reuse the flag register, the zero velocity components are stored
+after the random component that precedes them so they schedule into the
+division sequences, and one 8-byte local retail reserves is kept. Each
+1180-byte instance matches retail with no pins or barriers.
+
+`func_8018F814` in the same three rooms now shares
+`RoomLib_DrawAnchoredSpriteQuad.inc`, the four-draw sibling of
+`RoomLib_DrawAnchoredSpritePair.inc`: it builds a uniformly scaled rotation
+from the shared seed and draws the sprite unrotated at two map anchors and
+rotated on the floor height at the same anchors. Like its precedent it pins
+the four pointers to s0..s3 and the seed argument to a0 behind one empty
+barrier: the GTE macro operands give the matrix pointer the most references,
+so stock local allocation hands it s0 and hoists its address above the seed
+load. Each 816-byte instance matches retail; all three overlay SHA-1 hashes
+are unchanged. The same bodies also sit inside the unsplit
+`scene_e09`/`scene_e10` tail chunks and can be flipped once those are split.
+
 ### room_m188 and room_m390 lifted spark callback and controller
 
 `func_801955A0` and `func_80195A14` in room_m390 and room_m188 now share
