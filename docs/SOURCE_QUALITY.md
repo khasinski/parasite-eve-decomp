@@ -185,6 +185,40 @@ retail's register, and the sub-state returns fall through to the shared
 return. Each 1388-byte instance matches retail with no pins or barriers,
 and all seven linked overlay SHA-1 hashes are unchanged.
 
+### Ten-room spawn ring controller
+
+`func_8019281C` in room_m203, room_m221, room_m223, room_m224, room_m229,
+room_m233, room_m242 and room_m246, and its `func_80192F6C` twin in
+room_m231 and room_m234, now share `RoomEffect_SpawnRingController.inc`.
+Mode 0 attaches the ring to the actor and plays its sound; mode 1 waits
+twenty frames, then emits a randomized particle every frame for thirty-two
+frames while flagging the battle actor within range; mode 2 writes the
+sprite parameters, draws the pulsing sprite with two expanding rings during
+state 0, and rewrites the texture parameters for every state. Writing the
+parameter block through the shared `RenderEffectParameters` layout keeps the
+pointer-based state read after the scalar stores (GCC 2.7's in-struct alias
+rule), which removed the volatile scalars and memory barrier the first draft
+needed. The closing block addresses the tpage slot through a register with
+negative offsets; one empty asm constraint keeps the compiler from folding
+that pointer back into absolute addresses, and the GCC 2.7.2 `cse.c`
+`find_best_addr` path explains why no plain-C spelling survives. Each
+1764-byte instance matches retail exactly with no register pins, and all
+ten linked overlay SHA-1 hashes are unchanged.
+
+### Seven-overlay flash sprite controller
+
+`func_80192A68` in room_m162, room_m163, room_m398, room_m400, room_m403,
+scene_e24 and scene_e25 now shares `RoomEffect_FlashSpriteController.inc`,
+the controller for the homing spark particles matched earlier. Mode 0 picks
+the attachment and lift from the event phase, plays the sound, offsets the
+flash by the camera distance and arms the actor flag; mode 1 waits sixteen
+frames, then four more before releasing a homing spark and a stationary
+spark; mode 2 draws the sine-scaled sprite, the blend between the flash and
+the actor position, and the short fade. Copying the anchor before the three
+zero stores reproduces retail's store order, since a store cannot pass a
+load from another base. Each 1712-byte instance matches retail with no pins
+or barriers, and all seven linked overlay SHA-1 hashes are unchanged.
+
 ### room_m188 and room_m390 staggered pool callback
 
 `func_80194588` is now C in both overlays. Its initialization path arms an

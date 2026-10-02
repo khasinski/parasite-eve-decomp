@@ -24,6 +24,8 @@ typedef struct RoomSoundBurstNode {
 typedef struct RoomSoundBurstEventState {
     u8 reserved[0xD];
     u8 active;
+    u8 reserved0E[4];
+    s16 phase;                    /* 0x12 */
 } RoomSoundBurstEventState;
 
 typedef struct RoomSoundBurstState {
@@ -103,6 +105,9 @@ extern void func_800CE870(void *object, int mode, void *position);
 extern void func_800CFAA8(void *from, void *to, void *angles);
 extern void func_800CFD50(void *angles, void *out, int speed);
 extern void func_800CFB7C(void *angles, int distance, void *out);
+extern int func_80077CF4(int angle);
+extern void func_800783E4(void *, void *, int, int, void *);
+extern void func_800D2B58(void *, void *, void *, void *, int, int, int);
 
 /* Homing spark: anchor, heading vector, state, timer and sound handle. */
 typedef struct RoomHomingSpark {
@@ -120,5 +125,15 @@ typedef struct RoomHomingSparkParams {
 } RoomHomingSparkParams;
 
 PE1_STATIC_ASSERT(sizeof(RoomHomingSpark) == 0x16, room_homing_spark_size);
+
+typedef struct RoomSoundBurstMatrixSlot {
+    s32 *value;
+} RoomSoundBurstMatrixSlot;
+
+extern RoomSoundBurstMatrixSlot D_800BCFA4;
+extern void func_800CF3AC(void *track, void *color, int time);
+extern void func_800D004C(void *position, int width, int height, int segments,
+                          void *rotation, int scale_x, int scale_y,
+                          void *color0, void *color1, int intensity, int mode);
 
 #endif
