@@ -245,6 +245,20 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m188 and room_m390 lifted spark callback and controller
+
+`func_801955A0` and `func_80195A14` in room_m390 and room_m188 now share
+`RoomEffect_LiftedSparkCallback.inc` and
+`RoomEffect_LiftedSparkController.inc`. The callback damps a spark by 127/128
+or 255/256 per state, reflects it off the frame-count floor, and draws it as a
+cosine-shaded sprite or a spinning sprite coloured from the ramp table. The
+controller sprays one spark per odd frame of the first minute, bursts sixteen
+more on frame 48, plays the sound on frame two and configures the sprite
+palette. The spark state and timer are stored after the three velocity draws
+so the stores schedule into retail's division sequences. Each 1164-byte
+callback and 868-byte controller matches retail with no pins or barriers, and
+both linked overlay SHA-1 hashes are unchanged.
+
 ### room_m188 and room_m390 staggered pool callback
 
 `func_80194588` is now C in both overlays. Its initialization path arms an

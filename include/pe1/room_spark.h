@@ -33,4 +33,18 @@ extern int func_80077DC4(int angle);
 extern u16 func_80077AA4(int, int);
 extern void func_800D2104(void *position, void *color, int size, int alpha);
 
+/* Particle pools reached through the two effect channels. */
+typedef struct RoomSparkChannel {
+    s32 reserved[2];
+    char *pool;                   /* 0x08 */
+} RoomSparkChannel;
+
+extern RoomSparkChannel *D_800F32D0, *D_800F33E0;
+extern u16 D_800E11EA;
+extern int func_800CE560(void *pool, int size, int count, void *callback);
+extern RoomDampedSpark *func_800CE610(void *pool);
+extern int func_80071A54(void);
+extern int func_800D3FD8(void);
+extern int func_800D3F64(int sound, int handle);
+
 #endif
