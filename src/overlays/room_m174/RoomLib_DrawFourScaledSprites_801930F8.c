@@ -1,0 +1,4 @@
+#define ROOMLIB_DRAW_FOUR_SPRITES_FUNC func_801930F8
+#define ROOMLIB_DRAW_FOUR_SPRITES_SEED D_8018F01C
+#define ROOMLIB_DRAW_FOUR_SPRITES_DEPTH D_8019744A
+#include "../room_lib/RoomLib_DrawFourScaledSprites.inc"

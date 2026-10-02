@@ -70,7 +70,7 @@ segments:
       - [0x2AB0, asm, func_80191A98]
       - [0x2DC8, c, func_80191DB0]
       - [0x2E34, c, func_80191E1C]
-      - [0x2FF8, asm, func_80191FE0]
+      - [0x2FF8, c, RoomLib_DrawFourScaledSprites_80191FE0]
       - [0x32F8, c, func_801922E0]
       - [0x3388, c, func_80192370]
       - [0x3390, c, func_80192378]

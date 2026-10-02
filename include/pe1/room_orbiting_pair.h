@@ -28,6 +28,15 @@ typedef struct RoomOrbitPairParticle {
     s16 state, timer;
 } RoomOrbitPairParticle;
 
+/* room_m256 spark: the pair particle layout with a parity flag at +6 and
+ * a velocity computed from a randomized look angle. */
+typedef struct RoomOrbitSpark {
+    s16 x, y, z, parity;
+    s16 vx, vy, vz, padE;
+    s16 state, timer;
+} RoomOrbitSpark;
+
+PE1_STATIC_ASSERT(sizeof(RoomOrbitSpark) == 0x14, room_orbit_spark_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOrbitPairChannel, pool) == 8,
                   room_orbit_pair_pool_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOrbitPairNode, state) == 0x18,
@@ -60,6 +69,10 @@ extern int func_800D3FD8(void);
 extern void func_800D3F64(int, int);
 extern int func_80071A54(void);
 
+extern RoomOrbitPairTemplate8 D_8018F208;
+extern void func_80192844(void);
+extern void func_800CFB7C(void *angles, int distance, void *out);
+int func_801934AC(int mode, u16 *counter);
 int func_80190230(int mode, void *unused, s32 *state);
 int func_801908B0(int mode, void *unused, void *state);
 

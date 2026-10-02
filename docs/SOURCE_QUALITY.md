@@ -75,6 +75,35 @@ pins for the s0..s3 reuse and one empty barrier that orders the seed
 argument; the debt counter scans only `.c` and `.h` files, so template pins
 are not reflected in its totals.
 
+### room_m174, room_m383 and room_m348 four-sprite draw
+
+`func_801930F8` (room_m174, room_m383) and `func_80191FE0` (room_m348) are
+byte-identical apart from their seed and packet symbols and now share
+`RoomLib_DrawFourScaledSprites.inc`. The state starts with the shared
+rotation matrix and carries the four sprites' colors, positions, scales and
+packet depths as arrays, which the template declares as a struct. Each
+iteration builds a scaled matrix from the seed, composes it with the shared
+rotation through the existing column-transform GTE macros, transforms the
+translation, and draws one sprite. Indexing the arrays by the loop counter
+is what reproduces retail: the compiler strength-reduces the three array
+accesses into the s0..s2 cursors seen in retail. Two register pins remain,
+the matrix base in s3 and the hoisted second column in s7, and one scratch
+pointer is reused for the last column and the translation so neither
+address is hoisted. Each 768-byte instance matches retail and all three
+linked overlay SHA-1 hashes are unchanged.
+
+### room_m256 random spark controller
+
+`func_801934AC` is now C in `RoomEffect_RandomSparkController.c`, a
+sibling of the room_m156 random pair controller. Mode 0 resets the spark
+counter, promotes a pending event flag, and registers the spark callback;
+mode 1 projects the anchor, and on odd frames before frame 110 emits one
+spark at a random distance along a randomized look angle, tagging it with
+the counter parity; mode 2 configures the palette. The 720-byte function
+matches retail exactly with a plain `switch`, no pins, barriers or gotos;
+the linked overlay SHA-1 is unchanged. Its declarations extend
+`include/pe1/room_orbiting_pair.h`.
+
 ### room_m188 and room_m390 staggered pool callback
 
 `func_80194588` is now C in both overlays. Its initialization path arms an

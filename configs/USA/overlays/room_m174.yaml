@@ -86,7 +86,7 @@ segments:
       - [0x3BC8, asm, func_80192BB0]
       - [0x3EE0, c, func_80192EC8]
       - [0x3F4C, c, func_80192F34]
-      - [0x4110, asm, func_801930F8]
+      - [0x4110, c, RoomLib_DrawFourScaledSprites_801930F8]
       - [0x4410, c, func_801933F8]
       - [0x44A0, c, RoomLib_Room174383CoreCluster]
       - [0x7C94, data, D_80196C7C]

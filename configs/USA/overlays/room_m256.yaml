@@ -105,7 +105,7 @@ segments:
       - [0x3820, c, func_80192808]
       - [0x3854, c, func_8019283C]
       - [0x385C, asm, func_80192844]
-      - [0x44C4, asm, func_801934AC]
+      - [0x44C4, c, RoomEffect_RandomSparkController]
       - [0x4794, asm, func_8019377C]
       - [0x4C14, asm, func_80193BFC]
       - [0x50C8, asm, func_801940B0]
