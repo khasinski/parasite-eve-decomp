@@ -219,6 +219,32 @@ zero stores reproduces retail's store order, since a store cannot pass a
 load from another base. Each 1712-byte instance matches retail with no pins
 or barriers, and all seven linked overlay SHA-1 hashes are unchanged.
 
+### Three-overlay damped spark particle
+
+`func_8019050C` in room_m156+2, room_m291+2 and room_m380+2 now shares
+`RoomEffect_DampedSparkParticle.inc` with the new `room_spark.h`. Mode 1
+moves the spark by its velocity, damps the horizontal speed by 31/32 or
+511/512 per state, applies gravity, and reflects the vertical speed once the
+spark passes the frame-count floor; mode 2 draws it as a growing sprite and
+then as a sine-scaled one. The bounce and timer checks are written in each
+state so retail's cross-jumped tail comes out of the compiler, the vertical
+speed is read unsigned and negated through its own temporary so the sign
+extension survives, and the frame counter is read as a one-field record so
+the compare stays after the velocity store. Each 932-byte instance matches
+retail with no pins or barriers, and all three linked overlay SHA-1 hashes
+are unchanged.
+
+### room_m188 and room_m390 bouncing spark callback
+
+`func_80193300` in room_m390 and room_m188 now shares
+`RoomEffect_BouncingSparkCallback.inc`. Mode 1 steps the same damped motion
+with three gravity profiles, marking the spark as fallen once it drops past
+the floor height; mode 2 draws a spinning sprite coloured from the ramp
+table, a shaded blob through the room matrix, or a flattened sprite whose
+intensity follows a cosine of the timer. Each 1424-byte instance matches
+retail with no pins or barriers, and both linked overlay SHA-1 hashes are
+unchanged.
+
 ### room_m188 and room_m390 staggered pool callback
 
 `func_80194588` is now C in both overlays. Its initialization path arms an
