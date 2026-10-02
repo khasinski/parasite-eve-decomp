@@ -8,7 +8,7 @@ extern int D_8009CF00, D_8009CF5C, D_8009CF8C, D_8009CF90, D_8009CF94;
 extern int D_8009CEFC;
 void Inv_SelectActiveList(int);
 int Inv_TestSelectionBit(int);
-int Inv_CheckSlotUsable(int);
+int Inv_AddItem(int);
 int Inv_GetWayneListItemByIndex(int);
 int Inv_IsActiveListOverrideSelected(void);
 int Inv_GetActiveListItemType(int);
@@ -52,7 +52,7 @@ int Menu_InventoryInputHandler(MenuWidgetNode *root, unsigned int flags) {
                 }
                 result = action_result;
                 Inv_SetActiveList(0, &result);
-                if (D_8009CF5C) Inv_CheckSlotUsable(D_8009CF5C);
+                if (D_8009CF5C) Inv_AddItem(D_8009CF5C);
                 D_8009CF00 = 0;
                 Menu_PlayConfirmSound();
             } else {

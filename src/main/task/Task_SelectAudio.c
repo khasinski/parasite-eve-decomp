@@ -2,7 +2,8 @@
 int Task_GpuFlushPrimQueue(void);
 int Task_GpuPackPrimColor(void);
 
-int Task_SelectAudio(int **arg0) {
+/* Equal bounds return one raw RNG word. Otherwise the result is in [start, end). */
+int Task_Random(int **arg0) {
     register int lhs asm("$4");
     register int rhs asm("$5");
 

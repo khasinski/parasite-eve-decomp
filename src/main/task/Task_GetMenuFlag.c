@@ -1,7 +1,7 @@
 
 int Menu_GetEquipSlotIndex(void);
 
-int Task_GetMenuFlag(int **arg0) {
+int Task_GetMenuChoice(int **arg0) {
     int value;
 
     value = Menu_GetEquipSlotIndex();

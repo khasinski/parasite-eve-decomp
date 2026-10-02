@@ -113,9 +113,9 @@ int Inv_WriteSlotById(ItemDataRecord *item) {
     return failed;
 }
 
-/* Add an item through the same active-list and item-record helpers above. */
+/* Insert an item into a free active slot. Non-zero means the insert failed. */
 #define NULL ((void *)0)
-s32 Inv_CheckSlotUsable(s32 arg0) {
+s32 Inv_AddItem(s32 arg0) {
     s32 ret;
     s32 slot;
     s32 t;

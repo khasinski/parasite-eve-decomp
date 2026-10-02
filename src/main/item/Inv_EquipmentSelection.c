@@ -154,15 +154,15 @@ void Inv_InitNewGameInventory(void) {
         D_8009D050 = Inv_GetAyaSlotLimit();
     SelectAya();
     for (i = 49; i >= 0; i--) D_8009D048[i] = 0;
-    Inv_CheckSlotUsable(0x44);
-    Inv_CheckSlotUsable(0x96);
-    Inv_CheckSlotUsable(0x3F);
-    Inv_CheckSlotUsable(1);
-    Inv_CheckSlotUsable(6);
+    Inv_AddItem(0x44);
+    Inv_AddItem(0x96);
+    Inv_AddItem(0x3F);
+    Inv_AddItem(1);
+    Inv_AddItem(6);
     i = TakeTagged(0);
-    if (i) Inv_CheckSlotUsable(i);
+    if (i) Inv_AddItem(i);
     i = TakeTagged(1);
-    if (i) Inv_CheckSlotUsable(i);
+    if (i) Inv_AddItem(i);
     D_800C0E20.tracked[2] = 1;
     D_800C0E20.tracked[0] = 0;
     D_800C0E00.menu_clamp_value = 61;
@@ -214,7 +214,7 @@ void Inv_MergeStorageToSlot(void) {
             D_800C0E20.equipment[(short)id - 256].itemId == 0x61) break;
     }
     if (i < D_8009D050) RemoveItem(i);
-    Inv_CheckSlotUsable(0x93);
+    Inv_AddItem(0x93);
     D_800C0E20.tracked[0] = FindKind(7, -1);
     g_MenuBattleEquipMode = 0;
     Inv_SetActiveList(2, 0);
@@ -237,9 +237,9 @@ static inline void SetCapacity(int value) {
     if (D_8009D048 == D_800C0E48) D_8009D050 = Inv_GetAyaSlotLimit();
 }
 
-int Menu_InitBonusPointScreen(int command, int value, int other, int *unused) {
+int Inv_DispatchCommand(int command, int value, int other, int *unused) {
     switch (command) {
-    case 1100: {
+    case INV_CMD_COUNT_OCCUPIED: {
         s16 *p;
         int count = 0;
         SelectAya();
@@ -247,7 +247,7 @@ int Menu_InitBonusPointScreen(int command, int value, int other, int *unused) {
             count += (*p != 0);
         return count;
     }
-    case 1101: {
+    case INV_CMD_GET_CAPACITY: {
         int bonus = Inv_GetBonusSlotCount();
         if (g_InvBaseCapacityForLimit[0] + bonus < 51) {
             bonus = Inv_GetBonusSlotCount();
@@ -255,7 +255,7 @@ int Menu_InitBonusPointScreen(int command, int value, int other, int *unused) {
         }
         return 50;
     }
-    case 1102: {
+    case INV_CMD_COUNT_ITEM: {
         int count = 0;
         s16 *p;
         if (value >= D_8009D03C && value < D_8009D03C + 3)
@@ -269,33 +269,33 @@ int Menu_InitBonusPointScreen(int command, int value, int other, int *unused) {
         }
         return count;
     }
-    case 1103:
+    case INV_CMD_SET_REBUILD_FILTER:
         D_8009D0CC = value;
         D_8009D0D0 = other;
         return 0;
-    case 1104:
+    case INV_CMD_REBUILD_SLOTS:
         return Inv_RebuildWithBonusSlots(value, other);
-    case 1105:
+    case INV_CMD_SET_CAPACITY:
         SetCapacity(value);
         return 0;
-    case 1106:
+    case INV_CMD_GET_CURRENT_HP:
         return D_800C0E00.current_hp;
-    case 1107:
+    case INV_CMD_GET_MAX_HP:
         return D_800C0E00.max_hp;
-    case 1108:
+    case INV_CMD_SET_CURRENT_HP:
         BattleCmd_SetCurrentHP(value);
         return 0;
-    case 1109:
+    case INV_CMD_GET_REMAINING_AMMO:
         return BattleCmd_GetRemainingAmmo(0);
-    case 1110: {
+    case INV_CMD_GET_AMMO_VALUE: {
         int result;
         BattleCmd_GetRemainingAmmo(&result);
         return result;
     }
-    case 1111:
+    case INV_CMD_SET_CURRENT_MP:
         BattleCmd_SetCurrentMP(value);
         return 0;
-    case 1112: {
+    case INV_CMD_REMOVE_ITEM: {
         int index;
         SelectAya();
         index = FindItem(value);
@@ -303,22 +303,22 @@ int Menu_InitBonusPointScreen(int command, int value, int other, int *unused) {
         Inv_RemoveActiveListItem(index);
         return 0;
     }
-    case 1113:
+    case INV_CMD_OPEN_STORAGE:
         Inv_TransferToStorage();
         Queue_Init();
         Menu_StepInventoryRoot(0, -3, -1);
         Menu_CreateContextHelpPanel();
         return 0;
-    case 1114:
+    case INV_CMD_COMPUTE_GAMMA:
         Menu_ComputeGammaLut(value, other);
         return 0;
-    case 1115:
+    case INV_CMD_INIT_MEMCARD:
         MemCard_InitSlotState();
         return 0;
-    case 1116:
+    case INV_CMD_START_SAVE_FADE:
         Menu_SaveBgStartFadeOut();
         return 0;
-    case 1117:
+    case INV_CMD_START_NEW_GAME:
         Inv_RebuildSelectionBitset();
         g_GameState.pending_story_day = 1;
         Menu_SetMemCardConfirmPending();
@@ -326,10 +326,10 @@ int Menu_InitBonusPointScreen(int command, int value, int other, int *unused) {
         else D_800C0E00.pad_0B = 99;
         Inv_InitNewGameInventory();
         return 0;
-    case 1118:
+    case INV_CMD_INIT_BONUS_POINTS:
         Menu_InitBonusPointAllocState(value);
         return 0;
-    case 1119: {
+    case INV_CMD_CLEAR_STORAGE_ITEM: {
         s16 *p;
         int missing;
         for (p = D_800C0E20.storage; p < D_800C0E20.storage + 100; p++)
@@ -338,8 +338,9 @@ int Menu_InitBonusPointScreen(int command, int value, int other, int *unused) {
         if (!missing) *p = 0;
         return missing;
     }
-    case 1120:
+    case INV_CMD_MERGE_STORAGE:
         Inv_MergeStorageToSlot();
+        /* Fall through: this command returns 0. */
     }
     return 0;
 }

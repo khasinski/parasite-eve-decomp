@@ -10,7 +10,7 @@ extern struct { char _[16]; } D_8009D1A0_w __asm__("D_8009D1A0");
 #define D_8009D1A0_R (*(int *)&D_8009D1A0_r)
 #define D_8009D1A0_W (*(int *)&D_8009D1A0_w)
 
-int Inv_CheckSlotUsable(int slot);
+int Inv_AddItem(int slot);
 
 void Battle_FlushScriptSounds(void) {
     unsigned int index;
@@ -22,7 +22,7 @@ void Battle_FlushScriptSounds(void) {
     while ((index & 0xFF) < D_8009CE3C) {
         item = *(unsigned short *)((char *)D_800BE834 + ((index & 0xFF) << 3));
         if ((unsigned int)(item - 3) < 0x180) {
-            Inv_CheckSlotUsable((short)item - 3);
+            Inv_AddItem((short)item - 3);
         }
 
         index++;

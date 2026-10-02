@@ -4082,12 +4082,12 @@ All 191 rebuilt overlays retain their retail SHA-1 values.
 
 ### Inventory and menu command dispatcher (0x8005D2B4)
 
-`Menu_InitBonusPointScreen` is a historical name for a dispatcher covering
-commands 1100..1120, not solely a bonus-point screen initializer. All 1088
+`Inv_DispatchCommand` covers commands 1100..1120. Command 1118 is the
+bonus-point path and calls `Menu_InitBonusPointAllocState`. All 1088
 code bytes and the 84-byte compiler-generated jump table match retail with
-stock native GCC 2.7.2 and unmodified MASPSX. It joins the adjacent inventory
-initializers in `item/Inv_InventorySetup.c`; the combined 2640 code bytes
-and table match exactly. The boot interpreter's fourth pointer argument is
+stock native GCC 2.7.2 and unmodified MASPSX. It is compiled with the
+adjacent inventory initializers in `item/Inv_EquipmentSelection.c`. The boot
+interpreter's fourth pointer argument is
 retained in the shared prototype, although this dispatcher does not use it.
 
 Commands count occupied slots or occurrences of an item (generated equipment
@@ -4097,8 +4097,7 @@ and invoke menu, equipment and new-game setup operations. The ammo query
 special-cases three pools indexed from D_8009D03C. Command 1117 sets the
 existing game state's pending story day to one, increments save byte 0x0B
 with saturation at 99, and calls the new-game initializer. Neutral names
-remain for incompletely understood state; the historical function name is
-not offered as semantic evidence.
+remain for incompletely understood state.
 
 A separate inlined capacity setter preserves the original argument copy.
 The ammo-count branch shares its return variable with the inventory scan;

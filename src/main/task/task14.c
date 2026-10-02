@@ -2,7 +2,7 @@ extern char *g_CurrentEntity;
 
 void Menu_ClampRange(int arg0);
 
-int Inv_CheckSlotUsable(int arg0);
+int Inv_AddItem(int arg0);
 
 int Inv_CountByValue(int arg0);
 
@@ -20,8 +20,8 @@ int Task_ClampMenuRange(int **arg0) {
     return 1;
 }
 
-int Task_AddItemToSlot(int **arg0) {
-    *arg0[1] = Inv_CheckSlotUsable(*arg0[0]);
+int Task_GiveItem(int **arg0) {
+    *arg0[1] = Inv_AddItem(*arg0[0]);
     return 1;
 }
 

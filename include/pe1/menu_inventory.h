@@ -36,7 +36,32 @@ void Menu_OnEquipConfirm(MenuWidgetNode *unused, int confirmed);
 int Menu_ClampRange(int value);
 void Menu_SaveBgInitFade(void);
 
-int Menu_InitBonusPointScreen(int command, int value, int other, int *unused);
+/* Retail script command numbers. Command 1120 falls through and returns 0. */
+enum InvCommand {
+    INV_CMD_COUNT_OCCUPIED = 1100,
+    INV_CMD_GET_CAPACITY = 1101,
+    INV_CMD_COUNT_ITEM = 1102,
+    INV_CMD_SET_REBUILD_FILTER = 1103,
+    INV_CMD_REBUILD_SLOTS = 1104,
+    INV_CMD_SET_CAPACITY = 1105,
+    INV_CMD_GET_CURRENT_HP = 1106,
+    INV_CMD_GET_MAX_HP = 1107,
+    INV_CMD_SET_CURRENT_HP = 1108,
+    INV_CMD_GET_REMAINING_AMMO = 1109,
+    INV_CMD_GET_AMMO_VALUE = 1110,
+    INV_CMD_SET_CURRENT_MP = 1111,
+    INV_CMD_REMOVE_ITEM = 1112,
+    INV_CMD_OPEN_STORAGE = 1113,
+    INV_CMD_COMPUTE_GAMMA = 1114,
+    INV_CMD_INIT_MEMCARD = 1115,
+    INV_CMD_START_SAVE_FADE = 1116,
+    INV_CMD_START_NEW_GAME = 1117,
+    INV_CMD_INIT_BONUS_POINTS = 1118,
+    INV_CMD_CLEAR_STORAGE_ITEM = 1119,
+    INV_CMD_MERGE_STORAGE = 1120
+};
+
+int Inv_DispatchCommand(int command, int value, int other, int *unused);
 void Menu_CreateContextHelpPanel(void);
 void Menu_ComputeGammaLut(int initial, int threshold);
 void Menu_SaveBgStartFadeOut(void);

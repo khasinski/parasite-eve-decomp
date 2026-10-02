@@ -58,7 +58,7 @@ void Inv_InitNewGameInventory(void);
 void Inv_SetAyaSlotCount(int count);
 void Inv_MergeStorageToSlot(void);
 void Inv_RebuildSelectionBitset(void);
-int Inv_CheckSlotUsable(int id);
+int Inv_AddItem(int id);
 int Inv_CanAddActiveListItemToAya(int index);
 void Inv_TransferItemAlt(void);
 void Inv_ClearDisplaySlots(void);

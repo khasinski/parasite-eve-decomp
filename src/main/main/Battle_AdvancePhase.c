@@ -27,7 +27,7 @@ void Battle_StepCharacterAction();
 void Battle_UpdateEntityFacing();
 void Entity_SetActionMode();
 s32 Gte_Atan2();
-void Inv_CheckSlotUsable();
+void Inv_AddItem();
 void Pm_StopAll();
 s32 Scene_LoadRoomAssets();
 extern const Tbl20 D_8001074C;
@@ -169,7 +169,7 @@ void Battle_AdvancePhase(void) {
             do {
                 temp_a0 = D_800BE834[var_s0 & 0xFF].value;
                 if ((u32) (temp_a0 - 3) < 0x180U) {
-                    Inv_CheckSlotUsable((s16) temp_a0 - 3);
+                    Inv_AddItem((s16) temp_a0 - 3);
                 }
                 var_s0 += 1;
             } while ((u32) (var_s0 & 0xFF) < (u8) D_8009CE3C);

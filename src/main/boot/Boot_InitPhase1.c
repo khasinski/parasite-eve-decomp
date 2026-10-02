@@ -14,7 +14,7 @@ void Menu_CreateItemUsePanel(int arg0);
 extern short D_8009D2A4[];
 int MenuWidget_HasActiveNodes(void);
 
-int Boot_InitPhase1(void) {
+int Task_OpenMemCardDialog(void) {
     int *state = g_GameState;
     int *node;
     int flags;
@@ -58,7 +58,7 @@ finish:
     }
 }
 
-int Boot_InitPhase2(int **arg0) {
+int Task_ShowReceivedItem(int **arg0) {
     int *state = g_GameState;
     int **saved = arg0;
     int *node;
@@ -104,7 +104,7 @@ ret_one:
     return 1;
 }
 
-int Boot_InitPhase3(int **arg0) {
+int Task_RunInvCommand(int **arg0) {
     int **saved = arg0;
     int *node;
     int flags;
@@ -122,7 +122,7 @@ int Boot_InitPhase3(int **arg0) {
 call_builder:
     {
         asm volatile("" : "=r"(saved) : "0"(saved));
-        *saved[3] = Menu_InitBonusPointScreen(*saved[0], *saved[1], *saved[2], saved[4]);
+        *saved[3] = Inv_DispatchCommand(*saved[0], *saved[1], *saved[2], saved[4]);
     }
 
 after_builder:

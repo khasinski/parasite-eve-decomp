@@ -11,7 +11,7 @@ extern char D_800A1B30[];
 extern BattleCmdEntry D_800A1AA0[];
 extern s8 D_800C0E22[];
 
-int Inv_CheckSlotUsable(int data);
+int Inv_AddItem(int data);
 
 BattleCmdEntry *BattleCmd_AllocSlot(void) {
     BattleCmdEntry *top;
@@ -64,7 +64,7 @@ void BattleCmd_UndoPending(void) {
             if (*slot == 0) {
                 *slot = entry->payload.inventory_restore.item_id;
             } else {
-                Inv_CheckSlotUsable(entry->payload.inventory_restore.item_id);
+                Inv_AddItem(entry->payload.inventory_restore.item_id);
             }
             break;
 
