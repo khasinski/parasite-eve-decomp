@@ -96,7 +96,7 @@ segments:
       - [0x353C, c, RoomLib_Set4ClearSignal_80192524]
       - [0x3558, c, func_80192540]
       - [0x3560, asm, func_80192548]
-      - [0x3958, asm, func_80192940]
+      - [0x3958, c, RoomEffect_SoundBurstController_80192940]
       - [0x3C80, c, RoomLib_SetArgs3_80192C68]
       - [0x3CA4, c, func_80192C8C]
       - [0x3F84, asm, func_80192F6C]

@@ -104,6 +104,32 @@ matches retail exactly with a plain `switch`, no pins, barriers or gotos;
 the linked overlay SHA-1 is unchanged. Its declarations extend
 `include/pe1/room_orbiting_pair.h`.
 
+### room_m205 family sound burst controller
+
+`func_801928EC` (room_m205, room_m243, room_m406, room_m410) and
+`func_80192940` (room_m231, room_m234) differ only in the particle callback
+they register and now share `RoomEffect_SoundBurstController.inc`, a sibling
+of the room_m156 pair controllers. Mode 0 plays a sound and keeps its handle;
+mode 1 counts frames and, for the first 0x47 frames, emits one particle every
+third frame along an angle that sweeps half a turn over seventy frames, then
+stops the sound at frame 0x46; mode 2 configures the palette. The divisor
+was recovered from retail's reciprocal constant. Each 808-byte instance
+matches retail with a plain `switch`, no pins, barriers or gotos, and all
+six linked overlay SHA-1 hashes are unchanged. Declarations live in
+`include/pe1/room_sound_burst.h`.
+
+### room_m123 pulsing sprite callback
+
+`func_80192BDC` is now C in `RoomEffect_M123PulsingSprite.c`, promoted
+from the parked candidate. The particle scales with a cosine of its frame
+counter for 48 frames; the first sixteen frames draw a textured sprite and a
+matrix-transformed copy, later frames blend the position toward the anchor
+and draw the faded sprite. Replacing the candidate's pinned matrix-load
+macro with the shared `gte_ldrotmatrix`/`gte_ldtransmatrix` macros freed the
+register retail uses for the division remainder, which closed the last
+instruction. The 816-byte function matches retail exactly with no pins or
+barriers, and the linked overlay SHA-1 is unchanged.
+
 ### room_m188 and room_m390 staggered pool callback
 
 `func_80194588` is now C in both overlays. Its initialization path arms an
