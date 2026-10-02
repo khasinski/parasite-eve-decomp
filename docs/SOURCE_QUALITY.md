@@ -36,6 +36,19 @@ load sequence. Removing each one individually lowered objdiff's match from
 100% to 99.65%, 97.19%, 99.76%, 99.84%, and 99.13%, respectively. The debt
 baseline records them; each GTE transfer is a separate instruction macro.
 
+### room_m245 and room_m397 pulsing sprite callbacks
+
+`func_801933EC` and `func_80194C54` are now C in both overlays through the
+shared `RoomLib_UpdatePulsingSprite.inc` template. Mode 1 drifts the sprite
+by its velocity pair and ends after sixteen frames; mode 2 scales a cosine of
+the frame counter, loads the room matrix into the GTE control registers, and
+draws a textured rectangle followed by a scaled sprite at a fixed room
+position. The two instances differ only in that position and the rectangle
+height. The second cosine call whose result retail discards is kept as a
+plain statement. Each 672-byte function matches retail exactly, and both
+linked overlay SHA-1 hashes are unchanged. The source needs no register
+pins, barriers, or wrapped instructions.
+
 ### room_m188 and room_m390 staggered pool callback
 
 `func_80194588` is now C in both overlays. Its initialization path arms an
