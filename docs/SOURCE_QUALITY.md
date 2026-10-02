@@ -245,6 +245,27 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m156+2, room_m291+2 and room_m380+2 jitter spark callback and controller
+
+`func_80191B94` and `func_80192208` in room_m156+2, room_m291+2 and
+room_m380+2 now share `RoomEffect_JitterSparkCallback.inc` and
+`RoomEffect_JitterSparkController.inc` on `room_spark.h`, whose spark record
+names the spin seed at 0x06 and which gained the ring parameters, the sound
+channel and an unsigned one-field record for the frame counter's other
+label. The callback jitters a spark's position (state 0) or velocity (states
+1 and 2) by a small random amount each frame, damps it, bounces it off the
+floor height and draws it as a spinning sprite whose size and fade follow a
+cosine of its age. The controller bursts a ring of 36 sparks on the first
+frame, keeps spawning pairs for 32 frames, plays the two burst sounds on
+creation and configures the sprite palette. The scale temporaries are
+block-scoped per draw case so the quotient register is reused, the
+unrotated frame counter is read as a record so its load stays below the
+target stores, and one unused 16-byte local keeps retail's frame. The sound
+block carries the same single empty barrier as RoomLib_SpawnRandomEffect so
+the re-read channel stays in the saved pointer register. Each 1652-byte
+callback and 2016-byte controller matches retail; all three overlay SHA-1
+hashes are unchanged.
+
 ### room_m075, room_m080 and room_m082 motion seeding and anchored sprite quad
 
 `func_8018FF74` in room_m075, room_m080 and room_m082 now shares

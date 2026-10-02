@@ -9,7 +9,8 @@
  * the frame-count driven floor height. */
 
 typedef struct RoomDampedSpark {
-    s16 x, y, z, reserved06;      /* 0x00 */
+    s16 x, y, z;                  /* 0x00 */
+    u16 angle;                    /* 0x06: spin seed, bit 0 halves the size */
     s16 vx;                       /* 0x08 */
     s16 vy;                       /* 0x0A */
     s16 vz;                       /* 0x0C */
@@ -27,7 +28,15 @@ typedef struct RoomSparkFrameCounter {
 } RoomSparkFrameCounter;
 
 extern RoomSparkFrameCounter D_800942EC;
+/* The same counter under its other label, read unsigned as a record so a
+ * store through a particle pointer keeps it from being hoisted. */
+typedef struct RoomSparkFrameTick {
+    u16 count;
+} RoomSparkFrameTick;
+
+extern RoomSparkFrameTick g_FrameCount16;
 extern int rsin(int angle);
+extern int rcos(int angle);
 extern int func_80077CF4(int angle);
 extern int func_80077DC4(int angle);
 extern u16 func_80077AA4(int, int);
@@ -46,5 +55,13 @@ extern RoomDampedSpark *func_800CE610(void *pool);
 extern int func_80071A54(void);
 extern int func_800D3FD8(void);
 extern int func_800D3F64(int sound, int handle);
+extern void *D_800B0E64;
+extern void func_8006DF50(void *channel, int id, int value, int volume, int pan);
+
+/* Ring spawner parameters: centre and the ring radius. */
+typedef struct RoomSparkRingParams {
+    s16 x, y, z, reserved06;
+    s32 radius;                   /* 0x08 */
+} RoomSparkRingParams;
 
 #endif
