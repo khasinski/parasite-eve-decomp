@@ -130,6 +130,33 @@ register retail uses for the division remainder, which closed the last
 instruction. The 816-byte function matches retail exactly with no pins or
 barriers, and the linked overlay SHA-1 is unchanged.
 
+### room_m205 family sound burst particle
+
+`func_801924F4` (room_m205, room_m243, room_m406, room_m410) and
+`func_80192548` (room_m231, room_m234) are byte-identical and now share
+`RoomEffect_SoundBurstParticle.inc`, the particle registered by the sound
+burst controller. Mode 1 integrates the swing, amplitude and phase steps,
+projects the particle on a sine swing, and when it lands near the actor it
+flags the battle actor and rewrites the pool entry; mode 2 draws a
+cosine-sized sprite and its floor shadow. Three details fixed the match:
+the clut helper returns a halfword so the mask lands at assignment, the
+second draw block uses its own clut temporary so the register allocator can
+pick the argument register retail used, and the palette index is read
+through the parameter-block struct so the compiler keeps that read ordered
+after the particle store. Each 1016-byte instance matches retail with no
+pins or barriers, and all six linked overlay SHA-1 hashes are unchanged.
+
+### room_m005 orbiter controller
+
+`func_8018F330` is now C in `RoomM005_OrbiterController_8018F330.c`. Mode 0
+arms the orbiter callback; mode 1 plays the two room sounds on frame seven,
+spawns a randomized orbiter every frame for the first 25 frames, and counts
+32 frames once the event flag arms it; mode 2 configures the palette. The
+sound block follows the matched room_m089 and room_m123 shape, including
+their one memory barrier that preserves the second sound-owner read, which
+the debt baseline now records. The 740-byte function matches retail exactly
+with no register pins, and the linked overlay SHA-1 is unchanged.
+
 ### room_m188 and room_m390 staggered pool callback
 
 `func_80194588` is now C in both overlays. Its initialization path arms an

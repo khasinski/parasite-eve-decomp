@@ -7,6 +7,10 @@
 #endif
 
 extern RoomSoundBurstTemplate8 D_8018F1D0;
+extern u16 D_800F336C;
+extern volatile s16 D_800F336E, D_800F3372, D_800F3374, D_800F3370;
+extern s16 D_800F336A;
+extern volatile s16 D_800F3368, D_800F3376, D_800F3378;
 extern void ROOMEFFECT_SOUND_BURST_CALLBACK(void);
 
 int ROOMEFFECT_SOUND_BURST_FUNC(int mode, RoomSoundBurstState *state) {
@@ -38,11 +42,11 @@ int ROOMEFFECT_SOUND_BURST_FUNC(int mode, RoomSoundBurstState *state) {
                     child->x = position[0];
                     child->y = position[1];
                     child->z = position[2];
-                    child->state = 0;
                     child->phase = 0;
-                    child->timer = 0;
-                    child->seed = func_80071A54();
-                    child->angle = angle;
+                    child->amplitude = 0;
+                    child->swing = 0;
+                    child->tilt = func_80071A54();
+                    child->spread = angle;
                 }
                 if (D_800E2368->active) {
                     RoomSoundBurstNode **slot =
