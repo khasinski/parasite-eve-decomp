@@ -55,9 +55,11 @@ typedef struct FxCommonBucket {
     u8 pad4[104];
 } FxCommonBucket;
 
+typedef union FxCommonPacketTag { u32 packed; struct { unsigned int address:24; unsigned int length:8; } bits; struct { u8 address[3]; u8 length; } bytes; } FxCommonPacketTag;
+
 typedef struct FxCommonBuffer {
-    void *data;
-    void *allocation;
+    u8 *data;
+    FxCommonPacketTag *allocation;
 } FxCommonBuffer;
 
 typedef struct FxCommonBufferRegion {
@@ -249,6 +251,7 @@ void func_801941A4(int value);
 void func_80191678(s16 id);
 void func_80191834(FxCommonNode *node);
 void func_8019BF8C(void **buffer);
-void func_80197BA0(void *context, void *resource);
+typedef struct FxCommonPolyResource FxCommonPolyResource;
+void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource);
 
 #endif

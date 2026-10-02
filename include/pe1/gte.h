@@ -770,4 +770,31 @@ int rsin(int angle);
                  "swc2 $19,8(%0)" \
                  : : "r"(out) : "memory")
 
+/* Single COP2 transfers used by the subdividing polygon renderer.
+ * Precise memory operands describe the touched word instead of all memory.
+ * The keep variants retain allocator references (one VXY0 input, one extra
+ * SXY1 address input, three extra SXY2 address inputs); these are matching
+ * debt, not additional hardware operations. Padded commands retain the two
+ * retail transfer-hazard slots. */
+#define gte_ldvxy0_precise_keep(address, keep) asm volatile("lwc2 $0,0(%0)" : : "r"(address), "m"(*(const u32 *)((const u8 *)(address) + 0)), "r"(keep))
+#define gte_stsxy1_precise_keep_address(address) asm volatile("swc2 $13,0(%1)" : "=m"(*(u32 *)(address)) : "r"(address), "r"(address))
+#define gte_stsxy2_precise_keep_address(address) asm volatile("swc2 $14,0(%1)" : "=m"(*(u32 *)(address)) : "r"(address), "r"(address), "r"(address), "r"(address))
+#define gte_ldvxy0_mem(address) asm volatile("lwc2 $0,%0" : : "m"(*(const u32 *)(address)))
+#define gte_ldvz0_mem(address) asm volatile("lwc2 $1,%0" : : "m"(*(const u32 *)((const u8 *)(address) + 4)))
+#define gte_ldvxy0_precise(address) asm volatile("lwc2 $0,0(%0)" : : "r"(address), "m"(*(const u32 *)((const u8 *)(address) + 0)))
+#define gte_ldvz0_precise(address) asm volatile("lwc2 $1,4(%0)" : : "r"(address), "m"(*(const u32 *)((const u8 *)(address) + 4)))
+#define gte_ldvxy1_precise(address) asm volatile("lwc2 $2,0(%0)" : : "r"(address), "m"(*(const u32 *)((const u8 *)(address) + 0)))
+#define gte_ldvz1_precise(address) asm volatile("lwc2 $3,4(%0)" : : "r"(address), "m"(*(const u32 *)((const u8 *)(address) + 4)))
+#define gte_ldvxy2_precise(address) asm volatile("lwc2 $4,0(%0)" : : "r"(address), "m"(*(const u32 *)((const u8 *)(address) + 0)))
+#define gte_ldvz2_precise(address) asm volatile("lwc2 $5,4(%0)" : : "r"(address), "m"(*(const u32 *)((const u8 *)(address) + 4)))
+#define gte_stsxy2_precise(address) asm volatile("swc2 $14,0(%1)" : "=m"(*(u32 *)(address)) : "r"(address))
+#define gte_ldvxy1_mem(address) asm volatile("lwc2 $2,%0" : : "m"(*(const u32 *)((const u8 *)(address) + 0)))
+#define gte_stsxy2_mem(address) asm volatile("swc2 $14,%0" : "=m"(*(u32 *)(address)) :)
+#define gte_stmac0_precise(address) asm volatile("swc2 $24,0(%1)" : "=m"(*(u32 *)(address)) : "r"(address))
+#define gte_stotz_precise(address) asm volatile("swc2 $7,0(%1)" : "=m"(*(u32 *)(address)) : "r"(address))
+#define gte_stsxy0_precise(address) asm volatile("swc2 $12,0(%1)" : "=m"(*(u32 *)(address)) : "r"(address))
+#define gte_stsxy1_precise(address) asm volatile("swc2 $13,0(%1)" : "=m"(*(u32 *)(address)) : "r"(address))
+#define gte_rtpt_padded() asm volatile("nop\n\tnop\n\t.word 0x4A280030")
+#define gte_avsz3_padded() asm volatile("nop\n\tnop\n\t.word 0x4B58002D")
+
 #endif

@@ -1917,3 +1917,30 @@ store. One empty compiler barrier keeps the lower display floor constant in
 the branch delay slot; removing it yields 152 bytes with ten differing words.
 All trial register pins were removable, and the function contains no CPU
 instruction assembly. The complete `menu_memcard` overlay SHA-1 still matches.
+
+## FxCommon polygon-resource renderer
+
+`FxCommon_DrawPolyResource` (formerly `func_80197BA0`) matches all 6652 retail bytes
+with stock GCC 2.7.2 and stock MASPSX `--dont-expand-li`. The complete
+`fx_common` overlay retains SHA-1 `64e5b2c2b9dea7c6729c25a10295064d281ac296`.
+The eight polygon streams, clipping, depth selection, FT3/FT4 subdivision,
+UV interpolation, packet construction and ordering-table links are C. The
+manifest split records the verified function range, not a recovered original
+object boundary. Resource, scratchpad, texture and packet layouts are shared
+through `fx_common_render.h`; the buffer and packet tag use `fx_common.h`.
+
+Matching debt: 22 register bindings, 16 empty compiler barriers, two single-pass
+`do` scopes, and eight-byte cursor-slot alignment preserving the retail stack
+layout. Five unused register inputs in three GTE macros retain allocator
+reference counts: one fourth-vertex input, one repeated SXY1 address and three
+repeated SXY2 addresses. Those inputs emit no additional instructions. Five
+volatile vertex-component reads and one volatile vertex-table-pointer read
+preserve load ordering; they do not represent MMIO.
+
+Each of the initial 23 pins and 16 barriers was removed independently after
+matching. The UV3 pointer pin was redundant and was removed with identical
+instructions and relocations. Removing any other tested individual pin,
+barrier or single-pass scope broke the match. All combinations of reducing
+the five unused GTE inputs were also checked and changed the output. Each
+GTE macro emits one COP2 transfer or command with its required hazard slots;
+there is no inline CPU algorithm or toolchain modification.
