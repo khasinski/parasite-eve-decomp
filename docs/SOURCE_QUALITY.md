@@ -49,6 +49,32 @@ plain statement. Each 672-byte function matches retail exactly, and both
 linked overlay SHA-1 hashes are unchanged. The source needs no register
 pins, barriers, or wrapped instructions.
 
+### room_m005 drifting sprite callback
+
+`func_8018FB84` is now C in `RoomM005_DriftingSprite_8018FB84.c` with its
+layout and symbols declared in `include/pe1/room_m005.h`. Mode 1 adds the
+velocity triple to the position until the global frame counter reaches six;
+mode 2 loads the room matrix into the GTE control registers, offsets the
+position by the room anchor, and draws a textured rectangle whose intensity
+follows a cosine of the frame counter. Copying the three coordinates before
+adding the three offsets reproduces retail's register allocation. The
+576-byte function matches retail exactly and the linked overlay SHA-1 is
+unchanged. No register pins, barriers, or wrapped instructions.
+
+### room_m075, room_m080, room_m082, scene_e09 and scene_e10 anchored sprite pair
+
+`func_8018FC60` (rooms) and `func_8018FCA4` (scenes) are byte-identical and
+now share `RoomLib_DrawAnchoredSpritePair.inc`. The function builds a
+uniform scale matrix from the effect record, generates a rotation from the
+shared seed, composes the two through the existing column-transform GTE
+macros, transforms the translation, and then draws the sprite at two map
+anchors on the shared floor height. Each 688-byte instance matches retail
+and all five linked overlay SHA-1 hashes are unchanged. Like the sibling
+`RoomLib_TransformPairedRoomSprite.inc`, the template keeps seven register
+pins for the s0..s3 reuse and one empty barrier that orders the seed
+argument; the debt counter scans only `.c` and `.h` files, so template pins
+are not reflected in its totals.
+
 ### room_m188 and room_m390 staggered pool callback
 
 `func_80194588` is now C in both overlays. Its initialization path arms an
