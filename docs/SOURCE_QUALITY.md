@@ -262,9 +262,12 @@ all nine overlay SHA-1 hashes are unchanged.
 `RoomFx_ModelUpdate` in room_m017, room_m018, room_m021, room_m045,
 room_m102, room_m151 and room_m319 now shares `RoomFx_ModelUpdate.inc`; the
 glow orb initializer and draw of room_m034, room_m174 and room_m383 share
-`RoomEffect_GlowOrbInit.inc` and `RoomEffect_GlowOrbDraw.inc`; and the drop
-field update of room_m174, room_m348 and room_m383 shares
-`RoomEffect_DropFieldUpdate.inc`. The matrix products use the PSY-Q
+`RoomEffect_GlowOrbInit.inc` and `RoomEffect_GlowOrbDraw.inc`; and the paired
+beam draw, drop field update and drop field draw of room_m174, room_m348 and
+room_m383 share `RoomEffect_BeamPairDraw.inc`, `RoomEffect_DropFieldUpdate.inc`
+and `RoomEffect_DropFieldDraw.inc`. The draws' sprite parameter blocks are
+real structs declared at their base symbols, so the depth words are written
+as members rather than reached by offset. The matrix products use the PSY-Q
 `gte_MulMatrix0` and `gte_CompMatrix` forms built from the SDK's column
 transfer macros, absolute values use `abs` so the compiler emits its own
 branch form, one scratch int carries the reflected depth, turn offset and
