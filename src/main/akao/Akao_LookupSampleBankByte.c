@@ -60,7 +60,6 @@ check_code:
             }
             break;
 handle_6:
-            asm volatile("" :: "r"(cursor));
             cursor++;
             goto read_displacement;
 check_bank:
