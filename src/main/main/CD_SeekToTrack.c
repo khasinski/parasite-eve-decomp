@@ -135,7 +135,7 @@ void Akao_Cmd_C1_WithSlot(int, int, int);
 void Akao_Cmd_C0_WithSlot(int, int);
 void Overlay_RegisterAudioSlot(int, int, int, int);
 
-/* Matching debt: one argument pin, one empty flag barrier, two individually
+/* Matching debt: one argument pin, two individually
  * wrapped NOPs, three table aliases and the retry jump. The aliases preserve
  * independent absolute reads of the table pointer around callbacks. */
 int CD_StepReadState(int active)
@@ -191,7 +191,6 @@ retry:
                 return 1;
             flags = state->flags;
             changing = flags & 4;
-            asm("" : "=r"(changing) : "0"(changing));
             if (changing) {
                 if (flags & 0x40) {
                     D_8009D190 = 60 - (*D_8009CDA4 - D_8009D18C);
