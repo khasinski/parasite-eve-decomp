@@ -1,6 +1,6 @@
 #include "pe1/battle_entity_anim.h"
 
-/* Six register pins and one empty identity barrier preserve retail register
+/* Six register pins preserve retail register
  * lifetimes and mask/address scheduling with stock GCC and maspsx. */
 
 int Entity_TriggerAnimEvent(BattleEntity *input, u8 slot)
@@ -73,8 +73,6 @@ int Entity_TriggerAnimEvent(BattleEntity *input, u8 slot)
             unsigned clearMask = 0xBFFFFFFF;
             unsigned signMask = 0x7FFFFFFF;
             register unsigned recordOffset asm("$2");
-            asm("" : "=r"(selectMask), "=r"(clearMask), "=r"(signMask), "=r"(offset)
-                : "0"(selectMask), "1"(clearMask), "2"(signMask), "3"(offset));
             recordOffset = offset + PE1_OFFSETOF(EntityAnimEventCore, records);
             core->active = (EnemyActionEffect *)((u8 *)core + recordOffset);
             core->flags = (core->flags & selectMask) | ((index & 7) << 21);
