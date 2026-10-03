@@ -245,6 +245,17 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### fx_common frustum, gradient quads and scene draw
+
+fx_common's frustum plane builder, gradient quad setup and scene draw now
+match from clean C. The negated plane distances are written as the negated
+first product minus the others, so the negation folds as retail's does; the
+gradient quads are written as array element fields so the stores use
+retail's indexed form; and the scene draw's buffer toggle stores all four
+path nodes in both branches, which keeps the following load below them and
+lets jump2 merge the tails as retail shows. The overlay SHA-1 hash is
+unchanged and no pins or barriers were added.
+
 ### Seven field engine and sound routines in the main executable
 
 `Akao_Calc3DPan` and six field engine routines of the main executable now
