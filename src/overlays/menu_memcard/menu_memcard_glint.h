@@ -39,11 +39,13 @@ typedef struct MemcardModelScale {
 } MemcardModelScale;
 
 extern RenderColor D_801ED844, D_801ED848, D_801ED84C;
-extern GteRotation D_801ED7FC;
+extern GteRotation D_801ED7FC, D_801ED804;
+extern RenderColor D_801ED80C, D_801ED810, D_801ED814;
 extern u8 D_801F1BB0[];
 extern u8 D_801F1C28[];
 extern u8 D_801F1CD8[];
 extern GteShortVector D_801F1F28;
+extern s16 D_801F1F3A;
 extern u8 *D_800E22D4;
 extern void *D_8009D254;
 extern s32 func_80077A64(s32, s32, s32, s32);
@@ -67,5 +69,14 @@ int Memcard_SpinRingParticle(int mode, MemcardSpinParticle *p);
 int Memcard_SpinBurstController(int mode, MemcardSpinBurst *burst);
 int Memcard_DriftGlowParticle(int mode, RoomDampedSpark *spark);
 int Memcard_RisingEmberParticle(int mode, RoomDampedSpark *spark);
+int Memcard_RingBurstController(int mode, RoomDampedSpark *burst);
+
+GteShortVector *Memcard_GetGlintOriginA(void);
+GteShortVector *Memcard_GetGlintOriginB(void);
+GteShortVector *Memcard_GetGlintOriginC(void);
+GteShortVector *Memcard_GetGlintOriginD(void);
+GteShortVector *Memcard_GetGlintOriginE(void);
+GteShortVector *Memcard_GetGlintOriginF(void);
+int Memcard_ConsumeCrossFlashFlag(int mode);
 
 #endif

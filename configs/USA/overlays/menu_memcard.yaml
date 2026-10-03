@@ -125,15 +125,26 @@ segments:
     subsegments:
       - [0x5F98, c, Memcard_SineTrailEffect]
   - [0x6308]
-  - name: menu_memcard_effect_callbacks_tail
+  # The glint origin hooks keep their original copied link address.
+  - name: menu_memcard_glint_hooks_linkbase
     type: code
     start: 0x6308
-    vram: 0x8012704C
+    vram: 0x801F1B00
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x6308, asm, func_menu_memcard_006308]
+      - [0x6308, c, Memcard_GlintOriginHooks]
+  - [0x63A0]
+  - name: menu_memcard_effect_callbacks_tail
+    type: code
+    start: 0x63A0
+    vram: 0x801270E4
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x63A0, asm, menu_memcard_data_0063A0]
       - [0x6B04, c, func_80127848]
       - [0x6C78, asm, func_menu_memcard_006C78]
   - [0x7000]
