@@ -24,8 +24,8 @@ s32 Geo_BuildMeshList(void) {
     base = g_GeomState;
     temp = D_800BCF8C;
     temp -= 0xA0;
-    value = *(volatile u16 *)(base + 0x2C);
-    count = *(volatile u16 *)(base + 6);
+    value = *(u16 *)(base + 0x2C);
+    count = *(u16 *)(base + 6);
     value -= temp;
     M2C_FIELD(base, s16 *, 0x38) = (s16) value;
     temp = g_CameraClampedY;
