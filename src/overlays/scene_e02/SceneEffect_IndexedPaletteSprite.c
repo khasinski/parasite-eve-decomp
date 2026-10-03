@@ -29,7 +29,7 @@ render:
     func_800CEE20(effect, &D_80195668, (s16)size, (s16)size,
                    texture, clut, 1,
                    ((s16)(*(s32 *)((u8 *)D_800966EC +
-                       (((u32)frameLater << 9) & 0x3E00)) >> 16)) >> 5,
+                       ((frameLater << 9) & 0x3E00)) >> 16)) >> 5,
                    &D_80195670);
 finished:
     return 0;
