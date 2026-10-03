@@ -98,8 +98,8 @@
                 gte_mtc2_0(x);                                                                     \
                 gte_lwc2_1_8(packed);                                                              \
             } else {                                                                               \
-                y = ((volatile u16 *)zero0)[2];                                                    \
-                x = ((volatile u16 *)zero0)[0];                                                    \
+                y = ((u16 *)zero0)[2];                                                    \
+                x = ((u16 *)zero0)[0];                                                    \
                 y <<= 16;                                                                          \
                 x |= y;                                                                            \
                 gte_mtc2_0(x);                                                                     \
@@ -138,40 +138,40 @@
     {                                                                                              \
         u8 *matrix;                                                             \
         u32 value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U16_AT(actor, 0x34);                                                               \
         U16_AT(matrix, 0x20) = value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U16_AT(actor, 0x36);                                                               \
         U16_AT(matrix, 0x22) = value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U16_AT(actor, 0x38);                                                               \
         U16_AT(matrix, 0x24) = value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U16_AT(actor, 0x3a);                                                               \
         U16_AT(matrix, 0x26) = value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U16_AT(actor, 0x3c);                                                               \
         U16_AT(matrix, 0x28) = value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U16_AT(actor, 0x3e);                                                               \
         U16_AT(matrix, 0x2a) = value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U16_AT(actor, 0x40);                                                               \
         U16_AT(matrix, 0x2c) = value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U16_AT(actor, 0x42);                                                               \
         U16_AT(matrix, 0x2e) = value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U16_AT(actor, 0x44);                                                               \
         U16_AT(matrix, 0x30) = value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U32_AT(actor, 0x48);                                                               \
         U32_AT(matrix, 0x34) = value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U32_AT(actor, 0x4c);                                                               \
         U32_AT(matrix, 0x38) = value;                                                              \
-        matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
+        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
         value = U32_AT(actor, 0x50);                                                               \
         U32_AT(matrix, 0x3c) = value;                                                              \
     }
@@ -234,9 +234,9 @@
 
 void Render_TransformVertices(RenderObjectEntity *input) {
     u8 *actor = (u8 *)input;
-    volatile s32 *zero0 = (volatile s32 *)0x1F800000;
-    register volatile s32 *zero4 asm("$18") = (volatile s32 *)0x1F800004;
-    volatile s32 *zero8 = (volatile s32 *)0x1F800008;
+    s32 *zero0 = (s32 *)0x1F800000;
+    register s32 *zero4 asm("$18") = (s32 *)0x1F800004;
+    s32 *zero8 = (s32 *)0x1F800008;
     s32 *matrix_stack = (s32 *)0x1F80000C;
     register s32 *stack_top asm("$17");
     u8 *commands;
