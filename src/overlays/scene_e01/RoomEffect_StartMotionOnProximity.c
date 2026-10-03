@@ -59,19 +59,19 @@ void func_8018F18C(RoomMotionTrigger *arg) {
         p->render_object.model_matrix.rotation[2][2] = v;
         *(volatile s32 *)&p->render_object.model_matrix.translation[0] = 0;
         v = 0x100;
-        *(volatile s32 *)&p->render_object.model_matrix.translation[0] = v;
+        p->render_object.model_matrix.translation[0] = v;
         *(volatile s32 *)&p->render_object.model_matrix.translation[2] = 0;
         v = -0xC0;
-        *(volatile s32 *)&p->render_object.model_matrix.translation[2] = v;
+        p->render_object.model_matrix.translation[2] = v;
         p->render_object.model_matrix.rotation[0][0] = s;
         p->render_object.model_matrix.rotation[0][1] = neg;
         p->render_object.model_matrix.rotation[1][1] = s;
-        *(volatile s32 *)&p->render_object.model_matrix.translation[1] = 0;
+        p->render_object.model_matrix.translation[1] = 0;
         p->render_object.model_matrix.rotation[2][1] = 0;
         p->render_object.model_matrix.rotation[2][0] = 0;
         p->render_object.model_matrix.rotation[1][2] = 0;
         p->render_object.model_matrix.rotation[0][2] = 0;
-        *(volatile s32 *)&p->render_object.model_matrix.translation[1] = 0;
+        p->render_object.model_matrix.translation[1] = 0;
         arg->activated = 1;
 
         p = D_8009D254;
