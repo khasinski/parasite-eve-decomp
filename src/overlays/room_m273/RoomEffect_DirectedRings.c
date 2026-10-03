@@ -17,7 +17,7 @@ extern int D_800966EC[];
 extern unsigned short D_800E11E8,D_800E2850[];
 extern unsigned short D_800F3368,D_800F336A,D_800F336C,D_800F336E;
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
-extern volatile unsigned short D_800F3376,D_800F3378;
+extern unsigned short D_800F3376,D_800F3378;
 extern int func_8019665C();
 extern int func_800CE560(void *,int,int,int (*)());
 extern Particle *func_800CE610(void *);
