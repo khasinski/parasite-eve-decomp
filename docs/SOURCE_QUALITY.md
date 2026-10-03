@@ -245,6 +245,21 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m017 and six sibling rooms model draw
+
+`RoomFx_ModelDraw` in room_m017, room_m018, room_m021, room_m045, room_m102,
+room_m151 and room_m319 now shares `RoomFx_ModelDraw.inc`. It walks the
+model's quad and triangle records, culls each through NCLIP, sums the vertex
+depths into an ordering-table slot and links the packet with the PSY-Q
+`addPrim` form. The tag link uses 24-bit bitfields on the packet tag so the
+mask constants land in retail's registers on their own, a single packet
+pointer at function scope is shared by all four loops so it is not
+strength-reduced, the index temporaries live at function scope so their loads
+issue first, the loops are `while` loops ending in the pointer, index and
+record increments, and the triangle depth is written as `depth / 3 >> 2`.
+Each 1476-byte instance matches retail with no pins or barriers; all seven
+overlay SHA-1 hashes are unchanged.
+
 ### Further copies of matched room_lib templates
 
 A byte search of every overlay for relocation-masked copies of already matched
