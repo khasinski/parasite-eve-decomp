@@ -11,8 +11,8 @@ int __attribute__((section(".text.Gte_Atan2"))) Gte_Atan2(int y, int x) {
     register int angle asm("$3");
     int result;
     int y_less_than_x;
-    if (x < 0) { negative_x = 1; x = (int)(0u - (u32)x); }
-    if (y < 0) { negative_y = 1; y = (int)(0u - (u32)y); }
+    if (x < 0) { negative_x = 1; x = (int)(0u - x); }
+    if (y < 0) { negative_y = 1; y = (int)(0u - y); }
     y_less_than_x = y < x;
     if (x == 0) {
         result = 0;
@@ -28,7 +28,7 @@ int __attribute__((section(".text.Gte_Atan2"))) Gte_Atan2(int y, int x) {
             asm volatile("" : : "r"(index));
         }
         else {
-            y = (int)((u32)y << 10) / x;
+            y = (int)(y << 10) / x;
             index = y << 1;
         }
         angle = *(s16 *)((char *)atan_table + index);
@@ -39,7 +39,7 @@ int __attribute__((section(".text.Gte_Atan2"))) Gte_Atan2(int y, int x) {
             asm volatile("" : : "r"(index));
         }
         else {
-            y = (int)((u32)x << 10) / y;
+            y = (int)(x << 10) / y;
             index = y << 1;
         }
         angle = *(s16 *)((char *)atan_table + index);
