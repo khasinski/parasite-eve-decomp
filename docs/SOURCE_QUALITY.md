@@ -245,6 +245,26 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m156+2, room_m291+2 and room_m380+2 beam spark controller
+
+`func_80190F94` in room_m156+2, room_m291+2 and room_m380+2 now shares
+`RoomEffect_BeamSparkController.inc` on `room_spark.h` (which gained the
+bounce spark, beam record and beam parameter records) with the
+`MASPSX_FLAGS: --expand-div` marker that retail's full division expansion
+needs (precedent room_m081 and room_m245). On creation it loads the beam
+model, plays its sound, pokes the primary pool's actor status and registers
+the bounce render callback; the update blends the beam tip towards the target
+while spawning bounce sparks, holds while the model pulses and flashes the
+scene, then fades; the draw projects a line primitive through RTPT with the
+depth from SZ3 and draws the scaled model. The address-taken scratch word is
+declared before the matrix block so the frame layout matches, the three
+vectors load and store through the PSY-Q style three-operand GTE macros so
+their addresses are computed first, the `return 1` tails are written so
+jump2 cannot cross-jump them, and the sound base is read as a one-field
+record so its load stays below the beam stores. Each 3072-byte instance
+matches retail with no pins or barriers; all three overlay SHA-1 hashes are
+unchanged.
+
 ### room_m188 and room_m390 comet spark spawner
 
 `func_801951EC` in room_m188 and room_m390 now shares
