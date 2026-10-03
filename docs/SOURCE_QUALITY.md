@@ -245,6 +245,23 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### scene_e09 and scene_e10 dropped flare particle
+
+`func_80193F64` in scene_e09 and scene_e10 now shares
+`RoomEffect_DroppedFlareParticle.inc` on the new `room_flare.h`, with the
+`MASPSX_FLAGS: --expand-div` marker that the variable-divisor random spread
+needs (precedent room_m081). The particle seeds its children around the
+floor position with a random spread, advances them under gravity and draws
+them through the sanctioned rotation and translation matrix loads. Its two
+five-entry jump tables plus the alignment pad word are carved out of the
+overlay header rodata as their own subsegment, the floor position is written
+x, z, y in retail order, the spread halving is written after the first random
+call so it is computed once and reused, and in the mode-2 switch the first
+case returns while the second breaks so cross-jumping joins the first case
+into the second case's tail the way retail does. Each 2496-byte instance
+matches retail with no pins or barriers; both overlay SHA-1 hashes are
+unchanged.
+
 ### room_m141, room_m146, room_m153, room_m154, room_m328 and scene_e02 homing projectile controller
 
 `func_80191330` in room_m141 and room_m328, `func_8019179C` in room_m146,
