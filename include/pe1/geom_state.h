@@ -250,6 +250,24 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CameraViewport, minX) == 44,
                   camera_viewport_min_x_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollCoordinates, matrixWords) == 24,
                   camera_matrix_words_offset);
+/* The geometry header locates its tables by byte offsets. Retail reads the
+ * header pointer twice and adds the offset to the header address as an
+ * integer; this word view expresses that without pointer casts. */
+typedef union GeomStateAddress {
+    GeomState *state;
+    GeomCtrlEntry *ctrl;
+    GeomEntry *entry;
+    CameraViewport *viewport;
+    u8 *bytes;
+    u32 word;
+} GeomStateAddress;
+
+/* address = g_GeomState + g_GeomState->field + extra, as a GeomStateAddress. */
+#define GEOM_STATE_OFFSET(address, base, field, extra) \
+    ((address).state = g_GeomState, \
+     (base).state = g_GeomState, \
+     (address).word = (base).word + (address).state->field + (extra))
+
 int Render_UpdateScrollPosition(void *position, int duration, int mode);
 extern s16 D_800BCFFE;
 extern int g_RenderStateFlags;
