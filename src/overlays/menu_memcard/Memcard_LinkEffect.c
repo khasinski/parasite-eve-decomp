@@ -44,20 +44,8 @@ s32 Memcard_LinkEffect(s32 mode, MemcardLinkState *state) {
             func_800CF3AC(D_801F1D5C, &color, state->timer);
             func_800CE8F0(D_8009D254, D_801F1D86, &offset, &first);
             func_800CE8F0(D_8009D254, D_801F1D88, &offset, &second);
-            {
-                RenderMatrixSlot *slot = &D_800BCFA4;
-                register s32 *matrix asm("$8");
-                register s32 a asm("$12");
-                register s32 b asm("$13");
-                register s32 c asm("$14");
-                __asm__("" : "=r"(slot) : "0"(slot));
-                matrix = slot->value;
-                a = matrix[0]; b = matrix[1]; gte_ctc2_0(a); gte_ctc2_1(b);
-                a = matrix[2]; b = matrix[3]; c = matrix[4];
-                gte_ctc2_2(a); gte_ctc2_3(b); gte_ctc2_4(c);
-                a = matrix[5]; b = matrix[6]; gte_ctc2_5(a);
-                c = matrix[7]; gte_ctc2_6(b); gte_ctc2_7(c);
-            }
+            gte_ldrotmatrix(D_800BCFA4.value);
+            gte_ldtransmatrix(D_800BCFA4.value);
             func_800D1384(&first, &second, 16, &color2, &color1,
                          state->opacity, &state->rotation, 1);
         }
