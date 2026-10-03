@@ -245,6 +245,19 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Nearest floor edge search and the inventory root menu
+
+`Geo_FindNearestEdge` and `Menu_StepInventoryRoot` in the main executable now
+match from clean C. The edge search keeps its vertex pointer non-const so its
+loads stay below the spilled locals' stores, and copies each vertex through
+an `s16` previous-vertex local as retail does; `D_8009CE2C` loses its
+volatile, which also removes a cast from the wall slide. The inventory root
+menu gives its stat preview loop a block-scoped source pointer and counter,
+declares its two absolutely addressed tables as arrays, and defines its gp
+word in the unit with the `--use-comm-section` marker that `menu13.c`
+already uses. The main executable is unchanged and no pins or barriers were
+added.
+
 ### Field engine tiles and the falling spin glow
 
 Five more field engine routines of the main executable match from clean C:
