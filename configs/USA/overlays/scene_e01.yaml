@@ -35,6 +35,8 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodatabin, scene_e01_header]
+      - [0x34, .rodata, RoomEffect_GroundSweepController_8018FA64]
+      - [0x60, rodatabin, scene_e01_header_tail]
       - [0x70, c, func_8018F058]
       - [0x78, c, func_8018F060]
       - [0x9C, c, func_8018F084]
@@ -47,8 +49,8 @@ segments:
       - [0x6D4, c, func_8018F6BC]
       - [0x810, c, func_8018F7F8]
       - [0x818, c, RoomEffect_RenderMotionSprite]
-      # 0xA7C..0x31A4: byte-identical copies of room_m269 func_8018FA64..func_80191CFC (same vram, same relocations)
-      - [0xA7C, asm, func_8018FA64]
+      # 0xA7C..0x31A4: the same room_lib template instances as room_m269 (same vram, same relocations)
+      - [0xA7C, c, RoomEffect_GroundSweepController_8018FA64]
       - [0x1724, c, RoomEffect_OrbitTrailParticle_8019070C]
       - [0x1D50, c, RoomEffect_OrbitTrailBurst_80190D38]
       - [0x23CC, c, RoomEffect_RisingSprayParticle_801913B4]
