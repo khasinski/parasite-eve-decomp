@@ -47,4 +47,7 @@ extern RenderColor D_8018F1CC;
 extern u8 D_80199168[];
 extern void func_800D2B58(void *, void *, void *, void *, int, int, int);
 
+/* Damped glow particle (func_801931B8): its glow colour track. */
+extern u8 D_80199190[];
+
 #endif
