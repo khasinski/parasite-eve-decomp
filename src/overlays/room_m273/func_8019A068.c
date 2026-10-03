@@ -12,9 +12,9 @@ char *func_800CE610(void *arg0);
 
 s32 func_8019A068(s32 state) {
     char *obj;
-    register char *root asm("$2");
-    register char *source asm("$3");
-    register u8 status asm("$3");
+    char *root;
+    char *source;
+    u8 status;
 
     if (state != 1) {
         if (state >= 2) {
