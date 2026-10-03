@@ -53,8 +53,6 @@ int func_8018F800(int mode, MotionSpriteState *state) {
         /* Keep the halfword store before the signed range check. */
         asm volatile("" : "=r"(next) : "0"(next) : "memory");
         signed_next = (s16)next;
-        /* Preserve the separate sign extension used by the retail build. */
-        asm volatile("" : "=r"(signed_next) : "0"(signed_next));
         if (signed_next < 16) return 0;
         /* The two return paths must stay distinct. */
         asm volatile("" ::: "memory");
@@ -73,8 +71,7 @@ int func_8018F800(int mode, MotionSpriteState *state) {
     position.z = state->z;
 
     if ((s16)state->frame < 8) {
-        /* PIN-DEBT: the first palette selector remains in $v0. */
-        register int first_kind asm("$2");
+        int first_kind;
         first_kind = D_800F336C;
         palette = D_800E1204[first_kind];
         if (first_kind == 4 && D_800F3428) palette += 4;
