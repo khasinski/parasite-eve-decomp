@@ -23,7 +23,7 @@ extern RoomM273Vector D_8019AE9C[];
 extern RoomM273Vector D_8019AE9E[];
 extern RoomM273Vector D_8019AEA0[];
 extern s16 D_800F3372;
-extern volatile u16 D_800F3376, D_800F3378;
+extern u16 D_800F3376, D_800F3378;
 extern s16 D_8019ACA8;
 extern s16 D_8019AE6C, D_8019AE70, D_8019AE74, D_8019AE78;
 extern u8 D_8019AEF8, D_8019AEFA;
@@ -62,7 +62,7 @@ int func_801955E8(int mode) {
         actor = candidate;
         {
             u16 previousFrame =
-                *(volatile u16 *)((u8 *)actor + 0x1A);
+                *(u16 *)((u8 *)actor + 0x1A);
         if (*(s16 *)((u8 *)actor + 0x16) < 6 ||
             (s16)previousFrame >= 35)
             return 0;
