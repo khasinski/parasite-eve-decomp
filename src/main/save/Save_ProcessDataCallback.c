@@ -9,12 +9,11 @@ int func_8007FCBC(int mode, int unused);
 
 void Save_ProcessDataCallback(void) {
     int *readInProgress;
-    register int particleType asm("$4");
-    register void *zeroArg1 asm("$5");
-    register DslCB callback asm("$6");
+    int particleType;
+    void *zeroArg1;
+    DslCB callback;
 
     readInProgress = &g_CdReadInProgress;
-    asm volatile("" : "+r"(readInProgress));
 
     if (*readInProgress == 1) {
         CdRom_ResetFileDescriptors();
@@ -29,7 +28,6 @@ void Save_ProcessDataCallback(void) {
         zeroArg1 = 0;
         asm volatile("" : "+r"(particleType), "+r"(zeroArg1));
         callback = 0;
-        asm volatile("" : "+r"(callback));
         Render_AllocParticleNode(particleType, zeroArg1, callback, -1);
     }
 
