@@ -19,8 +19,8 @@ void func_801927A8(void *unused0, void *unused1, char *effect) {
     char *owner;
     u8 scratchA[8];
     u8 scratchB[8];
-    register u8 *scratchPtr asm("$21");
-    register u8 *table asm("$22");
+    u8 *scratchPtr;
+    u8 *table;
     int retA, retB;
 
     owner = func_800C2B50();
