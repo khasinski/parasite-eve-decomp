@@ -24,8 +24,8 @@ u32 Task_GpuFlushPrimQueue(void) {
     asm volatile("" : "=r"(base) : "0"(base));
 
     /* Match note: preserve target operand order in the address adds. */
-    head_ptr = (u32 *)((u32)base + (u32)head);
-    tail_ptr = (u32 *)((u32)base + (u32)tail);
+    head_ptr = (u32 *)((u32)base + head);
+    tail_ptr = (u32 *)((u32)base + tail);
     asm volatile("" : "=r"(head_ptr), "=r"(tail_ptr) : "0"(head_ptr), "1"(tail_ptr));
 
     head_value = *head_ptr;
@@ -38,8 +38,8 @@ u32 Task_GpuFlushPrimQueue(void) {
     ret = zero | head_value;
     asm volatile("" : "=r"(ret), "=r"(head), "=r"(tail) : "0"(ret), "1"(head), "2"(tail));
 
-    head = (u32)head - 4;
-    tail = (u32)tail - 4;
+    head = head - 4;
+    tail = tail - 4;
     if (head < 0) {
         head = zero | 0x40;
     }
