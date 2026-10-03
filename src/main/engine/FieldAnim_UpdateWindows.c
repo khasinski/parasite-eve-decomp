@@ -1,7 +1,7 @@
 #include "common.h"
-extern volatile u16 D_800E2290;
-extern volatile u16 D_800E2292;
-extern volatile u16 D_800E2294;
+extern u16 D_800E2290;
+extern u16 D_800E2292;
+extern u16 D_800E2294;
 
 int func_800CC440(void *arg0, void *arg1, u8 *anim) {
     u16 z;
