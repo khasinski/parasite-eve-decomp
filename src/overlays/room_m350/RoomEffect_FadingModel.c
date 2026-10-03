@@ -170,14 +170,7 @@ update:
             gte_ldrotmatrix(matrix); gte_ldtransmatrix(matrix);
             out=&offset;
             gte_ldv0(out); gte_rtv0tr_mac();
-            asm volatile("" : "=r"(out) : "0"(out));
-            {
-                register int x asm("$12");
-                register int y asm("$13");
-                register int z asm("$14");
-                gte_mfc2_9(x); gte_mfc2_10(y); gte_mfc2_11(z);
-                out->x=x; out->y=y; out->z=z;
-            }
+            gte_stsv(out);
         }
         particle->x=(unsigned short)particle->x+(unsigned short)offset.x;
         particle->z=(unsigned short)particle->z+(unsigned short)offset.z;
