@@ -3,7 +3,7 @@ extern int D_800E27EC;
 extern char *D_800E2368;
 int func_800CE688(char *list)
 {
-  volatile int frame_pad[2];
+  int frame_pad[2];
   int old_context = D_800E27EC;
   char *entry = list + 0xC;
   char *timer;
