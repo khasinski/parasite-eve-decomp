@@ -113,7 +113,6 @@ void Boot_StepImageSprite(void) {
         threshold = divisor - 93;
         if (phase == threshold) g_BootDisplayTransition = 2;
         if (phase == 0) {
-            asm("" : "=r"(phase) : "0"(phase));
             g_BootDisplayState = 6;
             g_BootDisplayTransition = 0;
         }
@@ -126,7 +125,6 @@ void Boot_StepImageSprite(void) {
             g_BootDisplayState = 0;
         } else {
             g_BootDisplayState = 7;
-            asm("" : : : "memory");
         }
         g_BootDisplayTransition = 0;
         g_BootDisplayBufferIndex ^= 1;
