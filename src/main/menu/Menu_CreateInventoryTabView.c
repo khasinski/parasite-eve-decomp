@@ -126,7 +126,7 @@ void Menu_CreateBonusPointAllocationView(void) {
         __asm__ volatile("" : "=r"(temp_a3) : "0"(temp_a3));
         var_s3 += 4;
         var_s1 += 1;
-        M2C_FIELD(var_s0, s32 *, 0) = (s32) temp_v0_3;
+        M2C_FIELD(var_s0, s32 *, 0) = temp_v0_3;
         M2C_FIELD(var_s2, s32 *, 0) = 0;
         temp_a1 = M2C_FIELD(var_s0, s32 *, 0);
         var_s0 += 4;
