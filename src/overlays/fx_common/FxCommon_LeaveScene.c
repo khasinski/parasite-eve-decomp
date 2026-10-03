@@ -7,6 +7,7 @@ void func_80192030(void)
     FxCommonRect area;
     s32 room;
     u32 night;
+    u32 band;
     u8 fade;
     int i;
 
@@ -65,10 +66,12 @@ void func_80192030(void)
             } else if (room == 0x178) {
                 D_8009D280 = 0xA80033C8;
                 fade = 0;
-            } else if ((u32)(room - 0x180) < 0x88) {
-                D_8009D280 = 0xA80201C8;
             } else {
-                D_8009D280 = 0xA8004348;
+                band = room - 0x180;
+                if (band < 0x88)
+                    D_8009D280 = 0xA80201C8;
+                else
+                    D_8009D280 = 0xA8004348;
             }
             break;
         case 8:

@@ -11,6 +11,7 @@ void func_8019234C(void)
     u8 started;
     int scanning;
     int i;
+    FxCommonAddress current;
 
     D_8009CDDC = 0;
     D_8019C00E = 0;
@@ -56,15 +57,17 @@ void func_8019234C(void)
         scanning = 1;
         for (i = 0xFFF; i >= 0; i--) {
             if (scanning) {
-                if ((D_8019C9C0->allocation[i].packed | 0x80000000) ==
-                    (u32)&D_8019C9C0->allocation[i - 1]) {
+                if ((FxCommonPacketTag *)(D_8019C9C0->allocation[i].packed |
+                                          0x80000000) ==
+                    &D_8019C9C0->allocation[i - 1]) {
                     last = i;
                     scanning = 0;
                 }
-            } else if ((D_8019C9C0->allocation[i].packed | 0x80000000) !=
-                       (u32)&D_8019C9C0->allocation[i - 1]) {
-                D_8019C9C0->allocation[last].packed =
-                    (u32)&D_8019C9C0->allocation[i] & 0xFFFFFF;
+            } else if ((FxCommonPacketTag *)(D_8019C9C0->allocation[i].packed |
+                                             0x80000000) !=
+                       &D_8019C9C0->allocation[i - 1]) {
+                current.pointer = &D_8019C9C0->allocation[i];
+                D_8019C9C0->allocation[last].packed = current.word & 0xFFFFFF;
                 scanning = 1;
             }
         }
