@@ -103,7 +103,7 @@ segments:
       - [0x50A4, asm, func_scene_e22_0050A4]
       - [0x5874, asm, func_scene_e22_005874]
       - [0x5F78, asm, func_scene_e22_005F78]
-      - [0x67E4, asm, func_scene_e22_0067E4]
+      - [0x67E4, c, RoomEffect_SwirlRingParticle]
       - [0x6B58, asm, func_scene_e22_006B58]
       - [0x7314, c, RoomEffect_TwistTrailParticle]
       - [0x756C, asm, func_scene_e22_00756C]

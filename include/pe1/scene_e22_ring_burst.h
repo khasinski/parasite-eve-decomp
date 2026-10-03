@@ -53,6 +53,7 @@ extern u8 D_80199190[];
 /* Twisting trail particle (func_801962FC): spin template, colour track and
  * the bent trail renderer. */
 extern GteRotation D_8018F1F4;
+extern u8 D_80199434[];
 extern u8 D_8019944C[];
 extern void func_800CF844(void *, void *, int, void *, int, int);
 
