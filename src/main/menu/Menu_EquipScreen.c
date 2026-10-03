@@ -47,9 +47,9 @@ void Menu_CreateEquipScreen(s32 arg0) {
     g_MenuActionSubmenuOpen = 0;
     if (g_MenuEquipSwapSource != 0) {
         entryIndex = g_MenuEquipSwapSource - 1;
-        M2C_FIELD(node, s32 *, 0x44) = (s32) (entryIndex & 1);
-        M2C_FIELD(node, s32 *, 0x48) = (s32) ((entryIndex >> 1) & 0x7F);
-        M2C_FIELD(node, s32 *, 0x5C) = (s32) (entryIndex >> 8);
+        M2C_FIELD(node, s32 *, 0x44) = (entryIndex & 1);
+        M2C_FIELD(node, s32 *, 0x48) = ((entryIndex >> 1) & 0x7F);
+        M2C_FIELD(node, s32 *, 0x5C) = (entryIndex >> 8);
     }
 }
 #include "common.h"
@@ -101,7 +101,7 @@ loop_7:
                 goto loop_7;
             }
             M2C_FIELD(temp_s1, s32 *, 0x44) = 0;
-            M2C_FIELD(temp_s1, s32 *, 0x48) = (s32) (var_s0 & -(var_s0 < Inv_GetAyaSlotLimit()));
+            M2C_FIELD(temp_s1, s32 *, 0x48) = (var_s0 & -(var_s0 < Inv_GetAyaSlotLimit()));
             MenuWidget_SetCurrentNode(temp_s1);
         }
         {
@@ -136,7 +136,7 @@ loop_16:
             goto loop_16;
         }
         M2C_FIELD(temp_s1_2, s32 *, 0x44) = 0;
-        M2C_FIELD(temp_s1_2, s32 *, 0x48) = (s32) (var_s0_2 & -(var_s0_2 < Inv_GetAyaSlotLimit()));
+        M2C_FIELD(temp_s1_2, s32 *, 0x48) = (var_s0_2 & -(var_s0_2 < Inv_GetAyaSlotLimit()));
         MenuWidget_SetCurrentNode(temp_s1_2);
     }
 }
