@@ -277,6 +277,8 @@ typedef struct RenderColor {
 } RenderColor;
 
 extern RenderColor D_800C22C0;
+extern RenderColor D_800C22C4;
+extern u8 D_800E166C[];
 extern RenderColor D_800C22D0;
 
 typedef struct RenderDiamondEmitter {
