@@ -64,7 +64,7 @@
         gte_cop2_hazard_slot();                                                                    \
         gte_mvmva_rotation_v0_translation_sf12();                                                  \
         {                                                                                          \
-            register u8 *output asm("$2") = (u8 *)(dst);                                           \
+            u8 *output = (u8 *)(dst);                                           \
             asm("" : "=r"(output) : "0"(output));                                                  \
             gte_mfc2_9(x);                                                                         \
             gte_mfc2_10(y);                                                                        \
@@ -101,16 +101,16 @@
 #define Skinned_RootAxis(actor)                                                                    \
     {                                                                                              \
         register u16 *src asm("$9") = (u16 *)(u8 *)actor->matrices;                                \
-        asm("" : "=r"(src) : "0"(src));                                                            \
+        \
         Skinned_LoadAxis(src);                                                                     \
     }
 #define Skinned_SelectedAxis(actor)                                                                \
     {                                                                                              \
-        register int index asm("$2") = (s16)actor->table_index;                                    \
-        register u16 *src asm("$3");                                                               \
-        asm("" : "=r"(index) : "0"(index));                                                        \
+        int index = (s16)actor->table_index;                                    \
+        u16 *src;                                                               \
+        \
         src = (u16 *)((u8 *)actor->matrices + index * 32);                                         \
-        asm("" : "=r"(src) : "0"(src));                                                            \
+        \
         Skinned_LoadAxis(src);                                                                     \
     }
 #define Render_SkinnedBuildMatrix(view_matrix, bone_expr, out_matrix, first_axis)                  \
@@ -119,7 +119,7 @@
         first_axis;                                                                                \
         Skinned_StoreAxis((s16 *)(out_matrix));                                                    \
         {                                                                                          \
-            register u16 *src asm("$2") = (u16 *)(bone_expr) + 1;                                  \
+            u16 *src = (u16 *)(bone_expr) + 1;                                  \
             asm("" : "=r"(src) : "0"(src));                                                        \
             Skinned_LoadAxis(src);                                                                 \
             {                                                                                      \
@@ -129,7 +129,7 @@
             }                                                                                      \
         }                                                                                          \
         {                                                                                          \
-            register u16 *src asm("$2") = (u16 *)(bone_expr) + 2;                                  \
+            u16 *src = (u16 *)(bone_expr) + 2;                                  \
             asm("" : "=r"(src) : "0"(src));                                                        \
             Skinned_LoadAxis(src);                                                                 \
             {                                                                                      \
@@ -140,7 +140,7 @@
         }                                                                                          \
         Render_SkinnedLoadTrans(view_matrix);                                                      \
         {                                                                                          \
-            register u8 *src asm("$2") = (u8 *)(bone_expr) + 20;                                   \
+            u8 *src = (u8 *)(bone_expr) + 20;                                   \
             register u32 xy asm("$12"), y asm("$13");                                              \
             asm("" : "=r"(src) : "0"(src));                                                        \
             y = U16_AT(src, 4);                                                                    \
@@ -154,7 +154,7 @@
             gte_mvmva_rotation_v0_translation_sf12();                                              \
             {                                                                                      \
                 register s32 *dst asm("$9") = (s32 *)0x1F800014;                                   \
-                asm("" : "=r"(dst) : "0"(dst));                                                    \
+                \
                 gte_swc2_25_0(dst);                                                                \
                 gte_swc2_26_4(dst);                                                                \
                 gte_swc2_27_8(dst);                                                                \
@@ -169,18 +169,18 @@
         gte_cop2_hazard_slot();                                                                    \
         gte_rtps_command();                                                                        \
         {                                                                                          \
-            register u8 *output asm("$2") = (u8 *)(out);                                           \
-            asm("" : "=r"(output) : "0"(output));                                                  \
+            u8 *output = (u8 *)(out);                                           \
+            \
             gte_stsxy2(output);                                                                    \
         }                                                                                          \
     }
 
 void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input) {
-    register RenderObjectEntity *actor asm("$6") = input;
-    register s32 *view_matrix asm("$5") = (s32 *)view_input;
-    register volatile u16 *scratch_vec asm("$7") = (volatile u16 *)0x1F800020;
-    register s32 *scratch_matrix asm("$8") = (s32 *)0x1F800000;
-    register RenderObjectHeader *header asm("$4");
+    RenderObjectEntity *actor = input;
+    s32 *view_matrix = (s32 *)view_input;
+    volatile u16 *scratch_vec = (volatile u16 *)0x1F800020;
+    s32 *scratch_matrix = (s32 *)0x1F800000;
+    RenderObjectHeader *header;
     asm(""
         : "=r"(actor), "=r"(view_matrix), "=r"(scratch_vec)
         : "0"(actor), "1"(view_matrix), "2"(scratch_vec));
@@ -190,27 +190,22 @@ void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input)
         return;
     }
     {
-        register int index asm("$2") = header->anchor_matrix_index;
-        register s32 *matrix asm("$3");
-        asm("" : "=r"(index) : "0"(index));
+        int index = header->anchor_matrix_index;
+        s32 *matrix;
         matrix = (s32 *)((u8 *)actor->matrices + index * 32);
-        asm("" : "=r"(matrix) : "0"(matrix));
         Render_SkinnedLoadFullMatrix(matrix);
     }
     asm("" : "=r"(scratch_matrix) : "0"(scratch_matrix));
     {
-        register int value asm("$2") = header->anchor_y;
-        asm("" : "=r"(value) : "0"(value));
+        int value = header->anchor_y;
         D_8009CD9A = value;
     }
     {
         register u8 *vector asm("$9") = D_8009CD98;
-        asm("" : "=r"(vector) : "0"(vector));
         Render_SkinnedTransformVec(vector, &actor->anchor_position);
     }
     {
         register s32 *matrix asm("$9") = (s32 *)(u8 *)actor->matrices;
-        asm("" : "=r"(matrix) : "0"(matrix));
         Render_SkinnedLoadFullMatrix(matrix);
     }
     scratch_vec[0] = U16_AT(actor->model_section14, 0) + actor->animation_value74;
@@ -219,13 +214,11 @@ void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input)
     *(u16 *)0x1F800024 = U16_AT(actor->model_section14, 4) + actor->animation_value78;
     Render_SkinnedTransformVec(scratch_vec, &actor->animation_value74);
     {
-        register int index asm("$4") = (s16)actor->table_index;
-        register s32 *matrix asm("$2") = (s32 *)((u8 *)actor->matrices + index * 32);
-        register u8 *point asm("$2");
-        asm("" : "=r"(matrix), "=r"(index) : "0"(matrix), "1"(index));
+        int index = (s16)actor->table_index;
+        s32 *matrix = (s32 *)((u8 *)actor->matrices + index * 32);
+        u8 *point;
         Render_SkinnedLoadFullMatrix(matrix);
         point = (u8 *)actor->bounds_vertices + index * 16;
-        asm("" : "=r"(point) : "0"(point));
         Render_SkinnedTransformVec(point, &actor->target_x);
     }
     Render_SkinnedBuildMatrix(view_matrix, (s32 *)(u8 *)actor->matrices, scratch_matrix,
@@ -233,7 +226,6 @@ void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input)
     Render_SkinnedLoadFullMatrix(scratch_matrix);
     {
         register u8 *point asm("$9") = (u8 *)actor->projection_origin;
-        asm("" : "=r"(point) : "0"(point));
         Render_SkinnedProject(point, &actor->projected_x);
     }
     Render_SkinnedBuildMatrix(view_matrix,
@@ -241,11 +233,9 @@ void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input)
                               scratch_matrix, Skinned_SelectedAxis(actor));
     Render_SkinnedLoadFullMatrix(scratch_matrix);
     {
-        register int index asm("$2") = (s16)actor->table_index;
-        register u8 *point asm("$3");
-        asm("" : "=r"(index) : "0"(index));
+        int index = (s16)actor->table_index;
+        u8 *point;
         point = (u8 *)actor->bounds_vertices + index * 16;
-        asm("" : "=r"(point) : "0"(point));
         Render_SkinnedProject(point, &actor->projected_target_x);
     }
 }
