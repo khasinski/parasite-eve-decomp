@@ -6,11 +6,11 @@
 
 /* Polygon model blocks: a header of eight primitive counts and eight byte
  * offsets (relative to the block) of the primitive arrays, one per kind. */
-typedef union FxCommonPolyModel {
+union FxCommonPolyModel {
     FxCommonPolyResource header;
     s32 bankOffsets[1];
     u8 bytes[1];
-} FxCommonPolyModel;
+};
 
 /* Model primitives.  Colours keep the GPU command byte in their top byte;
  * texture words are stored as the packet expects them (uv + clut/tpage), the
@@ -183,8 +183,5 @@ typedef struct FxCommonModelGt4Packet {
 
 #define FX_COMMON_SCRATCHPAD ((FxCommonRenderScratchpad *)0x1F800000)
 
-void FxCommon_DrawModel(void *context, FxCommonPolyModel *model, int index);
-void FxCommon_DrawModelTinted(void *context, FxCommonPolyModel *model, int index);
-void FxCommon_DrawModelFlat(void *context, FxCommonPolyModel *model, int index);
 
 #endif

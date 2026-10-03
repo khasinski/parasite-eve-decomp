@@ -268,8 +268,9 @@ void func_8019BF8C(void **buffer);
 typedef struct FxCommonPolyResource FxCommonPolyResource;
 void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource);
 int FxCommon_CheckFourBoundsWithMargin(int *point, int margin);
-void func_801995BC(void *context, void *resource, int kind);
-void func_8019A318(void *context, void *resource, int kind);
-void func_8019B1D0(void *context, void *resource, int kind);
+typedef union FxCommonPolyModel FxCommonPolyModel;
+void FxCommon_DrawModel(void *context, FxCommonPolyModel *model, int index);
+void FxCommon_DrawModelTinted(void *context, FxCommonPolyModel *model, int index);
+void FxCommon_DrawModelFlat(void *context, FxCommonPolyModel *model, int index);
 
 #endif
