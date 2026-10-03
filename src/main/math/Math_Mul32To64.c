@@ -35,7 +35,7 @@ MathU64 *Math_Mul32To64(MathU64 *out, unsigned int left, unsigned int right) {
     asm("" : "+m"(part.lo) : "m"(part.hi));
     Math_Add64(&result, result, part);
     {
-        register unsigned int last asm("$3") = left * right;
+        unsigned int last = left * right;
         register unsigned int hi = result.hi;
         hi += last;
         result.hi = hi;
