@@ -72,7 +72,7 @@ void func_80196498(void)
     textureIndexOrHasPoints = 0;
     do {
         textureY = g_FxTextureSetup[textureIndexOrHasPoints].y;
-        g_FxTextureSetup[textureIndexOrHasPoints].tpage = ((u32) (textureY & 0x100) >> 4) | (((u32) (g_FxTextureSetup[textureIndexOrHasPoints].x & 0x3FF) >> 6) | 0x20) | ((textureY & 0x200) * 4);
+        g_FxTextureSetup[textureIndexOrHasPoints].tpage = ((u32) (textureY & 0x100) >> 4) | (((g_FxTextureSetup[textureIndexOrHasPoints].x & 0x3FF) >> 6) | 0x20) | ((textureY & 0x200) * 4);
         g_FxTextureSetup[textureIndexOrHasPoints].clut = (g_FxTextureSetup[textureIndexOrHasPoints].h << 6) | (((u16) g_FxTextureSetup[textureIndexOrHasPoints].w >> 4) & 0x3F);
         textureIndexOrHasPoints++;
     } while (textureIndexOrHasPoints < 2);
@@ -117,7 +117,7 @@ void func_80196498(void)
     g_FxCommonEffectSetup[0].rotation = 0;
     g_FxCommonEffectSetup[0].value25 = 9;
     g_FxCommonEffectSetup[1].variant = 0x19;
-    g_FxCommonEffectSetup[0].enabled = ((u32) D_800A77FC >> 0x16) & 1;
+    g_FxCommonEffectSetup[0].enabled = (D_800A77FC >> 0x16) & 1;
     g_FxCommonEffectSetup[1].type = 0x1A;
     g_FxCommonEffectSetup[1].motionIndices[0] = 0xB;
     g_FxCommonEffectSetup[1].motionIndices[2] = 0x1F;
@@ -129,7 +129,7 @@ void func_80196498(void)
     g_FxCommonEffectSetup[1].parameter3c = 0x9C4;
     g_FxCommonEffectSetup[1].value22 = 2;
     g_FxCommonEffectSetup[1].value23 = 0;
-    g_FxCommonEffectSetup[1].enabled = ((u32) D_800A77FC >> 0x14) & 1;
+    g_FxCommonEffectSetup[1].enabled = (D_800A77FC >> 0x14) & 1;
     g_FxCommonEffectSetup[1].value28 = 0x10;
     g_FxCommonEffectSetup[2].subtype = 0xF;
     g_FxCommonEffectSetup[1].value2c = 0x20;
@@ -151,7 +151,7 @@ void func_80196498(void)
     g_FxCommonEffectSetup[2].motionIndices[3] = 0x2C;
     g_FxCommonEffectSetup[2].value2c = 0x20;
     g_FxCommonEffectSetup[2].value30 = 0x27;
-    g_FxCommonEffectSetup[2].enabled = ((u32) D_800A77FC >> 0x12) & 1;
+    g_FxCommonEffectSetup[2].enabled = (D_800A77FC >> 0x12) & 1;
     g_FxCommonEffectSetup[2].rotation = 0;
     g_FxCommonEffectSetup[2].value25 = 5;
     g_FxCommonEffectSetup[3].type = 0x1D;
@@ -169,7 +169,7 @@ void func_80196498(void)
     g_FxCommonEffectSetup[3].value23 = 2;
     g_FxCommonEffectSetup[3].value28 = -0x40;
     g_FxCommonEffectSetup[3].value30 = 0x1E;
-    g_FxCommonEffectSetup[3].enabled = ((u32) D_800A77FC >> 0x15) & 1;
+    g_FxCommonEffectSetup[3].enabled = (D_800A77FC >> 0x15) & 1;
     g_FxCommonEffectSetup[3].value2c = 0x10;
     g_FxCommonEffectSetup[4].subtype = 9;
     g_FxCommonEffectSetup[3].rotation = 0;
@@ -187,7 +187,7 @@ void func_80196498(void)
     g_FxCommonEffectSetup[4].value2c = -0x10;
     g_FxCommonEffectSetup[4].rotation = 0xC00;
     g_FxCommonEffectSetup[4].value30 = 0x24;
-    g_FxCommonEffectSetup[4].enabled = ((u32) D_800A77FC >> 0x13) & 1;
+    g_FxCommonEffectSetup[4].enabled = (D_800A77FC >> 0x13) & 1;
     g_FxCommonEffectSetup[4].value22 = 0;
     g_FxCommonEffectSetup[4].value23 = 5;
     g_FxCommonEffectSetup[4].value28 = 0x10;
@@ -203,7 +203,7 @@ void func_80196498(void)
     g_FxCommonEffectSetup[5].parameter3c = 0xFA0;
     g_FxCommonEffectSetup[5].value28 = 0x30;
     g_FxCommonEffectSetup[5].value2c = -0x25;
-    g_FxCommonEffectSetup[5].enabled = ((u32) D_800A77FC >> 0x17) & 1;
+    g_FxCommonEffectSetup[5].enabled = (D_800A77FC >> 0x17) & 1;
     g_FxCommonEffectSetup[5].value0c = 0x54;
     g_FxCommonEffectSetup[5].value10 = 0x161;
     g_FxCommonEffectSetup[5].value22 = 4;
@@ -223,7 +223,7 @@ void func_80196498(void)
     g_FxCommonEffectSetup[6].value2c = 5;
     g_FxCommonEffectSetup[6].rotation = 0x800;
     g_FxCommonEffectSetup[6].value30 = 0x32;
-    g_FxCommonEffectSetup[6].enabled = ((u32) D_800A77FC >> 0xE) & 1;
+    g_FxCommonEffectSetup[6].enabled = (D_800A77FC >> 0xE) & 1;
     g_FxCommonEffectSetup[6].value10 = 0x161;
     g_FxCommonEffectSetup[6].parameter38 = 0x1388;
     g_FxCommonEffectSetup[6].parameter3c = 0x9C4;
@@ -239,7 +239,7 @@ void func_80196498(void)
     g_FxCommonEffectSetup[7].motionIndices[2] = 0x2B;
     g_FxCommonEffectSetup[7].motionIndices[3] = 0x2A;
     g_FxCommonEffectSetup[7].value0c = 0x53;
-    g_FxCommonEffectSetup[7].enabled = ((u32) D_800A77FC >> 0xF) & 1;
+    g_FxCommonEffectSetup[7].enabled = (D_800A77FC >> 0xF) & 1;
     g_FxCommonEffectSetup[7].parameter38 = 0x1388;
     g_FxCommonEffectSetup[7].parameter3c = 0x9C4;
     g_FxCommonEffectSetup[7].value22 = 5;
@@ -266,7 +266,7 @@ void func_80196498(void)
     g_FxCommonEffectSetup[8].value2c = -0x30;
     g_FxCommonEffectSetup[8].rotation = 0;
     g_FxCommonEffectSetup[8].value30 = 0x35;
-    g_FxCommonEffectSetup[8].enabled = ((u32) D_800A77FC >> 0x11) & 1;
+    g_FxCommonEffectSetup[8].enabled = (D_800A77FC >> 0x11) & 1;
     g_FxCommonEffectSetup[8].value25 = 4;
     g_FxCommonEffectSetup[9].subtype = 6;
     g_FxCommonEffectSetup[9].variant = 7;
@@ -286,7 +286,7 @@ void func_80196498(void)
     g_FxCommonEffectSetup[9].value23 = 6;
     g_FxCommonEffectSetup[9].value25 = 3;
     g_FxCommonEffectSetup[9].value30 = 0x5B;
-    g_FxCommonEffectSetup[9].enabled = ((u32) D_800A77FC >> 0x10) & 1;
+    g_FxCommonEffectSetup[9].enabled = (D_800A77FC >> 0x10) & 1;
     for (; pointIndex < 10; ++pointIndex) {
         setupCursor->position[0] = (s16)pointList->x;
         *yCursor = (s16) (u16)pointList->y;
@@ -294,7 +294,7 @@ void func_80196498(void)
         *zCursor = (s16) pointZ;
         firstInitialNode = func_80190C1C(&D_8019C340, *subtypeCursor, *variantCursor, *typeCursor, (void *) g_FxCommonEffectSetup[pointIndex].parameter38, (void *) g_FxCommonEffectSetup[pointIndex].parameter3c, func_8006EC6C(&D_8019CE10, 0));
         initialSlots[pointIndex] = firstInitialNode;
-        firstInitialNode->state[1] = (s32) setupCursor->position[0];
+        firstInitialNode->state[1] = setupCursor->position[0];
         (initialSlots[pointIndex])->state[2] = (s32) *yCursor;
         (initialSlots[pointIndex])->state[3] = (s32) *zCursor;
         initialNode = initialSlots[pointIndex];
@@ -305,7 +305,7 @@ void func_80196498(void)
         initialNodeSubtype = *subtypeCursor;
         secondInitialNode = func_80190C1C(&D_8019C340, initialNodeSubtype, initialNodeVariant, initialNodeType, (void *)0x3E8, (void *)0x1F4, initialResource);
         *secondInitialSlot = secondInitialNode;
-        secondInitialNode->state[1] = (s32) setupCursor->position[0];
+        secondInitialNode->state[1] = setupCursor->position[0];
         (*secondInitialSlot)->state[2] = (s32) *yCursor;
         (*secondInitialSlot)->state[3] = (s32) *zCursor;
         (*secondInitialSlot)->value2E = (u16) *rotationCursor;
@@ -417,19 +417,19 @@ void func_80196498(void)
                 firstNode = func_80190C1C(effectRoot, (s16) nodeSubtype, variantOrMotionOffset, (s16) nodeType, (void *) (u16) *(short *)((u8 *)D_8019C0D4 + tableIndex), (void *) (u16) *(short *)((u8 *)D_8019C0E8 + tableIndex), nodeResource);
                 firstSlot = &D_8019C3B0[D_8019C020];
                 D_8019C3B0[D_8019C020] = firstNode;
-                firstNode->state[1] = (s32) point->x;
+                firstNode->state[1] = point->x;
                 yNode = *firstSlot;
-                yNode->state[2] = (s32) point->y;
+                yNode->state[2] = point->y;
                 D_8019C020 += 1;
-                (*firstSlot)->state[3] = (s32) point->z;
+                (*firstSlot)->state[3] = point->z;
                 secondNode = func_80190C1C(effectRoot, (s16) nodeSubtype, variantOrMotionOffset, (s16) nodeType, (void *)0x7D0, (void *)0x1F4, nodeResource);
                 nodeIndex = D_8019C020;
                 secondSlot = &D_8019C3B0[nodeIndex];
                 D_8019C3B0[nodeIndex] = secondNode;
-                secondNode->state[1] = (s32) point->x;
-                (*secondSlot)->state[2] = (s32) point->y;
+                secondNode->state[1] = point->x;
+                (*secondSlot)->state[2] = point->y;
                 nextPointIndex = ++pointIndex;
-                (*secondSlot)->state[3] = (s32) point->z;
+                (*secondSlot)->state[3] = point->z;
                 pairedNode = *secondSlot;
                 asm("" : "=r"(nodeIndex), "=r"(point) : "0"(nodeIndex), "1"(point), "r"(pointList), "r"(pointCount), "r"(pairedNode));
                 D_8019C020 = nodeIndex + 1;
@@ -446,7 +446,7 @@ void func_80196498(void)
     g_FxCommonRuntime.node25->state[0] = 0;
     g_FxCommonRuntime.node25->state[1] = 0x758;
     g_FxCommonRuntime.node25->state[2] = 0;
-    func_80195994((s32) D_8019CC52, 1, 1, 0);
+    func_80195994(D_8019CC52, 1, 1, 0);
     motionIndex = 0;
     D_8019C058 = 0;
     motionBase = (s16) (u16) D_8019CC52;
@@ -495,7 +495,7 @@ void func_80196498(void)
         D_8019C810 = motion.x;
         D_8019C814 = motion.y;
         D_8019C818 = motion.z;
-        motionCount = func_8018F55C(0, (s32) selectedMotion, func_8006EC6C(resourceTableData, 2), &motion, &shortMotion) - 2;
+        motionCount = func_8018F55C(0, selectedMotion, func_8006EC6C(resourceTableData, 2), &motion, &shortMotion) - 2;
         D_8019C050 = 0;
         D_8019C040 = motionCount;
         D_8019C041 = 0;
