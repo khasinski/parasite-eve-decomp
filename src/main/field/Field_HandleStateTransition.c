@@ -49,17 +49,17 @@ void Field_HandleStateTransition(void) {
     u32 flags;
     u32 pad_bits;
     register u32 base_bits asm("$3");
-    register u32 old_pad_bits asm("$2");
+    u32 old_pad_bits;
     register u32 pad_mask asm("$2");
-    register u32 active_pad asm("$4");
-    register u32 save_pad asm("$2");
-    register u32 final_pad asm("$2");
-    register u32 final_old asm("$4");
-    register u32 changed asm("$3");
+    u32 active_pad;
+    u32 save_pad;
+    u32 final_pad;
+    u32 final_old;
+    u32 changed;
     u32 mask;
     u32 sequence_mask;
     u32 menu_open;
-    register u32 pad asm("$4");
+    u32 pad;
     u32 inverted;
     int mode;
     u16 i;
@@ -111,9 +111,7 @@ after_mode:
     }
 
     pad = D_800BE9A2;
-    asm volatile("" : : "r"(pad));
     pad_mask = 0xFFFF9FFF;
-    asm volatile("" : : "r"(pad_mask));
     base_bits = (~pad) & pad_mask;
     asm volatile("" : "=r"(pad) : "0"(pad));
     old_pad_bits = D_8009D26C;
