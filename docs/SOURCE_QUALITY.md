@@ -245,6 +245,16 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Context help text
+
+The main executable's context help text draw, formerly `misc24`, now matches
+from clean C as `Menu_DrawContextHelpText`, with its jump table carved into
+its own `.rodata` and the alignment word kept as a separate piece. A local
+declared at the top of the loop body keeps the loop's exit test in place,
+a block-scoped base keeps retail's subtraction order, and nested tests with
+a block-local table pointer give retail's index-first row address. The main
+executable is unchanged and no pins or barriers were added.
+
 ### Main executable cast and volatile sweep
 
 A second pass over the main executable's non-battle sources removes about
