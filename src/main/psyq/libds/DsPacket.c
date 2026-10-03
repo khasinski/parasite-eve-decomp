@@ -56,7 +56,6 @@ int Render_BuildParticleFrame(int inMode, DslLOC *inPosition, int inCommand,
         asm("" : "=r"(item) : "0"(item));
         list = item;
         item = &list[n];
-        asm("" : "=r"(item) : "0"(item));
         item->command = command;
         item->callback = callback;
         asm("" ::: "memory");
@@ -110,7 +109,6 @@ int Render_BuildParticleFrame(int inMode, DslLOC *inPosition, int inCommand,
         asm("" : "=r"(item) : "0"(item));
         list = item;
         item = &list[n];
-        asm("" : "=r"(item) : "0"(item));
         item->command = command;
         item->callback = callback;
         asm("" ::: "memory");
