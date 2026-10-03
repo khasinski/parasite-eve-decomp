@@ -18,4 +18,13 @@ typedef struct RoomM256SwirlSpark {
 
 PE1_STATIC_ASSERT(sizeof(RoomM256SwirlSpark) == 0x14, room_m256_swirl_spark_size);
 
+/* Model attachment template copied to the stack (unaligned in rodata). */
+typedef struct RoomM256Template {
+    s32 word[2];
+} __attribute__((packed)) RoomM256Template;
+
+extern RoomM256Template D_8018F210;
+
+int func_8019377C(int mode, RoomM256SwirlSpark *spark);
+
 #endif

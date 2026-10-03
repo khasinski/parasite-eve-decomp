@@ -108,7 +108,7 @@ segments:
       - [0x385C, asm, func_80192844]
       - [0x44C4, c, RoomEffect_RandomSparkController]
       - [0x4794, c, RoomEffect_SwirlSparkParticle_8019377C]
-      - [0x4C14, asm, func_80193BFC]
+      - [0x4C14, c, RoomEffect_SwirlSparkController_80193BFC]
       - [0x50C8, c, RoomEffect_TrailBurstCallback]
       - [0x6338, c, func_80195320]
       - [0x6544, c, RoomEffect_PulsingSpriteCallback]
