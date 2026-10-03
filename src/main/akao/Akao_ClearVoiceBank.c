@@ -4,22 +4,22 @@
 
 void Akao_ClearVoiceBank(void)
 {
-    register u8 *base asm("$6") = (u8 *)&g_GameState;
-    register u8 *p asm("$4");
-    register int i asm("$5");
-    register int secondMinusOne asm("$4");
-    register int minusOne asm("$3");
-    register int shortMinusOne asm("$3");
+    u8 *base = (u8 *)&g_GameState;
+    u8 *p;
+    int i;
+    int secondMinusOne;
+    int minusOne;
+    int shortMinusOne;
     register u8 *q asm("$3");
-    register SceneBankResetPair *pair asm("$5");
-    register int pairOffset asm("$4");
+    SceneBankResetPair *pair;
+    int pairOffset;
     register int j asm("$5");
-    register u8 flags asm("$2");
+    u8 flags;
     register int fill asm("$3");
-    register u32 voiceBase asm("$3");
-    register u8 *tailPtr asm("$7");
-    register u8 *tailPtr2 asm("$2");
-    register u32 drawMode asm("$4");
+    u32 voiceBase;
+    u8 *tailPtr;
+    u8 *tailPtr2;
+    u32 drawMode;
     i = 0;
     p = base;
     PE1_COMPILER_USE(i);
