@@ -26,21 +26,16 @@ int func_80192DA0(int mode, volatile Particle *particle) {
     case 2: {
         int palette;
         int kind;
-        register int specialKind asm("$3");
         int z;
         unsigned short clut;
         func_800CF3AC(D_8019948C, color, D_800E27EC);
         kind = D_800F336C;
-        asm("" : : "r"(kind));
         position.x = particle->x;
         position.y = particle->y;
         z = particle->z;
-        specialKind = 4;
         position.z = z;
         palette = D_800E1204[kind];
-        if (kind == specialKind && D_800F3428) palette += 10;
-        else palette += 6;
-        clut = GetClut(0, palette);
+        clut = GetClut(0, (kind == 4 && D_800F3428) ? palette + 10 : palette + 6);
         func_800CEE20(&position, 0, 2048, 2048, 6, clut, 1, 128, color);
         break;
     }
