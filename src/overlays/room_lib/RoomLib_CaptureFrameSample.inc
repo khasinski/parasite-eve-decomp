@@ -2,13 +2,13 @@
 
 typedef struct RoomCaptureContext {
     unsigned char pad00[8];
-    unsigned char *volatile object;
+    unsigned char *object;
 } RoomCaptureContext;
 
 extern RoomCaptureContext *D_800F32D0;
 extern u16 g_FrameCount16;
 extern s16 D_80192C34;
-extern volatile s16 D_80192C36;
+extern s16 D_80192C36;
 extern s16 D_80192C38;
 extern s32 D_80192C3C;
 
