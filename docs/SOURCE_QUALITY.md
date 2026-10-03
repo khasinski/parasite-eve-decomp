@@ -245,6 +245,19 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Floor boundary clip and cast-free geometry helpers
+
+`Geo_ClipToFloorBoundarySub` in the main executable now matches from clean
+C, after `Geo_PointInTri` was rewritten without casts: the collision vertex
+table is a pointer and word union, and a `COLLISION_VERTEX` macro keeps
+retail's index times size plus base order. The clip shares one pointer for
+the triangle indices and the recursive call argument and reuses the
+neighbour variable for the recursion result. `Draw_AllocColorTriGradient`
+loses its pins, barriers and casts because its two blend blocks are the
+colour blend body inlined twice, now written as a static inline copy. The
+main executable and the four overlays that include `field_collision.h` are
+unchanged.
+
 ### Overlay crutch sweep
 
 Eighty overlay sources and templates lose 205 register pins and 98 empty
