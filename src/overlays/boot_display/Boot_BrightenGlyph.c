@@ -36,7 +36,7 @@ void Boot_BrightenGlyph(s32 x, s32 y, u8 character) {
     computedEnd = (s16)y * 15;
     image = (u8 *)D_80172C98;
     asm("" : "=r"(image) : "0"(image));
-    computedEnd = (s32)((u32)computedEnd << 6);
+    computedEnd = (computedEnd << 6);
     image += imageOffset;
     screen += (s16)savedX * 3 + computedEnd;
     computedEnd = (s16)y + 16;
