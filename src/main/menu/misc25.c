@@ -12,7 +12,7 @@ int Pad_IsMenuConfirmAvailable(void);
 
 extern unsigned int g_GameStateFlags;
 
-extern void * volatile g_AkaoBgmHandle;
+extern void * g_AkaoBgmHandle;
 int Akao_SendTableCommand(void *arg0, int arg1, int arg2, int arg3, int arg4);
 extern unsigned char D_80091694[];
 extern unsigned char D_8009169D;
