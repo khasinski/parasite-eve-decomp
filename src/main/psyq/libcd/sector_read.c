@@ -5,7 +5,7 @@
 #include "pe1/psyq_cd.h"
 
 int CD_getsector2(void *destination, int words) {
-    register volatile u8 *status asm("$3");
+    volatile u8 *status;
     register u32 dmaCommand asm("$2");
 
     *D_8009B27C = 0;
