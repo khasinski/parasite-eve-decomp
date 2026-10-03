@@ -821,6 +821,17 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderRingPulse, phase) == 16,
                   render_ring_pulse_phase);
 int func_800D6A1C(int mode, RenderRingPulse *state);
 
+/* Falling sprite pair: 0x800D4C24 drops one sprite per frame for 0x800D4928
+ * from above the player, tinted by the scene's colour track. */
+typedef struct RenderPhaseEmitter {
+    int phase;
+} RenderPhaseEmitter;
+extern u8 D_800E141C[];
+extern u8 D_800E1444[];
+extern u8 D_800E146C[];
+int func_800D4928(int mode, RenderBouncingSprite *state);
+int func_800D4C24(int mode, RenderPhaseEmitter *state);
+
 typedef struct RenderFadeEmitter {
     s16 count, intensity;
 } RenderFadeEmitter;
