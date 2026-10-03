@@ -31,7 +31,7 @@ int func_80192F5C(RoomOscillationEffect *effect) {
         sine = *(s16 *)((char *)D_800966EE + phase * 4);
         half = (sine + 4096) / 2;
         displacement = (half * e->amplitude) / 4096 + 8;
-        target = ((volatile RoomOscillationEffect *)e)->actor;
+        target = ((RoomOscillationEffect *)e)->actor;
         {
             int height;
             register int scaled asm("$4");
