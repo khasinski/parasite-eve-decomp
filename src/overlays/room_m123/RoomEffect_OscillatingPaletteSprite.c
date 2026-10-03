@@ -106,8 +106,6 @@ int func_80195114(int mode, RoomM123Burst *burst, int *choice) {
         D_800F3376 = 16;
         D_800F3378 = 16;
         palette = D_800E2850[paletteIndex];
-        /* Keep the palette lookup ahead of the remaining register writes. */
-        asm volatile("" ::: "memory");
         D_800F336C = 2;
         D_800F336E = 0;
         D_800F3372 = 0;
