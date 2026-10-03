@@ -1,18 +1,15 @@
-
 int Task_GpuFlushPrimQueue(void);
-int Task_GpuPackPrimColor(void);
+int Task_GpuPackPrimColor(int start, int end);
 
 /* Equal bounds return one raw RNG word. Otherwise the result is in [start, end). */
 int Task_Random(int **arg0) {
-    register int lhs asm("$4");
-    register int rhs asm("$5");
+    int start = *arg0[1];
+    int end = *arg0[2];
 
-    lhs = *arg0[1];
-    rhs = *arg0[2];
-    if (lhs == rhs) {
+    if (start == end) {
         *arg0[0] = Task_GpuFlushPrimQueue();
     } else {
-        *arg0[0] = Task_GpuPackPrimColor();
+        *arg0[0] = Task_GpuPackPrimColor(start, end);
     }
 
     return 1;
