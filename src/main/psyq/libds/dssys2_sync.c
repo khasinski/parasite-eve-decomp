@@ -19,7 +19,7 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
         asm("" : "=r"(base) : "0"(base));
         {
             int offset = index * sizeof(CdDsReadQueueEntry);
-            entry = (CdDsReadQueueEntry *)((u32)offset + (u32)base);
+            entry = (CdDsReadQueueEntry *)(offset + (u32)base);
         }
     }
     savedEvent = event;
@@ -88,7 +88,7 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
                     register u8 *queue;
                     queue = (u8 *)pending -
                             PE1_OFFSETOF(CdDsReadQueueWindow, pending_count);
-                    item = (CdDsReadQueueEntry *)((u32)offset + (u32)queue);
+                    item = (CdDsReadQueueEntry *)(offset + queue);
                 }
                 if (item->active)
                     CdRom_TryIssueCmd(item->command, item->parameter);
