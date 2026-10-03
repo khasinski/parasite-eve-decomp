@@ -1,12 +1,12 @@
 #include "pe1/room_m350_effects.h"
 
 typedef struct { signed int low:16; signed int high:16; } TrigEntry;
-extern int D_800E27EC,D_800F3428;
-extern short D_800966EC[],D_800966EE[],D_800F336A;
-extern unsigned short D_800F336C,D_800E1204[];
-extern int D_8019A3D0[];
+#include "pe1/render_object.h"
+
+extern int D_800E27EC;
+extern short D_800966EC[],D_800966EE[];
+extern RenderColor D_8019A3D0;
 extern unsigned short GetClut(int,int);
-extern void func_800CEE20(void *,int,int,int,int,int,int,int,void *);
 int func_80198860(int event,RoomM350CloudParticle *particle)
 {
     if(event==1) {
@@ -29,22 +29,25 @@ int func_80198860(int event,RoomM350CloudParticle *particle)
         GteShortVector world;
         /* Match note: original purpose of unused sp+0x30..0x37 is unknown. */
         char frameGap[8];
-        register int kind asm("$2");
-        int palette;
-        unsigned short clut;
         world.x=(unsigned int)particle->anchor[0]+(unsigned short)particle->position[0];
         world.y=(unsigned int)particle->anchor[1]+(unsigned short)particle->position[1];
         world.z=(unsigned int)particle->anchor[2]+(unsigned short)particle->position[2];
         if(particle->state.value.active.firstShade>0) {
-            kind=D_800F336C; palette=D_800E1204[kind];
+            int kind=D_800F336C;
+            int palette=D_800E1204[kind];
+            unsigned short clut;
             if(kind==4 && D_800F3428) palette+=4;
             clut=GetClut(32,palette);
-            func_800CEE20(&world,0,particle->size,particle->size,D_800F336A*2+216,clut,1,particle->state.value.active.firstShade,D_8019A3D0);
+            func_800CEE20(&world,0,particle->size,particle->size,(s16)D_800F3368.parameter02*2+216,clut,1,particle->state.value.active.firstShade,&D_8019A3D0);
         }
-        kind=D_800F336C; palette=D_800E1204[kind];
-        if(kind==4 && D_800F3428) palette+=4;
-        clut=GetClut(32,palette);
-        func_800CEE20(&world,0,particle->state.value.active.animatedSize,particle->state.value.active.animatedSize,D_800F336A*2+216,clut,1,particle->state.value.active.secondShade,D_8019A3D0);
+        {
+            int kind=D_800F336C;
+            int palette=D_800E1204[kind];
+            unsigned short clut;
+            if(kind==4 && D_800F3428) palette+=4;
+            clut=GetClut(32,palette);
+            func_800CEE20(&world,0,particle->state.value.active.animatedSize,particle->state.value.active.animatedSize,(s16)D_800F3368.parameter02*2+216,clut,1,particle->state.value.active.secondShade,&D_8019A3D0);
+        }
     }
     return 0;
 }
@@ -54,8 +57,7 @@ int func_80198860(int event,RoomM350CloudParticle *particle)
 extern RoomM350EffectActor *D_800F32D0;
 extern RoomM350EffectEmitter *D_800F33E0;
 extern unsigned char D_8019A8BE;
-extern volatile short D_800F3368,D_800F3376,D_800F3378,D_800F336E,D_800F3372,D_800F3374;
-extern volatile unsigned short D_800E11E8,D_800F3370;
+extern unsigned short D_800E11E4[];
 extern unsigned short D_800E2850[];
 extern int func_800CE560(void *,int,int,int (*)(int,RoomM350CloudParticle *));
 extern RoomM350CloudParticle *func_800CE610(void *);
@@ -98,19 +100,17 @@ offset_start:
     }
     goto done;
 configure:
-    {
-        int unit=16;
-        register int index asm("$4")=D_800E11E8;
-        int palette;
-        D_800F3372=0;
-        D_800F3368=unit; D_800F336A=1;
-        D_800F3376=unit; D_800F3378=unit;
-        D_800F3376=unit; D_800F3378=unit;
-        asm volatile("" : "=r"(index) : "0"(index));
-        palette=D_800E2850[index];
-        D_800F336C=2; D_800F336E=0;
-        D_800F3374=unit; D_800F3370=palette;
-    }
+    D_800F3368.parameter0A = 0;
+    D_800F3368.parameter00 = 16;
+    D_800F3368.parameter02 = 1;
+    D_800F3368.extent_x = 16;
+    D_800F3368.extent_y = 16;
+    D_800F3368.extent_x = 16;
+    D_800F3368.extent_y = 16;
+    D_800F3368.tpage = D_800E2850[D_800E11E4[2]];
+    D_800F3368.palette = 2;
+    D_800F3368.parameter06 = 0;
+    D_800F3368.depth = 16;
 done:
     return 0;
 }
