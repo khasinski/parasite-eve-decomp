@@ -245,6 +245,17 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### fx_common transform and LOD node draws
+
+fx_common's LOD node draw and transform node update now match from clean C.
+The LOD draw selects the near, middle and far model with separate tests so
+the depth constant is reloaded after each call, as retail does. The transform
+node update shares one scratch variable between the visibility test and the
+pass test, so the visibility result is set twice and loses the scheduler's
+late placement; the mirror matrix address then lands after the bounds call
+and fills the branch delay slot as in retail. The overlay SHA-1 hash is
+unchanged and no pins or barriers were added.
+
 ### More field engine emitters and a crutch sweep
 
 Seven more field engine routines of the main executable match from clean C:
