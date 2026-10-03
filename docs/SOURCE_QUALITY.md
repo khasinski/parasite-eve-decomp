@@ -245,6 +245,15 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Fan sweep spark in the main executable
+
+The main executable carries a copy of room_m318's fan sweep spark at
+0x800D71B8, inside an engine block that was still assembly. The spark now
+lives in `RoomEffect_FanSweepSpark.inc`; room_m318's fan sweep flow includes
+it unchanged and `RoomEffect_FanSweepSpark_800D71B8.c` instantiates it for the
+main copy, whose palette offsets differ and are template parameters. Both
+binaries match retail with no pins or barriers.
+
 ### Orbit flare controller in twenty-four overlays
 
 The orbit flare controller is byte-identical, relocations aside, in fx_field,
