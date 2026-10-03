@@ -46,6 +46,8 @@ segments:
       - [0x10DC, asm, scene_tail]
       - [0x32BC, c, RoomEffect_OrbitSpinParticle_801982A4]
       - [0x392C, asm, scene_tail_392C]
+      - [0x4210, c, RoomEffect_GlintSparkParticle_801991F8]
+      - [0x469C, asm, scene_tail_469C]
   - name: scene_accessors
     type: code
     start: 0x61F0
