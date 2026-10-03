@@ -128,7 +128,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                 s32 temp_a0_3;
                 u32 temp_a0_4;
                 register s32 temp_v1_3 asm("$3");
-                char *new_var3;
+                u8 *new_var3;
                 u32 addressMask1;
                 u32 lengthMask1;
                 addressMask1 = 0xFFFFFF;
@@ -167,7 +167,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                                 temp_v0 = ((orderBuffer->allocation[scratchpad->orderingDepth]
                                                      .packed) &
                                                 addressMask1);
-                                new_var3 = ((char *)var_s2) + 0;
+                                new_var3 = var_s2;
                                 temp_a0_4 |= temp_v0;
                                 ((FxCommonPacketTag *)new_var3)->packed = temp_a0_4;
                                 temp_a0_4 = ((u32)var_s2) & addressMask1;
@@ -259,7 +259,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                 u32 lengthMask3;
                 addressMask3 = 0xFFFFFF;
                 lengthMask3 = 0xFF000000;
-                var_s3 = ((u8 *)var_s7) + 0xC;
+                var_s3 = (u8 *)&var_s7->colors[3];
                 var_s1 = var_s2 + 0x1C;
                 do {
                     temp_v1_7 = func_80079414(
@@ -473,7 +473,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                                       .uv0.packed);
                         ((FxCommonFt3Packet *)(triangleUv2Cursor - 14))->uv1 =
                             (u16)scratchpad->midpointUv[2].packed;
-                        *((u16 *)(((char *)triangleUv2Cursor) + 0)) =
+                        *triangleUv2Cursor =
                             (u16)scratchpad->midpointUv[4].packed;
                         {
                             u32 firstFt3Tag = trianglePacketCursor->tag.packed;
@@ -592,33 +592,33 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                         ((FxCommonFt3Packet *)(triangleUv2Cursor - 14))->color = var_t3->color;
                         temp_v1_9 = scratchpad->orderingDepth;
                         if (temp_v1_9 < 0x1FE) {
-                            *((s32 *)(((char *)triangleUv2Cursor) + (-0x10))) =
+                            *((s32 *)&((FxCommonFt3Packet *)(triangleUv2Cursor - 14))->uv0) =
                                 *((s32 *)&((FxCommonTexturedTriangle *)(var_a3 - 24))
                                       ->textures[0]
                                       .uv0);
-                            *((s32 *)(((char *)triangleUv2Cursor) + (-8))) =
+                            *((s32 *)&((FxCommonFt3Packet *)(triangleUv2Cursor - 14))->uv1) =
                                 *((s32 *)&((FxCommonTexturedTriangle *)(var_a3 - 24))
                                       ->textures[0]
                                       .uv1);
                             var_v0 =
                                 ((FxCommonTexturedTriangle *)(var_a3 - 24))->textures[0].uv2.packed;
                         } else if (temp_v1_9 >= 0x2BD) {
-                            *((s32 *)(((char *)triangleUv2Cursor) + (-0x10))) =
+                            *((s32 *)&((FxCommonFt3Packet *)(triangleUv2Cursor - 14))->uv0) =
                                 *((s32 *)&((FxCommonTexturedTriangle *)(var_a3 - 24))
                                       ->textures[2]
                                       .uv0);
-                            *((s32 *)(((char *)triangleUv2Cursor) + (-8))) =
+                            *((s32 *)&((FxCommonFt3Packet *)(triangleUv2Cursor - 14))->uv1) =
                                 *((s32 *)&((FxCommonTexturedTriangle *)(var_a3 - 24))
                                       ->textures[2]
                                       .uv1);
                             var_v0 =
                                 ((FxCommonTexturedTriangle *)(var_a3 - 24))->textures[2].uv2.packed;
                         } else {
-                            *((s32 *)(((char *)triangleUv2Cursor) + (-0x10))) =
+                            *((s32 *)&((FxCommonFt3Packet *)(triangleUv2Cursor - 14))->uv0) =
                                 *((s32 *)&((FxCommonTexturedTriangle *)(var_a3 - 24))
                                       ->textures[1]
                                       .uv0);
-                            *((s32 *)(((char *)triangleUv2Cursor) + (-8))) =
+                            *((s32 *)&((FxCommonFt3Packet *)(triangleUv2Cursor - 14))->uv1) =
                                 *((s32 *)&((FxCommonTexturedTriangle *)(var_a3 - 24))
                                       ->textures[1]
                                       .uv1);
@@ -651,7 +651,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                     var_a3 += 0x40;
                     var_t6 += 0x40;
                     var_t5 += 0x40;
-                    var_t4 = (FxCommonVector *)(((u8 *)var_t4) + 0x40);
+                    var_t4 += 8;
                     ++var_t3;
                 } while (primitiveIndex4 < var_t8->counts[4]);
             }
@@ -707,11 +707,11 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                     register u32 *quadGteScreen1 asm("$3");
                     u32 *quadGteScreen2;
                     if (temp_a0_14 < 0x1FE) {
-                        *((s32 *)(((char *)quadUv3Cursor) + (-0x18))) =
+                        *((s32 *)&((FxCommonFt4Packet *)(quadUv3Cursor - 18))->uv0) =
                             *((u32 *)&((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                   ->textures[0]
                                   .uv0);
-                        *((s32 *)(((char *)quadUv3Cursor) + (-0x10))) =
+                        *((s32 *)&((FxCommonFt4Packet *)(quadUv3Cursor - 18))->uv1) =
                             *((u32 *)&((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                   ->textures[0]
                                   .uv1);
@@ -719,16 +719,16 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                             ((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                 ->textures[0]
                                 .uv2.packed;
-                        *((u16 *)(((char *)quadUv3Cursor) + 0)) =
+                        *quadUv3Cursor =
                             ((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                 ->textures[0]
                                 .uv3.packed;
                     } else if (temp_a0_14 >= 0x2BD) {
-                        *((s32 *)(((char *)quadUv3Cursor) + (-0x18))) =
+                        *((s32 *)&((FxCommonFt4Packet *)(quadUv3Cursor - 18))->uv0) =
                             *((u32 *)&((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                   ->textures[2]
                                   .uv0);
-                        *((s32 *)(((char *)quadUv3Cursor) + (-0x10))) =
+                        *((s32 *)&((FxCommonFt4Packet *)(quadUv3Cursor - 18))->uv1) =
                             *((u32 *)&((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                   ->textures[2]
                                   .uv1);
@@ -736,16 +736,16 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                             ((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                 ->textures[2]
                                 .uv2.packed;
-                        *((u16 *)(((char *)quadUv3Cursor) + 0)) =
+                        *quadUv3Cursor =
                             ((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                 ->textures[2]
                                 .uv3.packed;
                     } else {
-                        *((s32 *)(((char *)quadUv3Cursor) + (-0x18))) =
+                        *((s32 *)&((FxCommonFt4Packet *)(quadUv3Cursor - 18))->uv0) =
                             *((u32 *)&((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                   ->textures[1]
                                   .uv0);
-                        *((s32 *)(((char *)quadUv3Cursor) + (-0x10))) =
+                        *((s32 *)&((FxCommonFt4Packet *)(quadUv3Cursor - 18))->uv1) =
                             *((u32 *)&((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                   ->textures[1]
                                   .uv1);
@@ -753,7 +753,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                             ((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                 ->textures[1]
                                 .uv2.packed;
-                        *((u16 *)(((char *)quadUv3Cursor) + 0)) =
+                        *quadUv3Cursor =
                             ((FxCommonTexturedQuad *)(quadTextureCursor - 6))
                                 ->textures[1]
                                 .uv3.packed;
@@ -1114,7 +1114,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
             nextTexturedQuad:
                 var_s4 += 1;
                 quadTextureCursor += 72;
-                quadVertex3 = (FxCommonVector *)(((u8 *)quadVertex3) + 0x48);
+                quadVertex3 += 9;
                 var_s5 += 0x48;
                 var_s3 += 0x48;
                 var_s2 += 0x48;
