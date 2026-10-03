@@ -21,9 +21,6 @@ int func_80193A58(int mode, SceneE18WaveEffect *effect) {
     s16 params[4];
     int palette;
     register u16 index;
-    /* Preserve the load-delay slots in the original mode-2 sequence. */
-    register int offset asm("$3");
-    register int specialIndex asm("$4");
     if (mode == 1) {
         effect->wave = (func_80077CF4(D_800E27EC << 4) * effect->amplitude) >> 12;
         if (D_800E27EC < 8) return 0;
@@ -32,13 +29,9 @@ int func_80193A58(int mode, SceneE18WaveEffect *effect) {
         return 1;
     }
     if (mode != 2) return 0;
-    specialIndex = 4;
     index = D_800F336C;
-    offset = index << 1;
-    palette = *(u16 *)((char *)D_800E1204 + offset);
-    if (index == specialIndex && D_800F3428 != 0) palette += 7;
-    else palette += 3;
-    palette = func_80077AA4(0, palette);
+    palette = D_800E1204[index];
+    palette = func_80077AA4(0, (index == 4 && D_800F3428 != 0) ? palette + 7 : palette + 3);
     func_800CEE20(effect, &effect->field08, effect->wave, effect->wave,
                   0x40, palette & 0xffff, 3, effect->size, 0);
     position[0] = effect->x;
