@@ -24,8 +24,8 @@ int func_800C6B20(void *arg0) {
 extern char *D_8009D254;
 
 int func_800C6B90(s16 *pos, int extraRadius) {
-    volatile int delta[3];
-    volatile s16 local[4];
+    int delta[3];
+    s16 local[4];
     char *entity = D_8009D254;
     int x = *(s16 *)(entity + 0x2A);
     int radius = *(s16 *)(entity + 0x224);
