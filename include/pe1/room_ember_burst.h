@@ -46,4 +46,24 @@ extern int func_800D3FD8(void);
 extern int func_800D3F64(int sound, int handle);
 extern int func_801944E8(int mode, RoomOrbitTrailParticle *p);
 
+/* Ember fountain controller (func_80197CBC): follows its actor for 141
+ * frames while it sprays embers, smoke and orbiting sparks. */
+typedef struct RoomEmberFountain {
+    s16 x, y, z;                  /* 0x00 */
+    s16 reserved06;
+    s16 reserved08;
+    s16 timer;                    /* 0x0A */
+    s16 glow;                     /* 0x0C */
+    s16 ringScale;                /* 0x0E */
+} RoomEmberFountain;
+
+typedef struct RoomEmberFountainChannel {
+    s32 reserved[2];
+    void *pool;                   /* 0x08 */
+} RoomEmberFountainChannel;
+
+extern RoomEmberFountainChannel *D_800F32D0;
+extern GteShortVector D_8019993C;
+extern int func_80197618(int mode, RoomOrbitTrailParticle *p);
+
 #endif
