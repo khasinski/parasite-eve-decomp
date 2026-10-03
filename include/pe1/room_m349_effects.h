@@ -18,7 +18,25 @@ typedef struct RoomM349FlareSpark {
 
 PE1_STATIC_ASSERT(sizeof(RoomM349FlareSpark) == 0x14, room_m349_flare_spark_size);
 
+/* Controller target: the burst origin plus the looping sound handle. */
+typedef struct RoomM349FlareTarget {
+    GteShortVector position;
+    s16 sound;                    /* 0x08: -1 when no sound plays */
+} RoomM349FlareTarget;
+
+typedef struct RoomM349FlareParams {
+    s16 x, y, z, pad;
+    s32 radius;                   /* 0x08 */
+    s32 period;                   /* 0x0C: frames between ring sparks */
+    s32 lastFrame;                /* 0x10: last frame that spawns ring sparks */
+} RoomM349FlareParams;
+
 extern GteRotation D_8018EFF4;
+extern GteRotation D_8018F000;
+extern GteRotation D_8018F008;
+extern u16 D_800E11E8;
+extern void func_800866A4(int handle, int arg);
+extern int func_8018F010(int mode, RoomM349FlareSpark *spark);
 extern RenderColor D_8018EFFC;
 
 #endif
