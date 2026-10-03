@@ -1,5 +1,5 @@
 #include "pe1/akao/track.h"
-extern AkaoSequencerBank *volatile D_8009D2C8;
+extern AkaoSequencerBank *D_8009D2C8;
 
 extern AkaoU8 D_8009B7BC[];
 extern AkaoU8 D_8009B8BC[];
