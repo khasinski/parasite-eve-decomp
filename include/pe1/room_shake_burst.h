@@ -80,7 +80,13 @@ extern int func_800D3FD8(void);
 extern void func_8006DF50(void *channel, int id, int value, int volume, int pan);
 extern int func_80071A54(void);
 extern void func_80020D50(void);
-extern u16 D_800942EC;
+/* Floor height record at 0x800942EC; reading it as a record keeps the
+ * bounce compare after the particle's velocity store, as retail does. */
+typedef struct RoomShakeFloor {
+    s16 y;
+} RoomShakeFloor;
+
+extern RoomShakeFloor D_800942EC;
 extern u8 *D_800F32D8;
 extern void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);
 extern void func_80020DD0(void);

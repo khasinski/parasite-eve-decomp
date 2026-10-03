@@ -17,7 +17,7 @@ int func_80193638(int mode, RoomShakeSweepAnchor *anchor) {
     case 0:
         anchor->angle = func_80071A54();
         func_800CE870((char *)D_8009D254, 1, (s16 *)anchor);
-        anchor->y = D_800942EC;
+        anchor->y = D_800942EC.y;
         soundSlot = &D_800B0E64;
         if (*soundSlot != 0) {
             volume = 0x7F;
