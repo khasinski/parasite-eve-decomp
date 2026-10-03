@@ -69,15 +69,15 @@ typedef struct RoomParticleEmitter {
 #define RVU16(o, off) (*(volatile unsigned short *)((char *)(o) + (off)))
 #define RWPTR(o, off) ((void *)((char *)(o) + (off)))
 
-/* Register allocation used by the original compiler for room rotation-table
- * lookups. Keeping it named here avoids scattering compiler pins in logic. */
+/* Locals for the room rotation-table lookups. These used to carry register
+ * pins; stock allocation now places them where retail does. */
 #define ROOMLIB_ROT_ENTRY_DECL \
-    register int *entry asm("$2"); \
-    register int *base asm("$3")
+    int *entry; \
+    int *base
 
-#define ROOMLIB_V0_PTR_DECL(name) register void *name asm("$2")
-#define ROOMLIB_V1_INT_DECL(name) register int name asm("$3")
-#define ROOMLIB_A0_INT_DECL(name) register int name asm("$4")
+#define ROOMLIB_V0_PTR_DECL(name) void *name
+#define ROOMLIB_V1_INT_DECL(name) int name
+#define ROOMLIB_A0_INT_DECL(name) int name
 typedef struct RoomLibTick12Rec {
     char pad00[0x20];
     unsigned short frameStep;     /* 0x20 */
@@ -1351,7 +1351,7 @@ extern void func_800DFB20(void *state);
 /* argument parser variant whose comparison value is stored as the fallback handler */
 #define ROOMLIB_ARG_DISPATCH_REARM_FALLBACK(name, rearm) \
     int name(RoomEnt *o, int arg1, unsigned int op, int arg3, int sp10, int sp14) { \
-        register int value asm("$2") = 0xA; \
+        int value = 0xA; \
         if (op == value) { \
             goto case10; \
         } \
