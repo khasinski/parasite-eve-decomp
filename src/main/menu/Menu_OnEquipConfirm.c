@@ -86,8 +86,6 @@ int Menu_StepEquipConfirm(MenuWidgetNode *node, int input) {
             allowed = 0;
             if ((D_800A1888[0] + D_800A188C[0] + D_800A1890[0] + D_800A1894[0]) != 0) {
                 unsigned mask = Inv_LookupActiveListData(item)->flags & 0x40;
-                /* Preserve the retail AND/SLTIU sequence. */
-                asm volatile("" : : "r"(mask));
                 allowed = mask < 1U;
             }
 
