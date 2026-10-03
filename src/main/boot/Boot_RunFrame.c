@@ -148,7 +148,7 @@ loop_end_check:
     Render_Noop(1);
     Asset_UnloadTableEntries();
     {
-        register u32 mask asm("$4") = ~0x3800u;
+        u32 mask = ~0x3800u;
         register u32 final_flags asm("$2");
         final_flags = (D_8009D1A0 | 0x40) & mask;
         status = D_800B0CD8_read[0] | 2;
