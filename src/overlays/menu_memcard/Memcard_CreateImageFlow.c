@@ -1,7 +1,7 @@
 #include "menu_memcard_image.h"
 
 void Memcard_CreateFixedImageNode(void) {
-    register s32 kind asm("$3");
+    s32 kind;
     MemcardImageNode *node = D_801D136C;
     register MemcardImageNode *tail;
     MemcardImage *imageData;
