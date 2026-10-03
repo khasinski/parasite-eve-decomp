@@ -10,7 +10,7 @@ int func_800C653C(void *arg0, char *arg1) {
 typedef signed short s16;
 
 int func_800C6584(s16 *a, int radiusA, s16 *b, int radiusB) {
-    volatile int delta[3];
+    int delta[3];
     int x = a[0] - b[0];
     int z;
     int x_sq = x * x;
