@@ -2094,7 +2094,8 @@ typedef struct RoomMsg {
     RoomMsgSub sub;               /* 0x08 */
 } RoomMsg;
 
-/* Dialog animation state consumed by the shared RoomLib_DlgBlob handler.
+/* Dropped flare particle state as seen by the dispatcher; the handler at
+ * RoomLib_DlgBlob is RoomEffect_DroppedFlareParticle (room_flare.h).
  * Its first mode integrates the three velocity halfwords into x/y/z and
  * accelerates velocityY by two each tick. */
 typedef struct RoomDlgAnimState {

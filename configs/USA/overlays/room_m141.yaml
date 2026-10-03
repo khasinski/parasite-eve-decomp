@@ -34,7 +34,8 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, rodata, room_m141_0_98]
+      - [0x0, rodata, room_m141_0_6C]
+      - [0x6C, .rodata, RoomEffect_DroppedFlareParticle_8019054C]
       - [0x98, rodata, RoomLib_DlgRect]
       - [0xA0, c, func_8018F088]
       - [0xA8, c, RoomLib_PlantTable_8018F090]
@@ -61,7 +62,7 @@ segments:
       - [0x10CC, c, func_801900B4]
       - [0x1290, c, func_80190278]
       - [0x1488, c, RoomLib_UpdateTrailParticle_80190470]
-      - [0x1564, asm, RoomLib_DlgBlob]
+      - [0x1564, c, RoomEffect_DroppedFlareParticle_8019054C]
       - [0x1F24, c, RoomLib_MsgDispatch_80190F0C]
       - [0x21EC, c, RoomLib_SetPair_801911D4]
       - [0x2208, c, RoomEffect_IndexedPaletteSprite]

@@ -34,7 +34,8 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, rodata, room_m327_0_80]
+      - [0x0, rodata, room_m327_0_54]
+      - [0x54, .rodata, RoomEffect_DroppedFlareParticle_8019018C]
       - [0x80, rodata, RoomLib_DlgRect]
       - [0x88, c, func_8018F070]
       - [0x90, c, RoomLib_PlantTable_8018F078]
@@ -58,7 +59,7 @@ segments:
       - [0xE30, c, RoomLib_InitParticleRenderState_8018FE18]
       - [0xFB8, c, RoomLib_RenderParticleDepths_8018FFA0]
       - [0x10C8, c, RoomLib_ParticleStep_801900B0]
-      - [0x11A4, asm, RoomLib_DlgBlob]
+      - [0x11A4, c, RoomEffect_DroppedFlareParticle_8019018C]
       - [0x1B64, c, RoomLib_MsgDispatch_80190B4C]
       - [0x1E2C, c, RoomLib_SetPair_80190E14]
       - [0x1E48, data, D_80190E30]
