@@ -78,7 +78,7 @@ int Render_SortOt(PrimObj *input, u32 *entries, u8 direction, u8 restart) {
                 D_8009CDB8 = previous;
 
                 {
-                    u32 packed_x = *(volatile u32 *)&entries[result];
+                    u32 packed_x = entries[result];
                     u32 packed_y = *(volatile u32 *)&entries[result];
                     D_8009CDC0 = packed_x >> 22;
                     D_8009CDC4 = (packed_y >> 12) & 0x3FF;
@@ -303,7 +303,7 @@ selected: {
     D_8009CDB8 = previous;
 
     {
-        u32 packed_x = *(volatile u32 *)&entries[result];
+        u32 packed_x = entries[result];
         u32 packed_y = *(volatile u32 *)&entries[result];
         D_8009CDC0 = packed_x >> 22;
         D_8009CDC4 = (packed_y >> 12) & 0x3FF;
