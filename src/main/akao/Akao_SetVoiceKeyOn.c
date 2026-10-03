@@ -11,7 +11,7 @@
         }                                                           \
         table = (s16 *)U32((voice), (off));                          \
         U32((voice), (off)) = (u32)(table + 1);                      \
-        { register int raw asm("$4") = *table;                      \
+        { int raw = *table;                      \
            sample = raw; }             \
     } while (0)
 void Akao_SetVoiceKeyOn(AkaoTrack *voice, u32 voice_mask) {
@@ -39,7 +39,7 @@ void Akao_SetVoiceKeyOn(AkaoTrack *voice, u32 voice_mask) {
                 U16(voice, 0xE8) = value;
                 U32(voice, 0xF4) |= 0x10;
                 if (value >= 0) {
-                    register int doubled asm("$2") = value << 1;
+                    int doubled = value << 1;
                     U16(voice, 0xE8) = doubled;
                 }
             }
@@ -89,7 +89,7 @@ void Akao_SetVoiceKeyOn(AkaoTrack *voice, u32 voice_mask) {
             table = (s16 *)U32(voice, 0x24);
             U32(voice, 0x24) = (u32)(table + 1);
             scale = U16(voice, 0xB4) >> 8;
-            { register int raw asm("$4") = *table;  sample = raw; }
+            { int raw = *table;  sample = raw; }
             value = (scale * sample) >> 15;
             if (value != S16(voice, 0xEC)) {
                 U16(voice, 0xEC) = value;
@@ -120,12 +120,12 @@ void Akao_SetVoiceKeyOn(AkaoTrack *voice, u32 voice_mask) {
             S16(voice, 0x11A) = (base_volume * D_8009B8F8[pan ^ 0xFF]) >> 15;
             break;
         case 4: {
-            register int right asm("$3");
+            int right;
             S16(voice, 0x118) = (base_volume * D_8009B8F8[pan]) >> 15;
             right = (base_volume * D_8009B8F8[pan ^ 0xFF]) >> 15;
             S16(voice, 0x11A) = right;
             if ((voice_mask & 0x00AAAAAA) != 0) {
-                register int flip asm("$2") = ~right;
+                int flip = ~right;
                 S16(voice, 0x11A) = flip;
             } else {
                 S16(voice, 0x118) = ~U16(voice, 0x118);
