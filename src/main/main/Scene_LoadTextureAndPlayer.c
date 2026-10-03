@@ -6,7 +6,7 @@
 extern u8 D_800B0CE2[], D_8009D25C[];
 extern u32 D_800B0DD8[];
 extern u16 D_800930D8[], D_800930DA[];
-/* Matching debt: four pins, six empty barriers, one retry jump, and a
+/* Matching debt: pins, empty barriers, one retry jump, and a
  * 32-byte unused stack reserve retain retail allocation and scheduling.
  * The shifted state view preserves the bank-row address calculation. */
 int Scene_LoadEntityTexture(void)
@@ -17,10 +17,10 @@ int Scene_LoadEntityTexture(void)
     SceneAssetBlob *blob;
     SceneAssetDirectory *directory;
     TimUploadRecord *tim;
-    register TimUploadRecord *firstTim asm("$4");
-    register u32 timOffset asm("$2");
+    TimUploadRecord *firstTim;
+    u32 timOffset;
     SceneBankAssetRecord *record;
-    register SceneBankAssetRecord *firstRecord asm("$3");
+    SceneBankAssetRecord *firstRecord;
     register unsigned i asm("$16");
     u32 packed;
     u32 offsetMask;
@@ -37,7 +37,6 @@ retry:
         break;
     case 1:
         index = bank + 3;
-        asm("" : "=r"(index) : "0"(index));
         if (CdRom_ReadSectorsFromLba(lba + D_800930D8[index],
                 state->scene_load_scratch,
                 D_800930DA[index] - D_800930D8[index]) != -1)
@@ -62,7 +61,6 @@ retry:
         blob = state->scene_load_scratch;
         directory = SceneAsset_ResolveOffset(blob, blob->directoryOffset);
         timOffset = directory->timEntries & 0x3fffff;
-        asm("" : "=r"(timOffset) : "0"(timOffset));
         firstTim = SceneAsset_ResolveOffset(blob, timOffset);
         i = 0;
         if (directory->timEntries >> 22) {
@@ -70,7 +68,6 @@ retry:
             do {
                 Gpu_LoadTimAsset(tim, blob);
                 packed = directory->timEntries;
-                asm volatile("" : "=r"(packed) : "0"(packed));
                 ++i;
                 ++tim;
             } while (i < (packed >> 22));
@@ -79,7 +76,6 @@ retry:
         break;
     case 4:
         index = bank + 8;
-        asm("" : "=r"(index) : "0"(index));
         if (CdRom_ReadSectorsFromLba(lba + D_800930D8[index],
                 (void *)state->voice_bank_base_1400,
                 D_800930DA[index] - D_800930D8[index]) != -1)
