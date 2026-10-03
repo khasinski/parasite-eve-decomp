@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/render_object.h"
 #include "pe1/room_fx.h"
+#include "pe1/room_orbit_trail.h"
 
 /* Shake burst controller (room_m318): shakes the camera while it scatters
  * debris particles around its anchor, then flags the actor for the
@@ -41,6 +42,8 @@ typedef struct RoomShakeBurstEntity {
 typedef struct RoomShakeBurstEvent {
     u8 reserved[0xD];
     u8 active;                    /* 0x0D */
+    u8 reserved0E[8];
+    s16 running;                  /* 0x16 */
 } RoomShakeBurstEvent;
 
 /* Sweep shake controller anchor: position plus the sweep angle handed to
@@ -100,5 +103,13 @@ extern void func_800C6EF8(void *asset);
 extern void func_800C7098(void *asset, int r, int g, int b);
 extern void func_800C71E4(void *asset, RoomSpriteMatrix *matrix);
 extern void func_800C6F4C(void *asset);
+
+/* Flash burst controller (func_80195D20): its particle callback, colour
+ * seed, glow track and the helpers it calls. */
+extern int func_80195904(int mode, RoomOrbitTrailParticle *p);
+extern RenderColor D_8018F210;
+extern u8 D_80199770[];
+extern int func_80077DC4(int angle);
+extern void func_800D1AE0(RenderColor *color, int value, int step, int count);
 
 #endif

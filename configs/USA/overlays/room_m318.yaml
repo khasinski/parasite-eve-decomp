@@ -111,7 +111,7 @@ segments:
       - [0x61A8, asm, func_80195190]
       - [0x65FC, asm, func_801955E4]
       - [0x691C, asm, func_80195904]
-      - [0x6D38, asm, func_80195D20]
+      - [0x6D38, c, RoomEffect_FlashBurstController]
       - [0x7484, asm, func_8019646C]
       - [0x7838, asm, func_80196820]
       - [0x7C60, c, RoomEffect_DriftingPalettePulse]
