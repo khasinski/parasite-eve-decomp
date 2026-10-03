@@ -4,13 +4,13 @@
 #include "pe1/cdrom.h"
 
 void CdRom_EnableDsReadSystem(void) {
-    register int enabled asm("$2");
+    int enabled;
     enabled = 1;
     g_DsReadSysEnabled.enabled = enabled;
 }
 
 int CdRom_IsDsReadSystemEnabled(void) {
-    register int scratch asm("$1");
+    int scratch;
     int enabled;
 
     /* Keep $at live so the load uses $v0 as both base and destination. */
