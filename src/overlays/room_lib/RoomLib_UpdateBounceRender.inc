@@ -70,7 +70,7 @@ updateBounce:
     {
         int vx;
         int vz;
-        register int rawVy asm("$3");
+        int rawVy;
         int nextVy;
         register int y asm("$2");
 
