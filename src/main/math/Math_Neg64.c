@@ -14,8 +14,8 @@ MathU64 *Math_Neg64(MathU64 *out, MathU64 value)
     asm("" : "+m"(one.lo));
     Math_Add64(&value, value, one);
     {
-        register u32 resultLo asm("$2");
-        register s32 resultHi asm("$3");
+        u32 resultLo;
+        s32 resultHi;
 
         resultLo = value.lo;
         resultHi = value.hi;
