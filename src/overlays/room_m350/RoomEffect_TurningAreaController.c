@@ -119,7 +119,7 @@ update:
         {
             Matrix *matrix=&D_8019A808;
             Vector *in;
-            register Vector *out asm("$4");
+            Vector *out;
             int i;
             asm volatile("" : "=r"(matrix) : "0"(matrix) : "$2", "$3", "$4", "$5", "$6", "$7", "$8");
             gte_ldrotmatrix(matrix);
