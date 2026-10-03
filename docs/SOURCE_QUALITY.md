@@ -245,6 +245,20 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Main executable crutch sweep
+
+The main executable's sources outside battle lose about 430 register pins
+and 300 empty barriers. Most were removed mechanically, one at a time, keeping
+only removals that leave every allocated section, relocation and symbol of
+the rebuilt object identical. The rest are rewrites with stock PSY-Q
+macros: the renderer's bone setup, sprite draw and vertex transforms use the
+column multiply, matrix load and store macros, and the frame setup, viewport
+and scroll update use the stock `gte_SetGeomOffset`, added to `gte.h`.
+Barriers that keep a zero-pinned variable defined stay, since dropping them
+would read an uninitialised value. The libgte rotation routines, transcribed
+from hand-written assembly, keep their structural pins. The main executable
+is unchanged.
+
 ### Floor boundary clip and cast-free geometry helpers
 
 `Geo_ClipToFloorBoundarySub` in the main executable now matches from clean
