@@ -60,8 +60,8 @@ extern u32 D_8009CDA0;
 void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *view) {
     RenderObjectEntity *entity = input;
     s32 *viewMatrix = (s32 *)view;
-    register volatile u32 *baseColour asm("$18") = (volatile u32 *)0x1F800000;
-    register volatile s16 *lightMatrix asm("$5") = (s16 *)0x1F800004;
+    register u32 *baseColour asm("$18") = (u32 *)0x1F800000;
+    register s16 *lightMatrix asm("$5") = (s16 *)0x1F800004;
     register RenderVec3s *normals asm("$16");
     register s32 offset asm("$17");
     s32 *matrix;
@@ -120,7 +120,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                         dst = lightMatrix + 2;
                         Draw_StoreAxis(dst);
                     }
-                    Draw_LoadLight(((volatile s32 *)lightMatrix));
+                    Draw_LoadLight(((s32 *)lightMatrix));
                     vertexIndex = 0;
                     first = part->vertex_start;
                     {
