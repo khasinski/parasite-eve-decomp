@@ -55,9 +55,9 @@ void Draw_AllocTexturedQuad(int code) {
         int x, y;
         Draw_AllocSprite(0x77);
         x = D_8009D124;
-        y = *(volatile int *)&D_8009D128;
+        y = D_8009D128;
         D_8009D124 = x + 0xC;
-        *(volatile int *)&D_8009D128 = y;
+        D_8009D128 = y;
         return;
     }
 
@@ -150,7 +150,7 @@ alloc_done:
         register u32 maskTop asm("$8") = 0xFF000000;
         register u32 tag asm("$3") = prim->tag.word;
         register u32 *ot asm("$7") = D_8009D11C;
-        register int y asm("$5") = *(volatile int *)&D_8009D128;
+        register int y asm("$5") = D_8009D128;
         u32 otValue, linkedTag;
         register u32 otNew asm("$4");
         int newX;
@@ -158,7 +158,7 @@ alloc_done:
 
         prim->tpage = tpage;
         otValue = *ot;
-        *(volatile int *)&D_8009D128 = y;
+        D_8009D128 = y;
         linkedTag = (tag & maskTop) | (otValue & mask24);
         asm volatile("" : : "r"(linkedTag));
         mask24 &= (u32)prim;
@@ -468,7 +468,7 @@ void Draw_PrintTextWrapped(u8 *text, int width) {
         {
             int y = g_DrawSpriteY;
             /* Preserve the retail read/write of X during a vertical move. */
-            int x = *(volatile int *)&g_DrawSpriteX;
+            int x = g_DrawSpriteX;
             g_DrawSpriteX = x;
             g_DrawSpriteY = y + 14;
         }
