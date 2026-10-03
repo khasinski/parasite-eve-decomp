@@ -3,7 +3,8 @@
 extern int g_RenderStateFlags;
 
 int Render_SetEntryVisible(int index, int enabled) {
-    GeomEntry *entry = (GeomEntry *)((u8 *)g_GeomState + g_GeomState->entry_offset) + index;
+    GeomStateAddress table, base;
+    GeomEntry *entry = (GEOM_STATE_OFFSET(table, base, entry_offset, 0), table.entry) + index;
 
     if (enabled != 0) {
         entry->flags |= 2;
@@ -14,7 +15,8 @@ int Render_SetEntryVisible(int index, int enabled) {
 }
 
 int Render_SetEntryScrolled(int index, int enabled, unsigned int arg2, unsigned int arg3) {
-    GeomEntry *entry = (GeomEntry *)((u8 *)g_GeomState + g_GeomState->entry_offset) + index;
+    GeomStateAddress table, base;
+    GeomEntry *entry = (GEOM_STATE_OFFSET(table, base, entry_offset, 0), table.entry) + index;
 
     if (enabled != 0) {
         entry->flags |= 4;
@@ -27,7 +29,8 @@ int Render_SetEntryScrolled(int index, int enabled, unsigned int arg2, unsigned 
 }
 
 int Render_SetEntryMirrored(int index, int enabled, unsigned int arg2, unsigned int arg3) {
-    GeomEntry *entry = (GeomEntry *)((u8 *)g_GeomState + g_GeomState->entry_offset) + index;
+    GeomStateAddress table, base;
+    GeomEntry *entry = (GEOM_STATE_OFFSET(table, base, entry_offset, 0), table.entry) + index;
 
     if (enabled != 0) {
         entry->flags |= 8;
@@ -40,7 +43,8 @@ int Render_SetEntryMirrored(int index, int enabled, unsigned int arg2, unsigned 
 }
 
 int Render_SetEntryPosition(int index, int x, int y) {
-    GeomEntry *entry = (GeomEntry *)((u8 *)g_GeomState + g_GeomState->entry_offset) + index;
+    GeomStateAddress table, base;
+    GeomEntry *entry = (GEOM_STATE_OFFSET(table, base, entry_offset, 0), table.entry) + index;
     volatile int *flags = &g_RenderStateFlags;
 
     entry->scr_x = x;
