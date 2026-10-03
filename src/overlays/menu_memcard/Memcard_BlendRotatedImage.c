@@ -9,13 +9,13 @@ void Memcard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 padd
     s32 row;
     s32 columns;
     s32 column;
-    register s32 product asm("$16");
+    s32 product;
     s32 eightyFour;
     s32 workspace[1];
     __asm__("" : : "m"(workspace[0]));
     source = (u8 *)image + 20;
     if (60 - progress >= 0) {
-        register s32 offset asm("$2");
+        s32 offset;
         product = stride * (60 - progress);
         offset = product << 2;
         out += offset;
@@ -25,7 +25,7 @@ void Memcard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 padd
         if (limit < 85) columns = limit;
         for (column = 0; column < columns; column++) {
             {
-                register s32 input asm("$2") = *source++;
+                s32 input = *source++;
                 u8 *target = out;
                 s32 old = *out;
                 s32 value;
@@ -38,7 +38,7 @@ void Memcard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 padd
                 *target = value;
             }
             {
-                register s32 input asm("$2") = *source++;
+                s32 input = *source++;
                 u8 *target = out;
                 s32 old = *out;
                 s32 value;
@@ -51,7 +51,7 @@ void Memcard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 padd
                 *target = value;
             }
             {
-                register s32 input asm("$2") = *source++;
+                s32 input = *source++;
                 u8 *target = out;
                 s32 old = *out;
                 s32 value;
@@ -82,7 +82,7 @@ void Memcard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 padd
         s32 count = eightyFour - progress;
         row = 0;
         if (count > 0) {
-            register s32 remaining asm("$10");
+            s32 remaining;
             columns = count;
             __asm__("" : "=r"(columns) : "0"(columns));
             remaining = 84;
@@ -91,7 +91,7 @@ void Memcard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 padd
                 u8 *dst = out;
                 for (column = 0; (remaining - progress < 25 ? column < remaining - progress : column < 24); column++) {
                     {
-                        register s32 input asm("$2") = in[0];
+                        s32 input = in[0];
                         u8 *target = dst;
                         register s32 old asm("$8") = *dst;
                         s32 value;
@@ -104,7 +104,7 @@ void Memcard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 padd
                         *target = value;
                     }
                     {
-                        register s32 input asm("$2") = in[1];
+                        s32 input = in[1];
                         u8 *target = dst;
                         register s32 old asm("$8") = *dst;
                         s32 value;
@@ -117,7 +117,7 @@ void Memcard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 padd
                         *target = value;
                     }
                     {
-                        register s32 input asm("$2") = in[2];
+                        s32 input = in[2];
                         u8 *target = dst;
                         register s32 old asm("$8");
                         register s32 value asm("$3");
