@@ -100,7 +100,7 @@ segments:
       - [0x3374, c, RoomLib_MoveActorLocal_8019235C]
       - [0x34F4, c, RoomLib_Set4ClearSignal_801924DC]
       - [0x3510, c, func_801924F8]
-      - [0x3518, asm, scene_e07_tail]
+      - [0x3518, c, RoomEffect_SeekerSparkCallback_80192500]
       - [0x3D8C, data]
   - [0x4000]
 # source slice: scanner
