@@ -104,6 +104,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderArcingEmitter, radius) == 0xC,
 int func_800D7B70(int mode, RenderArcingEmitter *state);
 extern u8 D_800E18F0[];
 extern u16 D_800E11E6;
+/* Texture page slot table; D_800E11E6 and D_800E11F6 are entries 1 and 9. */
+extern u16 D_800E11E4[];
 extern u16 D_800E11F6;
 extern u16 D_800E2850[];
 void func_800CEDA8(int index);

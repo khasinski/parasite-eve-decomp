@@ -4,8 +4,6 @@
 #include "pe1/random.h"
 #include "pe1/gte.h"
 
-extern u16 D_800E11E4;
-
 int func_800D6E3C(int mode, s32 *angle) {
     RenderBouncingSprite *particle;
     volatile FieldAnimObjectPrefix *owner;
@@ -70,7 +68,7 @@ int func_800D6E3C(int mode, s32 *angle) {
         D_800F3368.parameter02 = 1;
         D_800F3368.extent_x = 16;
         D_800F3368.extent_y = 16;
-        page = D_800E2850[D_800E11E4];
+        page = D_800E2850[D_800E11E4[0]];
         D_800F3368.palette = 0;
         D_800F3368.tpage = page;
         func_800CEDA8(0);
