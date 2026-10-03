@@ -24,10 +24,10 @@ int func_80192A7C(int mode, RoomFanSweep *sweep, RoomEmberBurstParams *params) {
         if (D_800E27EC < 0x20 && (D_800E27EC & 1)) {
             spark = (RoomFanSweepSpark *)func_800CE610(D_800F33E0->pool);
             if (spark) {
-                spark->y = sweep->angle;
-                spark->speed = 0xC8;
-                spark->x = 0;
-                spark->z = 0;
+                spark->angle = sweep->angle;
+                spark->radius = 0xC8;
+                spark->state = 0;
+                spark->timer = 0;
                 sweep->angle -= 0x555;
             }
         }

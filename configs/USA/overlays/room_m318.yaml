@@ -96,7 +96,7 @@ segments:
       - [0x3570, c, func_80192558]
       - [0x3578, c, func_80192560]
       - [0x3638, c, func_80192620]
-      - [0x3730, asm, func_80192718]
+      - [0x3730, c, RoomEffect_FanSweepSpark]
       - [0x3A94, c, RoomEffect_FanSweepController]
       - [0x3DB8, c, RoomEffect_FallingPaletteSprite]
       - [0x3EEC, asm, func_80192ED4]

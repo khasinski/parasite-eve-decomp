@@ -94,13 +94,18 @@ typedef struct RoomFanSweep {
     void *pool;                   /* 0x0C */
 } RoomFanSweep;
 
+/* Fan sweep spark: circles the published anchor on its angle at its
+ * radius, sheds trail points, then swells, holds and fades. */
 typedef struct RoomFanSweepSpark {
-    s16 x, y, z;                  /* 0x00 */
-    s16 reserved06[3];
-    s16 speed;                    /* 0x0C */
+    s16 state;                    /* 0x00 */
+    u16 angle;                    /* 0x02 */
+    u16 timer;                    /* 0x04 */
+    s16 x, y, z;                  /* 0x06 */
+    s16 radius;                   /* 0x0C */
 } RoomFanSweepSpark;
 
 extern void *D_80199900;
+extern RenderColor D_8018F1F0;
 extern GteShortVector D_801998F8;
 extern int func_80192718(int mode, RoomFanSweepSpark *spark);
 extern int func_80192620(int mode, s16 *position);
