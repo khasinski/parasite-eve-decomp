@@ -157,15 +157,12 @@ void Gpu_InitPipeline(void) {
     asm volatile("" : : : "memory");
     {
         /* g_FieldMoveLock is at 0x8009D2E8 in the USA image. */
-        register u32 load_page asm("$2") = 0x800A0000u;
-        register u32 store_page asm("$1");
-        register u32 flags asm("$2");
-        asm volatile("" : "=r"(load_page) : "0"(load_page));
+        u32 load_page = 0x800A0000u;
+        u32 store_page;
+        u32 flags;
         flags = *(volatile u32 *)(load_page - 0x2D18u);
         flags &= ~0xCu;
-        asm volatile("" : : "r"(flags));
         store_page = 0x800A0000u;
-        asm volatile("" : "=r"(store_page) : "0"(store_page));
         *(volatile u32 *)(store_page - 0x2D18u) = flags;
     }
     W(a0p) &= ~0x402;
