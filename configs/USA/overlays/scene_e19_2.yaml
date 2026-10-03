@@ -44,6 +44,8 @@ segments:
     subsegments:
       - [0x4B4, c, func_8019549C]
       - [0x10DC, asm, scene_tail]
+      - [0x32BC, c, RoomEffect_OrbitSpinParticle_801982A4]
+      - [0x392C, asm, scene_tail_392C]
   - name: scene_accessors
     type: code
     start: 0x61F0
