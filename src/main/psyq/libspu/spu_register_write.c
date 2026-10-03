@@ -11,10 +11,10 @@ void _spu_FsetRXX(u32 offset, u32 value, u32 mode) {
 }
 
 u32 _spu_FsetRXXa(s32 arg0, u32 value) {
-    register s32 offset asm("$6");
+    s32 offset;
     register u32 shifted asm("$7");
     u32 rem;
-    register u32 unit asm("$4");
+    u32 unit;
     register u32 shift asm("$2");
     u32 ret;
 
@@ -42,7 +42,7 @@ u32 _spu_FsetRXXa(s32 arg0, u32 value) {
     default:
     {
         SpuRegs *base;
-        register u32 addr asm("$3");
+        u32 addr;
 
         base = _spu_RXX;
         addr = offset * 2;
