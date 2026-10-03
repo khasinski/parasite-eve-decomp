@@ -4,7 +4,7 @@
 
 extern struct { char _[16]; } D_800BCF88_o __asm__("D_800BCF88");
 extern struct { char _[16]; } D_800BCFFC_o __asm__("D_800BCFFC");
-extern volatile s32 g_ActiveDrawSlot;
+extern s32 g_ActiveDrawSlot;
 extern struct { char _[16]; } D_800B1624_a_o __asm__("D_800B1624");
 extern struct { char _[16]; } D_800B1624_b_o __asm__("D_800B1624");
 
