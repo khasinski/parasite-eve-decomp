@@ -7,7 +7,7 @@ extern u8 D_8019AE9A;
 extern RoomM273PulseSeed D_8019AC20[2];
 extern u16 D_800E11FA, D_800E2850[];
 extern u16 D_800F336E, D_800F3370, D_800F3372;
-extern volatile u16 D_800F3376, D_800F3378;
+extern u16 D_800F3376, D_800F3378;
 extern int D_800E27EC;
 extern int func_800CE560(void *, int, int, int (*)());
 extern void *func_800CE610(void *);
