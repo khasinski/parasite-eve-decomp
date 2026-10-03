@@ -24,11 +24,11 @@ void Menu_OpenEquipScreen(int);
 
 int Menu_InventoryPageNavHandler(MenuWidgetNode *root, unsigned int flags) {
     MenuWidgetNode *node;
-    register MenuWidgetNode *other asm("$16");
+    MenuWidgetNode *other;
     register int offset asm("$18");
-    register int present asm("$21");
+    int present;
     MenuWidgetNode *current;
-    register MenuWidgetNode *child asm("$3");
+    MenuWidgetNode *child;
     register int x asm("$2");
     register int oldx asm("$5");
     MenuWidget_GetChild(root, 0);
