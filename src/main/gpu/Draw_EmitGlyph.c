@@ -33,7 +33,7 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
     asm volatile("" : "=r"(glyph) : "0"(glyph));
     oldPacket = g_ActiveDrawBuffer;
     nextPacket = oldPacket + 0x28;
-    if (nextPacket < (u32)(g_DrawPacketBufferBase + 0x4000)) {
+    if (nextPacket < (g_DrawPacketBufferBase + 0x4000)) {
         g_ActiveDrawBuffer = nextPacket;
         packet = (RenderTexturedQuad *)oldPacket;
     } else {
