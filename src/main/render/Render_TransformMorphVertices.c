@@ -22,19 +22,7 @@
     }
 
 #define MorphLoadTrans(matrix)                                                                     \
-    {                                                                                              \
-        register int w5 asm("$12");                                                                \
-        register int w6 asm("$13");                                                                \
-        register int w7 asm("$14");                                                                \
-                                                                                                   \
-        w5 = (matrix)[5];                                                                          \
-        w6 = (matrix)[6];                                                                          \
-                                                                                                   \
-        gte_ctc2_5(w5);                                                                            \
-        w7 = (matrix)[7];                                                                          \
-        gte_ctc2_6(w6);                                                                            \
-        gte_ctc2_7(w7);                                                                            \
-    }
+    { gte_ldtransmatrix(matrix); }
 
 #define MorphLoadFullMatrix(matrix)                                                                \
     {                                                                                              \
