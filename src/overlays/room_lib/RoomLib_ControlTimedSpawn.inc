@@ -109,7 +109,7 @@ mode1:
     }
 
     if (D_800E27EC == 7 && *(u8 *)((char *)D_800E2368 + 0xD) != 0) {
-        register void *root asm("$5");
+        void *root;
         root = D_800F32D0;
         if ((*(u32 *)*(void **)((void **)root)[2] & 0x3F000000) ==
             0x01000000) {
