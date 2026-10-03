@@ -245,6 +245,21 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Orbit flare, swirl ring and the room_m273 grab driver
+
+The scene_e04 and scene_e05 orbit flare controller and scene_e22's swirl ring
+particle, both parked earlier because a frame address stayed in a saved
+register across the clut call, now match from clean C. Their draws that pass
+a fixed palette symbol to the clut call are the palette read-back form,
+reading the kind from the parameter block and the palette from its table;
+cse folds that back to the fixed symbol, and the same form gives retail's
+parameter block base register and lets the frame address be recomputed at
+the draw. The orbit flare reads its texture slot as an array element, which
+removes its volatile and the opaque parameter pointer. room_m273's grab
+sequence driver loses its five register pins by taking frame numbers as
+unsigned upper halves and declaring the substate pointer in each block. All
+four overlay SHA-1 hashes are unchanged.
+
 ### menu_memcard load addresses and six more routines
 
 The memory card overlay is a dump of copied code, and several of its blocks
