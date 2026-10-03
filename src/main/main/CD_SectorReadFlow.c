@@ -14,7 +14,7 @@ extern int Spu_UploadSampleBlockBlocking(void *, int);
 extern int Spu_UploadStreamBlockB(int, void *);
 extern int Spu_UploadStreamBlockA(int, void *, u32);
 extern int Spu_GetTransferStatus(void);
-/* Matching debt: nine register pins and five empty barriers retain the index,
+/* Matching debt: register pins and empty barriers retain the index,
 * zero extension and callback state. The duplicated ready branch preserves
 * GCC's block ordering. No ASM construct emits an instruction. */
 int CD_ReadSectors(unsigned kind, unsigned int index, int channel, void *buffer, u32 maximum, int blocking)
@@ -22,8 +22,8 @@ int CD_ReadSectors(unsigned kind, unsigned int index, int channel, void *buffer,
     register Pe1GameState *state asm("$18") = &g_GameState;
     int result = -1;
     u32 *archiveLba;
-    register u32 transferValue asm("$2");
-    register int busy asm("$17") = 0;
+    u32 transferValue;
+    int busy = 0;
     unsigned int isSequence;
     register int finished asm("$16") = 0;
     register u32 scaledIndex asm("$5") = index * 2;
@@ -31,7 +31,6 @@ int CD_ReadSectors(unsigned kind, unsigned int index, int channel, void *buffer,
     SceneSectorDirectory *root = (SceneSectorDirectory *)D_8009317C;
     u8 *entries;
     volatile u16 *entry;
-    asm("" : "=r"(scaledIndex) : "0"(scaledIndex));
     byteOffset = scaledIndex;
     entries = (u8 *)root->offsets;
     entry = (u16 *)(scaledIndex + entries);
@@ -177,7 +176,7 @@ int CD_ReadSectors(unsigned kind, unsigned int index, int channel, void *buffer,
                 finished = (blocking ^ 1) & 1;
             } else {
                 u32 remaining, remainingSnapshot;
-                register u32 transferred asm("$4");
+                u32 transferred;
                 register u32 nextPhase asm("$3");
                 busy = 1;
                 remainingSnapshot = D_8009D178;
