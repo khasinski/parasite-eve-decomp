@@ -73,13 +73,13 @@ void func_80193C68(char *actor, void *unused, char *state) {
     void *sound;
     RoomSoundSlot *soundAddress;
     register int sixtyFour asm("$6");
-    register int one asm("$4");
+    int one;
     register int half128 asm("$5");
     register int byte128 asm("$3");
     int thirtyTwo;
     register int two asm("$8");
     int minus300;
-    register int scratch asm("$2"); /* -50 offset, later the sound pan */
+    int scratch; /* -50 offset, later the sound pan */
     int scale;
     func_800C2B40(state);
     source = *(char **)(actor + 8);
