@@ -1,20 +1,9 @@
-/* CC1_FLAGS: -ffixed-22 -ffixed-23 */
 #include "pe1/room_m256_trail.h"
 #include "pe1/gte.h"
 
-/* Matching debt: keep the division and GTE load in separate allocation
- * blocks. Stock GCC 2.7.2 later merges these identical empty branches;
- * no branch or CPU instruction is emitted by this helper.
- */
-static __inline__ void match_reload_boundary(int condition) {
-    if (condition)
-        asm volatile("");
-    else
-        asm volatile("");
-}
 s32 func_801940B0(int mode, void *effect) {
     RoomM256TrailEffect *state = effect;
-    RenderColor color = ({ asm volatile("" ::: "$16", "$17", "$18", "$19", "$21"); D_8018F218; });
+    RenderColor color = D_8018F218;
     RenderColor darkColor = D_8018F21C;
     GteRotation initialRotation = D_8018F220;
     GteRotation spriteRotation = D_8018F1CC;
@@ -23,8 +12,8 @@ s32 func_801940B0(int mode, void *effect) {
     GteShortVector angles;
     GteMatrix transform;
     GteVector scale;
-    /* Matching-only space; the retail frame is 0xF0 bytes. */
-    volatile char matchingStackReserve[24];
+    /* Unused space; the retail frame is 0xF0 bytes. */
+    s16 unusedVector[12];
     s16 impactFrame;
     s16 historyIndexX;
     s16 historyIndexY;
@@ -59,9 +48,8 @@ s32 func_801940B0(int mode, void *effect) {
     int tpage;
     int clut;
     s16 impactY;
-    int **matrixSlot;
     register int historyCount asm("$5");
-    register void *historyPosition asm("$6");
+    void *historyPosition;
     char *historySample;
     s16 *spriteFrame;
     register int pulseExtent asm("$3");
@@ -105,7 +93,6 @@ s32 func_801940B0(int mode, void *effect) {
             {
                 int y = (u16)angles.y - 0x200;
                 int shiftedIndex = state->index << 9;
-                asm volatile("" : : "r"(shiftedIndex), "r"(y), "r"(historyCount), "r"(historyPosition));
                 initialYaw = y + shiftedIndex;
             }
             angles.y = initialYaw;
@@ -121,7 +108,6 @@ s32 func_801940B0(int mode, void *effect) {
             if (particle != 0) {
                 particle->x = (u16) state->x;
                 particle->y = (u16) state->y;
-                asm volatile("" ::: "memory");
                 {
                     int z = (u16)state->z;
                     particle->kind = 4;
@@ -191,13 +177,11 @@ updateHistory:
                             particle->z = (u16) state->z;
                             particle->motionX = (u16) state->motionX;
                             particle->motionY = (u16) state->motionY;
-                            asm volatile("" ::: "memory");
                             {
                                 int x = (u16)particle->motionX;
                                 int z = (u16)state->motionZ;
                                 particle->frame = 0;
                                 particle->motionX = x + 0x800;
-                                asm volatile("" ::: "memory");
                                 particle->kind = 3;
                                 particle->motionZ = z;
                             }
@@ -228,7 +212,6 @@ updateHistory:
                     }
                 }
                 floorHeight = &D_800942EC;
-                asm volatile("" : "=r"(floorHeight) : "0"(floorHeight));
                 if ((state->y >= *floorHeight) || (((D_800E27EC < 0x51) == 0))) {
 
                     if (state->ending == 0) {
@@ -255,18 +238,16 @@ updateHistory:
                 register int vx asm("$6") = (s16)state->motionX;
                 register unsigned x asm("$2");
                 register unsigned vxBits asm("$5");
-                register int dampX asm("$6");
+                int dampX;
                 register unsigned y asm("$2"); unsigned z;
                 unsigned vy;
                 unsigned vz;
                 int dampZ;
-                asm volatile("" : : "r"(frame), "r"(vx) : "memory");
                 x = *(volatile u16 *)&state->x;
                 vxBits = *(volatile u16 *)&state->motionX;
                 asm volatile("" : : "r"(frame), "r"(vx), "r"(x), "r"(vxBits));
                 dampX = vx * 63;
                 state->x = x + vxBits;
-                asm volatile("" : : : "memory");
                 y = *(volatile u16 *)&state->y;
                 vy = *(volatile u16 *)&state->motionY;
                 state->frame = frame + 1;
@@ -277,18 +258,14 @@ updateHistory:
                 state->motionX = dampX / 64;
                 dampZ = (s16)state->motionZ * 63;
                 if (dampZ < 0) dampZ += 63;
-                asm volatile("" : "=r"(dampZ) : "0"(dampZ) : "memory");
                 vy = (u16)state->motionY;
                 state->motionZ = dampZ >> 6;
-                asm volatile("" ::: "memory");
                 { int positionY;
                 positionY = state->y;
-                asm volatile("" : "=r"(positionY) : "0"(positionY));
                 state->motionY = vy;
                 asm volatile("" ::: "memory");
                 if (positionY >= D_800942EC) {
                     int signedY = (s16)vy;
-                    asm volatile("" : "=r"(signedY) : "0"(signedY));
                     state->motionY = -signedY;
                 }
             }
@@ -331,24 +308,8 @@ checkLifetime:
         renderKind = state->kind - 1;
         switch (renderKind) {
         case 0:
-            {
-                int *matrix;
-                int **slot = &D_800BCFA4.value;
-                register int w0 asm("$12");
-                register int w1 asm("$13");
-                register int w2 asm("$14");
-                asm volatile("" : "=r"(slot) : "0"(slot));
-                matrix = *slot;
-                asm volatile("" : "=r"(matrix) : "0"(matrix) : "$2", "$3", "$4", "$5", "$6", "$7", "$8", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25");
-                w0 = matrix[0]; w1 = matrix[1];
-                gte_ctc2_0(w0); gte_ctc2_1(w1);
-                w0 = matrix[2]; w1 = matrix[3]; w2 = matrix[4];
-                gte_ctc2_2(w0); gte_ctc2_3(w1); gte_ctc2_4(w2);
-                w0 = matrix[5]; w1 = matrix[6];
-                gte_ctc2_5(w0);
-                w2 = matrix[7];
-                gte_ctc2_6(w1); gte_ctc2_7(w2);
-            }
+            gte_ldrotmatrix(D_800BCFA4.value);
+            gte_ldtransmatrix(D_800BCFA4.value);
             trailClutY = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 trailClutY += 4;
@@ -399,12 +360,10 @@ checkLifetime:
                               drawOffset,
                     ({
                         register int clutWord asm("$2") = drawClut;
-                        asm("" : "=r"(clutWord) : "0"(clutWord));
                         clutWord;
                     }),
                     ({
                         register int modeWord asm("$2") = 1;
-                        asm("" : : "r"(modeWord));
                         modeWord;
                     }), firstFade,
                     ({
@@ -422,37 +381,17 @@ checkLifetime:
         case 2:
             renderScale = func_80077CF4(((state->frame << 0xA) / 10)) / 4;
             fade = (func_80077CF4((state->frame << 0xB) / 10) / 48);
-            match_reload_boundary(fade);
-            matrixSlot = &D_800BCFA4.value;
-            {
-                int *matrix;
-                int **slot = matrixSlot;
-                register int w0 asm("$12");
-                register int w1 asm("$13");
-                register int w2 asm("$14");
-                asm volatile("" : "=r"(slot) : "0"(slot));
-                matrix = *slot;
-                asm volatile("" : "=r"(matrix) : "0"(matrix) : "$2", "$3", "$4", "$5", "$6", "$7", "$8", "$10", "$11", "$12", "$13", "$14", "$15", "$24", "$25");
-                w0 = matrix[0]; w1 = matrix[1];
-                gte_ctc2_0(w0); gte_ctc2_1(w1);
-                w0 = matrix[2]; w1 = matrix[3]; w2 = matrix[4];
-                gte_ctc2_2(w0); gte_ctc2_3(w1); gte_ctc2_4(w2);
-                w0 = matrix[5]; w1 = matrix[6];
-                gte_ctc2_5(w0);
-                w2 = matrix[7];
-                gte_ctc2_6(w1); gte_ctc2_7(w2);
-            }
+            gte_ldrotmatrix(D_800BCFA4.value);
+            gte_ldtransmatrix(D_800BCFA4.value);
             {
                 register int pageDepth asm("$4") = 0;
                 int pageBlend = 1;
                 int pageX = 0;
                 asm volatile("" : "=r"(pageDepth), "=r"(pageBlend), "=r"(pageX) : "0"(pageDepth), "1"(pageBlend), "2"(pageX));
             paletteIndex = &D_800E11EA;
-            asm volatile("" : "=r"(paletteIndex) : "0"(paletteIndex));
             renderPalette = D_800E2850[*paletteIndex];
             asm volatile("" : "=r"(renderPalette) : "0"(renderPalette));
             D_800F336C = 3;
-            asm volatile("" : : "r"(renderPalette) : "memory");
             D_800F336E = 0;
             D_800F3370 = renderPalette;
             tpage = func_80077A64(pageDepth, pageBlend, pageX, 0);
@@ -490,11 +429,9 @@ checkLifetime:
                 fade = (s32) (pulseCosine + 0x1F) >> 5;
             }
             pulseExtent = 0x40;
-            asm volatile("" : "=r"(pulseExtent) : "0"(pulseExtent));
             D_800F3368.parameter00 = pulseExtent;
             D_800F3376 = pulseExtent;
             D_800F3378 = pulseExtent;
-            asm volatile("" ::: "memory");
             D_800F336A = 4;
             D_800F3374 = 0x18;
             pulseClutY = D_800E1204[D_800F336C];
