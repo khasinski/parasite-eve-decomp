@@ -43,7 +43,6 @@ int __attribute__((section(".text.Gte_Atan2"))) Gte_Atan2(int y, int x) {
             index = y << 1;
         }
         angle = *(s16 *)((char *)atan_table + index);
-        asm volatile("" : "=r"(angle) : "0"(angle));
         angle = 1024 - angle;
     }
     if (negative_x) angle = 2048 - angle;
