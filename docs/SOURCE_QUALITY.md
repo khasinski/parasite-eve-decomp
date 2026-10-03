@@ -245,6 +245,20 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Burst spark particle in ten rooms
+
+`func_80192F00` in room_m203, room_m221, room_m223, room_m224, room_m229,
+room_m233, room_m242 and room_m246 and its copy `func_80193650` in room_m231
+and room_m234 now share `RoomEffect_BurstSparkParticle.inc` on
+`room_burst_spark.h`, with each overlay's two jump tables carved into the
+unit's own `.rodata`. Retail addresses the parameter block from a saved base
+register; storing the first parameter field first, then the rest, then
+reading the palette back as `D_800E1204[D_800F3368.palette]` gives that base
+in every draw state without any loop wrapper, and every other read of the
+block goes through the struct and folds to retail's absolute loads. Each
+3548-byte instance matches retail with no pins or barriers; all ten overlay
+SHA-1 hashes are unchanged.
+
 ### Sound helper re-reads without barriers
 
 Several sources forced the sound helper pointer `D_800B0E64` to be read again
