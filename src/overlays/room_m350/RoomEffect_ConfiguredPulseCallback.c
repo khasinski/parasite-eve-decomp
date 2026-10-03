@@ -1,10 +1,10 @@
 typedef struct { short unit, scale; } RenderState;
-extern volatile int D_800E27EC;
-extern volatile RenderState D_800F3368;
-extern volatile short D_800F336A, D_800F336E, D_800F3372, D_800F3374;
-extern volatile unsigned short D_800F336C;
+extern int D_800E27EC;
+extern RenderState D_800F3368;
+extern short D_800F336A, D_800F336E, D_800F3372, D_800F3374;
+extern unsigned short D_800F336C;
 extern unsigned short D_800F3370;
-extern volatile short D_800F3376, D_800F3378;
+extern short D_800F3376, D_800F3378;
 extern volatile unsigned short D_800E11E8, D_800E1208;
 extern unsigned short D_800E2850[];
 extern short D_800966EC[], D_800966EE[];
