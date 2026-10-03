@@ -22,7 +22,6 @@ GteMatrix *Gte_ScaleMatrix(GteMatrix *m, const GteVector *scale) {
     lo = packed & 0xffff;
     asm volatile("" : "=r"(lo) : "0"(lo));
     lo = (u32)lo << 16;
-    asm volatile("" : "=r"(lo) : "0"(lo));
     lo >>= 16;
     product = (unsigned long long)(u32)lo * (u32)sx;
     asm volatile("" : "=l"(low) : "x"(product));
@@ -37,7 +36,6 @@ GteMatrix *Gte_ScaleMatrix(GteMatrix *m, const GteVector *scale) {
     hi = low;
     asm volatile("" : "=r"(hi) : "0"(hi));
     hi >>= 12;
-    asm volatile("" : "=r"(hi) : "0"(hi));
     hi = (u32)hi << 16;
     lo |= hi;
     words[0] = lo;
@@ -45,7 +43,6 @@ GteMatrix *Gte_ScaleMatrix(GteMatrix *m, const GteVector *scale) {
     lo = packed & 0xffff;
     asm volatile("" : "=r"(lo) : "0"(lo));
     lo = (u32)lo << 16;
-    asm volatile("" : "=r"(lo) : "0"(lo));
     lo >>= 16;
     product = (unsigned long long)(u32)lo * (u32)sz;
     asm volatile("" : "=l"(low) : "x"(product));
@@ -60,7 +57,6 @@ GteMatrix *Gte_ScaleMatrix(GteMatrix *m, const GteVector *scale) {
     hi = low;
     asm volatile("" : "=r"(hi) : "0"(hi));
     hi >>= 12;
-    asm volatile("" : "=r"(hi) : "0"(hi));
     hi = (u32)hi << 16;
     lo |= hi;
     words[1] = lo;
@@ -69,7 +65,6 @@ GteMatrix *Gte_ScaleMatrix(GteMatrix *m, const GteVector *scale) {
     lo = packed & 0xffff;
     asm volatile("" : "=r"(lo) : "0"(lo));
     lo = (u32)lo << 16;
-    asm volatile("" : "=r"(lo) : "0"(lo));
     lo >>= 16;
     product = (unsigned long long)(u32)lo * (u32)sy;
     asm volatile("" : "=l"(low) : "x"(product));
@@ -84,7 +79,6 @@ GteMatrix *Gte_ScaleMatrix(GteMatrix *m, const GteVector *scale) {
     hi = low;
     asm volatile("" : "=r"(hi) : "0"(hi));
     hi >>= 12;
-    asm volatile("" : "=r"(hi) : "0"(hi));
     hi = (u32)hi << 16;
     lo |= hi;
     words[2] = lo;
@@ -93,7 +87,6 @@ GteMatrix *Gte_ScaleMatrix(GteMatrix *m, const GteVector *scale) {
     lo = packed & 0xffff;
     asm volatile("" : "=r"(lo) : "0"(lo));
     lo = (u32)lo << 16;
-    asm volatile("" : "=r"(lo) : "0"(lo));
     lo >>= 16;
     product = (unsigned long long)(u32)lo * (u32)sx;
     asm volatile("" : "=l"(low) : "x"(product));
@@ -108,7 +101,6 @@ GteMatrix *Gte_ScaleMatrix(GteMatrix *m, const GteVector *scale) {
     hi = low;
     asm volatile("" : "=r"(hi) : "0"(hi));
     hi >>= 12;
-    asm volatile("" : "=r"(hi) : "0"(hi));
     hi = (u32)hi << 16;
     lo |= hi;
     words[3] = lo;
@@ -118,7 +110,6 @@ GteMatrix *Gte_ScaleMatrix(GteMatrix *m, const GteVector *scale) {
     lo = packed & 0xffff;
     asm volatile("" : "=r"(lo) : "0"(lo));
     lo = (u32)lo << 16;
-    asm volatile("" : "=r"(lo) : "0"(lo));
     lo >>= 16;
     product = (unsigned long long)(u32)lo * (u32)sz;
     asm volatile("" : "=l"(low) : "x"(product));
