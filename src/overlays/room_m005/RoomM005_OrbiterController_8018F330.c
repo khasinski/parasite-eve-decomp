@@ -1,13 +1,13 @@
 #include "common.h"
 #include "pe1/room_m005.h"
+#include "pe1/room_sound_slot.h"
 
 int func_8018F330(int mode, RoomM005OrbiterState *state) {
     RoomM005Seed8 seed = D_8018EFF4;
     s16 target[4];
     char *pool;
     RoomM005OrbiterChild *child;
-    void **soundSlot;
-    void *currentSound;
+    RoomSoundSlot *soundSlot;
     int handle;
     int spread;
     int volume;
@@ -20,17 +20,13 @@ int func_8018F330(int mode, RoomM005OrbiterState *state) {
         return func_800CE560(pool, 16, 24, RoomM005_FxOrbiter_8018F018);
     case 1:
         if (D_800E27EC == 7) {
-            soundSlot = &D_800B0E64;
-            currentSound = *soundSlot;
-            if (currentSound != 0) {
+            soundSlot = &D_800B0E64_slot;
+            if (soundSlot->channel != 0) {
                 volume = 0x7F;
                 handle = func_800D3FD8();
-                func_8006DF50(*soundSlot, 0x5AB, handle, 0x80, volume);
-                currentSound = *soundSlot;
-                /* Preserve the separate sound-owner read after the first call. */
-                asm("" : : "r"(currentSound) : "memory");
-                if (currentSound != 0) {
-                    func_8006DF50(*soundSlot, 0x5AC, 0x80, 0x80, volume);
+                func_8006DF50(soundSlot->channel, 0x5AB, handle, 0x80, volume);
+                if (soundSlot->channel != 0) {
+                    func_8006DF50(soundSlot->channel, 0x5AC, 0x80, 0x80, volume);
                 }
             }
         }
