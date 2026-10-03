@@ -209,7 +209,7 @@ void Akao_ResetReleaseRate(AkaoTrack *track) {
 void SeqOp_PushLoopPoint(AkaoTrack *track) {
     unsigned short index = (track->call_stack_index + 1) & 3;
 
-    *(volatile short *)&track->call_stack_index = index;
+    track->call_stack_index = index;
     track->call_stack[index] = track->pc;
     index = track->call_stack_index;
     track->repeat_counters[index] = 0;
@@ -265,7 +265,7 @@ void SeqOp_JumpIfLoopCount(AkaoTrack *ptr) {
         return;
     }
 
-    *(u8_3 * volatile *)&track->pc = cursor + 2;
+    *(u8_3 **)&track->pc = cursor + 2;
     value = cursor[1];
     target = cursor + 3;
     track->pc = target;
@@ -297,7 +297,7 @@ void SeqOp_JumpIfLoopCountPop(AkaoTrack *ptr) {
         return;
     }
 
-    *(u8_3 * volatile *)&track->pc = cursor + 2;
+    *(u8_3 **)&track->pc = cursor + 2;
     value = cursor[1];
     target = cursor + 3;
     track->pc = target;
