@@ -5,6 +5,7 @@
  * cc1 scheduler so the flag load/stores keep the retail order (permuter zero). */
 int Menu_SetSlotEntry(int index, unsigned int limit, unsigned int slot)
 {
+    GeomStateAddress table, base;
     GeomCtrlEntry *entry;
     u32 field4;
     register u32 flags;
@@ -14,7 +15,8 @@ int Menu_SetSlotEntry(int index, unsigned int limit, unsigned int slot)
     int neg;
     s16 f8;
 
-    entry = (GeomCtrlEntry *)(((u8 *)g_GeomState + g_GeomState->ctrl_offset) + (index << 4));
+    GEOM_STATE_OFFSET(table, base, ctrl_offset, index << 4);
+    entry = table.ctrl;
     field4 = *(u32 *)&entry->field4;
     field4 &= 0xFF;
     offset = entry->slot_offset;
@@ -24,7 +26,8 @@ int Menu_SetSlotEntry(int index, unsigned int limit, unsigned int slot)
         field4 |= hi;
         do {
             flags = entry->head.b.flags;
-            slotbase = (u8 *)entry + offset;
+            table.word += offset;
+            slotbase = table.bytes;
             *(u32 *)&entry->field4 = field4;
         } while (0);
         neg = -1;
