@@ -7236,3 +7236,40 @@ The function uses the real argument lists instead of the mechanical
 reconstruction's spurious a2/a3 arguments. The signed-byte-to-unsigned-halfword
 conversion when restoring an enemy mode is explicit. Separate player reads
 reuse the existing matching views rather than adding register pins.
+
+### room_m256 trail and burst callback (func_801940B0)
+
+The selected largest remaining function, 4720 bytes at 0x801940B0, is now C in
+`RoomEffect_TrailBurstCallback.c`. It updates a steering trail, emits damped
+sparks and expanding sprites, handles the floor impact, and draws the trail,
+model and sprite stages. `RoomM256TrailEffect` is the shared 24-byte pool record;
+the controller at 0x80195320 now initializes its named fields. Actor, task,
+render-parameter, matrix and color types reuse the shared headers. The adjacent
+sprite callback also uses the shared `RenderMatrixSlot` declaration.
+
+Stock native GCC 2.7.2 (-O2 -G0, -ffixed-22 -ffixed-23) and unmodified MASPSX
+produce score 0 and all 4720 retail bytes. SHA-256:
+`79eaf73467d45dc94467a65557ecedf65e7d4efdff4f40ff6b1405531af51949`.
+The integrated room_m256 overlay, including both jump tables and the preserved
+eight trailing rodata bytes, matches SHA-1
+`618fb891329d4ac903ec617a210c4b1e0af742d1`.
+Compilation and all searches ran on darwine.
+
+Matching debt is 24 register pins, 36 empty barriers, four statement expressions,
+14 gotos and an explicit unused 24-byte stack reservation for the retail 0xF0
+frame. The two fixed-register flags additionally reserve $22/$23 for allocation;
+they do not change the calling convention. Arithmetic is ordinary C, including
+/10 and /48: there are no HI/LO assembly helpers. Individual GTE operations use
+the existing per-instruction macros; there is no CPU instruction ASM, NOP,
+compiler patch, assembler patch, EABI or postprocessing rewrite.
+
+The first sprite draw uses argument-local $2 pins for CLUT and page, $4..$7
+pins for ready register arguments, and a final empty $2/$21 clobber. These keep
+the page and intensity stores ahead of the texture-offset load. All 15 subsets
+removing those four argument pins lose the match. Before the second GTE load,
+a conditional pair of identical empty barriers separates allocation blocks;
+stock GCC later merges the branches without emitting any runtime instruction.
+The broader GTE clobbers, volatile damping reads, const parameter view and
+palette-pair view are matching constraints, not evidence of retail qualifiers
+or complete original data types. History accesses still use byte strides and
+separate XYZ symbols; further type cleanup remains debt.

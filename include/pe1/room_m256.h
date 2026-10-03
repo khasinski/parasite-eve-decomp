@@ -1,7 +1,7 @@
 #ifndef PE1_ROOM_M256_H
 #define PE1_ROOM_M256_H
 
-#include "pe1/field_anim.h"
+#include "pe1/room_m256_trail.h"
 
 /* ABI declarations used by the room_m256 effect dispatcher. */
 extern int D_800B0E64;
@@ -33,13 +33,11 @@ extern s16 D_80196094;
 extern s16 D_800F336A;
 extern u16 D_800E1204[];
 extern int D_800F3428;
-extern int *D_800BCFA4;
 
 int func_80077DC4(int);
 int func_80077AA4(int, int);
 void func_800CF844(void *, void *, int, void *, int, int);
 void func_800CF3AC(void *, void *, int);
-void func_800CEE20(void *, void *, int, int, int, int, int, int, void *);
 void func_800D1DEC(void *, void *, int, int);
 int func_8019552C(int mode, RoomM256Particle *particle);
 

@@ -4,7 +4,7 @@ int func_80195320(int mode, u16 *out) {
     char *p, *q, *r;
     /* Keep the return register available for the retail mode dispatch. */
     register int ret asm("$2");
-    char *task;
+    RoomM256TrailEffect *task;
     u16 value;
 
     if (mode == 1) goto mode1;
@@ -38,9 +38,9 @@ mode1:
         task = func_800CE610(D_800F33E0->end);
         if (task) {
             value = *out;
-            *(s16 *)(task + 0x14) = 0;
-            *(s16 *)(task + 0x16) = 0;
-            *(u16 *)(task + 6) = value;
+            task->kind = 0;
+            task->frame = 0;
+            task->index = value;
         }
         func_800D3F64(0x5A6, func_800D3FD8());
         func_800D3F64(0x5BE, 0x80);

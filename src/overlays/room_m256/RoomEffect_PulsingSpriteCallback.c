@@ -35,7 +35,7 @@ int func_8019552C(int mode, RoomM256Particle *particle) {
         func_800CEE20(&position, 0, 0x1000, 0x1000,
                        D_800F336A * 2 + 0xD8, clut, 3,
                        D_80196094, &color);
-        matrix_slot = &D_800BCFA4;
+        matrix_slot = &D_800BCFA4.value;
         /* Preserve the separate address formation and pointer load. */
         asm volatile("" : "=r"(matrix_slot) : "0"(matrix_slot));
         matrix = *matrix_slot;

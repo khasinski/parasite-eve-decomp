@@ -51,6 +51,12 @@ if grep -q 'CC1_FLAGS:.*-O1' "$IN"; then
 elif grep -q 'CC1_FLAGS:.*-O3' "$IN"; then
     CC1_FLAGS="${CC1_FLAGS/-O2/-O3}"
 fi
+# Explicit register reservations are matching debt, scoped to one TU.
+for fixed_register in 22 23; do
+    if grep -qE "CC1_FLAGS:.*-ffixed-${fixed_register}([^0-9]|$)" "$IN"; then
+        CC1_FLAGS="$CC1_FLAGS -ffixed-$fixed_register"
+    fi
+done
 if grep -q 'CC1_FLAGS:.*-mdebuga' "$IN"; then
     CC1_FLAGS="$CC1_FLAGS -mdebuga"
 fi
