@@ -105,7 +105,7 @@ segments:
       - [0x49C4, c, RoomEffect_DriftingPaletteSprite]
       - [0x4DA0, c, func_80193D88]
       - [0x4FDC, c, RoomEffect_ExpandingPaletteSprite]
-      - [0x517C, asm, func_80194164]
+      - [0x517C, c, RoomEffect_ShakeBurstController]
       - [0x5500, asm, func_801944E8]
       - [0x5AC4, asm, func_80194AAC]
       - [0x61A8, asm, func_80195190]
