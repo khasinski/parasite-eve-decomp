@@ -126,7 +126,7 @@ void Inv_SortSlotsByPriority(void) {
         if (i != D_800C0E20.tracked[0] && i != D_800C0E20.tracked[2] && Inv_IsSlotSelectable(i)) {
             if (i >= 0 && i < D_8009D050) item = LookupItem(D_8009D048[i]);
             else item = 0;
-            D_8009D058[i >> 5] |= (u32)(item ? !(item->flags & 0xE0) : 0) << (i & 31);
+            D_8009D058[i >> 5] |= (item ? !(item->flags & 0xE0) : 0) << (i & 31);
         }
     }
 }
@@ -188,7 +188,7 @@ int Inv_BuildCompatibleWeaponBitset(int sourceIndex) {
                 if (i >= 0 && i < D_8009D050) item = LookupItem(D_8009D048[i]);
                 else item = 0;
                 if (item) {
-                    D_8009D058[i >> 5] |= (u32)(category == (item->kind && item->kind < 8
+                    D_8009D058[i >> 5] |= (category == (item->kind && item->kind < 8
                         ? ((int)item->kind - 4 > 0 ? (int)item->kind - 4 : 1)
                         : item->kind >= 19 ? item->kind - 18 : 0)) << (i & 31);
                 }
@@ -201,7 +201,7 @@ int Inv_BuildCompatibleWeaponBitset(int sourceIndex) {
                 else item = 0;
                 if (item) {
                     u16 candidateKind = item->kind;
-                    D_8009D058[i >> 5] |= (u32)((unsigned)(candidateKind - 19) < 3 &&
+                    D_8009D058[i >> 5] |= ((unsigned)(candidateKind - 19) < 3 &&
                         category == (item->kind && item->kind < 8
                         ? ((int)item->kind - 4 > 0 ? (int)item->kind - 4 : 1)
                         : item->kind >= 19 ? item->kind - 18 : 0)) << (i & 31);
@@ -219,7 +219,7 @@ int Inv_BuildCompatibleWeaponBitset(int sourceIndex) {
                 if (i >= 0 && i < D_8009D050) item = LookupItem(D_8009D048[i]);
                 else item = 0;
                 if (item) {
-                    D_8009D058[i >> 5] |= (u32)(category == (item->kind && item->kind < 8
+                    D_8009D058[i >> 5] |= (category == (item->kind && item->kind < 8
                         ? ((int)item->kind - 4 > 0 ? (int)item->kind - 4 : 1)
                         : item->kind >= 19 ? item->kind - 18 : 0)) << (i & 31);
                 }
@@ -230,7 +230,7 @@ int Inv_BuildCompatibleWeaponBitset(int sourceIndex) {
                 else item = 0;
                 if (item) {
                     u16 candidateKind = item->kind;
-                    D_8009D058[i >> 5] |= (u32)((unsigned)(candidateKind - 19) < 3 &&
+                    D_8009D058[i >> 5] |= ((unsigned)(candidateKind - 19) < 3 &&
                         category == (item->kind && item->kind < 8
                         ? ((int)item->kind - 4 > 0 ? (int)item->kind - 4 : 1)
                         : item->kind >= 19 ? item->kind - 18 : 0)) << (i & 31);
