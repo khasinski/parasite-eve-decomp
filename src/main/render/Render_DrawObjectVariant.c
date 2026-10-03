@@ -60,13 +60,13 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
     matrix = (s32 *)entity->matrices;
     i = 0;
     if (changed < entity->header->part_count) {
-        limitShift = (u32)limit << 16;
+        limitShift = limit << 16;
         threshold = limitShift >> 16;
         offset = 0;
         do {
             {
                 register RenderObjectPart *base asm("$2") = entity->parts;
-                probe = (RenderObjectPart *)((u32)offset + (u32)base);
+                probe = (RenderObjectPart *)(offset + (u32)base);
             }
             if (probe->visible == 1) {
                 part = probe;
@@ -79,7 +79,7 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
                     y = (s16)yy;
                 }
                 if (threshold < y ||
-                    (bounds = (RenderVec3s *)((u32)boundsOffset + (u32)entity->bounds_vertices),
+                    (bounds = (RenderVec3s *)(boundsOffset + (u32)entity->bounds_vertices),
                      radius = bounds->pad,
                      threshold < y - radius || threshold < (sum = y + radius))) {
                     scratch->y = savedLimit;
