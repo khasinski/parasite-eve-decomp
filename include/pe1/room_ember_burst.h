@@ -79,4 +79,9 @@ extern RenderColor D_8018F240;
 extern u8 D_80199868[];
 extern u16 GetClut(int x, int y);
 
+/* Twisting ember particle (func_80198268): its glow track and the bent
+ * trail renderer it draws the orbiting sparks with. */
+extern u8 D_80199890[];
+extern void func_800CF844(void *, void *, int, void *, int, int);
+
 #endif

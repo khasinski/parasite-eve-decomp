@@ -118,7 +118,7 @@ segments:
       - [0x7E64, asm, func_80196E4C]
       - [0x8630, c, RoomEffect_EmberFountainParticle]
       - [0x8CD4, c, RoomEffect_EmberFountainController]
-      - [0x9280, asm, func_80198268]
+      - [0x9280, c, RoomEffect_TwistEmberParticle]
       - [0x9910, asm, func_801988F8]
       - [0xA230, c, func_80199218]
       - [0xA24C, c, func_80199234]
