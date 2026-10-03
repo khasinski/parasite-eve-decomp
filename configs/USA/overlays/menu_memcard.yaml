@@ -106,15 +106,25 @@ segments:
     subsegments:
       - [0x5DE4, c, Memcard_SineRotatingImage]
   - [0x5F98]
-  - name: menu_memcard_effect_callbacks_tail
+  - name: menu_memcard_sine_trail_linkbase
     type: code
     start: 0x5F98
-    vram: 0x80126CDC
+    vram: 0x801F1790
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x5F98, asm, func_menu_memcard_005F98]
+      - [0x5F98, c, Memcard_SineTrailEffect]
+  - [0x6308]
+  - name: menu_memcard_effect_callbacks_tail
+    type: code
+    start: 0x6308
+    vram: 0x8012704C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x6308, asm, func_menu_memcard_006308]
       - [0x6B04, c, func_80127848]
       - [0x6C78, asm, func_menu_memcard_006C78]
   - [0x7000]
