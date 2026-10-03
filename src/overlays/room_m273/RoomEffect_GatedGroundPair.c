@@ -9,7 +9,7 @@ extern int D_800E27EC,D_800F3428;
 extern short D_800966EE[];
 extern unsigned short D_800F3368,D_800F336A,D_800F336C,D_800F336E;
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
-extern volatile unsigned short D_800F3376,D_800F3378;
+extern unsigned short D_800F3376,D_800F3378;
 extern unsigned short D_800E1204[],D_800E11FA,D_800E2850[],D_800942EC;
 extern Vector D_8019AB68;
 extern unsigned char D_8019AE18[],D_8019AB70[];
