@@ -70,7 +70,7 @@ segments:
       - [0x3040, c, FxCommon_LeaveScene]
       - [0x335C, c, FxCommon_RunMainLoop]
       - [0x3750, c, func_80192740]
-      - [0x3810, asm, fx_common_3810]
+      - [0x3810, c, FxCommon_DrawScene]
       - [0x4488, c, FxCommon_AdvancePathNodes]
       - [0x48F8, c, FxCommon_InitializeMotionVectors]
       - [0x49C0, c, FxCommon_SetMotionTargets]

@@ -113,7 +113,7 @@ typedef struct FxCommonLinePacket {
     u32 xy1;
 } FxCommonLinePacket;
 
-typedef struct FxCommonTexturedQuad {
+typedef struct FxCommonMarkerQuad {
     FxCommonPacketTag tag;
     u8 r0, g0, b0, code;
     s16 x0, y0;
@@ -131,11 +131,11 @@ typedef struct FxCommonTexturedQuad {
     s16 x3, y3;
     u8 u3, v3;
     u16 pad32;
-} FxCommonTexturedQuad;
+} FxCommonMarkerQuad;
 
 PE1_STATIC_ASSERT(sizeof(FxCommonLinePacket) == 0x10, fx_common_line_size);
-PE1_STATIC_ASSERT(sizeof(FxCommonTexturedQuad) == 0x34,
-                  fx_common_textured_quad_size);
+PE1_STATIC_ASSERT(sizeof(FxCommonMarkerQuad) == 0x34,
+                  fx_common_marker_quad_size);
 
 /* 16.16 motion vectors read back by their whole parts. */
 typedef struct FxCommonFixedPart {
@@ -151,12 +151,12 @@ extern FxCommonFixedVec g_FxCommonMotionWhole[10] __asm__("D_8019CAA8");
 typedef union FxCommonMarkerCursor {
     u8 *bytes;
     FxCommonLinePacket *line;
-    FxCommonTexturedQuad *quad;
+    FxCommonMarkerQuad *quad;
     void *pointer;
     u32 word;
 } FxCommonMarkerCursor;
 
-void func_80077BE4(FxCommonTexturedQuad *packet);
+void func_80077BE4(FxCommonMarkerQuad *packet);
 u16 func_80077AA4(int x, int y);
 u16 func_80077A64(int mode, int rate, int x, int y);
 int func_80079274(GteShortVector *v0, GteShortVector *v1, GteShortVector *v2,

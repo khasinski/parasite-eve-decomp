@@ -92,6 +92,19 @@ void func_800791D0(GteVector *a, GteVector *b, GteVector *out);
 s16 func_80194108(s16 value);
 void func_80192740(void);
 void func_80192800(void);
+
+/* Per-frame scene draw (func_80192800): depth bias for the next node,
+ * echo copies of the camera path nodes and the flicker colour. */
+extern s32 D_801EA5E4;
+extern FxCommonTransformNode *g_FxCommonPathTailNodes[2] __asm__("D_801EA588");
+extern s16 D_8019C0D0[2];
+extern u8 D_801EA264[3];
+extern void *D_801EA260;
+extern FxCommonTransformNode *g_FxCommonEchoNodes[4] __asm__("D_8019C148");
+void func_80190E04(void *node, FxCommonBuffer *context, u8 pass, u8 force,
+                   u8 mirrored);
+void func_80191114(void *node, FxCommonBuffer *context, u8 pass, u8 mode);
+void func_80190D3C(void *node, FxCommonBuffer *context);
 void func_80193478(void);
 int func_80191E30(int id, s32 *state);
 void func_80191EFC(int handle, s32 *state);
