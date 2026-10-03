@@ -35,26 +35,23 @@ int Render_DrawSprite(void)
     axis.x = 0;
     axis.y = 0;
     {
-        register u32 *matrix asm("$2") = rotation.words;
+        u32 *matrix = rotation.words;
         register u32 a asm("$12");
         register u32 b asm("$13");
         register u32 c asm("$14");
         asm("":"=r"(matrix):"0"(matrix):"memory");
         a = matrix[0];
         b = matrix[1];
-        asm(""::"r"(a),"r"(b));
         gte_ctc2_0(a);
         gte_ctc2_1(b);
         a = matrix[2];
         b = matrix[3];
         c = matrix[4];
-        asm(""::"r"(a),"r"(b),"r"(c));
         gte_ctc2_2(a);
         gte_ctc2_3(b);
         gte_ctc2_4(c);
         a = matrix[5];
         b = matrix[6];
-        asm(""::"r"(a),"r"(b));
         gte_ctc2_5(a);
         c = matrix[7];
         gte_ctc2_6(b);
@@ -69,20 +66,18 @@ int Render_DrawSprite(void)
     gte_swc2_26_4(&forward);
     gte_swc2_27_8(&forward);
     {
-        register GteVector *source asm("$2");
+        GteVector *source;
         register u32 a asm("$12");
         register u32 b asm("$13");
         register u32 c asm("$14");
         up.y = 4096;
         asm volatile("":::"memory");
         source = &up;
-        asm(""::"r"(source):"memory");
         up.x = 0;
         up.z = 0;
         asm("":"=r"(source):"0"(source):"memory");
         a = source->x;
         b = source->y;
-        asm(""::"r"(a),"r"(b));
         gte_ctc2_0(a);
         c = source->z;
         gte_ctc2_2(b);
@@ -107,7 +102,6 @@ int Render_DrawSprite(void)
         asm("":"=r"(source):"0"(source):"memory");
         a = source->x;
         b = source->y;
-        asm(""::"r"(a),"r"(b));
         gte_ctc2_0(a);
         c = source->z;
         gte_ctc2_2(b);
