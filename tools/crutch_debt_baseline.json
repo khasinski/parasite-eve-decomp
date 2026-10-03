@@ -4,7 +4,7 @@
     "asm_bodies": 37,
     "asm_constrained_units": 7,
     "barriers": 953,
-    "byte_pointer_arithmetic": 311,
+    "byte_pointer_arithmetic": 304,
     "declaration_overrides": 0,
     "directives": 0,
     "externs_in_c": 3817,
