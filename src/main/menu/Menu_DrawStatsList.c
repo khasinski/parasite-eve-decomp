@@ -33,7 +33,7 @@ void Menu_DrawStatsList(void) {
     var_s3 = &D_800A18DC;
     do {
         temp_s1 = *var_s4;
-        temp_s0 = M2C_FIELD(var_s3, s32 *, 0) + ((s32) (g_BonusPointBarAnimProgress * M2C_FIELD(&g_BonusPointStatMultipliers, s32 *, var_s2 * 4)) >> 7);
+        temp_s0 = M2C_FIELD(var_s3, s32 *, 0) + ((g_BonusPointBarAnimProgress * M2C_FIELD(&g_BonusPointStatMultipliers, s32 *, var_s2 * 4)) >> 7);
         Draw_OffsetCursor(2, 0);
         Draw_AllocSprite(var_s2 + 0x8C);
         Draw_OffsetCursor(0x4A, 0);
