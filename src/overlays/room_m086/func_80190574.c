@@ -113,7 +113,7 @@ mode1:
     }
 
     value = D_800E27EC - 2;
-    if ((u32)value < 3U) {
+    if (value < 3U) {
         angle = func_80071A54();
         i = 0;
         do {
@@ -142,7 +142,7 @@ mode1:
     }
 
     value = D_800E27EC - 2;
-    if ((u32)value < 0x15U) {
+    if (value < 0x15U) {
         angle = func_80071A54();
         actor = func_800CE610(((void **)D_800F33E0)[2]);
         if (actor != 0) {
