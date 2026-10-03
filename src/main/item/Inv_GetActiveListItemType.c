@@ -1,52 +1,35 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-#define NULL ((void *)0)
+extern int g_InvItemPtr;
+extern int g_InvSlotLimit;
 
-#include "../../../tools/m2c/m2c_macros.h"
-
-void *Item_LookupBaseData();
-
-extern s32 g_InvItemPtr;
-extern s32 g_InvSlotLimit;
-extern M2C_UNK g_KeyItemDataTable[];
-#define g_KeyItemDataTable (g_KeyItemDataTable[0])
-extern M2C_UNK g_EquipItemDataTable[];
-#define g_EquipItemDataTable (g_EquipItemDataTable[0])
-
-int Inv_GetActiveListItemType(s32 index);
-
-int Inv_GetActiveListItemType(s32 index)
+int Inv_GetActiveListItemType(int index)
 {
-    register s32 item_id asm("$3");
-    register s32 saved_item_id asm("$5");
-    u32 base_index;
-    void *data;
+    int value;
+    int saved_value;
+    ItemDataRecord *entry;
 
-    if ((index >= 0) && (index < g_InvSlotLimit)) {
-        item_id = ((s16 *)g_InvItemPtr)[index];
-        saved_item_id = item_id;
-        if ((u32)(item_id - 0x100) < 0x80U) {
-            data = (item_id << 5) + (u8 *)&g_EquipItemDataTable;
+    if (index >= 0 && index < g_InvSlotLimit) {
+        value = ((s16 *)g_InvItemPtr)[index];
+        saved_value = value;
+        if ((unsigned int)(value - 0x100) < 0x80) {
+            entry = (ItemDataRecord *)(g_EquipItemDataTable + (value << 5));
+        } else if ((unsigned int)(value - 1) < 0xFF) {
+            entry = Item_LookupBaseData(value - 1);
+        } else if ((unsigned int)(saved_value - 0x200) < 9) {
+            entry = (ItemDataRecord *)(g_KeyItemDataTable + (saved_value << 5));
         } else {
-            base_index = item_id - 1;
-            if (base_index < 0xFFU) {
-                data = Item_LookupBaseData(base_index, item_id);
-            } else if ((u32)(saved_item_id - 0x200) < 9U) {
-                item_id = saved_item_id << 5;
-                data = item_id + (u8 *)&g_KeyItemDataTable;
-            } else {
-                goto invalid;
-            }
+            entry = 0;
         }
     } else {
-invalid:
-        data = NULL;
+        entry = 0;
     }
 
-    if (data == NULL) {
-        return 0U;
+    if (entry == 0) {
+        return 0;
     }
-    return M2C_FIELD(data, u8 *, 6);
+    return entry->kind;
 }
