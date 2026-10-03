@@ -65,13 +65,13 @@ void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green
     i = 0;
     count = entity->header->part_count;
     if (count > 0) {
-        limitShift = (u32)limit << 16;
+        limitShift = limit << 16;
         threshold = limitShift >> 16;
         partOffset = 0;
         do {
             {
                 RenderObjectPart *probe =
-                    (RenderObjectPart *)((u32)partOffset + (u32)entity->parts);
+                    (RenderObjectPart *)(partOffset + (u32)entity->parts);
                 if (probe->visible == 1) {
                     Render_LoadObjectMatrix(matrix);
                     boundsOffset = i * 16;
@@ -85,7 +85,7 @@ void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green
                     }
                     if (threshold < y ||
                         (radiusBounds =
-                             (RenderVec3s *)((u32)boundsOffset + (u32)entity->bounds_vertices),
+                             (RenderVec3s *)(boundsOffset + (u32)entity->bounds_vertices),
                          radius = radiusBounds->pad,
                          threshold < y - radius || threshold < (clipSum = y + radius))) {
                         {
