@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/room_fx.h"
+#include "pe1/gte_types.h"
 
 typedef struct FxCommonSelection {
     s16 record;

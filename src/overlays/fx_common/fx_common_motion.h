@@ -54,6 +54,12 @@ extern s32 D_8009CDDC;
 extern u8 D_8019C00E;
 extern s32 D_8019CC14;
 extern u32 D_8009D280;
+/* Plain views of the camera position and its look-at target. */
+extern FxCommonVec3 g_FxCommonCameraPosition __asm__("D_8019C330");
+extern FxCommonVec3 g_FxCommonCameraTarget __asm__("D_8019C810");
+extern RoomSpriteMatrix D_8018EFF4;
+extern GteShortVector D_8019BFC4;
+extern RoomSpriteMatrix D_8019CDF0;
 extern s8 D_800B0DB2;
 extern s8 D_800B0DB4;
 extern u8 D_800BCE80[];
@@ -84,6 +90,10 @@ void func_80075424(void *draw_env);
 void func_800755F0(void *entry);
 void func_800753B4(void *ordering_table);
 void func_80192030(void);
+int func_80078004(int value);
+void func_800799E4(GteShortVector *angles, RoomSpriteMatrix *matrix);
+void func_8018F344(GteMatrix *out, GteShortVector *eye,
+                   GteShortVector *target, GteVector *up);
 void func_80074F44(void *rect, s32 x, s32 y, s32 mode);
 void func_80086FF8(void);
 void func_80087024(void);

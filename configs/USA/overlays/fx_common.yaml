@@ -39,7 +39,7 @@ segments:
         name: fx_common_header
         dir: fx_common
       - [0x44, .rodata, FxCommon_LeaveScene]
-      - [0x6C, asm, fx_common_6C]
+      - [0x6C, c, FxCommon_UpdateCamera]
       - [0x354, c, FxCommon_LookAtMatrix]
       - [0x56C, asm, fx_common_56C]
       - [0x1004, c, FxCommon_CheckBounds]
