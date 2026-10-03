@@ -54,7 +54,7 @@ void Entity_SlideOnWall(BattleEntity *input, const PolygonVertex *vertices,
                     (u32)((x >> 16) - endX) * (u32)vector.z) / length;
     if (projection < 0)
         projection = 0u - (u32)projection;
-    if (projection > *(u16 *)&D_8009CE2C) {
+    if (projection > D_8009CE2C) {
         entity->posX.fixed = x;
         entity->posZ.fixed = z;
         return;
@@ -73,7 +73,7 @@ void Entity_SlideOnWall(BattleEntity *input, const PolygonVertex *vertices,
                             (u32)((trialX >> 16) - endX) * (u32)*(volatile s32 *)&vector.z) / length;
             if (projection < 0)
                 projection = 0u - (u32)projection;
-            if (projection > *(u16 *)&D_8009CE2C) {
+            if (projection > D_8009CE2C) {
                 entity->posX.fixed = trialX;
                 entity->posZ.fixed = trialZ;
                 return;
