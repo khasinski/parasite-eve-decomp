@@ -87,7 +87,7 @@ void Menu_OpenItemActionSubmenu(s32 arg0, s32 arg1, s32 arg2) {
     g_MenuActiveItemSlot = arg2;
     temp_v0 = Inv_GetActiveListItemType(arg2);
     if (temp_v0 != 0xA) {
-        if (((u32) (temp_v0 - 0xC) < 2U) || ((u32) (temp_v0 - 0xE) < 2U) || ((u32) (temp_v0 - 8) < 2U)) {
+        if (((temp_v0 - 0xC) < 2U) || ((temp_v0 - 0xE) < 2U) || ((temp_v0 - 8) < 2U)) {
             g_MenuItemActionContext = 2;
         } else {
             g_MenuItemActionContext = 1;
