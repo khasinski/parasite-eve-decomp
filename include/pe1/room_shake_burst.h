@@ -65,6 +65,13 @@ typedef struct RoomShakeSweepParticle {
     s16 stretch;                  /* 0x0E */
 } RoomShakeSweepParticle;
 
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomShakeSweepParticle, state) == 0x06,
+                  room_shake_sweep_state_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomShakeSweepParticle, stretch) == 0x0E,
+                  room_shake_sweep_stretch_offset);
+PE1_STATIC_ASSERT(sizeof(RoomShakeSweepParticle) == 0x10,
+                  room_shake_sweep_particle_size);
+
 extern RoomShakeBurstEvent *D_800E2368;
 extern RoomShakeBurstChannel *D_800F32D0;
 extern RoomShakeBurstSparkChannel *D_800F33E0;
