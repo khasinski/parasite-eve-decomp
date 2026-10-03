@@ -11,25 +11,8 @@ extern s16 D_8009CDDC;
 
 #define Render_LoadObjectMatrix(matrix)                                                            \
     {                                                                                              \
-        register s32 w0 asm("$12");                                                                \
-        register s32 w1 asm("$13");                                                                \
-        register s32 w2 asm("$14");                                                                \
-        w0 = matrix[0];                                                                            \
-        w1 = matrix[1];                                                                            \
-        gte_ctc2_0(w0);                                                                            \
-        gte_ctc2_1(w1);                                                                            \
-        w0 = matrix[2];                                                                            \
-        w1 = matrix[3];                                                                            \
-        w2 = matrix[4];                                                                            \
-        gte_ctc2_2(w0);                                                                            \
-        gte_ctc2_3(w1);                                                                            \
-        gte_ctc2_4(w2);                                                                            \
-        w0 = matrix[5];                                                                            \
-        w1 = matrix[6];                                                                            \
-        gte_ctc2_5(w0);                                                                            \
-        w2 = matrix[7];                                                                            \
-        gte_ctc2_6(w1);                                                                            \
-        gte_ctc2_7(w2);                                                                            \
+        gte_ldrotmatrix(matrix); \
+        gte_ldtransmatrix(matrix); \
     }
 
 #define Render_TransformVertex(src, dst)                                                           \
@@ -62,7 +45,7 @@ void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green
     RenderObjectPart *part;
     s32 i;
     register s32 partOffset asm("$24");
-    register int *matrix asm("$25");
+    int *matrix;
     s32 limitShift;
     s32 count;
     u32 frameReserve[4];
