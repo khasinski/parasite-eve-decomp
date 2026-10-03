@@ -79,8 +79,8 @@ block_4:
             ta1m = arg1 * 2;
             tb48 = (u8 *)g_InvItemPtr;
             ta0m = arg3 * 2;
-            temp_a1 = (u16 *)((u32)ta1m + (u32)tb48);
-            temp_a0 = (u16 *)((u32)ta0m + (u32)tb48);
+            temp_a1 = (u16 *)(ta1m + (u32)tb48);
+            temp_a0 = (u16 *)(ta0m + (u32)tb48);
             tl1 = *temp_a1;
             tl0 = *temp_a0;
             temp_v0 = tl1 ^ tl0;
@@ -113,13 +113,13 @@ block_15:
             }
             if (var_a0_2 == 0) {
                 tsm = arg1 * 2;
-                temp_s0 = (s16 *)((u32)tsm + (u32)(u8 *)&D_800A1FD4_o);
+                temp_s0 = (s16 *)(tsm + (u8 *)&D_800A1FD4_o);
                 if (((u8) M2C_FIELD(Item_LookupBaseData(*temp_s0 - 1), u8 *, 6) >= 0x10U) && ((u8) M2C_FIELD(Item_LookupBaseData(*temp_s0 - 1), u8 *, 6) < 0x13U)) {
                     var_s4 = Inv_CanAddActiveListItemToAya(arg1) == 0;
                 } else {
                     tla = (u8 *)&D_800A1FD4_o;
                     tam2 = arg1 * 2;
-                    var_a1 = (u16 *)((u32)tam2 + (u32)tla);
+                    var_a1 = (u16 *)(tam2 + tla);
                     var_v0 = g_InvItemPtr;
                     var_a0 = arg3 * 2;
                     goto block_33;
@@ -139,10 +139,10 @@ block_15:
             tam2 = arg1 * 2;
             tb48c = (u8 *)g_InvItemPtr;
             var_a0 = arg3 * 2;
-            var_a1 = (u16 *)((u32)tam2 + (u32)tb48c);
+            var_a1 = (u16 *)(tam2 + (u32)tb48c);
             var_v0 = (M2C_UNK *)&D_800A1FD4_o;
 block_33:
-            temp_a0_2 = (u16 *)((u32)var_a0 + (u32)var_v0);
+            temp_a0_2 = (u16 *)(var_a0 + (u32)var_v0);
             tl1b = *var_a1;
             tl0b = *temp_a0_2;
             temp_v0_2 = tl1b ^ tl0b;
