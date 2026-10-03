@@ -35,6 +35,8 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, asm, fx_common]
+      - [0x354, c, FxCommon_LookAtMatrix]
+      - [0x56C, asm, fx_common_56C]
       - [0x1004, c, FxCommon_CheckBounds]
       - [0x1264, c, FxCommon_CheckBoundsWithMargin]
       - [0x14C0, c, FxCommon_CheckFourBoundsWithMargin]

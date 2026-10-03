@@ -902,4 +902,33 @@ int rsin(int angle);
         gte_stlvl((char *)(r3) + 20); \
     }
 
+/* Stock PSY-Q inline_c.h (DMPSX version 3) forms, copied register for
+ * register and instruction for instruction.  The SDK writes the COP2 commands
+ * as DMPSX placeholder words; the real command words DMPSX substitutes are
+ * used here.  Kept separate from the older gte_ldopv1 / gte_op12 shapes above,
+ * which matched code depends on. */
+
+/* PSY-Q gte_ldopv1: R11, R22, R33 from a long vector through $12..$14. */
+#define gte_ldopv1_psyq(r0) \
+    asm volatile("lw $12,0(%0)\n\t" \
+                 "lw $13,4(%0)\n\t" \
+                 "ctc2 $12,$0\n\t" \
+                 "lw $14,8(%0)\n\t" \
+                 "ctc2 $13,$2\n\t" \
+                 "ctc2 $14,$4" \
+                 : : "r"(r0) : "$12", "$13", "$14")
+
+/* PSY-Q gte_ldopv2: IR3, IR1, IR2 from a long vector. */
+#define gte_ldopv2(r0) \
+    asm volatile("lwc2 $11,8(%0)\n\t" \
+                 "lwc2 $9,0(%0)\n\t" \
+                 "lwc2 $10,4(%0)" \
+                 : : "r"(r0))
+
+/* PSY-Q gte_op12: two hazard nops, then OP with sf=1. */
+#define gte_op12_psyq() \
+    asm volatile("nop\n\t" \
+                 "nop\n\t" \
+                 ".word 0x4B78000C")
+
 #endif
