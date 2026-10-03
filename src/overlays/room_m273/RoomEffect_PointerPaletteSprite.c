@@ -11,7 +11,7 @@ extern unsigned char D_8019AE5C;
 extern unsigned short D_800E11FA, D_800E2850[];
 extern unsigned short D_800F3368, D_800F336A, D_800F336E;
 extern unsigned short D_800F3370, D_800F3372, D_800F3374;
-extern volatile unsigned short D_800F3376, D_800F3378;
+extern unsigned short D_800F3376, D_800F3378;
 extern int func_800CE560(void *, int, int, int (*)());
 extern RoomM273SpritePoolEffect *func_800CE610(void *);
 
@@ -25,7 +25,7 @@ int func_80193870(int mode, RoomM273SpritePoolEffect *state) {
         int sample;
         short size;
         short shade;
-        volatile RoomM273WorldPosition *p = state->position;
+        RoomM273WorldPosition *p = state->position;
         int kind;
         int palette;
         int x;
