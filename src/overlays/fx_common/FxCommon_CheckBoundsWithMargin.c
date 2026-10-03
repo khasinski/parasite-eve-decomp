@@ -17,8 +17,7 @@ int FxCommon_CheckBoundsWithMargin(int *point, int margin)
     int first;
     int second;
     int distance;
-    /* Preserve the separate margin scaling and signed-short conversions. */
-    register int limit asm("$2");
+    int limit;
     int secondVisible = 0;
     int firstVisible = 0;
     int threshold = margin;
