@@ -245,6 +245,19 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Sound helper re-reads without barriers
+
+Several sources forced the sound helper pointer `D_800B0E64` to be read again
+after a call's stack argument store with an empty barrier or a volatile read.
+The new `room_sound_slot.h` declares the pointer as a one-field record, and
+reading `D_800B0E64_slot.channel` reloads it naturally because a stack store
+invalidates remembered in-struct memory. The jitter spark controller,
+room_m005's orbiter, room_m089's random spawn, room_m123's pulse sequence,
+scene_e08's palette setup and `Scene_LoadMap` use it; the same in-struct rule
+keeps room_m089's and room_m123's parameter blocks ordered when written as
+one record, and room_m123 reads the frame counter as a record too. Ten empty
+barriers and two volatile qualifiers are gone and every binary is unchanged.
+
 ### room_m245 and room_m397 seeking trail controllers
 
 `func_80192500` and `func_80193D7C` in room_m245 and room_m397 now share
