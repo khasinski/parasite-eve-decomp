@@ -37,7 +37,7 @@ void Draw_AllocColorQuad(int width, int height) {
     ColorQuadPrim *second;
     register ColorTilePrim *tile asm("$16");
     register DrawModePrim *drawMode asm("$17");
-    volatile int stackPad[2];
+    int stackPad[2];
     u8 *old, *next;
     int shadeOffset;
     int ratio;
