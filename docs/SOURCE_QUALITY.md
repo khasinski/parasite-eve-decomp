@@ -245,6 +245,24 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Room window handler family
+
+`RoomLib_WindowHandler` in room_m063 and room_m083 and its copies
+`func_80192814` in room_m358, room_m384 and room_m387 now share
+`RoomLib_WindowHandler.inc` on the new `room_window.h`, with the
+`--expand-div` marker. The handler builds the window's rotation matrices on
+the scratchpad, projects the arrival spot through the GTE and runs the
+arrival callback. The scratchpad is a struct at its fixed address taken once
+at the top, which gives retail's absolute stores before the first label and
+base-register stores after it. Only the two rotation matrices and the GTE
+input vector are volatile, because retail reads every stored cosine and sine
+back from the scratchpad; the input vector is a union of that volatile view
+and a plain angle view so the angle stores can still fill delay slots. One
+shared cosine variable decides the setup registers, and the spin update is
+written out in both branches so their tails are cross-jumped. Each 2548-byte
+instance matches retail with no pins or barriers; all five overlay SHA-1
+hashes are unchanged.
+
 ### Paired emitter update without pins or barriers
 
 `RoomLib_UpdatePairedEmitter.inc` (scene_e11 to scene_e14) and its five
