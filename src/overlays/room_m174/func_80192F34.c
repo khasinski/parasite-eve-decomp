@@ -6,17 +6,17 @@ struct RoomRenderWords8 {
 };
 
 void func_80192F34(void *unused0, void *unused1, void *output_arg) {
-    register char *base asm("$17") = output_arg;
-    register int index asm("$19");
+    char *base = output_arg;
+    int index;
     int red;
-    register int blue asm("$23");
-    register int mid asm("$22");
+    int blue;
+    int mid;
     register char *color asm("$20");
     register char *scale asm("$21");
     register char *motion asm("$18");
     char *clock;
     unsigned int speed;
-    register int value asm("$2");
+    int value;
 
     clock = (char *)func_800C2B50();
     PE1_COMPILER_LAUNDER(base);
