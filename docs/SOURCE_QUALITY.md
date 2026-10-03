@@ -287,8 +287,8 @@ unchanged.
 ### room_m141, room_m146, room_m153, room_m154, room_m328 and scene_e02 homing projectile controller
 
 `func_80191330` in room_m141 and room_m328, `func_8019179C` in room_m146,
-`func_80194810` in room_m153 and room_m154 and the scene_e02 tail at
-`0x57D8` now share `RoomEffect_HomingProjectile.inc` on the new
+`func_80194810` in room_m153 and room_m154, the scene_e02 tail at
+`0x57D8` and the scene_e04 and scene_e05 tails at `0x22E4` now share `RoomEffect_HomingProjectile.inc` on the new
 `room_homing_model.h`. The controller spawns the projectile model and its
 sound, steers it towards the player with a reflected angle when it hits a
 room vertex, launches the script fields of the model, and finally writes the
@@ -303,7 +303,7 @@ stays next to its compare, the index clear sits after the count load so
 combine turns the entry test into a zero compare, and the parameter block
 tail reads and writes its globals as one- and two-field records so the loads
 keep their retail order. Each 2324-byte instance matches retail with no pins
-or barriers; all six overlay SHA-1 hashes are unchanged.
+or barriers; all eight overlay SHA-1 hashes are unchanged.
 
 ### room_m174 and room_m383 staged motion renderer and updater
 
