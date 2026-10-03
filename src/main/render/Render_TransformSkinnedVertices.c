@@ -151,7 +151,7 @@
 void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input) {
     RenderObjectEntity *actor = input;
     s32 *view_matrix = (s32 *)view_input;
-    volatile u16 *scratch_vec = (volatile u16 *)0x1F800020;
+    u16 *scratch_vec = (u16 *)0x1F800020;
     s32 *scratch_matrix = (s32 *)0x1F800000;
     RenderObjectHeader *header;
     asm(""
