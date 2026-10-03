@@ -1,7 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern void * volatile g_AkaoBgmHandle[];
+extern void * g_AkaoBgmHandle[];
 extern int g_AkaoPendingBgmVolumeFade;
 int Akao_SendTableCommand(void *arg0, int arg1, int arg2, int arg3, int arg4);
 
