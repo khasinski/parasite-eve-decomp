@@ -116,6 +116,12 @@ extern void *D_80199900;
 extern RenderColor D_8018F1F0;
 extern GteShortVector D_801998F8;
 extern int func_80192718(int mode, RoomFanSweepSpark *spark);
+/* Main executable copy of the fan sweep spark (func_800D71B8). */
+extern void *D_800E21E8;
+extern RenderColor D_800C22D4;
+extern GteShortVector D_800E21E0;
+extern int func_800D71B8(int mode, RoomFanSweepSpark *spark);
+extern int rand(void);
 extern int func_80192620(int mode, s16 *position);
 extern int func_800CE5AC(void **pool, int owner, int size, int count, void *callback);
 extern int func_800CE688(void *pool);
