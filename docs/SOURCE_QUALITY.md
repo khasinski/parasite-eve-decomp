@@ -245,6 +245,27 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m188 and room_m390 phased spark and wave spark callbacks
+
+`func_8019251C` and `func_80193BCC` in room_m188 and room_m390 now share
+`RoomEffect_PhasedSparkCallback.inc` (on the new standalone
+`room_phased_spark.h`) and `RoomEffect_WaveSparkCallback.inc` (on
+`room_spark.h`, which gained the phased record and the wave-slot helper).
+The phased spark drops from above the actor, lands on the floor height,
+sheds flashing and drifting children and flashes the scene by rewriting the
+primary channel's packet colour; the wave spark projects itself along the
+effect channel's wave slots, flashes briefly, then collapses into a floor
+sprite and a coloured burst between the two projected points. Three source
+shapes were needed for retail's schedule and were confirmed with the
+decomp-permuter on darwine: each draw's palette temporaries live in their
+own block (a second assignment in the same block costs the load its
+late-launch priority and hoists it above the parameter stores), the sine
+and fade temporaries are shared across the draw cases (a single-set
+temporary would sink its quotient shift to the block end), and the floor
+position is written x, z, y. Each 2968-byte phased callback and 2492-byte
+wave callback matches retail with no pins or barriers, and both linked
+overlay SHA-1 hashes are unchanged.
+
 ### room_m156+2, room_m291+2 and room_m380+2 jitter spark callback and controller
 
 `func_80191B94` and `func_80192208` in room_m156+2, room_m291+2 and

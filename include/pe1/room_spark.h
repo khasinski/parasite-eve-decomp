@@ -64,4 +64,24 @@ typedef struct RoomSparkRingParams {
     s32 radius;                   /* 0x08 */
 } RoomSparkRingParams;
 
+/* Phased spark: a damped spark with a sub-phase word. */
+#ifndef PE1_ROOM_PHASED_SPARK_TYPE
+#define PE1_ROOM_PHASED_SPARK_TYPE
+typedef struct RoomPhasedSpark {
+    s16 x, y, z;                  /* 0x00 */
+    u16 angle;                    /* 0x06 */
+    s16 vx;                       /* 0x08 */
+    s16 vy;                       /* 0x0A */
+    s16 vz;                       /* 0x0C */
+    s16 reserved0E;
+    s16 state;                    /* 0x10 */
+    u16 timer;                    /* 0x12 */
+    s16 phase;                    /* 0x14 */
+    s16 reserved16;
+} RoomPhasedSpark;
+#endif
+
+extern void func_800CE8F0(void *pool, int index, void *rotation, void *position);
+
+
 #endif

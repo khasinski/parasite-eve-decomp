@@ -1,0 +1,9 @@
+#include "common.h"
+#include "pe1/gte.h"
+
+#define ROOMEFFECT_WAVE_SPARK_FUNC func_80193BCC
+#define ROOMEFFECT_WAVE_SPARK_ROTATION_A D_8018F1E8
+#define ROOMEFFECT_WAVE_SPARK_ROTATION_B D_8018F1F0
+#define ROOMEFFECT_WAVE_SPARK_ROTATION_C D_8018F1F8
+#define ROOMEFFECT_WAVE_SPARK_COLOR_TABLE D_80195EE0
+#include "../room_lib/RoomEffect_WaveSparkCallback.inc"

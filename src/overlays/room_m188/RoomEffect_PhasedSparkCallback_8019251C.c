@@ -1,0 +1,4 @@
+#define ROOMEFFECT_PHASED_SPARK_FUNC func_8019251C
+#define ROOMEFFECT_PHASED_SPARK_ROTATION D_8018F1CC
+#define ROOMEFFECT_PHASED_SPARK_SPIN D_8018F1D4
+#include "../room_lib/RoomEffect_PhasedSparkCallback.inc"
