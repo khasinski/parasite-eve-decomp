@@ -15,8 +15,6 @@ int DsGetDiskType(void) {
     CdlLOC pos;
 
     if (DsSync(0) == 2 && DsSync(1) == 16) {
-        /* Prevent copying the known comparison value from v1 into v0. */
-        asm volatile("" : : : "$3");
         return 16;
     }
     while (Cd_GetReadyStatus() != 1) {
