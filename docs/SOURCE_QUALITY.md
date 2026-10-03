@@ -245,6 +245,34 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Room model update, glow orb and drop field families
+
+`RoomFx_ModelUpdate` in room_m017, room_m018, room_m021, room_m045,
+room_m102, room_m151 and room_m319 now shares `RoomFx_ModelUpdate.inc`; the
+glow orb initializer and draw of room_m034, room_m174 and room_m383 share
+`RoomEffect_GlowOrbInit.inc` and `RoomEffect_GlowOrbDraw.inc`; and the drop
+field update of room_m174, room_m348 and room_m383 shares
+`RoomEffect_DropFieldUpdate.inc`. The matrix products use the PSY-Q
+`gte_MulMatrix0` and `gte_CompMatrix` forms built from the SDK's column
+transfer macros, absolute values use `abs` so the compiler emits its own
+branch form, one scratch int carries the reflected depth, turn offset and
+negated yaw, struct literals give retail's cleared temporary, and room
+position words and frame counters are read as one-field records. Every
+instance matches retail with no pins or barriers; all overlay SHA-1 hashes
+are unchanged.
+
+### room_m350 and room_m273 effects with fewer pins and barriers
+
+Fourteen effect sources of room_m350 and the room_m273 directed rings now
+use the comet callback recipes: the palette offset as a conditional
+expression with the literal kind, the parameter block written through the
+`RenderEffectParameters` struct with the tpage index read as an array
+element, `do { } while (0)` around pointer-store blocks that must stay ahead
+of a later flag clear, and the PSY-Q `gte_stsv`, `gte_ldrotmatrix` and
+`gte_ldtransmatrix` macros in place of hand-pinned coprocessor transfers.
+The overlays lose 36 pins and 35 barriers and both SHA-1 hashes are
+unchanged.
+
 ### room_m188 and room_m390 comet spark callback
 
 `func_8019479C` in room_m188 and room_m390, the render callback of the comet
