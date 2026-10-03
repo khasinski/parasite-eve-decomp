@@ -26,20 +26,8 @@ s32 Memcard_TrailEffect(s32 mode, MemcardTrailState *state) {
         if (state->timer >= 32) return 2;
         break;
     case 2:
-        {
-            RenderMatrixSlot *slot = &D_800BCFA4;
-            register s32 *matrix asm("$8");
-            register s32 a asm("$12");
-            register s32 b asm("$13");
-            register s32 c asm("$14");
-            __asm__("" : "=r"(slot) : "0"(slot));
-            matrix = slot->value;
-            a=matrix[0]; b=matrix[1]; gte_ctc2_0(a); gte_ctc2_1(b);
-            a=matrix[2]; b=matrix[3]; c=matrix[4];
-            gte_ctc2_2(a); gte_ctc2_3(b); gte_ctc2_4(c);
-            a=matrix[5]; b=matrix[6]; gte_ctc2_5(a);
-            c=matrix[7]; gte_ctc2_6(b); gte_ctc2_7(c);
-        }
+        gte_ldrotmatrix(D_800BCFA4.value);
+        gte_ldtransmatrix(D_800BCFA4.value);
         func_800CE8F0(D_8009D254, state->attachment, &offset, &position);
         D_800F3368.parameter00 = 32;
         D_800F3368.parameter02 = 2;
