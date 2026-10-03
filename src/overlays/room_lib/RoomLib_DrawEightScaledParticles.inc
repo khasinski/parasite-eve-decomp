@@ -16,11 +16,11 @@ void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 
 void ROOMLIB_DRAW_EIGHT_SCALED_NAME(
     void *unused0, void *unused1, char *stateArg) {
-    register char *state asm("$20");
-    register unsigned int i asm("$18");
-    register int unitScale asm("$19");
-    register u16 *depthOut asm("$22");
-    register char *packet asm("$21");
+    char *state;
+    unsigned int i;
+    int unitScale;
+    u16 *depthOut;
+    char *packet;
     register char *scalarCursor asm("$16");
     register char *positionCursor asm("$17");
     RoomSpriteMatrix matrix;
@@ -40,7 +40,6 @@ void ROOMLIB_DRAW_EIGHT_SCALED_NAME(
     packet = (char *)depthOut - 10;
     asm volatile("" ::: "memory");
     scalarCursor = state;
-    asm volatile("" : "=r"(scalarCursor) : "0"(scalarCursor));
     positionCursor = scalarCursor;
 
     func_800C2EAC(context[0x44]);
