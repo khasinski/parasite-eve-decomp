@@ -10,7 +10,6 @@ int func_800DC5BC(int mode, GteShortVector *state)
     GteRotation rotation;
     int scale, palette;
     int selector;
-    register int special asm("$3");
     switch (mode) {
     case 1:
         state->x += (rand() & 7) - 3;
@@ -25,15 +24,12 @@ int func_800DC5BC(int mode, GteShortVector *state)
         rotation.flags = 0;
         func_800CF3AC(D_800E1E64, &color, D_800E27EC);
         scale = rsin((D_800E27EC << 11) / 14);
-        asm volatile("" : : "r"(scale));
         selector = D_800F336C;
-        special = 4;
         palette = D_800E1204[selector];
-        if (selector == special && D_800F3428) palette += 6;
-        else palette += 2;
-        func_800CEE20(state, &rotation, scale, scale,
-                     226,
-                     GetClut(0, palette), 1, 128, &color);
+        func_800CEE20(state, &rotation, scale, scale, 226,
+                      GetClut(0, (selector == 4 && D_800F3428) ? palette + 6
+                                                              : palette + 2),
+                      1, 128, &color);
         break;
     }
     return 0;
