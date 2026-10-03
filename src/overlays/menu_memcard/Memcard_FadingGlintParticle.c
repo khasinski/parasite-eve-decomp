@@ -1,4 +1,4 @@
-#include "pe1/room_spark.h"
+#include "menu_memcard_glint.h"
 
 /* Spark that drifts with damped velocity for 24 frames; state 0 draws a
  * glint whose size follows a sine scaled by the spark's angle field, state 1
