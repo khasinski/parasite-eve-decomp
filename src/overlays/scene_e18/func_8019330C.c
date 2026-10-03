@@ -19,7 +19,7 @@ extern int func_8006DCE4(int sound, int owner_value, int x, int y, int z);
 
 int func_8019330C(int mode, SceneE18PulseState *state) {
     SceneE18PulseParticle *particle;
-    register int stage asm("$5");
+    int stage;
 
     if (mode == 1) goto update;
     if (mode < 2) {
@@ -61,7 +61,7 @@ update:
         particle->active = 1;
         particle->final_stage = 1;
     } else {
-        register int scaled asm("$2") = stage << 5;
+        int scaled = stage << 5;
         particle->scale = scaled + 64;
         particle->duration = 8;
         particle->active = 0;
