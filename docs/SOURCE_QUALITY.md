@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Field engine task-script interpreter and rotation offset
+
+The field engine's task-script interpreter now matches from C with its jump
+table carved out of the engine rodata blob as the unit's own `.rodata`; the
+render setup's table is carved the same way, and its computed-goto source is
+now a plain switch. The script pointer that one opcode loads from a raw
+operand is modelled as a union in the task context instead of a cast.
+`FieldEng_RotationOffset` loses its six pins and three barriers: making the
+distance parameter `s16` ends the leading run of argument copies, so the
+remaining copies sink below the matrix copy as in retail. The main
+executable is unchanged and its gotos, pins and barriers go down.
+
 ### fx_common transform and LOD node draws
 
 fx_common's LOD node draw and transform node update now match from clean C.
