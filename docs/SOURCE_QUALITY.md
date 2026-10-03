@@ -245,6 +245,33 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m188 and room_m390 comet spark spawner
+
+`func_801951EC` in room_m188 and room_m390 now shares
+`RoomEffect_CometSparkController.inc` on `room_spark.h`, which gained the
+comet spark record, its anchor record, the event state and the primary
+channel's first node. On creation it anchors on the actor, marks the first
+node when the scene is active and opens a pool of 22 comet sparks; every
+fourth frame it fires a burst of ten sparks along a random direction until
+the countdown runs out. The floor-height write to the origin follows the z
+update so the frame-counter load schedules after the three adds, as retail
+does. Each 948-byte instance matches retail with no pins or barriers; both
+overlay SHA-1 hashes are unchanged.
+
+### room_m245 and room_m397 model burst controllers
+
+`func_80194EF4` and `func_8019368C` in room_m245 and room_m397 now share
+`RoomEffect_ModelBurstController.inc` (the two differ only in their asset,
+layer, anchor, colour table, callback and wave slot). It loads the room's model asset,
+spawns one randomly placed particle per frame while brightening, and draws
+a growing sprite pair, the actor sprite with a palette texture page and the
+colour-ramped, scaled model at the projected anchor. The brightness word is
+written through a plain pointer so its clear stays ahead of the asset load,
+each texture-page lookup is a block-local temporary, and the first draw
+block writes parameter00 before parameter02. Each 1776-byte instance matches
+retail with no pins or barriers; all four instances link and both overlay
+SHA-1 hashes are unchanged.
+
 ### room_m188 and room_m390 phased spark and wave spark callbacks
 
 `func_8019251C` and `func_80193BCC` in room_m188 and room_m390 now share

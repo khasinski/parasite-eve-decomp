@@ -83,5 +83,41 @@ typedef struct RoomPhasedSpark {
 
 extern void func_800CE8F0(void *pool, int index, void *rotation, void *position);
 
+/* Comet spark: a damped spark that carries two steering rotations. */
+typedef struct RoomCometSpark {
+    s16 x, y, z, reserved06;      /* 0x00 */
+    s16 vx;                       /* 0x08 */
+    s16 vy;                       /* 0x0A */
+    s16 vz;                       /* 0x0C */
+    s16 reserved0E;
+    GteRotation steer;            /* 0x10 */
+    GteRotation drift;            /* 0x18 */
+    s16 state;                    /* 0x20 */
+    u16 timer;                    /* 0x22 */
+} RoomCometSpark;
+
+PE1_STATIC_ASSERT(sizeof(RoomCometSpark) == 0x24, room_comet_spark_size);
+
+/* Anchor the comet spawner keeps: a position and a burst countdown. */
+typedef struct RoomCometSparkAnchor {
+    s16 x, y, z, reserved06;      /* 0x00 */
+    s16 count;                    /* 0x08 */
+} RoomCometSparkAnchor;
+
+typedef struct RoomSparkEventState {
+    u8 reserved[0xD];
+    u8 active;                    /* 0x0D */
+} RoomSparkEventState;
+
+/* First node of the primary channel's pool: its state byte. */
+typedef struct RoomSparkNode {
+    u8 reserved[0x18];
+    u8 *state;
+} RoomSparkNode;
+
+extern RoomSparkEventState *D_800E2368;
+extern u16 D_800E11FA;
+extern RoomCometSpark *func_800CE610_comet(void *pool) __asm__("func_800CE610");
+
 
 #endif
