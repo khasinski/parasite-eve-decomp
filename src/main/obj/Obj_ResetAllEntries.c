@@ -1,6 +1,6 @@
 #include "pe1/geom_state.h"
 
-extern GeomState * volatile D_800B1624 __asm__("D_800B1624");
+extern GeomState * D_800B1624 __asm__("D_800B1624");
 
 int Obj_ResetAllEntries(void) __asm__("func_800655D4");
 
