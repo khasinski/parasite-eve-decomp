@@ -122,7 +122,7 @@ s32 Render_FindParticleEffect(s32 inId, void *inResult) {
 copyResult:
     if (selected != 0) {
         Util_Copy8(result, selected->slot.payload);
-        status = (s32)selected->slot.command;
+        status = selected->slot.command;
         goto done;
     }
     status = 6;
