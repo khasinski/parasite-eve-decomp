@@ -9,7 +9,7 @@ int func_80083C3C(CardObj *obj);
 
 int CardObj_BeginCommand(CardObj *obj, int command) {
     register int result asm("$2");
-    register int active asm("$3");
+    int active;
 
     result = D_8009B740(obj);
     if (result != 0) {
