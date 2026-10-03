@@ -46,6 +46,30 @@ extern u8 D_801F1C28[];
 extern u8 D_801F1CD8[];
 extern GteShortVector D_801F1F28;
 extern s16 D_801F1F3A;
+extern s16 D_801F1F38;
+
+/* Cross flash: two beams between the actor's hands, each drawn as two
+ * mirrored trails. */
+typedef struct MemcardCrossFlash {
+    s16 attachA;                  /* 0x00 */
+    s16 attachB;                  /* 0x02 */
+    s16 reserved04;
+    u16 timer;                    /* 0x06 */
+    u8 trailA[0x90];              /* 0x08 */
+    u8 trailB[0x90];              /* 0x98 */
+    u8 trailC[0xB0];              /* 0x128 */
+    u8 trailD[0x90];              /* 0x1D8 */
+} MemcardCrossFlash;
+
+typedef struct MemcardFlashOffset {
+    s16 x, y, z, reserved06;
+} MemcardFlashOffset;
+
+extern MemcardFlashOffset D_801ED818, D_801ED820, D_801ED828, D_801ED830;
+extern RenderColor D_801ED838, D_801ED83C, D_801ED840;
+extern void func_800CE8F0(void *pool, int index, void *offset, void *position);
+extern void func_800D1384(void *from, void *to, int width, void *color0,
+                          void *color1, int alpha, void *trail, int mode);
 extern u8 *D_800E22D4;
 extern void *D_8009D254;
 extern s32 func_80077A64(s32, s32, s32, s32);
@@ -78,5 +102,6 @@ GteShortVector *Memcard_GetGlintOriginD(void);
 GteShortVector *Memcard_GetGlintOriginE(void);
 GteShortVector *Memcard_GetGlintOriginF(void);
 int Memcard_ConsumeCrossFlashFlag(int mode);
+int Memcard_CrossFlashController(int mode, MemcardCrossFlash *flash);
 
 #endif

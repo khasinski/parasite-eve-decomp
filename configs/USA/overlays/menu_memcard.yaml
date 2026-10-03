@@ -58,7 +58,7 @@ segments:
       - [0x2060, c, Memcard_DriftGlowParticle]
       - [0x244C, asm, func_menu_memcard_00244C]
       - [0x2D9C, c, Memcard_RisingEmberParticle]
-      - [0x33D0, asm, func_menu_memcard_0033D0]
+      - [0x33D0, c, Memcard_CrossFlashController]
       - [0x3D68, c, Memcard_FadingGlintParticle]
       - [0x4180, c, Memcard_GlintBurstController]
       - [0x4870, c, Memcard_SpinRingParticle]
