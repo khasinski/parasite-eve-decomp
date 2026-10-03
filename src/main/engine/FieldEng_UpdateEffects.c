@@ -248,25 +248,15 @@ extern u8 D_800E22D8;
 int func_800C8270(void *arg0, void *arg1, u8 *anim) {
     GteMatrix matrix;
     GteShortVector rot;
-    int scale_arg[4];
-    volatile int scale[4];
-    register int index_s0 asm("$16");
-    u8 *anim_s1 = anim;
-    int rot_v0;
-    register GteMatrix *matrix_a0 asm("$4");
-    int scale_v0;
-    register int scale2_a2 asm("$6");
-    register int scale3_a3 asm("$7");
+    GteVector scaleCopy;
+    GteVector scale;
+    s16 index;
 
-    index_s0 = *(u16 *)(*(char **)(*(char **)D_8009D254 + 0x68) + 6);
+    index = *(u16 *)(*(char **)(*(char **)D_8009D254 + 0x68) + 6) - 1;
 
     rot.x = 0;
     rot.y = 0;
-    rot_v0 = anim_s1[1];
-    rot_v0 <<= 24;
-    rot_v0 >>= 18;
-    index_s0--;
-    rot.z = rot_v0;
+    rot.z = (s8)anim[1] << 6;
 
     func_800C2EAC(3);
     func_800C3098(0x10);
@@ -275,29 +265,16 @@ int func_800C8270(void *arg0, void *arg1, u8 *anim) {
 
     RotMatrix(&rot, &matrix);
 
-    matrix.t[0] = *(s16 *)(anim_s1 + 0x8);
-    matrix.t[1] = *(s16 *)(anim_s1 + 0xA);
-    matrix.t[2] = *(s16 *)(anim_s1 + 0xC);
+    matrix.t[0] = *(s16 *)(anim + 0x8);
+    matrix.t[1] = *(s16 *)(anim + 0xA);
+    matrix.t[2] = *(s16 *)(anim + 0xC);
 
-    memset((void *)scale, 0, sizeof(scale));
-    index_s0 <<= 16;
-    index_s0 >>= 15;
-    scale[0] = D_800E0888[index_s0 >> 1];
-    scale_v0 = D_800E0888[index_s0 >> 1];
-    asm("" : : "r"(scale_v0) : "$4");
-    matrix_a0 = &matrix;
-    asm volatile("" : "=r"(matrix_a0) : "0"(matrix_a0));
-    scale[1] = scale_v0;
-    scale[2] = D_800E0888[index_s0 >> 1];
+    memset(&scale, 0, sizeof(scale));
+    scale.x = D_800E0888[index];
+    scale.y = D_800E0888[index];
+    scale.z = D_800E0888[index];
+    scaleCopy = scale;
 
-    scale_arg[0] = scale[0];
-    scale_arg[1] = scale[1];
-    scale2_a2 = scale[2];
-    scale3_a3 = scale[3];
-    scale_arg[2] = scale2_a2;
-    scale_arg[3] = scale3_a3;
-
-    asm volatile("" ::: "memory");
-    Gte_ScaleMatrix(matrix_a0, (const GteVector *)scale_arg);
+    Gte_ScaleMatrix(&matrix, &scaleCopy);
     func_800C42A4(&D_800E22D8, &matrix, 1);
 }
