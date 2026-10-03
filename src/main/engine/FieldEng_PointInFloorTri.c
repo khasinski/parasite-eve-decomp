@@ -21,8 +21,8 @@ int func_800C62DC(GteShortVector *point, GteShortVector *tri)
     D_800E2844 = FIELD_TRI_SCRATCH;
     FIELD_TRI_SCRATCH->rel[0].x = point->x - tri[0].x;
     FIELD_TRI_SCRATCH->rel[0].z = point->z - tri[0].z;
-    gte_ldopv1_sdk(&D_800E2844->edge[0]);
-    gte_ldopv2_sdk(&FIELD_TRI_SCRATCH->rel[0]);
+    gte_ldopv1_psyq(&D_800E2844->edge[0]);
+    gte_ldopv2(&FIELD_TRI_SCRATCH->rel[0]);
     gte_cop2_hazard_slot();
     gte_op0();
     FIELD_TRI_SCRATCH->edge[1].x = tri[2].x - tri[1].x;
@@ -32,8 +32,8 @@ int func_800C62DC(GteShortVector *point, GteShortVector *tri)
     gte_stmac(&FIELD_TRI_SCRATCH->cross[0]);
 
     second = D_800E2844;
-    gte_ldopv1_sdk(&second->edge[1]);
-    gte_ldopv2_sdk(&second->rel[1]);
+    gte_ldopv1_psyq(&second->edge[1]);
+    gte_ldopv2(&second->rel[1]);
     gte_cop2_hazard_slot();
     gte_op0();
     second->edge[2].x = tri[0].x - tri[2].x;
@@ -43,8 +43,8 @@ int func_800C62DC(GteShortVector *point, GteShortVector *tri)
     gte_stmac(&second->cross[1]);
 
     third = D_800E2844;
-    gte_ldopv1_sdk(&third->edge[2]);
-    gte_ldopv2_sdk(&third->rel[2]);
+    gte_ldopv1_psyq(&third->edge[2]);
+    gte_ldopv2(&third->rel[2]);
     gte_cop2_hazard_slot();
     gte_op0();
     gte_stmac(&third->cross[2]);

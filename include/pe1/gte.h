@@ -441,23 +441,6 @@ int rsin(int angle);
                  "ctc2 $10,$4" \
                  : : "r"(vec) : "$8", "$9", "$10", "memory")
 
-/* PSY-Q inline_c.h gte_ldopv1: R11/R22/R33 through $12-$14. */
-#define gte_ldopv1_sdk(vec) \
-    asm volatile("lw $12,0(%0)\n\t" \
-                 "lw $13,4(%0)\n\t" \
-                 "ctc2 $12,$0\n\t" \
-                 "lw $14,8(%0)\n\t" \
-                 "ctc2 $13,$2\n\t" \
-                 "ctc2 $14,$4" \
-                 : : "r"(vec) : "$12", "$13", "$14")
-
-/* PSY-Q inline_c.h gte_ldopv2: IR3 first, then IR1 and IR2. */
-#define gte_ldopv2_sdk(vec) \
-    asm volatile("lwc2 $11,8(%0)\n\t" \
-                 "lwc2 $9,0(%0)\n\t" \
-                 "lwc2 $10,4(%0)" \
-                 : : "r"(vec))
-
 /* RGB is the colour input used by the colour interpolation commands. */
 #define gte_ldrgb(rgb) \
     asm volatile("lwc2 $6,0(%0)" : : "r"(rgb) : "memory")
