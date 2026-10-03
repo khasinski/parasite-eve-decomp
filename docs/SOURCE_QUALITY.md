@@ -245,6 +245,22 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Five more room and scene effects
+
+room_m086's bounce glint, room_m023's drift pulse sprite, room_m089's swirl
+rise sprite, room_m256's swirl spark controller and scene_e19's grab
+sequence driver now have clean C. room_m086's phase 1 reads its palette back
+through the parameter block, which gives retail's base register, and its
+draws drop the default arms so each shares only the call with the others.
+In room_m023 and room_m089 a local pointer to the draw position, assigned
+after the colour store, keeps the frame counter load after the palette
+lookup, and one intensity variable assigned in both draws keeps its value
+from being scheduled late. room_m256's controller re-reads the sound owner
+through a volatile load where retail loads it twice, and scene_e19's frame
+numbers are taken as unsigned upper halves so the loads and copies are
+retail's. Every function matches retail with no pins or barriers; all five
+overlay SHA-1 hashes are unchanged.
+
 ### scene_e19 grab on approach trigger
 
 The scene_e19 routine at 0x36CC, split out of its combined assembly segment,
