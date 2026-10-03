@@ -61,7 +61,7 @@ segments:
       - [0x33D0, asm, func_menu_memcard_0033D0]
       - [0x3D68, c, Memcard_FadingGlintParticle]
       - [0x4180, c, Memcard_GlintBurstController]
-      - [0x4870, asm, func_menu_memcard_004870]
+      - [0x4870, c, Memcard_SpinRingParticle]
       - [0x4E98, c, Memcard_SpinBurstController]
   - [0x53A8]
   # Pulse-image jumps retain the original copied callback link address.
