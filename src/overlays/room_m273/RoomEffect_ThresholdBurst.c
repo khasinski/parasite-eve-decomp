@@ -26,18 +26,14 @@ int func_80194470(int mode, Vector *input) {
         unsigned int offset;
         int kind = D_800F336C;
         int size, palette;
-        register int specialKind asm("$3");
         unsigned short clut;
         asm("" : : "r"(firstFrame), "r"(position));
         offset = ((unsigned int)firstFrame << 9) & 0x3E00;
         frame = firstFrame;
         size = *(short *)((char *)D_800966EC + offset) * 2 + 4096;
-        specialKind = 4;
         asm("" : : "r"(size), "r"(frame) : "memory");
         palette = D_800E1204[kind];
-        if (kind == specialKind && D_800F3428) palette += 9;
-        else palette += 5;
-        clut = GetClut(0, palette);
+        clut = GetClut(0, (kind == 4 && D_800F3428) ? palette + 9 : palette + 5);
         func_800CEE20(position, 0, (short)size, (short)size, 102, clut, 1,
             (short)D_800966EC[(((unsigned int)frame << 10) & 0x3C00) / 4] >> 6, 0);
     }
