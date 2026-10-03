@@ -53,7 +53,7 @@ int Render_DrawSpriteEntry(GeomEntry *input)
     s32 raw_x;
     register s32 raw_y asm("$7");
     register s32 screen_src asm("$3");
-    volatile char frame_pad[9];
+    char frame_pad[9];
 
     active = D_8009CDDC;
     asm("" : "=r"(active) : "0"(active));
@@ -104,12 +104,12 @@ int Render_DrawSpriteEntry(GeomEntry *input)
         register s32 signed_y asm("$2");
         register s32 base_y asm("$4");
         signed_x = (s16)raw_x;
-        mod_x = *(volatile u16 *)((u8 *)entry + 4);
+        mod_x = *(u16 *)((u8 *)entry + 4);
         signed_x -= 320;
         divisor_x = mod_x & 0xFFFF;
         signed_x += divisor_x;
         scroll_x = signed_x % divisor_x;
-        mod_y = *(volatile u16 *)((u8 *)entry + 6);
+        mod_y = *(u16 *)((u8 *)entry + 6);
         signed_y = (s16)raw_y;
         signed_y -= 224;
         signed_y += mod_y & 0xFFFF;
