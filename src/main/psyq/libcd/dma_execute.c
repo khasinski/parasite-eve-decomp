@@ -8,7 +8,7 @@ void dma_execute(int channel, u32 address, int blockCount, int blockSize,
                  volatile u32 control, u8 interrupt, int reserved) {
     int i = 0;
     register CdDmaInterruptRegister *interruptRegister asm("$3");
-    register u32 bits asm("$2");
+    u32 bits;
     int newBlockSize;
     u32 blockControl;
     register int shift asm("$6");
