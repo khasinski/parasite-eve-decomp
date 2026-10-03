@@ -190,16 +190,18 @@ segments:
     subsegments:
       - [0x7514, c, Memcard_CreateImageFlow]
   - [0x7874]
+  # Like the copied video player, this block resolves its local jumps at the
+  # 0x801887F0 link base.
   - name: menu_memcard_image_node_late
     type: code
     start: 0x7874
-    vram: 0x801285B8
+    vram: 0x80190064
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
       - [0x7874, asm, func_menu_memcard_007874]
-      - [0x7E70, asm, func_menu_memcard_007E70]
+      - [0x7E70, c, Memcard_ShowLogoScreen_80190660]
       - [0x81C4, asm, func_menu_memcard_0081C4]
   - [0x9108]
   - name: menu_memcard_video_display_linkbase
