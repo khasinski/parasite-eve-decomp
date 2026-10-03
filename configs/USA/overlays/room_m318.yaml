@@ -100,7 +100,7 @@ segments:
       - [0x3A94, asm, func_80192A7C]
       - [0x3DB8, c, RoomEffect_FallingPaletteSprite]
       - [0x3EEC, asm, func_80192ED4]
-      - [0x4284, asm, func_8019326C]
+      - [0x4284, c, RoomEffect_SweepShakeParticle]
       - [0x4650, c, RoomEffect_SweepShakeController]
       - [0x49C4, c, RoomEffect_DriftingPaletteSprite]
       - [0x4DA0, c, func_80193D88]
