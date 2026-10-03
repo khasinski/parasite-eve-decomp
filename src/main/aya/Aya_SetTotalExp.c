@@ -47,9 +47,9 @@ void Aya_SetTotalExp(s32 exp_delta, s32 pe_bonus_delta, void *wayne_items) {
     s32 exp_delta_reg;
     s32 pe_bonus_delta_reg;
     void *wayne_items_reg;
-    register AyaSaveState *save asm("$18");
+    AyaSaveState *save;
     s32 previous_exp;
-    register s16 *stat_src asm("$19");
+    s16 *stat_src;
     s32 i;
     s32 stat_level;
 
@@ -78,7 +78,7 @@ void Aya_SetTotalExp(s32 exp_delta, s32 pe_bonus_delta, void *wayne_items) {
     D_8009CF6C = Stat_BinarySearch(D_8009CFEC, Aya_GetLevelExpTable());
 
     if (D_8009CF60 < D_8009CF6C) {
-        register s32 cap asm("$2") = 0x1869F;
+        s32 cap = 0x1869F;
         register s32 result asm("$5") = 0x1869F;
         s32 bonus = D_8009CF74 + D1E_bonus[0];
         if (bonus <= cap) result = bonus;
