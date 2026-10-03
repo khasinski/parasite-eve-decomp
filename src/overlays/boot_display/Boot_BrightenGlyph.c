@@ -29,7 +29,6 @@ void Boot_BrightenGlyph(s32 x, s32 y, u8 character) {
     register s32 computedEnd asm("$2");
     s32 nextRow;
     /* Empty barriers preserve retail mask, coordinate, and font-load ordering. */
-    asm("" : : "r"(low), "r"(high));
     imageOffset = (low * 4 + (high << 6)) * 2;
     asm("" : : "r"(imageOffset));
     savedX = (s16)savedX; y = (s16)y;
@@ -51,7 +50,6 @@ void Boot_BrightenGlyph(s32 x, s32 y, u8 character) {
             if ((s16)row >= 0) {
                 if ((s16)row >= 224) break;
                 chunk = 0;
-                asm("" : : "r"(chunk));
                 greenPixel = pixel + 1;
                 for (; chunk < 4; ++chunk) {
                     u32 bits = *source;
