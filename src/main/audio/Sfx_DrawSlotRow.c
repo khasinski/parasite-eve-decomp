@@ -116,7 +116,7 @@ void Sfx_DrawActiveListSlot(s32 arg0) {
 
     temp_v1 = g_InvItemPtr[arg0];
     var_a1 = NULL;
-    if ((u32) (temp_v1 - 0x100) < 0x80U) {
+    if ((temp_v1 - 0x100) < 0x80U) {
         temp_v1_2 = (temp_v1 << 5) + g_EquipItemDataTable;
         if (M2C_FIELD(temp_v1_2, u8 *, 5) & 0x10) {
             var_a1 = g_EquipItemDataTable + 0x31F8;
@@ -130,7 +130,7 @@ void Sfx_DrawActiveListSlot(s32 arg0) {
     } else {
         var_a0 = temp_v1 - 1;
         if (var_a0 >= 0xFFU) {
-            if ((u32) (temp_v1 - 0x200) < 9U) {
+            if ((temp_v1 - 0x200) < 9U) {
                 var_a0 = (g_InvCategoryBaseItemId + temp_v1) - 0x201;
                 goto block_8;
             }
@@ -143,13 +143,13 @@ block_8:
     if ((arg0 >= 0) && (arg0 < g_InvSlotLimit)) {
         temp_v1_3 = g_InvItemPtr[arg0];
         temp_a1 = temp_v1_3;
-        if ((u32) (temp_v1_3 - 0x100) < 0x80U) {
+        if ((temp_v1_3 - 0x100) < 0x80U) {
             var_v0 = (temp_v1_3 << 5) + g_EquipItemDataTable;
         } else {
             temp_a0 = temp_v1_3 - 1;
             if (temp_a0 < 0xFFU) {
                 var_v0 = Item_LookupBaseData(temp_a0);
-            } else if ((u32) (temp_a1 - 0x200) < 9U) {
+            } else if ((temp_a1 - 0x200) < 9U) {
                 temp_v1_3 = temp_a1 << 5;
                 var_v0 = temp_v1_3 + g_KeyItemDataTable;
             } else {
