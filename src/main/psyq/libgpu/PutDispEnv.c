@@ -80,7 +80,7 @@ DISPENV *PutDispEnv(DISPENV *env) {
         e->pad0 == 8) {
         e->pad0 = GetVideoMode();
         {
-            register int y asm("$4") = e->screen.y;
+            int y = e->screen.y;
             vstart = e->pad0 ? y + 19 : y + 16;
         }
         vend = vstart + (e->screen.h ? e->screen.h : 240);
@@ -148,17 +148,17 @@ DISPENV *PutDispEnv(DISPENV *env) {
         vend = clamp;
         {
             register unsigned y asm("$3") = ((unsigned)hend & 0xfff) << 12;
-            register unsigned x asm("$4") = ((unsigned)hstart & 0xfff);
+            unsigned x = ((unsigned)hstart & 0xfff);
             register unsigned opcode = 0x06000000;
-            register GpuCallbacks *ops asm("$5") = D_80095744;
+            GpuCallbacks *ops = D_80095744;
             x |= opcode;
             ops->callback10(y | x);
         }
         {
             register unsigned y asm("$3") = ((unsigned)vend & 0x3ff) << 10;
-            register unsigned x asm("$4") = ((unsigned)vstart & 0x3ff);
+            unsigned x = ((unsigned)vstart & 0x3ff);
             register unsigned opcode = 0x07000000;
-            register GpuCallbacks *ops asm("$5") = D_80095744;
+            GpuCallbacks *ops = D_80095744;
             x |= opcode;
             ops->callback10(y | x);
         }
