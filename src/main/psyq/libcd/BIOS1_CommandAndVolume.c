@@ -115,7 +115,7 @@ int CD_vol(CdlATV *vol) {
 }
 
 void CD_flush(void) {
-    register CdInterruptEvents *state asm("$3");
+    CdInterruptEvents *state;
 
     *g_CdRegIndexBase = 1;
     while (*g_CdRegResponse & 7) {
@@ -124,7 +124,6 @@ void CD_flush(void) {
         *g_CdRegDataWrite = 7;
     }
     state = &D_8009B294;
-    asm volatile("" : "=r"(state) : "0"(state));
     state->end = 0;
     state->ready = state->end;
     {
