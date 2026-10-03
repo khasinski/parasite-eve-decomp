@@ -527,7 +527,7 @@ segments:
       - [0x388AC, c, menu/Menu_ItemListFlow]
       - [0x38E54, c, menu/Menu_StepSaveLoadScreen]
       - [0x39038, c, menu/Menu_SaveLoadNavigate]
-      - [0x39118, asm, main/Menu_StepInventoryRoot]
+      - [0x39118, c, main/Menu_StepInventoryRoot]
       - [0x39724, c, menu/Menu_AlignEquipPanels]
       - [0x3985C, c, menu/Menu_DrawBonusPointSlotValue]
       - [0x398B0, c, menu/Menu_ExitBonusPointAllocation]
