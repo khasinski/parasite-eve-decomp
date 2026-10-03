@@ -56,7 +56,7 @@ void ROOMLIB_HANDLER_B_NAME(RoomEnt *obj) {
         v0 <<= 2;
         v0 += v1;
         v1 = RW16(v0, 2);
-        *(volatile short *)(state + 0x12) = 0;
+        *(short *)(state + 0x12) = 0;
         *(volatile short *)(state + 0x10) = v1;
         a0 = RW32(v0, 0);
         v1 = RWU16(state, 0x10);
@@ -64,13 +64,13 @@ void ROOMLIB_HANDLER_B_NAME(RoomEnt *obj) {
         *(volatile short *)(state + 0x18) = 0x1000;
         *(volatile short *)(state + 0x14) = a0;
         v0 = RWU16(state, 0x14);
-        *(volatile short *)(state + 0x16) = 0;
+        *(short *)(state + 0x16) = 0;
         *(volatile short *)(state + 0x1A) = 0;
         *(volatile short *)(state + 0x1E) = 0;
-        *(volatile short *)(state + 0x20) = v1;
+        *(short *)(state + 0x20) = v1;
         v1 = (int)ROOMLIB_HANDLER_B_ACTOR_PTR;
         v0 = -v0;
-        *(volatile short *)(state + 0x1C) = v0;
+        *(short *)(state + 0x1C) = v0;
         v0 = RW16(v1, 0x2E);
         RW16(state, 0x84) = v0;
     }
