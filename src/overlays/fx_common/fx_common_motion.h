@@ -58,6 +58,8 @@ extern u32 D_8009D280;
 extern FxCommonVec3 g_FxCommonCameraPosition __asm__("D_8019C330");
 extern FxCommonVec3 g_FxCommonCameraTarget __asm__("D_8019C810");
 extern RoomSpriteMatrix D_8018EFF4;
+/* Transform nodes animated along the camera paths (D_801EA578..D_801EA58C). */
+extern FxCommonTransformNode *g_FxCommonPathNodes[6] __asm__("D_801EA578");
 extern GteShortVector D_8019BFC4;
 extern RoomSpriteMatrix D_8019CDF0;
 extern s8 D_800B0DB2;
