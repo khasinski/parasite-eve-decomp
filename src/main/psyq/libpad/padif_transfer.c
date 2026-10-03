@@ -57,7 +57,7 @@ setup:
             register int *table asm("$3") = D_8009B77C;
             register int scaled asm("$2");
             scaled = opposite * 4;
-            count = (int *)((u32)scaled + (u32)table);
+            count = (int *)(scaled + (u32)table);
             {
                 register int product = opposite * 15;
                 offset = product * 16;
@@ -69,7 +69,7 @@ setup:
                     break;
                 if (remaining > 0) {
                     CardObj *base =
-                        (CardObj *)((u32)offset + (u32)D_8009B758);
+                        (CardObj *)(offset + (u32)D_8009B758);
                     register int scaled asm("$2") = remaining * sizeof(CardObj);
                     register u8 *child asm("$3") = base->field_0c + scaled;
                     other = (CardObj *)(child - sizeof(CardObj));
