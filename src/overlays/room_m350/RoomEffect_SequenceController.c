@@ -52,15 +52,7 @@ int func_801958DC(int event) {
         gte_ldtransmatrix(matrix);
         gte_ldv0(&offset);
         gte_rtv0tr_mac();
-        {
-            register int x asm("$12");
-            register int y asm("$13");
-            register int z asm("$14");
-            register Vector *out asm("$7")=&D_8019A7A0;
-            asm volatile("" : "=r"(out) : "0"(out));
-            gte_mfc2_9(x); gte_mfc2_10(y); gte_mfc2_11(z);
-            out->x=x; out->y=y; out->z=z;
-        }
+        gte_stsv(&D_8019A7A0);
         if(instance->animation!=13) return 0;
         repeat=&D_8019A7FC;
         repetitions=*repeat;
