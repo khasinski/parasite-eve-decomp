@@ -56,11 +56,6 @@ extern s32 VSync(s32);
 
 s32 Memcard_PlayVideo(s32 index);
 
-extern u8 D_801D0DBE;
-extern s16 D_800BCE84[], D_800BCDCC[];
-extern u8 D_800BCE91[], D_800BCDE0[], D_800BCDDE[], D_800BCDDF[], D_800BCDE1[], D_800BCDE2[], D_800BCDE3[];
-extern void func_800749D8(void *,s32,s32,s32,s32),func_80074924(void *,s32,s32,s32,s32);
-
 void Memcard_SetVideoDisplay(s8 index, s8 wide);
 
 #endif

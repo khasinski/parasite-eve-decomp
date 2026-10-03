@@ -29,14 +29,15 @@ segments:
   - name: menu_memcard
     type: code
     start: 0x0
-    vram: 0x80120D44
+    vram: 0x80120D00
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      # generated from static prologue hints; verify with runtime trace and SHA check
+      # The block's local jumps and jal targets resolve at 0x80120D00, 0x44 bytes
+      # below the load address the header implies.
       - [0x0, asm, menu_memcard_header]
-      - [0x304, asm, func_menu_memcard_000304]
+      - [0x304, c, Memcard_SetVideoDisplay_80121004]
       - [0x570, asm, func_menu_memcard_000570]
       - [0x7DC, asm, func_menu_memcard_0007DC]
       - [0x9C4, asm, func_menu_memcard_0009C4]
@@ -254,11 +255,11 @@ segments:
       - [0xA144, asm, func_menu_memcard_00A144]
       - [0xA458, c, func_8012B19C]
   - [0xA4AC]
-  # This copied handler retained its original 0x80192CE0 link address.
+  # This copied handler shares the 0x801887F0 link base of the video player copy.
   - name: menu_memcard_copied_handler
     type: code
     start: 0xA4AC
-    vram: 0x80192CE0
+    vram: 0x80192C9C
     align: 4
     subalign: 4
     bss_size: 0x0
