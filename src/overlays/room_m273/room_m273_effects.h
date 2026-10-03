@@ -168,7 +168,7 @@ extern RoomM273PoolContext *D_800F33E0;
 extern int D_800E27EC;
 extern u16 D_800F336C, D_800E1204[];
 extern int D_800F3428;
-extern volatile u16 D_800F3376, D_800F3378;
+extern u16 D_800F3376, D_800F3378;
 
 PE1_STATIC_ASSERT(sizeof(RoomM273PoolContext) == 0x0C,
                   room_m273_pool_context_size);
