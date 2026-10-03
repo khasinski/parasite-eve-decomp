@@ -20,8 +20,6 @@ void Menu_SaveOverlayDraw(void)
         state = D_8009D1CE;
         g_TextboxEntries[0].state = 2;
         D_8009CE88 = 75;
-        /* Publish the active textbox and timer before reading its message. */
-        asm volatile("" : : : "memory");
         g_TextboxEntries[0].message = D_8009D1F8;
         state++;
         D_8009D1CE = state;
