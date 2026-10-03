@@ -11,7 +11,7 @@ int func_80052B2C(void);
 
 void *func_8019A1A0(void *unused, int mode) {
     int direction;
-    register int value asm("$2");
+    int value;
 
     D_8019AEFA = mode;
     switch (mode) {
