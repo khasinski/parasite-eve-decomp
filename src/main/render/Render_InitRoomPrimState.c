@@ -54,13 +54,11 @@ int Render_InitRoomPrimState(void *objectArg)
         asm("" : "=r"(matrix) : "0"(matrix) : "memory");
         a = matrix[0];
         b = matrix[1];
-        asm("" : : "r"(a), "r"(b));
         gte_ctc2_16(a);
         gte_ctc2_17(b);
         a = matrix[2];
         b = matrix[3];
         c = matrix[4];
-        asm("" : : "r"(a), "r"(b), "r"(c));
         gte_ctc2_18(a);
         gte_ctc2_19(b);
         gte_ctc2_20(c);
