@@ -21,7 +21,7 @@ extern RoomSoundBurstParams D_800F3368;
 extern RoomSoundBurstColor ROOMEFFECT_SPAWN_RING_SHADE;
 extern void ROOMEFFECT_SPAWN_RING_CALLBACK(void);
 extern u8 ROOMEFFECT_SPAWN_RING_COLOR_TABLE[];
-extern volatile u16 D_800E11EC;
+extern u16 D_800E11EC;
 
 typedef struct RoomSpawnRingState {
     s16 state;                    /* 0x00 */
