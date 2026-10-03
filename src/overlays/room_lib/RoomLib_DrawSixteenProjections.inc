@@ -37,15 +37,15 @@ void ROOMLIB_DRAW_SIXTEEN_PROJECTIONS_FUNC(void *arg0, void *arg1,
     RoomSpriteMatrix matrix;
     RoomFxVec4 scale1;
     RoomFxVec4 scale2;
-    register char *rawOwner asm("$2");
+    char *rawOwner;
     register char *owner asm("$17");
     register unsigned int i asm("$21");
     register RoomSixteenProjectionPoint *point asm("$18");
-    register s16 *packetDepth asm("$20");
-    register RoomSixteenProjectionPacket *packet asm("$22");
-    register char *workState asm("$19");
+    s16 *packetDepth;
+    RoomSixteenProjectionPacket *packet;
+    char *workState;
     register char *packetTemp asm("$3");
-    register int ownerZ asm("$3");
+    int ownerZ;
     u8 code;
 
     asm("" : "=r"(workState) : "0"(state));
