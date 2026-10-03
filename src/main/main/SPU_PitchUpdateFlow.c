@@ -18,7 +18,7 @@ void Seq_GetGlobalPitch(unsigned int *out)
 
 void Seq_ApplyGlobalPitch(void) {
     unsigned short value = D_8009D2B6;
-    register char *regs asm("$4");
+    char *regs;
 
     __asm__("" : "=r"(regs) : "0"(&D_800C0D90));
     *(int *)regs = 0x1C0;
