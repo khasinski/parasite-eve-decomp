@@ -175,7 +175,7 @@ void Inv_SortWeaponSubrange(void) {
                     }
                     tmpu = *var_s0;
                 } while (*(s16 *) var_s0 != 0);
-                qsort(var_s1, (s32) (var_s0 - var_s1), 2, &Inv_CompareItemsByStatForSort);
+                qsort(var_s1, (var_s0 - var_s1), 2, &Inv_CompareItemsByStatForSort);
             }
         }
     }
@@ -229,7 +229,7 @@ void Inv_SortAmmoSubrange(void) {
                     }
                     tmpu = *var_s0;
                 } while (*(s16 *) var_s0 != 0);
-                qsort(var_s1, (s32) (var_s0 - var_s1), 2, &Inv_CompareItemsByStatForSort);
+                qsort(var_s1, (var_s0 - var_s1), 2, &Inv_CompareItemsByStatForSort);
             }
         }
     }
