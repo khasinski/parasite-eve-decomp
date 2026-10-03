@@ -41,16 +41,15 @@ void Save_SerializeTail(void) {
     g_SaveIoCursor = cursor + 4;
     *(SaveBytes4 *)(cursor + 4) = D_800B0CDC;
     {
-        register int b0 asm("$2");
-        register int b1 asm("$4");
+        int b0;
+        int b1;
         u8 u0;
-        register u32 screenByte asm("$2");
+        u32 screenByte;
         cursor = g_SaveIoCursor;
         g_SaveIoCursor = cursor + 4;
         asm volatile("" : : : "memory");
         b0 = D_800B0CE0;
         b1 = g_LoadedTexturePageId;
-        asm volatile("" : : "r"(b0), "r"(b1));
         cursor[4] = b0;
         cursor[5] = b1;
         cursor = g_SaveIoCursor;
@@ -58,7 +57,6 @@ void Save_SerializeTail(void) {
         asm volatile("" : : : "memory");
         b0 = g_SceneAreaType;
         b1 = g_SavedSceneAreaType;
-        asm volatile("" : : "r"(b0), "r"(b1));
         cursor[2] = b0;
         cursor[3] = b1;
         cursor = g_SaveIoCursor;
@@ -66,7 +64,6 @@ void Save_SerializeTail(void) {
         asm volatile("" : : : "memory");
         b0 = g_CurrentStoryDay;
         b1 = g_PendingStoryDay;
-        asm volatile("" : : "r"(b0), "r"(b1));
         cursor[2] = b0;
         cursor[3] = b1;
         cursor = g_SaveIoCursor;
@@ -75,7 +72,6 @@ void Save_SerializeTail(void) {
         cursor[2] = u0;
         cursor = g_SaveIoCursor;
         g_SaveIoCursor = cursor + 1;
-        asm volatile("" : : : "memory");
         screenByte = g_ScreenTransitionState;
         asm volatile("" : : "r"(screenByte));
         cursor[1] = screenByte;
