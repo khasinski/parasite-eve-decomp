@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Render_DrawTexturedQuads without pins or barriers
+
+`Render_DrawTexturedQuads` in the main executable is the same face draw as
+the overlays' `RoomFx_ModelDraw` with the cull test reversed. It is now
+written on the same recipe: the PSY-Q `addPrim` link through the 24-bit
+address field of `RenderGpuTag`, one packet pointer and the index temporaries
+at function scope, `while` loops ending in the pointer, index and record
+increments, and no frame reservation. The previous source needed 48 register
+pins, 28 empty barriers and a reserved frame array to force the tag mask
+arithmetic; the rewrite matches retail with none of them and the main
+executable is unchanged.
+
 ### room_m017 and six sibling rooms model draw
 
 `RoomFx_ModelDraw` in room_m017, room_m018, room_m021, room_m045, room_m102,
