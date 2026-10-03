@@ -46,26 +46,26 @@ extern u32 D_800B1640[];
     }
 
 void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *projectionMatrix) {
-    register RenderObjectEntity *entity asm("$7") = input;
+    RenderObjectEntity *entity = input;
     register s32 *projectMatrix asm("$16") = projectionMatrix;
-    register s16 savedLimit asm("$17") = limit;
-    register s32 changed asm("$15");
+    s16 savedLimit = limit;
+    s32 changed;
     register volatile RenderVec3s *scratch asm("$24") = (volatile RenderVec3s *)0x1F800000;
-    register volatile u32 *projected asm("$6");
+    volatile u32 *projected;
     register s32 *matrix asm("$8");
     register s32 i asm("$11");
     register s32 offset asm("$25");
     register s32 threshold asm("$10");
     register RenderObjectPart *part asm("$9");
     register RenderObjectPart *probe asm("$4");
-    register s32 boundsOffset asm("$4");
-    register RenderVec3s *bounds asm("$2");
-    register s32 y asm("$3");
-    register s32 radius asm("$4");
-    register s32 sum asm("$2");
-    register RenderVec3s *vertices asm("$4");
-    register u32 *clut asm("$3");
-    register s32 vertexIndex asm("$5");
+    s32 boundsOffset;
+    RenderVec3s *bounds;
+    s32 y;
+    s32 radius;
+    s32 sum;
+    RenderVec3s *vertices;
+    u32 *clut;
+    s32 vertexIndex;
     register s32 limitShift asm("$2");
     __asm__("" : "=r"(entity) : "0"(entity));
     __asm__("" : "=r"(projectMatrix) : "0"(projectMatrix));
@@ -78,7 +78,6 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
     i = 0;
     if (changed < entity->header->part_count) {
         limitShift = (u32)limit << 16;
-        __asm__("" : "=r"(limitShift) : "0"(limitShift));
         threshold = limitShift >> 16;
         offset = 0;
         do {
@@ -93,7 +92,7 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
                 bounds = (RenderVec3s *)((u8 *)entity->bounds_vertices + boundsOffset);
                 Render_TransformVertex(bounds, scratch);
                 {
-                    register u16 yy asm("$2") = (u16)scratch->y;
+                    u16 yy = (u16)scratch->y;
                     y = (s16)yy;
                 }
                 if (threshold < y ||
@@ -110,9 +109,9 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
                     gte_stsxy2(projected);
                     vertexIndex = 0;
                     {
-                        register s32 first asm("$3") = part->vertex_start;
-                        register RenderVec3s *base asm("$4") = entity->vertices;
-                        register s32 vertexOffset asm("$2") = first * 8;
+                        s32 first = part->vertex_start;
+                        RenderVec3s *base = entity->vertices;
+                        s32 vertexOffset = first * 8;
                         vertices = (RenderVec3s *)((u8 *)base + vertexOffset);
                         first <<= 2;
                         clut = (u32 *)((u32)D_800B1640 + first);
