@@ -20,8 +20,6 @@ int CdRom_StartRead(CdlLOC *position, int sectors, void *destination, int incomi
     if (*state != 1) {
         if (!DsRead_IsBusy()) goto start;
     }
-    /* Keep the shared rejection block instead of threading both guards. */
-    asm volatile("" : : : "memory");
     result = 0;
     goto done;
 start:
