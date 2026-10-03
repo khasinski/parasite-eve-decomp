@@ -1,4 +1,5 @@
 #include "pe1/room_spark.h"
+#include "pe1/room_sound_slot.h"
 #ifndef ROOMEFFECT_JITTER_SPARK_CTRL_FUNC
 #error "ROOMEFFECT_JITTER_SPARK_CTRL_FUNC must name the room entry point"
 #endif
@@ -18,25 +19,19 @@ int ROOMEFFECT_JITTER_SPARK_CTRL_FUNC(int mode, GteShortVector *target,
     int angle;
     int reach;
     int handle;
-    void **sound;
-    void *current;
+    RoomSoundSlot *sound;
     int volume;
     int i;
 
     switch (mode) {
     case 0:
-        sound = &D_800B0E64;
-        current = *sound;
-        if (current != 0) {
+        sound = &D_800B0E64_slot;
+        if (sound->channel != 0) {
             volume = 0x7F;
             handle = func_800D3FD8();
-            func_8006DF50(*sound, 0x5FA, handle, 0x80, volume);
-            current = *sound;
-            /* Same empty barrier as RoomLib_SpawnRandomEffect: keeps the
-             * re-read channel in a register for the second test. */
-            asm("" : : "r"(current) : "memory");
-            if (current != 0) {
-                func_8006DF50(*sound, 0x5FB, 0x80, 0x80, volume);
+            func_8006DF50(sound->channel, 0x5FA, handle, 0x80, volume);
+            if (sound->channel != 0) {
+                func_8006DF50(sound->channel, 0x5FB, 0x80, 0x80, volume);
             }
         }
         target->x = params->x;
