@@ -63,7 +63,7 @@ segments:
       - [0x125C, c, RoomLib_DrawSixParticles_80190244]
       - [0x1454, c, func_8019043C]
       - [0x1530, c, RoomLib_UpdateDriftParticle_80190518]
-      - [0x1738, asm, func_80190720]
+      - [0x1738, c, RoomEffect_OrbitFlareController_80190720]
       - [0x2180, c, RoomLib_SetArgs3_80191168]
       - [0x21A4, c, SceneEffect_IndexedPaletteSprite_8019118C]
       - [0x22E4, c, RoomEffect_HomingProjectile_80191558]

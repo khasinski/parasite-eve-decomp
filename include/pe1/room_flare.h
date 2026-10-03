@@ -118,6 +118,7 @@ extern u16 D_800E1204[];
 extern u16 D_800E2850[];
 extern int D_800F3428;
 extern volatile u16 D_800E11E8;
+extern u16 D_800E11E4[];
 extern volatile u16 D_800E11EC;
 extern u16 D_800E1208;
 extern int D_8009D248;
