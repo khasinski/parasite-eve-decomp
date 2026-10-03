@@ -3,25 +3,31 @@ void func_800C608C(int scale, u8 *src, u8 *dst) {
     scale = (short)scale;
 
     if (scale != 0x80) {
-        register int value asm("$3");
+        int value;
 
-        value = src[0] * scale;
+        value = src[0];
+        value *= scale;
         if (value > 0x7FFF) {
             value = 0x7FFF;
         }
-        dst[0] = value >> 7;
+        value >>= 7;
+        dst[0] = value;
 
-        value = src[1] * scale;
+        value = src[1];
+        value *= scale;
         if (value > 0x7FFF) {
             value = 0x7FFF;
         }
-        dst[1] = value >> 7;
+        value >>= 7;
+        dst[1] = value;
 
-        value = src[2] * scale;
+        value = src[2];
+        value *= scale;
         if (value > 0x7FFF) {
             value = 0x7FFF;
         }
-        dst[2] = value >> 7;
+        value >>= 7;
+        dst[2] = value;
     } else {
         dst[0] = src[0];
         dst[1] = src[1];
