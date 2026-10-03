@@ -245,6 +245,20 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Seven field engine and sound routines in the main executable
+
+`Akao_Calc3DPan` and six field engine routines of the main executable now
+match from clean C: the orbit offset point, the point and player floor
+triangle tests, the cosine pulse emitter, the orbiting ring emitter and the
+settling sprite. The triangle tests use the stock PSY-Q `gte_ldopv1` and
+`gte_ldopv2` forms already in `gte.h`. Locals are declared in retail's stack
+order, one shared blend value keeps its argument register across both uses,
+the texture slot is read as array elements so its loads stay below the
+parameter block store without a volatile, and 16.16 position halves are read
+through bitfields so the loads are signed. The pinned candidate of the 3D
+pan routine is retired. The main executable is unchanged and no pins or
+barriers were added.
+
 ### fx_common camera, scene and path routines
 
 Six fx_common routines now match from C: the camera update, the look-at
