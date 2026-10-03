@@ -43,18 +43,13 @@ int CdControl_Impl(int cmd, void *param, u8 *extra) {
     do {
         D_8009AFB4 = 0;
         one = 1;
-        asm volatile("" : "=r"(one) : "0"(one));
         if (cmd_byte != one && (*(u8 *)&D_8009AFC4 & 0x10) != 0) {
             register int command = 1;
             register void *payload;
             register u8 *result;
 
-            /* Keep independent zero arguments and the retail argument order. */
-            asm volatile("" : "=r"(command) : "0"(command));
             payload = 0;
-            asm volatile("" : "=r"(payload) : "0"(payload));
             result = 0;
-            asm volatile("" : "=r"(result) : "0"(result));
             CD_cw(command, payload, result, 0);
         }
         if (param_reg != 0 && slot[0] != 0) {
