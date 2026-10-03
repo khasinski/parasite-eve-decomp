@@ -44,7 +44,7 @@ segments:
       - [0x1D4, c, func_8018F1BC]
       - [0x1DC, c, RoomEnt_Setup5_8018F1C4]
       - [0x210, asm, RoomFx_ModelUpdate]
-      - [0x598, asm, RoomFx_ModelDraw]
+      - [0x598, c, RoomFx_ModelDraw]
       - [0xB5C, data, D_8018FB44]
       - [0xB78, data, D_8018FB60]
       - start: 0xB7C
