@@ -58,6 +58,20 @@ extern int func_800D3F64(int sound, int handle);
 extern void *D_800B0E64;
 extern void func_8006DF50(void *channel, int id, int value, int volume, int pan);
 
+/* Jitter spark: the damped spark layout with a spin angle and a size. */
+typedef struct RoomJitterSpark {
+    s16 x, y, z;                  /* 0x00 */
+    u16 angle;                    /* 0x06 */
+    s16 vx;                       /* 0x08 */
+    s16 vy;                       /* 0x0A */
+    s16 vz;                       /* 0x0C */
+    s16 size;                     /* 0x0E */
+    s16 state;                    /* 0x10 */
+    u16 timer;                    /* 0x12 */
+} RoomJitterSpark;
+
+PE1_STATIC_ASSERT(sizeof(RoomJitterSpark) == 0x14, room_jitter_spark_size);
+
 /* Ring spawner parameters: centre and the ring radius. */
 typedef struct RoomSparkRingParams {
     s16 x, y, z, reserved06;

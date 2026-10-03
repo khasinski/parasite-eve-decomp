@@ -50,6 +50,8 @@ segments:
       - [0x469C, asm, scene_tail_469C]
       - [0x4C40, c, RoomEffect_PulseGlintParticle_80199C28]
       - [0x506C, asm, scene_tail_506C]
+      - [0x5C48, c, RoomEffect_JitterSizedSpark_8019AC30]
+      - [0x5EA4, asm, scene_tail_5EA4]
   - name: scene_accessors
     type: code
     start: 0x61F0
