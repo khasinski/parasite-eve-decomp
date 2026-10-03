@@ -2,7 +2,7 @@
 
 #include "pe1/menu_queue.h"
 
-volatile MenuQueueEntry *g_MenuEventQueueFreeList;
+MenuQueueEntry *g_MenuEventQueueFreeList;
 MenuQueueEntry *g_MenuEventQueueHead;
 MenuQueueEntry *g_MenuEventQueueTail;
 
