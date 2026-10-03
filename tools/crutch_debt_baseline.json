@@ -16,7 +16,7 @@
     "pointer_integer_casts": 476,
     "postpass": 0,
     "raw_offset_dereferences": 1385,
-    "stack_reserves": 5,
+    "stack_reserves": 4,
     "statement_expressions": 3,
     "unknown_fields": 236
   },

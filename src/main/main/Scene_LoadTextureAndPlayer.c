@@ -26,7 +26,7 @@ int Scene_LoadEntityTexture(void)
     u32 offsetMask;
     int index;
     int result;
-    volatile u32 matchingStackReserve[8];
+    u32 matchingStackReserve[8];
 retry:
     switch (state->entity_texture_phase) {
     case 0:
