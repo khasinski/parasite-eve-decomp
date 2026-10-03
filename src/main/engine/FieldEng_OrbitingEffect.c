@@ -11,8 +11,6 @@ int func_800D7FBC(int mode, RenderOrbitingEffect *state)
     RenderColor color = D_800C22E0;
     GteShortVector *particle;
     int scale, intensity, palette, interval;
-    /* Matching debt: retail compares the palette selector against $3. */
-    register int special_palette asm("$3");
     switch (mode) {
     case 1:
         state->x = D_800E21EC.x + rcos(state->angle) * state->radius / 4096;
@@ -65,14 +63,11 @@ int func_800D7FBC(int mode, RenderOrbitingEffect *state)
         rotation.flags = 0;
         scale *= 2;
         interval = D_800F336C;
-        special_palette = 4;
         palette = D_800E1204[interval];
-        if (interval == special_palette && D_800F3428)
-            palette += 7;
-        else
-            palette += 3;
         func_800CEE20(&position, &rotation, scale, scale, 36,
-                     GetClut(0, palette), 1, intensity, &color);
+                     GetClut(0, (interval == 4 && D_800F3428) ? palette + 7
+                                                               : palette + 3),
+                     1, intensity, &color);
         break;
     }
     return 0;
