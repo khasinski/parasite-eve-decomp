@@ -20,14 +20,14 @@ void func_80192740(void)
         lowMask = 0xFFFFFF;
         base = D_801EA598;
         highMask = 0xFF000000;
-        src1 = (u32 *)((volatile FxCommonBuffer *)owner)->allocation;
+        src1 = (u32 *)((FxCommonBuffer *)owner)->allocation;
         destWord = *dst;
         lowWord = src1[0xFFF];
         destWord &= highMask;
         lowWord &= lowMask;
         destWord |= lowWord;
         *dst = destWord;
-        src2 = (u32 *)((volatile FxCommonBuffer *)owner)->allocation;
+        src2 = (u32 *)((FxCommonBuffer *)owner)->allocation;
         if (owner != sentinel)
             base += 9;
         address.pointer = base;
