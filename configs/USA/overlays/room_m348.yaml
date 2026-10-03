@@ -67,7 +67,7 @@ segments:
       - [0x1EB0, asm, func_80190E98]
       - [0x24B8, c, RoomEffect_DropFieldUpdate_801914A0]
       - [0x2900, c, func_801918E8]
-      - [0x2AB0, asm, func_80191A98]
+      - [0x2AB0, c, RoomEffect_BeamPairDraw_80191A98]
       - [0x2DC8, c, func_80191DB0]
       - [0x2E34, c, func_80191E1C]
       - [0x2FF8, c, RoomLib_DrawFourScaledSprites_80191FE0]

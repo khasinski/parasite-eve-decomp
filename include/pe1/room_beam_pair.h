@@ -19,40 +19,26 @@ typedef struct RoomBeamPairActor {
     /* 0x238 */ u8 *model;
 } RoomBeamPairActor;
 
-/* Depth word closing each sprite parameter block, written as a record. */
-typedef struct RoomBeamPairDepth {
-    u16 value;
-} RoomBeamPairDepth;
+/* Sprite parameter block drawn by func_800C4FC4 (one per beam half). */
+typedef struct RoomBeamSprite {
+    /* 0x00 */ void *texture;
+    /* 0x04 */ u8 r0, g0, b0;
+    /* 0x07 */ u8 reserved07;
+    /* 0x08 */ u8 r1, g1, b1;
+    /* 0x0B */ u8 reserved0B;
+    /* 0x0C */ s16 offset;
+    /* 0x0E */ s16 extent0;
+    /* 0x10 */ s16 extent1;
+    /* 0x12 */ s16 offset2;
+    /* 0x14 */ u16 depth;
+    /* 0x16 */ u8 reserved16[2];
+} RoomBeamSprite;
 
-/* Falling drop field of the same rooms: sixteen drops, each sinking 0x96
- * per frame and released one at a time by the script. */
-typedef struct RoomDropPoint {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} RoomDropPoint;
+PE1_STATIC_ASSERT(sizeof(RoomBeamSprite) == 0x18, room_beam_sprite_size);
 
-typedef struct RoomDropField {
-    /* 0x000 */ u8 live[0x60];
-    /* 0x060 */ RoomDropPoint drops[0x20];
-    /* 0x160 */ GteMatrix matrix;
-    /* 0x180 */ u16 yaw;
-    /* 0x182 */ s16 first_step;
-    /* 0x184 */ s16 released;
-} RoomDropField;
-
-typedef struct RoomDropSlot {
-    /* 0x00 */ u8 state;
-    /* 0x01 */ u8 command;
-    /* 0x02 */ s16 step;
-} RoomDropSlot;
-
-int *func_800C2B28(int index);
-RoomDropPoint *func_800C2B90(void *object, int kind, void *callback, void *data);
 void *func_800C2B50(void);
 void *memset(void *dst, int value, unsigned int size);
 void func_800C3238(int mode);
-void func_800C4FC4(void *params, GteMatrix *matrix, int mode);
+void func_800C4FC4(RoomBeamSprite *params, GteMatrix *matrix, int mode);
 
 #endif
