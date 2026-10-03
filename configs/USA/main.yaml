@@ -1611,7 +1611,7 @@ segments:
       - [0xCBA5C, c, engine/FieldEng_DiamondEmitter]
       - [0xCC29C, c, engine/FieldEng_RadialFlash]
       - [0xCC4D8, c, engine/FieldEng_JitterSprite]
-      - [0xCC858, asm, engine/engine_800D4860_CC858]
+      - [0xCC858, c, engine/FieldEng_TwinModel]
       - [0xCCDBC, c, engine/FieldEng_SineJitterSprite]
       - [0xCD110, c, engine/FieldEng_DriftingEffect]
       - [0xCD4CC, c, engine/FieldEng_TiltingSprite]

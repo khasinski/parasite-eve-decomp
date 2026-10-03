@@ -149,6 +149,19 @@ void func_800C6EF8(u8 *data);
 void func_800C6F4C(u8 *data);
 void func_800C7098(u8 *data, int r, int g, int b);
 void func_800C71E4(u8 *data, GteMatrix *matrix);
+
+/* Twin-model flare (func_800DC058): stage 0 grows, stage 1 spins a second
+ * white copy, stage 2 holds. */
+typedef struct FieldAnimTwinModel {
+    GteShortVector position;      /* 0x00 */
+    int stage;                    /* 0x08 */
+    int timer;                    /* 0x0C */
+    int angle;                    /* 0x10 */
+} FieldAnimTwinModel;
+extern u8 *D_800F3418;
+extern u8 *D_800F342C;
+extern u8 D_800E1E24[];
+int func_800DC058(int mode, FieldAnimTwinModel *state);
 int FieldEng_PointEmitter(int mode, FieldAnimEmitter *state);
 
 typedef struct FieldAnimPointTriple {
