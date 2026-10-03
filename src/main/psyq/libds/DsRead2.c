@@ -14,7 +14,7 @@ int DsRead2(CdlLOC *pos, int mode) {
 
     if (mode & 0x100) {
         {
-            register int one asm("$2");
+            int one;
             int mask = mode & 0x20;
 
             if (mask) {
@@ -22,8 +22,6 @@ int DsRead2(CdlLOC *pos, int mode) {
             } else {
                 one = 1;
                 g_DsStreamNoLocFlag = one;
-                /* Keep 1 in v0 through the store and the branch delay slot. */
-                asm("" : : "r"(one));
             }
         }
         saved_data = DsDataCallback(data_ready_callback);
