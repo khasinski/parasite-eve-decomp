@@ -4,7 +4,7 @@ extern int func_80071A54(void);
 
 void func_80192F50(void *unused, char *condition_arg, char *effect) {
     /* Keep the four live cursors in the registers used by the original loop. */
-    register char *condition asm("$19") = condition_arg;
+    char *condition = condition_arg;
     register char *base asm("$18") = effect;
     register char *state asm("$16") = base;
     register char *data asm("$17") = base;
