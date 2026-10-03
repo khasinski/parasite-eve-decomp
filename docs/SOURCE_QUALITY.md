@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Paired emitter update without pins or barriers
+
+`RoomLib_UpdatePairedEmitter.inc` (scene_e11 to scene_e14) and its five
+hand-pinned copies in room_m107, room_m111, room_m114, room_m118 and room_m122
+are now one template with five instances. The coprocessor sequence that the
+old source pinned register by register is the PSY-Q `gte_MulMatrix0` product
+followed by `gte_ldtransmatrix`, `gte_ldlv0`, the RT transform and `gte_stlvl`,
+all in their stock SDK forms. The frame counter is read as a one-field record
+so it conflicts with the in-struct intensity store and the two translation
+stores keep source order. The six sources lose 66 pins and 42 barriers and
+all nine overlay SHA-1 hashes are unchanged.
+
 ### Room model update, glow orb and drop field families
 
 `RoomFx_ModelUpdate` in room_m017, room_m018, room_m021, room_m045,
