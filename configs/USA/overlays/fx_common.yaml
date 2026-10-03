@@ -62,6 +62,7 @@ segments:
       - [0x2FF8, c, FxCommon_SetMode1]
       - [0x301C, c, FxCommon_SetMode30]
       - [0x3040, asm, fx_common_3040]
+      - [0x335C, c, FxCommon_RunMainLoop]
       - [0x3750, c, func_80192740]
       - [0x3810, asm, fx_common_3810]
       - [0x48F8, c, FxCommon_InitializeMotionVectors]

@@ -39,11 +39,49 @@ extern s16 D_8019C13C;
 extern s16 D_8019C13E;
 extern s32 D_8019CA68;
 
+/* Double-buffered frame: packet buffer and ordering table, then the
+ * DRAWENV and DISPENV handed to PutDrawEnv / PutDispEnv. */
+typedef struct FxCommonFrame {
+    FxCommonBuffer buffer;
+    u8 drawEnv[0x5C];   /* 0x08 */
+    u8 dispEnv[0x14];   /* 0x64 */
+} FxCommonFrame;
+extern FxCommonFrame g_FxCommonFrames[2] __asm__("D_8019C1F8");
+extern s32 D_8009CDDC;
+extern u8 D_8019C00E;
+extern s32 D_8019CC14;
+
 void func_80086C5C(int channel, int value, int mode);
+void func_80196498(void);
+void func_80191DE8(int enabled);
+s32 func_80073A44(s32 value);
+void func_80071A64(int seed);
+int func_80071A54(void);
+void func_8003EB04(void);
+void func_80074D28(s32 value);
+void func_8006A25C(void);
+void func_801942FC(void);
+void func_8018F05C(void);
+void func_8018F92C(void *motion);
+s16 func_80194108(s16 value);
+void func_80192740(void);
+void func_80192800(void);
+void func_80193478(void);
+int func_80191E30(int id, s32 *state);
+void func_80191EFC(int handle, s32 *state);
+void func_80037870(void);
+void func_80074DC0(s32 value);
+void func_80193AB0(void);
+void func_80074A44(s32 value);
+void func_80075424(void *draw_env);
+void func_800755F0(void *entry);
+void func_800753B4(void *ordering_table);
+void func_80192030(void);
 s16 func_801958D4(s16 resourceId, u8 action);
 void func_80195BC8(FxCommonShortVec3 *a, FxCommonShortVec3 *b, int bi, int ai);
 void func_80195D3C(void);
 
+PE1_STATIC_ASSERT(sizeof(FxCommonFrame) == 0x78, fx_common_frame_size);
 PE1_STATIC_ASSERT(sizeof(FxCommonVec3) == 12, fx_motion_position_size);
 PE1_STATIC_ASSERT(sizeof(FxCommonShortVec3) == 6, fx_motion_endpoint_size);
 
