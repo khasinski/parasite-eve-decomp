@@ -1,5 +1,5 @@
 #include "common.h"
-extern u8 *volatile D_800F34F4;
+extern u8 *D_800F34F4;
 extern char *D_800E2248;
 
 void func_800C2D0C(u16 slot, u8 id, int size) {
