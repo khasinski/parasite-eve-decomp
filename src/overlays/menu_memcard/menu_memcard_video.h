@@ -59,6 +59,11 @@ extern u32 D_800B0CD8;
 extern void func_8007512C(VideoRect *,s32,s32);
 
 s32 Memcard_InitVideoBuffers(s8 count, u8 **buffers);
+s32 func_801216C4(s8 count, u8 **buffers);
+/* Buffers and saved environments of the first video player copy. */
+extern u8 *D_80122420, *D_80122424, *D_80122428, *D_8012242C, *D_80122430, *D_80122434;
+extern VideoDisplayTemplate D_801227EC[2];
+extern VideoDrawTemplate D_80122814[2];
 
 typedef struct VideoDiscRange { u16 start,end; } VideoDiscRange;
 typedef struct VideoPlaybackEntry { u8 reserved[4],enabled,reserved05[15]; } VideoPlaybackEntry;

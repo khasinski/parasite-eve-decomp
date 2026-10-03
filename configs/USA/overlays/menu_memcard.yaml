@@ -40,7 +40,7 @@ segments:
       - [0x304, c, Memcard_SetVideoDisplay_80121004]
       - [0x570, c, Memcard_UpdateVideoFrame_80121270]
       - [0x7D4, asm, func_menu_memcard_0007D4]
-      - [0x9C4, asm, func_menu_memcard_0009C4]
+      - [0x9C4, c, Memcard_InitVideoBuffers_801216C4]
       - [0xD00, c, Memcard_ResetDisplayState_80121A44]
       - [0xF04, asm, func_menu_memcard_000F04]
       - [0x1340, asm, func_menu_memcard_001340]
