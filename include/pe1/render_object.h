@@ -794,6 +794,32 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderRisingEffect, angle) == 12,
 extern u8 D_800E1694[];
 extern s16 D_800F336A;
 int func_800D5CE4(int mode, RenderRisingEffect *state);
+int func_800D5EB4(int mode, RenderArcingEmitter *state);
+
+/* Sprites circling the spiral anchor: 0x800D6514 spawns 24 of them for
+ * 0x800D629C and publishes the anchor and the circle radius each frame. */
+typedef struct RenderSpiralSprite {
+    GteShortVector position;
+    s16 angle, height, phase, reserved0E;
+} RenderSpiralSprite;
+PE1_STATIC_ASSERT(sizeof(RenderSpiralSprite) == 16, render_spiral_sprite_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSpiralSprite, phase) == 12,
+                  render_spiral_sprite_phase);
+extern u16 D_800E21D4;
+extern GteShortVector D_800E21D8;
+extern RenderColor D_800C22C8;
+extern RenderColor D_800C22CC;
+int func_800D629C(int mode, RenderSpiralSprite *state);
+int func_800D6514(int mode, RenderArcingEmitter *state);
+
+typedef struct RenderRingPulse {
+    GteShortVector position;
+    GteShortVector raised;
+    int phase;
+} RenderRingPulse;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderRingPulse, phase) == 16,
+                  render_ring_pulse_phase);
+int func_800D6A1C(int mode, RenderRingPulse *state);
 
 typedef struct RenderFadeEmitter {
     s16 count, intensity;
