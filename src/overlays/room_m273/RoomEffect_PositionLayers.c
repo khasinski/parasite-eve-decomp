@@ -5,7 +5,7 @@ typedef GteShortVector Vector;
 extern int D_800E27EC,D_800F3428,D_800966EC[];
 extern unsigned short D_800F3368,D_800F336A,D_800F336C,D_800F336E,D_800E1204[],D_800942EC;
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
-extern volatile unsigned short D_800F3376,D_800F3378;
+extern unsigned short D_800F3376,D_800F3378;
 extern unsigned char D_8019AB70[],D_8019AD74[],D_8019AD78[],D_8019AF68,D_8019AF69;
 extern unsigned short D_8019AEFC,D_800E11EA,D_800E2850[];
 extern volatile unsigned short D_8019AEFE,D_8019AF00;
