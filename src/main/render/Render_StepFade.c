@@ -64,9 +64,7 @@ int Render_StepFade(void) {
         tint_loop = fade_value;
         do {
             prim = (PrimEntry *)READ_S32(entry, 0x30);
-            asm("" : : "r"(prim) : "$2");
             active_slot = D_8009CDDC;
-            asm("" : : "r"(active_slot) : "$6");
             prim_count = READ_U16(entry, 0x26);
             if (active_slot != 0) {
                 prim = prim + prim_count;
