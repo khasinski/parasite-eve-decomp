@@ -1,6 +1,6 @@
 #include "pe1/geom_state.h"
 
-extern volatile int g_RenderStateFlags;
+extern int g_RenderStateFlags;
 
 int Render_SetEntryVisible(int index, int enabled) {
     GeomEntry *entry = (GeomEntry *)((u8 *)g_GeomState + g_GeomState->entry_offset) + index;
@@ -40,7 +40,7 @@ int Render_SetEntryMirrored(int index, int enabled, unsigned int arg2, unsigned 
 }
 
 int Render_SetEntryPosition(int index, int x, int y) {
-    volatile GeomEntry *entry = (GeomEntry *)((u8 *)g_GeomState + g_GeomState->entry_offset) + index;
+    GeomEntry *entry = (GeomEntry *)((u8 *)g_GeomState + g_GeomState->entry_offset) + index;
     volatile int *flags = &g_RenderStateFlags;
 
     entry->scr_x = x;
