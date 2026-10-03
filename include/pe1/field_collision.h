@@ -57,10 +57,22 @@ typedef struct CollisionVertexXZ {
 typedef struct CollisionVertexXYZ {
     u16 x, y, z;
 } CollisionVertexXYZ;
+/* The vertex table pointer, also read as the 32-bit address retail adds
+ * the scaled vertex index to (index first). */
+typedef union CollisionVertexTable {
+    void *pointer;
+    CollisionVertexXZ *xz;
+    CollisionVertexXYZ *xyz;
+    u32 word;
+} CollisionVertexTable;
 typedef struct CollisionDatabase {
     u32 reserved[6];
-    void *vertices;                  /* 0x18: XZ or XYZ array. */
+    CollisionVertexTable vertices;   /* 0x18: XZ or XYZ array. */
 } CollisionDatabase;
+
+/* Vertex `index` of the active table, addressed as retail does. */
+#define COLLISION_VERTEX(address, index, type) \
+    ((address).word = (index) * sizeof(type) + D_8009D1FC->vertices.word)
 
 extern CollisionDatabase *D_8009D1FC;
 /* Plane-table pointer; existing floor queries require a fresh read. */

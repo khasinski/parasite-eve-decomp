@@ -7,20 +7,20 @@ int Geo_PointInTri(void *triangle, s16 x, s16 z)
     u16 *indices = triangle;
     u16 nextX, nextZ, previousX, previousZ;
     unsigned edge;
-    /* Matching debt: keep crossing parity in $t0. Address conversions below
-     * preserve the operand order of retail's vertex-address additions. */
-    register unsigned inside asm("$8");
+    unsigned inside;
 
     if (D_8009D1D8) {
-        CollisionVertexXYZ *v = (CollisionVertexXYZ *)
-            (indices[6] * sizeof(*v) + (u32)D_8009D1FC->vertices);
-        nextZ = v->z;
-        nextX = v->x;
+        CollisionVertexTable vertex;
+
+        COLLISION_VERTEX(vertex, indices[6], CollisionVertexXYZ);
+        nextZ = vertex.xyz->z;
+        nextX = vertex.xyz->x;
     } else {
-        CollisionVertexXZ *v = (CollisionVertexXZ *)
-            (indices[3] * sizeof(*v) + (u32)D_8009D1FC->vertices);
-        nextZ = v->z;
-        nextX = v->x;
+        CollisionVertexTable vertex;
+
+        COLLISION_VERTEX(vertex, indices[3], CollisionVertexXZ);
+        nextZ = vertex.xz->z;
+        nextX = vertex.xz->x;
     }
 
     edge = 0;
@@ -29,15 +29,17 @@ int Geo_PointInTri(void *triangle, s16 x, s16 z)
         previousX = nextX;
         previousZ = nextZ;
         if (D_8009D1D8) {
-            CollisionVertexXYZ *v = (CollisionVertexXYZ *)
-                (indices[edge + 4] * sizeof(*v) + (u32)D_8009D1FC->vertices);
-            nextZ = v->z;
-            nextX = v->x;
+            CollisionVertexTable vertex;
+
+            COLLISION_VERTEX(vertex, indices[edge + 4], CollisionVertexXYZ);
+            nextZ = vertex.xyz->z;
+            nextX = vertex.xyz->x;
         } else {
-            CollisionVertexXZ *v = (CollisionVertexXZ *)
-                (indices[edge + 1] * sizeof(*v) + (u32)D_8009D1FC->vertices);
-            nextZ = v->z;
-            nextX = v->x;
+            CollisionVertexTable vertex;
+
+            COLLISION_VERTEX(vertex, indices[edge + 1], CollisionVertexXZ);
+            nextZ = vertex.xz->z;
+            nextX = vertex.xz->x;
         }
 
         if ((z >= (s16)nextZ && z < (s16)previousZ) ||
