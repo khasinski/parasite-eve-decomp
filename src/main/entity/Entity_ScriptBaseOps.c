@@ -23,7 +23,7 @@ int Entity_CallAction(int **arg0) {
     arg2 = *arg0_ptr;
     current = g_CurrentEntity;
     asm volatile("" ::: "memory");
-    arg1 = *(volatile int *)arg1_ptr;
+    arg1 = *(int *)arg1_ptr;
         arg3 = *(u16 *)arg2_ptr;
     base = (int)current->script_base;
     arg0_ptr = args[0];
