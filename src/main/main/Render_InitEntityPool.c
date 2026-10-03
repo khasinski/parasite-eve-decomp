@@ -28,7 +28,7 @@ int Gpu_InitDmaQueue(int);
 
 int Render_InitEntityPool(int mode) {
     GpuState *state;
-    register void *drawCache asm("$4");
+    void *drawCache;
     switch (mode & 7) {
     case 0:
     case 3:
@@ -36,7 +36,6 @@ int Render_InitEntityPool(int mode) {
             char *format;
             unsigned char *version;
 
-            asm volatile("" ::: "$6");
             format = D_800117E0;
             version = D_80095704;
             printf(format, version, &D_8009574C);
@@ -50,8 +49,7 @@ int Render_InitEntityPool(int mode) {
         drawCache = state->drawCache;
         state->queue = 1;
         {
-            register unsigned int offset asm("$2") = state->variant * 4;
-            asm volatile("" : : "r"(offset), "r"(drawCache) : "$3");
+            unsigned int offset = state->variant * 4;
             state->width = *(volatile unsigned short *)((unsigned char *)D_800957CC + offset);
         }
         state->height = D_800957D8[state->variant][0];
