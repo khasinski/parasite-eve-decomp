@@ -57,7 +57,6 @@ GteMatrix *RotMatrixY(s32 angle, GteMatrix *m) {
     x1 = m->m[0][1];
     asm volatile("" : : "r"(x1) : "memory");
     z1 = m->m[2][1];
-    asm volatile("" : : "x"(product), "r"(x1), "r"(z1));
     asm volatile("" : "=l"(low) : "x"(product));
     temp = low;
     asm volatile("" : "=r"(temp) : "0"(temp));
@@ -139,7 +138,6 @@ GteMatrix *RotMatrixY(s32 angle, GteMatrix *m) {
     PE1_NOP_DEP("x", product);
     asm volatile("" : "=l"(low) : "x"(product));
     temp = low;
-    asm volatile("" : "=r"(temp) : "0"(temp));
     product = (unsigned long long)(u32)cosine * (u32)z2;
     PE1_NOP_DEP("x", product);
     PE1_NOP_DEP("x", product);
@@ -148,7 +146,6 @@ GteMatrix *RotMatrixY(s32 angle, GteMatrix *m) {
     asm volatile("" : "=r"(temp), "=r"(packed) : "0"(temp), "1"(packed));
     packed = temp + packed;
     temp = (s32)packed >> 12;
-    asm volatile("" : : "r"(temp));
     m->m[2][2] = temp;
     PE1_NOP();
     return ret;
