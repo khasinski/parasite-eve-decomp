@@ -46,7 +46,6 @@ void Menu_StepSkillList(s32 arg0, s32 arg1) {
             temp_shift = Inv_GetActiveListItemType(temp_v0);
             {
                 register s32 one asm("$3") = 1;
-                asm volatile("" : "=r"(one) : "0"(one));
                 mask = one << temp_shift;
             }
             Inv_BuildFilteredPackedListExcluding(mask, temp_v0);
