@@ -49,7 +49,7 @@ segments:
       - [0x3D4, c, func_8018F3BC]
       - [0x3DC, c, func_8018F3C4]
       - [0x44C, c, RoomEffect_GlowOrbInit_8018F434]
-      - [0x848, asm, func_8018F830]
+      - [0x848, c, RoomEffect_GlowOrbDraw_8018F830]
       - [0xC6C, c, RoomLib_UpdateFallingParticle_8018FC54]
       - [0xDEC, c, func_8018FDD4]
       - [0xDFC, c, func_8018FDE4]
