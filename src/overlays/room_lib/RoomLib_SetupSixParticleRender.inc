@@ -27,10 +27,10 @@ void ROOMLIB_SETUP_SIX_PARTICLE_RENDER_FUNC(char *owner, void *arg1,
     void *asset;
     register char *callOwner asm("$4");
     register int depth asm("$5");
-    register int color asm("$3");
-    register int offset asm("$6");
-    register int modeB asm("$2");
-    register char *workState asm("$16");
+    int color;
+    int offset;
+    int modeB;
+    char *workState;
 
     asm("" : "=r"(workState) : "0"(state));
     func_800C2B40(workState);
@@ -52,7 +52,7 @@ void ROOMLIB_SETUP_SIX_PARTICLE_RENDER_FUNC(char *owner, void *arg1,
     ROOMLIB_PACKET_A_CODE = 0x42;
     ROOMLIB_PACKET_A_MODE = 3;
     {
-        register int minus50 asm("$2");
+        int minus50;
         asm volatile("" : "=r"(minus50), "=r"(depth), "=r"(color)
                      : "0"(-50), "1"(0x80), "2"(0x80));
         ROOMLIB_PACKET_A_OFFSET = minus50;
@@ -62,7 +62,7 @@ void ROOMLIB_SETUP_SIX_PARTICLE_RENDER_FUNC(char *owner, void *arg1,
     ROOMLIB_PACKET_D_OFFSET = -51;
     ROOMLIB_PACKET_C_CODE = 0x40;
     {
-        register int two asm("$2");
+        int two;
         asm volatile("" : "=r"(two), "=r"(offset)
                      : "0"(2), "1"(-41));
         ROOMLIB_PACKET_C_MODE = two;
