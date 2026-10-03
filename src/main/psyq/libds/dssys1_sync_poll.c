@@ -186,7 +186,7 @@ void LIBDS_DSSYS_1_text_A9C(int event, u8 *inResult) {
                     }
                     goto done;
                 } else {
-                    range = (u32)current - 16;
+                    range = current - 16;
                     if (range < 2) {
                         if (STATE(command)->reserved34 == 0 &&
                             !(STATE(command)->eventStatus & 2)) {
@@ -214,7 +214,7 @@ void LIBDS_DSSYS_1_text_A9C(int event, u8 *inResult) {
             if (STATE(command)->eventStatus & 16) {
                 STATE(command)->read.status = two;
                 *command = twelve;
-            } else if ((u32)(*command - 16) < 2) {
+            } else if ((*command - 16) < 2) {
                 STATE(command)->read.status = 1;
                 *command = 11;
             }
