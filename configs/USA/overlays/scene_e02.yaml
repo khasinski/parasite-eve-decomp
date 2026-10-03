@@ -130,7 +130,7 @@ segments:
       - [0x4C2C, asm, func_80193C14]
       - [0x5674, c, RoomLib_SetArgs3_8019465C]
       - [0x5698, c, SceneEffect_IndexedPaletteSprite]
-      - [0x57D8, asm, scene_e02_tail_57D8]
+      - [0x57D8, c, RoomEffect_HomingProjectile_80194A4C]
       - [0x60EC, c, RoomLib_RunSixteen_801950D4]
       - [0x63E0, c, func_801953C8]
       - [0x6484, data]

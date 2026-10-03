@@ -131,7 +131,7 @@ segments:
       - [0x520C, c, RoomLib_UpdateTimedRender_801941F4]
       - [0x53A4, c, RoomLib_ControlTimedSpawn_8019438C]
       - [0x56E8, c, RoomEffect_IndexedPaletteSprite]
-      - [0x5828, asm, func_80194810]
+      - [0x5828, c, RoomEffect_HomingProjectile_80194810]
       - [0x613C, c, func_80195124]
       - [0x6430, c, func_80195418]
       - [0x64D4, data, D_801954BC]

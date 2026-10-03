@@ -232,6 +232,17 @@ int rsin(int angle);
         ((short *)(out))[6] = z; \
     } while (0)
 
+/* PSY-Q gte_stsv: store IR1..3 as a short vector (mfc2 into $12..$14, then
+ * three halfword stores inside the same statement, as the SDK macro does). */
+#define gte_stsv(out) \
+    asm volatile("mfc2 $12,$9\n\t" \
+                 "mfc2 $13,$10\n\t" \
+                 "mfc2 $14,$11\n\t" \
+                 "sh $12,0(%0)\n\t" \
+                 "sh $13,2(%0)\n\t" \
+                 "sh $14,4(%0)" \
+                 : : "r"(out) : "$12", "$13", "$14", "memory")
+
 #define gte_stir123_column_at(column) \
     do { \
         volatile short *out = (volatile short *)(column); \
