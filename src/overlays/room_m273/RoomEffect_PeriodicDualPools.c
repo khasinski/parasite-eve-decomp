@@ -8,7 +8,7 @@ extern void *D_8019AE80;
 extern unsigned short D_800E11FA,D_800E2850[];
 extern unsigned short D_800F3368,D_800F336A,D_800F336C,D_800F336E;
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
-extern volatile unsigned short D_800F3376,D_800F3378;
+extern unsigned short D_800F3376,D_800F3378;
 extern int func_8019A398(),func_8019A4CC();
 extern int func_800CE560(void *,int,int,int (*)());
 extern int func_800CE5AC(void **,int,int,int,int (*)());
