@@ -49,6 +49,7 @@ typedef struct RoomSparkChannel {
 } RoomSparkChannel;
 
 extern RoomSparkChannel *D_800F32D0, *D_800F33E0;
+extern RoomSparkChannel *D_800942E4;
 extern u16 D_800E11EA;
 extern int func_800CE560(void *pool, int size, int count, void *callback);
 extern RoomDampedSpark *func_800CE610(void *pool);
@@ -71,6 +72,17 @@ typedef struct RoomJitterSpark {
 } RoomJitterSpark;
 
 PE1_STATIC_ASSERT(sizeof(RoomJitterSpark) == 0x14, room_jitter_spark_size);
+
+/* Scene object behind the primary channel: its first word points at the
+ * animation state whose fifth word is the current frame. */
+typedef struct RoomSparkOwnerState {
+    s32 reserved[4];
+    s32 frame;                    /* 0x10 */
+} RoomSparkOwnerState;
+
+typedef struct RoomSparkOwner {
+    RoomSparkOwnerState *state;
+} RoomSparkOwner;
 
 /* Ring spawner parameters: centre and the ring radius. */
 typedef struct RoomSparkRingParams {
