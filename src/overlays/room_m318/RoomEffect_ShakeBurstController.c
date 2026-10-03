@@ -1,7 +1,5 @@
 #include "pe1/room_shake_burst.h"
 
-extern int func_80193FC4(int mode, RoomShakeBurstPoint *particle);
-
 /* Wakes the actor's status byte and plays the burst sounds, then for 39
  * frames shakes the camera while scattering particles around the anchor
  * for the first 21; at frame 40 it hands the actor to the scene script. */

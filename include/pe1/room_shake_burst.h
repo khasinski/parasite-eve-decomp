@@ -78,4 +78,9 @@ extern u8 *D_800F32D8;
 extern void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);
 extern void func_80020DD0(void);
 
+/* room_m318 particle callbacks and the sweep anchor. */
+extern int func_80193FC4(int mode, RoomShakeBurstPoint *particle);
+extern int func_8019326C(int mode, RoomShakeSweepParticle *particle);
+extern GteShortVector D_80199904;
+
 #endif

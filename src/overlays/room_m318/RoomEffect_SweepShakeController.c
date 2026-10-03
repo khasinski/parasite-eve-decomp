@@ -1,8 +1,5 @@
 #include "pe1/room_shake_burst.h"
 
-extern int func_8019326C(int mode, RoomShakeSweepParticle *particle);
-extern GteShortVector D_80199904;
-
 /* Plays the sweep sounds and wakes the actor's status byte, then for 43
  * frames shakes the camera while handing a turning sweep angle to a new
  * particle every sixth frame; at frame 44 it hands the actor to the scene
