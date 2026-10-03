@@ -18,15 +18,15 @@ extern RoomFxSeed8 D_8018EFF4;
 /* Retail marks this function handwritten; only its COP2 windows remain ASM. */
 void ROOMLIB_INIT_TWELVE_EFFECT_FUNC(void *owner, void *unused, char *state) {
     RoomTwelveEffectStack stack;
-    register void *effectOwner asm("$19");
+    void *effectOwner;
     register char *workState asm("$17");
-    register int spacing asm("$18");
-    register RoomSpriteMatrix *localMatrix asm("$16");
+    int spacing;
+    RoomSpriteMatrix *localMatrix;
     register char *vector asm("$3");
-    register s16 *values asm("$5");
+    s16 *values;
     register unsigned int i asm("$4");
-    register int depth asm("$6");
-    register int initialValue asm("$7");
+    int depth;
+    int initialValue;
     char *clock;
     register RoomSpriteMatrix *sourceMatrix asm("$3");
 
@@ -82,9 +82,6 @@ void ROOMLIB_INIT_TWELVE_EFFECT_FUNC(void *owner, void *unused, char *state) {
     depth = 0;
     vector = workState;
     values = (s16 *)workState;
-    asm("" : "=r"(i), "=r"(initialValue), "=r"(depth), "=r"(vector),
-        "=r"(values) : "0"(i), "1"(initialValue), "2"(depth),
-        "3"(vector), "4"(values));
     do {
         *(workState + i + 0x2C) = 0;
         *(workState + i + 0x38) = 0;
