@@ -11,8 +11,6 @@ int func_800D8978(int mode, RenderVerticalEffect *state)
     GteRotation rotation;
     RenderColor color;
     int scale, palette, selector;
-    /* Matching debt: retail compares the palette selector against $3. */
-    register int special_palette asm("$3");
     switch (mode) {
     case 1:
         state->y = D_800E21F8.y + (-D_800E27EC * 900) / 24;
@@ -43,14 +41,11 @@ int func_800D8978(int mode, RenderVerticalEffect *state)
         func_800CF3AC(D_800E1A14, &color, D_800E27EC);
         scale *= 2;
         selector = D_800F336C;
-        special_palette = 4;
         palette = D_800E1204[selector];
-        if (selector == special_palette && D_800F3428)
-            palette += 7;
-        else
-            palette += 3;
         func_800CEE20(&position, &rotation, scale, scale, 68,
-                     GetClut(0, palette), 1, 128, &color);
+                     GetClut(0, (selector == 4 && D_800F3428) ? palette + 7
+                                                               : palette + 3),
+                     1, 128, &color);
         break;
     }
     return 0;
