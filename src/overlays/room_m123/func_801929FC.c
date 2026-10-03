@@ -5,10 +5,10 @@ typedef struct RoomM123Vector {
 } RoomM123Vector;
 
 extern int D_800E27EC;
-extern volatile u16 D_800E11EA;
+extern u16 D_800E11EA;
 extern u16 D_800E2850[];
-extern volatile u16 D_800F3368, D_800F336A, D_800F336C, D_800F336E;
-extern volatile u16 D_800F3370, D_800F3372, D_800F3374, D_800F3376, D_800F3378;
+extern u16 D_800F3368, D_800F336A, D_800F336C, D_800F336E;
+extern u16 D_800F3370, D_800F3372, D_800F3374, D_800F3376, D_800F3378;
 extern int func_8019251C(void);
 extern int func_800CE560(void *, int, int, int (*)(void));
 extern RoomM123Vector *func_800CE610(void *);
