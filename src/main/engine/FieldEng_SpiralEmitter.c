@@ -1,5 +1,5 @@
 #include "pe1/render_object.h"
-#include "pe1/field_spiral.h"
+#include "pe1/field_effect_pool.h"
 #include "pe1/random.h"
 #include "pe1/gte.h"
 #include "pe1/psyq_gpu.h"
@@ -29,7 +29,7 @@ int func_800D6514(int mode, RenderArcingEmitter *state)
         state->position.y = D_800942EC.value;
         func_800C6D5C(D_800F32D4, 0, 0xC0);
         return func_800CE560(D_800F33E0->end, 16, 24,
-                             func_800D629C);
+                             (FieldEffectCallback)func_800D629C);
     case 1:
         if (D_800E27EC == 0) {
             for (i = 0, angle = 0; i < 24; i++, angle += 0xAA) {

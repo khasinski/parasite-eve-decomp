@@ -1,7 +1,7 @@
 #include "pe1/render_object.h"
 #include "pe1/gte.h"
 #include "pe1/psyq_gpu.h"
-#include "pe1/field_anim.h"
+#include "pe1/field_effect_pool.h"
 #include "pe1/battle_runtime.h"
 #include "pe1/random.h"
 #include "pe1/field_actor.h"
@@ -42,22 +42,14 @@ int func_800DA780(int mode, RenderArcingEffect *state)
 int func_800DA934(int mode, GteShortVector *state)
 {
     RenderArcingEffect *particle;
-    register int stride asm("$5");
-    FieldAnimObjectPrefix *owner;
-    FieldActor *actor;
-    FieldAnimTaskSlot *slot;
     switch (mode) {
     case 0:
-        stride = 8;
-        owner = D_800F32D0;
-        state->x = owner->actor->render_object.target_x;
-        state->y = owner->actor->render_object.target_y;
-        actor = owner->actor;
-        slot = D_800F33E0;
-        state->z = actor->render_object.target_z;
-        asm volatile("" : : "r"(slot) : "memory");
-        state->y = D_800942EC;
-        return func_800CE560(slot->end, stride, 12, (FieldAnimTaskCallback)func_800DA780);
+        state->x = D_800F32D0->actor->render_object.target_x;
+        state->y = D_800F32D0->actor->render_object.target_y;
+        state->z = D_800F32D0->actor->render_object.target_z;
+        state->y = D_800942EC.value;
+        return func_800CE560(D_800F33E0->end, 8, 12,
+                             (FieldEffectCallback)func_800DA780);
     case 1:
         if (D_800E27EC < 40 && (D_800E27EC & 1)) {
             particle = func_800CE610(D_800F33E0->end);
