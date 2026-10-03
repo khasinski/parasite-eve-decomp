@@ -42,17 +42,17 @@ void ROOMLIB_ADVANCE_ARC_Y_NAME(RoomEnt *obj) {
             int hi = *(short *)((char *)entry + 2);
             int lo;
             int savedHi;
-            *(volatile short *)&scratch[1] = 0;
+            scratch[1] = 0;
             *(volatile short *)&scratch[0] = hi;
             lo = *entry;
             savedHi = RWU16(scratch, 0x0);
-            *(volatile short *)&scratch[3] = 0;
-            *(volatile short *)&scratch[5] = 0;
-            *(volatile short *)&scratch[7] = 0;
-            *(volatile short *)&scratch[2] = lo;
-            *(volatile short *)&scratch[4] = 0x1000;
-            *(volatile short *)&scratch[8] = savedHi;
-            *(volatile short *)&scratch[6] = -RWU16(scratch, 0x4);
+            scratch[3] = 0;
+            scratch[5] = 0;
+            scratch[7] = 0;
+            scratch[2] = lo;
+            scratch[4] = 0x1000;
+            scratch[8] = savedHi;
+            scratch[6] = -RWU16(scratch, 0x4);
         }
         scratch[16] = RW32(state, 0x50) >> 12;
         scratch[17] = 0;
