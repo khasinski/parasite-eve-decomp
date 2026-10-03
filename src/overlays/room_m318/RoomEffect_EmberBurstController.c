@@ -1,23 +1,6 @@
 #include "pe1/room_ember_burst.h"
 #include "pe1/gte.h"
 
-/* Attaches the burst to the first live actor with the given ids, or
- * reports the missing actor. */
-static inline void RoomEffect_AttachEmberBurst(int subId, int typeId,
-                                               RoomEmberBurst *burst) {
-    FieldActor *actor;
-
-    for (actor = D_8009D20C; actor != 0; actor = actor->next) {
-        if (actor != D_8009D254 && actor->state != 0 &&
-            actor->state->control10.command_value > 0 &&
-            actor->sub_id == subId && actor->type_id == typeId) {
-            func_800CE870((char *)actor, 0, (s16 *)burst);
-            return;
-        }
-    }
-    func_80071A74(D_8018F1CC, subId, typeId);
-}
-
 /* Ember burst: glows up for 16 frames, then for 24 frames scatters
  * orbiting sparks, embers on odd frames and smoke on even ones, then fades;
  * while it glows it draws a flickering halo and a ring. */
@@ -32,7 +15,7 @@ int func_80194AAC(int mode, RoomEmberBurst *burst, RoomEmberBurstParams *params)
         burst->state = 0;
         burst->timer = 0;
         burst->glow = 0;
-        RoomEffect_AttachEmberBurst(params->subId, params->typeId, burst);
+        RoomEffect_AttachToActor(params->subId, params->typeId, burst);
         func_800D3F64(0x5F5, func_800D3FD8());
         func_800D3F64(0x5F6, 0x80);
         return func_800CE560(D_800F33E0->pool, 0x14, 0x28, func_801944E8);

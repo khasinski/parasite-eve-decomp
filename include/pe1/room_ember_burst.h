@@ -84,4 +84,44 @@ extern u16 GetClut(int x, int y);
 extern u8 D_80199890[];
 extern void func_800CF844(void *, void *, int, void *, int, int);
 
+/* Fan sweep controller (func_80192A7C): attaches to the actor named by its
+ * parameters, fans out sparks on a turning angle into its own pool and
+ * publishes that pool and its anchor for the pool's callbacks. */
+typedef struct RoomFanSweep {
+    s16 x, y, z;                  /* 0x00 */
+    s16 reserved06;
+    s32 angle;                    /* 0x08 */
+    void *pool;                   /* 0x0C */
+} RoomFanSweep;
+
+typedef struct RoomFanSweepSpark {
+    s16 x, y, z;                  /* 0x00 */
+    s16 reserved06[3];
+    s16 speed;                    /* 0x0C */
+} RoomFanSweepSpark;
+
+extern void *D_80199900;
+extern GteShortVector D_801998F8;
+extern int func_80192718(int mode, RoomFanSweepSpark *spark);
+extern int func_80192620(int mode, s16 *position);
+extern int func_800CE5AC(void **pool, int owner, int size, int count, void *callback);
+extern int func_800CE688(void *pool);
+extern int func_800CE78C(void *pool);
+
+/* Attaches the effect to the first live actor with the given ids, or
+ * reports the missing actor. */
+static inline void RoomEffect_AttachToActor(int subId, int typeId, void *anchor) {
+    FieldActor *actor;
+
+    for (actor = D_8009D20C; actor != 0; actor = actor->next) {
+        if (actor != D_8009D254 && actor->state != 0 &&
+            actor->state->control10.command_value > 0 &&
+            actor->sub_id == subId && actor->type_id == typeId) {
+            func_800CE870((char *)actor, 0, (s16 *)anchor);
+            return;
+        }
+    }
+    func_80071A74(D_8018F1CC, subId, typeId);
+}
+
 #endif
