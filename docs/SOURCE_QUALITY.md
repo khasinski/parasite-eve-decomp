@@ -245,6 +245,25 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Ten single effects modelled on matched siblings
+
+Ten effect routines that resemble already matched templates, without being
+byte copies of them, now have their own clean C: scene_e18's rising joint
+emitter and wave ring emitter (formerly the `scene_e18_tail_4608` and
+`scene_e18_tail_4C3C` blobs), room_m023's joint scatter controller, room_m404's
+joint debris burst and bounce glow spark, room_m256's swirl spark particle,
+scene_e19_2's glint and pulse glint particles (split out of the scene tail
+blob as the new `RoomEffect_GlintSparkParticle.inc` and
+`RoomEffect_PulseGlintParticle.inc` templates), and room_m349's flare spark
+particle and controller. The parameter blocks are written through
+`RenderEffectParameters` with array-element tpage reads, a value shared
+between a spawn angle and a later fade lives in one variable so it wins its
+saved register, signed products are stored before the half size is read so
+the loads keep retail's widths, and delay slots are filled by plain if/else
+statements where the room_m350 originals needed barriers. Every function
+matches retail with no pins or barriers; all six overlay SHA-1 hashes are
+unchanged.
+
 ### Orbit spin particle and room_m318 shake controllers
 
 `func_801982A4` in scene_e19_2, carved out of the scene tail blob, now
