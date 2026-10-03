@@ -116,7 +116,7 @@ segments:
       - [0x7838, c, RoomEffect_CrossFlashController]
       - [0x7C60, c, RoomEffect_DriftingPalettePulse]
       - [0x7E64, asm, func_80196E4C]
-      - [0x8630, asm, func_80197618]
+      - [0x8630, c, RoomEffect_EmberFountainParticle]
       - [0x8CD4, c, RoomEffect_EmberFountainController]
       - [0x9280, asm, func_80198268]
       - [0x9910, asm, func_801988F8]

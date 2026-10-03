@@ -66,4 +66,17 @@ extern RoomEmberFountainChannel *D_800F32D0;
 extern GteShortVector D_8019993C;
 extern int func_80197618(int mode, RoomOrbitTrailParticle *p);
 
+/* Ember fountain particle (func_80197618). */
+typedef struct RoomEmberFloor {
+    s16 y;
+} RoomEmberFloor;
+
+extern RoomEmberFloor D_800942EC;
+extern u16 D_800E11E8;
+extern u16 D_800E11FA;
+extern GteRotation D_8018F1F4;
+extern RenderColor D_8018F240;
+extern u8 D_80199868[];
+extern u16 GetClut(int x, int y);
+
 #endif
