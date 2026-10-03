@@ -1583,7 +1583,7 @@ segments:
       - [0xC5128, asm, engine/engine_800D4860]
       - [0xC56A4, c, engine/FieldEng_ExpandingFlash]
       - [0xC5810, c, engine/FieldEng_BouncingSprite]
-      - [0xC5A90, asm, engine/engine_800D4860_C5A90]
+      - [0xC5A90, c, engine/FieldEng_ScatterBurst]
       - [0xC6098, c, engine/FieldEng_CosinePulse]
       - [0xC6200, c, engine/FieldEng_CosinePulseEmitter]
       - [0xC64E4, c, engine/FieldEng_RisingEffect]

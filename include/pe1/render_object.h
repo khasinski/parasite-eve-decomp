@@ -278,6 +278,7 @@ typedef struct RenderColor {
     u8 r, g, b, code;
 } RenderColor;
 
+extern RenderColor D_800C22BC;
 extern RenderColor D_800C22C0;
 extern RenderColor D_800C22C4;
 extern u8 D_800E166C[];
