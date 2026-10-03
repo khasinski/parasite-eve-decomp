@@ -83,7 +83,7 @@ int MemCard_TimerCallback(void) {
         index = D_8009B774;
         limit = D_8009B778;
         if (limit >= index) {
-            obj = (void *)((u32)D_8009B758 + ((((u32)index << 4) - (u32)index) << 4));
+            obj = (void *)(D_8009B758 + (((index << 4) - index) << 4));
             D_8009B768 = 0;
             D_8009B764 = index;
             if (_padInitSioMode(obj) == 0) {
@@ -93,7 +93,7 @@ int MemCard_TimerCallback(void) {
             D_8009B76C = 0;
             while (D_8009B778 >= D_8009B764) {
                 index = D_8009B764;
-                obj = (void *)((u32)D_8009B758 + ((((u32)index << 4) - (u32)index) << 4));
+                obj = (void *)(D_8009B758 + (((index << 4) - index) << 4));
                 MemCard_RunCommandStep(obj);
             }
             g_MemCardSioRegs->baud = 0x88;
