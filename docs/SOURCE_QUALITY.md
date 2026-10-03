@@ -245,6 +245,28 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m104 and thirteen sibling rooms line burst controller
+
+`func_8018F3A4` in room_m104, room_m115 and room_m159, `func_80190028` in
+room_m113, `func_80192898` in room_m116 and room_m120, `func_80190444` in
+room_m122, `func_8019351C` in room_m263, room_m265 and room_m333,
+`func_8019389C` in room_m391, room_m394 and room_m395 and `func_801939EC` in
+room_m392 now share `RoomEffect_LineBurstController.inc` on the new
+`room_line_burst.h`, with the `MASPSX_FLAGS: --expand-div` marker for the
+signed division guards. The controller spawns a burst of line segments from
+the effect origin, steers each by its angle table entry, projects the three
+endpoints through RTPT with the PSY-Q style three-operand load and store
+macros so all three addresses are computed before the first coprocessor
+transfer, takes the ordering-table depth from SZ3, and writes the sprite
+parameter block through the `RenderEffectParameters` struct. State 3 is
+written as an early return with the break after it so jump2 does not
+cross-jump its tail into state 0's and reorg can still fill the delay slot,
+the angle table is indexed as `D_800B0E58[idx - 8]` so the folded offset
+forces the symbol into a register as retail does, and the reflected angle is
+written as a negation plus the half turn. Each 2644-byte instance matches
+retail with no pins or barriers; all fourteen overlay SHA-1 hashes are
+unchanged.
+
 ### scene_e09 and scene_e10 dropped flare particle
 
 `func_80193F64` in scene_e09 and scene_e10 now shares
