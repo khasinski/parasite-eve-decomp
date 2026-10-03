@@ -313,6 +313,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSettlingSprite, phase) == 12,
                   render_settling_sprite_phase);
 extern GteShortVector D_800E223C;
 extern u8 D_800E20AC[];
+extern u8 D_800E207C[];
 int func_800DD9E4(int mode, RenderSettlingSprite *state);
 int func_800DDD70(int mode, GteShortVector *state);
 
