@@ -52,7 +52,7 @@ segments:
       - [0x1C2C, c, FxCommon_AllocateConfiguredNode]
       - [0x1D18, c, FxCommon_DestroyNode]
       - [0x1D4C, c, FxCommon_ApplyNodeTransform]
-      - [0x1E14, asm, fx_common_1E14]
+      - [0x1E14, c, FxCommon_UpdateTransformNode]
       - [0x2124, c, FxCommon_DrawLodNode]
       - [0x2590, c, FxCommon_InitNodeTransform]
       - [0x25EC, c, FxCommon_InsertFreeIndex]
