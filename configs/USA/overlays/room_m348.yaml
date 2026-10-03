@@ -56,7 +56,7 @@ segments:
       - [0x1100, c, func_801900E8]
       - [0x1150, c, func_80190138]
       - [0x11E4, c, RoomLib_DrawStagedMotion_801901CC]
-      - [0x1814, asm, func_801907FC]
+      - [0x1814, c, RoomLib_UpdateStagedMotion_801907FC]
       - [0x1C3C, c, RoomLib_Set3Reset_80190C24]
       - [0x1C5C, c, func_80190C44]
       - [0x1D48, c, func_80190D30]
