@@ -143,12 +143,6 @@ typedef struct FieldAnimSpinningModel {
 } FieldAnimSpinningModel;
 int func_800D9A8C(int mode, FieldAnimSpinningModel *state);
 int func_800DA1FC(int mode, FieldAnimSpinningModel *state);
-void GsSetOrign(int tpage, int clut);
-void func_800C6ED8(int mode);
-void func_800C6EF8(u8 *data);
-void func_800C6F4C(u8 *data);
-void func_800C7098(u8 *data, int r, int g, int b);
-void func_800C71E4(u8 *data, GteMatrix *matrix);
 
 /* Twin-model flare (func_800DC058): stage 0 grows, stage 1 spins a second
  * white copy, stage 2 holds. */

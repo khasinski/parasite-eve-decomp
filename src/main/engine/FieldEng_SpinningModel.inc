@@ -7,6 +7,7 @@
  * SPINNING_MODEL_COLOR(s)   r, g, b arguments for func_800C7098 */
 #include "pe1/render_object.h"
 #include "pe1/field_anim.h"
+#include "pe1/field_model_draw.h"
 #include "pe1/gte.h"
 #include "pe1/psyq_gpu.h"
 #include "pe1/render_prim.h"
