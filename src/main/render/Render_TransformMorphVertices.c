@@ -133,7 +133,7 @@ void Render_TransformMorphVertices(RenderObjectEntity *input, u32 *view_input) {
             offset = 0;
             asm("" : "=r"(scratch) : "0"(scratch));
             do {
-                register RenderObjectPart *base asm("$2") = entity->parts;
+                RenderObjectPart *base = entity->parts;
                 RenderObjectPart *part = (RenderObjectPart *)((u8 *)base + offset);
                 asm volatile("" : "=r"(part) : "0"(part) : "memory");
                 Morph_Compose(view, matrix, scratch);
@@ -142,7 +142,7 @@ void Render_TransformMorphVertices(RenderObjectEntity *input, u32 *view_input) {
                 if (part->visible == 1) {
                     int j = 0;
                     int first;
-                    register RenderVec3s *base_vertices asm("$4");
+                    RenderVec3s *base_vertices;
                     register int vertex_offset asm("$2");
                     RenderVec3s *vertices;
                     register u32 *screen asm("$6");
@@ -151,9 +151,6 @@ void Render_TransformMorphVertices(RenderObjectEntity *input, u32 *view_input) {
                     first = part->vertex_start;
                     base_vertices = entity->vertices;
                     vertex_offset = first * 8;
-                    asm(""
-                        : "=r"(first), "=r"(base_vertices), "=r"(vertex_offset)
-                        : "0"(first), "1"(base_vertices), "2"(vertex_offset));
                     vertices = (RenderVec3s *)((u8 *)base_vertices + vertex_offset);
                     first <<= 2;
                     {
@@ -162,7 +159,7 @@ void Render_TransformMorphVertices(RenderObjectEntity *input, u32 *view_input) {
                         screen = (u32 *)((u32)first + (u32)base_screen);
                     }
                     {
-                        register u32 *base_depth asm("$2") = D_800A6360;
+                        u32 *base_depth = D_800A6360;
 
                         count = part->vertex_count;
                         depth = (u32 *)((u32)first + (u32)base_depth);
