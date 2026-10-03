@@ -5,8 +5,8 @@
 
 int Menu_InventoryPageInputHandler(MenuWidgetNode *root, u32 flags) {
     register MenuWidgetNode *child asm("$16");
-    register MenuWidgetNode *node asm("$17");
-    register int handled asm("$19");
+    MenuWidgetNode *node;
+    int handled;
 
     handled = 0;
     child = MenuWidget_GetChild(root, 0);
