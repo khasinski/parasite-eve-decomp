@@ -71,17 +71,16 @@ int func_80192A30(int mode, unsigned short *dst, unsigned short *src) {
         int value;
         int index;
         index = D_800E11FA;
-        D_800F3368 = 0x20;
-        D_800F336A = 2;
-        D_800F3376 = 0x20;
-        D_800F3378 = 0x20;
+        D_800F3368.parameter00 = 0x20;
+        D_800F3368.parameter02 = 2;
+        D_800F3368.extent_x = 0x20;
+        D_800F3368.extent_y = 0x20;
         value = D_800E2850[index];
-        asm("" : : "r"(value) : "$2", "memory");
-        D_800F336C = 3;
-        D_800F336E = 1;
-        D_800F3372 = 0;
-        D_800F3374 = 4;
-        D_800F3370 = value;
+        D_800F3368.palette = 3;
+        D_800F3368.parameter06 = 1;
+        D_800F3368.parameter0A = 0;
+        D_800F3368.depth = 4;
+        D_800F3368.tpage = value;
     }
         break;
     default:
