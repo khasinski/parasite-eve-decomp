@@ -9,34 +9,24 @@ extern u8 g_KeyItemDataTable[];
 
 ItemDataRecord *Inv_LookupActiveListData(int index) {
     int value;
-    int offset;
-    int final_range;
-    register int saved_value asm("$5");
+    int saved_value;
+    u8 *entry;
 
-    if (index < 0) {
-        return 0;
-    }
-    if (index >= g_InvSlotLimit) {
-        return 0;
-    }
-
-    value = ((s16 *)g_InvItemPtr)[index];
-    saved_value = value;
-    if ((unsigned int)(value - 0x100) < 0x80) {
-        return (ItemDataRecord *)(g_EquipItemDataTable + (value << 5));
-    }
-
-    offset = value - 1;
-    if ((unsigned int)offset < 0xFF) {
-        return Item_LookupBaseData(offset);
+    if (index >= 0 && index < g_InvSlotLimit) {
+        value = ((s16 *)g_InvItemPtr)[index];
+        saved_value = value;
+        if ((unsigned int)(value - 0x100) < 0x80) {
+            entry = g_EquipItemDataTable + (value << 5);
+        } else if ((unsigned int)(value - 1) < 0xFF) {
+            entry = (u8 *)Item_LookupBaseData(value - 1);
+        } else if ((unsigned int)(saved_value - 0x200) < 9) {
+            entry = g_KeyItemDataTable + (saved_value << 5);
+        } else {
+            entry = 0;
+        }
+    } else {
+        entry = 0;
     }
 
-    final_range = saved_value - 0x200;
-    if ((unsigned int)final_range >= 9) {
-        return 0;
-    }
-    {
-        register int shifted asm("$3") = saved_value << 5;
-        return (ItemDataRecord *)(g_KeyItemDataTable + shifted);
-    }
+    return (ItemDataRecord *)entry;
 }
