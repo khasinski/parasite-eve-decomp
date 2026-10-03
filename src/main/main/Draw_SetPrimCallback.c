@@ -18,7 +18,7 @@ void Draw_SetPrimCallback(MenuWidgetNode *arg0, s32 arg1) {
     MenuWidgetNode *temp_a1;
 
     temp_v1 = arg0->grid_width;
-    arg0->y_limit = (s32) ((s32) ((arg1 + temp_v1) - 1) / temp_v1);
+    arg0->y_limit = (((arg1 + temp_v1) - 1) / temp_v1);
     var_a2 = 0;
     if (arg0->grid_width == 2) {
         var_a2 = arg1 & 1;
