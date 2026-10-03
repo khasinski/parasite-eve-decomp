@@ -245,6 +245,19 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Main executable cast and volatile sweep
+
+A second pass over the main executable's non-battle sources removes about
+half of its pointer and integer casts, a quarter of its byte-pointer
+arithmetic and 182 volatile qualifiers, each removal kept only when the
+rebuilt object is identical and no new compiler warning appears. Volatiles on
+hardware registers stay. The wall and ramp slides, the entity matrix builder
+and several table walkers now go through typed structs and small pointer and
+word unions (`PolygonVertexAddress`, `RenderMatrixWords`, the new
+`GeomStateAddress` in `geom_state.h`) instead of raw offsets. The main
+executable and room_m273, the one overlay sharing a changed header, are
+unchanged.
+
 ### Main executable crutch sweep
 
 The main executable's sources outside battle lose about 430 register pins
