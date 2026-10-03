@@ -27,7 +27,7 @@ void Entity_AdvanceAnim(Entity *entity) {
         entity->entityFlags = new_flags;
         old_frame = entity->animFrame;
         entity->animPrev.fixed = old_frame;
-        flags = *(volatile u32 *)&entity->entityFlags;
+        flags = entity->entityFlags;
 
         if (!(flags & 0x100)) {
             if (flags & 0x200) {
