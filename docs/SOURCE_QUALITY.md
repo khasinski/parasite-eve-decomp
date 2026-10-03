@@ -245,6 +245,22 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m269 and scene_e01 effect controllers
+
+scene_e01 carries a byte-identical copy of room_m269's five remaining effect
+routines, so its code blob is now split at the same boundaries and both
+overlays instantiate shared templates: the rising spray controller and
+particle (`func_80191CFC`, `func_801913B4`), the orbit trail burst and
+particle (`func_80190D38`, `func_8019070C`) and the ground sweep controller
+(`func_8018FA64`), whose two jump tables now come from its own `.rodata`
+subsegment. The sound helper pointer is read through a one-field record so
+it is reloaded after the stack argument store without a barrier, temporaries
+are shared across cases so the saved registers fall in retail's order,
+divisions are written into their destination variable, one stack slot is
+reused for the rotation and the blended point, and the later state returns
+before its break so the return tails are not merged. All ten instances match
+retail with no pins or barriers; both overlay SHA-1 hashes are unchanged.
+
 ### Room window handler family
 
 `RoomLib_WindowHandler` in room_m063 and room_m083 and its copies
