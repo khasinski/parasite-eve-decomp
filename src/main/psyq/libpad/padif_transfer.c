@@ -68,7 +68,7 @@ setup:
                 if (remaining < 0)
                     break;
                 if (remaining > 0) {
-                    register CardObj *base asm("$3") =
+                    CardObj *base =
                         (CardObj *)((u32)offset + (u32)D_8009B758);
                     register int scaled asm("$2") = remaining * sizeof(CardObj);
                     register u8 *child asm("$3") = base->field_0c + scaled;
