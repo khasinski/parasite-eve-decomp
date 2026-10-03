@@ -245,6 +245,17 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### menu_memcard cross flash controller and glint hooks
+
+The memory card menu's cross flash controller at 0x33D0 now has clean C, and
+the six origin getters and the cross flash flag hook at 0x6308 are
+`Memcard_GlintOriginHooks.c` in their own segment, because the hook jumps to
+an absolute address from the code's original link address. The trail
+effect's state tail is written as an early return before the break, which
+keeps retail's branch form without the memory barrier it used to need. Every
+function matches retail with no pins or barriers and the overlay SHA-1 hash
+is unchanged.
+
 ### menu_memcard glint effects and scene_e19_2 jitter sparks
 
 The memory card menu carries a copy of a room effect set that links at
