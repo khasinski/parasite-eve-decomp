@@ -34,7 +34,12 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, fx_common]
+      - start: 0
+        type: rodatabin
+        name: fx_common_header
+        dir: fx_common
+      - [0x44, .rodata, FxCommon_LeaveScene]
+      - [0x6C, asm, fx_common_6C]
       - [0x354, c, FxCommon_LookAtMatrix]
       - [0x56C, asm, fx_common_56C]
       - [0x1004, c, FxCommon_CheckBounds]
@@ -61,7 +66,7 @@ segments:
       - [0x2F0C, c, FxCommon_ApplyRenderVector]
       - [0x2FF8, c, FxCommon_SetMode1]
       - [0x301C, c, FxCommon_SetMode30]
-      - [0x3040, asm, fx_common_3040]
+      - [0x3040, c, FxCommon_LeaveScene]
       - [0x335C, c, FxCommon_RunMainLoop]
       - [0x3750, c, func_80192740]
       - [0x3810, asm, fx_common_3810]

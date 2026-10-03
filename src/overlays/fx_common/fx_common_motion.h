@@ -46,10 +46,17 @@ typedef struct FxCommonFrame {
     u8 drawEnv[0x5C];   /* 0x08 */
     u8 dispEnv[0x14];   /* 0x64 */
 } FxCommonFrame;
+typedef struct FxCommonRect {
+    s16 x, y, w, h;
+} FxCommonRect;
 extern FxCommonFrame g_FxCommonFrames[2] __asm__("D_8019C1F8");
 extern s32 D_8009CDDC;
 extern u8 D_8019C00E;
 extern s32 D_8019CC14;
+extern u32 D_8009D280;
+extern s8 D_800B0DB2;
+extern s8 D_800B0DB4;
+extern u8 D_800BCE80[];
 
 void func_80086C5C(int channel, int value, int mode);
 void func_80196498(void);
@@ -77,6 +84,10 @@ void func_80075424(void *draw_env);
 void func_800755F0(void *entry);
 void func_800753B4(void *ordering_table);
 void func_80192030(void);
+void func_80074F44(void *rect, s32 x, s32 y, s32 mode);
+void func_80086FF8(void);
+void func_80087024(void);
+void func_80038D48(void);
 s16 func_801958D4(s16 resourceId, u8 action);
 void func_80195BC8(FxCommonShortVec3 *a, FxCommonShortVec3 *b, int bi, int ai);
 void func_80195D3C(void);
