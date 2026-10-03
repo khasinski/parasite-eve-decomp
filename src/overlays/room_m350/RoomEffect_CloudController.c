@@ -12,11 +12,11 @@ typedef struct { int reserved[2]; Instance *instance; } Actor;
 typedef struct { int asset; short speed,targetSpeed,heightPhase,mode; } State;
 extern Actor *D_800F32D0;
 extern Instance *g_PlayerEntity;
-extern volatile unsigned char D_8019A8BE,D_8019A8C0;
+extern unsigned char D_8019A8BE,D_8019A8C0;
 extern short D_8019A89E,D_8019A8B8,D_8019A8BA,D_8019A8BC;
 extern short D_800942EC,D_800966EC[];
-extern volatile short D_8019A870,D_8019A872,D_8019A874,D_8019A876,D_8019A878,D_8019A87A,D_8019A87C,D_8019A87E,D_8019A880;
-extern volatile int D_8019A884,D_8019A888,D_8019A88C;
+extern short D_8019A870,D_8019A872,D_8019A874,D_8019A876,D_8019A878,D_8019A87A,D_8019A87C,D_8019A87E,D_8019A880;
+extern int D_8019A884,D_8019A888,D_8019A88C;
 extern int Asset_Find08w(int,int,int,int,int);
 extern void Akao_Cmd_21(int,int);
 extern int func_800DFE20(int *,int *);
@@ -110,7 +110,7 @@ store_speed:
         {
         register Matrix *matrix asm("$4")=(Matrix *)&D_8019A870;
         register Vector *vector asm("$5")=&offset;
-        *(volatile short *)matrix=cosine; D_8019A874=sine; D_8019A87C=0u-(unsigned int)sine;
+        *(short *)matrix=cosine; D_8019A874=sine; D_8019A87C=0u-(unsigned int)sine;
         D_8019A880=cosine;
         D_8019A88C=0; D_8019A888=0; D_8019A884=0;
         D_8019A87E=0; D_8019A87A=0; D_8019A876=0; D_8019A872=0;
