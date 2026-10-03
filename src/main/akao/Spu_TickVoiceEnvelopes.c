@@ -9,7 +9,7 @@ void Spu_TickVoiceEnvelopes(AkaoTrack *track, unsigned voice_mask)
     register int scaled asm("$5");
     unsigned product;
     unsigned pitch_depth;
-    register unsigned pitch_masked asm("$3");
+    unsigned pitch_masked;
     register int doubled_pitch asm("$2");
     int volume_stage;
     register int shifted_volume asm("$2");
