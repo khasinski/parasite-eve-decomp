@@ -9,3 +9,4 @@ RoomLib_FxNotify2 = 0x8019090C; // type:func
 FxCommon_DrawPolyResource = 0x80197BA0; // type:func
 FxCommon_DrawModel = 0x801995BC; // type:func
 FxCommon_DrawModelTinted = 0x8019A318; // type:func
+FxCommon_DrawModelFlat = 0x8019B1D0; // type:func

@@ -90,7 +90,7 @@ segments:
       - [0xA5AC, c, FxCommon_GetOffsetEntryValue]
       - [0xA5CC, c, FxCommon_DrawModel]
       - [0xB328, c, FxCommon_DrawModelTinted]
-      - [0xC1E0, asm, fx_common_C1E0]
+      - [0xC1E0, c, FxCommon_DrawModelFlat]
       - [0xCD88, c, func_8019BD78]
       - [0xCF60, c, FxCommon_PrepareBuffer]
       - [0xCF9C, c, FxCommon_LinkBuffer]

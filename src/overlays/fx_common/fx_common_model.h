@@ -185,5 +185,6 @@ typedef struct FxCommonModelGt4Packet {
 
 void FxCommon_DrawModel(void *context, FxCommonPolyModel *model, int index);
 void FxCommon_DrawModelTinted(void *context, FxCommonPolyModel *model, int index);
+void FxCommon_DrawModelFlat(void *context, FxCommonPolyModel *model, int index);
 
 #endif
