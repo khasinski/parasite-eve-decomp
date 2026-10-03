@@ -33,8 +33,8 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
     s32 *projectMatrix = projectionMatrix;
     s16 savedLimit = limit;
     s32 changed;
-    register volatile RenderVec3s *scratch asm("$24") = (volatile RenderVec3s *)0x1F800000;
-    volatile u32 *projected;
+    register volatile RenderVec3s *scratch asm("$24") = (RenderVec3s *)0x1F800000;
+    u32 *projected;
     register s32 *matrix asm("$8");
     register s32 i asm("$11");
     register s32 offset asm("$25");
@@ -54,7 +54,7 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
     __asm__("" : "=r"(projectMatrix) : "0"(projectMatrix));
     changed = 0;
     __asm__("" : : "r"(changed) : "$6");
-    projected = (volatile u32 *)0x1F800008;
+    projected = (u32 *)0x1F800008;
     if (!entity->header || !entity->draw_count)
         return;
     matrix = (s32 *)entity->matrices;
