@@ -36,7 +36,7 @@ loop_8:
     var_v1 = var_a0 << 3;
     if (*(s32 *)(g_EntityAllocBlockTable + var_v1) == 0) {
         var_a2 = 1;
-        if (var_a0 < (u32)(var_a0 + temp_t0)) {
+        if (var_a0 < (var_a0 + temp_t0)) {
             var_v0 = var_a3 + var_a0;
             var_a0 = var_v0 << 3;
 loop_11:
