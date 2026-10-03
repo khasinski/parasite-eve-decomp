@@ -144,13 +144,13 @@ void Render_TransformMorphVertices(RenderObjectEntity *input, u32 *view_input) {
                     {
                         register u32 *base_screen asm("$2") = D_800B1638;
 
-                        screen = (u32 *)((u32)first + (u32)base_screen);
+                        screen = (u32 *)(first + (u32)base_screen);
                     }
                     {
                         u32 *base_depth = D_800A6360;
 
                         count = part->vertex_count;
-                        depth = (u32 *)((u32)first + (u32)base_depth);
+                        depth = (u32 *)(first + (u32)base_depth);
                     }
                     if (j < count) {
                         do {
