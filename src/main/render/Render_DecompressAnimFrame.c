@@ -311,8 +311,8 @@ block_22:
                     negative_line->r1 = 0;
                     negative_line->g1 = var_t9;
                     negative_line->b1 = var_t9;
-                    M2C_FIELD(negative_line, volatile u32 *, 8) = var_t0;
-                    M2C_FIELD(negative_line, volatile u32 *, 0x10) = var_a2;
+                    M2C_FIELD(negative_line, u32 *, 8) = var_t0;
+                    M2C_FIELD(negative_line, u32 *, 0x10) = var_a2;
                     temp_v1_5 = (u16)var_t1 << 16;
                     temp_v1_4 = D_8009CDD4[var_s0] +
                                 D_8009CDD4[(s16)((u16)var_t1 | temp_v1_5)];
