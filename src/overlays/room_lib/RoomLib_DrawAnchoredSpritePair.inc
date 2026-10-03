@@ -20,13 +20,13 @@ void ROOMLIB_DRAW_ANCHORED_SPRITE_PAIR_FUNC(void *unused0, void *unused1,
                                             char *params) {
     RoomLibSpriteTransformStack stack;
     /* Retail keeps these in s0..s3; the later locals reuse the same slots. */
-    register RoomSpriteMatrix *scaleMatrix asm("$16");
+    RoomSpriteMatrix *scaleMatrix;
     register RoomSpriteMatrix *matrix asm("$17");
-    register char *fx asm("$18");
-    register char *root asm("$19");
-    register char *map asm("$16");
-    register short *floorY asm("$18");
-    register char *renderState asm("$19");
+    char *fx;
+    char *root;
+    char *map;
+    short *floorY;
+    char *renderState;
     int firstY;
     int firstX;
     int secondX;
