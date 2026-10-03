@@ -117,10 +117,10 @@ void Akao_StepSequencerVoice(void *arg0) {
     M2C_FIELD(p2c8b, s32 *, 0x18) = 0;
     if (t2dc & 1) {
         M2C_FIELD(p2c8b, s32 *, 4) = 0;
-        M2C_FIELD(p2c8b, s32 *, 0x1C) = (s32) (M2C_FIELD(p2c8b, s32 *, 0x1C) | mask);
+        M2C_FIELD(p2c8b, s32 *, 0x1C) = (M2C_FIELD(p2c8b, s32 *, 0x1C) | mask);
     } else {
         M2C_FIELD(p2c8b, s32 *, 0x1C) = 0;
-        M2C_FIELD(p2c8b, s32 *, 4) = (s32) (M2C_FIELD(p2c8b, s32 *, 4) | mask);
+        M2C_FIELD(p2c8b, s32 *, 4) = (M2C_FIELD(p2c8b, s32 *, 4) | mask);
     }
     walk += 4;
         kFFFb = 0xFFFFFF;
@@ -184,7 +184,7 @@ void Akao_StepSequencerVoice(void *arg0) {
             M2C_FIELD(base, s16 *, -0xBE) = 1;
             *(void **)pvoice = g_AkaoDefaultVoiceProgram;
             M2C_FIELD(base, s16 *, 0) = 5;
-            M2C_FIELD(base, s32 *, -0x22) = (s32) (M2C_FIELD(base, s32 *, -0x22) | 0x4400);
+            M2C_FIELD(base, s32 *, -0x22) = (M2C_FIELD(base, s32 *, -0x22) | 0x4400);
             __asm__ __volatile__("");
             var_v0 = ~bit;
         }
