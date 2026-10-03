@@ -245,6 +245,21 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Sixteen more dropped flare particle instances
+
+The function previously labelled `RoomLib_DlgBlob` in room_m126+1, room_m129+1,
+room_m137, room_m139+1, room_m140, room_m141, room_m147, room_m149+1,
+room_m152, room_m324, room_m326+1, room_m327 and room_m328, and the copy
+inside the unnamed scene_e11, scene_e12 and scene_e13 blob at `0x1D74`, is the
+dropped flare particle already matched for scene_e09 and scene_e10. Each
+overlay now instantiates `RoomEffect_DroppedFlareParticle.inc` with its own
+rotation and colour seed symbols, and its jump tables are carved out of the
+overlay rodata as the C unit's `.rodata` subsegment. In scene_e11 to scene_e13
+the copy was linked against the 0x8018EFE8 base, so the start of the existing
+early-base tail segment moved back to it. Each 2496-byte instance matches
+retail with no pins or barriers; all sixteen overlay SHA-1 hashes are
+unchanged.
+
 ### room_m104 and thirteen sibling rooms line burst controller
 
 `func_8018F3A4` in room_m104, room_m115 and room_m159, `func_80190028` in
