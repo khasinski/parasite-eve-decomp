@@ -10,10 +10,9 @@ extern s32 D_800966EC[];
 extern s16 D_800F336A;
 
 int func_80193488(int mode, SceneE18PaletteEffect *effect) {
-    int size, kind, palette, texture, base, index;
+    int size, kind, palette, texture, base;
     int firstFrame, secondFrame;
-    register int sample asm("$3");
-    register int special asm("$3");
+    int sample;
     u16 clut;
 
     if (mode == 1) {
@@ -22,22 +21,14 @@ int func_80193488(int mode, SceneE18PaletteEffect *effect) {
         effect->position.pad++;
     } else if (mode == 2) {
         firstFrame = D_800E27EC - 1;
-        sample = *(s32 *)((char *)D_800966EC +
-            (((unsigned int)firstFrame << 8) & 0x3F00));
-        /* Preserve the sample read before the effect's base value. */
-        asm volatile("" ::: "memory");
+        sample = D_800966EC[(((unsigned int)firstFrame << 8) & 0x3F00) / 4];
         base = effect->base;
 
         kind = D_800F336C;
         size = base + sample;
-        index = kind * 2;
-        asm volatile("" : : "r"(index));
-        special = 4;
-        palette = *(u16 *)((char *)D_800E1204 + index);
-        if (kind == special && D_800F3428) palette += 6;
-        else palette += 2;
+        palette = D_800E1204[kind];
 
-        clut = GetClut(0, palette);
+        clut = GetClut(0, (kind == 4 && D_800F3428) ? palette + 6 : palette + 2);
         secondFrame = D_800E27EC - 1;
         texture = D_800F336A * ((secondFrame >> 1) & 7);
         func_800CEE20(&effect->position, 0, (s16)size, (s16)size,
