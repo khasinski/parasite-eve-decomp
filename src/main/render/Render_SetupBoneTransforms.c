@@ -92,7 +92,6 @@ void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
     register s32 *matrix asm("$6");
     asm volatile("" : "=r"(scratch) : "0"(scratch) : "memory");
     source = actor->animation_source;
-    asm volatile("" : "=r"(source) : "0"(source) : "memory");
     index = (s16)actor->table_index;
     matrix = (s32 *)source->matrices;
     {
@@ -175,7 +174,6 @@ void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
         gte_cop2_hazard_slot();
         gte_rtps_command();
         actor->animation_value7c = source->animation_value7c;
-        asm volatile("" : "=r"(actor) : "0"(actor) : "memory");
         {
             s16 *out = &actor->projected_target_x;
             gte_stsxy2(out);
@@ -189,7 +187,6 @@ void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
         actor->animation_value74 = source->animation_value74;
         actor->animation_value76 = source->animation_value76;
         actor->animation_value78 = source->animation_value78;
-        asm volatile("" : "=r"(actor) : "0"(actor) : "memory");
         {
             s16 *out = &actor->projected_x;
             gte_stsxy2(out);
