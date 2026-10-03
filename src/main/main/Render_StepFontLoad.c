@@ -37,7 +37,7 @@ u8 Render_StepFontLoad(void) {
     D_80091A1E = code;
     Render_LoadFontGlyph(code);
 
-    digit = (u8)((u32)D_80091A1D % 10) != 0;
+    digit = (u8)(D_80091A1D % 10) != 0;
     found = 0;
     i = 0;
     asm("" : "=r"(digit), "=r"(i), "=r"(found)
