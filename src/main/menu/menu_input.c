@@ -21,7 +21,7 @@ MenuInputWidget *MenuWidget_GetCurrentNode(void);
 extern int D_8009D0EC;
 extern MenuInputQueuedEvent *D_8009D0E0;
 extern MenuInputQueuedEvent *D_8009D0E4;
-extern MenuInputQueuedEvent * volatile D_8009D0DC;
+extern MenuInputQueuedEvent * D_8009D0DC;
 extern int D_8009D0E8;
 extern int D_8009D0F0;
 extern int D_8009D0F4;
