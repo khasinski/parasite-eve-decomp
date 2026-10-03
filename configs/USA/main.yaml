@@ -262,7 +262,7 @@ segments:
       - [0xB4E0, c, entity/Entity_ResolvePosition]
       - [0xB640, asm, entity/Entity_UpdateAndRender]
       - [0xBDFC, asm, main/Geo_ClipToFloorBoundary]
-      - [0xC964, asm, main/Geo_ClipToFloorBoundarySub]
+      - [0xC964, c, main/Geo_ClipToFloorBoundarySub]
       - [0xCE14, c, main/Geo_PointInTri]
       - [0xCFDC, c, main/Entity_SlideOnRamp]
       - [0xD2B0, c, field/Geo_PointInPoly]

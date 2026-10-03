@@ -65,9 +65,24 @@ typedef union CollisionVertexTable {
     CollisionVertexXYZ *xyz;
     u32 word;
 } CollisionVertexTable;
+/* Walkable triangles. Both formats are walked as halfword arrays: the
+ * flat one keeps its vertex indices at [1..3] and its edge neighbours at
+ * [7..9], the sloped one at [4..6] and [10..12]. */
+typedef struct CollisionTriangleXZ {
+    u16 words[11];
+} CollisionTriangleXZ;
+typedef struct CollisionTriangleXYZ {
+    u16 words[14];
+} CollisionTriangleXYZ;
+typedef union CollisionTriangleTable {
+    void *pointer;
+    CollisionTriangleXZ *xz;
+    CollisionTriangleXYZ *xyz;
+} CollisionTriangleTable;
 typedef struct CollisionDatabase {
     u32 reserved[6];
     CollisionVertexTable vertices;   /* 0x18: XZ or XYZ array. */
+    CollisionTriangleTable triangles; /* 0x1C: XZ or XYZ triangles. */
 } CollisionDatabase;
 
 /* Vertex `index` of the active table, addressed as retail does. */
@@ -78,11 +93,15 @@ extern CollisionDatabase *D_8009D1FC;
 /* Plane-table pointer; existing floor queries require a fresh read. */
 extern u8 *volatile D_8009D1D8;
 int Geo_PointInTri(void *triangle, s16 x, s16 z);
+void *Geo_ClipToFloorBoundarySub(u16 *triangle, void *previous, s16 x0, s16 z0,
+                                 s16 x1, s16 z1);
 
 PE1_STATIC_ASSERT(sizeof(CollisionVertexXZ) == 4, collision_vertex_xz_size);
 PE1_STATIC_ASSERT(sizeof(CollisionVertexXYZ) == 6, collision_vertex_xyz_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CollisionDatabase, vertices) == 0x18,
                   collision_database_vertices_offset);
+PE1_STATIC_ASSERT(sizeof(CollisionTriangleXZ) == 22, collision_triangle_xz_size);
+PE1_STATIC_ASSERT(sizeof(CollisionTriangleXYZ) == 28, collision_triangle_xyz_size);
 
 /* Field floor / collision geometry (what keeps Aya on the walkable mesh and
  * sets her ground height Y). See field_movement.h for how motion drives pos;
