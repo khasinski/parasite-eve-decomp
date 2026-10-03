@@ -5,7 +5,7 @@ extern unsigned short D_800E11EA,D_800E2850[];
 extern unsigned short D_800F3368,D_800F336C,D_800F336E,D_800E1204[];
 extern short D_800F336A;
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
-extern volatile unsigned short D_800F3376,D_800F3378;
+extern unsigned short D_800F3376,D_800F3378;
 extern short D_8019AD68[];
 extern int D_800966EC[];
 extern RoomM273RisingBatchBuffer D_8019AF0C;
