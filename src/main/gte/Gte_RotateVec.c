@@ -30,12 +30,12 @@ GteVector *Gte_RotateVec(const GteMatrix *matrix, const GteVector *v, GteVector 
     if (x >= 0) {
         goto positive_x;
     }
-    x = 0U - (u32)x;
+    x = 0U - x;
     hx = x >> 15;
-    hx = 0U - (u32)hx;
+    hx = 0U - hx;
     x &= 0x7fff;
     asm volatile("" : "=r"(zero));
-    x = 0U - (u32)x;
+    x = 0U - x;
     if (zero == 0) {
         goto split_x;
     }
@@ -47,12 +47,12 @@ split_x:
     if (y >= 0) {
         goto positive_y;
     }
-    y = 0U - (u32)y;
+    y = 0U - y;
     hy = y >> 15;
-    hy = 0U - (u32)hy;
+    hy = 0U - hy;
     y &= 0x7fff;
     asm volatile("" : "=r"(zero));
-    y = 0U - (u32)y;
+    y = 0U - y;
     if (zero == 0) {
         goto split_y;
     }
@@ -64,12 +64,12 @@ split_y:
     if (z >= 0) {
         goto positive_z;
     }
-    z = 0U - (u32)z;
+    z = 0U - z;
     hz = z >> 15;
-    hz = 0U - (u32)hz;
+    hz = 0U - hz;
     z &= 0x7fff;
     asm volatile("" : "=r"(zero));
-    z = 0U - (u32)z;
+    z = 0U - z;
     if (zero == 0) {
         goto split_z;
     }
@@ -94,48 +94,48 @@ split_z:
     if (hx >= 0) {
         goto shift_positive_x;
     }
-    hx = 0U - (u32)hx;
-    hx = (u32)hx << 3;
+    hx = 0U - hx;
+    hx = hx << 3;
     asm volatile("" : "=r"(zero));
-    hx = 0U - (u32)hx;
+    hx = 0U - hx;
     if (zero == 0) {
         goto shifted_x;
     }
 shift_positive_x:
-    hx = (u32)hx << 3;
+    hx = hx << 3;
 shifted_x:
     if (hy >= 0) {
         goto shift_positive_y;
     }
-    hy = 0U - (u32)hy;
-    hy = (u32)hy << 3;
+    hy = 0U - hy;
+    hy = hy << 3;
     asm volatile("" : "=r"(zero));
-    hy = 0U - (u32)hy;
+    hy = 0U - hy;
     if (zero == 0) {
         goto shifted_y;
     }
 shift_positive_y:
-    hy = (u32)hy << 3;
+    hy = hy << 3;
 shifted_y:
     if (hz >= 0) {
         goto shift_positive_z;
     }
-    hz = 0U - (u32)hz;
-    hz = (u32)hz << 3;
+    hz = 0U - hz;
+    hz = hz << 3;
     asm volatile("" : "=r"(zero));
-    hz = 0U - (u32)hz;
+    hz = 0U - hz;
     if (zero == 0) {
         goto shifted_z;
     }
 shift_positive_z:
-    hz = (u32)hz << 3;
+    hz = hz << 3;
 shifted_z:
     gte_mfc2_25(x);
     gte_mfc2_26(y);
     gte_mfc2_27(z);
-    x = (u32)x + hx;
-    y = (u32)y + hy;
-    z = (u32)z + hz;
+    x = x + hx;
+    y = y + hy;
+    z = z + hz;
     dst->x = x;
     dst->y = y;
     dst->z = z;
