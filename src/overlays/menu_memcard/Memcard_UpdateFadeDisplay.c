@@ -11,7 +11,7 @@ void Memcard_UpdateFadeDisplay(MenuMemcardFadeState *state) {
         }
         level = state->level;
         velocity += increase;
-        *(volatile s32 *)&state->velocity = velocity;
+        state->velocity = velocity;
         if (level < 0x100) {
             level += state->increment << 3;
         }
@@ -21,7 +21,7 @@ void Memcard_UpdateFadeDisplay(MenuMemcardFadeState *state) {
         }
     }
     {
-        s32 current = *(volatile s32 *)&state->velocity;
+        s32 current = state->velocity;
         s32 top = 0x3C - current;
 
         if (top >= 0) {
@@ -29,10 +29,10 @@ void Memcard_UpdateFadeDisplay(MenuMemcardFadeState *state) {
         } else {
             top = 0x8C;
         }
-        *(volatile s16 *)&state->displayTop = top;
+        state->displayTop = top;
     }
     {
-        s32 current = *(volatile s32 *)&state->velocity;
+        s32 current = state->velocity;
         s32 delta = 0x54 - current;
         s32 bottom;
 
