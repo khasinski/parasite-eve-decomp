@@ -43,7 +43,7 @@ segments:
       - [0x9C4, asm, func_menu_memcard_0009C4]
       - [0xD00, c, Memcard_ResetDisplayState_80121A44]
       - [0xF04, asm, func_menu_memcard_000F04]
-      - [0x1348, asm, func_menu_memcard_001348]
+      - [0x1340, asm, func_menu_memcard_001340]
       - [0x1654, c, func_80122398]
       - [0x16A8, c, func_801223EC]
       - [0x16F4, asm, menu_memcard_data_0016F4]

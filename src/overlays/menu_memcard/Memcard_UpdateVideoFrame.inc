@@ -70,13 +70,13 @@ void *MEMCARD_UPDATE_VIDEO_FRAME_NAME(VideoDisplay *display) {
         MEMCARD_VIDEO_SIZE[1] = local.frame->height;
     }
     if (D_800B0DBB) {
-        display->width1a = display->width22 = MEMCARD_VIDEO_SIZE[0] * 3 / 2;
+        display->regions[0].w = display->regions[1].w = MEMCARD_VIDEO_SIZE[0] * 3 / 2;
     } else {
-        display->width1a = display->width22 = MEMCARD_VIDEO_SIZE[0];
+        display->regions[0].w = display->regions[1].w = MEMCARD_VIDEO_SIZE[0];
     }
     data = local.data;
-    display->height1c = display->height24 = MEMCARD_VIDEO_SIZE[1];
-    display->height2e = MEMCARD_VIDEO_SIZE[1];
+    display->regions[0].h = display->regions[1].h = MEMCARD_VIDEO_SIZE[1];
+    display->rect.h = MEMCARD_VIDEO_SIZE[1];
     return data;
 }
 

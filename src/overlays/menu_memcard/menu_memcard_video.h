@@ -7,8 +7,18 @@
 
 typedef struct VideoFrame { u32 reserved[2], time, reserved0c; u16 width, height; } VideoFrame;
 typedef struct VideoEntry { u8 reserved[8]; s16 end; } VideoEntry;
-typedef struct VideoDisplay { u8 reserved[26]; s16 width1a, height1c; u8 reserved1e[4]; s16 width22, height24; u8 reserved26[8]; s16 height2e; } VideoDisplay;
 typedef struct VideoRect { s16 x,y,w,h; } VideoRect;
+/* Playback state of one video player copy. */
+typedef struct VideoDisplay {
+    u8 *decode[2];        /* 0x00 MDEC decode buffers */
+    u8 decodeIndex;       /* 0x08 */
+    u8 *buffers[2];       /* 0x0C slice upload buffers */
+    u8 selector;          /* 0x14 */
+    VideoRect regions[2]; /* 0x16 display areas of the two frame buffers */
+    u8 region;            /* 0x26 */
+    VideoRect rect;       /* 0x28 next slice */
+    u8 done;              /* 0x30 frame fully uploaded */
+} VideoDisplay;
 extern s32 func_8007F72C(void),func_8007F7A8(void);
 extern void func_800719E4(s32),func_800870F0(s32),func_80074F44(VideoRect *,s32,s32,s32);
 extern s32 func_8007C484(void **,VideoFrame **);
@@ -19,6 +29,7 @@ extern s8 D_800B0DBB;
 extern s16 D_801D11B0,D_801D0DE0[2];
 
 void *Memcard_UpdateVideoFrame(VideoDisplay *display);
+void *func_80121270(VideoDisplay *display);
 
 /* State of the first video player copy (linked at 0x80120D00). */
 extern VideoEntry *D_801227E4;
@@ -62,5 +73,6 @@ extern s32 VSync(s32);
 s32 Memcard_PlayVideo(s32 index);
 
 void Memcard_SetVideoDisplay(s8 index, s8 wide);
+
 
 #endif
