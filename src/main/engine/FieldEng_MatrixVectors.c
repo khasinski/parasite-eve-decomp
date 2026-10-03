@@ -24,9 +24,9 @@ void FieldEng_TransformMatrixPoint(RoomFxTransformOwner *owner, int index,
     gte_swc2_27_8(&result);
 
     /* Add translation modulo 32 bits before narrowing to halfwords. */
-    output->x = (u32)result.x + owner->transforms[index].x;
-    output->y = (u32)result.y + owner->transforms[index].y;
-    output->z = (u32)result.z + owner->transforms[index].z;
+    output->x = result.x + owner->transforms[index].x;
+    output->y = result.y + owner->transforms[index].y;
+    output->z = result.z + owner->transforms[index].z;
 }
 
 void func_800CE9D4(RoomFxTransformOwner *owner, int index, GteShortVector *out)
