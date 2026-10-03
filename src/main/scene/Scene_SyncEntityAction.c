@@ -24,7 +24,7 @@ void Scene_SyncEntityAction(void *arg0, s32 *arg1) {
             M2C_FIELD(arg0, s32 *, 0x68) = 0;
             M2C_FIELD(arg0, s32 *, 0x6C) = 0;
             M2C_FIELD(arg0, s32 *, 0x70) = 0;
-            *arg1 = (s32) M2C_FIELD(M2C_FIELD(arg0, void **, 0), u8 *, 0x12);
+            *arg1 = M2C_FIELD(M2C_FIELD(arg0, void **, 0), u8 *, 0x12);
         }
     }
 }
