@@ -43,26 +43,11 @@ extern u32 D_8009CDA0;
     }
 #define Draw_LoadAxis(src)                                                                         \
     {                                                                                              \
-        register s32 x asm("$12"), y asm("$13"), z asm("$14");                                     \
-        x = src[0];                                                                                \
-        y = src[3];                                                                                \
-        z = src[6];                                                                                \
-        gte_mtc2_9(x);                                                                             \
-        gte_mtc2_10(y);                                                                            \
-        gte_mtc2_11(z);                                                                            \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_mvmva_rotation_ir_sf12();                                                              \
+        gte_ldclmv(src); gte_rtir(); \
     }
 #define Draw_StoreAxis(dst)                                                                        \
     {                                                                                              \
-        register s32 x asm("$12"), y asm("$13"), z asm("$14");                                     \
-        gte_mfc2_9(x);                                                                             \
-        gte_mfc2_10(y);                                                                            \
-        gte_mfc2_11(z);                                                                            \
-        dst[0] = x;                                                                                \
-        dst[3] = y;                                                                                \
-        dst[6] = z;                                                                                \
+        gte_stclmv(dst); \
     }
 #define Draw_StoreColours(out)                                                                     \
     {                                                                                              \
@@ -79,7 +64,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
     register volatile s16 *lightMatrix asm("$5") = (s16 *)0x1F800004;
     register RenderVec3s *normals asm("$16");
     register s32 offset asm("$17");
-    register s32 *matrix asm("$24");
+    s32 *matrix;
     register s32 partIndex asm("$25");
     register RenderObjectPart *part asm("$15");
     s32 vertexIndex;
@@ -118,27 +103,21 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                 }
                 __asm__("" : "=r"(part) : "0"(part));
                 if (part->visible == 1) {
-                    __asm__("" : "=r"(lightMatrix) : "0"(lightMatrix));
                     Draw_LoadRotation(viewMatrix);
                     Draw_LoadAxis(((u16 *)matrix));
                     Draw_StoreAxis(lightMatrix);
-                    __asm__("" : "=r"(matrix) : "0"(matrix) : "memory");
                     {
                         u16 *src = (u16 *)matrix + 1;
-                        register volatile s16 *dst asm("$2");
-                        __asm__("" : "=r"(src) : "0"(src));
+                        volatile s16 *dst;
                         Draw_LoadAxis(src);
                         dst = lightMatrix + 1;
-                        __asm__("" : "=r"(dst) : "0"(dst));
                         Draw_StoreAxis(dst);
                     }
                     {
-                        register u16 *src asm("$2") = (u16 *)matrix + 2;
+                        u16 *src = (u16 *)matrix + 2;
                         volatile s16 *dst;
-                        __asm__("" : "=r"(src) : "0"(src));
                         Draw_LoadAxis(src);
                         dst = lightMatrix + 2;
-                        __asm__("" : "=r"(dst) : "0"(dst));
                         Draw_StoreAxis(dst);
                     }
                     Draw_LoadLight(((volatile s32 *)lightMatrix));
