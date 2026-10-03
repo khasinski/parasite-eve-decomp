@@ -34,8 +34,6 @@ int CD_init(void) {
         CdInterruptEvents *state;
         cmd = 1;
         arg = zero;
-        /* Debt: prepare a0/a1 before the event-state address. */
-        asm volatile("" : : "r"(cmd), "r"(arg));
         state = &D_8009B294;
         /* Debt: retain one shared event-state base. */
         asm volatile("" : "=r"(state) : "0"(state));
@@ -57,7 +55,6 @@ int CD_init(void) {
         register int two asm("$3") = 2;
         asm volatile("" : "=r"(status), "=r"(two) : "0"(status), "1"(two));
         if (status != two) return -1;
-        asm volatile("");
         result = 0;
         goto done;
     }
