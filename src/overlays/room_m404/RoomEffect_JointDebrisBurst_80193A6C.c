@@ -4,7 +4,7 @@
  * during the first frames of the effect. */
 int func_80193A6C(int mode, RoomM404BurstOrigin *origin) {
     RoomM404JointTemplate template = D_8018F21C;
-    RoomM404BurstSpark *spark;
+    RoomDampedSpark *spark;
     int i;
 
     switch (mode) {
