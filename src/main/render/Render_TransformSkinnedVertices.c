@@ -32,19 +32,7 @@
     }
 
 #define Render_SkinnedLoadTrans(matrix)                                                            \
-    {                                                                                              \
-        register int w5 asm("$12");                                                                \
-        register int w6 asm("$13");                                                                \
-        register int w7 asm("$14");                                                                \
-                                                                                                   \
-        w5 = (matrix)[5];                                                                          \
-        w6 = (matrix)[6];                                                                          \
-                                                                                                   \
-        gte_ctc2_5(w5);                                                                            \
-        w7 = (matrix)[7];                                                                          \
-        gte_ctc2_6(w6);                                                                            \
-        gte_ctc2_7(w7);                                                                            \
-    }
+    { gte_ldtransmatrix(matrix); }
 
 #define Render_SkinnedLoadFullMatrix(matrix)                                                       \
     {                                                                                              \
@@ -77,26 +65,11 @@
 
 #define Skinned_LoadAxis(src)                                                                      \
     {                                                                                              \
-        register int x asm("$12"), y asm("$13"), z asm("$14");                                     \
-        x = (src)[0];                                                                              \
-        y = (src)[3];                                                                              \
-        z = (src)[6];                                                                              \
-        gte_mtc2_9(x);                                                                             \
-        gte_mtc2_10(y);                                                                            \
-        gte_mtc2_11(z);                                                                            \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_mvmva_rotation_ir_sf12();                                                              \
+        gte_ldclmv(src); gte_rtir(); \
     }
 #define Skinned_StoreAxis(dst)                                                                     \
     {                                                                                              \
-        register int x asm("$12"), y asm("$13"), z asm("$14");                                     \
-        gte_mfc2_9(x);                                                                             \
-        gte_mfc2_10(y);                                                                            \
-        gte_mfc2_11(z);                                                                            \
-        (dst)[0] = x;                                                                              \
-        (dst)[3] = y;                                                                              \
-        (dst)[6] = z;                                                                              \
+        gte_stclmv(dst); \
     }
 #define Skinned_RootAxis(actor)                                                                    \
     {                                                                                              \
@@ -120,21 +93,21 @@
         Skinned_StoreAxis((s16 *)(out_matrix));                                                    \
         {                                                                                          \
             u16 *src = (u16 *)(bone_expr) + 1;                                  \
-            asm("" : "=r"(src) : "0"(src));                                                        \
+            \
             Skinned_LoadAxis(src);                                                                 \
             {                                                                                      \
                 register s16 *dst asm("$9") = (s16 *)0x1F800002;                                   \
-                asm("" : "=r"(dst) : "0"(dst));                                                    \
+                \
                 Skinned_StoreAxis(dst);                                                            \
             }                                                                                      \
         }                                                                                          \
         {                                                                                          \
             u16 *src = (u16 *)(bone_expr) + 2;                                  \
-            asm("" : "=r"(src) : "0"(src));                                                        \
+            \
             Skinned_LoadAxis(src);                                                                 \
             {                                                                                      \
                 register s16 *dst asm("$9") = (s16 *)0x1F800004;                                   \
-                asm("" : "=r"(dst) : "0"(dst));                                                    \
+                \
                 Skinned_StoreAxis(dst);                                                            \
             }                                                                                      \
         }                                                                                          \
