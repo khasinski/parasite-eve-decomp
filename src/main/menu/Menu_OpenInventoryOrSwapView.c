@@ -79,9 +79,9 @@ case_zero:
         g_MenuActionSubmenuOpen = 0;
         if (temp_v1 != 0) {
             temp_v1 -= 1;
-            M2C_FIELD(temp_s1, s32 *, 0x44) = (s32) (temp_v1 & 1);
-            M2C_FIELD(temp_s1, s32 *, 0x48) = (s32) ((temp_v1 >> 1) & 0x7F);
-            M2C_FIELD(temp_s1, s32 *, 0x5C) = (s32) (temp_v1 >> 8);
+            M2C_FIELD(temp_s1, s32 *, 0x44) = (temp_v1 & 1);
+            M2C_FIELD(temp_s1, s32 *, 0x48) = ((temp_v1 >> 1) & 0x7F);
+            M2C_FIELD(temp_s1, s32 *, 0x5C) = (temp_v1 >> 8);
             return;
         }
         return;
