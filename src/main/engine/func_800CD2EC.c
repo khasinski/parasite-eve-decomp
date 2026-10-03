@@ -13,14 +13,11 @@ extern u8 D_800E2298;
 extern s16 D_800E22A2;
 
 int func_800CD2EC(void *arg0, void *arg1, u8 *anim) {
+    s16 *field = &D_800E22A2;
     GteMatrix matrix;
     GteShortVector rot;
-    int scale_arg[4];
-    volatile int scale[4];
-    s16 *field_s1 = &D_800E22A2;
-    GteMatrix *matrix_a0;
-    register int scale2_a2 asm("$6");
-    register int scale3_a3 asm("$7");
+    GteVector scaleCopy;
+    GteVector scale;
 
     rot = D_800C223C;
 
@@ -29,28 +26,19 @@ int func_800CD2EC(void *arg0, void *arg1, u8 *anim) {
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    *field_s1 = *(unsigned short *)(anim + 0x4);
+    *field = *(u16 *)(anim + 0x4);
     RotMatrix(&rot, &matrix);
 
     matrix.t[0] = *(s16 *)(anim + 0x8);
     matrix.t[1] = *(s16 *)(anim + 0xA);
     matrix.t[2] = *(s16 *)(anim + 0xC);
 
-    memset((void *)scale, 0, sizeof(scale));
-    scale[0] = *(s16 *)(anim + 0x6);
-    scale[1] = *(s16 *)(anim + 0x6);
-    matrix_a0 = &matrix;
-    asm volatile("" : "=r"(matrix_a0) : "0"(matrix_a0));
-    scale[2] = *(s16 *)(anim + 0x6);
+    memset(&scale, 0, sizeof(scale));
+    scale.x = *(s16 *)(anim + 0x6);
+    scale.y = *(s16 *)(anim + 0x6);
+    scale.z = *(s16 *)(anim + 0x6);
+    scaleCopy = scale;
 
-    scale_arg[0] = scale[0];
-    scale_arg[1] = scale[1];
-    scale2_a2 = scale[2];
-    scale3_a3 = scale[3];
-    scale_arg[2] = scale2_a2;
-    scale_arg[3] = scale3_a3;
-    asm volatile("" ::: "$5");
-
-    Gte_ScaleMatrix(matrix_a0, (const GteVector *)scale_arg);
-    func_800C42A4((u8 *)field_s1 - 0xA, &matrix, 0);
+    Gte_ScaleMatrix(&matrix, &scaleCopy);
+    func_800C42A4((u8 *)field - 10, &matrix, 0);
 }
