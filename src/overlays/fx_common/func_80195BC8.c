@@ -26,9 +26,9 @@ void func_80195BC8(FxCommonShortVec3 *a, FxCommonShortVec3 *b, int bi, int ai)
     D_8019C0B0 = bz;
     D_8019C094 = z - bz;
     /* These are separate halfword snapshots, after the signed delta reads. */
-    D_8019C0B4 = *(volatile u16 *)&b->x;
-    D_8019C0B6 = *(volatile u16 *)&b->y;
-    bzCopy = *(volatile u16 *)&b->z;
+    D_8019C0B4 = b->x;
+    D_8019C0B6 = b->y;
+    bzCopy = b->z;
     bi &= 255;
     D_8019C056 = bi;
     D_8019C0B8 = bzCopy;
@@ -48,11 +48,11 @@ void func_80195BC8(FxCommonShortVec3 *a, FxCommonShortVec3 *b, int bi, int ai)
     D_8019C07C = ax;
     D_8019C07E = ay;
     D_8019C080 = az;
-    D_8019C084 = *(volatile u16 *)&a->x;
-    ayCopy = *(volatile u16 *)&a->y;
+    D_8019C084 = *(u16 *)&a->x;
+    ayCopy = a->y;
     ai &= 255;
     D_8019C086 = ayCopy;
-    azCopy = *(volatile u16 *)&a->z;
+    azCopy = a->z;
     D_8019C052 = ai;
     D_8019C050 = one << ai;
     D_8019C088 = azCopy;
