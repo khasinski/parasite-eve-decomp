@@ -7,13 +7,13 @@ int strcmp(const char *, const char *);
 
 /* Restore the first matching device's handler, then forward this request.
  * The handler used for restoration is saved before the name comparisons;
- * the callback used for forwarding is read again afterward. The two register
- * bindings and three empty barriers are included in debt. */
+ * the callback used for forwarding is read again afterward. The empty
+ * barriers are included in debt. */
 int Sys_FirstFileHookCallback(int *file, unsigned int arg1, unsigned int arg2) {
     register BiosDeviceEntry *entry;
-    register BiosDeviceEntry *limit asm("$3");
+    BiosDeviceEntry *limit;
     register BiosFirstFileHandler original;
-    register unsigned int count asm("$3");
+    unsigned int count;
     register int *fileArg;
 
     if (!*file) *file = 1;
@@ -21,7 +21,6 @@ int Sys_FirstFileHookCallback(int *file, unsigned int arg1, unsigned int arg2) {
     entry = *(BiosDeviceEntry **)0x150;
     original = D_800A32D0;
     count /= sizeof(BiosDeviceEntry);
-    asm("" : "=r"(count) : "0"(count));
     limit = entry + count;
     asm("" : "=r"(limit), "=r"(file) : "0"(limit), "1"(file));
     fileArg = file;
