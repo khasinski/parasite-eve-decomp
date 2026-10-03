@@ -221,10 +221,10 @@ s32 Scene_InitEntityPlayer(s32 arg0) {
         if (temp_a1 < 5U) {
             tce3 = g_SavedSceneAreaType;
             if (g_SceneAreaType != tce3) {
-                g_GameStateFlagsAfterSceneSwitch.flags = (s32) (g_GameStateFlagsBeforeSceneSwitch.flags | 0x200000);
+                g_GameStateFlagsAfterSceneSwitch.flags = (g_GameStateFlagsBeforeSceneSwitch.flags | 0x200000);
             }
             th1 = temp_a1 >> 1;
-            if (th1 != ((s32) (tce3 - 0xA) / 2)) {
+            if (th1 != ((tce3 - 0xA) / 2)) {
                 tce6 = g_DiscChangeFlags;
                 (*(u8 *)&D_800B0CE6_w) = tce6 | 4;
             }
@@ -264,8 +264,8 @@ block_21:
         return 1;
     case 39:
         playerForActionMode = g_PlayerEntityForActionMode;
-        M2C_FIELD(playerForActionMode, s32 *, 0x1AC) = (s32) g_SceneMapPrimBaseTable;
-        M2C_FIELD(playerForActionMode, s32 *, 0x1B0) = (s32) D_800B0EEC;
+        M2C_FIELD(playerForActionMode, s32 *, 0x1AC) = g_SceneMapPrimBaseTable;
+        M2C_FIELD(playerForActionMode, s32 *, 0x1B0) = D_800B0EEC;
         Entity_SetActionMode(playerForActionMode, 0x15);
         playerForRenderSetup = g_PlayerEntityForRenderSetup;
         Render_SetupEntityPrims(playerForRenderSetup + 0x1B4, M2C_FIELD(playerForRenderSetup, s32 *, 0x1AC), M2C_FIELD(playerForRenderSetup, s32 *, 0x278) + 0x50, 0x3C0, 0x100, 0, 0x1C0, 2, &sp28, 1);
@@ -275,7 +275,7 @@ block_21:
         Render_DrawWithAnim(playerForAnimation + 0x1B4, M2C_FIELD(playerForAnimation, s32 *, 0x1B0), 0, &D_800BEA40, &g_EntityRenderScratch);
         playerForScaleUpdate = g_PlayerEntityForScaleUpdate;
         M2C_FIELD(M2C_FIELD(playerForScaleUpdate, void **, 0x1B4), s16 *, 0x14) = (s16) (M2C_FIELD(playerForScaleUpdate, s16 *, 0x224) * 2);
-        g_GameStateFlagsAfterPlayerInit.flags = (s32) (g_GameStateFlagsBeforePlayerInit.flags & 0xFFF9FFFF);
+        g_GameStateFlagsAfterPlayerInit.flags = (g_GameStateFlagsBeforePlayerInit.flags & 0xFFF9FFFF);
         if (arg0v != 0) {
             tld2 = M2C_FIELD(gameState, s32 *, 0);
             var_v0_2 = tld2 | 0x80000;
