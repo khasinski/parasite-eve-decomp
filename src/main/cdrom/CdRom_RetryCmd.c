@@ -23,7 +23,7 @@ s32 CdRom_RetryCmd(void) {
     asm volatile("" : : "r"(value) : "memory");
     {
         /* g_CdRomCmdLongTimeoutTable is at 0x8009B5A4 in the USA image. */
-        register u32 table_page asm("$2") = 0x800A0000u;
+        u32 table_page = 0x800A0000u;
         asm volatile("" : "=r"(table_page) : "0"(table_page));
         value = *(s32 *)(table_page + (u32)idx - 0x4A5Cu);
     }
