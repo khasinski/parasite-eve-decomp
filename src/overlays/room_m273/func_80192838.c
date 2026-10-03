@@ -6,19 +6,15 @@ extern FieldActor *g_PlayerEntity;
 extern void func_80020CE4(void);
 extern void func_80192C00(RoomPlacementOwner *owner, RoomPlacementState *state);
 
-void func_80192838(RoomSelectionState *selection) {
-    register FieldActor *player asm("$2") = g_PlayerEntity;
-    register RoomSelectionState *state asm("$18") = selection;
-    register FieldActor *actor asm("$16") = state->actor;
+void func_80192838(RoomSelectionState *state) {
+    FieldActor *actor = state->actor;
+    RoomPlacementState *stateTail = (RoomPlacementState *)&state->callback;
     u16 currentFrame;
     u16 previousFrame;
-    register RoomPlacementState *stateTail asm("$19") =
-        (RoomPlacementState *)((u8 *)state + 0x0C);
-    u8 *substate;
 
-    player->render_object.model_matrix = state->matrix;
-    currentFrame = actor->anim.parts.integer;
-    previousFrame = (u16)(actor->anim_prev >> 16);
+    g_PlayerEntity->render_object.model_matrix = state->matrix;
+    currentFrame = (unsigned int)actor->anim.fixed >> 16;
+    previousFrame = (unsigned int)actor->anim_prev >> 16;
     g_PlayerEntity->pos_x = state->savedX;
     g_PlayerEntity->pos_z = state->savedZ;
 
@@ -50,7 +46,7 @@ void func_80192838(RoomSelectionState *selection) {
         }
 
         if ((s16)previousFrame <= 0 && (s16)currentFrame > 0) {
-            substate = *(u8 **)((u8 *)actor->state + 0x18);
+            u8 *substate = ((RoomM273ActorState *)actor->state)->substate;
             substate[1] = stateTail->pending_action;
             goto update_vertical_motion;
         }
@@ -87,7 +83,7 @@ void func_80192838(RoomSelectionState *selection) {
 
         if ((s16)currentFrame >= actor->action - 1) {
             if (actor->state != 0) {
-                substate = *(u8 **)((u8 *)actor->state + 0x18);
+                u8 *substate = ((RoomM273ActorState *)actor->state)->substate;
                 substate[0] = 4;
             }
             func_80192D8C(state);
@@ -103,9 +99,9 @@ void func_80192838(RoomSelectionState *selection) {
 
     case 8:
         if ((s16)currentFrame <= 0) {
-            register FieldActorState *actorState asm("$2") = actor->state;
+            FieldActorState *actorState = actor->state;
             if (actorState != 0) {
-                substate = *(u8 **)((u8 *)actorState + 0x18);
+                u8 *substate = ((RoomM273ActorState *)actorState)->substate;
                 substate[0] = 2;
             }
         }

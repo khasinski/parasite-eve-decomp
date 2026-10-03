@@ -159,6 +159,14 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, callback) +
                       PE1_OFFSETOF(RoomSelectionState, activated),
                   room_selection_placement_state_overlap);
 
+/* View of the partner actor's script state: the byte record at 0x18 is the
+ * substate the grab sequence flips to 2 and 4. */
+typedef struct RoomM273ActorState {
+    /* 0x00 */ u32 core_flags;
+    /* 0x04 */ u8 pad04[0x14];
+    /* 0x18 */ u8 *substate;
+} RoomM273ActorState;
+
 void func_80192664(RoomSelectionState *state);
 s32 func_80192D8C(RoomSelectionState *selection);
 
