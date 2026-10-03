@@ -7,7 +7,7 @@ extern GteRotation D_801956D8;
 extern RenderColor D_801956E0;
 int func_801946D0(int mode, GteShortVector *effect) {
     int texture, size, kind, palette;
-    register int frame asm("$3");
+    int frame;
     int frameLater;
     u16 clut;
     if (mode == 1) goto check_lifetime;
