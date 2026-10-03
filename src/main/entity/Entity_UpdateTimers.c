@@ -41,14 +41,14 @@ void Entity_UpdateTimers(void) {
         timer40 = D_8009D278->statusTimer40 - D_8009D278->statusStep3E;
         D_8009D278->statusTimer40 = timer40;
         if ((timer40 << 0x10) <= 0) {
-            (*state_flags) = (s32) ((*state_flags) & ~3);
+            (*state_flags) = ((*state_flags) & ~3);
         }
     }
     if (((*state_flags) & 0xC) == 4) {
         timer42 = D_8009D278->statusTimer42 - D_8009D278->statusStep3C;
         D_8009D278->statusTimer42 = timer42;
         if ((timer42 << 0x10) <= 0) {
-            (*state_flags) = (s32) ((*state_flags) & ~0xC);
+            (*state_flags) = ((*state_flags) & ~0xC);
             D_8009D2E8 &= ~0x10;
         }
     }
@@ -56,7 +56,7 @@ void Entity_UpdateTimers(void) {
         timer44 = D_8009D278->statusTimer44 - D_8009D278->statusStep3C;
         D_8009D278->statusTimer44 = timer44;
         if ((timer44 << 0x10) <= 0) {
-            (*state_flags) = (s32) ((*state_flags) & ~0x30);
+            (*state_flags) = ((*state_flags) & ~0x30);
         }
     }
     status_group = (*state_flags) & 0xC0;
@@ -67,7 +67,7 @@ void Entity_UpdateTimers(void) {
             if (((*state_flags) & 0xC0) == 0x80 && D_8009D254->actionMode == 0x11) {
                 Entity_SetActionMode(D_8009D254, D_8009D278->actionMode12);
             }
-            (*state_flags) = (s32) ((*state_flags) & ~0xC0);
+            (*state_flags) = ((*state_flags) & ~0xC0);
         } else if (((*state_flags) & 0xC0) == 0x80) {
             D_8009D254->motionX = 0;
             D_8009D254->motionY = 0;
@@ -78,12 +78,12 @@ void Entity_UpdateTimers(void) {
         global_timer = D_8009D228 - 1;
         D_8009D228 = global_timer;
         if ((global_timer << 0x10) <= 0) {
-            (*state_flags) = (s32) ((*state_flags) & ~0x100);
+            (*state_flags) = ((*state_flags) & ~0x100);
         }
     }
     if (((*state_flags) & 0x200) && D_8009D278->exp_or_acc <= 0x10000) {
         D_8009D278->exp_or_acc = 0x10000;
-        (*state_flags) = (s32) ((*state_flags) & ~0x200);
+        (*state_flags) = ((*state_flags) & ~0x200);
     }
     if ((*state_flags) & 0x400) {
         if (D_8009CDDC != 0) {
@@ -99,14 +99,14 @@ void Entity_UpdateTimers(void) {
         D_8009D278->exp_or_acc = accumulator;
         if (accumulator <= 0x10000) {
             D_8009D278->exp_or_acc = 0x10000;
-            (*state_flags) = (s32) ((*state_flags) & ~0x400);
+            (*state_flags) = ((*state_flags) & ~0x400);
         }
     }
     if ((*state_flags) & 0x01000000) {
         effect_timer = D_8009CE34 - 1;
         D_8009CE34 = effect_timer;
         if ((effect_timer << 0x18) <= 0) {
-            (*state_flags) = (s32) ((*state_flags) & 0xFEFFFFFF);
+            (*state_flags) = ((*state_flags) & 0xFEFFFFFF);
         }
     }
     if (D_8009D278->attributes->effectFlags & 0x4000) {
@@ -153,7 +153,7 @@ void Entity_UpdateTimers(void) {
             } while (1);
             if (consumed_item_snapshot != 0) {
                 Scene_LoadRoomAssets(0x56, D_8009D254);
-                Asset_Find08Alt(0x4B4, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, (s32) D_8009D254->posZ.parts.integer);
+                Asset_Find08Alt(0x4B4, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, D_8009D254->posZ.parts.integer);
             }
         }
     }
@@ -170,7 +170,7 @@ void Entity_UpdateTimers(void) {
 consume_status_group0:
                 Inv_FindItemById(status_item_0);
                 Scene_LoadRoomAssets(0x57, D_8009D254);
-                Asset_Find08Alt(0x4B5, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, (s32) D_8009D254->posZ.parts.integer);
+                Asset_Find08Alt(0x4B5, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, D_8009D254->posZ.parts.integer);
             }
         }
         if (((*state_flags) & 0xC) == 4) {
@@ -185,7 +185,7 @@ consume_status_group0:
 consume_status_group1:
                 Inv_FindItemById(status_item_1);
                 Scene_LoadRoomAssets(0x57, D_8009D254);
-                Asset_Find08Alt(0x4B5, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, (s32) D_8009D254->posZ.parts.integer);
+                Asset_Find08Alt(0x4B5, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, D_8009D254->posZ.parts.integer);
             }
         }
         if (((*state_flags) & 0x30) == 0x10) {
@@ -200,7 +200,7 @@ consume_status_group1:
 consume_status_group2:
                 Inv_FindItemById(status_item_2);
                 Scene_LoadRoomAssets(0x57, D_8009D254);
-                Asset_Find08Alt(0x4B5, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, (s32) D_8009D254->posZ.parts.integer);
+                Asset_Find08Alt(0x4B5, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, D_8009D254->posZ.parts.integer);
             }
         }
         status_group_again = (*state_flags) & 0xC0;
@@ -216,14 +216,14 @@ consume_status_group2:
 consume_status_group3:
                 Inv_FindItemById(status_item_3);
                 Scene_LoadRoomAssets(0x57, D_8009D254);
-                Asset_Find08Alt(0x4B5, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, (s32) D_8009D254->posZ.parts.integer);
+                Asset_Find08Alt(0x4B5, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, D_8009D254->posZ.parts.integer);
             }
         }
         if (((*state_flags) & 0x1000) && (Inv_CountByValue(0x11) != 0)) {
             Battle_ApplyDamage(0x11);
             Inv_FindItemById(0x11);
             Scene_LoadRoomAssets(0x57, D_8009D254);
-            Asset_Find08Alt(0x4B5, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, (s32) D_8009D254->posZ.parts.integer);
+            Asset_Find08Alt(0x4B5, 0, D_8009D254->posX.parts.integer, D_8009D254->posY.parts.integer, D_8009D254->posZ.parts.integer);
         }
     }
 }
