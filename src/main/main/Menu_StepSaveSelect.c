@@ -107,13 +107,13 @@ s32 Menu_StepSaveSelect(s32 arg0, s32 arg1) {
                                 } else {
                                     var_v1 = Draw_MeasureTextWidth(&g_MenuItemLabelBuffer);
                                 }
-                                M2C_FIELD(temp_v0_3, s32 *, 0x34) = (s32) (var_v1 + 0x14);
+                                M2C_FIELD(temp_v0_3, s32 *, 0x34) = (var_v1 + 0x14);
                                 M2C_FIELD(temp_v0_3, s32 *, 0x38) = 0x32;
-                                M2C_FIELD(temp_v0_3, s32 *, 0x18) = (s32) ((s32) (0x12C - var_v1) >> 1);
-                                M2C_FIELD(temp_s2_2, s32 *, 0x18) = (s32) ((s32) (M2C_FIELD(temp_v0_3, s32 *, 0x34) - 0x80) >> 1);
+                                M2C_FIELD(temp_v0_3, s32 *, 0x18) = ((0x12C - var_v1) >> 1);
+                                M2C_FIELD(temp_s2_2, s32 *, 0x18) = ((M2C_FIELD(temp_v0_3, s32 *, 0x34) - 0x80) >> 1);
                                 temp_height = M2C_FIELD(temp_v0_3, s32 *, 0x38);
                                 g_MenuConfirmCallback = callback;
-                                M2C_FIELD(temp_s2_2, s32 *, 0x1C) = (s32) (temp_height - 0x14);
+                                M2C_FIELD(temp_s2_2, s32 *, 0x1C) = (temp_height - 0x14);
                             }
                         } else {
                             if (func_80042964(g_SaveSelectedSlot) < 0xF) {
