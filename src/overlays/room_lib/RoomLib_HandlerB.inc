@@ -103,8 +103,8 @@ void ROOMLIB_HANDLER_B_NAME(RoomEnt *obj) {
     }
     {
         register int y asm("$5") = link->pos[1];
-        register int phase asm("$3") = RW32(state, 0x74);
-        register int speedRaw asm("$2");
+        int phase = RW32(state, 0x74);
+        int speedRaw;
         int speed;
         int phaseAgain;
         int nextY;
