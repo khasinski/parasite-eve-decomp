@@ -55,10 +55,10 @@ typedef struct AkaoRuntimeState {
     u8 pad0D2[4];
     s8 cd_volume;
     u8 pad0D7[0xF];
-    volatile s8 position_x;
-    volatile s8 position_z;
-    volatile s16 position_y;
-    volatile s16 position_w;
+    s8 position_x;
+    s8 position_z;
+    s16 position_y;
+    s16 position_w;
     u8 pad0EC[0x28];
     u8 *selected_data;
     u8 *voice_banks[25];
