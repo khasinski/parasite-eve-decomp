@@ -11,7 +11,7 @@ int Geo_ClipPoint(int x, int y, int z) {
     int savedBound;
     /* Retail reserves 32 bytes even though the function makes no calls.
      * Pins and identity barriers preserve its separate comparison/copy values. */
-    volatile int matchingStackReserve[8];
+    int matchingStackReserve[8];
 
     coordinate = state->clip_offset_x + x;
     asm("" : "=r"(clippedX) : "0"(coordinate));
