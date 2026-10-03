@@ -134,6 +134,26 @@ PE1_STATIC_ASSERT(sizeof(FxCommonTransformSeed) == 8,
 PE1_STATIC_ASSERT(sizeof(FxCommonTransformNode) == sizeof(FxCommonRecord),
                   fx_common_transform_node_record_size);
 
+/* Level-of-detail model node drawn by func_80191114: the model kind is picked
+ * by the view depth against nearDepth / farDepth. */
+typedef struct FxCommonLodNode {
+    s16 id;
+    s16 farKind;                 /* 0x02 */
+    s16 middleKind;              /* 0x04 */
+    s16 nearKind;                /* 0x06 */
+    void *resource;              /* 0x08 */
+    RoomSpriteMatrix matrix;     /* 0x0C */
+    RoomFxSeed8 seed;            /* 0x2C */
+    u8 pad34[2];
+    s16 margin;                  /* 0x36 */
+    int farDepth;                /* 0x38 */
+    int nearDepth;               /* 0x3C */
+    u8 pad40[0x2C];
+} FxCommonLodNode;
+
+PE1_STATIC_ASSERT(sizeof(FxCommonLodNode) == sizeof(FxCommonRecord),
+                  fx_common_lod_node_record_size);
+
 typedef struct FxCommonVec3 {
     s32 x;
     s32 y;
@@ -267,6 +287,7 @@ void func_80191834(FxCommonNode *node);
 void func_8019BF8C(void **buffer);
 typedef struct FxCommonPolyResource FxCommonPolyResource;
 void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource);
+int FxCommon_CheckBoundsWithMargin(int *point, int margin);
 int FxCommon_CheckFourBoundsWithMargin(int *point, int margin);
 typedef union FxCommonPolyModel FxCommonPolyModel;
 void FxCommon_DrawModel(void *context, FxCommonPolyModel *model, int index);
