@@ -118,4 +118,28 @@ extern u8 D_80199770[];
 extern int func_80077DC4(int angle);
 extern void func_800D1AE0(RenderColor *color, int value, int step, int count);
 
+/* Rising column controller (func_801955E4): the anchor rises from the
+ * floor over the configured duration while sparks fall off it. */
+typedef struct RoomRisingColumn {
+    s16 x, y, z;                  /* 0x00 */
+    s16 reserved06;
+    s16 counter;                  /* 0x08 */
+    s16 timer;                    /* 0x0A */
+} RoomRisingColumn;
+
+typedef struct RoomRisingColumnParams {
+    s32 descend;                  /* 0x00 */
+    s32 duration;                 /* 0x04 */
+    s32 height;                   /* 0x08 */
+    s32 offset;                   /* 0x0C */
+} RoomRisingColumnParams;
+
+extern GteShortVector D_80199924;
+extern int func_80195190(int mode, RoomOrbitTrailParticle *p);
+extern GteRotation D_8018F208;
+extern u8 D_801996EC[];
+extern u16 D_800E11E8;
+extern u16 D_800E11F8;
+extern int func_800D3F64(int sound, int handle);
+
 #endif
