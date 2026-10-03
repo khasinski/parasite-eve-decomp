@@ -208,10 +208,7 @@ int Pm_SendCmd(int arg0, int arg1, int arg2, int *arg3, int *arg4, int *arg5) {
         register PmCommand **reload_table asm("$3");
         int reload_offset;
         reload_table = g_PmCmdHandlerTable;
-        /* Match debt: preserve the table-load scheduling and operand order. */
-        asm volatile("" : "=r"(cmd) : "0"(cmd) : "memory");
         reload_offset = cmd << 2;
-        asm volatile("" : "=r"(reload_table), "=r"(reload_offset) : "0"(reload_table), "1"(reload_offset));
         handler = *(PmCommand **)((u32)reload_offset + (u32)reload_table);
         /* The table can change through arg3..arg5, so reload before calling. */
         return handler->send((PmSlotHeader *)entry, arg1, arg2, arg3, arg4, arg5);
