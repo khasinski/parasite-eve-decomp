@@ -245,6 +245,20 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### fx_common model renderers
+
+fx_common's three model renderers now match from clean C on the new
+`fx_common_model.h`: the normal draw with per-primitive depth, the tinted
+mirror draw that quarters Gouraud colours and tints textured primitives, and
+the flat draw at a fixed depth. Each walks the model's eight primitive lists
+and links packets with the PSY-Q `addPrim` form through the 24-bit tag
+bitfields, so the mask constants do not displace the model pointers from
+their registers. One packet pointer per primitive list, each initialised
+from the previous, reproduces retail's register moves, the bank entry is a
+separate pointer addition for retail's operand order, and the stock PSY-Q
+`gte_stotz` is added to `gte.h`. The overlay SHA-1 hash is unchanged and no
+pins or barriers were added.
+
 ### Field engine flares and four emitters without crutches
 
 Four more field engine routines of the main executable match from clean C:
