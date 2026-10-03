@@ -20,7 +20,6 @@ s32 Boot_InitPlaybackFile(void) {
         found = (s32)DsSearchFile(&file, D_80125B48);
         if (found == 0) continue;
         failure = -1;
-        asm("" : "=r"(failure) : "0"(failure));
         asm volatile("" : "=r"(ready) : "0"(ready));
         if (found != failure) break;
     }
