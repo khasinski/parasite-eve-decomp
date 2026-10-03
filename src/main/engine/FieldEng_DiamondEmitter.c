@@ -70,29 +70,11 @@ int func_800DB5F4(int mode, RenderDiamondParticle *state)
     return 0;
 }
 
-/* Splitting signed /24 keeps the multiply-high result explicit. The pins
- * avoid GCC 2.7.2 reload reserving $9 when the GTE block uses $8. */
-static __inline__ int divide24_radius(int value)
-{
-    register int high asm("$8") = value / 6 + (value >> 31);
-    register int result asm("$5") = high >> 2;
-    return result - (value >> 31);
-}
-static __inline__ int divide24_angle(int value)
-{
-    register int high asm("$8") = value / 6 + (value >> 31);
-    register int result asm("$2") = high >> 2;
-    return result - (value >> 31);
-}
 int func_800DB6BC(int mode, RenderDiamondEmitter *state)
 {
     RenderColor color;
     RenderDiamondParticle *particle;
     int phase;
-    register int x asm("$12");
-    register int y asm("$13");
-    register int z asm("$14");
-    s32 **slot;
     switch (mode) {
     case 0:
         state->position.x = D_800F32D0->actor->render_object.target_x;
@@ -102,10 +84,10 @@ int func_800DB6BC(int mode, RenderDiamondEmitter *state)
     case 1:
         if (D_800E27EC < 25) {
             state->angle = -D_800E27EC * 64;
-            state->radius = 150 - divide24_radius(D_800E27EC * 150);
+            state->radius = 150 - D_800E27EC * 150 / 24;
             state->x = rcos(state->angle * 2) * state->radius / 4096;
             state->y = rsin(state->angle * 2) * state->radius / 4096;
-            state->size = rcos(divide24_angle(D_800E27EC << 10)) * 80 / 4096 + 32;
+            state->size = rcos((D_800E27EC << 10) / 24) * 80 / 4096 + 32;
             particle = func_800CE610(D_800F33E0->end);
             if (particle) {
                 particle->x = state->x;
@@ -120,28 +102,8 @@ int func_800DB6BC(int mode, RenderDiamondEmitter *state)
         if (D_800E27EC >= 72) return 1;
         break;
     case 2:
-        {
-            register GteMatrixWords *matrix asm("$8");
-            slot = &D_800BCFA4.value;
-            asm volatile("" : "=r"(slot) : "0"(slot));
-            matrix = (GteMatrixWords *)*slot;
-            x = matrix->r11_r12;
-            y = matrix->r13_r21;
-            gte_ctc2_0(x);
-            gte_ctc2_1(y);
-            x = matrix->r22_r23;
-            y = matrix->r31_r32;
-            z = matrix->r33_pad;
-            gte_ctc2_2(x);
-            gte_ctc2_3(y);
-            gte_ctc2_4(z);
-            x = matrix->tx;
-            y = matrix->ty;
-            gte_ctc2_5(x);
-            z = matrix->tz;
-            gte_ctc2_6(y);
-            gte_ctc2_7(z);
-        }
+        gte_ldrotmatrix(D_800BCFA4.value);
+        gte_ldtransmatrix(D_800BCFA4.value);
 
         D_800E2224.x = state->position.x;
         D_800E2224.y = state->position.y;
