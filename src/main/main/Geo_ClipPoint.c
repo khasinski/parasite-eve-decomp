@@ -13,10 +13,10 @@ int Geo_ClipPoint(int x, int y, int z) {
      * Pins and identity barriers preserve its separate comparison/copy values. */
     volatile int matchingStackReserve[8];
 
-    coordinate = (u32)state->clip_offset_x + (u32)x;
+    coordinate = state->clip_offset_x + x;
     asm("" : "=r"(clippedX) : "0"(coordinate));
     bound = state->clip_offset_y;
-    clippedY = (u32)bound + (u32)y;
+    clippedY = bound + y;
     coordinate = (s16)coordinate;
     depth = state->depth_offset;
 
@@ -24,7 +24,7 @@ int Geo_ClipPoint(int x, int y, int z) {
     /* Preserve the original empty load-delay slot. */
     PE1_NOP();
     asm("" : "=r"(savedBound) : "0"(bound));
-    depth = (u32)depth + (u32)z;
+    depth = depth + z;
     if (coordinate < bound) {
         clippedX = savedBound;
     } else {
@@ -35,7 +35,7 @@ int Geo_ClipPoint(int x, int y, int z) {
         }
     }
 
-    coordinate = (u32)clippedY << 16;
+    coordinate = clippedY << 16;
     bound = state->clip_min_y;
     coordinate = coordinate >> 16;
     asm("" : "=r"(savedBound) : "0"(bound));
