@@ -77,7 +77,6 @@ void LIBPAD_PADPORTD_text_388(CardObj *port) {
             } while (i < count);
         }
     } else {
-        asm("" ::: "memory");
         if (((unsigned)(port->field_e8 - 4) < 2 || port->field_e8 == 7) &&
             !port->field_e6 && port->payload_28_len >= 2) {
             if ((port->payload_28[0] & 192) == 64 && (port->payload_28[1] & 1) &&
