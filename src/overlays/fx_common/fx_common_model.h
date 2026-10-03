@@ -12,8 +12,18 @@ typedef union FxCommonPolyModel {
     u8 bytes[1];
 } FxCommonPolyModel;
 
-/* Textured primitives store their texture words verbatim; the quad form
- * keeps uv2 and uv3 as halves of one word. */
+/* Model primitives.  Colours keep the GPU command byte in their top byte;
+ * texture words are stored as the packet expects them (uv + clut/tpage), the
+ * quads keeping uv2 and uv3 as halves of one word. */
+typedef struct FxCommonPacketRgb {
+    u8 r, g, b, code;
+} FxCommonPacketRgb;
+
+typedef union FxCommonModelColor {
+    u32 word;
+    FxCommonPacketRgb rgb;
+} FxCommonModelColor;
+
 typedef union FxCommonModelUvPair {
     u32 word;
     struct {
@@ -22,31 +32,44 @@ typedef union FxCommonModelUvPair {
     } halves;
 } FxCommonModelUvPair;
 
-typedef struct FxCommonModelFt3Short {
-    u32 color;
-    u32 uv0;
-    u32 uv1;
+typedef struct FxCommonModelF3 {
+    FxCommonModelColor color;
     FxCommonVector vertices[3];
-} FxCommonModelFt3Short;
+} FxCommonModelF3;
 
-typedef struct FxCommonModelFt4 {
-    u32 color;
-    u32 uv0;
-    u32 uv1;
-    FxCommonModelUvPair uv23;
+typedef struct FxCommonModelF4 {
+    FxCommonModelColor color;
     FxCommonVector vertices[4];
-} FxCommonModelFt4;
+} FxCommonModelF4;
+
+typedef struct FxCommonModelG3 {
+    FxCommonModelColor colors[3];
+    FxCommonVector vertices[3];
+} FxCommonModelG3;
+
+typedef struct FxCommonModelG4 {
+    FxCommonModelColor colors[4];
+    FxCommonVector vertices[4];
+} FxCommonModelG4;
 
 typedef struct FxCommonModelFt3 {
-    u32 color;
+    FxCommonModelColor color;
     u32 uv0;
     u32 uv1;
     u32 uv2;
     FxCommonVector vertices[3];
 } FxCommonModelFt3;
 
+typedef struct FxCommonModelFt4 {
+    FxCommonModelColor color;
+    u32 uv0;
+    u32 uv1;
+    FxCommonModelUvPair uv23;
+    FxCommonVector vertices[4];
+} FxCommonModelFt4;
+
 typedef struct FxCommonModelGt3 {
-    u32 colors[3];
+    FxCommonModelColor colors[3];
     u32 uv0;
     u32 uv1;
     u32 uv2;
@@ -54,7 +77,7 @@ typedef struct FxCommonModelGt3 {
 } FxCommonModelGt3;
 
 typedef struct FxCommonModelGt4 {
-    u32 colors[4];
+    FxCommonModelColor colors[4];
     u32 uv0;
     u32 uv1;
     FxCommonModelUvPair uv23;
@@ -64,10 +87,6 @@ typedef struct FxCommonModelGt4 {
 /* GPU packets written by the model drawers.  Colour and texture words are
  * copied whole from the model, in the PSY-Q style of storing a long over the
  * byte fields. */
-typedef struct FxCommonPacketRgb {
-    u8 r, g, b, code;
-} FxCommonPacketRgb;
-
 typedef struct FxCommonPacketUv {
     u8 u, v;
     u16 page;
@@ -85,27 +104,27 @@ typedef struct FxCommonModelF4Packet {
     u32 xy0, xy1, xy2, xy3;
 } FxCommonModelF4Packet;
 
-typedef struct FxCommonModelFt3ShortPacket {
+typedef struct FxCommonModelG3Packet {
     FxCommonPacketTag tag;
-    FxCommonPacketRgb rgb;
+    FxCommonPacketRgb rgb0;
     u32 xy0;
-    FxCommonPacketUv uv0;
+    FxCommonPacketRgb rgb1;
     u32 xy1;
-    FxCommonPacketUv uv1;
+    FxCommonPacketRgb rgb2;
     u32 xy2;
-} FxCommonModelFt3ShortPacket;
+} FxCommonModelG3Packet;
 
-typedef struct FxCommonModelFt4ShortPacket {
+typedef struct FxCommonModelG4Packet {
     FxCommonPacketTag tag;
-    FxCommonPacketRgb rgb;
+    FxCommonPacketRgb rgb0;
     u32 xy0;
-    FxCommonPacketUv uv0;
+    FxCommonPacketRgb rgb1;
     u32 xy1;
-    FxCommonPacketUv uv1;
+    FxCommonPacketRgb rgb2;
     u32 xy2;
-    FxCommonPacketUv uv2;
+    FxCommonPacketRgb rgb3;
     u32 xy3;
-} FxCommonModelFt4ShortPacket;
+} FxCommonModelG4Packet;
 
 typedef struct FxCommonModelFt3Packet {
     FxCommonPacketTag tag;
@@ -165,5 +184,6 @@ typedef struct FxCommonModelGt4Packet {
 #define FX_COMMON_SCRATCHPAD ((FxCommonRenderScratchpad *)0x1F800000)
 
 void FxCommon_DrawModel(void *context, FxCommonPolyModel *model, int index);
+void FxCommon_DrawModelTinted(void *context, FxCommonPolyModel *model, int index);
 
 #endif
