@@ -245,6 +245,21 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### More field engine emitters and a crutch sweep
+
+Seven more field engine routines of the main executable match from clean C:
+the scatter burst, the rising emitter, the spiral sprite and spiral emitter,
+the ring pulse, and the falling sprite pair. Twelve already matched engine
+sources lose register pins, barriers and volatiles: the pinned coprocessor
+blocks become the stock matrix load macros, the bouncing sprite emitter types
+its state as a one-field record, the task program binder passes the thread
+index to its printf as the format asks, the colour scaler keeps each channel
+in one variable from load to store, and three pins and barriers turned out to
+be unnecessary. A narrow `field_effect_pool.h` declares the room render word
+as a record for the files that need it, leaving the overlays' declaration in
+`field_anim.h` alone. The main executable is unchanged and its recorded pins
+and barriers go down.
+
 ### fx_common model renderers
 
 fx_common's three model renderers now match from clean C on the new
