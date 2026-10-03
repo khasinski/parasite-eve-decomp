@@ -7,3 +7,4 @@ RoomLib_HandlerF = 0x80192354; // type:func
 RoomLib_FxNotify = 0x8018FB88; // type:func
 RoomLib_FxNotify2 = 0x8019090C; // type:func
 FxCommon_DrawPolyResource = 0x80197BA0; // type:func
+FxCommon_DrawModel = 0x801995BC; // type:func

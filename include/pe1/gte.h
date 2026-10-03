@@ -378,6 +378,10 @@ int rsin(int angle);
 #define gte_stmac0(out) \
     asm volatile("swc2 $24,0(%0)" : : "r"(out) : "memory")
 
+/* PSY-Q gte_stotz: store the averaged OTZ. */
+#define gte_stotz(r0) \
+    asm volatile("swc2 $7,0(%0)" : : "r"(r0) : "memory")
+
 /* RTV0TR: rotate V0 and add the translation vector. */
 #define gte_rtv0tr() \
     asm volatile("nop\n\t" \
