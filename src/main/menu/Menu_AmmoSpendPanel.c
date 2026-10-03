@@ -36,7 +36,7 @@ void Menu_CreateAmmoSpendPanel(s32 parent) {
     MenuWidget_SetCurrentNode(node);
     Inv_SelectActiveList(g_InvAmmoSpendActiveList);
     item = Inv_LookupActiveListData(g_InvSelectedItemIndex);
-    if ((item != NULL) && ((u32)(ITEM_FIELD(item, u8 *, kind) - 0x13) >= 3U)) {
+    if ((item != NULL) && ((ITEM_FIELD(item, u8 *, kind) - 0x13) >= 3U)) {
         s32 active = g_InvAmmoSpendActiveList;
         s32 source = g_InvSwapSourceList;
         s32 selected = g_InvSelectedItemIndex;
