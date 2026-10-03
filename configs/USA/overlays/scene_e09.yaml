@@ -48,6 +48,8 @@ segments:
         type: rodatabin
         name: scene_e09_header_tail
         dir: scene_e09
+      - [0x20C, .rodata, RoomEffect_DroppedFlareParticle_80193F64]
+      - [0x238, rodata, RoomEffect_DroppedFlareParticle_80193F64_pad]
       - [0x240, c, RoomLib_PlantTable_8018F228]
       - [0x26C, c, RoomLib_Spawn6_8018F254]
       - [0x298, c, RoomLib_RegisterTable_8018F280]
@@ -123,7 +125,7 @@ segments:
       - [0x4DD8, c, RoomLib_MoveActorLocal_80193DC0]
       - [0x4F58, c, RoomLib_Set4ClearSignal_80193F40]
       - [0x4F74, c, func_80193F5C]
-      - [0x4F7C, asm, func_80193F64]
+      - [0x4F7C, c, RoomEffect_DroppedFlareParticle_80193F64]
       - [0x593C, c, func_80194924]
       - [0x5C04, c, func_80194BEC]
       - [0x5C20, data]
