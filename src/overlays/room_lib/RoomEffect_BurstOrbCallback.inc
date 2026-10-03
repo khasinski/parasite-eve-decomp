@@ -359,12 +359,20 @@ int ROOMEFFECT_BURST_ORB_FUNC(int mode, RoomDampedSpark *spark) {
             D_800F3368.parameter02 = 2;
             D_800F3368.extent_x = 0x20;
             D_800F3368.extent_y = 0x20;
-            clut = func_80077AA4(0, D_800E1204[3] + 2);
-            /* Empty do/while (0), as left by a macro: cse1 stops here, so
-             * cse2 addresses the restore below through saved base registers
-             * (&D_800F3368.tpage, &D_800E11E4[11]) as retail does. */
-            do {
-            } while (0);
+            /* The palette is read back through the parameter block, as the
+             * other draws do: cse then keeps &D_800F3368.tpage and
+             * &D_800E11E4[11] in saved registers and addresses the restore
+             * below off them, as retail does. */
+            {
+                int kind;
+                int palette;
+
+                kind = D_800F3368.palette;
+                palette = D_800E1204[kind];
+                if (kind == 4 && D_800F3428 != 0) palette += 6;
+                else palette += 2;
+                clut = func_80077AA4(0, palette);
+            }
             half = (s16)spark->timer / 2;
             func_800CEE20((GteShortVector *)spark, 0, 0x2000, 0x2000,
                           (s16)D_800F3368.parameter02 * half + 0x60, clut, 1,
