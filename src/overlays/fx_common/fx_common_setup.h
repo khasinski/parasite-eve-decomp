@@ -104,6 +104,64 @@ extern FxCommonDrawModePacket g_FxCommonDrawModes0[2] __asm__("D_8019CA70");
 extern FxCommonDrawModePacket g_FxCommonDrawModes1[2] __asm__("D_8019CA80");
 extern FxCommonDrawModePacket g_FxCommonDrawModes2[2] __asm__("D_8019CA98");
 
+/* Effect markers drawn by func_80193B5C: a line from the effect position
+ * to its label and two textured label halves. */
+typedef struct FxCommonLinePacket {
+    FxCommonPacketTag tag;
+    u8 r, g, b, code;
+    u32 xy0;
+    u32 xy1;
+} FxCommonLinePacket;
+
+typedef struct FxCommonTexturedQuad {
+    FxCommonPacketTag tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 u0, v0;
+    u16 clut;
+    u8 r1, g1, b1, pad13;
+    s16 x1, y1;
+    u8 u1, v1;
+    u16 tpage;
+    u8 r2, g2, b2, pad1F;
+    s16 x2, y2;
+    u8 u2, v2;
+    u16 pad26;
+    u8 r3, g3, b3, pad2B;
+    s16 x3, y3;
+    u8 u3, v3;
+    u16 pad32;
+} FxCommonTexturedQuad;
+
+PE1_STATIC_ASSERT(sizeof(FxCommonLinePacket) == 0x10, fx_common_line_size);
+PE1_STATIC_ASSERT(sizeof(FxCommonTexturedQuad) == 0x34,
+                  fx_common_textured_quad_size);
+
+/* 16.16 motion vectors read back by their whole parts. */
+typedef struct FxCommonFixedPart {
+    int fraction : 16;
+    int whole : 16;
+} FxCommonFixedPart;
+
+typedef struct FxCommonFixedVec {
+    FxCommonFixedPart x, y, z, pad;
+} FxCommonFixedVec;
+
+extern FxCommonFixedVec g_FxCommonMotionWhole[10] __asm__("D_8019CAA8");
+typedef union FxCommonMarkerCursor {
+    u8 *bytes;
+    FxCommonLinePacket *line;
+    FxCommonTexturedQuad *quad;
+    void *pointer;
+    u32 word;
+} FxCommonMarkerCursor;
+
+void func_80077BE4(FxCommonTexturedQuad *packet);
+u16 func_80077AA4(int x, int y);
+u16 func_80077A64(int mode, int rate, int x, int y);
+int func_80079274(GteShortVector *v0, GteShortVector *v1, GteShortVector *v2,
+                  s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *flag);
+
 extern FxCommonNode *g_FxCommonType26Nodes[4] __asm__("D_8019C15C");
 extern FxCommonNode *g_FxCommonPairedNodes[2] __asm__("D_8019C9C8");
 typedef struct FxCommonRuntime {
