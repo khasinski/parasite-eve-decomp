@@ -33,7 +33,7 @@ void Boot_StepImageDisplay(void) {
             }
         }
     }
-    switch ((u32)g_BootDisplayState) {
+    switch (g_BootDisplayState) {
     case 0: {
         s32 offset;
         s32 startOffset;
