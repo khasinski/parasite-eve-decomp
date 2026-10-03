@@ -10,12 +10,13 @@ extern u16 * volatile g_GeomVramPacketDst;
 void SetGeomScreen(int h);
 
 int Gpu_LoadGeomState(int index) {
+    GeomStateAddress table, base;
     CameraViewport *entry;
     u16 *dst;
     int value;
 
-    entry = (CameraViewport *)((u8 *)g_GeomState +
-                               g_GeomState->entry_offset_1C + (index * 52));
+    GEOM_STATE_OFFSET(table, base, entry_offset_1C, index * 52);
+    entry = table.viewport;
     *D_800BCFA8 = entry->prefix.gpu.geom_screen;
     SetGeomScreen(entry->prefix.gpu.geom_screen);
 
