@@ -16,9 +16,9 @@ void MenuWidget_ClearColumnLayout(void *node);
 extern s32 g_InvItemUsableFlag;
 extern s32 g_MenuLayoutLocked;
 extern struct { char _[16]; } func_8004620C_o __asm__("Menu_InventoryPageInputHandler");
-#define Menu_InventoryPageInputHandler (*(void *)&func_8004620C_o)
+#define Menu_InventoryPageInputHandler (func_8004620C_o)
 extern struct { char _[16]; } func_8004F9A0_o __asm__("Menu_DrawUsableItemActionList");
-#define Menu_DrawUsableItemActionList (*(void *)&func_8004F9A0_o)
+#define Menu_DrawUsableItemActionList (func_8004F9A0_o)
 
 void Menu_CreateInventoryListView(s32 parent) {
     void *root;
@@ -32,7 +32,7 @@ void Menu_CreateInventoryListView(s32 parent) {
     M2C_FIELD(root, s32 *, 0x40) = 1;
     M2C_FIELD(node, void **, 0x30) = &Menu_DrawUsableItemActionList;
     asm("" : : : "memory");
-    flags = M2C_FIELD(node, volatile s32 *, 0x64);
+    flags = M2C_FIELD(node, s32 *, 0x64);
     is_layout_locked = g_MenuLayoutLocked;
     flags |= 0x80;
     M2C_FIELD(node, s32 *, 0x64) = flags;
