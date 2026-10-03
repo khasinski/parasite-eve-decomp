@@ -42,8 +42,11 @@ int Render_UpdateScrollPosition(void *positionArg, int duration, int mode)
     gte_stsxy2(projected);
     {
         GeomState *state = D_800B1624;
-        CameraViewport *views = (CameraViewport *)((u8 *)D_800B1624+state->entry_offset_1C);
-        view = &views[g_GeomGroupSel];
+        GeomStateAddress table;
+
+        table.state = D_800B1624;
+        table.word += state->entry_offset_1C;
+        view = &table.viewport[g_GeomGroupSel];
     }
     {
         u16 width = view->width,height = view->height;
