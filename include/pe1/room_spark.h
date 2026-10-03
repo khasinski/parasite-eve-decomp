@@ -119,5 +119,45 @@ extern RoomSparkEventState *D_800E2368;
 extern u16 D_800E11FA;
 extern RoomCometSpark *func_800CE610_comet(void *pool) __asm__("func_800CE610");
 
+/* Bouncing spark: the damped spark layout with a rise acceleration in the
+ * word the damped spark leaves reserved. */
+typedef struct RoomBounceSpark {
+    s16 x, y, z, reserved06;      /* 0x00 */
+    s16 vx;                       /* 0x08 */
+    s16 vy;                       /* 0x0A */
+    s16 vz;                       /* 0x0C */
+    s16 ay;                       /* 0x0E: rise acceleration */
+    s16 state;                    /* 0x10 */
+    u16 timer;                    /* 0x12 */
+} RoomBounceSpark;
+
+PE1_STATIC_ASSERT(sizeof(RoomBounceSpark) == 0x14, room_bounce_spark_size);
+
+extern RoomBounceSpark *func_800CE610_bounce(void *pool) __asm__("func_800CE610");
+
+/* Beam spark: a line drawn from the actor to a tip that is blended towards
+ * the target, with a scaled model drawn at the target. */
+typedef struct RoomBeamSpark {
+    s16 x, y, z, reserved06;      /* 0x00: actor position */
+    s16 tipX, tipY, tipZ;         /* 0x08: beam tip */
+    s16 reserved0E;
+    s16 tx, ty, tz;               /* 0x10: target */
+    s16 reserved16;
+    s16 state;                    /* 0x18 */
+    u16 timer;                    /* 0x1A */
+    s16 brightness;               /* 0x1C: beam colour, zero hides the beam */
+    s16 scale;                    /* 0x1E: model scale */
+    u16 glow;                     /* 0x20: model brightness, zero hides it */
+    s16 countdown;                /* 0x22: frames until the next hit */
+} RoomBeamSpark;
+
+PE1_STATIC_ASSERT(sizeof(RoomBeamSpark) == 0x24, room_beam_spark_size);
+
+/* Beam spawner parameters: the target, the beam duration and hit interval. */
+typedef struct RoomBeamSparkParams {
+    s16 x, y, z, reserved06;
+    s32 duration;                 /* 0x08 */
+    s32 interval;                 /* 0x0C */
+} RoomBeamSparkParams;
 
 #endif

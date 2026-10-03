@@ -41,7 +41,7 @@ segments:
       - [0x1524, c, RoomEffect_DampedSparkParticle_8019050C]
       - [0x18C8, c, RoomEffect_RandomPairController]
       - [0x1C10, c, RoomLib_UpdateBounceRender_80190BF8]
-      - [0x1FAC, asm, func_80190F94]
+      - [0x1FAC, c, RoomEffect_BeamSparkController_80190F94]
       - [0x2BAC, c, RoomEffect_JitterSparkCallback_80191B94]
       - [0x3220, c, RoomEffect_JitterSparkController_80192208]
       - [0x3A00, c, RoomLib_SetArg1_801929E8]

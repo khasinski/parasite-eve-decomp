@@ -794,6 +794,33 @@ int rsin(int angle);
 #define gte_stotz_precise(address) asm volatile("swc2 $7,0(%1)" : "=m"(*(u32 *)(address)) : "r"(address))
 #define gte_stsxy0_precise(address) asm volatile("swc2 $12,0(%1)" : "=m"(*(u32 *)(address)) : "r"(address))
 #define gte_stsxy1_precise(address) asm volatile("swc2 $13,0(%1)" : "=m"(*(u32 *)(address)) : "r"(address))
+
+/* PSY-Q style three-operand transfers: load V0..V2 from three vectors and
+ * store SXY0..SXY2 to three addresses in one statement. */
+#define gte_ldv3(r1, r2, r3) \
+    asm volatile("lwc2 $0,0(%0)\n\t" \
+                 "lwc2 $1,4(%0)\n\t" \
+                 "lwc2 $2,0(%1)\n\t" \
+                 "lwc2 $3,4(%1)\n\t" \
+                 "lwc2 $4,0(%2)\n\t" \
+                 "lwc2 $5,4(%2)" \
+                 : : "r"(r1), "r"(r2), "r"(r3) : "memory")
+
+#define gte_stsxy3(r1, r2, r3) \
+    asm volatile("swc2 $12,0(%0)\n\t" \
+                 "swc2 $13,0(%1)\n\t" \
+                 "swc2 $14,0(%2)" \
+                 : : "r"(r1), "r"(r2), "r"(r3) : "memory")
+
+/* Store SZ3 / 4 through a pointer: the ordering-table depth of a projected
+ * primitive (PSY-Q gte_stszotz). */
+#define gte_stszotz(out) \
+    asm volatile("mfc2 $12,$19\n\t" \
+                 "nop\n\t" \
+                 "sra $12,$12,2\n\t" \
+                 "sw $12,0(%0)" \
+                 : : "r"(out) : "$12", "memory")
+
 #define gte_rtpt_padded() asm volatile("nop\n\tnop\n\t.word 0x4A280030")
 #define gte_avsz3_padded() asm volatile("nop\n\tnop\n\t.word 0x4B58002D")
 
