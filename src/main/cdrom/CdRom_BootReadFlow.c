@@ -119,7 +119,7 @@ restart:
         v1 = Sys_VSyncTimeout(&sp30);
         v0 = v1;
         v0 = (v1 + 1);
-        if ((u32)v0 < 2U) {
+        if (v0 < 2U) {
             g_GameState &= 0xFEFFBFFF;
         }
         v0 = v1;
