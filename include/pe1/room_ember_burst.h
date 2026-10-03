@@ -121,6 +121,28 @@ extern void *D_800E21E8;
 extern RenderColor D_800C22D4;
 extern GteShortVector D_800E21E0;
 extern int func_800D71B8(int mode, RoomFanSweepSpark *spark);
+extern int func_800D70C0(int mode, s16 *position);
+
+/* Main executable fan sweep controller (func_800D751C) and the glowing
+ * anchor drawn under it (func_800D7764). */
+typedef struct FieldFanSweep {
+    s32 angle;                    /* 0x00 */
+    void *pool;                   /* 0x04 */
+} FieldFanSweep;
+
+typedef struct FieldFanSweepGlow {
+    GteShortVector position;      /* 0x00 */
+    s16 state;                    /* 0x08 */
+    s16 timer;                    /* 0x0A */
+} FieldFanSweepGlow;
+
+typedef struct FieldFanSweepEvent {
+    u8 reserved[0x1E];
+    s16 stage;                    /* 0x1E */
+} FieldFanSweepEvent;
+
+extern FieldFanSweepEvent *D_800E2368;
+extern RenderColor D_800C22D8;
 extern int rand(void);
 extern int func_80192620(int mode, s16 *position);
 extern int func_800CE5AC(void **pool, int owner, int size, int count, void *callback);
