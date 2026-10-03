@@ -36,7 +36,7 @@ void Stat_QueryLevelAndSubLevel(int kind, int value, int *level_out, int *sublev
     int saved_value;
     int *level_ptr;
     int *sublevel_ptr;
-    register int *table asm("$6");
+    int *table;
     int index;
     int step;
     int offset;
@@ -76,7 +76,7 @@ void Stat_QueryLevelAndSubLevel(int kind, int value, int *level_out, int *sublev
         cursor = (int *)(offset + (int)table);
         {
             int current_reg;
-            register int next_reg asm("$6");
+            int next_reg;
             register int delta_reg asm("$3");
             int numerator_reg;
             next_reg = cursor[1];
@@ -114,7 +114,7 @@ void Stat_QueryDistanceAndSubLevel(int kind, int value, int *distance_out, int *
     int saved_value;
     int *distance_ptr;
     int *sublevel_ptr;
-    register int *table asm("$6");
+    int *table;
     int index;
     int step;
     int offset;
