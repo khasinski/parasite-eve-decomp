@@ -23,7 +23,7 @@ void Akao_StepVoiceNote(AkaoTrack *track, unsigned mask, unsigned direct, unsign
                                 track->update_flags |= 0x1ff93;
                                 *output |= 1 << voice;
                                 track->assigned_voice_index = voice;
-                                *(volatile short *)&slot->level = 0x7fff;
+                                *(short *)&slot->level = 0x7fff;
                                 g_AkaoVoiceUpdateFlags |= 0x100;
                                 voice = 24;
                             } else {
