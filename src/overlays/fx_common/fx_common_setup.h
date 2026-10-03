@@ -11,6 +11,23 @@ typedef char FxTextureSetupTpageCheck[(u32)&((FxTextureSetup*)0)->tpage==8 ? 1 :
 typedef char FxTextureSetupClutCheck[(u32)&((FxTextureSetup*)0)->clut==10 ? 1 : -1];
 extern FxTextureSetup g_FxTextureSetup[] asm("D_80091648");
 extern u32 D_800A77FC;
+
+/* Room and area identifiers in the main executable's scene state. */
+typedef struct FxCommonSceneIds {
+    s32 room;          /* 0x000 */
+    s32 pad04;
+    u32 flags;         /* 0x008 */
+    u8 pad0C[0x118];
+    s32 area;          /* 0x124 */
+} FxCommonSceneIds;
+extern FxCommonSceneIds g_FxCommonSceneIds asm("D_800A77F4");
+extern u32 g_FxCommonGameFlags asm("D_800B0CD8");
+extern s32 D_8019C000;
+extern s32 D_8019C004;
+int func_8005BCB0(void);
+void func_800371A4(int enabled);
+void func_8019BD78(void);
+void func_80191C94(void);
 extern s32 D_8019BFF4;
 extern s32 D_8019BFF8;
 extern s32 D_8019BFFC;
