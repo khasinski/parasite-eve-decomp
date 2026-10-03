@@ -56,4 +56,12 @@ extern GteRotation D_8018F1F4;
 extern u8 D_8019944C[];
 extern void func_800CF844(void *, void *, int, void *, int, int);
 
+/* Twist beam particle (func_8019702C): its colours, trail track, the beam
+ * release flag and the beam sprite colour row. */
+extern RenderColor D_8018F21C;
+extern RenderColor D_8018F220;
+extern u8 D_8019946C[];
+extern s16 D_80199504;
+extern u16 D_800E120A;
+
 #endif

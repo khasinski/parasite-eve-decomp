@@ -243,7 +243,8 @@ extern u8 D_800E1C2C[];
 extern GteShortVector D_800E221C;
 int func_800DAF8C(int mode, RenderSineEffect *state);
 void func_800D0E88(void *data, GteShortVector *position, int scale, int angle,
-                   void *color, int arg5, int arg6, int intensity, int mode);
+                   void *color, void *color1, void *color2, int intensity,
+                   int mode);
 
 extern int D_800E27EC;
 extern u8 D_800E1C04[];
