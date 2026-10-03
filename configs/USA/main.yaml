@@ -1627,6 +1627,8 @@ segments:
       - [0xCE1E4, c, engine/FieldEng_SettlingSprite]
       - [0xCE570, c, engine/FieldEng_SettlingEmitter]
       - [0xCE8A8, asm, engine/engine_800D4860_CE8A8]
+      - [0xCEFA8, c, engine/FieldEng_SpinGlow]
+      - [0xCF230, asm, engine/engine_800D4860_CF230]
       - [0xCFEAC, c, engine/FieldEng_FadingEmitter]
       - [0xD007C, c, engine/FieldEng_RotatingEffect]
       - [0xD01B0, c, engine/FieldEng_PointEmitter]
