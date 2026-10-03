@@ -160,4 +160,10 @@ typedef struct RoomBeamSparkParams {
     s32 interval;                 /* 0x0C */
 } RoomBeamSparkParams;
 
+/* Sprite tpage index table: one entry per sprite kind, followed by the
+ * D_800E1204 palette table. An entry read as an array element is an
+ * in-struct reference, so it stays ordered after a store through the
+ * parameter block base register, as retail's reads do. */
+extern u16 D_800E11E4[];
+
 #endif

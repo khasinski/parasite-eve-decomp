@@ -1,0 +1,9 @@
+#include "common.h"
+#include "pe1/gte.h"
+
+#define ROOMEFFECT_COMET_SPARK_FUNC func_8019479C
+#define ROOMEFFECT_COMET_SPARK_ROTATION_A D_8018F1CC
+#define ROOMEFFECT_COMET_SPARK_ROTATION_B D_8018F1DC
+#define ROOMEFFECT_COMET_SPARK_COLOR_TABLE D_80195F00
+#define ROOMEFFECT_COMET_SPARK_TRAIL D_80195FD8
+#include "../room_lib/RoomEffect_CometSparkCallback.inc"
