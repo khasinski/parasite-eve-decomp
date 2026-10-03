@@ -30,7 +30,7 @@ extern short D_801974BC;
 extern void func_800C4E50(void *params);
 
 void func_80192A00(void *unused0, void *unused1, void *output_arg) {
-    register char *work asm("$16") = output_arg;
+    char *work = output_arg;
     register short *anchor asm("$18");
     register int mode asm("$22");
     register int offset asm("$21");
