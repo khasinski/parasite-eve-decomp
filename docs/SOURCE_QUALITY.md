@@ -6765,3 +6765,41 @@ induction, byte offsets for resource tables and motion lanes, integer-valued
 constructor payload pointers, and one node-halfword byte view needed for store
 ordering. The 190 setup-record writes were separately checked for three flag
 patterns; this supplemental check does not replace the full byte comparison.
+
+
+### fx_common effect update (func_801942FC)
+
+`FxCommon_UpdateEffects.c` reconstructs the 5592-byte update routine: selection
+and transition timers, input-driven mode/resource changes, motion sampling,
+resource fades, and the two integer motion blends. It reuses the initializer's
+52-byte setup records, node layout and padded vector outputs. The motion header
+adds typed views of four long vectors and four short-vector endpoints using the
+existing shared vector types. Setup flags read as bytes are now declared u8.
+
+Stock native GCC 2.7.2 with default flags and unmodified MASPSX matches all
+linked retail bytes. SHA-256:
+`beb30be4cc466e370f852aa3084ccdebcbb8aa488600016ca5f911915c2b1cbd`.
+The research object's raw Levenshtein score is 490 solely from symbol/relocation
+context; linked diff is zero. The main acceptance check is the complete overlay
+SHA, followed by the audited objdiff report.
+
+Matching debt is two short-lived pins: the Z value used by one short-vector
+copy in t2, and the raw motion-index halfword in v0 before sign extension. All
+32 subsets of the initial five pins were tested; three were removable together.
+There are no empty barriers, instruction ASM bodies, special compiler flags or
+artificial stack reservations. Splitting the setup-record byte offset into its
+word-index calculation and separating the raw halfword load from its signed
+conversion reproduces the retail schedule with ordinary C locals.
+
+Ten typed symbol aliases in the motion header cover the eight vectors and the
+two remaining-frame counters. They retain compatible scalar views for existing
+callers; the current automated alias counter does not scan src/ headers, so
+these aliases are recorded here. Volatile vector accesses and explicit ordinary
+views of selected components/shift counts remain scheduling debt. Byte cursors
+through the motion tables and setup records also remain to be simplified.
+
+The initial mechanical reconstruction cached several mode/resource values
+across calls or stores that retail explicitly rereads. Those reads were restored
+before matching. Shared short-vector layout assertions and the full binary
+comparison validate the integrated source; a low research score alone was not
+used to credit progress.
