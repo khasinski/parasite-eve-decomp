@@ -43,7 +43,6 @@ FieldActor *Scene_LoadMap(u8 *scene, FieldActor *after, int allocateFull)
     u32 i;
     u32 count;
     u32 value;
-    volatile u32 *recordWord;
     u8 sceneType;
     u32 serial;
     u32 *row;
@@ -157,8 +156,6 @@ FieldActor *Scene_LoadMap(u8 *scene, FieldActor *after, int allocateFull)
 
     if (scene[0] == 0) {
         areaType = D_800B0CE2;
-        /* Keep the original address check distinct from constant folding. */
-        asm volatile("" : "=r"(areaType) : "0"(areaType));
         if (areaType) goto render_special;
     }
     goto render_generic;
@@ -169,8 +166,6 @@ render_special: {
     }
     goto render_done;
 render_generic: {
-        /* Keep archive reads on the generic path in the retail order. */
-        asm volatile("" ::: "memory");
         archive = *D_800B0E64;
         directory = SceneAsset_ResolveOffset(archive, archive->directoryOffset);
         entry = directory->bankRootEntries;
@@ -186,13 +181,11 @@ scan_loop:
         if (i < count) { ++walk; goto scan_loop; }
 scan_done:
         allocation = actor->allocation_block;
-        recordWord = (volatile u32 *)((u32)(i * 12) + (u32)bankRows + 8);
-        /* The retail code reads this word separately for three arguments. */
-        value = *recordWord;
+        value = bankRows[i].trailing;
         Render_SetupEntityPrims((u8 *)actor + 0x1B4, (u8 *)actor->allocation_active, allocation + 0x50,
                                 (value >> 6) & 0x3C0, (value >> 9) & 0x180,
-                                0, ((*recordWord >> 18) & 0xFF) + 0x1C0,
-                                (*recordWord >> 8) & 0xF, (u8 **)&renderSetup,
+                                0, ((bankRows[i].trailing >> 18) & 0xFF) + 0x1C0,
+                                (bankRows[i].trailing >> 8) & 0xF, (u8 **)&renderSetup,
                                 allocateFull);
     }
 render_done:
