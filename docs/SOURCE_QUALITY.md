@@ -245,6 +245,22 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m188 and room_m390 comet spark callback
+
+`func_8019479C` in room_m188 and room_m390, the render callback of the comet
+spark spawner, now shares `RoomEffect_CometSparkCallback.inc`. It advances
+the comet state, draws the head and the trail sprites through the sanctioned
+rotation and translation matrix loads and fades the trail out. The earlier
+candidate needed a register pin and two barriers; the pin turned out to be a
+symptom of the second cse pass, and wrapping the parameter stores and palette
+lookup of states 0 and 2 in a `do { } while (0)` block keeps the constant from
+reaching the draws in the first pass so retail's register choice falls out.
+The palette and tpage reads are array elements so they stay ordered after the
+parameter stores, the palette offset is a conditional expression with a
+literal kind, the floor position is written x, z, y and the half timer is
+computed before the multiply. Each 2640-byte instance matches retail with no
+pins or barriers; both overlay SHA-1 hashes are unchanged.
+
 ### Seventeen functions freed of pins and barriers through their twins
 
 A relocation-masked comparison of every matched function against the others
