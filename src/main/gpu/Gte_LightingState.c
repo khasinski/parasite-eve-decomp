@@ -41,7 +41,7 @@ void Gte_SetLightColor(u8 *state, int index, int r, int g, u16 b) {
 
     asm volatile("" : : : "memory");
     {
-        register u32 *matrix asm("v0") = (u32 *)(state + 0x20);
+        u32 *matrix = (u32 *)(state + 0x20);
 
         asm volatile("" : "=r"(matrix) : "0"(matrix));
         m0 = matrix[0];
