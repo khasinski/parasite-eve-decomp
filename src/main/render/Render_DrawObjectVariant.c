@@ -4,25 +4,8 @@
 extern u32 D_800B1640[];
 #define Render_LoadObjectMatrix(matrix)                                                            \
     {                                                                                              \
-        register s32 w0 asm("$12");                                                                \
-        register s32 w1 asm("$13");                                                                \
-        register s32 w2 asm("$14");                                                                \
-        w0 = matrix[0];                                                                            \
-        w1 = matrix[1];                                                                            \
-        gte_ctc2_0(w0);                                                                            \
-        gte_ctc2_1(w1);                                                                            \
-        w0 = matrix[2];                                                                            \
-        w1 = matrix[3];                                                                            \
-        w2 = matrix[4];                                                                            \
-        gte_ctc2_2(w0);                                                                            \
-        gte_ctc2_3(w1);                                                                            \
-        gte_ctc2_4(w2);                                                                            \
-        w0 = matrix[5];                                                                            \
-        w1 = matrix[6];                                                                            \
-        gte_ctc2_5(w0);                                                                            \
-        w2 = matrix[7];                                                                            \
-        gte_ctc2_6(w1);                                                                            \
-        gte_ctc2_7(w2);                                                                            \
+        gte_ldrotmatrix(matrix); \
+        gte_ldtransmatrix(matrix); \
     }
 
 #define Render_TransformVertex(src, dst)                                                           \
@@ -47,7 +30,7 @@ extern u32 D_800B1640[];
 
 void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *projectionMatrix) {
     RenderObjectEntity *entity = input;
-    register s32 *projectMatrix asm("$16") = projectionMatrix;
+    s32 *projectMatrix = projectionMatrix;
     s16 savedLimit = limit;
     s32 changed;
     register volatile RenderVec3s *scratch asm("$24") = (volatile RenderVec3s *)0x1F800000;
@@ -116,7 +99,6 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
                         first <<= 2;
                         clut = (u32 *)((u32)D_800B1640 + first);
                     }
-                    __asm__("" : "=r"(matrix) : "0"(matrix), "r"(clut), "r"(vertices));
                     Render_LoadObjectMatrix(matrix);
                     for (; vertexIndex < part->vertex_count; vertices++) {
                         register s32 x asm("$12");
