@@ -245,6 +245,21 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m245 and room_m397 seeking trail controllers
+
+`func_80192500` and `func_80193D7C` in room_m245 and room_m397 now share
+`RoomEffect_SeekingTrailController.inc`; the second instance defines the
+scatter variant, which takes its history slot from the event state, nudges
+the starting heading and jitters with a narrower spread. Retail keeps the
+parameter block's tpage address in a saved register and writes the first
+parameter through it; that falls out when the tpage is stored first and the
+palette is selected through `D_800E1204[D_800F3368.palette]`, with the tail's
+kind and palette in block-scoped temporaries and the palette re-read from the
+struct so the scheduler keeps it after the store. Temporaries are shared
+between states so the saved registers fall in retail's order. Each instance
+matches retail with no pins or barriers; both overlay SHA-1 hashes are
+unchanged.
+
 ### scene_e03, scene_e06, scene_e07 and scene_e27 seeker spark callback
 
 `func_80192500` in scene_e03, scene_e06, scene_e07 and scene_e27, previously
