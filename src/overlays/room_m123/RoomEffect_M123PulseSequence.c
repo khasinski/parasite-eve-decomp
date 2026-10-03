@@ -1,6 +1,7 @@
 #include "room_m123_effects.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
+#include "pe1/room_sound_slot.h"
 
 extern GteShortVector D_8018F1F0;
 extern GteMatrix *D_800BCFA4;
@@ -62,7 +63,6 @@ extern int D_800E27EC;
 extern u16 D_800942EC, D_800E11EA, D_800E2850[];
 extern u16 D_800F3368, D_800F336A, D_800F336C, D_800F336E;
 extern u16 D_800F3370, D_800F3372, D_800F3374, D_800F3376, D_800F3378;
-extern void *D_800B0E64;
 extern int func_80194A70(int, RoomPulseParticle *, int *);
 extern void func_800CE870(void *, int, void *);
 extern int func_800CE560(void *, int, int, int (*)(int, RoomPulseParticle *, int *));
@@ -76,8 +76,7 @@ int func_80194C04(int mode, RoomPulseParticle *particle)
     RoomPulsePool *pool;
     RoomPulseObject *object;
     RoomM123Pool *context;
-    void **soundSlot;
-    void *currentSound;
+    RoomSoundSlot *soundSlot;
     int time;
     int volume;
     u16 palette;
@@ -95,17 +94,13 @@ int func_80194C04(int mode, RoomPulseParticle *particle)
                     *object->status = 2;
             }
         }
-        soundSlot = &D_800B0E64;
-        currentSound = *soundSlot;
-        if (currentSound != 0) {
+        soundSlot = &D_800B0E64_slot;
+        if (soundSlot->channel != 0) {
             volume = 0x7F;
             time = func_800D3FD8();
-            func_8006DF50(*soundSlot, 0x582, time, 0x80, volume);
-            currentSound = *soundSlot;
-            /* Preserve the separate sound-owner read after the first call. */
-            asm("" : : "r"(currentSound) : "memory");
-            if (currentSound != 0)
-                func_8006DF50(*soundSlot, 0x5B1, 0x80, 0x80, volume);
+            func_8006DF50(soundSlot->channel, 0x582, time, 0x80, volume);
+            if (soundSlot->channel != 0)
+                func_8006DF50(soundSlot->channel, 0x5B1, 0x80, 0x80, volume);
         }
         return func_800CE560(D_800F33E0->pool, 12, 8, func_80194A70);
     case 1:
