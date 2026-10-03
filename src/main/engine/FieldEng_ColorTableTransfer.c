@@ -105,7 +105,7 @@ void func_800C7098(char *data, u8 r, u8 g, u8 b) {
 
 void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
     int frame;
-    register int offset asm("$2");
+    int offset;
     int count;
     int i;
     u8 *entry;
