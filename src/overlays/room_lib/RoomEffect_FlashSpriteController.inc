@@ -17,7 +17,7 @@ extern GteRotation ROOMEFFECT_FLASH_SPRITE_ROTATION;
 extern void ROOMEFFECT_FLASH_SPRITE_CALLBACK(void);
 extern u8 ROOMEFFECT_FLASH_SPRITE_COLOR_TABLE[];
 extern RoomSoundBurstParams D_800F3368;
-extern volatile u16 D_800E11EC;
+extern u16 D_800E11EC;
 
 typedef struct RoomFlashSpriteState {
     s16 x, y, z, reserved06;      /* 0x00: drawn position */
