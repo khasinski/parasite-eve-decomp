@@ -8,7 +8,7 @@ void Gte_SetDepthParams(int near, int far, int h) {
     int range;
     int depth_scale;
     int dqa;
-    register int dqb_base asm("$3");
+    int dqb_base;
     int dqb;
     int h_reg;
     range = far - near;
@@ -18,7 +18,6 @@ void Gte_SetDepthParams(int near, int far, int h) {
     }
 
     depth_scale = (-near * far) / range;
-    asm volatile("" : : "r"(depth_scale) : "memory");
     dqb_base = (far << 12) / range;
     dqa = (depth_scale << 8) / h_reg;
     dqb = dqb_base << 12;
