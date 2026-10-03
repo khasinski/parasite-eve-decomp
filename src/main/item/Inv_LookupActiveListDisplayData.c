@@ -22,7 +22,7 @@ void *Inv_LookupActiveListDisplayData(s32 index) {
 
     itemId = ((s16 *)g_InvItemPtr)[index];
     displayData = NULL;
-    if ((u32)(itemId - 0x100) < 0x80U) {
+    if ((itemId - 0x100) < 0x80U) {
         entry = (itemId << 5) + g_EquipItemDataTable;
         if (M2C_FIELD(entry, u8 *, 5) & 0x10) {
             displayData = g_EquipItemDataTable + 0x31F8;
@@ -36,7 +36,7 @@ void *Inv_LookupActiveListDisplayData(s32 index) {
     } else {
         lookupIndex = itemId - 1;
         if (lookupIndex >= 0xFFU) {
-            if ((u32)(itemId - 0x200) < 9U) {
+            if ((itemId - 0x200) < 9U) {
                 lookupIndex = (g_InvCategoryBaseItemId + itemId) - 0x201;
                 goto lookup_base_data;
             }
