@@ -1,99 +1,76 @@
-#include "common.h"
-typedef s32 M2C_UNK;
-typedef s8 M2C_UNK8;
-typedef s16 M2C_UNK16;
-typedef s32 M2C_UNK32;
-typedef s64 M2C_UNK64;
-M2C_UNK Anim_BuildRotationMatrices();
-M2C_UNK Render_TransformVertices();
-M2C_UNK Render_DrawObject();
-M2C_UNK Render_UpdateClutTable();
-M2C_UNK Render_InitRoomPrimState();
-extern s32 g_IdentityMatrixSource[];
-extern s32 D_80091A3C[];
-extern s32 D_80091A40[];
-extern s32 D_80091A44[];
-extern s32 D_80091A48[];
-extern s32 D_80091A4C[];
-extern s32 D_80091A50[];
-extern s32 D_80091A54[];
-extern M2C_UNK g_PlayerBattleEntity[];
-extern void *g_PlayerMatrixPtr[];
-extern M2C_UNK D_800BEA40[];
-void Render_BuildEntityMatrix(void *arg0, s16 arg1)
+#include "pe1/field_actor.h"
+#include "pe1/render_lighting.h"
+
+void Anim_BuildRotationMatrices(RenderObjectEntity *object, void *animation, int frame, int flags);
+void Render_TransformVertices(RenderObjectEntity *object);
+
+/* A GTE matrix copied as its eight 32-bit words. */
+typedef union RenderMatrixWords {
+    RenderMatrix matrix;
+    s32 words[8];
+} RenderMatrixWords;
+
+extern s32 g_IdentityMatrixSource[8];
+extern RenderObjectEntity g_PlayerBattleEntity;
+extern s32 *g_PlayerMatrixPtr;
+
+void Render_BuildEntityMatrix(RenderObjectEntity *object, s16 bufferIndex)
 {
-  volatile s32 sp10;
-  volatile s32 sp14;
-  volatile s32 sp18;
-  volatile s32 sp1C;
-  volatile s32 sp20;
-  volatile s32 sp24;
-  volatile s32 sp28;
-  volatile s32 sp2C;
-  void *new_var;
-  s32 tv34;
-  u8 *pd70;
-  s32 temp_v0;
-  s32 temp_v0_2;
-  unsigned int temp_v0_3;
-  s32 temp_v0_4;
-  s32 temp_v0_5;
-  s32 temp_v0_6;
-  s32 temp_v0_7;
-  if (arg0 != (&g_PlayerBattleEntity[0]))
-  {
-    temp_v0 = *((s32 *) (((s8 *) arg0) + 0x38));
-    tv34 = *((s32 *) (((s8 *) arg0) + 0x34));
-    sp14 = temp_v0;
-    temp_v0_2 = *((s32 *) (((s8 *) arg0) + 0x3C));
-    sp18 = temp_v0_2;
-    temp_v0_3 = *((s32 *) (((s8 *) arg0) + 0x40));
-    sp1C = temp_v0_3;
-    temp_v0_4 = *((s32 *) (((s8 *) arg0) + 0x44));
-    sp20 = temp_v0_4;
-    temp_v0_5 = *((s32 *) (((s8 *) arg0) + 0x48));
-    sp24 = temp_v0_5;
-    temp_v0_6 = *((s32 *) (((s8 *) arg0) + 0x4C));
-    sp28 = temp_v0_6;
-    temp_v0_7 = *((s32 *) (((s8 *) arg0) + 0x50));
-    sp2C = temp_v0_7;
-    new_var = *((void **) (((s8 *) arg0) + 0xB0));
-    sp10 = tv34;
-    *((s32 *) (((s8 *) arg0) + 0x34)) = g_IdentityMatrixSource[0];
-    *((s32 *) (((s8 *) arg0) + 0x38)) = D_80091A3C[0];
-    *((s32 *) (((s8 *) arg0) + 0x3C)) = D_80091A40[0];
-    *((s32 *) (((s8 *) arg0) + 0x40)) = D_80091A44[0];
-    *((s32 *) (((s8 *) arg0) + 0x44)) = D_80091A48[0];
-    *((s32 *) (((s8 *) arg0) + 0x48)) = D_80091A4C[0];
-    *((s32 *) (((s8 *) arg0) + 0x4C)) = D_80091A50[0];
-    *((s32 *) (((s8 *) arg0) + 0x50)) = D_80091A54[0];
-    Anim_BuildRotationMatrices(arg0, new_var, 0, 1);
-    Render_TransformVertices(arg0);
-    Render_InitRoomPrimState(arg0);
-    Render_DrawObject(arg0, &D_800BEA40[0]);
-    Render_UpdateClutTable(arg0, 1, arg1);
-    *((s32 *) (((s8 *) arg0) + 0x34)) = sp10;
-    *((s32 *) (((s8 *) arg0) + 0x38)) = sp14;
-    *((s32 *) (((s8 *) arg0) + 0x3C)) = sp18;
-    *((s32 *) (((s8 *) arg0) + 0x40)) = sp1C;
-    *((s32 *) (((s8 *) arg0) + 0x44)) = sp20;
-    *((s32 *) (((s8 *) arg0) + 0x48)) = sp24;
-    *((s32 *) (((s8 *) arg0) + 0x4C)) = sp28;
-    *((s32 *) (((s8 *) arg0) + 0x50)) = sp2C;
-    Anim_BuildRotationMatrices(arg0, *((s32 *) (((s8 *) arg0) + (-4))), *((s16 *) (((s8 *) arg0) + (-0x19E))), 1);
-    Render_TransformVertices(arg0);
-    return;
-  }
-  pd70 = g_PlayerMatrixPtr[0];
-  *((s32 *) (((s8 *) pd70) + 0)) = g_IdentityMatrixSource[0];
-  *((s32 *) (((s8 *) pd70) + 4)) = D_80091A3C[0];
-  *((s32 *) (((s8 *) pd70) + 8)) = D_80091A40[0];
-  *((s32 *) (((s8 *) pd70) + 0xC)) = D_80091A44[0];
-  *((s32 *) (((s8 *) pd70) + 0x10)) = D_80091A48[0];
-  *((s32 *) (((s8 *) pd70) + 0x14)) = D_80091A4C[0];
-  *((s32 *) (((s8 *) pd70) + 0x18)) = D_80091A50[0];
-  *((s32 *) (((s8 *) pd70) + 0x1C)) = D_80091A54[0];
-  Render_InitRoomPrimState(arg0);
-  Render_DrawObject(arg0, &D_800BEA40[0]);
-  Render_UpdateClutTable(arg0, 1, arg1);
+    s32 saved[8];
+    RenderMatrixWords *model;
+    FieldActor *actor;
+    s32 first;
+    void *animation;
+    s32 *player;
+
+    if (object != &g_PlayerBattleEntity) {
+        model = (RenderMatrixWords *)&object->model_matrix;
+        first = model->words[0];
+        saved[1] = model->words[1];
+        saved[2] = model->words[2];
+        saved[3] = model->words[3];
+        saved[4] = model->words[4];
+        saved[5] = model->words[5];
+        saved[6] = model->words[6];
+        saved[7] = model->words[7];
+        animation = object->animation_data;
+        saved[0] = first;
+        model->words[0] = g_IdentityMatrixSource[0];
+        model->words[1] = g_IdentityMatrixSource[1];
+        model->words[2] = g_IdentityMatrixSource[2];
+        model->words[3] = g_IdentityMatrixSource[3];
+        model->words[4] = g_IdentityMatrixSource[4];
+        model->words[5] = g_IdentityMatrixSource[5];
+        model->words[6] = g_IdentityMatrixSource[6];
+        model->words[7] = g_IdentityMatrixSource[7];
+        Anim_BuildRotationMatrices(object, animation, 0, 1);
+        Render_TransformVertices(object);
+        Render_InitRoomPrimState(object);
+        Render_DrawObject(object, &D_800BEA40);
+        Render_UpdateClutTable(object, 1, bufferIndex);
+        model->words[0] = saved[0];
+        model->words[1] = saved[1];
+        model->words[2] = saved[2];
+        model->words[3] = saved[3];
+        model->words[4] = saved[4];
+        model->words[5] = saved[5];
+        model->words[6] = saved[6];
+        model->words[7] = saved[7];
+        actor = (FieldActor *)((char *)object - 0x1B4);
+        Anim_BuildRotationMatrices(object, actor->action_data, (s16)actor->anim.parts.integer, 1);
+        Render_TransformVertices(object);
+        return;
+    }
+    player = g_PlayerMatrixPtr;
+    player[0] = g_IdentityMatrixSource[0];
+    player[1] = g_IdentityMatrixSource[1];
+    player[2] = g_IdentityMatrixSource[2];
+    player[3] = g_IdentityMatrixSource[3];
+    player[4] = g_IdentityMatrixSource[4];
+    player[5] = g_IdentityMatrixSource[5];
+    player[6] = g_IdentityMatrixSource[6];
+    player[7] = g_IdentityMatrixSource[7];
+    Render_InitRoomPrimState(object);
+    Render_DrawObject(object, &D_800BEA40);
+    Render_UpdateClutTable(object, 1, bufferIndex);
 }
