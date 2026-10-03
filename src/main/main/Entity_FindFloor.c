@@ -49,7 +49,7 @@ void Entity_FindFloor(u8 *entity)
         if (D_8009D1D8 == 0) {
             floor_table_offset = floor_index << 2;
             floor_table_offset += (u32)D_8009CE08;
-            floor_data = *(u8 *volatile *)floor_table_offset;
+            floor_data = *(u8 **)floor_table_offset;
             triangle_index = 0;
             floor_value = S16_AT(floor_data, 0);
             triangle_count = U16_AT(floor_data, 2);
@@ -73,7 +73,7 @@ void Entity_FindFloor(u8 *entity)
         } else {
             floor_table_offset = floor_index << 2;
             floor_table_offset += (u32)D_8009CE08;
-            floor_data = *(u8 *volatile *)floor_table_offset;
+            floor_data = *(u8 **)floor_table_offset;
             triangle_index = 0;
             triangle_count = U16_AT(floor_data, 4);
             initial_indices = (u16 *)(floor_data + 6);
