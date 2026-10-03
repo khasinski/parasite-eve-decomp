@@ -6,13 +6,13 @@ int Render_LoadFontGlyph(u8 code)
 {
     int status;
     register int offset asm("$2");
-    register int sourceOffset asm("$6");
+    int sourceOffset;
     register int i asm("$5");
-    register u8 *source asm("$4");
-    register u8 *bytePtr asm("$3");
+    u8 *source;
+    u8 *bytePtr;
     FontGlyphLoadState *state;
     u16 *range;
-    register int pollError asm("$16");
+    int pollError;
 retry:
     state = &D_800B0DD8;
     range = D_80093176;
