@@ -77,7 +77,18 @@ void func_80074D28(s32 value);
 void func_8006A25C(void);
 void func_801942FC(void);
 void func_8018F05C(void);
-void func_8018F92C(void *motion);
+void func_8018F92C(FxCommonVec3 *eye);
+
+/* View frustum side planes rebuilt by func_8018F92C: the four rotated
+ * frustum corners, each plane normal, its distance, the opposite corner
+ * distance and the normal length. */
+extern GteShortVector D_8019BFD0, D_8019BFD8, D_8019BFE0, D_8019BFE8;
+extern GteVector D_8019CBB0, D_8019CBD0, D_8019CBF0, D_8019CB50;
+extern s32 D_8019CB48, D_8019CB4C, D_8019CBA8, D_8019CA90;
+extern s32 D_8019CC04, D_8019CC0C, D_8019CC10, D_8019CBC4;
+extern s32 D_8019CBC8, D_8019CC00, D_8019CC08, D_8019CBAC;
+void func_800792D4(GteShortVector *in, GteVector *out, s32 *flag);
+void func_800791D0(GteVector *a, GteVector *b, GteVector *out);
 s16 func_80194108(s16 value);
 void func_80192740(void);
 void func_80192800(void);
