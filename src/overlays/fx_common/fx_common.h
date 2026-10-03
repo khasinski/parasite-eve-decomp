@@ -33,7 +33,9 @@ struct FxCommonNode {
     } args;
     u8 pad0C[0x10];
     s32 state[4];
-    u8 pad2C[0x06];
+    u16 value2C;
+    u16 value2E;
+    u8 pad30[2];
     s16 value32;
     s16 value34;
     s16 value36;
@@ -216,7 +218,7 @@ extern u8 D_8019C1F0;
 extern s16 D_8019C02C;
 extern u32 D_801EA598[];
 extern FxCommonBuffer *D_8019C9C0;
-extern u8 D_8019C340;
+extern FxCommonNode D_8019C340;
 extern RoomSpriteMatrix D_8019CC30;
 extern RoomSpriteMatrix *D_8019BFF0;
 extern u8 D_801D0260;
@@ -231,7 +233,7 @@ void func_80077C84(FxCommonDrawModePacket *packet, int x, int y, int tpage);
 void func_800752AC(void *allocation, int size);
 int func_80193B5C(int value);
 void *func_8006EC6C(void *data, int count);
-void func_8018F55C(int angle, int radius, void *allocation,
+int func_8018F55C(int angle, int radius, void *allocation,
                    FxCommonMotionVec *vector, void *extra);
 int func_8006DF50(void *resource, int arg1, int arg2, int arg3, int enabled);
 void *func_80078A94(void);

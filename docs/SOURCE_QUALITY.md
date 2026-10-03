@@ -6699,3 +6699,42 @@ Remaining debt: 25 pins, eight empty constraints (including a $v1 clobber),
 explicit signed-halving steps, gotos and 40 bytes of aggregate frame padding.
 GTE transfers and the two authorized hazard nops use individual macros.
 Linked function SHA-1: 8681e145fecfd7110462b5ce79480fdf81d24a92.
+
+
+### fx_common effect initialization (func_80196498)
+
+`FxCommon_InitializeEffects.c` reconstructs the 5896-byte initializer: texture
+page/CLUT setup, ten 52-byte effect-setup records, initial paired nodes, nine
+resource point groups, and ten motion-vector lanes. The setup header shares
+the existing node and offset-table layouts and describes the 200-node runtime
+pool. Node halfwords at +0x2C/+0x2E are now explicit fields. The motion helper's
+shared return declaration is corrected to int; its returned count is used here.
+The shared D_8019C054 declaration retains its volatile scheduling constraint;
+this initializer uses an explicit ordinary halfword view for its zero store.
+Moving volatile to pointer casts in the two earlier callers changed their
+address materialization, so that broader cleanup is deferred.
+
+Stock native GCC 2.7.2 with `-fno-expensive-optimizations` and unmodified MASPSX
+reproduces all 5896 linked retail bytes. Linked SHA-256:
+`c946ea3080c7e550f1ce346ee26e40cb8006fcbcd4f288d31ef9202cbb10562e`.
+The original research-object Levenshtein score of 2160 is relocation/symbol
+context; linked instruction diff is zero. Full-overlay SHA verification is the
+acceptance check, rather than treating that raw score as a remaining code diff.
+
+Matching debt: four register pins and six empty compiler barriers, including
+$23/$16 clobbers immediately before the corresponding new values are assigned.
+Each remaining constraint was removed separately and broke the match. An
+initial slot-pointer barrier and the trial explicit NOP were removable and are
+not retained. There are no instruction ASM bodies, artificial frame reserves,
+or dead assignments. The separate point-loop condition capture and shared
+variant/motion-offset local preserve the retail frame and allocation.
+
+Four symbol aliases in the setup header describe the texture table, type-26
+nodes, paired nodes and runtime pool, plus one for the setup records (five in
+total). These header aliases are documented here because the current automated
+alias counter scans include/ headers but not src/ headers. Remaining source
+scaffolding includes parallel setup-field cursors, fixed-point type/subtype
+induction, byte offsets for resource tables and motion lanes, integer-valued
+constructor payload pointers, and one node-halfword byte view needed for store
+ordering. The 190 setup-record writes were separately checked for three flag
+patterns; this supplemental check does not replace the full byte comparison.
