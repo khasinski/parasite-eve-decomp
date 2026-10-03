@@ -24,14 +24,14 @@ void BoundsCheck_AssertStub(int arg0, ...);
 void Draw_AllocTexturedQuad(int code) {
     int low;
     int glyph;
-    register int raw asm("$3") = code;
-    register int current asm("$4");
+    int raw = code;
+    int current;
     int metrics;
     int width;
-    register int nibble asm("$3");
+    int nibble;
     int u;
     int v;
-    register int spacing asm("$5");
+    int spacing;
     int column;
     int row;
     register int arg0 asm("$4");
@@ -40,12 +40,10 @@ void Draw_AllocTexturedQuad(int code) {
 
     current = raw & 0xFF;
     if (D_8009D0D8 != 0) {
-        asm volatile("" : "=r"(current) : "0"(current));
         current += D_8009D0D8 << 8;
         D_8009D0D8 = 0;
     }
 
-    asm volatile("" : "=r"(raw) : "0"(raw));
     low = raw & 0xFF;
     if ((u32)low >= 0xFA) {
         D_8009D0D8 = low - 0xFA;
@@ -98,7 +96,6 @@ alloc_done:
 
     metrics = Draw_LookupGlyphMetrics(glyph);
     nibble = metrics & 0xF;
-    asm volatile("" : : "r"(nibble));
     width = (metrics >> 4) & 0xF;
     spacing = 0;
     if (glyph < 10 || glyph == 15) {
@@ -114,7 +111,6 @@ alloc_done:
         register int cursorX asm("$6");
         register int cursorY asm("$7");
         arg0 = 0;
-        asm volatile("" : : "r"(arg0));
         cursorX = D_8009D124;
         cursorY = D_8009D128;
         spacing++;
@@ -150,7 +146,7 @@ alloc_done:
     }
     {
         u16 tpage = GetTPage(arg0, 0, 0x140, 0);
-        register u32 mask24 asm("$6") = 0xFFFFFF;
+        u32 mask24 = 0xFFFFFF;
         register u32 maskTop asm("$8") = 0xFF000000;
         register u32 tag asm("$3") = prim->tag.word;
         register u32 *ot asm("$7") = D_8009D11C;
@@ -208,7 +204,6 @@ loop:
         glyph = -1;
     }
     ch = glyph;
-    asm volatile("" : "=r"(ch) : "0"(ch));
     if (ch >= 0) {
         spacing = 0;
         if (ch < 10 || ch == 15) {
