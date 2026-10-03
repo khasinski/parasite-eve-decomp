@@ -29,39 +29,16 @@ int Render_PrepareFrame(void) {
     {
         /* Narrow volatile input preserves the retail stack frame in GCC 2.7.2. */
         register volatile unsigned short cx asm("$6") = 160;
-        register unsigned int cy asm("$7") = 112;
-        register unsigned int sx asm("$12");
-        register unsigned int sy asm("$13");
-        asm("" : "=r"(cx), "=r"(cy) : "0"(cx), "1"(cy) : "memory");
-        sx = cx<<16;
-        sy = cy<<16;
-        gte_ctc2_24(sx);
-        gte_ctc2_25(sy);
+        unsigned int cy = 112;
+        gte_SetGeomOffset(cx, cy);
     }
     {
         int **address = &D_800BCFA4.value;
         register int *matrix asm("$6");
-        register unsigned int a asm("$12");
-        register unsigned int b asm("$13");
-        register unsigned int c asm("$14");
         asm("" : "=r"(address) : "0"(address));
         matrix = *address;
-        a = matrix[0];
-        b = matrix[1];
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = matrix[2];
-        b = matrix[3];
-        c = matrix[4];
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
-        a = matrix[5];
-        b = matrix[6];
-        gte_ctc2_5(a);
-        c = matrix[7];
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldrotmatrix(matrix);
+        gte_ldtransmatrix(matrix);
     }
     gte_lwc2_0_0(local.vector);
     gte_lwc2_1_4(local.vector);

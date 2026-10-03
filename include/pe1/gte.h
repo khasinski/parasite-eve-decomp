@@ -922,6 +922,14 @@ int rsin(int angle);
                  "ctc2 $14,$4" \
                  : : "r"(r0) : "$12", "$13", "$14")
 
+/* PSY-Q gte_SetGeomOffset: OFX/OFY from two integers shifted to 16.16. */
+#define gte_SetGeomOffset(r0, r1) \
+    asm volatile("sll $12,%0,16\n\t" \
+                 "sll $13,%1,16\n\t" \
+                 "ctc2 $12,$24\n\t" \
+                 "ctc2 $13,$25" \
+                 : : "r"(r0), "r"(r1) : "$12", "$13")
+
 /* PSY-Q gte_ldopv2: IR3, IR1, IR2 from a long vector. */
 #define gte_ldopv2(r0) \
     asm volatile("lwc2 $11,8(%0)\n\t" \
