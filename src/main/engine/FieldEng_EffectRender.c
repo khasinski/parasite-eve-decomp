@@ -65,51 +65,34 @@ extern u8 D_800F34D8;
 extern u16 D_800F34E2;
 
 int func_800C8970(void *arg0, void *arg1, u8 *anim) {
+    u16 *field = &D_800F34E2;
     GteMatrix matrix;
     GteShortVector rot;
-    int scale_arg[4];
-    volatile int scale[4];
-    u8 *anim_s0 = anim;
-    u16 *field_s1;
-    register GteMatrix *matrix_a0 asm("$4");
-    int scale_v0;
-    register int scale2_a2 asm("$6");
-    register int scale3_a3 asm("$7");
+    GteVector scaleCopy;
+    GteVector scale;
 
-        rot = D_800C2174;
+    rot = D_800C2174;
 
     func_800C2EAC(3);
     func_800C3098(0x100);
     func_800C2FF0(0x20, 0x20);
     func_800C3238(2);
 
-    field_s1 = &D_800F34E2;
-    *field_s1 = *(u16 *)(anim_s0 + 0x4);
+    *field = *(u16 *)(anim + 0x4);
     RotMatrix(&rot, &matrix);
 
-    matrix.t[0] = *(s16 *)(anim_s0 + 0x8);
-    matrix.t[1] = *(s16 *)(anim_s0 + 0xA);
-    matrix.t[2] = *(s16 *)(anim_s0 + 0xC);
+    matrix.t[0] = *(s16 *)(anim + 0x8);
+    matrix.t[1] = *(s16 *)(anim + 0xA);
+    matrix.t[2] = *(s16 *)(anim + 0xC);
 
-    memset((void *)scale, 0, sizeof(scale));
-    scale[0] = *(s16 *)(anim_s0 + 0x6);
-    scale_v0 = *(s16 *)(anim_s0 + 0x6);
-    asm("" : : "r"(scale_v0) : "$4");
-    matrix_a0 = &matrix;
-    asm volatile("" : "=r"(matrix_a0) : "0"(matrix_a0));
-    scale[1] = scale_v0;
-    scale[2] = *(s16 *)(anim_s0 + 0x6);
+    memset(&scale, 0, sizeof(scale));
+    scale.x = *(s16 *)(anim + 0x6);
+    scale.y = *(s16 *)(anim + 0x6);
+    scale.z = *(s16 *)(anim + 0x6);
+    scaleCopy = scale;
 
-    scale_arg[0] = scale[0];
-    scale_arg[1] = scale[1];
-    scale2_a2 = scale[2];
-    scale3_a3 = scale[3];
-    scale_arg[2] = scale2_a2;
-    scale_arg[3] = scale3_a3;
-
-    asm volatile("" ::: "memory");
-    Gte_ScaleMatrix(matrix_a0, (const GteVector *)scale_arg);
-    func_800C42A4((u8 *)field_s1 - 10, &matrix, 0);
+    Gte_ScaleMatrix(&matrix, &scaleCopy);
+    func_800C42A4((u8 *)field - 10, &matrix, 0);
 }
 
 void func_800C2EAC(int arg0);
