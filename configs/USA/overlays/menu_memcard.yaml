@@ -137,17 +137,18 @@ segments:
     subsegments:
       - [0x6308, c, Memcard_GlintOriginHooks]
   - [0x63A0]
+  # Resolves its local jumps at the 0x801887F0 link base.
   - name: menu_memcard_effect_callbacks_tail
     type: code
     start: 0x63A0
-    vram: 0x801270E4
+    vram: 0x8018EB90
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
       - [0x63A0, asm, menu_memcard_data_0063A0]
       - [0x6B04, c, func_80127848]
-      - [0x6C78, asm, func_menu_memcard_006C78]
+      - [0x6C78, c, Memcard_RedrawImageNodes_8018F468]
   - [0x7000]
   - name: menu_memcard_blend_image_linkbase
     type: code

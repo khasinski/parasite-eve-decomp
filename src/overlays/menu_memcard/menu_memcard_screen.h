@@ -9,7 +9,8 @@ typedef struct MemcardScreenBuffer {
     DRAWENV draw;      /* 0x00 */
     DISPENV disp;      /* 0x5C */
     RECT overlay;      /* 0x70 area refreshed from overlayImage */
-    u8 pad78[0x8008];
+    RECT dirty;        /* 0x78 area the image nodes covered last frame */
+    u8 pad80[0x8000];
     u8 overlayImage[1]; /* 0x8080 */
 } MemcardScreenBuffer;
 
