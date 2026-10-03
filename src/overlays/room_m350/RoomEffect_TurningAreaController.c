@@ -14,7 +14,7 @@ typedef struct { int reserved[2]; Instance *instance; } Actor;
 extern Actor *D_800F32D0;
 extern Instance *g_PlayerEntity;
 extern void *D_800B0E64;
-extern short D_8019A82A;
+extern short D_8019A82A[];
 extern unsigned char D_8019A831,D_8019A82F,D_8019A830;
 extern int D_800E27EC,D_800F3428;
 extern short D_800966EC[],D_800966EE[];
@@ -44,19 +44,15 @@ int func_801960C4(int event,State *state)
     goto done;
 setup:
     {
-        int yaw;
-        register int result asm("$2");
         state->asset=Asset_FindTable08ByU32Key(D_800B0E64,0xC54E0704);
         func_800C6D5C(state->asset,0,0);
         state->size=0;
-        asm volatile("" : : : "memory");
-        yaw=D_8019A82A;
-        asm volatile("" : "=r"(yaw) : "0"(yaw) : "memory");
-        result=0;
-        state->initialized=0;
-        asm volatile("" : : : "memory");
-        state->yaw=(unsigned int)yaw<<8;
-        return result;
+        {
+            int yaw=D_8019A82A[0];
+            state->initialized=0;
+            state->yaw=yaw<<8;
+        }
+        return 0;
     }
 update:
     {
