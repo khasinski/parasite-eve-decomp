@@ -15,7 +15,7 @@ int func_80195E10(int mode, Particle *particle) {
         else {
             unsigned short y = particle->y;
             register int speed asm("$3") = ((volatile Particle *)particle)->speed;
-            int delta = ((volatile Particle *)particle)->speed;
+            int delta = ((Particle *)particle)->speed;
             speed += 1;
             particle->y = y - delta;
             particle->speed = speed;
