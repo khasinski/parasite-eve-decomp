@@ -25,21 +25,21 @@ GteMatrix *RotMatrixZ(s32 angle, GteMatrix *m) {
     register s32 y2 asm("$15");
     asm volatile("" : "=r"(a), "=r"(ret) : "0"(a), "1"(ret));
     /* The second factor is -sin(angle), simplifying the row updates. */
-    packed = (u32)a & 0xfff;
+    packed = a & 0xfff;
     if (a < 0) {
-        a = 0U - (u32)a;
+        a = 0U - a;
         /* INT_MIN wraps to table offset zero after the unsigned shift. */
         if (a < 0)
             asm volatile("" : : : "15");
         else
             a &= 0xfff;
         asm volatile("" : : : "24");
-        temp = (u32)a << 2;
+        temp = a << 2;
         packed = *(u32 *)((char *)D_800966EC + temp);
         scratch = packed << 16;
         asm volatile("" : "=r"(scratch) : "0"(scratch));
         scratch = scratch >> 16;
-        negative_sine = 0U - (u32)scratch;
+        negative_sine = 0U - scratch;
         cosine = (s32)packed >> 16;
     } else {
         temp = packed << 2;
