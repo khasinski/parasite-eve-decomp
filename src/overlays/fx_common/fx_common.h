@@ -116,11 +116,14 @@ typedef union FxCommonTransformSeed {
 } FxCommonTransformSeed;
 
 typedef struct FxCommonTransformNode {
-    u8 pad0[4];
+    s16 id;
+    s16 kind;                    /* 0x02 */
     void *resource;              /* 0x04 */
     RoomSpriteMatrix matrix;     /* 0x08; translation Z doubles as lifetime */
     FxCommonTransformSeed seed;  /* 0x28 */
-    u8 pad30[0x30];
+    u8 pad30[2];
+    s16 margin;                  /* 0x32 */
+    u8 pad34[0x2C];
     void *record;                /* 0x60 */
     void *previous;              /* 0x64 */
     void *next;                  /* 0x68 */
@@ -156,6 +159,12 @@ typedef struct FxCommonOffsetByte {
     u8 value;
 } FxCommonOffsetByte;
 
+typedef struct FxCommonPath {
+    s16 pad0[3];
+    u16 count;                  /* 0x06 */
+    GteShortVector points[1];   /* 0x08 */
+} FxCommonPath;
+
 typedef struct FxCommonMotionVec {
     s32 x;
     s32 y;
@@ -181,6 +190,8 @@ typedef struct FxCommonResourceState {
 } FxCommonResourceState;
 
 extern s16 D_8019C058;
+extern u8 D_8019BFCC;
+extern GteMatrix D_8018F014;
 extern volatile s32 D_8019C810, D_8019C814, D_8019C818;
 extern volatile s32 D_8019C330, D_8019C334, D_8019C338;
 extern volatile s32 D_8019C08C, D_8019C090, D_8019C094;
@@ -256,5 +267,9 @@ void func_80191834(FxCommonNode *node);
 void func_8019BF8C(void **buffer);
 typedef struct FxCommonPolyResource FxCommonPolyResource;
 void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource);
+int FxCommon_CheckFourBoundsWithMargin(int *point, int margin);
+void func_801995BC(void *context, void *resource, int kind);
+void func_8019A318(void *context, void *resource, int kind);
+void func_8019B1D0(void *context, void *resource, int kind);
 
 #endif
