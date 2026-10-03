@@ -51,7 +51,7 @@ update:
                        (s16)matrix->translation[2]);
     }
 
-    *(volatile u16 *)&state->ticks = 0;
+    state->ticks = 0;
     *(volatile s16 *)&state->stage = state->stage + 1;
     stage = state->stage;
 
