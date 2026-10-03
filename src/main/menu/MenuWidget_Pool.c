@@ -96,7 +96,7 @@ block_8:
         if (var_v0 != 0) {
             void *temp_v0;
             temp_v0 = (void *) (var_a0_2 * 4);
-            temp_v0 = (void *) ((s32) temp_v0 + (s32) temp_s1);
+            temp_v0 = (void *) ((s32) temp_v0 + temp_s1);
             M2C_FIELD(temp_v0, void **, 8) = temp_s0;
         } else {
             BoundsCheck_AssertStub(0xB, var_a1);
