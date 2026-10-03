@@ -31,7 +31,7 @@ void SeqOp_NoteOnWithPitchSlide(void *track) {
     seq = base->pc;
     pitch_base = base->pitch_slide_current & 0xFF00;
     base->pc = seq + 1;
-    value = ((int)((u32)seq[0] << 24) >> 16) - pitch_base;
+    value = ((int)(seq[0] << 24) >> 16) - pitch_base;
     base->pitch_slide_current = pitch_base;
     base->pitch_slide_delta = value / base->pitch_slide_duration;
 
