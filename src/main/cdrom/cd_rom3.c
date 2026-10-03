@@ -3,7 +3,7 @@
 
 u32 DsSync(u32 mode) {
     u32 offset;
-    register u32 table_page asm("$2");
+    u32 table_page;
 
     offset = mode << 2;
     asm volatile("" : : "r"(offset));
