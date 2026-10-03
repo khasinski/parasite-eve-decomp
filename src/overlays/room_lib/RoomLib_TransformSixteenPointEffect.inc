@@ -16,9 +16,9 @@ void ROOMLIB_TRANSFORM_SIXTEEN_POINT_EFFECT_FUNC(void *arg0, void *arg1,
                                                   char *state) {
     RoomLibSpriteTransformStack stack;
     register RoomSpriteMatrix *matrix asm("$16");
-    register RoomSpriteMatrix *scaleMatrix asm("$17");
-    register char *workState asm("$18");
-    register char *owner asm("$19");
+    RoomSpriteMatrix *scaleMatrix;
+    char *workState;
+    char *owner;
 
     asm("" : "=r"(workState) : "0"(state));
     owner = func_800C2B50();
