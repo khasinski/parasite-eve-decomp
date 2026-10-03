@@ -1,0 +1,8 @@
+#include "menu_memcard_video.h"
+
+#define MEMCARD_UPDATE_VIDEO_FRAME_NAME func_80121270
+#define MEMCARD_VIDEO_ENTRY D_801227E4
+#define MEMCARD_VIDEO_LAST_TIME D_801227E8
+#define MEMCARD_VIDEO_FINISHED D_801223F5
+#define MEMCARD_VIDEO_SIZE D_80122418
+#include "Memcard_UpdateVideoFrame.inc"

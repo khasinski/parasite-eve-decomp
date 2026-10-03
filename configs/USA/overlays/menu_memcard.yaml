@@ -38,8 +38,8 @@ segments:
       # below the load address the header implies.
       - [0x0, asm, menu_memcard_header]
       - [0x304, c, Memcard_SetVideoDisplay_80121004]
-      - [0x570, asm, func_menu_memcard_000570]
-      - [0x7DC, asm, func_menu_memcard_0007DC]
+      - [0x570, c, Memcard_UpdateVideoFrame_80121270]
+      - [0x7D4, asm, func_menu_memcard_0007D4]
       - [0x9C4, asm, func_menu_memcard_0009C4]
       - [0xD00, c, Memcard_ResetDisplayState_80121A44]
       - [0xF04, asm, func_menu_memcard_000F04]

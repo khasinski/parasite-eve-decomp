@@ -20,6 +20,11 @@ extern s16 D_801D11B0,D_801D0DE0[2];
 
 void *Memcard_UpdateVideoFrame(VideoDisplay *display);
 
+/* State of the first video player copy (linked at 0x80120D00). */
+extern VideoEntry *D_801227E4;
+extern s16 D_801227E8, D_80122418[2];
+extern u8 D_801223F5;
+
 extern s16 D_801D148C, D_801D148E;
 extern s16 D_801D1490, D_801D1492;
 extern VideoRect D_801D147A[2];
