@@ -245,6 +245,21 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Orbit spin particle and room_m318 shake controllers
+
+`func_801982A4` in scene_e19_2, carved out of the scene tail blob, now
+instantiates the new `RoomEffect_OrbitSpinParticle.inc`, a variant of the
+orbit trail particle. room_m318's burst and sweep shake controllers
+(`func_80194164` and `func_80193638`) are `RoomEffect_ShakeBurstController.c`
+and `RoomEffect_SweepShakeController.c` on the new `room_shake_burst.h`.
+Retail tests the sound owner pointer and loads it again for the call
+argument with no store in between, so that one second read is volatile; the
+rest of each controller is plain. Timer products are written as signed
+multiplications so the loads stay `lh`, sums that GCC would reassociate are
+split into two temporaries, and two calls whose results share a saved
+register use one shared temporary. Every function matches retail with no
+pins or barriers; both overlay SHA-1 hashes are unchanged.
+
 ### room_m156+2, room_m291+2 and room_m380+2 burst orb callback
 
 `func_8018F058` in room_m156+2, room_m291+2 and room_m380+2, the render
