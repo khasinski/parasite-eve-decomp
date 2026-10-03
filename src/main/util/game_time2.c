@@ -1,14 +1,14 @@
 extern volatile int D_800A76A0;
-extern volatile int g_GameTimeTable;
+extern int g_GameTimeTable;
 extern volatile int D_800A76A8;
 
-extern volatile int D_800A76B8;
-extern volatile int g_PlayTimeSeconds;
-extern volatile int D_800A76C0;
+extern int D_800A76B8;
+extern int g_PlayTimeSeconds;
+extern int D_800A76C0;
 
-extern volatile int D_800A76AC;
-extern volatile int D_800A76B0;
-extern volatile int D_800A76B4;
+extern int D_800A76AC;
+extern int D_800A76B0;
+extern int D_800A76B4;
 
 typedef unsigned int u32;
 
