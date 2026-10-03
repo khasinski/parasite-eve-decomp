@@ -24,7 +24,7 @@ double __divdf3(double numerator, double denominator) {
     }
     absMask = 0x7fffffff;
     {
-        register unsigned mask asm("$2") = 0x80000000;
+        unsigned mask = 0x80000000;
         register unsigned lsign = left.bits.hi & mask;
         register unsigned rsign = right.bits.hi & mask;
         sign = lsign ^ rsign;
