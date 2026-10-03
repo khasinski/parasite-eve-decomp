@@ -30,14 +30,14 @@ double Math_Int32ToDouble(int value) {
             value = (unsigned int)value << 1;
             exponent--;
         }
-        ((volatile MathU64 *)&parts)->hi = value;
-        ((volatile MathU64 *)&parts)->lo = 0;
-        Math_Shift64(&parts, 1, *(volatile MathU64 *)&parts, 10);
+        parts.hi = value;
+        parts.lo = 0;
+        Math_Shift64(&parts, 1, parts, 10);
         {
             register unsigned int high;
             register unsigned int packed asm("$17");
             register unsigned int mask asm("$2") = 0xFFEF0000;
-            high = ((volatile MathU64 *)&parts)->hi;
+            high = parts.hi;
             mask |= 0xFFFF;
             high &= mask;
             packed = high | sign;
