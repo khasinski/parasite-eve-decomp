@@ -33,17 +33,17 @@ void Anim_DecodeBoneRotationsShort(RenderObjectEntity *arg0, RenderAnimationData
             var_v0 = ((RenderAnimShortChannel *)var_s0)->samples.signed_values[0];
             var_s0 += 4;
         } else {
-            var_v0 = *(s16 *)((((s32) (arg2 << 0x10) >> 0xF)) + (s32) var_v1);
+            var_v0 = *(s16 *)((((arg2 << 0x10) >> 0xF)) + (s32) var_v1);
             var_s0 += temp_a3 * 4;
         }
-        *var_a0 = (s32) var_v0;
+        *var_a0 = var_v0;
         temp_v0 = var_s3 + 1;
         var_s3 = temp_v0;
         var_a0 += 1;
     } while (temp_v0 < 3);
     var_s3 = 0;
-    if ((s32)arg1->last_bone_index >= var_s3) {
-        temp_s6 = ((s32) (arg2 << 0x10) >> 0xF);
+    if (arg1->last_bone_index >= var_s3) {
+        temp_s6 = ((arg2 << 0x10) >> 0xF);
         temp_s5 = temp_a3 * 4;
         var_s1 = var_s2 + 2;
         do {
