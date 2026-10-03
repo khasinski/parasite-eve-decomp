@@ -17,7 +17,6 @@ int func_80194128(int mode, GteRotation *rotation) {
     GteShortVector position;
     int frame, size, kind, palette;
     u16 clut;
-    register int special asm("$3");
 
     if (mode == 1) {
         if (D_800E27EC >= 16) return 1;
@@ -25,7 +24,6 @@ int func_80194128(int mode, GteRotation *rotation) {
         RoomM273PlayerActorView *player;
         /* The loop index is reused for the sampled scale below. */
         size = 0;
-        asm volatile("" : : "r"(size));
         player = g_PlayerEntity;
         for (; size < 3; size++) {
             RoomM273PlayerTransform *transform = player->transform;
@@ -36,11 +34,8 @@ int func_80194128(int mode, GteRotation *rotation) {
         kind = D_800F336C;
         size = *(s16 *)((char *)D_800966EC + ((frame << 8) & 0x3F00));
         palette = D_800E1204[kind];
-        special = 4;
-        if (kind == special && D_800F3428) palette += 11;
-        else palette += 7;
 
-        clut = GetClut(0, palette);
+        clut = GetClut(0, (kind == 4 && D_800F3428) ? palette + 11 : palette + 7);
         func_800CEE20(&position, rotation, 8192, size * 3, 5, clut, 1,
                        /* The upper half of the packed trig entry is signed. */
                        (s16)(*(s32 *)((char *)D_800966EC +
