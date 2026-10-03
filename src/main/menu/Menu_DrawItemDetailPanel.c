@@ -21,7 +21,7 @@ void Menu_DrawItemDetailPanel(MenuWidgetNode *panel) {
     MenuWidgetNode *selection;
     ItemDataRecord *item;
     int index;
-    register int base asm("$16");
+    int base;
     int panel_y;
     register int dx asm("$5");
     register int dy asm("$6");
