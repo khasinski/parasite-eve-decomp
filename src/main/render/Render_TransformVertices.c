@@ -142,7 +142,7 @@
         }                                                                                          \
         {                                                                                          \
             register u32 x asm("$12"), y asm("$13");                                               \
-            register u16 *packed asm("$2");                                                        \
+            u16 *packed;                                                        \
             if (S8_AT(commands, 0) == 0) {                                                         \
                 packed = (u16 *)((s32 *)(src) + 5);                                                \
                 __asm__("" : "=r"(packed) : "0"(packed));                                          \
@@ -191,8 +191,8 @@
 
 #define Render_XformCopyMatrixFromActor(actor)                                                     \
     {                                                                                              \
-        register u8 *matrix asm("$3");                                                             \
-        register u32 value asm("$2");                                                              \
+        u8 *matrix;                                                             \
+        u32 value;                                                              \
         matrix = *(u8 *volatile *)((u8 *)(actor) + 0x84);                                          \
         value = U16_AT(actor, 0x34);                                                               \
         U16_AT(matrix, 0x20) = value;                                                              \
@@ -234,18 +234,18 @@
 #define Render_XformUpdateMode4Matrix(actor)                                                       \
     {                                                                                              \
         register u8 *parent asm("$3");                                                             \
-        register s32 *parent_matrix asm("$3");                                                     \
-        register s32 *actor_matrix asm("$2");                                                      \
-        register s32 bone_index asm("$2");                                                         \
+        s32 *parent_matrix;                                                     \
+        s32 *actor_matrix;                                                      \
+        s32 bone_index;                                                         \
                                                                                                    \
         parent = PTR_AT((actor), 0x24);                                                            \
         bone_index = S16_AT((actor), 0x2A);                                                        \
         parent_matrix = (s32 *)(PTR_AT(parent, 0x84) + bone_index * 0x20);                         \
         actor_matrix = (s32 *)((actor) + 0x34);                                                    \
                                                                                                    \
-        __asm__("" : "=r"(actor_matrix) : "0"(actor_matrix));                                      \
+        \
         Render_XformLoadRotMatrix(parent_matrix);                                                  \
-        __asm__ volatile("" : "=r"(actor) : "0"(actor), "r"(parent_matrix));                       \
+        \
         {                                                                                          \
             register u16 *column asm("$2") = (u16 *)((actor) + 0x34);                              \
             __asm__("" : "=r"(column) : "0"(column));                                              \
@@ -269,7 +269,7 @@
         parent_matrix = (s32 *)(PTR_AT(parent, 0x84) + bone_index * 0x20);                         \
         Render_XformLoadTrans(parent_matrix);                                                      \
         {                                                                                          \
-            register u16 *packed asm("$2") = (u16 *)((actor) + 0x48);                              \
+            u16 *packed = (u16 *)((actor) + 0x48);                              \
             register u32 xy asm("$12"), high asm("$13");                                           \
             __asm__("" : "=r"(packed) : "0"(packed));                                              \
             high = packed[2];                                                                      \
@@ -288,32 +288,30 @@
     }
 
 void Render_TransformVertices(RenderObjectEntity *input) {
-    register u8 *actor asm("$16") = (u8 *)input;
-    register volatile s32 *zero0 asm("$19") = (volatile s32 *)0x1F800000;
+    u8 *actor = (u8 *)input;
+    volatile s32 *zero0 = (volatile s32 *)0x1F800000;
     register volatile s32 *zero4 asm("$18") = (volatile s32 *)0x1F800004;
-    register volatile s32 *zero8 asm("$20") = (volatile s32 *)0x1F800008;
+    volatile s32 *zero8 = (volatile s32 *)0x1F800008;
     s32 *matrix_stack = (s32 *)0x1F80000C;
     register s32 *stack_top asm("$17");
-    register u8 *commands asm("$7");
+    u8 *commands;
     register u8 *out_matrix asm("$6");
     register u8 *out_vertices asm("$9");
     u8 *header;
-    register s32 *current_matrix asm("$2");
-    register s32 *src_matrix asm("$5");
+    s32 *current_matrix;
+    s32 *src_matrix;
     u32 frameReserve[2];
     int mode;
     int part_count;
-    register s32 i asm("$8");
-    register s32 command asm("$4");
+    s32 i;
+    s32 command;
 
-    __asm__("" : "=r"(actor) : "0"(actor));
     mode = S16_AT(actor, 0x28);
     if (mode == 1) {
         Render_CopyFrameData(input, ((RenderObjectEntity *)actor)->animation_source,
                              ((RenderObjectEntity *)actor)->animation_id);
         current_matrix = (s32 *)(actor + 0x34);
     } else if (mode == 3) {
-        __asm__("" : : : "$4");
         if ((U16_AT(actor, 0x9C) & 0x400) != 0) {
             Render_XformCopyMatrixFromActor(actor);
         } else {
@@ -343,7 +341,6 @@ void Render_TransformVertices(RenderObjectEntity *input) {
     if (part_count > 0) {
         do {
             command = S8_AT(commands, 0);
-            __asm__("" : "=r"(command) : "0"(command));
             if (command == -1) {
                 Render_XformStoreFullMatrix(stack_top);
                 stack_top += 8;
@@ -357,24 +354,24 @@ void Render_TransformVertices(RenderObjectEntity *input) {
             }
 
             {
-                register s32 byteOffset asm("$2") = command * 0x20;
-                register u8 *matrixBase asm("$3") = PTR_AT(actor, 0x58);
+                s32 byteOffset = command * 0x20;
+                u8 *matrixBase = PTR_AT(actor, 0x58);
                 src_matrix = (s32 *)(matrixBase + byteOffset);
             }
             Render_XformBuildChildMatrix(src_matrix, (s32 *)out_matrix, command == 0);
             Render_XformLoadFullMatrix((s32 *)out_matrix);
             out_matrix += 0x20;
             {
-                register s32 visibleCommand asm("$4") = S8_AT(commands, 0);
-                register RenderObjectPart *parts asm("$3") = ((RenderObjectEntity *)actor)->parts;
-                register s32 partOffset asm("$2") = visibleCommand * 12;
-                register RenderObjectPart *part asm("$2") =
+                s32 visibleCommand = S8_AT(commands, 0);
+                RenderObjectPart *parts = ((RenderObjectEntity *)actor)->parts;
+                s32 partOffset = visibleCommand * 12;
+                RenderObjectPart *part =
                     (RenderObjectPart *)((u32)partOffset + (u32)parts);
                 if (part->visible == 1) {
-                    register RenderVec3s *base asm("$2") =
+                    RenderVec3s *base =
                         ((RenderObjectEntity *)actor)->bounds_vertices;
-                    register s32 boundsOffset asm("$3") = visibleCommand * 16;
-                    register RenderVec3s *bounds asm("$3") =
+                    s32 boundsOffset = visibleCommand * 16;
+                    RenderVec3s *bounds =
                         (RenderVec3s *)((u32)boundsOffset + (u32)base);
                     if (bounds[1].pad >= 0) {
                         Render_XformTransformVector(bounds, out_vertices);
@@ -384,5 +381,4 @@ void Render_TransformVertices(RenderObjectEntity *input) {
             }
         } while (i++, commands++, i < U16_AT(PTR_AT(actor, 0), 0x18));
     }
-    __asm__("" : "=m"(frameReserve));
 }
