@@ -112,7 +112,7 @@ segments:
       - [0x65FC, c, RoomEffect_RisingColumnController]
       - [0x691C, c, RoomEffect_FlashBurstParticle]
       - [0x6D38, c, RoomEffect_FlashBurstController]
-      - [0x7484, asm, func_8019646C]
+      - [0x7484, c, RoomEffect_CrossFlashParticle]
       - [0x7838, c, RoomEffect_CrossFlashController]
       - [0x7C60, c, RoomEffect_DriftingPalettePulse]
       - [0x7E64, asm, func_80196E4C]
