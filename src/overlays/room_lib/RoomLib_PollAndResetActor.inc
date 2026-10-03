@@ -38,8 +38,8 @@ s32 func_800CE560(void *arg0, s32 arg1, s32 arg2, void (*arg3)(void));
 char *func_800CE610(void *arg0);
 
 s32 ROOMLIB_POLL_RESET_FUNC(s32 state) {
-    register RoomFxSeed8 *obj asm("$6");
-    register int index asm("$4");
+    RoomFxSeed8 *obj;
+    int index;
     register int work asm("$3");
     register int value2 asm("$2");
     register int value3 asm("$2");
