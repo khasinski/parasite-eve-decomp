@@ -38,8 +38,8 @@ void ROOMLIB_INIT_PARTICLE_RENDER_PAIR_NAME(
     void *owner, void *unused, RoomParticleRenderPairState *state) {
     RoomSpriteMatrix secondMatrix;
     RoomSpriteMatrix firstMatrix;
-    register void *callOwner asm("$23");
-    register RoomParticleRenderPairState *workState asm("$16");
+    void *callOwner;
+    RoomParticleRenderPairState *workState;
     void **root;
 
     callOwner = owner;
