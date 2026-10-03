@@ -20,10 +20,10 @@ void Memcard_BlendImage(MemcardImageNode *node, u8 *destination, s32 padding) {
         for (column = 0; column < words; column++) {
             if (*(u32 *)source) {
                 {
-                    register u8 *target asm("$9") = destination;
+                    u8 *target = destination;
                     s32 old;
                     register s32 input asm("$2") = *source;
-                    register s32 product asm("$14");
+                    s32 product;
                     s32 value;
 
                     product = input * intensity;
@@ -40,7 +40,26 @@ void Memcard_BlendImage(MemcardImageNode *node, u8 *destination, s32 padding) {
                     u8 *target;
                     s32 old;
                     register s32 input asm("$2") = *source;
-                    register s32 product asm("$14");
+                    s32 product;
+                    s32 value;
+
+                    product = input * intensity;
+                    source++;
+
+                    target = destination;
+                    old = *destination;
+                    input = product >> 8;
+                    __asm__("" : "=r"(input), "=r"(destination) : "0"(input), "1"(destination));
+                    value = input;
+                    destination++;
+                    if (value < old) value = old;
+                    *target = value;
+                }
+                {
+                    u8 *target;
+                    s32 old;
+                    register s32 input asm("$2") = *source;
+                    s32 product;
                     s32 value;
 
                     product = input * intensity;
@@ -59,26 +78,7 @@ void Memcard_BlendImage(MemcardImageNode *node, u8 *destination, s32 padding) {
                     u8 *target;
                     s32 old;
                     register s32 input asm("$2") = *source;
-                    register s32 product asm("$14");
-                    s32 value;
-
-                    product = input * intensity;
-                    source++;
-
-                    target = destination;
-                    old = *destination;
-                    input = product >> 8;
-                    __asm__("" : "=r"(input), "=r"(destination) : "0"(input), "1"(destination));
-                    value = input;
-                    destination++;
-                    if (value < old) value = old;
-                    *target = value;
-                }
-                {
-                    u8 *target;
-                    register s32 old asm("$7");
-                    register s32 input asm("$2") = *source;
-                    register s32 product asm("$14");
+                    s32 product;
                     register s32 value asm("$3");
 
                     product = input * intensity;
