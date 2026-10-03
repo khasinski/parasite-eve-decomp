@@ -130,13 +130,9 @@ update:
             gte_ldtransmatrix(matrix);
             i=0; out=local.collision.vertices; in=D_8019A574;
             for(;i<4;i++) {
-                register int x asm("$12");
-                register int y asm("$13");
-                register int z asm("$14");
                 gte_ldv0(in);
                 gte_rtv0tr_mac();
-                gte_mfc2_9(x); gte_mfc2_10(y); gte_mfc2_11(z);
-                out->x=x; out->y=y; out->z=z;
+                gte_stsv(out);
                 out++; in++;
             }
         }
@@ -170,11 +166,8 @@ update:
 draw:
     {
         int page,palette;
-        int texture;
         int rawPage;
         int kind;
-        int specialKind;
-        register int paletteOffset asm("$2");
         int i;
         int *in,*out;
         Matrix *transforms;
@@ -184,19 +177,10 @@ draw:
         out=base.position; in=transforms[33].position;
         for(;i<3;i++) *out++=*in++;
         rawPage=GetTPage(0,1,0,0);
-        texture=D_800E2850[D_800E11FA];
-        asm volatile("" : "=r"(texture) : "0"(texture), "r"(rawPage) : "memory");
+        page=(unsigned short)(D_800E2850[D_800E11FA]|rawPage);
         kind=D_800F336C;
-        asm volatile("" : "=r"(kind) : "0"(kind), "r"(rawPage), "r"(texture));
-        texture|=rawPage;
-        page=(unsigned short)texture;
-        asm volatile("" : "=r"(page) : "0"(page));
-        paletteOffset=kind*2;
-        specialKind=4;
-        asm volatile("" : "=r"(specialKind) : "0"(specialKind), "r"(paletteOffset));
-        palette=*(unsigned short *)((char *)D_800E1204+paletteOffset);
-        if(kind==specialKind && D_800F3428) palette+=7; else palette+=3;
-        palette=GetClut(0,palette);
+        palette=D_800E1204[kind];
+        palette=GetClut(0,(kind==4 && D_800F3428!=0) ? palette+7 : palette+3);
         GsSetOrign(page,(unsigned short)palette);
         func_800C6ED8(1);
         func_800C6EF8(state->asset);
