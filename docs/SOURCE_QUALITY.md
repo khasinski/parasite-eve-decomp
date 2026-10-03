@@ -245,6 +245,19 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m156+2, room_m291+2 and room_m380+2 burst orb callback
+
+`func_8018F058` in room_m156+2, room_m291+2 and room_m380+2, the render
+callback of the orbiting pair controller, now shares
+`RoomEffect_BurstOrbCallback.inc` with the `--expand-div` marker, and its
+jump tables come from the unit's own `.rodata`. Temporaries are shared across
+states so the saved registers fall in retail's order, the shadow vector is
+stored x, z, y, and state 5 reads its palette back through
+`D_800E1204[D_800F3368.palette]` so the parameter block addresses stay in
+saved registers for the stores after the call. Each 4568-byte instance
+matches retail with no pins or barriers; all three overlay SHA-1 hashes are
+unchanged.
+
 ### Burst spark particle in ten rooms
 
 `func_80192F00` in room_m203, room_m221, room_m223, room_m224, room_m229,
