@@ -23,9 +23,8 @@ s32 Memcard_TrailEffect(s32 mode, MemcardTrailState *state) {
                 image->phase = 0; image->timer = 0;
             }
         }
-        if (state->timer < 32) return 0;
-        __asm__ volatile("" : : : "memory");
-        return 2;
+        if (state->timer >= 32) return 2;
+        break;
     case 2:
         {
             RenderMatrixSlot *slot = &D_800BCFA4;
