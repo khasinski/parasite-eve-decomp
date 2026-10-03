@@ -57,9 +57,9 @@ s32 Menu_OpenEquipSlotSwap(s32 arg0) {
         g_MenuActionSubmenuOpen = 0;
         if (g_MenuEquipSwapSource != 0) {
             temp_v1 = g_MenuEquipSwapSource - 1;
-            M2C_FIELD(temp_s1, s32 *, 0x44) = (s32) (temp_v1 & 1);
-            M2C_FIELD(temp_s1, s32 *, 0x48) = (s32) ((temp_v1 >> 1) & 0x7F);
-            M2C_FIELD(temp_s1, s32 *, 0x5C) = (s32) (temp_v1 >> 8);
+            M2C_FIELD(temp_s1, s32 *, 0x44) = (temp_v1 & 1);
+            M2C_FIELD(temp_s1, s32 *, 0x48) = ((temp_v1 >> 1) & 0x7F);
+            M2C_FIELD(temp_s1, s32 *, 0x5C) = (temp_v1 >> 8);
         }
         Menu_CreateContextHelpPanel();
         M2C_FIELD(MenuWidget_FindByModeAndSelectedBase(2, 1), s32 *, 0x84) = 0;
