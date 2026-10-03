@@ -50,7 +50,25 @@ segments:
       - [0x244C, asm, func_menu_memcard_00244C]
       - [0x2D9C, asm, func_menu_memcard_002D9C]
       - [0x33D0, asm, func_menu_memcard_0033D0]
-      - [0x3D68, asm, func_menu_memcard_003D68]
+  - [0x3D68]
+  - name: menu_memcard_fading_glint_linkbase
+    type: code
+    start: 0x3D68
+    vram: 0x801EF560
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x3D68, c, Memcard_FadingGlintParticle]
+  - [0x4180]
+  - name: menu_memcard_effect_callbacks
+    type: code
+    start: 0x4180
+    vram: 0x80124EC4
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0x4180, asm, func_menu_memcard_004180]
       - [0x4870, asm, func_menu_memcard_004870]
       - [0x4E98, asm, func_menu_memcard_004E98]
