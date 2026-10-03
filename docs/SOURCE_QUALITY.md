@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Field engine flares and four emitters without crutches
+
+Four more field engine routines of the main executable match from clean C:
+the spinning model flare pair (one template, `FieldEng_SpinningModel.inc`,
+with two instances), the fan sweep emitter with its glow, and the twin model
+flare. The orbiting burst, damped spark, diamond emitter and helical effect
+lose their register pins, barriers and volatile stores: the hand-pinned
+matrix transfers are the stock `gte_ldrotmatrix` and `gte_ldtransmatrix`, the
+texture slot is read as array elements, and the palette is chosen with a
+conditional inside the clut call. The main executable is unchanged and its
+recorded pins and barriers go down.
+
 ### fx_common frustum, gradient quads and scene draw
 
 fx_common's frustum plane builder, gradient quad setup and scene draw now
