@@ -27,8 +27,6 @@ int func_80193870(int mode, RoomM273SpritePoolEffect *state) {
         short shade;
         volatile RoomM273WorldPosition *p = state->position;
         int kind;
-        /* Keep the comparison constant in v1, as in the retail callback. */
-        register int special asm("$3");
         int palette;
         int x;
 
@@ -39,14 +37,11 @@ int func_80193870(int mode, RoomM273SpritePoolEffect *state) {
         x = p->x;
         sprite.y = p->y;
         sprite.z = p->z;
-        special = 4;
         sprite.x = x;
         kind = D_800F336C;
         palette = D_800E1204[kind];
-        if (kind == special && D_800F3428) palette += 9;
-        else palette += 5;
         func_800CEE20(&sprite, D_8019AB68, (short)size, (short)size, 102,
-                        GetClut(0,palette), 1, (short)shade, 0);
+                        GetClut(0, (kind == 4 && D_800F3428) ? palette + 9 : palette + 5), 1, (short)shade, 0);
     }
     return 0;
 }
