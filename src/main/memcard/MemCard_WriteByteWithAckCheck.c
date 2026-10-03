@@ -30,10 +30,10 @@ int MemCard_WriteByteWithAckCheck(void *obj) {
     ret = 90;
     asm volatile("" : "=r"(ret) : "0"(ret));
     if (result == ret) {
-        ret = (u32)result + zero;
+        ret = result + zero;
         goto done;
     }
-    ret = (u32)result + zero;
+    ret = result + zero;
     asm volatile("" : "=r"(result), "=r"(ret) : "0"(result), "1"(ret));
     if (result == 0)
         goto done;
