@@ -6,7 +6,7 @@ typedef RoomM273PointerPoolEffect Effect;
 extern int D_800E27EC, D_800F3428, D_800966EC[];
 extern unsigned short D_800F3368,D_800F336A,D_800F336C,D_800F336E,D_800E1204[];
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
-extern volatile unsigned short D_800F3376,D_800F3378;
+extern unsigned short D_800F3376,D_800F3378;
 extern Position D_8019AF74[2];
 extern short D_8019AE88,D_8019AF94,D_8019AF96;
 extern unsigned short D_800E11FA,D_800E2850[];
