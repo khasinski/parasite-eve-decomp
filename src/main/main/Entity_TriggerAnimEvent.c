@@ -24,7 +24,7 @@ int Entity_TriggerAnimEvent(BattleEntity *input, u8 slot)
     }
     if (slot >= 6)
         return result;
-    if ((u32)actor->animPrev.fixed > (u32)actor->animFrame)
+    if ((u32)actor->animPrev.fixed > actor->animFrame)
         nextFrame = ((u32)actor->animFrame >> 16) + actor->animLastFrame + 1;
     else
         nextFrame = (u32)actor->animFrame >> 16;
