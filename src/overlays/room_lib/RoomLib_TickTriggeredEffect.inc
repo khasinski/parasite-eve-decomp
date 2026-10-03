@@ -4,47 +4,36 @@ extern int func_800C6CE0();
 
 void ROOMLIB_TICK_TRIGGERED_EFFECT_NAME(RoomEnt *ent, unsigned char *signal,
                                         RoomTimer2 *timer) {
-    register RoomEnt *ent_reg asm("$17") = ent;
-    register unsigned char *signal_reg asm("$18") = signal;
-    register RoomTimer2 *timer_reg asm("$16") = timer;
-    register RoomTimer2 *destination asm("$4");
-    volatile char scratch[8];
-    register int initial_countdown asm("$2");
-    register int countdown asm("$3");
-    register int value asm("$2");
+    RoomTimer2 *work;
+    int **flagsBase;
+    int *flags;
+    RoomRenderNode *target;
+    unsigned short reload;
 
-    PE1_COMPILER_LAUNDER(ent_reg);
-    PE1_COMPILER_LAUNDER(signal_reg);
-    initial_countdown = timer_reg->h2A;
-    destination = timer_reg;
-    countdown = initial_countdown;
+    work = timer;
+    if (timer->h2A == 0) {
+        if (work->h2C == 1) {
+            if (func_800C6CE0(ent) == 3) {
+                if (ent->link->target->state[0] == 2) {
+                    reload = work->h28;
+                    flagsBase = (int **)D_8009D254;
+                    work->h2C = 0;
+                    timer->h2A = reload;
 
-    if (initial_countdown == 0) {
-        if (timer_reg->h2C != 1 || func_800C6CE0(ent_reg) != 3 ||
-            ent_reg->link->target->state[0] != 2) {
-            goto update_signal;
+                    flags = *flagsBase;
+                    flags[0x13] |= 0x4000;
+
+                    target = ent->link->target;
+                    target->flags |= 0x80000000;
+                }
+            }
         }
-
-        timer_reg->h2C = 0;
-        timer_reg->h2A = timer_reg->h28;
-        RW32(*(char **)D_8009D254, 0x4C) |= 0x4000;
-
-        destination = (RoomTimer2 *)ent_reg->link->target;
-        value = ((RoomRenderNode *)destination)->flags;
-        value |= 0x80000000;
-        ((RoomRenderNode *)destination)->flags = value;
-#if defined(ROOMLIB_TRIGGER_SKIP_COUNTDOWN) && ROOMLIB_TRIGGER_SKIP_COUNTDOWN
-        goto update_signal;
-#endif
     } else {
-        value = countdown - 1;
+        work->h2A = timer->h2A - 1;
+        work->h2C = 0;
     }
 
-    destination->h2A = value;
-    destination->h2C = 0;
-
-update_signal:
     if (func_800C2B68() == 1) {
-        signal_reg[1] = 2;
+        signal[1] = 2;
     }
 }
