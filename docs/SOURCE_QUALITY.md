@@ -245,6 +245,20 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### scene_e03, scene_e06, scene_e07 and scene_e27 seeker spark callback
+
+`func_80192500` in scene_e03, scene_e06, scene_e07 and scene_e27, previously
+the unnamed `scene_eXX_tail` blob, now shares
+`RoomEffect_SeekerSparkCallback.inc` with the `--expand-div` marker. The
+callback takes the mode as its first argument, steers the spark towards its
+target, flags the hit and draws the spark through the sanctioned rotation and
+translation matrix loads. The tpage store comes first in the parameter block
+so the later reads are addressed from its base register, the palette check
+after the call reads the scalar label with the literal kind, the clut is an
+int so its mask follows the call, and the state tails return before their
+breaks so retail's branches survive. Each 2164-byte instance matches retail
+with no pins or barriers; all four overlay SHA-1 hashes are unchanged.
+
 ### room_m269 and scene_e01 effect controllers
 
 scene_e01 carries a byte-identical copy of room_m269's five remaining effect
