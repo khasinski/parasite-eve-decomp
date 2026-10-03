@@ -37,7 +37,7 @@ void MenuInput_EnqueueStatusChanges(int flags) {
     int mapped;
     int released;
     int timer;
-    register int prev_flags asm("$3");
+    int prev_flags;
     int repeat_reset;
     int repeat_step;
     register int type asm("$2");
@@ -47,7 +47,7 @@ void MenuInput_EnqueueStatusChanges(int flags) {
     repeat_reset = 0;
     mapped = Draw_RemapStatusFlags(flags_reg);
     if (D_8009D0E8 != 0) {
-        register int inverse asm("$2");
+        int inverse;
         prev_flags = D_8009D0F0;
         inverse = ~mapped;
         released = inverse & prev_flags;
@@ -101,7 +101,7 @@ reset_repeat:
         D_8009D0F4 = repeat_step;
 
         {
-            register int previous asm("$2");
+            int previous;
             previous = D_8009D0F0;
             released = mapped & ~previous;
         }
@@ -113,7 +113,7 @@ reset_repeat:
             event = D_8009D0DC;
             if (event != 0) {
                 register MenuInputQueuedEvent *next asm("$2");
-                register int event_type asm("$19");
+                int event_type;
                 event_type = type;
                 next = event->next;
                 tail = D_8009D0E4;
@@ -143,7 +143,7 @@ void MenuInput_DispatchQueuedEvents(void) {
     MenuInputWidget *node;
     MenuInputQueuedEvent *event;
     MenuInputQueuedEvent *prev;
-    register MenuInputQueuedEvent *head asm("$2");
+    MenuInputQueuedEvent *head;
     MenuInputQueuedEvent *free_head;
     MenuInputQueuedEvent local;
     MenuInputQueuedEvent *localp;
@@ -186,7 +186,6 @@ void MenuInput_DispatchQueuedEvents(void) {
             localp->flags = 0;
         }
     } else {
-        asm("" : "=r"(head) : "0"(head));
         local.type = 0;
         local.flags = 0;
     }
