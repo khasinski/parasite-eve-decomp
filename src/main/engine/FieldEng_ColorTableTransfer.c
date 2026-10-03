@@ -47,7 +47,7 @@ void func_800C6FA0(char *data, u16 factor)
     u32 green;
     u32 green_product;
     ColorTable *table = (ColorTable *)data;
-    volatile u32 *scratch = (volatile u32 *)0x1F800000;
+    u32 *scratch = (u32 *)0x1F800000;
     ColorEntry *entry = (ColorEntry *)(data + table->entries_offset);
 
     for (i = 0; i < table->entry_count; i++, entry++) {
