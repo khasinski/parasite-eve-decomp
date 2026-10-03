@@ -56,16 +56,16 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
         base_x = g_TextCursorX;
         base_y = g_TextCursorY;
         ptr = packet;
-        *(volatile u16 *)&ptr->x2 = base_x;
-        *(volatile u16 *)&ptr->x0 = base_x;
-        *(volatile u16 *)&ptr->y1 = base_y;
-        *(volatile u16 *)&ptr->y0 = base_y;
+        ptr->x2 = base_x;
+        ptr->x0 = base_x;
+        ptr->y1 = base_y;
+        ptr->y0 = base_y;
 
         {
             s32 sum;
             s32 glyphDim;
 
-            glyphDim = *(volatile u8 *)&glyph->width;
+            glyphDim = glyph->width;
             sum = *(volatile u16 *)&ptr->x0;
             temp = sum + glyphDim;
         }
@@ -76,7 +76,7 @@ void Draw_EmitGlyph(s32 arg0, s32 arg1) {
             s32 sum;
             s32 glyphDim;
 
-            glyphDim = *(volatile u8 *)&glyph->height;
+            glyphDim = glyph->height;
             sum = *(volatile u16 *)&ptr->y0;
             temp = sum + glyphDim;
         }
