@@ -25,7 +25,7 @@ void Menu_SaveBgApplyFadeStep(void) {
 
     level = D_800A1878[D_8009CEE8];
     {
-        register int product asm("$2") = level * D_8009CEEC;
+        int product = level * D_8009CEEC;
         bias = product << 5;
     }
     attenuation = level * (D_8009CEEC + 0x100);
