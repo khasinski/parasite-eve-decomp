@@ -835,4 +835,26 @@ int rsin(int angle);
 #define gte_rtpt_padded() asm volatile("nop\n\tnop\n\t.word 0x4A280030")
 #define gte_avsz3_padded() asm volatile("nop\n\tnop\n\t.word 0x4B58002D")
 
+/* PSY-Q gte_ldclmv / gte_rtir / gte_stclmv: one strided matrix column through
+ * RTIR (sf=1), the three steps of the SDK's inline gte_MulMatrix0. */
+#define gte_ldclmv(column) \
+    asm volatile("lhu $12,0(%0)\n\t" \
+                 "lhu $13,6(%0)\n\t" \
+                 "lhu $14,12(%0)\n\t" \
+                 "mtc2 $12,$9\n\t" \
+                 "mtc2 $13,$10\n\t" \
+                 "mtc2 $14,$11" \
+                 : : "r"(column) : "$12", "$13", "$14")
+
+#define gte_rtir() asm volatile("nop\n\tnop\n\t.word 0x4A49E012")
+
+#define gte_stclmv(column) \
+    asm volatile("mfc2 $12,$9\n\t" \
+                 "mfc2 $13,$10\n\t" \
+                 "mfc2 $14,$11\n\t" \
+                 "sh $12,0(%0)\n\t" \
+                 "sh $13,6(%0)\n\t" \
+                 "sh $14,12(%0)" \
+                 : : "r"(column) : "$12", "$13", "$14", "memory")
+
 #endif
