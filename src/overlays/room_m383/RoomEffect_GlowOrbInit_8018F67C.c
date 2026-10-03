@@ -1,0 +1,8 @@
+#include "common.h"
+
+#define ROOMEFFECT_GLOW_ORB_INIT_FUNC RoomEffect_GlowOrbInit_8018F67C
+#define ROOMEFFECT_GLOW_ORB_INIT_SPIN D_8018EFF4
+#define ROOMEFFECT_GLOW_ORB_INIT_AXES D_80196FC8
+#define ROOMEFFECT_GLOW_ORB_INIT_X D_801974F4
+#define ROOMEFFECT_GLOW_ORB_INIT_Z D_801974FC
+#include "../room_lib/RoomEffect_GlowOrbInit.inc"

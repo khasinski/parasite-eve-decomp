@@ -857,4 +857,48 @@ int rsin(int angle);
                  "sh $14,12(%0)" \
                  : : "r"(column) : "$12", "$13", "$14", "memory")
 
+/* PSY-Q gte_ldlv0 / gte_rt / gte_stlvnl: a long vector through RT with
+ * translation (sf=1), as used by the SDK's inline gte_CompMatrix. */
+#define gte_ldlv0(vector) \
+    asm volatile("lhu $13,4(%0)\n\t" \
+                 "lhu $12,0(%0)\n\t" \
+                 "sll $13,$13,16\n\t" \
+                 "or $12,$12,$13\n\t" \
+                 "mtc2 $12,$0\n\t" \
+                 "lwc2 $1,8(%0)" \
+                 : : "r"(vector) : "$12", "$13")
+
+#define gte_rt() asm volatile("nop\n\tnop\n\t.word 0x4A480012")
+
+#define gte_stlvnl(vector) \
+    asm volatile("swc2 $9,0(%0)\n\t" \
+                 "swc2 $10,4(%0)\n\t" \
+                 "swc2 $11,8(%0)" \
+                 : : "r"(vector) : "memory")
+
+/* PSY-Q inline_c.h gte_MulMatrix0 / gte_CompMatrix (r3 = r1 * r2, with
+ * the composed translation for CompMatrix). */
+#define gte_MulMatrix0(r1, r2, r3) \
+    { \
+        gte_ldrotmatrix(r1); \
+        gte_ldclmv(r2); \
+        gte_rtir(); \
+        gte_stclmv(r3); \
+        gte_ldclmv((char *)(r2) + 2); \
+        gte_rtir(); \
+        gte_stclmv((char *)(r3) + 2); \
+        gte_ldclmv((char *)(r2) + 4); \
+        gte_rtir(); \
+        gte_stclmv((char *)(r3) + 4); \
+    }
+
+#define gte_CompMatrix(r1, r2, r3) \
+    { \
+        gte_MulMatrix0(r1, r2, r3); \
+        gte_ldtransmatrix(r1); \
+        gte_ldlv0((char *)(r2) + 20); \
+        gte_rt(); \
+        gte_stlvnl((char *)(r3) + 20); \
+    }
+
 #endif
