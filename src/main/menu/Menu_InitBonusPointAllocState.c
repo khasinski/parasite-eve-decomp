@@ -203,7 +203,7 @@ void Menu_DrawBonusPointAnimFrame(void) {
         }
     }
     var_a0 = 0x808080;
-    if ((s32) g_AyaSaveLevel < g_MenuLevelDisplayValue) {
+    if (g_AyaSaveLevel < g_MenuLevelDisplayValue) {
         var_a0 = 0x8080;
     }
     Draw_SetColor(var_a0);
@@ -222,7 +222,7 @@ void Menu_DrawBonusPointAnimFrame(void) {
         }
     }
     var_a0_2 = 0x808080;
-    if ((s32) g_AyaHpMax < g_MenuHpMaxDisplayValue) {
+    if (g_AyaHpMax < g_MenuHpMaxDisplayValue) {
         var_a0_2 = 0x8080;
     }
     Draw_SetColor(var_a0_2);
