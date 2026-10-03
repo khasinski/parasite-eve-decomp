@@ -15,14 +15,14 @@ int rand(void);
 void ROOMLIB_UPDATE_EIGHT_NAME(void *unused,
                                RoomEightParticleControl *control,
                                RoomEightParticleState *stateArg) {
-    register RoomEightParticleControl *clock asm("$23");
+    RoomEightParticleControl *clock;
     register RoomEightParticleState *state asm("$19");
-    register unsigned int i asm("$20");
+    unsigned int i;
     register char *positionCursor asm("$16");
     register char *scalarCursor asm("$17");
-    register RoomEightParticleContext *context asm("$21");
-    register char *matrix asm("$22");
-    register char *activeCursor asm("$18");
+    RoomEightParticleContext *context;
+    char *matrix;
+    char *activeCursor;
     RoomFxSeed8 seed0;
     RoomFxSeed8 seed1;
     RoomFxSeed8 seed2;
@@ -30,7 +30,7 @@ void ROOMLIB_UPDATE_EIGHT_NAME(void *unused,
     RoomFxSeed8 transformed1;
     RoomFxSeed8 transformed2;
     RoomEightParticleContext *contextResult;
-    register char *matrixBase asm("$2");
+    char *matrixBase;
     int frame;
     s16 slot;
     int random;
