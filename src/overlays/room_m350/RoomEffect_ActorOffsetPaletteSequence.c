@@ -46,8 +46,8 @@ extern RoomM350EffectEmitter *D_800F33E0;
 extern unsigned char D_8019A82E;
 
 extern unsigned short D_800E2850[];
-extern volatile unsigned short D_800E11E8,D_800F3370;
-extern volatile short D_800F3368,D_800F3376,D_800F3378,D_800F336E,D_800F3372,D_800F3374;
+extern unsigned short D_800E11E8,D_800F3370;
+extern short D_800F3368,D_800F3376,D_800F3378,D_800F336E,D_800F3372,D_800F3374;
 extern char D_8019A570[];
 extern int Asset_Find08w(int,void *,int,int,int),Inv_ScrambleGrid(void),GetClut(int,int);
 extern int func_800CE560(void *,int,int,int (*)(int,GteShortVector *));
@@ -140,11 +140,11 @@ draw:
         state->rotation.z=(unsigned int)D_800E27EC<<8;
         specialKind=4;
         do {
-            int kind=*(unsigned short *)&D_800F336C;
+            int kind=D_800F336C;
             int clut,pal=palettes[kind];
             if(kind==specialKind && D_800F3428) pal+=4;
             clut=GetClut(32,pal);
-            func_800CEE20(&local.position,state,state->size,state->size,*(short *)&D_800F336A+216,(unsigned short)clut,1,state->brightness,D_8019A570);
+            func_800CEE20(&local.position,state,state->size,state->size,D_800F336A+216,(unsigned short)clut,1,state->brightness,D_8019A570);
             state->rotation.z=0u-(unsigned short)state->rotation.z;
         } while(++i<2);
     }
