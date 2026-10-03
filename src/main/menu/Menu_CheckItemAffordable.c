@@ -8,8 +8,7 @@
 int Menu_CheckItemAffordable(int actionId)
 {
     int total, remaining, enabled, allowed, category;
-    /* Matching debt: preserve the action across queries in $s1. */
-    register int action asm("$17") = actionId;
+    int action = actionId;
     int bits;
     ItemDataRecord *item;
     remaining = BattleCmd_GetRemainingAmmo(&total);
