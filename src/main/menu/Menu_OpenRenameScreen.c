@@ -51,10 +51,10 @@ void Menu_OpenRenameScreen(s32 arg0) {
     if (Save_GetMetadataWindowIndex() != 0) {
         var_a3 = MenuWidget_CreateNode(0x18, temp_v0, temp_v0);
         M2C_FIELD(var_a3, M2C_UNK **, 0x30) = &Menu_DrawMemCardSlot2List;
-        M2C_FIELD(var_a3, s32 *, 0x1C) = (s32) (M2C_FIELD(var_a3, s32 *, 0x1C) - 0x34);
+        M2C_FIELD(var_a3, s32 *, 0x1C) = (M2C_FIELD(var_a3, s32 *, 0x1C) - 0x34);
         var_a3 = MenuWidget_CreateNode(0x19, temp_v0, temp_v0, var_a3);
         M2C_FIELD(var_a3, M2C_UNK **, 0x30) = &Menu_DrawMemCardSlot3List;
-        M2C_FIELD(var_a3, s32 *, 0x1C) = (s32) (M2C_FIELD(var_a3, s32 *, 0x1C) - 0x34);
+        M2C_FIELD(var_a3, s32 *, 0x1C) = (M2C_FIELD(var_a3, s32 *, 0x1C) - 0x34);
     } else {
         M2C_FIELD(MenuWidget_CreateNode(0x17, temp_v0, temp_v0), M2C_UNK **, 0x30) = &Menu_DrawMemCardSlot1List;
         M2C_FIELD(MenuWidget_CreateNode(0x18, temp_v0, temp_v0), M2C_UNK **, 0x30) = &Menu_DrawMemCardSlot2List;
