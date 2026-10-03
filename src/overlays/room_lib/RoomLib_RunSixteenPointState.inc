@@ -18,16 +18,16 @@ int func_8003010C(void *object, int id);
 
 int ROOMLIB_SIXTEEN_STATE_FUNC(int mode, char *state) {
     char *slot;
-    register char *workState asm("$16");
-    register unsigned char *phaseState asm("$4");
+    char *workState;
+    unsigned char *phaseState;
     unsigned char *completionState;
-    register int frame asm("$3");
+    int frame;
     unsigned int flags;
-    register int activity asm("$2");
-    register int motion asm("$4");
-    register unsigned short phase asm("$2");
-    register unsigned short phaseCopy asm("$3");
-    register int reversedMotion asm("$2");
+    int activity;
+    int motion;
+    unsigned short phase;
+    unsigned short phaseCopy;
+    int reversedMotion;
     register int lastConfig asm("$2");
 
     slot = *(char **)(D_800F32D0 + 8);
