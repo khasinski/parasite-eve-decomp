@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Further copies of matched room_lib templates
+
+A byte search of every overlay for relocation-masked copies of already matched
+C found four more functions in six places. `func_8018F858` in scene_e09 and
+scene_e10 now instantiates `RoomLib_DrawAnchoredSpriteQuad.inc` and
+`func_8018FFB8` there instantiates `RoomLib_SeedMotionParticles.inc`;
+`func_801901CC` and `func_801907FC` in room_m348 instantiate
+`RoomLib_DrawStagedMotion.inc` and `RoomLib_UpdateStagedMotion.inc`. The
+room_m348 header is 0x18 bytes shorter than room_m174's, so its header symbols
+shift by that constant. Every instance matches retail with no pins or barriers;
+all three overlay SHA-1 hashes are unchanged.
+
 ### Sixteen more dropped flare particle instances
 
 The function previously labelled `RoomLib_DlgBlob` in room_m126+1, room_m129+1,
