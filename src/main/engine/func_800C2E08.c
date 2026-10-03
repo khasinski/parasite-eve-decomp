@@ -24,7 +24,6 @@ int func_800C2E08(void) {
             D_800E2248[6]--;
             check = *(u32 *)(D_800E2248 + 4) & andMask;
             check = check == xorMask;
-            asm("" : "=r"(check) : "0"(check));
             result |= -check;
         }
     }
