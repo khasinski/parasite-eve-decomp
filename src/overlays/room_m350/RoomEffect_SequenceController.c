@@ -56,7 +56,6 @@ int func_801958DC(int event) {
         if(instance->animation!=13) return 0;
         repeat=&D_8019A7FC;
         repetitions=*repeat;
-        asm("" : : "r"(repetitions));
         frame=*(unsigned short *)((char *)&instance->frame+2);
         if(repetitions>0) {
             register int speed asm("$16");
