@@ -27,9 +27,9 @@ extern void *ROOMLIB_SCALED_SPRITE_PACKET;
 
 void ROOMLIB_DRAW_SCALED_SPRITE_FUNC(char *object, void *unused, char *state) {
     RoomScaledSpriteStack stack;
-    register char *entity asm("$16");
-    register char *workState asm("$17");
-    register char *clock asm("$18");
+    char *entity;
+    char *workState;
+    char *clock;
     register int callArg0 asm("$4");
     register int callArg1 asm("$5");
     int handleA;
