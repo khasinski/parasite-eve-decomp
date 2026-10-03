@@ -64,22 +64,22 @@ extern s16 ROOMLIB_DRAW_THREE_PARTICLES_FLOOR_HEIGHT;
 void ROOMLIB_DRAW_THREE_PARTICLES_FUNC(void *unused, s16 *args, char *state) {
     RoomDrawThreeStack stack;
     register char *workState asm("$18");
-    register unsigned int i asm("$20");
+    unsigned int i;
     RoomFxVec4 *sourceScale;
-    register RoomSpriteMatrix *secondaryMatrix asm("$23");
+    RoomSpriteMatrix *secondaryMatrix;
     register char *positionCursor asm("$19");
     register char *shortCursor asm("$17");
     register char *element asm("$21");
     register int positionOffset asm("$22");
     register int scaleValue asm("$16");
     register void *arg0 asm("$4");
-    register void *inputArg asm("$5");
+    void *inputArg;
     register void *outputArg asm("$6");
     register s16 *callArgs asm("$7");
     register char *positionSource asm("$2");
     char *clock;
-    register int computedScale asm("$2");
-    register int baseScale asm("$3");
+    int computedScale;
+    int baseScale;
 
     asm("" : "=r"(workState) : "0"(state));
     stack.args = args;
@@ -99,9 +99,7 @@ void ROOMLIB_DRAW_THREE_PARTICLES_FUNC(void *unused, s16 *args, char *state) {
         element = workState + i;
         positionOffset = i << 3;
         if (*(s8 *)(element + 0x16) >= 0) {
-            asm("" : "=r"(positionOffset) : "0"(positionOffset));
             arg0 = (void *)(positionOffset + 0x6C);
-            asm("" : "=r"(arg0) : "0"(arg0));
             arg0 = workState + (int)arg0;
             func_80079754(arg0, &stack.primaryMatrix);
             func_80071A44(sourceScale, 0, 0x10);
@@ -119,20 +117,15 @@ void ROOMLIB_DRAW_THREE_PARTICLES_FUNC(void *unused, s16 *args, char *state) {
                                        *(s8 *)(workState + 0x0D);
             callArgs = stack.args;
             computedScale = *(u8 *)(element + 0x1E);
-            asm volatile("" : "=r"(computedScale)
-                : "0"(computedScale) : "memory");
             arg0 = ROOMLIB_DRAW_THREE_PARTICLES_TABLE;
             ROOMLIB_DRAW_THREE_PARTICLES_PRIMARY_ALPHA = computedScale;
             asm volatile("" ::: "memory");
             inputArg = (void *)(int)callArgs[1];
-            asm volatile("" : "=r"(inputArg)
-                : "0"(inputArg) : "memory");
             outputArg = ROOMLIB_DRAW_THREE_PARTICLES_PACKET;
             func_800C3134(arg0, (int)inputArg, outputArg);
             func_800C2FF0(0x40, 0x40);
             func_800C3238(2);
             arg0 = ROOMLIB_DRAW_THREE_PARTICLES_PACKET;
-            asm("" : "=r"(arg0) : "0"(arg0));
             func_800C42A4(arg0, &stack.primaryMatrix, 1);
 
             if (*(s16 *)(workState + 8) == 1) {
@@ -140,7 +133,6 @@ void ROOMLIB_DRAW_THREE_PARTICLES_FUNC(void *unused, s16 *args, char *state) {
                 computedScale = func_80077CF4(callArgs[1] << 7) >> 3;
                 baseScale = *(u16 *)(shortCursor + 0x32);
                 computedScale += baseScale;
-                asm("" : "=r"(computedScale) : "0"(computedScale));
                 scaleValue = computedScale;
                 asm("" : "=r"(scaleValue) : "0"(scaleValue));
                 if (*(u16 *)(shortCursor + 0x2A) < (s16)computedScale) {
@@ -155,7 +147,6 @@ void ROOMLIB_DRAW_THREE_PARTICLES_FUNC(void *unused, s16 *args, char *state) {
                 asm("" : "=r"(arg0), "=r"(inputArg)
                     : "0"(arg0), "1"(inputArg));
                 scaleValue = (s16)scaleValue >> 1;
-                asm("" : "=r"(scaleValue) : "0"(scaleValue));
                 stack.position.z += *(u16 *)(shortCursor + 0x22) << 4;
                 func_80079754(arg0, inputArg);
                 func_80071A44(sourceScale, 0, 0x10);
@@ -184,7 +175,6 @@ void ROOMLIB_DRAW_THREE_PARTICLES_FUNC(void *unused, s16 *args, char *state) {
                 asm volatile("" : "=r"(computedScale), "=r"(baseScale)
                     : "0"(computedScale), "1"(baseScale));
                 arg0 = (void *)0x20;
-                asm("" : "=r"(arg0) : "0"(arg0));
                 stack.secondaryMatrix.t[0] = computedScale;
                 stack.secondaryMatrix.t[1] = baseScale;
                 computedScale = *(s16 *)(positionCursor + 0x46);
@@ -198,7 +188,6 @@ void ROOMLIB_DRAW_THREE_PARTICLES_FUNC(void *unused, s16 *args, char *state) {
                     : "0"(computedScale) : "memory");
                 scaleValue =
                     (int)&ROOMLIB_DRAW_THREE_PARTICLES_FLOOR_ALPHA;
-                asm("" : "=r"(scaleValue) : "0"(scaleValue));
                 *(s16 *)scaleValue = (unsigned int)computedScale >> 1;
                 func_800C2FF0((int)arg0, (int)inputArg);
                 func_800C3238(3);
