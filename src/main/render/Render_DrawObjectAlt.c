@@ -41,7 +41,7 @@ void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green
     u8 g = green;
     u8 b = blue;
     s32 threshold;
-    register volatile RenderVec3s *scratch asm("$6") = (volatile RenderVec3s *)0x1F800000;
+    register volatile RenderVec3s *scratch asm("$6") = (RenderVec3s *)0x1F800000;
     RenderObjectPart *part;
     s32 i;
     register s32 partOffset asm("$24");
