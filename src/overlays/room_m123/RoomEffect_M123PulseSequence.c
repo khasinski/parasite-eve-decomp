@@ -66,8 +66,20 @@ typedef struct RoomM123FrameCounter {
 } RoomM123FrameCounter;
 extern RoomM123FrameCounter D_800942EC;
 extern u16 D_800E11EA, D_800E2850[];
-extern u16 D_800F3368, D_800F336A, D_800F336C, D_800F336E;
-extern u16 D_800F3370, D_800F3372, D_800F3374, D_800F3376, D_800F3378;
+/* The sprite parameter block at 0x800F3368 (RenderEffectParameters in
+ * pe1/render_object.h, whose prototypes conflict with this unit's). */
+typedef struct RoomM123EffectParameters {
+    u16 parameter00;
+    u16 parameter02;
+    u16 palette;
+    u16 parameter06;
+    u16 tpage;
+    u16 parameter0A;
+    s16 depth;
+    u16 extent_x;
+    u16 extent_y;
+} RoomM123EffectParameters;
+extern RoomM123EffectParameters D_800F3368;
 extern int func_80194A70(int, RoomPulseParticle *, int *);
 extern void func_800CE870(void *, int, void *);
 extern int func_800CE560(void *, int, int, int (*)(int, RoomPulseParticle *, int *));
@@ -132,18 +144,16 @@ int func_80194C04(int mode, RoomPulseParticle *particle)
         if (D_800E27EC < 8) goto ret0;
         return 2;
     case 2:
-        D_800F3368 = 32;
-        D_800F336A = 2;
-        D_800F3376 = 32;
-        D_800F3378 = 32;
+        D_800F3368.parameter00 = 32;
+        D_800F3368.parameter02 = 2;
+        D_800F3368.extent_x = 32;
+        D_800F3368.extent_y = 32;
         palette = D_800E2850[D_800E11EA];
-        /* Keep the palette lookup before the remaining effect-register writes. */
-        asm volatile("" : : "r"(palette) : "memory");
-        D_800F336C = 3;
-        D_800F336E = 0;
-        D_800F3372 = 0;
-        D_800F3374 = 0;
-        D_800F3370 = palette;
+        D_800F3368.palette = 3;
+        D_800F3368.parameter06 = 0;
+        D_800F3368.parameter0A = 0;
+        D_800F3368.depth = 0;
+        D_800F3368.tpage = palette;
         break;
     }
 ret0:
