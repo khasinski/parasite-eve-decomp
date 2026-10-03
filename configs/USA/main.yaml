@@ -879,7 +879,7 @@ segments:
       - [0x5E680, c, asset/Asset_Find08Alt]
       - [0x5E6D4, c, akao/Akao_SendPositionalCmd]
       - [0x5E750, c, akao/Akao_SendTableCommand]
-      - [0x5E7A8, asm, akao/Akao_Calc3DPan]
+      - [0x5E7A8, c, akao/Akao_Calc3DPan]
       - [0x5E9C0, c, gpu/misc13]
       - [0x5EB38, c, asset/str]
       - [0x5ED14, c, asset/Asset_FindTable2CByU16Key]
