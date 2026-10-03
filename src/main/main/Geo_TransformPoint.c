@@ -13,7 +13,7 @@ int Geo_TransformPoint(GeomEntry *entry, int x, int y, int depth) {
     unsigned int depthWord;
     unsigned int packed;
     unsigned int mask;
-    volatile int stackFrame[8]; /* Preserves the original 0x20-byte frame. */
+    int stackFrame[8]; /* Preserves the original 0x20-byte frame. */
 
     current = entry;
     sum = current->base_x;
