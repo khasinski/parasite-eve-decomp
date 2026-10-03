@@ -115,7 +115,7 @@ void Spu_UpdateVoiceRegisters(AkaoTrack *voice, u32 voice_mask) {
 
         if (voice->pitch_lfo_counter == 0 && voice->pitch_lfo_phase != 1) {
             register int lfo_value asm("$5");
-            table = (s16 *)(u32)voice->pitch_lfo_table;
+            table = (s16 *)voice->pitch_lfo_table;
             if (table[0] == 0 && table[1] == 0) {
                 table += table[2];
             }
@@ -137,7 +137,7 @@ void Spu_UpdateVoiceRegisters(AkaoTrack *voice, u32 voice_mask) {
         voice->volume_lfo_target += (u16)voice->volume_lfo_delta;
         if (voice->volume_lfo_counter == 0 && voice->volume_lfo_phase != 1) {
             register int lfo_value asm("$5");
-            table = (s16 *)(u32)voice->volume_lfo_table;
+            table = (s16 *)voice->volume_lfo_table;
             if (table[0] == 0 && table[1] == 0) {
                 table += table[2];
             }
@@ -154,7 +154,7 @@ void Spu_UpdateVoiceRegisters(AkaoTrack *voice, u32 voice_mask) {
         voice->aux_lfo_target += (u16)voice->aux_lfo_delta;
         if (voice->aux_lfo_phase != 1) {
             register int lfo_value asm("$5");
-            table = (s16 *)(u32)voice->aux_lfo_table;
+            table = (s16 *)voice->aux_lfo_table;
             if (table[0] == 0 && table[1] == 0) {
                 table += table[2];
             }
