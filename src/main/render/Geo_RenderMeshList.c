@@ -19,13 +19,12 @@ int Geo_RenderMeshList(void *buffer, void **end)
     GeomEntry *entries;
     register unsigned int count asm("$19");
     unsigned int i;
-    register int x asm("$4");
+    int x;
     Gpu_LoadGeomState(*group);
     view = (CameraViewport *)((u8 *)state + state->entry_offset_1C) + *group;
     x = (view->minX + view->maxX) / 2;
     {
         register short centerX = x;
-        asm("" : "=r"(centerX) : "0"(centerX));
         D_800BD028 = centerX;
         D_800BCF8C.x = centerX;
     }
@@ -35,7 +34,6 @@ int Geo_RenderMeshList(void *buffer, void **end)
     D_800BCFAC = view->minX;
     asm volatile("":::"memory");
     D_800BCFAE = view->maxX;
-    asm volatile("":::"memory");
     lowY = *minY;
     i = 0;
     D_800BCFB0 = lowY;
