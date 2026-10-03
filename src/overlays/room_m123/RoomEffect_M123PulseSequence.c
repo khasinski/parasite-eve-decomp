@@ -60,7 +60,12 @@ typedef struct RoomPulseGlobal {
 extern RoomPulseGlobal **D_8009D254;
 extern u8 *D_800E2368;
 extern int D_800E27EC;
-extern u16 D_800942EC, D_800E11EA, D_800E2850[];
+/* Frame counter read as a one-field record so the copy stores stay ahead. */
+typedef struct RoomM123FrameCounter {
+    u16 count;
+} RoomM123FrameCounter;
+extern RoomM123FrameCounter D_800942EC;
+extern u16 D_800E11EA, D_800E2850[];
 extern u16 D_800F3368, D_800F336A, D_800F336C, D_800F336E;
 extern u16 D_800F3370, D_800F3372, D_800F3374, D_800F3376, D_800F3378;
 extern int func_80194A70(int, RoomPulseParticle *, int *);
@@ -110,11 +115,9 @@ int func_80194C04(int mode, RoomPulseParticle *particle)
                 next->x = particle->z;
                 next->y = particle->pad;
                 next->z = particle->state;
-                /* Keep the copied coordinates ahead of the reset fields. */
-                asm volatile("" : : : "memory");
+                next->y = D_800942EC.count;
                 next->state = 0;
                 next->frame = 0;
-                next->y = D_800942EC;
             }
         }
         if (D_800E27EC == 32 && D_800E2368[13]) {
