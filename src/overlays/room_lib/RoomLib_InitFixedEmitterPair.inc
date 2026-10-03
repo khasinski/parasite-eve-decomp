@@ -26,11 +26,11 @@ void func_800C4E50(RoomFxEmitterParams *params);
 
 void ROOMLIB_INIT_FIXED_PAIR_NAME(int unused0, int unused1,
                                   RoomFxInitBounds *bounds) {
-    register s16 *anchor asm("$16");
-    register char *source asm("$17");
-    register int mode asm("$21");
+    s16 *anchor;
+    char *source;
+    int mode;
     register int intensity asm("$19");
-    register int color1_0 asm("$23");
+    int color1_0;
     register int color1_1 asm("$22");
     register int color1_2 asm("$20");
     register int extent1 asm("$18");
