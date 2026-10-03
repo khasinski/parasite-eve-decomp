@@ -1,5 +1,5 @@
 #include "common.h"
-extern void *D_800B0E64;
+#include "pe1/room_sound_slot.h"
 void func_8006DF50(void *, int, int, int, int);
 typedef struct WordBlock32 { s32 words[8]; } WordBlock32;
 void func_800C2B40(void *);
@@ -71,11 +71,7 @@ void func_80193C68(char *actor, void *unused, char *state) {
     char *source;
     char *block;
     void *sound;
-    void *sound2;
-    int cue, zeroArg;
-    int volume;
-    int pan;
-    void **soundAddress;
+    RoomSoundSlot *soundAddress;
     register int sixtyFour asm("$6");
     register int one asm("$4");
     register int half128 asm("$5");
@@ -83,7 +79,7 @@ void func_80193C68(char *actor, void *unused, char *state) {
     int thirtyTwo;
     register int two asm("$8");
     int minus300;
-    register int neg50 asm("$2");
+    register int scratch asm("$2"); /* -50 offset, later the sound pan */
     int scale;
     func_800C2B40(state);
     source = *(char **)(actor + 8);
@@ -97,7 +93,7 @@ void func_80193C68(char *actor, void *unused, char *state) {
     one = 1;
     *(s16 *)(state + 0x28) = scale;
     asm volatile("" : : "m"(*(s16 *)(state + 0x28)));
-    neg50 = -50;
+    scratch = -50;
     half128 = 128;
     byte128 = 128;
     thirtyTwo = 32;
@@ -105,7 +101,7 @@ void func_80193C68(char *actor, void *unused, char *state) {
     asm volatile("" : : "r"(byte128), "r"(two));
     *(s16 *)(state + 0x2A) = 0;
     *(s16 *)(state + 0x2C) = 0;
-    D_80199558 = neg50;
+    D_80199558 = scratch;
     D_80199588 = -100;
     D_80199581 = 16;
     D_80199582 = 5;
@@ -115,7 +111,7 @@ void func_80193C68(char *actor, void *unused, char *state) {
     D_80199544 = 96;
     D_80199555 = one;
     D_80199585 = one;
-    soundAddress = &D_800B0E64;
+    soundAddress = &D_800B0E64_slot;
     D_80199554 = sixtyFour;
     D_8019955A = half128;
     D_80199550 = byte128;
@@ -147,7 +143,7 @@ void func_80193C68(char *actor, void *unused, char *state) {
     D_80199571 = byte128;
     D_80199572 = byte128;
     D_80199576 = 0;
-    sound = *(void *volatile *)soundAddress;
+    sound = *(void *volatile *)&soundAddress->channel;
     D_801994CC = 68;
     D_801994CD = two;
     D_801994D0 = minus300;
@@ -171,13 +167,7 @@ void func_80193C68(char *actor, void *unused, char *state) {
     D_8019949D = sixtyFour;
     D_8019949E = thirtyTwo;
     if (sound) {
-        volume = 0x80;
-        sound2 = *(void *volatile *)soundAddress;
-        zeroArg = 0;
-        cue = 0x604;
-
-        pan = 0x7F;
-        asm("" : : "r"(pan));
-        func_8006DF50(sound2, cue, zeroArg, volume, pan);
+        scratch = 0x7F;
+        func_8006DF50(soundAddress->channel, 0x604, 0, 0x80, scratch);
     }
 }
