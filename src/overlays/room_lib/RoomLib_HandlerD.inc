@@ -36,7 +36,7 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
     int *rot;
     int rot_y;
     int rot_word;
-    register int rot_x asm("$4");
+    int rot_x;
 
     asm("" : : "r"(state) : "$18");
     scratch = (short *)0x1F800000;
