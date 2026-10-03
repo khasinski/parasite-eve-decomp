@@ -40,9 +40,9 @@ void func_8018F338(RoomMotionTrigger *arg0) {
     cf4 = func_80077CF4(0xC00);
     g = D_8009D254;
     neg = -cf4;
-    *(volatile s16 *)&g->render_object.model_matrix.rotation[0][1] = neg;
+    g->render_object.model_matrix.rotation[0][1] = neg;
     matrix_arg = D_8009D254;
-    *(volatile s16 *)&g->render_object.model_matrix.rotation[1][0] = cf4;
+    g->render_object.model_matrix.rotation[1][0] = cf4;
     g->render_object.model_matrix.rotation[0][0] = dc4;
     g->render_object.model_matrix.rotation[1][1] = dc4;
     g->render_object.model_matrix.translation[2] = 0;
