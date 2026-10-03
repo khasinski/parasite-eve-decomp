@@ -857,7 +857,7 @@ int rsin(int angle);
                  "sh $14,12(%0)" \
                  : : "r"(column) : "$12", "$13", "$14", "memory")
 
-/* PSY-Q gte_ldlv0 / gte_rt / gte_stlvnl: a long vector through RT with
+/* PSY-Q gte_ldlv0 / gte_rt / gte_stlvl: a long vector through RT with
  * translation (sf=1), as used by the SDK's inline gte_CompMatrix. */
 #define gte_ldlv0(vector) \
     asm volatile("lhu $13,4(%0)\n\t" \
@@ -870,7 +870,8 @@ int rsin(int angle);
 
 #define gte_rt() asm volatile("nop\n\tnop\n\t.word 0x4A480012")
 
-#define gte_stlvnl(vector) \
+/* PSY-Q inline_c.h gte_stlvl: store IR1..3 as a long vector. */
+#define gte_stlvl(vector) \
     asm volatile("swc2 $9,0(%0)\n\t" \
                  "swc2 $10,4(%0)\n\t" \
                  "swc2 $11,8(%0)" \
@@ -898,7 +899,7 @@ int rsin(int angle);
         gte_ldtransmatrix(r1); \
         gte_ldlv0((char *)(r2) + 20); \
         gte_rt(); \
-        gte_stlvnl((char *)(r3) + 20); \
+        gte_stlvl((char *)(r3) + 20); \
     }
 
 #endif

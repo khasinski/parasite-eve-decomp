@@ -385,4 +385,11 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxPairedEmitterState, secondary) == 0x120,
 PE1_STATIC_ASSERT(sizeof(RoomFxPairedEmitterState) == 0x140,
                   room_fx_paired_state_size);
 
+/* The 16-bit frame counter at 0x800942EC viewed as a one-field record. As an
+ * in-struct read it is ordered after stores through RoomFxPairedEmitterState,
+ * which is where retail schedules it when used as the emitter floor height. */
+typedef struct RoomFxFrameCounterRecord {
+    short count;
+} RoomFxFrameCounterRecord;
+
 #endif
