@@ -36,4 +36,15 @@ extern int func_800D3FD8(void);
 extern int func_800D3F64(int sound, int handle);
 extern int func_80192548(int mode, RoomOrbitTrailParticle *p);
 
+/* Orbit ring trail particle (func_80192548): the floor it bounces on, its
+ * colour seed and trail track, and the trail strip renderer. */
+typedef struct SceneE22FrameCounter {
+    s16 count;
+} SceneE22FrameCounter;
+
+extern SceneE22FrameCounter D_800942EC;
+extern RenderColor D_8018F1CC;
+extern u8 D_80199168[];
+extern void func_800D2B58(void *, void *, void *, void *, int, int, int);
+
 #endif
