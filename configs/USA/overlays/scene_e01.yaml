@@ -51,7 +51,7 @@ segments:
       - [0xA7C, asm, func_8018FA64]
       - [0x1724, c, RoomEffect_OrbitTrailParticle_8019070C]
       - [0x1D50, c, RoomEffect_OrbitTrailBurst_80190D38]
-      - [0x23CC, asm, func_801913B4]
+      - [0x23CC, c, RoomEffect_RisingSprayParticle_801913B4]
       - [0x2D14, c, RoomEffect_RisingSprayController_80191CFC]
       - [0x31A4, c, RoomLib_SetArg1_8019218C]
       - [0x31B4, c, func_8019219C]
