@@ -43,7 +43,6 @@ GteMatrix *MulMatrix0(const GteMatrix *left, const GteMatrix *right, GteMatrix *
     xy = (u16)right->m[0][1];
     packed = b->r22_r23;
     z = right->m[2][1];
-    asm volatile("" : "=r"(xy), "=r"(packed), "=r"(z) : "0"(xy), "1"(packed), "2"(z));
     packed <<= 16;
     xy |= packed;
     gte_mfc2_9(firstX);
@@ -59,7 +58,6 @@ GteMatrix *MulMatrix0(const GteMatrix *left, const GteMatrix *right, GteMatrix *
     z = b->r33_pad;
     asm volatile("" : "=r"(xy), "=r"(packed), "=r"(z) : "0"(xy), "1"(packed), "2"(z));
     mask = 0xffff0000U;
-    asm volatile("" : "=r"(mask) : "0"(mask));
     packed &= mask;
     xy |= packed;
     gte_mfc2_9(secondX);
