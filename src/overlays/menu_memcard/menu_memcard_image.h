@@ -32,4 +32,14 @@ void Memcard_BlendImage(MemcardImageNode *node, u8 *destination, s32 padding);
 
 void Memcard_BlendRotatedImage(MemcardImageNode *node, u8 *destination, s32 padding, s32 stride);
 
+/* Memory card list screen input. */
+extern s32 D_801D11B8; /* Pad state of the previous frame. */
+extern s32 D_801D1380;
+extern u8 D_801931BC[], D_8019316C[];
+s32 func_8005E038(void); /* Draw_RemapStatusFlags: pad state */
+s32 func_80042770(s32 port); /* MemCard_IsPortPresent */
+s32 func_8003FFCC(void);
+void Menu_PlayConfirmSound(void);
+void Menu_PlayMoveSound(void);
+
 #endif
