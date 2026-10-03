@@ -8,9 +8,9 @@
 
 extern RoomSoundBurstTemplate8 D_8018F1D0;
 extern u16 D_800F336C;
-extern volatile s16 D_800F336E, D_800F3372, D_800F3374, D_800F3370;
+extern s16 D_800F336E, D_800F3372, D_800F3374, D_800F3370;
 extern s16 D_800F336A;
-extern volatile s16 D_800F3368, D_800F3376, D_800F3378;
+extern s16 D_800F3368, D_800F3376, D_800F3378;
 extern void ROOMEFFECT_SOUND_BURST_CALLBACK(void);
 
 int ROOMEFFECT_SOUND_BURST_FUNC(int mode, RoomSoundBurstState *state) {
