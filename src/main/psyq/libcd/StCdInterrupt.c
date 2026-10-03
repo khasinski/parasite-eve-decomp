@@ -120,10 +120,8 @@ void StCdInterrupt(void) {
                     } else {
                         (void)*(volatile u16 *)&D_800A34A0->id;
                     }
-                    asm volatile("" ::: "memory");
                     D_8009B374 = 5;
                     D_800A34A0->id = 0;
-                    asm volatile("" ::: "memory");
                     return;
                 }
                 if ((D_800A8018 != D_800A34A0->secCount) ||
