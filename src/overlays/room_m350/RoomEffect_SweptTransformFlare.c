@@ -32,14 +32,7 @@ int func_801981D0(int event, RoomM350FlareParticle *particle)
             out = &position;
             gte_ldv0(out);
             gte_rtv0tr_mac();
-            asm volatile("" : "=r"(out) : "0"(out));
-            {
-                register int x asm("$12");
-                register int y asm("$13");
-                register int z asm("$14");
-                gte_mfc2_9(x); gte_mfc2_10(y); gte_mfc2_11(z);
-                out->x = x; out->y = y; out->z = z;
-            }
+            gte_stsv(out);
         }
         position.x += D_8019A890[0];
         position.y += D_8019A890[1];
