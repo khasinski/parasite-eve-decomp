@@ -3,9 +3,15 @@
 #include "pe1/field_movement.h"
 #include "pe1/field_collision.h"
 
+/* A vertex pointer seen as the address retail adds the scaled edge to. */
+typedef union PolygonVertexAddress {
+    const PolygonVertex *vertex;
+    u32 word;
+} PolygonVertexAddress;
+
 /* Two pins and two empty barriers preserve the retail prologue with stock
  * GCC/maspsx. The first barrier clobbers s3 before the entity is assigned;
- * it emits no instructions. Keep the late vector.z read for retail scheduling. */
+ * it emits no instructions. */
 void Entity_SlideOnWall(BattleEntity *input, const PolygonVertex *vertices,
                        u16 count, s16 edge, int oldX, int oldZ)
 {
@@ -16,10 +22,11 @@ void Entity_SlideOnWall(BattleEntity *input, const PolygonVertex *vertices,
     s32 startX, startZ;
     s32 x, z, projection, length;
     s32 radius, direction, trialX, trialZ;
-    const PolygonVertex *point;
+    PolygonVertexAddress base, point;
     asm("" : "=r"(initial) : "0"(initial) : "$19");
-    point = (const PolygonVertex *)((u32)(edge * sizeof(PolygonVertex)) + (u32)vertices);
-    asm volatile("" : "=r"(initial) : "0"(initial), "r"(point) : "memory");
+    base.vertex = vertices;
+    point.word = edge * sizeof(PolygonVertex) + base.word;
+    asm volatile("" : "=r"(initial) : "0"(initial), "r"(point.vertex) : "memory");
     entity = initial;
     endX = vertices[edge].x;
     endZ = vertices[edge].z;
@@ -34,45 +41,42 @@ void Entity_SlideOnWall(BattleEntity *input, const PolygonVertex *vertices,
     vector.y = 0;
     vector.z = endZ - startZ;
     Gte_NormalizeVec(&vector, &unit);
-    unit.x = (u32)unit.x << 4;
-    unit.z = (u32)unit.z << 4;
+    unit.x <<= 4;
+    unit.z <<= 4;
     x = entity->baseX;
     z = entity->baseZ;
-    projection = Math_FixedMul(unit.x, (u32)entity->posX.fixed - (u32)x);
-    projection = (u32)projection + (u32)Math_FixedMul(unit.z,
-        (u32)entity->posZ.fixed - (u32)z);
+    projection = Math_FixedMul(unit.x, entity->posX.fixed - x);
+    projection += Math_FixedMul(unit.z, entity->posZ.fixed - z);
     x = Math_FixedMul(unit.x, projection);
     z = Math_FixedMul(unit.z, projection);
-    x = (u32)x + (u32)entity->baseX;
-    z = (u32)z + (u32)entity->baseZ;
+    x += entity->baseX;
+    z += entity->baseZ;
     vector.x = startX - endX;
     vector.y = 0;
     vector.z = startZ - endZ;
-    length = Gte_ISqrt((u32)vector.x * (u32)vector.x +
-                      (u32)vector.z * (u32)vector.z);
-    projection = (s32)((u32)((z >> 16) - endZ) * (u32)vector.x -
-                    (u32)((x >> 16) - endX) * (u32)vector.z) / length;
+    length = Gte_ISqrt(vector.x * vector.x + vector.z * vector.z);
+    projection = (((z >> 16) - endZ) * vector.x - ((x >> 16) - endX) * vector.z) / length;
     if (projection < 0)
-        projection = 0u - (u32)projection;
+        projection = -projection;
     if (projection > D_8009CE2C) {
         entity->posX.fixed = x;
         entity->posZ.fixed = z;
         return;
     }
-    for (radius = 0; ; radius = (u32)radius + 1) {
+    for (radius = 0; ; radius++) {
         for (direction = 0; direction < 4; ++direction) {
             trialX = x;
             trialZ = z;
             switch (direction) {
-            case 0: trialX = (u32)trialX + ((u32)radius << 16); break;
-            case 1: trialX = (u32)trialX - ((u32)radius << 16); break;
-            case 2: trialZ = (u32)trialZ + ((u32)radius << 16); break;
-            case 3: trialZ = (u32)trialZ - ((u32)radius << 16); break;
+            case 0: trialX += radius << 16; break;
+            case 1: trialX -= radius << 16; break;
+            case 2: trialZ += radius << 16; break;
+            case 3: trialZ -= radius << 16; break;
             }
-            projection = (s32)((u32)((trialZ >> 16) - endZ) * (u32)vector.x -
-                            (u32)((trialX >> 16) - endX) * (u32)*(volatile s32 *)&vector.z) / length;
+            projection = (((trialZ >> 16) - endZ) * vector.x -
+                          ((trialX >> 16) - endX) * vector.z) / length;
             if (projection < 0)
-                projection = 0u - (u32)projection;
+                projection = -projection;
             if (projection > D_8009CE2C) {
                 entity->posX.fixed = trialX;
                 entity->posZ.fixed = trialZ;
