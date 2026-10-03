@@ -10,7 +10,7 @@ s32 func_8012B53C(MenuMemcardFadeState *state) {
         result = 0x100 - shifted;
     } else {
         {
-            register s32 nextLevel asm("$2") = shifted + 0x100;
+            s32 nextLevel = shifted + 0x100;
             asm volatile("" : : "r"(nextLevel));
             state->level = nextLevel;
         }
