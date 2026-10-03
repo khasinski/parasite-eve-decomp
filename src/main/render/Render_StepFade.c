@@ -78,7 +78,7 @@ int Render_StepFade(void) {
                     asm("" : : : "memory");
                     prim_index++;
                     prim++;
-                } while ((u32)prim_index < (u32)prim_count);
+                } while ((u32)prim_index < prim_count);
             }
             entry_index++;
             entry += 0x38;
@@ -89,7 +89,7 @@ int Render_StepFade(void) {
     frame = *fade_ptr;
     frame++;
     *fade_ptr = frame;
-    if ((u32)frame < (u32)D_800BCFFA) {
+    if (frame < D_800BCFFA) {
         return 0;
     }
 
