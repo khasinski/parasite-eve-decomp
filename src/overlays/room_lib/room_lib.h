@@ -1209,8 +1209,8 @@ extern void func_800DFB20(void *state);
             gte_ldv0((void *)scratch); \
             gte_mvmva(); \
             gte_stmac((void *)&scratch[4]); \
-            RW32(D_8009D254, 0x28) += *(volatile int *)&scratch[4] << 12; \
-            RW32(D_8009D254, 0x30) += *(volatile int *)&scratch[8] << 12; \
+            RW32(D_8009D254, 0x28) += *(int *)&scratch[4] << 12; \
+            RW32(D_8009D254, 0x30) += *(int *)&scratch[8] << 12; \
             height = o->pos[0] - o->pos[1]; \
             o->pos[0] = height; \
             if (height < 0) { \
@@ -2069,7 +2069,7 @@ extern unsigned short g_FrameCount16;
             e->w8 = a; \
             e->wC = b; \
         } else { \
-            *(volatile short *)&e->h0 = a; \
+            *(short *)&e->h0 = a; \
             e->h2 = g_FrameCount16; \
             e->h4 = b; \
         } \
@@ -2329,7 +2329,7 @@ extern int func_800C2B68();
 
 #define ROOMLIB_PARTICLE_TICK_A(name) \
     void name(RoomEnt *o, unsigned char *state, char *sys) { \
-        struct { short a; short pad; short b; } volatile saved; \
+        struct { short a; short pad; short b; } saved; \
         char *clock = (char *)func_800C2B50(); \
         int tmp = RW16(o->link, 0x2A); \
         saved.a = tmp; \
