@@ -30,14 +30,14 @@ s32 rsin(s16, void *);                              /* extern */
 M2C_UNK Entity_ResolveDropTable(void *);                      /* static */
 s16 Entity_ApplyHitAndSetAnim(void *);                 /* static */
 void Entity_UpdateTimers(void);
-extern volatile s32 D_8009CDDC;
+extern s32 D_8009CDDC;
 /* Separate declarations preserve the original GCC quantities for each tail. */
-extern volatile s32 draw_slot_entity0 __asm__("D_8009CDDC");
-extern volatile s32 draw_slot_entity1 __asm__("D_8009CDDC");
-extern volatile s32 draw_slot_entity2 __asm__("D_8009CDDC");
-extern volatile s32 draw_slot_status0 __asm__("D_8009CDDC");
-extern volatile s32 draw_slot_status1 __asm__("D_8009CDDC");
-extern volatile s32 draw_slot_status2 __asm__("D_8009CDDC");
+extern s32 draw_slot_entity0 __asm__("D_8009CDDC");
+extern s32 draw_slot_entity1 __asm__("D_8009CDDC");
+extern s32 draw_slot_entity2 __asm__("D_8009CDDC");
+extern s32 draw_slot_status0 __asm__("D_8009CDDC");
+extern s32 draw_slot_status1 __asm__("D_8009CDDC");
+extern s32 draw_slot_status2 __asm__("D_8009CDDC");
 extern s8 D_8009CE30;
 extern s8 D_8009CE34;
 extern s32 D_8009D1A0;
@@ -126,7 +126,7 @@ extern u8 D_800B01B2[];
 extern u8 D_800B01B8[];
 extern u8 D_800B01B9[];
 extern u8 D_800B01BA[];
-extern volatile s32 D_800B0E08;
+extern s32 D_800B0E08;
 extern u8 D_800B692C[];
 extern u8 D_800B692D[];
 extern u8 D_800B692E[];
