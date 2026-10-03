@@ -126,13 +126,29 @@ int func_800D4704(FieldAnimTaskOwner *owner);
 extern FieldAnimObjectPrefix *D_800F32D0;
 extern s16 D_800E2214[3];
 extern s16 D_800942EC;
-int func_800DA1FC(int mode, void *state);
 int func_800DA5D4(int mode, FieldAnimEmitter *state);
 
 extern u8 *D_800F32D8;
 extern s16 D_800E220C[];
 void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);
-int func_800D9A8C(int mode, void *state);
+/* Spinning model flare shared by func_800D9A8C and func_800DA1FC: the leader
+ * (stage 0) follows an anchor point and drops stage 1 copies that shrink. */
+typedef struct FieldAnimSpinningModel {
+    s16 x, y, z;      /* 0x00 */
+    s16 stage;        /* 0x06 */
+    s16 size;         /* 0x08 */
+    s16 angle;        /* 0x0A */
+    s16 ticks;        /* 0x0C */
+    s16 height;       /* 0x0E */
+} FieldAnimSpinningModel;
+int func_800D9A8C(int mode, FieldAnimSpinningModel *state);
+int func_800DA1FC(int mode, FieldAnimSpinningModel *state);
+void GsSetOrign(int tpage, int clut);
+void func_800C6ED8(int mode);
+void func_800C6EF8(u8 *data);
+void func_800C6F4C(u8 *data);
+void func_800C7098(u8 *data, int r, int g, int b);
+void func_800C71E4(u8 *data, GteMatrix *matrix);
 int FieldEng_PointEmitter(int mode, FieldAnimEmitter *state);
 
 typedef struct FieldAnimPointTriple {
