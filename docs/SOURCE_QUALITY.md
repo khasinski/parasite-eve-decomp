@@ -245,6 +245,20 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### fx_common camera, scene and path routines
+
+Six fx_common routines now match from C: the camera update, the look-at
+matrix builder, the scene variant selection, the scene exit (whose jump table
+comes from the unit's own `.rodata` after the header becomes a `rodatabin`),
+the overlay frame loop and the path node update. Several old labels sat in
+the middle of these functions and are absorbed into them. The matrix and
+vector work uses the stock PSY-Q `gte_ldopv1`, `gte_ldopv2` and `gte_op12`
+forms, added to `gte.h` under their own names beside the older variants. The
+frame loop compares packet links as pointers and writes the 24-bit link
+through the existing address union, and the scene exit's range check uses an
+unsigned temporary. The overlay SHA-1 hash is unchanged and no pins, barriers
+or pointer casts were added.
+
 ### Fan sweep spark in the main executable
 
 The main executable carries a copy of room_m318's fan sweep spark at
