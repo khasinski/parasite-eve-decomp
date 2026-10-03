@@ -7,7 +7,7 @@
 void Util_Copy8(u8 *destination, u8 *source);
 
 void CdRom_EnqueueCmd(int value, int command, u8 *payload) {
-    register int *cursor asm("$16");
+    int *cursor;
     u8 *payloadBase;
 
     cursor = &g_DsReadCallbackCursor;
