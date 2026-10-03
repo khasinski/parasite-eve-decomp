@@ -81,7 +81,7 @@ segments:
       - [0x2E60, c, func_80191E48]
       - [0x2EA0, c, RoomLib_Room174383ParticleCluster]
       - [0x2FC8, asm, func_80191FB0]
-      - [0x35D0, asm, func_801925B8]
+      - [0x35D0, c, RoomEffect_DropFieldUpdate_801925B8]
       - [0x3A18, c, func_80192A00]
       - [0x3BC8, asm, func_80192BB0]
       - [0x3EE0, c, func_80192EC8]
