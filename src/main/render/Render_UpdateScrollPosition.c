@@ -16,7 +16,6 @@ int Render_UpdateScrollPosition(void *positionArg, int duration, int mode)
         return -21;
     D_800BCF98 = D_800BCF8C.x;
     D_800BCF9A = D_800BCF8E;
-    asm volatile("" : : : "memory");
     vector[0] = position[0]>>16;
     vector[1] = (position[1]>>16)-(u16)D_800BCFFE;
     vector[2] = position[2]>>16;
@@ -34,7 +33,7 @@ int Render_UpdateScrollPosition(void *positionArg, int duration, int mode)
         gte_ctc2_25(sy);
     }
     {
-        register unsigned int **address asm("$2") = &camera->position.matrixWords;
+        unsigned int **address = &camera->position.matrixWords;
         register unsigned int *matrix asm("$10");
         register unsigned int a asm("$12");
         register unsigned int b asm("$13");
@@ -43,19 +42,16 @@ int Render_UpdateScrollPosition(void *positionArg, int duration, int mode)
         matrix = *address;
         a = matrix[0];
         b = matrix[1];
-        asm("" : : "r"(a), "r"(b));
         gte_ctc2_0(a);
         gte_ctc2_1(b);
         a = matrix[2];
         b = matrix[3];
         c = matrix[4];
-        asm("" : : "r"(a), "r"(b), "r"(c));
         gte_ctc2_2(a);
         gte_ctc2_3(b);
         gte_ctc2_4(c);
         a = matrix[5];
         b = matrix[6];
-        asm("" : : "r"(a), "r"(b));
         gte_ctc2_5(a);
         c = matrix[7];
         gte_ctc2_6(b);
