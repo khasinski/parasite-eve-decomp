@@ -22,7 +22,7 @@ void LIBPAD_PADPORTD_text_388(CardObj *port) {
             do {
                 active = 0;
                 mask = 1;
-                if (((PadCapabilityRecord *)((u32)offset + (u32)port->field_04))
+                if (((PadCapabilityRecord *)(offset + (u32)port->field_04))
                         ->bytes[2])
                     mask = 255;
                 map = port->field_5d;
@@ -43,7 +43,7 @@ void LIBPAD_PADPORTD_text_388(CardObj *port) {
                 if (active) {
                     int total =
                         D_8009B76C +
-                        ((PadCapabilityRecord *)((u32)offset + (u32)port->field_04))
+                        ((PadCapabilityRecord *)(offset + (u32)port->field_04))
                             ->bytes[3];
                     if (total < 61)
                         D_8009B76C = total;
