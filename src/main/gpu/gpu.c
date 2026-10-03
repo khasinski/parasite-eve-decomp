@@ -7,7 +7,7 @@ extern u16 g_SeqElapsed;
 
 int Gpu_CheckDrawStatus(void) {
     int enabled = g_DrawEnabled;
-    register int value asm("$2");
+    int value;
     int result;
     register int flag asm("$3");
 
