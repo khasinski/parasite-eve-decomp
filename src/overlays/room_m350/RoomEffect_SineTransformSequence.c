@@ -1,18 +1,16 @@
 #include "pe1/room_m350_effects.h"
+#include "pe1/render_object.h"
 
 extern RoomM350EffectActor *D_800F32D0;
-extern int D_800E27EC, D_800F3428;
-extern unsigned short D_800F336C, D_800E1204[];
-extern int D_8019A738[], D_8019A734[];
+extern int D_800E27EC;
+extern RenderColor D_8019A738, D_8019A734;
 extern int rsin(int);
 extern unsigned short GetClut(int, int);
-extern void func_800CEE20(void *, void *, int, int, int, unsigned int, int, int, void *);
-extern void func_800D004C(void *, int, int, int, void *, int, int, void *, void *, int, int);
 
 int func_801996BC(int event, RoomM350SineParticle *object)
 {
     GteShortVector position;
-    GteShortVector texture;
+    GteRotation texture;
     if (event == 1) {
         int wave = rsin((unsigned int)D_800E27EC << 4);
         object->size = wave * object->amplitude >> 12;
@@ -22,15 +20,10 @@ int func_801996BC(int event, RoomM350SineParticle *object)
         }
     } else if (event == 2) {
         int kind = D_800F336C;
-        register int special asm("$4") = 4;
-        register int index asm("$3") = kind * 2;
-        int palette;
+        int palette = D_800E1204[kind];
         unsigned short handle;
-        palette = *(unsigned short *)((char *)D_800E1204 + index);
-        if (kind == special && D_800F3428) palette += 7;
-        else palette += 3;
-        handle = GetClut(0, palette);
-        func_800CEE20(object, object->controls, object->size, object->size,
+        handle = GetClut(0, (kind == 4 && D_800F3428 != 0) ? palette + 7 : palette + 3);
+        func_800CEE20(&object->position, (GteRotation *)object->controls, object->size, object->size,
             128, handle, 1, object->brightness, 0);
         position.x = object->position.x;
         position.y = D_800F32D0->instance->transform.t[1];
@@ -38,9 +31,9 @@ int func_801996BC(int event, RoomM350SineParticle *object)
         texture.x = 1024;
         texture.y = D_800E27EC * 192;
         texture.z = 0;
-        texture.pad = 1;
-        func_800D004C(&position, 384, 384, 10, &texture, object->size, object->size,
-            D_8019A738, D_8019A734, object->brightness, 1);
+        texture.flags = 1;
+        func_800D004C(&position, 384, 384, 10, &texture, object->size,
+            object->size, &D_8019A738, &D_8019A734, object->brightness, 1);
     }
     return 0;
 }
@@ -49,11 +42,8 @@ int func_801996BC(int event, RoomM350SineParticle *object)
 typedef struct { short count, delay; } EmissionState;
 extern RoomM350EffectEmitter *D_800F33E0;
 extern unsigned char D_8019A8C4;
-extern volatile unsigned short D_800E11FA;
+extern unsigned short D_800E11E4[];
 extern unsigned short D_800E2850[];
-extern volatile short D_800F3368, D_800F336A, D_800F336E, D_800F3372, D_800F3374;
-extern volatile unsigned short D_800F3370;
-extern volatile short D_800F3376, D_800F3378;
 extern int func_800CE560(void *, int, int, int (*)(int, RoomM350SineParticle *));
 extern RoomM350SineParticle *func_800CE610(void *);
 extern int Inv_ScrambleGrid(void);
@@ -139,22 +129,15 @@ update:
     }
     goto done;
 configure:
-    {
-        int unit = 64;
-        int index = D_800E11FA;
-        int palette;
-        D_800F3368 = unit;
-        D_800F336A = 4;
-        D_800F3376 = unit;
-        D_800F3378 = unit;
-        palette = D_800E2850[index];
-        asm volatile("" : "=r"(palette) : "0"(palette) : "memory");
-        D_800F336C = 3;
-        D_800F336E = 1;
-        D_800F3372 = 5;
-        D_800F3374 = 0;
-        D_800F3370 = palette;
-    }
+    D_800F3368.parameter00 = 64;
+    D_800F3368.parameter02 = 4;
+    D_800F3368.extent_x = 64;
+    D_800F3368.extent_y = 64;
+    D_800F3368.tpage = D_800E2850[D_800E11E4[11]];
+    D_800F3368.palette = 3;
+    D_800F3368.parameter06 = 1;
+    D_800F3368.parameter0A = 5;
+    D_800F3368.depth = 0;
 done:
     return 0;
 }
