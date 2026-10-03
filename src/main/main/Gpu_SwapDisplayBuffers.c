@@ -14,8 +14,8 @@ int SetIntrMask(int);
 
 /* LIBGPU command submission: execute immediately when possible, otherwise
  * copy an optional packet into the ring and publish its callback/arguments.
- * The existing project symbol name is retained. One register pin and empty
- * ordering barriers are tracked in debt. */
+ * The existing project symbol name is retained. Empty ordering barriers
+ * are tracked in debt. */
 int Gpu_SwapDisplayBuffers(void (*function)(u32, u32), u32 *source, int size, u32 argument) {
     int i;
     GpuDebugState *state;
@@ -57,11 +57,9 @@ queued:
             register u32 offset = i * 4;
             register u32 value = *cursor++;
             register u32 head;
-            register u32 entry asm("$2");
+            u32 entry;
             head = D_80095874;
-            asm volatile("" : "=r"(head), "=r"(i) : "0"(head), "1"(i));
             i++;
-            asm volatile("" : "=r"(head), "=r"(i) : "0"(head), "1"(i));
             entry = head * sizeof(GpuQueueEntry);
             entry += (u32)base;
             offset += entry;
