@@ -6,17 +6,17 @@ void Memcard_UploadVideoSlice(void) {
     s32 next;
     register s16 x asm("$2");
     register s16 width asm("$5");
-    register s32 region asm("$6");
+    s32 region;
     register volatile u8 *buffer asm("$7");
     if (D_800B0DBB && g_CdStreamReadyHalfword) { func_8007C564(); g_CdStreamReadyHalfword = 0; }
     {
-        register VideoRect *source asm("$5") = (VideoRect *)&D_801D148C;
+        VideoRect *source = (VideoRect *)&D_801D148C;
         rectangle = *source;
     }
     buffer = &D_801D1478;
     __asm__("" : "=r"(buffer) : "0"(buffer));
     old = *buffer;
-    { register s32 selector asm("$3") = *buffer;
+    { s32 selector = *buffer;
         __asm__("" : : : "memory");
         x = D_801D148C;
         width = D_801D1490;
