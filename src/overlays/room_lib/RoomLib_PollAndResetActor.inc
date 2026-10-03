@@ -18,17 +18,17 @@
 #endif
 
 extern char **D_800F33E0;
-extern volatile u16 D_800E11FA;
+extern u16 D_800E11FA;
 extern u16 D_800E2850[];
-extern volatile s16 D_800F3368;
-extern volatile s16 D_800F336A;
-extern volatile s16 D_800F336C;
-extern volatile s16 D_800F336E;
-extern volatile s16 D_800F3370;
-extern volatile s16 D_800F3372;
-extern volatile s16 D_800F3374;
-extern volatile s16 D_800F3376;
-extern volatile s16 D_800F3378;
+extern s16 D_800F3368;
+extern s16 D_800F336A;
+extern s16 D_800F336C;
+extern s16 D_800F336E;
+extern s16 D_800F3370;
+extern s16 D_800F3372;
+extern s16 D_800F3374;
+extern s16 D_800F3376;
+extern s16 D_800F3378;
 extern u8 ROOMLIB_POLL_RESET_FLAG;
 extern s16 ROOMLIB_POLL_RESET_COUNTER;
 extern RoomFxSeed8 ROOMLIB_POLL_RESET_SEED;
