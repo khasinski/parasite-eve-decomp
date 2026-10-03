@@ -33,7 +33,7 @@
     "gotos": 615,
     "include_asm": 0,
     "nop_barriers": 0,
-    "pins": 299,
+    "pins": 298,
     "pointer_integer_casts": 147,
     "postpass": 0,
     "raw_offset_dereferences": 1413,
