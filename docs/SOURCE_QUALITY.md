@@ -245,6 +245,22 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Overlay crutch sweep
+
+Eighty overlay sources and templates lose 205 register pins and 98 empty
+barriers. Most were found mechanically: each pin and barrier was removed on
+its own and every object that includes the source was rebuilt and compared,
+keeping only removals that leave the output identical. The rest followed
+today's recipes: hand-pinned coprocessor transfers in the trail burst, the
+scene_e19_2 spark, two memory card effects and the pulsing sprite became the
+stock `gte_ldrotmatrix` and `gte_ldtransmatrix`, and ten sources choose the
+palette with a conditional inside the clut call instead of a pinned
+constant. The trail burst also drops its fixed-register compiler flags and
+its volatile stack reserve, now an unused local of the same size, and the
+shared `room_lib.h` helper macros lose their pins. Every overlay that
+compiles a changed source still matches retail; the overlay pin count falls
+from 413 to 297 and the barrier count from 332 to 250.
+
 ### Nearest floor edge search and the inventory root menu
 
 `Geo_FindNearestEdge` and `Menu_StepInventoryRoot` in the main executable now
