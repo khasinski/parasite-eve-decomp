@@ -245,6 +245,24 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m174 and room_m383 staged motion renderer and updater
+
+`func_801912E4` and `func_80191914` in room_m174 and room_m383 now share
+`RoomLib_DrawStagedMotion.inc` and `RoomLib_UpdateStagedMotion.inc` on the
+new `room_staged_motion.h`. The renderer walks the staged entries, builds a
+scaled rotation per entry and draws the entry's sprite and model packets at
+their 16.16 positions; the updater advances the stages. The loop entry test
+is written as the counter compare (`for (i = 0; (unsigned)i < count; i++)`)
+so a spilled compare pseudo keeps retail's extra frame slot above the
+parameter spill and the counter wins its callee-saved register; the packet
+base and its depth pointer are taken in the loop preheader so the body
+keeps retail's struct-base and pointer forms; the model depth pointer is
+assigned inside the model block so it wins the frame-pointer register; the
+variant is widened to int before `% 3`; and the frame counter is read as a
+record so its load stays below the packet-pointer store. Each 1584-byte
+renderer and 1064-byte updater matches retail with no pins or barriers; both
+overlay SHA-1 hashes are unchanged.
+
 ### room_m156+2, room_m291+2 and room_m380+2 beam spark controller
 
 `func_80190F94` in room_m156+2, room_m291+2 and room_m380+2 now shares
