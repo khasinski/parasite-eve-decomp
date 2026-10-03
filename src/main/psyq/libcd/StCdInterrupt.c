@@ -162,7 +162,7 @@ void StCdInterrupt(void) {
                         D_8009B374 = 7;
                         return;
                     }
-                    if ((u32)((D_800C20C4 - D_800BE998) - 1) <
+                    if (((D_800C20C4 - D_800BE998) - 1) <
                         (u16)D_800A34A0->nSectors) {
                         if (g_CdStreamEndState.endSector == 0) {
                             D_800A34A0->id = 1;
