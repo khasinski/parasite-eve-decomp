@@ -10,12 +10,12 @@ void Render_InitObjectFromTable(RenderObjectEntity *object,
                                 RenderObjectEntity *source, int index);
 
 int Task_CopyEntityRenderObject(int **args) {
-    register FieldActor *source asm("$16");
-    register int type_id asm("$2");
+    FieldActor *source;
+    int type_id;
 
     type_id = *args[0];
     if (type_id == 0) {
-        register FieldActor *player asm("$5");
+        FieldActor *player;
 
         player = g_PlayerEntity;
         if (player == 0) {
@@ -31,7 +31,7 @@ int Task_CopyEntityRenderObject(int **args) {
     }
 
     {
-        register int wanted_type asm("$5");
+        int wanted_type;
 
         wanted_type = type_id;
 
