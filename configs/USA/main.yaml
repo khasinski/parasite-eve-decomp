@@ -1514,7 +1514,7 @@ segments:
       - [0xB6D3C, c, engine/FieldEng_RadiusPair]
       - [0xB6DE4, c, engine/func_800C65E4]
       - [0xB6EC8, c, engine/FieldEng_FindAssetAtPosition]
-      - [0xB709C, asm, engine/engine_800C689C]
+      - [0xB709C, c, engine/FieldEng_PlayerInFloorTri]
       - [0xB7320, c, engine/FieldEng_EntityCollision]
       - [0xB74E0, c, engine/FieldEng_GetStatus]
       - [0xB755C, c, engine/func_800C6D5C]
