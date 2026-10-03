@@ -40,7 +40,7 @@ int Camera_TrackEntityAngle(int **args) {
     int squared_z;
     int remaining_distance;
     int movement_distance;
-    volatile int stack_pad[2];
+    int stack_pad[2];
 
     script_args = args;
     args = (int **)D_8009D2F0[0];
