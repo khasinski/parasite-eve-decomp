@@ -23,7 +23,7 @@ int Inv_CanAddActiveListItemToAya(int index) {
     }
     saved_item_id = item_id;
     if ((unsigned int)(item_id - 0x100) < 0x80) {
-        register int shifted asm("$3");
+        int shifted;
         u8 *base;
         shifted = item_id << 5;
         base = g_EquipItemDataTable;
