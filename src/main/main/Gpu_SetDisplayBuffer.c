@@ -12,7 +12,7 @@ int SetIntrMask(int);
 
 /* LIBGPU queue drain (_exeque); the existing project name is retained.
  * Entries have a callback, two arguments, and an 84-byte packet payload.
- * Empty barriers and six register pins preserve the retail scheduling and
+ * Empty barriers and register pins preserve the retail scheduling and
  * interrupt-visible reads; they are included in the matching debt report. */
 int Gpu_SetDisplayBuffer(void) {
     register u32 readyMask;
@@ -67,7 +67,7 @@ int Gpu_SetDisplayBuffer(void) {
     SetIntrMask(D_80095880);
     if (D_80095874 == D_80095878) {
         register u32 status = *D_80095860;
-        register u32 mask asm("$3");
+        u32 mask;
         asm volatile("" : "=r"(status) : "0"(status));
         mask = 0x01000000;
         if (!(status & mask)) {
