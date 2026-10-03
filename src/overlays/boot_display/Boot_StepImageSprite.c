@@ -1,7 +1,7 @@
 /* MASPSX_FLAGS: --expand-div */
 #include "pe1/boot_display.h"
 extern void *D_80125BA4[];
-extern volatile s32 D_80172CD8;
+extern s32 D_80172CD8;
 extern u32 g_BootDisplayFrameCounter;
 extern char *g_BootDisplayTransferCursor;
 extern u32 func_8010BF94(void *);
@@ -50,7 +50,7 @@ void Boot_StepImageSprite(void) {
     }
     func_80077AC4(g_BootDisplayOrderingTable + 56, packet);
     g_BootDisplayPrimitiveCursor += sizeof(*packet);
-    switch ((u32)g_BootDisplayState) {
+    switch (g_BootDisplayState) {
     case 0: {
         s32 offset;
         s32 startOffset;
