@@ -47,7 +47,7 @@ void Inv_ShowItemDescriptionPanel(s32 arg0)
   if (temp_v1 < 0x200)
   {
     temp_a0 = temp_v1 - 1;
-    new_var = ((u32) (temp_v1 - 0x100)) < 0x80U;
+    new_var = ((temp_v1 - 0x100)) < 0x80U;
     if (new_var)
     {
       var_s0 = (temp_v1 << 5) + (&g_EquipItemDataTable[0]);
@@ -58,7 +58,7 @@ void Inv_ShowItemDescriptionPanel(s32 arg0)
       var_s0 = Item_LookupBaseData(temp_a0);
     }
     else
-      if (((u32) (temp_v1 - 0x200)) < 9U)
+      if (((temp_v1 - 0x200)) < 9U)
     {
       var_s0 = (temp_v1 << 5) + (&g_KeyItemDataTable[0]);
     }
