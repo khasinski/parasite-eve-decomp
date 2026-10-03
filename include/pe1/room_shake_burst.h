@@ -142,4 +142,25 @@ extern u16 D_800E11E8;
 extern u16 D_800E11F8;
 extern int func_800D3F64(int sound, int handle);
 
+/* Cross flash controller (func_80196820): an anchor with an orientation,
+ * and particles that carry their own position, rotation and draw kind. */
+typedef struct RoomCrossFlash {
+    s16 x, y, z;                  /* 0x00 */
+    s16 reserved06;
+    GteRotation rotation;         /* 0x08 */
+} RoomCrossFlash;
+
+typedef struct RoomCrossFlashParticle {
+    s16 x, y, z;                  /* 0x00 */
+    s16 reserved06;
+    GteRotation rotation;         /* 0x08: flags selects the flash draw */
+    s16 state;                    /* 0x10 */
+    u16 timer;                    /* 0x12 */
+} RoomCrossFlashParticle;
+
+extern GteShortVector D_80199930;
+extern int func_8019646C(int mode, RoomCrossFlashParticle *p);
+extern RenderColor D_8018F1FC;
+extern u8 D_80199798[];
+
 #endif
