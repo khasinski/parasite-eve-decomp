@@ -1,0 +1,56 @@
+diff --git a/include/pe1/akao/commands.h b/include/pe1/akao/commands.h
+index 9cbd0e4ab..6c9262fe9 100644
+--- a/include/pe1/akao/commands.h
++++ b/include/pe1/akao/commands.h
+@@ -70,6 +70,31 @@ extern int g_AkaoCmdArg0;
+ extern int g_AkaoCmdArg1;
+ extern int g_AkaoCmdArg2;
+ extern int g_AkaoCmdArg3;
++/* g_AkaoCmdArg0 as the sample load opcodes stage it: a sample header address. */
++extern unsigned short *g_AkaoCmdSampleData;
++
++/* Queue entry as the staged-command executor fills it: the opcode is written
++ * as a full word, followed by the staged arguments. */
++typedef struct AkaoStagedMessage {
++    int opcode;
++    union {
++        int value;
++        unsigned short *sampleData; /* past the sample header */
++    } arg0;
++    int arg1;
++    int arg2;
++    int arg3;
++    int sequence;
++} AkaoStagedMessage;
++
++/* Akao_AllocMessageSlot under the staged-message view of the queue entry. */
++void Akao_AllocStagedMessage(AkaoStagedMessage **out_msg);
++
++
++/* Nonzero while the executor runs. */
++extern int D_8009D268;
++/* Rolling 0x400..0x5FF sequence number handed to opcode 0x24 messages. */
++extern int D_8009CDF0;
+ 
+ int Akao_EnqueueStagedCommand(void);
+ 
+diff --git a/linkers/USA/undefined_syms_manual.txt b/linkers/USA/undefined_syms_manual.txt
+index 110f7897c..e9beba535 100644
+--- a/linkers/USA/undefined_syms_manual.txt
++++ b/linkers/USA/undefined_syms_manual.txt
+@@ -138,6 +138,7 @@ func_80048838 = 0x80048838;
+ func_80076170 = 0x80076170;
+ func_80076208 = 0x80076208;
+ CdRom_Init = Akao_SetCdMixVolume;
++Akao_AllocStagedMessage = Akao_AllocMessageSlot;
+ func_800CC0E0 = FieldAnim_InitRadialEntries;
+ func_800CC55C = FieldAnim_ProcessInterleavedPoints;
+ func_800CC7AC = FieldAnim_ProcessPointTriples;
+@@ -2258,6 +2259,7 @@ g_PeImageMountFlags = 0x800B0DCD;
+ g_PeImageBaseLba = 0x800B0DD8;
+ g_AkaoCmdOpcode = 0x800BCD80;
+ g_AkaoCmdArg0 = 0x800BCD84;
++g_AkaoCmdSampleData = 0x800BCD84;
+ g_AkaoCmdArg1 = 0x800BCD88;
+ g_AkaoCmdArg2 = 0x800BCD8C;
+ g_AkaoCmdArg3 = 0x800BCD90;
