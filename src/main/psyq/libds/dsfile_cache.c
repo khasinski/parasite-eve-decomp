@@ -56,7 +56,7 @@ next_record:
         if (record->nameLength == 0) goto finished;
         memcpy(count * sizeof(DslDirectoryCacheEntry) + sectors,
                record->sectorLE, 4);
-        name = (char *)((u32)(count * sizeof(DslDirectoryCacheEntry)) +
+        name = (char *)((count * sizeof(DslDirectoryCacheEntry)) +
                        (u32)names);
         g_DslDirectoryCache[count].parentDirectoryId =
             record->parentDirectoryLE[0];
