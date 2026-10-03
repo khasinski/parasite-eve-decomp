@@ -14,13 +14,19 @@ typedef struct MemcardGlintBurst {
     s16 x, y, z;
 } MemcardGlintBurst;
 
-/* Spinning particle: an angular velocity and the rotation it drives. */
+/* Spinning particle: a position (state 0) or the spin rates that drive
+ * its rotation (states 1 and 2). */
 typedef struct MemcardSpinParticle {
-    s16 vx, vy, vz, reserved06;   /* 0x00 */
+    s16 x, y, z, reserved06;      /* 0x00 */
     GteRotation rotation;         /* 0x08 */
     s16 state;                    /* 0x10 */
     u16 timer;                    /* 0x12 */
 } MemcardSpinParticle;
+
+typedef struct MemcardSpinBurst {
+    s16 x, y, z, reserved06;      /* 0x00 */
+    GteRotation rotation;         /* 0x08 */
+} MemcardSpinBurst;
 
 typedef struct MemcardModelMatrix {
     s16 m[3][3];
@@ -35,9 +41,11 @@ typedef struct MemcardModelScale {
 extern RenderColor D_801ED844, D_801ED848, D_801ED84C;
 extern GteRotation D_801ED7FC;
 extern u8 D_801F1BB0[];
+extern u8 D_801F1C28[];
 extern u8 D_801F1CD8[];
 extern GteShortVector D_801F1F28;
-extern void *D_800E22D4;
+extern u8 *D_800E22D4;
+extern void *D_8009D254;
 extern s32 func_80077A64(s32, s32, s32, s32);
 extern void func_800C6EC0(int tpage, int clut);
 extern void func_800C6ED8(int);
@@ -47,6 +55,8 @@ extern void func_800C6EF8(void *asset);
 extern void func_800C6FA0(void *asset, int brightness);
 extern void func_800C71E4(void *asset, void *matrix);
 extern void func_800C6F4C(void *asset);
+extern void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);
+extern void func_8006DDCC(int sound, int mode, int x, int y, int z);
 extern u8 D_801F1CB0[];
 extern void func_800CF3AC(void *track, void *color, int time);
 extern void func_800D1AE0(RenderColor *color, int intensity, int step, int count);
@@ -54,6 +64,8 @@ extern void func_800D1AE0(RenderColor *color, int intensity, int step, int count
 int Memcard_FadingGlintParticle(int mode, RoomDampedSpark *spark);
 int Memcard_GlintBurstController(int mode, MemcardGlintBurst *burst);
 int Memcard_SpinRingParticle(int mode, MemcardSpinParticle *p);
+int Memcard_SpinBurstController(int mode, MemcardSpinBurst *burst);
 int Memcard_DriftGlowParticle(int mode, RoomDampedSpark *spark);
+int Memcard_RisingEmberParticle(int mode, RoomDampedSpark *spark);
 
 #endif
