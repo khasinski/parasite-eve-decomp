@@ -20,7 +20,6 @@ void func_801942FC(void)
     register s32 currentZ asm("$10");
     s16 resourceResult;
     s32 rowIndex;
-    s32 rowWords;
     /* Raw halfword is loaded before the blend duration, then sign-extended. */
     register u16 phaseBits asm("$2");
     s16 nextMode;
@@ -31,7 +30,6 @@ void func_801942FC(void)
     s16 countdown;
     s16 mode;
     s16 transitionMode;
-    s32 setupByteOffset;
     s32 accumX0;
     s32 accumX1;
     s32 accumZ0;
@@ -40,11 +38,9 @@ void func_801942FC(void)
     s32 elapsed;
     s32 resourceTicks;
     s32 accumY1;
-    s32 nextSetupOffset0;
-    s32 nextSetupOffset1;
     s32 accumY0;
-    s32 motionOffset0;
-    s32 motionOffset1;
+    s32 motionSlot0;
+    s32 motionSlot1;
     u32 motionIndex0;
     u32 motionIndex1;
     s16 nextIndex0;
@@ -61,12 +57,10 @@ void func_801942FC(void)
     if (D_8019C045 == 1) {
         func_80195994(D_8019CC52, 0, 0, D_8019CC1C << 8);
         rowIndex = D_8019CC52;
-        rowWords = rowIndex * (sizeof(FxCommonEffectSetupRecord) / sizeof(s32));
-        setupByteOffset = rowWords << 2;
-        if (D_8019CC1C >= ((FxCommonEffectSetupRecord *)((u8 *)g_FxCommonEffectSetup + setupByteOffset))->value30) {
+        if (D_8019CC1C >= g_FxCommonEffectSetup[rowIndex].value30) {
             D_8019C032 = 0;
         }
-        if (D_8019CC1C < (((FxCommonEffectSetupRecord *)((u8 *)g_FxCommonEffectSetup + setupByteOffset))->value0c - 1)) {
+        if (D_8019CC1C < (g_FxCommonEffectSetup[rowIndex].value0c - 1)) {
             D_8019CC1C += 1;
         } else {
             D_8019C045 = 0;
@@ -225,23 +219,22 @@ void func_801942FC(void)
                         do {
                             nextIndex0 = g_FxCommonEffectSetup[D_8019CC52].value22;
                             D_8019CC52 = (s16) nextIndex0;
-                            nextSetupOffset0 = nextIndex0 * 0x34;
-                        } while (((FxCommonEffectSetupRecord *)((u8 *)g_FxCommonEffectSetup + nextSetupOffset0))->enabled == 0);
+                        } while (g_FxCommonEffectSetup[nextIndex0].enabled == 0);
                         D_8019C018 = 1;
-                        D_8019CC1C = ((FxCommonEffectSetupRecord *)((u8 *)g_FxCommonEffectSetup + nextSetupOffset0))->value0c;
+                        D_8019CC1C = g_FxCommonEffectSetup[nextIndex0].value0c;
                         func_80195994(nextIndex0, 4, 5, 0);
                         motionIndex0 = 0;
-                        motionOffset0 = 0;
+                        motionSlot0 = 0;
                         phaseBits = D_8019CC52;
                         D_8019C058 = 0x20;
                         motionBase0 = (s16)phaseBits;
                         do {
                             func_8018F55C(motionIndex0 << 8, motionBase0 + 0x40, func_8006EC6C((&D_801D0260), 2), &motionSample, &motionExtra);
                             motionIndex0 += 1;
-                            *(s32 *)((u8 *)D_801EA268 + motionOffset0) = ((motionSample.x << 0x10) - *(s32 *)((u8 *)D_8019CAA8 + motionOffset0)) >> 5;
-                            *(s32 *)((u8 *)D_801EA26C + motionOffset0) = ((motionSample.y << 0x10) - *(s32 *)((u8 *)D_8019CAAC + motionOffset0)) >> 5;
-                            *(s32 *)((u8 *)D_801EA270 + motionOffset0) = ((motionSample.z << 0x10) - *(s32 *)((u8 *)D_8019CAB0 + motionOffset0)) >> 5;
-                            motionOffset0 += 0x10;
+                            g_FxCommonMotionDeltas[motionSlot0].x = ((motionSample.x << 0x10) - D_8019CAA8[motionSlot0].x) >> 5;
+                            g_FxCommonMotionDeltas[motionSlot0].y = ((motionSample.y << 0x10) - D_8019CAA8[motionSlot0].y) >> 5;
+                            g_FxCommonMotionDeltas[motionSlot0].z = ((motionSample.z << 0x10) - D_8019CAA8[motionSlot0].z) >> 5;
+                            motionSlot0 += 1;
                         } while (motionIndex0 < 0xAU);
                     }
                 }
@@ -257,23 +250,22 @@ void func_801942FC(void)
                         do {
                             nextIndex1 = g_FxCommonEffectSetup[D_8019CC52].value23;
                             D_8019CC52 = (s16) nextIndex1;
-                            nextSetupOffset1 = nextIndex1 * 0x34;
-                        } while (((FxCommonEffectSetupRecord *)((u8 *)g_FxCommonEffectSetup + nextSetupOffset1))->enabled == 0);
+                        } while (g_FxCommonEffectSetup[nextIndex1].enabled == 0);
                         D_8019C018 = 1;
-                        D_8019CC1C = ((FxCommonEffectSetupRecord *)((u8 *)g_FxCommonEffectSetup + nextSetupOffset1))->value0c;
+                        D_8019CC1C = g_FxCommonEffectSetup[nextIndex1].value0c;
                         func_80195994(nextIndex1, 4, 5, 0);
                         motionIndex1 = 0;
-                        motionOffset1 = 0;
+                        motionSlot1 = 0;
                         phaseBits = D_8019CC52;
                         D_8019C058 = 0x20;
                         motionBase1 = (s16)phaseBits;
                         do {
                             func_8018F55C(motionIndex1 << 8, motionBase1 + 0x40, func_8006EC6C((&D_801D0260), 2), &motionSample, &motionExtra);
                             motionIndex1 += 1;
-                            *(s32 *)((u8 *)D_801EA268 + motionOffset1) = ((motionSample.x << 0x10) - *(s32 *)((u8 *)D_8019CAA8 + motionOffset1)) >> 5;
-                            *(s32 *)((u8 *)D_801EA26C + motionOffset1) = ((motionSample.y << 0x10) - *(s32 *)((u8 *)D_8019CAAC + motionOffset1)) >> 5;
-                            *(s32 *)((u8 *)D_801EA270 + motionOffset1) = ((motionSample.z << 0x10) - *(s32 *)((u8 *)D_8019CAB0 + motionOffset1)) >> 5;
-                            motionOffset1 += 0x10;
+                            g_FxCommonMotionDeltas[motionSlot1].x = ((motionSample.x << 0x10) - D_8019CAA8[motionSlot1].x) >> 5;
+                            g_FxCommonMotionDeltas[motionSlot1].y = ((motionSample.y << 0x10) - D_8019CAA8[motionSlot1].y) >> 5;
+                            g_FxCommonMotionDeltas[motionSlot1].z = ((motionSample.z << 0x10) - D_8019CAA8[motionSlot1].z) >> 5;
+                            motionSlot1 += 1;
                         } while (motionIndex1 < 0xAU);
                     }
                 }
