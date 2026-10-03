@@ -18,7 +18,7 @@ typedef struct { int reserved[2]; void *pool; } Emitter;
 extern Actor *D_800F32D0;
 extern Emitter *D_800F33E0;
 extern Vector D_8019A778[];
-extern volatile short D_800F3368,D_800F336A,D_800F3376,D_800F3378,D_800F3372,D_800F3374;
+extern short D_800F3368,D_800F336A,D_800F3376,D_800F3378,D_800F3372,D_800F3374;
 extern int func_80192E4C(int, Particle *);
 extern int func_800CE560(void *,int,int,int (*)(int,Particle *));
 extern Particle *func_800CE610(void *);
