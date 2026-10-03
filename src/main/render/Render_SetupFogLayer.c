@@ -112,7 +112,6 @@ void Render_SetupFogLayer(void *source) {
         sprite_fields[0xD] = color;
         *(u16 *)(D_8009EC86 + (u8)i * 28) = page_source[1];
         tpage = GetTPage(x_arg, y_arg, zero_arg, 0);
-        asm volatile("" ::: "memory");
         tile_mode = (u8 *)((int)((u8)i * 24) + (int)tile_base);
         tile = tile_mode + 8;
         SetDrawMode(tile_mode, 0, 1, tpage & 0xFFFF);
