@@ -1,4 +1,5 @@
 #include "room_m089.h"
+#include "pe1/room_sound_slot.h"
 
 int func_80192A30(int mode, unsigned short *dst, unsigned short *src) {
     short *effect;
@@ -49,18 +50,14 @@ int func_80192A30(int mode, unsigned short *dst, unsigned short *src) {
     }
 
     if (D_800E27EC == 9) {
-        void **sound = &D_800B0E64;
-        void *current;
+        RoomSoundSlot *sound = &D_800B0E64_slot;
         int volume;
-        current = *sound;
-        if (current != 0) {
+        if (sound->channel != 0) {
             volume = 0x7F;
             random = func_800D3FD8();
-            func_8006DF50(*sound, 0x5BB, random, 0x80, volume);
-            current = *sound;
-            asm("" : : "r"(current) : "memory");
-            if (current != 0) {
-                func_8006DF50(*sound, 0x5BC, 0x80, 0x80, volume);
+            func_8006DF50(sound->channel, 0x5BB, random, 0x80, volume);
+            if (sound->channel != 0) {
+                func_8006DF50(sound->channel, 0x5BC, 0x80, 0x80, volume);
             }
         }
     }
