@@ -1,11 +1,50 @@
-#include "room_m273_effects.h"
-typedef struct { unsigned short x[8],y[8],z[8]; short count; unsigned char unknown[14],stopped; } Batch;
+#include "room_m273.h"
+#include "pe1/psyq_gpu.h"
+
+int func_80195984(int mode, RoomM273PulseInput *input)
+{
+    GteShortVector position;
+    int frame;
+    int palette;
+    int size;
+    int sample;
+    u16 clut;
+
+    if (mode == 1) {
+        if (D_800E27EC >= 16) return 1;
+        input->position.pad += input->velocity;
+        input->velocity += 2;
+    } else if (mode == 2) {
+        frame = D_800E27EC - 1;
+        sample = D_800966EC[(((unsigned int)frame << 8) & 0x3F00) / sizeof(RoomM273TrigEntry)].low;
+        position = input->position;
+        palette = D_800E1204[D_800F336C];
+        size = sample * 2 + 2048;
+        if (D_800F336C == 4 && D_800F3428) palette += 4;
+        clut = GetClut(16, palette);
+        func_800CEE20(&position, 0, (s16)size, (s16)size,
+                       D_800F336A * (frame / 2) + 128, clut, 1,
+                       D_800966EC[(((unsigned int)frame << 8) & 0x3F00) / sizeof(RoomM273TrigEntry)].high >> 5, 0);
+        position.y -= input->position.pad;
+        {
+            int clut2;
+            palette = D_800E1204[D_800F336C];
+            if (D_800F336C == 4 && D_800F3428) palette += 4;
+            clut2 = GetClut(64, palette);
+            func_800CEE20(&position, 0, 8192, 8192,
+                           D_800F336A * D_8019ACC0[frame / 4], clut2, 1,
+                           (((s32 *)D_800966EC)[(((unsigned int)frame << 9) & 0x3E00) / 4] << 16) >> 21, 0);
+        }
+    }
+    return 0;
+}
+
 extern unsigned char D_8019AEF8;
 extern short D_8019AEE8;
 extern void *D_8019AE7C;
 extern unsigned short D_800E11EA,D_800E2850[];
-extern unsigned short D_800F3368,D_800F336A,D_800F336C,D_800F336E;
-extern unsigned short D_800F3370,D_800F3372,D_800F3374;
+extern unsigned short D_800F336C,D_800F336E;
+extern unsigned short D_800F3370,D_800F3372;
 extern volatile unsigned short D_800F3376,D_800F3378;
 extern int func_80195984(),func_8019A290();
 extern int func_800CE560(void *,int,int,int (*)());
@@ -32,7 +71,8 @@ int func_80195BD0(int mode) {
         i=0;
         if(D_8019AEE8>0) {
             /* The stop symbol is the byte at offset 0x40 of this buffer. */
-            register Batch *batch asm("$19")=(Batch *)(stopped-64);
+            register RoomM273PairedPulseBatch *batch asm("$19")=
+                (RoomM273PairedPulseBatch *)(stopped-PE1_OFFSETOF(RoomM273PairedPulseBatch, stopped));
             unsigned short *x=batch->x;
             int count;
             do {
@@ -67,7 +107,7 @@ int func_80195BD0(int mode) {
         unsigned short palette;
         func_800CE78C(D_8019AE7C);
         index=D_800E11EA;
-        D_800F3368=32; D_800F336A=2;
+        D_800F3368.parameter00=32; D_800F336A=2;
         D_800F3376=32; D_800F3378=32;
         D_800F3376=32; D_800F3378=32;
         palette=D_800E2850[index];

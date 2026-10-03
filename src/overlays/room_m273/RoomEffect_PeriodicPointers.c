@@ -1,6 +1,6 @@
 #include "room_m273_effects.h"
 typedef struct { unsigned short value[4]; } Position;
-typedef struct { Position *position; } Effect;
+typedef RoomM273PointerPoolEffect Effect;
 
 /* The emitter owns the pointer entries rendered by this callback. */
 extern int D_800E27EC, D_800F3428, D_800966EC[];

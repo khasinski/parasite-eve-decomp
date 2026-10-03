@@ -1,8 +1,8 @@
 #include "room_m273_effects.h"
 
 typedef struct { short x,y,z,phase,scaleXZ,scaleY; unsigned short parameter12,unknown14; } Effect;
-typedef struct { short m[3][3],pad; int t[3]; } Matrix;
-typedef struct { int x,y,z,pad; } Vector;
+typedef GteMatrix Matrix;
+typedef GteVector Vector;
 typedef struct { void *asset,*pool; } AssetState;
 
 extern int D_800E27EC;
@@ -20,7 +20,7 @@ extern unsigned short GetClut(int,int);
 extern void GsSetOrign(int,int),func_800C6ED8(int);
 extern void func_800C6EF8(void *),func_800C6FA0(void *,int);
 extern void *memset(void *,int,unsigned long);
-extern void Gte_ScaleMatrix(Matrix *,Vector *),func_800C71E4(void *,Matrix *),func_800C6F4C(void *);
+extern void func_800C71E4(void *,Matrix *),func_800C6F4C(void *);
 extern int func_800D0728(void *obj, short a, short b, int c, short *params, int x0, int x1, int *p0, int *p1, short y, int one);
 extern void *Asset_FindTable08ByU32Key(void *,unsigned int);
 extern void func_800C6D5C(void *,int,int);

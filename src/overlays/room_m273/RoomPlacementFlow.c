@@ -6,10 +6,11 @@
 extern FieldActor *g_PlayerEntity;
 extern int *D_8009D248;
 extern u16 D_8009D1CC;
+extern void **D_8009D254;
+void func_80020CE4(void);
 
 int func_8001CAB0(int x, int z, int *script, u16 mode);
 void func_8001AA78(FieldActor *actor);
-s32 func_80192D8C(char *obj);
 
 void func_80192C00(RoomPlacementOwner *owner, RoomPlacementState *state) {
     register FieldActor *player asm("$4") = g_PlayerEntity;
@@ -57,6 +58,33 @@ void func_80192D50(char *obj) {
     char *slot = *(char **)(obj + 8);
 
     if (*(unsigned short *)(slot + 0x16) >= 0x3B) {
-        func_80192D8C(obj);
+        func_80192D8C((RoomSelectionState *)obj);
     }
+}
+
+s32 func_80192D8C(RoomSelectionState *selection) {
+    RoomPlacementState *placementState;
+    char *target;
+    char *state;
+
+    target = **(char ***)&selection->actor;
+    placementState = (RoomPlacementState *)&selection->callback;
+    if (target != 0) {
+        state = *(char **)(target + 0x18);
+        state[0] = 4;
+    }
+
+    **(s32 ***)&selection->signal = 0;
+    selection->pad_00[0] = 4;
+    if (selection->activated != 0) {
+        target = *D_8009D254;
+        if (target != 0) {
+            if (*(s16 *)(target + 0xC) > 0) {
+                func_80020CE4();
+            }
+        }
+        func_80192C00((RoomPlacementOwner *)selection->actor, placementState);
+    }
+
+    return 0;
 }

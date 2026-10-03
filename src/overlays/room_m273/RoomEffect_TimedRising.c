@@ -1,5 +1,5 @@
 #include "room_m273_effects.h"
-typedef struct { short x; unsigned short y; short z; unsigned short speed; } Particle;
+typedef RoomM273RisingParticle Particle;
 
 /* The timed emitter fills the eight-byte records rendered by this callback. */
 extern int D_800E27EC, D_800F3428, D_800966EC[];

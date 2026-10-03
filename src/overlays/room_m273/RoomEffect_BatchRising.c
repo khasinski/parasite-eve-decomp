@@ -1,11 +1,4 @@
 #include "room_m273_effects.h"
-typedef struct { short x, y, z, pad; } Vector;
-typedef struct {
-    unsigned short x[12],y[12],z[12];
-    short count;
-    unsigned char unknown[19],stopped;
-} Batch;
-
 /* The batch emitter fills the eight-byte records rendered by this callback. */
 extern int D_800E27EC, D_800F3428;
 extern unsigned short D_800E11EA,D_800E2850[];
@@ -15,13 +8,13 @@ extern unsigned short D_800F3370,D_800F3372,D_800F3374;
 extern volatile unsigned short D_800F3376,D_800F3378;
 extern short D_8019AD68[];
 extern int D_800966EC[];
-extern Batch D_8019AF0C;
+extern RoomM273RisingBatchBuffer D_8019AF0C;
 extern unsigned short GetClut(int, int);
-extern void func_800CEE20(Vector *, void *, int, int, int, int, int, int, void *);
+extern void func_800CEE20(GteShortVector *, void *, int, int, int, int, int, int, void *);
 extern int func_800CE560(void *,int,int,int (*)());
-extern Vector *func_800CE610(void *);
+extern GteShortVector *func_800CE610(void *);
 
-int func_80196F2C(int mode, Vector *position) {
+int func_80196F2C(int mode, GteShortVector *position) {
     if (mode == 1) {
         if (D_800E27EC >= 16) return 1;
         position->y -= 6;
@@ -51,12 +44,12 @@ int func_8019706C(int mode) {
         if(D_8019AF0C.stopped) return 2;
         i=0;
         if(D_8019AF0C.count>0) {
-            Batch *batch=&D_8019AF0C;
+            RoomM273RisingBatchBuffer *batch=&D_8019AF0C;
             y=batch->y;
             x=batch->x;
             do {
                 int offset;
-                Vector *out=func_800CE610(D_800F33E0->pool);
+                GteShortVector *out=func_800CE610(D_800F33E0->pool);
                 if(!out) break;
                 out->x=*x;
                 out->y=*y++-128;

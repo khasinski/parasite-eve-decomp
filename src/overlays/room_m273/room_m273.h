@@ -47,6 +47,11 @@ typedef struct RoomM273TemplatePoint {
     u16 flags;
 } RoomM273TemplatePoint;
 
+typedef union RoomM273DelayedBurstRecord {
+    RoomM273TemplatePoint emitter;
+    RoomM273RisingParticle callback;
+} RoomM273DelayedBurstRecord;
+
 typedef struct RoomM273SampledLayerEffect {
     GteShortVector position;
     u8 parameter[4];
@@ -66,6 +71,11 @@ PE1_STATIC_ASSERT(sizeof(RoomM273PulseRecord) == 0x0C,
                   room_m273_pulse_record_size);
 PE1_STATIC_ASSERT(sizeof(RoomM273TemplatePoint) == 8,
                   room_m273_template_point_size);
+PE1_STATIC_ASSERT(sizeof(RoomM273DelayedBurstRecord) == 8,
+                  room_m273_delayed_burst_record_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273TemplatePoint, flags) ==
+                      PE1_OFFSETOF(RoomM273RisingParticle, speed),
+                  room_m273_delayed_burst_tail_offset);
 
 extern RoomM273TrigEntry D_800966EC[];
 extern s16 D_8019AE98;
@@ -85,7 +95,7 @@ extern char D_8019ACC8[];
 extern char D_8019ACCC[];
 void *func_800CE610(void *pool);
 int Inv_ScrambleGrid(void);
-int func_80199568(int mode, void *particle);
+int func_80199568(int mode, RoomM273RisingParticle *particle);
 int func_800CE560(void *pool, int size, int count, int (*callback)());
 
 typedef struct RoomPlacementMap {
@@ -134,14 +144,23 @@ struct RoomSelectionState {
     u8 activated;
 };
 
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, callback) == 0x0C,
+                  room_selection_callback_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, signal) == 0x10,
+                  room_selection_signal_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, actor) == 0x08,
                   room_selection_actor_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, matrix) == 0x1c,
                   room_selection_matrix_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, activated) == 0x4b,
                   room_selection_activated_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, callback) +
+                      PE1_OFFSETOF(RoomPlacementState, active) ==
+                      PE1_OFFSETOF(RoomSelectionState, activated),
+                  room_selection_placement_state_overlap);
 
 void func_80192664(RoomSelectionState *state);
+s32 func_80192D8C(RoomSelectionState *selection);
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementOwner, map) == 0x238,
                   room_placement_map_offset);

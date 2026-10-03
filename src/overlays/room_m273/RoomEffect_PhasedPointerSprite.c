@@ -1,4 +1,6 @@
-typedef struct { void *position; } Effect;
+#include "room_m273_effects.h"
+
+typedef RoomM273PointerPoolEffect Effect;
 typedef struct { unsigned char unknown[58]; unsigned short value; } Object;
 typedef struct { int unknown[2]; Object *object; } Context;
 typedef struct { short zero; unsigned short value,phase,one; } Parameters;

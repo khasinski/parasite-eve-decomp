@@ -1,4 +1,6 @@
-typedef struct { short x; unsigned short y; short z; unsigned short speed; } Particle;
+#include "room_m273_effects.h"
+
+typedef RoomM273RisingParticle Particle;
 typedef struct { unsigned char r, g, b, unknown; } Color;
 extern Color D_8018F1E4;
 extern int D_800E27EC, D_800F3428, D_800966EC[];

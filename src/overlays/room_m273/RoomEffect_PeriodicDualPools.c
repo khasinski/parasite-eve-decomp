@@ -1,8 +1,7 @@
 #include "room_m273_effects.h"
-typedef struct { short x,y,z,w; } Vector;
-typedef struct { unsigned char unknown[14],kind,unknown15[7]; short timer; } State;
-typedef struct { unsigned char unknown[8]; State *state; } StateContext;
-extern StateContext *D_800F32D0;
+typedef GteShortVector Vector;
+typedef RoomM273EffectModeState State;
+extern RoomM273EffectStateContext *D_800F32D0;
 extern unsigned char D_8019AEF8;
 extern Vector D_8019AE9C[];
 extern void *D_8019AE80;
@@ -29,10 +28,10 @@ int func_801960F4(int mode) {
         unsigned char *stopped=&D_8019AEF8;
         State *state;
         if(*stopped) return 2;
-        state=D_800F32D0->state;
+        state=D_800F32D0->state.mode;
         if(state->kind==11) {
-            int count=state->timer;
-            unsigned short value=*(volatile unsigned short *)&state->timer;
+            int count=state->value22;
+            unsigned short value=*(volatile unsigned short *)&state->value22;
             if(count<35 && (value&7)==0) {
                 short i=0;
                 /* The shared positions start 0x5C bytes before the stop symbol. */

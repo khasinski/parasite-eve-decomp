@@ -1,4 +1,5 @@
-typedef struct { short x, y, z, pad; } Vector;
+#include "room_m273_effects.h"
+typedef GteShortVector Vector;
 extern int D_800E27EC, D_800F3428, D_800966EC[];
 extern unsigned short D_800F336C, D_800E1204[];
 extern unsigned short GetClut(int, int);

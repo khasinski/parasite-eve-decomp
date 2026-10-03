@@ -5,7 +5,6 @@
 extern FieldActor *g_PlayerEntity;
 extern void func_80020CE4(void);
 extern void func_80192C00(RoomPlacementOwner *owner, RoomPlacementState *state);
-extern void func_80192D8C(char *obj);
 
 void func_80192838(RoomSelectionState *selection) {
     register FieldActor *player asm("$2") = g_PlayerEntity;
@@ -91,7 +90,7 @@ void func_80192838(RoomSelectionState *selection) {
                 substate = *(u8 **)((u8 *)actor->state + 0x18);
                 substate[0] = 4;
             }
-            func_80192D8C((char *)state);
+            func_80192D8C(state);
         }
         goto update_vertical_motion;
 
@@ -113,7 +112,7 @@ void func_80192838(RoomSelectionState *selection) {
         return;
 
     default:
-        func_80192D8C((char *)state);
+        func_80192D8C(state);
         return;
     }
 }

@@ -1,5 +1,5 @@
 #include "room_m273_effects.h"
-typedef struct { short x,y,z,pad; } Vector;
+typedef GteShortVector Vector;
 
 /* The position emitter fills the eight-byte records rendered by this callback. */
 extern int D_800E27EC,D_800F3428,D_800966EC[];

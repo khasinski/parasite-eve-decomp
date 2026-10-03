@@ -1,14 +1,13 @@
 #include "room_m273_effects.h"
 /* room_m273, file offset 0x79F0, 1364 retail-matching bytes. */
 #include "pe1/gte.h"
-typedef struct { short x,y,z,w; } Vector;
+typedef GteShortVector Vector;
 typedef struct { short m[3][3]; int t[3]; } Matrix;
 typedef struct { Vector position,rotation,velocity; } Particle;
 typedef struct { unsigned char unknown[0x2A]; short x,unknown2C,y,unknown30,z; } Player;
-typedef struct { unsigned char unknown[8]; void *value; } Owner;
-typedef struct { Owner *owner; } State;
-typedef struct { unsigned char unknown[8]; State *state; } StateContext;
-extern StateContext *D_800F32D0;
+typedef RoomM273DirectedRingOwner Owner;
+typedef RoomM273DirectedRingState State;
+extern RoomM273EffectStateContext *D_800F32D0;
 extern Player *g_PlayerEntity;
 extern unsigned char D_8019AF69,D_8019AF68;
 extern short D_8019AEFC,D_8019AEFE,D_8019AF00;
@@ -63,7 +62,7 @@ int func_801969D8(int mode) {
                 wave=(short *)&D_800966EC[(i*4096/6)&4095];
                 particle->rotation.x=angle+wave[1]*160/4096;
                 particle->rotation.y=wave[0]*width/4096+(*heading+2048);
-                particle->rotation.z=0; particle->rotation.w=1;
+                particle->rotation.z=0; particle->rotation.pad=1;
                 func_80079754(&particle->rotation,transform);
                 gte_ldrotmatrix(transform);
                 gte_ldtransmatrix(transform);
@@ -75,7 +74,7 @@ int func_801969D8(int mode) {
                 particle->position.x=heading[-50];
                 particle->position.y=heading[-49];
                 particle->position.z=heading[-48];
-                particle->position.w=0; particle->velocity.w=0;
+                particle->position.pad=0; particle->velocity.pad=0;
                 i++;
             } while(i<6);
             /* Failure in the six-particle ring does not skip this ring. */
@@ -90,7 +89,7 @@ int func_801969D8(int mode) {
                 }
                 particle->rotation.x=angle+wave[1]*96/4096;
                 particle->rotation.y=wave[0]*width/4096+(*heading+2048);
-                particle->rotation.z=0; particle->rotation.w=1;
+                particle->rotation.z=0; particle->rotation.pad=1;
                 asm("" : : "r"(&particle->rotation));
                 transform=&matrix;
                 asm("" : "=r"(transform) : "0"(transform));
@@ -105,10 +104,10 @@ int func_801969D8(int mode) {
                 particle->position.x=heading[-50];
                 particle->position.y=heading[-49];
                 particle->position.z=heading[-48];
-                particle->position.w=0; particle->velocity.w=0;
+                particle->position.pad=0; particle->velocity.pad=0;
                 i++;
             } while(i<4);
-            func_8006DCE4(0x5D1,D_800F32D0->state->owner->value,D_8019AEFC,D_8019AEFE,D_8019AF00);
+            func_8006DCE4(0x5D1,D_800F32D0->state.directed_rings->owner->value,D_8019AEFC,D_8019AEFE,D_8019AF00);
         }
         break;
     }

@@ -1,6 +1,6 @@
 #include "room_m273_effects.h"
-typedef struct { short x,y,z,pad; } Vector;
-typedef struct { unsigned short value[4]; } Record;
+typedef GteShortVector Vector;
+typedef RoomM273PairPoolRecord Record;
 typedef struct { Record records[2]; unsigned char unknown[30]; unsigned char stopped; } State;
 
 /* The emitter owns the eight-byte pool whose entries this callback renders. */

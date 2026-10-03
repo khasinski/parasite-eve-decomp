@@ -1,6 +1,6 @@
 #include "room_m273_effects.h"
-/* Partial storage views; the allocated entry's fourth halfword is unnamed. */
-typedef struct { unsigned short x, y, z, flags; } Entry;
+/* Partial storage views; the fourth halfword carries the emitter flag. */
+typedef RoomM273PairPoolRecord Entry;
 typedef struct { Entry entries[2]; unsigned char unknown[14]; unsigned char stopped; } EmitterState;
 extern void *D_800B0E64, *D_8019AF6C;
 extern EmitterState D_8019AF84;
@@ -31,10 +31,10 @@ int func_801993F0(int mode) {
             if (*(unsigned short *)flags & 1) {
                 Entry *entry = func_800CE610(D_800F33E0->pool);
                 if (!entry) return 0;
-                entry->x = source->x;
-                entry->y = source->y;
-                entry->z = source->z;
-                entry->flags = 0;
+                entry->emitter.x = source->emitter.x;
+                entry->emitter.y = source->emitter.y;
+                entry->emitter.z = source->emitter.z;
+                entry->emitter.flags = 0;
                 *(unsigned short *)flags &= 0xFFFE;
             }
             flags += 8;

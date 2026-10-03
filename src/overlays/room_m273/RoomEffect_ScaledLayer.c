@@ -1,12 +1,11 @@
 #include "room_m273_effects.h"
-typedef struct { short x,y,z,w; } Vector;
+typedef GteShortVector Vector;
 typedef struct { Vector position; unsigned char parameter[4]; } Effect;
-typedef struct { unsigned char unknown[0x594]; int x,y,z; } Transform;
-typedef struct { unsigned char unknown[0x238]; Transform *transform; } Owner;
-typedef struct { unsigned char unknown[8]; Owner *owner; } StateContext;
+typedef RoomM273ThresholdTransform Transform;
+typedef RoomM273ScaledLayerOwner Owner;
 
 /* The emitter owns the twelve-byte records rendered by this callback. */
-extern StateContext *D_800F32D0;
+extern RoomM273EffectStateContext *D_800F32D0;
 extern int D_800E27EC;
 extern short D_800966EC[],D_800966EE[];
 extern unsigned short D_800942EC;
@@ -24,12 +23,12 @@ int func_8019353C(int mode,Effect *effect) {
     } else if(mode==2) {
         short frame=D_800E27EC-1;
         /* The input vector's fourth halfword supplies the initial scale. */
-        int product=(*(short *)((char *)D_800966EC+(((unsigned int)frame<<9)&0x3E00))*2+4096)*effect->position.w;
+        int product=(*(short *)((char *)D_800966EC+(((unsigned int)frame<<9)&0x3E00))*2+4096)*effect->position.pad;
         int sample=*(int *)((char *)D_800966EC+(((unsigned int)frame<<9)&0x3E00));
         short size=product/4096;
         short shade=sample>>21;
         short i;
-        rotation.x=1024; rotation.y=0; rotation.z=frame*170; rotation.w=-1;
+        rotation.x=1024; rotation.y=0; rotation.z=frame*170; rotation.pad=-1;
         position=effect->position;
         i=0;
         do {
@@ -56,14 +55,14 @@ int func_801936F0(int mode) {
         if(D_800E27EC>=12) return 2;
         effect=func_800CE610(D_800F33E0->pool);
         if(!effect) break;
-        transform=D_800F32D0->owner->transform;
+        transform=D_800F32D0->state.scaled_layer->transform;
         effect->position.x=transform->x;
         asm("" : : : "memory");
         effect->position.y=transform->y;
         effect->position.z=transform->z;
         scale=D_800966EE[((D_800E27EC*1024/12)&0xFFF)*2];
         effect->parameter[0]=40;
-        effect->position.w=scale;
+        effect->position.pad=scale;
         effect->parameter[1]=D_800966EC[((D_800E27EC*1024/12)&0xFFF)*2]*40/4096;
         effect->parameter[2]=0;
         break;
