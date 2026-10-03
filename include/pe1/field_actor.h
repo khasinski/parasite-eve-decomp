@@ -112,7 +112,7 @@ struct FieldActorState {
         } parts;
     } control10;
     /* 0x14 */ int action_value14;
-    /* 0x18 */ int action_value18;
+    /* 0x18 */ u8 *action_state;
     /* 0x1C */ int count_limit;
     /* 0x20 */ int divisor_basis;
     /* 0x24 */ short actor_threshold_delta;

@@ -12,6 +12,6 @@ int func_800CE49C(FieldAnimTaskOwner *owner, int index)
         return -1;
     }
     owner->tasks.table = &program->table;
-    owner->tasks.script = program->script;
+    owner->tasks.pc.script = program->script;
     return 0;
 }

@@ -1489,7 +1489,11 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0xB24A0, asm, engine/engine_800C1CA0]
+      - [0xB24A0, rodata, engine/engine_800C1CA0]
+      - [0xB2928, .rodata, engine/FieldEng_RenderSetup]
+      - [0xB293C, rodata, engine/engine_800C213C]
+      - [0xB2AA4, .rodata, engine/FieldEng_RunTaskScript]
+      - [0xB2ABC, rodata, engine/engine_800C22BC]
       - [0xB2AF8, c, engine/FieldEng_Register]
       - [0xB2D1C, c, engine/func_800C251C]
       - [0xB2F58, asm, engine/func_800C2758]
@@ -1577,7 +1581,7 @@ segments:
       - [0xC43C8, asm, engine/engine_800CEE20_C43C8]
       - [0xC4764, c, engine/FieldEng_QueryActiveNode]
       - [0xC481C, c, engine/FieldEng_AllocateTask]
-      - [0xC493C, asm, engine/engine_800CEE20_C493C]
+      - [0xC493C, c, engine/FieldEng_RunTaskScript]
       - [0xC4E20, c, engine/FieldEng_ObjectLifecycle]
       - [0xC5050, c, engine/FieldEng_AssetBootstrap]
       - [0xC5128, c, engine/FieldEng_FallingSprite]

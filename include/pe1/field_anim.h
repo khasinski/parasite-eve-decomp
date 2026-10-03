@@ -52,7 +52,11 @@ typedef struct FieldAnimTaskProgram {
 extern char D_800C2244[]; /* "TS No Thread No.%d\n" */
 
 typedef struct FieldAnimTaskContext {
-    u16 *script;
+    /* Opcode 3 loads its 16-bit operand as the new script address. */
+    union {
+        u16 *script;
+        int address;
+    } pc;
     char *cursor;
     int argument;
     u8 count;
