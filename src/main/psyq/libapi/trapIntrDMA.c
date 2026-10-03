@@ -14,8 +14,6 @@ void trapIntrDMA(void) {
         u32 bit = 1;
         u32 preserve = 0xFFFFFF;
         DmaInterruptCallback *base;
-        /* Keep loop constants initialized before the callback-table base. */
-        asm volatile("" : "+r"(bit), "+r"(preserve));
         base = g_IntrDmaHandlerTable;
         do {
             for (i = 0; mask != 0 && i < 7; i++, mask >>= 1) {
