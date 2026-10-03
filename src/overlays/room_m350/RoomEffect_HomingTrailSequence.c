@@ -156,7 +156,7 @@ update:
             int count=D_8019A802;
             particle->tail.value.spawn.duration=16;
             particle->tail.value.spawn.frame=0;
-            *(volatile unsigned char *)&particle->tail.value.spawn.state=0;
+            particle->tail.value.spawn.state=0;
             particle->tail.value.spawn.size=100-count*20;
         }
         asm volatile("" : : : "memory");
