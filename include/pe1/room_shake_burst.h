@@ -163,4 +163,9 @@ extern int func_8019646C(int mode, RoomCrossFlashParticle *p);
 extern RenderColor D_8018F1FC;
 extern u8 D_80199798[];
 
+/* Ember burst particle (func_801944E8): spin template, colour seed and
+ * glow track. */
+extern GteRotation D_8018F1F4;
+extern u8 D_80199674[];
+
 #endif
