@@ -39,7 +39,7 @@ void *MEMCARD_UPDATE_VIDEO_FRAME_NAME(VideoDisplay *display) {
         }
     }
     end = MEMCARD_VIDEO_ENTRY->end;
-    if (local.frame->time >= (u32)(end - 16)) {
+    if (local.frame->time >= (end - 16)) {
         s32 position = local.frame->time + 16;
 
         remaining = position - end;
@@ -49,7 +49,7 @@ void *MEMCARD_UPDATE_VIDEO_FRAME_NAME(VideoDisplay *display) {
         }
         func_800870F0(D_800B0DBE * remaining / 14);
     }
-    if (local.frame->time < (u32)MEMCARD_VIDEO_LAST_TIME || local.frame->time >= (u32)MEMCARD_VIDEO_ENTRY->end) {
+    if (local.frame->time < MEMCARD_VIDEO_LAST_TIME || local.frame->time >= MEMCARD_VIDEO_ENTRY->end) {
         MEMCARD_VIDEO_FINISHED = 1;
     }
     MEMCARD_VIDEO_LAST_TIME = local.frame->time;
