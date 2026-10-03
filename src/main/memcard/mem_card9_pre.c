@@ -53,8 +53,8 @@ int MemCard_TimerCallback(void) {
     int limit;
     int *timer;
     void *obj;
-    register int active asm("$3");
-    register int one asm("$2");
+    int active;
+    int one;
 
     active = D_8009B774;
     one = 1;
