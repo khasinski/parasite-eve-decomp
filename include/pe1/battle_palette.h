@@ -8,6 +8,37 @@ typedef struct BattlePaletteSymbol {
     u8 bytes[16];
 } BattlePaletteSymbol;
 
+extern BattlePaletteSymbol D_800B00EC;
+extern BattlePaletteSymbol D_800B00ED;
+extern BattlePaletteSymbol D_800B00EE;
+extern BattlePaletteSymbol D_800B00F4;
+extern BattlePaletteSymbol D_800B00F5;
+extern BattlePaletteSymbol D_800B00F6;
+extern BattlePaletteSymbol D_800B00FC;
+extern BattlePaletteSymbol D_800B00FD;
+extern BattlePaletteSymbol D_800B00FE;
+extern BattlePaletteSymbol D_800B0104;
+extern BattlePaletteSymbol D_800B0105;
+extern BattlePaletteSymbol D_800B0106;
+extern BattlePaletteSymbol D_800B0110;
+extern BattlePaletteSymbol D_800B0111;
+extern BattlePaletteSymbol D_800B0112;
+extern BattlePaletteSymbol D_800B0118;
+extern BattlePaletteSymbol D_800B0119;
+extern BattlePaletteSymbol D_800B011A;
+extern BattlePaletteSymbol D_800B0120;
+extern BattlePaletteSymbol D_800B0121;
+extern BattlePaletteSymbol D_800B0122;
+extern BattlePaletteSymbol D_800B0128;
+extern BattlePaletteSymbol D_800B0129;
+extern BattlePaletteSymbol D_800B012A;
+extern BattlePaletteSymbol D_800B692C;
+extern BattlePaletteSymbol D_800B692D;
+extern BattlePaletteSymbol D_800B692E;
+extern BattlePaletteSymbol D_800B6948;
+extern BattlePaletteSymbol D_800B6949;
+extern BattlePaletteSymbol D_800B694A;
+
 extern BattlePaletteSymbol D_800B0134;
 extern BattlePaletteSymbol D_800B0135;
 extern BattlePaletteSymbol D_800B0136;
