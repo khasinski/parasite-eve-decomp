@@ -271,7 +271,7 @@ void Draw_PrintRawText(u8 *arg0) {
                 var_a0 = *var_s0;
             } while (var_a0 != 0xFF);
         }
-        if ((u32) &g_TextCursorStackBottom < (u32) g_TextCursorStackWord) {
+        if ((u32) &g_TextCursorStackBottom < g_TextCursorStackWord) {
             temp_v0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -8);
             temp_a0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -4);
             g_TextCursorStackWord -= 8;
@@ -410,7 +410,7 @@ void Draw_PrintTextById(unsigned int textId) {
                 var_a0 = *var_s0;
             } while (var_a0 != 0xFF);
         }
-        if ((u32) &g_TextCursorStackBottom < (u32) g_TextCursorStackWord) {
+        if ((u32) &g_TextCursorStackBottom < g_TextCursorStackWord) {
             temp_v0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -8);
             temp_a0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -4);
             g_TextCursorStackWord -= 8;
