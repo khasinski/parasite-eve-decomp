@@ -19,7 +19,6 @@ int Geo_ClipPoint(int x, int y, int z) {
     clippedY = (u32)bound + (u32)y;
     coordinate = (s16)coordinate;
     depth = state->depth_offset;
-    asm volatile("" : : "r"(depth) : "memory");
 
     bound = state->clip_min_x;
     /* Preserve the original empty load-delay slot. */
