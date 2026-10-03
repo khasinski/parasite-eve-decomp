@@ -65,37 +65,13 @@ int func_801969D8(int mode) {
                 particle->rotation.y=wave[0]*width/4096+(*heading+2048);
                 particle->rotation.z=0; particle->rotation.w=1;
                 func_80079754(&particle->rotation,transform);
-                {
-                    register int m0 asm("$12"), m1 asm("$13"), m2 asm("$14");
-                    m0 = ((int *)transform)[0];
-                    m1 = ((int *)transform)[1];
-                    gte_ctc2_0(m0);
-                    gte_ctc2_1(m1);
-                    m0 = ((int *)transform)[2];
-                    m1 = ((int *)transform)[3];
-                    m2 = ((int *)transform)[4];
-                    gte_ctc2_2(m0);
-                    gte_ctc2_3(m1);
-                    gte_ctc2_4(m2);
-                    m0 = ((int *)transform)[5];
-                    m1 = ((int *)transform)[6];
-                    gte_ctc2_5(m0);
-                    m2 = ((int *)transform)[7];
-                    gte_ctc2_6(m1);
-                    gte_ctc2_7(m2);
-                }
+                gte_ldrotmatrix(transform);
+                gte_ldtransmatrix(transform);
                 { Vector *input=&D_8019AD60; gte_ldv0(input); }
                 gte_cop2_hazard_slot();
                 gte_cop2_hazard_slot();
                 gte_mvmva_rotation_v0_translation_sf12();
-                {
-                    register Vector *out=&particle->velocity;
-                    register int x asm("$12"),y asm("$13"),z asm("$14");
-                    /* Keep the C stores relative to the GTE output pointer. */
-                    asm("" : "=r"(out) : "0"(out));
-                    gte_mfc2_9(x); gte_mfc2_10(y); gte_mfc2_11(z);
-                    out->x=x; out->y=y; out->z=z;
-                }
+                gte_stsv(&particle->velocity);
                 particle->position.x=heading[-50];
                 particle->position.y=heading[-49];
                 particle->position.z=heading[-48];
@@ -119,37 +95,13 @@ int func_801969D8(int mode) {
                 transform=&matrix;
                 asm("" : "=r"(transform) : "0"(transform));
                 func_80079754(&particle->rotation,transform);
-                {
-                    register int m0 asm("$12"), m1 asm("$13"), m2 asm("$14");
-                    m0 = ((int *)transform)[0];
-                    m1 = ((int *)transform)[1];
-                    gte_ctc2_0(m0);
-                    gte_ctc2_1(m1);
-                    m0 = ((int *)transform)[2];
-                    m1 = ((int *)transform)[3];
-                    m2 = ((int *)transform)[4];
-                    gte_ctc2_2(m0);
-                    gte_ctc2_3(m1);
-                    gte_ctc2_4(m2);
-                    m0 = ((int *)transform)[5];
-                    m1 = ((int *)transform)[6];
-                    gte_ctc2_5(m0);
-                    m2 = ((int *)transform)[7];
-                    gte_ctc2_6(m1);
-                    gte_ctc2_7(m2);
-                }
+                gte_ldrotmatrix(transform);
+                gte_ldtransmatrix(transform);
                 { Vector *input=&D_8019AD60; gte_ldv0(input); }
                 gte_cop2_hazard_slot();
                 gte_cop2_hazard_slot();
                 gte_mvmva_rotation_v0_translation_sf12();
-                {
-                    register Vector *out=&particle->velocity;
-                    register int x asm("$12"),y asm("$13"),z asm("$14");
-                    /* Keep the C stores relative to the GTE output pointer. */
-                    asm("" : "=r"(out) : "0"(out));
-                    gte_mfc2_9(x); gte_mfc2_10(y); gte_mfc2_11(z);
-                    out->x=x; out->y=y; out->z=z;
-                }
+                gte_stsv(&particle->velocity);
                 particle->position.x=heading[-50];
                 particle->position.y=heading[-49];
                 particle->position.z=heading[-48];
