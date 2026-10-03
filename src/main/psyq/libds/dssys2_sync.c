@@ -18,7 +18,7 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
         base = QUEUE_FROM_CURRENT(current)->entries;
         asm("" : "=r"(base) : "0"(base));
         {
-            register int offset asm("$2") = index * sizeof(CdDsReadQueueEntry);
+            int offset = index * sizeof(CdDsReadQueueEntry);
             entry = (CdDsReadQueueEntry *)((u32)offset + (u32)base);
         }
     }
@@ -84,7 +84,7 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
                 register int index = D_800A3604;
                 register CdDsReadQueueEntry *item;
                 {
-                    register int offset asm("$2") = index * sizeof(CdDsReadQueueEntry);
+                    int offset = index * sizeof(CdDsReadQueueEntry);
                     register u8 *queue;
                     queue = (u8 *)pending -
                             PE1_OFFSETOF(CdDsReadQueueWindow, pending_count);
