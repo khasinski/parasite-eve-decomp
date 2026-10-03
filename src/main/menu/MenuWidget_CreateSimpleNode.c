@@ -16,7 +16,7 @@ void *MenuWidget_CreateSimpleNode(s32 arg0, void *arg1, void *arg2, s32 arg3) {
     s32 mode = arg0;
     register void *parent_arg asm("$19") = arg1;
     void *parent = arg2;
-    register s32 arg_flag asm("$21") = arg3;
+    s32 arg_flag = arg3;
     MenuWidgetSimpleDescriptor *desc;
     void *node;
     void *next;
