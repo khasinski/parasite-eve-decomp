@@ -38,9 +38,7 @@ double Math_Int32ToDouble(int value) {
             register unsigned int packed asm("$17");
             register unsigned int mask asm("$2") = 0xFFEF0000;
             high = ((volatile MathU64 *)&parts)->hi;
-            asm volatile("" : "=r"(high), "=r"(mask) : "0"(high), "1"(mask));
             mask |= 0xFFFF;
-            asm volatile("" : "=r"(high), "=r"(mask) : "0"(high), "1"(mask));
             high &= mask;
             packed = high | sign;
             mask = exponent << 20;
