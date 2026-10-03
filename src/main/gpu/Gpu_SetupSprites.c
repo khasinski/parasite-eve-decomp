@@ -186,7 +186,7 @@ void Gpu_DrawStatusIcons(void) {
         if (bits0 != 0) {
             register int code asm("$5");
             code = bits0 ^ 0xC;
-            code = (u32)code < 1;
+            code = code < 1;
             code <<= 2;
             EMIT_CODED(code);
         }
