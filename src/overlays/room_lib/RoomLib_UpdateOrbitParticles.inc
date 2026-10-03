@@ -15,12 +15,12 @@ void ROOMLIB_UPDATE_ORBIT_PARTICLES_NAME(
     i = 0;
     while (i < 8) {
         s32 xDelta =
-            ((s32)state->velocity[i].x * state->radius) >> 16;
+            (state->velocity[i].x * state->radius) >> 16;
 
         state->position[i].y += (s8)(state->velocity[i].angle >> 8);
         state->position[i].x += xDelta;
         state->position[i].z +=
-            ((s32)state->velocity[i].z * state->radius) >> 16;
+            (state->velocity[i].z * state->radius) >> 16;
         state->velocity[i].angle += 0x258;
         i++;
     }
