@@ -3,10 +3,10 @@
 
 #include "fx_common_setup.h"
 
-extern volatile FxCommonVec3 g_FxCommonMotionPosition1 __asm__("D_8019C330");
-extern volatile FxCommonVec3 g_FxCommonMotionPosition0 __asm__("D_8019C810");
-extern volatile FxCommonVec3 g_FxCommonMotionAccum1 __asm__("D_8019C06C");
-extern volatile FxCommonVec3 g_FxCommonMotionAccum0 __asm__("D_8019C09C");
+extern FxCommonVec3 g_FxCommonMotionPosition1 __asm__("D_8019C330");
+extern FxCommonVec3 g_FxCommonMotionPosition0 __asm__("D_8019C810");
+extern FxCommonVec3 g_FxCommonMotionAccum1 __asm__("D_8019C06C");
+extern FxCommonVec3 g_FxCommonMotionAccum0 __asm__("D_8019C09C");
 extern FxCommonShortVec3 g_FxCommonMotionOrigin1 __asm__("D_8019C07C");
 extern FxCommonShortVec3 g_FxCommonMotionTarget1 __asm__("D_8019C084");
 extern FxCommonShortVec3 g_FxCommonMotionOrigin0 __asm__("D_8019C0AC");
@@ -17,7 +17,7 @@ extern s16 g_FxCommonMotionRemaining1 __asm__("D_8019C050");
 extern s32 D_8009D1F4;
 extern s32 D_8009D26C;
 extern s8 D_800B0DB5;
-extern void *volatile D_800B0E08[1];
+extern void *D_800B0E08[1];
 extern s32 D_8019C018;
 extern s32 D_8019C01C;
 extern s16 D_8019C024;
