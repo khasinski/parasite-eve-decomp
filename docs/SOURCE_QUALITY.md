@@ -245,6 +245,22 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### menu_memcard glint effects and scene_e19_2 jitter sparks
+
+The memory card menu carries a copy of a room effect set that links at
+0x801EB7F8 plus its offset; those offsets now form the
+`menu_memcard_glint_linkbase` segment so the code disassembles at its real
+addresses, and seven of its routines have clean C on `menu_memcard_glint.h`:
+the sine trail effect, the fading glint particle, the glint burst
+controller, the drift glow particle, the rising ember particle, the spin
+burst controller and the spin ring particle. scene_e19_2's jitter sized spark
+and its spawner, split out of the scene tail blob, are new room_lib
+templates. The palette choice is a conditional inside the clut call so the
+constant loads early and the clut is zero-extended right after it, later
+states return before their breaks so the tails keep retail's branches, and
+locals are declared in retail's slot order. Every function matches retail
+with no pins or barriers; both overlay SHA-1 hashes are unchanged.
+
 ### room_m318 completed and three more scene_e22 particles
 
 The last room_m318 routines now have clean C: the twin ribbon controller, the
