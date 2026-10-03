@@ -1,8 +1,3 @@
-register int reserveReg19 asm("$19");
-register int reserveReg20 asm("$20");
-register int reserveReg21 asm("$21");
-register int reserveReg22 asm("$22");
-register int reserveReg23 asm("$23");
 #include "pe1/render_object.h"
 #include "pe1/gte.h"
 #include "pe1/psyq_gpu.h"
@@ -55,9 +50,6 @@ int func_8019549C(int mode, SceneE19HomingParticle *particle)
     RenderColor color = D_8018F218;
     GteShortVector floor_position;
     GteRotation floor_rotation;
-    GteMatrixWords *matrixA, *matrixB;
-    register int **matrixSlot asm("$2");
-    register u32 x asm("$12"), y asm("$13"), z asm("$14");
     register int divider asm("$16");
     int bias, random;
     register int remMagic asm("$5");
@@ -68,7 +60,7 @@ int func_8019549C(int mode, SceneE19HomingParticle *particle)
     u16 floorY;
     u16 floorZ;
     register int floorIndex asm("$4");
-    register int floorTimer asm("$2");
+    int floorTimer;
     register int negValue asm("$2");
     int signedValue;
     register int returnTest asm("$2");
@@ -98,7 +90,6 @@ int func_8019549C(int mode, SceneE19HomingParticle *particle)
         random &= 1023;
         asm volatile("" : : "r"(random) : "memory");
         sum = bias + 390;
-asm volatile("" : : : "memory");
         rotation.x += random - sum;
         asm("" : : "r"(sum));
         rotation.y += -512 + (s16)(particle->position.pad % 5) * 256;
@@ -190,9 +181,7 @@ test_timer:
             intensity = 92;
         rotation.x = 0;
         rotation.y = 0;
-        asm volatile("" : : : "memory");
         signedValue = particle->timer;
-        asm("" : : "r"(signedValue));
         rotation.z = signedValue << 7;
         sum = 64;
         D_800F3368.parameter00 = sum;
@@ -213,40 +202,20 @@ test_timer:
         D_800F3378 = 32;
         negValue = rotation.z;
         rotation.z = -negValue;
-        asm("" : : "r"(negValue));
         palette = D_800E1204[D_800F336C];
         if (D_800F336C == 4 && D_800F3428)
             palette += 4;
         clut = func_80077AA4(16, palette);
         func_800CEE20(&particle->position, &rotation, 8192, 8192,
                      152, clut, 1, intensity, 0);
-        matrixSlot = &D_800BCFA4.value;
-        asm("" : "=r"(matrixSlot) : "0"(matrixSlot));
-        matrixA = (GteMatrixWords *)*matrixSlot;
- asm("" : "=&r"(matrixA) : "0"(matrixA) : "$2","$3","$4","$5","$6","$7");
-        x = matrixA->r11_r12;
-        y = matrixA->r13_r21;
-        gte_ctc2_0(x);
-        gte_ctc2_1(y);
-        x = matrixA->r22_r23;
-        y = matrixA->r31_r32;
-        z = matrixA->r33_pad;
-        gte_ctc2_2(x);
-        gte_ctc2_3(y);
-        gte_ctc2_4(z);
-        x = matrixA->tx;
-        y = matrixA->ty;
-        gte_ctc2_5(x);
-        z = matrixA->tz;
-        gte_ctc2_6(y);
-        gte_ctc2_7(z);
+        gte_ldrotmatrix(D_800BCFA4.value);
+        gte_ldtransmatrix(D_800BCFA4.value);
         func_800D004C(&particle->position, 600, 600, 5,
                      0, 4096, 4096, &color, 0, 70, 1);
         if (particle->timer < 24 && (particle->position.pad & 1)) {
             intensity = func_80077DC4((particle->timer << 10) / 24) / 64;
 floorIndex = D_800F336C;
 temporaryPosition.x = particle->position.x;
-asm("" : : "r"(intensity) : "memory");
 temporaryPosition.y = particle->position.y;
 pulseSum = 64;
 floorZ = particle->position.z;
@@ -273,26 +242,8 @@ if (floorIndex == 4 && D_800F3428) palette += 4;
             func_800D3BC8(&temporaryPosition, 6144, 6144, 154,
                          clut, 1, intensity / 2, 0, 1536);
         }
-        matrixSlot = &D_800BCFA4.value;
-        asm("" : "=r"(matrixSlot) : "0"(matrixSlot));
-        matrixB = (GteMatrixWords *)*matrixSlot;
- asm("" : "=&r"(matrixB) : "0"(matrixB) : "$2","$3","$4","$5","$6","$7");
-        x = matrixB->r11_r12;
-        y = matrixB->r13_r21;
-        gte_ctc2_0(x);
-        gte_ctc2_1(y);
-        x = matrixB->r22_r23;
-        y = matrixB->r31_r32;
-        z = matrixB->r33_pad;
-        gte_ctc2_2(x);
-        gte_ctc2_3(y);
-        gte_ctc2_4(z);
-        x = matrixB->tx;
-        y = matrixB->ty;
-        gte_ctc2_5(x);
-        z = matrixB->tz;
-        gte_ctc2_6(y);
-        gte_ctc2_7(z);
+        gte_ldrotmatrix(D_800BCFA4.value);
+        gte_ldtransmatrix(D_800BCFA4.value);
         if (particle->timer < 13 && !(particle->position.pad & 1)) {
             func_800D0E88(&particle->position, &particle->angles,
                          1900, (12 - particle->timer) << 8,
@@ -318,15 +269,12 @@ asm("" : : "r"(divider));
         func_800CEE20(&particle->position, 0, scale, scale,
                      8, clut, 1, intensity, 0);
         floorIndex = D_800F336C;
-        asm("" : : "r"(floorIndex));
         floor_rotation.x = 1024;
         floor_rotation.y = 0;
         floorTimer = particle->timer;
-        asm("" : : "r"(floorTimer));
         floor_rotation.z = floorTimer << 5;
         floor_rotation.flags = 1;
         floor_position.x = particle->position.x;
-        asm volatile("" : : : "memory");
         floorY = D_800942EC;
         sum = (u16)particle->position.z;
 
