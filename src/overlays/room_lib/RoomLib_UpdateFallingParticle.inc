@@ -13,7 +13,7 @@ u16 *func_800C2B90(void *owner, int kind, void *config, void *callback);
 void ROOMLIB_UPDATE_FALLING_PARTICLE_NAME(
     void *owner, RoomFallingParticleControl *control,
     RoomFallingParticleState *state) {
-    register u16 *spawn asm("$3");
+    u16 *spawn;
 
     state->x += state->velocityX;
     state->y += state->velocityY;
