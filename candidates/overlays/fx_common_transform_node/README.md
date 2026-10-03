@@ -24,3 +24,10 @@ assignment (mirrored s5 / pass s6 vs retail s2 / s5).
 func_80191114 (0x2124, 0x46C) has the same shape (mirror copy at sp+0x20,
 `addiu s3, sp, 0x20` in the mode branch delay slot), so it hits the same cse
 behaviour; a permuter run (25k iterations) on func_80190E04 found only no-op rewrites.
+
+2026-10-03 (agent5, second pass): wrapping `position` and `mirror` in one
+local struct (`work.position` at sp+0x10, `work.mirror` at sp+0x20) changes
+nothing (still 21). Note: fx_common_motion.h now declares
+`void func_80190E04(void *node, FxCommonBuffer *context, u8 pass, u8 force,
+u8 mirrored)` for the matched caller FxCommon_DrawScene, so the definition
+must take `void *node` and assign it to a typed local when this is flipped.
