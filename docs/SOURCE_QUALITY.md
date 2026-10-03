@@ -245,6 +245,22 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m318 completed and three more scene_e22 particles
+
+The last room_m318 routines now have clean C: the twin ribbon controller, the
+ember spiral controller, the fan sweep controller and its spark, and the
+spiral drop controller, so the overlay has no assembly left. scene_e22 gains
+its damped glow, twisting trail and twisting beam particles. The actor
+attachment shared by the ember controllers is one inline helper in
+`room_ember_burst.h`, and `func_800D0E88`'s colour arguments are declared as
+the pointers every caller passes. Negations are written as `*= -1` where
+retail keeps the signed load, constants retail holds across a call live in a
+variable set before it, the ember spiral re-reads the sound slot through a
+volatile load exactly where retail loads it twice, and one shared int carries
+an angle and a later value so both land in retail's saved register. Every
+function matches retail with no pins or barriers; all overlay SHA-1 hashes
+are unchanged.
+
 ### room_m318 and scene_e22 effect controllers and particles
 
 Twelve more room_m318 effects now have clean C beside the shake controllers:
