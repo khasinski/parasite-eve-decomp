@@ -113,5 +113,5 @@ s32 MemCard_ReadByte(CardObj *inObj, s32 inByte) {
         }
     }
 done:
-    return (s32)result;
+    return result;
 }
