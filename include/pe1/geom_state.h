@@ -257,6 +257,7 @@ typedef union GeomStateAddress {
     GeomState *state;
     GeomCtrlEntry *ctrl;
     GeomEntry *entry;
+    GeomEntryView *views;
     CameraViewport *viewport;
     u8 *bytes;
     u32 word;

@@ -9,9 +9,14 @@ int Scene_IsBattleMode(void)
     if (!(g_GameStateFlags & 0x104)) {
         int i;
         GeomState *state = D_800B1624;
-        GeomEntryView *entries =
-            (GeomEntryView *)((u8 *)D_800B1624 + state->entry_offset);
-        int count = state->entry_count06;
+        GeomStateAddress table;
+        GeomEntryView *entries;
+        int count;
+
+        table.state = D_800B1624;
+        table.word += state->entry_offset;
+        entries = table.views;
+        count = state->entry_count06;
 
         for (i = 0; i < count; i++) {
             GeomScrollEntry *entry = &entries[i].scroll;
