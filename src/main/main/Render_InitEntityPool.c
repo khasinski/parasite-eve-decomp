@@ -50,7 +50,7 @@ int Render_InitEntityPool(int mode) {
         state->queue = 1;
         {
             unsigned int offset = state->variant * 4;
-            state->width = *(volatile unsigned short *)((unsigned char *)D_800957CC + offset);
+            state->width = *(unsigned short *)((unsigned char *)D_800957CC + offset);
         }
         state->height = D_800957D8[state->variant][0];
         GPU_memset(drawCache, -1, 0x5C);
