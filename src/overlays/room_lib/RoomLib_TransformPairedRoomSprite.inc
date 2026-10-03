@@ -18,13 +18,13 @@ extern unsigned char ROOMLIB_PAIRED_SPRITE_TABLE[];
 void ROOMLIB_TRANSFORM_PAIRED_SPRITE_FUNC(void *unused, char *params,
                                           char *state) {
     RoomLibSpriteTransformStack stack;
-    register RoomSpriteMatrix *scaleMatrix asm("$16");
-    register unsigned char *table asm("$17");
+    RoomSpriteMatrix *scaleMatrix;
+    unsigned char *table;
     register char *workState asm("$18");
     register RoomSpriteMatrix *matrix asm("$19");
-    register char *root asm("$20");
+    char *root;
     register char *renderParams asm("$21");
-    register char *owner asm("$16");
+    char *owner;
 
     renderParams = params;
     workState = state;
