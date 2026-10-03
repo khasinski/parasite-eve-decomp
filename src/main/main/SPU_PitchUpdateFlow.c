@@ -133,7 +133,7 @@ void SPU_StepReverbLoad(void)
                 }
                 pending ^= count;
             }
-            count = (u32)count << 1;
+            count = count << 1;
             ++track;
         } while (pending);
     }
