@@ -65,39 +65,16 @@ int Render_SetViewport(s16 *position) {
         local.point[2] = value;
     }
     {
-        register unsigned int cy asm("$15") = 112;
-        register unsigned int x asm("$12");
-        register unsigned int y asm("$13");
-        asm("" : "=r"(cx), "=r"(cy) : "0"(cx), "1"(cy), "m"(local.point[2]));
-        x = cx << 16;
-        y = cy << 16;
-        gte_ctc2_24(x);
-        gte_ctc2_25(y);
+        unsigned int cy = 112;
+        gte_SetGeomOffset(cx, cy);
     }
     {
         register u32 **address = &camera->position.matrixWords;
         register u32 *matrix asm("$11");
-        register u32 x asm("$12");
-        register u32 y asm("$13");
-        register u32 z asm("$14");
         asm("" : "=r"(address) : "0"(address));
         matrix = *address;
-        x = matrix[0];
-        y = matrix[1];
-        gte_ctc2_0(x);
-        gte_ctc2_1(y);
-        x = matrix[2];
-        y = matrix[3];
-        z = matrix[4];
-        gte_ctc2_2(x);
-        gte_ctc2_3(y);
-        gte_ctc2_4(z);
-        x = matrix[5];
-        y = matrix[6];
-        gte_ctc2_5(x);
-        z = matrix[7];
-        gte_ctc2_6(y);
-        gte_ctc2_7(z);
+        gte_ldrotmatrix(matrix);
+        gte_ldtransmatrix(matrix);
     }
     {
         register int distance = *D_800BCFA8;
