@@ -102,7 +102,15 @@ typedef struct RoomFanSweepSpark {
     u16 timer;                    /* 0x04 */
     s16 x, y, z;                  /* 0x06 */
     s16 radius;                   /* 0x0C */
+    u16 reserved0E;               /* 0x0E */
 } RoomFanSweepSpark;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFanSweepSpark, x) == 0x06,
+                  room_fan_sweep_spark_position_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFanSweepSpark, radius) == 0x0C,
+                  room_fan_sweep_spark_radius_offset);
+PE1_STATIC_ASSERT(sizeof(RoomFanSweepSpark) == 0x10,
+                  room_fan_sweep_spark_size);
 
 extern void *D_80199900;
 extern RenderColor D_8018F1F0;
