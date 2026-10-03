@@ -6861,3 +6861,32 @@ The reconstruction explicitly rereads the active actor after panel callbacks.
 It also preserves the signed-byte-to-unsigned-halfword conversion when restoring
 an enemy action mode, while using the shared int-width Entity_SetActionMode ABI.
 A readable control-flow reconstruction alone was not credited as a match.
+
+### Battle_PhaseEndTurn
+
+The next largest unmatched function was `Battle_PhaseEndTurn`, 5208 bytes at
+0x8002DC58. It updates the gauge/status colors, waits for enemy actions, stops
+effects, finishes resource loading, restores the player mode and advances to
+phase 12. It reuses `Combatant`, `EnemyCombatant`, `BattleEntity` and the shared
+palette/turn matching views. Its prototypes live in `battle_turn.h`; no new
+symbol aliases or local extern declarations were needed.
+
+Stock native GCC 2.7.2 (-O2 -G8) and unmodified MASPSX (-G8) produce score 0
+and all 5208 retail bytes. The integrated isolated object was linked and compared
+directly with assets/USA/main.exe at 0x1E458..0x1F8B0. SHA-256:
+`3ea34f5d4ccdaea684ffc17efe5b37becdff34471947584c9ed0ce95e70102e0`.
+Compilation and all source-variant searches ran only on darwine.
+
+Remaining matching debt is 28 pins, 14 empty barriers and one explicit unused
+0x300-byte stack reservation, preserving the retail 0x320-byte frame. Sequential
+removal and exhaustive pin subsets within each color block reduced 31 pins to
+28; no further barrier removals matched. These preserve palette constant
+allocation and separate duplicate color cases. The existing wide symbol views
+and palette byte strides remain matching debt, not recovered retail arrays or
+complete GPU packet structures. No instruction ASM, NOPs, special ABI, compiler
+patches or assembler patches are used.
+
+The function uses the real argument lists instead of the mechanical
+reconstruction's spurious a2/a3 arguments. The signed-byte-to-unsigned-halfword
+conversion when restoring an enemy mode is explicit. Separate player reads
+reuse the existing matching views rather than adding register pins.

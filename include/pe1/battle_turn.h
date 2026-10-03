@@ -4,7 +4,7 @@
 #include "pe1/battle.h"
 #include "pe1/battle_palette.h"
 
-/* Matching views for the turn-init TU. Only element zero is accessed: these
+/* Matching views for the turn-phase TUs. Only element zero is accessed: these
  * wide declarations preserve retail absolute references under -G8. Separate
  * read/write views also prevent GCC from retaining symbol base addresses.
  * They describe code-generation requirements, not arrays in the game data.
@@ -28,6 +28,13 @@ extern s32 g_BattleTurnResumeFrameView[16] asm("D_8009D29C");
 extern s32 g_BattleTurnMoveLockRead[16] asm("D_8009D2E8");
 
 
+extern u8 D_8009CE74;
+int Battle_ProcessActionSlot(BattleEntity *);
+void Battle_ResetEnemyStats(int);
+int CD_StepReadState(int);
+void Battle_ClearMotionTable(void);
+void Pm_StopAllBoth(void);
+
 void Akao_Cmd_21(int, int);
 int Asset_LoadTimTextures(int);
 void Battle_DrawStatusPanel(int, void *);
@@ -36,5 +43,6 @@ void Entity_SetActionMode(BattleEntity *, int);
 void Entity_TickAnimSequences(BattleEntity *);
 void Tbl_ResetAll(void);
 void Battle_PhaseInitEnemyTurn(void);
+void Battle_PhaseEndTurn(void);
 
 #endif
