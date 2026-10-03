@@ -1944,3 +1944,23 @@ barrier or single-pass scope broke the match. All combinations of reducing
 the five unused GTE inputs were also checked and changed the output. Each
 GTE macro emits one COP2 transfer or command with its required hazard slots;
 there is no inline CPU algorithm or toolchain modification.
+
+## Battle update dispatcher
+
+`Battle_Update` matches all 4300 retail bytes at `0x800299CC` with stock
+GCC 2.7.2 and stock MASPSX, both using `-G8`. The source reuses `Combatant`,
+`BattleEntity`, `BattleAction`, palette declarations and turn-state matching
+views. It reconstructs phase dispatch, charged gauge colors, menu transitions,
+entity updates, animation resumption and status panels. The manifest split at
+`0x1B298` preserves `Battle_StepVictory` in assembly; it is a verified function
+boundary, not evidence of an original object boundary.
+
+Matching debt: 11 palette register pins, eight empty compiler barriers, two
+gotos and a 416-byte unused stack reservation. A signed one-byte matching
+view preserves the retail `LB` of `D_8009D2A0`; wide declarations elsewhere
+preserve absolute references and do not describe real arrays. Separate
+player/frame and read/write views retain retail reloads. Each pin and barrier
+was removed independently on darwine: the menu-open barrier was redundant
+and removed; all remaining individual removals changed the generated code.
+No CPU instruction assembly or toolchain patches are used. The complete main
+executable retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
