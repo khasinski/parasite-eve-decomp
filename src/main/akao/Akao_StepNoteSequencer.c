@@ -12,9 +12,9 @@ int Akao_StepNoteSequencer(unsigned char *cursor, unsigned size)
     unsigned address_offset;
     unsigned upload_size;
     register unsigned after_header asm("$2");
-    register unsigned char *rebase_instruments asm("$4");
-    register unsigned rebase_address asm("$5");
-    register unsigned next_address asm("$2");
+    unsigned char *rebase_instruments;
+    unsigned rebase_address;
+    unsigned next_address;
     unsigned remaining_payload;
     unsigned start;
     unsigned *dest;
