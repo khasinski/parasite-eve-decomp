@@ -44,7 +44,7 @@ s32 Geo_BuildMeshList(void) {
             }
             i += 1;
             entry += 0x38;
-        } while (i < (s32) count);
+        } while (i < count);
     }
     return 0;
 }
