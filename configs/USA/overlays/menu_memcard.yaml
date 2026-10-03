@@ -46,30 +46,21 @@ segments:
       - [0x1654, c, func_80122398]
       - [0x16A8, c, func_801223EC]
       - [0x16F4, asm, menu_memcard_data_0016F4]
-      - [0x2060, asm, func_menu_memcard_002060]
+  - [0x2060]
+  - name: menu_memcard_glint_linkbase
+    type: code
+    start: 0x2060
+    vram: 0x801ED858
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x2060, c, Memcard_DriftGlowParticle]
       - [0x244C, asm, func_menu_memcard_00244C]
       - [0x2D9C, asm, func_menu_memcard_002D9C]
       - [0x33D0, asm, func_menu_memcard_0033D0]
-  - [0x3D68]
-  - name: menu_memcard_glint_linkbase
-    type: code
-    start: 0x3D68
-    vram: 0x801EF560
-    align: 4
-    subalign: 4
-    bss_size: 0x0
-    subsegments:
       - [0x3D68, c, Memcard_FadingGlintParticle]
       - [0x4180, c, Memcard_GlintBurstController]
-  - [0x4870]
-  - name: menu_memcard_effect_callbacks
-    type: code
-    start: 0x4870
-    vram: 0x801255B4
-    align: 4
-    subalign: 4
-    bss_size: 0x0
-    subsegments:
       - [0x4870, asm, func_menu_memcard_004870]
       - [0x4E98, asm, func_menu_memcard_004E98]
   - [0x53A8]
