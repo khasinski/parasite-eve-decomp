@@ -37,8 +37,8 @@ extern RoomDriftMatrixSeed D_8018F01C;
 
 void func_801929B0(void *arg0, void *arg1, RoomDriftEffect *effect) {
     register RoomDriftEffect *initial asm("$16");
-    register RoomDriftView *view asm("$18");
-    register RoomDriftEffect *current asm("$17");
+    RoomDriftView *view;
+    RoomDriftEffect *current;
     RoomDriftMatrixSeed seed;
     u16 out[4];
     register s32 random asm("$2");
