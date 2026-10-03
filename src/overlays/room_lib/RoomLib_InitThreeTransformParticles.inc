@@ -33,15 +33,15 @@ void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
     RoomSpriteMatrix *firstMatrix;
     register RoomSpriteMatrix *secondMatrix asm("$17");
     RoomInitThreeVec *seed;
-    register void *callOwner asm("$23");
+    void *callOwner;
     register char *workState asm("$21");
-    register char *clock asm("$22");
-    register int i asm("$20");
+    char *clock;
+    int i;
     register char *byteCursor asm("$16");
     register char *positionCursor asm("$17");
     register char *velocityCursor asm("$18");
     register char *timerCursor asm("$19");
-    register int parameterIndex asm("$4");
+    int parameterIndex;
     char *clockResult;
     int *value;
     int randomValue;
@@ -51,7 +51,6 @@ void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
     parameterIndex = 3;
     clock = clockResult;
     asm("" : "=r"(parameterIndex) : "0"(parameterIndex));
-    asm("" : "=r"(clock) : "0"(clock));
     stack.firstSeed.x = 0;
     value = func_800C2B28(parameterIndex);
     stack.firstSeed.y = -*value;
@@ -62,7 +61,6 @@ void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
     func_80079754(seed, firstMatrix);
 
     parameterIndex = 3;
-    asm("" : "=r"(parameterIndex) : "0"(parameterIndex));
     stack.secondSeed.x = 0;
     value = func_800C2B28(parameterIndex);
     stack.secondSeed.y = *value;
