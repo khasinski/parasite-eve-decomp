@@ -53,18 +53,18 @@ extern s16 D_800942EC;
 void ROOMLIB_DRAW_TWELVE_EFFECT_FUNC(void *unused0, void *unused1,
                                      char *state) {
     RoomTwelveEffectDrawStack stack;
-    register char *workState asm("$22");
-    register char *clock asm("$21");
-    register unsigned int i asm("$20");
+    char *workState;
+    char *clock;
+    unsigned int i;
     register RoomSpriteMatrix *primaryMatrix asm("$23");
     RoomFxVec4 *sourceScale;
-    register RoomSpriteMatrix *secondaryMatrix asm("$17");
+    RoomSpriteMatrix *secondaryMatrix;
     register char *valueCursor asm("$19");
-    register char *element asm("$18");
+    char *element;
     register unsigned char *secondPacket asm("$16");
-    register unsigned int positionOffset asm("$5");
+    unsigned int positionOffset;
     register int pointValue asm("$2");
-    register RoomSpriteMatrix *transformArg asm("$4");
+    RoomSpriteMatrix *transformArg;
 
     asm("" : "=r"(workState) : "0"(state));
     clock = func_800C2B50();
@@ -101,9 +101,7 @@ void ROOMLIB_DRAW_TWELVE_EFFECT_FUNC(void *unused0, void *unused1,
             transformArg = primaryMatrix;
             asm("" : "=r"(transformArg) : "0"(transformArg));
             positionOffset = i << 3;
-            asm("" : "=r"(positionOffset) : "0"(positionOffset));
             positionOffset += 0x5C;
-            asm("" : "=r"(positionOffset) : "0"(positionOffset));
             func_80078BE4(transformArg, workState + positionOffset,
                           stack.primaryMatrix.t);
 
