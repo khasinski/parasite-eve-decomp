@@ -245,6 +245,22 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Orbit flare controller in twenty-four overlays
+
+The orbit flare controller is byte-identical, relocations aside, in fx_field,
+room_m013, room_m014, room_m016, room_m027, room_m028, room_m030, room_m100,
+room_m110, room_m113, room_m121, room_m263, room_m265, room_m298, room_m308,
+room_m311, room_m333, scene_e02, scene_e04, scene_e05 and scene_e11 to
+scene_e14, and all twenty-four now instantiate one
+`RoomEffect_OrbitFlareController.inc`, keeping each overlay's function symbol
+because the room data tables reference it. A raw byte search found the
+members the normalised assembly hash missed. The copy in scene_e11 to
+scene_e14 was linked on the 0x8018EFE8 base, so it now has its own code
+segment there. The texture slot is a one-field record instead of a volatile
+scalar, and the dropped flare particle reads it the same way. Each 2632-byte
+instance matches retail with no pins or barriers; every overlay SHA-1 hash is
+unchanged.
+
 ### Orbit flare, swirl ring and the room_m273 grab driver
 
 The scene_e04 and scene_e05 orbit flare controller and scene_e22's swirl ring
