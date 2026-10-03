@@ -96,7 +96,7 @@ segments:
       - [0x353C, c, RoomLib_Set4ClearSignal_80192524]
       - [0x3558, c, func_80192540]
       - [0x3560, asm, func_scene_e22_003560]
-      - [0x3B08, asm, func_scene_e22_003B08]
+      - [0x3B08, c, RoomEffect_OrbitRingBurst]
       - [0x41D0, asm, func_scene_e22_0041D0]
       - [0x442C, asm, func_scene_e22_00442C]
       - [0x4958, asm, func_scene_e22_004958]

@@ -1,0 +1,39 @@
+#ifndef PE1_SCENE_E22_RING_BURST_H
+#define PE1_SCENE_E22_RING_BURST_H
+
+#include "common.h"
+#include "pe1/render_object.h"
+#include "pe1/room_orbit_trail.h"
+
+/* Ring burst controller (scene_e22): scene event gate, particle channel
+ * and the helpers the burst and its orbit trail particles call. */
+
+typedef struct SceneE22BurstEvent {
+    u8 reserved[0x16];
+    s16 running;                  /* 0x16 */
+} SceneE22BurstEvent;
+
+typedef struct SceneE22BurstChannel {
+    s32 reserved[2];
+    void *pool;                   /* 0x08 */
+} SceneE22BurstChannel;
+
+extern SceneE22BurstEvent *D_800E2368;
+extern SceneE22BurstChannel *D_800F33E0;
+extern char RoomMain_ActorPtr[];
+extern u16 D_800E11EA;
+extern u16 D_800E11FA;
+extern RenderColor D_8018F1D0;
+extern RenderColor D_8018F1D4;
+extern GteShortVector D_801994EC;
+extern int func_80077CF4(int angle);
+extern int func_80077DC4(int angle);
+extern u16 func_80077AA4(int, int);
+extern int func_800CE560(void *pool, int size, int count, void *callback);
+extern RoomOrbitTrailParticle *func_800CE610(void *pool);
+extern int func_80071A54(void);
+extern int func_800D3FD8(void);
+extern int func_800D3F64(int sound, int handle);
+extern int func_80192548(int mode, RoomOrbitTrailParticle *p);
+
+#endif
