@@ -23,39 +23,16 @@ int Render_UpdateScrollPosition(void *positionArg, int duration, int mode)
         /* Narrow volatile register retains GCC's retail 24-byte frame.
          * This is a matching constraint, not evidence of the original type. */
         register volatile unsigned short cx asm("$10") = 160;
-        register unsigned int cy asm("$11") = 112;
-        register unsigned int sx asm("$12");
-        register unsigned int sy asm("$13");
-        asm("" : "=r"(cx), "=r"(cy) : "0"(cx), "1"(cy) : "memory");
-        sx = cx<<16;
-        sy = cy<<16;
-        gte_ctc2_24(sx);
-        gte_ctc2_25(sy);
+        unsigned int cy = 112;
+        gte_SetGeomOffset(cx, cy);
     }
     {
         unsigned int **address = &camera->position.matrixWords;
         register unsigned int *matrix asm("$10");
-        register unsigned int a asm("$12");
-        register unsigned int b asm("$13");
-        register unsigned int c asm("$14");
         asm("" : "=r"(address) : "0"(address));
         matrix = *address;
-        a = matrix[0];
-        b = matrix[1];
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = matrix[2];
-        b = matrix[3];
-        c = matrix[4];
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
-        a = matrix[5];
-        b = matrix[6];
-        gte_ctc2_5(a);
-        c = matrix[7];
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldrotmatrix(matrix);
+        gte_ldtransmatrix(matrix);
     }
     gte_lwc2_0_0(vector);
     gte_lwc2_1_4(vector);
