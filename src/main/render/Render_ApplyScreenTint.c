@@ -63,7 +63,7 @@ int Render_ApplyScreenTint(void) {
                     asm("" : : : "memory");
                     prim_index++;
                     prim++;
-                } while ((u32)prim_index < (u32)prim_count);
+                } while ((u32)prim_index < prim_count);
             }
             entry_index++;
             entry += 0x38;
