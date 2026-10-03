@@ -31,9 +31,9 @@ void func_80194090(void *arg0, void *arg1, char *effects) {
     register char *base asm("$20") = effects;
     register char *state asm("$17");
     register char *phase asm("$16");
-    register s16 *alpha asm("$21");
+    s16 *alpha;
     register unsigned i asm("$18");
-    register unsigned angleOffset asm("$19");
+    unsigned angleOffset;
     owner = func_800C2B50();
     i = 0;
     alpha = &D_8019955A;
