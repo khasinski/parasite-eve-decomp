@@ -15,15 +15,15 @@ extern void func_800C2B40(void *);
 extern void *func_8006DC18(int);
 extern int func_8006E498(void *, int);
 extern void func_8006DF50(void *, int, int, int, int);
-extern void *volatile D_800B0E64;
+extern void *D_800B0E64;
 extern RoomLink *g_PlayerEntity;
 extern int D_80199528, D_8019956C, D_8019957C;
-extern volatile u8 D_80199680, D_80199681, D_80199682, D_80199684, D_80199685, D_80199686;
-extern volatile s16 D_80199688, D_8019968A;
-extern volatile u8 D_801996A0, D_801996A1, D_801996A2, D_801996A4, D_801996A5, D_801996A6;
-extern volatile s16 D_801996A8, D_801996AA;
-extern volatile u8 D_801996B0, D_801996B1, D_801996B2, D_801996B4, D_801996B5, D_801996B6;
-extern volatile s16 D_801996B8, D_801996BA;
+extern u8 D_80199680, D_80199681, D_80199682, D_80199684, D_80199685, D_80199686;
+extern s16 D_80199688, D_8019968A;
+extern u8 D_801996A0, D_801996A1, D_801996A2, D_801996A4, D_801996A5, D_801996A6;
+extern s16 D_801996A8, D_801996AA;
+extern u8 D_801996B0, D_801996B1, D_801996B2, D_801996B4, D_801996B5, D_801996B6;
+extern s16 D_801996B8, D_801996BA;
 
 void func_8019155C(RoomEnt *ent, void *unused, SceneE08InitState *state) {
     SceneE08MatrixWords *matrix;
