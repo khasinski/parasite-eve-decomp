@@ -311,13 +311,13 @@ void Render_TransformVertices(RenderObjectEntity *input) {
                 RenderObjectPart *parts = ((RenderObjectEntity *)actor)->parts;
                 s32 partOffset = visibleCommand * 12;
                 RenderObjectPart *part =
-                    (RenderObjectPart *)((u32)partOffset + (u32)parts);
+                    (RenderObjectPart *)(partOffset + (u32)parts);
                 if (part->visible == 1) {
                     RenderVec3s *base =
                         ((RenderObjectEntity *)actor)->bounds_vertices;
                     s32 boundsOffset = visibleCommand * 16;
                     RenderVec3s *bounds =
-                        (RenderVec3s *)((u32)boundsOffset + (u32)base);
+                        (RenderVec3s *)(boundsOffset + (u32)base);
                     if (bounds[1].pad >= 0) {
                         Render_XformTransformVector(bounds, out_vertices);
                         out_vertices += 12;
