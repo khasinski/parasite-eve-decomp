@@ -245,6 +245,22 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### menu_memcard load addresses and six more routines
+
+The memory card overlay is a dump of copied code, and several of its blocks
+were declared at the wrong load address, which is why earlier C needed gotos,
+pins and barriers to fake retail's jumps. The first block now sits at
+0x80120D00, the later copies at their common 0x801887F0 base, and two
+function boundaries move to 0x7D4 and 0x1340. With that, the video display
+setter, frame update, buffer setup, logo screen, image node redraw and list
+input handler match retail from C; the copied display routine shares the
+setter's template and the duplicated helpers lose their goto and barrier.
+The frame update keeps one `$4` register variable because retail never
+reloads the argument after the call (it replaces four pins, a barrier and a
+volatile in its twin), and the logo screen carries the
+`-fno-cse-skip-blocks` marker its sibling already uses. The overlay SHA-1
+hash is unchanged and its recorded barriers and gotos go down.
+
 ### Five more room and scene effects
 
 room_m086's bounce glint, room_m023's drift pulse sprite, room_m089's swirl
