@@ -92,7 +92,6 @@ int func_801969D8(int mode) {
                 particle->rotation.z=0; particle->rotation.pad=1;
                 asm("" : : "r"(&particle->rotation));
                 transform=&matrix;
-                asm("" : "=r"(transform) : "0"(transform));
                 func_80079754(&particle->rotation,transform);
                 gte_ldrotmatrix(transform);
                 gte_ldtransmatrix(transform);
