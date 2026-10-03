@@ -20,8 +20,8 @@ void SetDrawMode(char *packet, int dfe, int dtd, int tpage);
 void BoundsCheck_AssertStub(int arg0);
 
 void Draw_AllocColorTri(int width, int height, int pulse) {
-    register TilePrim *tile asm("$16");
-    register DrawModePrim *drawMode asm("$17");
+    TilePrim *tile;
+    DrawModePrim *drawMode;
     int shade;
     int sync;
     u8 *old, *next;
@@ -62,26 +62,24 @@ tile_done:
         tile->g0 = channelShade;
         tile->r0 = channelShade;
     } else {
-        register u32 noPulseMask asm("$4") = 0xFFFFFF;
+        u32 noPulseMask = 0xFFFFFF;
         u32 colorTop = *(u32 *)&tile->r0 & 0xFF000000;
         *(volatile u32 *)&tile->r0 = colorTop;
         *(u32 *)&tile->r0 = colorTop | (D_8009D114 & noPulseMask);
     }
 
     {
-        register u32 tag asm("$4");
-        register u32 mask24 asm("$5") = 0xFFFFFF;
-        register u32 maskTop asm("$6");
-        register int w asm("$2") = width - 4;
-        register int h asm("$3") = height - 4;
-        register int y asm("$3");
+        u32 tag;
+        u32 mask24 = 0xFFFFFF;
+        u32 maskTop;
+        int w = width - 4;
+        int h = height - 4;
+        int y;
         register int x asm("$2");
         u8 code;
         u32 linkedTag, lowTile, otValue;
         u32 *ot;
-        asm volatile("" : : "r"(w), "r"(h));
         tag = tile->tag;
-        asm volatile("" : : "r"(tag));
         maskTop = 0xFF000000;
         tile->w = w;
         asm volatile("" ::: "memory");
@@ -95,7 +93,6 @@ tile_done:
         ot = D_8009D11C;
         tile->x0 = x + 2;
         otValue = *ot;
-        asm volatile("" : "=r"(tag) : "0"(tag), "r"(otValue));
         linkedTag = (tag & maskTop) | (otValue & mask24);
         lowTile = (u32)tile & mask24;
         asm volatile("" : : "r"(lowTile) : "memory");
@@ -117,9 +114,9 @@ draw_mode_done:
         SetDrawMode(drawMode, 0, 0, 0x20);
     }
     {
-        register u32 mask24 asm("$4") = 0xFFFFFF;
-        register u32 maskTop asm("$6") = 0xFF000000;
-        register u32 *ot asm("$5") = D_8009D11C;
+        u32 mask24 = 0xFFFFFF;
+        u32 maskTop = 0xFF000000;
+        u32 *ot = D_8009D11C;
         drawMode->tag = (drawMode->tag & maskTop) | (*ot & mask24);
         *ot = (*ot & maskTop) | ((u32)drawMode & mask24);
     }
