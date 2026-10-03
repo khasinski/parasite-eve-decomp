@@ -17,13 +17,13 @@ int Inv_CheckFreeSlotCapacity(int mask);
 int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
     /* Match the retail 0x60-byte stack frame; remove with a cleaner TU model. */
     volatile unsigned char stack_pad[32];
-    register int mod_index asm("$18") = modifier_index;
+    int mod_index = modifier_index;
     int selected_a;
     int selected_b;
-    register u8 *item_a asm("$17");
+    u8 *item_a;
     u8 *item_b;
     int item_id;
-    register int count asm("$5");
+    int count;
     int i;
     register int result asm("$19");
     int mask;
@@ -35,7 +35,7 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
     selected_a = Inv_RestoreSelection(list_index);
     item_a = 0;
     if (selected_a >= 0 && selected_a < D_8009D050) {
-        register u8 *resolved asm("$2");
+        u8 *resolved;
         register int saved_id asm("$5");
         register int scaled_id asm("$3");
         item_id = D_8009D048[selected_a];
@@ -56,9 +56,9 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
     selected_b = Inv_RestoreSelection(list_index < 1);
     item_b = 0;
     if (selected_b >= 0 && selected_b < D_8009D050) {
-        register u8 *resolved asm("$2");
+        u8 *resolved;
         register int saved_id asm("$5");
-        register int scaled_id asm("$3");
+        int scaled_id;
         item_id = D_8009D048[selected_b];
         saved_id = item_id;
         if ((unsigned int)(item_id - 0x100) < 0x80) {
@@ -79,7 +79,6 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
     if (mod_index >= 0) {
         u8 *chosen = item_a + mod_index;
         count = item_b[0x14];
-        asm volatile("" : "=r"(count) : "0"(count));
         modifier = chosen[0x15];
         i = 0;
         if (count <= 0) goto first_after;
@@ -105,7 +104,7 @@ first_after:;
 
             {
                 int third_count;
-                register int third_modifier asm("$5");
+                int third_modifier;
                 register int third_loop_count asm("$4");
                 third_count = item_b[0x14];
                 if (third_count <= 0) goto third_return3;
@@ -128,9 +127,9 @@ third_done:;
     Inv_RestoreSelection(list_index);
     if (D_8009D048 == D_800C0E48 && selected_a == D_800C0E22) {
         {
-            register int raw_count asm("$2");
-            register int loop_count asm("$4");
-            register int slot asm("$5");
+            int raw_count;
+            int loop_count;
+            int slot;
             raw_count = item_a[0x14];
             i = 0;
             if (raw_count <= 0) goto equip_after;
@@ -167,13 +166,12 @@ equip_after:;
     }
 
     {
-        register int raw asm("$2");
-        register int final_mod asm("$5");
+        int raw;
+        int final_mod;
         register int final_count asm("$6");
-        register int final_existing asm("$4");
-        register int bit_existing asm("$3");
+        int final_existing;
+        int bit_existing;
         raw = (item_a + mod_index)[0x15];
-        asm volatile("" : : "r"(item_a), "r"(mod_index));
         raw &= 0x1F;
         final_mod = raw - 8;
         if ((unsigned int)final_mod >= 3) goto return_one;
