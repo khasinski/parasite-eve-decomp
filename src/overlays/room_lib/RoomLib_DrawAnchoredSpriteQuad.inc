@@ -45,8 +45,8 @@ void ROOMLIB_DRAW_ANCHORED_SPRITE_QUAD_FUNC(void *unused0, void *unused1,
     RoomLibSpriteQuadStack stack;
     /* Retail keeps these in s0..s3; fx is reused for the packet pointers. */
     register char *fx asm("$16");
-    register char *map asm("$17");
-    register RoomSpriteMatrix *scaleMatrix asm("$18");
+    char *map;
+    RoomSpriteMatrix *scaleMatrix;
     register RoomSpriteMatrix *matrix asm("$19");
     char *root;
     short *floorY;
