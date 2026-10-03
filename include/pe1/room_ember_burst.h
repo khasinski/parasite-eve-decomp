@@ -113,6 +113,24 @@ extern int func_800CE5AC(void **pool, int owner, int size, int count, void *call
 extern int func_800CE688(void *pool);
 extern int func_800CE78C(void *pool);
 
+/* Spiral drop controller (func_80192ED4): attaches to the actor named by
+ * its parameters and drops falling sparks from a point that circles it on
+ * a turning angle at a pulsing radius. */
+typedef struct RoomSpiralDrop {
+    s16 x, y, z;                  /* 0x00 */
+    s16 reserved06;
+    s32 angle;                    /* 0x08 */
+    s32 radius;                   /* 0x0C */
+} RoomSpiralDrop;
+
+typedef struct RoomSpiralDropSpark {
+    s16 x, y, z;                  /* 0x00 */
+    s16 speed;                    /* 0x06 */
+} RoomSpiralDropSpark;
+
+extern u8 D_801994BC[];
+extern int func_80192DA0(int mode, RoomSpiralDropSpark *spark);
+
 /* Attaches the effect to the first live actor with the given ids, or
  * reports the missing actor. */
 static inline void RoomEffect_AttachToActor(int subId, int typeId, void *anchor) {

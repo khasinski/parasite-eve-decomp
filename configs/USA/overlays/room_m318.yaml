@@ -99,7 +99,7 @@ segments:
       - [0x3730, c, RoomEffect_FanSweepSpark]
       - [0x3A94, c, RoomEffect_FanSweepController]
       - [0x3DB8, c, RoomEffect_FallingPaletteSprite]
-      - [0x3EEC, asm, func_80192ED4]
+      - [0x3EEC, c, RoomEffect_SpiralDropController]
       - [0x4284, c, RoomEffect_SweepShakeParticle]
       - [0x4650, c, RoomEffect_SweepShakeController]
       - [0x49C4, c, RoomEffect_DriftingPaletteSprite]
