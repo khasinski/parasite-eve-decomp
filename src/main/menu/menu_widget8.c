@@ -1,5 +1,6 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
+#include "pe1/menu_widget.h"
 
 extern int g_MenuWidgetColumnLayoutMode;
 extern signed char g_MenuWidgetColumnLayoutTable[][4];
@@ -8,57 +9,59 @@ extern int g_DrawTextPosX;
 
 void Draw_PrintCenteredTextInWidth(int arg0, int arg1);
 
-void MenuWidget_SaveColumnLayout(void *ptr) {
+void MenuWidget_SaveColumnLayout(MenuWidgetNode *node) {
     int index;
     signed char *slot;
 
-    if (g_MenuWidgetColumnLayoutMode == 0 && ((*(int *)((char *)ptr + 0x64) & 0x20) == 0)) {
+    if (g_MenuWidgetColumnLayoutMode == 0 && ((node->layout_flags & 0x20) == 0)) {
         return;
     }
 
-    index = *(int *)((char *)ptr + 0x70);
+    index = node->aux_index;
     if ((unsigned int)index < 0x48) {
         slot = g_MenuWidgetColumnLayoutTable[index];
-        slot[0] = *(int *)((char *)ptr + 0x44);
-        slot[1] = *(int *)((char *)ptr + 0x48);
-        slot[2] = *(int *)((char *)ptr + 0x5C);
+        slot[0] = node->cursor_x;
+        slot[1] = node->cursor_y;
+        slot[2] = node->scroll_y;
     }
 }
 
 void MenuWidget_ApplyColumnLayout(void *arg0) {
+    MenuWidgetNode *node = arg0;
     signed char *entry;
     int flag;
 
-    if (arg0 == 0) {
+    if (node == 0) {
         return;
     }
-    if (*(int *)((char *)arg0 + 0x70) < 0) {
+    if (node->aux_index < 0) {
         return;
     }
 
-    entry = g_MenuWidgetColumnLayoutTable[*(int *)((char *)arg0 + 0x70)];
+    entry = g_MenuWidgetColumnLayoutTable[node->aux_index];
     flag = g_MenuWidgetColumnLayoutMode;
-    *(int *)((char *)arg0 + 0x44) = entry[0];
-    if ((flag != 0) || ((*(int *)((char *)arg0 + 0x64) & 0x20) != 0)) {
-        *(int *)((char *)arg0 + 0x48) = entry[1];
-        if (*(int *)((char *)arg0 + 0x58) <= *(int *)((char *)arg0 + 0x48)) {
-            *(int *)((char *)arg0 + 0x48) = *(int *)((char *)arg0 + 0x58) - 1;
+    node->cursor_x = entry[0];
+    if ((flag != 0) || ((node->layout_flags & 0x20) != 0)) {
+        node->cursor_y = entry[1];
+        if (node->y_limit <= node->cursor_y) {
+            node->cursor_y = node->y_limit - 1;
         }
-        if ((*(int *)((char *)arg0 + 0x68) != 0) &&
-            (*(int *)((char *)arg0 + 0x44) == 1) &&
-            (*(int *)((char *)arg0 + 0x48) == (*(int *)((char *)arg0 + 0x58) - 1))) {
-            *(int *)((char *)arg0 + 0x44) = 0;
+        if ((node->has_scroll != 0) &&
+            (node->cursor_x == 1) &&
+            (node->cursor_y == (node->y_limit - 1))) {
+            node->cursor_x = 0;
         }
-        *(int *)((char *)arg0 + 0x5C) = entry[2];
+        node->scroll_y = entry[2];
     }
 }
 
 void MenuWidget_SetColumnLayout(void *arg0, int arg1) {
+    MenuWidgetNode *node = arg0;
     signed char *entry;
     int flag;
 
-    *(int *)((char *)arg0 + 0x70) = arg1;
-    if (arg0 == 0) {
+    node->aux_index = arg1;
+    if (node == 0) {
         return;
     }
     if (arg1 < 0) {
@@ -67,24 +70,26 @@ void MenuWidget_SetColumnLayout(void *arg0, int arg1) {
 
     entry = g_MenuWidgetColumnLayoutTable[arg1];
     flag = g_MenuWidgetColumnLayoutMode;
-    *(int *)((char *)arg0 + 0x44) = entry[0];
-    if ((flag != 0) || ((*(int *)((char *)arg0 + 0x64) & 0x20) != 0)) {
-        *(int *)((char *)arg0 + 0x48) = entry[1];
-        if (*(int *)((char *)arg0 + 0x58) <= *(int *)((char *)arg0 + 0x48)) {
-            *(int *)((char *)arg0 + 0x48) = *(int *)((char *)arg0 + 0x58) - 1;
+    node->cursor_x = entry[0];
+    if ((flag != 0) || ((node->layout_flags & 0x20) != 0)) {
+        node->cursor_y = entry[1];
+        if (node->y_limit <= node->cursor_y) {
+            node->cursor_y = node->y_limit - 1;
         }
-        if ((*(int *)((char *)arg0 + 0x68) != 0) &&
-            (*(int *)((char *)arg0 + 0x44) == 1) &&
-            (*(int *)((char *)arg0 + 0x48) == (*(int *)((char *)arg0 + 0x58) - 1))) {
-            *(int *)((char *)arg0 + 0x44) = 0;
+        if ((node->has_scroll != 0) &&
+            (node->cursor_x == 1) &&
+            (node->cursor_y == (node->y_limit - 1))) {
+            node->cursor_x = 0;
         }
-        *(int *)((char *)arg0 + 0x5C) = entry[2];
+        node->scroll_y = entry[2];
     }
 }
 
 void MenuWidget_ClearColumnLayout(void *ptr) {
-    *(int *)((char *)ptr + 0x70) = -1;
-    *(int *)((char *)ptr + 0x44) = -1;
+    MenuWidgetNode *node = ptr;
+
+    node->aux_index = -1;
+    node->cursor_x = -1;
 }
 
 void MenuWidget_DrawCenteredText(int arg0) {
