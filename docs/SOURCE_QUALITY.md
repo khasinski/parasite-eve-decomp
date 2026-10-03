@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### scene_e19 grab on approach trigger
+
+The scene_e19 routine at 0x36CC, split out of its combined assembly segment,
+is now `SceneEffect_GrabOnApproach_801926B4.c` on the new
+`scene_grab_trigger.h`. When the player comes close while the actor's
+animation frame is between 4 and 12 it locks the player into a scripted
+animation. The scratchpad target point is written through a struct pointer so
+retail's reload of the actor's matrices after the first store survives, and
+the player entity is read in a block-local variable at each use so it keeps
+retail's register. The 452-byte function matches retail with no pins or
+barriers, unlike its room_m273 twin, and the overlay SHA-1 hash is unchanged.
+
 ### menu_memcard cross flash controller and glint hooks
 
 The memory card menu's cross flash controller at 0x33D0 now has clean C, and
