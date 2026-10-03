@@ -47,7 +47,12 @@ segments:
       - [0x6D4, c, func_8018F6BC]
       - [0x810, c, func_8018F7F8]
       - [0x818, c, RoomEffect_RenderMotionSprite]
-      - [0xA7C, asm, scene_e01_178_818_A7C]
+      # 0xA7C..0x31A4: byte-identical copies of room_m269 func_8018FA64..func_80191CFC (same vram, same relocations)
+      - [0xA7C, asm, func_8018FA64]
+      - [0x1724, asm, func_8019070C]
+      - [0x1D50, asm, func_80190D38]
+      - [0x23CC, asm, func_801913B4]
+      - [0x2D14, asm, func_80191CFC]
       - [0x31A4, c, RoomLib_SetArg1_8019218C]
       - [0x31B4, c, func_8019219C]
       - [0x31C4, c, func_801921AC]
