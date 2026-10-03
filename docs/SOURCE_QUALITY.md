@@ -245,6 +245,23 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m318 and scene_e22 effect controllers and particles
+
+Twelve more room_m318 effects now have clean C beside the shake controllers:
+the sweep shake particle, the flash burst controller and particle, the rising
+column controller and particle, the cross flash controller and particle, the
+ember burst particle and controller, the ember fountain controller and
+particle, and the twisting ember particle. scene_e22's orbit ring burst and
+its trail particle join them. Retail's early constant in the palette choice
+comes from selecting the palette as its own value, either through a
+conditional on the clut argument or through a separate palette variable,
+depending on the function; the spin vector or angle is written before the
+parameter block so the block's stores schedule as retail's do; temporaries
+are shared across cases so values land in retail's saved registers; and the
+rising column spends one random call on a discarded `% 1` heading exactly as
+retail does. Every function matches retail with no pins or barriers; both
+overlay SHA-1 hashes are unchanged.
+
 ### Ten single effects modelled on matched siblings
 
 Ten effect routines that resemble already matched templates, without being

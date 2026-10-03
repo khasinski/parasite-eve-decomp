@@ -24,4 +24,13 @@ typedef struct RoomOrbitTrailBurst {
     s16 counterB;                 /* 0x0A */
 } RoomOrbitTrailBurst;
 
+/* Ring burst controller state (scene_e22): the burst anchor, two cleared
+ * counters and the flag that enables the sweeping-trail volley. */
+typedef struct RoomOrbitRingBurst {
+    s16 x, y, z, reserved06;      /* 0x00 */
+    s16 counterA;                 /* 0x08 */
+    s16 counterB;                 /* 0x0A */
+    s16 sweep;                    /* 0x0C */
+} RoomOrbitRingBurst;
+
 #endif
