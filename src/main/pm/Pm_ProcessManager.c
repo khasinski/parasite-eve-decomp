@@ -209,7 +209,7 @@ int Pm_SendCmd(int arg0, int arg1, int arg2, int *arg3, int *arg4, int *arg5) {
         int reload_offset;
         reload_table = g_PmCmdHandlerTable;
         reload_offset = cmd << 2;
-        handler = *(PmCommand **)((u32)reload_offset + (u32)reload_table);
+        handler = *(PmCommand **)(reload_offset + (u32)reload_table);
         /* The table can change through arg3..arg5, so reload before calling. */
         return handler->send((PmSlotHeader *)entry, arg1, arg2, arg3, arg4, arg5);
     }
@@ -596,7 +596,7 @@ s32 Pm_StopAll(void) {
 loop_1:
     base_v0 = (u8 *)g_PmSlotTableRaw;
     temp_v1 = ((PmSlotHeader *)(base_v0 + var_s1))->command;
-    if ((temp_v1 < 8U) || ((u32)(temp_v1 - 0x55) < 0x1EU)) {
+    if ((temp_v1 < 8U) || ((temp_v1 - 0x55) < 0x1EU)) {
         var_v0 = Pm_Stop(var_s0, g_PlayerEntity, 1);
         var_a2 = var_v0;
         asm volatile("" : "=r"(var_a2) : "0"(var_a2));
