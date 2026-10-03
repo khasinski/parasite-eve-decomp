@@ -23,7 +23,6 @@ void MemCard_StartCounterIrq(void) {
         asm("" : "=r"(clear) : "0"(clear));
         clear[1] = 0;
         clear[0] = 0;
-        asm("" ::: "memory");
     }
     D_8009B75C = 1;
     return;
