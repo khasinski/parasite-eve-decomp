@@ -161,9 +161,9 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
     stack.matrix.rotation[1][0] = 0;
     stack.matrix.rotation[0][2] = 0;
     stack.matrix.rotation[0][1] = 0;
-    stack.matrix.translation[0] = (s32) M2C_FIELD(arg1, s16 *, 2);
-    stack.matrix.translation[1] = (s32) M2C_FIELD(arg1, s16 *, 6);
-    stack.matrix.translation[2] = (s32) M2C_FIELD(arg1, s16 *, 0xA);
+    stack.matrix.translation[0] = M2C_FIELD(arg1, s16 *, 2);
+    stack.matrix.translation[1] = M2C_FIELD(arg1, s16 *, 6);
+    stack.matrix.translation[2] = M2C_FIELD(arg1, s16 *, 0xA);
     RotMatrixY(arg3 & 0xFFFF, (GteMatrix *)&stack.matrix);
     matrix_slot = &D_800BCFA4.value;
     matrix_value = *matrix_slot;
@@ -219,7 +219,7 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
             var_t6 += 1;
             *var_a0 &= 0x7F;
             var_a0 += 2;
-        } while (var_t6 < (s32) temp_v1);
+        } while (var_t6 < temp_v1);
     }
     var_t6 = 0;
     item_count = frame->face_count;
@@ -313,7 +313,7 @@ block_22:
                     negative_line->b1 = var_t9;
                     M2C_FIELD(negative_line, volatile u32 *, 8) = var_t0;
                     M2C_FIELD(negative_line, volatile u32 *, 0x10) = var_a2;
-                    temp_v1_5 = (u32)(u16)var_t1 << 16;
+                    temp_v1_5 = (u16)var_t1 << 16;
                     temp_v1_4 = D_8009CDD4[var_s0] +
                                 D_8009CDD4[(s16)((u16)var_t1 | temp_v1_5)];
                     negative_depth = temp_v1_4 >> 3;
@@ -354,12 +354,12 @@ block_22:
                             if (temp_s6 < temp_s7) {
                                 var_t0 = temp_s7;
                                 var_a2 = var_t4;
-                                var_a0 = (u8 *)(u32)temp_fp;
+                                var_a0 = (u8 *)temp_fp;
                             } else {
                                 selected_vertex = temp_s7;
                                 var_t0 = temp_s6;
                                 var_a2 = temp_fp;
-                                var_a0 = (u8 *)(u32)var_t4;
+                                var_a0 = (u8 *)var_t4;
                             }
                             break;
                         case 1:
@@ -367,12 +367,12 @@ block_22:
                             if (temp_s6 < temp_s5) {
                                 var_t0 = temp_s5;
                                 var_a2 = var_t4;
-                                var_a0 = (u8 *)(u32)var_t3;
+                                var_a0 = (u8 *)var_t3;
                             } else {
                                 selected_vertex = temp_s5;
                                 var_t0 = temp_s6;
                                 var_a2 = var_t3;
-                                var_a0 = (u8 *)(u32)var_t4;
+                                var_a0 = (u8 *)var_t4;
                             }
                             break;
                         case 2:
@@ -380,12 +380,12 @@ block_22:
                             if (temp_s7 < temp_s5) {
                                 var_t0 = temp_s5;
                                 var_a2 = temp_fp;
-                                var_a0 = (u8 *)(u32)var_t3;
+                                var_a0 = (u8 *)var_t3;
                             } else {
                                 selected_vertex = temp_s5;
                                 var_t0 = temp_s7;
                                 var_a2 = var_t3;
-                                var_a0 = (u8 *)(u32)temp_fp;
+                                var_a0 = (u8 *)temp_fp;
                             }
                             break;
                     }
