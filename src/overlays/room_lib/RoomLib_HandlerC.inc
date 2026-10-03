@@ -27,7 +27,6 @@ void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
     RoomLink *link = self->link;
     short *scratch;
     int angle;
-    asm("" : : "r"(state) : "$17");
     scratch = (short *)0x1F800000;
     if (self->t1A == 0) {
         self->t1A = 1;
