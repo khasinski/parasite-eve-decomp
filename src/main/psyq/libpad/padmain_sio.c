@@ -57,9 +57,7 @@ s32 MemCard_ReadByte(CardObj *inObj, s32 inByte) {
         register int expected;
         {
             register u8 *response = port->response_3c;
-            asm("" : "=r"(response) : "0"(response) : "$3");
             deviceId = *response;
-            asm("" : "=r"(deviceId) : "0"(deviceId) : "$3");
         }
         expected = 8;
         baud = 0x88;
