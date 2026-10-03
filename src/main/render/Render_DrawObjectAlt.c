@@ -53,28 +53,28 @@ extern s16 D_8009CDDC;
     }
 
 void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green, u8 blue) {
-    register RenderObjectEntity *entity asm("$9") = input;
-    register u8 r asm("$17") = red;
-    register u8 g asm("$16") = green;
-    register u8 b asm("$7") = blue;
-    register s32 threshold asm("$11");
+    RenderObjectEntity *entity = input;
+    u8 r = red;
+    u8 g = green;
+    u8 b = blue;
+    s32 threshold;
     register volatile RenderVec3s *scratch asm("$6") = (volatile RenderVec3s *)0x1F800000;
-    register RenderObjectPart *part asm("$10");
-    register s32 i asm("$15");
+    RenderObjectPart *part;
+    s32 i;
     register s32 partOffset asm("$24");
     register int *matrix asm("$25");
-    register s32 limitShift asm("$2");
-    register s32 count asm("$2");
+    s32 limitShift;
+    s32 count;
     u32 frameReserve[4];
-    register s32 boundsOffset asm("$4");
+    s32 boundsOffset;
     register s32 clipSum asm("$2");
     RenderVec3s *bounds;
-    register s32 y asm("$3");
+    s32 y;
     register s32 radius asm("$4");
-    register RenderVec3s *radiusBounds asm("$2");
-    register RenderVec3s *vertices asm("$8");
-    register u8 *clut asm("$3");
-    register u8 *clutBlue asm("$4");
+    RenderVec3s *radiusBounds;
+    RenderVec3s *vertices;
+    u8 *clut;
+    u8 *clutBlue;
     register s32 vertexIndex asm("$5");
     if (!entity->header || !entity->draw_count)
         return;
@@ -83,12 +83,11 @@ void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green
     count = entity->header->part_count;
     if (count > 0) {
         limitShift = (u32)limit << 16;
-        __asm__("" : "=r"(limitShift) : "0"(limitShift));
         threshold = limitShift >> 16;
         partOffset = 0;
         do {
             {
-                register RenderObjectPart *probe asm("$2") =
+                RenderObjectPart *probe =
                     (RenderObjectPart *)((u32)partOffset + (u32)entity->parts);
                 if (probe->visible == 1) {
                     Render_LoadObjectMatrix(matrix);
@@ -96,8 +95,8 @@ void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green
                     bounds = (RenderVec3s *)((u8 *)entity->bounds_vertices + boundsOffset);
                     Render_TransformVertex(bounds, scratch);
                     {
-                        register RenderObjectPart *parts asm("$3") = entity->parts;
-                        register u16 yy asm("$2") = (u16)scratch->y;
+                        RenderObjectPart *parts = entity->parts;
+                        u16 yy = (u16)scratch->y;
                         part = (RenderObjectPart *)((u8 *)parts + partOffset);
                         y = (s16)yy;
                     }
@@ -107,14 +106,14 @@ void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green
                          radius = radiusBounds->pad,
                          threshold < y - radius || threshold < (clipSum = y + radius))) {
                         {
-                            register s32 first asm("$3") = part->vertex_start;
-                            register RenderVec3s *vertexBase asm("$4") = entity->vertices;
-                            register s32 vertexOffset asm("$2") = first * 8;
+                            s32 first = part->vertex_start;
+                            RenderVec3s *vertexBase = entity->vertices;
+                            s32 vertexOffset = first * 8;
                             vertices = (RenderVec3s *)((u8 *)vertexBase + vertexOffset);
                             first <<= 2;
                             {
                                 register u8 *clutBase asm("$2") = (u8 *)D_800B1638;
-                                register s32 vertexCount asm("$4") = part->vertex_count;
+                                s32 vertexCount = part->vertex_count;
                                 clut = clutBase + first;
                                 vertexIndex = 0;
                                 if (vertexCount > 0) {
@@ -155,6 +154,5 @@ void Render_DrawObjectAlt(RenderObjectEntity *input, s16 limit, u8 red, u8 green
             matrix += 8;
         } while (i < entity->header->part_count);
     }
-    __asm__("" : "=m"(frameReserve));
     Render_UpdateClutTable(entity, 0, D_8009CDDC);
 }
