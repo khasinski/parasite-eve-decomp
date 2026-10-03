@@ -105,7 +105,7 @@ void Menu_DrawSaveMetadataPreview(void) {
     s32 temp_v0;
     register s32 var_a0_2 asm("$4");
     s32 var_s0;
-    volatile s32 frame_pad[2];
+    s32 frame_pad[2];
 
     (void) frame_pad;
     if (g_MenuRenameTargetRecord != NULL) {
