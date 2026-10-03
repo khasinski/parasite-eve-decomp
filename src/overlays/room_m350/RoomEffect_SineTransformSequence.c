@@ -99,7 +99,7 @@ update:
         asm("" : "=r"(random) : "0"(random) : "memory");
         {
             int delay = random & 7;
-            unsigned short count = *(volatile unsigned short *)&state->count;
+            unsigned short count = state->count;
             delay += 12;
             state->delay = delay;
             state->count = count + 1;
