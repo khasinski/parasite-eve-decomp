@@ -6,7 +6,7 @@ extern int D_800E27EC, D_800F3428, D_800966EC[];
 extern short D_800F336A,D_8019AE84;
 extern unsigned short D_800F3368,D_800F336C,D_800F336E,D_800E1204[];
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
-extern volatile unsigned short D_800F3376,D_800F3378;
+extern unsigned short D_800F3376,D_800F3378;
 extern unsigned char D_8019AD70[],D_8019AF6A,D_8019AF69;
 extern unsigned short D_8019AEFC,D_800E11E8,D_800E2850[];
 extern volatile unsigned short D_8019AEFE,D_8019AF00;
@@ -24,7 +24,7 @@ int func_801974DC(int mode, Particle *input) {
         else {
             unsigned short y = ((volatile Particle *)particle)->y;
             register int speed asm("$3") = ((volatile Particle *)particle)->speed;
-            int delta = ((volatile Particle *)particle)->speed;
+            int delta = ((Particle *)particle)->speed;
             speed += 1;
             asm("" : "=r"(y) : "0"(y), "r"(speed));
             particle->y = y - delta;
