@@ -32,7 +32,7 @@ int func_800C5EB0(char *data, void *unused, int *hit) {
 
     idx = *(s16 *)(data_s3 + 0xE);
     count = *(s16 *)(data_s3 + 0x4);
-    if ((u32)idx < (u32)count) {
+    if ((u32)idx < count) {
         entries[idx * 0x44] = 2;
     }
 
