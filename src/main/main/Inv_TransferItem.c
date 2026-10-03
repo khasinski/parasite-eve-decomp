@@ -44,7 +44,7 @@ s32 Inv_TransferItem(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u32 temp_v0;
     s8 te20;
     s8 te22;
-    register u8 *tb48 asm("$2");
+    u8 *tb48;
     s32 ta1m;
     s32 ta0m;
     u32 tl1;
