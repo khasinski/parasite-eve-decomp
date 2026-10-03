@@ -325,7 +325,7 @@ int func_800CAA38(void *arg0, void *arg1, u8 *anim) {
     u16 *field_s1;
     GteShortVector *out_s2;
     register int y_base_v0 asm("$2");
-    register u16 y_out_v1 asm("$3");
+    u16 y_out_v1;
     register int z_base_v1 asm("$3");
     u16 z_out_a0;
     GteShortVector in0;
