@@ -34,12 +34,12 @@ extern int func_80194E6C();
 
 int func_801955E8(int mode) {
     s16 nextIndex;
-    register FieldActor *actor asm("$18");
-    register FieldActor *candidate asm("$5");
-    register s16 size asm("$16");
-    register s16 i asm("$17");
-    register s32 pulse asm("$4");
-    register s16 *pathAddress asm("$4");
+    FieldActor *actor;
+    FieldActor *candidate;
+    s16 size;
+    s16 i;
+    s32 pulse;
+    s16 *pathAddress;
     s32 pathOffset;
 
     switch (mode) {
@@ -112,18 +112,18 @@ randomPattern: {
             goto particleSetup;
         }
 phasePattern: {
-            register u16 phase asm("$2") = D_8019AE6C;
+            u16 phase = D_8019AE6C;
             register int offset asm("$3");
             offset = (phase & 3) * 24;
                 if (phase & 1) {
-                    register s16 pathValue asm("$2");
+                    s16 pathValue;
                     pathValue = offset - 0x3C0;
                     pathY[0] = pathValue;
                     PE1_COMPILER_MEMORY_BARRIER();
                     pathValue = offset - 0x2A0;
                     pathY[1] = pathValue;
                 } else {
-                    register s16 pathValue asm("$2");
+                    s16 pathValue;
                     pathValue = offset - 0x2A0;
                     pathY[1] = pathValue;
                     PE1_COMPILER_MEMORY_BARRIER();
