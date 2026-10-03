@@ -43,6 +43,14 @@ typedef struct FieldAnimTaskTable {
     u16 sizes[8];
 } FieldAnimTaskTable;
 
+/* Task program registered in D_800E1044: dispatch table plus its script. */
+typedef struct FieldAnimTaskProgram {
+    FieldAnimTaskTable table;
+    u8 reserved30[4];
+    u16 *script;
+} FieldAnimTaskProgram;
+extern char D_800C2244[]; /* "TS No Thread No.%d\n" */
+
 typedef struct FieldAnimTaskContext {
     u16 *script;
     char *cursor;

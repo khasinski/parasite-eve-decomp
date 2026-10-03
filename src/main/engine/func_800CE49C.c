@@ -1,17 +1,17 @@
-extern void *D_800E1044[];
-extern char D_800C2244[];
-extern int printf(char *fmt, ...);
+#include "pe1/field_anim.h"
+#include "pe1/scene_assets.h"
+#include "pe1/psyq_bios.h"
 
-int func_800CE49C(char *obj, int index) {
-    register int offset asm("$2") = index * 4;
-    char *entry = *(char **)((char *)D_800E1044 + offset);
+/* Binds task program `index` to the owner's task context. */
+int func_800CE49C(FieldAnimTaskOwner *owner, int index)
+{
+    FieldAnimTaskProgram *program = D_800E1044[index];
 
-    if (entry == 0) {
-        printf(D_800C2244);
+    if (program == 0) {
+        printf(D_800C2244, index);
         return -1;
     }
-
-    *(char **)(obj + 0x8C) = entry;
-    *(int *)(obj + 0xC) = *(int *)(entry + 0x34);
+    owner->tasks.table = &program->table;
+    owner->tasks.script = program->script;
     return 0;
 }
