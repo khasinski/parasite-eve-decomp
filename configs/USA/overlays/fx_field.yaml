@@ -35,7 +35,7 @@ segments:
     subsegments:
       - [0x0, c, fx_field_header]
       - [0x1C, c, func_8018F004]
-      - [0x224, asm, func_8018F214]
+      - [0x224, c, RoomEffect_OrbitFlareController_8018F20C]
       - [0xC6C, c, func_8018FC54]
       - [0xC90, c, fx_field_data]
   - [0x1000]

@@ -96,7 +96,7 @@ int ROOMEFFECT_ORBIT_FLARE_FUNC(int mode, RoomOrbitFlareState *state,
             state->state = 1;
             state->frame = 0;
             func_800CE9D4(D_800F32D0->pool, 0, &spin);
-            state->angle += 0x400 - spin.y;
+            state->angle = (s16)(state->angle + 0x400) - spin.y;
             if (D_800E2368->active) {
                 RoomFlareNode **slot = (RoomFlareNode **)D_800F32D0->pool;
                 if (slot && *slot) {
@@ -150,16 +150,11 @@ int ROOMEFFECT_ORBIT_FLARE_FUNC(int mode, RoomOrbitFlareState *state,
     case 2:
     {
         int tpage;
-        /* The texture slot is read as an element of the slot table so the
-         * load stays below the first parameter store, and every draw reads
-         * its palette back from the block (the first one folds to
-         * D_800E1204[2]); that read-back is what keeps the block address
-         * in s1 and lets the spin address be recomputed after GetClut. */
         D_800F3368.parameter00 = 0x10;
         D_800F3368.parameter02 = 1;
         D_800F3368.extent_x = 0x10;
         D_800F3368.extent_y = 0x10;
-        tpage = D_800E2850[D_800E11E4[2]];
+        tpage = D_800E2850[D_800E11E8.index];
         D_800F3368.palette = 2;
         D_800F3368.parameter06 = 0;
         D_800F3368.parameter0A = 0;
@@ -173,6 +168,8 @@ int ROOMEFFECT_ORBIT_FLARE_FUNC(int mode, RoomOrbitFlareState *state,
             int kind;
             int palette;
             spin.z = D_800E27EC << 7;
+            /* Palette read-back: cse folds the kind to the palette just
+             * stored, and the read keeps the block address in a register. */
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;
@@ -247,18 +244,14 @@ int ROOMEFFECT_ORBIT_FLARE_FUNC(int mode, RoomOrbitFlareState *state,
             }
             break;
         }
-        {
-            int index2 = D_800E11E8;
-            int tpage2;
-            D_800F3368.parameter00 = 0x10;
-            D_800F3368.parameter02 = 1;
-            D_800F3368.extent_x = 0x10;
-            D_800F3368.extent_y = 0x10;
-            tpage2 = D_800E2850[index2];
-            D_800F3368.palette = 2;
-            D_800F3368.parameter06 = 0;
-            D_800F3368.tpage = tpage2;
-        }
+        D_800F3368.parameter00 = 0x10;
+        D_800F3368.parameter02 = 1;
+        D_800F3368.extent_x = 0x10;
+        D_800F3368.extent_y = 0x10;
+        tpage = D_800E2850[D_800E11E8.index];
+        D_800F3368.palette = 2;
+        D_800F3368.parameter06 = 0;
+        D_800F3368.tpage = tpage;
         break;
     }
     }

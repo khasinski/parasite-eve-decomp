@@ -83,15 +83,26 @@ segments:
     subsegments:
       - [0x1100, c, RoomFx_UpdateDrift_801900F0]
   - [0x1308]
-  - name: scene_e13_late_rest
+  # Retail jump targets in this function use the earlier 0x8018EFE8 base,
+  # and the pointer table holds 0x801902F0.
+  - name: scene_e13_orbit_flare_earlybase
     type: code
     start: 0x1308
-    vram: 0x801902F8
+    vram: 0x801902F0
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x1308, asm, scene_e13_94_C0_108_218_33C_968_1308]
+      - [0x1308, c, RoomEffect_OrbitFlareController_801902F0]
+  - [0x1D50]
+  - name: scene_e13_late_rest
+    type: code
+    start: 0x1D50
+    vram: 0x80190D40
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0x1D50, c, RoomLib_SetArgs3_80190D40]
   - [0x1D74]
   # Retail jumps in this tail were linked with the earlier 0x8018EFE8 base.

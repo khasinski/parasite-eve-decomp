@@ -58,6 +58,12 @@ typedef struct RoomFlareMatrixSlot {
     s32 *value;
 } RoomFlareMatrixSlot;
 
+/* Texture page index slot at 0x800E11E8, read as a record so the load
+ * stays behind the first parameter block store through its base register. */
+typedef struct RoomFlareTextureSlot {
+    u16 index;
+} RoomFlareTextureSlot;
+
 /* Sprite parameter block at 0x800F3368. */
 typedef struct RoomFlareParams {
     u16 parameter00;
@@ -117,8 +123,7 @@ extern int D_800E27EC;
 extern u16 D_800E1204[];
 extern u16 D_800E2850[];
 extern int D_800F3428;
-extern volatile u16 D_800E11E8;
-extern u16 D_800E11E4[];
+extern RoomFlareTextureSlot D_800E11E8;
 extern volatile u16 D_800E11EC;
 extern u16 D_800E1208;
 extern int D_8009D248;

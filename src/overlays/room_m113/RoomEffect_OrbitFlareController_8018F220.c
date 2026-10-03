@@ -1,0 +1,7 @@
+#include "common.h"
+
+#define ROOMEFFECT_ORBIT_FLARE_FUNC func_8018F220
+#define ROOMEFFECT_ORBIT_FLARE_ROTATION D_8018EFF4
+#define ROOMEFFECT_ORBIT_FLARE_SPIN D_8018EFFC
+#define ROOMEFFECT_ORBIT_FLARE_CALLBACK func_8018F018
+#include "../room_lib/RoomEffect_OrbitFlareController.inc"

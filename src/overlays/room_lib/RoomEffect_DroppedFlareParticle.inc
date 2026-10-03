@@ -186,7 +186,7 @@ int ROOMEFFECT_DROPPED_FLARE_FUNC(int mode, RoomDroppedFlare *flare,
             int kind;
             int palette;
             int unit2 = 0x10;
-            int index2 = D_800E11E8;
+            int index2 = D_800E11E8.index;
             int tpage2;
             D_800F3368.parameter00 = unit2;
             D_800F3368.parameter02 = 1;
