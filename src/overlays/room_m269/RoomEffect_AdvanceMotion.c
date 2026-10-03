@@ -16,9 +16,7 @@ void func_8018F6BC(void *arg0);
 
 void func_8018F338(RoomMotionTrigger *arg0) {
     FieldActor *s1 = arg0->probe_actor;
-    /* PIN-DEBT: retail holds the matrix base (D_8009D254) in $v1 for the field
-     * stores; GCC otherwise picks $a0. */
-    register FieldActor *g asm("$3");
+    FieldActor *g;
     RoomFxVec4 scale;
     s32 dc4, cf4;
     /* PIN-DEBT: retail stores -cf4 from $a0 and emits the 0x1EA store first. */
@@ -108,7 +106,6 @@ L4C4:
 L4F8:
     val = ((u16 *)&s1->anim_prev)[1];
     /* Empty barriers retain the raw load and the two separate sign extensions. */
-    asm volatile("" : "=r"(val) : "0"(val));
     raw_val = val;
     asm volatile("" : "=r"(raw_val) : "0"(raw_val));
     if ((s16)val < 0xE) {
@@ -117,12 +114,10 @@ L4F8:
         }
     }
     signed_val = (s16)raw_val;
-    asm volatile("" : "=r"(signed_val) : "0"(signed_val));
     if (signed_val >= 3) {
         goto L5B0;
     }
     signed_s4 = (s16)s4;
-    asm volatile("" : "=r"(signed_s4) : "0"(signed_s4));
     if (signed_s4 < 3) {
         goto L5B0;
     }
