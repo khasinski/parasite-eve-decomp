@@ -35,8 +35,9 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m156+2_header]
-      - [0x24, rodata, room_m156+2_jtbl]
-      - [0x70, asm, func_8018F058]
+      - [0x24, .rodata, RoomEffect_BurstOrbCallback_8018F058]
+      - [0x54, rodata, D_8018F03C]
+      - [0x70, c, RoomEffect_BurstOrbCallback_8018F058]
       - [0x1248, c, RoomEffect_OrbitingPairController]
       - [0x1524, c, RoomEffect_DampedSparkParticle_8019050C]
       - [0x18C8, c, RoomEffect_RandomPairController]
