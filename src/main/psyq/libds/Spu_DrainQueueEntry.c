@@ -5,28 +5,26 @@
 
 void Spu_DrainQueueEntry(void) {
     int *state;
-    register int *initial asm("$2");
-    register int *end asm("$3");
-    register int *count asm("$8");
-    register CdDsReadQueueEntry *entries asm("$7");
-    register CdDsReadQueueEntry *entry asm("$2");
-    register unsigned int active asm("$6");
-    register int i asm("$4");
+    int *initial;
+    int *end;
+    int *count;
+    CdDsReadQueueEntry *entries;
+    CdDsReadQueueEntry *entry;
+    unsigned int active;
+    int i;
     int index;
-    register unsigned char *ptr asm("$3");
+    unsigned char *ptr;
 
     initial = &g_CdDsReadQueueState;
     asm volatile("" : "=r"(initial) : "0"(initial));
     count = initial + 2;
     entries = (CdDsReadQueueEntry *)((char *)initial -
         PE1_OFFSETOF(CdDsReadQueueWindow, queue_state));
-    asm volatile("" : : "r"(count), "r"(entries));
     {
         int index = initial[0];
         state = initial;
         active = g_CdDsReadQueue[index].active;
     }
-    asm volatile("" : : "r"(active));
 again:
     if (*count <= 0) goto done;
     index = g_CdDsReadQueueState;
@@ -54,6 +52,5 @@ again:
     if (g_CdDsReadQueue[state[0]].active == active) goto again;
 done:
     end = &g_CdDsReadIndex;
-    asm volatile("" : "=r"(end) : "0"(end));
     *end = end[-1];
 }
