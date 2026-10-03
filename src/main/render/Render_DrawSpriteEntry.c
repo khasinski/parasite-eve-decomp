@@ -9,7 +9,7 @@
         u32 packet_tag = *(u32 *)(packet);             \
         u32 ot_tag = *(u32 *)(ordering);               \
         *(u32 *)(packet) = (packet_tag & (maskTop)) | (ot_tag & (mask24));  \
-        *(u32 *)(ordering) = (ot_tag & (maskTop)) | ((u32)(packet) & (mask24)); \
+        *(u32 *)(ordering) = (ot_tag & maskTop) | (packet & mask24); \
     } while (0)
 
 #define LINK_PACKET_PRELOADED(packet, ordering, packet_tag, mask24, maskTop) \
@@ -163,7 +163,7 @@ int Render_DrawSpriteEntry(GeomEntry *input)
                                 u8 *ot;
                                 ot_index <<= 16;
                                 ot_index >>= 14;
-                                ot = (u8 *)((u32)ot_index + (u32)ordering);
+                                ot = (u8 *)(ot_index + (u32)ordering);
                                 sprite_tag = *(u32 *)sprite_cursor;
                                 ((RenderTilePacket *)sprite_cursor)->x = draw_x;
                                 ((RenderTilePacket *)sprite_cursor)->y = draw_y;
@@ -212,7 +212,7 @@ int Render_DrawSpriteEntry(GeomEntry *input)
                             u8 *ot;
                             ot_index <<= 16;
                             ot_index >>= 14;
-                            ot = (u8 *)((u32)ot_index + (u32)ordering);
+                            ot = (u8 *)(ot_index + (u32)ordering);
                             sprite_tag = *(u32 *)sprite_cursor;
                             ((RenderTilePacket *)sprite_cursor)->x = draw_x;
                             ((RenderTilePacket *)sprite_cursor)->y = draw_y;
