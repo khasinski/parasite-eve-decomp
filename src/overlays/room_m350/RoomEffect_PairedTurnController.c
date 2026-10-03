@@ -16,7 +16,7 @@ extern Actor *D_800F32D0;
 extern Instance *D_8019A774,*g_PlayerEntity;
 extern Vector D_8019A778[];
 extern short D_8019A77E[],D_8019A798,D_800966EC[];
-extern volatile unsigned char D_8019A79A,D_8019A79C;
+extern unsigned char D_8019A79A,D_8019A79C;
 extern int FieldEng_VecToAngle(Vector *,Vector *);
 extern int FieldEng_TurnToward(int,int,int);
 int func_80193D6C(int event)
@@ -52,7 +52,7 @@ int func_80193D6C(int event)
                 register int x asm("$12");
                 register int y asm("$13");
                 register int z asm("$14");
-                volatile int *words=(volatile int *)matrix;
+                int *words=(int *)matrix;
                 /* Separate transfers and barriers keep GCC from hoisting the
                  * pad-array address. These are not GTE hardware hazards. */
                 x=words[0];
@@ -105,7 +105,7 @@ int func_80193D6C(int event)
             if(signedFrame<28) return 0;
             speed=*(short *)((char *)D_800966EC+(((signedFrame-28)*680)&0x3FF8))/32;
             bias=-128;
-            if(*(volatile unsigned short *)repeat&1) bias=128;
+            if(*(unsigned short *)repeat&1) bias=128;
             angle=FieldEng_VecToAngle(&g_PlayerEntity->position,&instance->position);
             instance->yaw=FieldEng_TurnToward(instance->yaw,(short)(bias+angle),speed);
         } else if((short)frame>=instance->length-1) {
