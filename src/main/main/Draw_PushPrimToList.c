@@ -34,8 +34,8 @@ void Draw_PushPrimToList(void *arg0) {
     var_s0 = arg0;
     temp_a1 = g_TextCursorStackPtr;
     if (temp_a1 < (u32) &g_TextCursorStackTop) {
-        t0 = (s32) g_TextCursorX;
-        t1 = (u32) g_TextCursorY;
+        t0 = g_TextCursorX;
+        t1 = g_TextCursorY;
         g_TextCursorStackPtr = temp_a1 + 8;
         M2C_FIELD(temp_a1, s32 *, 0) = t0;
         M2C_FIELD(temp_a1, u32 *, 4) = t1;
@@ -64,7 +64,7 @@ void Draw_PushPrimToList(void *arg0) {
         M2C_FIELD(var_s0, M2C_UNK (**)(void *), 0x30)(var_s0);
         __asm__ volatile("");
         var_s1 = 0;
-        if ((u32) &g_TextCursorStackBottom < (u32) g_TextCursorStackPtr) {
+        if ((u32) &g_TextCursorStackBottom < g_TextCursorStackPtr) {
             temp_v0 = M2C_FIELD(g_TextCursorStackPtr, s32 *, -8);
             temp_a0 = M2C_FIELD(g_TextCursorStackPtr, u32 *, -4);
             g_TextCursorStackPtr -= 8;
@@ -84,7 +84,7 @@ void Draw_PushPrimToList(void *arg0) {
         var_s1 += 1;
         var_s0 += 4;
     } while (var_s1 < 4);
-    if ((u32) &g_TextCursorStackBottom < (u32) g_TextCursorStackPtr) {
+    if ((u32) &g_TextCursorStackBottom < g_TextCursorStackPtr) {
         temp_v0_2 = M2C_FIELD(g_TextCursorStackPtr, s32 *, -8);
         temp_a0_3 = M2C_FIELD(g_TextCursorStackPtr, u32 *, -4);
         g_TextCursorStackPtr -= 8;
