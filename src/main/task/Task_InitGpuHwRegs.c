@@ -11,7 +11,7 @@ void Task_InitGpuHwRegs(void) {
     register unsigned int count asm("$13");
     register volatile int *ptr1 asm("$9");
 
-    ptr = (volatile int *)0x80070E0C;
+    ptr = (int *)0x80070E0C;
     asm volatile("" : "=r"(ptr) : "0"(ptr));
     a = zero | 1;
     ptr[0x10] = a;
@@ -27,7 +27,7 @@ void Task_InitGpuHwRegs(void) {
         ptr[0xF] = a;
     } while (count != 0 && (count--, 1));
 
-    ptr1 = (volatile int *)0x80070E04;
+    ptr1 = (int *)0x80070E04;
     g_TaskGpuReg2 = (int *)0x80070E08;
     a = zero | 0x40;
     b = zero | 0x10;
