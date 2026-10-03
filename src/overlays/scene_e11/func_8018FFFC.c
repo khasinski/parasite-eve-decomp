@@ -3,7 +3,7 @@ extern char *func_800C2B50(void);
 
 void func_8018FFFC(char *arg0, char *arg1, char *arg2) {
     char *state;
-    volatile s16 pos[3];
+    s16 pos[3];
     int temp;
     s16 scale;
 
