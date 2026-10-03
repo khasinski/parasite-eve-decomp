@@ -32,7 +32,7 @@ void Draw_AllocPrimRectFull(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     rect.w = arg2;
     nextPacket = oldPacket + 0xC;
     rect.h = arg3;
-    if (nextPacket < (u32) (g_DrawPacketBufferBase + 0x4000)) {
+    if (nextPacket < (g_DrawPacketBufferBase + 0x4000)) {
         g_ActiveDrawBuffer = nextPacket;
         packet = (GpuCmdPacket *) oldPacket;
     } else {
@@ -78,7 +78,7 @@ void Draw_AllocPrimRect(void) {
     oldPacket = g_ActiveDrawBuffer;
     nextPacket = oldPacket + 0xC;
     rectPtr = &rect;
-    if (nextPacket < (u32) (g_DrawPacketBufferBase + 0x4000)) {
+    if (nextPacket < (g_DrawPacketBufferBase + 0x4000)) {
         g_ActiveDrawBuffer = nextPacket;
         packet = (GpuCmdPacket *) oldPacket;
     } else {
