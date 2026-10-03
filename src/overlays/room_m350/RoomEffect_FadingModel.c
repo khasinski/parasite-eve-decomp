@@ -1,8 +1,6 @@
-extern int D_800F3428;
-extern unsigned short D_800F336C, D_800E1204[];
-extern short D_800F336A;
+#include "pe1/render_object.h"
+
 extern int GetClut(int, int);
-extern void func_800CEE20(void *, int, int, int, int, unsigned int, int, int, void *);
 
 typedef struct {
     short x, y, z, unused;
@@ -11,11 +9,12 @@ typedef struct {
 
 int func_80199148(int event, Particle *object)
 {
-    register int update asm("$2") = 1;
     /* Retail initializes two unused stack words; their original type is unknown. */
-    struct { int x, y; } unused = {0, 0};
+    struct { int x, y; } unused;
 
-    if (event == update) {
+    unused.x = 0;
+    unused.y = 0;
+    if (event == 1) {
         short phase = object->counter >> 1;
         object->phase = phase;
         if (phase >= 8) {
@@ -34,20 +33,10 @@ int func_80199148(int event, Particle *object)
         }
     } else if (event == 2) {
         int kind = D_800F336C;
-        int palette;
+        int palette = D_800E1204[kind];
         int handle;
-        register int special asm("$4");
-
-        asm("" : "=r"(kind) : "0"(kind));
-        special = 4;
-        palette = D_800E1204[kind];
-        if (kind == special && D_800F3428) {
-            palette += 6;
-        } else {
-            palette += 2;
-        }
-        handle = GetClut(0, palette);
-        func_800CEE20(object, 0, object->size, object->size, D_800F336A * object->phase,
+        handle = GetClut(0, (kind == 4 && D_800F3428 != 0) ? palette + 6 : palette + 2);
+        func_800CEE20((GteShortVector *)object, 0, object->size, object->size, (s16)D_800F3368.parameter02 * object->phase,
             (unsigned short)handle, 1, object->brightness, 0);
     }
     return 0;
@@ -69,9 +58,7 @@ typedef struct { int reserved[2]; void *pool; } Emitter;
 extern Actor *D_800F32D0;
 extern Emitter *D_800F33E0;
 extern unsigned char D_8019A8C4;
-extern volatile short D_800F3368,D_800F3376,D_800F3378,D_800F336E,D_800F3372,D_800F3374;
-extern volatile unsigned short D_800E11FA,D_800F3370;
-extern unsigned short D_800E2850[];
+extern unsigned short D_800E11E4[];
 extern int Asset_Find08w(int,int,int,int,int);
 extern int func_80199148(int,Particle *);
 extern int func_800CE560(void *,int,int,int (*)(int,Particle *));
@@ -199,16 +186,15 @@ update:
     }
     goto done;
 configure:
-    {
-        int index=D_800E11FA;
-        int palette;
-        D_800F3368=32; D_800F336A=2;
-        D_800F3376=32; D_800F3378=32;
-        palette=D_800E2850[index];
-        asm volatile("" : "=r"(palette) : "0"(palette) : "memory");
-        D_800F336C=3; D_800F336E=1;
-        D_800F3372=0; D_800F3374=32; D_800F3370=palette;
-    }
+    D_800F3368.parameter00 = 32;
+    D_800F3368.parameter02 = 2;
+    D_800F3368.extent_x = 32;
+    D_800F3368.extent_y = 32;
+    D_800F3368.tpage = D_800E2850[D_800E11E4[11]];
+    D_800F3368.palette = 3;
+    D_800F3368.parameter06 = 1;
+    D_800F3368.parameter0A = 0;
+    D_800F3368.depth = 32;
 done:
     return 0;
 }
