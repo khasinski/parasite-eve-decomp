@@ -6,7 +6,7 @@
 extern char D_80011814[];
 
 int SetGraphDebug(int debugLevel) {
-    register u8 *currentDebugLevel asm("$3");
+    u8 *currentDebugLevel;
     register int result asm("$2");
     GpuDebugPrintf debugPrint;
     int currentLevel;
