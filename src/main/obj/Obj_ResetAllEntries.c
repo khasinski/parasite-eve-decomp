@@ -9,10 +9,10 @@ int Obj_ResetAllEntries(void) {
     register u8 *cursor asm("a0");
     u8 *entryBase;
     u8 *renderEntries;
-    register unsigned int i asm("a1");
-    register unsigned int count asm("a2");
-    register unsigned int value100 asm("t2");
-    register unsigned int value1 asm("t1");
+    unsigned int i;
+    unsigned int count;
+    unsigned int value100;
+    unsigned int value1;
     int framePad[2];
 
 
@@ -29,7 +29,7 @@ int Obj_ResetAllEntries(void) {
         cursor = entryBase;
         do {
             register unsigned int oldValue asm("v1") = *(u8 *)(cursor + 4);
-            register u8 *indexedPtr asm("v0") = cursor + *(int *)(cursor + 12);
+            u8 *indexedPtr = cursor + *(int *)(cursor + 12);
             unsigned int renderIndex;
 
             *(u16 *)(cursor + 8) = value100;
