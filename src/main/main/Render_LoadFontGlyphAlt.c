@@ -12,7 +12,7 @@ extern u8 D_80091A1E;
 extern volatile u8 D_80091A1F;
 extern u32 D_80091A24;
 extern u8 D_8009ECD8[];
-extern volatile u8 D_8009EE24[];
+extern u8 D_8009EE24[];
 extern u8 *D_80091A28;
 
 int rand(void);
