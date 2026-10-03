@@ -8,7 +8,7 @@ int Inv_CheckFreeSlotCapacity(int requested_slots) {
     s16 *slot;
     s16 *end;
     int capacity;
-    register int capacity_before_scan asm("$3");
+    int capacity_before_scan;
     int bonus_slots;
     int used_slots;
     int occupied;
