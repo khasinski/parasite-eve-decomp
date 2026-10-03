@@ -23,13 +23,13 @@ void Render_AnimationFrame(void) {
     int z;
 
     frame = g_BattleAttackAnimFrame;
-    if ((u32)frame < 10U) {
+    if (frame < 10U) {
         early_actor = g_ActiveActor[0];
         if ((early_actor->modeFlags & 0x30) == 0x10) {
             scaled_frame = (frame << 2) + frame;
-            size = (u32)scaled_frame << 18;
+            size = scaled_frame << 18;
         } else {
-            size = (((u32)early_actor->frameData->frameCount << 16) * frame) / 10U;
+            size = ((early_actor->frameData->frameCount << 16) * frame) / 10U;
         }
         current_frame = g_BattleAttackAnimFrame;
         width = current_frame << 6;
@@ -37,7 +37,7 @@ void Render_AnimationFrame(void) {
         late_actor = g_ActiveActor[0];
         size = 0xC80000;
         if ((late_actor->modeFlags & 0x30) != 0x10) {
-            size = (u32)late_actor->frameData->frameCount << 16;
+            size = late_actor->frameData->frameCount << 16;
         }
         width = (g_BattleAttackAnimFrame << 4) + 10;
         asm volatile("" : : : "memory");
