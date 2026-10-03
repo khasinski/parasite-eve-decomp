@@ -16,7 +16,7 @@ int Inv_CheckFreeSlotCapacity(int mask);
 
 int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
     /* Match the retail 0x60-byte stack frame; remove with a cleaner TU model. */
-    volatile unsigned char stack_pad[32];
+    unsigned char stack_pad[32];
     int mod_index = modifier_index;
     int selected_a;
     int selected_b;
