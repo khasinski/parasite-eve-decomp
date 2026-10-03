@@ -28,7 +28,7 @@ s32 Pm_RunPrimary(void) {
             var_s1 = 0;
             do {
                 temp_v1 = M2C_FIELD((var_s1 + g_PmSlotTable), u8 *, 1);
-                if (!(g_GameStateFlags & 0x100) || ((u32) (temp_v1 - 0x55) < 0x1EU)) {
+                if (!(g_GameStateFlags & 0x100) || ((temp_v1 - 0x55) < 0x1EU)) {
                     Pm_Exec(var_s0_2);
                 }
                 var_s0_2 += 1;
