@@ -10,15 +10,15 @@ extern char D_801D0260[];
 extern int D_8019C810, D_8019C814, D_8019C818;
 extern int D_8019C330, D_8019C334, D_8019C338;
 extern short D_8019C054, D_8019C050, D_8019C02C;
-extern volatile unsigned char D_8019C040;
+extern unsigned char D_8019C040;
 extern unsigned char D_8019C041, D_8019C042;
 
 extern int func_8006EC6C(void *, int);
-extern int func_8018F55C(int, int, int, volatile FxVec3 *, FxVec2 *);
+extern int func_8018F55C(int, int, int, FxVec3 *, FxVec2 *);
 
 void func_80195E4C(int index, int unused1, int unused2, int source)
 {
-    volatile FxVec3 point;
+    FxVec3 point;
     FxVec2 scratch;
     register int rawIndex asm("$17") = index;
     short savedIndex = rawIndex;
