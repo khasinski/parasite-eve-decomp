@@ -4,7 +4,7 @@
 int RotAverageNclip4(const GteShortVector *v0, const GteShortVector *v1,
     const GteShortVector *v2, const GteShortVector *v3,
     u32 * volatile sxy0, u32 * volatile sxy1, u32 * volatile sxy2,
-    u32 * volatile sxy3, s32 * volatile p, s32 * volatile otz, u32 * volatile flag) {
+    u32 * sxy3, s32 * volatile p, s32 * volatile otz, u32 * volatile flag) {
     register u32 *flagPtr asm("$8");
     u32 firstFlag;
     register u32 *sxy0Ptr asm("$8");
