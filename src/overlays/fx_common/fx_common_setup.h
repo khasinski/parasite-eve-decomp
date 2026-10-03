@@ -94,6 +94,16 @@ void func_80191854(void);
 void func_80195994(int,int,int,int);
 void func_80195F6C(void);
 
+/* Double-buffered full-screen gradient overlays and their draw-mode
+ * packets, built once by func_80195F6C. */
+extern FxCommonGradientQuad g_FxCommonSkyQuads[2] __asm__("D_8019CB60");
+extern FxCommonGradientQuad g_FxCommonShadeQuads[2] __asm__("D_801EA598");
+extern FxCommonGradientQuad g_FxCommonFloorFadeQuads[2] __asm__("D_8019C9D8");
+extern FxCommonGradientQuad g_FxCommonTopFadeQuads[2] __asm__("D_8019CA20");
+extern FxCommonDrawModePacket g_FxCommonDrawModes0[2] __asm__("D_8019CA70");
+extern FxCommonDrawModePacket g_FxCommonDrawModes1[2] __asm__("D_8019CA80");
+extern FxCommonDrawModePacket g_FxCommonDrawModes2[2] __asm__("D_8019CA98");
+
 extern FxCommonNode *g_FxCommonType26Nodes[4] __asm__("D_8019C15C");
 extern FxCommonNode *g_FxCommonPairedNodes[2] __asm__("D_8019C9C8");
 typedef struct FxCommonRuntime {

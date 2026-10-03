@@ -84,7 +84,7 @@ segments:
       - [0x6BD8, c, func_80195BC8]
       - [0x6D4C, c, func_80195D3C]
       - [0x6E5C, c, func_80195E4C]
-      - [0x6F7C, asm, fx_common_6F7C]
+      - [0x6F7C, c, FxCommon_InitGradientQuads]
       - [0x74A8, c, FxCommon_InitializeEffects]
       - [0x8BB0, c, FxCommon_DrawPolyResource]
       - [0xA5AC, c, FxCommon_GetOffsetEntryValue]
