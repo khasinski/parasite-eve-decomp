@@ -59,7 +59,7 @@ u32 _spu_FgetRXXa(u32 offset, s32 mode)
     if (mode == -1) {
         return value;
     }
-    return (u32)value << _spu_mem_mode_plus;
+    return value << _spu_mem_mode_plus;
 }
 
 #include "pe1/psyq_spu_internal.h"
