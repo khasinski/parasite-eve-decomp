@@ -27,7 +27,6 @@ int Render_DrawSprite(void)
     rotation.matrix.m[2][0] = -sine;
     rotation.matrix.m[1][1] = 4096;
     axis.z = 4096;
-    asm volatile("":::"memory");
     rotation.matrix.m[0][0] = cosine;
     rotation.matrix.m[2][2] = cosine;
     rotation.matrix.t[0] = rotation.matrix.t[1] = rotation.matrix.t[2] = 0;
@@ -36,26 +35,8 @@ int Render_DrawSprite(void)
     axis.y = 0;
     {
         u32 *matrix = rotation.words;
-        register u32 a asm("$12");
-        register u32 b asm("$13");
-        register u32 c asm("$14");
-        asm("":"=r"(matrix):"0"(matrix):"memory");
-        a = matrix[0];
-        b = matrix[1];
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = matrix[2];
-        b = matrix[3];
-        c = matrix[4];
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
-        a = matrix[5];
-        b = matrix[6];
-        gte_ctc2_5(a);
-        c = matrix[7];
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldrotmatrix(matrix);
+        gte_ldtransmatrix(matrix);
     }
     gte_lwc2_0_0(&axis);
     gte_lwc2_1_4(&axis);
@@ -67,21 +48,11 @@ int Render_DrawSprite(void)
     gte_swc2_27_8(&forward);
     {
         GteVector *source;
-        register u32 a asm("$12");
-        register u32 b asm("$13");
-        register u32 c asm("$14");
         up.y = 4096;
-        asm volatile("":::"memory");
         source = &up;
         up.x = 0;
         up.z = 0;
-        asm("":"=r"(source):"0"(source):"memory");
-        a = source->x;
-        b = source->y;
-        gte_ctc2_0(a);
-        c = source->z;
-        gte_ctc2_2(b);
-        gte_ctc2_4(c);
+        gte_ldopv1_psyq(source);
     }
     {
         gte_lwc2_11_8(&forward);
@@ -95,17 +66,8 @@ int Render_DrawSprite(void)
         gte_swc2_27_8(&right);
     }
     {
-        register GteVector *source asm("$3") = &forward;
-        register u32 a asm("$12");
-        register u32 b asm("$13");
-        register u32 c asm("$14");
-        asm("":"=r"(source):"0"(source):"memory");
-        a = source->x;
-        b = source->y;
-        gte_ctc2_0(a);
-        c = source->z;
-        gte_ctc2_2(b);
-        gte_ctc2_4(c);
+        GteVector *source = &forward;
+        gte_ldopv1_psyq(source);
     }
     {
         gte_lwc2_11_8(&right);
