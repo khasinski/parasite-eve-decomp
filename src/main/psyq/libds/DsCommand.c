@@ -34,10 +34,8 @@ int Render_AllocParticleNode(int inCommand, void *inParameter, DslCB inCallback,
             asm("" : "=r"(parameter) : "0"(parameter));
             if (parameter) {
                 Util_Copy4(entry->payload, parameter);
-                asm("" ::: "memory");
                 entry->parameter = parameter;
             } else {
-                asm("" : "=r"(parameter) : "0"(parameter));
                 entry->parameter = 0;
             }
             entry->callback = 0;
@@ -51,7 +49,6 @@ int Render_AllocParticleNode(int inCommand, void *inParameter, DslCB inCallback,
             result = 0;
 
         if (!result) {
-            asm("" : "=r"(result) : "0"(result));
             return 0;
         }
     }
@@ -68,13 +65,10 @@ int Render_AllocParticleNode(int inCommand, void *inParameter, DslCB inCallback,
         entry = Spu_GetQueueEntryPtr();
         entry->active = ticket;
         entry->command = command;
-        asm("" : "=r"(parameter) : "0"(parameter));
         if (parameter) {
             Util_Copy4(entry->payload, parameter);
-            asm("" ::: "memory");
             entry->parameter = parameter;
         } else {
-            asm("" : "=r"(parameter) : "0"(parameter));
             entry->parameter = 0;
         }
         entry->callback = callback;
