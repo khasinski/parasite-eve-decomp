@@ -147,9 +147,9 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                                     s32 c = normalIndex[0];
                                     register RenderVec3s *na asm("$4"), *nb asm("$3"),
                                         *nc asm("$2");
-                                    na = (RenderVec3s *)((u32)(a * 8) + (u32)normals);
-                                    nb = (RenderVec3s *)((u32)(b * 8) + (u32)normals);
-                                    nc = (RenderVec3s *)((u32)(c * 8) + (u32)normals);
+                                    na = (RenderVec3s *)((a * 8) + (u32)normals);
+                                    nb = (RenderVec3s *)((b * 8) + (u32)normals);
+                                    nc = (RenderVec3s *)((c * 8) + (u32)normals);
                                     gte_lwc2_0_0(na);
                                     gte_lwc2_1_4(na);
                                     gte_lwc2_2_0(nb);
@@ -170,7 +170,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                                     u8 *colour;
                                     __asm__("" : "=r"(index) : "0"(index));
                                     byteOffset = index * 4;
-                                    colour = (u8 *)((u32)byteOffset + (u32)colours);
+                                    colour = (u8 *)(byteOffset + (u32)colours);
                                     if (colour[3]) {
                                         gte_lwc2_6_0(colour);
                                         goto shade_override;
