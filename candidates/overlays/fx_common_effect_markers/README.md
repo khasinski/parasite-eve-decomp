@@ -40,3 +40,12 @@ Remaining:
    expressions for x and y.
 3. Prologue: retail reloads `buffer->allocation` and re-tests the frame for
    the mode packet address; mine reuses the first selection.
+
+2026-10-04 (agent5): not retried in depth. Note on blocker 1: a small cc1
+test shows `u16 level`, `int level` with `(u16)level` and `s16 level` all
+give one `andi 0xFFFF` shared by both shifts and the zero test, while retail
+shares `sll 16` and derives `srl 17` / `srl 19` and the test from it. The
+`sh/lhu 0x50(sp)` traffic on `value` is a spilled HImode parameter pseudo
+(parameters keep HImode, locals are promoted to SImode), so `level` probably
+needs to stay HImode as well, for example as a second s16 parameter-like
+value, rather than a promoted local.

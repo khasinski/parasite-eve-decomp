@@ -29,3 +29,13 @@ Matched along the way (keep):
   `addiu v0,a1,-2; addu a1,v0,s4` without cse folding it into `span`;
 - the 24.8 interpolation is three `<<= 8` per vector, then three `+=`, then
   three `>>= 8` (flow keeps all three stores per field only in that order).
+
+2026-10-04 (agent5, fourth pass): func_80191114 and func_80190E04 around it
+are now matched, so the asm blob split is `[0x56C, c, FxCommon_SamplePath]`
+then `[0x93C, asm, fx_common_93C]` as before. No new form for the count read:
+stock PROMOTE_MODE widens every s16/u16 local to SImode, so a local `count`
+always lets combine fold the load and the extension into `lh`. In this build
+only parameters keep HImode pseudos (func_80193B5C spills its `s16 value`
+with sh/lhu), so retail's lhu;sll;sra is probably a HImode value that combine
+could not fold because the loaded register is used twice, or a reload of a
+REG_EQUIV memory pseudo. Not reproduced without volatile.
