@@ -8,23 +8,21 @@ void func_80125364(void)
 
     for (line = 110; line < 134; line++) {
         s16 row;
-        register u16 *source asm("$11") = (u16 *)image;
-        register u8 *pixel asm("$8") = screen;
+        u16 *source = (u16 *)image;
+        u8 *pixel = screen;
 
         for (row = 0; row < 24; row++) {
-            register u32 bits asm("$9") = *source;
+            u32 bits = *source;
             if (bits) {
                 s16 column;
                 register u8 *green_pixel asm("$7");
                 column = 0;
-                asm volatile("" : : "r"(column));
                 green_pixel = pixel + 1;
-                asm volatile("" : : "r"(green_pixel));
                 for (; column < 4; column++) {
                     int index = bits & 15;
                     if (index) {
                         int brightness = (((u16 *)D_80172C9C)[index] & 31) << 3;
-                        register u32 blue asm("$6") = green_pixel[1];
+                        u32 blue = green_pixel[1];
                         register u32 green asm("$5") = green_pixel[0];
                         u32 red = pixel[0];
                         blue += brightness;
