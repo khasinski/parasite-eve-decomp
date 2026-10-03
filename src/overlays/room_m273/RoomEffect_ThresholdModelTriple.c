@@ -109,12 +109,8 @@ int func_80193CB8(int mode,Effect *effect) {
         int kind=D_800F336C,palette;
         int cosine,sine;
         register void **asset asm("$17");
-        register int specialKind asm("$3")=4;
-        asm("" : : "r"(page) : "memory");
         palette=D_800E1204[kind];
-        if(kind==specialKind && D_800F3428) palette+=11;
-        else palette+=7;
-        GsSetOrign(page,GetClut(0,palette));
+        GsSetOrign(page,GetClut(0, (kind == 4 && D_800F3428) ? palette + 11 : palette + 7));
         func_800C6ED8(1);
         asset=&D_8019AE8C.asset;
         func_800C6EF8(*asset);
