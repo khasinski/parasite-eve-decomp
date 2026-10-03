@@ -33,11 +33,11 @@ void func_80192664(RoomSelectionState *typedState) {
             int mapAngle;
 
             *(int *)0x1F800008 =
-                *(int *)(*(char *volatile *)&actor->render_object.matrices + 0x594) << 16;
+                *(int *)(*(char **)&actor->render_object.matrices + 0x594) << 16;
             *(int *)0x1F800010 =
-                *(int *)(*(char *volatile *)&actor->render_object.matrices + 0x59C) << 16;
+                *(int *)(*(char **)&actor->render_object.matrices + 0x59C) << 16;
             mapAngle = FieldEng_VecToAngle(
-                origin, *(char *volatile *)&actor->render_object.matrices + 0x594);
+                origin, *(char **)&actor->render_object.matrices + 0x594);
 
             if (((FieldEng_VecToAngle(
                       origin, g_PlayerEntity->render_object.model_matrix.translation) -
