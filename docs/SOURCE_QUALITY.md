@@ -245,6 +245,24 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Seventeen functions freed of pins and barriers through their twins
+
+A relocation-masked comparison of every matched function against the others
+found twins whose clean source carries over to a debt-heavy copy. The
+FieldEng effect updates and renders (`func_800C8270`, `func_800C8970`,
+`func_800C8A88`, `func_800C9268`, `func_800C9EA8`, `func_800CACDC`,
+`func_800CB8E0`, `func_800CB9F8`, `func_800CD2EC`) copy their scale vectors
+and matrices as whole structs, which is what retail's four `lw`/`sw` pairs
+are, so their volatile scratch arrays, argument pins and barriers are gone.
+`Task_SelectAudio`'s random helper takes its range as arguments; the item
+lookups keep the id copy through the bounded `if` form; the equip slot
+search and the floor-by-roll setter follow `Render_FindFontGlyphSlot` and
+`Scene_SelectMapById`; room_m318's radial flash and drifting palette sprite
+follow their main-executable twins; and the triggered effect tick of
+scene_e02, scene_e04 and scene_e05 follows the room_m141 recipe. Main loses
+41 pins and 25 barriers, the overlays 11 pins and 3 barriers, and every
+binary is unchanged.
+
 ### Render_DrawTexturedQuads without pins or barriers
 
 `Render_DrawTexturedQuads` in the main executable is the same face draw as
