@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Field engine tiles and the falling spin glow
+
+Five more field engine routines of the main executable match from clean C:
+the full-screen fade tile, the projected point tile with and without its
+3x3 halo, the rotated haloed point and the falling spin glow task. The tiles
+link into the ordering table through `field_tile.h`, where a pointer and word
+union computes the entry with retail's index-first addition and the 24-bit
+link goes through the `RenderGpuTag` address bitfield, so no pointer or
+integer casts are needed. Chained assignments reproduce retail's reversed
+store order for the colours and matrix diagonals. The main executable is
+unchanged and no pins or barriers were added.
+
 ### Field engine task-script interpreter and rotation offset
 
 The field engine's task-script interpreter now matches from C with its jump
