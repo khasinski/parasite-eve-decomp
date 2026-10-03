@@ -45,11 +45,6 @@ int func_800D96F4(int mode, RenderSparkEmitter *state)
     RenderColor color = D_800C22E4;
     RenderDampedSpark *effect;
     int count, speed, scale, intensity, palette, selector;
-    register int special_palette asm("$3");
-    register int x asm("$12");
-    register int y asm("$13");
-    register int z asm("$14");
-    s32 **slot;
     switch (mode) {
     case 0:
         state->phase = rand();
@@ -80,7 +75,7 @@ int func_800D96F4(int mode, RenderSparkEmitter *state)
         D_800F3368.parameter02 = 2;
         D_800F3368.extent_x = 32;
         D_800F3368.extent_y = 32;
-        D_800F3368.tpage = D_800E2850[D_800E11F6];
+        D_800F3368.tpage = D_800E2850[D_800E11E4[9]];
         D_800F3368.palette = 1;
         func_800CEDA8(1);
         D_800F3368.parameter06 = 1;
@@ -93,40 +88,14 @@ int func_800D96F4(int mode, RenderSparkEmitter *state)
             rotation.z = D_800E27EC << 4;
             rotation.flags = 0;
             scale = rsin(D_800E27EC << 5) + 4096;
-            /* Matching debt: complete the scale before palette selection. */
-            asm volatile("" : "=r"(scale) : "0"(scale));
             selector = D_800F336C;
-            special_palette = 4;
             palette = D_800E1204[selector];
-            if (selector == special_palette && D_800F3428)
-                palette += 7;
-            else
-                palette += 3;
             func_800CEE20(&state->position, &rotation, scale, scale, 66,
-                         GetClut(0, palette), 1, intensity, &color);
+                         GetClut(0, (selector == 4 && D_800F3428) ? palette + 7 : palette + 3),
+                         1, intensity, &color);
         }
-        {
-            register GteMatrixWords *matrix asm("$8");
-            slot = &D_800BCFA4.value;
-            asm volatile("" : "=r"(slot) : "0"(slot));
-            matrix = (GteMatrixWords *)*slot;
-            x = matrix->r11_r12;
-            y = matrix->r13_r21;
-            gte_ctc2_0(x);
-            gte_ctc2_1(y);
-            x = matrix->r22_r23;
-            y = matrix->r31_r32;
-            z = matrix->r33_pad;
-            gte_ctc2_2(x);
-            gte_ctc2_3(y);
-            gte_ctc2_4(z);
-            x = matrix->tx;
-            y = matrix->ty;
-            gte_ctc2_5(x);
-            z = matrix->tz;
-            gte_ctc2_6(y);
-            gte_ctc2_7(z);
-        }
+        gte_ldrotmatrix(D_800BCFA4.value);
+        gte_ldtransmatrix(D_800BCFA4.value);
         D_800F3368.depth = 8;
         break;
     }
