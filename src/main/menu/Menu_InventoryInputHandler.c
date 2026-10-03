@@ -18,7 +18,7 @@ int func_80057D18(int);
 void func_800451D0(MenuWidgetNode *);
 
 int Menu_InventoryInputHandler(MenuWidgetNode *root, unsigned int flags) {
-    register MenuWidgetNode *child asm("$16");
+    MenuWidgetNode *child;
     MenuWidgetNode *node;
     ItemDataRecord *item;
     int index;
@@ -26,7 +26,7 @@ int Menu_InventoryInputHandler(MenuWidgetNode *root, unsigned int flags) {
     int submenu_flag;
     int selected_base;
     int result;
-    register int action_result asm("$2");
+    int action_result;
     int value;
     unsigned int flags_saved = flags;
     register int handled asm("$19") = 0;
