@@ -98,7 +98,7 @@ segments:
       - [0x425C, c, RoomLib_ControlEffectSpawn_80193244]
       - [0x4404, c, RoomLib_UpdatePulsingSprite_801933EC]
       - [0x46A4, c, RoomEffect_ModelBurstController_8019368C]
-      - [0x4D94, asm, func_80193D7C]
+      - [0x4D94, c, RoomEffect_SeekingTrailController_80193D7C]
       - [0x5AC4, c, RoomLib_ControlEffectSpawn_80194AAC]
       - [0x5C6C, c, RoomLib_UpdatePulsingSprite_80194C54]
       - [0x5F0C, c, RoomEffect_ModelBurstController_80194EF4]

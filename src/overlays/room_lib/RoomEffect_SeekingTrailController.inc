@@ -7,6 +7,23 @@
 #error "ROOMEFFECT_SEEKING_TRAIL_FUNC must name the room entry point"
 #endif
 
+/* Variant knobs. The default is the trail at func_80192500; defining
+ * ROOMEFFECT_SEEKING_TRAIL_SCATTER selects its twin, which takes its history
+ * slot from the event state, nudges the initial heading and jitters with a
+ * fixed spread instead of one that widens over time. */
+#ifndef ROOMEFFECT_SEEKING_TRAIL_ANCHOR
+#define ROOMEFFECT_SEEKING_TRAIL_ANCHOR 7
+#endif
+#ifndef ROOMEFFECT_SEEKING_TRAIL_RADIUS
+#define ROOMEFFECT_SEEKING_TRAIL_RADIUS 0x68
+#endif
+#ifndef ROOMEFFECT_SEEKING_TRAIL_WIDTH
+#define ROOMEFFECT_SEEKING_TRAIL_WIDTH 0x78
+#endif
+#ifndef ROOMEFFECT_SEEKING_TRAIL_PULSE
+#define ROOMEFFECT_SEEKING_TRAIL_PULSE 3
+#endif
+
 /* Head of a seeking trail and the sparks and flashes it spawns; all three
  * share this record and are told apart by their state. */
 typedef struct RoomSeekingTrail {
@@ -44,7 +61,9 @@ typedef struct RoomSeekingTrailEntity {
 
 typedef struct RoomSeekingTrailEventState {
     u8 reserved[0xD];
-    u8 active;
+    u8 active;                    /* 0x0D */
+    u8 reserved0E[4];
+    u16 trailSlot;                /* 0x12 */
 } RoomSeekingTrailEventState;
 
 extern RenderColor ROOMEFFECT_SEEKING_TRAIL_COLOR_A;
@@ -77,7 +96,9 @@ int ROOMEFFECT_SEEKING_TRAIL_FUNC(int mode, RoomSeekingTrail *trail) {
     GteRotation rotation;
     GteShortVector target;
     GteShortVector angles;
+#ifndef ROOMEFFECT_SEEKING_TRAIL_SCATTER
     GteShortVector unused;
+#endif
     RoomSeekingTrail *child;
     GteShortVector *point;
     int range;
@@ -97,10 +118,16 @@ int ROOMEFFECT_SEEKING_TRAIL_FUNC(int mode, RoomSeekingTrail *trail) {
         case 0:
             trail->timer = 0;
             trail->state = 1;
+#ifdef ROOMEFFECT_SEEKING_TRAIL_SCATTER
+            trail->slot = D_800E2368->trailSlot;
+#endif
             trail->fade = 0;
-            func_800CE8F0(D_800F32D0->pool, 7, &rotation, trail);
+            func_800CE8F0(D_800F32D0->pool, ROOMEFFECT_SEEKING_TRAIL_ANCHOR, &rotation, trail);
             func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0, &angles);
             angles.x = 0;
+#ifdef ROOMEFFECT_SEEKING_TRAIL_SCATTER
+            angles.y += (func_80071A54() & 0x1FF) - 0x100;
+#endif
             trail->ax = angles.x;
             trail->ay = angles.y;
             trail->az = angles.z;
@@ -123,6 +150,13 @@ int ROOMEFFECT_SEEKING_TRAIL_FUNC(int mode, RoomSeekingTrail *trail) {
             angles.x = 0;
             if (trail->fade == 0) {
                 func_800CFD50(&angles, &trail->ax, trail->turn);
+#ifdef ROOMEFFECT_SEEKING_TRAIL_SCATTER
+                if (!(func_80071A54() & 1)) {
+                    trail->ay += func_80071A54() % 800 - 400;
+                } else {
+                    trail->ay += (func_80071A54() & 0x1FF) - 0x100;
+                }
+#else
                 if (trail->timer >= 3) {
                     range = trail->timer * 16 + 0x100;
                     if (!(func_80071A54() & 1)) {
@@ -131,6 +165,7 @@ int ROOMEFFECT_SEEKING_TRAIL_FUNC(int mode, RoomSeekingTrail *trail) {
                         trail->ay += func_80071A54() % range - (range >> 1);
                     }
                 }
+#endif
                 if (trail->speed < 0x3C) trail->speed += 2;
                 func_800CFB7C(&trail->ax, (s16)(trail->speed * trail->speed / 16), &target);
                 trail->x += target.x;
@@ -142,7 +177,7 @@ int ROOMEFFECT_SEEKING_TRAIL_FUNC(int mode, RoomSeekingTrail *trail) {
             func_800D3AFC(point, 0x18, trail, 0);
             point = ROOMEFFECT_SEEKING_TRAIL_HISTORY[trail->slot].point;
             for (i = 0; i < 0x18; i++, point++) {
-                if (func_800C6B90(point, 0x68) && D_800E2368->active) {
+                if (func_800C6B90(point, ROOMEFFECT_SEEKING_TRAIL_RADIUS) && D_800E2368->active) {
                     RoomSeekingTrailChannel *channel = D_800F32D0;
                     if (((*(RoomSeekingTrailPacket **)channel->pool)->code & 0x3F000000) ==
                         0x01000000) {
@@ -202,7 +237,7 @@ int ROOMEFFECT_SEEKING_TRAIL_FUNC(int mode, RoomSeekingTrail *trail) {
     case 2:
         switch (trail->state) {
         case 1:
-            scale = ((D_800E27EC / 3) & 1) * 32 + 32;
+            scale = ((D_800E27EC / ROOMEFFECT_SEEKING_TRAIL_PULSE) & 1) * 32 + 32;
             i = 0;
             gte_ldrotmatrix(D_800BCFA4.value);
             gte_ldtransmatrix(D_800BCFA4.value);
@@ -234,7 +269,7 @@ int ROOMEFFECT_SEEKING_TRAIL_FUNC(int mode, RoomSeekingTrail *trail) {
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;
             clut = func_80077AA4(0x10, palette);
-            func_800D2370((GteShortVector *)trail, (GteRotation *)&trail->ax, 0x1FE, 0x78,
+            func_800D2370((GteShortVector *)trail, (GteRotation *)&trail->ax, 0x1FE, ROOMEFFECT_SEEKING_TRAIL_WIDTH,
                           i, 0, 0x80, 0x20, clut, &colorB, &colorA, (s16)scale, 1);
             palettes = D_800E1204;
             if (trail->timer < 13) {
@@ -286,3 +321,13 @@ int ROOMEFFECT_SEEKING_TRAIL_FUNC(int mode, RoomSeekingTrail *trail) {
     }
     return 0;
 }
+
+#undef ROOMEFFECT_SEEKING_TRAIL_FUNC
+#undef ROOMEFFECT_SEEKING_TRAIL_COLOR_A
+#undef ROOMEFFECT_SEEKING_TRAIL_COLOR_B
+#undef ROOMEFFECT_SEEKING_TRAIL_ROTATION
+#undef ROOMEFFECT_SEEKING_TRAIL_HISTORY
+#undef ROOMEFFECT_SEEKING_TRAIL_ANCHOR
+#undef ROOMEFFECT_SEEKING_TRAIL_RADIUS
+#undef ROOMEFFECT_SEEKING_TRAIL_WIDTH
+#undef ROOMEFFECT_SEEKING_TRAIL_PULSE
