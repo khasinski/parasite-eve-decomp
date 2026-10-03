@@ -12,28 +12,12 @@
 
 #define Render_XformLoadRotMatrix(matrix)                                                          \
     {                                                                                              \
-        register s32 x asm("$12"), y asm("$13"), z asm("$14");                                     \
-        x = (matrix)[0];                                                                           \
-        y = (matrix)[1];                                                                           \
-        gte_ctc2_0(x);                                                                             \
-        gte_ctc2_1(y);                                                                             \
-        x = (matrix)[2];                                                                           \
-        y = (matrix)[3];                                                                           \
-        z = (matrix)[4];                                                                           \
-        gte_ctc2_2(x);                                                                             \
-        gte_ctc2_3(y);                                                                             \
-        gte_ctc2_4(z);                                                                             \
+        gte_ldrotmatrix(matrix); \
     }
 
 #define Render_XformLoadTrans(matrix)                                                              \
     {                                                                                              \
-        register s32 x asm("$12"), y asm("$13"), z asm("$14");                                     \
-        x = (matrix)[5];                                                                           \
-        y = (matrix)[6];                                                                           \
-        gte_ctc2_5(x);                                                                             \
-        z = (matrix)[7];                                                                           \
-        gte_ctc2_6(y);                                                                             \
-        gte_ctc2_7(z);                                                                             \
+        gte_ldtransmatrix(matrix); \
     }
 
 #define Render_XformLoadFullMatrix(matrix)                                                         \
@@ -66,56 +50,17 @@
 
 #define Render_XformTransformAxisZ(src, dst)                                                       \
     {                                                                                              \
-        register s32 x asm("$12");                                                                 \
-        register s32 y asm("$13");                                                                 \
-        register s32 z asm("$14");                                                                 \
-                                                                                                   \
-        x = (src)[0];                                                                              \
-        y = (src)[3];                                                                              \
-        z = (src)[6];                                                                              \
-        gte_mtc2_9(x);                                                                             \
-        gte_mtc2_10(y);                                                                            \
-        gte_mtc2_11(z);                                                                            \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_mvmva_rotation_ir_sf12();                                                              \
+        gte_ldclmv(src); gte_rtir(); \
         *zero8 =                                                                                   \
-            ((RenderObjectPart *)((RenderObjectEntity *)actor)->parts)[command].translation_z;     \
-        gte_mfc2_9(x);                                                                             \
-        gte_mfc2_10(y);                                                                            \
-        gte_mfc2_11(z);                                                                            \
-                                                                                                   \
-        (dst)[0] = x;                                                                              \
-        (dst)[3] = y;                                                                              \
-        (dst)[6] = z;                                                                              \
+            ((RenderObjectPart *)((RenderObjectEntity *)actor)->parts)[command].translation_z; \
+            gte_stclmv(dst); \
     }
 
 #define Render_XformLoadAxis(src)                                                                  \
-    {                                                                                              \
-        register s32 x asm("$12");                                                                 \
-        register s32 y asm("$13");                                                                 \
-        register s32 z asm("$14");                                                                 \
-                                                                                                   \
-        x = (src)[0];                                                                              \
-        y = (src)[3];                                                                              \
-        z = (src)[6];                                                                              \
-        gte_mtc2_9(x);                                                                             \
-        gte_mtc2_10(y);                                                                            \
-        gte_mtc2_11(z);                                                                            \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_mvmva_rotation_ir_sf12();                                                              \
-    }
+    { gte_ldclmv(src); gte_rtir(); }
 #define Render_XformStoreAxis(dst)                                                                 \
     {                                                                                              \
-        register s32 x asm("$12"), y asm("$13"), z asm("$14");                                     \
-        gte_mfc2_9(x);                                                                             \
-        gte_mfc2_10(y);                                                                            \
-        gte_mfc2_11(z);                                                                            \
-                                                                                                   \
-        (dst)[0] = x;                                                                              \
-        (dst)[3] = y;                                                                              \
-        (dst)[6] = z;                                                                              \
+        gte_stclmv(dst); \
     }
 
 
@@ -123,21 +68,21 @@
 #define Render_XformBuildChildMatrix(src, dst, include_translation)                                \
     {                                                                                              \
         Render_XformTransformAxisZ((u16 *)(src), (s16 *)(dst));                                    \
-        __asm__ volatile("" : "=r"(src) : "0"(src), "m"(((s16 *)(dst))[6]));                       \
+        \
         {                                                                                          \
-            register u16 *column asm("$2") = (u16 *)(src) + 1;                                     \
-            __asm__("" : "=r"(column) : "0"(column));                                              \
+            u16 *column = (u16 *)(src) + 1;                                     \
+            \
             Render_XformLoadAxis(column);                                                          \
             column = (u16 *)(dst) + 1;                                                             \
-            __asm__("" : "=r"(column) : "0"(column));                                              \
+            \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
             register u16 *column asm("$2") = (u16 *)(src) + 2;                                     \
-            __asm__("" : "=r"(column) : "0"(column));                                              \
+            \
             Render_XformLoadAxis(column);                                                          \
             column = (u16 *)(dst) + 2;                                                             \
-            __asm__("" : "=r"(column) : "0"(column));                                              \
+            \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
@@ -247,20 +192,20 @@
         Render_XformLoadRotMatrix(parent_matrix);                                                  \
         \
         {                                                                                          \
-            register u16 *column asm("$2") = (u16 *)((actor) + 0x34);                              \
-            __asm__("" : "=r"(column) : "0"(column));                                              \
+            u16 *column = (u16 *)((actor) + 0x34);                              \
+            \
             Render_XformLoadAxis(column);                                                          \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
-            register u16 *column asm("$2") = (u16 *)((actor) + 0x36);                              \
-            __asm__("" : "=r"(column) : "0"(column));                                              \
+            u16 *column = (u16 *)((actor) + 0x36);                              \
+            \
             Render_XformLoadAxis(column);                                                          \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
-            register u16 *column asm("$2") = (u16 *)((actor) + 0x38);                              \
-            __asm__("" : "=r"(column) : "0"(column));                                              \
+            u16 *column = (u16 *)((actor) + 0x38);                              \
+            \
             Render_XformLoadAxis(column);                                                          \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
@@ -295,7 +240,7 @@ void Render_TransformVertices(RenderObjectEntity *input) {
     s32 *matrix_stack = (s32 *)0x1F80000C;
     register s32 *stack_top asm("$17");
     u8 *commands;
-    register u8 *out_matrix asm("$6");
+    u8 *out_matrix;
     register u8 *out_vertices asm("$9");
     u8 *header;
     s32 *current_matrix;
