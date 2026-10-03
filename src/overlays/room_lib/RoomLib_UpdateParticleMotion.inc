@@ -35,7 +35,7 @@ void ROOMLIB_UPDATE_PARTICLE_MOTION_NAME(int arg0, char *control, char *state) {
     char *stateReg = state;
     int loaded;
     int value;
-    volatile char scratch[0x18];
+    char scratch[0x18];
 
     PE1_COMPILER_LAUNDER_MEM(controlReg);
 
