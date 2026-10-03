@@ -67,14 +67,14 @@ extern u32 D_8009CDA0;
 #define Draw_StoreColours(out)                                                                     \
     {                                                                                              \
         register u32 *out1 asm("$3") = out + 1;                                                    \
-        register u32 *out2 asm("$2") = out + 2;                                                    \
+        u32 *out2 = out + 2;                                                    \
         gte_swc2_20_0(out);                                                                         \
         gte_swc2_21_0(out1);                                                                        \
         gte_swc2_22_0(out2);                                                                        \
     }
 void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *view) {
-    register RenderObjectEntity *entity asm("$11") = input;
-    register s32 *viewMatrix asm("$19") = (s32 *)view;
+    RenderObjectEntity *entity = input;
+    s32 *viewMatrix = (s32 *)view;
     register volatile u32 *baseColour asm("$18") = (volatile u32 *)0x1F800000;
     register volatile s16 *lightMatrix asm("$5") = (s16 *)0x1F800004;
     register RenderVec3s *normals asm("$16");
@@ -82,14 +82,13 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
     register s32 *matrix asm("$24");
     register s32 partIndex asm("$25");
     register RenderObjectPart *part asm("$15");
-    register s32 vertexIndex asm("$10");
-    register s32 first asm("$12");
-    register u32 *mainColours asm("$9");
-    register u32 *altColours asm("$8");
+    s32 vertexIndex;
+    s32 first;
+    u32 *mainColours;
+    u32 *altColours;
     register s16 *normalIndex asm("$7");
     u32 frameReserve[4];
     register u8 shadeR asm("$20"), shadeG asm("$21"), shadeB asm("$22");
-    __asm__("" : "=r"(entity) : "0"(entity));
     if (!entity->header || !entity->draw_count)
         return;
     *baseColour = D_8009CDA0;
@@ -108,7 +107,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
     }
     partIndex = 0;
     {
-        register s32 count asm("$2") = entity->header->part_count;
+        s32 count = entity->header->part_count;
         if (count > 0) {
             normals = D_80091A58;
             offset = 0;
@@ -125,7 +124,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                     Draw_StoreAxis(lightMatrix);
                     __asm__("" : "=r"(matrix) : "0"(matrix) : "memory");
                     {
-                        register u16 *src asm("$2") = (u16 *)matrix + 1;
+                        u16 *src = (u16 *)matrix + 1;
                         register volatile s16 *dst asm("$2");
                         __asm__("" : "=r"(src) : "0"(src));
                         Draw_LoadAxis(src);
@@ -135,7 +134,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                     }
                     {
                         register u16 *src asm("$2") = (u16 *)matrix + 2;
-                        register volatile s16 *dst asm("$2");
+                        volatile s16 *dst;
                         __asm__("" : "=r"(src) : "0"(src));
                         Draw_LoadAxis(src);
                         dst = lightMatrix + 2;
@@ -146,7 +145,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                     vertexIndex = 0;
                     first = part->vertex_start;
                     {
-                        register s32 byteOffset asm("$3") = first * 4;
+                        s32 byteOffset = first * 4;
                         register u32 *colourBase asm("$2") = D_800B1638;
                         mainColours = (u32 *)((u8 *)colourBase + byteOffset);
                         colourBase = D_800A6360;
@@ -155,7 +154,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                     {
                         register s32 vertexOffset asm("$4") = first * 8;
                         register RenderVec3s *vertices asm("$2") = entity->vertices;
-                        register s32 vertexCount asm("$3");
+                        s32 vertexCount;
                         __asm__("" : "=r"(part) : "0"(part), "r"(vertices));
                         vertexCount = part->vertex_count;
                         __asm__("" : "=r"(vertexCount) : "0"(vertexCount));
@@ -164,9 +163,9 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                             normalIndex = &vertices[2].pad;
                             do {
                                 {
-                                    register s32 a asm("$4") = normalIndex[-8];
-                                    register s32 b asm("$3") = normalIndex[-4];
-                                    register s32 c asm("$2") = normalIndex[0];
+                                    s32 a = normalIndex[-8];
+                                    s32 b = normalIndex[-4];
+                                    s32 c = normalIndex[0];
                                     register RenderVec3s *na asm("$4"), *nb asm("$3"),
                                         *nc asm("$2");
                                     na = (RenderVec3s *)((u32)(a * 8) + (u32)normals);
@@ -187,19 +186,17 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                                 Draw_StoreColours(mainColours);
                                 {
                                     register s32 index asm("$2") = first + vertexIndex;
-                                    register u32 *colours asm("$6") = entity->vertex_colours;
+                                    u32 *colours = entity->vertex_colours;
                                     register s32 byteOffset asm("$4");
-                                    register u8 *colour asm("$3");
+                                    u8 *colour;
                                     __asm__("" : "=r"(index) : "0"(index));
                                     byteOffset = index * 4;
                                     colour = (u8 *)((u32)byteOffset + (u32)colours);
-                                    __asm__("" : "=r"(colours) : "0"(colours));
                                     if (colour[3]) {
                                         gte_lwc2_6_0(colour);
                                         goto shade_override;
                                     } else if (colour[7]) {
-                                        register s32 selectedOffset asm("$2") = byteOffset + 4;
-                                        __asm__("" : "=r"(selectedOffset) : "0"(selectedOffset));
+                                        s32 selectedOffset = byteOffset + 4;
                                         {
                                             register u32 *selected asm("$2") =
                                                 (u32 *)((u8 *)colours + selectedOffset);
@@ -207,8 +204,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                                         }
                                         goto shade_override;
                                     } else if (colour[11]) {
-                                        register s32 selectedOffset asm("$2") = byteOffset + 8;
-                                        __asm__("" : "=r"(selectedOffset) : "0"(selectedOffset));
+                                        s32 selectedOffset = byteOffset + 8;
                                         {
                                             register u32 *selected asm("$2") =
                                                 (u32 *)((u8 *)colours + selectedOffset);
@@ -239,6 +235,5 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                 offset += sizeof(RenderObjectPart);
             } while (partIndex < count);
         }
-        __asm__("" : "=m"(frameReserve));
     }
 }
