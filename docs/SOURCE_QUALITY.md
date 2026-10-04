@@ -245,6 +245,15 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Boot notice disc check
+
+`Render_InitDisplayLists` is the boot notice state machine that waits for
+the right disc. `PeImage_Mount_Dispatch` was only its case 4 jump target, so
+the 0x1B88 jump table is now the unit's rodata and the label is gone from
+the symbol list. It keeps two CD retry `goto`s as recorded debt. Its
+register order comes from retail's statement order in the wrong-disc path
+and from reusing `wait` for the final ready poll.
+
 ### Actor contact pass and the field background loader
 
 `Scene_UpdateEntityPositions` is the actor contact pass. It tests body,
