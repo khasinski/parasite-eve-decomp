@@ -212,7 +212,7 @@ typedef struct EnemyCombatant {
 /* 0x0C */ u16 curHP;
 /* 0x0E */ u16 hpMirror;
 /* 0x10 */ s32 hpAlive;
-/* 0x14 */ u8  pad_14[4];
+/* 0x14 */ s32 previousHP; /* previous update snapshot for the floating damage panel */
 /* 0x18 */ EnemyActionEffect *effect;
 /* 0x1C */ u8  pad_1C[0x30];
 /* 0x4C */ u32 stateFlags;
@@ -221,13 +221,13 @@ typedef struct EnemyCombatant {
 /* 0x70 */ u8  pad_70[0x18];
 /* 0x88 */ s32 field88;
 /* 0x8C */ u16 field8C;
-/* 0x8E */ u8  pad_8E[2];
+/* 0x8E */ u16 chargeStep;
 /* 0x90 */ u8  effectChance;
 /* 0x91 */ u8  deathAnimFrame;
 /* 0x92 */ u8  pad_92[2];
 /* 0x94 */ u8  effectLevel;
 /* 0x95 */ u8  effectDuration;
-/* 0x96 */ u8  pad_96[2];
+/* 0x96 */ s16 periodicDamage;
 /* 0x98 */ u16 rewardBase;
 /* 0x9A */ u16 rewardFactorA;
 /* 0x9C */ u16 rewardFactorB;
@@ -235,20 +235,32 @@ typedef struct EnemyCombatant {
 /* 0x9F */ u8  pad_9F;
 /* 0xA0 */ s16 lootItemId;
 /* 0xA2 */ s16 lootItemAux;
-/* 0xA4 */ u8  pad_A4[8];
+/* 0xA4 */ u8  motionPhase;
+/* 0xA5 */ u8  motionFrames;
+/* 0xA6 */ u16 motionAmplitude;
+/* 0xA8 */ s16 motionAngle;
+/* 0xAA */ u8  pad_AA[2];
 /* 0xAC */ u8  deathAnimPhase;
 /* 0xAD */ u8  deathFadeStep;
 /* 0xAE */ u8  deathAssetEnabled;
 /* 0xAF */ u8  deathPersist;
-/* 0xB0 */ u8  pad_B0[4];
+/* 0xB0 */ u16 attackAssetId;
+/* 0xB2 */ u8  pad_B2[2];
 /* 0xB4 */ u16 deathAssetId;
-/* 0xB6 */ u8  pad_B6[0x16];
+/* 0xB6 */ u8  pad_B6[6];
+/* 0xBC */ u8  resumePhase;
+/* 0xBD */ u8  savedActionMode;
+/* 0xBE */ u8  savedInterpolation;
+/* 0xBF */ u8  pad_BF;
+/* 0xC0 */ s32 savedAnimFrame;
+/* 0xC4 */ s32 savedAnimPrev;
+/* 0xC8 */ s32 savedAnimStep;
 /* 0xCC */ u32 statusFlags2;
 /* 0xD0 */ s16 panelC_val;   /* floating hit-reaction panel, drawn in enemy mode */
 /* 0xD2 */ u16 panelC_x;
 /* 0xD4 */ u16 panelC_y;
 /* 0xD6 */ u8  panelC_timer; /* 30 captures projected coordinates; then counts down */
-/* 0xD7 */ u8  pad_D7;
+/* 0xD7 */ u8  panelC_mode; /* 0=damage, 1=recovery, 2=alternate damage display */
 } EnemyCombatant;
 
 /* ----------------------------------------------------------------------------
@@ -413,6 +425,30 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, deathAssetId) == 0xB4,
                   enemy_combatant_death_asset_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, statusFlags2) == 0xCC,
                   enemy_combatant_status_flags_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, previousHP) == 0x14,
+                  enemy_update_previousHP_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, chargeStep) == 0x8E,
+                  enemy_update_chargeStep_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, periodicDamage) == 0x96,
+                  enemy_update_periodicDamage_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, motionPhase) == 0xA4,
+                  enemy_update_motionPhase_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, motionAmplitude) == 0xA6,
+                  enemy_update_motionAmplitude_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, motionAngle) == 0xA8,
+                  enemy_update_motionAngle_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, attackAssetId) == 0xB0,
+                  enemy_update_attackAssetId_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, resumePhase) == 0xBC,
+                  enemy_update_resumePhase_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, savedAnimFrame) == 0xC0,
+                  enemy_update_savedAnimFrame_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, savedAnimPrev) == 0xC4,
+                  enemy_update_savedAnimPrev_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, savedAnimStep) == 0xC8,
+                  enemy_update_savedAnimStep_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, panelC_mode) == 0xD7,
+                  enemy_update_panelC_mode_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, panelC_val) == 0xD0,
                   enemy_combatant_panel_value_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, panelC_timer) == 0xD6,
