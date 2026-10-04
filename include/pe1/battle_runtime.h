@@ -130,6 +130,7 @@ int Battle_StepAyaAction(void);
 /* Enemy update and animation lifecycle. */
 void Battle_StepEntityAnimState(BattleEntity *entity);
 void Battle_StepEnemyMovement(BattleEntity *entity);
+void Battle_UpdateEntityFacing(BattleEntity *entity);
 void Battle_DrawStatusPanel(int mode, BattleStatusPanel *panel);
 int Battle_ProcessActionSlot(BattleEntity *entity);
 
