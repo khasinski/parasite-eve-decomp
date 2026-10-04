@@ -1637,7 +1637,7 @@ segments:
       - [0xCE8A8, asm, engine/engine_800D4860_CE8A8]
       - [0xCEFA8, c, engine/FieldEng_SpinGlow]
       - [0xCF230, c, engine/FieldEng_GlowFountain]
-      - [0xCF7FC, asm, engine/engine_800D4860_CF7FC]
+      - [0xCF7FC, c, engine/FieldEng_FadeParticle]
       - [0xCFEAC, c, engine/FieldEng_FadingEmitter]
       - [0xD007C, c, engine/FieldEng_RotatingEffect]
       - [0xD01B0, c, engine/FieldEng_PointEmitter]

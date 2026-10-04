@@ -839,7 +839,8 @@ typedef struct RenderFadeEmitter {
 typedef struct RenderFadeParticle {
     s16 position[3];
     s16 kind;
-    s16 reserved[4];
+    s16 vx, vy, vz;
+    s16 reserved0E;
     s16 phase, timer;
 } RenderFadeParticle;
 PE1_STATIC_ASSERT(sizeof(RenderFadeEmitter) == 4, render_fade_emitter_size);
@@ -847,8 +848,13 @@ PE1_STATIC_ASSERT(sizeof(RenderFadeParticle) == 20, render_fade_particle_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderFadeParticle, kind) == 6, render_fade_particle_kind);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderFadeParticle, phase) == 16, render_fade_particle_phase);
 extern u8 D_800E2164[];
-extern u16 D_800E2244;
-int func_800DEFFC(int mode, void *state);
+/* Intensity cap the emitter publishes for its fade particles. */
+extern s16 D_800E2244;
+/* Offset of a fade particle from its actor matrix point, and the colour
+ * track of its falling sparks. */
+extern GteShortVector D_800C22F0;
+extern u8 D_800E213C[];
+int func_800DEFFC(int mode, RenderFadeParticle *particle);
 int func_800DF6AC(int mode, RenderFadeEmitter *state);
 
 #endif
