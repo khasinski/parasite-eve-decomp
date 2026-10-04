@@ -462,9 +462,8 @@ segments:
       # Save startup, manager state transitions, and load completion share card/slot state.
       - [0x31780, c, memcard/MemCard_UpdateSaveState]
       - [0x32C64, c, memcard/MemCard_GetActiveProgressBlocks]
-      - [0x32CB4, c, memcard/MemCard_GetSlot]
-      # One memory-card port-state controller; exact 0x740-byte original object.
-      - [0x32D38, c, memcard/MemCard_Controller]
+      # Save-slot lookup and the port-state controller share MemCardPortState.
+      - [0x32CB4, c, memcard/MemCard_Controller]
       - [0x33478, c, menu/Menu_SaveBgInitFade]
       - [0x334B8, c, menu/Menu_SaveBgSetFadeTarget]
       - [0x334C4, c, menu/Menu_ComputeGammaLut]

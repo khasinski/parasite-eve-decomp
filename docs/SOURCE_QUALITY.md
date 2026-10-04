@@ -8084,3 +8084,15 @@ the first byte in each 0x418-byte record uses a byte view of the canonical
 `MemCardPortState` declaration. Both routines retain their original order, and
 the complete 1500-byte default-profile object matches retail. `make verify-clean`
 passes and `main.exe` remains byte-identical.
+
+### Memory-card slot lookup and port controller
+
+`MemCard_GetSlot` now precedes the functions in
+`src/main/memcard/MemCard_Controller.c`. It bounds a slot by the selected
+port’s file count, checks the slot metadata flag and returns the shared
+`MemCardSaveSlot` record. Its existing symbol-based byte views resolve to
+`MemCardPortState.fileCount` at +2 and the first slot’s `state` and
+`metadataReady` fields at +0x1C/+0x1D; offset assertions in
+`include/pe1/memcard.h` record those relationships. Keeping the matching byte
+views preserves the `MemCard_GetSlot` code while the full 0x7C4-byte controller
+object remains retail-identical. `make verify-clean` passes.
