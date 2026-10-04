@@ -33,3 +33,16 @@ Remaining differences:
 2. `slots` (0x1000) and `equip` (0x40) test v0 instead of a0: sched1 hoists
    the `a0 = node` argument copy above the stores, so the pointer ties to
    v0. Retail keeps the copy below the `li v0,-1`, so the pointer lives in a0.
+
+Note (2026-10-04, agent 4): why sched1 hoists the `a0 = slots` copy. In the
+-dS trace the copy (insn 54) and the two slot stores (46, 51) are all ready
+at the same cycle with priority 1; rank_for_schedule then picks "the first
+one with the largest potential hazard", and the stores (memory unit) always
+beat the unit-less copy, so the copy is placed above them. Only a block
+boundary or a different priority can keep it below. Tried without effect
+(still 21): every order of the three stores, the store folded into the call
+argument (`(slots->cursor_y = 1, slots)`), copying slots into `node` before
+or after the stores, two consecutive `if (slots != 0)` blocks, and inline
+helpers (stores + call with a row parameter; stores behind an early
+`if (slots == 0) return;`; a shared "focus" helper for the slots and equip
+paths). The early-return helper's label is deleted by jump before sched1.

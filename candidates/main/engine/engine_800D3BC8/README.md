@@ -23,3 +23,12 @@ Tried without effect: centre initialisation placement and type (4-byte
 pair, initialiser), view slot through a pointer or directly, `clut` as
 u16, `depth` as int, `pull * 2` inline (breaks the body), and a 10 minute
 decomp-permuter run (no improvement over the base).
+
+Note (2026-10-04, agent 4): sched2 experiment. Wrapping the body in a loop
+(banned do/while, test only) puts a LOOP_BEG barrier after the parameter
+loads: every save then stays above the body (22 diffs), but each stack
+argument load still sits right after the save of its register, because the
+loads feed the barrier and outrank the saves. Retail's shape (all saves,
+then the five loads in a row, then the body) needs the loads to have no
+in-block consumers, i.e. a block boundary or barrier between the saves and
+the loads; no plain-C source for that is known.
