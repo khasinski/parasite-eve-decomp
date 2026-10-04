@@ -44,6 +44,17 @@ extern char *g_FieldEngineScriptObject __asm__("D_800F32A8");
 extern char *g_FieldEngineScriptData __asm__("D_800F3330");
 extern int *g_FieldEngineCommandTable __asm__("D_800F33B0");
 extern unsigned char *g_FieldEngineSlotTable __asm__("D_800F34F4");
+/* The same two pointers with their record types. */
+/* The same work area as seen by the slot registrar func_800C2D0C: the next
+ * free byte offset into the script data and the registered slot count. */
+typedef struct FieldEngDataState {
+    /* 0x00 */ unsigned char pad_00[4];
+    /* 0x04 */ short data_next;
+    /* 0x06 */ unsigned char slot_count;
+} FieldEngDataState;
+
+extern FieldEngDataState *g_FieldEngineState __asm__("D_800E2248");
+extern FieldEngSlot *g_FieldEngineSlots __asm__("D_800F34F4");
 
 void **FieldEng_GetSlot(char *object);
 

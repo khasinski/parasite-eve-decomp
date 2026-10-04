@@ -13,10 +13,10 @@ Size is the objdiff function size in bytes.
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
-| inline-asm C unit | 1 | 148 |
+| inline-asm C unit | 0 | 0 |
 | parked near-miss | 29 | 50888 |
 | not yet attempted | 0 | 0 |
-| total | 113 | 99608 |
+| total | 112 | 99460 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -131,7 +131,6 @@ Category notes:
 
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
-| main | func_800C2D0C | 148 | stack adjust inside a branch delay slot (non-GCC shape); body is inline asm |
 
 ## parked near-miss
 
@@ -184,3 +183,4 @@ None: menu_memcard 0x244C now has a parked candidate.
 | main | CdRom_InitDsCallbacks | 152 | plain C under the `ASSEMBLER: GNU` marker its LIBDS siblings use: GNU as in reorder mode moves the `sw` of `g_DsPollCallback = 0` into the CdRom_InitCmdState delay slot |
 
 The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA144) is now matched on main by another agent and is left out of the table.
+| main | func_800C2D0C | 148 | plain C (stock 2.7.2, maspsx): the 8-byte frame comes from the `s16 offset` local, sched2 sinks the prologue `addiu sp` to the branch and the assembler fills the delay slot with it; `offset += size; state->data_next = offset;` gives the in-place add |
