@@ -96,7 +96,7 @@ segments:
       - [0x3508, c, func_801924F0]
       - [0x3510, c, RoomEffect_SpiralTrail_801924F8]
       - [0x3A48, c, RoomLib_SpawnRandomEffect_80192A30]
-      - [0x3CEC, asm, func_80192CD4]
+      - [0x3CEC, c, RoomEffect_SpinModel_80192CD4]
       - [0x4218, c, RoomEffect_SwirlRiseSprite_80193200]
       - [0x4630, asm, func_80193618]
       - [0x5008, c, func_80193FF0]
