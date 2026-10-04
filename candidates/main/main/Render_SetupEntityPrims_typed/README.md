@@ -10,7 +10,7 @@ the overlay checks before landing it) and copy `render_setup.h` to
 include/pe1/. Plain -G0 file, no markers needed.
 
 Score: lev.py main 0x2D850 0x7DC = lev 4 (equal size). Only the
-paramRow/initCount a2/t9 swap is left, see the last section.
+paletteRow/initCount a2/t9 swap is left, see the last section.
 
 What fixed most of it (keep these):
 - Read the counts through a COPY of the header parameter (`header = model;`)
