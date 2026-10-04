@@ -269,8 +269,8 @@ segments:
       - [0xCFDC, c, main/Entity_SlideOnRamp]
       - [0xD2B0, c, field/Geo_PointInPoly]
       - [0xD3A0, c, main/Entity_SlideOnWall]
-      - [0xD688, c, main/Geo_FindNearestEdge]
-      - [0xD970, c, field/Entity_ApplyCollisionResponse]
+      # Nearest-edge testing and wall response share collision state and flow.
+      - [0xD688, c, field/Entity_ApplyCollisionResponse]
       - [0xDA68, c, entity/Entity_CheckActionIdMatch]
       - [0xDB40, c, menu/Menu_MainUpdate]
       - [0xFCD4, c, entity/Entity_ResolveDropTable]
