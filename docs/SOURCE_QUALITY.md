@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m350 sweep trap, the motion particle init family and the room_m273 queued drop
+
+room_m350's sweeping beam trap, the motion particle init shared by room_m075,
+room_m080 and room_m082 (one `RoomLib_InitMotionParticles.inc` with three
+instances), and room_m273's queued drop callback match from clean C. Indexing
+the quad's vertices lets loop strength reduction create the walking pointer
+in retail's order, the statement that creates a constant is placed late when
+the final scheduling pass would otherwise float it up through a run of
+stores, and one function-scope index shared with the landing slot gains the
+register priority retail gives it. All five overlay SHA-1 hashes are
+unchanged and no pins or barriers were added.
+
 ### scene_e08, scene_e19_2 and scene_e22 effect controllers
 
 Nine more scene routines match from clean C: scene_e08's limb beams and arm
