@@ -76,4 +76,27 @@ extern u8 D_800B01CC[], D_800B01CD[], D_800B01CE[];
 extern u8 D_800B01D4[], D_800B01D5[];
 void Battle_DrawStatusPanel(int mode, BattleStatusPanel *panel);
 
+
+/* Target pointer drawn by Battle_BuildStatusPrimHeader: a flat-shaded
+ * triangle (POLY_F3 layout) plus two flat lines per draw slot that join the
+ * pointer to the status panel. */
+typedef struct BattleStatusPointerPrim {
+    u32 tag;
+    u8 r, g, b, code;
+    s16 x0, y0, x1, y1, x2, y2;
+} BattleStatusPointerPrim;
+
+extern RenderLinePacket D_8009E498[2][2];
+extern BattleStatusPointerPrim D_8009E4D8[2];
+/* Frame counter; drives the pointer's rotation. */
+extern u32 D_8009D250;
+
+void SetRotMatrix(GteMatrix *matrix);
+GteMatrix *TransMatrix(GteMatrix *matrix, GteVector *translation);
+void SetTransMatrix(GteMatrix *matrix);
+void RotTrans(const GteShortVector *v, GteVector *out, s32 *flag);
+
+PE1_STATIC_ASSERT(sizeof(BattleStatusPointerPrim) == 0x14,
+                  battle_status_pointer_prim_stride);
+
 #endif
