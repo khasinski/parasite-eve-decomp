@@ -245,6 +245,19 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Remaining-function audit and three small credit wins
+
+`candidates/REMAINING.md` classifies every function the report does not yet
+credit: battle code, handwritten library and BIOS assembly, data, padding and
+slices, the CD retry loaders that need a goto, two C files that hold inline
+assembly, and the parked near-misses with their diff counts. Alongside it,
+scene_e09 and scene_e10 reuse the motion particle init template; the plain C
+math and GPU helpers are split out of the unit that holds an inline assembly
+helper, since a unit is credited all or nothing; and
+`Inv_BuildItemGridFromCategory` is written as plain C, which also credits the
+three helpers in its unit. Every binary is unchanged and the recorded debt
+goes down.
+
 ### Memory card video step
 
 The memory card menu's video step, present twice (at 0x1340 and in the copy
