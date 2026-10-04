@@ -8213,3 +8213,17 @@ operate on the same two 0x68-byte banks and the same 0x11C-byte track arrays.
 `AkaoTrack`; symbol aliases keep each function's field view explicit. The
 combined 0xB1C-byte text range matches retail under the default compiler
 profile.
+
+### Battle HUD packet initialization
+
+`src/main/battle/Battle_DrawHPBar.c` replaces the 3152-byte assembly routine
+at 0x80030894. It initializes both HUD draw buffers: the label quad, sprite
+grids, gradients, markers, tiles, lines, triangle, and digit glyph packets.
+The legacy name is retained even though its scope exceeds the HP bar.
+
+The linked function has score 0 and is byte-identical to retail using stock
+native GCC 2.7.2 and MASPSX. Seven pins and four empty barriers remain as
+explicit matching debt, along with address-based views and temporary names.
+The obsolete candidate was removed; its dimensions and initialization stores
+did not accurately describe the retail routine. A clean main rebuild followed
+by `make verify` passes, and the complete `main.exe` is byte-identical to retail.
