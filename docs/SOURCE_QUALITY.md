@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Scroll cursor step and the overlay cast and volatile sweep
+
+`Menu_StepScrollCursor` in the main executable now matches from clean C: the
+left and right cases end with the same if/else shape, which lets jump2 keep
+retail's choice of shared tail. Separately, the overlay sources lose most of
+their pointer and integer casts and volatile qualifiers and part of their
+byte-pointer arithmetic; each removal was kept only when every object that
+includes the source stayed identical with no new warning, and the fx_common
+effect setup, the polygon resource draw and several room_lib templates now
+use typed fields instead of raw offsets. Volatiles on hardware registers
+stay. Every binary is unchanged.
+
 ### Context help text
 
 The main executable's context help text draw, formerly `misc24`, now matches
