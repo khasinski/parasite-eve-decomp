@@ -21,7 +21,6 @@ Setup that already matches:
   `state` in a0 for the whole function instead of retail's v1.
 - Masks are `~0x300`; `index != 0 ? 0x14 : 0x61`; the prompt text choice is
   `if (prompt != 0) { if (prompt == phase) B; } else A;`.
-
 - Phase 1 stores the advanced word through `phase` (`phase = (next & ~0x300)
   | ...; word = phase;`), a multi-block variable, so the new word goes to
   global allocation instead of local-alloc's v1 (found by the permuter).
