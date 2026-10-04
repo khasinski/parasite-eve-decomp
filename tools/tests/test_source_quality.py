@@ -275,6 +275,17 @@ class SourceQualityTests(unittest.TestCase):
             'PSYQ_ASM_FUNCTION(f, "    jr $ra\\n" "    nop\\n");\n'
             'int g(void) { return 1; }\n'), "asm_constrained")
 
+    def test_sdk_assembler_sources_are_original_asm(self):
+        root = pathlib.Path(__file__).resolve().parents[2] / "src/main/psyq"
+        for name in ("libsn/SNMAIN.c", "libgte/InitGeom.c", "libgte/msc01.c",
+                     "libgte/msc02.c", "libgte/CompMatrix.c", "libgte/mtx_006.c",
+                     "libgte/patchgte.c", "libapi/patch_pad.c",
+                     "libapi/chclrpad.c", "libcard/patch_head.c",
+                     "libcard/patch_card.c", "libcard/end.c"):
+            with self.subTest(name=name):
+                self.assertEqual(source_quality.classify(root / name),
+                                 "original_asm")
+
     def test_text_resident_array_is_data(self):
         self.assertEqual(
             self.classify('int words[] __attribute__((section(".text"))) = { 0 };'),

@@ -2317,6 +2317,10 @@ crossed. The first padding word is now an explicit pad segment; the second
 template and both installers remain assembly. This fixes an inferred boundary
 as well as adding 16 matching C bytes; changes in the total function count or
 padding denominator are not additional decompilation progress.
+Update: the second template and both installers, the patch-image head
+`func_8007E344` and LIBCARD END's `_ExitCard` are now reproduced as PSY-Q
+assembler objects (`psyq/libcard/patch_card`, `patch_head` and `end`; see
+ASM_AND_GTE_POLICY.md, "PSY-Q assembler objects").
 
 The shared LIBCARD header declares the new entry as a function. The existing
 copy helper converts its address to the instruction-word end pointer, instead

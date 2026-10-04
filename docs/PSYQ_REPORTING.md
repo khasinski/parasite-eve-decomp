@@ -109,3 +109,34 @@ The verified `MSC02` object labels three public entries: `VectorNormalS` at
 inside the existing shared ASM unit. It remains unmatched; no bytes are added
 or removed and no C progress is awarded. `VectorNormalS` branches into the
 shared suffix of `VectorNormalSS`, so these entries remain in one unit.
+That unit is now `psyq/libgte/msc02`, the whole MSC02 code range, reproduced
+as SDK assembler (see the next section).
+
+## PSY-Q assembler objects
+
+The last 22 unmatched main-executable PSY-Q functions belong to eleven SDK
+objects that were assembled from handwritten assembler source: LIBSN SNMAIN,
+LIBGTE MSC00/MSC01/MSC02/MTX_003/MTX_006/PATCHGTE, LIBAPI PATCH/CHCLRPAD and
+LIBCARD PATCH/END. The evidence for each object is in
+[ASM_AND_GTE_POLICY.md](ASM_AND_GTE_POLICY.md#psy-q-assembler-objects). Their
+units reproduce the original instruction text with `PSYQ_ASM_FUNCTION`
+and are reported as `original_asm`, which is credited once the complete
+executable matches retail, like the BIOS veneers. The 12 split ASM subsegments
+became 12 C units (MSC02 and MTX_006 are now one unit each). The final build
+is byte-identical.
+
+Two runs of instruction words inside those objects are templates, not
+functions: PATCHGTE's kernel exception-prologue patterns at `0x8007A1E0`,
+`0x8007A1F8` and the end word at `0x8007A210`, and END's three-NOP C0-table
+template with its end word at `0x8007E584..0x8007E594`. The installers compare
+them with or copy them into kernel memory; the CPU never executes them at
+these addresses. The old `St_DmaHandlerTemplates.c` held them as untyped
+labels in `.text`, which objdiff reported as two unmatched functions. They
+are now `rodata` segments in the `.psyq_text_data` linker section, the same
+mechanism as the MSC00/A63 signatures, and objdiff counts their 68 bytes as
+data. `func_8007E3C8`, the LIBCARD redirect stub that `_patch_card2` installs,
+stays a function like its C sibling `func_8007E3B4`.
+
+Report effect (`make report`): main-psyq goes from 465/489 to 487/487
+functions and from 75300/78168 to 78128/78128 code bytes. Overall matched
+functions go from 11594/11674 to 11616/11672.

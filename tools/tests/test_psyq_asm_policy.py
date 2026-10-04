@@ -70,6 +70,9 @@ class PsyqAsmPolicyTests(unittest.TestCase):
         errors = self.errors({"main/psyq/libgte/msc00.c": text})
         self.assertTrue(any("mixed with C functions" in e for e in errors), errors)
 
+    def test_repository_sources_satisfy_the_policy(self):
+        self.assertEqual(check_source_policy.psyq_asm_errors(), [])
+
 
 if __name__ == "__main__":
     unittest.main()
