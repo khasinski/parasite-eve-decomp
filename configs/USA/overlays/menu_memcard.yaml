@@ -203,7 +203,7 @@ segments:
     subsegments:
       - [0x7874, c, Memcard_HandleListInput_80190064]
       - [0x7E70, c, Memcard_ShowLogoScreen_80190660]
-      - [0x81C4, asm, func_menu_memcard_0081C4]
+      - [0x81C4, c, Memcard_RunScreen]
   - [0x9108]
   - name: menu_memcard_video_display_linkbase
     type: code
