@@ -245,6 +245,15 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Memory card ring burst controller
+
+`Memcard_RingBurstController` drives the ring burst on the memory card
+screen, with no pins, barriers, volatile or gotos. The lift is
+`func_80077CF4(angle) / 12 + 80`; the old draft divided by 6. The fades use
+plain `/ 32` divisions. One function-scope `amount` holds the state 1 ring
+fade argument and later the band lift. Both are real computed values, and
+sharing the variable gives the lift retail's saved register.
+
 ### fx_common effect markers
 
 `FxCommon_DrawEffectMarkers` draws the effect marker lines and label quads

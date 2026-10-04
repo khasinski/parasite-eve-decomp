@@ -97,3 +97,19 @@ retail stores the colours before the parameter06 branch.
   lev 6 to 31.
 - A route not tried yet: make u (allocated before r, gets a1) conflict
   with r without moving code, so r skips a1 and takes width's a2.
+
+## Retry (agent 19, 2026-10-04): still lev 4
+
+- Step-split products (`r = intensity * color->r; r /= 128;`, `r =
+  color->r; r = intensity * r / 128;`, `r *= intensity`), on r, g or b:
+  lev 6 to 15.
+- Null-colour chains `r = g = b = intensity`, `b = g = r = intensity`,
+  g/b sourced orders: lev 4 to 7.
+- `r = page;` after the colour stores (dead reuse): lev 6.
+- global.c reading: r (85) only conflicts with g, b, the two product
+  temporaries, view and the call-crossing parameters. expand_preferences
+  merges preferences only across a copy whose source dies, and
+  set_preference only records a hard register for a local-alloc'd partner,
+  so r needs an insn pairing it with a local pseudo in a2 (width is local
+  and in a2 in retail) or a conflict with u (a1). Neither exists in the
+  retail instruction stream.

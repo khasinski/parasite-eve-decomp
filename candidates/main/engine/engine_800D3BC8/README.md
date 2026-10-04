@@ -61,3 +61,11 @@ and the D_8009CDD8 update (6 orders) is at best 24.
 - 96 orderings of centre init / packet allocation / colour block (both branch
   senses, centre moved after the packet or down to the GTE block) are at best
   lev 14 (the current order).
+
+## Retry (agent 19, 2026-10-04): not retried in code
+
+The newest lessons (folded extra references, multi-set constants,
+scalar outputs) act on sched1 and register allocation; this diff is the
+sched2 placement of the prologue saves against the stack argument loads,
+which needs a block boundary or barrier no plain-C construct provides.
+Still lev 14.

@@ -125,3 +125,30 @@ global by another plain-C reference that leaves no code.
   `glow` is lev 4 (s1). Any other variable (state, time, fall, angle,
   case 1's kinds, function-scope kind) is lev 13 to 81.
 - Swapping the roles of kind and palette in the first block is lev 12.
+
+## Retry (agent 19, 2026-10-04): still lev 4 (lev 9 plain)
+
+Tried the menu_memcard ring burst fix (a function-scope variable whose
+extra copy in another basic block is folded into an argument register by
+combine, so flow already counted it and the variable becomes global):
+- First-block kind as a function-scope `level` with a folded copy in
+  state 2 (`level = (p->timer << 4) / 20; func_800CF3AC(..., level)`), in
+  the streak block, before func_800D2104 or as the width source: lev 9,
+  kind still v1. Global is not enough; the literal 4 is still loaded right
+  before the `bne` in v0.
+- A function-scope `special = 4` for the first compare plus a folded copy
+  elsewhere (same sites): lev 9, the 4 still lands before the `bne` (sched1
+  places the constant set next to its consumer even with two sets).
+- Both together (all six site pairings): lev 9.
+- On the shared_temp file with a block-local `kind2` for the second block
+  and the folded copy on the first kind (five sites): lev 13, kind global
+  but allocated before `special`, so it takes v1.
+- Why the folded second set does not stop the launch: try_combine
+  decrements reg_n_sets when it merges a set away (reg_n_refs, deaths and
+  reg_basic_block are not recomputed), and sched1 runs after combine, so
+  `special` is single-set again by the time birthing_insn_p looks at it
+  (`-dS` shows insn 388 at 7f000001). A non-launched 4 needs a second set
+  that survives combine, i.e. real code in v1 (which is what the
+  shared_temp file does with the tpage and rotation copies).
+- Compare forms (`kind != 4 ||`, switch on kind, `(u16)kind == 4`,
+  `kind - 4 == 0`, the assignment inside the subscript): lev 9 to 21.
