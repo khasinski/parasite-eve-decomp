@@ -129,8 +129,7 @@ Category notes:
 
 ## inline-asm C unit
 
-| Binary | Function | Size | Notes |
-|---|---|---:|---|
+None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 
 ## parked near-miss
 
