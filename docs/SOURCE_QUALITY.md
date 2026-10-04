@@ -261,7 +261,10 @@ no pins or barriers were added.
 
 room_m273's boss turn controller, boss sway controller and sway shard
 controller, on the new `room_m273_boss.h`, and room_m350's splash drop
-callback, on `room_m350_drop.h`, now match from clean C. The overlay's
+callback, on `room_m350_drop.h`, now match from clean C, and so does
+room_m273's boss sweep controller, whose sweep globals are trailing fields of
+the existing drop queue struct and whose 16.16 boss time words are read
+through unsigned bitfield views. The overlay's
 globals are accessed as one struct so loads stay below stores without
 volatiles, tpage slot indices are read as array elements, the palette is
 read back through the parameter block, one function-scope temporary carries
