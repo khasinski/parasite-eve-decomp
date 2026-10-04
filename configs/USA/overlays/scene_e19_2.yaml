@@ -44,6 +44,10 @@ segments:
     subsegments:
       - [0x4B4, c, func_8019549C]
       - [0x10DC, asm, scene_tail]
+      - [0x1760, asm, scene_tail_1760]
+      - [0x1CE4, asm, scene_tail_1CE4]
+      - [0x2304, c, RoomEffect_EmberFlareParticle]
+      - [0x2904, asm, scene_tail_2904]
       - [0x32BC, c, RoomEffect_OrbitSpinParticle_801982A4]
       - [0x392C, c, RoomEffect_OrbitSpinBurst_80198914]
       - [0x4210, c, RoomEffect_GlintSparkParticle_801991F8]
