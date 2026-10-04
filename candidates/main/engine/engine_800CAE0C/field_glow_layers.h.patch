@@ -1,0 +1,37 @@
+diff --git a/include/pe1/field_glow_layers.h b/include/pe1/field_glow_layers.h
+index 218e8c5d8..3141a347a 100644
+--- a/include/pe1/field_glow_layers.h
++++ b/include/pe1/field_glow_layers.h
+@@ -23,7 +23,8 @@ typedef struct FieldGlowSprite {
+     /* 0x00 */ u8 r;
+     /* 0x01 */ u8 g;
+     /* 0x02 */ u8 b;
+-    /* 0x03 */ u8 pad03[7];
++    /* 0x03 */ u8 pad03[5];
++    /* 0x08 */ s16 offset;
+     /* 0x0A */ u16 depth;
+     /* 0x0C */ u8 pad0C[4];
+ } FieldGlowSprite;
+@@ -31,6 +32,10 @@ typedef struct FieldGlowSprite {
+ extern FieldGlowSprite D_800F3498;
+ extern FieldGlowSprite D_800F34A8;
+ extern FieldGlowSprite D_800F34B8;
++extern FieldGlowSprite D_800F34C8;
++/* The four-layer glow writes D_800F34C8's offset and depth as scalars. */
++extern s16 D_800F34D0;
++extern s16 D_800F34D2;
+ 
+ extern GteShortVector D_800C2154;
+ extern GteShortVector D_800C215C;
+@@ -41,6 +46,11 @@ extern GteVector D_800C2194;
+ extern GteShortVector D_800C21A4;
+ extern GteShortVector D_800C21AC;
+ extern GteVector D_800C21B4;
++extern GteShortVector D_800C21D4;
++extern GteShortVector D_800C21DC;
++extern GteShortVector D_800C21E4;
++extern GteShortVector D_800C21EC;
++extern GteVector D_800C21F4;
+ 
+ void func_800C2EAC(int arg0);
+ void func_800C2FF0(int width, int height);
