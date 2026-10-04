@@ -44,12 +44,7 @@ extern VideoEntry *D_801227E4;
 extern s16 D_801227E8, D_80122418[2];
 extern u8 D_801223F5;
 
-extern s16 D_801D148C, D_801D148E;
-extern s16 D_801D1490, D_801D1492;
-extern VideoRect D_801D147A[2];
-extern u8 D_801D1478;
-extern u8 D_801D148A,D_801D1494,D_801D0DC0;
-extern void *D_801D1470[2];
+extern u8 D_801D0DC0;
 extern s32 D_8009CDDC;
 extern void func_8007C564(void),func_8010C01C(void *,s32),func_801918F8(s8,s8);
 extern void func_8007506C(void *,void *);

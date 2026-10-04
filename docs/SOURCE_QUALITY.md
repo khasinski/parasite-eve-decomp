@@ -245,6 +245,30 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Memory card video slice upload and the scene_e08 ring sprites
+
+Both copies of the menu_memcard video slice upload, the PSY-Q movie sample's
+slice callback, now come from one template, `Memcard_UploadVideoSlice.inc`.
+It uses direct struct access and no volatile, pins or barriers. A rectangle
+copy between the two selector reads makes the compiler read the selector
+twice, as retail does. The already-credited copy at 0x95D8 lost six pins,
+four barriers, a raw offset dereference and a byte pointer, so the recorded
+debt goes down.
+
+`Scene_DrawRingSprites_8019104C` in scene_e08 declares its third argument as
+`void *data`. It reads the argument through two typed locals and then
+reuses it for the matrix pointer. Reassigning the incoming argument is what
+keeps the second copy of the pointer in its own register, as in retail.
+
+### Boot notice disc check
+
+`Render_InitDisplayLists` is the boot notice state machine that waits for
+the right disc. `PeImage_Mount_Dispatch` was only its case 4 jump target, so
+the 0x1B88 jump table is now the unit's rodata and the label is gone from
+the symbol list. It keeps two CD retry `goto`s as recorded debt. Its
+register order comes from retail's statement order in the wrong-disc path
+and from reusing `wait` for the final ready poll.
+
 ### Actor contact pass and the field background loader
 
 `Scene_UpdateEntityPositions` is the actor contact pass. It tests body,

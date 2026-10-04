@@ -124,7 +124,7 @@ segments:
       - [0x1AA4, .rodata, item/Inv_ItemActions]
       - [0x1ADC, .rodata, item/Inv_EquipmentSelection]
       - [0x1B30, rodata, main/rodata_001B30]
-      - [0x1B88, rodata, main/rodata_001B88]
+      - [0x1B88, .rodata, main/Render_InitDisplayLists]
       # Both aligned scene startup jump tables are in the shared TU's 0x40 bytes.
       - [0x1BB0, .rodata, main/Scene_LoadTextureAndPlayer]
       - [0x1BF0, .rodata, main/Scene_LoadEntityTextures]
@@ -836,7 +836,7 @@ segments:
       - [0x59E60, c, pm/Pm_RunBatch]
       - [0x59EF0, c, asset/Asset_UnloadTableEntries]
       - [0x5A0D4, c, cdrom/OpenPeImage]
-      - [0x5A308, asm, main/Render_InitDisplayLists]
+      - [0x5A308, c, main/Render_InitDisplayLists]
       - [0x5A8E8, c, main/Akao_StepVoiceTable]
       - [0x5AA5C, c, sys/Sys_Shutdown]
       - [0x5AAE8, c, gpu/func_8006A2E8]

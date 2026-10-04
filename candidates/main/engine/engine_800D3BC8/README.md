@@ -44,3 +44,28 @@ ra/s4/s2/s1/s0 land between `li v0,120` and `sh v0,26(sp)`. In retail those
 stall cycles were filled by the centre stores instead, so the saves stayed
 on top. Brute force over the order of the centre stores, the packet pointer
 and the D_8009CDD8 update (6 orders) is at best 24.
+
+## Rescore and sched2 dependence analysis (agent 14, 2026-10-04): lev 14
+
+lev 14 (231 words both). All 14 edits are the prologue order.
+
+- Survey: of all retail functions in main and the overlays whose prologue
+  loads stack arguments, only this one, Render_SetupEntityPrims and
+  fx_common func_8018F55C keep every save above every stack-argument load;
+  the other 83 interleave them, and every matched C function with stack
+  arguments interleaves too. So the "saves first" shape is an outlier.
+- In stock sched2 the five saves (ra, s4, s2, s1, s0) depend only on the
+  packet-table load `lw v1,0xE58(at)` (insn 46, a register-based address
+  that may alias the stack), so they are ready from T-6. At T-8..T-13 the
+  D_8009CDDC/CDD8 loads are blocked by the memory unit after a store, and
+  among the remaining ready insns a store always wins on potential hazard
+  over `li v0,120` (equal priority 1). Retail picked `li v0,120` at T-8,
+  which under these rules needs either the saves not ready or `li` with
+  priority >= 2. Neither is reachable from the C: the saves are created
+  after sched1, so their only dependences are sched2's own, and sp-relative
+  saves never conflict with sp-relative argument loads or symbol accesses.
+- Also observed: the stack-argument loads keep stale sched1 dependences
+  (argp-based addresses conflict with the centre stores and the
+  D_8009CDD8 store), which is why they sit above `lw D_8009CDDC` in both
+  builds.
+- No source change that keeps the body intact was found; parked at lev 14.

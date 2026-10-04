@@ -84,3 +84,16 @@ already dead, so nothing blocks a1. A conflicting lower-priority allocno
 preferring a1 (regs_someone_prefers) or a preference of r for a2 would be
 needed; u (a1) would do it if it were live across the colour stores, but
 retail stores the colours before the parameter06 branch.
+
+## Retry (agent 8, 2026-10-04): still lev 4
+
+- In global.c every call-clobbered register counts as "used so far", so in
+  pass 0 r always sees a1; it skips a1 only if a1 conflicts with it or a
+  conflicting allocno that does not cross a call prefers a1 (prune_preferences
+  drops the call-clobbered preferences of call-crossing allocnos such as
+  intensity, colour and rotation).
+- Sharing one colour channel with height, i, bias, u, v or width
+  (18 combinations): best is still lev 4 (b=v, b=u); everything else is
+  lev 6 to 31.
+- A route not tried yet: make u (allocated before r, gets a1) conflict
+  with r without moving code, so r skips a1 and takes width's a2.

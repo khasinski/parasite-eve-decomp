@@ -93,3 +93,22 @@ run sched1.
 Also: room_model_pulse.h declares `func_800CE610_pulse
 __asm__("func_800CE610")`, an alias counted as crutch debt; switch it to
 the shared `void *func_800CE610(void *)` prototype before landing.
+
+## Retry (agent 13, 2026-10-04): still lev 43
+
+- sched.c `birthing_insn_p` gives the max priority only to a set whose
+  pseudo has `reg_n_sets == 1`, so retail's early `la s3, D_800E2850` means
+  the tpages pseudo was set more than once after flow. Every second constant
+  set tried is folded away before flow (cse knows the value, or the set is
+  single-use and combine folds it into the absolute address): a second
+  `tpages = D_800E2850` in the final block, and reusing tpages for
+  `D_800E1204` in the model block both stay at lev 43 with the same edits.
+  The pointer reuse that matched scene_e08 func_8019104C needs a second
+  value that survives (a non-constant, or one used twice).
+- `GteRotation spin = {0, 0, -D_800E27EC << 6, 0};` in a block scope after
+  func_800CE8F0 reproduces retail's zero-first store order but costs 8 frame
+  bytes and moves the division (lev 70).
+- When landing: room_spark.h already declares `RoomDampedSpark
+  *func_800CE610(void *pool)`, so dropping the `func_800CE610_pulse` alias
+  needs the particle record to be reachable without a cast (the README's
+  "shared void * prototype" does not exist in that header).

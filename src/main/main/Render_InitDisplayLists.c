@@ -32,7 +32,7 @@ retryNotice:
         if (status == 0)
             break;
         if (status == -1)
-            goto retryNotice;
+            goto retryNotice; /* Recorded debt: CD retry restart (goto). */
     }
 retryFog:
     while (CdRom_ReadSectorsFromLba(g_GameState.pe_image_base_lba + D_800930D8[1],
@@ -43,7 +43,7 @@ retryFog:
         if (status == 0)
             break;
         if (status == -1)
-            goto retryFog;
+            goto retryFog; /* Recorded debt: CD retry restart (goto). */
     }
     Boot_BuildRenderFlagTable();
     Render_SetupFogLayer(g_GameState.scene_load_scratch);
@@ -130,8 +130,8 @@ retryFog:
                 if ((mode == 1 && (D_800B0DCD & 1)) || (mode == 2 && (D_800B0DCD & 2))) {
                     done = 1;
                 } else {
-                    state = 9;
                     wait = 180;
+                    state = 9;
                 }
                 break;
             }
@@ -192,7 +192,8 @@ retryFog:
     ClearImage(&rect, 0, 0, 1);
     DrawSync(0);
     D_800B0DCD = mode == 1 ? 1 : 2;
-    while (Cd_GetReadyStatus() != 1)
+    /* `wait` is free again here and holds the drive status. */
+    while ((wait = Cd_GetReadyStatus()) != 1)
         VSync(0);
     D_800B0DD4 = CdRom_GetDiskType();
     return 0;
