@@ -245,6 +245,21 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Actor ground shadow and the AKAO timer tick
+
+`Render_DrawRoom` turns out to be the actor ground shadow pass: it builds a
+ground-aligned basis from the actor's bone matrix, composes it with the
+camera matrix, projects four corners and links one textured quad. It now
+matches from clean C on the new `render_shadow.h`; the bone matrix is copied
+word by word with the first word read first, as retail's load order shows,
+and the translation is cleared with one chained assignment. `Akao_Tick`
+matches on the new `akao/tick.h`, whose bank and track views name the tempo,
+tick, volume slide and beat counter fields; its accumulator update follows
+the same pattern as other Square sound drivers, and the primary bank's
+volume slide is stored through local field pointers so the following flag
+load stays below it as in retail. The main executable is unchanged and no
+pins or barriers were added.
+
 ### Scroll cursor step and the overlay cast and volatile sweep
 
 `Menu_StepScrollCursor` in the main executable now matches from clean C: the
