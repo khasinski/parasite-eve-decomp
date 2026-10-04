@@ -86,7 +86,7 @@ typedef struct FxCommonGradientQuad {
 } FxCommonGradientQuad;
 
 typedef struct FxCommonDrawModePacket {
-    u32 tag;
+    FxCommonPacketTag tag;
     u32 command;
 } FxCommonDrawModePacket;
 

@@ -148,14 +148,6 @@ typedef struct FxCommonFixedVec {
 } FxCommonFixedVec;
 
 extern FxCommonFixedVec g_FxCommonMotionWhole[10] __asm__("D_8019CAA8");
-typedef union FxCommonMarkerCursor {
-    u8 *bytes;
-    FxCommonLinePacket *line;
-    FxCommonMarkerQuad *quad;
-    void *pointer;
-    u32 word;
-} FxCommonMarkerCursor;
-
 void func_80077BE4(FxCommonMarkerQuad *packet);
 u16 func_80077AA4(int x, int y);
 u16 func_80077A64(int mode, int rate, int x, int y);

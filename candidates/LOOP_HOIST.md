@@ -286,3 +286,55 @@ Two-ring loop around func_800D0E88 (call loop).
 - A v1/a0 swap between the left edge and the x0 read-back in five slices
   was the chained store `quad->x0 = quad->x2 = left;` (two separate stores
   of the same expression give the other local-alloc order).
+
+## Hoisting shifts of an HImode local (fx_common func_80193B5C, 2026-10-04)
+
+- Locals are not promoted in this GCC (mips.h has no PROMOTE_MODE), so an
+  `s16` local stays an HImode pseudo and every use expands its own
+  `sll 16; sra 16`. Retail's `sll t0,16; srl s2,t0,17; srl t3,t0,19` with
+  the `sll` value also tested in the loop comes from writing the shifts
+  inline at each store (`p->r = level >> 1;`) inside the loop, with no
+  variable. loop.c moves non-user temporaries even out of conditional
+  code (condition 2 in scan_loop); a user variable (`u8 half = ...`) set
+  after the `continue` test is never moved, and one set at the loop top is
+  moved but then shares its `sra` with the in-loop zero test.
+- A union "address" variable reused for several OT links lives across the
+  whole loop, so cse makes it the canonical register and the packet
+  pointer copies collapse. Use one link union per packet.
+- Keep `p++` in place followed by a copy (`line++; buffer->data = (u8
+  *)line; quad = (Quad *)buffer->data;`): with `quad = line` alone combine
+  folds the increment into `quad = line + 16`.
+- reg_live_length used by global alloc is recomputed after sched1, so
+  moving a copy statement in the source does not change its priority.
+
+## Scalar reads vs packet stores (fx_common func_80193B5C, 2026-10-04)
+
+- sched.c true_dependence exempts a fixed-address scalar read from an
+  earlier in-struct store through a pointer only when the store is not
+  QImode. So `lh D_xxx` may move above `sh`/`sw` packet stores but never
+  above `sb` colour/uv stores. Read retail's load placement with that in
+  mind before reaching for struct views of the scalar.
+- A store through a plain `T *p` (no PLUS in the address tree, `*p` or
+  `*p++`) is not in-struct, so a later scalar read stays below it. This
+  reproduces the PSY-Q `*(long *)&p->x0 = sxy` idiom without a cast.
+- Bitfield link writes (`p->tag.bits.address = ot->bits.address;`) emit
+  the same and/and/or as the masked form but count extra uses of the
+  0xFFFFFF pseudo before combine, which raises its global-alloc priority.
+- A tie between two loop-long pseudos can hinge on a short-lived one's
+  sched1 live length: moving one store of `y` later (sched2 restores the
+  final order) shifted y below the hoisted shift value.
+
+## Effect marker draw (fx_common func_80193B5C, 2026-10-04): MATCHED
+
+- A 24-bit OT link written as a bitfield copy
+  (`p->tag.bits.address = ot->bits.address`) uses the 0xFFFFFF pseudo twice
+  (extract mask and insert mask) until combine folds them, so flow counts
+  one more reference than the hand-masked form. Use it when a hoisted or
+  prologue mask needs one more counted use to win a global-alloc tie.
+- Stack outputs of a projection call (RotTransPers3-style `long *sxy`)
+  are best declared as separate scalars. A struct or array makes every
+  read in-struct, and an in-struct frame read keeps a true dependence on
+  earlier in-struct stores through pointers; that dependence feeds the
+  load latency into the priority of every value copied from it, which
+  pulls those stores to the end of the sched1 block. A scalar frame read
+  passes non-QImode in-struct stores, so source order decides again.
