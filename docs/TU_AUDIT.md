@@ -109,6 +109,8 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x71C14..0x72574` | `psyq/libds/dsfile` | Psy-Q `LIBDS.LIB` identifies one `DSFILE.OBJ`, and public `libds/dsfile.c` gives the exact order `DsSearchFile`, `_cmp`, `DS_newmedia`, `DS_searchdir`, `DS_cachefile`, `ds_read`. A combined TU under stock GCC 2.8.1 changes text size by `-0x44` with default flags and `+0x2C` with `-mno-split-addresses`, so keep the current byte-matching object boundaries. The ISO-9660 records and shared DSFILE helper prototypes now live in `psyq_ds.h`; `ds_read` consistently takes a destination pointer. The split implementation passes the retail EXE SHA-1 check. |
 | `0x76444..0x76580` | `psyq/libspu/s_si` | The exported `SpuSetIRQ` is the complete public Psy-Q `libspu/s_si.c` routine: it toggles bit `0x40` of `spucnt`, polls the result, and emits the SDK timeout diagnostics. Its current constrained assembly remains retail-identical while the manifest records the original library unit. |
 
+| `fx_common: 0x3040..0x3750` | `FxCommon_MainLoopFlow` | The overlay frame loop ends by calling the immediately preceding scene-exit routine when its stop flag is set. Both use `fx_common_motion.h`; the combined `0x710`-byte text range and its rodata remain retail-identical. |
+
 ## Verified room overlay units
 
 | Range | Unit | Evidence |

@@ -38,7 +38,7 @@ segments:
         type: rodatabin
         name: fx_common_header
         dir: fx_common
-      - [0x44, .rodata, FxCommon_LeaveScene]
+      - [0x44, .rodata, FxCommon_MainLoopFlow]
       - [0x6C, c, FxCommon_UpdateCamera]
       - [0x354, c, FxCommon_LookAtMatrix]
       - [0x56C, asm, fx_common_56C]
@@ -68,8 +68,7 @@ segments:
       - [0x2F0C, c, FxCommon_ApplyRenderVector]
       - [0x2FF8, c, FxCommon_SetMode1]
       - [0x301C, c, FxCommon_SetMode30]
-      - [0x3040, c, FxCommon_LeaveScene]
-      - [0x335C, c, FxCommon_RunMainLoop]
+      - [0x3040, c, FxCommon_MainLoopFlow]
       - [0x3750, c, func_80192740]
       - [0x3810, c, FxCommon_DrawScene]
       - [0x4488, c, FxCommon_AdvancePathNodes]
