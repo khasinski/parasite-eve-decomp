@@ -269,9 +269,10 @@ int FieldEng_CosineEffect(int mode, RenderCosineEffect *effect);
 extern s16 D_800F3374;
 extern u8 D_800E1494[];
 void func_800CE870(char *object, int mode, s16 *position);
-void func_800D0728(GteShortVector *position, int arg1, int arg2, int arg3,
+void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
                    GteRotation *rotation, int scale_x, int scale_y,
-                   void *data, void *color, int intensity, int mode);
+                   struct RenderColor *color0, struct RenderColor *color1,
+                   int intensity, int mode);
 int FieldEng_RotatingEffect(int mode);
 
 typedef struct RenderColor {

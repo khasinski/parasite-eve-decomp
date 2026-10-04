@@ -245,6 +245,44 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Remaining-function audit and three small credit wins
+
+`candidates/REMAINING.md` classifies every function the report does not yet
+credit: battle code, handwritten library and BIOS assembly, data, padding and
+slices, the CD retry loaders that need a goto, two C files that hold inline
+assembly, and the parked near-misses with their diff counts. Alongside it,
+scene_e09 and scene_e10 reuse the motion particle init template; the plain C
+math and GPU helpers are split out of the unit that holds an inline assembly
+helper, since a unit is credited all or nothing; and
+`Inv_BuildItemGridFromCategory` is written as plain C, which also credits the
+three helpers in its unit. Every binary is unchanged and the recorded debt
+goes down.
+
+### Memory card video step
+
+The memory card menu's video step, present twice (at 0x1340 and in the copy
+linked at 0x801924F8), matches from clean C as one
+`Memcard_StepVideo.inc` with two instances. It is Sony's movie sample code,
+and writing its frame wait, stream restart and upload wait helpers as static
+inline functions taking the display state reproduces retail's argument
+loads, absolute upload addresses and shared stack slot. The frame counter is
+a one-field record so the decode buffer read stays below its store, and the
+upload timeout is volatile because retail re-reads it after each store. The
+copy needs its own link-base segment. The overlay SHA-1 hash is unchanged and
+no pins or barriers were added.
+
+### Memory card save state machine and the field ring band
+
+`MemCard_UpdateSaveState`, the sixteen-state memory card save machine, and
+the field engine's ring band match from clean C. The save machine's jump
+table is carved into its own `.rodata`, its slot scan walks the cursor field
+of the state struct so the guard load lands in the loop register, and the
+save title fields become byte and word unions so the copies are struct
+assignments rather than casts. The ring band copies the ordering-table entry
+into a plain tag pointer before linking, so cse no longer splits it across
+the two paths and jump2 merges the link tails as retail does. The main
+executable is unchanged and no pins or barriers were added.
+
 ### Colour gradient allocation
 
 `Draw_AllocColorGradient` in the main executable matches from clean C, on the

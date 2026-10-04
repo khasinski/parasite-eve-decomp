@@ -51,9 +51,9 @@ void Menu_DrawSaveSlotEntry(s32 arg0) {
             }
             Draw_OffsetCursor(2, 2);
             if (Save_GetMetadataWindowIndex() == 0) {
-                Draw_PrintRawText(slot->primaryTitle);
+                Draw_PrintRawText(slot->primaryTitle.text);
             } else {
-                Draw_PrintRawText(slot->alternateTitle);
+                Draw_PrintRawText(slot->alternateTitle.text);
             }
             Draw_OffsetCursor(0x58, 0);
             if (slot->exGameIndex != 0) {

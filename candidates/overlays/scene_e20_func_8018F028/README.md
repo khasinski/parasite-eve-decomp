@@ -60,3 +60,22 @@ Not tried yet: a form where the second palette block reuses the texture
 argument's pseudo while the first keeps a multi-set local (would need the
 first block's 4 to be multi-set inside one block, or kind's priority below
 special's: fewer refs or a longer life for kind).
+
+## Retry (agent 4 audit, 2026-10-04): 7 diffs
+
+`RoomEffect_FlareParticle_8018F028_single_special.c`: one function-scope
+`special = 4` set only before the first palette kind load, used by both
+case-0 compares (`kind == special`), with the literal `4` as the
+func_800CEE20 texture argument. Size is right and the second compare and
+the call match; the 7 diffs are the two 4 pseudos trading places: retail
+loads a fresh `li v1,4` for the first compare (in the lhu delay slot) and
+keeps the texture argument 4 in s5 for the second compare, this build keeps
+`special` in s5 from the first compare and loads the argument into v1.
+- Setting `special = 4` right before the call instead (argument and second
+  compare reuse it, s5 matches retail) leaves the first compare's literal as
+  a single-set launch pseudo: `li v0,4` lands right before the `bne`, one
+  word too many (size 0x72C).
+- A second multi-set variable for the first compare, also set in the case-1
+  palette blocks, is folded by cse there; the dead case-1 sets disappear and
+  it is single-set again (same 0x72C).
+- Adding the pre-call set to any of the earlier combinations: 22 diffs.

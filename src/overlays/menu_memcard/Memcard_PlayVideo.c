@@ -8,7 +8,7 @@ s32 Memcard_PlayVideo(s32 index) {
     s32 ready;
     flags=&D_800B0CD8;
     *flags |= 0x200;
-    D_801D0E00[entry].enabled=1;
+    D_801D0E00[entry].wide=1;
     SetDispMask(0); DrawSync(0); func_80074A44(1);
 retry:
     {
@@ -26,7 +26,7 @@ retry:
     func_80072714(); func_800726C4(); func_80072724();
     buffer=D_80011610+((D_80093162-D_80093160)<<11);
     Memcard_InitVideoBuffers(1,&buffer);
-    func_801924F8(entry);
+    Memcard_OpenVideo(entry);
     {
         u8 *active=&D_800B0DBA;
         if (*active) {
@@ -35,7 +35,7 @@ retry:
                 s32 left = *remainingPtr;
                 if (left<=0) break;
                 func_8003EB04();
-                if (!(s8)func_80192934()) {
+                if (!(s8)Memcard_StepVideo()) {
                     D_801D0DE8=0;D_801D0DEC=0;D_801D0DFC=0;D_801D0DF8=0;D_801D0DF0=0;D_801D0DF4=0;
                     D_800B0DBA=0;
                 }

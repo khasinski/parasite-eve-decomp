@@ -27,6 +27,7 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
     FieldTileAddress table;
     FieldTileAddress ot;
     FieldTileAddress link;
+    RenderGpuTag *entry;
     int bias;
     int i;
     int angle;
@@ -105,17 +106,18 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
             return;
         gte_stsxy2(&packet->x3);
         TILE_OT_ENTRY(ot, table, D_800B0E38.ordering[D_8009CDDC], depth);
+        entry = ot.tag;
         if (mode != 0xFF) {
             drawMode = (RenderTintMode *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
             D_8009CDD8 += sizeof(RenderTintMode);
             SetDrawMode((char *)drawMode, 0, 1, GetTPage(0, mode, 0, 0));
             if (packet) {
                 packet->code |= 2;
-                TILE_OT_ADDPRIM(ot, packet, link);
+                RING_OT_ADDPRIM(entry, packet, link);
             }
-            TILE_OT_ADDPRIM(ot, drawMode, link);
+            RING_OT_ADDPRIM(entry, drawMode, link);
         } else if (packet) {
-            TILE_OT_ADDPRIM(ot, packet, link);
+            RING_OT_ADDPRIM(entry, packet, link);
         }
     }
 }

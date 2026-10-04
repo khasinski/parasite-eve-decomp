@@ -43,7 +43,7 @@ segments:
       - [0x9C4, c, Memcard_InitVideoBuffers_801216C4]
       - [0xD00, c, Memcard_ResetDisplayState_80121A44]
       - [0xF04, asm, func_menu_memcard_000F04]
-      - [0x1340, asm, func_menu_memcard_001340]
+      - [0x1340, c, Memcard_StepVideo_80122040]
       - [0x1654, c, func_80122398]
       - [0x16A8, c, func_801223EC]
       - [0x16F4, asm, menu_memcard_data_0016F4]
@@ -254,8 +254,28 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x9B04, c, func_8012A848]
+  - [0x9D08]
+  # The copied video open and step keep the 0x801887F0 link base of the
+  # video player copy.
+  - name: menu_memcard_video_step_linkbase
+    type: code
+    start: 0x9D08
+    vram: 0x801924F8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0x9D08, asm, func_menu_memcard_009D08]
-      - [0xA144, asm, func_menu_memcard_00A144]
+      - [0xA144, c, Memcard_StepVideo]
+  - [0xA458]
+  - name: menu_memcard_video_after_step
+    type: code
+    start: 0xA458
+    vram: 0x8012B19C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0xA458, c, func_8012B19C]
   - [0xA4AC]
   # This copied handler shares the 0x801887F0 link base of the video player copy.

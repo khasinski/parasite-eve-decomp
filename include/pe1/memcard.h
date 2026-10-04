@@ -12,11 +12,22 @@ enum MemCardSaveSlotState {
 /* Compact menu-side copy made from the first 0x80 bytes of the saved runtime
  * state.  The card scanner keeps one preview per port at D_800A1720 and copies
  * the selected fields below into MemCardSaveSlot. */
+/* Title bytes; the scanner copies them as aligned words. */
+typedef union MemCardTitleText {
+    u8 text[8];
+    u32 words[2];
+} MemCardTitleText;
+
+typedef union MemCardAlternateTitleText {
+    u8 text[12];
+    u32 words[3];
+} MemCardAlternateTitleText;
+
 typedef struct MemCardSavePreview {
-    u8 primaryTitle[8];
+    MemCardTitleText primaryTitle;
     s32 playTimeMinutes;
     s32 gameTimeMinutes;
-    u8 alternateTitle[12];
+    MemCardAlternateTitleText alternateTitle;
     u8 reserved1C[0x0A];
     u16 maxHp;
     u16 currentHp;
@@ -30,14 +41,21 @@ typedef struct MemCardSavePreview {
     u8 reserved68[0x18];
 } MemCardSavePreview;
 
+/* Per-port read buffer: the card file header is read into the raw bytes and
+ * then viewed as the preview record. */
+typedef union MemCardPreviewBuffer {
+    MemCardSavePreview preview;
+    u8 bytes[0x80];
+} MemCardPreviewBuffer;
+
 typedef struct MemCardSaveSlot {
     u8 state;
     u8 metadataReady;
     u8 reserved02[2];
-    u8 primaryTitle[8];
+    MemCardTitleText primaryTitle;
     s32 playTimeMinutes;
     s32 gameTimeMinutes;
-    u8 alternateTitle[12];
+    MemCardAlternateTitleText alternateTitle;
     s32 blendColor;
     s16 currentHp;
     s16 maxHp;
@@ -97,7 +115,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardPortState, slots) == 0x1C,
                   memcard_port_state_slots_offset);
 
 extern MemCardPortState g_MemCardPortStates[];
-extern MemCardSavePreview D_800A1720[];
+extern MemCardPreviewBuffer D_800A1720[];
 extern int g_MemCardActivePortOneBased;
 extern MemCardPortState *g_MemCardActiveState;
 extern int g_MemCardActiveBytesRemaining;
