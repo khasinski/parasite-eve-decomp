@@ -123,7 +123,6 @@ Category notes:
 | main | PeImage_Mount_Dispatch | 696 | CD retry loader (CdRom_PollReady/Cd_GetReadyStatus retry loops), no candidate |
 | main | main | 748 | Boot_MainLoop: goto dispatch plus scratchpad stack switch around func_8019234C (inline asm in C unit) |
 | main | Render_InitDisplayLists | 808 | CD retry loader (CdRom_PollReady/Cd_GetReadyStatus retry loops), no candidate |
-| main | Scene_LoadEntityTextures | 1708 | CD retry loader (CdRom_PollReady retry loop), no candidate |
 | menu_memcard | func_80121C04 | 1084 | menu_memcard video open pair: needs a goto (parked by another agent) |
 | menu_memcard | func_8012AA4C | 1084 | menu_memcard video open pair: needs a goto (parked by another agent) |
 
@@ -145,7 +144,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
 | main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | Akao_StepSampleLoader | 2048 | candidates/main/main/Akao_StepSampleLoader.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: one register swap in the four gte_CompMatrix expansions |
 | main | Scene_UpdateEntityPositions | 2432 | candidates/main/main/Scene_UpdateEntityPositions.c (old byte-offset draft, no README, diff count not recorded) |
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |

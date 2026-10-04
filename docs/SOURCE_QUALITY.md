@@ -245,6 +245,27 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Room loader, save slot metadata and the item list input handler
+
+Three main executable functions now come from typed C. Each started as a
+byte-offset draft.
+
+- `Scene_LoadRoom` reads the room directory through typed records and the
+  shared `SCENE_ASSET_AT` view, so it has no byte-pointer arithmetic or
+  table casts. It keeps three CD retry `goto`s as recorded debt.
+  `bank_asset_table` is now a pointer. The unit needs the assembler at
+  `-G1`, because retail reads the 4-byte handler table pointer absolutely.
+  The reason is in a comment in the file.
+- `Save_DrawSlotMetadata` reads the prompt word and its timer byte through
+  one union at the word's own symbol, as retail does. It uses the approved
+  `-G8` compiler and `-G4` assembler split.
+- `Menu_ItemListInputHandler` gets retail's register order by reusing a
+  lookup pointer for a later lookup of the same type.
+
+`CD_SeekToTrack.c` now declares `Akao_Cmd_10` without a parameter list,
+because its two calls pass a pointer field and an integer field. That
+file's local declarations are older cleanup debt.
+
 ### AKAO sample loader step
 
 `Akao_StepSampleLoader` now comes from plain C, with two static inline
