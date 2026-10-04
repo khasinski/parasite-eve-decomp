@@ -61,15 +61,30 @@ typedef struct AkaoGlobalParamCommand {
 } AkaoGlobalParamCommand;
 
 /*
- * Staging globals for the public AKAO command wrappers at 0x800864xx..0x800870xx.
- * The executor consumes these fields, allocates one or more AkaoQueueEntry
- * records, and returns a status value.
+ * Staging area for the public AKAO command wrappers at 0x800864xx..0x800870xx
+ * (0x800BCD80). The wrappers fill it, then Akao_EnqueueStagedCommand turns it
+ * into one or two AkaoQueueEntry messages and returns a status value.
  */
-extern int g_AkaoCmdOpcode;
-extern int g_AkaoCmdArg0;
-extern int g_AkaoCmdArg1;
-extern int g_AkaoCmdArg2;
-extern int g_AkaoCmdArg3;
+typedef struct AkaoStagedCommand {
+    /* 0x00 */ int opcode;
+    /* 0x04 */ union {
+        int value;
+        /* sample load opcodes 0x10/0x12/0x19: address of the sample header */
+        unsigned short *sample_header;
+    } arg0;
+    /* 0x08 */ int arg1;
+    /* 0x0C */ int arg2;
+    /* 0x10 */ int arg3;
+} AkaoStagedCommand;
+
+extern AkaoStagedCommand g_AkaoCmd;
+
+/* Rolling 0x400..0x5FF sequence number stamped into opcode 0x24 messages. */
+typedef struct AkaoSequenceCounter {
+    int value;
+} AkaoSequenceCounter;
+
+extern AkaoSequenceCounter D_8009CDF0;
 
 int Akao_EnqueueStagedCommand(void);
 

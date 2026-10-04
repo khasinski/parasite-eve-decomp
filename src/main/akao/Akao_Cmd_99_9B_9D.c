@@ -15,6 +15,6 @@ void Akao_Cmd_99_9B_9D(int arg0) {
         break;
     }
 
-    g_AkaoCmdOpcode = opcode;
+    g_AkaoCmd.opcode = opcode;
     Akao_EnqueueStagedCommand();
 }
