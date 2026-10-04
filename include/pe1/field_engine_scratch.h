@@ -6,7 +6,8 @@
 
 /* Scratchpad work area the field engine draw routines publish through
  * D_800F33B4: an ordering-table depth, the current texture cell, the
- * CLUT offset and a composed matrix. */
+ * CLUT offset, a colour channel temporary, a composed matrix and an
+ * object-local matrix. */
 typedef struct FieldEngineScratch {
     /* 0x00 */ u8 pad00[0xC];
     /* 0x0C */ s32 depth;
@@ -14,8 +15,10 @@ typedef struct FieldEngineScratch {
     /* 0x11 */ u8 v;
     /* 0x12 */ u8 clutX;
     /* 0x13 */ u8 clutY;
-    /* 0x14 */ u8 pad14[8];
+    /* 0x14 */ u32 channel;
+    /* 0x18 */ u8 pad18[4];
     /* 0x1C */ GteMatrix matrix;
+    /* 0x3C */ GteMatrix local;
 } FieldEngineScratch;
 
 #define FIELD_ENGINE_SCRATCH ((FieldEngineScratch *)0x1F800000)

@@ -1504,7 +1504,7 @@ segments:
       - [0xB35A0, c, engine/func_800C2DA0]
       - [0xB3608, c, engine/func_800C2E08]
       - [0xB36AC, c, engine/FieldEng_RenderSetup]
-      - [0xB3B24, asm, engine/engine_800C3324]
+      - [0xB3B24, c, engine/FieldEng_OrientedSprite]
       - [0xB4304, c, engine/FieldEng_Billboard]
       - [0xB4AA4, c, engine/FieldEng_GlowSprite]
       - [0xB519C, c, engine/FieldEng_ShadedQuad]
