@@ -45,27 +45,19 @@ stall cycles were filled by the centre stores instead, so the saves stayed
 on top. Brute force over the order of the centre stores, the packet pointer
 and the D_8009CDD8 update (6 orders) is at best 24.
 
-## Rescore and sched2 dependence analysis (agent 14, 2026-10-04): lev 14
+## lev rescore and retry (agent 16, 2026-10-04): lev 14
 
-lev 14 (231 words both). All 14 edits are the prologue order.
-
-- Survey: of all retail functions in main and the overlays whose prologue
-  loads stack arguments, only this one, Render_SetupEntityPrims and
-  fx_common func_8018F55C keep every save above every stack-argument load;
-  the other 83 interleave them, and every matched C function with stack
-  arguments interleaves too. So the "saves first" shape is an outlier.
-- In stock sched2 the five saves (ra, s4, s2, s1, s0) depend only on the
-  packet-table load `lw v1,0xE58(at)` (insn 46, a register-based address
-  that may alias the stack), so they are ready from T-6. At T-8..T-13 the
-  D_8009CDDC/CDD8 loads are blocked by the memory unit after a store, and
-  among the remaining ready insns a store always wins on potential hazard
-  over `li v0,120` (equal priority 1). Retail picked `li v0,120` at T-8,
-  which under these rules needs either the saves not ready or `li` with
-  priority >= 2. Neither is reachable from the C: the saves are created
-  after sched1, so their only dependences are sched2's own, and sp-relative
-  saves never conflict with sp-relative argument loads or symbol accesses.
-- Also observed: the stack-argument loads keep stale sched1 dependences
-  (argp-based addresses conflict with the centre stores and the
-  D_8009CDD8 store), which is why they sit above `lw D_8009CDDC` in both
-  builds.
-- No source change that keeps the body intact was found; parked at lev 14.
+- lev.py gives lev 14 (231 words each); all edits are in the prologue.
+- sched2 dependence view (`-dR`): the `D_800B0E38.packets[D_8009CDDC]` load
+  (insn 46) has a true memory dependence on every prologue save, because a
+  `reg + symbol` address conflicts with any `sp + const` slot. The saves
+  therefore become ready (backward) as soon as that load is placed. From then
+  on they have the same priority (1) as the centre `li`/`sh` insns and win
+  every tie in schedule_select as stores ("greater potential hazard"), so
+  they fill the load-delay cycles of the D_8009CDDC/D_8009CDD8 loads. Retail's
+  shape needs the competing body insns to outrank the saves (priority 2,
+  for example a value fed by a load) or the saves to become ready only after
+  the centre stores.
+- 96 orderings of centre init / packet allocation / colour block (both branch
+  senses, centre moved after the packet or down to the GTE block) are at best
+  lev 14 (the current order).

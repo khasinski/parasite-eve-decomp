@@ -132,7 +132,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 |---|---|---:|---|
 | main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: lev 87 (direct digit lvalues give retail digit base; -1 hoist and register numbering left) |
 | main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: 24 diffs (prologue), func_800D3BC8 variant 26 |
+| main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: lev 14 (prologue save placement only) |
 | main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand/struct_staging.c: lev 16 (scratch struct view; needs staging struct + word-opcode queue entry in shared headers, see README) |
 | main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
