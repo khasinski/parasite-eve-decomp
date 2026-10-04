@@ -12,7 +12,7 @@ void func_800C499C(FieldShadedQuadColors *colors, GteMatrix *placement,
     FieldShadedQuadLink link;
 
     packet = (FieldShadedQuadPacket *)(D_800B0E58[D_8009CDDC] + D_8009CDD8);
-    D_800F33B4 = FIELD_SHADED_QUAD_SCRATCH;
+    D_800F33B4 = FIELD_ENGINE_SCRATCH;
     if (mode == 0) {
         gte_CompMatrix(D_800BCFA4.value, placement, &D_800F33B4->matrix);
         gte_ldrotmatrix(&D_800F33B4->matrix);
