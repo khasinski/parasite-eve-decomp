@@ -376,3 +376,31 @@ Two-ring loop around func_800D0E88 (call loop).
 - When retail ignores a call result or writes a never-read record, check the
   sibling template for the statements around it. Dead code in the original
   can still shape the schedule.
+
+## Parameter block store order sets the registers (scene_e08 func_80191E78, 2026-10-04): MATCHED
+
+- No hidden block boundary here: the loop preheader moves sit above the
+  parameter stores in retail, so the whole prologue is one sched block.
+- All the constant sets and stores have priority 1 or 2 here, stores win
+  the potential-hazard tie in sched1, and every single-set constant is
+  launched right above its first store. sched1 therefore keeps the stores
+  in source order, and what retail's odd constant placement shows is the
+  register map, not the sched1 position. With hard registers, sched2 then
+  orders the stores by the v0 anti dependences and the leftover ALU insns
+  by LUID, which moves `li v1,4` / `li v1,64` early.
+- So put a store of a different constant between the 0x40 stores
+  (`parameter00 = 0x40; parameter02 = 4; extent_x = 0x40; extent_y = 0x40;`).
+  The launched 4 then lives inside the 0x40 range, local-alloc gives 0x40
+  and 4 different registers (retail v0/v1), and sched2 reproduces retail's
+  `li 64` before `li 4` with the 4 held across the three 0x40 stores. In
+  the first block the same order (tpage first, then palette, parameter06,
+  00, 02, extent_x, extent_y, depth, 0A) puts 0x40 in v1, the tpage in a0
+  and `li v1,64` in the index load delay. A brute force over all 6720
+  orders (tpage first, 0x40 trio in order) found 18 at lev 0, all with
+  parameter02 or palette between the 0x40 stores.
+- Second loop: `u16 *palettes = D_800E1204; int special = 4;` declared
+  inside the loop body. loop.c hoists both after `i = 0`, which gives
+  retail's `move s2,zero; la s7; li s6,4` order and the s6/s7 map. A
+  palettes local set before the loop puts the `la` above `move s2,zero`.
+- Earlier rounds' steering (shared load temporaries, `kind = 4`, the
+  one-field page index record) was not needed once the order was right.
