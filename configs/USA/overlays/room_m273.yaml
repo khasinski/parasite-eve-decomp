@@ -148,7 +148,7 @@ segments:
       - [0x8BD4, asm, func_80197BBC]
       - [0x9078, c, func_80198060]
       - [0x91BC, asm, func_801981A4]
-      - [0x9700, asm, func_801986E8]
+      - [0x9700, c, RoomEffect_SwayShardController]
       # The emitter creates the callback's eight-byte record pool; SHA-verified as one TU.
       - [0x9B34, c, RoomEffect_GatedGroundPair]
       - [0x9EAC, asm, func_80198E94]

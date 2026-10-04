@@ -7,7 +7,9 @@
 /* Boss instance fields read by room_m273's animation controllers. */
 typedef struct RoomM273BossOwner {
     u32 flags;
-    u8 reserved_04[0x14];
+    u8 reserved_04[4];
+    s32 sound;
+    u8 reserved_0C[0xC];
     u8 *status;
 } RoomM273BossOwner;
 
@@ -46,9 +48,20 @@ typedef struct RoomM273BossPlayerActor {
     u32 flags;
 } RoomM273BossPlayerActor;
 
+/* 16.16 fixed-point coordinate. */
+typedef union RoomM273Fixed {
+    s32 value;
+    struct {
+        signed int fraction : 16;
+        signed int integer : 16;
+    } parts;
+} RoomM273Fixed;
+
 typedef struct RoomM273BossPlayer {
     RoomM273BossPlayerActor *actor;
-    u8 reserved_04[0x1F8];
+    u8 reserved_04[0x24];
+    RoomM273Fixed location[3];
+    u8 reserved_34[0x1C8];
     s32 position[3];
 } RoomM273BossPlayer;
 
@@ -132,6 +145,35 @@ extern GteShortVector D_8019AB68;
 extern u8 D_8019AD54[];
 extern u8 D_8019AD58[];
 extern u8 D_8019AD5C[];
+/* Shard spawned from the sway points toward the player. */
+typedef struct RoomM273SwayShard {
+    GteShortVector position;
+    GteShortVector velocity;
+    u8 side;
+    u8 reserved_11;
+    u8 state;
+} RoomM273SwayShard;
+
+typedef struct RoomM273EffectPools {
+    u8 reserved_00[8];
+    void *pool;
+} RoomM273EffectPools;
+
+extern RoomM273EffectPools *D_800F33E0;
+extern void *D_8019AF70;
+extern GteShortVector D_8019AE10;
+extern u16 D_800E11E8;
+extern u16 D_800E11EA;
+
+int func_800CE560(void *pool, int size, int count, void *callback);
+int func_800CE5AC(void *list, int base, int size, int count, void *callback);
+void *func_800CE610(void *pool);
+int func_800CE688(void *list);
+int func_800CE78C(void *list);
+void Asset_Find08w(int id, int sound, int x, int y, int z);
+int func_801981A4(int mode, RoomM273SwayShard *shard);
+int func_80198060(int mode, GteShortVector *position);
+
 int Math_IntSqrt(int value);
 u16 GetClut(int x, int y);
 
