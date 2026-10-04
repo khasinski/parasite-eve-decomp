@@ -48,4 +48,20 @@ extern RoomM023Particle *func_800CE610(void *pool);
 extern int func_80071A54(void);
 extern int func_8018F004(int mode, RoomM023Particle *particle);
 
+/* Joint glow: a ring burst, then a growing and pulsing glow sprite pair
+ * drawn at a model joint. */
+typedef struct RoomM023JointGlow {
+    s16 joint;
+    s16 frame;
+    s16 state;
+} RoomM023JointGlow;
+
+extern u16 D_800E11EA;
+extern RenderColor D_8018EFFC;
+extern RenderColor D_8018F000;
+extern int func_800D3FD8(void);
+extern int func_800D3F64(int sound, int handle);
+extern u16 GetClut(int x, int y);
+int func_8018F710(int mode, RoomM023JointGlow *glow);
+
 #endif
