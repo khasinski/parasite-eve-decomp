@@ -14,6 +14,14 @@ typedef struct RoomShakeBurstPoint {
     s16 x, y, z;
 } RoomShakeBurstPoint;
 
+typedef struct RoomShakeBurstParticleCallbackView {
+    u16 x, y, z;                  /* 0x00 */
+    u16 reserved06;               /* 0x06: pool stride is eight bytes */
+} RoomShakeBurstParticleCallbackView;
+
+PE1_STATIC_ASSERT(sizeof(RoomShakeBurstParticleCallbackView) == 8,
+                  room_shake_burst_particle_size);
+
 typedef struct RoomShakeBurstObject {
     u32 flags;                    /* 0x00 */
     u8 reserved04[0x14];
@@ -94,7 +102,8 @@ extern void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);
 extern void func_80020DD0(void);
 
 /* room_m318 particle callbacks and the sweep anchor. */
-extern int func_80193FC4(int mode, RoomShakeBurstPoint *particle);
+extern int func_80193FC4(int mode,
+                         RoomShakeBurstParticleCallbackView *particle);
 extern int func_8019326C(int mode, RoomShakeSweepParticle *particle);
 extern GteShortVector D_80199904;
 
