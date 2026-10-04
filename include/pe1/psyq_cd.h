@@ -14,6 +14,14 @@ typedef struct CdInterruptEvents {
     volatile u8 end;
 } CdInterruptEvents;
 
+PE1_STATIC_ASSERT(sizeof(CdInterruptEvents) == 3, cd_interrupt_events_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdInterruptEvents, sync) == 0,
+                  cd_interrupt_events_sync_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdInterruptEvents, ready) == 1,
+                  cd_interrupt_events_ready_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CdInterruptEvents, end) == 2,
+                  cd_interrupt_events_end_offset);
+
 extern CdInterruptEvents D_8009B294;
 
 /* Shared LIBCD hardware pointers: byte-wide indexed ports and word control. */
