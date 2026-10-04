@@ -1,13 +1,6 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-/* Candidate copy: include/pe1/menu_scroll_cursor.h inlined below. */
-#include "pe1/menu_draw_list.h"
-
-void Menu_PlayMoveSound(void);
-void Menu_PlayConfirmSound(void);
-void Menu_PlayCancelSound(void);
-void Menu_PlayErrorSound(void);
-int Menu_StepListNavigate(MenuWidgetNode *list, unsigned int flags);
+#include "pe1/menu_scroll_cursor.h"
 
 static inline int MenuWidget_CursorCell(MenuWidgetNode *node)
 {
@@ -225,10 +218,10 @@ int Menu_StepScrollCursor(MenuWidgetNode *node, unsigned int buttons)
             }
         }
         held = MenuWidget_HeldShoulder();
-        if (node->layout_flags & 1)
-            changed |= held;
-        else
+        if (!(node->layout_flags & 1))
             changed |= 1;
+        else
+            changed |= held;
     } else if (buttons & 0x2000) {
         int x = node->cursor_x;
 

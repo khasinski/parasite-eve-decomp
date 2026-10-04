@@ -788,7 +788,7 @@ segments:
       - [0x53CD4, c, menu/MenuWidget_DrawListFlow]
       # Cursor bounds and scrolling use one MenuWidgetNode viewport model.
       - [0x54530, c, menu/MenuWidget_CursorClamp]
-      - [0x5460C, asm, main/Menu_StepScrollCursor]
+      - [0x5460C, c, main/Menu_StepScrollCursor]
       - [0x54FD0, c, main/Draw_SetPrimCallback]
       - [0x55164, c, sys/Sys_InitStateBuffer]
       - [0x551D0, c, menu/menu_widget7]
