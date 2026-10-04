@@ -15,23 +15,14 @@ extern BattleEntity *D_800B8A90[];
 #define QUEUE_COUNT_READ (D_8009D23C_read.value)
 #define QUEUE_COUNT_WRITE (D_8009D23C_write.value)
 #define LOAD_RESULT (D_8009D208_absolute.value)
-typedef struct BattleActionSlotCore {
-    u32 flags;
-    u8 rank;
-    s8 mode;
-    u8 pad_06[10];
-    s32 field10;
-} BattleActionSlotCore;
-PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleActionSlotCore, field10) == 0x10, battle_action_slot_core_field10);
-
 int Battle_ProcessActionSlot(BattleEntity *entity)
 {
     register BattleEntity *actor asm("$7") = entity;
     /* Fix the entity pointer in a3 before the prologue saves registers. */
     asm volatile("" : : "r"(actor));
     {
-        register BattleActionSlotCore *state asm("$17") = (BattleActionSlotCore *)actor->core;
-        int phase = state->flags & 0x6000;
+        register EnemyCombatant *state asm("$17") = (EnemyCombatant *)actor->core;
+        int phase = state->coreFlags & 0x6000;
         int result = 1;
 
         if (phase == 0x2000) {
@@ -60,17 +51,17 @@ int Battle_ProcessActionSlot(BattleEntity *entity)
                 }
             }
             result = 0;
-            if ((s8)state->mode == 0 || state->field10 <= 0) goto done;
+            if ((s8)state->field04.bytes.field05 == 0 || state->hpAlive <= 0) goto done;
             D_8009CE68 = 0xFF;
             goto done;
         }
-        if (phase != 0x4000 || (s8)state->mode == 0) goto done;
+        if (phase != 0x4000 || (s8)state->field04.bytes.field05 == 0) goto done;
 
         {
             register int one asm("$2") = 1;
             u8 color = D_8009CE68 - 8;
             D_8009CE68 = color;
-            if ((s8)state->mode == one) {
+            if ((s8)state->field04.bytes.field05 == one) {
                 if (color <= 0x80) {
                     actor->parent->renderObject.flags_9C |= 0x20;
                     goto clear_state;
@@ -80,15 +71,15 @@ int Battle_ProcessActionSlot(BattleEntity *entity)
                     goto done;
                 }
             }
-            if ((s8)state->mode == 4) {
+            if ((s8)state->field04.bytes.field05 == 4) {
                 BattleEntity *iter = D_8009D20C_absolute.value;
                 for (; iter != 0; iter = iter->next) {
                     if (iter != D_8009D254_absolute.value && iter->core != 0 &&
-                        ((BattleActionSlotCore *)iter->core)->mode == 4) {
+                        (s8)((EnemyCombatant *)iter->core)->field04.bytes.field05 == 4) {
                         int shade = D_8009CE68;
                         if ((u8)shade <= 0x80) {
                             iter->renderObject.flags_9C |= 0x20;
-                            state->flags &= ~0x6000;
+                            state->coreFlags &= ~0x6000;
                         } else {
                             Render_FadeEntityColor(&iter->renderObject, shade, shade, shade);
                             result = 0;
@@ -99,11 +90,11 @@ int Battle_ProcessActionSlot(BattleEntity *entity)
                 }
                 goto done;
             }
-            if (state->field10 <= 0) goto done;
+            if (state->hpAlive <= 0) goto done;
             if (color <= 0x80) {
                 actor->renderObject.flags_9C |= 0x20;
             clear_state:
-                state->flags &= ~0x6000;
+                state->coreFlags &= ~0x6000;
                 goto done;
             }
             {
