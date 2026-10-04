@@ -71,6 +71,10 @@ typedef struct RenderAnimFace {
 PE1_STATIC_ASSERT(sizeof(RenderAnimFrame) == 0x1C, render_anim_frame_size);
 PE1_STATIC_ASSERT(sizeof(RenderAnimVertex) == 8, render_anim_vertex_size);
 PE1_STATIC_ASSERT(sizeof(RenderAnimLineG2) == 0x14, render_anim_line_g2_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderAnimLineG2, xy0) == 8,
+                  render_anim_line_g2_xy0_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderAnimLineG2, xy1) == 0x10,
+                  render_anim_line_g2_xy1_offset);
 PE1_STATIC_ASSERT(sizeof(RenderAnimFace) == 4, render_anim_face_size);
 
 struct _m2c_stack_Render_DecompressAnimFrame {
@@ -314,8 +318,8 @@ block_22:
                     negative_line->r1 = 0;
                     negative_line->g1 = var_t9;
                     negative_line->b1 = var_t9;
-                    M2C_FIELD(negative_line, u32 *, 8) = var_t0;
-                    M2C_FIELD(negative_line, u32 *, 0x10) = var_a2;
+                    *((volatile u32 *)&negative_line->xy0) = var_t0;
+                    *((volatile u32 *)&negative_line->xy1) = var_a2;
                     temp_v1_5 = (u16)var_t1 << 16;
                     temp_v1_4 = D_8009CDD4[var_s0] +
                                 D_8009CDD4[(s16)((u16)var_t1 | temp_v1_5)];
