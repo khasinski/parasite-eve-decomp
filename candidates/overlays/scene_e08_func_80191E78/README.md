@@ -38,3 +38,21 @@ The edits are the two issues above: the nine parameter stores scheduled
 above the stack copies (about 40 edits) and the swapped s6/s7 loop
 constants of the second loop. Raw-byte search found no copy of this
 function in other overlays. Not retried beyond the rescore.
+
+## Retry (agent 13, round 2, 2026-10-04): lev 22
+
+- Writing `D_800F3368.tpage = D_800E2850[D_800E11EA];` FIRST, before the
+  constant stores (still after the three stack copies), keeps the parameter
+  block below the copies: lev 61 -> 23. The long tpage load chain gets the
+  highest priority in the backward sched1 and drags the store block down
+  with it; with tpage last, the constant stores fill the D_8019956C load
+  delays at the top instead.
+- Brute force over the 720 orders of the constant stores (0x40 trio kept
+  together): best lev 22 with palette, parameter02, parameter06, depth,
+  0x40 trio, parameter0A (the candidate). Chained `= 0x40` assignments and a
+  shared `scale = 0x40` local do not move retail's early `li v1,64`.
+- Pointer locals do not help here: a multi-set `GteShortVector *source` for
+  the copies lets every parameter store rise to just after the first call
+  (lev 65). Symbol and stack addresses never conflict, so the order is pure
+  priority.
+- Left: the early shared 0x40 register, and the second loop's s6/s7 swap.

@@ -39,3 +39,20 @@ only parameters keep HImode pseudos (func_80193B5C spills its `s16 value`
 with sh/lhu), so retail's lhu;sll;sra is probably a HImode value that combine
 could not fold because the loaded register is used twice, or a reload of a
 REG_EQUIV memory pseudo. Not reproduced without volatile.
+
+## Rescore and retry (agent 13, 2026-10-04): lev 17 without volatile
+
+`lev.py <obj> fx_common 0x56C 0x3D0`: the old candidate (with the volatile
+count read) was lev 14. The candidate now has NO volatile and is lev 17:
+- Bank block, from lev 14 to lev 4 of its own edits: compute the product
+  input first in a separate variable, `bank = nextYaw - yaw;` then
+  `angles[2] = (yaw - nextYaw) >> 3; angles[0] = 0; angles[1] = yaw +
+  ((bank * fraction) >> 8); if (angles[2] > 0x80)`. Remaining there: the
+  clamp test re-reads angles[2] (`lh`) and the product lands in t3. With a
+  multi-set `bank` (bank = delta, then bank = (yaw - nextYaw) >> 3) the test
+  uses the register but the order differs (lev 9 with volatile).
+- Count read: still `lh` instead of retail's `lhu; sll; sra` (3 edits plus
+  the s4/s5 swap that follows). Retail does not re-read the field, so the
+  struct-copy trick does not apply; `(s16)`, `<< 16 >> 16`, `(s16)(u16)` and
+  a second `count = (s16)count` all fold to `lh`.
+- No other copy exists in the overlay binaries (raw byte search).

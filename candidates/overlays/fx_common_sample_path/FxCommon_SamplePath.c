@@ -34,7 +34,7 @@ int func_8018F55C(int position, int index, void *table,
     points = (GteShortVector *)(base + *(s32 *)cursor);
     angles = extra;
     segment = (u32)position >> 8;
-    count = ((volatile GteShortVector *)points)->pad;
+    count = points->pad;
     fraction = position & 0xFF;
     points++;
     span = count - 2;
@@ -73,11 +73,11 @@ int func_8018F55C(int position, int index, void *table,
     if (nextYaw - yaw > 0x800)
         yaw += 0x1000;
 
-    bank = (yaw - nextYaw) >> 3;
-    angles[2] = bank;
+    bank = nextYaw - yaw;
+    angles[2] = (yaw - nextYaw) >> 3;
     angles[0] = 0;
-    angles[1] = yaw + (((nextYaw - yaw) * fraction) >> 8);
-    if (bank > 0x80)
+    angles[1] = yaw + ((bank * fraction) >> 8);
+    if (angles[2] > 0x80)
         angles[2] = 0x80;
     if (angles[2] < -0x80)
         angles[2] = -0x80;

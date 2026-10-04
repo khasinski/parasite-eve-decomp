@@ -48,7 +48,6 @@ extern void func_800C6EF8(void *asset);
 extern void func_800C6FA0(void *asset, int brightness);
 extern void func_800C71E4(void *asset, void *matrix);
 extern void func_800C6F4C(void *asset);
-extern RoomModelPulseParticle *func_800CE610_pulse(void *pool) __asm__("func_800CE610");
 extern int func_8019552C(int mode, RoomModelPulseParticle *particle);
 int func_80195728(int mode, s16 *state);
 
