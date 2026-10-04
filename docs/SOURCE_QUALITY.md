@@ -245,6 +245,16 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### scene_e08 player orb
+
+scene_e08's player orb init, draw and update match from clean C on the new
+`scene_player_orb.h`. The rotation copy is assigned after the actor lookup
+call so it lands where retail's does, the sound owner is read as a one-field
+record so the pointer is re-read, the active counter is pre-incremented so
+retail's reload and masked compare appear, and the step scaling uses a shift
+so combine narrows the load as retail does. The overlay SHA-1 hash is
+unchanged and no pins or barriers were added.
+
 ### room_m086 seekers and the room_m089 pulsing model
 
 room_m086's falling seeker and seeker controller, on `room_m086_seeker.h`,
