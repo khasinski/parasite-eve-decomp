@@ -1,5 +1,5 @@
 /*
- * Scene_LoadRoom (0x8006B4F8, 2160 bytes): parked typed draft, lev 83.
+ * Scene_LoadRoom (0x8006B4F8, 2160 bytes): parked typed draft, lev 10.
  * Streams the three room ranges of PE.IMG, uploads the TIM lists of the
  * first two while the next read runs, then relocates the room directory
  * tables into g_GameState and queues the stream/sample bank reads.
@@ -28,19 +28,19 @@ int Scene_LoadRoom(unsigned int roomId)
     SceneRoomShortRecord *shortRecord;
     Pe1GameState *state;
 
-    flags = 0;
     name[0] = D_8009CDC8;
     memset(name + 1, 0, 6);
+    flags = 0;
     state = &g_GameState;
-    base = g_PeImageBaseLba;
+    base = g_GameState.pe_image_base_lba;
     Str_EncodeBase32(name, roomId);
 
 retry_scratch:
     {
         map = Str_ParseMapNumber(name) - 1;
-        while (CdRom_ReadSectorsFromLba(base + D_80093378[map].start,
+        while ((ready = CdRom_ReadSectorsFromLba(base + D_80093378[map].start,
                                         state->scene_load_scratch,
-                                        D_80093378[map].scratchSectors) == -1) {
+                                        D_80093378[map].scratchSectors)) == -1) {
         }
         for (ready = 1; ready != 0; ready = CdRom_PollReady()) {
             if (ready == -1) {
@@ -53,10 +53,10 @@ retry_scratch:
     loaded = 0;
 retry_texture:
     {
-        while (CdRom_ReadSectorsFromLba(base + D_80093378[map].start +
+        while ((ready = CdRom_ReadSectorsFromLba(base + D_80093378[map].start +
                                             D_80093378[map].scratchSectors,
                                         state->texture_load_scratch,
-                                        D_80093378[map].textureSectors) == -1) {
+                                        D_80093378[map].textureSectors)) == -1) {
         }
         for (ready = 1; ready != 0; ready = CdRom_PollReady()) {
             if (!loaded) {
@@ -78,11 +78,11 @@ retry_texture:
     loaded = 0;
 retry_room:
     {
-        while (CdRom_ReadSectorsFromLba(base + D_80093378[map].start +
+        while ((ready = CdRom_ReadSectorsFromLba(base + D_80093378[map].start +
                                             D_80093378[map].scratchSectors +
                                             D_80093378[map].textureSectors,
                                         state->loaded_scene_assets,
-                                        D_80093378[map].roomSectors) == -1) {
+                                        D_80093378[map].roomSectors)) == -1) {
         }
         for (ready = 1; ready != 0; ready = CdRom_PollReady()) {
             if (!loaded) {
@@ -111,10 +111,11 @@ retry_room:
     state->room_type = directory->roomType;
 
     record = SceneAsset_ResolveOffset(room, directory->bankRoots & 0x3FFFFF);
-    for (i = 0; i < directory->bankRoots >> 22; i++) {
+    i = 0;
+    if (directory->bankRoots >> 22) do {
         state->bank_slots[record[i].source.bytes.slot] =
             SCENE_ROOM_PAYLOAD(room, &record[i]);
-    }
+    } while (++i < directory->bankRoots >> 22);
 
     record = SceneAsset_ResolveOffset(room, directory->bankRows & 0x3FFFFF);
     for (i = 0; i < directory->bankRows >> 22; i++) {
@@ -157,11 +158,13 @@ retry_room:
         SceneRoomRecord *sample = SceneAsset_ResolveOffset(room, directory->samples & 0x3FFFFF);
         for (i = 0; i < directory->samples >> 22; i++) {
             if (sample[i].flags & 0x20) {
+                int key = sample[i].u.track.key;
+
                 if (sample[i].u.track.key & 1) {
-                    D_80094494[sample[i].source.bytes.slot] = sample[i].u.track.key;
+                    D_80094494[sample[i].source.bytes.slot] = key;
                     D_80094494[sample[i].source.bytes.slot + 8] = sample[i].u.track.key;
                 } else {
-                    D_80094494[sample[i].source.bytes.slot - 4] = sample[i].u.track.key;
+                    D_80094494[sample[i].source.bytes.slot - 4] = key;
                     D_80094494[sample[i].source.bytes.slot + 4] = sample[i].u.track.key;
                 }
             }
@@ -202,10 +205,12 @@ retry_room:
                     }
                 }
             } else {
+                u16 bank = stream[i].bank.value;
+
                 flags |= 0x40;
-                if (state->pending_sample_bank != stream[i].bank.value) {
+                if (state->pending_sample_bank != bank) {
                     flags |= 4;
-                    state->pending_sample_bank = stream[i].bank.value;
+                    state->pending_sample_bank = bank;
                 }
             }
         }
