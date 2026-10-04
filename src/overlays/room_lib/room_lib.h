@@ -1241,8 +1241,8 @@ extern void func_800DFB20(void *state);
             angle = FieldEng_VecToAngle(state->anchor, state->position); \
             angle &= 0xFFF; \
             table = (int *)D_800966EC; \
-            entry = (int *)((char *)table + (angle << 2)); \
-            hi = *(short *)((char *)entry + 2); \
+            entry = table + angle; \
+            hi = ((short *)entry)[1]; \
             work->matrix[1] = 0; \
             work->matrix[0] = hi; \
             lo = *entry; \
@@ -1267,8 +1267,8 @@ extern void func_800DFB20(void *state);
         angle = FieldEng_VecToAngle(state->anchor, state->position); \
         angle &= 0xFFF; \
         table = (int *)D_800966EC; \
-        entry = (int *)((char *)table + (angle << 2)); \
-        hi = *(short *)((char *)entry + 2); \
+        entry = table + angle; \
+        hi = ((short *)entry)[1]; \
         work->matrix[1] = 0; \
         work->matrix[0] = hi; \
         lo = *entry; \
@@ -1828,7 +1828,7 @@ extern char RoomLib_TableB[];
             { \
                 int *e = (int *)((char *)rotTable \
                                  + ((RWU16(o, 0x44) & 0xFFF) << 2)); \
-                int hi = *(short *)((char *)e + 2); \
+                int hi = ((short *)e)[1]; \
                 int lo; \
                 int savedHi; \
                 RVW16(o, 0x1E) = 0; \
