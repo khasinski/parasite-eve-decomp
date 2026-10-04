@@ -251,8 +251,9 @@ The main executable's three identical glow layer routines now share
 `FieldEng_GlowLayers.inc` with three instances, and the field particle chain
 builder matches as `FieldEng_BuildParticleChain.c`. scene_e08's glowing model
 draw matches as `Scene_DrawGlowModel_80193150.c` on the new
-`scene_glow_model.h`. All are clean C with no pins or barriers; the main
-executable and the scene_e08 overlay are unchanged.
+`scene_glow_model.h`, and scene_e22's ember drift particle and controller
+match on `scene_e22_ember.h`. All are clean C with no pins or barriers; the main
+executable and the scene_e08 and scene_e22 overlays are unchanged.
 
 ### Floor walker in eight rooms and two scene_e19_2 effects
 
