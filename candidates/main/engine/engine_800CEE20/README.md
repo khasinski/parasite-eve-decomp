@@ -69,3 +69,18 @@ with all orders of the null-colour assignments (36 builds) stays at 4.
 multiply temporaries (a0, v0) and v0; nothing that conflicts with r holds a1
 or prefers it. Sharing r with `width` (GetTPage result written straight into
 the tpage) is 19.
+
+## Retry (agent 9, 2026-10-04): still lev 4
+
+Scored with lev.py: lev 4 (retail 355 words, equal size), the same `r`
+register (a1, retail a2). Retail's register map in this region is r a2 /
+g v1 / b a0 and later width a2 / height v1 / v a0 / u a1, which looks like
+shared temporaries, but every sharing tried is worse: r=width, g=height,
+b=v in all combinations and with the GetTPage result written straight into
+the tpage (lev 14 to 33); b=v alone stays at lev 4. With -dg: r is pseudo
+85 (3 refs over 14 insns), allocated last of r/g/b; its conflicts are g,
+b, the multiply temporaries, t0 (view) and the parameters; page (a2) is
+already dead, so nothing blocks a1. A conflicting lower-priority allocno
+preferring a1 (regs_someone_prefers) or a preference of r for a2 would be
+needed; u (a1) would do it if it were live across the colour stores, but
+retail stores the colours before the parameter06 branch.

@@ -42,6 +42,6 @@ int Task_SetEntityField224(short **arg0) {
 
     entity = g_CurrentEntity[0];
     value = (*arg0)[1];
-    entity->render_object.table_value70 = value;
+    entity->render_object.hit_cylinder.radius = value;
     return 1;
 }

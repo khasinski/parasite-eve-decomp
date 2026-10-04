@@ -142,6 +142,31 @@ Two-ring loop around func_800D0E88 (call loop).
   when a constant load floats far up in a long store run, move the
   statement that creates it later in the source.
 
+### main Render_SetupEntityPrims texture loops (shared cursor copy): loops MATCHED
+
+- Retail copies the section cursor into t0 at the top of each texture loop
+  (`move t0,a1`), reads the record through t0 with raw offsets, and steps
+  the cursor in the back-branch delay slot (`addiu a1,a1,16`). A plain
+  `srcquad = cursor.quad; ...; cursor.quad++;` lets loop.c treat srcquad
+  as a DEST_REG giv of the cursor biv. Every `srcquad->field` load becomes
+  a DEST_ADDR giv, combine_givs folds them into the last one, and the
+  result is reduced (`addiu t0,a1,6`, offsets -5..7).
+- loop.c only marks a DEST_REG giv replaceable (which lets it derive the
+  address givs) when `regno_first_uid` is the giv's own insn, so the
+  variable must not be set anywhere before the loop. Fix: one
+  `RenderModelCursor src` for both loops, first set before them where it
+  has a real use (`src = cursor; *textureOut = src.commands;`, the texture
+  section start), then `src.quad = cursor.quad;` at the top of each loop
+  and `cursor.quad++` at the end. Both loops become byte-identical with no
+  dead store.
+- Forms that fail: `cursor.quad = srcquad + 1` (cursor stops being a biv,
+  but global alloc merges srcquad and cursor into one register),
+  `srcquad = cursor.quad++` (still reduced, `t0 = a1 - 10`), the copy
+  inside the inner loop (hoisted, still a giv), and walking the copy itself
+  as the biv. A dead second assignment (`srcquad++` after the inner loop)
+  also works, because a register set twice is never a giv, but it is a
+  steering store.
+
 ## What did not work
 
 - Statement order alone. Loop decisions depend only on the movable order and
@@ -150,3 +175,44 @@ Two-ring loop around func_800D0E88 (call loop).
   difference, and per-file flags are not allowed anyway.
 - An s16 local for the intensity/shade. It is extended at assignment, outside
   the loop, so it adds no movable. The cast has to sit in the call.
+
+## Register priority from references that later disappear (2026-10-04)
+
+- flow computes `reg_n_refs` and `reg_live_length` before combine runs, and
+  combine does not lower them when it folds a reference away. Global
+  allocation sorts by `floor_log2(refs) * refs / live_length`, so an
+  assignment that combine later removes still raises that variable's
+  priority.
+- Scene_LoadRoom: `while ((ready = CdRom_ReadSectorsFromLba(...)) == -1)`
+  produces exactly the same code as the bare call, because combine compares
+  v0 directly. But `ready` keeps the extra counted references, so it is
+  allocated before the loop counter `i`. That fixed a s1/s2 swap worth about
+  40 words.
+- Menu_ItemListInputHandler: `usable |= 1` gives `usable` one more counted
+  use and puts usable, child and data in retail's registers (the cost is an
+  `ori` instead of `li`). The match came from the other side: reusing
+  `child` for the final equipment-node lookup of the same branch (where
+  `child` is dead) gives it 3 more refs, so child (s1) is allocated before
+  data (s2), and the plain `usable = 1` then fits in s1 next to child. When
+  one pseudo must beat another, raise the loser's competitor instead of the
+  variable itself: reuse a dead pointer of the same type for a later lookup.
+- Frame side effect: when combine simplifies a `for` loop entry test
+  (`0 < n` to `n != 0`), it leaves a dead `sltu` pseudo behind a USE insn,
+  and reload gives that pseudo an 8-byte stack slot that is never used.
+  Count the `(use (reg:SI N))` lines in the `-dc` dump. Writing one loop as
+  `i = 0; if (n) do { ... } while (++i < n);` removes one slot and leaves the
+  code unchanged.
+
+## Operand order and copy shape fixes (Scene_LoadRoom, 2026-10-04)
+
+- `addu` operand order for a pointer-variable table: `PmCommand **p =
+  &g_PmCmdHandlerTable[slot]; if (*p == 0) *p = x;` expands as a normal
+  binop (scaled index emitted first, table loaded by force_not_mem, sum
+  ordered table + index). Indexing the table directly in both the test and
+  the store (`if (g_PmCmdHandlerTable[slot] == 0) g_PmCmdHandlerTable[slot]
+  = x;`) goes through the address path instead and gives retail's
+  index + table order.
+- `lhu v0; move v1,v0; andi v0,v0,1`: the key copy must be an SImode copy of
+  an SImode load. `int key = field; if (field & 1)` loads HImode and
+  zero-extends (`andi v1,v0,0xffff`); `if (key & 1)` drops the copy. Testing
+  `(u16)key & 1` keeps the load SImode and the copy plain.

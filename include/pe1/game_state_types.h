@@ -12,6 +12,7 @@ typedef unsigned int Pe1U32;
  * substructures are reconstructed.
  */
 struct SceneAssetBlob;
+struct TimFile;
 struct PmSlotBanks;
 struct RenderObjectEntity;
 union SceneAssetView;
@@ -30,7 +31,7 @@ typedef union Pe1SceneAudioState {
     Pe1U8 bytes[0x10];
     struct {
         Pe1U8 reserved[2];
-        Pe1U8 banks[2];
+        Pe1S8 banks[2];
         Pe1S8 keys[2][2];
         Pe1S8 pending_key, pending_bank; /* 0xE0, 0xE1 in game state */
         Pe1U8 trailing[6];
@@ -39,7 +40,10 @@ typedef union Pe1SceneAudioState {
 
 typedef struct Pe1GameState {
     Pe1U32 flags;                    /* 0x000 */
-    Pe1U8 unk_004[6];
+    Pe1U8 unk_004[2];
+    short field_bg_cache_id;         /* 0x006: reset to -1 after a background load */
+    Pe1U8 room_type;                /* 0x008: room directory byte 3 */
+    Pe1S8 field_bg_cache_bank;       /* 0x009: reset to -1 after a background load */
     Pe1U8 requested_entity_bank;    /* 0x00A */
     Pe1U8 loaded_entity_bank;       /* 0x00B */
     Pe1S8 current_story_day;         /* 0x00C */
@@ -71,8 +75,8 @@ typedef struct Pe1GameState {
     Pe1U8 draw_prim_b[0x10];         /* 0x104 */
     Pe1U8 draw_prim_c[8];            /* 0x114 */
     void *scene_object_model;        /* 0x11C */
-    Pe1U8 draw_prim_c_tail[4];
-    Pe1U32 bank_asset_table;          /* 0x124 */
+    void *room_geometry_table;       /* 0x120: key 0xCAAD0704 */
+    void *bank_asset_table;           /* 0x124: resolved bank asset table */
     Pe1U32 bank_work_base;           /* 0x128 */
     Pe1U32 bank_work_end;            /* 0x12C */
     Pe1U32 bank_work_far_end;        /* 0x130: voice bank base + 0x2800 */
@@ -83,22 +87,28 @@ typedef struct Pe1GameState {
     Pe1U32 voice_bank_base_1400;     /* 0x154 */
     union SceneAssetView *entity_texture_blob; /* 0x158: voice bank base + 0x2800 */
     void *scene_object_work;         /* 0x15C */
-    Pe1U8 unk_160[0x18];
+    struct SceneAssetBlob *bg_texture_blob;    /* 0x160 */
+    Pe1U8 unk_164[4];
+    union SceneAssetView *texture_load_scratch; /* 0x168: second room read */
+    struct SceneAssetBlob *object_texture_blob; /* 0x16C */
+    Pe1U8 unk_170[4];
+    struct TimFile *bg_tim;                    /* 0x174 */
     unsigned short *save_background_source;      /* 0x178 */
     unsigned short *save_background_destination; /* 0x17C */
-    Pe1U8 unk_180[8];
+    struct TimFile *hud_tim;                   /* 0x180 */
+    Pe1U8 unk_184[4];
     struct PmSlotBanks *scene_process_slots; /* 0x188 */
-    struct SceneAssetBlob *loaded_scene_assets; /* 0x18C */
+    union SceneAssetView *loaded_scene_assets; /* 0x18C */
     Pe1U8 unk_190[4];
     void *scene_load_scratch;        /* 0x194: g_SceneLoadScratchBuffer */
     /* Reset bounds establish these arrays; individual element roles unknown. */
     void *bank_slots[10];            /* 0x198 */
     void *bank_rows[10][48];         /* 0x1C0 */
     Pe1U32 bank_reset_940[1];
-    Pe1U32 bank_reset_944[1];
-    Pe1U32 bank_reset_948[1];
-    Pe1U32 bank_reset_94c[1];
-    Pe1U32 bank_reset_950[2];
+    void *bank_reset_944[1];         /* 0x944: relocated task block */
+    void *bank_reset_948[1];
+    void *bank_reset_94c[1];
+    void *bank_reset_950[2];
     Pe1U32 bank_reset_958[1];
 } Pe1GameState;
 

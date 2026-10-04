@@ -49,3 +49,8 @@ shares `sll 16` and derives `srl 17` / `srl 19` and the test from it. The
 (parameters keep HImode, locals are promoted to SImode), so `level` probably
 needs to stay HImode as well, for example as a second s16 parameter-like
 value, rather than a promoted local.
+
+## Rescore (agent 4, 2026-10-04)
+
+lev 224 (retail 363 words, mine 359 words) with lev.py; the "about 500"
+above was the old positional count.

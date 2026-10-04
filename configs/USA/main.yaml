@@ -361,7 +361,7 @@ segments:
       - [0x24240, asm, main/Battle_DrawActiveStatus]
       - [0x24904, asm, main/Battle_DrawEnemyHP]
       - [0x24FB4, c, menu/Render_AnimationFrame]
-      - [0x2515C, asm, menu/misc23]
+      - [0x2515C, c, menu/Save_DrawSlotMetadata]
       - [0x255E0, c, menu/Menu_SaveOverlayDraw]
       - [0x25710, c, entity/Entity_ResetAllPools]
       - [0x257C4, c, entity/Entity_InitFreePool]
@@ -372,7 +372,7 @@ segments:
       - [0x268B4, c, entity/Entity_CollectGarbage]
       - [0x269F4, c, entity/entity5]
       - [0x26AB8, c, entity/Entity_AllocationBlocks]
-      - [0x26C48, asm, main/Scene_UpdateEntityPositions]
+      - [0x26C48, c, main/Scene_UpdateEntityPositions]
 
       # PSYQ 4.0 object signature matches.
       - [0x275C8, c, psyq/libsnd/ssinit]
@@ -525,7 +525,7 @@ segments:
       - [0x398B0, c, menu/Menu_ExitBonusPointAllocation]
       - [0x399C8, c, menu/Menu_StatSlotInputHandler]
       - [0x39B54, c, menu/Menu_BonusPointCancelHandler]
-      - [0x39CAC, asm, menu/Menu_ItemListInputHandler]
+      - [0x39CAC, c, menu/Menu_ItemListInputHandler]
       - [0x3A8C8, c, menu/Menu_StepEquipSlotSelect2]
       - [0x3AD70, c, menu/Menu_OpenBonusPointSpendDialog]
       - [0x3AECC, c, menu/Menu_DrawBonusPointSpendPanel]
@@ -847,9 +847,9 @@ segments:
       - [0x5AE74, c, akao/Akao_ClearVoiceBank]
       - [0x5B0D4, c, boot/Boot_InitMemoryLayout]
       - [0x5B1E4, c, main/Scene_LoadSceneData]
-      - [0x5B540, asm, main/Scene_LoadFieldBg]
+      - [0x5B540, c, main/Scene_LoadFieldBg]
       - [0x5BB5C, c, akao/Akao_LoadVoiceBankAlt]
-      - [0x5BCF8, asm, gpu/Scene_LoadRoom]
+      - [0x5BCF8, c, gpu/Scene_LoadRoom]
       - [0x5C568, c, overlay/Overlay_StreamTexturePage]
       - [0x5C64C, c, cdrom/CdRom_DetectDiscChange]
       # Scene startup texture loading and player initialization share one TU.

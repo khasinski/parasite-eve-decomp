@@ -175,17 +175,17 @@ void Render_TransformSkinnedVertices(RenderObjectEntity *input, u32 *view_input)
     }
     {
         register u8 *vector asm("$9") = D_8009CD98;
-        Render_SkinnedTransformVec(vector, &actor->anchor_position);
+        Render_SkinnedTransformVec(vector, &actor->hit_cylinder.value0);
     }
     {
         register s32 *matrix asm("$9") = (s32 *)(u8 *)actor->matrices;
         Render_SkinnedLoadFullMatrix(matrix);
     }
-    scratch_vec[0] = U16_AT(actor->model_section14, 0) + actor->animation_value74;
-    *(u16 *)0x1F800022 = U16_AT(actor->model_section14, 2) + actor->animation_value76;
+    scratch_vec[0] = U16_AT(actor->model_section14, 0) + (u16)actor->hit_body.value0;
+    *(u16 *)0x1F800022 = U16_AT(actor->model_section14, 2) + (u16)actor->hit_body.value1;
     asm volatile("" : : : "memory");
-    *(u16 *)0x1F800024 = U16_AT(actor->model_section14, 4) + actor->animation_value78;
-    Render_SkinnedTransformVec(scratch_vec, &actor->animation_value74);
+    *(u16 *)0x1F800024 = U16_AT(actor->model_section14, 4) + (u16)actor->hit_body.value2;
+    Render_SkinnedTransformVec(scratch_vec, &actor->hit_body.value0);
     {
         int index = (s16)actor->table_index;
         s32 *matrix = (s32 *)((u8 *)actor->matrices + index * 32);

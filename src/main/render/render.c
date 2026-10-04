@@ -18,7 +18,7 @@ void Render_InitObjectFromTable(RenderObjectEntity *obj, RenderObjectEntity *own
 
     base = (int)owner->bounds_vertices;
     entry = (u16 *)(offset + base);
-    obj->table_value70 = entry[3];
+    obj->hit_cylinder.radius = entry[3];
 
     base = (int)owner->bounds_vertices;
     entry = (u16 *)(offset + base);
@@ -31,7 +31,7 @@ void Render_InitObjectFromTable(RenderObjectEntity *obj, RenderObjectEntity *own
     base = (int)owner->bounds_vertices;
     offset += base;
     entry = (u16 *)offset;
-    obj->table_value30 = entry[2] + obj->table_value70;
+    obj->table_value30 = entry[2] + (u16)obj->hit_cylinder.radius;
 }
 
 void Render_Noop(void) {

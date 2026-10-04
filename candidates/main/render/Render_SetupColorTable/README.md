@@ -51,3 +51,39 @@ the inner level first, and then sits ahead of the other preheader insns) or
 the -1 movable is visited before the re-hoisted ones. Retail also computes
 i*56 once per box after the style block (t3) and adds `slot*6` per slot,
 then t7 (&numbers base); that shape is a hint for the smaller slot loop.
+
+## Rescored with lev.py (agent 12, 2026-10-04): lev 87
+
+The earlier draft scores lev 92 (retail 161 words, mine 162). Most of the
+distance is register numbering (retail: i in a3, values copied to t4, index
+in t1, style left in a1), so the size comparison above understated it.
+Score from the worktree root after applying headers.diff and copying
+textbox_open.h to include/pe1/, with offset 27DE0 size 284.
+
+New in the parked .c (lev 87, 162 words):
+- Digit stores written as direct lvalues,
+  `g_TextboxEntries[i].numbers[slot].digits[count] = value - (quotient = value / 10) * 10;`
+  for the first digit (count is 0) and the same form in the loop. This is
+  retail's digit base: get_inner_reference builds the offset as
+  `slot*6 + i*56` and adds the base symbol last, so the base is
+  `(slot*6 + t3) + t7`, computed before the division, and the inner loop
+  adds count to it. A `digits` pointer variable goes through the c-typeck
+  `&x[y] -> x + y` chain, which gives `(i*56 + base) + slot*6`. The
+  `i*56 + base` part is then hoisted out of the slot loop.
+- Remaining differences: the base pseudo is copied (`move t3,a3`) for the
+  inner loop where retail keeps one register (t2). The quotient copy
+  `move a1,a0` is missing. The -1 is still not hoisted, and the registers
+  are numbered differently all through.
+
+The -1 hoist, found by the permuter (not used, because it is a steering temp):
+`int minus = -1; D_8009CEA4 = minus;` makes the store's constant an SImode
+movable that comes first in the outer loop. It then absorbs the compare's
+-1 before the two re-hoisted movables double insn_count (move_movables
+keeps doubling insn_count for every moved_once movable it visits). That
+gives retail's `li t6,-1` at entry and lev 63. The magic constant and the
+base then come out in the wrong order (base first). A plain-C form whose
+store constant is SImode, or whose -1 compare is visited before the
+slot-loop preheader movables, should get the same effect.
+The slot loop is 74 to 85 insns at loop time against a threshold of 58,
+so the -1 cannot be hoisted at the slot level without big changes.
+Value/quotient type sweeps (short/int/u16 combinations) were all worse.

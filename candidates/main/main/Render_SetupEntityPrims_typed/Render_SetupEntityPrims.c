@@ -8,8 +8,7 @@ int Render_SetupEntityPrims(RenderObjectEntity *obj, RenderObjectHeader *model,
                             s16 paletteRow, s16 initCount, s8 **textureOut,
                             int setup)
 {
-    RenderQuadTexture *srcquad;
-    RenderTriTexture *srctri;
+    RenderModelCursor src;
     RenderPrimitiveDescriptor *desc;
     RenderPrimCursor prim;
     RenderModelCursor cursor;
@@ -111,40 +110,42 @@ int Render_SetupEntityPrims(RenderObjectEntity *obj, RenderObjectHeader *model,
     if (setup) {
         RenderPrimCursor out;
 
-        *textureOut = cursor.commands;
+        src = cursor;
+        *textureOut = src.commands;
         out.bytes = obj->primitive_buffer;
         for (i = 0; i < header->packet34_count; i++) {
-            srcquad = cursor.quad;
+            src.quad = cursor.quad;
 
             for (j = 0; j < 2; j++) {
-                out.p34->u0 = srcquad->u0;
-                out.p34->v0 = srcquad->v0;
-                out.p34->u1 = srcquad->u1;
-                out.p34->v1 = srcquad->v1;
-                out.p34->u2 = srcquad->u2;
-                out.p34->v2 = srcquad->v2;
-                out.p34->u3 = srcquad->u3;
-                out.p34->v3 = srcquad->v3;
-                out.p34->clut = srcquad->clut;
-                out.p34->page_bits = srcquad->page_bits;
+                out.p34->u0 = src.quad->u0;
+                out.p34->v0 = src.quad->v0;
+                out.p34->u1 = src.quad->u1;
+                out.p34->v1 = src.quad->v1;
+                out.p34->u2 = src.quad->u2;
+                out.p34->v2 = src.quad->v2;
+                out.p34->u3 = src.quad->u3;
+                out.p34->v3 = src.quad->v3;
+                out.p34->clut = src.quad->clut;
+                out.p34->page_bits = src.quad->page_bits;
                 out.p34++;
             }
             cursor.quad++;
         }
         for (i = 0; i < header->packet28_count; i++) {
-            srctri = cursor.tri++;
+            src.tri = cursor.tri;
 
             for (j = 0; j < 2; j++) {
-                out.p28->u0 = srctri->u0;
-                out.p28->v0 = srctri->v0;
-                out.p28->u1 = srctri->u1;
-                out.p28->v1 = srctri->v1;
-                out.p28->u2 = srctri->u2;
-                out.p28->v2 = srctri->v2;
-                out.p28->clut = srctri->clut;
-                out.p28->page_bits = srctri->page_bits;
+                out.p28->u0 = src.tri->u0;
+                out.p28->v0 = src.tri->v0;
+                out.p28->u1 = src.tri->u1;
+                out.p28->v1 = src.tri->v1;
+                out.p28->u2 = src.tri->u2;
+                out.p28->v2 = src.tri->v2;
+                out.p28->clut = src.tri->clut;
+                out.p28->page_bits = src.tri->page_bits;
                 out.p28++;
             }
+            cursor.tri++;
         }
         for (i = 0; i < header->packet24_count; i++) {
         }

@@ -44,10 +44,10 @@ void Anim_BuildRotationMatrices(char *obj, RenderAnimationDataHeader *data, int 
         return;
     }
 
-    ((RenderObjectEntity *)s1)->animation_value7c = data->object_value7c;
-    ((RenderObjectEntity *)s1)->animation_value74 = data->object_value74;
-    ((RenderObjectEntity *)s1)->animation_value76 = data->object_value76;
-    ((RenderObjectEntity *)s1)->animation_value78 = data->object_value78;
+    ((RenderObjectEntity *)s1)->hit_body.radius = data->object_value7c;
+    ((RenderObjectEntity *)s1)->hit_body.value0 = data->object_value74;
+    ((RenderObjectEntity *)s1)->hit_body.value1 = data->object_value76;
+    ((RenderObjectEntity *)s1)->hit_body.value2 = data->object_value78;
 
     mode = data->encoding_flags & 3;
     if (mode == 2) {

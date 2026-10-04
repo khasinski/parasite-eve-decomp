@@ -63,7 +63,10 @@ typedef struct FieldActor {
     /* 0x0AC */ unsigned char pad_0AC[0xE0];
     /* 0x18C */ struct FieldActor *parent; /* parent actor; child copies its pos/rot when flags & 0x400000 */
     /* 0x190 */ void (*frame_callback)(struct FieldActor *actor); /* run first every frame */
-    /* 0x194 */ unsigned char pad_194[0x08];
+    /* 0x194 */ void (*contact_callback)(struct FieldActor *self, int self_part,
+                                         struct FieldActor *other, int other_part);
+                /* run for each overlapping hit-sphere pair (Scene_UpdateEntityPositions) */
+    /* 0x198 */ unsigned char pad_198[0x04];
     /* 0x19C */ int script_cursor_19c;
     /* 0x1A0 */ int script_cursor_1a0;
     /* 0x1A4 */ int field_1a4;          /* rolled back from field_1a8 alongside pos */
@@ -83,7 +86,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, script_base) == 0x9C,
                   field_actor_script_base_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, allocation_active) == 0x1AC,
                   field_actor_allocation_active_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_object.table_value70) == 0x224,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_object.hit_cylinder.radius) == 0x224,
                   field_actor_render_scale_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_object.flags_9C) == 0x250,
                   field_actor_render_flags_offset);

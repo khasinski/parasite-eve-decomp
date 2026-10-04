@@ -11,7 +11,7 @@ static inline void Start(FieldActor *actor, FieldSfxQueueEntry *event)
     TaskNode *node = Task_AllocNode(actor->script_cursor_19c, 0);
 
     node->flags |= 4;
-    node->field_0c = event->taskValue;
+    node->trigger_value = event->taskValue;
     node->target14 = event->taskArgument;
     node->next = (TaskNode *)actor->task_node_lists[2];
     if (node->next)

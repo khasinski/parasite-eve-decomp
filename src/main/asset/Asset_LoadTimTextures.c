@@ -45,7 +45,7 @@ restart:
             for (i = 0; i < 8; i++) InitHandler(i);
             InitHandler(85);
             {
-                SceneAssetBlob *blob = state->loaded_scene_assets;
+                SceneAssetBlob *blob = &state->loaded_scene_assets->header;
                 SceneAssetDirectory *directory = SceneAsset_ResolveOffset(blob, blob->directoryOffset);
                 SceneAssetRecord *entry = SceneAsset_ResolveOffset(blob, directory->entries & 0x3FFFFF);
                 for (i = 0; i < (int)(directory->entries >> 22); i++) {
@@ -85,7 +85,7 @@ restart:
             TimPackedImage *image;
             for (i = 0; i < (int)(directory->timEntries >> 22); i++)
                 Gpu_LoadTimAsset(&entry[i], blob);
-            blob = state->loaded_scene_assets;
+            blob = &state->loaded_scene_assets->header;
             for (key = 0x73DECD80; ; key += 4) {
                 image = (TimPackedImage *)Asset_FindTable08ByU32Key(blob, key);
                 if (!image) break;

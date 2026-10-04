@@ -45,6 +45,14 @@ typedef struct SceneAssetBlob {
     unsigned int directoryOffset;
 } SceneAssetBlob;
 
+/* Byte view of a loaded scene container; records hold offsets from its base. */
+typedef union SceneAssetView {
+    SceneAssetBlob header;
+    u8 bytes[1];
+} SceneAssetView;
+
+#define SCENE_ASSET_AT(view, offset) ((void *)&(view)->bytes[offset])
+
 typedef SceneAssetBlob CdArchiveRoot;
 
 typedef struct CdArchiveHeader {
@@ -196,7 +204,7 @@ typedef struct SceneBankResetPair {
     u16 first, second;
 } SceneBankResetPair;
 extern SceneBankResetPair D_80094488[4];
-int Asset_FindTable08ByU32Key(void *base, s32 key);
+void *Asset_FindTable08ByU32Key(void *base, s32 key);
 void Akao_LoadVoiceBankAlt(void);
 void Akao_ClearVoiceBank(void);
 

@@ -18,7 +18,7 @@ int Asset_UnloadTableEntries(void) {
         }
         Unload(85);
         {
-            SceneAssetBlob *blob = state->loaded_scene_assets;
+            SceneAssetBlob *blob = &state->loaded_scene_assets->header;
             SceneAssetDirectory *directory =
                 SceneAsset_ResolveOffset(blob, blob->directoryOffset);
             SceneAssetRecord *entry =

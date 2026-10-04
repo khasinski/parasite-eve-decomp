@@ -123,9 +123,6 @@ Category notes:
 | main | PeImage_Mount_Dispatch | 696 | CD retry loader (CdRom_PollReady/Cd_GetReadyStatus retry loops), no candidate |
 | main | main | 748 | Boot_MainLoop: goto dispatch plus scratchpad stack switch around func_8019234C (inline asm in C unit) |
 | main | Render_InitDisplayLists | 808 | CD retry loader (CdRom_PollReady/Cd_GetReadyStatus retry loops), no candidate |
-| main | Scene_LoadEntityTextures | 1708 | CD retry loader (CdRom_PollReady retry loop), no candidate |
-| menu_memcard | func_80121C04 | 1084 | menu_memcard video open pair: needs a goto (parked by another agent) |
-| menu_memcard | func_8012AA4C | 1084 | menu_memcard video open pair: needs a goto (parked by another agent) |
 
 ## inline-asm C unit
 
@@ -135,23 +132,18 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
-| main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: 1 extra instruction (648 vs 644 bytes) |
+| main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: lev 87 (direct digit lvalues give retail digit base; -1 hoist and register numbering left) |
 | main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: 24 diffs (prologue), func_800D3BC8 variant 26 |
-| main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand (needs headers.diff; diff count not recorded) |
-| main | Save_DrawSlotMetadata | 1156 | candidates/main/menu/misc23.c: 1152 vs 1156 bytes, 90.5% (old draft) |
+| main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand/struct_staging.c: lev 16 (scratch struct view; needs staging struct + word-opcode queue entry in shared headers, see README) |
 | main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
-| main | Scene_LoadFieldBg | 1564 | candidates/main/main/Scene_LoadFieldBg: 42 diffs (CD loader) |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
 | main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender_typed: -G8/-G4 typed draft at lev 172 (spills/regalloc in the ramp edge test, still gotos), see README; OWNED BY ANOTHER AGENT |
-| main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims_typed: lev 24 (param 6/7 register swap; quad loop giv: srcquad must not be a single-set giv, a dead `srcquad++` proves it at lev 4 but is not acceptable), see README |
-| main | Scene_LoadRoom | 2160 | candidates/main/gpu/Scene_LoadRoom.c (old byte-offset draft, no README, diff count not recorded) |
+| main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims_typed: lev 4, texture loops solved (shared `src` cursor), only the paletteRow/initCount a2/t9 global-alloc order is left, see README |
 | main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: one register swap in the four gte_CompMatrix expansions |
-| main | Scene_UpdateEntityPositions | 2432 | candidates/main/main/Scene_UpdateEntityPositions.c (old byte-offset draft, no README, diff count not recorded) |
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
-| main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary_typed: first typed rewrite at lev 447 (frame and spill layout), see README |
-| main | Menu_ItemListInputHandler | 3100 | candidates/main/menu/Menu_ItemListInputHandler_plainc: 21 words |
+| main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary_typed: typed rewrite at lev 413 (frame 208 vs 192: an extra reduced walk pointer per half), see README |
 | main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
 | fx_common | func_8018F55C | 224 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |

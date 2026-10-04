@@ -7,12 +7,16 @@ int Render_InitDisplayLists(int mode)
     RECT rect;
     u8 result[8];
     short colors[8];
-    int state = 0;
-    int done = 0;
-    int command = -1;
-    int wait = 180;
+    int state;
+    int done;
+    int command;
+    int wait;
     int status;
 
+    state = 0;
+    done = 0;
+    command = -1;
+    wait = 180;
     colors[0] = -1;
     VSync(0);
     SetDispMask(0);
@@ -68,8 +72,12 @@ retryFog:
         case 1:
             status = Render_FindParticleEffect(command, result);
             switch (status) {
+            case 1:
+                break;
             case 2:
-                goto ready;
+                Render_SetupColorTable(mode == 1 ? 1 : 2, 0, colors);
+                state = 2;
+                break;
             case 5:
             case 6:
                 state = 0;
@@ -97,6 +105,12 @@ retryFog:
                 break;
             }
             break;
+        case 5:
+            if (wait != 0)
+                wait--;
+            else
+                state = 4;
+            break;
         case 4:
             status = OpenPeImage();
             switch (status) {
@@ -116,27 +130,36 @@ retryFog:
                 if ((mode == 1 && (D_800B0DCD & 1)) || (mode == 2 && (D_800B0DCD & 2))) {
                     done = 1;
                 } else {
-                    wait = 180;
                     state = 9;
+                    wait = 180;
                 }
                 break;
             }
             break;
-        case 5:
-            if (wait != 0)
-                wait--;
-            else
-                state = 4;
-            break;
         case 6:
+            if (wait != 0) {
+                wait--;
+                break;
+            }
+            Tbl_ResetAll();
+            Render_SetupColorTable(mode == 1 ? 1 : 2, 0, colors);
+            state = 2;
+            break;
         case 7:
+            if (wait != 0) {
+                wait--;
+                break;
+            }
+            Tbl_ResetAll();
+            Render_SetupColorTable(mode == 1 ? 1 : 2, 0, colors);
+            state = 2;
+            break;
         case 8:
             if (wait != 0) {
                 wait--;
                 break;
             }
             Tbl_ResetAll();
-        ready:
             Render_SetupColorTable(mode == 1 ? 1 : 2, 0, colors);
             state = 2;
             break;

@@ -1,34 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-/* Candidate copy: the narrow header include/pe1/menu_item_list_input.h is inlined below. */
-#include "pe1/menu_equipment.h"
-#include "pe1/menu_inventory.h"
-#include "pe1/inventory.h"
+#include "pe1/menu_item_list_input.h"
 #include "pe1/text.h"
-
-int Menu_ItemListInputHandler(MenuWidgetNode *node, unsigned int flags);
-int Menu_InventoryPageInputHandler(MenuWidgetNode *root, unsigned int flags);
-int Menu_StepSkillScreen(void *node, int flags);
-void Menu_DrawUsableItemActionList();
-void Menu_DrawSoundTestList(void *node);
-void Menu_DrawItemListInvPanel(int node);
-void Menu_SetupSkillSubmenu(int node);
-void Menu_StepSkillList(MenuWidgetNode *panel, int refresh);
-void Menu_OpenRenameScreen(int item);
-void Menu_ReopenEquipScreen(void);
-void Menu_ItemUseAction(int node, int confirmed);
-
-/* Bonus point allocation view is open. */
-extern int D_8009CEF8;
-/* Item-use confirmation dialog: selected option and confirm callback. */
-extern int D_8009CFA0;
-extern void (*D_8009CFA8)(int node, int confirmed);
-/* Pending stat bonus: item index (negative when none), stat and amount. */
-extern int D_8009CFD4;
-/* Copy of the item record being modified. */
-extern ItemDataRecord D_800A1960;
-/* Confirmation dialog text buffer. */
-extern u8 D_800A1980[];
 
 /* Leaves the item list: scrolls the inventory panels back and returns the
  * focus to the equipment slots or the category tabs. */
@@ -122,6 +95,7 @@ int Menu_ItemListInputHandler(MenuWidgetNode *node, unsigned int flags)
 {
     ItemDataRecord *data;
     MenuWidgetNode *child;
+    MenuWidgetNode *found;
     MenuWidgetNode *target;
     MenuWidgetNode *panel;
     MenuWidgetNode *list;
@@ -135,22 +109,20 @@ int Menu_ItemListInputHandler(MenuWidgetNode *node, unsigned int flags)
 
     child = MenuWidget_GetChild(node, 0);
     if (flags & 0x1000) {
-        MenuWidgetNode *slots;
-        MenuWidgetNode *equip;
 
-        slots = MenuWidget_FindByModeAndSelectedBase(2, 0x30);
-        if (slots != 0) {
+        found = MenuWidget_FindByModeAndSelectedBase(2, 0x30);
+        if (found != 0) {
             child->cursor_x = -1;
-            slots->cursor_x = 0;
-            slots->cursor_y = 1;
-            MenuWidget_SetCurrentNode(slots);
+            found->cursor_x = 0;
+            found->cursor_y = 1;
+            MenuWidget_SetCurrentNode(found);
             Menu_ResetSlotCursors();
             Menu_PlayMoveSound();
         }
-        equip = MenuWidget_FindByModeAndSelectedBase(2, 0x36);
-        if (equip != 0) {
+        found = MenuWidget_FindByModeAndSelectedBase(2, 0x36);
+        if (found != 0) {
             child->cursor_x = -1;
-            MenuWidget_SetCurrentNode(equip);
+            MenuWidget_SetCurrentNode(found);
             Menu_ResetSlotCursors();
             Menu_PlayMoveSound();
             return 1;
@@ -200,9 +172,10 @@ int Menu_ItemListInputHandler(MenuWidgetNode *node, unsigned int flags)
                     submenu = MenuWidget_CreateSimpleNode(0x35, 0, 0, 0);
                     MenuWidget_CreateNode(0x35, submenu, submenu)->draw = (void (*)())Menu_SetupSkillSubmenu;
                 }
-                target = MenuWidget_FindByModeAndSelectedBase(2, 0x36);
-                if (target != 0)
-                    MenuWidget_SetCurrentNode(target);
+                /* The list child is no longer needed: reuse it for the equipment node. */
+                child = MenuWidget_FindByModeAndSelectedBase(2, 0x36);
+                if (child != 0)
+                    MenuWidget_SetCurrentNode(child);
                 return 1;
             }
         } else if (D_8009CF30 != 0) {
@@ -267,13 +240,11 @@ int Menu_ItemListInputHandler(MenuWidgetNode *node, unsigned int flags)
         Menu_PlayErrorSound();
         return 1;
     } else if (flags & 0x40) {
-        MenuWidgetNode *equip;
-
-        equip = MenuWidget_FindByModeAndSelectedBase(2, 0x36);
-        if (equip != 0) {
+        found = MenuWidget_FindByModeAndSelectedBase(2, 0x36);
+        if (found != 0) {
             child->cursor_x = -1;
             child->scroll_y = 0;
-            MenuWidget_SetCurrentNode(equip);
+            MenuWidget_SetCurrentNode(found);
             Menu_ResetSlotCursors();
         } else if (D_8009CF34 != 0 || D_8009CF38 != 0) {
             D_8009CF34 = 0;

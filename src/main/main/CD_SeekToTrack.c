@@ -129,7 +129,7 @@ extern int D_8009CDA4[];
 extern int D_8009D188, D_8009D18C, D_8009D190;
 void Akao_Cmd_F1(void);
 void Akao_Cmd_40(void);
-int Akao_Cmd_10(u32);
+int Akao_Cmd_10();
 void Akao_SendTableCommand(void *, int, int, int, int);
 void Akao_Cmd_C1_WithSlot(int, int, int);
 void Akao_Cmd_C0_WithSlot(int, int);

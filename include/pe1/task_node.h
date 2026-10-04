@@ -9,7 +9,7 @@ typedef struct TaskNode {
     /* 0x04 */ int next_value;
     /* 0x08 */ unsigned short flags;   /* |= 0x10 marks node free */
     /* 0x0A */ unsigned short seq;      /* sequence/id, matched in Entity_FindNodeById */
-    /* 0x0C */ int field_0c;
+    /* 0x0C */ int trigger_value;    /* event task value, or the contacting actor's field_sfx_id */
     /* 0x10 */ int active;              /* set 1 on alloc/yield */
     /* 0x14 */ int target14;
     /* 0x18 */ int target18;

@@ -31,7 +31,7 @@ int Task_SpawnChildNode(int **args) {
         next = entry->next;
         entry->prev = 0;
         entry->next = 0;
-        entry->field_0c = 0;
+        entry->trigger_value = 0;
         entry->next_value = 0;
         entry->active = 1;
         entry->seq = seq;
@@ -77,7 +77,7 @@ int Task_SpawnChildNode(int **args) {
         entry->current = value;
         {
             u16 seq = g_TaskNodeSeqCounter;
-            entry->field_0c = 0;
+            entry->trigger_value = 0;
             entry->next_value = 0;
             entry->active = 1;
             entry->flags = 0;
