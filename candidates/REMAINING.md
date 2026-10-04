@@ -14,8 +14,8 @@ Size is the objdiff function size in bytes.
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 1 | 148 |
-| parked near-miss | 28 | 48504 |
-| not yet attempted | 1 | 2384 |
+| parked near-miss | 29 | 50888 |
+| not yet attempted | 0 | 0 |
 | total | 113 | 99608 |
 
 Category notes:
@@ -160,6 +160,7 @@ Category notes:
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
 | fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: ~500 diffs (register allocation) |
 | menu_memcard | func_801214D4 | 496 | twin of the matched Memcard_UploadVideoSlice at 0x95D8 (byte-identical modulo relocations), but that source carries 3 pins, 3 barriers and a volatile, so a template would duplicate debt; the clean draft in candidates/overlays/menu_memcard_func_801214D4 is off by size (retail keeps &selector in a register and re-reads it, so a volatile read there is justified) |
+| menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: 49 diffs (local-alloc gives the block-local lift s0 in the last state 1 block; retail keeps fade there) |
 | menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, diff count not recorded) |
 | room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: 88 diffs |
 | scene_e08 | func_8019104C | 764 | candidates/overlays/scene_e08_func_8019104C: 10 diffs (register naming) |
@@ -168,9 +169,7 @@ Category notes:
 
 ## not yet attempted
 
-| Binary | Function | Size | Notes |
-|---|---|---:|---|
-| menu_memcard | func_801EDC44 | 2384 | menu_memcard 0x244C GTE glow effect, unique bytes, no candidate |
+None: menu_memcard 0x244C now has a parked candidate.
 
 ## Matched on this audit branch
 
