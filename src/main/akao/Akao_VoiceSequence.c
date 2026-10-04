@@ -12,9 +12,9 @@ void Akao_InitVoiceState(AkaoTrack *track, void *script) {
     track->tremolo_duration = 0;
     track->voice_mask_a = 0;
     track->vibrato_delta = 0;
-    track->field_7A = 0;
-    track->field_D2 = 0;
-    track->field_D0 = 0;
+    track->pitch_slide_steps = 0;
+    track->fixed_note_length = 0;
+    track->default_note_length = 0;
     track->expression_value = 0x32000000;
     track->expression_duration = 0;
     track->call_stack_index = 0;
@@ -256,7 +256,7 @@ body:
     voice = (AkaoTrack *)arg1;
     do {
         i++;
-        voice->field_56 = mode3;
+        voice->note_length = mode3;
         voice->pan_duration = mode1;
         voice->pc = (AkaoU8 *)fallback;
         voice->update_flags |= AKAO_VOICE_PARAM_ADSR_RELEASE;
@@ -293,8 +293,8 @@ void Spu_ManageVoices(int arg0, int arg1)
         u32 flag1;
         u32 id;
         i = 0;
-        flag1 = 0x100000;
-        id = 0x200000;
+        flag1 = AKAO_TRACK_FLAG_SUSTAIN;
+        id = AKAO_TRACK_FLAG_KEY_OFF_PENDING;
         field = voice;
         do
         {
@@ -382,8 +382,8 @@ void Spu_ManageVoices(int arg0, int arg1)
         voice = (AkaoTrack *) g_AkaoVoiceChannelTable;
         mask = AKAO_SPU_VOICE_SFX_START_MASK;
         i = 0;
-        flag1 = 0x100000;
-        control = 0x200000;
+        flag1 = AKAO_TRACK_FLAG_SUSTAIN;
+        control = AKAO_TRACK_FLAG_KEY_OFF_PENDING;
         field = voice;
         do
         {
@@ -418,8 +418,8 @@ void Spu_ManageVoices(int arg0, int arg1)
         u32 flag1;
         int control;
         i = 0;
-        flag1 = 0x100000;
-        control = 0x200000;
+        flag1 = AKAO_TRACK_FLAG_SUSTAIN;
+        control = AKAO_TRACK_FLAG_KEY_OFF_PENDING;
         field = voice;
         do
         {
@@ -487,7 +487,7 @@ void Seq_StartNestedTrack(AkaoTrack *track, AkaoNestedSource *source, unsigned i
     track_reg->panpot_slide_duration = 0;
     track_reg->panpot = pan;
     pan_target = source->pan_target;
-    track_reg->field_56 = 2;
+    track_reg->note_length = 2;
     track_reg->pan_duration = 1;
     track_reg->parent_track_id = 1;
     track_reg->panpot_duration = 0;

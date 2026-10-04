@@ -319,10 +319,10 @@ void SeqOp_SetVolume(AkaoTrack *track) {
 
     track->pc = cursor + 1;
     value = *cursor;
-    track->field_D2 = 0;
+    track->fixed_note_length = 0;
     track->pan_duration = value;
-    track->field_56 = value;
-    track->field_D0 = value;
+    track->note_length = value;
+    track->default_note_length = value;
 }
 
 void SeqOp_AdjustVolumeTarget(AkaoTrack *track) {
@@ -332,7 +332,7 @@ void SeqOp_AdjustVolumeTarget(AkaoTrack *track) {
     track->pc = (unsigned char *)cursor + 1;
     value = *(signed char *)cursor;
     if (value != 0) {
-        value += track->field_D0;
+        value += track->default_note_length;
         if (value <= 0) {
             value = 1;
         } else if (value >= 0x100) {
@@ -340,5 +340,5 @@ void SeqOp_AdjustVolumeTarget(AkaoTrack *track) {
         }
     }
 
-    track->field_D2 = value;
+    track->fixed_note_length = value;
 }

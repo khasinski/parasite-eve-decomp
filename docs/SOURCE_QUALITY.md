@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### AKAO sample loader step
+
+`Akao_StepSampleLoader` now comes from plain C, with two static inline
+helpers for the drum-kit instrument switch. It adds no pins, barriers,
+volatile or gotos. The work also separated two track flags that the code
+had conflated. `AKAO_TRACK_FLAG_SUSTAIN` (bit 20) is the sustain request
+set by the sequence opcode. The new `AKAO_TRACK_FLAG_KEY_OFF_PENDING`
+(bit 21) marks a key-off deferred while sustain is held. Six AkaoTrack
+fields that the new unit touches gained names (note lengths, the current
+note and the pitch slide state), so the recorded unknown-field debt goes
+down.
+
 ### Entity bank loader and the memory card video open
 
 `Scene_LoadEntityTextures` streams an entity bank from the disc and resolves

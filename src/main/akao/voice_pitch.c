@@ -148,7 +148,7 @@ block_15:
 extern int g_AkaoPitchPeriodTable[];
 
 void Akao_SetNotePitchBounded(AkaoTrack *track, int arg1) {
-    int value = track->field_E2;
+    int value = track->current_note;
 
     if ((unsigned int)value < (unsigned int)arg1) {
         Akao_SetVoiceLoopAddr(track, arg1);

@@ -166,11 +166,11 @@ void Spu_UpdateVoiceRegisters(AkaoTrack *voice, u32 voice_mask) {
         }
     }
 
-    if (voice->field_7A != 0) {
+    if (voice->pitch_slide_steps != 0) {
         u32 old_value;
         old_value = voice->voice_mask_a;
-        new_value = old_value + voice->field_4C;
-        voice->field_7A--;
+        new_value = old_value + voice->pitch_slide_step;
+        voice->pitch_slide_steps--;
         if ((new_value & 0xFFFF0000) != (old_value & 0xFFFF0000)) {
             voice->update_flags |= 0x10;
         }
