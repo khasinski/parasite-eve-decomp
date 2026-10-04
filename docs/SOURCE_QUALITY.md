@@ -245,6 +245,15 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m123 joint triangle
+
+room_m123's joint triangle effect matches from clean C as
+`RoomEffect_JointTriangle`. One function-scope width variable carries both
+the line width and the case 1 sine scale, so it goes through global
+allocation and the division keeps retail's register. The glow line call
+takes its fourth argument as a pointer, and the overlay SHA-1 hash is
+unchanged with no pins or barriers added.
+
 ### Field engine quads, glow effects and star fan
 
 Seven more field engine routines of the main executable match from clean C:
