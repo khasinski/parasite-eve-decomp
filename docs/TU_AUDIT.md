@@ -116,6 +116,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Range | Unit | Evidence |
 | --- | --- | --- |
+| `room_m086: 0x10E4..0x1A5C` | `RoomEffect_BounceGlintFlow` | The controller registers the preceding bounce-glint callback in its 20-byte pool. Both use the shared `RoomBounceGlint` record and floor-height declaration; render parameters retain scalar aliases where retail scheduling requires them. The full `0x978`-byte range matches retail. |
 | `room_m123: 0x3534..0x3BF4` | `RoomEffect_JointTriangleFlow` | The triangle emitter registers the preceding callback and allocates eight-byte slots. `RoomM123JointTriangleRecord` overlays the emitter’s unsigned x/y/z values with callback state/frame/position fields; the size and shared position offset are asserted, and the full `0x6C0`-byte range remains retail-identical. |
 | `room_m123: 0x3BF4..0x4630` | `RoomEffect_M123GlowBurstFlow` | The glow-burst controller registers the preceding pulsing-sprite callback and allocates eight-byte records. `RoomM123BurstParticle` is now shared by callback and emitter, including the observed trailing halfword; the combined `0xA3C`-byte range matches the retail overlay. |
 | `room_m123: 0x5604..0x5A88` | `RoomEffect_M123ParticleSequence` | The callback and controller share the pool's 8-byte particle stride; `RoomM123Particle` now names the trailing reserved halfword in one header. Combining them also reconciles the callback's `D_800F336A` signed-short view with the controller's unsigned declaration. The full overlay matches retail byte-for-byte. |
@@ -163,6 +164,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Layout | Evidence and use |
 | --- | --- |
+| `RoomBounceGlint` | The `room_m086` emitter and callback use the same 20-byte slot: x/y/z/flag, velocity, timer and phase. The shared type describes both payload accesses; size and phase offset are compile-time checked. |
 | `RoomM273PulseRecord` | The 12-byte pool slot allocated by `RoomEffect_PulseBatchFlow` is passed to its adjacent callback. The callback view names a `GteShortVector` and velocity at `+8`; the emitter view names x/y/z/size/phase/unknown halfwords at `+0..+0x0A`. The union and size/offset assertions in `room_m273.h` and `room_m273_effects.h` cover both views, and the callback plus controller now compile in one TU. |
 | `RoomFanSweepSpark` | The `room_m318` fan-sweep controller allocates `0x10`-byte callback records and initializes state, angle, timer, and radius. The callback also stores its x/y/z position in that record; the trailing halfword at `+0x0E` completes the observed pool stride, guarded by offset and size assertions in `room_ember_burst.h`. |
 | `RoomM023ParticleRecord` | The room_m023 scatter emitter and drift-pulse callback share a 14-byte payload in a 16-byte pool stride. The union preserves both signed emitter and unsigned callback views, asserting size and shared phase/velocity offsets in `room_m023_effects.h`. |

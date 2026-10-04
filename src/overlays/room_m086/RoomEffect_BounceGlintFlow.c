@@ -1,34 +1,130 @@
 #include "common.h"
+#include "pe1/room_bounce_glint.h"
+
+/* Bouncing glint particle callback for the room_m086 controller: mode 1
+ * moves it (drift, then fall and bounce), mode 2 draws it. Both draws read
+ * the palette kind back from the parameter block, which keeps the block
+ * address in a saved register for the parameter02 read after the clut call.
+ * The switches have no default arms so the last draw falls straight into
+ * the shared return label, which lets each phase 0 draw cross-jump only the
+ * call. */
+
+int func_801900CC(int mode, RoomBounceGlint *glint, int *size) {
+    GteRotation rotation;
+    int extent = *size;
+    int intensity;
+
+    switch (mode) {
+    case 1:
+        switch (glint->phase) {
+        case 0:
+            glint->timer++;
+            glint->x += glint->vx;
+            glint->y += glint->vy;
+            glint->z += glint->vz;
+            glint->vy++;
+            if (glint->timer < 24) {
+                break;
+            }
+            return 1;
+        case 1: {
+            int fall;
+
+            glint->timer++;
+            glint->x += glint->vx;
+            glint->y += glint->vy;
+            glint->z += glint->vz;
+            glint->vx = glint->vx * 31 / 32;
+            glint->vz = glint->vz * 31 / 32;
+            fall = (u16)glint->vy + 4;
+            glint->vy = fall;
+            if ((s16)glint->y >= D_800942EC.height) {
+                int bounce = -(s16)fall;
+
+                glint->vy = bounce;
+            }
+            if (glint->timer >= 32) {
+                return 1;
+            }
+            break;
+        }
+        default:
+            return 0;
+        }
+        break;
+    case 2:
+        switch (glint->phase) {
+        case 0:
+            D_800F3368.parameter00 = 0x20;
+            D_800F3368.parameter02 = 2;
+            D_800F3368.extent_x = 0x20;
+            D_800F3368.extent_y = 0x20;
+            D_800F3368.tpage = D_800E2850[D_800E11EA];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
+            intensity = func_80077DC4((glint->timer << 10) / 24) / 32;
+            if (glint->flag != 0) {
+                int kind;
+                int palette;
+
+                kind = D_800F3368.palette;
+                palette = D_800E1204[kind];
+                if (kind == 4 && D_800F3428 != 0) palette += 4;
+                func_800CEE20((GteShortVector *)glint, 0, extent, extent,
+                              D_800F336A * (s16)(glint->timer / 6),
+                              (u16)func_80077AA4(0, palette), 2, intensity, 0);
+            } else {
+                int kind;
+                int palette;
+
+                kind = D_800F3368.palette;
+                palette = D_800E1204[kind];
+                if (kind == 4 && D_800F3428 != 0) palette += 4;
+                func_800CEE20((GteShortVector *)glint, 0, extent * 3 / 2,
+                              extent * 3 / 2,
+                              D_800F336A * ((glint->timer / 2) & 3),
+                              (u16)func_80077AA4(0, palette), 1, intensity, 0);
+            }
+            break;
+        case 1: {
+            int kind;
+            int palette;
+
+            rotation.x = 0;
+            rotation.y = 0;
+            rotation.flags = 0;
+            D_800F3368.parameter00 = 0x10;
+            D_800F3368.parameter02 = 1;
+            rotation.z = D_800E27EC << 7;
+            D_800F3368.extent_x = 0x10;
+            D_800F3368.extent_y = 0x10;
+            D_800F3368.tpage = D_800E2850[D_800E11EA];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
+            kind = D_800F3368.palette;
+            palette = D_800E1204[kind];
+            if (kind == 4 && D_800F3428 != 0) palette += 4;
+            func_800CEE20((GteShortVector *)glint, &rotation, extent * 3 / 2,
+                          extent * 3 / 2,
+                          (s16)D_800F3368.parameter02 * glint->flag + 0x1A,
+                          (u16)func_80077AA4(0x70, palette), 0xFF, 0x80, 0);
+            break;
+        }
+        }
+        break;
+    }
+    return 0;
+}
+
 typedef struct RoomM086Blob8 {
     char bytes[8];
 } RoomM086Blob8;
 
-typedef struct RoomM086Ent {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 flag;
-    s16 vx;
-    s16 vy;
-    s16 vz;
-    s16 padE;
-    s16 timer;
-    s16 state;
-} RoomM086Ent;
-
 extern void *D_800F32D0;
 extern void *D_800F33E0;
-extern s16 D_800942EC;
-extern s32 D_800E27EC;
-extern u16 D_800E11EA;
-extern u16 D_800E2850[];
-extern s16 D_800F3368;
-extern s16 D_800F336A;
-extern u16 D_800F336C;
 extern s16 D_800F336E;
 extern u16 D_800F3370;
 extern s16 D_800F3372;
-extern s16 D_800F3374;
 extern s16 D_800F3376;
 extern s16 D_800F3378;
 extern char D_8018EFF4[];
@@ -42,16 +138,15 @@ s32 func_80077DC4(s32 arg0);
 s32 func_800D3FD8(void);
 void func_800D3F64(s32 arg0, s32 arg1);
 
-extern s32 func_801900CC(s32 arg0, RoomM086Ent *arg1, void *arg2);
 
 #define COPY_POS(dst, src) \
     (dst)->x = (src)->x;   \
     (dst)->y = (src)->y;   \
     (dst)->z = (src)->z
 
-s32 func_80190574(s32 mode, RoomM086Ent *ent) {
+s32 func_80190574(s32 mode, RoomBounceGlint *ent) {
     RoomM086Blob8 blob;
-    RoomM086Ent *actor;
+    RoomBounceGlint *actor;
     s32 phase;
     s32 angle;
     s32 mag;
@@ -76,7 +171,7 @@ s32 func_80190574(s32 mode, RoomM086Ent *ent) {
 
 mode0:
     func_800CE8F0(((void **)D_800F32D0)[2], 7, &blob, ent);
-    ent->y = D_800942EC;
+    ent->y = D_800942EC.height;
     value = func_800D3FD8();
     func_800D3F64(0x579, value);
     func_800CE560(((void **)D_800F33E0)[2], 0x14, 0x18, func_801900CC);
@@ -103,7 +198,7 @@ mode1:
                 }
                 actor->vz = value >> 12;
                 actor->vy = -(func_80071A54() & 0xF) - 0xE;
-                actor->state = 0;
+                actor->phase = 0;
                 actor->timer = 0;
             }
             i++;
@@ -133,7 +228,7 @@ mode1:
                 actor->vz = value >> 12;
                 actor->vy = -(func_80071A54() & 0x1F) - 0x18;
                 actor->flag = func_80071A54() & 1;
-                actor->state = 1;
+                actor->phase = 1;
                 actor->timer = 0;
             }
             i++;
@@ -175,7 +270,7 @@ mode1:
             }
             actor->vz = value >> 12;
             actor->flag = func_80071A54() & 1;
-            actor->state = 0;
+            actor->phase = 0;
             actor->timer = 0;
         }
     }
@@ -186,7 +281,7 @@ mode1:
 
 mode2:
     D_800F3374 = 0x10;
-    D_800F3368 = 0x20;
+    D_800F3368.parameter00 = 0x20;
     D_800F336A = 2;
     D_800F3376 = 0x20;
     D_800F3378 = 0x20;

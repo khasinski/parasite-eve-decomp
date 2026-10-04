@@ -5,8 +5,8 @@
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
 
-/* Glint particle spawned by the room_m086 controller: phase 0 drifts for 24
- * frames, phase 1 falls and bounces on the floor height for 32 frames. */
+/* Shared 20-byte pool record for the room_m086 bounce-glint emitter and
+ * callback: phase 0 drifts for 24 frames; phase 1 falls and bounces. */
 typedef struct RoomBounceGlint {
     /* 0x00 */ u16 x;
     /* 0x02 */ u16 y;
@@ -20,6 +20,7 @@ typedef struct RoomBounceGlint {
     /* 0x12 */ s16 phase;
 } RoomBounceGlint;
 
+PE1_STATIC_ASSERT(sizeof(RoomBounceGlint) == 0x14, room_bounce_glint_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomBounceGlint, phase) == 0x12,
                   room_bounce_glint_phase_offset);
 
