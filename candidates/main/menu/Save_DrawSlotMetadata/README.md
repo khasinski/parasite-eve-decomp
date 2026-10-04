@@ -2,7 +2,7 @@
 
 Typed plain-C draft replacing the old misc23.c byte-offset version for this
 function (misc23.c still holds the other two functions of the old draft).
-Score: **lev 4** (retail 289 words, mine 289 words). No pins, barriers,
+Score: **lev 2** (retail 289 words, mine 289 words). No pins, barriers,
 volatile, aliases, integer casts or extra linker symbols. Flags are the
 approved `/* CC1_FLAGS: -G8 */` + `/* MASPSX_FLAGS: -G4 */` split.
 
@@ -21,19 +21,18 @@ Setup that already matches:
   `state` in a0 for the whole function instead of retail's v1.
 - Masks are `~0x300`; `index != 0 ? 0x14 : 0x61`; the prompt text choice is
   `if (prompt != 0) { if (prompt == phase) B; } else A;`.
-- Phase 1 stores the advanced word through `phase` (`phase = (next & ~0x300)
-  | ...; word = phase;`), a multi-block variable, so the new word goes to
-  global allocation instead of local-alloc's v1 (found by the permuter).
+- Phase 1 builds the advanced word in `value`, a function-scope int that
+  also carries the cursor x argument of Menu_SetTextCursorRect
+  (`value = next & ~0x300; value |= ...; word = value;`). The variable has
+  several sets, so global allocation places it, and with no call crossed it
+  lands in retail's a0 (the permuter suggested the shared temporary).
+  Earlier forms: a block-local temp builds it in v1 (lev 6), storing through
+  `phase` puts it in s0 (lev 4), a single `value = (...) | (...)` gives
+  lev 3.
 
-Remaining differences (lev 4), all in the phase 1 tail:
+Remaining differences (lev 2):
 
-- The new word now lands in s0 (the register of `phase`) instead of retail's
-  a0. With a block-local temporary it is built in v1 (lev 6), so
-  `lui v1,0x200` cannot move above `sw v1, word` in sched2. sched1 orders
-  both versions the same (store, flags load, constant: the constant is a
-  birthing insn and gets LAUNCH priority), so the difference is register
-  allocation. Tried: statement orders (flags first, flags between load and
-  store, separate `flags` temp), operand orders of the `|`, `+` instead of
-  `|`, `0xFFFFFCFF`, `(x & 0x300) >> 8`, folding the mask after the shift,
-  direct double reads of the word, storing through `prompt` (lev 7), `next`
-  (lev 8) or `state` (lev 6).
+- The `~0x300` mask constant is loaded into v1 (`li v1,-769; and a0,v0,v1`)
+  where retail loads it into a0 (`li a0,-769; and a0,v0,a0`). The constant is
+  a local pseudo and cannot tie to the global `value`. Tried
+  `value = ~0x300; value &= next;` and `value = next & value;` (lev 7).
