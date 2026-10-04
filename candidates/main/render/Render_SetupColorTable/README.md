@@ -87,3 +87,15 @@ slot-loop preheader movables, should get the same effect.
 The slot loop is 74 to 85 insns at loop time against a threshold of 58,
 so the -1 cannot be hoisted at the slot level without big changes.
 Value/quotient type sweeps (short/int/u16 combinations) were all worse.
+
+## Retry (agent 16, 2026-10-04): still lev 87
+
+Structural toggles scored with lev.py, none below 87: value/quotient/count
+and slot declared at function scope, `if (state == 0) { ... return; }`
+instead of `continue`, the slot loop reading `values[slot]` or stepping
+`values++` in the for header (161 words, but lev 89), `break` instead of
+`return` on the terminator, and the `D_8009CEA4 = -1` store moved. The
+register differences come from global allocation order: retail leaves
+`style` in a1 and copies `values` to t4 and `index` to t1, while this
+draft keeps `values` in a2 (its copy preference wins because i*56 lands in
+a3 instead of a2).
