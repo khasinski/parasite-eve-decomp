@@ -106,3 +106,18 @@ Not fixed by: `initCount >= 1`, `!(initCount <= 0)`, `(s16)paletteRow`,
 a block copy of paletteRow before or after the test,
 `if (setup && initCount > 0)` outside the block, or int/s16/u16 for the
 callee's palette_row.
+
+### Allocator detail and more attempts (2026-10-04, round 3)
+
+find_reg pass 0 skips registers that a lower-priority conflicting pseudo
+prefers (y prefers a2 because it is passed in a2) and registers not used
+so far. So initCount, allocated first, takes t9, and paletteRow takes a2 in
+pass 1. With paletteRow first, it would take t9 in pass 0 and initCount
+would fall back to a2, which is retail. t9 has no other use in retail, so
+paletteRow has only the load and the call argument there (2 refs, like
+mine). Its priority must come from the live length (a tie at 75 or 74
+goes to the lower pseudo number, paletteRow).
+Tried without effect: a K&R definition (the parameter copies stay in
+parameter order and both are launched by sched1, so the order cannot be
+changed), `paletteRow = (s16)paletteRow;` before the call, plus the forms
+listed above.

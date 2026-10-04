@@ -142,6 +142,31 @@ Two-ring loop around func_800D0E88 (call loop).
   when a constant load floats far up in a long store run, move the
   statement that creates it later in the source.
 
+### main Render_SetupEntityPrims texture loops (shared cursor copy): loops MATCHED
+
+- Retail copies the section cursor into t0 at the top of each texture loop
+  (`move t0,a1`), reads the record through t0 with raw offsets, and steps
+  the cursor in the back-branch delay slot (`addiu a1,a1,16`). A plain
+  `srcquad = cursor.quad; ...; cursor.quad++;` lets loop.c treat srcquad
+  as a DEST_REG giv of the cursor biv. Every `srcquad->field` load becomes
+  a DEST_ADDR giv, combine_givs folds them into the last one, and the
+  result is reduced (`addiu t0,a1,6`, offsets -5..7).
+- loop.c only marks a DEST_REG giv replaceable (which lets it derive the
+  address givs) when `regno_first_uid` is the giv's own insn, so the
+  variable must not be set anywhere before the loop. Fix: one
+  `RenderModelCursor src` for both loops, first set before them where it
+  has a real use (`src = cursor; *textureOut = src.commands;`, the texture
+  section start), then `src.quad = cursor.quad;` at the top of each loop
+  and `cursor.quad++` at the end. Both loops become byte-identical with no
+  dead store.
+- Forms that fail: `cursor.quad = srcquad + 1` (cursor stops being a biv,
+  but global alloc merges srcquad and cursor into one register),
+  `srcquad = cursor.quad++` (still reduced, `t0 = a1 - 10`), the copy
+  inside the inner loop (hoisted, still a giv), and walking the copy itself
+  as the biv. A dead second assignment (`srcquad++` after the inner loop)
+  also works, because a register set twice is never a giv, but it is a
+  steering store.
+
 ## What did not work
 
 - Statement order alone. Loop decisions depend only on the movable order and
