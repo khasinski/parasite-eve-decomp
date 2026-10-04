@@ -245,6 +245,16 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Battle status pointer primitives
+
+`Battle_BuildStatusPrimHeader` builds the rotating target pointer and the
+two connector lines of the floating battle status panel from typed packets,
+with no crutches. The active draw slot's sprite and triangle are written
+through `(&D_8009E460[g_ActiveDrawSlot].sprite)->x`-style expressions that
+are re-evaluated for every access, which reproduces retail's address
+loads, frame size and colour-branch merge. `battle_status.h` gains
+declarations only.
+
 ### scene_e08 particle slots draw and the battle target fade
 
 `Scene_DrawParticleSlots_80191E78` in scene_e08 is plain C with no
