@@ -1,7 +1,7 @@
 #ifndef PE1_BATTLE_STATUS_H
 #define PE1_BATTLE_STATUS_H
 
-#include "common.h"
+#include "pe1/battle.h"
 #include "pe1/render_prim.h"
 
 typedef struct BattleStatusLinePrim {
@@ -51,5 +51,18 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleGaugePrim, sprite) == 8,
                   battle_gauge_sprite_offset);
 PE1_STATIC_ASSERT(sizeof(BattleGaugePrim) == 0x1C,
                   battle_gauge_prim_stride);
+
+/* Floating panel renderer matching views: wide draw-slot declarations keep
+ * absolute addressing under -G8; the packet index uses the retail GP load.
+ * Separate initial/read views preserve the original base-address lifetime.
+ */
+extern s32 g_BattlePanelDrawSlotView[16] asm("D_8009CDDC");
+extern s32 g_BattlePanelInitialDrawSlotView[16] asm("D_8009CDDC");
+extern s32 g_BattlePanelPacketIndex asm("D_8009D230");
+extern RenderSpritePacket D_800B01C8[];
+/* Interior byte symbols of the first panel sprite, independently relocated. */
+extern u8 D_800B01CC[], D_800B01CD[], D_800B01CE[];
+extern u8 D_800B01D4[], D_800B01D5[];
+void Battle_DrawStatusPanel(int mode, BattleStatusPanel *panel);
 
 #endif

@@ -232,7 +232,7 @@ updateLinkedActor:
         enemy->panelC_timer = 0x1E;
     }
     if (enemy->panelC_timer != 0) {
-        Battle_DrawStatusPanel(1, &enemy->panelC_val);
+        Battle_DrawStatusPanel(1, (BattleStatusPanel *)&enemy->panelC_val);
         enemy->panelC_timer -= 1;
     }
     if (enemy->hpAlive <= 0) {
