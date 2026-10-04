@@ -44,9 +44,9 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x4B4, c, func_8019549C]
-      - [0x10DC, asm, scene_tail]
-      - [0x1760, asm, scene_tail_1760]
-      - [0x1CE4, asm, scene_tail_1CE4]
+      - [0x10DC, c, RoomEffect_HomingBurstController_801960C4]
+      - [0x1760, c, RoomEffect_SpinRayParticle_80196748]
+      - [0x1CE4, c, RoomEffect_SpinRayController_80196CCC]
       - [0x2304, c, RoomEffect_EmberFlareParticle]
       - [0x2904, c, RoomEffect_EmberFlareController]
       - [0x32BC, c, RoomEffect_OrbitSpinParticle_801982A4]
@@ -54,7 +54,7 @@ segments:
       - [0x4210, c, RoomEffect_GlintSparkParticle_801991F8]
       - [0x469C, c, RoomEffect_GlintRibbonController_80199684]
       - [0x4C40, c, RoomEffect_PulseGlintParticle_80199C28]
-      - [0x506C, asm, scene_tail_506C]
+      - [0x506C, c, RoomEffect_TwinGlowController_8019A054]
       - [0x5C48, c, RoomEffect_JitterSizedSpark_8019AC30]
       - [0x5EA4, c, RoomEffect_JitterSizedSpawner_8019AE8C]
   - name: scene_accessors

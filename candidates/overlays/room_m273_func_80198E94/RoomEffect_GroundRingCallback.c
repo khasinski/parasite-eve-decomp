@@ -1,4 +1,4 @@
-#include "../../../src/overlays/room_m273/room_m273_boss.h"
+#include "room_m273_boss.h"
 #include "pe1/gte.h"
 
 /* Ground ring: while it opens (frames up to 24) it knocks the player back
@@ -21,13 +21,11 @@ int func_80198E94(int mode, GteShortVector *position) {
         if (now >= 0x19) return 0;
         if (position->pad != 0) return 0;
         if (D_8019AF74.cooldown != 0) return 0;
-        i = D_800966EC[((now << 11) / 40) & 0xFFF].sine;
-        i /= 16;
-        i += 0x80;
         {
+            int radius = D_800966EC[((now << 11) / 40) & 0xFFF].sine / 16 + 0x80;
             int dx = g_PlayerEntity->position[0] - position->x;
             int dz = g_PlayerEntity->position[2] - position->z;
-            if (i < func_8005186C(dx * dx + dz * dz)) return 0;
+            if (radius < func_8005186C(dx * dx + dz * dz)) return 0;
         }
         position->pad = 1;
         g_PlayerEntity->actor->flags |= 0x4000;
@@ -45,8 +43,8 @@ int func_80198E94(int mode, GteShortVector *position) {
         int palette;
         int cosine;
         int sine;
-        value = D_800E27EC - 5;
-        if (value < 8) value = D_800966EC[(value << 7) & 0xF80].sine;
+        i = D_800E27EC - 5;
+        if (i < 8) value = D_800966EC[(i << 7) & 0xF80].sine;
         else value = D_800966EC[(((D_800E27EC - 13) << 10) / 24) & 0xFFF].cosine;
         page = (D_800E2850[D_800E11FA] | GetTPage(0, 1, 0, 0)) & 0xFFFF;
         fade = value >> 6;
@@ -88,12 +86,9 @@ int func_80198E94(int mode, GteShortVector *position) {
     D_800F3368.extent_y = 0x20;
     D_800F3368.extent_x = 0x20;
     D_800F3368.extent_y = 0x20;
-    {
-        int tpage = D_800E2850[D_800E11EA];
-        D_800F3368.palette = 3;
-        D_800F3368.parameter06 = 0;
-        D_800F3368.tpage = tpage;
-    }
+    D_800F3368.tpage = D_800E2850[D_800E11EA];
+    D_800F3368.palette = 3;
+    D_800F3368.parameter06 = 0;
     if (frame < 8) {
         int kind = D_800F3368.palette;
         int palette = D_800E1204[kind];
@@ -107,11 +102,11 @@ int func_80198E94(int mode, GteShortVector *position) {
     rotation.flags = 1;
     rotation.z = 0;
     fade = D_800966EC[(frame * 25) & 0xFFF].cosine >> 5;
-    size = D_800966EC[(frame * 51) & 0xFFF].sine / 16;
+    value = D_800966EC[(frame * 51) & 0xFFF].sine / 16;
     for (i = 0; i < 2; i++) {
-        func_800D004C(position, size, size, 8, &rotation, 0x1000, 0x1000,
+        func_800D004C(position, value, value, 8, &rotation, 0x1000, 0x1000,
                       &D_8019AE1C[0], &D_8019AE1C[1], fade, 1);
-        size += 0x100;
+        value += 0x100;
     }
     return 0;
 }

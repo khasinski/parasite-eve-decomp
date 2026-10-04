@@ -245,6 +245,47 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m350 sweep trap, the motion particle init family and the room_m273 queued drop
+
+room_m350's sweeping beam trap, the motion particle init shared by room_m075,
+room_m080 and room_m082 (one `RoomLib_InitMotionParticles.inc` with three
+instances), and room_m273's queued drop callback match from clean C. Indexing
+the quad's vertices lets loop strength reduction create the walking pointer
+in retail's order, the statement that creates a constant is placed late when
+the final scheduling pass would otherwise float it up through a run of
+stores, and one function-scope index shared with the landing slot gains the
+register priority retail gives it. All five overlay SHA-1 hashes are
+unchanged and no pins or barriers were added.
+
+### scene_e08, scene_e19_2 and scene_e22 effect controllers
+
+Nine more scene routines match from clean C: scene_e08's limb beams and arm
+glow draws, scene_e19_2's spin ray particle and controller, homing burst
+controller and twin glow controller, and scene_e22's twist model, sweep bolt
+and quake blast controllers, on new narrow headers. One function-scope
+variable shared between modes sets retail's register priority, constant
+texture arguments are written as literals where retail folds them, the
+palette is chosen with a conditional nested inside the clut call, and the
+tpage index is read through a base pointer into a one-field record. room_m273's
+sway shard callback also matches: an explicit literal instead of a variable
+set before its loop adds the counted instruction that keeps retail's
+invariants inside the loop, which shows the stock loop optimiser reproduces
+retail once the source has the right shape. Every overlay SHA-1 hash is
+unchanged and no pins or barriers were added.
+
+### Joint beacons and the scatter and sinking drops
+
+The joint beacon family in room_m023, room_m123 and room_m005, and the drop
+family in room_m256 and room_m404, match from clean C on per-room narrow
+headers, since their state layouts and draw lists differ too much to share
+a template. The drops' two switch tables are carved into each unit's own
+`.rodata`. Scale vectors are chained assignments in retail's store order,
+the tile index is read as an array element, signed timers and trig halves
+keep their `lh` loads through multiplication and signed bitfields, each GTE
+matrix load has its own block-local slot pointer, and case tails return
+before their breaks so retail's shared return tail survives. All five
+overlay SHA-1 hashes are unchanged and no pins or barriers were added.
+
 ### scene_e08 player orb
 
 scene_e08's player orb init, draw and update match from clean C on the new

@@ -39,7 +39,7 @@ segments:
       - [0x348, c, RoomM005_OrbiterController_8018F330]
       - [0x62C, c, RoomM005_CrossFlare_8018F614]
       - [0xB9C, c, RoomM005_DriftingSprite_8018FB84]
-      - [0xDDC, asm, func_8018FDC4]
+      - [0xDDC, c, RoomEffect_JointBeacon_8018FDC4]
       - [0x1A84, c, RoomM005_EnableDialogFollow_80190A6C]
       - [0x1AB0, data, D_80190A98]
       - [0x1AEC, data, RoomM005_Rec2]
