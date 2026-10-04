@@ -142,7 +142,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev 17 without volatile (count read gives lh, not lhu/sll/sra) |
 | menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, diff count not recorded) |
 | room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: lev 43 |
-| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev 16 (kind = 4 for parameter02; first block needs li 64 as the index load's delay filler, second block needs li 64 before li 4 with 4 live across the 0x40 stores, see README round 5) |
+| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev 15 with shared load temporaries feeding the parameter block (steering-grade, see README round 6); lev 16 with the plain `kind = 4` form |
 | scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: 7 diffs (single `special` variant, 2026-10-04) |
 
 ## not yet attempted

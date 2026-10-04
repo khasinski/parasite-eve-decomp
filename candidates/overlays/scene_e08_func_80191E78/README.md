@@ -125,3 +125,24 @@ Diagnosis with the -dS/-dR dumps (no source change kept):
   and shares v0 with 64 (lev 18 form); `kind = 4` (multi-set) sits above
   the hoisted moves (lev 16). Moving `kind/special/scale/palette = 4`
   across all positions of the block: 16 at best.
+
+## Round 6 (agent 19, 2026-10-04): lev 15
+
+`Scene_DrawParticleSlots_80191E78_shared_loads.c`: the parameter block is
+written in retail's store order (palette, parameter02, parameter06, the
+0x40 trio, depth, parameter0A, then tpage last from a temporary read
+before the stores), and two function-scope temporaries carry the stack
+vector loads into the block: `palette = D_8019956C; offset.x = palette;`
+... `palette = D_800E2850[D_800E11EA.index];` and `value = D_8019957C;
+offset.z = value;` ... `value = 0x40;`. The 0x40 is then multi-set (no
+launch) and anti-dependent on the offset.z store, so `li v1,64` lands
+between the index load and the `sll` exactly as in retail, and the two
+vector loads keep retail's order.
+- Remaining (lev 15): the D_8019956C load and the tpage value sit in a1
+  (palette is global; retail v0 and a0), the colour copy uses a1/v0
+  (retail a2/v1), and the second block's `li v0,64` / `li v1,4` order.
+- Same shape with other temporaries (kind, scale, special, a block-local
+  tpage) for the two loads: lev 16 to 52. Moving the colour copy or the
+  0x40 set relative to the tpage read: lev 15 to 46.
+- The shared temporaries are steering-grade reuse; this is a direction for
+  the register map, not a candidate to land as is.
