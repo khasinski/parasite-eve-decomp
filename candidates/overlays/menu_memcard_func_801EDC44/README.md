@@ -122,3 +122,21 @@ lift's register s4, and retail has no other s4 use outside &ring and the
 lift. Retail's lift is therefore marked global by a reference that flow
 sees but that is gone before local-alloc (not deleted by flow itself and not
 folded by cse), or it is global for another reason (more than one death).
+
+## Retry (agent 9, 2026-10-04): still lev 2
+
+`Memcard_RingBurstController_lift_global.c` is lev 2 with lev.py (the vz
+register in the mode 1 loop); `Memcard_RingBurstController.c` is lev 34.
+- local-alloc only takes a pseudo with reg_basic_block >= 0 and
+  reg_n_deaths == 1; between flow and local-alloc only combine and sched1
+  run, so a reference that makes lift global and then disappears has to be
+  an insn combine merges away. Tried the load + argument forms in mode 0
+  (`lift = burst->x/y/z;` passed to func_8006DDCC): combine does not fold
+  the copy into a2/a3 or the stack argument (lev 16 to 18, size 597).
+- Copy, add-constant and compare forms (`lift = a - b; if (lift == 0)`)
+  would fold, but this function has no such site with retail's code shape.
+- In the 34 build, local-alloc gives dim s0, then lift s1, &band s2, &tilt
+  s3, &offset s4 (lreg: lift 3 refs over 24 insns, &band 4 over 59, &tilt
+  4 over 60, &offset 3 over 30); retail needs lift after &offset, which a
+  block-local lift cannot get with 3 refs unless its span grows past
+  &offset's.
