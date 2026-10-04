@@ -44,7 +44,7 @@ void ROOM_LAYERED_SPRITE_NAME(void *unused0, void *unused1,
     saved_matrix = matrix;
     func_800C4FC4((char *)depth_slot - 0x14, &matrix, 0);
     matrix = saved_matrix;
-    func_800C4FC4((char *)depth_slot + 4, &matrix, 0);
+    func_800C4FC4(depth_slot + 2, &matrix, 0);
 
     func_800794C4(&seed0, &matrix);
     func_80071A44(&second_scale, 0, 0x10);
@@ -60,7 +60,7 @@ void ROOM_LAYERED_SPRITE_NAME(void *unused0, void *unused1,
     saved_matrix = matrix;
     func_800C4FC4((char *)depth_slot - 0x14, &matrix, 0);
     matrix = saved_matrix;
-    func_800C4FC4((char *)depth_slot + 4, &matrix, 0);
+    func_800C4FC4(depth_slot + 2, &matrix, 0);
 }
 
 #undef ROOM_LAYERED_SPRITE_NAME
