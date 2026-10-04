@@ -26,7 +26,7 @@ extern void ROOMLIB_HANDLER_D_BUILD_ROT(void *rotation, void *matrix);
 
 void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
     RoomEnt *ent = o;
-    char *state = (char *)o + 0xC;
+    char *state = (char *)&o->sub;
     short *scratch;
     RoomLink *link = o->link;
     char *left;
