@@ -129,4 +129,10 @@ extern void func_8006DF50(void *channel, int id, int value, int volume, int pan)
 extern void func_800D1AE0(RenderColor *color, int value, int step, int count);
 extern int func_801957CC(int mode, RoomOrbitTrailParticle *p);
 
+/* Ember column controller (func_80194F60): its spin template and halo
+ * colour, and the rising ember particle it sprays. */
+extern GteRotation D_8018F1FC;
+extern RenderColor D_8018F210;
+extern int func_8019485C(int mode, RoomOrbitTrailParticle *p);
+
 #endif
