@@ -20,7 +20,6 @@ typedef struct FloorNeighbours {
 extern FloorNeighbours D_8009CD88;
 /* One bit per edge id, set when the walk has tested that edge. */
 extern u32 D_8009DFB0[];
-extern s16 D_8009CE1C, D_8009CE20, D_8009CE24, D_8009CE28;
 
 int Math_FixedMul(int lhs, int rhs);
 int Geo_ClipToFloorBoundary(s16 x, s16 z, u16 *triangle);

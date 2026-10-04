@@ -1,4 +1,41 @@
-# Geo_ClipToFloorBoundary (main 0xBDFC, 0xB68 bytes): parked at lev 413
+# Geo_ClipToFloorBoundary (main 0xBDFC, 0xB68 bytes): matching in progress
+
+## Current candidate (2026-10-04, after Battle_DrawHPBar)
+
+Still **not matched** and not promoted to src/. Linked asm-differ weighted
+score is 4395, 114 differing rows, 2912 bytes versus 2920 retail bytes.
+This score is not the unweighted `lev.py` score in the historical notes below.
+The original candidate, adapted to current shared declarations, scored 15923.
+The target was checked directly against main.exe[0xBDFC:0xC964], SHA-256
+`2266862f33fbc0e5caa17acb3b7134942e3cdc039abd4ad05d2dca4e054201a2`.
+
+Trials run on darwine only, using stock native GCC 2.7.2 and MASPSX 2.56.
+Current profile: CC1 `-G8 -fno-strength-reduce`, MASPSX `--dont-force-G0
+--expand-div`, assembler `-G4`. The production cc.sh understands the source
+markers. No toolchain changes or instruction ASM. Four register pins and two
+empty bitmap-input barriers are experimental matching debt in this candidate.
+
+Changes since the first typed rewrite:
+- Use shared FloorEdgePoint endpoints, shared unsigned bounds, and the byte
+  CollisionFace.kind field rather than a halfword load.
+- Retain retail division checks and reload the edge table after helper calls.
+- Reuse the arithmetic accumulator and arrange flat/sloped locals to recover
+  retail's exact 192-byte frame and spill slots.
+- Keep the neighbour-list cursor as a byte offset with strength reduction
+  disabled; retain bitmap computation before the next vertex loads.
+
+Remaining: register/scheduling differences, comparison results reusing the
+accumulator, extent calculations, and hoisted query-coordinate sign extensions
+in the recursive loop. Restoring strength reduction scored 7567; tying both
+query coordinates through an output barrier scored 11059. Neither is retained.
+No permuter job has been launched for this target.
+
+Reproducible scratch: `/home/hasik/fx-search-archives/Geo_ClipToFloorBoundary/`,
+`compile.py denominator` followed by `evaluate.py denominator`, using the
+venv in the sibling `scene_e20_acceptance` checkout. Both scripts check the
+linked result; a nonzero score remains a search aid, never match evidence.
+
+## Historical starting point
 
 First typed rewrite (2026-10-04). It replaces the old byte-offset draft,
 which had the wrong structure (it called Geo_PointInTri and
