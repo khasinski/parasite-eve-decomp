@@ -329,7 +329,6 @@ segments:
       - [0x1C14C, c, main/Battle_StepEscapeOrDeath]
       - [0x1C490, c, battle/Battle_PhaseInitEnemyTurn]
       - [0x1D9F0, c, battle/Battle_PhaseHitReaction]
-      - [0x1E458, c, battle/Battle_PhaseEndTurn]
       - [0x1F8B0, c, battle/Battle_StepEntityDeath]
       - [0x1FB00, c, main/Battle_StartDeathAnim]
       - [0x1FE58, c, battle/Battle_SaveAyaState]
