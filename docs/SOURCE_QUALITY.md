@@ -8117,3 +8117,14 @@ instruction ASM or empty barrier. Mechanical temporary names, the selection
 search goto, and raw image-dimension offsets were removed without losing the
 match. Buffer offsets and address-based helper/global names remain provisional;
 this source grouping does not establish an original object-file boundary.
+
+### Battle player action lifecycle
+
+`Battle_BeginPlayerAction` and the adjacent `Battle_ReturnToIdle` now share
+`src/main/battle/Battle_ActionLifecycle.c`. Beginning the action clears the
+player’s disabled flag, sets the active combatant’s action-state bit, resets
+the combo counter and enters action mode `0x12`. Returning to idle clears the
+field-move lock and action-state bit, zeros player motion and restores the
+combatant’s saved `actionMode12`. The two routines share the `Combatant` and
+`BattleEntity` views under the `-G2` profile; their full 220-byte range matches
+retail. `make verify-clean` passes and `main.exe` remains byte-identical.
