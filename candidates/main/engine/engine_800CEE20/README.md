@@ -60,3 +60,12 @@ and `scale_x`, whose preferences are pruned because they cross calls.
 Brute force over 180 combinations (declaration order int/u8, all six
 orders of the null-colour and the product assignments) stays at 4.
 Sharing r with `page` (19) or with `width` (19) is worse.
+
+## Retry (agent 4, 2026-10-04): still 4
+
+Brute force over the order of the three template colour stores combined
+with all orders of the null-colour assignments (36 builds) stays at 4.
+`-dg` shows r (85) conflicting only with g (v1), b (a0), the two local
+multiply temporaries (a0, v0) and v0; nothing that conflicts with r holds a1
+or prefers it. Sharing r with `width` (GetTPage result written straight into
+the tpage) is 19.
