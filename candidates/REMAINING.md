@@ -13,10 +13,10 @@ Size is the objdiff function size in bytes.
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
-| inline-asm C unit | 2 | 300 |
+| inline-asm C unit | 1 | 148 |
 | parked near-miss | 28 | 48504 |
 | not yet attempted | 1 | 2384 |
-| total | 114 | 99760 |
+| total | 113 | 99608 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -132,7 +132,6 @@ Category notes:
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
 | main | func_800C2D0C | 148 | stack adjust inside a branch delay slot (non-GCC shape); body is inline asm |
-| main | CdRom_InitDsCallbacks | 152 | plain C except the `sw` in the CdRom_InitCmdState jal delay slot (lui $at form), held as inline asm |
 
 ## parked near-miss
 
@@ -183,5 +182,6 @@ Category notes:
 | main | Gpu_InitDrawModeSprtPacket | 100 | split out, typed packet record |
 | main | Inv_BuildItemGridFromCategory | 452 | inline mult asm was GCC's own i %% 3; indexed record/column form |
 | main | Util_CopyFFTerminatedBytes, Util_AppendFFTerminatedBytes, Inv_SelectActiveList | 288 | credited once util.c became plain C |
+| main | CdRom_InitDsCallbacks | 152 | plain C under the `ASSEMBLER: GNU` marker its LIBDS siblings use: GNU as in reorder mode moves the `sw` of `g_DsPollCallback = 0` into the CdRom_InitCmdState delay slot |
 
 The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA144) is now matched on main by another agent and is left out of the table.

@@ -1,3 +1,4 @@
+/* ASSEMBLER: GNU */
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds.h"
 
@@ -16,18 +17,8 @@ void CdRom_InitDsCallbacks(void) {
 
     g_DsReadyCallback = 0;
     g_DsSyncCallback = g_DsReadyCallback;
-    /* Match note: g_DsPollCallback clear is in the CdRom_InitCmdState delay slot. */
-    asm volatile(
-        ".set\tnoreorder\n\t"
-        ".set\tnoat\n\t"
-        "lui\t$at,%%hi(g_DsPollCallback)\n\t"
-        "jal\tCdRom_InitCmdState\n\t"
-        "sw\t$zero,%%lo(g_DsPollCallback)($at)\n\t"
-        ".set\tat\n\t"
-        ".set\treorder"
-        :
-        :
-        : "$31", "memory");
+    g_DsPollCallback = 0;
+    CdRom_InitCmdState();
     CdRom_SetRetryMode(0);
 
     g_CdSyncCallback = (CdlCB)Render_DrawParticleGroup;
