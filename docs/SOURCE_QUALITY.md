@@ -271,12 +271,14 @@ keeps the second copy of the pointer in its own register, as in retail.
 
 ### Boot notice disc check
 
-`Render_InitDisplayLists` is the boot notice state machine that waits for
-the right disc. `PeImage_Mount_Dispatch` was only its case 4 jump target, so
-the 0x1B88 jump table is now the unit's rodata and the label is gone from
-the symbol list. It keeps two CD retry `goto`s as recorded debt. Its
-register order comes from retail's statement order in the wrong-disc path
-and from reusing `wait` for the final ready poll.
+`OpenPeImage` and `Render_InitDisplayLists` now form one boot disc-check
+translation unit. The first locates PE.IMG and its disc markers; the second
+loads the notice assets, calls the image opener in state 4 and waits for the
+selected disc. They share the PE-image mount state and `Pe1GameState`. The
+0x1B88 switch table remains the latter function's `.rodata`. It keeps two CD
+retry `goto`s as recorded debt. Its register order comes from retail's
+statement order in the wrong-disc path and from reusing `wait` for the final
+ready poll.
 
 ### Actor contact pass and the field background loader
 
