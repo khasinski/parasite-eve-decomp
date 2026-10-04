@@ -14,9 +14,9 @@ Size is the objdiff function size in bytes.
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
-| parked near-miss | 23 | 38092 |
+| parked near-miss | 22 | 35720 |
 | not yet attempted | 0 | 0 |
-| total | 103 | 78160 |
+| total | 102 | 75788 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -134,7 +134,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
-| main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: lev 50, one column-pointer allocation swap (needs +1 ref on sp+0x32 and one no-code insn after the layer-4 stlvl, see README) |
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
 | main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev 17 without volatile (count read gives lh, not lhu/sll/sra) |
@@ -169,3 +168,4 @@ The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA1
 | menu_memcard | func_801EDC44 | 2384 | Memcard_RingBurstController, lev 0: one function-scope `amount` holds both the state 1 ring fade (`amount = 0x80 - burst->timer * 32;` passed to func_800D1AE0 inside the `timer < 5` block) and the band lift (`func_80077CF4(angle) / 12 + 80`); combine folds the fade copy into a1, but flow already counted it in another basic block, so the lift is a global pseudo and global alloc gives retail's whole map (lift s4 after the block locals &band s1, &tilt s2, &offset s3), with a block-local `dim = fade * 2 / 3` |
 | main | Battle_StepAyaAction | 2688 | score 0 and whole-main byte-match, committed in 66998969c; stock tools, 14 pins and 7 empty barriers recorded in debt |
 | main | Battle_PhaseHitReaction | 2664 | score 0 and whole-main byte-match; existing turn-phase palette code, typed enemy floating panel fields at 0xD0..0xD6, 11 color pins, 7 empty barriers and the 0x1A0-byte unused stack reserve recorded in debt |
+| main | func_800CAE0C | 2372 | FieldEng_GlowFourLayers: score 0 and whole-main byte-match with stock GCC/MASPSX; one empty barrier after the fourth CompMatrix keeps the column address live and reproduces the retail spill, no pins; existing SDK GTE macros |

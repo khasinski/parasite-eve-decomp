@@ -4,9 +4,9 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 
-/* Field engine glow layer effect (three copies in the main executable):
- * a placed axis matrix turned by two fixed spins and drawn twice as a
- * scaled sprite through func_800C42A4. */
+/* Field engine glow layers: a placed axis matrix turned by fixed spins
+ * and drawn as scaled sprites through func_800C42A4. Three two-layer
+ * variants and one four-layer variant share this record. */
 typedef struct FieldGlowLayers {
     /* 0x00 */ u8 pad00[4];
     /* 0x04 */ u16 depth;
@@ -40,6 +40,10 @@ extern u8 D_800F3422;
 extern FieldGlowSprite D_800F3498;
 extern FieldGlowSprite D_800F34A8;
 extern FieldGlowSprite D_800F34B8;
+extern FieldGlowSprite D_800F34C8;
+/* The four-layer glow writes D_800F34C8's offset and depth as scalars. */
+extern s16 D_800F34D0;
+extern s16 D_800F34D2;
 
 extern GteShortVector D_800C2154;
 extern GteShortVector D_800C215C;
@@ -50,6 +54,11 @@ extern GteVector D_800C2194;
 extern GteShortVector D_800C21A4;
 extern GteShortVector D_800C21AC;
 extern GteVector D_800C21B4;
+extern GteShortVector D_800C21D4;
+extern GteShortVector D_800C21DC;
+extern GteShortVector D_800C21E4;
+extern GteShortVector D_800C21EC;
+extern GteVector D_800C21F4;
 
 void func_800C2EAC(int arg0);
 void func_800C2FF0(int width, int height);

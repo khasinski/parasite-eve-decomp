@@ -1519,7 +1519,7 @@ segments:
       - [0xBA068, c, engine/FieldEng_UpdateEffects3]
       - [0xBA7D8, c, engine/FieldEng_GlowLayers_800C9FD8]
       - [0xBACA8, c, engine/FieldEng_UpdateEffects4]
-      - [0xBB60C, asm, engine/engine_800CAE0C]
+      - [0xBB60C, c, engine/FieldEng_GlowFourLayers]
       - [0xBBF50, c, engine/FieldEng_UpdateEffects5]
       - [0xBCAC4, c, engine/FieldAnim_ScatteredParticles]
       - [0xBCC40, c, engine/FieldAnim_UpdateWindows]
