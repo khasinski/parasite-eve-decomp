@@ -144,8 +144,8 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | Scene_LoadFieldBg | 1564 | candidates/main/main/Scene_LoadFieldBg: 42 diffs (CD loader) |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
-| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
+| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender_typed: typed draft; needs the unapproved -G8 cc1 / -G4 as split (absolute RMW of D_8009D2E8 next to gp-relative collision globals), see README; OWNED BY ANOTHER AGENT |
+| main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims_typed: 31 diff lines (zero-register cse in the first loop test, param 6/7 register swap, texture-loop giv), see README; OWNED BY ANOTHER AGENT |
 | main | Akao_StepSampleLoader | 2048 | candidates/main/main/Akao_StepSampleLoader.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | Scene_LoadRoom | 2160 | candidates/main/gpu/Scene_LoadRoom.c (old byte-offset draft, no README, diff count not recorded) |
 | main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: one register swap in the four gte_CompMatrix expansions |

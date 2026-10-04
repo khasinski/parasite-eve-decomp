@@ -1,0 +1,43 @@
+diff --git a/include/pe1/render_object.h b/include/pe1/render_object.h
+index 39578cdeb..8030d7538 100644
+--- a/include/pe1/render_object.h
++++ b/include/pe1/render_object.h
+@@ -458,7 +458,8 @@ typedef struct RenderObjectHeader {
+     unsigned char pad_00[2];
+     unsigned char part_count;
+     unsigned char animation_entry_count;
+-    unsigned char pad_04[4];
++    unsigned char pad_04[2];
++    unsigned short vertex_count;
+     unsigned short packet34_count;
+     unsigned short packet28_count;
+     unsigned short packet24_count;
+@@ -467,7 +468,8 @@ typedef struct RenderObjectHeader {
+     u16 anchor_y;
+     u16 anchor_matrix_index;
+     u16 shadow_radius; /* 0x14: half extent of the ground shadow quad */
+-    unsigned char pad_16[4];
++    unsigned char pad_16[2];
++    unsigned short matrix_command_bytes;
+     unsigned short visible_part_count;
+ } RenderObjectHeader;
+ 
+@@ -557,7 +559,8 @@ typedef struct RenderAnimationLookupEntry {
+     /* 0x02 */ s16 value1;
+     /* 0x04 */ s16 value2;
+     /* 0x06 */ s16 animation_id;
+-    /* 0x08 */ unsigned char reserved08[4];
++    /* 0x08 */ u16 bounds_value0;
++    /* 0x0A */ u16 bounds_value1;
+ } RenderAnimationLookupEntry;
+ 
+ typedef struct RenderAnimationDataHeader {
+@@ -628,7 +631,7 @@ typedef struct RenderObjectEntity {
+     /* 0x64 */ s16 projected_target_x, projected_target_y;
+     /* 0x68 */ RenderVec3s anchor_position;
+     /* 0x70 */ u16 table_value70;
+-    /* 0x72 */ unsigned char pad_72[2];
++    /* 0x72 */ s16 origin_value;
+     /* 0x74 */ u16 animation_value74;
+     /* 0x76 */ u16 animation_value76;
+     /* 0x78 */ u16 animation_value78;

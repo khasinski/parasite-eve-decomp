@@ -1,0 +1,167 @@
+diff --git a/include/pe1/battle.h b/include/pe1/battle.h
+index 9371f3eec..8ea26a70f 100644
+--- a/include/pe1/battle.h
++++ b/include/pe1/battle.h
+@@ -262,7 +262,7 @@ typedef struct BattleEntity {
+ /* 0x00D */ u8   teamId;        /* group/team id; target must differ/match (Battle_SetupEntityTarget.c:66) */
+ /* 0x00E */ u8   actionMode;     /* current action/animation mode; <4 and ==0xC are battle-state tests */
+ /* 0x00F */ u8   animLastFrame;  /* last valid frame index, loaded from action data byte 2 minus one */
+-/* 0x010 */ u8   pad_010[2];
++/* 0x010 */ u16  stepHeight;    /* largest flat-floor height change taken without blocking (Entity_UpdateAndRender) */
+ /* 0x012 */ u16  animStopFrame;  /* optional stop/clamp frame when entityFlags bit 0x200 is set */
+ /* 0x014 */ s32  animFrame;      /* current animation frame, 16.16 fixed point */
+ /* 0x018 */ union {
+diff --git a/include/pe1/field_collision.h b/include/pe1/field_collision.h
+index a2ee1969f..44f4eaa81 100644
+--- a/include/pe1/field_collision.h
++++ b/include/pe1/field_collision.h
+@@ -26,7 +26,15 @@ typedef struct RampEdge {
+     s32 directionZ;
+ } RampEdge;
+ 
+-extern s16 D_8009CE0C, D_8009CE0E, D_8009CE10, D_8009CE12;
++/* Endpoints of the edge the player last crossed onto a ramp, as screen
++ * style XY pairs: the GTE normal clip reads each point as one packed word. */
++typedef union FloorEdgePoint {
++    struct {
++        s16 x, z;
++    } point;
++    u32 packed;
++} FloorEdgePoint;
++extern FloorEdgePoint D_8009CE0C[2];
+ extern RampEdge *D_8009CE14;
+ extern u16 D_8009CE18;
+ void Entity_SlideOnRamp(struct BattleEntity *entity);
+@@ -80,7 +88,10 @@ typedef union CollisionTriangleTable {
+     CollisionTriangleXYZ *xyz;
+ } CollisionTriangleTable;
+ typedef struct CollisionDatabase {
+-    u32 reserved[6];
++    u32 reserved[2];
++    u16 faceCount;                    /* 0x08: walkable triangles. */
++    u16 reserved0A;
++    u32 reserved0C[3];
+     CollisionVertexTable vertices;   /* 0x18: XZ or XYZ array. */
+     CollisionTriangleTable triangles; /* 0x1C: XZ or XYZ triangles. */
+ } CollisionDatabase;
+@@ -90,8 +101,30 @@ typedef struct CollisionDatabase {
+     ((address).word = (index) * sizeof(type) + D_8009D1FC->vertices.word)
+ 
+ extern CollisionDatabase *D_8009D1FC;
++
++/* Shared head of both triangle formats. */
++typedef struct CollisionFace {
++    u8 kind;
++    u8 region;    /* flat mode: index into D_8009CE08 */
++    u16 plane;    /* sloped mode: index into D_8009D1D8 */
++    s32 distance; /* sloped mode: plane D term */
++} CollisionFace;
++
++/* Sloped-mode plane A*x + B*y + C*z = D, with B stored inverted. */
++typedef struct CollisionPlane {
++    s32 a;
++    s32 inverseB;
++    s32 c;
++} CollisionPlane;
++
+ /* Plane-table pointer; existing floor queries require a fresh read. */
+-extern u8 *volatile D_8009D1D8;
++extern CollisionPlane *volatile D_8009D1D8;
++/* Flat mode: per-region records that start with the region height. */
++extern s16 **D_8009CE08;
++/* Bounding box of the ramp edge the player last crossed. */
++extern u16 D_8009CE1C, D_8009CE20, D_8009CE24, D_8009CE28;
++/* One bit per triangle already visited by the floor search. */
++extern u32 D_8009DFB0[];
+ int Geo_PointInTri(void *triangle, s16 x, s16 z);
+ void *Geo_ClipToFloorBoundarySub(u16 *triangle, void *previous, s16 x0, s16 z0,
+                                  s16 x1, s16 z1);
+diff --git a/include/pe1/gte.h b/include/pe1/gte.h
+index 5a9856b3f..334392ade 100644
+--- a/include/pe1/gte.h
++++ b/include/pe1/gte.h
+@@ -364,6 +364,13 @@ int rsin(int angle);
+ #define gte_ldsxy2(value) \
+     asm volatile("mtc2 %0,$14" : : "r"(value))
+ 
++/* PSY-Q gte_ldsxy3: load SXY0, SXY2 and SXY1 in the SDK's order. */
++#define gte_ldsxy3(r0, r1, r2) \
++    asm volatile("mtc2 %0,$12\n\t" \
++                 "mtc2 %2,$14\n\t" \
++                 "mtc2 %1,$13" \
++                 : : "r"(r0), "r"(r1), "r"(r2))
++
+ #define gte_nclip() \
+     asm volatile("nop\n\t" \
+                  "nop\n\t" \
+diff --git a/src/main/main/Entity_FindFloor.c b/src/main/main/Entity_FindFloor.c
+index e6a82b41c..13f9c377c 100644
+--- a/src/main/main/Entity_FindFloor.c
++++ b/src/main/main/Entity_FindFloor.c
+@@ -10,8 +10,6 @@
+ #define S32_AT(ptr, off) (*(s32 *)((u8 *)(ptr) + (off)))
+ #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
+ 
+-extern u8 **D_8009CE08;
+-
+ int Math_FixedMul(int a, int b);
+ 
+ void Entity_FindFloor(u8 *entity)
+@@ -88,20 +86,14 @@ void Entity_FindFloor(u8 *entity)
+                         PTR_AT(entity, 0x1A8) = complex_triangle;
+                         if ((U32_AT(entity, 0x98) & 2) == 0) {
+                             x_height = Math_FixedMul(
+-                                S32_AT(D_8009D1D8 +
+-                                           U16_AT(complex_triangle, 2) * 12,
+-                                       0),
++                                D_8009D1D8[U16_AT(complex_triangle, 2)].a,
+                                 S32_AT(entity, 0x28));
+                             z_height = Math_FixedMul(
+-                                S32_AT(D_8009D1D8 +
+-                                           U16_AT(complex_triangle, 2) * 12,
+-                                       8),
++                                D_8009D1D8[U16_AT(complex_triangle, 2)].c,
+                                 S32_AT(entity, 0x30));
+                             S32_AT(entity, 0x2C) = Math_FixedMul(
+                                 S32_AT(complex_triangle, 4) - x_height - z_height,
+-                                S32_AT(D_8009D1D8 +
+-                                           U16_AT(complex_triangle, 2) * 12,
+-                                       4));
++                                D_8009D1D8[U16_AT(complex_triangle, 2)].inverseB);
+                         }
+                         return;
+                     }
+diff --git a/src/main/main/Entity_SlideOnRamp.c b/src/main/main/Entity_SlideOnRamp.c
+index 7e7817f04..8883b699b 100644
+--- a/src/main/main/Entity_SlideOnRamp.c
++++ b/src/main/main/Entity_SlideOnRamp.c
+@@ -29,10 +29,10 @@ void Entity_SlideOnRamp(BattleEntity *entity)
+     x += entity->baseX;
+ 
+     /* Retail keeps the low word of the cross product before signed division. */
+-    edgeX = D_8009CE10 - D_8009CE0C;
+-    edgeZ = D_8009CE12 - D_8009CE0E;
+-    numerator = ((z >> 16) - D_8009CE0E) * edgeX
+-                - ((x >> 16) - D_8009CE0C) * edgeZ;
++    edgeX = D_8009CE0C[1].point.x - D_8009CE0C[0].point.x;
++    edgeZ = D_8009CE0C[1].point.z - D_8009CE0C[0].point.z;
++    numerator = ((z >> 16) - D_8009CE0C[0].point.z) * edgeX
++                - ((x >> 16) - D_8009CE0C[0].point.x) * edgeZ;
+     projection = D_8009CE14[D_8009CE18].length;
+     projection = numerator / projection;
+     if (projection < 0)
+@@ -54,10 +54,10 @@ void Entity_SlideOnRamp(BattleEntity *entity)
+             case 2: directionZ += radius << 16; break;
+             case 3: directionZ -= radius << 16; break;
+             }
+-            loopEdgeX = D_8009CE10 - D_8009CE0C;
+-            loopEdgeZ = D_8009CE12 - D_8009CE0E;
+-            numerator = ((directionZ >> 16) - D_8009CE0E) * loopEdgeX
+-                        - ((directionX >> 16) - D_8009CE0C) * loopEdgeZ;
++            loopEdgeX = D_8009CE0C[1].point.x - D_8009CE0C[0].point.x;
++            loopEdgeZ = D_8009CE0C[1].point.z - D_8009CE0C[0].point.z;
++            numerator = ((directionZ >> 16) - D_8009CE0C[0].point.z) * loopEdgeX
++                        - ((directionX >> 16) - D_8009CE0C[0].point.x) * loopEdgeZ;
+             projection = D_8009CE14[D_8009CE18].length;
+             projection = numerator / projection;
+             if (projection < 0)
