@@ -18,10 +18,19 @@ int Geo_PointInPoly(int x, int z, const PolygonVertex *vertices,
 
 struct BattleEntity;
 
-/* Selected ramp edge: integer length and 16.16 direction in the X/Z plane. */
+/* 16.16 edge length; the slide reads only the integer half. */
+typedef union RampEdgeLength {
+    s32 fixed;
+    struct {
+        u16 fraction;
+        s16 integer;
+    } parts;
+} RampEdgeLength;
+
+/* Floor edge record (D_8009CE14, one per edge id): 16.16 length and unit
+ * direction in the X/Z plane. */
 typedef struct RampEdge {
-    s16 reserved;
-    s16 length;
+    RampEdgeLength length;
     s32 directionX;
     s32 directionZ;
 } RampEdge;
@@ -40,7 +49,7 @@ extern u16 D_8009CE18;
 void Entity_SlideOnRamp(struct BattleEntity *entity);
 
 PE1_STATIC_ASSERT(sizeof(RampEdge) == 12, ramp_edge_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RampEdge, length) == 2, ramp_edge_length_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RampEdge, length.parts.integer) == 2, ramp_edge_length_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RampEdge, directionX) == 4, ramp_edge_x_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RampEdge, directionZ) == 8, ramp_edge_z_offset);
 
@@ -76,11 +85,13 @@ typedef union CollisionVertexTable {
 /* Walkable triangles. Both formats are walked as halfword arrays: the
  * flat one keeps its vertex indices at [1..3] and its edge neighbours at
  * [7..9], the sloped one at [4..6] and [10..12]. */
-typedef struct CollisionTriangleXZ {
+typedef union CollisionTriangleXZ {
     u16 words[11];
+    u8 kind; /* bit 0x80: not walkable from a neighbour */
 } CollisionTriangleXZ;
-typedef struct CollisionTriangleXYZ {
+typedef union CollisionTriangleXYZ {
     u16 words[14];
+    u8 kind;
 } CollisionTriangleXYZ;
 typedef union CollisionTriangleTable {
     void *pointer;

@@ -33,7 +33,7 @@ void Entity_SlideOnRamp(BattleEntity *entity)
     edgeZ = D_8009CE10.point.z - D_8009CE0C.point.z;
     numerator = ((z >> 16) - D_8009CE0C.point.z) * edgeX
                 - ((x >> 16) - D_8009CE0C.point.x) * edgeZ;
-    projection = D_8009CE14[D_8009CE18].length;
+    projection = D_8009CE14[D_8009CE18].length.parts.integer;
     projection = numerator / projection;
     if (projection < 0)
         projection = -projection;
@@ -58,7 +58,7 @@ void Entity_SlideOnRamp(BattleEntity *entity)
             loopEdgeZ = D_8009CE10.point.z - D_8009CE0C.point.z;
             numerator = ((directionZ >> 16) - D_8009CE0C.point.z) * loopEdgeX
                         - ((directionX >> 16) - D_8009CE0C.point.x) * loopEdgeZ;
-            projection = D_8009CE14[D_8009CE18].length;
+            projection = D_8009CE14[D_8009CE18].length.parts.integer;
             projection = numerator / projection;
             if (projection < 0)
                 projection = -projection;
