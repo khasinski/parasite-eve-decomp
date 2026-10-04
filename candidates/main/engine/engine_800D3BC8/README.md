@@ -32,3 +32,15 @@ loads feed the barrier and outrank the saves. Retail's shape (all saves,
 then the five loads in a row, then the body) needs the loads to have no
 in-block consumers, i.e. a block boundary or barrier between the saves and
 the loads; no plain-C source for that is known.
+
+## sched2 trace (agent 4, 2026-10-04): still 24
+
+`cc1 -dR` on the first block: every prologue save has priority 1 and becomes
+ready at T-6, as soon as the branch, the `addu s0` delay-slot insn and the
+packet pointer chain are scheduled. The `lw D_8009CDDC` / `lw D_8009CDD8`
+loads (insns 37 and 48) then block for their load delay at T-8..T-13, and at
+each of those cycles a save wins the tie on "greater potential hazard", so
+ra/s4/s2/s1/s0 land between `li v0,120` and `sh v0,26(sp)`. In retail those
+stall cycles were filled by the centre stores instead, so the saves stayed
+on top. Brute force over the order of the centre stores, the packet pointer
+and the D_8009CDD8 update (6 orders) is at best 24.
