@@ -50,7 +50,7 @@ void func_801941A4(int intensity)
 
     func_80077C84(&packet->mode.packet, 0, 0, 0x40);
     modeBuffer = D_8019C9C0;
-    packet->mode.packet.tag = (packet->mode.packet.tag & commandMask) |
+    packet->mode.packet.tag.packed = (packet->mode.packet.tag.packed & commandMask) |
                               (*(u32 *)modeBuffer->allocation & addressMask);
     packetAddress.pointer = packet;
     addressMask = packetAddress.word & addressMask;
