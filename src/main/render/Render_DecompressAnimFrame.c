@@ -39,6 +39,11 @@ typedef struct RenderAnimVertex {
     u8 unk7;
 } RenderAnimVertex;
 
+typedef struct RenderAnimMaterialRecord {
+    u8 reserved[3];
+    u8 flags;
+} RenderAnimMaterialRecord;
+
 typedef union RenderAnimTag {
     u32 raw;
     struct {
@@ -70,6 +75,10 @@ typedef struct RenderAnimFace {
 
 PE1_STATIC_ASSERT(sizeof(RenderAnimFrame) == 0x1C, render_anim_frame_size);
 PE1_STATIC_ASSERT(sizeof(RenderAnimVertex) == 8, render_anim_vertex_size);
+PE1_STATIC_ASSERT(sizeof(RenderAnimMaterialRecord) == 4,
+                  render_anim_material_record_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderAnimMaterialRecord, flags) == 3,
+                  render_anim_material_flags_offset);
 PE1_STATIC_ASSERT(sizeof(RenderAnimLineG2) == 0x14, render_anim_line_g2_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderAnimLineG2, xy0) == 8,
                   render_anim_line_g2_xy0_offset);
@@ -300,7 +309,8 @@ block_22:
                 temp_v1_3 = var_v0_3 >> 0x10;
                 if ((temp_v1_3 != -1) && ((s16)var_t1 != -1)) {
                     negative_line = (RenderAnimLineG2 *)var_s2;
-                    temp_a3 = M2C_FIELD(((var_t7[temp_v1_3].material_index * 4) + material_base), u8 *, 3);
+                    temp_a3 = ((RenderAnimMaterialRecord *)(material_base +
+                                  var_t7[temp_v1_3].material_index * 4))->flags;
                     negative_material_flags = temp_a3;
                     negative_line->tag.bits.len = 4;
                     negative_line->code = primitive_code;
@@ -399,7 +409,8 @@ block_22:
                     var_v1 = selected_vertex;
                     positive_line = (RenderAnimLineG2 *)var_s2;
                     vertex_record = (RenderAnimVertex *)((var_v1 * 8) + (u32)var_t7);
-                    temp_a3_2 = M2C_FIELD(((vertex_record->material_index * 4) + material_base), u8 *, 3);
+                    temp_a3_2 = ((RenderAnimMaterialRecord *)(material_base +
+                                    vertex_record->material_index * 4))->flags;
                     M2C_FIELD(var_s3, s8 *, -4) = 4;
                     M2C_FIELD(var_s3, s8 *, 0) = primitive_code;
                     if (temp_a3_2 & 0x20) {

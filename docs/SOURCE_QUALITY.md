@@ -7920,8 +7920,10 @@ Linked function SHA-1: d7a2e299a4112b43bbe9241073355f5fb18981be.
 `+2`, `+6`, and `+0xA`; compile-time assertions tie those offsets to the
 corresponding fields in `RenderAnimPlayer`. The `RenderAnimLineG2` packet also
 asserts its two XY words at `+8` and `+0x10`; typed field stores preserve their
-volatile write order. Replacing five raw field macros preserves all 0x8F4
-function bytes, with no new pins or barriers.
+volatile write order. The four-byte `RenderAnimMaterialRecord` uses a flags
+byte at `+3`, matching the two indexed material lookups in this function.
+Replacing seven raw field macros preserves all 0x8F4 function bytes, with no
+new pins or barriers.
 
 
 ### Render_DrawTexturedQuads
