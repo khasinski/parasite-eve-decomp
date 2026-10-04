@@ -8061,3 +8061,14 @@ byte, sends it through `MemCard_WriteByte` and maps the result to success or the
 appropriate error. Their order, shared `CardObj` write transaction and matching
 GCC 2.8.1 profile support the grouping. The combined 540-byte object matches
 retail; `make verify-clean` passes and `main.exe` remains byte-identical.
+
+### Memory-card port event manager
+
+`MemCard_StepPortState` and the immediately following `MemCard_InitManager`
+now share `src/main/memcard/MemCard_StepPortState.c`. The state machine reads
+the event slots that the manager registers for card insertion, removal and
+card operations; both update the same port-state array. The manager’s reset of
+the first byte in each 0x418-byte record uses a byte view of the canonical
+`MemCardPortState` declaration. Both routines retain their original order, and
+the complete 1500-byte default-profile object matches retail. `make verify-clean`
+passes and `main.exe` remains byte-identical.
