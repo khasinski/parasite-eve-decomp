@@ -189,8 +189,9 @@ documented COP2 transfers and a memory constraint for the LZCR store.
 
 ## NCLIP
 
-`gte_ldsxy0`, `gte_ldsxy1`, `gte_ldsxy2`, `gte_nclip`, and `gte_stmac0` are
-the central interface for screen-space triangle winding. They load SXY0..2,
+`gte_ldsxy0`, `gte_ldsxy1`, `gte_ldsxy2`, `gte_ldsxy3`, `gte_nclip`, and
+`gte_stmac0` are the central interface for screen-space triangle winding.
+They load SXY0..2,
 run the documented NCLIP command, and store MAC0. `gte_nclip` owns the two
 required hazard slots before opcode `0x4B400006`; callers retain all culling
 and primitive-building logic in C. Initial users are the NCLIP helpers in

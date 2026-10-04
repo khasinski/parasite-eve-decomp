@@ -20,6 +20,7 @@ typedef struct FieldFlagsBlock {
 extern FieldPlayerSlot D_8009D254;
 extern FieldFlagsBlock D_8009D2E8;
 
+int abs(int value);
 int Math_FixedMul(int a, int b);
 int Geo_ClipToFloorBoundary(s16 x, s16 z, void *face);
 

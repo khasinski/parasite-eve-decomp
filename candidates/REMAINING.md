@@ -14,9 +14,9 @@ Size is the objdiff function size in bytes.
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
-| parked near-miss | 28 | 48840 |
+| parked near-miss | 27 | 46860 |
 | not yet attempted | 0 | 0 |
-| total | 111 | 97412 |
+| total | 110 | 95432 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -137,7 +137,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
-| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender_typed: -G8/-G4 typed draft at lev 126 (frame and entry now match; box-test CSE, clear-loop register swap and flat-mode tail remain; still gotos), see README |
 | main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims_typed: lev 4, texture loops solved (shared `src` cursor), only the paletteRow/initCount a2/t9 global-alloc order is left, see README |
 | main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: lev 50, one column-pointer allocation swap (needs +1 ref on four pseudos, see README) |
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
@@ -170,3 +169,4 @@ None: menu_memcard 0x244C now has a parked candidate.
 
 The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA144) is now matched on main by another agent and is left out of the table.
 | main | func_800C2D0C | 148 | plain C (stock 2.7.2, maspsx): the 8-byte frame comes from the `s16 offset` local, sched2 sinks the prologue `addiu sp` to the branch and the assembler fills the delay slot with it; `offset += size; state->data_next = offset;` gives the in-place add |
+| main | Entity_UpdateAndRender | 1980 | lev 0 under -G8 cc1 / -G4 maspsx with typed collision records: the packed sxy words go through one shared `int sxy` (set twice, so global alloc gives the or result v1), `a = abs(a)` (abssi2) for the area magnitude, the area test as one condition with nested box tests (no leave gotos), the clip results kept in `i` so the third loop entry compares it, and a static inline revert helper at each rollback site (jump2 cross-jumps them); 1 goto left (slide entry), logged as debt |
