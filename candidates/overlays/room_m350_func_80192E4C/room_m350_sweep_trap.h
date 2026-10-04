@@ -43,10 +43,11 @@ typedef struct RoomM350Player {
     /* 0x204 */ s32 z;
 } RoomM350Player;
 
-/* rcossin table pairs. */
+/* rcossin table pairs; the bitfields make each read an SImode extract,
+ * which keeps the lh + sra form of retail's shifted reads. */
 typedef struct RoomM350Trig {
-    s16 sin;
-    s16 cos;
+    int sin : 16;
+    int cos : 16;
 } RoomM350Trig;
 
 typedef struct RoomM350FloorLevel {

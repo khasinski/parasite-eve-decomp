@@ -29,3 +29,30 @@ Known differences in the draft:
 - the fan blade loop: retail moves intensity to s4 and puts the constant 1
   in s2.
 - step vector initial `sw zero` of x,y is reproduced by a union word store.
+
+Retry (agent 5, rooms6): same size, 59 real diffs (from about 505).
+What fixed it:
+- dispatch as `if (mode == 1) { if (D_800E27EC >= 0x10) return 1; } else if
+  (mode == 2) { ... }` (no store-flag, retail's bne tree).
+- the rcossin pairs as `int sin : 16; int cos : 16;` bitfields: `cos >> 5`
+  then compiles to lh + sra (an s16 field gives lhu + sll + sra).
+- one variable for `phase < 9` and the intensity
+  (`if (intensity) intensity = 0x80; else intensity = cos >> 5;`), which
+  shares retail's s2; the sweep loop index doubles as the angle (s0).
+- `trig = D_800966EC` read early for the intensity lookup (base register s1).
+- tpage statement first in the parameter block; frame matrix written in
+  retail's store order (m02, m20, m11, m00, m22, t2..t0, then the zeros
+  backwards); the glow scale `sin + 0x1000` as one block-local temporary;
+  `gte_rt()` (two nops) instead of `gte_rtv0tr()`; a separate `k` for the
+  two quad loops so it stays in a1.
+Remaining:
+- fan blade loop: retail keeps the constant 1 inside the loop (`addiu s2,1`
+  each iteration, reused by func_800D0728 after the loop) and copies the
+  intensity to s4; here loop.c hoists `li s4,1` out of the loop and the
+  call after the loop reloads 1. This looks like the known loop invariant
+  hoisting threshold difference (see room_m075 func_8018F3DC); an explicit
+  copy of the intensity before the loop moves dist out of s3 and is worse.
+- `D_8019A444[3].z/[2].z = -dist`: retail keeps &D_8019A444[2].z in s1 and
+  reuses it as the corner pointer base; here &[3].z is kept (the order of
+  the two statements does not change it).
+- the spin.x store sits after the counter load (retail stores it first).
