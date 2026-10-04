@@ -1,0 +1,1 @@
+RoomMain_ActorPtr = 0x8009D254; // absolute:True

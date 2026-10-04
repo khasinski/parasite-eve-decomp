@@ -11,6 +11,7 @@ options:
   build_path: build/USA/overlays/scene_e19_2
   ld_script_path: linkers/USA/overlays/scene_e19_2.ld
   undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.scene_e19_2.txt
+  symbol_addrs_path: configs/USA/overlays/sym.scene_e19_2.txt
   undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.scene_e19_2.txt
   find_file_boundaries: True
   disassemble_all: True
@@ -47,7 +48,7 @@ segments:
       - [0x1760, asm, scene_tail_1760]
       - [0x1CE4, asm, scene_tail_1CE4]
       - [0x2304, c, RoomEffect_EmberFlareParticle]
-      - [0x2904, asm, scene_tail_2904]
+      - [0x2904, c, RoomEffect_EmberFlareController]
       - [0x32BC, c, RoomEffect_OrbitSpinParticle_801982A4]
       - [0x392C, c, RoomEffect_OrbitSpinBurst_80198914]
       - [0x4210, c, RoomEffect_GlintSparkParticle_801991F8]
