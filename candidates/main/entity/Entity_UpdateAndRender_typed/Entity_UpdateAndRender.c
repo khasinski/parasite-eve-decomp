@@ -13,7 +13,7 @@ void Entity_UpdateAndRender(BattleEntity *actor)
     void *face;
     CollisionPlane *planes;
     u16 saved, radius;
-    unsigned int i;
+    unsigned int i, j;
 
     x = actor->posX.fixed >> 16;
     z = actor->posZ.fixed >> 16;
@@ -49,9 +49,7 @@ void Entity_UpdateAndRender(BattleEntity *actor)
         if ((a ^ b) >= 0) {
             if (a < 0)
                 a = -a;
-            if (b < 0)
-                b = -b;
-            if (b < a)
+            if ((b >= 0 && b < a) || (b < 0 && -b < a))
                 goto leave;
         }
         {
@@ -60,37 +58,49 @@ void Entity_UpdateAndRender(BattleEntity *actor)
             u16 maxZ = D_8009CE24, minZ = D_8009CE28;
             s16 width = maxX - minX;
             s16 height = maxZ - minZ;
+            int d;
 
-            if ((s16)maxX < x - r) {
-                if (height < width)
+            d = x - r;
+            if ((s16)maxX < d) {
+                if (width > height)
                     goto leave;
-                if ((s16)maxZ < z)
+                if (z > (s16)maxZ)
                     goto leave;
-                if (z + r < (s16)minZ)
-                    goto leave;
-            }
-            if (x + r < (s16)minX) {
-                if (height < width)
-                    goto leave;
-                if ((s16)maxZ < z - r)
-                    goto leave;
-                if (z + r < (s16)minZ)
+                d = z + r;
+                if (d < (s16)minZ)
                     goto leave;
             }
-            if ((s16)maxZ < z - r) {
-                if (width < height)
+            d = x + r;
+            if (d < (s16)minX) {
+                if (width > height)
                     goto leave;
-                if ((s16)maxX < x - r)
+                d = z - r;
+                if ((s16)maxZ < d)
                     goto leave;
-                if (x + r < (s16)minX)
+                d = z + r;
+                if (d < (s16)minZ)
                     goto leave;
             }
-            if (z + r < (s16)minZ) {
-                if (width < height)
+            d = z - r;
+            if ((s16)maxZ < d) {
+                if (height > width)
                     goto leave;
-                if ((s16)maxX < x - r)
+                d = x - r;
+                if ((s16)maxX < d)
                     goto leave;
-                if (x + r < (s16)minX)
+                d = x + r;
+                if (d < (s16)minX)
+                    goto leave;
+            }
+            d = z + r;
+            if (d < (s16)minZ) {
+                if (height > width)
+                    goto leave;
+                d = x - r;
+                if ((s16)maxX < d)
+                    goto leave;
+                d = x + r;
+                if (d < (s16)minX)
                     goto leave;
             }
         }
@@ -109,15 +119,15 @@ slide:
     Entity_SlideOnRamp(actor);
     x = actor->posX.parts.integer;
     z = actor->posZ.parts.integer;
-    for (i = 0; i < D_8009D1FC->faceCount; i++)
-        D_8009DFB0[i] = 0;
+    for (j = 0; j < D_8009D1FC->faceCount; j++)
+        D_8009DFB0[j] = 0;
     saved = D_8009CE18;
     i = Geo_ClipToFloorBoundary(x, z, face);
     if (i)
         goto found;
     if (saved == D_8009CE18) {
-        for (i = 0; i < D_8009D1FC->faceCount; i++)
-            D_8009DFB0[i] = 0;
+        for (j = 0; j < D_8009D1FC->faceCount; j++)
+            D_8009DFB0[j] = 0;
         D_8009DFB0[D_8009CE18 >> 5] = 1 << (D_8009CE18 & 0x1F);
         if (Geo_ClipToFloorBoundary(x, z, face))
             goto blocked;
@@ -169,23 +179,24 @@ found:
                 actor->motionY = 0;
             }
         } else if (region != ((CollisionFace *)actor->collisionFace)->region) {
-            int step = actor->stepHeight;
-            int delta = height - actor->posY.parts.integer;
+            int delta;
+            int step;
 
+            delta = height - actor->posY.parts.integer;
+            step = actor->stepHeight;
             if (delta < 0)
                 delta = -delta;
-            if (delta < step << 16)
-                actor->posY.fixed = height << 16;
-            else
-                goto blocked;
+            step <<= 16;
+            if (delta >= step) {
+            blocked:
+                actor->posX.fixed = actor->baseX;
+                actor->posY.fixed = actor->baseY;
+                actor->posZ.fixed = actor->baseZ;
+                actor->entityFlags |= 0x80000;
+                return;
+            }
+            actor->posY.fixed = height << 16;
         }
     }
     actor->collisionFace = face;
-    return;
-
-blocked:
-    actor->posX.fixed = actor->baseX;
-    actor->posY.fixed = actor->baseY;
-    actor->posZ.fixed = actor->baseZ;
-    actor->entityFlags |= 0x80000;
 }

@@ -127,3 +127,44 @@ comparison forms change nothing), the counter/pointer register swap
 (a0/v1) in the three clear loops, and the flat-mode tail (retail branches
 to the posY store and jumps to the rollback; mine inverts it). Gotos are
 unchanged (leave/slide/found/blocked) and must be logged as debt if it lands.
+
+## Fourth pass (agent 14, 2026-10-04): lev 17, equal size (495 words)
+
+Changes on top of the lev 126 draft, in order (lev after each):
+
+- Rollback block moved into the flat-mode branch: `if (delta >= step) {
+  blocked: ...rollback...; return; } actor->posY.fixed = height << 16;`
+  (the other `goto blocked` jump into it). Retail lays the rollback out
+  right after the step test with the posY and face stores behind it (105).
+- Edge box tests: one shared `int d;` assigned as a statement before every
+  compare (`d = x - r; if ((s16)maxX < d) ...`). Each reassignment
+  invalidates d in the blocks cse skips, so test 3/4 recompute `x - r`,
+  `x + r` and the compares exactly like retail, while the sign-extended
+  bounds stay in t4/t2. Writing the assignments inside the conditions
+  (`(d = x - r)`) only gets to 91, a static inline helper is far worse
+  (181..189, the inlined returns are not threaded), and the `&&`/`||`
+  single-condition form changes nothing (59).
+- Separate counter `j` for the second and third clear loops (loops 1 and
+  4 keep `i`, which also holds the second clip result). That fixes their
+  counter/pointer registers; giving loop 4 its own counter changes the
+  frame (112 in the earlier base).
+- Flat-mode tail: `delta = ...; step = actor->stepHeight; if (delta < 0)
+  delta = -delta; step <<= 16; if (delta >= step)` (46).
+- `width > height` / `height > width` for the inner tests (28) and
+  `z > (s16)maxZ` in the first edge test (24).
+- Area test as one condition: `if ((b >= 0 && b < a) || (b < 0 && -b < a))
+  goto leave;` (17, size now equal).
+
+Pointer-walking clear loops (`*mask++ = 0`, with or without the counter)
+are worse in every combination (133..157); retail counts up with the count
+re-read each pass, so a count-down form cannot match. 20 goto statements
+remain (was 21): leave/slide/found/blocked, to be logged as debt.
+
+Remaining 17 edits:
+- The two packed sxy words: retail puts the result in v1 (tied to the
+  shift, with the andi in v0); every expression form (|, +, either operand
+  order, u16 casts) gives v0 (6 words).
+- Area test: for b >= 0 retail branches `beqz box; j leave`, mine
+  `bnez leave` then a redundant `bgez b, box` (4 words).
+- Last clear loop: counter v1 / pointer a0 swapped against retail (7 words).
+

@@ -137,7 +137,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
-| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender_typed: -G8/-G4 typed draft at lev 126 (frame and entry now match; box-test CSE, clear-loop register swap and flat-mode tail remain; still gotos), see README |
+| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender_typed: -G8/-G4 typed draft at lev 17, equal size (sxy result register, area-test tail, last clear-loop register swap; 20 gotos), see README |
 | main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims_typed: lev 4, texture loops solved (shared `src` cursor), only the paletteRow/initCount a2/t9 global-alloc order is left, see README |
 | main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: lev 50, one column-pointer allocation swap (needs +1 ref on four pseudos, see README) |
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
