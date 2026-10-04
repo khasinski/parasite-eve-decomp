@@ -20,7 +20,8 @@ typedef struct SceneE18Owner {
 
 typedef struct SceneE18Instance {
     SceneE18Owner *owner;         /* 0x00 */
-    u8 reserved04[0xB];
+    u8 reserved04[0xA];
+    u8 animationId;               /* 0x0E */
     u8 frameLimit;                /* 0x0F */
     u8 reserved10[4];
     union {
@@ -135,5 +136,20 @@ typedef struct SceneE18PulseRing {
 } SceneE18PulseRing;
 
 extern RenderColor D_8019411C[2];
+
+/* Spinning model controller (func_801924E8): spins the scene model's
+ * glow shell around the room model while it grows and flares, and sets
+ * the model's stage byte once its seventh animation ends. */
+typedef struct SceneE18SpinShell {
+    s16 width;                    /* 0x00 */
+    s16 height;                   /* 0x02 */
+    s16 widthGrowth;              /* 0x04 */
+    s16 heightGrowth;             /* 0x06 */
+    s16 angle;                    /* 0x08 */
+    s16 turn;                     /* 0x0A */
+    s16 brightness;               /* 0x0C */
+} SceneE18SpinShell;
+
+extern void *D_801941C0;
 
 #endif
