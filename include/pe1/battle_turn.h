@@ -44,5 +44,6 @@ void Entity_TickAnimSequences(BattleEntity *);
 void Tbl_ResetAll(void);
 void Battle_PhaseInitEnemyTurn(void);
 void Battle_PhaseEndTurn(void);
+void Battle_PhaseHitReaction(void);
 
 #endif
