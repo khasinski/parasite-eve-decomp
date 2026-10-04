@@ -58,22 +58,62 @@ its `lhu`, so it needs a load-delay `nop`. This build spills `matrix + 4`
 before its first use, so no nop is needed. Fixing which column pointer is
 spilled fixes the size and the swap together.
 
-## Which pointer needs the extra reference (agent 16, 2026-10-04)
+## Local-alloc priority model (agent 14, 2026-10-04): still lev 50
 
-Diagnostic only (not a candidate form): an empty `asm volatile("" : :
-"r"((char *)&rotation + 2));` placed right after the fourth
-`gte_CompMatrix` gives **lev 0** (593 words). It emits no code; it only adds
-one counted reference to the `rotation + 2` column pointer (pseudo 105,
-sp+0x32) near the end of its life, which lifts its local-alloc priority from
-2*5/len to 2*6/len, and the whole retail allocation follows from that one
-change (s6 = sp+0x34, fp = sp+0x14, sp+0x44 spilled, plus the three
-load-delay nops). Placing the same use after layer 1, 2 or 3 gives lev 26;
-an extra use of any other single column pointer (matrix + 2, rotation + 4,
-matrix + 4, rotation + 20, matrix + 20) gives lev 26 to 65.
+Exact qty spans from the -dl dump (one block, sets right before each GTE
+asm, which are full sched barriers so births/deaths cannot move): 105
+(rot+2) 113, 106 (mat+2) 112, 108 (rot+4) 111, 109 (mat+4) 110, 111
+(rot+20) 109, 112 (mat+20) 108, 114 (&D_800C21F4) 107, 116 (&D_800F34C8)
+106; all have 5 refs, so local-alloc order is 116 > 114 > 112 > 111 > 109
+and they take s3..s7 in that order. Global then gives 108 fp, 106/105
+take s4/s3 from 114/116, &spinB (77) takes s7 from 109.
 
-So the target is a plain-C construct in layer 4, after its CompMatrix, that
-references `&rotation.m[0][1]` (sp+0x32) once more and then disappears
-before code generation (folded by combine, like the `ready` / `wait`
-reuses in LOOP_HOIST.md). A field read or store adds a real instruction,
-and address arithmetic on the pointer is folded by cse before flow counts
-it, so neither works as is.
+Retail's registers (105 s3, 106 s4, 112 s5, 108 s6, 109 fp, 111 spilled,
+77 s7) fit exactly one local order: 116 > 114 > 112 > 108 > 111, with 109
+left to global (first global allocno, fp) and 77 evicting 111 from s7.
+With the spans above that needs one extra reference on each of 108, 112,
+114 and 116 (6 refs: 12/span), or one fewer on 105, 106, 109 and 111.
+cse folds every macro operand to the same frame-address pseudo, so pointer
+variables for &rotation / &matrix and splitting gte_CompMatrix into its
+parts in layer 4 all leave the refs and lev unchanged (tested, lev 50).
+No natural source form adding those four references was found.
+
+## The diagnostic ref split into its two effects (agent 18, 2026-10-04): lev 50
+
+The empty `asm("" : : "r"(&rotation.m[0][1]))` right after the fourth
+gte_CompMatrix gives lev 0, but it does two separate things, and plain C
+needs both:
+
+- (A) one more counted reference to pseudo 105 (sp+0x32). Its local-alloc
+  priority rises from 10/113 to 12/113 (or 12/123 when its life is
+  extended), above 116 (10/106), so 105 is the first local qty and takes s3.
+- (B) one more insn between the layer-4 `gte_stlvl` (where 112, sp+0x24,
+  dies) and the layer-4 `scaleD = D_800C21F4` movstr (where 114 dies).
+  Spans from the -dl dump: 112 is born 2 insns before 114 in layer 1
+  (set112, stlvl, set114) but dies only 1 insn before it in layer 4
+  (stlvl, movstr), so 114 is 107 against 112's 108. The extra insn makes
+  114 108, a tie that 112 wins (lower qty), so the local order becomes
+  105, 116, 112, 114, 111 = s3..s7, and global then gives 109 fp, 108 s6
+  (evicts 114), 106 s4 (evicts 116), 77 s7 (evicts 111): retail.
+
+Verified independently: `asm("")` after the fourth CompMatrix (B only) is
+lev 76, the 105 ref after the first CompMatrix (A only) is lev 26, and both
+together are lev 0. The ref placed anywhere else in layer 4 (positions
+between the GTE parts) or after the scale copy is lev 26..63.
+
+Consequence: a combine-deleted step (the Render_SetupEntityPrims trick)
+can provide (A), because flow counts the reference before combine deletes
+the insn, but it cannot provide (B): local-alloc numbers only the insns
+left after combine. (B) needs an insn that survives to local-alloc and
+emits no code (a tied no-op move or a reload-deleted REG_EQUIV init), and
+the only values live in that window are frame addresses and the two symbol
+addresses, whose copies cse always folds (one basic block, so
+make_regs_eqv never makes a copy canonical). Equivalent alternatives:
+116 two insns longer (layer-4 window stlvl..`a0 = &D_800F34C8`) or 112
+one insn shorter; neither has a plain-C source found.
+
+Also tried (no change, lev 50..58): struct-field stores for the
+D_800F34D0/D2 pair in either or both halves, field-by-field scale copies,
+a `GteVector *scale` pointer for the layer-4 copy, layer 4 written out as
+separate GTE macros, and pointer offsets such as `&rotation.m[0][1] + 9`
+(cse folds them to the existing frame-address pseudos).

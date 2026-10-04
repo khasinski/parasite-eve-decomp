@@ -9,14 +9,14 @@ Size is the objdiff function size in bytes.
 
 | Category | Functions | Bytes |
 |---|---:|---:|
-| battle (excluded) | 13 | 26172 |
+| battle (excluded) | 12 | 23020 |
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
 | parked near-miss | 25 | 41928 |
 | not yet attempted | 0 | 0 |
-| total | 108 | 90500 |
+| total | 107 | 87348 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -40,7 +40,6 @@ Category notes:
 | main | Battle_UpdateEnemy | 2144 |  |
 | main | Battle_PhaseHitReaction | 2664 |  |
 | main | Battle_StepAyaAction | 2688 |  |
-| main | Battle_DrawHPBar | 3152 |  |
 
 ## handwritten library/BIOS asm
 
@@ -137,7 +136,8 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
-| main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: lev 50, one column-pointer allocation swap (needs +1 ref on four pseudos, see README) |
+| main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: lev 50, one column-pointer allocation swap (needs +1 ref on sp+0x32 and one no-code insn after the layer-4 stlvl, see README) |
+| main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
 | main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev 17 without volatile (count read gives lh, not lhu/sll/sra) |
 | fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: ~500 diffs (register allocation) |
