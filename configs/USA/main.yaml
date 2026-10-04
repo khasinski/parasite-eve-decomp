@@ -427,7 +427,7 @@ segments:
       - [0x2D2EC, c, render/Render_FadeEntityColor]
       - [0x2D4B0, c, render/Render_SetEntityBlendMode]
       - [0x2D6F8, c, field/Field_GetMapEntry]
-      - [0x2D850, asm, main/Render_SetupEntityPrims]
+      - [0x2D850, c, main/Render_SetupEntityPrims]
       - [0x2E02C, c, util/Util_ReturnTrue]
       - [0x2E034, c, render/Render_DrawWithAnim]
       - [0x2E14C, c, main/Render_InitPrimBlock]

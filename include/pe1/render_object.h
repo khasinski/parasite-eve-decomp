@@ -458,7 +458,8 @@ typedef struct RenderObjectHeader {
     unsigned char pad_00[2];
     unsigned char part_count;
     unsigned char animation_entry_count;
-    unsigned char pad_04[4];
+    unsigned char pad_04[2];
+    unsigned short vertex_count;
     unsigned short packet34_count;
     unsigned short packet28_count;
     unsigned short packet24_count;
@@ -468,7 +469,7 @@ typedef struct RenderObjectHeader {
     u16 anchor_matrix_index;
     u16 shadow_radius; /* 0x14: half extent of the ground shadow quad */
     u16 scale;         /* 0x16: copied from the owning actor's move_speed */
-    unsigned char pad_18[2];
+    unsigned short matrix_command_bytes;
     unsigned short visible_part_count;
 } RenderObjectHeader;
 
@@ -563,7 +564,7 @@ typedef struct RenderAnimationLookupEntry {
     /* 0x04 */ s16 value2;          /* centre z */
     /* 0x06 */ s16 animation_id;    /* part id passed to the contact callback */
     /* 0x08 */ s16 radius;          /* unscaled; multiplied by move_speed / 4096 */
-    /* 0x0A */ unsigned char reserved0a[2];
+    /* 0x0A */ s16 bounds_value1;   /* second bounds word (Render_SetupEntityPrims) */
 } RenderAnimationLookupEntry;
 
 typedef struct RenderAnimationDataHeader {
