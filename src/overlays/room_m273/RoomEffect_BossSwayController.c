@@ -61,7 +61,7 @@ int func_80199C50(int mode) {
         }
         if (D_8019AF74.sway_timer) {
             instance->yaw += D_8019AF74.sway_step *
-                             D_800966EC[(D_8019AF74.sway_timer << 8) & 0x1F00] / 4096;
+                             D_800966EC[(D_8019AF74.sway_timer << 7) & 0xF80].sine / 4096;
             D_8019AF74.sway_timer--;
         }
         if (D_8019AF74.cooldown) D_8019AF74.cooldown--;

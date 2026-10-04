@@ -41,8 +41,14 @@ typedef struct RoomM273BossActor {
     RoomM273BossInstance *instance;
 } RoomM273BossActor;
 
+typedef struct RoomM273BossPlayerActor {
+    u8 reserved_00[0x4C];
+    u32 flags;
+} RoomM273BossPlayerActor;
+
 typedef struct RoomM273BossPlayer {
-    u8 reserved_00[0x1FC];
+    RoomM273BossPlayerActor *actor;
+    u8 reserved_04[0x1F8];
     s32 position[3];
 } RoomM273BossPlayer;
 
@@ -53,7 +59,13 @@ typedef struct RoomM273BossFloor {
 extern RoomM273BossActor *D_800F32D0;
 extern RoomM273BossPlayer *g_PlayerEntity;
 extern RoomM273BossFloor D_800942EC;
-extern s16 D_800966EE[];
+/* Packed sine/cosine table: the low half is the sine, the high half the cosine. */
+typedef struct RoomM273BossTrig {
+    signed int sine : 16;
+    signed int cosine : 16;
+} RoomM273BossTrig;
+
+extern RoomM273BossTrig D_800966EC[];
 
 /* Boss controller state at 0x8019AE9C. */
 typedef struct RoomM273BossState {
@@ -92,7 +104,36 @@ typedef struct RoomM273SwayState {
 } RoomM273SwayState;
 
 extern RoomM273SwayState D_8019AF74;
-extern s16 D_800966EC[];
+
+/* Falling drop: position (the pad halfword counts frames after landing),
+ * ring position, velocity and the player-contact flag. */
+typedef struct RoomM273Drop {
+    GteShortVector position;
+    GteShortVector ring;
+    s16 vx;
+    s16 vy;
+    s16 vz;
+    s16 touched;
+} RoomM273Drop;
+
+/* Drop splash queue at 0x8019AF04: the contact position, then twelve
+ * queued landing positions stored as separate x/y/z arrays. */
+typedef struct RoomM273DropQueue {
+    GteShortVector hit;
+    s16 x[12];
+    s16 y[12];
+    s16 z[12];
+    s16 count;
+} RoomM273DropQueue;
+
+extern RoomM273DropQueue D_8019AF04;
+extern s16 D_8019AF62;
+extern GteShortVector D_8019AB68;
+extern u8 D_8019AD54[];
+extern u8 D_8019AD58[];
+extern u8 D_8019AD5C[];
+int Math_IntSqrt(int value);
+u16 GetClut(int x, int y);
 
 int FieldEng_VecToAngle(s32 *from, s32 *to);
 int FieldEng_TurnToward(s16 current, s16 target, s16 step);

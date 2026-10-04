@@ -48,7 +48,7 @@ int func_80196348(int mode) {
         }
         if (D_8019AE9C.tick < 0x77) {
             value = (D_8019AE9C.tick << 13) / 118;
-            value = D_800966EE[((value - 0x800) & 0xFFF) * 2] + 0x1000;
+            value = D_800966EC[(value - 0x800) & 0xFFF].cosine + 0x1000;
             instance->height = ((-(value * 384) / 8192) << 16) + D_8019AE9C.base_height;
         }
         D_8019AE9C.tick++;
