@@ -64,7 +64,8 @@ typedef struct SceneE22TextureSlot {
 } SceneE22TextureSlot;
 
 extern SceneE22TextureSlot D_800E11EA;
-extern u16 D_800E11FA;
+/* The scene's own page index at 0x800E11FA, read the same way. */
+extern SceneE22TextureSlot D_800E11FA;
 extern RenderColor D_8018F208;
 extern RenderColor D_8018F20C;
 extern RenderColor D_8018F204;
@@ -121,7 +122,13 @@ typedef struct SceneE22SwirlRing {
     s16 ring;                     /* 0x0E */
 } SceneE22SwirlRing;
 
-extern void *D_800B0E64;
+/* The sound owner read as a one-field record so the twist model's read
+ * stays behind its state clears (see room_m089_spin_model.h). */
+typedef struct SceneE22SoundOwner {
+    void *channel;
+} SceneE22SoundOwner;
+
+extern SceneE22SoundOwner D_800B0E64;
 extern GteRotation D_8018F1F4;
 extern RenderColor D_8018F214;
 extern u8 D_80199434[];
@@ -136,5 +143,45 @@ extern u8 D_80199308[];
 extern u8 D_80199190[];
 extern RenderColor D_8018F210;
 extern int func_8019485C(int mode, RoomOrbitTrailParticle *p);
+
+/* Twist model controller (func_80196554): a model bolt that rides an
+ * actor joint along its heading, sheds twisting trail particles, then
+ * draws as a spinning model with glows and flares. */
+typedef struct SceneE22TwistModel {
+    GteShortVector heading;       /* 0x00 */
+    GteShortVector position;      /* 0x08 */
+    GteShortVector origin;        /* 0x10 */
+    s16 state;                    /* 0x18 */
+    s16 timer;                    /* 0x1A */
+    s16 reserved1C;               /* 0x1C */
+} SceneE22TwistModel;
+
+typedef struct SceneE22ModelMatrix {
+    s16 m[3][3];
+    s16 reserved12;
+    s32 t[3];                     /* 0x14 */
+} SceneE22ModelMatrix;
+
+typedef struct SceneE22ModelScale {
+    s32 x, y, z, reserved0C;
+} SceneE22ModelScale;
+
+extern void *D_80199500;
+extern RenderColor D_8018F218;
+extern void *func_8006E498(void *base, u32 key);
+extern void func_800C6D5C(void *asset, int x, int y);
+extern s32 func_80077A64(s32, s32, s32, s32);
+extern void func_800C6EC0(int tpage, int clut);
+extern void func_800C6ED8(int);
+extern void func_80079754(void *rotation, void *matrix);
+extern void func_80078CC4(void *matrix, void *scale);
+extern void func_800C6EF8(void *asset);
+extern void func_800C6FA0(void *asset, int brightness);
+extern void func_800C71E4(void *asset, void *matrix);
+extern void func_800C6F4C(void *asset);
+extern void func_800D3BC8(GteShortVector *position, int scale_x, int scale_y,
+                          int texture, int clut, int page, int intensity, int arg7,
+                          int size);
+extern int func_801962FC(int mode, RoomOrbitTrailParticle *p);
 
 #endif

@@ -101,7 +101,7 @@ segments:
       - [0x5874, c, RoomEffect_EmberColumnFlow]
       - [0x67E4, c, RoomEffect_SwirlRingFlow]
       - [0x7314, c, RoomEffect_TwistTrailParticle]
-      - [0x756C, asm, func_scene_e22_00756C]
+      - [0x756C, c, RoomEffect_TwistModelController_80196554]
       - [0x8044, c, RoomEffect_TwistBeamParticle]
       - [0x8554, asm, func_scene_e22_008554]
       - [0x91C8, c, func_801981B0]

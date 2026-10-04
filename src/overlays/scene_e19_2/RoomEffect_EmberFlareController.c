@@ -34,7 +34,7 @@ int func_801978EC(int mode, SceneE22EmberBurst *burst) {
                     *object->status = 2;
             }
         }
-        soundSlot = &D_800B0E64;
+        soundSlot = &D_800B0E64.channel;
         if (*soundSlot != 0) {
             volume = 0x7F;
             func_8006DF50(*soundSlot, 0x5E5, func_800D3FD8(), 0x80, volume);
@@ -128,7 +128,7 @@ int func_801978EC(int mode, SceneE22EmberBurst *burst) {
         D_800F3368.extent_x = 0x40;
         D_800F3368.extent_y = 0x40;
         {
-            int tpage = D_800E2850[D_800E11FA];
+            int tpage = D_800E2850[D_800E11FA.index];
             D_800F3368.palette = 3;
             D_800F3368.parameter06 = 1;
             D_800F3368.parameter0A = 0;

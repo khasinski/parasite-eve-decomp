@@ -56,7 +56,7 @@ int func_801957CC(int mode, RoomOrbitTrailParticle *p) {
             D_800F3368.extent_x = 0x20;
             D_800F3368.extent_y = 0x20;
             {
-                int tpage = D_800E2850[D_800E11FA];
+                int tpage = D_800E2850[D_800E11FA.index];
                 D_800F3368.palette = 3;
                 D_800F3368.parameter06 = 1;
                 D_800F3368.tpage = tpage;
@@ -98,7 +98,7 @@ int func_80195B40(int mode, SceneE22SwirlRing *swirl) {
         swirl->timer = 0;
         swirl->glow = 0;
         swirl->ring = 0;
-        soundSlot = &D_800B0E64;
+        soundSlot = &D_800B0E64.channel;
         if (*soundSlot != 0) {
             volume = 0x7F;
             func_8006DF50(*soundSlot, 0x5D6, func_800D3FD8(), 0x80, volume);
@@ -178,7 +178,7 @@ int func_80195B40(int mode, SceneE22SwirlRing *swirl) {
         D_800F3368.extent_x = 0x20;
         D_800F3368.extent_y = 0x20;
         {
-            int tpage = D_800E2850[D_800E11FA];
+            int tpage = D_800E2850[D_800E11FA.index];
             D_800F3368.palette = 3;
             D_800F3368.parameter06 = 1;
             D_800F3368.parameter0A = 0;
@@ -200,7 +200,7 @@ int func_80195B40(int mode, SceneE22SwirlRing *swirl) {
             D_800F3368.extent_x = 0x20;
             D_800F3368.extent_y = 0x20;
             {
-                int tpage = D_800E2850[D_800E11FA];
+                int tpage = D_800E2850[D_800E11FA.index];
                 D_800F3368.palette = 3;
                 D_800F3368.parameter06 = 1;
                 D_800F3368.tpage = tpage;
