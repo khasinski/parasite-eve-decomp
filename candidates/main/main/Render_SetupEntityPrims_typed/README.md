@@ -121,3 +121,35 @@ Tried without effect: a K&R definition (the parameter copies stay in
 parameter order and both are launched by sched1, so the order cannot be
 changed), `paletteRow = (s16)paletteRow;` before the call, plus the forms
 listed above.
+
+## Retry (agent 8, 2026-10-04): still lev 4
+
+- `int row = paletteRow;` before the `initCount > 0` test ends paletteRow's
+  life before the test, so it outranks initCount: the registers become
+  retail's (lhu t9 / lhu a2, prologue matches), but the sign extension of
+  the fifth argument is then scheduled before the `blez` instead of in its
+  delay slot (lev 6). An s16/short copy is folded back by cse (lev 4).
+- Without effect (lev 4): `initCount <= 0 ? : call`, `i = initCount; if (i > 0)`,
+  `initCount >= 1`, `!(initCount < 1)`, an else arm, and an inline helper
+  taking the test (s16 or int counts). A one-iteration `for` on initCount is
+  lev 6. Reusing initCount, paletteRow, x, y or unused as the last loop
+  counter is lev 65 to 140.
+- Allocator detail (global.c prune_preferences): a lower-priority
+  conflicting allocno's preferred register is not excluded for an allocno
+  that prefers the same register itself. A plain-C reason for initCount to
+  prefer a2, or for any conflicting allocno to prefer t9, would also give
+  retail's assignment.
+- The live ranges that matter start at the `if (setup)` block (the stack
+  parameter loads sit there), so only code inside the setup region moves
+  the lengths. Adding exactly 3 counted insns there (or 10, or 18) gives
+  the tie that puts paletteRow first. Verified: splitting the descriptor
+  skip in the else arm (`desc += a + b; desc += c + d;` or similar) adds 3,
+  and every paletteRow/initCount register then matches retail. But the split
+  also changes that arm's code (lev 8 to 13). Still needed: +3 (or +10)
+  insns that combine later removes and that leave no code. A permuter run
+  (darwine scratch/a8rsp) only found duplicated dead arms.
+- Tried for length without effect (still 267/264): u16/s16/int/u8 count
+  temporaries in the header section (outside the region), `kind`
+  temporaries in the packet loops, `(kind & 0xFF)` tests (folded by the
+  front end), `&desc[...]`, `(int)` casts. `if (bytes & 3)` and `!= 0`
+  are lev 5.

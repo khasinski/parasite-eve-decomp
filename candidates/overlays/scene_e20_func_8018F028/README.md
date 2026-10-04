@@ -113,3 +113,15 @@ block-local `kind2` for the second block makes the first kind local too,
 local-alloc then gives it v1 before `special` is allocated (lev 13). Using
 `special` for the second kind is lev 17. Not tried: making the first kind
 global by another plain-C reference that leaves no code.
+
+## Retry (agent 8, 2026-10-04): still lev 4
+
+- A block-local `kind2` for the second palette block makes the first kind
+  local, and local-alloc gives it v1 before `special` (lev 13). The first
+  kind has to stay global (multi-set). Sharing it with mode 1's `bounce`
+  (`bounce = -(s16)fall`) keeps it global with retail's a0 and gives the
+  second block v1 (lev 2), but bounce then lands in a0 instead of v0, and
+  reusing the variable that way only steers codegen. Sharing it with
+  `glow` is lev 4 (s1). Any other variable (state, time, fall, angle,
+  case 1's kinds, function-scope kind) is lev 13 to 81.
+- Swapping the roles of kind and palette in the first block is lev 12.
