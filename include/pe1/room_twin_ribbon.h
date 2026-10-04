@@ -26,6 +26,29 @@ typedef struct RoomTwinRibbonParams {
     s32 stop;                     /* 0x00 */
 } RoomTwinRibbonParams;
 
+/* Pool record emitted by the ribbon controller and consumed by its pulse
+ * callback. The controller's cleared state/timer words are the callback's
+ * delay/age fields at the same offsets. */
+typedef struct RoomTwinRibbonPulse {
+    u16 x, y, z;                  /* 0x00 */
+    u8 reserved06[0x0A];
+    s16 delay;                    /* 0x10 */
+    s16 age;                      /* 0x12 */
+} RoomTwinRibbonPulse;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomTwinRibbonPulse, delay) == 0x10,
+                  room_twin_ribbon_pulse_delay_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomTwinRibbonPulse, age) == 0x12,
+                  room_twin_ribbon_pulse_age_offset);
+PE1_STATIC_ASSERT(sizeof(RoomTwinRibbonPulse) == 0x14,
+                  room_twin_ribbon_pulse_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOrbitTrailParticle, state) ==
+                      PE1_OFFSETOF(RoomTwinRibbonPulse, delay),
+                  room_twin_ribbon_pulse_delay_view);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOrbitTrailParticle, timer) ==
+                      PE1_OFFSETOF(RoomTwinRibbonPulse, age),
+                  room_twin_ribbon_pulse_age_view);
+
 extern GteShortVector D_8018F214;
 extern GteShortVector D_8018F21C;
 extern GteShortVector D_8018F224;
@@ -33,7 +56,7 @@ extern GteShortVector D_8018F22C;
 extern RenderColor D_8018F234;
 extern RenderColor D_8018F238;
 extern RenderColor D_8018F23C;
-extern int func_80196C48(int mode, RoomOrbitTrailParticle *p);
+extern int func_80196C48(int mode, RoomTwinRibbonPulse *p);
 extern void func_800CE8F0(void *pool, int index, void *offset, void *position);
 extern void func_800D1384(void *from, void *to, int width, void *color0,
                           void *color1, int alpha, void *trail, int mode);
