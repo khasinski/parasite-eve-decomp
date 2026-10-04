@@ -1,405 +1,442 @@
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
-#include "pe1/battle.h"
-
-typedef struct BattleTurnEntry {
-    BattleEntity *entity;
-    int field_04;
-} BattleTurnEntry;
-
-extern BattleEntity *D_8009D254;
-extern Combatant *D_8009D278;
-extern BattleEntity *D_8009D20C;
-extern int D_8009D258;
-extern int D_8009D2E8;
-extern int D_8009D1A0;
-extern unsigned char D_8009D1D4;
-extern unsigned char D_8009D25C;
-extern signed char D_8009CE48;
-extern signed char D_8009CE54;
-extern signed char D_8009CE55;
-extern short D_8009CE4C;
-extern int D_8009E054;
-extern int D_8009E058;
-extern int D_8009E05C;
-extern unsigned short D_8009CE58;
-extern unsigned short D_8009CE5C;
-extern unsigned short D_800B0D88[];
-extern unsigned char D_800B0D8A[];
-extern unsigned short D_801F1F38[];
-extern BattleTurnEntry D_800BE830[];
-extern unsigned char D_800B0CEC[];
-
+/* CC1_FLAGS: -G0 */
+/* MASPSX_FLAGS: -G8 --use-comm-section --expand-div */
+/* ASPSX_VERSION: 2.77 */
+#include "pe1/battle_runtime.h"
+extern u8 D_8009D25C;
+extern s8 D_8009CE48;
+extern s8 D_8009CE54;
+extern s8 D_8009CE55;
+extern s16 D_8009CE4C;
+extern s32 D_8009E054, D_8009E058, D_8009E05C;
+extern u16 D_8009CE58[2];
+extern u16 D_8009CE5C;
+extern RenderObjectEntity D_800B0CEC;
+extern u16 D_800B0D88;
+extern u8 D_800B0D8A;
+extern u16 D_801F1F38;
+extern u32 D_8009D1A0;
 int Scene_InitEntityPlayer(int mode);
-void Entity_SetActionMode(void *entity, int mode);
-void Anim_SetInterpRate(void *anim, int rate);
-int Scene_LoadRoomAssets(int room, void *entity);
 void Pm_StopLowerHalf(void);
-int Pm_Stop(int slot, void *entity, int mode);
-int Battle_CalcAngleToTarget(void *from, void *to);
-int rsin(int angle);
-int rcos(int angle);
-void Asset_Find08Alt(int id, int arg1, int x, int y, int z);
+int Battle_CalcAngleToTarget(void *, void *);
+int rsin(int);
+int rcos(int);
 
-#define B8(ptr, off) (*(signed char *)((unsigned char *)(ptr) + (off)))
-#define U8_AT(ptr, off) (*(unsigned char *)((unsigned char *)(ptr) + (off)))
-#define S16_AT(ptr, off) (*(short *)((unsigned char *)(ptr) + (off)))
-#define U16_AT(ptr, off) (*(unsigned short *)((unsigned char *)(ptr) + (off)))
-#define S32_AT(ptr, off) (*(int *)((unsigned char *)(ptr) + (off)))
-#define U32_AT(ptr, off) (*(unsigned int *)((unsigned char *)(ptr) + (off)))
-#define PTR_AT(ptr, off) (*(void **)((unsigned char *)(ptr) + (off)))
+u8 D_8009D25C;
+s8 D_8009CE48, D_8009CE54, D_8009CE55;
+s16 D_8009CE4C;
+u16 D_8009CE58[2], D_8009CE5C;
+u8 D_8009D1D4;
+int D_8009D258;
 
-static void Battle_AyaAdvanceState(void) {
-    D_8009D25C++;
-}
-
-static int Battle_AyaTickTimer(void) {
-    if (D_8009CE4C != 0) {
-        D_8009CE4C--;
-        return 1;
-    }
-    return 0;
-}
-
-static int Battle_AyaAnimAtFrame(BattleEntity *entity, int frame) {
-    return U8_AT(entity, 0x0F) == frame;
-}
-
-static int Battle_AyaAnimAtEnd(BattleEntity *entity) {
-    return U8_AT(entity, 0x0F) == U16_AT(entity, 0x1A);
-}
-
-static void Battle_AyaSetAnimFlags(int bits) {
-    U16_AT(D_8009D254, 0x250) |= bits;
-}
-
-static void Battle_AyaSetRenderInterp(int rate) {
-    Anim_SetInterpRate((unsigned char *)D_8009D254 + 0x1B4, rate);
-}
-
-static void Battle_AyaSavePose(BattleEntity *entity) {
-    D_8009E054 = S32_AT(entity, 0x28);
-    D_8009E058 = S32_AT(entity, 0x2C);
-    D_8009E05C = S32_AT(entity, 0x30);
-    D_8009CE58 = U16_AT(entity, 0x38);
-    (&D_8009CE58)[1] = U16_AT(entity, 0x3A);
-    D_8009CE5C = U16_AT(entity, 0x3C);
-}
-
-static void Battle_AyaRestorePose(BattleEntity *entity) {
-    S32_AT(entity, 0x28) = D_8009E054;
-    S32_AT(entity, 0x2C) = D_8009E058;
-    S32_AT(entity, 0x30) = D_8009E05C;
-    S32_AT(entity, 0x40) = D_8009E054;
-    S32_AT(entity, 0x44) = D_8009E058;
-    S32_AT(entity, 0x48) = D_8009E05C;
-    U16_AT(entity, 0x38) = D_8009CE58;
-    U16_AT(entity, 0x3A) = (&D_8009CE58)[1];
-    U16_AT(entity, 0x3C) = D_8009CE5C;
-}
-
-static void Battle_AyaClearOtherVelocity(BattleEntity *self) {
-    BattleEntity *entity;
-
-    entity = D_8009D20C;
-    while (entity != 0) {
-        if (entity != self && entity->core != 0) {
-            S32_AT(entity, 0x68) = 0;
-            S32_AT(entity, 0x6C) = 0;
-            S32_AT(entity, 0x70) = 0;
-        }
-        entity = entity->next;
-    }
-}
-
-static BattleEntity *Battle_AyaCurrentTarget(void) {
-    return D_800BE830[D_8009D1D4].entity;
-}
-
-static int Battle_AyaCurrentTargetIsRepeated(void) {
-    return D_800BE830[D_8009D1D4].entity == D_800BE830[D_8009D1D4 + 1].entity;
-}
-
-static void Battle_AyaUpdateTargetRenderBits(void) {
-    BattleEntity *target;
-    Combatant *combatant;
-    unsigned int flags;
-    int weapon_class;
-
-    target = Battle_AyaCurrentTarget();
-    if (target == 0 || target->core == 0) {
-        return;
-    }
-
-    flags = U32_AT(target->core, 0);
-    flags &= ~0x6000;
-    flags |= 0x2000;
-
-    combatant = D_8009D278;
-    weapon_class = 0;
-    if (combatant != 0 && combatant->action != 0) {
-        weapon_class = (combatant->action->attackWord >> 20) & 3;
-    }
-    flags &= 0xFFF3FFFF;
-    flags |= weapon_class << 18;
-
-    flags &= 0xFFFC7FFF;
-    flags |= (D_8009CE55 & 7) << 15;
-    U32_AT(target->core, 0) = flags;
-}
-
-static int Battle_AyaLoadShotEffect(void) {
-    int effect;
-
-    effect = 0x6E;
-    if (D_8009CE48 == 2) {
-        effect = 0x6F;
-    } else if (D_8009CE48 == 5) {
-        effect = 0x71;
-    } else if (D_8009CE48 == 6) {
-        effect = 0x70;
-    }
-
-    Scene_LoadRoomAssets(effect, Battle_AyaCurrentTarget());
-    D_8009CE48++;
-
-    if (D_8009CE48 >= 7) {
-        Battle_AyaAdvanceState();
-        return 0;
-    }
-
-    if (Battle_AyaCurrentTargetIsRepeated()) {
-        D_8009D25C = 8;
-        D_8009D1D4++;
-    } else {
-        Battle_AyaAdvanceState();
-    }
-    return 0;
-}
-
-static void Battle_AyaSetupTargetStep(void) {
-    BattleEntity *entity;
-    BattleEntity *target;
-    Combatant *combatant;
-    BattleAction *action;
-    int range;
-    int angle;
-    int x;
-    int z;
-
-    entity = D_8009D254;
-    target = Battle_AyaCurrentTarget();
-    if (target == 0) {
-        return;
-    }
-
-    combatant = D_8009D278;
-    action = combatant != 0 ? combatant->action : 0;
-    range = S16_AT(target, 0x224);
-    if (action != 0) {
-        range = range + (S16_AT(action, 0) * ((action->attackWord >> 19) & 0x1F)) / 10;
-    }
-    range += S16_AT(entity, 0x224);
-
-    angle = Battle_CalcAngleToTarget((unsigned char *)target + 0x1B4, &D_8009E054);
-    S16_AT(entity, 0x3A) = angle;
-
-    x = S16_AT(target, 0x268) << 16;
-    x += (range * rsin(angle)) << 4;
-    S32_AT(entity, 0x28) = x;
-
-    z = S16_AT(target, 0x26C) << 16;
-    z += (range * rcos(S16_AT(entity, 0x3A))) << 4;
-    S32_AT(entity, 0x30) = z;
-
-    S32_AT(entity, 0x40) = S32_AT(entity, 0x28);
-    S32_AT(entity, 0x44) = S32_AT(entity, 0x2C);
-    S32_AT(entity, 0x48) = S32_AT(entity, 0x30);
-
-    Asset_Find08Alt(0x4B6, 0, S16_AT(entity, 0x2A), S16_AT(entity, 0x2E), S16_AT(entity, 0x32));
-    D_8009CE4C = 0x1E;
-    Battle_AyaAdvanceState();
-}
-
-int Battle_StepAyaAction(void) {
-    BattleEntity *entity;
-    int result;
-
-    result = 0;
-    entity = D_8009D254;
-
-    switch (D_8009D25C) {
+/* WIP: not selected by main.yaml; see Battle_StepAyaAction/README.md. */
+s32 Battle_StepAyaAction(void)
+{
+  RenderObjectEntity *actionRender;
+  BattleEntity *temp_a0;
+  BattleEntity *var_a1;
+  BattleEntity *var_v1;
+  s16 temp_v0;
+  BattleEntity *new_var;
+  s32 temp_s0;
+  s32 temp_v0_3;
+  s32 temp_v1;
+  s32 temp_v1_2;
+  s32 var_s1;
+  s8 temp_v0_2;
+  u32 var_a0;
+  u32 var_a0_2;
+  int new_var2;
+  register u8 var_v0_2 asm("$2");
+  u32 *temp_a0_2;
+  var_s1 = 0;
+  switch (D_8009D25C)
+  {
     case 0:
-        Scene_InitEntityPlayer(1);
-        Battle_AyaSavePose(entity);
+    {
+      register s32 transfer asm("$2");
+      register int rate asm("$5");
+      register int mask asm("$7");
+      register RenderObjectEntity *render asm("$4");
+      register unsigned entityFlags asm("$3");
+      Scene_InitEntityPlayer(1);
+      {
+        register BattleEntity *player asm("$6") = D_8009D254;
+        transfer = player->posX.fixed;
+        D_8009E054 = transfer;
+        transfer = player->posY.fixed;
+        D_8009E058 = transfer;
+        transfer = player->posZ.fixed;
+        D_8009E05C = transfer;
+        transfer = (u16) player->rotationX;
+        D_8009CE58[0] = transfer;
+        rate = 30;
         D_8009CE48 = 0;
-        D_8009D2E8 &= ~4;
-        U32_AT(entity, 0x98) |= 0x80;
-        Battle_AyaSetRenderInterp(0x1E);
-        U16_AT(entity, 0x250) |= 2;
-        Anim_SetInterpRate(D_800B0CEC, 0x1E);
-        D_800B0D88[0] |= 2;
-        Pm_StopLowerHalf();
-        D_8009D258 = Scene_LoadRoomAssets(0x6B, entity);
-        Battle_AyaAdvanceState();
-        break;
+        transfer = (u16) player->facingAngle;
+        D_8009CE58[1] = transfer;
+        mask = ~4;
+        transfer = (u16) player->rotationZ;
+        D_8009CE5C = transfer;
+        render = &player->renderObject;
+        transfer = D_8009D2E8;
+        asm volatile("" : : "r"(transfer), "r"(render), "r"(rate), "r"(mask) : "memory");
+        entityFlags = player->entityFlags;
+        transfer &= mask;
+        entityFlags |= 0x80;
+        asm volatile("" : : "r"(transfer), "r"(entityFlags) : "memory");
+        D_8009D2E8 = transfer;
+        player->entityFlags = entityFlags;
+        Anim_SetInterpRate(render, rate);
+      }
+      D_8009D254->renderObject.flags_9C |= 2;
+      Anim_SetInterpRate(&D_800B0CEC, 0x1E);
+      D_800B0D88 |= 2;
+      Pm_StopLowerHalf();
+      D_8009D258 = Scene_LoadRoomAssets(0x6BU, D_8009D254);
+      D_8009D25C += 1;
+      break;
+    }
 
     case 1:
-        Scene_InitEntityPlayer(1);
-        if (U8_AT(entity, 0x252) == 0 && D_800B0D8A[0] == 0) {
-            Battle_AyaAdvanceState();
-        }
+      Scene_InitEntityPlayer(1);
+      if (D_8009D254->renderObject.variant_visible == 0)
+    {
+      if (D_800B0D8A == 0)
+      {
+        var_v0_2 = D_8009D25C + 1;
+        D_8009D25C = var_v0_2;
         break;
+      }
+    }
+      break;
 
     case 2:
-        if (Scene_InitEntityPlayer(1) == 0) {
-            Entity_SetActionMode(entity, 5);
-            U8_AT(entity, 0x252) = 1;
-            U32_AT(entity, 0x98) |= 0x100;
-            Battle_AyaSetRenderInterp(0x1E);
-            Battle_AyaSetAnimFlags(4);
-            Scene_LoadRoomAssets(0x6C, entity);
-            D_8009CE4C = 0x1E;
-            Battle_AyaAdvanceState();
-        }
-        break;
+      if (Scene_InitEntityPlayer(1) == 0)
+    {
+      Entity_SetActionMode(D_8009D254, 5);
+      { BattleEntity *player = D_8009D254; player->renderObject.variant_visible = 1;
+      player->entityFlags |= 0x100;
+      Anim_SetInterpRate(&D_8009D254->renderObject, 0x1E); }
+      D_8009D254->renderObject.flags_9C |= 4;
+      new_var = D_8009D254;
+      Scene_LoadRoomAssets(0x6CU, new_var);
+      D_8009CE4C = 0x1E;
+      var_v0_2 = D_8009D25C + 1;
+      D_8009D25C = var_v0_2;
+      break;
+    }
+      break;
 
     case 3:
-        if (!Battle_AyaTickTimer()) {
-            U32_AT(entity, 0x98) &= ~0x100;
-            Battle_AyaAdvanceState();
-        }
-        if (Battle_AyaAnimAtFrame(entity, U16_AT(entity, 0x16))) {
-            Battle_AyaClearOtherVelocity(entity);
-            Pm_Stop(D_8009D258, entity, 0);
-            Scene_LoadRoomAssets(0x6D, entity);
-        }
-        break;
-
-    case 4:
-        Entity_SetActionMode(entity, 6);
-        Battle_AyaSetRenderInterp(0xF);
-        Battle_AyaSetAnimFlags(2);
-        Battle_AyaAdvanceState();
-        break;
-
-    case 5:
-        if (U8_AT(entity, 0x252) == 0) {
-            Battle_AyaSetupTargetStep();
-        }
-        break;
-
-    case 6:
-        if (Battle_AyaAnimAtEnd(entity)) {
-            Entity_SetActionMode(entity, 7);
-            S32_AT(entity, 0x14) = U8_AT(entity, 0x0F) << 15;
-        }
-        if (!Battle_AyaTickTimer()) {
-            U8_AT(entity, 0x252) = 1;
-            Battle_AyaSetRenderInterp(0xF);
-            Battle_AyaSetAnimFlags(4);
-            Battle_AyaAdvanceState();
-        }
-        break;
-
-    case 7:
-        if (Battle_AyaAnimAtEnd(entity)) {
-            Battle_AyaSetAnimFlags(0x20);
-            Entity_SetActionMode(entity, ((int)D_8009CE48 * 2 + 8) & ~1);
-            Battle_AyaAdvanceState();
-        }
-        break;
-
-    case 8:
-        if (Battle_AyaAnimAtEnd(entity)) {
-            Entity_SetActionMode(entity, ((int)D_8009CE48 * 2 + 9) & 0xFFFF);
-            D_8009CE55 = 2;
-            D_8009CE54 = 1;
-            Battle_AyaUpdateTargetRenderBits();
-            Battle_AyaLoadShotEffect();
-        }
-        break;
-
-    case 9:
-        if (Battle_AyaAnimAtEnd(entity)) {
-            Entity_SetActionMode(entity, 7);
-            if (D_8009CE48 < 7) {
-                D_8009D25C = 5;
-                D_8009D1D4++;
-            } else {
-                Battle_AyaSetRenderInterp(0xF);
-                Battle_AyaSetAnimFlags(2);
-                Battle_AyaAdvanceState();
-            }
-        }
-        break;
-
-    case 10:
-        if (U8_AT(entity, 0x252) == 0) {
-            Battle_AyaRestorePose(entity);
-            Asset_Find08Alt(0x4B6, 0, S16_AT(entity, 0x2A), S16_AT(entity, 0x2E), S16_AT(entity, 0x32));
-            D_8009CE4C = 0x1E;
-            Battle_AyaAdvanceState();
-        }
-        break;
-
-    case 11:
-        if (!Battle_AyaTickTimer()) {
-            Entity_SetActionMode(entity, 7);
-            U8_AT(entity, 0x252) = 1;
-            Battle_AyaSetRenderInterp(0x1E);
-            D_801F1F38[0] = 1;
-            D_8009CE4C = 0xF;
-            Battle_AyaSetAnimFlags(4);
-            Battle_AyaAdvanceState();
-        }
-        break;
-
-    case 12:
-        if (!Battle_AyaTickTimer() && Battle_AyaAnimAtEnd(entity)) {
-            Entity_SetActionMode(entity, 4);
-            Battle_AyaAdvanceState();
-        }
-        break;
-
-    case 13:
-        if (Battle_AyaAnimAtFrame(entity, U16_AT(entity, 0x16))) {
-            U32_AT(entity, 0x98) |= 0x100;
-            Battle_AyaSetRenderInterp(0xF);
-            Battle_AyaSetAnimFlags(2);
-            Scene_LoadRoomAssets(0x72, entity);
-            Battle_AyaAdvanceState();
-        }
-        break;
-
-    case 14:
-        if (U8_AT(entity, 0x252) == 0 && Scene_InitEntityPlayer(0) == 0) {
-            Entity_SetActionMode(entity, U8_AT(D_8009D278, 0x12));
-            D_8009D2E8 |= 4;
-            U8_AT(entity, 0x252) = 1;
-            U32_AT(entity, 0x98) &= ~0x180;
-            Battle_AyaSetRenderInterp(0x1E);
-            Battle_AyaSetAnimFlags(4);
-            D_800B0D8A[0] = 1;
-            Anim_SetInterpRate(D_800B0CEC, 0x1E);
-            D_8009CE4C = 0xF;
-            D_800B0D88[0] |= 4;
-            Battle_AyaAdvanceState();
-        }
-        break;
-
-    case 15:
-    case 16:
-        if (!Battle_AyaTickTimer()) {
-            D_8009D1A0 &= ~0x100;
-            D_8009D1D4++;
-            result = 1;
-        }
-        break;
-
-    default:
-        break;
+      if (D_8009CE4C == 0)
+    {
+      D_8009D25C += 1;
+      D_8009D254->entityFlags &= ~0x100;
+    }
+    else
+    {
+      D_8009CE4C -= 1;
     }
 
-    return result;
+    case 4:
+      if (D_8009D254->animLastFrame == ((u16 *) (&D_8009D254->animFrame))[1])
+    {
+      var_v1 = D_8009D20C;
+      if (var_v1 != 0)
+      {
+        do
+        {
+          if ((var_v1 != D_8009D254) && (var_v1->core != 0))
+          {
+            var_v1->motionX = 0;
+            var_v1->motionY = 0;
+            var_v1->motionZ = 0;
+          }
+          var_v1 = var_v1->next;
+        }
+        while (var_v1 != 0);
+      }
+      Pm_Stop(D_8009D258, D_8009D254, 0);
+      var_a0 = 0x6D;
+      Scene_LoadRoomAssets(var_a0, D_8009D254);
+      D_8009D25C += 1;
+      break;
+    }
+
+    default:
+      break;
+
+    case 5:
+      Entity_SetActionMode(D_8009D254, 6);
+      Anim_SetInterpRate(&D_8009D254->renderObject, 0xF);
+      D_8009D25C += 1;
+      D_8009D254->renderObject.flags_9C |= 2;
+      break;
+
+    case 6:
+      if (D_8009D254->renderObject.variant_visible == 0)
+    {
+      {
+        register s32 product asm("$3");
+        temp_a0 = D_800BE830[D_8009D1D4].actor;
+        temp_s0 = (((s32) (temp_a0->renderObject.hit_cylinder.radius * ((((EnemyCombatant *) temp_a0->core)->statusFlags2 >> 0x13) & 0x1F))) / 10) + D_8009D254->renderObject.hit_cylinder.radius;
+        temp_v0 = Battle_CalcAngleToTarget(&temp_a0->renderObject, &D_8009E054);
+        D_8009D254->facingAngle = temp_v0;
+        product = temp_s0 * rsin((s32) temp_v0);
+        asm("" : "=r"(product) : "0"(product));
+        D_8009D254->posX.fixed = (D_800BE830[D_8009D1D4].actor->renderObject.target_x << 16) + (product * 16);
+        product = temp_s0 * rcos((s32) D_8009D254->facingAngle);
+        asm("" : "=r"(product) : "0"(product));
+        D_8009D254->posZ.fixed = (D_800BE830[D_8009D1D4].actor->renderObject.target_z << 16) + (product * 16);
+      }
+      D_8009D254->baseX = D_8009D254->posX.fixed;
+D_8009D254->baseY = D_8009D254->posY.fixed;
+D_8009D254->baseZ = D_8009D254->posZ.fixed;
+      Asset_Find08Alt(0x4B6, 0, (s32) D_8009D254->posX.parts.integer, (s32) D_8009D254->posY.parts.integer, (s32) D_8009D254->posZ.parts.integer);
+      D_8009CE4C = 0x1E;
+      var_v0_2 = D_8009D25C + 1;
+      D_8009D25C = var_v0_2;
+      break;
+    }
+      break;
+
+    case 7:
+      if (D_8009D254->animLastFrame == D_8009D254->animPrev.parts.integer)
+    {
+      Entity_SetActionMode(D_8009D254, 7);
+      D_8009D254->animFrame = D_8009D254->animLastFrame << 0xF;
+    }
+      if (D_8009CE4C == 0)
+    {
+      D_8009D254->renderObject.variant_visible = 1;
+      Anim_SetInterpRate(&D_8009D254->renderObject, 0xF);
+      D_8009D25C += 1;
+      D_8009D254->renderObject.flags_9C |= 4;
+    }
+    else
+    {
+      D_8009CE4C -= 1;
+    }
+      break;
+
+    case 8:
+      if (D_8009D254->animLastFrame == D_8009D254->animPrev.parts.integer)
+    {
+      { register u16 flags asm("$2") = D_8009D254->renderObject.flags_9C;
+        flags |= 0x20; asm("" : "=r"(flags) : "0"(flags));
+        D_8009D254->renderObject.flags_9C = flags; }
+      Entity_SetActionMode(D_8009D254, ((D_8009CE48 * 2) + 8) & 0xFFFE);
+      D_8009D25C += 1;
+      break;
+    }
+      break;
+
+    case 9:
+      if (D_8009D254->animLastFrame == D_8009D254->animPrev.parts.integer)
+    {
+      Entity_SetActionMode(D_8009D254, ((D_8009CE48 * 2) + 9) & 0xFFFF);
+      {
+        register unsigned index asm("$3") = D_8009D1D4;
+        register unsigned targetIndex asm("$7") = index;
+        register unsigned int value asm("$2");
+        register BattleEntity *target asm("$2");
+        value = 2;
+        D_8009CE55 = value;
+        value = 1;
+        new_var2 = 7;
+        D_8009CE54 = value;
+        target = D_800BE830[targetIndex].actor;
+        temp_a0_2 = target->core;
+        temp_v1 = ((*temp_a0_2) & (~0x6000)) | 0x2000;
+        *temp_a0_2 = temp_v1;
+        temp_v1_2 = (temp_v1 & 0xFFF3FFFF) | (((((u32) D_8009D278->action->attackWord) >> 0x14) & 3) << 0x12);
+        *temp_a0_2 = temp_v1_2;
+        *temp_a0_2 = (s32) ((temp_v1_2 & 0xFFFC7FFF) | ((D_8009CE55 & new_var2) << 0xF));
+        if (D_8009CE48 == 2)
+        {
+          var_a1 = D_800BE830[targetIndex].actor;
+          var_a0_2 = 0x6F;
+        }
+        else
+          if (D_8009CE48 == 5)
+        {
+          var_a1 = D_800BE830[targetIndex].actor;
+          var_a0_2 = 0x71;
+        }
+        else
+        {
+          var_a0_2 = 0x6E;
+          if (D_8009CE48 == 6)
+          {
+            var_a1 = D_800BE830[targetIndex].actor;
+            var_a0_2 = 0x70;
+          }
+          else
+          {
+            var_a1 = D_800BE830[targetIndex].actor;
+          }
+        }
+        Scene_LoadRoomAssets(var_a0_2, var_a1);
+      }
+      temp_v0_2 = ((u8) D_8009CE48) + 1;
+      D_8009CE48 = temp_v0_2;
+      if (temp_v0_2 < 7)
+      {
+        temp_v0_3 = D_8009D1D4 & 0xFF;
+        if (D_800BE830[temp_v0_3].actor == D_800BE830[temp_v0_3 + 1].actor)
+        {
+          { register u8 next asm("$3") = D_8009D1D4 + 1; D_8009D25C = 8;
+          D_8009D1D4 = next; }
+          break;
+        }
+      }
+      D_8009D25C += 1;
+      break;
+    }
+      break;
+
+    case 10:
+      if (D_8009D254->animLastFrame == D_8009D254->animPrev.parts.integer)
+    {
+      Entity_SetActionMode(D_8009D254, 7);
+      if (D_8009CE48 < 7)
+      {
+        D_8009D25C = 5;
+        D_8009D1D4 += 1;
+        break;
+      }
+      Anim_SetInterpRate(&D_8009D254->renderObject, 15);
+      D_8009D25C += 1;
+      D_8009D254->renderObject.flags_9C |= 2;
+      break;
+    }
+      break;
+
+    case 11:
+        { register BattleEntity *player asm("$8") = D_8009D254;
+        register s32 transfer asm("$2");
+        register s32 *saved asm("$3");
+        register u16 rotationZ asm("$3");
+        register s32 x asm("$6");
+        register s32 y asm("$7");
+        register int effect asm("$4");
+        if (player->renderObject.variant_visible == 0) { effect = 0x4B6;
+            saved = &D_8009E054; asm("" : "=r"(saved) : "0"(saved)); transfer = *saved; player->posX.fixed = transfer; x = player->posX.parts.integer;
+            transfer = D_8009E058; player->posY.fixed = transfer; y = player->posY.parts.integer;
+            transfer = D_8009E05C; player->posZ.fixed = transfer;
+            transfer = *saved; player->baseX = transfer;
+            transfer = D_8009E058; player->baseY = transfer;
+            transfer = D_8009E05C; player->baseZ = transfer;
+            transfer = D_8009CE58[0]; player->rotationX = transfer;
+            transfer = D_8009CE58[1]; player->facingAngle = transfer;
+            asm volatile("" : : "r"(x), "r"(y), "r"(transfer), "r"(effect) : "memory"); rotationZ = D_8009CE5C; player->rotationZ = rotationZ;
+            transfer = player->posZ.parts.integer;
+            Asset_Find08Alt(effect, 0, x, y, transfer);
+            D_8009CE4C = 0x1E;
+            var_v0_2 = D_8009D25C + 1;
+            D_8009D25C = var_v0_2; break;
+        }
+            break;
+    }
+    case 12:
+      if (D_8009CE4C == 0)
+    {
+      Entity_SetActionMode(D_8009D254, 7);
+      D_8009D254->renderObject.variant_visible = 1;
+      Anim_SetInterpRate(&D_8009D254->renderObject, 0x1E);
+      D_801F1F38 = 1;
+      D_8009CE4C = 0xF;
+      D_8009D25C += 1;
+      D_8009D254->renderObject.flags_9C |= 4;
+      break;
+    }
+      D_8009CE4C -= 1;
+      break;
+      break;
+
+    case 13:
+      if (D_8009CE4C == 0)
+    {
+      if (D_8009D254->animLastFrame == D_8009D254->animPrev.parts.integer)
+      {
+        Entity_SetActionMode(D_8009D254, 4);
+        D_8009D25C += 1;
+        break;
+      }
+      break;
+    }
+      D_8009CE4C -= 1;
+      break;
+
+    case 14:
+      if (D_8009D254->animLastFrame == ((u16 *) (&D_8009D254->animFrame))[1])
+    {
+      D_8009D254->entityFlags |= 0x100;
+      Anim_SetInterpRate(&D_8009D254->renderObject, 0xF);
+      var_a0 = 0x72;
+      D_8009D254->renderObject.flags_9C |= 2;
+      Scene_LoadRoomAssets(var_a0, D_8009D254);
+      D_8009D25C += 1;
+      break;
+    }
+      break;
+
+    case 15:
+      if (D_8009D254->renderObject.variant_visible == 0)
+    {
+      if (Scene_InitEntityPlayer(0) == 0)
+      {
+        Entity_SetActionMode(D_8009D254, (s32) D_8009D278->actionMode12);
+        { register int mask asm("$3") = ~0x100;
+          register int rate asm("$5") = 30;
+          register BattleEntity *player asm("$6") = D_8009D254;
+          register RenderObjectEntity *render asm("$4");
+          register unsigned flags asm("$2");
+          D_8009D2E8 |= 4;
+          player->renderObject.variant_visible = 1;
+          render = &D_8009D254->renderObject;
+          flags = player->entityFlags;
+          flags &= mask;
+          asm("" : "=r"(flags) : "0"(flags));
+          mask = ~0x80; flags &= mask;
+          player->entityFlags = flags;
+          Anim_SetInterpRate(render, rate);
+        }
+        D_8009D254->renderObject.flags_9C |= 4;
+        {
+          register u8 *visible asm("$6") = &D_800B0D8A;
+          asm("" : "=r"(visible) : "0"(visible));
+          *visible = 1;
+          Anim_SetInterpRate((RenderObjectEntity *) (visible - 0x9E), 0x1E);
+        }
+        { register unsigned next asm("$3") = D_8009D25C + 1;
+        D_8009CE4C = 0xF;
+        D_800B0D88 |= 4;
+        D_8009D25C = next; }
+        break;
+      }
+    }
+      break;
+
+    case 16:
+      if (D_8009CE4C == 0)
+    {
+      {
+        register int mask asm("$4") = ~0x100;
+        register unsigned flags asm("$3") = D_8009D1A0;
+        register u8 next asm("$2") = D_8009D1D4 + 1;
+        D_8009D1A0 = flags & mask;
+        D_8009D1D4 = next;
+      }
+      var_s1 = 1;
+    }
+    else
+    {
+      D_8009CE4C -= 1;
+      break;
+    }
+      break;
+
+  }
+
+  return var_s1;
 }
