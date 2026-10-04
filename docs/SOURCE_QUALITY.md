@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### scene_e22 ember, link beam and swirl ring controllers
+
+Four more scene_e22 effects match from clean C: the rising ember particle,
+the link beam controller, the swirl ring controller and the ember column
+controller, on the new `scene_e22_ember_burst.h`. Draws that pass a fixed
+palette symbol are written as the full palette read-back, which also gives
+retail's parameter block base register, the tpage index is a one-field
+record so its load stays after the first parameter store, signed fields are
+scaled by multiplication so their loads stay `lh`, and the swirl ring re-reads
+the sound owner through a volatile load where retail loads it twice. The
+scene_e22 overlay SHA-1 hash is unchanged and no pins or barriers were added.
+
 ### Field engine glow layers, particle chain and the scene_e08 glow model
 
 The main executable's three identical glow layer routines now share
