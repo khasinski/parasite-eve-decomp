@@ -262,7 +262,11 @@ before the gp-relative stores.
 quads. It links each quad into the ordering table through the 24-bit
 address bitfield of `RenderTexturedQuad`'s tag, so it needs no pointer or
 integer casts. It allocates from the packet arena the same way its matched
-siblings such as `Draw_AllocSprite` do.
+siblings such as `Draw_AllocSprite` do. It now shares one TU with digit-sprite
+emission, signed decimal glyph emission, and their fixed-width wrappers. The
+level-bar renderer uses the same cursor stack helpers and calls the two-digit
+sprite printer for its value. The entire `0x17D0`-byte range remains identical
+to retail with `--expand-div` enabled for the number formatters.
 
 ### Actor floor tracking
 

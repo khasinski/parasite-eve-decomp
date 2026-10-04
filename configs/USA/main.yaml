@@ -745,12 +745,8 @@ segments:
       # Text rendering, cursor saves, table lookup, and wrapping share one source unit.
       - [0x4F6D4, c, gpu/Draw_TextRenderingFlow]
       - [0x50044, c, gpu/func_8005F844]
-      # One -G8 digit packet emitter and its contiguous number printers.
-      - [0x50074, c, gpu/Draw_NumberSpritePrint]
-      # Digit packet emission, number printers, and time display share one -G8 TU.
-      # Signed number emission and its cursor-width wrappers share one TU.
-      - [0x50AD0, c, gpu/Draw_TexturedNumberPrint]
-      - [0x50E2C, c, main/Draw_AllocTexturedRectAlt]
+      # Digit sprites, signed numbers, text glyphs, and the stat bar share draw state.
+      - [0x50074, c, gpu/Draw_NumberAndLevelBarFlow]
       - [0x51844, c, main/Draw_AllocColorQuad]
       - [0x51CA0, c, gpu/draw3]
       # Color rectangles, wipe edges, gradient setup, and packet emission share one -G8 renderer TU.
