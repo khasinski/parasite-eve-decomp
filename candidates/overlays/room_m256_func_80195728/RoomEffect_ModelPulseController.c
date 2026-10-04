@@ -13,6 +13,7 @@ int func_80195728(int mode, s16 *state) {
     RoomModelPulseMatrix matrix;
     RoomModelPulseScale scale;
     RoomModelPulseParticle *child;
+    void *slot;
     u16 *tpages;
     int palette3;
     int i;
@@ -27,7 +28,8 @@ int func_80195728(int mode, s16 *state) {
         if (*state < 0x80) *state += 4;
         if (D_800E27EC == 1) {
             for (i = 0; i < 16; i++) {
-                child = func_800CE610_pulse(D_800F33E0->pool);
+                slot = func_800CE610(D_800F33E0->pool);
+                child = slot;
                 if (child) {
                     child->frame = 0;
                     child->scale = (func_80071A54() & 0x1FF) + 0x200;

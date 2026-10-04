@@ -38,3 +38,38 @@ The edits are the two issues above: the nine parameter stores scheduled
 above the stack copies (about 40 edits) and the swapped s6/s7 loop
 constants of the second loop. Raw-byte search found no copy of this
 function in other overlays. Not retried beyond the rescore.
+
+## Retry (agent 13, round 2, 2026-10-04): lev 22
+
+- Writing `D_800F3368.tpage = D_800E2850[D_800E11EA];` FIRST, before the
+  constant stores (still after the three stack copies), keeps the parameter
+  block below the copies: lev 61 -> 23. The long tpage load chain gets the
+  highest priority in the backward sched1 and drags the store block down
+  with it; with tpage last, the constant stores fill the D_8019956C load
+  delays at the top instead.
+- Brute force over the 720 orders of the constant stores (0x40 trio kept
+  together): best lev 22 with palette, parameter02, parameter06, depth,
+  0x40 trio, parameter0A (the candidate). Chained `= 0x40` assignments and a
+  shared `scale = 0x40` local do not move retail's early `li v1,64`.
+- Pointer locals do not help here: a multi-set `GteShortVector *source` for
+  the copies lets every parameter store rise to just after the first call
+  (lev 65). Symbol and stack addresses never conflict, so the order is pure
+  priority.
+- Left: the early shared 0x40 register, and the second loop's s6/s7 swap.
+
+## Round 3 (agent 13, 2026-10-04): lev 18
+
+- Loop constants fixed: a `u16 *palettes = D_800E1204;` set just before the
+  second parameter block (and `palettes[kind]` in the second loop) makes the
+  table base live longer than the hoisted `special = 4`, so global alloc
+  gives 4 s6 and the base s7 as in retail (lev 22 -> 18). Placing `special`
+  before the loop instead, or `palette += special`, also fixes the swap but
+  costs elsewhere.
+- Remaining: retail's shared constants are loaded early and not right
+  before their stores (`li v1,64` in block 1, `li v1,4` for parameter02 in
+  block 2), which is what sched1 does for a pseudo that is not "birthing"
+  (set more than once). A multi-set local (`size` or `kind` assigned 0x40 /
+  4) loses the birthing priority but then floats to the very top of the
+  block instead of retail's middle position: `kind = 4;` stored into
+  parameter02 gives lev 16 (not kept, semantically odd), `size = 0x40` in
+  both blocks lev 24, `size` in block 1 only lev 22.

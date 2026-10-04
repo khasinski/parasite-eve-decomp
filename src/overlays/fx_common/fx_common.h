@@ -179,11 +179,12 @@ typedef struct FxCommonOffsetByte {
     u8 value;
 } FxCommonOffsetByte;
 
-typedef struct FxCommonPath {
-    s16 pad0[3];
-    u16 count;                  /* 0x06 */
-    GteShortVector points[1];   /* 0x08 */
-} FxCommonPath;
+/* One record of a sampled path. The first record is the header, whose last
+ * halfword holds the point count; the points follow it. */
+typedef struct FxCommonPathPoint {
+    s16 x, y, z;
+    u16 count;                  /* 0x06: header record only */
+} FxCommonPathPoint;
 
 typedef struct FxCommonMotionVec {
     s32 x;
@@ -265,7 +266,7 @@ void func_80077C84(FxCommonDrawModePacket *packet, int x, int y, int tpage);
 void func_800752AC(void *allocation, int size);
 s16 func_80193B5C(s16 value);
 void *func_8006EC6C(void *data, int count);
-int func_8018F55C(int angle, int radius, void *allocation,
+int func_8018F55C(u32 position, int radius, void *allocation,
                    FxCommonMotionVec *vector, void *extra);
 int func_8006DF50(void *resource, int arg1, int arg2, int arg3, int enabled);
 void *func_80078A94(void);

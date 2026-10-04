@@ -143,13 +143,12 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
 | main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary_typed: typed rewrite at lev 413 (frame 208 vs 192: an extra reduced walk pointer per half), see README |
 | main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
-| fx_common | func_8018F55C | 224 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
-| fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
+| fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev 17 without volatile (count read gives lh, not lhu/sll/sra) |
 | fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: ~500 diffs (register allocation) |
 | menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: 34 diffs plain, 2 diffs with lift shared with the mode 1 vz (retail lift is a global pseudo; vz register still differs) |
 | menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, diff count not recorded) |
 | room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: lev 43 |
-| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev 61 |
+| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev 18 |
 | scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: 7 diffs (single `special` variant, 2026-10-04) |
 
 ## not yet attempted

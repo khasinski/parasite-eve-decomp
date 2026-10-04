@@ -112,3 +112,13 @@ the shared `void *func_800CE610(void *)` prototype before landing.
   *func_800CE610(void *pool)`, so dropping the `func_800CE610_pulse` alias
   needs the particle record to be reachable without a cast (the README's
   "shared void * prototype" does not exist in that header).
+
+## Type decision (agent 13, round 2): alias removed, still lev 43
+
+room_spark.h (included by room_model_pulse.h) declares
+`RoomDampedSpark *func_800CE610(void *pool)`, but room_m256 uses the slot as
+a 6-byte ring particle (frame, offset, scale). The candidate now calls the
+shared declaration and adapts the view through a `void *slot` local
+(`slot = func_800CE610(pool); child = slot;`), no cast and no alias; the
+`func_800CE610_pulse` line is gone from room_model_pulse.h. Code is
+unchanged (lev 43).
