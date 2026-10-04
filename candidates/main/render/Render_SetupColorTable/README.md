@@ -28,3 +28,26 @@ Remaining:
 - Retail forms the digit base as `(slot*6 + i*56) + base` per slot with
   `i*56` computed after the style block; here `i*56 + base` is hoisted.
   Direct `numbers[slot].digits[k]` stores are worse (656 bytes).
+
+## Rebased on main (agent 4, 2026-10-04): still 648 vs 644
+
+main's textbox.h now has `background` (0x09), `control.flags`, `width` and
+`height`; the candidate uses those names. `headers.diff` now only retypes
+the prototype to `(short index, unsigned char style, short *values)`, and the
+rectangle plus the three byte globals moved to a narrow header
+`textbox_open.h` (goes to include/pe1/), because Menu_SetTextCursorRect.c and
+Render_SetupFogLayer.c still declare those symbols themselves.
+
+Why the -1 is not hoisted (cc1 -dL): the slot loop has 74 real insns, so its
+compare constant (insn 355, life 1, savings 1) is `not desirable` at
+threshold 58. In the outer loop, loop.c merges it with the QImode -1 of the
+`D_8009CEA4 = -1` store (combine_movables lets the wider SImode movable absorb
+the narrower one, life 2 savings 2), but it is visited after the two
+movables re-hoisted from the slot loop (the magic 0x66666667 and the digit
+base), and each of those doubles insn_count ("halved since already moved"),
+so 49 * 2 * 2 = 196 < 484. Retail hoists the -1 to the entry, so in retail
+either the slot loop is at most 58 insns at loop time (the -1 is hoisted at
+the inner level first, and then sits ahead of the other preheader insns) or
+the -1 movable is visited before the re-hoisted ones. Retail also computes
+i*56 once per box after the style block (t3) and adds `slot*6` per slot,
+then t7 (&numbers base); that shape is a hint for the smaller slot loop.
