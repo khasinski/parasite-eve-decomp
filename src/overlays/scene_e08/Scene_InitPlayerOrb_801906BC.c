@@ -42,7 +42,7 @@ void func_801906BC(void *object, void *timer, ScenePlayerOrb *orb)
     orb->alpha = 0xFF;
     orb->active = 0;
     orb->fade = 0;
-    orb->variant = *func_800C2B10(1);
+    orb->delay = *func_800C2B10(1);
     if (D_800B0E64.channel != 0) {
         func_8006DF50(D_800B0E64.channel, 0x606, 0, 0x80, 0x7F);
     }

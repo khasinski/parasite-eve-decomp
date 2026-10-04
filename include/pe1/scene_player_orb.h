@@ -14,7 +14,20 @@ typedef struct ScenePlayerOrbAnchor {
     /* 0x1C */ int y;
     /* 0x20 */ int z;
     /* 0x24 */ u8 mode;
+    /* 0x25 */ u8 pad25[7];
+    /* 0x2C */ s16 orbHit;
 } ScenePlayerOrbAnchor;
+
+typedef struct ScenePlayerOrbTimer {
+    /* 0x00 */ u8 pad00;
+    /* 0x01 */ u8 state;
+} ScenePlayerOrbTimer;
+
+/* Frame counter read as a one-field record so each read stays below the
+ * preceding stores into the orb. */
+typedef struct ScenePlayerOrbFrame {
+    s16 value;
+} ScenePlayerOrbFrame;
 
 typedef struct ScenePlayerOrb {
     /* 0x00 */ GteShortVector position;
@@ -22,13 +35,13 @@ typedef struct ScenePlayerOrb {
     /* 0x10 */ GteShortVector anchor;
     /* 0x18 */ u8 pad18[0x10];
     /* 0x28 */ GteShortVector points[8];
-    /* 0x68 */ u8 trailA[0x18];
-    /* 0x80 */ u8 trailB[0x18];
+    /* 0x68 */ GteShortVector trailA[3];
+    /* 0x80 */ GteShortVector trailB[3];
     /* 0x98 */ RenderColor head;
     /* 0x9C */ RenderColor tail;
     /* 0xA0 */ int alpha;
     /* 0xA4 */ int fade;
-    /* 0xA8 */ u8 variant;
+    /* 0xA8 */ u8 delay;
     /* 0xA9 */ u8 active;
     /* 0xAA */ u8 count;
 } ScenePlayerOrb;
@@ -37,6 +50,9 @@ extern GteRotation D_8018EFFC;
 extern RenderColor D_8018F004;
 extern GteVector D_8018F008;
 extern u8 D_801987E4[];
+extern u8 D_80198718[];
+extern u8 D_80198754[];
+extern ScenePlayerOrbFrame D_800942EC;
 extern u8 D_80199690[];
 extern FieldActor *g_PlayerEntity;
 /* The sound owner read as a one-field record (see room_m089_spin_model.h). */
@@ -48,6 +64,8 @@ extern ScenePlayerOrbSound D_800B0E64;
 
 ScenePlayerOrbAnchor *func_800C2B50(void);
 int *func_800C2B10(int index);
+GteShortVector *func_800C2B90(void *object, int kind, u8 *script, u8 *data);
+int func_800C6B90(GteShortVector *position, int radius);
 int func_80071A54(void);
 void func_800794C4(GteRotation *rotation, GteMatrix *matrix);
 void func_80078C34(GteMatrix *matrix, GteShortVector *in, GteShortVector *out);
@@ -58,7 +76,7 @@ void func_800C2FF0(int width, int height);
 void func_800C3134(u8 *table, int index, RenderColor *out);
 int func_80077A64(int arg0, int arg1, int x, int y);
 int func_80077AA4(int x, int y);
-void func_800D3114(u8 *trail, int last, int arg2, int arg3, int r, int g, int b,
+void func_800D3114(GteShortVector *trail, int last, int arg2, int arg3, int r, int g, int b,
                    int tpage, int clut, int alpha, RenderColor *head,
                    RenderColor *tail, int mode);
 void func_80078CC4(GteMatrix *matrix, GteVector *scale);

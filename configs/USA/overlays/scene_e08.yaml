@@ -75,7 +75,7 @@ segments:
       - [0x1610, c, Scene_UpdateFadeSlots_801905F8]
       - [0x16D4, c, Scene_InitPlayerOrb_801906BC]
       - [0x192C, c, Scene_DrawPlayerOrb_80190914]
-      - [0x1BB0, asm, scene_e08_1BB0]
+      - [0x1BB0, c, Scene_UpdatePlayerOrb_80190B98]
       - [0x1F24, c, func_80190F0C]
       - [0x2064, asm, scene_e08_2064]
       - [0x2360, c, func_80191348]
