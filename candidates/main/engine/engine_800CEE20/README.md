@@ -45,3 +45,18 @@ swapped loop-tail increments: 4 real diffs remain, all the register of
 `r` (retail a2, this build a1) in the colour block and its two stores.
 Swapping the null-colour assignments (`b = g = r = intensity` and
 reversed statements) makes it worse (9).
+
+## Retry (agent 5, 2026-10-04, near-miss pass 3)
+
+Still 4 diffs (`r` in a1, retail a2). Analysis with `-dg`: r, g, b are
+global pseudos 85/86/87; g takes v1, b a0, r is allocated last and takes
+the first free register, a1. In global.c `find_reg`, r only skips a1 if it
+has a hard-register preference for a2 (`hard_reg_preferences`, set by a
+copy/operation between r and a hard register or an already allocated
+pseudo, or tied through a dying source in the same insn) or if a
+lower-priority conflicting allocno prefers a1 (`regs_someone_prefers`).
+Neither exists here: the only a1/a2 copies are the incoming `rotation`
+and `scale_x`, whose preferences are pruned because they cross calls.
+Brute force over 180 combinations (declaration order int/u8, all six
+orders of the null-colour and the product assignments) stays at 4.
+Sharing r with `page` (19) or with `width` (19) is worse.

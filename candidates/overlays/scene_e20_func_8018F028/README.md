@@ -34,3 +34,29 @@ Lessons that did land here:
   constant held in s4 across two calls for the streak's `v` argument.
 - `angle = time << 6` before the stores (not inside the call) puts the
   angle in s4 and lines up the callee-saved registers.
+
+## Retry (agent 5, 2026-10-04, near-miss pass 3)
+
+Why retail's `li v1, 4` sits above the `sll`: sched1 gives a single-set
+pseudo LAUNCH priority (`birthing_insn_p` needs `reg_n_sets == 1`), so the
+compare constant is placed right before the `bne`. A pseudo with two sets
+is scheduled by its critical path and lands in the load delay slot, as in
+retail. `RoomEffect_FlareParticle_8018F028_multiset.c` does this with a
+case-scope `int special` set to 4 in both case-0 palette blocks
+(`special = 4; kind = D_800F3368.palette; ... if (kind == special && ...)`):
+size is right (0x728) and the first block's order matches; 9 real diffs
+remain:
+
+- first compare: kind/4 registers swapped (retail kind a0, 4 in v1). Both
+  pseudos are global; global-alloc priority is floor_log2(refs) * refs /
+  live_length: kind 6 refs over 10 insns (1.2) beats special 4 over 8 (1.0),
+  so kind takes v1 first. Moving the `special = 4` statement does not change
+  the live length (sched1 rewrites it).
+- second block: retail compares against s5 (the texture argument 4 held
+  across the call), this build re-loads `li a0, 4`; the texture argument
+  then lands in v1 instead of s5 (two more words).
+
+Not tried yet: a form where the second palette block reuses the texture
+argument's pseudo while the first keeps a multi-set local (would need the
+first block's 4 to be multi-set inside one block, or kind's priority below
+special's: fewer refs or a longer life for kind).
