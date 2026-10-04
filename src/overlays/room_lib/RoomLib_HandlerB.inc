@@ -28,7 +28,7 @@ extern int ROOMLIB_HANDLER_B_RESET(RoomEnt *obj);
 
 void ROOMLIB_HANDLER_B_NAME(RoomEnt *obj) {
     RoomEnt *self = obj;
-    char *state = (char *)self + 0xC;
+    char *state = (char *)&self->sub;
     RoomLink *link = self->link;
     short *scratch;
     int angle;
