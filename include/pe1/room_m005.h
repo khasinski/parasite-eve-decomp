@@ -70,6 +70,14 @@ extern unsigned short D_80190BA4;
 extern GteShortVector D_80190BA8;
 
 int func_80077DC4(int angle);
+int func_80077CF4(int angle);
+
+/* Cross flare (func_8018F614): two joint templates and the flash track. */
+extern RoomM005Seed8 D_8018EFFC;
+extern RoomM005Seed8 D_8018F004;
+extern u8 D_80190AF4[];
+extern u16 D_800E11EA;
+extern u16 D_800E11FA;
 int func_80077AA4(int, int);
 int func_8018FB84(int mode, RoomM005DriftingSpriteState *state);
 
