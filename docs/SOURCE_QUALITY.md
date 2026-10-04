@@ -8045,3 +8045,14 @@ and advances its age, and `func_800CE78C` runs the render mode. The update and
 render passes save and restore the shared effect-age context. These routines
 form one list lifecycle; this grouping does not claim an original source-file
 boundary. `make verify-clean` passes and `main.exe` remains byte-identical.
+
+### Memory-card write and acknowledgment path
+
+`CardObj_WriteCommandByte`, `MemCard_WriteDataAndGetSize` and the immediately
+following `MemCard_WriteByteWithAckCheck` now share
+`src/main/memcard/MemCard_WriteProtocol.c`. The first two emit the command and
+decode the response size; the acknowledgment routine obtains the next protocol
+byte, sends it through `MemCard_WriteByte` and maps the result to success or the
+appropriate error. Their order, shared `CardObj` write transaction and matching
+GCC 2.8.1 profile support the grouping. The combined 540-byte object matches
+retail; `make verify-clean` passes and `main.exe` remains byte-identical.

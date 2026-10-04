@@ -1333,8 +1333,8 @@ segments:
       - [0x7459C, c, memcard/CardObj_CommandEmitters]
       - [0x746F8, pad]
       - [0x74704, c, memcard/MemCard_ReadByteWithCallbackValue]
+      # Command emission, response-size decoding, and acknowledgment share the write protocol.
       - [0x74744, c, memcard/MemCard_WriteProtocol]
-      - [0x748DC, c, memcard/MemCard_WriteByteWithAckCheck]
       - [0x74968, c, psyq/libpad/padif_transfer]
       - [0x74CE4, c, memcard/MemCard_InitTransferState]
       - [0x74E44, c, memcard/CardObj_ResetFields]
