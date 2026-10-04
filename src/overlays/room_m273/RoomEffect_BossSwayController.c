@@ -23,7 +23,7 @@ int func_80199C50(int mode) {
     } else if (mode == 1) {
         if (*instance->owner->status == 1) *instance->owner->status = 2;
         frame = instance->time.parts.frame;
-        frame_1A = instance->frame_1A;
+        frame_1A = instance->previous.parts.frame;
         D_8019AF74.animation = instance->animation;
         D_8019AF74.frame = frame;
         D_8019AF74.frame_1A = frame_1A;

@@ -26,17 +26,37 @@ typedef struct RoomM273BossInstance {
             u16 fraction;
             u16 frame;
         } parts;
+        struct {
+            unsigned int fraction : 16;
+            unsigned int frame : 16;
+        } bits;
     } time;
-    u8 reserved_18[2];
-    u16 frame_1A;
-    u8 reserved_1C[0x10];
+    union {
+        s32 fixed;
+        struct {
+            u16 fraction;
+            u16 frame;
+        } parts;
+        struct {
+            unsigned int fraction : 16;
+            unsigned int frame : 16;
+        } bits;
+    } previous;
+    u8 reserved_1C[0x0C];
+    s32 x;
     s32 height;
-    u8 reserved_30[0x0A];
+    s32 z;
+    u8 reserved_34[0x06];
     s16 yaw;
     u8 reserved_3C[0x1C0];
     s32 position[3];
     u8 reserved_208[0x30];
     GteMatrix *transforms;
+    u8 reserved_23C[0x1A];
+    s16 attack_angle;
+    u8 reserved_258[2];
+    u8 attack_kind;
+    u8 attack_power;
 } RoomM273BossInstance;
 
 typedef struct RoomM273BossActor {
@@ -139,10 +159,38 @@ typedef struct RoomM273DropQueue {
     s16 y[12];
     s16 z[12];
     s16 count;
+    /* Sweep attack state (animation 13). */
+    s16 loops;        /* 0x52: loops left */
+    s16 reserved_54;
+    s16 side;         /* 0x56: sweep step table index */
+    s16 divisor;      /* 0x58 */
+    s16 step;         /* 0x5A */
+    s16 target;       /* 0x5C: sweep target angle */
+    s16 floor;        /* 0x5E */
+    s16 contact;      /* 0x60: contact frame */
+    s16 turn;         /* 0x62: turn step */
+    u8 in_contact;    /* 0x64 */
+    u8 done;
+    u8 in_window;
+    u8 started;
 } RoomM273DropQueue;
 
 extern RoomM273DropQueue D_8019AF04;
 extern s16 D_8019AF62;
+
+/* Sweep attack frame windows at 0x8019AD80, one per side. */
+typedef struct RoomM273SweepStep {
+    s16 start;        /* animation frame set on entry */
+    s16 loop_start;   /* frame the loop rewinds to; sweep window start */
+    s16 loop_end;     /* sweep window end */
+    s16 end;          /* animation done */
+    s16 scale;        /* sweep angle per step (times the step) */
+    s16 offset;       /* sweep angle offset */
+} RoomM273SweepStep;
+
+extern RoomM273SweepStep D_8019AD80[];
+extern GteShortVector D_8019AEFC; /* transformed sweep point */
+int func_80079FB4(int x, int z);
 extern GteShortVector D_8019AB68;
 extern u8 D_8019AD54[];
 extern u8 D_8019AD58[];

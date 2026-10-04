@@ -145,7 +145,7 @@ segments:
       - [0x84F4, c, RoomEffect_TimedRising]
       # The position emitter fills the callback's contiguous eight-byte records.
       - [0x8810, c, RoomEffect_PositionLayers]
-      - [0x8BD4, asm, func_80197BBC]
+      - [0x8BD4, c, RoomEffect_BossSweepController]
       - [0x9078, c, func_80198060]
       - [0x91BC, asm, func_801981A4]
       - [0x9700, c, RoomEffect_SwayShardController]
