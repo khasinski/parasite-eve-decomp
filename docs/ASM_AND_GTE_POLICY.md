@@ -2006,3 +2006,29 @@ blocks, which included CPU `lw` instructions inside inline assembly. All sixteen
 matrix-word reads are now C expressions; the existing `gte_ctc2_0` through
 `gte_ctc2_7` macros each emit one COP2 transfer. Other users of the legacy
 aggregate macros are outside this change.
+
+
+## Memory-card screen controller
+
+`menu_memcard::func_801909B4` (`Memcard_RunScreen.c`) matches all 3908 bytes
+at 0x801909B4 with stock native GCC 2.7.2 (`-G0`,
+`-fno-cse-skip-blocks`) and unmodified MASPSX 2.56. Linked score is 0;
+SHA-256 is `9072713338b26c335c1a31964282105dcd5f14951950c2d24585fa5948554d30`.
+Compilation and variant searches ran only on darwine.
+
+Five register pins remain: the second buffer address ($5), pixel packing
+accumulator ($3) and output ($2), pending-list tail ($2), and restored screen
+Y ($2). Removing each from the matching source breaks the byte match.
+The first matching candidate had eleven pins; six were removed sequentially.
+No empty barriers, instruction ASM, NOPs, special ABI, compiler patches or
+assembler patches are used. Removing the per-unit CSE flag also loses the match.
+
+Two symbol views in `menu_memcard_menu.h` preserve the first draw-buffer call
+and second-buffer pointer reloads. They describe existing pointer slots, not
+additional storage or recovered retail qualifiers. The current debt counter
+does not scan src/ headers, so these two aliases are recorded here explicitly.
+Two other views from the initial candidate were removed without changing bytes.
+The shared image header now declares the eight-node pool and active-list tail.
+The source reuses the existing screen, image and node types, including typed
+image dimensions and GPU environment copies. Buffer byte strides and address
+comparisons in pool initialization remain source-quality debt.

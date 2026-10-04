@@ -14,6 +14,8 @@ typedef struct MemcardImageNode {
 } MemcardImageNode;
 typedef struct MemcardImagePreset { s32 x, y, parameter; } MemcardImagePreset;
 extern MemcardImageNode *D_801D136C, *D_801D137C, *D_801D1378, *D_801D1370;
+extern MemcardImageNode *D_801D1374; /* Active-list tail. */
+extern MemcardImageNode D_801D11CC[8];
 extern MemcardImagePreset D_801D0D5C[];
 extern MemcardImagePreset D_801D0D8C;
 extern s32 D_80193268;

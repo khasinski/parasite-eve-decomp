@@ -8073,3 +8073,21 @@ byte, sends it through `MemCard_WriteByte` and maps the result to success or the
 appropriate error. Their order, shared `CardObj` write transaction and matching
 GCC 2.8.1 profile support the grouping. The combined 540-byte object matches
 retail; `make verify-clean` passes and `main.exe` remains byte-identical.
+
+
+### Memory-card screen controller
+
+`Memcard_RunScreen.c` replaces the 3908-byte assembly function at 0x801909B4.
+It saves/restores both GPU environments, initializes the two screen buffers
+and eight-node pool, maintains active/pending image lists, runs the selection
+screen, and packs/dims RGB24 pixels for the dialog background. It shares the
+existing screen and image types; the image pool and active-tail declarations
+now live in `menu_memcard_image.h`.
+
+The linked function has score 0 and matches every retail byte using stock
+native GCC 2.7.2 and MASPSX on darwine. Five necessary pins and two header
+symbol views remain, documented in `ASM_AND_GTE_POLICY.md`. There is no
+instruction ASM or empty barrier. Mechanical temporary names, the selection
+search goto, and raw image-dimension offsets were removed without losing the
+match. Buffer offsets and address-based helper/global names remain provisional;
+this source grouping does not establish an original object-file boundary.
