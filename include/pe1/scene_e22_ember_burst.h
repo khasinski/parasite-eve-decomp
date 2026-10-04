@@ -133,6 +133,7 @@ extern int func_801957CC(int mode, RoomOrbitTrailParticle *p);
  * colour, and the rising ember particle it sprays. */
 extern GteRotation D_8018F1FC;
 extern u8 D_80199308[];
+extern u8 D_80199190[];
 extern RenderColor D_8018F210;
 extern int func_8019485C(int mode, RoomOrbitTrailParticle *p);
 
