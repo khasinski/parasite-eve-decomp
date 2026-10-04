@@ -1561,7 +1561,7 @@ segments:
       - [0xBF0F0, c, engine/FieldEng_MatrixVectors]
       - [0xBF38C, c, engine/func_800CEB8C]
       - [0xBF4AC, c, engine/func_800CECAC]
-      - [0xBF53C, c, engine/func_800CED3C]
+      # Unconditional and cached texture-page loads share the same CLUT buffers and active index.
       - [0xBF5A8, c, engine/func_800CEDA8]
       - [0xBF620, asm, engine/engine_800CEE20]
       - [0xBFBAC, c, engine/FieldEng_InterpolateColorTrack]
