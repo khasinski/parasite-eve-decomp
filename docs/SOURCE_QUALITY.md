@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m089, room_m005 and room_m123 effects
+
+room_m089's spiral trail and spinning model, room_m005's cross flare and
+room_m123's glow burst match from clean C on new narrow headers. Signed
+fields are scaled by multiplication so their loads stay `lh`, the parameter
+block's store order in the source sets which register each constant gets,
+fields written twice share a saved base register, the tile index is read as
+an array element so it stays below the base-register stores, and
+temporaries are split or shared across draws to land in retail's saved
+registers. All four overlay SHA-1 hashes are unchanged and no pins or
+barriers were added.
+
 ### Field engine history trail and textured ribbon
 
 The field engine's history trail and textured ribbon in the main executable
