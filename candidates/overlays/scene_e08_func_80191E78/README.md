@@ -56,3 +56,20 @@ function in other overlays. Not retried beyond the rescore.
   (lev 65). Symbol and stack addresses never conflict, so the order is pure
   priority.
 - Left: the early shared 0x40 register, and the second loop's s6/s7 swap.
+
+## Round 3 (agent 13, 2026-10-04): lev 18
+
+- Loop constants fixed: a `u16 *palettes = D_800E1204;` set just before the
+  second parameter block (and `palettes[kind]` in the second loop) makes the
+  table base live longer than the hoisted `special = 4`, so global alloc
+  gives 4 s6 and the base s7 as in retail (lev 22 -> 18). Placing `special`
+  before the loop instead, or `palette += special`, also fixes the swap but
+  costs elsewhere.
+- Remaining: retail's shared constants are loaded early and not right
+  before their stores (`li v1,64` in block 1, `li v1,4` for parameter02 in
+  block 2), which is what sched1 does for a pseudo that is not "birthing"
+  (set more than once). A multi-set local (`size` or `kind` assigned 0x40 /
+  4) loses the birthing priority but then floats to the very top of the
+  block instead of retail's middle position: `kind = 4;` stored into
+  parameter02 gives lev 16 (not kept, semantically odd), `size = 0x40` in
+  both blocks lev 24, `size` in block 1 only lev 22.
