@@ -7,13 +7,17 @@ int Render_InitDisplayLists(int mode)
     RECT rect;
     u8 result[8];
     short colors[8];
-    int state = 0;
-    int done = 0;
-    int command = -1;
-    int wait = 180;
+    int state;
+    int done;
+    int command;
+    int wait;
     int status;
 
+    state = 0;
+    done = 0;
+    command = -1;
     colors[0] = -1;
+    wait = 180;
     VSync(0);
     SetDispMask(0);
     /* Recorded crutch debt: retail's CD retry loops restart through gotos,
@@ -69,7 +73,9 @@ retryFog:
             status = Render_FindParticleEffect(command, result);
             switch (status) {
             case 2:
-                goto ready;
+                Render_SetupColorTable(mode == 1 ? 1 : 2, 0, colors);
+                state = 2;
+                break;
             case 5:
             case 6:
                 state = 0;
@@ -129,14 +135,29 @@ retryFog:
                 state = 4;
             break;
         case 6:
+            if (wait != 0) {
+                wait--;
+                break;
+            }
+            Tbl_ResetAll();
+            Render_SetupColorTable(mode == 1 ? 1 : 2, 0, colors);
+            state = 2;
+            break;
         case 7:
+            if (wait != 0) {
+                wait--;
+                break;
+            }
+            Tbl_ResetAll();
+            Render_SetupColorTable(mode == 1 ? 1 : 2, 0, colors);
+            state = 2;
+            break;
         case 8:
             if (wait != 0) {
                 wait--;
                 break;
             }
             Tbl_ResetAll();
-        ready:
             Render_SetupColorTable(mode == 1 ? 1 : 2, 0, colors);
             state = 2;
             break;
