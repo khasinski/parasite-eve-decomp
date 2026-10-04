@@ -50,6 +50,9 @@ extern u8 D_8009E0F0[], D_8009E0F8[], D_8009E1D0[], D_8009E1D8[];
 extern u8 D_8009E2F0[];
 extern u8 D_8009E328[], D_800B00E8[], D_800B00F8[], D_800B00FA[];
 extern u8 D_800B0130[], D_800B0140[], D_800B6928[];
+/* End-of-battle panel; color bytes also have independent retail symbols. */
+extern RenderTexturedQuad D_800BE9F0[2];
+extern u8 D_800BE9F4[], D_800BE9F5[], D_800BE9F6[];
 void Battle_DrawStatusValue(int value, int yOffset);
 /* Returns the highest digit index (number of rendered digits minus one). */
 int Battle_DrawDecimalNumber(void *buffer, s16 x, s16 y, s16 value, s16 mode);
