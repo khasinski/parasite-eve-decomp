@@ -105,4 +105,26 @@ int Pad_GetMenuPressedBitOrDisabled(void);
 
 PE1_STATIC_ASSERT(sizeof(BattleEnemySlot) == 0xDC, battle_enemy_slot_size);
 
+/* Aya action sequencer state and its render/scene dependencies. */
+extern u8 D_8009D25C;
+extern s8 D_8009CE48;
+extern s8 D_8009CE54;
+extern s8 D_8009CE55;
+extern s16 D_8009CE4C;
+extern s32 D_8009E054, D_8009E058, D_8009E05C;
+extern u16 D_8009CE58[2];
+extern u16 D_8009CE5C;
+extern RenderObjectEntity D_800B0CEC;
+extern u16 D_800B0D88;
+extern u8 D_800B0D8A;
+extern u16 D_801F1F38;
+extern u32 D_8009D1A0;
+int Scene_InitEntityPlayer(int mode);
+void Pm_StopLowerHalf(void);
+s16 Battle_CalcAngleToTarget(RenderObjectEntity *object, void *target);
+int rsin(int);
+int rcos(int);
+
+int Battle_StepAyaAction(void);
+
 #endif

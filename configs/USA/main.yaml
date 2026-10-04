@@ -85,7 +85,8 @@ segments:
       - [0xF8C, .rodata, main/Battle_FinalizeAttackResult]
       - [0xFA4, .rodata, main/Battle_ApplyDamage]
       - [0xFD4, .rodata, main/Battle_ApplySpellEffect]
-      - [0x1024, rodata, main/rodata_001024]
+      - [0x1024, .rodata, battle/Battle_StepAyaAction]
+      - [0x1068, pad] # retail alignment after the 17-entry Aya action jump table
       - [0x106C, .rodata, battle/Battle_RollEscapeChance]
       - [0x1080, rodata, main/rodata_001080]
       - [0x1084, .rodata, battle/Battle_CycleTarget]
@@ -301,7 +302,7 @@ segments:
       - [0x13EE8, asm, main/Battle_ResolveHitOnTimer]
       - [0x14614, c, main/Battle_ApplyDamage]
       - [0x14A50, c, main/Battle_ApplySpellEffect]
-      - [0x1523C, asm, main/Battle_StepAyaAction]
+      - [0x1523C, c, battle/Battle_StepAyaAction]
       - [0x15CBC, c, battle/Battle_DispatchSpecialAction]
       - [0x15DE4, c, battle/Battle_RollEscapeChance]
       - [0x160CC, c, battle/Battle_CycleTarget]
