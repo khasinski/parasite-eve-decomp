@@ -364,3 +364,5 @@ type across both preset selection and RAM clearing.
 The public `SpuCommonSettings` layout and its LIBSPU entry-point prototypes now
 live in `psyq_spu_api.h`; the game header forwards to that interface, and the
 LIBSPU implementation no longer includes a game-owned header for its type.
+
+| `RoomM350SweepTrap` | The paired animation controller allocates two eight-byte records and writes an anchor pointer plus a zero frame/count. The callback reads the same fields as `anchor` and `done`; a compile-time size check guards the pool stride. |

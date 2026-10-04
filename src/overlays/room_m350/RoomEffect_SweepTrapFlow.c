@@ -2,6 +2,7 @@
 #include "pe1/gte.h"
 #include "pe1/room_m350_sweep_trap.h"
 
+
 typedef union RoomM350Angles {
     GteShortVector angles;
     GteRotation rotation;
@@ -168,3 +169,79 @@ int func_80192E4C(int mode, RoomM350SweepTrap *trap) {
     }
     return 0;
 }
+
+typedef GteShortVector Vector;
+typedef struct { int reserved[2]; int soundMode; } RoomM350ControllerOwner;
+typedef struct { short rotation[3][3]; int position[3]; } Transform;
+typedef struct {
+    RoomM350ControllerOwner *owner;
+    char reserved04[10];
+    unsigned char animation;
+    char reserved0F[7];
+    unsigned short frame;
+    short reserved18;
+    unsigned short previousFrame;
+    char reserved1C[0x21C];
+    Transform *transforms;
+} Instance;
+typedef struct { int reserved[2]; Instance *instance; } RoomM350ControllerChannel;
+typedef struct { int reserved[2]; void *pool; } RoomM350ControllerEmitter;
+extern RoomM350ControllerEmitter *D_800F33E0;
+extern GteShortVector D_8019A778[];
+extern int func_800CE560(void *,int,int,int (*)(int,RoomM350SweepTrap *));
+extern RoomM350SweepTrap *func_800CE610(void *);
+extern int Asset_Find08w(int,int,int,int,int);
+int func_8019360C(int event) {
+    if (event == 1) goto update;
+    if (event < 2) {
+        if (event == 0) goto setup;
+        goto done;
+    }
+    if (event == 2) goto configure;
+    goto done;
+setup:
+    return func_800CE560(((RoomM350ControllerEmitter *)D_800F33E0)->pool,8,2,func_80192E4C);
+update:
+    {
+        Instance *instance = ((RoomM350ControllerChannel *)D_800F32D0)->instance;
+        int frame;
+        int previous;
+        int i;
+        register Vector *position asm("$16");
+        if (instance->animation != 11) return 0;
+        frame = instance->frame;
+        if (frame >= 50) return 2;
+        previous = instance->previousFrame;
+        if (frame < 8) return 0;
+        if (previous < 8) {
+            position = D_8019A778;
+            for (i=0;i<2;i++,position++) {
+                RoomM350SweepTrap *particle = func_800CE610(((RoomM350ControllerEmitter *)D_800F33E0)->pool);
+                if (!particle) break;
+                particle->anchor = position;
+                particle->done = 0;
+            }
+            {
+                Instance *current = ((RoomM350ControllerChannel *)D_800F32D0)->instance;
+                Asset_Find08w(0x5C6,current->owner->soundMode,
+                    *(short *)&current->transforms->position[0],
+                    *(short *)&current->transforms->position[1],
+                    *(short *)&current->transforms->position[2]);
+            }
+        }
+    }
+    goto done;
+configure:
+    D_800F3368.parameter00=32;
+    D_800F3368.parameter02=2;
+    D_800F3368.extent_x=32;
+    D_800F3368.extent_y=32;
+    D_800F3368.extent_x=32;
+    D_800F3368.extent_y=32;
+    D_800F3368.parameter0A=0;
+    D_800F3368.depth=0;
+done:
+    return 0;
+}
+
+PE1_STATIC_ASSERT(sizeof(RoomM350SweepTrap) == 8, room_m350_sweep_trap_size);
