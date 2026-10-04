@@ -9,14 +9,14 @@ Size is the objdiff function size in bytes.
 
 | Category | Functions | Bytes |
 |---|---:|---:|
-| battle (excluded) | 10 | 17668 |
+| battle (excluded) | 9 | 15524 |
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
 | parked near-miss | 22 | 35720 |
 | not yet attempted | 0 | 0 |
-| total | 102 | 75788 |
+| total | 101 | 73644 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -37,7 +37,6 @@ Category notes:
 | main | Battle_StepEnemyMovement | 1748 |  |
 | main | Battle_ResolveHitOnTimer | 1836 |  |
 | main | Battle_DrawStatusPanel | 2128 |  |
-| main | Battle_UpdateEnemy | 2144 |  |
 
 ## handwritten library/BIOS asm
 
@@ -169,3 +168,4 @@ The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA1
 | main | Battle_StepAyaAction | 2688 | score 0 and whole-main byte-match, committed in 66998969c; stock tools, 14 pins and 7 empty barriers recorded in debt |
 | main | Battle_PhaseHitReaction | 2664 | score 0 and whole-main byte-match; existing turn-phase palette code, typed enemy floating panel fields at 0xD0..0xD6, 11 color pins, 7 empty barriers and the 0x1A0-byte unused stack reserve recorded in debt |
 | main | func_800CAE0C | 2372 | FieldEng_GlowFourLayers: score 0 and whole-main byte-match with stock GCC/MASPSX; one empty barrier after the fourth CompMatrix keeps the column address live and reproduces the retail spill, no pins; existing SDK GTE macros |
+| main | Battle_UpdateEnemy | 2144 | score 0 and whole-main byte-match with stock GCC/MASPSX; shared EnemyCombatant charge, motion, saved animation and damage-panel fields; minimized to 10 pins and 3 empty barriers recorded in debt |

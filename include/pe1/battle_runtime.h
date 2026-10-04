@@ -127,4 +127,12 @@ int rcos(int);
 
 int Battle_StepAyaAction(void);
 
+/* Enemy update and animation lifecycle. */
+void Battle_StepEntityAnimState(BattleEntity *entity);
+void Battle_StepEnemyMovement(BattleEntity *entity);
+void Battle_DrawStatusPanel(int mode, void *panel);
+int Battle_ProcessActionSlot(BattleEntity *entity);
+
+void Entity_TickAnimSequences(BattleEntity *entity);
+
 #endif
