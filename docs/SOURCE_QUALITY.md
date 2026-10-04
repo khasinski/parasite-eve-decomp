@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m086 seekers and the room_m089 pulsing model
+
+room_m086's falling seeker and seeker controller, on `room_m086_seeker.h`,
+and room_m089's pulsing model burst, on `room_m089_model_pulse.h`, match
+from clean C. The parameter block stores follow retail's order in the
+source, the tile index is read as an array element, the controller declares
+its locals in retail's frame order and keeps a store between two heading
+writes so retail's dead store survives, an empty case gives retail's switch
+tree, and the pulsing model's index pointer is block-local and assigned
+after the trig calls so its address load lands where retail's does. Both
+overlay SHA-1 hashes are unchanged and no pins or barriers were added.
+
 ### scene_e18 completed and the scene_e19_2 ember flare
 
 scene_e18's flank model emitter and particle, pulse ring particle and spin
