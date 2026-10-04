@@ -1437,7 +1437,7 @@ extern void func_800DFB20(void *state);
     void name(RoomEnt *o) { \
         RoomLink *link = o->link; \
         RoomLink *targetLink; \
-        RoomLibHandlerEState *state = (RoomLibHandlerEState *)((char *)o + 0xC); \
+        RoomLibHandlerEState *state = (RoomLibHandlerEState *)&o->sub; \
         volatile short *scratch = (volatile short *)0x1F800000; \
         int remain; \
         int scale; \
