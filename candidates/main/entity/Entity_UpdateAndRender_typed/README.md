@@ -7,14 +7,14 @@ To build it, apply `headers.patch` (field_collision.h types, battle.h
 Entity_FindFloor adapted to the new declarations; `make check` stayed OK
 with the patch applied) and copy `entity_floor.h` to include/pe1/.
 
-## State (2026-10-04, second pass): 182 diff lines with -G8 cc1 / -G4 maspsx
+## State (2026-10-04, second pass): lev 172 with -G8 cc1 / -G4 maspsx
 
 The split is approved now and the draft uses it. With it, the declarations
 in `headers.patch`/`entity_floor.h` give the correct absolute/gp mix: the
 two edge words are separate 4-byte symbols (D_8009CE0C, D_8009CE10) so
 they stay gp-relative at -G4, and the player slot and flags word are
 8-byte records (small for cc1, absolute for the assembler). Every
-lui/gp access now matches. Remaining diffs (ds.py: 182) are allocation
+lui/gp access now matches. What remains (lev 172) is allocation
 and control flow:
 
 1. Frame: mine reserves 40 bytes of locals, retail 32. The -dg dump shows
@@ -27,7 +27,7 @@ and control flow:
    `xs + r` and every compare. Mine CSEs a whole compare (`slt t3` kept
    and branched on later). Variants tried: locals per bound, globals used
    directly, int copies of x/maxX/minX, a shared `left = x - r` (permuter
-   hint, -1 line).
+   hint, no real gain).
 3. Entry: retail loads x/z with lh and copies them to s4/s3; mine loads
    lhu into s4/s3 and extends separately.
 4. The clear loops after the slide swap a0/v1 between counter and pointer.
@@ -46,7 +46,7 @@ that the failed first clip also reaches, and that code contains loops, so
 jump2 cross-jumping cannot merge two copies of it (it stops at loop
 labels). Two goto-free versions were tried:
 `Entity_UpdateAndRender_nogoto.c` (static inline edge test plus a
-`found` flag, 372 lines) and a flag-only version (346). Both are worse,
+`found` flag, lev 264) and a flag-only version (worse still). Both are worse,
 because the inlined `return 0/1` and the flag tests are not threaded
 away. If it lands with gotos, log them as debt.
 
@@ -81,8 +81,7 @@ edge words declared as two 4-byte symbols so they stay gp-relative at -G4.
 The only other way is the read/write alias pair used by Entity_SlideOnRamp
 (`rampFlagsRead/rampFlagsWrite asm("D_8009D2E8")`), which is debt.
 
-Current state at -G8/-G8 with 16-byte records: 211 diff lines (ds.py),
-dominated by the `la` forms above and by control flow, because the draft
+First-pass state at -G8/-G8 with 16-byte records was dominated by the `la` forms above and by control flow, because the draft
 still uses gotos (leave/slide/found/blocked). Before un-parking, rewrite
 the control flow without goto: duplicate the rollback block and the flag
 clear where retail branches to them (jump2 cross-jumping merges identical

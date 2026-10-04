@@ -1,4 +1,4 @@
-# Render_SetupEntityPrims (main 0x2D850, 0x7DC bytes): parked at 30 diff lines
+# Render_SetupEntityPrims (main 0x2D850, 0x7DC bytes): parked at lev 33
 
 Typed rewrite of the model-block parser (RenderObjectEntity,
 RenderObjectHeader, packet unions; no byte offsets). To build it, apply
@@ -9,7 +9,7 @@ layout unchanged, but render_object.h is shared by many overlays, so run
 the overlay checks before landing it) and copy `render_setup.h` to
 include/pe1/. Plain -G0 file, no markers needed.
 
-Score: `ds.py ... 2D850 7DC` = 30 diff lines (started at 317).
+Score: lev.py main 0x2D850 0x7DC = lev 33.
 
 What fixed most of it (keep these):
 - Read the counts through a COPY of the header parameter (`header = model;`)
@@ -40,7 +40,7 @@ Remaining diffs:
    hoisted copy.
 
 Index experiment: `srcquad = &cursor.quad[i]` plus `cursor.quad += i`
-after the loop gives retail's raw t0 offsets (20 lines). But the s16 index
+after the loop gives retail's raw t0 offsets. But the s16 index
 then costs sll/sra/addu each iteration where retail has the `addiu
 a1,a1,16` pointer step. Two permuter runs (scratch/a5rsp2, a5rsp3) only
 improved the score with a hoisted copy that is never advanced, which
