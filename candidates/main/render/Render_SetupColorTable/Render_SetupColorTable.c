@@ -40,19 +40,16 @@ void Render_SetupColorTable(short index, unsigned char style, short *values)
             short value = *values++;
             unsigned short quotient;
             unsigned char count;
-            unsigned char *digits;
 
             if (value == -1)
                 return;
             count = 0;
-            digits = g_TextboxEntries[i].numbers[slot].digits;
-            quotient = value / 10;
-            digits[0] = value - quotient * 10;
+            g_TextboxEntries[i].numbers[slot].digits[count] = value - (quotient = value / 10) * 10;
             value = quotient;
             while (value != 0) {
                 quotient = value / 10;
                 count++;
-                digits[count] = value - quotient * 10;
+                g_TextboxEntries[i].numbers[slot].digits[count] = value - quotient * 10;
                 value = quotient;
             }
             g_TextboxEntries[i].numbers[slot].count = count + 1;

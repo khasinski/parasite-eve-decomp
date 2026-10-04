@@ -135,7 +135,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
-| main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: 1 extra instruction (648 vs 644 bytes) |
+| main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: lev 87 (direct digit lvalues give retail digit base; -1 hoist and register numbering left) |
 | main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: 24 diffs (prologue), func_800D3BC8 variant 26 |
 | main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand (needs headers.diff; diff count not recorded) |
