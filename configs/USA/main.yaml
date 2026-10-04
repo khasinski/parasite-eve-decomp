@@ -1427,9 +1427,8 @@ segments:
       - [0x7DE10, c, psyq/libspu/SpuClearReverbWorkArea]
       - [0x7DFA4, pad]
       - [0x7DFB0, c, psyq/libapi/WaitEvent]
-      - [0x7DFC0, c, main/SPU_PitchUpdateFlow]
-      # The sequencer tick and its root-counter callback share timer state.
-      - [0x7E37C, c, akao/Akao_Tick]
+      # SPU pitch slides and AKAO ticking share bank and track state views.
+      - [0x7DFC0, c, main/SPU_Akao_TimerFlow]
       - [0x7EADC, c, akao/Akao_LookupSampleBankByte]
       # AKAO loop-range selection and pitch operations.
       - [0x7ECE8, c, akao/voice_pitch]

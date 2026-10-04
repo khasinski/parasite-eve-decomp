@@ -8177,3 +8177,14 @@ field-move lock and action-state bit, zeros player motion and restores the
 combatant’s saved `actionMode12`. The two routines share the `Combatant` and
 `BattleEntity` views under the `-G2` profile; their full 220-byte range matches
 retail. `make verify-clean` passes and `main.exe` remains byte-identical.
+
+### AKAO sequencer timer and SPU pitch flow
+
+`Seq_GetGlobalPitch`, `Seq_ApplyGlobalPitch`, `Util_CopyWords`,
+`SPU_StepReverbLoad`, `Akao_Tick` and `Akao_TimerCallback` now share
+`src/main/main/SPU_Akao_TimerFlow.c`. The SPU pitch path and sequencer timer
+operate on the same two 0x68-byte banks and the same 0x11C-byte track arrays.
+`AkaoTickBank` overlays `AkaoSequencerBank`, while `AkaoTickTrack` overlays
+`AkaoTrack`; symbol aliases keep each function's field view explicit. The
+combined 0xB1C-byte text range matches retail under the default compiler
+profile.
