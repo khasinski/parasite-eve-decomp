@@ -110,7 +110,7 @@ static inline int Menu_CanEquipSelection(int selection)
         if (Inv_SetupSlotDisplay(Inv_GetActiveListItemType(selection) >= 6
                                      ? 1 << Inv_GetActiveListItemType(selection)
                                      : 0x3E) != 0)
-            usable = 1;
+            usable |= 1;
     }
     return usable;
 }

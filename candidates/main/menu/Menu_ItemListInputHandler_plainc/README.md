@@ -1,8 +1,9 @@
 # Menu_ItemListInputHandler (0x800494AC, 0xC1C bytes, main.yaml 0x39CAC)
 
 Plain C, stock GCC 2.7.2, no pins, barriers, volatile or casts to integers.
-Same size and frame as retail (3100 bytes, 0x40 frame); 21 words differ,
-all register choices. Control flow, scheduling and every tail match.
+Same size and frame as retail (3100 bytes, 0x40 frame). Score: **lev 5**
+(retail 775 words, mine 775 words). Control flow, scheduling and every tail
+match.
 
 What made the rest match:
 
@@ -21,9 +22,18 @@ What made the rest match:
 - `action = Menu_ItemUseAction;` before the width test reproduces retail's
   early `lui s3` (the callback pointer lives across the second measure call).
 
-Remaining differences:
+Remaining differences (lev 5):
 
-1. Global allocation swaps `child` (retail s1) and `data` (retail s2).
+0. (2026-10-04, lev 21 -> 5) `usable |= 1;` instead of `usable = 1;` in
+   Menu_CanEquipSelection. flow counts the extra use of `usable`, which lifts
+   it above `data` in global allocation, so `usable` takes s1, `data` s2 and
+   `child` s1 exactly as in retail. The cost is one word: `ori s1,s1,0x1`
+   where retail has `li s1,1`. Variants: `usable = !usable` (same lev 5,
+   `sltiu`), `if ((usable = Inv_SetupSlotDisplay(...)) != 0) usable = 1;`
+   (lev 19: jump threads the zero path and swaps usable/selection), `u8`
+   usable, `else usable = 0`, `usable = call() != 0` (lev 29-32). Still
+   wanted: a source form with the extra reference that keeps `li`.
+1. (fixed by 0 except the `ori`) Global allocation swaps `child` (retail s1) and `data` (retail s2).
    Priorities from cc1 -dl: data 8 refs / 115 insns beats child 6 / 82, and
    the CF1C branch's `usable` (3 refs / 30 insns) loses s1 to data. Giving
    `usable` one more ref (`usable++` instead of `usable = 1`) makes it take
