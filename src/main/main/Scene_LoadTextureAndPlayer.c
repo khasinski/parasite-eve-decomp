@@ -96,7 +96,7 @@ retry:
         directory = SceneAsset_ResolveOffset(blob, blob->directoryOffset);
         {
             SceneBankAssetRecord *root = SceneAsset_ResolveOffset(blob, directory->bankRootEntries & 0x3fffff);
-            state->bank_slots[0] = (u32)SceneAsset_ResolveOffset(blob, root->source.offsetAndId & 0xffffff);
+            state->bank_slots[0] = SceneAsset_ResolveOffset(blob, root->source.offsetAndId & 0xffffff);
         }
         firstRecord = SceneAsset_ResolveOffset(blob, directory->bankRowEntries & 0x3fffff);
         i = 0;
@@ -109,7 +109,7 @@ retry:
                 asm("" : "=r"(record) : "0"(record), "r"(offsetMask));
                 id = record->source.bytes.id;
                 destination = (Pe1GameState *)(id * 4 + (u32)state);
-                destination->bank_rows[0][0] = (u32)SceneAsset_ResolveOffset(
+                destination->bank_rows[0][0] = SceneAsset_ResolveOffset(
                     blob, record->source.offsetAndId & offsetMask);
                 packed = directory->bankRowEntries;
                 asm volatile("" : "=r"(packed) : "0"(packed));
