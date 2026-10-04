@@ -1,7 +1,3 @@
-/*
- * Save_DrawSlotMetadata (0x8003495C, 1156 bytes): parked typed draft, lev 2.
- * See README.md for the remaining differences.
- */
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G4 */
 #include "common.h"
@@ -13,7 +9,7 @@ void Save_DrawSlotMetadata(void)
 {
     u32 state;
     u32 next;
-    int value;
+    int word;
     int phase;
     int prompt;
     short colors[3];
@@ -31,8 +27,7 @@ void Save_DrawSlotMetadata(void)
         colors[1] = (*D_8009D1A8.summary)->secondaryValue;
         colors[2] = 0;
         Tbl_ResetAll();
-        value = Save_GetMetadataWindowIndex() != 0 ? 0x14 : 0x61;
-        Menu_SetTextCursorRect(value, D_8009CE80 < 2 ? 0xF : 0xC3, 0, 0);
+        Menu_SetTextCursorRect(Save_GetMetadataWindowIndex() != 0 ? 0x14 : 0x61, D_8009CE80 < 2 ? 0xF : 0xC3, 0, 0);
         Render_SetupColorTable(0, 2, colors);
         prompt = (D_8009D1A8.prompt.word >> 10) & 3;
         if (prompt != 0) {
@@ -43,11 +38,11 @@ void Save_DrawSlotMetadata(void)
             g_TextboxEntries[0].message = D_80091464;
         }
         g_TextboxEntries[0].state = 2;
-        next = D_8009D1A8.prompt.word;
-        value = next & ~0x300;
-        value |= ((((next >> 8) & 3) + 1) & 3) << 8;
-        D_8009D1A8.prompt.word = value;
         g_TextboxEntries[0].control.flags |= 0x2000000;
+        next = D_8009D1A8.prompt.word;
+        word = next & ~0x300;
+        word |= ((((next >> 8) & 3) + 1) & 3) << 8;
+        D_8009D1A8.prompt.word = word;
         break;
     case 2:
         if (D_8009D1A8.prompt.timer == 0) {
