@@ -1,10 +1,17 @@
 #include "common.h"
 #include "pe1/gte.h"
-#include "pe1/room_model_pulse.h" /* copy from this directory */
+#include "pe1/room_model_pulse.h"
+#include "pe1/dead_code.h"
 
 /* Controller: loads the model asset, seeds sixteen ring particles on frame
  * 1, then draws the slot-2 ring sprite and, from frame 4, the model scaled by
- * cos and brightened by sin of the elapsed time. */
+ * cos and brightened by sin of the elapsed time.
+ *
+ * Mode 2 keeps the ModelBurstController preamble (spin record, brightness
+ * scaled by 2/3, a cos sample) whose results this effect never reads: the
+ * spin stores and the cos call survive in retail, and the brightness test is
+ * the branch that splits the scheduling block before the /40 division (its
+ * empty jump is only removed after scheduling). */
 int func_80195728(int mode, s16 *state) {
     GteRotation rotation = D_8018F258;
     GteShortVector position;
@@ -15,7 +22,8 @@ int func_80195728(int mode, s16 *state) {
     RoomModelPulseParticle *child;
     void *slot;
     u16 *tpages;
-    int palette3;
+    int size;
+    int brightness;
     int i;
 
     switch (mode) {
@@ -40,24 +48,26 @@ int func_80195728(int mode, s16 *state) {
         if (D_800E27EC < 0x10) break;
         return 1;
     case 2:
-        palette3 = 3;
         {
             D_800F3368.parameter00 = 0x40;
             D_800F3368.parameter02 = 4;
             D_800F3368.extent_x = 0x40;
             D_800F3368.extent_y = 0x40;
             D_800F3368.tpage = D_800E2850[D_800E11FA];
-            D_800F3368.palette = palette3;
+            D_800F3368.palette = 3;
             D_800F3368.parameter06 = 1;
             D_800F3368.parameter0A = 0;
             D_800F3368.depth = 0x18;
         }
         func_800CE8F0(D_800F32D0->pool, 2, &rotation, &position);
-        tpages = D_800E2850;
         spin.x = 0;
         spin.y = 0;
-        spin.z = -D_800E27EC << 6;
         spin.flags = 0;
+        spin.z = -D_800E27EC << 6;
+        /* Dead copy of the burst template's brightness setup: the value is
+         * overwritten below, but the empty branch splits retail's schedule. */
+        PE1_DEAD_CODE(brightness = *state;
+                      if (D_800E27EC != 0) brightness = brightness * 2 / 3;)
         func_80077DC4((D_800E27EC << 10) / 40);
         func_800CF3AC(D_80195E8C, &color, D_800E27EC * 3);
         func_800D004C(&position, 0xA0, 0xA0, 8, 0, 0x1000, 0x1000, &color, 0,
@@ -70,8 +80,6 @@ int func_80195728(int mode, s16 *state) {
         D_80196098.x += 0x400;
         if (D_800E27EC >= 4) {
             int angle;
-            int size;
-            int brightness;
 
             i = D_800E27EC - 4;
             angle = (i << 10) / 12;
@@ -88,8 +96,9 @@ int func_80195728(int mode, s16 *state) {
                 int palette;
                 int page;
                 int tpage;
+                tpages = D_800E2850;
                 tpage = tpages[D_800E11EA];
-                D_800F3368.palette = palette3;
+                D_800F3368.palette = 3;
                 D_800F3368.parameter06 = 0;
                 D_800F3368.tpage = tpage;
                 page = (tpages[D_800E11EA] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;

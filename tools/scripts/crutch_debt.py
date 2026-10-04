@@ -40,6 +40,8 @@ PATTERNS = {
     "stack_reserves": re.compile(r"\b(?:volatile\s+\w+\s+matchingStackReserve\s*\[|long\s+long\s+matchingStackSlot\s*;)"),
     # One explicitly authorized scheduling instruction per macro invocation.
     "nop_barriers": re.compile(r"\bPE1_NOP(?:_DEP|_MEMORY_DEP|_IO2_DEP)?\s*\("),
+    # Dead statements kept only for their scheduling-block effect.
+    "dead_code": re.compile(r"\bPE1_DEAD_CODE\s*\("),
     # Filled from the source classifier below; unlike regex-only counters this
     # sees instruction asm inherited from directly included C templates.
     "asm_constrained_units": re.compile(r"(?!)"),
@@ -84,7 +86,7 @@ ORDER = [
     "pointer_integer_casts", "field_macros", "pins", "barriers", "nop_barriers", "aliases",
     "asm_bodies", "directives", "gotos", "include_asm", "postpass",
     "statement_expressions", "unknown_fields", "declaration_overrides",
-    "externs_in_c", "stack_reserves",
+    "externs_in_c", "stack_reserves", "dead_code",
 ]
 HEAVY = [key for key in ORDER if key != "gotos"]
 
@@ -171,6 +173,7 @@ def render_report(per_sub, totals, dirty_files) -> str:
         "**pins** = `register T x asm(\"$r\")` · **barriers** = empty `asm(\"\")` · "
         "**nop_barriers** = explicit one-NOP scheduling macros · "
         "**stack_reserves** = explicitly named unused matchingStackReserve arrays · "
+        "**dead_code** = `PE1_DEAD_CODE(...)` dead statements kept for scheduling · "
         "**aliases** = `extern T x asm(\"sym\")` (C and shared headers) · **asm_bodies** = real instructions · "
         "**directives** = `asm(\".word ...\")` · **gotos** · **include_asm** · **postpass** · "
         "**externs_in_c** = declarations awaiting a subsystem header. Raw offset, pointer, "

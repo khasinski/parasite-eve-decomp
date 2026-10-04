@@ -245,6 +245,25 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### AKAO staged command queue and the room_m256 pulse controller
+
+`Akao_EnqueueStagedCommand` turns the staged AKAO command into a queue
+message from plain C. The five staging scalars are now one
+`AkaoStagedCommand g_AkaoCmd` record. The four wrapper units only store to
+it and stay byte-identical. AKAO has its own `AkaoQueueEntry`, whose opcode
+is a union of the byte the dispatcher reads and the word the executor writes.
+`battle_cmd.h` only loses the typedef that reused the battle message type
+for AKAO, with your approval; no battle code changed. Case 0x24 reads the
+sequence counter through a whole-struct copy, which keeps retail's load
+order and lets both addresses fold.
+
+`RoomEffect_ModelPulseController` in room_m256 keeps two dead statements
+copied from the `RoomEffect_ModelBurstController` template. Their value is
+overwritten, but the empty branch splits a scheduling block, which is what
+retail shows. You accepted them as logged debt, so they are wrapped in
+`PE1_DEAD_CODE(...)`. The crutch tracker counts that marker in a new
+`dead_code` column.
+
 ### Memory card ring burst controller
 
 `Memcard_RingBurstController` drives the ring burst on the memory card
