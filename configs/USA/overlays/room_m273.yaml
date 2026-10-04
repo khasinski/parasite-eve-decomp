@@ -127,7 +127,7 @@ segments:
       - [0x57E4, c, RoomEffect_ThresholdPalette]
       - [0x5B74, c, RoomEffect_TwoPassScaledLayer]
       - [0x5D6C, c, func_80194D54]
-      - [0x5E84, asm, func_80194E6C]
+      - [0x5E84, c, RoomEffect_FallingTrail]
       - [0x6600, c, func_801955E8]
       # The pulse callback and its paired-batch controller share one typed TU.
       - [0x699C, c, RoomEffect_PulseBatchFlow]

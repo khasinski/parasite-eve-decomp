@@ -13,7 +13,6 @@ int func_80194E6C(int mode, RoomM273FallingTrail *trail) {
     s16 floor;
     s16 intensity;
     s16 scale;
-    int tile;
 
     if (mode == 1) {
         if (trail->landed) {
@@ -83,7 +82,7 @@ int func_80194E6C(int mode, RoomM273FallingTrail *trail) {
         if (!trail->landed) {
             int kind;
             int palette;
-            int index = D_800E11EA;
+            int index = D_800E11EA.index;
 
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -113,19 +112,17 @@ int func_80194E6C(int mode, RoomM273FallingTrail *trail) {
             intensity = trail->count * 16;
         }
         scale = (0x80 - intensity) * 64 + 0x1000;
-        tile = D_800E11E8;
-        D_800F3368.parameter02 = 1;
         D_800F3368.parameter00 = 0x10;
+        D_800F3368.parameter02 = 1;
         D_800F3368.extent_x = 0x10;
         D_800F3368.extent_y = 0x10;
-        tile = D_800E2850[tile];
+        D_800F3368.tpage = D_800E2850[D_800E11E8];
         D_800F3368.palette = 2;
         D_800F3368.parameter06 = 0;
         rotation.x = 0;
         rotation.y = 0;
         rotation.z = D_800E27EC << 8;
         rotation.flags = 0;
-        D_800F3368.tpage = tile;
         {
             s16 step;
             s16 index = trail->head;
