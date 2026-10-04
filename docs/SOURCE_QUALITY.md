@@ -245,6 +245,22 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Entity bank loader and the memory card video open
+
+`Scene_LoadEntityTextures` streams an entity bank from the disc and resolves
+the bank's directory, TIM, row and stream records from the file's own offset
+fields. It has one retry `goto` around the CD read, commented and recorded
+as debt. The record offsets are resolved through a byte view of the loaded
+file (`SCENE_ASSET_AT`), because the offsets are byte counts stored in the
+data. The neighbouring `Scene_LoadTextureAndPlayer` lost two pointer and
+integer casts now that its bank tables are typed as pointers.
+
+The two copies of `Memcard_OpenVideo` in menu_memcard come from one template
+with static inline helpers for the decoder setup, stream start and frame
+wait. Each copy carries two recorded retry gotos. The crutch tracker now
+also scans `.inc` templates, so those gotos and the older template crutches
+count as debt.
+
 ### CD-ROM callback setup, the field slot registrar and the entity frame update
 
 Three main executable routines that previously sat in units with inline
