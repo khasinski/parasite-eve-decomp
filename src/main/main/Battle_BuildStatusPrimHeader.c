@@ -4,10 +4,10 @@
 /* Builds the rotating target pointer and the two connector lines that tie
  * the floating status panel to the selected combatant. */
 
-static inline RenderSpritePacket *Battle_StatusPointerSprite(void)
-{
-    return &D_8009E460[g_ActiveDrawSlot].sprite;
-}
+/* Packets of the active draw slot. Every access re-reads the slot, which
+ * retail does after each byte store. */
+#define STATUS_POINTER_SPRITE (&D_8009E460[g_ActiveDrawSlot].sprite)
+#define STATUS_POINTER_TRI (&D_8009E4D8[g_ActiveDrawSlot])
 
 void Battle_BuildStatusPrimHeader(RenderObjectEntity *object, s8 outOfRange)
 {
@@ -18,29 +18,26 @@ void Battle_BuildStatusPrimHeader(RenderObjectEntity *object, s8 outOfRange)
     GteShortVector angles = { 0, 0, (D_8009D250 << 6) & 0xFFF };
     GteVector offset = { object->projected_target_x, object->projected_target_y, 0 };
     s32 flag;
-    RenderSpritePacket *sprite;
-    BattleStatusPointerPrim *tri;
     s16 x;
     s16 y;
-    u8 shade;
 
-    sprite = &D_8009E460[g_ActiveDrawSlot].sprite;
-    sprite->x = object->projected_target_x - 12;
-    sprite->y = object->projected_target_y - 12;
+    STATUS_POINTER_SPRITE->x = object->projected_target_x - 12;
+    STATUS_POINTER_SPRITE->y = object->projected_target_y - 12;
     if (outOfRange == 0) {
-        sprite->color.bytes.r = 0x96;
-        Battle_StatusPointerSprite()->color.bytes.g = 0x14;
-        Battle_StatusPointerSprite()->color.bytes.b = 0x14;
-        D_8009E4D8[g_ActiveDrawSlot].r = 0x96;
-        D_8009E4D8[g_ActiveDrawSlot].g = shade = 0x14;
+        STATUS_POINTER_SPRITE->color.bytes.r = 0x96;
+        STATUS_POINTER_SPRITE->color.bytes.g = 0x14;
+        STATUS_POINTER_SPRITE->color.bytes.b = 0x14;
+        STATUS_POINTER_TRI->r = 0x96;
+        STATUS_POINTER_TRI->g = 0x14;
+        STATUS_POINTER_TRI->b = 0x14;
     } else {
-        sprite->color.bytes.r = 0x32;
-        Battle_StatusPointerSprite()->color.bytes.g = 0xA;
-        Battle_StatusPointerSprite()->color.bytes.b = 0xA;
-        D_8009E4D8[g_ActiveDrawSlot].r = 0x32;
-        D_8009E4D8[g_ActiveDrawSlot].g = shade = 0xA;
+        STATUS_POINTER_SPRITE->color.bytes.r = 0x32;
+        STATUS_POINTER_SPRITE->color.bytes.g = 0xA;
+        STATUS_POINTER_SPRITE->color.bytes.b = 0xA;
+        STATUS_POINTER_TRI->r = 0x32;
+        STATUS_POINTER_TRI->g = 0xA;
+        STATUS_POINTER_TRI->b = 0xA;
     }
-    D_8009E4D8[g_ActiveDrawSlot].b = shade;
 
     RotMatrix(&angles, &rotation);
     SetRotMatrix(&rotation);
@@ -49,15 +46,14 @@ void Battle_BuildStatusPrimHeader(RenderObjectEntity *object, s8 outOfRange)
     RotTrans(&pointer[0], &projected[0], &flag);
     RotTrans(&pointer[1], &projected[1], &flag);
     RotTrans(&pointer[2], &projected[2], &flag);
-    tri = &D_8009E4D8[g_ActiveDrawSlot];
-    tri->x0 = projected[0].x;
-    tri->y0 = projected[0].y;
-    tri->x1 = projected[1].x;
-    tri->y1 = projected[1].y;
-    tri->x2 = projected[2].x;
-    tri->y2 = projected[2].y;
+    STATUS_POINTER_TRI->x0 = projected[0].x;
+    STATUS_POINTER_TRI->y0 = projected[0].y;
+    STATUS_POINTER_TRI->x1 = projected[1].x;
+    STATUS_POINTER_TRI->y1 = projected[1].y;
+    STATUS_POINTER_TRI->x2 = projected[2].x;
+    STATUS_POINTER_TRI->y2 = projected[2].y;
     AddPrim((unsigned int *)D_800B0E38.ordering[g_ActiveDrawSlot] + 5,
-            (unsigned int *)tri);
+            (unsigned int *)STATUS_POINTER_TRI);
 
     /* Connector lines run to the panel on whichever side has room. */
     x = object->projected_target_x;
