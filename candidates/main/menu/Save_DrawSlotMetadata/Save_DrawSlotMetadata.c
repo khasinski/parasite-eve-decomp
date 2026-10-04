@@ -1,5 +1,5 @@
 /*
- * Save_DrawSlotMetadata (0x8003495C, 1156 bytes): parked typed draft, lev 6.
+ * Save_DrawSlotMetadata (0x8003495C, 1156 bytes): parked typed draft, lev 4.
  * See README.md for the remaining differences.
  */
 /* CC1_FLAGS: -G8 */
@@ -43,7 +43,8 @@ void Save_DrawSlotMetadata(void)
         }
         g_TextboxEntries[0].state = 2;
         next = D_8009D1A8.prompt.word;
-        D_8009D1A8.prompt.word = (next & ~0x300) | ((((next >> 8) & 3) + 1) & 3) << 8;
+        phase = (next & ~0x300) | ((((next >> 8) & 3) + 1) & 3) << 8;
+        D_8009D1A8.prompt.word = phase;
         g_TextboxEntries[0].control.flags |= 0x2000000;
         break;
     case 2:

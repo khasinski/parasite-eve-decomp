@@ -2,7 +2,7 @@
 
 Typed plain-C draft replacing the old misc23.c byte-offset version for this
 function (misc23.c still holds the other two functions of the old draft).
-Score: **lev 6** (retail 289 words, mine 289 words). No pins, barriers,
+Score: **lev 4** (retail 289 words, mine 289 words). No pins, barriers,
 volatile, aliases, integer casts or extra linker symbols. Flags are the
 approved `/* CC1_FLAGS: -G8 */` + `/* MASPSX_FLAGS: -G4 */` split.
 
@@ -22,14 +22,19 @@ Setup that already matches:
 - Masks are `~0x300`; `index != 0 ? 0x14 : 0x61`; the prompt text choice is
   `if (prompt != 0) { if (prompt == phase) B; } else A;`.
 
-Remaining differences (lev 6), all in the phase 1 tail:
+- Phase 1 stores the advanced word through `phase` (`phase = (next & ~0x300)
+  | ...; word = phase;`), a multi-block variable, so the new word goes to
+  global allocation instead of local-alloc's v1 (found by the permuter).
 
-- Retail builds the new word in a0 (`li a0,-769; and a0,v0,a0 ... or a0`) and
-  sched2 then hoists `lw flags` and `lui v1,0x200` above `sw a0, word`. Here
-  the word is built in v1, so `lui v1,0x200` cannot move above the store.
-  sched1 orders both versions the same (store, flags load, constant: the
-  constant is a birthing insn and gets LAUNCH priority), so the difference is
-  local-alloc. Tried: statement orders (flags first, flags between load and
+Remaining differences (lev 4), all in the phase 1 tail:
+
+- The new word now lands in s0 (the register of `phase`) instead of retail's
+  a0. With a block-local temporary it is built in v1 (lev 6), so
+  `lui v1,0x200` cannot move above `sw v1, word` in sched2. sched1 orders
+  both versions the same (store, flags load, constant: the constant is a
+  birthing insn and gets LAUNCH priority), so the difference is register
+  allocation. Tried: statement orders (flags first, flags between load and
   store, separate `flags` temp), operand orders of the `|`, `+` instead of
   `|`, `0xFFFFFCFF`, `(x & 0x300) >> 8`, folding the mask after the shift,
-  direct double reads of the word. Best stays at lev 6.
+  direct double reads of the word, storing through `prompt` (lev 7), `next`
+  (lev 8) or `state` (lev 6).
