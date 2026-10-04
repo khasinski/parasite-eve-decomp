@@ -415,7 +415,6 @@ SeqOp_SetFlag4 = 0x80090C38; // type:func
 // Probes disc marker files, opens \PE.IMG;1 by converting its CdlLOC to a base
 // LBA, and records which disc's archive was found.
 OpenPeImage = 0x800698D4; // type:func
-PeImage_Mount_Dispatch = 0x80069E30; // type:func
 
 // CD filesystem/status helpers used by the PE.IMG loader path.
 Cd_GetReadyStatus = 0x8007F72C; // type:func

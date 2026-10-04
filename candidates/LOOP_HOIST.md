@@ -216,3 +216,13 @@ Two-ring loop around func_800D0E88 (call loop).
   an SImode load. `int key = field; if (field & 1)` loads HImode and
   zero-extends (`andi v1,v0,0xffff`); `if (key & 1)` drops the copy. Testing
   `(u16)key & 1` keeps the load SImode and the copy plain.
+
+## Near-tie flipped by a reused variable (Render_InitDisplayLists, 2026-10-04)
+
+- state (33 refs / 222 insns) and wait (41 / 278) were within 0.01 of
+  each other in global-alloc priority. With retail's statement order the
+  wrong one won. After the display loop `wait` is dead, so
+  `while ((wait = Cd_GetReadyStatus()) != 1) VSync(0);` reuses it for the
+  drive status: combine compares v0 directly (no code change), but flow
+  counted the extra references, which lifts wait above state. Same
+  mechanism as `ready` in Scene_LoadRoom.
