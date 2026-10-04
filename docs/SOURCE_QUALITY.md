@@ -266,6 +266,15 @@ constrained slot initializer. `func_800C2D0C` remains in its own source because
 it contains instruction-level inline assembly. `make verify-clean` passes and
 the complete executable remains byte-identical.
 
+### Field-engine slot cleanup
+
+`func_800C2DA0` at 0x800C2DA0 and `func_800C2E08` at 0x800C2E08 now share
+`src/main/engine/func_800C2E08.c`. The first releases one slot and the second
+releases every occupied slot; both clear `FieldEngSlot.flag`, decrement the
+active-slot count in the script state, and return the same script-status test.
+Their adjacent code and shared `FieldEngSlot`/`FieldEngState` layouts support
+this grouping. `make verify-clean` passes and `main.exe` remains byte-identical.
+
 ### Remaining-function audit and three small credit wins
 
 `candidates/REMAINING.md` classifies every function the report does not yet

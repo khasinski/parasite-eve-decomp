@@ -1503,7 +1503,7 @@ segments:
       # Interpreter, script-state accessors, and slot allocation share FieldEngState.
       - [0xB2F58, c, engine/FieldEng_RunScript]
       - [0xB350C, c, engine/func_800C2D0C]
-      - [0xB35A0, c, engine/func_800C2DA0]
+      # Single-slot and full-table cleanup share the slot and script-state layouts.
       - [0xB3608, c, engine/func_800C2E08]
       - [0xB36AC, c, engine/FieldEng_RenderSetup]
       - [0xB3B24, c, engine/FieldEng_OrientedSprite]
