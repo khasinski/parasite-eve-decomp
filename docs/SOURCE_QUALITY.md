@@ -8006,13 +8006,14 @@ and the full executable check. `main.exe` remains byte-identical to retail.
 
 ### Memory-card operation abort and save-state processing
 
-`MemCard_AbortActiveOperation` at file offset 0x31780 and
-`MemCard_UpdateSaveState` at 0x31908 now share
-`src/main/memcard/MemCard_UpdateSaveState.c`. The save-state machine calls the
-abort routine when card detection fails or retries are exhausted; both
-functions update the same `MemCardPortState` and card-manager globals. Their
-adjacent addresses and shared lifecycle make this a coherent translation unit.
-The combined range ends where the next configured routine starts at 0x32820.
+`MemCard_AbortActiveOperation` at file offset 0x31780,
+`MemCard_UpdateSaveState` at 0x31908 and the following `Save_StartWriteSlot` at
+0x32820 now share `src/main/memcard/MemCard_UpdateSaveState.c`. The state
+machine calls the abort routine when detection fails or retries run out, while
+`Save_StartWriteSlot` initializes the same `MemCardPortState` and
+`MemCardSaveSlot` fields that the save-state machine consumes. Their addresses
+are contiguous, and the complete source uses one compiler profile. The grouped
+range ends at 0x32970, where card-file loading begins.
 
 `make verify-clean` passes, including source mapping, policy, debt, organization
 and full executable checks. `main.exe` remains byte-identical to retail.
