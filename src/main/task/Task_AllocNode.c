@@ -32,7 +32,7 @@ TaskNode *Task_AllocNode(int arg0, TaskNode *arg1) {
 
     seq = g_TaskNodeSeqCounter;
     one = 1;
-    node->field_0c = 0;
+    node->trigger_value = 0;
     node->current = arg0;
     node->next_value = 0;
     node->active = one;

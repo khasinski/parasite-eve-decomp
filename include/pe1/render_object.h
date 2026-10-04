@@ -553,12 +553,17 @@ typedef struct RenderPacket1C {
     /* 0x18 */ u32 sxy2;
 } RenderPacket1C;
 
+/* Hit sphere keyed by a part id: Render_FindAnimEntry looks one up by id, and
+ * Scene_UpdateEntityPositions tests every pair of two actors' spheres. The
+ * actor's own body and cylinder spheres (RenderObjectEntity +0x68 and +0x74)
+ * use the same layout. */
 typedef struct RenderAnimationLookupEntry {
-    /* 0x00 */ s16 value0;
-    /* 0x02 */ s16 value1;
-    /* 0x04 */ s16 value2;
-    /* 0x06 */ s16 animation_id;
-    /* 0x08 */ unsigned char reserved08[4];
+    /* 0x00 */ s16 value0;          /* centre x */
+    /* 0x02 */ s16 value1;          /* centre y */
+    /* 0x04 */ s16 value2;          /* centre z */
+    /* 0x06 */ s16 animation_id;    /* part id passed to the contact callback */
+    /* 0x08 */ s16 radius;          /* unscaled; multiplied by move_speed / 4096 */
+    /* 0x0A */ unsigned char reserved0a[2];
 } RenderAnimationLookupEntry;
 
 typedef struct RenderAnimationDataHeader {

@@ -9,7 +9,7 @@
     "directives": 0,
     "externs_in_c": 3818,
     "field_macros": 607,
-    "gotos": 889,
+    "gotos": 890,
     "include_asm": 0,
     "nop_barriers": 172,
     "pins": 1241,
@@ -18,7 +18,7 @@
     "raw_offset_dereferences": 1380,
     "stack_reserves": 5,
     "statement_expressions": 3,
-    "unknown_fields": 215
+    "unknown_fields": 211
   },
   "overlays": {
     "aliases": 2,

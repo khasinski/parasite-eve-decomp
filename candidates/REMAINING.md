@@ -149,7 +149,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | Akao_StepSampleLoader | 2048 | candidates/main/main/Akao_StepSampleLoader.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
 | main | Scene_LoadRoom | 2160 | candidates/main/gpu/Scene_LoadRoom.c (old byte-offset draft, no README, lev not measured) |
 | main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: lev 50 (590 vs 593 words with the current headers; column pointer registers in the four gte_CompMatrix expansions) |
-| main | Scene_UpdateEntityPositions | 2432 | candidates/main/main/Scene_UpdateEntityPositions.c (old byte-offset draft, no README, lev not measured) |
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
 | main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
 | main | Menu_ItemListInputHandler | 3100 | candidates/main/menu/Menu_ItemListInputHandler_plainc: lev not measured |

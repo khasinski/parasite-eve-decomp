@@ -151,16 +151,17 @@ PE1_STATIC_ASSERT(sizeof(CollisionTriangleXYZ) == 28, collision_triangle_xyz_siz
  *   the flat map). Actor groups link via +0x18C (parent/child); the rollback
  *   recurses over the child and every entity sharing the same +0x18C parent,
  *   so a whole grouped formation reverts together.
- *   The per-frame driver Scene_UpdateEntityPositions (raw asm) walks the entity
- *   list D_8009D20C, and for each actor whose flags(+0x98)&0x20 is set, resolves
- *   its region/triangle and applies the snap-or-rollback.
+ *   The per-frame actor contact pass Scene_UpdateEntityPositions walks every
+ *   pair in the entity list D_8009D20C (skipping actors with flags(+0x98)&0x20),
+ *   tests body spheres and x/z cylinders, and rolls back actors that move into
+ *   each other through Entity_RollbackPositionHierarchy.
  *
  * Functions:
  *   void Entity_ResolvePosition(FieldActor *a, int triIndex);  // snap Y + cache tri
  *   int  Entity_ResolveCurrentPosition(u16 **idx);             // resolve D_8009D2F0
  *   s32  Geo_PointInTri(u8 *entry, s16 x, s16 z);              // containment test
  *   void Entity_RollbackPositionHierarchy(FieldActor *a);      // revert pos<-base on block
- *   void Scene_UpdateEntityPositions(void);                    // per-frame resolve/rollback driver
+ *   void Scene_UpdateEntityPositions(void);                    // per-frame actor contact pass
  *   int  Math_FixedMul(int a, int b);                          // (a*b)>>12 fixed-point
  */
 
