@@ -79,6 +79,13 @@ typedef struct AkaoStagedCommand {
 
 extern AkaoStagedCommand g_AkaoCmd;
 
+/* Rolling 0x400..0x5FF sequence number stamped into opcode 0x24 messages. */
+typedef struct AkaoSequenceCounter {
+    int value;
+} AkaoSequenceCounter;
+
+extern AkaoSequenceCounter D_8009CDF0;
+
 int Akao_EnqueueStagedCommand(void);
 
 #endif

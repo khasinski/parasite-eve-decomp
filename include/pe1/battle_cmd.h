@@ -23,13 +23,6 @@ typedef struct SquareMessageEntry {
     /* 0x20 */ int arg_20;
 } SquareMessageEntry;
 
-/*
- * FF7's AKAO queue uses the same 0x24-byte entry layout and dispatches by the
- * first byte. PE1 reuses this Square message shape for both AKAO and local
- * battle/menu command queues.
- */
-typedef SquareMessageEntry AkaoQueueEntry;
-
 typedef union BattleCmdHeader {
     /* Command code is written and compared as a full word by the battle queue. */
     unsigned int word;

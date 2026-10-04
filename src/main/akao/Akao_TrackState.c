@@ -165,8 +165,6 @@ void Seq_MarkTrack3CMaskDirty(void);
 #include "pe1/akao.h"
 #include "pe1/akao/spu_common.h"
 
-#include "pe1/battle_cmd.h"
-
 extern AkaoQueueEntry D_800B8628[];
 extern int g_AkaoMessageQueueCount;
 
@@ -209,7 +207,7 @@ void Akao_ProcessMessageQueue(void) {
 
     if (g_AkaoMessageQueueCount != 0) {
         do {
-            Akao_MessageHandlers[entry->opcode](entry);
+            Akao_MessageHandlers[entry->opcode.id](entry);
             g_AkaoMessageQueueCount--;
             entry++;
         } while (g_AkaoMessageQueueCount != 0);
