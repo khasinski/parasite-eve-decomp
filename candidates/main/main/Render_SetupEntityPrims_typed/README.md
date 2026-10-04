@@ -1,4 +1,4 @@
-# Render_SetupEntityPrims (main 0x2D850, 0x7DC bytes): parked at lev 33
+# Render_SetupEntityPrims (main 0x2D850, 0x7DC bytes): parked at lev 24
 
 Typed rewrite of the model-block parser (RenderObjectEntity,
 RenderObjectHeader, packet unions; no byte offsets). To build it, apply
@@ -9,7 +9,8 @@ layout unchanged, but render_object.h is shared by many overlays, so run
 the overlay checks before landing it) and copy `render_setup.h` to
 include/pe1/. Plain -G0 file, no markers needed.
 
-Score: lev.py main 0x2D850 0x7DC = lev 33.
+Score: lev.py main 0x2D850 0x7DC = lev 24 (was 33; the triangle loop now
+uses `srctri = cursor.tri++;` at the top, see below).
 
 What fixed most of it (keep these):
 - Read the counts through a COPY of the header parameter (`header = model;`)
@@ -45,3 +46,36 @@ then costs sll/sra/addu each iteration where retail has the `addiu
 a1,a1,16` pointer step. Two permuter runs (scratch/a5rsp2, a5rsp3) only
 improved the score with a hoisted copy that is never advanced, which
 changes the semantics.
+
+## 2026-10-04 (agent 10): lev 33 -> 24, mechanism of the texture loops found
+
+Why mine strength-reduces and retail does not (verified with cc1 -dL and
+loop.c): `srcquad = cursor.quad` is a DEST_REG giv of the biv `cursor`,
+so every `srcquad->field` load is a DEST_ADDR giv, and combine_givs folds
+them into the last one (page_bits, add 6), which is worth reducing. In
+retail srcquad is NOT a giv. loop.c only records a DEST_REG giv when the
+register is set once in the loop (`n_times_set == 1`). Adding a dead
+`srcquad++; srctri++;` after each inner loop (so each copy is set twice)
+gives lev 4 and fixes both loops completely, including retail's
+`move t0,a1` and the `addiu a1,a1,16` in the delay slot. That dead store
+only steers codegen, so it is not committed. A natural source where the
+copy is set twice per outer iteration while `cursor` stays a plain
+`cursor++` biv is what is still missing.
+
+Forms that do not work:
+- `cursor.quad = srcquad + 1` at the end (both loops): cursor stops being
+  a biv, no reduction, right loop shape, but global alloc coalesces
+  srcquad and cursor into a1, so every register in the function shifts
+  (lev 128).
+- `srcquad = cursor.quad++;` at the top: right for the triangle loop (kept,
+  lev 24; only the a1 += 12 position differs), but the quad loop still
+  reduces into `t0 = a1 - 10`.
+- Assigning srcquad inside the inner j loop: loop.c hoists it, still a giv.
+
+Params 6/7 (4 of the remaining lev): global alloc takes initCount (pseudo
+83) before paletteRow (81) (priority 2 refs over 264 vs 267 insns), but
+skips a2 because y prefers it (y goes to a2 as the call's third
+argument), so initCount gets t9 and paletteRow gets a2 in the second
+pass. Retail is the other way round. Not fixed by `setup && initCount > 0`,
+`initCount >= 1`, a block-local copy of paletteRow, or int/s16 for the
+callee's palette_row (u16 breaks the sign extension).

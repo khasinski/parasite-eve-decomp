@@ -132,7 +132,7 @@ int Render_SetupEntityPrims(RenderObjectEntity *obj, RenderObjectHeader *model,
             cursor.quad++;
         }
         for (i = 0; i < header->packet28_count; i++) {
-            srctri = cursor.tri;
+            srctri = cursor.tri++;
 
             for (j = 0; j < 2; j++) {
                 out.p28->u0 = srctri->u0;
@@ -145,7 +145,6 @@ int Render_SetupEntityPrims(RenderObjectEntity *obj, RenderObjectHeader *model,
                 out.p28->page_bits = srctri->page_bits;
                 out.p28++;
             }
-            cursor.tri++;
         }
         for (i = 0; i < header->packet24_count; i++) {
         }
