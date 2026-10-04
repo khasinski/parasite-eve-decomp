@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
+#include "room_m273_effects.h"
 
 /* Boss instance fields read by room_m273's animation controllers. */
 typedef struct RoomM273BossOwner {
@@ -225,10 +226,7 @@ typedef struct RoomM273SwayShard {
     u8 state;
 } RoomM273SwayShard;
 
-typedef struct RoomM273EffectPools {
-    u8 reserved_00[8];
-    void *pool;
-} RoomM273EffectPools;
+typedef RoomM273PoolContext RoomM273EffectPools;
 
 extern RoomM273EffectPools *D_800F33E0;
 extern void *D_8019AF70;
