@@ -6,7 +6,7 @@
  * its upper bits and an 8-bit fraction below.  Writes the interpolated point
  * and a yaw/bank pair derived from the two neighbouring segment headings,
  * and returns the path's point count. */
-int func_8018F55C(int position, int index, void *table,
+int func_8018F55C(u32 position, int index, void *table,
                   FxCommonMotionVec *out, void *extra)
 {
     GteVector start;
@@ -14,27 +14,28 @@ int func_8018F55C(int position, int index, void *table,
     GteVector end;
     GteVector toMiddle;
     GteVector toEnd;
-    GteShortVector point;
+    FxCommonPathPoint point;
     FxCommonOffsetByte *base;
     FxCommonOffsetByte *cursor;
-    GteShortVector *points;
+    FxCommonPathPoint *points;
     s16 *angles;
     int fraction;
     int segment;
     int next;
     int after;
-    int count;
+    s16 count;
     int bank;
+    int delta;
     int span;
     s16 yaw;
     s16 nextYaw;
 
     base = table;
     cursor = base + index * sizeof(s32);
-    points = (GteShortVector *)(base + *(s32 *)cursor);
+    points = (FxCommonPathPoint *)(base + *(s32 *)cursor);
     angles = extra;
-    segment = (u32)position >> 8;
-    count = points->pad;
+    segment = position >> 8;
+    count = points->count;
     fraction = position & 0xFF;
     points++;
     span = count - 2;
@@ -73,11 +74,13 @@ int func_8018F55C(int position, int index, void *table,
     if (nextYaw - yaw > 0x800)
         yaw += 0x1000;
 
-    bank = nextYaw - yaw;
-    angles[2] = (yaw - nextYaw) >> 3;
+    delta = nextYaw - yaw;
+    delta *= fraction;
+    bank = (yaw - nextYaw) >> 3;
+    angles[2] = bank;
     angles[0] = 0;
-    angles[1] = yaw + ((bank * fraction) >> 8);
-    if (angles[2] > 0x80)
+    angles[1] = yaw + (delta >> 8);
+    if (bank > 0x80)
         angles[2] = 0x80;
     if (angles[2] < -0x80)
         angles[2] = -0x80;

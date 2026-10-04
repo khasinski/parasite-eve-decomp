@@ -253,3 +253,14 @@ Two-ring loop around func_800D0E88 (call loop).
 - Field symbols overlapping a struct (the twin's D_801D148C etc.) and pointer
   locals to the struct fields made things worse: a local pointer is a known
   constant to sched, so later loads hoist above its stores.
+
+## Path sampler (fx_common func_8018F55C, 2026-10-04)
+
+- `lhu; sll 16; sra 16` into a saved register is a u16 field read into an
+  `s16` local. A signed field, or an `int` local, gives a bare `lh`. The
+  header record is now `FxCommonPathPoint { s16 x, y, z; u16 count; }`, so
+  no volatile is needed.
+- In-place product (`delta = nextYaw - yaw; delta *= fraction; ...
+  angles[1] = yaw + (delta >> 8);`) keeps the subtraction and the mflo in
+  one register. That fixed the last v0/v1/t3 swap, the same effect as the
+  `d *= d` lesson.

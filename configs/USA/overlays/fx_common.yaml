@@ -41,7 +41,7 @@ segments:
       - [0x44, .rodata, FxCommon_MainLoopFlow]
       - [0x6C, c, FxCommon_UpdateCamera]
       - [0x354, c, FxCommon_LookAtMatrix]
-      - [0x56C, asm, fx_common_56C]
+      - [0x56C, c, FxCommon_SamplePath]
       - [0x93C, c, FxCommon_BuildFrustumPlanes]
       - [0x1004, c, FxCommon_CheckBounds]
       - [0x1264, c, FxCommon_CheckBoundsWithMargin]
