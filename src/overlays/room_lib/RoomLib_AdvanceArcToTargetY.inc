@@ -9,7 +9,7 @@ extern short D_800966EC[][2];
 
 void ROOMLIB_ADVANCE_ARC_Y_NAME(RoomEnt *obj) {
     register RoomEnt *self = obj;
-    register char *state = (char *)self + 0xC;
+    register char *state = (char *)&self->sub;
     register RoomLink *link = self->link;
     register short *scratch = (short *)0x1F800000;
     int angle;
