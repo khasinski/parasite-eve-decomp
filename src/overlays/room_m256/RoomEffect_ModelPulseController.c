@@ -1,6 +1,7 @@
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/room_model_pulse.h"
+#include "pe1/dead_code.h"
 
 /* Controller: loads the model asset, seeds sixteen ring particles on frame
  * 1, then draws the slot-2 ring sprite and, from frame 4, the model scaled by
@@ -63,8 +64,10 @@ int func_80195728(int mode, s16 *state) {
         spin.y = 0;
         spin.flags = 0;
         spin.z = -D_800E27EC << 6;
-        brightness = *state;
-        if (D_800E27EC != 0) brightness = brightness * 2 / 3;
+        /* Dead copy of the burst template's brightness setup: the value is
+         * overwritten below, but the empty branch splits retail's schedule. */
+        PE1_DEAD_CODE(brightness = *state;
+                      if (D_800E27EC != 0) brightness = brightness * 2 / 3;)
         func_80077DC4((D_800E27EC << 10) / 40);
         func_800CF3AC(D_80195E8C, &color, D_800E27EC * 3);
         func_800D004C(&position, 0xA0, 0xA0, 8, 0, 0x1000, 0x1000, &color, 0,
