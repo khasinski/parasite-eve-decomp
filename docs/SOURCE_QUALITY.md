@@ -7925,16 +7925,17 @@ private to the grouped source.
 and full executable checks. `main.exe` remains byte-identical to the retail
 target.
 
-### Nearest-edge collision response
+### Wall collision response
 
-`Geo_FindNearestEdge` at 0x8001D688 and its adjacent caller,
-`Entity_ApplyCollisionResponse` at 0x8001D970, now share
-`src/main/field/Entity_ApplyCollisionResponse.c`. The caller tests the nearest
-polygon edge before sliding along the wall and tests again afterward to decide
-whether to restore the actor's base position. Both functions use the same
-polygon vertices and collision radius; their combined range ends at 0x8001DA68.
-The existing actor pointer datum at 0x8009D254 remains in `.data` in the same
-translation unit. `-G8 --expand-div` preserves the helper's signed division.
+Three adjacent routines, `Entity_SlideOnWall` at 0x8001D3A0,
+`Geo_FindNearestEdge` at 0x8001D688 and `Entity_ApplyCollisionResponse` at
+0x8001D970, now share `src/main/field/Entity_ApplyCollisionResponse.c`. The
+response routine locates an edge, slides along it, then checks again and
+restores the actor's base position if the slide still collides. All three use
+the same polygon vertices, actor position and collision radius; the combined
+range ends at 0x8001DA68. The existing actor pointer datum at 0x8009D254 remains
+in `.data` in the same translation unit. `-G8 --expand-div` preserves both
+division sequences.
 
 `make verify-clean` passes, including source mapping, policy, debt, organization
 and the full executable check. `main.exe` remains byte-identical to retail.
