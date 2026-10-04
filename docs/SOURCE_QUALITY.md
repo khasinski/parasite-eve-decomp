@@ -8173,21 +8173,23 @@ appropriate error. Their order, shared `CardObj` write transaction and matching
 GCC 2.8.1 profile support the grouping. The combined 540-byte object matches
 retail; `make verify-clean` passes and `main.exe` remains byte-identical.
 
-### Memory-card screen controller
+### Memory-card title and screen flow
 
-`Memcard_RunScreen.c` replaces the 3908-byte assembly function at 0x801909B4.
-It saves/restores both GPU environments, initializes the two screen buffers
-and eight-node pool, maintains active/pending image lists, runs the selection
-screen, and packs/dims RGB24 pixels for the dialog background. It shares the
-existing screen and image types; the image pool and active-tail declarations
-now live in `menu_memcard_image.h`.
+The logo routine and `Memcard_RunScreen` now share one TU. The latter calls
+the logo on first entry, then saves/restores both GPU environments,
+initializes the two screen buffers and eight-node pool, maintains
+active/pending image lists, runs the selection screen, and packs/dims RGB24
+pixels for the dialog background. Both use `MemcardScreenBuffer`; its
+`overlay`, `dirty`, and `overlayImage` offsets and 0x8084-byte size are now
+asserted in `menu_memcard_screen.h`. The image pool and active-tail
+declarations live in `menu_memcard_image.h`.
 
 The linked function has score 0 and matches every retail byte using stock
 native GCC 2.7.2 and MASPSX on darwine. Five necessary pins and two header
 symbol views remain, documented in `ASM_AND_GTE_POLICY.md`. There is no
 instruction ASM or empty barrier. Mechanical temporary names, the selection
 search goto, and raw image-dimension offsets were removed without losing the
-match. Buffer offsets and address-based helper/global names remain provisional;
+match. Other buffer offsets and address-based helper/global names remain provisional;
 this source grouping does not establish an original object-file boundary.
 
 ### Battle player action lifecycle

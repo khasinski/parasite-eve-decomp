@@ -13,6 +13,14 @@ typedef struct MemcardScreenBuffer {
     u8 pad80[0x8000];
     u8 overlayImage[1]; /* 0x8080 */
 } MemcardScreenBuffer;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MemcardScreenBuffer, overlay) == 0x70,
+                  memcard_screen_overlay_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MemcardScreenBuffer, dirty) == 0x78,
+                  memcard_screen_dirty_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MemcardScreenBuffer, overlayImage) == 0x8080,
+                  memcard_screen_overlay_image_offset);
+PE1_STATIC_ASSERT(sizeof(MemcardScreenBuffer) == 0x8084,
+                  memcard_screen_buffer_size);
 
 typedef struct MemcardSprite {
     u8 addr[3];
