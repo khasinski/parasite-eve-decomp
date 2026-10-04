@@ -17,6 +17,21 @@ typedef struct RoomOrbitTrailParticle {
 PE1_STATIC_ASSERT(sizeof(RoomOrbitTrailParticle) == 0x14,
                   room_orbit_trail_particle_size);
 
+typedef struct RoomOrbitTrailFloor {
+    s16 y;
+} RoomOrbitTrailFloor;
+
+/* Shared allocator context used by the contiguous orbit-trail burst family. */
+typedef struct RoomOrbitTrailPoolChannel {
+    s32 reserved[2];
+    void *pool;
+} RoomOrbitTrailPoolChannel;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOrbitTrailPoolChannel, pool) == 8,
+                  room_orbit_trail_pool_offset);
+PE1_STATIC_ASSERT(sizeof(RoomOrbitTrailPoolChannel) == 12,
+                  room_orbit_trail_pool_channel_size);
+
 /* Burst controller state: the actor anchor and two cleared counters. */
 typedef struct RoomOrbitTrailBurst {
     s16 x, y, z, reserved06;      /* 0x00 */

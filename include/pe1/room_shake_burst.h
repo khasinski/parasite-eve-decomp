@@ -29,10 +29,7 @@ typedef struct RoomShakeBurstChannel {
     RoomShakeBurstSlot *pool;     /* 0x08 */
 } RoomShakeBurstChannel;
 
-typedef struct RoomShakeBurstSparkChannel {
-    s32 reserved[2];
-    void *pool;                   /* 0x08 */
-} RoomShakeBurstSparkChannel;
+typedef RoomOrbitTrailPoolChannel RoomShakeBurstSparkChannel;
 
 typedef struct RoomShakeBurstEntity {
     u8 reserved[0x4C];
@@ -89,9 +86,7 @@ extern int func_80071A54(void);
 extern void func_80020D50(void);
 /* Floor height record at 0x800942EC; reading it as a record keeps the
  * bounce compare after the particle's velocity store, as retail does. */
-typedef struct RoomShakeFloor {
-    s16 y;
-} RoomShakeFloor;
+typedef RoomOrbitTrailFloor RoomShakeFloor;
 
 extern RoomShakeFloor D_800942EC;
 extern u8 *D_800F32D8;

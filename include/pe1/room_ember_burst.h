@@ -23,10 +23,7 @@ typedef struct RoomEmberBurstParams {
     s32 typeId;                   /* 0x04 */
 } RoomEmberBurstParams;
 
-typedef struct RoomEmberBurstChannel {
-    s32 reserved[2];
-    void *pool;                   /* 0x08 */
-} RoomEmberBurstChannel;
+typedef RoomOrbitTrailPoolChannel RoomEmberBurstChannel;
 
 extern FieldActor *D_8009D20C;
 extern FieldActor *D_8009D254;
@@ -67,9 +64,7 @@ extern GteShortVector D_8019993C;
 extern int func_80197618(int mode, RoomOrbitTrailParticle *p);
 
 /* Ember fountain particle (func_80197618). */
-typedef struct RoomEmberFloor {
-    s16 y;
-} RoomEmberFloor;
+typedef RoomOrbitTrailFloor RoomEmberFloor;
 
 extern RoomEmberFloor D_800942EC;
 extern u16 D_800E11E8;
