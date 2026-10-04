@@ -125,7 +125,7 @@ segments:
       - [0x4B9C, c, func_80193B84]
       - [0x4BA4, c, RoomLib_UpdateTransformScale_80193B8C]
       - [0x4CF4, c, RoomLib_HandlerG]
-      - [0x4E28, asm, func_80193E10]
+      - [0x4E28, c, RoomLib_FloorWalker_80193E10]
       - [0x51E8, c, RoomLib_Set4ClearSignal_801941D0]
       - [0x5204, c, func_801941EC]
       - [0x520C, c, RoomLib_UpdateTimedRender_801941F4]

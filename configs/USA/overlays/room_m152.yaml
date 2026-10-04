@@ -103,7 +103,7 @@ segments:
       - [0x36CC, c, func_801926B4]
       - [0x36D4, c, RoomLib_UpdateTransformScale_801926BC]
       - [0x3824, c, RoomLib_HandlerG]
-      - [0x3958, asm, func_80192940]
+      - [0x3958, c, RoomLib_FloorWalker_80192940]
       - [0x3D18, c, RoomLib_Set4ClearSignal_80192D00]
       - [0x3D34, c, func_80192D1C]
       - [0x3D3C, c, RoomEffect_DroppedFlareParticle_80192D24]
