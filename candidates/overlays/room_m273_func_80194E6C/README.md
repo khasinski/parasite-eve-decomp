@@ -44,3 +44,35 @@ read once, `spin < 0 ? spin - 2 : spin + 2`) gives retail's `bgez v1` with
 slot; the original `trail->spin = trail->spin < 0 ? trail->spin - 2 :
 trail->spin + 2` and the if/else forms copy the value first (`move v0,v1`).
 Items 1, 3 and 4 are unchanged.
+
+Retry (agent 5, near-miss pass, 2026-10-04): same size as retail, 19 real
+diffs, all in the second parameter block (mode 2 after the flare). The
+include is now `"room_m273_boss.h"`; copy the file to src/overlays/room_m273/
+and score with `sc.sh <wt> src/overlays/room_m273/RoomEffect_FallingTrail.c
+ft room_m273 5E84 77C`.
+What fixed the rest (plain C, see candidates/LOOP_HOIST.md):
+- Draw loop: index the trail arrays as `trail_x[index * 2 + side]` instead
+  of a `base` computed per outer iteration. The in-loop index arithmetic
+  is hoisted first (3 moves, threshold 29 -> 20) and raises the count to
+  58, so D_800E1204 stays an absolute `lui at` access and the intensity
+  extension stays in the inner loop (`not desirable`), while the scale
+  extension is still hoisted. Retail's `move s5,v0` copy is the hoisted
+  index giv.
+- `step++, index = (index + 1) & 7` in the for increment gives retail's
+  outer loop tail (andi in the bnez delay slot).
+- `i = trail->head = (trail->head - 1) & 7;` gives the lhu head read and
+  the `move a1,v0` copy.
+- Hit copy loop: `source = &trail->position.x;` before the loop and
+  `source[i]` inside (a giv, so its init follows the hit pointer init).
+- First parameter block: block-local `int index = D_800E11EA;` as the first
+  statement and the tpage store right after extent_y; this matches retail
+  exactly (load first, `sll a0,a0,1` in place, value in v1).
+Left: second parameter block. Retail loads 0x10 into v1 and 2 (palette)
+into v0 early, keeps v1 busy until the extent stores, so the D_800E27EC
+load sits after them and the tile index is shifted in place
+(`sll a0,a0,1`, value back in a0). Here 0x10 and 1/2 share v0, the counter
+load moves up and the shift goes to v0. Tried: multi-set tile (best, 19),
+single-set tile in several positions, palette store order variants (14 to
+26 but wrong store order), a function-scope kind (32), a multi-set
+variable holding 2 (23). A darwine permuter run (scratch/a5ft, 50k
+iterations from 530) found nothing.
