@@ -157,6 +157,7 @@ typedef struct RoomM273Drop {
     s16 vz;
     s16 touched;
 } RoomM273Drop;
+PE1_STATIC_ASSERT(sizeof(RoomM273Drop) == 0x18, room_m273_drop_size);
 
 /* Drop splash queue at 0x8019AF04: the contact position, then twelve
  * queued landing positions stored as separate x/y/z arrays. */
