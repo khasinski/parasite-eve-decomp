@@ -245,6 +245,15 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### fx_common path sampler
+
+`FxCommon_SamplePath` samples a closed path of short points from a
+fixed-point position: the segment index in the high bits and an 8-bit
+fraction in the low byte. The point record names its count as `u16`, so
+the code reads it into a signed local as retail does, with no volatile. The
+earlier draft needed volatile. The bank angle is computed in place
+(`delta *= fraction`), which keeps retail's registers.
+
 ### Memory card video slice upload and the scene_e08 ring sprites
 
 Both copies of the menu_memcard video slice upload, the PSY-Q movie sample's
