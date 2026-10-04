@@ -70,3 +70,26 @@ inside the `D_800E27EC >= 4` block and `tpages[D_800E11E8]` in the final
 block. Only the variant with a set at the top plus a set in the model block
 has the right size, at 88 diffs (frame 8 bytes smaller, tpages in a saved
 register from the start). Kept the 0x59C candidate unchanged.
+
+## Rescore (agent 6, 2026-10-04, lev.py)
+
+lev 43 (retail 360 words, mine 358). Score with
+`lev.py <obj> room_m256 0x6740 0x5A0 -v 60`. Besides the missing s5 save
+(tpages, see above) the visible edits are the block after func_800CE8F0.
+cc1 -dS for that block: insn 293 (the mult of `/ 40`) carries LAUNCH
+priority and is placed with 5 stalls only after the spin stores
+(269/272/283/286, priority 4-5) have filled its shadow; retail keeps all
+four spin stores before the magic constant and the mult (no latency fill)
+and puts `la s3, D_800E2850` right after `lw a0, D_800E27EC`. Both look
+like the region was split into its own scheduling unit in retail, but
+there is no label, loop note or asm there. Note that spin is never read
+(its stores are dead), so the original may have passed &spin somewhere
+that was dropped from this draft. Tried without effect (all lev 43): a
+block-local frame copy, spin.flags before spin.z, the angle computed
+into `i` before or after the stores, tpages set after the division or
+inside the model branch; `u16 *tpages = D_800E2850;` at declaration is
+lev 58. `-fno-schedule-insns` (diagnostic only) is lev 122, so retail did
+run sched1.
+Also: room_model_pulse.h declares `func_800CE610_pulse
+__asm__("func_800CE610")`, an alias counted as crutch debt; switch it to
+the shared `void *func_800CE610(void *)` prototype before landing.
