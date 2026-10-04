@@ -28,7 +28,6 @@ Category notes:
 
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
-| main | Battle_StepPlayerTurn | 1492 |  |
 | main | Battle_BuildStatusPrimHeader | 1548 |  |
 | main | Battle_StepVictory | 1616 |  |
 | main | Battle_StepPostBattle | 1712 |  |
