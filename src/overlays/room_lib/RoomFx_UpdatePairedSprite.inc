@@ -91,14 +91,13 @@ void ROOMFX_UPDATE_PAIRED_SPRITE_NAME(
         }
     } else {
         register RoomPairedSpriteState *motion asm("$16") = state;
+        unsigned short *motionWords;
         PE1_COMPILER_LAUNDER(motion);
-        *(unsigned short *)((char *)motion + 0x0) +=
-            *(unsigned short *)((char *)motion + 0x8);
-        *(unsigned short *)((char *)motion + 0x4) +=
-            *(unsigned short *)((char *)motion + 0xC);
-        *(unsigned short *)((char *)motion + 0x2) +=
-            (short)*(unsigned short *)((char *)motion + 0x14) >> 8;
-        *(unsigned short *)((char *)motion + 0x10) += 0x28;
-        *(unsigned short *)((char *)motion + 0x14) += 0x64;
+        motionWords = (unsigned short *)motion;
+        motionWords[0] += motionWords[4];
+        motionWords[2] += motionWords[6];
+        motionWords[1] += (short)motionWords[10] >> 8;
+        motionWords[8] += 0x28;
+        motionWords[10] += 0x64;
     }
 }
