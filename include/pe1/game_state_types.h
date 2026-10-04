@@ -86,13 +86,13 @@ typedef struct Pe1GameState {
     union SceneAssetView *entity_texture_blob; /* 0x158: voice bank base + 0x2800 */
     void *scene_object_work;         /* 0x15C */
     Pe1U8 unk_160[8];
-    struct SceneAssetBlob *texture_load_scratch; /* 0x168: second room read */
+    union SceneAssetView *texture_load_scratch; /* 0x168: second room read */
     Pe1U8 unk_16c[0xC];
     unsigned short *save_background_source;      /* 0x178 */
     unsigned short *save_background_destination; /* 0x17C */
     Pe1U8 unk_180[8];
     struct PmSlotBanks *scene_process_slots; /* 0x188 */
-    struct SceneAssetBlob *loaded_scene_assets; /* 0x18C */
+    union SceneAssetView *loaded_scene_assets; /* 0x18C */
     Pe1U8 unk_190[4];
     void *scene_load_scratch;        /* 0x194: g_SceneLoadScratchBuffer */
     /* Reset bounds establish these arrays; individual element roles unknown. */

@@ -45,6 +45,14 @@ typedef struct SceneAssetBlob {
     unsigned int directoryOffset;
 } SceneAssetBlob;
 
+/* Byte view of a loaded scene container; records hold offsets from its base. */
+typedef union SceneAssetView {
+    SceneAssetBlob header;
+    u8 bytes[1];
+} SceneAssetView;
+
+#define SCENE_ASSET_AT(view, offset) ((void *)&(view)->bytes[offset])
+
 typedef SceneAssetBlob CdArchiveRoot;
 
 typedef struct CdArchiveHeader {

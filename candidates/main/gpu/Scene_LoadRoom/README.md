@@ -2,7 +2,7 @@
 
 Typed plain-C draft, stock GCC 2.7.2 + maspsx. No pins, barriers, volatile
 or integer casts. Three `goto` CD retry restarts (recorded debt when it
-lands). Score: **lev 10** (retail 540 words, mine 539 words).
+lands). Score: **lev 2** (retail 540 words, mine 540 words).
 
 Small-data flags: `/* CC1_FLAGS: -G1 */` + `/* MASPSX_FLAGS: -G1 */`. Checked
 against the approved -G8/-G4 split: the PE.IMG base is now read as
@@ -42,17 +42,32 @@ What matches now (new in this round marked *):
   number spilled to the stack, `SCENE_ROOM_PAYLOAD` ordering, `slot - 0x55`
   unfolded, stream records stored back as bytes, tail `(flags & 1) && bank`.
 
-Remaining differences (lev 10):
+- * Typing (2026-10-04, round 2): `SceneAssetView` (header + byte view) and
+  `SCENE_ASSET_AT` moved from scene_entity_textures.h to scene_assets.h;
+  `Pe1GameState.loaded_scene_assets` and `texture_load_scratch` are
+  `union SceneAssetView *` (the two Asset_* users take `->header`), and
+  `SCENE_ROOM_PAYLOAD(view, record)` is `SCENE_ASSET_AT(view, offset)`, so
+  there is no byte-pointer arithmetic or cast in this unit. The inline
+  `SceneAsset_ResolveOffset` for the payload costs lev 25 (it reorders the
+  slot address), so the macro form stays.
+- * Script table without the `(void **)` cast: the two tables are written
+  as separate branches (`PmCommand **command = &g_PmCmdHandlerTable[slot]`
+  and `void **handler = &D_800E1044[entry]`), each with its own
+  `if (*p == 0) *p = record[i].u.handler;`. jump2 cross-jumps the two
+  identical tails into retail's shared one. `index = slot;` before the
+  range test gives retail's `move a0,v1` copy for the `>= 0x55` branch, and
+  a block-local `entry = index - 0x55` keeps the subtract unfolded.
 
-1. Script table (9 words): retail copies `slot` into a0 (`move a0,v1` in the
-   range test delay slot) and uses the copy in the `>= 0x55` branch, while
-   the table branch shifts the original (`sll v1,v1,2` after the table
-   load). Here one register serves both and the table branch's `sll` fills
-   the delay slot. Tried: field re-reads for the test and the table index,
-   block-local `int`/`u8` copies in the else branch, `(index = slot) >= 0x55`,
-   u8 local, splitting the else into `if (index < 0x55) continue;` (all
-   lev 13-14).
-2. Samples table (1 word): `andi v1,v0,0xffff` instead of `move v1,v0`; the
-   copy pseudo is a zero_extend of the HImode load rather than an SImode
-   copy. `(int)` cast on the test, `& 1U`, `unsigned int`/`u16`/`short`
-   key types did not give a plain move.
+Remaining differences (lev 2):
+
+1. Table branch: `addu v1,v0,v1` (table + scaled slot) where retail has
+   `addu v1,v1,v0` (scaled slot + table). Tried `slot + table`,
+   `table + slot`, a local table pointer, `command += slot` (lev 9,
+   swaps the slot/copy registers), `(int)slot`, `slot & 0xFF`, the field
+   re-read as index.
+2. Samples table: `andi v1,v0,0xffff` instead of `move v1,v0` (the key copy
+   is a zero_extend of the HImode load rather than an SImode copy).
+   `(int)` cast on the test, `& 1U`, `unsigned int`/`u16`/`short` key types
+   did not give a plain move.
+3. Typing debt still in the unit: `state->bank_asset_table` (a `Pe1U32`)
+   is assigned a resolved pointer, as Akao_LoadVoiceBankAlt does.

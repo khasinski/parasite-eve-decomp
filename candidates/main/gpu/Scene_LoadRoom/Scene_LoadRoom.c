@@ -1,5 +1,5 @@
 /*
- * Scene_LoadRoom (0x8006B4F8, 2160 bytes): parked typed draft, lev 10.
+ * Scene_LoadRoom (0x8006B4F8, 2160 bytes): parked typed draft, lev 2.
  * Streams the three room ranges of PE.IMG, uploads the TIM lists of the
  * first two while the next read runs, then relocates the room directory
  * tables into g_GameState and queues the stream/sample bank reads.
@@ -21,7 +21,7 @@ int Scene_LoadRoom(unsigned int roomId)
     unsigned int i;
     unsigned int slot;
     int flags;
-    SceneAssetBlob *room;
+    SceneAssetView *room;
     SceneRoomDirectory *directory;
     TimUploadRecord *tim;
     SceneRoomRecord *record;
@@ -61,7 +61,7 @@ retry_texture:
         for (ready = 1; ready != 0; ready = CdRom_PollReady()) {
             if (!loaded) {
                 room = state->scene_load_scratch;
-                directory = SceneAsset_ResolveOffset(room, room->directoryOffset);
+                directory = SceneAsset_ResolveOffset(room, room->header.directoryOffset);
                 tim = SceneAsset_ResolveOffset(room, directory->tims & 0x3FFFFF);
                 for (i = 0; i < directory->tims >> 22; i++) {
                     Gpu_LoadTimAsset(&tim[i], room);
@@ -87,7 +87,7 @@ retry_room:
         for (ready = 1; ready != 0; ready = CdRom_PollReady()) {
             if (!loaded) {
                 room = state->texture_load_scratch;
-                directory = SceneAsset_ResolveOffset(room, room->directoryOffset);
+                directory = SceneAsset_ResolveOffset(room, room->header.directoryOffset);
                 tim = SceneAsset_ResolveOffset(room, directory->tims & 0x3FFFFF);
                 for (i = 0; i < directory->tims >> 22; i++) {
                     Gpu_LoadTimAsset(&tim[i], room);
@@ -106,7 +106,7 @@ retry_room:
     ExitCriticalSection();
 
     room = state->loaded_scene_assets;
-    directory = SceneAsset_ResolveOffset(room, room->directoryOffset);
+    directory = SceneAsset_ResolveOffset(room, room->header.directoryOffset);
     state->requested_entity_bank = directory->entityBank;
     state->room_type = directory->roomType;
 
@@ -136,21 +136,25 @@ retry_room:
 
     record = SceneAsset_ResolveOffset(room, directory->scripts & 0x3FFFFF);
     for (i = 0; i < directory->scripts >> 22; i++) {
-        void **handler;
         unsigned int index;
 
         slot = record[i].source.bytes.slot;
+        index = slot;
 
         if (slot - 8 < 0x4D) {
-            handler = (void **)&g_PmCmdHandlerTable[slot];
-        } else if (slot >= 0x55) {
-            index = slot - 0x55;
-            handler = &D_800E1044[index];
-        } else {
-            continue;
-        }
-        if (*handler == 0) {
-            *handler = record[i].u.handler;
+            PmCommand **command = &g_PmCmdHandlerTable[slot];
+
+            if (*command == 0) {
+                *command = record[i].u.handler;
+            }
+        } else if (index >= 0x55) {
+            void **handler;
+            unsigned int entry = index - 0x55;
+
+            handler = &D_800E1044[entry];
+            if (*handler == 0) {
+                *handler = record[i].u.handler;
+            }
         }
     }
 

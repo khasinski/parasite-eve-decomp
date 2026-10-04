@@ -20,14 +20,6 @@ typedef struct SceneCdStreamRecord {
     u8 trailing[3];
 } SceneCdStreamRecord;
 
-/* Byte view of a loaded scene container; records hold offsets from its base. */
-typedef union SceneAssetView {
-    SceneAssetBlob header;
-    u8 bytes[1];
-} SceneAssetView;
-
-#define SCENE_ASSET_AT(view, offset) ((void *)&(view)->bytes[offset])
-
 extern u8 g_SceneAreaType;
 extern s8 D_800B0CE4;
 extern u32 g_PeImageBaseLba;

@@ -83,15 +83,16 @@ typedef struct SceneRoomSectorRange {
 } SceneRoomSectorRange;
 
 /*
- * Payload pointer of a room record. A macro rather than SceneAsset_ResolveOffset:
- * retail computes the destination slot before the payload, which an inline
- * call on the right-hand side would reorder.
+ * Payload pointer of a room record: the low 24 bits of its payload word are a
+ * byte offset into the room archive. A macro rather than
+ * SceneAsset_ResolveOffset: retail computes the destination slot before the
+ * payload, which an inline call on the right-hand side would reorder.
  */
-#define SCENE_ROOM_PAYLOAD(base, record) \
-    ((void *)((u8 *)(base) + ((record)->source.offsetAndSlot & 0xFFFFFF)))
+#define SCENE_ROOM_PAYLOAD(view, record) \
+    SCENE_ASSET_AT(view, (record)->source.offsetAndSlot & 0xFFFFFF)
 
 /* First record of a directory table (low 22 bits of the packed word). */
-static inline SceneRoomRecord *SceneRoom_FirstRecord(SceneAssetBlob *room, unsigned int packed)
+static inline SceneRoomRecord *SceneRoom_FirstRecord(SceneAssetView *room, unsigned int packed)
 {
     return SceneAsset_ResolveOffset(room, packed & 0x3FFFFF);
 }
