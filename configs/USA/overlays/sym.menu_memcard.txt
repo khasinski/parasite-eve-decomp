@@ -8,4 +8,3 @@ SetDispMask = 0x80074D28;
 DrawSync = 0x80074DC0;
 PutDrawEnv = 0x80075424;
 CdRom_GetPendingReadCount = 0x8007F778;
-Memcard_OpenVideo = 0x801924F8;
