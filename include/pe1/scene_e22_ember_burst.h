@@ -184,4 +184,22 @@ extern void func_800D3BC8(GteShortVector *position, int scale_x, int scale_y,
                           int size);
 extern int func_801962FC(int mode, RoomOrbitTrailParticle *p);
 
+/* Sweep bolt controller (func_8019753C): the twist model's sibling that
+ * sweeps the bolt out from its origin, sheds twist beam particles, then
+ * hovers with a ring and halo. */
+typedef struct SceneE22SweepBolt {
+    GteShortVector heading;       /* 0x00 */
+    GteShortVector origin;        /* 0x08 */
+    GteShortVector position;      /* 0x10 */
+    s16 state;                    /* 0x18 */
+    s16 timer;                    /* 0x1A */
+    s16 reserved1C;               /* 0x1C */
+    s16 sweep;                    /* 0x1E */
+} SceneE22SweepBolt;
+
+extern RenderColor D_8018F224;
+extern s16 D_80199504;
+extern void func_800D1D24(int mode, int step, int time);
+extern int func_8019702C(int mode, RoomOrbitTrailParticle *p);
+
 #endif

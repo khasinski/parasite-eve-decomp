@@ -103,7 +103,7 @@ segments:
       - [0x7314, c, RoomEffect_TwistTrailParticle]
       - [0x756C, c, RoomEffect_TwistModelController_80196554]
       - [0x8044, c, RoomEffect_TwistBeamParticle]
-      - [0x8554, asm, func_scene_e22_008554]
+      - [0x8554, c, RoomEffect_SweepBoltController_8019753C]
       - [0x91C8, c, func_801981B0]
       - [0x9360, asm, func_scene_e22_009360]
       - [0x9F5C, c, func_80198F44]
