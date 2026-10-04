@@ -355,8 +355,9 @@ class SceneE20MappingTests(unittest.TestCase):
                          "cb847aba4aa80d900b766aa03ca9e306edc140e8")
         self.assertEqual(normalized_rows(self.segment), [
             [0, "rodatabin", "scene_e20_header"],
+            [0x24, ".rodata", "RoomEffect_HoverOrbController_8018F750"],
             [0x40, "asm", "func_8018F028"],
-            [0x768, "asm", "func_8018F750"],
+            [0x768, "c", "RoomEffect_HoverOrbController_8018F750"],
             [0x1704, "c", "Scene_CommandEffectSlot"],
             [0x17F8, "data", "scene_e20_tail"],
         ])

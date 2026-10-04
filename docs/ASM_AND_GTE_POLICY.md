@@ -1964,3 +1964,45 @@ was removed independently on darwine: the menu-open barrier was redundant
 and removed; all remaining individual removals changed the generated code.
 No CPU instruction assembly or toolchain patches are used. The complete main
 executable retains SHA-1 `452fb033f2eaa4b18aa20a5bca60b8125af3a37b`.
+
+## Scene e20 trail controller
+
+`func_8018F750` (`RoomEffect_HoverOrbController_8018F750.c`) matches all 3996 bytes at
+`0x8018F750` with stock native GCC 2.7.2 and stock MASPSX 2.56, `-G0` and
+`--expand-div`. It reconstructs initialization, seven update phases, particle
+spawning, endpoint interpolation, trail history and model/glow rendering.
+The compiler owns the seven-entry switch table at overlay offset `0x24`.
+The complete overlay retains SHA-1
+`cb847aba4aa80d900b766aa03ca9e306edc140e8`.
+
+The controller and `Scene_CommandEffectSlot` share the 24-byte command record
+in `pe1/scene_e20_hover_orb.h`. The controller record is 196 bytes, including seven
+head/tail history pairs beginning at offset `0x54`; spawned particles are
+20 bytes. Reserved members and address-based external names remain provisional.
+These function boundaries do not establish an original object-file boundary.
+
+Matching debt: 24 register pins, 15 empty compiler barriers, three dispatch
+gotos, eight bytes of stack padding after the three scale components, and one
+additional C name for the same texture-page-table linker symbol. That alias
+prevents GCC from sharing a table-base calculation between drawing paths;
+it does not represent a second retail table. The node flag selects a byte
+write at an unresolved record offset. GTE transfers use the existing macros
+with one GTE instruction each; no CPU instruction assembly is added.
+
+Eight TU-local register reservations (`-ffixed-10`, `-ffixed-11`,
+`-ffixed-15`, `-ffixed-21`, `-ffixed-22`, `-ffixed-23`, `-ffixed-24`,
+`-ffixed-25`) leave register 9 available for both GTE matrix loads and
+signed-remainder reloads. This is compiler-allocation debt, not a changed ABI
+or modified compiler. The initial search also reserved register 30; removing
+that reservation retained the full match. Removing each remaining reservation
+from the nine-reservation candidate broke the match. Each of the 24 pins was
+also removed independently from the integrated eight-reservation source;
+every removal broke the match. The final coordinate-load pins fix Y/Z load
+order while the initial colour-pointer and particle-counter pins fix the
+constant-1 schedule at function entry.
+
+This replaces the controller's former `gte_ldrotmatrix`/`gte_ldtransmatrix`
+blocks, which included CPU `lw` instructions inside inline assembly. All sixteen
+matrix-word reads are now C expressions; the existing `gte_ctc2_0` through
+`gte_ctc2_7` macros each emit one COP2 transfer. Other users of the legacy
+aggregate macros are outside this change.

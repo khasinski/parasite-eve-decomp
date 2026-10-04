@@ -2,165 +2,89 @@
 #define PE1_SCENE_E20_HOVER_ORB_H
 
 #include "common.h"
-#include "pe1/gte_types.h"
-#include "pe1/gte.h"
 
-/* scene_e20 hover orb controller (func_8018F750): a spinning model orb with
- * a beam between two flares. It picks a random spot around the actor, glides
- * there, waits for a target, flies at it, bursts into a spark fan, then
- * damages the actor if it is in reach. */
-typedef struct SceneE20HoverOrb {
-    /* 0x00 */ GteShortVector position;
-    /* 0x08 */ GteShortVector rotation;
-    /* 0x10 */ GteShortVector target;
-    /* 0x18 */ GteShortVector destination;
-    /* 0x20 */ GteShortVector origin;
-    /* 0x28 */ GteShortVector targetDestination;
-    /* 0x30 */ GteShortVector targetOrigin;
-    /* 0x38 */ GteShortVector flareA;
-    /* 0x40 */ GteShortVector flareB;
-    /* 0x48 */ s16 state;
-    /* 0x4A */ s16 timer;
-    /* 0x4C */ s16 intensity;
-    /* 0x4E */ s16 reserved4E;
-    /* 0x50 */ s16 duration;
-    /* 0x52 */ s16 reserved52;
-    /* 0x54 */ u8 beam[4];
-} SceneE20HoverOrb;
+/* Scene e20 trail controller and its command/particle records.
+ * Reserved members are observed offsets, not recovered field meanings. */
+typedef struct SceneE20Vec { s16 x,y,z,pad; } SceneE20Vec;
+typedef struct SceneE20Color { u8 r,g,b,code; } SceneE20Color;
+typedef struct SceneE20Matrix { s16 m[3][3],pad; s32 t[3]; } SceneE20Matrix;
+typedef struct SceneEffectSlot {
+    SceneE20Vec position, target;
+    int duration, pending;
+} SceneEffectSlot;
+typedef struct SceneE20Particle { SceneE20Vec position, velocity; s16 kind, timer; } SceneE20Particle;
+typedef struct SceneE20TrailEffect {
+    SceneE20Vec position, rotation, endpoint, target, previousPosition;
+    SceneE20Vec commandedEndpoint, previousEndpoint, trailHead, trailTail;
+    s16 phase, timer, alpha, reserved4E, duration, reserved52;
+    struct { SceneE20Vec head, tail; } history[7];
+} SceneE20TrailEffect;
+typedef struct SceneE20Node { u32 flags; u8 reserved04[12]; s32 progress; } SceneE20Node;
+typedef struct SceneE20Actor { u8 reserved[0x4c]; u32 flags; } SceneE20Actor;
+typedef struct SceneE20Event { u8 reserved[13]; u8 active; } SceneE20Event;
+typedef struct SceneE20Pool { SceneE20Node *node; u8 reserved04[0x264]; SceneE20Vec position; } SceneE20Pool;
+typedef struct SceneE20Channel { int reserved[2]; SceneE20Pool *pool; } SceneE20Channel;
+extern SceneE20Channel *D_800F32D0, *D_800F33E0;
+extern SceneE20Color D_8018EFFC, D_8018F000, D_8018F004, D_8018F008;
+extern short D_800942EC;
+extern SceneE20Actor **D_8009D254;
+extern void *D_800B0E64;
+extern void *D_8019085C;
+int func_8018F750(int mode, SceneE20TrailEffect *effect, SceneEffectSlot *command);
+extern SceneEffectSlot D_80190860[];
+int func_80071A54(void);
+int func_800D3FD8(void);
+void *func_8006E498(void *archive, unsigned key);
+void func_8006DCE4(int sound, int volume, s16 x, s16 y, int z);
+int func_80077CF4(int angle);
+int func_80077DC4(int angle);
+u16 func_80077A64(int tp, int abr, int x, int y);
+u16 func_80077AA4(int x, int y);
+void func_800783E4(SceneE20Vec *a, SceneE20Vec *b, int scaleA, int scaleB, SceneE20Vec *out);
+void func_80078CC4(SceneE20Matrix *matrix, int *scale);
+void func_80079754(SceneE20Vec *rotation, SceneE20Matrix *matrix);
+int func_800C6B90(SceneE20Vec *position, int radius);
+void func_800C6D5C(void *model, int a, int b);
+SceneE20Particle *func_800CE610(SceneE20Pool *pool);
+void func_800CE870(void *object, int joint, SceneE20Vec *out);
+void func_800CFAA8(SceneE20Vec *from, SceneE20Vec *to, SceneE20Vec *angles);
+void func_800CFB7C(SceneE20Vec *angles, s16 distance, SceneE20Vec *out);
+void func_800D1384(SceneE20Vec *from, SceneE20Vec *to, u32 count, SceneE20Color *color0, SceneE20Color *color1, int scale, void *history, int mode);
+void func_800D2B58(SceneE20Vec *from, SceneE20Vec *to, SceneE20Color *color0, SceneE20Color *color1, int scale0, int scale1, int mode);
 
-/* Target handed over by the scene script. */
-typedef struct SceneE20HoverTarget {
-    /* 0x00 */ GteShortVector destination;
-    /* 0x08 */ GteShortVector rotation;
-    /* 0x10 */ int duration;
-    /* 0x14 */ int pending;
-} SceneE20HoverTarget;
+void func_800C6EC0(int tpage,int clut);
+void func_800C6ED8(int mode);
+void func_800C6EF8(void *model);
+void func_800C6F4C(void *model);
+void func_800C6FA0(void *model, u16 alpha);
+void func_800C71E4(void *model, SceneE20Matrix *matrix);
+int func_8018F028(int, SceneE20Particle *);
+int func_800CE560(SceneE20Pool *pool,int stride,int count,void *callback);
+void func_800CEE20(SceneE20Vec *position,SceneE20Vec *rotation,int scaleX,int scaleY,int cell,int clut,int mode,int alpha,SceneE20Color *color);
+extern SceneE20Event *D_800E2368;
+extern u16 D_800E1204[],D_800E2850[];
+extern SceneE20Matrix *D_800BCFA4;
 
-/* Spark spawned by the orb (func_8018F028). */
-typedef struct SceneE20HoverSpark {
-    /* 0x00 */ GteShortVector position;
-    /* 0x08 */ GteShortVector heading;
-    /* 0x10 */ s16 state;
-    /* 0x12 */ s16 timer;
-} SceneE20HoverSpark;
-
-typedef struct SceneE20HoverColor {
-    u8 r, g, b, code;
-} SceneE20HoverColor;
-
-typedef struct SceneE20HoverObject {
-    /* 0x00 */ u32 flags;
-    /* 0x04 */ u8 reserved04[0xC];
-    /* 0x10 */ int health;
-    /* 0x14 */ u8 reserved14[8];
-    /* 0x1C */ u8 actions[0x80];
-} SceneE20HoverObject;
-
-typedef struct SceneE20HoverPool {
-    /* 0x000 */ SceneE20HoverObject *object;
-    /* 0x004 */ u8 reserved004[0x264];
-    /* 0x268 */ GteShortVector position;
-} SceneE20HoverPool;
-
-typedef struct SceneE20HoverChannel {
-    s32 reserved[2];
-    SceneE20HoverPool *pool; /* 0x08 */
-} SceneE20HoverChannel;
-
-typedef struct SceneE20HoverActor {
-    u8 reserved[0x4C];
-    u32 flags; /* 0x4C */
-} SceneE20HoverActor;
-
-typedef struct SceneE20HoverBattle {
-    SceneE20HoverActor *actor;
-} SceneE20HoverBattle;
-
-typedef struct SceneE20HoverEvent {
-    u8 reserved[0xD];
-    u8 active; /* 0x0D */
-} SceneE20HoverEvent;
-
-typedef struct SceneE20HoverFloor {
-    u16 count;
-} SceneE20HoverFloor;
-
-typedef struct SceneE20HoverMatrixSlot {
-    s32 *value;
-} SceneE20HoverMatrixSlot;
-
-/* The sprite parameter block at 0x800F3368. */
-typedef struct SceneE20HoverParams {
-    u16 parameter00;
-    u16 parameter02;
-    u16 palette;
-    u16 parameter06;
-    u16 tpage;
-    u16 parameter0A;
-    s16 depth;
-    u16 extent_x;
-    u16 extent_y;
-} SceneE20HoverParams;
-
-extern SceneE20HoverParams D_800F3368;
-extern SceneE20HoverMatrixSlot D_800BCFA4;
-extern SceneE20HoverChannel *D_800F32D0;
-extern SceneE20HoverChannel *D_800F33E0;
-extern SceneE20HoverBattle *D_8009D254;
-extern SceneE20HoverEvent *D_800E2368;
-extern SceneE20HoverFloor D_800942EC;
-/* Model archive base, read as a one-field record so the load stays behind
- * the in-struct stores. */
-typedef struct SceneE20HoverArchive {
-    void *base;
-} SceneE20HoverArchive;
-
-extern SceneE20HoverArchive D_800B0E64;
-/* Palette of the parameter block, read back through its own symbol. */
-extern u16 D_800F336C;
-extern int D_800E27EC;
-extern int D_800F3428;
+extern u16 firstPageTable[] asm("D_800E2850"); /* Same linker symbol, distinct compiler name. */
 extern u16 D_800E11EA;
 extern u16 D_800E11FA;
 extern u16 D_800E120A;
-extern u16 D_800E1204[];
-extern u16 D_800E2850[];
-extern SceneE20HoverColor D_8018EFFC;
-extern SceneE20HoverColor D_8018F000;
-extern SceneE20HoverColor D_8018F004;
-extern SceneE20HoverColor D_8018F008;
-extern u8 *D_8019085C;
-extern int D_80190800;
+extern s32 D_800E27EC;
+extern s16 D_800F3368;
+extern s16 D_800F336A;
+extern u16 D_800F336C;
+extern s16 D_800F336E;
+extern u16 D_800F3370;
+extern s16 D_800F3372;
+extern s16 D_800F3374;
+extern s16 D_800F3376;
+extern s16 D_800F3378;
+extern s32 D_800F3428;
+extern s32 D_80190800;
 
-int func_8018F028(int mode, SceneE20HoverSpark *spark);
-int func_80071A54(void);
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
-u16 func_80077AA4(int x, int y);
-u16 GetTPage(int tp, int abr, int x, int y);
-void GsSetOrign(int tpage, int clut);
-void *func_8006E498(void *base, u32 key);
-void func_8006DCE4(int id, int channel, int x, int y, int z);
-int func_800D3FD8(void);
-void func_800C6D5C(u8 *model, int x, int y);
-void func_800C6ED8(int mode);
-void func_800C6EF8(u8 *model);
-void func_800C6F4C(u8 *model);
-void func_800C6FA0(u8 *model, u16 factor);
-void func_800C71E4(u8 *model, GteMatrix *matrix);
-int func_800C6B90(GteShortVector *position, int radius);
-int func_800CE560(SceneE20HoverPool *pool, int size, int count, void *callback);
-SceneE20HoverSpark *func_800CE610(SceneE20HoverPool *pool);
-void func_800CE870(SceneE20HoverBattle *object, int mode, GteShortVector *position);
-void func_800CFAA8(GteShortVector *from, GteShortVector *to, GteShortVector *angles);
-void func_800CFB7C(GteShortVector *angles, int distance, GteShortVector *out);
-void func_800CEE20(GteShortVector *position, GteShortVector *rotation, int scale_x,
-                   int scale_y, int texture, int clut, int page, int intensity,
-                   SceneE20HoverColor *color);
-void func_800D1384(GteShortVector *from, GteShortVector *to, int width,
-                   SceneE20HoverColor *color0, SceneE20HoverColor *color1,
-                   int intensity, u8 *beam, int mode);
-void func_800D2B58(GteShortVector *from, GteShortVector *to, SceneE20HoverColor *color0,
-                   SceneE20HoverColor *color1, int width0, int width1, int mode);
+PE1_STATIC_ASSERT(sizeof(SceneEffectSlot) == 0x18, scene_e20_slot_size);
+PE1_STATIC_ASSERT(sizeof(SceneE20Particle) == 0x14, scene_e20_particle_size);
+PE1_STATIC_ASSERT(sizeof(SceneE20TrailEffect) == 0xC4, scene_e20_trail_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE20TrailEffect, history) == 0x54, scene_e20_history_offset);
 
 #endif

@@ -355,17 +355,20 @@ candidate directories whose functions are already C on main are removed.
 
 ### scene_e20 hover orb controller
 
-scene_e20's hover orb controller, about a thousand instructions with no twin
-elsewhere, matches from clean C on the new `scene_e20_hover_orb.h`, with its
-seven-entry jump table carved into the unit's own `.rodata` and the
-`--expand-div` marker. The archive base is read as a one-field record, the
-palette is passed as a conditional inside the clut argument so its value is
-set once and scheduled as retail's, shared temporaries carry the tpage and
-glow and the lerp weight and blend alpha, and the flash choice is a
-conditional expression so cse cannot carry a constant between modes. Retail
-builds a spun rotation but passes the orb's own rotation to the matrix
-builder; the source keeps that. The overlay SHA-1 hash is unchanged and no
-pins or barriers were added.
+The 3996-byte controller and its seven-entry jump table match retail with
+stock GCC 2.7.2 and MASPSX (`--expand-div`). Matrix-word loads are C expressions;
+each GTE transfer is isolated in one `gte_ctc2_N` macro. The earlier aggregate
+GTE load macros hid CPU `lw` instructions, so their apparently pin-free source
+was not entirely C under this project's single-instruction GTE rule.
+
+The replacement uses 24 register pins, 15 empty barriers and eight per-unit
+register reservations. The full matching debt, including a table alias and
+eight bytes of frame padding, is documented in `ASM_AND_GTE_POLICY.md`.
+`Scene_CommandEffectSlot` shares the recovered 24-byte command record, and
+the controller type includes seven head/tail history pairs at offset `0x54`.
+Retail builds a spun rotation but passes the effect's own rotation to the
+matrix builder; the source preserves that behavior. The whole overlay's
+SHA-1 remains unchanged.
 
 ### room_m273 ground ring and falling trail, room_m023 joint glow
 
