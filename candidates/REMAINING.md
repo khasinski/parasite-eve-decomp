@@ -125,7 +125,7 @@ Category notes:
 |---|---|---:|---|
 | main | PeImage_Mount_Dispatch | 696 | CD retry loader (CdRom_PollReady/Cd_GetReadyStatus retry loops), no candidate |
 | main | main | 748 | Boot_MainLoop: goto dispatch plus scratchpad stack switch around func_8019234C (inline asm in C unit) |
-| main | Render_InitDisplayLists | 808 | CD retry loader (CdRom_PollReady/Cd_GetReadyStatus retry loops), no candidate |
+| main | Render_InitDisplayLists | 808 | candidates/main/main/Render_InitDisplayLists: lev 2 (wait/state global-alloc near-tie in the wrong-disc path) |
 | main | Scene_LoadEntityTextures | 1708 | CD retry loader (CdRom_PollReady retry loop), no candidate |
 | menu_memcard | func_80121C04 | 1084 | menu_memcard video open pair: landing on main (another agent) |
 | menu_memcard | Memcard_OpenVideo | 1084 | menu_memcard video open pair: landing on main (another agent) |

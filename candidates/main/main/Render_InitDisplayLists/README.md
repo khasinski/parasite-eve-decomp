@@ -71,3 +71,19 @@ slot).
   match. Tried for +1 without effect: ternary forms, break-style case
   bodies, `!= 0` tests, MoveImage forms, pointer-add OT lookup, inline
   helper (fewer insns), if/else colour calls (changes size).
+
+Update (agent 9, 2026-10-04): still lev 2. Findings (cc1 -dL/-dl):
+- `wait = 180;` moved after `VSync(0);` (retail statement order in the wrong-disc path) fixes the
+  allocation and the pair order, but the `li s1,180` then stays after the VSync call (lev 4: the
+  prologue li moves). sched1 does not lift it across the call.
+- Current draft (cases 6, 7, 8 and 9 as four separate bodies) with retail order: priority needs Lw/Ls < 41/33 = 1.2424 (now 278/222). A shift of
+  k insns in the region where both are live flips it only for k >= 10; refs: one more wait ref
+  outside the loop (42) or one fewer state ref (32) would also flip it. No plain-C form found.
+- 3-body variant ([6],[7],[8,9] etc., lev 9) needs loop.c count >= 235 (now 230): 232 would keep
+  the OT base inside, but the constant 2 is then moved at 26*3*3 = 234. Plain-C levers found:
+  the `else if` disc-flag test with duplicated `done = 1` (+2, no code change), declaring
+  `u8 CdRom_GetCmdStatus(void)` (+1, no code change in the 3-body variant; the callee returns
+  `x & 0xFF`, so u8 is plausible), `short command` (+3 but leaves a sll/sra before DsSync).
+  Without effect on the count: ternary spellings, `!= 0` tests, kind temporaries, casts on the
+  ternary, nested ifs, body if/else forms, pointer-add OT/env forms, types of done/state/wait.
+- Narrow `mode` parameter types change code (lev 26+).
