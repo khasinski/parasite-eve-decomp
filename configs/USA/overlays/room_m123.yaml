@@ -96,7 +96,7 @@ segments:
       - [0x352C, c, func_80192514]
       - [0x3534, c, RoomEffect_JointTriangleFlow]
       - [0x3BF4, c, RoomEffect_M123GlowBurstFlow]
-      - [0x4630, asm, func_80193618]
+      - [0x4630, c, RoomEffect_JointBeacon_80193618]
       - [0x5604, c, RoomEffect_M123ParticleSequence]
       - [0x5A88, c, RoomEffect_M123PulseSequence]
       - [0x5F80, c, RoomEffect_OscillatingPaletteSprite]
