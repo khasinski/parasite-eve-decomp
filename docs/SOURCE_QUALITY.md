@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Field engine oriented sprite and textured model draw
+
+The field engine's oriented sprite and textured model draw in the main
+executable match from clean C on `field_oriented_sprite.h` and
+`field_textured_model.h`. The engine scratchpad struct gains its colour
+channel and second matrix. The model's packet buffer is read as a PSY-Q
+buffer struct, which gives retail's buffer base and ordering-table step, the
+ordering-table link is a union declared inside each primitive block, the
+vertex pointers are shared across the four primitive loops, and translation
+rows are summed from the z column back. The main executable is unchanged and
+no pins or barriers were added.
+
 ### room_m273 boss controllers and the room_m350 splash drop
 
 room_m273's boss turn controller, boss sway controller and sway shard
