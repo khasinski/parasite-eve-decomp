@@ -25,12 +25,26 @@ Found on the way:
   (in-struct accesses give retail's la base registers).
 
 Remaining:
-- mode 1: retail divides the radius in place (`lh s0; bgez s0; addiu
-  s0,s0,15; sra s0,s0,4`) and puts the compare result in s0; ours adjusts in
-  a copy (expand_divmod refuses target == op0). Tried `i /= 16`, a second
-  variable, a block local; none.
+- mode 1: FIXED in rooms7 (see below).
 - mode 2 ring loop: retail has ring size in s1, 0x1000 in s2, &D_8019AE1C in
   s3; ours rotates those three.
 - the first parameter block store (`sh 0x20, 0(s0)`) is one slot later.
 - A darwine permuter run (scratch/a5ring2, 13k iterations) found nothing
   usable.
+
+Retry (agent 5, rooms7): 20 diffs, mode 1 now byte-identical. The radius is
+a block-local `int radius = D_800966EC[...].sine / 16 + 0x80;` in one
+statement. expand_divmod always copies the dividend into a fresh pseudo
+(`t1`) for the bgez adjust; cse then keeps whichever register of the
+equivalence class lives longest as the canonical one. With the
+function-scope `i` (also used by the mode 2 loops) the dividend stayed
+canonical, the adjust became `t1 = i + 15` and t1 conflicted with i (a2 vs
+s0). With a short-lived temporary dividend, t1 is canonical, the compare and
+the adjust use t1 in place, the copy dies and global alloc puts everything
+in s0 (the compare result included). Splitting the statement
+(`radius = sine; radius = radius / 16 + 0x80;`) breaks the dx/dz schedule.
+
+Left (align2, s-registers normalised): `size = value >> 2` is scheduled into
+the D_800E11FA load slot instead of the bne delay slot (moving the statement
+anywhere in the block changes nothing), the first parameter block store one
+slot later, plus the ring loop s1/s2/s3 rotation.
