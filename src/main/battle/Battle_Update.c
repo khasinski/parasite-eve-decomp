@@ -258,12 +258,12 @@ void Battle_Update(void) {
             }
             status = D_8009D278;
             if (status->panelA_timer != 0) {
-                Battle_DrawStatusPanel(0, &status->panelA_val);
+                Battle_DrawStatusPanel(0, (BattleStatusPanel *)&status->panelA_val);
                 D_8009D278->panelA_timer--;
                 status = D_8009D278;
             }
             if (status->panelAux_timer != 0) {
-                Battle_DrawStatusPanel(0, &status->panelAux_val);
+                Battle_DrawStatusPanel(0, (BattleStatusPanel *)&status->panelAux_val);
                 D_8009D278->panelAux_timer = (u8) (D_8009D278->panelAux_timer - 1);
             }
             victoryEntity = (g_BattleTurnEntityListView[0]);

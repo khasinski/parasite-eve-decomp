@@ -92,6 +92,26 @@ typedef struct EnemyActionEffect {
 /* 0x0F */ u8  frame;       /* animation frame that changes state to 3 */
 } EnemyActionEffect;
 
+/* Eight-byte descriptor consumed by Battle_DrawStatusPanel. The last two
+ * bytes are timer/style values whose gameplay meaning varies by panel slot. */
+typedef struct BattleStatusPanel {
+    s16 value;
+    u16 x;
+    u16 y;
+    u8 timer;
+    u8 style;
+} BattleStatusPanel;
+
+PE1_STATIC_ASSERT(sizeof(BattleStatusPanel) == 8, battle_status_panel_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleStatusPanel, x) == 2,
+                  battle_status_panel_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleStatusPanel, y) == 4,
+                  battle_status_panel_y_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleStatusPanel, timer) == 6,
+                  battle_status_panel_timer_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleStatusPanel, style) == 7,
+                  battle_status_panel_style_offset);
+
 /* ----------------------------------------------------------------------------
  * Combatant -- the active/player-side stat record. g_ActiveActor points here
  * in the setup and command paths below. Enemy entity cores share several
@@ -353,6 +373,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, subActionStep) == 0x38,
                   combatant_sub_action_step_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, statusStep3C) == 0x3C,
                   combatant_status_timer_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, panelA_val) == 0x50,
+                  combatant_panel_a_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, panelB_val) == 0x58,
+                  combatant_panel_b_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, panelAux_val) == 0x60,
                   combatant_aux_panel_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Combatant, action) == 0x68,

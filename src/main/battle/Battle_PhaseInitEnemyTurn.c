@@ -220,18 +220,18 @@ void Battle_PhaseInitEnemyTurn(void) {
     /* Floating status panels must finish before the next phase. */
     actor = D_8009D278;
     if (actor->panelA_timer != 0) {
-        Battle_DrawStatusPanel(0, &actor->panelA_val);
+        Battle_DrawStatusPanel(0, (BattleStatusPanel *)&actor->panelA_val);
         ready = 0;
         D_8009D278->panelA_timer = (u8) (D_8009D278->panelA_timer - 1);
     }
     actor = D_8009D278;
     if (actor->panelB_timer != 0) {
-        Battle_DrawStatusPanel(0, &actor->panelB_val);
+        Battle_DrawStatusPanel(0, (BattleStatusPanel *)&actor->panelB_val);
         ready = 0;
         D_8009D278->panelB_timer = (u8) (D_8009D278->panelB_timer - 1);
     }
     if (D_8009D278->panelAux_timer != 0) {
-        Battle_DrawStatusPanel(0, &D_8009D278->panelAux_val);
+        Battle_DrawStatusPanel(0, (BattleStatusPanel *)&D_8009D278->panelAux_val);
         ready = 0;
         D_8009D278->panelAux_timer = (u8) (D_8009D278->panelAux_timer - 1);
     }

@@ -37,7 +37,7 @@ void Pm_StopAllBoth(void);
 
 void Akao_Cmd_21(int, int);
 int Asset_LoadTimTextures(int);
-void Battle_DrawStatusPanel(int, void *);
+void Battle_DrawStatusPanel(int, BattleStatusPanel *);
 void Battle_UpdateEnemy(BattleEntity *);
 void Entity_SetActionMode(BattleEntity *, int);
 void Entity_TickAnimSequences(BattleEntity *);

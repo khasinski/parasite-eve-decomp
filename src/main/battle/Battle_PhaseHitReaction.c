@@ -112,7 +112,7 @@ void Battle_PhaseHitReaction(void) {
             active->panelA_x = panelPlayer->renderObject.projected_x;
             active->panelA_y = panelPlayer->renderObject.projected_y;
         }
-        Battle_DrawStatusPanel(0, &D_8009D278->panelA_val);
+        Battle_DrawStatusPanel(0, (BattleStatusPanel *)&D_8009D278->panelA_val);
         D_8009D278->panelA_timer--;
     }
     active = D_8009D278;
@@ -123,7 +123,7 @@ void Battle_PhaseHitReaction(void) {
             active->panelB_y = player->renderObject.projected_y;
             active->panelB_flag = 1;
         }
-        Battle_DrawStatusPanel(0, &D_8009D278->panelB_val);
+        Battle_DrawStatusPanel(0, (BattleStatusPanel *)&D_8009D278->panelB_val);
         D_8009D278->panelB_timer--;
     }
     for (entity = g_BattleTurnEntityListView[0]; entity; entity = entity->next) {
@@ -139,7 +139,7 @@ void Battle_PhaseHitReaction(void) {
                     enemy->panelC_x = entity->renderObject.projected_x;
                     enemy->panelC_y = entity->renderObject.projected_y;
                 }
-                Battle_DrawStatusPanel(1, &enemy->panelC_val);
+                Battle_DrawStatusPanel(1, (BattleStatusPanel *)&enemy->panelC_val);
                 enemy->panelC_timer--;
             }
         }
