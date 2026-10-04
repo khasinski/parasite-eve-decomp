@@ -1,26 +1,17 @@
 #include "common.h"
 #include "pe1/battle.h"
 #include "pe1/battle_modifiers.h"
+#include "pe1/battle_saved_state.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 
-typedef struct {
-    s32 words[28];
-} AyaBattleState;
-
-typedef struct {
-    s32 words[6];
-} BattleStateTail;
-
 extern AyaBattleState D_80010928;
 extern BattleStateTail D_80010998;
 extern s32 D_8009D1B4[];
 #define D_8009D1B4 (D_8009D1B4[0])
-extern BattleStateTail g_SavedBattleStateTail;
-extern AyaBattleState g_AyaBattleState;
 
 void Battle_SaveAyaState(void) {
     struct {
