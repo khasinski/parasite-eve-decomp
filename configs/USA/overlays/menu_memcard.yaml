@@ -57,7 +57,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x2060, c, Memcard_DriftGlowParticle]
-      - [0x244C, asm, func_menu_memcard_00244C]
+      - [0x244C, c, Memcard_RingBurstController]
       - [0x2D9C, c, Memcard_RisingEmberParticle]
       - [0x33D0, c, Memcard_CrossFlashController]
       - [0x3D68, c, Memcard_FadingGlintParticle]

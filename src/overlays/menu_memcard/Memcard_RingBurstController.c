@@ -15,7 +15,7 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
     int angle;
     int fade;
     int scale;
-    int lift;
+    int amount;
     int dim;
 
     switch (mode) {
@@ -41,8 +41,7 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
                     child->z = burst->z;
                     child->vx = func_80071A54() % 140 - 70;
                     child->vy = func_80071A54() % 140 - 70;
-                    lift = func_80071A54() % 140 - 70;
-                    child->vz = lift;
+                    child->vz = func_80071A54() % 140 - 70;
                     child->state = (i & 3) == 0;
                     child->timer = 0;
                 }
@@ -90,7 +89,8 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
         case 1:
             angle = (burst->timer << 10) / 48;
             if (burst->timer < 5) {
-                func_800D1AE0(&ring, 0x80 - burst->timer * 32, 1, 8);
+                amount = 0x80 - burst->timer * 32;
+                func_800D1AE0(&ring, amount, 1, 8);
             }
             gte_ldrotmatrix(D_800BCFA4.value);
             gte_ldtransmatrix(D_800BCFA4.value);
@@ -112,18 +112,18 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
             scale = func_80077CF4(angle);
             func_800D0728(&position, 2000, 2600, 20, &tilt, scale, scale,
                           &band, 0, fade, 1);
-            lift = func_80077CF4(angle) / 12 + 80;
+            amount = func_80077CF4(angle) / 12 + 80;
             dim = fade * 2 / 3;
             offset.x = position.x;
             offset.y = position.y;
             offset.z = position.z;
-            offset.y -= lift;
+            offset.y -= amount;
             func_800D0728(&offset, 1000, 1600, 16, &tilt, scale, scale,
                           &band, 0, dim, 1);
             offset.x = position.x;
             offset.y = position.y;
             offset.z = position.z;
-            offset.y += lift;
+            offset.y += amount;
             func_800D0728(&offset, 1000, 1600, 16, &tilt, scale, scale,
                           &band, 0, dim, 1);
             break;

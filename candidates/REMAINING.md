@@ -9,14 +9,14 @@ Size is the objdiff function size in bytes.
 
 | Category | Functions | Bytes |
 |---|---:|---:|
-| battle (excluded) | 11 | 20332 |
+| battle (excluded) | 12 | 23020 |
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
-| parked near-miss | 24 | 40476 |
+| parked near-miss | 23 | 38092 |
 | not yet attempted | 0 | 0 |
-| total | 105 | 83208 |
+| total | 105 | 83512 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -39,6 +39,7 @@ Category notes:
 | main | Battle_DrawStatusPanel | 2128 |  |
 | main | Battle_UpdateEnemy | 2144 |  |
 | main | Battle_PhaseHitReaction | 2664 |  |
+| main | Battle_StepAyaAction | 2688 |  |
 
 ## handwritten library/BIOS asm
 
@@ -139,7 +140,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
 | main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev 17 without volatile (count read gives lh, not lhu/sll/sra) |
-| menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: 34 diffs plain, 2 diffs with lift shared with the mode 1 vz (retail lift is a global pseudo; vz register still differs) |
 | menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, diff count not recorded) |
 | room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: lev 43 |
 | scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev 16 (kind = 4 for parameter02; first block needs li 64 as the index load's delay filler, second block needs li 64 before li 4 with 4 live across the 0x40 stores, see README round 5) |
@@ -147,7 +147,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 
 ## not yet attempted
 
-None: menu_memcard 0x244C now has a parked candidate.
+None.
 
 ## Matched on this audit branch
 
@@ -168,4 +168,4 @@ The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA1
 | main | Geo_ClipToFloorBoundary | 2920 | lev 0 under -G8 cc1 / -G4 --expand-div maspsx, no gotos: the edge walk indexes the triangle by slot (loop.c reduces it to one walk pointer plus the slot*2 byte offset and rewrites the exit test against base + 6), the visited-edge pointer, prevIndex/prevX/prevZ are function-scope so they are set in both halves (multi-set: no birthing boost in sched1, and the doubled refs give prevX s6), one shared `int d` for the box limits, distance, projection and squared distances with the divisor loaded into it, `kind` byte view for the neighbour flag, tentative COMMON declarations of D_8009CE0C/D_8009CE18 so maspsx keeps the load-delay nop before the gp stores, `continue` with `while (++slot < 3)` instead of the skip gotos |
 | main | Render_SetupEntityPrims | 2012 | lev 0 (plain -G0): the last a2/t9 swap of paletteRow/initCount was a global-alloc priority tie; writing the matrix command rounding step by step on the shared `bytes`/`words` temporaries (`words = (u16)bytes; words >>= 2;`, `bytes = words; bytes++; bytes *= 4;`) adds three insns that combine later merges, so both live lengths grow by 3 and the tie goes to paletteRow, as in retail |
 | fx_common | func_80193B5C | 1452 | FxCommon_DrawEffectMarkers, lev 0: mode and OT links written as 24-bit bitfield copies (`mode->tag.bits.address = allocation[10].bits.address`, the extract and insert masks give the prologue mask its 4th reference, so global alloc puts it in a3 and level in t0), RotTransPers3-style scalar `s32` outputs instead of a struct (the label's screen read is no longer in-struct, so it does not depend on the line link stores and the xy stores drop to the colour/uv priority), then setXY4/setUV4 field order in both labels |
-| main | Battle_StepAyaAction | 2688 | score 0 and full main.exe byte-match using stock native GCC 2.7.2, stock MASPSX profile 2.77, shared battle/render records, signed range division, COMMON metadata, 14 pins and 7 empty barriers; all 17 jump-table entries and alignment preserved |
+| menu_memcard | func_801EDC44 | 2384 | Memcard_RingBurstController, lev 0: one function-scope `amount` holds both the state 1 ring fade (`amount = 0x80 - burst->timer * 32;` passed to func_800D1AE0 inside the `timer < 5` block) and the band lift (`func_80077CF4(angle) / 12 + 80`); combine folds the fade copy into a1, but flow already counted it in another basic block, so the lift is a global pseudo and global alloc gives retail's whole map (lift s4 after the block locals &band s1, &tilt s2, &offset s3), with a block-local `dim = fade * 2 / 3` |

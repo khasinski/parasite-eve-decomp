@@ -28,6 +28,14 @@ typedef struct MemcardSpinBurst {
     GteRotation rotation;         /* 0x08 */
 } MemcardSpinBurst;
 
+/* Ring burst controller: position plus a signed state and frame timer. */
+typedef struct MemcardRingBurst {
+    s16 x, y, z;                  /* 0x00 */
+    s16 reserved06[5];
+    s16 state;                    /* 0x10 */
+    s16 timer;                    /* 0x12 */
+} MemcardRingBurst;
+
 typedef struct MemcardModelMatrix {
     s16 m[3][3];
     s16 reserved12;
@@ -93,7 +101,7 @@ int Memcard_SpinRingParticle(int mode, MemcardSpinParticle *p);
 int Memcard_SpinBurstController(int mode, MemcardSpinBurst *burst);
 int Memcard_DriftGlowParticle(int mode, RoomDampedSpark *spark);
 int Memcard_RisingEmberParticle(int mode, RoomDampedSpark *spark);
-int Memcard_RingBurstController(int mode, RoomDampedSpark *burst);
+int Memcard_RingBurstController(int mode, MemcardRingBurst *burst);
 
 GteShortVector *Memcard_GetGlintOriginA(void);
 GteShortVector *Memcard_GetGlintOriginB(void);
