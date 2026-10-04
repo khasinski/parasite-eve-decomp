@@ -110,6 +110,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | `0x76444..0x76580` | `psyq/libspu/s_si` | The exported `SpuSetIRQ` is the complete public Psy-Q `libspu/s_si.c` routine: it toggles bit `0x40` of `spucnt`, polls the result, and emits the SDK timeout diagnostics. Its current constrained assembly remains retail-identical while the manifest records the original library unit. |
 
 | `fx_common: 0x3040..0x3750` | `FxCommon_MainLoopFlow` | The overlay frame loop ends by calling the immediately preceding scene-exit routine when its stop flag is set. Both use `fx_common_motion.h`; the combined `0x710`-byte text range and its rodata remain retail-identical. |
+| `fx_common: 0x6F7C..0x8BB0` | `FxCommon_EffectInitializationFlow` | Effect setup calls the preceding initializer for both gradient buffers and draw modes before building runtime resources and effect nodes. Both routines share `fx_common_setup.h`; the combined `0x1C34`-byte range remains retail-identical under the TU compiler profile. |
 
 ## Verified room overlay units
 
