@@ -196,7 +196,7 @@ typedef struct SceneBankResetPair {
     u16 first, second;
 } SceneBankResetPair;
 extern SceneBankResetPair D_80094488[4];
-int Asset_FindTable08ByU32Key(void *base, s32 key);
+void *Asset_FindTable08ByU32Key(void *base, s32 key);
 void Akao_LoadVoiceBankAlt(void);
 void Akao_ClearVoiceBank(void);
 

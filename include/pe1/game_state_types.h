@@ -39,7 +39,9 @@ typedef union Pe1SceneAudioState {
 
 typedef struct Pe1GameState {
     Pe1U32 flags;                    /* 0x000 */
-    Pe1U8 unk_004[6];
+    Pe1U8 unk_004[4];
+    Pe1U8 room_type;                /* 0x008: room directory byte 3 */
+    Pe1U8 unk_009;
     Pe1U8 requested_entity_bank;    /* 0x00A */
     Pe1U8 loaded_entity_bank;       /* 0x00B */
     Pe1S8 current_story_day;         /* 0x00C */
@@ -83,7 +85,9 @@ typedef struct Pe1GameState {
     Pe1U32 voice_bank_base_1400;     /* 0x154 */
     union SceneAssetView *entity_texture_blob; /* 0x158: voice bank base + 0x2800 */
     void *scene_object_work;         /* 0x15C */
-    Pe1U8 unk_160[0x18];
+    Pe1U8 unk_160[8];
+    struct SceneAssetBlob *texture_load_scratch; /* 0x168: second room read */
+    Pe1U8 unk_16c[0xC];
     unsigned short *save_background_source;      /* 0x178 */
     unsigned short *save_background_destination; /* 0x17C */
     Pe1U8 unk_180[8];
@@ -95,10 +99,10 @@ typedef struct Pe1GameState {
     void *bank_slots[10];            /* 0x198 */
     void *bank_rows[10][48];         /* 0x1C0 */
     Pe1U32 bank_reset_940[1];
-    Pe1U32 bank_reset_944[1];
-    Pe1U32 bank_reset_948[1];
-    Pe1U32 bank_reset_94c[1];
-    Pe1U32 bank_reset_950[2];
+    void *bank_reset_944[1];         /* 0x944: relocated task block */
+    void *bank_reset_948[1];
+    void *bank_reset_94c[1];
+    void *bank_reset_950[2];
     Pe1U32 bank_reset_958[1];
 } Pe1GameState;
 
