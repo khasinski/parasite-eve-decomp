@@ -13,7 +13,6 @@ int func_8018F710(int mode, RoomM023JointGlow *glow) {
     s16 frame;
     int kind;
     int palette;
-    int tile;
 
     switch (mode) {
     case 0:
@@ -68,12 +67,10 @@ int func_8018F710(int mode, RoomM023JointGlow *glow) {
             break;
         }
         D_800F3368.parameter00 = 0x40;
-        D_800F3368.extent_x = 0x40;
         D_800F3368.parameter02 = 4;
+        D_800F3368.extent_x = 0x40;
         D_800F3368.extent_y = 0x40;
-        tile = D_800E11EA;
-        tile = D_800E2850[tile];
-        D_800F3368.tpage = tile;
+        D_800F3368.tpage = D_800E2850[D_800E11EA];
         D_800F3368.palette = 3;
         D_800F3368.parameter06 = 0;
         D_800F3368.parameter0A = 0;

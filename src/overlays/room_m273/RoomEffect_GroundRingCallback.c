@@ -37,7 +37,7 @@ int func_80198E94(int mode, GteShortVector *position) {
     }
     if (mode != 2) return 0;
     frame = D_800E27EC - 1;
-    if ((u32)(D_800E27EC - 5) < 0x20) {
+    if (D_800E27EC >= 5 && D_800E27EC < 0x25) {
         int page;
         int kind;
         int palette;
@@ -86,7 +86,7 @@ int func_80198E94(int mode, GteShortVector *position) {
     D_800F3368.extent_y = 0x20;
     D_800F3368.extent_x = 0x20;
     D_800F3368.extent_y = 0x20;
-    D_800F3368.tpage = D_800E2850[D_800E11EA];
+    D_800F3368.tpage = D_800E2850[D_800E11EA.index];
     D_800F3368.palette = 3;
     D_800F3368.parameter06 = 0;
     if (frame < 8) {

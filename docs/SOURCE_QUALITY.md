@@ -245,6 +245,17 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m273 ground ring and falling trail, room_m023 joint glow
+
+room_m273's ground ring and falling trail callbacks and room_m023's joint
+glow callback match from clean C. Each writes its parameter block in the
+order parameter00, parameter02, extent_x, extent_y and then stores the tpage
+straight from the table lookup, which gives retail's in-place index shift;
+the ground ring reads its page index as a one-field record so the final
+scheduling pass keeps the load behind the parameter00 store, and its range
+check is two comparisons that fold into retail's unsigned compare. Both
+overlay SHA-1 hashes are unchanged and no pins or barriers were added.
+
 ### room_m350 sweep trap, the motion particle init family and the room_m273 queued drop
 
 room_m350's sweeping beam trap, the motion particle init shared by room_m075,
