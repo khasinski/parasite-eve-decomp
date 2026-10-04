@@ -245,6 +245,19 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Joint beacons and the scatter and sinking drops
+
+The joint beacon family in room_m023, room_m123 and room_m005, and the drop
+family in room_m256 and room_m404, match from clean C on per-room narrow
+headers, since their state layouts and draw lists differ too much to share
+a template. The drops' two switch tables are carved into each unit's own
+`.rodata`. Scale vectors are chained assignments in retail's store order,
+the tile index is read as an array element, signed timers and trig halves
+keep their `lh` loads through multiplication and signed bitfields, each GTE
+matrix load has its own block-local slot pointer, and case tails return
+before their breaks so retail's shared return tail survives. All five
+overlay SHA-1 hashes are unchanged and no pins or barriers were added.
+
 ### scene_e08 player orb
 
 scene_e08's player orb init, draw and update match from clean C on the new
