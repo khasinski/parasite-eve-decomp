@@ -1,8 +1,8 @@
 {
   "main": {
     "aliases": 62,
-    "asm_bodies": 32,
-    "asm_constrained_units": 4,
+    "asm_bodies": 36,
+    "asm_constrained_units": 5,
     "barriers": 982,
     "byte_pointer_arithmetic": 299,
     "dead_code": 0,
