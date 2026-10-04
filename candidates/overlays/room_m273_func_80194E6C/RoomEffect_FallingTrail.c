@@ -20,7 +20,7 @@ int func_80194E6C(int mode, RoomM273FallingTrail *trail) {
         }
         if (trail->spin) {
             trail->yaw += trail->spin;
-            trail->spin = trail->spin < 0 ? trail->spin - 2 : trail->spin + 2;
+            trail->spin += trail->spin < 0 ? -2 : 2;
         }
         vector.x = trail->pitch;
         vector.y = trail->yaw;

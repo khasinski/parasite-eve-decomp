@@ -27,8 +27,7 @@ Remaining diffs:
    the loop but zero-extends), int/s16 combinations, a per-draw
    `s16 alpha = intensity` copy (cse folds it). The hoist costs the extra
    saved register.
-2. Spin update: retail `bgez v1` with both `addiu v0,v1,+-2` arms; mine
-   copies v1 first (`move v0,v1`). Tried if/else both ways and ternaries.
+2. Spin update: FIXED in rooms7 (see below).
 3. First parameter block: retail loads D_800E11EA first and stores in
    source order (00, 02, 0E, 10, 04, 06, 08); mine groups the three 0x20
    stores. Second block: retail stores parameter02 first.
@@ -36,3 +35,12 @@ Remaining diffs:
    source pointer in one of them.
 
 No pins, barriers, casts or volatile.
+
+Retry (agent 5, rooms7): spin update fixed, body now 1 instruction longer
+than retail (1920 vs 1916 bytes, still the extra s8 save). Writing the
+increment as `trail->spin += trail->spin < 0 ? -2 : 2;` (or an int temporary
+read once, `spin < 0 ? spin - 2 : spin + 2`) gives retail's `bgez v1` with
+`addiu v0,v1,-2` / `addiu v0,v1,2` arms and the yaw store in the delay
+slot; the original `trail->spin = trail->spin < 0 ? trail->spin - 2 :
+trail->spin + 2` and the if/else forms copy the value first (`move v0,v1`).
+Items 1, 3 and 4 are unchanged.
