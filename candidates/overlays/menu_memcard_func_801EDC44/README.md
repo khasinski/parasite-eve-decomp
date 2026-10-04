@@ -75,3 +75,11 @@ but then i and lift are one pseudo (s5) while retail has i in s2, so that is
 not the original either. Tried: s16/u16 lift, `offset.y = position.y - lift`,
 every order of lift/dim/offset copy (brute force), `fade = fade * 2 / 3` in
 place (122), lift split into two statements (size change).
+- Reusing `angle` for the lift (`angle = func_80077CF4(angle) / 12 + 80;`)
+  makes it global: the last block then matches register for register
+  (&band s1, &tilt s2, &offset s3), 26 diffs, all global-alloc order
+  (angle+lift s5, scale s4, &ring s3; retail angle s3, &ring s4, scale s5,
+  lift s4). Retail keeps angle and lift in different registers, so this is
+  not the original either; it only confirms that lift is a global pseudo in
+  retail. Look for a function-scope variable that is otherwise unused in
+  mode 2 (or set in another block) rather than a block-local lift.
