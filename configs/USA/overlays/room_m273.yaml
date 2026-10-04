@@ -156,7 +156,7 @@ segments:
       - [0xA580, c, RoomEffect_DelayedBurstFlow]
       # The emitter owns the callback's four-byte pointer entries.
       - [0xA968, c, RoomEffect_PeriodicPointers]
-      - [0xAC68, asm, func_80199C50]
+      - [0xAC68, c, RoomEffect_BossSwayController]
       - [0xAF88, c, func_80199F70]
       - [0xAF9C, c, func_80199F84]
       - [0xB080, c, func_8019A068]

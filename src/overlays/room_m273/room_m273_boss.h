@@ -6,7 +6,8 @@
 
 /* Boss instance fields read by room_m273's animation controllers. */
 typedef struct RoomM273BossOwner {
-    u8 reserved_00[0x18];
+    u32 flags;
+    u8 reserved_04[0x14];
     u8 *status;
 } RoomM273BossOwner;
 
@@ -23,7 +24,9 @@ typedef struct RoomM273BossInstance {
             u16 frame;
         } parts;
     } time;
-    u8 reserved_18[0x14];
+    u8 reserved_18[2];
+    u16 frame_1A;
+    u8 reserved_1C[0x10];
     s32 height;
     u8 reserved_30[0x0A];
     s16 yaw;
@@ -73,6 +76,23 @@ typedef struct RoomM273BossState {
 } RoomM273BossState;
 
 extern RoomM273BossState D_8019AE9C;
+
+/* Sway controller state at 0x8019AF74: four transformed points (the pad
+ * halfword is a per-point flag) and the animation snapshot. */
+typedef struct RoomM273SwayState {
+    GteShortVector points[4];
+    s16 animation;
+    s16 frame;
+    s16 frame_1A;
+    s16 repeat;
+    s16 sway_timer;
+    s16 sway_step;
+    s16 cooldown;
+    u8 done;
+} RoomM273SwayState;
+
+extern RoomM273SwayState D_8019AF74;
+extern s16 D_800966EC[];
 
 int FieldEng_VecToAngle(s32 *from, s32 *to);
 int FieldEng_TurnToward(s16 current, s16 target, s16 step);
