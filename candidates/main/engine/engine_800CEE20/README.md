@@ -37,3 +37,11 @@ variable sharing) the build is at 30 diffs. Swapping the colour branches
 declaring `int b, g, r` (30) and storing the channels straight into the
 template (size change) did not move r from a1 to a2; the remaining
 difference is global-alloc order, not sched1 launch priority.
+
+## Retry (2026-10-04, agent 4)
+
+Writing the loop increments as `i++, packet++, vertex += 4` fixes the
+swapped loop-tail increments: 4 real diffs remain, all the register of
+`r` (retail a2, this build a1) in the colour block and its two stores.
+Swapping the null-colour assignments (`b = g = r = intensity` and
+reversed statements) makes it worse (9).

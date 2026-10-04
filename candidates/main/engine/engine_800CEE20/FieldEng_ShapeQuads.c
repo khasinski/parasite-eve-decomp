@@ -92,7 +92,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
     gte_ldrotmatrix(&matrix);
     gte_ldtransmatrix(&matrix);
     vertex = D_800E13BC[D_800F3368.parameter0A];
-    for (i = 0; i < D_800E1210[D_800F3368.parameter0A]; i++, vertex += 4, packet++) {
+    for (i = 0; i < D_800E1210[D_800F3368.parameter0A]; i++, packet++, vertex += 4) {
         gte_ldv3(&vertex[0], &vertex[1], &vertex[2]);
         gte_rtpt_padded();
         *packet = template;
