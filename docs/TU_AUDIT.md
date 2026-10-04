@@ -161,7 +161,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 | Range | Unit | Evidence |
 | --- | --- | --- |
 | `menu_memcard 0x7514..0x7874` | `Memcard_CreateImageFlow` | The image-group constructor directly creates the fixed image node; both routines initialize the shared `MemcardImageNode` and use the same preset layout. Combining the adjacent linkbase segments preserves all `0x360` bytes, and the full overlay retains retail SHA-1 `e9adf978d2984be64397ec48b4da7b3e83f07aa8`. |
-| `menu_memcard 0x7E70..0x9108` | `Memcard_TitleAndRunFlow` | The memory-card screen initializes its two pages and calls the preceding logo routine on first entry. Both routines share `MemcardScreenBuffer`; its `overlay`, `dirty`, and `overlayImage` offsets and total `0x8084`-byte size are asserted in `menu_memcard_screen.h`. The complete `0x1298`-byte range matches the retail overlay. |
+| `menu_memcard 0x7874..0x9108` | `Memcard_ListAndScreenFlow` | List input, title/logo transition, and screen startup now share one TU and the `MemcardImageNode`/`MemcardScreenBuffer` definitions. The list handler's node lookup is TU-local, and its input state drives transitions in the same memory-card interface. The `MemcardScreenBuffer` offsets and `0x8084`-byte size are asserted in `menu_memcard_screen.h`. Verified as one contiguous `0x1894`-byte range with retail overlay SHA-1 `e9adf978d2984be64397ec48b4da7b3e83f07aa8`. |
 
 ## Shared record layouts
 

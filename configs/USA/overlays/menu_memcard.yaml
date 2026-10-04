@@ -201,9 +201,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x7874, c, Memcard_HandleListInput_80190064]
-      # Title logo and memory-card screen share the screen-buffer lifecycle.
-      - [0x7E70, c, Memcard_TitleAndRunFlow]
+      - [0x7874, c, Memcard_ListAndScreenFlow]
   - [0x9108]
   - name: menu_memcard_video_display_linkbase
     type: code
