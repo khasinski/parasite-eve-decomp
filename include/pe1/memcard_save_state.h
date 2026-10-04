@@ -36,8 +36,6 @@ void Save_LoadCardFileIntoRuntime(void);
 
 /* Card directory path "bu00:" whose port digit is patched before scans. */
 extern char *D_80092230;
-/* Format device name "bu%ld0:". */
-extern s8 D_80010F60[];
 /* Save-file image written by the save flow. */
 extern u8 D_8009EED0[];
 extern int D_800A1704;

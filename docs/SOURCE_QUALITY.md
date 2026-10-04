@@ -8016,24 +8016,27 @@ division sequences.
 `make verify-clean` passes, including source mapping, policy, debt, organization
 and the full executable check. `main.exe` remains byte-identical to retail.
 
-### Memory-card save flow
+### Memory-card port and save lifecycle
 
-`Save_BuildCardFile` at file offset 0x31380, the six save-manager functions
-in 0x31780..0x32C64, and the port-state controller in 0x32C64..0x33478 now
-share `src/main/memcard/MemCard_SaveFlow.c`. The manager calls the neighboring
-file builder and controller APIs; all three groups use the shared
-`MemCardPortState` and `MemCardSaveSlot` layouts, and save serialization uses
-`SaveBytes12E4`. The controller's progress query uses the canonical
-`g_MemCardActiveState` alias for `D_800A1854` and reads `transferSize` at +0x14.
-Slot lookup bounds
-its result by `MemCardPortState.fileCount` at +2 and checks the first slot's
-`state` and `metadataReady` at +0x1C/+0x1D; shared offset assertions record
-those relationships. The combined 0x20F8-byte code range matches retail under
-the shared default compiler profile.
+`MemCard_StepPortState` at file offset 0x30DA4 and `MemCard_InitManager` lead
+the shared `src/main/memcard/MemCard_PortAndSaveFlow.c`, followed by
+`Save_BuildCardFile` at 0x31380, the six save-manager functions in
+0x31780..0x32C64 and the port-state controller in 0x32C64..0x33478. The
+manager registers the event callbacks consumed by the port state machine and
+calls the neighboring file builder and controller APIs. The routines share
+`MemCardPortState` and `MemCardSaveSlot`; serialization uses `SaveBytes12E4`.
+`MemCardSaveSupportData` models the card product code and three path formats
+at the original `0x80010F48` region, replacing its anonymous data segment;
+its 0x24-byte size places the compiler-generated state switch table at
+`0x80010F6C`. The controller's progress query reads `transferSize` at +0x14 through the
+canonical `g_MemCardActiveState` alias for `D_800A1854`; slot lookup uses
+`fileCount` at +2 and slot `state`/`metadataReady` at +0x1C/+0x1D, as recorded
+by offset assertions. Callback declarations now match their `int` definitions,
+and `ExitCriticalSection` matches its void BIOS declaration. The full 0x26D4
+text bytes and 0x78 rodata bytes match retail under the shared default profile.
 
 `make verify-clean` passes, including source mapping, policy, debt, organization
 and the full executable check. `main.exe` remains byte-identical to retail.
-
 ### Field texture-page setup and loading
 
 `func_800CECAC`, `func_800CED3C` and the following `func_800CEDA8` now share
@@ -8073,17 +8076,6 @@ byte, sends it through `MemCard_WriteByte` and maps the result to success or the
 appropriate error. Their order, shared `CardObj` write transaction and matching
 GCC 2.8.1 profile support the grouping. The combined 540-byte object matches
 retail; `make verify-clean` passes and `main.exe` remains byte-identical.
-
-### Memory-card port event manager
-
-`MemCard_StepPortState` and the immediately following `MemCard_InitManager`
-now share `src/main/memcard/MemCard_StepPortState.c`. The state machine reads
-the event slots that the manager registers for card insertion, removal and
-card operations; both update the same port-state array. The manager’s reset of
-the first byte in each 0x418-byte record uses a byte view of the canonical
-`MemCardPortState` declaration. Both routines retain their original order, and
-the complete 1500-byte default-profile object matches retail. `make verify-clean`
-passes and `main.exe` remains byte-identical.
 
 ### Memory-card screen controller
 

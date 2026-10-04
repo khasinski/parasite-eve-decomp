@@ -3,6 +3,26 @@
 
 #include "common.h"
 
+typedef struct MemCardSaveSupportData {
+    u16 cardProductCode;
+    u16 reserved02;
+    char saveFileFormat[12];
+    char slotPathFormat[8];
+    char deviceFormat[8];
+    u8 reserved20[4];
+} MemCardSaveSupportData;
+
+PE1_STATIC_ASSERT(sizeof(MemCardSaveSupportData) == 0x24,
+                  memcard_save_support_data_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardSaveSupportData, saveFileFormat) == 4,
+                  memcard_save_support_data_file_format_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardSaveSupportData, slotPathFormat) == 0x10,
+                  memcard_save_support_data_slot_format_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardSaveSupportData, deviceFormat) == 0x18,
+                  memcard_save_support_data_device_format_offset);
+
+extern const MemCardSaveSupportData g_MemCardSaveSupportData;
+
 enum MemCardSaveSlotState {
     MEMCARD_SLOT_OCCUPIED = 1,
     MEMCARD_SLOT_EMPTY = 2,
@@ -134,7 +154,6 @@ extern int D_800A1838;
 extern char D_8009EE70[];
 /* Separate declaration keeps the retail address load at the card-file call. */
 extern char g_MemCardPathForCardFile[] asm("D_8009EE70");
-extern s8 D_80010F4C[];
 extern s8 *D_80092224;
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardSaveSlot, titleStyleFlag) == 0x29,
