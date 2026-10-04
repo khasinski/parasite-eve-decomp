@@ -364,6 +364,7 @@ typedef struct BattleInitSlot {
 PE1_STATIC_ASSERT(sizeof(BattleInitSlot) == 8, battle_init_slot_size);
 
 extern BattleTarget g_BattleTargetList[];
+extern int D_8009D208; /* last scene asset/effect result selected by battle */
 
 void Battle_SwapRecords(char *records, int from, int to);
 void Battle_SortTargets(char *records, s8 first, s8 last);

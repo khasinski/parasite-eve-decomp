@@ -30,6 +30,8 @@ s32 Gte_Atan2();
 void Inv_AddItem();
 void Pm_StopAll();
 s32 Scene_LoadRoomAssets();
+extern volatile struct { Combatant *value; char pad[12]; } D_8009D278_absolute __asm__("D_8009D278");
+#define ACTIVE (D_8009D278_absolute.value)
 extern const Tbl20 D_8001074C;
 extern const BattleActionSoundTable D_80010760;
 extern LargeSymbol D_800942E4_o __asm__("D_800942E4");
@@ -412,5 +414,59 @@ block_55:
                 }
             }
         }
+    }
+}
+
+void Battle_StartEnemyAttackEffect(BattleEntity *entity)
+{
+    Combatant *core = (Combatant *)entity->core;
+    u32 *status = (u32 *)&core->statusFlags2;
+    int effect;
+
+    if ((ACTIVE->action->turnWord & 0x400) && ((*status & 3) != 1)) {
+        effect = Scene_LoadRoomAssets(7, entity);
+        D_8009D208 = effect;
+        Pm_SendCmd(effect, 0, 0, 2, 0, 0);
+        Asset_Find08Alt(0x484, 0, entity->renderObject.target_x,
+                        entity->renderObject.target_y, entity->renderObject.target_z);
+        return;
+    }
+    if ((ACTIVE->action->turnWord & 0x300) == 0x300 &&
+        ((*status & 0x3C000) != 0x14000)) {
+        D_8009D208 = Scene_LoadRoomAssets(90, entity);
+        Asset_Find08Alt(0x488, 0, entity->renderObject.target_x,
+                        entity->renderObject.target_y, entity->renderObject.target_z);
+        return;
+    }
+    if ((ACTIVE->action->turnWord & 0x100) &&
+        ((*status & 0xC000) != 0x4000)) {
+        D_8009D208 = Scene_LoadRoomAssets(88, entity);
+        Asset_Find08Alt(0x488, 0, entity->renderObject.target_x,
+                        entity->renderObject.target_y, entity->renderObject.target_z);
+        return;
+    }
+    if ((ACTIVE->action->turnWord & 0x200) &&
+        ((*status & 0x30000) != 0x10000)) {
+        D_8009D208 = Scene_LoadRoomAssets(89, entity);
+        Asset_Find08Alt(0x486, 0, entity->renderObject.target_x,
+                        entity->renderObject.target_y, entity->renderObject.target_z);
+        return;
+    }
+    if ((ACTIVE->action->turnWord & 0x800) &&
+        ((*status & 0xC) != 4)) {
+        effect = Scene_LoadRoomAssets(7, entity);
+        D_8009D208 = effect;
+        Pm_SendCmd(effect, 0, 0, 1, 0, 0);
+        Asset_Find08Alt(0x482, 0, entity->renderObject.target_x,
+                        entity->renderObject.target_y, entity->renderObject.target_z);
+        return;
+    }
+    if ((ACTIVE->action->turnWord & 0x1000) &&
+        ((*status & 0x30) != 0x10)) {
+        effect = Scene_LoadRoomAssets(7, entity);
+        D_8009D208 = effect;
+        Pm_SendCmd(effect, 0, 0, 0, 0, 0);
+        Asset_Find08Alt(0x480, 0, entity->renderObject.target_x,
+                        entity->renderObject.target_y, entity->renderObject.target_z);
     }
 }
