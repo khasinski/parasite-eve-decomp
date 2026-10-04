@@ -142,7 +142,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: lev 14 (prologue save placement); func_800D3BC8 variant lev 16 |
 | main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand (needs headers.diff): scalar_globals.c lev 79 (232 vs 242 words, arg loads hoisted above the message stores) |
 | main | Save_DrawSlotMetadata | 1156 | candidates/main/menu/misc23.c: 1152 vs 1156 bytes, lev not measured (old draft) |
-| main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: lev 4 (register of the red channel) |
+| main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: lev 4 (register of the red channel, a1 vs retail a2) |
 | main | Scene_LoadFieldBg | 1564 | candidates/main/main/Scene_LoadFieldBg: lev not measured |
 | main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
 | main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
