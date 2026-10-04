@@ -165,7 +165,12 @@ Two-ring loop around func_800D0E88 (call loop).
   40 words.
 - Menu_ItemListInputHandler: `usable |= 1` gives `usable` one more counted
   use and puts usable, child and data in retail's registers (the cost is an
-  `ori` instead of `li`).
+  `ori` instead of `li`). The match came from the other side: reusing
+  `child` for the final equipment-node lookup of the same branch (where
+  `child` is dead) gives it 3 more refs, so child (s1) is allocated before
+  data (s2), and the plain `usable = 1` then fits in s1 next to child. When
+  one pseudo must beat another, raise the loser's competitor instead of the
+  variable itself: reuse a dead pointer of the same type for a later lookup.
 - Frame side effect: when combine simplifies a `for` loop entry test
   (`0 < n` to `n != 0`), it leaves a dead `sltu` pseudo behind a USE insn,
   and reload gives that pseudo an 8-byte stack slot that is never used.

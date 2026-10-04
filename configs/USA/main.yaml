@@ -529,7 +529,7 @@ segments:
       - [0x398B0, c, menu/Menu_ExitBonusPointAllocation]
       - [0x399C8, c, menu/Menu_StatSlotInputHandler]
       - [0x39B54, c, menu/Menu_BonusPointCancelHandler]
-      - [0x39CAC, asm, menu/Menu_ItemListInputHandler]
+      - [0x39CAC, c, menu/Menu_ItemListInputHandler]
       - [0x3A8C8, c, menu/Menu_StepEquipSlotSelect2]
       - [0x3AD70, c, menu/Menu_OpenBonusPointSpendDialog]
       - [0x3AECC, c, menu/Menu_DrawBonusPointSpendPanel]
