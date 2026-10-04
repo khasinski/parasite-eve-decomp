@@ -44,7 +44,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x4B4, c, func_8019549C]
-      - [0x10DC, asm, scene_tail]
+      - [0x10DC, c, RoomEffect_HomingBurstController_801960C4]
       - [0x1760, c, RoomEffect_SpinRayParticle_80196748]
       - [0x1CE4, c, RoomEffect_SpinRayController_80196CCC]
       - [0x2304, c, RoomEffect_EmberFlareParticle]
