@@ -35,10 +35,11 @@ void ROOMLIB_INIT_FIXED_PAIR_NAME(int unused0, int unused1,
     register int color1_2 asm("$20");
     register int extent1 asm("$18");
     RoomFxEmitterParams *params;
+    RoomFxEmitterParams *secondary;
     int extent0;
 
     anchor = &ROOMLIB_FIXED_PAIR_PRIMARY_MODE;
-    params = (RoomFxEmitterParams *)((char *)anchor - 12);
+    params = (RoomFxEmitterParams *)(anchor - 6);
 
     bounds->width = 10;
     bounds->height = 10;
@@ -70,22 +71,23 @@ void ROOMLIB_INIT_FIXED_PAIR_NAME(int unused0, int unused1,
     params->source = source;
     func_800C4E50(params);
 
-    params = (RoomFxEmitterParams *)((char *)anchor + 12);
+    params = (RoomFxEmitterParams *)(anchor + 6);
     extent0 = 0x226;
     asm volatile("" : "=r"(anchor) : "0"(anchor));
     source += 0x100;
-    *(s16 *)((char *)anchor + 0x18) = mode;
-    *(s16 *)((char *)anchor + 0x1E) = 0;
-    *(s16 *)((char *)anchor + 0x20) = intensity;
-    *((char *)anchor + 0x14) = 0;
-    *((char *)anchor + 0x15) = 0;
-    *((char *)anchor + 0x16) = 0;
-    *((char *)anchor + 0x10) = color1_0;
-    *((char *)anchor + 0x11) = color1_1;
-    *((char *)anchor + 0x12) = color1_2;
-    *(s16 *)((char *)anchor + 0x1C) = extent0;
-    *(s16 *)((char *)anchor + 0x1A) = extent1;
-    *(char **)((char *)anchor + 0x0C) = source;
+    secondary = (RoomFxEmitterParams *)(anchor + 6);
+    secondary->mode = mode;
+    secondary->offset = 0;
+    secondary->intensity = intensity;
+    secondary->color1[0] = 0;
+    secondary->color1[1] = 0;
+    secondary->color1[2] = 0;
+    secondary->color0[0] = color1_0;
+    secondary->color0[1] = color1_1;
+    secondary->color0[2] = color1_2;
+    secondary->extent1 = extent0;
+    secondary->extent0 = extent1;
+    secondary->source = source;
     func_800C4E50(params);
 }
 
