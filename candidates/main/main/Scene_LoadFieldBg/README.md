@@ -1,4 +1,4 @@
-# Scene_LoadFieldBg (main 0x5B540, 0x61C bytes): 42 real diffs
+# Scene_LoadFieldBg (main 0x5B540, 0x61C bytes): lev 42
 
 Plain C: no pins, barriers, aliases, pointer/integer casts or byte-pointer
 arithmetic. The six read/poll stages use `goto retryN` (6 gotos, counted
@@ -36,3 +36,19 @@ Remaining (cc1 -dl/-dg, priority = floor_log2(refs)*refs/live_length):
 Tried without effect: all 64 block/function scope combinations of blob,
 directory and tim in the stage macro and the tail (best 42), per-stage
 status/done blocks (worse), while-form poll loops, separate tail locals.
+
+Update (agent 6, 2026-10-04, lev.py): lev 42 on current main. headers.diff
+no longer applies cleanly: Scene_LoadEntityTextures renamed 0x11C to
+`scene_object_model` and 0x158/0x15C to `entity_texture_blob` /
+`scene_object_work`; merge by keeping those names and adding
+room_geometry_table (0x120), bg_texture_blob (0x160),
+object_texture_blob (0x16C), bg_tim (0x174), hud_tim (0x180), and use
+`scene_object_model` in the .c for the 0xC4B5BA04 table.
+Global-alloc order from cc1 -dl/-dg (priority = floor_log2(refs) *
+refs / length): blob 18/53 = 1.358 -> s2, directory 30/89 = 1.348 -> s3,
+status 42/166 = 1.265 -> s4. Retail order is status, directory, blob
+(s2, s3, s4), so status must beat both: 47 refs at the same length, or a
+length under ~154. 40 of status's refs come from the poll do/while depth
+weighting; the body inside the poll loop keeps status live across it. A
+block-local blob in stage 6 (lev 42, unchanged) and the function-scope
+blob in the tail (lev 48) were retried.
