@@ -245,6 +245,19 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### room_m273 boss controllers and the room_m350 splash drop
+
+room_m273's boss turn controller, boss sway controller and sway shard
+controller, on the new `room_m273_boss.h`, and room_m350's splash drop
+callback, on `room_m350_drop.h`, now match from clean C. The overlay's
+globals are accessed as one struct so loads stay below stores without
+volatiles, tpage slot indices are read as array elements, the palette is
+read back through the parameter block, one function-scope temporary carries
+the loop index, heading and bob angle so it takes retail's register, and the
+sine table is declared as packed signed halfwords so its loads are bare
+`lh`. Both overlay SHA-1 hashes are unchanged and no pins or barriers were
+added.
+
 ### Field engine shaded quad, strip, ring, glow sprite and billboard
 
 Five more field engine draw routines of the main executable match from clean
