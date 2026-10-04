@@ -25,6 +25,10 @@ FUNCTION_DEF = re.compile(
     r"\s*\([^;{}]*\)\s*\{",
     re.MULTILINE,
 )
+# Sanctioned reproduction of PSY-Q SDK objects that were assembled from
+# handwritten assembler source (include/pe1/psyq_asm.h). Policy and per-object
+# evidence: docs/ASM_AND_GTE_POLICY.md, enforced by check_source_policy.py.
+PSYQ_ASM_USE = re.compile(r'\bPSYQ_ASM_FUNCTION\s*\(')
 COP2_OP = re.compile(r'\b(?:cfc2|ctc2|lwc2|swc2|mfc2|mtc2)\b')
 # The audited PE1_NOP* macros emit only individually authorized scheduling
 # NOPs and remain semantic C with nop_barriers debt. Their definitions are
@@ -107,9 +111,16 @@ def classify(path: pathlib.Path) -> str:
     expanded = text + "\n" + included_inc_text(path, text)
     if "PSYQ_BIOS_TRAMPOLINE" in expanded or "PSYQ_BIOS_SYSCALL" in expanded:
         return "original_asm"
+    code = re.sub(C_STRING, '""', strip_comments(expanded))
+    if PSYQ_ASM_USE.search(code):
+        # A PSY-Q assembler object reproduces SDK assembler text and nothing
+        # else. A C function beside it would hide compiled code behind the
+        # exemption, so such a mixture is not credited.
+        if FUNCTION_DEF.search(code):
+            return "asm_constrained"
+        return "original_asm"
     if TEXT_SECTION.search(expanded) and not FUNCTION_DEF.search(expanded):
         return "text_data"
-    code = re.sub(C_STRING, '""', strip_comments(expanded))
     if CPU_ASM_HELPERS.search(code):
         return "asm_constrained"
     if has_instruction_asm(expanded):

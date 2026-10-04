@@ -262,6 +262,30 @@ class SourceQualityTests(unittest.TestCase):
         self.assertEqual(self.classify("PSYQ_BIOS_TRAMPOLINE(open, 0x32, 0);"),
                          "original_asm")
 
+    def test_psyq_assembler_object_is_original_asm(self):
+        self.assertEqual(self.classify(
+            '#include "pe1/psyq_asm.h"\n'
+            'PSYQ_ASM_OBJECT(LIBGTE, MSC00)\n'
+            'PSYQ_ASM_FUNCTION(InitGeom,\n'
+            '    "    jr      $ra\\n"\n'
+            '    "    nop\\n");\n'), "original_asm")
+
+    def test_psyq_assembler_object_cannot_hide_c_functions(self):
+        self.assertEqual(self.classify(
+            'PSYQ_ASM_FUNCTION(f, "    jr $ra\\n" "    nop\\n");\n'
+            'int g(void) { return 1; }\n'), "asm_constrained")
+
+    def test_sdk_assembler_sources_are_original_asm(self):
+        root = pathlib.Path(__file__).resolve().parents[2] / "src/main/psyq"
+        for name in ("libsn/SNMAIN.c", "libgte/InitGeom.c", "libgte/msc01.c",
+                     "libgte/msc02.c", "libgte/CompMatrix.c", "libgte/mtx_006.c",
+                     "libgte/patchgte.c", "libapi/patch_pad.c",
+                     "libapi/chclrpad.c", "libcard/patch_head.c",
+                     "libcard/patch_card.c", "libcard/end.c"):
+            with self.subTest(name=name):
+                self.assertEqual(source_quality.classify(root / name),
+                                 "original_asm")
+
     def test_text_resident_array_is_data(self):
         self.assertEqual(
             self.classify('int words[] __attribute__((section(".text"))) = { 0 };'),

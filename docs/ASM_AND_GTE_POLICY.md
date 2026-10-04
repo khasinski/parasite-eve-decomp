@@ -13,7 +13,9 @@ packing, or scheduling fixes in inline assembly.
 
 Whole-function assembly is not an acceptable decompilation result. A generated
 `INCLUDE_ASM` stub remains the correct representation until the surrounding C
-is understood and can replace it without changing the binary.
+is understood and can replace it without changing the binary. The only
+exception is a PSY-Q SDK object proven to have been assembled from assembler
+source; see "PSY-Q assembler objects" below.
 
 Compiler register variables such as `register T value asm("$N")` and empty asm
 barriers are allowed when they reproduce the original allocator or scheduling
@@ -168,6 +170,64 @@ must not grow into a general inline-assembly escape hatch. The table and
 selector constants must be copied from the retail veneer and each generated
 object must still pass normal score, section, linked-range, and executable
 checks.
+
+## PSY-Q assembler objects
+
+Some PSY-Q library objects linked into the main executable were assembled
+from handwritten assembler source. There is no C original to recover, so a
+C reconstruction would be an invention rather than a decompilation. Units that
+reproduce such an object may use `PSYQ_ASM_FUNCTION` from
+`include/pe1/psyq_asm.h`: a file-scope `__asm__` that emits one global routine
+with `.set noreorder`/`.set noat`, `.type`/`.ent`/`.size`/`.end`, and the
+original instruction text. Operands stay symbolic (`%hi`/`%lo`, symbol names,
+local `.L` labels named after the SDK's own local labels where an older SDK
+object shows them); no encoded instruction words are used.
+
+The macro is only for PSY-Q SDK objects proven to be assembler source. It is
+never for game code, never for SDK code that was compiled from C, and never a
+fallback for a function that is merely hard to match. `check_source_policy.py`
+(`make source-policy-check`) requires every user to:
+
+- live under `src/main/psyq/` and contain no C function definition;
+- select the GNU assembler path with `/* ASSEMBLER: GNU */`, since there is
+  no compiler output for MASPSX to adjust;
+- name exactly one object with `PSYQ_ASM_OBJECT(LIBRARY, OBJECT)`; and
+- link entirely inside that object's retail range in
+  `configs/USA/psyq_provenance.json`.
+
+`source_quality.classify()` reports these units as `original_asm`, credited
+like the BIOS veneers once the module's SHA matches. `crutch_debt.py` counts
+them in `original_asm_units`, which is not debt and never makes a file dirty;
+it is ratcheted so that any new unit is a deliberate baseline change. The
+macro invocation is not counted as `asm_bodies`, which tracks instruction asm
+inside C functions. Instruction templates that an object only compares with
+or copies into kernel memory are data at their link address: they are
+`rodata` segments in the `.psyq_text_data` linker section, reported as data
+rather than functions.
+
+Evidence common to every object below: none has a C frame. Each saves `ra` in
+a static data word or in `a3` instead of a stack frame, or uses a 16-byte frame
+without the outgoing argument area that GCC always allocates for a non-leaf
+function. Each uses at least one of the trapping `add`, `addi` or `sub`
+instructions, which GCC never emits for C, or calls the BIOS tables inline
+through the `t2`/`t1` protocol. The independent PSY-Q 4.0 decompilation (Psyz)
+also keeps every one of these objects as assembly. PSY-Q 3.5 objects come from
+the ELF-converted 3.5 libraries; their relocation fields were masked for the
+comparisons.
+
+| Object | Source | Functions (project names) | Object-specific evidence |
+| --- | --- | --- | --- |
+| LIBSN SNMAIN | `psyq/libsn/SNMAIN.c` | `__SN_ENTRY_POINT`, `__main`, `__do_global_dtors` | PSY-Q 4.6 SNMAIN: all 67 non-relocated words identical. Startup clears BSS, sets `sp`/`fp`/`gp` and parks `ra` in a static word around `InitHeap`. The ctor/dtor walkers use a 16-byte frame with saves at 4/8/12 and load the constant one with `ori` in a delay slot. The C proposals in `proposals/__main` and `proposals/__do_global_dtors` cannot reproduce that frame. |
+| LIBGTE MSC00 | `psyq/libgte/InitGeom.c` | `InitGeom` | PSY-Q 3.5 `msc00.o`: 32/32 words identical. Static SAVERA slot, direct `mtc0`/`ctc2` setup with explicit hazard NOPs. |
+| LIBGTE MSC01 | `psyq/libgte/msc01.c` | `Gte_ISqrt` (SquareRoot0) | PSY-Q 3.5 `msc01.o`: 31/33 words identical. The two others differ only in the temporary register its assembler chose when expanding `and $t2, $v0, -2`. Local labels Rshift/CNTSQ/RTNSQRT at the same offsets. |
+| LIBGTE MSC02 | `psyq/libgte/msc02.c` | `Gte_VectorOp` (InvSquareRoot), `Gte_NormalizeVecS32toS16` (VectorNormalS), `Gte_NormalizeVec` (VectorNormal), `VectorNormalSS`, `Gte_MatrixOp` (text_100), `Gte_BuildOrthoBasis` (MatrixNormal) | Private routine takes and returns the vector in `t0`..`t2`; callers save `ra` in `a3`; VectorNormalS branches into VectorNormalSS. PSY-Q 3.5 `msc02.o` has the same protocol and local labels, with filled delay slots that 4.0 leaves as NOPs. |
+| LIBGTE MTX_003 | `psyq/libgte/CompMatrix.c` | `CompMatrix` | PSY-Q 3.5 `mtx_00.o` CompMatrix: 88/88 words identical; trapping `add` for the translation. |
+| LIBGTE MTX_006 | `psyq/libgte/mtx_006.c` | `Gte_PushMatrix`, `Gte_PopMatrix` | Static matrix stack and SAVERA slot; PSY-Q 3.5 `mtx_00.o` has the same routines with local labels CONTpush/CONTpop, but its assembler moved the SAVERA `lui` into the branch delay slot. |
+| LIBGTE PATCHGTE | `psyq/libgte/patchgte.c` (+ `PATCHGTE_templates` data) | `St_InstallDmaHandler` (_patch_gte) | PSY-Q 3.5 `patchgte.o`: same static-ra installer, inline B0 call and `.text` instruction templates (`_patch_GTE` to `_patch_GTE_end`, copy loop at assembler label `1$`). |
+| LIBAPI PATCH | `psyq/libapi/patch_pad.c` | `Pad_DequeueHandler` (_patch_pad) | Static `ra` slot, inline B0 call, trapping `addi`. EnablePAD/DisablePAD of the same object remain C in `pad/Pad_Toggles.c`. |
+| LIBAPI CHCLRPAD | `psyq/libapi/chclrpad.c` | `Pad_StopHandler` (_remove_ChgclrPAD) | Static `ra` slot, inline B0 call, trapping `addi`. |
+| LIBCARD PATCH | `psyq/libcard/patch_head.c`, `psyq/libcard/patch_card.c` | `func_8007E344`, `func_8007E3C8`, `func_8007E3DC` (_patch_card), `func_8007E470` (_patch_card2) | Kernel patch image copied to 0xDF80 that runs with BIOS-supplied `v0`/`v1`. The installers use a static `ra` slot and inline C0/B0 calls. CardPatchFunctions, `func_8007E3B4` and `_copy_memcard_patch` of the same object remain C. |
+| LIBCARD END | `psyq/libcard/end.c` (+ `END_templates` data) | `_ExitCard` | Static `ra` slot, inline C0 call; copies a three-NOP template into the C0 table. |
 
 ## LZCS / LZCR
 
