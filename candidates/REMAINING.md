@@ -1,8 +1,8 @@
 # Functions not credited as matched C (audit 2026-10-04)
 
-Source: `make report` (build/USA/report.json) on origin/main c687b258c plus the
-scene_e09/scene_e10 motion particle init flip; every function whose objdiff
-match is below 100% is listed (124 entries before that flip).
+Source: `make report` (build/USA/report.json) on origin/main c687b258c minus what this
+audit branch matched (see the last section); every function whose objdiff
+match is below 100% is listed (124 entries before this branch).
 Size is the objdiff function size in bytes.
 
 ## Summary
@@ -13,10 +13,10 @@ Size is the objdiff function size in bytes.
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 4 | 3960 |
-| inline-asm C unit | 8 | 1160 |
+| inline-asm C unit | 2 | 300 |
 | parked near-miss | 32 | 52248 |
 | not yet attempted | 1 | 2384 |
-| total | 122 | 102196 |
+| total | 116 | 101336 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -129,14 +129,8 @@ Category notes:
 
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
-| main | Math_FixedDivide | 20 | plain C; uncredited only because math_fixed.c also holds the handwritten round helpers |
-| main | Util_CopyFFTerminatedBytes | 60 | plain C; uncredited only because util.c contains Inv_BuildItemGridFromCategory inline asm |
-| main | Gpu_InitDrawModeSprtPacket | 100 | plain C (byte-offset prim pointer); uncredited only because of the math_fixed.c unit |
-| main | Util_AppendFFTerminatedBytes | 100 | plain C; uncredited only because util.c contains Inv_BuildItemGridFromCategory inline asm |
-| main | Inv_SelectActiveList | 128 | plain C; uncredited only because util.c contains Inv_BuildItemGridFromCategory inline asm |
 | main | func_800C2D0C | 148 | stack adjust inside a branch delay slot (non-GCC shape); body is inline asm |
 | main | CdRom_InitDsCallbacks | 152 | plain C except the `sw` in the CdRom_InitCmdState jal delay slot (lui $at form), held as inline asm |
-| main | Inv_BuildItemGridFromCategory | 452 | inline `mult` asm for the /3 magic; plain-C siblings in util.c are held back by the unit classification |
 
 ## parked near-miss
 
@@ -164,7 +158,7 @@ Category notes:
 | fx_common | func_8018F55C | 224 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
 | fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: ~500 diffs (register allocation) |
-| menu_memcard | func_801214D4 | 496 | candidates/overlays/menu_memcard_func_801214D4 (Memcard_UploadVideoSlice.inc, no README, diff count not recorded) |
+| menu_memcard | func_801214D4 | 496 | twin of the matched Memcard_UploadVideoSlice at 0x95D8 (byte-identical modulo relocations), but that source carries 3 pins, 3 barriers and a volatile, so a template would duplicate debt; the clean draft in candidates/overlays/menu_memcard_func_801214D4 is off by size (retail keeps &selector in a register and re-reads it, so a volatile read there is justified) |
 | menu_memcard | func_80122040 | 788 | menu_memcard_func_80122040 step video (goto draft); OWNED BY ANOTHER AGENT |
 | menu_memcard | func_8012AE88 | 788 | menu_memcard_func_80122040 step video (goto draft); OWNED BY ANOTHER AGENT |
 | menu_memcard | func_80121C04 | 1084 | menu_memcard_func_80121C04 open video: ~500 diffs; OWNED BY ANOTHER AGENT |
@@ -173,7 +167,7 @@ Category notes:
 | room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: 88 diffs |
 | scene_e08 | func_8019104C | 764 | candidates/overlays/scene_e08_func_8019104C: 10 diffs (register naming) |
 | scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: 78 diffs |
-| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: 9 diffs |
+| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: 7 diffs (single `special` variant, 2026-10-04) |
 
 ## not yet attempted
 
@@ -181,3 +175,13 @@ Category notes:
 |---|---|---:|---|
 | menu_memcard | func_801EDC44 | 2384 | menu_memcard 0x244C GTE glow effect, unique bytes, no candidate |
 
+## Matched on this audit branch
+
+| Binary | Function | Size | How |
+|---|---|---:|---|
+| scene_e09 | func_8018F420 | 824 | RoomLib_InitMotionParticles template (room_m075) with renamed tables |
+| scene_e10 | func_8018F420 | 824 | same |
+| main | Math_FixedDivide | 20 | split out of the asm_constrained math_fixed unit |
+| main | Gpu_InitDrawModeSprtPacket | 100 | split out, typed packet record |
+| main | Inv_BuildItemGridFromCategory | 452 | inline mult asm was GCC's own i % 3; indexed record/column form |
+| main | Util_CopyFFTerminatedBytes, Util_AppendFFTerminatedBytes, Inv_SelectActiveList | 288 | credited once util.c became plain C |
