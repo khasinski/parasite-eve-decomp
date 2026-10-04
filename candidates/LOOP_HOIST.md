@@ -264,3 +264,25 @@ Two-ring loop around func_800D0E88 (call loop).
   angles[1] = yaw + (delta >> 8);`) keeps the subtraction and the mflo in
   one register. That fixed the last v0/v1/t3 swap, the same effect as the
   `d *= d` lesson.
+
+
+
+## Stat level bar (main Draw_AllocTexturedRectAlt, 2026-10-04): MATCHED
+
+- Pointer-free OT link: give the packet tag a `u32 address : 24, length : 8`
+  bitfield view and write `quad->tag.link.address = *ot;` (the bitfield
+  insert is exactly retail's and/and/or with the two masks), then pass the
+  packet pointer through a `union { RenderTexturedQuad *quad; u32 word; }`
+  for `*ot = (*ot & 0xFF000000) | (link.word & 0xFFFFFF)`. lev 175 -> 67.
+- Retail allocated each slice into s0 (live across the assert call) and
+  filled it through a3 (`move a3,s0` at the join, duplicated into the
+  branch delay slot by reorg). A function-scope `quad` assigned from every
+  allocation keeps the copy: cse makes the longer-lived register canonical,
+  so the fills use the copy. lev 275 -> 175 (with the link change).
+- `(s16)quad->x0 + 0x2E - width` keeps retail's `(x0 + 46) - width`; on
+  the bare u16 field fold rewrites it as `x0 - (width - 46)`.
+- Read `glyph->mode` into a local before the last allocation when retail
+  loads it into the dying glyph register ahead of the arena check.
+- A v1/a0 swap between the left edge and the x0 read-back in five slices
+  was the chained store `quad->x0 = quad->x2 = left;` (two separate stores
+  of the same expression give the other local-alloc order).

@@ -122,3 +122,19 @@ shared declaration and adapts the view through a `void *slot` local
 (`slot = func_800CE610(pool); child = slot;`), no cast and no alias; the
 `func_800CE610_pulse` line is gone from room_model_pulse.h. Code is
 unchanged (lev 43).
+
+## Multi-set diagnostic (agent 16, 2026-10-04): lev 43, diagnostic lev 32
+
+- Confirmed the birthing explanation with a throwaway second set that
+  survives flow: `tpages = (u16 *)D_800F33E0; D_801960A8 = tpages;` in case 1
+  (nonsense code, not a candidate) makes the tpages pseudo multi-set, and
+  sched1 then leaves `la s3, D_800E2850` right after func_800CE8F0 as in
+  retail (lev 32 despite three extra words of junk). So a plain-C source
+  needs the same pointer variable to be assigned a second, non-constant
+  value somewhere in the function (a constant second set is folded by cse
+  and the dead set is dropped by flow before reg_n_sets is counted).
+  The only other pointer local that takes a non-constant value is the
+  case 1 particle slot (`void *slot`), whose type differs.
+- Left after that: the /40 division chain is scheduled above the four spin
+  stores (retail stores spin first, then loads the magic constant), and the
+  s1/s2 swap between `state` and &position.

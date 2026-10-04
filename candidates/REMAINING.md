@@ -9,14 +9,14 @@ Size is the objdiff function size in bytes.
 
 | Category | Functions | Bytes |
 |---|---:|---:|
-| battle (excluded) | 12 | 23020 |
+| battle (excluded) | 13 | 26172 |
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
-| parked near-miss | 27 | 46860 |
+| parked near-miss | 26 | 43940 |
 | not yet attempted | 0 | 0 |
-| total | 109 | 92280 |
+| total | 109 | 92512 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -40,6 +40,7 @@ Category notes:
 | main | Battle_UpdateEnemy | 2144 |  |
 | main | Battle_PhaseHitReaction | 2664 |  |
 | main | Battle_StepAyaAction | 2688 |  |
+| main | Battle_DrawHPBar | 3152 |  |
 
 ## handwritten library/BIOS asm
 
@@ -138,8 +139,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
 | main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims_typed: lev 4, texture loops solved (shared `src` cursor), only the paletteRow/initCount a2/t9 global-alloc order is left, see README |
 | main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: lev 50, one column-pointer allocation swap (needs +1 ref on four pseudos, see README) |
-| main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
-| main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary_typed: typed rewrite at lev 413 (frame 208 vs 192: an extra reduced walk pointer per half), see README |
 | main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev 17 without volatile (count read gives lh, not lhu/sll/sra) |
 | fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: ~500 diffs (register allocation) |
@@ -169,3 +168,4 @@ None: menu_memcard 0x244C now has a parked candidate.
 The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA144) is now matched on main by another agent and is left out of the table.
 | main | func_800C2D0C | 148 | plain C (stock 2.7.2, maspsx): the 8-byte frame comes from the `s16 offset` local, sched2 sinks the prologue `addiu sp` to the branch and the assembler fills the delay slot with it; `offset += size; state->data_next = offset;` gives the in-place add |
 | main | Entity_UpdateAndRender | 1980 | lev 0 under -G8 cc1 / -G4 maspsx with typed collision records: the packed sxy words go through one shared `int sxy` (set twice, so global alloc gives the or result v1), `a = abs(a)` (abssi2) for the area magnitude, the area test as one condition with nested box tests (no leave gotos), the clip results kept in `i` so the third loop entry compares it, and a static inline revert helper at each rollback site (jump2 cross-jumps them); 1 goto left (slide entry), logged as debt |
+| main | Geo_ClipToFloorBoundary | 2920 | lev 0 under -G8 cc1 / -G4 --expand-div maspsx, no gotos: the edge walk indexes the triangle by slot (loop.c reduces it to one walk pointer plus the slot*2 byte offset and rewrites the exit test against base + 6), the visited-edge pointer, prevIndex/prevX/prevZ are function-scope so they are set in both halves (multi-set: no birthing boost in sched1, and the doubled refs give prevX s6), one shared `int d` for the box limits, distance, projection and squared distances with the divisor loaded into it, `kind` byte view for the neighbour flag, tentative COMMON declarations of D_8009CE0C/D_8009CE18 so maspsx keeps the load-delay nop before the gp stores, `continue` with `while (++slot < 3)` instead of the skip gotos |
