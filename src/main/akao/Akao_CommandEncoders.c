@@ -15,20 +15,20 @@ void Akao_Cmd_80_81_82(int arg0) {
         break;
     }
 
-    g_AkaoCmdOpcode = opcode;
+    g_AkaoCmd.opcode = opcode;
     Akao_EnqueueStagedCommand();
 }
 #include "pe1/akao/commands.h"
 
 void Akao_Cmd_90(int arg0) {
-    g_AkaoCmdOpcode = 0x90;
-    g_AkaoCmdArg0 = arg0 & 0xFFFFFF;
+    g_AkaoCmd.opcode = 0x90;
+    g_AkaoCmd.arg0.value = arg0 & 0xFFFFFF;
     Akao_EnqueueStagedCommand();
 }
 #include "pe1/akao/commands.h"
 
 void Akao_Cmd_92(int arg0) {
-    g_AkaoCmdOpcode = 0x92;
-    g_AkaoCmdArg0 = arg0;
+    g_AkaoCmd.opcode = 0x92;
+    g_AkaoCmd.arg0.value = arg0;
     Akao_EnqueueStagedCommand();
 }
