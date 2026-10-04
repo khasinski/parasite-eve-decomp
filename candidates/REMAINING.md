@@ -1,11 +1,8 @@
 # Functions not credited as matched C (audit 2026-10-04)
 
-Source: `make report` (build/USA/report.json) regenerated 2026-10-04 on
-decomp-agent4-small (origin/main 112d2483a plus candidate notes); every
-function whose objdiff match is below 100% is listed (108 entries).
-Progress figures for parked candidates are `lev N` from helpers/lev.py
-(instruction-word edit distance, relocations masked, no register
-normalisation); "lev not measured" marks old drafts nobody has rebuilt.
+Source: `make report` (build/USA/report.json) on origin/main c687b258c minus what this
+audit branch matched (see the last section); every function whose objdiff
+match is below 100% is listed (124 entries before this branch).
 Size is the objdiff function size in bytes.
 
 ## Summary
@@ -17,9 +14,9 @@ Size is the objdiff function size in bytes.
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
-| parked near-miss | 25 | 42380 |
+| parked near-miss | 28 | 48840 |
 | not yet attempted | 0 | 0 |
-| total | 108 | 90952 |
+| total | 111 | 97412 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -125,10 +122,10 @@ Category notes:
 |---|---|---:|---|
 | main | PeImage_Mount_Dispatch | 696 | CD retry loader (CdRom_PollReady/Cd_GetReadyStatus retry loops), no candidate |
 | main | main | 748 | Boot_MainLoop: goto dispatch plus scratchpad stack switch around func_8019234C (inline asm in C unit) |
-| main | Render_InitDisplayLists | 808 | candidates/main/main/Render_InitDisplayLists: lev 2 (wait/state global-alloc near-tie in the wrong-disc path) |
+| main | Render_InitDisplayLists | 808 | CD retry loader (CdRom_PollReady/Cd_GetReadyStatus retry loops), no candidate |
 | main | Scene_LoadEntityTextures | 1708 | CD retry loader (CdRom_PollReady retry loop), no candidate |
-| menu_memcard | func_80121C04 | 1084 | menu_memcard video open pair: landing on main (another agent) |
-| menu_memcard | Memcard_OpenVideo | 1084 | menu_memcard video open pair: landing on main (another agent) |
+| menu_memcard | func_80121C04 | 1084 | menu_memcard video open pair: needs a goto (parked by another agent) |
+| menu_memcard | func_8012AA4C | 1084 | menu_memcard video open pair: needs a goto (parked by another agent) |
 
 ## inline-asm C unit
 
@@ -138,30 +135,34 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
-| main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: lev 92 (162 vs 161 words; the slot loop compare -1 is not hoisted, see README) |
-| main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: lev 14 (prologue save placement); func_800D3BC8 variant lev 16 |
-| main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand (needs headers.diff): scalar_globals.c lev 79 (232 vs 242 words, arg loads hoisted above the message stores) |
-| main | Save_DrawSlotMetadata | 1156 | candidates/main/menu/misc23.c: 1152 vs 1156 bytes, lev not measured (old draft) |
-| main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: lev 4 (register of the red channel, a1 vs retail a2) |
-| main | Scene_LoadFieldBg | 1564 | candidates/main/main/Scene_LoadFieldBg: lev not measured |
-| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
-| main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
-| main | Akao_StepSampleLoader | 2048 | candidates/main/main/Akao_StepSampleLoader.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
-| main | Scene_LoadRoom | 2160 | candidates/main/gpu/Scene_LoadRoom.c (old byte-offset draft, no README, lev not measured) |
-| main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: lev 50 (590 vs 593 words with the current headers; column pointer registers in the four gte_CompMatrix expansions) |
-| main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
-| main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
-| main | Menu_ItemListInputHandler | 3100 | candidates/main/menu/Menu_ItemListInputHandler_plainc: lev not measured |
-| fx_common | func_8018F55C | 224 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev not measured, still needs one volatile |
-| fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev not measured, still needs one volatile |
-| fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: lev 224 (359 vs 363 words; register allocation across the marker loop) |
-| menu_memcard | func_801214D4 | 496 | twin of the matched Memcard_UploadVideoSlice at 0x95D8, whose source carries pins, barriers and a volatile; a clean struct draft (VideoDisplay D_801228CC, volatile selector pointer) is lev 46 (120 vs 124 words): retail reads the rect through scalar symbols and keeps &selector in a3 |
-| menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: lev 34 plain; lev 2 with lift shared with the mode 1 vz (retail lift is a global pseudo; the vz register still differs) |
-| menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (needs header_additions.diff, no README): lev 141 (959 vs 977 words) |
-| room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: lev 43 (358 vs 360 words; tile page table base in s3) |
-| scene_e08 | func_8019104C | 764 | candidates/overlays/scene_e08_func_8019104C: lev 10 (incoming state pointer copy kept in two registers by retail) |
-| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev 61 (retail keeps the nine D_800F3368 stores after the stack vector copies; second loop hoisting) |
-| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: lev 4 (shared scratch temp variant; second palette block's kind register) |
+| main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: 1 extra instruction (648 vs 644 bytes) |
+| main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
+| main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: 24 diffs (prologue), func_800D3BC8 variant 26 |
+| main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand (needs headers.diff; diff count not recorded) |
+| main | Save_DrawSlotMetadata | 1156 | candidates/main/menu/misc23.c: 1152 vs 1156 bytes, 90.5% (old draft) |
+| main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
+| main | Scene_LoadFieldBg | 1564 | candidates/main/main/Scene_LoadFieldBg: 42 diffs (CD loader) |
+| main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
+| main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
+| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender_typed: -G8/-G4 typed draft at lev 172 (spills/regalloc in the ramp edge test, still gotos), see README; OWNED BY ANOTHER AGENT |
+| main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims_typed: lev 4, texture loops solved (shared `src` cursor), only the paletteRow/initCount a2/t9 global-alloc order is left, see README |
+| main | Scene_LoadRoom | 2160 | candidates/main/gpu/Scene_LoadRoom.c (old byte-offset draft, no README, diff count not recorded) |
+| main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: one register swap in the four gte_CompMatrix expansions |
+| main | Scene_UpdateEntityPositions | 2432 | candidates/main/main/Scene_UpdateEntityPositions.c (old byte-offset draft, no README, diff count not recorded) |
+| main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
+| main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary_typed: typed rewrite at lev 413 (frame 208 vs 192: an extra reduced walk pointer per half), see README |
+| main | Menu_ItemListInputHandler | 3100 | candidates/main/menu/Menu_ItemListInputHandler_plainc: 21 words |
+| main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
+| fx_common | func_8018F55C | 224 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
+| fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
+| fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: ~500 diffs (register allocation) |
+| menu_memcard | func_801214D4 | 496 | twin of the matched Memcard_UploadVideoSlice at 0x95D8 (byte-identical modulo relocations), but that source carries 3 pins, 3 barriers and a volatile, so a template would duplicate debt; the clean draft in candidates/overlays/menu_memcard_func_801214D4 is off by size (retail keeps &selector in a register and re-reads it, so a volatile read there is justified) |
+| menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: 34 diffs plain, 2 diffs with lift shared with the mode 1 vz (retail lift is a global pseudo; vz register still differs) |
+| menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, diff count not recorded) |
+| room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: 88 diffs |
+| scene_e08 | func_8019104C | 764 | candidates/overlays/scene_e08_func_8019104C: 10 diffs (register naming) |
+| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: 78 diffs |
+| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: 7 diffs (single `special` variant, 2026-10-04) |
 
 ## not yet attempted
 
@@ -177,6 +178,7 @@ None: menu_memcard 0x244C now has a parked candidate.
 | main | Gpu_InitDrawModeSprtPacket | 100 | split out, typed packet record |
 | main | Inv_BuildItemGridFromCategory | 452 | inline mult asm was GCC's own i %% 3; indexed record/column form |
 | main | Util_CopyFFTerminatedBytes, Util_AppendFFTerminatedBytes, Inv_SelectActiveList | 288 | credited once util.c became plain C |
+| main | Akao_StepSampleLoader | 2048 | typed note step (lev 8 to 0): the drum volume product goes through `value = value * sum; expression_value = value << 2;` (output reload from lo into the volume register, mflo a1), and the pitch LFO depth is `lfo_depth = depth * x >> 7` in both branches with one store after the join, so jump2 cross-jumps the mflo/srl tails and the store stays in the join block next to the selector load; restart stores are table, counter, phase. Bit 0x200000 is AKAO_TRACK_FLAG_KEY_OFF_PENDING (set instead of key-off when AKAO_TRACK_FLAG_SUSTAIN 0x100000 is on) |
 | main | CdRom_InitDsCallbacks | 152 | plain C under the `ASSEMBLER: GNU` marker its LIBDS siblings use: GNU as in reorder mode moves the `sw` of `g_DsPollCallback = 0` into the CdRom_InitCmdState delay slot |
 
 The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA144) is now matched on main by another agent and is left out of the table.

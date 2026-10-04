@@ -1,4 +1,4 @@
-# Render_SetupEntityPrims (main 0x2D850, 0x7DC bytes): parked at lev 24
+# Render_SetupEntityPrims (main 0x2D850, 0x7DC bytes): parked at lev 4
 
 Typed rewrite of the model-block parser (RenderObjectEntity,
 RenderObjectHeader, packet unions; no byte offsets). To build it, apply
@@ -9,8 +9,8 @@ layout unchanged, but render_object.h is shared by many overlays, so run
 the overlay checks before landing it) and copy `render_setup.h` to
 include/pe1/. Plain -G0 file, no markers needed.
 
-Score: lev.py main 0x2D850 0x7DC = lev 24 (was 33; the triangle loop now
-uses `srctri = cursor.tri++;` at the top, see below).
+Score: lev.py main 0x2D850 0x7DC = lev 4 (equal size). Only the
+paramRow/initCount a2/t9 swap is left, see the last section.
 
 What fixed most of it (keep these):
 - Read the counts through a COPY of the header parameter (`header = model;`)
@@ -79,3 +79,30 @@ argument), so initCount gets t9 and paletteRow gets a2 in the second
 pass. Retail is the other way round. Not fixed by `setup && initCount > 0`,
 `initCount >= 1`, a block-local copy of paletteRow, or int/s16 for the
 callee's palette_row (u16 breaks the sign extension).
+
+## Texture loops solved (lev 24 -> 4)
+
+One source cursor `RenderModelCursor src` serves both texture loops. It
+starts as `src = cursor; *textureOut = src.commands;` (the texture section
+start), and each loop does `src.quad = cursor.quad;` (or `src.tri`) at the
+top and `cursor.quad++` (or `cursor.tri++`) at the end. The copy is now
+set before the loop as well, so loop.c finds it is not replaceable
+(regno_first_uid is outside the loop) and does not strength-reduce the
+reads through it. Both loops are byte-identical: `move t0,a1` at the top
+and `addiu a1,a1,16/12` in the back-branch delay slot. No dead stores.
+
+## paletteRow / initCount (the remaining lev 4)
+
+Global alloc priority is 10000 * refs * log2(refs) / live_length,
+truncated. Both have 2 refs. paletteRow (pseudo 81) lives 267 insns and
+initCount (83) 264, so they score 74 and 75: initCount is allocated first,
+skips a2 (y and two other pseudos prefer a2), and takes t9. paletteRow
+then gets a2 in the second pass. Retail needs paletteRow first. A tie
+would do it, because ties go to the lower pseudo number (81): paletteRow
+at 266 or less, or initCount at 267 or more. The gap comes from
+paletteRow being defined one insn earlier in the entry block and its last
+use (the stack argument) being two insns after the initCount test.
+Not fixed by: `initCount >= 1`, `!(initCount <= 0)`, `(s16)paletteRow`,
+a block copy of paletteRow before or after the test,
+`if (setup && initCount > 0)` outside the block, or int/s16/u16 for the
+callee's palette_row.

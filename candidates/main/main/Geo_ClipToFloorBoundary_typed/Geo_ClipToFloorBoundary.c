@@ -13,6 +13,9 @@ int Geo_ClipToFloorBoundary(s16 x, s16 z, u16 *triangle)
 {
     FloorNeighbours neighbours;
     s16 queryX, queryZ;
+    int edgeId;
+    u32 nextIndex;
+    u16 nextX, nextZ;
 
     neighbours = D_8009CD88;
     queryX = x;
@@ -22,9 +25,7 @@ int Geo_ClipToFloorBoundary(s16 x, s16 z, u16 *triangle)
         int pz = z;
         u16 *base = triangle;
         u16 *word = base;
-        int slot = 0;
-        u32 nextIndex;
-        u16 nextX, nextZ;
+        s16 *queued = neighbours.index;
         CollisionVertexTable vertex;
 
         nextIndex = word[3];
@@ -62,10 +63,12 @@ int Geo_ClipToFloorBoundary(s16 x, s16 z, u16 *triangle)
                 {
                     int dz = pz - (s16)nextZ;
                     int dx = px - (s16)nextX;
-                    int edgeId = word[4];
-                    FloorEdge *record = (FloorEdge *)&D_8009CE14[edgeId];
+                    FloorEdge *record;
                     int distance;
                     int along;
+
+                    edgeId = word[4];
+                    record = (FloorEdge *)&D_8009CE14[edgeId];
 
                     distance = (dz * ((s16)prevX - (s16)nextX)
                                 - dx * ((s16)prevZ - (s16)nextZ)) / record->ramp.length;
@@ -130,13 +133,13 @@ int Geo_ClipToFloorBoundary(s16 x, s16 z, u16 *triangle)
                             D_8009CE18 = edgeId;
                             return 0;
                         }
-                        neighbours.index[slot] = neighbour;
+                        *queued = neighbour;
                     }
                 }
             }
 next:
             word++;
-            slot++;
+            queued++;
         } while (word < base + 3);
         {
             u32 i;
@@ -155,9 +158,7 @@ next:
         int pz = z;
         u16 *base = triangle;
         u16 *word = base;
-        int slot = 0;
-        u32 nextIndex;
-        u16 nextX, nextZ;
+        s16 *queued = neighbours.index;
         CollisionVertexTable vertex;
 
         nextIndex = word[6];
@@ -195,10 +196,12 @@ next:
                 {
                     int dz = pz - (s16)nextZ;
                     int dx = px - (s16)nextX;
-                    int edgeId = word[7];
-                    FloorEdge *record = (FloorEdge *)&D_8009CE14[edgeId];
+                    FloorEdge *record;
                     int distance;
                     int along;
+
+                    edgeId = word[7];
+                    record = (FloorEdge *)&D_8009CE14[edgeId];
 
                     distance = (dz * ((s16)prevX - (s16)nextX)
                                 - dx * ((s16)prevZ - (s16)nextZ)) / record->ramp.length;
@@ -263,13 +266,13 @@ next:
                             D_8009CE18 = edgeId;
                             return 0;
                         }
-                        neighbours.index[slot] = neighbour;
+                        *queued = neighbour;
                     }
                 }
             }
 next2:
             word++;
-            slot++;
+            queued++;
         } while (word < base + 3);
         {
             u32 i;
