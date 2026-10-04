@@ -164,8 +164,25 @@ typedef struct RoomSpiralDropSpark {
     s16 speed;                    /* 0x06 */
 } RoomSpiralDropSpark;
 
+typedef struct RoomSpiralDropSparkCallbackView {
+    u16 x, y, z, speed;
+} RoomSpiralDropSparkCallbackView;
+
+typedef union RoomSpiralDropSparkRecord {
+    RoomSpiralDropSpark emitter;
+    RoomSpiralDropSparkCallbackView callback;
+} RoomSpiralDropSparkRecord;
+
+PE1_STATIC_ASSERT(sizeof(RoomSpiralDropSparkRecord) == 8,
+                  room_spiral_drop_spark_record_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSpiralDropSparkRecord, emitter.speed) ==
+                      PE1_OFFSETOF(RoomSpiralDropSparkRecord, callback.speed),
+                  room_spiral_drop_spark_speed_views_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSpiralDropSparkRecord, callback.speed) == 6,
+                  room_spiral_drop_spark_speed_offset);
+
 extern u8 D_801994BC[];
-extern int func_80192DA0(int mode, RoomSpiralDropSpark *spark);
+extern int func_80192DA0(int mode, volatile RoomSpiralDropSparkRecord *spark);
 
 /* Attaches the effect to the first live actor with the given ids, or
  * reports the missing actor. */
