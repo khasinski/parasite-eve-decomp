@@ -56,3 +56,20 @@ Remaining:
   reuses it as the corner pointer base; here &[3].z is kept (the order of
   the two statements does not change it).
 - the spin.x store sits after the counter load (retail stores it first).
+
+Retry (agent 5, hoist study): 2 real diffs (score with
+`sc.sh <wt> <candidate>.c st room_m350 3e64 7c0`, after copying the header to
+include/pe1/).
+- Fan blade loop fixed: `(s16)intensity` as the 8th argument. The hoisted
+  extension lowers loop.c's threshold so the trailing `1` stays in the loop,
+  and combine turns the extension into retail's `move s4,s2`. See
+  candidates/LOOP_HOIST.md.
+- `D_8019A444[2].z = D_8019A444[3].z = -dist;` keeps &[2].z in s1.
+- `GteShortVector unused;` in the final node block gives the 0xF0 frame.
+- Re-reading `trig = D_800966EC;` before the glow block and using `trig[...]`
+  for both glow lookups (found by the permuter) fixes the count/trig s1/s3
+  swap and the spin.x store order.
+- Remaining: `addiu t0,sp,0xB0` (&outside, hoisted from the nclip loop) and
+  `addiu a2,sp,0x70` (vertex = quad) are emitted in the opposite order. This
+  is a sched tie. Reordering the player/prev/k/vertex statements, a for-init
+  and moving `outside` into the block did not change it.

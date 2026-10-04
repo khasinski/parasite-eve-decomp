@@ -5,6 +5,7 @@
  * contact; draws two rings before landing and a splash flash after. */
 int func_8019665C(int mode, RoomM273Drop *drop) {
     GteShortVector ring;
+    GteShortVector unused;
 
     if (mode == 1) {
         if (drop->position.pad == 0) {
@@ -47,7 +48,7 @@ int func_8019665C(int mode, RoomM273Drop *drop) {
             int i;
             for (i = 0; i < 2; i++) {
                 func_800D0E88(drop, &ring, 0x100, 0x10, D_8019AD58, D_8019AD54,
-                              D_8019AD54, shade, 1);
+                              D_8019AD54, (s16)shade, 1);
                 ring.z += 0x400;
             }
         } else {

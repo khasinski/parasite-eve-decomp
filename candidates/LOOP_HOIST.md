@@ -1,0 +1,137 @@
+# Loop-invariant hoisting in stock GCC 2.7.2 loop.c (agent 5, 2026-10-04)
+
+Study of the "retail keeps a constant inside the loop, stock hoists it" blocker
+that parked room_m075/m080/m082 func_8018F3DC, room_m273 func_8019665C,
+room_m273 func_801981A4 and room_m350 func_80192E4C.
+
+**Conclusion: this is not a compiler difference. Stock loop.c reproduces every
+retail loop once the C has the right shape.** The earlier claim that SN's
+threshold is "about 24 instead of 58", or two registers lower, came from
+candidates whose loops had the wrong insn count or the wrong movables. Do not
+park a function for this reason. Read the `-dL` dump and change the source.
+
+## The rule (loop.c `move_movables`)
+
+    threshold = (loop_has_call ? 1 : 2) * (1 + n_non_fixed_regs)   /* 29 with a call, 58 without */
+    move if  threshold * savings * lifetime >= insn_count
+    threshold -= 3 after every move (matched "done" moves do not lower it)
+
+- `insn_count` is the "N real insns" line of the dump. It counts insns as they
+  are when loop runs: after cse1, before combine. An insn that combine
+  deletes later still counts here.
+- Movables are visited in insn order. Every earlier move lowers the threshold
+  for the later ones.
+- A loop that contains a call starts at 29, not 58. Most "retail keeps
+  `li 1` for the last stack argument" cases are call loops.
+
+Dump it with `cc1 ... -dL` (writes `<file>.i.loop`). Each line
+`Insn N: regno R (life L), ... savings S moved to` / `not desirable` gives the
+decision. Work out the threshold at each movable from the moves before it.
+
+## Three levers, all plain C
+
+1. **Add a movable before the constant that gets hoisted and then vanishes.**
+   An explicit `(s16)` cast on an int argument emits a sign-extension pair
+   (ashift/ashiftrt). The pair is invariant, gets hoisted (-3 or -6 off the
+   threshold) and adds insns to the count. Later, combine removes it once
+   `num_sign_bit_copies` shows the value already fits in 16 bits (`lh >> 5`,
+   or `0x80` or `cos >> 5`). It can also leave the plain register copy that
+   retail shows (`move s4,s2`).
+2. **Pass a literal instead of a variable assigned before the loop.** A literal
+   needs a `(set reg const)` inside the loop, which is one more counted insn
+   and one more movable. A variable set outside the loop is neither.
+3. **Use a pointer into the record (`p = &table[i]; p->f = ...`)** rather than
+   indexing the array in every statement. The insn count and the movables
+   change. This form also gives retail's `addu v1,a3,base`, with the base
+   hoisted and the second base `la` left inside the loop.
+
+## Evidence per function
+
+### room_m273 func_801981A4 (sway shard callback): MATCHED
+
+Two-flare loop around func_800D0728 (11 args).
+- Old candidate: `scale = 0x1000;` before the loop, args `scale, scale`. Dump:
+  `23 real insns`. &spin moved (29), D_8019AE04 moved (26), D_8019AB70 moved
+  (23 >= 23). Retail keeps the last two inside.
+- Fix: pass the literal `0x1000, 0x1000`. Dump: `24 real insns`. &spin moved
+  (29), 0x1000 moved (26, life 2), D_8019AE04 at 23 < 24 is
+  `not desirable`, and the same goes for D_8019AB70, 0x80 and 1. This is
+  exactly retail: `li s1,0x1000` and `addiu s5,sp,0x38` sit before the loop.
+  The `la s4,D_8019AB70` / `li s3,0x80` / `li s2,1` stay in the loop body, and
+  cse2 reuses s2..s4 after the loop.
+- The other diff was a `move v1,v0` in the trail frame. It was fixed with
+  `s16 frame = D_800E27EC & 7;`.
+
+### room_m350 func_80192E4C (sweeping beam trap): 59 -> 2 diffs, parked
+
+Fan blade loop around func_800D0E88 (call loop, 9 args, last one `1`).
+- Old: `22 real insns`. D_8019A43C, D_8019A3C8 and the `1` were all moved, so
+  `li s4,1` sat outside the loop.
+- `(s16)intensity` as the 8th argument: regno 272 (ext, savings 2) and 271
+  were moved and lowered the threshold to 17. `Insn 613: regno 273 (life 1)
+  ... not desirable` is the `1`. The loop is byte-identical to retail,
+  including retail's `move s4,s2` copy of the intensity, which is the
+  extension that combine reduced to a copy.
+- Fixes for the other diffs in the same session (all plain C):
+  `D_8019A444[2].z = D_8019A444[3].z = -dist;` (retail keeps the &[2].z
+  register). One `GteShortVector unused;` in the final node block gives the
+  frame size. Re-reading `trig = D_800966EC;` before the glow block and using
+  `trig[...]` for both glow lookups puts count/trig in s3/s1 and the spin.x
+  store first.
+- Remaining 2 diffs: `addiu t0,sp,0xB0` (&outside, hoisted from the nclip
+  loop) and `addiu a2,sp,0x70` (vertex = quad) are swapped. This is an sched
+  tie-break between two independent insns. Reordering the
+  player/prev/k/vertex statements did not change it.
+
+### room_m273 func_8019665C (queued drop callback): loop fixed, regalloc swap left
+
+Two-ring loop around func_800D0E88 (call loop).
+- Old: `19 real insns`. D_8019AD58 (29), D_8019AD54 (26) and the `1` (23 >= 19)
+  were all moved.
+- `(s16)shade` as the intensity argument: `21 real insns`. AD58 and AD54 are
+  moved, then the extension (regno 221 savings 2, plus regno 220
+  `cond forces`). The `1` is then `not desirable` (17 < 21). The loop
+  instructions now equal retail's, and combine folds the hoisted extension
+  away because shade = `lh >> 5`.
+- The frame needed one unused 8-byte local (`GteShortVector unused;` after
+  `ring`).
+- Remaining (41 word diffs, all one s0<->s1 swap): retail puts the loop index
+  (and the flash-branch size) in s0 and `drop` in s1. Global-alloc priority
+  (`floor_log2(refs) * refs / live_length`, from `-dl`) is 31 refs / 126
+  insns = 0.98 for drop and 7 / 21 = 0.67 for i. Sharing i with size gives
+  9 / 35 = 0.77, which is still lower. Only loop-depth weighting
+  (`reg_n_refs += loop_depth`) would lift i, and a `do { } while (0)` around
+  the mode 2 branch does exactly that (permuter score 45). That wrapper is
+  banned. A `RoomM273Drop *d = drop;` copy for mode 2 creates a second pseudo
+  and costs a move. Parked.
+
+### room_m075/m080/m082 func_8018F3DC (motion particle init): loop fixed, store order left
+
+- The old draft (scratchpad m75i.c) used register pins, byte-offset pointer
+  arithmetic (`(char *)D_801940C8 + i`) and volatile globals. Its loop hoisted
+  -0x40. `-ffixed-t8 -ffixed-t9` "fixed" that only by accident.
+- Clean form: `RoomMotionParticle D_801940C8[10], D_80194370[10]` (0x44-byte
+  records), `unsigned int i` from 0 to 10, and `particle = &D_801940C8[i];
+  particle->... ; particle = &D_80194370[i]; ...`. Dump: `49 real insns`.
+  base/0x80/4/30 are moved (threshold 58 -> 46). `-64` (regno 173, life 1) is
+  `not desirable` at 46 < 49, and 0xFF is moved (life 6, savings 2). Strength
+  reduction turns i into the byte offset a3 with `sltiu 0x2A8`. **The loop is
+  byte-identical to retail, registers included (t4, t3, t1, t2, t0, a3), and
+  `li 4` / `la D_80194370` / `li 64` stay inside.**
+- The four 16-byte glyph records at 0x80194618 must be one array
+  `RoomMotionGlyph D_80194618[4]`. As four separate symbols, local-alloc gives
+  the constants other registers.
+- Remaining (38 word diffs, one cause): `D_80194618[2].y = 32` (`sh v0` to
+  0x80194642) is scheduled as the first glyph store, and `li v0,-31` follows
+  it at once. Retail stores it in source order. Moving the statement or
+  swapping x/y did not help. Parked as `room_m075_func_8018F3DC/` (template +
+  header, not wired into src).
+
+## What did not work
+
+- Statement order alone. Loop decisions depend only on the movable order and
+  the insn count, not on where the arguments sit relative to other code.
+- `-ffixed-*` style threshold changes. This is not a compiler-config
+  difference, and per-file flags are not allowed anyway.
+- An s16 local for the intensity/shade. It is extended at assignment, outside
+  the loop, so it adds no movable. The cast has to sit in the call.
