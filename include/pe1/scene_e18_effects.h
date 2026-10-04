@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
+#include "pe1/scene_e18_pulse.h"
 
 /* Particle emitters of the scene_e18 script: one rises from random model
  * joints and fades out, the other drops wave rings from random joints. */
@@ -46,11 +47,15 @@ typedef struct SceneE18Actor {
     s32 reserved[2];
     SceneE18Instance *instance;   /* 0x08 */
 } SceneE18Actor;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE18Actor, instance) == 8,
+                  scene_e18_actor_instance_offset);
 
 typedef struct SceneE18Emitter {
     s32 reserved[2];
     void *pool;                   /* 0x08 */
 } SceneE18Emitter;
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE18Emitter, pool) == 8,
+                  scene_e18_emitter_pool_offset);
 
 typedef struct SceneE18EmitterState {
     s16 count;
@@ -127,14 +132,6 @@ extern void func_800C6F4C(void *asset);
 
 /* Pulse ring particle (func_80193018): shrinking light rings around the
  * room model; the last one releases the actor once the player is near. */
-typedef struct SceneE18PulseRing {
-    s16 size;                     /* 0x00 */
-    s16 shrink;                   /* 0x02 */
-    s16 radius;                   /* 0x04 */
-    u8 active;                    /* 0x06 */
-    u8 last;                      /* 0x07 */
-} SceneE18PulseRing;
-
 extern RenderColor D_8019411C[2];
 
 /* Spinning model controller (func_801924E8): spins the scene model's
