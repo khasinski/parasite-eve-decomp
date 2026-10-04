@@ -1,20 +1,52 @@
-/* CC1_FLAGS: -G8 -fno-schedule-insns */
-/* MASPSX_FLAGS: -G8 */
-#include "common.h"
-#include "pe1/inventory.h"
-extern s16 *D_8009D048;
-extern int D_8009D050;
-extern u8 D_800BEEAC[];
-extern u8 D_8009DE64[];
-extern s16 D_800C0E48[];
-extern struct { char _[16]; } D_800C0E22_obj __asm__("D_800C0E22");
+#include "pe1/inventory_slots.h"
 
+/* CC1_FLAGS: -G4 */
+/* MASPSX_FLAGS: -G4 */
+
+extern struct { char _[16]; } D_800C0E22_obj __asm__("D_800C0E22");
 #define D_800C0E22 (*(s8 *)&D_800C0E22_obj)
 
-int Inv_RestoreSelection(unsigned int index);
-ItemDataRecord *Item_LookupBaseData(unsigned int index);
-int Inv_CheckFreeSlotCapacity(int mask);
+int Inv_CheckFreeSlotCapacity(int requested_slots) {
+    s16 *slot;
+    s16 *end;
+    int capacity;
+    int capacity_before_scan;
+    int bonus_slots;
+    int used_slots;
+    int occupied;
 
+    g_InvItemPtr = g_AyaInventoryItems;
+    g_InvSlotLimit = Inv_GetAyaSlotLimit();
+    g_InvSelectionBits = g_InvSelectionBitStorage;
+    g_InvSelectionBitWords = 2;
+
+    bonus_slots = Inv_GetBonusSlotCount();
+    if (g_InvBaseCapacityForLimit[0] + bonus_slots < 51) {
+        used_slots = 0;
+        capacity_before_scan =
+            g_InvBaseCapacityForResult[0] + Inv_GetBonusSlotCount();
+    } else {
+        used_slots = 0;
+        capacity_before_scan = 50;
+    }
+
+    g_InvItemPtr = g_AyaInventoryItems;
+    capacity = capacity_before_scan;
+    g_InvSlotLimit = Inv_GetAyaSlotLimit();
+    g_InvSelectionBits = g_InvSelectionBitStorage;
+    g_InvSelectionBitWords = 2;
+
+    slot = g_InvItemPtr;
+    end = slot + g_InvSlotLimit;
+    while (slot < end) {
+        occupied = *slot++;
+        occupied = occupied != 0;
+        used_slots += occupied;
+    }
+
+    g_InvPendingCompactCount = requested_slots;
+    return capacity - used_slots >= requested_slots;
+}
 int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
     /* Match the retail 0x60-byte stack frame; remove with a cleaner TU model. */
     unsigned char stack_pad[32];
@@ -42,7 +74,7 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
         item_id = D_8009D048[selected_a];
         saved_id = item_id;
         if ((unsigned int)(item_id - 0x100) < 0x80) {
-            resolved = D_800BEEAC + (item_id << 5);
+            resolved = g_EquipItemDataTable + (item_id << 5);
         } else if ((unsigned int)(item_id - 1) < 0xFF) {
             resolved = Item_LookupBaseData(item_id - 1);
         } else if ((unsigned int)(saved_id - 0x200) < 9) {
@@ -64,7 +96,7 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
         saved_id = item_id;
         if ((unsigned int)(item_id - 0x100) < 0x80) {
             scaled_id = item_id << 5;
-            resolved = D_800BEEAC + scaled_id;
+            resolved = g_EquipItemDataTable + scaled_id;
         } else if ((unsigned int)(item_id - 1) < 0xFF) {
             resolved = Item_LookupBaseData(item_id - 1);
         } else if ((unsigned int)(saved_id - 0x200) < 9) {
@@ -78,9 +110,8 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
 
     result = 1;
     if (mod_index >= 0) {
-        u8 *chosen = item_a + mod_index;
         count = ((ItemDataRecord *)item_b)->tailCount;
-        modifier = chosen[0x15];
+        modifier = ((ItemDataRecord *)item_a)->tailData[mod_index];
         i = 0;
         if (count <= 0) goto first_after;
 first_loop:

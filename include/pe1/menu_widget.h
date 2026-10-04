@@ -51,14 +51,22 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, x) == 0x18,
                   menu_widget_x_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, update) == 0x2C,
                   menu_widget_update_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, draw) == 0x30,
+                  menu_widget_draw_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, visible_rows) == 0x38,
+                  menu_widget_visible_rows_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, cursor_x) == 0x44,
                   menu_widget_cursor_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, cursor_y) == 0x48,
+                  menu_widget_cursor_y_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, scroll_y) == 0x5C,
                   menu_widget_scroll_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, aux_index) == 0x70,
                   menu_widget_aux_index_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, popup_node) == 0x80,
                   menu_widget_popup_node_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, selectionAvailable) == 0x8C,
+                  menu_widget_selection_available_offset);
 
 /* Mode-3 list navigator: +0x34 is a managed-list pointer, whereas ordinary
  * grid widgets store grid_width there. The rest of this prefix is shared. */

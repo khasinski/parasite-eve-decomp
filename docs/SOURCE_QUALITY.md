@@ -4116,10 +4116,10 @@ barriers.
 modifier bytes through the shared `ItemDataRecord.tailCount` and `tailData`
 fields. Compile-time assertions pin these fields at `+0x14` and `+0x15`, and
 the shared list-index prototype now matches the implementation's unsigned
-index. One selected-modifier access retains its byte-offset expression because
-the field-pointer spelling reverses one commutative address-add instruction.
-The complete `0x44C`-byte function remains byte-identical under
-`probe_match.py`.
+index. The function now shares a `-G4` translation unit with the preceding
+`Inv_CheckFreeSlotCapacity`; its complete `0x558`-byte range matches under
+`probe_match.py`. All modifier accesses use the named record fields without
+changing the retail instructions.
 
 ### Inventory selectability predicate
 
@@ -6408,6 +6408,15 @@ All 191 rebuilt overlays preserve their retail SHA-1 as well.
 The audited report credits 2491796 semantic code bytes and 10738 functions
 (70.18% of code). Total debt is 1292 pins, 1074 barriers and 155 NOPs;
 ordinary ASM bodies and directives are unchanged.
+
+### Memory-card port dialog node layout
+
+`Menu_MemCardDialogs` now uses the shared `MenuWidgetNode` type for both
+port-selection dialog constructors. Named fields replace raw accesses to the
+update, draw, selection-filter, cursor-Y and visible-row slots; the matching
+offsets are asserted in `menu_widget.h`. Callback prototypes and widget
+constructor APIs use their shared declarations. The full 504-byte `-G8`
+translation unit still matches retail under `probe_match.py`.
 
 ### Item discard confirmation panel
 
