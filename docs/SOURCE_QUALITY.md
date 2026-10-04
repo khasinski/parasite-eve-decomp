@@ -245,6 +245,14 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Stat level bar renderer
+
+`Draw_AllocTexturedRectAlt` draws the stat level bars from typed textured
+quads. It links each quad into the ordering table through the 24-bit
+address bitfield of `RenderTexturedQuad`'s tag, so it needs no pointer or
+integer casts. It allocates from the packet arena the same way its matched
+siblings such as `Draw_AllocSprite` do.
+
 ### Actor floor tracking
 
 `Entity_UpdateAndRender` moves an actor across floor faces, clips it against
