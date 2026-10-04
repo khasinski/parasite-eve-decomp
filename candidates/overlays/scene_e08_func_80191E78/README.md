@@ -95,3 +95,33 @@ function in other overlays. Not retried beyond the rescore.
   on something with latency. Reusing scale/kind/palette/special for the
   0x40 (88 variants, with and without a prior load into the same variable)
   gives 16 at best.
+
+## Round 5 (agent 17, 2026-10-04): still lev 16
+
+Diagnosis with the -dS/-dR dumps (no source change kept):
+- Block 1. The tpage table load `D_800E2850[index]` has an address
+  `(plus reg symbol)`, which memrefs_conflict_p cannot separate from the
+  frame BLK copies, so it stays below all three stack copies. The index
+  load itself is a plain symbol and floats. In sched1 the sll is launched,
+  the index load (latency 2) is queued, and the color copy (priority 2,
+  ready once the tpage load is scheduled) fills the load delay, so the
+  index load lands above the copy. Retail's filler is `li v1,64`, which
+  also explains its registers: with 64 born between the index load and the
+  sll, local-alloc gives index v0, 64 v1 (2*4/len), 1000 v0 and the tpage
+  a0, exactly retail.
+- For li 64 to be that filler it must be ready at that point and win over
+  the copy: priority >= 2 and not launched earlier. A single-set constant is
+  launched right before its first store (too late). Reusing one local for
+  the D_8019956C (or D_8019957C) load and then the 0x40 (`value = ...;
+  offset.x = value; ... value = 0x40;`) gives the 0x40 set an anti
+  dependence on the priority-2 stack store, so it is placed exactly as in
+  retail, but the two-death pseudo goes to global alloc (a0): lev 22/23.
+- Block 2. Reorg fills the first loop's delay slot with the first eligible
+  insn of the fall-through (it skips the s-register moves and the 2-word
+  `la`), so retail's sched2 order has li 64 before li 4. Retail's registers
+  (64 v0, 4 v1 alive across the 0x40 stores, 5 v0) need sched1 order
+  li 64 (top, not launched), moves, li 4, three 0x40 stores, li 5,
+  parameter02/depth/0A stores. A launched 4 lands after the 0x40 stores
+  and shares v0 with 64 (lev 18 form); `kind = 4` (multi-set) sits above
+  the hoisted moves (lev 16). Moving `kind/special/scale/palette = 4`
+  across all positions of the block: 16 at best.
