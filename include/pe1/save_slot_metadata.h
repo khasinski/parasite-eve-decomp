@@ -12,15 +12,24 @@ typedef struct SaveSlotSummary {
 } SaveSlotSummary;
 
 /*
- * Save prompt state word: low byte counts frames down, bits 8-9 hold the
- * phase, bits 10-11 the prompt kind and bits 12-18 one pending message each.
- * Retail addresses the word and its low byte as separate objects, so the
- * frame counter has its own symbol at the same address (little-endian).
+ * Save prompt state word at 0x8009D1AC: the low byte counts frames down,
+ * bits 8-9 hold the phase, bits 10-11 the prompt kind and bits 12-18 one
+ * pending message each. Retail reaches the frame counter through the same
+ * object as the word (it reloads the word after a counter store), so both
+ * views share one union, and the union sits in one record with the summary
+ * pointer in front of it. The record is larger than the -G4 small-data limit,
+ * so both stay absolutely addressed.
  */
-extern u8 g_SavePromptTimer;
+typedef union SavePromptState {
+    u32 word;
+    u8 timer;
+} SavePromptState;
 
-extern SaveSlotSummary **D_8009D1A8;
-extern unsigned int D_8009D1AC;
+typedef struct SavePromptBlock {
+    SaveSlotSummary **summary; /* 0x8009D1A8 */
+    SavePromptState prompt;    /* 0x8009D1AC */
+} SavePromptBlock;
+extern SavePromptBlock D_8009D1A8;
 
 /* Prompt texts: two fixed lines, then per-window tables. */
 extern u8 D_80091464[];

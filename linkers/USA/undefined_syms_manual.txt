@@ -1901,7 +1901,6 @@ g_BattleHitActionSubmode = 0x8009D29B;
 g_BattleModeState = 0x8009D28C;
 g_BattlePendingEnemySpawn = 0x8009D1D0;
 g_BattleResultFlags = 0x8009D1AC;
-g_SavePromptTimer = 0x8009D1AC; /* low byte of the prompt state word */
 g_BattleSaveOverlayActive = 0x8009D1CE;
 g_BattleSpritePrimCountdown = 0x8009D235;
 g_BattleStatusRowPosY = 0x8009E362;

@@ -2,30 +2,34 @@
 
 Typed plain-C draft replacing the old misc23.c byte-offset version for this
 function (misc23.c still holds the other two functions of the old draft).
-Score: **lev 28** (retail 289 words, mine 287 words). No pins, barriers,
-volatile, aliases or integer casts.
+Score: **lev 6** (retail 289 words, mine 289 words). No pins, barriers,
+volatile, aliases, integer casts or extra linker symbols. Flags are the
+approved `/* CC1_FLAGS: -G8 */` + `/* MASPSX_FLAGS: -G4 */` split.
 
 Setup that already matches:
 
-- cc1 stays at -G0 and maspsx gets `-G1`, with a tentative definition of
-  `g_MenuActiveMode` in the unit: only that common byte becomes gp-relative,
-  while the prompt word, its low byte and the textbox entry stay absolute
-  (`lbu %lo(D_8009D1AC)` with no shared `la`).
-- The low byte of the prompt word is its own symbol, `g_SavePromptTimer`
-  (linker script, same address as D_8009D1AC); a union or a `(u8 *)&` view
-  forces the address into a register.
+- `D_8009D1A8` is a record `{ SaveSlotSummary **summary; SavePromptState prompt; }`
+  (save_slot_metadata.h) and the prompt word at 0x8009D1AC is a union of the
+  word and its low byte (the frame counter). Because the counter and the word
+  are one object, GCC reloads the word after the `timer = 0x4B` store and
+  keeps the textbox state store ahead of the next word load, as retail does.
+  The record is 8 bytes, above the -G4 limit, so both stay absolute while the
+  1-byte `D_8009CE80` (save.h) is gp-relative. This replaced the old
+  `g_SavePromptTimer` linker symbol and the tentative definition of
+  `g_MenuActiveMode` (plain maspsx -G1).
+- Phase 1 reloads the word into its own local (`next`); reusing `state` puts
+  `state` in a0 for the whole function instead of retail's v1.
 - Masks are `~0x300`; `index != 0 ? 0x14 : 0x61`; the prompt text choice is
   `if (prompt != 0) { if (prompt == phase) B; } else A;`.
-- Types: `SaveSlotSummary` (fields 0x10 and 0x88 copied into the colour table)
-  and the message tables as `u8 [][N]` arrays in save_slot_metadata.h.
 
-Remaining differences (lev 28):
+Remaining differences (lev 6), all in the phase 1 tail:
 
-1. Retail keeps the byte store `g_SavePromptTimer = 0x4B` (and the textbox
-   state store in phase 1) ahead of the next `D_8009D1AC` load, and reloads
-   the word after the byte store. With two symbols GCC sees no conflict, so
-   the load is hoisted / the stored value is reused (about 12 words). Retail
-   therefore addressed the byte through the same symbol as the word; a
-   volatile word does not reproduce it either.
-2. The early `state` lives in v1 in retail and in a0 here, a knock-on of 1
-   (about 16 words of register names).
+- Retail builds the new word in a0 (`li a0,-769; and a0,v0,a0 ... or a0`) and
+  sched2 then hoists `lw flags` and `lui v1,0x200` above `sw a0, word`. Here
+  the word is built in v1, so `lui v1,0x200` cannot move above the store.
+  sched1 orders both versions the same (store, flags load, constant: the
+  constant is a birthing insn and gets LAUNCH priority), so the difference is
+  local-alloc. Tried: statement orders (flags first, flags between load and
+  store, separate `flags` temp), operand orders of the `|`, `+` instead of
+  `|`, `0xFFFFFCFF`, `(x & 0x300) >> 8`, folding the mask after the shift,
+  direct double reads of the word. Best stays at lev 6.
