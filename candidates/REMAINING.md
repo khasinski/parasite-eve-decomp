@@ -9,14 +9,14 @@ Size is the objdiff function size in bytes.
 
 | Category | Functions | Bytes |
 |---|---:|---:|
-| battle (excluded) | 12 | 23020 |
+| battle (excluded) | 11 | 20332 |
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
 | parked near-miss | 24 | 40476 |
 | not yet attempted | 0 | 0 |
-| total | 106 | 85896 |
+| total | 105 | 83208 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -39,7 +39,6 @@ Category notes:
 | main | Battle_DrawStatusPanel | 2128 |  |
 | main | Battle_UpdateEnemy | 2144 |  |
 | main | Battle_PhaseHitReaction | 2664 |  |
-| main | Battle_StepAyaAction | 2688 |  |
 
 ## handwritten library/BIOS asm
 
@@ -169,3 +168,4 @@ The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA1
 | main | Geo_ClipToFloorBoundary | 2920 | lev 0 under -G8 cc1 / -G4 --expand-div maspsx, no gotos: the edge walk indexes the triangle by slot (loop.c reduces it to one walk pointer plus the slot*2 byte offset and rewrites the exit test against base + 6), the visited-edge pointer, prevIndex/prevX/prevZ are function-scope so they are set in both halves (multi-set: no birthing boost in sched1, and the doubled refs give prevX s6), one shared `int d` for the box limits, distance, projection and squared distances with the divisor loaded into it, `kind` byte view for the neighbour flag, tentative COMMON declarations of D_8009CE0C/D_8009CE18 so maspsx keeps the load-delay nop before the gp stores, `continue` with `while (++slot < 3)` instead of the skip gotos |
 | main | Render_SetupEntityPrims | 2012 | lev 0 (plain -G0): the last a2/t9 swap of paletteRow/initCount was a global-alloc priority tie; writing the matrix command rounding step by step on the shared `bytes`/`words` temporaries (`words = (u16)bytes; words >>= 2;`, `bytes = words; bytes++; bytes *= 4;`) adds three insns that combine later merges, so both live lengths grow by 3 and the tie goes to paletteRow, as in retail |
 | fx_common | func_80193B5C | 1452 | FxCommon_DrawEffectMarkers, lev 0: mode and OT links written as 24-bit bitfield copies (`mode->tag.bits.address = allocation[10].bits.address`, the extract and insert masks give the prologue mask its 4th reference, so global alloc puts it in a3 and level in t0), RotTransPers3-style scalar `s32` outputs instead of a struct (the label's screen read is no longer in-struct, so it does not depend on the line link stores and the xy stores drop to the colour/uv priority), then setXY4/setUV4 field order in both labels |
+| main | Battle_StepAyaAction | 2688 | score 0 and full main.exe byte-match using stock native GCC 2.7.2, stock MASPSX profile 2.77, shared battle/render records, signed range division, COMMON metadata, 14 pins and 7 empty barriers; all 17 jump-table entries and alignment preserved |
