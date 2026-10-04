@@ -152,7 +152,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | Scene_UpdateEntityPositions | 2432 | candidates/main/main/Scene_UpdateEntityPositions.c (old byte-offset draft, no README, diff count not recorded) |
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | Menu_ItemListInputHandler | 3100 | candidates/main/menu/Menu_ItemListInputHandler_plainc: lev 5 (`usable |= 1` fixes the child/data swap at the cost of an `ori`; slots/equip pointer copy above the stores) |
+| main | Menu_ItemListInputHandler | 3100 | candidates/main/menu/Menu_ItemListInputHandler_plainc: lev 1 (`usable |= 1` gives `ori` where retail has `li`; a shared `found` lookup variable fixed the slots/equip copies) |
 | main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
 | fx_common | func_8018F55C | 224 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |

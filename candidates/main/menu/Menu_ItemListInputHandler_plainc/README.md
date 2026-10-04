@@ -1,7 +1,7 @@
 # Menu_ItemListInputHandler (0x800494AC, 0xC1C bytes, main.yaml 0x39CAC)
 
 Plain C, stock GCC 2.7.2, no pins, barriers, volatile or casts to integers.
-Same size and frame as retail (3100 bytes, 0x40 frame). Score: **lev 5**
+Same size and frame as retail (3100 bytes, 0x40 frame). Score: **lev 1**
 (retail 775 words, mine 775 words). Control flow, scheduling and every tail
 match.
 
@@ -22,7 +22,21 @@ What made the rest match:
 - `action = Menu_ItemUseAction;` before the width test reproduces retail's
   early `lui s3` (the callback pointer lives across the second measure call).
 
-Remaining differences (lev 5):
+Remaining differences (lev 1): only `ori s1,s1,0x1` for retail's `li s1,1`.
+
+00. (2026-10-04, lev 5 -> 1) The node lookups use one function-scope
+   `MenuWidgetNode *found` for the slots (0x30) and equipment (0x36) lookups
+   of the up-input branch and the equipment lookup of the cancel branch.
+   The variable is set in several places, so global allocation handles it
+   and follows the copy preference to a0: retail's `move a0,v0; beqz a0`
+   comes out in both places (the permuter hinted at it with an extra copy
+   variable). A block-local variable shared by the two up-input lookups
+   fixes only the first site (lev 3).
+   Tried for the `li`, with no luck on top of this: `usable = 1` in both arms
+   of a split type test (lev 14), a `mask` local (lev 13), returning
+   `usable != 0` / `!!usable` / `usable ? 1 : 0` (lev 30), reusing `kind`,
+   `mask` or `value` as the flag, and the helper written out at the call site.
+
 
 0. (2026-10-04, lev 21 -> 5) `usable |= 1;` instead of `usable = 1;` in
    Menu_CanEquipSelection. flow counts the extra use of `usable`, which lifts

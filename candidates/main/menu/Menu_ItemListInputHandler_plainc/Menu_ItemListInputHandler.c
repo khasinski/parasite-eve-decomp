@@ -122,6 +122,7 @@ int Menu_ItemListInputHandler(MenuWidgetNode *node, unsigned int flags)
 {
     ItemDataRecord *data;
     MenuWidgetNode *child;
+    MenuWidgetNode *found;
     MenuWidgetNode *target;
     MenuWidgetNode *panel;
     MenuWidgetNode *list;
@@ -135,22 +136,20 @@ int Menu_ItemListInputHandler(MenuWidgetNode *node, unsigned int flags)
 
     child = MenuWidget_GetChild(node, 0);
     if (flags & 0x1000) {
-        MenuWidgetNode *slots;
-        MenuWidgetNode *equip;
 
-        slots = MenuWidget_FindByModeAndSelectedBase(2, 0x30);
-        if (slots != 0) {
+        found = MenuWidget_FindByModeAndSelectedBase(2, 0x30);
+        if (found != 0) {
             child->cursor_x = -1;
-            slots->cursor_x = 0;
-            slots->cursor_y = 1;
-            MenuWidget_SetCurrentNode(slots);
+            found->cursor_x = 0;
+            found->cursor_y = 1;
+            MenuWidget_SetCurrentNode(found);
             Menu_ResetSlotCursors();
             Menu_PlayMoveSound();
         }
-        equip = MenuWidget_FindByModeAndSelectedBase(2, 0x36);
-        if (equip != 0) {
+        found = MenuWidget_FindByModeAndSelectedBase(2, 0x36);
+        if (found != 0) {
             child->cursor_x = -1;
-            MenuWidget_SetCurrentNode(equip);
+            MenuWidget_SetCurrentNode(found);
             Menu_ResetSlotCursors();
             Menu_PlayMoveSound();
             return 1;
@@ -267,13 +266,11 @@ int Menu_ItemListInputHandler(MenuWidgetNode *node, unsigned int flags)
         Menu_PlayErrorSound();
         return 1;
     } else if (flags & 0x40) {
-        MenuWidgetNode *equip;
-
-        equip = MenuWidget_FindByModeAndSelectedBase(2, 0x36);
-        if (equip != 0) {
+        found = MenuWidget_FindByModeAndSelectedBase(2, 0x36);
+        if (found != 0) {
             child->cursor_x = -1;
             child->scroll_y = 0;
-            MenuWidget_SetCurrentNode(equip);
+            MenuWidget_SetCurrentNode(found);
             Menu_ResetSlotCursors();
         } else if (D_8009CF34 != 0 || D_8009CF38 != 0) {
             D_8009CF34 = 0;
