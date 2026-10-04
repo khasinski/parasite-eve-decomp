@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/render_object.h"
 #include "pe1/room_orbit_trail.h"
+#include "pe1/scene_e22_floor.h"
 
 /* Ring burst controller (scene_e22): scene event gate, particle channel
  * and the helpers the burst and its orbit trail particles call. */
@@ -38,9 +39,7 @@ extern int func_80192548(int mode, RoomOrbitTrailParticle *p);
 
 /* Orbit ring trail particle (func_80192548): the floor it bounces on, its
  * colour seed and trail track, and the trail strip renderer. */
-typedef struct SceneE22FrameCounter {
-    s16 count;
-} SceneE22FrameCounter;
+typedef SceneE22FloorHeight SceneE22FrameCounter;
 
 extern SceneE22FrameCounter D_800942EC;
 extern RenderColor D_8018F1CC;

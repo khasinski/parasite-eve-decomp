@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/render_object.h"
 #include "pe1/room_orbit_trail.h"
+#include "pe1/scene_e22_floor.h"
 
 /* Ember controllers (scene_e22): ride the room actor, wake the scene
  * object's status byte, spray ember drift particles and draw a halo and a
@@ -49,9 +50,7 @@ typedef struct SceneE22EmberEvent {
     s16 jointSet;                 /* 0x12 */
 } SceneE22EmberEvent;
 
-typedef struct SceneE22EmberFloor {
-    s16 y;
-} SceneE22EmberFloor;
+typedef SceneE22FloorHeight SceneE22EmberFloor;
 
 extern SceneE22EmberActor **RoomMain_ActorPtr;
 extern SceneE22EmberEvent *D_800E2368;
@@ -133,6 +132,7 @@ extern int func_801957CC(int mode, RoomOrbitTrailParticle *p);
 /* Ember column controller (func_80194F60): its spin template and halo
  * colour, and the rising ember particle it sprays. */
 extern GteRotation D_8018F1FC;
+extern u8 D_80199308[];
 extern RenderColor D_8018F210;
 extern int func_8019485C(int mode, RoomOrbitTrailParticle *p);
 
