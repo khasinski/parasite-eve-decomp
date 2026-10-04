@@ -87,7 +87,7 @@ Fan blade loop around func_800D0E88 (call loop, 9 args, last one `1`).
   pointer giv and emits its init at the loop start AFTER the moved
   invariants, so `&outside` comes first, as in retail.
 
-### room_m273 func_8019665C (queued drop callback): loop fixed, regalloc swap left
+### room_m273 func_8019665C (queued drop callback): MATCHED
 
 Two-ring loop around func_800D0E88 (call loop).
 - Old: `19 real insns`. D_8019AD58 (29), D_8019AD54 (26) and the `1` (23 >= 19)
@@ -107,7 +107,11 @@ Two-ring loop around func_800D0E88 (call loop).
   (`reg_n_refs += loop_depth`) would lift i, and a `do { } while (0)` around
   the mode 2 branch does exactly that (permuter score 45). That wrapper is
   banned. A `RoomM273Drop *d = drop;` copy for mode 2 creates a second pseudo
-  and costs a move. Parked.
+  and costs a move.
+- Fix: share one function-scope `int i` between the loop index and the
+  mode 1 landing slot (`i = D_8019AF04.count++; D_8019AF04.x[i] = ...`).
+  The slot adds refs on a short live range, which lifts i's global-alloc
+  priority above drop's, so i gets s0 and drop s1 as in retail.
 
 ### room_m075/m080/m082 func_8018F3DC (motion particle init): MATCHED
 

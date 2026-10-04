@@ -212,10 +212,10 @@ void func_800C71E4(u8 *model, GteMatrix *matrix);
 void func_800C6F4C(u8 *model);
 void *memset(void *dst, int value, unsigned int size);
 int func_8005186C(int value);
-extern GteShortVector D_8019AB68;
-extern u8 D_8019AD54[];
-extern u8 D_8019AD58[];
-extern u8 D_8019AD5C[];
+extern GteRotation D_8019AB68;
+extern RenderColor D_8019AD54;
+extern RenderColor D_8019AD58;
+extern RenderColor D_8019AD5C;
 /* Shard spawned from the sway points toward the player. */
 typedef struct RoomM273SwayShard {
     GteShortVector position;

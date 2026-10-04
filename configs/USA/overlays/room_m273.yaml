@@ -135,7 +135,7 @@ segments:
       - [0x6F90, c, func_80195F78]
       - [0x710C, c, RoomEffect_PeriodicDualPools]
       - [0x7360, c, RoomEffect_BossTurnController]
-      - [0x7674, asm, func_8019665C]
+      - [0x7674, c, RoomEffect_QueuedDropCallback]
       - [0x79F0, c, RoomEffect_DirectedRings]
       # The batch emitter fills the callback's contiguous eight-byte records.
       - [0x7F44, c, RoomEffect_BatchRising]
