@@ -24,7 +24,7 @@ int Akao_StepNoteSequencer(unsigned char *cursor, unsigned size);
 /* Stream instrument scratch table; bank selection advances by 0x400 bytes. */
 extern unsigned D_800B4900[];
 extern unsigned D_800B4D00[];
-extern unsigned D_800B2900[];
+extern AkaoInstrument D_800B2900[];
 extern unsigned D_8009D270, D_8009D1EC, D_8009D204, D_8009D2BC, D_8009D2E4;
 
 extern void * volatile g_AkaoBgmHandle;

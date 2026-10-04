@@ -88,6 +88,8 @@ typedef struct AkaoInstrument {
     /* 0x0F */ AkaoU8 adsr_release_mode;
     /* 0x10 */ AkaoU32 pitch[12];
 } AkaoInstrument;
+typedef char AkaoInstrumentSizeCheck[
+    (sizeof(AkaoInstrument) == 0x40) ? 1 : -1];
 
 typedef struct AkaoVoiceLoopRange {
     /* 0x00 */ AkaoU8 note;

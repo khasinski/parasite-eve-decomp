@@ -79,7 +79,7 @@ address_selected:
         Spu_RebaseStreamAddrs(rebase_instruments, rebase_address, count);
         address_offset = address == 0x8000 ? 0x20 : 0x50;
         address_offset <<= 6;
-        dest_base = D_800B2900;
+        dest_base = (unsigned *)D_800B2900;
         dest = (unsigned *)(address_offset + (unsigned)dest_base);
         upload_size = count << 4;
         do {

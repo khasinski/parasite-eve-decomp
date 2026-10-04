@@ -1430,9 +1430,8 @@ segments:
       # SPU pitch slides and AKAO ticking share bank and track state views.
       - [0x7DFC0, c, main/SPU_Akao_TimerFlow]
       - [0x7EADC, c, akao/Akao_LookupSampleBankByte]
-      # AKAO loop-range selection and pitch operations.
-      - [0x7ECE8, c, akao/voice_pitch]
-      - [0x7F0D0, c, main/Akao_StepSampleLoader]
+      # AKAO loop-range pitch selection and sample-loader note stepping.
+      - [0x7ECE8, c, main/Akao_PitchAndSampleFlow]
       - [0x7F8D0, c, akao/seq_op]
       - [0x7FB28, c, akao/SeqOp_SetTempoSlide]
       - [0x7FB7C, c, akao/SeqOp_SetVolumeSlideTarget]
