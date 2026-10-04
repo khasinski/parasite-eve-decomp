@@ -41,7 +41,8 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
                     child->z = burst->z;
                     child->vx = func_80071A54() % 140 - 70;
                     child->vy = func_80071A54() % 140 - 70;
-                    child->vz = func_80071A54() % 140 - 70;
+                    lift = func_80071A54() % 140 - 70;
+                    child->vz = lift;
                     child->state = (i & 3) == 0;
                     child->timer = 0;
                 }

@@ -100,10 +100,11 @@ extern char D_80120FF4[], D_80120FFC[], D_8018F2E4[], D_8018F2EC[];
 extern void func_800719F4(char *, char *), func_8007A214(void *, s32);
 extern void func_8007C304(s32, s32, s32, s32, s32), func_8007C394(void *);
 extern void func_8010C89C(void *, void *, void *), func_801214D4(void);
-extern VideoFile *func_80081414(VideoFile *, char *); extern s32 func_80081314(CdlLOC *, s32);
+/* DsSearchFile: the file record, 0 when absent, or all ones on a read error. */
+extern u32 func_80081414(VideoFile *, char *); extern s32 func_80081314(CdlLOC *, s32);
 extern s32 func_80080D5C(s32, CdlLOC *, void *);
-s32 func_80121C04(s16 index);
-s32 Memcard_OpenVideo(s16 index);
+s32 func_80121C04(s32 number);
+s32 Memcard_OpenVideo(s32 number);
 
 /* Per-frame video step: decode, restart the stream on a stall, page flip. */
 extern u8 D_801223F6, D_801223F8, D_801D0DBE;

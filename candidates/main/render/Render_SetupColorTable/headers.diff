@@ -1,46 +1,9 @@
 diff --git a/include/pe1/textbox.h b/include/pe1/textbox.h
-index d0a71c75a..2b2f6d162 100644
+index 6318770bb..d1bb851c1 100644
 --- a/include/pe1/textbox.h
 +++ b/include/pe1/textbox.h
-@@ -6,26 +6,42 @@
-  * frame the engine walks the active entries and types out / draws their text.
-  * See include/pe1/text.h for the surrounding text subsystem notes. */
- 
-+/* One decimal number shown in a box: least significant digit first. */
-+typedef struct TextboxNumber {
-+    unsigned char digits[5];
-+    unsigned char count;
-+} TextboxNumber;
-+
- typedef struct TextboxEntry {
-     /* 0x00 */ unsigned char state;          /* 0=free, 1=new -> init, 2=active/displaying */
-     /* 0x01 */ unsigned char pad_01[0x03];
-     /* 0x04 */ unsigned char *message;       /* live typewriter position into the message blob */
-     /* 0x08 */ unsigned char style;          /* box style (0/1/3) */
--    /* 0x09 */ unsigned char pad_09[0x03];
-+    /* 0x09 */ unsigned char instant;        /* set for plain boxes while D_8009CED0 */
-+    /* 0x0A */ unsigned char pad_0A[0x02];
-     /* 0x0C */ int flags;
-     /* 0x10 */ short page_id;
-     /* 0x12 */ unsigned short x;
-     /* 0x14 */ unsigned short y;
-     /* 0x16 */ unsigned short color0;
-     /* 0x18 */ unsigned short color1;
--    /* 0x1A */ unsigned char pad_1A[0x1E];   /* inline data through end of entry */
-+    /* 0x1A */ TextboxNumber numbers[5];     /* values for the message's number slots */
- } TextboxEntry;                              /* 0x38 */
- 
- extern TextboxEntry g_TextboxEntries[];      /* = D_800BCEA8 */
- 
-+/* Box rectangle set by Menu_SetTextCursorRect, copied into styled boxes. */
-+typedef struct TextboxRect {
-+    short x, y, width, height;
-+} TextboxRect;
-+extern TextboxRect D_8009CE98;
-+extern unsigned char D_8009CEA0;
-+extern signed char D_8009CEA4;
-+extern unsigned char D_8009CED0;
-+
+@@ -63,7 +63,7 @@ PE1_STATIC_ASSERT(sizeof(TextboxGlyphPacket) == 28, textbox_glyph_packet_size);
+ void Menu_DrawTextboxEntries(void);
  void Tbl_ResetAll(void);
  void Menu_SetTextCursorRect(int x, int y, int width, int height);
 -void Render_SetupColorTable(int index, int mode, short *colors);

@@ -26,7 +26,7 @@ retry:
     func_80072714(); func_800726C4(); func_80072724();
     buffer=D_80011610+((D_80093162-D_80093160)<<11);
     Memcard_InitVideoBuffers(1,&buffer);
-    Memcard_OpenVideo(entry);
+    Memcard_OpenVideo((s16)entry);
     {
         u8 *active=&D_800B0DBA;
         if (*active) {

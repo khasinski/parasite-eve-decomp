@@ -129,7 +129,7 @@ segments:
       - [0x1B88, rodata, main/rodata_001B88]
       # Both aligned scene startup jump tables are in the shared TU's 0x40 bytes.
       - [0x1BB0, .rodata, main/Scene_LoadTextureAndPlayer]
-      - [0x1BF0, rodata, main/rodata_001BF0]
+      - [0x1BF0, .rodata, main/Scene_LoadEntityTextures]
       # Both sector-state jump tables now belong to the shared object.
       - [0x1C28, .rodata, main/CD_SectorReadFlow]
       - [0x1D08, .rodata, main/CD_SeekToTrack]
@@ -867,7 +867,7 @@ segments:
       # Scene startup texture loading and player initialization share one TU.
       - [0x5C6CC, c, main/Scene_LoadTextureAndPlayer]
       - [0x5CCC4, c, gpu/Scene_SetStoryDay]
-      - [0x5CDBC, asm, main/Scene_LoadEntityTextures]
+      - [0x5CDBC, c, main/Scene_LoadEntityTextures]
       - [0x5D468, c, gpu/Scene_UpdateBgDraw]
       # The range scanner repeatedly drives the shared CD sector-read state.
       - [0x5D5A4, c, main/CD_SectorReadFlow]
@@ -1504,7 +1504,7 @@ segments:
       - [0xB2F58, c, engine/FieldEng_RunScript]
       - [0xB350C, c, engine/func_800C2D0C]
       # Single-slot and full-table cleanup share the slot and script-state layouts.
-      - [0xB3608, c, engine/func_800C2E08]
+      - [0xB35A0, c, engine/func_800C2E08]
       - [0xB36AC, c, engine/FieldEng_RenderSetup]
       - [0xB3B24, c, engine/FieldEng_OrientedSprite]
       - [0xB4304, c, engine/FieldEng_Billboard]

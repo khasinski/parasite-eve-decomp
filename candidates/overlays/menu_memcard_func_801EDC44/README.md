@@ -1,7 +1,7 @@
 # menu_memcard func_801EDC44 (0x244C, 0x950 bytes): ring burst controller
 
-Parked at 49 real diffs (sc.sh), stock GCC 2.7.2, no pins, no barriers,
-no volatile. All remaining diffs are register allocation in the last
+Parked at 34 real diffs (sc.sh, 2026-10-04 retry), stock GCC 2.7.2, no pins,
+no barriers, no volatile, no hand-written rounding (see the last section). All remaining diffs are register allocation in the last
 straight-line block of mode 2 state 1 plus the schedule that follows from it.
 
 Files:
@@ -51,3 +51,74 @@ inline in both calls (dim takes s1, lift still s0), lift before or after the
 `alpha = ring2Fade` after the 0xC00 scale (64), and two permuter runs on
 darwine (scratch/a4lrb, a4lrb2; best hit only `ring2Fade = scale = ...`,
 33 diffs, not acceptable C).
+
+## Retry (agent 4, 2026-10-04): 49 -> 34, plain `/ 32`
+
+- Bug fix: the lift is `func_80077CF4(angle) / 12 + 80`, not `/ 6`. Retail's
+  `mfhi; sra v1,t3,1` after the 0x2AAAAAAB multiply is /12 (sra 0 would be /6).
+  The earlier register analysis of the last block was done on the wrong
+  expression.
+- One `fade` variable for all of state 1 again (the `ring2Fade` split is no
+  longer needed), plus a block-local `dim = fade * 2 / 3` for the two
+  1000 bands. local-alloc then gives dim s0, as in retail (retail computes
+  `sll s0,s0,1` / `subu s0,t3,s0` in fade's register).
+- With these the explicit rounding is no longer needed: every fade is the
+  natural `fade = func_80077CF4(angle) / 32;` (34 either way).
+
+Remaining 34 words, one cause: retail's `lift` (s4) is allocated after the
+block locals &band s1, &tilt s2, &offset s3 (and angle s3 / &ring s4 swap in
+the earlier blocks follows from it). In this build lift is block-local with
+3 refs over 24 insns, local priority 0.125, above &offset (3 over 30, 0.1),
+so it takes s1. Making lift global reproduces retail's order for the last
+block and for angle/&ring: sharing it with the loop index `i` gives 22 diffs,
+but then i and lift are one pseudo (s5) while retail has i in s2, so that is
+not the original either. Tried: s16/u16 lift, `offset.y = position.y - lift`,
+every order of lift/dim/offset copy (brute force), `fade = fade * 2 / 3` in
+place (122), lift split into two statements (size change).
+- Reusing `angle` for the lift (`angle = func_80077CF4(angle) / 12 + 80;`)
+  makes it global: the last block then matches register for register
+  (&band s1, &tilt s2, &offset s3), 26 diffs, all global-alloc order
+  (angle+lift s5, scale s4, &ring s3; retail angle s3, &ring s4, scale s5,
+  lift s4). Retail keeps angle and lift in different registers, so this is
+  not the original either; it only confirms that lift is a global pseudo in
+  retail. Look for a function-scope variable that is otherwise unused in
+  mode 2 (or set in another block) rather than a block-local lift.
+
+## Lift carried from the mode 1 loop (agent 4, 2026-10-04): 2 diffs
+
+`Memcard_RingBurstController_lift_global.c` (found by the permuter on
+darwine, scratch a4lrb3): the spark loop in mode 1 writes its last velocity
+through the same variable, `lift = func_80071A54() % 140 - 70;
+child->vz = lift;`. That makes lift a global pseudo, and global-alloc then
+reproduces retail's whole register map (angle s3, &ring s4, scale s5, lift
+s4, block locals &band s1 / &tilt s2 / &offset s3, dim s0). The only
+remaining words are in the loop: retail computes vz in v0
+(`addiu v0,v0,-70; sh v0,12(s0)`), this build in lift's register s4.
+
+So retail's lift is referenced outside the state 1 block at flow time, but
+not in an insn that survives to register allocation (or not in the loop).
+Next idea: a set of the shared variable that combine folds away after flow
+has marked it global (combine does not recompute reg_basic_block), e.g. a
+copy that merges into a store of a register or of zero. Plain `lift = ...;
+child->vz = lift;` variants: `child->vz = lift = ...` (2), all three
+velocities through lift (6), remainder in lift and `- 70` at the store (10).
+
+## Round 2 on the global lift (agent 4, 2026-10-04): still 2
+
+Variants on the 34-diff base (`Memcard_RingBurstController.c`):
+
+| form | diffs |
+|---|---|
+| `lift = 0;` at function start or before the mode 2 state switch | 34 (dead, deleted by flow) |
+| `child->timer = lift = 0;` / `lift = 0; child->timer = lift;` | 34 (cse folds the constant) |
+| `lift = 1; burst->state = lift;` | 18 |
+| `for (i = 0, lift = 50; i < lift; i++)` | size change |
+| `lift = (i & 3) == 0; child->state = lift;` | 4 (state computed in s4) |
+| `lift = ++burst->timer;` in mode 1 state 0 or 1 | 17 |
+| statement-order brute force over the loop body with the vz form (120 orders) | best 2 |
+
+Every reference that survives to register allocation puts that value in
+lift's register s4, and retail has no other s4 use outside &ring and the
+lift. Retail's lift is therefore marked global by a reference that flow
+sees but that is gone before local-alloc (not deleted by flow itself and not
+folded by cse), or it is global for another reason (more than one death).

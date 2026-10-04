@@ -79,3 +79,14 @@ keeps the texture argument 4 in s5 for the second compare, this build keeps
   palette blocks, is folded by cse there; the dead case-1 sets disappear and
   it is single-set again (same 0x72C).
 - Adding the pre-call set to any of the earlier combinations: 22 diffs.
+
+## Retry (agent 4, 2026-10-04): still 7
+
+With every compare written as the literal `4`, the first compare's pseudo is
+local but single-set, so sched1 launches it right before the `bne` and
+local-alloc gives it v0 (kind v1). Retail has kind a0, the 4 in v1 and the
+`sll` temporary in v0, which means the 4 was born right after the `lhu`
+(it overlaps the `sll` temporary), i.e. not launched: it must be a multi-set
+pseudo that stays inside the block. A block-local `int special = 4;` set
+again right before the palette read is not enough: the first set is dead and
+is removed, so the pseudo is single-set again (size 0x72C).
