@@ -83,9 +83,9 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
         int angle;
         angle = ((RW32(state, 0x98) + bias) >> 16) - 0x400;
         scratch[0x35] = angle;
-        rot = (int *)((char *)table + ((angle & 0xFFF) << 2));
+        rot = table + (angle & 0xFFF);
     }
-    rot_y = *(short *)((char *)rot + 2);
+    rot_y = ((short *)rot)[1];
     scratch[0x15] = 0;
     scratch[0x14] = rot_y;
     PE1_COMPILER_MEMORY_BARRIER();
