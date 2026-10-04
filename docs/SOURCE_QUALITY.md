@@ -245,6 +245,16 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Field engine history trail and textured ribbon
+
+The field engine's history trail and textured ribbon in the main executable
+match from clean C on `field_history_trail.h` and `field_textured_ribbon.h`.
+History entries go through the existing `RenderHistoryPoint` union so they
+copy as aligned words, the last index is its own variable so the shift stays
+unfolded, the corner colour is a byte-array and word union so channels store
+as single bytes, and both matrix loads take the view value directly. The
+main executable is unchanged and no pins or barriers were added.
+
 ### room_m123 joint triangle
 
 room_m123's joint triangle effect matches from clean C as
