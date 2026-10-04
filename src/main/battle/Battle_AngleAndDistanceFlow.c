@@ -35,3 +35,35 @@ int Battle_CalcAngleToTarget(void *arg0, void *arg1)
 
 #undef RENDER_FIELD
 #undef ENTITY_FIELD
+
+#include "common.h"
+#include "pe1/battle.h"
+int Gte_Atan2(int arg0, int arg1);
+
+#define ENTITY_FIELD(base, type, member) \
+    (*(type *)((char *)(base) + PE1_OFFSETOF(BattleEntity, member)))
+
+int Battle_CalcRelativeAngle(void *arg0, void *arg1)
+{
+  register int angle;
+  int wrapped;
+  angle = 0x800 - Gte_Atan2(
+      ENTITY_FIELD(arg0, int, posX) - ENTITY_FIELD(arg1, int, posX),
+      ENTITY_FIELD(arg0, int, posZ) - ENTITY_FIELD(arg1, int, posZ));
+  angle = angle << 16;
+  angle = angle >> 16;
+  angle += ENTITY_FIELD(arg1, s16, facingAngle);
+  if (angle >= 0)
+  {
+    wrapped = angle;
+  }
+  else
+  {
+    wrapped = angle + 0xFFF;
+  }
+  wrapped >>= 12;
+  wrapped <<= 12;
+  return (s16) (angle - wrapped);
+}
+
+#undef ENTITY_FIELD
