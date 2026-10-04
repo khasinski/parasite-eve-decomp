@@ -48,7 +48,7 @@ segments:
       - [0x360, c, RoomLib_CloseTarget_8018F348]
       - [0x3E4, c, func_8018F3CC]
       - [0x3EC, c, func_8018F3D4]
-      - [0x3F4, asm, func_8018F3DC]
+      - [0x3F4, c, RoomLib_InitMotionParticles_8018F3DC]
       - [0x72C, c, func_8018F714]
       - [0x734, c, func_8018F71C]
       - [0x7B4, c, func_8018F79C]

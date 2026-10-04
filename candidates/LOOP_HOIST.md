@@ -109,7 +109,7 @@ Two-ring loop around func_800D0E88 (call loop).
   banned. A `RoomM273Drop *d = drop;` copy for mode 2 creates a second pseudo
   and costs a move. Parked.
 
-### room_m075/m080/m082 func_8018F3DC (motion particle init): loop fixed, store order left
+### room_m075/m080/m082 func_8018F3DC (motion particle init): MATCHED
 
 - The old draft (scratchpad m75i.c) used register pins, byte-offset pointer
   arithmetic (`(char *)D_801940C8 + i`) and volatile globals. Its loop hoisted
@@ -128,8 +128,15 @@ Two-ring loop around func_800D0E88 (call loop).
 - Remaining (38 word diffs, one cause): `D_80194618[2].y = 32` (`sh v0` to
   0x80194642) is scheduled as the first glyph store, and `li v0,-31` follows
   it at once. Retail stores it in source order. Moving the statement or
-  swapping x/y did not help. Parked as `room_m075_func_8018F3DC/` (template +
-  header, not wired into src).
+  swapping x/y did not help.
+- Fix (sched2, not loop): the `li v0,-31` competes with ready stores, and
+  stores always win the potential-hazard tie, so the -31 load sank to the
+  top and dragged the [2].y store with it (v0 anti dependence). Writing
+  `D_801940B8.x = -31; D_80194618[3].size = 32;` after `D_80194618[0].y = 128`
+  creates the HImode 128 pseudo first (lower LUID), so `li a0,0x80` is
+  scheduled first and the -31 load lands right before its store. Lesson:
+  when a constant load floats far up in a long store run, move the
+  statement that creates it later in the source.
 
 ## What did not work
 

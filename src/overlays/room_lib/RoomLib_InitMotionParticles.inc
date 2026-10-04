@@ -36,11 +36,11 @@ void FUNC(RoomMotionInitOwner *owner, void *unused, RoomMotionInitState *state) 
     D_80194618[2].flags = 0;
 
     D_80194618[0].size = 44;
-    D_801940B8.x = -31;
-    D_80194618[3].size = 32;
     D_80194618[0].visible = 1;
     D_80194618[0].x = -30;
     D_80194618[0].y = 128;
+    D_801940B8.x = -31;
+    D_80194618[3].size = 32;
     D_80194618[0].red = 128;
     D_80194618[0].green = 128;
     D_80194618[0].blue = 128;

@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/room_fx.h"
+#include "pe1/field_script_context.h"
 
 /* Motion particle setup shared by rooms m075, m080 and m082: copies three
  * frames from the owner's model, then seeds the five overlay glyph records
@@ -75,7 +76,6 @@ extern RoomMotionParticle D_801940C8[10];
 extern RoomMotionParticle D_80194370[10];
 extern RoomMotionGlyph D_80194618[4];
 
-void func_800C2B40(void *context);
 void *func_8006DC18(int type);
 
 #endif /* PE1_ROOM_MOTION_INIT_H */
