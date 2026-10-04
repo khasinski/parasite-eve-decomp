@@ -57,3 +57,23 @@ its `lhu`, so it needs a load-delay `nop`. This build spills `matrix + 4`
 (sp+0x14, a gte_stclmv operand) instead, whose reload has independent work
 before its first use, so no nop is needed. Fixing which column pointer is
 spilled fixes the size and the swap together.
+
+## Local-alloc priority model (agent 14, 2026-10-04): still lev 50
+
+Exact qty spans from the -dl dump (one block, sets right before each GTE
+asm, which are full sched barriers so births/deaths cannot move): 105
+(rot+2) 113, 106 (mat+2) 112, 108 (rot+4) 111, 109 (mat+4) 110, 111
+(rot+20) 109, 112 (mat+20) 108, 114 (&D_800C21F4) 107, 116 (&D_800F34C8)
+106; all have 5 refs, so local-alloc order is 116 > 114 > 112 > 111 > 109
+and they take s3..s7 in that order. Global then gives 108 fp, 106/105
+take s4/s3 from 114/116, &spinB (77) takes s7 from 109.
+
+Retail's registers (105 s3, 106 s4, 112 s5, 108 s6, 109 fp, 111 spilled,
+77 s7) fit exactly one local order: 116 > 114 > 112 > 108 > 111, with 109
+left to global (first global allocno, fp) and 77 evicting 111 from s7.
+With the spans above that needs one extra reference on each of 108, 112,
+114 and 116 (6 refs: 12/span), or one fewer on 105, 106, 109 and 111.
+cse folds every macro operand to the same frame-address pseudo, so pointer
+variables for &rotation / &matrix and splitting gte_CompMatrix into its
+parts in layer 4 all leave the refs and lev unchanged (tested, lev 50).
+No natural source form adding those four references was found.

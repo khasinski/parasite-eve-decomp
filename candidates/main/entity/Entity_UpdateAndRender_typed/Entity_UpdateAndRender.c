@@ -14,10 +14,9 @@ void Entity_UpdateAndRender(BattleEntity *actor)
     CollisionPlane *planes;
     u16 saved, radius;
     unsigned int i;
-    int next;
 
-    x = actor->posX.parts.integer;
-    z = actor->posZ.parts.integer;
+    x = actor->posX.fixed >> 16;
+    z = actor->posZ.fixed >> 16;
     actor->entityFlags &= ~0x80000;
     oldX = actor->baseX >> 16;
     oldZ = actor->baseZ >> 16;
@@ -27,10 +26,10 @@ void Entity_UpdateAndRender(BattleEntity *actor)
         return;
     }
 
-    radius = actor->renderObject.table_value70;
-    D_8009CE2C = radius;
+    radius = actor->renderObject.hit_cylinder.radius;
     face = actor->collisionFace;
     actor->collisionFaceMirror = face;
+    D_8009CE2C = radius;
     D_8009CE2C = radius * actor->moveSpeed / 4096;
 
     if (actor == D_8009D254.actor) {
@@ -39,10 +38,10 @@ void Entity_UpdateAndRender(BattleEntity *actor)
         if (!(D_8009D2E8.flags & 8))
             goto leave;
         gte_ldsxy3(D_8009CE0C.packed, D_8009CE10.packed,
-                   ((u16)z << 16) | (u16)x);
+                   (u16)x | (z << 16));
         gte_nclip();
         gte_stmac0(&area);
-        gte_ldsxy2(((u16)oldZ << 16) | (u16)oldX);
+        gte_ldsxy2((oldZ << 16) | (u16)oldX);
         gte_nclip();
         gte_stmac0(&oldArea);
         a = area;
@@ -50,12 +49,10 @@ void Entity_UpdateAndRender(BattleEntity *actor)
         if ((a ^ b) >= 0) {
             if (a < 0)
                 a = -a;
-            if (b < 0) {
-                if (-b < a)
-                    goto leave;
-            } else if (b < a) {
+            if (b < 0)
+                b = -b;
+            if (b < a)
                 goto leave;
-            }
         }
         {
             u16 r = D_8009CE2C;
@@ -115,8 +112,8 @@ slide:
     for (i = 0; i < D_8009D1FC->faceCount; i++)
         D_8009DFB0[i] = 0;
     saved = D_8009CE18;
-    next = Geo_ClipToFloorBoundary(x, z, face);
-    if (next)
+    i = Geo_ClipToFloorBoundary(x, z, face);
+    if (i)
         goto found;
     if (saved == D_8009CE18) {
         for (i = 0; i < D_8009D1FC->faceCount; i++)
@@ -172,11 +169,12 @@ found:
                 actor->motionY = 0;
             }
         } else if (region != ((CollisionFace *)actor->collisionFace)->region) {
+            int step = actor->stepHeight;
             int delta = height - actor->posY.parts.integer;
 
             if (delta < 0)
                 delta = -delta;
-            if (delta < actor->stepHeight << 16)
+            if (delta < step << 16)
                 actor->posY.fixed = height << 16;
             else
                 goto blocked;

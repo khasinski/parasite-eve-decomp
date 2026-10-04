@@ -96,3 +96,34 @@ Other findings:
   others use `z - radius`: keep it, it is in retail.
 - the flat-mode branch falls through to the rollback when the height step
   exceeds `stepHeight << 16` (u16 at +0x10).
+
+## Third pass (agent 14, 2026-10-04): lev 126
+
+`Entity_UpdateAndRender.c` is now lev 126 (retail 495 words, mine 484),
+with the same headers.patch/entity_floor.h (the radius field is now
+`renderObject.hit_cylinder.radius` on main). Changes, each scored alone:
+
+- Entry: `x = actor->posX.fixed >> 16;` (and z) gives retail's `lh a0/a1`
+  plus `move s4/s3` and the direct `bne` against the old position
+  (172 -> 160).
+- `actor->collisionFaceMirror = face;` before `D_8009CE2C = radius;`
+  puts the mirror store above the radius store (-> 157).
+- `(u16)x | (z << 16)` and `(oldZ << 16) | (u16)oldX` for the two sxy
+  words (-> 155).
+- Area test: `if (b < 0) b = -b; if (b < a) goto leave;` instead of the
+  two-branch form (one fewer cross-jumped tail).
+- The second clip result reuses the loop counter (`i = Geo_Clip...;
+  if (i) goto found;`) instead of a separate `next`: retail's third clear
+  loop tests that register (known zero) against the count, and the dead
+  `next` was the extra 8-byte frame slot, so the frame is 88 now and the
+  prologue matches (-> 127). (A do/while entry form on that loop also
+  removed the slot, but the reused counter is what retail has.)
+- `int step = actor->stepHeight;` read before `delta` in the flat-mode
+  branch (-> 126).
+
+Still open: the edge box tests (retail recomputes `x - r`/`x + r` and every
+compare and keeps (s16)maxX in t4, mine CSEs whole compares; reversed
+comparison forms change nothing), the counter/pointer register swap
+(a0/v1) in the three clear loops, and the flat-mode tail (retail branches
+to the posY store and jumps to the rollback; mine inverts it). Gotos are
+unchanged (leave/slide/found/blocked) and must be logged as debt if it lands.

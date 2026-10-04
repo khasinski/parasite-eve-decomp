@@ -132,14 +132,14 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 |---|---|---:|---|
 | main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: lev 87 (direct digit lvalues give retail digit base; -1 hoist and register numbering left) |
 | main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: 24 diffs (prologue), func_800D3BC8 variant 26 |
+| main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: lev 14, prologue only (saves scheduled into load stalls; retail shape not reachable under stock sched2 rules, see README) |
 | main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand/struct_staging.c: lev 16 (scratch struct view; needs staging struct + word-opcode queue entry in shared headers, see README) |
 | main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
-| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender_typed: -G8/-G4 typed draft at lev 172 (spills/regalloc in the ramp edge test, still gotos), see README; OWNED BY ANOTHER AGENT |
+| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender_typed: -G8/-G4 typed draft at lev 126 (frame and entry now match; box-test CSE, clear-loop register swap and flat-mode tail remain; still gotos), see README |
 | main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims_typed: lev 4, texture loops solved (shared `src` cursor), only the paletteRow/initCount a2/t9 global-alloc order is left, see README |
-| main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: one register swap in the four gte_CompMatrix expansions |
+| main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: lev 50, one column-pointer allocation swap (needs +1 ref on four pseudos, see README) |
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
 | main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary_typed: typed rewrite at lev 413 (frame 208 vs 192: an extra reduced walk pointer per half), see README |
 | main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
