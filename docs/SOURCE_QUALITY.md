@@ -245,6 +245,19 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Memory card video step
+
+The memory card menu's video step, present twice (at 0x1340 and in the copy
+linked at 0x801924F8), matches from clean C as one
+`Memcard_StepVideo.inc` with two instances. It is Sony's movie sample code,
+and writing its frame wait, stream restart and upload wait helpers as static
+inline functions taking the display state reproduces retail's argument
+loads, absolute upload addresses and shared stack slot. The frame counter is
+a one-field record so the decode buffer read stays below its store, and the
+upload timeout is volatile because retail re-reads it after each store. The
+copy needs its own link-base segment. The overlay SHA-1 hash is unchanged and
+no pins or barriers were added.
+
 ### Memory card save state machine and the field ring band
 
 `MemCard_UpdateSaveState`, the sixteen-state memory card save machine, and
