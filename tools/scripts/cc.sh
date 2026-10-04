@@ -156,7 +156,10 @@ fi
 if grep -q 'MASPSX_FLAGS:.*--use-comm-section' "$IN"; then
     MASPSX_EXTRA+=(--use-comm-section)
 fi
-if [[ "$AS_G_FLAG" != "-G0" ]]; then
+# Some retail units use GP-relative loads but absolute address-taking. Preserve
+# MASPSX's stock forced-G0 assembler mode for those units: COMMON metadata still
+# drives MASPSX's explicit GP loads, while GNU as leaves `la` absolute.
+if [[ "$AS_G_FLAG" != "-G0" ]] && ! grep -q 'MASPSX_FORCE_G0:[[:space:]]*1' "$IN"; then
     MASPSX_EXTRA+=(--dont-force-G0)
 fi
 
