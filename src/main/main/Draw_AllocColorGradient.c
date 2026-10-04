@@ -68,10 +68,10 @@ void Draw_AllocColorGradient(int width, int height, u8 *points, int textured)
             sprite.sprite->tag.bytes.length = 4;
             sprite.sprite->color.bytes.code = 0x64;
         }
+        sprite.sprite->x = g_TextCursorX;
+        sprite.sprite->y = g_TextCursorY;
         sprite.sprite->u = 0;
         sprite.sprite->v = 0;
-        sprite.sprite->y = g_TextCursorY;
-        sprite.sprite->x = g_TextCursorX;
         sprite.sprite->clut = 0x391C;
         sprite.sprite->width = width;
         sprite.sprite->height = height;

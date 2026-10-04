@@ -765,7 +765,7 @@ segments:
       - [0x51CA0, c, gpu/draw3]
       # Color rectangles, wipe edge generation, and GPU packet emission share one -G8 renderer TU.
       - [0x51D3C, c, gpu/Draw_WipeRenderer]
-      - [0x52434, asm, main/Draw_AllocColorGradient]
+      - [0x52434, c, main/Draw_AllocColorGradient]
       - [0x52890, c, main/Draw_AllocColorTri]
       - [0x52AB0, c, menu/Menu_SetSaveSlotBlendBase]
       - [0x52ABC, c, main/Draw_AllocColorTriGradient]

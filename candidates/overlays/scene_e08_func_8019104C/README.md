@@ -17,3 +17,10 @@ and the base register of the ten state loads differ.
 
 Not tried: inline helper functions, permuter.
 Also note `(ticks % 12 & 0xFE) - 0x5C` (not `+ 0xA4`) gives retail's addiu.
+
+## Retry (agent 5, 2026-10-04, near-miss pass 3)
+
+A `static inline` helper for the tail (glow sprite and rings) taking the
+state pointer as a parameter does not keep the copy: integrate's parameter
+pseudo is merged like a plain copy and the helper's locals get their own
+frame slots (size 0x304, frame 200 bytes). Still at 10.

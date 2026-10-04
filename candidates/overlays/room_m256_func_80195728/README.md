@@ -60,3 +60,13 @@ base set still sinks to the end of the block (birthing). Moving the
 `tpages` statement anywhere in the block, all 120 orders of the spin
 stores and the tpages line, a block-local frame copy and `i` as the frame
 copy (s5 save comes back but the order breaks, 27) did not help.
+
+## Retry (agent 5, 2026-10-04, near-miss pass 3)
+
+Tried a multi-set `tpages` (two `tpages = D_800E2850;` sets so sched1 no
+longer treats the base as a birthing insn): 16 combinations of a set at
+the top of case 2, `tpages[D_800E11FA]` in the first block, a second set
+inside the `D_800E27EC >= 4` block and `tpages[D_800E11E8]` in the final
+block. Only the variant with a set at the top plus a set in the model block
+has the right size, at 88 diffs (frame 8 bytes smaller, tpages in a saved
+register from the start). Kept the 0x59C candidate unchanged.

@@ -19,3 +19,14 @@ Remaining:
    `special = 4;` inside the loop both are hoisted but s6/s7 are swapped and
    the 0x40/4 constant sharing differs.
 `offset.z <<= 1` gives retail's lhu/sll (the `*= 2` form gives lh).
+
+## Retry (agent 5, 2026-10-04, near-miss pass 3)
+
+Reading the page index as a one-field record (`SceneParticlePageIndex
+D_800E11EA`, `.index`) does not change the score (78). With the record,
+the parameter00, parameter02, extent_x, extent_y, direct tpage head order
+and all 24 orders of the palette/parameter06/parameter0A/depth tail give
+74..76; also permuting the position/offset/color copies against the
+parameter block (both orders) bottoms out at 72. The parameter stores
+still schedule above the stack copies (symbol vs stack slot never
+conflict), so the prologue needs another idea.

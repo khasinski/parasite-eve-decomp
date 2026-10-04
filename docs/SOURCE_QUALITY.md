@@ -245,6 +245,29 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Colour gradient allocation
+
+`Draw_AllocColorGradient` in the main executable matches from clean C, on the
+helpers in `draw_wipe_rect.h`. The ordering-table link goes through a word
+variable assigned more than once, so the scheduler places its load early as
+retail does, and the packet fields are written in their natural order. The
+main executable is unchanged and no pins or barriers were added. Parked
+candidate directories whose functions are already C on main are removed.
+
+### scene_e20 hover orb controller
+
+scene_e20's hover orb controller, about a thousand instructions with no twin
+elsewhere, matches from clean C on the new `scene_e20_hover_orb.h`, with its
+seven-entry jump table carved into the unit's own `.rodata` and the
+`--expand-div` marker. The archive base is read as a one-field record, the
+palette is passed as a conditional inside the clut argument so its value is
+set once and scheduled as retail's, shared temporaries carry the tpage and
+glow and the lerp weight and blend alpha, and the flash choice is a
+conditional expression so cse cannot carry a constant between modes. Retail
+builds a spun rotation but passes the orb's own rotation to the matrix
+builder; the source keeps that. The overlay SHA-1 hash is unchanged and no
+pins or barriers were added.
+
 ### room_m273 ground ring and falling trail, room_m023 joint glow
 
 room_m273's ground ring and falling trail callbacks and room_m023's joint
