@@ -1438,7 +1438,7 @@ segments:
       - [0x7DFA4, pad]
       - [0x7DFB0, c, psyq/libapi/WaitEvent]
       - [0x7DFC0, c, main/SPU_PitchUpdateFlow]
-      - [0x7E37C, asm, akao/Akao_Tick]
+      - [0x7E37C, c, akao/Akao_Tick]
       - [0x7EA3C, c, akao/Akao_TimerCallback]
       - [0x7EADC, c, akao/Akao_LookupSampleBankByte]
       # AKAO loop-range selection and pitch operations.
