@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Field script interpreter
+
+The field engine's script interpreter (`func_800C2758`) matches from clean C
+as `FieldEng_RunScript.c`, keeping its symbol because room overlays call it
+by that name. `FieldEngState` and the new `FieldEngObject` give the wait, pc,
+register and variable fields their types. The opcode and operand split uses
+an unsigned high half, a u16 opcode and a signed operand so cse keeps both
+copies, a function-scope byte index assigned in every register opcode keeps
+the subtraction out of the mask's register, and a block-local signed copy of
+the opcode gives retail's move before the conditional jumps. The main
+executable is unchanged and no pins or barriers were added.
+
 ### Remaining-function audit and three small credit wins
 
 `candidates/REMAINING.md` classifies every function the report does not yet

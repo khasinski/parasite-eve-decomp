@@ -14,15 +14,30 @@ typedef struct FieldEngSlot {
 } FieldEngSlot;
 
 /* Script-state work area (obj+0xC, pointed at by g_FieldEngineScriptState).
- * Mostly reached through the func_800C2B10/2B28 index accessors (int arrays at
- * +0x08 and +0x48); the active context pointer at +0x70 is shared by
- * func_800C2B50/2B40. */
+ * func_800C2758 interprets the command table: each 32-bit command carries an
+ * opcode in the high half and an operand in the low half. The int register
+ * file at +0x08 and the variable file at +0x48 are also reached through the
+ * func_800C2B10/2B28 index accessors; the active context pointer at +0x70 is
+ * shared by func_800C2B50/2B40. */
 typedef struct FieldEngState {
-    /* 0x00 */ unsigned char pad_00[0x40];
-    /* 0x40 */ int abort_flag;          /* set to 1 to abort the current frame (func_800C2B90) */
-    /* 0x44 */ unsigned char pad_44[0x2C];
+    /* 0x00 */ short wait;              /* frames to sleep before the next command */
+    /* 0x02 */ short pc;                /* index into the command table */
+    /* 0x04 */ unsigned char pad_04[2];
+    /* 0x06 */ signed char keep_alive;  /* halted scripts report -1 unless set */
+    /* 0x07 */ signed char halted;      /* set by the -1 end command */
+    /* 0x08 */ int regs[16];            /* regs[14] = abort flag (func_800C2B90) */
+    /* 0x48 */ int vars[9];
+    /* 0x6C */ int *commands;           /* command table (obj+0x78) */
     /* 0x70 */ void *current_context;   /* active field object or its effect context */
 } FieldEngState;
+
+/* Field engine object: header, script state, dispatch slots, slot data. */
+typedef struct FieldEngObject {
+    /* 0x000 */ unsigned char header[0xC];
+    /* 0x00C */ FieldEngState state;
+    /* 0x080 */ FieldEngSlot slots[0x40];
+    /* 0x200 */ unsigned char data[1];
+} FieldEngObject;
 
 extern char *g_FieldEngineScriptState __asm__("D_800E2248");
 extern char *g_FieldEngineScriptObject __asm__("D_800F32A8");
