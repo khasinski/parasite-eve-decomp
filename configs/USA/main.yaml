@@ -105,7 +105,7 @@ segments:
       - [0x1694, rodata, main/rodata_001694]
       - [0x1734, .rodata, memcard/MemCard_StepPortState]
       - [0x1748, rodata, main/rodata_001748]
-      - [0x176C, .rodata, memcard/MemCard_UpdateSaveState]
+      - [0x176C, .rodata, memcard/MemCard_SaveFlow]
       - [0x17AC, .rodata, menu/menu3]
       - [0x17CC, .rodata, main/Menu_StepItemSelectScreen]
       - [0x17F0, rodata, main/rodata_0017F0]
@@ -458,11 +458,8 @@ segments:
       - [0x3086C, c, save/Save_TitleAndCardSupport]
       # The event-driven port state machine and its event manager share the port state.
       - [0x30DA4, c, memcard/MemCard_StepPortState]
-      - [0x31380, c, save/Save_BuildCardFile]
-      # Save startup, manager state transitions, and load completion share card/slot state.
-      - [0x31780, c, memcard/MemCard_UpdateSaveState]
-      # Progress query, save-slot lookup and port-state controller share card state.
-      - [0x32C64, c, memcard/MemCard_Controller]
+      # Save-file construction and card state/controller operations share the same port and slot records.
+      - [0x31380, c, memcard/MemCard_SaveFlow]
       - [0x33478, c, menu/Menu_SaveBgInitFade]
       - [0x334B8, c, menu/Menu_SaveBgSetFadeTarget]
       - [0x334C4, c, menu/Menu_ComputeGammaLut]

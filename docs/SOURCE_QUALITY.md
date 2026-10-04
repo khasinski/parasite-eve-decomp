@@ -8016,23 +8016,23 @@ division sequences.
 `make verify-clean` passes, including source mapping, policy, debt, organization
 and the full executable check. `main.exe` remains byte-identical to retail.
 
-### Memory-card operation abort and save-state processing
+### Memory-card save flow
 
-`MemCard_AbortActiveOperation` at file offset 0x31780,
-`MemCard_UpdateSaveState` at 0x31908, `Save_StartWriteSlot` at 0x32820,
-`Save_StartReadSlot` at 0x32970, `Save_CancelUiFlow` at 0x32A28 and
-`Save_LoadCardFileIntoRuntime` at 0x32A64 now share
-`src/main/memcard/MemCard_UpdateSaveState.c`. The
-state machine calls the abort routine when detection fails or retries run out;
-the read and write starters initialize the same `MemCardPortState` and
-`MemCardSaveSlot` fields the manager consumes. Load completion checks the file
-CRC, restores the runtime header, and registers the adjacent cancellation
-callback on success. All six functions are contiguous under one compiler
-profile; their combined 5348 code bytes match retail. The next function begins
-at 0x32C64.
+`Save_BuildCardFile` at file offset 0x31380, the six save-manager functions
+in 0x31780..0x32C64, and the port-state controller in 0x32C64..0x33478 now
+share `src/main/memcard/MemCard_SaveFlow.c`. The manager calls the neighboring
+file builder and controller APIs; all three groups use the shared
+`MemCardPortState` and `MemCardSaveSlot` layouts, and save serialization uses
+`SaveBytes12E4`. The controller's progress query uses the canonical
+`g_MemCardActiveState` alias for `D_800A1854` and reads `transferSize` at +0x14.
+Slot lookup bounds
+its result by `MemCardPortState.fileCount` at +2 and checks the first slot's
+`state` and `metadataReady` at +0x1C/+0x1D; shared offset assertions record
+those relationships. The combined 0x20F8-byte code range matches retail under
+the shared default compiler profile.
 
 `make verify-clean` passes, including source mapping, policy, debt, organization
-and full executable checks. `main.exe` remains byte-identical to retail.
+and the full executable check. `main.exe` remains byte-identical to retail.
 
 ### Field texture-page setup and loading
 
@@ -8084,22 +8084,6 @@ the first byte in each 0x418-byte record uses a byte view of the canonical
 `MemCardPortState` declaration. Both routines retain their original order, and
 the complete 1500-byte default-profile object matches retail. `make verify-clean`
 passes and `main.exe` remains byte-identical.
-
-### Memory-card progress, slot lookup and port controller
-
-`MemCard_GetActiveProgressBlocks` and `MemCard_GetSlot` now precede the
-functions in `src/main/memcard/MemCard_Controller.c`. The progress query uses
-the same active `MemCardPortState` pointer as the controller and reads its
-`transferSize` at +0x14. `MemCard_GetSlot` bounds a slot by the selected port’s
-file count, checks the slot metadata flag and returns the shared
-`MemCardSaveSlot` record. Its symbol-based byte views resolve to
-`MemCardPortState.fileCount` at +2 and the first slot’s `state` and
-`metadataReady` fields at +0x1C/+0x1D; offset assertions in
-`include/pe1/memcard.h` record those relationships. The progress query now uses
-the canonical `g_MemCardActiveState` alias for `D_800A1854`; both symbols resolve
-to the same address. Keeping the matching byte views preserves the slot getter
-code while the full 0x814-byte controller object remains retail-identical.
-`make verify-clean` passes.
 
 ### Memory-card screen controller
 
