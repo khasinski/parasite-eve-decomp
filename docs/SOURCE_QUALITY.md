@@ -316,16 +316,17 @@ byte-offset draft.
 because its two calls pass a pointer field and an integer field. That
 file's local declarations are older cleanup debt.
 
-### AKAO pitch selection and sample loader step
+### AKAO note playback path
 
-`Akao_StepSampleLoader` and the four adjacent voice-pitch routines now share
-one translation unit. The loop-range selectors, pitch bounder and period
-lookup feed the sample loader directly and use the same `AkaoTrack`. The
-0x40-byte `AkaoInstrument` layout is asserted; its table declaration is
-canonical in `akao.h`, while the stream uploader keeps an explicit word view.
-The unit retains two static inline helpers for the drum-kit instrument switch
-and adds no pins, barriers, volatile or gotos. The work also separated two
-track flags that the code had conflated. `AKAO_TRACK_FLAG_SUSTAIN` (bit 20) is the sustain request
+The sample-bank opcode scanner, four voice-pitch routines and
+`Akao_StepSampleLoader` now share one translation unit. The scanner reads
+the bank's `+0x56` field through `AkaoTickBank`; the pitch and sample paths
+share `AkaoTrack`. The 0x40-byte `AkaoInstrument` layout is asserted; its
+table declaration is canonical in `akao.h`, while the stream uploader keeps
+an explicit word view. The unit retains two static inline helpers for the
+drum-kit instrument switch and adds no pins, barriers, volatile or gotos.
+The work also separated two track flags that the code had conflated.
+`AKAO_TRACK_FLAG_SUSTAIN` (bit 20) is the sustain request
 set by the sequence opcode. The new `AKAO_TRACK_FLAG_KEY_OFF_PENDING`
 (bit 21) marks a key-off deferred while sustain is held. Six AkaoTrack
 fields that the new unit touches gained names (note lengths, the current

@@ -153,7 +153,7 @@ segments:
       - [0x28BC, .rodata, psyq/libspu/SpuSetCommonAttr]
       - [0x28FC, .rodata, psyq/libspu/Spu_SetVoiceAttr]
       - [0x2938, rodata, main/rodata_002938]
-      - [0x293C, .rodata, akao/Akao_LookupSampleBankByte]
+      - [0x293C, .rodata, main/Akao_NotePlaybackFlow]
       - [0x2A0C, c, boot/Boot_MainLoop]
       - [0x2CF8, c, task/Task_InitNodePool]
       - [0x2D74, c, task/Task_RelocBlock]
@@ -1429,9 +1429,8 @@ segments:
       - [0x7DFB0, c, psyq/libapi/WaitEvent]
       # SPU pitch slides and AKAO ticking share bank and track state views.
       - [0x7DFC0, c, main/SPU_Akao_TimerFlow]
-      - [0x7EADC, c, akao/Akao_LookupSampleBankByte]
-      # AKAO loop-range pitch selection and sample-loader note stepping.
-      - [0x7ECE8, c, main/Akao_PitchAndSampleFlow]
+      # AKAO sample-bank scan, loop-range pitch selection and note stepping.
+      - [0x7EADC, c, main/Akao_NotePlaybackFlow]
       - [0x7F8D0, c, akao/seq_op]
       - [0x7FB28, c, akao/SeqOp_SetTempoSlide]
       - [0x7FB7C, c, akao/SeqOp_SetVolumeSlideTarget]
