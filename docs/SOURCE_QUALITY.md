@@ -245,6 +245,17 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Floor boundary clip
+
+`Geo_ClipToFloorBoundary` recursively clips a point against the edges of
+the floor triangle mesh, and it has no gotos. It walks each triangle's edges
+by slot index, so the compiler keeps one walk pointer and a byte offset as
+retail does. Skipped edges use `continue`. `RampEdge.length` is now a 16.16
+union, and `Entity_SlideOnRamp` follows that change. The file defines the
+two edge globals as tentative COMMON symbols with `--use-comm-section`, the
+convention 136 other units use, so maspsx keeps retail's load-delay `nop`
+before the gp-relative stores.
+
 ### Stat level bar renderer
 
 `Draw_AllocTexturedRectAlt` draws the stat level bars from typed textured
