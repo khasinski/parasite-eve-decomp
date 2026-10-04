@@ -245,6 +245,20 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Field engine shaded quad, strip, ring, glow sprite and billboard
+
+Five more field engine draw routines of the main executable match from clean
+C: the shaded quad, the textured strip, the shaded ring, the glow sprite and
+the billboard. The scratchpad they share is a typed struct at its fixed
+address behind `FIELD_ENGINE_SCRATCH`, in the same form as the other
+scratchpad macros. The PSY-Q semi-transparency selection keeps retail's code
+byte handling, the ring's colours are byte arrays so they take retail's
+stack slots, node walks step a pointer so the stride stays in the loop, and
+the billboard writes its identity matrix in retail's reversed order. The
+glow sprite's mode argument is a byte, as retail masks it, and the three
+glow layer callers still match. The main executable is unchanged and no pins
+or barriers were added.
+
 ### scene_e22 ember, link beam and swirl ring controllers
 
 Four more scene_e22 effects match from clean C: the rising ember particle,
