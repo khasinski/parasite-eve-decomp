@@ -158,10 +158,10 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: lev not measured (register allocation) |
 | menu_memcard | func_801214D4 | 496 | twin of the matched Memcard_UploadVideoSlice at 0x95D8, whose source carries pins, barriers and a volatile; a clean struct draft (VideoDisplay D_801228CC, volatile selector pointer) is lev 46 (120 vs 124 words): retail reads the rect through scalar symbols and keeps &selector in a3 |
 | menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: lev 34 plain; lev 2 with lift shared with the mode 1 vz (retail lift is a global pseudo; the vz register still differs) |
-| menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, lev not measured) |
-| room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: lev not measured |
+| menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (needs header_additions.diff, no README): lev 141 (959 vs 977 words) |
+| room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: lev 43 (358 vs 360 words; tile page table base in s3) |
 | scene_e08 | func_8019104C | 764 | candidates/overlays/scene_e08_func_8019104C: lev 10 (incoming state pointer copy kept in two registers by retail) |
-| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev not measured |
+| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev 61 (retail keeps the nine D_800F3368 stores after the stack vector copies; second loop hoisting) |
 | scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: lev 7 (single `special` variant) |
 
 ## not yet attempted
