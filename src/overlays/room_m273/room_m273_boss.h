@@ -173,6 +173,7 @@ typedef struct RoomM273DropQueue {
     u8 done;
     u8 in_window;
     u8 started;
+    u8 *model;        /* 0x68: ground ring model */
 } RoomM273DropQueue;
 
 extern RoomM273DropQueue D_8019AF04;
@@ -191,6 +192,20 @@ typedef struct RoomM273SweepStep {
 extern RoomM273SweepStep D_8019AD80[];
 extern GteShortVector D_8019AEFC; /* transformed sweep point */
 int func_80079FB4(int x, int z);
+
+/* Ground ring (func_80198E94): model draw helpers and the ring colours. */
+extern RenderColor D_8019AE1C[2];
+extern u16 D_800E11FA;
+extern u16 D_800E120A;
+u16 GetTPage(int tp, int abr, int x, int y);
+void GsSetOrign(int tpage, int clut);
+void func_800C6ED8(int mode);
+void func_800C6EF8(u8 *model);
+void func_800C6FA0(u8 *model, int depth);
+void func_800C71E4(u8 *model, GteMatrix *matrix);
+void func_800C6F4C(u8 *model);
+void *memset(void *dst, int value, unsigned int size);
+int func_8005186C(int value);
 extern GteShortVector D_8019AB68;
 extern u8 D_8019AD54[];
 extern u8 D_8019AD58[];
