@@ -224,7 +224,11 @@ typedef struct EnemyCombatant {
 /* 0xB4 */ u16 deathAssetId;
 /* 0xB6 */ u8  pad_B6[0x16];
 /* 0xCC */ u32 statusFlags2;
-/* 0xD0 */ u8  pad_D0[8];
+/* 0xD0 */ s16 panelC_val;   /* floating hit-reaction panel, drawn in enemy mode */
+/* 0xD2 */ u16 panelC_x;
+/* 0xD4 */ u16 panelC_y;
+/* 0xD6 */ u8  panelC_timer; /* 30 captures projected coordinates; then counts down */
+/* 0xD7 */ u8  pad_D7;
 } EnemyCombatant;
 
 /* ----------------------------------------------------------------------------
@@ -385,6 +389,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, deathAssetId) == 0xB4,
                   enemy_combatant_death_asset_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, statusFlags2) == 0xCC,
                   enemy_combatant_status_flags_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, panelC_val) == 0xD0,
+                  enemy_combatant_panel_value_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, panelC_timer) == 0xD6,
+                  enemy_combatant_panel_timer_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, curHP) ==
                   PE1_OFFSETOF(Combatant, curHP), combatant_views_hp_match);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(EnemyCombatant, attributes) ==

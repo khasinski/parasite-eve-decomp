@@ -9,14 +9,14 @@ Size is the objdiff function size in bytes.
 
 | Category | Functions | Bytes |
 |---|---:|---:|
-| battle (excluded) | 12 | 23020 |
+| battle (excluded) | 10 | 17668 |
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
 | parked near-miss | 23 | 38092 |
 | not yet attempted | 0 | 0 |
-| total | 105 | 83512 |
+| total | 103 | 78160 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -38,8 +38,6 @@ Category notes:
 | main | Battle_ResolveHitOnTimer | 1836 |  |
 | main | Battle_DrawStatusPanel | 2128 |  |
 | main | Battle_UpdateEnemy | 2144 |  |
-| main | Battle_PhaseHitReaction | 2664 |  |
-| main | Battle_StepAyaAction | 2688 |  |
 
 ## handwritten library/BIOS asm
 
@@ -169,3 +167,5 @@ The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA1
 | main | Render_SetupEntityPrims | 2012 | lev 0 (plain -G0): the last a2/t9 swap of paletteRow/initCount was a global-alloc priority tie; writing the matrix command rounding step by step on the shared `bytes`/`words` temporaries (`words = (u16)bytes; words >>= 2;`, `bytes = words; bytes++; bytes *= 4;`) adds three insns that combine later merges, so both live lengths grow by 3 and the tie goes to paletteRow, as in retail |
 | fx_common | func_80193B5C | 1452 | FxCommon_DrawEffectMarkers, lev 0: mode and OT links written as 24-bit bitfield copies (`mode->tag.bits.address = allocation[10].bits.address`, the extract and insert masks give the prologue mask its 4th reference, so global alloc puts it in a3 and level in t0), RotTransPers3-style scalar `s32` outputs instead of a struct (the label's screen read is no longer in-struct, so it does not depend on the line link stores and the xy stores drop to the colour/uv priority), then setXY4/setUV4 field order in both labels |
 | menu_memcard | func_801EDC44 | 2384 | Memcard_RingBurstController, lev 0: one function-scope `amount` holds both the state 1 ring fade (`amount = 0x80 - burst->timer * 32;` passed to func_800D1AE0 inside the `timer < 5` block) and the band lift (`func_80077CF4(angle) / 12 + 80`); combine folds the fade copy into a1, but flow already counted it in another basic block, so the lift is a global pseudo and global alloc gives retail's whole map (lift s4 after the block locals &band s1, &tilt s2, &offset s3), with a block-local `dim = fade * 2 / 3` |
+| main | Battle_StepAyaAction | 2688 | score 0 and whole-main byte-match, committed in 66998969c; stock tools, 14 pins and 7 empty barriers recorded in debt |
+| main | Battle_PhaseHitReaction | 2664 | score 0 and whole-main byte-match; existing turn-phase palette code, typed enemy floating panel fields at 0xD0..0xD6, 11 color pins, 7 empty barriers and the 0x1A0-byte unused stack reserve recorded in debt |
