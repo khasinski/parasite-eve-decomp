@@ -555,8 +555,8 @@ typedef struct RenderPacket1C {
 
 /* Hit sphere keyed by a part id: Render_FindAnimEntry looks one up by id, and
  * Scene_UpdateEntityPositions tests every pair of two actors' spheres. The
- * actor's own body and cylinder spheres (RenderObjectEntity +0x68 and +0x74)
- * use the same layout. */
+ * render object's own cylinder (+0x68) and body (+0x74) spheres use the same
+ * layout. Render paths treat the radius and centre as unsigned 16-bit values. */
 typedef struct RenderAnimationLookupEntry {
     /* 0x00 */ s16 value0;          /* centre x */
     /* 0x02 */ s16 value1;          /* centre y */
@@ -632,15 +632,8 @@ typedef struct RenderObjectEntity {
     /* 0x5E */ s16 projected_y;
     /* 0x60 */ unsigned char pad_60[4];
     /* 0x64 */ s16 projected_target_x, projected_target_y;
-    /* 0x68 */ RenderVec3s anchor_position;
-    /* 0x70 */ u16 table_value70;
-    /* 0x72 */ unsigned char pad_72[2];
-    /* 0x74 */ u16 animation_value74;
-    /* 0x76 */ u16 animation_value76;
-    /* 0x78 */ u16 animation_value78;
-    /* 0x7A */ u16 reserved7a;
-    /* 0x7C */ u16 animation_value7c;
-    /* 0x7E */ u16 reserved7e;
+    /* 0x68 */ RenderAnimationLookupEntry hit_cylinder; /* anchor; x/z cylinder test */
+    /* 0x74 */ RenderAnimationLookupEntry hit_body;     /* world position; body sphere test */
     /* 0x80 */ RenderAnimationLookupEntry *animation_entries;
     /* 0x84 */ RenderMatrix *matrices;
     /* 0x88 */ unsigned char shade;
@@ -740,8 +733,14 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, projection_origin) == 0x1C,
                   render_object_projection_origin);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, projected_target_x) == 0x64,
                   render_object_projected_target);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, anchor_position) == 0x68,
-                  render_object_anchor_position);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, hit_cylinder) == 0x68,
+                  render_object_hit_cylinder);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, hit_cylinder.radius) == 0x70,
+                  render_object_hit_cylinder_radius);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, hit_body) == 0x74,
+                  render_object_hit_body);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderObjectEntity, hit_body.radius) == 0x7C,
+                  render_object_hit_body_radius);
 PE1_STATIC_ASSERT(sizeof(RenderObjectEntity) == 0xBC, render_object_entity_size);
 
 union RenderLightingMatrix;

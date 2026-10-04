@@ -166,7 +166,7 @@ void Entity_ApplyCollisionResponse(int unused)
     BattleEntity *actor = D_8009D254;
     int oldX, oldZ;
     short edge;
-    int radius = actor->renderObject.table_value70;
+    int radius = (u16)actor->renderObject.hit_cylinder.radius;
 
     D_8009CE2C = radius;
     /* Preserve the low-word multiply and signed division used by retail. */

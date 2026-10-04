@@ -4,10 +4,6 @@
 
 typedef RenderAnimationLookupEntry HitSphere;
 
-/* The render object keeps two hit spheres in the HitSphere layout: the
- * cylinder (x/z only) at +0x68 and the body sphere at +0x74. */
-#define ACTOR_CYLINDER(actor) ((HitSphere *)&(actor)->render_object.anchor_position)
-#define ACTOR_BODY(actor) ((HitSphere *)&(actor)->render_object.animation_value74)
 
 void Entity_RollbackPositionHierarchy(FieldActor *actor);
 
@@ -87,8 +83,8 @@ void Scene_UpdateEntityPositions(void)
         if (self->flags & 0x20) {
             continue;
         }
-        body = ACTOR_BODY(self);
-        cylinder = ACTOR_CYLINDER(self);
+        body = &self->render_object.hit_body;
+        cylinder = &self->render_object.hit_cylinder;
         selfSide = cylinder->radius * self->move_speed / 4096;
         selfTop = body->radius * self->move_speed / 4096;
         for (other = self->next; other != 0; other = other->next) {
@@ -104,12 +100,12 @@ void Scene_UpdateEntityPositions(void)
             if (other->flags & 0x20) {
                 continue;
             }
-            otherRadius = ACTOR_BODY(other)->radius * other->move_speed / 4096;
-            bx = body->value0 - ACTOR_BODY(other)->value0;
+            otherRadius = other->render_object.hit_body.radius * other->move_speed / 4096;
+            bx = body->value0 - other->render_object.hit_body.value0;
             bx *= bx;
-            by = body->value1 - ACTOR_BODY(other)->value1;
+            by = body->value1 - other->render_object.hit_body.value1;
             by *= by;
-            bz = body->value2 - ACTOR_BODY(other)->value2;
+            bz = body->value2 - other->render_object.hit_body.value2;
             bz *= bz;
             reach = otherRadius + selfTop;
             reach = reach * reach;
@@ -125,11 +121,11 @@ void Scene_UpdateEntityPositions(void)
             if (distance > reach) {
                 continue;
             }
-            if (cylinder->radius != 0 && ACTOR_CYLINDER(other)->radius != 0) {
-                otherRadius = ACTOR_CYLINDER(other)->radius * other->move_speed / 4096;
-                cx = cylinder->value0 - ACTOR_CYLINDER(other)->value0;
+            if (cylinder->radius != 0 && other->render_object.hit_cylinder.radius != 0) {
+                otherRadius = other->render_object.hit_cylinder.radius * other->move_speed / 4096;
+                cx = cylinder->value0 - other->render_object.hit_cylinder.value0;
                 cx *= cx;
-                cz = cylinder->value2 - ACTOR_CYLINDER(other)->value2;
+                cz = cylinder->value2 - other->render_object.hit_cylinder.value2;
                 cz *= cz;
                 reach = otherRadius + selfSide;
                 reach = reach * reach;
@@ -137,8 +133,8 @@ void Scene_UpdateEntityPositions(void)
                 if (distance <= reach) {
                     heading[0] = (self->pos_x - self->base_x) >> 16;
                     heading[1] = (self->pos_z - self->base_z) >> 16;
-                    offset[0] = cylinder->value0 - ACTOR_CYLINDER(other)->value0;
-                    offset[1] = cylinder->value2 - ACTOR_CYLINDER(other)->value2;
+                    offset[0] = cylinder->value0 - other->render_object.hit_cylinder.value0;
+                    offset[1] = cylinder->value2 - other->render_object.hit_cylinder.value2;
                     dot = heading[0] * offset[0];
                     dot += heading[1] * offset[1];
                     if (dot < 0) {

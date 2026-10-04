@@ -86,7 +86,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, script_base) == 0x9C,
                   field_actor_script_base_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, allocation_active) == 0x1AC,
                   field_actor_allocation_active_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_object.table_value70) == 0x224,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_object.hit_cylinder.radius) == 0x224,
                   field_actor_render_scale_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, render_object.flags_9C) == 0x250,
                   field_actor_render_flags_offset);

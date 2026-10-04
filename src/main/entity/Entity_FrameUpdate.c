@@ -113,9 +113,9 @@ void Entity_FrameUpdate(void) {
                     entity->pos_y = (s16)entity->render_object.rotation_overrides[0].y << 16;
                     entity->pos_z = (s16)entity->render_object.rotation_overrides[0].z << 16;
                 } else if (entity->allocation_active == 0) {
-                    entity->render_object.animation_value74 = entity->pos_x >> 16;
-                    entity->render_object.animation_value76 = entity->pos_y >> 16;
-                    entity->render_object.animation_value78 = entity->pos_z >> 16;
+                    entity->render_object.hit_body.value0 = entity->pos_x >> 16;
+                    entity->render_object.hit_body.value1 = entity->pos_y >> 16;
+                    entity->render_object.hit_body.value2 = entity->pos_z >> 16;
                 }
             } else {
                 object = &entity->render_object;

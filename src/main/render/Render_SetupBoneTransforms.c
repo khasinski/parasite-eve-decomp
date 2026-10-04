@@ -54,7 +54,7 @@ void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
     }
     /* Headerless objects reuse the first override XYZ as a position output. */
     Bone_StoreVec(&actor->rotation_overrides[0].x);
-    Bone_StoreVec(&actor->anchor_position);
+    Bone_StoreVec(&actor->hit_cylinder.value0);
     Bone_StoreVec(&actor->target_x);
     BoneLoadRotMatrix(view);
     Bone_LoadAxis((u16 *)matrix);
@@ -99,24 +99,24 @@ void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
         gte_rtps_command();
-        actor->animation_value7c = source->animation_value7c;
+        actor->hit_body.radius = source->hit_body.radius;
         {
             s16 *out = &actor->projected_target_x;
             gte_stsxy2(out);
         }
-        actor->table_value2c += actor->table_value70;
+        actor->table_value2c += (u16)actor->hit_cylinder.radius;
         gte_lwc2_0_0(point);
         gte_lwc2_1_4(point);
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
         gte_rtps_command();
-        actor->animation_value74 = source->animation_value74;
-        actor->animation_value76 = source->animation_value76;
-        actor->animation_value78 = source->animation_value78;
+        actor->hit_body.value0 = source->hit_body.value0;
+        actor->hit_body.value1 = source->hit_body.value1;
+        actor->hit_body.value2 = source->hit_body.value2;
         {
             s16 *out = &actor->projected_x;
             gte_stsxy2(out);
         }
-        actor->table_value2c -= actor->table_value70;
+        actor->table_value2c -= (u16)actor->hit_cylinder.radius;
     }
 }
