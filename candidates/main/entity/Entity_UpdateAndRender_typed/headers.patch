@@ -12,7 +12,7 @@ index 9371f3eec..8ea26a70f 100644
  /* 0x014 */ s32  animFrame;      /* current animation frame, 16.16 fixed point */
  /* 0x018 */ union {
 diff --git a/include/pe1/field_collision.h b/include/pe1/field_collision.h
-index a2ee1969f..44f4eaa81 100644
+index a2ee1969f..b67b4d44c 100644
 --- a/include/pe1/field_collision.h
 +++ b/include/pe1/field_collision.h
 @@ -26,7 +26,15 @@ typedef struct RampEdge {
@@ -28,7 +28,7 @@ index a2ee1969f..44f4eaa81 100644
 +    } point;
 +    u32 packed;
 +} FloorEdgePoint;
-+extern FloorEdgePoint D_8009CE0C[2];
++extern FloorEdgePoint D_8009CE0C, D_8009CE10;
  extern RampEdge *D_8009CE14;
  extern u16 D_8009CE18;
  void Entity_SlideOnRamp(struct BattleEntity *entity);
@@ -132,7 +132,7 @@ index e6a82b41c..13f9c377c 100644
                          return;
                      }
 diff --git a/src/main/main/Entity_SlideOnRamp.c b/src/main/main/Entity_SlideOnRamp.c
-index 7e7817f04..8883b699b 100644
+index 7e7817f04..1fb72d9dd 100644
 --- a/src/main/main/Entity_SlideOnRamp.c
 +++ b/src/main/main/Entity_SlideOnRamp.c
 @@ -29,10 +29,10 @@ void Entity_SlideOnRamp(BattleEntity *entity)
@@ -143,10 +143,10 @@ index 7e7817f04..8883b699b 100644
 -    edgeZ = D_8009CE12 - D_8009CE0E;
 -    numerator = ((z >> 16) - D_8009CE0E) * edgeX
 -                - ((x >> 16) - D_8009CE0C) * edgeZ;
-+    edgeX = D_8009CE0C[1].point.x - D_8009CE0C[0].point.x;
-+    edgeZ = D_8009CE0C[1].point.z - D_8009CE0C[0].point.z;
-+    numerator = ((z >> 16) - D_8009CE0C[0].point.z) * edgeX
-+                - ((x >> 16) - D_8009CE0C[0].point.x) * edgeZ;
++    edgeX = D_8009CE10.point.x - D_8009CE0C.point.x;
++    edgeZ = D_8009CE10.point.z - D_8009CE0C.point.z;
++    numerator = ((z >> 16) - D_8009CE0C.point.z) * edgeX
++                - ((x >> 16) - D_8009CE0C.point.x) * edgeZ;
      projection = D_8009CE14[D_8009CE18].length;
      projection = numerator / projection;
      if (projection < 0)
@@ -158,10 +158,10 @@ index 7e7817f04..8883b699b 100644
 -            loopEdgeZ = D_8009CE12 - D_8009CE0E;
 -            numerator = ((directionZ >> 16) - D_8009CE0E) * loopEdgeX
 -                        - ((directionX >> 16) - D_8009CE0C) * loopEdgeZ;
-+            loopEdgeX = D_8009CE0C[1].point.x - D_8009CE0C[0].point.x;
-+            loopEdgeZ = D_8009CE0C[1].point.z - D_8009CE0C[0].point.z;
-+            numerator = ((directionZ >> 16) - D_8009CE0C[0].point.z) * loopEdgeX
-+                        - ((directionX >> 16) - D_8009CE0C[0].point.x) * loopEdgeZ;
++            loopEdgeX = D_8009CE10.point.x - D_8009CE0C.point.x;
++            loopEdgeZ = D_8009CE10.point.z - D_8009CE0C.point.z;
++            numerator = ((directionZ >> 16) - D_8009CE0C.point.z) * loopEdgeX
++                        - ((directionX >> 16) - D_8009CE0C.point.x) * loopEdgeZ;
              projection = D_8009CE14[D_8009CE18].length;
              projection = numerator / projection;
              if (projection < 0)

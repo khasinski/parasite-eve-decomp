@@ -17,7 +17,7 @@ int Render_SetupEntityPrims(RenderObjectEntity *obj, RenderObjectHeader *model,
     RenderAnimationLookupEntry *entry;
     RenderMatrix *matrix;
     int bytes, words;
-    int skipped;
+    s16 skipped;
     s16 i, j;
 
     cursor.header = model;

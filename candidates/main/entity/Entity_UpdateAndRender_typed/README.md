@@ -7,6 +7,56 @@ To build it, apply `headers.patch` (field_collision.h types, battle.h
 Entity_FindFloor adapted to the new declarations; `make check` stayed OK
 with the patch applied) and copy `entity_floor.h` to include/pe1/.
 
+## State (2026-10-04, second pass): 182 diff lines with -G8 cc1 / -G4 maspsx
+
+The split is approved now and the draft uses it. With it, the declarations
+in `headers.patch`/`entity_floor.h` give the correct absolute/gp mix: the
+two edge words are separate 4-byte symbols (D_8009CE0C, D_8009CE10) so
+they stay gp-relative at -G4, and the player slot and flags word are
+8-byte records (small for cc1, absolute for the assembler). Every
+lui/gp access now matches. Remaining diffs (ds.py: 182) are allocation
+and control flow:
+
+1. Frame: mine reserves 40 bytes of locals, retail 32. The -dg dump shows
+   reload spilling t4/t5 and HI/LO for the gte_ldsxy3 operands. Retail
+   loads the two edge words into t5/t6, which means t4 was taken by a
+   global pseudo (retail keeps (s16)maxX in t4 through the box tests).
+2. Edge box tests: retail reuses sign-extended xs (a3), (s16)maxX (t4),
+   (s16)minX (t2, first extended in the second test) and zs (a0, from the
+   third test) along the fall-through path, but recomputes `xs - r`,
+   `xs + r` and every compare. Mine CSEs a whole compare (`slt t3` kept
+   and branched on later). Variants tried: locals per bound, globals used
+   directly, int copies of x/maxX/minX, a shared `left = x - r` (permuter
+   hint, -1 line).
+3. Entry: retail loads x/z with lh and copies them to s4/s3; mine loads
+   lhu into s4/s3 and extends separately.
+4. The clear loops after the slide swap a0/v1 between counter and pointer.
+   In retail, the entry test of the third loop compares the clip result
+   register (known zero) against the count. A separate `next` variable is
+   optimised away.
+
+Already matched in this draft: the -G mix, the plane branch (a local
+`planes` for the first index, then re-reads), the flat-mode branch
+(`if (delta < stepHeight << 16) posY = ...; else rollback`), and the
+unsigned loop counters.
+
+Control flow: the draft still has gotos (leave/slide/found/blocked).
+Retail jumps from the end of the edge test straight into the slide code
+that the failed first clip also reaches, and that code contains loops, so
+jump2 cross-jumping cannot merge two copies of it (it stops at loop
+labels). Two goto-free versions were tried:
+`Entity_UpdateAndRender_nogoto.c` (static inline edge test plus a
+`found` flag, 372 lines) and a flag-only version (346). Both are worse,
+because the inlined `return 0/1` and the flag tests are not threaded
+away. If it lands with gotos, log them as debt.
+
+Permuter setup (darwine): base.c has the GTE asm replaced by dummy calls
+gte_ldsxy3_/gte_nclip_/gte_stmac0_/gte_ldsxy2_, and compile.sh rewrites
+them back with perl before cc1 -G8 and maspsx -G4 (scratch/a5eur2). Two
+hours of runs found only volatile-local frame tricks (rejected).
+
+## Earlier analysis (first pass)
+
 ## Why it is parked: needs the unapproved -G8 cc1 / -G4 assembler split
 
 Retail mixes gp-relative and absolute accesses that no single -G value
