@@ -1579,7 +1579,7 @@ segments:
       - [0xC22E0, c, engine/FieldEng_FadeTile]
       - [0xC2524, c, engine/Geo_ClipAlternatingArcPoint]
       - [0xC25EC, c, engine/FieldEng_PointTile]
-      - [0xC2B70, asm, engine/engine_800CEE20_C2B70]
+      - [0xC2B70, c, engine/FieldEng_RotatedQuad]
       - [0xC2FFC, c, engine/FieldEng_OrbitTile]
       - [0xC3358, asm, engine/engine_800CEE20_C3358]
       - [0xC42FC, c, engine/FieldEng_UpdatePointHistory]
