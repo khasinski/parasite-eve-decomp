@@ -338,3 +338,19 @@ Two-ring loop around func_800D0E88 (call loop).
   load latency into the priority of every value copied from it, which
   pulls those stores to the end of the sched1 block. A scalar frame read
   passes non-QImode in-struct stores, so source order decides again.
+
+## Global by a folded copy (menu_memcard ring burst, 2026-10-04): MATCHED
+
+- A block-local value that retail allocates as a global pseudo (after the
+  block locals) can be made global by giving its variable one more
+  assignment in another basic block whose copy combine later folds into
+  an argument register: `amount = 0x80 - burst->timer * 32;
+  func_800D1AE0(&ring, amount, 1, 8);` inside the `timer < 5` block, with
+  the same function-scope `amount` later holding the band lift. flow has
+  already marked `amount` as living in two blocks (reg_basic_block = -2),
+  so local-alloc skips it, and global alloc puts it after &band/&tilt/
+  &offset, exactly retail's map. lev 2 -> 0.
+- Limit: try_combine decrements reg_n_sets when it merges a set away, so
+  the folded copy does not make a constant pseudo multi-set for sched1
+  (it is still a birthing insn and gets LAUNCH priority). Only refs,
+  deaths and the basic block mark survive.

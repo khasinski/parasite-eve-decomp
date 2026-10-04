@@ -143,3 +143,12 @@ combine, so flow already counted it and the variable becomes global):
 - On the shared_temp file with a block-local `kind2` for the second block
   and the folded copy on the first kind (five sites): lev 13, kind global
   but allocated before `special`, so it takes v1.
+- Why the folded second set does not stop the launch: try_combine
+  decrements reg_n_sets when it merges a set away (reg_n_refs, deaths and
+  reg_basic_block are not recomputed), and sched1 runs after combine, so
+  `special` is single-set again by the time birthing_insn_p looks at it
+  (`-dS` shows insn 388 at 7f000001). A non-launched 4 needs a second set
+  that survives combine, i.e. real code in v1 (which is what the
+  shared_temp file does with the tpage and rotation copies).
+- Compare forms (`kind != 4 ||`, switch on kind, `(u16)kind == 4`,
+  `kind - 4 == 0`, the assignment inside the subscript): lev 9 to 21.
