@@ -1635,7 +1635,7 @@ segments:
       - [0xCDB80, c, engine/FieldEng_ConvergingSprite]
       - [0xCE1E4, c, engine/FieldEng_SettlingSprite]
       - [0xCE570, c, engine/FieldEng_SettlingEmitter]
-      - [0xCE8A8, asm, engine/engine_800D4860_CE8A8]
+      - [0xCE8A8, c, engine/FieldEng_FlashBurst]
       - [0xCEFA8, c, engine/FieldEng_SpinGlow]
       - [0xCF230, c, engine/FieldEng_GlowFountain]
       - [0xCF7FC, c, engine/FieldEng_FadeParticle]
