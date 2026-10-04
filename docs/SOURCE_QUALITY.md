@@ -245,6 +245,15 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### fx_common effect markers
+
+`FxCommon_DrawEffectMarkers` draws the effect marker lines and label quads
+from typed packets, with no pins, barriers, volatile or gotos. The mode and
+ordering-table links are written as copies of the 24-bit address bitfield
+in `FxCommonPacketTag`, which also lets `FxCommon_DrawIntensityQuad` read
+the tag as `.tag.packed`. The projection outputs are separate scalar locals,
+so the label stores follow source order the way retail's do.
+
 ### Entity primitive setup
 
 `Render_SetupEntityPrims` builds a model's primitive, texture and matrix
