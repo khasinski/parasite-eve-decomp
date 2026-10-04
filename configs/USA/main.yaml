@@ -1577,7 +1577,7 @@ segments:
       - [0xC070C, c, engine/func_800CFF0C]
       - [0xC07AC, c, engine/func_800CFFAC]
       - [0xC084C, c, engine/FieldEng_StarFan]
-      - [0xC0F28, asm, engine/engine_800CEE20_C0F28]
+      - [0xC0F28, c, engine/FieldEng_RingBand]
       - [0xC1688, c, engine/FieldEng_RotatedTriangle]
       - [0xC1B84, c, engine/FieldEng_HistoryTrail]
       - [0xC22E0, c, engine/FieldEng_FadeTile]
