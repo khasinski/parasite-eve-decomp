@@ -245,6 +245,20 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### scene_e18 completed and the scene_e19_2 ember flare
+
+scene_e18's flank model emitter and particle, pulse ring particle and spin
+shell controller match from clean C, so scene_e18 has no assembly left, and
+scene_e19_2's ember flare particle and controller match on
+`scene_e19_2_ember.h`, which reuses the scene_e22 ember types. The scene
+tail blobs and a scene_e08 blob are split at their real function
+boundaries, and the overlays' symbol files gain the player pointer name the
+C needs to link. A mode switch gives retail's dispatch shape, an unsigned
+constant subtraction gives its unsigned compare, a field read into a signed
+temporary moves its load ahead of the floor read, and the controller re-reads
+the sound owner through a volatile load where retail loads it twice. All
+three overlay SHA-1 hashes are unchanged and no pins or barriers were added.
+
 ### room_m089, room_m005 and room_m123 effects
 
 room_m089's spiral trail and spinning model, room_m005's cross flare and
