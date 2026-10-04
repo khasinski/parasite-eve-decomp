@@ -7872,3 +7872,17 @@ The broader GTE clobbers, volatile damping reads, const parameter view and
 palette-pair view are matching constraints, not evidence of retail qualifiers
 or complete original data types. History accesses still use byte strides and
 separate XYZ symbols; further type cleanup remains debt.
+
+### AKAO sequencer tick and timer callback
+
+`Akao_Tick` at 0x8007E37C and its directly following `Akao_TimerCallback` at
+0x8007EA3C now share `src/main/akao/Akao_Tick.c`. The callback samples the root
+counter around the tick, updates the three-entry duration history and publishes
+the accumulated timer value. Its call to `Akao_Tick`, contiguous addresses and
+shared timer state support this semantic grouping; this does not claim a
+recovered original object boundary. The callback's state declarations remain
+private to the grouped source.
+
+`make verify-clean` passes, including source mapping, policy, debt, organization
+and full executable checks. `main.exe` remains byte-identical to the retail
+target.
