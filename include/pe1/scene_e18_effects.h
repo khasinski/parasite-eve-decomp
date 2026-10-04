@@ -9,8 +9,13 @@
  * joints and fades out, the other drops wave rings from random joints. */
 
 typedef struct SceneE18Owner {
-    s32 reserved[2];
+    u32 flags;                    /* 0x00 */
+    s32 reserved04;
     s32 asset;                    /* 0x08 */
+    u8 reserved0C[0xC];
+    u8 *stage;                    /* 0x18 */
+    u8 reserved1C[0x30];
+    u32 status;                   /* 0x4C */
 } SceneE18Owner;
 
 typedef struct SceneE18Instance {
@@ -25,7 +30,9 @@ typedef struct SceneE18Instance {
             u16 frame;            /* 0x16 */
         } part;
     } animation;
-    u8 reserved18[0x1D0];
+    u8 reserved18[0x10];
+    s32 x, y, z;                  /* 0x28: 16.16 position */
+    u8 reserved34[0x1B4];
     GteMatrix transform;          /* 0x1E8 */
     u8 reserved208[0x30];
     GteMatrix *transforms;        /* 0x238 */
@@ -82,12 +89,12 @@ extern int func_80193A58(int mode, SceneE18WaveParticle *particle);
  * looks up and the frame countdown its particles run down. */
 typedef struct SceneE18FlankParticle {
     s32 *position;                /* 0x00: the room model's translation */
-    s16 phase;                    /* 0x04 */
-    s16 side;                     /* 0x06 */
-    s16 scaleX;                   /* 0x08 */
-    s16 scaleY;                   /* 0x0A */
-    s16 spin;                     /* 0x0C */
-    s16 tilt;                     /* 0x0E */
+    s16 angle;                    /* 0x04 */
+    s16 turn;                     /* 0x06 */
+    s16 width;                    /* 0x08 */
+    s16 height;                   /* 0x0A */
+    s16 widthGrowth;              /* 0x0C */
+    s16 heightGrowth;             /* 0x0E */
     s16 brightness;               /* 0x10 */
     s16 leader;                   /* 0x12 */
 } SceneE18FlankParticle;
@@ -103,5 +110,30 @@ extern u16 func_80077AA4(int, int);
 extern void func_800C6EC0(int tpage, int clut);
 extern void func_800C6ED8(int mode);
 extern int func_801928CC(int mode, SceneE18FlankParticle *particle);
+
+/* Flank model particle (func_801928CC): the player instance whose distance
+ * to the model releases the actor, and the model draw helpers. */
+extern SceneE18Instance *RoomMain_ActorPtr;
+extern int func_8005186C(int value);
+extern int func_80077CF4(int angle);
+extern int func_80077DC4(int angle);
+extern void func_80071A44(void *data, int value, int size);
+extern void func_80078CC4(GteMatrix *matrix, GteVector *scale);
+extern void func_800C6EF8(void *asset);
+extern void func_800C6FA0(void *asset, u16 intensity);
+extern void func_800C71E4(void *asset, GteMatrix *matrix);
+extern void func_800C6F4C(void *asset);
+
+/* Pulse ring particle (func_80193018): shrinking light rings around the
+ * room model; the last one releases the actor once the player is near. */
+typedef struct SceneE18PulseRing {
+    s16 size;                     /* 0x00 */
+    s16 shrink;                   /* 0x02 */
+    s16 radius;                   /* 0x04 */
+    u8 active;                    /* 0x06 */
+    u8 last;                      /* 0x07 */
+} SceneE18PulseRing;
+
+extern RenderColor D_8019411C[2];
 
 #endif

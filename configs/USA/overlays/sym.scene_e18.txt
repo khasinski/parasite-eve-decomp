@@ -25,3 +25,4 @@ D_80192344 = 0x80192344;
 RoomLib_InvokeCallbackC_801921E0 = 0x801921E0; // type:func
 RoomLib_RearmOnMatch_80192208 = 0x80192208; // type:func
 RoomLib_Set4ClearSignal_801924CC = 0x801924CC; // type:func
+RoomMain_ActorPtr = 0x8009D254; // absolute:True

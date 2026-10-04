@@ -100,7 +100,7 @@ segments:
       - [0x38E4, asm, scene_e18_tail_38E4]
       - [0x3BA4, c, RoomEffect_FlankModelEmitter_80192B8C]
       - [0x3E78, c, func_80192E60]
-      - [0x4030, asm, scene_e18_tail_4030]
+      - [0x4030, c, RoomEffect_PulseRingParticle_80193018]
       - [0x4324, c, func_8019330C]
       - [0x44A0, c, func_80193488]
       - [0x4608, c, RoomEffect_RisingJointEmitter_801935F0]

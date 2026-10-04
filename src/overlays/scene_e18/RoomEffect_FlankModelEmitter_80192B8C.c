@@ -25,16 +25,16 @@ int func_80192B8C(int mode, SceneE18EmitterState *state) {
             if (particle == 0) break;
             actor = D_800F32D0;
             particle->position = actor->instance->transform.t;
-            particle->phase = 0;
+            particle->angle = 0;
             if (state->count & 1)
                 side = 0x80;
             else
                 side = -0x80;
-            particle->scaleX = 0x200;
-            particle->scaleY = 0x200;
-            particle->side = side;
-            particle->spin = 0;
-            particle->tilt = 0;
+            particle->width = 0x200;
+            particle->height = 0x200;
+            particle->turn = side;
+            particle->widthGrowth = 0;
+            particle->heightGrowth = 0;
             particle->brightness = 0xC0;
             particle->leader = state->count == 0;
             state->delay = 0;
