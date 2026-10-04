@@ -150,3 +150,25 @@ Two-ring loop around func_800D0E88 (call loop).
   difference, and per-file flags are not allowed anyway.
 - An s16 local for the intensity/shade. It is extended at assignment, outside
   the loop, so it adds no movable. The cast has to sit in the call.
+
+## Register priority from references that later disappear (2026-10-04)
+
+- flow computes `reg_n_refs` and `reg_live_length` before combine runs, and
+  combine does not lower them when it folds a reference away. Global
+  allocation sorts by `floor_log2(refs) * refs / live_length`, so an
+  assignment that combine later removes still raises that variable's
+  priority.
+- Scene_LoadRoom: `while ((ready = CdRom_ReadSectorsFromLba(...)) == -1)`
+  produces exactly the same code as the bare call, because combine compares
+  v0 directly. But `ready` keeps the extra counted references, so it is
+  allocated before the loop counter `i`. That fixed a s1/s2 swap worth about
+  40 words.
+- Menu_ItemListInputHandler: `usable |= 1` gives `usable` one more counted
+  use and puts usable, child and data in retail's registers (the cost is an
+  `ori` instead of `li`).
+- Frame side effect: when combine simplifies a `for` loop entry test
+  (`0 < n` to `n != 0`), it leaves a dead `sltu` pseudo behind a USE insn,
+  and reload gives that pseudo an 8-byte stack slot that is never used.
+  Count the `(use (reg:SI N))` lines in the `-dc` dump. Writing one loop as
+  `i = 0; if (n) do { ... } while (++i < n);` removes one slot and leaves the
+  code unchanged.
