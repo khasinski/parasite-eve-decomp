@@ -2033,3 +2033,23 @@ The shared image header now declares the eight-node pool and active-list tail.
 The source reuses the existing screen, image and node types, including typed
 image dimensions and GPU environment copies. Buffer byte strides and address
 comparisons in pool initialization remain source-quality debt.
+
+## Battle HUD packet initialization
+
+`Battle_DrawHPBar` at 0x80030894 matches all 3152 bytes with stock native
+GCC 2.7.2 and stock MASPSX 2.56, both using `-G8`, on darwine.
+SHA-256: `a4dbd2cf130979a0f5db8ed532d0c559c5b3b90b2c5786e10fe91125311ed6e2`.
+
+Seven pins remain: marker V ($18), the two glyph descriptors ($19), and the
+four GetTPage arguments ($4–$7). Four empty barriers retain the glyph
+lifetimes, page argument setup (clobbering $22), and HUD page lifetime in the
+first sprite grid. Individual removal trials broke the match. Six pins from
+the first matching candidate were removed. No CPU instruction assembly,
+NOP, special ABI, compiler patch, or assembler patch is used.
+
+The first grid is two buffers of ten rows of five 28-byte packets; only the
+first four packets in each row are initialized here. A plain `u8` row index
+cached before the inner loop fixes the final branch-target difference.
+Permuter scoring must include `--no-ignore-branch-targets`; the final proof
+also compares linked bytes directly with retail. Address views, mechanical
+temporary names, local packet types, and eight loop gotos remain cleanup debt.

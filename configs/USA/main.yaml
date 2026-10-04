@@ -343,7 +343,7 @@ segments:
       - [0x20D34, c, battle/battle_calc]
       - [0x20DC8, c, battle/battle]
       - [0x20EE0, c, battle/Battle_RollEnemySpawn]
-      - [0x21094, asm, main/Battle_DrawHPBar]
+      - [0x21094, c, battle/Battle_DrawHPBar]
       - [0x21CE4, c, main/Battle_DrawStatusOverlay]
       - [0x21F60, asm, main/Battle_BuildStatusPrimHeader]
       - [0x2256C, c, main/Battle_LayoutStatusPrimRow]

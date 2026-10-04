@@ -9,14 +9,14 @@ Size is the objdiff function size in bytes.
 
 | Category | Functions | Bytes |
 |---|---:|---:|
-| battle (excluded) | 13 | 26172 |
+| battle (excluded) | 12 | 23020 |
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
 | parked near-miss | 27 | 46860 |
 | not yet attempted | 0 | 0 |
-| total | 110 | 95432 |
+| total | 109 | 92280 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -40,7 +40,6 @@ Category notes:
 | main | Battle_UpdateEnemy | 2144 |  |
 | main | Battle_PhaseHitReaction | 2664 |  |
 | main | Battle_StepAyaAction | 2688 |  |
-| main | Battle_DrawHPBar | 3152 |  |
 
 ## handwritten library/BIOS asm
 
