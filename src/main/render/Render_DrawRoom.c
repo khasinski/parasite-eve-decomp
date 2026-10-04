@@ -30,6 +30,7 @@ int Render_DrawRoom(RenderShadowActor *actor)
     int shade;
     int depth;
     int maxDepth;
+    u32 first; /* word 0 is read before the rest of the copy */
 
     if (actor->flags & 0x400)
         return 0;
@@ -41,20 +42,19 @@ int Render_DrawRoom(RenderShadowActor *actor)
     origin.y = actor->y.integer;
     origin.z = actor->z.integer;
     source = &actor->matrices[actor->shadow_matrix_index];
+    first = source->words[0];
     local.words[1] = source->words[1];
     local.words[2] = source->words[2];
     local.words[3] = source->words[3];
     local.words[4] = source->words[4];
     local.words[5] = source->words[5];
     local.words[6] = source->words[6];
-    local.matrix.t[0] = 0;
-    local.words[0] = source->words[0];
-    corner.z = 0x1000;
     local.words[7] = source->words[7];
+    local.words[0] = first;
     corner.x = 0;
-    local.matrix.t[2] = 0;
     corner.y = 0;
-    local.matrix.t[1] = 0;
+    corner.z = 0x1000;
+    local.matrix.t[0] = local.matrix.t[1] = local.matrix.t[2] = 0;
     gte_ldrotmatrix(local.words);
     gte_ldtransmatrix(local.words);
     gte_ldv0(&corner);

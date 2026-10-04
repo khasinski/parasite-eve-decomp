@@ -465,7 +465,8 @@ typedef struct RenderObjectHeader {
     /* Input Y and matrix selection for the transformed anchor position. */
     u16 anchor_y;
     u16 anchor_matrix_index;
-    unsigned char pad_14[6];
+    u16 shadow_radius; /* 0x14: half extent of the ground shadow quad */
+    unsigned char pad_16[4];
     unsigned short visible_part_count;
 } RenderObjectHeader;
 
