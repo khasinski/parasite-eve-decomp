@@ -245,6 +245,15 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Colour gradient allocation
+
+`Draw_AllocColorGradient` in the main executable matches from clean C, on the
+helpers in `draw_wipe_rect.h`. The ordering-table link goes through a word
+variable assigned more than once, so the scheduler places its load early as
+retail does, and the packet fields are written in their natural order. The
+main executable is unchanged and no pins or barriers were added. Parked
+candidate directories whose functions are already C on main are removed.
+
 ### scene_e20 hover orb controller
 
 scene_e20's hover orb controller, about a thousand instructions with no twin
