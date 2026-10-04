@@ -8007,13 +8007,17 @@ and the full executable check. `main.exe` remains byte-identical to retail.
 ### Memory-card operation abort and save-state processing
 
 `MemCard_AbortActiveOperation` at file offset 0x31780,
-`MemCard_UpdateSaveState` at 0x31908 and the following `Save_StartWriteSlot` at
-0x32820 now share `src/main/memcard/MemCard_UpdateSaveState.c`. The state
-machine calls the abort routine when detection fails or retries run out, while
-`Save_StartWriteSlot` initializes the same `MemCardPortState` and
-`MemCardSaveSlot` fields that the save-state machine consumes. Their addresses
-are contiguous, and the complete source uses one compiler profile. The grouped
-range ends at 0x32970, where card-file loading begins.
+`MemCard_UpdateSaveState` at 0x31908, `Save_StartWriteSlot` at 0x32820,
+`Save_StartReadSlot` at 0x32970, `Save_CancelUiFlow` at 0x32A28 and
+`Save_LoadCardFileIntoRuntime` at 0x32A64 now share
+`src/main/memcard/MemCard_UpdateSaveState.c`. The
+state machine calls the abort routine when detection fails or retries run out;
+the read and write starters initialize the same `MemCardPortState` and
+`MemCardSaveSlot` fields the manager consumes. Load completion checks the file
+CRC, restores the runtime header, and registers the adjacent cancellation
+callback on success. All six functions are contiguous under one compiler
+profile; their combined 5348 code bytes match retail. The next function begins
+at 0x32C64.
 
 `make verify-clean` passes, including source mapping, policy, debt, organization
 and full executable checks. `main.exe` remains byte-identical to retail.

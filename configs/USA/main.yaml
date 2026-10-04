@@ -459,10 +459,8 @@ segments:
       - [0x30DA4, c, memcard/MemCard_StepPortState]
       - [0x311B4, c, memcard/MemCard_InitManager]
       - [0x31380, c, save/Save_BuildCardFile]
-      # Operation abort and save-state processing share the card manager state.
+      # Save startup, manager state transitions, and load completion share card/slot state.
       - [0x31780, c, memcard/MemCard_UpdateSaveState]
-      # Memory-card read setup, cancellation callback, and load/CRC flow.
-      - [0x32970, c, save/Save_LoadCardFileIntoRuntime]
       - [0x32C64, c, memcard/MemCard_GetActiveProgressBlocks]
       - [0x32CB4, c, memcard/MemCard_GetSlot]
       # One memory-card port-state controller; exact 0x740-byte original object.
