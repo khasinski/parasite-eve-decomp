@@ -8029,9 +8029,14 @@ coordinates and common CLUT lifecycle support this grouping.
 
 `FieldAnim_TaskListSetup`, `func_800CE610`, `func_800CE688` and
 `func_800CE78C` now share `src/main/engine/FieldAnim_TaskList.c`, in their
-original address order. The setup routines write a list header containing
-stride, entry count and callback at offsets 0, 4 and 8. Entries begin at +0xC;
-each entry stores its active flag at +0, age at +2 and callback state from +4.
+original address order. `FieldAnimCallbackList` and
+`FieldAnimCallbackListEntry` in `include/pe1/field_anim_callback_list.h` model
+the shared layout, with assertions for the callback, entries and state offsets.
+The setup routines use these types to write a list header containing stride,
+entry count and callback at offsets 0, 4 and 8. Entries begin at +0xC; each
+entry stores its active flag at +0, age at +2 and callback state from +4. The
+allocation, update and render passes retain their matching byte-pointer access
+patterns.
 `func_800CE610` allocates an inactive entry, `func_800CE688` runs update mode
 and advances its age, and `func_800CE78C` runs the render mode. The update and
 render passes save and restore the shared effect-age context. These routines

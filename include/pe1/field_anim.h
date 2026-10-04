@@ -2,6 +2,7 @@
 #define PE1_FIELD_ANIM_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
 
 /* Twelve-byte parameter blocks used by the burst render callbacks.
@@ -28,7 +29,7 @@ extern FieldAnimBurstParameters D_800E2298, D_800E2250, D_800E27E0, D_800F3460;
 extern char D_800E0EB8[];
 int func_800CCBA8(char *object);
 
-typedef int (*FieldAnimTaskCallback)(int mode, void *state);
+typedef FieldAnimCallbackListCallback FieldAnimTaskCallback;
 
 typedef struct FieldAnimTaskSlot {
     u16 id;              /* 0xFFFF marks a free slot. */
@@ -74,6 +75,12 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskSlot, start) == 4,
                   field_anim_task_slot_start);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskTable, sizes) == 0x20,
                   field_anim_task_table_sizes);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimCallbackList, callback) == 8,
+                  field_anim_callback_list_callback);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimCallbackList, entries) == 0xC,
+                  field_anim_callback_list_entries);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimCallbackListEntry, state) == 4,
+                  field_anim_callback_list_entry_state);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskContext, count) == 0xC,
                   field_anim_task_context_count);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskContext, used) == 0x10,

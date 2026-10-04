@@ -1,9 +1,11 @@
+#include "pe1/field_anim_callback_list.h"
+
 extern int D_800B0E18;
 extern int D_800B0E1C;
 extern int D_800B1630;
 typedef unsigned short u16;
 typedef signed short s16;
-typedef int (*FieldAnimTaskCallback)(int mode, void *state);
+typedef FieldAnimCallbackListCallback FieldAnimTaskCallback;
 extern char *D_800F33E0;
 
 int func_800CE4F8(int index) {
@@ -40,15 +42,16 @@ int func_800CE560(char *out, int stride, int count, FieldAnimTaskCallback callba
 {
   int i;
   register char *entry;
+  FieldAnimCallbackList *list = (FieldAnimCallbackList *)out;
   stride += 4;
   entry = out;
   entry = entry + 0xC;
-  *((FieldAnimTaskCallback *) (out + 8)) = callback;
-  *((int *) (out + 0)) = stride;
-  *((int *) (out + 4)) = count;
+  list->callback = callback;
+  list->stride = stride;
+  list->count = count;
   for (i = 0; i < count; i++)
   {
-    *((u16 *) entry) = 0;
+    ((FieldAnimCallbackListEntry *)entry)->active = 0;
     entry += stride;
   }
 
@@ -61,21 +64,23 @@ int func_800CE560(char *out, int stride, int count, FieldAnimTaskCallback callba
 int func_800CE5AC(void *arg0, int arg1, int arg2, int arg3, void *arg4) {
     char *header;
     char *entry;
+    FieldAnimCallbackList *list;
     int stride;
     int i;
 
     i = 0;
     stride = arg2 + 4;
     header = *(char **)((char *)D_800F33E0 + 8) + arg1;
+    list = (FieldAnimCallbackList *)header;
     entry = header + 0xC;
 
     *(char **)arg0 = header;
-    *(void **)(header + 8) = arg4;
-    *(int *)header = stride;
-    *(int *)(header + 4) = arg3;
+    list->callback = (FieldAnimCallbackListCallback)arg4;
+    list->stride = stride;
+    list->count = arg3;
 
     while (i < arg3) {
-        *(s16 *)entry = 0;
+        ((FieldAnimCallbackListEntry *)entry)->active = 0;
         i++;
         entry += stride;
     }
