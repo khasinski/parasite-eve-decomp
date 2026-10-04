@@ -39,8 +39,8 @@ void ROOMLIB_INIT_SIX_PARTICLES_FUNC(void *arg0, void *arg1, char *state) {
             (wave * (rand() % 0x800 + 0x800)) >> 12;
 
         i++;
-        *(int *)((char *)life + 0x60) = 500;
-        *(short *)((char *)flag + 0x78) = 1;
+        life[0x18] = 500;
+        flag[0x3C] = 1;
         flag++;
         life++;
         particle += 8;
