@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/field_actor.h"
+#include "pe1/render_object.h"
 
 /* Scene e08 player orb: an effect spawned at a random spot around the
  * player, swung around the scene anchor by the anchor's facing, then drawn
@@ -82,5 +83,28 @@ void func_800D3114(GteShortVector *trail, int last, int arg2, int arg3, int r, i
 void func_80078CC4(GteMatrix *matrix, GteVector *scale);
 void func_800C42A4(u8 *sprite, GteMatrix *matrix, int mode);
 void func_8006DF50(void *channel, int id, int value, int volume, int pan);
+
+/* Scene e08 limb beams: ten ribbons fanned from the player's chest bone to
+ * hand and foot bones, each with its own swing and bend offsets. */
+typedef struct SceneLimbBeamShape {
+    u16 rise;
+    u16 bend;
+    u16 reach;
+    u16 swing;
+} SceneLimbBeamShape;
+
+typedef struct SceneLimbBeams {
+    /* 0x00 */ u8 pad00[0xC];
+    /* 0x0C */ s16 fade[10];
+    /* 0x20 */ u8 pad20[4];
+    /* 0x24 */ u8 mode[10];
+} SceneLimbBeams;
+
+extern SceneLimbBeamShape D_801994D8[10];
+extern u16 D_80199658[10];
+extern u8 D_801989BC[];
+extern u8 D_801989D0[];
+int func_80077CF4(int angle);
+int func_80077DC4(int angle);
 
 #endif
