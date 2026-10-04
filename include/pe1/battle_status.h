@@ -46,6 +46,8 @@ int Menu_GetItemContextFlag(void);
 
 /* Shared HUD packet arenas; interior symbols retain independent relocations. */
 extern u8 D_8009E068[], D_8009E070[], D_8009E098[], D_8009E0C0[];
+extern u8 D_8009E0F0[], D_8009E0F8[], D_8009E1D0[], D_8009E1D8[];
+extern u8 D_8009E2F0[];
 extern u8 D_8009E328[], D_800B00E8[], D_800B00F8[], D_800B00FA[];
 extern u8 D_800B0130[], D_800B0140[], D_800B6928[];
 void Battle_DrawStatusValue(int value, int yOffset);
