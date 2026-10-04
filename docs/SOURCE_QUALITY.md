@@ -245,6 +245,22 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### scene_e08, scene_e19_2 and scene_e22 effect controllers
+
+Nine more scene routines match from clean C: scene_e08's limb beams and arm
+glow draws, scene_e19_2's spin ray particle and controller, homing burst
+controller and twin glow controller, and scene_e22's twist model, sweep bolt
+and quake blast controllers, on new narrow headers. One function-scope
+variable shared between modes sets retail's register priority, constant
+texture arguments are written as literals where retail folds them, the
+palette is chosen with a conditional nested inside the clut call, and the
+tpage index is read through a base pointer into a one-field record. room_m273's
+sway shard callback also matches: an explicit literal instead of a variable
+set before its loop adds the counted instruction that keeps retail's
+invariants inside the loop, which shows the stock loop optimiser reproduces
+retail once the source has the right shape. Every overlay SHA-1 hash is
+unchanged and no pins or barriers were added.
+
 ### Joint beacons and the scatter and sinking drops
 
 The joint beacon family in room_m023, room_m123 and room_m005, and the drop
