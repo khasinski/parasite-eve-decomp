@@ -4116,10 +4116,10 @@ barriers.
 modifier bytes through the shared `ItemDataRecord.tailCount` and `tailData`
 fields. Compile-time assertions pin these fields at `+0x14` and `+0x15`, and
 the shared list-index prototype now matches the implementation's unsigned
-index. One selected-modifier access retains its byte-offset expression because
-the field-pointer spelling reverses one commutative address-add instruction.
-The complete `0x44C`-byte function remains byte-identical under
-`probe_match.py`.
+index. The function now shares a `-G4` translation unit with the preceding
+`Inv_CheckFreeSlotCapacity`; its complete `0x558`-byte range matches under
+`probe_match.py`. All modifier accesses use the named record fields without
+changing the retail instructions.
 
 ### Inventory selectability predicate
 
