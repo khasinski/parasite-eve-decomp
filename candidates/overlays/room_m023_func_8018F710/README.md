@@ -39,3 +39,11 @@ moves kind to a0 as retail but loads the counter first in the block (26).
 Retail's allocation (kind a0, 0x40 v1, then D_800E27EC reloaded into v1 by
 sched2 right after the last 0x40 store) is still not reproduced; 18 diffs
 remains the best.
+
+Retry (agent 5, rooms5): 10 diffs. Store order parameter00, extent_x,
+parameter02, extent_y with the counter tested directly
+(`if (D_800E27EC & 1)`) fixes the counter load and the 0x40 register. The
+rest is register choice only: retail shifts the tile index in place
+(`sll a0,a0,1`) and keeps the read-back palette kind in v1, here kind lands
+in a0 in both clut blocks. Splitting `kind` (block-local kinds, a direct
+`D_800E2850[D_800E11EA]`, a block-local index) all go to 30.
