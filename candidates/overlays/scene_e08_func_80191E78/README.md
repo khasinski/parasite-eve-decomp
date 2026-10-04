@@ -30,3 +30,11 @@ and all 24 orders of the palette/parameter06/parameter0A/depth tail give
 parameter block (both orders) bottoms out at 72. The parameter stores
 still schedule above the stack copies (symbol vs stack slot never
 conflict), so the prologue needs another idea.
+
+## Rescore (agent 13, 2026-10-04): lev 61
+
+`lev.py <obj> scene_e08 0x2E90 0x350 -v 70` gives lev 61 (212 words each).
+The edits are the two issues above: the nine parameter stores scheduled
+above the stack copies (about 40 edits) and the swapped s6/s7 loop
+constants of the second loop. Raw-byte search found no copy of this
+function in other overlays. Not retried beyond the rescore.
