@@ -54,7 +54,7 @@ void ROOMLIB_HANDLER_C_NAME(RoomEnt *obj) {
         {
             int *rotBase = (int *)ROOMLIB_HANDLER_C_ROT_TABLE;
             int *entry = rotBase + angle;
-            int hi = *(short *)((char *)entry + 2);
+            int hi = ((short *)entry)[1];
             int lo;
             int savedHi;
             scratch[1] = 0;
