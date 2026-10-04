@@ -232,7 +232,7 @@ typedef struct EnemyCombatant {
 /* 0x9A */ u16 rewardFactorA;
 /* 0x9C */ u16 rewardFactorB;
 /* 0x9E */ u8  rewardSlotId;
-/* 0x9F */ u8  pad_9F;
+/* 0x9F */ u8  stealItemId; /* stealable item; cleared after a successful transfer */
 /* 0xA0 */ s16 lootItemId;
 /* 0xA2 */ s16 lootItemAux;
 /* 0xA4 */ u8  motionPhase;
