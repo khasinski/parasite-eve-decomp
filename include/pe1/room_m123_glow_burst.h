@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
+#include "pe1/room_m123_burst_particle.h"
 
 /* room_m123 glow burst (func_80192F0C): spawns pulsing particles at frame
  * 1, then layers four glow sprites, two flash rings and a swept flare on a
@@ -11,12 +12,6 @@
 typedef struct RoomM123GlowBurst {
     s16 timer;
 } RoomM123GlowBurst;
-
-typedef struct RoomM123BurstParticle {
-    u16 frame;
-    u16 offset;
-    s16 scale;
-} RoomM123BurstParticle;
 
 typedef struct RoomM123BurstTemplate {
     u8 bytes[8];
@@ -47,6 +42,6 @@ int func_800D3FD8(void);
 int func_800D3F64(int sound, int handle);
 void func_800D3BC8(GteShortVector *position, int scale_x, int scale_y, int texture,
                    int clut, int page, int intensity, int unused, int angle);
-int func_80192BDC(int mode, void *particle);
+int func_80192BDC(int mode, RoomM123BurstParticle *particle);
 
 #endif

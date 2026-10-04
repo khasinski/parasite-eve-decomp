@@ -5,17 +5,12 @@
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
 #include "pe1/room_m123_joint_triangle.h"
+#include "pe1/room_m123_burst_particle.h"
 
 /* Particle drawn by the room_m123 pulsing sprite callback: it scales with a
  * cosine of its frame counter, then fades into a second blended sprite. */
-typedef struct RoomM123PulsingParticle {
-    u16 frame;
-    u16 offset;
-    s16 scale;
-} RoomM123PulsingParticle;
+typedef RoomM123BurstParticle RoomM123PulsingParticle;
 
-extern u8 D_80195690[];
-extern u8 D_80195688[];
 extern u8 D_801954BC[];
 extern s16 D_80195684;
 
