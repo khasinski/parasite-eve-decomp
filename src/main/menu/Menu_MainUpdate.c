@@ -18,7 +18,8 @@ M2C_UNK Entity_SetActionMode();                            /* extern */
 M2C_UNK Battle_ReturnToIdle();                            /* extern */
 s8 Pad_GetMenuPressedBitOrDisabled();                                 /* extern */
 M2C_UNK Battle_FlushScriptSounds();                            /* extern */
-M2C_UNK Battle_DrawStatusPanel();                            /* extern */
+struct BattleStatusPanel;
+void Battle_DrawStatusPanel(s32, struct BattleStatusPanel *);
 M2C_UNK Tbl_ResetAll();                            /* extern */
 M2C_UNK Render_BeginSceneLoad();                            /* extern */
 M2C_UNK Asset_Find08w(u16, M2C_UNK, s16, s16, s32); /* extern */
@@ -749,7 +750,7 @@ block_61:
         Entity_UpdateTimers();
     }
     if (M2C_FIELD(D_8009D278, u8 *, 0x56) != 0) {
-        Battle_DrawStatusPanel(0, D_8009D278 + 0x50);
+        Battle_DrawStatusPanel(0, (struct BattleStatusPanel *)(D_8009D278 + 0x50));
         M2C_FIELD(D_8009D278, u8 *, 0x56) = (u8) (M2C_FIELD(D_8009D278, u8 *, 0x56) - 1);
     }
     {
@@ -780,12 +781,12 @@ block_61:
     }
     temp_a1_2 = D_8009D278;
     if (M2C_FIELD(temp_a1_2, u8 *, 0x5E) != 0) {
-        Battle_DrawStatusPanel(0, temp_a1_2 + 0x58);
+        Battle_DrawStatusPanel(0, (struct BattleStatusPanel *)(temp_a1_2 + 0x58));
         M2C_FIELD(D_8009D278, u8 *, 0x5E) = (u8) (M2C_FIELD(D_8009D278, u8 *, 0x5E) - 1);
         temp_a1_2 = D_8009D278;
     }
     if (M2C_FIELD(temp_a1_2, u8 *, 0x66) != 0) {
-        Battle_DrawStatusPanel(0, temp_a1_2 + 0x60);
+        Battle_DrawStatusPanel(0, (struct BattleStatusPanel *)(temp_a1_2 + 0x60));
         M2C_FIELD(D_8009D278, u8 *, 0x66) = (u8) (M2C_FIELD(D_8009D278, u8 *, 0x66) - 1);
     }
     temp_a0_4 = M2C_FIELD(D_8009D278, s32 *, 8);
