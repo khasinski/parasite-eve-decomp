@@ -1,4 +1,4 @@
-#include "../../../src/overlays/room_m273/room_m273_boss.h"
+#include "room_m273_boss.h"
 
 /* Sway shard: flies until it hits the player or the floor (recording the
  * impact in the sway point table), leaving a trail; draws a glow, two
@@ -39,7 +39,7 @@ int func_801981A4(int mode, RoomM273SwayShard *shard) {
                           shard->position.y, shard->position.z);
             return 1;
         } else {
-            int frame = D_800E27EC & 7;
+            s16 frame = D_800E27EC & 7;
             GteShortVector *trail;
             if (frame < 4) shard->frame = frame;
             else shard->frame = frame + 12;
@@ -53,7 +53,6 @@ int func_801981A4(int mode, RoomM273SwayShard *shard) {
         int i;
         int kind;
         int palette;
-        int scale;
         position.x = shard->position.x;
         position.y = shard->position.y;
         position.z = shard->position.z;
@@ -67,9 +66,8 @@ int func_801981A4(int mode, RoomM273SwayShard *shard) {
         spin.y = D_800F32D0->instance->yaw;
         spin.z = 0;
         spin.flags = 1;
-        scale = 0x1000;
         for (i = 0; i < 2; i++) {
-            func_800D0728(&position, 0x60, 0x88, 8, &spin, scale, scale, &D_8019AE04,
+            func_800D0728(&position, 0x60, 0x88, 8, &spin, 0x1000, 0x1000, &D_8019AE04,
                           D_8019AB70, 0x80, 1);
             spin.y = spin.x;
             spin.x = 0;
