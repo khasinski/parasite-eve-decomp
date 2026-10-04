@@ -141,7 +141,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand (needs headers.diff; diff count not recorded) |
 | main | Save_DrawSlotMetadata | 1156 | candidates/main/menu/misc23.c: 1152 vs 1156 bytes, 90.5% (old draft) |
 | main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
-| main | Scene_LoadFieldBg | 1564 | candidates/main/main/Scene_LoadFieldBg: 42 diffs (CD loader) |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
 | main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender_typed: -G8/-G4 typed draft at lev 172 (spills/regalloc in the ramp edge test, still gotos), see README; OWNED BY ANOTHER AGENT |
