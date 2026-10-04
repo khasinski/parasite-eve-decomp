@@ -99,12 +99,18 @@ int Render_SetupEntityPrims(RenderObjectEntity *obj, RenderObjectHeader *model,
     obj->projection_origin = cursor.vectors;
     cursor.vectors++;
     obj->matrix_commands = cursor.commands;
+    /* Matrix command block, rounded up to whole words. */
     bytes = header->matrix_command_bytes;
-    words = (u16)bytes >> 2;
-    if ((bytes & 3) > 0)
-        bytes = (words + 1) * 4;
-    else
-        bytes = words * 4;
+    words = (u16)bytes;
+    words >>= 2;
+    if ((bytes & 3) > 0) {
+        bytes = words;
+        bytes++;
+        bytes *= 4;
+    } else {
+        bytes = words;
+        bytes *= 4;
+    }
     cursor.commands += bytes;
 
     if (setup) {
@@ -158,9 +164,9 @@ int Render_SetupEntityPrims(RenderObjectEntity *obj, RenderObjectHeader *model,
     {
         RenderVec3s *section = obj->model_section14;
 
-        obj->table_value70 = section->pad;
+        obj->hit_cylinder.radius = section->pad;
     }
-    obj->origin_value = obj->projection_origin->pad;
+    obj->hit_cylinder.bounds_value1 = obj->projection_origin->pad;
     obj->animation_entries = (RenderAnimationLookupEntry *)prim.head;
     entry = (RenderAnimationLookupEntry *)prim.head;
     for (i = 0; i < obj->header->part_count; i++) {
@@ -168,7 +174,7 @@ int Render_SetupEntityPrims(RenderObjectEntity *obj, RenderObjectHeader *model,
             RenderVec3s *bounds = &obj->bounds_vertices[i * 2];
 
             if (bounds[1].pad >= 0) {
-                entry->bounds_value0 = bounds[0].pad;
+                entry->radius = bounds[0].pad;
                 entry->bounds_value1 = bounds[1].pad;
                 entry->animation_id = i;
                 entry++;
@@ -218,7 +224,7 @@ int Render_SetupEntityPrims(RenderObjectEntity *obj, RenderObjectHeader *model,
     obj->animation_source = 0;
     obj->animation_id = 0;
     obj->header->visible_part_count = obj->header->vertex_count - skipped;
-    obj->anchor_position.pad = obj->projection_origin->y + (obj->origin_value >> 4);
+    obj->hit_cylinder.animation_id = obj->projection_origin->y + (obj->hit_cylinder.bounds_value1 >> 4);
     for (i = 0; i < 2; i++) {
         obj->rotation_overrides[i].matrix_index = 0;
         obj->rotation_overrides[i].flags = 0;
