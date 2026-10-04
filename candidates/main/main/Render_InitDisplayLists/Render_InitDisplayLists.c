@@ -16,8 +16,8 @@ int Render_InitDisplayLists(int mode)
     state = 0;
     done = 0;
     command = -1;
-    colors[0] = -1;
     wait = 180;
+    colors[0] = -1;
     VSync(0);
     SetDispMask(0);
     /* Recorded crutch debt: retail's CD retry loops restart through gotos,
@@ -72,6 +72,8 @@ retryFog:
         case 1:
             status = Render_FindParticleEffect(command, result);
             switch (status) {
+            case 1:
+                break;
             case 2:
                 Render_SetupColorTable(mode == 1 ? 1 : 2, 0, colors);
                 state = 2;
@@ -103,6 +105,12 @@ retryFog:
                 break;
             }
             break;
+        case 5:
+            if (wait != 0)
+                wait--;
+            else
+                state = 4;
+            break;
         case 4:
             status = OpenPeImage();
             switch (status) {
@@ -122,17 +130,11 @@ retryFog:
                 if ((mode == 1 && (D_800B0DCD & 1)) || (mode == 2 && (D_800B0DCD & 2))) {
                     done = 1;
                 } else {
-                    wait = 180;
                     state = 9;
+                    wait = 180;
                 }
                 break;
             }
-            break;
-        case 5:
-            if (wait != 0)
-                wait--;
-            else
-                state = 4;
             break;
         case 6:
             if (wait != 0) {

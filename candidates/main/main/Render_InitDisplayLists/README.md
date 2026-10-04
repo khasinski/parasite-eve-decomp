@@ -1,4 +1,4 @@
-# Render_InitDisplayLists (main 0x5A308, 0x5E0 bytes): 67 diffs, size exact
+# Render_InitDisplayLists (main 0x5A308, 0x5E0 bytes): lev 2
 
 The asm file holds one function: splat's `PeImage_Mount_Dispatch`
 (0x80069E30) is case 4 of the state switch (it is the jump-table target
@@ -48,3 +48,26 @@ s1<->s2 swap (retail wait s1 / state s2, mine state s1 / wait s2).
   The permuter (darwine, merged 0x5E0 target from the .s with the
   PeImage_Mount_Dispatch glabel turned into a local label) found nothing
   in 20k iterations.
+
+Update (agent 6, third pass, scored with lev.py): lev 2. The only
+remaining edit is the order of `li s1,180` / `li s2,9` around the `j` in
+case 4's "wrong disc" path (retail sets wait first, state in the delay
+slot).
+- Case 5 sits before case 4 in the source (jump table: [4] = 0x80069E30,
+  [5] = 0x80069E20, so case 5's code comes first).
+- Case 1's DsSync switch has `case 1: break;` (DslDataReady): it turns the
+  compare tree's `slti 2` into retail's `slti 3`.
+- `wait = 180;` comes before `colors[0] = -1;` (prologue order).
+- The near-tie: written `wait = 180; state = 9;` (retail's order) global
+  alloc gives state s1 / wait s2 (lev 26): state 33 refs / 222 = 0.7432,
+  wait 41 / 278 = 0.7374. Written `state = 9; wait = 180;` the lengths
+  shift by one each (state 223, wait 277: 0.7399 vs 0.7401), the
+  registers are right and only that pair is swapped (lev 2).
+- Alternative with cases 6 and 7 shared and 8, 9 separate: priorities
+  are right with retail's order (state 31 refs, floor_log2 4) but loop.c
+  sees 232 real insns and still hoists the ordering table base
+  (29*2*4 = 232 >= 232); with the `else if` disc-flag test (duplicated
+  `done = 1`) it is lev 9. One more counted insn would make that variant
+  match. Tried for +1 without effect: ternary forms, break-style case
+  bodies, `!= 0` tests, MoveImage forms, pointer-add OT lookup, inline
+  helper (fewer insns), if/else colour calls (changes size).
