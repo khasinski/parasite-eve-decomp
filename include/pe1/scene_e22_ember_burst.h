@@ -45,6 +45,8 @@ typedef struct SceneE22EmberChannel {
 typedef struct SceneE22EmberEvent {
     u8 reserved[0xD];
     u8 active;                    /* 0x0D */
+    u8 reserved0E[4];
+    s16 jointSet;                 /* 0x12 */
 } SceneE22EmberEvent;
 
 typedef struct SceneE22EmberFloor {
@@ -81,5 +83,32 @@ extern int func_800D3F64(int sound, int handle);
 extern void func_80020D50(void);
 extern void func_80020DD0(void);
 extern int func_80193940(int mode, RoomOrbitTrailParticle *p);
+
+/* Link beam controller (func_80193414): two light ribbons strung across
+ * three actor joints picked by the scene event's joint set; the last joint
+ * sheds glow sparks along its heading, then the ribbons fade. */
+typedef struct SceneE22LinkBeam {
+    s16 reserved00;               /* 0x00 */
+    s16 timer;                    /* 0x02 */
+    s16 alpha;                    /* 0x04 */
+    s16 jointSet;                 /* 0x06 */
+    u8 trailA[0xB0];              /* 0x08 */
+    u8 trailB[0xB0];              /* 0xB8 */
+} SceneE22LinkBeam;
+
+typedef struct SceneE22LinkJoints {
+    s16 first, middle, last;
+} SceneE22LinkJoints;
+
+extern SceneE22LinkJoints D_801991B8[];
+extern GteShortVector D_8018F1D8;
+extern GteShortVector D_8018F1E0;
+extern RenderColor D_8018F1E8;
+extern RenderColor D_8018F1EC;
+extern RenderColor D_8018F1F0;
+extern void func_800CE8F0(void *pool, int index, void *offset, void *position);
+extern void func_800D1384(void *from, void *to, int width, void *color0,
+                          void *color1, int alpha, void *trail, int mode);
+extern int func_801931B8(int mode, RoomOrbitTrailParticle *p);
 
 #endif

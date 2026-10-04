@@ -98,7 +98,7 @@ segments:
       - [0x3560, c, RoomEffect_OrbitRingTrailParticle]
       - [0x3B08, c, RoomEffect_OrbitRingBurst]
       - [0x41D0, c, RoomEffect_DampedGlowParticle]
-      - [0x442C, asm, func_scene_e22_00442C]
+      - [0x442C, c, RoomEffect_LinkBeamController]
       - [0x4958, c, RoomEffect_EmberDriftParticle]
       - [0x50A4, c, RoomEffect_EmberDriftController]
       - [0x5874, c, RoomEffect_RisingEmberParticle]
