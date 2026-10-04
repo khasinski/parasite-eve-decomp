@@ -245,6 +245,20 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Floor walker in eight rooms and two scene_e19_2 effects
+
+The floor walker is identical in room_m145, room_m152, room_m153, room_m154,
+room_m332, room_m399, room_m401 and room_m402, and all eight now instantiate
+`RoomLib_FloorWalker.inc`. It steps a creature along its heading, tests the
+step against the walkable polygon's edges through the stock GTE macros,
+reflects off a crossed edge and runs a vertical hop. It is ordinary compiler
+output; the earlier "handwritten" label on the room_m145 copy came only from
+its coprocessor instructions. The rotation matrix lives on the scratchpad as
+a volatile field because retail reads it back. scene_e19_2's orbit spin burst
+and glint ribbon controller, both split from the scene tail blob, are new
+templates modelled on the orbit trail burst. Every instance matches retail
+with no pins or barriers; all nine overlay SHA-1 hashes are unchanged.
+
 ### Actor ground shadow and the AKAO timer tick
 
 `Render_DrawRoom` turns out to be the actor ground shadow pass: it builds a
