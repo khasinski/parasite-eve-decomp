@@ -1578,7 +1578,7 @@ segments:
       - [0xC084C, c, engine/FieldEng_StarFan]
       - [0xC0F28, asm, engine/engine_800CEE20_C0F28]
       - [0xC1688, c, engine/FieldEng_RotatedTriangle]
-      - [0xC1B84, asm, engine/engine_800CEE20_C1B84]
+      - [0xC1B84, c, engine/FieldEng_HistoryTrail]
       - [0xC22E0, c, engine/FieldEng_FadeTile]
       - [0xC2524, c, engine/Geo_ClipAlternatingArcPoint]
       - [0xC25EC, c, engine/FieldEng_PointTile]
