@@ -245,6 +245,20 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Field engine quads, glow effects and star fan
+
+Seven more field engine routines of the main executable match from clean C:
+the rotated quad, the rotated triangle, the glow line, the glow fountain, the
+fade particle, the star fan and the flash burst. The rotated triangle's
+prototype in `render_object.h` now carries its real argument types, and every
+caller still compiles to the same object; `D_800E2244` is a signed halfword,
+as retail reads it. Store orders between separate packet fields were set by
+trying the few orders the scheduler can produce, chained assignments
+reproduce retail's reversed stores, and the flash burst's range check is
+written as two comparisons, which GCC folds into retail's unsigned compare.
+The main executable and every overlay are unchanged and no pins or barriers
+were added.
+
 ### Field engine oriented sprite and textured model draw
 
 The field engine's oriented sprite and textured model draw in the main
