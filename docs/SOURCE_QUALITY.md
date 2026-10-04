@@ -7875,6 +7875,14 @@ bindings and seven empty barriers. Remaining debt: 23 pins, 11 empty
 barriers, raw pointer casts/access. Levenshtein score is zero before link.
 Linked function SHA-1: d7a2e299a4112b43bbe9241073355f5fb18981be.
 
+### Render animation decoder position input
+
+`Render_DecompressAnimFrame` reads a 12-byte position view from the player's
+`decoderData` pointer. `RenderAnimPositionInput` names the X/Y/Z halfwords at
+`+2`, `+6`, and `+0xA`; compile-time assertions tie those offsets to the
+corresponding fields in `RenderAnimPlayer`. Replacing the three raw field
+macros preserves all 0x8F4 function bytes, with no new pins or barriers.
+
 
 ### Render_DrawTexturedQuads
 

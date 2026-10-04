@@ -2,6 +2,7 @@
 #include "m2c_macros.h"
 #include "pe1/gte.h"
 #include "pe1/render_object.h"
+#include "pe1/render_anim_position.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -143,6 +144,7 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
     RenderAnimVertex *vertex_record;
     s32 **matrix_slot;
     s32 *matrix_value;
+    RenderAnimPositionInput *position_input;
 
     var_s2 = arg5;
     var_a2 = arg2;
@@ -161,9 +163,10 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
     stack.matrix.rotation[1][0] = 0;
     stack.matrix.rotation[0][2] = 0;
     stack.matrix.rotation[0][1] = 0;
-    stack.matrix.translation[0] = M2C_FIELD(arg1, s16 *, 2);
-    stack.matrix.translation[1] = M2C_FIELD(arg1, s16 *, 6);
-    stack.matrix.translation[2] = M2C_FIELD(arg1, s16 *, 0xA);
+    position_input = arg1;
+    stack.matrix.translation[0] = position_input->x;
+    stack.matrix.translation[1] = position_input->y;
+    stack.matrix.translation[2] = position_input->z;
     RotMatrixY(arg3 & 0xFFFF, (GteMatrix *)&stack.matrix);
     matrix_slot = &D_800BCFA4.value;
     matrix_value = *matrix_slot;

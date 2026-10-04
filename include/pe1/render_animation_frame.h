@@ -2,6 +2,7 @@
 #define PE1_RENDER_ANIMATION_FRAME_H
 
 #include "common.h"
+#include "pe1/render_anim_position.h"
 
 typedef struct RenderAnimVramCounter {
     int value;
@@ -36,6 +37,15 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderAnimFrameData, frameCount) == 2,
                   render_anim_frame_count_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderAnimPlayer, z) == 0x32,
                   render_anim_player_z_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderAnimPlayer, x) - 0x28 ==
+                      PE1_OFFSETOF(RenderAnimPositionInput, x),
+                  render_anim_player_position_x_view);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderAnimPlayer, y) - 0x28 ==
+                      PE1_OFFSETOF(RenderAnimPositionInput, y),
+                  render_anim_player_position_y_view);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderAnimPlayer, z) - 0x28 ==
+                      PE1_OFFSETOF(RenderAnimPositionInput, z),
+                  render_anim_player_position_z_view);
 
 extern int g_BattleAttackAnimFrame;
 extern RenderAnimActor *g_ActiveActor[3];

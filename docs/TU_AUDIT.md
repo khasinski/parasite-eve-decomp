@@ -167,6 +167,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Layout | Evidence and use |
 | --- | --- |
+| `RenderAnimPositionInput` | `Render_DecompressAnimFrame` reads the X/Y/Z halfwords at `+2/+6/+0xA` from the player's `decoderData` pointer. The 12-byte typed view and assertions in `render_anim_position.h` are cross-checked against the corresponding `RenderAnimPlayer` fields; all `0x8F4` function bytes match. |
 | `ItemDataRecord` equipment-table view | `Inv_LookupActiveListDisplayData` now reads the immutable 0x20-byte equipment-table entries through `itemId`, `flags`, and `kind`, the same shared record and asserted offsets used by active-list consumers. The function's 0xC0 bytes match with `probe_match.py`; the table remains distinct from mutable `InventoryRuntime.equipment`. |
 | `RoomBounceGlint` | The `room_m086` emitter and callback use the same 20-byte slot: x/y/z/flag, velocity, timer and phase. The shared type describes both payload accesses; size and phase offset are compile-time checked. |
 | `RoomM273PulseRecord` | The 12-byte pool slot allocated by `RoomEffect_PulseBatchFlow` is passed to its adjacent callback. The callback view names a `GteShortVector` and velocity at `+8`; the emitter view names x/y/z/size/phase/unknown halfwords at `+0..+0x0A`. The union and size/offset assertions in `room_m273.h` and `room_m273_effects.h` cover both views, and the callback plus controller now compile in one TU. |
