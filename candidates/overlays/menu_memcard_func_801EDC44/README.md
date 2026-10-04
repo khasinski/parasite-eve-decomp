@@ -83,3 +83,22 @@ place (122), lift split into two statements (size change).
   not the original either; it only confirms that lift is a global pseudo in
   retail. Look for a function-scope variable that is otherwise unused in
   mode 2 (or set in another block) rather than a block-local lift.
+
+## Lift carried from the mode 1 loop (agent 4, 2026-10-04): 2 diffs
+
+`Memcard_RingBurstController_lift_global.c` (found by the permuter on
+darwine, scratch a4lrb3): the spark loop in mode 1 writes its last velocity
+through the same variable, `lift = func_80071A54() % 140 - 70;
+child->vz = lift;`. That makes lift a global pseudo, and global-alloc then
+reproduces retail's whole register map (angle s3, &ring s4, scale s5, lift
+s4, block locals &band s1 / &tilt s2 / &offset s3, dim s0). The only
+remaining words are in the loop: retail computes vz in v0
+(`addiu v0,v0,-70; sh v0,12(s0)`), this build in lift's register s4.
+
+So retail's lift is referenced outside the state 1 block at flow time, but
+not in an insn that survives to register allocation (or not in the loop).
+Next idea: a set of the shared variable that combine folds away after flow
+has marked it global (combine does not recompute reg_basic_block), e.g. a
+copy that merges into a store of a register or of zero. Plain `lift = ...;
+child->vz = lift;` variants: `child->vz = lift = ...` (2), all three
+velocities through lift (6), remainder in lift and `- 70` at the store (10).
