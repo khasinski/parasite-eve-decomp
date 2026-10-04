@@ -12,11 +12,11 @@ Size is the objdiff function size in bytes.
 | battle (excluded) | 13 | 26172 |
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
-| needs-goto / stack switch | 4 | 3960 |
-| inline-asm C unit | 2 | 300 |
-| parked near-miss | 32 | 52248 |
-| not yet attempted | 1 | 2384 |
-| total | 116 | 101336 |
+| needs-goto / stack switch | 6 | 6128 |
+| inline-asm C unit | 0 | 0 |
+| parked near-miss | 29 | 50888 |
+| not yet attempted | 0 | 0 |
+| total | 112 | 99460 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -124,45 +124,41 @@ Category notes:
 | main | main | 748 | Boot_MainLoop: goto dispatch plus scratchpad stack switch around func_8019234C (inline asm in C unit) |
 | main | Render_InitDisplayLists | 808 | CD retry loader (CdRom_PollReady/Cd_GetReadyStatus retry loops), no candidate |
 | main | Scene_LoadEntityTextures | 1708 | CD retry loader (CdRom_PollReady retry loop), no candidate |
+| menu_memcard | func_80121C04 | 1084 | menu_memcard video open pair: needs a goto (parked by another agent) |
+| menu_memcard | func_8012AA4C | 1084 | menu_memcard video open pair: needs a goto (parked by another agent) |
 
 ## inline-asm C unit
 
-| Binary | Function | Size | Notes |
-|---|---|---:|---|
-| main | func_800C2D0C | 148 | stack adjust inside a branch delay slot (non-GCC shape); body is inline asm |
-| main | CdRom_InitDsCallbacks | 152 | plain C except the `sw` in the CdRom_InitCmdState jal delay slot (lui $at form), held as inline asm |
+None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 
 ## parked near-miss
 
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
 | main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: 1 extra instruction (648 vs 644 bytes) |
-| main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded) |
+| main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: 24 diffs (prologue), func_800D3BC8 variant 26 |
 | main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand (needs headers.diff; diff count not recorded) |
 | main | Save_DrawSlotMetadata | 1156 | candidates/main/menu/misc23.c: 1152 vs 1156 bytes, 90.5% (old draft) |
 | main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
 | main | Scene_LoadFieldBg | 1564 | candidates/main/main/Scene_LoadFieldBg: 42 diffs (CD loader) |
-| main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded) |
+| main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
-| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender.c (old byte-offset draft, no README, diff count not recorded) |
-| main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims.c (old byte-offset draft, no README, diff count not recorded) |
-| main | Akao_StepSampleLoader | 2048 | candidates/main/main/Akao_StepSampleLoader.c (old byte-offset draft, no README, diff count not recorded) |
+| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
+| main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
+| main | Akao_StepSampleLoader | 2048 | candidates/main/main/Akao_StepSampleLoader.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | Scene_LoadRoom | 2160 | candidates/main/gpu/Scene_LoadRoom.c (old byte-offset draft, no README, diff count not recorded) |
 | main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: one register swap in the four gte_CompMatrix expansions |
 | main | Scene_UpdateEntityPositions | 2432 | candidates/main/main/Scene_UpdateEntityPositions.c (old byte-offset draft, no README, diff count not recorded) |
-| main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt.c (old byte-offset draft, no README, diff count not recorded) |
-| main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary.c (old byte-offset draft, no README, diff count not recorded) |
+| main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
+| main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | Menu_ItemListInputHandler | 3100 | candidates/main/menu/Menu_ItemListInputHandler_plainc: 21 words |
 | main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
 | fx_common | func_8018F55C | 224 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
 | fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: ~500 diffs (register allocation) |
 | menu_memcard | func_801214D4 | 496 | twin of the matched Memcard_UploadVideoSlice at 0x95D8 (byte-identical modulo relocations), but that source carries 3 pins, 3 barriers and a volatile, so a template would duplicate debt; the clean draft in candidates/overlays/menu_memcard_func_801214D4 is off by size (retail keeps &selector in a register and re-reads it, so a volatile read there is justified) |
-| menu_memcard | func_80122040 | 788 | menu_memcard_func_80122040 step video (goto draft); OWNED BY ANOTHER AGENT |
-| menu_memcard | func_8012AE88 | 788 | menu_memcard_func_80122040 step video (goto draft); OWNED BY ANOTHER AGENT |
-| menu_memcard | func_80121C04 | 1084 | menu_memcard_func_80121C04 open video: ~500 diffs; OWNED BY ANOTHER AGENT |
-| menu_memcard | func_8012AA4C | 1084 | menu_memcard_func_80121C04 open video: ~500 diffs; OWNED BY ANOTHER AGENT |
+| menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: 49 diffs (local-alloc gives the block-local lift s0 in the last state 1 block; retail keeps fade there) |
 | menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, diff count not recorded) |
 | room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: 88 diffs |
 | scene_e08 | func_8019104C | 764 | candidates/overlays/scene_e08_func_8019104C: 10 diffs (register naming) |
@@ -171,9 +167,7 @@ Category notes:
 
 ## not yet attempted
 
-| Binary | Function | Size | Notes |
-|---|---|---:|---|
-| menu_memcard | func_801EDC44 | 2384 | menu_memcard 0x244C GTE glow effect, unique bytes, no candidate |
+None: menu_memcard 0x244C now has a parked candidate.
 
 ## Matched on this audit branch
 
@@ -183,5 +177,9 @@ Category notes:
 | scene_e10 | func_8018F420 | 824 | same |
 | main | Math_FixedDivide | 20 | split out of the asm_constrained math_fixed unit |
 | main | Gpu_InitDrawModeSprtPacket | 100 | split out, typed packet record |
-| main | Inv_BuildItemGridFromCategory | 452 | inline mult asm was GCC's own i % 3; indexed record/column form |
+| main | Inv_BuildItemGridFromCategory | 452 | inline mult asm was GCC's own i %% 3; indexed record/column form |
 | main | Util_CopyFFTerminatedBytes, Util_AppendFFTerminatedBytes, Inv_SelectActiveList | 288 | credited once util.c became plain C |
+| main | CdRom_InitDsCallbacks | 152 | plain C under the `ASSEMBLER: GNU` marker its LIBDS siblings use: GNU as in reorder mode moves the `sw` of `g_DsPollCallback = 0` into the CdRom_InitCmdState delay slot |
+
+The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA144) is now matched on main by another agent and is left out of the table.
+| main | func_800C2D0C | 148 | plain C (stock 2.7.2, maspsx): the 8-byte frame comes from the `s16 offset` local, sched2 sinks the prologue `addiu sp` to the branch and the assembler fills the delay slot with it; `offset += size; state->data_next = offset;` gives the in-place add |

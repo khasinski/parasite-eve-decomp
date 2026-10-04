@@ -62,7 +62,8 @@ typedef struct FieldActor {
     /* 0x0A0 */ struct FieldActorNode *task_node_lists[3]; /* 3 task-node list heads (Entity_MarkNodeFree) */
     /* 0x0AC */ unsigned char pad_0AC[0xE0];
     /* 0x18C */ struct FieldActor *parent; /* parent actor; child copies its pos/rot when flags & 0x400000 */
-    /* 0x190 */ unsigned char pad_190[0x0C];
+    /* 0x190 */ void (*frame_callback)(struct FieldActor *actor); /* run first every frame */
+    /* 0x194 */ unsigned char pad_194[0x08];
     /* 0x19C */ int script_cursor_19c;
     /* 0x1A0 */ int script_cursor_1a0;
     /* 0x1A4 */ int field_1a4;          /* rolled back from field_1a8 alongside pos */

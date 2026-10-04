@@ -467,7 +467,8 @@ typedef struct RenderObjectHeader {
     u16 anchor_y;
     u16 anchor_matrix_index;
     u16 shadow_radius; /* 0x14: half extent of the ground shadow quad */
-    unsigned char pad_16[4];
+    u16 scale;         /* 0x16: copied from the owning actor's move_speed */
+    unsigned char pad_18[2];
     unsigned short visible_part_count;
 } RenderObjectHeader;
 

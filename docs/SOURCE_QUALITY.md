@@ -245,6 +245,21 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### CD-ROM callback setup, the field slot registrar and the entity frame update
+
+Three main executable routines that previously sat in units with inline
+assembly or were never matched now come from clean C.
+`CdRom_InitDsCallbacks` takes the `/* ASSEMBLER: GNU */` marker its LIBDS
+siblings use, so the assembler fills the call's delay slot with the following
+store as retail does. `func_800C2D0C`, the field slot registrar, is ordinary
+compiler output: a signed short offset leaves the small frame whose stack
+adjustment the assembler moves into the branch delay slot, and it reads the
+engine work area through its own narrow `FieldEngDataState` view.
+`Entity_FrameUpdate` uses the per-file `-G8` compiler and `-G4` assembler
+split, approved for this case, because retail reads the 8-byte game state
+block absolutely while the 4-byte actor pointers stay gp-relative. The main
+executable and every overlay are unchanged and the recorded debt goes down.
+
 ### Field script interpreter
 
 The field engine's script interpreter (`func_800C2758`) matches from clean C
