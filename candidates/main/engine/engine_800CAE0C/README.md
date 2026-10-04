@@ -21,3 +21,27 @@ Retail's order must have been 0x24 > 0x34 > 0x44 (0x14 left to global/fp),
 i.e. a shorter life or more refs for sp+0x34. Statement reorders, a spin
 array and rot.t store orders did not change it. The decomp-permuter cannot
 help: pycparser drops the GTE asm statements, so its candidates are invalid.
+
+## Second pass (2026-10-04): what retail's allocation implies
+
+Reading global.c/local-alloc.c against the -dl/-dg dumps narrows the target:
+
+- The whole function is one basic block, so every column pointer is a
+  local-alloc candidate. Mine: local-alloc gives the five free callee-saved
+  regs (s3..s7) to 116 (&D_800F34C8), 114 (&D_800C21F4), 112 (sp+0x24),
+  111 (sp+0x44) and 109 (sp+0x14): with equal refs (5) the priority is the
+  qty span, and later-born pseudos have shorter spans because layer 1 holds
+  more insns than layer 4. Global-alloc then takes 108 -> fp (free), 106/105
+  evict 114/116 (refs/live_length 5/216), and &spinB (2/35) evicts s7 = 109.
+- Retail's result is only reachable if local-alloc took 105, 106, 108, 111,
+  112 and NOT 109/114/116: then 109 is the first global allocno and gets fp,
+  114/116 are rematerialised (lui/addiu per layer, as retail shows), &spinB
+  evicts 111 (5/110 < 2/35) into s7, and &spinC/&spinD stay on the stack.
+  So in retail 109 and both symbol pseudos ranked below 105 (span ~113),
+  i.e. they had fewer refs (4 refs = priority 8 instead of 10) or longer
+  spans than the structure of this source gives them.
+- Tried without effect or worse: static inline per-layer helper (frees the
+  per-layer scale slots, frame shrinks to 192), one shared scale variable,
+  pointer variables for &matrix/&rotation, rotation.t stores before the
+  matrix copy, reversed rotation.t store order, early `sprite`/`scaleSource`
+  pointer variables (they move into saved registers).
