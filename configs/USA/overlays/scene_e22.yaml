@@ -105,7 +105,7 @@ segments:
       - [0x8044, c, RoomEffect_TwistBeamParticle]
       - [0x8554, c, RoomEffect_SweepBoltController_8019753C]
       - [0x91C8, c, func_801981B0]
-      - [0x9360, asm, func_scene_e22_009360]
+      - [0x9360, c, RoomEffect_QuakeBlastController_80198348]
       - [0x9F5C, c, func_80198F44]
       - [0x9F6C, c, Scene_WaitForActorSignal]
       - [0xA040, c, func_80199028]
