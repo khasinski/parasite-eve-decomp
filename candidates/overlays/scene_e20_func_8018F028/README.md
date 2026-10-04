@@ -90,3 +90,26 @@ local-alloc gives it v0 (kind v1). Retail has kind a0, the 4 in v1 and the
 pseudo that stays inside the block. A block-local `int special = 4;` set
 again right before the palette read is not enough: the first set is dead and
 is removed, so the pseudo is single-set again (size 0x72C).
+
+## Retry (agent 9, 2026-10-04): lev 4
+
+`RoomEffect_FlareParticle_8018F028_shared_temp.c`: one function-scope `int
+special` used as a short-lived scratch for everything retail keeps in v1 in
+case 0: the tpage value, the three rotation copies (`special =
+(u16)p->heading.x; rotation.x = special;` and so on) and the 4 of the first
+palette compare (`special = 4; ... kind == special`). The second compare
+keeps the literal 4 and reuses the s5 texture argument. Why it works
+(cc1 -dl/-dg): with several sets the 4 is no longer a single-set launch
+pseudo, so sched1 leaves `li v1,4` in the lhu delay slot; with 10 refs it
+outranks `kind` (6 refs over 9 insns) in global alloc and takes v1, kind
+takes a0. The `(u16)` casts give the lhu copies retail has (an int copy
+gives lh; a u16/s16 `special` lets cse fold the compare back to a launched
+literal).
+
+Remaining 4 words: the second palette block. Retail keeps kind in v1 there
+and in a0 in the first block, so the two kind reads are different pseudos.
+`kind` shared by both blocks is one global pseudo (a0 in both). A separate
+block-local `kind2` for the second block makes the first kind local too,
+local-alloc then gives it v1 before `special` is allocated (lev 13). Using
+`special` for the second kind is lev 17. Not tried: making the first kind
+global by another plain-C reference that leaves no code.

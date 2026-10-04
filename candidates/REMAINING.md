@@ -162,7 +162,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: lev 43 (358 vs 360 words; tile page table base in s3) |
 | scene_e08 | func_8019104C | 764 | candidates/overlays/scene_e08_func_8019104C: lev 10 (incoming state pointer copy kept in two registers by retail) |
 | scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev 61 (retail keeps the nine D_800F3368 stores after the stack vector copies; second loop hoisting) |
-| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: lev 7 (single `special` variant) |
+| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: lev 4 (shared scratch temp variant; second palette block's kind register) |
 
 ## not yet attempted
 
