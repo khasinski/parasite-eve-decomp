@@ -6,7 +6,15 @@
 #include "pe1/psyq_cd.h"
 
 typedef struct VideoFrame { u32 reserved[2], time, reserved0c; u16 width, height; } VideoFrame;
-typedef struct VideoEntry { u8 reserved[8]; s16 end; } VideoEntry;
+/* One entry of a video table: file name, colour depth and playback layout. */
+typedef struct VideoEntry {
+    char *name;            /* 0x00 file name appended to the directory */
+    u8 wide;               /* 0x04 24-bit frames */
+    s16 speed;             /* 0x06 */
+    s16 end;               /* 0x08 last frame */
+    u16 x, y;              /* 0x0A display origin */
+    u8 reserved0e[6];
+} VideoEntry;
 typedef struct VideoRect { s16 x,y,w,h; } VideoRect;
 /* Playback state of one video player copy. */
 typedef struct VideoDisplay {
@@ -54,7 +62,8 @@ extern VideoDisplayTemplate D_801D1384[2],D_800BCE80[2];
 extern VideoDrawTemplate D_801D13AC[2],D_800BCDC8[2];
 extern u8 *D_801D0DE8,*D_801D0DEC,*D_801D0DF0,*D_801D0DF4,*D_801D0DF8,*D_801D0DFC;
 extern u8 D_800B0DBA;
-extern s16 D_800B0DBC;
+typedef struct VideoFrameCount { s16 value; } VideoFrameCount;
+extern VideoFrameCount D_800B0DBC;
 extern u32 D_800B0CD8;
 extern void func_8007512C(VideoRect *,s32,s32);
 
@@ -66,18 +75,40 @@ extern VideoDisplayTemplate D_801227EC[2];
 extern VideoDrawTemplate D_80122814[2];
 
 typedef struct VideoDiscRange { u16 start,end; } VideoDiscRange;
-typedef struct VideoPlaybackEntry { u8 reserved[4],enabled,reserved05[15]; } VideoPlaybackEntry;
-extern VideoPlaybackEntry D_801D0E00[];
+extern VideoEntry D_801D0E00[];
 extern VideoDiscRange D_8009315E;
 extern u16 D_80093160,D_80093162;
 extern u32 D_800B0DD8,D_8009D26C;
-extern s32 func_8006E6A8(u32,void *,s32),CdRom_PollReady(void),func_80192934(void),func_801924F8(s16);
-extern void SetDispMask(s32),DrawSync(s32),func_80074A44(s32),func_80072714(void),func_800726C4(void),func_80072724(void),func_8003EB04(void),func_8010C0D8(s32),func_8007A2A4(void),func_80080DC4(s32,s32,s32),Gpu_RenderFrame(void);
+extern s32 func_8006E6A8(u32,void *,s32),CdRom_PollReady(void);
+s32 Memcard_StepVideo(void);
+extern void SetDispMask(s32),DrawSync(s32),func_80074A44(s32),func_80072714(void),func_800726C4(void),func_80072724(void),func_8003EB04(void),func_8010C0D8(void (*)(void)),func_8007A2A4(void),func_80080DC4(s32,s32,s32),Gpu_RenderFrame(void);
 extern s32 VSync(s32);
 
 s32 Memcard_PlayVideo(s32 index);
 
 void Memcard_SetVideoDisplay(s8 index, s8 wide);
+void func_80121004(s8 index, s8 wide);
+
+/* Video open: file lookup, stream start and first decoded frame. */
+typedef struct VideoFile { CdlLOC pos; u32 size; char name[16]; } VideoFile;
+extern u8 D_800B0DBF;
+extern VideoEntry D_80122438[];
+extern VideoFile D_801223FC, D_801D0DC4;
+extern CdlLOC D_80122414, D_801D0DDC;
+extern VideoDisplay D_801228CC, D_801D1464;
+extern char D_80120FF4[], D_80120FFC[], D_8018F2E4[], D_8018F2EC[];
+extern void func_800719F4(char *, char *), func_8007A214(void *, s32);
+extern void func_8007C304(s32, s32, s32, s32, s32), func_8007C394(void *);
+extern void func_8010C89C(void *, void *, void *), func_801214D4(void);
+extern VideoFile *func_80081414(VideoFile *, char *); extern s32 func_80081314(CdlLOC *, s32);
+extern s32 func_80080D5C(s32, CdlLOC *, void *);
+s32 func_80121C04(s16 index);
+s32 Memcard_OpenVideo(s16 index);
+
+/* Per-frame video step: decode, restart the stream on a stall, page flip. */
+extern u8 D_801223F6, D_801223F8, D_801D0DBE;
+extern void func_8010BFA0(void *, s32), func_8007C2A0(CdlLOC *);
+s32 func_80122040(void);
 
 
 #endif

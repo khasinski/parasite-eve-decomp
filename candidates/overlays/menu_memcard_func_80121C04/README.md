@@ -7,6 +7,15 @@ Memcard_OpenVideo). Apply `menu_memcard_video.h.patch` first (full 20-byte
 VideoEntry, CD prototypes, func_8010C0D8 takes a callback, PlayVideo calls
 Memcard_OpenVideo / Memcard_StepVideo).
 
+Update (agent 5, video step match): the header patch is now applied on the
+branch, the 0x9D08 copy sits in the `menu_memcard_video_step_linkbase`
+segment (vram 0x801924F8) next to Memcard_StepVideo, and its asm label comes
+from `Memcard_OpenVideo = 0x801924F8;` in sym.menu_memcard.txt (drop that
+line when the C lands). The step was matched by writing the Sony movie
+sample helpers (strNextVlc, strKickCD, strSync) as static inline functions
+taking the display pointer; try the same for the open (stack slots of
+inlined locals are shared the way retail shares them).
+
 Status (2026-10-04, agent 5): NOT matchable under the current rules.
 
 - Locals must be declared `VideoRect size; char name[32]; u8 result[8];` in

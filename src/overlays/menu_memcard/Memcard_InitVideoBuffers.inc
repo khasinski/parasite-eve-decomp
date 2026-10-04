@@ -61,7 +61,7 @@ s32 MEMCARD_INIT_VIDEO_BUFFERS_NAME(s8 count, u8 **buffers) {
     }
     D_800B0DBA = 1;
     D_800B0DBE = 152;
-    D_800B0DBC = 0;
+    D_800B0DBC.value = 0;
     MEMCARD_VIDEO_LAST_TIME = -1;
     for (i = 0; i < 2; i++) {
         MEMCARD_VIDEO_SAVED_DISPLAY[i] = D_800BCE80[i];
