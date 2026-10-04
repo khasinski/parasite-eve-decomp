@@ -849,9 +849,8 @@ segments:
       - [0x5D5A4, c, main/CD_SectorReadFlow]
       - [0x5DA4C, c, akao/Akao_ResetPositionalState]
       - [0x5DAB8, c, main/CD_SeekToTrack]
-      - [0x5E348, c, overlay/Overlay_RegisterAudioSlot]
-      - [0x5E39C, c, overlay/Overlay_GetAudioSlotByKey]
-      - [0x5E3E0, c, overlay/Overlay_FindAudioSlotIndex]
+      # Audio slot registration and the two lookups share the scene audio keys.
+      - [0x5E348, c, overlay/Overlay_AudioSlotFlow]
       - [0x5E418, c, asset/Asset_SearchByKeyType]
       - [0x5E4E4, c, asset/Asset_Find08w]
       - [0x5E538, c, akao/Akao_SetPos3D]
