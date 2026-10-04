@@ -11,8 +11,6 @@ void func_80191E78(void *object, void *timer, SceneParticleSlots *slots)
     int scale;
     int kind;
     int palette;
-    int special;
-    u16 *palettes;
     u32 i;
 
     func_80071A44(&offset, 0, 8);
@@ -22,14 +20,14 @@ void func_80191E78(void *object, void *timer, SceneParticleSlots *slots)
     position = offset;
     offset = D_8018F040;
     color = D_8018F048;
-    D_800F3368.tpage = D_800E2850[D_800E11EA.index];
+    D_800F3368.tpage = D_800E2850[D_800E11EA];
     D_800F3368.palette = 3;
-    D_800F3368.parameter02 = 4;
     D_800F3368.parameter06 = 0;
-    D_800F3368.depth = 1000;
     D_800F3368.parameter00 = 0x40;
+    D_800F3368.parameter02 = 4;
     D_800F3368.extent_x = 0x40;
     D_800F3368.extent_y = 0x40;
+    D_800F3368.depth = 1000;
     D_800F3368.parameter0A = 0;
     for (i = 0; i < 4; i++) {
         offset = slots->offset[i];
@@ -46,16 +44,16 @@ void func_80191E78(void *object, void *timer, SceneParticleSlots *slots)
         func_800CEE20(&position, (GteRotation *)&offset, scale, scale, 0,
                       (u16)func_80077AA4(0, palette), 1, slots->verticalOffset[i], 0);
     }
-    palettes = D_800E1204;
     D_800F3368.parameter00 = 0x40;
+    D_800F3368.parameter02 = 4;
     D_800F3368.extent_x = 0x40;
     D_800F3368.extent_y = 0x40;
-    kind = 4;
-    D_800F3368.parameter02 = kind;
     D_800F3368.depth = 0;
     D_800F3368.parameter0A = 5;
     for (i = 0; i < 4; i++) {
-        special = 4;
+        u16 *palettes = D_800E1204;
+        int special = 4;
+
         scale = slots->phase[i] * slots->motionRamp >> 12;
         kind = D_800F3368.palette;
         palette = palettes[kind];

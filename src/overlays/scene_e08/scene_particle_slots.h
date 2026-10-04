@@ -2,6 +2,7 @@
 #define SCENE_E08_PARTICLE_SLOTS_H
 
 #include "common.h"
+#include "pe1/gte_types.h"
 
 typedef struct SceneParticleOffset {
     s16 x;
@@ -12,7 +13,7 @@ typedef struct SceneParticleOffset {
 
 typedef struct SceneParticleSlots {
     u8 pad00[8];
-    SceneParticleOffset offset[4];
+    GteShortVector offset[4];
     s32 phase[4];
     s16 verticalOffset[4];
     u8 pad40[8];

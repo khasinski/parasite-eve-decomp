@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Audit objdiff inputs so progress cannot exceed verified semantic C
-plus byte-matching BIOS-call trampolines (original_asm)."""
+plus byte-matching original SDK assembler (original_asm)."""
 from __future__ import annotations
 
 import json
@@ -12,10 +12,11 @@ from elftools.elf.elffile import ELFFile
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
-# Kinds that may be credited complete. `original_asm` is the BIOS-call
-# trampolines (PSYQ_BIOS_TRAMPOLINE / PSYQ_BIOS_SYSCALL): C cannot express
-# their kernel-jump register protocol and delay slot, so a byte-matching
-# trampoline is as done as the function gets and is credited like semantic C.
+# Kinds that may be credited complete. `original_asm` is code whose SDK
+# original was assembler source: the BIOS-call trampolines
+# (PSYQ_BIOS_TRAMPOLINE / PSYQ_BIOS_SYSCALL) and the proven PSY-Q assembler
+# objects (PSYQ_ASM_FUNCTION). There is no C to recover, so a byte-matching
+# reproduction is as done as the function gets and is credited like semantic C.
 CREDITED = ("semantic_c", "original_asm")
 
 

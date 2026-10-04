@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Reject objdiff reports that credit code outside verified semantic C
-and byte-matching BIOS-call trampolines (original_asm)."""
+and byte-matching original SDK assembler (original_asm)."""
 from __future__ import annotations
 
 import json
@@ -42,8 +42,9 @@ def audit(config, report):
             errors.append("%s: data unit counted as code or functions" % name)
         matched_code = number(measured, "matched_code")
         matched_functions = number(measured, "matched_functions")
-        # original_asm = byte-matching BIOS-call trampolines; credited like
-        # semantic C because C cannot express their kernel-jump protocol.
+        # original_asm = byte-matching BIOS-call trampolines and proven PSY-Q
+        # assembler objects; credited like semantic C because there is no C
+        # original to recover.
         if kind in ("semantic_c", "original_asm"):
             semantic_code += matched_code
             semantic_functions += matched_functions

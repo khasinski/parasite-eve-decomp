@@ -245,6 +245,30 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Battle status pointer primitives
+
+`Battle_BuildStatusPrimHeader` builds the rotating target pointer and the
+two connector lines of the floating battle status panel from typed packets,
+with no crutches. The active draw slot's sprite and triangle are written
+through `(&D_8009E460[g_ActiveDrawSlot].sprite)->x`-style expressions that
+are re-evaluated for every access, which reproduces retail's address
+loads, frame size and colour-branch merge. `battle_status.h` gains
+declarations only.
+
+### scene_e08 particle slots draw and the battle target fade
+
+`Scene_DrawParticleSlots_80191E78` in scene_e08 is plain C with no
+workarounds. Its parameter stores follow retail's order, with
+`parameter02 = 4` between the 0x40 stores. That keeps the two constants in
+separate registers, and the second scheduling pass then places them where
+retail has them. A slot offset is now a `GteShortVector` copied as a whole.
+
+`Battle_StepPlayerTurn`, which pulses the fade level of the selected battle
+targets, comes from typed battle records, with no header changes or gotos.
+It uses the same `-G0` compiler and `-G8 --use-comm-section` assembler split
+as `Battle_CycleTarget`. The fade helper is a macro, so the level global is
+read right before each call as retail does.
+
 ### AKAO staged command queue and the room_m256 pulse controller
 
 `Akao_EnqueueStagedCommand` turns the staged AKAO command into a queue
@@ -2303,6 +2327,10 @@ crossed. The first padding word is now an explicit pad segment; the second
 template and both installers remain assembly. This fixes an inferred boundary
 as well as adding 16 matching C bytes; changes in the total function count or
 padding denominator are not additional decompilation progress.
+Update: the second template and both installers, the patch-image head
+`func_8007E344` and LIBCARD END's `_ExitCard` are now reproduced as PSY-Q
+assembler objects (`psyq/libcard/patch_card`, `patch_head` and `end`; see
+ASM_AND_GTE_POLICY.md, "PSY-Q assembler objects").
 
 The shared LIBCARD header declares the new entry as a function. The existing
 copy helper converts its address to the instruction-word end pointer, instead

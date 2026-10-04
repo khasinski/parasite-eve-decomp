@@ -21,8 +21,11 @@ come directly from the distributed SN runtime object.
 `__SN_ENTRY_POINT` is explicitly handwritten startup code. The adjacent
 `__main` and `__do_global_dtors` C reconstructions live in their own proposal
 directories while the shared stock-pipeline frame convention remains
-unresolved. Production boundaries should eventually be replaced together as
-this `SNMAIN` unit rather than treated as unrelated functions.
+unresolved. Production now builds the three routines as one `SNMAIN`
+unit, `src/main/psyq/libsn/SNMAIN.c`, reproduced as SDK assembler with
+`PSYQ_ASM_FUNCTION` (docs/ASM_AND_GTE_POLICY.md, "PSY-Q assembler
+objects"). The C candidates remain here as evidence that GCC cannot produce
+the 16-byte frame without the outgoing argument area.
 
 ```sh
 python proposals/libsn_runtime/verify_sdk.py \
