@@ -257,6 +257,15 @@ the subtraction out of the mask's register, and a block-local signed copy of
 the opcode gives retail's move before the conditional jumps. The main
 executable is unchanged and no pins or barriers were added.
 
+The adjacent `FieldEng_Spawn6` and script-state accessors (`func_800C2B10`
+through `func_800C2B68`, beginning at 0x800C30F0), followed by the slot
+allocator `func_800C2B90` at 0x800C3190, now share this TU as well. The
+interpreter reaches the allocator for spawn opcodes; the allocator reads the
+same `FieldEngState` and `FieldEngSlot` layouts and calls the separately
+constrained slot initializer. `func_800C2D0C` remains in its own source because
+it contains instruction-level inline assembly. `make verify-clean` passes and
+the complete executable remains byte-identical.
+
 ### Remaining-function audit and three small credit wins
 
 `candidates/REMAINING.md` classifies every function the report does not yet
