@@ -244,9 +244,9 @@ int func_800DB0D0(int mode, RenderSineEmitter *state);
 extern u8 D_800E1C2C[];
 extern GteShortVector D_800E221C;
 int func_800DAF8C(int mode, RenderSineEffect *state);
-void func_800D0E88(void *data, GteShortVector *position, int scale, int angle,
-                   void *color, void *color1, void *color2, int intensity,
-                   int mode);
+void func_800D0E88(GteShortVector *position, GteRotation *rotation, int length,
+                   int breadth, struct RenderColor *color0, struct RenderColor *color1,
+                   struct RenderColor *color2, int intensity, int mode);
 
 extern int D_800E27EC;
 extern u8 D_800E1C04[];
