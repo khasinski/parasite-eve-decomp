@@ -102,10 +102,10 @@ void Spu_TickVoiceEnvelopes(AkaoTrack *track, unsigned voice_mask)
         }
     }
 
-    if (track->field_7A) {
+    if (track->pitch_slide_steps) {
         old_value = track->voice_mask_a;
-        delta = track->field_4C;
-        track->field_7A--;
+        delta = track->pitch_slide_step;
+        track->pitch_slide_steps--;
         new_value = old_value + delta;
         if ((new_value & 0xFFFF0000) != (old_value & 0xFFFF0000))
             track->update_flags |= 0x10;

@@ -1,13 +1,6 @@
 /* MASPSX_FLAGS: --expand-div */
 #include "pe1/akao/note_step.h"
 
-/* Runs a track's command bytes up to the next note: opcodes 0xA0 and up go
- * to the command handlers (0xFC selects the extended page, 0xCA ends the
- * phrase while the track sustains). Then starts the note: its length from
- * the duration table (opcode % 11), and for a key opcode (below 0x84) the
- * pitch from opcode / 11, either through the drum kit sample list or the
- * track's octave, plus LFO restarts. Ties (0x84..0x8E) only continue the
- * portamento; rests (0x8F..) silence the pending effects. */
 /* Switches the track to a drum kit sample's instrument; ids from 0x20 are
  * shifted by the bank offset. */
 static inline void Akao_SetSampleInstrument(AkaoTrack *track, u8 id, u32 offset)
@@ -35,6 +28,13 @@ static inline void Akao_SelectSampleInstrument(AkaoTrack *track, u8 *sample, u32
     Akao_SetSampleInstrument(track, sample[0], offset);
 }
 
+/* Runs a track's command bytes up to the next note: opcodes 0xA0 and up go
+ * to the command handlers (0xFC selects the extended page, 0xCA ends the
+ * phrase while the track sustains). Then starts the note: its length from
+ * the duration table (opcode % 11), and for a key opcode (below 0x84) the
+ * pitch from opcode / 11, either through the drum kit sample list or the
+ * track's octave, plus LFO restarts. Ties (0x84..0x8E) only continue the
+ * portamento; rests (0x8F..) silence the pending effects. */
 void Akao_StepSampleLoader(AkaoTrack *track, u32 voice_mask)
 {
     u32 opcode;
@@ -54,7 +54,7 @@ void Akao_StepSampleLoader(AkaoTrack *track, u32 voice_mask)
             handler = D_8009CCF0[period];
             handler(track, voice_mask);
         } else {
-            if (opcode == 0xCA && (track->flags & 0x200000)) {
+            if (opcode == 0xCA && (track->flags & AKAO_TRACK_FLAG_KEY_OFF_PENDING)) {
                 D_800BCD5C |= voice_mask;
                 opcode = 0xA0;
             }
@@ -70,23 +70,23 @@ void Akao_StepSampleLoader(AkaoTrack *track, u32 voice_mask)
     }
 
     period = Akao_LookupSampleBankByte(track) & 0xFF;
-    duration = track->field_D2;
+    duration = track->fixed_note_length;
     if (duration != 0) {
         track->pan_duration = duration;
-        track->field_56 = duration;
+        track->note_length = duration;
     }
-    if (track->field_56 != 0) {
+    if (track->note_length != 0) {
         if (period >= 0x8F || (period < 0x84 && !(track->tremolo_phase & 5)))
             track->pan_duration -= 2;
     } else {
         u16 length;
 
-        length = track->field_56 = D_8009B8DC[opcode % 11];
+        length = track->note_length = D_8009B8DC[opcode % 11];
         if (period - 0x84 >= 0xB && !(track->tremolo_phase & 5))
             length -= 2;
         track->pan_duration = length;
     }
-    track->field_D0 = track->field_56;
+    track->default_note_length = track->note_length;
     track->update_flags |= 0x4000;
     if (period < 0x8F)
         track->flags &= ~0x40;
@@ -121,7 +121,8 @@ void Akao_StepSampleLoader(AkaoTrack *track, u32 voice_mask)
             Akao_SelectSampleInstrument(track, sample, offset);
             period = Akao_LookupPitchPeriod(track->note_pitch, sample[1], track->detune);
             value = (u16)track->volume;
-            track->expression_value = (value * (sample[2] + (sample[3] << 8))) << 2;
+            value = value * (sample[2] + (sample[3] << 8));
+            track->expression_value = value << 2;
             track->panpot = ((sample[4] + 0x40) & 0xFF) << 8;
             if (sample[5])
                 D_8009D2C8->words[14] |= voice_mask;
@@ -141,17 +142,17 @@ void Akao_StepSampleLoader(AkaoTrack *track, u32 voice_mask)
                 } else {
                     D_800BCD54 |= voice_mask;
                 }
-                track->field_7A = 0;
+                track->pitch_slide_steps = 0;
             }
             if (track->tremolo_duration != 0 && track->tremolo_counter != 0) {
                 track->vibrato_duration = track->tremolo_duration;
                 track->vibrato_delta = track->expression + opcode - track->tremolo_counter
                                      - track->tremolo_delta;
-                track->field_E2 = track->tremolo_counter
+                track->current_note = track->tremolo_counter
                                 - (track->expression - track->tremolo_delta);
                 opcode = track->tremolo_counter + track->tremolo_delta;
             } else {
-                track->field_E2 = opcode;
+                track->current_note = opcode;
                 opcode += track->expression;
             }
             period = Akao_LookupPitchPeriod(track->note_pitch, opcode, track->detune);
@@ -167,15 +168,16 @@ void Akao_StepSampleLoader(AkaoTrack *track, u32 voice_mask)
         if (opcode & AKAO_TRACK_FLAG_PITCH_LFO) {
             u32 target = track->pitch_lfo_target;
             u32 depth = (target & 0x7F00) >> 8;
+            u32 lfo_depth;
 
             if (!(target & 0x8000))
-                value = depth * (((period << 4) - period) >> 8);
+                lfo_depth = depth * (((period << 4) - period) >> 8) >> 7;
             else
-                value = depth * period;
-            track->pitch_lfo_depth = value >> 7;
+                lfo_depth = depth * period >> 7;
+            track->pitch_lfo_depth = lfo_depth;
             track->pitch_lfo_table = D_8009C080[track->pitch_lfo_selector];
-            track->pitch_lfo_phase = 1;
             track->pitch_lfo_counter = track->pitch_lfo_delay;
+            track->pitch_lfo_phase = 1;
         }
         if (opcode & AKAO_TRACK_FLAG_VOLUME_LFO) {
             track->volume_lfo_table = D_8009C080[track->volume_lfo_selector];
@@ -193,20 +195,20 @@ void Akao_StepSampleLoader(AkaoTrack *track, u32 voice_mask)
 
     track->tremolo_phase = (track->tremolo_phase & ~2) | ((track->tremolo_phase & 1) << 1);
     if (track->vibrato_delta != 0) {
-        s16 pitch = track->field_E2 + track->vibrato_delta;
+        s16 pitch = track->current_note + track->vibrato_delta;
         u16 steps;
         int slope;
 
-        track->field_E2 = pitch;
+        track->current_note = pitch;
         period = Akao_LookupPitchPeriod(track->note_pitch, pitch + track->expression,
                                         track->detune) << 16;
         steps = track->vibrato_duration;
         slope = (int)(period - ((track->pitch_base << 16) + track->voice_mask_a)) / steps;
 
         track->vibrato_delta = 0;
-        track->field_7A = steps;
-        track->field_4C = slope;
+        track->pitch_slide_steps = steps;
+        track->pitch_slide_step = slope;
     }
-    track->tremolo_counter = track->field_E2;
+    track->tremolo_counter = track->current_note;
     track->tremolo_delta = track->expression;
 }

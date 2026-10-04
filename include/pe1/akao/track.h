@@ -54,7 +54,12 @@ enum AkaoTrackFlags {
     AKAO_TRACK_FLAG_RELEASE_RATE_OVERRIDE = 1 << 9,
     AKAO_TRACK_FLAG_VOICE_ALLOCATED = 1 << 11,
     AKAO_TRACK_FLAG_PENDING_NOTE_PITCH = 1 << 12,
+    /* Set by sequence op 0x9 (SeqOp_SetSustainFlag): a key-off request
+     * does not silence the voice but sets KEY_OFF_PENDING instead. */
     AKAO_TRACK_FLAG_SUSTAIN = 1 << 20,
+    /* Deferred key-off (Akao_VoiceSequence); opcode 0xCA ends the phrase
+     * while it is set. */
+    AKAO_TRACK_FLAG_KEY_OFF_PENDING = 1 << 21,
     AKAO_TRACK_FLAG_STOP_CLEAR_MASK =
         AKAO_TRACK_FLAG_PITCH_LFO | AKAO_TRACK_FLAG_VOLUME_LFO |
         AKAO_TRACK_FLAG_AUX_LFO | AKAO_TRACK_FLAG_10 | AKAO_TRACK_FLAG_20
@@ -189,11 +194,11 @@ typedef struct AkaoTrack {
     /* 0x040 */ AkaoU32 pan_base;
     /* 0x044 */ int expression_value;
     /* 0x048 */ int expression_delta;
-    /* 0x04C */ int field_4C;
+    /* 0x04C */ int pitch_slide_step;
     /* 0x050 */ AkaoU16 field_50_duration;
     /* 0x052 */ AkaoU16 field_52_duration;
     /* 0x054 */ AkaoU16 parent_track_id;
-    /* 0x056 */ AkaoU16 field_56;
+    /* 0x056 */ AkaoU16 note_length;
     /* 0x058 */ AkaoU16 pan_duration;
     /* 0x05A */ AkaoU16 note_pitch;
     /* 0x05C */ AkaoU16 voice_index;
@@ -208,7 +213,7 @@ typedef struct AkaoTrack {
     /* 0x074 */ AkaoU16 panpot_duration;
     /* 0x076 */ AkaoU16 panpot;
     /* 0x078 */ AkaoU16 panpot_slide_duration;
-    /* 0x07A */ AkaoU16 field_7A;
+    /* 0x07A */ AkaoU16 pitch_slide_steps;
     /* 0x07C */ AkaoU16 panpot_step;
     /* 0x07E */ AkaoU16 vibrato_duration;
     /* 0x080 */ AkaoU16 tremolo_counter;
@@ -244,8 +249,8 @@ typedef struct AkaoTrack {
     /* 0x0BC */ AkaoU16 key_off_delay;
     /* 0x0BE */ unsigned char pad_0BE[0x10];
     /* 0x0CE */ AkaoU16 call_stack_index;
-    /* 0x0D0 */ AkaoS16 field_D0;
-    /* 0x0D2 */ AkaoS16 field_D2;
+    /* 0x0D0 */ AkaoS16 default_note_length;
+    /* 0x0D2 */ AkaoS16 fixed_note_length;
     /* 0x0D4 */ AkaoS16 volume_delta;
     /* 0x0D6 */ AkaoS16 pitch_slide_delta;
     /* 0x0D8 */ AkaoS16 pan_target;
@@ -253,7 +258,7 @@ typedef struct AkaoTrack {
     /* 0x0DC */ AkaoS16 panpot_delta;
     /* 0x0DE */ AkaoS16 expression;
     /* 0x0E0 */ AkaoS16 detune;
-    /* 0x0E2 */ AkaoS16 field_E2;
+    /* 0x0E2 */ AkaoS16 current_note;
     /* 0x0E4 */ AkaoS16 vibrato_delta;
     /* 0x0E6 */ AkaoS16 tremolo_delta;
     /* 0x0E8 */ AkaoS16 pitch_lfo_value;

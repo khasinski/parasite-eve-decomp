@@ -104,7 +104,7 @@ skip_two:
             track->tremolo_phase &= ~5;
             return 0xA0;
         case 0xCA:
-            if (track->flags & 0x200000) {
+            if (track->flags & AKAO_TRACK_FLAG_KEY_OFF_PENDING) {
                 goto stop;
             }
 load_stack:

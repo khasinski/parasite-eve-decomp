@@ -17,7 +17,7 @@ void SeqOp_SetReturnPoint(AkaoTrack *track) {
     value |= cursor[1] << 8;
 
     track->note_pitch = 0xFF;
-    track->field_E2 = 0;
+    track->current_note = 0;
     track->flags |= AKAO_TRACK_FLAG_PENDING_NOTE_PITCH;
     track->repeat_target = next_cursor + (short)value;
 }

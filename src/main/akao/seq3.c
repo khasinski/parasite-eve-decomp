@@ -118,7 +118,7 @@ void Seq_SlideTrackPitch(int *arg0) {
         target = (target - *(int *)(track + 0x48)) / duration;
         base = g_AkaoVoiceStateTable;
         ((AkaoTrack *)track)->field_50_duration = duration;
-        ((AkaoTrack *)track)->field_4C = target;
+        ((AkaoTrack *)track)->pitch_slide_step = target;
         Seq_MarkDirtyTracks(base);
     }
     goto done;
@@ -178,7 +178,7 @@ void Seq_TrackPitchSetup(int *arg0) {
         delta = delta / duration;
         base = g_AkaoVoiceStateTable;
         ((AkaoTrack *)track)->field_50_duration = duration;
-        ((AkaoTrack *)track)->field_4C = delta;
+        ((AkaoTrack *)track)->pitch_slide_step = delta;
         Seq_MarkDirtyTracks(base);
     }
     goto done;

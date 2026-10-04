@@ -3,7 +3,7 @@
 extern char *g_AkaoCurTrack;
 
 void Seq_SetCurrentTrackField56(AkaoValueCommand *arg0) {
-    ((AkaoTrack *)g_AkaoCurTrack)->field_56 = arg0->field_4;
+    ((AkaoTrack *)g_AkaoCurTrack)->note_length = arg0->field_4;
 }
 extern char *g_AkaoCurTrack;
 extern unsigned int g_SpuActiveVoiceMask;
