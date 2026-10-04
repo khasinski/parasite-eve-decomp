@@ -245,6 +245,15 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Field engine glow layers, particle chain and the scene_e08 glow model
+
+The main executable's three identical glow layer routines now share
+`FieldEng_GlowLayers.inc` with three instances, and the field particle chain
+builder matches as `FieldEng_BuildParticleChain.c`. scene_e08's glowing model
+draw matches as `Scene_DrawGlowModel_80193150.c` on the new
+`scene_glow_model.h`. All are clean C with no pins or barriers; the main
+executable and the scene_e08 overlay are unchanged.
+
 ### Floor walker in eight rooms and two scene_e19_2 effects
 
 The floor walker is identical in room_m145, room_m152, room_m153, room_m154,
