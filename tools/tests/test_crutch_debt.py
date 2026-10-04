@@ -28,6 +28,23 @@ class CrutchDebtTests(unittest.TestCase):
         self.assertEqual(scopes["overlays"]["pins"], 1)
         self.assertEqual(scopes["overlays"]["barriers"], 0)
 
+    def test_original_asm_units_are_counted_but_not_dirty(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            sdk = root / "main" / "psyq" / "libgte"
+            sdk.mkdir(parents=True)
+            (sdk / "msc00.c").write_text(
+                'PSYQ_ASM_OBJECT(LIBGTE, MSC00)\n'
+                'PSYQ_ASM_FUNCTION(InitGeom, "    jr $ra\\n" "    nop\\n");\n')
+            (sdk / "exit.c").write_text("PSYQ_BIOS_TRAMPOLINE(exit, 0xB0, 0x38);\n")
+
+            _, totals, dirty, scopes = crutch_debt.collect_debt(root)
+
+        self.assertEqual(scopes["main"]["original_asm_units"], 2)
+        self.assertEqual(totals["asm_bodies"], 0)
+        self.assertEqual(totals["asm_constrained_units"], 0)
+        self.assertEqual(dirty, 0)
+
     def test_shared_header_alias_survives_declaration_move(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp) / "src"

@@ -262,6 +262,19 @@ class SourceQualityTests(unittest.TestCase):
         self.assertEqual(self.classify("PSYQ_BIOS_TRAMPOLINE(open, 0x32, 0);"),
                          "original_asm")
 
+    def test_psyq_assembler_object_is_original_asm(self):
+        self.assertEqual(self.classify(
+            '#include "pe1/psyq_asm.h"\n'
+            'PSYQ_ASM_OBJECT(LIBGTE, MSC00)\n'
+            'PSYQ_ASM_FUNCTION(InitGeom,\n'
+            '    "    jr      $ra\\n"\n'
+            '    "    nop\\n");\n'), "original_asm")
+
+    def test_psyq_assembler_object_cannot_hide_c_functions(self):
+        self.assertEqual(self.classify(
+            'PSYQ_ASM_FUNCTION(f, "    jr $ra\\n" "    nop\\n");\n'
+            'int g(void) { return 1; }\n'), "asm_constrained")
+
     def test_text_resident_array_is_data(self):
         self.assertEqual(
             self.classify('int words[] __attribute__((section(".text"))) = { 0 };'),

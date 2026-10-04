@@ -45,6 +45,11 @@ PATTERNS = {
     # Filled from the source classifier below; unlike regex-only counters this
     # sees instruction asm inherited from directly included C templates.
     "asm_constrained_units": re.compile(r"(?!)"),
+    # Also from the classifier: units reproducing proven PSY-Q assembler
+    # objects (PSYQ_ASM_* and the BIOS veneers). They are finished, not debt,
+    # so they never make a file dirty; the ratchet only makes any new such
+    # unit a deliberate, reviewed baseline change.
+    "original_asm_units": re.compile(r"(?!)"),
     "byte_pointer_arithmetic": re.compile(
         r"\(\s*(?:const\s+|volatile\s+)?(?:u8|s8|char)\s*\*\s*\)"
         r"(?!\s*\()[^;=\n]*\+"
@@ -86,9 +91,9 @@ ORDER = [
     "pointer_integer_casts", "field_macros", "pins", "barriers", "nop_barriers", "aliases",
     "asm_bodies", "directives", "gotos", "include_asm", "postpass",
     "statement_expressions", "unknown_fields", "declaration_overrides",
-    "externs_in_c", "stack_reserves", "dead_code",
+    "externs_in_c", "stack_reserves", "dead_code", "original_asm_units",
 ]
-HEAVY = [key for key in ORDER if key != "gotos"]
+HEAVY = [key for key in ORDER if key not in ("gotos", "original_asm_units")]
 
 
 def subsystem_of(rel: pathlib.PurePath) -> str:
@@ -118,7 +123,9 @@ def collect_debt(source_root: pathlib.Path = SRC,
         text = strip_comments(path.read_text(errors="ignore"))
         sub = subsystem_of(pathlib.PurePath(rel))
         counts = {k: len(PATTERNS[k].findall(text)) for k in ORDER}
-        counts["asm_constrained_units"] = int(path.suffix == ".c" and classify(path) == "asm_constrained")
+        kind = classify(path) if path.suffix == ".c" else None
+        counts["asm_constrained_units"] = int(kind == "asm_constrained")
+        counts["original_asm_units"] = int(kind == "original_asm")
         for k, v in counts.items():
             per_sub[sub][k] += v
             totals[k] += v
@@ -179,7 +186,10 @@ def render_report(per_sub, totals, dirty_files) -> str:
         "**externs_in_c** = declarations awaiting a subsystem header. Raw offset, pointer, "
         "field-macro, statement-expression, unknown-field, and declaration-override columns "
         "track semantic/typing scaffolding. **asm_constrained_units** also sees asm "
-        "in directly included C templates and is the progress-exclusion count.",
+        "in directly included C templates and is the progress-exclusion count. "
+        "**original_asm_units** = sanctioned reproductions of proven PSY-Q "
+        "assembler objects and BIOS veneers (docs/ASM_AND_GTE_POLICY.md); "
+        "not debt, ratcheted so that each new one is a reviewed change.",
         "",
         header,
         sep,
