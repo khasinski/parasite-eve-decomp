@@ -1,3 +1,5 @@
+/* CC1_FLAGS: -G0 */
+/* MASPSX_FLAGS: -G0 */
 #include "pe1/field_glow_layers.h"
 #include "pe1/gte.h"
 
@@ -72,6 +74,9 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
     matrix.t[1] = glow->y;
     matrix.t[2] = glow->z;
     gte_CompMatrix(&matrix, &rotation, &matrix);
+    /* Matching debt: retain this column address through the fourth compose.
+     * This empty barrier reproduces retail's saved-register/spill allocation. */
+    asm("" : : "r"(&rotation.m[0][1]));
     scaleD = D_800C21F4;
     Gte_ScaleMatrix(&matrix, &scaleD);
     func_800C42A4(&D_800F34C8, &matrix, 0);
