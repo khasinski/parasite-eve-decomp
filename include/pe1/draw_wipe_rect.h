@@ -2,6 +2,8 @@
 #define PE1_DRAW_WIPE_RECT_H
 
 #include "common.h"
+#include "pe1/psyq_gpu.h"
+#include "pe1/render_prim.h"
 
 /* Rectangular wipe bars: four corner vertices pushed onto the halfword
  * vertex stack, then the shared wipe-bar edge list. The blended palette
@@ -17,7 +19,25 @@ extern u8 D_800930A8[];
 extern int g_TextCursorX;
 extern int g_TextCursorY;
 
+/* A packet in the 16 KiB packet arena, or an ordering-table link word. */
+typedef union DrawPacketAddress {
+    char *bytes;
+    u32 *tag;
+    GpuCmdPacket *window;
+    RenderSpritePacket *sprite;
+    u32 word;
+} DrawPacketAddress;
+
+extern u32 D_8009D100;                 /* packet cursor address */
+extern u32 D_8009D104;                 /* packet arena base address */
+extern int D_8009D10C;                 /* colour select */
+extern int D_8009D110;                 /* primary colour */
+extern int D_8009D114;                 /* alternate colour */
+extern DrawPacketAddress *D_8009D11C;  /* ordering-table entry */
+
 void BoundsCheck_AssertStub(int arg0);
+void SetTexWindow(GpuCmdPacket *packet, RECT *window);
+void Draw_AllocColorGradient(int width, int height, u8 *points, int textured);
 void Draw_EmitWipeBar(u8 *edges, int mode);
 void Draw_AllocColorTri(int width, int height, int pulse);
 
@@ -62,6 +82,33 @@ static inline void Draw_BlendColorInline(int color)
         } else {                                     \
             BoundsCheck_AssertStub(4);               \
         }                                            \
+    }
+
+/* Reserve `size` bytes of the packet arena into `packet` (0 on overflow). */
+#define DRAW_ALLOC_PACKET(packet, size)                                  \
+    {                                                                    \
+        u32 old = D_8009D100;                                            \
+        u32 next = old + (size);                                         \
+                                                                         \
+        (packet).word = 0;                                               \
+        if (next < D_8009D104 + 0x4000) {                                \
+            D_8009D100 = next;                                           \
+            (packet).word = old;                                         \
+        } else {                                                         \
+            BoundsCheck_AssertStub(1);                                   \
+        }                                                                \
+    }
+
+/* PSY-Q addPrim on the current ordering-table entry. */
+#define DRAW_LINK_PACKET(packet)                                         \
+    {                                                                    \
+        u32 mask24 = 0xFFFFFF, maskTop = 0xFF000000;                     \
+        DrawPacketAddress *ot = D_8009D11C;                              \
+        u32 tag = *(packet).tag;                                         \
+        tag &= maskTop;                                                  \
+        tag |= ot->word & mask24;                                        \
+        *(packet).tag = tag;                                             \
+        ot->word = (ot->word & maskTop) | ((packet).word & mask24);      \
     }
 
 #endif /* PE1_DRAW_WIPE_RECT_H */
