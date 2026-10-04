@@ -138,41 +138,41 @@
     {                                                                                              \
         u8 *matrix;                                                             \
         u32 value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U16_AT(actor, 0x34);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[0][0];                  \
         U16_AT(matrix, 0x20) = value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U16_AT(actor, 0x36);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[0][1];                  \
         U16_AT(matrix, 0x22) = value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U16_AT(actor, 0x38);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[0][2];                  \
         U16_AT(matrix, 0x24) = value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U16_AT(actor, 0x3a);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[1][0];                  \
         U16_AT(matrix, 0x26) = value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U16_AT(actor, 0x3c);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[1][1];                  \
         U16_AT(matrix, 0x28) = value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U16_AT(actor, 0x3e);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[1][2];                  \
         U16_AT(matrix, 0x2a) = value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U16_AT(actor, 0x40);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[2][0];                  \
         U16_AT(matrix, 0x2c) = value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U16_AT(actor, 0x42);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[2][1];                  \
         U16_AT(matrix, 0x2e) = value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U16_AT(actor, 0x44);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = (u16)((RenderObjectEntity *)(actor))->model_matrix.rotation[2][2];                  \
         U16_AT(matrix, 0x30) = value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U32_AT(actor, 0x48);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = ((RenderObjectEntity *)(actor))->model_matrix.translation[0];                      \
         U32_AT(matrix, 0x34) = value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U32_AT(actor, 0x4c);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = ((RenderObjectEntity *)(actor))->model_matrix.translation[1];                      \
         U32_AT(matrix, 0x38) = value;                                                              \
-        matrix = *(u8 **)((u8 *)(actor) + 0x84);                                          \
-        value = U32_AT(actor, 0x50);                                                               \
+        matrix = (u8 *)((RenderObjectEntity *)(actor))->matrices;                                  \
+        value = ((RenderObjectEntity *)(actor))->model_matrix.translation[2];                      \
         U32_AT(matrix, 0x3c) = value;                                                              \
     }
 
@@ -275,7 +275,7 @@ void Render_TransformVertices(RenderObjectEntity *input) {
     *zero0 = 0;
     *zero4 = 0;
     stack_top = matrix_stack;
-    out_matrix = PTR_AT(actor, 0x84);
+    out_matrix = (u8 *)((RenderObjectEntity *)actor)->matrices;
     commands = (u8 *)((RenderObjectEntity *)actor)->matrix_commands;
     out_vertices = PTR_AT(actor, 0x80);
 

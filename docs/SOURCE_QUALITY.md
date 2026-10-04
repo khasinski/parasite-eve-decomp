@@ -7843,11 +7843,14 @@ translation, then transform the visible part's bounds.
 The part's word at +8 supplies the non-root translation vector Z component
 through scratchpad 0x1F800008; it is now RenderObjectPart.translation_z.
 RenderObjectEntity.matrix_commands replaces unknown padding at +0x20.
-Layout assertions preserve the 12-byte part and 0xBC-byte entity.
-Matching debt includes pins, empty barriers, volatile accesses, raw-offset
-accessors and an artificial two-word frame reservation. The debt tracker
-records 49 pins, 16 empty barriers and 12 raw-offset dereferences. Native stock
-GCC 2.7.2 and maspsx remain unmodified; no per-file compiler flags are used.
+Thirteen repeated matrix-buffer reads now use RenderObjectEntity.matrices;
+nine unsigned rotation-halfword reads and three translation-word reads use
+RenderObjectEntity.model_matrix. Layout assertions preserve the 12-byte part,
+0x20-byte matrix and 0xBC-byte entity. Matching debt includes pins, empty
+barriers, volatile accesses, byte-pointer accessors and an artificial two-word
+frame reservation. The debt tracker records 49 pins, 16 empty barriers and no
+raw-offset pointer dereferences in this function. Native stock GCC 2.7.2 and
+maspsx remain unmodified; no per-file compiler flags are used.
 Linked function SHA-1: d4781a492a9953b67639e551c75d82ce6e44ce9a.
 
 
