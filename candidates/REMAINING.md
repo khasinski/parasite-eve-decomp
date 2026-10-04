@@ -149,7 +149,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: 34 diffs plain, 2 diffs with lift shared with the mode 1 vz (retail lift is a global pseudo; vz register still differs) |
 | menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, diff count not recorded) |
 | room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: 88 diffs |
-| scene_e08 | func_8019104C | 764 | candidates/overlays/scene_e08_func_8019104C: 10 diffs (register naming) |
 | scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: 78 diffs |
 | scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: 7 diffs (single `special` variant, 2026-10-04) |
 

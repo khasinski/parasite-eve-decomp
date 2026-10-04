@@ -226,3 +226,30 @@ Two-ring loop around func_800D0E88 (call loop).
   drive status: combine compares v0 directly (no code change), but flow
   counted the extra references, which lifts wait above state. Same
   mechanism as `ready` in Scene_LoadRoom.
+
+## Two registers for one incoming pointer (scene_e08 func_8019104C, 2026-10-04)
+
+- Retail kept the third argument in s1 for the `ticks < 12` block and in a
+  second register (copied before the test) for the rest, with s1 reused for
+  &matrix afterwards. No plain copy survives cse: on the path that skips the
+  block, the older pseudo stays canonical and the copy's uses are rewritten.
+- The copy survives when the incoming pseudo is assigned again at the start
+  of the second half: declare the argument `void *data`, read it through two
+  typed locals (`ring = data; state = data;`, ring for the block, state for
+  the rest), and reuse it as the matrix pointer (`data = &matrix;`). The
+  reassignment ends the equivalence on the skip path, and the incoming
+  pseudo outlives the copy, so the copy never becomes canonical on the
+  block's path. Global allocation then gives the multi-set incoming pseudo s1
+  across both halves, which is retail's register use.
+
+## Slice upload (menu_memcard func_801214D4 and Memcard_UploadVideoSlice)
+
+- This is the PSY-Q movie sample slice callback. Written with direct struct
+  accesses (`old = dec.selector; rectangle = dec.rect; dec.selector ^= 1;
+  dec.rect.x += dec.rect.w; ...`) it matches without volatile: the BLKmode
+  rectangle copy between the two selector reads invalidates memory in cse,
+  so the selector is read twice, and the forced constant-address pseudo for
+  the selector is what keeps `la a3` and `buffers[...]` at -8(a3).
+- Field symbols overlapping a struct (the twin's D_801D148C etc.) and pointer
+  locals to the struct fields made things worse: a local pointer is a known
+  constant to sched, so later loads hoist above its stores.
