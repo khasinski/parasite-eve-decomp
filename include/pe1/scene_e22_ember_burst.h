@@ -125,6 +125,7 @@ typedef struct SceneE22SwirlRing {
 extern void *D_800B0E64;
 extern GteRotation D_8018F1F4;
 extern RenderColor D_8018F214;
+extern u8 D_80199434[];
 extern void func_8006DF50(void *channel, int id, int value, int volume, int pan);
 extern void func_800D1AE0(RenderColor *color, int value, int step, int count);
 extern int func_801957CC(int mode, RoomOrbitTrailParticle *p);
