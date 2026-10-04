@@ -1507,7 +1507,7 @@ segments:
       - [0xB3B24, asm, engine/engine_800C3324]
       - [0xB4304, asm, engine/engine_800C3B04]
       - [0xB4AA4, asm, engine/engine_800C42A4]
-      - [0xB519C, asm, engine/engine_800C499C]
+      - [0xB519C, c, engine/FieldEng_ShadedQuad]
       - [0xB5650, c, engine/func_800C4E50]
       - [0xB57C4, asm, engine/engine_800C4FC4]
       - [0xB5D38, c, engine/FieldEng_BuildParticleChain]
