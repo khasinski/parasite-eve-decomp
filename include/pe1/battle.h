@@ -262,7 +262,7 @@ typedef struct BattleEntity {
 /* 0x00D */ u8   teamId;        /* group/team id; target must differ/match (Battle_SetupEntityTarget.c:66) */
 /* 0x00E */ u8   actionMode;     /* current action/animation mode; <4 and ==0xC are battle-state tests */
 /* 0x00F */ u8   animLastFrame;  /* last valid frame index, loaded from action data byte 2 minus one */
-/* 0x010 */ u8   pad_010[2];
+/* 0x010 */ u16  stepHeight;    /* largest flat-floor height change taken without blocking (Entity_UpdateAndRender) */
 /* 0x012 */ u16  animStopFrame;  /* optional stop/clamp frame when entityFlags bit 0x200 is set */
 /* 0x014 */ s32  animFrame;      /* current animation frame, 16.16 fixed point */
 /* 0x018 */ union {

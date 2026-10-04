@@ -10,8 +10,6 @@
 #define S32_AT(ptr, off) (*(s32 *)((u8 *)(ptr) + (off)))
 #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
 
-extern u8 **D_8009CE08;
-
 int Math_FixedMul(int a, int b);
 
 void Entity_FindFloor(u8 *entity)
@@ -88,20 +86,14 @@ void Entity_FindFloor(u8 *entity)
                         PTR_AT(entity, 0x1A8) = complex_triangle;
                         if ((U32_AT(entity, 0x98) & 2) == 0) {
                             x_height = Math_FixedMul(
-                                S32_AT(D_8009D1D8 +
-                                           U16_AT(complex_triangle, 2) * 12,
-                                       0),
+                                D_8009D1D8[U16_AT(complex_triangle, 2)].a,
                                 S32_AT(entity, 0x28));
                             z_height = Math_FixedMul(
-                                S32_AT(D_8009D1D8 +
-                                           U16_AT(complex_triangle, 2) * 12,
-                                       8),
+                                D_8009D1D8[U16_AT(complex_triangle, 2)].c,
                                 S32_AT(entity, 0x30));
                             S32_AT(entity, 0x2C) = Math_FixedMul(
                                 S32_AT(complex_triangle, 4) - x_height - z_height,
-                                S32_AT(D_8009D1D8 +
-                                           U16_AT(complex_triangle, 2) * 12,
-                                       4));
+                                D_8009D1D8[U16_AT(complex_triangle, 2)].inverseB);
                         }
                         return;
                     }

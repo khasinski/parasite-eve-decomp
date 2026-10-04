@@ -364,6 +364,13 @@ int rsin(int angle);
 #define gte_ldsxy2(value) \
     asm volatile("mtc2 %0,$14" : : "r"(value))
 
+/* PSY-Q gte_ldsxy3: load SXY0, SXY2 and SXY1 in the SDK's order. */
+#define gte_ldsxy3(r0, r1, r2) \
+    asm volatile("mtc2 %0,$12\n\t" \
+                 "mtc2 %2,$14\n\t" \
+                 "mtc2 %1,$13" \
+                 : : "r"(r0), "r"(r1), "r"(r2))
+
 #define gte_nclip() \
     asm volatile("nop\n\t" \
                  "nop\n\t" \

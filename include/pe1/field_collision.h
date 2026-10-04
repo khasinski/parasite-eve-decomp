@@ -26,7 +26,15 @@ typedef struct RampEdge {
     s32 directionZ;
 } RampEdge;
 
-extern s16 D_8009CE0C, D_8009CE0E, D_8009CE10, D_8009CE12;
+/* Endpoints of the edge the player last crossed onto a ramp, as screen
+ * style XY pairs: the GTE normal clip reads each point as one packed word. */
+typedef union FloorEdgePoint {
+    struct {
+        s16 x, z;
+    } point;
+    u32 packed;
+} FloorEdgePoint;
+extern FloorEdgePoint D_8009CE0C, D_8009CE10;
 extern RampEdge *D_8009CE14;
 extern u16 D_8009CE18;
 void Entity_SlideOnRamp(struct BattleEntity *entity);
@@ -80,7 +88,10 @@ typedef union CollisionTriangleTable {
     CollisionTriangleXYZ *xyz;
 } CollisionTriangleTable;
 typedef struct CollisionDatabase {
-    u32 reserved[6];
+    u32 reserved[2];
+    u16 faceCount;                    /* 0x08: walkable triangles. */
+    u16 reserved0A;
+    u32 reserved0C[3];
     CollisionVertexTable vertices;   /* 0x18: XZ or XYZ array. */
     CollisionTriangleTable triangles; /* 0x1C: XZ or XYZ triangles. */
 } CollisionDatabase;
@@ -90,8 +101,30 @@ typedef struct CollisionDatabase {
     ((address).word = (index) * sizeof(type) + D_8009D1FC->vertices.word)
 
 extern CollisionDatabase *D_8009D1FC;
+
+/* Shared head of both triangle formats. */
+typedef struct CollisionFace {
+    u8 kind;
+    u8 region;    /* flat mode: index into D_8009CE08 */
+    u16 plane;    /* sloped mode: index into D_8009D1D8 */
+    s32 distance; /* sloped mode: plane D term */
+} CollisionFace;
+
+/* Sloped-mode plane A*x + B*y + C*z = D, with B stored inverted. */
+typedef struct CollisionPlane {
+    s32 a;
+    s32 inverseB;
+    s32 c;
+} CollisionPlane;
+
 /* Plane-table pointer; existing floor queries require a fresh read. */
-extern u8 *volatile D_8009D1D8;
+extern CollisionPlane *volatile D_8009D1D8;
+/* Flat mode: per-region records that start with the region height. */
+extern s16 **D_8009CE08;
+/* Bounding box of the ramp edge the player last crossed. */
+extern u16 D_8009CE1C, D_8009CE20, D_8009CE24, D_8009CE28;
+/* One bit per triangle already visited by the floor search. */
+extern u32 D_8009DFB0[];
 int Geo_PointInTri(void *triangle, s16 x, s16 z);
 void *Geo_ClipToFloorBoundarySub(u16 *triangle, void *previous, s16 x0, s16 z0,
                                  s16 x1, s16 z1);

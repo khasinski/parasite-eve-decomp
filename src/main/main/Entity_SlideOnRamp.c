@@ -29,10 +29,10 @@ void Entity_SlideOnRamp(BattleEntity *entity)
     x += entity->baseX;
 
     /* Retail keeps the low word of the cross product before signed division. */
-    edgeX = D_8009CE10 - D_8009CE0C;
-    edgeZ = D_8009CE12 - D_8009CE0E;
-    numerator = ((z >> 16) - D_8009CE0E) * edgeX
-                - ((x >> 16) - D_8009CE0C) * edgeZ;
+    edgeX = D_8009CE10.point.x - D_8009CE0C.point.x;
+    edgeZ = D_8009CE10.point.z - D_8009CE0C.point.z;
+    numerator = ((z >> 16) - D_8009CE0C.point.z) * edgeX
+                - ((x >> 16) - D_8009CE0C.point.x) * edgeZ;
     projection = D_8009CE14[D_8009CE18].length;
     projection = numerator / projection;
     if (projection < 0)
@@ -54,10 +54,10 @@ void Entity_SlideOnRamp(BattleEntity *entity)
             case 2: directionZ += radius << 16; break;
             case 3: directionZ -= radius << 16; break;
             }
-            loopEdgeX = D_8009CE10 - D_8009CE0C;
-            loopEdgeZ = D_8009CE12 - D_8009CE0E;
-            numerator = ((directionZ >> 16) - D_8009CE0E) * loopEdgeX
-                        - ((directionX >> 16) - D_8009CE0C) * loopEdgeZ;
+            loopEdgeX = D_8009CE10.point.x - D_8009CE0C.point.x;
+            loopEdgeZ = D_8009CE10.point.z - D_8009CE0C.point.z;
+            numerator = ((directionZ >> 16) - D_8009CE0C.point.z) * loopEdgeX
+                        - ((directionX >> 16) - D_8009CE0C.point.x) * loopEdgeZ;
             projection = D_8009CE14[D_8009CE18].length;
             projection = numerator / projection;
             if (projection < 0)
