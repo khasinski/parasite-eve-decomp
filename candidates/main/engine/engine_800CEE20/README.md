@@ -28,3 +28,12 @@ block copy loop, the stszotz/rtps tail and the OT link. What remains:
   (`template.u0 = template.u2 = u` etc.); `intensity * color->r / 128`
   keeps retail's mult operand order; reading the view matrix pointer into
   a local before `template.clut = clut` reproduces the early `lw t0`.
+
+## Retry (2026-10-04)
+
+With the GetTPage result written straight into `template.tpage` (no
+variable sharing) the build is at 30 diffs. Swapping the colour branches
+(53), `r = g = b = intensity` (33), assigning b/g/r in reverse (33),
+declaring `int b, g, r` (30) and storing the channels straight into the
+template (size change) did not move r from a1 to a2; the remaining
+difference is global-alloc order, not sched1 launch priority.
