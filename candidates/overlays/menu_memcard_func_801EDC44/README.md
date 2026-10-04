@@ -102,3 +102,23 @@ has marked it global (combine does not recompute reg_basic_block), e.g. a
 copy that merges into a store of a register or of zero. Plain `lift = ...;
 child->vz = lift;` variants: `child->vz = lift = ...` (2), all three
 velocities through lift (6), remainder in lift and `- 70` at the store (10).
+
+## Round 2 on the global lift (agent 4, 2026-10-04): still 2
+
+Variants on the 34-diff base (`Memcard_RingBurstController.c`):
+
+| form | diffs |
+|---|---|
+| `lift = 0;` at function start or before the mode 2 state switch | 34 (dead, deleted by flow) |
+| `child->timer = lift = 0;` / `lift = 0; child->timer = lift;` | 34 (cse folds the constant) |
+| `lift = 1; burst->state = lift;` | 18 |
+| `for (i = 0, lift = 50; i < lift; i++)` | size change |
+| `lift = (i & 3) == 0; child->state = lift;` | 4 (state computed in s4) |
+| `lift = ++burst->timer;` in mode 1 state 0 or 1 | 17 |
+| statement-order brute force over the loop body with the vz form (120 orders) | best 2 |
+
+Every reference that survives to register allocation puts that value in
+lift's register s4, and retail has no other s4 use outside &ring and the
+lift. Retail's lift is therefore marked global by a reference that flow
+sees but that is gone before local-alloc (not deleted by flow itself and not
+folded by cse), or it is global for another reason (more than one death).
