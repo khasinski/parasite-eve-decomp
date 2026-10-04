@@ -45,3 +45,15 @@ Reading global.c/local-alloc.c against the -dl/-dg dumps narrows the target:
   pointer variables for &matrix/&rotation, rotation.t stores before the
   matrix copy, reversed rotation.t store order, early `sprite`/`scaleSource`
   pointer variables (they move into saved registers).
+
+## Rescore (agent 4, 2026-10-04): lev 50
+
+With main's current headers and `field_glow_layers.h.patch` the draft is
+lev 50 (retail 593 words, mine 590). The three missing words are not a
+separate problem: they are the same allocation swap. Retail spills the
+`rotation + 20` pointer (sp+0x44, the gte_ldlv0 operand), and each of the
+three reloads in layers 2..4 is a `lw a3,0xC0(sp)` immediately followed by
+its `lhu`, so it needs a load-delay `nop`. This build spills `matrix + 4`
+(sp+0x14, a gte_stclmv operand) instead, whose reload has independent work
+before its first use, so no nop is needed. Fixing which column pointer is
+spilled fixes the size and the swap together.

@@ -155,7 +155,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | Menu_ItemListInputHandler | 3100 | candidates/main/menu/Menu_ItemListInputHandler_plainc: lev not measured |
 | fx_common | func_8018F55C | 224 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev not measured, still needs one volatile |
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev not measured, still needs one volatile |
-| fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: lev not measured (register allocation) |
+| fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: lev 224 (359 vs 363 words; register allocation across the marker loop) |
 | menu_memcard | func_801214D4 | 496 | twin of the matched Memcard_UploadVideoSlice at 0x95D8, whose source carries pins, barriers and a volatile; a clean struct draft (VideoDisplay D_801228CC, volatile selector pointer) is lev 46 (120 vs 124 words): retail reads the rect through scalar symbols and keeps &selector in a3 |
 | menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: lev 34 plain; lev 2 with lift shared with the mode 1 vz (retail lift is a global pseudo; the vz register still differs) |
 | menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (needs header_additions.diff, no README): lev 141 (959 vs 977 words) |
