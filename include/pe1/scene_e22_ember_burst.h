@@ -111,4 +111,22 @@ extern void func_800D1384(void *from, void *to, int width, void *color0,
                           void *color1, int alpha, void *trail, int mode);
 extern int func_801931B8(int mode, RoomOrbitTrailParticle *p);
 
+/* Swirl ring controller (func_80195B40): rides an actor joint, swells a
+ * glow while it sprays swirl ring particles, then fades a halo and ring. */
+typedef struct SceneE22SwirlRing {
+    s16 x, y, z;                  /* 0x00 */
+    s16 reserved06;
+    s16 state;                    /* 0x08 */
+    s16 timer;                    /* 0x0A */
+    s16 glow;                     /* 0x0C */
+    s16 ring;                     /* 0x0E */
+} SceneE22SwirlRing;
+
+extern void *D_800B0E64;
+extern GteRotation D_8018F1F4;
+extern RenderColor D_8018F214;
+extern void func_8006DF50(void *channel, int id, int value, int volume, int pan);
+extern void func_800D1AE0(RenderColor *color, int value, int step, int count);
+extern int func_801957CC(int mode, RoomOrbitTrailParticle *p);
+
 #endif
