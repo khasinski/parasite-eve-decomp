@@ -161,8 +161,8 @@ segments:
       - [0x2D74, c, task/Task_RelocBlock]
       # Scene-map flush and task-node free-list setup unit.
       - [0x2DE0, c, task/Task_DrawSyncAndFlush]
-      - [0x2F00, c, task/Task_AllocNode]
-      - [0x2F74, c, task/Task_GarbageCollectNodes]
+      # Allocation and garbage collection share the TaskNode free list.
+      - [0x2F00, c, task/Task_NodePoolFlow]
       - [0x3050, c, task/Task_EvalExpr]
       # FieldActor Vec3 getter/setter are one default-profile object.
       - [0x3420, c, task/Task_EntityVec3]
