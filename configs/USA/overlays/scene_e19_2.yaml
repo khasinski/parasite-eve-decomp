@@ -46,7 +46,7 @@ segments:
       - [0x4B4, c, func_8019549C]
       - [0x10DC, asm, scene_tail]
       - [0x1760, c, RoomEffect_SpinRayParticle_80196748]
-      - [0x1CE4, asm, scene_tail_1CE4]
+      - [0x1CE4, c, RoomEffect_SpinRayController_80196CCC]
       - [0x2304, c, RoomEffect_EmberFlareParticle]
       - [0x2904, c, RoomEffect_EmberFlareController]
       - [0x32BC, c, RoomEffect_OrbitSpinParticle_801982A4]
