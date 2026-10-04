@@ -7998,12 +7998,13 @@ The combined range ends where the next configured routine starts at 0x32820.
 `make verify-clean` passes, including source mapping, policy, debt, organization
 and full executable checks. `main.exe` remains byte-identical to retail.
 
-### Field texture-page loading
+### Field texture-page setup and loading
 
-`func_800CED3C` and the following `func_800CEDA8` now share
-`src/main/engine/func_800CEDA8.c`. Both load the 0x40-by-0x100 texture page
-from one of the two CLUT buffers and publish the selected buffer in
-`D_800F34E4`; the first always loads, while the second skips the transfer when
-the selected buffer is already active. Their adjacency and shared render state
-support this grouping. `make verify-clean` passes and `main.exe` remains
-byte-identical.
+`func_800CECAC`, `func_800CED3C` and the following `func_800CEDA8` now share
+`src/main/engine/func_800CEDA8.c`. The first builds the two texture-page
+entries for x=0x380 and x=0x340 at y=0x100. The next two transfer the matching
+0x40-by-0x100 CLUT page from one of two buffers and publish the selected
+buffer in `D_800F34E4`; one always loads, while the other skips the transfer
+when that buffer is already active. Their adjacent code, shared texture-page
+coordinates and common CLUT lifecycle support this grouping.
+`make verify-clean` passes and `main.exe` remains byte-identical.
