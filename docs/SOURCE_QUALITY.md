@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Memory card save state machine and the field ring band
+
+`MemCard_UpdateSaveState`, the sixteen-state memory card save machine, and
+the field engine's ring band match from clean C. The save machine's jump
+table is carved into its own `.rodata`, its slot scan walks the cursor field
+of the state struct so the guard load lands in the loop register, and the
+save title fields become byte and word unions so the copies are struct
+assignments rather than casts. The ring band copies the ordering-table entry
+into a plain tag pointer before linking, so cse no longer splits it across
+the two paths and jump2 merges the link tails as retail does. The main
+executable is unchanged and no pins or barriers were added.
+
 ### Colour gradient allocation
 
 `Draw_AllocColorGradient` in the main executable matches from clean C, on the
