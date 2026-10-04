@@ -10,8 +10,8 @@ int func_80196348(int mode) {
 
     if (mode == 0) {
         D_8019AE9C.done = 0;
-        D_8019AE9C.reserved_4C = 0;
-        D_8019AE9C.reserved_16 = 0;
+        D_8019AE9C.landing_count = 0;
+        D_8019AE9C.hit_flag = 0;
         D_8019AE9C.spin = 0;
         D_8019AE9C.tick = 0;
         D_8019AE9C.floor = D_800942EC.value - 0x200;

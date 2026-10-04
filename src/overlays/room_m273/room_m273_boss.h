@@ -80,10 +80,14 @@ typedef union RoomM273Fixed {
 
 typedef struct RoomM273BossPlayer {
     RoomM273BossPlayerActor *actor;
-    u8 reserved_04[0x24];
+    u8 reserved_04[0x0A];
+    u8 mode;
+    u8 reserved_0F[0x19];
     RoomM273Fixed location[3];
     u8 reserved_34[0x1C8];
     s32 position[3];
+    u8 reserved_208[0x30];
+    GteMatrix *transforms;
 } RoomM273BossPlayer;
 
 typedef struct RoomM273BossFloor {
@@ -104,11 +108,13 @@ extern RoomM273BossTrig D_800966EC[];
 /* Boss controller state at 0x8019AE9C. */
 typedef struct RoomM273BossState {
     GteShortVector hands[2];
-    u8 reserved_10[6];
-    s16 reserved_16;
+    s16 hit[3];       /* 0x10: where a falling trail touched the player */
+    s16 hit_flag;
     s32 base_height;
-    u8 reserved_1C[0x30];
-    s16 reserved_4C;
+    s16 landing_x[8]; /* 0x1C: trail landing positions */
+    s16 landing_y[8];
+    s16 landing_z[8];
+    s16 landing_count;
     s16 repeat;
     s16 floor;
     s16 spin_target;
@@ -245,6 +251,29 @@ int func_80198060(int mode, GteShortVector *position);
 
 int Math_IntSqrt(int value);
 u16 GetClut(int x, int y);
+
+/* Falling trail (func_80194E6C): 100-byte pool record that spins down to
+ * the floor and keeps an eight-entry ring of two-point trail samples. */
+typedef struct RoomM273FallingTrail {
+    GteShortVector position;
+    s16 pitch;
+    s16 yaw;
+    s16 spin;
+    s16 landed;
+    s16 trail_x[16];
+    s16 trail_z[16];
+    s16 trail_y[8];
+    s16 head;
+    s16 count;
+} RoomM273FallingTrail;
+
+extern GteShortVector D_8019ACA4; /* drop offset */
+extern GteShortVector D_8019ACAC; /* trail sample offsets */
+extern GteShortVector D_8019ACB4;
+extern RenderColor D_8019ACBC;
+void func_800CEE20(GteShortVector *position, GteRotation *rotation,
+                   int scale_x, int scale_y, int texture, int clut,
+                   int page, int intensity, RenderColor *color);
 
 int FieldEng_VecToAngle(s32 *from, s32 *to);
 int FieldEng_TurnToward(s16 current, s16 target, s16 step);
