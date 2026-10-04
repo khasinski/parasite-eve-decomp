@@ -245,6 +245,18 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Entity primitive setup
+
+`Render_SetupEntityPrims` builds a model's primitive, texture and matrix
+command sections from typed records. It is a plain `-G0` unit with no
+gotos, pins, barriers or volatile. The texture loops read through one shared
+cursor copy that is also assigned where the texture section starts, so the
+loop optimiser leaves the reads as retail has them. The matrix command size
+is rounded up in small steps on the shared `bytes` and `words` variables,
+which lines up two allocation priorities with retail's. `RenderObjectHeader`
+gains `vertex_count` and `matrix_command_bytes`, and the lookup entry's word
+at 0x0A is now `bounds_value1`.
+
 ### Floor boundary clip
 
 `Geo_ClipToFloorBoundary` recursively clips a point against the edges of
