@@ -48,3 +48,27 @@ Left (align2, s-registers normalised): `size = value >> 2` is scheduled into
 the D_800E11FA load slot instead of the bne delay slot (moving the statement
 anywhere in the block changes nothing), the first parameter block store one
 slot later, plus the ring loop s1/s2/s3 rotation.
+
+Retry (agent 5, near-miss pass, 2026-10-04): 4 real diffs. The include is
+now `"room_m273_boss.h"`; copy the file to src/overlays/room_m273/ and score
+with `sc.sh <wt> src/overlays/room_m273/RoomEffect_GroundRingCallback.c gr
+room_m273 9EAC 55C`.
+What fixed the register rotation (all plain C):
+- The model phase index is the function-scope `i`
+  (`i = D_800E27EC - 5; if (i < 8) value = ...[(i << 7) & 0xF80].sine;`)
+  instead of reusing `value`, and the ring loop size reuses `value`
+  (`value = sine / 16; ... value += 0x100;`) instead of `size`. `size` now
+  only carries the model scale and the flash size (retail s3), `value`
+  carries the model wave and the ring size (s1), `i` the index, the page
+  and the ring counter (s0). With `size` shared by all three, the scale
+  shift was scheduled early (multi-set) and the ring constants rotated.
+- The duplicated extent stores are kept (retail stores extent_x/extent_y
+  twice); the tpage statement is a plain
+  `D_800F3368.tpage = D_800E2850[D_800E11EA];` after them.
+Left (4 words): retail stores parameter00 through `la s0, D_800F3368`
+before the D_800E11EA load; sched1 here has the same order, but sched2
+hoists the load above the store (the base register's known value is
+D_800F3368, so the two refs never conflict). Retail must have had a
+dependence there (a base pseudo without a single known value). A block
+around the tpage read, a block-local index and an index read before the
+stores do not change it.
