@@ -549,6 +549,9 @@ constant subtraction gives its unsigned compare, a field read into a signed
 temporary moves its load ahead of the floor read, and the controller re-reads
 the sound owner through a volatile load where retail loads it twice. All
 three overlay SHA-1 hashes are unchanged and no pins or barriers were added.
+The pulse-ring controller and callback now share `SceneE18PulseRecord`; its
+ring and emitter views have an asserted eight-byte stride and common active
+flag at offset six.
 
 ### room_m089, room_m005 and room_m123 effects
 
