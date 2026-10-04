@@ -39,7 +39,7 @@ void ROOMLIB_ADVANCE_ARC_NAME(RoomEnt *obj) {
         {
             int *rotBase = (int *)D_800966EC;
             int *entry = rotBase + angle;
-            int hi = *(short *)((char *)entry + 2);
+            int hi = ((short *)entry)[1];
             int lo;
             int savedHi;
             scratch[1] = 0;
