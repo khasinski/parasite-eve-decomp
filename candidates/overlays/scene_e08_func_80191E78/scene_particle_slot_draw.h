@@ -11,7 +11,12 @@ extern int D_8019956C;
 extern int D_8019957C;
 extern GteShortVector D_8018F040;
 extern RenderColor D_8018F048;
-extern u16 D_800E11EA;
+/* Texture page index slot at 0x800E11EA, read as a one-field record (an
+ * in-struct read keeps it below the stack color copy). */
+typedef struct SceneParticlePageIndex {
+    u16 index;
+} SceneParticlePageIndex;
+extern SceneParticlePageIndex D_800E11EA;
 
 void func_80071A44(void *data, int value, int size);
 int func_80077AA4(int x, int y);

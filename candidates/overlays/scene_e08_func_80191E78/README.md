@@ -73,3 +73,25 @@ function in other overlays. Not retried beyond the rescore.
   block instead of retail's middle position: `kind = 4;` stored into
   parameter02 gives lev 16 (not kept, semantically odd), `size = 0x40` in
   both blocks lev 24, `size` in block 1 only lev 22.
+
+## Round 4 (agent 16, 2026-10-04): lev 16
+
+- `kind = 4; D_800F3368.parameter02 = kind;` in the second block (kind is
+  multi-set, so the 4 is not a birthing insn) gives lev 16: the second
+  block's `li v1,4` then sits early like retail's, but above the loop
+  invariants instead of below them, and the block's 0x40 loses the branch
+  delay slot. All 240 orders of the second block (with and without `kind`,
+  chained or separate 0x40 stores) stay at 16 or worse.
+- The page index is now a one-field record (`SceneParticlePageIndex`, in
+  the header). It does not change the score yet: the stack copies are
+  `movstrsi_internal` insns with frame-pointer plus constant addresses, so
+  they never conflict with a symbol load either way.
+- Why the first block's `li v1,64` cannot be reproduced by statement order:
+  sched1 gives a single-set constant the launch priority right before its
+  first store; a multi-set one keeps priority 1 and is picked after every
+  priority-2 insn (stores, stack copies, tpage chain), so it lands at the
+  top. Retail's position (between the index load and the `sll`) needs
+  priority 2 with a LUID above the color copy, i.e. a constant that depends
+  on something with latency. Reusing scale/kind/palette/special for the
+  0x40 (88 variants, with and without a prior load into the same variable)
+  gives 16 at best.

@@ -9,14 +9,14 @@ Size is the objdiff function size in bytes.
 
 | Category | Functions | Bytes |
 |---|---:|---:|
-| battle (excluded) | 12 | 23020 |
+| battle (excluded) | 13 | 26172 |
 | handwritten library/BIOS asm | 28 | 3116 |
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
-| parked near-miss | 27 | 46860 |
+| parked near-miss | 28 | 48840 |
 | not yet attempted | 0 | 0 |
-| total | 109 | 92280 |
+| total | 111 | 97412 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -40,6 +40,7 @@ Category notes:
 | main | Battle_UpdateEnemy | 2144 |  |
 | main | Battle_PhaseHitReaction | 2664 |  |
 | main | Battle_StepAyaAction | 2688 |  |
+| main | Battle_DrawHPBar | 3152 |  |
 
 ## handwritten library/BIOS asm
 
@@ -131,13 +132,14 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 |---|---|---:|---|
 | main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: lev 87 (direct digit lvalues give retail digit base; -1 hoist and register numbering left) |
 | main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: lev 14, prologue only (saves scheduled into load stalls; retail shape not reachable under stock sched2 rules, see README) |
+| main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: 24 diffs (prologue), func_800D3BC8 variant 26 |
 | main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand/struct_staging.c: lev 16 (scratch struct view; needs staging struct + word-opcode queue entry in shared headers, see README) |
 | main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
+| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender_typed: -G8/-G4 typed draft at lev 172 (spills/regalloc in the ramp edge test, still gotos), see README; OWNED BY ANOTHER AGENT |
 | main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims_typed: lev 4, texture loops solved (shared `src` cursor), only the paletteRow/initCount a2/t9 global-alloc order is left, see README |
-| main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: lev 50, one column-pointer allocation swap (needs +1 ref on four pseudos, see README) |
+| main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: one register swap in the four gte_CompMatrix expansions |
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
 | main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary_typed: typed rewrite at lev 413 (frame 208 vs 192: an extra reduced walk pointer per half), see README |
 | main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
@@ -146,7 +148,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: 34 diffs plain, 2 diffs with lift shared with the mode 1 vz (retail lift is a global pseudo; vz register still differs) |
 | menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, diff count not recorded) |
 | room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: lev 43 |
-| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev 18 |
+| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev 16 (kind = 4 for parameter02; first block 0x40 placement left) |
 | scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: 7 diffs (single `special` variant, 2026-10-04) |
 
 ## not yet attempted
@@ -168,4 +170,3 @@ None: menu_memcard 0x244C now has a parked candidate.
 
 The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA144) is now matched on main by another agent and is left out of the table.
 | main | func_800C2D0C | 148 | plain C (stock 2.7.2, maspsx): the 8-byte frame comes from the `s16 offset` local, sched2 sinks the prologue `addiu sp` to the branch and the assembler fills the delay slot with it; `offset += size; state->data_next = offset;` gives the in-place add |
-| main | Entity_UpdateAndRender | 1980 | lev 0 under -G8 cc1 / -G4 maspsx with typed collision records: the packed sxy words go through one shared `int sxy` (set twice, so global alloc gives the or result v1), `a = abs(a)` (abssi2) for the area magnitude, the area test as one condition with nested box tests (no leave gotos), the clip results kept in `i` so the third loop entry compares it, and a static inline revert helper at each rollback site (jump2 cross-jumps them); 1 goto left (slide entry), logged as debt |
