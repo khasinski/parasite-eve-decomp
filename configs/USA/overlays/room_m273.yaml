@@ -151,7 +151,7 @@ segments:
       - [0x9700, c, RoomEffect_SwayShardController]
       # The emitter creates the callback's eight-byte record pool; SHA-verified as one TU.
       - [0x9B34, c, RoomEffect_GatedGroundPair]
-      - [0x9EAC, asm, func_80198E94]
+      - [0x9EAC, c, RoomEffect_GroundRingCallback]
       - [0xA408, c, RoomEffect_PairedEmitter]
       - [0xA580, c, RoomEffect_DelayedBurstFlow]
       # The emitter owns the callback's four-byte pointer entries.

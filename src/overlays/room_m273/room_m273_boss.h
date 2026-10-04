@@ -238,7 +238,13 @@ extern RenderColor D_8019AE08;
 extern RenderColor D_8019AE0C;
 extern u8 D_8019AB70[];
 extern u16 D_800E11E8;
-extern u16 D_800E11EA;
+/* Texture page index at 0x800E11EA, read as a record so the load stays
+ * behind the parameter block store through its base register. */
+typedef struct RoomM273PageIndex {
+    u16 index;
+} RoomM273PageIndex;
+
+extern RoomM273PageIndex D_800E11EA;
 
 int func_800CE560(void *pool, int size, int count, void *callback);
 int func_800CE5AC(void *list, int base, int size, int count, void *callback);
