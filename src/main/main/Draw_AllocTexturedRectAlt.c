@@ -47,8 +47,6 @@ static inline void PopCursor(void)
     }
 }
 
-/* One textured quad of the bar: glyph texels starting `u` columns into the
- * glyph, from x to the right edge computed from the stored left edge. */
 /* Allocates one bar quad from the packet arena and sets its colour and
  * command (0x2C: textured four-point polygon). */
 static inline RenderTexturedQuad *AllocBarQuad(void)
@@ -78,22 +76,22 @@ static inline RenderTexturedQuad *AllocBarQuad(void)
  * glyph, from `left` to the right edge computed from the stored left edge. */
 #define DRAW_BAR_SEGMENT(left, right_from_x0, u_offset) \
     { \
-        RenderTexturedQuad *prim = AllocBarQuad(); \
         u32 *ot; \
-        prim->x0 = left; \
-        prim->y0 = prim->y1 = D_8009D128 + 1; \
-        prim->x2 = left; \
-        prim->x1 = prim->x3 = right_from_x0; \
-        prim->y2 = prim->y3 = prim->y0 + glyph->height; \
-        prim->u0 = prim->u2 = glyph->u + (u_offset); \
-        prim->v0 = prim->v1 = glyph->v; \
-        prim->u1 = prim->u3 = prim->u0; \
-        prim->v2 = prim->v3 = prim->v0 + glyph->height; \
-        prim->clut = glyph->clut; \
-        prim->tpage = 7; \
+        quad = AllocBarQuad(); \
+        quad->x0 = quad->x2 = left; \
+        quad->y0 = quad->y1 = D_8009D128 + 1; \
+        quad->x1 = quad->x3 = right_from_x0; \
+        quad->y2 = quad->y3 = quad->y0 + glyph->height; \
+        quad->u0 = quad->u2 = glyph->u + (u_offset); \
+        quad->v0 = quad->v1 = glyph->v; \
+        quad->u1 = quad->u3 = quad->u0; \
+        quad->v2 = quad->v3 = quad->v0 + glyph->height; \
+        quad->clut = glyph->clut; \
+        quad->tpage = 7; \
+        quad->tag.link.address = *D_8009D11C; \
         ot = D_8009D11C; \
-        prim->tag.word = (prim->tag.word & 0xFF000000) | (*ot & 0xFFFFFF); \
-        *ot = (*ot & 0xFF000000) | ((u32)prim & 0xFFFFFF); \
+        link.quad = quad; \
+        *ot = (*ot & 0xFF000000) | (link.word & 0xFFFFFF); \
     }
 
 /* Draws a stat value followed by a 48-pixel level bar filled up to
@@ -102,6 +100,9 @@ void Draw_AllocTexturedRectAlt(int value, int width)
 {
     DrawGlyphDescriptor *glyph = Draw_LookupGlyphDescriptor(0x48);
     RenderDrawModePacket *mode;
+    RenderTexturedQuad *quad;
+    int drawMode;
+    DrawLevelBarLink link;
     u8 *old, *next;
     u32 *ot;
 
@@ -115,19 +116,20 @@ void Draw_AllocTexturedRectAlt(int value, int width)
     Draw_AllocSprite(0x49);
 
     if (width < 0x2F)
-        DRAW_BAR_SEGMENT(D_8009D124 + 1, prim->x0 + 1, 0);
+        DRAW_BAR_SEGMENT(D_8009D124 + 1, quad->x0 + 1, 0);
     if (width < 0x2E)
-        DRAW_BAR_SEGMENT(D_8009D124 + 2, prim->x0 + 0x2E - width, 1);
+        DRAW_BAR_SEGMENT(D_8009D124 + 2, (s16)quad->x0 + 0x2E - width, 1);
     if (width < 0x30)
-        DRAW_BAR_SEGMENT(D_8009D124 + 0x30 - width, prim->x0 + 1, 2);
+        DRAW_BAR_SEGMENT(D_8009D124 + 0x30 - width, quad->x0 + 1, 2);
     if (width > 0)
-        DRAW_BAR_SEGMENT(D_8009D124 + 0x31 - width, prim->x0 + 1, 3);
+        DRAW_BAR_SEGMENT(D_8009D124 + 0x31 - width, quad->x0 + 1, 3);
     if (width >= 3)
-        DRAW_BAR_SEGMENT(D_8009D124 + 0x32 - width, prim->x0 - 1 + width, 4);
+        DRAW_BAR_SEGMENT(D_8009D124 + 0x32 - width, (s16)quad->x0 - 1 + width, 4);
     if (width >= 2)
-        DRAW_BAR_SEGMENT(D_8009D124 + 0x31, prim->x0 + 1, 5);
+        DRAW_BAR_SEGMENT(D_8009D124 + 0x31, quad->x0 + 1, 5);
     PopCursor();
 
+    drawMode = glyph->mode;
     mode = 0;
     old = D_8009D100;
     next = old + sizeof(RenderDrawModePacket);
@@ -138,8 +140,9 @@ void Draw_AllocTexturedRectAlt(int value, int width)
         BoundsCheck_AssertStub(1);
     }
     if (mode != 0)
-        SetDrawMode((char *)mode, 0, 0, ((glyph->mode & 3) << 7) | 7);
+        SetDrawMode((char *)mode, 0, 0, ((drawMode & 3) << 7) | 7);
     ot = D_8009D11C;
     mode->tag = (mode->tag & 0xFF000000) | (*ot & 0xFFFFFF);
-    *ot = (*ot & 0xFF000000) | ((u32)mode & 0xFFFFFF);
+    link.mode = mode;
+    *ot = (*ot & 0xFF000000) | (link.word & 0xFFFFFF);
 }

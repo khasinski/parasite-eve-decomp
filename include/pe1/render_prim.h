@@ -44,7 +44,11 @@ typedef struct RenderDrawModePacket {
 
 /* Four-vertex textured GPU packet. The final halfwords are packet padding. */
 typedef struct RenderTexturedQuad {
-    union { u32 word; struct { u8 address[3], length; } bytes; } tag;
+    union {
+        u32 word;
+        struct { u8 address[3], length; } bytes;
+        struct { u32 address : 24, length : 8; } link; /* ordering-table link */
+    } tag;
     union { u32 word; struct { u8 r, g, b, code; } bytes; } color;
     u16 x0, y0; u8 u0, v0; u16 clut;
     u16 x1, y1; u8 u1, v1; u16 tpage;

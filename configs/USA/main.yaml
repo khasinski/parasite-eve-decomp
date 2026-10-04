@@ -750,7 +750,7 @@ segments:
       # Digit packet emission, number printers, and time display share one -G8 TU.
       # Signed number emission and its cursor-width wrappers share one TU.
       - [0x50AD0, c, gpu/Draw_TexturedNumberPrint]
-      - [0x50E2C, asm, main/Draw_AllocTexturedRectAlt]
+      - [0x50E2C, c, main/Draw_AllocTexturedRectAlt]
       - [0x51844, c, main/Draw_AllocColorQuad]
       - [0x51CA0, c, gpu/draw3]
       # Color rectangles, wipe edges, gradient setup, and packet emission share one -G8 renderer TU.
