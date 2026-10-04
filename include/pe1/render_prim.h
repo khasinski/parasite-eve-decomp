@@ -37,6 +37,21 @@ typedef struct RenderColorTilePacket {
     u16 x0, y0, w, h;
 } RenderColorTilePacket;
 
+/* Four-vertex Gouraud quad (POLY_G4), used for HUD gauge gradients. */
+typedef struct RenderGouraudQuad {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 r1, g1, b1, pad1;
+    s16 x1, y1;
+    u8 r2, g2, b2, pad2;
+    s16 x2, y2;
+    u8 r3, g3, b3, pad3;
+    s16 x3, y3;
+} RenderGouraudQuad;
+
+PE1_STATIC_ASSERT(sizeof(RenderGouraudQuad) == 0x24, render_gouraud_quad_size);
+
 typedef struct RenderDrawModePacket {
     u32 tag;
     u32 command;

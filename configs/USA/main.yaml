@@ -350,7 +350,7 @@ segments:
       - [0x241A0, c, menu/Window_SetBoundsByMode]
       - [0x24220, c, menu/Menu_GetActiveMode]
       - [0x2422C, c, task/Task_SignalExit]
-      - [0x24240, asm, main/Battle_DrawActiveStatus]
+      - [0x24240, c, battle/Battle_DrawActiveStatus]
       - [0x24904, asm, main/Battle_DrawEnemyHP]
       - [0x24FB4, c, menu/Render_AnimationFrame]
       - [0x2515C, c, menu/Save_DrawSlotMetadata]
