@@ -141,20 +141,17 @@ int func_80192E4C(int mode, RoomM350SweepTrap *trap) {
             gte_stsv(&quad[k]);
         }
         {
-            GteShortVector *vertex;
             int player = (g_PlayerEntity->z << 16) | (u16)g_PlayerEntity->x;
             int prev = (quad[3].z << 16) | (u16)quad[3].x;
             k = 0;
-            vertex = quad;
             while (k < 4) {
-                int cur = (vertex->z << 16) | (u16)vertex->x;
+                int cur = (quad[k].z << 16) | (u16)quad[k].x;
                 gte_ldsxy0(player);
                 gte_ldsxy2(prev);
                 gte_ldsxy1(cur);
                 gte_nclip();
                 gte_stmac0(&outside);
                 if (outside < 0) break;
-                vertex++;
                 k++;
                 prev = cur;
             }

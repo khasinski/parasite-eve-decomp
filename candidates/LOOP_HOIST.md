@@ -62,7 +62,7 @@ Two-flare loop around func_800D0728 (11 args).
 - The other diff was a `move v1,v0` in the trail frame. It was fixed with
   `s16 frame = D_800E27EC & 7;`.
 
-### room_m350 func_80192E4C (sweeping beam trap): 59 -> 2 diffs, parked
+### room_m350 func_80192E4C (sweeping beam trap): MATCHED
 
 Fan blade loop around func_800D0E88 (call loop, 9 args, last one `1`).
 - Old: `22 real insns`. D_8019A43C, D_8019A3C8 and the `1` were all moved, so
@@ -82,6 +82,10 @@ Fan blade loop around func_800D0E88 (call loop, 9 args, last one `1`).
   loop) and `addiu a2,sp,0x70` (vertex = quad) are swapped. This is an sched
   tie-break between two independent insns. Reordering the
   player/prev/k/vertex statements did not change it.
+- Fix: index the quad (`quad[k].z`, `quad[k].x`) instead of walking a
+  `vertex` pointer set before the loop. Strength reduction then creates the
+  pointer giv and emits its init at the loop start AFTER the moved
+  invariants, so `&outside` comes first, as in retail.
 
 ### room_m273 func_8019665C (queued drop callback): loop fixed, regalloc swap left
 

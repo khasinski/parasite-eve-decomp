@@ -97,7 +97,7 @@ segments:
       - [0x3520, c, RoomEffect_PulsedPairSpawner]
       - [0x37BC, c, RoomEffect_PulsingPalettePair]
       - [0x3AF4, c, RoomEffect_RampedPalettePair]
-      - [0x3E64, asm, func_80192E4C]
+      - [0x3E64, c, RoomEffect_SweepTrap_80192E4C]
       - [0x4624, c, RoomEffect_PairedAnimationController]
       - [0x47CC, c, RoomEffect_FallingTexturePair]
       - [0x4A98, c, RoomEffect_TripleScalePair]
