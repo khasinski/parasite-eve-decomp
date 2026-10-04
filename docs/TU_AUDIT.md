@@ -167,6 +167,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Layout | Evidence and use |
 | --- | --- |
+| `ItemDataRecord` equipment-table view | `Inv_LookupActiveListDisplayData` now reads the immutable 0x20-byte equipment-table entries through `itemId`, `flags`, and `kind`, the same shared record and asserted offsets used by active-list consumers. The function's 0xC0 bytes match with `probe_match.py`; the table remains distinct from mutable `InventoryRuntime.equipment`. |
 | `RoomBounceGlint` | The `room_m086` emitter and callback use the same 20-byte slot: x/y/z/flag, velocity, timer and phase. The shared type describes both payload accesses; size and phase offset are compile-time checked. |
 | `RoomM273PulseRecord` | The 12-byte pool slot allocated by `RoomEffect_PulseBatchFlow` is passed to its adjacent callback. The callback view names a `GteShortVector` and velocity at `+8`; the emitter view names x/y/z/size/phase/unknown halfwords at `+0..+0x0A`. The union and size/offset assertions in `room_m273.h` and `room_m273_effects.h` cover both views, and the callback plus controller now compile in one TU. |
 | `RoomFanSweepSpark` | The `room_m318` fan-sweep controller allocates `0x10`-byte callback records and initializes state, angle, timer, and radius. The callback also stores its x/y/z position in that record; the trailing halfword at `+0x0E` completes the observed pool stride, guarded by offset and size assertions in `room_ember_burst.h`. |

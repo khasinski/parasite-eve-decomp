@@ -4056,6 +4056,16 @@ The clean main rebuild and final `make verify` retain retail SHA-1
 organization and debt gates pass. All 191 rebuilt overlays retain their
 retail SHA-1 values.
 
+### Active-list display lookup record
+
+`Inv_LookupActiveListDisplayData` uses the shared `ItemDataRecord` layout for
+the immutable equipment table. Its `itemId`, `flags`, and `kind` accesses
+replace three raw byte-offset views at `+4`, `+5`, and `+6`; the matching
+offset assertions already guard those fields in `inventory.h`. The table stays
+distinct from the mutable `InventoryRuntime.equipment` records. All 192
+function bytes match retail under `probe_match.py`, with no new pins or
+barriers.
+
 ### Inventory selectability predicate
 
 `Inv_IsSlotSelectable` matches all 396 retail bytes. An unresolved item record
