@@ -8008,3 +8008,16 @@ buffer in `D_800F34E4`; one always loads, while the other skips the transfer
 when that buffer is already active. Their adjacent code, shared texture-page
 coordinates and common CLUT lifecycle support this grouping.
 `make verify-clean` passes and `main.exe` remains byte-identical.
+
+### Field-animation callback-list lifecycle
+
+`FieldAnim_TaskListSetup`, `func_800CE610`, `func_800CE688` and
+`func_800CE78C` now share `src/main/engine/FieldAnim_TaskList.c`, in their
+original address order. The setup routines write a list header containing
+stride, entry count and callback at offsets 0, 4 and 8. Entries begin at +0xC;
+each entry stores its active flag at +0, age at +2 and callback state from +4.
+`func_800CE610` allocates an inactive entry, `func_800CE688` runs update mode
+and advances its age, and `func_800CE78C` runs the render mode. The update and
+render passes save and restore the shared effect-age context. These routines
+form one list lifecycle; this grouping does not claim an original source-file
+boundary. `make verify-clean` passes and `main.exe` remains byte-identical.
