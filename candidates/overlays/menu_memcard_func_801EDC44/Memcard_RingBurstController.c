@@ -16,7 +16,7 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
     int fade;
     int scale;
     int lift;
-    int ring2Fade;
+    int dim;
 
     switch (mode) {
     case 0:
@@ -75,11 +75,7 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
             angle = (burst->timer << 10) / 24;
             gte_ldrotmatrix(D_800BCFA4.value);
             gte_ldtransmatrix(D_800BCFA4.value);
-            fade = func_80077CF4(angle);
-            if (fade < 0) {
-                fade += 31;
-            }
-            fade >>= 5;
+            fade = func_80077CF4(angle) / 32;
             if (D_800E27EC & 1) {
                 fade = fade * 15 / 16;
             }
@@ -97,11 +93,7 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
             }
             gte_ldrotmatrix(D_800BCFA4.value);
             gte_ldtransmatrix(D_800BCFA4.value);
-            fade = func_80077DC4(angle);
-            if (fade < 0) {
-                fade += 31;
-            }
-            fade >>= 5;
+            fade = func_80077DC4(angle) / 32;
             if (D_800E27EC & 1) {
                 fade = fade * 15 / 16;
             }
@@ -110,29 +102,29 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
                           &spin, 0x1000, 0x1000, &ring, 0, fade / 2, 1);
             func_800D004C(&position, 300, 300, 8, 0, 0x1000, 0x1000,
                           &glow, 0, fade, 1);
-            ring2Fade = func_80077DC4(angle) / 32;
+            fade = func_80077DC4(angle) / 32;
             func_800D004C(&position, 1000, 1000, 16, 0, 0x1000, 0x1000,
-                          &ring, 0, ring2Fade, 1);
+                          &ring, 0, fade, 1);
             scale = func_80077CF4(angle) / 4 + 0xC00;
             func_800D0728(&position, 1500, 1900, 24, 0, scale, scale,
-                          0, &ring, ring2Fade, 1);
+                          0, &ring, fade, 1);
             scale = func_80077CF4(angle);
             func_800D0728(&position, 2000, 2600, 20, &tilt, scale, scale,
-                          &band, 0, ring2Fade, 1);
-            lift = func_80077CF4(angle) / 6 + 80;
-            ring2Fade = ring2Fade * 2 / 3;
+                          &band, 0, fade, 1);
+            lift = func_80077CF4(angle) / 12 + 80;
+            dim = fade * 2 / 3;
             offset.x = position.x;
             offset.y = position.y;
             offset.z = position.z;
             offset.y -= lift;
             func_800D0728(&offset, 1000, 1600, 16, &tilt, scale, scale,
-                          &band, 0, ring2Fade, 1);
+                          &band, 0, dim, 1);
             offset.x = position.x;
             offset.y = position.y;
             offset.z = position.z;
             offset.y += lift;
             func_800D0728(&offset, 1000, 1600, 16, &tilt, scale, scale,
-                          &band, 0, ring2Fade, 1);
+                          &band, 0, dim, 1);
             break;
         }
         D_800F3368.parameter00 = 32;
