@@ -6409,6 +6409,15 @@ The audited report credits 2491796 semantic code bytes and 10738 functions
 (70.18% of code). Total debt is 1292 pins, 1074 barriers and 155 NOPs;
 ordinary ASM bodies and directives are unchanged.
 
+### Memory-card port dialog node layout
+
+`Menu_MemCardDialogs` now uses the shared `MenuWidgetNode` type for both
+port-selection dialog constructors. Named fields replace raw accesses to the
+update, draw, selection-filter, cursor-Y and visible-row slots; the matching
+offsets are asserted in `menu_widget.h`. Callback prototypes and widget
+constructor APIs use their shared declarations. The full 504-byte `-G8`
+translation unit still matches retail under `probe_match.py`.
+
 ### Item discard confirmation panel
 
 `Menu_StepItemDetailPanel` (388 bytes at `0x80044F8C`) constructs the
