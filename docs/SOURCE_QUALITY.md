@@ -396,12 +396,14 @@ executable is unchanged and no pins or barriers were added.
 
 ### Colour gradient allocation
 
-`Draw_AllocColorGradient` in the main executable matches from clean C, on the
-helpers in `draw_wipe_rect.h`. The ordering-table link goes through a word
-variable assigned more than once, so the scheduler places its load early as
-retail does, and the packet fields are written in their natural order. The
-main executable is unchanged and no pins or barriers were added. Parked
-candidate directories whose functions are already C on main are removed.
+`Draw_AllocColorGradient` and the preceding color-rectangle/wipe renderers now
+share `src/main/gpu/Draw_WipeAndGradient.c`. The ordering-table link goes
+through a word variable assigned more than once, so the scheduler places its
+load early as retail does, and packet fields are written in their natural
+order. `draw_state.h` supplies the canonical pointer types for the packet arena
+and ordering-table entry; `draw_wipe_rect.h` uses explicit `u16 *` views for
+the shared 0x30-byte vertex stack. The full 0xB54-byte range matches retail
+with no added pins or barriers.
 
 ### scene_e20 hover orb controller
 

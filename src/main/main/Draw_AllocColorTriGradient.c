@@ -8,15 +8,15 @@ void Draw_AllocColorTriGradient(int width, int height, int mode, int pulse)
         Draw_BlendColorInline(g_DrawGradientBlendColor);
     }
 
-    g_DrawVertexWritePtr = g_TextCursorStackTop;
+    g_DrawVertexWritePtr = (u16 *)g_TextCursorStackTop;
     DRAW_PUSH_WIPE_VERTEX(g_TextCursorX, g_TextCursorY,
-                          g_TextCursorStackTop + 0x18);
+                          (u16 *)g_TextCursorStackTop + 0x18);
     DRAW_PUSH_WIPE_VERTEX(g_TextCursorX + width, g_TextCursorY,
-                          g_TextCursorStackTop + 0x18);
+                          (u16 *)g_TextCursorStackTop + 0x18);
     DRAW_PUSH_WIPE_VERTEX(g_TextCursorX, g_TextCursorY + height,
-                          g_TextCursorStackTop + 0x18);
+                          (u16 *)g_TextCursorStackTop + 0x18);
     DRAW_PUSH_WIPE_VERTEX(g_TextCursorX + width, g_TextCursorY + height,
-                          g_TextCursorStackTop + 0x18);
+                          (u16 *)g_TextCursorStackTop + 0x18);
 
     Draw_EmitWipeBar(D_800930A8, mode);
     g_TextCursorX -= 2;

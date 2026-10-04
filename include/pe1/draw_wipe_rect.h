@@ -14,7 +14,7 @@ extern int g_DrawBlendColor;
 extern int g_SavedDrawBlendColor[];
 extern int g_DrawScratchBuffer[];
 extern u16 *g_DrawVertexWritePtr;
-extern u16 g_TextCursorStackTop[];
+extern int g_TextCursorStackTop[];
 extern u8 D_800930A8[];
 extern int g_TextCursorX;
 extern int g_TextCursorY;
@@ -28,12 +28,12 @@ typedef union DrawPacketAddress {
     u32 word;
 } DrawPacketAddress;
 
-extern u32 D_8009D100;                 /* packet cursor address */
-extern u32 D_8009D104;                 /* packet arena base address */
+extern u8 *D_8009D100;                  /* packet cursor address */
+extern u8 *D_8009D104;                  /* packet arena base address */
 extern int D_8009D10C;                 /* colour select */
 extern int D_8009D110;                 /* primary colour */
 extern int D_8009D114;                 /* alternate colour */
-extern DrawPacketAddress *D_8009D11C;  /* ordering-table entry */
+extern u32 *D_8009D11C;                 /* ordering-table entry */
 
 void BoundsCheck_AssertStub(int arg0);
 void SetTexWindow(GpuCmdPacket *packet, RECT *window);
@@ -87,12 +87,12 @@ static inline void Draw_BlendColorInline(int color)
 /* Reserve `size` bytes of the packet arena into `packet` (0 on overflow). */
 #define DRAW_ALLOC_PACKET(packet, size)                                  \
     {                                                                    \
-        u32 old = D_8009D100;                                            \
+        u32 old = (u32)D_8009D100;                                            \
         u32 next = old + (size);                                         \
                                                                          \
         (packet).word = 0;                                               \
-        if (next < D_8009D104 + 0x4000) {                                \
-            D_8009D100 = next;                                           \
+        if (next < (u32)D_8009D104 + 0x4000) {                                \
+            D_8009D100 = (u8 *)next;                                           \
             (packet).word = old;                                         \
         } else {                                                         \
             BoundsCheck_AssertStub(1);                                   \
@@ -103,7 +103,7 @@ static inline void Draw_BlendColorInline(int color)
 #define DRAW_LINK_PACKET(packet)                                         \
     {                                                                    \
         u32 mask24 = 0xFFFFFF, maskTop = 0xFF000000;                     \
-        DrawPacketAddress *ot = D_8009D11C;                              \
+        DrawPacketAddress *ot = (DrawPacketAddress *)D_8009D11C;                              \
         u32 tag = *(packet).tag;                                         \
         tag &= maskTop;                                                  \
         tag |= ot->word & mask24;                                        \

@@ -753,9 +753,8 @@ segments:
       - [0x50E2C, asm, main/Draw_AllocTexturedRectAlt]
       - [0x51844, c, main/Draw_AllocColorQuad]
       - [0x51CA0, c, gpu/draw3]
-      # Color rectangles, wipe edge generation, and GPU packet emission share one -G8 renderer TU.
-      - [0x51D3C, c, gpu/Draw_WipeRenderer]
-      - [0x52434, c, main/Draw_AllocColorGradient]
+      # Color rectangles, wipe edges, gradient setup, and packet emission share one -G8 renderer TU.
+      - [0x51D3C, c, gpu/Draw_WipeAndGradient]
       - [0x52890, c, main/Draw_AllocColorTri]
       - [0x52AB0, c, menu/Menu_SetSaveSlotBlendBase]
       - [0x52ABC, c, main/Draw_AllocColorTriGradient]
