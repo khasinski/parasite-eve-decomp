@@ -88,14 +88,25 @@ The slot loop is 74 to 85 insns at loop time against a threshold of 58,
 so the -1 cannot be hoisted at the slot level without big changes.
 Value/quotient type sweeps (short/int/u16 combinations) were all worse.
 
-## Retry (agent 16, 2026-10-04): still lev 87
+## Why style is not in a1 (agent 18, 2026-10-04): still lev 87
 
-Structural toggles scored with lev.py, none below 87: value/quotient/count
-and slot declared at function scope, `if (state == 0) { ... return; }`
-instead of `continue`, the slot loop reading `values[slot]` or stepping
-`values++` in the for header (161 words, but lev 89), `break` instead of
-`return` on the terminator, and the `D_8009CEA4 = -1` store moved. The
-register differences come from global allocation order: retail leaves
-`style` in a1 and copies `values` to t4 and `index` to t1, while this
-draft keeps `values` in a2 (its copy preference wins because i*56 lands in
-a3 instead of a2).
+`-dg` on the parked .c (pseudos 72 index, 74 style, 76 values, 77 i, 86/87
+the i*56 offset): every global pseudo, style included, conflicts with hard
+regs v0..a1, because local-alloc puts block temporaries there and global
+records a conflict with each local hard reg live at a pseudo's birth. In the
+setup block the temporaries are v0 = the `-1` for `D_8009CEA4`, v1 = flags,
+a1 and a0 = the two masks. Retail has hoisted the -1 to t6, so its setup
+block needs only v0 (flags), a0 and v1 (masks) and leaves a1 free.
+
+With the -1 hoisted (the permuter's `int minus = -1; D_8009CEA4 = minus;`,
+lev 63, still not used) style does get a1 and its copy disappears, so the
+-1 hoist is the first thing to solve. The rest of retail's numbering then
+follows one more decision: global allocates the quotient (232) before the
+offset (87) and values (76). Pass 0 of find_reg gives the quotient a3,
+because a3 is already used by local pseudos and a2 is excluded as
+"preferred by a conflicting allocno" (values prefers a2 from its entry
+copy). The offset then takes a3 in pass 0 too, and values keeps a2. Retail
+has the quotient copy in a2, the offset in a2, i in a3 and values copied
+to t4, which is what happens when values does not hold the a2 preference
+against the slot-loop pseudos. `short *values = numbers;` as a local cursor
+was tried (combine folds the two entry copies; no change, lev 87 / 63).
