@@ -83,6 +83,20 @@ class CrutchDebtTests(unittest.TestCase):
 
         self.assertEqual(totals["pins"], 0)
 
+    def test_counts_template_gotos_once(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            template = root / "overlays" / "x" / "body.inc"
+            template.parent.mkdir(parents=True)
+            template.write_text('void f(void) { retry: goto retry; }\n')
+            (template.parent / "one.c").write_text('#include "body.inc"\n')
+            (template.parent / "two.c").write_text('#include "body.inc"\n')
+
+            _, totals, _, _ = crutch_debt.collect_debt(root)
+
+        self.assertEqual(totals["gotos"], 1)
+        self.assertEqual(totals["asm_constrained_units"], 0)
+
     def test_counts_explicit_stack_reserves(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp)

@@ -106,14 +106,17 @@ def collect_debt(source_root: pathlib.Path = SRC,
     totals = {k: 0 for k in ORDER}
     dirty_files = 0
 
-    for path in sorted(source_root.rglob("*.c")):
+    # Templates (.inc) hold function bodies shared by several C units, so their
+    # crutches count as debt too, once per template rather than per includer.
+    sources = sorted(list(source_root.rglob("*.c")) + list(source_root.rglob("*.inc")))
+    for path in sources:
         # Prefix with ``src`` so tests can pass an isolated source tree while
         # subsystem_of keeps using repository-relative paths.
         rel = pathlib.PurePath("src") / path.relative_to(source_root)
         text = strip_comments(path.read_text(errors="ignore"))
         sub = subsystem_of(pathlib.PurePath(rel))
         counts = {k: len(PATTERNS[k].findall(text)) for k in ORDER}
-        counts["asm_constrained_units"] = int(classify(path) == "asm_constrained")
+        counts["asm_constrained_units"] = int(path.suffix == ".c" and classify(path) == "asm_constrained")
         for k, v in counts.items():
             per_sub[sub][k] += v
             totals[k] += v
