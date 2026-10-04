@@ -56,10 +56,19 @@ extern SceneE22EmberEvent *D_800E2368;
 extern SceneE22EmberObjectChannel *D_800F32D0;
 extern SceneE22EmberChannel *D_800F33E0;
 extern SceneE22EmberFloor D_800942EC;
-extern u16 D_800E11EA;
+/* Texture page index slot at 0x800E11EA, read as a record so the load
+ * stays behind the first parameter block store through its base register. */
+typedef struct SceneE22TextureSlot {
+    u16 index;
+} SceneE22TextureSlot;
+
+extern SceneE22TextureSlot D_800E11EA;
 extern u16 D_800E11FA;
 extern RenderColor D_8018F208;
 extern RenderColor D_8018F20C;
+extern RenderColor D_8018F204;
+extern u16 D_800E120A;
+extern u8 D_80199388[];
 
 extern int func_80071A54(void);
 extern int func_80077CF4(int angle);

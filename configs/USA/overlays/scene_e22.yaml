@@ -101,7 +101,7 @@ segments:
       - [0x442C, asm, func_scene_e22_00442C]
       - [0x4958, c, RoomEffect_EmberDriftParticle]
       - [0x50A4, c, RoomEffect_EmberDriftController]
-      - [0x5874, asm, func_scene_e22_005874]
+      - [0x5874, c, RoomEffect_RisingEmberParticle]
       - [0x5F78, asm, func_scene_e22_005F78]
       - [0x67E4, c, RoomEffect_SwirlRingParticle]
       - [0x6B58, asm, func_scene_e22_006B58]
