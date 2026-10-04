@@ -1,8 +1,11 @@
 # Functions not credited as matched C (audit 2026-10-04)
 
-Source: `make report` (build/USA/report.json) on origin/main c687b258c minus what this
-audit branch matched (see the last section); every function whose objdiff
-match is below 100% is listed (124 entries before this branch).
+Source: `make report` (build/USA/report.json) regenerated 2026-10-04 on
+decomp-agent4-small (origin/main 112d2483a plus candidate notes); every
+function whose objdiff match is below 100% is listed (108 entries).
+Progress figures for parked candidates are `lev N` from helpers/lev.py
+(instruction-word edit distance, relocations masked, no register
+normalisation); "lev not measured" marks old drafts nobody has rebuilt.
 Size is the objdiff function size in bytes.
 
 ## Summary
@@ -14,9 +17,9 @@ Size is the objdiff function size in bytes.
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
-| parked near-miss | 29 | 50888 |
+| parked near-miss | 25 | 42380 |
 | not yet attempted | 0 | 0 |
-| total | 112 | 99460 |
+| total | 108 | 90952 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -123,8 +126,9 @@ Category notes:
 | main | PeImage_Mount_Dispatch | 696 | CD retry loader (CdRom_PollReady/Cd_GetReadyStatus retry loops), no candidate |
 | main | main | 748 | Boot_MainLoop: goto dispatch plus scratchpad stack switch around func_8019234C (inline asm in C unit) |
 | main | Render_InitDisplayLists | 808 | CD retry loader (CdRom_PollReady/Cd_GetReadyStatus retry loops), no candidate |
-| menu_memcard | func_80121C04 | 1084 | menu_memcard video open pair: needs a goto (parked by another agent) |
-| menu_memcard | func_8012AA4C | 1084 | menu_memcard video open pair: needs a goto (parked by another agent) |
+| main | Scene_LoadEntityTextures | 1708 | CD retry loader (CdRom_PollReady retry loop), no candidate |
+| menu_memcard | func_80121C04 | 1084 | menu_memcard video open pair: landing on main (another agent) |
+| menu_memcard | Memcard_OpenVideo | 1084 | menu_memcard video open pair: landing on main (another agent) |
 
 ## inline-asm C unit
 
@@ -134,31 +138,31 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
-| main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: 1 extra instruction (648 vs 644 bytes) |
-| main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: 24 diffs (prologue), func_800D3BC8 variant 26 |
-| main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand (needs headers.diff; diff count not recorded) |
-| main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
-| main | Scene_LoadFieldBg | 1564 | candidates/main/main/Scene_LoadFieldBg: 42 diffs (CD loader) |
-| main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
-| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: one register swap in the four gte_CompMatrix expansions |
-| main | Scene_UpdateEntityPositions | 2432 | candidates/main/main/Scene_UpdateEntityPositions.c (old byte-offset draft, no README, diff count not recorded) |
-| main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
-| fx_common | func_8018F55C | 224 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
-| fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: 14 diffs, still needs one volatile |
-| fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: ~500 diffs (register allocation) |
-| menu_memcard | func_801214D4 | 496 | twin of the matched Memcard_UploadVideoSlice at 0x95D8 (byte-identical modulo relocations), but that source carries 3 pins, 3 barriers and a volatile, so a template would duplicate debt; the clean draft in candidates/overlays/menu_memcard_func_801214D4 is off by size (retail keeps &selector in a register and re-reads it, so a volatile read there is justified) |
-| menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: 34 diffs plain, 2 diffs with lift shared with the mode 1 vz (retail lift is a global pseudo; vz register still differs) |
-| menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, diff count not recorded) |
-| room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: 88 diffs |
-| scene_e08 | func_8019104C | 764 | candidates/overlays/scene_e08_func_8019104C: 10 diffs (register naming) |
-| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: 78 diffs |
-| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: 7 diffs (single `special` variant, 2026-10-04) |
+| main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: lev 92 (162 vs 161 words; the slot loop compare -1 is not hoisted, see README) |
+| main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: lev 14 (prologue save placement); func_800D3BC8 variant lev 16 |
+| main | Akao_EnqueueStagedCommand | 968 | candidates/main/main/Akao_EnqueueStagedCommand (needs headers.diff): scalar_globals.c lev 79 (232 vs 242 words, arg loads hoisted above the message stores) |
+| main | Save_DrawSlotMetadata | 1156 | candidates/main/menu/misc23.c: 1152 vs 1156 bytes, lev not measured (old draft) |
+| main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: lev 4 (register of the red channel) |
+| main | Scene_LoadFieldBg | 1564 | candidates/main/main/Scene_LoadFieldBg: lev not measured |
+| main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
+| main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
+| main | Akao_StepSampleLoader | 2048 | candidates/main/main/Akao_StepSampleLoader.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
+| main | Scene_LoadRoom | 2160 | candidates/main/gpu/Scene_LoadRoom.c (old byte-offset draft, no README, lev not measured) |
+| main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: lev 50 (590 vs 593 words with the current headers; column pointer registers in the four gte_CompMatrix expansions) |
+| main | Scene_UpdateEntityPositions | 2432 | candidates/main/main/Scene_UpdateEntityPositions.c (old byte-offset draft, no README, lev not measured) |
+| main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
+| main | Geo_ClipToFloorBoundary | 2920 | candidates/main/main/Geo_ClipToFloorBoundary.c (old byte-offset draft, no README, lev not measured); OWNED BY ANOTHER AGENT |
+| main | Menu_ItemListInputHandler | 3100 | candidates/main/menu/Menu_ItemListInputHandler_plainc: lev not measured |
+| fx_common | func_8018F55C | 224 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev not measured, still needs one volatile |
+| fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev not measured, still needs one volatile |
+| fx_common | func_80193B5C | 1452 | candidates/overlays/fx_common_effect_markers: lev not measured (register allocation) |
+| menu_memcard | func_801214D4 | 496 | twin of the matched Memcard_UploadVideoSlice at 0x95D8, whose source carries pins, barriers and a volatile; a clean struct draft (VideoDisplay D_801228CC, volatile selector pointer) is lev 46 (120 vs 124 words): retail reads the rect through scalar symbols and keeps &selector in a3 |
+| menu_memcard | func_801EDC44 | 2384 | candidates/overlays/menu_memcard_func_801EDC44: lev 34 plain; lev 2 with lift shared with the mode 1 vz (retail lift is a global pseudo; the vz register still differs) |
+| menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, lev not measured) |
+| room_m256 | func_80195728 | 1440 | candidates/overlays/room_m256_func_80195728: lev not measured |
+| scene_e08 | func_8019104C | 764 | candidates/overlays/scene_e08_func_8019104C: lev 10 (incoming state pointer copy kept in two registers by retail) |
+| scene_e08 | func_80191E78 | 848 | candidates/overlays/scene_e08_func_80191E78: lev not measured |
+| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: lev 7 (single `special` variant) |
 
 ## not yet attempted
 
