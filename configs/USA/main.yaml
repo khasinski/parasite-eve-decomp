@@ -456,15 +456,14 @@ segments:
       - [0x307BC, c, memcard/misc20]
       # SJIS formatting, save-title construction, and adjacent card helpers share one save-support TU.
       - [0x3086C, c, save/Save_TitleAndCardSupport]
+      # The event-driven port state machine and its event manager share the port state.
       - [0x30DA4, c, memcard/MemCard_StepPortState]
-      - [0x311B4, c, memcard/MemCard_InitManager]
       - [0x31380, c, save/Save_BuildCardFile]
       # Save startup, manager state transitions, and load completion share card/slot state.
       - [0x31780, c, memcard/MemCard_UpdateSaveState]
       - [0x32C64, c, memcard/MemCard_GetActiveProgressBlocks]
-      - [0x32CB4, c, memcard/MemCard_GetSlot]
-      # One memory-card port-state controller; exact 0x740-byte original object.
-      - [0x32D38, c, memcard/MemCard_Controller]
+      # Save-slot lookup and the port-state controller share MemCardPortState.
+      - [0x32CB4, c, memcard/MemCard_Controller]
       - [0x33478, c, menu/Menu_SaveBgInitFade]
       - [0x334B8, c, menu/Menu_SaveBgSetFadeTarget]
       - [0x334C4, c, menu/Menu_ComputeGammaLut]
