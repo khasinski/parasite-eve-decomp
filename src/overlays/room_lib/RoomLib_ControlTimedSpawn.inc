@@ -1,10 +1,31 @@
 #include "common.h"
 
+typedef struct RoomTimedSpawnPosition {
+    u16 x;
+    u16 y;
+    u16 z;
+} RoomTimedSpawnPosition;
+
 typedef struct RoomTimedSpawnState {
     s16 x;
     s16 y;
-    s16 z;
+    RoomTimedSpawnPosition position;  /* 0x04 */
 } RoomTimedSpawnState;
+
+typedef struct RoomTimedSpawnEventState {
+    u8 reserved[0xD];
+    u8 active;                        /* 0x0D */
+} RoomTimedSpawnEventState;
+
+typedef struct RoomTimedSpawnNode {
+    u8 reserved[0x18];
+    u8 *status;                       /* 0x18 */
+} RoomTimedSpawnNode;
+
+typedef struct RoomTimedSpawnEngine {
+    u8 reserved[0x4C];
+    u32 flags;                        /* 0x4C */
+} RoomTimedSpawnEngine;
 
 typedef struct RoomTimedSpawnSoundState {
     void *owner;
@@ -15,7 +36,7 @@ typedef struct RoomTimedSpawnSoundState {
 
 extern void *D_800F32D0;
 extern void *D_800F33E0;
-extern void *D_800E2368;
+extern RoomTimedSpawnEventState *D_800E2368;
 extern void *D_8009D254;
 extern void *g_PlayerEntity;
 extern void *RoomMain_ActorPtr2;
@@ -72,14 +93,14 @@ int ROOMLIB_CONTROL_TIMED_SPAWN_NAME(int mode, RoomTimedSpawnState *state) {
     goto ret0;
 
 mode0:
-    func_800CE870(((void **)D_800F32D0)[2], 0, (char *)state + 4);
+    func_800CE870(((void **)D_800F32D0)[2], 0, &state->position);
     state->x = 0;
     state->y = 0;
 
-    if (*(u8 *)((char *)D_800E2368 + 0xD) != 0) {
+    if (D_800E2368->active != 0) {
         void *p = ((void **)D_800F32D0)[2];
         if (p != 0 && *(void **)p != 0) {
-            u8 *status = *(u8 **)((char *)*(void **)p + 0x18);
+            u8 *status = (*(RoomTimedSpawnNode **)p)->status;
             if (*status == 1) {
                 *status = 2;
             }
@@ -98,9 +119,9 @@ mode1:
     if (tick < 0x20 && tick % 6 == 0) {
         actor = func_800CE610(((void **)D_800F33E0)[2]);
         if (actor != 0) {
-            *(u16 *)((char *)actor + 0) = *(u16 *)((char *)state + 4);
-            *(u16 *)((char *)actor + 2) = *(u16 *)((char *)state + 6);
-            *(u16 *)((char *)actor + 4) = *(u16 *)((char *)state + 8);
+            *(u16 *)((char *)actor + 0) = state->position.x;
+            *(u16 *)((char *)actor + 2) = state->position.y;
+            *(u16 *)((char *)actor + 4) = state->position.z;
             ground = ROOMLIB_TIMED_SPAWN_FRAME_COUNT;
             *(s16 *)((char *)actor + 8) = 0;
             *(s16 *)((char *)actor + 0xA) = 0;
@@ -108,14 +129,14 @@ mode1:
         }
     }
 
-    if (D_800E27EC == 7 && *(u8 *)((char *)D_800E2368 + 0xD) != 0) {
+    if (D_800E27EC == 7 && D_800E2368->active != 0) {
         void *root;
         root = D_800F32D0;
         if ((*(u32 *)*(void **)((void **)root)[2] & 0x3F000000) ==
             0x01000000) {
             void *object;
-            void *engine = *(void **)ROOMLIB_TIMED_SPAWN_ACTOR_PTR;
-            *(u32 *)((char *)engine + 0x4C) |= 0x4000;
+            RoomTimedSpawnEngine *engine = *(RoomTimedSpawnEngine **)ROOMLIB_TIMED_SPAWN_ACTOR_PTR;
+            engine->flags |= 0x4000;
 
             object = *(void **)((void **)root)[2];
             *(u32 *)object = (*(u32 *)object & 0xC0FFFFFF) | 0x21000000;
