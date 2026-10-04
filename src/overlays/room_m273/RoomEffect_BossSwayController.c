@@ -16,8 +16,8 @@ int func_80199C50(int mode) {
         instance->owner->flags |= 0x40000000;
         D_8019AF74.points[0].pad = 0;
         D_8019AF74.points[1].pad = 1;
-        D_8019AF74.points[2].pad = 0;
-        D_8019AF74.points[3].pad = 0;
+        D_8019AF74.hits[0].pad = 0;
+        D_8019AF74.hits[1].pad = 0;
         D_8019AF74.sway_timer = 0;
         D_8019AF74.cooldown = 0;
     } else if (mode == 1) {

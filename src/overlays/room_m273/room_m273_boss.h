@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/render_object.h"
 
 /* Boss instance fields read by room_m273's animation controllers. */
 typedef struct RoomM273BossOwner {
@@ -105,7 +106,8 @@ extern RoomM273BossState D_8019AE9C;
 /* Sway controller state at 0x8019AF74: four transformed points (the pad
  * halfword is a per-point flag) and the animation snapshot. */
 typedef struct RoomM273SwayState {
-    GteShortVector points[4];
+    GteShortVector points[2];
+    GteShortVector hits[2];
     s16 animation;
     s16 frame;
     s16 frame_1A;
@@ -149,8 +151,8 @@ extern u8 D_8019AD5C[];
 typedef struct RoomM273SwayShard {
     GteShortVector position;
     GteShortVector velocity;
-    u8 side;
-    u8 reserved_11;
+    s8 side;
+    u8 frame;
     u8 state;
 } RoomM273SwayShard;
 
@@ -162,6 +164,10 @@ typedef struct RoomM273EffectPools {
 extern RoomM273EffectPools *D_800F33E0;
 extern void *D_8019AF70;
 extern GteShortVector D_8019AE10;
+extern RenderColor D_8019AE04;
+extern RenderColor D_8019AE08;
+extern RenderColor D_8019AE0C;
+extern u8 D_8019AB70[];
 extern u16 D_800E11E8;
 extern u16 D_800E11EA;
 
