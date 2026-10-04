@@ -354,3 +354,25 @@ Two-ring loop around func_800D0E88 (call loop).
   the folded copy does not make a constant pseudo multi-set for sched1
   (it is still a birthing insn and gets LAUNCH priority). Only refs,
   deaths and the basic block mark survive.
+
+## Hidden block boundary from a dead conditional (room_m256 func_80195728, 2026-10-04): MATCHED
+
+- Symptoms: retail loads a constant base (`la s3, D_800E2850`) right after
+  an early call although its only uses are much later, and a mult chain is
+  scheduled with no latency fill even though independent stores were ready
+  (our build put the stores into the mult shadow and the base set at the
+  end of the block). Both say the sched1 block ended between the stores and
+  the division, but retail shows no branch there.
+- Cause: a conditional whose body is dead. flow deletes the body, but the
+  empty conditional jump survives until jump2, which runs after sched2. So
+  sched1 and sched2 both see a block boundary, and the final code shows
+  nothing. The birthing base set then sits at the end of the earlier block,
+  and the sched2 call anti-dependence lifts it to just after the call.
+- Here it was the ModelBurstController preamble kept verbatim
+  (`brightness = *state; if (D_800E27EC != 0) brightness = brightness * 2 / 3;`,
+  overwritten later in the model block), next to that template's spin
+  stores and a cos sample whose result is also unused. lev 43 -> 0 with no
+  other change. The palette3 variable was no longer needed.
+- When retail ignores a call result or writes a never-read record, check the
+  sibling template for the statements around it. Dead code in the original
+  can still shape the schedule.
