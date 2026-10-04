@@ -46,7 +46,7 @@ extern ItemDataRecord g_InvItemSlotArray[128];
 
 /* Historical name: this operation returns a status, not an item pointer. */
 int Inv_GetSlotItemData(int index);
-int Inv_CheckItemEquippable(int list, int slot);
+int Inv_CheckItemEquippable(unsigned int list, int slot);
 /* Historical name: allocate a copied equipment record and insert its ID. */
 ItemDataRecord *Inv_FindSlotByIndex(int id);
 int Inv_WriteSlotById(ItemDataRecord *item);
@@ -107,6 +107,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(ItemDataRecord, bonusStats) == 0x0E,
                   item_data_record_bonus_stats_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(ItemDataRecord, tailCount) == 0x14,
                   item_data_record_tail_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(ItemDataRecord, tailData) == 0x15,
+                  item_data_record_tail_data_offset);
 
 int Inv_CountByCategory(int category);
 int WayneStorage_CountItemType(int category);

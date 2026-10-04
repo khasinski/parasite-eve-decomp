@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 -fno-schedule-insns */
 /* MASPSX_FLAGS: -G8 */
 #include "common.h"
+#include "pe1/inventory.h"
 extern s16 *D_8009D048;
 extern int D_8009D050;
 extern u8 D_800BEEAC[];
@@ -11,7 +12,7 @@ extern struct { char _[16]; } D_800C0E22_obj __asm__("D_800C0E22");
 #define D_800C0E22 (*(s8 *)&D_800C0E22_obj)
 
 int Inv_RestoreSelection(unsigned int index);
-void *Item_LookupBaseData(unsigned int index);
+ItemDataRecord *Item_LookupBaseData(unsigned int index);
 int Inv_CheckFreeSlotCapacity(int mask);
 
 int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
@@ -78,26 +79,26 @@ int Inv_CheckItemEquippable(unsigned int list_index, int modifier_index) {
     result = 1;
     if (mod_index >= 0) {
         u8 *chosen = item_a + mod_index;
-        count = item_b[0x14];
+        count = ((ItemDataRecord *)item_b)->tailCount;
         modifier = chosen[0x15];
         i = 0;
         if (count <= 0) goto first_after;
 first_loop:
-        if ((item_b + i)[0x15] == modifier) goto first_found;
+        if (((ItemDataRecord *)item_b)->tailData[i] == modifier) goto first_found;
         ++i;
         if (i < count) goto first_loop;
 first_found:
-        if (i < item_b[0x14]) return 4;
+        if (i < ((ItemDataRecord *)item_b)->tailCount) return 4;
 first_after:;
 
-        for (i = 0; i < item_b[0x14]; i++) {
-            if ((item_b + i)[0x15] == 0) {
+        for (i = 0; i < ((ItemDataRecord *)item_b)->tailCount; i++) {
+            if (((ItemDataRecord *)item_b)->tailData[i] == 0) {
                 break;
             }
         }
 
-        if (i >= item_b[0x14]) {
-            modifier = (item_a + mod_index)[0x15] & 0xE0;
+        if (i >= ((ItemDataRecord *)item_b)->tailCount) {
+            modifier = ((ItemDataRecord *)item_a)->tailData[mod_index] & 0xE0;
             if (modifier == 0) {
                 return 3;
             }
@@ -106,17 +107,17 @@ first_after:;
                 int third_count;
                 int third_modifier;
                 register int third_loop_count asm("$4");
-                third_count = item_b[0x14];
+                third_count = ((ItemDataRecord *)item_b)->tailCount;
                 if (third_count <= 0) goto third_return3;
                 i = 0;
                 third_modifier = modifier;
                 third_loop_count = third_count;
 third_loop:
-                if (((item_b + i)[0x15] & 0xE0) == third_modifier) goto third_found;
+                if ((((ItemDataRecord *)item_b)->tailData[i] & 0xE0) == third_modifier) goto third_found;
                 ++i;
                 if (i < third_loop_count) goto third_loop;
 third_found:
-                if (i < item_b[0x14]) goto third_done;
+                if (i < ((ItemDataRecord *)item_b)->tailCount) goto third_done;
 third_return3:
                 return 3;
 third_done:;
@@ -130,19 +131,19 @@ third_done:;
             int raw_count;
             int loop_count;
             int slot;
-            raw_count = item_a[0x14];
+            raw_count = ((ItemDataRecord *)item_a)->tailCount;
             i = 0;
             if (raw_count <= 0) goto equip_after;
             loop_count = raw_count;
 equip_loop:
-            raw_count = (item_a + i)[0x15];
+            raw_count = ((ItemDataRecord *)item_a)->tailData[i];
             raw_count &= 0x1F;
             slot = raw_count - 8;
             if ((unsigned int)slot < 3) goto equip_found;
             ++i;
             if (i < loop_count) goto equip_loop;
 equip_found:
-            if (i < item_a[0x14]) {
+            if (i < ((ItemDataRecord *)item_a)->tailCount) {
                 register int equip_mask asm("$4") = 1 << slot;
                 different_slot = i != mod_index;
                 result = Inv_CheckFreeSlotCapacity(equip_mask);
@@ -171,23 +172,23 @@ equip_after:;
         register int final_count asm("$6");
         int final_existing;
         int bit_existing;
-        raw = (item_a + mod_index)[0x15];
+        raw = ((ItemDataRecord *)item_a)->tailData[mod_index];
         raw &= 0x1F;
         final_mod = raw - 8;
         if ((unsigned int)final_mod >= 3) goto return_one;
-        raw = item_b[0x14];
+        raw = ((ItemDataRecord *)item_b)->tailCount;
         i = 0;
         if (raw <= 0) goto final_call;
         final_count = raw;
 final_loop:
-        raw = (item_b + i)[0x15];
+        raw = ((ItemDataRecord *)item_b)->tailData[i];
         raw &= 0x1F;
         final_existing = raw - 8;
         if ((unsigned int)final_existing < 3) goto final_found;
         ++i;
         if (i < final_count) goto final_loop;
 final_found:
-        if (i >= item_b[0x14]) goto final_call;
+        if (i >= ((ItemDataRecord *)item_b)->tailCount) goto final_call;
         bit_existing = 1 << final_existing;
         mask = bit_existing - (1 << final_mod);
     }

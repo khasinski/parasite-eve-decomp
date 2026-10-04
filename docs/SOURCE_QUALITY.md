@@ -4101,6 +4101,17 @@ distinct from the mutable `InventoryRuntime.equipment` records. All 192
 function bytes match retail under `probe_match.py`, with no new pins or
 barriers.
 
+### Equipment modification-slot record accesses
+
+`Inv_CheckItemEquippable` now reads equipment modification counts and indexed
+modifier bytes through the shared `ItemDataRecord.tailCount` and `tailData`
+fields. Compile-time assertions pin these fields at `+0x14` and `+0x15`, and
+the shared list-index prototype now matches the implementation's unsigned
+index. One selected-modifier access retains its byte-offset expression because
+the field-pointer spelling reverses one commutative address-add instruction.
+The complete `0x44C`-byte function remains byte-identical under
+`probe_match.py`.
+
 ### Inventory selectability predicate
 
 `Inv_IsSlotSelectable` matches all 396 retail bytes. An unresolved item record
