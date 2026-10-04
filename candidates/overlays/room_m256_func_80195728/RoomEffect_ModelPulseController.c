@@ -40,17 +40,15 @@ int func_80195728(int mode, s16 *state) {
     case 2:
         palette3 = 3;
         {
-            int tpage;
             D_800F3368.parameter00 = 0x40;
             D_800F3368.parameter02 = 4;
             D_800F3368.extent_x = 0x40;
             D_800F3368.extent_y = 0x40;
-            tpage = D_800E2850[D_800E11FA];
-            D_800F3368.parameter06 = 1;
+            D_800F3368.tpage = D_800E2850[D_800E11FA];
             D_800F3368.palette = palette3;
+            D_800F3368.parameter06 = 1;
             D_800F3368.parameter0A = 0;
             D_800F3368.depth = 0x18;
-            D_800F3368.tpage = tpage;
         }
         func_800CE8F0(D_800F32D0->pool, 2, &rotation, &position);
         tpages = D_800E2850;
@@ -62,10 +60,10 @@ int func_80195728(int mode, s16 *state) {
         func_800CF3AC(D_80195E8C, &color, D_800E27EC * 3);
         func_800D004C(&position, 0xA0, 0xA0, 8, 0, 0x1000, 0x1000, &color, 0,
                       0x80, 1);
+        D_80196094 = *state;
         D_801960A0.x = position.x;
         D_801960A0.y = position.y;
         D_801960A0.z = position.z;
-        D_80196094 = *state;
         func_800CE9D4(D_800F32D0->pool, 2, &D_80196098);
         D_80196098.x += 0x400;
         if (D_800E27EC >= 4) {
@@ -73,7 +71,8 @@ int func_80195728(int mode, s16 *state) {
             int size;
             int brightness;
 
-            angle = ((D_800E27EC - 4) << 10) / 12;
+            i = D_800E27EC - 4;
+            angle = (i << 10) / 12;
             size = func_80077DC4(angle);
             brightness = func_80077CF4(angle) / 32;
             {

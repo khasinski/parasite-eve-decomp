@@ -35,3 +35,28 @@ the tile page table base that retail keeps in s3.
   stay at 0x598..0x5A4.
 - A decomp-permuter run (darwine scratch/a4ring, 12.5k iterations) bottomed
   out at score 260.
+
+## Retry (agent 5, 2026-10-04, near-miss pass 2)
+
+Still 0x59C, but the align2 count (s-registers normalised, ctc2 spelling
+ignored) went from 43 to 22 lines. Plain C changes, all kept in the
+candidate:
+- First parameter block in the order parameter00, parameter02, extent_x,
+  extent_y, `tpage = D_800E2850[D_800E11FA]` stored directly, palette,
+  parameter06, parameter0A, depth (brute force over the 120 tail orders;
+  this is the order that also matched room_m023 func_8018F710 and room_m273
+  func_80194E6C).
+- `i = D_800E27EC - 4; angle = (i << 10) / 12;` in the model branch: the
+  loop counter `i` crosses calls in mode 1, so it is the global pseudo that
+  gets s1 and fills the bnez delay slot (`addiu s1,v1,-4`) as retail.
+- `D_80196094 = *state;` before the anchor copy gives the early
+  `lhu a3,0(s1)`.
+
+Left: the block after func_800CE8F0. Retail loads D_800E27EC into a0,
+computes spin.z (negu) before the `<< 10` of the division and keeps
+`la s3, D_800E2850` right after the call; here the magic constant and the
+multiply are scheduled above the spin stores (mult latency fill) and the
+base set still sinks to the end of the block (birthing). Moving the
+`tpages` statement anywhere in the block, all 120 orders of the spin
+stores and the tpages line, a block-local frame copy and `i` as the frame
+copy (s5 save comes back but the order breaks, 27) did not help.
