@@ -245,6 +245,19 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Actor floor tracking
+
+`Entity_UpdateAndRender` moves an actor across floor faces, clips it against
+floor boundaries and rolls the move back when it is blocked. It uses the
+approved `-G8` compiler and `-G4` assembler split, because retail reads the
+8-byte player slot and flag records absolutely. Draft rewrites went from 20
+`goto`s to one, the jump into the slide code, which is recorded debt. The
+box tests are now nested conditions, and each rollback site calls a static
+inline helper that the compiler merges back into one block. The normal
+clip uses the stock PSY-Q `gte_ldsxy3` macro, now listed in the GTE policy.
+`BattleEntity` names the 16-bit `stepHeight` at 0x10 that this function
+reads. That is a naming change only, and no battle code changed.
+
 ### fx_common path sampler
 
 `FxCommon_SamplePath` samples a closed path of short points from a
