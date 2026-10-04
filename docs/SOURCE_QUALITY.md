@@ -8085,14 +8085,18 @@ the first byte in each 0x418-byte record uses a byte view of the canonical
 the complete 1500-byte default-profile object matches retail. `make verify-clean`
 passes and `main.exe` remains byte-identical.
 
-### Memory-card slot lookup and port controller
+### Memory-card progress, slot lookup and port controller
 
-`MemCard_GetSlot` now precedes the functions in
-`src/main/memcard/MemCard_Controller.c`. It bounds a slot by the selected
-port’s file count, checks the slot metadata flag and returns the shared
-`MemCardSaveSlot` record. Its existing symbol-based byte views resolve to
+`MemCard_GetActiveProgressBlocks` and `MemCard_GetSlot` now precede the
+functions in `src/main/memcard/MemCard_Controller.c`. The progress query uses
+the same active `MemCardPortState` pointer as the controller and reads its
+`transferSize` at +0x14. `MemCard_GetSlot` bounds a slot by the selected port’s
+file count, checks the slot metadata flag and returns the shared
+`MemCardSaveSlot` record. Its symbol-based byte views resolve to
 `MemCardPortState.fileCount` at +2 and the first slot’s `state` and
 `metadataReady` fields at +0x1C/+0x1D; offset assertions in
-`include/pe1/memcard.h` record those relationships. Keeping the matching byte
-views preserves the `MemCard_GetSlot` code while the full 0x7C4-byte controller
-object remains retail-identical. `make verify-clean` passes.
+`include/pe1/memcard.h` record those relationships. The progress query now uses
+the canonical `g_MemCardActiveState` alias for `D_800A1854`; both symbols resolve
+to the same address. Keeping the matching byte views preserves the slot getter
+code while the full 0x814-byte controller object remains retail-identical.
+`make verify-clean` passes.

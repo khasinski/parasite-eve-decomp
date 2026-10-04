@@ -113,6 +113,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardSaveSlot, metadataReady) == 1,
 PE1_STATIC_ASSERT(sizeof(MemCardPortState) == 0x418, memcard_port_state_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardPortState, fileCount) == 2,
                   memcard_port_state_file_count_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardPortState, transferSize) == 0x14,
+                  memcard_port_state_transfer_size_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardPortState, fileDescriptor) == 0x0C,
                   memcard_port_state_file_descriptor_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MemCardPortState, transferData) == 0x18,
