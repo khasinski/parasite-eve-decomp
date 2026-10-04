@@ -10,7 +10,8 @@
  * player, swung around the scene anchor by the anchor's facing, then drawn
  * as two colour-faded trails plus an eight-point sprite chain. */
 typedef struct ScenePlayerOrbAnchor {
-    /* 0x00 */ u8 pad00[0x18];
+    /* 0x00 */ FieldActor *actor;
+    /* 0x04 */ u8 pad04[0x14];
     /* 0x18 */ int x;
     /* 0x1C */ int y;
     /* 0x20 */ int z;
@@ -80,8 +81,7 @@ int func_80077AA4(int x, int y);
 void func_800D3114(GteShortVector *trail, int last, int arg2, int arg3, int r, int g, int b,
                    int tpage, int clut, int alpha, RenderColor *head,
                    RenderColor *tail, int mode);
-void func_80078CC4(GteMatrix *matrix, GteVector *scale);
-void func_800C42A4(u8 *sprite, GteMatrix *matrix, int mode);
+void func_800C42A4(void *sprite, GteMatrix *matrix, int mode);
 void func_8006DF50(void *channel, int id, int value, int volume, int pan);
 
 /* Scene e08 limb beams: ten ribbons fanned from the player's chest bone to
@@ -106,5 +106,25 @@ extern u8 D_801989BC[];
 extern u8 D_801989D0[];
 int func_80077CF4(int angle);
 int func_80077DC4(int angle);
+
+/* Scene e08 arm glow: a ribbon from the player's hand bone (matrix 32) to
+ * the elbow bone (matrix 22) with a scaled glow sprite on each end. */
+typedef struct SceneArmGlow {
+    /* 0x00 */ u8 pad00[8];
+    /* 0x08 */ s16 scale;
+    /* 0x0A */ u16 frame;
+    /* 0x0C */ u16 offsets[5][3];
+} SceneArmGlow;
+
+typedef struct SceneArmGlowSprite {
+    /* 0x00 */ u8 pad00[0xA];
+    /* 0x0A */ u16 frame;
+} SceneArmGlowSprite;
+
+extern SceneArmGlowSprite D_801994C8;
+extern RenderColor D_8018F060;
+extern RenderColor D_8018F064;
+void func_80071A44(GteVector *vector, int value, int size);
+void func_80078CC4(GteMatrix *matrix, GteVector *scale);
 
 #endif
