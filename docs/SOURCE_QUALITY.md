@@ -245,6 +245,23 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Actor contact pass and the field background loader
+
+`Scene_UpdateEntityPositions` is the actor contact pass. It tests body,
+cylinder and per-part hit spheres between actors and links contact tasks
+through one static inline helper. The render object now holds its two hit
+spheres as real `RenderAnimationLookupEntry` members (`hit_cylinder` at 0x68
+and `hit_body` at 0x74) instead of separate scalar fields. Render code that
+read those fields unsigned now says so with `(u16)` value casts. One
+`goto` remains as recorded debt: retail's near-miss path jumps back into
+an earlier contact block.
+
+`Scene_LoadFieldBg` streams a room's background, geometry and texture blobs
+through six CD retry `goto`s recorded as debt. Its register order comes
+from assigning each later read's result to `status`, the way the loader
+reports progress. The game state gains named fields for the background
+cache, the geometry table and the background and HUD TIM pointers.
+
 ### Room loader, save slot metadata and the item list input handler
 
 Three main executable functions now come from typed C. Each started as a
