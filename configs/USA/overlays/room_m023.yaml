@@ -37,7 +37,7 @@ segments:
       - [0x0, rodata, room_m023_header]
       - [0x1C, c, RoomEffect_JointScatterFlow]
       - [0x728, asm, func_8018F710]
-      - [0xC2C, asm, func_8018FC14]
+      - [0xC2C, c, RoomEffect_JointBeacon_8018FC14]
       - [0x165C, c, func_80190644]
       - [0x1688, data, D_80190670]
       - [0x1708, data, D_801906F0]
