@@ -39,6 +39,15 @@ extern u8 D_8009E7A0[2][0x70];
 void AddPrim(unsigned int *orderingEntry, unsigned int *primitive);
 void Battle_LayoutStatusPrimRow(int bottomY);
 void Battle_DrawTargetHighlight(void);
+void Battle_DrawActiveStatus(void);
+void Battle_DrawEnemyHP(s16 maximum, s16 current);
+void Gpu_DrawStatusIcons(void);
+int Menu_GetItemContextFlag(void);
+
+/* Shared HUD packet arenas; interior symbols retain independent relocations. */
+extern u8 D_8009E068[], D_8009E070[], D_8009E098[], D_8009E0C0[];
+extern u8 D_8009E328[], D_800B00E8[], D_800B00F8[], D_800B00FA[];
+extern u8 D_800B0130[], D_800B0140[], D_800B6928[];
 void Battle_DrawStatusValue(int value, int yOffset);
 /* Returns the highest digit index (number of rendered digits minus one). */
 int Battle_DrawDecimalNumber(void *buffer, s16 x, s16 y, s16 value, s16 mode);
