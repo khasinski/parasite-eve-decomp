@@ -2,7 +2,6 @@
 #include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
-#include "include_asm.h"
 
 int g_InvItemPtr;
 int g_InvActiveListOverride;
@@ -18,8 +17,8 @@ extern int D_8009D04C;
 extern s16 D_800C0EAA[];
 extern s16 D_800C1F7E[];
 extern s16 D_800C2022[];
-extern u8 D_800A1E6D[];
-extern s16 D_800A1E76[];
+extern u8 D_800A1E6D[][32];
+extern s16 D_800A1E76[][16];
 
 extern ItemDataRecord D_800A1E64[];
 
@@ -79,10 +78,6 @@ void Util_AppendFFTerminatedBytes(u8 *dst, u8 *src)
 void Inv_BuildItemGridFromCategory(void)
 {
     int i;
-    int stride;
-    ItemDataRecord *out;
-    int div_magic;
-    int placeholder;
     s16 *clear;
     ItemDataRecord *src;
     int category;
@@ -109,40 +104,17 @@ void Inv_BuildItemGridFromCategory(void)
 
     D_8009D03C = i;
 
+    /* Nine grid cells cycle through the three records after the first
+     * category match; each cell clears its third base stat and sets the
+     * third bonus to the 999 placeholder. */
     i = 0;
-    div_magic = 0x55555556;
-    placeholder = 0x3E7;
-    out = D_800A1E64;
-    stride = 0;
     do {
-        int rem;
-        asm volatile(
-            "mult %0,%1\n"
-            "sra $2,%0,31"
-            :
-            : "r"(i), "r"(div_magic)
-            : "$2");
-        base = D_8009D03C;
-        asm volatile(
-            "mfhi $5\n"
-            "subu $2,$5,$2\n"
-            "sll %0,$2,1\n"
-            "addu %0,%0,$2\n"
-            "subu %0,%1,%0"
-            : "=r"(rem)
-            : "r"(i)
-            : "$2", "$5");
-        base += rem;
+        base = D_8009D03C + i % 3;
         src = Item_LookupBaseData(base - 1);
-        *out = *src;
-
-        out++;
-        D_800A1E6D[stride] = 0;
-        *(s16 *)((u8 *)D_800A1E76 + stride) = placeholder;
-        asm volatile("" ::: "memory");
-        i++;
-        stride += 0x20;
-    } while (i < 9);
+        D_800A1E64[i] = *src;
+        D_800A1E6D[i][0] = 0;
+        D_800A1E76[i][0] = 999;
+    } while (++i < 9);
 
     i = 0x63;
     clear = D_800C1F7E;
