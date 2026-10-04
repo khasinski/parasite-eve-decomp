@@ -1,28 +1,66 @@
 #ifndef PE1_TEXTBOX_H
 #define PE1_TEXTBOX_H
 
+#include "pe1/render_packets.h"
+
 /* Textbox / on-screen dialogue entry, walked by Menu_DrawTextboxEntries.
  * g_TextboxEntries (= D_800BCEA8) is an array of these, stride 0x38. Each
  * frame the engine walks the active entries and types out / draws their text.
  * See include/pe1/text.h for the surrounding text subsystem notes. */
 
+typedef struct TextboxNumber {
+    u8 digits[5];
+    s8 count;
+} TextboxNumber;
+typedef union TextboxControl {
+    s32 flags;
+    struct {
+        u8 delay, elapsed;
+        u16 bits;
+    } parts;
+} TextboxControl;
 typedef struct TextboxEntry {
-    /* 0x00 */ unsigned char state;          /* 0=free, 1=new -> init, 2=active/displaying */
-    /* 0x01 */ unsigned char pad_01[0x03];
-    /* 0x04 */ unsigned char *message;       /* live typewriter position into the message blob */
-    /* 0x08 */ unsigned char style;          /* box style (0/1/3) */
-    /* 0x09 */ unsigned char pad_09[0x03];
-    /* 0x0C */ int flags;
-    /* 0x10 */ short page_id;
-    /* 0x12 */ unsigned short x;
-    /* 0x14 */ unsigned short y;
-    /* 0x16 */ unsigned short color0;
-    /* 0x18 */ unsigned short color1;
-    /* 0x1A */ unsigned char pad_1A[0x1E];   /* inline data through end of entry */
-} TextboxEntry;                              /* 0x38 */
+    u8 state;
+    u8 pad01[3];
+    u8 *message;
+    u8 style, background;
+    u8 pad0A[2];
+    TextboxControl control;
+    s16 page_id;
+    u16 x, y, width, height;
+    TextboxNumber numbers[5];
+} TextboxEntry;
 
-extern TextboxEntry g_TextboxEntries[];      /* = D_800BCEA8 */
+typedef struct TextboxFontPage {
+    u32 reserved;
+    u16 textureX, textureY, paletteX, paletteY;
+    u16 tpage, clut;
+} TextboxFontPage;
 
+typedef struct TextboxNameGlyphs {
+    u8 glyphs[9];
+    s8 count;
+} TextboxNameGlyphs;
+typedef struct TextboxGlyphSpacing {
+    u8 left, right;
+} TextboxGlyphSpacing;
+typedef struct TextboxPoint {
+    u16 x, y;
+} TextboxPoint;
+typedef struct TextboxGlyphPacket {
+    u32 tag, drawMode;
+    RenderSpritePacket sprite;
+} TextboxGlyphPacket;
+
+extern TextboxEntry g_TextboxEntries[]; /* = D_800BCEA8 */
+
+PE1_STATIC_ASSERT(sizeof(TextboxEntry) == 0x38, textbox_entry_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TextboxEntry, control) == 0xC, textbox_control_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TextboxEntry, numbers) == 0x1A, textbox_numbers_offset);
+PE1_STATIC_ASSERT(sizeof(TextboxNumber) == 6, textbox_number_size);
+PE1_STATIC_ASSERT(sizeof(TextboxGlyphPacket) == 28, textbox_glyph_packet_size);
+
+void Menu_DrawTextboxEntries(void);
 void Tbl_ResetAll(void);
 void Menu_SetTextCursorRect(int x, int y, int width, int height);
 void Render_SetupColorTable(int index, int mode, short *colors);

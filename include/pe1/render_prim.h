@@ -2,6 +2,7 @@
 #define PE1_RENDER_PRIM_H
 
 #include "common.h"
+#include "pe1/render_packets.h"
 #include "pe1/gte_types.h"
 
 /* A render primitive list and its 0x10-byte color records (Render_SetPrimColour).
@@ -56,20 +57,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderTexturedQuad, clut) == 14, render_quad_clut
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderTexturedQuad, tpage) == 22, render_quad_tpage_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderTexturedQuad, x3) == 32, render_quad_x3_offset);
 
-/* Variable-size textured sprite packet used by the glyph renderer. */
-typedef struct RenderSpritePacket {
-    union { u32 word; struct { u8 address[3], length; } bytes; } tag;
-    union { u32 word; struct { u8 r, g, b, code; } bytes; } color;
-    u16 x, y;
-    u8 u, v;
-    u16 clut, width, height;
-} RenderSpritePacket;
-
-PE1_STATIC_ASSERT(sizeof(RenderSpritePacket) == 20, render_sprite_packet_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSpritePacket, x) == 8, render_sprite_x_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSpritePacket, clut) == 14, render_sprite_clut_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderSpritePacket, width) == 16, render_sprite_width_offset);
-
 /* Fixed-size textured sprite and texture-page packets built for room tiles.
  * The three-byte address is preserved while the packet length is initialized. */
 typedef struct RenderTilePacket {
@@ -96,14 +83,6 @@ PE1_STATIC_ASSERT(sizeof(RenderTexturePagePacket) == 8, render_texture_page_pack
 PE1_STATIC_ASSERT(sizeof(RenderTileTexture) == 8, render_tile_texture_size);
 extern u8 D_800BD024;
 
-/* Prefix of the buffer pointers initialized by Boot_InitMemoryLayout.
- * The active draw slot selects one of the two ordering/packet buffers.
- * Six unrelated buffer pointers separate the two pairs. */
-typedef struct RenderBufferPrefix {
-    char *ordering[2];
-    char *other_buffers[6];
-    char *packets[2];
-} RenderBufferPrefix;
 PE1_STATIC_ASSERT(sizeof(RenderLinePacket) == 16, render_line_packet_size);
 PE1_STATIC_ASSERT(sizeof(RenderColorTilePacket) == 16,
                   render_color_tile_packet_size);

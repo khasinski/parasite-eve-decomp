@@ -23,7 +23,7 @@ void Menu_SaveOverlayDraw(void)
         g_TextboxEntries[0].message = D_8009D1F8;
         state++;
         D_8009D1CE = state;
-        g_TextboxEntries[0].flags |= 0x2000000;
+        g_TextboxEntries[0].control.flags |= 0x2000000;
         break;
     case 2:
         if (!D_8009CE88) {

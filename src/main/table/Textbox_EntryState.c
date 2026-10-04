@@ -26,10 +26,10 @@ void Tbl_ResetAll(void) {
 
     for (i = 0; (unsigned char)i < 4; i++) {
         idx = (unsigned char)i;
-        value = g_TextboxEntries[idx].flags;
+        value = g_TextboxEntries[idx].control.flags;
         g_TextboxEntries[idx].state = 0;
         value &= 0xFDFFFFFF;
-        g_TextboxEntries[idx].flags = value;
+        g_TextboxEntries[idx].control.flags = value;
     }
 }
 

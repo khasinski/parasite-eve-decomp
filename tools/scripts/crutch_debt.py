@@ -37,7 +37,7 @@ _HW_OPS = "cfc2|ctc2|lwc2|swc2|mfc2|mtc2|nop"
 
 PATTERNS = {
     # Explicitly named frame reservations retained solely for matching.
-    "stack_reserves": re.compile(r"\bvolatile\s+\w+\s+matchingStackReserve\s*\["),
+    "stack_reserves": re.compile(r"\b(?:volatile\s+\w+\s+matchingStackReserve\s*\[|long\s+long\s+matchingStackSlot\s*;)"),
     # One explicitly authorized scheduling instruction per macro invocation.
     "nop_barriers": re.compile(r"\bPE1_NOP(?:_DEP|_MEMORY_DEP|_IO2_DEP)?\s*\("),
     # Filled from the source classifier below; unlike regex-only counters this
