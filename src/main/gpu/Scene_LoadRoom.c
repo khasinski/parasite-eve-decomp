@@ -1,9 +1,11 @@
 /*
- * Scene_LoadRoom (0x8006B4F8, 2160 bytes): parked typed draft, lev 2.
+ * Scene_LoadRoom (0x8006B4F8, 2160 bytes).
  * Streams the three room ranges of PE.IMG, uploads the TIM lists of the
  * first two while the next read runs, then relocates the room directory
  * tables into g_GameState and queues the stream/sample bank reads.
- * See README.md for the remaining differences.
+ *
+ * maspsx -G1: retail reads the 4-byte g_PmCmdHandlerTable pointer
+ * absolutely while the 1-byte room letter D_8009CDC8 is gp-relative.
  */
 /* CC1_FLAGS: -G1 */
 /* MASPSX_FLAGS: -G1 */
@@ -142,10 +144,8 @@ retry_room:
         index = slot;
 
         if (slot - 8 < 0x4D) {
-            PmCommand **command = &g_PmCmdHandlerTable[slot];
-
-            if (*command == 0) {
-                *command = record[i].u.handler;
+            if (g_PmCmdHandlerTable[slot] == 0) {
+                g_PmCmdHandlerTable[slot] = record[i].u.handler;
             }
         } else if (index >= 0x55) {
             void **handler;
@@ -164,7 +164,7 @@ retry_room:
             if (sample[i].flags & 0x20) {
                 int key = sample[i].u.track.key;
 
-                if (sample[i].u.track.key & 1) {
+                if ((u16)key & 1) {
                     D_80094494[sample[i].source.bytes.slot] = key;
                     D_80094494[sample[i].source.bytes.slot + 8] = sample[i].u.track.key;
                 } else {

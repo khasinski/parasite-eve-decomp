@@ -74,7 +74,7 @@ typedef struct Pe1GameState {
     Pe1U8 draw_prim_c[8];            /* 0x114 */
     void *scene_object_model;        /* 0x11C */
     Pe1U8 draw_prim_c_tail[4];
-    Pe1U32 bank_asset_table;          /* 0x124 */
+    void *bank_asset_table;           /* 0x124: resolved bank asset table */
     Pe1U32 bank_work_base;           /* 0x128 */
     Pe1U32 bank_work_end;            /* 0x12C */
     Pe1U32 bank_work_far_end;        /* 0x130: voice bank base + 0x2800 */

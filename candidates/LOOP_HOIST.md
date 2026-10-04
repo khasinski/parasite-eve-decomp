@@ -177,3 +177,17 @@ Two-ring loop around func_800D0E88 (call loop).
   Count the `(use (reg:SI N))` lines in the `-dc` dump. Writing one loop as
   `i = 0; if (n) do { ... } while (++i < n);` removes one slot and leaves the
   code unchanged.
+
+## Operand order and copy shape fixes (Scene_LoadRoom, 2026-10-04)
+
+- `addu` operand order for a pointer-variable table: `PmCommand **p =
+  &g_PmCmdHandlerTable[slot]; if (*p == 0) *p = x;` expands as a normal
+  binop (scaled index emitted first, table loaded by force_not_mem, sum
+  ordered table + index). Indexing the table directly in both the test and
+  the store (`if (g_PmCmdHandlerTable[slot] == 0) g_PmCmdHandlerTable[slot]
+  = x;`) goes through the address path instead and gives retail's
+  index + table order.
+- `lhu v0; move v1,v0; andi v0,v0,1`: the key copy must be an SImode copy of
+  an SImode load. `int key = field; if (field & 1)` loads HImode and
+  zero-extends (`andi v1,v0,0xffff`); `if (key & 1)` drops the copy. Testing
+  `(u16)key & 1` keeps the load SImode and the copy plain.

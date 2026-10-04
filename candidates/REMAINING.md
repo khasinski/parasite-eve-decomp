@@ -146,7 +146,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | Entity_UpdateAndRender | 1980 | candidates/main/entity/Entity_UpdateAndRender.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | Render_SetupEntityPrims | 2012 | candidates/main/main/Render_SetupEntityPrims.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | Akao_StepSampleLoader | 2048 | candidates/main/main/Akao_StepSampleLoader.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
-| main | Scene_LoadRoom | 2160 | candidates/main/gpu/Scene_LoadRoom: lev 2 (typed view payloads, cast-free script table; table-branch addu operand order and samples key `andi` left; needs maspsx -G1 for the absolute g_PmCmdHandlerTable) |
 | main | func_800CAE0C | 2372 | candidates/main/engine/engine_800CAE0C: one register swap in the four gte_CompMatrix expansions |
 | main | Scene_UpdateEntityPositions | 2432 | candidates/main/main/Scene_UpdateEntityPositions.c (old byte-offset draft, no README, diff count not recorded) |
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
