@@ -112,6 +112,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Range | Unit | Evidence |
 | --- | --- | --- |
+| `room_m123: 0x3534..0x3BF4` | `RoomEffect_JointTriangleFlow` | The triangle emitter registers the preceding callback and allocates eight-byte slots. `RoomM123JointTriangleRecord` overlays the emitter’s unsigned x/y/z values with callback state/frame/position fields; the size and shared position offset are asserted, and the full `0x6C0`-byte range remains retail-identical. |
 | `room_m123: 0x5604..0x5A88` | `RoomEffect_M123ParticleSequence` | The callback and controller share the pool's 8-byte particle stride; `RoomM123Particle` now names the trailing reserved halfword in one header. Combining them also reconciles the callback's `D_800F336A` signed-short view with the controller's unsigned declaration. The full overlay matches retail byte-for-byte. |
 | `room_m123: 0x5A88..0x5F80` | `RoomEffect_M123PulseSequence` | The pulse callback and controller share the 12-byte `RoomPulseParticle` pool record, now declared once in `room_m123_effects.h`; the controller registers that callback directly. Both functions compile together and the complete overlay remains SHA-identical. |
 | `room_m123: 0x5F80..0x612C` | `RoomEffect_OscillatingPaletteSprite` | The oscillating-wave callback and its spawner now share `RoomM123Wave` (12 bytes) and compile in one TU. `RoomM123Pool` also replaces three local allocator-context declarations used by neighboring room effects. The merged overlay retains retail SHA-1 `7dbc62ff99461836f22d884ef04718af387e04cd`. |
@@ -344,3 +345,4 @@ type across both preset selection and RAM clearing.
 The public `SpuCommonSettings` layout and its LIBSPU entry-point prototypes now
 live in `psyq_spu_api.h`; the game header forwards to that interface, and the
 LIBSPU implementation no longer includes a game-owned header for its type.
+| `RoomM123JointTriangleRecord` | The room_m123 triangle emitter writes unsigned x/y/z into an eight-byte slot, and the callback reads the same words as state, frame and edge position. The union and position offset are asserted in `room_m123_joint_triangle.h`. |

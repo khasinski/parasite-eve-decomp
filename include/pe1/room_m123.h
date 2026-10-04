@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
+#include "pe1/room_m123_joint_triangle.h"
 
 /* Particle drawn by the room_m123 pulsing sprite callback: it scales with a
  * cosine of its frame counter, then fades into a second blended sprite. */
@@ -28,15 +29,8 @@ int func_80192BDC(int mode, RoomM123PulsingParticle *particle);
 
 /* Joint triangle: three boss joint points joined by lines that pull toward a
  * fourth joint, then a spark that runs around the triangle edges. */
-typedef struct RoomM123JointTriangle {
-    s16 state;
-    s16 frame;
-    s16 position; /* 0..0x2FFF along the three edges */
-} RoomM123JointTriangle;
-
 extern GteShortVector D_8018F1CC; /* joint offsets */
 extern GteShortVector D_8018F1D4;
 extern RenderColor D_8018F1DC;
-int func_8019251C(int mode, RoomM123JointTriangle *triangle);
 
 #endif
