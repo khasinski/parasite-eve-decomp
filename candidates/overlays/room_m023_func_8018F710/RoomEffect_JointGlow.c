@@ -70,8 +70,8 @@ int func_8018F710(int mode, RoomM023JointGlow *glow) {
         D_800F3368.extent_x = 0x40;
         D_800F3368.parameter02 = 4;
         D_800F3368.extent_y = 0x40;
-        kind = D_800E11EA;
-        D_800F3368.tpage = D_800E2850[kind];
+        palette = D_800E11EA;
+        D_800F3368.tpage = D_800E2850[palette];
         D_800F3368.palette = 3;
         D_800F3368.parameter06 = 0;
         D_800F3368.parameter0A = 0;

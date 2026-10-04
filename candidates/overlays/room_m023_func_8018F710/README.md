@@ -47,3 +47,13 @@ rest is register choice only: retail shifts the tile index in place
 (`sll a0,a0,1`) and keeps the read-back palette kind in v1, here kind lands
 in a0 in both clut blocks. Splitting `kind` (block-local kinds, a direct
 `D_800E2850[D_800E11EA]`, a block-local index) all go to 30.
+
+Retry (agent 5, rooms6): 4 diffs. Reading the tile index into the multi-set
+`palette` (`palette = D_800E11EA; D_800F3368.tpage = D_800E2850[palette];`)
+and keeping the function-scope `kind` only for the two clut read-backs puts
+kind in v1 in both clut blocks, as retail. Left: the index lands in a1 and
+is shifted into v0 (`sll v0,a1,1`), retail loads it into a0 and shifts in
+place (`sll a0,a0,1`) before the tpage load reuses a0. Declaration order,
+loading the tpage value back into the same variable (6), the conditional
+inside the clut call (5) and a 33k-iteration permuter run (base 150, no
+improvement) did not fix it.
