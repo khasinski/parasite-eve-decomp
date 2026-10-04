@@ -30,3 +30,12 @@ launches too late; reading it into the multi-set `palette` loads it too
 early (first in the block).
 
 No pins, barriers, casts or volatile.
+
+Retry (agent 5, rooms4): dropping the multi-set `palette = D_800E27EC` and
+testing `if (D_800E27EC & 1)` directly fixes the store order (04, 06, 0A,
+0C, then the tpage store last, as retail) but the load still launches after
+the tpage lookup and kind stays in v1 (22 diffs). `palette = D_800E27EC & 1`
+moves kind to a0 as retail but loads the counter first in the block (26).
+Retail's allocation (kind a0, 0x40 v1, then D_800E27EC reloaded into v1 by
+sched2 right after the last 0x40 store) is still not reproduced; 18 diffs
+remains the best.
