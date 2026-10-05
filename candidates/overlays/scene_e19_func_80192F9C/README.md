@@ -630,3 +630,41 @@ The production function remains original assembly. Main changes through
 3826472cd were synchronized into the darwine acceptance tree, including the
 updated source-policy scripts. `make -j32 verify` passes
 (`match_inventory/scene-e19-4252-verify.log`).
+
+## Multiply-high and compiler-option audit (4252 retained)
+
+No candidate improvement in this pass. The canonical source was freshly
+recompiled and rescored at 4252 after every experiment; no experimental
+helper, flag, pin or barrier was retained.
+
+The GCC 2.7.2 MIPS reference `smulsi3_highpart` pattern uses a logical
+right shift of the signed 64-bit product. Explicit unsigned casts before
+the shift still failed to select the desired short sequence in this source:
+`high_logical_0..3` scored 5412, 5412, 5502 and 5787, adding instructions.
+Union-field extraction probes selected mflo instead of mfhi and are invalid
+for signed divide-by-three; they are not candidate alternatives.
+
+Constraint-only HI/HILO extraction experiments can emit mfhi t1 using C
+multiplication plus empty ASM constraints, but disturb other registers and
+scheduling. A sign input dependency restores the local instruction order;
+21 combinations of helper shape and its three call sites still fail to
+improve the retained source (best 4272). Reusing/pinning the input and sign
+also fails (4272..4312). These experiments are high_constraint_*, high_sign_*,
+high_reuse_* and high_inputpin_* in the remote research directory. They
+establish a possible compiler route to t1, not an accepted implementation.
+
+Eight inline wrappers around the state-0/1 parameter stores are neutral when
+loads remain inside the helper, and worse when the texture page is an
+argument (4887..5427). No helper was kept.
+
+Stock compiler probes from 4252:
+
+- Disabling caller saves, strength reduction, GCSE, CSE follow-jumps or
+  peepholes, and selecting O3: unchanged 4252.
+- Disabling expensive optimizations: 7627; CSE skip-blocks: 13605.
+- Disabling the first or second scheduling pass: 57322 or 16617; O1: 97790.
+
+The 180-second, 24-worker permuter_draw_4252 run widened the expression/type
+mutation set. It completed 8916 iterations (995 rejected compilations)
+without improving 4252, and has stopped. Keep future work focused on source
+lifetimes/representation rather than repeating these option/helper probes.
