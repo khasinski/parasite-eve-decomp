@@ -2,6 +2,7 @@
 #define FX_COMMON_MOTION_H
 
 #include "fx_common_setup.h"
+#include "pe1/signed_rect.h"
 
 extern FxCommonVec3 g_FxCommonMotionPosition1 __asm__("D_8019C330");
 extern FxCommonVec3 g_FxCommonMotionPosition0 __asm__("D_8019C810");
@@ -46,9 +47,7 @@ typedef struct FxCommonFrame {
     u8 drawEnv[0x5C];   /* 0x08 */
     u8 dispEnv[0x14];   /* 0x64 */
 } FxCommonFrame;
-typedef struct FxCommonRect {
-    s16 x, y, w, h;
-} FxCommonRect;
+typedef PsxSignedRect FxCommonRect;
 extern FxCommonFrame g_FxCommonFrames[2] __asm__("D_8019C1F8");
 extern s32 D_8009CDDC;
 extern u8 D_8019C00E;

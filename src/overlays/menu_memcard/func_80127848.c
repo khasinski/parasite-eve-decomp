@@ -1,9 +1,8 @@
 /* CC1_FLAGS: -fno-cse-skip-blocks */
 #include "common.h"
+#include "pe1/signed_rect.h"
 
-typedef struct Rect {
-    s16 x, y, w, h;
-} Rect;
+typedef PsxSignedRect Rect;
 
 extern int D_801D11C8;
 extern char *D_801D11BC[];
