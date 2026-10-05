@@ -322,8 +322,8 @@ block_161:
             D_800F336A = 4;
             D_800F3368.parameter00 = 0x40;
             D_800F3376 = 0x40;
-            D_800F3378 = 0x40;
             D_800F336C = 3;
+            D_800F3378 = 0x40;
             D_800F336E = 1;
             D_800F3370 = D_800E2850[D_800E11FA[0]];
             phase = effect->timer << 6;
@@ -409,12 +409,12 @@ block_161:
         case 2:                                     /* switch 2 */
             intensity = 0x80;
             D_800F3368.parameter00 = 0x40;
-            D_800F336A = 4;
-            D_800F3376 = 0x40;
-            D_800F3378 = 0x40;
-            D_800F3370 = D_800E2850[D_800E11FA[0]];
-            D_800F336C = 3;
-            D_800F336E = 1;
+            D_800F3368.parameter02 = 4;
+            D_800F3368.extent_x = 0x40;
+            D_800F3368.extent_y = 0x40;
+            D_800F3368.tpage = D_800E2850[D_800E11FA[0]];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 1;
             phase = effect->timer << 6;
             if (D_800E27EC & 1) {
                 intensity = 0x55;
@@ -913,8 +913,8 @@ block_161:
             func_800C6F4C(D_8019B690);
             break;
         }
-        D_800F336A = 1;
         D_800F3368.parameter00 = 0x10;
+        D_800F336A = 1;
         D_800F3376 = 0x10;
         D_800F3378 = 0x10;
         D_800F3376 = 0x80;

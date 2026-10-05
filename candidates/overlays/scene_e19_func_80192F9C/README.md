@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **11630**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **11255**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Four register pins and two empty barriers are recorded below. There is no CPU ASM.
@@ -275,3 +275,23 @@ the ring height from verticalScale scored 12124 versus 12094 without the pin.
 The retained source has four pins, two barriers and the GPU helper. This
 additional phase constraint is candidate debt, to be retested as source
 recovery proceeds. No CPU instruction assembly was added.
+
+## Render-parameter scheduling pass
+
+Using the existing RenderEffectParameters fields consistently within draw
+state 2 scores 11605 from 11630. Reordering the two independent initial reset
+writes at function end scores 11555. A memory barrier between the duplicate
+extent writes made the result worse and was not retained. Retesting the
+matrix-pointer pin and a combined texture-page array also worsened score.
+
+A bounded 120-second, 24-worker run in `permuter_tail/` on darwine reproduced
+base 11555, completed 4586 iterations (111 rejected compilations), and stopped.
+The best generated score, 10955, added a repeated empty global condition and
+was rejected. Another low-scoring variant used a pointer initialized only in
+a different switch case and was rejected as invalid.
+
+The valid retained hint reorders the palette and extent-y stores in draw
+state 1, with no intervening call or dependent read. Applied manually to the
+source and recompiled, this scores **11255**. No generated empty condition or
+pointer was copied. Debt remains four pins, two empty barriers and one inline
+GPU conversion helper; the candidate remains unintegrated.
