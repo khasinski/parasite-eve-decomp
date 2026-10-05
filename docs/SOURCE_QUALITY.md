@@ -8465,3 +8465,11 @@ Overlays (all as `data` subsegments in `.code_data`):
   (1892 bytes at 0x8018EB90, effect records with callback pointers) and
   `menu_memcard_data` (1436 bytes at 0x8012B7A8, size/offset tables). None
   contains an instruction.
+- render_clip (2048 bytes at 0x80170000): the scanner extracted PE.IMG
+  sector 1809, which is sector 17 of fx_common (sectors 1792-1817). The bytes
+  equal fx_common 0x8800-0x9000: they begin inside
+  FxCommon_EffectInitializationFlow (no prologue, cannot be entered) and cut
+  off FxCommon_DrawPolyResource. That code is already counted, and matched, in
+  fx_common, so this duplicate view becomes one data subsegment,
+  `render_clip_fx_common_copy`. The overlay config stays so the extraction
+  and SHA check keep covering the sector.

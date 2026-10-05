@@ -33,9 +33,11 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      # generated from static prologue hints; verify with runtime trace and SHA check
-      - [0x0, asm, render_clip_header]
-      - [0x3B0, asm, func_render_clip_0003B0]
+      # PE.IMG sector 1809 is sector 17 of fx_common (sectors 1792-1817), so
+      # this slice is a byte copy of fx_common 0x8800-0x9000: it starts inside
+      # FxCommon_EffectInitializationFlow and truncates FxCommon_DrawPolyResource.
+      # That code is counted in fx_common; this view of it is data.
+      - {start: 0x0, type: data, name: render_clip_fx_common_copy, linker_section_order: .text, linker_section: .code_data}
   - [0x800]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/render_clip.bin bs=2048 skip=1809 count=1
