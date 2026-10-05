@@ -139,9 +139,8 @@ segments:
       # The batch emitter fills the callback's contiguous eight-byte records.
       - [0x7F44, c, RoomEffect_BatchRising]
       # The sized-sprite callback and its poll/reset controller share one TU.
-      - [0x8248, c, RoomEffect_SizedTableSpriteFlow]
-      # The timed emitter fills the callback's contiguous eight-byte records.
-      - [0x84F4, c, RoomEffect_TimedRising]
+      # Sized-table and timed rising sprites share callback/emitter state.
+      - [0x8248, c, RoomEffect_RisingSpriteControllers]
       # The position emitter fills the callback's contiguous eight-byte records.
       - [0x8810, c, RoomEffect_PositionLayers]
       - [0x8BD4, c, RoomEffect_BossSweepController]

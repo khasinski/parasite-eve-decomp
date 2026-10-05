@@ -27,7 +27,7 @@ ROOMLIB_POLL_RESET_POOL_CONTEXT_DECL;
 extern u16 D_800E11FA;
 extern u16 D_800E2850[];
 extern u16 D_800F3368;
-extern u16 D_800F336A;
+extern s16 D_800F336A;
 extern u16 D_800F336C;
 extern u16 D_800F336E;
 extern u16 D_800F3370;
