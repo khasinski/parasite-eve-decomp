@@ -4,7 +4,7 @@
   "audit_source_commit": "e7ddbb1ac",
   "metric": "asm-differ weighted levenshtein; not a byte distance",
   "scope": "Inventory of report exclusions, not a claim that every entry is a real unmatched function. Null score means unmeasured.",
-  "reported_uncredited_functions": 42,
+  "reported_uncredited_functions": 12,
   "verified_excluded_matches": 5,
   "entries": [
     {
@@ -44,15 +44,6 @@
       "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
     },
     {
-      "unit": "main/main/D_8003E60C",
-      "symbol": "func_8003E60C",
-      "reported_size": 4,
-      "source": null,
-      "status": "padding_not_function_requires_report_audit",
-      "levenshtein_score": null,
-      "evidence": "Complete generated target symbol contains one 0x00000000 nop word and no control transfer. Gap occupies four bytes between adjacent units; current report still counts it as a function. No C match claimed. Stock objdump of the retail main.exe confirms the preceding function has already returned: jr ra is eight bytes before this padding word, followed by its populated or nop delay slot."
-    },
-    {
       "unit": "main/task/Task_GpuPackPrimColor",
       "symbol": "Task_GpuPackPrimColor",
       "reported_size": 52,
@@ -62,15 +53,6 @@
       "evidence": "Fresh linked stock GCC 2.7.2 + MASPSX 2.56 candidate score on darwine; see candidates/main/task/Task_GpuPackPrimColor.md. Not integrated."
     },
     {
-      "unit": "main/main/gap_task_Task_GpuPackPrimColor_tail_61604",
-      "symbol": "func_80070E04",
-      "reported_size": 4,
-      "source": null,
-      "status": "padding_not_function_requires_report_audit",
-      "levenshtein_score": null,
-      "evidence": "Complete generated target symbol contains one 0x00000000 nop word and no control transfer. Gap occupies four bytes between adjacent units; current report still counts it as a function. No C match claimed. Stock objdump of the retail main.exe confirms the preceding function has already returned: jr ra is eight bytes before this padding word, followed by its populated or nop delay slot."
-    },
-    {
       "unit": "main/math/Math_SqrtApprox3",
       "symbol": "Math_SqrtApprox3",
       "reported_size": 136,
@@ -78,208 +60,6 @@
       "status": "matched_excluded_by_asm_policy",
       "levenshtein_score": 0,
       "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
-    },
-    {
-      "unit": "main/sys/RawData_80074354",
-      "symbol": "RawData_80074354",
-      "reported_size": 24,
-      "source": null,
-      "status": "original_asm_bios_tailcall_requires_boundary_split",
-      "levenshtein_score": null,
-      "actual_size": 12,
-      "actual_end_exclusive": "0x80074360",
-      "trailing_reported_bytes": 12,
-      "evidence": "Generated target words 0x240A00A0, 0x01400008, 0x24090013 decode to addiu t2,zero,0xA0; jr t2; addiu t1,zero,0x13 in its delay slot. Sys_InitIntrManager calls this entry with state + 0x1C and tests its return. Thus this is executable BIOS dispatch, not pure data. Reported size 24 also includes one zero word and two following payload words. No C candidate or score-zero claim."
-    },
-    {
-      "unit": "main/main/gap_save_save4_tail_71B10",
-      "symbol": "func_80081310",
-      "reported_size": 4,
-      "source": null,
-      "status": "padding_not_function_requires_report_audit",
-      "levenshtein_score": null,
-      "evidence": "Complete generated target symbol contains one 0x00000000 nop word and no control transfer. Gap occupies four bytes between adjacent units; current report still counts it as a function. No C match claimed. Stock objdump of the retail main.exe confirms the preceding function has already returned: jr ra is eight bytes before this padding word, followed by its populated or nop delay slot."
-    },
-    {
-      "unit": "main/main/gap_memcard_MemCard_WaitStatusBit2_tail_73DA0",
-      "symbol": "func_800835A0",
-      "reported_size": 4,
-      "source": null,
-      "status": "padding_not_function_requires_report_audit",
-      "levenshtein_score": null,
-      "evidence": "Complete generated target symbol contains one 0x00000000 nop word and no control transfer. Gap occupies four bytes between adjacent units; current report still counts it as a function. No C match claimed. Stock objdump of the retail main.exe confirms the preceding function has already returned: jr ra is eight bytes before this padding word, followed by its populated or nop delay slot."
-    },
-    {
-      "unit": "overlays/boot_display/boot_display_2648",
-      "symbol": "D_80125A48",
-      "reported_size": 214,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/boot_display/boot_display_2648",
-      "symbol": "D_80125B1E",
-      "reported_size": 104,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/boot_display/boot_display_2648",
-      "symbol": "D_80125B86",
-      "reported_size": 8,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/boot_display/boot_display_2648",
-      "symbol": "D_80125B8E",
-      "reported_size": 114,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/fx_field/fx_field_header",
-      "symbol": "func_8018EFE8",
-      "reported_size": 28,
-      "source": "src/overlays/fx_field/fx_field_header.c",
-      "status": "text_data_not_function",
-      "levenshtein_score": null,
-      "evidence": "Source defines text-section data without C function definitions; report labels require audit."
-    },
-    {
-      "unit": "overlays/fx_field/fx_field_data",
-      "symbol": "func_8018FC78",
-      "reported_size": 880,
-      "source": "src/overlays/fx_field/fx_field_data.c",
-      "status": "text_data_not_function",
-      "levenshtein_score": null,
-      "evidence": "Source defines text-section data without C function definitions; report labels require audit."
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_header",
-      "symbol": "D_80120D00",
-      "reported_size": 772,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
-      "symbol": "D_801223F4",
-      "reported_size": 1,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
-      "symbol": "D_801223F5",
-      "reported_size": 1,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
-      "symbol": "D_801223F6",
-      "reported_size": 1260,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
-      "symbol": "D_801228E2",
-      "reported_size": 4,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
-      "symbol": "D_801228E6",
-      "reported_size": 4,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
-      "symbol": "D_801228EA",
-      "reported_size": 8,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
-      "symbol": "D_801228F2",
-      "reported_size": 4,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
-      "symbol": "D_801228F6",
-      "reported_size": 4,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
-      "symbol": "D_801228FA",
-      "reported_size": 1126,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_data_0063A0",
-      "symbol": "D_8018EB90",
-      "reported_size": 1892,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/menu_memcard/menu_memcard_data",
-      "symbol": "D_8012B7A8",
-      "reported_size": 1436,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/render_clip/render_clip_header",
-      "symbol": "func_80170000",
-      "reported_size": 944,
-      "source": null,
-      "status": "duplicate_fragment_requires_report_audit",
-      "levenshtein_score": null,
-      "evidence": "Entire render_clip.bin is the 0x8800:0x9000 slice of fx_common.bin; first entry begins inside FxCommon_EffectInitializationFlow, second is a truncated FxCommon_DrawPolyResource."
-    },
-    {
-      "unit": "overlays/render_clip/func_render_clip_0003B0",
-      "symbol": "func_801703B0",
-      "reported_size": 1104,
-      "source": null,
-      "status": "duplicate_fragment_requires_report_audit",
-      "levenshtein_score": null,
-      "evidence": "Entire render_clip.bin is the 0x8800:0x9000 slice of fx_common.bin; first entry begins inside FxCommon_EffectInitializationFlow, second is a truncated FxCommon_DrawPolyResource."
-    },
-    {
-      "unit": "overlays/scene_e14/scene_e14",
-      "symbol": "D_8018EFE8",
-      "reported_size": 36,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
     },
     {
       "unit": "overlays/scene_e19_2/scene_pre",
@@ -312,38 +92,6 @@
       "status": "candidate_nonzero",
       "levenshtein_score": 30,
       "evidence": "candidates/overlays/scene_e20_func_8018F028/README.md; retained full-C candidate, not integrated."
-    },
-    {
-      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
-      "symbol": "D_801990C0",
-      "reported_size": 250,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
-      "symbol": "D_801991BA",
-      "reported_size": 820,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
-      "symbol": "D_801994EE",
-      "reported_size": 8,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
-    },
-    {
-      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
-      "symbol": "D_801994F6",
-      "reported_size": 754,
-      "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
     },
     {
       "unit": "overlays/sys_reset/sys_reset_7CC",
@@ -395,7 +143,7 @@
     "audit_source_commit": "73a4f03a297aff5601ae3546e145414cdd4d2dcb",
     "reported_uncredited_functions": 44
   },
-  "report_evidence": "Complete darwine report on main e7ddbb1ac plus sys_reset data/padding classification; make verify and OVERLAY=sys_reset overlay-check pass. Local artifact scratch/ci_report_sys_reset_classified/report.json; CI publication pending.",
+  "report_evidence": "Local make report after typing text-resident data and padding (docs/SOURCE_QUALITY.md): 11631/11643 functions; make check and all 191 overlay checks pass. CI publication pending.",
   "previous_published_report": {
     "report_commit": "48a5cd21c995a17752f5d2039478d62d00e96b39",
     "report_run": 37333637624,
@@ -447,6 +195,279 @@
       "status": "data_or_padding_excluded_from_function_report",
       "levenshtein_score": null,
       "evidence": "Generated target assembly contains only zero-word nop padding at this symbol, followed by additional zero words before the next real entry. The current report still counts one 4-byte function; no C match claimed. Corrected sys_reset data subsegments now remove this entry from the function ledger; full retail overlay-check and report audit pass."
+    },
+    {
+      "unit": "main/main/D_8003E60C",
+      "symbol": "func_8003E60C",
+      "reported_size": 4,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "The word Render_IncrementCounter increments; now D_8003E60C in the render/Render_Counter data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "main/main/gap_task_Task_GpuPackPrimColor_tail_61604",
+      "symbol": "func_80070E04",
+      "reported_size": 4,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "0x50 zero bytes after Task_GpuPackPrimColor returns; now pad. Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "main/sys/RawData_80074354",
+      "symbol": "RawData_80074354",
+      "reported_size": 24,
+      "source": "src/main/sys/setjmp.c",
+      "status": "matched_report_credited",
+      "levenshtein_score": null,
+      "actual_size": 12,
+      "actual_end_exclusive": "0x80074360",
+      "trailing_reported_bytes": 12,
+      "evidence": "Split into the BIOS A(13h) setjmp veneer (PSYQ_BIOS_TRAMPOLINE, original_asm, credited), a zero object tail (pad) and the LIBAPI C114 signature record (.psyq_signature). Byte-identical."
+    },
+    {
+      "unit": "main/main/gap_save_save4_tail_71B10",
+      "symbol": "func_80081310",
+      "reported_size": 4,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Zero word after CdRom_SetRetryMode returns; now pad. Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "main/main/gap_memcard_MemCard_WaitStatusBit2_tail_73DA0",
+      "symbol": "func_800835A0",
+      "reported_size": 4,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Zero word after MemCard_TransferWait returns; now pad. Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/boot_display/boot_display_2648",
+      "symbol": "D_80125A48",
+      "reported_size": 214,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Pointer and glyph width tables with no instructions; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/boot_display/boot_display_2648",
+      "symbol": "D_80125B1E",
+      "reported_size": 104,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Pointer and glyph width tables with no instructions; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/boot_display/boot_display_2648",
+      "symbol": "D_80125B86",
+      "reported_size": 8,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Pointer and glyph width tables with no instructions; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/boot_display/boot_display_2648",
+      "symbol": "D_80125B8E",
+      "reported_size": 114,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Pointer and glyph width tables with no instructions; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/fx_field/fx_field_header",
+      "symbol": "func_8018EFE8",
+      "reported_size": 28,
+      "source": "src/overlays/fx_field/fx_field_header.c",
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Overlay header and orbit flare vectors; the text_data C file became a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/fx_field/fx_field_data",
+      "symbol": "func_8018FC78",
+      "reported_size": 880,
+      "source": "src/overlays/fx_field/fx_field_data.c",
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Parameter/state table written by func_8018FC54; the text_data C file became a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_header",
+      "symbol": "D_80120D00",
+      "reported_size": 772,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "FMV file-name table; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801223F4",
+      "reported_size": 1,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Byte state and parameter tables; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801223F5",
+      "reported_size": 1,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Byte state and parameter tables; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801223F6",
+      "reported_size": 1260,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Byte state and parameter tables; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228E2",
+      "reported_size": 4,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Byte state and parameter tables; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228E6",
+      "reported_size": 4,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Byte state and parameter tables; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228EA",
+      "reported_size": 8,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Byte state and parameter tables; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228F2",
+      "reported_size": 4,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Byte state and parameter tables; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228F6",
+      "reported_size": 4,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Byte state and parameter tables; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228FA",
+      "reported_size": 1126,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Byte state and parameter tables; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0063A0",
+      "symbol": "D_8018EB90",
+      "reported_size": 1892,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Effect records with callback pointers; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data",
+      "symbol": "D_8012B7A8",
+      "reported_size": 1436,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Size/offset tables; now a data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/render_clip/render_clip_header",
+      "symbol": "func_80170000",
+      "reported_size": 944,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "render_clip.bin is PE.IMG sector 1809 = fx_common sector 17 (0x8800-0x9000), code already counted and matched in fx_common; the duplicate is now one data subsegment. Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/render_clip/func_render_clip_0003B0",
+      "symbol": "func_801703B0",
+      "reported_size": 1104,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "render_clip.bin is PE.IMG sector 1809 = fx_common sector 17 (0x8800-0x9000), code already counted and matched in fx_common; the duplicate is now one data subsegment. Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/scene_e14/scene_e14",
+      "symbol": "D_8018EFE8",
+      "reported_size": 36,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Overlay header words; now the scene_e14_header data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
+      "symbol": "D_801990C0",
+      "reported_size": 250,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Callback pointer tables and parameter records; now the scene_e22_data_00A0D8 data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
+      "symbol": "D_801991BA",
+      "reported_size": 820,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Callback pointer tables and parameter records; now the scene_e22_data_00A0D8 data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
+      "symbol": "D_801994EE",
+      "reported_size": 8,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Callback pointer tables and parameter records; now the scene_e22_data_00A0D8 data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
+      "symbol": "D_801994F6",
+      "reported_size": 754,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Callback pointer tables and parameter records; now the scene_e22_data_00A0D8 data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
     }
   ]
 }

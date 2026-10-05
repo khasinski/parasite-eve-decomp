@@ -75,6 +75,12 @@ Category notes:
 
 ## data/pad/slice
 
+Resolved 2026-10-05: every row below except scene_e19_2 and the sys_reset
+rows (handled earlier) is now typed as data, `pad`, or (for the `setjmp`
+veneer inside RawData_80074354) credited SDK veneer code, and no longer
+appears as a function in the report. See docs/SOURCE_QUALITY.md, text-resident
+data and padding outside function coverage.
+
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
 | main | func_8003E60C | 4 | zero padding after `jr ra` (single `nop` labelled as a function) |
