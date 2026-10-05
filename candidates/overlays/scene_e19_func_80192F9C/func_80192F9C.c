@@ -453,11 +453,14 @@ block_31:
             renderParams->tpage = D_800E2850[pageSelector[-8]];
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord(D_800E2850[pageSelector[-8]] | texturePage);
-            paletteRow = paletteTable[renderParams->palette];
-            if ((renderParams->palette == 4) && (D_800F3428 != 0)) {
-                paletteRow += 4;
+            {
+                s32 paletteY;
+                paletteY = paletteTable[renderParams->palette];
+                if ((renderParams->palette == 4) && (D_800F3428 != 0)) {
+                    paletteY += 4;
+                }
+                func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteY)));
             }
-            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &spC0);
             temp_v0_11 = radialScale / 2;
