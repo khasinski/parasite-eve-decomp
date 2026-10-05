@@ -297,13 +297,13 @@
       "reported_size": 1204,
       "source": null,
       "status": "candidate_nonzero_extraction_restored",
-      "levenshtein_score": 7458,
+      "levenshtein_score": 6778,
       "actual_symbol": "func_80192F9C",
       "actual_size": 9472,
       "actual_start": "0x80192F9C",
       "actual_end_exclusive": "0x8019549C",
       "missing_extracted_bytes": 8192,
-      "evidence": "Full target restored from PE.IMG offsets 0x3FB4..0x64B4 relative to sector 98589, including the previously missing 8192 bytes. Current manifests and pinned CI assets represent the complete function at 0x80192F9C. Retained C candidate compiles on darwine with stock GCC 2.7.2 and MASPSX 2.56; linked weighted Levenshtein score 7458. Four pins, eight empty barriers and one fully inlined conversion helper are documented in the candidate README; individual GTE instructions only, no CPU ASM. Not integrated; further semantic review and matching required. See docs/SCENE_E19_EXTRACTION_GAP.md.",
+      "evidence": "Full target restored from PE.IMG offsets 0x3FB4..0x64B4 relative to sector 98589, including the previously missing 8192 bytes. Current manifests and pinned CI assets represent the complete function at 0x80192F9C. Retained C candidate compiles on darwine with stock GCC 2.7.2 and MASPSX 2.56; linked weighted Levenshtein score 6778. Four pins, eight empty barriers and two fully inlined conversion helpers are documented in the candidate README; individual GTE instructions only, no CPU ASM. Not integrated; further semantic review and matching required. See docs/SCENE_E19_EXTRACTION_GAP.md.",
       "current_unit": "overlays/scene_e19_2/func_80192F9C",
       "extraction_restored": true,
       "candidate": "candidates/overlays/scene_e19_func_80192F9C/func_80192F9C.c",
@@ -311,7 +311,7 @@
         "pins": 4,
         "empty_barriers": 8,
         "cpu_asm": 0,
-        "inline_conversion_helpers": 1
+        "inline_conversion_helpers": 2
       }
     },
     {
@@ -384,8 +384,20 @@
       "symbol": "func_8010C4CC",
       "reported_size": 44,
       "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
+      "status": "incomplete_function_extraction",
+      "levenshtein_score": null,
+      "actual_size": 48,
+      "missing_extracted_bytes": 4,
+      "evidence": "Confirmed directly from disc/extracted/PE.IMG: sector 927 offset 0x7D4 starts the function. The configured 0x800-byte slice ends after jr ra at 0x8010C4F4 and omits its delay-slot sw at,0(t0), word 0xAD010000, at sector 928 offset 0 (0x8010C4F8). Full function ends exclusively at 0x8010C4FC. Extraction and CI assets are not yet repaired; no match claimed."
+    }
+  ],
+  "extraction_followups": [
+    {
+      "unit": "overlays/sys_reset",
+      "symbol": "func_8010C4FC",
+      "status": "unextracted_code_requires_bounds_audit",
+      "reported_in_baseline": false,
+      "evidence": "A following code entry begins in PE.IMG at sector 928 offset 4, immediately after the completed func_8010C4CC. Its initial words are 0x3C088012, 0x2508EB5C, 0x3C068011, 0x24C6E35C; subsequent words contain decoder control flow. End boundary, additional functions, data span and possible duplicate coverage require audit before extending the production slice."
     }
   ]
 }

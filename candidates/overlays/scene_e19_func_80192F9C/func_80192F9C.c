@@ -28,6 +28,8 @@ extern void *D_8019B690;
 /* Eleven GPU conversions still need an inline boundary (candidate debt). */
 static __inline__ u16 gpuWord(u16 value) { return value; }
 
+static __inline__ s16 savedHeight(s16 height) { return height; }
+
 s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     GteShortVector sp30;
     GteShortVector sp38;                            /* compiler-managed */
@@ -643,7 +645,7 @@ block_31:
             }
             func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
-            temp_s7 = sp30.y;
+            temp_s7 = savedHeight(sp30.y);
             sp30.y = temp_s7 - (effect->timer * 0x18);
             func_80079754((GteShortVector *) &sp48, &sp150);
             sp170.x = radialScale;
@@ -820,7 +822,7 @@ block_31:
             }
             func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
-            temp_s7_2 = sp30.y;
+            temp_s7_2 = savedHeight(sp30.y);
             sp30.y = temp_s7_2 - ((effect->timer + 0x20) * 0x18);
             func_80079754((GteShortVector *) &sp48, &sp210);
             sp230.x = radialScale;

@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **7458**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **6778**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Four register pins and eight empty barriers are recorded below. There is no CPU ASM.
@@ -403,3 +403,23 @@ ring height scored 7488; pinning matrix vertical scale to s2 in that variant
 scored 7723, or 7653 with the phase pin as well. Neither is retained.
 Current debt is unchanged: four pins, eight empty barriers and eleven GPU
 helper calls.
+
+## Saved height conversion boundary
+
+A bounded 120-second, 24-worker darwine run in `permuter_reset/` reproduced
+base 7458 and completed 4836 iterations (112 rejected compilations). It has
+stopped. The best generated score, 7148, moved a render-state write past
+calls and was rejected. The generated 7188 variant combined an empty global
+condition with a signed-short inline conversion; it was not copied wholesale.
+
+The isolated signed-short identity helper at the saved sp30.y read scores
+7123 in draw state 3 and **6778** when applied in both states 3 and 4. The
+helper accepts and returns s16; its value is unchanged. No empty condition
+is retained. This adds one fully inlined conversion helper at two sites to
+candidate debt. The original four pins and eight barriers remain unchanged.
+
+Alternatives: changing both saved-height locals to s32 or u32 scores 7108;
+sharing one s32 savedY scores 7068; sharing the s16 helper result scores 7268.
+These alternatives remain in scratch. Independent removal of every existing
+barrier and pin worsened the 7458 base, as did replacing the GPU helper with
+plain casts or changing texturePage to u16.
