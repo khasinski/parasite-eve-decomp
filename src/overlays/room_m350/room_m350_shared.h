@@ -25,6 +25,16 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350TransformMatrix, position) == 0x14,
 PE1_STATIC_ASSERT(sizeof(RoomM350TransformMatrix) == 0x20,
                   room_m350_transform_matrix_size);
 
+typedef struct RoomM350TransformOwner {
+    char reserved[0x238];
+    RoomM350TransformMatrix *transforms;
+} RoomM350TransformOwner;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350TransformOwner, transforms) == 0x238,
+                  room_m350_transform_owner_transforms_offset);
+PE1_STATIC_ASSERT(sizeof(RoomM350TransformOwner) == 0x23C,
+                  room_m350_transform_owner_size);
+
 struct RoomM350Instance;
 typedef struct RoomM350Actor {
     int reserved[2];

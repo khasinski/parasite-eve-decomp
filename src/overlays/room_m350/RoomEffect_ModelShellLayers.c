@@ -3,7 +3,7 @@
 typedef RoomM350Vector Vector;
 typedef RoomM350TransformMatrix Matrix;
 typedef struct { int color; short x, y, z, size; } Particle;
-typedef struct { char reserved[0x238]; Matrix *transforms; } Instance;
+typedef RoomM350TransformOwner Instance;
 typedef RoomM350TableShadeEntry TrigEntry;
 
 

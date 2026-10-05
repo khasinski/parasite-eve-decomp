@@ -1,6 +1,6 @@
 #include "room_m350_shared.h"
 typedef RoomM350TransformMatrix Matrix;
-typedef struct RoomM350Instance { char reserved[0x238]; Matrix *transforms; } Instance;
+typedef RoomM350TransformOwner Instance;
 typedef RoomM350Actor Actor;
 
 typedef struct { short x, y, z, velocityY, gravity, reserved; } Particle;
@@ -52,7 +52,7 @@ setup:
 update:
     if (D_800E27EC >= 107) return 2;
     if (D_800E27EC & 1) {
-        Matrix *matrices = D_800F32D0->instance->transforms;
+        Matrix *matrices = ((Instance *)D_800F32D0->instance)->transforms;
         Particle *particle = func_800CE610(D_800F33E0->pool);
         if (particle) {
             int random = Inv_ScrambleGrid();
