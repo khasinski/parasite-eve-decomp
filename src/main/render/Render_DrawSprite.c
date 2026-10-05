@@ -4,9 +4,14 @@
 #include "pe1/render_camera.h"
 #include "pe1/field_movement.h"
 #include "pe1/battle_runtime.h"
-/* Build the camera basis from yaw using the retail GTE operations. */
+/* Build the camera basis from yaw using the retail GTE operations.
+ * Matching debt: 4 register pins and 5 empty constraints. Matrix/vector
+ * loads are C, with GTE transfers and commands wrapped individually. */
 int Render_DrawSprite(void)
 {
+    register u32 a asm("$12");
+    register u32 b asm("$13");
+    register u32 c asm("$14");
     GteMatrixStorage rotation;
     GteShortVector axis;
     GteVector up,right,newUp,forward;
@@ -27,6 +32,7 @@ int Render_DrawSprite(void)
     rotation.matrix.m[2][0] = -sine;
     rotation.matrix.m[1][1] = 4096;
     axis.z = 4096;
+    asm volatile("" : : : "memory");
     rotation.matrix.m[0][0] = cosine;
     rotation.matrix.m[2][2] = cosine;
     rotation.matrix.t[0] = rotation.matrix.t[1] = rotation.matrix.t[2] = 0;
@@ -34,9 +40,25 @@ int Render_DrawSprite(void)
     axis.x = 0;
     axis.y = 0;
     {
-        u32 *matrix = rotation.words;
-        gte_ldrotmatrix(matrix);
-        gte_ldtransmatrix(matrix);
+        const GteMatrixWords *matrix;
+        matrix = (const GteMatrixWords *)rotation.words;
+        asm volatile("" : "=r"(matrix) : "0"(matrix));
+        a = matrix->r11_r12;
+        b = matrix->r13_r21;
+        gte_ctc2_0(a);
+        gte_ctc2_1(b);
+        a = matrix->r22_r23;
+        b = matrix->r31_r32;
+        c = matrix->r33_pad;
+        gte_ctc2_2(a);
+        gte_ctc2_3(b);
+        gte_ctc2_4(c);
+        a = matrix->tx;
+        b = matrix->ty;
+        gte_ctc2_5(a);
+        c = matrix->tz;
+        gte_ctc2_6(b);
+        gte_ctc2_7(c);
     }
     gte_lwc2_0_0(&axis);
     gte_lwc2_1_4(&axis);
@@ -49,10 +71,17 @@ int Render_DrawSprite(void)
     {
         GteVector *source;
         up.y = 4096;
+        asm volatile("" : : : "memory");
         source = &up;
         up.x = 0;
         up.z = 0;
-        gte_ldopv1_psyq(source);
+        asm volatile("" : "=r"(source) : "0"(source));
+        a = source->x;
+        b = source->y;
+        gte_ctc2_0(a);
+        c = source->z;
+        gte_ctc2_2(b);
+        gte_ctc2_4(c);
     }
     {
         gte_lwc2_11_8(&forward);
@@ -66,8 +95,14 @@ int Render_DrawSprite(void)
         gte_swc2_27_8(&right);
     }
     {
-        GteVector *source = &forward;
-        gte_ldopv1_psyq(source);
+        register GteVector *source asm("$3") = &forward;
+        asm volatile("" : "=r"(source) : "0"(source));
+        a = source->x;
+        b = source->y;
+        gte_ctc2_0(a);
+        c = source->z;
+        gte_ctc2_2(b);
+        gte_ctc2_4(c);
     }
     {
         gte_lwc2_11_8(&right);
