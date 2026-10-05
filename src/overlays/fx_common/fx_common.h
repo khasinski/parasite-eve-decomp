@@ -2,6 +2,7 @@
 #define FX_COMMON_H
 
 #include "common.h"
+#include "fx_common_vectors.h"
 #include "pe1/room_fx.h"
 #include "pe1/gte_types.h"
 
@@ -153,12 +154,6 @@ typedef struct FxCommonLodNode {
 
 PE1_STATIC_ASSERT(sizeof(FxCommonLodNode) == sizeof(FxCommonRecord),
                   fx_common_lod_node_record_size);
-
-typedef struct FxCommonVec3 {
-    s32 x;
-    s32 y;
-    s32 z;
-} FxCommonVec3;
 
 typedef struct FxCommonShortVec3 {
     s16 x;

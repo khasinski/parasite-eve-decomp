@@ -1,10 +1,7 @@
-typedef struct {
-    int x, y, z;
-} FxVec3;
+#include "fx_common_vectors.h"
 
-typedef struct {
-    int x, y;
-} FxVec2;
+typedef FxCommonVec3 FxVec3;
+typedef FxCommonVec2 FxVec2;
 
 extern char D_801D0260[];
 extern unsigned char D_8019C040, D_8019C041, D_8019C042;
