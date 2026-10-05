@@ -147,4 +147,4 @@ segments:
 # room: m123, section3 sector 37609, scanner delta 0
 # source slice: room-section3
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m123.bin bs=2048 skip=37609 count=146
-# text-bank: Day 1 night: theater blaze aftermath
+# area: save-location label "N.Y.P.D." (id 3) for map 123; place nypd, high confidence (docs/ROOMS.md)

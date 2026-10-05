@@ -116,3 +116,4 @@ segments:
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e22.bin bs=2048 skip=99270 count=21
 # special-scene set: entry 22 of the table at 0x80094048 (this bin = its section 3); mid-game (Daniel/Maeda) bank
+# area: save-location label "Liberty" (id 13) for map 432; place liberty, high confidence (docs/ROOMS.md)

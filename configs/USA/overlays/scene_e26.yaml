@@ -101,3 +101,4 @@ segments:
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e26.bin bs=2048 skip=100264 count=7
 # special-scene set: entry 26 of the table at 0x80094048 (this bin = its section 3); finale (Eve/Melissa) bank
+# area: no save-location label for map 436; place chrysler, medium confidence (docs/ROOMS.md)

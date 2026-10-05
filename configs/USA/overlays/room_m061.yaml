@@ -103,4 +103,4 @@ segments:
 # room: m061, section3 sector 23686, scanner delta 0
 # source slice: room-section3
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m061.bin bs=2048 skip=23686 count=57
-# text-bank: Day 2: Central Park (Eve concert)
+# area: save-location label "Central Park" (id 4) for map 61; place central_park, high confidence (docs/ROOMS.md)

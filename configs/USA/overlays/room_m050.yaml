@@ -95,4 +95,4 @@ segments:
 # room: m050, section3 sector 21297, scanner delta 0
 # source slice: room-section3
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m050.bin bs=2048 skip=21297 count=140
-# text-bank: Day 1: Carnegie Hall (opera night)
+# area: save-location label "N.Y.P.D." (id 3) for map 50; place nypd, medium confidence (docs/ROOMS.md)

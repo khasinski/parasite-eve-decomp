@@ -47,3 +47,4 @@ segments:
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e20.bin bs=2048 skip=98887 count=3
 # special-scene set: entry 20 of the table at 0x80094048 (this bin = its section 3); mid-game (Daniel/Maeda) bank
+# area: save-location label "Cruiser" (id 14) for map 430; place cruiser, high confidence (docs/ROOMS.md)
