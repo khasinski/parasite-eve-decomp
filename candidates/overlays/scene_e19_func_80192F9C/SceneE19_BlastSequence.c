@@ -1,35 +1,7 @@
 /* MASPSX_FLAGS: --expand-div */
 #include "scene_e19_blast.h"
+#include "pe1/gte_window.h"
 
-#ifdef LEGACY
-#define LOAD_VIEW_MATRIX() { RenderMatrixSlot *slot_ = &D_800BCFA4; gte_ldrotmatrix(slot_->value); gte_ldtransmatrix(slot_->value); }
-#elif defined(PINB)
-#define LOAD_VIEW_MATRIX() { \
-    register const GteMatrixWords *matrix_ asm("$9"); \
-    register u32 a_ asm("$12"); register u32 b_ asm("$13"); register u32 c_ asm("$14"); \
-    matrix_ = (const GteMatrixWords *)D_800BCFA4.value; \
-    a_ = matrix_->r11_r12; b_ = matrix_->r13_r21; gte_ctc2_0(a_); gte_ctc2_1(b_); \
-    a_ = matrix_->r22_r23; b_ = matrix_->r31_r32; c_ = matrix_->r33_pad; gte_ctc2_2(a_); gte_ctc2_3(b_); gte_ctc2_4(c_); \
-    a_ = matrix_->tx; b_ = matrix_->ty; gte_ctc2_5(a_); c_ = matrix_->tz; gte_ctc2_6(b_); gte_ctc2_7(c_); }
-#elif defined(PINC)
-#define LOAD_VIEW_MATRIX() { \
-    RenderMatrixSlot *slot_; \
-    register const GteMatrixWords *matrix_ asm("$9"); \
-    register u32 a_ asm("$12"); register u32 b_ asm("$13"); register u32 c_ asm("$14"); \
-    slot_ = &D_800BCFA4; asm volatile("" : "=r"(slot_) : "0"(slot_)); \
-    matrix_ = (const GteMatrixWords *)slot_->value; \
-    a_ = matrix_->r11_r12; b_ = matrix_->r13_r21; gte_ctc2_0(a_); gte_ctc2_1(b_); \
-    a_ = matrix_->r22_r23; b_ = matrix_->r31_r32; c_ = matrix_->r33_pad; gte_ctc2_2(a_); gte_ctc2_3(b_); gte_ctc2_4(c_); \
-    a_ = matrix_->tx; b_ = matrix_->ty; gte_ctc2_5(a_); c_ = matrix_->tz; gte_ctc2_6(b_); gte_ctc2_7(c_); }
-#else
-#define LOAD_VIEW_MATRIX() { \
-    const GteMatrixWords *matrix_; \
-    register u32 a_ asm("$12"); register u32 b_ asm("$13"); register u32 c_ asm("$14"); \
-    matrix_ = (const GteMatrixWords *)D_800BCFA4.value; \
-    a_ = matrix_->r11_r12; b_ = matrix_->r13_r21; gte_ctc2_0(a_); gte_ctc2_1(b_); \
-    a_ = matrix_->r22_r23; b_ = matrix_->r31_r32; c_ = matrix_->r33_pad; gte_ctc2_2(a_); gte_ctc2_3(b_); gte_ctc2_4(c_); \
-    a_ = matrix_->tx; b_ = matrix_->ty; gte_ctc2_5(a_); c_ = matrix_->tz; gte_ctc2_6(b_); gte_ctc2_7(c_); }
-#endif
 
 int func_80192F9C(int mode, SceneE19Blast *blast)
 {
@@ -204,7 +176,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         center.x = blast->position.x;
         center.y = blast->position.y;
         center.z = blast->position.z;
-        LOAD_VIEW_MATRIX();
+        GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);
+        GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);
         params = &D_800F3368;
         pageSelector = &D_800E11EA[8];
         D_800F3368.parameter0A = 0;
@@ -288,7 +261,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             func_800C6FA0(D_8019B684, 0x40);
             func_800C71E4(D_8019B684, &shellMatrix1);
             func_800C6F4C(D_8019B684);
-            LOAD_VIEW_MATRIX();
+            GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);
+            GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);
             func_800D004C(&center, 0x12C, 0x12C, 0xC, 0, 0x1000, 0x1000, &glowColor, 0, intensity, 1);
             intensity = func_80077DC4(phase) / 32;
             radialScale = func_80077CF4(phase);
@@ -347,7 +321,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             func_800C6FA0(D_8019B684, 0x40);
             func_800C71E4(D_8019B684, &shellMatrix2);
             func_800C6F4C(D_8019B684);
-            LOAD_VIEW_MATRIX();
+            GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);
+            GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);
             func_800D004C(&center, 0x12C, 0x12C, 0xC, 0, 0x1000, 0x1000, &glowColor, 0, intensity, 1);
             intensity = 0x80;
             if (D_800E27EC & 1) {
@@ -489,7 +464,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             func_800C71E4(D_8019B68C, &shellMatrix3c);
             func_800C6F4C(D_8019B68C);
             center.y = height;
-            LOAD_VIEW_MATRIX();
+            GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);
+            GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);
             func_800D004C(&center, 0x9C4, 0x9C4, 0xC, 0, 0x1000, 0x1000, &glowColor, 0, intensity, 1);
             radialScale = func_80077CF4(phase) / 4 + 0xC00;
             intensity = func_80077DC4(phase) / 32;
