@@ -1,5 +1,5 @@
 name: scene_e19.bin
-sha1: 8f20a25d31be101d10ac79447efad8e39469ec7c
+sha1: 5c9da791a733fee0853821de2360425e7c69f861
 options:
   basename: scene_e19
   target_path: original/USA/overlays/scene_e19.bin
@@ -116,8 +116,7 @@ segments:
       - [0x3D1C, c, func_80192D04]
       - [0x3E18, c, func_80192E00]
       - [0x3E20, c, func_80192E08]
-      - [0x3FB4, data]
-  - [0x4000]
+  - [0x3FB4]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e19.bin bs=2048 skip=98589 count=8
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e19.bin bs=4 skip=50477568 count=4077
 # special-scene set: entry 19 of the table at 0x80094048 (this bin = its section 3); mid-game (Daniel/Maeda) bank

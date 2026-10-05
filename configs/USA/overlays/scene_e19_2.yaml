@@ -1,5 +1,5 @@
 name: scene_e19_2.bin
-sha1: c5d7895c2e6c357c0936aac16a421023e1e3e0ef
+sha1: c491fbe1b6e706666de762ab45b5b4e6eda875dc
 options:
   basename: scene_e19_2
   target_path: original/USA/overlays/scene_e19_2.bin
@@ -29,44 +29,44 @@ segments:
   - name: scene_pre
     type: code
     start: 0x0
-    vram: 0x8018EFF0
+    vram: 0x80192F9C
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, scene_pre]
+      - [0x0, asm, func_80192F9C]
   - name: scene_main
     type: code
-    start: 0x4B4
+    start: 0x2500
     vram: 0x8019549C
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x4B4, c, func_8019549C]
-      - [0x10DC, c, RoomEffect_HomingBurstController_801960C4]
-      - [0x1760, c, RoomEffect_SpinRayParticle_80196748]
-      - [0x1CE4, c, RoomEffect_SpinRayController_80196CCC]
-      - [0x2304, c, RoomEffect_EmberFlareParticle]
-      - [0x2904, c, RoomEffect_EmberFlareController]
-      - [0x32BC, c, RoomEffect_OrbitSpinParticle_801982A4]
-      - [0x392C, c, RoomEffect_OrbitSpinBurst_80198914]
-      - [0x4210, c, RoomEffect_GlintSparkParticle_801991F8]
-      - [0x469C, c, RoomEffect_GlintRibbonController_80199684]
-      - [0x4C40, c, RoomEffect_PulseGlintParticle_80199C28]
-      - [0x506C, c, RoomEffect_TwinGlowController_8019A054]
-      - [0x5C48, c, RoomEffect_JitterSizedSpark_8019AC30]
-      - [0x5EA4, c, RoomEffect_JitterSizedSpawner_8019AE8C]
+      - [0x2500, c, func_8019549C]
+      - [0x3128, c, RoomEffect_HomingBurstController_801960C4]
+      - [0x37AC, c, RoomEffect_SpinRayParticle_80196748]
+      - [0x3D30, c, RoomEffect_SpinRayController_80196CCC]
+      - [0x4350, c, RoomEffect_EmberFlareParticle]
+      - [0x4950, c, RoomEffect_EmberFlareController]
+      - [0x5308, c, RoomEffect_OrbitSpinParticle_801982A4]
+      - [0x5978, c, RoomEffect_OrbitSpinBurst_80198914]
+      - [0x625C, c, RoomEffect_GlintSparkParticle_801991F8]
+      - [0x66E8, c, RoomEffect_GlintRibbonController_80199684]
+      - [0x6C8C, c, RoomEffect_PulseGlintParticle_80199C28]
+      - [0x70B8, c, RoomEffect_TwinGlowController_8019A054]
+      - [0x7C94, c, RoomEffect_JitterSizedSpark_8019AC30]
+      - [0x7EF0, c, RoomEffect_JitterSizedSpawner_8019AE8C]
   - name: scene_accessors
     type: code
-    start: 0x61F0
+    start: 0x823C
     vram: 0x8019B1D8
     align: 4
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x61F0, c, SceneE19_StateAccessors]
-      - [0x626C, data]
-  - [0x6800]
+      - [0x823C, c, SceneE19_StateAccessors]
+      - [0x82B8, data]
+  - [0x884C]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e19_2.bin bs=2048 skip=98601 count=13
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e19_2.bin bs=4 skip=50481645 count=8723

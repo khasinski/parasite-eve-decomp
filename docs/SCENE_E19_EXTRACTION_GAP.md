@@ -8,7 +8,7 @@ Evidence was checked directly against `disc/extracted/PE.IMG`, with disassembly
 on darwine. Offsets below are relative to sector 98589 (2048-byte sectors), whose
 mapped address is `0x8018EFE8`.
 
-| Full-scene range | Address range (end exclusive) | Current extraction |
+| Full-scene range | Address range (end exclusive) | Extraction before the fix |
 | --- | --- | --- |
 | `0x3FB4..0x4000` | `0x80192F9C..0x80192FE8` | Last 76 bytes of scene_e19, incorrectly marked data |
 | `0x4000..0x6000` | `0x80192FE8..0x80194FE8` | Missing sectors 98597..98600: 8192 bytes |
@@ -43,8 +43,17 @@ Research artifacts are in `scratch/match_inventory/` locally and
 output recovers the full control flow, but has unresolved packed loads, GTE
 operations and types. It is not compilable C or a claimed match.
 
-Production manifests and retail assets have not yet been changed. Integrating
-this function requires restoring the missing extraction range and replacing
-the two partial representations consistently, including CI's retail assets.
-The current passing build covers only the existing slices and cannot prove
-coverage of the omitted region.
+Production extraction now splits at full-scene offset `0x3FB4`: scene_e19
+ends there, and scene_e19_2 starts there at `0x80192F9C`. Its next segment
+starts at offset `0x2500`, retaining the original address `0x8019549C`.
+All existing C function addresses remain unchanged. The complete outstanding
+function is represented by one original-assembly subsegment, `func_80192F9C`.
+
+CI assets are pinned to `c38afa7fead3c4dc0e894ce0c983b7d5e7544d4b` in the
+private assets repository. Earlier source revisions keep their previous asset
+pin. The extraction comments can regenerate both slices using the existing
+`tools/scripts/extract_overlay_config_target.py` helper.
+
+Both corrected overlays pass `make overlay-check` on darwine. This verifies
+extraction and build integration, not a C match: the recovered function is
+still undecompiled and has no measured candidate score.
