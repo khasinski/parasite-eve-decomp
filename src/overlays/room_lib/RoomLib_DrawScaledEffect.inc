@@ -1,4 +1,5 @@
 #include "pe1/field_script_context.h"
+#include "pe1/room_fx.h"
 typedef struct RoomLibEffectMatrix {
     short m[3][3];
     short pad12;
@@ -30,9 +31,7 @@ typedef struct RoomLibScaledEffect {
     unsigned short scaleTimer;
 } RoomLibScaledEffect;
 
-typedef struct RoomLibMatrixSeed {
-    char bytes[8];
-} RoomLibMatrixSeed;
+typedef RoomFxSeed8 RoomLibMatrixSeed;
 
 typedef struct RoomLibVectorSeed {
     int words[4];
