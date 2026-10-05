@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **24163**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **20963**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Four register pins and three empty barriers are recorded below. There is no CPU ASM.
@@ -9,7 +9,7 @@ individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2381. These counts are descriptive, not the match metric.
+retained candidate has 2371. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -153,3 +153,29 @@ Four experimental barriers after `gte_ctc2_5` proved unnecessary: removing each
 individually and then all four preserved 24163. They are not retained.
 Current candidate debt is four pins and three empty barriers. CPU ASM remains
 absent; actual GTE instructions are still individually wrapped.
+
+## Bounded permuter pass and GPU narrowing
+
+A 120-second, 24-worker run on darwine completed 4758 iterations (114 rejected
+compilations), with a best generated score of 22933. The research adapter uses
+`tools/scripts/score_decompme.py` for every candidate, not the permuter's own
+score implementation. Debug mode first reproduced the retained base score
+24163. GCC and maspsx were unchanged. The search stopped at its time limit;
+no ongoing permuter was left behind.
+
+Its useful change was a narrowing boundary for GPU arguments. Plain u16 casts
+scored 24163, while applying a small static inline `gpuWord(u16)` helper at all
+33 existing masks scored **20963**. The helper returns its argument unchanged;
+conversion to u16 occurs at the parameter boundary. This preserves the low
+sixteen bits, including for negative inputs. The generated arbitrary temporary
+and external inline helper from the search were not copied into the candidate.
+
+Additional candidate debt: one scalar conversion helper used at 33 sites.
+It contains no assembly. `nm` confirms that the candidate object defines only
+`func_80192F9C` as executable code; `gpuWord` is fully inlined. Existing debt
+remains four pins and three empty barriers. A separate phase-pin trial on the
+previous base scored 23709; that pin was not retained.
+
+Search artifacts and its exact-scoring adapter are in the research directory's
+`permuter/` subdirectory on darwine; local preparation scripts are in
+`scratch/scene_e19_80192F9C/permuter/`.
