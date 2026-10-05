@@ -3,8 +3,27 @@
 Retail: `configs/USA/overlays/scene_e19_2.yaml` `[0x0, asm, func_80192F9C]`,
 vram 0x80192F9C, 0x2500 bytes (2368 words), frame 0x330.
 
-**Current: lev 78** (`SceneE19_BlastSequence.c` + `scene_e19_blast.h`, plain C,
-three t4/t5/t6 transfer pins in the matrix-load macro as the only crutch).
+**Current: lev 25, equal size** (`SceneE19_BlastSequence.c` + `scene_e19_blast.h`).
+No pins, no barriers. The four view-matrix loads use the approved
+`GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value); GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);`
+pair from include/pe1/gte_window.h (cherry-picked 91d49093b); every window
+(0x801936D0, 0x80193B70, 0x80193EC4, 0x8019475C) is now exact, including
+`la v0` / `lw t1` and the `sh s7,0x32(sp)` scheduled into the last one.
+All remaining edits are in the mode 2 head (the two pointer `la` pairs, 5) and
+draw state 2 (20).
+
+Evidence entry: `configs/USA/original_asm_evidence.json` still lists the
+function under `gte_matrix_windows_pending`. Moving it to `gte_matrix_windows`
+now breaks `check_source_policy.py` ("evidence lists
+overlays/scene_e19_2/SceneE19_BlastSequence.c, which does not use the
+macros"), because the check only accepts a source under src/ that is a yaml
+`c` unit. Move it in the integration change, with
+`"source": "overlays/scene_e19_2/SceneE19_BlastSequence.c"` (or the merged
+scene_e19 path), the four `windows` strings from the pending entry,
+`"evidence"`: the pending window descriptions plus "C word reads give
+`lui/lw %lo(D_800BCFA4)` with the pointer in v0 and cost about 10 per window
+(lev 78 vs 25 with the macros)", and `verified_by`: lev.py lev 0 plus
+`make overlay-check`.
 Score from the worktree root:
 
     PATH=/Users/hasik/Projects/parasite-pc/tools/binutils-2.45/bin:$PATH \
@@ -38,7 +57,7 @@ mode 2 draws per state: floor glows, an expanding shell model, a 16-blade
 ring, flares at the target, and in states 3/4 four or five shell models that
 lift and spin, then restores the sprite parameter block.
 
-## Region status (lev edits by retail offset, admissible build)
+## Region status at lev 78 (before the GTE window macros; superseded by the summary above)
 
 | Region | Retail range | lev edits | Status |
 | --- | --- | --- | --- |
