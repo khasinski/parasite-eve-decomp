@@ -1,13 +1,11 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/psyq_gpu.h"
+#include "pe1/gpu_dma_register_window.h"
 extern short D_80095750;
 extern short D_80095752;
 extern unsigned int *D_80095850;
-extern unsigned int *D_80095854;
-extern unsigned int *D_80095858;
-extern unsigned int *D_8009585C;
-extern unsigned int *D_80095860;
+extern GpuDmaRegisterWindow D_80095854;
 void Gpu_ResetDmaWaitTimer(void);
 int Gpu_DmaTimeoutCheck(void);
 
@@ -40,7 +38,7 @@ int Gpu_WaitDmaComplete(RECT *rect, unsigned int *data)
     /* Retail retains the variant branch and this rectangle's register lifetime. */
     asm volatile("" : "+r"(variant), "+r"(rect));
     blocks = words / 16;
-    status = *D_80095854;
+    status = *D_80095854.gp1;
     /* Keep the first readiness mask separate from the loop's invariant. */
     asm volatile("" : "+r"(status));
     firstMask = 0x04000000;
@@ -48,11 +46,11 @@ int Gpu_WaitDmaComplete(RECT *rect, unsigned int *data)
     if (!(status & firstMask)) {
         do {
             if (Gpu_DmaTimeoutCheck()) return -1;
-        } while (!(*D_80095854 & 0x04000000));
+        } while (!(*D_80095854.gp1 & 0x04000000));
     }
     command = 0xA0000000;
     asm volatile("" : "+r"(command));
-    *D_80095854 = 0x04000000;
+    *D_80095854.gp1 = 0x04000000;
     *D_80095850 = 0x01000000;
     port = D_80095850;
     if (variant) command = 0xB0000000;
@@ -69,10 +67,10 @@ int Gpu_WaitDmaComplete(RECT *rect, unsigned int *data)
         } while (--remainder != -1);
     }
     if (blocks) {
-        *D_80095854 = 0x04000002;
-        *D_80095858 = (unsigned int)data;
-        *D_8009585C = (blocks << 16) | 16;
-        *D_80095860 = 0x01000201;
+        *D_80095854.gp1 = 0x04000002;
+        *D_80095854.madr = (unsigned int)data;
+        *D_80095854.bcr = (blocks << 16) | 16;
+        *D_80095854.chcr = 0x01000201;
     }
     return 0;
 }
@@ -101,7 +99,7 @@ int Gpu_FlushDisplayBuffer(RECT *rect, unsigned int *data)
     remainder = words % 16;
     asm volatile("" : "+r"(rect));
     blocks = words / 16;
-    status = *D_80095854;
+    status = *D_80095854.gp1;
     /* The initial test and retry loop materialize their masks separately. */
     asm volatile("" : "+r"(status));
     firstMask = 0x04000000;
@@ -110,14 +108,14 @@ int Gpu_FlushDisplayBuffer(RECT *rect, unsigned int *data)
     if (!status) {
         do {
             if (Gpu_DmaTimeoutCheck()) return -1;
-        } while (!(*D_80095854 & 0x04000000));
+        } while (!(*D_80095854.gp1 & 0x04000000));
     }
-    *D_80095854 = 0x04000000;
+    *D_80095854.gp1 = 0x04000000;
     *D_80095850 = 0x01000000;
     *D_80095850 = 0xC0000000;
     *D_80095850 = *(unsigned int *)&rect->x;
     *D_80095850 = *(unsigned int *)&rect->w;
-    status = *D_80095854;
+    status = *D_80095854.gp1;
     asm volatile("" : "+r"(status));
     firstMask = 0x08000000;
     asm volatile("" : "+r"(firstMask) : "r"(status));
@@ -125,7 +123,7 @@ int Gpu_FlushDisplayBuffer(RECT *rect, unsigned int *data)
     if (!status) {
         do {
             if (Gpu_DmaTimeoutCheck()) return -1;
-        } while (!(*D_80095854 & 0x08000000));
+        } while (!(*D_80095854.gp1 & 0x08000000));
     }
     --remainder;
     firstEnd = -1;
@@ -137,10 +135,10 @@ int Gpu_FlushDisplayBuffer(RECT *rect, unsigned int *data)
         } while (--remainder != -1);
     }
     if (blocks) {
-        *D_80095854 = 0x04000003;
-        *D_80095858 = (unsigned int)data;
-        *D_8009585C = (blocks << 16) | 16;
-        *D_80095860 = 0x01000200;
+        *D_80095854.gp1 = 0x04000003;
+        *D_80095854.madr = (unsigned int)data;
+        *D_80095854.bcr = (blocks << 16) | 16;
+        *D_80095854.chcr = 0x01000200;
     }
     return 0;
 }

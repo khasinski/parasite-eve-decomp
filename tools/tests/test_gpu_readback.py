@@ -24,10 +24,7 @@ class GpuReadbackTests(unittest.TestCase):
 short D_80095750 = 1024, D_80095752 = 512;
 static unsigned int gp0, gp1, madr, bcr, chcr;
 unsigned int *D_80095850 = &gp0;
-unsigned int *D_80095854 = &gp1;
-unsigned int *D_80095858 = &madr;
-unsigned int *D_8009585C = &bcr;
-unsigned int *D_80095860 = &chcr;
+GpuDmaRegisterWindow D_80095854 = {&gp1, &madr, &bcr, &chcr};
 static unsigned int pixels[262144], expectedDimensions;
 static int resets, commandPolls, dataPolls, commandReady, dataReady;
 static int commandTimeout, dataTimeout;

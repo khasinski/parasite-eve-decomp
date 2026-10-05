@@ -1,7 +1,8 @@
 #ifndef PE1_GPU_DMA_STATE_H
 #define PE1_GPU_DMA_STATE_H
 
-typedef unsigned int u32;
+#include "common.h"
+#include "pe1/gpu_dma_register_window.h"
 
 /*
  * GPU DMA controller state at 0x80095850.  The register pointers precede the
