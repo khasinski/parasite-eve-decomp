@@ -1403,11 +1403,8 @@ segments:
       - [0x7DFC0, c, main/SPU_Akao_NoteTimingFlow]
       # Track parameter commands, note/pan handling and pitch-LFO updates.
       - [0x7F8D0, c, akao/Akao_TrackCommandFlow]
-      - [0x80668, c, akao/SeqOp_SetPanSlide]
-      - [0x806D8, c, akao/seq_op3]
-      - [0x807E4, c, akao/SeqOp_SetExpressionSlide]
-      - [0x80854, c, akao/seq_op4]
-      - [0x80908, c, akao/SeqOp_PitchSlide]
+      # Pan, expression, pitch and LFO slide handlers share track state.
+      - [0x80668, c, akao/Akao_TrackSlideOps]
       - [0x80978, c, akao/Akao_TrackMaskOps]
       - [0x80BA0, c, akao/seq4]
       - [0x811C0, c, akao/seq_op7]
