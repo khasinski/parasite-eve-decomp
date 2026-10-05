@@ -166,11 +166,8 @@ segments:
       # FieldActor Vec3 getter/setter are one default-profile object.
       - [0x3420, c, task/Task_EntityVec3]
       - [0x38B4, c, task/Task_DispatchCmd]
-      # Task-node allocation, waits, and point motion share a 0x7A0-byte -G8 object.
+      # Task-node, point-motion, and camera tracking share the active entity cache.
       - [0x39E8, c, task/Task_NodeActions]
-      # Point turn and movement are one 0x474-byte -G8 task-motion object.
-      # Angle, snap, and zoom tracking share one 0x8A0-byte -G8 camera controller object.
-      - [0x4188, c, main/Camera_EntityTracking]
       # Field-actor query and distance routines share their actor globals.
       - [0x4A28, c, main/Entity_QueryAndDistance]
       - [0x4CFC, c, main/Boot_MemCardStepInit]
