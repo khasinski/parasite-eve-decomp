@@ -506,3 +506,23 @@ moves score 5064 or 5124. Debt is unchanged.
 Pins for modelPhase, verticalScale, or both scored 4980, 5175 and 6656
 against base 4930. Four chained-zero-assignment alternatives scored 5828,
 5892, 5828 and 8768. None was retained.
+
+## Constraint audit at 4909
+
+Fresh individual pin removals, in declaration order (pageSelector,
+renderParams, matrixSlot, matrix, w0, w1, w2, phase), scored 5364, 5104,
+4989, 4949, 6499, 5029, 4989 and 4989. Every removal worsens the retained
+4909 base. Individual empty-barrier removals, in source order, scored 5059,
+5074, 5074, 5969, 5824, 5074, 5169 and 5239. No constraint was removed.
+
+Widening both saved-height locals to s32 was neutral (4909), as was sharing
+one s32 saved-height local. Sharing one s16 local scored 5399. Widening the
+helper return scored 5239; removing it scored 5589. These source alternatives
+are research-only. A C signed-64-bit multiply-high implementation of the two
+remainder-by-800 expressions, with a t1 high-word pin, scored 5994 and added
+six instructions; it was rejected. No CPU instruction ASM was introduced.
+
+All trials ran on darwine using the existing stock toolchain and weighted
+Levenshtein scorer. The canonical candidate was recompiled afterward and
+reproduces 4909. Artifacts are unpin4909_*, drop4909_*, *_4909 and
+remainder800_high in the existing research directory. No search is running.
