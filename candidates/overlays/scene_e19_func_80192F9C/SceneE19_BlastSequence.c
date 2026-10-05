@@ -81,8 +81,6 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
     int verticalScale;
     int page;
     int palette;
-    int ringRadius;
-    int angle;
     int i;
     int value;
     int height;
@@ -357,20 +355,20 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (D_800E27EC & 1) {
                 intensity = 0x64;
             }
-            ringRadius = 2000;
+            modelPhase = 2000;
             radialScale = func_80077DC4(phase) / 8;
             height = func_80077CF4(phase) * 2 / 3;
             rotation.x = 0x400;
             rotation.y = 0;
             rotation.z = 0;
             for (i = 0; i < 0x10; i++) {
-                angle = (i << 8) + D_800E27EC * 4;
+                verticalScale = (i << 8) + D_800E27EC * 4;
                 ringPoint.x = center.x;
                 ringPoint.y = center.y;
                 ringPoint.z = center.z;
-                ringPoint.x += func_80077DC4(angle) * ringRadius / 4096;
-                value = func_80077CF4(angle) * ringRadius;
-                rotation.z = angle + 0x400;
+                ringPoint.x += func_80077DC4(verticalScale) * modelPhase / 4096;
+                value = func_80077CF4(verticalScale) * modelPhase;
+                rotation.z = verticalScale + 0x400;
                 ringPoint.z += value / 4096;
                 func_800D0E88(&ringPoint, (GteRotation *)&rotation, height, radialScale,
                               &glowColor, 0, 0, (s16)intensity, 1);
