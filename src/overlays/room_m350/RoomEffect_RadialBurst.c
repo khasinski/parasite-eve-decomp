@@ -1,7 +1,7 @@
 #include "room_m350_shared.h"
 typedef struct { char reserved[0xF4]; int position[3]; } Transform;
-typedef struct { char reserved[0x238]; Transform *transform; } Instance;
-typedef struct { int reserved[2]; Instance *instance; } Actor;
+typedef struct RoomM350Instance { char reserved[0x238]; Transform *transform; } Instance;
+typedef RoomM350Actor Actor;
 
 extern Actor *D_800F32D0;
 extern int D_800E27EC, D_800F3428, D_800966EC[], D_8019A634[];

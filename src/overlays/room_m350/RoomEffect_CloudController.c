@@ -3,13 +3,13 @@ typedef RoomM350Vector Vector;
 typedef RoomM350TransformMatrix Matrix;
 typedef struct { unsigned char state; } Action;
 typedef struct { int reserved[2]; int asset; char reservedC[12]; Action *action; } Owner;
-typedef struct {
+typedef struct RoomM350Instance {
     Owner *owner; char reserved04[10]; unsigned char animation,length;
     char reserved10[4]; unsigned int frame;
     char reserved18[16]; int position[3]; char reserved34[6]; short yaw;
     char reserved3C[0x1FC]; Matrix *transforms;
 } Instance;
-typedef struct { int reserved[2]; Instance *instance; } Actor;
+typedef RoomM350Actor Actor;
 typedef struct { int asset; short speed,targetSpeed,heightPhase,mode; } State;
 extern Actor *D_800F32D0;
 extern Instance *g_PlayerEntity;

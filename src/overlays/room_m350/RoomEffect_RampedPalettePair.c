@@ -3,8 +3,8 @@ typedef RoomM350Vector Vector;
 typedef struct { Vector *position; short scale, reserved; } Particle;
 typedef struct { short target, current; } State;
 
-typedef struct { char reserved[22]; unsigned short frame; } Instance;
-typedef struct { int reserved[2]; Instance *instance; } Actor;
+typedef struct RoomM350Instance { char reserved[22]; unsigned short frame; } Instance;
+typedef RoomM350Actor Actor;
 
 /* The spawner owns the scaled particles rendered by this callback. */
 extern RoomM350Emitter *D_800F33E0;

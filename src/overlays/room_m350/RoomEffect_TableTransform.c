@@ -3,8 +3,8 @@
 
 typedef struct { short position[3]; short size; } Particle;
 typedef RoomM350TransformMatrix Transform;
-typedef struct { char reserved[22]; unsigned short frame; char reserved18[0x220]; Transform *transforms; } Instance;
-typedef struct { int reserved[2]; Instance *instance; } Actor;
+typedef struct RoomM350Instance { char reserved[22]; unsigned short frame; char reserved18[0x220]; Transform *transforms; } Instance;
+typedef RoomM350Actor Actor;
 
 typedef struct { unsigned char index, alternate; } Entry;
 extern Actor *D_800F32D0;

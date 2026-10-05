@@ -50,11 +50,11 @@ typedef RoomM350TransformMatrix Matrix;
 typedef struct { short count,delay; } State;
 typedef struct { int reserved[2]; int asset; } Owner;
 typedef struct { unsigned char reserved[2],count; } Model;
-typedef struct {
+typedef struct RoomM350Instance {
     Owner *owner; char reserved04[0x1B0]; Model *model;
     char reserved1B8[0x80]; Matrix *transforms;
 } Instance;
-typedef struct { int reserved[2]; Instance *instance; } Actor;
+typedef RoomM350Actor Actor;
 
 extern Actor *D_800F32D0;
 extern RoomM350Emitter *D_800F33E0;

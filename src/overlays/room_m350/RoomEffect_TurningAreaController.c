@@ -7,11 +7,11 @@ typedef RoomM350TransformMatrix Matrix;
 typedef struct { int x,y,z,pad; } Scale;
 typedef struct { void *asset; int yaw; short size,brightness,unknown,turn; unsigned char initialized; } State;
 typedef struct { unsigned int flags; char reserved04[0x48]; unsigned int status; } Owner;
-typedef struct {
+typedef struct RoomM350Instance {
     Owner *owner; char reserved04[0x24]; int localPosition[3];
     char reserved34[0x1C8]; int position[3]; char reserved208[0x30]; Matrix *transforms;
 } Instance;
-typedef struct { int reserved[2]; Instance *instance; } Actor;
+typedef RoomM350Actor Actor;
 extern Actor *D_800F32D0;
 extern Instance *g_PlayerEntity;
 extern void *D_800B0E64;

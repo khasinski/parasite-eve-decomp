@@ -25,4 +25,15 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350TransformMatrix, position) == 0x14,
 PE1_STATIC_ASSERT(sizeof(RoomM350TransformMatrix) == 0x20,
                   room_m350_transform_matrix_size);
 
+struct RoomM350Instance;
+typedef struct RoomM350Actor {
+    int reserved[2];
+    struct RoomM350Instance *instance;
+} RoomM350Actor;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350Actor, instance) == 8,
+                  room_m350_actor_instance_offset);
+PE1_STATIC_ASSERT(sizeof(RoomM350Actor) == 0x0C,
+                  room_m350_actor_size);
+
 #endif /* ROOM_M350_SHARED_H */

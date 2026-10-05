@@ -5,14 +5,14 @@ typedef struct { Vector velocity; short x, y, z; unsigned char stopped, pad; } P
 
 typedef struct { int reserved[2]; int soundMode; } Owner;
 typedef struct { char reserved[0xF4]; int position[3]; } Transform;
-typedef struct {
+typedef struct RoomM350Instance {
     Owner *owner;
     char reserved04[0x3A - sizeof(Owner *)];
     unsigned short yaw;
     char reserved3C[0x1FC];
     Transform *transform;
 } Instance;
-typedef struct { int reserved[2]; Instance *instance; } Actor;
+typedef RoomM350Actor Actor;
 typedef struct { char reserved[0x1FC]; int position[3]; } Player;
 extern RoomM350Emitter *D_800F33E0;
 extern Actor *D_800F32D0;

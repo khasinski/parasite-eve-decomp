@@ -1,7 +1,7 @@
 #include "room_m350_shared.h"
 typedef RoomM350TransformMatrix Matrix;
-typedef struct { char reserved[0x238]; Matrix *transforms; } Instance;
-typedef struct { int reserved[2]; Instance *instance; } Actor;
+typedef struct RoomM350Instance { char reserved[0x238]; Matrix *transforms; } Instance;
+typedef RoomM350Actor Actor;
 
 typedef struct { short x, y, z, velocityY, gravity, reserved; } Particle;
 extern Actor *D_800F32D0;

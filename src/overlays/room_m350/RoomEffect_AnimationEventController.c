@@ -5,7 +5,7 @@ typedef RoomM350TransformMatrix Matrix;
 typedef struct { unsigned char frame,slot,value,pad; } Event;
 typedef struct { Event entries[8]; } Events;
 typedef struct { char reserved[0x18]; unsigned char *status; } Owner;
-typedef struct {
+typedef struct RoomM350Instance {
     Owner *owner;
     char reserved04[10];
     unsigned char animation,frameCount;
@@ -18,7 +18,7 @@ typedef struct {
     char reserved3C[0x1AC];
     Matrix transform;
 } Instance;
-typedef struct { int reserved[2]; Instance *instance; } Actor;
+typedef RoomM350Actor Actor;
 extern Actor *D_800F32D0;
 extern Instance *g_PlayerEntity;
 extern Events D_8018F1CC;

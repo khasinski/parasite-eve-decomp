@@ -1,8 +1,8 @@
 #include "room_m350_shared.h"
 typedef RoomM350Vector Vector;
 typedef struct { Vector position; short delay,reserved; } Particle;
-typedef struct { char reserved[0x3A]; unsigned short yaw; } Instance;
-typedef struct { int reserved[2]; Instance *instance; } Actor;
+typedef struct RoomM350Instance { char reserved[0x3A]; unsigned short yaw; } Instance;
+typedef RoomM350Actor Actor;
 typedef struct { Vector positions[8]; char reserved40[8]; short count; } Queue;
 
 typedef struct { signed int unused : 16; signed int value : 16; } SignedHalf;
