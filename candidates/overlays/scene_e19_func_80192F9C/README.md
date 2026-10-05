@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **40927**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **30618**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Four register pins and two empty barriers are recorded below. There is no CPU ASM.
@@ -9,7 +9,7 @@ individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2362. These counts are descriptive, not the match metric.
+retained candidate has 2372. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -103,3 +103,21 @@ checks, not proof that pins are intrinsically necessary in every source shape.
 
 Unifying all render parameter globals into the shared aggregate was also tried;
 that variant scored 53413 from the earlier 48132 baseline and is not retained.
+
+## Texture selection pass
+
+The page-index views at D_800E11EA and D_800E11FA are now explicitly typed as
+halfword array elements. The previous scalar declaration prevented GCC from
+retaining the index address across calls; the byte addresses and values are
+unchanged. The alternate access at D_800E11FA - 0x10 is expressed directly as
+D_800E11EA[0]. These changes reduce score from 40927 to 37023.
+
+The ten repeated texture setup sequences now call GetTPage (func_80077A64),
+combine the returned page bits with the page table, then read the palette row.
+This follows the retail call/read ordering and reduces score to 30618. The
+palette row is represented by one reused `paletteRow` variable, with no score
+change. Reusing one page variable as well scored 30763 and was not retained.
+No additional pins or barriers were added in this pass.
+
+A stock GCC 2.8.1 probe of this source scored 84105; GCC 2.7.2 remains the
+retained compiler (30618), recompiled and rescored after the probe.

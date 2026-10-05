@@ -8,8 +8,8 @@ extern u16 D_800942EC;
 extern void **D_8009D254;
 #include "pe1/room_sound_slot.h"
 extern RoomSoundSlot D_800B0E64;
-extern u16 D_800E11EA;
-extern M2C_UNK D_800E11FA;
+extern u16 D_800E11EA[1];
+extern u16 D_800E11FA[1];
 extern u16 D_800E120A;
 extern void *D_800E2368;
 extern s16 D_800F336E;
@@ -177,16 +177,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect_arg) {
     s32 var_v1_9;
     u16 temp_v0_16;
     u16 temp_v1_2;
-    u16 var_a2;
-    u16 var_a2_10;
-    u16 var_a2_11;
-    u16 var_a2_3;
-    u16 var_a2_4;
-    u16 var_a2_5;
-    u16 var_a2_6;
-    u16 var_a2_7;
-    u16 var_a2_8;
-    u16 var_a2_9;
+    u16 paletteRow;
     u16 var_v1_2;
     u32 temp_v0_17;
     u32 temp_v0_18;
@@ -368,7 +359,7 @@ block_161:
             D_800F3378 = 0x40;
             D_800F336C = 3;
             D_800F336E = 1;
-            D_800F3370 = D_800E2850[M2C_FIELD(&D_800E11FA, u16 *, 0)];
+            D_800F3370 = D_800E2850[D_800E11FA[0]];
             if (D_800E27EC & 1) {
                 var_s3 = (var_s3 * 2) / 3;
             }
@@ -389,7 +380,7 @@ block_161:
             D_800F3378 = 0x40;
             D_800F336C = 3;
             D_800F336E = 1;
-            D_800F3370 = D_800E2850[M2C_FIELD(&D_800E11FA, u16 *, 0)];
+            D_800F3370 = D_800E2850[D_800E11FA[0]];
             temp_s6 = effect->timer << 6;
             if (D_800E27EC & 1) {
                 var_s3_2 = 0x55;
@@ -420,13 +411,14 @@ block_161:
             sp48.z = D_800E27EC << 5;
             D_800F336C = 3;
             D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA];
-            var_a2 = D_800E1204[D_800F336C];
-            temp_s0 = (D_800E2850[D_800E11EA] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            temp_s0 = func_80077A64(0, 1, 0, 0);
+            temp_s0 = (D_800E2850[D_800E11EA[0]] | temp_s0) & 0xFFFF;
+            paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
-                var_a2 += 4;
+                paletteRow += 4;
             }
-            func_800C6EC0(temp_s0, func_80077AA4(0x20, (s32) var_a2) & 0xFFFF);
+            func_800C6EC0(temp_s0, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754(&sp48, &sp80);
             temp_v0_8 = (s32) (var_s4 + ((u32) var_s4 >> 0x1F)) >> 1;
@@ -475,7 +467,7 @@ block_161:
             D_800F336A = 4;
             D_800F3376 = 0x40;
             D_800F3378 = 0x40;
-            D_800F3370 = D_800E2850[M2C_FIELD(&D_800E11FA, u16 *, 0)];
+            D_800F3370 = D_800E2850[D_800E11FA[0]];
             D_800F336C = 3;
             D_800F336E = 1;
             temp_s6_2 = effect->timer << 6;
@@ -499,9 +491,9 @@ block_161:
             sp48.z = D_800E27EC << 5;
             D_800F3368.palette = 3;
             D_800F3368.parameter06 = 0;
-            D_800F3368.tpage = D_800E2850[M2C_FIELD(&D_800E11FA, u16 *, -0x10)];
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
             var_v1_2 = D_800E1204[D_800F3368.palette];
-            temp_s0_2 = (D_800E2850[M2C_FIELD(&D_800E11FA, u16 *, -0x10)] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            temp_s0_2 = (D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
             if ((D_800F3368.palette == 4) && (D_800F3428 != 0)) {
                 var_v1_2 += 4;
             }
@@ -616,13 +608,14 @@ block_84:
             sp48.z = 0;
             D_800F336C = 3;
             D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA];
-            var_a2_3 = D_800E1204[D_800F336C];
-            temp_s0_3 = (D_800E2850[D_800E11EA] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            temp_s0_3 = func_80077A64(0, 1, 0, 0);
+            temp_s0_3 = (D_800E2850[D_800E11EA[0]] | temp_s0_3) & 0xFFFF;
+            paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
-                var_a2_3 += 4;
+                paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_3, func_80077AA4(0x20, (s32) var_a2_3) & 0xFFFF);
+            func_800C6EC0(temp_s0_3, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &spF0);
             sp110.x = temp_s4_2;
@@ -653,13 +646,14 @@ block_84:
             sp48.y = D_800E27EC * -0x30;
             D_800F336C = 3;
             D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA];
-            var_a2_4 = D_800E1204[D_800F336C];
-            temp_s0_4 = (D_800E2850[D_800E11EA] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            temp_s0_4 = func_80077A64(0, 1, 0, 0);
+            temp_s0_4 = (D_800E2850[D_800E11EA[0]] | temp_s0_4) & 0xFFFF;
+            paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
-                var_a2_4 += 4;
+                paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_4, func_80077AA4(0x20, (s32) var_a2_4) & 0xFFFF);
+            func_800C6EC0(temp_s0_4, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp120);
             sp140.x = temp_s4_3;
@@ -690,13 +684,14 @@ block_84:
             sp48.y = D_800E27EC * -0x20;
             D_800F336C = 3;
             D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA];
-            var_a2_5 = D_800E1204[D_800F336C];
-            temp_s0_5 = (D_800E2850[D_800E11EA] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            temp_s0_5 = func_80077A64(0, 1, 0, 0);
+            temp_s0_5 = (D_800E2850[D_800E11EA[0]] | temp_s0_5) & 0xFFFF;
+            paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
-                var_a2_5 += 4;
+                paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_5, func_80077AA4(0x20, (s32) var_a2_5) & 0xFFFF);
+            func_800C6EC0(temp_s0_5, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             temp_s7 = sp30.y;
             sp30.y = temp_s7 - (effect->timer * 0x18);
@@ -760,13 +755,14 @@ block_84:
             sp48.y = (D_800E27EC << 5) + 0x400;
             D_800F336C = 3;
             D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA];
-            var_a2_6 = D_800E1204[D_800F336C];
-            temp_s0_6 = (D_800E2850[D_800E11EA] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            temp_s0_6 = func_80077A64(0, 1, 0, 0);
+            temp_s0_6 = (D_800E2850[D_800E11EA[0]] | temp_s0_6) & 0xFFFF;
+            paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
-                var_a2_6 += 4;
+                paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_6, func_80077AA4(0x60, (s32) var_a2_6) & 0xFFFF);
+            func_800C6EC0(temp_s0_6, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp180);
             sp1A0.x = temp_s4_7;
@@ -796,13 +792,14 @@ block_84:
             sp48.y = D_800E27EC << 5;
             D_800F336C = 3;
             D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA];
-            var_a2_7 = D_800E1204[D_800F336C];
-            temp_s0_7 = (D_800E2850[D_800E11EA] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            temp_s0_7 = func_80077A64(0, 1, 0, 0);
+            temp_s0_7 = (D_800E2850[D_800E11EA[0]] | temp_s0_7) & 0xFFFF;
+            paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
-                var_a2_7 += 4;
+                paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_7, func_80077AA4(0x60, (s32) var_a2_7) & 0xFFFF);
+            func_800C6EC0(temp_s0_7, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             var_s0_2 = &sp1B0;
             func_80079754((GteShortVector *) &sp48, var_s0_2);
@@ -840,13 +837,14 @@ block_158:
             sp48.y = D_800E27EC << 5;
             D_800F336C = 3;
             D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA];
-            var_a2_8 = D_800E1204[D_800F336C];
-            temp_s0_8 = (D_800E2850[D_800E11EA] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            temp_s0_8 = func_80077A64(0, 1, 0, 0);
+            temp_s0_8 = (D_800E2850[D_800E11EA[0]] | temp_s0_8) & 0xFFFF;
+            paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
-                var_a2_8 += 4;
+                paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_8, func_80077AA4(0x20, (s32) var_a2_8) & 0xFFFF);
+            func_800C6EC0(temp_s0_8, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp1E0);
             sp200.x = temp_s4_9;
@@ -877,13 +875,14 @@ block_158:
             sp48.y = D_800E27EC * -0x20;
             D_800F336C = 3;
             D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA];
-            var_a2_9 = D_800E1204[D_800F336C];
-            temp_s0_9 = (D_800E2850[D_800E11EA] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            temp_s0_9 = func_80077A64(0, 1, 0, 0);
+            temp_s0_9 = (D_800E2850[D_800E11EA[0]] | temp_s0_9) & 0xFFFF;
+            paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
-                var_a2_9 += 4;
+                paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_9, func_80077AA4(0x20, (s32) var_a2_9) & 0xFFFF);
+            func_800C6EC0(temp_s0_9, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             temp_s7_2 = sp30.y;
             sp30.y = temp_s7_2 - ((effect->timer + 0x20) * 0x18);
@@ -916,13 +915,14 @@ block_158:
             sp48.y = (D_800E27EC << 5) + 0x400;
             D_800F336C = 3;
             D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA];
-            var_a2_10 = D_800E1204[D_800F336C];
-            temp_s0_10 = (D_800E2850[D_800E11EA] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            temp_s0_10 = func_80077A64(0, 1, 0, 0);
+            temp_s0_10 = (D_800E2850[D_800E11EA[0]] | temp_s0_10) & 0xFFFF;
+            paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
-                var_a2_10 += 4;
+                paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_10, func_80077AA4(0x60, (s32) var_a2_10) & 0xFFFF);
+            func_800C6EC0(temp_s0_10, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp240);
             sp260.x = temp_s4_11;
@@ -952,13 +952,14 @@ block_158:
             sp48.y = D_800E27EC << 5;
             D_800F336C = 3;
             D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA];
-            var_a2_11 = D_800E1204[D_800F336C];
-            temp_s0_11 = (D_800E2850[D_800E11EA] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            temp_s0_11 = func_80077A64(0, 1, 0, 0);
+            temp_s0_11 = (D_800E2850[D_800E11EA[0]] | temp_s0_11) & 0xFFFF;
+            paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
-                var_a2_11 += 4;
+                paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_11, func_80077AA4(0x60, (s32) var_a2_11) & 0xFFFF);
+            func_800C6EC0(temp_s0_11, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             var_s0_2 = &sp270;
             func_80079754((GteShortVector *) &sp48, var_s0_2);
@@ -981,7 +982,7 @@ block_158:
         D_800F336C = 3;
         D_800F336E = 0;
         D_800F3372 = 0;
-        D_800F3370 = D_800E2850[D_800E11EA];
+        D_800F3370 = D_800E2850[D_800E11EA[0]];
         goto block_161;
     }
     }
