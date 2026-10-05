@@ -2160,3 +2160,27 @@ All single and paired removals of these pins, constraints, and reservations
 failed to retain the exact match. Removing each individual register from
 the empty clobber lists also broke it. These are matching constraints,
 not evidence of original source annotations or a different calling convention.
+
+### Object renderer matrix columns (`Render_DrawObject`)
+
+The renderer's `Draw_LoadAxis`/`Draw_StoreAxis` helpers now express all
+strided halfword loads and stores in C. They use individual `gte_mtc2_*`
+and `gte_mfc2_*` transfers around the existing single RTIR command and its
+allowed NOPs. Stock native GCC 2.7.2 and stock MASPSX 2.56, with the TU's
+existing `-G8`, reproduce all 868 retail bytes at `0x8003B97C` (score 0).
+No compiler flags or tools were changed for this conversion.
+
+Added matching debt: each column helper pins its three transfer words to
+`t4`–`t6`. The first input column is pinned to `t8`, the first output to
+`a1`, and the outer matrix pointer also stays in `t8`, avoiding an extra
+copy and saved register. Later columns allocate their addresses naturally.
+Each helper has one empty address constraint; the store helper additionally
+has a memory barrier and volatile halfword writes. These three constraint
+definitions are each expanded three times.
+
+The removal pass tested 136 single/pair combinations and removed four
+redundant address pins. No further single or paired removal of the remaining
+12 added pin/constraint declarations retained the match. The lexical debt
+counter groups each three-word transfer declaration as one pin entry, so
+it records five added pin declarations and three barriers. Existing frame
+padding, gotos, volatile shade reads and older constraints remain unchanged.
