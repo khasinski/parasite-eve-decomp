@@ -1,16 +1,10 @@
-#include "room_m350_shared.h"
+#include "room_m350_turn_sequence.h"
 #include "pe1/gte.h"
 typedef RoomM350Vector Vector;
 typedef RoomM350TransformMatrix Matrix;
 typedef RoomM350Action Action;
-typedef struct { unsigned int flags; char reserved04[20]; Action *action; } Owner;
-typedef struct RoomM350Instance {
-    Owner *owner; char reserved04[10]; unsigned char animation,length;
-    char reserved10[4]; unsigned int frame;
-    char reserved18[34]; short yaw;
-    char reserved3C[0x1C0]; Vector position;
-    char reserved204[0x34]; Matrix *transforms;
-} Instance;
+typedef RoomM350TurnSequenceOwner Owner;
+typedef RoomM350Instance Instance;
 typedef RoomM350Actor Actor;
 extern Actor *D_800F32D0;
 extern Instance *D_8019A7F8,*g_PlayerEntity;
