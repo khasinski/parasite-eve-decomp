@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **4909**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **4889**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Eight register pins and eight empty barriers are recorded below. There is no CPU ASM.
@@ -526,3 +526,29 @@ All trials ran on darwine using the existing stock toolchain and weighted
 Levenshtein scorer. The canonical candidate was recompiled afterward and
 reproduces 4909. Artifacts are unpin4909_*, drop4909_*, *_4909 and
 remainder800_high in the existing research directory. No search is running.
+
+## Scoped palette coordinate and bounded exhaustive searches
+
+The retained candidate now scores **4889**. In draw state 2, the palette
+coordinate used for the streak model is a block-local paletteY instead of
+the function-wide paletteRow. The arithmetic, globals read and call order
+are unchanged. A fresh compile of the final named/indented source reproduces
+4889. No new pin, barrier or helper is added.
+
+An exhaustive darwine search covered all 5040 orders of the seven independent
+parameter stores in draw state 0. All compiled; none improved the 4909 base.
+Results and best source snapshots are in store_order_full/. A separate
+120-second, 24-worker permuter run restricted to the ring setup and loop
+completed 14,075 iterations with nine rejected compilations, with no better
+score. Its artifacts are in permuter_ring_focus/; the run has stopped.
+
+Early selector loads and guards, tied ring index/angle pins, longer angle
+lifetimes, model phase/height pins and guards, and swapping rotation-X with
+the parameter06 zero store were neutral or worse. None was retained.
+Per-state local-variable trials scored 4909 (modelPhase), 4949 (verticalScale),
+5912 (radialScale), 6537 (intensity), 4889 (paletteRow), 4909 (texturePage),
+and 6260 (all six). Isolating just the retained palette scope achieves the
+same improvement with the smallest source change. Trial families are
+early_page_*, ring_bound_*, ring_lifetime_*, model_bound_*, matrix_clobber_*,
+ring_split_*, swap_zero_*, state_locals_* and palette_scopes_* in the research
+directory. The production function remains original assembly.
