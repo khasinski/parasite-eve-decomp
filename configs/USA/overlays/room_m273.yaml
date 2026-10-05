@@ -140,10 +140,8 @@ segments:
       - [0x7F44, c, RoomEffect_BatchRising]
       # Sized-table, timed, and position-layer sprite pools share one TU.
       - [0x8248, c, RoomEffect_RisingSpritePoolFlow]
-      - [0x8BD4, c, RoomEffect_BossSweepController]
-      - [0x9078, c, func_80198060]
-      - [0x91BC, c, RoomEffect_SwayShardCallback]
-      - [0x9700, c, RoomEffect_SwayShardController]
+      # Boss sweep position and its shard/pool callbacks share the boss state ABI.
+      - [0x8BD4, c, RoomM273BossSwayFlow]
       # The emitter creates the callback's eight-byte record pool; SHA-verified as one TU.
       - [0x9B34, c, RoomEffect_GatedGroundPair]
       # The paired emitter registers and allocates records consumed by the ground-ring callback.
