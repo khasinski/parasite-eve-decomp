@@ -1350,9 +1350,8 @@ segments:
       - [0x765C0, pad]
       - [0x765C4, c, psyq/libspu/s_cb]
       - [0x765E8, pad]
-      - [0x765F4, c, akao/Spu_ReadFromSpu]
-      - [0x76650, pad]
-      - [0x76654, c, akao/Spu_UploadToSpu]
+      # SPU read/upload APIs share transfer limits, callback state, and DMA status.
+      - [0x765F4, c, akao/Spu_ReadUploadFlow]
       - [0x766B0, pad]
       - [0x766B4, c, akao/Spu_WriteRegChecked]
       - [0x76710, pad]
