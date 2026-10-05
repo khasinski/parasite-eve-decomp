@@ -44,3 +44,26 @@ A bounded run on darwine completed 32,443 permutations on 2026-10-05, including
 that run remains active. Compiler and assembler sources were not modified.
 Research artifacts: `scratch/scene_e20_8018F028` locally and
 `/home/hasik/fx-search-archives/scene_e20_8018F028` on darwine.
+
+## Additional pin trials (2026-10-05)
+
+A further 288 variants were compiled and linked on darwine with the same stock
+GCC 2.7.2 and MASPSX, then scored and compared against the 1832 retail bytes:
+
+- `newptr0..31`: typed `GteMatrixWords` access, explicit t0 matrix-pointer
+  pins, optional v0 slot pins, memory/input barriers, and shared transfer pins.
+- `explicithigh{0,1,2}_0..63`: separately pinned numerators and results at
+  the three differing arithmetic sites, including C 64-bit high products.
+- `ptrlife0..63`: early-clobber pointer constraints, keeping the slot address
+  live, splitting the translation pointer, and volatile matrix reads.
+
+None matched or improved on score 30. The explicit t0 pointer variant changes
+the second damping result to t2 and leaves glow/fade results in t1; it does not
+solve the arithmetic allocation. Explicit 64-bit high products introduce
+additional instructions, and some variants spill to the stack. The retained
+candidate is unchanged. Pins remain allowed; these trials do not establish
+that a pin-based solution is impossible.
+
+The three result logs (`newptr.results`, `explicithigh.results`, and
+`ptrlife.results`) and per-variant linked diffs are in the darwine research
+directory above. All batches finished; no permuter was started for these trials.
