@@ -2,8 +2,7 @@
 #include "pe1/render_object.h"
 
 typedef struct { short x,y,z,frame; } Particle;
-typedef RoomM350TransformMatrix Transform;
-typedef struct { char reserved[0x238]; Transform *transforms; } Instance;
+typedef RoomM350TransformOwner Instance;
 
 typedef RoomM350SignedHalfPair SignedHalf;
 
