@@ -773,8 +773,6 @@ segments:
       - [0x562D4, c, menu/Menu_SetSlotEntry]
       - [0x56370, c, menu/Menu_InitGlobals]
       - [0x56438, c, render/Render_CameraViewportFlow]
-      # GTE screen-offset setter and resetter are one helper object.
-      - [0x569A4, c, render/Render_GteScreenOffset]
       - [0x569EC, c, render/Render_SetScrollMode]
       - [0x56A68, c, render/Scene_IsNotBattleMode]
       - [0x56DA0, c, render/Render_UpdateScrollPosition]
