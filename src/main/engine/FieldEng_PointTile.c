@@ -1,6 +1,10 @@
 #include "pe1/gte.h"
 #include "pe1/field_tile.h"
 
+/* Matching debt: one SZ3 transfer pin and one empty depth-pointer constraint
+ * per function. The shifts and stores are C; GTE transfers, commands and
+ * hazard nops are separate macros. */
+
 /* Projected one-pixel tile plus a 3x3 halo at a quarter of its colour. */
 void func_800D1DEC(GteShortVector *position, u8 *color, int scale, int abr)
 {
@@ -16,8 +20,11 @@ void func_800D1DEC(GteShortVector *position, u8 *color, int scale, int abr)
     D_8009CDD8 += sizeof(FieldTilePoint);
     glow = (RenderTintTile *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
     D_8009CDD8 += sizeof(RenderTintTile);
-    gte_ldv0(position);
-    gte_rtps();
+    gte_lwc2_0_0(position);
+    gte_lwc2_1_4(position);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_rtps_command();
     SetTile1(point);
     Gpu_SetDither(point, 1);
     SetTile(glow);
@@ -28,7 +35,15 @@ void func_800D1DEC(GteShortVector *position, u8 *color, int scale, int abr)
     glow->g >>= 2;
     glow->b >>= 2;
     gte_stsxy2(&point->x);
-    gte_stszotz(&depth);
+    {
+        register s32 z asm("$12");
+        s32 *out = (s32 *)&depth;
+        asm volatile("" : "=r"(out) : "0"(out));
+        gte_getsz3(z);
+        gte_cop2_hazard_slot();
+        z >>= 2;
+        *out = z;
+    }
     depth -= (u16)D_800F3374;
     if (depth < 0x1000) {
         glow->x = point->x - 1;
@@ -66,14 +81,25 @@ void func_800D2104(GteShortVector *position, u8 *color, int scale, int abr)
 
     tile = (FieldTilePoint *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
     D_8009CDD8 += sizeof(FieldTilePoint);
-    gte_ldv0(position);
-    gte_rtps();
+    gte_lwc2_0_0(position);
+    gte_lwc2_1_4(position);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_rtps_command();
     SetTile1(tile);
     tile->r = color[0] * scale / 128;
     tile->g = color[1] * scale / 128;
     tile->b = color[2] * scale / 128;
     gte_stsxy2(&tile->x);
-    gte_stszotz(&depth);
+    {
+        register s32 z asm("$12");
+        s32 *out = (s32 *)&depth;
+        asm volatile("" : "=r"(out) : "0"(out));
+        gte_getsz3(z);
+        gte_cop2_hazard_slot();
+        z >>= 2;
+        *out = z;
+    }
     depth -= (u16)D_800F3374;
     if (depth < 0x1000) {
         TILE_OT_ENTRY(ot, table, D_800B0E38.ordering[D_8009CDDC], depth);
