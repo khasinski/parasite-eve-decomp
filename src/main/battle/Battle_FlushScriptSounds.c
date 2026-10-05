@@ -1,14 +1,16 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
+#include "pe1/battle.h"
+
 extern unsigned char D_8009D1D4;
 extern unsigned char D_8009CE3C;
 extern unsigned short D_800BE834[];
-extern struct { char _[16]; } D_8009D1A0_r __asm__("D_8009D1A0");
-extern struct { char _[16]; } D_8009D1A0_w __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_r __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_w __asm__("D_8009D1A0");
 
-#define D_8009D1A0_R (*(int *)&D_8009D1A0_r)
-#define D_8009D1A0_W (*(int *)&D_8009D1A0_w)
+#define D_8009D1A0_R (D_8009D1A0_r.flags)
+#define D_8009D1A0_W (D_8009D1A0_w.flags)
 
 int Inv_AddItem(int slot);
 
