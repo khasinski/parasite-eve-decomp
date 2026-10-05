@@ -1,4 +1,4 @@
-/* Arc sprite callback, its pool controller, and adjacent seed helper. */
+/* Arc spawn-state helper, callback, and pool controller. */
 #include "common.h"
 #include "room_m273_arc.h"
 #include "pe1/scene_fx.h"
@@ -12,6 +12,24 @@ void func_800D004C(RoomM273ArcCallbackState *state, s32 scale0, s32 scale1,
                    s32 count, volatile s16 *rotation, s32 offset0,
                    s32 offset1, void *resource0, void *resource1, s32 angle,
                    s32 one);
+
+extern short D_8019AF56;
+extern short D_8019AF58;
+extern short D_8019AF5A;
+extern short D_8019AF5C;
+extern short D_8019AF64;
+extern u16 D_8019AEFC;
+
+void *func_8019A5D4(int unused, int value, int flag) {
+    D_8019AF56 = value;
+    D_8019AF58 = value;
+    value++;
+    D_8019AF5C = value * 6;
+    D_8019AF5A = flag;
+    D_8019AF64 = flag != 0 ? 0x52 : 0xE;
+
+    return &D_8019AEFC;
+}
 
 #include "common.h"
 
