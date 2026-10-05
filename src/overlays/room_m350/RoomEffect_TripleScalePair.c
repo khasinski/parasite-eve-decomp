@@ -3,7 +3,7 @@
 
 typedef RoomM350Vector Vector;
 typedef struct { Vector *position; } Particle;
-typedef struct {
+typedef struct RoomM350Instance {
     char reserved[14];
     unsigned char animation;
     char reserved0F[7];
@@ -11,7 +11,7 @@ typedef struct {
     short reserved18;
     unsigned short previousFrame;
 } Instance;
-typedef struct { int reserved[2]; Instance *instance; } Actor;
+typedef RoomM350Actor Actor;
 
 
 /* The controller owns the position pointers rendered by this callback. */
