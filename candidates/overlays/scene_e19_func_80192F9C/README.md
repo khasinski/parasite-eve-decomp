@@ -1,14 +1,15 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **56674**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **48132**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
--mcpu=3000`), stock MASPSX 2.56 and the repository's scoring configuration.
-There are no register pins, empty barriers or CPU ASM. GTE transfers use
+-mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
+There are no register pins or CPU ASM. Two empty barriers are recorded below.
+GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2386. These counts are descriptive, not the match metric.
+retained candidate has 2396. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -57,3 +58,31 @@ the other shift/rounding pattern increased score to 57714 and was not retained.
 A single experimental effect-pointer pin to s5 scored 55522, but is kept only
 in scratch: allocation work is premature while source recovery is incomplete.
 The retained candidate remains unpinned.
+
+## Arithmetic and source-shape pass
+
+The original at `0x80193F9C..0x80193FC4` computes signed `(cosine * 2) / 3`.
+The first m2c recovery mistakenly emitted that division and then subtracted
+its sign again. For cosine -4096 that yielded -2729 instead of -2730.
+The candidate now performs the correction only once. The ring loop is a
+sixteen-iteration `for`, replacing reconstructed induction temporaries and
+`do/while`. Together these changes score 55922.
+
+The two particle-spawn paths use a divisor held in a register for `% 512`,
+including signed division guards. Hiding only the divisor constant from GCC
+with empty tied-operand barriers reproduces that instruction family and lowers
+score to 49547. The source retains the existing shared `RoomSoundSlot` view
+for the sound/archive pointer, lowering score further to 48132. This allows
+GCC to retain the address across repeated resource calls, as retail does.
+
+### Candidate debt
+
+- Two empty tied-operand barriers, one before each particle allocation, keep
+  the spread value in a register instead of constant-folding remainder by 512.
+  They contain no CPU instruction and do not change the spread value.
+- No pins. No padding reserves. Individual GTE transfer macros remain.
+- `--expand-div` is an existing stock maspsx option, not an assembler patch.
+
+These are research-candidate costs, not production debt: the function is still
+original assembly in the build. Record them in the production ratchet if and
+when this candidate reaches zero and is integrated.
