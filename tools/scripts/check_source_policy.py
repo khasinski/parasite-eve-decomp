@@ -2,6 +2,7 @@
 """Reject source forms that can hide copied game assembly in src/."""
 from __future__ import annotations
 
+import ast
 import json
 import pathlib
 import re
@@ -11,10 +12,12 @@ from collections import Counter
 import yaml
 
 try:
-    from source_quality import (GAME_ASM_USE, PSYQ_ASM_USE, classify,
-                                has_instruction_asm, strip_comments)
+    from source_quality import (C_STRING, FUNCTION_DEF, GAME_ASM_USE, PSYQ_ASM_USE,
+                                STACK_SWITCH_USE, classify, has_instruction_asm,
+                                strip_comments)
 except ImportError:
-    from tools.scripts.source_quality import (GAME_ASM_USE, PSYQ_ASM_USE, classify,
+    from tools.scripts.source_quality import (C_STRING, FUNCTION_DEF, GAME_ASM_USE,
+                                              PSYQ_ASM_USE, STACK_SWITCH_USE, classify,
                                               has_instruction_asm, strip_comments)
 
 
@@ -235,6 +238,117 @@ def original_asm_manifest_errors(src=SRC, configs=None, manifest_path=None):
     return errors
 
 
+# The complete instruction text of include/pe1/boot_stack.h: park $sp in the
+# top scratchpad word, point $sp below it, and after the call step back up and
+# reload it. The macro may not grow beyond this window.
+STACK_SWITCH_HEADER = "include/pe1/boot_stack.h"
+STACK_SWITCH_WINDOW = [
+    ["move $8,%0", "sw $29,0($8)", "addiu $8,$8,-4", "move $29,$8"],
+    ["addiu $29,$29,4", "lw $29,0($29)"],
+]
+ASM_STATEMENT = re.compile(r'__asm__\s+volatile\s*\(\s*((?:%s\s*)+)' % C_STRING, re.S)
+
+
+def stack_switch_window(text):
+    """Instruction lists of each asm statement in the stack-switch header."""
+    text = re.sub(r"\\\r?\n", "", text)
+    windows = []
+    for match in ASM_STATEMENT.finditer(text):
+        body = "".join(ast.literal_eval(part) for part in re.findall(C_STRING, match.group(1)))
+        windows.append([line.strip() for line in body.split("\n") if line.strip()])
+    return windows
+
+
+def enclosing_function(code, offset):
+    """Name of the C function whose definition precedes `offset`, if any."""
+    name = None
+    for match in FUNCTION_DEF.finditer(code, 0, offset):
+        name = re.search(r"([A-Za-z_]\w*)\s*\([^;{}]*\)\s*\{$", match.group()).group(1)
+    return name
+
+
+def stack_switch_errors(src=SRC, configs=None, manifest_path=None, header=None):
+    """BOOT_CALL_ON_SCRATCHPAD_STACK is only for listed, evidenced functions.
+
+    Each listed entry names a function, its unit and its retail range; the
+    unit uses the macro exactly once per listed function, inside that
+    function, has no other instruction asm (it classifies as semantic_c), and
+    the function lies inside the unit's yaml range. The header keeps exactly
+    the six-instruction window, and nothing else defines the macro.
+    """
+    root = src.parent
+    configs = configs or root / "configs/USA"
+    manifest_path = manifest_path or configs / "original_asm_evidence.json"
+    header = header or root / STACK_SWITCH_HEADER
+    errors = []
+    entries = (json.loads(manifest_path.read_text()).get("stack_switch_macros", [])
+               if manifest_path.exists() else [])
+    if header.exists() and stack_switch_window(header.read_text()) != STACK_SWITCH_WINDOW:
+        errors.append("%s no longer holds exactly the scratchpad stack-switch window"
+                      % STACK_SWITCH_HEADER)
+    by_source = {}
+    for entry in entries:
+        label = entry.get("name", "?")
+        missing = [key for key in ("name", "module", "source", "address", "size",
+                                   "evidence", "verified_by") if not entry.get(key)]
+        if missing:
+            errors.append("stack-switch entry %s lacks %s" % (label, ", ".join(missing)))
+            continue
+        by_source.setdefault(entry["source"], []).append(entry)
+
+    for path in sorted((root / "include").rglob("*.h")):
+        if path != header and re.search(
+                r"#\s*define\s+BOOT_CALL_ON_SCRATCHPAD_STACK\b",
+                strip_comments(path.read_text(errors="ignore"))):
+            errors.append("stack-switch macro redefined outside %s: %s"
+                          % (STACK_SWITCH_HEADER, path.relative_to(root)))
+
+    used = set()
+    yaml_ranges = {}
+    allowed = frozenset(by_source)
+    for path in sorted(list(src.rglob("*.c")) + list(src.rglob("*.inc")) + list(src.rglob("*.h"))):
+        rel = path.relative_to(src)
+        name = str(rel)
+        code = re.sub(C_STRING, '""', strip_comments(path.read_text(errors="ignore")))
+        if re.search(r"#\s*define\s+BOOT_CALL_ON_SCRATCHPAD_STACK\b", code):
+            errors.append("stack-switch macro redefined outside %s: %s"
+                          % (STACK_SWITCH_HEADER, name))
+        uses = [match.start() for match in STACK_SWITCH_USE.finditer(code)]
+        if not uses:
+            continue
+        listed = by_source.get(name)
+        if not listed or path.suffix != ".c":
+            errors.append("scratchpad stack switch without evidence: %s" % name)
+            continue
+        used.add(name)
+        if classify(path, allowed) != "semantic_c":
+            errors.append("stack-switch unit has other instruction asm: %s" % name)
+        functions = sorted(enclosing_function(code, offset) or "?" for offset in uses)
+        expected = sorted(entry["name"] for entry in listed)
+        if functions != expected:
+            errors.append("%s: stack switch used in %s, evidence lists %s"
+                          % (name, ", ".join(functions), ", ".join(expected)))
+        module = listed[0]["module"]
+        if module not in yaml_ranges:
+            config = (configs / "main.yaml" if module == "main"
+                      else configs / "overlays" / ("%s.yaml" % module))
+            yaml_ranges[module] = c_unit_ranges(config) if config.exists() else {}
+        lead = "main/" if module == "main" else "overlays/%s/" % module
+        unit = name[len(lead):].removesuffix(".c") if name.startswith(lead) else None
+        if unit not in yaml_ranges[module]:
+            errors.append("stack-switch source is not a %s yaml c unit: %s" % (module, name))
+            continue
+        start, end = yaml_ranges[module][unit]
+        for entry in listed:
+            address = int(entry["address"], 16)
+            if not start <= address < address + entry["size"] <= end:
+                errors.append("%s: %s 0x%08X+0x%X is outside the unit range 0x%08X..0x%08X"
+                              % (name, entry["name"], address, entry["size"], start, end))
+    for source in sorted(set(by_source) - used):
+        errors.append("stack-switch evidence lists %s, which does not use the macro" % source)
+    return errors
+
+
 def main() -> int:
     errors = []
     for path in SRC.rglob("*.s"):
@@ -246,6 +360,7 @@ def main() -> int:
         if ASM_INCLUDE.search(text):
             errors.append("assembler include under src/: %s" % path.relative_to(ROOT))
     allowed_asm_headers = {ROOT / "include" / "include_asm.h",
+                           ROOT / "include" / "pe1" / "boot_stack.h",
                            ROOT / "include" / "pe1" / "game_asm.h",
                            ROOT / "include" / "pe1" / "gte.h",
                            ROOT / "include" / "pe1" / "psyq_asm.h",
@@ -257,6 +372,7 @@ def main() -> int:
 
     errors.extend(psyq_asm_errors())
     errors.extend(original_asm_manifest_errors())
+    errors.extend(stack_switch_errors())
 
     counts = Counter(classify(path) for path in SRC.rglob("*.c"))
     if errors:

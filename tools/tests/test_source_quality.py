@@ -290,6 +290,35 @@ class SourceQualityTests(unittest.TestCase):
             '/* formerly GAME_ASM_FUNCTION(f, ...) */\n'
             'int f(void) { return 1; }\n'), "semantic_c")
 
+    STACK_SWITCH = (
+        '#include "pe1/boot_stack.h"\n'
+        'void main(void) {\n'
+        '    BOOT_CALL_ON_SCRATCHPAD_STACK(BOOT_SCRATCHPAD_STACK_TOP, f());\n'
+        '}\n')
+
+    def classify_unit(self, name, text, allowed=None):
+        with tempfile.TemporaryDirectory() as directory:
+            path = pathlib.Path(directory) / "src" / name
+            path.parent.mkdir(parents=True)
+            path.write_text(text)
+            return source_quality.classify(path, allowed)
+
+    def test_listed_stack_switch_is_semantic_c(self):
+        self.assertEqual(self.classify_unit(
+            "main/boot/Boot_MainLoop.c", self.STACK_SWITCH,
+            {"main/boot/Boot_MainLoop.c"}), "semantic_c")
+
+    def test_unlisted_stack_switch_is_asm_constrained(self):
+        self.assertEqual(self.classify_unit(
+            "main/boot/Other.c", self.STACK_SWITCH,
+            {"main/boot/Boot_MainLoop.c"}), "asm_constrained")
+
+    def test_stack_switch_does_not_excuse_other_asm(self):
+        self.assertEqual(self.classify_unit(
+            "main/boot/Boot_MainLoop.c",
+            self.STACK_SWITCH + 'void g(void) { asm volatile("nop"); }\n',
+            {"main/boot/Boot_MainLoop.c"}), "asm_constrained")
+
     def test_psyq_assembler_object_cannot_hide_c_functions(self):
         self.assertEqual(self.classify(
             'PSYQ_ASM_FUNCTION(f, "    jr $ra\\n" "    nop\\n");\n'

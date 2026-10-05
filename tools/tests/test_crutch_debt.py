@@ -86,6 +86,43 @@ class CrutchDebtTests(unittest.TestCase):
         self.assertEqual(totals["game_asm_units"], 0)
         self.assertEqual(dirty, 1)
 
+    def test_stack_switch_is_ratcheted_debt(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp) / "src"
+            boot = root / "main" / "boot"
+            boot.mkdir(parents=True)
+            (boot / "Boot_MainLoop.c").write_text(
+                'void main(void) {\n'
+                '    BOOT_CALL_ON_SCRATCHPAD_STACK(BOOT_SCRATCHPAD_STACK_TOP, f());\n'
+                '}\n')
+            source_quality = crutch_debt.classify.__globals__
+            original = source_quality["stack_switch_sources"]
+            source_quality["stack_switch_sources"] = lambda: {"main/boot/Boot_MainLoop.c"}
+            try:
+                _, totals, dirty, scopes = crutch_debt.collect_debt(root)
+            finally:
+                source_quality["stack_switch_sources"] = original
+
+        self.assertEqual(scopes["main"]["stack_switch_macros"], 1)
+        self.assertEqual(totals["asm_constrained_units"], 0)
+        self.assertEqual(totals["asm_bodies"], 0)
+        self.assertEqual(dirty, 1)
+
+    def test_unlisted_stack_switch_is_asm_constrained(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp) / "src"
+            boot = root / "main" / "boot"
+            boot.mkdir(parents=True)
+            (boot / "Other.c").write_text(
+                'void g(void) {\n'
+                '    BOOT_CALL_ON_SCRATCHPAD_STACK(BOOT_SCRATCHPAD_STACK_TOP, f());\n'
+                '}\n')
+
+            _, totals, _, scopes = crutch_debt.collect_debt(root)
+
+        self.assertEqual(scopes["main"]["stack_switch_macros"], 1)
+        self.assertEqual(totals["asm_constrained_units"], 1)
+
     def test_shared_header_alias_survives_declaration_move(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp) / "src"

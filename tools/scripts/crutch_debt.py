@@ -56,6 +56,11 @@ PATTERNS = {
     # new game-side assembler unit is the exemption most open to misuse, so
     # the ratchet names it on its own line. Not debt and never dirty.
     "game_asm_units": re.compile(r"(?!)"),
+    # Scratchpad stack switches (include/pe1/boot_stack.h): the only CPU asm
+    # allowed inside a C function, limited to the functions listed in
+    # configs/USA/original_asm_evidence.json. Debt, so the ratchet stops it
+    # from spreading.
+    "stack_switch_macros": re.compile(r"\bBOOT_CALL_ON_SCRATCHPAD_STACK\s*\("),
     "byte_pointer_arithmetic": re.compile(
         r"\(\s*(?:const\s+|volatile\s+)?(?:u8|s8|char)\s*\*\s*\)"
         r"(?!\s*\()[^;=\n]*\+"
@@ -97,8 +102,8 @@ ORDER = [
     "pointer_integer_casts", "field_macros", "pins", "barriers", "nop_barriers", "aliases",
     "asm_bodies", "directives", "gotos", "include_asm", "postpass",
     "statement_expressions", "unknown_fields", "declaration_overrides",
-    "externs_in_c", "stack_reserves", "dead_code", "original_asm_units",
-    "game_asm_units",
+    "externs_in_c", "stack_reserves", "dead_code", "stack_switch_macros",
+    "original_asm_units", "game_asm_units",
 ]
 HEAVY = [key for key in ORDER if key not in ("gotos", "original_asm_units", "game_asm_units")]
 
@@ -196,6 +201,8 @@ def render_report(per_sub, totals, dirty_files) -> str:
         "field-macro, statement-expression, unknown-field, and declaration-override columns "
         "track semantic/typing scaffolding. **asm_constrained_units** also sees asm "
         "in directly included C templates and is the progress-exclusion count. "
+        "**stack_switch_macros** = `BOOT_CALL_ON_SCRATCHPAD_STACK` scratchpad "
+        "stack switches, the one CPU-asm window allowed in an evidenced C function. "
         "**original_asm_units** = sanctioned reproductions of proven PSY-Q "
         "assembler objects and BIOS veneers (docs/ASM_AND_GTE_POLICY.md); "
         "**game_asm_units** = sanctioned reproductions of game routines proven to "

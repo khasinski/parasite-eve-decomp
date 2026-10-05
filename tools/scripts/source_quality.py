@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import ast
+import functools
+import json
 import pathlib
 import re
 
@@ -34,6 +36,13 @@ PSYQ_ASM_USE = re.compile(r'\bPSYQ_ASM_FUNCTION\s*\(')
 # configs/USA/original_asm_evidence.json may use it; check_source_policy.py
 # enforces that and the exact unit range.
 GAME_ASM_USE = re.compile(r'\bGAME_ASM_FUNCTION\s*\(')
+# The one CPU-asm window allowed inside a C function: the scratchpad stack
+# switch around a single call (include/pe1/boot_stack.h). Only functions listed
+# under "stack_switch_macros" in configs/USA/original_asm_evidence.json may use
+# it; check_source_policy.py enforces the list and crutch_debt.py ratchets it.
+STACK_SWITCH_USE = re.compile(r'\bBOOT_CALL_ON_SCRATCHPAD_STACK\s*\(')
+EVIDENCE = (pathlib.Path(__file__).resolve().parents[2]
+            / "configs" / "USA" / "original_asm_evidence.json")
 COP2_OP = re.compile(r'\b(?:cfc2|ctc2|lwc2|swc2|mfc2|mtc2)\b')
 # The audited PE1_NOP* macros emit only individually authorized scheduling
 # NOPs and remain semantic C with nop_barriers debt. Their definitions are
@@ -111,7 +120,16 @@ def has_instruction_asm(text: str) -> bool:
     return False
 
 
-def classify(path: pathlib.Path) -> str:
+@functools.lru_cache(maxsize=None)
+def stack_switch_sources(evidence: pathlib.Path = EVIDENCE) -> frozenset:
+    """src-relative paths of the units allowed to switch to the scratchpad stack."""
+    if not evidence.exists():
+        return frozenset()
+    entries = json.loads(evidence.read_text()).get("stack_switch_macros", [])
+    return frozenset(entry["source"] for entry in entries if entry.get("source"))
+
+
+def classify(path: pathlib.Path, stack_switch_allowed=None) -> str:
     text = path.read_text(errors="ignore")
     expanded = text + "\n" + included_inc_text(path, text)
     if "PSYQ_BIOS_TRAMPOLINE" in expanded or "PSYQ_BIOS_SYSCALL" in expanded:
@@ -129,6 +147,13 @@ def classify(path: pathlib.Path) -> str:
         return "text_data"
     if CPU_ASM_HELPERS.search(code):
         return "asm_constrained"
+    if STACK_SWITCH_USE.search(code):
+        # The macro hides CPU asm in a header, so only an evidenced user stays
+        # semantic C; anywhere else it is quarantined like any other asm.
+        allowed = (stack_switch_sources() if stack_switch_allowed is None
+                   else stack_switch_allowed)
+        if not any(path.as_posix().endswith("src/" + source) for source in allowed):
+            return "asm_constrained"
     if has_instruction_asm(expanded):
         return "asm_constrained"
     return "semantic_c"
