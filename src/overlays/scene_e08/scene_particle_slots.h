@@ -62,11 +62,20 @@ typedef struct SceneMovingSlots {
     s16 extraRadius[16];
 } SceneMovingSlots;
 
-typedef struct SceneMovingState {
+typedef struct SceneE08EffectState {
     u8 pad00;
     u8 status;
     s16 elapsedFrames;
-} SceneMovingState;
+} SceneE08EffectState;
+
+typedef SceneE08EffectState SceneMovingState;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE08EffectState, status) == 1,
+                  scene_e08_effect_state_status_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE08EffectState, elapsedFrames) == 2,
+                  scene_e08_effect_state_elapsed_frames_offset);
+PE1_STATIC_ASSERT(sizeof(SceneE08EffectState) == 4,
+                  scene_e08_effect_state_size);
 
 typedef struct SceneParticleCluster {
     SceneParticleOffset position[30];

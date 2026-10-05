@@ -1,4 +1,4 @@
-#include "common.h"
+#include "scene_particle_slots.h"
 
 typedef struct SceneE08RandomOffset {
     s16 x, y, z, phase;
@@ -11,11 +11,7 @@ typedef struct SceneE08RandomEntries {
     u8 active[10];
 } SceneE08RandomEntries;
 
-typedef struct SceneE08RandomState {
-    u8 pad00;
-    u8 status;
-    s16 elapsedFrames;
-} SceneE08RandomState;
+typedef SceneE08EffectState SceneE08RandomState;
 
 extern int func_80071A54(void);
 extern SceneE08RandomOffset D_801994D8[];
