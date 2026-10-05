@@ -79,6 +79,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s16 var_v0;
     s32 temp_hi;
     int spread;
+    register const u32 *matrix asm("$9");
     register u32 w0 asm("$12");
     register u32 w1 asm("$13");
     register u32 w2 asm("$14");
@@ -277,7 +278,9 @@ block_161:
         sp30.y = (s16) (u16) effect->position.y;
         sp30.z = (s16) (u16) effect->position.z;
         {
-            const u32 *matrix = (const u32 *)D_800BCFA4.value;
+            /* Keep position stores before the first GTE matrix load. */
+            asm volatile("" : : : "memory");
+            matrix = (const u32 *)D_800BCFA4.value;
             w0 = matrix[0];
             w1 = matrix[1];
             gte_ctc2_0(w0);
@@ -290,8 +293,8 @@ block_161:
             gte_ctc2_4(w2);
             w0 = matrix[5];
             w1 = matrix[6];
-            w2 = matrix[7];
             gte_ctc2_5(w0);
+            w2 = matrix[7];
             gte_ctc2_6(w1);
             gte_ctc2_7(w2);
         }
@@ -386,7 +389,7 @@ block_161:
             func_800C71E4(D_8019B684, &sp80);
             func_800C6F4C(D_8019B684);
             {
-                const u32 *matrix = (const u32 *)D_800BCFA4.value;
+                matrix = (const u32 *)D_800BCFA4.value;
                 w0 = matrix[0];
                 w1 = matrix[1];
                 gte_ctc2_0(w0);
@@ -399,8 +402,8 @@ block_161:
                 gte_ctc2_4(w2);
                 w0 = matrix[5];
                 w1 = matrix[6];
-                w2 = matrix[7];
                 gte_ctc2_5(w0);
+                w2 = matrix[7];
                 gte_ctc2_6(w1);
                 gte_ctc2_7(w2);
             }
@@ -465,7 +468,7 @@ block_161:
             func_800C71E4(D_8019B684, &spC0);
             func_800C6F4C(D_8019B684);
             {
-                const u32 *matrix = (const u32 *)D_800BCFA4.value;
+                matrix = (const u32 *)D_800BCFA4.value;
                 w0 = matrix[0];
                 w1 = matrix[1];
                 gte_ctc2_0(w0);
@@ -478,8 +481,8 @@ block_161:
                 gte_ctc2_4(w2);
                 w0 = matrix[5];
                 w1 = matrix[6];
-                w2 = matrix[7];
                 gte_ctc2_5(w0);
+                w2 = matrix[7];
                 gte_ctc2_6(w1);
                 gte_ctc2_7(w2);
             }
@@ -661,7 +664,7 @@ block_84:
             func_800C6F4C(D_8019B68C);
             sp30.y = temp_s7;
             {
-                const u32 *matrix = (const u32 *)D_800BCFA4.value;
+                matrix = (const u32 *)D_800BCFA4.value;
                 w0 = matrix[0];
                 w1 = matrix[1];
                 gte_ctc2_0(w0);
@@ -674,8 +677,8 @@ block_84:
                 gte_ctc2_4(w2);
                 w0 = matrix[5];
                 w1 = matrix[6];
-                w2 = matrix[7];
                 gte_ctc2_5(w0);
+                w2 = matrix[7];
                 gte_ctc2_6(w1);
                 gte_ctc2_7(w2);
             }
