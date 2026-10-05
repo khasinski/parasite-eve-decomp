@@ -8,11 +8,14 @@
  * (count - i)/count to (count - i - 1)/count of color0 (head side) and
  * color1 (tail side) at scale/128. A missing head repeats the previous
  * pair; count >= 1000 instead clears the first count - 999 pairs. Mode
- * 0xFF draws opaque, anything else semi-transparent. */
-void func_800D1384(GteShortVector *head, GteShortVector *tail, u32 count,
+ * 0xFF draws opaque, anything else semi-transparent.
+ * Matching debt: eight register pins and one empty pointer constraint. CPU
+ * matrix loads and depth arithmetic are C; each GTE instruction is separate. */
+void func_800D1384(GteShortVector *head, GteShortVector *tail, u32 countArg,
                    u8 *color0, u8 *color1, int scale, FieldTrailPair *history,
                    int mode)
 {
+    register u32 count asm("$23") = countArg;
     u8 headColor[3];
     u8 tailColor[3];
     u32 depth;
@@ -21,7 +24,7 @@ void func_800D1384(GteShortVector *head, GteShortVector *tail, u32 count,
     FieldTileAddress table;
     FieldTileAddress ot;
     FieldTileAddress link;
-    s32 *view;
+    register s32 *view asm("$15");
     int bias;
     u32 i;
     u32 last;
@@ -81,26 +84,83 @@ void func_800D1384(GteShortVector *head, GteShortVector *tail, u32 count,
         tailColor[1] = color1[1] * scale / 128;
         tailColor[2] = color1[2] * scale / 128;
     }
-    gte_ldrotmatrix(view);
-    gte_ldtransmatrix(view);
+    {
+        const GteMatrixWords *words = (const GteMatrixWords *)(view);
+        register u32 a asm("$12");
+        register u32 b asm("$13");
+        register u32 c asm("$14");
+        a = words->r11_r12;
+        b = words->r13_r21;
+        gte_ctc2_0(a);
+        gte_ctc2_1(b);
+        a = words->r22_r23;
+        b = words->r31_r32;
+        c = words->r33_pad;
+        gte_ctc2_2(a);
+        gte_ctc2_3(b);
+        gte_ctc2_4(c);
+        a = words->tx;
+        b = words->ty;
+        gte_ctc2_5(a);
+        c = words->tz;
+        gte_ctc2_6(b);
+        gte_ctc2_7(c);
+    }
     for (i = 0; i < count; i++, history++, packet++) {
+        u32 *depthOut = &depth;
+        /* Non-volatile so GCC can hoist the opaque address out of the loop,
+         * while retaining the indirect depth store and retail spill layout. */
+        asm("" : "=r"(depthOut) : "0"(depthOut));
         if (history[0].head.vector.pad & history[0].tail.vector.pad & history[1].head.vector.pad &
             history[1].tail.vector.pad) {
-            gte_ldv3(&history[0].head.vector, &history[0].tail.vector, &history[1].head.vector);
-            gte_rtpt_padded();
-            gte_stmac0(&depth);
+            {
+                GteShortVector *v1;
+                GteShortVector *v2;
+                v1 = &history[0].tail.vector;
+                v2 = &history[1].head.vector;
+                gte_lwc2_0_0(&history[0].head.vector);
+                gte_lwc2_1_4(&history[0].head.vector);
+                gte_lwc2_2_0(v1);
+                gte_lwc2_3_4(v1);
+                gte_lwc2_4_0(v2);
+                gte_lwc2_5_4(v2);
+            }
+            gte_cop2_hazard_slot();
+            gte_cop2_hazard_slot();
+            gte_rtpt_command();
+            gte_stmac0(depthOut);
             if (depth == 0) {
                 return;
             }
-            gte_stsxy3(&packet->x0, &packet->x1, &packet->x2);
-            gte_avsz3_padded();
-            gte_stszotz(&depth);
+            {
+                register s16 *xy0 asm("$4") = &packet->x0;
+                register s16 *xy1 asm("$3") = &packet->x1;
+                s16 *xy2 = &packet->x2;
+                gte_stsxy0_precise(xy0);
+                gte_stsxy1_precise(xy1);
+                gte_stsxy2_precise(xy2);
+            }
+            gte_cop2_hazard_slot();
+            gte_cop2_hazard_slot();
+            gte_avsz3_command();
+            {
+                register s32 z asm("$12");
+                gte_getsz3(z);
+                gte_cop2_hazard_slot();
+                *depthOut = z >> 2;
+            }
             depth -= bias;
             if (depth >= 0x1000) {
                 return;
             }
-            gte_ldv0(&history[1].tail.vector);
-            gte_rtps();
+            {
+                GteShortVector *lastVertex = &history[1].tail.vector;
+                gte_lwc2_0_0(lastVertex);
+                gte_lwc2_1_4(lastVertex);
+            }
+            gte_cop2_hazard_slot();
+            gte_cop2_hazard_slot();
+            gte_rtps_command();
             SetPolyG4(packet);
             gte_stsxy2(&packet->x3);
             fade0 = 128 - i * 128 / count;
