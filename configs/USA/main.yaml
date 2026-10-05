@@ -1514,7 +1514,7 @@ segments:
       - [0xC3358, c, engine/FieldEng_GlowLine]
       - [0xC3914, c, engine/FieldEng_TexturedRibbon]
       - [0xC42FC, c, engine/FieldEng_UpdatePointHistory]
-      - [0xC43C8, asm, engine/engine_800CEE20_C43C8]
+      - [0xC43C8, c, engine/FieldEng_PulledSprite]
       - [0xC4764, c, engine/FieldEng_QueryActiveNode]
       - [0xC481C, c, engine/FieldEng_TaskSpawnFlow]
       - [0xC4E20, c, engine/FieldEng_ObjectLifecycle]
