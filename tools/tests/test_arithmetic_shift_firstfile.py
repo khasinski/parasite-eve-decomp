@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('math/Math_Add64WithShift',
+CASES = [('psyq/libmath/dbshift',
   188,
   'f5ef0b49b72cac65d49205ac7b5aff69bc77a89b1374c3a4f7d0a6b091f66076',
   'SECTIONS { .text 0x80072ea4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '

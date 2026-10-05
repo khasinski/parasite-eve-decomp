@@ -44,7 +44,7 @@ CASES = [('src/main/psyq/libapi/SetInitPadFlag.c',
   'g_CdReadCallback = 0x8009afc0;\n'
   'SECTIONS { .text 0x80080ac4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/event/Evt_Deliver.c',
+ ('src/main/psyq/libmath/ferr.c',
   100,
   'b94427dfc0967b4aaeacb5750ae5b1e167af9b260ba712e561050f8c6d6ff179',
   'D_80094564 = 0x80094564;\n'

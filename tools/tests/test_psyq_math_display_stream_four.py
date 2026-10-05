@@ -19,7 +19,7 @@ CASES = [('libmath/divdf3',
   'Evt_Deliver = 0x800739C4;\n'
   'SECTIONS { .text 0x80072f64 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libmath/__adddf3',
+ ('libmath/adddf3',
   884,
   '3060f098b67be7758d285c025aca8d2dfc4db7a0b07501b9c929bdb914f11835',
   'Math_Neg64 = 0x80073554;\n'

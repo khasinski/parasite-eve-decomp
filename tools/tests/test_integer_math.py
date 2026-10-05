@@ -9,13 +9,13 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('math/Math_Int32ToDouble',
+CASES = [('psyq/libmath/fltsidf',
   256,
   'e573de21ab0c5cc4ee09974e395737ca6cf3330c3cecc77d21b259f6365b46ba',
   'Math_Shift64 = 0x80073294;\n'
   'SECTIONS { .text 0x80073454 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('math/Math_Mul32To64',
+ ('psyq/libmath/_mul_mant_d',
   236,
   'c05005c411d44159dcc1fbe8fab722366870bea126932e8b3cc666b9897cbf05',
   'Math_Add64 = 0x80072DF4;\n'
