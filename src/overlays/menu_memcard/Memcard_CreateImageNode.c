@@ -27,7 +27,7 @@ MemcardImageNode *Memcard_CreateImageNode(s32 kind) {
         node->height = image->height;
     }
     {
-        register s32 y asm("$3") = node->y;
+        s32 y = node->y;
         s32 parameter;
         parameter = preset->parameter;
         node->draw = D_80192FE8; node->update = D_8018F7F0;
