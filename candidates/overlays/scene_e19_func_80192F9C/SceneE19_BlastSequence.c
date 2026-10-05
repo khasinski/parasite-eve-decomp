@@ -66,7 +66,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
     int angle;
     int i;
     int value;
-    s16 height;
+    int height;
     s16 timer;
 
     flareRotation = D_8018F1D4;
@@ -340,7 +340,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             }
             ringRadius = 2000;
             radialScale = func_80077DC4(phase) / 8;
-            verticalScale = func_80077CF4(phase) * 2 / 3;
+            height = func_80077CF4(phase) * 2 / 3;
             rotation.x = 0x400;
             rotation.y = 0;
             rotation.z = 0;
@@ -353,7 +353,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
                 value = func_80077CF4(angle) * ringRadius;
                 rotation.z = angle + 0x400;
                 ringPoint.z += value / 4096;
-                func_800D0E88(&ringPoint, (GteRotation *)&rotation, verticalScale, radialScale,
+                func_800D0E88(&ringPoint, (GteRotation *)&rotation, height, radialScale,
                               &glowColor, 0, 0, (s16)intensity, 1);
             }
             intensity = func_80077DC4(phase) / 32;
@@ -416,7 +416,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
                 intensity = intensity * 15 / 16;
             }
             rotation.x = 0;
-            rotation.y = D_800E27EC * -0x30;
+            rotation.y = -D_800E27EC * 0x30;
             rotation.z = 0;
             D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
             D_800F3368.palette = 3;
@@ -448,7 +448,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
                 intensity = intensity * 15 / 16;
             }
             rotation.x = 0;
-            rotation.y = D_800E27EC * -0x20;
+            rotation.y = -D_800E27EC << 5;
             rotation.z = 0;
             D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
             D_800F3368.palette = 3;
@@ -590,7 +590,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
                 intensity = intensity * 15 / 16;
             }
             rotation.x = 0;
-            rotation.y = D_800E27EC * -0x20;
+            rotation.y = -D_800E27EC << 5;
             rotation.z = 0;
             D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
             D_800F3368.palette = 3;
