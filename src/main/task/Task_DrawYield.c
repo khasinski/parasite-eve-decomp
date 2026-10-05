@@ -1,8 +1,10 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
+#include "pe1/task_node.h"
+
 extern int g_SceneDataTable0;
-extern char *g_TaskNodePool;
+extern TaskNode *g_TaskNodePool;
 
 int Seq_GetElapsed(void);
 int Gpu_CheckDrawStatus(void);
@@ -13,7 +15,7 @@ int Task_WaitFrameOrDraw(int **arg0) {
     }
     if ((Gpu_CheckDrawStatus() << 24) != 0) {
         g_SceneDataTable0 -= 0xC;
-        *(int *)(g_TaskNodePool + 0x10) = 1;
+        g_TaskNodePool->active = 1;
     } else {
         return 1;
     }
@@ -35,7 +37,7 @@ int Task_Noop2(void) {
 int Entity_YieldOnDrawBusy(void) {
     if ((Gpu_CheckDrawStatus() << 24) != 0) {
         g_SceneDataTable0 -= 8;
-        *(int *)(g_TaskNodePool + 0x10) = 1;
+        g_TaskNodePool->active = 1;
     } else {
         return 1;
     }

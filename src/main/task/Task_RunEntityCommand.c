@@ -1,11 +1,13 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
+#include "pe1/task_node.h"
+
 typedef struct Entity Entity;
 
 extern Entity *g_CurrentEntity[];
 extern int g_SceneDataTable0;
-extern char *g_TaskNodePool;
+extern TaskNode *g_TaskNodePool;
 
 int Entity_TriggerAnimEvent(Entity *arg0, unsigned char arg1);
 
@@ -13,7 +15,6 @@ int Task_RunEntityCommand(int **arg0) {
     int result;
     register int active asm("$5");
     register int stack asm("$4");
-    char *state;
 
     result = (signed char)Entity_TriggerAnimEvent(g_CurrentEntity[0], *(unsigned char *)arg0[0]);
     *arg0[1] = result;
@@ -23,9 +24,8 @@ int Task_RunEntityCommand(int **arg0) {
 
     active = 1;
     stack = g_SceneDataTable0;
-    state = g_TaskNodePool;
     stack -= 0x10;
-    *(int *)(state + 0x10) = active;
+    g_TaskNodePool->active = active;
     g_SceneDataTable0 = stack;
     return 0;
 }
