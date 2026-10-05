@@ -1,12 +1,6 @@
-#include "common.h"
-typedef struct {
-    char pad0[0x8];
-    u8 *data;
-    void (*callback)(void *);
-    char pad10[0x6];
-    s8 state_id;
-    s8 range_value;
-} Overlay189CallbackState;
+#include "scene_e22_shared.h"
+
+typedef SceneE22RangeCallbackState Overlay189CallbackState;
 
 extern void D_80190DCC(void *);
 
