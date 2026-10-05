@@ -96,13 +96,13 @@ int Render_DrawSpriteEntry(GeomEntry *input)
     pos = (u32 *)((u8 *)entry + pos_offset);
 
     if (flags & 4) {
-        register s32 mod_x asm("$5");
-        register s32 mod_y asm("$4");
+        s32 mod_x;
+        s32 mod_y;
         s32 divisor_x;
         s32 remainder_y;
         s32 signed_x;
         register s32 signed_y asm("$2");
-        register s32 base_y asm("$4");
+        s32 base_y;
         signed_x = (s16)raw_x;
         mod_x = *(u16 *)((u8 *)entry + 4);
         signed_x -= 320;
