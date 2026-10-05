@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **2141**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **1207**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Nine register pins and eleven empty barriers are recorded below. There is no CPU ASM.
@@ -833,3 +833,25 @@ state2_flag_fence_2537/, zero_stores_2537/, zero_chains_2537/,
 zero_dependencies_2537/, zero_inline_2537/, draw_fields_2537/,
 combine_fields_2537/, division_sites_2757/, division_factor_2757/,
 model_live_2757/ and base_2141.c in the existing darwine research directory.
+
+
+## Store order after parameter-field recovery (1207)
+
+The seven blocks changed to structure members exposed new scheduling choices.
+All 5040 permutations of their six setup writes were evaluated, followed by
+128 combinations of the per-block improvements. The combined source scored
+1557, down from 2141. Searching three earlier setup blocks jointly over flag
+access form (global/member) and store order added 4320 trials; combining two
+improving blocks reduced the full-function score to **1207**.
+
+These changes keep the six writes in their original straight-line setup,
+before the texture-page call. No call or branch is crossed. Two additional
+flag writes now use the existing parameter06 member. There are no new pins,
+barriers, helpers, volatile accesses or CPU instructions. The complete target
+and candidate both contain 2368 instructions. Production still uses the
+original assembly; 1207 is not a match.
+
+The preceding 176 per-block combinations of palette read/write views and
+flag/page field views did not improve 2141. Artifacts on darwine:
+palette_views_2141/, field_orders_2141/, combine_orders_2141/,
+early_fields_orders_1557/, combine_early_1557/ and base_1207.c.
