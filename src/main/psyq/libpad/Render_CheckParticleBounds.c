@@ -1,6 +1,6 @@
 #include "common.h"
 #define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
+#include "../../../../tools/m2c/m2c_macros.h"
 s32 Render_CheckParticleBounds(void *arg0) {
     s32 i;
     s32 ff;
