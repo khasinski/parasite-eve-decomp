@@ -8445,3 +8445,11 @@ Main executable:
   veneers), a zero object tail (`pad`), and the LIBAPI C114 signature record
   `50730021 ad364200` whose first label `_96_remove` is at object offset 8
   (`psyq/libapi/C114_signature`, `.psyq_signature`).
+
+Overlays (all as `data` subsegments in `.code_data`):
+
+- boot_display `boot_display_2648` (0x80125A48-0x80125C00, 440 bytes):
+  pointer tables and glyph width tables; no instructions. Boot_CheckPlaybackTime,
+  linked 0x100 higher, uses three of these addresses as branch targets, so splat
+  typed them as functions. `collapse_zero_data.py` now writes every label in a
+  data file as `dlabel`, since a data section holds no functions.
