@@ -88,7 +88,7 @@ extern BattlePaletteSymbol D_800B01B8;
 extern BattlePaletteSymbol D_800B01B9;
 extern BattlePaletteSymbol D_800B01BA;
 
-extern BattlePaletteSymbol D_8009D254;
+extern BattlePaletteSymbol D_8009D254_palette_view __asm__("D_8009D254");
 extern BattlePaletteSymbol D_800915E0;
 extern BattlePaletteSymbol D_800B0CE6;
 extern BattlePaletteSymbol D_8009D1A0_read __asm__("D_8009D1A0");
