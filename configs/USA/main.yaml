@@ -335,8 +335,8 @@ segments:
       - [0x2090C, c, battle/Battle_GetEnemyContextField]
       - [0x20A20, c, main/Entity_WriteFieldByCmd]
       - [0x20D34, c, battle/Battle_AngleAndDistanceFlow]
-      - [0x20E40, c, battle/Battle_CheckDropChance]
-      - [0x20EE0, c, battle/Battle_RollEnemySpawn]
+      # Random drop and enemy spawn checks share combatant state and rand().
+      - [0x20E40, c, battle/Battle_RandomChecks]
       - [0x21094, c, battle/Battle_DrawHPBar]
       - [0x21CE4, c, main/Battle_DrawStatusOverlay]
       - [0x21F60, c, main/Battle_BuildStatusPrimHeader]
