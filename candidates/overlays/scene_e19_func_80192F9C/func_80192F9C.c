@@ -25,7 +25,7 @@ extern void *D_8019B688;
 extern void *D_8019B68C;
 extern void *D_8019B690;
 
-/* Keep GPU argument narrowing explicit at the inline boundary (candidate debt). */
+/* Eleven GPU conversions still need an inline boundary (candidate debt). */
 static __inline__ u16 gpuWord(u16 value) { return value; }
 
 s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
@@ -315,7 +315,7 @@ block_161:
             sp60.x = (u16) sp30.x;
             sp60.z = (s16) (u16) sp30.z;
             sp60.y = (s16) D_800942EC;
-            func_800CEE20(&sp60, (GteRotation *) &sp68, 0x2000, 0x2000, 0, gpuWord(func_80077AA4(0, D_800E120A + 2)), 1, intensity, NULL);
+            func_800CEE20(&sp60, (GteRotation *) &sp68, 0x2000, 0x2000, 0, (u16)(func_80077AA4(0, D_800E120A + 2)), 1, intensity, NULL);
             break;
         case 1:                                     /* switch 2 */
             intensity = 0x80;
@@ -337,7 +337,7 @@ block_161:
             sp70.x = (u16) sp30.x;
             sp70.z = (s16) (u16) sp30.z;
             sp70.y = (s16) D_800942EC;
-            func_800CEE20(&sp70, (GteRotation *) &sp78, 0x2000, 0x2000, 0, gpuWord(func_80077AA4(0, D_800E120A + 2)), 1, intensity, NULL);
+            func_800CEE20(&sp70, (GteRotation *) &sp78, 0x2000, 0x2000, 0, (u16)(func_80077AA4(0, D_800E120A + 2)), 1, intensity, NULL);
             var_v1 = func_80077CF4(phase);
             intensity = var_v1 / 32;
             if (D_800E27EC & 1) {
@@ -363,7 +363,7 @@ block_161:
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x20, (s32) paletteRow)));
+            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754(&sp48, &sp80);
             temp_v0_8 = radialScale / 2;
@@ -427,7 +427,7 @@ block_161:
             spB0.x = (u16) sp30.x;
             spB0.z = (s16) (u16) sp30.z;
             spB0.y = (s16) D_800942EC;
-            func_800CEE20(&spB0, (GteRotation *) &spB8, 0x2000, 0x2000, 0, gpuWord(func_80077AA4(0, D_800E120A + 2)), 1, intensity, NULL);
+            func_800CEE20(&spB0, (GteRotation *) &spB8, 0x2000, 0x2000, 0, (u16)(func_80077AA4(0, D_800E120A + 2)), 1, intensity, NULL);
             if (D_800E27EC & 1) {
                 radialScale = 0xF00;
             }
@@ -443,7 +443,7 @@ block_161:
             if ((D_800F3368.palette == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x20, (s32) paletteRow)));
+            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &spC0);
             temp_v0_11 = radialScale / 2;
@@ -557,7 +557,7 @@ block_161:
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x20, (s32) paletteRow)));
+            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &spF0);
             sp110.x = radialScale;
@@ -568,7 +568,7 @@ block_161:
             spF0.t[2] = (s32) sp30.z;
             func_80078CC4(&spF0, &sp110);
             func_800C6EF8(D_8019B680);
-            func_800C6FA0(D_8019B680, gpuWord(intensity));
+            func_800C6FA0(D_8019B680, (u16)(intensity));
             func_800C71E4(D_8019B680, &spF0);
             func_800C6F4C(D_8019B680);
             radialScale = (func_80077CF4(phase) / 3) + 0x400;
@@ -595,7 +595,7 @@ block_161:
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x20, (s32) paletteRow)));
+            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp120);
             sp140.x = radialScale;
@@ -606,7 +606,7 @@ block_161:
             sp120.t[2] = (s32) sp30.z;
             func_80078CC4(&sp120, &sp140);
             func_800C6EF8(D_8019B688);
-            func_800C6FA0(D_8019B688, gpuWord((intensity / 2)));
+            func_800C6FA0(D_8019B688, (u16)((intensity / 2)));
             func_800C71E4(D_8019B688, &sp120);
             func_800C6F4C(D_8019B688);
             modelPhase = (effect->timer << 0xA) / 56;
@@ -633,7 +633,7 @@ block_161:
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x20, (s32) paletteRow)));
+            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
             temp_s7 = sp30.y;
             sp30.y = temp_s7 - (effect->timer * 0x18);
@@ -646,7 +646,7 @@ block_161:
             sp150.t[2] = (s32) sp30.z;
             func_80078CC4(&sp150, &sp170);
             func_800C6EF8(D_8019B68C);
-            func_800C6FA0(D_8019B68C, gpuWord((intensity / 2)));
+            func_800C6FA0(D_8019B68C, (u16)((intensity / 2)));
             func_800C71E4(D_8019B68C, &sp150);
             func_800C6F4C(D_8019B68C);
             sp30.y = temp_s7;
@@ -704,7 +704,7 @@ block_161:
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x60, (s32) paletteRow)));
+            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x60, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp180);
             sp1A0.x = radialScale;
@@ -715,7 +715,7 @@ block_161:
             sp180.t[2] = (s32) sp30.z;
             func_80078CC4(&sp180, &sp1A0);
             func_800C6EF8(D_8019B690);
-            func_800C6FA0(D_8019B690, gpuWord(intensity));
+            func_800C6FA0(D_8019B690, (u16)(intensity));
             func_800C71E4(D_8019B690, &sp180);
             func_800C6F4C(D_8019B690);
             radialScale = (func_80077CF4(modelPhase) / 6) + 0x1200;
@@ -741,7 +741,7 @@ block_161:
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x60, (s32) paletteRow)));
+            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x60, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp1B0);
             sp1D0.x = radialScale;
@@ -752,7 +752,7 @@ block_161:
             sp1B0.t[2] = (s32) sp30.z;
             func_80078CC4(&sp1B0, &sp1D0);
             func_800C6EF8(D_8019B690);
-            func_800C6FA0(D_8019B690, gpuWord(intensity));
+            func_800C6FA0(D_8019B690, (u16)(intensity));
             func_800C71E4(D_8019B690, &sp1B0);
             func_800C6F4C(D_8019B690);
         default:                                    /* switch 2 */
@@ -782,7 +782,7 @@ block_161:
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x20, (s32) paletteRow)));
+            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp1E0);
             sp200.x = radialScale;
@@ -793,7 +793,7 @@ block_161:
             sp1E0.t[2] = (s32) sp30.z;
             func_80078CC4(&sp1E0, &sp200);
             func_800C6EF8(D_8019B680);
-            func_800C6FA0(D_8019B680, gpuWord(intensity));
+            func_800C6FA0(D_8019B680, (u16)(intensity));
             func_800C71E4(D_8019B680, &sp1E0);
             func_800C6F4C(D_8019B680);
             modelPhase = ((effect->timer + 0x20) << 0xA) / 56;
@@ -820,7 +820,7 @@ block_161:
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x20, (s32) paletteRow)));
+            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
             temp_s7_2 = sp30.y;
             sp30.y = temp_s7_2 - ((effect->timer + 0x20) * 0x18);
@@ -833,7 +833,7 @@ block_161:
             sp210.t[2] = (s32) sp30.z;
             func_80078CC4(&sp210, &sp230);
             func_800C6EF8(D_8019B68C);
-            func_800C6FA0(D_8019B68C, gpuWord((intensity / 2)));
+            func_800C6FA0(D_8019B68C, (u16)((intensity / 2)));
             func_800C71E4(D_8019B68C, &sp210);
             func_800C6F4C(D_8019B68C);
             sp30.y = temp_s7_2;
@@ -860,7 +860,7 @@ block_161:
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x60, (s32) paletteRow)));
+            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x60, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp240);
             sp260.x = radialScale;
@@ -871,7 +871,7 @@ block_161:
             sp240.t[2] = (s32) sp30.z;
             func_80078CC4(&sp240, &sp260);
             func_800C6EF8(D_8019B690);
-            func_800C6FA0(D_8019B690, gpuWord(intensity));
+            func_800C6FA0(D_8019B690, (u16)(intensity));
             func_800C71E4(D_8019B690, &sp240);
             func_800C6F4C(D_8019B690);
             radialScale = (func_80077CF4(modelPhase) / 6) + 0x1200;
@@ -897,7 +897,7 @@ block_161:
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x60, (s32) paletteRow)));
+            func_800C6EC0(texturePage, (u16)(func_80077AA4(0x60, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp270);
             sp290.x = radialScale;
@@ -908,7 +908,7 @@ block_161:
             sp270.t[2] = (s32) sp30.z;
             func_80078CC4(&sp270, &sp290);
             func_800C6EF8(D_8019B690);
-            func_800C6FA0(D_8019B690, gpuWord(intensity));
+            func_800C6FA0(D_8019B690, (u16)(intensity));
             func_800C71E4(D_8019B690, &sp270);
             func_800C6F4C(D_8019B690);
             break;

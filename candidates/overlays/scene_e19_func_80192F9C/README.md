@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **11255**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **10655**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Four register pins and two empty barriers are recorded below. There is no CPU ASM.
@@ -295,3 +295,22 @@ state 1, with no intervening call or dependent read. Applied manually to the
 source and recompiled, this scores **11255**. No generated empty condition or
 pointer was copied. Debt remains four pins, two empty barriers and one inline
 GPU conversion helper; the candidate remains unintegrated.
+
+## GPU helper site removal
+
+Each of the 34 current gpuWord call sites was independently replaced by an
+ordinary u16 cast and compiled/scored on darwine. Twenty-three replacements
+were neutral or improving and were then tested together. The combined
+retained result is **10655**, down from 11255. All conversions still preserve
+the same low sixteen bits.
+
+Three half-intensity submissions account for the improvement: the model at
+D_8019B688 in draw state 3 and D_8019B68C in states 3 and 4. Each replacement
+alone lowers score by 200; their combined effect is 600. The other twenty
+removed helper calls preserve that result. Eleven helper calls remain.
+The expanded original count was 34 after separating the two render tails.
+
+Candidate constraints remain four pins and two empty barriers. Ring index,
+radius and angle pins were tried individually from 10655, scoring 10835,
+10640 and 11060. None is retained: the radius-only gain of 15 is left as a
+research alternative rather than adding another constraint at this stage.
