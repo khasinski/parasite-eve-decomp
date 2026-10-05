@@ -974,8 +974,6 @@ segments:
       - [0x65238, pad]
       - [0x65244, c, main/Render_InitEntityPool]
       - [0x653B8, c, gpu/SetGraphDebugAndQueue]
-      - [0x654B8, c, gpu/GetGraphDebug]
-      - [0x654C8, c, gpu/DrawSyncCallback]
       # Contiguous Psy-Q libgpu/sys.c display and image APIs.
       - [0x65528, c, psyq/libgpu/sys_display]
       - [0x659E4, c, gpu/ClearOTag]
