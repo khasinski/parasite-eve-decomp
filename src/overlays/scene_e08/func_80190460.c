@@ -1,14 +1,7 @@
-#include "common.h"
+#include "pe1/gte_types.h"
 
-typedef struct Matrix {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} Matrix;
-
-typedef struct Vec4 {
-    s32 x, y, z, w;
-} Vec4;
+typedef GteMatrix Matrix;
+typedef GteVector Vec4;
 
 extern s16 D_801994C2;
 

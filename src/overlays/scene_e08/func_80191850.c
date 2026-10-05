@@ -1,16 +1,7 @@
-#include "common.h"
-typedef struct Overlay178Matrix {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} Overlay178Matrix;
+#include "pe1/gte_types.h"
 
-typedef struct Overlay178Vec4 {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 w;
-} Overlay178Vec4;
+typedef GteMatrix Overlay178Matrix;
+typedef GteVector Overlay178Vec4;
 
 extern s32 D_8019956C;
 extern s32 D_8019957C;

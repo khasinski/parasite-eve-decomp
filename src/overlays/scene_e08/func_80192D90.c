@@ -1,14 +1,7 @@
-#include "common.h"
+#include "pe1/gte_types.h"
 
-typedef struct SceneE08Matrix {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} SceneE08Matrix;
-
-typedef struct SceneE08Vector {
-    s32 x, y, z, w;
-} SceneE08Vector;
+typedef GteMatrix SceneE08Matrix;
+typedef GteVector SceneE08Vector;
 
 extern char D_801996A0[];
 extern char D_80198848[];
