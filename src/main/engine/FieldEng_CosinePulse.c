@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -ffixed-20 -ffixed-21 -ffixed-22 -ffixed-23 */
 /* MASPSX_FLAGS: --expand-div */
 #include "pe1/render_object.h"
 #include "pe1/gte.h"
@@ -28,6 +29,9 @@ int func_800D5898(int mode, RenderCosineEffect *state)
 #include "pe1/field_actor.h"
 #include "pe1/gte.h"
 
+/* Matching debt: 3 GTE transfer pins, 4 empty constraints, and the four
+ * TU-local register reservations above. The matrix pointer remains unpinned
+ * so GCC can also use t0 for the multiply-high result in division by 12. */
 int func_800D5A00(int mode, RenderArcingEmitter *state)
 {
     GteShortVector position;
@@ -73,9 +77,37 @@ int func_800D5A00(int mode, RenderArcingEmitter *state)
                           &color, 128, 1);
         }
         D_800F3368.depth = 64;
-        gte_ldrotmatrix(D_800BCFA4.value);
-        gte_ldtransmatrix(D_800BCFA4.value);
+        {
+            s32 **slot;
+            const GteMatrixWords *matrix;
+            register s32 a asm("$12");
+            register s32 b asm("$13");
+            register s32 c asm("$14");
+            asm volatile("" : : : "memory");
+            slot = &D_800BCFA4.value;
+            asm volatile("" : "=r"(slot) : "0"(slot));
+            matrix = (const GteMatrixWords *)*slot;
+            asm("" : "=r"(matrix) : "0"(matrix) : "$2", "$3", "$4", "$5", "$6", "$7");
+            a = matrix->r11_r12;
+            b = matrix->r13_r21;
+            gte_ctc2_0(a);
+            gte_ctc2_1(b);
+            a = matrix->r22_r23;
+            b = matrix->r31_r32;
+            c = matrix->r33_pad;
+            gte_ctc2_2(a);
+            gte_ctc2_3(b);
+            gte_ctc2_4(c);
+            a = matrix->tx;
+            b = matrix->ty;
+            gte_ctc2_5(a);
+            c = matrix->tz;
+            gte_ctc2_6(b);
+            gte_ctc2_7(c);
+        }
         FieldEng_TransformTranslation(&state->position, 0);
+        /* Exclude other reload temporaries without emitting instructions. */
+        asm volatile("" : : : "$9", "$10", "$11", "$15", "$24", "$25", "$16", "$17", "$18", "$19");
         break;
     }
     return 0;

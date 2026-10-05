@@ -2136,3 +2136,27 @@ items, failed to retain the exact match. A further pass removed one
 individual clobber; each remaining individual clobber is needed in this
 source form. This does not establish that the original source had any of
 these constraints.
+
+### Arcing emitter camera loads (`func_800D5A00`)
+
+`FieldEng_CosinePulse.c` replaces the arcing emitter's former matrix-load
+macros with C reads through `GteMatrixWords` and individually wrapped GTE
+transfers. Stock native GCC 2.7.2 and stock MASPSX 2.56, with `--expand-div`,
+produce linked score 0 and all 1100 retail bytes for the two-function TU
+at `0x800D5898`. The edited function at `0x800D5A00` occupies 740 bytes;
+`func_800D5898` is unchanged. This removes hidden CPU assembly from an
+existing C function.
+
+Matching debt: three transfer-register pins, four empty constraints, and
+four TU-local register reservations (`-ffixed-20`, `-ffixed-21`,
+`-ffixed-22`, `-ffixed-23`). As in the twin-model effect, the matrix pointer
+remains unpinned so reload can use the same register (`t0`) for the signed
+division's multiply-high result. The reserved registers are otherwise
+unused callee-saved registers; permitting them changes the retail stack
+layout. The build wrapper now also passes through `-ffixed-20`, using the
+existing source-comment mechanism. Neither compiler nor assembler is modified.
+
+All single and paired removals of these pins, constraints, and reservations
+failed to retain the exact match. Removing each individual register from
+the empty clobber lists also broke it. These are matching constraints,
+not evidence of original source annotations or a different calling convention.
