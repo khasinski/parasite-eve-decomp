@@ -4,9 +4,31 @@
 #include "pe1/gte.h"
 
 /* Four-layer variant of the field glow: two pairs of fixed spins, the
- * second pair pushed further out and drawn at the full depth. */
+ * second pair pushed further out and drawn at the full depth.
+ * Matching debt: 13 register pins and 25 empty constraints. Explicit spin
+ * address aliases retain the retail spill order. Matrix loads/stores are C;
+ * each GTE instruction has its own macro. */
 void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
 {
+    register GteMatrix *workMatrix asm("$16");
+    register GteMatrix *stepMatrix asm("$18");
+    register u32 a asm("$12");
+    register u32 b asm("$13");
+    register u32 c asm("$14");
+    register const GteMatrixWords *baseRotation asm("$16");
+    GteShortVector *spinCAddress;
+    GteShortVector *spinDAddress;
+    register const GteMatrixWords *baseTranslation asm("$16");
+    register u16 *firstColumn asm("$16");
+    register const volatile u16 *column1 asm("$19");
+    register const volatile u16 *column2 asm("$22");
+    register u16 *outColumn1 asm("$20");
+    u16 *outColumn2;
+    const s32 *translation;
+    register s32 *outTranslation asm("$21");
+    register GteShortVector *nextSpin asm("$23");
+    GteShortVector *thirdSpin;
+    GteShortVector *fourthSpin;
     GteMatrix matrix;
     GteMatrix rotation;
     GteShortVector spinA;
@@ -20,6 +42,8 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
 
     spinA = D_800C21D4;
     spinB = D_800C21DC;
+    spinCAddress = &spinC;
+    spinDAddress = &spinD;
     spinC = D_800C21E4;
     spinD = D_800C21EC;
     func_800C2EAC(3);
@@ -30,6 +54,8 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
     D_800F34D2 = (s16)glow->depth >> 1;
 
     RotMatrixYXZ(&spinA, &rotation);
+    stepMatrix = &rotation;
+    asm("" : "=r"(stepMatrix) : "0"(stepMatrix));
     matrix = glow->matrix;
     matrix.t[0] = glow->x;
     matrix.t[1] = glow->y;
@@ -37,25 +63,212 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
     rotation.t[0] = 0;
     rotation.t[1] = 0;
     rotation.t[2] = -20;
-    gte_CompMatrix(&matrix, &rotation, &matrix);
-    scaleA = D_800C21F4;
-    Gte_ScaleMatrix(&matrix, &scaleA);
-    func_800C42A4(&D_800F34C8, &matrix, 0);
+    nextSpin = &spinB;
+    thirdSpin = spinCAddress;
+    fourthSpin = spinDAddress;
+    asm volatile("" : : : "memory");
+    workMatrix = &matrix;
+    asm("" : "=r"(workMatrix) : "0"(workMatrix));
+    baseRotation = (const GteMatrixWords *)workMatrix;
 
-    RotMatrixYXZ(&spinB, &rotation);
+    a = baseRotation->r11_r12;
+    b = baseRotation->r13_r21;
+    gte_ctc2_0(a);
+    gte_ctc2_1(b);
+    a = baseRotation->r22_r23;
+    b = baseRotation->r31_r32;
+    c = baseRotation->r33_pad;
+    gte_ctc2_2(a);
+    gte_ctc2_3(b);
+    gte_ctc2_4(c);
+    a = ((const volatile u16 *)stepMatrix)[0];
+    b = ((const volatile u16 *)stepMatrix)[3];
+    c = ((const volatile u16 *)stepMatrix)[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    firstColumn = (u16 *)workMatrix;
+
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    firstColumn[0] = a;
+    firstColumn[3] = b;
+    firstColumn[6] = c;
+    asm volatile("" : : : "memory");
+    column1 = (const volatile u16 *)&rotation + 1;
+    asm("" : "=r"(column1) : "0"(column1));
+    a = column1[0];
+    b = column1[3];
+    c = column1[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    outColumn1 = (u16 *)&matrix + 1;
+    asm("" : "=r"(outColumn1) : "0"(outColumn1));
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    outColumn1[0] = a;
+    outColumn1[3] = b;
+    outColumn1[6] = c;
+    asm volatile("" : : : "memory");
+    column2 = (const volatile u16 *)&rotation + 2;
+    asm("" : "=r"(column2) : "0"(column2));
+    a = column2[0];
+    b = column2[3];
+    c = column2[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    outColumn2 = (u16 *)&matrix + 2;
+    asm("" : "=r"(outColumn2) : "0"(outColumn2));
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    outColumn2[0] = a;
+    outColumn2[3] = b;
+    outColumn2[6] = c;
+    /* Compose the translation using the current matrix. */
+    asm volatile("" : : : "memory");
+    baseTranslation = (const GteMatrixWords *)workMatrix;
+
+    a = baseTranslation->tx;
+    b = baseTranslation->ty;
+    gte_ctc2_5(a);
+    c = baseTranslation->tz;
+    gte_ctc2_6(b);
+    gte_ctc2_7(c);
+    translation = rotation.t;
+    asm("" : "=r"(translation) : "0"(translation));
+    asm volatile("" : : : "memory");
+    b = ((const volatile u16 *)translation)[2];
+    a = ((const volatile u16 *)translation)[0];
+    b <<= 16;
+    a |= b;
+    gte_mtc2_0(a);
+    gte_lwc2_1_8(translation);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_v0_translation_sf12();
+    outTranslation = matrix.t;
+    gte_swc2_9_0(outTranslation);
+    gte_swc2_10_4(outTranslation);
+    gte_swc2_11_8(outTranslation);
+
+
+    scaleA = D_800C21F4;
+    Gte_ScaleMatrix(workMatrix, &scaleA);
+    func_800C42A4(&D_800F34C8, workMatrix, 0);
+
+    RotMatrixYXZ(nextSpin, stepMatrix);
     matrix = glow->matrix;
     matrix.t[0] = glow->x;
     matrix.t[1] = glow->y;
     matrix.t[2] = glow->z;
-    gte_CompMatrix(&matrix, &rotation, &matrix);
+    asm volatile("" : : : "memory");
+    baseRotation = (const GteMatrixWords *)workMatrix;
+
+    a = baseRotation->r11_r12;
+    b = baseRotation->r13_r21;
+    gte_ctc2_0(a);
+    gte_ctc2_1(b);
+    a = baseRotation->r22_r23;
+    b = baseRotation->r31_r32;
+    c = baseRotation->r33_pad;
+    gte_ctc2_2(a);
+    gte_ctc2_3(b);
+    gte_ctc2_4(c);
+    a = ((const volatile u16 *)stepMatrix)[0];
+    b = ((const volatile u16 *)stepMatrix)[3];
+    c = ((const volatile u16 *)stepMatrix)[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    firstColumn = (u16 *)workMatrix;
+
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    firstColumn[0] = a;
+    firstColumn[3] = b;
+    firstColumn[6] = c;
+    asm volatile("" : : : "memory");
+    a = column1[0];
+    b = column1[3];
+    c = column1[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    outColumn1[0] = a;
+    outColumn1[3] = b;
+    outColumn1[6] = c;
+    asm volatile("" : : : "memory");
+    a = column2[0];
+    b = column2[3];
+    c = column2[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    outColumn2[0] = a;
+    outColumn2[3] = b;
+    outColumn2[6] = c;
+    /* Compose the translation using the current matrix. */
+    asm volatile("" : : : "memory");
+    baseTranslation = (const GteMatrixWords *)workMatrix;
+
+    a = baseTranslation->tx;
+    b = baseTranslation->ty;
+    gte_ctc2_5(a);
+    c = baseTranslation->tz;
+    gte_ctc2_6(b);
+    gte_ctc2_7(c);
+    b = ((const volatile u16 *)translation)[2];
+    a = ((const volatile u16 *)translation)[0];
+    b <<= 16;
+    a |= b;
+    gte_mtc2_0(a);
+    gte_lwc2_1_8(translation);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_v0_translation_sf12();
+    gte_swc2_9_0(outTranslation);
+    gte_swc2_10_4(outTranslation);
+    gte_swc2_11_8(outTranslation);
+
+
     scaleB = D_800C21F4;
-    Gte_ScaleMatrix(&matrix, &scaleB);
-    func_800C42A4(&D_800F34C8, &matrix, 0);
+    Gte_ScaleMatrix(workMatrix, &scaleB);
+    func_800C42A4(&D_800F34C8, workMatrix, 0);
 
     D_800F34D0 = -50;
     D_800F34D2 = glow->depth;
 
-    RotMatrixYXZ(&spinC, &rotation);
+    RotMatrixYXZ(thirdSpin, stepMatrix);
     matrix = glow->matrix;
     matrix.t[0] = glow->x;
     matrix.t[1] = glow->y;
@@ -63,21 +276,189 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
     rotation.t[0] = 0;
     rotation.t[1] = -10;
     rotation.t[2] = -400;
-    gte_CompMatrix(&matrix, &rotation, &matrix);
-    scaleC = D_800C21F4;
-    Gte_ScaleMatrix(&matrix, &scaleC);
-    func_800C42A4(&D_800F34C8, &matrix, 0);
+    asm volatile("" : : : "memory");
+    baseRotation = (const GteMatrixWords *)workMatrix;
 
-    RotMatrixYXZ(&spinD, &rotation);
+    a = baseRotation->r11_r12;
+    b = baseRotation->r13_r21;
+    gte_ctc2_0(a);
+    gte_ctc2_1(b);
+    a = baseRotation->r22_r23;
+    b = baseRotation->r31_r32;
+    c = baseRotation->r33_pad;
+    gte_ctc2_2(a);
+    gte_ctc2_3(b);
+    gte_ctc2_4(c);
+    a = ((const volatile u16 *)stepMatrix)[0];
+    b = ((const volatile u16 *)stepMatrix)[3];
+    c = ((const volatile u16 *)stepMatrix)[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    firstColumn = (u16 *)workMatrix;
+
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    firstColumn[0] = a;
+    firstColumn[3] = b;
+    firstColumn[6] = c;
+    asm volatile("" : : : "memory");
+    a = column1[0];
+    b = column1[3];
+    c = column1[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    outColumn1[0] = a;
+    outColumn1[3] = b;
+    outColumn1[6] = c;
+    asm volatile("" : : : "memory");
+    a = column2[0];
+    b = column2[3];
+    c = column2[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    outColumn2[0] = a;
+    outColumn2[3] = b;
+    outColumn2[6] = c;
+    /* Compose the translation using the current matrix. */
+    asm volatile("" : : : "memory");
+    baseTranslation = (const GteMatrixWords *)workMatrix;
+
+    a = baseTranslation->tx;
+    b = baseTranslation->ty;
+    gte_ctc2_5(a);
+    c = baseTranslation->tz;
+    gte_ctc2_6(b);
+    gte_ctc2_7(c);
+    b = ((const volatile u16 *)translation)[2];
+    a = ((const volatile u16 *)translation)[0];
+    b <<= 16;
+    a |= b;
+    gte_mtc2_0(a);
+    gte_lwc2_1_8(translation);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_v0_translation_sf12();
+    gte_swc2_9_0(outTranslation);
+    gte_swc2_10_4(outTranslation);
+    gte_swc2_11_8(outTranslation);
+
+
+    scaleC = D_800C21F4;
+    Gte_ScaleMatrix(workMatrix, &scaleC);
+    func_800C42A4(&D_800F34C8, workMatrix, 0);
+
+    RotMatrixYXZ(fourthSpin, stepMatrix);
     matrix = glow->matrix;
     matrix.t[0] = glow->x;
     matrix.t[1] = glow->y;
     matrix.t[2] = glow->z;
-    gte_CompMatrix(&matrix, &rotation, &matrix);
-    /* Matching debt: retain this column address through the fourth compose.
-     * This empty barrier reproduces retail's saved-register/spill allocation. */
-    asm("" : : "r"(&rotation.m[0][1]));
+    asm volatile("" : : : "memory");
+    baseRotation = (const GteMatrixWords *)workMatrix;
+
+    a = baseRotation->r11_r12;
+    b = baseRotation->r13_r21;
+    gte_ctc2_0(a);
+    gte_ctc2_1(b);
+    a = baseRotation->r22_r23;
+    b = baseRotation->r31_r32;
+    c = baseRotation->r33_pad;
+    gte_ctc2_2(a);
+    gte_ctc2_3(b);
+    gte_ctc2_4(c);
+    a = ((const volatile u16 *)stepMatrix)[0];
+    b = ((const volatile u16 *)stepMatrix)[3];
+    c = ((const volatile u16 *)stepMatrix)[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    firstColumn = (u16 *)workMatrix;
+
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    firstColumn[0] = a;
+    firstColumn[3] = b;
+    firstColumn[6] = c;
+    asm volatile("" : : : "memory");
+    a = column1[0];
+    b = column1[3];
+    c = column1[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    outColumn1[0] = a;
+    outColumn1[3] = b;
+    outColumn1[6] = c;
+    asm volatile("" : : : "memory");
+    a = column2[0];
+    b = column2[3];
+    c = column2[6];
+    gte_mtc2_9(a);
+    gte_mtc2_10(b);
+    gte_mtc2_11(c);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_ir_sf12();
+    gte_mfc2_9(a);
+    gte_mfc2_10(b);
+    gte_mfc2_11(c);
+    outColumn2[0] = a;
+    outColumn2[3] = b;
+    outColumn2[6] = c;
+    /* Compose the translation using the current matrix. */
+    asm volatile("" : : : "memory");
+    baseTranslation = (const GteMatrixWords *)workMatrix;
+
+    a = baseTranslation->tx;
+    b = baseTranslation->ty;
+    gte_ctc2_5(a);
+    c = baseTranslation->tz;
+    gte_ctc2_6(b);
+    gte_ctc2_7(c);
+    b = ((const volatile u16 *)translation)[2];
+    a = ((const volatile u16 *)translation)[0];
+    b <<= 16;
+    a |= b;
+    gte_mtc2_0(a);
+    gte_lwc2_1_8(translation);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_mvmva_rotation_v0_translation_sf12();
+    gte_swc2_9_0(outTranslation);
+    gte_swc2_10_4(outTranslation);
+    gte_swc2_11_8(outTranslation);
+
+
+        asm("" : : "r"(outColumn2));
     scaleD = D_800C21F4;
-    Gte_ScaleMatrix(&matrix, &scaleD);
-    func_800C42A4(&D_800F34C8, &matrix, 0);
+    Gte_ScaleMatrix(workMatrix, &scaleD);
+    func_800C42A4(&D_800F34C8, workMatrix, 0);
 }

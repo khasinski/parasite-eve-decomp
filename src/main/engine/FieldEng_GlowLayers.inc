@@ -127,7 +127,7 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
     outColumn2[0] = a;
     outColumn2[3] = b;
     outColumn2[6] = c;
-    /* Transform placement translation with the camera matrix. */
+    /* Compose the translation using the current matrix. */
     asm volatile("" : : : "memory");
     baseTranslation = (const GteMatrixWords *)workMatrix;
 
@@ -153,11 +153,11 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
     gte_swc2_10_4(outTranslation);
     gte_swc2_11_8(outTranslation);
 
-        scaleA = FIELD_GLOW_LAYERS_SCALE;
+    scaleA = FIELD_GLOW_LAYERS_SCALE;
     Gte_ScaleMatrix(workMatrix, &scaleA);
     func_800C42A4(&FIELD_GLOW_LAYERS_SPRITE, workMatrix, 0);
 
-        RotMatrixYXZ(nextSpin, stepMatrix);
+    RotMatrixYXZ(nextSpin, stepMatrix);
     matrix = glow->matrix;
     matrix.t[0] = glow->x;
     matrix.t[1] = glow->y;
@@ -224,7 +224,7 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
     outColumn2[0] = a;
     outColumn2[3] = b;
     outColumn2[6] = c;
-    /* Transform placement translation with the camera matrix. */
+    /* Compose the translation using the current matrix. */
     asm volatile("" : : : "memory");
     baseTranslation = (const GteMatrixWords *)workMatrix;
 
