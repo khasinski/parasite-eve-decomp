@@ -70,7 +70,7 @@ void *MenuWidget_AllocNode(s32 arg0, void *arg1) {
     NODE_FIELD(temp_s0, s32 *, x) = 0;
     NODE_FIELD(temp_s0, s32 *, selected_base) = 0;
     NODE_FIELD(temp_s0, s32 *, mode) = 0;
-    NODE_FIELD(temp_s0, s32 *, field_28) = 0;
+    NODE_FIELD(temp_s0, s32 *, flags) = 0;
     if (temp_s1 != NULL) {
         var_a0_2 = 0;
         var_v1 = temp_s1;
