@@ -258,8 +258,8 @@ void Draw_PrintRawText(u8 *arg0) {
         if (temp_a1 < (u32) &g_TextCursorStackTop) {
             s32 t0 = g_TextCursorX; s32 t1 = g_TextCursorY;
             g_TextCursorStackWord = temp_a1 + 8;
-            M2C_FIELD(temp_a1, s32 *, 0) = t0;
-            M2C_FIELD(temp_a1, s32 *, 4) = t1;
+            ((DrawTextCursorPair *)temp_a1)->x = t0;
+            ((DrawTextCursorPair *)temp_a1)->y = t1;
         } else {
             BoundsCheck_AssertStub(2, temp_a1);
         }
@@ -272,8 +272,8 @@ void Draw_PrintRawText(u8 *arg0) {
             } while (var_a0 != 0xFF);
         }
         if ((u32) &g_TextCursorStackBottom < g_TextCursorStackWord) {
-            temp_v0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -8);
-            temp_a0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -4);
+            temp_v0 = ((DrawTextCursorPair *)(g_TextCursorStackWord - 8))->x;
+            temp_a0 = ((DrawTextCursorPair *)(g_TextCursorStackWord - 8))->y;
             g_TextCursorStackWord -= 8;
             g_TextCursorX = temp_v0;
             g_TextCursorY = temp_a0;
@@ -397,8 +397,8 @@ void Draw_PrintTextById(unsigned int textId) {
         if (temp_a1 < (u32) &g_TextCursorStackTop) {
             s32 t0 = g_TextCursorX; s32 t1 = g_TextCursorY;
             g_TextCursorStackWord = temp_a1 + 8;
-            M2C_FIELD(temp_a1, s32 *, 0) = t0;
-            M2C_FIELD(temp_a1, s32 *, 4) = t1;
+            ((DrawTextCursorPair *)temp_a1)->x = t0;
+            ((DrawTextCursorPair *)temp_a1)->y = t1;
         } else {
             BoundsCheck_AssertStub(2, temp_a1);
         }
@@ -411,8 +411,8 @@ void Draw_PrintTextById(unsigned int textId) {
             } while (var_a0 != 0xFF);
         }
         if ((u32) &g_TextCursorStackBottom < g_TextCursorStackWord) {
-            temp_v0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -8);
-            temp_a0 = M2C_FIELD(g_TextCursorStackWord, s32 *, -4);
+            temp_v0 = ((DrawTextCursorPair *)(g_TextCursorStackWord - 8))->x;
+            temp_a0 = ((DrawTextCursorPair *)(g_TextCursorStackWord - 8))->y;
             g_TextCursorStackWord -= 8;
             g_TextCursorX = temp_v0;
             g_TextCursorY = temp_a0;
