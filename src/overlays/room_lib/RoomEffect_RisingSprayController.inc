@@ -1,4 +1,5 @@
 #include "pe1/room_spark.h"
+#include "pe1/room_sound_slot.h"
 #ifndef ROOMEFFECT_RISING_SPRAY_FUNC
 #error "ROOMEFFECT_RISING_SPRAY_FUNC must name the room entry point"
 #endif
@@ -15,12 +16,7 @@ typedef struct RoomRisingSprayParams {
     s32 spread;
 } RoomRisingSprayParams;
 
-/* The sound channel pointer read as a one-field record: each test and
- * argument reloads it after the outgoing stack argument store, as retail
- * does. */
-typedef struct RoomRisingSpraySoundSlot {
-    void *channel;
-} RoomRisingSpraySoundSlot;
+typedef RoomSoundSlot RoomRisingSpraySoundSlot;
 
 extern RoomRisingSpraySoundSlot D_800B0E64_slot __asm__("D_800B0E64");
 extern s32 D_800E27EC;

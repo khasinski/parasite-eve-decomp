@@ -1,6 +1,7 @@
 #include "pe1/room_spark.h"
 #include "pe1/gte.h"
 #include "pe1/room_ground_sweep.h"
+#include "pe1/room_sound_slot.h"
 #ifndef ROOMEFFECT_GROUND_SWEEP_FUNC
 #error "ROOMEFFECT_GROUND_SWEEP_FUNC must name the room entry point"
 #endif
@@ -20,10 +21,7 @@
 #error "ROOMEFFECT_GROUND_SWEEP_SIDE must name the alternating side counter"
 #endif
 
-/* The sound channel pointer read as a one-field record. */
-typedef struct RoomGroundSweepSoundSlot {
-    void *channel;
-} RoomGroundSweepSoundSlot;
+typedef RoomSoundSlot RoomGroundSweepSoundSlot;
 
 extern RoomGroundSweepSoundSlot D_800B0E64_slot __asm__("D_800B0E64");
 extern int func_8006DF50_handle(void *channel, int id, int value, int volume,
