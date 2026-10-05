@@ -134,7 +134,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | main | MemCard_UpdateSaveState | 3864 | candidates/main/memcard/tu_031908.c (old byte-offset draft, no README, diff count not recorded) |
 | fx_common | RoomLib_HandlerD | 748 | one 0x3D0 path sampler (report splits it at a stale RoomLib_HandlerD symbol at 0x8018F640); candidates/overlays/fx_common_sample_path: lev 17 without volatile (count read gives lh, not lhu/sll/sra) |
 | menu_memcard | func_801909B4 | 3908 | candidates/overlays/menu_memcard_func_801909B4 (no README, diff count not recorded) |
-| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: 7 diffs (single `special` variant, 2026-10-04) |
 
 ## not yet attempted
 
@@ -165,3 +164,7 @@ The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA1
 | main | func_800CAE0C | 2372 | FieldEng_GlowFourLayers: score 0 and whole-main byte-match with stock GCC/MASPSX; one empty barrier after the fourth CompMatrix keeps the column address live and reproduces the retail spill, no pins; existing SDK GTE macros |
 | main | Battle_UpdateEnemy | 2144 | score 0 and whole-main byte-match with stock GCC/MASPSX; shared EnemyCombatant charge, motion, saved animation and damage-panel fields; minimized to 10 pins and 3 empty barriers recorded in debt |
 | main | Battle_DrawStatusPanel | 2128 | score 0 and whole-main byte-match with stock GCC/MASPSX; shared BattleStatusPanel and RenderSpritePacket layouts; 14 pins, 4 empty barriers, 48-byte unknown stack reserve and matching symbol views recorded in debt |
+
+## Subsequent matches on main
+
+- `scene_e20/func_8018F028` (1832 bytes): score 0 with two pins; complete overlay byte-match. See `src/overlays/scene_e20/RoomEffect_FlareParticle_8018F028.c`.

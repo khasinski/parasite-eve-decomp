@@ -1,18 +1,16 @@
 #ifndef PE1_SCENE_E20_HOVER_ORB_H
 #define PE1_SCENE_E20_HOVER_ORB_H
 
-#include "common.h"
+#include "pe1/scene_e20_flare.h"
 
 /* Scene e20 trail controller and its command/particle records.
  * Reserved members are observed offsets, not recovered field meanings. */
-typedef struct SceneE20Vec { s16 x,y,z,pad; } SceneE20Vec;
 typedef struct SceneE20Color { u8 r,g,b,code; } SceneE20Color;
 typedef struct SceneE20Matrix { s16 m[3][3],pad; s32 t[3]; } SceneE20Matrix;
 typedef struct SceneEffectSlot {
     SceneE20Vec position, target;
     int duration, pending;
 } SceneEffectSlot;
-typedef struct SceneE20Particle { SceneE20Vec position, velocity; s16 kind, timer; } SceneE20Particle;
 typedef struct SceneE20TrailEffect {
     SceneE20Vec position, rotation, endpoint, target, previousPosition;
     SceneE20Vec commandedEndpoint, previousEndpoint, trailHead, trailTail;
@@ -26,7 +24,6 @@ typedef struct SceneE20Pool { SceneE20Node *node; u8 reserved04[0x264]; SceneE20
 typedef struct SceneE20Channel { int reserved[2]; SceneE20Pool *pool; } SceneE20Channel;
 extern SceneE20Channel *D_800F32D0, *D_800F33E0;
 extern SceneE20Color D_8018EFFC, D_8018F000, D_8018F004, D_8018F008;
-extern short D_800942EC;
 extern SceneE20Actor **D_8009D254;
 extern void *D_800B0E64;
 extern void *D_8019085C;
@@ -58,7 +55,6 @@ void func_800C6EF8(void *model);
 void func_800C6F4C(void *model);
 void func_800C6FA0(void *model, u16 alpha);
 void func_800C71E4(void *model, SceneE20Matrix *matrix);
-int func_8018F028(int, SceneE20Particle *);
 int func_800CE560(SceneE20Pool *pool,int stride,int count,void *callback);
 void func_800CEE20(SceneE20Vec *position,SceneE20Vec *rotation,int scaleX,int scaleY,int cell,int clut,int mode,int alpha,SceneE20Color *color);
 extern SceneE20Event *D_800E2368;
@@ -83,7 +79,6 @@ extern s32 D_800F3428;
 extern s32 D_80190800;
 
 PE1_STATIC_ASSERT(sizeof(SceneEffectSlot) == 0x18, scene_e20_slot_size);
-PE1_STATIC_ASSERT(sizeof(SceneE20Particle) == 0x14, scene_e20_particle_size);
 PE1_STATIC_ASSERT(sizeof(SceneE20TrailEffect) == 0xC4, scene_e20_trail_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE20TrailEffect, history) == 0x54, scene_e20_history_offset);
 

@@ -1,9 +1,21 @@
 #include "pe1/scene_e20_flare.h"
+#include "pe1/render_object.h"
+#include "pe1/gte.h"
+
+extern RenderColor D_8018EFF4, D_8018EFF8;
+extern u8 D_80190804[];
+extern u16 D_800E11EA[];
+int func_80077CF4(int angle);
+int func_80077DC4(int angle);
+u16 func_80077AA4(int x, int y);
+void func_800D2104(GteShortVector *position, RenderColor *color, int size, int alpha);
 
 /* Mode 1 ages the flare and, while it falls, moves and damps it and
  * bounces it off the floor; mode 2 draws a spinning glow with a streak,
- * a pulsing glow pair, or a fading spark. */
-int func_8018F028(int mode, SceneE20Flare *p)
+ * a pulsing glow pair, or a fading spark. Matching debt: two register pins
+ * retain the separate palette-compare temporaries. GTE transfers use the
+ * shared instruction macros; there are no CPU instruction ASM bodies. */
+int func_8018F028(int mode, SceneE20Particle *p)
 {
     GteRotation rotation;
     RenderColor color;
@@ -16,13 +28,12 @@ int func_8018F028(int mode, SceneE20Flare *p)
     int glow;
     int time;
     int state;
-    int special;
 
     streakColor = D_8018EFF4;
     glowColor = D_8018EFF8;
     switch (mode) {
     case 1:
-        switch (p->state) {
+        switch (p->kind) {
         case 0:
             p->timer++;
             if (p->timer < 0x10) break;
@@ -33,23 +44,23 @@ int func_8018F028(int mode, SceneE20Flare *p)
             return 1;
         case 2:
             p->timer++;
-            p->position.x += p->heading.x;
-            p->position.y += p->heading.y;
-            p->position.z += p->heading.z;
-            p->heading.x = p->heading.x * 59 / 60;
-            p->heading.z = p->heading.z * 59 / 60;
-            fall = (u16)p->heading.y + 1;
-            p->heading.y = fall;
-            if (p->position.y >= D_800942EC.count) {
+            p->position.x += p->velocity.x;
+            p->position.y += p->velocity.y;
+            p->position.z += p->velocity.z;
+            p->velocity.x = p->velocity.x * 59 / 60;
+            p->velocity.z = p->velocity.z * 59 / 60;
+            fall = (u16)p->velocity.y + 1;
+            p->velocity.y = fall;
+            if (p->position.y >= D_800942EC.height) {
                 bounce = -(s16)fall;
-                p->heading.y = bounce;
+                p->velocity.y = bounce;
             }
             if (p->timer < 0x14) break;
             return 1;
         }
         break;
     case 2:
-        state = p->state;
+        state = p->kind;
         switch (state) {
         case 0: {
             int kind;
@@ -59,19 +70,16 @@ int func_8018F028(int mode, SceneE20Flare *p)
             D_800F3368.extent_x = 0x20;
             D_800F3368.extent_y = 0x20;
             {
-                special = D_800E2850[D_800E11EA[8]];
+                int tpage = D_800E2850[D_800E11EA[8]];
                 D_800F3368.palette = 3;
                 D_800F3368.parameter06 = 1;
-                D_800F3368.tpage = special;
+                D_800F3368.tpage = tpage;
             }
             angle = p->timer << 6;
             scale = func_80077CF4(angle);
-            special = (u16)p->heading.x;
-            rotation.x = special;
-            special = (u16)p->heading.y;
-            rotation.y = special;
-            special = (u16)p->heading.z;
-            rotation.z = special;
+            rotation.x = p->velocity.x;
+            rotation.y = p->velocity.y;
+            rotation.z = p->velocity.z;
             rotation.flags = 1;
             {
                 RenderMatrixSlot *matrixSlot = &D_800BCFA4;
@@ -79,21 +87,24 @@ int func_8018F028(int mode, SceneE20Flare *p)
                 gte_ldtransmatrix(matrixSlot->value);
             }
             func_800CF3AC(D_80190804, &color, p->timer);
-            special = 4;
-            kind = D_800F3368.palette;
-            palette = D_800E1204[kind];
-            if (kind == special && D_800F3428 != 0) palette += 8;
-            else palette += 4;
+            {
+                register int specialKind asm("$3") = 4;
+                kind = D_800F3368.palette;
+                palette = D_800E1204[kind];
+                if (kind == specialKind && D_800F3428 != 0) palette += 8;
+                else palette += 4;
+            }
             func_800CEE20(&p->position, &rotation, scale * 3, scale * 3, 4,
                           func_80077AA4(0, palette), 1, 0x80, &color);
             if (p->timer < 8) {
+                register int streakKind asm("$3");
                 int width = (p->timer / 2) << 5;
                 int top = 0x40;
                 glow = func_80077DC4(angle) / 32;
                 func_800CF3AC(D_80190804, &color, p->timer << 1);
-                kind = D_800F3368.palette;
-                palette = D_800E1204[kind];
-                if (kind == 4 && D_800F3428 != 0) palette += 7;
+                streakKind = D_800F3368.palette;
+                palette = D_800E1204[streakKind];
+                if (streakKind == 4 && D_800F3428 != 0) palette += 7;
                 else palette += 3;
                 func_800D2370(&p->position, &rotation, 500, 0x168, width, top, 0x1F, 0x1F,
                               func_80077AA4(0, palette), &streakColor, &streakColor,

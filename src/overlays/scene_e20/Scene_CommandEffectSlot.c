@@ -11,7 +11,7 @@ SceneEffectSlot *Scene_CommandEffectSlot(unsigned int command, int index, int va
     case 1:
         slot->target.x = value;
         random = Engine_Random();
-        slot->target.y = D_800942EC - 600;
+        slot->target.y = D_800942EC.height - 600;
         slot->target.y -= random & 0x1FF;
         slot->target.z = z;
         slot->pending = 0;
@@ -20,13 +20,13 @@ SceneEffectSlot *Scene_CommandEffectSlot(unsigned int command, int index, int va
         slot->position.x = value;
         /* Keep the position store before the shared-height load; emits no code. */
         __asm__("");
+        slot->position.y = D_800942EC.height;
         slot->position.z = z;
-        slot->position.y = D_800942EC;
         break;
     case 3:
         slot->target.x = value;
         random = Engine_Random();
-        slot->target.y = D_800942EC - 600;
+        slot->target.y = D_800942EC.height - 600;
         slot->target.y -= random & 0x1FF;
         slot->target.z = z;
         break;

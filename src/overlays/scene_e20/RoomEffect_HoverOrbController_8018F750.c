@@ -113,7 +113,7 @@ update: {
         command->pending = 0;
         func_800CE870(D_8009D254, 0, &point);
         point.x = (func_80071A54() & 0x7FF) - 0x400;
-        point.y = ((u16) D_800942EC - 0x258) - (func_80071A54() & 0x1FF);
+        point.y = ((u16) D_800942EC.height - 0x258) - (func_80071A54() & 0x1FF);
         point.z = (func_80071A54() & 0x7FF) - 0x400;
         effect->target.x = (s16) (u16) point.x;
         effect->target.y = (s16) (u16) point.y;
