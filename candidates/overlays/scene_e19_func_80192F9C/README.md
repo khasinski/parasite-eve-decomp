@@ -1,4 +1,4 @@
-# func_80192F9C: readable candidate, score 492
+# func_80192F9C: readable candidate, score 400
 
 Not integrated and not yet matching. The current preferred candidate is
 `SceneE19_BlastSequence.c` with `scene_e19_blast.h`, adapted from
@@ -7,7 +7,7 @@ reference at score 787; its research history follows below.
 
 Verified on darwine with stock native GCC 2.7.2 (`-O2 -G0 -funsigned-char
 -mips1 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`), and the repository's
-`score_decompme.py` configuration: **weighted Levenshtein 492**. Target and
+`score_decompme.py` configuration: **weighted Levenshtein 400**. Target and
 candidate each contain 2368 instructions. This is not a completed match.
 The new source emits its three local initializers before the jump tables;
 link its `.rodata` at **0x8018F1D4**, not the old draft's 0x8018F1E4.
@@ -28,10 +28,16 @@ of pointer placement/constraints and scale assignment found 492: keep the
 pointers in the draw-mode head, add the input/memory barrier, and assign
 `radialScale = 0x1000` after the first state-2 `func_800CEE20` call.
 
+A follow-up used 96 scope/pin-subset variants (no improvement), 1440
+state-2 store-order/palette-pin variants (492 -> 460), and 20 height-restore /
+scoped-palette variants (460 -> 400). The retained changes only reorder
+independent C statements: initialize rotation x/y/z before tpage, palette,
+parameter06; restore center.y after the fourth matrix-slot constraint.
+The two ordering differences are now resolved without adding matching debt.
+
 Remaining differences include division-result registers (`t2` versus retail
 `t1`), the two pointer initializations being above the state switch, state-2
-rotation/parameter store ordering and palette register allocation, and the
-saved-height restore around the fourth GTE load. The production function
+palette register allocation. The production function
 remains an ASM subsegment. Integration still needs the scene rodata/layout
 work and full overlay verification after score zero.
 

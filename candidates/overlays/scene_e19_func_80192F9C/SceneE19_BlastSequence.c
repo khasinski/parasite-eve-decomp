@@ -337,12 +337,12 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (D_800E27EC & 1) {
                 radialScale = 0xF00;
             }
-            params->parameter06 = 0;
             rotation.x = -0x400;
+            rotation.y = 0;
             rotation.z = D_800E27EC << 5;
             params->tpage = D_800E2850[pageSelector[-8]];
             params->palette = 3;
-            rotation.y = 0;
+            params->parameter06 = 0;
             page = (u16)(D_800E2850[pageSelector[-8]] | func_80077A64(0, 1, 0, 0));
             palette = palettes[params->palette];
             if (params->palette == 4 && D_800F3428 != 0) {
@@ -522,10 +522,10 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             func_800C6FA0(D_8019B68C, (u16)(intensity / 2));
             func_800C71E4(D_8019B68C, &shellMatrix3c);
             func_800C6F4C(D_8019B68C);
-            center.y = height;
             asm volatile("" : : : "memory");
             matrixSlot = &D_800BCFA4;
             asm("" : "=r"(matrixSlot) : "0"(matrixSlot));
+            center.y = height;
             matrix = (const u32 *)matrixSlot->value;
             w0 = matrix[0];
             w1 = matrix[1];
