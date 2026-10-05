@@ -1526,7 +1526,6 @@ segments:
       - [0xC6098, c, engine/FieldEng_CosinePulse]
       - [0xC6200, c, engine/FieldEng_CosinePulseEmitter]
       - [0xC64E4, c, engine/FieldEng_RisingEffect]
-      - [0xC66B4, c, engine/FieldEng_RisingEmitter]
       - [0xC6A9C, c, engine/FieldEng_SpiralSprite]
       - [0xC6D14, c, engine/FieldEng_SpiralEmitter]
       - [0xC721C, c, engine/FieldEng_RingPulse]
