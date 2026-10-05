@@ -1,6 +1,10 @@
+#include "common.h"
 #include "pe1/akao.h"
 #include "pe1/akao/voice_state.h"
 #include "pe1/akao/voice_masks.h"
+#include "m2c_macros.h"
+
+extern AkaoTrack D_800BC000[];
 
 void Akao_SetNotePitch(AkaoTrack *track, int arg);
 
@@ -64,9 +68,7 @@ void Spu_RebaseStreamAddrs(unsigned char *ptr, int value, int count) {
     } while (count != 0);
 }
 
-#include "common.h"
 #define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK func_80089960();
 M2C_UNK func_80089B28();
 M2C_UNK func_80089CF0();
@@ -456,7 +458,6 @@ finish:
     Seq_MarkTrack38MaskDirty();
     Seq_MarkTrack3CMaskDirty();
 }
-#include "pe1/akao.h"
 
 extern unsigned int D_800BCD50;
 extern unsigned int D_800BCD54;
@@ -467,7 +468,7 @@ extern unsigned int D_800BCD6C;
 extern unsigned int D_800BCD70;
 extern unsigned int D_800BCD74;
 extern unsigned int D_8009D2DC;
-extern AkaoNestedVoiceSlot D_800BC000[];
+
 
 void Akao_InitVoiceState(AkaoTrack *track, void *script);
 
@@ -541,7 +542,6 @@ void Seq_StartNestedTrack(AkaoTrack *track, AkaoNestedSource *source, unsigned i
         } while (count != 0);
     }
 }
-#include "pe1/akao.h"
 
 
 extern char *D_8009D2C8;
@@ -635,4 +635,78 @@ exhausted:
     Seq_MarkTrack34MaskDirty();
     Seq_MarkTrack38MaskDirty();
     Seq_MarkTrack3CMaskDirty();
+}
+extern u16 *D_8009D240;
+extern char *D_8009D260;
+
+void func_8008AB1C(int *out0, int *out1, int sample_id) {
+    u32 index;
+    u16 value;
+    int result;
+
+    index = sample_id;
+    index &= 0x3FF;
+    index <<= 1;
+
+    value = D_8009D240[index];
+    if (value != 0xFFFF) {
+        result = (int)(D_8009D260 + value);
+    } else {
+        result = 0;
+    }
+    *out0 = result;
+
+    index++;
+    value = D_8009D240[index];
+    if (value != 0xFFFF) {
+        result = (int)(D_8009D260 + value);
+    } else {
+        result = 0;
+    }
+    *out1 = result;
+}
+
+
+
+extern char *D_8009D2C8;
+
+void func_8008AB9C(AkaoTrack *track) {
+    u32 mask;
+    u32 bit;
+
+    mask = *(u32 *)(D_8009D2C8 + 4);
+    if (mask != 0) {
+        bit = 1;
+        do {
+            if (mask & bit) {
+                mask ^= bit;
+                track->update_flags |= AKAO_VOICE_PARAM_VOLUME;
+            }
+            track++;
+            bit <<= 1;
+        } while (mask != 0);
+    }
+}
+
+extern u32 D_800BCD50;
+
+
+void func_8008ABF0(void) {
+    u32 mask;
+    u32 bit;
+    AkaoTrack *track;
+
+    mask = D_800BCD50;
+    track = D_800BC000;
+    if (mask != 0) {
+        bit = 0x1000;
+        do {
+            if (mask & bit) {
+                mask ^= bit;
+                track->update_flags |= AKAO_VOICE_PARAM_VOLUME;
+            }
+            track++;
+            bit <<= 1;
+        } while (mask != 0);
+    }
 }
