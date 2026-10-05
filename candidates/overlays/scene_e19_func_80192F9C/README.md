@@ -1,9 +1,9 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **6453**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **5828**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Six register pins and eight empty barriers are recorded below. There is no CPU ASM.
+Eight register pins and eight empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
@@ -445,3 +445,24 @@ and two savedHeight uses. The two helpers are fully inlined; nm shows only
 func_80192F9C as executable function. The fresh alignment also confirms that
 the frame is now 0x330, matching retail (the earlier 0x320 note is historical).
 There is still no CPU instruction ASM and this is not a score-zero match.
+
+## Draw-state 2 retained pointers
+
+Pinning renderParams to s1 scores 6283; pinning pageSelector to s2 scores
+6023. Combining the two scores **5828**, reproduced by a fresh retained
+compile and linked weighted Levenshtein comparison on darwine. The variables
+are used only in draw state 2. Their values, loads and stores are unchanged.
+The target keeps these two bases in s1/s2 across drawing calls.
+
+The existing tied-input barriers are still necessary: removing the selector
+barrier scores 6888, removing the parameter barrier scores 6743, and removing
+both scores 7803. Swapping pointer initializations scores 6448 without the
+new pins and 6133 with them, so the existing initialization order is retained.
+A barrier before the render-state read scores 6483 and was rejected; an
+inline conversion there is neutral. Removing the matrix pin scores 6493
+against the preceding 6453 base and was also rejected.
+
+Current candidate debt is eight pins and eight empty barriers, plus the same
+two fully inlined conversion helpers. No CPU instruction ASM was added.
+Target and candidate each contain 2368 instructions; the score is still
+nonzero and production retains the original assembly.
