@@ -249,9 +249,9 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             rotation.x = -0x400;
             rotation.y = 0;
             rotation.z = D_800E27EC << 5;
-            D_800F336C = 3;
-            D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
             page = (u16)(D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0));
             palette = D_800E1204[D_800F336C];
             if (D_800F336C == 4 && D_800F3428 != 0) {
@@ -387,9 +387,9 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             rotation.x = 0;
             rotation.y = D_800E27EC << 5;
             rotation.z = 0;
-            D_800F336C = 3;
-            D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
             page = (u16)(D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0));
             palette = D_800E1204[D_800F336C];
             if (D_800F336C == 4 && D_800F3428 != 0) {
@@ -415,12 +415,12 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
-            rotation.y = D_800E27EC * -0x30;
-            D_800F336C = 3;
-            D_800F336E = 0;
             rotation.x = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            rotation.y = D_800E27EC * -0x30;
             rotation.z = 0;
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
             page = (u16)(D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0));
             palette = D_800E1204[D_800F336C];
             if (D_800F336C == 4 && D_800F3428 != 0) {
@@ -447,12 +447,12 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
-            rotation.y = D_800E27EC * -0x20;
-            D_800F336C = 3;
             rotation.x = 0;
-            D_800F336E = 0;
+            rotation.y = D_800E27EC * -0x20;
             rotation.z = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
             page = (u16)(D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0));
             palette = D_800E1204[D_800F336C];
             if (D_800F336C == 4 && D_800F3428 != 0) {
@@ -492,12 +492,12 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
-            rotation.y = (D_800E27EC << 5) + 0x400;
-            D_800F336C = 3;
-            D_800F336E = 0;
             rotation.x = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            rotation.y = (D_800E27EC << 5) + 0x400;
             rotation.z = 0;
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
             page = (u16)(D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0));
             palette = D_800E1204[D_800F336C];
             if (D_800F336C == 4 && D_800F3428 != 0) {
@@ -523,12 +523,12 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (!(D_800E27EC & 1)) {
                 intensity = intensity * 15 / 16;
             }
-            rotation.y = D_800E27EC << 5;
-            D_800F336C = 3;
-            D_800F336E = 0;
             rotation.x = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            rotation.y = D_800E27EC << 5;
             rotation.z = 0;
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
             page = (u16)(D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0));
             palette = D_800E1204[D_800F336C];
             if (D_800F336C == 4 && D_800F3428 != 0) {
@@ -557,12 +557,12 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
-            rotation.y = D_800E27EC << 5;
-            D_800F336C = 3;
-            D_800F336E = 0;
             rotation.x = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            rotation.y = D_800E27EC << 5;
             rotation.z = 0;
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
             page = (u16)(D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0));
             palette = D_800E1204[D_800F336C];
             if (D_800F336C == 4 && D_800F3428 != 0) {
@@ -589,12 +589,12 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
-            rotation.y = D_800E27EC * -0x20;
-            D_800F336C = 3;
-            D_800F336E = 0;
             rotation.x = 0;
+            rotation.y = D_800E27EC * -0x20;
             rotation.z = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
             page = (u16)(D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0));
             palette = D_800E1204[D_800F336C];
             if (D_800F336C == 4 && D_800F3428 != 0) {
@@ -623,12 +623,12 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
-            rotation.y = (D_800E27EC << 5) + 0x400;
-            D_800F336C = 3;
-            D_800F336E = 0;
             rotation.x = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            rotation.y = (D_800E27EC << 5) + 0x400;
             rotation.z = 0;
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
             page = (u16)(D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0));
             palette = D_800E1204[D_800F336C];
             if (D_800F336C == 4 && D_800F3428 != 0) {
@@ -654,12 +654,12 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (!(D_800E27EC & 1)) {
                 intensity = intensity * 15 / 16;
             }
-            rotation.y = D_800E27EC << 5;
-            D_800F336C = 3;
-            D_800F336E = 0;
             rotation.x = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            rotation.y = D_800E27EC << 5;
             rotation.z = 0;
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 0;
             page = (u16)(D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0));
             palette = D_800E1204[D_800F336C];
             if (D_800F336C == 4 && D_800F3428 != 0) {
@@ -682,15 +682,15 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             break;
         }
         D_800F3368.parameter00 = 0x10;
-        D_800F336A = 1;
-        D_800F3376 = 0x10;
-        D_800F3378 = 0x10;
-        D_800F3376 = 0x80;
-        D_800F3378 = 0x10;
-        D_800F336C = 3;
-        D_800F336E = 0;
-        D_800F3372 = 0;
-        D_800F3370 = D_800E2850[D_800E11EA[0]];
+        D_800F3368.parameter02 = 1;
+        D_800F3368.extent_x = 0x10;
+        D_800F3368.extent_y = 0x10;
+        D_800F3368.extent_x = 0x80;
+        D_800F3368.extent_y = 0x10;
+        D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+        D_800F3368.palette = 3;
+        D_800F3368.parameter06 = 0;
+        D_800F3368.parameter0A = 0;
         break;
     }
     return 0;
