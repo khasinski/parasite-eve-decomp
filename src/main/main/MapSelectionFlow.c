@@ -1,10 +1,9 @@
 #include "common.h"
+#include "pe1/map_selection.h"
 
 extern u8 D_8009CD78[];
 extern u8 D_8009CD80[];
 extern u8 g_MapIdTable[];
-extern u8 g_MapSelectIndexTable[];
-extern u8 g_MapFilenameTable[];
 extern int D_8009D280;
 extern int D_8009D1C4;
 extern u32 D_8009D1A0;
@@ -22,7 +21,7 @@ int Scene_SelectMapById(int **args) {
     int raw_selection;
     u8 selection;
     u8 state;
-    u8 *select_index;
+    MapSelectionIndexRow *select_index;
     u32 *game_state;
     u32 map_flags;
     u32 state_flags;
@@ -55,8 +54,9 @@ int Scene_SelectMapById(int **args) {
     } else {
         state = (u8)(Menu_GetEquipSlotStateOrIndex() - 1);
         state /= 10;
-        select_index = g_MapSelectIndexTable + state * 24;
-        D_8009D280 = Str_ParseBase32Id(g_MapFilenameTable + ((int)select_index[selection] << 3));
+        select_index = g_MapSelectIndexTable + state;
+        D_8009D280 = Str_ParseBase32Id(
+            g_MapFilenameTable[select_index->filename_index[selection]].name);
     }
 
     raw_selection = 1;
@@ -84,7 +84,7 @@ int Render_SetFontGlyphByCode();
 int Task_SetFloorByEntityRoll(u8 **args) {
     int selection;
     u8 state;
-    u8 *select_index;
+    MapSelectionIndexRow *select_index;
     u32 *game_state;
     u32 map_flags;
     u32 state_flags;
@@ -107,9 +107,10 @@ int Task_SetFloorByEntityRoll(u8 **args) {
 
     state = (u8)(Menu_GetEquipSlotStateOrIndex() - 1);
     state /= 10;
-    select_index = g_MapSelectIndexTable + state * 24;
+    select_index = g_MapSelectIndexTable + state;
     g_SceneDispatchToken =
-        Str_ParseBase32Id(g_MapFilenameTable + ((int)select_index[selection] << 3));
+        Str_ParseBase32Id(
+            g_MapFilenameTable[select_index->filename_index[selection]].name);
 
     selection = 1;
     if (g_SceneDispatchCur == g_SceneDispatchToken) {
