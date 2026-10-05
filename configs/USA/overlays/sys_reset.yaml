@@ -1,7 +1,7 @@
 # vram: every internal jal resolves at this base; this is the linked PSY-Q
 # libpress/BUILD/VLC fragment, not a room-slot block.
 name: sys_reset.bin
-sha1: 8c49a29f8ae0ae241f9eb62dc8a6a26a2d3c9fd1
+sha1: e7331867b4d1464da4d5f386d9137eaa1c98422b
 options:
   basename: sys_reset
   target_path: original/USA/overlays/sys_reset.bin
@@ -56,6 +56,7 @@ segments:
       - [0x738, c, func_8010C430]
       - [0x750, c, func_8010C448]
       - [0x7CC, asm, sys_reset_7CC]
-  - [0x800]
-# source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/sys_reset.bin bs=2048 skip=927 count=1
+      - [0xF04, data, sys_reset_tables]
+  - [0x13000]
+# source slice: scanner, extended through decoder code/tables to sector 965
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/sys_reset.bin bs=2048 skip=927 count=38
