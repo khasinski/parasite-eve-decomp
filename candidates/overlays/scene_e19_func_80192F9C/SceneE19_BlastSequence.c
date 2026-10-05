@@ -3,13 +3,32 @@
 
 #ifdef LEGACY
 #define LOAD_VIEW_MATRIX() { RenderMatrixSlot *slot_ = &D_800BCFA4; gte_ldrotmatrix(slot_->value); gte_ldtransmatrix(slot_->value); }
+#elif defined(PINB)
+#define LOAD_VIEW_MATRIX() { \
+    register const GteMatrixWords *matrix_ asm("$9"); \
+    register u32 a_ asm("$12"); register u32 b_ asm("$13"); register u32 c_ asm("$14"); \
+    matrix_ = (const GteMatrixWords *)D_800BCFA4.value; \
+    a_ = matrix_->r11_r12; b_ = matrix_->r13_r21; gte_ctc2_0(a_); gte_ctc2_1(b_); \
+    a_ = matrix_->r22_r23; b_ = matrix_->r31_r32; c_ = matrix_->r33_pad; gte_ctc2_2(a_); gte_ctc2_3(b_); gte_ctc2_4(c_); \
+    a_ = matrix_->tx; b_ = matrix_->ty; gte_ctc2_5(a_); c_ = matrix_->tz; gte_ctc2_6(b_); gte_ctc2_7(c_); }
+#elif defined(PINC)
+#define LOAD_VIEW_MATRIX() { \
+    RenderMatrixSlot *slot_; \
+    register const GteMatrixWords *matrix_ asm("$9"); \
+    register u32 a_ asm("$12"); register u32 b_ asm("$13"); register u32 c_ asm("$14"); \
+    slot_ = &D_800BCFA4; asm volatile("" : "=r"(slot_) : "0"(slot_)); \
+    matrix_ = (const GteMatrixWords *)slot_->value; \
+    a_ = matrix_->r11_r12; b_ = matrix_->r13_r21; gte_ctc2_0(a_); gte_ctc2_1(b_); \
+    a_ = matrix_->r22_r23; b_ = matrix_->r31_r32; c_ = matrix_->r33_pad; gte_ctc2_2(a_); gte_ctc2_3(b_); gte_ctc2_4(c_); \
+    a_ = matrix_->tx; b_ = matrix_->ty; gte_ctc2_5(a_); c_ = matrix_->tz; gte_ctc2_6(b_); gte_ctc2_7(c_); }
 #else
 #define LOAD_VIEW_MATRIX() { \
-    const u32 *matrix_ = (const u32 *)D_800BCFA4.value; \
-    u32 a_, b_, c_; \
-    a_ = matrix_[0]; b_ = matrix_[1]; gte_ctc2_0(a_); gte_ctc2_1(b_); \
-    a_ = matrix_[2]; b_ = matrix_[3]; c_ = matrix_[4]; gte_ctc2_2(a_); gte_ctc2_3(b_); gte_ctc2_4(c_); \
-    a_ = matrix_[5]; b_ = matrix_[6]; gte_ctc2_5(a_); c_ = matrix_[7]; gte_ctc2_6(b_); gte_ctc2_7(c_); }
+    const GteMatrixWords *matrix_; \
+    register u32 a_ asm("$12"); register u32 b_ asm("$13"); register u32 c_ asm("$14"); \
+    matrix_ = (const GteMatrixWords *)D_800BCFA4.value; \
+    a_ = matrix_->r11_r12; b_ = matrix_->r13_r21; gte_ctc2_0(a_); gte_ctc2_1(b_); \
+    a_ = matrix_->r22_r23; b_ = matrix_->r31_r32; c_ = matrix_->r33_pad; gte_ctc2_2(a_); gte_ctc2_3(b_); gte_ctc2_4(c_); \
+    a_ = matrix_->tx; b_ = matrix_->ty; gte_ctc2_5(a_); c_ = matrix_->tz; gte_ctc2_6(b_); gte_ctc2_7(c_); }
 #endif
 
 int func_80192F9C(int mode, SceneE19Blast *blast)
