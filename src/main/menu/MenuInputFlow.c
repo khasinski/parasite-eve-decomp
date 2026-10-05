@@ -20,6 +20,14 @@ extern int D_8009D0F8;
 int Draw_RemapStatusFlags();
 void BoundsCheck_AssertStub(int arg0);
 
+void MenuInput_SetPollingPaused(int paused) {
+    D_8009D0EC = paused;
+}
+
+int MenuInput_GetRepeatStep(void) {
+    return D_8009D0F4;
+}
+
 void MenuInput_EnqueueStatusChanges(int flags) {
     int flags_reg;
     MenuInputQueuedEvent *event;
