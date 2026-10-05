@@ -5,6 +5,8 @@
 #include "pe1/field_billboard.h"
 /* MASPSX_FLAGS: --expand-div */
 
+/* Matching debt: four register pins and one empty slot-address barrier.
+ * Matrix loads are C; each GTE transfer uses its individual macro. */
 void func_800C3B04(FieldBillboard *board)
 {
     FieldStripPacket *packet;
@@ -51,8 +53,32 @@ void func_800C3B04(FieldBillboard *board)
         D_800E284C->rgb[1] = board->rgb[1];
         D_800E284C->rgb[2] = board->rgb[2];
     }
-    gte_ldrotmatrix(D_800BCFA4.value);
-    gte_ldtransmatrix(D_800BCFA4.value);
+    {
+        s32 **slot;
+        register const GteMatrixWords *matrix asm("$9");
+        register u32 a asm("$12");
+        register u32 b asm("$13");
+        register u32 c asm("$14");
+        slot = &D_800BCFA4.value;
+        asm volatile("" : "=r"(slot) : "0"(slot));
+        matrix = (const GteMatrixWords *)*slot;
+        a = matrix->r11_r12;
+        b = matrix->r13_r21;
+        gte_ctc2_0(a);
+        gte_ctc2_1(b);
+        a = matrix->r22_r23;
+        b = matrix->r31_r32;
+        c = matrix->r33_pad;
+        gte_ctc2_2(a);
+        gte_ctc2_3(b);
+        gte_ctc2_4(c);
+        a = matrix->tx;
+        b = matrix->ty;
+        gte_ctc2_5(a);
+        c = matrix->tz;
+        gte_ctc2_6(b);
+        gte_ctc2_7(c);
+    }
     D_800E284C->depth = RotTransPers(&board->position, &D_800E284C->screen.word,
                                      &D_800E284C->p, &D_800E284C->flag);
     D_800E284C->centerX = D_800E284C->screen.word;
