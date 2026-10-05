@@ -51,7 +51,7 @@ On darwine, stock toolchain make OVERLAY=sys_reset overlay-check reproduces
 the entire 0x13000-byte slice, and make verify passes. Assembly inspection
 uses the disc target and stock GNU objdump. Research artifacts are under
 scratch/match_inventory locally and /home/hasik/fx-search-archives/match_inventory
-on darwine. The complete overlay build and report audit pass. The report
+on darwine. The complete overlay build and report audit pass. The extraction-only report
 contains 11,675 functions, of which 11,628 receive semantic-C credit; all
 three restored entries are present. Code coverage is 3,532,448 / 3,558,868
 bytes (99.25763%). This coverage measure does not substitute for the
@@ -59,5 +59,25 @@ weighted Levenshtein score used to accept C candidates.
 
 The published CI run [37333637624](https://github.com/khasinski/parasite-eve-decomp/actions/runs/37333637624)
 on commit 48a5cd21c995a17752f5d2039478d62d00e96b39 passed. Its
-SLUS_006.62_report artifact confirms the counts above. This is the current
-inventory report provenance, replacing the pre-extraction baseline.
+SLUS_006.62_report artifact confirms the counts above. This published report records the extraction repair before the classification
+correction below.
+
+## Diagnostic data and padding classification
+
+The initial 84 bytes are one word, four NUL-terminated MDEC diagnostic
+strings and alignment zeros. Existing func_8010C0FC and func_8010C448 pass
+the named string addresses to the diagnostic printer. The ranges
+0x138..0x143 and 0x7CC..0x7D3 are zero padding after completed returns.
+None of these three ranges is a function.
+
+They now have explicit data subsegments, in separate code segments so the
+linker preserves their interleaved positions. Simply changing subsegment
+types within one code segment would group the data after its text; the
+separate segment boundaries are required to retain the retail layout.
+The full overlay-check reproduces the same e7331867b4d1464da4d5f386d9137eaa1c98422b
+slice. No C implementation or existing matched function is changed. The
+report no longer treats the header and two padding symbols as functions.
+
+The complete report with main e7ddbb1ac contains 11,672 functions, with
+11,630 credited. Two additional credited functions come from the parallel
+Aya equipment-state C recovery (4682d1677), not from this classification.

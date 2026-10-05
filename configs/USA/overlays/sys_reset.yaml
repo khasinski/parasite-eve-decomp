@@ -27,7 +27,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: sys_reset
+  - name: sys_reset_diagnostics
     type: code
     start: 0x0
     vram: 0x8010BCF8
@@ -35,9 +35,33 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, sys_reset]
+      - [0x0, data, sys_reset_diagnostics]
+  - name: sys_reset_expand
+    type: code
+    start: 0x54
+    vram: 0x8010BD4C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0x54, c, SysReset_ExpandDecoderTable]
-      - [0x138, asm, sys_reset_decoder_padding]
+  - name: sys_reset_decoder_padding
+    type: code
+    start: 0x138
+    vram: 0x8010BE30
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x138, data, sys_reset_decoder_padding]
+  - name: sys_reset_mdec
+    type: code
+    start: 0x144
+    vram: 0x8010BE3C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
       - [0x144, c, DecDCTReset]
       - [0x178, c, func_8010BE70]
       - [0x204, c, func_8010BEFC]
@@ -55,7 +79,24 @@ segments:
       - [0x6A4, c, SysReset_WaitMdecOutput]
       - [0x738, c, func_8010C430]
       - [0x750, c, func_8010C448]
-      - [0x7CC, asm, sys_reset_7CC]
+  - name: sys_reset_vlc_padding
+    type: code
+    start: 0x7CC
+    vram: 0x8010C4C4
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x7CC, data, sys_reset_vlc_padding]
+  - name: sys_reset_vlc
+    type: code
+    start: 0x7D4
+    vram: 0x8010C4CC
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x7D4, asm, sys_reset_7CC]
       - [0xF04, data, sys_reset_tables]
   - [0x13000]
 # source slice: scanner, extended through decoder code/tables to sector 965

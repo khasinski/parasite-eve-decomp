@@ -1,35 +1,17 @@
 {
-  "report_commit": "48a5cd21c995a17752f5d2039478d62d00e96b39",
-  "report_run": 37333637624,
-  "audit_source_commit": "4ec1e0acc",
+  "report_commit": null,
+  "report_run": null,
+  "audit_source_commit": "e7ddbb1ac",
   "metric": "asm-differ weighted levenshtein; not a byte distance",
   "scope": "Inventory of report exclusions, not a claim that every entry is a real unmatched function. Null score means unmeasured.",
-  "reported_uncredited_functions": 47,
-  "verified_excluded_matches": 7,
+  "reported_uncredited_functions": 42,
+  "verified_excluded_matches": 5,
   "entries": [
     {
       "unit": "main/boot/Boot_MainLoop",
       "symbol": "main",
       "reported_size": 748,
       "source": "src/main/boot/Boot_MainLoop.c",
-      "status": "matched_excluded_by_asm_policy",
-      "levenshtein_score": 0,
-      "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
-    },
-    {
-      "unit": "main/battle/Battle_AyaEquipStateFlow",
-      "symbol": "Battle_SaveAyaState",
-      "reported_size": 276,
-      "source": "src/main/battle/Battle_AyaEquipStateFlow.c",
-      "status": "matched_excluded_by_asm_policy",
-      "levenshtein_score": 0,
-      "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
-    },
-    {
-      "unit": "main/battle/Battle_AyaEquipStateFlow",
-      "symbol": "Battle_InitEquipLists",
-      "reported_size": 108,
-      "source": "src/main/battle/Battle_AyaEquipStateFlow.c",
       "status": "matched_excluded_by_asm_policy",
       "levenshtein_score": 0,
       "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
@@ -364,33 +346,6 @@
       "levenshtein_score": null
     },
     {
-      "unit": "overlays/sys_reset/sys_reset",
-      "symbol": "D_8010BCF8",
-      "reported_size": 84,
-      "source": null,
-      "status": "text_data_not_function",
-      "levenshtein_score": null,
-      "evidence": "The complete 84-byte range contains a leading word 7, NUL-terminated MDEC diagnostic strings and zero alignment. D_8010BCFC is passed as a format string by func_8010C0FC; D_8010BD38 is passed as a format string by func_8010C448. No executable instructions occur in this header. The existing report still classifies the .text unit as one function; metadata correction is pending."
-    },
-    {
-      "unit": "overlays/sys_reset/sys_reset_decoder_padding",
-      "symbol": "func_8010BE30",
-      "reported_size": 4,
-      "source": null,
-      "status": "padding_not_function_requires_report_audit",
-      "levenshtein_score": null,
-      "evidence": "Generated target assembly contains only zero-word nop padding at this symbol, followed by additional zero words before the next real entry. The current report still counts one 4-byte function; no C match claimed."
-    },
-    {
-      "unit": "overlays/sys_reset/sys_reset_7CC",
-      "symbol": "func_8010C4C4",
-      "reported_size": 4,
-      "source": null,
-      "status": "padding_not_function_requires_report_audit",
-      "levenshtein_score": null,
-      "evidence": "Generated target assembly contains only zero-word nop padding at this symbol, followed by additional zero words before the next real entry. The current report still counts one 4-byte function; no C match claimed."
-    },
-    {
       "unit": "overlays/sys_reset/sys_reset_7CC",
       "symbol": "func_8010C4CC",
       "reported_size": 48,
@@ -440,5 +395,58 @@
     "audit_source_commit": "73a4f03a297aff5601ae3546e145414cdd4d2dcb",
     "reported_uncredited_functions": 44
   },
-  "report_evidence": "Green CI run 37333637624, artifact SLUS_006.62_report; local copy scratch/ci_report_sys_reset_published/report.json. Report includes restored sys_reset code and data. Inventory classification does not itself change report credit."
+  "report_evidence": "Complete darwine report on main e7ddbb1ac plus sys_reset data/padding classification; make verify and OVERLAY=sys_reset overlay-check pass. Local artifact scratch/ci_report_sys_reset_classified/report.json; CI publication pending.",
+  "previous_published_report": {
+    "report_commit": "48a5cd21c995a17752f5d2039478d62d00e96b39",
+    "report_run": 37333637624,
+    "audit_source_commit": "4ec1e0acc",
+    "reported_uncredited_functions": 47
+  },
+  "resolved_entries": [
+    {
+      "unit": "main/battle/Battle_AyaEquipStateFlow",
+      "symbol": "Battle_SaveAyaState",
+      "reported_size": 276,
+      "source": "src/main/battle/Battle_AyaEquipStateFlow.c",
+      "status": "matched_report_credited",
+      "levenshtein_score": 0,
+      "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required. Main commit 4682d1677 replaced the CPU ASM implementation with matching plain C; the fresh complete report now credits this function."
+    },
+    {
+      "unit": "main/battle/Battle_AyaEquipStateFlow",
+      "symbol": "Battle_InitEquipLists",
+      "reported_size": 108,
+      "source": "src/main/battle/Battle_AyaEquipStateFlow.c",
+      "status": "matched_report_credited",
+      "levenshtein_score": 0,
+      "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required. Main commit 4682d1677 replaced the CPU ASM implementation with matching plain C; the fresh complete report now credits this function."
+    },
+    {
+      "unit": "overlays/sys_reset/sys_reset",
+      "symbol": "D_8010BCF8",
+      "reported_size": 84,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "The complete 84-byte range contains a leading word 7, NUL-terminated MDEC diagnostic strings and zero alignment. D_8010BCFC is passed as a format string by func_8010C0FC; D_8010BD38 is passed as a format string by func_8010C448. No executable instructions occur in this header. The existing report still classifies the .text unit as one function; metadata correction is pending. Corrected sys_reset data subsegments now remove this entry from the function ledger; full retail overlay-check and report audit pass."
+    },
+    {
+      "unit": "overlays/sys_reset/sys_reset_decoder_padding",
+      "symbol": "func_8010BE30",
+      "reported_size": 4,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Generated target assembly contains only zero-word nop padding at this symbol, followed by additional zero words before the next real entry. The current report still counts one 4-byte function; no C match claimed. Corrected sys_reset data subsegments now remove this entry from the function ledger; full retail overlay-check and report audit pass."
+    },
+    {
+      "unit": "overlays/sys_reset/sys_reset_7CC",
+      "symbol": "func_8010C4C4",
+      "reported_size": 4,
+      "source": null,
+      "status": "data_or_padding_excluded_from_function_report",
+      "levenshtein_score": null,
+      "evidence": "Generated target assembly contains only zero-word nop padding at this symbol, followed by additional zero words before the next real entry. The current report still counts one 4-byte function; no C match claimed. Corrected sys_reset data subsegments now remove this entry from the function ledger; full retail overlay-check and report audit pass."
+    }
+  ]
 }

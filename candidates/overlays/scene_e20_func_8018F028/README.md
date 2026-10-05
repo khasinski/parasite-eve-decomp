@@ -67,3 +67,19 @@ that a pin-based solution is impossible.
 The three result logs (`newptr.results`, `explicithigh.results`, and
 `ptrlife.results`) and per-variant linked diffs are in the darwine research
 directory above. All batches finished; no permuter was started for these trials.
+
+## Inline conversion and load boundaries
+
+The retained candidate was freshly compiled and linked on darwine and still
+scores 30, with the same three two-instruction register mismatches.
+A 64-variant batch wrapped the damping, glow-size and fade expressions in
+signed-short or signed-word identity helpers at their inputs, products or
+results. None improved on 30. A further 12 variants loaded matrix words
+through fully inlined signed/unsigned word helpers, in either or both GTE
+blocks, using pointer-addition and address-of-index forms. All scored 30.
+
+No source change was retained. The two batches are complete; artifacts are
+identity_*, identity.results, load_helper_* and load_helper.results in the
+existing darwine research directory. These experiments used the same stock
+GCC/maspsx and linked weighted Levenshtein scorer, with no extra pins or CPU
+instruction assembly.
