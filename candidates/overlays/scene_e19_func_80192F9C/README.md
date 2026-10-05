@@ -41,6 +41,29 @@ palette register allocation. The production function
 remains an ASM subsegment. Integration still needs the scene rodata/layout
 work and full overlay verification after score zero.
 
+
+### Follow-up at score 400
+
+Three bounded searches ran on darwine with the same stock toolchain and
+full-function weighted scorer; none improved 400:
+
+- 1344 variants moved the two draw-state pointer assignments into state 2,
+  with independent assignment positions, input/tied constraints, optional
+  memory clobbers, and optional s1/s2 pins.
+- 512 variants removed the t1 matrix-pointer pin and constrained the pointer
+  at each GTE load with input/tied constraints and subsets of v0..t0 clobbers,
+  with/without memory clobbers. This did not fix the division register
+  differences without a larger cost elsewhere.
+- 96 variants constrained the state-2 palette around its load, conditional
+  adjustment, and call, using subsets of v0/a0/a1/a2 clobbers.
+
+The retained source and score remain unchanged. Scripts and complete results
+are under `/home/hasik/fx-search-archives/scene_e19_branch_review/` on darwine:
+`pointer400.py`, `matrix400.py`, `palette400.py` and their corresponding
+`results.json` files in the same-named subdirectories. The original 400
+candidate is preserved as `base400.c`; no permutation job remains running
+from these three searches.
+
 # Earlier m2c candidate (retained reference)
 
 Not integrated. Linked asm-differ weighted Levenshtein score: **787**.
