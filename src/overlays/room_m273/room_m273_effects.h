@@ -61,6 +61,8 @@ typedef struct RoomM273PairEmitterFields {
     u16 flags;
 } RoomM273PairEmitterFields;
 
+typedef RoomM273PairEmitterFields RoomM273TemplatePoint;
+
 /* The same eight-byte pool entry is also copied as four opaque halfwords. */
 typedef union RoomM273PairPoolRecord {
     RoomM273PairEmitterFields emitter;

@@ -40,13 +40,6 @@ typedef union RoomM273PulseRecord {
     RoomM273PulseEmitterView emitter;
 } RoomM273PulseRecord;
 
-typedef struct RoomM273TemplatePoint {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 flags;
-} RoomM273TemplatePoint;
-
 typedef union RoomM273DelayedBurstRecord {
     RoomM273TemplatePoint emitter;
     RoomM273RisingParticle callback;
