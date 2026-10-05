@@ -72,7 +72,7 @@ void Battle_BuildTargetList(void) {
         } while (var_s0 != NULL);
     }
     if (g_BattleTargetIndex >= 2) {
-        Battle_SortTargets(&D_8009E000_o, 0, (s8) (g_BattleTargetIndex - 1));
+        Battle_SortTargets((BattleTargetWords *)&D_8009E000_o, 0, (s8) (g_BattleTargetIndex - 1));
     }
     cfin = g_BattleTargetIndex;
     __asm__("" : "=r"(cfin) : "0"(cfin));

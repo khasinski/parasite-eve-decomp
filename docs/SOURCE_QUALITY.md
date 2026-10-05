@@ -5728,6 +5728,12 @@ ASM or aliases. The existing BattleTarget layout explains the twelve-byte
 stride and distance field, and EnemyCombatant supplies the entity-id byte.
 The out-of-range flag is narrowed to a byte before being passed to the UI.
 
+The sorter and semantic users view the same 12-byte entries through
+`BattleTarget` and `BattleTargetWords`. The latter names the three words used by
+retail's whole-entry swap, including the angle and trailing bytes copied as one
+word. Its size and tail offsets are asserted; keeping this transfer view avoids
+changing GCC 2.7.2's copy schedule while removing the sorter's private duplicate.
+
 The audio handle uses the existing volatile-pointer view from the menu sound
 routines: its test and subsequent command argument are separate reads. The
 shared AKAO declaration uses the implementation's void-pointer parameter.

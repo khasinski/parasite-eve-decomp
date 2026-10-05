@@ -1,19 +1,10 @@
-typedef struct BattleTargetDistance {
-    int distance;
-    int fields08_0C[2];
-} BattleTargetDistance;
+#include "pe1/battle.h"
 
-typedef struct BattleTargetRecord {
-    int field_0;
-    int field_4;
-    int field_8;
-} BattleTargetRecord;
+extern BattleTargetWords D_8009E004[];
 
-extern BattleTargetDistance D_8009E004[];
+void Battle_SwapRecords(BattleTargetWords *records, int from, int to);
 
-void Battle_SwapRecords(BattleTargetRecord *records, int from, int to);
-
-void Battle_SortTargets(BattleTargetRecord *records, signed char first, signed char last)
+void Battle_SortTargets(BattleTargetWords *records, signed char first, signed char last)
 {
     signed char pivot;
     signed char scan;
@@ -22,7 +13,7 @@ void Battle_SortTargets(BattleTargetRecord *records, signed char first, signed c
         Battle_SwapRecords(records, first, (signed char)((first + last) / 2));
         pivot = first;
         for (scan = pivot; scan <= last; scan++) {
-            if (D_8009E004[(signed char)scan].distance < D_8009E004[first].distance) {
+            if (D_8009E004[(signed char)scan].word_00 < D_8009E004[first].word_00) {
                 pivot++;
                 Battle_SwapRecords(records, (signed char)pivot, (signed char)scan);
             }
@@ -33,8 +24,8 @@ void Battle_SortTargets(BattleTargetRecord *records, signed char first, signed c
     }
 }
 
-void Battle_SwapRecords(BattleTargetRecord *records, int from_arg, int to_arg) {
-    BattleTargetRecord tmp;
+void Battle_SwapRecords(BattleTargetWords *records, int from_arg, int to_arg) {
+    BattleTargetWords tmp;
     int from_index;
     int to_index;
 

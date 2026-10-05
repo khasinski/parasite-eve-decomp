@@ -363,6 +363,21 @@ typedef struct BattleTarget {
 /* 0x0A */ u8   pad_0A[2];
 } BattleTarget;                        /* sizeof == 0xC */
 
+/* Word-oriented alias used by Battle_TargetSort's whole-entry swap. Retail
+ * code copies the angle and trailing bytes as one word; keeping that operation
+ * explicit preserves the sorter schedule while BattleTarget names the fields. */
+typedef struct BattleTargetWords {
+    s32 word_00;
+    s32 word_04;
+    s32 word_08;
+} BattleTargetWords;
+PE1_STATIC_ASSERT(sizeof(BattleTargetWords) == sizeof(BattleTarget),
+                  battle_target_words_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleTargetWords, word_04) == 4,
+                  battle_target_words_distance_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleTargetWords, word_08) == 8,
+                  battle_target_words_tail_offset);
+
 typedef struct BattleInitSlot {
     BattleEntity *actor;
     s16 field04;
@@ -374,8 +389,8 @@ PE1_STATIC_ASSERT(sizeof(BattleInitSlot) == 8, battle_init_slot_size);
 extern BattleTarget g_BattleTargetList[];
 extern int D_8009D208; /* last scene asset/effect result selected by battle */
 
-void Battle_SwapRecords(char *records, int from, int to);
-void Battle_SortTargets(char *records, s8 first, s8 last);
+void Battle_SwapRecords(BattleTargetWords *records, int from, int to);
+void Battle_SortTargets(BattleTargetWords *records, s8 first, s8 last);
 
 /* These partial records are deliberately padded through their last verified
  * field. Keep the offsets executable: prose comments alone do not protect the
