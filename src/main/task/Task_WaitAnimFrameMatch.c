@@ -2,20 +2,21 @@
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/field_actor.h"
+#include "pe1/task_node.h"
 
 extern FieldActor *g_CurrentEntity[];
 extern int g_SceneDataTable0;
-extern char *g_TaskNodePool;
+extern TaskNode *g_TaskNodePool;
 
 int Task_WaitAnimFrameMatch(void) {
-    int *state;
+    TaskNode *state;
     FieldActor *entity;
     int stack;
     int ret;
 
-    state = (int *)g_TaskNodePool;
+    state = g_TaskNodePool;
     entity = g_CurrentEntity[0];
-    state[4] = 1;
+    state->active = 1;
     ret = 0;
     if (entity->anim.parts.integer == entity->anim_frame_target) {
         return ret;

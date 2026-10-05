@@ -163,7 +163,7 @@ pop_state:
         int *active_node = (int *)g_TaskNodePool;
         cursor -= 0xC;
         g_SceneDataTable0 = cursor;
-        active_node[4] = 1;
+        ((TaskNode *)active_node)->active = 1;
         return 0;
     }
 }
