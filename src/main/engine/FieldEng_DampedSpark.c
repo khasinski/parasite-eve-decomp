@@ -39,6 +39,8 @@ int func_800D9554(int mode, RenderDampedSpark *state)
     return 0;
 }
 
+/* Matching debt: four register pins and one empty slot-address barrier.
+ * Matrix loads are C; each GTE transfer uses its individual macro. */
 int func_800D96F4(int mode, RenderSparkEmitter *state)
 {
     GteRotation rotation;
@@ -94,8 +96,32 @@ int func_800D96F4(int mode, RenderSparkEmitter *state)
                          GetClut(0, (selector == 4 && D_800F3428) ? palette + 7 : palette + 3),
                          1, intensity, &color);
         }
-        gte_ldrotmatrix(D_800BCFA4.value);
-        gte_ldtransmatrix(D_800BCFA4.value);
+        {
+            s32 **slot;
+            register const GteMatrixWords *matrix asm("$8");
+            register u32 a asm("$12");
+            register u32 b asm("$13");
+            register u32 c asm("$14");
+            slot = &D_800BCFA4.value;
+            asm volatile("" : "=r"(slot) : "0"(slot));
+            matrix = (const GteMatrixWords *)*slot;
+            a = matrix->r11_r12;
+            b = matrix->r13_r21;
+            gte_ctc2_0(a);
+            gte_ctc2_1(b);
+            a = matrix->r22_r23;
+            b = matrix->r31_r32;
+            c = matrix->r33_pad;
+            gte_ctc2_2(a);
+            gte_ctc2_3(b);
+            gte_ctc2_4(c);
+            a = matrix->tx;
+            b = matrix->ty;
+            gte_ctc2_5(a);
+            c = matrix->tz;
+            gte_ctc2_6(b);
+            gte_ctc2_7(c);
+        }
         D_800F3368.depth = 8;
         break;
     }
