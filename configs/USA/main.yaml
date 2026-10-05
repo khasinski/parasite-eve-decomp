@@ -1398,12 +1398,8 @@ segments:
       - [0x7DFB0, c, psyq/libapi/WaitEvent]
       # SPU ticking, sample-bank scanning and note stepping share AKAO track state.
       - [0x7DFC0, c, main/SPU_Akao_NoteTimingFlow]
-      # Track parameter commands, note/pan handling and pitch-LFO updates.
-      - [0x7F8D0, c, akao/Akao_TrackCommandFlow]
-      # Pan, expression, pitch and LFO slide handlers share track state.
-      - [0x80668, c, akao/Akao_TrackSlideOps]
-      # Track masks, loop/ADSR operators and note commands share AKAO track state.
-      - [0x80978, c, akao/Akao_TrackOperatorAndNoteFlow]
+      # Track parameters, slides, masks and note commands share AKAO track state.
+      - [0x7F8D0, c, akao/Akao_TrackCommandAndNoteFlow]
       - [0x818A0, data, main/dtail_gp_pre_s016]
       - [0x84D28, .data, psyq/libc/Square_Vsprintf]
       - [0x84D34, data, main/dtail_gp_post_sprintf]
