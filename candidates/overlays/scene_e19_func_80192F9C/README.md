@@ -1,15 +1,15 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **30618**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **25738**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Four register pins and two empty barriers are recorded below. There is no CPU ASM.
+Three register pins and two empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2372. These counts are descriptive, not the match metric.
+retained candidate has 2378. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -80,8 +80,8 @@ GCC to retain the address across repeated resource calls, as retail does.
 - Two empty tied-operand barriers, one before each particle allocation, keep
   the spread value in a register instead of constant-folding remainder by 512.
   They contain no CPU instruction and do not change the spread value.
-- Four pins: three shared GTE transfer temporaries in t4/t5/t6 and the effect
-  pointer in s5. No padding reserves. Individual GTE transfer macros remain.
+- Three pins: shared GTE transfer temporaries in t4/t5/t6. The effect pointer
+  is no longer pinned. No padding reserves. Individual GTE transfer macros remain.
 - `--expand-div` is an existing stock maspsx option, not an assembler patch.
 
 These are research-candidate costs, not production debt: the function is still
@@ -121,3 +121,22 @@ No additional pins or barriers were added in this pass.
 
 A stock GCC 2.8.1 probe of this source scored 84105; GCC 2.7.2 remains the
 retained compiler (30618), recompiled and rescored after the probe.
+
+## Recovered scalar roles
+
+Nonoverlapping m2c temporaries now share named variables for radial scale,
+vertical scale, intensity, phase, model phase and texture page. The two scales
+reduce score from 30618 to 26948; phase and intensity reduce it to 25818;
+sharing texture page reduces it to 25808. Sharing model phase keeps that score.
+The signed-halfword intensity used by the ring remains separate.
+
+These merges preserve each assignment and use: no old value is used after the
+next merged assignment on any affected path. They eliminate temporary names
+without adding constraints. Simplifying the remaining signed half-division
+expressions was tested against the scale-only variant (26948), scored 27333,
+and was not retained. Pins and barriers remain four and two respectively.
+
+Retesting pins after scalar reuse scored 28198 without t4, 25898 without t5,
+26003 without t6, and **25738 without the s5 effect pin**. The latter improvement
+is retained: the effect pointer is once again an ordinary function argument.
+Current candidate debt is three pins and two empty barriers.
