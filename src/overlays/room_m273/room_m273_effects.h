@@ -93,11 +93,18 @@ typedef struct RoomM273PlayerTransform {
     RoomM273WorldPosition position;
 } RoomM273PlayerTransform;
 
+/* The player record exposes the same trailing pointer as a transform or a
+ * byte-addressed object, depending on the effect callback. */
+typedef union RoomM273PlayerActorTail {
+    RoomM273PlayerTransform *transform;
+    u8 *object;
+} RoomM273PlayerActorTail;
+
 typedef struct RoomM273PlayerActorView {
     u8 reserved_00[0x0E];
     u8 kind;
     u8 reserved_0F[0x229];
-    RoomM273PlayerTransform *transform;
+    RoomM273PlayerActorTail tail;
 } RoomM273PlayerActorView;
 
 /* Several sprite pools store only a pointer to their position payload. */
@@ -192,8 +199,14 @@ PE1_STATIC_ASSERT(sizeof(RoomM273PlayerTransform) == 0x20,
                   room_m273_player_transform_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PlayerActorView, kind) == 0x0E,
                   room_m273_player_actor_kind_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PlayerActorView, transform) == 0x238,
-                  room_m273_player_actor_transform_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PlayerActorView, tail) == 0x238,
+                  room_m273_player_actor_tail_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PlayerActorTail, transform) == 0,
+                  room_m273_player_actor_transform_view_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273PlayerActorTail, object) == 0,
+                  room_m273_player_actor_object_view_offset);
+PE1_STATIC_ASSERT(sizeof(RoomM273PlayerActorTail) == 4,
+                  room_m273_player_actor_tail_size);
 PE1_STATIC_ASSERT(sizeof(RoomM273PlayerActorView) == 0x23C,
                   room_m273_player_actor_view_size);
 PE1_STATIC_ASSERT(sizeof(RoomM273PointerPoolEffect) == 4,

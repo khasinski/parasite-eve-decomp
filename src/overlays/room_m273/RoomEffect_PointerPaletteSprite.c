@@ -58,7 +58,7 @@ int func_801939B4(int mode) {
             RoomM273SpritePoolEffect *effect =
                 func_800CE610(D_800F33E0->pool);
             if (effect) {
-                RoomM273PlayerTransform *transform = g_PlayerEntity->transform;
+                RoomM273PlayerTransform *transform = g_PlayerEntity->tail.transform;
                 D_8019AE5C = 1;
                 effect->position = &transform->position;
             }
