@@ -3,21 +3,22 @@
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/field_actor.h"
+#include "pe1/task_node.h"
 
 extern FieldActor *g_CurrentEntity[];
-extern FieldActorNode *g_TaskNodePool;
+extern TaskNode *g_TaskNodePool;
 
 int Entity_MarkNodeFree(void) {
     u8 i;
-    FieldActorNode *skip;
+    TaskNode *skip;
     FieldActor *entity;
-    FieldActorNode *node;
+    TaskNode *node;
 
     i = 0;
     entity = g_CurrentEntity[0];
     skip = g_TaskNodePool;
     do {
-        node = entity->task_node_lists[i];
+        node = (TaskNode *)entity->task_node_lists[i];
         while (node != 0) {
             if (node != skip) {
                 node->flags |= 0x10;
