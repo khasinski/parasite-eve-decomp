@@ -8,7 +8,7 @@ int __attribute__((section(".text.Gte_Atan2"))) Gte_Atan2(int y, int x) {
     int negative_x = 0;
     int negative_y = 0;
     int index;
-    int angle;
+    register int angle asm("$3");
     int result;
     int y_less_than_x;
     if (x < 0) { negative_x = 1; x = (int)(0u - x); }
