@@ -42,7 +42,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
     SceneE19BlastSpark *spark;
     SceneE19BlastActor *actor;
     u16 *pageSelector;
-    RenderEffectParameters *params;
+    register RenderEffectParameters *params asm("$17");
     u16 *palettes;
     GteShortVector *target;
     int spread;
@@ -178,9 +178,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         center.z = blast->position.z;
         GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);
         GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);
-        params = &D_800F3368;
         pageSelector = &D_800E11EA[8];
-        asm("" : : "r"(params), "r"(pageSelector) : "memory");
+        asm("" : : "r"(pageSelector) : "memory");
         D_800F3368.parameter0A = 0;
         D_800F3368.depth = 4;
         switch (blast->state) {
@@ -273,6 +272,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         case 2:
             phase = blast->timer << 6;
             intensity = 0x80;
+            params = &D_800F3368;
+            asm("" : "=r"(params) : "0"(params));
             params->parameter00 = 0x40;
             D_800F336A = 4;
             D_800F3376 = 0x40;

@@ -1,10 +1,11 @@
-# func_80192F9C: GTE-window candidate 240, C-load candidate 400
+# func_80192F9C: GTE-window candidate 120, C-load candidate 400
 
 The preferred matching candidate is now `SceneE19_BlastSequence_GteWindows.c`,
-verified at **weighted Levenshtein 240** with stock GCC/MASPSX on darwine.
+verified at **weighted Levenshtein 120** with stock GCC/MASPSX on darwine.
 It uses the existing `pe1/gte_window.h` exception documented on main for this
-function, with four rotation/translation pairs (eight macro uses), one local v1 palette pin,
-one empty pointer input/memory barrier and one empty palette input barrier. The CPU `lw` instructions inside
+function, with four rotation/translation pairs (eight macro uses), two pins (s1 parameter pointer and local v1 palette),
+and three empty barriers (selector input/memory, parameter pointer tied output,
+and palette input). The CPU `lw` instructions inside
 these macros are explicit matching debt; this is not a CPU-ASM-free candidate.
 The pending evidence entry must move to the active list when integrating the
 function as a C unit, with the required overlay verification.
@@ -50,6 +51,20 @@ instructions materializing `params` and `pageSelector` in the draw-mode head
 instead of state 2. The 1344 pointer-placement combinations were rerun with
 this palette correction; none improved 240. The successful source is retained
 as `palettepin260/best_240.c` on darwine; the follow-up is `pointer240`.
+
+Splitting the pointer-placement search gave **120**: leave only pageSelector
+in the draw-mode head and initialize params inside state 2 after intensity,
+with an s1 pin and tied empty constraint. The retained result differs only in
+the two instructions materializing pageSelector: candidate 0x80193720/724
+versus retail 0x80193C70/C74. The complete function still has 2368 instructions.
+
+`single240` tested 224 combinations (160 applicable, 64 intentionally skipped
+because they would initialize params after its first use). Follow-ups:
+144 selector placement/pin/barrier variants, 720 store orders on the relocated
+selector probe (580 -> 297, not retained), and 81 scoped initializer-register
+variants. None improved the retained 120. All ran on darwine with stock tools;
+research directory names are `single240`, `selector120`, `orders580`,
+`scoped120`. `single240/best_120.c` preserves the winning source.
 
 ## Preserved C-load candidate
 
