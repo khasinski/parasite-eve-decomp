@@ -8473,3 +8473,14 @@ Overlays (all as `data` subsegments in `.code_data`):
   fx_common, so this duplicate view becomes one data subsegment,
   `render_clip_fx_common_copy`. The overlay config stays so the extraction
   and SHA check keep covering the sector.
+- scene_e14 `scene_e14_header` (36 bytes at 0x8018EFE8): the overlay header
+  words, now named for what they are instead of the overlay itself.
+- scene_e22 `scene_e22_data_00A0D8` (1832 bytes at 0x801990C0, formerly
+  `func_scene_e22_00A0D8`): callback pointer tables and per-effect parameter
+  records after the last function; no instructions.
+
+Report effect (`make report`, all 191 overlays and main.exe byte-identical):
+total functions 11672 to 11643, credited functions 11630 to 11631 (the
+`setjmp` veneer), total code 3,558,776 to 3,546,972 bytes and code match
+99.27% to 99.60%. Credited code bytes rise by 12, the veneer; everything else
+moved from the code ledger to the data ledger, where it matches.

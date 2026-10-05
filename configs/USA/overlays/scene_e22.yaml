@@ -111,7 +111,7 @@ segments:
       - [0xA040, c, func_80199028]
       - [0xA050, c, func_80199038]
       - [0xA060, c, func_80199048]
-      - [0xA0D8, asm, func_scene_e22_00A0D8]
+      - {start: 0xA0D8, type: data, name: scene_e22_data_00A0D8, linker_section_order: .text, linker_section: .code_data}
   - [0xA800]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e22.bin bs=2048 skip=99270 count=21

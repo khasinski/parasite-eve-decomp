@@ -37,7 +37,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, asm, scene_e14]
+      - {start: 0x0, type: data, name: scene_e14_header, linker_section_order: .text, linker_section: .code_data}
       - [0x24, c, RoomLib_PlantTable_8018F014]
       - [0x50, c, RoomLib_Spawn6_8018F040]
       - [0x7C, c, RoomLib_RegisterTable_8018F06C]
