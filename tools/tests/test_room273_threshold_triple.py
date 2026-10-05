@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_ThresholdModelTriple.c'
+SOURCE = ROOT / 'candidates/RoomEffect_ThresholdModelTriple.c'
 
 
 def controller_source():

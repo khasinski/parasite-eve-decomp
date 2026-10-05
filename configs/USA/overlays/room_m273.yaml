@@ -116,11 +116,8 @@ segments:
       # The emitter initializes the callback's contiguous twelve-byte records.
       - [0x4554, c, RoomEffect_ScaledLayer]
       - [0x4888, c, RoomEffect_PointerPaletteSprite]
-      # Both pool callbacks and their controller share the model asset and its
-      # sixteen-byte effect record.
-      - [0x4B74, c, RoomEffect_ThresholdModelTriple]
-      # Three threshold controllers share their mode context, pool and player record.
-      - [0x5140, c, RoomEffect_ThresholdPairBurst]
+      # Four threshold effect families share their mode context and allocator flow.
+      - [0x4B74, c, RoomEffect_ThresholdPairBurst]
       - [0x5B74, c, RoomEffect_TwoPassScaledLayer]
       - [0x5D6C, c, func_80194D54]
       # The controller fills the callback record using the boss-hand trail layout.
