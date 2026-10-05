@@ -2,12 +2,17 @@
 #include "pe1/gte.h"
 #include "pe1/field_glow_line.h"
 
+/* Matching debt: the packet-table pin, two SZ3 pins and four empty barriers
+ * preserve the retail register allocation and store order. Each GTE command,
+ * transfer and hazard nop is separate; depth shifts and writes are C. */
+
 /* Gouraud line from `from` (color0 at scale0/128) to `to` (color1 at
  * scale1/128) linked at the mean depth, with a 16x16 glow cell stretched
  * along it; mode 0xFF draws both opaque, anything else semi-transparent. */
 void func_800D2B58(GteShortVector *from, GteShortVector *to, u8 *color0,
                    u8 *color1, int scale0, int scale1, int mode)
 {
+    register char **packetBuffers asm("$10");
     u32 depth[2];
     FieldLineG2Packet *line;
     FieldGlowQuadPacket *glow;
@@ -21,31 +26,59 @@ void func_800D2B58(GteShortVector *from, GteShortVector *to, u8 *color0,
     int along;
     int alongY;
 
-    line = (FieldLineG2Packet *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
+    packetBuffers = D_800B0E38.packets;
+    line = (FieldLineG2Packet *)(packetBuffers[D_8009CDDC] + D_8009CDD8);
     D_8009CDD8 += sizeof(FieldLineG2Packet);
-    glow = (FieldGlowQuadPacket *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
+    glow = (FieldGlowQuadPacket *)(packetBuffers[D_8009CDDC] + D_8009CDD8);
     D_8009CDD8 += sizeof(FieldGlowQuadPacket);
-    gte_ldv0(from);
-    gte_rtps();
+    gte_lwc2_0_0(from);
+    gte_lwc2_1_4(from);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_rtps_command();
     line->r0 = color0[0] * scale0 / 128;
     line->g0 = color0[1] * scale0 / 128;
     line->b0 = color0[2] * scale0 / 128;
-    gte_stszotz(&depth[0]);
+    {
+        register s32 z asm("$12");
+        s32 *out;
+        asm volatile("" : : : "memory");
+        out = (s32 *)&depth[0];
+        asm volatile("" : "=r"(out) : "0"(out));
+        gte_getsz3(z);
+        gte_cop2_hazard_slot();
+        z >>= 2;
+        *out = z;
+    }
     gte_stsxy2(&line->x0);
     line->tag.length = 4;
     line->code = 0x50;
-    gte_ldv0(to);
-    gte_rtps();
+    gte_lwc2_0_0(to);
+    gte_lwc2_1_4(to);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_rtps_command();
     line->r1 = color1[0] * scale1 / 128;
     line->g1 = color1[1] * scale1 / 128;
     line->b1 = color1[2] * scale0 / 128;
-    gte_stszotz(&depth[1]);
+    {
+        register s32 z asm("$12");
+        s32 *out;
+        asm volatile("" : : : "memory");
+        out = (s32 *)&depth[1];
+        asm volatile("" : "=r"(out) : "0"(out));
+        gte_getsz3(z);
+        gte_cop2_hazard_slot();
+        z >>= 2;
+        *out = z;
+    }
     gte_stsxy2(&line->x1);
     depth[0] = (int)(depth[0] + depth[1]) / 2 - (u16)D_800F3374;
     if (depth[0] < 0x1000) {
+        char **drawBuffers = packetBuffers;
         TILE_OT_ENTRY(ot, table, D_800B0E38.ordering[D_8009CDDC], depth[0]);
         if (mode != 0xFF) {
-            drawMode = (RenderTintMode *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
+            drawMode = (RenderTintMode *)(drawBuffers[D_8009CDDC] + D_8009CDD8);
             D_8009CDD8 += sizeof(RenderTintMode);
             SetDrawMode((char *)drawMode, 0, 1, GetTPage(0, mode, 0, 0));
             if (line) {
