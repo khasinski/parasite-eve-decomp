@@ -1,9 +1,11 @@
 #include "scene_e19_shared.h"
 
 extern volatile int D_800BCF88;
+extern u32 SceneE19FlagsWord asm("D_800BCF88");
 extern char *D_8009D254;
 
-void func_8001AA78(SceneE19Actor *actor);
+s32 func_8001AA78();
+s32 func_80020CE4();
 
 void func_80192B10(void *arg0, unsigned char *state) {
     {
@@ -49,19 +51,8 @@ void RoomLib_RunAfterFrame37_80192BC0(RoomEnt *o)
 
 #include "scene_e19_shared.h"
 
-typedef struct {
-    u8 state;
-    char pad1[0xF];
-    int *signal;
-    char pad14[0x30];
-    u8 enabled;
-} Entity;
 
-
-void func_8001AA78(SceneE19Actor *actor);
-void func_80020CE4(void);
-
-int func_80192BFC(Entity *ent) {
+int func_80192BFC(SceneE19ResetTarget *ent) {
     unsigned char *state;
 
     *ent->signal = 0;
@@ -111,4 +102,45 @@ int func_80192BFC(Entity *ent) {
     }
 
     return 0;
+}
+
+
+s32 func_80192D04(char *obj)
+{
+  s32 *out;
+  char *sub = obj + 0xC;
+  char *e;
+  SceneE19ResetTarget *target = (SceneE19ResetTarget *)obj;
+  target->state = 4;
+  if (target->enabled != 0)
+  {
+    char *node = *((char **) D_8009D254);
+    if (node != 0)
+    {
+      if ((*((s16 *) (node + 0xC))) > 0)
+      {
+        func_80020CE4();
+      }
+    }
+    ;
+    *((s32 *) (D_8009D254 + 0x98)) &= 0xFFFEFFFF;
+    *((u16 *) (D_8009D254 + 0x250)) &= 0xFBFF;
+    *((s32 *) (D_8009D254 + 0x1D8)) = 0;
+    *((s16 *) (D_8009D254 + 0x1DC)) = 0;
+    func_8001AA78();
+    e = D_8009D254;
+    *((s32 *) (e + 0x68)) = 0;
+    *((s32 *) (e + 0x6C)) = 0;
+    *((s32 *) (e + 0x70)) = 0;
+    *((s32 *) (e + 0x78)) = 0;
+    *((s32 *) (e + 0x7C)) = 0;
+    out = (s32 *) (e + 0x40);
+    *((s32 *) (e + 0x80)) = 0;
+    *out = *((s32 *) (e + 0x28));
+    *((s32 *) (e + 0x44)) = *((s32 *) (e + 0x2C));
+    *((s32 *) (e + 0x48)) = *((s32 *) (e + 0x30));
+    SceneE19FlagsWord |= 0x80;
+    sub[0x38] = 0;
+  }
+  return 0;
 }

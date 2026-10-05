@@ -40,4 +40,16 @@ PE1_STATIC_ASSERT(sizeof(SceneE19Actor) == 0x254, scene_e19_actor_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE19ActorChild, h0C) == 0x0C, scene_e19_actor_child_value_offset);
 PE1_STATIC_ASSERT(sizeof(SceneE19ActorChild) == 0x0E, scene_e19_actor_child_size);
 
+typedef struct SceneE19ResetTarget {
+    u8 state;
+    u8 reserved_01[0x0F];
+    int *signal;
+    u8 reserved_14[0x30];
+    u8 enabled;
+} SceneE19ResetTarget;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE19ResetTarget, signal) == 0x10, scene_e19_reset_target_signal_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE19ResetTarget, enabled) == 0x44, scene_e19_reset_target_enabled_offset);
+PE1_STATIC_ASSERT(sizeof(SceneE19ResetTarget) == 0x48, scene_e19_reset_target_size);
+
 #endif
