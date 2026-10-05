@@ -72,7 +72,7 @@ void func_80193C68(char *actor, void *unused, char *state) {
     char *block;
     void *sound;
     RoomSoundSlot *soundAddress;
-    register int sixtyFour asm("$6");
+    int sixtyFour;
     int one;
     register int half128 asm("$5");
     register int byte128 asm("$3");
