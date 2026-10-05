@@ -5,7 +5,7 @@ typedef struct RoomM350Instance { char reserved[0x3A]; unsigned short yaw; } Ins
 typedef RoomM350Actor Actor;
 typedef struct { Vector positions[8]; char reserved40[8]; short count; } Queue;
 
-typedef struct { signed int unused : 16; signed int value : 16; } SignedHalf;
+typedef RoomM350SignedHalfPair SignedHalf;
 extern Actor *D_800F32D0;
 extern RoomM350Emitter *D_800F33E0;
 extern int D_800E27EC, D_800F3428, D_8019A3D0[];

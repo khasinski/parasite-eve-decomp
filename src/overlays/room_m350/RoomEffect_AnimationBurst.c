@@ -1,5 +1,5 @@
 #include "room_m350_shared.h"
-typedef struct { signed int size : 16; signed int shade : 16; } TableEntry;
+typedef RoomM350TableShadeEntry TableEntry;
 typedef RoomM350SoundOwner Owner;
 typedef struct {
     Owner *owner;

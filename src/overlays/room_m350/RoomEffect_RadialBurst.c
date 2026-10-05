@@ -1,5 +1,5 @@
 #include "room_m350_shared.h"
-typedef struct { char reserved[0xF4]; int position[3]; } Transform;
+typedef RoomM350OverlayTransform Transform;
 typedef struct RoomM350Instance { char reserved[0x238]; Transform *transform; } Instance;
 typedef RoomM350Actor Actor;
 

@@ -1,3 +1,5 @@
+#include "room_m350_shared.h"
+
 typedef struct { short unit, scale; } RenderState;
 extern int D_800E27EC;
 extern RenderState D_800F3368;
@@ -10,7 +12,7 @@ extern unsigned short D_800E2850[];
 extern short D_800966EC[], D_800966EE[];
 extern int D_8019A59C[];
 /* Signed high-half view avoids LHU followed by explicit sign extension. */
-typedef struct { signed int unused : 16; signed int value : 16; } SignedHalf;
+typedef RoomM350SignedHalfPair SignedHalf;
 extern unsigned short GetClut(int, int);
 extern void func_800CEE20(void *, int, int, int, int, unsigned int, int, int, void *);
 

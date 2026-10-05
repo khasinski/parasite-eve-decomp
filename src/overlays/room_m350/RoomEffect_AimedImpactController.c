@@ -4,7 +4,7 @@ typedef RoomM350TransformMatrix Matrix;
 typedef struct { Vector velocity; short x, y, z; unsigned char stopped, pad; } Particle;
 
 typedef RoomM350SoundOwner Owner;
-typedef struct { char reserved[0xF4]; int position[3]; } Transform;
+typedef RoomM350OverlayTransform Transform;
 typedef struct RoomM350Instance {
     Owner *owner;
     char reserved04[0x3A - sizeof(Owner *)];

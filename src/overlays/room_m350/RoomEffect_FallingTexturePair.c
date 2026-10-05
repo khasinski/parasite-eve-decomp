@@ -5,7 +5,7 @@ typedef struct { short x,y,z,frame; } Particle;
 typedef RoomM350TransformMatrix Transform;
 typedef struct { char reserved[0x238]; Transform *transforms; } Instance;
 
-typedef struct { signed int unused:16; signed int value:16; } SignedHalf;
+typedef RoomM350SignedHalfPair SignedHalf;
 
 /* The spawner owns the falling particles updated and rendered by this callback. */
 extern Instance *g_PlayerEntity;

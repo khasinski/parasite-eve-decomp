@@ -4,7 +4,7 @@
 extern int D_800E27EC;
 extern short D_800966EE[];
 extern RenderColor D_8019A62C;
-typedef struct { signed int unused:16; signed int value:16; } SignedHalf;
+typedef RoomM350SignedHalfPair SignedHalf;
 extern int GetClut(int, int);
 
 int func_80197594(int event, short *position) {
