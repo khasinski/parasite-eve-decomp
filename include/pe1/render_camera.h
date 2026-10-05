@@ -19,6 +19,21 @@ typedef struct RenderCameraBounds {
     signed short max_y;
 } RenderCameraBounds;
 
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderCameraGeomState, bounds_offset) == 0x1C,
+                  render_camera_geom_bounds_offset);
+PE1_STATIC_ASSERT(sizeof(RenderCameraGeomState) == 0x20,
+                  render_camera_geom_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderCameraBounds, min_x) == 0x2C,
+                  render_camera_bounds_min_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderCameraBounds, max_x) == 0x2E,
+                  render_camera_bounds_max_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderCameraBounds, min_y) == 0x30,
+                  render_camera_bounds_min_y_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderCameraBounds, max_y) == 0x32,
+                  render_camera_bounds_max_y_offset);
+PE1_STATIC_ASSERT(sizeof(RenderCameraBounds) == 0x34,
+                  render_camera_bounds_size);
+
 extern GteMatrix D_800BD000;
 extern s16 D_800BD002, D_800BD004, D_800BD006, D_800BD008, D_800BD00A;
 extern s16 D_800BD00C, D_800BD00E, D_800BD010;

@@ -1,22 +1,11 @@
 #include "common.h"
-typedef struct {
-    char pad[0x2C];
-    s16 min_x;
-    s16 max_x;
-    s16 min_y;
-    s16 max_y;
-} UnkBounds;
-
-typedef struct {
-    char pad[0x1C];
-    s32 bounds_offset;
-} UnkState;
+#include "pe1/render_camera.h"
 
 extern s32 g_RenderStateFlags;
 extern s16 D_800BCF8C;
 extern s16 g_CameraClampedY;
 extern u8 g_GeomGroupSel;
-extern UnkState * volatile g_GeomState;
+extern RenderCameraGeomState * volatile g_GeomState;
 
 /* Several shapes below are load-bearing for the byte-match (permuter zero):
  * the unused[1] pad keeps retail's empty 0x20 stack frame, `unsigned short sx`
@@ -28,18 +17,18 @@ s32 Render_ClampCameraPosition(s32 x, s32 y)
     char unused[0x1];
     unsigned short sx;
     s32 original_x;
-    UnkBounds *entry;
+    RenderCameraBounds *entry;
     s32 sy;
-    UnkState *base;
+    RenderCameraGeomState *base;
     s32 clamped;
-    UnkBounds *bounds;
+    RenderCameraBounds *bounds;
 
     sx = x;
     if ((g_RenderStateFlags & 0x40) != 0) {
         original_x = x;
         base = g_GeomState;
-        entry = (UnkBounds *)g_GeomState;
-        entry = (UnkBounds *)((char *)entry + base->bounds_offset);
+        entry = (RenderCameraBounds *)g_GeomState;
+        entry = (RenderCameraBounds *)((char *)entry + base->bounds_offset);
         entry = &entry[g_GeomGroupSel];
         bounds = entry;
 
