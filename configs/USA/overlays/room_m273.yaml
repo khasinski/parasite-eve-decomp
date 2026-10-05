@@ -131,8 +131,8 @@ segments:
       - [0x5E84, c, RoomEffect_FallingTrailFlow]
       # The pulse callback and its paired-batch controller share one typed TU.
       - [0x699C, c, RoomEffect_PulseBatchFlow]
-      - [0x6E28, c, RoomEffect_ColoredRisingSprite]
-      - [0x6F90, c, func_80195F78]
+      # The rising-sprite callback and poll/reset controller share one TU.
+      - [0x6E28, c, RoomEffect_ColoredRisingSpriteFlow]
       - [0x710C, c, RoomEffect_PeriodicDualPools]
       - [0x7360, c, RoomEffect_BossTurnController]
       # The ring emitter fills the same 24-byte record interpreted by its callback.

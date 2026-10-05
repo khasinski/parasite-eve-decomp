@@ -22,7 +22,7 @@ extern u16 D_800E11FA;
 extern u16 D_800E2850[];
 extern s16 D_800F3368;
 extern s16 D_800F336A;
-extern s16 D_800F336C;
+extern u16 D_800F336C;
 extern s16 D_800F336E;
 extern s16 D_800F3370;
 extern s16 D_800F3372;
@@ -33,8 +33,8 @@ extern u8 ROOMLIB_POLL_RESET_FLAG;
 extern s16 ROOMLIB_POLL_RESET_COUNTER;
 extern RoomFxSeed8 ROOMLIB_POLL_RESET_SEED;
 
-void ROOMLIB_POLL_RESET_CALLBACK(void);
-s32 func_800CE560(void *arg0, s32 arg1, s32 arg2, void (*arg3)(void));
+int ROOMLIB_POLL_RESET_CALLBACK();
+s32 func_800CE560(void *arg0, s32 arg1, s32 arg2, int (*arg3)());
 char *func_800CE610(void *arg0);
 
 s32 ROOMLIB_POLL_RESET_FUNC(s32 state) {

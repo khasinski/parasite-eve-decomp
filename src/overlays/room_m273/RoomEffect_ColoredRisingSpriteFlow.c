@@ -1,4 +1,5 @@
-#include "room_m273_effects.h"
+/* The rising-sprite callback and its poll/reset controller share one TU. */
+#include "room_m273_particles.h"
 
 typedef RoomM273RisingParticle Particle;
 typedef struct { unsigned char r, g, b, unknown; } Color;
@@ -38,3 +39,10 @@ int func_80195E10(int mode, Particle *particle) {
     }
     return 0;
 }
+
+#define ROOMLIB_POLL_RESET_FUNC func_80195F78
+#define ROOMLIB_POLL_RESET_CALLBACK func_80195E10
+#define ROOMLIB_POLL_RESET_FLAG D_8019AEF8
+#define ROOMLIB_POLL_RESET_COUNTER D_8019AEB2
+#define ROOMLIB_POLL_RESET_SEED D_8019AEAC
+#include "../room_lib/RoomLib_PollAndResetActor.inc"

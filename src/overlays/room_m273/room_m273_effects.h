@@ -4,23 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/s32_vector3.h"
-
-/* Shared 8-byte particle payload used by the rising-sprite callbacks. */
-typedef struct RoomM273RisingParticle {
-    s16 x;
-    u16 y;
-    s16 z;
-    u16 speed;
-} RoomM273RisingParticle;
-
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273RisingParticle, y) == 2,
-                  room_m273_rising_particle_y_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273RisingParticle, z) == 4,
-                  room_m273_rising_particle_z_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273RisingParticle, speed) == 6,
-                  room_m273_rising_particle_speed_offset);
-PE1_STATIC_ASSERT(sizeof(RoomM273RisingParticle) == 8,
-                  room_m273_rising_particle_size);
+#include "room_m273_particles.h"
 
 /* The third word of the shared allocator context points at its pool. */
 typedef struct RoomM273PoolContext {
