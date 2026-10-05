@@ -162,7 +162,7 @@
       ],
       "evidence": [
         "both draw paths (state 0 spinning glow, state 2 fading spark) load RT0..RT4 and TRX..TRZ from the matrix the view slot D_800BCFA4 points to: la $v0 of the slot, one lw of the pointer into $t0, the load-delay nop, then the eight words through $t4..$t6 interleaved with ctc2, rotation window then translation window",
-        "C reads of the eight words fold the slot address into an absolute lui/lw, keep the pointer in $v0 and schedule the word loads with the surrounding code: lev 47 without crutches, lev 18 with t4..t6 pins and a slot-address barrier, lev 6 at best with two pins and a barrier, where the remaining words are three reload registers elsewhere in the function (candidates history, docs/match_inventory.json)",
+        "C reads of the eight words fold the slot address into an absolute lui/lw, keep the pointer in $v0 and schedule the word loads with the surrounding code: lev 47 without crutches, lev 18 with t4..t6 pins and a slot-address barrier, lev 6 at best with two pins and a barrier, where the remaining words are three reload registers elsewhere in the function (docs/match_inventory.json)",
         "with the two macros taking the pointer as an ordinary \"r\" operand, stock cc1 emits the la/lw pointer load (the second read of the slot is a common subexpression, so both windows share $t0) and the assembler emits the nop; one combined macro makes the pointer load an absolute lui/lw and scores lev 14, so the windows are two macros",
         "the rest of the function is plain C with no pins, barriers or other asm, lev 0 with equal size (458 words)"
       ],

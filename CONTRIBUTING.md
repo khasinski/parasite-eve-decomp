@@ -5,8 +5,8 @@ retail byte match is required, but it is only one part of accepting a change.
 
 ## Daily loop
 
-1. Keep experiments and non-matching reconstructions under `candidates/`.
-2. Promote C into `src/` only together with its manifest entry.
+1. Keep experiments and non-matching reconstructions out of the tracked tree.
+2. Add C to `src/` only together with its manifest entry.
 3. Use subsystem headers for cross-unit declarations; do not add file-local
    `extern` debt.
 4. Run the narrow object/function diff while iterating.

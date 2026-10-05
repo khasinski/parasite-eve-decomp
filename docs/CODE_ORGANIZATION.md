@@ -27,9 +27,6 @@ reduce the file count.
   to that overlay. Code shared by several overlays stays duplicated until
   binary evidence identifies a linked library or a reproducible generation
   rule.
-- `candidates/main/` and `candidates/overlays/` contain tracked C that is not a
-  byte-matching manifest source. Candidates preserve useful reconstruction
-  work without being compiled, linked, or included in progress figures.
 - `include/pe1/` owns game ABI, shared data structures, and declarations.
 - `include/pe1/akao/` owns the AKAO command, queue, track, and SPU interfaces.
 - hardware and SDK declarations belong in their subsystem header rather than
@@ -60,10 +57,8 @@ not reasons to invent source boundaries.
 The check uses files present on disk as well as Git's index: an untracked C file
 cannot enter a local build, and a manifest promotion cannot pass unless its
 source will exist in a fresh clone.
-An asm range may have a C reconstruction under `candidates/`, but that file
-moves into `src/` only in the same change that promotes the range to `c` and
-passes the binary check. Superseded aggregates also stay outside `src/` until
-object-boundary evidence justifies replacing the configured units.
+Non-matching experiments are not tracked. A C file enters `src/` only in the
+same change that configures its range as `c` and passes the binary check.
 
 ## Declaration ownership
 

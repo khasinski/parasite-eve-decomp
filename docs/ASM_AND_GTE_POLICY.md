@@ -2491,9 +2491,8 @@ LWC2 wrappers. Stock native GCC 2.7.2 and stock MASPSX 2.56, with the existing
 `-G8`, reproduce linked score 0 and all 2292 retail bytes at `0x8007041C`.
 
 This conversion is incomplete: the first `gte_ldrotmatrix(matrix_value)`
-remains the legacy CPU ASM macro. The full C candidate is preserved under
-`candidates/main/render/Render_DecompressAnimFrame_MatrixLoads.c`; its score is 30, with
-six instructions using `v0` instead of `t2` for the initial matrix address.
+remains the legacy CPU ASM macro. A full C attempt scored 30, with six
+instructions using `v0` instead of `t2` for the initial matrix address.
 
 The new helper definitions contain fourteen individual transfer pins, plus
 one `a0` translation-pointer pin. Five empty address/memory constraints

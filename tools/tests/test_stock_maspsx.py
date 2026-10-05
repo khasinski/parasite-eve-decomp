@@ -29,7 +29,7 @@ class StockMaspsxTests(unittest.TestCase):
         pattern = re.compile(r"--(?:%s)(?:=|\b)" % "|".join(CUSTOM_FLAGS))
         offenders = []
         tracked = subprocess.run(
-            ["git", "ls-files", "src", "candidates", "tools/scripts"],
+            ["git", "ls-files", "src", "tools/scripts"],
             cwd=ROOT,
             check=True,
             capture_output=True,

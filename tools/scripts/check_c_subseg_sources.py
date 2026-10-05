@@ -2,9 +2,9 @@
 """Verify the two-way contract between splat manifests and ``src/``.
 
 Every configured C subsegment must have a tracked source, and every C file
-under ``src/main`` or ``src/overlays`` must be configured. Non-matching or
-experimental C belongs under ``candidates/`` so it cannot be compiled, linked,
-or counted as matched accidentally.
+under ``src/main`` or ``src/overlays`` must be configured. Experiments stay
+outside the tracked tree, so nothing unconfigured can be compiled, linked, or
+counted as matched accidentally.
 """
 from __future__ import annotations
 
@@ -96,12 +96,12 @@ def main() -> int:
             print(f"ERROR: {len(extra)} tracked C files are not configured:")
             for path in sorted(extra):
                 print(f"  {path.relative_to(ROOT)}")
-            print("Move matching source into a manifest, or park WIP under candidates/.")
+            print("Configure the source in a manifest, or keep the experiment out of src/.")
         if untracked:
             print(f"ERROR: {len(untracked)} source files are not tracked by git:")
             for path in sorted(untracked):
                 print(f"  {path.relative_to(ROOT)}")
-            print("Track active source, or move local experiments under candidates/.")
+            print("Track active source, or keep local experiments out of src/.")
         if duplicates:
             print(f"ERROR: {len(duplicates)} C sources occur more than once in manifests:")
             for path in sorted(duplicates):

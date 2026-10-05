@@ -184,8 +184,7 @@ asm/USA/main/
 wip/
 tools/old-gcc-281/cc1
 
-# Local candidates are not release inputs and do not earn progress credit.
-# Already tracked candidates remain versioned; add new reviewed ones explicitly.
+# Local matching experiments are never tracked.
 candidates/
 docs/RETROSPECTIVE_METRICS.md
 

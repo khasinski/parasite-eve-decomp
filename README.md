@@ -68,8 +68,6 @@ MASPSX modifications, post-build rewrites, and build hacks are forbidden. See
 
 - `configs/USA/` - splat config, symbols, relocs, checksum.
 - `src/main/` - decompiled C translation units for the main executable.
-- `candidates/` - tracked, non-matching or superseded C experiments; never
-  compiled into release binaries and never counted as decompiled source.
 - `include/` - project headers.
 - `tools/scripts/` - project-specific build and analysis helpers.
 - `docs/` - progress table and maintained documentation.
@@ -78,8 +76,7 @@ Source placement and translation-unit changes follow
 [docs/CODE_ORGANIZATION.md](docs/CODE_ORGANIZATION.md). New declarations belong
 in subsystem headers rather than directly in C files; CI prevents the existing
 migration debt from increasing. CI also enforces a one-to-one mapping between
-manifest C entries and files under `src/`; unfinished candidates belong under
-`candidates/`.
+manifest C entries and files under `src/`.
 
 Generated directories such as `asm/`, `linkers/`, `build/`, `assets/`, and
 `disc/` are intentionally ignored, along with local working notes.

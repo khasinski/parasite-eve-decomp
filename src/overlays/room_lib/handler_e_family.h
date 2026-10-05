@@ -59,4 +59,6 @@ int RoomLib_ResetAndSignalB_80192AE0(RoomEnt *obj);
 void RoomLib_SteerToward_80192A5C(char *entity, char *state);
 int RoomLib_ResetAndSignalB_801909F8(RoomEnt *obj);
 void RoomLib_SteerToward_80190974(char *entity, char *state);
+int RoomLib_ResetAndSignalB_80190990(RoomEnt *obj);
+void RoomLib_SteerToward_8019090C(char *entity, char *state);
 #endif
