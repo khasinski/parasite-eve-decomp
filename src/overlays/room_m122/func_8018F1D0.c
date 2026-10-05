@@ -1,7 +1,4 @@
-#include "common.h"
-typedef struct {
-    s32 w[8];
-} FxViewSnapshot;
+#include "pe1/fx_view_snapshot.h"
 
 extern void func_800C2B40(void *arg0);
 extern s32 func_8006DC18(s32 arg0);
