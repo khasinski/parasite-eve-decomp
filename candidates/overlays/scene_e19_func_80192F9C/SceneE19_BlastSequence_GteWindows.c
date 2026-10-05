@@ -177,7 +177,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         center.z = blast->position.z;
         GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);
         GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);
-        
+
         D_800F3368.parameter0A = 0;
         D_800F3368.depth = 4;
         switch (blast->state) {
