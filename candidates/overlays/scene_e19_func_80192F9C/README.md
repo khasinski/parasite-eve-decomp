@@ -149,8 +149,13 @@ the `.align 3` pad word at 0x8018F1F8:
     end                        0x8018F210 (func_8019549C's initializers follow)
 
 So the existing extern names D_8018F1D4/D_8018F1DC/D_8018F1E0 go away for this
-unit (TwinGlow still references D_8018F1D4 through its own header as a shared
-constant; check its retail references before removing the sym).
+unit. Note: the matched TwinGlow controller (0x8019A054) really copies
+0x8018F1D4 too (2 relocations), so in the original that rotation was probably a
+named file-scope constant shared by both functions (the whole section's rodata
+sits in function order at the start of section 3, as if it were one unit). If
+the merged build defines it anonymously in this unit, TwinGlow's extern still
+resolves to the absolute address; a named `const GteRotation D_8018F1D4` in a
+narrow header plus this unit defining it is the alternative (same bytes).
 
 Repo convention: a C unit whose rodata lives in the scene header is carved as
 `[off, .rodata, Unit]` inside the header segment and `[off, c, Unit]` in the
