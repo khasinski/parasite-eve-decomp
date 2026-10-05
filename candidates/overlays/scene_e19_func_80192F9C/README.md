@@ -1,15 +1,15 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **9820**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **8775**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Three register pins and two empty barriers are recorded below. There is no CPU ASM.
+Three register pins and four empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2366. These counts are descriptive, not the match metric.
+retained candidate has 2363. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -81,7 +81,8 @@ GCC to retain the address across repeated resource calls, as retail does.
   pointer and effect pointer are unpinned. No padding reserves.
 - One memory barrier keeps position stores before the first matrix transfer
   block. One tied-operand barrier keeps the ring radius in a register.
-  The two former spread/divisor barriers have been removed.
+  Two more tied-operand barriers preserve render-parameter and page-selector
+  base pointers in draw state 2. The spread/divisor barriers remain removed.
 - `--expand-div` is an existing stock maspsx option, not an assembler patch.
 
 These are research-candidate costs, not production debt: the function is still
@@ -334,3 +335,26 @@ Current candidate debt is three GTE transfer-word pins, two empty barriers
 and eleven uses of the GPU conversion helper. From the unpinned 9820 base,
 using render struct fields throughout state 1 scored 9940; using them across
 the whole function scored 16744. Those wider replacements are not retained.
+
+## Render base lifetimes
+
+Retail retains the parameter base in s1 (0x80193C60), the page-selector base
+in s2 (0x80193C70), and accesses the earlier selector at -16 from that base
+(0x80193D98 and 0x80193DC4). The candidate now models these as ordinary
+pointers with two empty tied-operand barriers to preserve their base
+addresses across calls. Neither pointer is pinned to a register.
+
+The selector view spans nine halfwords from D_800E11EA through D_800E11FA;
+the local pointer starts at element 8, and accesses elements 0 and -8
+relative to that pointer. Both accesses stay within this known address span.
+The seven intermediate elements are not interpreted. The parameter pointer
+uses the existing RenderEffectParameters layout; the initial scalar alias
+writes retain the addressing form found in retail.
+
+An ordinary palette-table pointer is established before the scale branch.
+A larger experiment with additional scale and palette-pointer barriers
+scored 9065, but removal checks showed both were unnecessary. Removing the
+palette barrier improved the result to **8775**; removing the scale barrier
+as well preserves 8775. Only the two base-pointer barriers are retained.
+Current debt is three pins, four empty barriers, and eleven GPU helper calls.
+No new CPU instruction assembly or register pin was added.

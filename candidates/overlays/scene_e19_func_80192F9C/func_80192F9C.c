@@ -8,7 +8,7 @@ extern u16 D_800942EC;
 extern void **D_8009D254;
 #include "pe1/room_sound_slot.h"
 extern RoomSoundSlot D_800B0E64;
-extern u16 D_800E11EA[1];
+extern u16 D_800E11EA[9];
 extern u16 D_800E11FA[1];
 extern u16 D_800E120A;
 extern void *D_800E2368;
@@ -78,6 +78,9 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s16 var_v0;
     int spread;
     int ringRadius;
+    u16 *paletteTable;
+    u16 *pageSelector;
+    RenderEffectParameters *renderParams;
     const u32 *matrix;
     register u32 w0 asm("$12");
     register u32 w1 asm("$13");
@@ -405,14 +408,20 @@ block_161:
             break;
         case 2:                                     /* switch 2 */
             phase = effect->timer << 6;
+            /* Retail retains the selector and parameter bases across calls. */
+            pageSelector = &D_800E11EA[8];
+            asm("" : "=r"(pageSelector) : "0"(pageSelector));
+            renderParams = &D_800F3368;
+            asm("" : "=r"(renderParams) : "0"(renderParams));
+
             intensity = 0x80;
-            D_800F3368.parameter00 = 0x40;
-            D_800F3368.parameter02 = 4;
-            D_800F3368.extent_x = 0x40;
-            D_800F3368.extent_y = 0x40;
-            D_800F3368.tpage = D_800E2850[D_800E11FA[0]];
-            D_800F3368.palette = 3;
-            D_800F3368.parameter06 = 1;
+            renderParams->parameter00 = 0x40;
+            D_800F336A = 4;
+            D_800F3376 = 0x40;
+            D_800F3378 = 0x40;
+            D_800F3370 = D_800E2850[pageSelector[0]];
+            D_800F336C = 3;
+            D_800F336E = 1;
             if (D_800E27EC & 1) {
                 intensity = 0x55;
             }
@@ -425,19 +434,20 @@ block_161:
             spB0.z = (s16) (u16) sp30.z;
             spB0.y = (s16) D_800942EC;
             func_800CEE20(&spB0, (GteRotation *) &spB8, 0x2000, 0x2000, 0, (u16)(func_80077AA4(0, D_800E120A + 2)), 1, intensity, NULL);
+            paletteTable = D_800E1204;
             if (D_800E27EC & 1) {
                 radialScale = 0xF00;
             }
             sp48.x = -0x400;
             sp48.y = 0;
             sp48.z = D_800E27EC << 5;
-            D_800F3368.palette = 3;
-            D_800F3368.parameter06 = 0;
-            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
+            renderParams->palette = 3;
+            renderParams->parameter06 = 0;
+            renderParams->tpage = D_800E2850[pageSelector[-8]];
             texturePage = func_80077A64(0, 1, 0, 0);
-            texturePage = gpuWord(D_800E2850[D_800E11EA[0]] | texturePage);
-            paletteRow = D_800E1204[D_800F3368.palette];
-            if ((D_800F3368.palette == 4) && (D_800F3428 != 0)) {
+            texturePage = gpuWord(D_800E2850[pageSelector[-8]] | texturePage);
+            paletteRow = paletteTable[renderParams->palette];
+            if ((renderParams->palette == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
             func_800C6EC0(texturePage, (u16)(func_80077AA4(0x20, (s32) paletteRow)));
