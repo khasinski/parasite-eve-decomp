@@ -1,9 +1,9 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **4237**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **3397**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Nine register pins and eight empty barriers are recorded below. There is no CPU ASM.
+Nine register pins and eleven empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
@@ -736,3 +736,32 @@ Artifacts: draw_pair_*, params_chain_*, gte_words_4237_*, gpu_combined_*,
 model_scoped_*, palette_index_*, register_hint_* and stock281_4237.* in the
 existing remote research directory. These negative results do not establish
 that a match is impossible; avoid repeating the same representation probes.
+
+
+## Split texture-page reads and draw-state fence (3397)
+
+The first two draw-state setup blocks now read the texture page into a local
+before writing palette/flags, then store that saved value to tpage. An empty
+memory barrier separates the read from those writes. State 1 additionally
+passes the saved page as an input operand; state 0 needs no register operand.
+This changes 4237 to 3607. A third empty memory barrier after the two common
+parameter writes keeps the state load at its retail position, giving **3397**.
+No new register pins, register clobbers or CPU instructions are introduced.
+Current debt is nine pins, eleven empty barriers and two inline conversions.
+
+The table read and stores remain in the same straight-line setup, without
+crossing a call or a conditional. The retained order follows the retail read
+before palette/flag writes. This remains an unintegrated, nonzero candidate;
+the complete function still requires semantic review and score zero.
+
+All trials ran on darwine with stock GCC 2.7.2/maspsx and the full-function
+weighted Levenshtein scorer. Merely splitting reads into locals (224 variants)
+did not improve 4237. Adding fences at different read positions (280 variants)
+found the useful boundary. Two rounds of 288 store-order permutations found
+no further gain; 96 fence forms identified the simpler state-0 barrier, and
+21 common-state fence placements found the final 210-point improvement.
+Target and retained candidate both contain 2368 instructions.
+
+Remote artifacts: split_page_4237/, split_page_guard_4237/,
+page_orders_3687/, page_fence_3687/, page_orders_3607/, state_fence_3607/,
+and base_3397.c under the existing scene_e19_80192F9C research directory.
