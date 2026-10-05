@@ -14,9 +14,9 @@ Size is the objdiff function size in bytes.
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
-| parked near-miss | 19 | 32668 |
+| parked near-miss | 18 | 31248 |
 | not yet attempted | 0 | 0 |
-| total | 97 | 68464 |
+| total | 96 | 67044 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -127,7 +127,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: linked score 30, six register differences; C matrix loads and individual GTE instructions; remains ASM in the build |
 | main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: lev 14, prologue only (saves scheduled into load stalls; retail shape not reachable under stock sched2 rules, see README) |
-| main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
 | main | Draw_AllocTexturedRectAlt | 2584 | candidates/main/main/Draw_AllocTexturedRectAlt_typed: lev 275, first typed pass (slice pointer copy into a3 merged by cse), see README; OWNED BY ANOTHER AGENT |
@@ -165,3 +164,4 @@ The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA1
 | main | Battle_UpdateEnemy | 2144 | score 0 and whole-main byte-match with stock GCC/MASPSX; shared EnemyCombatant charge, motion, saved animation and damage-panel fields; minimized to 10 pins and 3 empty barriers recorded in debt |
 | main | Battle_DrawStatusPanel | 2128 | score 0 and whole-main byte-match with stock GCC/MASPSX; shared BattleStatusPanel and RenderSpritePacket layouts; 14 pins, 4 empty barriers, 48-byte unknown stack reserve and matching symbol views recorded in debt |
 | main | Render_SetupColorTable | 644 | score 0 and whole-main byte-match with stock GCC/MASPSX; shared textbox rectangle; five pins and three empty barriers recorded in debt |
+| main | func_800CEE20 | 1420 | score 0 and whole-main byte-match with stock GCC/MASPSX; matrix loads and depth scaling/stores in C, individual GTE/nop macros; 15 pins and 11 empty barriers |
