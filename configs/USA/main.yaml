@@ -471,10 +471,7 @@ segments:
       - [0x372BC, c, menu/Menu_CreateSkillActionScreen]
       - [0x37358, c, menu/menu6]
       - [0x375FC, c, menu/Menu_CreateInvSwapView]
-      - [0x376AC, c, menu/Menu_OpenInventoryOrSwapView]
-      # Weapon-mod row renderer and equip-options list wrapper.
-      - [0x37840, c, menu/Menu_DrawWeaponModSlots]
-      - [0x379E4, c, menu/Menu_EquipOptionsInputHandler]
+      - [0x376AC, c, menu/Menu_InventoryWeaponModFlow]
       - [0x37B2C, c, menu/menu7]
       - [0x37CA8, c, menu/menu8]
       - [0x37D60, c, menu/Menu_ConfigureScreen]
