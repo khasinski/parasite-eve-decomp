@@ -95,3 +95,38 @@ silently shadowed by the complete splat catalogues.
 Each change must state which claim it makes: binary match, semantic recovery,
 typing, naming, organization, or crutch removal. A green byte check proves the
 binary claim only. It does not by itself prove the other claims.
+
+## Shiftability
+
+A goal of the reconstruction is that the code can change size without
+breaking anything: adding, removing or growing a function must not invalidate
+another address. A matching build proves the bytes; shiftability proves the
+source does not depend on where those bytes sit.
+
+Rules for source that aims at shiftability:
+
+- Code and data refer to each other by symbol. A fixed address in C is allowed
+  only for hardware (I/O registers, the scratchpad) and for the contract with
+  the disc loader, such as the address an overlay is loaded at.
+- Data that the program owns is defined in a translation unit and placed by
+  the linker. Absolute symbol assignments in linker or symbol files are
+  migration state, not a design.
+- No constant that happens to equal a code or data address of this program:
+  pointer-to-integer casts, integer-to-pointer casts of program addresses,
+  address-named alias declarations and table entries typed as plain integers
+  all count as hidden fixed pointers.
+- Overlays link against the built main executable's symbols, not against
+  addresses copied from a retail disassembly.
+- Data produced outside the build (disc assets) that embeds program addresses
+  is a documented ABI. Each such place is listed with its owner, and the
+  addresses it needs stay pinned on purpose.
+
+Acceptance test, not yet automated: build once as usual and once with extra
+padding inserted before the first function of the main executable. Every
+word that differs between the two builds must be an address field explained
+by a relocation and shifted by the padding. Any other difference is a hidden
+fixed pointer. The first work item is an inventory of those places; the
+current sources of fixed addresses are the absolute symbol assignments under
+`linkers/USA/`, the pointer-integer casts counted by the crutch ratchet, and
+the alias declarations counted there as well.
+
