@@ -2113,3 +2113,26 @@ cached before the inner loop fixes the final branch-target difference.
 Permuter scoring must include `--no-ignore-branch-targets`; the final proof
 also compares linked bytes directly with retail. Address views, mechanical
 temporary names, local packet types, and eight loop gotos remain cleanup debt.
+
+### Twin-model effect camera loads (`func_800DC058`)
+
+`FieldEng_TwinModel.c` now expresses the former `gte_ldrotmatrix` and
+`gte_ldtransmatrix` CPU loads in C, using the shared `GteMatrixWords` view.
+Each GTE transfer has its own macro. Stock native GCC 2.7.2 and stock MASPSX
+2.56 reproduce all 1380 retail bytes at `0x800DC058`, with linked score 0.
+This removes hidden CPU assembly from an existing C function.
+
+Matching debt: three transfer-register pins (`t4`–`t6`), four empty
+constraints, and three TU-local reservations (`-ffixed-21`, `-ffixed-22`,
+`-ffixed-23`). The reservations exclude unused callee-saved registers from
+reload allocation without introducing saves/restores. The matrix pointer
+is deliberately unpinned: GCC must reuse `t1` for multiply-high results in
+the divisions by 24 and 6. Explicitly pinning that pointer excludes `t1`
+from reload and leaves score 20. The remaining empty clobbers constrain
+reload allocation; they emit no CPU instructions and do not change the ABI.
+
+Removing each pin, empty constraint, or reservation, and each pair of those
+items, failed to retain the exact match. A further pass removed one
+individual clobber; each remaining individual clobber is needed in this
+source form. This does not establish that the original source had any of
+these constraints.

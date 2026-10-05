@@ -1,3 +1,4 @@
+/* CC1_FLAGS: -ffixed-21 -ffixed-22 -ffixed-23 */
 #include "pe1/render_object.h"
 #include "pe1/field_anim.h"
 #include "pe1/field_model_draw.h"
@@ -7,6 +8,9 @@
 #include "pe1/random.h"
 #include "pe1/battle_runtime.h"
 
+/* Matching debt: 3 GTE transfer pins, 4 empty constraints, and the three
+ * TU-local register reservations above. The unpinned matrix pointer lets
+ * GCC reuse t1 for constant-division multiply-high results. */
 int func_800DC058(int mode, FieldAnimTwinModel *state)
 {
     GteShortVector angles;
@@ -71,8 +75,34 @@ int func_800DC058(int mode, FieldAnimTwinModel *state)
         D_800F3368.palette = 1;
         func_800CEDA8(1);
         D_800F3368.parameter06 = 1;
-        gte_ldrotmatrix(D_800BCFA4.value);
-        gte_ldtransmatrix(D_800BCFA4.value);
+        asm volatile("" : : : "memory");
+        {
+            s32 **slot;
+            const GteMatrixWords *matrix;
+            register u32 a asm("$12");
+            register u32 b asm("$13");
+            register u32 c asm("$14");
+            slot = &D_800BCFA4.value;
+            asm volatile("" : "=r"(slot) : "0"(slot));
+            matrix = (const GteMatrixWords *)*slot;
+            asm volatile("" : "=r"(matrix) : "0"(matrix) : "$2", "$3", "$4", "$5", "$6", "$7", "$8");
+            a = matrix->r11_r12;
+            b = matrix->r13_r21;
+            gte_ctc2_0(a);
+            gte_ctc2_1(b);
+            a = matrix->r22_r23;
+            b = matrix->r31_r32;
+            c = matrix->r33_pad;
+            gte_ctc2_2(a);
+            gte_ctc2_3(b);
+            gte_ctc2_4(c);
+            a = matrix->tx;
+            b = matrix->ty;
+            gte_ctc2_5(a);
+            c = matrix->tz;
+            gte_ctc2_6(b);
+            gte_ctc2_7(c);
+        }
         {
             int tpage = (u16)(D_800E2850[D_800E11E4[9]] | GetTPage(0, 3, 0, 0));
             int kind = D_800F336C;
@@ -126,6 +156,8 @@ int func_800DC058(int mode, FieldAnimTwinModel *state)
             func_800C71E4(D_800F342C, &matrix);
             func_800C6F4C(D_800F342C);
         }
+        /* Exclude other reload temporaries without emitting instructions. */
+        asm volatile("" : : : "$10", "$11", "$15", "$24", "$25", "$17", "$18", "$19", "$20");
         break;
     }
     return 0;
