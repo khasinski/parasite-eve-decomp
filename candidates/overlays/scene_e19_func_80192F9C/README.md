@@ -1,9 +1,9 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **4252**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **4237**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Eight register pins and eight empty barriers are recorded below. There is no CPU ASM.
+Nine register pins and eight empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
@@ -668,3 +668,35 @@ The 180-second, 24-worker permuter_draw_4252 run widened the expression/type
 mutation set. It completed 8916 iterations (995 rejected compilations)
 without improving 4252, and has stopped. Keep future work focused on source
 lifetimes/representation rather than repeating these option/helper probes.
+
+## Ring-radius register and scalar-lifetime audit (4237)
+
+Pinning ringRadius to s1 reduces 4252 to **4237**, with the existing tied
+radius barrier unchanged. Retail keeps 2000 in s1 across the two trig calls
+and both ring-coordinate multiplies. The earlier renderParams value also
+uses s1, but its final use precedes radius initialization; their live ranges
+do not overlap. Candidate debt is now **nine pins, eight empty barriers,
+two conversion helpers, no CPU ASM**. Target and candidate each still have
+2368 instructions. This remains a nonzero, unintegrated candidate.
+
+The radius pin was kept only after these source alternatives were checked:
+
+- 32 scope/pin combinations for pageSelector, renderParams, ringRadius,
+  loop index and ring angle; narrower setup scopes were neutral.
+- 25 placements of index/angle guards with the radius pin; all index/angle
+  constraints worsened the radius-only result. Eight follow-up input-only
+  and pre-loop guard variants also failed to improve it.
+- 30 combinations sharing four groups of non-overlapping arithmetic
+  temporaries, and 812 directed merges of individual s32 temporary pairs;
+  none improved the 4252 baseline. Ring products can share a temporary
+  neutrally, but the cleanup is not retained in this matching pass.
+- Fifteen timer-load forms in draw states 1/2: plain local temporaries and
+  savedHeight are neutral; a0 constraints worsen the result.
+
+Artifacts: ring_scope_*, ring_guard_4252_*, ring_input_guard_*, scalar_groups_*,
+scalar_pairs_4252/ and phase_timer_* in the darwine research directory.
+All probes finished. The final source is freshly compiled with the unchanged
+stock compiler/assembler and full-function weighted Levenshtein scorer.
+
+After syncing main through 04c8b6d86, `make -j32 verify` passes on darwine
+(`match_inventory/scene-e19-4237-verify.log`).
