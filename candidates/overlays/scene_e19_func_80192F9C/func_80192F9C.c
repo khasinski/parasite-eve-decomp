@@ -82,6 +82,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s16 var_v0;
     s32 temp_hi;
     int spread;
+    int ringRadius;
     register const u32 *matrix asm("$9");
     register u32 w0 asm("$12");
     register u32 w1 asm("$13");
@@ -494,6 +495,9 @@ block_161:
             if (D_800E27EC & 1) {
                 var_s3_6 = 0x64;
             }
+            ringRadius = 2000;
+            /* Keep retail register multiplication; see candidate debt. */
+            asm("" : "=r"(ringRadius) : "0"(ringRadius));
             temp_v0_12 = func_80077DC4(phase);
             var_s4_3 = temp_v0_12 >> 3;
             if (temp_v0_12 < 0) {
@@ -509,12 +513,12 @@ block_161:
                 sp38.z = (s16) (u16) sp30.z;
                 sp38.x = (u16) sp30.x;
                 sp38.y = (s16) (u16) sp30.y;
-                var_v1_4 = func_80077DC4(temp_s2) * 0x7D0;
+                var_v1_4 = func_80077DC4(temp_s2) * ringRadius;
                 if (var_v1_4 < 0) {
                     var_v1_4 += 0xFFF;
                 }
                 sp38.x = (u16) sp38.x + (var_v1_4 >> 0xC);
-                var_v1_5 = func_80077CF4(temp_s2) * 0x7D0;
+                var_v1_5 = func_80077CF4(temp_s2) * ringRadius;
                 if (var_v1_5 < 0) {
                     var_v1_5 += 0xFFF;
                 }

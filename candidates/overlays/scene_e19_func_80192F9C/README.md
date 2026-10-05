@@ -1,15 +1,15 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **20963**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **19144**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Four register pins and three empty barriers are recorded below. There is no CPU ASM.
+Four register pins and four empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2371. These counts are descriptive, not the match metric.
+retained candidate has 2367. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -179,3 +179,20 @@ previous base scored 23709; that pin was not retained.
 Search artifacts and its exact-scoring adapter are in the research directory's
 `permuter/` subdirectory on darwine; local preparation scripts are in
 `scratch/scene_e19_80192F9C/permuter/`.
+
+## Ring radius pass
+
+Retail loads radius 2000 into s1 at 0x80193F6C and uses register
+multiplication for both sine and cosine in the sixteen-vertex ring. A plain
+constant instead generates shifts and additions. One empty tied-operand
+barrier on the named `ringRadius` preserves register multiplication and
+reduces the linked weighted Levenshtein score from 20963 to **19144**.
+No additional register pin is used. Current candidate debt is four pins,
+four empty barriers and one fully inlined GPU conversion helper.
+An alternative inline multiplication helper scored 19399 and was not retained.
+
+A second bounded 120-second, 24-worker darwine permuter run started from
+20963 and completed 4737 iterations with 85 rejected compilations. Its best
+score was 20079, using an empty repeated-global condition; that artificial
+condition was rejected. The run stopped at its time limit. The manually
+recovered radius variant was independently rebuilt and rescored on darwine.
