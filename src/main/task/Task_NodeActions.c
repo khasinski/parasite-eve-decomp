@@ -108,14 +108,14 @@ extern FieldActor *g_CurrentEntityAfterAction[] asm("g_CurrentEntity");
 void Entity_SetActionMode(char *arg0, int arg1);
 
 int Task_SetEntityActionAndWait(int **arg0) {
-    char *node = (char *)g_TaskNodePool;
-    int flags = *(u16 *)(node + 8);
+    TaskNode *node = g_TaskNodePool;
+    int flags = node->flags;
 
     if ((flags & 0x20) == 0) {
         int *ptr;
         int mode;
 
-        *(u16 *)(node + 8) = flags | 0x20;
+        node->flags = flags | 0x20;
         ptr = arg0[0];
         {
             char *state;
@@ -153,7 +153,7 @@ int Task_SetEntityActionAndWait(int **arg0) {
         }
 
 finish:
-        *(u16 *)(node + 8) = flags & 0xFFDF;
+        node->flags = flags & 0xFFDF;
         return 1;
     }
 
