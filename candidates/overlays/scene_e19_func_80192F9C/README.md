@@ -1,9 +1,9 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **6778**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **6453**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Four register pins and eight empty barriers are recorded below. There is no CPU ASM.
+Six register pins and eight empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
@@ -423,3 +423,25 @@ sharing one s32 savedY scores 7068; sharing the s16 helper result scores 7268.
 These alternatives remain in scratch. Independent removal of every existing
 barrier and pin worsened the 7458 base, as did replacing the GPU helper with
 plain casts or changing texturePage to u16.
+
+## Matrix-slot and phase registers; independent parameter stores
+
+Fresh retained compilation scores **6453**, down from 6778. Pinning phase
+in s6 and the GTE matrix slot address in v0 each independently scores 6698;
+together they score 6618. Both pins are retained. Moving the existing pins
+into the four GTE blocks was neutral (6778), as were the tested struct-field
+substitutions in draw state 0. Removing the matrix pin scored 6818.
+
+Three bounded darwine source-order probes tested 27 variants each, restricted
+to seven independent parameter stores in draw states 0 and 1. The selected
+orders score 6473 and then 6453. The stores address distinct halfwords; their
+right-hand sides do not read those destinations. No operation crossed a call,
+branch, or the following global-condition read. No unrelated generated source
+changes were retained. Probe artifacts are order0_*, order1_* and order2_*
+in the existing remote research directory; all probes have finished.
+
+Current candidate debt: six pins, eight empty barriers, eleven gpuWord uses
+and two savedHeight uses. The two helpers are fully inlined; nm shows only
+func_80192F9C as executable function. The fresh alignment also confirms that
+the frame is now 0x330, matching retail (the earlier 0x320 note is historical).
+There is still no CPU instruction ASM and this is not a score-zero match.

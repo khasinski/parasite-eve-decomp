@@ -1,10 +1,10 @@
 {
-  "report_commit": "94715a2c384291d49f6a3dcbfe02eaf6663ca12a",
-  "report_run": 37306501681,
-  "audit_source_commit": "73a4f03a297aff5601ae3546e145414cdd4d2dcb",
+  "report_commit": null,
+  "report_run": null,
+  "audit_source_commit": "68d72cf78",
   "metric": "asm-differ weighted levenshtein; not a byte distance",
   "scope": "Inventory of report exclusions, not a claim that every entry is a real unmatched function. Null score means unmeasured.",
-  "reported_uncredited_functions": 44,
+  "reported_uncredited_functions": 47,
   "verified_excluded_matches": 7,
   "entries": [
     {
@@ -297,18 +297,18 @@
       "reported_size": 1204,
       "source": null,
       "status": "candidate_nonzero_extraction_restored",
-      "levenshtein_score": 6778,
+      "levenshtein_score": 6453,
       "actual_symbol": "func_80192F9C",
       "actual_size": 9472,
       "actual_start": "0x80192F9C",
       "actual_end_exclusive": "0x8019549C",
       "missing_extracted_bytes": 8192,
-      "evidence": "Full target restored from PE.IMG offsets 0x3FB4..0x64B4 relative to sector 98589, including the previously missing 8192 bytes. Current manifests and pinned CI assets represent the complete function at 0x80192F9C. Retained C candidate compiles on darwine with stock GCC 2.7.2 and MASPSX 2.56; linked weighted Levenshtein score 6778. Four pins, eight empty barriers and two fully inlined conversion helpers are documented in the candidate README; individual GTE instructions only, no CPU ASM. Not integrated; further semantic review and matching required. See docs/SCENE_E19_EXTRACTION_GAP.md.",
+      "evidence": "Full target restored from PE.IMG offsets 0x3FB4..0x64B4 relative to sector 98589, including the previously missing 8192 bytes. Current manifests and pinned CI assets represent the complete function at 0x80192F9C. Retained C candidate compiles on darwine with stock GCC 2.7.2 and MASPSX 2.56; linked weighted Levenshtein score 6453. Six pins, eight empty barriers and two fully inlined conversion helpers are documented in the candidate README; individual GTE instructions only, no CPU ASM. Not integrated; further semantic review and matching required. See docs/SCENE_E19_EXTRACTION_GAP.md.",
       "current_unit": "overlays/scene_e19_2/func_80192F9C",
       "extraction_restored": true,
       "candidate": "candidates/overlays/scene_e19_func_80192F9C/func_80192F9C.c",
       "candidate_debt": {
-        "pins": 4,
+        "pins": 6,
         "empty_barriers": 8,
         "cpu_asm": 0,
         "inline_conversion_helpers": 2
@@ -368,36 +368,68 @@
       "symbol": "func_8010BE30",
       "reported_size": 4,
       "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
+      "status": "padding_not_function_requires_report_audit",
+      "levenshtein_score": null,
+      "evidence": "Generated target assembly contains only zero-word nop padding at this symbol, followed by additional zero words before the next real entry. The current report still counts one 4-byte function; no C match claimed."
     },
     {
       "unit": "overlays/sys_reset/sys_reset_7CC",
       "symbol": "func_8010C4C4",
       "reported_size": 4,
       "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
+      "status": "padding_not_function_requires_report_audit",
+      "levenshtein_score": null,
+      "evidence": "Generated target assembly contains only zero-word nop padding at this symbol, followed by additional zero words before the next real entry. The current report still counts one 4-byte function; no C match claimed."
     },
     {
       "unit": "overlays/sys_reset/sys_reset_7CC",
       "symbol": "func_8010C4CC",
-      "reported_size": 44,
+      "reported_size": 48,
       "source": null,
-      "status": "incomplete_function_extraction",
+      "status": "original_asm_extraction_restored",
       "levenshtein_score": null,
       "actual_size": 48,
-      "missing_extracted_bytes": 4,
-      "evidence": "Confirmed directly from disc/extracted/PE.IMG: sector 927 offset 0x7D4 starts the function. The configured 0x800-byte slice ends after jr ra at 0x8010C4F4 and omits its delay-slot sw at,0(t0), word 0xAD010000, at sector 928 offset 0 (0x8010C4F8). Full function ends exclusively at 0x8010C4FC. Extraction and CI assets are not yet repaired; no match claimed."
+      "missing_extracted_bytes": 0,
+      "evidence": "Complete 48-byte function restored through 0x8010C4FC, including the missing return delay slot. Full sys_reset overlay-check and report pass; no C match claimed. See docs/SYS_RESET_EXTRACTION_GAP.md.",
+      "baseline_reported_size": 44
+    },
+    {
+      "unit": "overlays/sys_reset/sys_reset_7CC",
+      "symbol": "func_8010C4FC",
+      "reported_size": 868,
+      "source": null,
+      "status": "original_asm_extraction_restored",
+      "levenshtein_score": null,
+      "reported_in_baseline": false,
+      "evidence": "Restored from PE.IMG sectors 927..964; complete function boundaries and data boundary verified. See docs/SYS_RESET_EXTRACTION_GAP.md."
+    },
+    {
+      "unit": "overlays/sys_reset/sys_reset_7CC",
+      "symbol": "func_8010C86C",
+      "reported_size": 48,
+      "source": null,
+      "status": "original_asm_extraction_restored",
+      "levenshtein_score": null,
+      "reported_in_baseline": false,
+      "evidence": "Restored from PE.IMG sectors 927..964; complete function boundaries and data boundary verified. See docs/SYS_RESET_EXTRACTION_GAP.md."
+    },
+    {
+      "unit": "overlays/sys_reset/sys_reset_7CC",
+      "symbol": "func_8010C89C",
+      "reported_size": 864,
+      "source": null,
+      "status": "original_asm_extraction_restored",
+      "levenshtein_score": null,
+      "reported_in_baseline": false,
+      "evidence": "Restored from PE.IMG sectors 927..964; complete function boundaries and data boundary verified. See docs/SYS_RESET_EXTRACTION_GAP.md."
     }
   ],
-  "extraction_followups": [
-    {
-      "unit": "overlays/sys_reset",
-      "symbol": "func_8010C4FC",
-      "status": "unextracted_code_requires_bounds_audit",
-      "reported_in_baseline": false,
-      "evidence": "A following code entry begins in PE.IMG at sector 928 offset 4, immediately after the completed func_8010C4CC. Its initial words are 0x3C088012, 0x2508EB5C, 0x3C068011, 0x24C6E35C; subsequent words contain decoder control flow. End boundary, additional functions, data span and possible duplicate coverage require audit before extending the production slice."
-    }
-  ]
+  "extraction_followups": [],
+  "baseline_report": {
+    "report_commit": "94715a2c384291d49f6a3dcbfe02eaf6663ca12a",
+    "report_run": 37306501681,
+    "audit_source_commit": "73a4f03a297aff5601ae3546e145414cdd4d2dcb",
+    "reported_uncredited_functions": 44
+  },
+  "report_evidence": "Full darwine overlay-build-all and report on main 68d72cf78 plus the sys_reset extraction repair documented in docs/SYS_RESET_EXTRACTION_GAP.md. Generated report: scratch/ci_report_sys_reset_restored/report.json; CI provenance pending publication."
 }
