@@ -25,8 +25,7 @@ extern void *D_8019B688;
 extern void *D_8019B68C;
 extern void *D_8019B690;
 
-s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect_arg) {
-    register SceneE19RecoveredState *effect asm("$21") = effect_arg;
+s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     GteShortVector sp30;
     GteShortVector sp38;                            /* compiler-managed */
     GteRotation sp40;
@@ -83,45 +82,12 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect_arg) {
     register u32 w0 asm("$12");
     register u32 w1 asm("$13");
     register u32 w2 asm("$14");
-    s32 temp_s0;
-    s32 temp_s0_10;
-    s32 temp_s0_11;
-    s32 temp_s0_2;
-    s32 temp_s0_3;
-    s32 temp_s0_4;
-    s32 temp_s0_5;
-    s32 temp_s0_6;
-    s32 temp_s0_7;
-    s32 temp_s0_8;
-    s32 temp_s0_9;
-    s32 temp_s1;
-    s32 temp_s1_2;
+    s32 texturePage;
+    s32 modelPhase;
     s32 temp_s2;
-    s32 temp_s2_10;
-    s32 temp_s2_11;
-    s32 temp_s2_3;
-    s32 temp_s2_4;
-    s32 temp_s2_5;
-    s32 temp_s2_6;
-    s32 temp_s2_7;
-    s32 temp_s2_8;
-    s32 temp_s2_9;
-    s32 temp_s4;
-    s32 temp_s4_10;
-    s32 temp_s4_11;
-    s32 temp_s4_12;
-    s32 temp_s4_2;
-    s32 temp_s4_3;
-    s32 temp_s4_4;
-    s32 temp_s4_5;
-    s32 temp_s4_6;
-    s32 temp_s4_7;
-    s32 temp_s4_8;
-    s32 temp_s4_9;
-    s32 temp_s6;
-    s32 temp_s6_2;
-    s32 temp_s6_3;
-    s32 temp_s6_4;
+    s32 verticalScale;
+    s32 radialScale;
+    s32 phase;
     s32 temp_v0_10;
     s32 temp_v0_11;
     s32 temp_v0_12;
@@ -145,21 +111,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect_arg) {
     s32 var_a1;
     s32 var_a2_2;
     s32 var_s0;
-    s32 var_s3;
-    s32 var_s3_10;
-    s32 var_s3_11;
-    s32 var_s3_12;
-    s32 var_s3_13;
-    s32 var_s3_14;
-    s32 var_s3_15;
-    s32 var_s3_16;
-    s32 var_s3_2;
-    s32 var_s3_3;
-    s32 var_s3_4;
-    s32 var_s3_5;
-    s32 var_s3_7;
-    s32 var_s3_8;
-    s32 var_s3_9;
+    s32 intensity;
     s32 var_s4;
     s32 var_s4_3;
     s32 var_v1;
@@ -349,9 +301,9 @@ block_161:
         switch (temp_v1) {                          /* switch 2 */
         case 0:                                     /* switch 2 */
             temp_v0_6 = func_80077CF4(effect->timer << 6);
-            var_s3 = temp_v0_6 >> 5;
+            intensity = temp_v0_6 >> 5;
             if (temp_v0_6 < 0) {
-                var_s3 = (s32) (temp_v0_6 + 0x1F) >> 5;
+                intensity = (s32) (temp_v0_6 + 0x1F) >> 5;
             }
             D_800F3368.parameter00 = 0x40;
             D_800F336A = 4;
@@ -361,7 +313,7 @@ block_161:
             D_800F336E = 1;
             D_800F3370 = D_800E2850[D_800E11FA[0]];
             if (D_800E27EC & 1) {
-                var_s3 = (var_s3 * 2) / 3;
+                intensity = (intensity * 2) / 3;
             }
             sp68.pad = 1;
             sp68.x = 0x400;
@@ -370,10 +322,10 @@ block_161:
             sp60.x = (u16) sp30.x;
             sp60.z = (s16) (u16) sp30.z;
             sp60.y = (s16) D_800942EC;
-            func_800CEE20(&sp60, (GteRotation *) &sp68, 0x2000, 0x2000, 0, func_80077AA4(0, D_800E120A + 2) & 0xFFFF, 1, var_s3, NULL);
+            func_800CEE20(&sp60, (GteRotation *) &sp68, 0x2000, 0x2000, 0, func_80077AA4(0, D_800E120A + 2) & 0xFFFF, 1, intensity, NULL);
             break;
         case 1:                                     /* switch 2 */
-            var_s3_2 = 0x80;
+            intensity = 0x80;
             D_800F336A = 4;
             D_800F3368.parameter00 = 0x40;
             D_800F3376 = 0x40;
@@ -381,9 +333,9 @@ block_161:
             D_800F336C = 3;
             D_800F336E = 1;
             D_800F3370 = D_800E2850[D_800E11FA[0]];
-            temp_s6 = effect->timer << 6;
+            phase = effect->timer << 6;
             if (D_800E27EC & 1) {
-                var_s3_2 = 0x55;
+                intensity = 0x55;
             }
             sp78.pad = 1;
             sp78.x = 0x400;
@@ -392,13 +344,13 @@ block_161:
             sp70.x = (u16) sp30.x;
             sp70.z = (s16) (u16) sp30.z;
             sp70.y = (s16) D_800942EC;
-            func_800CEE20(&sp70, (GteRotation *) &sp78, 0x2000, 0x2000, 0, func_80077AA4(0, D_800E120A + 2) & 0xFFFF, 1, var_s3_2, NULL);
-            var_v1 = func_80077CF4(temp_s6);
-            var_s3_3 = var_v1 / 32;
+            func_800CEE20(&sp70, (GteRotation *) &sp78, 0x2000, 0x2000, 0, func_80077AA4(0, D_800E120A + 2) & 0xFFFF, 1, intensity, NULL);
+            var_v1 = func_80077CF4(phase);
+            intensity = var_v1 / 32;
             if (D_800E27EC & 1) {
-                var_s3_3 = (var_s3_3 * 2) / 3;
+                intensity = (intensity * 2) / 3;
             }
-            var_s4 = func_80077CF4(temp_s6);
+            var_s4 = func_80077CF4(phase);
             if (D_800E27EC & 1) {
                 temp_v0_7 = var_s4 * 0xF;
                 var_s4 = temp_v0_7 >> 4;
@@ -412,13 +364,13 @@ block_161:
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
-            temp_s0 = func_80077A64(0, 1, 0, 0);
-            temp_s0 = (D_800E2850[D_800E11EA[0]] | temp_s0) & 0xFFFF;
+            texturePage = func_80077A64(0, 1, 0, 0);
+            texturePage = (D_800E2850[D_800E11EA[0]] | texturePage) & 0xFFFF;
             paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(temp_s0, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
+            func_800C6EC0(texturePage, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754(&sp48, &sp80);
             temp_v0_8 = (s32) (var_s4 + ((u32) var_s4 >> 0x1F)) >> 1;
@@ -452,17 +404,17 @@ block_161:
                 gte_ctc2_6(w1);
                 gte_ctc2_7(w2);
             }
-            func_800D004C(&sp30, 0x12C, 0x12C, 0xC, NULL, 0x1000, 0x1000, &sp50, NULL, var_s3_3, 1);
-            temp_v0_9 = func_80077DC4(temp_s6);
-            var_s3_4 = temp_v0_9 >> 5;
+            func_800D004C(&sp30, 0x12C, 0x12C, 0xC, NULL, 0x1000, 0x1000, &sp50, NULL, intensity, 1);
+            temp_v0_9 = func_80077DC4(phase);
+            intensity = temp_v0_9 >> 5;
             if (temp_v0_9 < 0) {
-                var_s3_4 = (s32) (temp_v0_9 + 0x1F) >> 5;
+                intensity = (s32) (temp_v0_9 + 0x1F) >> 5;
             }
-            temp_v0_10 = func_80077CF4(temp_s6);
-            func_800D0728(&sp30, 0x7D0, 0xB54, 0x18, &sp40, temp_v0_10, temp_v0_10, NULL, &sp50, var_s3_4, 1);
+            temp_v0_10 = func_80077CF4(phase);
+            func_800D0728(&sp30, 0x7D0, 0xB54, 0x18, &sp40, temp_v0_10, temp_v0_10, NULL, &sp50, intensity, 1);
             break;
         case 2:                                     /* switch 2 */
-            var_s3_5 = 0x80;
+            intensity = 0x80;
             D_800F3368.parameter00 = 0x40;
             D_800F336A = 4;
             D_800F3376 = 0x40;
@@ -470,9 +422,9 @@ block_161:
             D_800F3370 = D_800E2850[D_800E11FA[0]];
             D_800F336C = 3;
             D_800F336E = 1;
-            temp_s6_2 = effect->timer << 6;
+            phase = effect->timer << 6;
             if (D_800E27EC & 1) {
-                var_s3_5 = 0x55;
+                intensity = 0x55;
             }
             spB8.pad = 1;
             spB8.x = 0x400;
@@ -482,7 +434,7 @@ block_161:
             spB0.x = (u16) sp30.x;
             spB0.z = (s16) (u16) sp30.z;
             spB0.y = (s16) D_800942EC;
-            func_800CEE20(&spB0, (GteRotation *) &spB8, 0x2000, 0x2000, 0, func_80077AA4(0, D_800E120A + 2) & 0xFFFF, 1, var_s3_5, NULL);
+            func_800CEE20(&spB0, (GteRotation *) &spB8, 0x2000, 0x2000, 0, func_80077AA4(0, D_800E120A + 2) & 0xFFFF, 1, intensity, NULL);
             if (D_800E27EC & 1) {
                 var_s4_2 = 0xF00;
             }
@@ -493,11 +445,11 @@ block_161:
             D_800F3368.parameter06 = 0;
             D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
             var_v1_2 = D_800E1204[D_800F3368.palette];
-            temp_s0_2 = (D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
+            texturePage = (D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0)) & 0xFFFF;
             if ((D_800F3368.palette == 4) && (D_800F3428 != 0)) {
                 var_v1_2 += 4;
             }
-            func_800C6EC0(temp_s0_2, func_80077AA4(0x20, (s32) var_v1_2) & 0xFFFF);
+            func_800C6EC0(texturePage, func_80077AA4(0x20, (s32) var_v1_2) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &spC0);
             temp_v0_11 = (s32) (var_s4_2 + (var_s4_2 >> 0x1F)) >> 1;
@@ -531,17 +483,17 @@ block_161:
                 gte_ctc2_6(w1);
                 gte_ctc2_7(w2);
             }
-            func_800D004C(&sp30, 0x12C, 0x12C, 0xC, NULL, 0x1000, 0x1000, &sp50, NULL, var_s3_5, 1);
+            func_800D004C(&sp30, 0x12C, 0x12C, 0xC, NULL, 0x1000, 0x1000, &sp50, NULL, intensity, 1);
             var_s3_6 = 0x80;
             if (D_800E27EC & 1) {
                 var_s3_6 = 0x64;
             }
-            temp_v0_12 = func_80077DC4(temp_s6_2);
+            temp_v0_12 = func_80077DC4(phase);
             var_s4_3 = temp_v0_12 >> 3;
             if (temp_v0_12 < 0) {
                 var_s4_3 = (s32) (temp_v0_12 + 7) >> 3;
             }
-            temp_v0_13 = func_80077CF4(temp_s6_2);
+            temp_v0_13 = func_80077CF4(phase);
             temp_hi = (temp_v0_13 * 2) / 3;
             sp48.x = 0x400;
             sp48.y = 0;
@@ -564,12 +516,12 @@ block_161:
                 sp38.z = (u16) sp38.z + (var_v1_5 >> 0xC);
                 func_800D0E88((GteShortVector *) &sp38, (GteRotation *) &sp48, temp_hi, var_s4_3, &sp50, NULL, NULL, (s32) var_s3_6, 1);
             }
-            temp_v0_15 = func_80077DC4(temp_s6_2);
-            var_s3_7 = temp_v0_15 >> 5;
+            temp_v0_15 = func_80077DC4(phase);
+            intensity = temp_v0_15 >> 5;
             if (temp_v0_15 < 0) {
-                var_s3_7 = (s32) (temp_v0_15 + 0x1F) >> 5;
+                intensity = (s32) (temp_v0_15 + 0x1F) >> 5;
             }
-            temp_s4 = func_80077DC4(temp_s6_2);
+            radialScale = func_80077DC4(phase);
             temp_s2_2 = &effect->endpoint;
             temp_v1_2 = (u16) effect->origin.x;
             sp48.x = temp_v1_2;
@@ -578,13 +530,13 @@ block_161:
             sp48.x = temp_v1_2 - 0x200;
             sp48.y = temp_v0_16 + 0x400;
             sp48.z = (u16) effect->origin.z;
-            func_800D0728(temp_s2_2, 0x7D0, 0xA8C, 0x20, (GteRotation *) &sp48, temp_s4, temp_s4, &sp58, NULL, var_s3_7, 1);
+            func_800D0728(temp_s2_2, 0x7D0, 0xA8C, 0x20, (GteRotation *) &sp48, radialScale, radialScale, &sp58, NULL, intensity, 1);
             sp48.x += 0x400;
-            func_800D0728(temp_s2_2, 0x7D0, 0xA8C, 0x20, (GteRotation *) &sp48, temp_s4, temp_s4, &sp58, NULL, var_s3_7, 1);
+            func_800D0728(temp_s2_2, 0x7D0, 0xA8C, 0x20, (GteRotation *) &sp48, radialScale, radialScale, &sp58, NULL, intensity, 1);
             break;
         case 3:                                     /* switch 2 */
             temp_v1_3 = effect->timer;
-            temp_s6_3 = temp_v1_3 << 5;
+            phase = temp_v1_3 << 5;
             if (temp_v1_3 == 0) {
                 var_a1 = 0x46;
                 var_a2_2 = 2;
@@ -596,12 +548,12 @@ block_161:
 block_84:
                 func_800D1AE0(&sp50, var_a1, var_a2_2, 8);
             }
-            temp_v0_17 = func_80077DC4(temp_s6_3);
-            temp_s4_2 = ((s32) ((temp_v0_17 >> 0x1F) + temp_v0_17) >> 1) + 0x400;
-            temp_s2_3 = (func_80077CF4(temp_s6_3) / 6) + 0x555;
-            var_s3_8 = 0x80;
+            temp_v0_17 = func_80077DC4(phase);
+            radialScale = ((s32) ((temp_v0_17 >> 0x1F) + temp_v0_17) >> 1) + 0x400;
+            verticalScale = (func_80077CF4(phase) / 6) + 0x555;
+            intensity = 0x80;
             if (D_800E27EC & 1) {
-                var_s3_8 = 0x78;
+                intensity = 0x78;
             }
             sp48.x = 0;
             sp48.y = D_800E27EC << 5;
@@ -609,36 +561,36 @@ block_84:
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
-            temp_s0_3 = func_80077A64(0, 1, 0, 0);
-            temp_s0_3 = (D_800E2850[D_800E11EA[0]] | temp_s0_3) & 0xFFFF;
+            texturePage = func_80077A64(0, 1, 0, 0);
+            texturePage = (D_800E2850[D_800E11EA[0]] | texturePage) & 0xFFFF;
             paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_3, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
+            func_800C6EC0(texturePage, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &spF0);
-            sp110.x = temp_s4_2;
-            sp110.y = temp_s2_3;
-            sp110.z = temp_s4_2;
+            sp110.x = radialScale;
+            sp110.y = verticalScale;
+            sp110.z = radialScale;
             spF0.t[0] = (s32) (s16) sp30.x;
             spF0.t[1] = (s32) sp30.y;
             spF0.t[2] = (s32) sp30.z;
             func_80078CC4(&spF0, &sp110);
             func_800C6EF8(D_8019B680);
-            func_800C6FA0(D_8019B680, var_s3_8 & 0xFFFF);
+            func_800C6FA0(D_8019B680, intensity & 0xFFFF);
             func_800C71E4(D_8019B680, &spF0);
             func_800C6F4C(D_8019B680);
-            temp_s4_3 = (func_80077CF4(temp_s6_3) / 3) + 0x400;
-            temp_v0_18 = func_80077DC4(temp_s6_3);
-            temp_s2_4 = (s32) ((temp_v0_18 >> 0x1F) + temp_v0_18) >> 1;
-            var_v1_6 = func_80077DC4(temp_s6_3);
-            var_s3_9 = var_v1_6 / 32;
+            radialScale = (func_80077CF4(phase) / 3) + 0x400;
+            temp_v0_18 = func_80077DC4(phase);
+            verticalScale = (s32) ((temp_v0_18 >> 0x1F) + temp_v0_18) >> 1;
+            var_v1_6 = func_80077DC4(phase);
+            intensity = var_v1_6 / 32;
             if (D_800E27EC & 1) {
-                temp_v0_19 = var_s3_9 * 0xF;
-                var_s3_9 = temp_v0_19 >> 4;
+                temp_v0_19 = intensity * 0xF;
+                intensity = temp_v0_19 >> 4;
                 if (temp_v0_19 < 0) {
-                    var_s3_9 = (s32) (temp_v0_19 + 0xF) >> 4;
+                    intensity = (s32) (temp_v0_19 + 0xF) >> 4;
                 }
             }
             sp48.x = 0;
@@ -647,36 +599,36 @@ block_84:
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
-            temp_s0_4 = func_80077A64(0, 1, 0, 0);
-            temp_s0_4 = (D_800E2850[D_800E11EA[0]] | temp_s0_4) & 0xFFFF;
+            texturePage = func_80077A64(0, 1, 0, 0);
+            texturePage = (D_800E2850[D_800E11EA[0]] | texturePage) & 0xFFFF;
             paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_4, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
+            func_800C6EC0(texturePage, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp120);
-            sp140.x = temp_s4_3;
-            sp140.y = temp_s2_4;
-            sp140.z = temp_s4_3;
+            sp140.x = radialScale;
+            sp140.y = verticalScale;
+            sp140.z = radialScale;
             sp120.t[0] = (s32) (s16) sp30.x;
             sp120.t[1] = (s32) sp30.y;
             sp120.t[2] = (s32) sp30.z;
             func_80078CC4(&sp120, &sp140);
             func_800C6EF8(D_8019B688);
-            func_800C6FA0(D_8019B688, (var_s3_9 / 2) & 0xFFFF);
+            func_800C6FA0(D_8019B688, (intensity / 2) & 0xFFFF);
             func_800C71E4(D_8019B688, &sp120);
             func_800C6F4C(D_8019B688);
-            temp_s1 = (effect->timer << 0xA) / 56;
-            temp_s4_4 = (func_80077CF4(temp_s1) / 4) + 0xC00;
-            temp_s2_5 = (func_80077DC4(temp_s1) / 4) + 0x400;
-            var_v1_7 = func_80077DC4(temp_s1);
-            var_s3_10 = var_v1_7 / 32;
+            modelPhase = (effect->timer << 0xA) / 56;
+            radialScale = (func_80077CF4(modelPhase) / 4) + 0xC00;
+            verticalScale = (func_80077DC4(modelPhase) / 4) + 0x400;
+            var_v1_7 = func_80077DC4(modelPhase);
+            intensity = var_v1_7 / 32;
             if (D_800E27EC & 1) {
-                temp_v0_20 = var_s3_10 * 0xF;
-                var_s3_10 = temp_v0_20 >> 4;
+                temp_v0_20 = intensity * 0xF;
+                intensity = temp_v0_20 >> 4;
                 if (temp_v0_20 < 0) {
-                    var_s3_10 = (s32) (temp_v0_20 + 0xF) >> 4;
+                    intensity = (s32) (temp_v0_20 + 0xF) >> 4;
                 }
             }
             sp48.x = 0;
@@ -685,26 +637,26 @@ block_84:
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
-            temp_s0_5 = func_80077A64(0, 1, 0, 0);
-            temp_s0_5 = (D_800E2850[D_800E11EA[0]] | temp_s0_5) & 0xFFFF;
+            texturePage = func_80077A64(0, 1, 0, 0);
+            texturePage = (D_800E2850[D_800E11EA[0]] | texturePage) & 0xFFFF;
             paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_5, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
+            func_800C6EC0(texturePage, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             temp_s7 = sp30.y;
             sp30.y = temp_s7 - (effect->timer * 0x18);
             func_80079754((GteShortVector *) &sp48, &sp150);
-            sp170.x = temp_s4_4;
-            sp170.y = temp_s2_5;
-            sp170.z = temp_s4_4;
+            sp170.x = radialScale;
+            sp170.y = verticalScale;
+            sp170.z = radialScale;
             sp150.t[0] = (s32) (s16) sp30.x;
             sp150.t[1] = (s32) sp30.y;
             sp150.t[2] = (s32) sp30.z;
             func_80078CC4(&sp150, &sp170);
             func_800C6EF8(D_8019B68C);
-            func_800C6FA0(D_8019B68C, (var_s3_10 / 2) & 0xFFFF);
+            func_800C6FA0(D_8019B68C, (intensity / 2) & 0xFFFF);
             func_800C71E4(D_8019B68C, &sp150);
             func_800C6F4C(D_8019B68C);
             sp30.y = temp_s7;
@@ -727,27 +679,27 @@ block_84:
                 gte_ctc2_6(w1);
                 gte_ctc2_7(w2);
             }
-            func_800D004C(&sp30, 0x9C4, 0x9C4, 0xC, NULL, 0x1000, 0x1000, &sp50, NULL, var_s3_10, 1);
-            temp_s4_5 = (func_80077CF4(temp_s6_3) / 4) + 0xC00;
-            temp_v0_21 = func_80077DC4(temp_s6_3);
-            var_s3_11 = temp_v0_21 >> 5;
+            func_800D004C(&sp30, 0x9C4, 0x9C4, 0xC, NULL, 0x1000, 0x1000, &sp50, NULL, intensity, 1);
+            radialScale = (func_80077CF4(phase) / 4) + 0xC00;
+            temp_v0_21 = func_80077DC4(phase);
+            intensity = temp_v0_21 >> 5;
             if (temp_v0_21 < 0) {
-                var_s3_11 = (s32) (temp_v0_21 + 0x1F) >> 5;
+                intensity = (s32) (temp_v0_21 + 0x1F) >> 5;
             }
-            func_800D0728(&sp30, 0x76C, 0xA28, 0x18, &sp40, temp_s4_5, temp_s4_5, &sp58, NULL, var_s3_11, 1);
+            func_800D0728(&sp30, 0x76C, 0xA28, 0x18, &sp40, radialScale, radialScale, &sp58, NULL, intensity, 1);
             sp30.y = (u16) sp30.y - 0x400;
-            temp_s4_6 = ((s32) (func_80077CF4(temp_s6_3) * 3) / 2) + 0x1000;
-            func_800D0728(&sp30, 0x3E8, 0x5DC, 0x18, &sp40, temp_s4_6, temp_s4_6, &sp50, NULL, var_s3_11, 1);
+            radialScale = ((s32) (func_80077CF4(phase) * 3) / 2) + 0x1000;
+            func_800D0728(&sp30, 0x3E8, 0x5DC, 0x18, &sp40, radialScale, radialScale, &sp50, NULL, intensity, 1);
             sp30.y = (u16) sp30.y + 0x400;
-            temp_s4_7 = (func_80077CF4(temp_s1) / 4) + 0x1200;
-            temp_s2_6 = func_80077DC4(temp_s1);
-            var_v1_8 = func_80077DC4(temp_s1);
-            var_s3_12 = var_v1_8 / 32;
+            radialScale = (func_80077CF4(modelPhase) / 4) + 0x1200;
+            verticalScale = func_80077DC4(modelPhase);
+            var_v1_8 = func_80077DC4(modelPhase);
+            intensity = var_v1_8 / 32;
             if (D_800E27EC & 1) {
-                temp_v0_22 = var_s3_12 * 0xF;
-                var_s3_12 = temp_v0_22 >> 4;
+                temp_v0_22 = intensity * 0xF;
+                intensity = temp_v0_22 >> 4;
                 if (temp_v0_22 < 0) {
-                    var_s3_12 = (s32) (temp_v0_22 + 0xF) >> 4;
+                    intensity = (s32) (temp_v0_22 + 0xF) >> 4;
                 }
             }
             sp48.x = 0;
@@ -756,35 +708,35 @@ block_84:
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
-            temp_s0_6 = func_80077A64(0, 1, 0, 0);
-            temp_s0_6 = (D_800E2850[D_800E11EA[0]] | temp_s0_6) & 0xFFFF;
+            texturePage = func_80077A64(0, 1, 0, 0);
+            texturePage = (D_800E2850[D_800E11EA[0]] | texturePage) & 0xFFFF;
             paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_6, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
+            func_800C6EC0(texturePage, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp180);
-            sp1A0.x = temp_s4_7;
-            sp1A0.y = temp_s2_6;
-            sp1A0.z = temp_s4_7;
+            sp1A0.x = radialScale;
+            sp1A0.y = verticalScale;
+            sp1A0.z = radialScale;
             sp180.t[0] = (s32) (s16) sp30.x;
             sp180.t[1] = (s32) sp30.y;
             sp180.t[2] = (s32) sp30.z;
             func_80078CC4(&sp180, &sp1A0);
             func_800C6EF8(D_8019B690);
-            func_800C6FA0(D_8019B690, var_s3_12 & 0xFFFF);
+            func_800C6FA0(D_8019B690, intensity & 0xFFFF);
             func_800C71E4(D_8019B690, &sp180);
             func_800C6F4C(D_8019B690);
-            temp_s4_8 = (func_80077CF4(temp_s1) / 6) + 0x1200;
-            temp_s2_7 = func_80077DC4(temp_s1) * 2;
-            var_v1_9 = func_80077DC4(temp_s1);
-            var_s3_13 = var_v1_9 / 32;
+            radialScale = (func_80077CF4(modelPhase) / 6) + 0x1200;
+            verticalScale = func_80077DC4(modelPhase) * 2;
+            var_v1_9 = func_80077DC4(modelPhase);
+            intensity = var_v1_9 / 32;
             if (!(D_800E27EC & 1)) {
-                temp_v0_23 = var_s3_13 * 0xF;
-                var_s3_13 = temp_v0_23 >> 4;
+                temp_v0_23 = intensity * 0xF;
+                intensity = temp_v0_23 >> 4;
                 if (temp_v0_23 < 0) {
-                    var_s3_13 = (s32) (temp_v0_23 + 0xF) >> 4;
+                    intensity = (s32) (temp_v0_23 + 0xF) >> 4;
                 }
             }
             sp48.x = 0;
@@ -793,43 +745,43 @@ block_84:
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
-            temp_s0_7 = func_80077A64(0, 1, 0, 0);
-            temp_s0_7 = (D_800E2850[D_800E11EA[0]] | temp_s0_7) & 0xFFFF;
+            texturePage = func_80077A64(0, 1, 0, 0);
+            texturePage = (D_800E2850[D_800E11EA[0]] | texturePage) & 0xFFFF;
             paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_7, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
+            func_800C6EC0(texturePage, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             var_s0_2 = &sp1B0;
             func_80079754((GteShortVector *) &sp48, var_s0_2);
             var_a0 = var_s0_2;
             var_a1_2 = &sp1D0;
-            sp1D0.x = temp_s4_8;
-            sp1D0.y = temp_s2_7;
-            sp1D0.z = temp_s4_8;
+            sp1D0.x = radialScale;
+            sp1D0.y = verticalScale;
+            sp1D0.z = radialScale;
             sp1B0.t[0] = (s32) (s16) sp30.x;
             sp1B0.t[1] = (s32) sp30.y;
             sp1B0.t[2] = (s32) sp30.z;
 block_158:
             func_80078CC4(var_a0, var_a1_2);
             func_800C6EF8(D_8019B690);
-            func_800C6FA0(D_8019B690, var_s3_13 & 0xFFFF);
+            func_800C6FA0(D_8019B690, intensity & 0xFFFF);
             func_800C71E4(D_8019B690, var_s0_2);
             func_800C6F4C(D_8019B690);
         default:                                    /* switch 2 */
             break;
         case 4:                                     /* switch 2 */
-            temp_s6_4 = (effect->timer << 0xA) / 24;
-            temp_s4_9 = ((s32) (0x400 - temp_s6_4) / 2) + 0x200;
-            temp_s2_8 = (func_80077CF4(temp_s6_4) / 6) + 0x6AA;
-            var_v1_10 = func_80077DC4(temp_s6_4);
-            var_s3_14 = var_v1_10 / 32;
+            phase = (effect->timer << 0xA) / 24;
+            radialScale = ((s32) (0x400 - phase) / 2) + 0x200;
+            verticalScale = (func_80077CF4(phase) / 6) + 0x6AA;
+            var_v1_10 = func_80077DC4(phase);
+            intensity = var_v1_10 / 32;
             if (D_800E27EC & 1) {
-                temp_v0_24 = var_s3_14 * 0xF;
-                var_s3_14 = temp_v0_24 >> 4;
+                temp_v0_24 = intensity * 0xF;
+                intensity = temp_v0_24 >> 4;
                 if (temp_v0_24 < 0) {
-                    var_s3_14 = (s32) (temp_v0_24 + 0xF) >> 4;
+                    intensity = (s32) (temp_v0_24 + 0xF) >> 4;
                 }
             }
             sp48.x = 0;
@@ -838,36 +790,36 @@ block_158:
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
-            temp_s0_8 = func_80077A64(0, 1, 0, 0);
-            temp_s0_8 = (D_800E2850[D_800E11EA[0]] | temp_s0_8) & 0xFFFF;
+            texturePage = func_80077A64(0, 1, 0, 0);
+            texturePage = (D_800E2850[D_800E11EA[0]] | texturePage) & 0xFFFF;
             paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_8, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
+            func_800C6EC0(texturePage, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp1E0);
-            sp200.x = temp_s4_9;
-            sp200.y = temp_s2_8;
-            sp200.z = temp_s4_9;
+            sp200.x = radialScale;
+            sp200.y = verticalScale;
+            sp200.z = radialScale;
             sp1E0.t[0] = (s32) (s16) sp30.x;
             sp1E0.t[1] = (s32) sp30.y;
             sp1E0.t[2] = (s32) sp30.z;
             func_80078CC4(&sp1E0, &sp200);
             func_800C6EF8(D_8019B680);
-            func_800C6FA0(D_8019B680, var_s3_14 & 0xFFFF);
+            func_800C6FA0(D_8019B680, intensity & 0xFFFF);
             func_800C71E4(D_8019B680, &sp1E0);
             func_800C6F4C(D_8019B680);
-            temp_s1_2 = ((effect->timer + 0x20) << 0xA) / 56;
-            temp_s4_10 = (func_80077CF4(temp_s1_2) / 4) + 0xC00;
-            temp_s2_9 = (func_80077DC4(temp_s1_2) / 4) + 0x400;
-            var_v1_11 = func_80077DC4(temp_s1_2);
-            var_s3_15 = var_v1_11 / 32;
+            modelPhase = ((effect->timer + 0x20) << 0xA) / 56;
+            radialScale = (func_80077CF4(modelPhase) / 4) + 0xC00;
+            verticalScale = (func_80077DC4(modelPhase) / 4) + 0x400;
+            var_v1_11 = func_80077DC4(modelPhase);
+            intensity = var_v1_11 / 32;
             if (D_800E27EC & 1) {
-                temp_v0_25 = var_s3_15 * 0xF;
-                var_s3_15 = temp_v0_25 >> 4;
+                temp_v0_25 = intensity * 0xF;
+                intensity = temp_v0_25 >> 4;
                 if (temp_v0_25 < 0) {
-                    var_s3_15 = (s32) (temp_v0_25 + 0xF) >> 4;
+                    intensity = (s32) (temp_v0_25 + 0xF) >> 4;
                 }
             }
             sp48.x = 0;
@@ -876,38 +828,38 @@ block_158:
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
-            temp_s0_9 = func_80077A64(0, 1, 0, 0);
-            temp_s0_9 = (D_800E2850[D_800E11EA[0]] | temp_s0_9) & 0xFFFF;
+            texturePage = func_80077A64(0, 1, 0, 0);
+            texturePage = (D_800E2850[D_800E11EA[0]] | texturePage) & 0xFFFF;
             paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_9, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
+            func_800C6EC0(texturePage, func_80077AA4(0x20, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             temp_s7_2 = sp30.y;
             sp30.y = temp_s7_2 - ((effect->timer + 0x20) * 0x18);
             func_80079754((GteShortVector *) &sp48, &sp210);
-            sp230.x = temp_s4_10;
-            sp230.y = temp_s2_9;
-            sp230.z = temp_s4_10;
+            sp230.x = radialScale;
+            sp230.y = verticalScale;
+            sp230.z = radialScale;
             sp210.t[0] = (s32) (s16) sp30.x;
             sp210.t[1] = (s32) sp30.y;
             sp210.t[2] = (s32) sp30.z;
             func_80078CC4(&sp210, &sp230);
             func_800C6EF8(D_8019B68C);
-            func_800C6FA0(D_8019B68C, (var_s3_15 / 2) & 0xFFFF);
+            func_800C6FA0(D_8019B68C, (intensity / 2) & 0xFFFF);
             func_800C71E4(D_8019B68C, &sp210);
             func_800C6F4C(D_8019B68C);
             sp30.y = temp_s7_2;
-            temp_s4_11 = (func_80077CF4(temp_s1_2) / 4) + 0x1200;
-            temp_s2_10 = func_80077DC4(temp_s1_2);
-            var_v1_12 = func_80077DC4(temp_s1_2);
-            var_s3_16 = var_v1_12 / 32;
+            radialScale = (func_80077CF4(modelPhase) / 4) + 0x1200;
+            verticalScale = func_80077DC4(modelPhase);
+            var_v1_12 = func_80077DC4(modelPhase);
+            intensity = var_v1_12 / 32;
             if (D_800E27EC & 1) {
-                temp_v0_26 = var_s3_16 * 0xF;
-                var_s3_16 = temp_v0_26 >> 4;
+                temp_v0_26 = intensity * 0xF;
+                intensity = temp_v0_26 >> 4;
                 if (temp_v0_26 < 0) {
-                    var_s3_16 = (s32) (temp_v0_26 + 0xF) >> 4;
+                    intensity = (s32) (temp_v0_26 + 0xF) >> 4;
                 }
             }
             sp48.x = 0;
@@ -916,35 +868,35 @@ block_158:
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
-            temp_s0_10 = func_80077A64(0, 1, 0, 0);
-            temp_s0_10 = (D_800E2850[D_800E11EA[0]] | temp_s0_10) & 0xFFFF;
+            texturePage = func_80077A64(0, 1, 0, 0);
+            texturePage = (D_800E2850[D_800E11EA[0]] | texturePage) & 0xFFFF;
             paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_10, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
+            func_800C6EC0(texturePage, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &sp240);
-            sp260.x = temp_s4_11;
-            sp260.y = temp_s2_10;
-            sp260.z = temp_s4_11;
+            sp260.x = radialScale;
+            sp260.y = verticalScale;
+            sp260.z = radialScale;
             sp240.t[0] = (s32) (s16) sp30.x;
             sp240.t[1] = (s32) sp30.y;
             sp240.t[2] = (s32) sp30.z;
             func_80078CC4(&sp240, &sp260);
             func_800C6EF8(D_8019B690);
-            func_800C6FA0(D_8019B690, var_s3_16 & 0xFFFF);
+            func_800C6FA0(D_8019B690, intensity & 0xFFFF);
             func_800C71E4(D_8019B690, &sp240);
             func_800C6F4C(D_8019B690);
-            temp_s4_12 = (func_80077CF4(temp_s1_2) / 6) + 0x1200;
-            temp_s2_11 = func_80077DC4(temp_s1_2) * 2;
-            var_v1_13 = func_80077DC4(temp_s1_2);
-            var_s3_13 = var_v1_13 / 32;
+            radialScale = (func_80077CF4(modelPhase) / 6) + 0x1200;
+            verticalScale = func_80077DC4(modelPhase) * 2;
+            var_v1_13 = func_80077DC4(modelPhase);
+            intensity = var_v1_13 / 32;
             if (!(D_800E27EC & 1)) {
-                temp_v0_27 = var_s3_13 * 0xF;
-                var_s3_13 = temp_v0_27 >> 4;
+                temp_v0_27 = intensity * 0xF;
+                intensity = temp_v0_27 >> 4;
                 if (temp_v0_27 < 0) {
-                    var_s3_13 = (s32) (temp_v0_27 + 0xF) >> 4;
+                    intensity = (s32) (temp_v0_27 + 0xF) >> 4;
                 }
             }
             sp48.x = 0;
@@ -953,21 +905,21 @@ block_158:
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
-            temp_s0_11 = func_80077A64(0, 1, 0, 0);
-            temp_s0_11 = (D_800E2850[D_800E11EA[0]] | temp_s0_11) & 0xFFFF;
+            texturePage = func_80077A64(0, 1, 0, 0);
+            texturePage = (D_800E2850[D_800E11EA[0]] | texturePage) & 0xFFFF;
             paletteRow = D_800E1204[D_800F336C];
             if ((D_800F336C == 4) && (D_800F3428 != 0)) {
                 paletteRow += 4;
             }
-            func_800C6EC0(temp_s0_11, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
+            func_800C6EC0(texturePage, func_80077AA4(0x60, (s32) paletteRow) & 0xFFFF);
             func_800C6ED8(1);
             var_s0_2 = &sp270;
             func_80079754((GteShortVector *) &sp48, var_s0_2);
             var_a0 = var_s0_2;
             var_a1_2 = (GteVector *) &sp290;
-            sp290.x = temp_s4_12;
-            sp290.y = temp_s2_11;
-            sp290.z = temp_s4_12;
+            sp290.x = radialScale;
+            sp290.y = verticalScale;
+            sp290.z = radialScale;
             sp270.t[0] = (s32) (s16) sp30.x;
             sp270.t[1] = (s32) sp30.y;
             sp270.t[2] = (s32) sp30.z;
