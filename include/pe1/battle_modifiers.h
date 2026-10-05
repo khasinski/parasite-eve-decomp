@@ -9,6 +9,7 @@ void Inv_RecalcSlotStats(void);
 struct BattleAttributes;
 extern struct BattleAttributes g_BattleEquipStateBlock;
 void Inv_BuildArmorList(struct BattleAttributes *out);
+void Inv_BuildWeaponList(int unused, void *out);
 
 /* Seven modifier words cleared before scanning the equipped item record. */
 extern int D_800A1B30[7];
