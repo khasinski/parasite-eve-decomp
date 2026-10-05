@@ -200,6 +200,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomState, clip_offset_x) == 0x28,
                   geom_clip_offset_x);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomState, clip_offset_y) == 0x2A,
                   geom_clip_offset_y);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomState, entry_offset_1C) == 0x1C,
+                  geom_camera_viewport_offset);
 
 extern GeomState * volatile g_GeomState;
 extern GeomState * volatile D_800B1624;
@@ -248,6 +250,12 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CameraViewport, width) == 40,
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CameraViewport, minX) == 44,
                   camera_viewport_min_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CameraViewport, maxX) == 46,
+                  camera_viewport_max_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CameraViewport, minY) == 48,
+                  camera_viewport_min_y_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(CameraViewport, maxY) == 50,
+                  camera_viewport_max_y_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollCoordinates, matrixWords) == 24,
                   camera_matrix_words_offset);
 /* The geometry header locates its tables by byte offsets. Retail reads the

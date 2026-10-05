@@ -1,11 +1,9 @@
 #include "common.h"
-#include "pe1/render_camera.h"
+#include "pe1/geom_state.h"
 
 extern s32 g_RenderStateFlags;
-extern s16 D_800BCF8C;
+extern s16 g_CameraClampMinX __asm__("D_800BCF8C");
 extern s16 g_CameraClampedY;
-extern u8 g_GeomGroupSel;
-extern RenderCameraGeomState * volatile g_GeomState;
 
 /* Several shapes below are load-bearing for the byte-match (permuter zero):
  * the unused[1] pad keeps retail's empty 0x20 stack frame, `unsigned short sx`
@@ -17,38 +15,38 @@ s32 Render_ClampCameraPosition(s32 x, s32 y)
     char unused[0x1];
     unsigned short sx;
     s32 original_x;
-    RenderCameraBounds *entry;
+    CameraViewport *entry;
     s32 sy;
-    RenderCameraGeomState *base;
+    GeomState *base;
     s32 clamped;
-    RenderCameraBounds *bounds;
+    CameraViewport *bounds;
 
     sx = x;
     if ((g_RenderStateFlags & 0x40) != 0) {
         original_x = x;
         base = g_GeomState;
-        entry = (RenderCameraBounds *)g_GeomState;
-        entry = (RenderCameraBounds *)((char *)entry + base->bounds_offset);
+        entry = (CameraViewport *)g_GeomState;
+        entry = (CameraViewport *)((char *)entry + base->entry_offset_1C);
         entry = &entry[g_GeomGroupSel];
         bounds = entry;
 
-        if ((s16)sx < bounds->min_x) {
-            sx = entry->min_x;
-            D_800BCF8C = sx;
-        } else if (bounds->max_x < (s16)sx) {
-            sx = bounds->max_x;
-            D_800BCF8C = sx;
+        if ((s16)sx < bounds->minX) {
+            sx = entry->minX;
+            g_CameraClampMinX = sx;
+        } else if (bounds->maxX < (s16)sx) {
+            sx = bounds->maxX;
+            g_CameraClampMinX = sx;
         } else {
-            D_800BCF8C = original_x;
+            g_CameraClampMinX = original_x;
         }
 
         sy = (s16)y;
-        if (sy < bounds->min_y) {
-            clamped = (g_CameraClampedY = bounds->min_y);
+        if (sy < bounds->minY) {
+            clamped = (g_CameraClampedY = bounds->minY);
             return 0;
         }
-        if (bounds->max_y < sy) {
-            g_CameraClampedY = bounds->max_y;
+        if (bounds->maxY < sy) {
+            g_CameraClampedY = bounds->maxY;
             return 0;
         }
         g_CameraClampedY = y;
