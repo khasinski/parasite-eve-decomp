@@ -42,7 +42,7 @@ int _padInitSioMode(CardObj *port) {
                     if (*count == 0) {
                         register int value asm("$3") = -1;
                         register CardObj *arg asm("$4") = port;
-                        register void (*callback)(CardObj *) asm("$2");
+                        void (*callback)(CardObj *);
                         asm("" : : "r"(arg));
                         callback = D_8009B744;
                         *count = value;
