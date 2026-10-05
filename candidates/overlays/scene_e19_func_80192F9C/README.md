@@ -700,3 +700,39 @@ stock compiler/assembler and full-function weighted Levenshtein scorer.
 
 After syncing main through 04c8b6d86, `make -j32 verify` passes on darwine
 (`match_inventory/scene-e19-4237-verify.log`).
+
+## Aggregate representation and compiler identity audit (4237 retained)
+
+No score reduction; the canonical C source and candidate debt are unchanged.
+Every trial below was compiled on darwine with the same full-function scorer.
+
+- Grouping each of the eleven MATRIX/VECTOR local pairs into a structure,
+  individually or all together, preserves 4237 and the stack/instruction
+  layout. The neutral aggregate source was used as a separate permuter seed:
+  120 seconds, 24 workers, 5995 iterations, 720 rejected compilations, no
+  improvement. `permuter_pairs_4237/` is stopped.
+- Eighteen orders/forms chaining the three 0x40 parameter assignments in
+  draw states 0/1 worsen the score (4632..5262).
+- The existing matched FieldEng_Billboard/FieldEng_ShadedQuad sources use
+  named GteMatrixWords transfers. Applying that representation here, with
+  slot pointer/volatile-barrier variations, is neutral. Removing the matrix
+  pointer pin with that representation gives 4277, still worse.
+- Combining the GetTPage call with its OR/conversion, at each of eleven
+  sites or all sites together, is neutral. Introducing explicit s32/u16
+  palette-index locals at ten global-palette sites is also neutral.
+- Splitting the later model height from earlier height uses, and guarding
+  model phase/height in s1/s2, gives no improvement (best 4237).
+- Plain register hints on nine important scalar variables, individually or
+  all ordinary scalar declarations together, are neutral. No hints retained.
+
+Compiler identity was checked directly: old-gcc/cc1 and psyq-gcc-2.7.2/cc1
+in the darwine acceptance tree are identical static Linux i386 ELF binaries,
+SHA-256 0359379289db8e3904b8ed3b25b422ca631c8d71ab2f543d533c39ed2967764f.
+Thus the alternative directory is not a different compiler, and the current
+host compiler is already 32-bit. A fresh stock native GCC 2.8.1 probe of the
+current source scores 59417; the canonical 2.7.2 build was restored at 4237.
+
+Artifacts: draw_pair_*, params_chain_*, gte_words_4237_*, gpu_combined_*,
+model_scoped_*, palette_index_*, register_hint_* and stock281_4237.* in the
+existing remote research directory. These negative results do not establish
+that a match is impossible; avoid repeating the same representation probes.
