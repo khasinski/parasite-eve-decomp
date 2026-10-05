@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "description": "Functions proven to be original assembler outside the main-executable PSY-Q provenance (configs/USA/psyq_provenance.json). Only these may use GAME_ASM_FUNCTION (origin game) or PSYQ_ASM_FUNCTION in an overlay (origin psyq). Each unit's yaml range must be exactly its listed functions. Policy: docs/ASM_AND_GTE_POLICY.md, 'Game-side assembler'; enforced by tools/scripts/check_source_policy.py.",
+  "description": "Functions proven to be original assembler outside the main-executable PSY-Q provenance (configs/USA/psyq_provenance.json). Only these may use GAME_ASM_FUNCTION (origin game) or PSYQ_ASM_FUNCTION in an overlay (origin psyq). Each unit's yaml range must be exactly its listed functions. Policy: docs/ASM_AND_GTE_POLICY.md, 'Game-side assembler'; enforced by tools/scripts/check_source_policy.py. The separate stack_switch_macros list names the C functions that may use BOOT_CALL_ON_SCRATCHPAD_STACK (include/pe1/boot_stack.h), the only CPU asm allowed inside a C function; policy section 'Scratchpad stack switch'.",
   "functions": [
     {
       "name": "Math_FixedMul",
@@ -131,6 +131,22 @@
         "56 trapping add/addi/sub instructions, mfc0/mtc0 of COP0 Status, decoder registers saved to static words instead of a stack frame"
       ],
       "verified_by": "agent review 2026-10-05: retail disassembly"
+    }
+  ],
+  "stack_switch_macros": [
+    {
+      "name": "main",
+      "module": "main",
+      "source": "main/boot/Boot_MainLoop.c",
+      "address": "0x8001220C",
+      "size": 748,
+      "window": "0x80012320..0x80012348: move $t0,$a1; sw $sp,0($t0); addiu $t0,$t0,-4; move $sp,$t0; jal func_8019234C; nop; addiu $sp,$sp,4; lw $sp,0($sp)",
+      "evidence": [
+        "the retail code stores $sp at 0x1F8003FC, moves $sp to 0x1F8003F8 for the call to func_8019234C and reloads it afterwards; C cannot name or assign the stack pointer",
+        "the scratchpad address is loaded by compiler code into an allocatable register ($a1, lui/ori) and only then copied into the fixed $t0, so the address is a C operand and the asm starts at the copy",
+        "the rest of the function has an ordinary GCC frame (40 bytes, ra and s0..s4 saved) and matches from plain C"
+      ],
+      "verified_by": "agent review 2026-10-05: retail disassembly vs stock cc1 output, lev 0"
     }
   ]
 }

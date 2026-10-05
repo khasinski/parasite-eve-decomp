@@ -426,3 +426,28 @@ Two-ring loop around func_800D0E88 (call loop).
   by find_cross_jump, so jump2 merges only the tail after it (retail kept the
   tri.g store in both branches and merged only tri.b). Count them in the
   `-dc` dump; no unused locals were needed.
+
+## Conditional offset as an added constant (scene_e20 func_8018F028, 2026-10-05): palette part solved
+
+- Retail's first palette block loads `li v1,4` in the delay slot of the
+  kind load, with kind in a0, and the second block keeps kind in v1. The
+  if/else form (`palette = D_800E1204[kind]; if (kind == 4 && D_800F3428)
+  palette += 8; else palette += 4;`) puts kind in v1 and the launched 4 in
+  v0 next to the `bne` (lev 9); shared scratch temporaries only steered it
+  to lev 4.
+- Writing the selection as one expression,
+  `palette = D_800E1204[kind] + ((kind == 4 && D_800F3428 != 0) ? 8 : 4);`,
+  gives the same instructions with retail's registers. With a separate
+  kind read in the streak block (`streakKind`, same form with 7 : 3, or the
+  if/else form) it is lev 0 with the gte_ldrotmatrix macros (not
+  admissible: CPU lw in asm); with C matrix loads the function is parked
+  at lev 6 by reload register choices (see the candidate README).
+  Sharing one `kind` across both blocks stays at lev 4.
+- Try this form first whenever a palette compare's 4 lands in the wrong
+  register or right before the branch. The earlier fixes were special = 4
+  temporaries and `kind` reuse.
+- Reload round-robin: when retail's matrix pointer is the reload register
+  of a macro's MEM input, t0 is never ever-live there and later reload
+  choices (mfhi/mflo copies) rotate over {t0, t1}. Pinning the C pointer to
+  t0 shifts every later reload one register up (t1/t2). Compare the mfhi
+  and mflo registers before blaming the matrix block.

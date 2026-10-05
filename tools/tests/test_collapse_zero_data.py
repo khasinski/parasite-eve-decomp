@@ -30,6 +30,17 @@ class CollapseTests(unittest.TestCase):
         self.assertNotIn("nonmatching", out)
         self.assertIn("dlabel D_800101AC", out)
 
+    def test_function_labels_in_data_become_data_labels(self):
+        # A table can share its address with another fragment's branch
+        # target; in a data file it must still be an object.
+        text = "glabel D_80125A48\n    .word 0x1\nenddlabel D_80125A48\nglabel D_80125AC8\n    .word 0x2\nendlabel D_80125AC8\n"
+
+        out = collapse_zero_data.data_labels(text)
+
+        self.assertNotIn("glabel", out)
+        self.assertIn("dlabel D_80125A48\n", out)
+        self.assertIn("enddlabel D_80125AC8\n", out)
+
 
 if __name__ == "__main__":
     unittest.main()

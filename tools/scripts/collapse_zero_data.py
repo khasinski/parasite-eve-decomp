@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Normalize splat-generated data asm. Byte-identical output, fewer lines.
 
-Two passes over *.data.s / *.rodata.s, run after splat and before assembly:
+Three passes over *.data.s / *.rodata.s, run after splat and before assembly:
 
 - Collapse runs of `.word/.short/.byte 0` into a single `.space N`. GNU as
   emits the same zero bytes, but the huge zero-blob data files (dtail_0D0860
@@ -16,12 +16,24 @@ Two passes over *.data.s / *.rodata.s, run after splat and before assembly:
   which cannot pair a section whose symbols come in address-sharing pairs and
   silently declines to score it.
 
+- Type every label as data. A data section holds no functions, but an
+  overlay that links copied code at overlapping link bases can give a table
+  the address of another fragment's branch target, and splat then writes
+  glabel. A function symbol would make objdiff and the progress audit count
+  the table as code. Only symbol types change, never bytes.
+
 Usage: collapse_zero_data.py <file.s>..."""
 import re, sys
 
 ZERO = re.compile(r'^\s*(?:/\*[^*]*\*/\s*)?\.(word|short|byte)\s+0x?0+\s*$')
 SIZE = {'word': 4, 'short': 2, 'byte': 1}
 DIFFER_ALIAS = re.compile(r'^nonmatching\s.*$\n?', re.MULTILINE)
+CODE_LABEL = re.compile(r'^(\s*)(glabel|alabel|endlabel)(\s)', re.MULTILINE)
+DATA_MACRO = {'glabel': 'dlabel', 'alabel': 'dlabel', 'endlabel': 'enddlabel'}
+
+
+def data_labels(text: str) -> str:
+    return CODE_LABEL.sub(lambda m: m.group(1) + DATA_MACRO[m.group(2)] + m.group(3), text)
 
 
 def collapse(text: str) -> str:
@@ -48,7 +60,7 @@ def main(argv):
             text = open(path).read()
         except OSError:
             continue
-        new = DIFFER_ALIAS.sub("", collapse(text))
+        new = data_labels(DIFFER_ALIAS.sub("", collapse(text)))
         if new != text:
             open(path, "w").write(new)
 

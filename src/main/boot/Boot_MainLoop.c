@@ -1,4 +1,6 @@
 #include "common.h"
+#include "pe1/boot_stack.h"
+#include "pe1/game_state.h"
 extern void InitSystem(void);
 extern void Sys_SyncShutdown(void);
 extern int OpenPeImage(void);
@@ -18,7 +20,6 @@ extern void Gpu_InitDisplay(int arg0);
 extern void Boot_RunFrame(void);
 extern void SetDispMask(int arg0);
 
-extern u32 g_GameState[];
 extern u32 g_SceneDispatchToken;
 extern u32 g_SceneDispatchCur;
 extern u32 g_PlayTimeFrameCounter;
@@ -27,136 +28,82 @@ extern u32 g_PlayTimeFrameCounter;
 #define STATE_FLAG_READY 0x00000100U
 
 void main(void) {
-    int retryMode;
-    register u32 imageMagic asm("$19");
-    u32 busyFlag;
-    u32 *state;
-    u8 *stateByte;
-    register u32 value asm("$2");
-    u32 dispatchValue;
+    int mode;
+    u32 token;
+    Pe1GameState *state;
 
     InitSystem();
+    mode = 0;
 
-    retryMode = 0;
-    imageMagic = 0xA9400048;
-    busyFlag = STATE_FLAG_IMAGE_BUSY;
-    state = g_GameState;
-    stateByte = (u8 *)state + 0xF5;
+    for (;;) {
+        state = &g_GameState;
+        Sys_SyncShutdown();
 
-restart:
-    Sys_SyncShutdown();
-
-    while (OpenPeImage() != 0) {
-        VSync(0);
-    }
-
-    Boot_InitGameState();
-    Boot_InitSubsystems();
-    Scene_LoadSceneData();
-
-    g_SceneDispatchToken = imageMagic;
-
-loop:
-    if (state[0] & busyFlag) {
-        Render_InitDisplayLists(retryMode);
-        state[0] &= 0xFFEFFFFF;
-    }
-
-    Scene_LoadFieldBg();
-    dispatchValue = g_SceneDispatchToken;
-    g_SceneDispatchCur = dispatchValue;
-
-    if (dispatchValue == imageMagic) {
-        goto case_image_magic;
-    }
-    if (imageMagic < dispatchValue) {
-        goto check_high_range;
-    }
-    if (dispatchValue == 0xA8000048) {
-        goto case_a8000048;
-    }
-    goto default_case;
-
-check_high_range:
-    if (dispatchValue == 0xAA108448) {
-        goto case_aa108448;
-    }
-    goto default_case;
-
-case_a8000048:
-    Overlay_LoadTables();
-    asm volatile(
-        "lui $5,0x1f80\n"
-        "ori $5,$5,0x3fc\n"
-        "addu $8,$5,$0\n"
-        "sw $29,0($8)\n"
-        "addiu $8,$8,-4\n"
-        "addu $29,$8,$0"
-    );
-    func_8019234C();
-    asm volatile(
-        "addiu $29,$29,4\n"
-        "lw $29,0($29)"
-    );
-    value = state[0];
-    goto set_one;
-
-case_aa108448:
-    if ((*((u8 *)state + 0xF5) & 2) == 0) {
-        retryMode = 2;
-        state[0] |= busyFlag;
-        goto after_dispatch;
-    } else {
-        CD_LoadBootAudio();
-        func_801235DC();
-        value = state[0];
-        g_SceneDispatchToken = 0xA80830C8;
-    }
-
-set_one:
-    value |= 1;
-    state[0] = value;
-    goto after_dispatch;
-
-case_image_magic:
-    Overlay_LoadInitialImage();
-    Gpu_InitDisplay(func_801909B4());
-    state[0] |= 3;
-    goto after_dispatch;
-
-default_case:
-    Boot_RunFrame();
-
-after_dispatch:
-    {
-        u32 postValue;
-
-        postValue = g_SceneDispatchToken;
-        if (postValue != 0xA80651C8 &&
-            postValue != 0xA8065248 &&
-            postValue != 0xA80652C8 &&
-            postValue != 0xA80660C8 &&
-            postValue != 0xA8066148 &&
-            postValue != 0xA80661C8 &&
-            postValue != 0xA8066348) {
-            if (g_PlayTimeFrameCounter < 600) {
-                if ((*stateByte & 1) == 0) {
-                    retryMode = 1;
-                    *(u32 *)(stateByte - 0xF5) |= busyFlag;
-                }
-            } else if ((*stateByte & 2) == 0) {
-                retryMode = 2;
-                *(u32 *)(stateByte - 0xF5) |= busyFlag;
-            }
+        while (OpenPeImage() != 0) {
+            VSync(0);
         }
-    }
 
-    if ((state[0] & STATE_FLAG_READY) == 0) {
-        goto loop;
-    }
+        Boot_InitGameState();
+        Boot_InitSubsystems();
+        Scene_LoadSceneData();
 
-    VSync(0);
-    SetDispMask(0);
-    state[0] &= ~STATE_FLAG_READY;
-    goto restart;
+        g_SceneDispatchToken = 0xA9400048;
+
+        do {
+            if (g_GameState.flags & STATE_FLAG_IMAGE_BUSY) {
+                Render_InitDisplayLists(mode);
+                g_GameState.flags &= ~STATE_FLAG_IMAGE_BUSY;
+            }
+
+            Scene_LoadFieldBg();
+            token = g_SceneDispatchToken;
+            g_SceneDispatchCur = token;
+
+            switch (token) {
+            case 0xA8000048:
+                Overlay_LoadTables();
+                BOOT_CALL_ON_SCRATCHPAD_STACK(BOOT_SCRATCHPAD_STACK_TOP, func_8019234C());
+                g_GameState.flags |= 1;
+                break;
+            case 0xAA108448:
+                if ((g_GameState.display_list_modes & 2) == 0) {
+                    mode = 2;
+                    g_GameState.flags |= STATE_FLAG_IMAGE_BUSY;
+                    break;
+                }
+                CD_LoadBootAudio();
+                func_801235DC();
+                g_SceneDispatchToken = 0xA80830C8;
+                g_GameState.flags |= 1;
+                break;
+            case 0xA9400048:
+                Overlay_LoadInitialImage();
+                Gpu_InitDisplay(func_801909B4());
+                g_GameState.flags |= 3;
+                break;
+            default:
+                Boot_RunFrame();
+                break;
+            }
+
+            if (g_SceneDispatchToken != 0xA80651C8 && g_SceneDispatchToken != 0xA8065248 &&
+                g_SceneDispatchToken != 0xA80652C8 && g_SceneDispatchToken != 0xA80660C8 &&
+                g_SceneDispatchToken != 0xA8066148 && g_SceneDispatchToken != 0xA80661C8 &&
+                g_SceneDispatchToken != 0xA8066348) {
+                if (g_PlayTimeFrameCounter < 600) {
+                    if ((g_GameState.display_list_modes & 1) == 0) {
+                        mode = 1;
+                        g_GameState.flags |= STATE_FLAG_IMAGE_BUSY;
+                    }
+                } else if ((g_GameState.display_list_modes & 2) == 0) {
+                    mode = 2;
+                    g_GameState.flags |= STATE_FLAG_IMAGE_BUSY;
+                }
+            }
+        } while ((state->flags & STATE_FLAG_READY) == 0);
+
+        VSync(0);
+        SetDispMask(0);
+        state->flags &= ~STATE_FLAG_READY;
+    }
 }

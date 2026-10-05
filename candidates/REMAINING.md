@@ -75,6 +75,12 @@ Category notes:
 
 ## data/pad/slice
 
+Resolved 2026-10-05: every row below except scene_e19_2 and the sys_reset
+rows (handled earlier) is now typed as data, `pad`, or (for the `setjmp`
+veneer inside RawData_80074354) credited SDK veneer code, and no longer
+appears as a function in the report. See docs/SOURCE_QUALITY.md, text-resident
+data and padding outside function coverage.
+
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
 | main | func_8003E60C | 4 | zero padding after `jr ra` (single `nop` labelled as a function) |
@@ -128,7 +134,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
-| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: linked score 30, six register differences; C matrix loads and individual GTE instructions; remains ASM in the build |
+| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: lev 6 with C matrix loads (t4-t6 pins, $8 pointer pin, slot constraint; reload picks t2/t1 for three multiply results), lev 47 with no crutches; the palette selection is solved (lev 0 with the gte_ldrotmatrix macros, not admissible) |
 | main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |

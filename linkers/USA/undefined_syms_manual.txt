@@ -216,7 +216,6 @@ MenuInput_DispatchQueuedEvents = 0x8005E30C;
 Draw_PrintCenteredTextInWidth = 0x8005F354;
 Draw_PrintNumberFixedWidth = 0x800602D0;
 Seq_StartNestedStreams = 0x8008A92C;
-D_8003E60C = 0x8003E60C;
 D_8003E91C = 0x8003E91C;
 Entity_ResetAllPools = 0x80034F10;
 Entity_InitFreePool = 0x80034FC4;

@@ -406,7 +406,9 @@ segments:
       - [0x2E988, c, render/Render_SetupBoneTransforms]
       - [0x2EC74, c, render/Render_OffsetObjectTextureCoordinates]
       - [0x2EDF0, c, render/Render_IncrementCounter]
-      - [0x2EE0C, asm, main/D_8003E60C]
+      # Render_IncrementCounter's counter word lives in .text; it is data,
+      # not a function (docs/SOURCE_QUALITY.md, text-resident data).
+      - {start: 0x2EE0C, type: data, name: render/Render_Counter, linker_section_order: .text, linker_section: .code_data}
       - [0x2EE10, c, boot/InitSystem]
       - [0x2EE80, c, boot/Boot_InitSubsystems]
       - [0x2EF54, c, main/Render_ResetScene]
@@ -827,7 +829,7 @@ segments:
       - [0x61510, c, task/Task_InitGpuHwRegs]
       - [0x6156C, c, task/Task_GpuFlushPrimQueue]
       - [0x615D0, c, task/Task_GpuPackPrimColor]
-      - [0x61604, asm, main/gap_task_Task_GpuPackPrimColor_tail_61604]
+      - [0x61604, pad] # zero words after Task_GpuPackPrimColor's jr ra
       - [0x61654, c, gpu/Gpu_RenderFrame]
       - [0x617AC, c, math/Math_SqrtApprox3]
       - [0x61834, c, scene/Scene_Init]
@@ -908,7 +910,11 @@ segments:
       # LIBETC INTR.OBJ: trapIntr, setIntr, stopIntr, restartIntr fragment.
       - [0x64700, c, psyq/libapi/intr_state]
       - [0x64B30, c, sys/misc37]
-      - [0x64B54, asm, sys/RawData_80074354]
+      # BIOS A(13h) setjmp veneer, its zero object tail, then the LIBAPI C114
+      # signature record whose first label (_96_remove) is at offset 8.
+      - [0x64B54, c, sys/setjmp]
+      - [0x64B60, pad]
+      - {start: 0x64B64, type: rodata, name: psyq/libapi/C114_signature, linker_section_order: .text, linker_section: .psyq_signature}
       - [0x64B6C, c, sys/Sys_HleJumpA0]
       - [0x64B84, c, psyq/libapi/ReturnFromException]
       - [0x64B94, c, psyq/libapi/ResetEntryInt]
@@ -1205,7 +1211,7 @@ segments:
       - [0x71A54, c, cdrom/func_80081254]
       - [0x71A68, c, save/Save_ProcessDataCallback]
       - [0x71AF4, c, cdrom/CdRom_SetRetryMode]
-      - [0x71B10, asm, main/gap_save_save4_tail_71B10]
+      - [0x71B10, pad] # zero word after CdRom_SetRetryMode's jr ra
       - [0x71B14, c, psyq/libds/DsRead2]
       - [0x71BE8, c, cdrom/CdRom_BreakSyncCallback]
       - [0x71C08, pad]
@@ -1243,7 +1249,7 @@ segments:
       - [0x73814, c, psyq/libpad/padmain_sio]
       - [0x73AB4, c, memcard/MemCard_WriteByte]
       - [0x73CE8, c, memcard/MemCard_TransferWait]
-      - [0x73DA0, asm, main/gap_memcard_MemCard_WaitStatusBit2_tail_73DA0]
+      - [0x73DA0, pad] # zero word after MemCard_TransferWait's jr ra
       - [0x73DA4, c, memcard/CardObj_PayloadCommandState]
       # Read-layout advance, sizing, and transfer start share CardObj state.
       - [0x73E44, c, memcard/CardObj_ReadTransferState]

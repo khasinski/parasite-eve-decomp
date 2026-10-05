@@ -294,7 +294,8 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x2B4C, c, func_801259F0]
-      - [0x2BA4, asm, boot_display_2648]
+      # Boot display pointer and glyph tables: data, not code.
+      - {start: 0x2BA4, type: data, name: boot_display_2648, linker_section_order: .text, linker_section: .code_data}
   - [0x2D5C]
 # source slice: scanner, extended to include the preceding switch tables
 # Previous 0x2800-byte slice is the suffix at 0x55C: a9e7093f70207b46780fcefd60f2f48032b01bb8

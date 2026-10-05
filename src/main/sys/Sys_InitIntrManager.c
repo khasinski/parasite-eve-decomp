@@ -11,7 +11,7 @@ extern volatile u16 *D_80095674;
 extern u32 *D_80095678;
 
 void Sys_ClearWordBuf(void *dst, int count);
-int RawData_80074354(void *dst);
+int setjmp(void *env);
 void Render_InitSceneGeom(void);
 void HookEntryInt(void *entry);
 void Sys_HleJumpA0(void *arg);
@@ -39,7 +39,7 @@ u16 *Sys_InitIntrManager(void) {
     *D_80095678 = 0x33333333;
 
     Sys_ClearWordBuf(state, 0x41A);
-    if (RawData_80074354(state + 0x1C) != 0) {
+    if (setjmp(state + 0x1C) != 0) {
         Render_InitSceneGeom();
     }
 

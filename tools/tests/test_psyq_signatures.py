@@ -7,7 +7,8 @@ import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 CASES = [(0x64454, "A63", "puts", "50730121ad374200"),
-         (0x68774, "MSC00", "InitGeom", "50730921ad424200")]
+         (0x68774, "MSC00", "InitGeom", "50730921ad424200"),
+         (0x64B64, "C114", "_96_remove", "50730021ad364200")]
 
 
 class PsyqSignaturesTests(unittest.TestCase):

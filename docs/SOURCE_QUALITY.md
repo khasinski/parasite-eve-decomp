@@ -245,6 +245,25 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Boot main loop
+
+`Boot_MainLoop`, the entry function `main`, is plain C except for one
+narrow stack-switch macro, `BOOT_CALL_ON_SCRATCHPAD_STACK`. It holds the six
+instructions that move the stack pointer to the scratchpad around the call
+to `func_8019234C` and back, which C cannot express. The macro is allowed
+only for this function through the evidence manifest, and the
+`stack_switch_macros` column of the crutch ratchet counts its use. The
+function has no register pins. Game state byte 0xF5 is now the named
+`display_list_modes` field. This leaves the repository with no
+asm-constrained translation units.
+
+### Text-resident data
+
+The earlier "text-resident data and padding" section above lists the entries
+that stopped being counted as functions. One of them, the LIBAPI `setjmp`
+BIOS veneer inside `RawData_80074354`, turned out to be real code and is now
+credited through `PSYQ_BIOS_TRAMPOLINE`.
+
 ### Aya battle save and equipment restore
 
 `Battle_AyaEquipStateFlow.c` keeps `Battle_SaveAyaState` and
@@ -8414,3 +8433,73 @@ ordering-table depth. `FieldRingGeometry` is also the overlay
 `RoomFxEmitterParams` type, and asserts the retail offsets through its 0x18-byte
 size. Both routines use `--expand-div`; the complete `0x6E8`-byte text range
 matches after `make verify-clean`.
+
+## Text-resident data and padding outside function coverage
+
+Several report entries were never functions: data words, tables or zero
+padding that sit in code segments, which splat labelled as functions or as
+`dlabel` objects inside `.text`. objdiff counts every symbol in a code section
+as a function, so they appeared as permanently unmatched code. They are now
+typed by what they are; every binary stays byte-identical.
+
+Data moves to a `rodata` (or, for written words, `data`) subsegment placed in
+text order through `linker_section_order: .text` and a non-executable linker
+section, the mechanism of the PSY-Q templates (`.psyq_text_data`) and SDK
+signature records (`.psyq_signature`). Game data uses `.code_data`. Zero words
+that follow `jr $ra` and its delay slot become `pad`. Neither form receives
+code credit; the function total drops because these entries were never
+functions.
+
+Main executable:
+
+- `0x8003E60C`: the word `Render_IncrementCounter` increments. It is a
+  writable counter, now `D_8003E60C` in the `render/Render_Counter` data
+  subsegment; the C names it directly instead of `func_8003E60C`.
+- `0x80070E04` (0x50 bytes), `0x80081310`, `0x800835A0`: zero words after
+  `Task_GpuPackPrimColor`, `CdRom_SetRetryMode` and `MemCard_TransferWait`
+  return; now `pad`.
+- `RawData_80074354` (24 bytes) was three units: the BIOS A(13h) `setjmp`
+  veneer that `Sys_InitIntrManager` calls (real code, now `sys/setjmp.c`
+  with `PSYQ_BIOS_TRAMPOLINE`, credited as `original_asm` like the other
+  veneers), a zero object tail (`pad`), and the LIBAPI C114 signature record
+  `50730021 ad364200` whose first label `_96_remove` is at object offset 8
+  (`psyq/libapi/C114_signature`, `.psyq_signature`).
+
+Overlays (all as `data` subsegments in `.code_data`):
+
+- boot_display `boot_display_2648` (0x80125A48-0x80125C00, 440 bytes):
+  pointer tables and glyph width tables; no instructions. Boot_CheckPlaybackTime,
+  linked 0x100 higher, uses three of these addresses as branch targets, so splat
+  typed them as functions. `collapse_zero_data.py` now writes every label in a
+  data file as `dlabel`, since a data section holds no functions.
+- fx_field `fx_field_header` (28 bytes at 0x8018EFE8) and `fx_field_data`
+  (880 bytes at 0x8018FC78): header words, the orbit-flare rotation and spin
+  vectors, and the parameter/state table that `func_8018FC54` writes. The two
+  `text_data` C files held these words as `.text` arrays, some under names
+  that did not match their addresses; splat now emits them as data, with
+  labels at the addresses the code references.
+- menu_memcard `menu_memcard_header` (772 bytes at 0x80120D00, the
+  `\FMVnnn.STR;1` file-name table), `menu_memcard_data_0016F4` (2412 bytes
+  at 0x801223F4, byte state and parameter tables), `menu_memcard_data_0063A0`
+  (1892 bytes at 0x8018EB90, effect records with callback pointers) and
+  `menu_memcard_data` (1436 bytes at 0x8012B7A8, size/offset tables). None
+  contains an instruction.
+- render_clip (2048 bytes at 0x80170000): the scanner extracted PE.IMG
+  sector 1809, which is sector 17 of fx_common (sectors 1792-1817). The bytes
+  equal fx_common 0x8800-0x9000: they begin inside
+  FxCommon_EffectInitializationFlow (no prologue, cannot be entered) and cut
+  off FxCommon_DrawPolyResource. That code is already counted, and matched, in
+  fx_common, so this duplicate view becomes one data subsegment,
+  `render_clip_fx_common_copy`. The overlay config stays so the extraction
+  and SHA check keep covering the sector.
+- scene_e14 `scene_e14_header` (36 bytes at 0x8018EFE8): the overlay header
+  words, now named for what they are instead of the overlay itself.
+- scene_e22 `scene_e22_data_00A0D8` (1832 bytes at 0x801990C0, formerly
+  `func_scene_e22_00A0D8`): callback pointer tables and per-effect parameter
+  records after the last function; no instructions.
+
+Report effect (`make report`, all 191 overlays and main.exe byte-identical):
+total functions 11672 to 11643, credited functions 11630 to 11631 (the
+`setjmp` veneer), total code 3,558,776 to 3,546,972 bytes and code match
+99.27% to 99.60%. Credited code bytes rise by 12, the veneer; everything else
+moved from the code ledger to the data ledger, where it matches.
