@@ -1,14 +1,16 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
-extern char *g_TaskNodePool;
+#include "pe1/task_node.h"
+
+extern TaskNode *g_TaskNodePool;
 
 int Entity_SetCurrentNodeActive(int **arg0) {
-    *(int *)(g_TaskNodePool + 0x10) = *(unsigned short *)arg0[0];
+    g_TaskNodePool->active = *(unsigned short *)arg0[0];
     return 0;
 }
 
 int Entity_MarkCurrentNodeFree(void) {
-    *(unsigned short *)(g_TaskNodePool + 8) |= 0x10;
+    g_TaskNodePool->flags |= 0x10;
     return 0;
 }

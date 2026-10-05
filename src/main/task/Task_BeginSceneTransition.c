@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "pe1/scene_transition.h"
+#include "pe1/task_node.h"
 extern int g_GameState[];
 extern int g_SceneDataTable0;
 extern int *g_TaskNodePool;
@@ -27,7 +28,7 @@ int Task_BeginSceneTransition(int **arg0) {
     }
     *(unsigned short *)(node + 2) = flags | 0x20;
     cursor = g_SceneDataTable0;
-    node[4] = 1;
+    ((TaskNode *)node)->active = 1;
     cursor -= 0xC;
     g_SceneDataTable0 = cursor;
     return 0;
@@ -99,7 +100,7 @@ int Task_OpenSaveLoadMenu(int **arg0) {
         int *mark_node = g_TaskNodePool;
         int one = 1;
 
-        mark_node[4] = one;
+        ((TaskNode *)mark_node)->active = one;
     }
 
 ret_zero:
