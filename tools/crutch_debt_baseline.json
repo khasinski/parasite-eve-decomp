@@ -31,7 +31,7 @@
     "dead_code": 1,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 4302,
+    "externs_in_c": 4300,
     "field_macros": 0,
     "gotos": 667,
     "include_asm": 0,
@@ -43,6 +43,6 @@
     "raw_offset_dereferences": 1767,
     "stack_reserves": 0,
     "statement_expressions": 3,
-    "unknown_fields": 74
+    "unknown_fields": 70
   }
 }

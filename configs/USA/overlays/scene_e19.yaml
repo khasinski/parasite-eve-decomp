@@ -110,9 +110,8 @@ segments:
       - [0x36A0, c, func_80192688]
       - [0x36CC, c, SceneEffect_GrabOnApproach_801926B4]
       - [0x3890, c, SceneE19_GrabSequence_80192878]
-      - [0x3B28, c, func_80192B10]
-      - [0x3BD8, c, RoomLib_RunAfterFrame37_80192BC0]
-      - [0x3C14, c, func_80192BFC]
+      # Actor initialization and frame-gated reset share one asserted scene actor view.
+      - [0x3B28, c, SceneE19ResetFlow]
       - [0x3D1C, c, func_80192D04]
       - [0x3E18, c, func_80192E00]
       - [0x3E20, c, func_80192E08]
