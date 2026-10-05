@@ -1,15 +1,7 @@
 #include "common.h"
+#include "pe1/battle_runtime.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
-typedef struct {
-    int active;
-    char pad[0xD8];
-} SaveSlotState;
-
-extern SaveSlotState D_800A5D58[];
-extern u8 D_8009D2A0;
-extern u8 D_8009D2EC;
 
 void func_8002F658(void);
 void Save_ResetGlobalFlags(void);
