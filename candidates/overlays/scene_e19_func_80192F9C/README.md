@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **4889**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **4491**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Eight register pins and eight empty barriers are recorded below. There is no CPU ASM.
@@ -552,3 +552,40 @@ same improvement with the smallest source change. Trial families are
 early_page_*, ring_bound_*, ring_lifetime_*, model_bound_*, matrix_clobber_*,
 ring_split_*, swap_zero_*, state_locals_* and palette_scopes_* in the research
 directory. The production function remains original assembly.
+
+## Vector copy and draw-expression pass (4491)
+
+Restoring the ordinary component copy from `effect->origin` into `sp48`,
+followed by the X/Y offsets, reduces 4889 to 4646. The generated sequence
+now retains the initial X store present in retail. The old two halfword
+temporaries are removed. All six component orders and both offset orders
+were compiled on darwine; XYZ followed by X then Y was best.
+
+A 120-second, 24-worker stock decomp-permuter search (`permuter_draw_4646/`)
+completed 5163 iterations, including 700 rejected compilations, with raw best
+4546. Its useful edit moves the state-2 tpage store before the rotation-Z
+assignment, within the same straight-line block and before the same calls.
+Results moving parameter writes across states or calls were rejected.
+Separating the sine division from its radial offset in states 3 and 4 lowers
+the retained score to 4526. A local phase copy for state 4's radial-scale
+calculation lowers it to **4491**. These changes add no pins, barriers,
+conversion helpers or CPU ASM. Fresh compilation uses the same stock GCC,
+maspsx and full-function weighted Levenshtein scorer; 2368 target and 2368
+candidate instructions, still not a match.
+
+Other audited hypotheses remain research-only:
+
+- Twelve GPU prototype/conversion combinations: an int GetTPage return plus
+  an ordinary u16 cast retains 4889 without gpuWord, but does not improve
+  score or establish the original prototype. Retained declarations unchanged.
+- Individual parameter-field unification: best 4889, all fields 13528.
+- Four GTE variable-scope changes and four inlining variants: best 4889.
+- Twenty-two empty-memory-barrier placements around parameter06 stores on
+  the 4646 base: all worse, none retained.
+- Combining the scale-expression split with a redundant scale copy is worse
+  (4746); a named phase difference and reuse of an existing phase temporary
+  both score 4526. Only the verified 4491 source is retained.
+
+The darwine acceptance tree, synchronized through main commit e4b65a7c7,
+passes `make -j32 verify`; log `match_inventory/scene-e19-4491-verify.log`.
+The candidate remains outside production and the permuter run has stopped.
