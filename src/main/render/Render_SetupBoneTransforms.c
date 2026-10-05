@@ -1,11 +1,36 @@
-/* Matching debt: the scratch-column store pointers are pinned to t1, and raw
- * pointer casts remain. Matrix and column transfers use the stock PSY-Q GTE
- * macros (gte_ldrotmatrix, gte_ldclmv, gte_stclmv, gte_ldlv0, gte_stsv). */
+/* Matching debt: transfer and scratch pointers are pinned, with empty
+ * address/memory constraints. Physical scratchpad addresses and pointer
+ * casts remain. CPU loads, stores and vector packing are C; GTE transfers
+ * and commands use individual macros. */
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/render_object.h"
-#define BoneLoadRotMatrix(matrix) gte_ldrotmatrix(matrix)
-#define BoneLoadTrans(matrix) gte_ldtransmatrix(matrix)
+#define BoneLoadRotMatrix(matrix) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        x = (matrix)[0]; \
+        y = (matrix)[1]; \
+        gte_ctc2_0(x); \
+        gte_ctc2_1(y); \
+        x = (matrix)[2]; \
+        y = (matrix)[3]; \
+        z = (matrix)[4]; \
+        gte_ctc2_2(x); \
+        gte_ctc2_3(y); \
+        gte_ctc2_4(z); \
+    }
+
+#define BoneLoadTrans(matrix) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        x = (matrix)[5]; \
+        y = (matrix)[6]; \
+        gte_ctc2_5(x); \
+        z = (matrix)[7]; \
+        gte_ctc2_6(y); \
+        gte_ctc2_7(z); \
+    }
+
 
 #define BoneLoadFullMatrix(matrix)                                                                 \
     {                                                                                              \
@@ -13,25 +38,51 @@
         BoneLoadTrans(matrix);                                                                     \
     }
 
-#define Bone_LoadAxis(src)                                                                         \
-    {                                                                                              \
-        gte_ldclmv(src);                                                                           \
-        gte_rtir();                                                                                \
+#define Bone_LoadAxis(src) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        x = (src)[0]; \
+        y = (src)[3]; \
+        z = (src)[6]; \
+        gte_mtc2_9(x); \
+        gte_mtc2_10(y); \
+        gte_mtc2_11(z); \
+        gte_rtir(); \
     }
-#define Bone_StoreAxis(dst) gte_stclmv(dst)
+
+#define Bone_StoreAxis(dst) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        gte_mfc2_9(x); \
+        gte_mfc2_10(y); \
+        gte_mfc2_11(z); \
+        (dst)[0] = x; \
+        (dst)[3] = y; \
+        (dst)[6] = z; \
+        asm volatile("" : : : "memory"); \
+    }
 
 #define Bone_StoreVec(output_expr)                                                                 \
     {                                                                                              \
         s16 *out = (s16 *)(output_expr);                                                           \
-        gte_stsv(out);                                                                             \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        asm volatile("" : "=r"(out) : "0"(out)); \
+        gte_mfc2_9(x); \
+        gte_mfc2_10(y); \
+        gte_mfc2_11(z); \
+        out[0] = x; \
+        out[1] = y; \
+        out[2] = z; \
+        asm volatile("" : : : "memory");                                                                             \
     }
 void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
-    s32 *scratch = (s32 *)0x1F800000;
+    register s32 *scratch asm("$8") = (s32 *)0x1F800000;
     RenderObjectEntity *actor = input;
     s32 *view = view_input;
     RenderObjectEntity *source;
     int index;
-    s32 *matrix;
+    register s32 *matrix asm("$6");
+    asm("" : "=r"(scratch) : "0"(scratch));
     source = actor->animation_source;
     index = (s16)actor->table_index;
     matrix = (s32 *)source->matrices;
@@ -61,17 +112,21 @@ void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
     Bone_StoreAxis((s16 *)scratch);
     {
         u16 *src = (u16 *)matrix + 1;
+        asm volatile("" : "=r"(src) : "0"(src));
         Bone_LoadAxis(src);
         {
             register s16 *dst asm("$9") = (s16 *)0x1F800002;
+            asm volatile("" : "=r"(dst) : "0"(dst));
             Bone_StoreAxis(dst);
         }
     }
     {
         u16 *src = (u16 *)matrix + 2;
+        asm volatile("" : "=r"(src) : "0"(src));
         Bone_LoadAxis(src);
         {
             register s16 *dst asm("$9") = (s16 *)0x1F800004;
+            asm volatile("" : "=r"(dst) : "0"(dst));
             Bone_StoreAxis(dst);
         }
     }
@@ -79,7 +134,13 @@ void Render_SetupBoneTransforms(RenderObjectEntity *input, s32 *view_input) {
     matrix += 5;
 
     {
-        gte_ldlv0(matrix);
+        register u32 low asm("$12"), high asm("$13");
+        high = ((const u16 *)matrix)[2];
+        low = ((const u16 *)matrix)[0];
+        high <<= 16;
+        low |= high;
+        gte_mtc2_0(low);
+        gte_lwc2_1_8(matrix);
         gte_rt();
         {
             register s32 *dst asm("$9") = (s32 *)0x1F800014;
