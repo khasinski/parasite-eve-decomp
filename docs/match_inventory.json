@@ -75,8 +75,8 @@
       "reported_size": 52,
       "source": null,
       "status": "unimplemented_custom_abi",
-      "levenshtein_score": null,
-      "evidence": "Original saves ra in v1 across call and uses trapping add/sub; C candidate exists, current score not yet remeasured."
+      "levenshtein_score": 1930,
+      "evidence": "Fresh linked stock GCC 2.7.2 + MASPSX 2.56 candidate score on darwine; see candidates/main/task/Task_GpuPackPrimColor.md. Not integrated."
     },
     {
       "unit": "main/main/gap_task_Task_GpuPackPrimColor_tail_61604",
