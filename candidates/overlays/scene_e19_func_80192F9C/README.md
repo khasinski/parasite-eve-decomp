@@ -77,6 +77,19 @@ switch, also without improvement. Compiler flags in the retained candidate
 remain unchanged. These results rule out these specific forms, not all
 possible C control-flow or type reconstructions.
 
+A combined pointer-constraint probe (`combined120`) produced 256 valid
+variants, best 580; 128 other generated variants referenced intensity before
+initialization and are explicitly excluded from the evidence (filtered results
+are `combined120/valid_results.json`). 72 local volatile-pointer variants
+(`volatile120`) also failed to improve 120; best 750. None was retained.
+
+A second bounded permuter run seeded from `orders580/best_297.c` explored the
+relocated-selector alternative instead of the retained 120 candidate. On
+24 darwine workers for 120 seconds it reached 17082 iterations with 2394
+compile errors, best 297. One equal-score output was saved, no improvement.
+`permuter297` stopped with timeout exit 124; its log and seed remain in the
+research archive. The committed code and its verified score 120 are unchanged.
+
 ## Preserved C-load candidate
 
 Not integrated and not yet matching. The current preferred candidate is
