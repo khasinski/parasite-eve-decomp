@@ -1,25 +1,9 @@
 #include "common.h"
-typedef struct {
-    char pad0[0x10];
-    s16 random_mod;
-    char pad12[0x2];
-    s16 half14;
-    char pad16[0xC];
-    s16 half22;
-    s16 resource2;
-    s16 half26;
-    s16 resource1_again;
-    s16 half2A;
-    s16 half2C;
-    s16 half2E;
-    s32 word30;
-    s16 resource1;
-} Overlay024Object;
-
+#include "../room_lib/RoomLib_Overlay024.h"
 s32 *func_800C2B10(s32 slot);
 s32 func_80071A54(void);
 
-void func_80191C94(void *arg0, void *arg1, Overlay024Object *obj) {
+void func_80191C94(void *arg0, void *arg1, RoomOverlay024VariantDSetupRecord *obj) {
     s32 random;
 
     obj->half2E = 0xD;

@@ -156,6 +156,24 @@ typedef struct RoomOverlay024Variant290State {
 
 typedef RoomOverlay024Variant38SetupState RoomOverlay024Variant290SetupState;
 
+/* Record view written by the room-specific Variant D setup functions. */
+typedef struct RoomOverlay024VariantDSetupRecord {
+    char pad0[0x10];
+    s16 random_mod;
+    char pad12[2];
+    s16 half14;
+    char pad16[0xC];
+    s16 half22;
+    s16 resource2;
+    s16 half26;
+    s16 resource1_again;
+    s16 half2A;
+    s16 half2C;
+    s16 half2E;
+    s32 word30;
+    s16 resource1;
+} RoomOverlay024VariantDSetupRecord;
+
 typedef struct RoomOverlay024VariantDState {
     s16 x;
     s16 y;
@@ -248,6 +266,41 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState, field30) == 0
                   overlay024_variant290_setup_field30_offset);
 PE1_STATIC_ASSERT(sizeof(RoomOverlay024Variant290SetupState) == 0x34,
                   overlay024_variant290_setup_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024VariantDSetupRecord,
+                               random_mod) == 0x10,
+                  overlay024_variantd_setup_random_mod_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024VariantDSetupRecord,
+                               half14) == 0x14,
+                  overlay024_variantd_setup_half14_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024VariantDSetupRecord,
+                               half22) == 0x22,
+                  overlay024_variantd_setup_half22_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024VariantDSetupRecord,
+                               resource2) == 0x24,
+                  overlay024_variantd_setup_resource2_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024VariantDSetupRecord,
+                               half26) == 0x26,
+                  overlay024_variantd_setup_half26_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024VariantDSetupRecord,
+                               resource1_again) == 0x28,
+                  overlay024_variantd_setup_resource1_again_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024VariantDSetupRecord,
+                               half2A) == 0x2A,
+                  overlay024_variantd_setup_half2a_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024VariantDSetupRecord,
+                               half2C) == 0x2C,
+                  overlay024_variantd_setup_half2c_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024VariantDSetupRecord,
+                               half2E) == 0x2E,
+                  overlay024_variantd_setup_half2e_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024VariantDSetupRecord,
+                               word30) == 0x30,
+                  overlay024_variantd_setup_word30_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024VariantDSetupRecord,
+                               resource1) == 0x34,
+                  overlay024_variantd_setup_resource1_offset);
+PE1_STATIC_ASSERT(sizeof(RoomOverlay024VariantDSetupRecord) == 0x38,
+                  overlay024_variantd_setup_record_size);
 PE1_STATIC_ASSERT(sizeof(RoomOverlay024VariantDState) == 0x38,
                   overlay024_variantd_state_size);
 
