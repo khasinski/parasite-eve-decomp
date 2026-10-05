@@ -1,0 +1,66 @@
+name: room_m005_theater.bin
+sha1: 13b5953b0d09977a54c0ea43ab5c944cd208da20
+options:
+  basename: room_m005_theater
+  target_path: original/USA/overlays/room_m005.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m005_theater
+  src_path: src/overlays/room_m005_theater
+  build_path: build/USA/overlays/room_m005_theater
+  ld_script_path: linkers/USA/overlays/room_m005_theater.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m005_theater.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m005_theater.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m005_theater.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m005_theater
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m005_theater]
+      - [0x30, c, RoomM005_FxOrbiter_8018F018]
+      - [0x348, c, RoomM005_OrbiterController_8018F330]
+      - [0x62C, c, RoomM005_CrossFlare_8018F614]
+      - [0xB9C, c, RoomM005_DriftingSprite_8018FB84]
+      - [0xDDC, c, RoomEffect_JointBeacon_8018FDC4]
+      - [0x1A84, c, RoomM005_EnableDialogFollow_80190A6C]
+      - [0x1AB0, data, D_80190A98]
+      - [0x1AEC, data, RoomM005_Rec2]
+      - [0x1B0C, data, D_80190AF4]
+      - [0x1B5C, data, D_80190B44]
+      - [0x1B98, data, RoomM005_DialogAnchor]
+      - [0x1B9C, data, D_80190B84]
+      - [0x1BA0, data, D_80190B88]
+      - [0x1BA4, data, D_80190B8C]
+      - [0x1BAC, data, D_80190B94]
+      - [0x1BB0, data, D_80190B98]
+      - [0x1BB8, data, D_80190BA0]
+      - [0x1BBC, data, D_80190BA4]
+      - [0x1BC0, data, D_80190BA8]
+      - [0x1BC4, data, D_80190BAC]
+      - start: 0x91F8
+        type: databin
+        name: D_801981E0
+        dir: room_m005_theater
+  - [0x30000]
+# room: m005, section3 sector 10036, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m005.bin bs=2048 skip=10036 count=96
+# area: save-location label "Theater" (id 1) for map 5; place theater, high confidence (docs/ROOMS.md)

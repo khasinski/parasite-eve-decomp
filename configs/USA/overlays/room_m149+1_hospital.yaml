@@ -1,0 +1,58 @@
+name: room_m149+1_hospital.bin
+sha1: 5cdc3cb4c8c22332646faca446c2e2824c51bb77
+options:
+  basename: room_m149+1_hospital
+  target_path: original/USA/overlays/room_m149+1.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m149+1_hospital
+  src_path: src/overlays/room_m149+1_hospital
+  build_path: build/USA/overlays/room_m149+1_hospital
+  ld_script_path: linkers/USA/overlays/room_m149+1_hospital.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m149+1_hospital.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m149+1_hospital.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m149+1_hospital.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m149+1_hospital
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m149+1_0_1C]
+      - [0x1C, .rodata, RoomEffect_DroppedFlareParticle_8018F038]
+      - [0x48, rodata, RoomLib_DlgRect]
+      - [0x50, c, RoomEffect_DroppedFlareParticle_8018F038]
+      - [0xA10, c, RoomLib_MsgDispatch_8018F9F8]
+      - [0xCD8, c, RoomLib_SetPair_8018FCC0]
+      - [0xCF4, data, D_8018FCDC]
+      - [0xD18, data, D_8018FD00]
+      - [0xD50, data, RoomLib_PairA]
+      - start: 0xD54
+        type: databin
+        name: RoomLib_PairB
+        dir: room_m149+1_hospital
+      - start: 0x1920C
+        type: databin
+        name: D_801A81F4
+        dir: room_m149+1_hospital
+  - [0x22000]
+# room: m149, section3 sector 43106, scanner delta 1
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m149+1.bin bs=2048 skip=43106 count=68
+# area: save-location label "Hospital" (id 6) for map 149; place hospital, high confidence (docs/ROOMS.md)

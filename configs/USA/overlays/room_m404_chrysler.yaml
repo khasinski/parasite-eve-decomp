@@ -1,0 +1,121 @@
+name: room_m404_chrysler.bin
+sha1: c611bd599af3f8e0961c1dc5016e31d3d30e3971
+options:
+  basename: room_m404_chrysler
+  target_path: original/USA/overlays/room_m404.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m404_chrysler
+  src_path: src/overlays/room_m404_chrysler
+  build_path: build/USA/overlays/room_m404_chrysler
+  ld_script_path: linkers/USA/overlays/room_m404_chrysler.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m404_chrysler.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m404_chrysler.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m404_chrysler.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m404_chrysler
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m404_chrysler]
+      - [0xC, .rodata, RoomLib_HandlerDArgs_8018F2CC]
+      - [0x8C, .rodata, RoomLib_HandlerEArgs_80190018]
+      - [0x110, rodata, RoomLib_HandlerEArgsPad_80190018]
+      - [0x114, .rodata, RoomLib_HandlerBArgs_80190ADC]
+      - [0x17C, .rodata, RoomLib_HandlerCArgs_801915F4]
+      - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915F4]
+      - [0x1F4, .rodata, RoomEffect_SinkingDrop_80192540]
+      - [0x220, rodata, RoomEffect_SpriteSeeds_8018F208]
+      - [0x23C, c, func_8018F224]
+      - [0x244, c, RoomLib_InitB_8018F22C]
+      - [0x2E4, c, RoomLib_HandlerDArgs_8018F2CC]
+      - [0x568, c, func_8018F550]
+      - [0x570, c, func_8018F558]
+      - [0x5F8, c, RoomLib_NotifyArmB_8018F5E0]
+      - [0x6A0, c, RoomLib_HandlerD]
+      - [0xBE8, c, RoomLib_FxNotify]
+      - [0xCC8, c, RoomLib_RotateMotion_8018FCB0]
+      - [0xF08, c, func_8018FEF0]
+      - [0xFA4, c, func_8018FF8C]
+      - [0xFAC, c, func_8018FF94]
+      - [0xFB4, c, RoomLib_InitD_8018FF9C]
+      - [0x1030, c, RoomLib_HandlerEArgs_80190018]
+      - [0x12A8, c, func_80190290]
+      - [0x12B0, c, func_80190298]
+      - [0x1338, c, RoomLib_Notify2ArmB_80190320]
+      - [0x13E0, c, RoomLib_HandlerE]
+      - [0x196C, c, RoomLib_SteerToward_80190954]
+      - [0x19F0, c, RoomLib_ResetAndSignalB_801909D8]
+      - [0x1A48, c, func_80190A30]
+      - [0x1A50, c, func_80190A38]
+      - [0x1A58, c, RoomLib_InitC_80190A40]
+      - [0x1AF4, c, RoomLib_HandlerBArgs_80190ADC]
+      - [0x1D3C, c, func_80190D24]
+      - [0x1D44, c, RoomLib_InvokeCallbackC_80190D2C]
+      - [0x1D6C, c, RoomLib_ArmWindowA_80190D54]
+      - [0x1DDC, c, RoomLib_HandlerB]
+      - [0x2168, c, func_80191150]
+      - [0x2170, c, func_80191158]
+      - [0x2510, c, RoomLib_ResetAndSignal_801914F8]
+      - [0x256C, c, func_80191554]
+      - [0x2574, c, func_8019155C]
+      - [0x257C, c, RoomLib_InitFull_80191564]
+      - [0x260C, c, RoomLib_HandlerCArgs_801915F4]
+      - [0x2854, c, func_8019183C]
+      - [0x285C, c, RoomLib_InvokeCallbackC_80191844]
+      - [0x2884, c, RoomLib_ArmWindowB_8019186C]
+      - [0x28F4, c, RoomLib_HandlerC]
+      - [0x2D70, c, func_80191D58]
+      - [0x2D78, c, func_80191D60]
+      - [0x3100, c, RoomLib_ResetAndSignal_801920E8]
+      - [0x315C, c, func_80192144]
+      - [0x3164, c, func_8019214C]
+      - [0x316C, c, RoomLib_InitTimers_80192154]
+      - [0x31A8, c, func_80192190]
+      - [0x3240, c, func_80192228]
+      - [0x3248, c, RoomLib_InvokeCallbackC_80192230]
+      - [0x3270, c, RoomLib_RearmOnMatch_80192258]
+      - [0x32A0, c, RoomLib_HandlerA]
+      - [0x33B4, c, RoomLib_MoveActorLocal_8019239C]
+      - [0x3534, c, RoomLib_Set4ClearSignal_8019251C]
+      - [0x3550, c, func_80192538]
+      - [0x3558, c, RoomEffect_SinkingDrop_80192540]
+      - [0x4380, c, RoomEffect_M404ParticleController]
+      - [0x45F8, c, RoomEffect_BounceGlowSpark_801935E0]
+      - [0x4A84, c, RoomEffect_JointDebrisBurst_80193A6C]
+      - [0x4E3C, c, RoomLib_SetArg1_80193E24]
+      - [0x4E4C, data, D_80193E34]
+      - [0x4E84, data, D_80193E6C]
+      - [0x4EF4, data, D_80193EDC]
+      - [0x4F14, data, D_80193EFC]
+      - [0x4F34, data, D_80193F1C]
+      - [0x4F6C, data, D_80193F54]
+      - [0x4F80, data, D_80193F68]
+      - [0x4FA0, data, D_80193F88]
+      - start: 0x4FD8
+        type: databin
+        name: RoomSlotA_80193E24
+        dir: room_m404_chrysler
+      - [0x411F8, data, D_801D01E0]
+  - [0x41800]
+# room: m404, section3 sector 93050, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m404.bin bs=2048 skip=93050 count=131
+# area: no save-location label for map 404; place chrysler, medium confidence (docs/ROOMS.md)

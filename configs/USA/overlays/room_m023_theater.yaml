@@ -1,0 +1,60 @@
+name: room_m023_theater.bin
+sha1: 3dfb340a8c3f044dc834ba113c5192413b9c3f81
+options:
+  basename: room_m023_theater
+  target_path: original/USA/overlays/room_m023.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m023_theater
+  src_path: src/overlays/room_m023_theater
+  build_path: build/USA/overlays/room_m023_theater
+  ld_script_path: linkers/USA/overlays/room_m023_theater.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m023_theater.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m023_theater.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m023_theater.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m023_theater
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m023_header]
+      - [0x1C, c, RoomEffect_JointScatterFlow]
+      - [0x728, c, RoomEffect_JointGlow_8018F710]
+      - [0xC2C, c, RoomEffect_JointBeacon_8018FC14]
+      - [0x165C, c, func_80190644]
+      - [0x1688, data, D_80190670]
+      - [0x1708, data, D_801906F0]
+      - [0x1738, data, D_80190720]
+      - [0x1770, data, D_80190758]
+      - [0x1778, data, D_80190760]
+      - start: 0x9210
+        type: databin
+        name: D_801981F8
+        dir: room_m023_theater
+      - start: 0x41208
+        type: databin
+        name: D_801D01F0
+        dir: room_m023_theater
+      - [0x51204, data, D_801E01EC]
+  - [0x56000]
+# room: m023, section3 sector 12891, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m023.bin bs=2048 skip=12891 count=172
+# area: save-location label "Theater" (id 1) for map 23; place theater, high confidence (docs/ROOMS.md)

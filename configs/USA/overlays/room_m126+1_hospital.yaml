@@ -34,7 +34,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, rodata, room_m126+1_hospital_0_1C]
+      - [0x0, rodata, room_m126+1_0_1C]
       - [0x1C, .rodata, RoomEffect_DroppedFlareParticle_8018F038]
       - [0x48, rodata, RoomLib_DlgRect]
       - [0x50, c, RoomEffect_DroppedFlareParticle_8018F038]

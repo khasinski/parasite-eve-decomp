@@ -1,0 +1,112 @@
+name: room_m344_museum.bin
+sha1: c93b032c247ab6bed3979b1ad576cadd0343fb2a
+options:
+  basename: room_m344_museum
+  target_path: original/USA/overlays/room_m344.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m344_museum
+  src_path: src/overlays/room_m344_museum
+  build_path: build/USA/overlays/room_m344_museum
+  ld_script_path: linkers/USA/overlays/room_m344_museum.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m344_museum.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m344_museum.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m344_museum.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m344_museum
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m344_museum]
+      - [0x4C, c, func_8018F034]
+      - [0x54, c, RoomLib_PlantTable_8018F03C]
+      - [0x80, c, RoomLib_Spawn6_8018F068]
+      - [0xAC, c, func_8018F094]
+      - [0xD4, c, func_8018F0BC]
+      - [0x144, c, func_8018F12C]
+      - [0x14C, c, func_8018F134]
+      - [0x154, c, func_8018F13C]
+      - [0x384, c, func_8018F36C]
+      - [0x38C, c, func_8018F374]
+      - [0x13C0, c, func_801903A8]
+      - [0x1440, c, func_80190428]
+      - [0x1880, c, RoomLib_UpdatePairedSprite_80190868]
+      - [0x1C10, c, func_80190BF8]
+      - [0x1CC8, c, func_80190CB0]
+      - [0x2158, c, RoomLib_UpdatePairedSpriteBurst_80191140]
+      - [0x2508, c, func_801914F0]
+      - [0x25C0, c, func_801915A8]
+      - [0x2970, c, RoomLib_UpdateSparkleHeight_80191958]
+      - [0x2CAC, c, func_80191C94]
+      - [0x2D5C, c, func_80191D44]
+      - [0x3190, c, RoomLib_UpdateTransformedSparkle_80192178]
+      - [0x34AC, c, RoomFx_Overlay024Cluster]
+      - [0x37AC, c, RoomLib_DrawScaledEffect_80192794]
+      - [0x39C8, c, func_801929B0]
+      - [0x3B74, data, D_80192B5C]
+      - [0x3B94, data, D_80192B7C]
+      - [0x3BB4, data, D_80192B9C]
+      - [0x3BD4, data, D_80192BBC]
+      - [0x3BE4, data, D_80192BCC]
+      - [0x3C00, data, RoomLib_TableB_8018F03C]
+      - [0x3C08, data, D_80192BF0]
+      - [0x3C14, data, D_80192BFC]
+      - [0x3C20, data, D_80192C08]
+      - [0x3C24, data, D_80192C0C]
+      - [0x3C28, data, D_80192C10]
+      - [0x3C30, data, D_80192C18]
+      - [0x3C34, data, D_80192C1C]
+      - [0x3C38, data, D_80192C20]
+      - [0x3C40, data, D_80192C28]
+      - [0x3C44, data, D_80192C2C]
+      - [0x3C48, data, D_80192C30]
+      - [0x3C4C, data, D_80192C34]
+      - [0x3C50, data, D_80192C38]
+      - [0x3C54, data, D_80192C3C]
+      - [0x3C58, data, D_80192C40]
+      - start: 0x91FC
+        type: databin
+        name: D_801981E4
+        dir: room_m344_museum
+      - start: 0x19200
+        type: databin
+        name: D_801A81E8
+        dir: room_m344_museum
+      - start: 0x291F8
+        type: databin
+        name: D_801B81E0
+        dir: room_m344_museum
+      - start: 0x3120C
+        type: databin
+        name: D_801C01F4
+        dir: room_m344_museum
+      - start: 0x411F8
+        type: databin
+        name: D_801D01E0
+        dir: room_m344_museum
+      - start: 0x49210
+        type: databin
+        name: D_801D81F8
+        dir: room_m344_museum
+  - [0x5C800]
+# room: m344, section3 sector 82293, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m344.bin bs=2048 skip=82293 count=185
+# area: save-location label "Museum" (id 10) for map 344; place museum, high confidence (docs/ROOMS.md)

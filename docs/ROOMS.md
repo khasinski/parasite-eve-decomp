@@ -226,6 +226,31 @@ variants keep their marker: `room_m126+1_hospital`).
   `target_path: original/USA/overlays/room_mNNN.bin`. Only the source,
   configuration, linker and build names carry the suffix.
 
+### What a rename touches
+
+The overlay name is the config file stem, and every tool derives the source,
+asm, linker and build paths from it (`parallel_overlay_make.py`,
+`gen_expected.py`, `objdiff_config.py`, `check_source_policy.py` and the
+Makefile). The retail binary is the only thing addressed by `target_path`
+instead, and the Makefile reads it from the config too, so the asset files
+in `original/USA/overlays/` and in the CI asset checkout keep their names.
+A rename of `room_mNNN` to `room_mNNN_<place>`:
+
+- moves `configs/USA/overlays/<name>.yaml` and `sym.<name>.txt`, and
+  replaces the name everywhere in the config except `target_path` and the
+  `dd ... of=` extraction comment;
+- moves `src/overlays/<name>/` and, when present, `candidates/overlays/<name>/`;
+- rewrites `../<name>/` includes in other overlays and `overlays/<name>/`
+  paths in tests and candidate scripts.
+
+Generated `asm/`, `linkers/` and `build/` directories follow on the next
+split; the old ones can be deleted. Headers under `include/pe1/` that carry a
+room number in their file name (`room_m089_trail.h`) and prose in other docs
+keep the number, which still identifies the overlay.
+
+All 161 room overlays with a place of medium or high confidence are renamed;
+room_m350 keeps its name. The scene overlays keep theirs.
+
 ### Overlays by place
 
 | Slug | Confidence | Count | Overlays |

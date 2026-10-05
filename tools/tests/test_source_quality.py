@@ -139,7 +139,7 @@ class SourceQualityTests(unittest.TestCase):
         for header, names in (
             ("room_lib/room_lib.h", ("ROOMLIB_LOAD_S16", "ROOMLIB_LOAD_PTR",
                                     "ROOMLIB_LOAD_U16", "ROOMLIB_DIV_V0_A0_CHECKED")),
-            ("room_m089/room_m089.h", ("ROOM_M089_LOAD_EFFECT_LOOKUP",)),
+            ("room_m089_central_park/room_m089.h", ("ROOM_M089_LOAD_EFFECT_LOOKUP",)),
         ):
             text = (root / "src/overlays" / header).read_text()
             for name in names:

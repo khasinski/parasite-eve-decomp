@@ -1,0 +1,121 @@
+name: room_m328_hospital.bin
+sha1: c151e89063a4db4868ef3d2a91bd20887249f764
+options:
+  basename: room_m328_hospital
+  target_path: original/USA/overlays/room_m328.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m328_hospital
+  src_path: src/overlays/room_m328_hospital
+  build_path: build/USA/overlays/room_m328_hospital
+  ld_script_path: linkers/USA/overlays/room_m328_hospital.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m328_hospital.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m328_hospital.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m328_hospital.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m328_hospital
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m328_0_6C]
+      - [0x6C, .rodata, RoomEffect_DroppedFlareParticle_8019054C]
+      - [0x98, rodata, RoomLib_DlgRect]
+      - [0xA0, c, func_8018F088]
+      - [0xA8, c, RoomLib_PlantTable_8018F090]
+      - [0xD4, c, RoomLib_Spawn6_8018F0BC]
+      - [0x100, c, RoomLib_RegisterTable3_8018F0E8]
+      - [0x148, c, func_8018F130]
+      - [0x1D4, c, func_8018F1BC]
+      - [0x234, c, func_8018F21C]
+      - [0x23C, c, func_8018F224]
+      - [0x480, c, func_8018F468]
+      - [0x488, c, func_8018F470]
+      - [0x594, c, func_8018F57C]
+      - [0x614, c, func_8018F5FC]
+      - [0x88C, c, func_8018F874]
+      - [0x968, c, func_8018F950]
+      - [0x9BC, c, func_8018F9A4]
+      - [0xAA8, c, func_8018FA90]
+      - [0xAC4, c, func_8018FAAC]
+      - [0xB88, c, func_8018FB70]
+      - [0xDE4, c, func_8018FDCC]
+      - [0xEC0, c, func_8018FEA8]
+      - [0xF34, c, RoomLib_DrawGroundSprite_8018FF1C]
+      - [0x10C4, c, func_801900AC]
+      - [0x10CC, c, func_801900B4]
+      - [0x1290, c, func_80190278]
+      - [0x1488, c, RoomLib_UpdateTrailParticle_80190470]
+      - [0x1564, c, RoomEffect_DroppedFlareParticle_8019054C]
+      - [0x1F24, c, RoomLib_MsgDispatch_80190F0C]
+      - [0x21EC, c, RoomLib_SetPair_801911D4]
+      - [0x2208, c, RoomEffect_IndexedPaletteSprite]
+      - [0x2348, c, RoomEffect_HomingProjectile_80191330]
+      - [0x2C5C, c, func_80191C44]
+      - [0x2F50, c, func_80191F38]
+      - [0x2FF4, data, D_80191FDC]
+      - [0x3010, data, RoomLib_TableC]
+      - [0x302C, data, D_80192014]
+      - [0x3048, data, D_80192030]
+      - [0x3058, data, D_80192040]
+      - [0x3074, data, RoomLib_TableB_8018F090]
+      - [0x30BC, data, D_801920A4]
+      - [0x30E0, data, D_801920C8]
+      - [0x3118, data, D_80192100]
+      - [0x3130, data, D_80192118]
+      - [0x3138, data, D_80192120]
+      - [0x313C, data, D_80192124]
+      - [0x3148, data, D_80192130]
+      - [0x3150, data, D_80192138]
+      - [0x3154, data, D_8019213C]
+      - [0x3158, data, D_80192140]
+      - [0x3190, data, RoomLib_PairA]
+      - [0x3194, data, RoomLib_PairB]
+      - [0x3198, data, D_80192180]
+      - [0x319C, data, D_80192184]
+      - [0x31A0, data, D_80192188]
+      - [0x31A4, data, D_8019218C]
+      - [0x31A8, data, D_80192190]
+      - [0x31AC, data, D_80192194]
+      - [0x31B0, data, D_80192198]
+      - [0x31B4, data, D_8019219C]
+      - [0x31B8, data, D_801921A0]
+      - [0x31BC, data, D_801921A4]
+      - [0x31C0, data, D_801921A8]
+      - [0x31C8, data, D_801921B0]
+      - [0x31CC, data, D_801921B4]
+      - [0x31D0, data, D_801921B8]
+      - [0x31D8, data, D_801921C0]
+      - [0x31DC, data, D_801921C4]
+      - [0x31E0, data, D_801921C8]
+      - [0x31E8, data, D_801921D0]
+      - [0x31EC, data, D_801921D4]
+      - start: 0x31F0
+        type: databin
+        name: D_801921D8
+        dir: room_m328_hospital
+      - start: 0x311FC
+        type: databin
+        name: D_801C01E4
+        dir: room_m328_hospital
+  - [0x3E000]
+# room: m328, section3 sector 79539, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m328.bin bs=2048 skip=79539 count=124
+# area: save-location label "Hospital" (id 6) for map 328; place hospital, high confidence (docs/ROOMS.md)

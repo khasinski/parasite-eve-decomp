@@ -1,0 +1,163 @@
+name: room_m383_chrysler.bin
+sha1: 8897f3ad457391798f5ee8e2dbd3f73cb72e05bc
+options:
+  basename: room_m383_chrysler
+  target_path: original/USA/overlays/room_m383.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m383_chrysler
+  src_path: src/overlays/room_m383_chrysler
+  build_path: build/USA/overlays/room_m383_chrysler
+  ld_script_path: linkers/USA/overlays/room_m383_chrysler.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m383_chrysler.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m383_chrysler.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m383_chrysler.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m383_chrysler
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m383_chrysler]
+      - [0x94, .rodata, RoomLib_Room174383CoreCluster]
+      - [0x26C, c, func_8018F254]
+      - [0x318, c, RoomLib_Spawn6_8018F300]
+      - [0x344, c, RoomLib_RegisterTable3_8018F32C]
+      - [0x38C, c, func_8018F374]
+      - [0x418, c, RoomLib_CloseTarget_8018F400]
+      - [0x49C, c, func_8018F484]
+      - [0x4A4, c, func_8018F48C]
+      - [0x4AC, c, func_8018F494]
+      - [0x5CC, c, func_8018F5B4]
+      - [0x5D4, c, func_8018F5BC]
+      - [0x5E0, c, func_8018F5C8]
+      - [0x61C, c, func_8018F604]
+      - [0x624, c, func_8018F60C]
+      - [0x694, c, RoomEffect_GlowOrbInit_8018F67C]
+      - [0xA90, c, RoomEffect_GlowOrbDraw_8018FA78]
+      - [0xEB4, c, RoomLib_UpdateFallingParticle_8018FE9C]
+      - [0x1034, c, func_8019001C]
+      - [0x1044, c, func_8019002C]
+      - [0x1140, c, func_80190128]
+      - [0x1194, c, func_8019017C]
+      - [0x119C, c, RoomLib_PlantTable_80190184]
+      - [0x11C8, c, RoomLib_Spawn6_801901B0]
+      - [0x11F4, c, func_801901DC]
+      - [0x1258, c, func_80190240]
+      - [0x12E4, c, RoomLib_CloseTarget_801902CC]
+      - [0x1368, c, func_80190350]
+      - [0x1370, c, func_80190358]
+      - [0x1690, c, func_80190678]
+      - [0x1698, c, func_80190680]
+      - [0x1718, c, func_80190700]
+      - [0x1720, c, func_80190708]
+      - [0x19D0, c, func_801909B8]
+      - [0x19F0, c, func_801909D8]
+      - [0x1ADC, c, func_80190AC4]
+      - [0x1B5C, c, func_80190B44]
+      - [0x1D64, c, func_80190D4C]
+      - [0x1DBC, c, RoomLib_InitFixedEmitterPair_80190DA4]
+      - [0x2218, c, RoomLib_Room174383MotionCluster]
+      - [0x22FC, c, RoomLib_DrawStagedMotion_801912E4]
+      - [0x292C, c, RoomLib_UpdateStagedMotion_80191914]
+      - [0x2D54, c, RoomLib_Set3Reset_80191D3C]
+      - [0x2D74, c, func_80191D5C]
+      - [0x2E60, c, func_80191E48]
+      - [0x2EA0, c, RoomLib_Room174383ParticleCluster]
+      - [0x2FC8, c, RoomEffect_DropFieldDraw_80191FB0]
+      - [0x35D0, c, RoomEffect_DropFieldUpdate_801925B8]
+      - [0x3A18, c, func_80192A00]
+      - [0x3BC8, c, RoomEffect_BeamPairDraw_80192BB0]
+      - [0x3EE0, c, func_80192EC8]
+      - [0x3F4C, c, func_80192F34]
+      - [0x4110, c, RoomLib_DrawFourScaledSprites_801930F8]
+      - [0x4410, c, func_801933F8]
+      - [0x44A0, c, RoomLib_Room174383CoreCluster]
+      - [0x7C94, data, D_80196C7C]
+      - [0x7CA8, data, D_80196C90]
+      - [0x7CBC, data, D_80196CA4]
+      - [0x7CD0, data, D_80196CB8]
+      - [0x7CF8, data, D_80196CE0]
+      - [0x7D84, data, D_80196D6C]
+      - [0x7DBC, data, D_80196DA4]
+      - [0x7DF0, data, D_80196DD8]
+      - [0x7DF4, data, D_80196DDC]
+      - [0x7E2C, data, D_80196E14]
+      - [0x7E48, data, D_80196E30]
+      - [0x7E64, data, RoomLib_TableB_80190184]
+      - [0x7F24, data, D_80196F0C]
+      - [0x7F70, data, D_80196F58]
+      - [0x7FE0, data, D_80196FC8]
+      - [0x8000, data, D_80196FE8]
+      - [0x8200, data, D_801971E8]
+      - [0x8400, data, D_801973E8]
+      - [0x8404, data, D_801973EC]
+      - [0x8408, data, D_801973F0]
+      - [0x8410, data, D_801973F8]
+      - [0x8414, data, D_801973FC]
+      - [0x8418, data, D_80197400]
+      - [0x841C, data, D_80197404]
+      - [0x8420, data, D_80197408]
+      - [0x8428, data, D_80197410]
+      - [0x842C, data, D_80197414]
+      - [0x8430, data, D_80197418]
+      - [0x843C, data, D_80197424]
+      - [0x8440, data, D_80197428]
+      - [0x8448, data, D_80197430]
+      - [0x844C, data, D_80197434]
+      - [0x8450, data, D_80197438]
+      - [0x8458, data, D_80197440]
+      - [0x845C, data, D_80197444]
+      - [0x8460, data, D_80197448]
+      - [0x8468, data, D_80197450]
+      - [0x846C, data, D_80197454]
+      - [0x8470, data, D_80197458]
+      - [0x847C, data, D_80197464]
+      - [0x8480, data, D_80197468]
+      - [0x8484, data, D_8019746C]
+      - [0x8488, data, D_80197470]
+      - [0x848C, data, D_80197474]
+      - [0x84A4, data, D_8019748C]
+      - [0x84AC, data, D_80197494]
+      - [0x84B0, data, D_80197498]
+      - [0x84B4, data, D_8019749C]
+      - [0x84B8, data, D_801974A0]
+      - [0x84BC, data, D_801974A4]
+      - [0x84C4, data, D_801974AC]
+      - [0x84C8, data, D_801974B0]
+      - [0x84CC, data, D_801974B4]
+      - [0x84D0, data, D_801974B8]
+      - [0x84D4, data, D_801974BC]
+      - [0x84D8, data, D_801974C0]
+      - [0x84DC, data, D_801974C4]
+      - [0x84E0, data, D_801974C8]
+      - [0x84E8, data, D_801974D0]
+      - [0x84EC, data, D_801974D4]
+      - [0x84F0, data, D_801974D8]
+      - [0x84F8, data, D_801974E0]
+      - [0x850C, data, D_801974F4]
+      - start: 0x8514
+        type: databin
+        name: D_801974FC
+        dir: room_m383_chrysler
+  - [0x36000]
+# room: m383, section3 sector 88737, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m383.bin bs=2048 skip=88737 count=108
+# area: no save-location label for map 383; place chrysler, medium confidence (docs/ROOMS.md)

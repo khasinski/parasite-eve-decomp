@@ -1,0 +1,169 @@
+name: room_m186_subway.bin
+sha1: 55c712d21f3366076f3288a3003a1877b414056e
+options:
+  basename: room_m186_subway
+  target_path: original/USA/overlays/room_m186.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m186_subway
+  src_path: src/overlays/room_m186_subway
+  build_path: build/USA/overlays/room_m186_subway
+  ld_script_path: linkers/USA/overlays/room_m186_subway.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m186_subway.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m186_subway.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m186_subway.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m186_subway
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m186_subway]
+      - [0x4C, .rodata, RoomLib_HandlerDArgs_80190EC4]
+      - [0xCC, .rodata, RoomLib_HandlerEArgs_80191C10]
+      - [0x150, rodata, RoomLib_HandlerEArgsPad_80191C10]
+      - [0x154, .rodata, RoomLib_HandlerBArgs_801926D4]
+      - [0x1BC, .rodata, RoomLib_HandlerCArgs_801931EC]
+      - [0x224, rodata, RoomLib_HandlerCArgsData_801931EC]
+      - [0x224, c, func_8018F20C]
+      - [0x250, c, RoomLib_Spawn6_8018F238]
+      - [0x27C, c, RoomLib_RegisterTable_8018F264]
+      - [0x2C4, c, func_8018F2AC]
+      - [0x350, c, RoomLib_CloseTarget_8018F338]
+      - [0x3D4, c, func_8018F3BC]
+      - [0x3DC, c, func_8018F3C4]
+      - [0x3E4, c, RoomLib_InitEffectPaletteB_8018F3CC]
+      - [0x528, c, func_8018F510]
+      - [0x530, c, func_8018F518]
+      - [0x5B0, c, func_8018F598]
+      - [0x8F0, c, func_8018F8D8]
+      - [0xDA8, c, func_8018FD90]
+      - [0xEA0, c, func_8018FE88]
+      - [0xEA8, c, RoomLib_PlantTable_8018FE90]
+      - [0xED4, c, RoomLib_Spawn6_8018FEBC]
+      - [0xF00, c, RoomLib_RegisterTable3_8018FEE8]
+      - [0xF48, c, func_8018FF30]
+      - [0xFD4, c, RoomLib_CloseTarget_8018FFBC]
+      - [0x1058, c, func_80190040]
+      - [0x1060, c, func_80190048]
+      - [0x122C, c, func_80190214]
+      - [0x1234, c, func_8019021C]
+      - [0x126C, c, RoomLib_InitOrbitParticles_80190254]
+      - [0x139C, c, func_80190384]
+      - [0x14F4, c, RoomLib_UpdateOrbitParticles_801904DC]
+      - [0x15EC, c, func_801905D4]
+      - [0x178C, c, func_80190774]
+      - [0x191C, c, func_80190904]
+      - [0x1A70, c, func_80190A58]
+      - [0x1C24, c, RoomLib_DrawOrbitSprite_80190C0C]
+      - [0x1D54, c, func_80190D3C]
+      - [0x1E34, c, func_80190E1C]
+      - [0x1E3C, c, RoomLib_InitB_80190E24]
+      - [0x1EDC, c, RoomLib_HandlerDArgs_80190EC4]
+      - [0x2160, c, func_80191148]
+      - [0x2168, c, func_80191150]
+      - [0x21F0, c, RoomLib_NotifyArmB_801911D8]
+      - [0x2298, c, RoomLib_HandlerD]
+      - [0x27E0, c, RoomLib_FxNotify]
+      - [0x28C0, c, RoomLib_RotateMotion_801918A8]
+      - [0x2B00, c, func_80191AE8]
+      - [0x2B9C, c, func_80191B84]
+      - [0x2BA4, c, func_80191B8C]
+      - [0x2BAC, c, RoomLib_InitD_80191B94]
+      - [0x2C28, c, RoomLib_HandlerEArgs_80191C10]
+      - [0x2EA0, c, func_80191E88]
+      - [0x2EA8, c, func_80191E90]
+      - [0x2F30, c, RoomLib_Notify2ArmB_80191F18]
+      - [0x2FD8, c, RoomLib_HandlerE]
+      - [0x3564, c, RoomLib_SteerToward_8019254C]
+      - [0x35E8, c, RoomLib_ResetAndSignalB_801925D0]
+      - [0x3640, c, func_80192628]
+      - [0x3648, c, func_80192630]
+      - [0x3650, c, RoomLib_InitC_80192638]
+      - [0x36EC, c, RoomLib_HandlerBArgs_801926D4]
+      - [0x3934, c, func_8019291C]
+      - [0x393C, c, RoomLib_InvokeCallbackC_80192924]
+      - [0x3964, c, RoomLib_ArmWindowA_8019294C]
+      - [0x39D4, c, RoomLib_HandlerB]
+      - [0x3D60, c, func_80192D48]
+      - [0x3D68, c, func_80192D50]
+      - [0x4108, c, RoomLib_ResetAndSignal_801930F0]
+      - [0x4164, c, func_8019314C]
+      - [0x416C, c, func_80193154]
+      - [0x4174, c, RoomLib_InitFull_8019315C]
+      - [0x4204, c, RoomLib_HandlerCArgs_801931EC]
+      - [0x444C, c, func_80193434]
+      - [0x4454, c, RoomLib_InvokeCallbackC_8019343C]
+      - [0x447C, c, RoomLib_ArmWindowB_80193464]
+      - [0x44EC, c, RoomLib_HandlerC]
+      - [0x4968, c, func_80193950]
+      - [0x4970, c, func_80193958]
+      - [0x4CF8, c, RoomLib_ResetAndSignal_80193CE0]
+      - [0x4D54, c, func_80193D3C]
+      - [0x4D5C, c, func_80193D44]
+      - [0x4D64, c, RoomLib_InitTimers_80193D4C]
+      - [0x4DA0, c, func_80193D88]
+      - [0x4E38, c, func_80193E20]
+      - [0x4E40, c, RoomLib_InvokeCallbackC_80193E28]
+      - [0x4E68, c, RoomLib_RearmOnMatch_80193E50]
+      - [0x4E98, c, RoomLib_HandlerA]
+      - [0x4FAC, c, RoomLib_MoveActorLocal_80193F94]
+      - [0x512C, c, RoomLib_Set4ClearSignal_80194114]
+      - [0x5148, c, func_80194130]
+      - [0x5150, data, D_80194138]
+      - [0x515C, data, RoomLib_TableA_8018F264]
+      - [0x5168, data, D_80194150]
+      - [0x5174, data, D_8019415C]
+      - [0x517C, data, D_80194164]
+      - [0x5198, data, D_80194180]
+      - [0x51D4, data, D_801941BC]
+      - [0x51E4, data, D_801941CC]
+      - [0x51F8, data, RoomLib_TableC]
+      - [0x520C, data, D_801941F4]
+      - [0x5220, data, D_80194208]
+      - [0x522C, data, D_80194214]
+      - [0x5248, data, RoomLib_TableB_8018FE90]
+      - [0x52BC, data, D_801942A4]
+      - [0x52F4, data, D_801942DC]
+      - [0x5368, data, D_80194350]
+      - [0x536C, data, D_80194354]
+      - [0x5370, data, D_80194358]
+      - [0x5378, data, D_80194360]
+      - [0x537C, data, D_80194364]
+      - [0x5380, data, D_80194368]
+      - [0x5388, data, D_80194370]
+      - [0x538C, data, D_80194374]
+      - [0x5390, data, D_80194378]
+      - [0x5398, data, D_80194380]
+      - [0x539C, data, D_80194384]
+      - [0x53A0, data, D_80194388]
+      - [0x53A8, data, D_80194390]
+      - [0x53AC, data, D_80194394]
+      - [0x53B0, data, D_80194398]
+      - [0x53B8, data, D_801943A0]
+      - [0x53BC, data, D_801943A4]
+      - start: 0x53C0
+        type: databin
+        name: D_801943A8
+        dir: room_m186_subway
+  - [0x29800]
+# room: m186, section3 sector 50244, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m186.bin bs=2048 skip=50244 count=83
+# area: save-location label "Subway" (id 9) for map 186; place subway, high confidence (docs/ROOMS.md)

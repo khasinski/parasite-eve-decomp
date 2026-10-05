@@ -1,0 +1,68 @@
+name: room_m086_central_park.bin
+sha1: 1ebeb226defaf851ce2735245f028d4b63b1ec24
+options:
+  basename: room_m086_central_park
+  target_path: original/USA/overlays/room_m086.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m086_central_park
+  src_path: src/overlays/room_m086_central_park
+  build_path: build/USA/overlays/room_m086_central_park
+  ld_script_path: linkers/USA/overlays/room_m086_central_park.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m086_central_park.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m086_central_park.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m086_central_park.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m086_central_park
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m086_header]
+      - [0x1C, c, RoomEffect_M086FallingSeeker_8018F004]
+      - [0x74C, c, RoomEffect_M086SeekerController_8018F734]
+      - [0x10E4, c, RoomEffect_BounceGlintFlow]
+      - [0x1A5C, c, func_80190A44]
+      - [0x1AA8, c, func_80190A90]
+      - [0x1AE4, data, D_80190ACC]
+      - [0x1B04, data, D_80190AEC]
+      - [0x1B3C, data, D_80190B24]
+      - [0x1B54, data, D_80190B3C]
+      - [0x1B8C, data, D_80190B74]
+      - [0x1B90, data, D_80190B78]
+      - [0x1B94, data, D_80190B7C]
+      - [0x1B98, data, D_80190B80]
+      - [0x1B9C, data, D_80190B84]
+      - [0x1BA0, data, D_80190B88]
+      - [0x1BA4, data, D_80190B8C]
+      - [0x1BA8, data, D_80190B90]
+      - [0x1BAC, data, D_80190B94]
+      - start: 0x9200
+        type: databin
+        name: D_801981E8
+        dir: room_m086_central_park
+      - start: 0x1920C
+        type: databin
+        name: D_801A81F4
+        dir: room_m086_central_park
+  - [0x27000]
+# room: m086, section3 sector 29189, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m086.bin bs=2048 skip=29189 count=78
+# area: save-location label "Central Park" (id 4) for map 86; place central_park, high confidence (docs/ROOMS.md)

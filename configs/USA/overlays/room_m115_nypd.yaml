@@ -1,0 +1,52 @@
+name: room_m115_nypd.bin
+sha1: a0741719ee0a73d1af86d074da35c3c4745932a6
+options:
+  basename: room_m115_nypd
+  target_path: original/USA/overlays/room_m115.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m115_nypd
+  src_path: src/overlays/room_m115_nypd
+  build_path: build/USA/overlays/room_m115_nypd
+  ld_script_path: linkers/USA/overlays/room_m115_nypd.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m115_nypd.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m115_nypd.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m115_nypd.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m115_nypd
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m115_header]
+      - [0x20, c, func_8018F008]
+      - [0x3BC, c, RoomEffect_LineBurstController_8018F3A4]
+      - [0xE10, c, RoomLib_SlotSet_8018FDF8]
+      - [0xE54, data, D_8018FE3C]
+      - [0xE74, data, D_8018FE5C]
+      - start: 0xEAC
+        type: databin
+        name: RoomLib_SlotTable
+        dir: room_m115_nypd
+      - [0x311FC, data, D_801C01E4]
+  - [0x37800]
+# room: m115, section3 sector 35671, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m115.bin bs=2048 skip=35671 count=111
+# area: save-location label "N.Y.P.D." (id 3) for map 115; place nypd, high confidence (docs/ROOMS.md)

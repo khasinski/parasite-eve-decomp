@@ -1,0 +1,78 @@
+name: room_m065_central_park.bin
+sha1: fa62e6cdf74b19728ab31b55f190143f0ec93bc8
+options:
+  basename: room_m065_central_park
+  target_path: original/USA/overlays/room_m065.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m065_central_park
+  src_path: src/overlays/room_m065_central_park
+  build_path: build/USA/overlays/room_m065_central_park
+  ld_script_path: linkers/USA/overlays/room_m065_central_park.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m065_central_park.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m065_central_park.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m065_central_park.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m065_central_park
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m065_central_park]
+      - [0x14, c, func_8018EFFC]
+      - [0x40, c, RoomLib_Spawn6_8018F028]
+      - [0x6C, c, RoomLib_RegisterTable_8018F054]
+      - [0xB4, c, func_8018F09C]
+      - [0x140, c, RoomLib_CloseTarget_8018F128]
+      - [0x1C4, c, func_8018F1AC]
+      - [0x1CC, c, func_8018F1B4]
+      - [0x1D4, c, func_8018F1BC]
+      - [0x318, c, func_8018F300]
+      - [0x320, c, func_8018F308]
+      - [0x3A0, c, func_8018F388]
+      - [0x840, c, func_8018F828]
+      - [0xBE4, c, RoomLib_UpdateDebrisTriplet_8018FBCC]
+      - [0x1010, data, D_8018FFF8]
+      - [0x101C, data, RoomLib_TableA_8018F054]
+      - [0x1028, data, D_80190010]
+      - [0x1034, data, D_8019001C]
+      - [0x103C, data, D_80190024]
+      - [0x1058, data, D_80190040]
+      - [0x1090, data, D_80190078]
+      - [0x10A0, data, D_80190088]
+      - [0x10A4, data, D_8019008C]
+      - [0x10A8, data, D_80190090]
+      - [0x10B0, data, D_80190098]
+      - [0x10B4, data, D_8019009C]
+      - start: 0x10B8
+        type: databin
+        name: D_801900A0
+        dir: room_m065_central_park
+      - [0x1EFD0, data, D_801ADFB8]
+      - [0x1F010, data, D_801ADFF8]
+      - [0x1F030, data, D_801AE018]
+      - [0x1F130, data, D_801AE118]
+      - [0x1F1B0, data, D_801AE198]
+      - [0x1F270, data, D_801AE258]
+      - [0x1F2D0, data, D_801AE2B8]
+  - [0x1F800]
+# room: m065, section3 sector 24659, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m065.bin bs=2048 skip=24659 count=63
+# area: save-location label "Central Park" (id 4) for map 65; place central_park, high confidence (docs/ROOMS.md)

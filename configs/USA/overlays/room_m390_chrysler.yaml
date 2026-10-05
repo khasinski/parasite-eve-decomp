@@ -1,0 +1,139 @@
+name: room_m390_chrysler.bin
+sha1: 4d02bd1bcfbaf4793f3e9a0662e47f0e846cfd53
+options:
+  basename: room_m390_chrysler
+  target_path: original/USA/overlays/room_m390.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m390_chrysler
+  src_path: src/overlays/room_m390_chrysler
+  build_path: build/USA/overlays/room_m390_chrysler
+  ld_script_path: linkers/USA/overlays/room_m390_chrysler.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m390_chrysler.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m390_chrysler.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m390_chrysler.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m390_chrysler
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m390_chrysler]
+      - [0xC, .rodata, RoomLib_HandlerDArgs_8018F2A8]
+      - [0x8C, .rodata, RoomLib_HandlerEArgs_8018FFF4]
+      - [0x110, rodata, RoomLib_HandlerEArgsPad_8018FFF4]
+      - [0x114, .rodata, RoomLib_HandlerBArgs_80190AB8]
+      - [0x17C, .rodata, RoomLib_HandlerCArgs_801915D0]
+      - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915D0]
+      - [0x218, c, func_8018F200]
+      - [0x220, c, RoomLib_InitB_8018F208]
+      - [0x2C0, c, RoomLib_HandlerDArgs_8018F2A8]
+      - [0x544, c, func_8018F52C]
+      - [0x54C, c, func_8018F534]
+      - [0x5D4, c, RoomLib_NotifyArmB_8018F5BC]
+      - [0x67C, c, RoomLib_HandlerD]
+      - [0xBC4, c, RoomLib_FxNotify]
+      - [0xCA4, c, RoomLib_RotateMotion_8018FC8C]
+      - [0xEE4, c, func_8018FECC]
+      - [0xF80, c, func_8018FF68]
+      - [0xF88, c, func_8018FF70]
+      - [0xF90, c, RoomLib_InitD_8018FF78]
+      - [0x100C, c, RoomLib_HandlerEArgs_8018FFF4]
+      - [0x1284, c, func_8019026C]
+      - [0x128C, c, func_80190274]
+      - [0x1314, c, RoomLib_Notify2ArmB_801902FC]
+      - [0x13BC, c, RoomLib_HandlerE]
+      - [0x1948, c, RoomLib_SteerToward_80190930]
+      - [0x19CC, c, RoomLib_ResetAndSignalB_801909B4]
+      - [0x1A24, c, func_80190A0C]
+      - [0x1A2C, c, func_80190A14]
+      - [0x1A34, c, RoomLib_InitC_80190A1C]
+      - [0x1AD0, c, RoomLib_HandlerBArgs_80190AB8]
+      - [0x1D18, c, func_80190D00]
+      - [0x1D20, c, RoomLib_InvokeCallbackC_80190D08]
+      - [0x1D48, c, RoomLib_ArmWindowA_80190D30]
+      - [0x1DB8, c, RoomLib_HandlerB]
+      - [0x2144, c, func_8019112C]
+      - [0x214C, c, func_80191134]
+      - [0x24EC, c, RoomLib_ResetAndSignal_801914D4]
+      - [0x2548, c, func_80191530]
+      - [0x2550, c, func_80191538]
+      - [0x2558, c, RoomLib_InitFull_80191540]
+      - [0x25E8, c, RoomLib_HandlerCArgs_801915D0]
+      - [0x2830, c, func_80191818]
+      - [0x2838, c, RoomLib_InvokeCallbackC_80191820]
+      - [0x2860, c, RoomLib_ArmWindowB_80191848]
+      - [0x28D0, c, RoomLib_HandlerC]
+      - [0x2D4C, c, func_80191D34]
+      - [0x2D54, c, func_80191D3C]
+      - [0x30DC, c, RoomLib_ResetAndSignal_801920C4]
+      - [0x3138, c, func_80192120]
+      - [0x3140, c, func_80192128]
+      - [0x3148, c, RoomLib_InitTimers_80192130]
+      - [0x3184, c, func_8019216C]
+      - [0x321C, c, func_80192204]
+      - [0x3224, c, RoomLib_InvokeCallbackC_8019220C]
+      - [0x324C, c, RoomLib_RearmOnMatch_80192234]
+      - [0x327C, c, RoomLib_HandlerA]
+      - [0x3390, c, RoomLib_MoveActorLocal_80192378]
+      - [0x3510, c, RoomLib_Set4ClearSignal_801924F8]
+      - [0x352C, c, func_80192514]
+      - [0x3534, c, RoomEffect_PhasedSparkCallback_8019251C]
+      - [0x40CC, c, RoomEffect_TimedSixthSpawn]
+      - [0x4318, c, RoomEffect_BouncingSparkCallback_80193300]
+      - [0x48A8, c, RoomEffect_RandomizedTriple]
+      - [0x4BE4, c, RoomEffect_WaveSparkCallback_80193BCC]
+      - [0x55A0, c, RoomEffect_StaggeredPool]
+      - [0x57B4, c, RoomEffect_CometSparkCallback_8019479C]
+      - [0x6204, c, RoomEffect_CometSparkController_801951EC]
+      - [0x65B8, c, RoomEffect_LiftedSparkCallback_801955A0]
+      - [0x6A2C, c, RoomEffect_LiftedSparkController_80195A14]
+      - [0x6D90, c, RoomLib_SetArg1_80195D78]
+      - [0x6DA0, c, RoomLib_SetArg1_80195D88]
+      - [0x6DB0, data, D_80195D98]
+      - [0x6DE8, data, D_80195DD0]
+      - [0x6E20, data, D_80195E08]
+      - [0x6E58, data, D_80195E40]
+      - [0x6E7C, data, D_80195E64]
+      - [0x6E9C, data, D_80195E84]
+      - [0x6ED4, data, D_80195EBC]
+      - [0x6EF8, data, D_80195EE0]
+      - [0x6F18, data, D_80195F00]
+      - [0x6F40, data, D_80195F28]
+      - [0x6F78, data, D_80195F60]
+      - [0x6F90, data, D_80195F78]
+      - [0x6FB0, data, D_80195F98]
+      - [0x6FE8, data, RoomSlotA_80195D78]
+      - [0x6FEC, data, RoomSlotA_80195D88]
+      - [0x6FF0, data, D_80195FD8]
+      - [0x6FF8, data, D_80195FE0]
+      - [0x7000, data, D_80195FE8]
+      - start: 0x7008
+        type: databin
+        name: D_80195FF0
+        dir: room_m390_chrysler
+      - start: 0x411F8
+        type: databin
+        name: D_801D01E0
+        dir: room_m390_chrysler
+  - [0x5B000]
+# room: m390, section3 sector 89964, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m390.bin bs=2048 skip=89964 count=182
+# area: no save-location label for map 390; place chrysler, medium confidence (docs/ROOMS.md)

@@ -1,0 +1,122 @@
+name: room_m332_hospital.bin
+sha1: 6c8ada6b2b107723116a1545c38e807d876878fc
+options:
+  basename: room_m332_hospital
+  target_path: original/USA/overlays/room_m332.bin
+  base_path: ../../..
+  platform: psx
+  compiler: GCC
+  asm_path: asm/USA/overlays/room_m332_hospital
+  src_path: src/overlays/room_m332_hospital
+  build_path: build/USA/overlays/room_m332_hospital
+  ld_script_path: linkers/USA/overlays/room_m332_hospital.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m332_hospital.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m332_hospital.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m332_hospital.txt
+  find_file_boundaries: True
+  disassemble_all: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  generate_asm_macros_files: False
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  subalign: 4
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: room_m332_hospital
+    type: code
+    start: 0x0
+    vram: 0x8018EFE8
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0x0, rodata, room_m332_hospital]
+      - [0xC, .rodata, RoomLib_HandlerDArgs_8018F27C]
+      - [0x8C, .rodata, RoomLib_HandlerEArgs_8018FFC8]
+      - [0x110, rodata, RoomLib_HandlerEArgsPad_8018FFC8]
+      - [0x114, .rodata, RoomLib_HandlerBArgs_80190A8C]
+      - [0x17C, .rodata, RoomLib_HandlerCArgs_801915A4]
+      - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915A4]
+      - [0x1EC, c, func_8018F1D4]
+      - [0x1F4, c, RoomLib_InitB_8018F1DC]
+      - [0x294, c, RoomLib_HandlerDArgs_8018F27C]
+      - [0x518, c, func_8018F500]
+      - [0x520, c, func_8018F508]
+      - [0x5A8, c, RoomLib_NotifyArmB_8018F590]
+      - [0x650, c, RoomLib_HandlerD]
+      - [0xB98, c, RoomLib_FxNotify]
+      - [0xC78, c, RoomLib_RotateMotion_8018FC60]
+      - [0xEB8, c, func_8018FEA0]
+      - [0xF54, c, func_8018FF3C]
+      - [0xF5C, c, func_8018FF44]
+      - [0xF64, c, RoomLib_InitD_8018FF4C]
+      - [0xFE0, c, RoomLib_HandlerEArgs_8018FFC8]
+      - [0x1258, c, func_80190240]
+      - [0x1260, c, func_80190248]
+      - [0x12E8, c, RoomLib_Notify2ArmB_801902D0]
+      - [0x1390, c, RoomLib_HandlerE]
+      - [0x191C, c, RoomLib_SteerToward_80190904]
+      - [0x19A0, c, RoomLib_ResetAndSignalB_80190988]
+      - [0x19F8, c, func_801909E0]
+      - [0x1A00, c, func_801909E8]
+      - [0x1A08, c, RoomLib_InitC_801909F0]
+      - [0x1AA4, c, RoomLib_HandlerBArgs_80190A8C]
+      - [0x1CEC, c, func_80190CD4]
+      - [0x1CF4, c, RoomLib_InvokeCallbackC_80190CDC]
+      - [0x1D1C, c, RoomLib_ArmWindowA_80190D04]
+      - [0x1D8C, c, RoomLib_HandlerB]
+      - [0x2118, c, func_80191100]
+      - [0x2120, c, func_80191108]
+      - [0x24C0, c, RoomLib_ResetAndSignal_801914A8]
+      - [0x251C, c, func_80191504]
+      - [0x2524, c, func_8019150C]
+      - [0x252C, c, RoomLib_InitFull_80191514]
+      - [0x25BC, c, RoomLib_HandlerCArgs_801915A4]
+      - [0x2804, c, func_801917EC]
+      - [0x280C, c, RoomLib_InvokeCallbackC_801917F4]
+      - [0x2834, c, RoomLib_ArmWindowB_8019181C]
+      - [0x28A4, c, RoomLib_HandlerC]
+      - [0x2D20, c, func_80191D08]
+      - [0x2D28, c, func_80191D10]
+      - [0x30B0, c, RoomLib_ResetAndSignal_80192098]
+      - [0x310C, c, func_801920F4]
+      - [0x3114, c, func_801920FC]
+      - [0x311C, c, RoomLib_InitTimers_80192104]
+      - [0x3158, c, func_80192140]
+      - [0x31F0, c, func_801921D8]
+      - [0x31F8, c, RoomLib_InvokeCallbackC_801921E0]
+      - [0x3220, c, RoomLib_RearmOnMatch_80192208]
+      - [0x3250, c, RoomLib_HandlerA]
+      - [0x3364, c, RoomLib_MoveActorLocal_8019234C]
+      - [0x34E4, c, RoomLib_Set4ClearSignal_801924CC]
+      - [0x3500, c, func_801924E8]
+      - [0x3508, c, func_801924F0]
+      - [0x3510, c, RoomLib_InitE_801924F8]
+      - [0x3574, c, func_8019255C]
+      - [0x3688, c, func_80192670]
+      - [0x3690, c, RoomLib_UpdateTransformScale_80192678]
+      - [0x37E0, c, RoomLib_HandlerG]
+      - [0x3914, c, RoomLib_FloorWalker_801928FC]
+      - [0x3CD4, c, RoomLib_Set4ClearSignal_80192CBC]
+      - [0x3CF0, c, func_80192CD8]
+      - [0x3CF8, c, RoomLib_UpdateTimedRender_80192CE0]
+      - [0x3E90, c, RoomLib_ControlTimedSpawn_80192E78]
+      - [0x41D4, data, D_801931BC]
+      - [0x4298, data, D_80193280]
+      - start: 0x42B8
+        type: databin
+        name: D_801932A0
+        dir: room_m332_hospital
+      - start: 0x15540
+        type: databin
+        name: D_801A4528
+        dir: room_m332_hospital
+  - [0x2E800]
+# room: m332, section3 sector 80323, scanner delta 0
+# source slice: room-section3
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/room_m332.bin bs=2048 skip=80323 count=93
+# area: save-location label "Hospital" (id 6) for map 332; place hospital, high confidence (docs/ROOMS.md)
