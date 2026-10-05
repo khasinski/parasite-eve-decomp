@@ -1,24 +1,9 @@
 #include "common.h"
-typedef struct Overlay024Variant38State {
-    char pad0[0x10];
-    s16 random_mod;
-    char pad12[2];
-    s16 sparkle_timer;
-    char pad16[0xC];
-    s16 field22;
-    s16 resource_selector;
-    s16 active_flag;
-    s16 height;
-    s16 width;
-    s16 field2C;
-    s16 transform_index;
-    s32 field30;
-} Overlay024Variant38State;
-
+#include "../room_lib/RoomLib_Overlay024.h"
 s32 *func_800C2B10(s32 index);
 s32 func_80071A54(void);
 
-void func_80190BF8(void *arg0, void *arg1, Overlay024Variant38State *state) {
+void func_80190BF8(void *arg0, void *arg1, RoomOverlay024Variant38SetupState *state) {
     s32 random;
 
     state->transform_index = *func_800C2B10(1);

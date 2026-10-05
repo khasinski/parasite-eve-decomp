@@ -108,9 +108,13 @@ typedef struct RoomOverlay024Variant38State {
     s32 field30;
 } RoomOverlay024Variant38State;
 
-/* Setup-time view used by the room-specific Variant 38 initializers. */
+/* Shared setup-time view used by Variant 38 and Variant 290 initializers. */
 typedef struct RoomOverlay024Variant38SetupState {
-    char pad0[0x22];
+    char pad0[0x10];
+    s16 random_mod;
+    char pad12[2];
+    s16 sparkle_timer;
+    char pad16[0xC];
     s16 field22;
     s16 resource_selector;
     s16 active_flag;
@@ -150,22 +154,7 @@ typedef struct RoomOverlay024Variant290State {
     s32 field30;
 } RoomOverlay024Variant290State;
 
-/* Setup-time view used by the room-specific Variant 290 initializers. */
-typedef struct RoomOverlay024Variant290SetupState {
-    char pad0[0x10];
-    s16 random_mod;
-    char pad12[2];
-    s16 sparkle_timer;
-    char pad16[0xC];
-    s16 field22;
-    s16 resource_selector;
-    s16 active_flag;
-    s16 height;
-    s16 width;
-    s16 field2C;
-    s16 transform_index;
-    s32 field30;
-} RoomOverlay024Variant290SetupState;
+typedef RoomOverlay024Variant38SetupState RoomOverlay024Variant290SetupState;
 
 typedef struct RoomOverlay024VariantDState {
     s16 x;
@@ -205,6 +194,12 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Root, view) == 0x238,
                   overlay024_root_view_offset);
 PE1_STATIC_ASSERT(sizeof(RoomOverlay024Variant38State) == 0x34,
                   overlay024_variant38_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant38SetupState,
+                               random_mod) == 0x10,
+                  overlay024_variant38_setup_random_mod_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant38SetupState,
+                               sparkle_timer) == 0x14,
+                  overlay024_variant38_setup_sparkle_timer_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant38SetupState, field22) == 0x22,
                   overlay024_variant38_setup_field22_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant38SetupState,
@@ -227,7 +222,8 @@ PE1_STATIC_ASSERT(sizeof(RoomOverlay024Variant38SetupState) == 0x34,
                   overlay024_variant38_setup_state_size);
 PE1_STATIC_ASSERT(sizeof(RoomOverlay024Variant290State) == 0x34,
                   overlay024_variant290_state_size);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState, random_mod) == 0x10,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState,
+                               random_mod) == 0x10,
                   overlay024_variant290_setup_random_mod_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState,
                                sparkle_timer) == 0x14,
