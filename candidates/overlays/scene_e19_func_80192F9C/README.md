@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **7918**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **7458**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Four register pins and eight empty barriers are recorded below. There is no CPU ASM.
@@ -382,3 +382,24 @@ Current total: four pins, eight empty barriers and eleven GPU helper uses.
 All actual coprocessor instructions remain in individual GTE macros; no CPU
 instruction assembly was added. Combined ring-index/radius/angle pin trials
 all worsened the earlier 8775 baseline and were rejected.
+
+## Reset extent fields
+
+The final reset writes extent-x=16, extent-y=16, then extent-x=128 and
+extent-y=16. Separate scalar aliases allowed GCC to interleave these stores
+and the texture lookup differently. Using the existing RenderEffectParameters
+extent_x/extent_y fields for these four assignments lowers score 7918 to
+**7458**. The aligned reset sequence at 0x801953EC..0x80195464 now agrees
+with retail; the function-wide frame size remains a separate mismatch.
+
+Read-only, read/write and full-memory barrier probes each scored 8018, so no
+reset barrier was retained. Replacing all reset aliases with struct fields
+scored 8393 and was rejected. Individual palette/mode/page/extent substitutions
+in other draw states were neutral or worse.
+
+A phase-pin retest scored 7378 but remains research-only to avoid adding a
+constraint for that small gain while source recovery continues. Separating
+ring height scored 7488; pinning matrix vertical scale to s2 in that variant
+scored 7723, or 7653 with the phase pin as well. Neither is retained.
+Current debt is unchanged: four pins, eight empty barriers and eleven GPU
+helper calls.
