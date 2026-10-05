@@ -150,6 +150,23 @@ typedef struct RoomOverlay024Variant290State {
     s32 field30;
 } RoomOverlay024Variant290State;
 
+/* Setup-time view used by the room-specific Variant 290 initializers. */
+typedef struct RoomOverlay024Variant290SetupState {
+    char pad0[0x10];
+    s16 random_mod;
+    char pad12[2];
+    s16 sparkle_timer;
+    char pad16[0xC];
+    s16 field22;
+    s16 resource_selector;
+    s16 active_flag;
+    s16 height;
+    s16 width;
+    s16 field2C;
+    s16 transform_index;
+    s32 field30;
+} RoomOverlay024Variant290SetupState;
+
 typedef struct RoomOverlay024VariantDState {
     s16 x;
     s16 y;
@@ -210,6 +227,31 @@ PE1_STATIC_ASSERT(sizeof(RoomOverlay024Variant38SetupState) == 0x34,
                   overlay024_variant38_setup_state_size);
 PE1_STATIC_ASSERT(sizeof(RoomOverlay024Variant290State) == 0x34,
                   overlay024_variant290_state_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState, random_mod) == 0x10,
+                  overlay024_variant290_setup_random_mod_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState,
+                               sparkle_timer) == 0x14,
+                  overlay024_variant290_setup_sparkle_timer_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState, field22) == 0x22,
+                  overlay024_variant290_setup_field22_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState,
+                               resource_selector) == 0x24,
+                  overlay024_variant290_setup_resource_selector_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState, active_flag) == 0x26,
+                  overlay024_variant290_setup_active_flag_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState, height) == 0x28,
+                  overlay024_variant290_setup_height_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState, width) == 0x2A,
+                  overlay024_variant290_setup_width_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState, field2C) == 0x2C,
+                  overlay024_variant290_setup_field2c_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState,
+                               transform_index) == 0x2E,
+                  overlay024_variant290_setup_transform_index_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomOverlay024Variant290SetupState, field30) == 0x30,
+                  overlay024_variant290_setup_field30_offset);
+PE1_STATIC_ASSERT(sizeof(RoomOverlay024Variant290SetupState) == 0x34,
+                  overlay024_variant290_setup_state_size);
 PE1_STATIC_ASSERT(sizeof(RoomOverlay024VariantDState) == 0x38,
                   overlay024_variantd_state_size);
 
