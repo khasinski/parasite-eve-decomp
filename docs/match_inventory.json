@@ -73,13 +73,14 @@
       "actual_start": "0x80192F9C",
       "actual_end_exclusive": "0x8019549C",
       "missing_extracted_bytes": 8192,
-      "evidence": "Complete function and rodata match with stock GCC 2.7.2 and MASPSX 2.56. The two extraction slices are merged into the full scene_e19 block; overlay-check SHA1 6b114d71ecf274e02267aa9ea10cb2126793d3af. One pin, two empty barriers, eight evidenced GTE-window macro uses. See docs/SCENE_E19_EXTRACTION_GAP.md.",
+      "evidence": "Complete function and rodata match with stock GCC 2.7.2 and MASPSX 2.56. The two extraction slices are merged into the full scene_e19 block; overlay-check SHA1 6b114d71ecf274e02267aa9ea10cb2126793d3af. No bound register variables; two empty barriers (one clobbers $s0 to retain natural parameter allocation), eight evidenced GTE-window macro uses. See docs/SCENE_E19_EXTRACTION_GAP.md.",
       "current_unit": "overlays/scene_e19/SceneE19_BlastSequence",
       "extraction_restored": true,
       "candidate": "candidates/overlays/scene_e19_func_80192F9C/SceneE19_BlastSequence_GteWindows.c",
       "candidate_debt": {
-        "pins": 1,
+        "pins": 0,
         "empty_barriers": 2,
+        "fixed_register_clobbers": 1,
         "gte_matrix_windows": 8,
         "inline_conversion_helpers": 0
       }

@@ -5,9 +5,10 @@ overlay-check passes with SHA1 `6b114d71ecf274e02267aa9ea10cb2126793d3af`.
 The matching research snapshot is `SceneE19_BlastSequence_GteWindows.c`,
 verified at **weighted Levenshtein 0** with stock GCC/MASPSX on darwine.
 It uses the existing `pe1/gte_window.h` exception documented on main for this
-function, with four rotation/translation pairs (eight macro uses), one s1
-parameter-pointer pin and two empty tied-output barriers (parameter pointer
-and selector address). The CPU `lw` instructions inside
+function, with four rotation/translation pairs (eight macro uses), no bound
+register variables and two empty constraints. The selector constraint clobbers
+`$s0` to keep the parameter pointer naturally allocated in `$s1`; this trades
+the explicit pointer pin for a localized allocation barrier. The CPU `lw` instructions inside
 these macros are explicit matching debt; this is not a CPU-ASM-free candidate.
 The evidence entry is active for the integrated C unit; the merged overlay
 has passed retail verification.
@@ -104,10 +105,12 @@ removing non-pinned `register` keywords, and renaming temporary arguments.
 The key selector constraint takes the address constant as its tied input:
 `asm("" : "=r"(pageSelector) : "0"(&D_800E11EA[8]));`. Separating the model's
 page-index read and texture-call arguments then resolves the remaining
-scheduling differences. The initial exact probe used 5 pins and 7 barriers.
-All 4095 nonempty subsets of those 12 constraints were tested for removal;
-9 can be removed together. The retained candidate has only the 1 pin and
-2 barriers listed above, plus the existing GTE-window macro debt.
+scheduling differences. The initial exact probe used 5 pins and 7 barriers. All 4095 nonempty
+subsets of those 12 constraints were tested for removal; 9 were removable
+together. A final change moved the s0 clobber to the tied selector barrier;
+the parameter pointer now uses ordinary C allocation. The integrated source
+has 0 register pins and 2 empty barriers, one of which clobbers `$s0`, plus
+the existing GTE-window macro debt. The full overlay hash remains exact.
 
 Research artifacts: `constant_selector460.c`, `rotation460`, `args460`
 (the first score-zero job is [7,0,1,1,2]), and `remove0` under the existing

@@ -8525,6 +8525,6 @@ lets the function and its jump tables link from one object; the full 0xC800
 scene_e19 overlay passes its retail hash. Existing scene_e19_2 functions now
 live under scene_e19 with unchanged runtime addresses.
 
-Debt: one s1 pointer pin, two empty tied constraints, and eight approved GTE
-window macro uses. All 4095 nonempty subsets of the initial twelve pins and
+Debt: no bound register variables, two empty constraints (one clobbers s0),
+and eight approved GTE window macro uses. All 4095 nonempty subsets of the initial twelve pins and
 barriers were checked; nine constraints were removable together.

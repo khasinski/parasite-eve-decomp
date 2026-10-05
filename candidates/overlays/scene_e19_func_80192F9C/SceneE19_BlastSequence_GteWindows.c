@@ -1,5 +1,5 @@
 /* MASPSX_FLAGS: --expand-div */
-#include "scene_e19_blast.h"
+#include "pe1/scene_e19_blast.h"
 #include "pe1/gte_window.h"
 
 int func_80192F9C(int mode, SceneE19Blast *blast)
@@ -41,7 +41,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
     SceneE19BlastSpark *spark;
     SceneE19BlastActor *actor;
     u16 *pageSelector;
-    register RenderEffectParameters *params asm("$17");
+    RenderEffectParameters *params;
     u16 *palettes;
     GteShortVector *target;
     int spread;
@@ -276,7 +276,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             D_800F336A = 4;
             D_800F3376 = 0x40;
             D_800F3378 = 0x40;
-            asm("" : "=r"(pageSelector) : "0"(&D_800E11EA[8]));
+            asm("" : "=r"(pageSelector) : "0"(&D_800E11EA[8]) : "$16");
             D_800F3370 = D_800E2850[pageSelector[0]];
             D_800F3368.palette = 3;
             D_800F3368.parameter06 = 1;

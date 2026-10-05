@@ -423,10 +423,10 @@ baseline change.
 Integrated: scene_e19 `func_80192F9C` uses four evidenced windows (base `$t1`,
 0x801936D0, 0x80193B70, 0x80193EC4, 0x8019475C). The two old scene slices
 are linked as one continuous scene_e19 block. Its complete code and rodata
-match with stock GCC/MASPSX, and merged overlay-check passes. One s1 pin and
-two empty constraints remain after testing all 4095 nonempty subsets of the
-initial five pins and seven constraints; eight GTE-window uses are tracked
-as debt. The entry is active in `gte_matrix_windows`.
+match with stock GCC/MASPSX, and merged overlay-check passes. No bound register variables and two empty constraints remain after testing
+all 4095 nonempty subsets of the initial five pins and seven constraints. The
+selector constraint clobbers s0 so GCC allocates the parameter pointer
+naturally in s1. Eight GTE-window uses are tracked as debt. The entry is active in `gte_matrix_windows`.
 
 To add a use: show from the retail disassembly that the function loads the
 view matrix with exactly this window (both halves, same base, `$t4..$t6`), that
