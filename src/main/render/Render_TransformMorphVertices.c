@@ -21,8 +21,16 @@
         gte_ctc2_4(z);                                                                             \
     }
 
-#define MorphLoadTrans(matrix)                                                                     \
-    { gte_ldtransmatrix(matrix); }
+#define MorphLoadTrans(matrix) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        x = (matrix)[5]; \
+        y = (matrix)[6]; \
+        gte_ctc2_5(x); \
+        z = (matrix)[7]; \
+        gte_ctc2_6(y); \
+        gte_ctc2_7(z); \
+    }
 
 #define MorphLoadFullMatrix(matrix)                                                                \
     {                                                                                              \
