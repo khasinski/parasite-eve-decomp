@@ -304,11 +304,15 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             params->palette = 3;
             params->parameter06 = 0;
             page = (u16)(D_800E2850[pageSelector[-8]] | func_80077A64(0, 1, 0, 0));
-            palette = palettes[params->palette];
-            if (params->palette == 4 && D_800F3428 != 0) {
-                palette += 4;
+            {
+                register s32 paletteValue asm("$3");
+                paletteValue = palettes[params->palette];
+                if (params->palette == 4 && D_800F3428 != 0) {
+                    paletteValue += 4;
+                }
+                asm("" : : "r"(paletteValue));
+                func_800C6EC0(page, func_80077AA4(0x20, paletteValue));
             }
-            func_800C6EC0(page, func_80077AA4(0x20, palette));
             func_800C6ED8(1);
             func_80079754(&rotation, &shellMatrix2);
             shellScale2.x = radialScale / 2;

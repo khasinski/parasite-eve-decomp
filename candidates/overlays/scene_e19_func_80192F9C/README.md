@@ -1,10 +1,10 @@
-# func_80192F9C: GTE-window candidate 260, C-load candidate 400
+# func_80192F9C: GTE-window candidate 240, C-load candidate 400
 
 The preferred matching candidate is now `SceneE19_BlastSequence_GteWindows.c`,
-verified at **weighted Levenshtein 260** with stock GCC/MASPSX on darwine.
+verified at **weighted Levenshtein 240** with stock GCC/MASPSX on darwine.
 It uses the existing `pe1/gte_window.h` exception documented on main for this
-function, with four rotation/translation pairs (eight macro uses), no pins,
-and one empty pointer input/memory barrier. The CPU `lw` instructions inside
+function, with four rotation/translation pairs (eight macro uses), one local v1 palette pin,
+one empty pointer input/memory barrier and one empty palette input barrier. The CPU `lw` instructions inside
 these macros are explicit matching debt; this is not a CPU-ASM-free candidate.
 The pending evidence entry must move to the active list when integrating the
 function as a C unit, with the required overlay verification.
@@ -20,7 +20,7 @@ t1. Merely reducing the lexical scope cannot remove that function-wide fact.
 The existing GTE window macros remove the explicit t1 pin and reproduce every
 one of these division-result register choices without changing the compiler.
 
-At 260, remaining differences are the four pointer-address instructions moved
+Before the palette fix, score 260 had the four pointer-address instructions moved
 into the draw-mode head and the state-2 palette using a2 instead of v1 in three
 instructions. A 1344-trial repeat of the pointer-placement search on this
 variant and 64 follow-up dependency/clobber trials did not improve 260. The
@@ -35,9 +35,21 @@ candidate. The timeout returned 124 after stopping the run. No toolchain
 changes were made; `run.py` uses the repository scorer configuration.
 Additional targeted trials also gave no improvement: 312 timer-local/read/
 shift variants based on the relocated-pointer probe, 27 palette conversion
-helper variants, and 12 scoped v1 palette pin/constraint variants. None was
-retained. Scripts/results remain on darwine in `scene_e19_branch_review` as
+helper variants, and 12 scoped v1 palette pin/constraint attempts. The latter 12 all failed
+compilation: the generator accidentally renamed `params->palette` when
+renaming the scalar local. They were not valid negative matching evidence.
+None of these initial attempts was retained. Scripts/results remain on darwine in `scene_e19_branch_review` as
 `timer600`, `palette260`, `palettepin260`, and `permuter260`.
+
+The corrected palette-pin experiment compiled all 12 variants and found
+**240** with a scoped `s32` palette local pinned to v1 and an empty input
+constraint after its conditional adjustment. This reproduces all three palette
+instructions, including the widened `+4`, without changing arithmetic or
+adding CPU instructions. At 240 the only remaining differences are the four
+instructions materializing `params` and `pageSelector` in the draw-mode head
+instead of state 2. The 1344 pointer-placement combinations were rerun with
+this palette correction; none improved 240. The successful source is retained
+as `palettepin260/best_240.c` on darwine; the follow-up is `pointer240`.
 
 ## Preserved C-load candidate
 
