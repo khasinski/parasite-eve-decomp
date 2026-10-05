@@ -50,7 +50,7 @@ static inline MenuWidgetNode *Allocate(MenuWidgetNode *parent,
     node->x = 0;
     node->selected_base = 0;
     node->mode = 0;
-    node->field_28 = 0;
+    node->flags = 0;
     if (owner) {
         for (i = 0; i < 4; i++) {
             if (!owner->children[i])

@@ -482,7 +482,7 @@ void Menu_OpenBonusPointSpendDialog(MenuWidgetNode *arg0, s32 arg1) {
     node = MenuWidget_CreateSimpleNode(9, arg0, 0, 1);
     node->draw = Menu_DrawBonusPointSpendPanel;
     node->update = Spend_BonusPoints;
-    node->field_28 = 1;
+    node->flags = 1;
     MenuWidget_SetCurrentNode(node);
 
     g_BonusPointSpendStat = arg1;

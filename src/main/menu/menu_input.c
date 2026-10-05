@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "pe1/psyq_nop.h"
+#include "pe1/menu_widget.h"
 
 typedef struct MenuInputQueuedEvent {
     struct MenuInputQueuedEvent *next;
@@ -8,15 +9,9 @@ typedef struct MenuInputQueuedEvent {
     int flags;
 } MenuInputQueuedEvent;
 
-typedef struct MenuInputWidget {
-    char unk_00[4];
-    struct MenuInputWidget *next;
-    char unk_08[0x20];
-    int input_flags;
-    int (*handler)(struct MenuInputWidget *node, int flags);
-} MenuInputWidget;
+typedef MenuWidgetNode MenuInputWidget;
 
-MenuInputWidget *MenuWidget_GetCurrentNode(void);
+MenuWidgetNode *MenuWidget_GetCurrentNode(void);
 
 extern int D_8009D0EC;
 extern MenuInputQueuedEvent *D_8009D0E0;
@@ -153,7 +148,7 @@ void MenuInput_DispatchQueuedEvents(void) {
 
     node = MenuWidget_GetCurrentNode();
     if (D_8009D0EC == 0) {
-        MenuInput_EnqueueStatusChanges(node->input_flags);
+        MenuInput_EnqueueStatusChanges(node->flags);
     }
 
     localp = &local;
@@ -207,11 +202,11 @@ void MenuInput_DispatchQueuedEvents(void) {
             if (local.type == 2) {
                 flags |= 0x20000;
             }
-            handled = node->handler(node, flags);
+            handled = ((MenuWidgetInputHandler)node->update)(node, flags);
             if (handled != 0) {
                 return;
             }
-            node = node->next;
+            node = node->parent;
         } while (node != 0);
     } else {
         if ((local.flags & 0x20) == 0) {
@@ -222,11 +217,11 @@ void MenuInput_DispatchQueuedEvents(void) {
             return;
         }
         do {
-            handled = node->handler(node, 0x10000);
+            handled = ((MenuWidgetInputHandler)node->update)(node, 0x10000);
             if (handled != 0) {
                 return;
             }
-            node = node->next;
+            node = node->parent;
         } while (node != 0);
     }
 }

@@ -13,7 +13,7 @@ typedef struct MenuWidgetNode {
     int y;
     int mode;
     int selected_base;
-    int field_28;
+    int flags;
     void (*update)();          /* +0x2C callback/handler (generic: holds void(void) or int(int,int) etc.) */
     void (*draw)();            /* +0x30 draw callback */
     int grid_width;
@@ -42,6 +42,10 @@ typedef struct MenuWidgetNode {
     int (*selectionAvailable)(int index); /* +0x8C item-slot filter callback. */
 } MenuWidgetNode;
 
+/* Input dispatch walks the parent chain and treats update as a status-returning
+ * handler. Most other callers use update as a generic deferred callback. */
+typedef int (*MenuWidgetInputHandler)(MenuWidgetNode *node, int flags);
+
 PE1_STATIC_ASSERT(sizeof(MenuWidgetNode) == 0x90, menu_widget_node_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, parent) == 0x04,
                   menu_widget_parent_offset);
@@ -49,6 +53,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, children) == 0x08,
                   menu_widget_children_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, x) == 0x18,
                   menu_widget_x_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, flags) == 0x28,
+                  menu_widget_input_flags_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, update) == 0x2C,
                   menu_widget_update_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MenuWidgetNode, draw) == 0x30,
