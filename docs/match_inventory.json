@@ -1,7 +1,7 @@
 {
-  "report_commit": null,
-  "report_run": null,
-  "audit_source_commit": "68d72cf78",
+  "report_commit": "48a5cd21c995a17752f5d2039478d62d00e96b39",
+  "report_run": 37333637624,
+  "audit_source_commit": "4ec1e0acc",
   "metric": "asm-differ weighted levenshtein; not a byte distance",
   "scope": "Inventory of report exclusions, not a claim that every entry is a real unmatched function. Null score means unmeasured.",
   "reported_uncredited_functions": 47,
@@ -66,8 +66,9 @@
       "symbol": "func_8003E60C",
       "reported_size": 4,
       "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
+      "status": "padding_not_function_requires_report_audit",
+      "levenshtein_score": null,
+      "evidence": "Complete generated target symbol contains one 0x00000000 nop word and no control transfer. Gap occupies four bytes between adjacent units; current report still counts it as a function. No C match claimed. Stock objdump of the retail main.exe confirms the preceding function has already returned: jr ra is eight bytes before this padding word, followed by its populated or nop delay slot."
     },
     {
       "unit": "main/task/Task_GpuPackPrimColor",
@@ -83,8 +84,9 @@
       "symbol": "func_80070E04",
       "reported_size": 4,
       "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
+      "status": "padding_not_function_requires_report_audit",
+      "levenshtein_score": null,
+      "evidence": "Complete generated target symbol contains one 0x00000000 nop word and no control transfer. Gap occupies four bytes between adjacent units; current report still counts it as a function. No C match claimed. Stock objdump of the retail main.exe confirms the preceding function has already returned: jr ra is eight bytes before this padding word, followed by its populated or nop delay slot."
     },
     {
       "unit": "main/math/Math_SqrtApprox3",
@@ -100,24 +102,30 @@
       "symbol": "RawData_80074354",
       "reported_size": 24,
       "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
+      "status": "original_asm_bios_tailcall_requires_boundary_split",
+      "levenshtein_score": null,
+      "actual_size": 12,
+      "actual_end_exclusive": "0x80074360",
+      "trailing_reported_bytes": 12,
+      "evidence": "Generated target words 0x240A00A0, 0x01400008, 0x24090013 decode to addiu t2,zero,0xA0; jr t2; addiu t1,zero,0x13 in its delay slot. Sys_InitIntrManager calls this entry with state + 0x1C and tests its return. Thus this is executable BIOS dispatch, not pure data. Reported size 24 also includes one zero word and two following payload words. No C candidate or score-zero claim."
     },
     {
       "unit": "main/main/gap_save_save4_tail_71B10",
       "symbol": "func_80081310",
       "reported_size": 4,
       "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
+      "status": "padding_not_function_requires_report_audit",
+      "levenshtein_score": null,
+      "evidence": "Complete generated target symbol contains one 0x00000000 nop word and no control transfer. Gap occupies four bytes between adjacent units; current report still counts it as a function. No C match claimed. Stock objdump of the retail main.exe confirms the preceding function has already returned: jr ra is eight bytes before this padding word, followed by its populated or nop delay slot."
     },
     {
       "unit": "main/main/gap_memcard_MemCard_WaitStatusBit2_tail_73DA0",
       "symbol": "func_800835A0",
       "reported_size": 4,
       "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
+      "status": "padding_not_function_requires_report_audit",
+      "levenshtein_score": null,
+      "evidence": "Complete generated target symbol contains one 0x00000000 nop word and no control transfer. Gap occupies four bytes between adjacent units; current report still counts it as a function. No C match claimed. Stock objdump of the retail main.exe confirms the preceding function has already returned: jr ra is eight bytes before this padding word, followed by its populated or nop delay slot."
     },
     {
       "unit": "overlays/boot_display/boot_display_2648",
@@ -431,5 +439,5 @@
     "audit_source_commit": "73a4f03a297aff5601ae3546e145414cdd4d2dcb",
     "reported_uncredited_functions": 44
   },
-  "report_evidence": "Full darwine overlay-build-all and report on main 68d72cf78 plus the sys_reset extraction repair documented in docs/SYS_RESET_EXTRACTION_GAP.md. Generated report: scratch/ci_report_sys_reset_restored/report.json; CI provenance pending publication."
+  "report_evidence": "Green CI run 37333637624, artifact SLUS_006.62_report; local copy scratch/ci_report_sys_reset_published/report.json. Report includes restored sys_reset code and data. Inventory classification does not itself change report credit."
 }

@@ -56,3 +56,8 @@ contains 11,675 functions, of which 11,628 receive semantic-C credit; all
 three restored entries are present. Code coverage is 3,532,448 / 3,558,868
 bytes (99.25763%). This coverage measure does not substitute for the
 weighted Levenshtein score used to accept C candidates.
+
+The published CI run [37333637624](https://github.com/khasinski/parasite-eve-decomp/actions/runs/37333637624)
+on commit 48a5cd21c995a17752f5d2039478d62d00e96b39 passed. Its
+SLUS_006.62_report artifact confirms the counts above. This is the current
+inventory report provenance, replacing the pre-extraction baseline.
