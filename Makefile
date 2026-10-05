@@ -61,7 +61,7 @@ OBJS := $(ASM_OBJS) $(C_OBJS)
 C_DEPS := $(C_OBJS:.o=.o.d)
 -include $(C_DEPS)
 
-.PHONY: expected objdiff-config progress-audit report report-audit all build check check-sources source-policy-check ci verify verify-clean clean diff distclean overlay-build overlay-build-all overlay-check overlay-check-all overlay-clean overlay-extract overlay-permuter-scratch overlay-split permute progress debt debt-check debt-baseline organization-check organization-baseline test drop-pins drop-barriers drop-aliases split split-if-needed tools
+.PHONY: expected objdiff-config progress-audit report report-audit all build check check-sources source-policy-check ci verify verify-clean clean diff distclean overlay-build overlay-build-all overlay-check overlay-check-all overlay-clean overlay-extract overlay-permuter-scratch overlay-split permute progress debt debt-check debt-baseline organization-check organization-baseline test drop-pins drop-barriers drop-aliases shift-audit shift-test split split-if-needed tools
 
 all: verify
 
@@ -175,6 +175,13 @@ drop-barriers:
 	@$(PY) tools/scripts/try_drop_barriers.py $(FILE)
 drop-aliases:
 	@$(PY) tools/scripts/try_drop_externs.py $(FILE)
+
+# Shiftability (docs/CODE_ORGANIZATION.md): inventory of fixed addresses and
+# the padded-relink comparison. Both read the existing build only.
+shift-audit:
+	@$(PY) tools/scripts/shift_audit.py
+shift-test:
+	@$(PY) tools/scripts/shift_test.py $(if $(PAD),--pad $(PAD),)
 
 # Disassemble the retail binaries into objdiff's target objects. This is a
 # fresh second split against an empty source tree - never a copy of our own
