@@ -1,4 +1,9 @@
-# Functions not credited as matched C (audit 2026-10-04)
+# Historical unmatched-function worklist (audit 2026-10-04)
+
+This is a historical worklist, not a current progress report. Several rows and
+summary counts predate promotions (including functions now present in src/).
+Use the current manifests and a freshly audited objdiff report for current
+coverage; do not choose work solely from an old candidate path here.
 
 Source: `make report` (build/USA/report.json) on origin/main c687b258c minus what this
 audit branch matched (see the last section); every function whose objdiff
@@ -29,7 +34,6 @@ Category notes:
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
 | main | Battle_BuildStatusPrimHeader | 1548 |  |
-| main | Battle_StepVictory | 1616 |  |
 | main | Battle_StepPostBattle | 1712 |  |
 | main | Battle_DrawEnemyHP | 1712 |  |
 | main | Battle_DrawActiveStatus | 1732 |  |
@@ -165,3 +169,4 @@ The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA1
 | main | Render_SetupColorTable | 644 | score 0 and whole-main byte-match with stock GCC/MASPSX; shared textbox rectangle; five pins and three empty barriers recorded in debt |
 | main | func_800CEE20 | 1420 | score 0 and whole-main byte-match with stock GCC/MASPSX; matrix loads and depth scaling/stores in C, individual GTE/nop macros; 15 pins and 11 empty barriers |
 | main | func_800D3BC8 | 924 | score 0 and whole-main byte-match with stock GCC/MASPSX; CPU-side matrix/depth work in C; six pins, four empty barriers, five volatile stack arguments and three nops |
+| main | Battle_StepVictory | 1616 | score 0, whole-main byte-match and exact 32-byte jump table with stock GCC/MASPSX; shared entity/model/combatant types; nine pins and one empty barrier |
