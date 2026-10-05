@@ -80,7 +80,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s16 temp_v1_4;
     s16 var_v0;
     int spread;
-    int ringRadius;
+    register s32 ringRadius asm("$17");
     u16 *paletteTable;
     register u16 *pageSelector asm("$18");
     register RenderEffectParameters *renderParams asm("$17");
