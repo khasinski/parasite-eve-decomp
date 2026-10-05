@@ -2,6 +2,7 @@
 #define PE1_ROOM_FX_H
 
 #include "common.h"
+#include "pe1/field_ring_geometry.h"
 
 /* Common room-overlay sprite effect data used by m137-family rooms. */
 typedef struct RoomSpriteMatrix {
@@ -351,20 +352,7 @@ typedef struct RoomFxDriftState {
     unsigned short counter16;
 } RoomFxDriftState;
 
-/* Parameters consumed by func_800C4E50 for the paired room/scene effect. */
-typedef struct RoomFxEmitterParams {
-    void *source;
-    unsigned char color0[3];
-    unsigned char pad07;
-    unsigned char color1[3];
-    unsigned char pad0B;
-    short mode;
-    short extent0;
-    short extent1;
-    short offset;
-    short intensity;
-    short pad16;
-} RoomFxEmitterParams;
+/* Paired room emitters use the shared FieldRingGeometry storage. */
 
 typedef struct RoomFxPairedEmitterState {
     unsigned char header[8];

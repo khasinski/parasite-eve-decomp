@@ -8377,10 +8377,11 @@ by `make verify` passes, and the complete `main.exe` is byte-identical to retail
 ### Field-engine ring geometry
 
 `func_800C4E50` and `func_800C4FC4` now share
-`src/main/engine/FieldEng_RingGeometryFlow.c`. The first routine fills the
-outer ring at `points[0..count)` and the inner ring at
-`points[count..2*count)` using the named `outerRadius` and `innerRadius` fields;
-the renderer consumes those pairs and uses the shared color, depth and
-brightness fields. `FieldRingGeometry` asserts the retail offsets through its
-0x18-byte record size. Both routines use the same `--expand-div` profile, and
-the complete `0x6E8`-byte text range matches after `make verify-clean`.
+`src/main/engine/FieldEng_RingGeometryFlow.c`. The builder uses `mode` as the
+point count, writes the `extent1` outer ring first, then writes the `extent0`
+inner ring into the same `source` buffer. The renderer consumes those pairs;
+`color1`/`color0`, `intensity` and `offset` supply its colors, brightness and
+ordering-table depth. `FieldRingGeometry` is also the overlay
+`RoomFxEmitterParams` type, and asserts the retail offsets through its 0x18-byte
+size. Both routines use `--expand-div`; the complete `0x6E8`-byte text range
+matches after `make verify-clean`.

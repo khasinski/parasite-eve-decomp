@@ -22,20 +22,20 @@ void func_800C4E50(FieldRingGeometry *data) {
     data_s3 = data;
     asm("" : "=r"(data_s3) : "0"(data_s3));
     angle = 0;
-    step = 0x1000 / data_s3->count;
-    verts = (char *)data_s3->points;
+    step = 0x1000 / data_s3->mode;
+    verts = (char *)data_s3->source;
 
-    for (i = 0; i < data_s3->count; i++, verts += 8) {
-        *(s16 *)(verts + 0) = (rsin(angle) * data_s3->outerRadius) >> 12;
-        *(s16 *)(verts + 2) = (rcos(angle) * data_s3->outerRadius) >> 12;
+    for (i = 0; i < data_s3->mode; i++, verts += 8) {
+        *(s16 *)(verts + 0) = (rsin(angle) * data_s3->extent1) >> 12;
+        *(s16 *)(verts + 2) = (rcos(angle) * data_s3->extent1) >> 12;
         *(s16 *)(verts + 4) = 0;
         angle += step;
     }
 
     angle = 0;
-    for (i = 0; i < data_s3->count; i++, verts += 8) {
-        *(s16 *)(verts + 0) = (rsin(angle) * data_s3->innerRadius) >> 12;
-        *(s16 *)(verts + 2) = (rcos(angle) * data_s3->innerRadius) >> 12;
+    for (i = 0; i < data_s3->mode; i++, verts += 8) {
+        *(s16 *)(verts + 0) = (rsin(angle) * data_s3->extent0) >> 12;
+        *(s16 *)(verts + 2) = (rcos(angle) * data_s3->extent0) >> 12;
         *(s16 *)(verts + 4) = 0;
         angle += step;
     }
@@ -234,23 +234,23 @@ void func_800C4FC4(FieldShadedRing *ring, GteMatrix *placement, u8 mode)
         gte_ctc2_6(wordB);
         gte_ctc2_7(wordC);
     }
-    func_800C608C(ring->brightness, ring->outerRgb, outer);
-    func_800C608C(ring->brightness, ring->innerRgb, inner);
+    func_800C608C(ring->intensity, ring->color1, outer);
+    func_800C608C(ring->intensity, ring->color0, inner);
     /* GCC 2.7.2 allocation debt: five input references keep ring in s1
      * without a hard pin that would reorder the prologue. Fewer references
      * change the allocation; this barrier emits no instructions. */
     asm("" : : "r"(ring), "r"(ring), "r"(ring), "r"(ring), "r"(ring));
-    points = ring->points;
-    for (i = 0; i < ring->count; i++) {
+    points = ring->source;
+    for (i = 0; i < ring->mode; i++) {
         packet = (FieldRingPacket *)(D_800B0E58[D_8009CDDC] + D_8009CDD8);
         D_8009CDD8 += sizeof(FieldRingPacket);
         drawMode = D_800B0E58[D_8009CDDC] + D_8009CDD8;
         D_8009CDD8 += 8;
         SetDrawMode(drawMode, 0, 0, (D_800E224C & 3) << 5);
-        next = (i + 1) % ring->count;
+        next = (i + 1) % ring->mode;
         a = i;
-        c = ring->count + i;
-        d = ring->count + next;
+        c = ring->mode + i;
+        d = ring->mode + next;
         D_800F33B4->depth = RotTransPers4(&points[a], &points[next], &points[c],
                                           &points[d], &packet->x0, &packet->x1,
                                           &packet->x2, &packet->x3, &p, &flag);
@@ -268,11 +268,11 @@ void func_800C4FC4(FieldShadedRing *ring, GteMatrix *placement, u8 mode)
         } else {
             packet->c0.rgb[3] = packet->c0.rgb[3] & ~2;
         }
-        packet->tag.address = RING_OT(D_800F33B4->depth + ring->depth)->address;
+        packet->tag.address = RING_OT(D_800F33B4->depth + ring->offset)->address;
         link.tag = &packet->tag;
-        RING_OT(D_800F33B4->depth + ring->depth)->address = link.word;
+        RING_OT(D_800F33B4->depth + ring->offset)->address = link.word;
         link.bytes = drawMode;
-        link.tag->address = RING_OT(D_800F33B4->depth + ring->depth)->address;
-        RING_OT(D_800F33B4->depth + ring->depth)->address = link.word;
+        link.tag->address = RING_OT(D_800F33B4->depth + ring->offset)->address;
+        RING_OT(D_800F33B4->depth + ring->offset)->address = link.word;
     }
 }
