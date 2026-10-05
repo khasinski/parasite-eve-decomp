@@ -1,4 +1,5 @@
 #include "pe1/render_lighting.h"
+#include "pe1/task_global_state.h"
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
@@ -28,17 +29,12 @@ extern u8 *D2F0_render4[] __asm__("D_8009D2F0");
 extern u8 *D2F0_render5[] __asm__("D_8009D2F0");
 extern u8 *D2F0_flags[] __asm__("D_8009D2F0");
 extern u8 *D2F0_redraw[] __asm__("D_8009D2F0");
-typedef struct GlobalIntSlot {
-    int value;
-    u8 pad[8];
-} GlobalIntSlot;
-
-extern GlobalIntSlot CDDC_draw0 __asm__("D_8009CDDC");
-extern GlobalIntSlot CDDC_toggle0_load __asm__("D_8009CDDC");
-extern GlobalIntSlot CDDC_toggle0_store __asm__("D_8009CDDC");
-extern GlobalIntSlot CDDC_draw1 __asm__("D_8009CDDC");
-extern GlobalIntSlot CDDC_toggle1_load __asm__("D_8009CDDC");
-extern GlobalIntSlot CDDC_toggle1_store __asm__("D_8009CDDC");
+extern Pe1TaskGlobalWordSlot CDDC_draw0 __asm__("D_8009CDDC");
+extern Pe1TaskGlobalWordSlot CDDC_toggle0_load __asm__("D_8009CDDC");
+extern Pe1TaskGlobalWordSlot CDDC_toggle0_store __asm__("D_8009CDDC");
+extern Pe1TaskGlobalWordSlot CDDC_draw1 __asm__("D_8009CDDC");
+extern Pe1TaskGlobalWordSlot CDDC_toggle1_load __asm__("D_8009CDDC");
+extern Pe1TaskGlobalWordSlot CDDC_toggle1_store __asm__("D_8009CDDC");
 extern int *D_8009CE00;
 extern u8 *D_8009D300;
 extern u32 D_800B89F8[];
@@ -129,19 +125,19 @@ int Task_SetGteMatrix(int **args) {
     Render_TransformSkinnedVertices(D2F0_render3[0] + 0x1B4, D_800B89F8);
     Render_DrawObject(D2F0_render4[0] + 0x1B4, D_800BEA40.words);
     Render_UpdateClutTable(D2F0_render5[0] + 0x1B4, 1,
-                           (s16)CDDC_draw0.value);
+                           (s16)CDDC_draw0.value.signed_value);
 
     flags = U32_AT(flag_actor = D2F0_flags[0], 0x98);
     if ((flags & 0x10000000) != 0) {
-        first_draw_slot = CDDC_toggle0_load.value;
+        first_draw_slot = CDDC_toggle0_load.value.signed_value;
         first_draw_slot ^= 1;
-        CDDC_toggle0_store.value = first_draw_slot;
+        CDDC_toggle0_store.value.signed_value = first_draw_slot;
         Render_DrawObject(flag_actor + 0x1B4, D_800BEA40.words);
         Render_UpdateClutTable(D2F0_redraw[0] + 0x1B4, 1,
-                               (s16)CDDC_draw1.value);
-        second_draw_slot = CDDC_toggle1_load.value;
+                               (s16)CDDC_draw1.value.signed_value);
+        second_draw_slot = CDDC_toggle1_load.value.signed_value;
         second_draw_slot ^= 1;
-        CDDC_toggle1_store.value = second_draw_slot;
+        CDDC_toggle1_store.value.signed_value = second_draw_slot;
         goto success;
     }
     if ((flags & 0x08000000) == 0) {
