@@ -3,18 +3,6 @@
 /* CC1_FLAGS: -G8 -fno-schedule-insns */
 /* MASPSX_FLAGS: -G8 --expand-div */
 
-typedef struct ColorQuadPrim {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    u16 x0, y0;
-    u8 r1, g1, b1, pad1;
-    u16 x1, y1;
-    u8 r2, g2, b2, pad2;
-    u16 x2, y2;
-    u8 r3, g3, b3, pad3;
-    u16 x3, y3;
-} ColorQuadPrim;
-
 typedef RenderDrawModePacket DrawModePrim;
 typedef RenderColorTilePacket ColorTilePrim;
 
@@ -32,9 +20,9 @@ void SetDrawMode(char *packet, int drawTexture, int dither, int tpage);
 void Draw_AllocColorQuad(int width, int height) {
     int w = width;
     int h = height;
-    register ColorQuadPrim *first asm("$17");
-    register ColorQuadPrim *packet asm("$10");
-    ColorQuadPrim *second;
+    register RenderGouraudQuad *first asm("$17");
+    register RenderGouraudQuad *packet asm("$10");
+    RenderGouraudQuad *second;
     register ColorTilePrim *tile asm("$16");
     register DrawModePrim *drawMode asm("$17");
     int stackPad[2];
@@ -76,10 +64,10 @@ void Draw_AllocColorQuad(int width, int height) {
     first = 0;
     shadeOffset = Battle_GetStateFlag1() == 0 ? 7 : 0;
     old = D_8009D100;
-    next = old + sizeof(ColorQuadPrim);
+    next = old + sizeof(RenderGouraudQuad);
     if (next >= D_8009D104 + 0x4000) goto first_fail;
     D_8009D100 = next;
-    first = (ColorQuadPrim *)old;
+    first = (RenderGouraudQuad *)old;
     goto first_done;
 first_fail:
     BoundsCheck_AssertStub(1);
@@ -144,10 +132,10 @@ ratio_done:
     *ot = linkHigh | ((u32)packet & mask24);
 
     second = 0;
-    next = old + sizeof(ColorQuadPrim);
+    next = old + sizeof(RenderGouraudQuad);
     if (next >= D_8009D104 + 0x4000) goto second_fail;
     D_8009D100 = next;
-    second = (ColorQuadPrim *)old;
+    second = (RenderGouraudQuad *)old;
     goto second_done;
 second_fail:
     BoundsCheck_AssertStub(1);

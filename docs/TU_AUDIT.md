@@ -363,8 +363,11 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 `RenderColorTilePacket` and `RenderDrawModePacket` in `pe1/render_prim.h` now
 replace duplicate local declarations in `Draw_AllocColorQuad` and
-`Draw_AllocColorTri`. Their 16-byte tile and 8-byte draw-mode layouts are
-asserted in the shared header; the retail EXE SHA-1 remains unchanged.
+`Draw_AllocColorTri`. `Draw_AllocColorQuad` also uses the shared
+`RenderGouraudQuad` instead of its local `ColorQuadPrim`; its vertex offsets
+are asserted, and the signed-coordinate view retains the retail `0x24`-byte
+packet code exactly. Their packet sizes and offsets are guarded in the shared
+header; the retail EXE SHA-1 remains unchanged.
 
 ## GTE matrix word layout
 

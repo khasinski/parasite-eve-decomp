@@ -51,6 +51,14 @@ typedef struct RenderGouraudQuad {
 } RenderGouraudQuad;
 
 PE1_STATIC_ASSERT(sizeof(RenderGouraudQuad) == 0x24, render_gouraud_quad_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderGouraudQuad, x0) == 0x08,
+                  render_gouraud_quad_first_vertex);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderGouraudQuad, x1) == 0x10,
+                  render_gouraud_quad_second_vertex);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderGouraudQuad, x2) == 0x18,
+                  render_gouraud_quad_third_vertex);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RenderGouraudQuad, x3) == 0x20,
+                  render_gouraud_quad_fourth_vertex);
 
 typedef struct RenderDrawModePacket {
     u32 tag;
