@@ -2,17 +2,41 @@
 #include "pe1/room_fx.h"
 #include "pe1/render_object.h"
 
+/* Matching debt: three transfer-register pins per function, plus five empty
+ * pointer/memory barriers across this TU. Matrix loads are C; each GTE
+ * instruction and hazard nop uses its individual macro. */
+
 void FieldEng_TransformMatrixPoint(RoomFxTransformOwner *owner, int index,
                                   const GteShortVector *input, GteShortVector *output) {
+    register u32 a asm("$12");
+    register u32 b asm("$13");
+    register u32 c asm("$14");
+    GteMatrixWords *translation;
     GteVector result;
     GteMatrixWords *matrix = (GteMatrixWords *)&owner->transforms[index];
     GteMatrixWords untranslated;
 
-    gte_ldrotmatrix(matrix);
+    a = matrix->r11_r12;
+    b = matrix->r13_r21;
+    gte_ctc2_0(a);
+    gte_ctc2_1(b);
+    a = matrix->r22_r23;
+    b = matrix->r31_r32;
+    c = matrix->r33_pad;
+    gte_ctc2_2(a);
+    gte_ctc2_3(b);
+    gte_ctc2_4(c);
     untranslated.tz = 0;
     untranslated.ty = 0;
     untranslated.tx = 0;
-    gte_ldtransmatrix(&untranslated);
+    translation = &untranslated;
+    asm volatile("" : "=r"(translation) : "0"(translation) : "memory");
+    a = translation->tx;
+    b = translation->ty;
+    gte_ctc2_5(a);
+    c = translation->tz;
+    gte_ctc2_6(b);
+    gte_ctc2_7(c);
 
     gte_lwc2_0_0(input);
     gte_lwc2_1_4(input);
@@ -33,6 +57,10 @@ void func_800CE9D4(RoomFxTransformOwner *owner, int index, GteShortVector *out)
 {
     GteShortVector direction = D_800C2258;
     GteShortVector origin = D_800C2260;
+    register u32 a asm("$12");
+    register u32 b asm("$13");
+    register u32 c asm("$14");
+    GteMatrixWords *translation;
     GteVector result;
     GteMatrixWords local;
     GteMatrixWords *matrix;
@@ -40,9 +68,26 @@ void func_800CE9D4(RoomFxTransformOwner *owner, int index, GteShortVector *out)
     GteShortVector *from = &origin;
 
     matrix = (GteMatrixWords *)&owner->transforms[index];
-    gte_ldrotmatrix(matrix);
+    asm volatile("" : : : "memory");
+    a = matrix->r11_r12;
+    b = matrix->r13_r21;
+    gte_ctc2_0(a);
+    gte_ctc2_1(b);
+    a = matrix->r22_r23;
+    b = matrix->r31_r32;
+    c = matrix->r33_pad;
+    gte_ctc2_2(a);
+    gte_ctc2_3(b);
+    gte_ctc2_4(c);
     local.tx = local.ty = local.tz = 0;
-    gte_ldtransmatrix(&local);
+    translation = &local;
+    asm volatile("" : "=r"(translation) : "0"(translation) : "memory");
+    a = translation->tx;
+    b = translation->ty;
+    gte_ctc2_5(a);
+    c = translation->tz;
+    gte_ctc2_6(b);
+    gte_ctc2_7(c);
     gte_lwc2_0_0(vector);
     gte_lwc2_1_4(vector);
     gte_cop2_hazard_slot();
@@ -59,14 +104,35 @@ void func_800CE9D4(RoomFxTransformOwner *owner, int index, GteShortVector *out)
 
 void FieldEng_RotateVector(const GteMatrixWords *matrix,
                            const GteShortVector *input, GteShortVector *output) {
+    register u32 a asm("$12");
+    register u32 b asm("$13");
+    register u32 c asm("$14");
+    GteMatrixWords *translation;
     GteVector result;
     GteMatrixWords untranslated;
 
     untranslated.tz = 0;
     untranslated.ty = 0;
     untranslated.tx = 0;
-    gte_ldrotmatrix(matrix);
-    gte_ldtransmatrix(&untranslated);
+    asm volatile("" : : : "memory");
+    a = matrix->r11_r12;
+    b = matrix->r13_r21;
+    gte_ctc2_0(a);
+    gte_ctc2_1(b);
+    a = matrix->r22_r23;
+    b = matrix->r31_r32;
+    c = matrix->r33_pad;
+    gte_ctc2_2(a);
+    gte_ctc2_3(b);
+    gte_ctc2_4(c);
+    translation = &untranslated;
+    asm volatile("" : "=r"(translation) : "0"(translation) : "memory");
+    a = translation->tx;
+    b = translation->ty;
+    gte_ctc2_5(a);
+    c = translation->tz;
+    gte_ctc2_6(b);
+    gte_ctc2_7(c);
 
     gte_lwc2_0_0(input);
     gte_lwc2_1_4(input);
