@@ -245,6 +245,19 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Aya battle save and equipment restore
+
+`Battle_AyaEquipStateFlow.c` keeps `Battle_SaveAyaState` and
+`Battle_InitEquipLists` together and now has no inline asm, barriers or
+volatile, so both functions count as semantic C. The save routine copies
+the rodata defaults into three typed locals before storing them, which
+keeps retail's order on its own. `D_800B8A88` and `D_800B8A8C` turned out
+to be the `action` and `attributes` pointers at 0x68 and 0x6C of
+`g_AyaBattleState`. Because that record is larger than the gp threshold,
+plain field access is absolute as in retail. The gp-relative first word of
+`g_BattleEquipStateBlock` uses the existing `--use-comm-section` and
+`MASPSX_FORCE_G0` convention.
+
 ### Battle status pointer primitives
 
 `Battle_BuildStatusPrimHeader` builds the rotating target pointer and the
