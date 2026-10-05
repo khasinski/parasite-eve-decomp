@@ -48,7 +48,7 @@ s32 func_801940B0(int mode, void *effect) {
     int tpage;
     int clut;
     s16 impactY;
-    register int historyCount asm("$5");
+    int historyCount;
     void *historyPosition;
     char *historySample;
     s16 *spriteFrame;
