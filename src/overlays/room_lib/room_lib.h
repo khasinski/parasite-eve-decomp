@@ -7,25 +7,12 @@
 #include "../../../include/pe1/gte.h"
 #include "../../../include/pe1/room_fx.h"
 #include "../../../include/pe1/field_script_context.h"
+#include "../../../include/pe1/room_particle_state.h"
 
 typedef struct RoomObj {
     char pad0[0xC];
     void (*callback)(void);
 } RoomObj;
-
-/* 20-byte effect record allocated by the room particle handlers. */
-typedef struct RoomParticleState {
-    short x;                      /* 0x00 */
-    short y;                      /* 0x02 */
-    short z;                      /* 0x04 */
-    short size;                   /* 0x06 */
-    short vx;                     /* 0x08 */
-    short vy;                     /* 0x0A */
-    short vz;                     /* 0x0C */
-    short angle;                  /* 0x0E */
-    short state;                  /* 0x10 */
-    short timer;                  /* 0x12 */
-} RoomParticleState;
 
 /* Parameters read by the matching room particle emitter handlers. */
 typedef struct RoomParticleEmitter {

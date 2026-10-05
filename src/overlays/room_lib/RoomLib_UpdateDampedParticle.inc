@@ -1,18 +1,8 @@
 #include "common.h"
 #include "pe1/room_fx.h"
+#include "pe1/room_particle_state.h"
 
-typedef struct RoomDampedParticleState {
-    short x;
-    short y;
-    short z;
-    short size;
-    short vx;
-    short vy;
-    short vz;
-    short angle;
-    short state;
-    short timer;
-} RoomDampedParticleState;
+typedef RoomParticleState RoomDampedParticleState;
 
 extern RoomFxSeed8 ROOMLIB_DAMPED_PARTICLE_SEED;
 extern char ROOMLIB_DAMPED_PARTICLE_TABLE;
