@@ -12,7 +12,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
-CASES = [('src/main/pad/SetInitPadFlag.c',
+CASES = [('src/main/psyq/libapi/SetInitPadFlag.c',
   12,
   'ca0784dda126a1b868badf58f4bd44bd84e74b24a56a401ce8b0a61727f7dfe6',
   'g_InitPadFlag = 0x8009B4AC;\n'
