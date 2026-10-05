@@ -164,6 +164,17 @@ int rsin(int angle);
     asm volatile("lwc2 $10,4(%0)" : : "r"(ptr) : "memory")
 #define gte_lwc2_11_8(ptr) \
     asm volatile("lwc2 $11,8(%0)" : : "r"(ptr) : "memory")
+/* IR vector loads with precise read operands, preserving unrelated locals. */
+#define gte_ldir1_precise(ptr) \
+    asm volatile("lwc2 $9,0(%0)" : : "r"(ptr), \
+                 "m"(*(const s32 *)((const u8 *)(ptr) + 0)))
+#define gte_ldir2_precise(ptr) \
+    asm volatile("lwc2 $10,4(%0)" : : "r"(ptr), \
+                 "m"(*(const s32 *)((const u8 *)(ptr) + 4)))
+#define gte_ldir3_precise(ptr) \
+    asm volatile("lwc2 $11,8(%0)" : : "r"(ptr), \
+                 "m"(*(const s32 *)((const u8 *)(ptr) + 8)))
+
 #define gte_op_sf12_command() \
     asm volatile(".word 0x4B78000C")
 
