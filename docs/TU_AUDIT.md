@@ -198,6 +198,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 | Layout | Evidence and use |
 | --- | --- |
+| `RoomOverlay024Variant38SetupState` | Five room overlays duplicate the same setup view of the 0x34-byte Variant 38 actor state. The named fields and offset assertions now live beside the other Overlay 024 views in `RoomLib_Overlay024.h`; each `func_801903A8` initializer uses this common layout, and all five overlay images retain their retail SHA-1. |
 | `BattleEnemySlot` at `D_800A5D58` | `Save_InitSystem` clears the `active` word for the same seven `0xDC`-byte records declared in `battle_runtime.h`; the battle view places `EnemyCombatant` at `+4`. Reusing the asserted `BattleEnemySlot` layout removes the save-local padded alias, and `Save_InitSystem` remains byte-identical. |
 | `BattleInitSlot` at `D_800BE830` | `Battle_Init` clears the 45 slots through `BattleInitSlot`, the same eight-byte actor/halfword record used by battle turn setup and queue processing. The former save-initializer-style word/state/timer view is removed; the byte-oriented phase-flow consumer now derives its view from the typed base, the field offsets are asserted, and the initializer remains byte-identical. |
 | `SceneFlagRecord` | `Entity_IntegratePositionFull` passes the `D_800943C0` callback-table entries to `Scene_CheckFlagBits`, which reads three mask/flag words and invokes the callback at `+0x0C`. The record and function interface now share `scene_flags.h`; size and callback offset are asserted, and both caller and callee remain byte-identical. |
