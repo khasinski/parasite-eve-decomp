@@ -83,7 +83,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     u16 *paletteTable;
     u16 *pageSelector;
     RenderEffectParameters *renderParams;
-    RenderMatrixSlot *matrixSlot;
+    register RenderMatrixSlot *matrixSlot asm("$2");
     register const u32 *matrix asm("$9");
     register u32 w0 asm("$12");
     register u32 w1 asm("$13");
@@ -93,7 +93,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s32 temp_s2;
     s32 verticalScale;
     s32 radialScale;
-    s32 phase;
+    register s32 phase asm("$22");
     s32 temp_v0_11;
     s32 temp_v0_12;
     s32 temp_v0_13;
@@ -307,10 +307,10 @@ block_31:
                 intensity = (s32) (temp_v0_6 + 0x1F) >> 5;
             }
             D_800F3368.parameter00 = 0x40;
-            D_800F336A = 4;
-            D_800F3376 = 0x40;
-            D_800F3378 = 0x40;
             D_800F336C = 3;
+            D_800F3378 = 0x40;
+            D_800F3376 = 0x40;
+            D_800F336A = 4;
             D_800F336E = 1;
             D_800F3370 = D_800E2850[D_800E11FA[0]];
             if (D_800E27EC & 1) {
@@ -328,8 +328,8 @@ block_31:
         case 1:                                     /* switch 2 */
             phase = effect->timer << 6;
             intensity = 0x80;
-            D_800F336A = 4;
             D_800F3368.parameter00 = 0x40;
+            D_800F336A = 4;
             D_800F3376 = 0x40;
             D_800F336C = 3;
             D_800F3378 = 0x40;
