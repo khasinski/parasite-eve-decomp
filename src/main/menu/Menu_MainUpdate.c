@@ -1,16 +1,11 @@
+#include "common.h"
+
 /* CC1_FLAGS: -g3 -G1 */
 /* MASPSX_FLAGS: --expand-div -G1 */
 
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
-typedef long long s64;
-
 #define NULL ((void *)0)
 
+#include "pe1/battle.h"
 #include <m2c_macros.h>
 
 M2C_UNK MenuWidget_InitPool();                      /* extern */
@@ -51,7 +46,7 @@ extern void *D_8009D20C;
 extern u8 D_8009D234[];
 extern s8 D_8009D244[];
 extern void *D_8009D254;
-extern void *D_8009D278;
+extern Combatant *D_8009D278;
 extern s32 D_8009D28C;
 extern s32 D_8009D2E8;
 extern s32 D_8009D2FC;
@@ -213,8 +208,8 @@ void Menu_MainUpdate(s32 arg0) {
                 if (temp_v0_2 < 0x1999) {
                     M2C_FIELD(temp_a1_2, s32 *, 0x2C) = 0x1999;
                 }
-                temp_v0_3 = M2C_FIELD(D_8009D278, s32 *, 8) + M2C_FIELD(temp_a1_2, s32 *, 0x2C);
-                M2C_FIELD(D_8009D278, s32 *, 8) = temp_v0_3;
+                temp_v0_3 = D_8009D278->exp_or_acc + M2C_FIELD(temp_a1_2, s32 *, 0x2C);
+                D_8009D278->exp_or_acc = temp_v0_3;
                 if (temp_v0_3 >= M2C_FIELD(temp_a1_2, s32 *, 0x28)) {
                     volatile s32 *callback;
 
@@ -255,8 +250,8 @@ block_28:
         D_8009D2E8 = var_v0_2;
     }
 block_after_d2e8:
-    if (M2C_FIELD(D_8009D278, s32 *, 8) < 0) {
-        M2C_FIELD(D_8009D278, s32 *, 8) = 0;
+    if (D_8009D278->exp_or_acc < 0) {
+        D_8009D278->exp_or_acc = 0;
     }
     if (*temp_s2 & 0x2000) {
         var_v1 = D_8009D1E8 & 3;
@@ -513,10 +508,10 @@ block_40:
 block_57:
                     *(&D_800B014E[0] + ((var_v0_4 * 9) * 8)) = var_a0_2;
                 }
-                if (M2C_FIELD(D_8009D278, s32 *, 8) < M2C_FIELD(D_8009D278, s32 *, 0x28)) {
-                    M2C_FIELD(D_8009D278, s32 *, 0x34) = 0;
+                if (D_8009D278->exp_or_acc < D_8009D278->maxAtk) {
+                    D_8009D278->atbGauge = 0;
                 }
-                if (M2C_FIELD(D_8009D278, s32 *, 0x34) == 0) {
+                if (D_8009D278->atbGauge == 0) {
                     goto block_61;
                 }
             } else {
@@ -750,7 +745,8 @@ block_61:
         Entity_UpdateTimers();
     }
     if (M2C_FIELD(D_8009D278, u8 *, 0x56) != 0) {
-        Battle_DrawStatusPanel(0, (struct BattleStatusPanel *)(D_8009D278 + 0x50));
+        Battle_DrawStatusPanel(0,
+                               (struct BattleStatusPanel *)&D_8009D278->panelA_val);
         M2C_FIELD(D_8009D278, u8 *, 0x56) = (u8) (M2C_FIELD(D_8009D278, u8 *, 0x56) - 1);
     }
     {
@@ -789,7 +785,7 @@ block_61:
         Battle_DrawStatusPanel(0, (struct BattleStatusPanel *)(temp_a1_2 + 0x60));
         M2C_FIELD(D_8009D278, u8 *, 0x66) = (u8) (M2C_FIELD(D_8009D278, u8 *, 0x66) - 1);
     }
-    temp_a0_4 = M2C_FIELD(D_8009D278, s32 *, 8);
+    temp_a0_4 = D_8009D278->exp_or_acc;
     M2C_FIELD(D_8009D278, u16 *, 0xE) = (u16) M2C_FIELD(D_8009D278, s16 *, 0xC);
     if (temp_a0_4 <= 0) {
         *temp_s2 |= 0x2000;
