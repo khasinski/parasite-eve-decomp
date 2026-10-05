@@ -13,11 +13,12 @@ import yaml
 
 try:
     from source_quality import (C_STRING, FUNCTION_DEF, GAME_ASM_USE, PSYQ_ASM_USE,
-                                STACK_SWITCH_USE, classify, has_instruction_asm,
-                                strip_comments)
+                                GTE_WINDOW_USE, STACK_SWITCH_USE, classify,
+                                has_instruction_asm, strip_comments)
 except ImportError:
     from tools.scripts.source_quality import (C_STRING, FUNCTION_DEF, GAME_ASM_USE,
-                                              PSYQ_ASM_USE, STACK_SWITCH_USE, classify,
+                                              GTE_WINDOW_USE, PSYQ_ASM_USE,
+                                              STACK_SWITCH_USE, classify,
                                               has_instruction_asm, strip_comments)
 
 
@@ -349,6 +350,121 @@ def stack_switch_errors(src=SRC, configs=None, manifest_path=None, header=None):
     return errors
 
 
+# The complete instruction text of include/pe1/gte_window.h: the rotation
+# window (RT0..RT4) and the translation window (TRX..TRZ) that move the view
+# matrix into the GTE through $t4..$t6. The macros may not grow beyond these.
+GTE_WINDOW_HEADER = "include/pe1/gte_window.h"
+GTE_WINDOW_MACROS = ("GTE_LOAD_ROTATION_WINDOW", "GTE_LOAD_TRANSLATION_WINDOW")
+GTE_WINDOW_TEXT = [
+    ["lw $12,0(%0)", "lw $13,4(%0)", "ctc2 $12,$0", "ctc2 $13,$1",
+     "lw $12,8(%0)", "lw $13,12(%0)", "lw $14,16(%0)",
+     "ctc2 $12,$2", "ctc2 $13,$3", "ctc2 $14,$4"],
+    ["lw $12,20(%0)", "lw $13,24(%0)", "ctc2 $12,$5",
+     "lw $14,28(%0)", "ctc2 $13,$6", "ctc2 $14,$7"],
+]
+GTE_WINDOW_DEFINE = re.compile(r"#\s*define\s+(?:%s)\b" % "|".join(GTE_WINDOW_MACROS))
+GTE_WINDOW_KIND = re.compile(r"\bGTE_LOAD_(ROTATION|TRANSLATION)_WINDOW\s*\(")
+
+
+def module_unit(name, module, configs, yaml_ranges):
+    """(unit range or None) of src-relative `name` in `module`'s yaml."""
+    if module not in yaml_ranges:
+        config = (configs / "main.yaml" if module == "main"
+                  else configs / "overlays" / ("%s.yaml" % module))
+        yaml_ranges[module] = c_unit_ranges(config) if config.exists() else {}
+    lead = "main/" if module == "main" else "overlays/%s/" % module
+    unit = name[len(lead):].removesuffix(".c") if name.startswith(lead) else None
+    return yaml_ranges[module].get(unit)
+
+
+def gte_window_errors(src=SRC, configs=None, manifest_path=None, header=None):
+    """GTE_LOAD_ROTATION/TRANSLATION_WINDOW only in listed, evidenced functions.
+
+    Each entry under "gte_matrix_windows" names a function, its unit, its
+    retail range and its retail windows. The function uses each macro exactly
+    once per listed window and nowhere else uses them; the unit has no other
+    instruction asm (it classifies as semantic_c) and the function lies inside
+    the unit's yaml range. The header keeps exactly the two windows, nothing
+    else defines the macros, and no entry is stale. Entries under
+    "gte_matrix_windows_pending" are notes for functions that do not use the
+    macros yet and may not also be listed as users.
+    """
+    root = src.parent
+    configs = configs or root / "configs/USA"
+    manifest_path = manifest_path or configs / "original_asm_evidence.json"
+    header = header or root / GTE_WINDOW_HEADER
+    errors = []
+    manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+    entries = manifest.get("gte_matrix_windows", [])
+    if header.exists() and stack_switch_window(header.read_text()) != GTE_WINDOW_TEXT:
+        errors.append("%s no longer holds exactly the GTE matrix windows" % GTE_WINDOW_HEADER)
+    by_source = {}
+    for entry in entries:
+        label = entry.get("name", "?")
+        missing = [key for key in ("name", "module", "source", "address", "size",
+                                   "windows", "evidence", "verified_by") if not entry.get(key)]
+        if missing:
+            errors.append("gte-window entry %s lacks %s" % (label, ", ".join(missing)))
+            continue
+        by_source.setdefault(entry["source"], []).append(entry)
+    listed_names = {(entry.get("module"), entry.get("name")) for entry in entries}
+    for entry in manifest.get("gte_matrix_windows_pending", []):
+        if (entry.get("module"), entry.get("name")) in listed_names:
+            errors.append("gte-window entry %s is listed both as a user and as pending"
+                          % entry.get("name"))
+
+    for path in sorted((root / "include").rglob("*.h")):
+        if path != header and GTE_WINDOW_DEFINE.search(
+                strip_comments(path.read_text(errors="ignore"))):
+            errors.append("gte-window macro redefined outside %s: %s"
+                          % (GTE_WINDOW_HEADER, path.relative_to(root)))
+
+    used = set()
+    yaml_ranges = {}
+    allowed = frozenset(by_source)
+    for path in sorted(list(src.rglob("*.c")) + list(src.rglob("*.inc")) + list(src.rglob("*.h"))):
+        name = str(path.relative_to(src))
+        code = re.sub(C_STRING, '""', strip_comments(path.read_text(errors="ignore")))
+        if GTE_WINDOW_DEFINE.search(code):
+            errors.append("gte-window macro redefined outside %s: %s"
+                          % (GTE_WINDOW_HEADER, name))
+        uses = [(match.start(), match.group(1)) for match in GTE_WINDOW_KIND.finditer(code)]
+        if not uses:
+            continue
+        listed = by_source.get(name)
+        if not listed or path.suffix != ".c":
+            errors.append("GTE matrix window without evidence: %s" % name)
+            continue
+        used.add(name)
+        if classify(path, gte_window_allowed=allowed) != "semantic_c":
+            errors.append("gte-window unit has other instruction asm: %s" % name)
+        found = Counter((enclosing_function(code, offset) or "?", kind) for offset, kind in uses)
+        expected = Counter()
+        for entry in listed:
+            for kind in ("ROTATION", "TRANSLATION"):
+                expected[(entry["name"], kind)] += len(entry["windows"])
+        if found != expected:
+            describe = lambda counts: ", ".join(
+                "%s %s x%d" % (function, kind.lower(), count)
+                for (function, kind), count in sorted(counts.items()))
+            errors.append("%s: GTE matrix windows used as %s, evidence lists %s"
+                          % (name, describe(found), describe(expected)))
+        module = listed[0]["module"]
+        unit_range = module_unit(name, module, configs, yaml_ranges)
+        if unit_range is None:
+            errors.append("gte-window source is not a %s yaml c unit: %s" % (module, name))
+            continue
+        start, end = unit_range
+        for entry in listed:
+            address = int(entry["address"], 16)
+            if not start <= address < address + entry["size"] <= end:
+                errors.append("%s: %s 0x%08X+0x%X is outside the unit range 0x%08X..0x%08X"
+                              % (name, entry["name"], address, entry["size"], start, end))
+    for source in sorted(set(by_source) - used):
+        errors.append("gte-window evidence lists %s, which does not use the macros" % source)
+    return errors
+
+
 def main() -> int:
     errors = []
     for path in SRC.rglob("*.s"):
@@ -363,6 +479,7 @@ def main() -> int:
                            ROOT / "include" / "pe1" / "boot_stack.h",
                            ROOT / "include" / "pe1" / "game_asm.h",
                            ROOT / "include" / "pe1" / "gte.h",
+                           ROOT / "include" / "pe1" / "gte_window.h",
                            ROOT / "include" / "pe1" / "psyq_asm.h",
                            ROOT / "include" / "pe1" / "psyq_bios.h"}
     for path in (ROOT / "include").rglob("*.h"):
@@ -373,6 +490,7 @@ def main() -> int:
     errors.extend(psyq_asm_errors())
     errors.extend(original_asm_manifest_errors())
     errors.extend(stack_switch_errors())
+    errors.extend(gte_window_errors())
 
     counts = Counter(classify(path) for path in SRC.rglob("*.c"))
     if errors:

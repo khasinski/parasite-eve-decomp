@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "description": "Functions proven to be original assembler outside the main-executable PSY-Q provenance (configs/USA/psyq_provenance.json). Only these may use GAME_ASM_FUNCTION (origin game) or PSYQ_ASM_FUNCTION in an overlay (origin psyq). Each unit's yaml range must be exactly its listed functions. Policy: docs/ASM_AND_GTE_POLICY.md, 'Game-side assembler'; enforced by tools/scripts/check_source_policy.py. The separate stack_switch_macros list names the C functions that may use BOOT_CALL_ON_SCRATCHPAD_STACK (include/pe1/boot_stack.h), the only CPU asm allowed inside a C function; policy section 'Scratchpad stack switch'.",
+  "description": "Functions proven to be original assembler outside the main-executable PSY-Q provenance (configs/USA/psyq_provenance.json). Only these may use GAME_ASM_FUNCTION (origin game) or PSYQ_ASM_FUNCTION in an overlay (origin psyq). Each unit's yaml range must be exactly its listed functions. Policy: docs/ASM_AND_GTE_POLICY.md, 'Game-side assembler'; enforced by tools/scripts/check_source_policy.py. The separate stack_switch_macros list names the C functions that may use BOOT_CALL_ON_SCRATCHPAD_STACK (include/pe1/boot_stack.h), the only CPU asm allowed inside a C function; policy section 'Scratchpad stack switch'. The gte_matrix_windows list names the C functions that may use GTE_LOAD_ROTATION_WINDOW and GTE_LOAD_TRANSLATION_WINDOW (include/pe1/gte_window.h), each once per listed window; policy section 'GTE matrix window'. gte_matrix_windows_pending holds retail windows of functions that do not use the macros yet; an entry moves to gte_matrix_windows (with evidence) in the change that makes its source use them.",
   "functions": [
     {
       "name": "Math_FixedMul",
@@ -147,6 +147,22 @@
         "the rest of the function has an ordinary GCC frame (40 bytes, ra and s0..s4 saved) and matches from plain C"
       ],
       "verified_by": "agent review 2026-10-05: retail disassembly vs stock cc1 output, lev 0"
+    }
+  ],
+  "gte_matrix_windows": [],
+  "gte_matrix_windows_pending": [
+    {
+      "name": "func_80192F9C",
+      "module": "scene_e19_2",
+      "address": "0x80192F9C",
+      "size": 9472,
+      "windows": [
+        "0x801936D0..0x8019371C: la $v0,D_800BCFA4; lw $t1,0($v0); nop; lw t4,0; lw t5,4; ctc2 t4,$0; ctc2 t5,$1; lw t4,8; lw t5,12; lw t6,16; ctc2 t4,$2; ctc2 t5,$3; ctc2 t6,$4; lw t4,20; lw t5,24; ctc2 t4,$5; lw t6,28; ctc2 t5,$6; ctc2 t6,$7 (all words through $t1)",
+        "0x80193B70..0x80193BBC: la $v0,D_800BCFA4; lw $t1,0($v0); nop; lw t4,0; lw t5,4; ctc2 t4,$0; ctc2 t5,$1; lw t4,8; lw t5,12; lw t6,16; ctc2 t4,$2; ctc2 t5,$3; ctc2 t6,$4; lw t4,20; lw t5,24; ctc2 t4,$5; lw t6,28; ctc2 t5,$6; ctc2 t6,$7 (all words through $t1)",
+        "0x80193EC4..0x80193F10: la $v0,D_800BCFA4; lw $t1,0($v0); nop; lw t4,0; lw t5,4; ctc2 t4,$0; ctc2 t5,$1; lw t4,8; lw t5,12; lw t6,16; ctc2 t4,$2; ctc2 t5,$3; ctc2 t6,$4; lw t4,20; lw t5,24; ctc2 t4,$5; lw t6,28; ctc2 t5,$6; ctc2 t6,$7 (all words through $t1)",
+        "0x8019475C..0x801947AC: la $v0,D_800BCFA4; [sh $s7,0x32($sp) scheduled in] lw $t1,0($v0); nop; lw t4,0; lw t5,4; ctc2 t4,$0; ctc2 t5,$1; lw t4,8; lw t5,12; lw t6,16; ctc2 t4,$2; ctc2 t5,$3; ctc2 t6,$4; lw t4,20; lw t5,24; ctc2 t4,$5; lw t6,28; ctc2 t5,$6; ctc2 t6,$7 (all words through $t1)"
+      ],
+      "note": "placeholder: the agent landing scene_e19_2 func_80192F9C (candidates/overlays/scene_e19_func_80192F9C) adds the gte_matrix_windows entry, with source, evidence and verified_by, in the change that makes its source use GTE_LOAD_ROTATION_WINDOW/GTE_LOAD_TRANSLATION_WINDOW four times each; remove this pending entry then"
     }
   ]
 }

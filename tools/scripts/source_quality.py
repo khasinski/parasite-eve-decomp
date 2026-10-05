@@ -41,6 +41,11 @@ GAME_ASM_USE = re.compile(r'\bGAME_ASM_FUNCTION\s*\(')
 # under "stack_switch_macros" in configs/USA/original_asm_evidence.json may use
 # it; check_source_policy.py enforces the list and crutch_debt.py ratchets it.
 STACK_SWITCH_USE = re.compile(r'\bBOOT_CALL_ON_SCRATCHPAD_STACK\s*\(')
+# The GTE view-matrix transfer windows (include/pe1/gte_window.h): the CPU
+# loads and ctc2s that move the slot matrix into RT/TR. Only functions listed
+# under "gte_matrix_windows" in configs/USA/original_asm_evidence.json may use
+# them; check_source_policy.py enforces the list and crutch_debt.py ratchets it.
+GTE_WINDOW_USE = re.compile(r'\bGTE_LOAD_(?:ROTATION|TRANSLATION)_WINDOW\s*\(')
 EVIDENCE = (pathlib.Path(__file__).resolve().parents[2]
             / "configs" / "USA" / "original_asm_evidence.json")
 COP2_OP = re.compile(r'\b(?:cfc2|ctc2|lwc2|swc2|mfc2|mtc2)\b')
@@ -129,7 +134,17 @@ def stack_switch_sources(evidence: pathlib.Path = EVIDENCE) -> frozenset:
     return frozenset(entry["source"] for entry in entries if entry.get("source"))
 
 
-def classify(path: pathlib.Path, stack_switch_allowed=None) -> str:
+@functools.lru_cache(maxsize=None)
+def gte_window_sources(evidence: pathlib.Path = EVIDENCE) -> frozenset:
+    """src-relative paths of the units allowed to use the GTE matrix windows."""
+    if not evidence.exists():
+        return frozenset()
+    entries = json.loads(evidence.read_text()).get("gte_matrix_windows", [])
+    return frozenset(entry["source"] for entry in entries if entry.get("source"))
+
+
+def classify(path: pathlib.Path, stack_switch_allowed=None,
+             gte_window_allowed=None) -> str:
     text = path.read_text(errors="ignore")
     expanded = text + "\n" + included_inc_text(path, text)
     if "PSYQ_BIOS_TRAMPOLINE" in expanded or "PSYQ_BIOS_SYSCALL" in expanded:
@@ -152,6 +167,13 @@ def classify(path: pathlib.Path, stack_switch_allowed=None) -> str:
         # semantic C; anywhere else it is quarantined like any other asm.
         allowed = (stack_switch_sources() if stack_switch_allowed is None
                    else stack_switch_allowed)
+        if not any(path.as_posix().endswith("src/" + source) for source in allowed):
+            return "asm_constrained"
+    if GTE_WINDOW_USE.search(code):
+        # Same rule for the GTE matrix windows: the CPU loads live in the
+        # header, so only an evidenced user is credited as semantic C.
+        allowed = (gte_window_sources() if gte_window_allowed is None
+                   else gte_window_allowed)
         if not any(path.as_posix().endswith("src/" + source) for source in allowed):
             return "asm_constrained"
     if has_instruction_asm(expanded):
