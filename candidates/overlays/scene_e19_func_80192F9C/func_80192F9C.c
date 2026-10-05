@@ -227,7 +227,6 @@ block_161:
             func_800D1D24(2, 0x10, (s32) temp_a2);
         }
         spread = 512;
-        asm("" : "=r"(spread) : "0"(spread));
         temp_v0_31 = func_800CE610(D_800F33E0->pool);
         if (temp_v0_31 != NULL) {
             M2C_FIELD(temp_v0_31, u16 *, 0) = (u16) effect->position.x;
@@ -250,7 +249,6 @@ block_161:
     case 4:                                         /* switch 1 */
         effect->timer = (u16) effect->timer + 1;
         spread = 512;
-        asm("" : "=r"(spread) : "0"(spread));
         temp_v0_32 = func_800CE610(D_800F33E0->pool);
         if (temp_v0_32 != NULL) {
             M2C_FIELD(temp_v0_32, u16 *, 0) = (u16) effect->position.x;
@@ -531,7 +529,6 @@ block_161:
             radialScale = func_80077DC4(phase);
             temp_s2_2 = &effect->endpoint;
             temp_v1_2 = (u16) effect->origin.x;
-            sp48.x = temp_v1_2;
             temp_v0_16 = (u16) effect->origin.y;
             sp48.y = temp_v0_16;
             sp48.x = temp_v1_2 - 0x200;

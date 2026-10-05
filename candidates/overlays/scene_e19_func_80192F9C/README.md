@@ -1,15 +1,15 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **18389**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **17618**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Three register pins and four empty barriers are recorded below. There is no CPU ASM.
+Three register pins and two empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2369. These counts are descriptive, not the match metric.
+retained candidate has 2367. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -77,14 +77,11 @@ GCC to retain the address across repeated resource calls, as retail does.
 
 ### Candidate debt
 
-- Two empty tied-operand barriers, one before each particle allocation, keep
-  the spread value in a register instead of constant-folding remainder by 512.
-  They contain no CPU instruction and do not change the spread value.
 - Three pins: shared GTE transfer temporaries in t4/t5/t6. Both the matrix
   pointer and effect pointer are unpinned. No padding reserves.
-- One additional memory barrier keeps position stores before the first matrix
-  transfer block. A fourth barrier keeps the ring radius in a register;
-  together with the two divisor barriers this totals four.
+- One memory barrier keeps position stores before the first matrix transfer
+  block. One tied-operand barrier keeps the ring radius in a register.
+  The two former spread/divisor barriers have been removed.
 - `--expand-div` is an existing stock maspsx option, not an assembler patch.
 
 These are research-candidate costs, not production debt: the function is still
@@ -214,3 +211,26 @@ debt is three pins (t4/t5/t6), four empty barriers and one GPU conversion
 helper. No CPU instruction assembly was added. Removing each transfer-word
 pin from the 19144 base worsened its score (20549, 19259, 19224), so those
 remain. Omitting the ring brightness narrowing scored 18819 and was rejected.
+
+## Recheck constraints after scalar reuse
+
+A 120-second, 24-worker run in `permuter_ring/` on darwine completed 4585
+iterations (96 rejected compilations). The exact-metric adapter reproduced
+base score 18389 before searching; the best generated result scored 17998.
+Several generated improvements moved statements across control-flow branches
+or used uninitialized inputs and were rejected. Generated source was not
+copied into the retained candidate. The timed run has stopped.
+
+The useful hints were tested separately against the original source. Removing
+the two spread barriers scored 17944 (first alone 18269, second alone 18064).
+The remainder expressions remain signed C with divisor 512; these constraints
+no longer improve the whole-function score. Removing an overwritten assignment
+to sp48.x before the two endpoint draws lowers the retained score to **17618**.
+Its value was replaced before any read or intervening call. Removing the
+corresponding y assignment instead worsened that result to 17976.
+
+Current debt: three transfer-word pins, two empty barriers and one inline GPU
+conversion helper. From the 17944 intermediate, removing the memory barrier
+scored 19089 and removing the radius barrier scored 18204; both are retained.
+Named particle-prefix fields and resource/timer temporary reuse were also
+tried; they left score 18389 unchanged and remain research-only.
