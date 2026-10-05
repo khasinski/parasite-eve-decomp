@@ -3,7 +3,7 @@
 Retail: `configs/USA/overlays/scene_e19_2.yaml` `[0x0, asm, func_80192F9C]`,
 vram 0x80192F9C, 0x2500 bytes (2368 words), frame 0x330.
 
-**Current: lev LEVNOW** (`SceneE19_BlastSequence.c` + `scene_e19_blast.h`, plain C,
+**Current: lev 93** (`SceneE19_BlastSequence.c` + `scene_e19_blast.h`, plain C,
 three t4/t5/t6 transfer pins in the matrix-load macro as the only crutch).
 Score from the worktree root:
 
@@ -18,6 +18,7 @@ measuring aid: it shows what the rest of the function scores once the
 matrix windows are exact, and the allocation it produces is retail's.
 `-DPINB` adds a `$9` matrix-pointer pin, `-DPINC` the user's slot-address
 barrier on top (both inadmissible, kept for comparison only).
+Measured: admissible build lev 93, `-DLEGACY` lev 46, `-DPINC` lev 78.
 
 `func_80192F9C.c` / `scene_e19_recovered.h` are the earlier m2c-derived draft
 (nine pins, eleven barriers, two identity inline helpers; lev 169). It is
@@ -39,18 +40,18 @@ lift and spin, then restores the sprite parameter block.
 
 ## Region status (lev edits by retail offset, admissible build)
 
-| Region | Retail range | Status |
-| --- | --- | --- |
-| prologue / epilogue | 0x0, 0x24CC | exact (frame 0x330 came from `center.y -= ...`) |
-| mode 0 | 0xCC-0x220 | exact |
-| mode 1 | 0x220-0x710 | exact except branch offsets into the shared epilogue |
-| mode 2 head | 0x710-0x7C4 | matrix window only (see below) |
-| draw state 0 | 0x7C4-0x8E8 | exact |
-| draw state 1 | 0x8E8-0xCC0 | matrix window + phase register (s7 vs s6) |
-| draw state 2 | 0xCC0-0x11BC | parameter/page base registers, matrix window, phase/height |
-| draw state 3 | 0x11BC-0x1C80 | matrix window + phase/height swap (s6/s7) |
-| draw state 4 | 0x1C80-0x2440 | phase/height swap |
-| tail | 0x2440-0x24CC | exact |
+| Region | Retail range | lev edits | Status |
+| --- | --- | --- | --- |
+| prologue / epilogue | 0x0, 0x24CC | 0 | exact (frame 0x330) |
+| mode 0 | 0xCC-0x220 | 0 | exact |
+| mode 1 | 0x220-0x710 | 7 | only branch offsets into the epilogue (size is 3 words short) |
+| mode 2 head | 0x710-0x7C4 | 16 | matrix window (pointer load hoisted above the center copy) |
+| draw state 0 | 0x7C4-0x8E8 | 0 | exact |
+| draw state 1 | 0x8E8-0xCC0 | 10 | matrix window only |
+| draw state 2 | 0xCC0-0x11BC | 49 | parameter/page base registers (about 38) + matrix window |
+| draw state 3 | 0x11BC-0x1C80 | 11 | matrix window only |
+| draw state 4 | 0x1C80-0x2440 | 0 | exact |
+| tail | 0x2440-0x24CC | 0 | exact |
 
 ### Remaining causes
 
@@ -63,11 +64,7 @@ lift and spin, then restores the sprite parameter block.
    the same analysis). In the mode 2 head the folded pointer load is also
    hoisted above the three center copies (a symbol load never conflicts with
    stack stores; retail's load through the la'd register does).
-2. **phase vs height (s6/s7) in states 1-4, about 25.** Global-alloc
-   priorities (floor_log2(refs)*refs/live): height 7/115 = .122, phase
-   23/791 = .116; retail needs phase allocated before height. One reference
-   less on height or six more insns of live range would flip it.
-3. **Draw state 2 parameter block (about 40).** Retail keeps
+2. **Draw state 2 parameter block (about 40).** Retail keeps
    `&D_800F3368` in s1, `&D_800E11FA` in s2, `D_800E2850` in s0 and
    `D_800E1204` in s7 across the CEE20 call and two `if (frame & 1)` joins,
    and stores palette/parameter06/tpage through 4/6/8(s1), reads
@@ -97,4 +94,9 @@ lift and spin, then restores the sprite parameter block.
   narrowed HImode subtraction created a HI copy of height that cse reused
   for the restore (extra `move` and an extra frame slot); the in-place form
   fixed the 0x330 frame.
-- Ring z offset written in place (`ringPoint.z += cos * radius / 4096`).
+- Ring z offset written in place (`ringPoint.z += cos * radius / 4096`): 124.
+- Draw state 0 also goes through `phase = timer << 6` before its cosine
+  (every other draw state does). Combine folds the copy into a0, but flow
+  already counted the two references, which lifts phase's global-alloc
+  priority (23 -> 25 refs, .116 -> .126) above the shared height (.122), so
+  phase takes s6 and height s7 as in retail: 124 -> 93.
