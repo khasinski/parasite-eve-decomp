@@ -25,7 +25,8 @@ extern void *D_8019B688;
 extern void *D_8019B68C;
 extern void *D_8019B690;
 
-s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
+s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect_arg) {
+    register SceneE19RecoveredState *effect asm("$21") = effect_arg;
     GteShortVector sp30;
     GteShortVector sp38;                            /* compiler-managed */
     GteRotation sp40;
@@ -79,6 +80,9 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s16 var_v0;
     s32 temp_hi;
     int spread;
+    register u32 w0 asm("$12");
+    register u32 w1 asm("$13");
+    register u32 w2 asm("$14");
     s32 temp_s0;
     s32 temp_s0_10;
     s32 temp_s0_11;
@@ -329,14 +333,25 @@ block_161:
         sp30.x = (u16) effect->position.x;
         sp30.y = (s16) (u16) effect->position.y;
         sp30.z = (s16) (u16) effect->position.z;
-        gte_ctc2_0((u32) M2C_FIELD(D_800BCFA4.value, s32 *, 0));
-        gte_ctc2_1(M2C_FIELD(D_800BCFA4.value, u32 *, 4));
-        gte_ctc2_2(M2C_FIELD(D_800BCFA4.value, u32 *, 8));
-        gte_ctc2_3(M2C_FIELD(D_800BCFA4.value, u32 *, 0xC));
-        gte_ctc2_4(M2C_FIELD(D_800BCFA4.value, u32 *, 0x10));
-        gte_ctc2_5(M2C_FIELD(D_800BCFA4.value, u32 *, 0x14));
-        gte_ctc2_6(M2C_FIELD(D_800BCFA4.value, u32 *, 0x18));
-        gte_ctc2_7(M2C_FIELD(D_800BCFA4.value, u32 *, 0x1C));
+        {
+            const u32 *matrix = (const u32 *)D_800BCFA4.value;
+            w0 = matrix[0];
+            w1 = matrix[1];
+            gte_ctc2_0(w0);
+            gte_ctc2_1(w1);
+            w0 = matrix[2];
+            w1 = matrix[3];
+            w2 = matrix[4];
+            gte_ctc2_2(w0);
+            gte_ctc2_3(w1);
+            gte_ctc2_4(w2);
+            w0 = matrix[5];
+            w1 = matrix[6];
+            w2 = matrix[7];
+            gte_ctc2_5(w0);
+            gte_ctc2_6(w1);
+            gte_ctc2_7(w2);
+        }
         D_800F3372 = 0;
         D_800F3374 = 4;
         temp_v1 = effect->state;
@@ -426,14 +441,25 @@ block_161:
             func_800C6FA0(D_8019B684, 0x40U);
             func_800C71E4(D_8019B684, &sp80);
             func_800C6F4C(D_8019B684);
-            gte_ctc2_0((u32) M2C_FIELD(D_800BCFA4.value, s32 *, 0));
-            gte_ctc2_1(M2C_FIELD(D_800BCFA4.value, u32 *, 4));
-            gte_ctc2_2(M2C_FIELD(D_800BCFA4.value, u32 *, 8));
-            gte_ctc2_3(M2C_FIELD(D_800BCFA4.value, u32 *, 0xC));
-            gte_ctc2_4(M2C_FIELD(D_800BCFA4.value, u32 *, 0x10));
-            gte_ctc2_5(M2C_FIELD(D_800BCFA4.value, u32 *, 0x14));
-            gte_ctc2_6(M2C_FIELD(D_800BCFA4.value, u32 *, 0x18));
-            gte_ctc2_7(M2C_FIELD(D_800BCFA4.value, u32 *, 0x1C));
+            {
+                const u32 *matrix = (const u32 *)D_800BCFA4.value;
+                w0 = matrix[0];
+                w1 = matrix[1];
+                gte_ctc2_0(w0);
+                gte_ctc2_1(w1);
+                w0 = matrix[2];
+                w1 = matrix[3];
+                w2 = matrix[4];
+                gte_ctc2_2(w0);
+                gte_ctc2_3(w1);
+                gte_ctc2_4(w2);
+                w0 = matrix[5];
+                w1 = matrix[6];
+                w2 = matrix[7];
+                gte_ctc2_5(w0);
+                gte_ctc2_6(w1);
+                gte_ctc2_7(w2);
+            }
             func_800D004C(&sp30, 0x12C, 0x12C, 0xC, NULL, 0x1000, 0x1000, &sp50, NULL, var_s3_3, 1);
             temp_v0_9 = func_80077DC4(temp_s6);
             var_s3_4 = temp_v0_9 >> 5;
@@ -494,14 +520,25 @@ block_161:
             func_800C6FA0(D_8019B684, 0x40U);
             func_800C71E4(D_8019B684, &spC0);
             func_800C6F4C(D_8019B684);
-            gte_ctc2_0((u32) M2C_FIELD(D_800BCFA4.value, s32 *, 0));
-            gte_ctc2_1(M2C_FIELD(D_800BCFA4.value, u32 *, 4));
-            gte_ctc2_2(M2C_FIELD(D_800BCFA4.value, u32 *, 8));
-            gte_ctc2_3(M2C_FIELD(D_800BCFA4.value, u32 *, 0xC));
-            gte_ctc2_4(M2C_FIELD(D_800BCFA4.value, u32 *, 0x10));
-            gte_ctc2_5(M2C_FIELD(D_800BCFA4.value, u32 *, 0x14));
-            gte_ctc2_6(M2C_FIELD(D_800BCFA4.value, u32 *, 0x18));
-            gte_ctc2_7(M2C_FIELD(D_800BCFA4.value, u32 *, 0x1C));
+            {
+                const u32 *matrix = (const u32 *)D_800BCFA4.value;
+                w0 = matrix[0];
+                w1 = matrix[1];
+                gte_ctc2_0(w0);
+                gte_ctc2_1(w1);
+                w0 = matrix[2];
+                w1 = matrix[3];
+                w2 = matrix[4];
+                gte_ctc2_2(w0);
+                gte_ctc2_3(w1);
+                gte_ctc2_4(w2);
+                w0 = matrix[5];
+                w1 = matrix[6];
+                w2 = matrix[7];
+                gte_ctc2_5(w0);
+                gte_ctc2_6(w1);
+                gte_ctc2_7(w2);
+            }
             func_800D004C(&sp30, 0x12C, 0x12C, 0xC, NULL, 0x1000, 0x1000, &sp50, NULL, var_s3_5, 1);
             var_s3_6 = 0x80;
             if (D_800E27EC & 1) {
@@ -676,14 +713,25 @@ block_84:
             func_800C71E4(D_8019B68C, &sp150);
             func_800C6F4C(D_8019B68C);
             sp30.y = temp_s7;
-            gte_ctc2_0((u32) M2C_FIELD(D_800BCFA4.value, s32 *, 0));
-            gte_ctc2_1(M2C_FIELD(D_800BCFA4.value, u32 *, 4));
-            gte_ctc2_2(M2C_FIELD(D_800BCFA4.value, u32 *, 8));
-            gte_ctc2_3(M2C_FIELD(D_800BCFA4.value, u32 *, 0xC));
-            gte_ctc2_4(M2C_FIELD(D_800BCFA4.value, u32 *, 0x10));
-            gte_ctc2_5(M2C_FIELD(D_800BCFA4.value, u32 *, 0x14));
-            gte_ctc2_6(M2C_FIELD(D_800BCFA4.value, u32 *, 0x18));
-            gte_ctc2_7(M2C_FIELD(D_800BCFA4.value, u32 *, 0x1C));
+            {
+                const u32 *matrix = (const u32 *)D_800BCFA4.value;
+                w0 = matrix[0];
+                w1 = matrix[1];
+                gte_ctc2_0(w0);
+                gte_ctc2_1(w1);
+                w0 = matrix[2];
+                w1 = matrix[3];
+                w2 = matrix[4];
+                gte_ctc2_2(w0);
+                gte_ctc2_3(w1);
+                gte_ctc2_4(w2);
+                w0 = matrix[5];
+                w1 = matrix[6];
+                w2 = matrix[7];
+                gte_ctc2_5(w0);
+                gte_ctc2_6(w1);
+                gte_ctc2_7(w2);
+            }
             func_800D004C(&sp30, 0x9C4, 0x9C4, 0xC, NULL, 0x1000, 0x1000, &sp50, NULL, var_s3_10, 1);
             temp_s4_5 = (func_80077CF4(temp_s6_3) / 4) + 0xC00;
             temp_v0_21 = func_80077DC4(temp_s6_3);

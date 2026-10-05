@@ -1,15 +1,15 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **48132**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **40927**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-There are no register pins or CPU ASM. Two empty barriers are recorded below.
+Four register pins and two empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2396. These counts are descriptive, not the match metric.
+retained candidate has 2362. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -80,9 +80,26 @@ GCC to retain the address across repeated resource calls, as retail does.
 - Two empty tied-operand barriers, one before each particle allocation, keep
   the spread value in a register instead of constant-folding remainder by 512.
   They contain no CPU instruction and do not change the spread value.
-- No pins. No padding reserves. Individual GTE transfer macros remain.
+- Four pins: three shared GTE transfer temporaries in t4/t5/t6 and the effect
+  pointer in s5. No padding reserves. Individual GTE transfer macros remain.
 - `--expand-div` is an existing stock maspsx option, not an assembler patch.
 
 These are research-candidate costs, not production debt: the function is still
 original assembly in the build. Record them in the production ratchet if and
 when this candidate reaches zero and is integrated.
+
+## Matrix-transfer pass
+
+Grouping the C loads as two rotation words, three rotation words and three
+translation words reduces score from 48132 to 45032 without pins. Pinning only
+the three transfer temporaries to retail's t4/t5/t6 lowers it to 42447. One
+shared set of declarations produces the same score as four separate sets.
+Pinning the effect pointer to s5 gives the retained **40927** candidate.
+
+Single-pin removal checks on that candidate score 43317 (without t4), 41017
+(without t5), 41122 (without t6), and 42447 (without s5). A spread/divisor pin
+to s1 does not improve the score and is omitted. These are local removal
+checks, not proof that pins are intrinsically necessary in every source shape.
+
+Unifying all render parameter globals into the shared aggregate was also tried;
+that variant scored 53413 from the earlier 48132 baseline and is not retained.

@@ -297,18 +297,18 @@
       "reported_size": 1204,
       "source": null,
       "status": "candidate_nonzero_extraction_restored",
-      "levenshtein_score": 48132,
+      "levenshtein_score": 40927,
       "actual_symbol": "func_80192F9C",
       "actual_size": 9472,
       "actual_start": "0x80192F9C",
       "actual_end_exclusive": "0x8019549C",
       "missing_extracted_bytes": 8192,
-      "evidence": "PE.IMG sectors 98589..98613: function spans full-scene offsets 0x3FB4..0x64B4. scene_e19 labels its first 76 bytes as data; sectors 98597..98600 are absent; scene_pre contains the final 1204 bytes at actual VA 0x80194FE8. Two five-entry jump tables at 0x8018F1E4 and 0x8018F1FC target this function. See docs/SCENE_E19_EXTRACTION_GAP.md. Extraction is now restored in the current manifests and pinned CI assets; the full function remains original assembly, not a C match. First full-function C candidate compiles with stock GCC 2.7.2 and MASPSX 2.56 on darwine; linked weighted Levenshtein score 83843. No pins or CPU ASM; individual ctc2 macros only. Candidate requires further semantic review and matching. Explicit init/update/draw switch ordering lowers retained unpinned score to 56674; individual unused-temporary rounding sequences simplified without score regression. Arithmetic fix, explicit ring loop, shared RoomSoundSlot view and two documented divisor barriers lower retained score to 48132. Still not integrated.",
+      "evidence": "Full target restored from PE.IMG offsets 0x3FB4..0x64B4 relative to sector 98589, including the previously missing 8192 bytes. Current manifests and pinned CI assets represent the complete function at 0x80192F9C. Retained C candidate compiles on darwine with stock GCC 2.7.2 and MASPSX 2.56; linked weighted Levenshtein score 40927. Four pins and two empty barriers are documented in the candidate README; individual GTE instructions only, no CPU ASM. Not integrated; further semantic review and matching required. See docs/SCENE_E19_EXTRACTION_GAP.md.",
       "current_unit": "overlays/scene_e19_2/func_80192F9C",
       "extraction_restored": true,
       "candidate": "candidates/overlays/scene_e19_func_80192F9C/func_80192F9C.c",
       "candidate_debt": {
-        "pins": 0,
+        "pins": 4,
         "empty_barriers": 2,
         "cpu_asm": 0
       }
