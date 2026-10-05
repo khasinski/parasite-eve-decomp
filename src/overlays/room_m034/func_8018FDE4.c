@@ -1,16 +1,7 @@
-#include "common.h"
-typedef struct Room034Matrix {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} Room034Matrix;
+#include "pe1/gte_types.h"
 
-typedef struct Room034Vec4 {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 w;
-} Room034Vec4;
+typedef GteMatrix Room034Matrix;
+typedef GteVector Room034Vec4;
 
 typedef struct Room034FxParams {
     char pad0[4];
