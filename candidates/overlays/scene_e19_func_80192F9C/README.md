@@ -904,3 +904,27 @@ and operand-order variants also failed to improve 787 and were discarded.
 Artifacts on darwine: state2_scale_907/, matrix_setup_787/,
 selector_dependency_787/ and base_787.c. All searches finished; no matching
 or production integration is claimed.
+
+
+## Register-allocation investigation (787 retained)
+
+No candidate change. The bounded draw permuter completed 6073 iterations
+(531 compilation errors), with no score below 787. The ring's local scope,
+angle expression and copy order were varied in 128 trials, also without gain.
+All 1024 subsets of the ten existing pins were tested with barriers retained;
+none improved the score.
+
+Stock GCC -da dumps are saved as allocator_787.i.{rtl,lreg,greg,sched,sched2}.
+They expose local allocations and the hard-register conflicts seen by global
+allocation. They motivated joint lifetime probes rather than further single
+register replacements: saved-height merges (8), shared-height constraints
+(24), joint long-lived register bindings (256), and phase/scale/shared-height
+combinations (54). None improved 787. A merged s32 saved height with the inline
+conversion was neutral; merging the s16 variables worsened the score. These
+results do not establish a single causal fix for the remaining allocation.
+
+Artifacts: permuter_draw_787/, ring_shape_787/, unpin_subsets_787/,
+saved_height_merge_787/, saved_height_shared_787/, allocation_groups_787/,
+model_lifetimes_787/ and allocator_787.* on darwine. All jobs finished and the
+canonical candidate was freshly rescored at 787; no exploratory variant was
+retained.
