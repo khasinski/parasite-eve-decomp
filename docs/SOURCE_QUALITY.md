@@ -8459,3 +8459,9 @@ Overlays (all as `data` subsegments in `.code_data`):
   `text_data` C files held these words as `.text` arrays, some under names
   that did not match their addresses; splat now emits them as data, with
   labels at the addresses the code references.
+- menu_memcard `menu_memcard_header` (772 bytes at 0x80120D00, the
+  `\FMVnnn.STR;1` file-name table), `menu_memcard_data_0016F4` (2412 bytes
+  at 0x801223F4, byte state and parameter tables), `menu_memcard_data_0063A0`
+  (1892 bytes at 0x8018EB90, effect records with callback pointers) and
+  `menu_memcard_data` (1436 bytes at 0x8012B7A8, size/offset tables). None
+  contains an instruction.
