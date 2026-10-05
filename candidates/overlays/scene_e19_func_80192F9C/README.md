@@ -1,4 +1,41 @@
-# func_80192F9C: initial recovered candidate
+# func_80192F9C: readable candidate, score 492
+
+Not integrated and not yet matching. The current preferred candidate is
+`SceneE19_BlastSequence.c` with `scene_e19_blast.h`, adapted from
+`decomp-e19-big` commit `117512a5d`. The earlier `func_80192F9C.c` remains a
+reference at score 787; its research history follows below.
+
+Verified on darwine with stock native GCC 2.7.2 (`-O2 -G0 -funsigned-char
+-mips1 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`), and the repository's
+`score_decompme.py` configuration: **weighted Levenshtein 492**. Target and
+candidate each contain 2368 instructions. This is not a completed match.
+The new source emits its three local initializers before the jump tables;
+link its `.rodata` at **0x8018F1D4**, not the old draft's 0x8018F1E4.
+
+The fetched branch scores 707 with this same scorer; its documented "lev 23"
+is not the same measured result. Its GTE window macros embed CPU `lw`
+instructions. This adaptation instead loads all matrix words in C and uses
+only individual `gte_ctc2_0` through `gte_ctc2_7` transfers. No CPU instruction
+ASM, compiler patches, assembler patches, or new flags are used.
+
+Matching debt: five register pins (matrix slot `$2`, matrix pointer `$9`,
+transfer words `$12`–`$14`) and nine empty barriers (a memory barrier and tied
+slot constraint at each of four GTE loads, plus one input/memory barrier after
+initializing the draw-state pointers). No identity conversion helpers.
+
+Sixteen matrix-load variants gave a best score of 907. A further 72 trials
+of pointer placement/constraints and scale assignment found 492: keep the
+pointers in the draw-mode head, add the input/memory barrier, and assign
+`radialScale = 0x1000` after the first state-2 `func_800CEE20` call.
+
+Remaining differences include division-result registers (`t2` versus retail
+`t1`), the two pointer initializations being above the state switch, state-2
+rotation/parameter store ordering and palette register allocation, and the
+saved-height restore around the fourth GTE load. The production function
+remains an ASM subsegment. Integration still needs the scene rodata/layout
+work and full overlay verification after score zero.
+
+# Earlier m2c candidate (retained reference)
 
 Not integrated. Linked asm-differ weighted Levenshtein score: **787**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
