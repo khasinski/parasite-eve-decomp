@@ -2,6 +2,21 @@
 /* MASPSX_FLAGS: -G8 */
 #include "pe1/menu_context_help.h"
 
+void *MenuWidget_CreateSimpleNode(int arg0, int arg1, int arg2, int arg3);
+void Menu_DrawContextHelpText(MenuWidgetNode *panel);
+
+void Menu_CreateContextHelpPanel(void) {
+    void *node = MenuWidget_FindByModeAndSelectedBase(1, 0x13);
+
+    if (node == 0) {
+        *(void **)((char *)MenuWidget_CreateSimpleNode(0x13, 0, 0, 0) + 0x30) = Menu_DrawContextHelpText;
+    }
+}
+
+void Menu_CloseContextHelpPanel(void) {
+    MenuWidget_DestroyNode(MenuWidget_FindByModeAndSelectedBase(1, 0x13));
+}
+
 /* Draws the play-time clock and the help line for the focused menu widget:
  * the item description, ability or option hint selected by its grid cell. */
 void Menu_DrawContextHelpText(MenuWidgetNode *panel)

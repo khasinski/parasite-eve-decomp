@@ -848,9 +848,10 @@ stay. Every binary is unchanged.
 
 ### Context help text
 
-The main executable's context help text draw, formerly `misc24`, now matches
-from clean C as `Menu_DrawContextHelpText`, with its jump table carved into
-its own `.rodata` and the alignment word kept as a separate piece. A local
+The main executable's context-help panel creator, closer, and text renderer
+now share `Menu_ContextHelpFlow`; the renderer was formerly `misc24` and
+matches from clean C as `Menu_DrawContextHelpText`. Its jump table remains
+carved into `.rodata` with the alignment word kept as a separate piece. A local
 declared at the top of the loop body keeps the loop's exit test in place,
 a block-scoped base keeps retail's subtraction order, and nested tests with
 a block-local table pointer give retail's index-first row address. The main
