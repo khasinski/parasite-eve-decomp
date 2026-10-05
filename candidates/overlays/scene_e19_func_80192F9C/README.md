@@ -1,15 +1,15 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **8775**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **7918**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Three register pins and four empty barriers are recorded below. There is no CPU ASM.
+Four register pins and eight empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2363. These counts are descriptive, not the match metric.
+retained candidate has 2368. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -77,12 +77,14 @@ GCC to retain the address across repeated resource calls, as retail does.
 
 ### Candidate debt
 
-- Three pins: shared GTE transfer temporaries in t4/t5/t6. Phase, matrix
-  pointer and effect pointer are unpinned. No padding reserves.
+- Four pins: shared GTE transfer temporaries in t4/t5/t6 and the matrix
+  pointer in t1. Phase and effect pointer are unpinned. No padding reserves.
 - One memory barrier keeps position stores before the first matrix transfer
   block. One tied-operand barrier keeps the ring radius in a register.
   Two more tied-operand barriers preserve render-parameter and page-selector
-  base pointers in draw state 2. The spread/divisor barriers remain removed.
+  base pointers in draw state 2. Four slot-address barriers preserve the
+  separate address/load sequence before GTE transfers. This totals eight.
+  The spread/divisor barriers remain removed.
 - `--expand-div` is an existing stock maspsx option, not an assembler patch.
 
 These are research-candidate costs, not production debt: the function is still
@@ -358,3 +360,25 @@ palette barrier improved the result to **8775**; removing the scale barrier
 as well preserves 8775. Only the two base-pointer barriers are retained.
 Current debt is three pins, four empty barriers, and eleven GPU helper calls.
 No new CPU instruction assembly or register pin was added.
+
+## Transition tail placement and GTE slot address
+
+Copying the ring position in x/y/z order reduces score 8775 to 8759.
+The shared state/timer update block was then moved from update state 0 to
+state 3, matching its retail position at 0x80193520. Earlier transition
+branches jump forward to it as in retail; score improves to 8508. The
+assignments, branch conditions and return values are unchanged.
+
+All four retail GTE setup blocks materialize the address of D_800BCFA4 before
+loading its matrix pointer: 0x801936D0, 0x80193B70, 0x80193EC4, 0x8019475C.
+An ordinary slot pointer with an empty tied-operand barrier at each site
+reproduces this address/load separation and scores 7958. Pinning the loaded
+matrix pointer to retail's t1 lowers the retained result to **7918**.
+A slot-pointer pin or a plain inline identity helper without these barriers
+scored 8518. Removing the existing initial memory barrier scored 8313; it
+remains. New debt is four slot-address barriers and the t1 matrix pin.
+
+Current total: four pins, eight empty barriers and eleven GPU helper uses.
+All actual coprocessor instructions remain in individual GTE macros; no CPU
+instruction assembly was added. Combined ring-index/radius/angle pin trials
+all worsened the earlier 8775 baseline and were rejected.

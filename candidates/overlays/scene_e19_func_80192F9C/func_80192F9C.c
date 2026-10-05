@@ -81,7 +81,8 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     u16 *paletteTable;
     u16 *pageSelector;
     RenderEffectParameters *renderParams;
-    const u32 *matrix;
+    RenderMatrixSlot *matrixSlot;
+    register const u32 *matrix asm("$9");
     register u32 w0 asm("$12");
     register u32 w1 asm("$13");
     register u32 w2 asm("$14");
@@ -181,9 +182,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
         }
         if (effect->timer >= 0x10) {
             var_v0 = 1;
-block_31:
-            effect->state = var_v0;
-            effect->timer = 0;
+            goto block_31;
         default:                                    /* switch 1 */
 block_161:
         }
@@ -236,7 +235,9 @@ block_161:
         D_8019B668 = 0x80;
         if (effect->timer >= 0x20) {
             var_v0 = 4;
-            goto block_31;
+block_31:
+            effect->state = var_v0;
+            effect->timer = 0;
         }
         /* Duplicate return node #162. Try simplifying control flow for better match */
         return 0;
@@ -273,7 +274,9 @@ block_161:
         {
             /* Keep position stores before the first GTE matrix load. */
             asm volatile("" : : : "memory");
-            matrix = (const u32 *)D_800BCFA4.value;
+            matrixSlot = &D_800BCFA4;
+            asm("" : "=r"(matrixSlot) : "0"(matrixSlot));
+            matrix = (const u32 *)matrixSlot->value;
             w0 = matrix[0];
             w1 = matrix[1];
             gte_ctc2_0(w0);
@@ -379,7 +382,9 @@ block_161:
             func_800C71E4(D_8019B684, &sp80);
             func_800C6F4C(D_8019B684);
             {
-                matrix = (const u32 *)D_800BCFA4.value;
+                matrixSlot = &D_800BCFA4;
+                asm("" : "=r"(matrixSlot) : "0"(matrixSlot));
+                matrix = (const u32 *)matrixSlot->value;
                 w0 = matrix[0];
                 w1 = matrix[1];
                 gte_ctc2_0(w0);
@@ -466,7 +471,9 @@ block_161:
             func_800C71E4(D_8019B684, &spC0);
             func_800C6F4C(D_8019B684);
             {
-                matrix = (const u32 *)D_800BCFA4.value;
+                matrixSlot = &D_800BCFA4;
+                asm("" : "=r"(matrixSlot) : "0"(matrixSlot));
+                matrix = (const u32 *)matrixSlot->value;
                 w0 = matrix[0];
                 w1 = matrix[1];
                 gte_ctc2_0(w0);
@@ -504,9 +511,9 @@ block_161:
             sp48.z = 0;
             for (var_s0 = 0; var_s0 < 0x10; ++var_s0) {
                 temp_s2 = (var_s0 << 8) + (D_800E27EC * 4);
-                sp38.z = (s16) (u16) sp30.z;
                 sp38.x = (u16) sp30.x;
                 sp38.y = (s16) (u16) sp30.y;
+                sp38.z = (s16) (u16) sp30.z;
                 var_v1_4 = func_80077DC4(temp_s2) * ringRadius;
                 if (var_v1_4 < 0) {
                     var_v1_4 += 0xFFF;
@@ -652,7 +659,9 @@ block_161:
             func_800C6F4C(D_8019B68C);
             sp30.y = temp_s7;
             {
-                matrix = (const u32 *)D_800BCFA4.value;
+                matrixSlot = &D_800BCFA4;
+                asm("" : "=r"(matrixSlot) : "0"(matrixSlot));
+                matrix = (const u32 *)matrixSlot->value;
                 w0 = matrix[0];
                 w1 = matrix[1];
                 gte_ctc2_0(w0);
