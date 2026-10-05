@@ -1,15 +1,15 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **14198**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **11630**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Three register pins and two empty barriers are recorded below. There is no CPU ASM.
+Four register pins and two empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2368. These counts are descriptive, not the match metric.
+retained candidate has 2367. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -77,8 +77,8 @@ GCC to retain the address across repeated resource calls, as retail does.
 
 ### Candidate debt
 
-- Three pins: shared GTE transfer temporaries in t4/t5/t6. Both the matrix
-  pointer and effect pointer are unpinned. No padding reserves.
+- Four pins: shared GTE transfer temporaries in t4/t5/t6 and phase in s6.
+  Both the matrix pointer and effect pointer are unpinned. No padding reserves.
 - One memory barrier keeps position stores before the first matrix transfer
   block. One tied-operand barrier keeps the ring radius in a register.
   The two former spread/divisor barriers have been removed.
@@ -255,3 +255,23 @@ now ordinary division by two, preserving the same score. No pins or barriers
 were added: debt remains three pins, two barriers and the GPU helper.
 Changing all parameter aliases to struct fields in draw state 2 was tested
 from the 16738 intermediate, scored 17059 and was not retained.
+
+## Separate render tails and color branches
+
+The m2c candidate sent draw state 4 backwards to a shared state-3 tail via
+block_158. Retail has separate matrix submission sequences for these states
+(the final one is at 0x801953A4..0x801953E8). Duplicating the C tail scored
+12318 from 14198; directly referencing each branch's matrix and scale vector
+scored 12278 and removed three temporary pointers.
+
+The state-3 color setup now has ordinary if/else-if calls instead of shared
+argument temporaries and goto block_84. This reproduces the separate argument
+setup at 0x80194168 and 0x80194180 and lowers score to 12094.
+
+Retail holds phase in s6 (for example 0x80194164 and 0x801941A0). A phase pin
+to s6 lowers the combined score to **11630**. A plain register hint or
+declaration reorder did not improve the unpinned intermediate. Separating
+the ring height from verticalScale scored 12124 versus 12094 without the pin.
+The retained source has four pins, two barriers and the GPU helper. This
+additional phase constraint is candidate debt, to be retested as source
+recovery proceeds. No CPU instruction assembly was added.

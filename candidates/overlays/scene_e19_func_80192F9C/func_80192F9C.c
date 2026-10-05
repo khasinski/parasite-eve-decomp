@@ -63,10 +63,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     GteVector sp260;
     GteMatrix sp270;
     GteVector sp290;
-    GteMatrix *var_a0;
-    GteMatrix *var_s0_2;
     GteShortVector *temp_s2_2;
-    GteVector *var_a1_2;
     SceneE19RecoveredObject *temp_a0;
     SceneE19RecoveredObject *temp_a0_2;
     s16 temp_a2;
@@ -90,7 +87,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s32 temp_s2;
     s32 verticalScale;
     s32 radialScale;
-    s32 phase;
+    register s32 phase asm("$22");
     s32 temp_v0_11;
     s32 temp_v0_12;
     s32 temp_v0_13;
@@ -110,8 +107,6 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s32 temp_v0_9;
     s32 temp_v1_6;
     s32 temp_v1_7;
-    s32 var_a1;
-    s32 var_a2_2;
     s32 var_s0;
     s32 intensity;
     s32 var_v1;
@@ -539,15 +534,9 @@ block_161:
             temp_v1_3 = effect->timer;
             phase = temp_v1_3 << 5;
             if (temp_v1_3 == 0) {
-                var_a1 = 0x46;
-                var_a2_2 = 2;
-                goto block_84;
-            }
-            if (temp_v1_3 < 9) {
-                var_a1 = 0x80 - (temp_v1_3 * 0x10);
-                var_a2_2 = 1;
-block_84:
-                func_800D1AE0(&sp50, var_a1, var_a2_2, 8);
+                func_800D1AE0(&sp50, 0x46, 2, 8);
+            } else if (temp_v1_3 < 9) {
+                func_800D1AE0(&sp50, 0x80 - (temp_v1_3 * 0x10), 1, 8);
             }
             temp_v0_17 = func_80077DC4(phase);
             radialScale = ((s32) temp_v0_17 / 2) + 0x400;
@@ -754,21 +743,17 @@ block_84:
             }
             func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x60, (s32) paletteRow)));
             func_800C6ED8(1);
-            var_s0_2 = &sp1B0;
-            func_80079754((GteShortVector *) &sp48, var_s0_2);
-            var_a0 = var_s0_2;
-            var_a1_2 = &sp1D0;
+            func_80079754((GteShortVector *) &sp48, &sp1B0);
             sp1D0.x = radialScale;
             sp1D0.y = verticalScale;
             sp1D0.z = radialScale;
             sp1B0.t[0] = (s32) (s16) sp30.x;
             sp1B0.t[1] = (s32) sp30.y;
             sp1B0.t[2] = (s32) sp30.z;
-block_158:
-            func_80078CC4(var_a0, var_a1_2);
+            func_80078CC4(&sp1B0, &sp1D0);
             func_800C6EF8(D_8019B690);
             func_800C6FA0(D_8019B690, gpuWord(intensity));
-            func_800C71E4(D_8019B690, var_s0_2);
+            func_800C71E4(D_8019B690, &sp1B0);
             func_800C6F4C(D_8019B690);
         default:                                    /* switch 2 */
             break;
@@ -914,17 +899,19 @@ block_158:
             }
             func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x60, (s32) paletteRow)));
             func_800C6ED8(1);
-            var_s0_2 = &sp270;
-            func_80079754((GteShortVector *) &sp48, var_s0_2);
-            var_a0 = var_s0_2;
-            var_a1_2 = (GteVector *) &sp290;
+            func_80079754((GteShortVector *) &sp48, &sp270);
             sp290.x = radialScale;
             sp290.y = verticalScale;
             sp290.z = radialScale;
             sp270.t[0] = (s32) (s16) sp30.x;
             sp270.t[1] = (s32) sp30.y;
             sp270.t[2] = (s32) sp30.z;
-            goto block_158;
+            func_80078CC4(&sp270, &sp290);
+            func_800C6EF8(D_8019B690);
+            func_800C6FA0(D_8019B690, gpuWord(intensity));
+            func_800C71E4(D_8019B690, &sp270);
+            func_800C6F4C(D_8019B690);
+            break;
         }
         D_800F336A = 1;
         D_800F3368.parameter00 = 0x10;
