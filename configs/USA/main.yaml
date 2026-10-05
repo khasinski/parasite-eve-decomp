@@ -1407,10 +1407,8 @@ segments:
       - [0x80668, c, akao/Akao_TrackSlideOps]
       # Track masks, loop/ADSR commands and volume updates share AkaoTrack.
       - [0x80978, c, akao/Akao_TrackControlOps]
-      - [0x811C0, c, akao/seq_op7]
-      - [0x812AC, c, akao/Akao_SeqNoteOn]
-      - [0x81620, c, akao/SeqOp_NoteOnWithPitchSlide]
-      - [0x81754, c, akao/seq_op9]
+      # Branch, note-on, pitch-slide and voice-stop opcodes share AkaoTrack.
+      - [0x811C0, c, akao/Akao_NoteCommandFlow]
       - [0x818A0, data, main/dtail_gp_pre_s016]
       - [0x84D28, .data, psyq/libc/Square_Vsprintf]
       - [0x84D34, data, main/dtail_gp_post_sprintf]
