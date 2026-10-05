@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **2757**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **2141**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Nine register pins and eleven empty barriers are recorded below. There is no CPU ASM.
@@ -798,3 +798,38 @@ All compilation and scoring ran on darwine with stock GCC 2.7.2/maspsx.
 Artifacts in the existing research directory: negative_rotation_3397/,
 negative_orders_3017/, negative_page_2757/, model_live_3397/,
 height_pins_3397/, state2_fences_3397/, permuter_draw_3397/ and base_2757.c.
+
+
+## Third-state setup and per-block parameter fields (2141)
+
+Moving the third draw state's intensity initialization before the parameter
+pointer initialization reduces 2757 to 2537. The existing pins and barriers
+are unchanged. This was selected from 216 setup-prefix order/guard variants.
+
+Seven model setup blocks now write the flag via
+`D_800F3368.parameter06`, and one of those also writes `D_800F3368.tpage`,
+instead of using the equivalent standalone globals. These existing structure
+members retain the original halfword addresses and types. Testing 77 per-block
+field subsets and all 128 combinations of the improving subsets yielded
+**2141**. This changes compiler scheduling, but does not yet reproduce every
+retail store order. Both complete functions still contain 2368 instructions;
+no production ASM has been replaced and no additional debt was introduced.
+
+Closed probes: selector/phase initialization positions (120), separate flag
+reads (64), flag reads combined with fences (216), volatile zero stores (77),
+chained zero assignments (236), targeted zero-store dependencies (165), and
+zero-store inline helpers (44) did not improve their respective retained
+bases. All ran on darwine with the stock toolchain and full-function scorer.
+
+Related division research remains unretained: 90 per-site HI constraint
+variants did not improve 2757. Of 108 factor/work constraint variants, one
+reproduced the first divide-by-three instruction sequence and scored 2747,
+but added three local pins and three empty constraints for only ten points.
+The simpler retained source now scores better overall. Whole-model lifetime
+splits with phase/height pins (128 variants) also did not improve 2757.
+
+Artifacts: state2_prefix_2757/, state2_selector_2537/, state2_flags_2537/,
+state2_flag_fence_2537/, zero_stores_2537/, zero_chains_2537/,
+zero_dependencies_2537/, zero_inline_2537/, draw_fields_2537/,
+combine_fields_2537/, division_sites_2757/, division_factor_2757/,
+model_live_2757/ and base_2141.c in the existing darwine research directory.

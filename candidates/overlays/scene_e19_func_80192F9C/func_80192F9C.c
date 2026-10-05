@@ -428,10 +428,9 @@ block_31:
             /* Retail retains the selector and parameter bases across calls. */
             pageSelector = &D_800E11EA[8];
             asm("" : "=r"(pageSelector) : "0"(pageSelector));
+            intensity = 0x80;
             renderParams = &D_800F3368;
             asm("" : "=r"(renderParams) : "0"(renderParams));
-
-            intensity = 0x80;
             renderParams->parameter00 = 0x40;
             D_800F336A = 4;
             D_800F3376 = 0x40;
@@ -647,7 +646,7 @@ block_31:
             sp48.y = (-D_800E27EC) * 0x20;
             D_800F336C = 3;
             sp48.x = 0;
-            D_800F336E = 0;
+            D_800F3368.parameter06 = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
             sp48.z = 0;
             texturePage = func_80077A64(0, 1, 0, 0);
@@ -716,7 +715,7 @@ block_31:
             }
             sp48.y = (D_800E27EC << 5) + 0x400;
             D_800F336C = 3;
-            D_800F336E = 0;
+            D_800F3368.parameter06 = 0;
             sp48.x = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
             sp48.z = 0;
@@ -750,7 +749,7 @@ block_31:
             }
             sp48.y = D_800E27EC << 5;
             D_800F336C = 3;
-            D_800F336E = 0;
+            D_800F3368.parameter06 = 0;
             sp48.x = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
             sp48.z = 0;
@@ -789,7 +788,7 @@ block_31:
             }
             sp48.y = D_800E27EC << 5;
             D_800F336C = 3;
-            D_800F336E = 0;
+            D_800F3368.parameter06 = 0;
             sp48.x = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
             sp48.z = 0;
@@ -825,7 +824,7 @@ block_31:
             }
             sp48.y = (-D_800E27EC) * 0x20;
             D_800F336C = 3;
-            D_800F336E = 0;
+            D_800F3368.parameter06 = 0;
             sp48.x = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
             sp48.z = 0;
@@ -862,9 +861,9 @@ block_31:
             }
             sp48.y = (D_800E27EC << 5) + 0x400;
             D_800F336C = 3;
-            D_800F336E = 0;
+            D_800F3368.parameter06 = 0;
             sp48.x = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
+            D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
             sp48.z = 0;
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord((D_800E2850[D_800E11EA[0]] | texturePage));
@@ -896,7 +895,7 @@ block_31:
             }
             sp48.y = D_800E27EC << 5;
             D_800F336C = 3;
-            D_800F336E = 0;
+            D_800F3368.parameter06 = 0;
             sp48.x = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
             sp48.z = 0;
