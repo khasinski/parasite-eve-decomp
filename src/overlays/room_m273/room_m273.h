@@ -2,6 +2,7 @@
 #define ROOM_M273_H
 
 #include "pe1/render_object.h"
+#include "pe1/field_actor_script_state.h"
 #include "room_m273_effects.h"
 
 typedef GteShortVector RoomM273Vector;
@@ -154,11 +155,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, callback) +
 
 /* View of the partner actor's script state: the byte record at 0x18 is the
  * substate the grab sequence flips to 2 and 4. */
-typedef struct RoomM273ActorState {
-    /* 0x00 */ u32 core_flags;
-    /* 0x04 */ u8 pad04[0x14];
-    /* 0x18 */ u8 *substate;
-} RoomM273ActorState;
+typedef FieldActorScriptState RoomM273ActorState;
 
 void func_80192664(RoomSelectionState *state);
 s32 func_80192D8C(RoomSelectionState *selection);

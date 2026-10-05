@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/field_actor.h"
+#include "pe1/field_actor_script_state.h"
 #include "pe1/render_object.h"
 
 /* Scene e19 grab sequence: keeps the player locked to the selection matrix
@@ -11,11 +12,7 @@
 
 /* View of the partner actor's script state: the byte record at 0x18 is the
  * substate the scene flips between 1, 2 and 4. */
-typedef struct SceneE19ActorState {
-    /* 0x00 */ u32 core_flags;
-    /* 0x04 */ u8 pad04[0x14];
-    /* 0x18 */ u8 *substate;
-} SceneE19ActorState;
+typedef FieldActorScriptState SceneE19ActorState;
 
 typedef struct SceneE19SelectionTail {
     /* 0x00 */ u8 pad00[4];
