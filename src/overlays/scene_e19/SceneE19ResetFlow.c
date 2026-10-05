@@ -114,10 +114,10 @@ s32 func_80192D04(char *obj)
   target->state = 4;
   if (target->enabled != 0)
   {
-    char *node = *((char **) D_8009D254);
+    SceneE19ActorChild *node = ((SceneE19Actor *)D_8009D254)->child;
     if (node != 0)
     {
-      if ((*((s16 *) (node + 0xC))) > 0)
+      if (node->h0C > 0)
       {
         func_80020CE4();
       }
