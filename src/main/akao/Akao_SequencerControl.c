@@ -2,12 +2,64 @@
 #include "pe1/akao/tick.h"
 #include "pe1/akao/seq_param.h"
 
-extern char *g_AkaoCurTrack;
+extern int g_AkaoPlaybackMode;
+extern char g_AkaoVoiceStateTable[];
+extern AkaoSequencerBank *g_AkaoCurTrack;
+
+void Seq_MarkDirtyTracks(char *arg0);
+void Spu_MarkActiveVoicesDirty(void);
+
+extern int g_AkaoVoicePortamentoResetMask;
+extern AkaoTrackUpdateSlot g_AkaoTrackStateArray[];
+
+void Seq_SetPlaybackMode1AndRefreshVoices(void) {
+    char *base = g_AkaoVoiceStateTable;
+
+    g_AkaoPlaybackMode = 1;
+    Seq_MarkDirtyTracks(base);
+    g_AkaoCurTrack++;
+    Seq_MarkDirtyTracks(base + 0x1AA0);
+    g_AkaoCurTrack--;
+    Spu_MarkActiveVoicesDirty();
+}
+
+void Seq_SetPlaybackMode4AndRefreshVoices(void) {
+    char *base = g_AkaoVoiceStateTable;
+
+    g_AkaoPlaybackMode = 4;
+    Seq_MarkDirtyTracks(base);
+    g_AkaoCurTrack++;
+    Seq_MarkDirtyTracks(base + 0x1AA0);
+    g_AkaoCurTrack--;
+    Spu_MarkActiveVoicesDirty();
+}
+
+void Seq_SetPlaybackMode2AndRefreshVoices(void) {
+    char *base = g_AkaoVoiceStateTable;
+
+    g_AkaoPlaybackMode = 2;
+    Seq_MarkDirtyTracks(base);
+    g_AkaoCurTrack++;
+    Seq_MarkDirtyTracks(base + 0x1AA0);
+    g_AkaoCurTrack--;
+    Spu_MarkActiveVoicesDirty();
+}
+
+void Seq_SetGlobalD2B8AndDirtyAllTracks(AkaoValueCommand *cmd) {
+    unsigned int i = 0;
+    int value = cmd->field_4;
+    AkaoTrackUpdateSlot *slot;
+
+    slot = g_AkaoTrackStateArray;
+    g_AkaoVoicePortamentoResetMask = value;
+    for (; i < 0x18; i++, slot++) {
+        slot->update_flags |= AKAO_VOICE_PARAM_VOLUME;
+    }
+}
 
 void Seq_SetCurrentTrackField56(AkaoValueCommand *arg0) {
     ((AkaoTrack *)g_AkaoCurTrack)->note_length = arg0->field_4;
 }
-extern char *g_AkaoCurTrack;
 extern unsigned int g_SpuActiveVoiceMask;
 extern unsigned int g_AkaoSeqPendingFlags;
 
@@ -22,7 +74,7 @@ void Seq_DeactivatePendingTracks(void) {
     unsigned int bit;
     unsigned int index;
 
-    if (*(unsigned int *)(g_AkaoCurTrack + 4) != 0) {
+    if (g_AkaoCurTrack->active_voice_mask != 0) {
         mask = ~g_SpuActiveVoiceMask & 0xFFFFFF;
         if (mask != 0) {
             bit = 1;
@@ -40,16 +92,14 @@ void Seq_DeactivatePendingTracks(void) {
             } while (mask != 0);
         }
 
-        pending = *(unsigned int *)(g_AkaoCurTrack + 4);
-        *(unsigned int *)(g_AkaoCurTrack + 4) = 0;
-        *(unsigned int *)(g_AkaoCurTrack + 0x1C) = pending;
+        pending = g_AkaoCurTrack->active_voice_mask;
+        g_AkaoCurTrack->active_voice_mask = 0;
+        g_AkaoCurTrack->pending_restore_mask = pending;
     }
 
     g_AkaoSeqPendingFlags |= 1;
 }
-#include "pe1/akao.h"
 
-extern char *g_AkaoCurTrack;
 extern unsigned int g_AkaoSeqPendingFlags;
 extern AkaoTrackUpdateSlot g_AkaoTrackStateArray[];
 
@@ -66,7 +116,7 @@ void AkaoSpuVoice_SetAdsrAttack(unsigned int index, unsigned int left, unsigned 
 void AkaoSpuVoice_SetAdsrSustainRate(unsigned int index, unsigned int left, unsigned int right);
 
 void Seq_RestorePendingTracks(void) {
-    unsigned int pending = *(unsigned int *)(g_AkaoCurTrack + 0x1C);
+    unsigned int pending = g_AkaoCurTrack->pending_restore_mask;
     unsigned int saved;
     unsigned int mask;
     AkaoTrackUpdateSlot *slot;
@@ -83,9 +133,9 @@ void Seq_RestorePendingTracks(void) {
             slot++;
         } while (pending != 0);
 
-        saved = *(unsigned int *)(g_AkaoCurTrack + 0x1C);
-        *(unsigned int *)(g_AkaoCurTrack + 0x1C) = 0;
-        *(unsigned int *)(g_AkaoCurTrack + 4) = saved;
+        saved = g_AkaoCurTrack->pending_restore_mask;
+        g_AkaoCurTrack->pending_restore_mask = 0;
+        g_AkaoCurTrack->active_voice_mask = saved;
         Seq_MarkTrack34MaskDirty();
         Seq_MarkTrack38MaskDirty();
         Seq_MarkTrack3CMaskDirty();
@@ -163,7 +213,6 @@ void Seq_MarkTrack34MaskDirty(void);
 void Seq_MarkTrack38MaskDirty(void);
 void Seq_MarkTrack3CMaskDirty(void);
 
-#include "pe1/akao.h"
 #include "pe1/akao/spu_common.h"
 
 extern AkaoQueueEntry D_800B8628[];
