@@ -1039,10 +1039,10 @@ segments:
       # PATCHGTE's exception-prologue templates: compared and copied as data,
       # never executed at their link address (docs/PSYQ_REPORTING.md).
       - {start: 0x6A9E0, type: rodata, name: psyq/libgte/PATCHGTE_templates, linker_section_order: .text, linker_section: .psyq_text_data}
-      - [0x6AA14, c, psyq/libcd/StSetRing]
+      - [0x6AA14, c, psyq/libcd/cdrom]
       - [0x6AA40, pad]
-      - [0x6AA44, c, psyq/libcd/StClearRing]
-      - [0x6AAA4, c, psyq/libcd/StUnSetRing]
+      - [0x6AA44, c, psyq/libcd/c_002]
+      - [0x6AAA4, c, psyq/libcd/c_003]
       - [0x6AB24, c, psyq/libcd/CdStatus]
       - [0x6AB54, c, psyq/libcd/CdLastPos]
       - [0x6AB60, c, psyq/libcd/CdReset]
@@ -1068,15 +1068,15 @@ segments:
       # Psy-Q LIBCD C_004.OBJ: completion callback and back-location query.
       - [0x6CA14, c, psyq/libcd/c_004]
       - [0x6CAF8, pad]
-      - [0x6CB04, c, psyq/libcd/StSetStream]
+      - [0x6CB04, c, psyq/libcd/c_005]
       - [0x6CB88, pad]
       # Psy-Q LIBCD C_007.OBJ: StFreeRing plus object alignment.
-      - [0x6CB94, c, psyq/libcd/StFreeRing]
+      - [0x6CB94, c, psyq/libcd/c_007]
       - [0x6CC40, pad]
-      - [0x6CC44, c, psyq/libcd/init_ring_status]
+      - [0x6CC44, c, psyq/libcd/c_008]
       - [0x6CC78, pad]
       # Psy-Q LIBCD C_009.OBJ: StGetNext plus object alignment.
-      - [0x6CC84, c, psyq/libcd/StGetNext]
+      - [0x6CC84, c, psyq/libcd/c_009]
       - [0x6CD3C, pad]
       - [0x6CD44, c, psyq/libcd/StSetMask]
       - [0x6CD60, pad]
