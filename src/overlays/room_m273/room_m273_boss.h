@@ -6,6 +6,7 @@
 #include "pe1/render_object.h"
 #include "room_m273_effects.h"
 #include "room_m273_sway.h"
+#include "room_m273_sweep.h"
 
 /* Boss instance fields read by room_m273's animation controllers. */
 typedef struct RoomM273BossOwner {
@@ -182,7 +183,6 @@ typedef struct RoomM273SweepStep {
 } RoomM273SweepStep;
 
 extern RoomM273SweepStep D_8019AD80[];
-extern GteShortVector D_8019AEFC; /* transformed sweep point */
 int func_80079FB4(int x, int z);
 
 /* Ground ring (func_80198E94): model draw helpers and the ring colours. */
