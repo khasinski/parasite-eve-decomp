@@ -4,6 +4,10 @@
 #include "pe1/render_object.h"
 #include "pe1/field_textured_strip.h"
 
+/* Project and link textured quads between successive strip edges.
+ * Matching debt: five pins and three empty barriers preserve matrix loads
+ * and packet-header constant order. CPU loads are C; COP2 transfers each
+ * use their own instruction macro. */
 void func_800C5A40(FieldTexturedStrip *strip)
 {
     FieldStripNode *node;
@@ -35,8 +39,33 @@ void func_800C5A40(FieldTexturedStrip *strip)
         quad[1] = node->edgeB;
         quad[2] = node[1].edgeA;
         quad[3] = node[1].edgeB;
-        gte_ldrotmatrix(D_800BCFA4.value);
-        gte_ldtransmatrix(D_800BCFA4.value);
+        {
+            s32 **slot;
+            register const GteMatrixWords *matrix asm("$8");
+            register u32 a asm("$12");
+            register u32 b asm("$13");
+            register u32 c asm("$14");
+            asm volatile("" : : : "memory");
+            slot = &D_800BCFA4.value;
+            asm volatile("" : "=r"(slot) : "0"(slot));
+            matrix = (const GteMatrixWords *)*slot;
+            a = matrix->r11_r12;
+            b = matrix->r13_r21;
+            gte_ctc2_0(a);
+            gte_ctc2_1(b);
+            a = matrix->r22_r23;
+            b = matrix->r31_r32;
+            c = matrix->r33_pad;
+            gte_ctc2_2(a);
+            gte_ctc2_3(b);
+            gte_ctc2_4(c);
+            a = matrix->tx;
+            b = matrix->ty;
+            gte_ctc2_5(a);
+            c = matrix->tz;
+            gte_ctc2_6(b);
+            gte_ctc2_7(c);
+        }
         depth = RotTransPers4(&quad[0], &quad[1], &quad[2], &quad[3],
                               &packet->x0, &packet->x1, &packet->x2,
                               &packet->x3, &p, &flag);
@@ -52,8 +81,14 @@ void func_800C5A40(FieldTexturedStrip *strip)
         packet->tpage = D_800E27AC;
         packet->clut = GetClut(D_800F341C + D_800F33B4->clutX,
                                D_800F341E + D_800F33B4->clutY);
-        packet->tag.length = 9;
-        packet->code = 0x2C;
+        {
+            register u8 code asm("$8");
+            u8 length = 9;
+            asm("" : : "r"(length) : "$8");
+            code = 0x2C;
+            packet->tag.length = length;
+            packet->code = code;
+        }
         /* PSY-Q setSemiTrans(packet, D_800F337A). */
         if (D_800F337A) {
             packet->code = packet->code | 2;
