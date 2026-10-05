@@ -2209,3 +2209,24 @@ empty constraints from the first exact candidate. No further single or
 paired deletion of the remaining 21 added individual pin/constraint
 bindings preserved the match. Existing raw-offset accessors, register
 constraints and the two-word artificial frame reservation remain debt.
+
+### Skinned vertex transformer matrix transfers
+
+`Render_TransformSkinnedVertices` now expresses translation-word loads and
+strided matrix-column loads/stores in C. The earlier rotation-word loads
+were already C. GTE transfers remain individually wrapped, with the existing
+RTIR command and allowed NOPs. Stock native GCC 2.7.2 and stock MASPSX 2.56,
+using the existing `-G8`, reproduce all 1512 retail bytes at `0x8003A6A8`
+with linked score 0. No new flags or tool changes are required.
+
+Added debt: three helper definitions each pin their three transfer words
+to `t4`–`t6`, and four empty address constraints preserve the second/third
+column input and output pointers. These constraints are reused by both
+root and selected-bone matrix compositions. The lexical counter records
+three grouped pin declarations and four barriers.
+
+The initial exact candidate also constrained the selected bone index and
+first column address. A 190-trial single/pair removal pass removed both
+of those pins and four empty constraints; no further single or paired
+removal of the remaining 13 added bindings retained the match. Existing
+scratchpad accesses, pins and barriers remain matching debt.

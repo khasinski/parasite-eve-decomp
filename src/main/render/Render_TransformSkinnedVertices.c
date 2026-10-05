@@ -17,10 +17,8 @@
         register int w2 asm("$12");                                                                \
         register int w3 asm("$13");                                                                \
         register int w4 asm("$14");                                                                \
-                                                                                                   \
         w0 = (matrix)[0];                                                                          \
         w1 = (matrix)[1];                                                                          \
-                                                                                                   \
         gte_ctc2_0(w0);                                                                            \
         gte_ctc2_1(w1);                                                                            \
         w2 = (matrix)[2];                                                                          \
@@ -31,8 +29,16 @@
         gte_ctc2_4(w4);                                                                            \
     }
 
-#define Render_SkinnedLoadTrans(matrix)                                                            \
-    { gte_ldtransmatrix(matrix); }
+#define Render_SkinnedLoadTrans(matrix) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        x = (matrix)[5]; \
+        y = (matrix)[6]; \
+        gte_ctc2_5(x); \
+        z = (matrix)[7]; \
+        gte_ctc2_6(y); \
+        gte_ctc2_7(z); \
+    }
 
 #define Render_SkinnedLoadFullMatrix(matrix)                                                       \
     {                                                                                              \
@@ -45,7 +51,6 @@
         register int x asm("$12");                                                                 \
         register int y asm("$13");                                                                 \
         register int z asm("$14");                                                                 \
-                                                                                                   \
         gte_lwc2_0_0(src);                                                                         \
         gte_lwc2_1_4(src);                                                                         \
         gte_cop2_hazard_slot();                                                                    \
@@ -63,27 +68,39 @@
         }                                                                                          \
     }
 
-#define Skinned_LoadAxis(src)                                                                      \
-    {                                                                                              \
-        gte_ldclmv(src); gte_rtir(); \
+#define Skinned_LoadAxis(src) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        x = (src)[0]; \
+        y = (src)[3]; \
+        z = (src)[6]; \
+        gte_mtc2_9(x); \
+        gte_mtc2_10(y); \
+        gte_mtc2_11(z); \
+        gte_rtir(); \
     }
-#define Skinned_StoreAxis(dst)                                                                     \
-    {                                                                                              \
-        gte_stclmv(dst); \
+
+#define Skinned_StoreAxis(dst) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        gte_mfc2_9(x); \
+        gte_mfc2_10(y); \
+        gte_mfc2_11(z); \
+        (dst)[0] = x; \
+        (dst)[3] = y; \
+        (dst)[6] = z; \
     }
+
 #define Skinned_RootAxis(actor)                                                                    \
     {                                                                                              \
         register u16 *src asm("$9") = (u16 *)(u8 *)actor->matrices;                                \
-        \
         Skinned_LoadAxis(src);                                                                     \
     }
 #define Skinned_SelectedAxis(actor)                                                                \
     {                                                                                              \
         int index = (s16)actor->table_index;                                    \
         u16 *src;                                                               \
-        \
         src = (u16 *)((u8 *)actor->matrices + index * 32);                                         \
-        \
         Skinned_LoadAxis(src);                                                                     \
     }
 #define Render_SkinnedBuildMatrix(view_matrix, bone_expr, out_matrix, first_axis)                  \
@@ -93,21 +110,21 @@
         Skinned_StoreAxis((s16 *)(out_matrix));                                                    \
         {                                                                                          \
             u16 *src = (u16 *)(bone_expr) + 1;                                  \
-            \
+            asm volatile("" : "=r"(src) : "0"(src)); \
             Skinned_LoadAxis(src);                                                                 \
             {                                                                                      \
                 register s16 *dst asm("$9") = (s16 *)0x1F800002;                                   \
-                \
+                asm volatile("" : "=r"(dst) : "0"(dst)); \
                 Skinned_StoreAxis(dst);                                                            \
             }                                                                                      \
         }                                                                                          \
         {                                                                                          \
             u16 *src = (u16 *)(bone_expr) + 2;                                  \
-            \
+            asm volatile("" : "=r"(src) : "0"(src)); \
             Skinned_LoadAxis(src);                                                                 \
             {                                                                                      \
                 register s16 *dst asm("$9") = (s16 *)0x1F800004;                                   \
-                \
+                asm volatile("" : "=r"(dst) : "0"(dst)); \
                 Skinned_StoreAxis(dst);                                                            \
             }                                                                                      \
         }                                                                                          \
@@ -127,7 +144,6 @@
             gte_mvmva_rotation_v0_translation_sf12();                                              \
             {                                                                                      \
                 register s32 *dst asm("$9") = (s32 *)0x1F800014;                                   \
-                \
                 gte_swc2_25_0(dst);                                                                \
                 gte_swc2_26_4(dst);                                                                \
                 gte_swc2_27_8(dst);                                                                \
@@ -143,7 +159,6 @@
         gte_rtps_command();                                                                        \
         {                                                                                          \
             u8 *output = (u8 *)(out);                                           \
-            \
             gte_stsxy2(output);                                                                    \
         }                                                                                          \
     }
