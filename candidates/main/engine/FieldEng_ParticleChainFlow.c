@@ -38,8 +38,8 @@ void func_800C5538(FieldChainRecord *record)
     matrix = record->matrix;
     record->field0E = 0;
     for (i = 0; i < record->count; i++, link++) {
-        workMatrix = &matrix;
         stepMatrix = &rotation;
+        workMatrix = &matrix;
         asm("" : "=r"(workMatrix), "=r"(stepMatrix) : "0"(workMatrix), "1"(stepMatrix));
         ApplyMatrixSV(workMatrix, &tailIn, &tail);
         ApplyMatrixSV(workMatrix, &headIn, &head);
