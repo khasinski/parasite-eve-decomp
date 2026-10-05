@@ -175,7 +175,7 @@ equip_loop:
             if (i < loop_count) goto equip_loop;
 equip_found:
             if (i < ((ItemDataRecord *)item_a)->tailCount) {
-                register int equip_mask asm("$4") = 1 << slot;
+                int equip_mask = 1 << slot;
                 different_slot = i != mod_index;
                 result = Inv_CheckFreeSlotCapacity(equip_mask);
                 if (result != 0) goto return_result;
