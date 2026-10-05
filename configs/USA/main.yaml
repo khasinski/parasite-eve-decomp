@@ -984,9 +984,8 @@ segments:
       - [0x67398, c, gpu/Gpu_StartDmaTransfer]
       - [0x673E0, c, gpu/misc15]
       - [0x67434, c, main/Gpu_SwapDisplayBuffers]
-      - [0x676E4, c, main/Gpu_SetDisplayBuffer]
-      # DMA queue initialization and drain operations share one controller record.
-      - [0x67944, c, gpu/dma_queue]
+      # Display-buffer queue callback, initialization and drain share one DMA TU.
+      - [0x676E4, c, gpu/dma_queue]
       - [0x67BD0, c, gpu/gpu3]
       # DMA transfer controller operations, in source order.
       - [0x67DE8, c, gpu/dma_transfer]
