@@ -12,7 +12,7 @@ void func_800D2104(GteShortVector *position, RenderColor *color, int size, int a
 
 /* Mode 1 updates a falling flare; mode 2 draws its glow, streak or spark.
  * WIP: linked score 30 (six register differences), 1832 bytes.
- * Matching debt: ten register pins and four empty constraint barriers.
+ * Matching debt: seven register pins and four empty constraint barriers.
  * Matrix loads are C; each GTE instruction uses its individual macro.
  * The barriers keep the matrix address in v0 and its pointer in t0.
  * Do not promote until both score and retail byte comparison are exact. */
@@ -83,7 +83,7 @@ int func_8018F028(int mode, SceneE20Particle *p)
             rotation.z = p->velocity.z;
             rotation.flags = 1;
             {
-                register RenderMatrixSlot *matrixSlot asm("$2") = &D_800BCFA4;
+                RenderMatrixSlot *matrixSlot = &D_800BCFA4;
                 u32 *matrixWords;
                 register u32 a asm("$12");
                 register u32 b asm("$13");
@@ -110,7 +110,7 @@ int func_8018F028(int mode, SceneE20Particle *p)
             func_800CEE20(&p->position, &rotation, scale * 3, scale * 3, 4,
                           func_80077AA4(0, palette), 1, 0x80, &color);
             if (p->timer < 8) {
-                register int streakKind asm("$3");
+                int streakKind;
                 int width = (p->timer / 2) << 5;
                 int top = 0x40;
                 glow = func_80077DC4(angle) / 32;
@@ -168,7 +168,7 @@ int func_8018F028(int mode, SceneE20Particle *p)
         }
         case 2:
             {
-                register RenderMatrixSlot *matrixSlot asm("$2") = &D_800BCFA4;
+                RenderMatrixSlot *matrixSlot = &D_800BCFA4;
                 u32 *matrixWords;
                 register u32 a asm("$12");
                 register u32 b asm("$13");

@@ -20,11 +20,24 @@ through `include/pe1/scene_e20_flare.h`.
 | 8018F5BC / 8018F5C0 | glow product in t0 | t1 |
 | 8018F6F8 / 8018F6FC | fade division high result in t0 | t1 |
 
-Ten pins and four empty barriers currently reproduce both matrix transfer
+Seven pins and four empty barriers currently reproduce both matrix transfer
 blocks. GCC's reload pass then chooses t1 as its scratch register instead of t0.
 Without the pointer constraint, arithmetic matches but the matrix pointers use
 v0 instead of t0. Explicit reciprocal arithmetic and pins on the final products
 added spills or changed scheduling and were not retained.
+
+All 1023 nonempty subsets of the original ten pins were checked on darwine.
+The two `matrixSlot` pins and the `streakKind` pin can be removed together:
+the resulting linked function is byte-identical to the score-30 candidate
+(not to retail). The remaining pins are the six matrix-word pins and
+`specialKind` in v1.
+
+Further bounded experiments covered pins on the actual arithmetic operands
+and results, empty allocation guards, and reserving unused registers. The
+best guard variant scored 20, but only moved the mismatch: the glow and fade
+results used t2 instead of t0. It was not retained. Reserving more registers
+introduced spills or changed other register assignments. No score-zero
+candidate resulted from these trials; extra pins alone are not yet a fix.
 
 A bounded run on darwine completed 32,443 permutations on 2026-10-05, including
 5,447 rejected compilations, with no improvement over score 30. No worker from
