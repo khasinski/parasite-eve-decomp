@@ -6194,10 +6194,12 @@ current coordinates and is cleared independently of the geometry count.
 Both volatile header-pointer reads are retained: the first supplies count
 and offset, while the second supplies the record-array base.
 
-`Render_ClampCameraPosition` uses `GeomState::entry_offset_1C` and the canonical
-52-byte `CameraViewport` record for its four clamp thresholds. Assertions pin
-the offset, stride and bound fields, and the function retains its retail code
-bytes.
+Camera clamping, bounds save/restore and viewport setup now share one
+`Render_CameraViewportFlow` TU because they operate on the selected
+`CameraViewport` and the geometry header's `entry_offset_1C`. Clamp and viewport
+setup use the canonical typed records. The save/restore pair retains a byte
+pointer alias for retail store scheduling. Assertions pin the header offset,
+52-byte viewport stride and bounds; the full TU matches retail.
 
 10000 MIPS/model cases compare complete geometry buffers, camera state and
 relevant globals. They include empty arrays, both gate bits, all update-mode
