@@ -148,8 +148,8 @@ segments:
       - [0x9EAC, c, RoomEffect_GroundRingFlow]
       - [0xA580, c, RoomEffect_DelayedBurstFlow]
       # The emitter owns the callback's four-byte pointer entries.
-      - [0xA968, c, RoomEffect_PeriodicPointers]
-      - [0xAC68, c, RoomEffect_BossSwayController]
+      # The pointer emitter and boss sway controller share the typed sway-point table.
+      - [0xA968, c, RoomM273PointerSwayFlow]
       - [0xAF88, c, func_80199F70]
       - [0xAF9C, c, func_80199F84]
       - [0xB080, c, func_8019A068]
