@@ -147,6 +147,7 @@ typedef union RoomM273EffectStatePointer {
     RoomM273ThresholdEntityState *threshold;
     RoomM273DirectedRingState *directed_rings;
     RoomM273ScaledLayerOwner *scaled_layer;
+    RoomM273PlayerActorView *player;
 } RoomM273EffectStatePointer;
 
 typedef struct RoomM273EffectStateContext {
@@ -237,6 +238,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273EffectStatePointer, mode) == 0,
                   room_m273_effect_state_mode_pointer_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273EffectStatePointer, threshold) == 0,
                   room_m273_effect_state_threshold_pointer_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273EffectStatePointer, player) == 0,
+                  room_m273_effect_state_player_pointer_offset);
 PE1_STATIC_ASSERT(sizeof(RoomM273EffectStatePointer) == 4,
                   room_m273_effect_state_pointer_size);
 PE1_STATIC_ASSERT(sizeof(RoomM273EffectStateContext) == 0x0C,

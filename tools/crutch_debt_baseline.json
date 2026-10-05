@@ -40,7 +40,7 @@
     "pins": 415,
     "pointer_integer_casts": 76,
     "postpass": 0,
-    "raw_offset_dereferences": 1762,
+    "raw_offset_dereferences": 1758,
     "stack_reserves": 0,
     "statement_expressions": 3,
     "unknown_fields": 66

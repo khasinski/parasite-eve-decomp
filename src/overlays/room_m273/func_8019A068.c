@@ -3,7 +3,7 @@
 #include "room_m273_effects.h"
 
 extern s32 D_800E27EC;
-extern char **D_800F32D0;
+extern RoomM273EffectStateContext *D_800F32D0;
 extern u8 D_8019AE68;
 
 void func_80194B5C(void);
@@ -12,8 +12,8 @@ char *func_800CE610(void *arg0);
 
 s32 func_8019A068(s32 state) {
     char *obj;
-    char *root;
-    char *source;
+    RoomM273PlayerActorView *root;
+    RoomM273ThresholdTransform *source;
     u8 status;
 
     if (state != 1) {
@@ -30,8 +30,8 @@ s32 func_8019A068(s32 state) {
         return 2;
     }
 
-    root = D_800F32D0[2];
-    status = root[0xE];
+    root = D_800F32D0->state.player;
+    status = root->kind;
     if (status != 0x10 && status != 8) {
         D_8019AE68 = 1;
         return 2;
@@ -42,11 +42,11 @@ s32 func_8019A068(s32 state) {
 
     obj = func_800CE610(D_800F33E0->pool);
     if (obj != 0) {
-        root = D_800F32D0[2];
-        source = *(char **)(root + 0x238);
-        *(u16 *)(obj + 0) = *(s32 *)(source + 0x594);
-        *(u16 *)(obj + 2) = *(s32 *)(source + 0x598);
-        *(u16 *)(obj + 4) = *(s32 *)(source + 0x59C);
+        root = D_800F32D0->state.player;
+        source = (RoomM273ThresholdTransform *)root->tail.object;
+        *(u16 *)(obj + 0) = source->x;
+        *(u16 *)(obj + 2) = source->y;
+        *(u16 *)(obj + 4) = source->z;
     }
     return 0;
 }
