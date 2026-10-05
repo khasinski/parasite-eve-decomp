@@ -406,7 +406,7 @@ segments:
       - [0x2EC74, c, render/Render_OffsetObjectTextureCoordinates]
       - [0x2EDF0, c, render/Render_IncrementCounter]
       # Render_IncrementCounter's counter word lives in .text; it is data,
-      # not a function (docs/SOURCE_QUALITY.md, text-resident data).
+      # not a function (docs/CONVENTIONS.md, text-resident data).
       - {start: 0x2EE0C, type: data, name: render/Render_Counter, linker_section_order: .text, linker_section: .code_data}
       - [0x2EE10, c, boot/InitSystem]
       - [0x2EE80, c, boot/Boot_InitSubsystems]

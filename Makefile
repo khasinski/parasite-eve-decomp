@@ -63,6 +63,8 @@ C_DEPS := $(C_OBJS:.o=.o.d)
 
 .PHONY: expected objdiff-config progress-audit report report-audit all build check check-sources source-policy-check ci verify verify-clean clean diff distclean overlay-build overlay-build-all overlay-check overlay-check-all overlay-clean overlay-extract overlay-permuter-scratch overlay-split permute progress debt debt-check debt-baseline organization-check organization-baseline test drop-pins drop-barriers drop-aliases shift-audit shift-test split split-if-needed tools
 
+.PHONY: expected objdiff-config progress-audit report report-audit all build check check-sources source-policy-check ci verify verify-clean clean diff distclean overlay-build overlay-build-all overlay-check overlay-check-all overlay-clean overlay-extract overlay-split permute progress debt debt-check debt-baseline organization-check organization-baseline test drop-pins drop-barriers drop-aliases split split-if-needed tools
+
 all: verify
 
 split:
@@ -218,12 +220,6 @@ overlay-build-all: | $(BUILD)
 	@test -n "$(OVERLAY_NAMES)" || { echo "no configured overlays in configs/$(VERSION)/overlays"; exit 1; }
 	@$(PY) tools/scripts/parallel_overlay_make.py --jobs $(OVERLAY_JOBS) \
 	    --target overlay-build $(OVERLAY_NAMES)
-
-overlay-permuter-scratch:
-	@$(PY) tools/scripts/make_overlay_permuter_scratch.py \
-	    $(if $(FUNC),--func $(FUNC),) \
-	    $(if $(RANK),--rank $(RANK),) \
-	    $(if $(C_RANK),--c-rank $(C_RANK),)
 
 overlay-extract:
 	@if [ -f "$(OVERLAY_ORIG)" ]; then echo "have $(OVERLAY_ORIG)"; exit 0; fi; \
