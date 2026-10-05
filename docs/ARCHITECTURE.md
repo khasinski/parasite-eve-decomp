@@ -30,7 +30,7 @@ each against the retail SHA-1.
 | `0x800E0060..0x801FE000` | image tail, almost entirely zero: BSS, buffers and the overlay windows |
 | `0x801FFFF0` | initial stack top |
 
-Entry is the PsyQ start-up (`psyq/libsn/SNMAIN.c`): it clears BSS, sets
+Entry is the PsyQ start-up (`psyq/libsn/snmain.c`): it clears BSS, sets
 `$sp`, `$fp` and `$gp`, initializes the heap and calls `main`
 (`src/main/boot/Boot_MainLoop.c`).
 
