@@ -764,8 +764,10 @@ scene_e22 overlay SHA-1 hash is unchanged and no pins or barriers were added.
 ### Field engine glow layers, particle chain and the scene_e08 glow model
 
 The main executable's three identical glow layer routines now share
-`FieldEng_GlowLayers.inc` with three instances, and the field particle chain
-builder matches as `FieldEng_BuildParticleChain.c`. scene_e08's glowing model
+`FieldEng_GlowLayers.inc` with three instances. The adjacent field particle
+chain builder and textured-strip renderer share `FieldEng_ParticleChainFlow.c`
+and the asserted 0x44-byte `FieldTexturedChainNode` view: the builder writes
+the two edge vectors that the renderer consumes. scene_e08's glowing model
 draw matches as `Scene_DrawGlowModel_80193150.c` on the new
 `scene_glow_model.h`, and scene_e22's ember drift particle and controller
 match on `scene_e22_ember.h`. All are clean C with no pins or barriers; the main
