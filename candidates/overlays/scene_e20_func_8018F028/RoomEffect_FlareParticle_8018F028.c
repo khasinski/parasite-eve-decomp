@@ -10,11 +10,12 @@ int func_80077DC4(int angle);
 u16 func_80077AA4(int x, int y);
 void func_800D2104(GteShortVector *position, RenderColor *color, int size, int alpha);
 
-/* Mode 1 ages the flare and, while it falls, moves and damps it and
- * bounces it off the floor; mode 2 draws a spinning glow with a streak,
- * a pulsing glow pair, or a fading spark. Matching debt: two register pins
- * retain the separate palette-compare temporaries. GTE transfers use the
- * shared instruction macros; there are no CPU instruction ASM bodies. */
+/* Mode 1 updates a falling flare; mode 2 draws its glow, streak or spark.
+ * WIP: linked score 30 (six register differences), 1832 bytes.
+ * Matching debt: ten register pins and four empty constraint barriers.
+ * Matrix loads are C; each GTE instruction uses its individual macro.
+ * The barriers keep the matrix address in v0 and its pointer in t0.
+ * Do not promote until both score and retail byte comparison are exact. */
 int func_8018F028(int mode, SceneE20Particle *p)
 {
     GteRotation rotation;
@@ -82,9 +83,21 @@ int func_8018F028(int mode, SceneE20Particle *p)
             rotation.z = p->velocity.z;
             rotation.flags = 1;
             {
-                RenderMatrixSlot *matrixSlot = &D_800BCFA4;
-                gte_ldrotmatrix(matrixSlot->value);
-                gte_ldtransmatrix(matrixSlot->value);
+                register RenderMatrixSlot *matrixSlot asm("$2") = &D_800BCFA4;
+                u32 *matrixWords;
+                register u32 a asm("$12");
+                register u32 b asm("$13");
+                register u32 c asm("$14");
+                asm volatile("" : "=r"(matrixSlot) : "0"(matrixSlot));
+                matrixWords = (u32 *)matrixSlot->value;
+                asm volatile("" : "=r"(matrixWords) : "0"(matrixWords) : "$2", "$3", "$4", "$5", "$6", "$7");
+                a = matrixWords[0]; b = matrixWords[1];
+                gte_ctc2_0(a); gte_ctc2_1(b);
+                a = matrixWords[2]; b = matrixWords[3]; c = matrixWords[4];
+                gte_ctc2_2(a); gte_ctc2_3(b); gte_ctc2_4(c);
+                a = matrixWords[5]; b = matrixWords[6];
+                gte_ctc2_5(a); c = matrixWords[7];
+                gte_ctc2_6(b); gte_ctc2_7(c);
             }
             func_800CF3AC(D_80190804, &color, p->timer);
             {
@@ -155,9 +168,21 @@ int func_8018F028(int mode, SceneE20Particle *p)
         }
         case 2:
             {
-                RenderMatrixSlot *matrixSlot = &D_800BCFA4;
-                gte_ldrotmatrix(matrixSlot->value);
-                gte_ldtransmatrix(matrixSlot->value);
+                register RenderMatrixSlot *matrixSlot asm("$2") = &D_800BCFA4;
+                u32 *matrixWords;
+                register u32 a asm("$12");
+                register u32 b asm("$13");
+                register u32 c asm("$14");
+                asm volatile("" : "=r"(matrixSlot) : "0"(matrixSlot));
+                matrixWords = (u32 *)matrixSlot->value;
+                asm volatile("" : "=r"(matrixWords) : "0"(matrixWords) : "$2", "$3", "$4", "$5", "$6", "$7");
+                a = matrixWords[0]; b = matrixWords[1];
+                gte_ctc2_0(a); gte_ctc2_1(b);
+                a = matrixWords[2]; b = matrixWords[3]; c = matrixWords[4];
+                gte_ctc2_2(a); gte_ctc2_3(b); gte_ctc2_4(c);
+                a = matrixWords[5]; b = matrixWords[6];
+                gte_ctc2_5(a); c = matrixWords[7];
+                gte_ctc2_6(b); gte_ctc2_7(c);
             }
             func_800CF3AC(D_80190804, &color, (p->timer << 4) / 20);
             func_800D2104(&p->position, &color, 0x80, 1);
