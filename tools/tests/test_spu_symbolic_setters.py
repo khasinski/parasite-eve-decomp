@@ -11,14 +11,14 @@ from elftools.elf.elffile import ELFFile
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Complete retail code ranges, including both delay-slot stores.
-CASES = [('akao/Spu_SetTransferMode',
+CASES = [('psyq/libspu/s_sic',
   60,
   'debb78329dd39e6add2ccd1078286a5de18c83f920d7935ff1c65a77a1b75856',
   '_spu_IRQCallback = 0x8009B438;\n'
   '_SpuCallback = 0x80085DC4;\n'
   'SECTIONS { .text 0x80085d84 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('akao/Spu_SetReverbMode',
+ ('psyq/libspu/s_stm',
   48,
   '134e29bc16aa82935dc5bf1526921eca7242026ae951ebcb936eeb9cd001121e',
   'D_8009B38C = 0x8009B38C;\n'
@@ -28,12 +28,12 @@ CASES = [('akao/Spu_SetTransferMode',
 
 # HI16/LO16 must remain relocations rather than hard-coded RAM addresses.
 RELOCATIONS = {
-    "akao/Spu_SetTransferMode": [
+    "psyq/libspu/s_sic": [
         (8, 5, "_spu_IRQCallback"), (12, 6, "_spu_IRQCallback"),
         (28, 5, "_spu_IRQCallback"), (32, 4, "_SpuCallback"),
         (36, 6, "_spu_IRQCallback"),
     ],
-    "akao/Spu_SetReverbMode": [
+    "psyq/libspu/s_stm": [
         (16, 4, ".text"), (28, 5, "D_8009B38C"),
         (32, 6, "D_8009B38C"), (36, 5, "D_8009B418"),
         (44, 6, "D_8009B418"),
