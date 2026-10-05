@@ -1,14 +1,14 @@
 {
   "main": {
     "aliases": 64,
-    "asm_bodies": 36,
-    "asm_constrained_units": 5,
-    "barriers": 1220,
+    "asm_bodies": 32,
+    "asm_constrained_units": 4,
+    "barriers": 1219,
     "byte_pointer_arithmetic": 301,
     "dead_code": 0,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 3793,
+    "externs_in_c": 3788,
     "field_macros": 563,
     "gotos": 933,
     "include_asm": 0,
