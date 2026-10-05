@@ -1,6 +1,6 @@
 /* Matching debt: pinned GTE transfer words and translation address, empty
  * address/memory constraints, and the existing artificial spill reservation.
- * The initial camera rotation load still uses the legacy CPU ASM macro. */
+ * Full C candidate: score 30; the initial matrix address differs from retail. */
 #include "common.h"
 #include "m2c_macros.h"
 #include "pe1/gte.h"
@@ -253,7 +253,7 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
     RotMatrixY(arg3 & 0xFFFF, (GteMatrix *)&stack.matrix);
     matrix_slot = &D_800BCFA4.value;
     matrix_value = *matrix_slot;
-    gte_ldrotmatrix(matrix_value);
+    AnimLoadRotMatrix(matrix_value);
     {
         short *column = &stack.matrix.rotation[0][0];
         asm volatile("" : "=r"(column) : "0"(column));

@@ -2273,3 +2273,24 @@ pin declarations and one barrier. Existing matching debt remains.
 Single/pair removal passes tried 6, 15, and 15 combinations, respectively.
 They removed the alternate renderer's initial address constraint. No further
 single or paired deletion of the remaining added bindings retained a match.
+
+### Animation-frame renderer: remaining matrix transfers
+
+`Render_DecompressAnimFrame` now expresses the three column loads/stores,
+both translation loads, and the final rotation load in C, with individual
+GTE transfers. The long-vector packing helper also uses separate MTC2 and
+LWC2 wrappers. Stock native GCC 2.7.2 and stock MASPSX 2.56, with the existing
+`-G8`, reproduce linked score 0 and all 2292 retail bytes at `0x8007041C`.
+
+This conversion is incomplete: the first `gte_ldrotmatrix(matrix_value)`
+remains the legacy CPU ASM macro. The full C candidate is preserved under
+`candidates/main/render/Render_DecompressAnimFrame_MatrixLoads.c`; its score is 30, with
+six instructions using `v0` instead of `t2` for the initial matrix address.
+
+The new helper definitions contain fourteen individual transfer pins, plus
+one `a0` translation-pointer pin. Five empty address/memory constraints
+remain. The lexical ratchet records seven pin declarations and five barriers.
+A 253-trial single/pair removal pass eliminated the column-store address
+constraint and the vector-pack ordering constraint; no further single/pair
+removal of the remaining twenty bindings preserved the match. The existing
+artificial spill reservation and raw primitive-field accesses remain debt.
