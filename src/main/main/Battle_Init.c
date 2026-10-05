@@ -1,13 +1,7 @@
-#include "common.h"
+#include "pe1/battle.h"
 
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
-
-typedef struct BattleInitRecord {
-    u32 value;
-    u16 state;
-    u16 timer;
-} BattleInitRecord;
 
 typedef struct GlobalWordObject {
     s32 value;
@@ -24,7 +18,6 @@ typedef struct BattleRootObject {
     u8 pad[12];
 } BattleRootObject;
 
-extern BattleInitRecord D_800BE830[45];
 extern s32 D_8009D200;
 extern GlobalWordObject D_8009D2FC_o __asm__("D_8009D2FC");
 extern s32 D_8009D258;
@@ -51,7 +44,7 @@ void Battle_InitFadeVars(void);
 void Battle_Init(void)
 {
     u8 index;
-    BattleInitRecord *records;
+    BattleInitSlot *records;
     u8 *root;
     u8 *config0;
     u8 *config1;
@@ -69,9 +62,9 @@ void Battle_Init(void)
     D_8009D208 = -1;
 
     do {
-        D_800BE830[index].value = 0;
-        records[index].timer = 0;
-        D_800BE830[index].state = 0;
+        D_800BE830[index].actor = 0;
+        records[index].field06 = 0;
+        D_800BE830[index].field04 = 0;
         index++;
     } while (index < 45);
 

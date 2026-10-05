@@ -383,8 +383,13 @@ typedef struct BattleInitSlot {
     s16 field04;
     s16 field06;
 } BattleInitSlot;
+extern BattleInitSlot D_800BE830[45];
 
 PE1_STATIC_ASSERT(sizeof(BattleInitSlot) == 8, battle_init_slot_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleInitSlot, field04) == 4,
+                  battle_init_slot_field04_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(BattleInitSlot, field06) == 6,
+                  battle_init_slot_field06_offset);
 
 extern BattleTarget g_BattleTargetList[];
 extern int D_8009D208; /* last scene asset/effect result selected by battle */

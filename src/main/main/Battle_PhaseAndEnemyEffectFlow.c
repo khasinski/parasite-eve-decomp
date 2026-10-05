@@ -85,7 +85,7 @@ extern LargeSymbol D_8009D278_12 __asm__("D_8009D278");
 extern LargeSymbol D_8009D278_13 __asm__("D_8009D278");
 extern s16 D_8009D27C;
 extern LargeSymbol D_8009D2A0_o __asm__("D_8009D2A0");
-extern u8 D_800BE830[];
+#define D_800BE830_BYTES ((u8 *)&D_800BE830[0])
 extern QueueCommand D_800BE834[];
 
 #define D_800942E4 (*(u8 **)&D_800942E4_o)
@@ -164,7 +164,7 @@ void Battle_AdvancePhase(void) {
 
     var_a0 = D_8009D2A0;
     temp_a2 = D_8009D1D4;
-    temp_s2 = (QueueEntry *)(((temp_a2 & 0xFF) * 8) + D_800BE830);
+    temp_s2 = (QueueEntry *)(((temp_a2 & 0xFF) * 8) + D_800BE830_BYTES);
     if (var_a0 == 0) {
         var_s0 = temp_a2;
         if ((temp_a2 & 0xFF) < (u8) D_8009CE3C) {
@@ -228,7 +228,7 @@ after_command:
                 if ((s32) var_a1 < (s32) temp_v1) {
                     loop_limit.value = (s32) temp_v1;
 loop_17:
-                    temp_v1_2 = *(void **)(D_800BE830 + ((var_s0 & 0xFF) * 8));
+                    temp_v1_2 = *(void **)(D_800BE830_BYTES + ((var_s0 & 0xFF) * 8));
                     if ((temp_v1_2 == NULL) || (M2C_FIELD(M2C_FIELD(temp_v1_2, void **, 0), s32 *, 0x10) <= 0) || (M2C_FIELD(temp_v1_2, s32 *, 0x98) & 0x4000)) {
                         var_s0 += 1;
                         if ((var_s0 & 0xFF) < loop_limit.value) {
@@ -251,9 +251,9 @@ block_search_done:
                         var_a1 = (void *) var_a0_2;
                         do {
                             var_a0_2 = temp_v1_3 * 8;
-                            temp_v1_5 = *(void ***)(D_800BE830 + var_a0_2);
+                            temp_v1_5 = *(void ***)(D_800BE830_BYTES + var_a0_2);
                             if ((M2C_FIELD(*temp_v1_5, s32 *, 0x10) <= 0) || (temp_v1_5 == NULL)) {
-                                *(void **)(D_800BE830 + var_a0_2) = var_a2;
+                                *(void **)(D_800BE830_BYTES + var_a0_2) = var_a2;
                             }
                             var_s0 += 1;
                             temp_v1_3 = var_s0 & 0xFF;
@@ -262,7 +262,7 @@ block_search_done:
                 }
                 goto block_39;
             }
-            temp_v1_6 = *(void **)(D_800BE830 + (s32)var_a2);
+            temp_v1_6 = *(void **)(D_800BE830_BYTES + (s32)var_a2);
             if ((temp_v1_6 == NULL) || (M2C_FIELD(M2C_FIELD(temp_v1_6, void **, 0), s32 *, 0x10) <= 0) || (M2C_FIELD(temp_v1_6, s32 *, 0x98) & 0x4000)) {
                 var_v0_3 = D_8009D1D4 + 1;
 block_35:
@@ -348,7 +348,7 @@ block_55:
             if ((u32)var_a2_2 < end_slot) {
                 do {
                     var_v0_6 = var_a2_2 * 8;
-                    temp_a0_4 = *(s32 *)(D_800BE830 + var_v0_6);
+                    temp_a0_4 = *(s32 *)(D_800BE830_BYTES + var_v0_6);
                     if (temp_a0_4 != D254(9)) {
                         Battle_UpdateEntityFacing(temp_a0_4);
                     }

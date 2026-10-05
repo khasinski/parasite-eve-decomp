@@ -22,7 +22,6 @@ typedef struct BattleEnemySlot {
     EnemyCombatant combatant;
 } BattleEnemySlot;
 
-extern BattleInitSlot D_800BE830[45];
 extern int D_8009D2FC;
 extern int D_8009D258;
 extern int D_8009D208;
