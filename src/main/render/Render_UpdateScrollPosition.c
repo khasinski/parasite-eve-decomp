@@ -1,5 +1,6 @@
 #include "pe1/geom_state.h"
 #include "pe1/gte.h"
+#include "pe1/gte_types.h"
 #include "pe1/psyq_nop.h"
 
 /* Project a world-space point and start a clamped camera transition. */
@@ -23,16 +24,44 @@ int Render_UpdateScrollPosition(void *positionArg, int duration, int mode)
         /* Narrow volatile register retains GCC's retail 24-byte frame.
          * This is a matching constraint, not evidence of the original type. */
         register volatile unsigned short cx asm("$10") = 160;
-        unsigned int cy = 112;
-        gte_SetGeomOffset(cx, cy);
+        register unsigned int cy asm("$11") = 112;
+        /* C offset shifts; pins and the empty constraint retain scheduling. */
+        {
+            register u32 ofx asm("$12");
+            register u32 ofy asm("$13");
+            asm volatile("" : "=r"(cx), "=r"(cy) : "0"(cx), "1"(cy));
+            ofx = (u32)cx << 16;
+            ofy = cy << 16;
+            gte_ctc2_24(ofx);
+            gte_ctc2_25(ofy);
+        }
     }
     {
         unsigned int **address = &camera->position.matrixWords;
-        register unsigned int *matrix asm("$10");
         asm("" : "=r"(address) : "0"(address));
-        matrix = *address;
-        gte_ldrotmatrix(matrix);
-        gte_ldtransmatrix(matrix);
+        {
+            register const GteMatrixWords *words asm("$10");
+            register u32 a asm("$12");
+            register u32 b asm("$13");
+            register u32 c asm("$14");
+            words = (const GteMatrixWords *)*address;
+            a = words->r11_r12;
+            b = words->r13_r21;
+            gte_ctc2_0(a);
+            gte_ctc2_1(b);
+            a = words->r22_r23;
+            b = words->r31_r32;
+            c = words->r33_pad;
+            gte_ctc2_2(a);
+            gte_ctc2_3(b);
+            gte_ctc2_4(c);
+            a = words->tx;
+            b = words->ty;
+            gte_ctc2_5(a);
+            c = words->tz;
+            gte_ctc2_6(b);
+            gte_ctc2_7(c);
+        }
     }
     gte_lwc2_0_0(vector);
     gte_lwc2_1_4(vector);
