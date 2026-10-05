@@ -155,7 +155,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
                 register u32 a asm("$12");
                 register u32 b asm("$13");
                 register u32 c asm("$14");
-    
+
                 a = words->r11_r12;
                 b = words->r13_r21;
                 gte_ctc2_0(a);
@@ -220,7 +220,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
                 register u32 a asm("$12");
                 register u32 b asm("$13");
                 register u32 c asm("$14");
-    
+
                 a = words->r11_r12;
                 b = words->r13_r21;
                 gte_ctc2_0(a);
@@ -295,7 +295,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
                 register u32 a asm("$12");
                 register u32 b asm("$13");
                 register u32 c asm("$14");
-    
+
                 a = words->r11_r12;
                 b = words->r13_r21;
                 gte_ctc2_0(a);
@@ -355,7 +355,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
                 register u32 a asm("$12");
                 register u32 b asm("$13");
                 register u32 c asm("$14");
-    
+
                 a = words->r11_r12;
                 b = words->r13_r21;
                 gte_ctc2_0(a);
@@ -387,7 +387,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
                 register u32 a asm("$12");
                 register u32 b asm("$13");
                 register u32 c asm("$14");
-    
+
                 a = words->r11_r12;
                 b = words->r13_r21;
                 gte_ctc2_0(a);
