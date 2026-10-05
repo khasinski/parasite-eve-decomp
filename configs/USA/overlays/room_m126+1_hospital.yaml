@@ -1,18 +1,18 @@
-name: room_m126+1.bin
+name: room_m126+1_hospital.bin
 sha1: 4d06f0af693502da09500eaffbe9c6df5b1af988
 options:
-  basename: room_m126+1
+  basename: room_m126+1_hospital
   target_path: original/USA/overlays/room_m126+1.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/room_m126+1
-  src_path: src/overlays/room_m126+1
-  build_path: build/USA/overlays/room_m126+1
-  ld_script_path: linkers/USA/overlays/room_m126+1.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m126+1.txt
-  symbol_addrs_path: configs/USA/overlays/sym.room_m126+1.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m126+1.txt
+  asm_path: asm/USA/overlays/room_m126+1_hospital
+  src_path: src/overlays/room_m126+1_hospital
+  build_path: build/USA/overlays/room_m126+1_hospital
+  ld_script_path: linkers/USA/overlays/room_m126+1_hospital.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m126+1_hospital.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m126+1_hospital.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m126+1_hospital.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: room_m126+1
+  - name: room_m126+1_hospital
     type: code
     start: 0x0
     vram: 0x8018EFE8
@@ -34,7 +34,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, rodata, room_m126+1_0_1C]
+      - [0x0, rodata, room_m126+1_hospital_0_1C]
       - [0x1C, .rodata, RoomEffect_DroppedFlareParticle_8018F038]
       - [0x48, rodata, RoomLib_DlgRect]
       - [0x50, c, RoomEffect_DroppedFlareParticle_8018F038]
@@ -46,11 +46,11 @@ segments:
       - start: 0xD54
         type: databin
         name: RoomLib_PairB
-        dir: room_m126+1
+        dir: room_m126+1_hospital
       - start: 0x191FC
         type: databin
         name: D_801A81E4
-        dir: room_m126+1
+        dir: room_m126+1_hospital
   - [0x24800]
 # room: m126, section3 sector 38302, scanner delta 1
 # source slice: room-section3

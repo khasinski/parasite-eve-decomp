@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m318/RoomEffect_FallingPaletteSprite.c'
+SOURCE = ROOT / 'src/overlays/room_m318_chrysler/RoomEffect_FallingPaletteSprite.c'
 
 
 class FallingSprite(unittest.TestCase):

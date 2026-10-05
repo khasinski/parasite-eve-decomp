@@ -1,18 +1,18 @@
-name: room_m273.bin
+name: room_m273_liberty.bin
 sha1: 692fdf1477e29d8eb1e2e6c8a7e1cc8ac51dda3a
 options:
-  basename: room_m273
+  basename: room_m273_liberty
   target_path: original/USA/overlays/room_m273.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/room_m273
-  src_path: src/overlays/room_m273
-  build_path: build/USA/overlays/room_m273
-  ld_script_path: linkers/USA/overlays/room_m273.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m273.txt
-  symbol_addrs_path: configs/USA/overlays/sym.room_m273.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m273.txt
+  asm_path: asm/USA/overlays/room_m273_liberty
+  src_path: src/overlays/room_m273_liberty
+  build_path: build/USA/overlays/room_m273_liberty
+  ld_script_path: linkers/USA/overlays/room_m273_liberty.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m273_liberty.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m273_liberty.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m273_liberty.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: room_m273
+  - name: room_m273_liberty
     type: code
     start: 0x0
     vram: 0x8018EFE8
@@ -34,7 +34,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, rodata, room_m273]
+      - [0x0, rodata, room_m273_liberty]
       - [0xC, .rodata, RoomLib_HandlerDArgs_8018F290]
       - [0x8C, .rodata, RoomLib_HandlerEArgs_8018FFDC]
       - [0x110, rodata, RoomLib_HandlerEArgsPad_8018FFDC]
@@ -254,11 +254,11 @@ segments:
       - start: 0xBFB8
         type: databin
         name: D_8019AFA0
-        dir: room_m273
+        dir: room_m273_liberty
       - start: 0x41200
         type: databin
         name: D_801D01E8
-        dir: room_m273
+        dir: room_m273_liberty
   - [0x50800]
 # room: m273, section3 sector 70012, scanner delta 0
 # source slice: room-section3

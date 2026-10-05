@@ -1,18 +1,18 @@
-name: room_m028.bin
+name: room_m028_sewer.bin
 sha1: 47a298d84aad055727271a924b9fb846c4dbb3cc
 options:
-  basename: room_m028
+  basename: room_m028_sewer
   target_path: original/USA/overlays/room_m028.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/room_m028
-  src_path: src/overlays/room_m028
-  build_path: build/USA/overlays/room_m028
-  ld_script_path: linkers/USA/overlays/room_m028.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m028.txt
-  symbol_addrs_path: configs/USA/overlays/sym.room_m028.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m028.txt
+  asm_path: asm/USA/overlays/room_m028_sewer
+  src_path: src/overlays/room_m028_sewer
+  build_path: build/USA/overlays/room_m028_sewer
+  ld_script_path: linkers/USA/overlays/room_m028_sewer.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m028_sewer.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m028_sewer.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m028_sewer.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: room_m028
+  - name: room_m028_sewer
     type: code
     start: 0x0
     vram: 0x8018EFE8
@@ -34,7 +34,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, rodata, room_m028]
+      - [0x0, rodata, room_m028_sewer]
       - [0xC, .rodata, func_8018F284]
       - [0x8C, .rodata, func_8018FFD0]
       - [0x110, rodata, func_8018FFD0_pad]
@@ -104,11 +104,11 @@ segments:
       - start: 0x42A8
         type: databin
         name: RoomSlotC_80193148
-        dir: room_m028
+        dir: room_m028_sewer
       - start: 0x14F50
         type: databin
         name: D_801A3F38
-        dir: room_m028
+        dir: room_m028_sewer
   - [0x22800]
 # room: m028, section3 sector 14003, scanner delta 0
 # source slice: room-section3

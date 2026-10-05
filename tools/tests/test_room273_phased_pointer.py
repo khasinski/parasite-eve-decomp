@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'src/overlays/room_m273/RoomEffect_PhasedPointerSprite.c'
+SOURCE = ROOT / 'src/overlays/room_m273_liberty/RoomEffect_PhasedPointerSprite.c'
 
 
 class PhasedPointerSprite(unittest.TestCase):

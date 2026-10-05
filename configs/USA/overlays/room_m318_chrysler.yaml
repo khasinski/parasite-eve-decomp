@@ -1,18 +1,18 @@
-name: room_m318.bin
+name: room_m318_chrysler.bin
 sha1: 3deebe65a4bb7eb5d1a9ececd8296a47ea7b9e4b
 options:
-  basename: room_m318
+  basename: room_m318_chrysler
   target_path: original/USA/overlays/room_m318.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/room_m318
-  src_path: src/overlays/room_m318
-  build_path: build/USA/overlays/room_m318
-  ld_script_path: linkers/USA/overlays/room_m318.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m318.txt
-  symbol_addrs_path: configs/USA/overlays/sym.room_m318.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m318.txt
+  asm_path: asm/USA/overlays/room_m318_chrysler
+  src_path: src/overlays/room_m318_chrysler
+  build_path: build/USA/overlays/room_m318_chrysler
+  ld_script_path: linkers/USA/overlays/room_m318_chrysler.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m318_chrysler.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m318_chrysler.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m318_chrysler.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: room_m318
+  - name: room_m318_chrysler
     type: code
     start: 0x0
     vram: 0x8018EFE8
@@ -34,7 +34,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, rodata, room_m318]
+      - [0x0, rodata, room_m318_chrysler]
       - [0xC, .rodata, RoomLib_HandlerDArgs_8018F2EC]
       - [0x8C, .rodata, RoomLib_HandlerEArgs_80190038]
       - [0x110, rodata, RoomLib_HandlerEArgsPad_80190038]
@@ -171,12 +171,12 @@ segments:
       - start: 0xA95C
         type: databin
         name: D_80199944
-        dir: room_m318
+        dir: room_m318_chrysler
       - [0x311F8, data, D_801C01E0]
       - start: 0x31210
         type: databin
         name: D_801C01F8
-        dir: room_m318
+        dir: room_m318_chrysler
   - [0x5C800]
 # room: m318, section3 sector 77178, scanner delta 0
 # source slice: room-section3

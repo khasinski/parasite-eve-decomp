@@ -1,18 +1,18 @@
-name: room_m075.bin
+name: room_m075_central_park.bin
 sha1: ca34d1321e158763e9ee8b3cc9df0b3d94d28978
 options:
-  basename: room_m075
+  basename: room_m075_central_park
   target_path: original/USA/overlays/room_m075.bin
   base_path: ../../..
   platform: psx
   compiler: GCC
-  asm_path: asm/USA/overlays/room_m075
-  src_path: src/overlays/room_m075
-  build_path: build/USA/overlays/room_m075
-  ld_script_path: linkers/USA/overlays/room_m075.ld
-  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m075.txt
-  symbol_addrs_path: configs/USA/overlays/sym.room_m075.txt
-  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m075.txt
+  asm_path: asm/USA/overlays/room_m075_central_park
+  src_path: src/overlays/room_m075_central_park
+  build_path: build/USA/overlays/room_m075_central_park
+  ld_script_path: linkers/USA/overlays/room_m075_central_park.ld
+  undefined_funcs_auto_path: linkers/USA/overlays/undefined_funcs_auto.room_m075_central_park.txt
+  symbol_addrs_path: configs/USA/overlays/sym.room_m075_central_park.txt
+  undefined_syms_auto_path: linkers/USA/overlays/undefined_syms_auto.room_m075_central_park.txt
   find_file_boundaries: True
   disassemble_all: True
   asm_function_macro: glabel
@@ -26,7 +26,7 @@ options:
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
 segments:
-  - name: room_m075
+  - name: room_m075_central_park
     type: code
     start: 0x0
     vram: 0x8018EFE8
@@ -34,7 +34,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x0, rodata, room_m075]
+      - [0x0, rodata, room_m075_central_park]
       - [0x24, .rodata, RoomLib_HandlerDArgs_80190CAC]
       - [0xA4, .rodata, RoomLib_HandlerEArgs_801919F8]
       - [0x128, rodata, RoomLib_HandlerEArgsPad_801919F8]
@@ -143,7 +143,7 @@ segments:
       - start: 0x5668
         type: databin
         name: D_80194650
-        dir: room_m075
+        dir: room_m075_central_park
   - [0x2E800]
 # room: m075, section3 sector 26617, scanner delta 0
 # source slice: room-section3
