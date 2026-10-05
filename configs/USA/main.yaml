@@ -133,7 +133,7 @@ segments:
       - [0x1C28, .rodata, main/CD_SectorReadFlow]
       - [0x1D08, .rodata, main/CD_SeekToTrack]
       - [0x1E0C, rodata, main/rodata_001E0C]
-      - [0x1E1C, .rodata, psyq/libc/Square_Vsprintf]
+      - [0x1E1C, .rodata, psyq/libc/sprintf]
       - [0x1EF8, rodata, main/rodata_001EF8]
       - [0x21C8, rodata, main/rodata_0021C8]
       - [0x21CC, rodata, main/rodata_0021CC_pre_bios]
@@ -842,7 +842,7 @@ segments:
       - [0x62254, c, psyq/libc/rand]
       - [0x62264, c, psyq/libc/srand]
       - [0x62274, c, psyq/libc/printf]
-      - [0x62284, c, psyq/libc/Square_Vsprintf]
+      - [0x62284, c, psyq/libc/sprintf]
       - [0x62B14, c, psyq/libc/strlen]
       - [0x62B24, c, psyq/libc/memchr]
       - [0x62B34, c, psyq/libc/memmove]
@@ -1349,7 +1349,7 @@ segments:
       # Track parameters, slides, masks and note commands share AKAO track state.
       - [0x7F8D0, c, akao/Akao_TrackCommandAndNoteFlow]
       - [0x818A0, data, main/dtail_gp_pre_s016]
-      - [0x84D28, .data, psyq/libc/Square_Vsprintf]
+      - [0x84D28, .data, psyq/libc/sprintf]
       - [0x84D34, data, main/dtail_gp_post_sprintf]
       # Psy-Q 4.6 LIBCD S_016.OBJ owns this 32-entry command table.
       - [0x8B72C, .data, psyq/libcd/CdControl]

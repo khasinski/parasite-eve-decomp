@@ -51,7 +51,7 @@ class MainDataLayoutTests(unittest.TestCase):
                     if isinstance(s, dict)}
         self.assertEqual(segments["main"]["subsegments"][-13:], [
             [0x818A0, "data", "main/dtail_gp_pre_s016"],
-            [0x84D28, ".data", "psyq/libc/Square_Vsprintf"],
+            [0x84D28, ".data", "psyq/libc/sprintf"],
             [0x84D34, "data", "main/dtail_gp_post_sprintf"],
             [0x8B72C, ".data", "psyq/libcd/CdControl"],
             [0x8B7AC, "data", "main/dtail_gp_post_s016_pre_bios"],

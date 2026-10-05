@@ -7,7 +7,7 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-CASES = [('psyq/libc/Square_Vsprintf',
+CASES = [('psyq/libc/sprintf',
   '\n'
   'strlen = 0x80072314;\n'
   'memchr = 0x80072324;\n'
