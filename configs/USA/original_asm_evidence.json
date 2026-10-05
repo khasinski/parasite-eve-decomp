@@ -70,6 +70,67 @@
         "stock GCC 2.7.2 and 2.8.1 compile the long long sum with an 8-byte stack spill, HI read first, filled delay slots and a dead high-word shift"
       ],
       "verified_by": "agent review 2026-10-05: retail disassembly vs stock cc1 output"
+    },
+    {
+      "name": "func_8010C4CC",
+      "module": "sys_reset",
+      "source": "overlays/sys_reset/DecDCTvlc.c",
+      "address": "0x8010C4CC",
+      "size": 48,
+      "origin": "psyq",
+      "library": "LIBPRESS",
+      "object": "VLC",
+      "evidence": [
+        "PSY-Q LIBPRESS DecDCTvlcSize: 12 of 12 words identical to the PSY-Q 3.5 vlc.o routine with relocations masked, local label default at the same offset",
+        "trapping addi $at, $a0, -1 and a $at constant load; no stack frame",
+        "Psyz (PSY-Q 4.0) places DecDCTvlcSize at +4 of a 0x398-byte vlc object; the retail VLC object spans 0x8010C4C8..0x8010C860, also 0x398 bytes"
+      ],
+      "verified_by": "agent review 2026-10-05: PSY-Q 3.5 LIBPRESS.LIB vlc.o comparison"
+    },
+    {
+      "name": "func_8010C4FC",
+      "module": "sys_reset",
+      "source": "overlays/sys_reset/DecDCTvlc.c",
+      "address": "0x8010C4FC",
+      "size": 868,
+      "origin": "psyq",
+      "library": "LIBPRESS",
+      "object": "VLC",
+      "evidence": [
+        "PSY-Q LIBPRESS DecDCTvlc: same symbol position and frameless static-state protocol as the PSY-Q 3.5 vlc.o routine, body revised in 4.0",
+        "54 trapping add/addi/sub instructions, mfc0/mtc0 of COP0 Status, decoder registers saved to static words instead of a stack frame"
+      ],
+      "verified_by": "agent review 2026-10-05: PSY-Q 3.5 LIBPRESS.LIB vlc.o comparison and retail disassembly"
+    },
+    {
+      "name": "func_8010C86C",
+      "module": "sys_reset",
+      "source": "overlays/sys_reset/DecDCTvlc2.c",
+      "address": "0x8010C86C",
+      "size": 48,
+      "origin": "psyq",
+      "library": "LIBPRESS",
+      "object": "VLC_C",
+      "evidence": [
+        "PSY-Q LIBPRESS DecDCTvlcSize2: DecDCTvlcSize with its own limit word, trapping addi $at, $a0, -1 and a $at constant load",
+        "Psyz (PSY-Q 4.0) places DecDCTvlcSize2 at +4 of the vlc_c object; boot_display passes it a size, as for DecDCTvlcSize"
+      ],
+      "verified_by": "agent review 2026-10-05: retail disassembly"
+    },
+    {
+      "name": "func_8010C89C",
+      "module": "sys_reset",
+      "source": "overlays/sys_reset/DecDCTvlc2.c",
+      "address": "0x8010C89C",
+      "size": 864,
+      "origin": "psyq",
+      "library": "LIBPRESS",
+      "object": "VLC_C",
+      "evidence": [
+        "PSY-Q LIBPRESS DecDCTvlc2: callers pass (bitstream, buffer, table) with the table built by SysReset_ExpandDecoderTable (DecDCTvlcBuild)",
+        "56 trapping add/addi/sub instructions, mfc0/mtc0 of COP0 Status, decoder registers saved to static words instead of a stack frame"
+      ],
+      "verified_by": "agent review 2026-10-05: retail disassembly"
     }
   ]
 }

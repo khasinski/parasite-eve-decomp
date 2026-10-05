@@ -290,6 +290,16 @@ the manifest entry, write the unit with the macro, flip its yaml subsegment to
 | `Task_GpuPackPrimColor` | `task/Task_GpuPackPrimColor` | 52 | Calls `Task_GpuFlushPrimQueue` without a frame: `ra` saved with `or $v1, $zero, $ra` and restored with `or $ra, $zero, $v1`; trapping `sub` in the `jal` delay slot and trapping `add` in the return delay slot. It returns `low + ((u16)r * (high - low) >> 16)` for the generator result `r`. |
 | `Math_SqrtApprox3` | `math/Math_SqrtApprox3` | 136 | No frame; LO before HI for all three squares with two NOPs before each following `mult`; three unfilled `bgez` delay slots; the carry is added before the high words. Stock 2.7.2 and 2.8.1 compile the `long long` sum with an 8-byte stack spill, HI first, filled delay slots and a dead high-word shift. |
 
+Overlay SDK entries in the same manifest:
+
+| Functions | Unit | Object | Evidence |
+| --- | --- | --- | --- |
+| `func_8010C4CC` (DecDCTvlcSize), `func_8010C4FC` (DecDCTvlc) | `sys_reset` `DecDCTvlc` | LIBPRESS VLC | DecDCTvlcSize: 12/12 words identical to PSY-Q 3.5 `vlc.o` with relocations masked, label `default` at the same offset. DecDCTvlc keeps the frameless static-state protocol and has 54 trapping instructions and COP0 Status masking; its 4.0 body was revised after 3.5. The VLC range 0x8010C4C8..0x8010C860 is 0x398 bytes, the size Psyz gives the PSY-Q 4.0 `vlc` object. |
+| `func_8010C86C` (DecDCTvlcSize2), `func_8010C89C` (DecDCTvlc2) | `sys_reset` `DecDCTvlc2` | LIBPRESS VLC_C | The same protocol; DecDCTvlc2 has 56 trapping instructions and reads the table built by `SysReset_ExpandDecoderTable` (DecDCTvlcBuild). Psyz places DecDCTvlcSize2 at +4 of the 4.0 `vlc_c` object. |
+
+The three zero words at 0x8010C860..0x8010C86B between the two objects are a
+separate data subsegment, so neither unit range contains padding.
+
 `Task_InitGpuHwRegs` and `Task_GpuFlushPrimQueue`, which initialize and step
 the additive generator whose state is the 80-byte `.text` block at
 0x80070E04, show the same hand-written style: absolute addresses built with
