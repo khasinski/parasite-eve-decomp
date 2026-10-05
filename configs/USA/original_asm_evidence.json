@@ -1,5 +1,75 @@
 {
   "schema_version": 1,
   "description": "Functions proven to be original assembler outside the main-executable PSY-Q provenance (configs/USA/psyq_provenance.json). Only these may use GAME_ASM_FUNCTION (origin game) or PSYQ_ASM_FUNCTION in an overlay (origin psyq). Each unit's yaml range must be exactly its listed functions. Policy: docs/ASM_AND_GTE_POLICY.md, 'Game-side assembler'; enforced by tools/scripts/check_source_policy.py.",
-  "functions": []
+  "functions": [
+    {
+      "name": "Math_FixedMul",
+      "module": "main",
+      "source": "main/math/Math_FixedMul.c",
+      "address": "0x8003708C",
+      "size": 28,
+      "origin": "game",
+      "evidence": [
+        "reads LO before HI and shifts both words in place (mflo v0; mfhi v1; srl v0; sll v1; or v0,v1,v0)",
+        "stock GCC 2.7.2 and 2.8.1 compile (long long)a * b >> 16 to mfhi before mflo and keep the dead high-word shift in the return delay slot (9 words, not 7)",
+        "no GCC-generated C form produces the 7-word retail sequence; the previous C used a three-instruction asm body for the whole multiply"
+      ],
+      "verified_by": "agent review 2026-10-05: retail disassembly vs stock cc1 output"
+    },
+    {
+      "name": "Math_FixedRoundToInt",
+      "module": "main",
+      "source": "main/math/math_fixed.c",
+      "address": "0x800370BC",
+      "size": 16,
+      "origin": "game",
+      "evidence": [
+        "ori $at, $zero, 0x8000 followed by the trapping add $v0, $a0, $at: the assembler expansion of add $v0, $a0, 0x8000",
+        "GCC never allocates $at for C values and always emits addu for C addition"
+      ],
+      "verified_by": "agent review 2026-10-05: retail disassembly"
+    },
+    {
+      "name": "Math_FixedRoundToByte",
+      "module": "main",
+      "source": "main/math/math_fixed.c",
+      "address": "0x800370CC",
+      "size": 16,
+      "origin": "game",
+      "evidence": [
+        "same $at constant load and trapping add as Math_FixedRoundToInt, with an 8-bit shift",
+        "GCC never allocates $at for C values and always emits addu for C addition"
+      ],
+      "verified_by": "agent review 2026-10-05: retail disassembly"
+    },
+    {
+      "name": "Task_GpuPackPrimColor",
+      "module": "main",
+      "source": "main/task/Task_GpuPackPrimColor.c",
+      "address": "0x80070DD0",
+      "size": 52,
+      "origin": "game",
+      "evidence": [
+        "non-leaf function without a stack frame: ra is copied to $v1 with or $v1, $zero, $ra and restored with or $ra, $zero, $v1",
+        "trapping sub $a1, $a1, $a0 in the jal delay slot and trapping add $v0, $v0, $a0 in the return delay slot",
+        "spimdisasm reports it as a handwritten function"
+      ],
+      "verified_by": "agent review 2026-10-05: retail disassembly"
+    },
+    {
+      "name": "Math_SqrtApprox3",
+      "module": "main",
+      "source": "main/math/Math_SqrtApprox3.c",
+      "address": "0x80070FAC",
+      "size": 136,
+      "origin": "game",
+      "evidence": [
+        "LO read before HI for all three products, with two NOPs before each following mult",
+        "the three bgez delay slots stay NOPs although the next mult could fill one",
+        "carry chain adds the carry before the high words (sltu; addu hi,carry,xhi; addu hi,hi,yhi); GCC adddi3 adds the high words first",
+        "stock GCC 2.7.2 and 2.8.1 compile the long long sum with an 8-byte stack spill, HI read first, filled delay slots and a dead high-word shift"
+      ],
+      "verified_by": "agent review 2026-10-05: retail disassembly vs stock cc1 output"
+    }
+  ]
 }

@@ -1,62 +1,52 @@
+/* ASSEMBLER: GNU */
+#include "pe1/game_asm.h"
 
-unsigned int Math_SqrtApprox3(int x, int y, int z) {
-    register unsigned int sum0 asm("$2");
-    unsigned int sum1;
-    register unsigned int sum2 asm("$6");
-    register unsigned int sum3 asm("$7");
-
-    if (x < 0) {
-        x = -x;
-    }
-    if (y < 0) {
-        y = -y;
-    }
-    if (z < 0) {
-        z = -z;
-    }
-
-    {
-        register unsigned int xlo asm("$7");
-        register unsigned int xhi asm("$8");
-        register unsigned int ylo asm("$9");
-        register unsigned int yhi asm("$10");
-        register unsigned int zlo asm("$4");
-        unsigned int zhi;
-
-        asm volatile(
-            "mult\t%2,%2\n\t"
-            "mflo\t%0\n\t"
-            "mfhi\t%1\n\t"
-            "nop\n\t"
-            "nop\n"
-            : "=r"(xlo), "=r"(xhi)
-            : "r"(x));
-        asm volatile(
-            "mult\t%2,%2\n\t"
-            "mflo\t%0\n\t"
-            "mfhi\t%1\n\t"
-            "nop\n\t"
-            "nop\n"
-            : "=r"(ylo), "=r"(yhi)
-            : "r"(y));
-        asm volatile(
-            "mult\t%2,%2\n\t"
-            "mflo\t%0\n\t"
-            "mfhi\t%1\n"
-            : "=r"(zlo), "=r"(zhi)
-            : "r"(z));
-
-        sum0 = xlo + ylo;
-        sum1 = sum0 < xlo;
-        sum1 += xhi;
-        sum1 += yhi;
-        sum2 = sum0 + zlo;
-        sum3 = sum2 < sum0;
-        sum3 += sum1;
-        sum3 += zhi;
-    }
-
-    sum2 >>= 20;
-    sum3 <<= 12;
-    return sum3 | sum2;
-}
+/*
+ * unsigned int Math_SqrtApprox3(int x, int y, int z): bits 20..51 of the
+ * 64-bit sum x*x + y*y + z*z, computed on the absolute values.
+ *
+ * Original assembler (configs/USA/original_asm_evidence.json): no stack
+ * frame, LO read before HI, two hazard NOPs before each following `mult`,
+ * unfilled `bgez` delay slots, and a carry chain that adds the carry before
+ * the high words. GCC's long-long code for the same sum spills to a stack
+ * frame, reads HI first, fills the delay slots and keeps the dead high-word
+ * shift.
+ */
+GAME_ASM_FUNCTION(Math_SqrtApprox3,
+    "    bgez    $a0, .LMath_SqrtApprox3_x_positive\n"
+    "    nop\n"
+    "    negu    $a0, $a0\n"
+    ".LMath_SqrtApprox3_x_positive:\n"
+    "    bgez    $a1, .LMath_SqrtApprox3_y_positive\n"
+    "    nop\n"
+    "    negu    $a1, $a1\n"
+    ".LMath_SqrtApprox3_y_positive:\n"
+    "    bgez    $a2, .LMath_SqrtApprox3_z_positive\n"
+    "    nop\n"
+    "    negu    $a2, $a2\n"
+    ".LMath_SqrtApprox3_z_positive:\n"
+    "    mult    $a0, $a0\n"
+    "    mflo    $a3\n"
+    "    mfhi    $t0\n"
+    "    nop\n"
+    "    nop\n"
+    "    mult    $a1, $a1\n"
+    "    mflo    $t1\n"
+    "    mfhi    $t2\n"
+    "    nop\n"
+    "    nop\n"
+    "    mult    $a2, $a2\n"
+    "    mflo    $a0\n"
+    "    mfhi    $a1\n"
+    "    addu    $v0, $a3, $t1\n"
+    "    sltu    $v1, $v0, $a3\n"
+    "    addu    $v1, $v1, $t0\n"
+    "    addu    $v1, $v1, $t2\n"
+    "    addu    $a2, $v0, $a0\n"
+    "    sltu    $a3, $a2, $v0\n"
+    "    addu    $a3, $a3, $v1\n"
+    "    addu    $a3, $a3, $a1\n"
+    "    srl     $a2, $a2, 20\n"
+    "    sll     $a3, $a3, 12\n"
+    "    jr      $ra\n"
+    "    or      $v0, $a3, $a2\n");

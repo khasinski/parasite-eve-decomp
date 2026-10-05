@@ -837,7 +837,7 @@ segments:
       - [0x60C1C, c, render/Render_DecompressAnimFrame]
       - [0x61510, c, task/Task_InitGpuHwRegs]
       - [0x6156C, c, task/Task_GpuFlushPrimQueue]
-      - [0x615D0, asm, task/Task_GpuPackPrimColor]
+      - [0x615D0, c, task/Task_GpuPackPrimColor]
       - [0x61604, asm, main/gap_task_Task_GpuPackPrimColor_tail_61604]
       - [0x61654, c, gpu/Gpu_RenderFrame]
       - [0x617AC, c, math/Math_SqrtApprox3]

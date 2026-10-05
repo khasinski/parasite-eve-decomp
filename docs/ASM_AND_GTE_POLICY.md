@@ -283,6 +283,21 @@ the manifest entry, write the unit with the macro, flip its yaml subsegment to
 `make overlay-check-all`, `make report`, `make source-policy-check` and
 `make debt-baseline`.
 
+| Function | Unit | Size | Evidence |
+| --- | --- | --- | --- |
+| `Math_FixedMul` | `math/Math_FixedMul` | 28 | `mult`, then LO before HI, both shifted in place, `or v0,v1,v0`. Stock 2.7.2 and 2.8.1 compile `(long long)a * b >> 16` to HI before LO and keep the dead high-word shift (9 words, not 7). |
+| `Math_FixedRoundToInt`, `Math_FixedRoundToByte` | `math/math_fixed` | 16 + 16 | `ori $at, $zero, 0x8000` and trapping `add $v0, $a0, $at`: the assembler expansion of `add $v0, $a0, 0x8000`. GCC never allocates `$at` and emits `addu` for C addition. |
+| `Task_GpuPackPrimColor` | `task/Task_GpuPackPrimColor` | 52 | Calls `Task_GpuFlushPrimQueue` without a frame: `ra` saved with `or $v1, $zero, $ra` and restored with `or $ra, $zero, $v1`; trapping `sub` in the `jal` delay slot and trapping `add` in the return delay slot. It returns `low + ((u16)r * (high - low) >> 16)` for the generator result `r`. |
+| `Math_SqrtApprox3` | `math/Math_SqrtApprox3` | 136 | No frame; LO before HI for all three squares with two NOPs before each following `mult`; three unfilled `bgez` delay slots; the carry is added before the high words. Stock 2.7.2 and 2.8.1 compile the `long long` sum with an 8-byte stack spill, HI first, filled delay slots and a dead high-word shift. |
+
+`Task_InitGpuHwRegs` and `Task_GpuFlushPrimQueue`, which initialize and step
+the additive generator whose state is the 80-byte `.text` block at
+0x80070E04, show the same hand-written style: absolute addresses built with
+`lui`/`ori` rather than GCC's `lui`/`addiu`, no frame, and `or v0, zero, t5`
+as a move. They already match as C with register pins and empty barriers, so
+they are not listed here; replacing that C with this macro would need its own
+review.
+
 ## LZCS / LZCR
 
 `gte_ldlzcs`, `gte_stlzcr`, and `gte_getlzcr` are owned by
