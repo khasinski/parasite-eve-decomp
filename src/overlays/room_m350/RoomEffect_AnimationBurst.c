@@ -1,3 +1,4 @@
+#include "room_m350_shared.h"
 typedef struct { signed int size : 16; signed int shade : 16; } TableEntry;
 typedef struct { int reserved[2]; int soundMode; } Owner;
 typedef struct {
@@ -10,14 +11,14 @@ typedef struct {
     unsigned short previous;
 } Animation;
 typedef struct { int reserved[2]; Animation *animation; } Actor;
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 typedef struct { short remaining, delay; } State;
 
 extern int D_800E27EC, D_800966EC[], D_8019A3C8[], D_8019A4DC[], D_8019A4E0[];
 extern void func_800D004C(void *, int, int, int, short *, int, int, void *, void *, int, int);
 extern void func_800D0728(void *, int, int, int, short *, int, int, void *, void *, int, int);
 extern Actor *D_800F32D0;
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern short D_8019A7A0[];
 extern int func_800CE560(void *, int, int, int (*)(int, void **));
 extern short **func_800CE610(void *);

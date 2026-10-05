@@ -1,13 +1,14 @@
+#include "room_m350_shared.h"
 #include "pe1/render_object.h"
 
 typedef struct { short x,y,z,pad; } Vector;
 typedef struct { Vector *position; short offset,reserved; } Particle;
 typedef struct { Vector *positions[4]; char reserved10[0x46]; short count; } Queue;
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 extern int D_800E27EC, D_800966EC[];
 extern RenderColor D_8019A4E8;
 extern int GetClut(int, int);
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern short D_8019A7FE, D_8019A802;
 extern unsigned char D_8019A804;
 extern unsigned short D_800E11E4[];

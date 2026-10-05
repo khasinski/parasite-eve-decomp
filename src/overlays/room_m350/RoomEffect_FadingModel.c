@@ -1,3 +1,4 @@
+#include "room_m350_shared.h"
 #include "pe1/render_object.h"
 
 extern int GetClut(int, int);
@@ -54,9 +55,9 @@ typedef struct {
     char reserved1B8[0x80]; Matrix *transforms;
 } Instance;
 typedef struct { int reserved[2]; Instance *instance; } Actor;
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 extern Actor *D_800F32D0;
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern unsigned char D_8019A8C4;
 extern unsigned short D_800E11E4[];
 extern int Asset_Find08w(int,int,int,int,int);

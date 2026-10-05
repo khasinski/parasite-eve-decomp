@@ -1,14 +1,15 @@
+#include "room_m350_shared.h"
 #include "pe1/render_object.h"
 
 typedef struct { short position[3]; short size; } Particle;
 typedef struct { short rotation[3][3]; int position[3]; } Transform;
 typedef struct { char reserved[22]; unsigned short frame; char reserved18[0x220]; Transform *transforms; } Instance;
 typedef struct { int reserved[2]; Instance *instance; } Actor;
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 typedef struct { unsigned char index, alternate; } Entry;
 extern Actor *D_800F32D0;
 extern Instance *D_8019A7F8;
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern unsigned char D_8019A804;
 extern Entry D_8019A4D4[][2];
 extern int D_800E27EC, D_800966EC[];

@@ -1,3 +1,4 @@
+#include "room_m350_shared.h"
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/room_m350_sweep_trap.h"
@@ -185,8 +186,8 @@ typedef struct {
     Transform *transforms;
 } Instance;
 typedef struct { int reserved[2]; Instance *instance; } RoomM350ControllerChannel;
-typedef struct { int reserved[2]; void *pool; } RoomM350ControllerEmitter;
-extern RoomM350ControllerEmitter *D_800F33E0;
+
+extern RoomM350Emitter *D_800F33E0;
 extern GteShortVector D_8019A778[];
 extern int func_800CE560(void *,int,int,int (*)(int,RoomM350SweepTrap *));
 extern RoomM350SweepTrap *func_800CE610(void *);
@@ -200,7 +201,7 @@ int func_8019360C(int event) {
     if (event == 2) goto configure;
     goto done;
 setup:
-    return func_800CE560(((RoomM350ControllerEmitter *)D_800F33E0)->pool,8,2,func_80192E4C);
+    return func_800CE560(((RoomM350Emitter *)D_800F33E0)->pool,8,2,func_80192E4C);
 update:
     {
         Instance *instance = ((RoomM350ControllerChannel *)D_800F32D0)->instance;
@@ -216,7 +217,7 @@ update:
         if (previous < 8) {
             position = D_8019A778;
             for (i=0;i<2;i++,position++) {
-                RoomM350SweepTrap *particle = func_800CE610(((RoomM350ControllerEmitter *)D_800F33E0)->pool);
+                RoomM350SweepTrap *particle = func_800CE610(((RoomM350Emitter *)D_800F33E0)->pool);
                 if (!particle) break;
                 particle->anchor = position;
                 particle->done = 0;

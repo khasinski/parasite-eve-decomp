@@ -1,3 +1,4 @@
+#include "room_m350_shared.h"
 typedef struct { char reserved[0xF4]; int position[3]; } Transform;
 typedef struct { char reserved[0x238]; Transform *transform; } Instance;
 typedef struct { int reserved[2]; Instance *instance; } Actor;
@@ -40,10 +41,10 @@ int func_80197A04(int event, short *object)
     return 0;
 }
 /* MASPSX_FLAGS: --expand-div */
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 typedef struct { short rotation[3][3]; int translation[3]; } Matrix;
 typedef struct { short x, y, z, pad; } Vector;
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern unsigned char D_8019A86E, D_8019A859;
 extern unsigned short D_800E11E8, D_800E2850[];
 extern short D_800F3368, D_800F336A, D_800F336E;

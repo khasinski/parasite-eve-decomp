@@ -1,3 +1,4 @@
+#include "room_m350_shared.h"
 #include "pe1/render_object.h"
 
 extern int D_800E27EC;
@@ -26,8 +27,8 @@ int func_80197594(int event, short *position) {
     return 0;
 }
 
-typedef struct { int reserved[2]; void *pool; } Emitter;
-extern Emitter *D_800F33E0;
+
+extern RoomM350Emitter *D_800F33E0;
 extern unsigned char D_8019A86E, D_8019A857;
 extern short D_8019A864[3];
 extern unsigned short D_800E11E4[];

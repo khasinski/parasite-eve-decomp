@@ -1,12 +1,13 @@
+#include "room_m350_shared.h"
 /* MASPSX_FLAGS: --expand-div */
 typedef struct { short x, y, z, pad; } Vector;
 typedef struct { short rotation[3][3]; int position[3]; } Matrix;
 typedef struct { int color; short x, y, z, size; } Particle;
 typedef struct { char reserved[0x238]; Matrix *transforms; } Instance;
 typedef struct { signed int size : 16; signed int shade : 16; } TrigEntry;
-typedef struct { int reserved[2]; void *pool; } Emitter;
 
-extern Emitter *D_800F33E0;
+
+extern RoomM350Emitter *D_800F33E0;
 extern Instance *D_8019A7F8;
 extern int D_800E27EC, D_800F3428, D_800966EC[];
 extern unsigned short D_800F336C, D_800E1204[], D_800E2850[];

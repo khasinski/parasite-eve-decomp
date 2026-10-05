@@ -1,12 +1,13 @@
+#include "room_m350_shared.h"
 typedef struct { short x, y, z, pad; } Vector;
 typedef struct { Vector *position; short scale, reserved; } Particle;
 typedef struct { short target, current; } State;
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 typedef struct { char reserved[22]; unsigned short frame; } Instance;
 typedef struct { int reserved[2]; Instance *instance; } Actor;
 
 /* The spawner owns the scaled particles rendered by this callback. */
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern Actor *D_800F32D0;
 extern int D_800E27EC, D_800F3428, D_800966EC[], D_8019A3D0[];
 extern unsigned short D_800F336C, D_800E1204[], D_800E2850[];

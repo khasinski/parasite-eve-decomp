@@ -1,6 +1,7 @@
-typedef struct { int reserved[2]; void *pool; } Emitter;
+#include "room_m350_shared.h"
+
 typedef struct { short x, y, z, pad; } Vector;
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern unsigned char D_8019A86E;
 extern short D_8019A85C;
 extern Vector g_RoomEffectTrailPositions[4];

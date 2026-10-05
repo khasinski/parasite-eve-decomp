@@ -1,7 +1,8 @@
+#include "room_m350_shared.h"
 typedef struct { short x, y, z, pad; } Vector;
 typedef struct { short rotation[3][3]; int translation[3]; } Matrix;
 typedef struct { Vector velocity; short x, y, z; unsigned char stopped, pad; } Particle;
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 typedef struct { int reserved[2]; int soundMode; } Owner;
 typedef struct { char reserved[0xF4]; int position[3]; } Transform;
 typedef struct {
@@ -13,7 +14,7 @@ typedef struct {
 } Instance;
 typedef struct { int reserved[2]; Instance *instance; } Actor;
 typedef struct { char reserved[0x1FC]; int position[3]; } Player;
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern Actor *D_800F32D0;
 extern Player *g_PlayerEntity;
 extern unsigned char D_8019A86E, D_8019A855;

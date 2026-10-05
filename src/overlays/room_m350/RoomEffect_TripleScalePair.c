@@ -1,3 +1,4 @@
+#include "room_m350_shared.h"
 #include "pe1/render_object.h"
 
 typedef struct { short x,y,z,pad; } Vector;
@@ -11,11 +12,11 @@ typedef struct {
     unsigned short previousFrame;
 } Instance;
 typedef struct { int reserved[2]; Instance *instance; } Actor;
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 
 /* The controller owns the position pointers rendered by this callback. */
 extern Actor *D_800F32D0;
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern int D_800E27EC, D_800966EC[];
 extern Vector D_8019A778[];
 extern unsigned short D_800E11E4[];

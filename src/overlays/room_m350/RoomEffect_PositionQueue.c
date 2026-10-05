@@ -1,12 +1,13 @@
+#include "room_m350_shared.h"
 typedef struct { short x,y,z,pad; } Vector;
 typedef struct { Vector position; short delay,reserved; } Particle;
 typedef struct { char reserved[0x3A]; unsigned short yaw; } Instance;
 typedef struct { int reserved[2]; Instance *instance; } Actor;
 typedef struct { Vector positions[8]; char reserved40[8]; short count; } Queue;
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 typedef struct { signed int unused : 16; signed int value : 16; } SignedHalf;
 extern Actor *D_800F32D0;
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern int D_800E27EC, D_800F3428, D_8019A3D0[];
 extern unsigned short D_800F336C, D_800E1204[];
 extern short D_800F336A, D_800966EE[];

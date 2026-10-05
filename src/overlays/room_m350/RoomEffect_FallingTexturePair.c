@@ -1,14 +1,15 @@
+#include "room_m350_shared.h"
 #include "pe1/render_object.h"
 
 typedef struct { short x,y,z,frame; } Particle;
 typedef struct { short rotation[3][3]; int position[3]; } Transform;
 typedef struct { char reserved[0x238]; Transform *transforms; } Instance;
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 typedef struct { signed int unused:16; signed int value:16; } SignedHalf;
 
 /* The spawner owns the falling particles updated and rendered by this callback. */
 extern Instance *g_PlayerEntity;
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern int D_800E27EC;
 extern RenderColor D_8019A464;
 extern unsigned char D_8019A79A,D_8019A79C;

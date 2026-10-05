@@ -1,10 +1,11 @@
+#include "room_m350_shared.h"
 typedef struct { short rotation[3][3]; int position[3]; } Matrix;
 typedef struct { char reserved[0x238]; Matrix *transforms; } Instance;
 typedef struct { int reserved[2]; Instance *instance; } Actor;
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 typedef struct { short x, y, z, velocityY, gravity, reserved; } Particle;
 extern Actor *D_800F32D0;
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern Instance *g_PlayerEntity;
 extern unsigned char D_8019A82F;
 extern int D_800E27EC, D_800F3428, D_800966EC[], D_8019A598[];

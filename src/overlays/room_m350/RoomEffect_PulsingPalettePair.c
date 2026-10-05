@@ -1,10 +1,11 @@
+#include "room_m350_shared.h"
 typedef struct { short x, y, z, pad; } Vector;
 typedef struct { Vector rotation; Vector *position; int color; } Particle;
 typedef struct { short delay, count; } State;
-typedef struct { int reserved[2]; void *pool; } Emitter;
+
 
 /* The spawner owns the particles rendered by this callback. */
-extern Emitter *D_800F33E0;
+extern RoomM350Emitter *D_800F33E0;
 extern int D_800E27EC, D_800F3428, D_8019A414[];
 extern unsigned short D_800E1204[], D_800E2850[];
 extern short D_800966EE[];
