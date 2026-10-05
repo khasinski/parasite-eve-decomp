@@ -61,20 +61,45 @@ int func_800D4698(char *obj, int skip, int arg2, int arg3, int arg4, int arg5) {
     return 0;
 }
 
+/* Matching debt: four register pins for the matrix pointer and GTE words.
+ * Matrix loads are C; each GTE transfer uses its individual macro. */
 int func_800D4704(FieldAnimTaskOwner *owner)
 {
     FieldAnimTaskContext *context = &owner->tasks;
     FieldAnimTaskSlot *slot = context->slots;
     int i;
+    s32 **matrixSlot;
     D_800F32D0 = &owner->prefix;
     D_800E2368 = context;
     if (context->flags)
         D_800F3428 = Asset_SearchByKeyType(owner->prefix.asset_type);
     i = 0;
+    matrixSlot = &D_800BCFA4.value;
     for (; i < 8; i++, slot++) {
         if (slot->id != 65535) {
-            gte_ldrotmatrix(D_800BCFA4.value);
-            gte_ldtransmatrix(D_800BCFA4.value);
+            {
+                register const GteMatrixWords *matrix asm("$7");
+                register u32 a asm("$12");
+                register u32 b asm("$13");
+                register u32 c asm("$14");
+                matrix = (const GteMatrixWords *)*matrixSlot;
+                a = matrix->r11_r12;
+                b = matrix->r13_r21;
+                gte_ctc2_0(a);
+                gte_ctc2_1(b);
+                a = matrix->r22_r23;
+                b = matrix->r31_r32;
+                c = matrix->r33_pad;
+                gte_ctc2_2(a);
+                gte_ctc2_3(b);
+                gte_ctc2_4(c);
+                a = matrix->tx;
+                b = matrix->ty;
+                gte_ctc2_5(a);
+                c = matrix->tz;
+                gte_ctc2_6(b);
+                gte_ctc2_7(c);
+            }
             D_800F33E0 = slot;
             D_800E27EC = slot->age;
             context->table->callbacks[slot->id](2, slot->start, context->argument);

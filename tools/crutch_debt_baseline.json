@@ -14,7 +14,7 @@
     "include_asm": 0,
     "nop_barriers": 172,
     "original_asm_units": 68,
-    "pins": 1489,
+    "pins": 1493,
     "pointer_integer_casts": 544,
     "postpass": 0,
     "raw_offset_dereferences": 1386,
