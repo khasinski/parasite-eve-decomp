@@ -78,12 +78,10 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s16 temp_v1;
     s16 temp_v1_3;
     s16 temp_v1_4;
-    s16 var_s3_6;
     s16 var_v0;
-    s32 temp_hi;
     int spread;
     int ringRadius;
-    register const u32 *matrix asm("$9");
+    const u32 *matrix;
     register u32 w0 asm("$12");
     register u32 w1 asm("$13");
     register u32 w2 asm("$14");
@@ -118,7 +116,6 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s32 var_s0;
     s32 intensity;
     s32 var_s4;
-    s32 var_s4_3;
     s32 var_v1;
     s32 var_v1_10;
     s32 var_v1_11;
@@ -491,20 +488,20 @@ block_161:
                 gte_ctc2_7(w2);
             }
             func_800D004C(&sp30, 0x12C, 0x12C, 0xC, NULL, 0x1000, 0x1000, &sp50, NULL, intensity, 1);
-            var_s3_6 = 0x80;
+            intensity = 0x80;
             if (D_800E27EC & 1) {
-                var_s3_6 = 0x64;
+                intensity = 0x64;
             }
             ringRadius = 2000;
             /* Keep retail register multiplication; see candidate debt. */
             asm("" : "=r"(ringRadius) : "0"(ringRadius));
             temp_v0_12 = func_80077DC4(phase);
-            var_s4_3 = temp_v0_12 >> 3;
+            radialScale = temp_v0_12 >> 3;
             if (temp_v0_12 < 0) {
-                var_s4_3 = (s32) (temp_v0_12 + 7) >> 3;
+                radialScale = (s32) (temp_v0_12 + 7) >> 3;
             }
             temp_v0_13 = func_80077CF4(phase);
-            temp_hi = (temp_v0_13 * 2) / 3;
+            verticalScale = (temp_v0_13 * 2) / 3;
             sp48.x = 0x400;
             sp48.y = 0;
             sp48.z = 0;
@@ -524,7 +521,7 @@ block_161:
                 }
                 sp48.z = temp_s2 + 0x400;
                 sp38.z = (u16) sp38.z + (var_v1_5 >> 0xC);
-                func_800D0E88((GteShortVector *) &sp38, (GteRotation *) &sp48, temp_hi, var_s4_3, &sp50, NULL, NULL, (s32) var_s3_6, 1);
+                func_800D0E88((GteShortVector *) &sp38, (GteRotation *) &sp48, verticalScale, radialScale, &sp50, NULL, NULL, (s32) (s16) intensity, 1);
             }
             temp_v0_15 = func_80077DC4(phase);
             intensity = temp_v0_15 >> 5;
@@ -559,7 +556,7 @@ block_84:
                 func_800D1AE0(&sp50, var_a1, var_a2_2, 8);
             }
             temp_v0_17 = func_80077DC4(phase);
-            radialScale = ((s32) ((temp_v0_17 >> 0x1F) + temp_v0_17) >> 1) + 0x400;
+            radialScale = ((s32) temp_v0_17 / 2) + 0x400;
             verticalScale = (func_80077CF4(phase) / 6) + 0x555;
             intensity = 0x80;
             if (D_800E27EC & 1) {
@@ -593,7 +590,7 @@ block_84:
             func_800C6F4C(D_8019B680);
             radialScale = (func_80077CF4(phase) / 3) + 0x400;
             temp_v0_18 = func_80077DC4(phase);
-            verticalScale = (s32) ((temp_v0_18 >> 0x1F) + temp_v0_18) >> 1;
+            verticalScale = (s32) temp_v0_18 / 2;
             var_v1_6 = func_80077DC4(phase);
             intensity = var_v1_6 / 32;
             if (D_800E27EC & 1) {

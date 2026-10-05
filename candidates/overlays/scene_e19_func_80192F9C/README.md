@@ -1,15 +1,15 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **19144**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **18389**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Four register pins and four empty barriers are recorded below. There is no CPU ASM.
+Three register pins and four empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2367. These counts are descriptive, not the match metric.
+retained candidate has 2369. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -80,10 +80,11 @@ GCC to retain the address across repeated resource calls, as retail does.
 - Two empty tied-operand barriers, one before each particle allocation, keep
   the spread value in a register instead of constant-folding remainder by 512.
   They contain no CPU instruction and do not change the spread value.
-- Four pins: shared GTE transfer temporaries in t4/t5/t6 and the matrix pointer
-  in t1. The effect pointer is unpinned. No padding reserves.
+- Three pins: shared GTE transfer temporaries in t4/t5/t6. Both the matrix
+  pointer and effect pointer are unpinned. No padding reserves.
 - One additional memory barrier keeps position stores before the first matrix
-  transfer block; together with the two divisor barriers this totals three.
+  transfer block. A fourth barrier keeps the ring radius in a register;
+  together with the two divisor barriers this totals four.
 - `--expand-div` is an existing stock maspsx option, not an assembler patch.
 
 These are research-candidate costs, not production debt: the function is still
@@ -196,3 +197,20 @@ A second bounded 120-second, 24-worker darwine permuter run started from
 score was 20079, using an empty repeated-global condition; that artificial
 condition was rejected. The run stopped at its time limit. The manually
 recovered radius variant was independently rebuilt and rescored on darwine.
+
+## Ring scalar reuse and pin removal
+
+The ring now reuses radialScale, verticalScale and intensity, whose earlier
+values are dead before these assignments and whose later values are assigned
+after the loop. Its brightness argument retains explicit signed-halfword
+narrowing, matching the retail extension sequence. Two unsigned sign-bit
+rounding expressions elsewhere are written as signed division by two; this
+rewrite alone preserves score 19144.
+
+Reusing brightness alone scored 18429; reusing both scales as well scored
+18399. Removing the matrix-pointer t1 pin lowers the combined result to
+**18389**, independently recompiled and scored on darwine. Current candidate
+debt is three pins (t4/t5/t6), four empty barriers and one GPU conversion
+helper. No CPU instruction assembly was added. Removing each transfer-word
+pin from the 19144 base worsened its score (20549, 19259, 19224), so those
+remain. Omitting the ring brightness narrowing scored 18819 and was rejected.
