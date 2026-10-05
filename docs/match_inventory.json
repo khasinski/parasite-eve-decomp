@@ -305,13 +305,13 @@
       "reported_size": 1204,
       "source": null,
       "status": "candidate_nonzero_extraction_restored",
-      "levenshtein_score": 4930,
+      "levenshtein_score": 4909,
       "actual_symbol": "func_80192F9C",
       "actual_size": 9472,
       "actual_start": "0x80192F9C",
       "actual_end_exclusive": "0x8019549C",
       "missing_extracted_bytes": 8192,
-      "evidence": "Full target restored from PE.IMG offsets 0x3FB4..0x64B4 relative to sector 98589, including the previously missing 8192 bytes. Current manifests and pinned CI assets represent the complete function at 0x80192F9C. Retained C candidate compiles on darwine with stock GCC 2.7.2 and MASPSX 2.56; linked weighted Levenshtein score 4930. Eight pins, eight empty barriers and two fully inlined conversion helpers are documented in the candidate README; individual GTE instructions only, no CPU ASM. Not integrated; further semantic review and matching required. See docs/SCENE_E19_EXTRACTION_GAP.md.",
+      "evidence": "Full target restored from PE.IMG offsets 0x3FB4..0x64B4 relative to sector 98589, including the previously missing 8192 bytes. Current manifests and pinned CI assets represent the complete function at 0x80192F9C. Retained C candidate compiles on darwine with stock GCC 2.7.2 and MASPSX 2.56; linked weighted Levenshtein score 4909. Eight pins, eight empty barriers and two fully inlined conversion helpers are documented in the candidate README; individual GTE instructions only, no CPU ASM. Not integrated; further semantic review and matching required. See docs/SCENE_E19_EXTRACTION_GAP.md.",
       "current_unit": "overlays/scene_e19_2/func_80192F9C",
       "extraction_restored": true,
       "candidate": "candidates/overlays/scene_e19_func_80192F9C/func_80192F9C.c",
@@ -368,8 +368,9 @@
       "symbol": "D_8010BCF8",
       "reported_size": 84,
       "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
+      "status": "text_data_not_function",
+      "levenshtein_score": null,
+      "evidence": "The complete 84-byte range contains a leading word 7, NUL-terminated MDEC diagnostic strings and zero alignment. D_8010BCFC is passed as a format string by func_8010C0FC; D_8010BD38 is passed as a format string by func_8010C448. No executable instructions occur in this header. The existing report still classifies the .text unit as one function; metadata correction is pending."
     },
     {
       "unit": "overlays/sys_reset/sys_reset_decoder_padding",

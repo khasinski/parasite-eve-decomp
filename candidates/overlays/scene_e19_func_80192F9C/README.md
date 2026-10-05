@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **4930**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **4909**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Eight register pins and eight empty barriers are recorded below. There is no CPU ASM.
@@ -488,3 +488,21 @@ fully inlined conversion helpers. No new inline assembly or helper is added.
 The target and candidate each have 2368 instructions; no score-zero claim.
 Additional palette-v1, intensity-s3 and radial-scale-s4 pins scored 6558,
 11833 and 7398 respectively against base 5828 and were rejected.
+
+## Rotation follow-up
+
+A 120-second, 24-worker run in permuter_rotation/ reproduced base 4930,
+completed 5106 iterations with 123 rejected compilations, and stopped.
+Its best score 4805 removed a required global write from one draw state and
+inserted a duplicate into another; it is invalid and was rejected.
+
+The 4909 output combined an empty condition with moving sp48.x = 0 just
+before the tpage store in the first saved-height draw block. Isolating only
+that independent store reorder reproduces **4909**, now retained. No empty
+condition is retained. A similar move in the second saved-height block also
+scores 4909 by itself, but combining the two worsens to 5028. Other analogous
+moves score 5064 or 5124. Debt is unchanged.
+
+Pins for modelPhase, verticalScale, or both scored 4980, 5175 and 6656
+against base 4930. Four chained-zero-assignment alternatives scored 5828,
+5892, 5828 and 8768. None was retained.

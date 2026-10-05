@@ -635,8 +635,8 @@ block_31:
             sp48.y = D_800E27EC * -0x20;
             D_800F336C = 3;
             D_800F336E = 0;
-            D_800F3370 = D_800E2850[D_800E11EA[0]];
             sp48.x = 0;
+            D_800F3370 = D_800E2850[D_800E11EA[0]];
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord((D_800E2850[D_800E11EA[0]] | texturePage));
             paletteRow = D_800E1204[D_800F336C];
