@@ -2,10 +2,9 @@
 
 typedef RoomM273PointerPoolEffect Effect;
 typedef struct { unsigned char unknown[58]; unsigned short value; } Object;
-typedef struct { int unknown[2]; Object *object; } Context;
 typedef struct { short zero; unsigned short value,phase,one; } Parameters;
+extern RoomM273EffectStateContext *D_800F32D0;
 extern int D_800E27EC,D_800966EC[];
-extern Context *D_800F32D0;
 extern unsigned char D_8019ACDC[],D_8019ACE0[];
 extern void func_800D0728(void *,int,int,int,Parameters *,int,int,void *,void *,int,int);
 
@@ -22,7 +21,7 @@ int func_8019A4CC(int mode,Effect *effect) {
         int size=*(short *)((char *)D_800966EC+sizeOffset)*2+4096;
         int shade=(short)*(int *)((char *)D_800966EC+shadeOffset)>>5;
         parameters.zero=0;
-        parameters.value=D_800F32D0->object->value;
+        parameters.value=((Object *)D_800F32D0->state.mode)->value;
         parameters.phase=(unsigned int)frame<<8;
         parameters.one=1;
         func_800D0728(effect->position,32,96,8,&parameters,size,size,
