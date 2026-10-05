@@ -1,4 +1,4 @@
-/* WIP: score 6103, NOT a retail byte-match. See FieldEng_TexturedRibbon.md. */
+/* WIP: score 5273, NOT a retail byte-match. See FieldEng_TexturedRibbon.md. */
 /* MASPSX_FLAGS: --expand-div */
 #include "common.h"
 #include "pe1/gte.h"
@@ -14,6 +14,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
                    RenderColor *color0, RenderColor *color1, int mode)
 {
     GteShortVector *point;
+    GteShortVector *leftPtr;
     GteShortVector angles;
     GteShortVector right;
     GteShortVector left;
@@ -36,8 +37,9 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
     int dy;
     int angle;
     int joint;
+    u32 *scratchScreen;
     register GteShortVector *rightPtr asm("$22");
-    register int loopCount asm("$23");
+    register int loopCount;
 
     packet = (FieldRibbonPacket *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
     D_8009CDD8 += count * sizeof(FieldRibbonPacket);
@@ -59,6 +61,9 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
     point = points;
     loopCount = count;
     for (i = 0; i < loopCount; i++) {
+        scratchScreen = &unused;
+        /* Matching experiment: bias allocation toward the live loop count. */
+        asm("" : : "r"(loopCount), "r"(loopCount), "r"(loopCount), "r"(loopCount));
         {
             const GteMatrixWords *words = (const GteMatrixWords *)(D_800BCFA4.value);
             register u32 a asm("$12");
@@ -94,6 +99,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
         }
         gte_cop2_hazard_slot();
         gte_cop2_hazard_slot();
+        leftPtr = &left;
         gte_rtpt_command();
         packet->tag.length = 12;
         packet->c0.bytes.code = 0x3C;
@@ -108,7 +114,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
         {
             void *xy0 = &screen0;
             void *xy1 = &screen1;
-            void *xy2 = &unused;
+            void *xy2 = scratchScreen;
             asm volatile("" : : "r"(xy0), "r"(xy1), "r"(xy2));
             gte_stsxy0_precise(xy0);
             gte_stsxy1_precise(xy1);
@@ -174,7 +180,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
                 gte_ctc2_7(c);
             }
             {
-                    const void *v1 = &left;
+                    const void *v1 = leftPtr;
                     asm volatile("" : "=r"(v1) : "0"(v1));
                 gte_lwc2_0_0(rightPtr);
                 gte_lwc2_1_4(rightPtr);
@@ -193,7 +199,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
             {
                 void *xy0 = &packet->p0;
                 void *xy1 = &packet->p1;
-                void *xy2 = &unused;
+                void *xy2 = scratchScreen;
                 asm volatile("" : : "r"(xy0), "r"(xy1), "r"(xy2));
                 gte_stsxy0_precise(xy0);
                 gte_stsxy1_precise(xy1);
@@ -239,7 +245,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
                 gte_ctc2_7(c);
             }
             {
-                    const void *v1 = &left;
+                    const void *v1 = leftPtr;
                     asm volatile("" : "=r"(v1) : "0"(v1));
                 gte_lwc2_0_0(rightPtr);
                 gte_lwc2_1_4(rightPtr);
@@ -257,7 +263,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
             {
                 void *xy0 = &packet[-1].p2;
                 void *xy1 = &packet[-1].p3;
-                void *xy2 = &unused;
+                void *xy2 = scratchScreen;
                 asm volatile("" : : "r"(xy0), "r"(xy1), "r"(xy2));
                 gte_stsxy0_precise(xy0);
                 gte_stsxy1_precise(xy1);
@@ -314,7 +320,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
                 gte_ctc2_7(c);
             }
             {
-                    const void *v1 = &left;
+                    const void *v1 = leftPtr;
                     asm volatile("" : "=r"(v1) : "0"(v1));
                 gte_lwc2_0_0(rightPtr);
                 gte_lwc2_1_4(rightPtr);
@@ -332,7 +338,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
             {
                 void *xy0 = &packet[-1].p2;
                 void *xy1 = &packet[-1].p3;
-                void *xy2 = &unused;
+                void *xy2 = scratchScreen;
                 asm volatile("" : : "r"(xy0), "r"(xy1), "r"(xy2));
                 gte_stsxy0_precise(xy0);
                 gte_stsxy1_precise(xy1);
@@ -379,6 +385,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
             gte_cop2_hazard_slot();
             gte_mvmva_rotation_v0_translation_sf12();
             packet->c2.word = packet->c3.word = color1Scaled.word;
+            packet->v2 = v;
             gte_swc2_25_0(matrix.t);
             gte_swc2_26_4(matrix.t);
             gte_swc2_27_8(matrix.t);
@@ -406,7 +413,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
                 gte_ctc2_7(c);
             }
             {
-                    const void *v1 = &left;
+                    const void *v1 = leftPtr;
                     asm volatile("" : "=r"(v1) : "0"(v1));
                 gte_lwc2_0_0(rightPtr);
                 gte_lwc2_1_4(rightPtr);
@@ -418,13 +425,12 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
             gte_cop2_hazard_slot();
             gte_cop2_hazard_slot();
             gte_rtpt_command();
-            packet->v2 = v;
             packet->u2 = packet->u3 = u + du;
             packet->v3 = v + height;
             {
                 void *xy0 = &packet->p2;
                 void *xy1 = &packet->p3;
-                void *xy2 = &unused;
+                void *xy2 = scratchScreen;
                 asm volatile("" : : "r"(xy0), "r"(xy1), "r"(xy2));
                 gte_stsxy0_precise(xy0);
                 gte_stsxy1_precise(xy1);
