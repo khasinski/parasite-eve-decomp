@@ -1,6 +1,7 @@
 #include "common.h"
 #include "pe1/field_script_context.h"
 #include "pe1/field_collision.h"
+#include "pe1/gte_short_vector.h"
 #include "pe1/room_spark.h"
 #include "pe1/room_staged_motion.h"
 #ifndef ROOMLIB_UPDATE_STAGED_MOTION_FUNC
@@ -26,12 +27,7 @@ typedef struct RoomStagedMotionControl {
     u8 state;                         /* 0x01: 2 once every record is spent */
 } RoomStagedMotionControl;
 
-typedef struct RoomStagedMotionPoint {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad06;
-} RoomStagedMotionPoint;
+typedef GteShortVector RoomStagedMotionPoint;
 
 extern char ROOMLIB_STAGED_MOTION_SPAWN_CALLBACK[];
 extern char ROOMLIB_STAGED_MOTION_SPAWN_DATA[];

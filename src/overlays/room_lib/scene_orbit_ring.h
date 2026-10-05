@@ -2,13 +2,9 @@
 #define PE1_SCENE_ORBIT_RING_H
 
 #include "common.h"
+#include "pe1/gte_short_vector.h"
 
-typedef struct SceneOrbitPoint {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad06;
-} SceneOrbitPoint;
+typedef GteShortVector SceneOrbitPoint;
 
 typedef struct SceneOrbitDirection {
     s16 x;
