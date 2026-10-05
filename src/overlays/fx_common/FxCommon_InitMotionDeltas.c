@@ -5,7 +5,7 @@
 void func_80195994(s32 index, s32 first, s32 second, s32 source) {
     FxCommonMotionVec point;
     s32 extra[2];
-    register s32 rawIndex asm("$16") = index;
+    s32 rawIndex = index;
     s32 offset;
     register s32 firstValue asm("$18");
     s32 secondValue;
