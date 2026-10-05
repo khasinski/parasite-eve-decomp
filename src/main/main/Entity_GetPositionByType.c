@@ -1,5 +1,5 @@
 #include "common.h"
-#include "pe1/global_pointer_slot.h"
+#include "pe1/global_slot.h"
 
 #define U8_AT(ptr, off) (*(u8 *)((u8 *)(ptr) + (off)))
 #define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
@@ -8,7 +8,7 @@
 #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
 
 extern u8 *D_8009D20C[];
-extern GlobalPointerSlot D_8009D254;
+extern Pe1GlobalSlot D_8009D254;
 
 int Entity_GetPositionByType(int **args) {
     u8 *entity;
@@ -18,7 +18,7 @@ int Entity_GetPositionByType(int **args) {
 
     selector = *args[1];
     if (selector == 0) {
-        player = D_8009D254.value;
+        player = D_8009D254.value.pointer;
         if (player == 0) {
             goto not_found;
         }

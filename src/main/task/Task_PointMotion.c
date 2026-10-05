@@ -1,5 +1,5 @@
 #include "common.h"
-#include "pe1/global_pointer_slot.h"
+#include "pe1/global_slot.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -146,7 +146,7 @@ finish:
 #define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
 #define S32_AT(ptr, off) (*(s32 *)((u8 *)(ptr) + (off)))
 
-extern GlobalPointerSlot D_8009D254;
+extern Pe1GlobalSlot D_8009D254;
 extern u8 *D_8009D2F0[];
 extern u8 *D_8009D300;
 extern int *D_8009CE00;
@@ -178,7 +178,7 @@ int Task_MoveTowardPoint(int **args) {
     speed_entity = D_8009D2F0[0];
     current_x = S32_AT(speed_entity, 0x28);
     current_z = S32_AT(speed_entity, 0x30);
-    if (speed_entity != D_8009D254.value) {
+    if (speed_entity != D_8009D254.value.pointer) {
         movement_speed = S32_AT(speed_entity, 0x20);
     } else {
         movement_speed = Math_FixedMul(0x50000, S32_AT(speed_entity, 0x20));

@@ -1,5 +1,5 @@
 #include "pe1/render_lighting.h"
-#include "pe1/task_global_state.h"
+#include "pe1/global_slot.h"
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
@@ -29,12 +29,12 @@ extern u8 *D2F0_render4[] __asm__("D_8009D2F0");
 extern u8 *D2F0_render5[] __asm__("D_8009D2F0");
 extern u8 *D2F0_flags[] __asm__("D_8009D2F0");
 extern u8 *D2F0_redraw[] __asm__("D_8009D2F0");
-extern Pe1TaskGlobalWordSlot CDDC_draw0 __asm__("D_8009CDDC");
-extern Pe1TaskGlobalWordSlot CDDC_toggle0_load __asm__("D_8009CDDC");
-extern Pe1TaskGlobalWordSlot CDDC_toggle0_store __asm__("D_8009CDDC");
-extern Pe1TaskGlobalWordSlot CDDC_draw1 __asm__("D_8009CDDC");
-extern Pe1TaskGlobalWordSlot CDDC_toggle1_load __asm__("D_8009CDDC");
-extern Pe1TaskGlobalWordSlot CDDC_toggle1_store __asm__("D_8009CDDC");
+extern Pe1GlobalSlot CDDC_draw0 __asm__("D_8009CDDC");
+extern Pe1GlobalSlot CDDC_toggle0_load __asm__("D_8009CDDC");
+extern Pe1GlobalSlot CDDC_toggle0_store __asm__("D_8009CDDC");
+extern Pe1GlobalSlot CDDC_draw1 __asm__("D_8009CDDC");
+extern Pe1GlobalSlot CDDC_toggle1_load __asm__("D_8009CDDC");
+extern Pe1GlobalSlot CDDC_toggle1_store __asm__("D_8009CDDC");
 extern int *D_8009CE00;
 extern u8 *D_8009D300;
 extern u32 D_800B89F8[];

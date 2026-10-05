@@ -1,6 +1,6 @@
 #include "common.h"
 #include "pe1/field_actor.h"
-#include "pe1/task_global_state.h"
+#include "pe1/global_slot.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -8,8 +8,8 @@ extern FieldActor *current_entity_wait[] __asm__("D_8009D2F0");
 extern FieldActor *current_entity_start[] __asm__("D_8009D2F0");
 extern FieldActor *current_entity_post[] __asm__("D_8009D2F0");
 extern FieldActor *g_PlayerEntity[] __asm__("D_8009D254");
-extern Pe1TaskGlobalWordSlot entity_control_load __asm__("D_8009D2E8");
-extern Pe1TaskGlobalWordSlot entity_control_store __asm__("D_8009D2E8");
+extern Pe1GlobalSlot entity_control_load __asm__("D_8009D2E8");
+extern Pe1GlobalSlot entity_control_store __asm__("D_8009D2E8");
 extern FieldActorState *g_CurrentTaskState __asm__("D_8009D300");
 extern s16 *g_ScriptCursor __asm__("D_8009CE00");
 extern RenderObjectEntity D_800B0CEC;

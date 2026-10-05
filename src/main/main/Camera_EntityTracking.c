@@ -1,5 +1,5 @@
 #include "common.h"
-#include "pe1/global_pointer_slot.h"
+#include "pe1/global_slot.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -11,7 +11,7 @@
 #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
 
 extern u8 *D_8009D20C[];
-extern GlobalPointerSlot D_8009D254;
+extern Pe1GlobalSlot D_8009D254;
 extern u8 *D_8009D2F0[];
 extern u8 *D_8009D300;
 extern int *D_8009CE00;
@@ -47,7 +47,7 @@ int Camera_TrackEntityAngle(int **args) {
     current_x = S32_AT(args, 0x28);
     current_z = S32_AT(args, 0x30);
 
-    if ((u8 *)args != D_8009D254.value) {
+    if ((u8 *)args != D_8009D254.value.pointer) {
         base_speed = S32_AT(args, 0x20);
     } else {
         base_speed = Math_FixedMul(0x50000, S32_AT(args, 0x20));
@@ -147,10 +147,10 @@ int Camera_SnapToEntity(int **args) {
 
     if ((U16_AT(D_8009D300, 8) & 0x20) == 0) {
         if (*args[0] == 0) {
-            if (D_8009D254.value == 0) {
+            if (D_8009D254.value.pointer == 0) {
                 return 1;
             }
-            target = D_8009D254.value;
+            target = D_8009D254.value.pointer;
         } else {
             target = D_8009D20C[0];
             while (target != 0) {
@@ -258,10 +258,10 @@ int Camera_TrackEntityZoom(int **args) {
 
     if ((U16_AT(D_8009D300, 8) & 0x20) == 0) {
         if (*args[0] == 0) {
-            if (D_8009D254.value == 0) {
+            if (D_8009D254.value.pointer == 0) {
                 return 1;
             }
-            target = D_8009D254.value;
+            target = D_8009D254.value.pointer;
         } else {
             target = D_8009D20C[0];
             while (target != 0) {
@@ -302,7 +302,7 @@ int Camera_TrackEntityZoom(int **args) {
     }
 
     speed_entity = D_8009D2F0[0];
-    if (speed_entity != D_8009D254.value) {
+    if (speed_entity != D_8009D254.value.pointer) {
         movement_speed = S32_AT(speed_entity, 0x20);
     } else {
         movement_speed = Math_FixedMul(0x50000, S32_AT(speed_entity, 0x20));
