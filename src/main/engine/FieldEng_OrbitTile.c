@@ -3,7 +3,10 @@
 #include "pe1/field_tile.h"
 
 /* Haloed point at distance `x` from the view origin rotated by `y` about Z.
- * The halo is always drawn semi-transparent; `mode` is not read. */
+ * The halo is always drawn semi-transparent; `mode` is not read.
+ * Matching debt: five pins and two empty pointer constraints. Matrix loads,
+ * depth shift and depth store are C; GTE instructions and hazard nops are
+ * individually wrapped. */
 void func_800D27FC(int x, int y, void *color, int scale, int mode)
 {
     GteShortVector offset;
@@ -29,9 +32,28 @@ void func_800D27FC(int x, int y, void *color, int scale, int mode)
     matrix.m[0][1] = matrix.m[0][2] = matrix.m[1][0] = matrix.m[1][2] =
         matrix.m[2][0] = matrix.m[2][1] = 0;
     RotMatrixZ(y, &matrix);
-    gte_ldrotmatrix(&matrix);
-    gte_ldv0(&offset);
-    gte_rtps();
+    {
+        register const GteMatrixWords *words asm("$16") = (const GteMatrixWords *)&matrix;
+        register u32 a asm("$12");
+        register u32 b asm("$13");
+        register u32 c asm("$14");
+        asm volatile("" : "=r"(words) : "0"(words));
+        a = words->r11_r12;
+        b = words->r13_r21;
+        gte_ctc2_0(a);
+        gte_ctc2_1(b);
+        a = words->r22_r23;
+        b = words->r31_r32;
+        c = words->r33_pad;
+        gte_ctc2_2(a);
+        gte_ctc2_3(b);
+        gte_ctc2_4(c);
+    }
+    gte_lwc2_0_0(&offset);
+    gte_lwc2_1_4(&offset);
+    gte_cop2_hazard_slot();
+    gte_cop2_hazard_slot();
+    gte_rtps_command();
     SetTile1(point);
     SetTile(glow);
     Gpu_SetDither(point, 1);
@@ -42,7 +64,15 @@ void func_800D27FC(int x, int y, void *color, int scale, int mode)
     glow->g >>= 2;
     glow->b >>= 2;
     gte_stsxy2(&point->x);
-    gte_stszotz(&depth);
+    {
+        register s32 z asm("$12");
+        s32 *out = (s32 *)&depth;
+        asm volatile("" : "=r"(out) : "0"(out));
+        gte_getsz3(z);
+        gte_cop2_hazard_slot();
+        z >>= 2;
+        *out = z;
+    }
     depth -= (u16)D_800F3374;
     if (depth < 0x1000) {
         glow->x = point->x - 1;
