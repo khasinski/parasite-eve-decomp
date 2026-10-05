@@ -19,6 +19,14 @@ PE1_STATIC_ASSERT(sizeof(BattleActionSoundTable) == 0x28,
 
 extern u8 *g_CurItemEffectData;
 
+/* The first word at the shared game-state window is the global mode bitfield.
+ * Battle code also views the following 12 bytes as part of one 16-byte record. */
+typedef struct BattleGameStateWindow {
+    u32 flags;
+    u8 unknown04[12];
+} BattleGameStateWindow;
+PE1_STATIC_ASSERT(sizeof(BattleGameStateWindow) == 16, battle_game_state_window_size);
+
 /* Battle subsystem (ATB combat). Layout reverse-engineered from the battle code
  * (src/main/battle, src/main/main/Battle_) and validated live on real
  * BIOS (DuckStation GDB) by fighting the first Carnegie Hall encounter and

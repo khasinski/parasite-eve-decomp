@@ -40,16 +40,16 @@ extern s8 D_8009CE39;
 extern s8 D_8009CE3A;
 extern s8 D_8009CE3B;
 extern u8 D_8009CE3C;
-extern LargeSymbol D_8009D1A0_r0 __asm__("D_8009D1A0");
-extern LargeSymbol D_8009D1A0_w0 __asm__("D_8009D1A0");
-extern LargeSymbol D_8009D1A0_r1 __asm__("D_8009D1A0");
-extern LargeSymbol D_8009D1A0_w1 __asm__("D_8009D1A0");
-extern LargeSymbol D_8009D1A0_r2 __asm__("D_8009D1A0");
-extern LargeSymbol D_8009D1A0_w2 __asm__("D_8009D1A0");
-extern LargeSymbol D_8009D1A0_r3 __asm__("D_8009D1A0");
-extern LargeSymbol D_8009D1A0_w3 __asm__("D_8009D1A0");
-extern LargeSymbol D_8009D1A0_r4 __asm__("D_8009D1A0");
-extern LargeSymbol D_8009D1A0_w4 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_r0 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_w0 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_r1 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_w1 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_r2 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_w2 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_r3 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_w3 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_r4 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_w4 __asm__("D_8009D1A0");
 extern u8 D_8009D1D4;
 extern LargeSymbol D_8009D20C_o __asm__("D_8009D20C");
 extern LargeSymbol D_8009D254_0 __asm__("D_8009D254");
@@ -89,16 +89,16 @@ extern u8 D_800BE830[];
 extern QueueCommand D_800BE834[];
 
 #define D_800942E4 (*(u8 **)&D_800942E4_o)
-#define D1A0_R0 (*(s32 *)&D_8009D1A0_r0)
-#define D1A0_W0 (*(s32 *)&D_8009D1A0_w0)
-#define D1A0_R1 (*(s32 *)&D_8009D1A0_r1)
-#define D1A0_W1 (*(s32 *)&D_8009D1A0_w1)
-#define D1A0_R2 (*(s32 *)&D_8009D1A0_r2)
-#define D1A0_W2 (*(s32 *)&D_8009D1A0_w2)
-#define D1A0_R3 (*(s32 *)&D_8009D1A0_r3)
-#define D1A0_W3 (*(s32 *)&D_8009D1A0_w3)
-#define D1A0_R4 (*(s32 *)&D_8009D1A0_r4)
-#define D1A0_W4 (*(s32 *)&D_8009D1A0_w4)
+#define D1A0_R0 (D_8009D1A0_r0.flags)
+#define D1A0_W0 (D_8009D1A0_w0.flags)
+#define D1A0_R1 (D_8009D1A0_r1.flags)
+#define D1A0_W1 (D_8009D1A0_w1.flags)
+#define D1A0_R2 (D_8009D1A0_r2.flags)
+#define D1A0_W2 (D_8009D1A0_w2.flags)
+#define D1A0_R3 (D_8009D1A0_r3.flags)
+#define D1A0_W3 (D_8009D1A0_w3.flags)
+#define D1A0_R4 (D_8009D1A0_r4.flags)
+#define D1A0_W4 (D_8009D1A0_w4.flags)
 #define D_8009D20C (*(void **)&D_8009D20C_o)
 #define D254(n) (*(void **)&D_8009D254_##n)
 #define D278(n) (*(void **)&D_8009D278_##n)
