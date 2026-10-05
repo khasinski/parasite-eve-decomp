@@ -56,7 +56,7 @@ void Queue_Enqueue(int arg0, int arg1) {
             g_MenuEventQueueHead = entry;
         }
         g_MenuEventQueueTail = entry;
-        entry->value0 = arg0;
-        entry->value1 = arg1;
+        entry->payload.values.value0 = arg0;
+        entry->payload.values.value1 = arg1;
     }
 }

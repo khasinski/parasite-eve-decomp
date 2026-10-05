@@ -2,12 +2,7 @@
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "pe1/psyq_nop.h"
 #include "pe1/menu_widget.h"
-
-typedef struct MenuInputQueuedEvent {
-    struct MenuInputQueuedEvent *next;
-    int type;
-    int flags;
-} MenuInputQueuedEvent;
+#include "pe1/menu_queue.h"
 
 typedef MenuWidgetNode MenuInputWidget;
 
@@ -66,8 +61,8 @@ void MenuInput_EnqueueStatusChanges(int flags) {
                     D_8009D0E0 = event;
                 }
                 D_8009D0E4 = event;
-                event->type = release_type;
-                event->flags = released;
+                event->payload.input.type = release_type;
+                event->payload.input.flags = released;
             }
         }
 
@@ -123,8 +118,8 @@ reset_repeat:
                     D_8009D0E0 = event;
                 }
                 D_8009D0E4 = event;
-                event->type = event_type;
-                event->flags = released;
+                event->payload.input.type = event_type;
+                event->payload.input.flags = released;
             }
         }
 done:
@@ -156,7 +151,7 @@ void MenuInput_DispatchQueuedEvents(void) {
     if (head != 0) {
         event = head;
         prev = 0;
-        while (event != 0 && event->type == 0) {
+        while (event != 0 && event->payload.input.type == 0) {
             prev = event;
             event = event->next;
         }
@@ -177,15 +172,15 @@ void MenuInput_DispatchQueuedEvents(void) {
             event->next = free_head;
             *localp = *event;
         } else {
-            localp->type = 0;
-            localp->flags = 0;
+            localp->payload.input.type = 0;
+            localp->payload.input.flags = 0;
         }
     } else {
-        local.type = 0;
-        local.flags = 0;
+        local.payload.input.type = 0;
+        local.payload.input.flags = 0;
     }
 
-    type = local.type;
+    type = local.payload.input.type;
     if (type <= 0) {
         return;
     }
@@ -198,8 +193,8 @@ void MenuInput_DispatchQueuedEvents(void) {
             return;
         }
         do {
-            flags = local.flags;
-            if (local.type == 2) {
+            flags = local.payload.input.flags;
+            if (local.payload.input.type == 2) {
                 flags |= 0x20000;
             }
             handled = ((MenuWidgetInputHandler)node->update)(node, flags);
@@ -209,7 +204,7 @@ void MenuInput_DispatchQueuedEvents(void) {
             node = node->parent;
         } while (node != 0);
     } else {
-        if ((local.flags & 0x20) == 0) {
+        if ((local.payload.input.flags & 0x20) == 0) {
             return;
         }
         node = MenuWidget_GetCurrentNode();

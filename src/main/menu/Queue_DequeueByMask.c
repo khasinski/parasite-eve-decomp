@@ -24,14 +24,14 @@ void Queue_DequeueByMask(int mask, MenuQueueEntry *out_arg) {
 
     entry = head;
     prev = 0;
-    if ((entry->value0 & mask) == 0) {
+    if ((entry->payload.values.value0 & mask) == 0) {
         do {
             prev = entry;
             entry = entry->next;
             if (entry == 0) {
                 goto fail;
             }
-        } while ((entry->value0 & mask) == 0);
+        } while ((entry->payload.values.value0 & mask) == 0);
     }
 
     if (entry == 0) {
@@ -57,6 +57,6 @@ void Queue_DequeueByMask(int mask, MenuQueueEntry *out_arg) {
     return;
 
 fail:
-    out->value0 = 0;
-    out->value1 = 0;
+    out->payload.values.value0 = 0;
+    out->payload.values.value1 = 0;
 }
