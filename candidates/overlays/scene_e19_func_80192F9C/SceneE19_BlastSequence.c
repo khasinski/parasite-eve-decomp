@@ -208,6 +208,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         center.y = blast->position.y;
         center.z = blast->position.z;
         LOAD_VIEW_MATRIX();
+        params = &D_800F3368;
+        pageSelector = &D_800E11EA[8];
         D_800F3368.parameter0A = 0;
         D_800F3368.depth = 4;
         switch (blast->state) {
@@ -298,8 +300,6 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             break;
         case 2:
             phase = blast->timer << 6;
-            pageSelector = &D_800E11EA[8];
-            params = &D_800F3368;
             intensity = 0x80;
             params->parameter00 = 0x40;
             D_800F336A = 4;
