@@ -35,8 +35,8 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE19Selection, savedZ) == 0x40,
                   scene_e19_selection_saved_z_offset);
 
 extern FieldActor *g_PlayerEntity;
-void func_80020CE4(void);
-void func_80192B10(FieldActor *actor, SceneE19SelectionTail *tail);
-int func_80192BFC(SceneE19Selection *selection);
+s32 func_80020CE4();
+void func_80192B10();
+int func_80192BFC();
 
 #endif

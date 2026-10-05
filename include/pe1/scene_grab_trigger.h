@@ -39,7 +39,7 @@ extern FieldActor *g_PlayerEntity;
 int func_800DFE20(s32 *from, s32 *to);
 void func_80020C74(void);
 s32 func_80192D04(char *obj);
-void func_80192878(SceneGrabTrigger *trigger);
+void func_80192878();
 void RoomLib_RunAfterFrame37_80192BC0();
 
 #endif
