@@ -146,7 +146,7 @@ block_5:
 
 
 void Menu_DrawWeaponModSlots(s32 arg0);
-void MenuWidget_DrawList(int arg0, void (*callback)(s32));
+void MenuWidget_DrawList(void *arg0, void (*callback)(int));
 
 void Menu_DrawEquipOptionsList(int arg0) {
     MenuWidget_DrawList(arg0, Menu_DrawWeaponModSlots);
@@ -166,17 +166,17 @@ void Menu_CreateEquipInfoPanel(int arg0, unsigned int arg1);
 void Menu_PlayConfirmSound(void);
 void Menu_PlayCancelSound(void);
 void Sort_ContainerItems(int arg0);
-s32 MenuWidget_GetChild();
+void *MenuWidget_GetChild(void *arg0, int arg1);
 void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
-s32 MenuWidget_GridCellIndex();
+int MenuWidget_GridCellIndex(void *arg0);
 extern s32 g_MenuInventoryViewMode;
 void Menu_DrawEquipSortToggleList(int arg0);
-int Menu_EquipGridHandler(int arg0, int arg1);
+int Menu_EquipGridHandler(void *arg0, int arg1);
 
-s32 Menu_EquipOptionsInputHandler(s32 arg0, s32 arg1) {
+s32 Menu_EquipOptionsInputHandler(void *arg0, s32 arg1) {
     s32 temp_a1;
-    s32 temp_v0;
+    void *temp_v0;
     void *temp_v0_2;
     void *temp_v0_3;
 
@@ -215,17 +215,17 @@ s32 Menu_EquipOptionsInputHandler(s32 arg0, s32 arg1) {
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
 void Menu_DrawEquipSortToggleRow(int arg0);
-void MenuWidget_DrawList(int arg0, void (*callback)(int));
+void MenuWidget_DrawList(void *arg0, void (*callback)(int));
 
 int g_MenuInventoryViewMode;
 
-int MenuWidget_GetChild(int arg0, int arg1);
-int MenuWidget_GridCellIndex(int arg0);
+void *MenuWidget_GetChild(void *arg0, int arg1);
+int MenuWidget_GridCellIndex(void *arg0);
 void Sort_ContainerItems(int arg0);
 void Inv_SortInventoryByMode(int arg0, int arg1);
 void Menu_OpenInventoryOrSwapView(int arg0);
 void Menu_PlayConfirmSound(void);
-void MenuWidget_DestroyNode(int arg0);
+void MenuWidget_DestroyNode(void *arg0);
 void Menu_PlayCancelSound(void);
 
 int g_InvItemUsableFlag;
@@ -235,14 +235,14 @@ void *MenuWidget_CreateSimpleNode(int arg0, int arg1, int arg2, int arg3);
 void *MenuWidget_CreateNode(int arg0, void *arg1, void *arg2);
 void MenuWidget_SetCurrentNode(void *arg0);
 void MenuWidget_OffsetPosition(void *arg0, int arg1, int arg2);
-void Menu_EquipSelectInput(void);
-void Menu_DrawEquipInfoOptionList(void);
+int Menu_EquipSelectInput(void *arg0, unsigned int arg1);
+void Menu_DrawEquipInfoOptionList(int arg0);
 
 void Menu_DrawEquipSortToggleList(int arg0) {
         MenuWidget_DrawList(arg0, Menu_DrawEquipSortToggleRow);
 }
 
-int Menu_EquipGridHandler(int arg0, int arg1) {
+int Menu_EquipGridHandler(void *arg0, int arg1) {
     int temp;
 
     if (arg1 & 0x10000) {
@@ -284,4 +284,43 @@ void Menu_CreateEquipInfoPanel(int arg0, unsigned int arg1) {
     if (arg1 != 0) {
         MenuWidget_OffsetPosition(node, 0, 0x14);
     }
+}
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 */
+
+void Menu_DrawEquipInfoOptionRow(int arg0);
+void MenuWidget_DrawList(void *arg0, void (*callback)(int));
+
+extern int g_InvItemUsableFlag;
+extern int g_MenuInventoryViewMode;
+
+extern void *MenuWidget_GetChild(void *arg0, int arg1);
+extern int MenuWidget_GridCellIndex(void *arg0);
+extern void Inv_SortInventoryByMode(int arg0, int arg1);
+extern void Sort_InventoryItems(int arg0, int arg1);
+extern void Menu_OpenInventoryOrSwapView(int arg0);
+extern void Menu_PlayConfirmSound(void);
+extern void MenuWidget_DestroyNode(void *arg0);
+extern void Menu_PlayCancelSound(void);
+
+void Menu_DrawEquipInfoOptionList(int arg0) {
+    MenuWidget_DrawList(arg0, Menu_DrawEquipInfoOptionRow);
+}
+
+int Menu_EquipSelectInput(void *arg0, unsigned int arg1) {
+    int temp;
+    void (*handler)(int, int);
+
+    if (arg1 & 0x10000) {
+        temp = MenuWidget_GridCellIndex(MenuWidget_GetChild(arg0, 0));
+        handler = g_MenuInventoryViewMode ? Sort_InventoryItems : Inv_SortInventoryByMode;
+        handler(g_InvItemUsableFlag, temp);
+        Menu_OpenInventoryOrSwapView(1);
+        Menu_PlayConfirmSound();
+    } else if (arg1 & 0x40) {
+        MenuWidget_DestroyNode(arg0);
+        Menu_PlayCancelSound();
+    }
+
+    return 1;
 }
