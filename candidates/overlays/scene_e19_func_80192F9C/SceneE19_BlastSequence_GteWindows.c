@@ -2,7 +2,6 @@
 #include "scene_e19_blast.h"
 #include "pe1/gte_window.h"
 
-
 int func_80192F9C(int mode, SceneE19Blast *blast)
 {
     GteShortVector center;
@@ -178,8 +177,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         center.z = blast->position.z;
         GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);
         GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);
-        pageSelector = &D_800E11EA[8];
-        asm("" : : "r"(pageSelector) : "memory");
+        
         D_800F3368.parameter0A = 0;
         D_800F3368.depth = 4;
         switch (blast->state) {
@@ -278,6 +276,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             D_800F336A = 4;
             D_800F3376 = 0x40;
             D_800F3378 = 0x40;
+            asm("" : "=r"(pageSelector) : "0"(&D_800E11EA[8]));
             D_800F3370 = D_800E2850[pageSelector[0]];
             D_800F3368.palette = 3;
             D_800F3368.parameter06 = 1;
@@ -294,24 +293,33 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             func_800CEE20(&floorGlow2, (GteRotation *)&floorRotation2, 0x2000, 0x2000, 0,
                           func_80077AA4(0, D_800E120A + 2), 1, intensity, 0);
             radialScale = 0x1000;
-            palettes = D_800E1204;
-            if (D_800E27EC & 1) {
-                radialScale = 0xF00;
-            }
-            rotation.x = -0x400;
-            rotation.y = 0;
-            rotation.z = D_800E27EC << 5;
-            params->tpage = D_800E2850[pageSelector[-8]];
-            params->palette = 3;
-            params->parameter06 = 0;
-            page = (u16)(D_800E2850[pageSelector[-8]] | func_80077A64(0, 1, 0, 0));
             {
-                register s32 paletteValue asm("$3");
+                s32 textureDepth;
+                s32 blendMode;
+                s32 textureX;
+                u32 pageIndex;
+                palettes = D_800E1204;
+                if (D_800E27EC & 1) {
+                    radialScale = 0xF00;
+                }
+                textureDepth = 0;
+                blendMode = 1;
+                textureX = 0;
+                rotation.x = -0x400;
+                rotation.y = 0;
+                pageIndex = pageSelector[-8];
+                rotation.z = D_800E27EC << 5;
+                params->tpage = D_800E2850[pageIndex];
+                params->palette = 3;
+                params->parameter06 = 0;
+                page = (u16)(D_800E2850[pageSelector[-8]] | func_80077A64(textureDepth, blendMode, textureX, 0));
+            }
+            {
+                s32 paletteValue;
                 paletteValue = palettes[params->palette];
                 if (params->palette == 4 && D_800F3428 != 0) {
                     paletteValue += 4;
                 }
-                asm("" : : "r"(paletteValue));
                 func_800C6EC0(page, func_80077AA4(0x20, paletteValue));
             }
             func_800C6ED8(1);

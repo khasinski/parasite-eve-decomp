@@ -1,11 +1,11 @@
-# func_80192F9C: GTE-window candidate 120, C-load candidate 400
+# func_80192F9C: GTE-window candidate 0, C-load candidate 400
 
 The preferred matching candidate is now `SceneE19_BlastSequence_GteWindows.c`,
-verified at **weighted Levenshtein 120** with stock GCC/MASPSX on darwine.
+verified at **weighted Levenshtein 0** with stock GCC/MASPSX on darwine.
 It uses the existing `pe1/gte_window.h` exception documented on main for this
-function, with four rotation/translation pairs (eight macro uses), two pins (s1 parameter pointer and local v1 palette),
-and three empty barriers (selector input/memory, parameter pointer tied output,
-and palette input). The CPU `lw` instructions inside
+function, with four rotation/translation pairs (eight macro uses), one s1
+parameter-pointer pin and two empty tied-output barriers (parameter pointer
+and selector address). The CPU `lw` instructions inside
 these macros are explicit matching debt; this is not a CPU-ASM-free candidate.
 The pending evidence entry must move to the active list when integrating the
 function as a C unit, with the required overlay verification.
@@ -89,6 +89,35 @@ relocated-selector alternative instead of the retained 120 candidate. On
 compile errors, best 297. One equal-score output was saved, no improvement.
 `permuter297` stopped with timeout exit 124; its log and seed remain in the
 research archive. The committed code and its verified score 120 are unchanged.
+
+## Exact candidate, integration still pending
+
+The final candidate reproduces the complete linked `.text` (9472 bytes,
+2368 instructions) and `.rodata` (60 bytes at 0x8018F1D4) exactly. The target
+rodata is scene_e19.bin[0x1EC:0x228]. Both comparisons were performed on
+darwine using the original disc extraction and stock GCC 2.7.2/MASPSX 2.56.
+Score zero was rechecked after formatting, removing redundant initialization,
+removing non-pinned `register` keywords, and renaming temporary arguments.
+
+The key selector constraint takes the address constant as its tied input:
+`asm("" : "=r"(pageSelector) : "0"(&D_800E11EA[8]));`. Separating the model's
+page-index read and texture-call arguments then resolves the remaining
+scheduling differences. The initial exact probe used 5 pins and 7 barriers.
+All 4095 nonempty subsets of those 12 constraints were tested for removal;
+9 can be removed together. The retained candidate has only the 1 pin and
+2 barriers listed above, plus the existing GTE-window macro debt.
+
+Research artifacts: `constant_selector460.c`, `rotation460`, `args460`
+(the first score-zero job is [7,0,1,1,2]), and `remove0` under the existing
+darwine research directory. `remove0/best_removed_9.c` is the minimized seed.
+The preceding split-use search compiled 80 variants without improving 120;
+the constraint-form search compiled 128 of 192 attempts (GCC rejected the
+64 read/write `+r` forms), yielding the relocated-selector 460 seed.
+
+This is a verified matching candidate, not yet a production C unit. Remaining
+work: integrate code and rodata into the scene layout, activate the GTE-window
+evidence/debt entry, run full overlay/build verification, and publish the
+integrated change. The goal is not complete until those steps are verified.
 
 ## Preserved C-load candidate
 
