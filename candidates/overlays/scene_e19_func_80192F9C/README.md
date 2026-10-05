@@ -66,6 +66,17 @@ variants. None improved the retained 120. All ran on darwine with stock tools;
 research directory names are `single240`, `selector120`, `orders580`,
 `scoped120`. `single240/best_120.c` preserves the winning source.
 
+Further score-120 probes (all on darwine, none retained): `shape120` compiled
+432 selector-address forms/placements/constraints, including the direct
+D_800E11FA symbol, array addition, byte-pointer offset, inline identity, and
+a typed page-state view. Best relocated variant remained 580. `flags120`
+compiled 45 combinations of stock CSE-follow/skip, rerun-CSE and expensive-
+optimization switches across three source shapes; none improved 120.
+`flow120` tried 16 conditional/switch selector initializations before the draw
+switch, also without improvement. Compiler flags in the retained candidate
+remain unchanged. These results rule out these specific forms, not all
+possible C control-flow or type reconstructions.
+
 ## Preserved C-load candidate
 
 Not integrated and not yet matching. The current preferred candidate is
