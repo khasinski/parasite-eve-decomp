@@ -1,13 +1,12 @@
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
 #include "pe1/field_actor.h"
+#include "pe1/scene_flags.h"
 
 int g_FieldMoveLock;
 FieldActor **g_PlayerEntity;
-extern char D_800943C0[];
 
 void Entity_DispatchCallbacks(FieldActor *a);
-void Scene_CheckFlagBits(FieldActor *a, char *arg1, int *arg2);
 
 void Entity_IntegratePositionFull(FieldActor *a)
 {
@@ -50,6 +49,7 @@ void Entity_IntegratePositionFull(FieldActor *a)
     a->pos_z += a->delta_z;
 }
 #include "pe1/field_actor.h"
+#include "pe1/scene_flags.h"
 
 extern int g_GameStateFlags;
 

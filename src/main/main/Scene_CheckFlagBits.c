@@ -1,11 +1,5 @@
 #include "common.h"
-
-typedef struct SceneFlagRecord {
-    u32 flags;
-    u32 mask_all;
-    u32 mask_any;
-    void (*callback)(void *, void *);
-} SceneFlagRecord;
+#include "pe1/scene_flags.h"
 
 extern u32 D_8009D26C;
 extern u32 D_8009D1F4;
