@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "description": "Functions proven to be original assembler outside the main-executable PSY-Q provenance (configs/USA/psyq_provenance.json). Only these may use GAME_ASM_FUNCTION (origin game) or PSYQ_ASM_FUNCTION in an overlay (origin psyq). Each unit's yaml range must be exactly its listed functions. Policy: docs/ASM_AND_GTE_POLICY.md, 'Game-side assembler'; enforced by tools/scripts/check_source_policy.py.",
+  "functions": []
+}

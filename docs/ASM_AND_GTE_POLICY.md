@@ -14,8 +14,10 @@ packing, or scheduling fixes in inline assembly.
 Whole-function assembly is not an acceptable decompilation result. A generated
 `INCLUDE_ASM` stub remains the correct representation until the surrounding C
 is understood and can replace it without changing the binary. The only
-exception is a PSY-Q SDK object proven to have been assembled from assembler
-source; see "PSY-Q assembler objects" below.
+exceptions are a PSY-Q SDK object proven to have been assembled from assembler
+source, and a game routine with the same proof listed in
+`configs/USA/original_asm_evidence.json`; see "PSY-Q assembler objects" and
+"Game-side assembler" below.
 
 Compiler register variables such as `register T value asm("$N")` and empty asm
 barriers are allowed when they reproduce the original allocator or scheduling
@@ -228,6 +230,58 @@ comparisons.
 | LIBAPI CHCLRPAD | `psyq/libapi/chclrpad.c` | `Pad_StopHandler` (_remove_ChgclrPAD) | Static `ra` slot, inline B0 call, trapping `addi`. |
 | LIBCARD PATCH | `psyq/libcard/patch_head.c`, `psyq/libcard/patch_card.c` | `func_8007E344`, `func_8007E3C8`, `func_8007E3DC` (_patch_card), `func_8007E470` (_patch_card2) | Kernel patch image copied to 0xDF80 that runs with BIOS-supplied `v0`/`v1`. The installers use a static `ra` slot and inline C0/B0 calls. CardPatchFunctions, `func_8007E3B4` and `_copy_memcard_patch` of the same object remain C. |
 | LIBCARD END | `psyq/libcard/end.c` (+ `END_templates` data) | `_ExitCard` | Static `ra` slot, inline C0 call; copies a three-NOP template into the C0 table. |
+
+## Game-side assembler
+
+A handful of game routines in the main executable were also written in
+assembler. The rule is the same as for the SDK: proven assembler only. The
+exemption is never a way to avoid reconstructing C, never for a function that
+is merely hard to match, and never for one where stock GCC 2.7.2 or 2.8.1 can
+produce the retail bytes from some C form. Before a routine is listed, compile
+the obvious C candidates with the stock compilers and record why their output
+cannot be the retail code.
+
+Such a unit uses `GAME_ASM_FUNCTION` from `include/pe1/game_asm.h`: one
+file-scope `__asm__` per routine, emitting `.section .text`, `.set noreorder`
+and `.set noat`, `.globl`/`.type`/`.ent`/`.size`/`.end` and the retail
+instruction text. Call targets, data addresses and branches stay symbolic
+(`jal Name`, `%hi`/`%lo`, local `.L` labels); no encoded instruction words.
+The macro works in the main executable and in overlays.
+
+`check_source_policy.py` (`make source-policy-check`) allows the macro only
+for functions listed in `configs/USA/original_asm_evidence.json`. Each entry
+gives the function name, module, source file, retail address and size,
+origin, a non-empty evidence list and who verified it. The check requires:
+
+- `/* ASSEMBLER: GNU */` in the file, since there is no compiler output for
+  MASPSX to adjust;
+- no C function definition in the file (the unit must classify as
+  `original_asm`; a mixture stays `asm_constrained` and is rejected);
+- the file defines exactly the functions the manifest lists for it;
+- the unit's `c` range in the module's yaml is exactly those functions,
+  contiguous from the first address to the end of the last; and
+- every manifest entry is reproduced by its source.
+
+The same manifest covers PSY-Q assembler objects linked into overlays, which
+`configs/USA/psyq_provenance.json` (main executable only) cannot describe.
+Those entries have origin `psyq` with a library and object, and their file
+uses `PSYQ_ASM_FUNCTION` with a matching `PSYQ_ASM_OBJECT`.
+
+`source_quality.classify()` reports both forms as `original_asm`, credited
+once the module's SHA matches. `crutch_debt.py` counts game routines in a
+separate `game_asm_units` column and the overlay SDK objects in
+`original_asm_units`. Neither is debt or makes a file dirty; both are
+ratcheted, so a new game-side unit appears as its own reviewed baseline line
+rather than disappearing among the SDK objects.
+
+To add a routine: show that it is assembler (trapping `add`/`addi`/`sub`,
+`$at` use, `ra` kept in a register instead of a frame, HI/LO or delay-slot
+patterns the compiler cannot produce, or an SDK object comparison), compile
+the plausible C forms with the stock compilers and note the difference, add
+the manifest entry, write the unit with the macro, flip its yaml subsegment to
+`c` with a range that holds only listed functions, and run `make check`,
+`make overlay-check-all`, `make report`, `make source-policy-check` and
+`make debt-baseline`.
 
 ## LZCS / LZCR
 

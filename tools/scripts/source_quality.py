@@ -29,6 +29,11 @@ FUNCTION_DEF = re.compile(
 # handwritten assembler source (include/pe1/psyq_asm.h). Policy and per-object
 # evidence: docs/ASM_AND_GTE_POLICY.md, enforced by check_source_policy.py.
 PSYQ_ASM_USE = re.compile(r'\bPSYQ_ASM_FUNCTION\s*\(')
+# Sanctioned reproduction of game routines proven to be original assembler
+# (include/pe1/game_asm.h). Only functions listed in
+# configs/USA/original_asm_evidence.json may use it; check_source_policy.py
+# enforces that and the exact unit range.
+GAME_ASM_USE = re.compile(r'\bGAME_ASM_FUNCTION\s*\(')
 COP2_OP = re.compile(r'\b(?:cfc2|ctc2|lwc2|swc2|mfc2|mtc2)\b')
 # The audited PE1_NOP* macros emit only individually authorized scheduling
 # NOPs and remain semantic C with nop_barriers debt. Their definitions are
@@ -112,10 +117,11 @@ def classify(path: pathlib.Path) -> str:
     if "PSYQ_BIOS_TRAMPOLINE" in expanded or "PSYQ_BIOS_SYSCALL" in expanded:
         return "original_asm"
     code = re.sub(C_STRING, '""', strip_comments(expanded))
-    if PSYQ_ASM_USE.search(code):
-        # A PSY-Q assembler object reproduces SDK assembler text and nothing
-        # else. A C function beside it would hide compiled code behind the
-        # exemption, so such a mixture is not credited.
+    if PSYQ_ASM_USE.search(code) or GAME_ASM_USE.search(code):
+        # An original-assembler unit (PSY-Q object or evidenced game routine)
+        # reproduces assembler text and nothing else. A C function beside it
+        # would hide compiled code behind the exemption, so such a mixture is
+        # not credited.
         if FUNCTION_DEF.search(code):
             return "asm_constrained"
         return "original_asm"

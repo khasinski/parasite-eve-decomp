@@ -270,6 +270,26 @@ class SourceQualityTests(unittest.TestCase):
             '    "    jr      $ra\\n"\n'
             '    "    nop\\n");\n'), "original_asm")
 
+    def test_game_assembler_routine_is_original_asm(self):
+        self.assertEqual(self.classify(
+            '/* ASSEMBLER: GNU */\n'
+            '#include "pe1/game_asm.h"\n'
+            'GAME_ASM_FUNCTION(Math_FixedRoundToInt,\n'
+            '    "    ori     $at, $zero, 0x8000\\n"\n'
+            '    "    add     $v0, $a0, $at\\n"\n'
+            '    "    jr      $ra\\n"\n'
+            '    "    sra     $v0, $v0, 16\\n");\n'), "original_asm")
+
+    def test_game_assembler_routine_cannot_hide_c_functions(self):
+        self.assertEqual(self.classify(
+            'GAME_ASM_FUNCTION(f, "    jr $ra\\n" "    nop\\n");\n'
+            'int g(void) { return 1; }\n'), "asm_constrained")
+
+    def test_game_assembler_name_in_a_comment_is_not_a_use(self):
+        self.assertEqual(self.classify(
+            '/* formerly GAME_ASM_FUNCTION(f, ...) */\n'
+            'int f(void) { return 1; }\n'), "semantic_c")
+
     def test_psyq_assembler_object_cannot_hide_c_functions(self):
         self.assertEqual(self.classify(
             'PSYQ_ASM_FUNCTION(f, "    jr $ra\\n" "    nop\\n");\n'

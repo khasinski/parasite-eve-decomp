@@ -13,10 +13,13 @@
  * original assembler text with the macros below. The per-object evidence is
  * listed in docs/ASM_AND_GTE_POLICY.md ("PSY-Q assembler objects").
  *
- * This header is never for game code. A source using it must live under
- * src/main/psyq/, declare its SDK object with PSYQ_ASM_OBJECT, and contain
- * no C function definitions; tools/scripts/check_source_policy.py enforces
- * that and checks the object against configs/USA/psyq_provenance.json.
+ * This header is never for game code (see include/pe1/game_asm.h). A source
+ * using it must declare its SDK object with PSYQ_ASM_OBJECT and contain no C
+ * function definitions. In the main executable it lives under src/main/psyq/
+ * and its range must lie inside the object in configs/USA/psyq_provenance.json;
+ * in an overlay every routine must be listed in
+ * configs/USA/original_asm_evidence.json. tools/scripts/check_source_policy.py
+ * enforces both.
  *
  * Bodies are the original instruction text, one instruction per string, with
  * symbolic %hi/%lo relocations and labels rather than encoded words. They are

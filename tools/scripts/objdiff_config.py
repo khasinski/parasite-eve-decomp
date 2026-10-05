@@ -116,10 +116,13 @@ def unit(relative, build_prefix, name, category, source, complete,
         entry["metadata"]["source_kind"] = source_kind
         # Semantic progress requires both a C implementation and proof that
         # its complete linked module matches retail. `original_asm` is code
-        # whose SDK original was assembler source, not C: the BIOS-call
-        # trampolines (PSYQ_BIOS_TRAMPOLINE / PSYQ_BIOS_SYSCALL) and the PSY-Q
-        # assembler objects reproduced with PSYQ_ASM_FUNCTION (see
-        # docs/ASM_AND_GTE_POLICY.md for the per-object evidence). There is
+        # whose original was assembler source, not C: the BIOS-call
+        # trampolines (PSYQ_BIOS_TRAMPOLINE / PSYQ_BIOS_SYSCALL), the PSY-Q
+        # assembler objects reproduced with PSYQ_ASM_FUNCTION (provenance in
+        # psyq_provenance.json, or original_asm_evidence.json in overlays),
+        # and the game routines reproduced with GAME_ASM_FUNCTION, listed in
+        # configs/USA/original_asm_evidence.json (see
+        # docs/ASM_AND_GTE_POLICY.md for the per-function evidence). There is
         # no C to recover, so a byte-matching reproduction is as done as the
         # function gets and is credited complete on decomp.dev. Text-resident
         # data still receives neither a base nor the override, which would
