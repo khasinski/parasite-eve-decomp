@@ -1,14 +1,10 @@
 #include "pe1/field_script_context.h"
+#include "pe1/gte_short_vector.h"
 #ifndef ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC
 #error "ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC must name the room entry point"
 #endif
 
-typedef struct RoomInitThreeVec {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} RoomInitThreeVec;
+typedef GteShortVector RoomInitThreeVec;
 
 typedef struct RoomInitThreeStack {
     RoomInitThreeVec projectionSeed;

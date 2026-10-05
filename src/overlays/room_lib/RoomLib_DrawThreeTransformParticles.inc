@@ -1,4 +1,5 @@
 #include "pe1/field_script_context.h"
+#include "pe1/gte_short_vector.h"
 #ifndef ROOMLIB_DRAW_THREE_PARTICLES_FUNC
 #error "ROOMLIB_DRAW_THREE_PARTICLES_FUNC must name the room entry point"
 #endif
@@ -23,12 +24,7 @@
 #error "ROOMLIB_DRAW_THREE_PARTICLES_FLOOR_HEIGHT must name the floor height"
 #endif
 
-typedef struct RoomDrawThreeVec {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} RoomDrawThreeVec;
+typedef GteShortVector RoomDrawThreeVec;
 
 typedef struct RoomDrawThreeStack {
     RoomSpriteMatrix primaryMatrix;
