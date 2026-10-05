@@ -3,7 +3,9 @@
 
 /* Fan sweep controller: opens a spark pool and a trail pool, launches a
  * spark on a turning angle every other frame for 32 frames, updates the
- * trail for 70 frames and publishes its pool for the sparks. */
+ * trail for 70 frames and publishes its pool for the sparks.
+ * Matching debt: four register pins and one empty slot-address barrier.
+ * Matrix loads are C; each GTE transfer uses its individual macro. */
 int func_800D751C(int mode, FieldFanSweep *sweep)
 {
     RoomFanSweepSpark *spark;
@@ -32,8 +34,32 @@ int func_800D751C(int mode, FieldFanSweep *sweep)
         D_800E21E8 = sweep->pool;
         break;
     case 2:
-        gte_ldrotmatrix(D_800BCFA4.value);
-        gte_ldtransmatrix(D_800BCFA4.value);
+        {
+            s32 **slot;
+            register const GteMatrixWords *matrix asm("$8");
+            register u32 a asm("$12");
+            register u32 b asm("$13");
+            register u32 c asm("$14");
+            slot = &D_800BCFA4.value;
+            asm volatile("" : "=r"(slot) : "0"(slot));
+            matrix = (const GteMatrixWords *)*slot;
+            a = matrix->r11_r12;
+            b = matrix->r13_r21;
+            gte_ctc2_0(a);
+            gte_ctc2_1(b);
+            a = matrix->r22_r23;
+            b = matrix->r31_r32;
+            c = matrix->r33_pad;
+            gte_ctc2_2(a);
+            gte_ctc2_3(b);
+            gte_ctc2_4(c);
+            a = matrix->tx;
+            b = matrix->ty;
+            gte_ctc2_5(a);
+            c = matrix->tz;
+            gte_ctc2_6(b);
+            gte_ctc2_7(c);
+        }
         D_800F3368.depth = 8;
         func_800CE78C(sweep->pool);
         func_800CE870((char *)D_8009D254, 1, &D_800E21E0.x);
