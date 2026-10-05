@@ -5,6 +5,7 @@
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
 #include "room_m273_effects.h"
+#include "room_m273_sway.h"
 
 /* Boss instance fields read by room_m273's animation controllers. */
 typedef struct RoomM273BossOwner {
@@ -129,36 +130,6 @@ typedef struct RoomM273BossState {
 } RoomM273BossState;
 
 extern RoomM273BossState D_8019AE9C;
-
-/* Sway controller state at 0x8019AF74: four transformed points (the pad
- * halfword is a per-point flag) and the animation snapshot. */
-typedef struct RoomM273SwayState {
-    GteShortVector points[2];
-    GteShortVector hits[2];
-    s16 animation;
-    s16 frame;
-    s16 frame_1A;
-    s16 repeat;
-    s16 sway_timer;
-    s16 sway_step;
-    s16 cooldown;
-    u8 done;
-} RoomM273SwayState;
-
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273SwayState, points) == 0,
-                  room_m273_sway_points_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273SwayState, animation) == 0x20,
-                  room_m273_sway_animation_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273SwayState, frame) == 0x22,
-                  room_m273_sway_frame_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273SwayState, sway_timer) == 0x28,
-                  room_m273_sway_timer_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM273SwayState, done) == 0x2E,
-                  room_m273_sway_done_offset);
-PE1_STATIC_ASSERT(sizeof(RoomM273SwayState) == 0x30,
-                  room_m273_sway_state_size);
-
-extern RoomM273SwayState D_8019AF74;
 
 /* Falling drop: position (the pad halfword counts frames after landing),
  * ring position, velocity and the player-contact flag. */

@@ -1,7 +1,7 @@
 #include "room_m273_effects.h"
+#include "room_m273_sway.h"
 typedef GteShortVector Vector;
 typedef RoomM273PairPoolRecord Record;
-typedef struct { Record records[2]; unsigned char unknown[30]; unsigned char stopped; } State;
 
 /* The emitter owns the eight-byte pool whose entries this callback renders. */
 
@@ -13,8 +13,6 @@ extern unsigned short D_800F3376,D_800F3378;
 extern unsigned short D_800E1204[],D_800E11FA,D_800E2850[],D_800942EC;
 extern Vector D_8019AB68;
 extern unsigned char D_8019AE18[],D_8019AB70[];
-extern State D_8019AF74;
-extern short D_8019AF94,D_8019AF96,D_8019AF98;
 extern unsigned short GetClut(int,int);
 extern void func_800CEE20(Vector *,void *,int,int,int,int,int,int,void *);
 extern void func_800D004C(Vector *,int,int,int,Vector *,int,int,void *,void *,int,int);
@@ -51,15 +49,14 @@ int func_80198CD4(int mode) {
     case 0:
         return func_800CE560(D_800F33E0->pool,8,4,func_80198B1C);
     case 1: {
-        unsigned char *anchor=(unsigned char *)&D_8019AF74+46;
         Record *source;
         int i;
-        if(*anchor) return 2;
-        if(D_8019AF94!=15) return 0;
-        if(D_8019AF96<4) return 0;
-        if(D_8019AF98>=4) break;
+        if(D_8019AF74.done) return 2;
+        if(D_8019AF74.animation!=15) return 0;
+        if(D_8019AF74.frame<4) return 0;
+        if(D_8019AF74.frame_1A>=4) break;
         i=0;
-        source=(Record *)(anchor-46);
+        source=(Record *)D_8019AF74.points;
         for(;i<2;++i) {
             Record *output=func_800CE610(D_800F33E0->pool);
             if(!output) break;
