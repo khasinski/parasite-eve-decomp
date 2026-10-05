@@ -28,6 +28,17 @@ best relocated-pointer probe is 600, with matching total instruction count
 but additional state-2 scheduling differences. Research files are on darwine
 under `scene_e19_branch_review/{windows400.c,pointer260.py,prefix600.py}`.
 
+A subsequent bounded permuter run (`permuter260`, 24 workers, 120 seconds,
+state-2 region only) completed 15499 iterations with 279 compilation errors;
+its minimum full-function weighted score was 260 and it saved no improved
+candidate. The timeout returned 124 after stopping the run. No toolchain
+changes were made; `run.py` uses the repository scorer configuration.
+Additional targeted trials also gave no improvement: 312 timer-local/read/
+shift variants based on the relocated-pointer probe, 27 palette conversion
+helper variants, and 12 scoped v1 palette pin/constraint variants. None was
+retained. Scripts/results remain on darwine in `scene_e19_branch_review` as
+`timer600`, `palette260`, `palettepin260`, and `permuter260`.
+
 ## Preserved C-load candidate
 
 Not integrated and not yet matching. The current preferred candidate is
