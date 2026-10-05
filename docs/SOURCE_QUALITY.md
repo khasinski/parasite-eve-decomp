@@ -8453,3 +8453,9 @@ Overlays (all as `data` subsegments in `.code_data`):
   linked 0x100 higher, uses three of these addresses as branch targets, so splat
   typed them as functions. `collapse_zero_data.py` now writes every label in a
   data file as `dlabel`, since a data section holds no functions.
+- fx_field `fx_field_header` (28 bytes at 0x8018EFE8) and `fx_field_data`
+  (880 bytes at 0x8018FC78): header words, the orbit-flare rotation and spin
+  vectors, and the parameter/state table that `func_8018FC54` writes. The two
+  `text_data` C files held these words as `.text` arrays, some under names
+  that did not match their addresses; splat now emits them as data, with
+  labels at the addresses the code references.
