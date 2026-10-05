@@ -3,24 +3,13 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/field_textured_chain_node.h"
 #include "pe1/render_tint.h"
 #include "pe1/field_engine_scratch.h"
 
 /* Field engine textured strip (func_800C5A40): consecutive nodes joined by
  * POLY_FT4 segments, each node's two edge points projected with
  * RotTransPers4 and textured from a 16x16 cell grid. */
-
-typedef struct FieldStripNode {
-    /* 0x00 */ u8 visible;
-    /* 0x01 */ u8 pad01[2];
-    /* 0x03 */ u8 cellStep;
-    /* 0x04 */ s16 brightness;
-    /* 0x06 */ u8 pad06[0xA];
-    /* 0x10 */ u8 rgb[4];
-    /* 0x14 */ GteShortVector edgeA;
-    /* 0x1C */ GteShortVector edgeB;
-    /* 0x24 */ u8 pad24[0x20];
-} FieldStripNode;
 
 typedef struct FieldTexturedStrip {
     /* 0x00 */ FieldStripNode *nodes;

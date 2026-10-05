@@ -3,21 +3,8 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/field_textured_chain_node.h"
 #include "pe1/room_glow_orb.h"
-
-/* One link of a field particle chain (0x44 bytes): its two end points and
- * the matrix that places it, composed from the previous link's matrix. */
-typedef struct FieldChainLink {
-    /* 0x00 */ u8 pad00[0xA];
-    /* 0x0A */ s16 tiltX;
-    /* 0x0C */ s16 tiltY;
-    /* 0x0E */ u8 pad0E[6];
-    /* 0x14 */ s16 tail[3];
-    /* 0x1A */ u8 pad1A[2];
-    /* 0x1C */ s16 head[3];
-    /* 0x22 */ u8 pad22[2];
-    /* 0x24 */ GteMatrix matrix;
-} FieldChainLink;
 
 typedef struct FieldChainRecord {
     /* 0x00 */ FieldChainLink *links;
