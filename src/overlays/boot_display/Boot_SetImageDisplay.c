@@ -8,10 +8,10 @@ void Boot_SetImageDisplay(u16 index) {
     s32 displayOffset;
     s32 drawOffset;
     u16 savedWidth;
-    register DRAWENV *drawArg asm("$4");
-    register s32 zeroArg asm("$5");
+    DRAWENV *drawArg;
+    s32 zeroArg;
     s32 yArg;
-    register s32 widthArg asm("$7");
+    s32 widthArg;
     if (index != 0) {
         displayY = 0;
         drawY = 224;

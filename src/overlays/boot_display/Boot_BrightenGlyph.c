@@ -24,7 +24,7 @@ void Boot_BrightenGlyph(s32 x, s32 y, u8 character) {
     s32 low = glyph & 15;
     s32 high = glyph & 240;
     s32 imageOffset;
-    register u8 *image asm("$11");
+    u8 *image;
     register s32 endY asm("$16");
     register s32 computedEnd asm("$2");
     s32 nextRow;
