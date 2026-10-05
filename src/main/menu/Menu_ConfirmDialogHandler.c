@@ -1,6 +1,7 @@
 #include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
+#include "../../../include/pe1/menu_widget.h"
 
 s32 MenuWidget_GridCellIndex(s32 arg0);
 void MenuWidget_RestoreSavedCurrentNode(void);
@@ -19,7 +20,7 @@ s32 Menu_ConfirmDialogHandler(void *arg0, s32 arg1) {
         switch (index) {
         case 0:
             MenuWidget_DestroyNode(arg0);
-            if (*(s32 *)((char *)arg0 + 0x24) == 0x2A) {
+            if (((MenuWidgetNode *)arg0)->selected_base == 0x2A) {
                 MenuWidget_RestoreSavedCurrentNode();
             }
             if (g_MenuConfirmCallback != 0) {
@@ -29,7 +30,7 @@ s32 Menu_ConfirmDialogHandler(void *arg0, s32 arg1) {
             break;
         case 1:
             MenuWidget_DestroyNode(arg0);
-            if (*(s32 *)((char *)arg0 + 0x24) == 0x2A) {
+            if (((MenuWidgetNode *)arg0)->selected_base == 0x2A) {
                 MenuWidget_RestoreSavedCurrentNode();
             }
             if (g_MenuConfirmCallback != 0) {
@@ -43,7 +44,7 @@ s32 Menu_ConfirmDialogHandler(void *arg0, s32 arg1) {
 
     if (arg1 & 0x40) {
         MenuWidget_DestroyNode(arg0);
-        if (*(s32 *)((char *)arg0 + 0x24) == 0x2A) {
+        if (((MenuWidgetNode *)arg0)->selected_base == 0x2A) {
             MenuWidget_RestoreSavedCurrentNode();
         }
         if (g_MenuConfirmCallback != 0) {

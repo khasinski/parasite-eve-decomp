@@ -208,6 +208,7 @@ entry. It is evidence for review, not evidence of an original source boundary.
 ## Shared record layouts
 
 | `MenuWidgetNode` in `Menu_VisualSettingsFlow` | The blend-color menu setup, confirmation handler and screen-adjust constructor now use named `draw`, `update`, `disabled`, `flags`, cursor and reciprocal-link fields from the shared node layout. The 0x3B93C unit remains byte-identical. The blend-color descriptor pointer at +0x4C remains an unresolved field and is still accessed by its established raw view. |
+| `MenuWidgetNode` in confirm/equipment dialogs | `Menu_ConfirmDialogHandler` reads the dialog's `selected_base` field at +0x24, and `Menu_DrawEquipListContainer` uses `visible_rows` at +0x38. Both accesses now use the shared node layout and their isolated units remain byte-identical. |
 
 | Layout | Evidence and use |
 | --- | --- |
