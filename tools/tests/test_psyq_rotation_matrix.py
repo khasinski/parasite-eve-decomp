@@ -9,31 +9,31 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('libgte/RotMatrix',
+CASES = [('libgte/fgo_01',
   652,
   '19a788c448e9f29638e673adaa9be46de34a81b53a99fbb389b4833a7a77ac7c',
   'D_800966EC = 0x800966EC;\n'
   'SECTIONS { .text 0x800794c4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libgte/RotMatrixYXZ',
+ ('libgte/fgo_02',
   652,
   '3f3b635a4043f2431742fdd17f3c0b6151693091b20996071e6f360e41ab915d',
   'D_800966EC = 0x800966EC;\n'
   'SECTIONS { .text 0x80079754 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libgte/RotMatrixZYX',
+ ('libgte/fgo_03',
   652,
   'eb29f1f088bca83efc058df957cfe2cd49bcfbd3a215d41df7986888d2b9bba3',
   'D_800966EC = 0x800966EC;\n'
   'SECTIONS { .text 0x800799e4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libgte/RotMatrixY',
+ ('libgte/fgo_05',
   408,
   '6ec71ba3f3bc10c8c31db8b2e186f0609c31ba04a46bfe124ea36da8ae2d1d89',
   'D_800966EC = 0x800966EC;\n'
   'SECTIONS { .text 0x80079c74 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libgte/RotMatrixZ',
+ ('libgte/fgo_06',
   408,
   '01dc9ce87f9f78efdbd99d5740e80f3d5a92d6973a621874ea178834426546f2',
   'D_800966EC = 0x800966EC;\n'

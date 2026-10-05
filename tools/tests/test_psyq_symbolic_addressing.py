@@ -144,7 +144,7 @@ CASES.append(('src/main/gpu/gpu2.c',
  '*(.mdebug) } }'))
 
 # GNU as 2.8.1 preserves the SDK checked-division expansion without CPU ASM.
-CASES.append(('src/main/gte/Gte_SetDepthParams.c',
+CASES.append(('src/main/psyq/libgte/SetFogNearFar.c',
  260,
  'd889825ceeab879eec23a3ab2bd7a3c2f01de7a49cd6aff48e9ce203cfbca58f',
  'SetDQA = 0x80078fac;\n'

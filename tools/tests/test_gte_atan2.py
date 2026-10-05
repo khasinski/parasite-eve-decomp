@@ -18,7 +18,7 @@ class GteAtan2Tests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             work = pathlib.Path(directory)
             obj, linked, data = work / 'gte.o', work / 'gte.elf', work / 'gte.bin'
-            subprocess.run(['tools/scripts/cc.sh', 'src/main/psyq/libgte/Gte_Atan2.c', str(obj)],
+            subprocess.run(['tools/scripts/cc.sh', 'src/main/psyq/libgte/ratan.c', str(obj)],
                            cwd=ROOT, check=True, capture_output=True)
             script = work / 'gte.ld'
             script.write_text('D_8009A6EC = 0x8009A6EC;\n'
@@ -35,7 +35,7 @@ class GteAtan2Tests(unittest.TestCase):
             self.assertEqual(gen_expected.object_section_bytes(obj), 372)
 
     def test_function_section_is_counted_in_wrapped_link_map(self):
-        obj = 'build/USA/src/main/psyq/libgte/Gte_Atan2.c.o'
+        obj = 'build/USA/src/main/psyq/libgte/ratan.c.o'
         text = ' .text.Gte_Atan2\n                0x80079fb4 0x174 ' + obj + '\n'
         self.assertTrue(objdiff_config.linked_objects(text)[obj]['code'])
         self.assertEqual(gen_expected.parse_map_placement(text)[obj]['.text.Gte_Atan2'],

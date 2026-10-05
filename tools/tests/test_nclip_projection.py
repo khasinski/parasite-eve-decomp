@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Whole retail TUs, including their original trailing alignment words.
-CASES = [('libgte/RotAverageNclip3',
+CASES = [('libgte/cmb_06',
   144,
   '9ef9708ea083f53e0bb2c6806f29f722f878aa67c806c3e153fa76c994bee47a',
   'SECTIONS { .text 0x80079384 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '

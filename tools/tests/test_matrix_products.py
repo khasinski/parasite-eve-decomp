@@ -9,12 +9,12 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Whole retail TUs, including their original trailing alignment words.
-CASES = [('libgte/MulMatrix0',
+CASES = [('libgte/mtx_000',
   272,
   '7a49e69bb3a862fd80e3ad3cfb677ca2a9a1700cb4b77c185d22661a19ebbef4',
   'SECTIONS { .text 0x800785d4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libgte/MulRotMatrix',
+ ('libgte/mtx_001',
   240,
   '5feab422d94002fbb586c007cc2de09ccca57fa5dfae96755e38c67bda55ad49',
   'SECTIONS { .text 0x800786e4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
