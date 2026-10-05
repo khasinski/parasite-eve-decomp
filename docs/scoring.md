@@ -23,3 +23,21 @@ not a decomp.me score.
 
 A score of zero is not sufficient to promote a function. Verify the complete
 linked overlay against its retail SHA-1 before counting a byte match.
+
+## Current matching goal
+
+The immediate goal is score 0 for every real function using the Levenshtein
+configuration above. Leave already matching source alone, including existing
+CPU-ASM helpers; removing that debt and reorganizing types/TUs is deferred.
+Build verification remains a separate integration gate, not a substitute score.
+Run compilation and permutation searches on darwine with stock GCC and MASPSX.
+
+[The matching inventory](match_inventory.json) records the 44 entries excluded
+by the report for commit `94715a2c3` (green CI run `37306501681`). These are
+**not 44 proven unmatched functions**. Fresh linked Levenshtein checks on darwine
+show score 0 for all seven functions in the five `asm_constrained` units. They
+remain excluded by the report's semantic-C policy and must not become cleanup
+targets under this goal. Two additional entries are text-resident data, and
+`render_clip.bin` duplicates a truncated slice of `fx_common.bin`. Other entries
+still require classification; a missing score in the inventory means unknown,
+not zero. Do not claim 100% from this partial audit.
