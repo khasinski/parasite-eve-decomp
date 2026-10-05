@@ -43,8 +43,7 @@ int Gpu_SetDisplayBuffer(void) {
                 register u32 arg1Index;
                 register u32 arg1Offset asm("$2");
                 register u32 arg1;
-                register void (*function)(u32, u32) asm("$2");
-
+                void (*function)(u32, u32);
                 /* Keep the three separate reads of the interrupt-visible tail. */
                 fnIndex = D_80095878;
                 argIndex = D_80095878;
@@ -73,7 +72,7 @@ int Gpu_SetDisplayBuffer(void) {
             register u32 *pending = &D_8009574C.syncCallbackPending;
             asm volatile("" : "=r"(pending) : "0"(pending));
             if (*pending) {
-                register void (*callback)(void) asm("$4") = *(void (**)(void))(pending + 1);
+                void (*callback)(void) = *(void (**)(void))(pending + 1);
                 if (callback) {
                     register GpuDebugState *base = (GpuDebugState *)((char *)pending - 8);
                     asm volatile("" : "=r"(base) : "0"(base));
