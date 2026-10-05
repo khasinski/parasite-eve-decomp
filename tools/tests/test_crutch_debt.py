@@ -123,6 +123,45 @@ class CrutchDebtTests(unittest.TestCase):
         self.assertEqual(scopes["main"]["stack_switch_macros"], 1)
         self.assertEqual(totals["asm_constrained_units"], 1)
 
+    def test_gte_window_is_ratcheted_debt(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp) / "src"
+            scene = root / "overlays" / "scene_x"
+            scene.mkdir(parents=True)
+            (scene / "Flare.c").write_text(
+                'void draw(void) {\n'
+                '    GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);\n'
+                '    GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);\n'
+                '}\n')
+            source_quality = crutch_debt.classify.__globals__
+            original = source_quality["gte_window_sources"]
+            source_quality["gte_window_sources"] = lambda: {"overlays/scene_x/Flare.c"}
+            try:
+                _, totals, dirty, scopes = crutch_debt.collect_debt(root)
+            finally:
+                source_quality["gte_window_sources"] = original
+
+        self.assertEqual(scopes["overlays"]["gte_matrix_windows"], 2)
+        self.assertEqual(totals["asm_constrained_units"], 0)
+        self.assertEqual(totals["asm_bodies"], 0)
+        self.assertEqual(dirty, 1)
+
+    def test_unlisted_gte_window_is_asm_constrained(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp) / "src"
+            scene = root / "overlays" / "scene_x"
+            scene.mkdir(parents=True)
+            (scene / "Other.c").write_text(
+                'void g(void) {\n'
+                '    GTE_LOAD_ROTATION_WINDOW(p);\n'
+                '    GTE_LOAD_TRANSLATION_WINDOW(p);\n'
+                '}\n')
+
+            _, totals, _, scopes = crutch_debt.collect_debt(root)
+
+        self.assertEqual(scopes["overlays"]["gte_matrix_windows"], 2)
+        self.assertEqual(totals["asm_constrained_units"], 1)
+
     def test_shared_header_alias_survives_declaration_move(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp) / "src"

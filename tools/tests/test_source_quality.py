@@ -324,6 +324,47 @@ class SourceQualityTests(unittest.TestCase):
         self.assertEqual(source_quality.classify(
             root / "src/main/boot/Boot_MainLoop.c"), "semantic_c")
 
+    GTE_WINDOW = (
+        '#include "pe1/gte_window.h"\n'
+        'void draw(void) {\n'
+        '    GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);\n'
+        '    GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);\n'
+        '}\n')
+
+    def classify_window_unit(self, name, text, allowed):
+        with tempfile.TemporaryDirectory() as directory:
+            path = pathlib.Path(directory) / "src" / name
+            path.parent.mkdir(parents=True)
+            path.write_text(text)
+            return source_quality.classify(path, gte_window_allowed=allowed)
+
+    def test_listed_gte_window_is_semantic_c(self):
+        self.assertEqual(self.classify_window_unit(
+            "overlays/scene_x/Flare.c", self.GTE_WINDOW,
+            {"overlays/scene_x/Flare.c"}), "semantic_c")
+
+    def test_unlisted_gte_window_is_asm_constrained(self):
+        self.assertEqual(self.classify_window_unit(
+            "overlays/scene_x/Other.c", self.GTE_WINDOW,
+            {"overlays/scene_x/Flare.c"}), "asm_constrained")
+        self.assertEqual(self.classify_window_unit(
+            "overlays/scene_x/Other.c",
+            '#include "pe1/gte_window.h"\n'
+            'void g(void) { GTE_LOAD_TRANSLATION_WINDOW(p); }\n',
+            {"overlays/scene_x/Flare.c"}), "asm_constrained")
+
+    def test_gte_window_does_not_excuse_other_asm(self):
+        self.assertEqual(self.classify_window_unit(
+            "overlays/scene_x/Flare.c",
+            self.GTE_WINDOW + 'void g(void) { asm volatile("nop"); }\n',
+            {"overlays/scene_x/Flare.c"}), "asm_constrained")
+
+    def test_gte_window_name_in_a_comment_is_not_a_use(self):
+        self.assertEqual(self.classify_window_unit(
+            "overlays/scene_x/Other.c",
+            '/* GTE_LOAD_ROTATION_WINDOW(p) */\nint f(void) { return 1; }\n',
+            frozenset()), "semantic_c")
+
     def test_psyq_assembler_object_cannot_hide_c_functions(self):
         self.assertEqual(self.classify(
             'PSYQ_ASM_FUNCTION(f, "    jr $ra\\n" "    nop\\n");\n'

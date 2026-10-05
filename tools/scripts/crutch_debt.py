@@ -61,6 +61,11 @@ PATTERNS = {
     # configs/USA/original_asm_evidence.json. Debt, so the ratchet stops it
     # from spreading.
     "stack_switch_macros": re.compile(r"\bBOOT_CALL_ON_SCRATCHPAD_STACK\s*\("),
+    # GTE view-matrix transfer windows (include/pe1/gte_window.h), one count
+    # per macro use, limited to the functions listed under "gte_matrix_windows"
+    # in configs/USA/original_asm_evidence.json. Debt, ratcheted like the stack
+    # switch.
+    "gte_matrix_windows": re.compile(r"\bGTE_LOAD_(?:ROTATION|TRANSLATION)_WINDOW\s*\("),
     "byte_pointer_arithmetic": re.compile(
         r"\(\s*(?:const\s+|volatile\s+)?(?:u8|s8|char)\s*\*\s*\)"
         r"(?!\s*\()[^;=\n]*\+"
@@ -103,6 +108,7 @@ ORDER = [
     "asm_bodies", "directives", "gotos", "include_asm", "postpass",
     "statement_expressions", "unknown_fields", "declaration_overrides",
     "externs_in_c", "stack_reserves", "dead_code", "stack_switch_macros",
+    "gte_matrix_windows",
     "original_asm_units", "game_asm_units",
 ]
 HEAVY = [key for key in ORDER if key not in ("gotos", "original_asm_units", "game_asm_units")]
@@ -202,7 +208,10 @@ def render_report(per_sub, totals, dirty_files) -> str:
         "track semantic/typing scaffolding. **asm_constrained_units** also sees asm "
         "in directly included C templates and is the progress-exclusion count. "
         "**stack_switch_macros** = `BOOT_CALL_ON_SCRATCHPAD_STACK` scratchpad "
-        "stack switches, the one CPU-asm window allowed in an evidenced C function. "
+        "stack switches, a CPU-asm window allowed only in an evidenced C function. "
+        "**gte_matrix_windows** = `GTE_LOAD_ROTATION_WINDOW` / "
+        "`GTE_LOAD_TRANSLATION_WINDOW` view-matrix transfers, likewise limited "
+        "to evidenced functions. "
         "**original_asm_units** = sanctioned reproductions of proven PSY-Q "
         "assembler objects and BIOS veneers (docs/ASM_AND_GTE_POLICY.md); "
         "**game_asm_units** = sanctioned reproductions of game routines proven to "

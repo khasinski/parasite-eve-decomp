@@ -116,7 +116,8 @@ only forwards the stock option; the compiler and MASPSX remain unchanged.
 
 Inline instructions are allowed only for individual GTE/COP2 hardware
 operations, the evidenced scratchpad stack switch (see "Scratchpad stack
-switch"), or in functions with concrete evidence that the original source
+switch"), the evidenced view-matrix loads (see "GTE matrix window"), or in
+functions with concrete evidence that the original source
 was assembly. Put each permitted instruction sequence behind a small, named,
 central macro and isolate only the instruction window that C cannot express.
 Do not hide surrounding CPU control flow, arithmetic, loads, or stores in that
@@ -359,6 +360,79 @@ window, evidence, verified_by), use the macro once, and run
 `make source-policy-check`, `make debt-baseline` and the usual match checks.
 Any other stack or register manipulation needs its own policy decision; do not
 widen this macro.
+
+## GTE matrix window
+
+Rule: the CPU loads that move the view matrix into the GTE rotation and
+translation registers may be written as inline assembly only with
+`GTE_LOAD_ROTATION_WINDOW(matrix)` and `GTE_LOAD_TRANSLATION_WINDOW(matrix)`
+from `include/pe1/gte_window.h`, and only in the functions listed under
+`gte_matrix_windows` in `configs/USA/original_asm_evidence.json`.
+The legacy `gte_ldrotmatrix`/`gte_ldtransmatrix` in `include/pe1/gte.h` are a
+separate, older debt being replaced by C; they are not this exemption.
+
+API, used back to back with the same operand:
+
+    GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);    /* RT0..RT4, 10 instructions */
+    GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value); /* TRX..TRZ, 6 instructions */
+
+`matrix` is an ordinary `"r"` operand (the pointer read from the view slot).
+Each macro holds only the `lw`/`ctc2` instructions of its window, with `%0` as
+the base and `$12..$14` (`$t4..$t6`) as the transfer registers; no control
+flow, no raw words, no register pin.
+
+Why C cannot express it: retail reads the slot pointer with
+`la v0,D_800BCFA4; lw base,0(v0)`, waits one load-delay `nop`, and then moves
+the eight words through `$t4..$t6` interleaved with `ctc2` (the PSY-Q
+`SetRotMatrix`/`SetTransMatrix` inline shape). C reads of the words fold the
+slot address into an absolute `lui`/`lw`, keep the pointer in `$v0` and
+schedule the word loads with the surrounding code. For `func_8018F028` the
+best C form was lev 6 with two pins and a barrier, the remaining words being
+reload registers elsewhere in the function; without crutches it was lev 47.
+
+Where the rest of the window comes from: the compiler emits the pointer load
+for the operand. The two reads of `D_800BCFA4.value` share the slot address
+(giving retail's `la`/`lw 0(v0)`), and the second read is a common
+subexpression, so both windows use one base register (`$t0` in scene_e20,
+`$t1` in scene_e19_2, chosen by the allocator). The assembler inserts the
+load-delay `nop`. One combined macro does not reproduce this: with a single
+use the pointer load becomes an absolute `lui`/`lw` (lev 14), so the API is
+two macros.
+
+Evidence for each listed function records its retail range, every window
+(address range, base register, any instructions scheduled into it) and why C
+cannot express it. `check_source_policy.py` requires:
+
+- every unit that uses either macro is listed;
+- inside each listed function, each macro is used exactly once per listed
+  window, and nowhere else in the unit;
+- the unit has no other instruction asm (it classifies as `semantic_c`);
+- the listed function lies inside the unit's yaml `c` range;
+- every listed entry uses the macros, and none lacks evidence or windows;
+- `gte_window.h` holds exactly the two windows, and nothing else defines
+  the macros; and
+- no function is listed both as a user and under `gte_matrix_windows_pending`.
+
+`source_quality.classify()` reports a listed user as `semantic_c` and an
+unlisted user as `asm_constrained`. `crutch_debt.py` counts each macro use in
+the `gte_matrix_windows` column (two per window). It is debt, so the file stays
+dirty, and the ratchet keeps the count from growing without a reviewed
+baseline change.
+
+Pending: scene_e19_2 `func_80192F9C` has four windows of the same shape (base
+`$t1`, 0x801936D0, 0x80193B70, 0x80193EC4, 0x8019475C). They are recorded under
+`gte_matrix_windows_pending` until the agent landing that function switches
+its source to the macros; that change moves the entry to `gte_matrix_windows`
+with source, evidence and `verified_by`, and deletes the pending note.
+
+To add a use: show from the retail disassembly that the function loads the
+view matrix with exactly this window (both halves, same base, `$t4..$t6`), that
+C reads do not reproduce it, and that the rest of the function matches as
+plain C. Then add an entry (name, module, source, address, size, windows,
+evidence, verified_by), use each macro once per window, and run
+`make source-policy-check`, `make debt-baseline` and the usual match checks.
+A different matrix source, register set or instruction order needs its own
+policy decision; do not widen these macros.
 
 ## LZCS / LZCR
 
