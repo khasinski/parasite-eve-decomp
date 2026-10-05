@@ -15,7 +15,7 @@ int Inv_AddItem(int data);
 
 BattleCmdEntry *BattleCmd_AllocSlot(void) {
     BattleCmdEntry *top;
-    register BattleCmdEntry *end asm("$3");
+    BattleCmdEntry *end;
     register BattleCmdEntry *dst asm("$7");
     BattleCmdEntry *limit;
     BattleCmdEntry *next;

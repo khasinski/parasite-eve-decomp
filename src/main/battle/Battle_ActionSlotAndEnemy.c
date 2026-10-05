@@ -21,7 +21,7 @@ int Battle_ProcessActionSlot(BattleEntity *entity)
     /* Fix the entity pointer in a3 before the prologue saves registers. */
     asm volatile("" : : "r"(actor));
     {
-        register EnemyCombatant *state asm("$17") = (EnemyCombatant *)actor->core;
+        EnemyCombatant *state = (EnemyCombatant *)actor->core;
         int phase = state->coreFlags & 0x6000;
         int result = 1;
 
@@ -98,7 +98,7 @@ int Battle_ProcessActionSlot(BattleEntity *entity)
                 goto done;
             }
             {
-                register int green asm("$6") = color;
+                int green = color;
                 /* Keep the green channel in a2 at the call boundary. */
                 asm volatile("" : "=r"(green) : "0"(green));
                 Render_FadeEntityColor(&actor->renderObject, color, green, color);
@@ -158,7 +158,7 @@ void Battle_UpdateEnemy(BattleEntity *entity) {
             initialFlags = enemy->coreFlags;
             if (initialFlags & 0xE) {
                 register u32 preserved asm("$3") = initialFlags & ~0xE;
-                register u32 count asm("$2") = ((((initialFlags >> 1) & 7) - 1) & 7) * 2;
+                u32 count = ((((initialFlags >> 1) & 7) - 1) & 7) * 2;
                 nextFlags = preserved | count;
                 enemy->coreFlags = nextFlags;
                 if (!(nextFlags & 0x180E)) {
@@ -219,7 +219,7 @@ void Battle_UpdateEnemy(BattleEntity *entity) {
             Asset_Find08w((s32) enemy->attackAssetId, 0, (s32) actor->renderObject.target_x, (s32) actor->renderObject.target_y, (s32) actor->renderObject.target_z);
         } else if (actionPhase == 0x4000) {
             s32 kind = (s8)enemy->field04.bytes.field05;
-            register u32 actionBits asm("$2");
+            u32 actionBits;
             if (kind == 0) {
                 actionBits = actionFlags & 0xE;
                 if (actionBits == 0) {
@@ -238,7 +238,7 @@ void Battle_UpdateEnemy(BattleEntity *entity) {
                             actor->animStep = enemy->savedAnimStep;
                         } else {
                             {
-                                register BattleEntity *callEntity asm("$4");
+                                BattleEntity *callEntity;
                                 unsigned mode = enemy->field06.bytes.low;
                                 callEntity = actor;
 

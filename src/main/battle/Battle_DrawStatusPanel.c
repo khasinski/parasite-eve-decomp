@@ -21,14 +21,14 @@ void Battle_DrawStatusPanel(s32 mode, BattleStatusPanel *input) {
     s32 panelOffset;
     s32 digitIndex;
     s32 frameOffset;
-    register s32 missFrameOffset asm("$6");
+    s32 missFrameOffset;
     s32 digitOffset;
     s32 digitPanelOffset;
     s32 signedDigitIndex;
     register s32 colorOffset asm("$5");
     s8 nextDigit;
     s8 lastDigit;
-    register s32 timer asm("$5");
+    s32 timer;
     register RenderSpritePacket *missSprite asm("$2");
     RenderSpritePacket *digitSprite;
 

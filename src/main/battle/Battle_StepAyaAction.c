@@ -430,7 +430,7 @@ s32 Battle_StepAyaAction(void)
         }
         D_8009D254->renderObject.flags_9C |= 4;
         {
-          register u8 *visible asm("$6") = &D_800B0D8A;
+          u8 *visible = &D_800B0D8A;
           *visible = 1;
           Anim_SetInterpRate((RenderObjectEntity *) (visible - 0x9E), 0x1E);
         }
@@ -450,7 +450,7 @@ s32 Battle_StepAyaAction(void)
     {
       {
         int mask = ~0x100;
-        register unsigned flags asm("$3") = D_8009D1A0;
+        unsigned flags = D_8009D1A0;
         u8 next = D_8009D1D4 + 1;
         D_8009D1A0 = flags & mask;
         D_8009D1D4 = next;

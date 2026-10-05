@@ -7,7 +7,7 @@
 
 
 void Battle_ResetEnemyStats(int mode) {
-    register Combatant *actor asm("$5");
+    Combatant *actor;
     Combatant *clear_actor;
     register s32 flags asm("$2");
 
@@ -174,8 +174,8 @@ void Battle_SetupPlayerPalette(void) {
 
 
 void Battle_StartEncounter(int mode) {
-    register int i asm("$4");
-    register int neg_one asm("$5");
+    int i;
+    int neg_one;
     BattleEntity *entity;
     Combatant *actor;
     u32 value;
