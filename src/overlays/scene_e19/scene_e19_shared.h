@@ -21,8 +21,8 @@ typedef struct SceneE19Actor {
     u8 reserved_84[0x14];
     u32 flags;
     u8 reserved_9C[0x13C];
-    s32 field_1D8;
-    u16 field_1DC;
+    s32 reset_word;
+    u16 reset_halfword;
     u8 reserved_1DE[0x72];
     u16 h250;
 } SceneE19Actor;
@@ -33,7 +33,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE19Actor, base_pos) == 0x40, scene_e19_actor
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE19Actor, vel) == 0x68, scene_e19_actor_vel_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE19Actor, move) == 0x78, scene_e19_actor_move_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE19Actor, flags) == 0x98, scene_e19_actor_flags_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE19Actor, field_1D8) == 0x1D8, scene_e19_actor_field_1d8_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE19Actor, reset_word) == 0x1D8, scene_e19_actor_field_1d8_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneE19Actor, h250) == 0x250, scene_e19_actor_h250_offset);
 PE1_STATIC_ASSERT(sizeof(SceneE19Actor) == 0x254, scene_e19_actor_size);
 

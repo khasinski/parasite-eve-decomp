@@ -11,8 +11,8 @@ void func_80192B10(void *arg0, unsigned char *state) {
     {
         SceneE19Actor *actor = (SceneE19Actor *)D_8009D254;
 
-        actor->field_1D8 = 0;
-        actor->field_1DC = 0;
+        actor->reset_word = 0;
+        actor->reset_halfword = 0;
         actor->flags &= 0xFFFEFFFF;
         actor->h250 &= 0xFBFF;
         func_8001AA78(actor);
@@ -70,8 +70,8 @@ int func_80192BFC(SceneE19ResetTarget *ent) {
         {
             SceneE19Actor *actor = (SceneE19Actor *)D_8009D254;
 
-            actor->field_1D8 = 0;
-            actor->field_1DC = 0;
+            actor->reset_word = 0;
+            actor->reset_halfword = 0;
             actor->flags &= 0xFFFEFFFF;
             actor->h250 &= 0xFBFF;
             func_8001AA78(actor);
@@ -123,10 +123,10 @@ s32 func_80192D04(char *obj)
       }
     }
     ;
-    *((s32 *) (D_8009D254 + 0x98)) &= 0xFFFEFFFF;
-    *((u16 *) (D_8009D254 + 0x250)) &= 0xFBFF;
-    *((s32 *) (D_8009D254 + 0x1D8)) = 0;
-    *((s16 *) (D_8009D254 + 0x1DC)) = 0;
+    ((SceneE19Actor *)D_8009D254)->flags &= 0xFFFEFFFF;
+    ((SceneE19Actor *)D_8009D254)->h250 &= 0xFBFF;
+    ((SceneE19Actor *)D_8009D254)->reset_word = 0;
+    ((SceneE19Actor *)D_8009D254)->reset_halfword = 0;
     func_8001AA78();
     e = D_8009D254;
     *((s32 *) (e + 0x68)) = 0;
