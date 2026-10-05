@@ -1524,7 +1524,6 @@ segments:
       - [0xC5810, c, engine/FieldEng_BouncingSprite]
       - [0xC5A90, c, engine/FieldEng_ScatterBurst]
       - [0xC6098, c, engine/FieldEng_CosinePulse]
-      - [0xC6200, c, engine/FieldEng_CosinePulseEmitter]
       - [0xC64E4, c, engine/FieldEng_RisingEffect]
       - [0xC6A9C, c, engine/FieldEng_SpiralSprite]
       - [0xC721C, c, engine/FieldEng_RingPulse]
