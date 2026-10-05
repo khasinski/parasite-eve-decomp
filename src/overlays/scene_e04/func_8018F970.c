@@ -1,16 +1,7 @@
-#include "common.h"
-typedef struct SceneE04Matrix {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} SceneE04Matrix;
+#include "pe1/gte_types.h"
 
-typedef struct SceneE04Vec4 {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 w;
-} SceneE04Vec4;
+typedef GteMatrix SceneE04Matrix;
+typedef GteVector SceneE04Vec4;
 
 extern SceneE04Vec4 D_8018EFFC;
 extern char D_80192160;

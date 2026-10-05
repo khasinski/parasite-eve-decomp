@@ -1,16 +1,7 @@
-#include "common.h"
-typedef struct Room141Matrix {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} Room141Matrix;
+#include "pe1/gte_types.h"
 
-typedef struct Room141Vec4 {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 w;
-} Room141Vec4;
+typedef GteMatrix Room141Matrix;
+typedef GteVector Room141Vec4;
 
 extern Room141Vec4 D_8018EFFC;
 extern s16 D_800942EC;
