@@ -1,15 +1,15 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **10655**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **9820**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Four register pins and two empty barriers are recorded below. There is no CPU ASM.
+Three register pins and two empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2367. These counts are descriptive, not the match metric.
+retained candidate has 2366. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -77,8 +77,8 @@ GCC to retain the address across repeated resource calls, as retail does.
 
 ### Candidate debt
 
-- Four pins: shared GTE transfer temporaries in t4/t5/t6 and phase in s6.
-  Both the matrix pointer and effect pointer are unpinned. No padding reserves.
+- Three pins: shared GTE transfer temporaries in t4/t5/t6. Phase, matrix
+  pointer and effect pointer are unpinned. No padding reserves.
 - One memory barrier keeps position stores before the first matrix transfer
   block. One tied-operand barrier keeps the ring radius in a register.
   The two former spread/divisor barriers have been removed.
@@ -314,3 +314,23 @@ Candidate constraints remain four pins and two empty barriers. Ring index,
 radius and angle pins were tried individually from 10655, scoring 10835,
 10640 and 11060. None is retained: the radius-only gain of 15 is left as a
 research alternative rather than adding another constraint at this stage.
+
+## Early timer reads and phase-pin removal
+
+Retail reads the timer at 0x8019388C and 0x80193C78 before the corresponding
+render-parameter stores. The candidate instead read it after those stores.
+Moving the phase calculation to the start of draw states 1 and 2 corrects
+this ordering and lowers score from 10655 to 9895 (10040 and 10510 when each
+is changed independently). Removing the phase pin after that correction
+further lowers the retained result to **9820**. A separate timer temporary
+with the pin present does not improve 9895 and was not retained.
+
+Nine signed rounding sequences on products are now ordinary division by 16.
+Each replacement and all nine together preserved 10655 before the timer
+change. This retains rounding toward zero for negative inputs and removes
+reconstructed branches without introducing a helper or constraint.
+
+Current candidate debt is three GTE transfer-word pins, two empty barriers
+and eleven uses of the GPU conversion helper. From the unpinned 9820 base,
+using render struct fields throughout state 1 scored 9940; using them across
+the whole function scored 16744. Those wider replacements are not retained.

@@ -87,7 +87,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s32 temp_s2;
     s32 verticalScale;
     s32 radialScale;
-    register s32 phase asm("$22");
+    s32 phase;
     s32 temp_v0_11;
     s32 temp_v0_12;
     s32 temp_v0_13;
@@ -318,6 +318,7 @@ block_161:
             func_800CEE20(&sp60, (GteRotation *) &sp68, 0x2000, 0x2000, 0, (u16)(func_80077AA4(0, D_800E120A + 2)), 1, intensity, NULL);
             break;
         case 1:                                     /* switch 2 */
+            phase = effect->timer << 6;
             intensity = 0x80;
             D_800F336A = 4;
             D_800F3368.parameter00 = 0x40;
@@ -326,7 +327,6 @@ block_161:
             D_800F3378 = 0x40;
             D_800F336E = 1;
             D_800F3370 = D_800E2850[D_800E11FA[0]];
-            phase = effect->timer << 6;
             if (D_800E27EC & 1) {
                 intensity = 0x55;
             }
@@ -346,10 +346,7 @@ block_161:
             radialScale = func_80077CF4(phase);
             if (D_800E27EC & 1) {
                 temp_v0_7 = radialScale * 0xF;
-                radialScale = temp_v0_7 >> 4;
-                if (temp_v0_7 < 0) {
-                    radialScale = (s32) (temp_v0_7 + 0xF) >> 4;
-                }
+                radialScale = temp_v0_7 / 16;
             }
             sp48.x = -0x400;
             sp48.y = 0;
@@ -407,6 +404,7 @@ block_161:
             func_800D0728(&sp30, 0x7D0, 0xB54, 0x18, &sp40, radialScale, radialScale, NULL, &sp50, intensity, 1);
             break;
         case 2:                                     /* switch 2 */
+            phase = effect->timer << 6;
             intensity = 0x80;
             D_800F3368.parameter00 = 0x40;
             D_800F3368.parameter02 = 4;
@@ -415,7 +413,6 @@ block_161:
             D_800F3368.tpage = D_800E2850[D_800E11FA[0]];
             D_800F3368.palette = 3;
             D_800F3368.parameter06 = 1;
-            phase = effect->timer << 6;
             if (D_800E27EC & 1) {
                 intensity = 0x55;
             }
@@ -578,10 +575,7 @@ block_161:
             intensity = var_v1_6 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_19 = intensity * 0xF;
-                intensity = temp_v0_19 >> 4;
-                if (temp_v0_19 < 0) {
-                    intensity = (s32) (temp_v0_19 + 0xF) >> 4;
-                }
+                intensity = temp_v0_19 / 16;
             }
             sp48.x = 0;
             sp48.z = 0;
@@ -616,10 +610,7 @@ block_161:
             intensity = var_v1_7 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_20 = intensity * 0xF;
-                intensity = temp_v0_20 >> 4;
-                if (temp_v0_20 < 0) {
-                    intensity = (s32) (temp_v0_20 + 0xF) >> 4;
-                }
+                intensity = temp_v0_20 / 16;
             }
             sp48.x = 0;
             sp48.z = 0;
@@ -687,10 +678,7 @@ block_161:
             intensity = var_v1_8 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_22 = intensity * 0xF;
-                intensity = temp_v0_22 >> 4;
-                if (temp_v0_22 < 0) {
-                    intensity = (s32) (temp_v0_22 + 0xF) >> 4;
-                }
+                intensity = temp_v0_22 / 16;
             }
             sp48.x = 0;
             sp48.z = 0;
@@ -724,10 +712,7 @@ block_161:
             intensity = var_v1_9 / 32;
             if (!(D_800E27EC & 1)) {
                 temp_v0_23 = intensity * 0xF;
-                intensity = temp_v0_23 >> 4;
-                if (temp_v0_23 < 0) {
-                    intensity = (s32) (temp_v0_23 + 0xF) >> 4;
-                }
+                intensity = temp_v0_23 / 16;
             }
             sp48.x = 0;
             sp48.z = 0;
@@ -765,10 +750,7 @@ block_161:
             intensity = var_v1_10 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_24 = intensity * 0xF;
-                intensity = temp_v0_24 >> 4;
-                if (temp_v0_24 < 0) {
-                    intensity = (s32) (temp_v0_24 + 0xF) >> 4;
-                }
+                intensity = temp_v0_24 / 16;
             }
             sp48.x = 0;
             sp48.z = 0;
@@ -803,10 +785,7 @@ block_161:
             intensity = var_v1_11 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_25 = intensity * 0xF;
-                intensity = temp_v0_25 >> 4;
-                if (temp_v0_25 < 0) {
-                    intensity = (s32) (temp_v0_25 + 0xF) >> 4;
-                }
+                intensity = temp_v0_25 / 16;
             }
             sp48.x = 0;
             sp48.z = 0;
@@ -843,10 +822,7 @@ block_161:
             intensity = var_v1_12 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_26 = intensity * 0xF;
-                intensity = temp_v0_26 >> 4;
-                if (temp_v0_26 < 0) {
-                    intensity = (s32) (temp_v0_26 + 0xF) >> 4;
-                }
+                intensity = temp_v0_26 / 16;
             }
             sp48.x = 0;
             sp48.z = 0;
@@ -880,10 +856,7 @@ block_161:
             intensity = var_v1_13 / 32;
             if (!(D_800E27EC & 1)) {
                 temp_v0_27 = intensity * 0xF;
-                intensity = temp_v0_27 >> 4;
-                if (temp_v0_27 < 0) {
-                    intensity = (s32) (temp_v0_27 + 0xF) >> 4;
-                }
+                intensity = temp_v0_27 / 16;
             }
             sp48.x = 0;
             sp48.z = 0;
