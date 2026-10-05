@@ -419,8 +419,7 @@ segments:
       - [0x2FAFC, c, boot/Boot_FlushSceneFast]
       - [0x2FBC4, c, boot/Boot_RunFrame]
       - [0x2FF58, c, gpu/Gte_LightingState]
-      - [0x30000, c, save/Save_SerializeTail]
-      - [0x303D8, c, save/Save_DeserializeTail]
+      - [0x30000, c, save/Save_TailBlobFlow]
       - [0x307AC, c, save/Save_SetTitleStyleFlag]
       - [0x307BC, c, memcard/misc20]
       # SJIS formatting, save-title construction, and adjacent card helpers share one save-support TU.
