@@ -2184,3 +2184,28 @@ redundant address pins. No further single or paired removal of the remaining
 counter groups each three-word transfer declaration as one pin entry, so
 it records five added pin declarations and three barriers. Existing frame
 padding, gotos, volatile shade reads and older constraints remain unchanged.
+
+### Vertex transformer matrix transfers (`Render_TransformVertices`)
+
+Rotation and translation loads, and strided matrix-column loads and stores,
+are now C. All GTE transfers remain individually wrapped; RTIR is the
+existing single GTE command with allowed NOPs. The parent transform and
+child-matrix stack paths no longer invoke CPU assembly in `gte_ldrotmatrix`,
+`gte_ldtransmatrix`, `gte_ldclmv`, or `gte_stclmv`.
+
+Stock native GCC 2.7.2 and stock MASPSX 2.56 produce linked score 0 and all
+1568 retail bytes at `0x8003A088`. No new flags or tool changes are needed.
+
+Added matching debt: four helper definitions each pin their three transfer
+words to `t4`–`t6`; the output-matrix pointer is pinned to `a2`. Seven empty
+column-address constraints prevent folding the source/destination offsets
+into other base registers, and the column-store helper has one memory
+barrier. Direct matrix-word accesses avoid redundant pointer copies.
+The lexical debt counter groups each three-word declaration as one pin,
+therefore recording five added pin declarations and eight barriers.
+
+The removal pass tried 435 single/pair combinations and eliminated eight
+empty constraints from the first exact candidate. No further single or
+paired deletion of the remaining 21 added individual pin/constraint
+bindings preserved the match. Existing raw-offset accessors, register
+constraints and the two-word artificial frame reservation remain debt.

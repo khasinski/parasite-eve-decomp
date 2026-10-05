@@ -10,14 +10,30 @@
 #define U32_AT(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))
 #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
 
-#define Render_XformLoadRotMatrix(matrix)                                                          \
-    {                                                                                              \
-        gte_ldrotmatrix(matrix); \
+#define Render_XformLoadRotMatrix(matrix) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        x = (matrix)[0]; \
+        y = (matrix)[1]; \
+        gte_ctc2_0(x); \
+        gte_ctc2_1(y); \
+        x = (matrix)[2]; \
+        y = (matrix)[3]; \
+        z = (matrix)[4]; \
+        gte_ctc2_2(x); \
+        gte_ctc2_3(y); \
+        gte_ctc2_4(z); \
     }
 
-#define Render_XformLoadTrans(matrix)                                                              \
-    {                                                                                              \
-        gte_ldtransmatrix(matrix); \
+#define Render_XformLoadTrans(matrix) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        x = (matrix)[5]; \
+        y = (matrix)[6]; \
+        gte_ctc2_5(x); \
+        z = (matrix)[7]; \
+        gte_ctc2_6(y); \
+        gte_ctc2_7(z); \
     }
 
 #define Render_XformLoadFullMatrix(matrix)                                                         \
@@ -50,20 +66,36 @@
 
 #define Render_XformTransformAxisZ(src, dst)                                                       \
     {                                                                                              \
-        gte_ldclmv(src); gte_rtir(); \
+        Render_XformLoadAxis(src); \
         *zero8 =                                                                                   \
             ((RenderObjectPart *)((RenderObjectEntity *)actor)->parts)[command].translation_z; \
-            gte_stclmv(dst); \
+        Render_XformStoreAxis(dst); \
     }
 
-#define Render_XformLoadAxis(src)                                                                  \
-    { gte_ldclmv(src); gte_rtir(); }
-#define Render_XformStoreAxis(dst)                                                                 \
-    {                                                                                              \
-        gte_stclmv(dst); \
+#define Render_XformLoadAxis(src) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        const u16 *axis = (src); \
+        x = axis[0]; \
+        y = axis[3]; \
+        z = axis[6]; \
+        gte_mtc2_9(x); \
+        gte_mtc2_10(y); \
+        gte_mtc2_11(z); \
+        gte_rtir(); \
     }
 
-
+#define Render_XformStoreAxis(dst) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        gte_mfc2_9(x); \
+        gte_mfc2_10(y); \
+        gte_mfc2_11(z); \
+        (dst)[0] = x; \
+        (dst)[3] = y; \
+        (dst)[6] = z; \
+        asm volatile("" : : : "memory"); \
+    }
 
 #define Render_XformBuildChildMatrix(src, dst, include_translation)                                \
     {                                                                                              \
@@ -72,17 +104,21 @@
         {                                                                                          \
             u16 *column = (u16 *)(src) + 1;                                     \
             \
+            asm volatile("" : "=r"(column) : "0"(column)); \
             Render_XformLoadAxis(column);                                                          \
             column = (u16 *)(dst) + 1;                                                             \
             \
+            asm volatile("" : "=r"(column) : "0"(column)); \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
             register u16 *column asm("$2") = (u16 *)(src) + 2;                                     \
             \
+            asm volatile("" : "=r"(column) : "0"(column)); \
             Render_XformLoadAxis(column);                                                          \
             column = (u16 *)(dst) + 2;                                                             \
             \
+            asm volatile("" : "=r"(column) : "0"(column)); \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
@@ -189,29 +225,34 @@
         actor_matrix = (s32 *)((actor) + 0x34);                                                    \
                                                                                                    \
         \
+         \
         Render_XformLoadRotMatrix(parent_matrix);                                                  \
         \
         {                                                                                          \
             u16 *column = (u16 *)((actor) + 0x34);                              \
             \
+            asm volatile("" : "=r"(column) : "0"(column)); \
             Render_XformLoadAxis(column);                                                          \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
             u16 *column = (u16 *)((actor) + 0x36);                              \
             \
+            asm volatile("" : "=r"(column) : "0"(column)); \
             Render_XformLoadAxis(column);                                                          \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
             u16 *column = (u16 *)((actor) + 0x38);                              \
             \
+            asm volatile("" : "=r"(column) : "0"(column)); \
             Render_XformLoadAxis(column);                                                          \
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         parent = PTR_AT(actor, 0x24);                                                              \
         bone_index = S16_AT(actor, 0x2A);                                                          \
         parent_matrix = (s32 *)(PTR_AT(parent, 0x84) + bone_index * 0x20);                         \
+         \
         Render_XformLoadTrans(parent_matrix);                                                      \
         {                                                                                          \
             u16 *packed = (u16 *)((actor) + 0x48);                              \
@@ -240,7 +281,7 @@ void Render_TransformVertices(RenderObjectEntity *input) {
     s32 *matrix_stack = (s32 *)0x1F80000C;
     register s32 *stack_top asm("$17");
     u8 *commands;
-    u8 *out_matrix;
+    register u8 *out_matrix asm("$6");
     register u8 *out_vertices asm("$9");
     u8 *header;
     s32 *current_matrix;
@@ -279,6 +320,7 @@ void Render_TransformVertices(RenderObjectEntity *input) {
     commands = (u8 *)((RenderObjectEntity *)actor)->matrix_commands;
     out_vertices = PTR_AT(actor, 0x80);
 
+
     Render_XformLoadFullMatrix(current_matrix);
     header = PTR_AT(actor, 0);
     part_count = U16_AT(header, 0x18);
@@ -304,6 +346,7 @@ void Render_TransformVertices(RenderObjectEntity *input) {
                 src_matrix = (s32 *)(matrixBase + byteOffset);
             }
             Render_XformBuildChildMatrix(src_matrix, (s32 *)out_matrix, command == 0);
+
             Render_XformLoadFullMatrix((s32 *)out_matrix);
             out_matrix += 0x20;
             {
