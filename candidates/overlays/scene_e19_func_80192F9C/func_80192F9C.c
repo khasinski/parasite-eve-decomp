@@ -67,6 +67,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     GteVector sp290;
     GteShortVector *temp_s2_2;
     SceneE19RecoveredObject *temp_a0;
+    s32 phaseCopy;
     SceneE19RecoveredObject *temp_a0_2;
     s16 temp_a2;
     s16 temp_s7;
@@ -128,8 +129,6 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s32 var_v1_7;
     s32 var_v1_8;
     s32 var_v1_9;
-    u16 temp_v0_16;
-    u16 temp_v1_2;
     s32 paletteRow;
     u32 temp_v0_17;
     u32 temp_v0_18;
@@ -447,10 +446,10 @@ block_31:
             }
             sp48.x = -0x400;
             sp48.y = 0;
+            renderParams->tpage = D_800E2850[pageSelector[-8]];
             sp48.z = D_800E27EC << 5;
             renderParams->palette = 3;
             renderParams->parameter06 = 0;
-            renderParams->tpage = D_800E2850[pageSelector[-8]];
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord(D_800E2850[pageSelector[-8]] | texturePage);
             {
@@ -539,12 +538,11 @@ block_31:
             }
             radialScale = func_80077DC4(phase);
             temp_s2_2 = &effect->endpoint;
-            temp_v1_2 = (u16) effect->origin.x;
-            temp_v0_16 = (u16) effect->origin.y;
-            sp48.y = temp_v0_16;
-            sp48.x = temp_v1_2 - 0x200;
-            sp48.y = temp_v0_16 + 0x400;
-            sp48.z = (u16) effect->origin.z;
+            sp48.x = effect->origin.x;
+            sp48.y = effect->origin.y;
+            sp48.z = effect->origin.z;
+            sp48.x -= 0x200;
+            sp48.y += 0x400;
             func_800D0728(temp_s2_2, 0x7D0, 0xA8C, 0x20, (GteRotation *) &sp48, radialScale, radialScale, &sp58, NULL, intensity, 1);
             sp48.x += 0x400;
             func_800D0728(temp_s2_2, 0x7D0, 0xA8C, 0x20, (GteRotation *) &sp48, radialScale, radialScale, &sp58, NULL, intensity, 1);
@@ -626,7 +624,8 @@ block_31:
             func_800C71E4(D_8019B688, &sp120);
             func_800C6F4C(D_8019B688);
             modelPhase = (effect->timer << 0xA) / 56;
-            radialScale = (func_80077CF4(modelPhase) / 4) + 0xC00;
+            var_v1 = func_80077CF4(modelPhase) / 4;
+            radialScale = var_v1 + 0xC00;
             verticalScale = (func_80077DC4(modelPhase) / 4) + 0x400;
             var_v1_7 = func_80077DC4(modelPhase);
             intensity = var_v1_7 / 32;
@@ -768,7 +767,8 @@ block_31:
             break;
         case 4:                                     /* switch 2 */
             phase = (effect->timer << 0xA) / 24;
-            radialScale = ((s32) (0x400 - phase) / 2) + 0x200;
+            phaseCopy = phase;
+            radialScale = ((s32) (0x400 - phaseCopy) / 2) + 0x200;
             verticalScale = (func_80077CF4(phase) / 6) + 0x6AA;
             var_v1_10 = func_80077DC4(phase);
             intensity = var_v1_10 / 32;
@@ -803,7 +803,8 @@ block_31:
             func_800C71E4(D_8019B680, &sp1E0);
             func_800C6F4C(D_8019B680);
             modelPhase = ((effect->timer + 0x20) << 0xA) / 56;
-            radialScale = (func_80077CF4(modelPhase) / 4) + 0xC00;
+            var_v1 = func_80077CF4(modelPhase) / 4;
+            radialScale = var_v1 + 0xC00;
             verticalScale = (func_80077DC4(modelPhase) / 4) + 0x400;
             var_v1_11 = func_80077DC4(modelPhase);
             intensity = var_v1_11 / 32;
