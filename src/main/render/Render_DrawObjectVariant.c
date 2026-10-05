@@ -2,10 +2,26 @@
 #include "pe1/gte.h"
 #include "pe1/render_object.h"
 extern u32 D_800B1640[];
-#define Render_LoadObjectMatrix(matrix)                                                            \
-    {                                                                                              \
-        gte_ldrotmatrix(matrix); \
-        gte_ldtransmatrix(matrix); \
+#define Render_LoadObjectMatrix(matrix) \
+    { \
+        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
+        asm volatile("" : "=r"(matrix) : "0"(matrix)); \
+        x = (matrix)[0]; \
+        y = (matrix)[1]; \
+        gte_ctc2_0(x); \
+        gte_ctc2_1(y); \
+        x = (matrix)[2]; \
+        y = (matrix)[3]; \
+        z = (matrix)[4]; \
+        gte_ctc2_2(x); \
+        gte_ctc2_3(y); \
+        gte_ctc2_4(z); \
+        x = (matrix)[5]; \
+        y = (matrix)[6]; \
+        gte_ctc2_5(x); \
+        z = (matrix)[7]; \
+        gte_ctc2_6(y); \
+        gte_ctc2_7(z); \
     }
 
 #define Render_TransformVertex(src, dst)                                                           \
@@ -30,7 +46,7 @@ extern u32 D_800B1640[];
 
 void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *projectionMatrix) {
     RenderObjectEntity *entity = input;
-    s32 *projectMatrix = projectionMatrix;
+    register s32 *projectMatrix asm("$16") = projectionMatrix;
     s16 savedLimit = limit;
     s32 changed;
     register volatile RenderVec3s *scratch asm("$24") = (RenderVec3s *)0x1F800000;

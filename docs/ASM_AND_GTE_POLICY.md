@@ -2252,3 +2252,24 @@ bindings failed to preserve the exact match. A separate equal-size solution
 pins the source entity to `a3` instead of pinning the scratch pointer to `t0`;
 the committed form retains the explicit scratch pointer. Physical scratchpad
 addresses and pointer casts remain cleanup debt.
+
+### Morph translation and alternate object matrix loads
+
+`Render_TransformMorphVertices` now loads translation words in C;
+`Render_DrawObjectAlt` and `Render_DrawObjectVariant` load all eight matrix
+words in C. Each GTE control-register transfer remains individually wrapped.
+Stock native GCC 2.7.2 and stock MASPSX 2.56 reproduce linked score 0 and
+all retail bytes: 644 at `0x8003AC90`, 556 at `0x8003C0B4`, and 760 at
+`0x8003C2E0`, respectively. Compiler flags are unchanged, including the
+existing `-fno-schedule-insns` for `Render_DrawObjectAlt`.
+
+Added matching debt: each helper pins three transfer words to `t4`–`t6`.
+The alternate renderer additionally pins its matrix pointer to `t9`; the
+variant renderer pins its projection-matrix pointer to `s0` and uses one
+empty tied matrix-address constraint. These are eleven individual register
+bindings and one empty constraint; the lexical debt counter records five
+pin declarations and one barrier. Existing matching debt remains.
+
+Single/pair removal passes tried 6, 15, and 15 combinations, respectively.
+They removed the alternate renderer's initial address constraint. No further
+single or paired deletion of the remaining added bindings retained a match.
