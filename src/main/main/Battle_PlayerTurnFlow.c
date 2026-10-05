@@ -105,10 +105,10 @@ extern struct { char _[16]; } D_8009D278_a __asm__("D_8009D278");
 extern struct { char _[16]; } D_8009D278_b __asm__("D_8009D278");
 extern struct { char _[16]; } D_8009D278_c __asm__("D_8009D278");
 extern struct { char _[16]; } D_8009D278_d __asm__("D_8009D278");
-extern struct { char _[16]; } D_8009D1A0_r0 __asm__("D_8009D1A0");
-extern struct { char _[16]; } D_8009D1A0_w0 __asm__("D_8009D1A0");
-extern struct { char _[16]; } D_8009D1A0_r1 __asm__("D_8009D1A0");
-extern struct { char _[16]; } D_8009D1A0_w1 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_r0 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_w0 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_r1 __asm__("D_8009D1A0");
+extern BattleGameStateWindow D_8009D1A0_w1 __asm__("D_8009D1A0");
 extern u8 D_8009D1D4;
 extern u16 D_800BE834[];
 
@@ -121,10 +121,10 @@ extern u16 D_800BE834[];
 #define D278_B (*(Combatant **)&D_8009D278_b)
 #define D278_C (*(Combatant **)&D_8009D278_c)
 #define D278_D (*(Combatant **)&D_8009D278_d)
-#define D1A0_R0 (*(int *)&D_8009D1A0_r0)
-#define D1A0_W0 (*(int *)&D_8009D1A0_w0)
-#define D1A0_R1 (*(int *)&D_8009D1A0_r1)
-#define D1A0_W1 (*(int *)&D_8009D1A0_w1)
+#define D1A0_R0 (D_8009D1A0_r0.flags)
+#define D1A0_W0 (D_8009D1A0_w0.flags)
+#define D1A0_R1 (D_8009D1A0_r1.flags)
+#define D1A0_W1 (D_8009D1A0_w1.flags)
 
 #define U8_AT(ptr, offset) (*(u8 *)((u8 *)(ptr) + (offset)))
 #define S16_AT(ptr, offset) (*(s16 *)((u8 *)(ptr) + (offset)))
