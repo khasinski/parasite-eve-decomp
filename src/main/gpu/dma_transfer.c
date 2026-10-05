@@ -4,13 +4,11 @@
 #include "pe1/gpu_callbacks.h"
 #include "pe1/psyq_gpu.h"
 #include "pe1/gpu_state.h"
+#include "pe1/gpu_dma_timeout_state.h"
 extern char D_800119BC[];
 void checkRECT(char *, RECT *);
 extern volatile unsigned int *g_GpuDmaChcrPtr;
 extern volatile unsigned int *g_GpuGp1Ptr;
-extern int g_GpuDmaTimeoutDeadline;
-extern int g_GpuDmaWaitLoopCounter;
-int VSync(int mode);
 int Gpu_DmaTimeoutCheck(void);
 void Gpu_RestoreDmaCallback(void);
 

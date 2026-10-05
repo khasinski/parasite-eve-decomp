@@ -1,7 +1,5 @@
-extern int g_GpuDmaTimeoutDeadline;
-extern int g_GpuDmaWaitLoopCounter;
+#include "pe1/gpu_dma_timeout_state.h"
 
-int VSync(int arg0);
 int printf(char *fmt, ...);
 int SetIntrMask(int mask);
 
