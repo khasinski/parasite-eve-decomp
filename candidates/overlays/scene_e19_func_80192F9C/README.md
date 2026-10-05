@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **4491**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **4252**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Eight register pins and eight empty barriers are recorded below. There is no CPU ASM.
@@ -589,3 +589,44 @@ Other audited hypotheses remain research-only:
 The darwine acceptance tree, synchronized through main commit e4b65a7c7,
 passes `make -j32 verify`; log `match_inventory/scene-e19-4491-verify.log`.
 The candidate remains outside production and the permuter run has stopped.
+
+## Exhaustive draw-store ordering pass (4252)
+
+The retained source now scores **4252**, freshly compiled and linked on
+stock darwine GCC 2.7.2/maspsx. Target and candidate each contain 2368
+instructions. Eight pins, eight barriers and two conversion helpers remain;
+no new compiler constraints or CPU ASM were introduced.
+
+A 120-second, 24-worker permuter run from 4491 completed 5206 iterations
+(678 rejected compilations). Its best 4476 candidate swapped the state-2
+palette/rotation-Z stores and introduced a neutral matrix pointer temporary.
+Isolating the store swap retained 4476; the temporary was discarded.
+
+All 720 permutations of the six independent pre-GetTPage assignments in
+state 2 were then compiled and scored, yielding 4313. All 720 permutations
+in each of the other ten equivalent setup blocks were also checked (7200
+successful compilations). Eight blocks improved individually; the best
+single-block result was 4284. All 256 combinations of those eight choices
+were checked, and combining all eight yielded 4252. These reorderings stay
+inside their original straight-line blocks, cross no calls or conditions,
+and do not change any assigned values. The tables/selectors being read are
+separate from the parameter globals being written.
+
+Reproduction: `state2_order_4476.py`, `draw_orders_4313.py`, and
+`combine_draw_orders.py`, with their named result directories and JSON
+scores, in the existing darwine research directory. All searches finished.
+
+Additional negative results, kept only as research artifacts:
+
+- All 256 subsets of the eight existing register pins on the 4491 base
+  compiled; none improved 4491 (`pin_subsets_4491/`).
+- Sixteen volatile-store variants in draw states 0/1 all worsened 4491.
+- Four explicit 64-bit multiply-high implementations of division by three
+  were worse and added instructions; ordinary C division is retained.
+- Three barriers, a volatile load and a conversion-helper variant around
+  the draw-state load did not improve 4313; none was retained.
+
+The production function remains original assembly. Main changes through
+3826472cd were synchronized into the darwine acceptance tree, including the
+updated source-policy scripts. `make -j32 verify` passes
+(`match_inventory/scene-e19-4252-verify.log`).
