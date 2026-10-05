@@ -4,6 +4,7 @@
 #include "pe1/scene_e20_flare.h"
 #include "pe1/render_object.h"
 #include "pe1/gte.h"
+#include "pe1/gte_window.h"
 
 /* Declarations used only by the scene e20 flare particle callback. */
 extern RenderColor D_8018EFF4;

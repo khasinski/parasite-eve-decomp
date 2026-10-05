@@ -1,12 +1,12 @@
-#include "scene_e20_flare_draw.h"
+#include "pe1/scene_e20_flare_draw.h"
 
 /* Mode 1 ages the flare and, while it falls, moves and damps it and
  * bounces it off the floor; mode 2 draws a spinning glow with a streak,
  * a pulsing glow pair, or a fading spark. The two palette selections of
  * the spinning glow add a conditional offset to the palette base
  * (`base + (cond ? 8 : 4)`), each from its own palette kind read.
- * PARKED, lev 0 but not admissible: gte_ldrotmatrix/gte_ldtransmatrix
- * hide CPU lw instructions in inline asm. Kept for reference. */
+ * The two view-matrix loads are the evidenced GTE matrix windows
+ * (include/pe1/gte_window.h, docs/ASM_AND_GTE_POLICY.md). */
 int func_8018F028(int mode, SceneE20Particle *p)
 {
     GteRotation rotation;
@@ -73,8 +73,8 @@ int func_8018F028(int mode, SceneE20Particle *p)
             rotation.y = p->velocity.y;
             rotation.z = p->velocity.z;
             rotation.flags = 1;
-            gte_ldrotmatrix(D_800BCFA4.value);
-            gte_ldtransmatrix(D_800BCFA4.value);
+            GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);
+            GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);
             func_800CF3AC(D_80190804, &color, p->timer);
             kind = D_800F3368.palette;
             palette = D_800E1204[kind] + ((kind == 4 && D_800F3428 != 0) ? 8 : 4);
@@ -136,8 +136,8 @@ int func_8018F028(int mode, SceneE20Particle *p)
             break;
         }
         case 2:
-            gte_ldrotmatrix(D_800BCFA4.value);
-            gte_ldtransmatrix(D_800BCFA4.value);
+            GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);
+            GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);
             func_800CF3AC(D_80190804, &color, (p->timer << 4) / 20);
             func_800D2104(&p->position, &color, 0x80, 1);
             break;

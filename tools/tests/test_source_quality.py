@@ -365,6 +365,12 @@ class SourceQualityTests(unittest.TestCase):
             '/* GTE_LOAD_ROTATION_WINDOW(p) */\nint f(void) { return 1; }\n',
             frozenset()), "semantic_c")
 
+    def test_repository_gte_window_user_is_semantic_c(self):
+        root = pathlib.Path(__file__).resolve().parents[2]
+        self.assertEqual(source_quality.classify(
+            root / "src/overlays/scene_e20/RoomEffect_FlareParticle_8018F028.c"),
+            "semantic_c")
+
     def test_psyq_assembler_object_cannot_hide_c_functions(self):
         self.assertEqual(self.classify(
             'PSYQ_ASM_FUNCTION(f, "    jr $ra\\n" "    nop\\n");\n'

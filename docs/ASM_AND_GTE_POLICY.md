@@ -367,7 +367,8 @@ Rule: the CPU loads that move the view matrix into the GTE rotation and
 translation registers may be written as inline assembly only with
 `GTE_LOAD_ROTATION_WINDOW(matrix)` and `GTE_LOAD_TRANSLATION_WINDOW(matrix)`
 from `include/pe1/gte_window.h`, and only in the functions listed under
-`gte_matrix_windows` in `configs/USA/original_asm_evidence.json`.
+`gte_matrix_windows` in `configs/USA/original_asm_evidence.json`. Today that is
+scene_e20 `func_8018F028` (`RoomEffect_FlareParticle_8018F028`, two windows).
 The legacy `gte_ldrotmatrix`/`gte_ldtransmatrix` in `include/pe1/gte.h` are a
 separate, older debt being replaced by C; they are not this exemption.
 

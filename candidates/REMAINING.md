@@ -19,9 +19,9 @@ Size is the objdiff function size in bytes.
 | data/pad/slice | 36 | 13156 |
 | needs-goto / stack switch | 6 | 6128 |
 | inline-asm C unit | 0 | 0 |
-| parked near-miss | 17 | 30324 |
+| parked near-miss | 16 | 28492 |
 | not yet attempted | 0 | 0 |
-| total | 95 | 66120 |
+| total | 94 | 64288 |
 
 Category notes:
 - **inline-asm C unit**: the C file contains CPU instruction asm, so the whole
@@ -134,7 +134,6 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
-| scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: lev 6 with C matrix loads (t4-t6 pins, $8 pointer pin, slot constraint; reload picks t2/t1 for three multiply results), lev 47 with no crutches; the palette selection is solved (lev 0 with the gte_ldrotmatrix macros, not admissible) |
 | main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | Entity_FrameUpdate | 1836 | candidates/main/entity/Entity_FrameUpdate.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D0728 | 1888 | candidates/main/engine/engine_800D0728: 4 extra instructions |
@@ -176,3 +175,4 @@ The menu_memcard video step pair (func_80122040 at 0x1340, func_8012AE88 at 0xA1
 | main | func_800CEE20 | 1420 | score 0 and whole-main byte-match with stock GCC/MASPSX; matrix loads and depth scaling/stores in C, individual GTE/nop macros; 15 pins and 11 empty barriers |
 | main | func_800D3BC8 | 924 | score 0 and whole-main byte-match with stock GCC/MASPSX; CPU-side matrix/depth work in C; six pins, four empty barriers, five volatile stack arguments and three nops |
 | main | Battle_StepVictory | 1616 | score 0, whole-main byte-match and exact 32-byte jump table with stock GCC/MASPSX; shared entity/model/combatant types; nine pins and one empty barrier |
+| scene_e20 | func_8018F028 | 1832 | RoomEffect_FlareParticle_8018F028, lev 0 at equal size: plain C plus the two evidenced view-matrix windows (`GTE_LOAD_ROTATION_WINDOW`/`GTE_LOAD_TRANSLATION_WINDOW`, include/pe1/gte_window.h, manifest `gte_matrix_windows`); palette selection `D_800E1204[kind] + ((kind == 4 && D_800F3428 != 0) ? 8 : 4)` with its own kind read per draw |

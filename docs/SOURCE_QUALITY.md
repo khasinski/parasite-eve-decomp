@@ -257,6 +257,17 @@ function has no register pins. Game state byte 0xF5 is now the named
 `display_list_modes` field. This leaves the repository with no
 asm-constrained translation units.
 
+### Scene e20 flare particle
+
+`RoomEffect_FlareParticle_8018F028` (scene_e20 `func_8018F028`) is plain C
+except for its two view-matrix loads, which use the narrow
+`GTE_LOAD_ROTATION_WINDOW`/`GTE_LOAD_TRANSLATION_WINDOW` macros from
+`include/pe1/gte_window.h`. Each pair holds only the `lw`/`ctc2` window that C
+reads cannot reproduce; the pointer load is compiler code. The macros are
+allowed only through the evidence manifest (`gte_matrix_windows`), and the
+crutch ratchet counts the four uses in its `gte_matrix_windows` column. The
+function has no pins or barriers and matches retail at equal size.
+
 ### Text-resident data
 
 The earlier "text-resident data and padding" section above lists the entries

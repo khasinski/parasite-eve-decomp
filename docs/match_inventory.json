@@ -4,7 +4,7 @@
   "audit_source_commit": "e7ddbb1ac",
   "metric": "asm-differ weighted levenshtein; not a byte distance",
   "scope": "Inventory of report exclusions, not a claim that every entry is a real unmatched function. Null score means unmeasured.",
-  "reported_uncredited_functions": 12,
+  "reported_uncredited_functions": 11,
   "verified_excluded_matches": 5,
   "entries": [
     {
@@ -85,15 +85,6 @@
       }
     },
     {
-      "unit": "overlays/scene_e20/func_8018F028",
-      "symbol": "func_8018F028",
-      "reported_size": 1832,
-      "source": null,
-      "status": "candidate_nonzero",
-      "levenshtein_score": 6,
-      "evidence": "candidates/overlays/scene_e20_func_8018F028/README.md; lev 6 with C matrix loads (three pins and one empty constraint), lev 47 without crutches; lev 0 only with the CPU-asm gte_ldrotmatrix macros. Not integrated."
-    },
-    {
       "unit": "overlays/sys_reset/sys_reset_7CC",
       "symbol": "func_8010C4CC",
       "reported_size": 48,
@@ -143,7 +134,7 @@
     "audit_source_commit": "73a4f03a297aff5601ae3546e145414cdd4d2dcb",
     "reported_uncredited_functions": 44
   },
-  "report_evidence": "Local make report after typing text-resident data and padding (docs/SOURCE_QUALITY.md): 11631/11643 functions; make check and all 191 overlay checks pass. CI publication pending.",
+  "report_evidence": "Local make report after landing scene_e20 func_8018F028 with the evidenced GTE matrix windows (docs/ASM_AND_GTE_POLICY.md, GTE matrix window): 11642/11643 functions, 3537500/3546972 code bytes; make check and all 191 overlay checks pass. CI publication pending.",
   "previous_published_report": {
     "report_commit": "48a5cd21c995a17752f5d2039478d62d00e96b39",
     "report_run": 37333637624,
@@ -468,6 +459,15 @@
       "status": "data_or_padding_excluded_from_function_report",
       "levenshtein_score": null,
       "evidence": "Callback pointer tables and parameter records; now the scene_e22_data_00A0D8 data subsegment (.code_data). Byte-identical; see docs/SOURCE_QUALITY.md, text-resident data."
+    },
+    {
+      "unit": "overlays/scene_e20/RoomEffect_FlareParticle_8018F028",
+      "symbol": "func_8018F028",
+      "reported_size": 1832,
+      "source": "src/overlays/scene_e20/RoomEffect_FlareParticle_8018F028.c",
+      "status": "matched_report_credited",
+      "levenshtein_score": 0,
+      "evidence": "Plain C except the two evidenced view-matrix windows (GTE_LOAD_ROTATION_WINDOW/GTE_LOAD_TRANSLATION_WINDOW, include/pe1/gte_window.h; manifest gte_matrix_windows in configs/USA/original_asm_evidence.json; docs/ASM_AND_GTE_POLICY.md, 'GTE matrix window'). No pins or barriers. Local stock cc1 lev 0 at equal size (458 words); scene_e20 overlay-check OK; make report credits it. Former candidate (lev 6 with C matrix loads) removed from candidates/."
     }
   ]
 }

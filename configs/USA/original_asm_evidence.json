@@ -149,7 +149,26 @@
       "verified_by": "agent review 2026-10-05: retail disassembly vs stock cc1 output, lev 0"
     }
   ],
-  "gte_matrix_windows": [],
+  "gte_matrix_windows": [
+    {
+      "name": "func_8018F028",
+      "module": "scene_e20",
+      "source": "overlays/scene_e20/RoomEffect_FlareParticle_8018F028.c",
+      "address": "0x8018F028",
+      "size": 1832,
+      "windows": [
+        "0x8018F2E0..0x8018F334: la $v0,D_800BCFA4; [sh $s0,0x3E($sp); sh $v1,0x3C($sp) scheduled in] lw $t0,0($v0); nop; lw t4,0; lw t5,4; ctc2 t4,$0; ctc2 t5,$1; lw t4,8; lw t5,12; lw t6,16; ctc2 t4,$2; ctc2 t5,$3; ctc2 t6,$4; lw t4,20; lw t5,24; ctc2 t4,$5; lw t6,28; ctc2 t5,$6; ctc2 t6,$7 (all words through $t0)",
+        "0x8018F680..0x8018F6CC: la $v0,D_800BCFA4; lw $t0,0($v0); nop; lw t4,0; lw t5,4; ctc2 t4,$0; ctc2 t5,$1; lw t4,8; lw t5,12; lw t6,16; ctc2 t4,$2; ctc2 t5,$3; ctc2 t6,$4; lw t4,20; lw t5,24; ctc2 t4,$5; lw t6,28; ctc2 t5,$6; ctc2 t6,$7 (all words through $t0)"
+      ],
+      "evidence": [
+        "both draw paths (state 0 spinning glow, state 2 fading spark) load RT0..RT4 and TRX..TRZ from the matrix the view slot D_800BCFA4 points to: la $v0 of the slot, one lw of the pointer into $t0, the load-delay nop, then the eight words through $t4..$t6 interleaved with ctc2, rotation window then translation window",
+        "C reads of the eight words fold the slot address into an absolute lui/lw, keep the pointer in $v0 and schedule the word loads with the surrounding code: lev 47 without crutches, lev 18 with t4..t6 pins and a slot-address barrier, lev 6 at best with two pins and a barrier, where the remaining words are three reload registers elsewhere in the function (candidates history, docs/match_inventory.json)",
+        "with the two macros taking the pointer as an ordinary \"r\" operand, stock cc1 emits the la/lw pointer load (the second read of the slot is a common subexpression, so both windows share $t0) and the assembler emits the nop; one combined macro makes the pointer load an absolute lui/lw and scores lev 14, so the windows are two macros",
+        "the rest of the function is plain C with no pins, barriers or other asm, lev 0 with equal size (458 words)"
+      ],
+      "verified_by": "agent review 2026-10-05: retail disassembly vs stock cc1 output, lev 0, scene_e20 overlay-check OK"
+    }
+  ],
   "gte_matrix_windows_pending": [
     {
       "name": "func_80192F9C",

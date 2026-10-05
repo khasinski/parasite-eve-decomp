@@ -38,7 +38,7 @@
     "field_macros": 0,
     "game_asm_units": 0,
     "gotos": 667,
-    "gte_matrix_windows": 0,
+    "gte_matrix_windows": 4,
     "include_asm": 0,
     "nop_barriers": 0,
     "original_asm_units": 2,
