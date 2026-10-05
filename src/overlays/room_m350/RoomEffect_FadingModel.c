@@ -46,7 +46,7 @@ int func_80199148(int event, Particle *object)
 /* MASPSX_FLAGS: --expand-div */
 #include "pe1/gte.h"
 typedef RoomM350Vector Vector;
-typedef struct { short rotation[3][3]; int position[3]; } Matrix;
+typedef RoomM350TransformMatrix Matrix;
 typedef struct { short count,delay; } State;
 typedef struct { int reserved[2]; int asset; } Owner;
 typedef struct { unsigned char reserved[2],count; } Model;

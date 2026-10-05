@@ -1,6 +1,6 @@
 #include "room_m350_shared.h"
 typedef RoomM350Vector Vector;
-typedef struct { short rotation[3][3]; int translation[3]; } Matrix;
+typedef RoomM350TransformMatrix Matrix;
 typedef struct { Vector velocity; short x, y, z; unsigned char stopped, pad; } Particle;
 
 typedef struct { int reserved[2]; int soundMode; } Owner;

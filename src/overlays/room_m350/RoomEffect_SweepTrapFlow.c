@@ -173,7 +173,7 @@ int func_80192E4C(int mode, RoomM350SweepTrap *trap) {
 
 typedef GteShortVector Vector;
 typedef struct { int reserved[2]; int soundMode; } RoomM350ControllerOwner;
-typedef struct { short rotation[3][3]; int position[3]; } Transform;
+typedef RoomM350TransformMatrix Transform;
 typedef struct {
     RoomM350ControllerOwner *owner;
     char reserved04[10];

@@ -3,7 +3,7 @@
 
 /* Steers a rotating footprint, tests contact, and draws three model/sprite layers. */
 typedef RoomM350Vector Vector;
-typedef struct { short rotation[3][3]; int position[3]; } Matrix;
+typedef RoomM350TransformMatrix Matrix;
 typedef struct { int x,y,z,pad; } Scale;
 typedef struct { void *asset; int yaw; short size,brightness,unknown,turn; unsigned char initialized; } State;
 typedef struct { unsigned int flags; char reserved04[0x48]; unsigned int status; } Owner;

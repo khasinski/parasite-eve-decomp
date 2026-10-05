@@ -1,7 +1,7 @@
 #include "room_m350_shared.h"
 /* MASPSX_FLAGS: --expand-div */
 typedef RoomM350Vector Vector;
-typedef struct { short rotation[3][3]; int position[3]; } Matrix;
+typedef RoomM350TransformMatrix Matrix;
 typedef struct { int color; short x, y, z, size; } Particle;
 typedef struct { char reserved[0x238]; Matrix *transforms; } Instance;
 typedef struct { signed int size : 16; signed int shade : 16; } TrigEntry;

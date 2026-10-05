@@ -42,7 +42,7 @@ int func_80197A04(int event, short *object)
 }
 /* MASPSX_FLAGS: --expand-div */
 
-typedef struct { short rotation[3][3]; int translation[3]; } Matrix;
+typedef RoomM350TransformMatrix Matrix;
 typedef RoomM350Vector Vector;
 extern RoomM350Emitter *D_800F33E0;
 extern unsigned char D_8019A86E, D_8019A859;

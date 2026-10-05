@@ -1,7 +1,7 @@
 #include "room_m350_shared.h"
 /* Dispatches frame-table events and the actor's turning/recoil motion. */
 typedef RoomM350Vector Vector;
-typedef struct { short rotation[3][3]; int position[3]; } Matrix;
+typedef RoomM350TransformMatrix Matrix;
 typedef struct { unsigned char frame,slot,value,pad; } Event;
 typedef struct { Event entries[8]; } Events;
 typedef struct { char reserved[0x18]; unsigned char *status; } Owner;

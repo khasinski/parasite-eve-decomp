@@ -1,5 +1,5 @@
 #include "room_m350_shared.h"
-typedef struct { short rotation[3][3]; int position[3]; } Matrix;
+typedef RoomM350TransformMatrix Matrix;
 typedef struct { char reserved[0x238]; Matrix *transforms; } Instance;
 typedef struct { int reserved[2]; Instance *instance; } Actor;
 

@@ -2,7 +2,7 @@
 #include "pe1/gte.h"
 /* Animation 11 controller: paired model points and alternating player-facing turn. */
 typedef RoomM350Vector Vector;
-typedef struct { short rotation[3][3]; int position[3]; } Matrix;
+typedef RoomM350TransformMatrix Matrix;
 typedef struct { unsigned char state; } Action;
 typedef struct { unsigned int flags; char reserved04[20]; Action *action; } Owner;
 typedef struct {
