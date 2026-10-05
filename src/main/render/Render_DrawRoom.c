@@ -8,16 +8,23 @@
 #include "pe1/render_shadow.h"
 
 /* Builds the ground-aligned shadow transform for `actor` and links its
- * shadow quad, projected from a square of the model's shadow radius. */
+ * shadow quad, projected from a square of the model's shadow radius.
+ * Matching debt: 3 register pins and 18 empty constraints. GTE transfers
+ * and commands are wrapped individually; matrix arithmetic and loads are C. */
 int Render_DrawRoom(RenderShadowActor *actor)
 {
+    register u32 a asm("$12");
+    register u32 b asm("$13");
+    register u32 c asm("$14");
     GteShortVector origin;
     GteShortVector corner;
     GteVector axis;
     GteVector normal;
+    s32 normalX, normalY, normalZ;
     GteVector up;
     GteMatrixStorage local;
     GteMatrix world;
+    u16 *firstColumn;
     s32 sxy;
     s32 p;
     s32 flag;
@@ -30,6 +37,8 @@ int Render_DrawRoom(RenderShadowActor *actor)
     int shade;
     int depth;
     int maxDepth;
+    u32 last;
+    const GteMatrixWords *matrix;
     u32 first; /* word 0 is read before the rest of the copy */
 
     if (actor->flags & 0x400)
@@ -49,17 +58,43 @@ int Render_DrawRoom(RenderShadowActor *actor)
     local.words[4] = source->words[4];
     local.words[5] = source->words[5];
     local.words[6] = source->words[6];
-    local.words[7] = source->words[7];
+    last = source->words[7];
+    corner.z = 0x1000;
+    asm volatile("" : : "m"(corner.z), "r"(last));
+    matrix = (const GteMatrixWords *)local.words;
     local.words[0] = first;
     corner.x = 0;
     corner.y = 0;
-    corner.z = 0x1000;
-    local.matrix.t[0] = local.matrix.t[1] = local.matrix.t[2] = 0;
-    gte_ldrotmatrix(local.words);
-    gte_ldtransmatrix(local.words);
-    gte_ldv0(&corner);
+    local.matrix.t[1] = 0;
+    local.matrix.t[0] = 0;
+    /* Retain the final word of the retail copy before clearing translation. */
+    *(volatile u32 *)&local.words[7] = last;
+    local.matrix.t[2] = 0;
+    {
+        asm volatile("" : "=r"(matrix) : "0"(matrix));
+        a = matrix->r11_r12;
+        b = matrix->r13_r21;
+        gte_ctc2_0(a);
+        gte_ctc2_1(b);
+        a = matrix->r22_r23;
+        b = matrix->r31_r32;
+        c = matrix->r33_pad;
+        gte_ctc2_2(a);
+        gte_ctc2_3(b);
+        gte_ctc2_4(c);
+        a = matrix->tx;
+        b = matrix->ty;
+        gte_ctc2_5(a);
+        c = matrix->tz;
+        gte_ctc2_6(b);
+        gte_ctc2_7(c);
+    }
+    gte_lwc2_0_0(&corner);
+    gte_lwc2_1_4(&corner);
     gte_rt();
-    gte_stmac(&axis);
+    gte_swc2_25_0(&axis);
+    gte_swc2_26_4(&axis);
+    gte_swc2_27_8(&axis);
     axis.y = 0;
     if (axis.x == 0 && axis.z == 0) {
         normal.x = 0;
@@ -68,19 +103,36 @@ int Render_DrawRoom(RenderShadowActor *actor)
     } else {
         Gte_NormalizeVec(&axis, &normal);
     }
+    normalX = normal.x;
+    normalY = normal.y;
+    normalZ = normal.z;
     local.matrix.m[1][1] = 0x1000;
     up.y = 0x1000;
+    asm volatile("" : : "r"(normalX), "r"(normalY), "r"(normalZ), "m"(up.y));
     local.matrix.m[0][1] = 0;
     local.matrix.m[2][1] = 0;
     up.x = 0;
     up.z = 0;
-    local.matrix.m[0][2] = normal.x;
-    local.matrix.m[1][2] = normal.y;
-    local.matrix.m[2][2] = normal.z;
-    gte_ldopv1_psyq(&normal);
-    gte_ldopv2(&up);
+    local.matrix.m[0][2] = normalX;
+    local.matrix.m[1][2] = normalY;
+    local.matrix.m[2][2] = normalZ;
+    {
+        const GteVector *vector = &normal;
+        asm volatile("" : "=r"(vector) : "0"(vector));
+        a = vector->x;
+        b = vector->y;
+        gte_ctc2_0(a);
+        c = vector->z;
+        gte_ctc2_2(b);
+        gte_ctc2_4(c);
+    }
+    gte_ldir3_precise(&up);
+    gte_ldir1_precise(&up);
+    gte_ldir2_precise(&up);
     gte_op12_psyq();
-    gte_stmac(&axis);
+    gte_swc2_25_0(&axis);
+    gte_swc2_26_4(&axis);
+    gte_swc2_27_8(&axis);
     local.matrix.m[0][0] = axis.x;
     local.matrix.m[1][0] = axis.y;
     local.matrix.m[2][0] = axis.z;
@@ -90,11 +142,121 @@ int Render_DrawRoom(RenderShadowActor *actor)
         local.matrix.t[1] = origin.y;
     local.matrix.t[0] = actor->matrices[actor->shadow_matrix_index].matrix.t[0];
     local.matrix.t[2] = actor->matrices[actor->shadow_matrix_index].matrix.t[2];
-    gte_CompMatrix(D_800B89F8, &local.matrix, &world);
-    SetRotMatrix(&world);
-    SetTransMatrix(&world);
+    {
+        const GteMatrixWords *cameraRot;
+        const GteMatrixWords *cameraTrans;
+        const u16 *column;
+        u16 *outColumn;
+
+        s32 *outTranslation;
+        const s32 *translation;
+        cameraRot = (const GteMatrixWords *)D_800B89F8;
+        /* Keep the camera address in t0 without pinning it: GCC must also
+         * be able to reuse t0 for the signed division below. */
+        asm volatile("" : : : "$3", "$4", "$5", "$6", "$7");
+        asm volatile("" : "=r"(cameraRot) : "0"(cameraRot));
+
+        a = cameraRot->r11_r12;
+        b = cameraRot->r13_r21;
+        gte_ctc2_0(a);
+        gte_ctc2_1(b);
+        a = cameraRot->r22_r23;
+        b = cameraRot->r31_r32;
+        c = cameraRot->r33_pad;
+        gte_ctc2_2(a);
+        gte_ctc2_3(b);
+        gte_ctc2_4(c);
+        column = (const u16 *)&local.matrix;
+        asm volatile("" : "=r"(column) : "0"(column));
+        a = column[0];
+        b = column[3];
+        c = column[6];
+        gte_mtc2_9(a);
+        gte_mtc2_10(b);
+        gte_mtc2_11(c);
+        gte_cop2_hazard_slot();
+        gte_cop2_hazard_slot();
+        gte_mvmva_rotation_ir_sf12();
+        firstColumn = (u16 *)&world;
+        asm volatile("" : "=r"(firstColumn) : "0"(firstColumn));
+        gte_mfc2_9(a);
+        gte_mfc2_10(b);
+        gte_mfc2_11(c);
+        firstColumn[0] = a;
+        firstColumn[3] = b;
+        firstColumn[6] = c;
+        asm volatile("" : : : "memory");
+        column = (const u16 *)&local.matrix + 1;
+        asm volatile("" : "=r"(column) : "0"(column));
+        a = column[0];
+        b = column[3];
+        c = column[6];
+        gte_mtc2_9(a);
+        gte_mtc2_10(b);
+        gte_mtc2_11(c);
+        gte_cop2_hazard_slot();
+        gte_cop2_hazard_slot();
+        gte_mvmva_rotation_ir_sf12();
+        outColumn = (u16 *)&world + 1;
+        asm volatile("" : "=r"(outColumn) : "0"(outColumn));
+        gte_mfc2_9(a);
+        gte_mfc2_10(b);
+        gte_mfc2_11(c);
+        outColumn[0] = a;
+        outColumn[3] = b;
+        outColumn[6] = c;
+        asm volatile("" : : : "memory");
+        column = (const u16 *)&local.matrix + 2;
+        asm volatile("" : "=r"(column) : "0"(column));
+        a = column[0];
+        b = column[3];
+        c = column[6];
+        gte_mtc2_9(a);
+        gte_mtc2_10(b);
+        gte_mtc2_11(c);
+        gte_cop2_hazard_slot();
+        gte_cop2_hazard_slot();
+        gte_mvmva_rotation_ir_sf12();
+        outColumn = (u16 *)&world + 2;
+        asm volatile("" : "=r"(outColumn) : "0"(outColumn));
+        gte_mfc2_9(a);
+        gte_mfc2_10(b);
+        gte_mfc2_11(c);
+        outColumn[0] = a;
+        outColumn[3] = b;
+        outColumn[6] = c;
+        /* Transform placement translation with the camera matrix. */
+        asm volatile("" : : : "memory");
+        cameraTrans = cameraRot;
+
+        a = cameraTrans->tx;
+        b = cameraTrans->ty;
+        gte_ctc2_5(a);
+        c = cameraTrans->tz;
+        gte_ctc2_6(b);
+        gte_ctc2_7(c);
+        translation = local.matrix.t;
+        asm volatile("" : "=r"(translation) : "0"(translation));
+        b = ((const u16 *)translation)[2];
+        a = ((const u16 *)translation)[0];
+        b <<= 16;
+        a |= b;
+        gte_mtc2_0(a);
+        gte_lwc2_1_8(translation);
+        gte_cop2_hazard_slot();
+        gte_cop2_hazard_slot();
+        gte_mvmva_rotation_v0_translation_sf12();
+        outTranslation = world.t;
+        gte_swc2_9_0(outTranslation);
+        gte_swc2_10_4(outTranslation);
+        gte_swc2_11_8(outTranslation);
+    }
+    SetRotMatrix((GteMatrix *)firstColumn);
+    SetTransMatrix((GteMatrix *)firstColumn);
     SetGeomScreen(D_800B89F8[8]);
 
+    /* Exclude unused temporaries from GCC's division reload scratch choice. */
+    asm volatile("" : : : "$9", "$10", "$11", "$15", "$24", "$25");
     quad = &actor->shadow_quads[D_8009CDDC];
     quad->tag.length = 9;
     quad->code = 0x2C;
@@ -156,5 +318,8 @@ int Render_DrawRoom(RenderShadowActor *actor)
         link.tag = &quad->tag;
         ot.tag->address = link.word;
     }
+    /* These registers are already saved by the function. Excluding them
+     * from reload leaves t0 available for the multiply-high temporary. */
+    asm volatile("" : : : "$17", "$18", "$19", "$20", "$21", "$22", "$23");
     return 0;
 }
