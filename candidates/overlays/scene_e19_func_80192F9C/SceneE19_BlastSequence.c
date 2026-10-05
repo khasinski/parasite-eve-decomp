@@ -212,7 +212,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         D_800F3368.depth = 4;
         switch (blast->state) {
         case 0:
-            intensity = func_80077CF4(blast->timer << 6) / 32;
+            phase = blast->timer << 6;
+            intensity = func_80077CF4(phase) / 32;
             D_800F3368.parameter00 = 0x40;
             D_800F3368.parameter02 = 4;
             D_800F3368.extent_x = 0x40;
