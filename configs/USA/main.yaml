@@ -1380,8 +1380,8 @@ segments:
       - [0x78B44, c, akao/Akao_SetVoiceKeyOff]
       - [0x79180, c, akao/Akao_SetVoiceKeyOn]
       - [0x79664, c, akao/Akao_SpuStereoVoice]
-      - [0x7980C, c, akao/Akao_VoiceQueue]
-      - [0x79F24, c, akao/Akao_VoiceMasks]
+      # Queue, allocation, and voice-mask setters share the AKAO voice bank.
+      - [0x7980C, c, akao/Akao_VoiceQueueAndMasks]
       - [0x7A6B8, c, psyq/libspu/SpuSetNoiseClock]
       - [0x7A700, c, main/gap_akao_Spu_SetGlobalVolumeField1AA_tail_7A700]
       - [0x7A708, c, psyq/libspu/s_gvex]
@@ -1398,7 +1398,6 @@ segments:
       - [0x7DE10, c, psyq/libspu/SpuClearReverbWorkArea]
       - [0x7DFA4, pad]
       - [0x7DFB0, c, psyq/libapi/WaitEvent]
-      # SPU pitch slides and AKAO ticking share bank and track state views.
       # SPU ticking, sample-bank scanning and note stepping share AKAO track state.
       - [0x7DFC0, c, main/SPU_Akao_NoteTimingFlow]
       # Track parameter commands, note/pan handling and pitch-LFO updates.
