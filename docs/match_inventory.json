@@ -90,8 +90,8 @@
       "reported_size": 1832,
       "source": null,
       "status": "candidate_nonzero",
-      "levenshtein_score": 30,
-      "evidence": "candidates/overlays/scene_e20_func_8018F028/README.md; retained full-C candidate, not integrated."
+      "levenshtein_score": 6,
+      "evidence": "candidates/overlays/scene_e20_func_8018F028/README.md; lev 6 with C matrix loads (three pins and one empty constraint), lev 47 without crutches; lev 0 only with the CPU-asm gte_ldrotmatrix macros. Not integrated."
     },
     {
       "unit": "overlays/sys_reset/sys_reset_7CC",

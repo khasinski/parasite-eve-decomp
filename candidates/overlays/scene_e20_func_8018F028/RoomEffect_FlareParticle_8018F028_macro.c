@@ -5,12 +5,8 @@
  * a pulsing glow pair, or a fading spark. The two palette selections of
  * the spinning glow add a conditional offset to the palette base
  * (`base + (cond ? 8 : 4)`), each from its own palette kind read.
- * PARKED, lev 6: matrix words read in C through GteMatrixWords with the
- * single-transfer gte_ctc2_N macros. Debt: t4-t6 transfer pins (one
- * declaration), a $8 matrix pointer pin and one empty slot-address
- * constraint per load. The 6 words are reload's t1/t0 multiply results
- * (retail mode 1 t1, glow and fade t0) shifted to t2/t1 because the
- * pinned t0 is ever-live. See README. */
+ * PARKED, lev 0 but not admissible: gte_ldrotmatrix/gte_ldtransmatrix
+ * hide CPU lw instructions in inline asm. Kept for reference. */
 int func_8018F028(int mode, SceneE20Particle *p)
 {
     GteRotation rotation;
@@ -77,30 +73,8 @@ int func_8018F028(int mode, SceneE20Particle *p)
             rotation.y = p->velocity.y;
             rotation.z = p->velocity.z;
             rotation.flags = 1;
-            {
-                s32 **slot;
-                register const GteMatrixWords *matrix asm("$8");
-                register u32 a asm("$12"), b asm("$13"), c asm("$14");
-                slot = &D_800BCFA4.value;
-                asm volatile("" : "=r"(slot) : "0"(slot));
-                matrix = (const GteMatrixWords *)*slot;
-                a = matrix->r11_r12;
-                b = matrix->r13_r21;
-                gte_ctc2_0(a);
-                gte_ctc2_1(b);
-                a = matrix->r22_r23;
-                b = matrix->r31_r32;
-                c = matrix->r33_pad;
-                gte_ctc2_2(a);
-                gte_ctc2_3(b);
-                gte_ctc2_4(c);
-                a = matrix->tx;
-                b = matrix->ty;
-                gte_ctc2_5(a);
-                c = matrix->tz;
-                gte_ctc2_6(b);
-                gte_ctc2_7(c);
-            }
+            gte_ldrotmatrix(D_800BCFA4.value);
+            gte_ldtransmatrix(D_800BCFA4.value);
             func_800CF3AC(D_80190804, &color, p->timer);
             kind = D_800F3368.palette;
             palette = D_800E1204[kind] + ((kind == 4 && D_800F3428 != 0) ? 8 : 4);
@@ -162,30 +136,8 @@ int func_8018F028(int mode, SceneE20Particle *p)
             break;
         }
         case 2:
-            {
-                s32 **slot;
-                register const GteMatrixWords *matrix asm("$8");
-                register u32 a asm("$12"), b asm("$13"), c asm("$14");
-                slot = &D_800BCFA4.value;
-                asm volatile("" : "=r"(slot) : "0"(slot));
-                matrix = (const GteMatrixWords *)*slot;
-                a = matrix->r11_r12;
-                b = matrix->r13_r21;
-                gte_ctc2_0(a);
-                gte_ctc2_1(b);
-                a = matrix->r22_r23;
-                b = matrix->r31_r32;
-                c = matrix->r33_pad;
-                gte_ctc2_2(a);
-                gte_ctc2_3(b);
-                gte_ctc2_4(c);
-                a = matrix->tx;
-                b = matrix->ty;
-                gte_ctc2_5(a);
-                c = matrix->tz;
-                gte_ctc2_6(b);
-                gte_ctc2_7(c);
-            }
+            gte_ldrotmatrix(D_800BCFA4.value);
+            gte_ldtransmatrix(D_800BCFA4.value);
             func_800CF3AC(D_80190804, &color, (p->timer << 4) / 20);
             func_800D2104(&p->position, &color, 0x80, 1);
             break;

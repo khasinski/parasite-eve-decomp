@@ -1,85 +1,62 @@
-# scene_e20 func_8018F028 — candidate, not matched
+# scene_e20 func_8018F028 (flare particle callback): parked, lev 6
 
-`RoomEffect_FlareParticle_8018F028.c` has linked score **30**, six register
-instruction differences and the correct 1832-byte size with stock native GCC
-2.7.2 (`-O2 -G0 -funsigned-char -mips1 -mcpu=3000`) and stock MASPSX 2.56 mode.
-It is not byte-identical. The build therefore continues to use the original ASM.
+Not integrated; the build still uses the original ASM. Files (both include
+the local `scene_e20_flare_draw.h`, a narrow header holding the declarations
+that the older drafts kept as externs in the .c):
 
-The earlier score-zero promotion used `gte_ldrotmatrix` and
-`gte_ldtransmatrix`, whose bodies include CPU `lw` instructions. That result
-violates the source constraints and is withdrawn. This candidate performs all
-matrix loads in C and uses individual `gte_ctc2_0` through `gte_ctc2_7` macros.
-The particle and floor-height types remain shared with the spawning controller
-through `include/pe1/scene_e20_flare.h`.
-
-## Remaining differences
-
-| Address | Retail | Candidate |
+| File | Matrix loads | Result |
 |---|---|---|
-| 8018F1C0 / 8018F1C4 | division high result in t1 | t0 |
-| 8018F5BC / 8018F5C0 | glow product in t0 | t1 |
-| 8018F6F8 / 8018F6FC | fade division high result in t0 | t1 |
+| `RoomEffect_FlareParticle_8018F028.c` | C reads of the eight words via `GteMatrixWords` + `gte_ctc2_0..7` | **lev 6** |
+| `RoomEffect_FlareParticle_8018F028_macro.c` | `gte_ldrotmatrix` / `gte_ldtransmatrix` | lev 0, scene_e20 overlay-check OK, but not admissible (CPU `lw` inside the macros, see cb992558c) |
 
-Seven pins and four empty barriers currently reproduce both matrix transfer
-blocks. GCC's reload pass then chooses t1 as its scratch register instead of t0.
-Without the pointer constraint, arithmetic matches but the matrix pointers use
-v0 instead of t0. Explicit reciprocal arithmetic and pins on the final products
-added spills or changed scheduling and were not retained.
+## Palette selection: solved (2026-10-05)
 
-All 1023 nonempty subsets of the original ten pins were checked on darwine.
-The two `matrixSlot` pins and the `streakKind` pin can be removed together:
-the resulting linked function is byte-identical to the score-30 candidate
-(not to retail). The remaining pins are the six matrix-word pins and
-`specialKind` in v1.
+Both drafts write the two spinning-glow palette selections as one expression
+each, with a separate kind read per draw:
 
-Further bounded experiments covered pins on the actual arithmetic operands
-and results, empty allocation guards, and reserving unused registers. The
-best guard variant scored 20, but only moved the mismatch: the glow and fade
-results used t2 instead of t0. It was not retained. Reserving more registers
-introduced spills or changed other register assignments. No score-zero
-candidate resulted from these trials; extra pins alone are not yet a fix.
+    kind = D_800F3368.palette;
+    palette = D_800E1204[kind] + ((kind == 4 && D_800F3428 != 0) ? 8 : 4);
+    ...
+    streakKind = D_800F3368.palette;
+    palette = D_800E1204[streakKind] + ((streakKind == 4 && D_800F3428 != 0) ? 7 : 3);
 
-A bounded run on darwine completed 32,443 permutations on 2026-10-05, including
-5,447 rejected compilations, with no improvement over score 30. No worker from
-that run remains active. Compiler and assembler sources were not modified.
-Research artifacts: `scratch/scene_e20_8018F028` locally and
-`/home/hasik/fx-search-archives/scene_e20_8018F028` on darwine.
+The instructions are the same as the if/else form, but the registers are
+retail's (kind a0, the compare 4 in v1 in the kind load delay slot; second
+kind in v1 against the s5 texture argument). This replaces every earlier
+`special = 4` / shared-temporary / `kind`-reuse attempt (lev 4 steering,
+lev 9 plain). One `kind` shared by both blocks stays at lev 4. The streak
+block may also use the if/else form (still lev 0 with the macro loads).
 
-## Additional pin trials (2026-10-05)
+## Matrix loads in C: the remaining lev 6
 
-A further 288 variants were compiled and linked on darwine with the same stock
-GCC 2.7.2 and MASPSX, then scored and compared against the 1832 retail bytes:
+Retail's two transfer windows are the PSY-Q macro shape
+`la v0,D_800BCFA4; lw t0,0(v0); lw t4,0(t0); lw t5,4(t0); ctc2 ...`.
+Measured C forms (both windows rewritten the same way):
 
-- `newptr0..31`: typed `GteMatrixWords` access, explicit t0 matrix-pointer
-  pins, optional v0 slot pins, memory/input barriers, and shared transfer pins.
-- `explicithigh{0,1,2}_0..63`: separately pinned numerators and results at
-  the three differing arithmetic sites, including C 64-bit high products.
-- `ptrlife0..63`: early-clobber pointer constraints, keeping the slot address
-  live, splitting the translation pointer, and volatile matrix reads.
+| Form | Crutches | lev |
+|---|---|---|
+| plain locals `a,b,c`, pointer local (also field-by-field into the ctc2 macros, eight scalars, re-read through the slot on every word, whole `GteMatrixWords` copy) | none | 47 best (51, 55, 109) |
+| t4-t6 pins only | 1 pin decl | 30 |
+| t4-t6 pins + empty slot-address constraint | 1 pin decl, 1 barrier | 18 (pointer in v0, not t0) |
+| t4-t6 + `$8` pointer pin, no slot constraint | 2 pins | 23 |
+| t4-t6 + `$8` pointer pin + slot constraint | 2 pins, 1 barrier | **6** |
+| t4-t6 + slot constraint + `$2..$7` clobber on the pointer instead of the `$8` pin | 1 pin, 2 barriers | 6 |
 
-None matched or improved on score 30. The explicit t0 pointer variant changes
-the second damping result to t2 and leaves glow/fade results in t1; it does not
-solve the arithmetic allocation. Explicit 64-bit high products introduce
-additional instructions, and some variants spill to the stack. The retained
-candidate is unchanged. Pins remain allowed; these trials do not establish
-that a pin-based solution is impossible.
+The 6 words are three reload register choices, not matrix code: retail
+`mfhi t1` (mode 1 damping), `mflo t0` (case 1 glow size), `mfhi t0` (case 2
+fade); the pinned build gives t2, t1, t1. Likely cause (not traced in
+the reload dump): in retail the matrix pointer is
+the asm input's own reload register (the macro gets the MEM operand), so
+t0 is never live as an allocated register and reload's round-robin spill
+choice runs over {t0, t1}. Any C form that puts the pointer in t0 through
+allocation (pin or clobber list) makes t0 ever-live, so the spill set
+becomes {t1, t2} and the same rotation lands one register higher. The
+user's arcing emitter (FieldEng_CosinePulse.c, 69f0d8f9e) solved the same
+effect with four empty constraints plus four `-ffixed-*` reservations,
+which is far above the about-three-pins budget for this function.
+The unpinned pointer (lev 18 row) keeps the reload choices right but puts
+the pointer in v0.
 
-The three result logs (`newptr.results`, `explicithigh.results`, and
-`ptrlife.results`) and per-variant linked diffs are in the darwine research
-directory above. All batches finished; no permuter was started for these trials.
-
-## Inline conversion and load boundaries
-
-The retained candidate was freshly compiled and linked on darwine and still
-scores 30, with the same three two-instruction register mismatches.
-A 64-variant batch wrapped the damping, glow-size and fade expressions in
-signed-short or signed-word identity helpers at their inputs, products or
-results. None improved on 30. A further 12 variants loaded matrix words
-through fully inlined signed/unsigned word helpers, in either or both GTE
-blocks, using pointer-addition and address-of-index forms. All scored 30.
-
-No source change was retained. The two batches are complete; artifacts are
-identity_*, identity.results, load_helper_* and load_helper.results in the
-existing darwine research directory. These experiments used the same stock
-GCC/maspsx and linked weighted Levenshtein scorer, with no extra pins or CPU
-instruction assembly.
+Not tried: permuter search over the pinned form, and C shapes that give
+the pointer a REG_EQUIV memory and no hard register (so reload, not
+allocation, supplies t0); no plain-C way to deny it a register was found.
