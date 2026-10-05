@@ -13,8 +13,8 @@ int func_80197230(int mode, Vector *position) {
     } else if (mode == 2) {
         int frame = D_800E27EC - 1;
         int kind, palette;
-        register int size asm("$18");
-        register int sample asm("$2");
+        int size;
+        int sample;
         unsigned short clut;
         sample = D_800966EC[(((unsigned int)frame << 9) & 0x3E00) / 4];
         kind = D_800F336C;
