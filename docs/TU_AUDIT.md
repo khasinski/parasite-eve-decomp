@@ -207,6 +207,8 @@ entry. It is evidence for review, not evidence of an original source boundary.
 
 ## Shared record layouts
 
+| `MenuWidgetNode` in `Menu_VisualSettingsFlow` | The blend-color menu setup, confirmation handler and screen-adjust constructor now use named `draw`, `update`, `disabled`, `flags`, cursor and reciprocal-link fields from the shared node layout. The 0x3B93C unit remains byte-identical. The blend-color descriptor pointer at +0x4C remains an unresolved field and is still accessed by its established raw view. |
+
 | Layout | Evidence and use |
 | --- | --- |
 | Overlay 024 setup views | Across five room overlays, `func_801903A8`/`func_80190BF8` and `func_801914F0` share the 0x34-byte Variant 38/290 setup view; `func_80191C94` writes the 0x38-byte `RoomOverlay024VariantDSetupRecord`, whose offsets overlap the renderer's `RoomOverlay024VariantDState` view. The layouts and offset assertions live in `RoomLib_Overlay024.h`, and all five overlay images retain their retail SHA-1. |

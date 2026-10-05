@@ -4,6 +4,7 @@
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
+#include "../../../include/pe1/menu_widget.h"
 
 void *MenuWidget_CreateSimpleNode(int mode, int parent, int arg2, int arg3);
 M2C_UNK MenuWidget_CreateNode();
@@ -24,18 +25,18 @@ void Menu_OpenBlendColorScreen(s32 arg0) {
 
     temp_v0 = MenuWidget_CreateSimpleNode(0x2E, arg0, 0, 0);
     temp_v0_2 = MenuWidget_CreateNode(0x2E, temp_v0, temp_v0);
-    M2C_FIELD(temp_v0, M2C_UNK **, 0x30) = &Menu_DrawBlendColorChannelListUnk;
-    M2C_FIELD(temp_v0, M2C_UNK **, 0x2C) = &Menu_StepColorSelect;
+    ((MenuWidgetNode *)temp_v0)->draw = (void (*)())Menu_DrawBlendColorChannelListUnk;
+    ((MenuWidgetNode *)temp_v0)->update = (void (*)())Menu_StepColorSelect;
     M2C_FIELD(temp_v0, M2C_UNK **, 0x4C) = &D_800922D4;
-    M2C_FIELD(temp_v0, s32 *, 0x40) = 1;
-    M2C_FIELD(temp_v0_2, M2C_UNK **, 0x30) = &Menu_DrawBlendColorChannelList;
-    M2C_FIELD(temp_v0_2, s32 *, 0x28) = 1;
+    ((MenuWidgetNode *)temp_v0)->disabled = 1;
+    ((MenuWidgetNode *)temp_v0_2)->draw = (void (*)())Menu_DrawBlendColorChannelList;
+    ((MenuWidgetNode *)temp_v0_2)->flags = 1;
     temp_v0_3 = MenuWidget_CreateNode(0x31, temp_v0, temp_v0);
-    M2C_FIELD(temp_v0_3, M2C_UNK **, 0x30) = &Menu_DrawBlendColorOptionList;
-    M2C_FIELD(temp_v0_2, void **, 0x7C) = temp_v0_3;
-    M2C_FIELD(temp_v0_3, void **, 0x78) = temp_v0_2;
+    ((MenuWidgetNode *)temp_v0_3)->draw = (void (*)())Menu_DrawBlendColorOptionList;
+    ((MenuWidgetNode *)temp_v0_2)->linkedNext = temp_v0_3;
+    ((MenuWidgetNode *)temp_v0_3)->linkedPrevious = temp_v0_2;
     var_a0 = temp_v0_2;
-    if (M2C_FIELD(temp_v0_2, s32 *, 0x44) < 0) {
+    if (((MenuWidgetNode *)temp_v0_2)->cursor_x < 0) {
         var_a0 = temp_v0_3;
     }
     MenuWidget_SetCurrentNode(var_a0);
@@ -187,10 +188,10 @@ take:
         MenuWidget_DestroyNode(arg0);
         goto confirm;
 setcur:
-        M2C_FIELD(temp_v0, s32 *, 0x44) = 0;
-        M2C_FIELD(temp_v0, s32 *, 0x48) = 0;
+        ((MenuWidgetNode *)temp_v0)->cursor_x = 0;
+        ((MenuWidgetNode *)temp_v0)->cursor_y = 0;
         MenuWidget_SetCurrentNode(temp_v0);
-        M2C_FIELD(MenuWidget_GetChild(arg0, 0), s32 *, 0x44) = -1;
+        ((MenuWidgetNode *)MenuWidget_GetChild(arg0, 0))->cursor_x = -1;
 confirm:
         Menu_PlayConfirmSound();
         return 1;
@@ -231,8 +232,8 @@ void Menu_OpenScreenAdjustView(int arg0) {
     void *node;
 
     node = MenuWidget_CreateSimpleNode(0x38, arg0, 0, 1);
-    *(void **)((char *)node + 0x30) = Menu_DrawScreenAdjustPanel;
-    *(void **)((char *)node + 0x2C) = Menu_StepScrollList;
+    ((MenuWidgetNode *)node)->draw = (void (*)())Menu_DrawScreenAdjustPanel;
+    ((MenuWidgetNode *)node)->update = (void (*)())Menu_StepScrollList;
     MenuWidget_SetCurrentNode(node);
     D_8009CFE4 = Draw_GetBaseY();
 }
