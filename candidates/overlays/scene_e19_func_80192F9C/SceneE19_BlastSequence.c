@@ -277,8 +277,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             D_800F3376 = 0x40;
             D_800F3378 = 0x40;
             D_800F3370 = D_800E2850[pageSelector[0]];
-            D_800F336C = 3;
-            D_800F336E = 1;
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 1;
             if (D_800E27EC & 1) {
                 intensity = 0x55;
             }
