@@ -30,3 +30,4 @@ RoomLib_Set4ClearSignal_80192568 = 0x80192568; // type:func
 RoomLib_InvokeCallbackC_80192660 = 0x80192660; // type:func
 D_801926B4 = 0x801926B4;
 func_80192B10 = 0x80192B10; // type:func
+RoomMain_ActorPtr = 0x8009D254; // absolute:True

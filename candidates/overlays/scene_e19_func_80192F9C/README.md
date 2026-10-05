@@ -1,17 +1,19 @@
 # func_80192F9C: GTE-window candidate 0, C-load candidate 400
 
-The preferred matching candidate is now `SceneE19_BlastSequence_GteWindows.c`,
+Integrated source: `src/overlays/scene_e19/SceneE19_BlastSequence.c`; merged
+overlay-check passes with SHA1 `6b114d71ecf274e02267aa9ea10cb2126793d3af`.
+The matching research snapshot is `SceneE19_BlastSequence_GteWindows.c`,
 verified at **weighted Levenshtein 0** with stock GCC/MASPSX on darwine.
 It uses the existing `pe1/gte_window.h` exception documented on main for this
 function, with four rotation/translation pairs (eight macro uses), one s1
 parameter-pointer pin and two empty tied-output barriers (parameter pointer
 and selector address). The CPU `lw` instructions inside
 these macros are explicit matching debt; this is not a CPU-ASM-free candidate.
-The pending evidence entry must move to the active list when integrating the
-function as a C unit, with the required overlay verification.
+The evidence entry is active for the integrated C unit; the merged overlay
+has passed retail verification.
 
 The variant below, `SceneE19_BlastSequence.c`, is preserved at score 400 with
-all matrix loads in C. No function has been integrated yet.
+all matrix loads in C; this alternative is not integrated.
 
 Compiler diagnosis: stock GCC 2.7.2 `reload1.c`, `order_regs_for_reload`, marks
 explicit hard registers in `bad_spill_regs` (lines 3642-3660). The dump from
@@ -90,7 +92,7 @@ compile errors, best 297. One equal-score output was saved, no improvement.
 `permuter297` stopped with timeout exit 124; its log and seed remain in the
 research archive. The committed code and its verified score 120 are unchanged.
 
-## Exact candidate, integration still pending
+## Exact candidate (subsequently integrated)
 
 The final candidate reproduces the complete linked `.text` (9472 bytes,
 2368 instructions) and `.rodata` (60 bytes at 0x8018F1D4) exactly. The target
@@ -114,10 +116,9 @@ The preceding split-use search compiled 80 variants without improving 120;
 the constraint-form search compiled 128 of 192 attempts (GCC rejected the
 64 read/write `+r` forms), yielding the relocated-selector 460 seed.
 
-This is a verified matching candidate, not yet a production C unit. Remaining
-work: integrate code and rodata into the scene layout, activate the GTE-window
-evidence/debt entry, run full overlay/build verification, and publish the
-integrated change. The goal is not complete until those steps are verified.
+The matching candidate is now integrated as a production C unit. Code and
+rodata share the merged scene_e19 layout; the GTE-window evidence entry and
+debt baseline are active. Merged overlay-check and make verify pass on darwine.
 
 ## Preserved C-load candidate
 

@@ -8515,3 +8515,16 @@ total functions 11672 to 11643, credited functions 11630 to 11631 (the
 `setjmp` veneer), total code 3,558,776 to 3,546,972 bytes and code match
 99.27% to 99.60%. Credited code bytes rise by 12, the veneer; everything else
 moved from the code ledger to the data ledger, where it matches.
+
+### Complete scene e19 blast sequence
+
+`SceneE19_BlastSequence` replaces the restored `func_80192F9C` assembly with
+matching C. The full 9472-byte function and 60-byte rodata match on stock
+GCC 2.7.2/MASPSX 2.56. Merging the two contiguous scene extraction slices
+lets the function and its jump tables link from one object; the full 0xC800
+scene_e19 overlay passes its retail hash. Existing scene_e19_2 functions now
+live under scene_e19 with unchanged runtime addresses.
+
+Debt: one s1 pointer pin, two empty tied constraints, and eight approved GTE
+window macro uses. All 4095 nonempty subsets of the initial twelve pins and
+barriers were checked; nine constraints were removable together.

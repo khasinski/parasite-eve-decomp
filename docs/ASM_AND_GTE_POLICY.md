@@ -367,7 +367,7 @@ Rule: the CPU loads that move the view matrix into the GTE rotation and
 translation registers may be written as inline assembly only with
 `GTE_LOAD_ROTATION_WINDOW(matrix)` and `GTE_LOAD_TRANSLATION_WINDOW(matrix)`
 from `include/pe1/gte_window.h`, and only in the functions listed under
-`gte_matrix_windows` in `configs/USA/original_asm_evidence.json`. Today that is
+`gte_matrix_windows` in `configs/USA/original_asm_evidence.json`. The listed users include
 scene_e20 `func_8018F028` (`RoomEffect_FlareParticle_8018F028`, two windows).
 The legacy `gte_ldrotmatrix`/`gte_ldtransmatrix` in `include/pe1/gte.h` are a
 separate, older debt being replaced by C; they are not this exemption.
@@ -420,11 +420,13 @@ the `gte_matrix_windows` column (two per window). It is debt, so the file stays
 dirty, and the ratchet keeps the count from growing without a reviewed
 baseline change.
 
-Pending: scene_e19_2 `func_80192F9C` has four windows of the same shape (base
-`$t1`, 0x801936D0, 0x80193B70, 0x80193EC4, 0x8019475C). They are recorded under
-`gte_matrix_windows_pending` until the agent landing that function switches
-its source to the macros; that change moves the entry to `gte_matrix_windows`
-with source, evidence and `verified_by`, and deletes the pending note.
+Integrated: scene_e19 `func_80192F9C` uses four evidenced windows (base `$t1`,
+0x801936D0, 0x80193B70, 0x80193EC4, 0x8019475C). The two old scene slices
+are linked as one continuous scene_e19 block. Its complete code and rodata
+match with stock GCC/MASPSX, and merged overlay-check passes. One s1 pin and
+two empty constraints remain after testing all 4095 nonempty subsets of the
+initial five pins and seven constraints; eight GTE-window uses are tracked
+as debt. The entry is active in `gte_matrix_windows`.
 
 To add a use: show from the retail disassembly that the function loads the
 view matrix with exactly this window (both halves, same base, `$t4..$t6`), that

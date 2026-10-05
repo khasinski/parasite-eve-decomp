@@ -167,12 +167,10 @@
         "the rest of the function is plain C with no pins, barriers or other asm, lev 0 with equal size (458 words)"
       ],
       "verified_by": "agent review 2026-10-05: retail disassembly vs stock cc1 output, lev 0, scene_e20 overlay-check OK"
-    }
-  ],
-  "gte_matrix_windows_pending": [
+    },
     {
       "name": "func_80192F9C",
-      "module": "scene_e19_2",
+      "module": "scene_e19",
       "address": "0x80192F9C",
       "size": 9472,
       "windows": [
@@ -181,7 +179,14 @@
         "0x80193EC4..0x80193F10: la $v0,D_800BCFA4; lw $t1,0($v0); nop; lw t4,0; lw t5,4; ctc2 t4,$0; ctc2 t5,$1; lw t4,8; lw t5,12; lw t6,16; ctc2 t4,$2; ctc2 t5,$3; ctc2 t6,$4; lw t4,20; lw t5,24; ctc2 t4,$5; lw t6,28; ctc2 t5,$6; ctc2 t6,$7 (all words through $t1)",
         "0x8019475C..0x801947AC: la $v0,D_800BCFA4; [sh $s7,0x32($sp) scheduled in] lw $t1,0($v0); nop; lw t4,0; lw t5,4; ctc2 t4,$0; ctc2 t5,$1; lw t4,8; lw t5,12; lw t6,16; ctc2 t4,$2; ctc2 t5,$3; ctc2 t6,$4; lw t4,20; lw t5,24; ctc2 t4,$5; lw t6,28; ctc2 t5,$6; ctc2 t6,$7 (all words through $t1)"
       ],
-      "note": "placeholder: the agent landing scene_e19_2 func_80192F9C (candidates/overlays/scene_e19_func_80192F9C) adds the gte_matrix_windows entry, with source, evidence and verified_by, in the change that makes its source use GTE_LOAD_ROTATION_WINDOW/GTE_LOAD_TRANSLATION_WINDOW four times each; remove this pending entry then"
+      "source": "overlays/scene_e19/SceneE19_BlastSequence.c",
+      "evidence": [
+        "The four listed retail windows load the view matrix through t1 with the same lw/ctc2 sequence as the existing approved macros.",
+        "C matrix reads with a t1 pin reserve t1 from GCC reload and change division-result registers; the preserved C-load candidate scores 400. The approved windows reproduce these loads and free the original reload register.",
+        "Stock GCC 2.7.2 and MASPSX 2.56 reproduce the complete function and its rodata, weighted Levenshtein 0. One s1 parameter-pointer pin and two empty constraints remain after testing all 4095 nonempty removal subsets."
+      ],
+      "verified_by": "Stock GCC 2.7.2/MASPSX 2.56 on darwine: linked weighted Levenshtein 0; exact text and rodata; merged scene_e19 overlay-check OK, SHA1 6b114d71ecf274e02267aa9ea10cb2126793d3af."
     }
-  ]
+  ],
+  "gte_matrix_windows_pending": []
 }

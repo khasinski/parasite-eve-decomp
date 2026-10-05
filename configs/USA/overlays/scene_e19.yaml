@@ -1,5 +1,5 @@
 name: scene_e19.bin
-sha1: 5c9da791a733fee0853821de2360425e7c69f861
+sha1: 6b114d71ecf274e02267aa9ea10cb2126793d3af
 options:
   basename: scene_e19
   target_path: original/USA/overlays/scene_e19.bin
@@ -48,6 +48,11 @@ segments:
       - start: 0x1E4
         type: rodatabin
         name: scene_e19_header_tail
+        dir: scene_e19
+      - [0x1EC, .rodata, SceneE19_BlastSequence]
+      - start: 0x228
+        type: rodatabin
+        name: scene_e19_header_tail2
         dir: scene_e19
       - [0x288, c, func_8018F270]
       - [0x290, c, RoomLib_InitB_8018F278]
@@ -112,7 +117,24 @@ segments:
       - [0x36CC, c, SceneE19GrabResetFlow]
       - [0x3E18, c, func_80192E00]
       - [0x3E20, c, func_80192E08]
-  - [0x3FB4]
+      - [0x3FB4, c, SceneE19_BlastSequence]
+      - [0x64B4, c, func_8019549C]
+      - [0x70DC, c, RoomEffect_HomingBurstController_801960C4]
+      - [0x7760, c, RoomEffect_SpinRayParticle_80196748]
+      - [0x7CE4, c, RoomEffect_SpinRayController_80196CCC]
+      - [0x8304, c, RoomEffect_EmberFlareParticle]
+      - [0x8904, c, RoomEffect_EmberFlareController]
+      - [0x92BC, c, RoomEffect_OrbitSpinParticle_801982A4]
+      - [0x992C, c, RoomEffect_OrbitSpinBurst_80198914]
+      - [0xA210, c, RoomEffect_GlintSparkParticle_801991F8]
+      - [0xA69C, c, RoomEffect_GlintRibbonController_80199684]
+      - [0xAC40, c, RoomEffect_PulseGlintParticle_80199C28]
+      - [0xB06C, c, RoomEffect_TwinGlowController_8019A054]
+      - [0xBC48, c, RoomEffect_JitterSizedSpark_8019AC30]
+      - [0xBEA4, c, RoomEffect_JitterSizedSpawner_8019AE8C]
+      - [0xC1F0, c, SceneE19_StateAccessors]
+      - [0xC26C, data]
+  - [0xC800]
 # source slice: scanner
-# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e19.bin bs=4 skip=50477568 count=4077
+# extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e19.bin bs=4 skip=50477568 count=12800
 # special-scene set: entry 19 of the table at 0x80094048 (this bin = its section 3); mid-game (Daniel/Maeda) bank

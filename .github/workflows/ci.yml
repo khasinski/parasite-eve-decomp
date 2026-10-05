@@ -147,7 +147,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: khasinski/parasite-eve-assets
-          ref: 5a4694459790054896ad29b64921da617c7b171e
+          ref: e26d48075ab44e3ba4b2f98d39eaceb7f39fbde3
           ssh-key: ${{ secrets.ASSETS_SSH_KEY }}
           path: .assets
 

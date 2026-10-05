@@ -1,3 +1,24 @@
+# scene_e19 extraction and completed blast function
+
+`func_80192F9C` now matches in `src/overlays/scene_e19/SceneE19_BlastSequence.c`:
+weighted Levenshtein 0, exact linked text and rodata with stock native GCC
+2.7.2 and MASPSX 2.56 on darwine. The full merged overlay passes overlay-check
+with SHA1 `6b114d71ecf274e02267aa9ea10cb2126793d3af`.
+
+The former scene_e19 and scene_e19_2 files are contiguous slices of section 3.
+They are now one 0xC800-byte scene_e19 binary, extracted from PE.IMG at word
+50477568 for 12800 words (sector 98589, 25 sectors). All existing runtime
+addresses remain unchanged. The function starts at file offset 0x3FB4 and
+ends at 0x64B4; its three initializers and two jump tables occupy
+0x1EC..0x228. These sections are now linked from the same C object.
+
+The source uses the approved GTE matrix windows, one s1 parameter-pointer pin,
+and two empty constraints. The candidate README records the recovery and
+constraint-removal evidence. The previous extraction-gap investigation follows
+as historical context; its outstanding-status and score statements are superseded.
+
+## Historical extraction investigation
+
 # Missing scene_e19 function
 
 The progress report's `overlays/scene_e19_2/scene_pre` entry is the tail of

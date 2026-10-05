@@ -75,7 +75,7 @@ Category notes:
 
 ## data/pad/slice
 
-Resolved 2026-10-05: every row below except scene_e19_2 and the sys_reset
+Resolved 2026-10-05: every row below except the sys_reset
 rows (handled earlier) is now typed as data, `pad`, or (for the `setjmp`
 veneer inside RawData_80074354) credited SDK veneer code, and no longer
 appears as a function in the report. See docs/SOURCE_QUALITY.md, text-resident
@@ -111,7 +111,7 @@ data and padding outside function coverage.
 | render_clip | func_80170000 | 944 | render_clip.bin is a byte copy of fx_common 0x8800-0x9000: mid-function slice of FxCommon_EffectInitializationFlow plus a truncated FxCommon_DrawPolyResource (both C in fx_common) |
 | render_clip | func_801703B0 | 1104 | render_clip.bin is a byte copy of fx_common 0x8800-0x9000: mid-function slice of FxCommon_EffectInitializationFlow plus a truncated FxCommon_DrawPolyResource (both C in fx_common) |
 | scene_e14 | D_8018EFE8 | 36 | dlabel data inside a code segment |
-| scene_e19_2 | func_8018EFF0 | 1204 | scene_e19_2 scene_pre: starts mid-function (no prologue, stores to 0x238(sp)); tail slice of a function from another overlay |
+| scene_e19 (formerly scene_e19_2) | func_80192F9C | 9472 | Resolved: complete blast controller and rodata match; merged scene_e19 overlay verified |
 | scene_e22 | D_801994EE | 8 | dlabel data inside a code segment |
 | scene_e22 | D_801990C0 | 250 | dlabel data inside a code segment |
 | scene_e22 | D_801994F6 | 754 | dlabel data inside a code segment |
