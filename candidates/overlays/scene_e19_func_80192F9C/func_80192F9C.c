@@ -297,6 +297,7 @@ block_31:
         }
         D_800F3372 = 0;
         D_800F3374 = 4;
+        asm volatile("" : : : "memory");
         temp_v1 = effect->state;
         switch (temp_v1) {                          /* switch 2 */
         case 0:                                     /* switch 2 */
@@ -305,13 +306,18 @@ block_31:
             if (temp_v0_6 < 0) {
                 intensity = (s32) (temp_v0_6 + 0x1F) >> 5;
             }
-            D_800F3368.parameter00 = 0x40;
-            D_800F336C = 3;
-            D_800F3378 = 0x40;
-            D_800F3376 = 0x40;
-            D_800F336A = 4;
-            D_800F336E = 1;
-            D_800F3370 = D_800E2850[D_800E11FA[0]];
+            {
+                s32 spritePage;
+                D_800F3368.parameter00 = 0x40;
+                D_800F336A = 4;
+                D_800F3376 = 0x40;
+                D_800F3378 = 0x40;
+                spritePage = D_800E2850[D_800E11FA[0]];
+                asm volatile("" : : : "memory");
+                D_800F336C = 3;
+                D_800F336E = 1;
+                D_800F3370 = spritePage;
+            }
             if (D_800E27EC & 1) {
                 intensity = (intensity * 2) / 3;
             }
@@ -327,13 +333,18 @@ block_31:
         case 1:                                     /* switch 2 */
             phase = effect->timer << 6;
             intensity = 0x80;
-            D_800F3368.parameter00 = 0x40;
-            D_800F336A = 4;
-            D_800F3376 = 0x40;
-            D_800F336C = 3;
-            D_800F3378 = 0x40;
-            D_800F336E = 1;
-            D_800F3370 = D_800E2850[D_800E11FA[0]];
+            {
+                s32 spritePage;
+                D_800F3368.parameter00 = 0x40;
+                D_800F336A = 4;
+                D_800F3376 = 0x40;
+                D_800F3378 = 0x40;
+                spritePage = D_800E2850[D_800E11FA[0]];
+                asm("" : : "r"(spritePage) : "memory");
+                D_800F336C = 3;
+                D_800F336E = 1;
+                D_800F3370 = spritePage;
+            }
             if (D_800E27EC & 1) {
                 intensity = 0x55;
             }
