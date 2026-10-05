@@ -11,9 +11,11 @@ from collections import Counter
 import yaml
 
 try:
-    from source_quality import PSYQ_ASM_USE, classify, has_instruction_asm
+    from source_quality import (GAME_ASM_USE, PSYQ_ASM_USE, classify,
+                                has_instruction_asm, strip_comments)
 except ImportError:
-    from tools.scripts.source_quality import PSYQ_ASM_USE, classify, has_instruction_asm
+    from tools.scripts.source_quality import (GAME_ASM_USE, PSYQ_ASM_USE, classify,
+                                              has_instruction_asm, strip_comments)
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -21,6 +23,7 @@ SRC = ROOT / "src"
 ASM_FILE = re.compile(r"^\s*\.(?:text|section|set|globl|ent)\b", re.MULTILINE)
 ASM_INCLUDE = re.compile(r"^\s*\.include\b", re.MULTILINE)
 PSYQ_ASM_OBJECT = re.compile(r"\bPSYQ_ASM_OBJECT\s*\(\s*(\w+)\s*,\s*(\w+)\s*\)")
+ASM_FUNCTION_NAME = re.compile(r"\b(GAME|PSYQ)_ASM_FUNCTION\s*\(\s*(\w+)")
 MAIN_VRAM_DELTA = 0x8000F800  # main.exe file offset -> retail address
 
 
@@ -60,6 +63,10 @@ def psyq_asm_errors(src=SRC, config_path=None, provenance_path=None):
             continue
         rel = path.relative_to(src)
         name = str(rel)
+        if rel.parts[0] == "overlays":
+            # Overlays have no PSY-Q provenance manifest; their SDK assembler
+            # objects are checked against the original-assembler manifest.
+            continue
         if rel.parts[:2] != ("main", "psyq"):
             errors.append("PSY-Q assembler macro outside src/main/psyq/: %s" % name)
             continue
@@ -89,6 +96,145 @@ def psyq_asm_errors(src=SRC, config_path=None, provenance_path=None):
     return errors
 
 
+def c_unit_ranges(config_path):
+    """Retail address range of every `c` subsegment in a splat yaml, by path.
+
+    Works for the main executable and for overlays: each row's file offset is
+    mapped through its segment's vram, and a unit ends at the next subsegment
+    or segment boundary.
+    """
+    config = yaml.safe_load(config_path.read_text())
+    boundaries = set()
+    rows = []
+    for segment in config["segments"]:
+        if isinstance(segment, list):
+            boundaries.add(segment[0])
+            continue
+        if "start" in segment:
+            boundaries.add(segment["start"])
+        delta = segment.get("vram", segment.get("start", 0)) - segment.get("start", 0)
+        for row in segment.get("subsegments", []):
+            if isinstance(row, dict):
+                start, kind, path = row["start"], row.get("type"), row.get("name")
+            else:
+                start = row[0]
+                kind = row[1] if len(row) > 1 else None
+                path = row[2] if len(row) > 2 else None
+            boundaries.add(start)
+            if kind == "c" and path:
+                rows.append((path, start, delta))
+    ordered = sorted(boundaries)
+    ranges = {}
+    for path, start, delta in rows:
+        following = [offset for offset in ordered if offset > start]
+        if following:
+            ranges[path] = (start + delta, following[0] + delta)
+    return ranges
+
+
+def original_asm_manifest_errors(src=SRC, configs=None, manifest_path=None):
+    """Game-side assembler (and overlay SDK assembler) needs listed evidence.
+
+    GAME_ASM_FUNCTION anywhere, and PSYQ_ASM_FUNCTION in an overlay, may only
+    define functions listed in configs/USA/original_asm_evidence.json. The
+    file takes the GNU assembler path, contains no C function, defines
+    exactly the functions listed for it, and its yaml `c` range is exactly
+    those functions, contiguous, from the first address to the last end.
+    Every manifest entry must be reproduced by its source and carry evidence.
+    """
+    root = src.parent
+    configs = configs or root / "configs/USA"
+    manifest_path = manifest_path or configs / "original_asm_evidence.json"
+    errors = []
+    entries = json.loads(manifest_path.read_text())["functions"] if manifest_path.exists() else []
+    by_source = {}
+    for entry in entries:
+        label = entry.get("name", "?")
+        missing = [key for key in ("name", "module", "source", "address", "size",
+                                   "origin", "evidence", "verified_by") if not entry.get(key)]
+        if missing:
+            errors.append("original-asm manifest entry %s lacks %s" % (label, ", ".join(missing)))
+            continue
+        if entry["origin"] not in ("game", "psyq"):
+            errors.append("original-asm manifest entry %s has unknown origin %r"
+                          % (label, entry["origin"]))
+            continue
+        if entry["origin"] == "psyq" and (entry["module"] == "main"
+                                          or not entry.get("library") or not entry.get("object")):
+            errors.append("original-asm manifest entry %s: PSY-Q origin needs an overlay "
+                          "module, library and object (main uses psyq_provenance.json)" % label)
+            continue
+        lead = "main/" if entry["module"] == "main" else "overlays/%s/" % entry["module"]
+        if not entry["source"].startswith(lead) or not entry["source"].endswith(".c"):
+            errors.append("original-asm manifest entry %s: source %s is not a %s unit"
+                          % (label, entry["source"], entry["module"]))
+            continue
+        by_source.setdefault(entry["source"], []).append(entry)
+
+    used = set()
+    yaml_ranges = {}
+    for path in sorted(src.rglob("*.c")):
+        rel = path.relative_to(src)
+        name = str(rel)
+        code = strip_comments(path.read_text(errors="ignore"))
+        game = bool(GAME_ASM_USE.search(code))
+        overlay_psyq = rel.parts[0] == "overlays" and bool(PSYQ_ASM_USE.search(code))
+        if not game and not overlay_psyq:
+            continue
+        listed = by_source.get(name)
+        if not listed:
+            errors.append("original assembler without manifest evidence: %s" % name)
+            continue
+        used.add(name)
+        if "ASSEMBLER: GNU" not in path.read_text(errors="ignore"):
+            errors.append("original assembler source without ASSEMBLER: GNU: %s" % name)
+        if classify(path) != "original_asm":
+            errors.append("original assembler source mixed with C functions: %s" % name)
+        if game and PSYQ_ASM_USE.search(code):
+            errors.append("game and PSY-Q assembler mixed in one unit: %s" % name)
+            continue
+        origin = "game" if game else "psyq"
+        if any(entry["origin"] != origin for entry in listed):
+            errors.append("%s: manifest origin does not match its %s macro"
+                          % (name, "GAME_ASM_FUNCTION" if game else "PSYQ_ASM_FUNCTION"))
+        if origin == "psyq":
+            objects = PSYQ_ASM_OBJECT.findall(code)
+            if len(objects) != 1 or any((entry["library"], entry["object"]) != objects[0]
+                                        for entry in listed):
+                errors.append("%s: PSYQ_ASM_OBJECT does not name the manifest object" % name)
+        defined = [function for _, function in ASM_FUNCTION_NAME.findall(code)]
+        expected = sorted(entry["name"] for entry in listed)
+        if sorted(defined) != expected:
+            errors.append("%s: defines %s, manifest lists %s"
+                          % (name, ", ".join(sorted(defined)) or "nothing", ", ".join(expected)))
+        module = listed[0]["module"]
+        if module not in yaml_ranges:
+            config = (configs / "main.yaml" if module == "main"
+                      else configs / "overlays" / ("%s.yaml" % module))
+            yaml_ranges[module] = c_unit_ranges(config) if config.exists() else {}
+        lead = "main/" if module == "main" else "overlays/%s/" % module
+        unit = name[len(lead):].removesuffix(".c")
+        if unit not in yaml_ranges[module]:
+            errors.append("original assembler source is not a %s yaml c unit: %s" % (module, name))
+            continue
+        start, end = yaml_ranges[module][unit]
+        cursor = start
+        for entry in sorted(listed, key=lambda item: int(item["address"], 16)):
+            address = int(entry["address"], 16)
+            if address != cursor:
+                errors.append("%s: %s starts at 0x%08X, expected 0x%08X (unit range "
+                              "0x%08X..0x%08X)" % (name, entry["name"], address, cursor, start, end))
+                break
+            cursor = address + entry["size"]
+        else:
+            if cursor != end:
+                errors.append("%s: manifest functions end at 0x%08X but the yaml unit ends at 0x%08X"
+                              % (name, cursor, end))
+    for source in sorted(set(by_source) - used):
+        errors.append("original-asm manifest lists %s, which does not reproduce it" % source)
+    return errors
+
+
 def main() -> int:
     errors = []
     for path in SRC.rglob("*.s"):
@@ -100,6 +246,7 @@ def main() -> int:
         if ASM_INCLUDE.search(text):
             errors.append("assembler include under src/: %s" % path.relative_to(ROOT))
     allowed_asm_headers = {ROOT / "include" / "include_asm.h",
+                           ROOT / "include" / "pe1" / "game_asm.h",
                            ROOT / "include" / "pe1" / "gte.h",
                            ROOT / "include" / "pe1" / "psyq_asm.h",
                            ROOT / "include" / "pe1" / "psyq_bios.h"}
@@ -109,6 +256,7 @@ def main() -> int:
                           path.relative_to(ROOT))
 
     errors.extend(psyq_asm_errors())
+    errors.extend(original_asm_manifest_errors())
 
     counts = Counter(classify(path) for path in SRC.rglob("*.c"))
     if errors:

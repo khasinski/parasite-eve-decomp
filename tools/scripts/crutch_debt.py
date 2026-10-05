@@ -18,9 +18,9 @@ import pathlib
 import re
 
 try:
-    from source_quality import classify
+    from source_quality import GAME_ASM_USE, classify
 except ImportError:
-    from tools.scripts.source_quality import classify
+    from tools.scripts.source_quality import GAME_ASM_USE, classify
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 SRC = ROOT / "src"
@@ -50,6 +50,12 @@ PATTERNS = {
     # so they never make a file dirty; the ratchet only makes any new such
     # unit a deliberate, reviewed baseline change.
     "original_asm_units": re.compile(r"(?!)"),
+    # Units reproducing game routines proven to be original assembler
+    # (GAME_ASM_FUNCTION, evidence in configs/USA/original_asm_evidence.json).
+    # Kept apart from original_asm_units: SDK assembler is expected, while a
+    # new game-side assembler unit is the exemption most open to misuse, so
+    # the ratchet names it on its own line. Not debt and never dirty.
+    "game_asm_units": re.compile(r"(?!)"),
     "byte_pointer_arithmetic": re.compile(
         r"\(\s*(?:const\s+|volatile\s+)?(?:u8|s8|char)\s*\*\s*\)"
         r"(?!\s*\()[^;=\n]*\+"
@@ -92,8 +98,9 @@ ORDER = [
     "asm_bodies", "directives", "gotos", "include_asm", "postpass",
     "statement_expressions", "unknown_fields", "declaration_overrides",
     "externs_in_c", "stack_reserves", "dead_code", "original_asm_units",
+    "game_asm_units",
 ]
-HEAVY = [key for key in ORDER if key not in ("gotos", "original_asm_units")]
+HEAVY = [key for key in ORDER if key not in ("gotos", "original_asm_units", "game_asm_units")]
 
 
 def subsystem_of(rel: pathlib.PurePath) -> str:
@@ -125,7 +132,9 @@ def collect_debt(source_root: pathlib.Path = SRC,
         counts = {k: len(PATTERNS[k].findall(text)) for k in ORDER}
         kind = classify(path) if path.suffix == ".c" else None
         counts["asm_constrained_units"] = int(kind == "asm_constrained")
-        counts["original_asm_units"] = int(kind == "original_asm")
+        game_asm = kind == "original_asm" and bool(GAME_ASM_USE.search(text))
+        counts["original_asm_units"] = int(kind == "original_asm" and not game_asm)
+        counts["game_asm_units"] = int(game_asm)
         for k, v in counts.items():
             per_sub[sub][k] += v
             totals[k] += v
@@ -189,7 +198,9 @@ def render_report(per_sub, totals, dirty_files) -> str:
         "in directly included C templates and is the progress-exclusion count. "
         "**original_asm_units** = sanctioned reproductions of proven PSY-Q "
         "assembler objects and BIOS veneers (docs/ASM_AND_GTE_POLICY.md); "
-        "not debt, ratcheted so that each new one is a reviewed change.",
+        "**game_asm_units** = sanctioned reproductions of game routines proven to "
+        "be original assembler (configs/USA/original_asm_evidence.json). Neither is "
+        "debt; both are ratcheted so that each new one is a reviewed change.",
         "",
         header,
         sep,

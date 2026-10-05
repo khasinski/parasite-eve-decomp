@@ -1,17 +1,23 @@
-int Math_FixedRoundToInt(int arg0) {
-    register int bias asm("$1");
-    int value;
+/* ASSEMBLER: GNU */
+#include "pe1/game_asm.h"
 
-    bias = 0x8000;
-    asm volatile("add\t%0,%1,%2" : "=r"(value) : "r"(arg0), "r"(bias));
-    return value >> 16;
-}
+/*
+ * Round a 16.16 (or 24.8) fixed-point value to its integer part:
+ * (value + half) >> shift.
+ *
+ * Original assembler (configs/USA/original_asm_evidence.json): both are the
+ * assembler's expansion of `add $v0, $a0, 0x8000`, which loads the constant
+ * into $at and uses the trapping `add`. GCC never allocates $at and always
+ * emits `addu` for C addition.
+ */
+GAME_ASM_FUNCTION(Math_FixedRoundToInt,
+    "    ori     $at, $zero, 0x8000\n"
+    "    add     $v0, $a0, $at\n"
+    "    jr      $ra\n"
+    "    sra     $v0, $v0, 16\n");
 
-int Math_FixedRoundToByte(int arg0) {
-    register int bias asm("$1");
-    int value;
-
-    bias = 0x8000;
-    asm volatile("add\t%0,%1,%2" : "=r"(value) : "r"(arg0), "r"(bias));
-    return value >> 8;
-}
+GAME_ASM_FUNCTION(Math_FixedRoundToByte,
+    "    ori     $at, $zero, 0x8000\n"
+    "    add     $v0, $a0, $at\n"
+    "    jr      $ra\n"
+    "    sra     $v0, $v0, 8\n");

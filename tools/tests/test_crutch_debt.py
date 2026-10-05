@@ -45,6 +45,47 @@ class CrutchDebtTests(unittest.TestCase):
         self.assertEqual(totals["asm_constrained_units"], 0)
         self.assertEqual(dirty, 0)
 
+    def test_game_asm_units_are_counted_apart_and_not_dirty(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            math = root / "main" / "math"
+            math.mkdir(parents=True)
+            (math / "math_fixed.c").write_text(
+                '/* ASSEMBLER: GNU */\n'
+                'GAME_ASM_FUNCTION(Math_FixedRoundToInt,\n'
+                '    "    ori $at, $zero, 0x8000\\n" "    add $v0, $a0, $at\\n"\n'
+                '    "    jr $ra\\n" "    sra $v0, $v0, 16\\n");\n')
+            vlc = root / "overlays" / "sys_reset"
+            vlc.mkdir(parents=True)
+            (vlc / "DecDCTvlc.c").write_text(
+                'PSYQ_ASM_OBJECT(LIBPRESS, VLC)\n'
+                'PSYQ_ASM_FUNCTION(DecDCTvlcSize, "    jr $ra\\n" "    nop\\n");\n')
+
+            _, totals, dirty, scopes = crutch_debt.collect_debt(root)
+
+        self.assertEqual(scopes["main"]["game_asm_units"], 1)
+        self.assertEqual(scopes["main"]["original_asm_units"], 0)
+        self.assertEqual(scopes["overlays"]["original_asm_units"], 1)
+        self.assertEqual(scopes["overlays"]["game_asm_units"], 0)
+        self.assertEqual(totals["asm_bodies"], 0)
+        self.assertEqual(totals["asm_constrained_units"], 0)
+        self.assertEqual(dirty, 0)
+
+    def test_game_asm_mixed_with_c_stays_asm_constrained(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            math = root / "main" / "math"
+            math.mkdir(parents=True)
+            (math / "mixed.c").write_text(
+                'GAME_ASM_FUNCTION(f, "    jr $ra\\n" "    nop\\n");\n'
+                'int g(void) { return 1; }\n')
+
+            _, totals, dirty, _ = crutch_debt.collect_debt(root)
+
+        self.assertEqual(totals["asm_constrained_units"], 1)
+        self.assertEqual(totals["game_asm_units"], 0)
+        self.assertEqual(dirty, 1)
+
     def test_shared_header_alias_survives_declaration_move(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp) / "src"

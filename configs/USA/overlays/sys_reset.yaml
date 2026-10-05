@@ -96,7 +96,25 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x7D4, asm, sys_reset_7CC]
+      - [0x7D4, c, DecDCTvlc]
+  - name: sys_reset_vlc_c_padding
+    type: code
+    start: 0xB68
+    vram: 0x8010C860
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0xB68, data, sys_reset_vlc_c_padding]
+  - name: sys_reset_vlc_c
+    type: code
+    start: 0xB74
+    vram: 0x8010C86C
+    align: 4
+    subalign: 4
+    bss_size: 0x0
+    subsegments:
+      - [0xB74, c, DecDCTvlc2]
       - [0xF04, data, sys_reset_tables]
   - [0x13000]
 # source slice: scanner, extended through decoder code/tables to sector 965

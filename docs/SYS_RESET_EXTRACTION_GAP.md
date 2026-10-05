@@ -81,3 +81,16 @@ report no longer treats the header and two padding symbols as functions.
 The complete report with main e7ddbb1ac contains 11,672 functions, with
 11,630 credited. Two additional credited functions come from the parallel
 Aya equipment-state C recovery (4682d1677), not from this classification.
+
+## LIBPRESS VLC objects
+
+The four functions are the PSY-Q LIBPRESS VLC object (`func_8010C4CC` =
+DecDCTvlcSize, `func_8010C4FC` = DecDCTvlc) and VLC_C object
+(`func_8010C86C` = DecDCTvlcSize2, `func_8010C89C` = DecDCTvlc2), all
+assembled from handwritten source. They are now the C units `DecDCTvlc` and
+`DecDCTvlc2`, reproduced with `PSYQ_ASM_FUNCTION` and listed in
+`configs/USA/original_asm_evidence.json`. The three zero words at
+0x8010C860..0x8010C86B became the data subsegment `sys_reset_vlc_c_padding`
+in its own code segment, so each unit range is exactly its two functions.
+The overlay still reproduces e7331867b4d1464da4d5f386d9137eaa1c98422b. The
+evidence is in ASM_AND_GTE_POLICY.md, "Game-side assembler".
