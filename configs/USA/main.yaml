@@ -162,8 +162,8 @@ segments:
       - [0x2D74, c, task/Task_RelocBlock]
       # Scene-map flush and task-node free-list setup unit.
       - [0x2DE0, c, task/Task_DrawSyncAndFlush]
-      - [0x2F00, c, task/Task_AllocNode]
-      - [0x2F74, c, task/Task_GarbageCollectNodes]
+      # Allocation and garbage collection share the TaskNode free list.
+      - [0x2F00, c, task/Task_NodePoolFlow]
       - [0x3050, c, task/Task_EvalExpr]
       # FieldActor Vec3 getter/setter are one default-profile object.
       - [0x3420, c, task/Task_EntityVec3]
@@ -849,9 +849,8 @@ segments:
       - [0x5D5A4, c, main/CD_SectorReadFlow]
       - [0x5DA4C, c, akao/Akao_ResetPositionalState]
       - [0x5DAB8, c, main/CD_SeekToTrack]
-      - [0x5E348, c, overlay/Overlay_RegisterAudioSlot]
-      - [0x5E39C, c, overlay/Overlay_GetAudioSlotByKey]
-      - [0x5E3E0, c, overlay/Overlay_FindAudioSlotIndex]
+      # Audio slot registration and the two lookups share the scene audio keys.
+      - [0x5E348, c, overlay/Overlay_AudioSlotFlow]
       - [0x5E418, c, asset/Asset_SearchByKeyType]
       - [0x5E4E4, c, asset/Asset_Find08w]
       - [0x5E538, c, akao/Akao_SetPos3D]
@@ -1351,9 +1350,8 @@ segments:
       - [0x765C0, pad]
       - [0x765C4, c, psyq/libspu/s_cb]
       - [0x765E8, pad]
-      - [0x765F4, c, akao/Spu_ReadFromSpu]
-      - [0x76650, pad]
-      - [0x76654, c, akao/Spu_UploadToSpu]
+      # SPU read/upload APIs share transfer limits, callback state, and DMA status.
+      - [0x765F4, c, akao/Spu_ReadUploadFlow]
       - [0x766B0, pad]
       - [0x766B4, c, akao/Spu_WriteRegChecked]
       - [0x76710, pad]
