@@ -80,6 +80,12 @@ typedef struct FieldActor {
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, prev) == 0x08,
                   field_actor_prev_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, next) == 0x04,
+                  field_actor_next_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, flags) == 0x98,
+                  field_actor_flags_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, task_node_lists) == 0xA0,
+                  field_actor_task_node_lists_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, anim) == 0x14,
                   field_actor_anim_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldActor, script_base) == 0x9C,
