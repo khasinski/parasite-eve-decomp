@@ -3,6 +3,10 @@
 
 #include "pe1/psyq_types.h"
 
+#define PE1_GPU_STATIC_ASSERT(expr, name) \
+    typedef char pe1_gpu_static_assert_##name[(expr) ? 1 : -1]
+#define PE1_GPU_OFFSETOF(type, member) ((unsigned int)&(((type *)0)->member))
+
 typedef struct RECT {
     short x;
     short y;
@@ -56,6 +60,28 @@ typedef struct DISPENV {
     u_char pad0;
     u_char pad1;
 } DISPENV;
+
+/* Two adjacent environment records are followed by the ordering-table and
+ * front-buffer bases used by Draw_InitBuffers and Draw_SelectBuffer. */
+typedef struct GpuDisplayBufferRecord {
+    DRAWENV draw;
+    DISPENV display;
+    int orderingTableBase;
+    int frontBufferBase;
+} GpuDisplayBufferRecord;
+
+PE1_GPU_STATIC_ASSERT(sizeof(DRAWENV) == 0x5C, drawenv_size);
+PE1_GPU_STATIC_ASSERT(sizeof(DISPENV) == 0x14, dispenv_size);
+PE1_GPU_STATIC_ASSERT(PE1_GPU_OFFSETOF(GpuDisplayBufferRecord, display) == 0x5C,
+                      gpu_display_buffer_display_offset);
+PE1_GPU_STATIC_ASSERT(PE1_GPU_OFFSETOF(GpuDisplayBufferRecord, orderingTableBase) == 0x70,
+                      gpu_display_buffer_ot_offset);
+PE1_GPU_STATIC_ASSERT(PE1_GPU_OFFSETOF(GpuDisplayBufferRecord, frontBufferBase) == 0x74,
+                      gpu_display_buffer_front_offset);
+PE1_GPU_STATIC_ASSERT(sizeof(GpuDisplayBufferRecord) == 0x78,
+                      gpu_display_buffer_record_size);
+#undef PE1_GPU_OFFSETOF
+#undef PE1_GPU_STATIC_ASSERT
 
 DISPENV *PutDispEnv(DISPENV *env);
 u_short GetClut(int x, int y);

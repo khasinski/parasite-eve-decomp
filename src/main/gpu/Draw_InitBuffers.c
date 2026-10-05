@@ -6,8 +6,6 @@
 
 #define NULL ((void *)0)
 
-#include "../../../tools/m2c/m2c_macros.h"
-
 void SetDefDispEnv();
 void SetDefDrawEnv();
 void Draw_SetColor();
@@ -41,8 +39,7 @@ extern s32 D_800A2268[];
 #define D_800A2268 (D_800A2268[0])
 extern s32 D_800A226C[];
 #define D_800A226C (D_800A226C[0])
-extern M2C_UNK g_TextCursorStackBottom[];
-#define g_TextCursorStackBottom (g_TextCursorStackBottom[0])
+extern s32 g_TextCursorStackBottom[];
 extern s32 g_OtBufferTable[];
 #define g_OtBufferTable (g_OtBufferTable[0])
 extern s32 g_RenderOtBufferBaseAlt[];
@@ -56,8 +53,12 @@ void Draw_InitBuffers(void);
 
 void Draw_InitBuffers(void) {
     u8 *bufferBase = g_DrawBufferFrontBases;
+    GpuDisplayBufferRecord *bufferRecord =
+        (GpuDisplayBufferRecord *)(bufferBase -
+                                   PE1_OFFSETOF(GpuDisplayBufferRecord,
+                                                frontBufferBase));
 
-    M2C_FIELD(bufferBase, s32 *, 0) = g_RenderFrontBufferBase;
+    bufferRecord->frontBufferBase = g_RenderFrontBufferBase;
     D_800A226C = g_RenderBackBufferBase;
     g_DrawBufferOtBases = g_OtBufferTable;
     D_800A2268 = g_RenderOtBufferBaseAlt;
