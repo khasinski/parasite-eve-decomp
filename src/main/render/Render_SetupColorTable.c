@@ -1,16 +1,15 @@
 #include "common.h"
-#include "textbox_open.h"
+#include "pe1/textbox_open.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 /* Opens the first free textbox for message `index`. A styled box takes the
  * current text rectangle; `values` (ended by -1, at most five) fill the
  * message's number slots as decimal digits.
- * WIP: score 140, 644 bytes; only two prologue constant loads are swapped.
- * Candidate debt: six pins, two empty barriers, and reuse of the page-index
- * register for slot initialization. The first barrier keeps the digit base
- * across the inner loop; the second preserves count for its final store.
- * No CPU instruction ASM. The production build still uses the original ASM. */
+ * Matching debt: five register pins and three empty barriers. The reciprocal
+ * operand preserves constant-hoist order; the digit memory operand keeps its
+ * base across the inner loop; the final count operand preserves the counter.
+ * The page-index register is reused for slot initialization. No CPU ASM. */
 void Render_SetupColorTable(int inputIndex, int inputStyle, short *inputValues)
 {
     unsigned char style = inputStyle;
@@ -34,6 +33,10 @@ void Render_SetupColorTable(int inputIndex, int inputStyle, short *inputValues)
         }
         g_TextboxEntries[i].style = style;
         g_TextboxEntries[i].control.flags &= ~0x100000;
+        {
+            int reciprocal = 0x66666667;
+            asm("" : : "r"(reciprocal), "r"(index));
+        }
         g_TextboxEntries[i].control.flags &= ~0x200000;
         if (style) {
             g_TextboxEntries[i].x = D_8009CE98.x;
@@ -60,7 +63,7 @@ void Render_SetupColorTable(int inputIndex, int inputStyle, short *inputValues)
             asm volatile("" : : "m"(g_TextboxEntries[i].numbers[slot].digits[count]) : "$6");
             value = quotient;
             while (value != 0) {
-                register unsigned short quotient asm("$6");
+                unsigned short quotient;
                 quotient = value / 10;
                 count++;
                 g_TextboxEntries[i].numbers[slot].digits[count] = value - quotient * 10;
