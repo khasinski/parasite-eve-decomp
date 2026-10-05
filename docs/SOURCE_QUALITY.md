@@ -8372,3 +8372,15 @@ explicit matching debt, along with address-based views and temporary names.
 The obsolete candidate was removed; its dimensions and initialization stores
 did not accurately describe the retail routine. A clean main rebuild followed
 by `make verify` passes, and the complete `main.exe` is byte-identical to retail.
+
+
+### Field-engine ring geometry
+
+`func_800C4E50` and `func_800C4FC4` now share
+`src/main/engine/FieldEng_RingGeometryFlow.c`. The first routine fills the
+outer ring at `points[0..count)` and the inner ring at
+`points[count..2*count)` using the named `outerRadius` and `innerRadius` fields;
+the renderer consumes those pairs and uses the shared color, depth and
+brightness fields. `FieldRingGeometry` asserts the retail offsets through its
+0x18-byte record size. Both routines use the same `--expand-div` profile, and
+the complete `0x6E8`-byte text range matches after `make verify-clean`.

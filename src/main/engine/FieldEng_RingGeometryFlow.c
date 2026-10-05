@@ -5,9 +5,42 @@
 #include "pe1/field_shaded_ring.h"
 /* MASPSX_FLAGS: --expand-div */
 
+int rsin(int angle);
+int rcos(int angle);
+
 /* Draw an annulus from paired inner/outer vertices.
  * Matching debt: seven register pins and eleven empty barriers. Matrix CPU
  * work is C; each GTE transfer/command and hazard nop is individually wrapped. */
+
+void func_800C4E50(FieldRingGeometry *data) {
+    register FieldRingGeometry *data_s3 asm("$19");
+    int angle;
+    u32 i;
+    int step;
+    char *verts;
+
+    data_s3 = data;
+    asm("" : "=r"(data_s3) : "0"(data_s3));
+    angle = 0;
+    step = 0x1000 / data_s3->count;
+    verts = (char *)data_s3->points;
+
+    for (i = 0; i < data_s3->count; i++, verts += 8) {
+        *(s16 *)(verts + 0) = (rsin(angle) * data_s3->outerRadius) >> 12;
+        *(s16 *)(verts + 2) = (rcos(angle) * data_s3->outerRadius) >> 12;
+        *(s16 *)(verts + 4) = 0;
+        angle += step;
+    }
+
+    angle = 0;
+    for (i = 0; i < data_s3->count; i++, verts += 8) {
+        *(s16 *)(verts + 0) = (rsin(angle) * data_s3->innerRadius) >> 12;
+        *(s16 *)(verts + 2) = (rcos(angle) * data_s3->innerRadius) >> 12;
+        *(s16 *)(verts + 4) = 0;
+        angle += step;
+    }
+}
+
 void func_800C4FC4(FieldShadedRing *ring, GteMatrix *placement, u8 mode)
 {
     register u32 wordA asm("$12");
