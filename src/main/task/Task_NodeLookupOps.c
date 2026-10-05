@@ -29,7 +29,7 @@ int Task_ClearTableEntry(short **arg0) {
 }
 
 int Task_GetNodeTargets18_1C(int **arg0) {
-    *arg0[0] = g_TaskNodePool->target18;
+    *arg0[0] = g_TaskNodePool->target18.coordinate;
     *arg0[1] = g_TaskNodePool->target1c;
     return 1;
 }

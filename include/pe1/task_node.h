@@ -4,6 +4,11 @@
 /* Task/scene node: elements of the free list (D_8009CDFC), the current-node
  * pointer (g_TaskNodePool @ 0x8009D300), and the per-entity bucket lists
  * (FieldActor.task_node_lists @ 0xA0). Doubly-linked via next/prev. Size 0x2C. */
+typedef union TaskNodeTarget18 {
+    int coordinate;
+    void *actor;
+} TaskNodeTarget18;
+
 typedef struct TaskNode {
     /* 0x00 */ int current;
     /* 0x04 */ int next_value;
@@ -12,7 +17,7 @@ typedef struct TaskNode {
     /* 0x0C */ int trigger_value;    /* event task value, or the contacting actor's field_sfx_id */
     /* 0x10 */ int active;              /* set 1 on alloc/yield */
     /* 0x14 */ int target14;
-    /* 0x18 */ int target18;
+    /* 0x18 */ TaskNodeTarget18 target18;
     /* 0x1C */ int target1c;
     /* 0x20 */ int field_20;
     /* 0x24 */ struct TaskNode *next;

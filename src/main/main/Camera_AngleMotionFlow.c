@@ -69,10 +69,10 @@ int Camera_TrackRelativeOffset(int **args) {
         S32_AT(init_state, 0x20) = 0;
         init_state->target14 = turn_speed;
         init_state->target1c = target_z;
-        init_state->target18 = target_x;
+        init_state->target18.coordinate = target_x;
     } else {
         turn_speed = init_state->target14;
-        target_x = init_state->target18;
+        target_x = init_state->target18.coordinate;
         target_z = init_state->target1c;
     }
 
@@ -251,12 +251,12 @@ block_11:
             g_TaskNodePool->target14 = sa3c;
         }
         sv1f = (s16) temp_v1;
-        g_TaskNodePool->target18 = sv1f;
+        g_TaskNodePool->target18.coordinate = sv1f;
     }
     p13 = g_TaskNodePool;
     ta1d = ta1c;
     temp_a1_2 = p13->target14;
-    tv0r = p13->target18;
+    tv0r = p13->target18.coordinate;
     __asm__("" : "=r"(tv0r) : "0"(tv0r));
     tv0c = tv0r;
     __asm__("" : "=r"(tv0c) : "0"(tv0c));

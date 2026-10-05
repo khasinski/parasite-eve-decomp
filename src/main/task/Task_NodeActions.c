@@ -6,6 +6,14 @@
 #include "pe1/field_actor.h"
 #include "pe1/global_slot.h"
 
+PE1_STATIC_ASSERT(sizeof(TaskNodeTarget18) == 4, task_node_target18_view_size);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TaskNodeTarget18, coordinate) == 0,
+                  task_node_target18_coordinate_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TaskNodeTarget18, actor) == 0,
+                  task_node_target18_actor_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(TaskNode, target18) == 0x18,
+                  task_node_target18_offset);
+
 extern TaskNode *g_TaskNodePool;
 extern TaskNode *g_TaskNodeFreeListHead;
 extern u16 g_TaskNodeSeqCounter;
@@ -246,14 +254,14 @@ int Task_TurnTowardPointStep(int **arg0) {
         node->flags = new_flags;
         node->target14 = x;
         node->target1c = step;
-        node->target18 = y;
+        node->target18.coordinate = y;
         goto have_args;
     }
 
 cached_args:
     {
         x = node->target14;
-        y = node->target18;
+        y = node->target18.coordinate;
         step = node->target1c;
     }
 
@@ -402,7 +410,7 @@ int Task_MoveTowardPoint(int **args) {
         }
         turn_speed = *args[2];
         D_8009D300->target14 = target_x;
-        D_8009D300->target18 = target_z;
+        D_8009D300->target18.coordinate = target_z;
         D_8009D300->target1c = turn_speed;
         D_8009D300->flags |= 0x20;
     } else {
@@ -550,12 +558,12 @@ int Camera_TrackEntityAngle(int **args) {
         }
 
         D_8009D300->target14 = target_x;
-        D_8009D300->target18 = target_z;
+        D_8009D300->target18.coordinate = target_z;
         D_8009D300->target1c = turn_speed;
         D_8009D300->flags |= 0x20;
     } else {
         target_x = D_8009D300->target14;
-        target_z = D_8009D300->target18;
+        target_z = D_8009D300->target18.coordinate;
         turn_speed = D_8009D300->target1c;
     }
 
@@ -649,11 +657,11 @@ int Camera_SnapToEntity(int **args) {
         }
 
         speed = *args[2];
-        (*(u8 **)&D_8009D300->target18) = target;
+        D_8009D300->target18.actor = target;
         D_8009D300->flags |= 0x20;
         D_8009D300->target14 = speed;
     } else {
-        target = (*(u8 **)&D_8009D300->target18);
+        target = D_8009D300->target18.actor;
         if ((U32_AT(target, 0x98) & 0x10) != 0) {
             D_8009D300->flags &= 0xFFDF;
             return 1;
@@ -761,12 +769,12 @@ int Camera_TrackEntityZoom(int **args) {
 
         D_8009D300->flags |= 0x20;
         turn_speed = *args[2];
-        (*(u8 **)&D_8009D300->target18) = target;
+        D_8009D300->target18.actor = target;
         D_8009D300->target14 = turn_speed;
         target_move_id = U16_AT(target, 0x24);
         D_8009D300->target1c = target_move_id;
     } else {
-        target = (*(u8 **)&D_8009D300->target18);
+        target = D_8009D300->target18.actor;
         turn_speed = D_8009D300->target14;
         if ((U32_AT(target, 0x98) & 0x10) != 0 ||
             U16_AT(target, 0x24) != D_8009D300->target1c) {
