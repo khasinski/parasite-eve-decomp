@@ -1,4 +1,50 @@
-# Render_SetupColorTable (main 0x27DE0, yaml `main/task3_tail`, 0x284 bytes)
+# Render_SetupColorTable — current candidate (2026-10-05)
+
+**Not matched.** The current candidate has decomp.me-compatible asm-differ
+Levenshtein score **140**, 644 bytes, and four differing instructions. It remains
+excluded from the build; `main/task3_tail` still uses the original ASM.
+The earlier source, rescored with the same configuration, had score 2260,
+648 bytes and 87 differing instruction rows. Historical `lev` figures below
+are instruction edit distances, not this weighted score.
+
+Only the two constant-load pairs at `800375F4..80037600` are reversed:
+retail loads the division reciprocal into t5 before loading the digit-table
+address into t7; the candidate loads the address first. The rest of the function,
+including registers and branch destinations, matches. There is no byte match yet.
+
+The source uses the existing shared `TextboxEntry` and `TextboxNumber` types.
+It includes the adjacent `textbox_open.h` for the rectangle and byte globals.
+The public signature remains `(int, int, short *)`, with an explicit byte-sized
+style local; no prototype patch or production-header change is required.
+The obsolete `headers.diff` has been removed.
+
+Candidate debt: **six register pins and two empty barriers**. Values use t4;
+the page index and slot initialization reuse t1; the initial number uses a3;
+the first and subsequent quotient copies use a1/a2; the digit counter uses t0.
+A memory operand plus an a2 clobber keeps one digit pointer across the inner
+loop. A final count operand prevents the count-store expression from overwriting
+t0. A scoped `int terminator = -1` allows the sentinel constant to be hoisted.
+There are no CPU instruction ASM bodies and no modified toolchain components.
+
+Verified on darwine with stock native GCC 2.7.2:
+`-O2 -G8 -funsigned-char -mips1 -mcpu=3000`, stock MASPSX 2.56 mode with
+`--dont-force-G0 --use-comm-section`, and GP `0x8009CD70`.
+Target: main offset `0x27DE0`, address `0x800375E0`, size `0x284`;
+target bytes SHA-256 `d7f8b96cf54e7f4e98ec49c081059b5e47916ce9e25a5f9e97294fd1eb58d58a`.
+The exact saved source was recompiled as `review_candidate` and scored again.
+
+Two bounded 24-worker permuter runs on darwine completed 101,921 and 95,340
+trials respectively; both have stopped. Manual pin/barrier refinement produced
+the score-140 candidate. Separating the first division from the digit store
+fixes constant order but moves five arithmetic instructions ahead of the address
+calculation (`sched1.c`, score 300). This is the second useful search seed.
+Native GCC 2.8.1 and 2.95.2 probes were worse. All scratch results are under
+`scratch/Render_SetupColorTable` and the corresponding directory in
+`/home/hasik/fx-search-archives` on darwine.
+
+## Historical research (superseded candidate and integration instructions)
+
+### Original draft (main 0x27DE0, yaml `main/task3_tail`, 0x284 bytes)
 
 Plain C candidate, 648 bytes against retail's 644 (one extra instruction).
 Apply `headers.diff` to include/pe1/textbox.h (TextboxEntry gains

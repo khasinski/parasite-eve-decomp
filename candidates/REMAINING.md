@@ -125,7 +125,7 @@ None left: CdRom_InitDsCallbacks and func_800C2D0C are plain C on this branch.
 | Binary | Function | Size | Notes |
 |---|---|---:|---|
 | scene_e20 | func_8018F028 | 1832 | candidates/overlays/scene_e20_func_8018F028: linked score 30, six register differences; C matrix loads and individual GTE instructions; remains ASM in the build |
-| main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: lev 87 (direct digit lvalues give retail digit base; the unhoisted -1 occupies a setup temp and pushes style out of a1; then values keeps the a2 preference, see README) |
+| main | Render_SetupColorTable | 644 | candidates/main/render/Render_SetupColorTable: weighted asm-differ score 140, four instructions differ (two prologue constant-load pairs swapped); 6 pins and 2 empty barriers, remains ASM |
 | main | func_800C2758 | 920 | candidates/main/engine/func_800C2758.c (old byte-offset draft, no README, diff count not recorded); OWNED BY ANOTHER AGENT |
 | main | func_800D3BC8 | 924 | candidates/main/engine/engine_800D3BC8: lev 14, prologue only (saves scheduled into load stalls; retail shape not reachable under stock sched2 rules, see README) |
 | main | func_800CEE20 | 1420 | candidates/main/engine/engine_800CEE20: 6 diffs |

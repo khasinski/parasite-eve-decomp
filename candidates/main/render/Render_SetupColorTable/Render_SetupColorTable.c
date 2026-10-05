@@ -1,17 +1,24 @@
 #include "common.h"
-#include "pe1/textbox_open.h"
+#include "textbox_open.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 /* Opens the first free textbox for message `index`. A styled box takes the
  * current text rectangle; `values` (ended by -1, at most five) fill the
- * message's number slots as decimal digits. */
-void Render_SetupColorTable(short index, unsigned char style, short *values)
+ * message's number slots as decimal digits.
+ * WIP: score 140, 644 bytes; only two prologue constant loads are swapped.
+ * Candidate debt: six pins, two empty barriers, and reuse of the page-index
+ * register for slot initialization. The first barrier keeps the digit base
+ * across the inner loop; the second preserves count for its final store.
+ * No CPU instruction ASM. The production build still uses the original ASM. */
+void Render_SetupColorTable(int inputIndex, int inputStyle, short *inputValues)
 {
+    unsigned char style = inputStyle;
+    register short *values asm("$12") = inputValues;
     unsigned char i;
+    register short index asm("$9") = inputIndex;
 
     for (i = 0; i < 4; i++) {
-        TextboxEntry *entry;
         unsigned char slot;
 
         if (g_TextboxEntries[i].state != 0)
@@ -21,7 +28,10 @@ void Render_SetupColorTable(short index, unsigned char style, short *values)
         g_TextboxEntries[i].background = 0;
         g_TextboxEntries[i].page_id = index;
         D_8009CEA0 = 0;
-        D_8009CEA4 = -1;
+        {
+            int terminator = -1;
+            D_8009CEA4 = terminator;
+        }
         g_TextboxEntries[i].style = style;
         g_TextboxEntries[i].control.flags &= ~0x100000;
         g_TextboxEntries[i].control.flags &= ~0x200000;
@@ -36,23 +46,28 @@ void Render_SetupColorTable(short index, unsigned char style, short *values)
             g_TextboxEntries[i].background = 1;
         }
 
-        for (slot = 0; slot < 5; slot++) {
-            short value = *values++;
-            unsigned short quotient;
-            unsigned char count;
+        index = 0;
+        for (slot = index; slot < 5; slot++) {
+            register unsigned short inputNumber asm("$7") = *values++;
+            short value = inputNumber;
+            register unsigned short quotient asm("$5");
+            register unsigned char count asm("$8");
 
             if (value == -1)
                 return;
             count = 0;
             g_TextboxEntries[i].numbers[slot].digits[count] = value - (quotient = value / 10) * 10;
+            asm volatile("" : : "m"(g_TextboxEntries[i].numbers[slot].digits[count]) : "$6");
             value = quotient;
             while (value != 0) {
+                register unsigned short quotient asm("$6");
                 quotient = value / 10;
                 count++;
                 g_TextboxEntries[i].numbers[slot].digits[count] = value - quotient * 10;
                 value = quotient;
             }
             g_TextboxEntries[i].numbers[slot].count = count + 1;
+            asm("" : : "r"(count));
         }
         return;
     }
