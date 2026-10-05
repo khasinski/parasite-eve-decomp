@@ -119,10 +119,8 @@ segments:
       # Both pool callbacks and their controller share the model asset and its
       # sixteen-byte effect record.
       - [0x4B74, c, RoomEffect_ThresholdModelTriple]
-      # The pool controller and its threshold callback share one typed effect TU.
-      - [0x5140, c, RoomEffect_ThresholdPair]
-      # The controller owns and fills the callback's four Vector records.
-      - [0x5488, c, RoomEffect_ThresholdBurst]
+      # Both threshold controllers share their mode context, pool and effect parameters.
+      - [0x5140, c, RoomEffect_ThresholdPairBurst]
       # Threshold palette emission and its two-pool controller share one TU.
       - [0x57E4, c, RoomEffect_ThresholdPalette]
       - [0x5B74, c, RoomEffect_TwoPassScaledLayer]
