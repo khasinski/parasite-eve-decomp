@@ -8414,3 +8414,34 @@ ordering-table depth. `FieldRingGeometry` is also the overlay
 `RoomFxEmitterParams` type, and asserts the retail offsets through its 0x18-byte
 size. Both routines use `--expand-div`; the complete `0x6E8`-byte text range
 matches after `make verify-clean`.
+
+## Text-resident data and padding outside function coverage
+
+Several report entries were never functions: data words, tables or zero
+padding that sit in code segments, which splat labelled as functions or as
+`dlabel` objects inside `.text`. objdiff counts every symbol in a code section
+as a function, so they appeared as permanently unmatched code. They are now
+typed by what they are; every binary stays byte-identical.
+
+Data moves to a `rodata` (or, for written words, `data`) subsegment placed in
+text order through `linker_section_order: .text` and a non-executable linker
+section, the mechanism of the PSY-Q templates (`.psyq_text_data`) and SDK
+signature records (`.psyq_signature`). Game data uses `.code_data`. Zero words
+that follow `jr $ra` and its delay slot become `pad`. Neither form receives
+code credit; the function total drops because these entries were never
+functions.
+
+Main executable:
+
+- `0x8003E60C`: the word `Render_IncrementCounter` increments. It is a
+  writable counter, now `D_8003E60C` in the `render/Render_Counter` data
+  subsegment; the C names it directly instead of `func_8003E60C`.
+- `0x80070E04` (0x50 bytes), `0x80081310`, `0x800835A0`: zero words after
+  `Task_GpuPackPrimColor`, `CdRom_SetRetryMode` and `MemCard_TransferWait`
+  return; now `pad`.
+- `RawData_80074354` (24 bytes) was three units: the BIOS A(13h) `setjmp`
+  veneer that `Sys_InitIntrManager` calls (real code, now `sys/setjmp.c`
+  with `PSYQ_BIOS_TRAMPOLINE`, credited as `original_asm` like the other
+  veneers), a zero object tail (`pad`), and the LIBAPI C114 signature record
+  `50730021 ad364200` whose first label `_96_remove` is at object offset 8
+  (`psyq/libapi/C114_signature`, `.psyq_signature`).
