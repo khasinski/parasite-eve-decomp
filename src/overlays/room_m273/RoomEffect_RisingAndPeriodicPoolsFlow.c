@@ -42,8 +42,7 @@ int func_80195E10(int mode, Particle *particle) {
 
 #include "room_m273_effects.h"
 
-#define ROOMLIB_POLL_RESET_POOL_CONTEXT_DECL \
-    extern RoomM273PoolContext *D_800F33E0
+#define ROOMLIB_POLL_RESET_POOL_CONTEXT_DECL
 #define ROOMLIB_POLL_RESET_POOL_EXPR D_800F33E0->pool
 #define ROOMLIB_POLL_RESET_FUNC func_80195F78
 #define ROOMLIB_POLL_RESET_CALLBACK func_80195E10

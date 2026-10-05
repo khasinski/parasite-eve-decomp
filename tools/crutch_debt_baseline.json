@@ -31,7 +31,7 @@
     "dead_code": 1,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 4326,
+    "externs_in_c": 4325,
     "field_macros": 0,
     "gotos": 667,
     "include_asm": 0,
