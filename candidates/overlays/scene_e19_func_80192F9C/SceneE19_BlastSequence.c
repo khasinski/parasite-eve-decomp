@@ -68,7 +68,6 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
     int value;
     s16 height;
     s16 timer;
-    s16 next;
 
     flareRotation = D_8018F1D4;
     glowColor = D_8018F1DC;
@@ -106,7 +105,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (blast->timer < 0x10) {
                 return 0;
             }
-            next = 1;
+            blast->state = 1;
+            blast->timer = 0;
             break;
         case 1:
             timer = blast->timer + 1;
@@ -114,7 +114,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (timer < 0x10) {
                 return 0;
             }
-            next = 2;
+            blast->state = 2;
+            blast->timer = 0;
             break;
         case 2:
             timer = blast->timer + 1;
@@ -122,7 +123,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (timer < 0x10) {
                 return 0;
             }
-            next = 3;
+            blast->state = 3;
+            blast->timer = 0;
             break;
         case 3:
             blast->timer++;
@@ -157,7 +159,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             if (blast->timer < 0x20) {
                 return 0;
             }
-            next = 4;
+            blast->state = 4;
+            blast->timer = 0;
             break;
         case 4:
             blast->timer++;
@@ -181,30 +184,25 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             blast->state = 4;
             blast->timer = 0;
             return 1;
-        default:
-            return 0;
         }
-        blast->state = next;
-        blast->timer = 0;
-        return 0;
+        break;
     case 2:
         center.x = blast->position.x;
         center.y = blast->position.y;
         center.z = blast->position.z;
         LOAD_VIEW_MATRIX();
-        D_800F3372 = 0;
+        D_800F3368.parameter0A = 0;
         D_800F3368.depth = 4;
         switch (blast->state) {
         case 0:
             intensity = func_80077CF4(blast->timer << 6) / 32;
             D_800F3368.parameter00 = 0x40;
-            D_800F336A = 4;
-            D_800F3376 = 0x40;
-            D_800F3378 = 0x40;
-            page = D_800E2850[D_800E11EA[8]];
-            D_800F336C = 3;
-            D_800F336E = 1;
-            D_800F3370 = page;
+            D_800F3368.parameter02 = 4;
+            D_800F3368.extent_x = 0x40;
+            D_800F3368.extent_y = 0x40;
+            D_800F3368.tpage = D_800E2850[D_800E11FA];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 1;
             if (D_800E27EC & 1) {
                 intensity = intensity * 2 / 3;
             }
@@ -222,13 +220,12 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             phase = blast->timer << 6;
             intensity = 0x80;
             D_800F3368.parameter00 = 0x40;
-            D_800F336A = 4;
-            D_800F3376 = 0x40;
-            D_800F3378 = 0x40;
-            page = D_800E2850[D_800E11EA[8]];
-            D_800F336C = 3;
-            D_800F336E = 1;
-            D_800F3370 = page;
+            D_800F3368.parameter02 = 4;
+            D_800F3368.extent_x = 0x40;
+            D_800F3368.extent_y = 0x40;
+            D_800F3368.tpage = D_800E2850[D_800E11FA];
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 1;
             if (D_800E27EC & 1) {
                 intensity = 0x55;
             }

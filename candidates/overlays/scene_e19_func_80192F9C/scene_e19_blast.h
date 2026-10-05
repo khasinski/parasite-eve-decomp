@@ -16,7 +16,7 @@ typedef struct SceneE19Blast {
 } SceneE19Blast;
 
 typedef struct SceneE19BlastSpark {
-    /* 0x00 */ s16 x, y, z;
+    /* 0x00 */ u16 x, y, z;
     /* 0x06 */ s16 pad;
     /* 0x08 */ s16 state;
     /* 0x0A */ s16 timer;
@@ -53,8 +53,8 @@ extern SceneE19BlastPlayer **D_8009D254;
 extern SceneE19BlastScript *D_800E2368;
 extern u16 D_800942EC;
 extern u16 D_800E11EA[];
-extern u16 D_800E120A;
-extern s16 D_800F336A, D_800F336E, D_800F3372;
+extern u16 D_800E120A, D_800E11FA;
+extern s16 D_800F336A, D_800F336E, D_800F3372, D_800F3374;
 extern u16 D_800F3370, D_800F3376, D_800F3378;
 extern s32 D_8019B668;
 extern void *D_8019B680, *D_8019B684, *D_8019B688, *D_8019B68C, *D_8019B690;
