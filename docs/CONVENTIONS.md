@@ -40,9 +40,9 @@ canonical prefix when a file is touched. SDK-internal names that look similar
 (`CD_cw`, `CD_init`, `GPU_cw`, `_spu_init`) are PsyQ names and keep their
 spelling.
 
-Placeholder names are migration state, not style: `func_`/`D_` symbols,
-`misc19.c`, `task5.c`, `cd_rom3.c`, `gap_*` and `*Flow.c` files that only
-describe their position. `make organization-check` ratchets their count; it
+Placeholder names are migration state, not style: `func_`/`D_` symbols and
+files such as `misc19.c`, `task5.c`, `cd_rom3.c` or `gap_*` that describe
+position rather than responsibility. `make organization-check` ratchets their count; it
 may go down, never up. A file name that ends in an address
 (`RoomEffect_JointBeacon_8018FDC4.c`) is allowed only to tell apart several
 instances of the same template inside one overlay.
@@ -112,7 +112,7 @@ name is the configured overlay name.
 
 - **Rooms:** `room_mNNN` where `NNN` is the map number used by
   `Scene_LoadRoom`. Room overlays keep their numbers and gain a place-name
-  suffix: `room_m005_carnegie_hall`. The suffix is lower snake case from the
+  suffix, for example `room_m005_carnegie_hall`. The suffix is lower snake case from the
   room's text bank (the `text-bank:` comment in its config). Renaming is a
   single change across config, `src/overlays`, symbol file and CI. The
   current `+1`/`+2` tails (`room_m126+1`) record an extraction delta, not an
@@ -120,7 +120,10 @@ name is the configured overlay name.
 - **Scene sets:** `scene_eNN`, entry `NN` of the special-scene table at
   `0x80094048`. They get a suffix the same way once their scenes are named.
 - **Shared overlays:** `fx_common`, `fx_field`, `menu_memcard`,
-  `boot_display`, `sys_reset`, `render_clip`: named by responsibility.
+  `boot_display`: named by responsibility. Two names mislead and should be
+  replaced in a config rename: `sys_reset` holds MDEC diagnostics and the
+  PsyQ LIBPRESS VLC decoder (for example `mdec_vlc`), and `render_clip` is a
+  data-only duplicate of one `fx_common` sector.
 - **Shared overlay code:** `src/overlays/room_lib/` holds templates that many
   room and scene overlays instantiate (`*.inc` bodies, `*_family.h`
   declarations, `room_lib.h`). Each overlay still owns its instantiation file;
@@ -163,6 +166,7 @@ name is the configured overlay name.
 - Register pins and empty barriers are compiler constraints, not
   instructions. They are allowed, counted by `make debt`, and removed whenever
   the match survives without them (`make drop-pins`, `make drop-barriers`).
+  The `PE1_NOP*` scheduling slots (`psyq_nop.h`) are counted the same way.
 - The compiler and MASPSX are stock. Per-file options use the markers
   `/* CC1_FLAGS: ... */`, `/* MASPSX_FLAGS: ... */`,
   `/* ASPSX_VERSION: ... */`, `/* GCC_VERSION: 2.8.1 */` and
