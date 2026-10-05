@@ -118,13 +118,13 @@ void Menu_DrawBlendColorChannelListUnk(s32 arg0) {
 #include "../../../tools/m2c/m2c_macros.h"
 s32 MenuWidget_GridCellIndex();
 void MenuWidget_SetCurrentNode(void *node);
-M2C_UNK Menu_PlayConfirmSound();
-M2C_UNK Menu_PlayCancelSound();
-M2C_UNK Menu_PlayMoveSound();
+void Menu_PlayConfirmSound(void);
+void Menu_PlayCancelSound(void);
+void Menu_PlayMoveSound(void);
 s32 Draw_GetBlendColor();
 M2C_UNK Draw_BlendColor();
  s32 MenuWidget_GetChild();
-M2C_UNK MenuWidget_DestroyNode();
+void MenuWidget_DestroyNode(void *node);
 extern s32 D_8009CFE0;
 extern s32 g_SavedDrawBlendColor[];
 #define g_SavedDrawBlendColor (g_SavedDrawBlendColor[0])
@@ -252,4 +252,48 @@ void Menu_DrawScreenAdjustPanel(void) {
     Draw_AllocSprite(0x7B);
     Draw_OffsetCursor(0, 0xBE);
     Draw_EmitGlyph(0x7B, 2);
+}
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: -G8 */
+
+extern int D_8009CFE4;
+
+void Draw_SetBaseOffsetPosition(int x, int y);
+int Draw_GetBaseY(void);
+void Menu_PlayMoveSound(void);
+void Menu_PlayConfirmSound(void);
+void Menu_PlayCancelSound(void);
+void MenuWidget_DestroyNode(void *node);
+
+int func_8004B650(void *node, int input) {
+    int zero_arg;
+
+    if ((input & 0x1000) != 0) {
+        zero_arg = 0;
+        input = -1;
+        goto move;
+    }
+
+    if ((input & 0x4000) != 0) {
+        zero_arg = 0;
+        input = 1;
+move:
+        Draw_SetBaseOffsetPosition(zero_arg, input);
+        Menu_PlayMoveSound();
+        return 1;
+    }
+
+    if ((input & 0x10000) != 0) {
+        MenuWidget_DestroyNode(node);
+        Menu_PlayConfirmSound();
+        return 1;
+    }
+
+    if ((input & 0x40) != 0) {
+        Draw_SetBaseOffsetPosition(0, D_8009CFE4 - Draw_GetBaseY());
+        MenuWidget_DestroyNode(node);
+        Menu_PlayCancelSound();
+    }
+
+    return 1;
 }

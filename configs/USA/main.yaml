@@ -491,7 +491,6 @@ segments:
       - [0x39B54, c, menu/Menu_InventoryBonusPointFlow]
       - [0x3B59C, c, menu/Menu_CreateMainMenuView]
       - [0x3B93C, c, menu/Menu_VisualSettingsFlow]
-      - [0x3BE50, c, aya/func_8004B650]
       - [0x3BF0C, c, aya/Aya_SetTotalExp]
       - [0x3C10C, c, menu/Menu_CreateExpReviewView]
       - [0x3C170, c, menu/Menu_DrawExpReviewPanel]
