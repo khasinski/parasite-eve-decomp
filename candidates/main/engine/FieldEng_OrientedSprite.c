@@ -6,7 +6,7 @@
  * store at 800C36A0 is one instruction early. Eight linked diff rows total.
  * Current candidate debt: fourteen pins and fourteen empty barriers.
  * Native stock GCC 2.7.2 and MASPSX on darwine; no toolchain modifications.
- * 528 targeted source/allocation variants were tested before retaining the
+ * 544 targeted source/allocation variants were tested before retaining the
  * original readable arithmetic. A 90-second permuter run completed 24,003
  * iterations (75 rejected compilations) without improving score 90; stopped.
  * Research: scratch/oriented_sprite and /home/hasik/fx-search-archives/
