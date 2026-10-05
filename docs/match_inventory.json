@@ -1,0 +1,376 @@
+{
+  "report_commit": "94715a2c384291d49f6a3dcbfe02eaf6663ca12a",
+  "report_run": 37306501681,
+  "audit_source_commit": "73a4f03a297aff5601ae3546e145414cdd4d2dcb",
+  "metric": "asm-differ weighted levenshtein; not a byte distance",
+  "scope": "Inventory of report exclusions, not a claim that every entry is a real unmatched function. Null score means unmeasured.",
+  "reported_uncredited_functions": 44,
+  "verified_excluded_matches": 7,
+  "entries": [
+    {
+      "unit": "main/boot/Boot_MainLoop",
+      "symbol": "main",
+      "reported_size": 748,
+      "source": "src/main/boot/Boot_MainLoop.c",
+      "status": "matched_excluded_by_asm_policy",
+      "levenshtein_score": 0,
+      "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
+    },
+    {
+      "unit": "main/battle/Battle_AyaEquipStateFlow",
+      "symbol": "Battle_SaveAyaState",
+      "reported_size": 276,
+      "source": "src/main/battle/Battle_AyaEquipStateFlow.c",
+      "status": "matched_excluded_by_asm_policy",
+      "levenshtein_score": 0,
+      "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
+    },
+    {
+      "unit": "main/battle/Battle_AyaEquipStateFlow",
+      "symbol": "Battle_InitEquipLists",
+      "reported_size": 108,
+      "source": "src/main/battle/Battle_AyaEquipStateFlow.c",
+      "status": "matched_excluded_by_asm_policy",
+      "levenshtein_score": 0,
+      "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
+    },
+    {
+      "unit": "main/math/Math_FixedMul",
+      "symbol": "Math_FixedMul",
+      "reported_size": 28,
+      "source": "src/main/math/Math_FixedMul.c",
+      "status": "matched_excluded_by_asm_policy",
+      "levenshtein_score": 0,
+      "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
+    },
+    {
+      "unit": "main/math/math_fixed",
+      "symbol": "Math_FixedRoundToInt",
+      "reported_size": 16,
+      "source": "src/main/math/math_fixed.c",
+      "status": "matched_excluded_by_asm_policy",
+      "levenshtein_score": 0,
+      "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
+    },
+    {
+      "unit": "main/math/math_fixed",
+      "symbol": "Math_FixedRoundToByte",
+      "reported_size": 16,
+      "source": "src/main/math/math_fixed.c",
+      "status": "matched_excluded_by_asm_policy",
+      "levenshtein_score": 0,
+      "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
+    },
+    {
+      "unit": "main/main/D_8003E60C",
+      "symbol": "func_8003E60C",
+      "reported_size": 4,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "main/task/Task_GpuPackPrimColor",
+      "symbol": "Task_GpuPackPrimColor",
+      "reported_size": 52,
+      "source": null,
+      "status": "unimplemented_custom_abi",
+      "levenshtein_score": null,
+      "evidence": "Original saves ra in v1 across call and uses trapping add/sub; C candidate exists, current score not yet remeasured."
+    },
+    {
+      "unit": "main/main/gap_task_Task_GpuPackPrimColor_tail_61604",
+      "symbol": "func_80070E04",
+      "reported_size": 4,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "main/math/Math_SqrtApprox3",
+      "symbol": "Math_SqrtApprox3",
+      "reported_size": 136,
+      "source": "src/main/math/Math_SqrtApprox3.c",
+      "status": "matched_excluded_by_asm_policy",
+      "levenshtein_score": 0,
+      "evidence": "Fresh linked asm-differ run on darwine against retail instruction target; no source changes required."
+    },
+    {
+      "unit": "main/sys/RawData_80074354",
+      "symbol": "RawData_80074354",
+      "reported_size": 24,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "main/main/gap_save_save4_tail_71B10",
+      "symbol": "func_80081310",
+      "reported_size": 4,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "main/main/gap_memcard_MemCard_WaitStatusBit2_tail_73DA0",
+      "symbol": "func_800835A0",
+      "reported_size": 4,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/boot_display/boot_display_2648",
+      "symbol": "D_80125A48",
+      "reported_size": 214,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/boot_display/boot_display_2648",
+      "symbol": "D_80125B1E",
+      "reported_size": 104,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/boot_display/boot_display_2648",
+      "symbol": "D_80125B86",
+      "reported_size": 8,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/boot_display/boot_display_2648",
+      "symbol": "D_80125B8E",
+      "reported_size": 114,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/fx_field/fx_field_header",
+      "symbol": "func_8018EFE8",
+      "reported_size": 28,
+      "source": "src/overlays/fx_field/fx_field_header.c",
+      "status": "text_data_not_function",
+      "levenshtein_score": null,
+      "evidence": "Source defines text-section data without C function definitions; report labels require audit."
+    },
+    {
+      "unit": "overlays/fx_field/fx_field_data",
+      "symbol": "func_8018FC78",
+      "reported_size": 880,
+      "source": "src/overlays/fx_field/fx_field_data.c",
+      "status": "text_data_not_function",
+      "levenshtein_score": null,
+      "evidence": "Source defines text-section data without C function definitions; report labels require audit."
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_header",
+      "symbol": "D_80120D00",
+      "reported_size": 772,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801223F4",
+      "reported_size": 1,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801223F5",
+      "reported_size": 1,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801223F6",
+      "reported_size": 1260,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228E2",
+      "reported_size": 4,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228E6",
+      "reported_size": 4,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228EA",
+      "reported_size": 8,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228F2",
+      "reported_size": 4,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228F6",
+      "reported_size": 4,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0016F4",
+      "symbol": "D_801228FA",
+      "reported_size": 1126,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data_0063A0",
+      "symbol": "D_8018EB90",
+      "reported_size": 1892,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/menu_memcard/menu_memcard_data",
+      "symbol": "D_8012B7A8",
+      "reported_size": 1436,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/render_clip/render_clip_header",
+      "symbol": "func_80170000",
+      "reported_size": 944,
+      "source": null,
+      "status": "duplicate_fragment_requires_report_audit",
+      "levenshtein_score": null,
+      "evidence": "Entire render_clip.bin is the 0x8800:0x9000 slice of fx_common.bin; first entry begins inside FxCommon_EffectInitializationFlow, second is a truncated FxCommon_DrawPolyResource."
+    },
+    {
+      "unit": "overlays/render_clip/func_render_clip_0003B0",
+      "symbol": "func_801703B0",
+      "reported_size": 1104,
+      "source": null,
+      "status": "duplicate_fragment_requires_report_audit",
+      "levenshtein_score": null,
+      "evidence": "Entire render_clip.bin is the 0x8800:0x9000 slice of fx_common.bin; first entry begins inside FxCommon_EffectInitializationFlow, second is a truncated FxCommon_DrawPolyResource."
+    },
+    {
+      "unit": "overlays/scene_e14/scene_e14",
+      "symbol": "D_8018EFE8",
+      "reported_size": 36,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/scene_e19_2/scene_pre",
+      "symbol": "func_8018EFF0",
+      "reported_size": 1204,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/scene_e20/func_8018F028",
+      "symbol": "func_8018F028",
+      "reported_size": 1832,
+      "source": null,
+      "status": "candidate_nonzero",
+      "levenshtein_score": 30,
+      "evidence": "candidates/overlays/scene_e20_func_8018F028/README.md; retained full-C candidate, not integrated."
+    },
+    {
+      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
+      "symbol": "D_801990C0",
+      "reported_size": 250,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
+      "symbol": "D_801991BA",
+      "reported_size": 820,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
+      "symbol": "D_801994EE",
+      "reported_size": 8,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/scene_e22/func_scene_e22_00A0D8",
+      "symbol": "D_801994F6",
+      "reported_size": 754,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/sys_reset/sys_reset",
+      "symbol": "D_8010BCF8",
+      "reported_size": 84,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/sys_reset/sys_reset_decoder_padding",
+      "symbol": "func_8010BE30",
+      "reported_size": 4,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/sys_reset/sys_reset_7CC",
+      "symbol": "func_8010C4C4",
+      "reported_size": 4,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    },
+    {
+      "unit": "overlays/sys_reset/sys_reset_7CC",
+      "symbol": "func_8010C4CC",
+      "reported_size": 44,
+      "source": null,
+      "status": "needs_classification",
+      "levenshtein_score": null
+    }
+  ]
+}

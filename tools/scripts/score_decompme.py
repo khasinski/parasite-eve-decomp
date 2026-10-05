@@ -6,6 +6,7 @@ Configuration: decompme/decomp.me backend/coreapp/diff_wrapper.py.
 """
 import argparse
 import json
+import re
 from pathlib import Path
 import subprocess
 
@@ -32,6 +33,9 @@ def read_lines(path, config, objdump, symbol=None):
     if symbol:
         command.append("--disassemble=" + symbol)
     dump = subprocess.check_output([*command, str(path)], text=True)
+    # GNU objdump omits indentation for full-width linked MIPS addresses.
+    # asm-differ expects the instruction-line indentation used for .o files.
+    dump = re.sub(r"(?m)^([0-9a-fA-F]+:)", r" \1", dump)
     dump = asm_differ.preprocess_objdump_out(None, path.read_bytes(), dump, config)
     return asm_differ.process(dump, config)
 
