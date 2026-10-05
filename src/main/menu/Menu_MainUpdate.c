@@ -45,7 +45,7 @@ extern s32 D_8009D200;
 extern void *D_8009D20C;
 extern u8 D_8009D234[];
 extern s8 D_8009D244[];
-extern void *D_8009D254;
+extern BattleEntity *D_8009D254;
 extern Combatant *D_8009D278;
 extern s32 D_8009D28C;
 extern s32 D_8009D2E8;
@@ -222,7 +222,7 @@ void Menu_MainUpdate(s32 arg0) {
             }
         }
         if ((arg0 & 0xFF) == 1) {
-            temp_a0 = M2C_FIELD(D_8009D254, u8 *, 0xE);
+            temp_a0 = D_8009D254->actionMode;
             if ((temp_a0 == M2C_FIELD(D_8009D278, u8 *, 0x12)) || (temp_a0 == 5)) {
                 if (!(M2C_FIELD(M2C_FIELD(D_8009D278, void **, 0x6C), s32 *, 4) & 0x4000) || !(M2C_FIELD(D_8009D278, u32 *, 0x4C) & 0x4000)) {
                     goto block_clear_bit0;
@@ -236,7 +236,7 @@ block_clear_bit0:
                 goto block_after_d2e8;
             }
 block_range_check:
-            if ((u8) M2C_FIELD(D_8009D254, u8 *, 0xE) >= 0xEU) {
+            if ((u8) D_8009D254->actionMode >= 0xEU) {
                 D_8009D2E8 &= ~1;
             } else {
                 goto block_27;
@@ -355,7 +355,7 @@ block_after_d2e8:
 block_40:
             *(&D_800B0172[0] + ((var_v0_3 * 9) * 8)) = var_a0;
         }
-        if (M2C_FIELD(D_8009D254, u8 *, 0xE) != 0x12) {
+        if (D_8009D254->actionMode != 0x12) {
             Entity_SetActionMode(D_8009D254, 0x12U, var_a2);
         }
         if (D_8009CE30 == 0x5A) {
@@ -396,9 +396,9 @@ block_40:
             D_800B01BA[0] = 1;
         } else {
             D_8009CE30 += 1;
-            M2C_FIELD(D_8009D254, s32 *, 0x68) = 0;
-            M2C_FIELD(D_8009D254, s32 *, 0x6C) = 0;
-            M2C_FIELD(D_8009D254, s32 *, 0x70) = 0;
+            D_8009D254->motionX = 0;
+            D_8009D254->motionY = 0;
+            D_8009D254->motionZ = 0;
         }
     }
     if (!(D_8009D1A0 & 0x100)) {
@@ -570,9 +570,9 @@ block_61:
                                     }
                                     *temp_s2 |= 0x10000000;
                                     Entity_ResolveDropTable(var_s0);
-                                    M2C_FIELD(D_8009D254, s32 *, 0x68) = 0;
-                                    M2C_FIELD(D_8009D254, s32 *, 0x6C) = 0;
-                                    M2C_FIELD(D_8009D254, s32 *, 0x70) = 0;
+                                    D_8009D254->motionX = 0;
+                                    D_8009D254->motionY = 0;
+                                    D_8009D254->motionZ = 0;
                                     {
                                     u16 v9c;
                                     s32 vflags;
@@ -673,10 +673,10 @@ block_61:
                                     register s32 clear_flags;
 
                                     clear_flags = 0xFFF3FFFF;
-                                    M2C_FIELD(D_8009D254, s32 *, 0x68) = 0;
-                                    M2C_FIELD(D_8009D254, s32 *, 0x6C) = 0;
-                                    M2C_FIELD(D_8009D254, s32 *, 0x70) = 0;
-                                    M2C_FIELD(D_8009D254, s32 *, 0x98) = (M2C_FIELD(D_8009D254, s32 *, 0x98) & clear_flags);
+                                    D_8009D254->motionX = 0;
+                                    D_8009D254->motionY = 0;
+                                    D_8009D254->motionZ = 0;
+                                    D_8009D254->entityFlags = D_8009D254->entityFlags & clear_flags;
                                     M2C_FIELD(D_8009D278, s16 *, 0x4A) = Entity_ApplyHitAndSetAnim(var_s0);
                                     }
                                     M2C_FIELD(D_8009D278, u8 *, 0x49) = (u8) M2C_FIELD(temp_v1_5, u8 *, 0x93);
@@ -729,14 +729,14 @@ block_61:
         }
         *temp_s2 &= ~0x4000;
         if (M2C_FIELD(D_8009D278, s8 *, 0x48) != 0) {
-            temp_a0_3 = M2C_FIELD(D_8009D254, s32 *, 0x98);
+            temp_a0_3 = D_8009D254->entityFlags;
             if ((temp_a0_3 & 0xC0000) || (M2C_FIELD(D_8009D278, u8 *, 0x49) == 0)) {
-                M2C_FIELD(D_8009D254, s32 *, 0x98) = (temp_a0_3 & 0xFFF3FFFF);
+                D_8009D254->entityFlags = temp_a0_3 & 0xFFF3FFFF;
                 M2C_FIELD(D_8009D278, s8 *, 0x48) = 0;
                 M2C_FIELD(D_8009D278, u8 *, 0x49) = 0U;
             } else {
-                M2C_FIELD(D_8009D254, s32 *, 0x28) = (M2C_FIELD(D_8009D254, s32 *, 0x40) + (M2C_FIELD(D_8009D278, u8 *, 0x49) * rsin(M2C_FIELD(D_8009D278, s16 *, 0x4A), D_8009D254) * 0x10));
-                M2C_FIELD(D_8009D254, s32 *, 0x30) = (M2C_FIELD(D_8009D254, s32 *, 0x48) + (M2C_FIELD(D_8009D278, u8 *, 0x49) * rcos(M2C_FIELD(D_8009D278, s16 *, 0x4A), D_8009D278) * 0x10));
+                D_8009D254->posX.fixed = D_8009D254->baseX + (M2C_FIELD(D_8009D278, u8 *, 0x49) * rsin(M2C_FIELD(D_8009D278, s16 *, 0x4A), D_8009D254) * 0x10);
+                D_8009D254->posZ.fixed = D_8009D254->baseZ + (M2C_FIELD(D_8009D278, u8 *, 0x49) * rcos(M2C_FIELD(D_8009D278, s16 *, 0x4A), D_8009D278) * 0x10);
                 temp_v1_12 = M2C_FIELD(D_8009D278, u8 *, 0x49);
                 M2C_FIELD(D_8009D278, u8 *, 0x49) = (u8) (temp_v1_12 - (temp_v1_12 / (s8) M2C_FIELD(D_8009D278, s8 *, 0x48)));
                 M2C_FIELD(D_8009D278, s8 *, 0x48) = (s8) ((u8) M2C_FIELD(D_8009D278, s8 *, 0x48) - 1);
