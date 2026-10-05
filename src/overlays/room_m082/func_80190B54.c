@@ -1,20 +1,15 @@
-typedef short s16;
-
-typedef struct RoomGlobalState {
-    char pad0[0x2A];
-    s16 h2A;
-} RoomGlobalState;
+#include "../room_lib/RoomSharedGlobalState.h"
 
 extern char *func_800C2B50(void);
 extern int func_800C5EB0(void *obj, s16 *values, int *result);
-extern RoomGlobalState *D_8009D254;
+extern RoomSharedGlobalState *D_8009D254;
 
 void func_80190B54(void *arg0, char *state, char *sys) {
     char *statep = state;
     char *sysp = sys;
     int *resultp;
     char *root;
-    RoomGlobalState *global;
+    RoomSharedGlobalState *global;
     int value0;
     int value1;
     int value2;
@@ -25,11 +20,11 @@ void func_80190B54(void *arg0, char *state, char *sys) {
     root = func_800C2B50();
     resultp = &result;
     global = D_8009D254;
-    value0 = global->h2A;
+    value0 = global->field2A;
     values[0] = value0;
-    value1 = global->h2A;
+    value1 = global->field2A;
     values[1] = value1;
-    value2 = global->h2A;
+    value2 = global->field2A;
     values[2] = value2;
 
     func_800C5EB0(sysp + 0xAC, values, resultp);
