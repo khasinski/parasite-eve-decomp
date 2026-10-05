@@ -79,6 +79,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s16 temp_v1_3;
     s16 temp_v1_4;
     s16 var_v0;
+    register s32 phaseTimer asm("$4");
     int spread;
     register s32 ringRadius asm("$17");
     u16 *paletteTable;
@@ -356,8 +357,11 @@ block_31:
             sp70.z = (s16) (u16) sp30.z;
             sp70.y = (s16) D_800942EC;
             func_800CEE20(&sp70, (GteRotation *) &sp78, 0x2000, 0x2000, 0, (u16)(func_80077AA4(0, D_800E120A + 2)), 1, intensity, NULL);
-            var_v1 = func_80077CF4(phase);
-            intensity = var_v1 / 32;
+            {
+                s32 sineResult;
+                sineResult = func_80077CF4(phase);
+                intensity = sineResult / 32;
+            }
             if (D_800E27EC & 1) {
                 intensity = (intensity * 2) / 3;
             }
@@ -424,20 +428,21 @@ block_31:
             func_800D0728(&sp30, 0x7D0, 0xB54, 0x18, &sp40, radialScale, radialScale, NULL, &sp50, intensity, 1);
             break;
         case 2:                                     /* switch 2 */
-            phase = effect->timer << 6;
             /* Retail retains the selector and parameter bases across calls. */
             pageSelector = &D_800E11EA[8];
             asm("" : "=r"(pageSelector) : "0"(pageSelector));
             intensity = 0x80;
             renderParams = &D_800F3368;
             asm("" : "=r"(renderParams) : "0"(renderParams));
+            phaseTimer = effect->timer;
+            phase = phaseTimer << 6;
             renderParams->parameter00 = 0x40;
             D_800F336A = 4;
             D_800F3376 = 0x40;
             D_800F3378 = 0x40;
             D_800F3370 = D_800E2850[pageSelector[0]];
-            D_800F336C = 3;
-            D_800F336E = 1;
+            D_800F3368.palette = 3;
+            D_800F3368.parameter06 = 1;
             if (D_800E27EC & 1) {
                 intensity = 0x55;
             }

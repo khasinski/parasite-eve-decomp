@@ -1,9 +1,9 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **1207**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **907**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Nine register pins and eleven empty barriers are recorded below. There is no CPU ASM.
+Ten register pins and eleven empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
@@ -809,7 +809,10 @@ are unchanged. This was selected from 216 setup-prefix order/guard variants.
 Seven model setup blocks now write the flag via
 `D_800F3368.parameter06`, and one of those also writes `D_800F3368.tpage`,
 instead of using the equivalent standalone globals. These existing structure
-members retain the original halfword addresses and types. Testing 77 per-block
+members retain the original addresses and halfword widths. The parameter06
+member is u16 whereas the standalone D_800F336E declaration is s16; these
+changed stores write zero, whose representation is identical in both types.
+Testing 77 per-block
 field subsets and all 128 combinations of the improving subsets yielded
 **2141**. This changes compiler scheduling, but does not yet reproduce every
 retail store order. Both complete functions still contain 2368 instructions;
@@ -855,3 +858,30 @@ The preceding 176 per-block combinations of palette read/write views and
 flag/page field views did not improve 2141. Artifacts on darwine:
 palette_views_2141/, field_orders_2141/, combine_orders_2141/,
 early_fields_orders_1557/, combine_early_1557/ and base_1207.c.
+
+
+## Separate sine result and third-state parameter fields (907)
+
+The first draw-state sine result now has its own s32 local. This reproduces
+the retail move/branch/delay slot before division by 32; alone it scored 1227
+versus 1207. Combining that local with the initial third-state palette and
+flag writes through D_800F3368 fixes the other displaced load-delay slot and
+scores **917**. The prepared 128 combinations were run after SSH access was
+restored. These changes add no pins, barriers or helpers. The flag write is
+one, with the same representation in the standalone s16 and member u16.
+
+A subsequent 144-variant timer-local probe found **907** by loading the timer
+into a separate s32 local pinned to a0 before forming phase. It restores the
+two retail register operands without adding an instruction or an empty
+constraint. This introduces one pin, phaseTimer/a0 ($4); current debt is ten
+pins, eleven empty barriers, and two inline conversion helpers. Ordinary
+s32/s16/register locals did not produce this additional improvement.
+
+Repeating the 216 prefix-order and 120 selector/phase-position variants on
+the 917 source yielded no improvement. Both target and retained candidate
+still contain 2368 instructions. Stock GCC 2.7.2 and maspsx, full-function
+weighted Levenshtein scoring, and all compilations on darwine remain in use.
+The candidate is not integrated or matching.
+
+Remote artifacts: pending_state2_fields_1207/, state2_prefix_917/,
+state2_selector_917/, state2_timer_917/, base_917.c and base_907.c.
