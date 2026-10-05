@@ -2230,3 +2230,25 @@ first column address. A 190-trial single/pair removal pass removed both
 of those pins and four empty constraints; no further single or paired
 removal of the remaining 13 added bindings retained the match. Existing
 scratchpad accesses, pins and barriers remain matching debt.
+
+### Headerless-object bone transforms (`Render_SetupBoneTransforms`)
+
+The remaining rotation/translation loads, strided matrix-column transfers,
+short-vector stores and packed long-vector input are now expressed in C.
+Each GTE transfer and command remains wrapped individually, retaining the
+allowed hazard NOPs. Stock native GCC 2.7.2 and stock MASPSX 2.56 reproduce
+all 748 retail bytes at `0x8003E188` with linked score 0. No new compiler flags
+or tool modifications are required.
+
+Added matching debt: the five transfer-helper definitions each pin three
+words to `t4`–`t6`; the packed vector uses `t4`/`t5`; the input matrix pointer
+uses `a2`, and the scratchpad matrix pointer uses `t0`. Eight empty
+constraints preserve addresses and memory ordering. The lexical debt
+counter groups multiword declarations, recording eight added pin entries
+and eight barriers. The earlier three `t1` scratch-output pins remain.
+
+All 378 single/pair removal trials of the 27 added individual pin/constraint
+bindings failed to preserve the exact match. A separate equal-size solution
+pins the source entity to `a3` instead of pinning the scratch pointer to `t0`;
+the committed form retains the explicit scratch pointer. Physical scratchpad
+addresses and pointer casts remain cleanup debt.
