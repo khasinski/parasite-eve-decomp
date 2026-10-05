@@ -245,6 +245,25 @@ intensity follows a cosine of the timer. Each 1424-byte instance matches
 retail with no pins or barriers, and both linked overlay SHA-1 hashes are
 unchanged.
 
+### Boot main loop
+
+`Boot_MainLoop`, the entry function `main`, is plain C except for one
+narrow stack-switch macro, `BOOT_CALL_ON_SCRATCHPAD_STACK`. It holds the six
+instructions that move the stack pointer to the scratchpad around the call
+to `func_8019234C` and back, which C cannot express. The macro is allowed
+only for this function through the evidence manifest, and the
+`stack_switch_macros` column of the crutch ratchet counts its use. The
+function has no register pins. Game state byte 0xF5 is now the named
+`display_list_modes` field. This leaves the repository with no
+asm-constrained translation units.
+
+### Text-resident data
+
+The earlier "text-resident data and padding" section above lists the entries
+that stopped being counted as functions. One of them, the LIBAPI `setjmp`
+BIOS veneer inside `RawData_80074354`, turned out to be real code and is now
+credited through `PSYQ_BIOS_TRAMPOLINE`.
+
 ### Aya battle save and equipment restore
 
 `Battle_AyaEquipStateFlow.c` keeps `Battle_SaveAyaState` and
