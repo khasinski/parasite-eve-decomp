@@ -1,10 +1,6 @@
-#include "common.h"
-typedef struct Vec4i {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 w;
-} Vec4i;
+#include "pe1/gte_types.h"
+
+typedef GteVector Vec4i;
 
 typedef struct StackFrame {
     s16 h10;

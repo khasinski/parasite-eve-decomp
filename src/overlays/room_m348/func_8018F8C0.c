@@ -1,18 +1,6 @@
-#include "common.h"
-typedef struct Vec4i {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 w;
-} Vec4i;
+#include "room_m348_shared.h"
 
-typedef struct StackFrame {
-    Vec4i sp10;
-    s32 pad20;
-    s32 sp24[3];
-    Vec4i sp30;
-    Vec4i sp40;
-} StackFrame;
+typedef RoomM348StackFrame StackFrame;
 
 extern s16 D_80192E0A;
 
