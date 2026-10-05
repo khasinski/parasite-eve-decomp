@@ -178,42 +178,42 @@ void Menu_MainUpdate(s32 arg0) {
     u8 temp_a0;
     u8 temp_v0_6;
     u8 temp_v1_12;
-    register void *state0;
-    register void *temp_a1_2;
+    register Combatant *state0;
+    register Combatant *temp_a1_2;
     void *temp_v1_5;
     void *var_s0;
 
     state0 = D_8009D278;
-    temp_s2 = state0 + 0x4C;
+    temp_s2 = &state0->stateFlags;
     if (arg0 & 0xFF) {
         if (!(D_8009D1A0 & 0x100)) {
-            temp_a2 = M2C_FIELD(state0, u32 *, 0x4C);
-            temp_a1 = M2C_FIELD(state0, u16 *, 0x10) + M2C_FIELD(state0, u16 *, 0x24);
+            temp_a2 = state0->stateFlags;
+            temp_a1 = state0->hpAlive + state0->scaledOffense;
             temp_v1 = temp_a2 & 0xC0;
-            M2C_FIELD(state0, u16 *, 0x10) = temp_a1;
+            state0->hpAlive = temp_a1;
             if ((temp_v1 == 0x40) || (temp_v1 == 0x80)) {
-                M2C_FIELD(state0, u16 *, 0x10) = temp_a1 - ((M2C_FIELD(state0, u16 *, 0x24) * 2) / 5);
+                state0->hpAlive = temp_a1 - ((state0->scaledOffense * 2) / 5);
             } else if (temp_a2 & 0x100) {
-                M2C_FIELD(state0, u16 *, 0x10) = temp_a1 + ((u16) M2C_FIELD(state0, u16 *, 0x24) >> 1);
+                state0->hpAlive = temp_a1 + ((u16) state0->scaledOffense >> 1);
             }
             temp_a1_2 = D_8009D278;
-            if ((M2C_FIELD(temp_a1_2, s32 *, 8) < M2C_FIELD(temp_a1_2, s32 *, 0x28)) && !(*temp_s2 & 0x2600)) {
-                temp_v0 = M2C_FIELD(temp_a1_2, s32 *, 0x30) - 3;
-                M2C_FIELD(temp_a1_2, s32 *, 0x30) = temp_v0;
+            if ((temp_a1_2->exp_or_acc < temp_a1_2->maxAtk) && !(*temp_s2 & 0x2600)) {
+                temp_v0 = temp_a1_2->atbRate - 3;
+                temp_a1_2->atbRate = temp_v0;
                 if (temp_v0 <= 0) {
-                    M2C_FIELD(temp_a1_2, s32 *, 0x30) = 1;
+                    temp_a1_2->atbRate = 1;
                 }
-                temp_v0_2 = M2C_FIELD(temp_a1_2, s32 *, 0x2C) - (M2C_FIELD(temp_a1_2, s32 *, 0x28) / (M2C_FIELD(temp_a1_2, s32 *, 0x30) * 0x64));
-                M2C_FIELD(temp_a1_2, s32 *, 0x2C) = temp_v0_2;
+                temp_v0_2 = temp_a1_2->atbStep - (temp_a1_2->maxAtk / (temp_a1_2->atbRate * 0x64));
+                temp_a1_2->atbStep = temp_v0_2;
                 if (temp_v0_2 < 0x1999) {
-                    M2C_FIELD(temp_a1_2, s32 *, 0x2C) = 0x1999;
+                    temp_a1_2->atbStep = 0x1999;
                 }
-                temp_v0_3 = D_8009D278->exp_or_acc + M2C_FIELD(temp_a1_2, s32 *, 0x2C);
+                temp_v0_3 = D_8009D278->exp_or_acc + temp_a1_2->atbStep;
                 D_8009D278->exp_or_acc = temp_v0_3;
-                if (temp_v0_3 >= M2C_FIELD(temp_a1_2, s32 *, 0x28)) {
+                if (temp_v0_3 >= temp_a1_2->maxAtk) {
                     volatile s32 *callback;
 
-                    M2C_FIELD(temp_a1_2, s32 *, 0x34) = 0xF0;
+                    temp_a1_2->atbGauge = 0xF0;
                     callback = &D_800B0E08;
                     if (*callback != 0) {
                         Akao_SendTableCommand(*callback, 0x455, 0, 0x80, 0x7F);
@@ -223,8 +223,8 @@ void Menu_MainUpdate(s32 arg0) {
         }
         if ((arg0 & 0xFF) == 1) {
             temp_a0 = D_8009D254->actionMode;
-            if ((temp_a0 == M2C_FIELD(D_8009D278, u8 *, 0x12)) || (temp_a0 == 5)) {
-                if (!(M2C_FIELD(M2C_FIELD(D_8009D278, void **, 0x6C), s32 *, 4) & 0x4000) || !(M2C_FIELD(D_8009D278, u32 *, 0x4C) & 0x4000)) {
+            if ((temp_a0 == D_8009D278->actionMode12) || (temp_a0 == 5)) {
+                if (!(D_8009D278->attributes->effectFlags & 0x4000) || !(D_8009D278->stateFlags & 0x4000)) {
                     goto block_clear_bit0;
                 }
                 if ((Pad_GetMenuPressedBitOrDisabled(temp_a0) << 0x18) <= 0) {
@@ -362,7 +362,7 @@ block_40:
             s32 reset_flags;
             u32 reset_operand;
 
-            Entity_SetActionMode(D_8009D254, M2C_FIELD(D_8009D278, u8 *, 0x12));
+            Entity_SetActionMode(D_8009D254, D_8009D278->actionMode12);
             reset_flags = *temp_s2;
             reset_operand = ~0x2000U;
             reset_flags &= reset_operand;
@@ -402,13 +402,13 @@ block_40:
         }
     }
     if (!(D_8009D1A0 & 0x100)) {
-        register void *timer_state;
+        register Combatant *timer_state;
 
         timer_state = D_8009D278;
-        temp_v0_4 = M2C_FIELD(timer_state, s32 *, 0x34);
+        temp_v0_4 = timer_state->atbGauge;
         if (temp_v0_4 > 0) {
             temp_v0_4 -= 1;
-            M2C_FIELD(timer_state, s32 *, 0x34) = temp_v0_4;
+            timer_state->atbGauge = temp_v0_4;
             if (temp_v0_4 != 0) {
                 var_v1 = D_8009D1E8 & 3;
                 if (var_v1 == 0) {
@@ -593,36 +593,36 @@ block_61:
                                     }
                                 }
                                 {
-                                register void *desc_state;
+                                register Combatant *desc_state;
 
                                 desc_state = D_8009D278;
-                                temp_v1_8 = M2C_FIELD(desc_state, s16 *, 0xC);
-                                if (M2C_FIELD(desc_state, s16 *, 0x1C) >= temp_v1_8) {
+                                temp_v1_8 = (s16) desc_state->curHP;
+                                if ((s16) desc_state->maxHP >= temp_v1_8) {
                                     register void *d254;
 
                                     d254 = D_8009D254;
-                                    M2C_FIELD(desc_state, s16 *, 0x50) = (s16) (M2C_FIELD(desc_state, u16 *, 0xE) - temp_v1_8);
+                                    desc_state->panelA_val = (s16) (desc_state->hpMirror - temp_v1_8);
                                     {
                                     u16 copy210;
 
                                     copy210 = M2C_FIELD(d254, u16 *, 0x210);
-                                    M2C_FIELD(D_8009D278, u16 *, 0x52) = copy210;
+                                    D_8009D278->panelA_x = copy210;
                                     }
                                     {
                                     u16 copy212;
-                                    register void *desc_tail;
+                                    register Combatant *desc_tail;
 
                                     copy212 = M2C_FIELD(d254, u16 *, 0x212);
-                                    M2C_FIELD(D_8009D278, u8 *, 0x56) = 0x1EU;
+                                    D_8009D278->panelA_timer = 0x1EU;
                                     desc_tail = D_8009D278;
-                                    M2C_FIELD(desc_state, u16 *, 0x54) = copy212;
-                                    if (M2C_FIELD(desc_tail, s16 *, 0x50) == 0) {
-                                        M2C_FIELD(desc_tail, s8 *, 0x57) = 0;
+                                    desc_state->panelA_y = copy212;
+                                    if (desc_tail->panelA_val == 0) {
+                                        desc_tail->panelA_scale = 0;
                                     } else {
-                                        M2C_FIELD(desc_tail, s8 *, 0x57) = (s8) ((M2C_FIELD(desc_tail, u32 *, 0x4C) >> 0xE) & 2);
+                                        desc_tail->panelA_scale = (s8) ((M2C_FIELD(desc_tail, u32 *, 0x4C) >> 0xE) & 2);
                                     }
                                     }
-                                    M2C_FIELD(D_8009D278, u32 *, 0x4C) = (M2C_FIELD(D_8009D278, u32 *, 0x4C) & 0xFFFF7FFF);
+                                    D_8009D278->stateFlags = D_8009D278->stateFlags & 0xFFFF7FFF;
                                 }
                                 }
                             }
@@ -630,43 +630,43 @@ block_61:
                                 temp_v1_9 = *temp_s2;
                                 if (!(temp_v1_9 & 0x01000000) && (M2C_FIELD(temp_v1_5, s32 *, 0x10) > 0)) {
                                     if (!(temp_v1_9 & 0x200)) {
-                                        M2C_FIELD(D_8009D278, s16 *, 0xC) = (s16) ((u16) M2C_FIELD(D_8009D278, s16 *, 0xC) - M2C_FIELD(temp_v1_5, u8 *, 0x92));
+                                        D_8009D278->curHP = (s16) ((u16) D_8009D278->curHP - M2C_FIELD(temp_v1_5, u8 *, 0x92));
                                     }
                                     {
                                     s32 s2_flags2;
-                                    register void *desc_state;
+                                    register Combatant *desc_state;
 
                                     D_8009CE34 = 0x5A;
                                     s2_flags2 = *temp_s2;
                                     desc_state = D_8009D278;
                                     *temp_s2 = s2_flags2 | 0x01000000;
-                                    temp_v1_10 = M2C_FIELD(desc_state, s16 *, 0xC);
-                                    if (M2C_FIELD(desc_state, s16 *, 0x1C) >= temp_v1_10) {
+                                    temp_v1_10 = (s16) desc_state->curHP;
+                                    if ((s16) desc_state->maxHP >= temp_v1_10) {
                                         register void *d254;
 
                                         d254 = D_8009D254;
-                                        M2C_FIELD(desc_state, s16 *, 0x50) = (s16) (M2C_FIELD(desc_state, u16 *, 0xE) - temp_v1_10);
+                                        desc_state->panelA_val = (s16) (desc_state->hpMirror - temp_v1_10);
                                         {
                                         u16 copy210;
 
                                         copy210 = M2C_FIELD(d254, u16 *, 0x210);
-                                        M2C_FIELD(desc_state, u16 *, 0x52) = copy210;
+                                        desc_state->panelA_x = copy210;
                                         }
                                         {
                                         u16 copy212;
-                                        register void *desc_tail;
+                                        register Combatant *desc_tail;
 
                                         copy212 = M2C_FIELD(d254, u16 *, 0x212);
-                                        M2C_FIELD(desc_state, u8 *, 0x56) = 0x1EU;
+                                        desc_state->panelA_timer = 0x1EU;
                                         desc_tail = D_8009D278;
-                                        M2C_FIELD(desc_state, u16 *, 0x54) = copy212;
-                                        if (M2C_FIELD(desc_tail, s16 *, 0x50) == 0) {
-                                            M2C_FIELD(desc_tail, s8 *, 0x57) = 0;
+                                        desc_state->panelA_y = copy212;
+                                        if (desc_tail->panelA_val == 0) {
+                                            desc_tail->panelA_scale = 0;
                                         } else {
-                                            M2C_FIELD(desc_tail, s8 *, 0x57) = (s8) ((M2C_FIELD(desc_tail, u32 *, 0x4C) >> 0xE) & 2);
+                                            desc_tail->panelA_scale = (s8) ((M2C_FIELD(desc_tail, u32 *, 0x4C) >> 0xE) & 2);
                                         }
                                         }
-                                        M2C_FIELD(D_8009D278, u32 *, 0x4C) = (M2C_FIELD(D_8009D278, u32 *, 0x4C) & 0xFFFF7FFF);
+                                        D_8009D278->stateFlags = D_8009D278->stateFlags & 0xFFFF7FFF;
                                     }
                                     }
                                     {
@@ -677,10 +677,10 @@ block_61:
                                     D_8009D254->motionY = 0;
                                     D_8009D254->motionZ = 0;
                                     D_8009D254->entityFlags = D_8009D254->entityFlags & clear_flags;
-                                    M2C_FIELD(D_8009D278, s16 *, 0x4A) = Entity_ApplyHitAndSetAnim(var_s0);
+                                    D_8009D278->knockbackAngle = Entity_ApplyHitAndSetAnim(var_s0);
                                     }
-                                    M2C_FIELD(D_8009D278, u8 *, 0x49) = (u8) M2C_FIELD(temp_v1_5, u8 *, 0x93);
-                                    M2C_FIELD(D_8009D278, s8 *, 0x48) = 6;
+                                    D_8009D278->knockbackDistance = (u8) M2C_FIELD(temp_v1_5, u8 *, 0x93);
+                                    D_8009D278->knockbackFrames = 6;
                                 }
                             }
                         }
@@ -690,103 +690,103 @@ block_61:
                 } while (var_s0 != NULL);
             }
             {
-            register void *desc_state;
+            register Combatant *desc_state;
 
             desc_state = D_8009D278;
-            temp_v1_11 = M2C_FIELD(desc_state, s16 *, 0xC);
-            temp_v0_7 = (s16) M2C_FIELD(desc_state, u16 *, 0xE);
+            temp_v1_11 = (s16) desc_state->curHP;
+            temp_v0_7 = (s16) desc_state->hpMirror;
             if (temp_v1_11 < temp_v0_7) {
-                if (M2C_FIELD(desc_state, s16 *, 0x1C) >= temp_v1_11) {
+                if ((s16) desc_state->maxHP >= temp_v1_11) {
                     register void *d254;
 
                     d254 = D_8009D254;
-                    M2C_FIELD(desc_state, s16 *, 0x50) = (s16) (temp_v0_7 - temp_v1_11);
+                    desc_state->panelA_val = (s16) (temp_v0_7 - temp_v1_11);
                     {
                     u16 copy210;
 
                     copy210 = M2C_FIELD(d254, u16 *, 0x210);
-                    M2C_FIELD(D_8009D278, u16 *, 0x52) = copy210;
+                    D_8009D278->panelA_x = copy210;
                     }
                     {
                     u16 copy212;
-                    register void *desc_tail;
+                    register Combatant *desc_tail;
 
                     copy212 = M2C_FIELD(d254, u16 *, 0x212);
-                    M2C_FIELD(D_8009D278, u8 *, 0x56) = 0x1EU;
+                    D_8009D278->panelA_timer = 0x1EU;
                     desc_tail = D_8009D278;
-                    M2C_FIELD(desc_state, u16 *, 0x54) = copy212;
-                    if (M2C_FIELD(desc_tail, s16 *, 0x50) == 0) {
-                        M2C_FIELD(desc_tail, s8 *, 0x57) = 0;
+                    desc_state->panelA_y = copy212;
+                    if (desc_tail->panelA_val == 0) {
+                        desc_tail->panelA_scale = 0;
                     } else {
-                        M2C_FIELD(desc_tail, s8 *, 0x57) = (s8) ((M2C_FIELD(desc_tail, u32 *, 0x4C) >> 0xE) & 2);
+                        desc_tail->panelA_scale = (s8) ((M2C_FIELD(desc_tail, u32 *, 0x4C) >> 0xE) & 2);
                     }
                     }
-                    M2C_FIELD(D_8009D278, u32 *, 0x4C) = (M2C_FIELD(D_8009D278, u32 *, 0x4C) & 0xFFFF7FFF);
+                    D_8009D278->stateFlags = D_8009D278->stateFlags & 0xFFFF7FFF;
                 }
-                M2C_FIELD(D_8009D278, u16 *, 0xE) = (u16) M2C_FIELD(D_8009D278, s16 *, 0xC);
+                D_8009D278->hpMirror = (u16) D_8009D278->curHP;
             }
             }
         }
         *temp_s2 &= ~0x4000;
-        if (M2C_FIELD(D_8009D278, s8 *, 0x48) != 0) {
+        if (D_8009D278->knockbackFrames != 0) {
             temp_a0_3 = D_8009D254->entityFlags;
-            if ((temp_a0_3 & 0xC0000) || (M2C_FIELD(D_8009D278, u8 *, 0x49) == 0)) {
+            if ((temp_a0_3 & 0xC0000) || (D_8009D278->knockbackDistance == 0)) {
                 D_8009D254->entityFlags = temp_a0_3 & 0xFFF3FFFF;
-                M2C_FIELD(D_8009D278, s8 *, 0x48) = 0;
-                M2C_FIELD(D_8009D278, u8 *, 0x49) = 0U;
+                D_8009D278->knockbackFrames = 0;
+                D_8009D278->knockbackDistance = 0U;
             } else {
-                D_8009D254->posX.fixed = D_8009D254->baseX + (M2C_FIELD(D_8009D278, u8 *, 0x49) * rsin(M2C_FIELD(D_8009D278, s16 *, 0x4A), D_8009D254) * 0x10);
-                D_8009D254->posZ.fixed = D_8009D254->baseZ + (M2C_FIELD(D_8009D278, u8 *, 0x49) * rcos(M2C_FIELD(D_8009D278, s16 *, 0x4A), D_8009D278) * 0x10);
-                temp_v1_12 = M2C_FIELD(D_8009D278, u8 *, 0x49);
-                M2C_FIELD(D_8009D278, u8 *, 0x49) = (u8) (temp_v1_12 - (temp_v1_12 / (s8) M2C_FIELD(D_8009D278, s8 *, 0x48)));
-                M2C_FIELD(D_8009D278, s8 *, 0x48) = (s8) ((u8) M2C_FIELD(D_8009D278, s8 *, 0x48) - 1);
+                D_8009D254->posX.fixed = D_8009D254->baseX + (D_8009D278->knockbackDistance * rsin(D_8009D278->knockbackAngle, D_8009D254) * 0x10);
+                D_8009D254->posZ.fixed = D_8009D254->baseZ + (D_8009D278->knockbackDistance * rcos(D_8009D278->knockbackAngle, D_8009D278) * 0x10);
+                temp_v1_12 = D_8009D278->knockbackDistance;
+                D_8009D278->knockbackDistance = (u8) (temp_v1_12 - (temp_v1_12 / D_8009D278->knockbackFrames));
+                D_8009D278->knockbackFrames = (s8) ((u8) D_8009D278->knockbackFrames - 1);
             }
         }
         Entity_UpdateTimers();
     }
-    if (M2C_FIELD(D_8009D278, u8 *, 0x56) != 0) {
+    if (D_8009D278->panelA_timer != 0) {
         Battle_DrawStatusPanel(0,
                                (struct BattleStatusPanel *)&D_8009D278->panelA_val);
-        M2C_FIELD(D_8009D278, u8 *, 0x56) = (u8) (M2C_FIELD(D_8009D278, u8 *, 0x56) - 1);
+        D_8009D278->panelA_timer = (u8) (D_8009D278->panelA_timer - 1);
     }
     {
     state0 = D_8009D278;
-    temp_v0_8 = (s16) M2C_FIELD(state0, u16 *, 0xE);
-    temp_v1_13 = M2C_FIELD(state0, s16 *, 0xC);
+    temp_v0_8 = (s16) state0->hpMirror;
+    temp_v1_13 = (s16) state0->curHP;
     if (temp_v0_8 < temp_v1_13) {
         register void *d254;
 
         d254 = D_8009D254;
-        M2C_FIELD(state0, s16 *, 0x58) = (s16) (temp_v1_13 - temp_v0_8);
+        state0->panelB_val = (s16) (temp_v1_13 - temp_v0_8);
         {
         u16 copy210;
 
         copy210 = M2C_FIELD(d254, u16 *, 0x210);
-        M2C_FIELD(D_8009D278, u16 *, 0x5A) = copy210;
+        D_8009D278->panelB_x = copy210;
         }
         {
         var_v0 = M2C_FIELD(d254, u16 *, 0x212);
         var_v1 = 0x1E;
-        M2C_FIELD(D_8009D278, u8 *, 0x5E) = var_v1;
-        { register void *post_state; post_state = D_8009D278;
-        M2C_FIELD(state0, s16 *, 0x5C) = (s16) (var_v0 - 8);
-        M2C_FIELD(post_state, s8 *, 0x5F) = 1; }
+        D_8009D278->panelB_timer = var_v1;
+        { register Combatant *post_state; post_state = D_8009D278;
+        state0->panelB_y = (s16) (var_v0 - 8);
+        post_state->panelB_flag = 1; }
         }
-        M2C_FIELD(D_8009D278, u16 *, 0xE) = (u16) M2C_FIELD(D_8009D278, s16 *, 0xC);
+        D_8009D278->hpMirror = (u16) D_8009D278->curHP;
     }
     }
     temp_a1_2 = D_8009D278;
-    if (M2C_FIELD(temp_a1_2, u8 *, 0x5E) != 0) {
-        Battle_DrawStatusPanel(0, (struct BattleStatusPanel *)(temp_a1_2 + 0x58));
-        M2C_FIELD(D_8009D278, u8 *, 0x5E) = (u8) (M2C_FIELD(D_8009D278, u8 *, 0x5E) - 1);
+    if (temp_a1_2->panelB_timer != 0) {
+        Battle_DrawStatusPanel(0, (struct BattleStatusPanel *)&temp_a1_2->panelB_val);
+        D_8009D278->panelB_timer = (u8) (D_8009D278->panelB_timer - 1);
         temp_a1_2 = D_8009D278;
     }
-    if (M2C_FIELD(temp_a1_2, u8 *, 0x66) != 0) {
-        Battle_DrawStatusPanel(0, (struct BattleStatusPanel *)(temp_a1_2 + 0x60));
-        M2C_FIELD(D_8009D278, u8 *, 0x66) = (u8) (M2C_FIELD(D_8009D278, u8 *, 0x66) - 1);
+    if (temp_a1_2->panelAux_timer != 0) {
+        Battle_DrawStatusPanel(0, (struct BattleStatusPanel *)&temp_a1_2->panelAux_val);
+        D_8009D278->panelAux_timer = (u8) (D_8009D278->panelAux_timer - 1);
     }
     temp_a0_4 = D_8009D278->exp_or_acc;
-    M2C_FIELD(D_8009D278, u16 *, 0xE) = (u16) M2C_FIELD(D_8009D278, s16 *, 0xC);
+    D_8009D278->hpMirror = (u16) D_8009D278->curHP;
     if (temp_a0_4 <= 0) {
         *temp_s2 |= 0x2000;
         if (Pad_GetMenuPressedBitOrDisabled(temp_a0_4) != D_8009D1D4[0]) {
@@ -865,7 +865,7 @@ block_61:
         D_800B0195[0] = var_v0;
         D_800B0196[0] = var_v1;
     }
-    if (M2C_FIELD(D_8009D278, s16 *, 0xC) <= 0) {
+    if ((s16) D_8009D278->curHP <= 0) {
         var_a2 = 0x46;
         var_a1 = 0x82;
         var_a0 = 0x9F;
@@ -1023,6 +1023,6 @@ block_61:
         D_8009D2E8 |= 1;
         Entity_SetActionMode(D_8009D254, 0x13U, minus5);
         }
-        M2C_FIELD(D_8009D278, s16 *, 0xC) = 0;
+            D_8009D278->curHP = 0;
     }
 }
