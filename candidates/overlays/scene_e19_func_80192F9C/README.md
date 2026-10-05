@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **17618**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **14198**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Three register pins and two empty barriers are recorded below. There is no CPU ASM.
@@ -9,7 +9,7 @@ individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2367. These counts are descriptive, not the match metric.
+retained candidate has 2368. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -234,3 +234,24 @@ conversion helper. From the 17944 intermediate, removing the memory barrier
 scored 19089 and removing the radius barrier scored 18204; both are retained.
 Named particle-prefix fields and resource/timer temporary reuse were also
 tried; they left score 18389 unchanged and remain research-only.
+
+## Palette ordering and arithmetic width
+
+The aligned retail code at 0x80193DBC calls GetTPage before loading the palette
+selector and row (0x80193DC8 and 0x80193DE0). Draw state 2 still had the row
+read before that call. Correcting this remaining sequence reduces score
+17618 to 16738; sharing the paletteRow variable preserves that score.
+
+The retail row adjustment at 0x80193E08 adds four in a full register and passes
+it directly to GetClut at 0x80193E10. A u16 local incorrectly truncates that
+addition before the call. Using s32 for paletteRow, as required by this
+sequence and the other repeated palette selections, reduces score to 14543.
+This is a recovered arithmetic-width correction, not an extra constraint.
+
+The remaining radial scale temporaries in draw states 1 and 2 now reuse
+radialScale where their lifetimes do not overlap. Together they reduce score
+to **14198**. Two sign-bit rounding expressions on this signed variable are
+now ordinary division by two, preserving the same score. No pins or barriers
+were added: debt remains three pins, two barriers and the GPU helper.
+Changing all parameter aliases to struct fields in draw state 2 was tested
+from the 16738 intermediate, scored 17059 and was not retained.

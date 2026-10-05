@@ -91,7 +91,6 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s32 verticalScale;
     s32 radialScale;
     s32 phase;
-    s32 temp_v0_10;
     s32 temp_v0_11;
     s32 temp_v0_12;
     s32 temp_v0_13;
@@ -115,7 +114,6 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s32 var_a2_2;
     s32 var_s0;
     s32 intensity;
-    s32 var_s4;
     s32 var_v1;
     s32 var_v1_10;
     s32 var_v1_11;
@@ -131,11 +129,9 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s32 var_v1_9;
     u16 temp_v0_16;
     u16 temp_v1_2;
-    u16 paletteRow;
-    u16 var_v1_2;
+    s32 paletteRow;
     u32 temp_v0_17;
     u32 temp_v0_18;
-    u32 var_s4_2;
     void *temp_v0;
     void *temp_v0_2;
     void *temp_v0_31;
@@ -352,12 +348,12 @@ block_161:
             if (D_800E27EC & 1) {
                 intensity = (intensity * 2) / 3;
             }
-            var_s4 = func_80077CF4(phase);
+            radialScale = func_80077CF4(phase);
             if (D_800E27EC & 1) {
-                temp_v0_7 = var_s4 * 0xF;
-                var_s4 = temp_v0_7 >> 4;
+                temp_v0_7 = radialScale * 0xF;
+                radialScale = temp_v0_7 >> 4;
                 if (temp_v0_7 < 0) {
-                    var_s4 = (s32) (temp_v0_7 + 0xF) >> 4;
+                    radialScale = (s32) (temp_v0_7 + 0xF) >> 4;
                 }
             }
             sp48.x = -0x400;
@@ -375,7 +371,7 @@ block_161:
             func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754(&sp48, &sp80);
-            temp_v0_8 = (s32) (var_s4 + ((u32) var_s4 >> 0x1F)) >> 1;
+            temp_v0_8 = radialScale / 2;
             spA0.x = temp_v0_8;
             spA0.y = temp_v0_8;
             sp80.t[0] = (s32) (s16) sp30.x;
@@ -412,8 +408,8 @@ block_161:
             if (temp_v0_9 < 0) {
                 intensity = (s32) (temp_v0_9 + 0x1F) >> 5;
             }
-            temp_v0_10 = func_80077CF4(phase);
-            func_800D0728(&sp30, 0x7D0, 0xB54, 0x18, &sp40, temp_v0_10, temp_v0_10, NULL, &sp50, intensity, 1);
+            radialScale = func_80077CF4(phase);
+            func_800D0728(&sp30, 0x7D0, 0xB54, 0x18, &sp40, radialScale, radialScale, NULL, &sp50, intensity, 1);
             break;
         case 2:                                     /* switch 2 */
             intensity = 0x80;
@@ -430,7 +426,7 @@ block_161:
             }
             spB8.pad = 1;
             spB8.x = 0x400;
-            var_s4_2 = 0x1000;
+            radialScale = 0x1000;
             spB8.y = 0;
             spB8.z = 0;
             spB0.x = (u16) sp30.x;
@@ -438,7 +434,7 @@ block_161:
             spB0.y = (s16) D_800942EC;
             func_800CEE20(&spB0, (GteRotation *) &spB8, 0x2000, 0x2000, 0, gpuWord(func_80077AA4(0, D_800E120A + 2)), 1, intensity, NULL);
             if (D_800E27EC & 1) {
-                var_s4_2 = 0xF00;
+                radialScale = 0xF00;
             }
             sp48.x = -0x400;
             sp48.y = 0;
@@ -446,15 +442,16 @@ block_161:
             D_800F3368.palette = 3;
             D_800F3368.parameter06 = 0;
             D_800F3368.tpage = D_800E2850[D_800E11EA[0]];
-            var_v1_2 = D_800E1204[D_800F3368.palette];
-            texturePage = gpuWord((D_800E2850[D_800E11EA[0]] | func_80077A64(0, 1, 0, 0)));
+            texturePage = func_80077A64(0, 1, 0, 0);
+            texturePage = gpuWord(D_800E2850[D_800E11EA[0]] | texturePage);
+            paletteRow = D_800E1204[D_800F3368.palette];
             if ((D_800F3368.palette == 4) && (D_800F3428 != 0)) {
-                var_v1_2 += 4;
+                paletteRow += 4;
             }
-            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x20, (s32) var_v1_2)));
+            func_800C6EC0(texturePage, gpuWord(func_80077AA4(0x20, (s32) paletteRow)));
             func_800C6ED8(1);
             func_80079754((GteShortVector *) &sp48, &spC0);
-            temp_v0_11 = (s32) (var_s4_2 + (var_s4_2 >> 0x1F)) >> 1;
+            temp_v0_11 = radialScale / 2;
             spE0.x = temp_v0_11;
             spE0.y = temp_v0_11;
             spC0.t[0] = (s32) (s16) sp30.x;
