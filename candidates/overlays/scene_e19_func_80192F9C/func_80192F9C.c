@@ -448,13 +448,13 @@ block_31:
             }
             spB8.pad = 1;
             spB8.x = 0x400;
-            radialScale = 0x1000;
             spB8.y = 0;
             spB8.z = 0;
             spB0.x = (u16) sp30.x;
             spB0.z = (s16) (u16) sp30.z;
             spB0.y = (s16) D_800942EC;
             func_800CEE20(&spB0, (GteRotation *) &spB8, 0x2000, 0x2000, 0, (u16)(func_80077AA4(0, D_800E120A + 2)), 1, intensity, NULL);
+            radialScale = 0x1000;
             paletteTable = D_800E1204;
             if (D_800E27EC & 1) {
                 radialScale = 0xF00;

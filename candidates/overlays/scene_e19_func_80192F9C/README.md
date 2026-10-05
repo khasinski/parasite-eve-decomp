@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **907**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **787**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Ten register pins and eleven empty barriers are recorded below. There is no CPU ASM.
@@ -885,3 +885,22 @@ The candidate is not integrated or matching.
 
 Remote artifacts: pending_state2_fields_1207/, state2_prefix_917/,
 state2_selector_917/, state2_timer_917/, base_917.c and base_907.c.
+
+
+## Defer radial-scale source initialization (787)
+
+Moving the third draw state's radialScale = 0x1000 assignment immediately
+after its first func_800CEE20 call makes GCC schedule the machine assignment
+at the retail location before that call. The value is not an argument to the
+call and has no intervening use; subsequent scale adjustment is unchanged.
+Of 27 positions/guard forms, the retained ordinary assignment scored **787**,
+down from 907, without additional debt. Fresh full-function scoring reports
+2368 instructions for both target and candidate.
+
+The remaining pointer-based matrix setup was searched over all six-store
+orders and eight equivalent halfword pointer/member access combinations
+(5760 variants), with no improvement. Another 144 initial-selector barrier
+and operand-order variants also failed to improve 787 and were discarded.
+Artifacts on darwine: state2_scale_907/, matrix_setup_787/,
+selector_dependency_787/ and base_787.c. All searches finished; no matching
+or production integration is claimed.
