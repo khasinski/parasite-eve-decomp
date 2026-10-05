@@ -1,15 +1,15 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **25738**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **24163**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
-Three register pins and two empty barriers are recorded below. There is no CPU ASM.
+Four register pins and three empty barriers are recorded below. There is no CPU ASM.
 GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
 to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
-retained candidate has 2378. These counts are descriptive, not the match metric.
+retained candidate has 2381. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -80,8 +80,10 @@ GCC to retain the address across repeated resource calls, as retail does.
 - Two empty tied-operand barriers, one before each particle allocation, keep
   the spread value in a register instead of constant-folding remainder by 512.
   They contain no CPU instruction and do not change the spread value.
-- Three pins: shared GTE transfer temporaries in t4/t5/t6. The effect pointer
-  is no longer pinned. No padding reserves. Individual GTE transfer macros remain.
+- Four pins: shared GTE transfer temporaries in t4/t5/t6 and the matrix pointer
+  in t1. The effect pointer is unpinned. No padding reserves.
+- One additional memory barrier keeps position stores before the first matrix
+  transfer block; together with the two divisor barriers this totals three.
 - `--expand-div` is an existing stock maspsx option, not an assembler patch.
 
 These are research-candidate costs, not production debt: the function is still
@@ -140,3 +142,14 @@ Retesting pins after scalar reuse scored 28198 without t4, 25898 without t5,
 26003 without t6, and **25738 without the s5 effect pin**. The latter improvement
 is retained: the effect pointer is once again an ordinary function argument.
 Current candidate debt is three pins and two empty barriers.
+
+## Transfer ordering refinement
+
+The final translation-word load now follows `gte_ctc2_5`, matching the retail
+instruction order. One shared matrix-pointer pin to t1 and one memory barrier
+before the first transfer group reduce the score to 24163. Entry barriers in
+the other three groups were removed (the larger variant scored 24188).
+Four experimental barriers after `gte_ctc2_5` proved unnecessary: removing each
+individually and then all four preserved 24163. They are not retained.
+Current candidate debt is four pins and three empty barriers. CPU ASM remains
+absent; actual GTE instructions are still individually wrapped.
