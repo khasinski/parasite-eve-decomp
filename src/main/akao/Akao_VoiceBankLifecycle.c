@@ -88,7 +88,7 @@ void Akao_StepSequencerVoice(void *arg0) {
     s32 bit;
     u8 *pvoice;
     s32 kFFF5;
-    register u8 *base asm("$16");
+    u8 *base;
     s32 kFFFa;
     s32 tret;
     s32 tnor;
@@ -238,14 +238,13 @@ void Seq_MarkTrack38MaskDirty(void);
 void Seq_MarkTrack3CMaskDirty(void);
 
 void Akao_InitVoices(int arg0, char *arg1) {
-    register unsigned int i asm("$6");
-    register int mode3 asm("$10");
-    register int mode1 asm("$9");
-    register char *fallback asm("$8");
-    register int mode5 asm("$7");
+    unsigned int i;
+    int mode3;
+    int mode1;
+    char *fallback;
+    int mode5;
     AkaoTrack *voice;
-    register u16 *field asm("$4");
-
+    u16 *field;
     if (arg0 == 0) {
         if (((AkaoSequencerBank *)g_AkaoCurTrack)->active_voice_mask != 0) {
             goto body;
@@ -279,10 +278,10 @@ body:
 
 void Spu_ManageVoices(int arg0, int arg1)
 {
-    register u32 mask asm("$16");
-    register u32 i asm("$17");
+    u32 mask;
+    u32 i;
     register u32 *field asm("$18");
-    register AkaoTrack *voice asm("$19");
+    AkaoTrack *voice;
     u32 id;
     u32 active;
     register int mode_bits asm("$22");
@@ -702,11 +701,10 @@ extern u32 D_800BCD50;
 
 
 void func_8008ABF0(void) {
-    register u32 mask asm("$5");
-    register u32 bit asm("$4");
+    u32 mask;
+    u32 bit;
     register AkaoTrack *track asm("$2");
-    register unsigned int *flags asm("$3");
-
+    unsigned int *flags;
     mask = D_800BCD50;
     track = D_800BC000_tracks;
     __asm__ __volatile__("" : : "r"(track));
@@ -744,7 +742,7 @@ void Akao_UpdateVoiceMask(int new_base) {
     AkaoSequencerBank *read_bank;
     AkaoSequencerBank *clear_bank;
     AkaoSequencerBank *final_bank;
-    register AkaoU16 *duration asm("$5");
+    AkaoU16 *duration;
     unsigned int magic_flags;
     register unsigned int reset_duration asm("$10");
 
