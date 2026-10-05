@@ -65,7 +65,7 @@ directory for one file.
 objects), the `CdRom_*` DS-system files in `cdrom` (LIBDS), the `CardObj_*`
 files in `memcard` (LIBPAD/LIBCARD), most of `pad` (LIBAPI PAD/PATCH), the
 64-bit helpers in `math` (LIBMATH), the `Spu_*` setters in `akao` (LIBSPU),
-`gte` (LIBGTE), `sys/Sys_InitIntrManager` and `misc37` (LIBETC INTR). They
+`gte` (LIBGTE), `psyq/libetc/Sys_InitIntrManager` and `misc37` (LIBETC INTR). They
 move to `psyq/<library>/` under their SDK names. Confirm each with the
 provenance entry first: a few overlaps are only alignment words
 (`akao/Spu_TransferAndLifecycle`).

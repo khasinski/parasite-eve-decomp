@@ -891,18 +891,18 @@ segments:
       - [0x641C4, c, event/Evt_Deliver]
       - [0x64228, pad]
       - [0x64234, c, psyq/libapi/DeliverEvent]
-      - [0x64244, c, psyq/libapi/VSync]
+      - [0x64244, c, psyq/libetc/VSync]
       - [0x643BC, c, psyq/libapi/v_wait]
       - {start: 0x64454, type: rodata, name: psyq/libc/A63_signature, linker_section_order: .text, linker_section: .psyq_signature}
       - [0x6445C, c, psyq/libc/puts]
       - [0x64474, c, pad/ChangeClearPAD]
       - [0x64484, c, psyq/libapi/ChangeClearRCnt]
       # Psy-Q etc/intr.c callback facade; functions retain SDK source order.
-      - [0x64494, c, psyq/libapi/intr_callbacks]
-      - [0x64628, c, sys/Sys_InitIntrManager]
+      - [0x64494, c, psyq/libetc/intr_callbacks]
+      - [0x64628, c, psyq/libetc/Sys_InitIntrManager]
       # LIBETC INTR.OBJ: trapIntr, setIntr, stopIntr, restartIntr fragment.
-      - [0x64700, c, psyq/libapi/intr_state]
-      - [0x64B30, c, sys/misc37]
+      - [0x64700, c, psyq/libetc/intr_state]
+      - [0x64B30, c, psyq/libetc/Sys_ClearWordBuf]
       # BIOS A(13h) setjmp veneer, its zero object tail, then the LIBAPI C114
       # signature record whose first label (_96_remove) is at offset 8.
       - [0x64B54, c, sys/setjmp]
@@ -912,15 +912,15 @@ segments:
       - [0x64B84, c, psyq/libapi/ReturnFromException]
       - [0x64B94, c, psyq/libapi/ResetEntryInt]
       - [0x64BA4, c, psyq/libapi/HookEntryInt]
-      - [0x64BB4, c, psyq/libapi/startIntrVSync]
-      - [0x64C0C, c, psyq/libapi/trapIntrVSync]
+      - [0x64BB4, c, psyq/libetc/startIntrVSync]
+      - [0x64C0C, c, psyq/libetc/trapIntrVSync]
       # Psy-Q etc/intr_vb.c callback registration helpers, in source order.
-      - [0x64C78, c, psyq/libapi/intr_vsync]
+      - [0x64C78, c, psyq/libetc/intr_vsync]
       - [0x64CC8, pad]
-      - [0x64CD4, c, psyq/libapi/startIntrDMA]
-      - [0x64D20, c, psyq/libapi/trapIntrDMA]
+      - [0x64CD4, c, psyq/libetc/startIntrDMA]
+      - [0x64D20, c, psyq/libetc/trapIntrDMA]
       # Psy-Q etc/intr_dma.c callback registration helpers, in source order.
-      - [0x64EA0, c, psyq/libapi/intr_dma]
+      - [0x64EA0, c, psyq/libetc/intr_dma]
       - [0x64F70, pad]
       # Psy-Q libgpu/sys.c tail; functions remain in SDK source order.
       - [0x64F74, c, gpu/libgpu_sys]
