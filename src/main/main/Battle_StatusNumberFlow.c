@@ -1,13 +1,9 @@
 #include "pe1/battle_status.h"
+#include "pe1/global_slot.h"
 
-typedef struct ActiveDrawSlotGlobal {
-    int value;
-    u8 pad04[12];
-} ActiveDrawSlotGlobal;
-
-extern ActiveDrawSlotGlobal g_ActiveDrawSlotObject0
+extern Pe1GlobalSlot g_ActiveDrawSlotObject0
     __asm__("D_8009CDDC");
-extern ActiveDrawSlotGlobal g_ActiveDrawSlotObject1
+extern Pe1GlobalSlot g_ActiveDrawSlotObject1
     __asm__("D_8009CDDC");
 extern u16 D_8009E360[];
 extern u16 D_8009E362[];
@@ -25,7 +21,7 @@ void Battle_DrawStatusValue(int value, int yOffset)
     u16 y;
     u32 drawSlotOffset;
 
-    activeSlot = g_ActiveDrawSlotObject0.value;
+    activeSlot = g_ActiveDrawSlotObject0.value.signed_value;
     savedValue = value;
     drawSlot = activeSlot;
     markerBase = (u8 *)D_8009E888;
@@ -46,7 +42,7 @@ void Battle_DrawStatusValue(int value, int yOffset)
 
     AddPrim(*(unsigned int **)((u8 *)D_800B0E38.ordering + drawSlotOffset) + 4,
             (unsigned int *)(markerBase + markerOffset));
-    drawSlot = g_ActiveDrawSlotObject1.value;
+    drawSlot = g_ActiveDrawSlotObject1.value.signed_value;
     Battle_DrawDecimalNumber(
         D_8009E8B8[drawSlot],
         *(u16 *)((u8 *)D_8009E360 + drawSlot * 3 * 0x10) + 0x40,
