@@ -1,3 +1,4 @@
+/* MASPSX_FLAGS: --expand-div */
 /* Initial full-function candidate; not integrated and not yet matching. */
 #include "scene_e19_recovered.h"
 #include "pe1/gte.h"
@@ -5,7 +6,8 @@
 #define NULL ((void *)0)
 extern u16 D_800942EC;
 extern void **D_8009D254;
-extern void *D_800B0E64;
+#include "pe1/room_sound_slot.h"
+extern RoomSoundSlot D_800B0E64;
 extern u16 D_800E11EA;
 extern M2C_UNK D_800E11FA;
 extern u16 D_800E120A;
@@ -76,6 +78,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s16 var_s3_6;
     s16 var_v0;
     s32 temp_hi;
+    int spread;
     s32 temp_s0;
     s32 temp_s0_10;
     s32 temp_s0_11;
@@ -119,7 +122,6 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     s32 temp_v0_11;
     s32 temp_v0_12;
     s32 temp_v0_13;
-    s32 temp_v0_14;
     s32 temp_v0_15;
     s32 temp_v0_19;
     s32 temp_v0_20;
@@ -199,19 +201,19 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     sp58 = D_8018F1E0;
     switch (mode) {
     case 0: {
-            temp_v0 = func_8006E498(D_800B0E64, 0xC54C0704U);
+            temp_v0 = func_8006E498(D_800B0E64.channel, 0xC54C0704U);
             D_8019B680 = temp_v0;
             func_800C6D5C(temp_v0, 0U, 0U);
-            temp_v0_2 = func_8006E498(D_800B0E64, 0xC58C0704U);
+            temp_v0_2 = func_8006E498(D_800B0E64.channel, 0xC58C0704U);
             D_8019B684 = temp_v0_2;
             func_800C6D5C(temp_v0_2, 0U, 0U);
-            temp_v0_3 = func_8006E498(D_800B0E64, 0xC5CC0704U);
+            temp_v0_3 = func_8006E498(D_800B0E64.channel, 0xC5CC0704U);
             D_8019B688 = temp_v0_3;
             func_800C6D5C(temp_v0_3, 0U, 0U);
-            temp_v0_4 = func_8006E498(D_800B0E64, 0xC60C0704U);
+            temp_v0_4 = func_8006E498(D_800B0E64.channel, 0xC60C0704U);
             D_8019B68C = temp_v0_4;
             func_800C6D5C(temp_v0_4, 0U, 0U);
-            temp_v0_5 = func_8006E498(D_800B0E64, 0xC64C0704U);
+            temp_v0_5 = func_8006E498(D_800B0E64.channel, 0xC64C0704U);
             D_8019B690 = temp_v0_5;
             func_800C6D5C(temp_v0_5, 0U, 0U);
             effect->state = 0;
@@ -228,10 +230,10 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     case 0:                                         /* switch 1 */
         temp_v0_28 = (u16) effect->timer + 1;
         effect->timer = temp_v0_28;
-        if ((temp_v0_28 == 2) && (D_800B0E64 != NULL)) {
-            func_8006DF50(D_800B0E64, 0x5E3, func_800D3FD8(), 0x80, 0x7F);
-            if (D_800B0E64 != NULL) {
-                func_8006DF50(D_800B0E64, 0x5E4, 0x80, 0x80, 0x7F);
+        if ((temp_v0_28 == 2) && (D_800B0E64.channel != NULL)) {
+            func_8006DF50(D_800B0E64.channel, 0x5E3, func_800D3FD8(), 0x80, 0x7F);
+            if (D_800B0E64.channel != NULL) {
+                func_8006DF50(D_800B0E64.channel, 0x5E4, 0x80, 0x80, 0x7F);
             }
         }
         if (effect->timer >= 0x10) {
@@ -275,14 +277,16 @@ block_161:
         if (temp_a2 < 0x11) {
             func_800D1D24(2, 0x10, (s32) temp_a2);
         }
+        spread = 512;
+        asm("" : "=r"(spread) : "0"(spread));
         temp_v0_31 = func_800CE610(D_800F33E0->pool);
         if (temp_v0_31 != NULL) {
             M2C_FIELD(temp_v0_31, u16 *, 0) = (u16) effect->position.x;
             M2C_FIELD(temp_v0_31, u16 *, 2) = (u16) effect->position.y;
             M2C_FIELD(temp_v0_31, u16 *, 4) = (u16) effect->position.z;
             M2C_FIELD(temp_v0_31, u16 *, 2) = (u16) (M2C_FIELD(temp_v0_31, u16 *, 2) - (func_80071A54() % 800));
-            M2C_FIELD(temp_v0_31, u16 *, 0) = (u16) (M2C_FIELD(temp_v0_31, u16 *, 0) + ((func_80071A54() % 512) - 0x100));
-            temp_v1_6 = func_80071A54() % 512;
+            M2C_FIELD(temp_v0_31, u16 *, 0) = (u16) (M2C_FIELD(temp_v0_31, u16 *, 0) + ((func_80071A54() % spread) - 0x100));
+            temp_v1_6 = func_80071A54() % spread;
             M2C_FIELD(temp_v0_31, s16 *, 8) = 0;
             M2C_FIELD(temp_v0_31, s16 *, 0xA) = 0;
             M2C_FIELD(temp_v0_31, u16 *, 4) = (u16) (M2C_FIELD(temp_v0_31, u16 *, 4) + (temp_v1_6 - 0x100));
@@ -296,14 +300,16 @@ block_161:
         return 0;
     case 4:                                         /* switch 1 */
         effect->timer = (u16) effect->timer + 1;
+        spread = 512;
+        asm("" : "=r"(spread) : "0"(spread));
         temp_v0_32 = func_800CE610(D_800F33E0->pool);
         if (temp_v0_32 != NULL) {
             M2C_FIELD(temp_v0_32, u16 *, 0) = (u16) effect->position.x;
             M2C_FIELD(temp_v0_32, u16 *, 2) = (u16) effect->position.y;
             M2C_FIELD(temp_v0_32, u16 *, 4) = (u16) effect->position.z;
             M2C_FIELD(temp_v0_32, u16 *, 2) = (u16) (M2C_FIELD(temp_v0_32, u16 *, 2) - (func_80071A54() % 800));
-            M2C_FIELD(temp_v0_32, u16 *, 0) = (u16) (M2C_FIELD(temp_v0_32, u16 *, 0) + ((func_80071A54() % 512) - 0x100));
-            temp_v1_7 = func_80071A54() % 512;
+            M2C_FIELD(temp_v0_32, u16 *, 0) = (u16) (M2C_FIELD(temp_v0_32, u16 *, 0) + ((func_80071A54() % spread) - 0x100));
+            temp_v1_7 = func_80071A54() % spread;
             M2C_FIELD(temp_v0_32, s16 *, 8) = 0;
             M2C_FIELD(temp_v0_32, s16 *, 0xA) = 0;
             M2C_FIELD(temp_v0_32, u16 *, 4) = (u16) (M2C_FIELD(temp_v0_32, u16 *, 4) + (temp_v1_7 - 0x100));
@@ -508,14 +514,11 @@ block_161:
             }
             temp_v0_13 = func_80077CF4(temp_s6_2);
             temp_hi = (temp_v0_13 * 2) / 3;
-            var_s0 = 0;
-            temp_v0_14 = (s32) (temp_v0_13 * 2) >> 0x1F;
             sp48.x = 0x400;
             sp48.y = 0;
             sp48.z = 0;
-            var_v1_3 = 0 << 8;
-            do {
-                temp_s2 = var_v1_3 + (D_800E27EC * 4);
+            for (var_s0 = 0; var_s0 < 0x10; ++var_s0) {
+                temp_s2 = (var_s0 << 8) + (D_800E27EC * 4);
                 sp38.z = (s16) (u16) sp30.z;
                 sp38.x = (u16) sp30.x;
                 sp38.y = (s16) (u16) sp30.y;
@@ -528,12 +531,10 @@ block_161:
                 if (var_v1_5 < 0) {
                     var_v1_5 += 0xFFF;
                 }
-                var_s0 += 1;
                 sp48.z = temp_s2 + 0x400;
                 sp38.z = (u16) sp38.z + (var_v1_5 >> 0xC);
-                func_800D0E88((GteShortVector *) &sp38, (GteRotation *) &sp48, temp_hi - temp_v0_14, var_s4_3, &sp50, NULL, NULL, (s32) var_s3_6, 1);
-                var_v1_3 = var_s0 << 8;
-            } while (var_s0 < 0x10);
+                func_800D0E88((GteShortVector *) &sp38, (GteRotation *) &sp48, temp_hi, var_s4_3, &sp50, NULL, NULL, (s32) var_s3_6, 1);
+            }
             temp_v0_15 = func_80077DC4(temp_s6_2);
             var_s3_7 = temp_v0_15 >> 5;
             if (temp_v0_15 < 0) {
