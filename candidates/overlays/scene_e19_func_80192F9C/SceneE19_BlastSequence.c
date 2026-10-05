@@ -367,9 +367,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
                 ringPoint.y = center.y;
                 ringPoint.z = center.z;
                 ringPoint.x += func_80077DC4(verticalScale) * modelPhase / 4096;
-                value = func_80077CF4(verticalScale) * modelPhase;
+                ringPoint.z += func_80077CF4(verticalScale) * modelPhase / 4096;
                 rotation.z = verticalScale + 0x400;
-                ringPoint.z += value / 4096;
                 func_800D0E88(&ringPoint, (GteRotation *)&rotation, height, radialScale,
                               &glowColor, 0, 0, (s16)intensity, 1);
             }
