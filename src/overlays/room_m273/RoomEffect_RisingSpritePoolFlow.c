@@ -1,5 +1,6 @@
 /* Sprite callback and poll/reset controller share one pool and layout. */
 #include "room_m273_effects.h"
+#include "room_m273_sweep.h"
 typedef GteShortVector Vector;
 extern int D_800E27EC, D_800F3428, D_800966EC[];
 extern unsigned short D_800F336C, D_800E1204[];
@@ -45,7 +46,7 @@ extern unsigned short D_800F3368,D_800F336C,D_800F336E,D_800E1204[];
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
 extern unsigned short D_800F3376,D_800F3378;
 extern unsigned char D_8019AD70[],D_8019AF6A,D_8019AF69;
-extern unsigned short D_8019AEFC,D_800E11E8,D_800E2850[];
+extern unsigned short D_800E11E8,D_800E2850[];
 extern volatile unsigned short D_8019AEFE,D_8019AF00;
 extern unsigned short GetClut(int, int);
 extern int func_800CE560(void *,int,int,int (*)());
@@ -102,7 +103,7 @@ int func_80197648(int mode) {
         if(D_8019AE84-- > 0) return 0;
         output=func_800CE610(D_800F33E0->pool);
         if(!output) return 0;
-        ((volatile Particle *)output)->x=D_8019AEFC;
+        ((volatile Particle *)output)->x=D_8019AEFC.x;
         ((volatile Particle *)output)->y=D_8019AEFE-256;
         output->z=D_8019AF00;
         D_8019AE84=2;
@@ -137,7 +138,7 @@ extern unsigned short D_800F3368,D_800F336C,D_800F336E,D_800E1204[],D_800942EC;
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
 extern unsigned short D_800F3376,D_800F3378;
 extern unsigned char D_8019AB70[],D_8019AD74[],D_8019AD78[],D_8019AF68,D_8019AF69;
-extern unsigned short D_8019AEFC,D_800E11EA,D_800E2850[];
+extern unsigned short D_800E11EA,D_800E2850[];
 extern volatile unsigned short D_8019AEFE,D_8019AF00;
 extern unsigned short GetClut(int,int);
 extern void func_800D004C(Vector *,int,int,int,Vector *,int,int,void *,void *,int,int);
@@ -185,7 +186,7 @@ int func_80197A48(int mode) {
         if(!D_8019AF68) return 0;
         output=func_800CE610(D_800F33E0->pool);
         if(!output) return 0;
-        ((volatile Vector *)output)->x=D_8019AEFC;
+        ((volatile Vector *)output)->x=D_8019AEFC.x;
         ((volatile Vector *)output)->y=D_8019AEFE;
         output->z=D_8019AF00;
         break;
