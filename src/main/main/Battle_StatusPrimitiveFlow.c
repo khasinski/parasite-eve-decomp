@@ -244,7 +244,7 @@ void Battle_DrawSpellName(void) {
         __asm__ __volatile__("" :: "r"(r130));
         q508 = D_8009E508;
         {
-            register u8 *pa asm("$2");
+            u8 *pa;
             u8 e0a;
             pa = q508 + c * 0x118;
             e0a = 0xE0;
@@ -402,7 +402,7 @@ void Battle_DrawStatusSymbol(s8 which) {
     u32 packetOffset;
     u32 index;
     u8 *a, *b, *c;
-    register u8 *packetBase asm("$9");
+    u8 *packetBase;
     u8 *thirdBase;
     first.data = D_80010DFC;
     second.data = D_80010E10;

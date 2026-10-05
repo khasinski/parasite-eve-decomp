@@ -21,7 +21,7 @@ int Battle_StepCharacterAction(BattleInitSlot *slot);
 void Battle_UpdatePlayerTurn(void)
 {
     BattleInitSlot *slot = &D_800BE830[D_8009D1D4];
-    register BattleEntity *player asm("$5") = PLAYER;
+    BattleEntity *player = PLAYER;
     BattleEntity *actor;
     Combatant *active;
     int angle;
