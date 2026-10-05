@@ -296,8 +296,14 @@
       "symbol": "func_8018EFF0",
       "reported_size": 1204,
       "source": null,
-      "status": "needs_classification",
-      "levenshtein_score": null
+      "status": "truncated_function_with_unextracted_middle",
+      "levenshtein_score": null,
+      "actual_symbol": "func_80192F9C",
+      "actual_size": 9472,
+      "actual_start": "0x80192F9C",
+      "actual_end_exclusive": "0x8019549C",
+      "missing_extracted_bytes": 8192,
+      "evidence": "PE.IMG sectors 98589..98613: function spans full-scene offsets 0x3FB4..0x64B4. scene_e19 labels its first 76 bytes as data; sectors 98597..98600 are absent; scene_pre contains the final 1204 bytes at actual VA 0x80194FE8. Two five-entry jump tables at 0x8018F1E4 and 0x8018F1FC target this function. See docs/SCENE_E19_EXTRACTION_GAP.md."
     },
     {
       "unit": "overlays/scene_e20/func_8018F028",
