@@ -1,14 +1,14 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **83843**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **56674**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 and the repository's scoring configuration.
 There are no register pins, empty barriers or CPU ASM. GTE transfers use
 individual `gte_ctc2_0` through `gte_ctc2_7` macros.
 
 The original target is the full `0x80192F9C..0x8019549C` function, restored
-to scene_e19_2 by the extraction fix. The target has 2368 instructions; this
-first candidate has 2384. These counts are descriptive, not the match metric.
+to scene_e19_2 by the extraction fix. The target has 2368 instructions; the
+retained candidate has 2386. These counts are descriptive, not the match metric.
 
 Recovered layout evidence:
 
@@ -43,3 +43,17 @@ analysis input, `compile.py`, `score.py`, target, linked candidate and score.
 The same source preparation artifacts are under local
 `scratch/scene_e19_80192F9C/`. The retained source/header here contain everything
 needed for candidate compilation with the project's include paths.
+
+## Control-flow pass
+
+The first recovery placed draw (mode 2) before update (mode 1). Replacing the
+outer reconstructed conditionals with an explicit mode switch ordered 0, 1, 2
+reduced score from 83843 to 56674. Other case orders scored 83298 (0, 2, 1)
+and 63459 (1, 0, 2); an ordered if/else chain scored 57804.
+
+Ten negative-rounding sequences whose temporary is not subsequently read are
+now expressed as signed division by 32. This retains score 56674. Simplifying
+the other shift/rounding pattern increased score to 57714 and was not retained.
+A single experimental effect-pointer pin to s5 scored 55522, but is kept only
+in scratch: allocation work is premature while source recovery is incomplete.
+The retained candidate remains unpinned.

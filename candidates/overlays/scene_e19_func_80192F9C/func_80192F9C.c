@@ -197,11 +197,8 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
     sp40 = *(GteRotation *)&D_8018F1D4;
     sp50 = D_8018F1DC;
     sp58 = D_8018F1E0;
-    if (mode != 1) {
-        if (mode < 2) {
-            if (mode != 0) {
-                return 0;
-            }
+    switch (mode) {
+    case 0: {
             temp_v0 = func_8006E498(D_800B0E64, 0xC54C0704U);
             D_8019B680 = temp_v0;
             func_800C6D5C(temp_v0, 0U, 0U);
@@ -224,10 +221,105 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
             func_800CE870((s8 *) D_800F32D0->pool, 0, &effect->endpoint.x);
             func_800CE9D4((struct RoomFxTransformOwner *) D_800F32D0->pool, 0, &effect->origin);
             return func_800CE560(D_800F33E0->pool, 0xC, 8, &D_80192E08);
+    }
+    case 1: {
+    temp_v1_4 = effect->state;
+    switch (temp_v1_4) {                            /* switch 1 */
+    case 0:                                         /* switch 1 */
+        temp_v0_28 = (u16) effect->timer + 1;
+        effect->timer = temp_v0_28;
+        if ((temp_v0_28 == 2) && (D_800B0E64 != NULL)) {
+            func_8006DF50(D_800B0E64, 0x5E3, func_800D3FD8(), 0x80, 0x7F);
+            if (D_800B0E64 != NULL) {
+                func_8006DF50(D_800B0E64, 0x5E4, 0x80, 0x80, 0x7F);
+            }
         }
-        if (mode != 2) {
-            return 0;
+        if (effect->timer >= 0x10) {
+            var_v0 = 1;
+block_31:
+            effect->state = var_v0;
+            effect->timer = 0;
+        default:                                    /* switch 1 */
+block_161:
         }
+        return 0;
+    case 1:                                         /* switch 1 */
+        temp_v0_29 = (u16) effect->timer + 1;
+        effect->timer = temp_v0_29;
+        if (temp_v0_29 >= 0x10) {
+            var_v0 = 2;
+            goto block_31;
+        }
+        /* Duplicate return node #162. Try simplifying control flow for better match */
+        return 0;
+    case 2:                                         /* switch 1 */
+        temp_v0_30 = (u16) effect->timer + 1;
+        effect->timer = temp_v0_30;
+        if (temp_v0_30 >= 0x10) {
+            var_v0 = 3;
+            goto block_31;
+        }
+        /* Duplicate return node #162. Try simplifying control flow for better match */
+        return 0;
+    case 3:                                         /* switch 1 */
+        effect->timer = (u16) effect->timer + 1;
+        if ((func_800C6B90(&effect->position, 0x960) != 0) && ((func_800C6B90(&effect->position, 0x4B0) != 0) || (func_800C6B90(&effect->position, 0x6A4) == 0)) && (M2C_FIELD(D_800E2368, u8 *, 0xD) != 0) && (((*D_800F32D0->pool)->flags & 0x3F000000) == 0x01000000)) {
+            temp_v1_5 = *D_8009D254;
+            M2C_FIELD(temp_v1_5, s32 *, 0x4C) = (s32) (M2C_FIELD(temp_v1_5, s32 *, 0x4C) | 0x4000);
+            temp_a0 = *D_800F32D0->pool;
+            temp_a0->flags = (temp_a0->flags & 0xC0FFFFFF) | 0x2D000000;
+            temp_a0_2 = *D_800F32D0->pool;
+            temp_a0_2->flags |= 0x80000000;
+        }
+        temp_a2 = effect->timer;
+        if (temp_a2 < 0x11) {
+            func_800D1D24(2, 0x10, (s32) temp_a2);
+        }
+        temp_v0_31 = func_800CE610(D_800F33E0->pool);
+        if (temp_v0_31 != NULL) {
+            M2C_FIELD(temp_v0_31, u16 *, 0) = (u16) effect->position.x;
+            M2C_FIELD(temp_v0_31, u16 *, 2) = (u16) effect->position.y;
+            M2C_FIELD(temp_v0_31, u16 *, 4) = (u16) effect->position.z;
+            M2C_FIELD(temp_v0_31, u16 *, 2) = (u16) (M2C_FIELD(temp_v0_31, u16 *, 2) - (func_80071A54() % 800));
+            M2C_FIELD(temp_v0_31, u16 *, 0) = (u16) (M2C_FIELD(temp_v0_31, u16 *, 0) + ((func_80071A54() % 512) - 0x100));
+            temp_v1_6 = func_80071A54() % 512;
+            M2C_FIELD(temp_v0_31, s16 *, 8) = 0;
+            M2C_FIELD(temp_v0_31, s16 *, 0xA) = 0;
+            M2C_FIELD(temp_v0_31, u16 *, 4) = (u16) (M2C_FIELD(temp_v0_31, u16 *, 4) + (temp_v1_6 - 0x100));
+        }
+        D_8019B668 = 0x80;
+        if (effect->timer >= 0x20) {
+            var_v0 = 4;
+            goto block_31;
+        }
+        /* Duplicate return node #162. Try simplifying control flow for better match */
+        return 0;
+    case 4:                                         /* switch 1 */
+        effect->timer = (u16) effect->timer + 1;
+        temp_v0_32 = func_800CE610(D_800F33E0->pool);
+        if (temp_v0_32 != NULL) {
+            M2C_FIELD(temp_v0_32, u16 *, 0) = (u16) effect->position.x;
+            M2C_FIELD(temp_v0_32, u16 *, 2) = (u16) effect->position.y;
+            M2C_FIELD(temp_v0_32, u16 *, 4) = (u16) effect->position.z;
+            M2C_FIELD(temp_v0_32, u16 *, 2) = (u16) (M2C_FIELD(temp_v0_32, u16 *, 2) - (func_80071A54() % 800));
+            M2C_FIELD(temp_v0_32, u16 *, 0) = (u16) (M2C_FIELD(temp_v0_32, u16 *, 0) + ((func_80071A54() % 512) - 0x100));
+            temp_v1_7 = func_80071A54() % 512;
+            M2C_FIELD(temp_v0_32, s16 *, 8) = 0;
+            M2C_FIELD(temp_v0_32, s16 *, 0xA) = 0;
+            M2C_FIELD(temp_v0_32, u16 *, 4) = (u16) (M2C_FIELD(temp_v0_32, u16 *, 4) + (temp_v1_7 - 0x100));
+        }
+        var_v1_14 = func_80077DC4((effect->timer << 0xA) / 24);
+        D_8019B668 = var_v1_14 / 32;
+        if (effect->timer >= 0x18) {
+            effect->state = 4;
+            effect->timer = 0;
+            return 1;
+        }
+        /* Duplicate return node #162. Try simplifying control flow for better match */
+        return 0;
+    }
+    }
+    case 2: {
         sp30.x = (u16) effect->position.x;
         sp30.y = (s16) (u16) effect->position.y;
         sp30.z = (s16) (u16) effect->position.z;
@@ -290,10 +382,7 @@ s32 func_80192F9C(s32 mode, SceneE19RecoveredState *effect) {
             sp70.y = (s16) D_800942EC;
             func_800CEE20(&sp70, (GteRotation *) &sp78, 0x2000, 0x2000, 0, func_80077AA4(0, D_800E120A + 2) & 0xFFFF, 1, var_s3_2, NULL);
             var_v1 = func_80077CF4(temp_s6);
-            if (var_v1 < 0) {
-                var_v1 += 0x1F;
-            }
-            var_s3_3 = var_v1 >> 5;
+            var_s3_3 = var_v1 / 32;
             if (D_800E27EC & 1) {
                 var_s3_3 = (var_s3_3 * 2) / 3;
             }
@@ -513,10 +602,7 @@ block_84:
             temp_v0_18 = func_80077DC4(temp_s6_3);
             temp_s2_4 = (s32) ((temp_v0_18 >> 0x1F) + temp_v0_18) >> 1;
             var_v1_6 = func_80077DC4(temp_s6_3);
-            if (var_v1_6 < 0) {
-                var_v1_6 += 0x1F;
-            }
-            var_s3_9 = var_v1_6 >> 5;
+            var_s3_9 = var_v1_6 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_19 = var_s3_9 * 0xF;
                 var_s3_9 = temp_v0_19 >> 4;
@@ -553,10 +639,7 @@ block_84:
             temp_s4_4 = (func_80077CF4(temp_s1) / 4) + 0xC00;
             temp_s2_5 = (func_80077DC4(temp_s1) / 4) + 0x400;
             var_v1_7 = func_80077DC4(temp_s1);
-            if (var_v1_7 < 0) {
-                var_v1_7 += 0x1F;
-            }
-            var_s3_10 = var_v1_7 >> 5;
+            var_s3_10 = var_v1_7 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_20 = var_s3_10 * 0xF;
                 var_s3_10 = temp_v0_20 >> 4;
@@ -615,10 +698,7 @@ block_84:
             temp_s4_7 = (func_80077CF4(temp_s1) / 4) + 0x1200;
             temp_s2_6 = func_80077DC4(temp_s1);
             var_v1_8 = func_80077DC4(temp_s1);
-            if (var_v1_8 < 0) {
-                var_v1_8 += 0x1F;
-            }
-            var_s3_12 = var_v1_8 >> 5;
+            var_s3_12 = var_v1_8 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_22 = var_s3_12 * 0xF;
                 var_s3_12 = temp_v0_22 >> 4;
@@ -654,10 +734,7 @@ block_84:
             temp_s4_8 = (func_80077CF4(temp_s1) / 6) + 0x1200;
             temp_s2_7 = func_80077DC4(temp_s1) * 2;
             var_v1_9 = func_80077DC4(temp_s1);
-            if (var_v1_9 < 0) {
-                var_v1_9 += 0x1F;
-            }
-            var_s3_13 = var_v1_9 >> 5;
+            var_s3_13 = var_v1_9 / 32;
             if (!(D_800E27EC & 1)) {
                 temp_v0_23 = var_s3_13 * 0xF;
                 var_s3_13 = temp_v0_23 >> 4;
@@ -701,10 +778,7 @@ block_158:
             temp_s4_9 = ((s32) (0x400 - temp_s6_4) / 2) + 0x200;
             temp_s2_8 = (func_80077CF4(temp_s6_4) / 6) + 0x6AA;
             var_v1_10 = func_80077DC4(temp_s6_4);
-            if (var_v1_10 < 0) {
-                var_v1_10 += 0x1F;
-            }
-            var_s3_14 = var_v1_10 >> 5;
+            var_s3_14 = var_v1_10 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_24 = var_s3_14 * 0xF;
                 var_s3_14 = temp_v0_24 >> 4;
@@ -741,10 +815,7 @@ block_158:
             temp_s4_10 = (func_80077CF4(temp_s1_2) / 4) + 0xC00;
             temp_s2_9 = (func_80077DC4(temp_s1_2) / 4) + 0x400;
             var_v1_11 = func_80077DC4(temp_s1_2);
-            if (var_v1_11 < 0) {
-                var_v1_11 += 0x1F;
-            }
-            var_s3_15 = var_v1_11 >> 5;
+            var_s3_15 = var_v1_11 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_25 = var_s3_15 * 0xF;
                 var_s3_15 = temp_v0_25 >> 4;
@@ -783,10 +854,7 @@ block_158:
             temp_s4_11 = (func_80077CF4(temp_s1_2) / 4) + 0x1200;
             temp_s2_10 = func_80077DC4(temp_s1_2);
             var_v1_12 = func_80077DC4(temp_s1_2);
-            if (var_v1_12 < 0) {
-                var_v1_12 += 0x1F;
-            }
-            var_s3_16 = var_v1_12 >> 5;
+            var_s3_16 = var_v1_12 / 32;
             if (D_800E27EC & 1) {
                 temp_v0_26 = var_s3_16 * 0xF;
                 var_s3_16 = temp_v0_26 >> 4;
@@ -822,10 +890,7 @@ block_158:
             temp_s4_12 = (func_80077CF4(temp_s1_2) / 6) + 0x1200;
             temp_s2_11 = func_80077DC4(temp_s1_2) * 2;
             var_v1_13 = func_80077DC4(temp_s1_2);
-            if (var_v1_13 < 0) {
-                var_v1_13 += 0x1F;
-            }
-            var_s3_13 = var_v1_13 >> 5;
+            var_s3_13 = var_v1_13 / 32;
             if (!(D_800E27EC & 1)) {
                 temp_v0_27 = var_s3_13 * 0xF;
                 var_s3_13 = temp_v0_27 >> 4;
@@ -870,103 +935,6 @@ block_158:
         D_800F3370 = D_800E2850[D_800E11EA];
         goto block_161;
     }
-    temp_v1_4 = effect->state;
-    switch (temp_v1_4) {                            /* switch 1 */
-    case 0:                                         /* switch 1 */
-        temp_v0_28 = (u16) effect->timer + 1;
-        effect->timer = temp_v0_28;
-        if ((temp_v0_28 == 2) && (D_800B0E64 != NULL)) {
-            func_8006DF50(D_800B0E64, 0x5E3, func_800D3FD8(), 0x80, 0x7F);
-            if (D_800B0E64 != NULL) {
-                func_8006DF50(D_800B0E64, 0x5E4, 0x80, 0x80, 0x7F);
-            }
-        }
-        if (effect->timer >= 0x10) {
-            var_v0 = 1;
-block_31:
-            effect->state = var_v0;
-            effect->timer = 0;
-        default:                                    /* switch 1 */
-block_161:
-        }
-        return 0;
-    case 1:                                         /* switch 1 */
-        temp_v0_29 = (u16) effect->timer + 1;
-        effect->timer = temp_v0_29;
-        if (temp_v0_29 >= 0x10) {
-            var_v0 = 2;
-            goto block_31;
-        }
-        /* Duplicate return node #162. Try simplifying control flow for better match */
-        return 0;
-    case 2:                                         /* switch 1 */
-        temp_v0_30 = (u16) effect->timer + 1;
-        effect->timer = temp_v0_30;
-        if (temp_v0_30 >= 0x10) {
-            var_v0 = 3;
-            goto block_31;
-        }
-        /* Duplicate return node #162. Try simplifying control flow for better match */
-        return 0;
-    case 3:                                         /* switch 1 */
-        effect->timer = (u16) effect->timer + 1;
-        if ((func_800C6B90(&effect->position, 0x960) != 0) && ((func_800C6B90(&effect->position, 0x4B0) != 0) || (func_800C6B90(&effect->position, 0x6A4) == 0)) && (M2C_FIELD(D_800E2368, u8 *, 0xD) != 0) && (((*D_800F32D0->pool)->flags & 0x3F000000) == 0x01000000)) {
-            temp_v1_5 = *D_8009D254;
-            M2C_FIELD(temp_v1_5, s32 *, 0x4C) = (s32) (M2C_FIELD(temp_v1_5, s32 *, 0x4C) | 0x4000);
-            temp_a0 = *D_800F32D0->pool;
-            temp_a0->flags = (temp_a0->flags & 0xC0FFFFFF) | 0x2D000000;
-            temp_a0_2 = *D_800F32D0->pool;
-            temp_a0_2->flags |= 0x80000000;
-        }
-        temp_a2 = effect->timer;
-        if (temp_a2 < 0x11) {
-            func_800D1D24(2, 0x10, (s32) temp_a2);
-        }
-        temp_v0_31 = func_800CE610(D_800F33E0->pool);
-        if (temp_v0_31 != NULL) {
-            M2C_FIELD(temp_v0_31, u16 *, 0) = (u16) effect->position.x;
-            M2C_FIELD(temp_v0_31, u16 *, 2) = (u16) effect->position.y;
-            M2C_FIELD(temp_v0_31, u16 *, 4) = (u16) effect->position.z;
-            M2C_FIELD(temp_v0_31, u16 *, 2) = (u16) (M2C_FIELD(temp_v0_31, u16 *, 2) - (func_80071A54() % 800));
-            M2C_FIELD(temp_v0_31, u16 *, 0) = (u16) (M2C_FIELD(temp_v0_31, u16 *, 0) + ((func_80071A54() % 512) - 0x100));
-            temp_v1_6 = func_80071A54() % 512;
-            M2C_FIELD(temp_v0_31, s16 *, 8) = 0;
-            M2C_FIELD(temp_v0_31, s16 *, 0xA) = 0;
-            M2C_FIELD(temp_v0_31, u16 *, 4) = (u16) (M2C_FIELD(temp_v0_31, u16 *, 4) + (temp_v1_6 - 0x100));
-        }
-        D_8019B668 = 0x80;
-        if (effect->timer >= 0x20) {
-            var_v0 = 4;
-            goto block_31;
-        }
-        /* Duplicate return node #162. Try simplifying control flow for better match */
-        return 0;
-    case 4:                                         /* switch 1 */
-        effect->timer = (u16) effect->timer + 1;
-        temp_v0_32 = func_800CE610(D_800F33E0->pool);
-        if (temp_v0_32 != NULL) {
-            M2C_FIELD(temp_v0_32, u16 *, 0) = (u16) effect->position.x;
-            M2C_FIELD(temp_v0_32, u16 *, 2) = (u16) effect->position.y;
-            M2C_FIELD(temp_v0_32, u16 *, 4) = (u16) effect->position.z;
-            M2C_FIELD(temp_v0_32, u16 *, 2) = (u16) (M2C_FIELD(temp_v0_32, u16 *, 2) - (func_80071A54() % 800));
-            M2C_FIELD(temp_v0_32, u16 *, 0) = (u16) (M2C_FIELD(temp_v0_32, u16 *, 0) + ((func_80071A54() % 512) - 0x100));
-            temp_v1_7 = func_80071A54() % 512;
-            M2C_FIELD(temp_v0_32, s16 *, 8) = 0;
-            M2C_FIELD(temp_v0_32, s16 *, 0xA) = 0;
-            M2C_FIELD(temp_v0_32, u16 *, 4) = (u16) (M2C_FIELD(temp_v0_32, u16 *, 4) + (temp_v1_7 - 0x100));
-        }
-        var_v1_14 = func_80077DC4((effect->timer << 0xA) / 24);
-        if (var_v1_14 < 0) {
-            var_v1_14 += 0x1F;
-        }
-        D_8019B668 = var_v1_14 >> 5;
-        if (effect->timer >= 0x18) {
-            effect->state = 4;
-            effect->timer = 0;
-            return 1;
-        }
-        /* Duplicate return node #162. Try simplifying control flow for better match */
-        return 0;
     }
+    return 0;
 }
-/* Warning: struct RoomFxTransformOwner is not defined (only forward-declared) */
