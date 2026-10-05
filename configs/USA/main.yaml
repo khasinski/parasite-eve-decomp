@@ -1402,10 +1402,8 @@ segments:
       - [0x7F8D0, c, akao/Akao_TrackCommandFlow]
       # Pan, expression, pitch and LFO slide handlers share track state.
       - [0x80668, c, akao/Akao_TrackSlideOps]
-      # Track masks, loop/ADSR commands and volume updates share AkaoTrack.
-      - [0x80978, c, akao/Akao_TrackControlOps]
-      # Branch, note-on, pitch-slide and voice-stop opcodes share AkaoTrack.
-      - [0x811C0, c, akao/Akao_NoteCommandFlow]
+      # Track masks, loop/ADSR operators and note commands share AKAO track state.
+      - [0x80978, c, akao/Akao_TrackOperatorAndNoteFlow]
       - [0x818A0, data, main/dtail_gp_pre_s016]
       - [0x84D28, .data, psyq/libc/Square_Vsprintf]
       - [0x84D34, data, main/dtail_gp_post_sprintf]
