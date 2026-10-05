@@ -1528,7 +1528,6 @@ segments:
       - [0xC6A9C, c, engine/FieldEng_SpiralSprite]
       - [0xC721C, c, engine/FieldEng_RingPulse]
       - [0xC7458, c, engine/FieldEng_BouncingGlow]
-      - [0xC763C, c, engine/FieldEng_BouncingSpriteEmitter]
       - [0xC78C0, c, engine/func_800D70C0]
       - [0xC79B8, c, engine/RoomEffect_FanSweepSpark_800D71B8]
       - [0xC7D1C, c, engine/FieldEng_FanSweepEmitter]
