@@ -1,4 +1,34 @@
-# func_80192F9C: readable candidate, score 400
+# func_80192F9C: GTE-window candidate 260, C-load candidate 400
+
+The preferred matching candidate is now `SceneE19_BlastSequence_GteWindows.c`,
+verified at **weighted Levenshtein 260** with stock GCC/MASPSX on darwine.
+It uses the existing `pe1/gte_window.h` exception documented on main for this
+function, with four rotation/translation pairs (eight macro uses), no pins,
+and one empty pointer input/memory barrier. The CPU `lw` instructions inside
+these macros are explicit matching debt; this is not a CPU-ASM-free candidate.
+The pending evidence entry must move to the active list when integrating the
+function as a C unit, with the required overlay verification.
+
+The variant below, `SceneE19_BlastSequence.c`, is preserved at score 400 with
+all matrix loads in C. No function has been integrated yet.
+
+Compiler diagnosis: stock GCC 2.7.2 `reload1.c`, `order_regs_for_reload`, marks
+explicit hard registers in `bad_spill_regs` (lines 3642-3660). The dump from
+`-da` shows `smulsi3_highpart` producing HI, then reload inserting HI -> t2
+(insn 5656 at the first site), because the C-load candidate explicitly pins
+t1. Merely reducing the lexical scope cannot remove that function-wide fact.
+The existing GTE window macros remove the explicit t1 pin and reproduce every
+one of these division-result register choices without changing the compiler.
+
+At 260, remaining differences are the four pointer-address instructions moved
+into the draw-mode head and the state-2 palette using a2 instead of v1 in three
+instructions. A 1344-trial repeat of the pointer-placement search on this
+variant and 64 follow-up dependency/clobber trials did not improve 260. The
+best relocated-pointer probe is 600, with matching total instruction count
+but additional state-2 scheduling differences. Research files are on darwine
+under `scene_e19_branch_review/{windows400.c,pointer260.py,prefix600.py}`.
+
+## Preserved C-load candidate
 
 Not integrated and not yet matching. The current preferred candidate is
 `SceneE19_BlastSequence.c` with `scene_e19_blast.h`, adapted from
