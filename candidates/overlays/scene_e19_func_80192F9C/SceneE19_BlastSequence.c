@@ -480,7 +480,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             func_800C6EC0(page, func_80077AA4(0x20, palette));
             func_800C6ED8(1);
             height = center.y;
-            center.y = height - blast->timer * 0x18;
+            center.y -= blast->timer * 0x18;
             func_80079754(&rotation, &shellMatrix3c);
             shellScale3c.x = radialScale;
             shellScale3c.y = verticalScale;
@@ -622,7 +622,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             func_800C6EC0(page, func_80077AA4(0x20, palette));
             func_800C6ED8(1);
             height = center.y;
-            center.y = height - (blast->timer + 0x20) * 0x18;
+            center.y -= (blast->timer + 0x20) * 0x18;
             func_80079754(&rotation, &shellMatrix4b);
             shellScale4b.x = radialScale;
             shellScale4b.y = verticalScale;
