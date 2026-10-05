@@ -20,7 +20,11 @@ OVERLAY_CONFIGS = $(wildcard $(OVERLAY_CONFIG_DIR)/*.yaml)
 OVERLAY_NAMES = $(basename $(notdir $(OVERLAY_CONFIGS)))
 OVERLAY_CFG = $(OVERLAY_CONFIG_DIR)/$(OVERLAY).yaml
 OVERLAY_ORIG_DIR := original/$(VERSION)/overlays
-OVERLAY_ORIG := $(OVERLAY_ORIG_DIR)/$(OVERLAY).bin
+# The retail binary is named by the config's target_path, not by the overlay
+# name: overlays may be renamed (room_mNNN_<place>) while the asset files and
+# the CI asset checkout keep their original names.
+OVERLAY_TARGET_PATH := $(shell sed -n 's/^  target_path: *//p' $(OVERLAY_CFG) 2>/dev/null)
+OVERLAY_ORIG := $(or $(OVERLAY_TARGET_PATH),$(OVERLAY_ORIG_DIR)/$(OVERLAY).bin)
 OVERLAY_ASM_DIR := asm/$(VERSION)/overlays/$(OVERLAY)
 OVERLAY_BUILD := $(BUILD)/overlays/$(OVERLAY)
 OVERLAY_LD := linkers/$(VERSION)/overlays/$(OVERLAY).ld
