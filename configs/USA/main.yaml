@@ -90,7 +90,6 @@ segments:
       - [0x106C, .rodata, battle/Battle_RollEscapeChance]
       - [0x1080, rodata, main/rodata_001080]
       - [0x1084, .rodata, battle/Battle_TargetAndEnemyTurnFlow]
-      - [0x10AC, .rodata, battle/Battle_TargetAndEnemyTurnFlow]
       - [0x10E4, .rodata, battle/Battle_StepEnemyMovement]
       - [0x10F0, .rodata, battle/Battle_StepVictory]
       - [0x1110, .rodata, battle/Battle_StepPostBattle]
