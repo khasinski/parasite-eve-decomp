@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class GpuTimeoutRetailTests(unittest.TestCase):
     def test_source_has_no_assembly(self):
-        source = (ROOT/'src/main/gpu/gpu3.c').read_text()
+        source = (ROOT/'src/main/psyq/libgpu/Gpu_ResetDmaWaitTimer.c').read_text()
         source = re.sub(r'/\*.*?\*/|//[^\n]*', '', source, flags=re.S)
         self.assertNotRegex(source, r'\b(?:asm|__asm__|INCLUDE_ASM|CC_POSTPASS)\b')
 
@@ -33,7 +33,7 @@ class GpuTimeoutRetailTests(unittest.TestCase):
         retail = (ROOT/'assets/USA/main.exe').read_bytes()[0x67BD0:0x67DE8]
         with tempfile.TemporaryDirectory() as directory:
             work = Path(directory)
-            subprocess.run([str(ROOT/'tools/scripts/cc.sh'),str(ROOT/'src/main/gpu/gpu3.c'),str(work/'test.o')],check=True,capture_output=True)
+            subprocess.run([str(ROOT/'tools/scripts/cc.sh'),str(ROOT/'src/main/psyq/libgpu/Gpu_ResetDmaWaitTimer.c'),str(work/'test.o')],check=True,capture_output=True)
             needed = [line.split()[-1] for line in subprocess.check_output(['mipsel-none-elf-nm','-u',str(work/'test.o')],text=True).splitlines()]
             script = f'SECTIONS {{ .text 0x{base:X} : SUBALIGN(4) {{ *(.text) }} /DISCARD/ : {{ *(.reginfo) *(.mdebug) *(.pdr) *(.MIPS.abiflags) }} }}\n'
             (work/'test.ld').write_text(script+'\n'.join(f'{name} = 0x{symbols[name]:X};' for name in needed))

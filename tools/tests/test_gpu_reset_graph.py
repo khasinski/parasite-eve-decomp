@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class ResetGraphTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_reset_modes_order_layout_and_dimensions(self):
-        source = (ROOT / "src/main/main/Render_InitEntityPool.c").read_text()
+        source = (ROOT / "src/main/psyq/libgpu/ResetGraph.c").read_text()
         for pin in ('$4', '$2'):
             self.assertEqual(source.count('asm("%s")' % pin), 1)
             source = source.replace('asm("%s")' % pin, '')

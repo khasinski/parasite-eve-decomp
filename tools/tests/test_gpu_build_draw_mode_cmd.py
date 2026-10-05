@@ -19,7 +19,7 @@ class GpuBuildDrawModeCmdTests(unittest.TestCase):
             self.skipTest('unicorn unavailable')
         ENTRY, EXIT = 0x80076150, 0x80010000
         retail = (ROOT/'assets/USA/main.exe').read_bytes()[0x66950:0x66970]
-        source = ROOT/'src/main/gpu/Gpu_BuildDrawModeCmd.c'
+        source = ROOT/'src/main/psyq/libgpu/Gpu_BuildDrawModeCmd.c'
         with tempfile.TemporaryDirectory() as directory:
             work = Path(directory)
             subprocess.run([str(ROOT/'tools/scripts/cc.sh'), str(source), str(work/'test.o')], check=True, capture_output=True)

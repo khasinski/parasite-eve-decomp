@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class ClearOtTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_forward_links_last_entry_and_debug(self):
-        source = (ROOT / "src/main/gpu/ClearOTag.c").read_text()
+        source = (ROOT / "src/main/psyq/libgpu/ClearOTag.c").read_text()
         self.assertEqual(source.count(' asm("$5")'), 1)
         source = source.replace(' asm("$5")', "")
         harness = source + r'''

@@ -11,7 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class GpuOtcTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_setup_completion_and_timeout(self):
-        source = (ROOT / "src/main/gpu/Gpu_SendOtChain.c").read_text()
+        source = (ROOT / "src/main/psyq/libgpu/Gpu_SendOtChain.c").read_text()
         self.assertEqual(source.count(' asm("$3")'), 1)
         # Keep the empty barriers; remove only the MIPS register name.
         source = source.replace(' asm("$3")', "")

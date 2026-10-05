@@ -71,14 +71,14 @@ CASES = [('src/main/pad/SetInitPadFlag.c',
   'g_DsReadBusy = 0x8009b70c;\n'
   'SECTIONS { .text 0x8008227c : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/gpu/Gpu_WriteControlAndMirror.c',
+ ('src/main/psyq/libgpu/Gpu_WriteControlAndMirror.c',
   36,
   'b8abe6ded14177484d809d36a89c33d27b17363b810f25ffcfc4da6f8b41a272',
   'g_GpuGp1Ptr = 0x80095854;\n'
   'D_800A3348 = 0x800a3348;\n'
   'SECTIONS { .text 0x80076b20 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/main/Render_InitEntityPool.c',
+ ('src/main/psyq/libgpu/ResetGraph.c',
   372,
   '255d8a0293b214dabba1d7fca566f2a9df422640a04b1930a82e8eb5d7319bd8',
   'D_800117E0 = 0x800117e0;\n'
@@ -97,7 +97,7 @@ CASES = [('src/main/pad/SetInitPadFlag.c',
   'D_80095748 = 0x80095748;\n'
   'SECTIONS { .text 0x80074a44 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/main/Gpu_DmaVramTransfer.c',
+ ('src/main/psyq/libgpu/Gpu_DmaVramTransfer.c',
   560,
   '1b9e23aebf87e63e62c9af90b41966ac61f63989f277c85096dd12dd16fb6215',
   'D_80095750 = 0x80095750;\n'
@@ -134,7 +134,7 @@ CASES = [('src/main/pad/SetInitPadFlag.c',
   '*(.mdebug) } }')]
 
 # The same GNU addressing also removes the CPU-ASM window in gpu2.c.
-CASES.append(('src/main/gpu/gpu2.c',
+CASES.append(('src/main/psyq/libgpu/Gpu_GetControlMirrorByte.c',
  84,
  'c8e3bc6a8ef0c53b908507260b670e6f2cc196a51b8cd4bd155ed16c7d498c57',
  'g_GpuControlRegMirror = 0x800a3348;\n'

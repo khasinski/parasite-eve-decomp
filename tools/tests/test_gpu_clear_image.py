@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class ClearImageTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_packet_paths_clamping_and_restore(self):
-        source = (ROOT / "src/main/main/Gpu_DmaVramTransfer.c").read_text()
+        source = (ROOT / "src/main/psyq/libgpu/Gpu_DmaVramTransfer.c").read_text()
         harness = source + r'''
 #include <assert.h>
 #include <stdint.h>

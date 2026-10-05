@@ -9,7 +9,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT/'src/main/gpu/SetPolyF3.c'
+SOURCE = ROOT/'src/main/psyq/libgpu/SetPolyF3.c'
 
 
 class SetDrawModeTests(unittest.TestCase):

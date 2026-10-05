@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class GpuQueueResetTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_modes_masks_buffers_and_query(self):
-        source = (ROOT / "src/main/gpu/dma_queue.c").read_text()
+        source = (ROOT / "src/main/psyq/libgpu/dma_queue.c").read_text()
         source = source[:source.index("void Gpu_ResetDmaWaitTimer(void);")]
         harness = source + r'''
 #include <assert.h>

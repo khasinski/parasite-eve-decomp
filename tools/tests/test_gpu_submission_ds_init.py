@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('main/Gpu_SwapDisplayBuffers',
+CASES = [('psyq/libgpu/Gpu_SwapDisplayBuffers',
   688,
   'b3686b34851b08fa3bb0097263caf59519056417b593606b7e7a59c155b1e508',
   'Gpu_ResetDmaWaitTimer = 0x800773D0;\n'

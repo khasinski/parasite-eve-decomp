@@ -11,7 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class GpuUploadTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_clamps_cpu_prefix_dma_blocks_and_timeout(self):
-        source = (ROOT / "src/main/gpu/vram_transfer.c").read_text()
+        source = (ROOT / "src/main/psyq/libgpu/vram_transfer.c").read_text()
         source = source[:source.index("/* Read VRAM")]
         for annotation in (' asm("$21")', ' asm("$3")'):
             self.assertEqual(source.count(annotation), 1)

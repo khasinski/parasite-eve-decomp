@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class GpuTexWindowTests(unittest.TestCase):
     def test_no_local_register_pins(self):
-        source = (ROOT/'src/main/gpu/gpu_build.c').read_text()
+        source = (ROOT/'src/main/psyq/libgpu/gpu_build.c').read_text()
         source = re.sub(r'/\*.*?\*/|//[^\n]*', '', source, flags=re.S)
         function = source.split('u32 Gpu_BuildTexWindowCmd(', 1)[1]
         self.assertNotRegex(function, r'\b(?:asm|__asm__)\b')

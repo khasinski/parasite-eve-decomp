@@ -14,7 +14,7 @@ class DrawEnvBuilderTests(unittest.TestCase):
         source = r'''
 #include <assert.h>
 #include <string.h>
-#include "src/main/gpu/drawenv.c"
+#include "src/main/psyq/libgpu/drawenv.c"
 GpuDebugState D_8009574C;
 unsigned int Gpu_BuildDrawAreaTopLeftCmd(short x, short y) { return 1; }
 unsigned int Gpu_BuildDrawAreaBottomRightCmd(short x, short y) { return 2; }
