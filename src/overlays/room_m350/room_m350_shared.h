@@ -36,4 +36,22 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350Actor, instance) == 8,
 PE1_STATIC_ASSERT(sizeof(RoomM350Actor) == 0x0C,
                   room_m350_actor_size);
 
+typedef struct RoomM350SoundOwner {
+    int reserved[2];
+    int soundMode;
+} RoomM350SoundOwner;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350SoundOwner, soundMode) == 8,
+                  room_m350_sound_owner_sound_mode_offset);
+PE1_STATIC_ASSERT(sizeof(RoomM350SoundOwner) == 0x0C,
+                  room_m350_sound_owner_size);
+
+typedef struct RoomM350Action {
+    unsigned char state;
+} RoomM350Action;
+
+PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM350Action, state) == 0,
+                  room_m350_action_state_offset);
+PE1_STATIC_ASSERT(sizeof(RoomM350Action) == 1, room_m350_action_size);
+
 #endif /* ROOM_M350_SHARED_H */

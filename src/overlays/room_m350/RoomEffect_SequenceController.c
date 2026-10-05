@@ -2,7 +2,7 @@
 #include "pe1/gte.h"
 typedef RoomM350Vector Vector;
 typedef RoomM350TransformMatrix Matrix;
-typedef struct { unsigned char state; } Action;
+typedef RoomM350Action Action;
 typedef struct { unsigned int flags; char reserved04[20]; Action *action; } Owner;
 typedef struct RoomM350Instance {
     Owner *owner; char reserved04[10]; unsigned char animation,length;
