@@ -27,10 +27,10 @@ each against the retail SHA-1.
 | `0x8008D7C0..0x800910A0` | AKAO sequencer: note timing and track commands |
 | `0x800910A0..0x800C1CA0` | initialized data and small data; `$gp` = `0x8009CD70`; the main state block `g_GameState` is at `0x800B0CD8` |
 | `0x800C1CA0..0x800E0060` | second code segment: the field effect engine (`src/main/engine`, effect pool, emitters, particles) with its own rodata |
-| `0x800E0060..0x801FE000` | zero-filled image tail used as BSS, buffers and overlay windows |
+| `0x800E0060..0x801FE000` | image tail, almost entirely zero: BSS, buffers and the overlay windows |
 | `0x801FFFF0` | initial stack top |
 
-Entry is the PsyQ start-up (`psyq/libsn/SNMAIN.c`): it clears memory, sets
+Entry is the PsyQ start-up (`psyq/libsn/SNMAIN.c`): it clears BSS, sets
 `$sp`, `$fp` and `$gp`, initializes the heap and calls `main`
 (`src/main/boot/Boot_MainLoop.c`).
 
@@ -40,15 +40,15 @@ Entry is the PsyQ start-up (`psyq/libsn/SNMAIN.c`): it clears memory, sets
 | --- | --- | --- | --- |
 | `room_mNNN` | `0x8018EFE8` | 162 | code and data of one map (`m` number), section 3 of its PE.IMG record |
 | `scene_eNN` | `0x8018EFE8` | 22 | special-scene sets: entry `NN` of the table at `0x80094048`, section 3 |
-| `fx_field` | `0x8018EFE8` | 1 | field effect block |
-| `fx_common` | `0x8018EFF0` | 1 | effect code shared by many rooms and scenes |
+| `fx_field` | `0x8018EFE8` | 1 | effect block (PE.IMG sectors 10994..10995) |
+| `fx_common` | `0x8018EFF0` | 1 | effect code block (PE.IMG sectors 1792..1817) |
 | `sys_reset` | `0x8010BCF8` | 1 | MDEC diagnostics and the PsyQ LIBPRESS VLC decoder with its tables |
 | `menu_memcard` | `0x80120D00` | 1 | memory-card menu |
 | `boot_display` | `0x80122FA4` | 1 | boot screens: text blocks, glyphs, display buffers |
 | `render_clip` | `0x80170000` | 1 | one PE.IMG sector duplicating part of `fx_common`; data only |
 
-Rooms, scene sets and the effect blocks share the `0x8018EFE8` window, so
-only one of them is resident at a time. `boot_display`, `menu_memcard` and
+Rooms, scene sets and the effect blocks are linked for the same window, so
+only one of them can run at a time. `boot_display`, `menu_memcard` and
 `scene_e11..e14` contain fragments copied with their own link addresses; the
 Makefile links those with `--no-check-sections` (`OVERLAY_VMA_OVERLAP`).
 
