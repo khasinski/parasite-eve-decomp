@@ -4,6 +4,13 @@
 the later entry directly calls a function defined by the immediately preceding
 entry. It is evidence for review, not evidence of an original source boundary.
 
+`tools/scripts/main_tu_evidence.py` scores every gap between adjacent resident
+functions from the linked build (shared literals, literal order inversions,
+private data and helpers, matched Psy-Q object ranges, compiler profile and
+`$gp` addressing conflicts) and proposes contiguous groups, checking whether
+the files in a group can merge without moving any non-text section. It also
+reports proposals only; each merge still needs the checks below.
+
 ## Verified main units
 
 | Range | Unit | Evidence |
