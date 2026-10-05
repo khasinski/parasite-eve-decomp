@@ -1,14 +1,14 @@
 #include "common.h"
 #include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+/* MASPSX_FLAGS: --use-comm-section -G8 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK MenuWidget_ClearCursorY();
 s32 MenuWidget_FindByModeAndSelectedBase();
 void *MenuWidget_GetCurrentNode();
-M2C_UNK MenuWidget_SetCurrentNode();
+void MenuWidget_SetCurrentNode(void *node);
 M2C_UNK Menu_CreateBonusPointAllocationView();
 s32 Inv_GetAyaSlotLimit();
 M2C_UNK Inv_RebuildSelectableMask();
@@ -159,22 +159,20 @@ void Menu_DrawEquipOptionsList(int arg0) {
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-M2C_UNK MenuWidget_OffsetPosition();
-M2C_UNK MenuWidget_SetCurrentNode();
+void MenuWidget_OffsetPosition(void *node, int dx, int dy);
+void MenuWidget_SetCurrentNode(void *node);
 void Menu_OpenInventoryOrSwapView(s32 arg0);
-M2C_UNK Menu_CreateEquipInfoPanel();
-M2C_UNK Menu_PlayConfirmSound();
-M2C_UNK Menu_PlayCancelSound();
-M2C_UNK Sort_ContainerItems();
+void Menu_CreateEquipInfoPanel(int arg0, unsigned int arg1);
+void Menu_PlayConfirmSound(void);
+void Menu_PlayCancelSound(void);
+void Sort_ContainerItems(int arg0);
 s32 MenuWidget_GetChild();
 void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
 s32 MenuWidget_GridCellIndex();
 extern s32 g_MenuInventoryViewMode;
-extern M2C_UNK Menu_DrawEquipSortToggleList[];
-#define Menu_DrawEquipSortToggleList (Menu_DrawEquipSortToggleList[0])
-extern M2C_UNK Menu_EquipGridHandler[];
-#define Menu_EquipGridHandler (Menu_EquipGridHandler[0])
+void Menu_DrawEquipSortToggleList(int arg0);
+int Menu_EquipGridHandler(int arg0, int arg1);
 
 s32 Menu_EquipOptionsInputHandler(s32 arg0, s32 arg1) {
     s32 temp_a1;
@@ -200,7 +198,7 @@ s32 Menu_EquipOptionsInputHandler(s32 arg0, s32 arg1) {
             }
             break;
         case 1:
-            Sort_ContainerItems(temp_a1, temp_a1);
+            Sort_ContainerItems(temp_a1);
             Menu_OpenInventoryOrSwapView(1);
             break;
         }
@@ -212,4 +210,78 @@ s32 Menu_EquipOptionsInputHandler(s32 arg0, s32 arg1) {
         Menu_PlayCancelSound();
     }
     return 1;
+}
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: --use-comm-section -G8 */
+
+void Menu_DrawEquipSortToggleRow(int arg0);
+void MenuWidget_DrawList(int arg0, void (*callback)(int));
+
+int g_MenuInventoryViewMode;
+
+int MenuWidget_GetChild(int arg0, int arg1);
+int MenuWidget_GridCellIndex(int arg0);
+void Sort_ContainerItems(int arg0);
+void Inv_SortInventoryByMode(int arg0, int arg1);
+void Menu_OpenInventoryOrSwapView(int arg0);
+void Menu_PlayConfirmSound(void);
+void MenuWidget_DestroyNode(int arg0);
+void Menu_PlayCancelSound(void);
+
+int g_InvItemUsableFlag;
+int g_MenuInventoryViewMode;
+
+void *MenuWidget_CreateSimpleNode(int arg0, int arg1, int arg2, int arg3);
+void *MenuWidget_CreateNode(int arg0, void *arg1, void *arg2);
+void MenuWidget_SetCurrentNode(void *arg0);
+void MenuWidget_OffsetPosition(void *arg0, int arg1, int arg2);
+void Menu_EquipSelectInput(void);
+void Menu_DrawEquipInfoOptionList(void);
+
+void Menu_DrawEquipSortToggleList(int arg0) {
+        MenuWidget_DrawList(arg0, Menu_DrawEquipSortToggleRow);
+}
+
+int Menu_EquipGridHandler(int arg0, int arg1) {
+    int temp;
+
+    if (arg1 & 0x10000) {
+        temp = MenuWidget_GridCellIndex(MenuWidget_GetChild(arg0, 0));
+        if (g_MenuInventoryViewMode != 0) {
+            Sort_ContainerItems(temp);
+        } else {
+            Inv_SortInventoryByMode(2, temp);
+        }
+        Menu_OpenInventoryOrSwapView(1);
+        Menu_PlayConfirmSound();
+    } else if (arg1 & 0x40) {
+        MenuWidget_DestroyNode(arg0);
+        Menu_PlayCancelSound();
+    }
+
+    return 1;
+}
+
+void Menu_CreateEquipInfoPanel(int arg0, unsigned int arg1) {
+    void *node;
+    void *child;
+
+    node = MenuWidget_CreateSimpleNode(0x3C, arg0, 0, 0);
+    child = MenuWidget_CreateNode(0x3C, node, node);
+    *(void **)((char *)node + 0x2C) = Menu_EquipSelectInput;
+    *(void **)((char *)child + 0x30) = Menu_DrawEquipInfoOptionList;
+    MenuWidget_SetCurrentNode(child);
+
+    if (g_MenuInventoryViewMode == 0) {
+        MenuWidget_OffsetPosition(
+            node,
+            0x70 - *(int *)((char *)node + 0x18),
+            0x20 - *(int *)((char *)node + 0x1C)
+        );
+    }
+
+    g_InvItemUsableFlag = arg1 < 1;
+    if (arg1 != 0) {
+        MenuWidget_OffsetPosition(node, 0, 0x14);
+    }
 }
