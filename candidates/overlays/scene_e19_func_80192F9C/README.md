@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **3397**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **2757**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Nine register pins and eleven empty barriers are recorded below. There is no CPU ASM.
@@ -765,3 +765,36 @@ Target and retained candidate both contain 2368 instructions.
 Remote artifacts: split_page_4237/, split_page_guard_4237/,
 page_orders_3687/, page_fence_3687/, page_orders_3607/, state_fence_3607/,
 and base_3397.c under the existing scene_e19_80192F9C research directory.
+
+
+## Negate before multiplying model rotation (2757)
+
+Three Y rotations now use `(-D_800E27EC) * positive_constant` rather than
+`D_800E27EC * negative_constant`. This follows the retail instruction order
+and reduces 3397 to 3017 without a helper, pin or barrier. Exhaustive ordering
+of the six setup writes in these three blocks (2160 variants) then found two
+independent improvements: move the zero Z write before the tpage write in
+the two -32 rotation blocks. Combined, these changes score **2757**.
+The -48 block retains its existing write order. These are straight-line
+arithmetic/store changes; no call or branch is crossed. Debt remains nine
+pins, eleven empty barriers and two inline conversion helpers.
+
+The 512 negative-rotation forms included direct signed/unsigned negation,
+a temporary, an inline helper and empty constraints. The retained form is
+ordinary C. Another 324 page-read/fence variants did not improve 2757.
+The target and candidate still each contain 2368 instructions, with the
+same stack frame. Only the full-function weighted Levenshtein score is
+used to rank variants; the candidate is not yet matching or integrated.
+
+Other closed searches: the 3397 draw permuter completed 6661 iterations
+without improvement. Combined phase/scale/saved-height pin and helper
+variants (128) did not improve 3397. Pinning a saved height to s5 could
+score 3377 in an earlier 144-variant probe, but did not reproduce the retail
+s7 allocation and was not retained; the ordinary-C rotation changes now
+supersede that result. The 36 third-state setup fences were also neutral
+or worse.
+
+All compilation and scoring ran on darwine with stock GCC 2.7.2/maspsx.
+Artifacts in the existing research directory: negative_rotation_3397/,
+negative_orders_3017/, negative_page_2757/, model_live_3397/,
+height_pins_3397/, state2_fences_3397/, permuter_draw_3397/ and base_2757.c.
