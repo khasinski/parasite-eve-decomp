@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/s32_vector3.h"
 
 /* Shared 8-byte particle payload used by the rising-sprite callbacks. */
 typedef struct RoomM273RisingParticle {
@@ -99,11 +100,7 @@ PE1_STATIC_ASSERT(sizeof(RoomM273RisingBatchBuffer) == 0x5E,
                   room_m273_rising_batch_buffer_size);
 
 /* Position payload shared by the player-following effect callbacks. */
-typedef struct RoomM273WorldPosition {
-    s32 x;
-    s32 y;
-    s32 z;
-} RoomM273WorldPosition;
+typedef Pe1S32Vector3 RoomM273WorldPosition;
 
 typedef struct RoomM273PlayerTransform {
     u8 reserved_00[0x14];
