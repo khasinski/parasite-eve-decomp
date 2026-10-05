@@ -63,7 +63,7 @@ CASES = [('src/main/pad/SetInitPadFlag.c',
   'g_MemCardResponseHandler = 0x8009b744;\n'
   'SECTIONS { .text 0x80084b44 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/cdrom/misc9.c',
+ ('src/main/psyq/libds/CdRom_SeekDoneCallback.c',
   64,
   '3e9c23ff8921bfb43accf28fb43951d8b2614ae49b3c09a313efd642eb50d3b3',
   'LIBDS_DSREADY_text_FC = 0x80081e70;\n'

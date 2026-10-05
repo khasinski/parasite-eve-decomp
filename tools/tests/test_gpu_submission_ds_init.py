@@ -26,7 +26,7 @@ CASES = [('psyq/libgpu/Gpu_SwapDisplayBuffers',
   'D_800BD030 = 0x800BD030;\n'
   'SECTIONS { .text 0x80076c34 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('cdrom/CdRom_DsReadSystemLifecycle',
+ ('psyq/libds/DsInit',
   592,
   '71cb6c36483078eb7a6513f2ac8d01d326f1a29003be05a55e261046ffa14825',
   'CdRom_IsDsReadSystemEnabled = 0x80080940;\n'
