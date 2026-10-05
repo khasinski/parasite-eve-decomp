@@ -1,5 +1,6 @@
 /* Scene e01 motion sprite callback, retail offset 0x818. */
 #include "common.h"
+#include "pe1/gte_short_vector.h"
 #include "pe1/room_fx.h"
 
 typedef struct {
@@ -16,12 +17,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(MotionSpriteState, blocked) == 0x08,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(MotionSpriteState, frame) == 0x0A,
                   motion_sprite_frame_offset);
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} SpritePosition;
+typedef GteShortVector SpritePosition;
 
 extern RoomFxSeed8 D_8018F004;
 extern s32 D_800E27EC;

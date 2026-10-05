@@ -1,14 +1,10 @@
 #include "pe1/field_script_context.h"
+#include "pe1/gte_short_vector.h"
 #ifndef ROOMLIB_DRAW_SIXTEEN_PROJECTIONS_FUNC
 #error "ROOMLIB_DRAW_SIXTEEN_PROJECTIONS_FUNC must name the room entry point"
 #endif
 
-typedef struct RoomSixteenProjectionPoint {
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 pad;
-} RoomSixteenProjectionPoint;
+typedef GteShortVector RoomSixteenProjectionPoint;
 
 typedef struct RoomSixteenProjectionPacket {
     u32 tag;
