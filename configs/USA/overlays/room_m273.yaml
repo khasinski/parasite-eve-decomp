@@ -154,9 +154,8 @@ segments:
       - [0xB1B8, c, func_8019A1A0]
       - [0xB2A8, c, func_8019A290]
       - [0xB3B0, c, func_8019A398]
-      - [0xB4E4, c, RoomEffect_PhasedPointerSprite]
-      # Arc state helper, pool controller, and adjacent eight-byte callback record.
-      - [0xB5EC, c, RoomEffect_ArcSpriteFlow]
+      # Adjacent phased-pointer and arc callbacks share frame/trig inputs and effect-pool flow.
+      - [0xB4E4, c, RoomEffect_PhasedArcSpriteFlow]
       - [0xB828, data, D_8019A810]
       - [0xB860, data, D_8019A848]
       - [0xB87C, data, D_8019A864]

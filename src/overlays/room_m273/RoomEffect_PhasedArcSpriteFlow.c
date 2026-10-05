@@ -1,3 +1,35 @@
+#include "room_m273_effects.h"
+
+typedef RoomM273PointerPoolEffect Effect;
+typedef struct { unsigned char unknown[58]; unsigned short value; } Object;
+typedef struct { short zero; unsigned short value,phase,one; } Parameters;
+extern RoomM273EffectStateContext *D_800F32D0;
+extern int D_800E27EC,D_800966EC[];
+extern unsigned char D_8019ACDC[],D_8019ACE0[];
+extern void func_800D0728(void *,int,int,int,Parameters *,int,int,void *,void *,int,int);
+
+int func_8019A4CC(int mode,Effect *effect) {
+    Parameters parameters;
+    /* Layout only: purpose of these eight original frame bytes is unknown. */
+    int stack_pad[2];
+    if(mode==1) {
+        if(D_800E27EC>=16) return 1;
+    } else if(mode==2) {
+        register int frame asm("$4")=D_800E27EC-1;
+        unsigned int sizeOffset=((unsigned int)frame<<8)&0x3F00;
+        unsigned int shadeOffset=((unsigned int)frame<<9)&0x3E00;
+        int size=*(short *)((char *)D_800966EC+sizeOffset)*2+4096;
+        int shade=(short)*(int *)((char *)D_800966EC+shadeOffset)>>5;
+        parameters.zero=0;
+        parameters.value=((Object *)D_800F32D0->state.mode)->value;
+        parameters.phase=(unsigned int)frame<<8;
+        parameters.one=1;
+        func_800D0728(effect->position,32,96,8,&parameters,size,size,
+            D_8019ACDC,D_8019ACE0,shade,1);
+    }
+    return 0;
+}
+
 /* Arc spawn-state helper, callback, and pool controller. */
 #include "common.h"
 #include "room_m273_arc.h"
