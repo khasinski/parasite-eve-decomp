@@ -2,10 +2,11 @@
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/field_actor.h"
+#include "pe1/task_node.h"
 
 extern FieldActor *g_CurrentEntity[];
 extern int g_SceneDataTable0;
-extern int *g_TaskNodePool;
+extern TaskNode *g_TaskNodePool;
 
 int Entity_YieldWhileMoving(void) {
     int ret;
@@ -16,7 +17,7 @@ int Entity_YieldWhileMoving(void) {
     }
 
     g_SceneDataTable0 -= 8;
-    g_TaskNodePool[4] = 1;
+    g_TaskNodePool->active = 1;
     return ret;
 }
 /* CC1_FLAGS: -G8 */
@@ -25,7 +26,7 @@ int Entity_YieldWhileMoving(void) {
 #include "pe1/field_actor.h"
 
 extern FieldActor *g_CurrentEntity[];
-extern int *g_TaskNodePool;
+extern TaskNode *g_TaskNodePool;
 
 int Entity_SelectFieldSetter(int **arg0) {
     int value;
@@ -42,7 +43,7 @@ int Entity_SelectFieldSetter(int **arg0) {
             g_CurrentEntity[0]->script_cursor_19c = 0;
             break;
         case 3:
-            g_TaskNodePool[1] = 0;
+            g_TaskNodePool->next_value = 0;
             break;
         }
     } else {
@@ -55,7 +56,7 @@ int Entity_SelectFieldSetter(int **arg0) {
             g_CurrentEntity[0]->script_cursor_19c = (int)(g_CurrentEntity[0]->script_base + (value << 1));
             break;
         case 3:
-            g_TaskNodePool[1] = (int)(g_CurrentEntity[0]->script_base + (value << 1));
+            g_TaskNodePool->next_value = (int)(g_CurrentEntity[0]->script_base + (value << 1));
             break;
         }
     }
