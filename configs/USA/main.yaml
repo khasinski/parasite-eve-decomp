@@ -1401,14 +1401,8 @@ segments:
       # SPU pitch slides and AKAO ticking share bank and track state views.
       # SPU ticking, sample-bank scanning and note stepping share AKAO track state.
       - [0x7DFC0, c, main/SPU_Akao_NoteTimingFlow]
-      - [0x7F8D0, c, akao/seq_op]
-      - [0x7FB28, c, akao/SeqOp_SetTempoSlide]
-      - [0x7FB7C, c, akao/SeqOp_SetVolumeSlideTarget]
-      - [0x7FC30, c, akao/misc5]
-      - [0x7FCE8, c, akao/snd_track]
-      - [0x7FD9C, c, akao/SeqOp_SetVolumeOrExpression]
-      - [0x7FE08, c, akao/akao5]
-      - [0x80300, c, akao/Akao_SeqPitchLfo]
+      # Track parameter commands, note/pan handling and pitch-LFO updates.
+      - [0x7F8D0, c, akao/Akao_TrackCommandFlow]
       - [0x80668, c, akao/SeqOp_SetPanSlide]
       - [0x806D8, c, akao/seq_op3]
       - [0x807E4, c, akao/SeqOp_SetExpressionSlide]
