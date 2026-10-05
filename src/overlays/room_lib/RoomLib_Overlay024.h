@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/field_script_context.h"
+#include "pe1/room_fx.h"
 
 typedef struct RoomOverlay024Matrix {
     s16 m[3][3];
@@ -17,9 +18,7 @@ typedef struct RoomOverlay024Vec4 {
     s32 w;
 } RoomOverlay024Vec4;
 
-typedef struct RoomOverlay024MatrixSeed8 {
-    char bytes[8];
-} RoomOverlay024MatrixSeed8;
+typedef RoomFxSeed8 RoomOverlay024MatrixSeed8;
 
 typedef struct RoomOverlay024ViewMatrix {
     s32 m00;

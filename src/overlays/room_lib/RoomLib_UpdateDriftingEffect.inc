@@ -1,4 +1,5 @@
 #include "pe1/field_script_context.h"
+#include "pe1/room_fx.h"
 typedef struct RoomDriftView {
     char pad0[0x1A0];
     char transform[0x14];
@@ -26,9 +27,7 @@ typedef struct RoomDriftEffect {
     s16 half14;
 } RoomDriftEffect;
 
-typedef struct RoomDriftMatrixSeed {
-    char bytes[8];
-} RoomDriftMatrixSeed;
+typedef RoomFxSeed8 RoomDriftMatrixSeed;
 
 void ApplyMatrixSV(void *transform, RoomDriftMatrixSeed *seed, u16 *out);
 s32 rand(void);

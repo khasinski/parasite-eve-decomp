@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/room_bounce_glint.h"
+#include "pe1/room_fx.h"
 
 /* Bouncing glint particle callback for the room_m086 controller: mode 1
  * moves it (drift, then fall and bounce), mode 2 draws it. Both draws read
@@ -116,9 +117,7 @@ int func_801900CC(int mode, RoomBounceGlint *glint, int *size) {
     return 0;
 }
 
-typedef struct RoomM086Blob8 {
-    char bytes[8];
-} RoomM086Blob8;
+typedef RoomFxSeed8 RoomM086Blob8;
 
 extern void *D_800F32D0;
 extern void *D_800F33E0;
