@@ -58,9 +58,7 @@ typedef struct {
     u8 *object;
 } RoomM273PlayerObjectView;
 
-typedef struct {
-    void *position;
-} RoomM273PoolEffect;
+typedef RoomM273PointerPoolEffect RoomM273PoolEffect;
 
 extern RoomM273EffectStateContext *D_800F32D0;
 extern RoomM273PlayerObjectView *g_PlayerEntity;
