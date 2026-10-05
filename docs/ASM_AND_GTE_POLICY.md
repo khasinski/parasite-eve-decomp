@@ -115,7 +115,8 @@ match and full retail SHA before accepting such a per-file choice. `cc.sh`
 only forwards the stock option; the compiler and MASPSX remain unchanged.
 
 Inline instructions are allowed only for individual GTE/COP2 hardware
-operations, or in functions with concrete evidence that the original source
+operations, the evidenced scratchpad stack switch (see "Scratchpad stack
+switch"), or in functions with concrete evidence that the original source
 was assembly. Put each permitted instruction sequence behind a small, named,
 central macro and isolate only the instruction window that C cannot express.
 Do not hide surrounding CPU control flow, arithmetic, loads, or stores in that
@@ -307,6 +308,57 @@ the additive generator whose state is the 80-byte `.text` block at
 as a move. They already match as C with register pins and empty barriers, so
 they are not listed here; replacing that C with this macro would need its own
 review.
+
+## Scratchpad stack switch
+
+Rule: inside a C function, the only CPU instruction assembly allowed is
+`BOOT_CALL_ON_SCRATCHPAD_STACK(top, call)` from `include/pe1/boot_stack.h`,
+and only in the functions listed under `stack_switch_macros` in
+`configs/USA/original_asm_evidence.json`. Today that is one function, the boot
+entry `main` in `boot/Boot_MainLoop`.
+
+Why C cannot express it: the retail code runs one call with `$sp` moved into
+the 1 KiB scratchpad. It parks the caller's `$sp` in the top word
+(0x1F8003FC), points `$sp` one word lower, calls `func_8019234C`, then steps
+back up and reloads the old `$sp`. C has no way to name or assign the stack
+pointer, and no compiler option produces this sequence.
+
+The macro owns only that window. A first `asm volatile` copies the address
+operand into `$t0` and performs `sw $sp`, `addiu`, `move $sp`; the call is an
+ordinary C statement; a second `asm volatile` performs `addiu $sp,$sp,4` and
+`lw $sp,0($sp)`. The address is a normal `"r"` operand: in retail the
+compiler loads 0x1F8003FC into an allocatable register (`$a1`, `lui`/`ori`)
+before the copy into the fixed `$t0`, which is exactly what stock GCC emits for
+the operand, so the address is C. No control flow, no other load or store, and
+no register pin are inside the macro. Everything else in `main` is plain C with
+no pins: the two former `$19`/`$2` pins, the byte-pointer view of game-state
+byte 0xF5 (now `display_list_modes`) and the goto dispatch were replaced by
+global `Pe1GameState` accesses, a `switch` and nested loops.
+
+Evidence for each listed function records its retail range, the instruction
+window and why C cannot express it. `check_source_policy.py` requires:
+
+- every unit that uses the macro is listed, and uses it exactly once per
+  listed function, inside that function;
+- the unit has no other instruction asm (it classifies as `semantic_c`);
+- the listed function lies inside the unit's yaml `c` range;
+- every listed entry uses the macro, and none lacks evidence; and
+- `boot_stack.h` holds exactly the six-instruction window, and nothing else
+  defines the macro.
+
+`source_quality.classify()` reports a listed user as `semantic_c`: the six
+instructions are the only part C cannot state, and the rest of the function is
+the reconstruction. An unlisted user is `asm_constrained`. `crutch_debt.py` counts each use in its own
+`stack_switch_macros` column. It is debt, so the file stays dirty, and the
+ratchet keeps the count from growing without a reviewed baseline change.
+
+To add a use: show from the retail disassembly that the function changes
+`$sp` around a call with exactly this window, and that the rest of the function
+matches as plain C. Then add an entry (name, module, source, address, size,
+window, evidence, verified_by), use the macro once, and run
+`make source-policy-check`, `make debt-baseline` and the usual match checks.
+Any other stack or register manipulation needs its own policy decision; do not
+widen this macro.
 
 ## LZCS / LZCR
 

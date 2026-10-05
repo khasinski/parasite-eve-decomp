@@ -319,6 +319,11 @@ class SourceQualityTests(unittest.TestCase):
             self.STACK_SWITCH + 'void g(void) { asm volatile("nop"); }\n',
             {"main/boot/Boot_MainLoop.c"}), "asm_constrained")
 
+    def test_repository_stack_switch_user_is_semantic_c(self):
+        root = pathlib.Path(__file__).resolve().parents[2]
+        self.assertEqual(source_quality.classify(
+            root / "src/main/boot/Boot_MainLoop.c"), "semantic_c")
+
     def test_psyq_assembler_object_cannot_hide_c_functions(self):
         self.assertEqual(self.classify(
             'PSYQ_ASM_FUNCTION(f, "    jr $ra\\n" "    nop\\n");\n'
