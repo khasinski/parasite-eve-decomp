@@ -32,6 +32,9 @@ reduce the file count.
 - hardware and SDK declarations belong in their subsystem header rather than
   being repeated in C files.
 
+The subsystem list, the target directory for every current directory and the
+naming rules are in [CONVENTIONS.md](CONVENTIONS.md).
+
 Names such as `func_800...`, `misc`, `task7`, and `spu4` explicitly mean
 "identity or module boundary not established". They are migration state, not a
 stable naming convention. `make organization-check` prevents the address-name

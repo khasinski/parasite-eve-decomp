@@ -45,9 +45,9 @@ that the two sides are consistent, but it does not turn those boundaries into
 independent evidence about the original translation units. Code bytes and the
 full linked SHA-1 are the stronger measures.
 
-Binary matching is only one quality level. See
-[docs/SOURCE_QUALITY.md](docs/SOURCE_QUALITY.md) for the semantic, crutch-free,
-header-integrated, typed, and organized review levels.
+Binary matching is only one quality level. A file is finished when it is
+also named, typed, free of hidden fixed addresses and placed in its
+subsystem; [docs/CONVENTIONS.md](docs/CONVENTIONS.md) defines that bar.
 
 For normal acceptance run `make verify`; it combines the source-policy gates,
 tests, build, and retail checksum. Structural, manifest, toolchain, and shared
@@ -64,19 +64,35 @@ assembly. Whole-function asm bodies are not decompilation results. Compiler or
 MASPSX modifications, post-build rewrites, and build hacks are forbidden. See
 [docs/ASM_AND_GTE_POLICY.md](docs/ASM_AND_GTE_POLICY.md).
 
+## How the game is built
+
+`SLUS_006.62` is the resident executable: boot, the script interpreter,
+actors, rendering, battle, menus, the AKAO sound driver and the PsyQ
+libraries. Rooms, scene sets, effects and a few screens are overlays read
+from `PE.IMG` into fixed RAM windows; all 162 room overlays and 22 scene sets
+share the window at `0x8018EFE8`. Each overlay is linked separately against
+the executable's symbols. The memory map, the overlay windows and the build
+pipeline are described in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 ## Layout
 
-- `configs/USA/` - splat config, symbols, relocs, checksum.
-- `src/main/` - decompiled C translation units for the main executable.
-- `include/` - project headers.
-- `tools/scripts/` - project-specific build and analysis helpers.
-- `docs/` - progress table and maintained documentation.
+- `src/main/<subsystem>/` - the executable, one directory per subsystem;
+  PsyQ objects under `src/main/psyq/lib*/` with their SDK names.
+- `src/overlays/<overlay>/` - one directory per overlay binary;
+  `room_lib/` holds templates shared by many rooms.
+- `include/pe1/` - game headers, one owner per declaration.
+- `configs/USA/` - splat configs, symbols, relocations, SDK provenance and
+  assembler evidence.
+- `tools/scripts/`, `tools/tests/` - build, check and report helpers and
+  their tests.
+- `docs/` - the contracts and badges.
 
-Source placement and translation-unit changes follow
-[docs/CODE_ORGANIZATION.md](docs/CODE_ORGANIZATION.md). New declarations belong
-in subsystem headers rather than directly in C files; CI prevents the existing
-migration debt from increasing. CI also enforces a one-to-one mapping between
-manifest C entries and files under `src/`.
+Naming, the subsystem taxonomy, headers, the assembler rule and code style
+are in [docs/CONVENTIONS.md](docs/CONVENTIONS.md); source placement and
+translation-unit changes follow
+[docs/CODE_ORGANIZATION.md](docs/CODE_ORGANIZATION.md). CI enforces a
+one-to-one mapping between manifest C entries and files under `src/` and
+prevents organization and crutch debt from increasing.
 
 Generated directories such as `asm/`, `linkers/`, `build/`, `assets/`, and
 `disc/` are intentionally ignored, along with local working notes.

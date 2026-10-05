@@ -21,13 +21,16 @@ runs in GitHub Actions.
 
 A normal main-executable change is done when:
 
-- the intended function is semantic C under `docs/SOURCE_QUALITY.md`;
+- the intended function is semantic C under `docs/ASM_AND_GTE_POLICY.md`;
 - its stock-compiler object diff is exact;
 - `make verify` passes;
 - any debt reduction is captured with `make debt-baseline` or
   `make organization-baseline` and the lowered JSON is included;
 - naming, typing, or source-boundary claims have evidence, not only a byte
   match.
+
+A file is finished, not only matched, when it also meets "A finished file"
+in `docs/CONVENTIONS.md`.
 
 For a shared header, compiler wrapper, Makefile, manifest, source move, or
 translation-unit boundary change, use `make verify-clean`. This proves the
@@ -73,5 +76,17 @@ makes every cleanup permanent: later work cannot silently spend it. Baseline
 updates that raise a count are policy changes and require explicit review; they
 are not a normal way to make CI green.
 
-The detailed organization and source-quality rules live in
-`docs/CODE_ORGANIZATION.md` and `docs/SOURCE_QUALITY.md`.
+## Matching aids
+
+- `tools/scripts/probe_match.py` compiles one main unit and compares it with
+  the retail bytes, masked or fully linked (`--linked`).
+- `tools/scripts/score_decompme.py target.o candidate.o` gives decomp.me's
+  weighted asm-differ score. Pass `--algorithm levenshtein` to
+  decomp-permuter. A zero score is a search result; only the linked SHA-1
+  proves a match.
+- `tools/scripts/audit_tu_candidates.py` lists adjacent manifest units with a
+  direct call edge, as leads for translation-unit merges.
+
+Keep experiments outside the tracked tree. The detailed rules live in
+`docs/CONVENTIONS.md`, `docs/CODE_ORGANIZATION.md` and
+`docs/ASM_AND_GTE_POLICY.md`.
