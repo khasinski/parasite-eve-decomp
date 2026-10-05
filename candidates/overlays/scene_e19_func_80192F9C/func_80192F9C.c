@@ -596,12 +596,12 @@ block_31:
                 temp_v0_19 = intensity * 0xF;
                 intensity = temp_v0_19 / 16;
             }
-            sp48.x = 0;
             sp48.z = 0;
             sp48.y = D_800E27EC * -0x30;
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
+            sp48.x = 0;
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord((D_800E2850[D_800E11EA[0]] | texturePage));
             paletteRow = D_800E1204[D_800F336C];
@@ -631,12 +631,12 @@ block_31:
                 temp_v0_20 = intensity * 0xF;
                 intensity = temp_v0_20 / 16;
             }
-            sp48.x = 0;
             sp48.z = 0;
             sp48.y = D_800E27EC * -0x20;
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
+            sp48.x = 0;
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord((D_800E2850[D_800E11EA[0]] | texturePage));
             paletteRow = D_800E1204[D_800F336C];
@@ -701,12 +701,12 @@ block_31:
                 temp_v0_22 = intensity * 0xF;
                 intensity = temp_v0_22 / 16;
             }
-            sp48.x = 0;
             sp48.z = 0;
             sp48.y = (D_800E27EC << 5) + 0x400;
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
+            sp48.x = 0;
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord((D_800E2850[D_800E11EA[0]] | texturePage));
             paletteRow = D_800E1204[D_800F336C];
@@ -735,12 +735,12 @@ block_31:
                 temp_v0_23 = intensity * 0xF;
                 intensity = temp_v0_23 / 16;
             }
-            sp48.x = 0;
             sp48.z = 0;
             sp48.y = D_800E27EC << 5;
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
+            sp48.x = 0;
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord((D_800E2850[D_800E11EA[0]] | texturePage));
             paletteRow = D_800E1204[D_800F336C];
@@ -773,12 +773,12 @@ block_31:
                 temp_v0_24 = intensity * 0xF;
                 intensity = temp_v0_24 / 16;
             }
-            sp48.x = 0;
             sp48.z = 0;
             sp48.y = D_800E27EC << 5;
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
+            sp48.x = 0;
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord((D_800E2850[D_800E11EA[0]] | texturePage));
             paletteRow = D_800E1204[D_800F336C];
@@ -808,12 +808,12 @@ block_31:
                 temp_v0_25 = intensity * 0xF;
                 intensity = temp_v0_25 / 16;
             }
-            sp48.x = 0;
             sp48.z = 0;
             sp48.y = D_800E27EC * -0x20;
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
+            sp48.x = 0;
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord((D_800E2850[D_800E11EA[0]] | texturePage));
             paletteRow = D_800E1204[D_800F336C];
@@ -845,12 +845,12 @@ block_31:
                 temp_v0_26 = intensity * 0xF;
                 intensity = temp_v0_26 / 16;
             }
-            sp48.x = 0;
             sp48.z = 0;
             sp48.y = (D_800E27EC << 5) + 0x400;
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
+            sp48.x = 0;
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord((D_800E2850[D_800E11EA[0]] | texturePage));
             paletteRow = D_800E1204[D_800F336C];
@@ -879,12 +879,12 @@ block_31:
                 temp_v0_27 = intensity * 0xF;
                 intensity = temp_v0_27 / 16;
             }
-            sp48.x = 0;
             sp48.z = 0;
             sp48.y = D_800E27EC << 5;
             D_800F336C = 3;
             D_800F336E = 0;
             D_800F3370 = D_800E2850[D_800E11EA[0]];
+            sp48.x = 0;
             texturePage = func_80077A64(0, 1, 0, 0);
             texturePage = gpuWord((D_800E2850[D_800E11EA[0]] | texturePage));
             paletteRow = D_800E1204[D_800F336C];

@@ -1,6 +1,6 @@
 # func_80192F9C: initial recovered candidate
 
-Not integrated. Linked asm-differ weighted Levenshtein score: **5828**.
+Not integrated. Linked asm-differ weighted Levenshtein score: **4930**.
 Measured on darwine using stock GCC 2.7.2 (`-O2 -G0 -funsigned-char -mips1
 -mcpu=3000`), stock MASPSX 2.56 (`--expand-div`) and the repository's scoring configuration.
 Eight register pins and eight empty barriers are recorded below. There is no CPU ASM.
@@ -466,3 +466,25 @@ Current candidate debt is eight pins and eight empty barriers, plus the same
 two fully inlined conversion helpers. No CPU instruction ASM was added.
 Target and candidate each contain 2368 instructions; the score is still
 nonzero and production retains the original assembly.
+
+## Late rotation-X initialization
+
+A bounded 120-second, 24-worker darwine run in permuter_ptr/ reproduced
+base 5828, completed 4755 iterations with 95 rejected compilations, and
+stopped. Its best generated candidate scored 5702. That candidate included
+an unnecessary assignment to a const temporary around a GTE load; this was
+not retained. Isolating only the later sp48.x = 0 assignment reproduced 5702.
+
+Applying the same source-order change individually to analogous draw blocks
+scored 5762, 5516, 5591, 5576, 5576, 5591, 5576 and 5576 against that base.
+Combining the seven beneficial moves with the original isolated move scores
+**4930**, confirmed by a fresh retained compilation. Each move crosses only
+independent assignments to other rotation fields and rendering globals. None
+crosses a function call, condition or read of sp48.x. All eight assignments
+still precede the next texture-page query and matrix construction.
+
+Debt remains eight register pins, eight empty barriers and the same two
+fully inlined conversion helpers. No new inline assembly or helper is added.
+The target and candidate each have 2368 instructions; no score-zero claim.
+Additional palette-v1, intensity-s3 and radial-scale-s4 pins scored 6558,
+11833 and 7398 respectively against base 5828 and were rejected.
