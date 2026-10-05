@@ -35,10 +35,10 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
 {
     GteShortVector center;
     GteShortVector ringPoint;
-    GteRotation flareRotation;
+    GteRotation flareRotation = { 0x400, 0, 0, 1 };
     GteShortVector rotation;
-    RenderColor glowColor;
-    RenderColor flareColor;
+    RenderColor glowColor = { 0x8C, 0x8C, 0x46, 0 };
+    RenderColor flareColor = { 0x8C, 0x46, 0x8C, 0 };
     GteShortVector floorGlow0;
     GteShortVector floorRotation0;
     GteShortVector floorGlow1;
@@ -86,9 +86,6 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
     int height;
     s16 timer;
 
-    flareRotation = D_8018F1D4;
-    glowColor = D_8018F1DC;
-    flareColor = D_8018F1E0;
     switch (mode) {
     case 0:
         D_8019B680 = func_8006E498(D_800B0E64.channel, 0xC54C0704);

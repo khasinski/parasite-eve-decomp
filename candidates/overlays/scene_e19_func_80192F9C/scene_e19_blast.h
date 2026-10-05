@@ -45,8 +45,6 @@ typedef struct SceneE19BlastSound {
     void *channel;
 } SceneE19BlastSound;
 
-extern GteRotation D_8018F1D4;
-extern RenderColor D_8018F1DC, D_8018F1E0;
 extern SceneE19BlastSound D_800B0E64;
 extern SceneE19BlastChannel *D_800F32D0, *D_800F33E0;
 extern SceneE19BlastPlayer **D_8009D254;
