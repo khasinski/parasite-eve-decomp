@@ -1,4 +1,5 @@
-typedef struct { short x,y,z,pad; } Vector;
+#include "room_m350_shared.h"
+typedef RoomM350Vector Vector;
 typedef struct { short rotation[3][3]; int position[3]; } Matrix;
 typedef struct { unsigned char state; } Action;
 typedef struct { int reserved[2]; int asset; char reservedC[12]; Action *action; } Owner;

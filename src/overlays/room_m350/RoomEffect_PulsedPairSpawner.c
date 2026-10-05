@@ -1,6 +1,6 @@
 #include "room_m350_shared.h"
 /* MASPSX_FLAGS: --expand-div */
-typedef struct { short x,y,z,pad; } Vector;
+typedef RoomM350Vector Vector;
 typedef struct { short rotation[3][3]; int position[3]; } Matrix;
 typedef struct { short position[3],reserved; } Particle;
 

@@ -2,6 +2,7 @@
 #define PE1_GTE_TYPES_H
 
 #include "common.h"
+#include "pe1/gte_short_vector.h"
 
 typedef struct GteMatrix {
     s16 m[3][3];
@@ -35,10 +36,6 @@ typedef union GteMatrixStorage {
 
 PE1_STATIC_ASSERT(sizeof(GteMatrixStorage) == 32, gte_matrix_storage_size);
 
-typedef struct GteShortVector {
-    s16 x, y, z, pad;
-} GteShortVector;
-
 typedef struct GteVector {
     s32 x, y, z, pad;
 } GteVector;
@@ -62,7 +59,6 @@ void Gte_NormalizeVec(GteVector *vector, GteVector *unit);
 
 PE1_STATIC_ASSERT(sizeof(GteMatrix) == 32, gte_matrix_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GteMatrix, t) == 20, gte_matrix_translation_offset);
-PE1_STATIC_ASSERT(sizeof(GteShortVector) == 8, gte_short_vector_size);
 PE1_STATIC_ASSERT(sizeof(GteVector) == 16, gte_vector_size);
 
 typedef struct GteRotation {

@@ -1,5 +1,5 @@
 #include "room_m350_shared.h"
-typedef struct { short x, y, z, pad; } Vector;
+typedef RoomM350Vector Vector;
 typedef struct { Vector rotation; Vector *position; int color; } Particle;
 typedef struct { short delay, count; } State;
 

@@ -1,7 +1,7 @@
 #include "room_m350_shared.h"
 #include "pe1/render_object.h"
 
-typedef struct { short x,y,z,pad; } Vector;
+typedef RoomM350Vector Vector;
 typedef struct { Vector *position; } Particle;
 typedef struct {
     char reserved[14];

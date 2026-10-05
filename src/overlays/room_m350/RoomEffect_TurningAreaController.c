@@ -1,7 +1,8 @@
+#include "room_m350_shared.h"
 #include "pe1/gte.h"
 
 /* Steers a rotating footprint, tests contact, and draws three model/sprite layers. */
-typedef struct { short x,y,z,pad; } Vector;
+typedef RoomM350Vector Vector;
 typedef struct { short rotation[3][3]; int position[3]; } Matrix;
 typedef struct { int x,y,z,pad; } Scale;
 typedef struct { void *asset; int yaw; short size,brightness,unknown,turn; unsigned char initialized; } State;

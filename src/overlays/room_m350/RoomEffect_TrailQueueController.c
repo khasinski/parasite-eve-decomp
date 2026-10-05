@@ -1,6 +1,6 @@
 #include "room_m350_shared.h"
 
-typedef struct { short x, y, z, pad; } Vector;
+typedef RoomM350Vector Vector;
 extern RoomM350Emitter *D_800F33E0;
 extern unsigned char D_8019A86E;
 extern short D_8019A85C;

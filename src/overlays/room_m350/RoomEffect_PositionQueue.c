@@ -1,5 +1,5 @@
 #include "room_m350_shared.h"
-typedef struct { short x,y,z,pad; } Vector;
+typedef RoomM350Vector Vector;
 typedef struct { Vector position; short delay,reserved; } Particle;
 typedef struct { char reserved[0x3A]; unsigned short yaw; } Instance;
 typedef struct { int reserved[2]; Instance *instance; } Actor;
