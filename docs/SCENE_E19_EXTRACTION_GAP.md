@@ -39,9 +39,9 @@ On darwine, disassemble with spimdisasm `singleFileDisasm`, passing
 Include the two jump tables and label their destinations before using m2c.
 
 Research artifacts are in `scratch/match_inventory/` locally and
-`/home/hasik/fx-search-archives/match_inventory/` on darwine. The initial m2c
-output recovers the full control flow, but has unresolved packed loads, GTE
-operations and types. It is not compilable C or a claimed match.
+`/home/hasik/fx-search-archives/match_inventory/` on darwine. The corrected little-endian m2c recovery now produces a compilable research
+candidate in `candidates/overlays/scene_e19_func_80192F9C/`. Its linked weighted
+Levenshtein score is 83843; it is not integrated or a claimed match.
 
 Production extraction now splits at full-scene offset `0x3FB4`: scene_e19
 ends there, and scene_e19_2 starts there at `0x80192F9C`. Its next segment
@@ -56,4 +56,5 @@ pin. The extraction comments can regenerate both slices using the existing
 
 Both corrected overlays pass `make overlay-check` on darwine. This verifies
 extraction and build integration, not a C match: the recovered function is
-still undecompiled and has no measured candidate score.
+still represented by original assembly; the nonzero candidate score does not
+qualify it as matched.
