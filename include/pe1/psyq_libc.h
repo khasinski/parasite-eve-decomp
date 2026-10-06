@@ -7,5 +7,6 @@
 s32 sprintf(char *destination, s8 *format, ...);
 void *memset(void *dst, int value, unsigned int size);
 int rand(void);
+void srand(unsigned int seed);
 
 #endif /* PE1_PSYQ_LIBC_H */

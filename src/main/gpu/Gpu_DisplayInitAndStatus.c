@@ -2,6 +2,7 @@
 #include "pe1/cdrom_buffers.h"
 #include "common.h"
 #include "pe1/asset_tim.h"
+#include "pe1/font.h"
 
 void VSync(int arg0);
 void SetDispMask(int arg0);
@@ -12,7 +13,6 @@ void CdRom_SetSeekPos(int arg0);
 void ClearOTagR(int arg0, int arg1);
 void Render_SetCDDCSlot(void);
 void Gpu_RenderFrame(void);
-void Menu_ConsumeEquipSlotFlag(void);
 
 /* The draw-enabled byte is read signed by the display queries and unsigned
  * by the sequence-elapsed query. */

@@ -67,7 +67,7 @@ class RenderSetFontGlyphByCodeTests(unittest.TestCase):
             work = pathlib.Path(directory)
             obj, elf, data = work / "glyph.o", work / "glyph.elf", work / "glyph.bin"
             subprocess.run(
-                ["tools/scripts/cc.sh", "src/main/render/Render_FontGlyphCache.c", str(obj)],
+                ["tools/scripts/cc.sh", "src/main/render/Render_FontGlyphSelection.c", str(obj)],
                 cwd=ROOT, check=True, capture_output=True,
             )
             (work / "glyph.ld").write_text(
@@ -77,6 +77,14 @@ class RenderSetFontGlyphByCodeTests(unittest.TestCase):
                 "D_80091A20 = 0x80091A20;\n"
                 "D_80091A28 = 0x80091A28;\n"
                 "D_8009EE22 = 0x8009EE22;\n"
+                "D_8009ECD8 = 0x8009ECD8;\n"
+                "D_800B0DD8 = 0x800B0DD8;\n"
+                "D_800B0E6C = 0x800B0E6C;\n"
+                "D_80093176 = 0x80093176;\n"
+                "CdRom_ReadSectorsFromLba = 0x8006E6A8;\n"
+                "CdRom_PollReady = 0x8006E7E8;\n"
+                "rand = 0x80071A54;\n"
+                "srand = 0x80071A64;\n"
                 "Render_LoadFontGlyph = 0x800389DC;\n"
                 "Render_StepFontLoad = 0x80039184;\n"
                 "g_FontSelectionState = 0x80091A1C;\n"
@@ -87,7 +95,7 @@ class RenderSetFontGlyphByCodeTests(unittest.TestCase):
                 "g_FontGlyphTable = 0x80091A28;\n"
                 "g_FontGlyphCodeTable = 0x8009EE22;\n"
                 "_gp = 0x8009CD70;\n"
-                "SECTIONS { .text 0x80039310 : SUBALIGN(4) { *(.text) } "
+                "SECTIONS { .text 0x80038BC0 : SUBALIGN(4) { *(.text) } "
                 "/DISCARD/ : { *(.reginfo) *(.mdebug) *(.pdr) } }\n"
             )
             subprocess.run(
@@ -98,8 +106,8 @@ class RenderSetFontGlyphByCodeTests(unittest.TestCase):
                 ["mipsel-none-elf-objcopy", "-O", "binary", "-j", ".text", str(elf), str(data)],
                 check=True, capture_output=True,
             )
-            # Render_FontGlyphCache.c starts with Render_FindFontGlyphSlot.
-            compiled = data.read_bytes()[ENTRY - 0x80039310:][:len(retail)]
+            # Render_FontGlyphSelection.c starts with Render_DrawTextDigit.
+            compiled = data.read_bytes()[ENTRY - 0x80038BC0:][:len(retail)]
         self.assertEqual(len(compiled), len(retail))
         self.assertEqual(compiled, retail)
 

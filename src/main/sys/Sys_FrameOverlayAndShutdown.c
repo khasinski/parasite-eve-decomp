@@ -5,6 +5,7 @@
 #include "common.h"
 #include "pe1/psyq_gpu.h"
 #include "pe1/game_state.h"
+#include "pe1/font.h"
 
 extern DRAWENV g_RenderDrawEnvArray[2];
 extern s32 g_ActiveDrawSlot;
@@ -20,8 +21,6 @@ void Akao_Cmd_D8(int arg0);
 void Akao_Cmd_F0(void);
 void Akao_Cmd_F1(void);
 void Spu_Shutdown(void);
-int Menu_IsEquipSlotActive(void);
-int Menu_ResetEquipSlotState(void);
 
 void Akao_StepVoiceTable(void) {
     s32 one;

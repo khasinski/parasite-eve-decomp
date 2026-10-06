@@ -1,6 +1,7 @@
 extern int g_GameState;
 
 #include "pe1/field_actor.h"
+#include "pe1/font.h"
 
 extern char *g_CurrentEntity;
 
@@ -64,7 +65,6 @@ int Task_ClearInputFlagBit2(void) {
 
 void Entity_ResolvePosition(char *actor, int index);
 
-int Menu_GetEquipSlotStateOrIndex(void);
 
 void Task_EnableMovement(void);
 

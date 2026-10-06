@@ -8,6 +8,7 @@
 #include "pe1/psyq_callbacks.h"
 #include "common.h"
 #include "../../../tools/m2c/m2c_macros.h"
+#include "pe1/font.h"
 
 void Render_ResetScene(int arg0, int arg1);
 void InitGeom(void);
@@ -38,7 +39,6 @@ M2C_UNK Entity_ResetStateGlobals();
 M2C_UNK Entity_ResetAllPools();
 M2C_UNK SsInit();
 M2C_UNK Menu_SetEquipSlotIndex();
-M2C_UNK Menu_ConsumeEquipSlotFlag();
 M2C_UNK Boot_BuildRenderFlagTable();
 M2C_UNK Save_PostInitStub();
 M2C_UNK Task_ClearSfxTable();

@@ -46,7 +46,7 @@ class SourceQualityTests(unittest.TestCase):
     def test_font_step_modulo_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]
         self.assertEqual(source_quality.classify(
-            root / "src/main/render/Render_FontGlyphStream.c"), "semantic_c")
+            root / "src/main/render/Render_FontGlyphSelection.c"), "semantic_c")
 
     def test_wayne_item_table_store_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]
@@ -66,7 +66,7 @@ class SourceQualityTests(unittest.TestCase):
     def test_selected_equip_lookup_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]
         self.assertEqual(source_quality.classify(
-            root / "src/main/menu/Menu_FindSelectedEquipSlotItem.c"), "semantic_c")
+            root / "src/main/render/Render_FontGlyphSelection.c"), "semantic_c")
 
     def test_max_level_inventory_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]

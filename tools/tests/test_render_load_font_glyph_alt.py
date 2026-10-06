@@ -8,7 +8,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 ENTRY, EXIT = 0x80038D74, 0x80010000
-UNIT = 0x80038D48  # Render_FontGlyphStream.c starts with func_80038D48
+UNIT = 0x80038BC0  # Render_FontGlyphSelection.c starts with Render_DrawTextDigit
 READ, POLL = 0x8006E6A8, 0x8006E7E8
 RAND, SRAND, LOAD = 0x80071A54, 0x80071A64, 0x800389DC
 TABLE, CODES, BUFFER = 0x8009ECD8, 0x8009EE24, 0x80100000
@@ -29,7 +29,7 @@ class RenderLoadFontGlyphAltTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             work = pathlib.Path(directory)
             obj, elf, binary = (work / name for name in ("glyph.o", "glyph.elf", "glyph.bin"))
-            subprocess.run(["tools/scripts/cc.sh", "src/main/render/Render_FontGlyphStream.c", str(obj)],
+            subprocess.run(["tools/scripts/cc.sh", "src/main/render/Render_FontGlyphSelection.c", str(obj)],
                            cwd=ROOT, check=True, capture_output=True)
             symbols = {
                 "D_800B0DD8": STATE, "D_80093176": RANGE, "D_800B0E6C": BUFFER_PTR,
@@ -38,6 +38,7 @@ class RenderLoadFontGlyphAltTests(unittest.TestCase):
                 "D_80091A20": FLAGS + 4, "D_80091A24": SEED, "D_80091A28": CURRENT,
                 "CdRom_ReadSectorsFromLba": READ, "CdRom_PollReady": POLL,
                 "rand": RAND, "srand": SRAND, "Render_LoadFontGlyph": LOAD,
+                "g_FontSelectionState": FLAGS,
                 **{f"D_{FLAGS + i:08X}": FLAGS + i for i in range(4)},
             }
             (work / "glyph.ld").write_text(
@@ -49,7 +50,7 @@ class RenderLoadFontGlyphAltTests(unittest.TestCase):
                             str(obj), "-o", str(elf)], check=True, capture_output=True)
             subprocess.run(["mipsel-none-elf-objcopy", "-O", "binary", "-j", ".text",
                             str(elf), str(binary)], check=True, capture_output=True)
-            # The unit opens with func_80038D48; keep only the loader's bytes.
+            # Keep only the loader's bytes of the unit.
             unit = binary.read_bytes()
             cls.compiled = unit[ENTRY - UNIT:ENTRY - UNIT + len(cls.retail)]
 

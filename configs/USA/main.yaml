@@ -354,21 +354,9 @@ segments:
       # The glyph loader keeps -fno-schedule-insns, which changes its
       # neighbours, so it stays a unit of its own.
       - [0x291DC, c, render/Render_FontGlyphLoad]
-      # Slot lookup and cached-code read: contiguous default-profile pair;
-      # main_tu_evidence G0314 joins this range with the menu equip-slot
-      # helpers that follow.
-      - [0x293C0, c, render/Render_FontGlyphLookup]
-      - [0x2950C, c, menu/Menu_IsEquipSlotActive]
-      - [0x2951C, c, menu/Menu_ConsumeEquipSlotFlag]
-      # Pending-glyph flag, alternate glyph load and incremental font load:
-      # contiguous; --expand-div only changes the loader's divide.
-      - [0x29548, c, render/Render_FontGlyphStream]
-      - [0x29AEC, c, menu/Menu_GetEquipSlotStateOrIndex]
-      # Glyph-cache slot search, bind and lookup-or-load: contiguous
-      # default-profile functions.
-      - [0x29B10, c, render/Render_FontGlyphCache]
-      - [0x2A098, c, menu/Menu_FindSelectedEquipSlotItem]
-      - [0x2A170, c, menu/Menu_ResetEquipSlotState]
+      # Glyph table lookups, selection flags, the shuffled code load and the
+      # slot stepping: all of it works on g_FontSelectionState (G0313).
+      - [0x293C0, c, render/Render_FontGlyphSelection]
       - [0x2A19C, c, scene/Scene_CheckFlagBits]
       # Bone rotation matrices and the byte and halfword rotation decoders (G0315).
       - [0x2A374, c, anim/Anim_BoneRotations]
