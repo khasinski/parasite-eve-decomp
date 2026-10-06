@@ -765,10 +765,11 @@ segments:
       # -fno-strength-reduce fade unit ends before it.
       - [0x5861C, c, render/Render_ScrollAndRoomDraw]
       - [0x58F10, c, render/Render_SortOt]
-      - [0x59394, c, render/Render_PrepareFrame]
-      - [0x594E0, c, render/Render_Update]
-      - [0x59528, c, cdrom/CdRom_InitScreenState]
-      - [0x59624, c, render/Render_SetCDDCSlot]
+      # Per-frame camera preparation and render update, the screen-tint reset and
+      # the tint/scroll slot step share the D_800BCF88 scroll state with its
+      # embedded RenderTintState (helper evidence; no split evidence). The unit
+      # keeps Render_SetCDDCSlot's --expand-div profile.
+      - [0x59394, c, render/Render_FrameUpdateAndScreenState]
       - [0x5994C, c, asset/Asset_LoadTimTextures]
       - [0x59D94, c, pm/Pm_RunPrimary]
       - [0x59E60, c, pm/Pm_RunBatch]
