@@ -29,7 +29,7 @@ void func_8018FBA4(void *unused0, void *unused1, SceneParticleCluster *argSlots)
     Matrix matrix;
     Vec4 scratch, draw;
     SceneParticleOwner *owner;
-    register unsigned i asm("$19");
+    register unsigned i;
     register char *scale asm("$17");
     register char *position asm("$18");
     s16 *slot = &D_801994B2;

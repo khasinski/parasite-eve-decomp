@@ -162,7 +162,7 @@ extern s32 D_8009B59C[];
 s32 LIBDS_DSSYS_1_text_774(void) {
     void *base;
     s32 value;
-    register s32 idx asm("$3");
+    register s32 idx;
     s32 arg0;
     s32 arg2;
     s32 arg3;

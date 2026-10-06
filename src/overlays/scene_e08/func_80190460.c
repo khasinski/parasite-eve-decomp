@@ -20,7 +20,7 @@ void func_80190460(void *unused0, void *unused1, char *effect) {
     char *base = effect;
     register char *position asm("$18");
     register char *scale asm("$16");
-    register unsigned i asm("$19");
+    register unsigned i;
     int diag = 0x1000;
     s16 *slot = &D_801994C2;
     owner = func_800C2B50();

@@ -83,7 +83,6 @@ int Sys_FirstFileHookCallback(int *file, unsigned int arg1, unsigned int arg2) {
     original = D_800A32D0;
     count /= sizeof(BiosDeviceEntry);
     limit = entry + count;
-    asm("" : "=r"(limit), "=r"(file) : "0"(limit), "1"(file));
     fileArg = file;
     if (entry < limit) {
         register BiosDeviceEntry *end = limit;

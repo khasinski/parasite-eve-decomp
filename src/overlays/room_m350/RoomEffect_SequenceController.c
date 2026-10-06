@@ -19,10 +19,10 @@ int func_801958DC(int event) {
     Instance *instance=D_800F32D0->instance;
     Vector offset;
     if(event==0) {
-        register int one asm("$2")=1;
+        register int one=1;
         {
             Owner *owner=instance->owner;
-            register unsigned int flags asm("$2")=owner->flags;
+            register unsigned int flags=owner->flags;
             flags |= 0x40000000;
             owner->flags=flags;
         }
