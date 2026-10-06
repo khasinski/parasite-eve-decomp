@@ -76,7 +76,7 @@ class SourceQualityTests(unittest.TestCase):
     def test_memcard_dialog_workflow_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]
         self.assertEqual(source_quality.classify(
-            root / "src/main/menu/menu19.c"), "semantic_c")
+            root / "src/main/menu/Menu_MemCardProgressInput.c"), "semantic_c")
 
     def test_two_line_dialog_width_picker_is_semantic_c(self):
         root = pathlib.Path(__file__).resolve().parents[2]
