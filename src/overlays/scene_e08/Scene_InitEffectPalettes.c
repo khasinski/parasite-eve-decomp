@@ -88,8 +88,7 @@ void func_80193C68(char *actor, void *unused, char *state) {
     *(WordBlock32 *)(state + 4) = *(WordBlock32 *)block;
     *(s32 *)(state + 0x24) = func_8006DC18(0x2E);
     scale = 30;
-    asm volatile("" : : "r"(scale));
-    sixtyFour = 64;
+        sixtyFour = 64;
     one = 1;
     *(s16 *)(state + 0x28) = scale;
     asm volatile("" : : "m"(*(s16 *)(state + 0x28)));
