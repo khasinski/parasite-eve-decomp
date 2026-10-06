@@ -65,7 +65,7 @@
  *
  * == READ PRIMITIVES ==
  *   CdRom_ReadSectorsFromLba / CdRom_ReadSectors  -- issue a sector read
- *   CdRom_ReadSync / CdRom_PollPendingDsRead      -- wait / poll completion
+ *   CdRom_ReadSync / CQ_vsync_system      -- wait / poll completion
  *   The async "DsRead" subsystem (CdRom_*DsRead*) lets a load run across frames.
  *
  * == PORTING NOTES ==

@@ -1,7 +1,7 @@
 #include "pe1/psyq_cd.h"
-s32 CdRom_SendCmd(s32 arg0);
+s32 LIBDS_DSSYS_1_text_368(s32 arg0);
 
-s32 CdRom_TryIssueCmd(s32 arg0) {
+s32 DS_cw(s32 arg0) {
     register int *base asm("$6");
     register int *prev asm("$7");
 
@@ -21,5 +21,5 @@ s32 CdRom_TryIssueCmd(s32 arg0) {
     }
     prev[7] = 0x1F;
     base[-9] = 2;
-    return CdRom_SendCmd((prev[9] = 0xB, arg0 & 0xFF));
+    return LIBDS_DSSYS_1_text_368((prev[9] = 0xB, arg0 & 0xFF));
 }

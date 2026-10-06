@@ -3,7 +3,7 @@
  * Empty constraints preserve the retail schedule. */
 #include "pe1/psyq_ds_queue.h"
 
-int Render_AllocParticleNode(int inCommand, void *inParameter, DslCB inCallback,
+int DsCommand(int inCommand, void *inParameter, DslCB inCallback,
                              int inCount) {
     register void *parameter = inParameter;
     register DslCB callback = inCallback;
@@ -28,12 +28,12 @@ int Render_AllocParticleNode(int inCommand, void *inParameter, DslCB inCallback,
                 D_8009B53C = serial;
             }
             ticket = serial;
-            entry = Spu_GetQueueEntryPtr();
+            entry = CQ_last_queue();
             entry->active = ticket;
             entry->command = 2;
             asm("" : "=r"(parameter) : "0"(parameter));
             if (parameter) {
-                Util_Copy4(entry->payload, parameter);
+                parcpy(entry->payload, parameter);
                 entry->parameter = parameter;
             } else {
                 entry->parameter = 0;
@@ -42,8 +42,8 @@ int Render_AllocParticleNode(int inCommand, void *inParameter, DslCB inCallback,
             entry->count = 0;
             asm("" ::: "memory");
             D_800A3608++;
-            if (DsSync(0) == 1 && D_800A3540[D_800A3604].active == ticket)
-                CdRom_DispatchPendingCmd();
+            if (DS_system_status(0) == 1 && D_800A3540[D_800A3604].active == ticket)
+                CQ_execute();
             result = ticket;
         } else
             result = 0;
@@ -62,11 +62,11 @@ int Render_AllocParticleNode(int inCommand, void *inParameter, DslCB inCallback,
             D_8009B53C = serial;
         }
         ticket = serial;
-        entry = Spu_GetQueueEntryPtr();
+        entry = CQ_last_queue();
         entry->active = ticket;
         entry->command = command;
         if (parameter) {
-            Util_Copy4(entry->payload, parameter);
+            parcpy(entry->payload, parameter);
             entry->parameter = parameter;
         } else {
             entry->parameter = 0;
@@ -75,8 +75,8 @@ int Render_AllocParticleNode(int inCommand, void *inParameter, DslCB inCallback,
         entry->count = count;
         asm("" ::: "memory");
         D_800A3608++;
-        if (DsSync(0) == 1 && D_800A3540[D_800A3604].active == ticket)
-            CdRom_DispatchPendingCmd();
+        if (DS_system_status(0) == 1 && D_800A3540[D_800A3604].active == ticket)
+            CQ_execute();
         result = ticket;
     } else
         result = 0;

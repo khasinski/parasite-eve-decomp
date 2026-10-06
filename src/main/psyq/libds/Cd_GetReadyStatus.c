@@ -2,12 +2,12 @@
 
 #include "pe1/cdrom.h"
 
-int DsSync(int arg0);
+int DS_system_status(int arg0);
 
-int Cd_GetReadyStatus(void) {
-    int status = DsSync(0);
+int DsSystemStatus(void) {
+    int status = DS_system_status(0);
 
-    if (status == 1 && CdRom_GetPendingReadCount() > 0) {
+    if (status == 1 && DsQueueLen() > 0) {
         status = 2;
     }
 

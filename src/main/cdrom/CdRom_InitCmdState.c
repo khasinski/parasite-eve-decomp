@@ -9,7 +9,7 @@ extern u_int D_8009B560[3];
 
 CdlLOC *DsIntToPos(int sector, CdlLOC *position);
 
-void CdRom_InitCmdState(void) {
+void DS_reset_members(void) {
     CdRomSystemState *state;
     u_char *preSeek;
     CdRomCommandState *command;

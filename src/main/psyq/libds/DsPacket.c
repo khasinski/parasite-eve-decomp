@@ -3,7 +3,7 @@
  * Empty constraints preserve the retail schedule. */
 #include "pe1/psyq_ds_queue.h"
 
-int Render_BuildParticleFrame(int inMode, DslLOC *inPosition, int inCommand,
+int DsPacket(int inMode, DslLOC *inPosition, int inCommand,
                               DslCB inCallback, int inCount) {
     DsPacketCommand commands[5];
     register CdlLOC *position = inPosition;
@@ -76,7 +76,7 @@ int Render_BuildParticleFrame(int inMode, DslLOC *inPosition, int inCommand,
         if (total > 0) {
             field = &list->callback;
             do {
-                entry = Spu_GetQueueEntryPtr();
+                entry = CQ_last_queue();
                 asm("" : "=r"(entry) : "0"(entry));
                 if (!entry) {
                     goto failure;
@@ -85,7 +85,7 @@ int Render_BuildParticleFrame(int inMode, DslLOC *inPosition, int inCommand,
                 entry->command = list->command;
                 payload = entry->payload;
                 if (field[-1]) {
-                    Util_Copy4(payload, &list->payload);
+                    parcpy(payload, &list->payload);
                     entry->parameter = payload;
                 } else
                     entry->parameter = 0;
@@ -129,7 +129,7 @@ int Render_BuildParticleFrame(int inMode, DslLOC *inPosition, int inCommand,
         if (total > 0) {
             field = &list->callback;
             do {
-                entry = Spu_GetQueueEntryPtr();
+                entry = CQ_last_queue();
                 asm("" : "=r"(entry) : "0"(entry));
                 if (!entry) {
                     goto failure;
@@ -138,7 +138,7 @@ int Render_BuildParticleFrame(int inMode, DslLOC *inPosition, int inCommand,
                 entry->command = list->command;
                 payload = entry->payload;
                 if (field[-1]) {
-                    Util_Copy4(payload, &list->payload);
+                    parcpy(payload, &list->payload);
                     entry->parameter = payload;
                 } else
                     entry->parameter = 0;
@@ -158,8 +158,8 @@ int Render_BuildParticleFrame(int inMode, DslLOC *inPosition, int inCommand,
         goto failure;
     }
 dispatch:
-    if (DsSync(0) == 1 && D_800A3540[D_800A3604].active == ticket)
-        CdRom_DispatchPendingCmd();
+    if (DS_system_status(0) == 1 && D_800A3540[D_800A3604].active == ticket)
+        CQ_execute();
     result = ticket;
     goto done;
 failure:

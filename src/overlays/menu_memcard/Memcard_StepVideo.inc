@@ -37,7 +37,7 @@ static inline void Memcard_KickVideoStream(CdlLOC *loc) {
         do {
             while (func_8007F72C() != 1) {
             }
-        } while (CdRom_GetPendingReadCount() != 0);
+        } while (DsQueueLen() != 0);
         func_80080D5C(2, loc, result);
     } while (!func_80081314(loc, 0x1E0));
 }

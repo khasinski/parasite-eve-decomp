@@ -11,8 +11,8 @@ class CdResetSystemTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_reset_order_and_preserved_fields(self):
         source = (ROOT / "src/main/psyq/libds/DsInit.c").read_text()
-        reset_start = source.index("int CdRom_ResetDsReadSystem(void)")
-        init_start = source.index("int CdRom_InitDsReadSystem(void)")
+        reset_start = source.index("int DsReset(void)")
+        init_start = source.index("int DsInit(void)")
         source = source[:init_start] + source[reset_start:]
         source = source.replace(
             'extern unsigned char D_800A3515[], D_800A3525[], D_800A3535[];',
@@ -37,7 +37,7 @@ static void status_cleared(void) {
             assert(bytes[i * 16 + j] == (j < 13 ? 0 : fill));
     }
 }
-void CdRom_AbortCmd(void) {
+void DS_stop(void) {
     assert(stage++ == 0 && queues == 0);
     assert(((unsigned char *)&g_DsReadCallbackState)[0] == fill);
 }
@@ -66,7 +66,7 @@ DsCallback DsReadCallback(DsCallback callback) {
     assert(stage++ == 2 && callback == 0);
     return 0;
 }
-void CdRom_EnableDsReadSystem(void) { assert(stage++ == 3); }
+void DS_restart(void) { assert(stage++ == 3); }
 int main(void) {
     for (fill = 1; fill <= 255; ++fill) {
         memset(&g_DsReadCallbackState, fill, sizeof(g_DsReadCallbackState));
@@ -76,7 +76,7 @@ int main(void) {
         D_800A3690 = fill;
         D_800A3600 = 123; D_800A3604 = 456; g_CdPendingReadCount = 789;
         stage = queues = 0;
-        assert(CdRom_ResetDsReadSystem() == 1);
+        assert(DsReset() == 1);
         assert(stage == 4 && queues == 8);
     }
     return 0;

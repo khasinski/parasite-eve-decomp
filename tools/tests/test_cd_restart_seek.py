@@ -23,7 +23,7 @@ DsEventCallback DsSyncCallback(DsEventCallback callback) {
     assert(step++ == 0 && callback == 0);
     return 0;
 }
-CdlLOC *CdRom_GetCurrentPosPtr(void) {
+CdlLOC *DS_lastpos(void) {
     if (step == 1) { ++step; return &first; }
     assert(step++ == 4);
     return &second;
@@ -32,7 +32,7 @@ int DsPosToInt(CdlLOC *position) {
     assert(step++ == 2 && position == &first);
     return sectorValue;
 }
-int CdRom_GetCmdMode(void) {
+int DS_lastmode(void) {
     assert(step++ == 3 && D_8009B6EC == sectorValue);
     return modeValue;
 }
@@ -41,7 +41,7 @@ int func_8007FC44(void) {
     return commandValue;
 }
 void func_8008227C(void) { assert(0); }
-int Render_BuildParticleFrame(int mode, CdlLOC *position, int command,
+int DsPacket(int mode, CdlLOC *position, int command,
                              void (*callback)(void), int limit) {
     assert(step++ == 6);
     assert(mode == (modeValue & 255) && position == &second);

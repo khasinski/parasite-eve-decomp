@@ -32,7 +32,7 @@ void CD_flush(void) {
     assert(flushes++ == 0 && copies == 0 && sends == 0);
     assert(storage.bytes[0] == 0xCC);
 }
-void Util_Copy4(void *dst, const void *src) {
+void parcpy(void *dst, const void *src) {
     assert(flushes == 1 && copies++ == 0 && sends == 0);
     assert(dst == storage.bytes + 1 && src == parameters);
     assert(storage.bytes[0] == commandValue);
@@ -72,7 +72,7 @@ int main(void) {
         flushes = copies = sends = 0;
         storage.bytes[51] = s;
         g_CdRomCmdLongTimeoutTable[c] = t ? -7 : 0;
-        result = CdRom_SendCmd(c, p ? parameters : 0);
+        result = LIBDS_DSSYS_1_text_368(c, p ? parameters : 0);
         assert(result == (outcome == 0));
         assert(flushes == 1 && copies == p && sends == 1);
         assert(storage.bytes[40] == (outcome ? 0xCC : 0x5A));

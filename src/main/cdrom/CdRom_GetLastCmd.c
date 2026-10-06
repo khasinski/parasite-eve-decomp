@@ -4,32 +4,32 @@
 
 extern unsigned char g_CdLastCmd;
 
-int CdRom_GetLastCmd(void) {
+int DS_lastcom(void) {
     return g_CdLastCmd;
 }
 
 extern unsigned char g_CdCmdMode;
 
-int CdRom_GetCmdMode(void) {
+int DS_lastmode(void) {
     return g_CdCmdMode;
 }
 
-CdlLOC *CdRom_GetCurrentPosPtr(void) {
+CdlLOC *DS_lastpos(void) {
     return &g_CdCurPosPtr;
 }
 
 extern unsigned char g_CdRetryCount;
 
-int CdRom_GetRetryCount(void) {
+int DS_lastseek(void) {
     return g_CdRetryCount;
 }
 
 extern unsigned char g_CdCmdParam;
 
-int CdRom_GetCmdParam(void) {
+int DS_lastread(void) {
     return g_CdCmdParam;
 }
 
-int CdRom_GetSeekState(void) {
+int DS_status(void) {
     return g_CdSeekState.eventStatus;
 }

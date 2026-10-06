@@ -14,11 +14,11 @@ void GD_disk_kind(int event, void *data, void *detail);
 int DsGetDiskType(void) {
     CdlLOC pos;
 
-    if (DsSync(0) == 2 && DsSync(1) == 16) {
+    if (DS_system_status(0) == 2 && DS_system_status(1) == 16) {
         return 16;
     }
-    while (Cd_GetReadyStatus() != 1) {
-        if (Cd_GetReadyStatus() == 3) {
+    while (DsSystemStatus() != 1) {
+        if (DsSystemStatus() == 3) {
             return 1;
         }
     }
@@ -27,7 +27,7 @@ int DsGetDiskType(void) {
     }
     DsIntToPos(16, &pos);
     g_DsDiskType = 0;
-    if (!Render_BuildParticleFrame(32, &pos, 27, (DslCB)GD_cbsync, 0)) {
+    if (!DsPacket(32, &pos, 27, (DslCB)GD_cbsync, 0)) {
         return 2;
     }
     while (!g_DsDiskType) {

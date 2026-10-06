@@ -8,18 +8,18 @@ extern unsigned int D_800A36A4;
 extern unsigned int D_800A36A8;
 extern unsigned int D_800A36AC;
 
-void CdRom_SetPollCallback(unsigned int value) {
+void DS_vsync_callback(unsigned int value) {
     D_800A36A0 = value;
 }
 
-void CdRom_SetSyncCallback(unsigned int value) {
+void DS_sync_callback(unsigned int value) {
     D_800A36A4 = value;
 }
 
-void CdRom_SetReadyCallback(unsigned int value) {
+void DS_ready_callback(unsigned int value) {
     D_800A36A8 = value;
 }
 
-void CdRom_SetDispatchCallback(unsigned int value) {
+void DS_start_callback(unsigned int value) {
     D_800A36AC = value;
 }

@@ -2,7 +2,7 @@
 /* Psy-Q LIBDS/DSSYS_2.OBJ private text_170.
  * Provenance: configs/USA/psyq_provenance.json (LIBDS). */
 #include "pe1/psyq_ds_queue.h"
-void LIBDS_DSSYS_2_text_170(int event, u8 *data) {
+void CQ_error_flush(int event, u8 *data) {
     DsQueueCallback callbacks[8];
     register u8 *result = data;
     register int savedEvent asm("$22") = event;
@@ -34,7 +34,7 @@ void LIBDS_DSSYS_2_text_170(int event, u8 *data) {
                 DsEventCallback callback;
                 id = D_800A3540[index].active;
                 if (id != previous) {
-                    CdRom_EnqueueCmd(id, savedEvent, result);
+                    CQ_add_result(id, savedEvent, result);
                     previous = id;
                 }
                 callback = D_800A3540[index].callback;

@@ -1,9 +1,9 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 #include "pe1/psyq_cd.h"
-extern void Util_Copy4(void *, const void *);
+extern void parcpy(void *, const void *);
 
-int CdRom_SendCmd(unsigned char command, void *param) {
+int LIBDS_DSSYS_1_text_368(unsigned char command, void *param) {
     unsigned char *state;
     int *timeout;
     CD_flush();
@@ -11,7 +11,7 @@ int CdRom_SendCmd(unsigned char command, void *param) {
     state[0] = command;
     if (param) {
         unsigned char *copy = state + 1;
-        Util_Copy4(copy, param);
+        parcpy(copy, param);
         *(void **)(state + 8) = copy;
     } else *(void **)(state + 8) = 0;
     timeout = &g_CdRomCmdTimeout;
@@ -45,8 +45,8 @@ int CdRom_SendCmd(unsigned char command, void *param) {
 }
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_ds.h"
-void CdRom_RetryCmd(void);
-int CdRom_SendCmd(unsigned char, void *);
+void LIBDS_DSSYS_1_text_774(void);
+int LIBDS_DSSYS_1_text_368(unsigned char, void *);
 #define READ(p)                                                                        \
     ((DsReadStatusBlock *)((u8 *)(p) - PE1_OFFSETOF(DsReadStatusBlock, syncResult)))
 #define CMD(p)                                                                         \
@@ -59,7 +59,7 @@ void LIBDS_DSSYS_1_text_4A4(void) {
     register int *timer;
     register int *retry = &g_CdRomCmdTimeout;
     if (*retry > 0 && --*retry == 0) {
-        CdRom_RetryCmd();
+        LIBDS_DSSYS_1_text_774();
         goto done;
     }
     timer = &g_DsSyncResultCountdown;
@@ -79,13 +79,13 @@ void LIBDS_DSSYS_1_text_4A4(void) {
                 parameter = 0;
                 if (g_CdRomCmdTimeout <= 0) {
                     CMD(timer)->eventValue = 32;
-                    CdRom_SendCmd(14, arg);
+                    LIBDS_DSSYS_1_text_368(14, arg);
                 }
                 g_CdReadCommandPollToggle = 0;
             } else {
                 if (g_CdRomCmdTimeout <= 0) {
                     CMD(timer)->eventValue = 32;
-                    CdRom_SendCmd(1, 0);
+                    LIBDS_DSSYS_1_text_368(1, 0);
                 }
                 g_CdReadCommandPollToggle = one;
             }
@@ -105,7 +105,7 @@ void LIBDS_DSSYS_1_text_4A4(void) {
             } else if (step == 23) {
                 if (g_CdRomCmdTimeout <= 0) {
                     CMD(timer)->eventValue = 32;
-                    CdRom_SendCmd(19, 0);
+                    LIBDS_DSSYS_1_text_368(19, 0);
                 }
             } else if (step == 24)
                 goto poll;
@@ -135,7 +135,7 @@ void LIBDS_DSSYS_1_text_4A4(void) {
             goto callbacks;
     send_status:
         CMD(timer)->eventValue = 32;
-        CdRom_SendCmd(1, 0);
+        LIBDS_DSSYS_1_text_368(1, 0);
     }
 callbacks:
     if (g_DsPollCallback && g_DsReadSysEnabled.enabled)
@@ -145,7 +145,7 @@ callbacks:
                 if ((read->status == 1 && !read->eventFlags.bit1) || read->status == 3) {
             if (g_CdRomCmdTimeout <= 0) {
                 g_CdRomCommandEventValue = 33;
-                CdRom_SendCmd(1, 0);
+                LIBDS_DSSYS_1_text_368(1, 0);
             }
         }
     }

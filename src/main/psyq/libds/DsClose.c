@@ -1,5 +1,5 @@
-void CdRom_ClearDsCallbacks(void);
+void DS_close(void);
 
-void CdRom_ClearDsCallbacksShim(void) {
-    CdRom_ClearDsCallbacks();
+void DsClose(void) {
+    DS_close();
 }

@@ -4,9 +4,9 @@
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds.h"
 
-void CdRom_ProcessEventByte(int event, u8 *data);
+void LIBDS_DSSYS_1_text_EA4(int event, u8 *data);
 
-void CdRom_ReadyEventDispatch(int event, u8 *data) {
+void LIBDS_DSSYS_1_text_E10(int event, u8 *data) {
     int event_reg;
     u8 event_arg;
     u8 *data_reg;
@@ -14,7 +14,7 @@ void CdRom_ReadyEventDispatch(int event, u8 *data) {
     u32 pending;
     data_reg = data;
     event_reg = event & 0xFF;
-    CdRom_ProcessEventByte(event_reg, data_reg);
+    LIBDS_DSSYS_1_text_EA4(event_reg, data_reg);
 
     state = &g_CdSeekState;
     if (state->eventStatus & 0x10) {

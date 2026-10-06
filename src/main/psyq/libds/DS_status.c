@@ -14,7 +14,7 @@ extern char D_80011E44[];
 extern char D_80011E4C[];
 int printf(char *fmt, ...);
 
-void DS_status(void) {
+void tipDsSystem(void) {
     enum {
         PARAM_OFFSET = PE1_OFFSETOF(CdRomEventCommandState, pendingParamBytes) -
                        PE1_OFFSETOF(CdRomEventCommandState, command.read)

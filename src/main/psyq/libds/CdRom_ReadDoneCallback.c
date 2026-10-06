@@ -23,7 +23,7 @@ void CdRom_ReadDoneCallback(unsigned char arg0, unsigned char *arg1) {
 
     status = arg0;
     if (status == 2) {
-        if (CdRom_GetPendingReadCount() == 0) {
+        if (DsQueueLen() == 0) {
             CdRom_RestartSeek();
         }
         return;

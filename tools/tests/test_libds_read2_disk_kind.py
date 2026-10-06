@@ -18,7 +18,7 @@ CASES = [('DsRead2',
   'DsDataCallback = 0x800824F0;\n'
   'CdRom_BreakSyncCallback = 0x800813E8;\n'
   'DsSyncCallback = 0x800824C8;\n'
-  'Render_BuildParticleFrame = 0x8007F0C8;\n'
+  'DsPacket = 0x8007F0C8;\n'
   'SECTIONS { .text 0x80081314 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('dstype',

@@ -21,10 +21,10 @@ CASES = [('libpad/padportd_4',
   720,
   '7df21a00b56e81e4d4a811bd38215db6ff65f4246173802e2e0beb262734fabd',
   'D_8009B598 = 0x8009B598;\n'
-  'CdRom_RetryCmd = 0x800800F4;\n'
+  'LIBDS_DSSYS_1_text_774 = 0x800800F4;\n'
   'D_8009B594 = 0x8009B594;\n'
   'D_8009B6A4 = 0x8009B6A4;\n'
-  'CdRom_SendCmd = 0x8007FCFC;\n'
+  'LIBDS_DSSYS_1_text_368 = 0x8007FCFC;\n'
   'D_800A36A0 = 0x800A36A0;\n'
   'g_DsReadSysEnabled = 0x8009B554;\n'
   'D_8009B574 = 0x8009B574;\n'
@@ -35,20 +35,20 @@ CASES = [('libpad/padportd_4',
   732,
   'dd749c65e05714e3bd6130961ed0cc79bdbbef7acfedd2fd2622c3e6f21af5a7',
   'D_8009B6EC = 0x8009B6EC;\n'
-  'CdRom_GetCurrentPosPtr = 0x8007FC28;\n'
+  'DS_lastpos = 0x8007FC28;\n'
   'DsPosToInt = 0x80080C48;\n'
-  'CdRom_GetCmdMode = 0x8007FC18;\n'
+  'DS_lastmode = 0x8007FC18;\n'
   'DsDataCallback = 0x800824F0;\n'
   'DsGetSector = 0x80080AE4;\n'
   'DsSyncCallback = 0x800824C8;\n'
   'DsReadyCallback = 0x800824DC;\n'
-  'CdRom_GetPendingReadCount = 0x8007F778;\n'
+  'DsQueueLen = 0x8007F778;\n'
   'D_8009B6F8 = 0x8009B6F8;\n'
   'CdRom_RestartSeek = 0x80082204;\n'
   'D_8009B70C = 0x8009B70C;\n'
   'D_8009B700 = 0x8009B700;\n'
   'D_8009B704 = 0x8009B704;\n'
-  'Render_AllocParticleNode = 0x8007EE84;\n'
+  'DsCommand = 0x8007EE84;\n'
   'SECTIONS { .text 0x80081e70 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libpad/padif_3',

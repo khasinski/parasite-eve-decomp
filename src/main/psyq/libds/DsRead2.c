@@ -26,7 +26,7 @@ int DsRead2(CdlLOC *pos, int mode) {
         }
         saved_data = DsDataCallback(data_ready_callback);
         saved_sync = DsSyncCallback(CdRom_BreakSyncCallback);
-        ret = Render_BuildParticleFrame(mode & 0xFF, pos, 0x1B, 0, -1);
+        ret = DsPacket(mode & 0xFF, pos, 0x1B, 0, -1);
         if (ret == 0) {
             DsDataCallback(saved_data);
             DsSyncCallback(saved_sync);
@@ -35,5 +35,5 @@ int DsRead2(CdlLOC *pos, int mode) {
         return ret;
     }
 
-    return Render_BuildParticleFrame(mode & 0xFF, pos, 0x1B, 0, -1);
+    return DsPacket(mode & 0xFF, pos, 0x1B, 0, -1);
 }

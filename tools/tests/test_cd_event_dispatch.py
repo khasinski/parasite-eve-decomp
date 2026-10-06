@@ -27,7 +27,7 @@ static void dispatched(int handler, int event, void *data) {
     stateWords[12] = 789;
     stateWords[1] = 123;
 }
-void CdRom_ProcessEventByte(int event) {
+void LIBDS_DSSYS_1_text_EA4(int event) {
     assert(step++ == 0 && event == (eventValue & 255));
     stateWords[11] = 456; stateWords[12] = 456;
     ((unsigned char *)stateWords)[0] = flagsValue;
@@ -35,7 +35,7 @@ void CdRom_ProcessEventByte(int event) {
 }
 void LIBDS_DSSYS_1_text_8B8(int event, void *data) { dispatched(1, event, data); }
 void LIBDS_DSSYS_1_text_A9C(int event, void *data) { dispatched(2, event, data); }
-void CdRom_CmdEventCallback(int event, u8 *data) { dispatched(3, event, data); }
+void LIBDS_DSSYS_1_text_D24(int event, u8 *data) { dispatched(3, event, data); }
 int main(void) {
     const int events[] = {INT_MIN, -1, 0, 2, 5, 255, 256, INT_MAX};
     const int commands[] = {-1, 0, 30, 31, 32, 33, 255, INT_MAX};
@@ -46,7 +46,7 @@ int main(void) {
         for (i = 0; i < 13; ++i) stateWords[i] = 987;
         eventValue = events[a]; commandValue = commands[b]; flagsValue = f;
         timeoutValue = timeouts[c]; step = 0;
-        Render_DrawParticleGroup(eventValue, &result);
+        LIBDS_DSSYS_1_text_7FC(eventValue, &result);
         assert(step == 2 && stateWords[1] == (timeoutValue ? 123 : 33));
         assert(stateWords[11] == timeoutValue && stateWords[12] == 789);
         for (i = 2; i < 11; ++i) assert(stateWords[i] == 987);

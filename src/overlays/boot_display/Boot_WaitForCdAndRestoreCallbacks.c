@@ -9,8 +9,8 @@ s32 Boot_WaitForCdAndRestoreCallbacks(void) {
     DsControl(8, 0, 0);
     while (DsControlB(9, 0, 0) == 0) {}
     do {
-        while (Cd_GetReadyStatus() != 1) {}
-    } while (CdRom_GetPendingReadCount() != 0);
+        while (DsSystemStatus() != 1) {}
+    } while (DsQueueLen() != 0);
     DsSyncCallback(0);
     VSyncCallback(Boot_VsyncCallback);
     return 0;

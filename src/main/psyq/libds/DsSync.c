@@ -1,5 +1,5 @@
 /* ASSEMBLER: GNU */
-/* Psy-Q DsSync. Retains the existing link symbol for callers.
+/* Psy-Q DS_system_status. Retains the existing link symbol for callers.
  * Empty constraints preserve the retail schedule. */
 #include "pe1/psyq_ds_queue.h"
 
@@ -8,7 +8,7 @@ extern int D_800A3610[], D_800A3614[], D_800A3618[], D_800A361C[];
 extern int D_800A3690;
 extern DsResult D_800A3500;
 
-s32 Render_FindParticleEffect(s32 inId, void *inResult) {
+s32 DsSync(s32 inId, void *inResult) {
     register s32 id = inId;
     register void *result = inResult;
     register DsResult *selected asm("$16");
@@ -23,7 +23,7 @@ s32 Render_FindParticleEffect(s32 inId, void *inResult) {
     register s32 backward;
 
     if (id != 0) {
-        CdRom_Sync(0);
+        DS_sync(0);
         forward = D_800A3690;
         scanned = 0;
         entryIdOrOffset = forward * 0x10;
@@ -121,7 +121,7 @@ s32 Render_FindParticleEffect(s32 inId, void *inResult) {
     }
 copyResult:
     if (selected != 0) {
-        Util_Copy8(result, selected->slot.payload);
+        rescpy(result, selected->slot.payload);
         status = selected->slot.command;
         goto done;
     }

@@ -17,11 +17,11 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
     asm("" : "=r"(state) : "0"(state), "r"(event));
     event = inEvent;
     if (state->nextSector == -1)
-        state->nextSector = DsPosToInt(CdRom_GetCurrentPosPtr());
+        state->nextSector = DsPosToInt(DS_lastpos());
     event = (u8)event;
     one = 1;
     if (event == one) {
-        if (CdRom_GetCmdMode() & 32) {
+        if (DS_lastmode() & 32) {
             {
                 register DsCallback cb = DsDataCallback(0);
                 register void *dest asm("$4") = detail;
@@ -66,7 +66,7 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
             if (state->callback)
                 state->callback(event, result, detail);
             goto done;
-        } else if (!CdRom_GetPendingReadCount() && !(*result & 160)) {
+        } else if (!DsQueueLen() && !(*result & 160)) {
         retry:
             state->retryPending = one;
         }
@@ -84,7 +84,7 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
                 if (g_DsReadBusy == *pending) {
                     DsSyncCallback(g_DsAsyncReadSavedSyncCallback);
                     DsReadyCallback(g_DsAsyncReadSavedReadyCallback);
-                    Render_AllocParticleNode(9, 0, 0, -1);
+                    DsCommand(9, 0, 0, -1);
                 }
                 g_DsReadBusy = 0;
                 if (ASYNC_FROM_RETRY(pending)->callback)

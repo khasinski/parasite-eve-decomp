@@ -29,7 +29,7 @@ CASES = [('libcd/sector_read',
  ('libds/DsSearchFile',
   736,
   '886b6ae1a7bf15dc49aad5ae9616ca57211d475c883b28649dac25048849ba9b',
-  'CdRom_GetDiskType = 0x8007F7A8;\n'
+  'DsShellOpen = 0x8007F7A8;\n'
   'D_8009B6E0 = 0x8009B6E0;\n'
   'DS_newmedia = 0x80081714;\n'
   'DS_searchdir = 0x800819D8;\n'

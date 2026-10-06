@@ -1544,7 +1544,7 @@ not classify the containing TU as pure C.
 
 ## DS reset structure reuse
 
-`CdRom_ResetDsReadSystem` uses the shared `CdQueuedCmdSlot` layout for
+`DsReset` uses the shared `CdQueuedCmdSlot` layout for
 its three command slots: state words at offsets 0, 16 and 32, followed by
 result-byte clears at offsets 4, 20 and 36. The source now names the state
 and result members instead of using integer indices and byte casts.
@@ -1863,11 +1863,11 @@ They remain in production pending scheduling/source reconstruction.
 
 `CdDsReadQueueEntry.parameter` replaces integer `arg0C`. The retail queue
 producer saves its second argument at offset 0x0C after optionally copying
-four bytes from it; `CdRom_PollPendingDsRead` passes that field to the command
+four bytes from it; `CQ_vsync_system` passes that field to the command
 issuer. These producer and consumer accesses establish the pointer type.
 The queue reset uses the same named pointer field.
 
-All C callers of `Render_AllocParticleNode` now share a prototype with a
+All C callers of `DsCommand` now share a prototype with a
 pointer second argument; the existing historical function name remains.
 `DsControlF` uses the Psy-Q LIBDS.H signature with byte command and byte
 pointer parameters. Break/cancel callers use typed null pointer temporaries.
@@ -1886,8 +1886,8 @@ just the command operand also changes code generation (92%).
 the pending-count offset at 0xC8. This is a shared memory view, not evidence
 that the original source declared the entire region as one object.
 
-`Spu_GetQueueEntryPtr` now reads the named queue-state field and derives its
-entry base through that window; `CdRom_PollPendingDsRead` uses the same base
+`CQ_last_queue` now reads the named queue-state field and derives its
+entry base through that window; `CQ_vsync_system` uses the same base
 calculation. The helper uses the shared pending-count symbol instead of a
 second C extern alias. The entry's `arg10` and `arg14` remain unidentified.
 
@@ -1933,7 +1933,7 @@ prototypes instead of local integer or void-return declarations.
 Psy-Q 4.6 LIBCD.H declares all three public setters with this signature.
 The retail interrupt dispatcher independently loads a byte event into a0
 and a result-buffer pointer into a1 before each sync/ready callback call.
-`CdRom_InitDsCallbacks` now declares its two handlers with their actual C
+`DS_init` now declares its two handlers with their actual C
 signatures and registers them using explicit CdlCB conversions, replacing
 integer address casts. Their existing int event parameters remain: changing
 them to u_char alters the retail masking instructions (91.02128% and
@@ -1993,7 +1993,7 @@ the whole function as semantic C before the remaining wait is reconstructed.
 
 ## DS command event callback
 
-`CdRom_CmdEventCallback` is entirely C and matches all 236 retail bytes.
+`LIBDS_DSSYS_1_text_D24` is entirely C and matches all 236 retail bytes.
 Its second argument is the result-buffer pointer forwarded unchanged in a1
 to the user callback. The caller and definition now share this signature.
 The sync/ready callback globals use volatile function-pointer storage, matching
@@ -2008,7 +2008,7 @@ instruction ASM or compiler/assembler modification is used.
 
 ## DS ready event dispatch
 
-`CdRom_ReadyEventDispatch` is entirely C under stock GCC 2.8.1 with
+`LIBDS_DSSYS_1_text_E10` is entirely C under stock GCC 2.8.1 with
 `-mno-split-addresses -fno-schedule-insns`. These options preserve the saved
 argument setup and independent symbolic callback loads. The callback uses
 the shared volatile `DsEventCallback` pointer and its byte-event signature.

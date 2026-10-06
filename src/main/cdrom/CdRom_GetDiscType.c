@@ -1,5 +1,5 @@
 extern int g_CdDiscType;
 
-int CdRom_GetDiscType(void) {
+int DS_shell_open(void) {
     return g_CdDiscType;
 }

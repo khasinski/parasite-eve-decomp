@@ -1,4 +1,4 @@
-"""DsSync reads the requested status word without changing caller state."""
+"""DS_system_status reads the requested status word without changing caller state."""
 from importlib.util import find_spec
 from pathlib import Path
 import struct

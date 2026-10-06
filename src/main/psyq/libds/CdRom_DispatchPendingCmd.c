@@ -5,14 +5,14 @@
 
 extern s32 g_CdDsReadIndexBase[] __asm__("D_800A3604");
 
-s32 DsSync(s32 mode);
-s32 CdRom_TryIssueCmd(s32 cmd, s32 arg);
+s32 DS_system_status(s32 mode);
+s32 DS_cw(s32 cmd, s32 arg);
 
-s32 CdRom_DispatchPendingCmd(void) {
+s32 CQ_execute(void) {
     s32 index;
     register CdDsReadQueueEntry *entry asm("$3");
     register s32 offset asm("$2");
-    if (DsSync(0) != 1) {
+    if (DS_system_status(0) != 1) {
         return 0;
     }
 
@@ -24,7 +24,7 @@ s32 CdRom_DispatchPendingCmd(void) {
     entry = (CdDsReadQueueEntry *)((u8 *)entry + offset);
 
     if (entry->active != 0) {
-        return CdRom_TryIssueCmd(entry->command, entry->parameter) != 0;
+        return DS_cw(entry->command, entry->parameter) != 0;
     }
     return 0;
 }

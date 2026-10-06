@@ -6,7 +6,7 @@ void SetGeomOffset(int x, int y);
 void SetGeomScreen(int h);
 void MemCard_InitManager(void);
 void Boot_InitMemCard(void);
-void CdRom_InitDsReadSystem(void);
+void DsInit(void);
 
 void InitSystem(void) {
     ResetCallback();
@@ -17,6 +17,6 @@ void InitSystem(void) {
     SetGeomScreen(0xF0);
     MemCard_InitManager();
     Boot_InitMemCard();
-    CdRom_InitDsReadSystem();
+    DsInit();
     DsSetDebug(0);
 }

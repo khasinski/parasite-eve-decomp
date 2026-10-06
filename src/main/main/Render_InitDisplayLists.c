@@ -16,18 +16,18 @@ int OpenPeImage(void)
     DslFILE *found;
 
     g_PeImageMountFlags = 0;
-    status = Cd_GetReadyStatus();
+    status = DsSystemStatus();
     if (status != 1) return 1;
-    if (CdRom_GetPendingReadCount() != 0) return 1;
+    if (DsQueueLen() != 0) return 1;
     disk_type = DsGetDiskType();
     if (disk_type == status) return 1;
     if (disk_type != 4) return -1;
 
-    while (Cd_GetReadyStatus() != 1 || CdRom_GetPendingReadCount() != 0)
+    while (DsSystemStatus() != 1 || DsQueueLen() != 0)
         VSync(0);
     found = DsSearchFile(&file, D_80011330);
     if (found != 0 && found != (DslFILE *)-1) {
-        while (Cd_GetReadyStatus() != 1 || CdRom_GetPendingReadCount() != 0)
+        while (DsSystemStatus() != 1 || DsQueueLen() != 0)
             VSync(0);
         found = DsSearchFile(&file, D_80011348);
         if (found != 0 && found != (DslFILE *)-1) {
@@ -35,13 +35,13 @@ int OpenPeImage(void)
             g_PeImageMountFlags = (u8)g_PeImageMountFlags | 1;
         }
     }
-    while (Cd_GetReadyStatus() != 1 || CdRom_GetPendingReadCount() != 0)
+    while (DsSystemStatus() != 1 || DsQueueLen() != 0)
         VSync(0);
     found = DsSearchFile(&file, D_80011354);
     if (found == 0) goto done;
     asm volatile("" : : "r"(found));
     if (found == (DslFILE *)-1) goto done;
-    while (Cd_GetReadyStatus() != 1 || CdRom_GetPendingReadCount() != 0)
+    while (DsSystemStatus() != 1 || DsQueueLen() != 0)
         VSync(0);
     found = DsSearchFile(&file, D_80011348);
     if (found == 0) goto done;
@@ -118,13 +118,13 @@ retryFog:
         ClearOTagR(D_800B0E38[D_8009CDDC], 0x1000);
         switch (state) {
         case 0:
-            if (Cd_GetReadyStatus() == 1 && CdRom_GetPendingReadCount() == 0) {
-                command = Render_AllocParticleNode(8, 0, 0, -1);
+            if (DsSystemStatus() == 1 && DsQueueLen() == 0) {
+                command = DsCommand(8, 0, 0, -1);
                 state = 1;
             }
             break;
         case 1:
-            status = Render_FindParticleEffect(command, result);
+            status = DsSync(command, result);
             switch (status) {
             case 1:
                 break;
@@ -139,11 +139,11 @@ retryFog:
             }
             break;
         case 2:
-            if (CdRom_GetCmdStatus() & 0x10)
+            if (DsStatus() & 0x10)
                 state = 3;
             break;
         case 3:
-            status = Cd_GetReadyStatus();
+            status = DsSystemStatus();
             switch (status) {
             case 2:
                 break;
@@ -247,8 +247,8 @@ retryFog:
     DrawSync(0);
     D_800B0DCD = mode == 1 ? 1 : 2;
     /* `wait` is free again here and holds the drive status. */
-    while ((wait = Cd_GetReadyStatus()) != 1)
+    while ((wait = DsSystemStatus()) != 1)
         VSync(0);
-    D_800B0DD4 = CdRom_GetDiskType();
+    D_800B0DD4 = DsShellOpen();
     return 0;
 }

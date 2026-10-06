@@ -7,4 +7,4 @@ VSync = 0x80073A44;
 SetDispMask = 0x80074D28;
 DrawSync = 0x80074DC0;
 PutDrawEnv = 0x80075424;
-CdRom_GetPendingReadCount = 0x8007F778;
+DsQueueLen = 0x8007F778;

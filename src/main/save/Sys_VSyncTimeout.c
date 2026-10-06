@@ -22,6 +22,6 @@ int Sys_VSyncTimeout(void *argument) {
         s0 = state[-4];
     }
 
-    CdRom_SendQueuedCmd(argument);
+    DsReady(argument);
     return s0;
 }

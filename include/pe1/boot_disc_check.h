@@ -10,7 +10,7 @@
 /*
  * Render_InitDisplayLists: boot notice screen. Streams the notice TIM and
  * its fog layer from PE.IMG, then runs a ten-state disc check (DsCommand
- * read, DsSync, shell status, PE.IMG mount) under the double-buffered
+ * read, DS_system_status, shell status, PE.IMG mount) under the double-buffered
  * display until the expected disc is in the drive.
  */
 
@@ -35,10 +35,10 @@ int *Gpu_LoadTimImage(void *tim);
 void Boot_BuildRenderFlagTable(void);
 void Render_SetupFogLayer(void *source);
 void ResetGraph(int mode);
-int Render_AllocParticleNode(int command, void *parameter, void *callback,
+int DsCommand(int command, void *parameter, void *callback,
                              int count);
-int Render_FindParticleEffect(int id, void *result);
-int CdRom_GetCmdStatus(void);
+int DsSync(int id, void *result);
+int DsStatus(void);
 int OpenPeImage(void);
 int Render_InitDisplayLists(int mode);
 

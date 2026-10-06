@@ -15,13 +15,13 @@ class CdControlWaitTests(unittest.TestCase):
 #include <assert.h>
 static int commandValue, requestValue, terminal, pending, polls, sends;
 static int paramData, resultData;
-int Render_AllocParticleNode(int command, void *param, int a, int b) {
+int DsCommand(int command, void *param, int a, int b) {
     assert(sends++ == 0 && polls == 0);
     assert(command == (commandValue & 255));
     assert(param == &paramData && a == 0 && b == 0);
     return requestValue;
 }
-int Render_FindParticleEffect(int request, void *result) {
+int DsSync(int request, void *result) {
     assert(sends == 1 && request == requestValue && result == &resultData);
     assert(request != 0 && polls <= pending);
     return polls++ < pending ? 256 : terminal;

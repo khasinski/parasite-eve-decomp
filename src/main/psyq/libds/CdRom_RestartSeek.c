@@ -17,12 +17,12 @@ int CdRom_RestartSeek(void) {
     register int limit asm("$3");
 
     DsSyncCallback(0);
-    D_8009B6EC = DsPosToInt(CdRom_GetCurrentPosPtr());
-    mode = CdRom_GetCmdMode() & 0xFF;
-    position = CdRom_GetCurrentPosPtr();
+    D_8009B6EC = DsPosToInt(DS_lastpos());
+    mode = DS_lastmode() & 0xFF;
+    position = DS_lastpos();
     command = func_8007FC44();
     argumentMode = mode;
     limit = -1;
-    return Render_BuildParticleFrame(argumentMode, position,
+    return DsPacket(argumentMode, position,
         (unsigned char)command, (DslCB)func_8008227C, limit);
 }

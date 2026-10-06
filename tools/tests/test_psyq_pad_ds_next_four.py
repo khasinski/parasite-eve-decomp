@@ -41,13 +41,13 @@ CASES = [('libds/dssys1_sync_poll',
   '70a363e79ed71476b8961d2cb1c2a537c881a4c232bd3902a148f31bef32fc11',
   'D_800A3604 = 0x800A3604;\n'
   'D_800A3510 = 0x800A3510;\n'
-  'Util_Copy8 = 0x80080998;\n'
-  'CdRom_EnqueueCmd = 0x8007EB88;\n'
-  'Spu_DrainQueueEntry = 0x8007E5C4;\n'
+  'rescpy = 0x80080998;\n'
+  'CQ_add_result = 0x8007EB88;\n'
+  'CQ_delete_command = 0x8007E5C4;\n'
   'D_800B8AB0 = 0x800B8AB0;\n'
-  'DsSync = 0x8007FBF0;\n'
+  'DS_system_status = 0x8007FBF0;\n'
   'D_800A3608 = 0x800A3608;\n'
-  'CdRom_TryIssueCmd = 0x8007FB44;\n'
+  'DS_cw = 0x8007FB44;\n'
   'SECTIONS { .text 0x8007e964 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libpad/padmain_6',

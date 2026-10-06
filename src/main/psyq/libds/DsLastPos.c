@@ -5,9 +5,9 @@
 
 CdlLOC *DsLastPos(CdlLOC *dst) {
     if (dst != 0) {
-        *dst = *CdRom_GetCurrentPosPtr();
+        *dst = *DS_lastpos();
         return dst;
     }
 
-    return CdRom_GetCurrentPosPtr();
+    return DS_lastpos();
 }

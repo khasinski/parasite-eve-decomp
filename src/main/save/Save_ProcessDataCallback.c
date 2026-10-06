@@ -4,8 +4,8 @@
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds_queue.h"
 
-void CdRom_ResetFileDescriptors(void);
-int func_8007FCBC(int mode, int unused);
+void DsFlush(void);
+int DS_cw_system(int mode, int unused);
 
 void Save_ProcessDataCallback(void) {
     int *readInProgress;
@@ -16,19 +16,19 @@ void Save_ProcessDataCallback(void) {
     readInProgress = &g_CdReadInProgress;
 
     if (*readInProgress == 1) {
-        CdRom_ResetFileDescriptors();
+        DsFlush();
         DS_read_cbready();
         if (((CdReadProgressState *)((char *)readInProgress -
             PE1_OFFSETOF(CdReadProgressState, inProgress)))->flags & 1) {
             DsDataCallback(((CdReadProgressState *)((char *)readInProgress -
             PE1_OFFSETOF(CdReadProgressState, inProgress)))->dataCallback);
         }
-        func_8007FCBC(1, 0);
+        DS_cw_system(1, 0);
         particleType = 9;
         zeroArg1 = 0;
         asm volatile("" : "+r"(particleType), "+r"(zeroArg1));
         callback = 0;
-        Render_AllocParticleNode(particleType, zeroArg1, callback, -1);
+        DsCommand(particleType, zeroArg1, callback, -1);
     }
 
     g_CdReadInProgress = 0;

@@ -3,13 +3,13 @@
 #include "pe1/psyq_cd.h"
 #include "pe1/cdrom.h"
 
-void CdRom_EnableDsReadSystem(void) {
+void DS_restart(void) {
     int enabled;
     enabled = 1;
     g_DsReadSysEnabled.enabled = enabled;
 }
 
-int CdRom_IsDsReadSystemEnabled(void) {
+int DS_system_active(void) {
     int scratch;
     int enabled;
 

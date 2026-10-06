@@ -3,7 +3,7 @@
 #include "pe1/psyq_cd.h"
 
 
-void Util_Copy4(unsigned char *dst, unsigned char *src) {
+void parcpy(unsigned char *dst, unsigned char *src) {
     int i;
 
     if (src) {
@@ -17,7 +17,7 @@ void Util_Copy4(unsigned char *dst, unsigned char *src) {
     }
 }
 
-void Util_Copy8(unsigned char *dst, unsigned char *src) {
+void rescpy(unsigned char *dst, unsigned char *src) {
     int i;
 
     if (src) {

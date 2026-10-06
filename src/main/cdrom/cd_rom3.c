@@ -1,7 +1,7 @@
 
 #include "pe1/psyq_cd.h"
 
-u32 DsSync(u32 mode) {
+u32 DS_system_status(u32 mode) {
     u32 offset;
     u32 table_page;
 

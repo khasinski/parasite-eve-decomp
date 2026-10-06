@@ -3,7 +3,7 @@
 /* CC1_FLAGS: -mno-split-addresses -fno-thread-jumps */
 #include "pe1/psyq_ds.h"
 
-void Spu_DrainQueueEntry(void) {
+void CQ_delete_command(void) {
     int *state;
     int *initial;
     int *end;

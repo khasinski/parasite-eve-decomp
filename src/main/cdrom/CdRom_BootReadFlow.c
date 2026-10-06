@@ -32,13 +32,13 @@ int CdRom_ReadSectors(u32 lba, u32 offset, void *destination, u32 size) {
     if ((*state & 0x1000000) != 0) {
         return -1;
     }
-    if (Cd_GetReadyStatus() != 1) {
+    if (DsSystemStatus() != 1) {
         return -1;
     }
-    if (CdRom_GetPendingReadCount() != 0) {
+    if (DsQueueLen() != 0) {
         return -1;
     }
-    if (CdRom_GetDiskType() != g_CdDiskType) {
+    if (DsShellOpen() != g_CdDiskType) {
         exit(1);
     }
 

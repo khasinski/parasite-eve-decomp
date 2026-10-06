@@ -42,7 +42,7 @@ static inline void Memcard_OpenKickVideoStream(CdlLOC *loc, u8 *result) {
         do {
             while (func_8007F72C() != 1) {
             }
-        } while (CdRom_GetPendingReadCount() != 0);
+        } while (DsQueueLen() != 0);
         func_80080D5C(2, loc, result);
     } while (!func_80081314(loc, 0x1E0));
 }
@@ -56,7 +56,7 @@ start:
     do {
         while (func_8007F72C() != 1) {
         }
-    } while (CdRom_GetPendingReadCount() != 0);
+    } while (DsQueueLen() != 0);
     func_80080D5C(2, loc, result);
     if (!func_80081314(loc, 0x1E0)) goto start;
 }
@@ -114,7 +114,7 @@ s32 MEMCARD_OPEN_VIDEO_NAME(s32 number) {
      * hoists the per-try constants out of any loop with loop notes). */
 search:
     found = 0;
-    if (func_8007F72C() == 1 && CdRom_GetPendingReadCount() == 0) {
+    if (func_8007F72C() == 1 && DsQueueLen() == 0) {
         found = func_80081414(&MEMCARD_VIDEO_FILE, name);
     }
     if (found == 0 || found == -1) goto search;

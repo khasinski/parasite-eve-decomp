@@ -4,7 +4,7 @@
 
 extern CdRomEventCommandState D_8009B558;
 
-void CdRom_CmdEventCallback(int event, u8 *result) {
+void LIBDS_DSSYS_1_text_D24(int event, u8 *result) {
     u32 event_reg;
     register CdRomEventCommandState *cmd_state asm("$6");
     int value;

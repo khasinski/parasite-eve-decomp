@@ -6,21 +6,21 @@
 
 extern s32 D_800A3604;
 
-int DsSync(int mode);
-void CdRom_TryIssueCmd(u8 opcode, void *arg);
+int DS_system_status(int mode);
+void DS_cw(u8 opcode, void *arg);
 
-void CdRom_PollPendingDsRead(void) {
+void CQ_vsync_system(void) {
     int status;
     s32 *pending;
     s32 *workAddress;
     s32 work;
     unsigned int result;
 
-    status = DsSync(0);
+    status = DS_system_status(0);
     if (status == 1) {
         pending = &g_CdPendingReadCount;
         if (*pending > 0) {
-            result = DsSync(0);
+            result = DS_system_status(0);
             if (result == status) {
                 workAddress = &D_800A3604;
                 work = *workAddress;
@@ -29,7 +29,7 @@ void CdRom_PollPendingDsRead(void) {
                 work = (s32)CD_DS_QUEUE_FROM_PENDING(pending);
                 work = result + work;
                 if (((CdDsReadQueueEntry *)work)->active != 0) {
-                    CdRom_TryIssueCmd(((CdDsReadQueueEntry *)work)->command,
+                    DS_cw(((CdDsReadQueueEntry *)work)->command,
                                       ((CdDsReadQueueEntry *)work)->parameter);
                 }
             }

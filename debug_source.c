@@ -173,7 +173,7 @@ extern void func_8010BFA0(void *, s32);
 extern void func_8010C89C(void *, void *, void *);
 extern void func_8007C394(void *);
 extern void func_8007C2A0(VideoDiscPosition *);
-extern s32 CdRom_GetPendingReadCount(void);
+extern s32 DsQueueLen(void);
 extern s32 func_80081314(VideoDiscPosition *, s32);
 extern void func_80080D5C(s32, VideoDiscPosition *, volatile s32 *);
 s16 Memcard_StepVideo(void)
@@ -256,7 +256,7 @@ s16 Memcard_StepVideo(void)
         }
 
       }
-      while (CdRom_GetPendingReadCount() || ((func_80080D5C(2, &D_801D0DDC, &wait), !func_80081314(&D_801D0DDC, 480))));
+      while (DsQueueLen() || ((func_80080D5C(2, &D_801D0DDC, &wait), !func_80081314(&D_801D0DDC, 480))));
       goto retry;
     }
     wait = 0x800000;

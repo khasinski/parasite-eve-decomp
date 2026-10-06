@@ -4,7 +4,7 @@ void CD_flush(void);
 extern s32 D_8009B59C[];
 #define D_8009B59C (D_8009B59C[0])
 
-s32 CdRom_RetryCmd(void) {
+s32 LIBDS_DSSYS_1_text_774(void) {
     void *base;
     s32 value;
     register s32 idx asm("$3");

@@ -15,12 +15,12 @@ CASES = [('libds/DsCommand',
   'D_8009B4BC = 0x8009B4BC;\n'
   'D_800A3608 = 0x800A3608;\n'
   'D_8009B53C = 0x8009B53C;\n'
-  'Spu_GetQueueEntryPtr = 0x8007E6B0;\n'
-  'Util_Copy4 = 0x80080950;\n'
-  'DsSync = 0x8007FBF0;\n'
+  'CQ_last_queue = 0x8007E6B0;\n'
+  'parcpy = 0x80080950;\n'
+  'DS_system_status = 0x8007FBF0;\n'
   'D_800A3604 = 0x800A3604;\n'
   'D_800A3540 = 0x800A3540;\n'
-  'CdRom_DispatchPendingCmd = 0x8007E8F4;\n'
+  'CQ_execute = 0x8007E8F4;\n'
   'SECTIONS { .text 0x8007ee84 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libds/DsPacket',
@@ -29,26 +29,26 @@ CASES = [('libds/DsCommand',
   'DsPosToInt = 0x80080C48;\n'
   'D_800A3608 = 0x800A3608;\n'
   'D_8009B53C = 0x8009B53C;\n'
-  'Spu_GetQueueEntryPtr = 0x8007E6B0;\n'
-  'Util_Copy4 = 0x80080950;\n'
-  'DsSync = 0x8007FBF0;\n'
+  'CQ_last_queue = 0x8007E6B0;\n'
+  'parcpy = 0x80080950;\n'
+  'DS_system_status = 0x8007FBF0;\n'
   'D_800A3604 = 0x800A3604;\n'
   'D_800A3540 = 0x800A3540;\n'
-  'CdRom_DispatchPendingCmd = 0x8007E8F4;\n'
+  'CQ_execute = 0x8007E8F4;\n'
   'SECTIONS { .text 0x8007f0c8 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }\n'
   'SECTIONS { .rodata 0x80011C9C : SUBALIGN(4) { *(.rodata .rodata.*) } }'),
  ('libds/DsSync',
   496,
   'c018b588ed802f03b26a85aee4f61d0ea564189571df88d77de96c8edc3e0f30',
-  'CdRom_Sync = 0x8007FC64;\n'
+  'DS_sync = 0x8007FC64;\n'
   'D_800A3690 = 0x800A3690;\n'
   'D_800A3610 = 0x800A3610;\n'
   'D_800A3500 = 0x800A3500;\n'
   'D_800A3614 = 0x800A3614;\n'
   'D_800A3618 = 0x800A3618;\n'
   'D_800A361C = 0x800A361C;\n'
-  'Util_Copy8 = 0x80080998;\n'
+  'rescpy = 0x80080998;\n'
   'SECTIONS { .text 0x8007f418 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('libcard/patch_4',

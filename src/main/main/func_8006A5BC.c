@@ -15,13 +15,13 @@ void func_8006A5BC(void)
     Akao_Cmd_F1();
     Akao_Cmd_98_9A_9C(0);
 
-    while (CdRom_ResetDsReadSystem() != 1) {
+    while (DsReset() != 1) {
         VSync(0);
     }
 
-    while (Cd_GetReadyStatus() != 1) {
+    while (DsSystemStatus() != 1) {
         VSync(0);
     }
 
-    D_800B0DD4 = CdRom_GetDiskType();
+    D_800B0DD4 = DsShellOpen();
 }

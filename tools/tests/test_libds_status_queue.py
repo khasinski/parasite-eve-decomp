@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Retail instruction streams at 0x800809E0 and 0x8007E5C4 respectively.
-CASES = [('DS_status',
+CASES = [('tipDsSystem',
   220,
   'a293e10b7e80565ad5ddc9bd56b25ccf7d641d30b2a424264811f043dc7c4fef',
   'D_80011D74 = 0x80011D74;\n'
@@ -29,7 +29,7 @@ CASES = [('DS_status',
   'D_80011E4C = 0x80011E4C;\n'
   'SECTIONS { .text 0x800809e0 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('Spu_DrainQueueEntry',
+ ('CQ_delete_command',
   236,
   'e7239bb1c9421072ce01869eae99b016c60da5f87bdf6fbd1c2a1fbf5c3a47c6',
   'g_CdDsReadQueueState = 0x800A3600;\n'

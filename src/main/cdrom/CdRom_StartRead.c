@@ -30,12 +30,12 @@ start:
     if (!position) {
         location = *DsLastPos(0);
         mode |= 0x20;
-        mode = Render_BuildParticleFrame((u8)mode, &location, 6,
+        mode = DsPacket((u8)mode, &location, 6,
                                          (DslCB)CdRom_SetMode2Callback, -1);
     } else {
         location = *position;
         mode |= 0x20;
-        mode = Render_BuildParticleFrame((u8)mode, &location, 6,
+        mode = DsPacket((u8)mode, &location, 6,
                                          (DslCB)CdRom_SetMode2Callback, -1);
     }
     result = 0;

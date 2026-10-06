@@ -1,10 +1,10 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_ds_queue.h"
-void Spu_DrainQueueEntry(void);
-int CdRom_TryIssueCmd(int, void *);
+void CQ_delete_command(void);
+int DS_cw(int, void *);
 #define QUEUE_FROM_CURRENT(p)                                                          \
     ((CdDsReadQueueWindow *)((u8 *)(p) - PE1_OFFSETOF(CdDsReadQueueWindow, read_index)))
-void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
+void CQ_sync_system(int inEvent, u8 *inResult) {
     register int event = inEvent;
     register u8 *result = inResult;
     register int *current;
@@ -29,7 +29,7 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
             asm("" : "=r"(slot) : "0"(slot));
             slot->state = entry->active;
             slot->result = event;
-            Util_Copy8(slot->payload, result);
+            rescpy(slot->payload, result);
         }
         switch ((u8)savedEvent) {
         case 2: {
@@ -40,13 +40,13 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
             if (!valid)
                 index = 0;
             if (base[index].active != entry->active) {
-                CdRom_EnqueueCmd(entry->active, 2, result);
+                CQ_add_result(entry->active, 2, result);
                 {
                     register DslCB cb = entry->callback;
                     if (cb)
                         cb(2, result);
                 }
-                Spu_DrainQueueEntry();
+                CQ_delete_command();
             } else {
                 *current = next;
                 if (!valid) {
@@ -62,13 +62,13 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
                 if (entry->count != -1)
                     entry->count--;
             } else {
-                CdRom_EnqueueCmd(entry->active, 5, result);
+                CQ_add_result(entry->active, 5, result);
                 {
                     register DslCB cb = entry->callback;
                     if (cb)
                         cb(5, result);
                 }
-                Spu_DrainQueueEntry();
+                CQ_delete_command();
             }
             break;
         }
@@ -77,10 +77,10 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
     if (g_DsReadCallbackState.start)
         g_DsReadCallbackState.start(savedEvent, result);
     {
-        int ready = DsSync(0);
+        int ready = DS_system_status(0);
         if (ready == 1) {
             int *pending = &D_800A3608;
-            if (*pending > 0 && DsSync(0) == ready) {
+            if (*pending > 0 && DS_system_status(0) == ready) {
                 register int index = D_800A3604;
                 register CdDsReadQueueEntry *item;
                 {
@@ -91,7 +91,7 @@ void LIBDS_DSSYS_2_text_3D0(int inEvent, u8 *inResult) {
                     item = (CdDsReadQueueEntry *)(offset + queue);
                 }
                 if (item->active)
-                    CdRom_TryIssueCmd(item->command, item->parameter);
+                    DS_cw(item->command, item->parameter);
             }
         }
     }

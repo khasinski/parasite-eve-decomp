@@ -1,7 +1,7 @@
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds.h"
 
-CdDsReadQueueEntry *Spu_GetQueueEntryPtr(void) {
+CdDsReadQueueEntry *CQ_last_queue(void) {
     volatile int *base;
     int count;
     int index;

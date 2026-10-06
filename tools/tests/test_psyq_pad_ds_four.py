@@ -33,7 +33,7 @@ CASES = [('libpad/padseqd_2',
   'cc34f5b089194c02b861b44bdc80af68287db290a4f3fd5cf00e639d62e56e7e',
   'D_800A3600 = 0x800A3600;\n'
   'D_800A3540 = 0x800A3540;\n'
-  'CdRom_EnqueueCmd = 0x8007EB88;\n'
+  'CQ_add_result = 0x8007EB88;\n'
   'D_800A3608 = 0x800A3608;\n'
   'D_800A3604 = 0x800A3604;\n'
   'SECTIONS { .text 0x8007e704 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '

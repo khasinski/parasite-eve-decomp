@@ -12,7 +12,7 @@ class CDReadyDispatchTests(unittest.TestCase):
     def test_plain_source(self):
         source = (ROOT/'src/main/cdrom/CdRom_ReadyEventDispatch.c').read_text()
         self.assertNotRegex(source, r'\b(?:asm|__asm__)\b')
-        self.assertIn('CdRom_ProcessEventByte(event_reg, data_reg);', source)
+        self.assertIn('LIBDS_DSSYS_1_text_EA4(event_reg, data_reg);', source)
 
     @unittest.skipUnless((ROOT/'assets/USA/main.exe').is_file() and
                          (ROOT/'build/USA/main.exe').is_file(), 'images unavailable')

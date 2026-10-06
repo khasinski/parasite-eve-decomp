@@ -1,20 +1,20 @@
 #include "pe1/psyq_ds.h"
 #include "pe1/cdrom.h"
 
-extern void CdRom_AbortCmd(void);
+extern void DS_stop(void);
 
 extern int g_CdDsReadQueueState;
 extern int g_CdDsReadIndex;
 extern int g_CdPendingReadCount;
 extern CdDsReadQueueEntry g_CdDsReadQueue[];
 
-void CdRom_ResetFileDescriptors(void) {
+void DsFlush(void) {
     int i;
     register CdDsReadQueueEntry *p asm("$4");
     int j;
     unsigned char *q;
 
-    CdRom_AbortCmd();
+    DS_stop();
 
     i = 0;
     g_CdPendingReadCount = 0;
@@ -39,5 +39,5 @@ void CdRom_ResetFileDescriptors(void) {
     }
 
     DsReadBreak();
-    CdRom_EnableDsReadSystem();
+    DS_restart();
 }

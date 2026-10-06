@@ -282,7 +282,7 @@ extern int g_CdRomCmdTimeout __asm__("D_8009B598");
 extern int g_CdRomCmdRetryState __asm__("D_8009B59C");
 extern int g_CdRomCmdLongTimeoutTable[];
 
-/* This word is also the base address used by CdRom_DispatchPendingCmd. */
+/* This word is also the base address used by CQ_execute. */
 extern int g_CdDsReadIndex;
 
 void CdRom_ReadProgressCallback(int status, void *data, void *detail);
@@ -296,7 +296,7 @@ extern s32 g_CdReadCommandPollToggle __asm__("D_8009B6A4");
 extern CdReadCompleteCallback g_CdReadCompleteCallback;
 CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback);
 
-void CdRom_AbortCmd(void);
+void DS_stop(void);
 void callback(void);
 /* BIOS_1.OBJ polling state, result buffers and timeout diagnostics. */
 extern char *D_8009AFDC[], *D_8009B05C[];
@@ -332,8 +332,8 @@ int CD_sync(int mode, u8 *result);
 int CD_ready(int mode, u8 *result);
 int CdSync(int mode, u8 *result);
 int CdReady(int mode, u8 *result);
-void CdRom_Sync(u8 *result);
-void CdRom_SendReadyCommand(u8 *result);
+void DS_sync(u8 *result);
+void DS_ready(u8 *result);
 /* Data DMA synchronization: mode 0 waits; nonzero polls. */
 int CD_datasync(int mode);
 int CdDataSync(int mode);
@@ -428,6 +428,6 @@ int CdGetSector(void *address, int size);
 DsCallback CdDataCallback(DsCallback callback);
 int CdDataSync(int mode);
 
-void CdRom_CmdEventCallback(int event, u8 *result);
+void LIBDS_DSSYS_1_text_D24(int event, u8 *result);
 
 #endif

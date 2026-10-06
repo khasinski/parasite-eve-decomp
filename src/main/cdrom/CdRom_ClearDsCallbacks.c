@@ -15,9 +15,9 @@ typedef struct CdRomSystemDataPage {
 register CdRomSystemDataPage *g_CdRomSystemDataPage asm("$1");
 register int g_CdRomClearCallbackArg asm("$4");
 
-void CdRom_ClearDsCallbacks(void);
+void DS_close(void);
 
-void CdRom_ClearDsCallbacks(void) {
+void DS_close(void) {
     g_CdRomSystemDataPage = (CdRomSystemDataPage *)0x800A0000;
     g_CdRomSystemDataPage[-1].state.enabled = 0;
     CD_flush();

@@ -7,7 +7,7 @@
 
 void CD_flush(void);
 
-void CdRom_AbortCmd(void)
+void DS_stop(void)
 {
     CdRomSystemState *state;
     u32 kind;

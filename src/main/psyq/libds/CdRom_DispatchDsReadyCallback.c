@@ -2,7 +2,7 @@
 
 extern void (*g_LibDsReadyCallback)(int);
 
-void CdRom_DispatchDsReadyCallback(int arg0) {
+void LIBDS_DSSYS_2_text_13CC(int arg0) {
     if (g_LibDsReadyCallback != 0) {
         g_LibDsReadyCallback((unsigned char)arg0);
     }

@@ -3,22 +3,22 @@
 
 extern int g_CdPendingReadCount;
 
-int CdRom_GetSeekState(void);
+int DS_status(void);
 
-int CdRom_GetDiscType(void);
+int DS_shell_open(void);
 
-int CdRom_GetPendingReadCount(void) {
+int DsQueueLen(void) {
     return g_CdPendingReadCount;
 }
 
-int CdRom_GetCmdStatus(void) {
-    return CdRom_GetSeekState() & 0xFF;
+int DsStatus(void) {
+    return DS_status() & 0xFF;
 }
 
-int CdRom_GetDiskType(void) {
-    return CdRom_GetDiscType();
+int DsShellOpen(void) {
+    return DS_shell_open();
 }
 
-int CdRom_GetLastCmdByte(void) {
-    return CdRom_GetLastCmd() & 0xFF;
+int DsLastCom(void) {
+    return DS_lastcom() & 0xFF;
 }

@@ -42,7 +42,7 @@ void DsReadBreak(void) {
         zeroArg1 = 0;
         asm volatile("" : "+r"(particleType), "+r"(zeroArg1));
         callback = 0;
-        Render_AllocParticleNode(particleType, zeroArg1, callback, -1);
+        DsCommand(particleType, zeroArg1, callback, -1);
     }
     DS_ASYNC_READ_FIELD(state, active) = 0;
 }

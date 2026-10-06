@@ -4,25 +4,25 @@
 
 void CD_init(void);
 void CD_initvol(void);
-void CdRom_InitCmdState(void);
+void DS_reset_members(void);
 void CdRom_SetRetryMode(int mode);
-void Render_DrawParticleGroup(int, void *);
-void CdRom_ReadyEventDispatch(int, u_char *);
+void LIBDS_DSSYS_1_text_7FC(int, void *);
+void LIBDS_DSSYS_1_text_E10(int, u_char *);
 void LIBDS_DSSYS_1_text_4A4(void);
 void VSyncCallbacks(int mode, void *callback);
 
-void CdRom_InitDsCallbacks(void) {
+void DS_init(void) {
     CD_init();
     CD_initvol();
 
     g_DsReadyCallback = 0;
     g_DsSyncCallback = g_DsReadyCallback;
     g_DsPollCallback = 0;
-    CdRom_InitCmdState();
+    DS_reset_members();
     CdRom_SetRetryMode(0);
 
-    g_CdSyncCallback = (CdlCB)Render_DrawParticleGroup;
-    g_CdReadyCallback = (CdlCB)CdRom_ReadyEventDispatch;
+    g_CdSyncCallback = (CdlCB)LIBDS_DSSYS_1_text_7FC;
+    g_CdReadyCallback = (CdlCB)LIBDS_DSSYS_1_text_E10;
     VSyncCallbacks(0, LIBDS_DSSYS_1_text_4A4);
 
     D_8009AFD8 = 1;

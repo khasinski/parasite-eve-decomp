@@ -57,7 +57,7 @@ class CDEventByteTests(unittest.TestCase):
                     byte=expected[data+raw_index]
                     for index,bit in enumerate((7,6,5,1)):expected[0x8009B588+index]=(byte>>bit)&1
                     expected[0x8009B56C]=byte
-                    # Util_Copy8 copies forwards byte-by-byte, not via a snapshot.
+                    # rescpy copies forwards byte-by-byte, not via a snapshot.
                     for i in range(8):expected[0x8009B564+i]=expected[data+i]
                 calls.clear()
                 for name,v in (('A0',event),('A1',data),('SP',stack),('RA',stop)):

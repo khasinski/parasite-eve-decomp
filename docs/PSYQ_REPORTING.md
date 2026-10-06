@@ -30,9 +30,14 @@ retain a neutral path. This is grouping of actual linked units, not a claim that
 we have already rebuilt every original SDK translation unit.
 
 The four functions from 7a55a39b now use `_dirFailAuto`,
-`LIBPAD_PADCMD_text_3A0`, `LIBDS_DSSYS_2_text_170` and
+`LIBPAD_PADCMD_text_3A0`, `CQ_error_flush` and
 `LIBDS_DSSYS_1_text_8B8` as link symbols. `text_*` are private signature labels,
 not recovered original C names; the library/object prefixes disambiguate them.
+`CQ_error_flush` and the other `CQ_*`, `DS_read_cb*`, `ER_*`, `GD_cbready`
+and `StCdInterrupt2` names come from the PSY-Q 4.0 LIBDS signatures, which
+keep those labels at the same position in the object where 4.3 has only
+`text_*`. LIBDS statics without a 4.0 label keep the
+`LIBDS_<object>_text_<offset>` form.
 Their previous MemCard/CardObj/Render names no longer obscure them in function
 lists. Existing source paths are still supplied separately for GitHub links.
 

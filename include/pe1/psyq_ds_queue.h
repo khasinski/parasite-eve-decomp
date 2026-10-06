@@ -43,23 +43,22 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(DsQueueCallback, callback) == 4,
 PE1_STATIC_ASSERT(sizeof(DsQueueIndices) == 12, ds_queue_indices_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsQueueIndices, count) == 8, ds_queue_count_offset);
 extern DsQueueIndices D_800A3600;
-void CdRom_EnqueueCmd(u32 id, u8 event, u8 *result);
+void CQ_add_result(u32 id, u8 event, u8 *result);
 
 extern int D_8009B4BC[];
 extern u32 D_8009B53C;
 extern int D_800A3608, D_800A3604;
 extern CdDsReadQueueEntry D_800A3540[];
-int Render_AllocParticleNode(int command, void *parameter, DslCB callback,
+int DsCommand(int command, void *parameter, DslCB callback,
                              int count);
-int Render_BuildParticleFrame(int mode, DslLOC *position, int command,
+int DsPacket(int mode, DslLOC *position, int command,
                               DslCB callback, int count);
-CdDsReadQueueEntry *Spu_GetQueueEntryPtr(void);
-void Util_Copy4(void *, const void *);
-void Util_Copy8(void *, const void *);
-/* Legacy queue-state helper name; SDK DsSync is Render_FindParticleEffect. */
-int DsSync(int mode);
-void CdRom_DispatchPendingCmd(void);
+CdDsReadQueueEntry *CQ_last_queue(void);
+void parcpy(void *, const void *);
+void rescpy(void *, const void *);
+int DS_system_status(int mode);
+void CQ_execute(void);
 int DsPosToInt(CdlLOC *);
-int Render_FindParticleEffect(int id, void *result);
+int DsSync(int id, void *result);
 
 #endif

@@ -8,15 +8,15 @@
 extern CdQueuedCmdSlot D_800A3520;
 extern CdQueuedCmdSlot D_800A3530;
 
-void Util_Copy8(u8 *destination, u8 *source);
+void rescpy(u8 *destination, u8 *source);
 
-int CdRom_SendQueuedCmd(u8 *destination) {
+int DsReady(u8 *destination) {
     CdQueuedCmdSlot *slot;
     u8 *copyDestination;
     int selector;
 
     slot = (CdQueuedCmdSlot *)destination;
-    CdRom_SendReadyCommand(0);
+    DS_ready(0);
     if (D_800A3530.state == 1) {
         selector = 4;
     } else {
@@ -34,6 +34,6 @@ int CdRom_SendQueuedCmd(u8 *destination) {
     }
 
     slot->state = 0;
-    Util_Copy8(copyDestination, slot->payload);
+    rescpy(copyDestination, slot->payload);
     return slot->result;
 }
