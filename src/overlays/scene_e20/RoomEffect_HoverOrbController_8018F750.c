@@ -157,8 +157,7 @@ update: {
                 effect->commandedEndpoint.x = (s16) (u16) command->position.x;
                 effect->commandedEndpoint.y = (s16) (u16) command->position.y;
                 effect->commandedEndpoint.z = (s16) (u16) command->position.z;
-                asm volatile("" : : "m"(effect->commandedEndpoint));
-                var_a1_2 = command->duration;
+                                var_a1_2 = command->duration;
                 effect->previousEndpoint.x = (s16) endpointX;
                 effect->previousEndpoint.z = (s16) temp_v1;
                 effect->previousEndpoint.y = (s16) (u16) effect->endpoint.y;
@@ -301,10 +300,8 @@ render: {
         {
             u32 *matrixWords;
             register u32 a asm("$12"); register u32 b asm("$13"); register u32 c asm("$14");
-            asm volatile("" : "=r"(matrixAddress) : "0"(matrixAddress) : "memory");
-            asm volatile("" : "=r"(matrixWords) : "0"((u32 *)*matrixAddress) : "$2", "$3", "$4", "$7");
-            asm volatile("" : : "r"(matrixAddress));
-            a=matrixWords[0]; b=matrixWords[1];
+                        asm volatile("" : "=r"(matrixWords) : "0"((u32 *)*matrixAddress) : "$2", "$3", "$4", "$7");
+                        a=matrixWords[0]; b=matrixWords[1];
             gte_ctc2_0(a); gte_ctc2_1(b);
             a=matrixWords[2]; b=matrixWords[3]; c=matrixWords[4];
             gte_ctc2_2(a); gte_ctc2_3(b); gte_ctc2_4(c);
@@ -327,8 +324,7 @@ render: {
         {
             u32 *matrixWords;
             register u32 a asm("$12"); register u32 b asm("$13"); register u32 c asm("$14");
-            asm volatile("" : "=r"(matrixAddress) : "0"(matrixAddress) : "memory");
-            asm volatile("" : "=r"(matrixWords) : "0"((u32 *)*matrixAddress) : "$2", "$3", "$4", "$7");
+                        asm volatile("" : "=r"(matrixWords) : "0"((u32 *)*matrixAddress) : "$2", "$3", "$4", "$7");
             asm volatile("" : : "r"(matrixAddress));
             a=matrixWords[0]; b=matrixWords[1];
             gte_ctc2_0(a); gte_ctc2_1(b);
@@ -362,8 +358,7 @@ block_63:
                 temp_s3 = 0xFF;
             }
             pageArg0 = 0; pageArg1 = temp_s3; pageArg2 = 0;
-            asm volatile("" : : "r"(pageArg0), "r"(pageArg1), "r"(pageArg2));
-            pageIndex = &D_800E11FA;
+                        pageIndex = &D_800E11FA;
             asm volatile("" : "=r"(pageIndex) : "0"(pageIndex));
             texturePage = firstPageTable[*pageIndex];
             asm volatile("" : : "r"(texturePage));

@@ -19,8 +19,7 @@ SceneEffectSlot *Scene_CommandEffectSlot(unsigned int command, int index, int va
     case 2:
         slot->position.x = value;
         /* Keep the position store before the shared-height load; emits no code. */
-        __asm__("");
-        slot->position.y = D_800942EC.height;
+                slot->position.y = D_800942EC.height;
         slot->position.z = z;
         break;
     case 3:
