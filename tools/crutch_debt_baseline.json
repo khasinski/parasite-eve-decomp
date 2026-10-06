@@ -14,7 +14,7 @@
     "gotos": 921,
     "gte_matrix_windows": 0,
     "include_asm": 0,
-    "nop_barriers": 172,
+    "nop_barriers": 161,
     "original_asm_units": 70,
     "pins": 1596,
     "pointer_integer_casts": 547,
