@@ -1,6 +1,23 @@
-#include "pe1/field_script_context.h"
 /* CC1_FLAGS: -fno-strength-reduce */
-#include "../room_lib/RoomLib_DrawMotion.h"
+/*
+ * The motion particle set, part 2 of 3: the particle draw.
+ *
+ * room_m075, room_m080, room_m082, scene_e09 and scene_e10 link the same
+ * fifteen functions in the same order, after the room prelude and before
+ * the room library, with the same 0x18 bytes of read-only data. The object
+ * is split in three units only because its particle draw needs
+ * -fno-strength-reduce, which the setup loop must not get; they are
+ * merged once they compile together. Trails, glyphs and lookup codes live
+ * in each room's own data (pe1/room_motion_init.h).
+ */
+#include "common.h"
+#include "room_lib.h"
+#include "pe1/room_fx.h"
+#include "pe1/room_motion_init.h"
+#include "pe1/field_script_context.h"
+#include "RoomLib_DrawMotion.h"
+
+static const RoomFxVec4 s_MotionScale = { 0x590, 0x590, 0x590, 0 };
 
 typedef struct RoomLibMotionScaleScratch {
     RoomFxVec4 value;
@@ -8,7 +25,7 @@ typedef struct RoomLibMotionScaleScratch {
     char pad[8];
 } RoomLibMotionScaleScratch;
 
-void func_80190410(void *unused, RoomStatePair *control,
+void RoomFx_DrawMotionParticles(void *unused, RoomStatePair *control,
                    RoomMotionState *state)
 {
     RoomSpriteMatrix matrix;
@@ -40,7 +57,7 @@ void func_80190410(void *unused, RoomStatePair *control,
     matrix.m[1][0] = 0;
     matrix.m[0][2] = 0;
     matrix.m[0][1] = 0;
-    scale.value = D_8018EFFC;
+    scale.value = s_MotionScale;
     ScaleMatrix(&matrix, &scale.value);
 
     if (control->h2 == 30) {
@@ -51,7 +68,7 @@ void func_80190410(void *unused, RoomStatePair *control,
     }
 
     if (control->h2 >= 31) {
-        D_801940C0 = 0;
+        g_RoomMotionGlyph.x = 0;
         primary = &state->matrix[0];
         secondary = &state->matrix[1];
     } else {
@@ -62,13 +79,13 @@ void func_80190410(void *unused, RoomStatePair *control,
 
     i = 0;
     if (state->count != 0) {
-        depth = (u16 *)&D_801940C2;
+        depth = (u16 *)&g_RoomMotionGlyph.y;
         packet = (char *)depth - 10;
         cursor = (RoomMotionCursor *)state;
         do {
             *depth = state->depth;
             *(u8 *)((char *)depth - 6) =
-                D_80194008[state->lookup[i].id];
+                g_RoomMotionLookupCodes[state->lookup[i].id];
             matrix.t[0] = primary->t[0] + cursor->particle.primaryX;
             matrix.t[1] = primary->t[1] + cursor->particle.primaryY;
             matrix.t[2] = primary->t[2] + cursor->particle.primaryZ;
@@ -78,7 +95,7 @@ void func_80190410(void *unused, RoomStatePair *control,
             matrix.t[2] = secondary->t[2] + cursor->particle.secondaryZ;
             func_800C42A4(packet, &matrix, 1);
             i++;
-            cursor = (RoomMotionCursor *)((RoomMotionParticle *)cursor + 1);
+            cursor = (RoomMotionCursor *)((RoomMotionPoint *)cursor + 1);
         } while ((unsigned int)i < state->count);
     }
 }

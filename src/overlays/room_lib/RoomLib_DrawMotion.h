@@ -21,7 +21,7 @@ typedef struct RoomMotionLookup {
     s16 pad;
 } RoomMotionLookup;
 
-typedef struct RoomMotionParticle {
+typedef struct RoomMotionPoint {
     s16 primaryX;
     s16 primaryY;
     s16 primaryZ;
@@ -30,7 +30,7 @@ typedef struct RoomMotionParticle {
     s16 secondaryY;
     s16 secondaryZ;
     s16 pad4E;
-} RoomMotionParticle;
+} RoomMotionPoint;
 
 typedef struct RoomMotionScale {
     s16 x;
@@ -39,8 +39,8 @@ typedef struct RoomMotionScale {
 
 typedef struct RoomMotionState {
     RoomSpriteMatrix matrix[2];
-    RoomMotionParticle particle[8];
-    RoomMotionParticle velocity[8];
+    RoomMotionPoint particle[8];
+    RoomMotionPoint velocity[8];
     RoomMotionScale scale[8];
     RoomMotionLookup lookup[8];
     u16 depth;
@@ -49,7 +49,7 @@ typedef struct RoomMotionState {
 
 typedef struct RoomMotionCursor {
     u8 pad00[0x40];
-    RoomMotionParticle particle;
+    RoomMotionPoint particle;
 } RoomMotionCursor;
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionContext, owner) == 0x6C,
@@ -67,9 +67,5 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionState, depth) == 0x180,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomMotionCursor, particle.secondaryZ) == 0x4C,
                   room_motion_cursor_secondary_z_offset);
 
-extern RoomFxVec4 D_8018EFFC;
-extern s16 D_801940C0;
-extern s16 D_801940C2;
-extern u8 D_80194008[];
 
 #endif

@@ -71,10 +71,17 @@ typedef struct RoomMotionParticle {
     u8 pad13[0x31];
 } RoomMotionParticle;
 
-extern RoomMotionGlyph D_801940B8;
-extern RoomMotionParticle D_801940C8[10];
-extern RoomMotionParticle D_80194370[10];
-extern RoomMotionGlyph D_80194618[4];
+/* The motion particle set's per-room data (the shared units
+ * src/overlays/room_lib/RoomFx_MotionParticles*.c), named in every
+ * room's symbol file: room_m075, room_m080, room_m082, scene_e09 and
+ * scene_e10 keep it at their own addresses. */
+extern RoomMotionGlyph g_RoomMotionGlyph;
+extern RoomMotionParticle g_RoomMotionTrailA[10];
+extern RoomMotionParticle g_RoomMotionTrailB[10];
+extern RoomMotionGlyph g_RoomMotionGlyphs[4];
+extern s16 g_RoomMotionQuadDepth;
+extern u8 g_RoomMotionQuadPacket[];
+extern u8 g_RoomMotionLookupCodes[];
 
 void *func_8006DC18(int type);
 
