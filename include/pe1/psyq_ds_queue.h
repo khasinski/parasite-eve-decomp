@@ -57,7 +57,8 @@ CdDsReadQueueEntry *CQ_last_queue(void);
 void parcpy(void *, const void *);
 void rescpy(void *, const void *);
 int DS_system_status(int mode);
-void CQ_execute(void);
+int CQ_execute(void);
+int DS_cw(u8 command, void *parameter);
 int DsPosToInt(CdlLOC *);
 int DsSync(int id, void *result);
 

@@ -1,6 +1,15 @@
 /* ASSEMBLER: GNU */
-/* Psy-Q LIBDS DSSYS_2.OBJ: DsCommand, DsPacket, DsSync. */
+/* Psy-Q LIBDS DSSYS_2.OBJ, part 5 of 5: DsClose, DsCommand, DsReady, DsFlush, DsSystemStatus, DsQueueLen, DsStatus, DsShellOpen, DsLastCom, CQ_vsync_system, CQ_ready_system, LIBDS_DSSYS_2_text_13CC and the object's zero tail. */
 #include "pe1/psyq_ds_queue.h"
+#include "pe1/psyq_cd.h"
+#include "pe1/psyq_ds.h"
+#include "pe1/cdrom.h"
+
+void DS_close(void);
+
+void DsClose(void) {
+    DS_close();
+}
 
 /* Empty constraints preserve the retail schedule. */
 
@@ -379,3 +388,194 @@ copyResult:
 done:
     return status;
 }
+
+extern CdQueuedCmdSlot D_800A3520;
+extern CdQueuedCmdSlot D_800A3530;
+
+
+int DsReady(u8 *destination) {
+    CdQueuedCmdSlot *slot;
+    u8 *copyDestination;
+    int selector;
+
+    slot = (CdQueuedCmdSlot *)destination;
+    DS_ready(0);
+    if (D_800A3530.state == 1) {
+        selector = 4;
+    } else {
+        selector = D_800A3520.state == 1;
+    }
+
+    if (selector == 4) {
+        copyDestination = (u8 *)slot;
+        slot = &D_800A3530;
+    } else if (selector == 1) {
+        copyDestination = (u8 *)slot;
+        slot = &D_800A3520;
+    } else {
+        return 0;
+    }
+
+    slot->state = 0;
+    rescpy(copyDestination, slot->payload);
+    return slot->result;
+}
+
+extern void DS_stop(void);
+
+extern int g_CdDsReadQueueState;
+extern int g_CdDsReadIndex;
+extern int g_CdPendingReadCount;
+extern CdDsReadQueueEntry g_CdDsReadQueue[];
+
+void DsFlush(void) {
+    int i;
+    register CdDsReadQueueEntry *p asm("$4");
+    int j;
+    unsigned char *q;
+
+    DS_stop();
+
+    i = 0;
+    g_CdPendingReadCount = 0;
+    g_CdDsReadIndex = 0;
+    g_CdDsReadQueueState = 0;
+    p = g_CdDsReadQueue;
+
+    while (i < 8) {
+        j = 3;
+        q = (unsigned char *)p + 3;
+        p->active = 0;
+        p->command = 0;
+        for (; j >= 0; j--, q--) {
+            q[5] = 0;
+        }
+        p->parameter = 0;
+        p->callback = 0;
+        p->count = 0;
+        asm volatile("" : "=r"(i) : "0"(i));
+        i++;
+        p++;
+    }
+
+    DsEndReadySystem();
+    DS_restart();
+}
+
+int DS_system_status(int arg0);
+
+int DsSystemStatus(void) {
+    int status = DS_system_status(0);
+
+    if (status == 1 && DsQueueLen() > 0) {
+        status = 2;
+    }
+
+    return status;
+}
+
+int DS_status(void);
+
+int DS_shell_open(void);
+
+int DsQueueLen(void) {
+    return g_CdPendingReadCount;
+}
+
+int DsStatus(void) {
+    return DS_status() & 0xFF;
+}
+
+int DsShellOpen(void) {
+    return DS_shell_open();
+}
+
+int DsLastCom(void) {
+    return DS_lastcom() & 0xFF;
+}
+
+extern s32 D_800A3604;
+
+int DS_system_status(int mode);
+
+void CQ_vsync_system(void) {
+    int status;
+    s32 *pending;
+    s32 *workAddress;
+    s32 work;
+    unsigned int result;
+
+    status = DS_system_status(0);
+    if (status == 1) {
+        pending = &g_CdPendingReadCount;
+        if (*pending > 0) {
+            result = DS_system_status(0);
+            if (result == status) {
+                workAddress = &D_800A3604;
+                work = *workAddress;
+                result = work * 3;
+                result <<= 3;
+                work = (s32)CD_DS_QUEUE_FROM_PENDING(pending);
+                work = result + work;
+                if (((CdDsReadQueueEntry *)work)->active != 0) {
+                    DS_cw(((CdDsReadQueueEntry *)work)->command,
+                                      ((CdDsReadQueueEntry *)work)->parameter);
+                }
+            }
+        }
+    }
+}
+
+extern int D_800B8AB4;
+
+void CQ_error_flush(int command);
+
+int CQ_ready_system(int command, u8 *payload) {
+    register int result asm("$2");
+    register CdQueuedCmdSlot *slot;
+    u8 *copy_destination;
+    u8 command_byte;
+
+    command_byte = command;
+    if (command_byte == 5 && (payload[0] & 0x10)) {
+        CQ_error_flush(5);
+    }
+
+    switch (command_byte) {
+    case 1:
+    case 5:
+                slot = &D_800A3520;
+                copy_destination = slot->payload;
+        break;
+    case 4:
+        slot = &D_800A3530;
+        copy_destination = slot->payload;
+        break;
+    default:
+        goto callback;
+    }
+
+    slot->state = 1;
+    slot->result = command_byte;
+    rescpy(copy_destination, payload);
+
+callback:
+        result = D_800B8AB4;
+    if (result != 0) {
+        result = ((int (*)(u8, u8 *))result)(command_byte, payload);
+    }
+    return result;
+}
+
+extern void (*g_DsStartCallback)(int);
+
+void LIBDS_DSSYS_2_text_13CC(int arg0) {
+    if (g_DsStartCallback != 0) {
+        g_DsStartCallback((unsigned char)arg0);
+    }
+}
+
+unsigned int LIBDS_DSSYS_2_pad[] __attribute__((section(".text"))) = {
+    0x00000000,
+    0x00000000,
+};
