@@ -32,8 +32,6 @@ extern int rsin();
 extern int rcos();
 extern int func_80077AA4();
 #include "pe1/gte_types.h"
-extern int func_800CF3AC();
-extern int func_800CEE20();
 
 int RoomM005_FxOrbiter_8018F018(int mode, RoomM005_OrbRec *r) {
     unsigned short anchor[3];
@@ -86,16 +84,16 @@ burst:
         if (D_800F336C == 4 && D_800F3428 != 0) {
             a += 4;
         }
-        func_800CEE20(r, q, 0x800, 0x800, D_800F336A + 0xD8,
-                      (unsigned short)func_80077AA4(0x20, a), 3, r->h6, out);
+        func_800CEE20((GteShortVector *)r, (GteRotation *)q, 0x800, 0x800, D_800F336A + 0xD8,
+                      (unsigned short)func_80077AA4(0x20, a), 3, r->h6, (RenderColor *)out);
     }
     {
         int a = D_800E1204[D_800F336C];
         if (D_800F336C == 4 && D_800F3428 != 0) {
             a += 4;
         }
-        func_800CEE20(r, q, 0x1000, 0x1000, (D_800F336A << 1) + 0xD8,
-                      (unsigned short)func_80077AA4(0x20, a), 3, r->h6, out);
+        func_800CEE20((GteShortVector *)r, (GteRotation *)q, 0x1000, 0x1000, (D_800F336A << 1) + 0xD8,
+                      (unsigned short)func_80077AA4(0x20, a), 3, r->h6, (RenderColor *)out);
     }
 ret0:
     return 0;

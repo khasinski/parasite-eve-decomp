@@ -8,6 +8,7 @@
 #include "../../../include/pe1/room_fx.h"
 #include "../../../include/pe1/field_script_context.h"
 #include "../../../include/pe1/room_particle_state.h"
+#include "../../../include/pe1/render_object.h"
 
 typedef struct RoomObj {
     char pad0[0xC];
@@ -899,12 +900,9 @@ extern short D_800F3372;
 extern short D_800F3374;
 extern void *RoomMain_ActorPtr2;
 extern int func_800CE8F0();
-extern int func_800CE9D4();
-extern int func_800CE870();
 extern int func_800CFAA8();
 extern int func_800CE560();
 extern RoomQRec *func_800CE610();
-extern int func_800CFB7C();
 extern int func_800D3FD8();
 extern int func_800D3F64();
 
