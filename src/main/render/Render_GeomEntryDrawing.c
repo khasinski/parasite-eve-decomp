@@ -184,7 +184,7 @@ int Render_DrawSpriteEntry(GeomEntry *input)
     } else {
         u32 mask24;
         register u32 maskTop asm("$14");
-        register RenderTilePacket *sprite_cursor asm("$5");
+        RenderTilePacket *sprite_cursor;
         RenderTexturePagePacket *page_cursor;
         register u32 *position_cursor asm("$10");
         i = 0;
