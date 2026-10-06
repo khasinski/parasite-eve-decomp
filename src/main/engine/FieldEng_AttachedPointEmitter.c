@@ -1,9 +1,17 @@
+/* The second spinning model flare and the emitter that spawns it on the
+ * attached actor's target point. */
+#define SPINNING_MODEL_FUNC func_800DA1FC
+#define SPINNING_MODEL_ANCHOR D_800E2214
+#define SPINNING_MODEL_PALETTE 3
+#define SPINNING_MODEL_COLOR(size) (u8)((size) / 3), 0, (u8)((size) / 2)
+#include "FieldEng_SpinningModel.inc"
+
 #include "pe1/field_anim.h"
 #include "pe1/render_object.h"
 #include "pe1/battle_runtime.h"
 #include "pe1/random.h"
-
 #include "pe1/field_actor.h"
+
 int func_800DA5D4(int mode, FieldAnimEmitter *state) {
     FieldAnimEmittedPoint *point;
     int angle;

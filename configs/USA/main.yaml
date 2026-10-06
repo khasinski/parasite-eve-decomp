@@ -1457,8 +1457,8 @@ segments:
       - [0xC9D54, c, engine/FieldEng_DampedSpark]
       - [0xCA28C, c, engine/FieldEng_SpinningModel]
       - [0xCA65C, c, engine/FieldEng_BallisticSprite]
-      - [0xCA9FC, c, engine/FieldEng_SpinningModelAlt]
-      - [0xCADD4, c, engine/FieldEng_AttachedPointEmitter]
+      # The second spinning flare and the emitter that spawns it (call + private anchor D_800E2214).
+      - [0xCA9FC, c, engine/FieldEng_AttachedPointEmitter]
       - [0xCAF80, c, engine/FieldEng_RotatingBallisticSprite]
       - [0xCB398, c, engine/FieldEng_CosineEffect]
       - [0xCB78C, c, engine/FieldEng_SineEmitter]
