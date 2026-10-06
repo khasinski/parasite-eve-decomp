@@ -1,4 +1,5 @@
 #include "pe1/gte_types.h"
+#include "pe1/field_glow_sprite.h"
 
 typedef GteMatrix SceneE08Matrix;
 typedef GteVector SceneE08Vector;
@@ -16,7 +17,6 @@ int rsin(int);
 int rcos(int);
 void func_80071A44(SceneE08Vector *, int, int);
 void func_800C3134(void *, int, void *);
-void func_800C42A4(void *, SceneE08Matrix *, int);
 void func_80192D90(void *unused0, void *unused1, char *effect) {
     SceneE08Matrix matrix;
     s16 temp[3];
@@ -65,7 +65,7 @@ void func_80192D90(void *unused0, void *unused1, char *effect) {
             matrix.t[1] = temp[1];
             matrix.t[2] = temp[2] + D_8019957C;
             func_800C3134(D_80198848, *(u8 *)(state + 0x20), table);
-            func_800C42A4(table, &matrix, 1);
+            func_800C42A4((FieldGlowSprite *)table, &matrix, 1);
         }
         phase += 2;
         state += 1;

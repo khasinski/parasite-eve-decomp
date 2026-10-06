@@ -44,7 +44,7 @@ void func_8019104C(void *object, void *timer, void *data)
         matrix.t[2] = ring->z;
         D_801995A8.depth = ring->depth;
         D_801995A8.texture = (ring->ticks % 12 & 0xFE) - 0x5C;
-        func_800C42A4(&D_801995A8, &matrix, 1);
+        func_800C42A4((FieldGlowSprite *)&D_801995A8, &matrix, 1);
     }
     matrix.m[2][2] = 0x1000;
     matrix.m[1][1] = 0x1000;
@@ -65,7 +65,7 @@ void func_8019104C(void *object, void *timer, void *data)
     matrix.t[1] = state->y;
     matrix.t[2] = state->z;
     D_801995B8.depth = state->depth >> 2;
-    func_800C42A4(&D_801995B8, data, 1);
+    func_800C42A4((FieldGlowSprite *)&D_801995B8, data, 1);
     RotMatrix(&rotation, data);
     func_80071A44(&source, 0, 0x10);
     source.x = state->size;

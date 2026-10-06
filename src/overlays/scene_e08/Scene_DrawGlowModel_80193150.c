@@ -67,6 +67,6 @@ void func_80193150(void *object, SceneGlowModelTimer *timer, SceneGlowModelState
         matrix.t[0] = D_8019956C;
         matrix.t[1] = 0;
         matrix.t[2] = D_8019957C;
-        func_800C42A4(D_801996B0, &matrix, 1);
+        func_800C42A4((FieldGlowSprite *)D_801996B0, &matrix, 1);
     }
 }

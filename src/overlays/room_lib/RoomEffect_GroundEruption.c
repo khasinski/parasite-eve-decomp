@@ -345,7 +345,7 @@ void RoomEffect_GroundEruptionDrawGlow(void) {
     matrix.t[0] = owner->x;
     matrix.t[1] = g_RoomFloorY->y;
     matrix.t[2] = owner->z;
-    func_800C42A4(&g_RoomEruptionGlowPacket, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)&g_RoomEruptionGlowPacket, &matrix, 1);
 }
 
 void RoomEffect_GroundEruptionUpdateGlow(void *unused, char *state,
@@ -457,7 +457,7 @@ void RoomEffect_GroundEruptionDrawRing(void *arg0, void *arg1, char *state) {
     packet->depth = 0x40;
     matrix.t[2] = ownerZ;
     g_RoomEruptionRingPacket.code = *(u8 *)(workState + 0x104) * 2 + 0x20;
-    func_800C42A4(packet, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)packet, &matrix, 1);
 
     matrix.m[2][2] = 0x1000;
     matrix.m[1][1] = 0x1000;
@@ -483,7 +483,7 @@ void RoomEffect_GroundEruptionDrawRing(void *arg0, void *arg1, char *state) {
         asm("" : "=r"(i) : "0"(i), "r"(code));
         i++;
         *((u8 *)packetDepth - 6) = code * 2 + 0x20;
-        func_800C42A4(packet, &matrix, 1);
+        func_800C42A4((FieldGlowSprite *)packet, &matrix, 1);
         matrix.t[0] = point->x;
         matrix.t[1] = g_RoomFloorY->y;
         matrix.t[2] = point->z;
@@ -491,7 +491,7 @@ void RoomEffect_GroundEruptionDrawRing(void *arg0, void *arg1, char *state) {
         code = *(u8 *)(workState + 0x104);
         point++;
         *((u8 *)packetDepth - 6) = code * 2 + 0x20;
-        func_800C42A4(packet, &matrix, 1);
+        func_800C42A4((FieldGlowSprite *)packet, &matrix, 1);
     } while (i < 16);
 }
 
@@ -587,7 +587,7 @@ void RoomEffect_GroundEruptionDrawShadow(
     matrixSlot = &D_800BCFA4;
     gte_ldrotmatrix(matrixSlot->value);
     gte_ldtransmatrix(matrixSlot->value);
-    func_800C42A4((char *)depthSlot - 0xA, &stack.matrix, 1);
+    func_800C42A4((FieldGlowSprite *)((char *)depthSlot - 0xA), &stack.matrix, 1);
 }
 
 void RoomEffect_GroundEruptionNop2(void) {
@@ -696,7 +696,7 @@ void RoomEffect_GroundEruptionDrawDebris(void *arg0, void *arg1, char *state) {
                 packetFields[1] = 5;
                 *(s16 *)(packetFields + 6) = depth;
             }
-            func_800C42A4(packet, &matrix, 1);
+            func_800C42A4((FieldGlowSprite *)packet, &matrix, 1);
             if (i == 0) {
                 matrix.t[0] = *(short *)(state + 0);
                 matrix.t[1] = g_RoomFloorY->y;
@@ -705,7 +705,7 @@ void RoomEffect_GroundEruptionDrawDebris(void *arg0, void *arg1, char *state) {
                 g_RoomEruptionDebrisPacket.code = code;
                 g_RoomEruptionDebrisPacket.mode = mode;
                 func_800C3238(2);
-                func_800C42A4(packet, &matrix, 1);
+                func_800C42A4((FieldGlowSprite *)packet, &matrix, 1);
             }
         }
         i++;

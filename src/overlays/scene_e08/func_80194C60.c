@@ -1,4 +1,5 @@
 #include "pe1/gte_types.h"
+#include "pe1/field_glow_sprite.h"
 
 typedef GteMatrix Overlay178Matrix;
 typedef GteVector Overlay178Vec4;
@@ -11,7 +12,6 @@ void func_800C2EAC(u8 arg0);
 void func_800C2FF0(s32 arg0, s32 arg1);
 void func_800C3098(s32 arg0);
 void func_800C3238(s32 arg0);
-void func_800C42A4(void *arg0, Overlay178Matrix *matrix, s32 arg2);
 
 void func_80194C60(void *arg0, void *arg1, char *arg2) {
     Overlay178Matrix matrix;
@@ -52,5 +52,5 @@ void func_80194C60(void *arg0, void *arg1, char *arg2) {
 
     draw_slot = &D_801994D2;
     *draw_slot = *(u16 *)(arg2 + 0x14);
-    func_800C42A4((char *)draw_slot - 0xA, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)((char *)draw_slot - 0xA), &matrix, 1);
 }

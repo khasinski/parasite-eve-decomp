@@ -155,7 +155,6 @@ void RoomFx_MotionParticlesAnchor(int a0, int a1, short *out) {
 }
 
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, s32 mode);
 
 
 typedef struct RoomLibSpriteQuadStack {
@@ -249,22 +248,22 @@ void RoomFx_DrawAnchoredSpriteQuad(void *unused0, void *unused1,
     stack.scaleMatrix.t[1] = *(int *)(map + 0x138);
     fx -= 10;
     stack.scaleMatrix.t[2] = *(int *)(map + 0x13C);
-    func_800C42A4(fx, scaleMatrix, 1);
+    func_800C42A4((FieldGlowSprite *)fx, scaleMatrix, 1);
     stack.scaleMatrix.t[0] = *(int *)(map + 0x1B4);
     stack.scaleMatrix.t[1] = *(int *)(map + 0x1B8);
     stack.scaleMatrix.t[2] = *(int *)(map + 0x1BC);
-    func_800C42A4(fx, scaleMatrix, 1);
+    func_800C42A4((FieldGlowSprite *)fx, scaleMatrix, 1);
 
     fx = (char *)g_RoomMotionQuadPacket;
     floorY = &g_RoomFloorY->y;
     stack.matrix.t[0] = *(int *)(map + 0x134);
     stack.matrix.t[1] = *floorY;
     stack.matrix.t[2] = *(int *)(map + 0x13C);
-    func_800C42A4(fx, matrix, 1);
+    func_800C42A4((FieldGlowSprite *)fx, matrix, 1);
     stack.matrix.t[0] = *(int *)(map + 0x1B4);
     stack.matrix.t[1] = *floorY;
     stack.matrix.t[2] = *(int *)(map + 0x1BC);
-    func_800C42A4(fx, matrix, 1);
+    func_800C42A4((FieldGlowSprite *)fx, matrix, 1);
 }
 
 void RoomFx_UpdateTimedFade(void *arg0, char *state, char *obj) {

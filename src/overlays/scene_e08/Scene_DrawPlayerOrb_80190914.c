@@ -42,7 +42,7 @@ void func_80190914(void *object, void *timer, ScenePlayerOrb *orb)
             matrix.t[0] = orb->points[i].x;
             matrix.t[1] = orb->points[i].y;
             matrix.t[2] = orb->points[i].z;
-            func_800C42A4(D_80199690, &matrix, 1);
+            func_800C42A4((FieldGlowSprite *)D_80199690, &matrix, 1);
         }
     }
 }

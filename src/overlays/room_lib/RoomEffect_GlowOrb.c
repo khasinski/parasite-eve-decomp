@@ -127,7 +127,7 @@ void RoomEffect_GlowOrbDraw(RoomGlowOrbObject *object, u8 *slot, RoomGlowOrb *or
         matrix.t[2] = orb->z - orb->offset.x;
         scale = (GteVector){ orb->size >> 1, 0x251, 0x251 };
         ScaleMatrix(&matrix, &scale);
-        func_800C42A4(&g_RoomGlowOrbSprite, &matrix, 0);
+        func_800C42A4((FieldGlowSprite *)&g_RoomGlowOrbSprite, &matrix, 0);
 
         g_RoomGlowOrbSprite.r = 0x20;
         g_RoomGlowOrbSprite.g = 0x20;
@@ -141,7 +141,7 @@ void RoomEffect_GlowOrbDraw(RoomGlowOrbObject *object, u8 *slot, RoomGlowOrb *or
 
             size = (GteVector){ orb->size, 0x448, 0x448 };
             ScaleMatrix(&matrix, &size);
-            func_800C42A4(&g_RoomGlowOrbSprite, &matrix, 0);
+            func_800C42A4((FieldGlowSprite *)&g_RoomGlowOrbSprite, &matrix, 0);
         }
 
         point.x = D_8009D254->x.part.integer;
@@ -159,7 +159,7 @@ void RoomEffect_GlowOrbDraw(RoomGlowOrbObject *object, u8 *slot, RoomGlowOrb *or
         g_RoomGlowOrbSprite.g = 0xF0;
         g_RoomGlowOrbSprite.b = 0x78;
         matrix.t[1] = orb->y - 0x100;
-        func_800C42A4(&g_RoomGlowOrbSprite, &matrix, 0);
+        func_800C42A4((FieldGlowSprite *)&g_RoomGlowOrbSprite, &matrix, 0);
 
         matrix.t[0] = orb->x - orb->offset.x;
         matrix.t[1] = orb->y - orb->offset.y;
@@ -168,7 +168,7 @@ void RoomEffect_GlowOrbDraw(RoomGlowOrbObject *object, u8 *slot, RoomGlowOrb *or
         g_RoomGlowOrbSprite.g = 0x78;
         g_RoomGlowOrbSprite.b = 0x3C;
         matrix.t[1] = orb->y - 0x100;
-        func_800C42A4(&g_RoomGlowOrbSprite, &matrix, 0);
+        func_800C42A4((FieldGlowSprite *)&g_RoomGlowOrbSprite, &matrix, 0);
 
         matrix.t[0] = orb->x - orb->offset.x * 2;
         matrix.t[1] = orb->y - orb->offset.y * 2;
@@ -177,7 +177,7 @@ void RoomEffect_GlowOrbDraw(RoomGlowOrbObject *object, u8 *slot, RoomGlowOrb *or
         g_RoomGlowOrbSprite.g = 0x3C;
         g_RoomGlowOrbSprite.b = 0x1E;
         matrix.t[1] = orb->y - 0x100;
-        func_800C42A4(&g_RoomGlowOrbSprite, &matrix, 0);
+        func_800C42A4((FieldGlowSprite *)&g_RoomGlowOrbSprite, &matrix, 0);
     }
 }
 
@@ -249,7 +249,7 @@ void RoomEffect_GlowOrbFlashDraw(void *object, void *control, RoomGlowOrbFlash *
     matrix.t[2] = flash->z;
     scale = s_GlowOrbFlashScale;
     ScaleMatrix(&matrix, &scale);
-    func_800C42A4(&g_RoomGlowOrbFlashSprite, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)&g_RoomGlowOrbFlashSprite, &matrix, 1);
 }
 
 void RoomEffect_GlowOrbFlashUpdate(void *object, RoomFallingParticleControl *control,

@@ -222,7 +222,7 @@ void RoomFx_DrawFallingSprite(void *unused0, void *unused1,
     matrix.t[0] = fx->x;
     matrix.t[1] = fx->y - ((fx->scale - 0x100) >> 4);
     matrix.t[2] = fx->z;
-    func_800C42A4((char *)depthSlot - 0xA, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)((char *)depthSlot - 0xA), &matrix, 1);
 
     matrix.m[2][2] = 0x1000;
     matrix.m[1][1] = 0x1000;
@@ -243,7 +243,7 @@ void RoomFx_DrawFallingSprite(void *unused0, void *unused1,
     matrix.t[0] = fx->x;
     matrix.t[1] = g_RoomFloorY->y;
     matrix.t[2] = fx->z;
-    func_800C42A4(&g_RoomFallingBurstShadow, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)&g_RoomFallingBurstShadow, &matrix, 1);
 }
 
 typedef struct RoomFallingSpriteMotion {
@@ -371,7 +371,7 @@ void RoomFx_DrawImpactShimmer(void *arg0, void *arg1, RoomSpriteFxParams *fx) {
     matrix.t[1] = fx->y;
     matrix.t[2] = fx->z;
     g_RoomFallingBurstShimmer.code = fx->alpha << 1;
-    func_800C42A4((char *)depth_slot - 0xA, &matrix, 0);
+    func_800C42A4((FieldGlowSprite *)((char *)depth_slot - 0xA), &matrix, 0);
 }
 
 /* Grows the shimmer; in its last thirty ticks it fades in and ends. */
@@ -426,7 +426,7 @@ void RoomFx_DrawGroundPulse(void *unused0, void *unused1,
     matrixPtr->t[0] = fx->x;
     matrixPtr->t[1] = fx->y;
     matrixPtr->t[2] = fx->z;
-    func_800C42A4((char *)depthSlot - 0xA, matrixPtr, 0);
+    func_800C42A4((FieldGlowSprite *)((char *)depthSlot - 0xA), matrixPtr, 0);
 }
 
 /* Expands the pulse with the clock, fades it in its last sixty ticks and
@@ -497,10 +497,10 @@ void RoomFx_DrawImpactParticles(int unused, void *state,
             fx->matrix.t[1] = (short)fx->position[i].y;
             fx->matrix.t[2] = (short)fx->position[i].z;
             g_RoomFallingBurstParticle.depth = fx->depth[i];
-            func_800C42A4(&g_RoomFallingBurstParticle, &fx->matrix, 1);
+            func_800C42A4((FieldGlowSprite *)&g_RoomFallingBurstParticle, &fx->matrix, 1);
             g_RoomFallingBurstParticle.depth = (short)fx->depth[i] >> 2;
             fx->matrix.t[1] = g_RoomFloorY->y;
-            func_800C42A4(&g_RoomFallingBurstParticle, &fx->matrix, 1);
+            func_800C42A4((FieldGlowSprite *)&g_RoomFallingBurstParticle, &fx->matrix, 1);
         }
     }
 }

@@ -8,6 +8,7 @@
 #include "pe1/field_sprite_state.h"
 #include "pe1/room_floor.h"
 #include "pe1/player_entity.h"
+#include "pe1/field_glow_sprite.h"
 
 /* Scene e08 player orb: an effect spawned at a random spot around the
  * player, swung around the scene anchor by the anchor's facing, then drawn
@@ -69,7 +70,6 @@ int func_80077AA4(int x, int y);
 void func_800D3114(GteShortVector *trail, int last, int arg2, int arg3, int r, int g, int b,
                    int tpage, int clut, int alpha, RenderColor *head,
                    RenderColor *tail, int mode);
-void func_800C42A4(void *sprite, GteMatrix *matrix, int mode);
 void func_8006DF50(void *channel, int id, int value, int volume, int pan);
 
 /* Scene e08 limb beams: ten ribbons fanned from the player's chest bone to

@@ -1,5 +1,6 @@
 #include "pe1/gte_types.h"
 #include "scene_particle_slots.h"
+#include "pe1/field_glow_sprite.h"
 
 typedef GteMatrix Matrix;
 typedef GteVector Vec4;
@@ -22,7 +23,6 @@ void func_800C2EAC(u8);
 void func_800C2FF0(int, int);
 void func_800C3098(int);
 void func_800C3238(int);
-void func_800C42A4(void *, Matrix *, int);
 
 void func_8018FBA4(void *unused0, void *unused1, SceneParticleCluster *argSlots) {
     SceneParticleCluster *slots = argSlots;
@@ -95,7 +95,7 @@ void func_8018FBA4(void *unused0, void *unused1, SceneParticleCluster *argSlots)
                 }
             }
             ((SceneFxColor *)((char *)slot - 10))->t5 = slots->mode[i];
-            func_800C42A4((char *)slot - 10, &matrix, 1);
+            func_800C42A4((FieldGlowSprite *)((char *)slot - 10), &matrix, 1);
         }
     }
 }

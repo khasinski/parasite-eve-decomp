@@ -89,11 +89,11 @@ void RoomFx_DrawMotionParticles(void *unused, RoomStatePair *control,
             matrix.t[0] = primary->t[0] + cursor->particle.primaryX;
             matrix.t[1] = primary->t[1] + cursor->particle.primaryY;
             matrix.t[2] = primary->t[2] + cursor->particle.primaryZ;
-            func_800C42A4(packet, &matrix, 1);
+            func_800C42A4((FieldGlowSprite *)packet, &matrix, 1);
             matrix.t[0] = secondary->t[0] + cursor->particle.secondaryX;
             matrix.t[1] = secondary->t[1] + cursor->particle.secondaryY;
             matrix.t[2] = secondary->t[2] + cursor->particle.secondaryZ;
-            func_800C42A4(packet, &matrix, 1);
+            func_800C42A4((FieldGlowSprite *)packet, &matrix, 1);
             i++;
             cursor = (RoomMotionCursor *)((RoomMotionPoint *)cursor + 1);
         } while ((unsigned int)i < state->count);

@@ -192,7 +192,6 @@ typedef struct RoomTwelveEffectDrawStack {
 
 void ApplyMatrix(RoomSpriteMatrix *matrix, void *position, int *translation);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 int func_8001CAB0(int x, int z, int arg2, int arg3);
 int func_800C61A8(s16 *point, RoomSpriteMatrix *matrix);
 
@@ -290,13 +289,13 @@ void RoomLib_DrawTwelveElementEffect(void *unused0, void *unused1,
             gte_swc2_10_4(stack.secondaryMatrix.t);
             gte_swc2_11_8(stack.secondaryMatrix.t);
 
-            func_800C42A4((unsigned char *)&RoomLib_TwelveEffectPrimaryPacket,
+            func_800C42A4((FieldGlowSprite *)&RoomLib_TwelveEffectPrimaryPacket,
                           primaryMatrix, 0);
             stack.secondaryMatrix.t[1] = g_RoomFloorY->y;
             secondPacket = (unsigned char *)&RoomLib_TwelveEffectSecondaryPacket;
             func_800C3134(RoomLib_TwelveEffectTable,
                           *(s8 *)(element + 0x38), secondPacket);
-            func_800C42A4(secondPacket, secondaryMatrix, 0);
+            func_800C42A4((FieldGlowSprite *)secondPacket, secondaryMatrix, 0);
 
             stack.collision[0] = stack.secondaryMatrix.t[0];
             stack.collision[1] = 0;

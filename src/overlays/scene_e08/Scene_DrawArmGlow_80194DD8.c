@@ -46,7 +46,7 @@ void func_80194DD8(void *object, void *timer, SceneArmGlow *glow)
     matrix.t[0] = matrices[32].translation[0];
     matrix.t[1] = matrices[32].translation[1];
     matrix.t[2] = matrices[32].translation[2];
-    func_800C42A4(&D_801994C8, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)&D_801994C8, &matrix, 1);
     matrix.m[2][2] = 0x1000;
     matrix.m[1][1] = 0x1000;
     matrix.m[0][0] = 0x1000;
@@ -68,7 +68,7 @@ void func_80194DD8(void *object, void *timer, SceneArmGlow *glow)
     matrix.t[0] = matrices[22].translation[0];
     matrix.t[1] = matrices[22].translation[1];
     matrix.t[2] = matrices[22].translation[2];
-    func_800C42A4(&D_801994C8, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)&D_801994C8, &matrix, 1);
     points[0].x = matrices[32].translation[0];
     points[0].y = matrices[32].translation[1];
     points[0].z = matrices[32].translation[2];

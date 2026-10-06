@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/field_sprite_state.h"
+#include "pe1/field_glow_sprite.h"
 
 /* Work area of the paired beam effect (rooms m174, m348, m383): the
  * anchor matrix copied from the script actor, a scale and a brightness. */
@@ -80,7 +81,6 @@ typedef struct RoomDropActor {
 } RoomDropActor;
 
 void *func_800C2B50(void);
-void func_800C42A4(RoomDropSprite *params, GteMatrix *matrix, int mode);
 int func_800C6B90(void *position, int radius);
 void *memset(void *dst, int value, unsigned int size);
 void func_800C4FC4(RoomBeamSprite *params, GteMatrix *matrix, int mode);

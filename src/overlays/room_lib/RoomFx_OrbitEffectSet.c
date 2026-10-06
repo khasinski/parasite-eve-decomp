@@ -191,7 +191,7 @@ void RoomFx_DrawOrbitParticles(
         matrix.t[2] = position[2];
         *depthSlot = (short)fx->depth >> 1;
         *((unsigned char *)depthSlot - 6) = fx->alpha << 1;
-        func_800C42A4((char *)depthSlot - 0xA, &matrix, 1);
+        func_800C42A4((FieldGlowSprite *)((char *)depthSlot - 0xA), &matrix, 1);
         i++;
         position += 4;
     }
@@ -302,13 +302,13 @@ void RoomFx_DrawOrbitBurst(
             matrix.t[1] = position->y;
             matrix.t[2] = position->z;
             *configA = state->frame[i] * 2 + 0x20;
-            func_800C42A4(configA - 4, &matrix, 1);
+            func_800C42A4((FieldGlowSprite *)(configA - 4), &matrix, 1);
 
             matrix.t[0] = position->x;
             matrix.t[1] = g_RoomFloorY->y;
             matrix.t[2] = position->z;
             *configB = state->frame[i] * 2 + 0x20;
-            func_800C42A4(configB - 4, &matrix, 0);
+            func_800C42A4((FieldGlowSprite *)(configB - 4), &matrix, 0);
         }
         i++;
         position++;
@@ -440,7 +440,7 @@ void RoomFx_DrawOrbitSprite(
     matrix.t[2] = fx->z;
     *drawSlot = ((s16)fx->alpha >> 1) << 1;
     g_RoomOrbitSpritePacket.depth = fx->depth;
-    func_800C42A4(drawSlot - 4, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)(drawSlot - 4), &matrix, 1);
 }
 
 void RoomFx_UpdateOrbitSprite(unsigned char *arg0, unsigned char *signal, RoomFxDriftState *state) {

@@ -401,7 +401,7 @@ void RoomFx_DrawVariant38(void *arg0, RoomOverlay024VariantControl *control, Roo
     phase_slot = &D_80192C0C;
     draw_slot = (char *)phase_slot - 4;
     *phase_slot = state->phase * 2;
-    func_800C42A4(draw_slot, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)draw_slot, (GteMatrix *)&matrix, 1);
     RotMatrix(&base_seed, &matrix);
 
     func_80071A44(&second_scale, 0, 0x10);
@@ -418,7 +418,7 @@ void RoomFx_DrawVariant38(void *arg0, RoomOverlay024VariantControl *control, Roo
     draw_zero = 0;
     matrix.t[2] = ordered_transform->z;
     *phase_slot = 8;
-    func_800C42A4(draw_slot, &matrix, draw_zero);
+    func_800C42A4((FieldGlowSprite *)draw_slot, (GteMatrix *)&matrix, draw_zero);
 
     if (control->frame >= 0x5B && state->sparkle_timer > 0) {
         matrix.m[2][2] = 0x1000;
@@ -442,7 +442,7 @@ void RoomFx_DrawVariant38(void *arg0, RoomOverlay024VariantControl *control, Roo
         matrix.t[2] = state->sparkle_z;
         sparkle_alpha_slot = &D_80192C42;
         *sparkle_alpha_slot = state->sparkle_alpha;
-        func_800C42A4((char *)sparkle_alpha_slot - 0xA, &matrix, 0);
+        func_800C42A4((FieldGlowSprite *)((char *)sparkle_alpha_slot - 0xA), (GteMatrix *)&matrix, 0);
     }
 
     if (control->frame < 0x1F) {
@@ -476,7 +476,7 @@ void RoomFx_DrawVariant38(void *arg0, RoomOverlay024VariantControl *control, Roo
     matrix.t[2] = state->final_z;
     final_alpha_slot = &D_80192C32;
     *final_alpha_slot = state->final_alpha;
-    func_800C42A4((char *)final_alpha_slot - 0xA, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)((char *)final_alpha_slot - 0xA), (GteMatrix *)&matrix, 1);
 }
 
 int rand(void);
@@ -663,7 +663,7 @@ void RoomFx_DrawVariant38Pulse(void *arg0, RoomOverlay024VariantControl *control
     phase_slot = &D_80192C0C;
     draw_slot = (char *)phase_slot - 4;
     *phase_slot = state->phase * 2;
-    func_800C42A4(draw_slot, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)draw_slot, (GteMatrix *)&matrix, 1);
     RotMatrix(&base_seed, &matrix);
 
     func_80071A44(&second_scale, 0, 0x10);
@@ -680,7 +680,7 @@ void RoomFx_DrawVariant38Pulse(void *arg0, RoomOverlay024VariantControl *control
     draw_zero = 0;
     matrix.t[2] = ordered_transform->z;
     *phase_slot = 8;
-    func_800C42A4(draw_slot, &matrix, draw_zero);
+    func_800C42A4((FieldGlowSprite *)draw_slot, (GteMatrix *)&matrix, draw_zero);
 
     if (control->frame >= 0x5B && state->sparkle_timer > 0) {
         matrix.m[2][2] = 0x1000;
@@ -704,7 +704,7 @@ void RoomFx_DrawVariant38Pulse(void *arg0, RoomOverlay024VariantControl *control
         matrix.t[2] = state->sparkle_z;
         sparkle_alpha_slot = &D_80192C42;
         *sparkle_alpha_slot = state->sparkle_alpha;
-        func_800C42A4((char *)sparkle_alpha_slot - 0xA, &matrix, 0);
+        func_800C42A4((FieldGlowSprite *)((char *)sparkle_alpha_slot - 0xA), (GteMatrix *)&matrix, 0);
     }
 
     func_800C3238(3);
@@ -734,7 +734,7 @@ void RoomFx_DrawVariant38Pulse(void *arg0, RoomOverlay024VariantControl *control
     matrix.t[2] = state->final_z;
     final_alpha_slot = &D_80192C32;
     *final_alpha_slot = state->final_alpha;
-    func_800C42A4((char *)final_alpha_slot - 0xA, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)((char *)final_alpha_slot - 0xA), (GteMatrix *)&matrix, 1);
 }
 
 void RoomFx_UpdatePairedSpriteBurst(
@@ -924,7 +924,7 @@ void RoomFx_DrawVariant290(void *arg0, RoomOverlay024VariantControl *control, Ro
 
     func_800C3134(&D_80192BFC, state->field30, (char *)fade_slot - 0xA);
     D_80192C0C = state->phase * 2;
-    func_800C42A4((char *)fade_slot - 0xA, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)((char *)fade_slot - 0xA), (GteMatrix *)&matrix, 1);
     RotMatrix(&base_seed, &matrix);
 
     func_80071A44(&second_scale, 0, 0x10);
@@ -939,7 +939,7 @@ void RoomFx_DrawVariant290(void *arg0, RoomOverlay024VariantControl *control, Ro
     matrix.t[1] = g_RoomFloorY->y;
     matrix.t[2] = transform->z;
     D_80192C0C = 8;
-    func_800C42A4((char *)fade_slot - 0xA, &matrix, 0);
+    func_800C42A4((FieldGlowSprite *)((char *)fade_slot - 0xA), (GteMatrix *)&matrix, 0);
 
     if (control->frame < 0x5B) {
         return;
@@ -969,7 +969,7 @@ void RoomFx_DrawVariant290(void *arg0, RoomOverlay024VariantControl *control, Ro
     matrix.t[2] = state->sparkle_z;
     sparkle_alpha_slot = &D_80192C42;
     *sparkle_alpha_slot = state->sparkle_alpha;
-    func_800C42A4((char *)sparkle_alpha_slot - 0xA, &matrix, 0);
+    func_800C42A4((FieldGlowSprite *)((char *)sparkle_alpha_slot - 0xA), (GteMatrix *)&matrix, 0);
 }
 
 void RoomFx_UpdateSparkleHeight(
@@ -1130,7 +1130,7 @@ void RoomFx_DrawVariantD(void *arg0, RoomOverlay024VariantControl *control, Room
 
     func_800C3134(&D_80192BFC, state->field30, (char *)fade_slot - 0xA);
     D_80192C1C = state->phase * 2;
-    func_800C42A4((char *)fade_slot - 0xA, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)((char *)fade_slot - 0xA), (GteMatrix *)&matrix, 1);
 
     func_800C2FF0(0x20, 0x20);
     RotMatrix(&base_seed, &matrix);
@@ -1147,7 +1147,7 @@ void RoomFx_DrawVariantD(void *arg0, RoomOverlay024VariantControl *control, Room
     matrix.t[1] = -0x457;
     matrix.t[2] = transform->z + projected[2];
     D_80192C1C = 8;
-    func_800C42A4((char *)fade_slot - 0xA, &matrix, 0);
+    func_800C42A4((FieldGlowSprite *)((char *)fade_slot - 0xA), (GteMatrix *)&matrix, 0);
 
     if (control->frame < 0x5B) {
         return;
@@ -1177,7 +1177,7 @@ void RoomFx_DrawVariantD(void *arg0, RoomOverlay024VariantControl *control, Room
     matrix.t[2] = state->sparkle_z;
     sparkle_alpha_slot = &D_80192C42;
     *sparkle_alpha_slot = state->sparkle_alpha;
-    func_800C42A4((char *)sparkle_alpha_slot - 0xA, &matrix, 0);
+    func_800C42A4((FieldGlowSprite *)((char *)sparkle_alpha_slot - 0xA), (GteMatrix *)&matrix, 0);
 }
 
 void RoomFx_UpdateTransformedSparkle(
@@ -1441,7 +1441,7 @@ void RoomFx_DrawScaledEffect(void *unused0, void *unused1, RoomLibScaledEffect *
     matrix.t[2] = effect->z;
     D_80192C30 = -0x65;
     *depth = effect->depth;
-    func_800C42A4((char *)depth - 0xA, (RoomSpriteMatrix *)&matrix, 1);
+    func_800C42A4((FieldGlowSprite *)((char *)depth - 0xA), (RoomSpriteMatrix *)&matrix, 1);
 }
 
 typedef struct RoomDriftView {

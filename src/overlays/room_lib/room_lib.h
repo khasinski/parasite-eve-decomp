@@ -1063,8 +1063,8 @@ typedef struct RoomClock {
 } RoomClock;
 
 extern int func_800C6B90(void *position, int radius);
-extern void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, s32 mode);
 #include "pe1/gte_types.h"
+#include "pe1/field_glow_sprite.h"
 extern int func_80071A54(void);
 
 

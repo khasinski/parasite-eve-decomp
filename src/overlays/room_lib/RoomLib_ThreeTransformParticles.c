@@ -14,6 +14,7 @@
 #include "pe1/field_script_context.h"
 #include "pe1/gte_short_vector.h"
 #include "pe1/room_floor.h"
+#include "pe1/field_glow_sprite.h"
 
 extern void func_800C2B40(void *arg0);
 extern void *func_8006DC18(int type);
@@ -251,7 +252,6 @@ void func_80071A44(RoomFxVec4 *vec, int value, int shift);
 void func_800C3134(void *table, int step, void *packet);
 void func_800C2FF0(int width, int height);
 void func_800C3238(int mode);
-void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 int rsin(int angle);
 
 
@@ -380,7 +380,7 @@ void RoomLib_DrawThreeTransformParticles(void *unused, s16 *args, char *state) {
                 *(s16 *)scaleValue = (unsigned int)computedScale >> 1;
                 func_800C2FF0((int)arg0, (int)inputArg);
                 func_800C3238(3);
-                func_800C42A4((char *)scaleValue - 0xA,
+                func_800C42A4((FieldGlowSprite *)((char *)scaleValue - 0xA),
                               secondaryMatrix, 0);
             }
         }

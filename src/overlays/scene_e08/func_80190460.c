@@ -1,4 +1,5 @@
 #include "pe1/gte_types.h"
+#include "pe1/field_glow_sprite.h"
 
 typedef GteMatrix Matrix;
 typedef GteVector Vec4;
@@ -11,7 +12,6 @@ void func_800C2EAC(u8);
 void func_800C2FF0(int, int);
 void func_800C3098(int);
 void func_800C3238(int);
-void func_800C42A4(void *, Matrix *, int);
 
 void func_80190460(void *unused0, void *unused1, char *effect) {
     Matrix matrix;
@@ -62,7 +62,7 @@ void func_80190460(void *unused0, void *unused1, char *effect) {
             func_800C2FF0(0x10, 0x10);
             *(u8 *)((char *)slot - 6) = *(u8 *)(base + i + 0x30) + (*(u8 *)(base + i + 0x38) >> 1);
             *(u8 *)((char *)slot - 5) = *(u8 *)(base + i + 0x34);
-            func_800C42A4((char *)slot - 10, &matrix, 1);
+            func_800C42A4((FieldGlowSprite *)((char *)slot - 10), &matrix, 1);
         }
     }
 }

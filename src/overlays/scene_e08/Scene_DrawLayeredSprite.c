@@ -1,5 +1,6 @@
 #include "scene_e08.h"
 #include "pe1/room_floor.h"
+#include "pe1/field_glow_sprite.h"
 
 typedef struct {
     s16 fraction;
@@ -42,7 +43,6 @@ void func_800C2EAC(u8);
 void func_800C2FF0(int, int);
 void func_800C3098(int);
 void func_800C3238(int);
-void func_800C42A4(void *, RoomSpriteMatrix *, int);
 
 void func_80194498(void *unused, u16 *phase, SceneLayeredSpriteState *state) {
     RoomSpriteMatrix matrix;
@@ -79,13 +79,13 @@ void func_80194498(void *unused, u16 *phase, SceneLayeredSpriteState *state) {
     matrix.t[1] = state->center[1].integer;
     matrix.t[2] = state->center[2].integer;
     *alpha = 0x80;
-    func_800C42A4((char *)alphaBase - 10, &matrix, 0);
+    func_800C42A4((FieldGlowSprite *)((char *)alphaBase - 10), &matrix, 0);
 
     matrix.t[0] = state->center[0].integer;
     matrix.t[1] = g_RoomFloorY->y;
     matrix.t[2] = state->center[2].integer;
     *alpha = 0x20;
-    func_800C42A4((char *)alpha - 10, &matrix, 0);
+    func_800C42A4((FieldGlowSprite *)((char *)alpha - 10), &matrix, 0);
 
     *red = 0x40;
     D_80199561 = 0x20;
@@ -99,6 +99,6 @@ void func_80194498(void *unused, u16 *phase, SceneLayeredSpriteState *state) {
         matrix.t[1] = state->layers[i].y;
         matrix.t[2] = state->layers[i].z;
         *alpha = (5 - i) * 31;
-        func_800C42A4(owner - 10, &matrix, 0);
+        func_800C42A4((FieldGlowSprite *)(owner - 10), &matrix, 0);
     }
 }

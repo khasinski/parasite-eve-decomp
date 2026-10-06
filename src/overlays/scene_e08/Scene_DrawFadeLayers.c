@@ -1,4 +1,5 @@
 #include "scene_e08.h"
+#include "pe1/field_glow_sprite.h"
 
 typedef struct SceneShiftedPosition {
     char reserved[0x14];
@@ -34,7 +35,6 @@ void func_800C3098(int);
 void func_800C3238(int);
 void func_800C3134(void *, int, void *);
 void func_80071A44(RoomFxVec4 *, int, int);
-void func_800C42A4(void *, RoomSpriteMatrix *, int);
 void func_800C4FC4(void *, RoomSpriteMatrix *, int);
 
 void func_8018F640(void *unused, s16 *args, Ovl178FadeState *state) {
@@ -67,7 +67,7 @@ void func_8018F640(void *unused, s16 *args, Ovl178FadeState *state) {
         matrix.t[1] = ownerCursor->y;
         matrix.t[2] = ownerCursor->z;
         D_80199670.hA = state->field_264;
-        func_800C42A4(&D_80199670, &matrix, 1);
+        func_800C42A4((FieldGlowSprite *)&D_80199670, &matrix, 1);
     }
     for (i = 0; i < 2; ++i) {
         matrix.m[2][2] = 0x1000;

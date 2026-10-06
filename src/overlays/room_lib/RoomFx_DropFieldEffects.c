@@ -265,7 +265,7 @@ void RoomFx_DrawSpinSprite(s32 arg0, s32 arg1, char *arg2) {
     stack.sp24[0] = *(s16 *)(arg2 + 0);
     stack.sp24[1] = *(s16 *)(arg2 + 2);
     stack.sp24[2] = *(s16 *)(arg2 + 4);
-    func_800C42A4(ptr - 5, &stack.sp10, 1);
+    func_800C42A4((FieldGlowSprite *)(ptr - 5), (GteMatrix *)&stack.sp10, 1);
 }
 
 
@@ -342,7 +342,7 @@ void RoomFx_DrawDoubleSprite(void *arg0, void *arg1, RoomDoubleSpriteFxParams *f
     matrix.t[0] = fx->x;
     matrix.t[1] = fx->y;
     matrix.t[2] = fx->z;
-    func_800C42A4((char *)depth_slot - 0xA, &matrix, 1);
+    func_800C42A4((FieldGlowSprite *)((char *)depth_slot - 0xA), &matrix, 1);
 
     RotMatrix(&seed, &matrix);
     func_80071A44(&second_scale, 0, 0x10);
@@ -356,7 +356,7 @@ void RoomFx_DrawDoubleSprite(void *arg0, void *arg1, RoomDoubleSpriteFxParams *f
     matrix.t[0] = fx->x;
     matrix.t[1] = g_RoomFloorY->y;
     matrix.t[2] = fx->z;
-    func_800C42A4((char *)depth_slot - 0xA, &matrix, 0);
+    func_800C42A4((FieldGlowSprite *)((char *)depth_slot - 0xA), &matrix, 0);
 }
 
 
@@ -647,7 +647,7 @@ void RoomFx_DrawStagedMotion(void *unused,
                 matrix.t[0] = (state->record[i].x >> 16) + state->x;
                 matrix.t[1] = (state->record[i].y >> 16) + state->y;
                 matrix.t[2] = (state->record[i].z >> 16) + state->z;
-                func_800C42A4(&g_RoomDropFieldMotionSprite, &matrix, 1);
+                func_800C42A4((FieldGlowSprite *)&g_RoomDropFieldMotionSprite, &matrix, 1);
                 packet->mode = 9;
                 RotMatrix(&seedB, &matrix);
                 scale2 = s_DropFieldSpriteScale;
@@ -656,7 +656,7 @@ void RoomFx_DrawStagedMotion(void *unused,
                 matrix.t[0] = (state->record[i].x >> 16) + state->x;
                 matrix.t[1] = g_RoomFloorY->y;
                 matrix.t[2] = (state->record[i].z >> 16) + state->z;
-                func_800C42A4(&g_RoomDropFieldMotionSprite, &matrix, 0);
+                func_800C42A4((FieldGlowSprite *)&g_RoomDropFieldMotionSprite, &matrix, 0);
                 packet->mode = 0xB;
             }
             if (state->kind[i] >= 2) {
@@ -683,7 +683,7 @@ void RoomFx_DrawStagedMotion(void *unused,
                     matrix.t[0] = (state->record[i].x >> 16) + state->x;
                     matrix.t[1] = (state->record[i].y >> 16) + state->y - 0xC8;
                     matrix.t[2] = (state->record[i].z >> 16) + state->z;
-                    func_800C42A4((char *)flatDepth - 10, &matrix, 1);
+                    func_800C42A4((FieldGlowSprite *)((char *)flatDepth - 10), &matrix, 1);
                 }
                 func_800C3098(0x100);
                 /* Taken here, not before the loop, so the depth pointer
@@ -708,7 +708,7 @@ void RoomFx_DrawStagedMotion(void *unused,
                 matrix.t[1] = (state->record[i].y >> 16) + state->y - 0xC8;
                 matrix.t[2] = (state->record[i].z >> 16) + state->z;
                 saved = matrix;
-                func_800C42A4((char *)modelDepth - 10, &matrix, 1);
+                func_800C42A4((FieldGlowSprite *)((char *)modelDepth - 10), &matrix, 1);
                 matrix = saved;
                 matrix.t[1] += 0xC8;
                 memset(&scale3, 0, 0x10);
@@ -896,7 +896,7 @@ void RoomFx_DrawModelSprite(s32 arg0, s32 arg1, char *arg2) {
     stack.sp24[0] = *(s16 *)(arg2 + 0);
     stack.sp24[1] = *(s16 *)(arg2 + 2);
     stack.sp24[2] = *(s16 *)(arg2 + 4);
-    func_800C42A4(ptr - 5, &stack.sp10, 1);
+    func_800C42A4((FieldGlowSprite *)(ptr - 5), (GteMatrix *)&stack.sp10, 1);
 }
 
 
@@ -1024,7 +1024,7 @@ void RoomFx_DrawDropField(void *object, void *slot, RoomDropField *field) {
             if (func_800C6B90(&point, 200) != 0) {
                 actor->touched = 1;
             }
-            func_800C42A4(&g_RoomDropFieldDropSprite, &matrix, 1);
+            func_800C42A4((FieldGlowSprite *)&g_RoomDropFieldDropSprite, &matrix, 1);
             matrix = saved;
             RotMatrix(&shadowSpin, &matrix);
             matrix.t[1] = g_RoomFloorY->y;
@@ -1034,7 +1034,7 @@ void RoomFx_DrawDropField(void *object, void *slot, RoomDropField *field) {
                 ScaleMatrix(&matrix, &shadow);
             }
             g_RoomDropFieldDropSprite.depth = field->depth[i] >> 1;
-            func_800C42A4(&g_RoomDropFieldDropSprite, &matrix, 0);
+            func_800C42A4((FieldGlowSprite *)&g_RoomDropFieldDropSprite, &matrix, 0);
         }
     }
 }
@@ -1434,7 +1434,7 @@ void RoomFx_DrawQuadSprites(void *unused0, void *unused1,
         ((u8 *)depthSlot)[-0xA] = state->color[i].r;
         ((u8 *)depthSlot)[-0x9] = state->color[i].g;
         ((u8 *)depthSlot)[-0x8] = state->color[i].b;
-        func_800C42A4((char *)depthSlot - 0xA, matrix, 1);
+        func_800C42A4((FieldGlowSprite *)((char *)depthSlot - 0xA), matrix, 1);
     }
 }
 
@@ -1583,7 +1583,7 @@ void RoomFx_DrawEightParticles(
             matrix.t[2] = *(s16 *)(positionCursor + 8);
             func_800C3134(g_RoomDropFieldParticleFrames,
                           *(s16 *)(scalarCursor + 0xA4), packet);
-            func_800C42A4(packet, &matrix, 1);
+            func_800C42A4((FieldGlowSprite *)packet, &matrix, 1);
         }
         positionCursor += 8;
         i++;

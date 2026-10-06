@@ -1,18 +1,13 @@
 #include "common.h"
-typedef struct { s16 vx, vy, vz, pad; } SVEC;
-typedef struct { s32 vx, vy, vz, pad; } VEC;
-typedef struct { SVEC sv; u8 pad[0xC]; s32 f14, f18, f1C; } Buf;
+#include "pe1/field_glow_sprite.h"
 
 s32 func_800C2B50(void);
 void func_800C2EAC(s32);
 void func_800C2FF0(s32, s32);
 void func_800C3098(s32);
 void func_800C3238(s32);
-void RotMatrix(void *arg0, void *arg1);
-void func_80071A44(VEC *arg0, s32 arg1, s32 arg2);
-void ScaleMatrix(void *dst, VEC *src);
+void func_80071A44(GteVector *arg0, s32 arg1, s32 arg2);
 void func_800C3134(u8 *table, s32 step, u8 *out);
-void func_800C42A4(void *arg0, void *arg1, s32 arg2);
 
 extern u8 D_80198AD4;
 extern u8 D_80199570;
@@ -23,9 +18,9 @@ void func_801949F4(s32 arg0, char *arg1, char *rec) {
     s32 ctx;
     u32 idx;
     char *r;
-    Buf buf;
-    VEC vdst;
-    VEC vsrc;
+    GteMatrix buf;
+    GteVector vdst;
+    GteVector vsrc;
 
     r = rec;
     ctx = func_800C2B50();
@@ -37,18 +32,18 @@ void func_801949F4(s32 arg0, char *arg1, char *rec) {
     func_800C2FF0(0x40, 0x40);
     func_800C3098(0x10);
     func_800C3238(2);
-    RotMatrix(r + 0x10, &buf);
+    RotMatrix((GteShortVector *)(r + 0x10), &buf);
     func_80071A44(&vsrc, 0, 0x10);
-    vsrc.vx = *(s16 *)(r + 0x1C);
-    vsrc.vy = *(s16 *)(r + 0x1C);
-    vsrc.vz = 0x1000;
+    vsrc.x = *(s16 *)(r + 0x1C);
+    vsrc.y = *(s16 *)(r + 0x1C);
+    vsrc.z = 0x1000;
     vdst = vsrc;
     ScaleMatrix(&buf, &vdst);
     func_800C3134(&D_80198AD4, *(s16 *)(arg1 + 2), &D_80199570);
-    buf.f14 = *(s32 *)(r + 0);
-    buf.f18 = *(s32 *)(r + 4);
-    buf.f1C = *(s32 *)(r + 8);
+    buf.t[0] = *(s32 *)(r + 0);
+    buf.t[1] = *(s32 *)(r + 4);
+    buf.t[2] = *(s32 *)(r + 8);
     D_80199574 = idx;
     D_8019957A = *(u16 *)(r + 0x20);
-    func_800C42A4(&D_80199570, &buf, 1);
+    func_800C42A4((FieldGlowSprite *)&D_80199570, &buf, 1);
 }
