@@ -11,38 +11,7 @@ extern u32 D_800E2370[];
 #define MODEL_VERTEX(model, offset) ((FieldModelVertex *)&(model)->bytes[offset])
 #define MODEL_COLOR(model, offset) (((FieldModelColor *)&(model)->bytes[offset])->word)
 
-void func_800C6ED8(short value) {
-    D_800F33E4 = value;
-}
-
-void func_800C6EE8(short value) {
-    D_800F3420 = value;
-}
-
-void func_800C6EF8(char *data) {
-    int i = 0;
-    u32 *src = (u32 *)(data + *(u16 *)(data + 0x8));
-    u32 *dst = D_800E2370;
-
-    while (i < *(u16 *)(data + 0xA)) {
-        i++;
-        *dst++ = *src++;
-    }
-}
-
-
-void func_800C6F4C(char *data) {
-    int i = 0;
-    u32 *src = D_800E2370;
-    u32 *dst = (u32 *)(data + *(u16 *)(data + 0x8));
-
-    while (i < *(u16 *)(data + 0xA)) {
-        i++;
-        *dst++ = *src++;
-    }
-}
-
-
+/* A model colour table: entry_count RGB words at entries_offset. */
 typedef struct ColorEntry {
     u8 red;
     u8 green;
@@ -55,6 +24,40 @@ typedef struct ColorTable {
     u16 entries_offset;
     u16 entry_count;
 } ColorTable;
+
+void func_800C6ED8(short value) {
+    D_800F33E4 = value;
+}
+
+void func_800C6EE8(short value) {
+    D_800F3420 = value;
+}
+
+void func_800C6EF8(char *data) {
+    ColorTable *table = (ColorTable *)data;
+    int i = 0;
+    u32 *src = (u32 *)(data + table->entries_offset);
+    u32 *dst = D_800E2370;
+
+    while (i < table->entry_count) {
+        i++;
+        *dst++ = *src++;
+    }
+}
+
+
+void func_800C6F4C(char *data) {
+    ColorTable *table = (ColorTable *)data;
+    int i = 0;
+    u32 *src = D_800E2370;
+    u32 *dst = (u32 *)(data + table->entries_offset);
+
+    while (i < table->entry_count) {
+        i++;
+        *dst++ = *src++;
+    }
+}
+
 
 void func_800C6FA0(char *data, u16 factor)
 {
@@ -104,24 +107,26 @@ void func_800C6FA0(char *data, u16 factor)
 
 void func_800C7098(char *data, u8 r, u8 g, u8 b) {
     int i = 0;
-    register int count asm("$3");
-    u8 *dst = (u8 *)(data + *(u16 *)(data + 0x8));
+    ColorTable *table = (ColorTable *)data;
+    ColorEntry *entry = (ColorEntry *)(data + table->entries_offset);
+    int count;
     /* Keeps the empty 8-byte frame emitted by the original. */
     volatile int pad;
 
-    count = *(u16 *)(data + 0xA);
+    count = table->entry_count;
     if (count > 0) {
         do {
             i++;
-            dst[0] = r;
-            dst[1] = g;
-            dst[2] = b;
-            dst += 4;
-        } while (i < *(u16 *)(data + 0xA));
+            entry->red = r;
+            entry->green = g;
+            entry->blue = b;
+            entry++;
+        } while (i < table->entry_count);
     }
 }
 
 void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
+    ColorTable *table = (ColorTable *)data;
     int frame;
     int offset;
     int count;
@@ -129,9 +134,9 @@ void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
     u8 *entry;
     register u8 *bluePtr asm("$9");
 
-        i = 0;
-        offset = *(u16 *)(data + 0x8);
-        count = *(u16 *)(data + 0xA);
+    i = 0;
+    offset = table->entries_offset;
+    count = table->entry_count;
     entry = (u8 *)(data + offset);
     if (count > 0) {
         bluePtr = entry + 2;
@@ -177,7 +182,7 @@ void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
             bluePtr[0] = blue;
             bluePtr += 4;
             entry += 4;
-        } while (i < *(u16 *)(data + 0xA));
+        } while (i < table->entry_count);
     }
     asm volatile("" : : "r"(&frame));
 }
