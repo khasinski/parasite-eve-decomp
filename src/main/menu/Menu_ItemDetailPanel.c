@@ -2,6 +2,11 @@
 /* MASPSX_FLAGS: -G8 */
 #include "pe1/menu_dialog.h"
 #include "pe1/text.h"
+#include "common.h"
+#include "pe1/inventory.h"
+#include "pe1/menu_widget.h"
+#include "pe1/inventory_slots.h"
+
 void Menu_StepItemDetailPanel(void) {
     MenuWidgetNode *parent, *child;
     u8 *label;
@@ -37,4 +42,30 @@ void Menu_StepItemDetailPanel(void) {
     child->x = (parent->grid_width - 128) >> 1;
     child->y = parent->visible_rows - 20;
     g_MenuConfirmCallback = confirm;
+}
+
+extern s32 g_MenuEquipMode;
+
+/* Discard confirmation: on "yes" remove the selected item, close the
+ * dialog and refresh the slot counts of the open inventory panels. */
+void Menu_OnItemDiscardConfirm(void *arg0, s32 arg1) {
+    MenuWidgetNode *dialog = arg0;
+    MenuWidgetNode *panel;
+
+    if (arg1 != 0) {
+        Inv_SelectActiveList(g_MenuActiveItemList);
+        Inv_RemoveActiveListItem(g_MenuActiveItemSlot);
+        Inv_RebuildSelectableMask();
+        MenuWidget_DestroyNode(dialog->parent->parent);
+        panel = MenuWidget_FindByModeAndSelectedBase(2, 1);
+        if (panel != 0) {
+            Draw_SetPrimCallback(panel, Inv_GetAyaSlotLimit());
+        }
+        if (g_MenuEquipMode == 2) {
+            panel = MenuWidget_FindByModeAndSelectedBase(2, 0x33);
+            if (panel != 0) {
+                Draw_SetPrimCallback(panel, Inv_TransferItemAlt2(0x3803FE));
+            }
+        }
+    }
 }
