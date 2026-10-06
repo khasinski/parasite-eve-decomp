@@ -59,3 +59,5 @@ RoomLib_HandlerA = 0x80192290; // type:func
 RoomLib_HandlerF = 0x801923A4; // type:func
 RoomLib_ReleaseHandlerA = 0x80192524; // type:func
 RoomLib_HandlerANop6 = 0x80192540; // type:func
+RoomEffect_SoundBurstParticle = 0x80192548; // type:func
+RoomEffect_SoundBurstController = 0x80192940; // type:func
