@@ -27,7 +27,7 @@ int Render_FindParticleEffect(int request, void *result) {
     return polls++ < pending ? 256 : terminal;
 }
 int main(void) {
-    int (*functions[])(unsigned char, void *, void *) = {cd_rom4, func_80080DC4};
+    int (*functions[])(unsigned char, void *, void *) = {DsControl, DsControlB};
     const int outcomes[] = {1, 2, 5, 258, 257};
     int f, c, r, p, t;
     for (f = 0; f < 2; ++f) for (c = 0; c < 512; ++c)

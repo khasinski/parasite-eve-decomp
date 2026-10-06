@@ -109,7 +109,7 @@ void Akao_Cmd_D9(int command, int arg1);
 void Akao_Cmd_DA(int command, int arg1, int arg2);
 void Akao_Cmd_F1(void);
 void Akao_ResetPositionalState(void);
-void Akao_SetCdMixVolume(s8 *volumes);
+void DsMix(s8 *volumes);
 int Akao_Cmd_10(u8 *data, int status);
 int Akao_Cmd_19_Then_C0(u8 *data, int value);
 int Akao_SendTableCommand(u8 *base, int command, int arg1, int arg2,
@@ -425,7 +425,7 @@ store_audio_slot:
         g_AkaoState.cd_volume = volume;
         locals.volumes[2] = volume;
         locals.volumes[0] = volume;
-        Akao_SetCdMixVolume(locals.volumes);
+        DsMix(locals.volumes);
         goto done;
 archive_match:
         g_AkaoState.selected_id = current->id;

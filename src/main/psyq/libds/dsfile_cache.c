@@ -1,7 +1,7 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_ds.h"
 
-CdlLOC *CdIntToPos(int sector, CdlLOC *position);
+CdlLOC *DsIntToPos(int sector, CdlLOC *position);
 void *memcpy(void *, const void *, unsigned int);
 int strcmp(const char *, const char *);
 int printf(const char *, ...);
@@ -113,7 +113,7 @@ int DS_cachefile(int directory) {
     for (count = 0; (u8 *)cursor < g_DsFileSectorBuffer + 2048;) {
         if (cursor->recordLength == 0) break;
         memcpy(&sector, cursor->sectorLE, 4);
-        CdIntToPos(sector, &g_DslFileCache[count].pos);
+        DsIntToPos(sector, &g_DslFileCache[count].pos);
         memcpy(&g_DslFileCache[count].size, cursor->sizeLE, 4);
         switch (count) {
         case 0:

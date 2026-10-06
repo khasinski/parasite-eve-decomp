@@ -14,7 +14,7 @@ CASES = [('sys',
   260,
   '8a39029de84423013c1f0477058380a6d1b63ac8b7a3ab85696f9de8eae81f91',
   'CD_flush = 0x8007B9EC;\n'
-  'g_CdReadCallback = 0x8009AFC0;\n'
+  'CD_debug = 0x8009AFC0;\n'
   'g_CdCmdNameTable = 0x8009AFDC;\n'
   'func_800119CC = 0x800119CC;\n'
   'g_CdIntrStringTable = 0x8009B05C;\n'

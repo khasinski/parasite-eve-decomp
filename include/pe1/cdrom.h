@@ -5,8 +5,8 @@
 
 struct CdlLOC;
 
-int cd_rom4(unsigned char command, void *param, void *result);
-int func_80080DC4(unsigned char command, void *param, void *result);
+int DsControl(unsigned char command, void *param, void *result);
+int DsControlB(unsigned char command, void *param, void *result);
 int Cd_GetReadyStatus(void);
 int CdRom_GetDiskType(void);
 int CdRom_GetPendingReadCount(void);
@@ -17,7 +17,7 @@ int CdRom_RestartSeek(void);
 int CdRom_GetLastCmd(void);
 int CdRom_GetCmdMode(void);
 struct CdlLOC *CdRom_GetCurrentPosPtr(void);
-struct CdlLOC *CdRom_GetCurrentPos(struct CdlLOC *destination);
+struct CdlLOC *DsLastPos(struct CdlLOC *destination);
 int CdRom_PollReady(void);
 int Sys_VSyncTimeout(void *argument);
 int CdRom_SendQueuedCmd(u8 *destination);

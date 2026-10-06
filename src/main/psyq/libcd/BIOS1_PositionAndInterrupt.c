@@ -7,7 +7,7 @@ static inline int ENCODE_BCD(int value) {
     return ((value / 10) << 4) + (value % 10);
 }
 
-CdlLOC *CdIntToPos_Local(int sector, CdlLOC *position) {
+CdlLOC *CdIntToPos(int sector, CdlLOC *position) {
     sector += 150;
     position->sector = ENCODE_BCD(sector % 75);
     position->second = ENCODE_BCD(sector / 75 % 60);
@@ -17,7 +17,7 @@ CdlLOC *CdIntToPos_Local(int sector, CdlLOC *position) {
 
 #define DECODE_BCD(value) (((value) >> 4) * 10 + ((value) & 0xF))
 
-int CdPosToInt_Local(CdlLOC *position) {
+int CdPosToInt(CdlLOC *position) {
     u_char sector = position->sector;
     u_char second = position->second;
     u_char minute = position->minute;

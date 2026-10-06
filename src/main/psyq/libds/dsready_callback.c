@@ -1,7 +1,7 @@
 /* ASSEMBLER: GNU */
 #include "pe1/psyq_ds_queue.h"
 #include "pe1/cdrom.h"
-int CdPosToInt(CdlLOC *);
+int DsPosToInt(CdlLOC *);
 #define ASYNC_FROM_RETRY(p)                                                            \
     ((DsAsyncReadState *)((u8 *)(p) - PE1_OFFSETOF(DsAsyncReadState, retryPending)))
 void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
@@ -17,7 +17,7 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
     asm("" : "=r"(state) : "0"(state), "r"(event));
     event = inEvent;
     if (state->nextSector == -1)
-        state->nextSector = CdPosToInt(CdRom_GetCurrentPosPtr());
+        state->nextSector = DsPosToInt(CdRom_GetCurrentPosPtr());
     event = (u8)event;
     one = 1;
     if (event == one) {
@@ -28,10 +28,10 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
                 register int count asm("$5") = 3;
                 asm("" : : "r"(dest), "r"(count));
                 event = (int)cb;
-                CdRom_IsBusy(dest, count);
+                DsGetSector(dest, count);
             }
             DsDataCallback((DsCallback)event);
-            event = CdPosToInt((CdlLOC *)detail);
+            event = DsPosToInt((CdlLOC *)detail);
             if (event != state->nextSector)
                 goto retry;
             if (state->callback && state->lastDeliveredSector < event) {

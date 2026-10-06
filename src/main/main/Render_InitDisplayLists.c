@@ -5,7 +5,7 @@
 extern char D_80011330[];
 extern char D_80011348[];
 extern char D_80011354[];
-int CdPosToInt(CdlLOC *position);
+int DsPosToInt(CdlLOC *position);
 int VSync(int mode);
 
 int OpenPeImage(void)
@@ -31,7 +31,7 @@ int OpenPeImage(void)
             VSync(0);
         found = DsSearchFile(&file, D_80011348);
         if (found != 0 && found != (DslFILE *)-1) {
-            g_PeImageBaseLba = CdPosToInt(&file.pos);
+            g_PeImageBaseLba = DsPosToInt(&file.pos);
             g_PeImageMountFlags = (u8)g_PeImageMountFlags | 1;
         }
     }
@@ -47,7 +47,7 @@ int OpenPeImage(void)
     if (found == 0) goto done;
     asm volatile("" : : "r"(found));
     if (found == (DslFILE *)-1) goto done;
-    g_PeImageBaseLba = CdPosToInt(&file.pos);
+    g_PeImageBaseLba = DsPosToInt(&file.pos);
     g_PeImageMountFlags = (u8)g_PeImageMountFlags | 2;
 done:
     return ((s8)g_PeImageMountFlags == 0) ? -2 : 0;

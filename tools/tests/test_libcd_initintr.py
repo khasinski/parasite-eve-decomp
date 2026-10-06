@@ -23,7 +23,7 @@ CASES = [('bios',
   'D_8009AFC8 = 0x8009AFC8;\n'
   'D_8009AFC4 = 0x8009AFC4;\n'
   'ResetCallback = 0x80073C94;\n'
-  'Cd_SetIntrMask = 0x8007C13C;\n'
+  'callback = 0x8007C13C;\n'
   'InterruptCallback = 0x80073CC4;\n'
   'SECTIONS { .text 0x8007bac0 : SUBALIGN(4) { *(.text .text.*) } .data 0x8009AFB4 : SUBALIGN(4) { '
   '*(.data .data.*) } .rodata 0x800119DC : SUBALIGN(4) { *(.rodata .rodata.*) } /DISCARD/ : { '

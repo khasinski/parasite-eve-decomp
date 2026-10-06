@@ -26,7 +26,7 @@ CASES = [('libds/DsCommand',
  ('libds/DsPacket',
   848,
   '5c9c7e3533b61fe6c52eacfa4cac2b7934a7cfbba68c55089109db8c8604ad80',
-  'CdPosToInt = 0x80080C48;\n'
+  'DsPosToInt = 0x80080C48;\n'
   'D_800A3608 = 0x800A3608;\n'
   'D_8009B53C = 0x8009B53C;\n'
   'Spu_GetQueueEntryPtr = 0x8007E6B0;\n'

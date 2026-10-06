@@ -128,8 +128,8 @@ extern CdlLOC D_800A3490;
 extern int D_800A3494;
 extern int D_800A8020;
 extern volatile DsCallback g_StrDataReadyCallback;
-int CdPosToInt_Local(CdlLOC *p);
-CdlLOC *CdIntToPos_Local(int i, CdlLOC *p);
+int CdPosToInt(CdlLOC *p);
+CdlLOC *CdIntToPos(int i, CdlLOC *p);
 void data_ready_callback(void);
 int StGetBackloc(CdlLOC *position);
 
@@ -297,7 +297,7 @@ extern CdReadCompleteCallback g_CdReadCompleteCallback;
 CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback);
 
 void CdRom_AbortCmd(void);
-void Cd_SetIntrMask(void);
+void callback(void);
 /* BIOS_1.OBJ polling state, result buffers and timeout diagnostics. */
 extern char *D_8009AFDC[], *D_8009B05C[];
 extern volatile u8 *D_8009B27C, *D_8009B288;
@@ -349,10 +349,10 @@ void StUnSetRing(void);
 u32 StFreeRing(u32 *base);
 u32 StGetNext(u32 **addr, u32 **header);
 void StCdInterrupt(void);
-int CdRom_DataSync(int mode);
+int DsDataSync(int mode);
 int VSync(int mode);
-int CdRom_IsBusy();
-int CdRom_IsBusy2();
+int DsGetSector();
+int DsGetSector2();
 void Save_ProcessDataCallback(void);
 DsCallback CdDataCallback(DsCallback callback);
 void CdRom_SetMode2Callback(u_char event);
@@ -406,11 +406,11 @@ extern CdlCB D_8009AFB4;
 extern CdlCB D_8009AFB8;
 extern CdlCB g_CdSyncCallback;
 extern CdlCB g_CdReadyCallback;
-extern CdlCB g_CdReadCallback;
-CdlCB CdReadCallback(CdlCB callback);
+extern int CD_debug;
+int CdSetDebug(int level);
 CdlCB CdSyncCallback(CdlCB callback);
 CdlCB CdReadyCallback(CdlCB callback);
-CdlCB CdRom_SetReadCallback(CdlCB callback);
+int DsSetDebug(int level);
 /* SDK CD_status occupies one word; public getters read its low byte. */
 extern u32 D_8009AFC4;
 extern u32 D_8009AFC8; /* SDK CD_status1, also stored as a full word. */
@@ -423,8 +423,8 @@ int CdControl(u_char command, u_char *parameters, u_char *result);
 int CdControlF(u_char command, u_char *parameters);
 int CdControlB(u_char command, u_char *parameters, u_char *result);
 int CdMix(CdlATV *volume);
-int CdGetSector(void *address, int size);
 int CdGetSector2(void *address, int size);
+int CdGetSector(void *address, int size);
 DsCallback CdDataCallback(DsCallback callback);
 int CdDataSync(int mode);
 

@@ -10,9 +10,9 @@ void CdFlush(void) {
     CD_flush();
 }
 
-CdlCB CdReadCallback(CdlCB callback) {
-    CdlCB old = g_CdReadCallback;
-    g_CdReadCallback = callback;
+int CdSetDebug(int level) {
+    int old = CD_debug;
+    CD_debug = level;
     return old;
 }
 

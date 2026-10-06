@@ -8,7 +8,7 @@ class ParseAssignmentsTests(unittest.TestCase):
         rows = sa.parse_assignments(
             "/* comment = 0x1; */\n"
             "D_80012018 = 0x80012018;\n"
-            "CdRom_Init = Akao_SetCdMixVolume;\n"
+            "CdRom_Init = DsMix;\n"
             "PROVIDE(g_Foo = 0x8009CD70);\n"
         )
         self.assertEqual([(r.name, r.value, r.provide) for r in rows], [

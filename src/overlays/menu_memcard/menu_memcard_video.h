@@ -76,7 +76,7 @@ extern u16 D_80093160,D_80093162;
 extern u32 D_800B0DD8,D_8009D26C;
 extern s32 func_8006E6A8(u32,void *,s32),CdRom_PollReady(void);
 s32 Memcard_StepVideo(void);
-extern void SetDispMask(s32),DrawSync(s32),func_80074A44(s32),func_80072714(void),func_800726C4(void),func_80072724(void),func_8003EB04(void),func_8010C0D8(void (*)(void)),func_8007A2A4(void),func_80080DC4(s32,s32,s32),Gpu_RenderFrame(void);
+extern void SetDispMask(s32),DrawSync(s32),func_80074A44(s32),func_80072714(void),func_800726C4(void),func_80072724(void),func_8003EB04(void),func_8010C0D8(void (*)(void)),func_8007A2A4(void),DsControlB(s32,s32,s32),Gpu_RenderFrame(void);
 extern s32 VSync(s32);
 
 s32 Memcard_PlayVideo(s32 index);

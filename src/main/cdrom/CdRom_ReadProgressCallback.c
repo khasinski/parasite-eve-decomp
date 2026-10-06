@@ -15,7 +15,7 @@ void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
     CD_READ_FIELD(state, currentVsync) = VSync(-1);
     if (CD_READ_FIELD(state, flags) & 1) {
         if (CD_READ_FIELD(state, remainingSectors) > 0) {
-            CdRom_IsBusy2(CD_READ_FIELD(state, destination),
+            DsGetSector2(CD_READ_FIELD(state, destination),
                           CD_READ_FIELD(state, sectorSize));
             CD_READ_FIELD(state, eventData) = (int)data;
         } else {
@@ -27,7 +27,7 @@ void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
         }
     } else {
         if (CD_READ_FIELD(state, remainingSectors) > 0) {
-            CdRom_IsBusy(CD_READ_FIELD(state, destination),
+            DsGetSector(CD_READ_FIELD(state, destination),
                          CD_READ_FIELD(state, sectorSize));
             CD_READ_FIELD(state, destination) +=
                 CD_READ_FIELD(state, sectorSize) * 4;

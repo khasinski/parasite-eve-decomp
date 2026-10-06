@@ -28,7 +28,7 @@ CdlLOC *CdRom_GetCurrentPosPtr(void) {
     assert(step++ == 4);
     return &second;
 }
-int CdPosToInt(CdlLOC *position) {
+int DsPosToInt(CdlLOC *position) {
     assert(step++ == 2 && position == &first);
     return sectorValue;
 }

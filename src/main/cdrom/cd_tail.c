@@ -4,30 +4,30 @@
 
 extern void CD_vol(void);
 
-extern int CD_getsector2(void);
-
 extern int CD_getsector(void);
 
-int Akao_SetCdMixVolume(void) {
+extern int CD_getsector2(void);
+
+int DsMix(void) {
     CD_vol();
     return 1;
 }
 
-int CdRom_IsBusy(void) {
-    return CD_getsector2() == 0;
-}
-
-int CdRom_IsBusy2(void) {
+int DsGetSector(void) {
     return CD_getsector() == 0;
 }
 
-int CdRom_DataSync(int mode) {
+int DsGetSector2(void) {
+    return CD_getsector2() == 0;
+}
+
+int DsDataSync(int mode) {
     return CD_datasync(mode);
 }
 
 static inline int ENCODE_BCD(int n) { return ((n / 10) << 4) + (n % 10); }
 
-CdlLOC *CdIntToPos(int i, CdlLOC *p) {
+CdlLOC *DsIntToPos(int i, CdlLOC *p) {
     i += 150;
     p->sector = ENCODE_BCD(i % 75);
     p->second = ENCODE_BCD(i / 75 % 60);
@@ -35,7 +35,7 @@ CdlLOC *CdIntToPos(int i, CdlLOC *p) {
     return p;
 }
 
-int CdPosToInt(CdlLOC *p) {
+int DsPosToInt(CdlLOC *p) {
 #define DECODE_BCD(x) (((x) >> 4) * 10 + ((x) & 0xF))
     u_char sector = p->sector;
     u_char second = p->second;
@@ -45,8 +45,8 @@ int CdPosToInt(CdlLOC *p) {
            DECODE_BCD(sector) - 150;
 }
 
-CdlCB CdRom_SetReadCallback(CdlCB callback) {
-    CdlCB old = g_CdReadCallback;
-    g_CdReadCallback = callback;
+int DsSetDebug(int level) {
+    int old = CD_debug;
+    CD_debug = level;
     return old;
 }

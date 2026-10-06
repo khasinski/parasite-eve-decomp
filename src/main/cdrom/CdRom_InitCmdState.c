@@ -7,7 +7,7 @@
 
 extern u_int D_8009B560[3];
 
-CdlLOC *CdIntToPos(int sector, CdlLOC *position);
+CdlLOC *DsIntToPos(int sector, CdlLOC *position);
 
 void CdRom_InitCmdState(void) {
     CdRomSystemState *state;
@@ -45,7 +45,7 @@ void CdRom_InitCmdState(void) {
     command->read.sector = 21;
     command->read.lastCommand = 0;
     command->read.commandMode = 0;
-    CdIntToPos(0, &command->read.currentPos);
+    DsIntToPos(0, &command->read.currentPos);
     command->read.retryCount = 0;
     command->read.commandParam = 0;
     command->read.eventFlags.bit7 = 0;

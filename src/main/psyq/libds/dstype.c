@@ -4,11 +4,11 @@
 
 extern char D_8001205C[];
 
-CdlLOC *CdIntToPos(int sector, CdlLOC *position);
+CdlLOC *DsIntToPos(int sector, CdlLOC *position);
 void GD_cbsync(unsigned char event);
 
 
-int CdRom_IsBusy(u8 *dst, int sector_size);
+int DsGetSector(u8 *dst, int sector_size);
 void GD_disk_kind(int event, void *data, void *detail);
 
 int DsGetDiskType(void) {
@@ -25,7 +25,7 @@ int DsGetDiskType(void) {
     if (DsRead_IsBusy()) {
         DsReadBreak();
     }
-    CdIntToPos(16, &pos);
+    DsIntToPos(16, &pos);
     g_DsDiskType = 0;
     if (!Render_BuildParticleFrame(32, &pos, 27, (DslCB)GD_cbsync, 0)) {
         return 2;
@@ -50,7 +50,7 @@ void GD_disk_kind(int event, void *data, void *detail) {
     register int disk_type asm("$2");
 
     if (arg0 == 1) {
-        CdRom_IsBusy(buffer, 2);
+        DsGetSector(buffer, 2);
         if ((disk_type = strncmp((char *)&buffer[1], D_8001205C, 5)) != 0) {
             disk_type = 2;
         } else {

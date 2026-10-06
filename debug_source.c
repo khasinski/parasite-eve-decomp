@@ -125,7 +125,7 @@ extern void func_80072724(void);
 extern void func_8003EB04(void);
 extern void func_8010C0D8(s32);
 extern void func_8007A2A4(void);
-extern void func_80080DC4(s32, s32, s32);
+extern void DsControlB(s32, s32, s32);
 extern void VSync(s32);
 extern void Gpu_RenderFrame(void);
 s32 Memcard_PlayVideo(s32 index);
@@ -297,7 +297,7 @@ s16 Memcard_StepVideo(void)
     (*active)--;
     func_8010C0D8(0);
     func_8007A2A4();
-    func_80080DC4(9, 0, 0);
+    DsControlB(9, 0, 0);
   }
   return 0;
 }

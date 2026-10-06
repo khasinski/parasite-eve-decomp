@@ -42,7 +42,7 @@ retry:
                 else if (D_8009D26C & 0x20000004) {
                     s32 remaining;
                     D_800B0DBA--;
-                    func_800870F0(0);func_8010C0D8(0);func_8007A2A4();func_80080DC4(9,0,0);
+                    func_800870F0(0);func_8010C0D8(0);func_8007A2A4();DsControlB(9,0,0);
                     remaining=*remainingPtr;
                     D_801D0DE8=0;D_801D0DEC=0;D_801D0DFC=0;D_801D0DF8=0;D_801D0DF0=0;D_801D0DF4=0;
                     D_800B0DBA=0;

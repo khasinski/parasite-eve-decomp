@@ -26,7 +26,7 @@ CASES = [('DsRead2',
   '3afbfb2c6c3f80f7089a34d24020ab2509d7c1a66b92d76e5e353fa067dd4ce0',
   'CdRom_InitAsyncRead = 0x80081D74;\n'
   'g_DsDiskType = 0x800B28F8;\n'
-  'CdRom_IsBusy = 0x80080AE4;\n'
+  'DsGetSector = 0x80080AE4;\n'
   'D_8001205C = 0x8001205C;\n'
   'strncmp = 0x80071A04;\n'
   'DsReadBreak = 0x80081DF8;\n'

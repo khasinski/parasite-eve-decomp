@@ -24,8 +24,8 @@ s32 Boot_InitPlaybackFile(void) {
         if (found != failure) break;
     }
     start = &D_80172CE8;
-    *start = CdPosToInt(&file.pos);
-    D_80172CEC = CdPosToInt(&file.pos) + (file.size >> 11);
+    *start = DsPosToInt(&file.pos);
+    D_80172CEC = DsPosToInt(&file.pos) + (file.size >> 11);
     D_80172CF0 = *start;
     D_80172CF4 = 0;
     D_80172CF8 = 0;

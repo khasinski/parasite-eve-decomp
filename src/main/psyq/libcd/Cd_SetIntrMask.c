@@ -8,7 +8,7 @@ extern volatile u8 cd_ready_event __asm__("D_8009B295");
 
 int getintr(void);
 
-void Cd_SetIntrMask(void) {
+void callback(void) {
     int pending;
     volatile u8 *ready = &cd_ready_event;
     int bank = *D_8009B27C & 3;

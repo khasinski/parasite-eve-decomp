@@ -44,10 +44,10 @@ CASES = [('src/main/psyq/libapi/pad.c',
   536,
   '309628923767c77ba53c659fff5acbec885e9a9eaba554ae2020803b3eef364a',
   'CD_vol = 0x8007b964;\n'
-  'CD_getsector2 = 0x8007bf44;\n'
-  'CD_getsector = 0x8007c044;\n'
+  'CD_getsector = 0x8007bf44;\n'
+  'CD_getsector2 = 0x8007c044;\n'
   'CD_datasync = 0x8007bddc;\n'
-  'g_CdReadCallback = 0x8009afc0;\n'
+  'CD_debug = 0x8009afc0;\n'
   'SECTIONS { .text 0x80080ac4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('src/main/psyq/libmath/ferr.c',

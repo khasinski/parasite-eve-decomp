@@ -63,7 +63,7 @@ class CDInitCmdStateTests(unittest.TestCase):
                     if mutate:
                         expected[0x20:0x70] = replacement
                     else:
-                        # Sector zero is MSF 00:02:00; CdIntToPos leaves track unchanged.
+                        # Sector zero is MSF 00:02:00; DsIntToPos leaves track unchanged.
                         expected[0x4E:0x51] = b'\0\x02\0'
                     for off in range(0x32, 0x38): set_field(expected, off, 0, 1)
                     for off in (0x38, 0x40, 0x44, 0x48, 0x4C): set_field(expected, off, 0)

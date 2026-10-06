@@ -59,7 +59,7 @@ void Util_Copy8(void *, const void *);
 /* Legacy queue-state helper name; SDK DsSync is Render_FindParticleEffect. */
 int DsSync(int mode);
 void CdRom_DispatchPendingCmd(void);
-int CdPosToInt(CdlLOC *);
+int DsPosToInt(CdlLOC *);
 int Render_FindParticleEffect(int id, void *result);
 
 #endif

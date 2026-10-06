@@ -3,7 +3,7 @@
 #include "pe1/psyq_cd.h"
 #include "pe1/cdrom.h"
 
-CdlLOC *CdRom_GetCurrentPos(CdlLOC *dst) {
+CdlLOC *DsLastPos(CdlLOC *dst) {
     if (dst != 0) {
         *dst = *CdRom_GetCurrentPosPtr();
         return dst;

@@ -36,10 +36,10 @@ CASES = [('libpad/padportd_4',
   'dd749c65e05714e3bd6130961ed0cc79bdbbef7acfedd2fd2622c3e6f21af5a7',
   'D_8009B6EC = 0x8009B6EC;\n'
   'CdRom_GetCurrentPosPtr = 0x8007FC28;\n'
-  'CdPosToInt = 0x80080C48;\n'
+  'DsPosToInt = 0x80080C48;\n'
   'CdRom_GetCmdMode = 0x8007FC18;\n'
   'DsDataCallback = 0x800824F0;\n'
-  'CdRom_IsBusy = 0x80080AE4;\n'
+  'DsGetSector = 0x80080AE4;\n'
   'DsSyncCallback = 0x800824C8;\n'
   'DsReadyCallback = 0x800824DC;\n'
   'CdRom_GetPendingReadCount = 0x8007F778;\n'

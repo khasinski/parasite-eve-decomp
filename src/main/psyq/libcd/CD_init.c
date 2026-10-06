@@ -21,7 +21,7 @@ int CD_init(void) {
     D_8009AFC8 = 0;
     D_8009AFC4 = 0;
     ResetCallback();
-    InterruptCallback(2, Cd_SetIntrMask);
+    InterruptCallback(2, callback);
     *D_8009B27C = 1;
     while (*D_8009B288 & 7) {
         *D_8009B27C = 1;

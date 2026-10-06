@@ -18,5 +18,5 @@ void InitSystem(void) {
     MemCard_InitManager();
     Boot_InitMemCard();
     CdRom_InitDsReadSystem();
-    CdRom_SetReadCallback(0);
+    DsSetDebug(0);
 }

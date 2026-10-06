@@ -15,13 +15,13 @@ register CdInitVolFrame *g_CdInitVolFrame asm("$29");
 register int g_CdInitVolValue asm("$2");
 register volatile void *g_CdInitVolIo asm("$3");
 
-/* BIOS_1.OBJ state. Parasite Eve adds cd_read_callback between cd_debug and
- * cd_status, shifting the remainder of the SDK layout by one word. */
+/* BIOS_1.OBJ state. CdSetDebug and DsSetDebug exchange the debug level at
+ * +0x0C (CD_debug); nothing in this executable references the word at +0x08. */
 typedef struct CdBiosState {
     CdlCB sync_callback;
     CdlCB ready_callback;
-    s32 debug;
     CdlCB read_callback;
+    s32 debug;
     u32 status;
     u32 status1;
     u32 lid_open_count;
@@ -236,5 +236,5 @@ void CD_initintr(void) {
     D_8009AFC8 = 0;
     D_8009AFC4 = 0;
     ResetCallback();
-    InterruptCallback(2, Cd_SetIntrMask);
+    InterruptCallback(2, callback);
 }

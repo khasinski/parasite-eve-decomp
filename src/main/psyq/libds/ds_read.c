@@ -4,13 +4,13 @@
 #include "pe1/psyq_ds.h"
 #include "pe1/cdrom.h"
 
-CdlLOC *CdIntToPos(int sector, CdlLOC *position);
+CdlLOC *DsIntToPos(int sector, CdlLOC *position);
 
 int ds_read(int count, int sector, void *destination) {
     CdlLOC position;
     int status;
 
-    CdIntToPos(sector, &position);
+    DsIntToPos(sector, &position);
     CdRom_StartRead(&position, count, destination, 0x80);
     do {
         status = Sys_VSyncTimeout(0);

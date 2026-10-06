@@ -31,6 +31,6 @@ int StGetBackloc(CdlLOC *arg0) {
         return -1;
     }
 
-    CdIntToPos_Local(CdPosToInt_Local(&D_800A3490) + 1, saved_arg);
+    CdIntToPos(CdPosToInt(&D_800A3490) + 1, saved_arg);
     return D_800A3494;
 }

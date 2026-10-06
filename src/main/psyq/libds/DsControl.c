@@ -1,7 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 #include "pe1/psyq_ds_queue.h"
 
-int cd_rom4(unsigned char command, void *param, void *result) {
+int DsControl(unsigned char command, void *param, void *result) {
     int request;
     DslCB callback = 0;
     unsigned char status;
@@ -14,7 +14,7 @@ int cd_rom4(unsigned char command, void *param, void *result) {
     return status == 2;
 }
 
-int func_80080DC4(unsigned char command, void *param, void *result) {
+int DsControlB(unsigned char command, void *param, void *result) {
     int request;
     DslCB callback = 0;
     unsigned char status;

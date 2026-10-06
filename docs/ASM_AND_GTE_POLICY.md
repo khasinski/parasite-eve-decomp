@@ -1331,7 +1331,7 @@ required move/branch sequence without source-level constraints.
 
 ## Psy-Q scalar CD setters
 
-`func_8007C130` and `StSetMask` now use ordinary global assignments, with
+`CD_set_test_parmnum` and `StSetMask` now use ordinary global assignments, with
 stock GCC 2.8.1 and the existing per-file `-fcall-used-$1` option. Their
 12-byte and 28-byte ranges match exactly. AT is allocated by the compiler;
 there are no register variables, empty barriers, or instruction ASM. Without
@@ -1925,7 +1925,7 @@ All 191 overlay SHA checks and source, organization and debt gates also pass.
 The shared header now defines the SDK `CdlCB` type, `void (*)(u_char, u_char *)`,
 and uses it for the sync, ready and read fields of `CdCallbackDataPage`, the
 sync field of `CdCallbackDataWindow`, and the corresponding globals.
-`CdReadCallback`, `CdSyncCallback`, `CdReadyCallback` and the internal read
+`CdSyncCallback`, `CdReadyCallback` and the internal read
 setter now accept and return function pointers. The command retry wrapper
 saves/restores a typed callback. Reset paths and C callers share these
 prototypes instead of local integer or void-return declarations.
@@ -1974,7 +1974,7 @@ barrier, with or without the pin, gives 84.49056%. No instruction ASM remains.
 
 ## LIBCD second sector-transfer wait
 
-The DMA-busy wait in `CD_getsector2` is C: it reads control bit 24 once,
+The DMA-busy wait in `CD_getsector` is C: it reads control bit 24 once,
 then retains a local pointer and mask for repeated volatile reads when busy.
 This replaces the former 14-instruction assembly block without adding pins
 or empty barriers. A single `while (*control & mask)` produces a different
@@ -2045,14 +2045,14 @@ The audited PsyQ result is 141/254 functions and 44.75% code.
 
 ## LIBCD sector DMA setup
 
-CD_getsector in `sector_read.c` is ordinary C with no pins or barriers. A volatile
+CD_getsector2 in `sector_read.c` is ordinary C with no pins or barriers. A volatile
 readback local replaces the synthetic SP frame, and direct typed MMIO accesses
 replace the union and global v0 register views. Its initial byte-ready test
 and inner polling loop retain the original two-stage control flow. All four
 pins (three global and one local) are removed; no instruction ASM remains.
 
 Stock GCC281 with unsplit addresses matches all 236 retail bytes, both alone
-and beside CD_getsector2 in the recovered sector-read unit. The
+and beside CD_getsector in the recovered sector-read unit. The
 complete main retains its retail SHA-1, all 191 overlays match, and source,
 organization and debt gates pass. The production pin count falls 773 → 769.
 

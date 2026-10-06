@@ -41,7 +41,7 @@ int Render_BuildParticleFrame(int inMode, DslLOC *inPosition, int inCommand,
     commands[1].command = next;
     ptr->payload.minute = mode;
     ptr->parameter = &commands[1].payload;
-    if (CdPosToInt(callPosition) < 0) {
+    if (DsPosToInt(callPosition) < 0) {
         goto failure;
     }
     commands[2].command = n;

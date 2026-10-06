@@ -16,7 +16,7 @@
  *     "\PE.IMG;1"              -- the archive itself
  *     "\FMV2\PEDISC02.IDF;1"   -- CD2 marker
  *   The matched directory record's start sector is turned into an integer LBA
- *   by CdPosToInt() and stored in g_PeImageBaseLba. The FMV marker that was
+ *   by DsPosToInt() and stored in g_PeImageBaseLba. The FMV marker that was
  *   found sets g_PeImageMountFlags (bit0 = CD1, bit1 = CD2) -- this is the
  *   CD1/CD2 disc-detection used elsewhere. So the base LBA is NOT a hardcoded
  *   constant; it is discovered at runtime (retail pressing happens to place

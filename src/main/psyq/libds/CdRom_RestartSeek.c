@@ -5,7 +5,7 @@
 #include "pe1/cdrom.h"
 
 extern int D_8009B6EC;
-extern int CdPosToInt(CdlLOC *);
+extern int DsPosToInt(CdlLOC *);
 extern int func_8007FC44(void);
 extern void func_8008227C(void);
 
@@ -17,7 +17,7 @@ int CdRom_RestartSeek(void) {
     register int limit asm("$3");
 
     DsSyncCallback(0);
-    D_8009B6EC = CdPosToInt(CdRom_GetCurrentPosPtr());
+    D_8009B6EC = DsPosToInt(CdRom_GetCurrentPosPtr());
     mode = CdRom_GetCmdMode() & 0xFF;
     position = CdRom_GetCurrentPosPtr();
     command = func_8007FC44();

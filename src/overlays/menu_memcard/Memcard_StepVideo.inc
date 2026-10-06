@@ -92,7 +92,7 @@ s32 MEMCARD_STEP_VIDEO_NAME(void) {
         }
         func_8010C0D8(0);
         func_8007A2A4();
-        func_80080DC4(9, 0, 0);
+        DsControlB(9, 0, 0);
     }
     return 0;
 }

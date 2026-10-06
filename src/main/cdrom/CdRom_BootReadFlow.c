@@ -7,7 +7,7 @@ int CdRom_ReadSectorsFromLba(u32 lba, void *destination, u32 size) {
 #include "pe1/psyq_cd.h"
 
 void exit(int code);
-CdlLOC *CdIntToPos(int i, CdlLOC *p);
+CdlLOC *DsIntToPos(int i, CdlLOC *p);
 int printf(char *fmt, ...);
 
 extern int g_GameState;
@@ -44,7 +44,7 @@ int CdRom_ReadSectors(u32 lba, u32 offset, void *destination, u32 size) {
 
     *state |= 0x1004000;
     base += rel;
-    CdIntToPos(base, &loc);
+    DsIntToPos(base, &loc);
     ret = CdRom_StartRead(&loc, size_reg, (void *)dst_reg, 0x80);
     if (ret != 0) {
         return ret;

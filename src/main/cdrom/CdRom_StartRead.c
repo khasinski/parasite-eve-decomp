@@ -28,7 +28,7 @@ start:
     READ_STATE(state, inProgress)->remainingSectors = sectors;
     /* GCC merges these calls after scheduling the two position copies. */
     if (!position) {
-        location = *CdRom_GetCurrentPos(0);
+        location = *DsLastPos(0);
         mode |= 0x20;
         mode = Render_BuildParticleFrame((u8)mode, &location, 6,
                                          (DslCB)CdRom_SetMode2Callback, -1);
