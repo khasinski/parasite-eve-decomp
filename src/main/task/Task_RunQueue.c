@@ -1,5 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
+/* Script interpreter main loop and the jump-to-actor-script opcode; a
+ * contiguous -G8 pair sharing the script cursor D_8009CE00. */
 #include "pe1/task_queue.h"
 
 /* Tentative COMMON declarations preserve small-data metadata for stock
@@ -56,4 +58,14 @@ void Task_RunQueue(void)
         /* Handlers may replace both the current node and the script cursor. */
         D_8009D300->script = D_8009CE00;
     } while ((D_8009D300 = D_8009D300->next) != 0);
+}
+
+typedef struct {
+    int value;
+} TaskJumpOffsetEntry;
+
+int Task_JumpToEntityOffset(TaskJumpOffsetEntry **arg0)
+{
+    D_8009CE00 = (u32 *)(((FieldActor *)D_8009D2F0[0])->script_base + ((*arg0)->value * 2));
+    return 1;
 }

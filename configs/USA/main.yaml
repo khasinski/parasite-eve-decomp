@@ -186,8 +186,9 @@ segments:
       # Pending-node launch controller for equip and save/load menus.
       - [0x7640, c, task/Task_BeginSceneTransition]
       - [0x77E0, c, task/Task_GetPlayerInputFlag]
+      # Interpreter loop and jump-to-actor-script opcode: contiguous -G8 pair
+      # sharing the script cursor; no data of the jump opcode is COMMON.
       - [0x7818, c, task/Task_RunQueue]
-      - [0x7A94, c, task/Task_JumpToEntityOffset]
       - [0x7ABC, c, entity/Entity_MarkCurrentDead]
       - [0x7AE0, c, entity/entity]
       - [0x7B1C, c, task/Task_JumpIfZero]
