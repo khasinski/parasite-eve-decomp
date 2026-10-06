@@ -801,13 +801,11 @@ segments:
       # Audio slot registration and the two lookups share the scene audio keys.
       - [0x5E348, c, overlay/Overlay_AudioSlotFlow]
       - [0x5E418, c, asset/Asset_SearchByKeyType]
-      - [0x5E4E4, c, asset/Asset_Find08w]
-      - [0x5E538, c, akao/Akao_SetPos3D]
-      - [0x5E5CC, c, akao/Akao_SendPositionalCmdStereo]
-      - [0x5E680, c, asset/Asset_Find08Alt]
-      - [0x5E6D4, c, akao/Akao_SendPositionalCmd]
-      - [0x5E750, c, akao/Akao_SendTableCommand]
-      - [0x5E7A8, c, akao/Akao_Calc3DPan]
+      # Positional sound senders: the scene-table and BGM-handle wrappers, the
+      # 3D send path, the table-command lookup and the GTE pan/volume projection
+      # call one another inside this span (helper and call evidence, no split
+      # evidence); the two Asset_Find08* names are legacy labels of AKAO senders.
+      - [0x5E4E4, c, akao/Akao_PositionalSound]
       - [0x5E9C0, c, gpu/misc13]
       - [0x5EB38, c, asset/str]
       - [0x5ED14, c, asset/Asset_FindTable2CByU16Key]
