@@ -381,8 +381,8 @@ segments:
       - [0x2A170, c, menu/Menu_ResetEquipSlotState]
       - [0x2A19C, c, main/Scene_CheckFlagBits]
       - [0x2A374, c, anim/Anim_BuildRotationMatrices]
-      - [0x2A524, c, anim/Anim_DecodeBoneRotationsByte]
-      - [0x2A6D4, c, anim/Anim_DecodeBoneRotationsShort]
+      # Byte and halfword bone-rotation decoders: one helper set, same options (helper evidence).
+      - [0x2A524, c, anim/Anim_DecodeBoneRotations]
       - [0x2A888, c, render/Render_TransformVertices]
       - [0x2AEA8, c, render/Render_TransformSkinnedVertices]
       - [0x2B490, c, render/Render_TransformMorphVertices]
