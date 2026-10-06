@@ -1,10 +1,11 @@
-#include "common.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
+/* Field render-flag table setup and the helper that stores one table entry
+ * at the bit index of a single-bit mask. The helper's only caller is the
+ * table builder that precedes it (main_tu_evidence G0344). */
+#include "common.h"
+#include "pe1/gte.h"
 
-#define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
-M2C_UNK Gte_StoreTableEntry();
 extern s32 D_8009D1A0r[] __asm__("g_GameStateFlags");
 extern s32 D_8009D1A0w[] __asm__("g_GameStateFlags");
 extern s32 g_SceneFlagBits;
@@ -13,24 +14,26 @@ extern s32 g_FieldRenderFlags;
 extern s32 g_FieldPadBits;
 extern s32 D_8009D2D4;
 extern s32 g_FieldRenderFlagTable[];
-#define g_FieldRenderFlagTable (g_FieldRenderFlagTable[0])
+extern int D_800A76F0[];
+
+void Gte_StoreTableEntry(u32 mask, int value);
 
 void Boot_BuildRenderFlagTable(void) {
-    s32 *var_v1;
-    u32 var_a0;
+    s32 *entry;
+    u32 i;
 
-    var_a0 = 0;
-    var_v1 = &g_FieldRenderFlagTable;
+    i = 0;
+    entry = g_FieldRenderFlagTable;
     g_SceneFlagBits = 0;
     g_BattleControlFlags = 0;
     D_8009D2D4 = 0;
     g_FieldRenderFlags = 0;
     g_FieldPadBits = 0;
     do {
-        *var_v1 = 0;
-        var_a0 += 1;
-        var_v1 += 1;
-    } while (var_a0 < 0x20U);
+        *entry = 0;
+        i += 1;
+        entry += 1;
+    } while (i < 0x20U);
     Gte_StoreTableEntry(1, 0x4000);
     Gte_StoreTableEntry(0x80, 0x1000);
     Gte_StoreTableEntry(0x100, 0x2000);
@@ -52,4 +55,16 @@ void Boot_BuildRenderFlagTable(void) {
     Gte_StoreTableEntry(0x40000000, 0x4000);
     Gte_StoreTableEntry(0x80000000, 0x8000);
     D_8009D1A0w[0] = D_8009D1A0r[0] | 0x4000;
+}
+
+void Gte_StoreTableEntry(u32 mask, int value) {
+    int index;
+
+    gte_ldlzcs(mask);
+    index = 31;
+    if (mask != 0x80000000) {
+        gte_stlzcr(&mask);
+        index -= mask;
+    }
+    D_800A76F0[index] = value;
 }
