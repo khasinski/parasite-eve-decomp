@@ -1,4 +1,11 @@
 #include "common.h"
+#include "pe1/gte_types.h"
+#include "pe1/random.h"
+
+/* Direction helpers for field effects: shortest turn between two angles,
+ * eased turning, point distance and the alternating scatter offsets. */
+
+extern u16 D_800E21C8;
 
 int func_800CFCF4(int from, int to, s16 *distance)
 {
@@ -81,4 +88,70 @@ void func_800CFD50(u16 *from, u16 *to, u16 speed) {
     distance = scaled >> 12;
     change = distance * direction;
     to[1] = old1 + change;
+}
+
+int func_800CFE94(s16 *from, s16 *to)
+{
+    int dx = to[0] - from[0];
+    int dy = to[1] - from[1];
+    int dz = to[2] - from[2];
+    int length = SquareRoot0((dx * dx) + (dy * dy) + (dz * dz));
+
+    if (length == 0) {
+        length = 1;
+    }
+
+    return length;
+}
+
+void func_800CFF0C(s16 *out)
+{
+    s16 *out_reg;
+    int y;
+    int phase;
+    int temp;
+    int z;
+
+    out_reg = out;
+    D_800E21C8 = (D_800E21C8 + 1) & 7;
+    temp = rand() & 0x1FF;
+    phase = D_800E21C8;
+    temp += (phase << 9) & 0xC00;
+    phase &= 1;
+    y = temp + 0x100;
+    if ((phase & 1) != 0) {
+        z = (rand() & 0x1FF) + 0x100;
+    } else {
+        z = -(rand() & 0x1FF) - 0x100;
+    }
+
+    out_reg[0] = 0;
+    out_reg[1] = y;
+    out_reg[2] = z;
+}
+
+void func_800CFFAC(s16 *out)
+{
+    s16 *out_reg;
+    int x;
+    int phase;
+    int temp;
+    int y;
+
+    out_reg = out;
+    D_800E21C8 = (D_800E21C8 + 1) & 7;
+    temp = rand() & 0x1FF;
+    phase = D_800E21C8;
+    temp += (phase << 9) & 0xC00;
+    phase &= 1;
+    x = temp + 0x100;
+    if ((phase & 1) != 0) {
+        y = (rand() & 0x1FF) + 0x100;
+    } else {
+        y = -(rand() & 0x1FF) - 0x100;
+    }
+
+    out_reg[0] = x;
+    out_reg[1] = y;
+    out_reg[2] = 0;
 }
