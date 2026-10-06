@@ -38,3 +38,5 @@ g_RoomSpawnLayout = 0x80190E78;
 g_RoomFallingBurstSprite = 0x80190F70;
 RoomLib_RegisterPairedTables = 0x8018F118; // type:func
 g_RoomUpdateList = 0x80190E60;
+RoomLib_ClassNop0 = 0x8018F070; // type:func
+RoomLib_ClassNop6 = 0x8018F228; // type:func

@@ -1,5 +1,5 @@
 FieldEng_Spawn6 = 0x800C2AF0;
-func_8018F034 = 0x8018F034; // type:func
+RoomLib_ClassNop0 = 0x8018F034; // type:func
 FieldEng_GetSlot = 0x800C22F8;
 ApplyMatrixSV = 0x80078C34; // type:func
 rand = 0x80071A54; // type:func

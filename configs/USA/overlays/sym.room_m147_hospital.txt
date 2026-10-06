@@ -38,3 +38,5 @@ RoomLib_RegisterPairedTables = 0x8018F118; // type:func
 g_RoomUpdateList = 0x80190E60;
 g_RoomInitList = 0x80190E30;
 g_RoomSpawnLayout = 0x80190E78;
+RoomLib_ClassNop0 = 0x8018F070; // type:func
+RoomLib_ClassNop6 = 0x8018F228; // type:func
