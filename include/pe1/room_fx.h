@@ -15,6 +15,19 @@ typedef struct RoomFxSeed8 {
     unsigned char bytes[8];
 } RoomFxSeed8;
 
+/* Sprite packet template the room effects fill and hand to the sprite
+ * renderer: colour, packet code and mode, offset and depth. */
+typedef struct RoomFxSpritePacket {
+    unsigned char r, g, b;        /* 0x00 */
+    unsigned char pad03;
+    unsigned char code;           /* 0x04 */
+    unsigned char mode;           /* 0x05 */
+    unsigned char zero;           /* 0x06 */
+    unsigned char pad07;
+    short offset;                 /* 0x08 */
+    short depth;                  /* 0x0A */
+} RoomFxSpritePacket;
+
 typedef struct RoomFxVec4 {
     int x;
     int y;
@@ -379,5 +392,15 @@ PE1_STATIC_ASSERT(sizeof(RoomFxPairedEmitterState) == 0x140,
 typedef struct RoomFxFrameCounterRecord {
     short count;
 } RoomFxFrameCounterRecord;
+
+/* Each room that links RoomLib_ThreeTransformParticles defines its sprite
+ * table and the two packet templates (primary sprite, floor shadow). */
+extern unsigned char RoomLib_ThreeParticleTable[];
+extern RoomFxSpritePacket RoomLib_ThreeParticlePacket;
+extern RoomFxSpritePacket RoomLib_ThreeParticleFloorPacket;
+/* The primary packet's depth as its own symbol: the draw pass stores it
+ * through a separate address, and a store through the packet would let the
+ * compiler share the packet's address with the call after it. */
+extern s16 RoomLib_ThreeParticleAlpha;
 
 #endif

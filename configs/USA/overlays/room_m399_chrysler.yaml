@@ -35,6 +35,7 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m399_chrysler]
+      - [0xC, .rodata, ../room_lib/RoomLib_ThreeTransformParticles]
       - [0x14, .rodata, ../room_lib/RoomLib_ActorClasses]
       - [0x1EC, .rodata, ../room_lib/RoomLib_TimedSpawn]
       - [0x1F4, c, func_8018F1DC]
@@ -42,14 +43,7 @@ segments:
       - [0x24C, c, RoomLib_RegisterTable_8018F234]
       - [0x294, c, func_8018F27C]
       - [0x320, c, RoomLib_CloseTarget_8018F308]
-      - [0x3A4, c, func_8018F38C]
-      - [0x3AC, c, func_8018F394]
-      - [0x3B4, c, func_8018F39C]
-      - [0x4F8, c, func_8018F4E0]
-      - [0x500, c, func_8018F4E8]
-      - [0x580, c, func_8018F568]
-      - [0xA20, c, func_8018FA08]
-      - [0xDC4, c, RoomLib_UpdateDebrisTriplet_8018FDAC]
+      - [0x3A4, c, ../room_lib/RoomLib_ThreeTransformParticles]
       - [0x11F0, c, ../room_lib/RoomLib_ActorClasses]
       - [0x450C, c, ../room_lib/RoomLib_FloorWalkerClass]
       - [0x4CFC, c, ../room_lib/RoomLib_TimedSpawn]

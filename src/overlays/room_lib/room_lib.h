@@ -598,22 +598,10 @@ typedef struct RoomLibPacked8 {
 
 extern void *func_8006DC18(int type);
 
-/* Sprite packet template of the twelve-element effect; each room that
- * links RoomLib_TwelveElementEffect defines the two templates and the
- * sprite table in its data. */
-typedef struct RoomTwelveEffectPacket {
-    unsigned char r, g, b;        /* 0x00 */
-    unsigned char pad03;
-    unsigned char code;           /* 0x04 */
-    unsigned char mode;           /* 0x05 */
-    unsigned char zero;           /* 0x06 */
-    unsigned char pad07;
-    short offset;                 /* 0x08 */
-    short depth;                  /* 0x0A */
-} RoomTwelveEffectPacket;
-
-extern RoomTwelveEffectPacket RoomLib_TwelveEffectPrimaryPacket;
-extern RoomTwelveEffectPacket RoomLib_TwelveEffectSecondaryPacket;
+/* Each room that links RoomLib_TwelveElementEffect defines the two packet
+ * templates and the sprite table in its data. */
+extern RoomFxSpritePacket RoomLib_TwelveEffectPrimaryPacket;
+extern RoomFxSpritePacket RoomLib_TwelveEffectSecondaryPacket;
 extern unsigned char RoomLib_TwelveEffectTable[];
 
 #define ROOMLIB_JOIN_RAW(a, b) a##b
