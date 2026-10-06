@@ -45,7 +45,7 @@ segments:
       - [0x194, c, ../room_lib/RoomLib_CloseTarget]
       - [0x218, c, ../room_lib/RoomLib_PairedGlow]
       - [0x1100, c, ../room_lib/RoomEffect_OrbitFlare]
-      - [0x1D50, c, RoomLib_SetArgs3_80190D38]
+      - [0x1D50, c, ../room_lib/RoomLib_SetArgs3]
       - [0x1D74, c, ../room_lib/RoomEffect_DroppedFlare]
       - [0x2A18, data]
   - [0x3000]
