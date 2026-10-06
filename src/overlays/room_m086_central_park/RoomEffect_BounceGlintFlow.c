@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/room_bounce_glint.h"
 #include "pe1/room_fx.h"
 
@@ -128,8 +129,6 @@ extern s16 D_800F3376;
 extern s16 D_800F3378;
 extern char D_8018EFF4[];
 
-void func_800CE560(void *arg0, s32 arg1, s32 arg2, void *arg3);
-void *func_800CE610(void *arg0);
 void func_800CE8F0(void *arg0, s32 arg1, void *arg2, void *arg3);
 s32 func_80071A54(void);
 s32 rsin(s32 arg0);
@@ -173,7 +172,8 @@ mode0:
     ent->y = g_RoomFloorY->y;
     value = func_800D3FD8();
     func_800D3F64(0x579, value);
-    func_800CE560(((void **)D_800F33E0)[2], 0x14, 0x18, func_801900CC);
+    func_800CE560(((void **)D_800F33E0)[2], 0x14, 0x18,
+                  (FieldAnimCallbackListCallback)func_801900CC);
     goto done;
 
 mode1:

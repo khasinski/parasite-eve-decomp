@@ -38,7 +38,8 @@ int func_8018FDC4(int mode, RoomM005Beacon *state) {
         func_800C6D5C(D_80190B94, 0, 0);
         D_80190B98 = func_8006E498(D_800B0E64.channel, 0xC5862704);
         func_800C6D5C(D_80190B98, 0, 0);
-        return func_800CE560(D_800F33E0->pool, 0x10, 8, func_8018FB84);
+        return func_800CE560(D_800F33E0->pool, 0x10, 8,
+                             (FieldAnimCallbackListCallback)func_8018FB84);
     case 1:
         if (D_800E27EC < 10) {
             sprite = func_800CE610(D_800F33E0->pool);

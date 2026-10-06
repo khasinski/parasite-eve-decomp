@@ -62,7 +62,7 @@ int ROOMEFFECT_GLINT_RIBBON_FUNC(int mode, RoomGlintRibbon *ribbon) {
         func_800D1384(&middle, &last, 0x3F2, &color1, &color2, 0x80,
                       ribbon->trailB, 1);
         return func_800CE560(D_800F33E0->pool, 0x14, 0x24,
-                             ROOMEFFECT_GLINT_RIBBON_CALLBACK);
+                             (FieldAnimCallbackListCallback)ROOMEFFECT_GLINT_RIBBON_CALLBACK);
     case 1:
         ribbon->timer++;
         func_800CE8F0(D_800F32D0->pool, ROOMEFFECT_GLINT_RIBBON_JOINTS[2],

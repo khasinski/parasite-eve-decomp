@@ -17,7 +17,8 @@ int func_8018F330(int mode, RoomM005OrbiterState *state) {
         state->armed = 0;
         state->frame = 0;
         pool = D_800F33E0->pool;
-        return func_800CE560(pool, 16, 24, RoomM005_FxOrbiter_8018F018);
+        return func_800CE560(pool, 16, 24,
+                             (FieldAnimCallbackListCallback)RoomM005_FxOrbiter_8018F018);
     case 1:
         if (D_800E27EC == 7) {
             soundSlot = &D_800B0E64_slot;

@@ -183,7 +183,8 @@ int func_801988F8(int mode, RoomEmberSpiral *spiral) {
         }
         func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,
                       (GteShortVector *)spiral);
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x28, func_80198268);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x28,
+                             (FieldAnimCallbackListCallback)func_80198268);
     case 1:
         spiral->timer++;
         func_800CE870((char *)D_800F32D0->pool, 0, (s16 *)&position);

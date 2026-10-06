@@ -1,4 +1,5 @@
 #include "pe1/room_m350_effects.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 
 extern RoomM350EffectActor *D_800F32D0;
@@ -44,8 +45,6 @@ extern RoomM350EffectEmitter *D_800F33E0;
 extern unsigned char D_8019A8C4;
 extern unsigned short D_800E11E4[];
 extern unsigned short D_800E2850[];
-extern int func_800CE560(void *, int, int, int (*)(int, RoomM350SineParticle *));
-extern RoomM350SineParticle *func_800CE610(void *);
 extern int Inv_ScrambleGrid(void);
 extern int rand(void);
 
@@ -61,7 +60,8 @@ int func_8019988C(int event, EmissionState *state)
 setup:
     state->count = 0;
     state->delay = 0;
-    return func_800CE560(D_800F33E0->pool, 24, 8, func_801996BC);
+    return func_800CE560(D_800F33E0->pool, 24, 8,
+                         (FieldAnimCallbackListCallback)func_801996BC);
 update:
     if (state->count < 24) {
         RoomM350SineParticle *effect;

@@ -41,7 +41,8 @@ int func_80198B1C(int mode,Vector *input) {
 int func_80198CD4(int mode) {
     switch(mode) {
     case 0:
-        return func_800CE560(D_800F33E0->pool,8,4,func_80198B1C);
+        return func_800CE560(D_800F33E0->pool,8,4,
+                             (FieldAnimCallbackListCallback)func_80198B1C);
     case 1: {
         Record *source;
         int i;
@@ -204,7 +205,8 @@ int func_801993F0(int mode) {
     case 0:
         D_8019AF6C = Asset_FindTable08ByU32Key(D_800B0E64, 0xC5541704);
         func_800C6D5C(D_8019AF6C, 0, 0);
-        return func_800CE560(D_800F33E0->pool, 8, 4, func_80198E94);
+        return func_800CE560(D_800F33E0->pool, 8, 4,
+                             (FieldAnimCallbackListCallback)func_80198E94);
     case 1: {
         int i;
         unsigned char *flags;

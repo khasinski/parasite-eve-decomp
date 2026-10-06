@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 
 typedef struct { short position[3]; short size; } Particle;
@@ -17,8 +18,6 @@ extern unsigned short D_800E11E4[];
 extern unsigned char D_8019A4EC[];
 extern RenderColor D_8019A3D0;
 extern int GetClut(int, int);
-extern int func_800CE560(void *,int,int,int (*)(int,Particle *));
-extern Particle *func_800CE610(void *);
 
 int func_80195564(int event, short *position) {
     if (event == 1) {
@@ -43,7 +42,8 @@ int func_8019569C(int event) {
     if(event==2) goto configure;
     return 0;
 setup:
-    return func_800CE560(D_800F33E0->pool,8,10,func_80195564);
+    return func_800CE560(D_800F33E0->pool,8,10,
+                         (FieldAnimCallbackListCallback)func_80195564);
 update:
     if(D_8019A804) return 2;
     {

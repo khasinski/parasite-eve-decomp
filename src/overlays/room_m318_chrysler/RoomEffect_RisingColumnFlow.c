@@ -108,7 +108,8 @@ int func_801955E4(int mode, RoomRisingColumn *column,
         column->counter = 0;
         column->timer = 0;
         func_800D3F64(0x5EA, func_800D3FD8());
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x20, func_80195190);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x20,
+                             (FieldAnimCallbackListCallback)func_80195190);
     case 1:
         column->timer++;
         func_800CE870((char *)D_800F32D0->pool, 0, (s16 *)column);

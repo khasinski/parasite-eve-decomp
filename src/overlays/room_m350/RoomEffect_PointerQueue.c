@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 
 typedef RoomM350Vector Vector;
@@ -12,8 +13,6 @@ extern RoomM350Emitter *D_800F33E0;
 extern short D_8019A7FE, D_8019A802;
 extern unsigned char D_8019A804;
 extern unsigned short D_800E11E4[];
-extern int func_800CE560(void *,int,int,int (*)(int,Particle *));
-extern Particle *func_800CE610(void *);
 
 int func_80194F04(int event, Particle *object)
 {
@@ -44,7 +43,8 @@ int func_80195064(int event) {
     if (event == 2) goto configure;
     return 0;
 setup:
-    return func_800CE560(D_800F33E0->pool,8,16,func_80194F04);
+    return func_800CE560(D_800F33E0->pool,8,16,
+                         (FieldAnimCallbackListCallback)func_80194F04);
 update:
     if (D_8019A804 && D_8019A802==0) return 2;
     {

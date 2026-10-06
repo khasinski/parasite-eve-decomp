@@ -2,6 +2,7 @@
 #define PE1_ROOM_M089_MODEL_PULSE_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/room_m089_spin_model.h"
 #include "pe1/room_swirl_rise.h"
 
@@ -57,8 +58,6 @@ extern u8 D_801940F8[];
 extern u16 D_800E11EA;
 
 int func_80193200(int mode, RoomSwirlRiseState *state);
-RoomSwirlRiseState *func_800CE610(void *pool);
-int func_800CE560(void *pool, int count, int size, void *callback);
 int func_800C6B90(void *position, int radius);
 int func_80071A54(void);
 

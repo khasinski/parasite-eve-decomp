@@ -45,7 +45,8 @@ int func_8018F734(int mode, RoomM086SeekerController *state, RoomM086ControllerP
         D_80190B84 = func_8006E498(D_800B0E64.base, 0xC5865704);
         func_800C6D5C(D_80190B84, 0, 0);
         func_800D3F64(0x577, func_800D3FD8());
-        return func_800CE560(D_800F33E0->pool, 0x14, 0xE, func_8018F004);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0xE,
+                             (FieldAnimCallbackListCallback)func_8018F004);
     case 1:
         switch (state->state) {
         case 0:

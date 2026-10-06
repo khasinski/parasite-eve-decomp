@@ -173,7 +173,8 @@ int func_80194F60(int mode, GteShortVector *anchor) {
                     *object->status = 2;
             }
         }
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x3C, func_8019485C);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x3C,
+                             (FieldAnimCallbackListCallback)func_8019485C);
     case 1:
         if (D_800E27EC < 0x1C)
             func_80020D50();

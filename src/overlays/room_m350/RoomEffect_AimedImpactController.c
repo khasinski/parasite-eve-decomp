@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
 typedef RoomM350Vector Vector;
 typedef RoomM350TransformMatrix Matrix;
@@ -21,8 +22,6 @@ extern Player *g_PlayerEntity;
 extern unsigned char D_8019A86E, D_8019A855;
 extern short D_8019A86A;
 extern int func_80196F2C(int, Particle *);
-extern int func_800CE560(void *, int, int, int (*)(int, Particle *));
-extern Particle *func_800CE610(void *);
 extern int Math_IntSqrt(int);
 extern int ratan2(int, int);
 extern int Inv_ScrambleGrid(void);
@@ -39,7 +38,8 @@ int func_80197364(int event)
     }
     goto done;
 setup:
-    return func_800CE560(D_800F33E0->pool, 16, 4, func_80196F2C);
+    return func_800CE560(D_800F33E0->pool, 16, 4,
+                         (FieldAnimCallbackListCallback)func_80196F2C);
 update:
     {
         Particle *effect;

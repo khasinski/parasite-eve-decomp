@@ -110,7 +110,8 @@ int func_80195D20(int mode, RoomShakeBurstPoint *burst) {
     switch (mode) {
     case 0:
         func_800CE870((char *)D_8009D254, 0, (s16 *)burst);
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x10, func_80195904);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x10,
+                             (FieldAnimCallbackListCallback)func_80195904);
     case 1:
         if (D_800E2368->running == 0)
             return 1;

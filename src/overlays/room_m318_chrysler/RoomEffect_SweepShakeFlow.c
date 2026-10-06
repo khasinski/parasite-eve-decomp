@@ -128,7 +128,8 @@ int func_80193638(int mode, RoomShakeSweepAnchor *anchor) {
             }
         }
         func_800C6D5C(D_800F32D8, 0, 0);
-        return func_800CE560(D_800F33E0->pool, 0x10, 0x18, func_8019326C);
+        return func_800CE560(D_800F33E0->pool, 0x10, 0x18,
+                             (FieldAnimCallbackListCallback)func_8019326C);
     case 1:
         if (D_800E27EC < 0x2B)
             func_80020D50();

@@ -1,4 +1,5 @@
 #include "room_m273_effects.h"
+#include "pe1/field_anim_callback_list.h"
 /* The batch emitter fills the eight-byte records rendered by this callback. */
 extern int D_800E27EC, D_800F3428;
 extern unsigned short D_800E11EA,D_800E2850[];
@@ -11,8 +12,6 @@ extern int D_800966EC[];
 extern RoomM273RisingBatchBuffer D_8019AF0C;
 extern unsigned short GetClut(int, int);
 extern void func_800CEE20(GteShortVector *, void *, int, int, int, int, int, int, void *);
-extern int func_800CE560(void *,int,int,int (*)());
-extern GteShortVector *func_800CE610(void *);
 
 int func_80196F2C(int mode, GteShortVector *position) {
     if (mode == 1) {
@@ -37,7 +36,8 @@ int func_8019706C(int mode) {
     int stack_pad[2];
     switch(mode) {
     case 0:
-        return func_800CE560(D_800F33E0->pool,8,40,func_80196F2C);
+        return func_800CE560(D_800F33E0->pool,8,40,
+                             (FieldAnimCallbackListCallback)func_80196F2C);
     case 1: {
         int i;
         unsigned short *x,*y;

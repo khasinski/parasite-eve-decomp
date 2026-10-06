@@ -286,7 +286,8 @@ int RoomEffect_PhasedSparkController(int mode, s16 *counter)
                 }
             }
         }
-        return func_800CE560(D_800F33E0->pool, 24, 32, RoomEffect_PhasedSparkParticle);
+        return func_800CE560(D_800F33E0->pool, 24, 32,
+                             (FieldAnimCallbackListCallback)RoomEffect_PhasedSparkParticle);
     }
     case 1:
         func_800CE8F0(D_800F32D0->pool, 6, &position, &output);
@@ -437,7 +438,8 @@ int RoomEffect_BouncingSparkController(int mode)
                 }
             }
         }
-        return func_800CE560(D_800F33E0->pool, 20, 32, RoomEffect_BouncingSparkParticle);
+        return func_800CE560(D_800F33E0->pool, 20, 32,
+                             (FieldAnimCallbackListCallback)RoomEffect_BouncingSparkParticle);
     case 1:
         func_800CE8F0(D_800F32D0->pool, 7, &position, &output);
         if (D_800E27EC == 8)
@@ -650,7 +652,8 @@ int RoomEffect_WaveSparkController(int mode, s16 *counter)
                 }
             }
         }
-        return func_800CE560(D_800F33E0->pool, 24, 14, RoomEffect_WaveSparkParticle);
+        return func_800CE560(D_800F33E0->pool, 24, 14,
+                             (FieldAnimCallbackListCallback)RoomEffect_WaveSparkParticle);
     case 1:
         if (*counter < 11) {
             particle = func_800CE610(D_800F33E0->pool);
@@ -896,7 +899,7 @@ int RoomEffect_CometSparkController(int mode, RoomCometSparkAnchor *anchor) {
             }
         }
         return func_800CE560(D_800F33E0->pool, 0x24, 22,
-                             RoomEffect_CometSparkParticle);
+                             (FieldAnimCallbackListCallback)RoomEffect_CometSparkParticle);
     case 1:
         if ((D_800E27EC & 3) == 0) {
             if (anchor->count <= 0) return 2;
@@ -1057,7 +1060,8 @@ int RoomEffect_LiftedSparkController(int mode) {
     switch (mode) {
     case 0:
         pool = D_800F33E0->pool;
-        return func_800CE560(pool, 20, 32, RoomEffect_LiftedSparkParticle);
+        return func_800CE560(pool, 20, 32,
+                             (FieldAnimCallbackListCallback)RoomEffect_LiftedSparkParticle);
     case 1:
         pool = D_800F32D0->pool;
         func_800CE870(pool, 0, &target);

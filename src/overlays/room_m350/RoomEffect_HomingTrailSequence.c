@@ -1,4 +1,5 @@
 #include "pe1/gte.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/room_m350_effects.h"
 #include "pe1/render_object.h"
 #include "pe1/room_floor.h"
@@ -119,8 +120,6 @@ extern GteShortVector D_8019A7A0;
 extern unsigned char D_8019A804;
 extern unsigned short D_800E11E4[];
 extern unsigned short D_800E2850[];
-extern int func_800CE560(void *,int,int,int (*)(int,RoomM350Particle *));
-extern RoomM350Particle *func_800CE610(void *);
 int func_80194CFC(int event) {
     if (event == 1) goto update;
     if (event < 2) {
@@ -130,7 +129,8 @@ int func_80194CFC(int event) {
     if (event == 2) goto configure;
     return 0;
 setup:
-    return func_800CE560(D_800F33E0->pool,28,3,func_801947BC);
+    return func_800CE560(D_800F33E0->pool,28,3,
+                         (FieldAnimCallbackListCallback)func_801947BC);
 update:
     {
         RoomM350EffectInstance *instance;

@@ -2,6 +2,7 @@
 #define PE1_ROOM_M256_TRAIL_H
 
 #include "pe1/field_actor.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/field_anim.h"
 #include "pe1/room_floor.h"
 
@@ -42,7 +43,6 @@ void func_800C6F4C(int);
 void func_800C6FA0(int,int);
 void func_800C7098(int,int,int,int);
 void func_800C71E4(int,void *);
-void *func_800CE610(char *);
 void func_800CE8F0(void *,int,void *,void *);
 void func_800CFAA8(void *,void *,void *);
 void func_800CFD50(void *,void *,int);

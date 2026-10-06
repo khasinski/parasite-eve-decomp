@@ -2,6 +2,7 @@
 #define PE1_ROOM_SPARK_RING_BURST_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
 #include "pe1/room_floor.h"
@@ -96,8 +97,6 @@ extern u16 D_8009D1CC;
 
 int func_80071A54(void);
 int func_80077AA4(int x, int y);
-void *func_800CE610(char *pool);
-int func_800CE560(char *pool, int size, int count, void *callback);
 void func_800CE8F0(char *pool, int joint, void *offset, void *out);
 int func_800C6B90(void *position, int radius);
 int func_8001CAB0(int x, int z, void *vertices, int count);

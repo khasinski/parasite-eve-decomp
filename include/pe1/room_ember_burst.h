@@ -2,6 +2,7 @@
 #define PE1_ROOM_EMBER_BURST_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 #include "pe1/field_actor.h"
 #include "pe1/room_orbit_trail.h"
@@ -37,8 +38,6 @@ extern u16 D_800E11EA;
 extern int func_80071A54(void);
 extern int rsin(int angle);
 extern int rcos(int angle);
-extern int func_800CE560(void *pool, int size, int count, void *callback);
-extern RoomOrbitTrailParticle *func_800CE610(void *pool);
 extern int func_800D3FD8(void);
 extern int func_800D3F64(int sound, int handle);
 extern int func_801944E8(int mode, RoomOrbitTrailParticle *p);

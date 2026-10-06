@@ -112,7 +112,8 @@ int RoomEffect_OrbitFlareController(int mode, RoomOrbitFlareState *state,
             break;
         }
         pool = D_800F33E0->pool;
-        return func_800CE560(pool, 12, 16, RoomEffect_OrbitFlareDrift);
+        return func_800CE560(pool, 12, 16,
+                             (FieldAnimCallbackListCallback)RoomEffect_OrbitFlareDrift);
     case 1:
         state->frame++;
         switch (state->state) {

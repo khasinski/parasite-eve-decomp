@@ -1,5 +1,6 @@
 /* The rising-sprite callback and its poll/reset controller share one TU. */
 #include "room_m273_particles.h"
+#include "pe1/field_anim_callback_list.h"
 
 typedef RoomM273RisingParticle Particle;
 typedef struct { unsigned char r, g, b, unknown; } Color;
@@ -64,9 +65,7 @@ extern short D_800F336A;
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
 extern unsigned short D_800F3376,D_800F3378;
 extern int func_8019A398(),func_8019A4CC();
-extern int func_800CE560(void *,int,int,int (*)());
 extern int func_800CE5AC(void **,int,int,int,int (*)());
-extern void *func_800CE610(void *);
 extern void func_800CE688(void *),func_800CE78C(void *);
 
 int func_801960F4(int mode) {

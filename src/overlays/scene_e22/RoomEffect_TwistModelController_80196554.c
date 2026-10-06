@@ -32,7 +32,8 @@ int func_80196554(int mode, SceneE22TwistModel *bolt) {
                       &bolt->heading);
         bolt->heading.x -= 0x220;
         bolt->heading.y -= 0x80;
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x18, func_801962FC);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x18,
+                             (FieldAnimCallbackListCallback)func_801962FC);
     case 1:
         func_800CFB7C(&bolt->heading, 0x140, &position);
         position.x += bolt->position.x;

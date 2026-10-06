@@ -2,6 +2,7 @@
 #define PE1_ROOM_M023_EFFECTS_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 
 /* Room m023 controller that scatters particles around a model joint,
@@ -64,9 +65,7 @@ extern RoomM023Template D_8018EFF4;
 extern GteShortVector g_RoomScriptRecord;
 extern u16 D_800E11E4[];
 
-extern int func_800CE560(void *pool, int size, int count, void *callback);
 extern void func_800CE8F0(void *pool, int index, void *template, void *position);
-extern RoomM023Particle *func_800CE610(void *pool);
 extern int func_80071A54(void);
 extern int func_8018F004(int mode,
                          RoomM023DriftPulseCallbackView *particle);

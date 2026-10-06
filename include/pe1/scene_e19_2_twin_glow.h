@@ -2,6 +2,7 @@
 #define PE1_SCENE_E19_2_TWIN_GLOW_H
 
 #include "pe1/render_object.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte.h"
 #include "pe1/room_orbit_trail.h"
 #include "pe1/room_floor.h"
@@ -38,8 +39,6 @@ int rsin(int angle);
 int rcos(int angle);
 u16 func_80077AA4(int x, int y);
 int func_80071A54(void);
-int func_800CE560(void *pool, int size, int count, void *callback);
-RoomOrbitTrailParticle *func_800CE610(void *pool);
 void func_800CE8F0(void *pool, int index, GteShortVector *offset, GteShortVector *position);
 int func_80199C28(int mode, void *spark);
 

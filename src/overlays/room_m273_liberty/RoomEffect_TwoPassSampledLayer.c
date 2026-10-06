@@ -37,7 +37,8 @@ extern RoomPlacementStateContext *D_800F32D0;
 int func_801933A0(int mode) {
     switch(mode) {
     case 0:
-        return func_800CE560(D_800F33E0->pool,12,9,func_8019320C);
+        return func_800CE560(D_800F33E0->pool,12,9,
+                             (FieldAnimCallbackListCallback)func_8019320C);
     case 1: {
         RoomM273SampledLayerEffect *effect;
         RoomPlacementMap *transform;

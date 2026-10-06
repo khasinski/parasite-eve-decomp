@@ -7,7 +7,8 @@ int func_80193C24(int mode, SceneE18EmitterState *state) {
     case 0:
         state->count = 0;
         state->delay = 0;
-        return func_800CE560(D_800F33E0->pool, 24, 8, func_80193A58);
+        return func_800CE560(D_800F33E0->pool, 24, 8,
+                             (FieldAnimCallbackListCallback)func_80193A58);
     case 1:
         if (state->count < 24) {
             SceneE18WaveParticle *particle;

@@ -219,7 +219,8 @@ int func_801986E8(int mode) {
 
     switch (mode) {
     case 0:
-        count = func_800CE560(D_800F33E0->pool, 0x14, 4, func_801981A4);
+        count = func_800CE560(D_800F33E0->pool, 0x14, 4,
+                              (FieldAnimCallbackListCallback)func_801981A4);
         count += func_800CE5AC(&D_8019AF70, count, 8, 0x14, func_80198060);
         return count;
     case 1:

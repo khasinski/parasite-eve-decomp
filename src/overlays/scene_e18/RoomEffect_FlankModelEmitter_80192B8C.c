@@ -16,7 +16,8 @@ int func_80192B8C(int mode, SceneE18EmitterState *state) {
         func_800C6D5C(D_801941C4, 0, 0);
         state->count = 0;
         state->delay = 0;
-        return func_800CE560(D_800F33E0->pool, 0x14, 4, func_801928CC);
+        return func_800CE560(D_800F33E0->pool, 0x14, 4,
+                             (FieldAnimCallbackListCallback)func_801928CC);
     case 1:
         if (state->count < 4) {
             state->delay++;

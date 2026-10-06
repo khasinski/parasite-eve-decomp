@@ -1,4 +1,5 @@
 #include "room_m123_effects.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
 
 extern GteShortVector D_8018F1F8;
@@ -17,8 +18,6 @@ extern u16 D_800F3370, D_800F3372, D_800F3374, D_800F3376, D_800F3378;
 extern void func_800CE8F0(void *, int, void *, void *);
 extern int func_800D3FD8(void);
 extern void func_800D3F64(int, int);
-extern int func_800CE560(void *, int, int, int (*)(int, RoomM123Wave *));
-extern RoomM123Wave *func_800CE610(void *);
 extern int func_80071A54(void);
 
 int func_80194F68(int mode, RoomM123Wave *wave) {
@@ -69,7 +68,8 @@ int func_80195114(int mode, RoomM123Burst *burst, int *choice) {
         burst->frame = 0;
         burst->phase = 0;
         func_800D3F64(0x581, func_800D3FD8());
-        return func_800CE560(D_800F33E0->pool, 12, 24, func_80194F68);
+        return func_800CE560(D_800F33E0->pool, 12, 24,
+                             (FieldAnimCallbackListCallback)func_80194F68);
     case 1:
         if (D_800E27EC < 32) {
             child = func_800CE610(D_800F33E0->pool);

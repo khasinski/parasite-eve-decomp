@@ -12,7 +12,8 @@ s32 Memcard_SineTrailEffect(s32 mode, MemcardTrailState *state) {
         state->attachment = 25;
         state->phase = 0;
         state->timer = 0;
-        return func_800CE560(D_800F33E0->slots, 20, 24, Memcard_SineRotatingImage);
+        return func_800CE560(D_800F33E0->slots, 20, 24,
+                             (FieldAnimCallbackListCallback)Memcard_SineRotatingImage);
     case 1:
         state->timer++;
         func_800CE8F0(D_8009D254, state->attachment, &offset, &position);

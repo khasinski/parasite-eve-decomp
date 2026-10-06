@@ -75,7 +75,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         blast->position.y = g_RoomFloorY->raw;
         func_800CE870((char *)D_800F32D0->pool, 0, &blast->target.x);
         func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0, &blast->origin);
-        return func_800CE560(D_800F33E0->pool, 0xC, 8, func_80192E08);
+        return func_800CE560((char *)D_800F33E0->pool, 0xC, 8, func_80192E08);
     case 1:
         switch (blast->state) {
         case 0:
@@ -128,7 +128,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
                 func_800D1D24(2, 0x10, blast->timer);
             }
             spread = 0x200;
-            spark = func_800CE610(D_800F33E0->pool);
+            spark = func_800CE610((char *)D_800F33E0->pool);
             if (spark != 0) {
                 spark->x = blast->position.x;
                 spark->y = blast->position.y;
@@ -150,7 +150,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         case 4:
             blast->timer++;
             spread = 0x200;
-            spark = func_800CE610(D_800F33E0->pool);
+            spark = func_800CE610((char *)D_800F33E0->pool);
             if (spark != 0) {
                 spark->x = blast->position.x;
                 spark->y = blast->position.y;

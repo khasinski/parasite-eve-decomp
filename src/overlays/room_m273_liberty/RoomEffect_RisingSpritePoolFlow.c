@@ -1,5 +1,6 @@
 /* Sprite callback and poll/reset controller share one pool and layout. */
 #include "room_m273_effects.h"
+#include "pe1/field_anim_callback_list.h"
 #include "room_m273_sweep.h"
 #include "pe1/room_floor.h"
 typedef GteShortVector Vector;
@@ -50,8 +51,6 @@ extern unsigned char D_8019AD70[],D_8019AF6A,D_8019AF69;
 extern unsigned short D_800E11E8,D_800E2850[];
 extern volatile unsigned short D_8019AEFE,D_8019AF00;
 extern unsigned short GetClut(int, int);
-extern int func_800CE560(void *,int,int,int (*)());
-extern void *func_800CE610(void *);
 
 int func_801974DC(int mode, Particle *input) {
     Particle *particle = input;
@@ -96,7 +95,8 @@ int func_80197648(int mode) {
     switch(mode) {
     case 0:
         D_8019AE84=0;
-        return func_800CE560(D_800F33E0->pool,8,12,func_801974DC);
+        return func_800CE560(D_800F33E0->pool,8,12,
+                             (FieldAnimCallbackListCallback)func_801974DC);
     case 1: {
         Particle *output;
         if(D_8019AF69) return 2;
@@ -143,7 +143,6 @@ extern unsigned short D_800E11EA,D_800E2850[];
 extern volatile unsigned short D_8019AEFE,D_8019AF00;
 extern unsigned short GetClut(int,int);
 extern void func_800D004C(Vector *,int,int,int,Vector *,int,int,void *,void *,int,int);
-extern int func_800CE560(void *,int,int,int (*)());
 
 int func_801977F8(int mode,Vector *input) {
     Vector rotation,position;
@@ -180,7 +179,8 @@ int func_801977F8(int mode,Vector *input) {
 int func_80197A48(int mode) {
     switch(mode) {
     case 0:
-        return func_800CE560(D_800F33E0->pool,8,4,func_801977F8);
+        return func_800CE560(D_800F33E0->pool,8,4,
+                             (FieldAnimCallbackListCallback)func_801977F8);
     case 1: {
         Vector *output;
         if(D_8019AF69) return 2;

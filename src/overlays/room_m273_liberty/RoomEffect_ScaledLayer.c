@@ -1,4 +1,5 @@
 #include "room_m273_effects.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/room_floor.h"
 typedef GteShortVector Vector;
 typedef struct { Vector position; unsigned char parameter[4]; } Effect;
@@ -11,8 +12,6 @@ extern int D_800E27EC;
 extern short D_800966EC[],D_800966EE[];
 extern unsigned char D_8019AB70[];
 extern void func_800D004C(Vector *,int,int,int,Vector *,int,int,void *,void *,int,int);
-extern int func_800CE560(void *,int,int,int (*)());
-extern Effect *func_800CE610(void *);
 
 int func_8019353C(int mode,Effect *effect) {
     Vector position,rotation;
@@ -47,7 +46,8 @@ int func_801936F0(int mode) {
     int unknownFrame[2];
     switch(mode) {
     case 0:
-        return func_800CE560(D_800F33E0->pool,12,9,func_8019353C);
+        return func_800CE560(D_800F33E0->pool,12,9,
+                             (FieldAnimCallbackListCallback)func_8019353C);
     case 1: {
         Effect *effect;
         Transform *transform;

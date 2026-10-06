@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 typedef RoomM350TableShadeEntry TableEntry;
 typedef RoomM350SoundOwner Owner;
 typedef struct {
@@ -20,8 +21,6 @@ extern void func_800D0728(void *, int, int, int, short *, int, int, void *, void
 extern Actor *D_800F32D0;
 extern RoomM350Emitter *D_800F33E0;
 extern short D_8019A7A0[];
-extern int func_800CE560(void *, int, int, int (*)(int, void **));
-extern short **func_800CE610(void *);
 extern int Asset_Find08w(int, int, short, short, short);
 
 int func_801944F0(int event, void **object)
@@ -60,7 +59,8 @@ int func_80194654(int event, State *state)
     switch (event) {
     case 0:
         state->remaining = 0;
-        return func_800CE560(D_800F33E0->pool, 4, 4, func_801944F0);
+        return func_800CE560(D_800F33E0->pool, 4, 4,
+                             (FieldAnimCallbackListCallback)func_801944F0);
     case 1:
         {
             Animation *animation = D_800F32D0->animation;

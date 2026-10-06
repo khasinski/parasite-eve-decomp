@@ -2,6 +2,7 @@
 #define PE1_SCENE_E18_EFFECTS_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
 #include "pe1/scene_e18_pulse.h"
@@ -80,8 +81,6 @@ extern SceneE18Emitter *D_800F33E0;
 extern u8 D_801941D0;
 extern u16 D_800E11E4[];
 
-extern int func_800CE560(void *pool, int size, int count, void *callback);
-extern void *func_800CE610(void *pool);
 extern int func_8006DCE4(int id, int channel, int x, int y, int z);
 extern int func_80052B2C(void);
 extern int func_80071A54(void);

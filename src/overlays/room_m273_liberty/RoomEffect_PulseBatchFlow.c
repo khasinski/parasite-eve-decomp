@@ -1,4 +1,5 @@
 #include "room_m273.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/psyq_gpu.h"
 
 int func_80195984(int mode, RoomM273PulseInput *input)
@@ -47,9 +48,7 @@ extern unsigned short D_800F336C,D_800F336E;
 extern unsigned short D_800F3370,D_800F3372;
 extern unsigned short D_800F3376,D_800F3378;
 extern int func_80195984(),func_8019A290();
-extern int func_800CE560(void *,int,int,int (*)());
 extern int func_800CE5AC(void **,int,int,int,int (*)());
-extern void *func_800CE610(void *);
 extern void func_800CE688(void *),func_800CE78C(void *);
 
 int func_80195BD0(int mode) {
@@ -57,7 +56,8 @@ int func_80195BD0(int mode) {
     int unknownFrame[2];
     switch(mode) {
     case 0: {
-        int size=func_800CE560(D_800F33E0->pool,12,10,func_80195984);
+        int size=func_800CE560(D_800F33E0->pool,12,10,
+                               (FieldAnimCallbackListCallback)func_80195984);
         asm("" : : "r"(size));
         return size+func_800CE5AC(&D_8019AE7C,size,4,10,func_8019A290);
     }

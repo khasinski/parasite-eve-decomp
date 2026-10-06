@@ -1,4 +1,5 @@
 #include "room_m123_effects.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/field_transform_point.h"
 #include "pe1/gte_types.h"
 
@@ -53,8 +54,6 @@ extern u16 D_800F3368, D_800F336C, D_800F336E;
 extern s16 D_800F336A;
 extern u16 D_800F3370, D_800F3372, D_800F3374, D_800F3376, D_800F3378;
 extern int func_801945EC(int, RoomM123Particle *);
-extern int func_800CE560(void *, int, int, int (*)(int, RoomM123Particle *));
-extern RoomM123Particle *func_800CE610(void *);
 extern void func_800CE8F0(void *, int, GteShortVector *, GteShortVector *);
 extern int func_80071A54(void);
 extern int rsin(int);
@@ -74,7 +73,8 @@ int func_80194768(int mode)
 
     switch (mode) {
     case 0:
-        return func_800CE560(D_800F33E0->pool, 8, 24, func_801945EC);
+        return func_800CE560(D_800F33E0->pool, 8, 24,
+                             (FieldAnimCallbackListCallback)func_801945EC);
     case 1:
         if (D_800E27EC == 1) {
             for (i = 0; i < 24; i++) {

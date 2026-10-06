@@ -1,4 +1,5 @@
 #include "pe1/gte.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/room_m123.h"
 #include "pe1/room_m123_joint_triangle.h"
 #include "room_m123_effects.h"
@@ -90,8 +91,6 @@ int func_8019251C(int mode, RoomM123JointTriangle *triangle) {
 extern int D_800E27EC;
 extern u16 D_800E11EA;
 extern u16 D_800E2850[];
-extern int func_800CE560(void *, int, int, int (*)(void));
-extern RoomM123JointTriangleEmitterView *func_800CE610(void *);
 
 int func_801929FC(int mode) {
     int frame, index;
@@ -99,7 +98,8 @@ int func_801929FC(int mode) {
 
     switch (mode) {
     case 0:
-        return func_800CE560(D_800F33E0->pool, 8, 16, func_8019251C);
+        return func_800CE560(D_800F33E0->pool, 8, 16,
+                             (FieldAnimCallbackListCallback)func_8019251C);
     case 1:
         frame = D_800E27EC;
         if (frame == (frame / 6) * 6) {

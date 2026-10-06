@@ -55,7 +55,8 @@ int func_80192ED4(int mode, RoomSpiralDrop *drop, RoomEmberBurstParams *params) 
         drop->angle = func_80071A54();
         drop->radius = 0;
         RoomEffect_AttachToActor(params->subId, params->typeId, drop);
-        return func_800CE560(D_800F33E0->pool, 8, 0x18, func_80192DA0);
+        return func_800CE560(D_800F33E0->pool, 8, 0x18,
+                             (FieldAnimCallbackListCallback)func_80192DA0);
     case 1:
         if (D_800E27EC < 0x33) {
             spark = (RoomSpiralDropSparkRecord *)func_800CE610(D_800F33E0->pool);

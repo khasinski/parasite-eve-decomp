@@ -12,11 +12,12 @@ int func_80192A30(int mode, unsigned short *dst, unsigned short *src) {
     dst[0] = src[0];
     dst[1] = src[1];
     dst[2] = src[2];
-    return func_800CE560(channel->w8, 0x38, 8, func_801924F8);
+    return func_800CE560((char *)channel->w8, 0x38, 8,
+                         (FieldAnimCallbackListCallback)func_801924F8);
 
     case 1:
     if (D_800E27EC < 9) {
-        effect = func_800CE610(D_800F33E0->w8);
+        effect = func_800CE610((char *)D_800F33E0->w8);
         if (effect != 0) {
             effect[2] = 0;
             effect[1] = 0;

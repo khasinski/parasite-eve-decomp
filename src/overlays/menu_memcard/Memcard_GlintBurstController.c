@@ -17,7 +17,8 @@ int Memcard_GlintBurstController(int mode, MemcardGlintBurst *burst) {
         burst->x = ((MemcardGlintAnchor *)D_800F32D0->pool)->x;
         burst->y = ((MemcardGlintAnchor *)D_800F32D0->pool)->y;
         burst->z = ((MemcardGlintAnchor *)D_800F32D0->pool)->z;
-        return func_800CE560(D_800F33E0->pool, 20, 22, Memcard_FadingGlintParticle);
+        return func_800CE560(D_800F33E0->pool, 20, 22,
+                             (FieldAnimCallbackListCallback)Memcard_FadingGlintParticle);
     case 1:
         if (D_800E27EC == 3) {
             for (i = 0; i < 6; i++) {

@@ -27,7 +27,8 @@ int func_8018F7C4(int mode, RoomM349FlareTarget *target,
         target->position.y = params->y;
         target->position.z = params->z;
         target->position.y = g_RoomFloorY->y;
-        return func_800CE560(D_800F33E0->pool, 20, 70, func_8018F010);
+        return func_800CE560(D_800F33E0->pool, 20, 70,
+                             (FieldAnimCallbackListCallback)func_8018F010);
     case 1:
         func_800CE870(D_800F32D0->pool, 0, (s16 *)&joint);
         radius = params->radius;

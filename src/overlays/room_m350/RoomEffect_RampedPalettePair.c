@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 typedef RoomM350Vector Vector;
 typedef struct { Vector *position; short scale, reserved; } Particle;
 typedef struct { short target, current; } State;
@@ -18,8 +19,6 @@ extern short D_800F336E, D_800F3372, D_800F3374;
 extern unsigned short D_800E11E8, D_800F3370;
 extern int GetClut(int, int);
 extern void func_800CEE20(void *, int, int, int, int, unsigned int, int, int, void *);
-extern int func_800CE560(void *, int, int, int (*)(int, Particle *));
-extern Particle *func_800CE610(void *);
 
 int func_80192ADC(int event, Particle *object)
 {
@@ -55,7 +54,8 @@ int func_80192C34(int event, State *state)
 setup:
     state->target = 16384;
     state->current = 0;
-    return func_800CE560(D_800F33E0->pool, 8, 6, func_80192ADC);
+    return func_800CE560(D_800F33E0->pool, 8, 6,
+                         (FieldAnimCallbackListCallback)func_80192ADC);
 update:
     if (!state->target) {
         if (state->current <= 0) return 2;

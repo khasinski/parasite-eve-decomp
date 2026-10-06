@@ -36,7 +36,8 @@ int func_80199A90(int mode) {
     switch(mode) {
     case 0:
         D_8019AE88=0;
-        return func_800CE560(D_800F33E0->pool,4,6,func_80199950);
+        return func_800CE560(D_800F33E0->pool,4,6,
+                             (FieldAnimCallbackListCallback)func_80199950);
     case 1: {
         int i;
         Position *position;

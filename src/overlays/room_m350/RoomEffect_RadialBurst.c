@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
 typedef RoomM350OverlayTransform Transform;
 typedef struct RoomM350Instance { char reserved[0x238]; Transform *transform; } Instance;
@@ -54,8 +55,6 @@ extern short D_800F3372, D_800F3374;
 /* Retail writes both fields twice during configuration. */
 extern short D_800F3376, D_800F3378;
 extern int func_80197A04(int, short *);
-extern int func_800CE560(void *, int, int, int (*)(int, short *));
-extern short *func_800CE610(void *);
 extern int Inv_ScrambleGrid(void);
 
 int func_80197B98(int event)
@@ -68,7 +67,8 @@ int func_80197B98(int event)
     if (event == 2) goto configure;
     return 0;
 setup:
-    return func_800CE560(D_800F33E0->pool, 8, 16, func_80197A04);
+    return func_800CE560(D_800F33E0->pool, 8, 16,
+                         (FieldAnimCallbackListCallback)func_80197A04);
 update:
     if (D_8019A86E) return 2;
     if (D_8019A859) {

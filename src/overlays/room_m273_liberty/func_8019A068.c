@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 
 #include "room_m273_effects.h"
 
@@ -7,8 +8,6 @@ extern RoomM273EffectStateContext *D_800F32D0;
 extern u8 D_8019AE68;
 
 void func_80194B5C(void);
-s32 func_800CE560(void *arg0, s32 arg1, s32 arg2, void (*arg3)(void));
-char *func_800CE610(void *arg0);
 
 s32 func_8019A068(s32 state) {
     char *obj;
@@ -24,7 +23,8 @@ s32 func_8019A068(s32 state) {
             return 0;
         }
         D_8019AE68 = 0;
-        return func_800CE560(D_800F33E0->pool, 8, 5, func_80194B5C);
+        return func_800CE560(D_800F33E0->pool, 8, 5,
+                             (FieldAnimCallbackListCallback)func_80194B5C);
     }
     if (D_8019AE68 != 0) {
         return 2;

@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 typedef RoomM350Vector Vector;
 typedef struct { Vector rotation; Vector *position; int color; } Particle;
 typedef struct { short delay, count; } State;
@@ -18,8 +19,6 @@ extern unsigned short D_800E11EA, D_800F3370;
 extern int GetClut(int, int);
 extern int Inv_ScrambleGrid(void);
 extern void func_800CEE20(void *, void *, int, int, int, unsigned int, int, int, void *);
-extern int func_800CE560(void *, int, int, int (*)(int, Particle *));
-extern Particle *func_800CE610(void *);
 
 int func_801927A4(int event, Particle *effect) {
     if (event == 1) {
@@ -48,7 +47,8 @@ int func_801928D4(int event, State *state)
 setup:
     state->delay = 0;
     state->count = 0;
-    return func_800CE560(D_800F33E0->pool, 16, 18, func_801927A4);
+    return func_800CE560(D_800F33E0->pool, 16, 18,
+                         (FieldAnimCallbackListCallback)func_801927A4);
 update:
     {
         int i;

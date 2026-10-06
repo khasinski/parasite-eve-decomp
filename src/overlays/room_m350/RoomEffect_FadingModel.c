@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 
 extern int GetClut(int, int);
@@ -62,8 +63,6 @@ extern unsigned char D_8019A8C4;
 extern unsigned short D_800E11E4[];
 extern int Asset_Find08w(int,int,int,int,int);
 extern int func_80199148(int,Particle *);
-extern int func_800CE560(void *,int,int,int (*)(int,Particle *));
-extern Particle *func_800CE610(void *);
 extern int rand(void),Inv_ScrambleGrid(void),rcos(int),rsin(int);
 int func_801992A0(int event,State *state)
 {
@@ -81,7 +80,8 @@ setup:
         Matrix *matrix=instance->transforms;
         Asset_Find08w(0x549,instance->owner->asset,(short)matrix->position[0],(short)matrix->position[1],(short)matrix->position[2]);
         state->count=0; state->delay=0; D_8019A8C4=0;
-        return func_800CE560(D_800F33E0->pool,20,10,func_80199148);
+        return func_800CE560(D_800F33E0->pool,20,10,
+                             (FieldAnimCallbackListCallback)func_80199148);
     }
 update:
     {

@@ -2,6 +2,7 @@
 #define PE1_SCENE_E20_HOVER_ORB_H
 
 #include "pe1/scene_e20_flare.h"
+#include "pe1/field_anim_callback_list.h"
 
 /* Scene e20 trail controller and its command/particle records.
  * Reserved members are observed offsets, not recovered field meanings. */
@@ -40,7 +41,6 @@ u16 func_80077AA4(int x, int y);
 #include "pe1/gte_types.h"
 int func_800C6B90(SceneE20Vec *position, int radius);
 void func_800C6D5C(void *model, int a, int b);
-SceneE20Particle *func_800CE610(SceneE20Pool *pool);
 void func_800CE870(void *object, int joint, SceneE20Vec *out);
 void func_800CFAA8(SceneE20Vec *from, SceneE20Vec *to, SceneE20Vec *angles);
 void func_800CFB7C(SceneE20Vec *angles, s16 distance, SceneE20Vec *out);
@@ -54,7 +54,6 @@ void func_800C6EF8(void *model);
 void func_800C6F4C(void *model);
 void func_800C6FA0(void *model, u16 alpha);
 void func_800C71E4(void *model, SceneE20Matrix *matrix);
-int func_800CE560(SceneE20Pool *pool,int stride,int count,void *callback);
 void func_800CEE20(SceneE20Vec *position,SceneE20Vec *rotation,int scaleX,int scaleY,int cell,int clut,int mode,int alpha,SceneE20Color *color);
 extern SceneE20Event *D_800E2368;
 extern u16 D_800E1204[],D_800E2850[];

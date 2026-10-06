@@ -252,7 +252,7 @@ int RoomEffect_DroppedFlareEmitter(int mode, RoomDroppedFlareEmitter *emitter,
             }
         }
         return func_800CE560(D_800F33E0->pool, 0x14, 0x18,
-                             RoomEffect_DroppedFlareParticle);
+                             (FieldAnimCallbackListCallback)RoomEffect_DroppedFlareParticle);
     case 1:
         if (D_800E27EC == mode) {
             RoomDroppedFlare *flare = func_800CE610(D_800F33E0->pool);

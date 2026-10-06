@@ -119,7 +119,8 @@ int func_80193BFC(int mode, s16 *counter) {
             if (*(void *volatile *)soundSlot != 0)
                 func_8006DF50(*soundSlot, 0x5BF, 0x80, 0x80, volume);
         }
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x20, func_8019377C);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x20,
+                             (FieldAnimCallbackListCallback)func_8019377C);
     case 1:
         func_800CE8F0(D_800F32D0->pool, 4, &template, &position);
         func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 4, &base);

@@ -2,6 +2,7 @@
 #define ROOM_M273_H
 
 #include "pe1/render_object.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/field_actor_script_state.h"
 #include "room_m273_effects.h"
 #include "pe1/room_floor.h"
@@ -87,10 +88,8 @@ extern RoomM273PaletteWord D_8019AC30[];
 extern char D_8019AB70[];
 extern char D_8019ACC8[];
 extern char D_8019ACCC[];
-void *func_800CE610(void *pool);
 int Inv_ScrambleGrid(void);
 int func_80199568(int mode, RoomM273RisingParticle *particle);
-int func_800CE560(void *pool, int size, int count, int (*callback)());
 
 typedef struct RoomPlacementMap {
     u8 pad_000[0x594];

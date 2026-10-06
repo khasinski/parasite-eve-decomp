@@ -186,7 +186,8 @@ int func_801955E8(int mode) {
         D_8019AE70 = 0;
         D_8019AE74 = (Inv_ScrambleGrid() & 7) + 4;
         D_8019AE78 = (Inv_ScrambleGrid() & 7) + 4;
-        return func_800CE560(D_800F33E0->pool, 100, 10, func_80194E6C);
+        return func_800CE560(D_800F33E0->pool, 100, 10,
+                             (FieldAnimCallbackListCallback)func_80194E6C);
     }
     case 1: {
         s16 pathY[2];

@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 
 typedef RoomM350Vector Vector;
 extern RoomM350Emitter *D_800F33E0;
@@ -11,8 +12,6 @@ extern unsigned short D_800F336C, D_800F3370;
 /* Retail writes both fields twice during configuration. */
 extern short D_800F3376, D_800F3378;
 extern int func_8019A014(int, short *);
-extern int func_800CE560(void *, int, int, int (*)(int, short *));
-extern short *func_800CE610(void *);
 
 int func_8019784C(int event)
 {
@@ -24,7 +23,8 @@ int func_8019784C(int event)
     if (event == 2) goto configure;
     return 0;
 setup:
-    return func_800CE560(D_800F33E0->pool, 8, 16, func_8019A014);
+    return func_800CE560(D_800F33E0->pool, 8, 16,
+                         (FieldAnimCallbackListCallback)func_8019A014);
 update:
     if (D_8019A86E) return 2;
     {

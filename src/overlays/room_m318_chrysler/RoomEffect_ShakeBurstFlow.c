@@ -75,7 +75,8 @@ int func_80194164(int mode, RoomShakeBurstPoint *anchor) {
             if (*(void *volatile *)soundSlot != 0)
                 func_8006DF50(*soundSlot, 0x5F2, 0x80, 0x80, volume);
         }
-        return func_800CE560(D_800F33E0->pool, 8, 0x14, func_80193FC4);
+        return func_800CE560(D_800F33E0->pool, 8, 0x14,
+                             (FieldAnimCallbackListCallback)func_80193FC4);
     case 1:
         if (D_800E27EC < 0x27)
             func_80020D50();

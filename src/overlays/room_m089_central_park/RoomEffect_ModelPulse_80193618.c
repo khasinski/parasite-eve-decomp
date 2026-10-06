@@ -45,7 +45,8 @@ int func_80193618(int mode, RoomM089ModelPulse *state, GteShortVector *anchor) {
         func_800C6D5C(D_8019416C, 0, 0);
         D_80194168 = func_8006E498(D_800B0E64.channel, 0xC5864704);
         func_800C6D5C(D_80194168, 0, 0);
-        return func_800CE560(D_800F33E0->pool, 0x10, 0x18, func_80193200);
+        return func_800CE560(D_800F33E0->pool, 0x10, 0x18,
+                             (FieldAnimCallbackListCallback)func_80193200);
     case 1:
         if (D_800E27EC == 1) {
             for (i = 0; i < 16; i++) {

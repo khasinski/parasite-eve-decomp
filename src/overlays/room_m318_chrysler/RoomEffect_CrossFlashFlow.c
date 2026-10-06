@@ -89,7 +89,8 @@ int func_80196820(int mode, RoomCrossFlash *flash) {
         func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,
                       (GteShortVector *)&flash->rotation);
         flash->rotation.x = 0;
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x28, func_8019646C);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x28,
+                             (FieldAnimCallbackListCallback)func_8019646C);
     case 1:
         if (D_800E2368->running == 0)
             return 1;

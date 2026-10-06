@@ -28,7 +28,8 @@ init:
             }
         }
         pool = D_800F33E0->pool;
-        return func_800CE560(pool, 20, 55, func_80192540);
+        return func_800CE560(pool, 20, 55,
+                             (FieldAnimCallbackListCallback)func_80192540);
     }
 update:
     {

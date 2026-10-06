@@ -1,4 +1,5 @@
 #include "room_m123_effects.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_matrix_slot.h"
@@ -81,8 +82,6 @@ typedef struct RoomM123EffectParameters {
 extern RoomM123EffectParameters D_800F3368;
 extern int func_80194A70(int, RoomPulseParticle *, int *);
 extern void func_800CE870(void *, int, void *);
-extern int func_800CE560(void *, int, int, int (*)(int, RoomPulseParticle *, int *));
-extern RoomPulseParticle *func_800CE610(void *);
 extern int func_800D3FD8(void);
 extern void func_8006DF50(void *, int, int, int, int);
 
@@ -118,7 +117,8 @@ int func_80194C04(int mode, RoomPulseParticle *particle)
             if (soundSlot->channel != 0)
                 func_8006DF50(soundSlot->channel, 0x5B1, 0x80, 0x80, volume);
         }
-        return func_800CE560(D_800F33E0->pool, 12, 8, func_80194A70);
+        return func_800CE560(D_800F33E0->pool, 12, 8,
+                             (FieldAnimCallbackListCallback)func_80194A70);
     case 1:
         if (D_800E27EC < 32 && D_800E27EC % 6 == 0) {
             next = func_800CE610(D_800F33E0->pool);

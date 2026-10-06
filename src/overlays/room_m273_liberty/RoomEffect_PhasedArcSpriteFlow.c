@@ -67,6 +67,7 @@ void *func_8019A5D4(int unused, int value, int flag) {
 }
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 
 #include "room_m273_effects.h"
 extern s32 D_800E27EC;
@@ -76,8 +77,6 @@ extern u16 D_8019AEFE;
 extern u16 D_8019AF00;
 
 extern s32 func_8019A720(s32 mode, RoomM273ArcCallbackState *state);
-extern s32 func_800CE560(void *arg0, s32 arg1, s32 arg2, int (*arg3)());
-extern char *func_800CE610(void *arg0);
 
 s32 func_8019A628(s32 arg0) {
     char *obj;
@@ -89,7 +88,8 @@ s32 func_8019A628(s32 arg0) {
         if (arg0 != 0) {
             return 0;
         }
-        return func_800CE560(D_800F33E0->pool, 8, 5, func_8019A720);
+        return func_800CE560(D_800F33E0->pool, 8, 5,
+                             (FieldAnimCallbackListCallback)func_8019A720);
     }
 
     if (D_8019AF6B != 0) {

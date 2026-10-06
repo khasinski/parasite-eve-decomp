@@ -192,7 +192,8 @@ int RoomEffect_FlashSpriteController(int mode, RoomFlashSpriteState *state,
         state->state = 0;
         state->frame = 0;
         pool = D_800F33E0->pool;
-        return func_800CE560(pool, 24, 16, RoomEffect_HomingSpark);
+        return func_800CE560(pool, 24, 16,
+                             (FieldAnimCallbackListCallback)RoomEffect_HomingSpark);
     case 1:
         switch (state->state) {
         case 0:

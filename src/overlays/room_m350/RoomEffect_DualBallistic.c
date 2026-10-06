@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 typedef RoomM350TransformMatrix Matrix;
 typedef RoomM350TransformOwner Instance;
 typedef RoomM350Actor Actor;
@@ -17,8 +18,6 @@ extern unsigned short D_800E11E8, D_800F3370;
 extern unsigned short D_800E2850[];
 extern int GetClut(int, int);
 extern void func_800CEE20(void *, int, int, int, int, unsigned int, int, int, void *);
-extern int func_800CE560(void *, int, int, int (*)(int, Particle *));
-extern Particle *func_800CE610(void *);
 extern int Inv_ScrambleGrid(void);
 
 int func_801968D8(int event, short *position) {
@@ -48,7 +47,8 @@ int func_80196A14(int event)
     if (event == 2) goto configure;
     return 0;
 setup:
-    return func_800CE560(D_800F33E0->pool, 12, 16, func_801968D8);
+    return func_800CE560(D_800F33E0->pool, 12, 16,
+                         (FieldAnimCallbackListCallback)func_801968D8);
 update:
     if (D_800E27EC >= 107) return 2;
     if (D_800E27EC & 1) {

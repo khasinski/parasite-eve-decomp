@@ -410,7 +410,8 @@ init:
         }
     }
     pool = D_800F33E0->pool;
-    return func_800CE560(pool, 20, 46, RoomEffect_BurstOrbParticle);
+    return func_800CE560(pool, 20, 46,
+                         (FieldAnimCallbackListCallback)RoomEffect_BurstOrbParticle);
 update:
     pool = D_800F32D0->pool;
     func_800CE8F0(pool, 7, &template, position);
@@ -565,7 +566,8 @@ init:
         int handle = func_800D3FD8();
         func_800D3F64(0x58B, handle);
         pool = D_800F33E0->pool;
-        return func_800CE560(pool, 20, 16, RoomEffect_DampedSparkParticle);
+        return func_800CE560(pool, 20, 16,
+                             (FieldAnimCallbackListCallback)RoomEffect_DampedSparkParticle);
     }
 update:
     pool = D_800F32D0->pool;
@@ -713,7 +715,8 @@ int RoomEffect_BeamSparkController(int mode, RoomBeamSpark *fx,
                 }
             }
         }
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x20, RoomEffect_BeamBounceParticle);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x20,
+                             (FieldAnimCallbackListCallback)RoomEffect_BeamBounceParticle);
     case 1:
         func_800CE8F0(D_800F32D0->pool, 0x1F, &rotation, fx);
         func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,
@@ -1056,7 +1059,8 @@ int RoomEffect_JitterSparkController(int mode, GteShortVector *target,
         target->y = params->y;
         target->z = params->z;
         target->y = g_RoomFloorY->raw;
-        return func_800CE560(D_800F33E0->pool, 20, 60, RoomEffect_JitterSparkParticle);
+        return func_800CE560(D_800F33E0->pool, 20, 60,
+                             (FieldAnimCallbackListCallback)RoomEffect_JitterSparkParticle);
     case 1:
         radius = params->radius;
         if (D_800E27EC == 1) {

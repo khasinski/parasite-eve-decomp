@@ -2,6 +2,7 @@
 #define PE1_ROOM_M404_DROP_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_matrix_slot.h"
@@ -90,7 +91,6 @@ extern int D_8009D248;
 extern u16 D_8009D1CC;
 
 int func_80071A54(void);
-RoomM404Drop *func_800CE610(void *pool);
 int func_800C6B90(void *position, int radius);
 int func_8001CAB0(int x, int z, int floor, int count);
 int rsin(int angle);

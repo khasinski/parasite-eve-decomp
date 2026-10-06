@@ -2,6 +2,7 @@
 #define PE1_ROOM_M005_BEACON_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/room_m005_drifting_sprite.h"
 #include "pe1/field_transform_point.h"
 #include "pe1/gte.h"
@@ -127,8 +128,6 @@ int func_800CEB8C(void *position, GteShortVector *target, int radius);
 u16 GetClut(int x, int y);
 int rcos(int angle);
 int rsin(int angle);
-int func_800CE560(void *pool, int count, int size, void *callback);
-RoomM005BeaconSprite *func_800CE610(void *pool);
 int func_80071A54(void);
 
 #endif

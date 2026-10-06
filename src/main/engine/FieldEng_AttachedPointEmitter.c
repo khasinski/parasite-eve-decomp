@@ -20,7 +20,8 @@ int func_800DA5D4(int mode, FieldAnimEmitter *state) {
     case 0:
         state->angle = rand();
         func_800C6D5C(D_800F32D8, 0, 0);
-        return func_800CE560(D_800F33E0->end, 16, 24, func_800DA1FC);
+        return func_800CE560(D_800F33E0->end, 16, 24,
+                             (FieldAnimCallbackListCallback)func_800DA1FC);
     case 1:
         if (D_800E27EC < 40 && D_800E27EC % 6 == 0) {
             point = func_800CE610(D_800F33E0->end);

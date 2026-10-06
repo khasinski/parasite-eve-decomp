@@ -1,4 +1,5 @@
 #include "pe1/room_m350_effects.h"
+#include "pe1/field_anim_callback_list.h"
 
 
 extern RoomM350EffectActor *D_800F32D0;
@@ -50,8 +51,6 @@ extern unsigned short D_800E11E8,D_800F3370;
 extern short D_800F3368,D_800F3376,D_800F3378,D_800F336E,D_800F3372,D_800F3374;
 extern char D_8019A570[];
 extern int Asset_Find08w(int,void *,int,int,int),Inv_ScrambleGrid(void),GetClut(int,int);
-extern int func_800CE560(void *,int,int,int (*)(int,GteShortVector *));
-extern GteShortVector *func_800CE610(void *);
 
 int func_80195CE0(int event,State *inputState)
 {
@@ -72,7 +71,8 @@ setup:
         emitter=D_800F33E0;
         *(int *)((char *)&state->rotation+4)=0;
         state->count=0; state->fade=0;
-        return func_800CE560(emitter->pool,8,18,func_80195B64);
+        return func_800CE560(emitter->pool,8,18,
+                             (FieldAnimCallbackListCallback)func_80195B64);
     }
 update:
     {

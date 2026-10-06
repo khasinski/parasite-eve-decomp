@@ -10,7 +10,8 @@ s32 Memcard_TrailEffect(s32 mode, MemcardTrailState *state) {
     switch(mode) {
     case 0:
         state->attachment = 19; state->phase = 0; state->timer = 0;
-        return func_800CE560(D_800F33E0->slots, 20, 24, Memcard_CosineImage);
+        return func_800CE560(D_800F33E0->slots, 20, 24,
+                             (FieldAnimCallbackListCallback)Memcard_CosineImage);
     case 1:
         state->timer++;
         func_800CE8F0(D_8009D254, state->attachment, &offset, &position);

@@ -2,6 +2,7 @@
 #define PE1_ROOM_M404_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/field_transform_point.h"
 
 typedef struct { s32 word[2]; } __attribute__((packed)) RoomTemplate8;
@@ -32,9 +33,7 @@ extern RoomM404Channel *D_800F32D0, *D_800F33E0;
 extern RoomM404EventState *D_800E2368;
 extern int func_800D3FD8(void);
 extern void func_800D3F64(int, int);
-extern int func_800CE560(void *, int, int, void *);
 extern void func_800CE8F0(void *, int, void *, void *);
-extern RoomM404Particle *func_800CE610(void *);
 extern void func_800CFB7C(void *, int, void *);
 extern void func_80192540(void);
 

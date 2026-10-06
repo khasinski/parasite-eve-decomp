@@ -139,7 +139,8 @@ int func_800DF6AC(int mode, RenderFadeEmitter *state)
     case 0:
         state->count = 0;
         state->intensity = 160;
-        return func_800CE560(D_800F33E0->end, 20, 32, func_800DEFFC);
+        return func_800CE560(D_800F33E0->end, 20, 32,
+                             (FieldAnimCallbackListCallback)func_800DEFFC);
     case 1:
         if ((D_800E27EC & 3) == 0 && state->count < 8) {
             particle = func_800CE610(D_800F33E0->end);

@@ -40,7 +40,8 @@ int Memcard_CrossFlashController(int mode, MemcardCrossFlash *flash) {
         func_800D1384(&from, &to, 0x3F0, &inner, &outer, 128, flash->trailB, 1);
         func_800CE8F0(D_8009D254, 21, &tipB, &from);
         func_800D1384(&from, &to, 0x3F2, &edge, &outer, 128, flash->trailD, 1);
-        return func_800CE560(D_800F33E0->pool, 20, 36, Memcard_RisingEmberParticle);
+        return func_800CE560(D_800F33E0->pool, 20, 36,
+                             (FieldAnimCallbackListCallback)Memcard_RisingEmberParticle);
     case 1:
         flash->timer++;
         D_801F1F3A = 1;

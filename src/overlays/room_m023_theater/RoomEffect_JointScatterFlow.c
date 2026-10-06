@@ -123,7 +123,8 @@ int func_8018F3C8(int mode, RoomM023ScatterState *state) {
             state->joint = 16;
             break;
         }
-        return func_800CE560(D_800F33E0->pool, 16, 12, func_8018F004);
+        return func_800CE560(D_800F33E0->pool, 16, 12,
+                             (FieldAnimCallbackListCallback)func_8018F004);
     case 1:
         func_800CE8F0(D_800F32D0->pool, state->joint, &template, position);
         state->timer++;

@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
 /* MASPSX_FLAGS: --expand-div */
 typedef RoomM350Vector Vector;
@@ -20,8 +21,6 @@ extern unsigned short D_800E11E8, D_800F3370;
 extern unsigned short GetClut(int, int);
 extern void func_800CEE20(void *, int, int, int, int, int, int, int, void *);
 extern void func_800D004C(void *, int, int, int, void *, int, int, void *, void *, int, int);
-extern int func_800CE560(void *, int, int, int (*)(int, Particle *));
-extern Particle *func_800CE610(void *);
 extern int Inv_ScrambleGrid(void);
 
 int func_8019404C(int event, Particle *particle)
@@ -54,7 +53,8 @@ int func_8019421C(int event)
     if (event == 2) goto configure;
     return 0;
 setup:
-    return func_800CE560(D_800F33E0->pool, 12, 64, func_8019404C);
+    return func_800CE560(D_800F33E0->pool, 12, 64,
+                         (FieldAnimCallbackListCallback)func_8019404C);
 update:
     {
         int i = 0;

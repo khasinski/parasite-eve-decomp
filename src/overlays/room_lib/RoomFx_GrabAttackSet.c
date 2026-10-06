@@ -511,7 +511,7 @@ int RoomFx_GroundSweepController(int mode, RoomGroundSweep *sweep,
         sweep->timer = 0;
         sweep->sweeps = 8;
         return func_800CE560(D_800F33E0->pool, 0xC, 0x10,
-                             RoomFx_GroundSweepMark);
+                             (FieldAnimCallbackListCallback)RoomFx_GroundSweepMark);
     case 1:
         func_800CE870((char *)D_8009D254, 1, (s16 *)&hand);
         hand.y = g_RoomFloorY->y;
@@ -855,7 +855,7 @@ int RoomFx_OrbitTrailBurst(int mode, RoomOrbitTrailBurst *burst) {
         func_800CE870((char *)D_8009D254, 0, (s16 *)burst);
         func_800D3F64(0x596, func_800D3FD8());
         return func_800CE560(D_800F33E0->pool, 0x14, 0x28,
-                             RoomFx_OrbitTrailParticle);
+                             (FieldAnimCallbackListCallback)RoomFx_OrbitTrailParticle);
     case 1:
         if (D_800E27EC < 4) {
             for (i = 0; i < 3; i++) {
@@ -1172,7 +1172,7 @@ int RoomFx_RisingSprayController(int mode, void *state,
             }
         }
         return func_800CE560(D_800F33E0->pool, 0x14, 0x37,
-                             RoomFx_RisingSprayParticle);
+                             (FieldAnimCallbackListCallback)RoomFx_RisingSprayParticle);
     case 1:
         func_800CE8F0(D_800F32D0->pool, 0, &offset, &position);
         position.y -= 0x50;

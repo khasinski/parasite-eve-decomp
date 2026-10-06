@@ -2,6 +2,7 @@
 #define PE1_ROOM_SPARK_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
 #include "pe1/field_collision.h"
@@ -37,8 +38,6 @@ typedef struct RoomSparkChannel {
 extern RoomSparkChannel *D_800F32D0, *D_800F33E0;
 extern RoomSparkChannel *D_800942E4;
 extern u16 D_800E11EA;
-extern int func_800CE560(void *pool, int size, int count, void *callback);
-extern void *func_800CE610(void *pool);
 extern int func_80071A54(void);
 extern int func_800D3FD8(void);
 extern int func_800D3F64(int sound, int handle);

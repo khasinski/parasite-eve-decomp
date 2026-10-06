@@ -169,7 +169,8 @@ int func_8019408C(int mode, SceneE22EmberBurst *burst) {
                     *object->status = 2;
             }
         }
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x28, func_80193940);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x28,
+                             (FieldAnimCallbackListCallback)func_80193940);
     case 1:
         switch (burst->state) {
         case 0:

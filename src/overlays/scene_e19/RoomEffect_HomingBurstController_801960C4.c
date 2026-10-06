@@ -30,11 +30,11 @@ int func_801960C4(int mode, SceneHomingBurst *burst)
                 }
             }
         }
-        return func_800CE560(D_800F33E0->pool, 0x20, 0x20, func_8019549C);
+        return func_800CE560((char *)D_800F33E0->pool, 0x20, 0x20, func_8019549C);
     case 1:
         burst->timer++;
         if (burst->released < 0x14 && (burst->timer & 1)) {
-            child = func_800CE610(D_800F33E0->pool);
+            child = func_800CE610((char *)D_800F33E0->pool);
             if (child) {
                 child->index = burst->released;
                 child->state = 0;

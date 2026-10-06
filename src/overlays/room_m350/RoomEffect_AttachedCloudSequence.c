@@ -1,4 +1,5 @@
 #include "pe1/room_m350_effects.h"
+#include "pe1/field_anim_callback_list.h"
 
 typedef struct { signed int low:16; signed int high:16; } TrigEntry;
 #include "pe1/render_object.h"
@@ -59,8 +60,6 @@ extern RoomM350EffectEmitter *D_800F33E0;
 extern unsigned char D_8019A8BE;
 extern unsigned short D_800E11E4[];
 extern unsigned short D_800E2850[];
-extern int func_800CE560(void *,int,int,int (*)(int,RoomM350CloudParticle *));
-extern RoomM350CloudParticle *func_800CE610(void *);
 extern int Inv_ScrambleGrid(void);
 int func_80198ABC(int event)
 {
@@ -71,7 +70,8 @@ int func_80198ABC(int event)
     if(event==2) goto configure;
     return 0;
 setup:
-    return func_800CE560(D_800F33E0->pool,20,16,func_80198860);
+    return func_800CE560(D_800F33E0->pool,20,16,
+                         (FieldAnimCallbackListCallback)func_80198860);
 update:
     {
         int i;

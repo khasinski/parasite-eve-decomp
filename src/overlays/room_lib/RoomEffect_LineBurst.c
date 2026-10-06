@@ -56,7 +56,7 @@ int RoomEffect_LineBurstController(int mode, RoomLineBurstState *state,
             }
         }
         return func_800CE560(D_800F33E0->pool, 0x14, 0x18,
-                             RoomEffect_LineBurstParticle);
+                             (FieldAnimCallbackListCallback)RoomEffect_LineBurstParticle);
     case 1:
         func_800CE8F0(D_800F32D0->pool, 0x13, &template, state);
         func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,

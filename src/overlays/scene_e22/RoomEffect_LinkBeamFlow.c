@@ -87,7 +87,8 @@ int func_80193414(int mode, SceneE22LinkBeam *beam) {
                       beam->trailA, 1);
         func_800D1384(&middle, &last, 0x3F2, &color1, &color0, 0x80,
                       beam->trailB, 1);
-        return func_800CE560(D_800F33E0->pool, 0x14, 8, func_801931B8);
+        return func_800CE560(D_800F33E0->pool, 0x14, 8,
+                             (FieldAnimCallbackListCallback)func_801931B8);
     case 1:
         beam->timer++;
         func_800CE8F0(D_800F32D0->pool, D_801991B8[beam->jointSet].last,

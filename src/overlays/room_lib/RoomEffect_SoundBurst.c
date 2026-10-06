@@ -97,7 +97,8 @@ int RoomEffect_SoundBurstController(int mode, RoomSoundBurstState *state) {
     case 0:
         state->soundHandle = func_800D3F64(0x5A1, func_800D3FD8());
         pool = D_800F33E0->pool;
-        return func_800CE560(pool, 24, 24, RoomEffect_SoundBurstParticle);
+        return func_800CE560(pool, 24, 24,
+                             (FieldAnimCallbackListCallback)RoomEffect_SoundBurstParticle);
     case 1:
         state->frame++;
         if (D_800E27EC < 0x47) {

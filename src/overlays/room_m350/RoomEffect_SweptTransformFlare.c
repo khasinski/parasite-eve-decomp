@@ -1,4 +1,5 @@
 #include "pe1/room_m350_effects.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte.h"
 
 
@@ -75,8 +76,6 @@ extern short D_8019A8AE;
 extern short D_800F3368,D_800F336A,D_800F3376,D_800F3378;
 extern short D_800F336E,D_800F3372,D_800F3374,D_800F3370;
 extern unsigned short D_800E11EA,D_800E2850[];
-extern int func_800CE560(void *,int,int,int (*)(int,RoomM350FlareParticle *));
-extern RoomM350FlareParticle *func_800CE610(void *);
 extern int Inv_ScrambleGrid(void);
 
 int func_80198400(int event) {
@@ -91,7 +90,8 @@ int func_80198400(int event) {
     if(event==2) goto configure;
     return 0;
 setup:
-    return func_800CE560(D_800F33E0->pool,8,4,func_801981D0);
+    return func_800CE560(D_800F33E0->pool,8,4,
+                         (FieldAnimCallbackListCallback)func_801981D0);
 update:
     if(instance->frame>=31) return 2;
     if(!(D_800E27EC&1)) {

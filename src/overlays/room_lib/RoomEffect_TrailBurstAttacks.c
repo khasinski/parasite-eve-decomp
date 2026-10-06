@@ -265,7 +265,8 @@ int RoomEffect_SeekingTrailController(int mode, u16 *slot) {
                 }
             }
         }
-        return func_800CE560(D_800F33E0->pool, 0x18, 0x20, RoomEffect_SeekingTrailParticle);
+        return func_800CE560(D_800F33E0->pool, 0x18, 0x20,
+                             (FieldAnimCallbackListCallback)RoomEffect_SeekingTrailParticle);
     case 1:
         if (D_800E27EC == mode) {
             trail = func_800CE610(D_800F33E0->pool);
@@ -367,7 +368,8 @@ int RoomEffect_ModelBurstController(int mode, s16 *state) {
         func_800CF4B4(3, -1, g_RoomModelBurstLayer);
         handle = func_800D3FD8();
         func_800D3F64(0x5A4, handle);
-        return func_800CE560(D_800F33E0->pool, 0x10, 0x10, RoomEffect_ModelBurstParticle);
+        return func_800CE560(D_800F33E0->pool, 0x10, 0x10,
+                             (FieldAnimCallbackListCallback)RoomEffect_ModelBurstParticle);
     case 1:
         if (*state < 0x80) *state += 8;
         if (D_800E27EC >= 2) {
@@ -707,7 +709,8 @@ int RoomEffect_ScatterTrailController(int mode, u16 *slot) {
                 }
             }
         }
-        return func_800CE560(D_800F33E0->pool, 0x18, 0x20, RoomEffect_ScatterTrailParticle);
+        return func_800CE560(D_800F33E0->pool, 0x18, 0x20,
+                             (FieldAnimCallbackListCallback)RoomEffect_ScatterTrailParticle);
     case 1:
         if (D_800E27EC == mode) {
             trail = func_800CE610(D_800F33E0->pool);
@@ -805,7 +808,8 @@ int RoomEffect_ScatterBurstController(int mode, s16 *state) {
         func_800CF4B4(3, -1, g_RoomScatterBurstLayer);
         handle = func_800D3FD8();
         func_800D3F64(0x5A4, handle);
-        return func_800CE560(D_800F33E0->pool, 0x10, 0x10, RoomEffect_ScatterBurstParticle);
+        return func_800CE560(D_800F33E0->pool, 0x10, 0x10,
+                             (FieldAnimCallbackListCallback)RoomEffect_ScatterBurstParticle);
     case 1:
         if (*state < 0x80) *state += 8;
         if (D_800E27EC >= 2) {

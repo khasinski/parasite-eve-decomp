@@ -2,6 +2,7 @@
 #define PE1_FIELD_EFFECT_POOL_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 #include "pe1/field_actor.h"
 #include "pe1/field_model_draw.h"
@@ -30,8 +31,6 @@ extern FieldEffectPool *D_800F33E0;
 extern FieldEffectOwner *D_800F32D0;
 extern u8 *D_800F32D4;
 
-int func_800CE560(char *pool, int size, int count, FieldEffectCallback callback);
-void *func_800CE610(char *pool);
 void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);
 void func_800C6FA0(u8 *data, u16 factor);
 

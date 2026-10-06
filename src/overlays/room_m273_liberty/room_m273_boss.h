@@ -2,6 +2,7 @@
 #define ROOM_M273_BOSS_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
 #include "room_m273_effects.h"
@@ -225,9 +226,7 @@ typedef struct RoomM273PageIndex {
 
 extern RoomM273PageIndex D_800E11EA;
 
-int func_800CE560(void *pool, int size, int count, void *callback);
 int func_800CE5AC(void *list, int base, int size, int count, void *callback);
-void *func_800CE610(void *pool);
 int func_800CE688(void *list);
 int func_800CE78C(void *list);
 void Asset_Find08w(int id, int sound, int x, int y, int z);

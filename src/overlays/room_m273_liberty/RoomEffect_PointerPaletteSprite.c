@@ -1,4 +1,5 @@
 #include "room_m273_effects.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/psyq_gpu.h"
 
 typedef struct { short x, y, z, pad; } Sprite;
@@ -12,8 +13,6 @@ extern unsigned short D_800E11FA, D_800E2850[];
 extern unsigned short D_800F3368, D_800F336A, D_800F336E;
 extern unsigned short D_800F3370, D_800F3372, D_800F3374;
 extern unsigned short D_800F3376, D_800F3378;
-extern int func_800CE560(void *, int, int, int (*)());
-extern RoomM273SpritePoolEffect *func_800CE610(void *);
 
 int func_80193870(int mode, RoomM273SpritePoolEffect *state) {
     if (mode == 1) {
@@ -50,7 +49,8 @@ int func_801939B4(int mode) {
     switch (mode) {
     case 0:
         D_8019AE5C = 0;
-        return func_800CE560(D_800F33E0->pool, 4, 1, func_80193870);
+        return func_800CE560(D_800F33E0->pool, 4, 1,
+                             (FieldAnimCallbackListCallback)func_80193870);
     case 1:
         if (D_800E27EC >= 20) return 2;
         if (D_8019AE5C) return 2;

@@ -45,7 +45,8 @@ int func_801978EC(int mode, SceneE22EmberBurst *burst) {
         }
         func_800CE870((char *)RoomMain_ActorPtr, 1, (s16 *)burst);
         burst->y = g_RoomFloorY->y;
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x28, func_801972EC);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x28,
+                             (FieldAnimCallbackListCallback)func_801972EC);
     case 1:
         if (burst->state < 2)
             func_80020D50();

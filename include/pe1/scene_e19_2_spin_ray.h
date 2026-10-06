@@ -2,6 +2,7 @@
 #define PE1_SCENE_E19_2_SPIN_RAY_H
 
 #include "pe1/render_object.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte.h"
 #include "pe1/room_floor.h"
 
@@ -48,8 +49,6 @@ u16 func_80077AA4(int x, int y);
 int func_80071A54(void);
 int func_800D3FD8(void);
 int func_800D3F64(int sound, int handle);
-int func_800CE560(void *pool, int size, int count, void *callback);
-SceneSpinRay *func_800CE610(void *pool);
 void func_800CE8F0(void *pool, int index, GteRotation *rotation, GteShortVector *position);
 void func_800CFFAC(SceneSpinRay *ray);
 int func_80196748(int mode, SceneSpinRay *ray);

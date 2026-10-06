@@ -17,7 +17,8 @@ int ROOMEFFECT_JITTER_SPAWNER_FUNC(int mode) {
 
     switch (mode) {
     case 0:
-        return func_800CE560(D_800F33E0->pool, 20, 10, ROOMEFFECT_JITTER_SPAWNER_CALLBACK);
+        return func_800CE560(D_800F33E0->pool, 20, 10,
+                             (FieldAnimCallbackListCallback)ROOMEFFECT_JITTER_SPAWNER_CALLBACK);
     case 1:
         if (D_800F32D0 != D_800942E4) return 1;
         if (((RoomSparkOwner *)D_800F32D0->pool)->state->frame < 11) return 1;

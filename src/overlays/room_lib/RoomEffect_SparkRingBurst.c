@@ -144,7 +144,8 @@ int RoomEffect_SparkRingController(int mode, RoomSparkRingState *state) {
             }
         }
         pool = D_800F33E0->pool;
-        return func_800CE560(pool, 20, 24, RoomEffect_SparkRingParticle);
+        return func_800CE560(pool, 20, 24,
+                             (FieldAnimCallbackListCallback)RoomEffect_SparkRingParticle);
     case 1:
         switch (state->state) {
         case 0:
@@ -595,7 +596,7 @@ mode0:
     channel = D_800F33E0;
     *count = 0;
     return func_800CE560(channel->pool, 0x14, 0x37,
-                         RoomEffect_BurstSparkParticle);
+                         (FieldAnimCallbackListCallback)RoomEffect_BurstSparkParticle);
 
 mode1:
     func_800CE8F0(D_800F32D0->pool, 0x11, &offset, &launch);

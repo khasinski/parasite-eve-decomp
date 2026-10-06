@@ -4,6 +4,7 @@
 #define ROOM_LIB_H
 
 #include "../../../include/common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "../../../include/pe1/gte.h"
 #include "../../../include/pe1/room_fx.h"
 #include "../../../include/pe1/field_script_context.h"
@@ -919,8 +920,6 @@ extern short D_800F3374;
 extern void *RoomMain_ActorPtr2;
 extern int func_800CE8F0();
 extern int func_800CFAA8();
-extern int func_800CE560();
-extern RoomQRec *func_800CE610();
 extern int func_800D3FD8();
 extern int func_800D3F64();
 

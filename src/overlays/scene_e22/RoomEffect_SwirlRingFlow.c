@@ -108,7 +108,8 @@ int func_80195B40(int mode, SceneE22SwirlRing *swirl) {
                 func_8006DF50(*soundSlot, 0x5D7, 0x80, 0x80, volume);
         }
         func_800CE8F0(D_800F32D0->pool, 0, &offset, swirl);
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x28, func_801957CC);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x28,
+                             (FieldAnimCallbackListCallback)func_801957CC);
     case 1:
         position.x = swirl->x;
         position.y = swirl->y;

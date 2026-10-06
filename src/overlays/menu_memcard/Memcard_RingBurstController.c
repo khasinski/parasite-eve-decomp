@@ -24,7 +24,8 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
         func_8006DDCC(0x4B7, 0, burst->x, burst->y, burst->z);
         burst->state = 0;
         burst->timer = 0;
-        return func_800CE560(D_800F33E0->pool, 20, 50, Memcard_DriftGlowParticle);
+        return func_800CE560(D_800F33E0->pool, 20, 50,
+                             (FieldAnimCallbackListCallback)Memcard_DriftGlowParticle);
     case 1:
         switch (burst->state) {
         case 0:

@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 
 extern int D_800E27EC;
@@ -32,8 +33,6 @@ extern RoomM350Emitter *D_800F33E0;
 extern unsigned char D_8019A86E, D_8019A857;
 extern short D_8019A864[3];
 extern unsigned short D_800E11E4[];
-extern int func_800CE560(void *, int, int, int (*)(int, short *));
-extern short *func_800CE610(void *);
 
 int func_801976C8(int event)
 {
@@ -45,7 +44,8 @@ int func_801976C8(int event)
     if (event == 2) goto configure;
     return 0;
 setup:
-    return func_800CE560(D_800F33E0->pool, 8, 4, func_80197594);
+    return func_800CE560(D_800F33E0->pool, 8, 4,
+                         (FieldAnimCallbackListCallback)func_80197594);
 update:
     if (D_8019A86E) return 2;
     if (D_8019A857) {

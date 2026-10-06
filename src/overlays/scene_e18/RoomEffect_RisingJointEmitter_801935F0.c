@@ -16,7 +16,8 @@ int func_801935F0(int mode, SceneE18EmitterState *state) {
         state->count = 0;
         state->delay = 60;
         D_801941D0 = 0;
-        return func_800CE560(D_800F33E0->pool, 12, 10, func_80193488);
+        return func_800CE560(D_800F33E0->pool, 12, 10,
+                             (FieldAnimCallbackListCallback)func_80193488);
     }
     case 1: {
         SceneE18RisingParticle *particle;

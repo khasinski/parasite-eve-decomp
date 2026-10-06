@@ -2,6 +2,7 @@
 #define PE1_SCENE_E19_BLAST_H
 
 #include "pe1/render_object.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte.h"
 #include "pe1/room_floor.h"
 
@@ -75,8 +76,6 @@ void func_800C6EF8(void *model);
 void func_800C6F4C(void *model);
 void func_800C6FA0(void *model, int intensity);
 void func_800C71E4(void *model, GteMatrix *matrix);
-int func_800CE560(void *pool, int size, int count, void *callback);
-SceneE19BlastSpark *func_800CE610(void *pool);
 void func_800D1AE0(RenderColor *color, int value, int mode, int step);
 void func_800D1D24(int mode, int count, int value);
 int func_800D3FD8(void);

@@ -152,7 +152,8 @@ int func_80194AAC(int mode, RoomEmberBurst *burst, RoomEmberBurstParams *params)
         RoomEffect_AttachToActor(params->subId, params->typeId, burst);
         func_800D3F64(0x5F5, func_800D3FD8());
         func_800D3F64(0x5F6, 0x80);
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x28, func_801944E8);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x28,
+                             (FieldAnimCallbackListCallback)func_801944E8);
     case 1:
         switch (burst->state) {
         case 0:

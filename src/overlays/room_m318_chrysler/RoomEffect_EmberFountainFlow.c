@@ -156,7 +156,8 @@ int func_80197CBC(int mode, RoomEmberFountain *fountain) {
         fountain->ringScale = 0;
         func_800D3F64(0x5EB, func_800D3FD8());
         func_800D3F64(0x5EC, 0x80);
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x28, func_80197618);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x28,
+                             (FieldAnimCallbackListCallback)func_80197618);
     case 1:
         fountain->timer++;
         func_800CE870((char *)D_800F32D0->pool, 0, (s16 *)fountain);

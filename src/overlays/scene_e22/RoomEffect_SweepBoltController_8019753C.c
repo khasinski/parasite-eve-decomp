@@ -42,7 +42,8 @@ int func_8019753C(int mode, SceneE22SweepBolt *bolt, GteShortVector *origin) {
         bolt->heading.x = -0x320;
         bolt->heading.y = -0x200;
         bolt->heading.z = 0;
-        return func_800CE560(D_800F33E0->pool, 0x14, 0x20, func_8019702C);
+        return func_800CE560(D_800F33E0->pool, 0x14, 0x20,
+                             (FieldAnimCallbackListCallback)func_8019702C);
     case 1:
         func_800CFB7C(&bolt->heading, -((0x10 - bolt->sweep) * 320), &bolt->position);
         bolt->position.x += bolt->origin.x;

@@ -2,6 +2,7 @@
 #define PE1_ROOM_SHAKE_BURST_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 #include "pe1/room_fx.h"
 #include "pe1/room_orbit_trail.h"
@@ -87,8 +88,6 @@ extern int D_800E27EC;
 extern u16 D_800E11EA;
 extern u16 D_800E2850[];
 
-extern int func_800CE560(void *pool, int size, int count, void *callback);
-extern RoomShakeBurstPoint *func_800CE610(void *pool);
 extern int func_800D3FD8(void);
 extern void func_8006DF50(void *channel, int id, int value, int volume, int pan);
 extern int func_80071A54(void);

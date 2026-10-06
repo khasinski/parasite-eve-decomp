@@ -1,5 +1,6 @@
 #include "room_m350_shared.h"
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte.h"
 #include "pe1/room_m350_sweep_trap.h"
 
@@ -189,8 +190,6 @@ typedef RoomM350Actor RoomM350ControllerChannel;
 
 extern RoomM350Emitter *D_800F33E0;
 extern GteShortVector D_8019A778[];
-extern int func_800CE560(void *,int,int,int (*)(int,RoomM350SweepTrap *));
-extern RoomM350SweepTrap *func_800CE610(void *);
 extern int Asset_Find08w(int,int,int,int,int);
 int func_8019360C(int event) {
     if (event == 1) goto update;
@@ -201,7 +200,8 @@ int func_8019360C(int event) {
     if (event == 2) goto configure;
     return 0;
 setup:
-    return func_800CE560(((RoomM350Emitter *)D_800F33E0)->pool,8,2,func_80192E4C);
+    return func_800CE560(((RoomM350Emitter *)D_800F33E0)->pool,8,2,
+                         (FieldAnimCallbackListCallback)func_80192E4C);
 update:
     {
         Instance *instance = ((RoomM350ControllerChannel *)D_800F32D0)->instance;

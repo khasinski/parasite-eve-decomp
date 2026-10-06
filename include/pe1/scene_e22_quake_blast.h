@@ -2,6 +2,7 @@
 #define PE1_SCENE_E22_QUAKE_BLAST_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 #include "pe1/room_orbit_trail.h"
 #include "pe1/gte.h"
@@ -96,8 +97,6 @@ extern int rsin(int angle);
 extern int rcos(int angle);
 extern u16 func_80077AA4(int, int);
 extern s32 func_80077A64(s32, s32, s32, s32);
-extern int func_800CE560(void *pool, int size, int count, void *callback);
-extern RoomOrbitTrailParticle *func_800CE610(void *pool);
 extern int func_800D3FD8(void);
 extern void func_8006DF50(void *channel, int id, int value, int volume, int pan);
 extern void *func_8006E498(void *base, u32 key);

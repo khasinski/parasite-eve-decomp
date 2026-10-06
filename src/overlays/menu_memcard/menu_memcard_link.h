@@ -2,6 +2,7 @@
 #define MENU_MEMCARD_LINK_H
 
 #include "pe1/gte.h"
+#include "pe1/field_anim_callback_list.h"
 #include "menu_memcard_pulse.h"
 
 typedef struct MemcardLinkOffset { u8 bytes[8]; } MemcardLinkOffset;
@@ -16,7 +17,6 @@ extern s16 D_801F1D86, D_801F1D88;
 extern u16 D_800E11E6, D_800E2850[];
 extern void func_800CE8F0(void *, s32, void *, void *);
 extern void func_800D1384(void *, void *, s32, void *, void *, s32, void *, s32);
-extern s32 func_800CE560(void *, s32, s32, s32 (*)(s32, MemcardPulseState *));
 
 s32 Memcard_LinkEffect(s32 mode, MemcardLinkState *state);
 

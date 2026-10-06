@@ -74,7 +74,8 @@ int func_80192F0C(int mode, RoomM123GlowBurst *burst) {
     switch (mode) {
     case 0:
         burst->timer = 0;
-        return func_800CE560(D_800F33E0->pool, 8, 0x10, func_80192BDC);
+        return func_800CE560(D_800F33E0->pool, 8, 0x10,
+                             (FieldAnimCallbackListCallback)func_80192BDC);
     case 1:
         if (burst->timer < 0x80) burst->timer += 4;
         if (D_800E27EC == 1) {

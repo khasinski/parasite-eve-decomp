@@ -2,6 +2,7 @@
 #define PE1_ROOM_M005_H
 
 #include "pe1/gte_types.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 #include "pe1/room_m005_drifting_sprite.h"
 
@@ -46,9 +47,7 @@ extern volatile s16 D_800F336E, D_800F3372, D_800F3374, D_800F3370;
 extern volatile s16 D_800F3376, D_800F3378;
 extern int func_800D3FD8(void);
 extern void func_8006DF50(void *channel, int id, int value, int volume, int pan);
-extern int func_800CE560(void *, int, int, void *);
 extern void func_800CE8F0(void *, int, void *, void *);
-extern RoomM005OrbiterChild *func_800CE610(void *);
 extern int func_80071A54(void);
 extern void RoomM005_FxOrbiter_8018F018(void);
 int func_8018F330(int mode, RoomM005OrbiterState *state);

@@ -82,7 +82,8 @@ int func_801969D8(int mode) {
     Matrix matrix;
     switch(mode) {
     case 0:
-        return func_800CE560(D_800F33E0->pool,24,40,func_8019665C);
+        return func_800CE560(D_800F33E0->pool,24,40,
+                             (FieldAnimCallbackListCallback)func_8019665C);
     case 1: {
         register unsigned char *stopped asm("$17")=&D_8019AF69;
         Player *player;

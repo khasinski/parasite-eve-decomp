@@ -105,7 +105,8 @@ initialize:
             D_8019085C = temp_v0;
             func_800C6D5C(temp_v0, 0, 0);
             func_800D1384(&effect->position, &effect->position, 0x3EE, initColor0, initColor1, 0x80, effect->history, initialMode);
-            return func_800CE560(D_800F33E0->pool, 0x14, 0x20, func_8018F028);
+            return func_800CE560((char *)D_800F33E0->pool, 0x14, 0x20,
+                                 (FieldAnimCallbackListCallback)func_8018F028);
 update: {
     temp_v1_2 = effect->phase;
     switch (temp_v1_2) {                            /* switch 1 */
@@ -187,7 +188,7 @@ update: {
         temp_v0_9 = (u16) effect->timer + 1;
         effect->timer = temp_v0_9;
         if (temp_v0_9 == 1) {
-            temp_v0_10 = func_800CE610(D_800F33E0->pool);
+            temp_v0_10 = func_800CE610((char *)D_800F33E0->pool);
             if (temp_v0_10 != NULL) {
                 temp_v0_10->velocity.x = (s16) (u16) effect->rotation.x;
                 temp_v0_10->velocity.y = (s16) (u16) effect->rotation.y;
@@ -206,7 +207,7 @@ update: {
         if (effect->timer >= 4) {
             effect->phase = 5;
             effect->timer = 0;
-            temp_v0_10 = func_800CE610(D_800F33E0->pool);
+            temp_v0_10 = func_800CE610((char *)D_800F33E0->pool);
             if (temp_v0_10 != NULL) {
                 temp_v0_10->position.x = (s16) (u16) effect->endpoint.x;
                 temp_v0_10->position.y = (s16) (u16) effect->endpoint.y;
@@ -219,7 +220,7 @@ update: {
                 temp_v0_10->velocity.z = temp_v0_14;
             }
             for (particleIndex = 0; particleIndex < 12; ++particleIndex) {
-            temp_v0_12 = func_800CE610(D_800F33E0->pool);
+            temp_v0_12 = func_800CE610((char *)D_800F33E0->pool);
             if (temp_v0_12 != NULL) {
                 temp_v0_12->position.x = (s16) (u16) effect->endpoint.x;
                 temp_v0_12->position.y = (s16) (u16) effect->endpoint.y;

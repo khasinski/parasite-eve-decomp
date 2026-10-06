@@ -2,6 +2,7 @@
 #define PE1_ROOM_ORBITING_PAIR_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/render_object.h"
 
 typedef struct RoomOrbitPairTemplate8 {
@@ -50,9 +51,7 @@ PE1_STATIC_ASSERT(sizeof(RoomOrbitPairParticle) == 0x14,
 extern RoomOrbitPairChannel *D_800F32D0, *D_800F33E0;
 extern RoomOrbitPairEventState *D_800E2368;
 extern volatile u16 D_800E11EA;
-extern int func_800CE560(void *, int, int, void *);
 extern void func_800CE8F0(void *, int, void *, void *);
-extern RoomOrbitPairParticle *func_800CE610(void *);
 extern int rcos(int);
 extern int rsin(int);
 extern int func_800D3FD8(void);

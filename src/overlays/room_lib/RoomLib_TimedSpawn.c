@@ -5,6 +5,7 @@
  * callback's seed initialiser.
  */
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte.h"
 #include "pe1/room_fx.h"
 #include "pe1/room_floor.h"
@@ -117,8 +118,6 @@ extern s16 D_800F3376;
 extern s16 D_800F3378;
 
 void func_800CE870(void *arg0, int arg1, void *arg2);
-void *func_800CE610(void *arg0);
-int func_800CE560(void *arg0, int arg1, int arg2, void *callback);
 int func_800D3FD8(void);
 void Akao_SendTableCommand(void *owner, int id, int value, int volume, int pan);
 
@@ -163,7 +162,7 @@ mode0:
         Akao_SendTableCommand(D_800B0E64.owner, 0x588, value, 0x80, 0x7F);
     }
     return func_800CE560(((void **)D_800F33E0)[2], 0xC, 8,
-                         RoomLib_UpdateTimedRender);
+                         (FieldAnimCallbackListCallback)RoomLib_UpdateTimedRender);
 
 mode1:
     tick = D_800E27EC;

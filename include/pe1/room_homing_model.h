@@ -2,6 +2,7 @@
 #define PE1_ROOM_HOMING_MODEL_H
 
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
 #include "pe1/room_floor.h"
@@ -130,8 +131,6 @@ extern RoomHomingModelTextureSlot D_800E11EC;
 extern RoomHomingModelTextureSlot D_800E11E8;
 extern RoomHomingModelParamsTail D_800F3372;
 
-extern int func_800CE560(void *pool, int size, int count, void *callback);
-extern RoomHomingModelSpark *func_800CE610(void *pool);
 extern int func_8006DCE4(int id, int channel, int x, int y, int z);
 extern int FieldEng_VecToAngle(s32 *vec, s32 *ref);
 extern int func_800DFE20(s32 *vec, s32 *ref);

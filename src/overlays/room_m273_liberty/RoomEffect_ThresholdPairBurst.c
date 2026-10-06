@@ -1,4 +1,5 @@
 #include "room_m273.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/psyq_gpu.h"
 
 extern RoomM273PlayerActorView *g_PlayerEntity;
@@ -9,8 +10,6 @@ extern u16 D_800E11FA, D_800E2850[];
 extern u16 D_800F336E, D_800F3370, D_800F3372;
 extern u16 D_800F3376, D_800F3378;
 extern int D_800E27EC;
-extern int func_800CE560(void *, int, int, int (*)());
-extern void *func_800CE610(void *);
 extern int func_800CE5AC(void *, int, int, int, int (*)());
 extern int func_800CE688(void *);
 extern int func_800CE78C(void *);
@@ -159,7 +158,8 @@ int func_80193F30(int mode) {
         int size;
         D_8019AE8C.asset=Asset_FindTable08ByU32Key(D_800B0E64,0xC5941704);
         func_800C6D5C(D_8019AE8C.asset,0,0);
-        size=func_800CE560(D_800F33E0->pool,16,6,func_80193CB8);
+        size=func_800CE560(D_800F33E0->pool,16,6,
+                           (FieldAnimCallbackListCallback)func_80193CB8);
         asm("" : : "r"(size));
         return size+func_800CE5AC(&D_8019AE8C.pool,size,4,2,func_80193B5C);
     }
@@ -228,7 +228,8 @@ int func_80194128(int mode, GteRotation *rotation) {
 int func_80194284(int mode) {
     switch (mode) {
     case 0:
-        return func_800CE560(D_800F33E0->pool, 8, 4, func_80194128);
+        return func_800CE560(D_800F33E0->pool, 8, 4,
+                             (FieldAnimCallbackListCallback)func_80194128);
     case 1: {
         RoomM273EffectModeState *state;
         if (D_8019AE9A) return 2;
@@ -301,7 +302,8 @@ int func_801945A8(int mode) {
     switch(mode) {
     case 0:
         D_8019AE60=0; D_8019AE64=0;
-        return func_800CE560(D_800F33E0->pool,8,4,func_80194470);
+        return func_800CE560(D_800F33E0->pool,8,4,
+                             (FieldAnimCallbackListCallback)func_80194470);
     case 1: {
         RoomM273EffectModeState *state;
         if(D_8019AE9A) return 2;
@@ -403,7 +405,8 @@ extern int func_800CE78C(void *);
 int func_801949EC(int mode) {
     switch (mode) {
     case 0: {
-        int size = func_800CE560(D_800F33E0->pool, 8, 2, func_801947CC);
+        int size = func_800CE560(D_800F33E0->pool, 8, 2,
+                                 (FieldAnimCallbackListCallback)func_801947CC);
         asm("" : : "r"(size));
         return size + func_800CE5AC(&D_8019AE94, size, 16, 9, func_80199F84);
     }

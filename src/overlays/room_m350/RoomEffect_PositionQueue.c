@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/field_anim_callback_list.h"
 typedef RoomM350Vector Vector;
 typedef struct { Vector position; short delay,reserved; } Particle;
 typedef struct RoomM350Instance { char reserved[0x3A]; unsigned short yaw; } Instance;
@@ -18,8 +19,6 @@ extern unsigned char D_8019A804;
 extern short D_800F3368,D_800F3376,D_800F3378,D_800F3372,D_800F3374,D_800F336E;
 extern unsigned short D_800E11EA,D_800F3370;
 extern unsigned short D_800E2850[];
-extern int func_800CE560(void *,int,int,int (*)(int,Particle *));
-extern Particle *func_800CE610(void *);
 
 int func_80195218(int event, Particle *object)
 {
@@ -52,7 +51,8 @@ int func_80195378(int event) {
     if (event == 2) goto configure;
     return 0;
 setup:
-    return func_800CE560(D_800F33E0->pool,12,50,func_80195218);
+    return func_800CE560(D_800F33E0->pool,12,50,
+                         (FieldAnimCallbackListCallback)func_80195218);
 update:
     if (D_8019A804 && D_8019A802==0) return 2;
     {

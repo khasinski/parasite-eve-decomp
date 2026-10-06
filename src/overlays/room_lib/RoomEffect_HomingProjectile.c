@@ -70,7 +70,7 @@ int RoomEffect_HomingProjectile(int mode) {
         model->state = 0;
         model->angle = D_800F32D0->actor->heading;
         return func_800CE560(D_800F33E0->pool, 8, 4,
-                             RoomEffect_HomingProjectileSpark);
+                             (FieldAnimCallbackListCallback)RoomEffect_HomingProjectileSpark);
     case 1:
         actor = D_800F32D0->actor;
         switch (model->state) {

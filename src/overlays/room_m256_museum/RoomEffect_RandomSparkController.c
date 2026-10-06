@@ -23,7 +23,8 @@ int func_801934AC(int mode, u16 *counter) {
         }
     }
     pool = D_800F33E0->pool;
-    return func_800CE560(pool, 20, 50, func_80192844);
+    return func_800CE560(pool, 20, 50,
+                         (FieldAnimCallbackListCallback)func_80192844);
     case 1:
     pool = D_800F32D0->pool;
     func_800CE8F0(pool, 4, &template, position);

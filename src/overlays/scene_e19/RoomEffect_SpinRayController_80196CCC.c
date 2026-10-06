@@ -24,7 +24,8 @@ int func_80196CCC(int mode, SceneSpinRayBurst *burst)
         burst->blades = 0x10;
         func_800D3F64(0x5E1, func_800D3FD8());
         func_800D3F64(0x5E2, 0x80);
-        return func_800CE560(D_800F33E0->pool, 0x10, 0x32, func_80196748);
+        return func_800CE560(D_800F33E0->pool, 0x10, 0x32,
+                             (FieldAnimCallbackListCallback)func_80196748);
     case 1:
         if (++burst->timer & 1) {
             child = func_800CE610(D_800F33E0->pool);

@@ -19,7 +19,8 @@ int func_80192A7C(int mode, RoomFanSweep *sweep, RoomEmberBurstParams *params) {
         sweep->y = g_RoomFloorY->y;
         func_800D3F64(0x5F3, func_800D3FD8());
         func_800D3F64(0x5F4, 0x80);
-        handles = func_800CE560(D_800F33E0->pool, 0x10, 0x18, func_80192718);
+        handles = func_800CE560(D_800F33E0->pool, 0x10, 0x18,
+                                (FieldAnimCallbackListCallback)func_80192718);
         handles += func_800CE5AC(&sweep->pool, handles, 8, 0x12, func_80192620);
         return handles;
     case 1:

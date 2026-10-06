@@ -58,7 +58,8 @@ int func_800D751C(int mode, FieldFanSweep *sweep)
     switch (mode) {
     case 0:
         sweep->angle = rand();
-        handles = func_800CE560(D_800F33E0->pool, 0x10, 0x18, func_800D71B8);
+        handles = func_800CE560(D_800F33E0->pool, 0x10, 0x18,
+                                (FieldAnimCallbackListCallback)func_800D71B8);
         handles += func_800CE5AC(&sweep->pool, handles, 8, 0x12, func_800D70C0);
         return handles;
     case 1:

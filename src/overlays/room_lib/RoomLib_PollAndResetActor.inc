@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_anim_callback_list.h"
 #include "pe1/room_fx.h"
 
 #ifndef ROOMLIB_POLL_RESET_FUNC
@@ -40,8 +41,6 @@ extern s16 ROOMLIB_POLL_RESET_COUNTER;
 extern RoomFxSeed8 ROOMLIB_POLL_RESET_SEED;
 
 int ROOMLIB_POLL_RESET_CALLBACK();
-s32 func_800CE560(void *arg0, s32 arg1, s32 arg2, int (*arg3)());
-void *func_800CE610(void *arg0);
 
 s32 ROOMLIB_POLL_RESET_FUNC(s32 state) {
     RoomFxSeed8 *obj;
@@ -55,7 +54,7 @@ s32 ROOMLIB_POLL_RESET_FUNC(s32 state) {
     switch (state) {
     case 0:
         return func_800CE560(ROOMLIB_POLL_RESET_POOL_EXPR, 8, 4,
-                             ROOMLIB_POLL_RESET_CALLBACK);
+                             (FieldAnimCallbackListCallback)ROOMLIB_POLL_RESET_CALLBACK);
     case 1:
         if (ROOMLIB_POLL_RESET_FLAG != 0) {
             return 2;
