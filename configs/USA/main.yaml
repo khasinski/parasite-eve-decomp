@@ -435,7 +435,7 @@ segments:
       - [0x33478, c, menu/Menu_SaveBgFade]
       - [0x33744, c, menu/menu3]
       - [0x33838, c, menu/Menu_SaveBgIsFadeComplete]
-      - [0x3384C, c, menu/Inv_FetchSelectedInventoryItem]
+      - [0x3384C, c, item/Inv_FetchSelectedInventoryItem]
       - [0x338A0, c, menu/Menu_HandleInput]
       - [0x33A40, c, menu/Menu_SetItemContext]
       - [0x33A4C, c, menu/Menu_CheckItemAffordable]
@@ -627,7 +627,7 @@ segments:
       - [0x493BC, c, item/Inv_LookupItemData]
       # Kind filtering, filtered-slot lookup, eligibility and swaps form one 0x8E8-byte unit.
       - [0x4944C, c, item/Inv_InventorySwap]
-      - [0x49D34, c, item/Menu_OpenItemUsePanelAtIndex]
+      - [0x49D34, c, menu/Menu_OpenItemUsePanelAtIndex]
       # Armor capacity, snapshots, selection restore and transfers share the item-runtime state.
       - [0x49E8C, c, item/Inv_ArmorCapacity]
       # Item comparators, subrange passes, and all sort dispatchers share active sort state.
