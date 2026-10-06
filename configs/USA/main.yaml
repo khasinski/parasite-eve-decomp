@@ -750,9 +750,11 @@ segments:
       - [0x569EC, c, render/Render_CameraAndScreenTransition]
       - [0x57760, c, main/Geo_LoadMeshEntry]
       - [0x579C8, c, main/Geo_TransformPoint]
-      - [0x57A94, c, render/Render_DrawSpriteEntry]
-      - [0x57E78, c, render/render_set]
-      - [0x57FFC, c, render/Geo_RenderMeshList]
+      # Geometry-entry sprite drawing, the entry visibility/scroll/mirror/position
+      # setters and the mesh-list renderer address the same GeomState entry table
+      # (helper evidence; no split evidence). Each member is identical under the
+      # union -fno-strength-reduce and --expand-div profile.
+      - [0x57A94, c, render/Render_GeomEntryDrawing]
       - [0x581C4, c, main/Geo_ClipPoint]
       - [0x58278, c, main/Geo_BuildMeshList]
       # Fade start/step, scene-load flags and screen tint share g_RenderStateFlags

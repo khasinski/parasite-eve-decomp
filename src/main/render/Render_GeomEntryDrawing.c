@@ -1,8 +1,11 @@
-/* Matching debt: fixed-register pins and scheduling constraints preserve the stock PSYQ instruction schedule. */
-#include "common.h"
+/* CC1_FLAGS: -fno-strength-reduce */
 /* MASPSX_FLAGS: --expand-div */
+#include "common.h"
 #include "pe1/geom_state.h"
 #include "pe1/render_prim.h"
+#include "pe1/render_camera.h"
+
+/* Matching debt: fixed-register pins and scheduling constraints preserve the stock PSYQ instruction schedule. */
 
 #define LINK_PACKET(packet, ordering, mask24, maskTop)                     \
     do {                                                                   \
@@ -232,5 +235,123 @@ int Render_DrawSpriteEntry(GeomEntry *input)
 
     entry->disp_x = scroll_x;
     entry->disp_y = scroll_y;
+    return 0;
+}
+
+extern int g_RenderStateFlags;
+
+int Render_SetEntryVisible(int index, int enabled) {
+    GeomStateAddress table, base;
+    GeomEntry *entry = (GEOM_STATE_OFFSET(table, base, entry_offset, 0), table.entry) + index;
+
+    if (enabled != 0) {
+        entry->flags |= 2;
+    } else {
+        entry->flags &= 0xFD;
+    }
+    return 0;
+}
+
+int Render_SetEntryScrolled(int index, int enabled, unsigned int arg2, unsigned int arg3) {
+    GeomStateAddress table, base;
+    GeomEntry *entry = (GEOM_STATE_OFFSET(table, base, entry_offset, 0), table.entry) + index;
+
+    if (enabled != 0) {
+        entry->flags |= 4;
+    } else {
+        entry->flags &= 0xFB;
+    }
+    entry->field1C = arg2 >> 8;
+    entry->field1E = arg3 >> 8;
+    return 0;
+}
+
+int Render_SetEntryMirrored(int index, int enabled, unsigned int arg2, unsigned int arg3) {
+    GeomStateAddress table, base;
+    GeomEntry *entry = (GEOM_STATE_OFFSET(table, base, entry_offset, 0), table.entry) + index;
+
+    if (enabled != 0) {
+        entry->flags |= 8;
+    } else {
+        entry->flags &= 0xF7;
+    }
+    entry->field1C = (0x10000 - arg2) >> 8;
+    entry->field1E = (0x10000 - arg3) >> 8;
+    return 0;
+}
+
+int Render_SetEntryPosition(int index, int x, int y) {
+    GeomStateAddress table, base;
+    GeomEntry *entry = (GEOM_STATE_OFFSET(table, base, entry_offset, 0), table.entry) + index;
+    volatile int *flags = &g_RenderStateFlags;
+
+    entry->scr_x = x;
+    entry->base_x = x;
+    entry->scr_y = y;
+    entry->base_y = y;
+    *flags |= 0x80;
+    return 0;
+}
+
+extern short D_800BD028, D_800BD02A;
+extern u16 D_800BCFAC, D_800BCFAE, D_800BCFB0, D_800BCFB2;
+extern u8 D_800BCFFA, D_800BCFFB;
+int Gpu_LoadGeomState(int);
+int Geo_RenderMeshList(void *buffer, void **end)
+{
+    s16 *minY;
+    /* Reserve the otherwise unused slot in the retail 56-byte stack frame. */
+    char frame_pad[2];
+    u16 highY;
+    u16 lowY;
+    GeomState *state = D_800B1624;
+    register u8 *group asm("$17") = &g_GeomGroupSel;
+    CameraViewport *view;
+    GeomEntry *entries;
+    register unsigned int count asm("$19");
+    unsigned int i;
+    int x;
+    Gpu_LoadGeomState(*group);
+    view = (CameraViewport *)((u8 *)state + state->entry_offset_1C) + *group;
+    x = (view->minX + view->maxX) / 2;
+    {
+        register short centerX = x;
+        D_800BD028 = centerX;
+        D_800BCF8C.x = centerX;
+    }
+    minY = &view->minY;
+    D_800BCF8E = D_800BD02A = (*minY + view->maxY) / 2;
+    asm volatile("":::"memory");
+    D_800BCFAC = view->minX;
+    asm volatile("":::"memory");
+    D_800BCFAE = view->maxX;
+    lowY = *minY;
+    i = 0;
+    D_800BCFB0 = lowY;
+    asm volatile("":::"memory");
+    highY = view->maxY;
+    x -= 160;
+    D_800BCFB2 = highY;
+    asm volatile("":::"memory");
+    count = state->entry_count06;
+    state->out_disp_x = state->disp_src_x - x;
+    asm("" ::: "memory");
+    state->out_disp_y = state->disp_src_y - (D_800BCF8E - 112);
+    entries = (GeomEntry *)((u8 *)state + state->entry_offset);
+    *end = buffer;
+    if (count) {
+        int min = -32768, max = 32767;
+        GeomEntry *entry = entries;
+        do {
+            if (Geo_LoadMeshEntry(entry, *end, end)) return -18;
+            entry->ot10 = min;
+            entry->ot12 = max;
+            entry->ot14 = min;
+            entry->ot16 = max;
+            entry++;
+        } while (++i < count);
+    }
+    D_800BCFFA = D_800BCFFB = 0;
+    *(u32 *)&D_800BCF88.flags &= ~0xc00;
     return 0;
 }
