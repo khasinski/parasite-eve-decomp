@@ -28,8 +28,7 @@ int SetGraphDebug(int debugLevel) {
 
     debugPrint = D_80095748;
     /* Keep the callback load ahead of its arguments. */
-    asm volatile("" : "+r"(debugPrint));
-    currentLevel = currentDebugLevel[0];
+        currentLevel = currentDebugLevel[0];
     type = currentDebugLevel[-2];
     reverse = currentDebugLevel[1];
     /* Materialize the byte arguments before the format string address. */
