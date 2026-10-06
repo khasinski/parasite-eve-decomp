@@ -1,13 +1,158 @@
+/* MASPSX_FLAGS: --expand-div */
+/*
+ * The window actor class: a script object that flies a spinning frame from
+ * its anchor actor towards a target actor (RoomLib_WindowHandler), in the
+ * room library's seven-method layout (no-op, Init, Configure, no-op,
+ * Update, Arm, Release, no-op) with the handler and its arrival callback.
+ *
+ * room_m063 and m083 link only this class; room_m358, m384 and m387 link
+ * it directly after the room library (RoomLib_ActorClasses.c). The ten
+ * functions and the configure jump table are the same in all five rooms.
+ */
+#include "room_lib.h"
 #include "pe1/gte.h"
 #include "pe1/room_window.h"
-#ifndef ROOMLIB_WINDOW_HANDLER_FUNC
-#error "ROOMLIB_WINDOW_HANDLER_FUNC must name the room entry point"
-#endif
-#ifndef ROOMLIB_WINDOW_HANDLER_DONE
-#error "ROOMLIB_WINDOW_HANDLER_DONE must name the arrival callback"
-#endif
 
-extern void ROOMLIB_WINDOW_HANDLER_DONE(void);
+int RoomLib_WindowClassNop0(void) {
+    return 0;
+}
+
+int RoomLib_InitWindowClass(char *ctx) {
+    int value;
+
+    ctx[3] = 1;
+    value = -1;
+    ctx[0x16] = value;
+    ctx[0x17] = value;
+    ctx[0x18] = value;
+    ctx[0x19] = 3;
+    *(int *)(ctx + 0x88) = 0x400;
+    *(void (**)(void))(ctx + 0xC) = RoomLib_WindowHandler;
+    *(int *)(ctx + 0x10) = 0;
+    *(short *)(ctx + 0x14) = 0;
+    ctx[0x1A] = 0;
+    *(short *)(ctx + 0x94) = 0;
+    *(int *)(ctx + 0x80) = 0;
+    *(int *)(ctx + 0x84) = 0;
+    *(int *)(ctx + 0x7C) = 0;
+    *(int *)(ctx + 0x3C) = 0;
+    *(int *)(ctx + 0x40) = 0;
+    *(int *)(ctx + 0x44) = 0;
+    *(short *)(ctx + 0x6C) = 0;
+    *(short *)(ctx + 0x6E) = 0;
+    *(short *)(ctx + 0x70) = 0;
+    ctx[0x19] = 0;
+
+    return 0;
+}
+
+int RoomLib_ConfigureWindowClass(char *obj, int query, unsigned int op,
+                                  int a, int b, int c) {
+    char *state = obj + 0xC;
+    FieldActorNode *node;
+    register int callback asm("$3");
+    int sentinel;
+
+    switch (op) {
+    case 19:
+        if (query == 0) {
+            RW8(obj, 0x3) = a;
+        } else {
+            *(int *)a = RW8(obj, 0x3);
+        }
+        break;
+    case 0:
+        RW32(state, 0x70) = (int)g_FieldActorListHead;
+        while (RW32(state, 0x70) != 0) {
+            node = (FieldActorNode *)RW32(state, 0x70);
+            if (node->b0C == a && node->b0D == b && !(node->w98 & 0x10)) {
+                break;
+            }
+            RW32(state, 0x70) =
+                (int)((FieldActorNode *)RW32(state, 0x70))->next;
+        }
+        break;
+    case 17:
+        RW32(state, 0x40) = a;
+        RW32(state, 0x48) = c;
+        if (b == -1) {
+            RW32(state, 0x44) = RW32(g_PlayerEntity, 0x2C);
+        } else {
+            RW32(state, 0x44) = b;
+        }
+        RW32(state, 0x70) = 0;
+        break;
+    case 4:
+        RW32(state, 0x74) = a;
+        break;
+    case 2:
+        RW32(state, 0x78) = a;
+        break;
+    case 3:
+        RW32(state, 0x7C) = a;
+        break;
+    case 23:
+        a = a != 0;
+        b = (b != 0) << 1;
+        c = (c != 0) << 2;
+        RW8(state, 0xD) = a | b | c;
+        break;
+    case 10:
+        callback = (int)RoomLib_ArmWindowClass;
+        sentinel = -1;
+        RW8(state, 0xA) = a;
+        RW16(state, 0x8) = b;
+        PE1_COMPILER_MEMORY_BARRIER();
+        RW32(state, 0x0) = callback;
+        if (a != sentinel) {
+            PE1_COMPILER_MEMORY_BARRIER();
+            break;
+        }
+        return 0;
+    case 11:
+        RW8(state, 0xB) = a;
+        break;
+    case 6:
+        RW16(state, 0x60) = a >> 16;
+        RW16(state, 0x62) = b >> 16;
+        RW16(state, 0x64) = c >> 16;
+        break;
+    }
+    return 0;
+}
+
+int RoomLib_WindowClassNop3(void) {
+    return 0;
+}
+
+/* Runs the armed handler, or releases the class when the script ends. */
+int RoomLib_UpdateWindowClass(RoomEnt *o) {
+    switch (func_800DFB78()) {
+    case 0:
+        ((void (*)(RoomEnt *))o->sub.cb)(o);
+        return 0;
+    case 1:
+        RoomLib_ReleaseWindowClass((char *)o);
+    case 2:
+        return 0;
+    }
+    return 0;
+}
+
+/* Arms the window when the actor's variant and window match the
+ * configured ones. */
+void RoomLib_ArmWindowClass(RoomEnt *o) {
+    RoomLink *l = o->link->link18C;
+    if (o->t16 >= 0) {
+        if (o->t16 != l->variant) return;
+    }
+    if (o->t17 >= 0) {
+        int hi = l->winHi;
+        int lo = l->winLo;
+        if (o->t17 < hi || lo < o->t17) return;
+    }
+    o->sub.cb = RoomLib_WindowHandler;
+}
 
 /* Window effect tick. On the first call it places the window in front of
  * its anchor actor, aims it at the target node and derives the spin speed
@@ -23,7 +168,7 @@ extern void ROOMLIB_WINDOW_HANDLER_DONE(void);
  * view of the same words is plain (its last store fills the call's delay
  * slot, which a volatile store never does). */
 
-void ROOMLIB_WINDOW_HANDLER_FUNC(RoomWindowObject *obj) {
+void RoomLib_WindowHandler(RoomWindowObject *obj) {
     RoomWindowScratch *sp;
     RoomWindowState *state = &obj->state;
     RoomWindowActor *actor = obj->actor;
@@ -43,7 +188,7 @@ void ROOMLIB_WINDOW_HANDLER_FUNC(RoomWindowObject *obj) {
         sp->in.local.x = 0x80;
         sp->in.local.y = 0;
         sp->in.local.z = -350;
-        trig = &D_800966EC[anchor->yaw & 0xFFF];
+        trig = (RoomWindowTrig *)&D_800966EC[anchor->yaw & 0xFFF];
         {
             int c = trig->part.cos;
             int s;
@@ -71,7 +216,7 @@ void ROOMLIB_WINDOW_HANDLER_FUNC(RoomWindowObject *obj) {
             obj->state.target[1] = obj->state.targetNode->pos[1];
             obj->state.target[2] = obj->state.targetNode->pos[2];
         }
-        trig = &D_800966EC[FieldEng_VecToAngle(&obj->state.origin[0].value,
+        trig = (RoomWindowTrig *)&D_800966EC[FieldEng_VecToAngle(&obj->state.origin[0].value,
                                                obj->state.target) & 0xFFF];
         {
             int c = trig->part.cos;
@@ -109,7 +254,7 @@ void ROOMLIB_WINDOW_HANDLER_FUNC(RoomWindowObject *obj) {
     }
 
     sp->arrived = 0;
-    trig = &D_800966EC[(((state->spin + 0x8000) >> 16) - 0x400) & 0xFFF];
+    trig = (RoomWindowTrig *)&D_800966EC[(((state->spin + 0x8000) >> 16) - 0x400) & 0xFFF];
     {
         u16 c;
         u16 s;
@@ -158,14 +303,14 @@ void ROOMLIB_WINDOW_HANDLER_FUNC(RoomWindowObject *obj) {
         anchor->speed = 0x380000;
         obj->actor->flags &= ~0x10000;
         obj->actor->drawFlags &= ~0x400;
-        state->callback = ROOMLIB_WINDOW_HANDLER_DONE;
+        state->callback = RoomLib_WindowArrived;
         return;
     }
     sp->in.angles.x = 0;
     sp->in.angles.y = obj->index * 0x280 + 0x640;
     sp->in.angles.z = -0x400;
     RotMatrixYXZ(&sp->in.angles, (GteMatrix *)&sp->yaw);
-    trig = &D_800966EC[sp->in.angles.y & 0xFFF];
+    trig = (RoomWindowTrig *)&D_800966EC[sp->in.angles.y & 0xFFF];
     {
         u16 c;
         u16 s;
@@ -236,4 +381,39 @@ void ROOMLIB_WINDOW_HANDLER_FUNC(RoomWindowObject *obj) {
     if (anchor->frame >= 0x2E) {
         anchor->speed = 0x180000;
     }
+}
+
+void RoomLib_WindowArrived(void *ctx) {
+    char *obj = *(char **)((char *)ctx + 8);
+    char *window = *(char **)(obj + 0x18C);
+    unsigned int limit = (unsigned char)window[0xF];
+
+    limit--;
+    if (*(unsigned short *)(window + 0x1A) >= limit) {
+        RoomLib_ReleaseWindowClass(ctx);
+    }
+}
+
+int RoomLib_ReleaseWindowClass(char *ctx) {
+    char *node;
+
+    ctx[0] = 4;
+    ctx[3] = 0;
+
+    *(int *)(*(char **)(ctx + 8) + 0x98) &= 0xFFFEFFFF;
+    *(unsigned short *)(*(char **)(ctx + 8) + 0x250) &= 0xFBFF;
+
+    node = *(char **)(*(char **)(ctx + 8) + 0x18C);
+    if (node != 0) {
+        node = *(char **)node;
+        if (node != 0) {
+            (*(char **)(node + 0x18))[0] = 4;
+        }
+    }
+
+    return 0;
+}
+
+int RoomLib_WindowClassNop6(void) {
+    return 0;
 }

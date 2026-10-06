@@ -969,39 +969,8 @@ extern int func_800D3F64();
         } \
     }
 
-/* m063/m083 pair: per-state dispatcher + window-armer via the nested link */
+/* Field engine state query used by the actor class update handlers. */
 extern int func_800DFB78();
-extern int func_8018FEF8(RoomEnt *o);
-extern void func_801909E0(RoomEnt *o);
-
-#define ROOMLIB_STATE_DISPATCH(name, tickFn) \
-    int name(RoomEnt *o) { \
-        switch (func_800DFB78()) { \
-        case 0: \
-            ((void (*)(RoomEnt *))o->sub.cb)(o); \
-            return 0; \
-        case 1: \
-            tickFn(o); \
-        case 2: \
-            return 0; \
-        } \
-        return 0; \
-    }
-
-
-#define ROOMLIB_ARM_IF_WINDOW_VIA(name, handler) \
-    void name(RoomEnt *o) { \
-        RoomLink *l = o->link->link18C; \
-        if (o->t16 >= 0) { \
-            if (o->t16 != l->variant) return; \
-        } \
-        if (o->t17 >= 0) { \
-            int hi = l->winHi; \
-            int lo = l->winLo; \
-            if (o->t17 < hi || lo < o->t17) return; \
-        } \
-        o->sub.cb = handler; \
-    }
 
 typedef struct RoomTimer {
     char pad0[0x24];

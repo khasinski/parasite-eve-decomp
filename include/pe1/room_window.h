@@ -77,7 +77,7 @@ typedef struct RoomWindowPlayer {
 } RoomWindowPlayer;
 
 /* Handler state at RoomWindowObject + 0xC (see
- * RoomLib_ConfigureWindowHandler.inc for the configuration ops). */
+ * RoomLib_ConfigureWindowClass for the configuration ops). */
 typedef struct RoomWindowState {
     void (*callback)(void);       /* 0x00 */
     u8 pad04[0xA];
@@ -127,13 +127,22 @@ typedef struct RoomWindowScratch {
 
 #define ROOM_WINDOW_SCRATCH ((RoomWindowScratch *)0x1F800000)
 
-extern RoomWindowTrig D_800966EC[];
+/* The packed PSY-Q sine table, one RoomWindowTrig per angle step. */
+extern short D_800966EC[][2];
 extern RoomWindowPlayer *g_PlayerEntity;
 
 extern int FieldEng_VecToAngle(s32 *from, s32 *to);
 extern int func_800DFC80(s32 *from, s32 *to);
 extern int func_800DFC44(int value);
 extern int func_800DFE20(s32 *from, s32 *to);
-extern void func_800DFE94(s32 *from, s32 *to, GteShortVector *angles);
+extern void func_800DFE94(void *from, void *to, void *angles);
+
+struct RoomEnt;
+
+/* The window actor class (src/overlays/room_lib/RoomLib_WindowClass.c). */
+void RoomLib_WindowHandler(RoomWindowObject *obj);
+void RoomLib_WindowArrived(void *ctx);
+void RoomLib_ArmWindowClass(struct RoomEnt *o);
+int RoomLib_ReleaseWindowClass(char *ctx);
 
 #endif

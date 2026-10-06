@@ -789,10 +789,12 @@ int RoomEffect_BeamSparkController(int mode, RoomBeamSpark *fx,
             if (func_800C6B90(&fx->tx, 0x258) && fx->countdown == 0) {
                 if (D_800E2368->active) {
                     channel = D_800F32D0;
-                    if ((((RoomBeamSparkPool *)channel->pool)->object->flags & 0x3F000000) == 0x01000000) {
+                    if ((((RoomBeamSparkPool *)channel->pool)->object->flags & 0x3F000000) ==
+                        0x01000000) {
                         D_8009D254->actor->flags |= 0x4000;
                         ((RoomBeamSparkPool *)channel->pool)->object->flags =
-                            (((RoomBeamSparkPool *)channel->pool)->object->flags & 0xC0FFFFFF) | 0x19000000;
+                            (((RoomBeamSparkPool *)channel->pool)->object->flags & 0xC0FFFFFF) |
+                            0x19000000;
                         ((RoomBeamSparkPool *)channel->pool)->object->flags |= 0x80000000;
                     }
                 }
