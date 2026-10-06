@@ -59,8 +59,7 @@ void Battle_UpdatePlayerTurn(void)
                 u8 count = D_8009CE39;
                 u8 delta = D_8009CE3B;
                 register Combatant *effect asm("$4");
-                asm volatile("" : : "r"(count), "r"(delta));
-                effect = ACTIVE;
+                                effect = ACTIVE;
                 D_8009CE39 = count + delta;
                 asm volatile("" : : "r"(effect) : "memory");
                 if (effect->action->attackWord & 0x3FF)
