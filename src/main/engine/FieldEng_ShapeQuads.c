@@ -16,7 +16,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
     GteRotation level;
     GteMatrix matrix;
     s32 depth;
-    register s32 *depthOut asm("$11");
+    s32 *depthOut;
     FieldStripPacket *packet;
     register s32 *view asm("$8");
     GteShortVector *vertex;
