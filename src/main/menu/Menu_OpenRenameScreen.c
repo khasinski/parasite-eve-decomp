@@ -91,7 +91,7 @@ void Menu_OpenRenameScreen(s32 arg0) {
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-M2C_UNK Sfx_CursorRenderData();
+void Sfx_CursorRenderData(ItemDataRecord *record);
 M2C_UNK Draw_OffsetCursor();
 M2C_UNK Draw_AllocSprite();
 s32 Draw_MeasureTextWidth();

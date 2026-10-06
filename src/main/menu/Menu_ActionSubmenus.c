@@ -11,7 +11,7 @@ int g_MenuActiveWidget;
 
 void Inv_SelectActiveList(int arg0);
 int Inv_GetPackedListItem(int arg0);
-void Menu_DrawActionCodeItem(void);
+void Menu_DrawActionCodeItem(int arg0);
 void MenuWidget_DrawList(int arg0, void (*callback)(void));
 
 void Menu_DrawUsableItemActionList(int arg0) {

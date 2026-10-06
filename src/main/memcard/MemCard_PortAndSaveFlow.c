@@ -1413,7 +1413,7 @@ void MemCard_ClearActivePrompt(void) {
     g_MemCardActivePromptPending = 0;
 }
 
-void MenuWidget_SaveAndSetCurrentNode(int arg0);
+void MenuWidget_SaveAndSetCurrentNode(MenuWidgetNode *arg0);
 
 void MemCard_StartActivePortRead(void) {
     MemCard_StartRead(g_MemCardActivePortOneBased - 1, 1);

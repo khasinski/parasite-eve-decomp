@@ -9,7 +9,7 @@
 #include "../../../tools/m2c/m2c_macros.h"
 #include "../../../include/pe1/menu_widget.h"
 
-s32 Draw_GetBlendColor();
+int Draw_GetBlendColor(void);
 void Menu_DrawBlendColorChannelListUnk(s32 arg0);
 s32 Menu_StepColorSelect(s32 arg0, s32 arg1);
 void Menu_DrawBlendColorChannelList(s32 arg0);
@@ -118,7 +118,7 @@ void Menu_DrawBlendColorChannelListUnk(s32 arg0) {
 void Menu_PlayConfirmSound(void);
 void Menu_PlayCancelSound(void);
 void Menu_PlayMoveSound(void);
-s32 Draw_GetBlendColor();
+int Draw_GetBlendColor(void);
 extern s32 D_8009CFE0;
 extern s32 g_SavedDrawBlendColor[];
 #define g_SavedDrawBlendColor (g_SavedDrawBlendColor[0])

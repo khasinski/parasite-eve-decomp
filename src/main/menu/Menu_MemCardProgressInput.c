@@ -6,7 +6,7 @@
 
 MenuWidgetNode *MenuWidget_CreateSimpleNode(int kind, MenuWidgetNode *parent, int arg2, int arg3);
 MenuWidgetNode *MenuWidget_CreateNode(int kind, MenuWidgetNode *parent, MenuWidgetNode *sibling);
-void MenuWidget_SaveAndSetCurrentNode(MenuWidgetNode *node);
+void MenuWidget_SaveAndSetCurrentNode(MenuWidgetNode *arg0);
 int MemCard_GetActivePort(void);
 void Inv_SelectActiveList(int list);
 void Menu_CreateNotificationDialog(int arg0, int arg1);

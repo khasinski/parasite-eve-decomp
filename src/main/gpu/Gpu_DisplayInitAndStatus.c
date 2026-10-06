@@ -10,7 +10,7 @@ void SetDispMask(int arg0);
 void ClearImage(RECT *rect, int r, int g, int b);
 void DrawSync(int arg0);
 void Draw_InitBuffers(void);
-void CdRom_SetSeekPos(int arg0);
+int CdRom_SetSeekPos(unsigned int arg0);
 void Gpu_RenderFrame(void);
 
 /* The draw-enabled byte is read signed by the display queries and unsigned

@@ -26,7 +26,7 @@ s32 Aya_UnlockParasiteSpellById(s32 spell);
 void Menu_UpdateStatBarAnimation(s32 stat);
 void Draw_PrintNumberWidth2(s32 value);
 void Draw_PrintNumberWidth5(s32 value);
-void Draw_PrintNumberWidth6(s32 value);
+void Draw_PrintNumberWidth6(int value);
 
 extern int g_MenuLevelDisplayValue, g_MenuLevelDisplayTarget;
 extern int g_MenuHpMaxDisplayValue, g_MenuHpMaxDisplayTarget;

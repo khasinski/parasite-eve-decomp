@@ -25,8 +25,8 @@ void Draw_SetPresentEnabled(int arg0) {
 
 #define NULL ((void *)0)
 
-void SetDefDispEnv();
-void SetDefDrawEnv();
+DISPENV *SetDefDispEnv(DISPENV *env, int x, int y, int w, int h);
+DRAWENV *SetDefDrawEnv(DRAWENV *env, int x, int y, int w, int h);
 void Draw_SetFontVariant();
 
 extern s32 g_TextCursorX;

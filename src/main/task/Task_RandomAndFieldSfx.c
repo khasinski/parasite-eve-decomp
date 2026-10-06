@@ -4,7 +4,7 @@
 
 extern FieldActor *g_CurrentEntity[];
 
-int Task_GpuFlushPrimQueue(void);
+u32 Task_GpuFlushPrimQueue(void);
 int Task_GpuPackPrimColor(int start, int end);
 void Task_QueueFieldSfx(int arg0, int arg1, int arg2, int arg3, int arg4);
 

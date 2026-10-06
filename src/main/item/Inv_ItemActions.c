@@ -16,7 +16,7 @@
 
 u32 *D_8009D058;
 void *Str_LookupTable8(unsigned int index);
-M2C_UNK Sfx_DrawSlotRow();
+void Sfx_DrawSlotRow(ItemDataRecord *entry, u8 *text);
 extern u8 g_CursorRenderDataBlock[];
 
 static inline ItemDataRecord *LookupItem(int value) {

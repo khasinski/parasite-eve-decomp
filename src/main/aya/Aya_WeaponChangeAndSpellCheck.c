@@ -5,7 +5,7 @@ extern void **g_PlayerEntity;
 extern short g_AyaHpCurrent;
 extern signed char g_AyaEquippedWeaponSlot;
 
-void Battle_ApplySpellEffect(int, void **);
+void Battle_ApplySpellEffect(u32 idx, u8 *ent);
 int Inv_IsActiveListOverrideSelected(void);
 void Inv_SelectActiveList(int);
 extern unsigned int g_AyaParasiteSpellFlags;

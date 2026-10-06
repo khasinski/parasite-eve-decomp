@@ -11,14 +11,14 @@
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-MemCardSaveSlot *MemCard_GetSlot();
+MemCardSaveSlot *MemCard_GetSlot(unsigned int port, int slot);
 void *func_8005DD8C();
 M2C_UNK func_8005F5B8();
-M2C_UNK Draw_PrintNumberWidth3Unk();
+void Draw_PrintNumberWidth3Unk(int value);
 M2C_UNK func_800605F8();
 M2C_UNK func_800614AC();
 M2C_UNK Draw_EmitWipeBarRect();
-M2C_UNK Menu_SetSaveSlotBlendBase();
+void Menu_SetSaveSlotBlendBase(int arg0);
 M2C_UNK func_80064C54();
 extern void *g_MenuActiveWidget;
 extern s32 g_SavedDrawBlendColor[];

@@ -6,7 +6,7 @@
 #include "include_asm.h"
 
 void BoundsCheck_AssertStub(int arg0);
-void *MenuWidget_FindLastMode1WithCursorX(void);
+MenuWidgetNode *MenuWidget_FindLastMode1WithCursorX(void);
 
 #define W(base, off) (*(s32 *)((char *)(base) + (off)))
 #define DESCRIPTOR_FIELD(base, type, member) \

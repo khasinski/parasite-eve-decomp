@@ -210,7 +210,7 @@ void func_800E01BC(void);
 void Render_ResetGteScreenOffset(void);
 int Render_SetCDDCSlot(void);
 void Gpu_RenderFrame(void);
-void Render_SetFadeColour(int amount);
+int Render_SetFadeColour(unsigned int arg0);
 int VSync(int mode);
 void Sys_Shutdown(void);
 void Akao_StepVoiceTable(void);

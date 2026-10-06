@@ -26,7 +26,7 @@ void Menu_DrawMainMenuItem(int arg0) {
 
 void MenuWidget_DrawCenteredTableText(int arg0);
 void Draw_DropShadow(void);
-int Menu_GetActionSubmenuSelection(void);
+unsigned int Menu_GetActionSubmenuSelection(void);
 
 void Menu_DrawActionSubmenuItem(int arg0) {
     MenuWidget_DrawCenteredTableText(arg0 + 0x2E);
@@ -89,7 +89,7 @@ void Draw_OffsetCursor(int, int);
 void Draw_StatePush(void);
 void Draw_StatePop(void);
 void Draw_PrintNumberWidth2Unk(int);
-void Draw_PrintNumberWidth3Unk(int);
+void Draw_PrintNumberWidth3Unk(int value);
 
 void Menu_DrawScreenModeItem(int arg0) {
     Draw_StatePush();

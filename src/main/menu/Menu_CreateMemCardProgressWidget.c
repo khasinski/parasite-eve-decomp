@@ -5,7 +5,7 @@
 int g_MemCardProgressPrimList;
 
 void MemCard_DrawProgress(void);
-void Menu_MemCardProgressInputHandler(void);
+int Menu_MemCardProgressInputHandler(void);
 
 void Menu_CreateMemCardProgressWidget(int arg0) {
     void *node;

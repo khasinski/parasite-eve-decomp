@@ -34,7 +34,7 @@ void Inv_BuildItemGridFromCategory(void);
 void Save_InitMetadataState(void);
 void BattleCmd_LoadWeaponModifiers(void);
 void Menu_SaveBgInitFade(void);
-void Menu_SetEquipSlotIndex(int);
+void Menu_SetEquipSlotIndex(int index);
 
 void Akao_FlushBgmVolumeFade(void) {
     if (g_AkaoPendingBgmVolumeFade != 0) {

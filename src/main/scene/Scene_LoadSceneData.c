@@ -10,7 +10,7 @@ typedef struct { char b[16]; } __attribute__((aligned(1), packed)) Copy16u;
 typedef struct { u32 w[4]; } Copy16a;
 
 void Menu_FullInit(void);
-void Spu_UploadSampleBlockBlocking(int arg0, int arg1);
+void Spu_UploadSampleBlockBlocking(void *arg0, int arg1);
 
 extern struct { char _[16]; } g_PeImageBaseLba_o __asm__("g_PeImageBaseLba");
 extern struct { char _[16]; } D_800930DC_o __asm__("D_800930DC");

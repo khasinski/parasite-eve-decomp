@@ -13,7 +13,7 @@ typedef s8 M2C_UNK8;
 typedef s16 M2C_UNK16;
 typedef s32 M2C_UNK32;
 typedef s64 M2C_UNK64;
-M2C_UNK Sfx_DrawSlotRow();
+void Sfx_DrawSlotRow(ItemDataRecord *entry, u8 *text);
 void *Str_LookupTable8(unsigned int arg0);
 extern u8 g_KeyItemDataTable[];
 extern s16 g_BattleCountTable[];

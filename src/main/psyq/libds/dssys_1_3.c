@@ -4,7 +4,7 @@
 #include "pe1/psyq_cd.h"
 
 extern void CD_flush(void);
-extern void VSyncCallbacks(int, int);
+PsyqInterruptHandler VSyncCallbacks(unsigned int channel, PsyqInterruptHandler callback);
 
 
 typedef struct CdRomSystemDataPage {

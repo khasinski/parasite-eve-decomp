@@ -6,7 +6,7 @@
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "include_asm.h"
 
-s32 MenuWidget_GetCellIndex(s32 node);
+int MenuWidget_GetCellIndex(MenuWidgetNode *ptr);
 void Menu_CreateBonusPointAllocationView(void);
 void Menu_StepItemDetailPanel2(void);
 void Menu_PlayConfirmSound(void);

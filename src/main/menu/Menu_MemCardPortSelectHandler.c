@@ -9,7 +9,7 @@
 
 s32 MemCard_IsPortPresent(s32 port);
 void MemCard_SetDialogActive(s32 active);
-s32 MenuWidget_GetCellIndex(void *node);
+int MenuWidget_GetCellIndex(MenuWidgetNode *ptr);
 s32 MemCard_CheckPresent(s32 port);
 void MemCard_StartRead(s32 port, s32 slot);
 void MemCard_CloseAllAndResetState(void);

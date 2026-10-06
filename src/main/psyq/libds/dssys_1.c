@@ -7,14 +7,14 @@
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds.h"
 
-void CD_init(void);
-void CD_initvol(void);
+int CD_init(void);
+int CD_initvol(void);
 void DS_reset_members(void);
 void DsReadMode(int mode);
 void LIBDS_DSSYS_1_text_7FC(int, void *);
 void LIBDS_DSSYS_1_text_E10(int, u_char *);
 void LIBDS_DSSYS_1_text_4A4(void);
-void VSyncCallbacks(int mode, void *callback);
+PsyqInterruptHandler VSyncCallbacks(unsigned int channel, PsyqInterruptHandler callback);
 
 void DS_init(void) {
     CD_init();

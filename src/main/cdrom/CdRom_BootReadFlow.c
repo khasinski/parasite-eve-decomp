@@ -74,13 +74,13 @@ int CdRom_PollReady(void) {
 #include "../../../tools/m2c/m2c_macros.h"
 #include "pe1/psyq_gpu.h"
 
-s32 Akao_Cmd_F0();
+void Akao_Cmd_F0(void);
 int VSync(int mode);
 s32 EnterCriticalSection();
 s32 ExitCriticalSection();
 void FlushCache(void);
 
-void SetDefDispEnv(void *env, int x, int y, int w, int h);
+DISPENV *SetDefDispEnv(DISPENV *env, int x, int y, int w, int h);
 
 extern s8 D_800B0DB2;
 extern s8 D_800B0DB3;

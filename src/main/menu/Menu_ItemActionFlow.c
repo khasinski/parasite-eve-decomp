@@ -19,7 +19,7 @@ int Menu_EquipStatsInputHandler(MenuWidgetNode *node, int flags);
 int Menu_DetailViewInput(MenuWidgetNode *arg0, unsigned int arg1);
 int g_MenuSelectedItemIndex;
 int D_8009CFBC;
-int MenuWidget_GetCellIndex(int arg0);
+int MenuWidget_GetCellIndex(MenuWidgetNode *ptr);
 void Menu_CreateItemActionSubmenu(void);
 void Menu_CreateItemList(void);
 void Menu_PlayConfirmSound(void);

@@ -7,7 +7,7 @@
 M2C_UNK Battle_SyncEquipSlots();
 s32 Inv_GetAyaSlotLimit();
 u16 *func_8005DBAC();
-s32 Aya_GetLevelExpTable();
+void *Aya_GetLevelExpTable(void);
 extern void *g_InvItemPtr;
 extern s32 g_InvSlotLimit;
 extern u16 g_AyaHpMax[];

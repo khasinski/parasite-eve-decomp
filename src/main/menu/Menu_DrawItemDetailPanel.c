@@ -7,7 +7,7 @@
 extern int D_8009CF0C;
 extern int D_800A1888[], D_800A188C[], D_800A1890[], D_800A1894[];
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int, int);
-int MenuWidget_IsCursorYClear(MenuWidgetNode *);
+int MenuWidget_IsCursorYClear(MenuWidgetNode *ptr);
 int MenuWidget_GridCellIndex(MenuWidgetNode *);
 int Inv_GetPackedListItem(int);
 int Inv_RestoreSelection(unsigned int);
@@ -15,7 +15,7 @@ int Inv_GetPackedListCount(void);
 void MenuWidget_OffsetPosition(MenuWidgetNode *, int, int);
 void Draw_OffsetCursor(int, int);
 void Draw_PrintNumberWidth2Unk(int);
-void Draw_PrintNumberWidth3Unk(int);
+void Draw_PrintNumberWidth3Unk(int value);
 
 void Menu_DrawItemDetailPanel(MenuWidgetNode *panel) {
     MenuWidgetNode *selection;

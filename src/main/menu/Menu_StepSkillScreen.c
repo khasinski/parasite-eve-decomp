@@ -7,10 +7,10 @@
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-s32 MenuWidget_IsCursorYClear();
+int MenuWidget_IsCursorYClear(MenuWidgetNode *ptr);
 M2C_UNK func_80047678();
-M2C_UNK Menu_OpenItemList();
-s32 Battle_IsInputAllowedWrapped();
+void Menu_OpenItemList(void);
+int Battle_IsInputAllowedWrapped(void);
 extern s32 g_MenuLayoutLocked;
 extern M2C_UNK Menu_SetupSkillSubmenu[];
 #define Menu_SetupSkillSubmenu (Menu_SetupSkillSubmenu[0])

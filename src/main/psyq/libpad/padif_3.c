@@ -7,7 +7,7 @@ extern void (*D_8009B744)(CardObj *), (*D_8009B748)(CardObj *);
 extern int D_8009B770, D_8009B764, D_8009B79C, D_8009B77C[];
 extern volatile u8 *D_8009B7A0;
 int MemCard_WriteByte(CardObj *, int);
-int MemCard_WaitStatusBit2(void);
+void MemCard_WaitStatusBit2(void);
 int LIBPAD_PADIF_text_26C(CardObj *inPort) {
     register CardObj *port = inPort;
     register int mode;

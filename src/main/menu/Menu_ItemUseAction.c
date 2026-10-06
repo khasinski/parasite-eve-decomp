@@ -22,7 +22,7 @@ void Draw_StatePush(void);
 void Draw_StatePop(void);
 void Draw_SetColor(int arg0);
 void Draw_PrintTextById(int arg0);
-void Draw_PrintNumberWidth3Unk(int arg0);
+void Draw_PrintNumberWidth3Unk(int value);
 int Draw_GetBlendColor(void);
 
 void Menu_ItemUseAction(int arg0, int arg1) {

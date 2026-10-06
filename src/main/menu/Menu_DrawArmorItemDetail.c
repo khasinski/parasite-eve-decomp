@@ -11,7 +11,7 @@ extern u8 D_800C20A4[];
 
 void Draw_SetTextDimmed(int value);
 void *Str_LookupTable8(unsigned int index);
-void Sfx_DrawSlotRow(void *entry, void *display);
+void Sfx_DrawSlotRow(ItemDataRecord *entry, u8 *text);
 
 void Menu_DrawArmorItemDetail(int slot) {
     void *display;

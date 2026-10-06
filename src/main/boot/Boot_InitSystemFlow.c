@@ -31,13 +31,13 @@ void InitSystem(void) {
 }
 
 #define NULL ((void *)0)
-void Task_GpuFlushPrimQueue(void);
+u32 Task_GpuFlushPrimQueue(void);
 M2C_UNK Save_InitSystem();
 M2C_UNK Task_InitNodePool();
 M2C_UNK Entity_ResetStateGlobals();
 M2C_UNK Entity_ResetAllPools();
 M2C_UNK SsInit();
-M2C_UNK Menu_SetEquipSlotIndex();
+void Menu_SetEquipSlotIndex(int index);
 void Boot_BuildRenderFlagTable(void);
 M2C_UNK Save_PostInitStub();
 M2C_UNK Task_ClearSfxTable();
@@ -110,8 +110,8 @@ void ResetGraph(int arg0);
 void SetGraphDebug(int level);
 void SetDispMask(int mask);
 void ClearImage(RECT *rect, int r, int g, int b);
-void SetDefDispEnv(void *env, int x, int y, int w, int h);
-void SetDefDrawEnv(void *env, int x, int y, int w, int h);
+DISPENV *SetDefDispEnv(DISPENV *env, int x, int y, int w, int h);
+DRAWENV *SetDefDrawEnv(DRAWENV *env, int x, int y, int w, int h);
 
 void Render_ResetScene(int width, int height)
 {

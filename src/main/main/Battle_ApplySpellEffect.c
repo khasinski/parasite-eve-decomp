@@ -13,7 +13,7 @@
 extern BattleActionSoundTable D_80010760;
 
 void Entity_SetActionMode(void *, s32, s32, s32);
-void Akao_SendPositionalCmdStereo(u16, s32, s16, s16, s32);
+s32 Akao_SendPositionalCmdStereo(s32 arg0, s32 arg1, s16 arg2, s16 arg3, s16 arg4);
 s32 rand(void);
 
 extern struct { char _[16]; } D_8009D1A0_o __asm__("g_GameStateFlags");
