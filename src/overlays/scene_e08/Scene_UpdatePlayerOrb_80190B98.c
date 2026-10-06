@@ -1,4 +1,5 @@
 #include "pe1/scene_player_orb.h"
+#include "scene_e08_modules.h"
 
 /* After the start delay, slide the orb's ribbon from the anchor toward its
  * target in sixteenth steps, burst it at step 12, and scatter the trail
@@ -14,13 +15,15 @@ void func_80190B98(void *object, ScenePlayerOrbTimer *timer, ScenePlayerOrb *orb
     if (orb->delay != 0) {
         if (--orb->delay == 0) {
             orb->active = 1;
-            func_800C2B90(object, 1, D_80198754, D_80198718);
+            func_800C2B90(object, 1, (u8 *)g_SceneE08OrbSpawnLayout,
+                          (u8 *)g_SceneE08OrbInitList);
         }
     }
     if (orb->active != 0) {
         orb->fade++;
         if (++orb->active == 12) {
-            spawn = func_800C2B90(object, 3, D_80198754, D_80198718);
+            spawn = func_800C2B90(object, 3, (u8 *)g_SceneE08OrbSpawnLayout,
+                                 (u8 *)g_SceneE08OrbInitList);
             if (spawn != 0) {
                 spawn->x = orb->position.x;
                 spawn->y = orb->position.y;

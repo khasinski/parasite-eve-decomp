@@ -50,8 +50,6 @@ extern GteRotation D_8018EFFC;
 extern RenderColor D_8018F004;
 extern GteVector D_8018F008;
 extern u8 D_801987E4[];
-extern u8 D_80198718[];
-extern u8 D_80198754[];
 extern u8 D_80199690[];
 /* The sound owner read as a one-field record (see room_m089_spin_model.h). */
 typedef struct ScenePlayerOrbSound {

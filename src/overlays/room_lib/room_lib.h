@@ -741,6 +741,25 @@ extern char RoomLib_TableB[];
         return 0; \
     }
 
+/* registration method that registers the draw list whatever the field
+ * engine's status */
+#define ROOMLIB_REGISTER_TABLE_ANY(name, table) \
+    int name(void *o) { \
+        FieldEng_Register(o, table); \
+        return 0; \
+    }
+
+/* start method that acts whatever the field engine's status: register the
+ * update handlers and spawn from the init list and the spawn layout,
+ * closing the module with `close` when either call fails */
+#define ROOMLIB_START_ANY(name, update, init, layout, close) \
+    int name(void *o) { \
+        if ((func_800C251C(o, update) | func_800C2758(o, init, layout)) == -1) { \
+            close(o); \
+        } \
+        return 0; \
+    }
+
 /* start method that acts only while the field engine runs the object
  * (status 3): register the update handlers and spawn from the init list and
  * the spawn layout, closing the module with `close` when either call fails
