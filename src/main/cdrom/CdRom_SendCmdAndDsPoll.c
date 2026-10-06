@@ -63,8 +63,7 @@ void LIBDS_DSSYS_1_text_4A4(void) {
         goto done;
     }
     timer = &g_DsSyncResultCountdown;
-    asm("" : "=r"(timer) : "0"(timer));
-    if (*timer > 0)
+        if (*timer > 0)
         --*timer;
     if ((int)CMD(timer)->reserved34 > 0)
         --CMD(timer)->reserved34;
@@ -143,8 +142,7 @@ callbacks:
         g_DsPollCallback();
     {
         register DsReadStatusBlock *read asm("$4") = &g_DsReadStatusBlock;
-        asm("" : "=r"(read) : "0"(read));
-        if ((read->status == 1 && !read->eventFlags.bit1) || read->status == 3) {
+                if ((read->status == 1 && !read->eventFlags.bit1) || read->status == 3) {
             if (g_CdRomCmdTimeout <= 0) {
                 g_CdRomCommandEventValue = 33;
                 CdRom_SendCmd(1, 0);
