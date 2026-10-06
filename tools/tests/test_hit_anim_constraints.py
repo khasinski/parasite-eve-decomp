@@ -11,8 +11,9 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class HitAnimConstraintTests(unittest.TestCase):
     def test_constraints_removed(self):
-        source = (ROOT / 'src/main/entity/Entity_ApplyHitAndSetAnim.c').read_text()
+        source = (ROOT / 'src/main/entity/Entity_HitAndDropTable.c').read_text()
         source = re.sub(r'/\*.*?\*/|//[^\n]*', '', source, flags=re.S)
+        source = source[source.rindex('Entity_ApplyHitAndSetAnim('):]
         self.assertIsNone(re.search(r'\b(?:asm|__asm__|INCLUDE_ASM|CC_POSTPASS|REGALLOC_BARRIER)\b', source))
 
     @unittest.skipUnless((ROOT / 'assets/USA/main.exe').is_file() and
