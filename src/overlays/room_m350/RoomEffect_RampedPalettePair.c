@@ -78,8 +78,7 @@ configure:
     {
         int unit = 16;
         int palette;
-        asm("" : : "r"(unit) : "memory");
-        palette = D_800E2850[D_800E11E8];
+                palette = D_800E2850[D_800E11E8];
         asm("" : "=r"(palette) : "0"(palette) : "memory");
         D_800F336C = 2; D_800F336E = 0;
         D_800F3368 = unit; D_800F336A = 1;
