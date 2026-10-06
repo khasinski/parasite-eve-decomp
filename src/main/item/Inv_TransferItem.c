@@ -1,14 +1,11 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 s32 Inv_GetAyaSlotLimit();
-M2C_UNK Inv_RebuildSelectableMask();
-s32 Inv_IsSlotSelectable();
-s32 Inv_CanAddActiveListItemToAya();
-void *Item_LookupBaseData();
 extern M2C_UNK *g_InvItemPtr;
 extern s32 g_InvSlotLimit;
 extern M2C_UNK *g_InvSelectionBits;

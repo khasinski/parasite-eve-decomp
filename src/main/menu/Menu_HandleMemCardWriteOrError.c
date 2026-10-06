@@ -1,5 +1,7 @@
 /* MASPSX_FLAGS: -G8 */
 /* CC1_FLAGS: -G8 */
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_inventory.h"
 
 extern int g_MemCardProgressPrimList;
 extern void (*g_MenuDeferredCallback)(void);
@@ -11,9 +13,6 @@ void MemCard_ClearActivePrompt(void);
 int MemCard_GetActivePort(void);
 void MemCard_SetDelayedCallback(void (*callback)(void));
 void Menu_CreateTwoLineDialog(int arg0, int arg1);
-void MenuWidget_SetCurrentNode(char *node);
-int MenuWidget_GetCurrentNode(void);
-char *MenuWidget_CreateSimpleNode(int arg0, int arg1, int arg2, int arg3);
 
 void Menu_HandleMemCardWriteOrError(int arg0, int arg1) {
     char *entry;

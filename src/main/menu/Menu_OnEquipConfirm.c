@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "pe1/menu_inventory.h"
+#include "pe1/text.h"
 #include "pe1/inventory.h"
 #include "pe1/menu_dialog.h"
 
@@ -53,10 +54,6 @@ extern int D_800A1894[];
 extern u8 D_800A1980[];
 
 int Menu_GetBattleEquipMode(void);
-int Str_LookupTable4(int index);
-void Util_CopyFFTerminatedBytes(void *dst, void *src);
-void Util_AppendFFTerminatedBytes(void *dst, void *src);
-int Draw_MeasureTextWidth(void *text);
 void Menu_StepInventoryRoot(int flags, int arg1, int arg2);
 void Menu_ConfigureScreen(void);
 

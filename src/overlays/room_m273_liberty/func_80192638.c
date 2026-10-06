@@ -4,7 +4,7 @@
 
 extern FieldActor *g_PlayerEntity;
 extern int FieldEng_VecToAngle(void *, void *);
-extern int func_800DFE20(void *, void *);
+extern int func_800DFE20(int *, int *);
 extern void func_80020C74(void);
 extern void func_80192838(RoomSelectionState *);
 extern void func_80192D50(struct RoomEnt *);

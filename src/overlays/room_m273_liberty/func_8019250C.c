@@ -1,3 +1,5 @@
+#include "pe1/gte_types.h"
+#include "pe1/room_m023_beacon.h"
 extern char D_8019A8B8;
 extern int D_8019A8CC;
 extern int D_8019A8D0;
@@ -5,8 +7,6 @@ extern int D_8019A8D4;
 extern char D_8019A8D8;
 
 void func_80192638(void);
-void RotMatrixYXZ(void *arg0, void *arg1);
-int MulMatrix0(void *arg0, void *arg1, void *arg2);
 
 int func_8019250C(char *obj) {
     int ret;

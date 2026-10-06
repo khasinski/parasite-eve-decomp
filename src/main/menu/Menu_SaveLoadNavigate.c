@@ -1,13 +1,13 @@
 
 #include "pe1/menu_widget.h"
+#include "pe1/inventory_slots.h"
+#include "pe1/menu_inventory.h"
 #include "pe1/inventory.h"
 
-int MenuWidget_GetChild(int *arg0, int arg1);
 int MenuWidget_GridCellIndex(MenuWidgetNode *ptr);
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 void MenuWidget_InitPool(void);
-extern void Inv_SetActiveList(int arg0, int arg1);
 void Menu_PlayConfirmSound(void);
 
 int Menu_SaveLoadNavigate(MenuWidgetNode *arg0, unsigned int flags) {

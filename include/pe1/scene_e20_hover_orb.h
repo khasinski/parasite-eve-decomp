@@ -45,7 +45,8 @@ void func_800CE870(void *object, int joint, SceneE20Vec *out);
 void func_800CFAA8(SceneE20Vec *from, SceneE20Vec *to, SceneE20Vec *angles);
 void func_800CFB7C(SceneE20Vec *angles, s16 distance, SceneE20Vec *out);
 void func_800D1384(SceneE20Vec *from, SceneE20Vec *to, u32 count, SceneE20Color *color0, SceneE20Color *color1, int scale, void *history, int mode);
-void func_800D2B58(SceneE20Vec *from, SceneE20Vec *to, SceneE20Color *color0, SceneE20Color *color1, int scale0, int scale1, int mode);
+void func_800D2B58(void *from, void *to, void *color0, void *color1, int scale0,
+                  int scale1, int mode);
 
 void func_800C6EC0(int tpage,int clut);
 void func_800C6ED8(int mode);

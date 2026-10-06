@@ -1,8 +1,7 @@
+#include "pe1/inventory.h"
 
 extern unsigned char g_EquipItemDataTable[];
 extern unsigned char g_KeyItemDataTable[];
-
-void *Item_LookupBaseData(unsigned int index);
 
 void *Inv_LookupData(unsigned int arg0) {
     if ((arg0 - 0x100U) < 0x80U) {

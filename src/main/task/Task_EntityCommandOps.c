@@ -1,4 +1,5 @@
 #include "pe1/field_actor.h"
+#include "pe1/textbox.h"
 
 extern FieldActor *g_CurrentEntity[];
 
@@ -22,8 +23,6 @@ int Task_AssignValue(int **arg0) {
     *arg0[0] = *arg0[1];
     return 1;
 }
-
-void Render_SetupColorTable(s16 arg0, int arg1, s16 *arg2);
 
 int Task_StopEntityAnim(s16 **arg0) {
     s16 value[5];

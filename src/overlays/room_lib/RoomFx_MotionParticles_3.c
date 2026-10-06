@@ -11,6 +11,7 @@
  * in each room's own data (pe1/room_motion_init.h).
  */
 #include "pe1/room_motion_init.h"
+#include "pe1/room_ground_eruption.h"
 #include "common.h"
 #include "room_lib.h"
 #include "pe1/gte.h"
@@ -133,7 +134,6 @@ typedef struct RoomParticleRenderPairState {
 
 
 void func_800C5538(RoomParticleRenderRecord *record);
-void func_800C66C8(void *owner, int message, RoomSpriteMatrix *matrix);
 
 void RoomFx_InitParticleRenderPair(
     void *owner, void *unused, RoomParticleRenderPairState *state) {

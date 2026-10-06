@@ -1,4 +1,6 @@
 #include "common.h"
+#include "pe1/field_flash_burst.h"
+#include "pe1/gte_types.h"
 #include "pe1/room_floor.h"
 #include "pe1/field_glow_sprite.h"
 

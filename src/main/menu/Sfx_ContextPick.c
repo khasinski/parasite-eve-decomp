@@ -1,4 +1,5 @@
 /* MASPSX_FLAGS: -G8 --use-comm-section */
+#include "pe1/inventory.h"
 
 int g_MenuItemActionContext;
 int g_MenuActiveItemSlot;
@@ -6,8 +7,6 @@ int g_MenuItemActionDisabled;
 int g_MenuEquipMode;
 extern int g_MenuItemActionStateTable[][3];
 
-void *Inv_LookupActiveListData(int index);
-int Inv_TestSelectionBit();
 int Inv_IsSlotSelectable(int arg0);
 void *Str_LookupTable4(unsigned int arg0);
 void Draw_SetTextDimmed(int value);

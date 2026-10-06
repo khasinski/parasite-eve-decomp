@@ -1,6 +1,9 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 #include "common.h"
+#include "pe1/boot_disc_check.h"
+#include "pe1/draw_state.h"
+#include "pe1/psyq_tim.h"
 #include "pe1/psyq_gpu.h"
 
 extern int g_MenuInputActive;
@@ -24,7 +27,6 @@ void Draw_SetPresentEnabled(int arg0) {
 
 void SetDefDispEnv();
 void SetDefDrawEnv();
-void Draw_SetColor();
 void Draw_SetFontVariant();
 
 extern s32 g_TextCursorX;
@@ -123,8 +125,6 @@ extern int g_OtListTail;
 extern int g_DrawPresentEnabled;
 extern u8 D_800A2180[];
 
-void ClearOTagR(int arg0, int arg1);
-
 void Draw_SetPresentImage(int arg0) {
     g_DrawPresentImage = arg0;
 }
@@ -163,9 +163,6 @@ extern int g_DrawPresentImage;
 int VSync(int arg0);
 void DrawSync(int arg0);
 void ResetGraph(int arg0);
-void PutDrawEnv(int arg0);
-void LoadImage(s16 *rect, int image);
-void DrawOTag(int arg0);
 
 static inline int NormalizeSyncMode(int mode) {
     if (mode == 1) {

@@ -1,10 +1,9 @@
 #include "common.h"
+#include "pe1/entity_frame_update.h"
 #include "pe1/render_object.h"
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 
-M2C_UNK Anim_BuildRotationMatrices();
-M2C_UNK Render_TransformVertices();
 M2C_UNK Render_CopyMatrixBlock();
 
 extern struct { char _[16]; } D_80091A38_o __asm__("g_IdentityMatrixSource");

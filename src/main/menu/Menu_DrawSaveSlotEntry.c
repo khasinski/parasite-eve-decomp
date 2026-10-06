@@ -1,4 +1,10 @@
 #include "common.h"
+#include "pe1/draw_level_bar.h"
+#include "pe1/draw_state.h"
+#include "pe1/menu_context_help.h"
+#include "pe1/menu_inventory.h"
+#include "pe1/save.h"
+#include "pe1/text.h"
 #include "pe1/memcard.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -6,21 +12,13 @@
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 MemCardSaveSlot *MemCard_GetSlot();
-s32 Save_GetMetadataWindowIndex();
 void *func_8005DD8C();
-M2C_UNK Draw_OffsetCursor();
-M2C_UNK Draw_AllocSprite();
-M2C_UNK Draw_PrintRawText();
 M2C_UNK func_8005F5B8();
-M2C_UNK Draw_PrintNumberWidth2Unk();
 M2C_UNK Draw_PrintNumberWidth3Unk();
-M2C_UNK Draw_PrintNumberWidth4Unk();
-M2C_UNK Draw_PrintTimeValue();
 M2C_UNK func_800605F8();
 M2C_UNK func_800614AC();
 M2C_UNK Draw_EmitWipeBarRect();
 M2C_UNK Menu_SetSaveSlotBlendBase();
-s32 MenuWidget_GridCellIndex();
 M2C_UNK func_80064C54();
 extern void *g_MenuActiveWidget;
 extern s32 g_SavedDrawBlendColor[];

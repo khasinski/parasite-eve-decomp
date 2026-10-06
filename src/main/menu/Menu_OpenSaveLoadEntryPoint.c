@@ -1,16 +1,16 @@
 #include "common.h"
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_inventory.h"
 #include "include_asm.h"
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 
 void Queue_Init(void);
-void *MenuWidget_FindByModeAndSelectedBase(s32 mode, s32 base);
 s32 Inv_GetPackedListCursor(void);
 void Menu_StepInventoryRoot(s32 arg0, s32 arg1, s32 arg2);
 void Menu_RequestErrorSound(void);
 void Menu_OpenRenameScreen(s32 arg0);
-void *MenuWidget_CreateSimpleNode(s32 mode, s32 arg1, s32 arg2, s32 arg3);
 
 void Menu_DrawContextHelpText(void);
 

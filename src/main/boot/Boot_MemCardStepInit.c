@@ -1,10 +1,10 @@
 #include "common.h"
+#include "pe1/memcard.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-M2C_UNK MemCard_InitSlotState();
 M2C_UNK Battle_StartEncounter();
 M2C_UNK func_80042F20();
 s32 Asset_LoadTimTextures();

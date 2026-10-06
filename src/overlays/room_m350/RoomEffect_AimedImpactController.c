@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/gte_types.h"
 typedef RoomM350Vector Vector;
 typedef RoomM350TransformMatrix Matrix;
 typedef struct { Vector velocity; short x, y, z; unsigned char stopped, pad; } Particle;
@@ -25,8 +26,6 @@ extern Particle *func_800CE610(void *);
 extern int Math_IntSqrt(int);
 extern int ratan2(int, int);
 extern int Inv_ScrambleGrid(void);
-extern Matrix *RotMatrixYXZ(Vector *, Matrix *);
-extern Vector *ApplyMatrixSV(Matrix *, Vector *, Vector *);
 extern int Asset_Find08w(int, int, short, short, short);
 
 int func_80197364(int event)

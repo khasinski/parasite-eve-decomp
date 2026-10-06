@@ -2,6 +2,7 @@
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
 #include "pe1/psyq_gpu.h"
+#include "pe1/psyq_tim.h"
 
 typedef unsigned int u32;
 
@@ -15,8 +16,6 @@ void Menu_SaveBgApplyFadeStep(void);
 int g_MenuSaveBgFadeState;
 int g_MenuSaveBgFadeHeight;
 extern int g_RenderBackBufferBase[];
-
-int LoadImage(RECT *rect, u32 *p);
 
 void Menu_SaveBgAdvanceFade(void) {
     RECT rect;

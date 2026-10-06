@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory_slots.h"
 #include "pe1/save.h"
 #include "pe1/memcard.h"
 #include "pe1/save_blob.h"
@@ -1085,7 +1086,6 @@ extern u8 g_MemCardFileBuffer[];
 void MemCard_CloseAll(void);
 
 void MenuWidget_NavScrollTo(int selected_base);
-void Inv_SetActiveList(int arg0, int arg1);
 
 int Save_StartReadSlot(int port, int slot)
 {

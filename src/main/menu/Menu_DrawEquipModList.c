@@ -1,5 +1,5 @@
+#include "pe1/menu_inventory.h"
 
-int MenuWidget_GridCellIndex(int arg0);
 int Inv_GetPackedListItem(int arg0);
 int BattleCmd_GetRemainingAmmo(int *out);
 int Inv_GetSlotHighlightState(int arg0, int arg1);

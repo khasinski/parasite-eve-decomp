@@ -1,10 +1,9 @@
 /* MASPSX_FLAGS: -G8 --use-comm-section */
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_inventory.h"
 
 int g_MemCardProgressPrimList;
 
-void *MenuWidget_GetCurrentNode(void);
-void *MenuWidget_CreateSimpleNode(int arg0, void *arg1, int arg2, int arg3);
-void MenuWidget_SetCurrentNode(void *arg0);
 void MemCard_DrawProgress(void);
 void Menu_MemCardProgressInputHandler(void);
 

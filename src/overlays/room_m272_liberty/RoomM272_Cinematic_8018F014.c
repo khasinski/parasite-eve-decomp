@@ -1,4 +1,5 @@
 #include "../room_lib/room_lib.h"
+#include "pe1/boot_display.h"
 
 extern RoomBlob8 RoomM272_BlobA;
 extern RoomBlob8 RoomM272_BlobB;
@@ -8,12 +9,7 @@ extern int D_801991C8;
 extern char D_800BCE80[];
 extern int D_8009CDDC;
 extern int func_800750CC();
-extern int func_8007506C();
 extern int func_8007512C();
-extern int func_80074DC0();
-extern int func_80073A44();
-extern int func_800755F0();
-extern int func_80074D28();
 
 int RoomM272_Cinematic_8018F014(void) {
     RoomBlob8 b1 = RoomM272_BlobA;

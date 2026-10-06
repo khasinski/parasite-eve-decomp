@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/menu_equipment.h"
 #include "pe1/menu_dialog.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -10,7 +11,6 @@ void MemCard_SetDialogActive(s32 active);
 void Queue_Init(void);
 
 extern s32 g_McDialogMode;
-void Menu_DrawContextHelpText(MenuWidgetNode *panel);
 s32 Menu_MemCardPortSelectHandler(void *node, s32 flags);
 int Menu_IsMemCardSlotSelectable(int arg0);
 void Menu_DrawMemCardPortList(int arg0);

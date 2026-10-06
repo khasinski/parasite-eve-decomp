@@ -1,12 +1,12 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
+#include "pe1/menu_inventory.h"
+#include "pe1/text.h"
 
 extern unsigned char *g_MenuItemIconGlyphTable;
 
 void Menu_DrawItemIcon(int arg0);
 void MenuWidget_DrawList(int arg0, void (*callback)(int));
-void *MenuWidget_FindByModeAndSelectedBase(int arg0, int arg1);
-unsigned char *Str_LookupTable4(int arg0);
 
 void Menu_DrawItemIconList(int arg0) {
     void *entry;

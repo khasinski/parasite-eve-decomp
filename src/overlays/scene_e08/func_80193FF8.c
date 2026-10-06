@@ -1,6 +1,6 @@
 #include "common.h"
+#include "pe1/room_drop_field.h"
 char *func_800C2B50(void);
-void func_800C2B10(s32 arg0);
 
 void func_80193FF8(s32 arg0, s32 arg1, char *p) {
     char *view;

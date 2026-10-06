@@ -2,6 +2,7 @@
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/save.h"
+#include "pe1/text.h"
 
 void Save_PostInitStub(void) {
 }
@@ -107,8 +108,6 @@ int Save_DeleteMetadataChar(void) {
 
 
 
-unsigned char *Str_LookupTable4(unsigned int index);
-unsigned char *Str_LookupTable8(unsigned int index);
 
 void Save_LoadMetadataWindowText(void) {
     unsigned char *cursor;

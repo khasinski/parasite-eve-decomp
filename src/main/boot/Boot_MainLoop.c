@@ -1,4 +1,6 @@
 #include "common.h"
+#include "pe1/boot_disc_check.h"
+#include "pe1/field_bg_load.h"
 #include "pe1/boot_stack.h"
 #include "pe1/game_state.h"
 extern void InitSystem(void);
@@ -8,8 +10,6 @@ extern int VSync(int arg0);
 extern void Boot_InitGameState(void);
 extern void Boot_InitSubsystems(void);
 extern void Scene_LoadSceneData(void);
-extern void Render_InitDisplayLists(int arg0);
-extern void Scene_LoadFieldBg(void);
 extern void Overlay_LoadTables(void);
 extern void func_8019234C(void);
 extern void CD_LoadBootAudio(void);

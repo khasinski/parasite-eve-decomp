@@ -1,4 +1,6 @@
 #include "common.h"
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_inventory.h"
 #include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -8,10 +10,8 @@
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 
-void MenuWidget_SetCurrentNode(void *node);
 void Inv_SelectActiveList(s32 useOverride);
 void Inv_ClearSelectionBitset(void);
-void *MenuWidget_CreateSimpleNode(s32 mode, s32 arg1, s32 arg2, s32 arg3);
 
 #define ITEM_FIELD(base, type, member) \
     (*(type)((char *)(base) + PE1_OFFSETOF(ItemDataRecord, member)))
@@ -70,12 +70,7 @@ void Menu_CreateAmmoSpendPanel(s32 parent) {
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 s32 Spend_Ammo();
-M2C_UNK Menu_PlayConfirmSound();
-M2C_UNK Menu_PlayCancelSound();
-M2C_UNK Menu_PlayMoveSound();
-M2C_UNK Menu_PlayErrorSound();
 s32 func_8005E120();
-M2C_UNK MenuWidget_DestroyNode();
 extern s32 g_InvSelectedItemIndex;
 extern s32 g_InvSwapTargetIndex;
 extern s32 g_MenuSpendArrowDirection;

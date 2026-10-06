@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
@@ -13,7 +14,6 @@ typedef s16 M2C_UNK16;
 typedef s32 M2C_UNK32;
 typedef s64 M2C_UNK64;
 M2C_UNK Sfx_DrawSlotRow();
-void *Item_LookupBaseData(unsigned int index);
 void *Str_LookupTable8(unsigned int arg0);
 extern u8 g_KeyItemDataTable[];
 extern s16 g_BattleCountTable[];

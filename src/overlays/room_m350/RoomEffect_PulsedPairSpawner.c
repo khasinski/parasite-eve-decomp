@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/gte_types.h"
 /* MASPSX_FLAGS: --expand-div */
 typedef RoomM350Vector Vector;
 typedef RoomM350TransformMatrix Matrix;
@@ -16,8 +17,6 @@ extern int func_80199B94(int,Particle *);
 extern int func_800CE560(void *,int,int,int (*)(int,Particle *));
 extern Particle *func_800CE610(void *);
 extern int Inv_ScrambleGrid(void);
-extern void RotMatrixYXZ(Vector *,Matrix *);
-extern void ApplyMatrixSV(Matrix *,Vector *,Vector *);
 int func_80192508(int event)
 {
     Vector offset;

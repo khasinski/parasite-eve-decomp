@@ -1,5 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
+#include "pe1/menu_context_help.h"
+#include "pe1/text.h"
 
 extern unsigned char *g_MenuActionItemData;
 extern int g_InvItemUsableFlag;
@@ -8,8 +10,6 @@ void Draw_AllocSprite(int);
 
 int Inv_GetPackedListCount(void);
 int Inv_GetPackedListItem(int);
-int Str_LookupTable8(int);
-void Draw_PrintRawText(int);
 
 void Menu_DrawActionCodeItem(int arg0) {
     int code;

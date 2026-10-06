@@ -1,12 +1,12 @@
 
 #include "pe1/menu_widget.h"
+#include "pe1/menu_inventory.h"
 
 void MenuWidget_NavScrollTo(int selected_base);
 MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 void MenuWidget_SetCursorY(MenuWidgetNode *ptr);
 void Menu_CreateItemDetailView(MenuWidgetNode *arg0);
 void Menu_CreateEquipStatsPanel(int arg0);
-int MenuWidget_GetChild(int *arg0, int arg1);
 void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 
 void Menu_ConfigureScreen(void) {

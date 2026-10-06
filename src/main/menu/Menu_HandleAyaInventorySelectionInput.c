@@ -1,4 +1,7 @@
 #include "common.h"
+#include "pe1/inventory.h"
+#include "pe1/menu_equipment.h"
+#include "pe1/menu_inventory.h"
 #include "pe1/psyq_nop.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
@@ -7,16 +10,9 @@
 
 #include "../../../tools/m2c/m2c_macros.h"
 
-void MenuWidget_ClearCursorY();
-void *MenuWidget_FindByModeAndSelectedBase();
-void Menu_OpenEquipScreen();
 void Menu_PlayConfirmSound(void);
 void Menu_PlayCancelSound(void);
-void Inv_RemoveActiveListItem();
-void *MenuWidget_GetChild();
-void MenuWidget_DestroyNode(s32 node);
 void MenuWidget_NavScrollTo(s32 selected_base);
-s32 MenuWidget_GridCellIndex();
 
 extern s32 g_MenuEquipSwapSource;
 extern s32 D_8009CF9C;

@@ -1,13 +1,13 @@
 #include "common.h"
+#include "pe1/aya.h"
+#include "pe1/draw_state.h"
+#include "pe1/text.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 s32 Battle_GetModifierTable();
-M2C_UNK Stat_QueryLevelAndSubLevel();
-M2C_UNK Draw_OffsetCursor();
-M2C_UNK Draw_AllocSprite();
 M2C_UNK func_8005F5B8();
 M2C_UNK func_800605F8();
 extern s32 g_BonusPointBarAnimProgress;

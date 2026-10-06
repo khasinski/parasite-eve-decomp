@@ -1,12 +1,11 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
 extern short *D_8009D07C;
 extern u8 D_800BEEAC[];
 extern u8 D_8009DE64[];
-
-void *Item_LookupBaseData(unsigned int index);
 
 u8 *Inv_LookupItemData(int index) {
     int value = D_8009D07C[index];

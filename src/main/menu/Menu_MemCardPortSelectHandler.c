@@ -1,4 +1,6 @@
 #include "common.h"
+#include "pe1/inventory_slots.h"
+#include "pe1/menu_inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -7,18 +9,14 @@
 
 s32 MemCard_IsPortPresent(s32 port);
 void MemCard_SetDialogActive(s32 active);
-void *MenuWidget_FindByModeAndSelectedBase(s32 mode, s32 selectedBase);
 s32 MenuWidget_GetCellIndex(void *node);
 s32 MemCard_CheckPresent(s32 port);
 void MemCard_StartRead(s32 port, s32 slot);
 void MemCard_CloseAllAndResetState(void);
 s32 MemCard_IsOperationPending(void);
-void Inv_SetActiveList(s32, s32);
 void Menu_PlayConfirmSound(void);
 void Menu_PlayCancelSound(void);
 void Menu_PlayErrorSound(void);
-void *MenuWidget_GetChild(void *node, s32 childIndex);
-void MenuWidget_DestroyNode(void *node);
 extern s32 g_MenuMemCardConfirmPending;
 
 s32 Menu_MemCardPortSelectHandler(void *node, s32 flags) {

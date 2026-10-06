@@ -310,7 +310,6 @@ int Menu_StatSlotInputHandler(MenuWidgetNode *node, unsigned int flags) {
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 #include "pe1/menu_inventory.h"
-s32 MenuWidget_GridCellIndex();
 extern s32 g_MenuEquipMode;
 extern s32 g_MenuItemRenameMode;
 extern s32 g_BonusPointDisplayValue;

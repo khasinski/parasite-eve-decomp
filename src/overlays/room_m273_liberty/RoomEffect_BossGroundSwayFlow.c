@@ -1,5 +1,6 @@
 /* Paired ground sprites and the boss ground ring share sway points and pool records. */
 #include "room_m273_boss.h"
+#include "pe1/scene_assets.h"
 #include "pe1/gte.h"
 #include "room_m273_sway.h"
 typedef GteShortVector Vector;
@@ -196,7 +197,6 @@ typedef struct { Entry entries[2]; unsigned char unknown[14]; unsigned char stop
 extern void *D_800B0E64, *D_8019AF6C;
 extern EmitterState D_8019AF84;
 extern short D_800F3374;
-extern void *Asset_FindTable08ByU32Key(void *, unsigned int);
 extern void func_800C6D5C(void *, int, int);
 
 int func_801993F0(int mode) {

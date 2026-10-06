@@ -1,6 +1,6 @@
 #include "common.h"
-s32 RotMatrixYXZ(void *arg0, void *arg1);
-s32 MulMatrix0(void *arg0, void *arg1, void *arg2);
+#include "pe1/gte_types.h"
+#include "pe1/room_m023_beacon.h"
 
 extern char D_8019B31C[];
 extern char D_8019B2FC[];

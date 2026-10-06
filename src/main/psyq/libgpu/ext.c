@@ -4,10 +4,10 @@
 /* Psy-Q LIBGPU EXT.OBJ: LoadTPage, LoadClut, LoadClut2, SetDefDrawEnv and
  * SetDefDispEnv. */
 #include "common.h"
+#include "pe1/psyq_tim.h"
+#include "pe1/render_prim.h"
 #include "pe1/psyq_gpu.h"
 
-int LoadImage(RECT *rect, u_long *pixels);
-u_short GetTPage(int mode, int blend, int x, int y);
 u_short GetClut(int x, int y);
 int GetVideoMode(void);
 

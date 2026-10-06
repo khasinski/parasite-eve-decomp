@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/gte_types.h"
 typedef RoomM350OverlayTransform Transform;
 typedef struct RoomM350Instance { char reserved[0x238]; Transform *transform; } Instance;
 typedef RoomM350Actor Actor;
@@ -56,8 +57,6 @@ extern int func_80197A04(int, short *);
 extern int func_800CE560(void *, int, int, int (*)(int, short *));
 extern short *func_800CE610(void *);
 extern int Inv_ScrambleGrid(void);
-extern Matrix *RotMatrixYXZ(Vector *, Matrix *);
-extern Vector *ApplyMatrixSV(Matrix *, Vector *, Vector *);
 
 int func_80197B98(int event)
 {

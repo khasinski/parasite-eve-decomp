@@ -1,6 +1,7 @@
 /* ASSEMBLER: GNU */
 /* Psy-Q LIBDS DSTYPE.OBJ: DsGetDiskType, GD_cbsync, GD_cbready. */
 #include "pe1/psyq_ds_queue.h"
+#include "pe1/psyq_cd.h"
 #include "pe1/cdrom.h"
 
 extern char D_8001205C[];
@@ -9,7 +10,6 @@ CdlLOC *DsIntToPos(int sector, CdlLOC *position);
 void GD_cbsync(unsigned char event);
 
 
-int DsGetSector(u8 *dst, int sector_size);
 void GD_cbready(int event, void *data, void *detail);
 
 int DsGetDiskType(void) {

@@ -1,9 +1,9 @@
+#include "pe1/cdrom.h"
 extern unsigned char D_800B0DBA;
 
 void func_800870F0(int arg0);
 void func_8010C0D8(int arg0);
 void StUnSetRing(void);
-void DsControlB(int arg0, int arg1, int arg2);
 
 void func_80122398(void) {
     unsigned char *counter;

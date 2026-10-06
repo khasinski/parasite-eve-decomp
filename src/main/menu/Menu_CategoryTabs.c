@@ -1,12 +1,12 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
+#include "pe1/menu_inventory.h"
+#include "pe1/text.h"
 
 unsigned int g_MenuSelectedItemList;
 
 void Inv_BuildStorageDisplay(void);
 void MenuWidget_NavScrollTo(int arg0);
-void *MenuWidget_FindByModeAndSelectedBase(int arg0, int arg1);
-void MenuWidget_SetCurrentNode(void *arg0);
 int Inv_RestoreSelection(unsigned int arg0);
 void Menu_StepInventoryRoot(int arg0, int arg1, int arg2);
 void Menu_PlayCancelSound(void);
@@ -16,7 +16,6 @@ int g_MenuEquipMode;
 void Draw_OffsetCursor(int arg0, int arg1);
 void Draw_FlushPrimList(int arg0);
 void Draw_SetColor(int arg0);
-void Draw_PrintTextById(int arg0);
 
 void Menu_InitCategoryTabs(void) {
     void *node;

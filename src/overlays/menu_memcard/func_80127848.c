@@ -1,5 +1,7 @@
 /* CC1_FLAGS: -fno-cse-skip-blocks */
 #include "common.h"
+#include "pe1/boot_disc_check.h"
+#include "pe1/boot_display.h"
 #include "pe1/signed_rect.h"
 
 typedef PsxSignedRect Rect;
@@ -10,11 +12,8 @@ extern char *D_801D11C4;
 extern int D_80193258;
 extern char D_80193268[];
 
-void func_8007506C(Rect *, char *);
 void DrawSync(int);
-void VSync(int);
 void func_80074A44(int);
-void PutDrawEnv(void *);
 void func_800755F0(void *);
 
 void func_80127848(void) {

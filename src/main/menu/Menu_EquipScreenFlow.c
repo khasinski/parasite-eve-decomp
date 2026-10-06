@@ -1,6 +1,8 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "common.h"
+#include "pe1/menu_context_help.h"
+#include "pe1/text.h"
 #include "pe1/inventory.h"
 #include "pe1/inventory_slots.h"
 #include "pe1/menu_equipment.h"
@@ -26,8 +28,6 @@ void func_800451D0(MenuWidgetNode *);
 void Menu_OpenItemActionSubmenu(MenuWidgetNode *, int, int);
 void MenuWidget_OffsetPosition(MenuWidgetNode *node, int dx, int dy);
 void Draw_OffsetCursor(int x, int y);
-char *Str_LookupTable4(int index);
-void Draw_PrintRawText(char *text);
 int Inv_CountTotal(void);
 void Draw_PrintNumberWidth2Unk(int value);
 void Draw_AllocSprite(int sprite);

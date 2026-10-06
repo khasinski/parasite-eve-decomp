@@ -1,17 +1,16 @@
 #include "pe1/psyq_gpu.h"
+#include "pe1/boot_disc_check.h"
+#include "pe1/render_tint.h"
 #include "pe1/cdrom_buffers.h"
 #include "common.h"
 #include "pe1/asset_tim.h"
 #include "pe1/font.h"
 
-void VSync(int arg0);
 void SetDispMask(int arg0);
 void ClearImage(RECT *rect, int r, int g, int b);
 void DrawSync(int arg0);
 void Draw_InitBuffers(void);
 void CdRom_SetSeekPos(int arg0);
-void ClearOTagR(int arg0, int arg1);
-void Render_SetCDDCSlot(void);
 void Gpu_RenderFrame(void);
 
 /* The draw-enabled byte is read signed by the display queries and unsigned

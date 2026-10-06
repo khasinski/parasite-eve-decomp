@@ -1,4 +1,9 @@
 /* MASPSX_FLAGS: -G8 --use-comm-section */
+#include "pe1/inventory_slots.h"
+#include "pe1/menu_equipment.h"
+#include "pe1/menu_inventory.h"
+#include "pe1/menu_item_rows.h"
+#include "pe1/text.h"
 
 int g_InvItemUsableFlag;
 int g_MenuLayoutLocked;
@@ -6,14 +11,7 @@ extern signed char g_AyaEquippedWeaponSlot[];
 extern signed char g_AyaEquippedArmorSlot[];
 
 int Battle_IsInputAllowedWrapped(void);
-int Sfx_DrawActiveListSlot(int arg0);
-int Inv_RestoreSelection(int arg0);
 void Draw_SetTextDimmed(int arg0);
-void Draw_PrintTextById(int arg0);
-void MenuWidget_ClearCursorY(void *arg0);
-void *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);
-void MenuWidget_SetCurrentNode(void *arg0);
-void MenuWidget_SetCursorY(void *arg0);
 
 void Menu_SoundTestSelect(void)
 {

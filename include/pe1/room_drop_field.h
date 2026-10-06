@@ -117,7 +117,7 @@ int rand(void);
 void func_80071A44(void *dst, s32 value, s32 size);
 s32 *func_800C2B10(s32 index);
 int func_800C2B68(void);
-void func_800C4E50(RoomFxEmitterParams *params);
+void func_800C4E50(void *params);
 void func_800C6800(s32 arg0, s32 arg1, void *arg2);
 void func_800C6C18(int arg0);
 void func_800C6EE8(int arg0);

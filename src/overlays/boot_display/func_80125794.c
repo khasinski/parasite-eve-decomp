@@ -1,7 +1,7 @@
 #include "common.h"
+#include "pe1/boot_display.h"
+#include "pe1/cdrom.h"
 
-extern int func_8007F418(int, int);
-extern void DsControlB(int, void *, void *);
 extern int D_80172CE8;
 extern volatile int D_80172CF0;
 extern volatile int D_80172CF4;

@@ -2,6 +2,7 @@
 /* MASPSX_FLAGS: -G8 */
 
 #include "pe1/menu_widget.h"
+#include "pe1/menu_scroll_cursor.h"
 
 void MenuWidget_ClearCursorY(MenuWidgetNode *ptr) {
     if (ptr) {
@@ -38,7 +39,6 @@ MenuWidgetNode *MenuWidget_FindLastMode1WithCursorX(void) {
     return result;
 }
 void BoundsCheck_AssertStub(int arg0);
-void Menu_StepScrollCursor(void);
 void MenuWidget_ApplyColumnLayout(void *node);
 
 #define W(base, off) (*(s32 *)((char *)(base) + (off)))

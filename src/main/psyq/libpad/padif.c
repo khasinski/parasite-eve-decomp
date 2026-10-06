@@ -6,11 +6,10 @@
  * 2.7.2. */
 
 #include "common.h"
+#include "pe1/psyq_pad_main.h"
 
 extern int (*g_MemCardStateDispatchFn)(int channel);
 extern int g_MemCardDispatchResult;
-
-int _padSioRW(int channel, int index);
 
 int MemCard_ReadByteWithCallbackValue(int channel) {
     g_MemCardDispatchResult = g_MemCardStateDispatchFn(channel);

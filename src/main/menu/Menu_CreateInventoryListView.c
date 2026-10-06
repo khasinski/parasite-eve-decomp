@@ -1,4 +1,6 @@
 #include "common.h"
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -7,9 +9,6 @@
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 
-void MenuWidget_SetCurrentNode(void *node);
-void *MenuWidget_CreateSimpleNode(int mode, int arg1, int arg2, int arg3);
-void *MenuWidget_CreateNode(int mode, void *parent, void *sibling);
 void MenuWidget_SetColumnLayout(void *node, int value);
 void MenuWidget_ClearColumnLayout(void *node);
 

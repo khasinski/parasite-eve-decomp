@@ -1,6 +1,5 @@
+#include "pe1/menu_inventory.h"
 extern char *g_CurrentEntity;
-
-void Menu_ClampRange(int arg0);
 
 int Inv_AddItem(int arg0);
 

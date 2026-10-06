@@ -1,13 +1,13 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "common.h"
+#include "pe1/draw_state.h"
 #include "pe1/menu_widget.h"
 
 int g_MenuWidgetColumnLayoutMode;
 extern s8 g_MenuWidgetColumnLayoutTable[][4];
 void bzero(void *ptr, int size);
 extern int g_DrawTextPosX;
-void Draw_PrintCenteredTextInWidth(int arg0, int arg1);
 
 /* Saved cursor/scroll positions of menu widgets (one 4-byte slot per
  * aux_index): reset, mode, save and restore. Sys_InitStateBuffer (historical

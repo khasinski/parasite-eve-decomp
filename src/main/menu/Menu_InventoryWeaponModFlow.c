@@ -1,20 +1,15 @@
 #include "common.h"
+#include "pe1/draw_state.h"
+#include "pe1/inventory.h"
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_inventory.h"
 #include "pe1/menu_widget.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-M2C_UNK MenuWidget_ClearCursorY();
-s32 MenuWidget_FindByModeAndSelectedBase();
-void *MenuWidget_GetCurrentNode();
-void MenuWidget_SetCurrentNode(void *node);
-M2C_UNK Menu_CreateBonusPointAllocationView();
 s32 Inv_GetAyaSlotLimit();
-M2C_UNK Inv_RebuildSelectableMask();
-void *MenuWidget_CreateSimpleNode();
-M2C_UNK MenuWidget_NavScrollTo();
-void *MenuWidget_CreateNode();
 extern s32 g_MenuActionSubmenuOpen;
 extern s32 g_InvSelectedItemIndex;
 extern s32 g_InvSwapTargetIndex;
@@ -98,7 +93,6 @@ clear_cursor:
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 void Draw_OffsetCursor(int, int);
-M2C_UNK Draw_AllocSprite();
 extern u8 D_800922B8[];
 extern u8 D_800922BC[];
 extern u8 D_800922C4[];
@@ -159,17 +153,11 @@ void Menu_DrawEquipOptionsList(int arg0) {
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-void MenuWidget_OffsetPosition(void *node, int dx, int dy);
-void MenuWidget_SetCurrentNode(void *node);
 void Menu_OpenInventoryOrSwapView(s32 arg0);
 void Menu_CreateEquipInfoPanel(int arg0, unsigned int arg1);
 void Menu_PlayConfirmSound(void);
 void Menu_PlayCancelSound(void);
 void Sort_ContainerItems(int arg0);
-void *MenuWidget_GetChild(void *arg0, int arg1);
-void *MenuWidget_CreateSimpleNode();
-void *MenuWidget_CreateNode();
-int MenuWidget_GridCellIndex(void *arg0);
 extern s32 g_MenuInventoryViewMode;
 void Menu_DrawEquipSortToggleList(int arg0);
 int Menu_EquipGridHandler(void *arg0, int arg1);
@@ -219,22 +207,15 @@ void MenuWidget_DrawList(void *arg0, void (*callback)(int));
 
 int g_MenuInventoryViewMode;
 
-void *MenuWidget_GetChild(void *arg0, int arg1);
-int MenuWidget_GridCellIndex(void *arg0);
 void Sort_ContainerItems(int arg0);
 void Inv_SortInventoryByMode(int arg0, int arg1);
 void Menu_OpenInventoryOrSwapView(int arg0);
 void Menu_PlayConfirmSound(void);
-void MenuWidget_DestroyNode(void *arg0);
 void Menu_PlayCancelSound(void);
 
 int g_InvItemUsableFlag;
 int g_MenuInventoryViewMode;
 
-void *MenuWidget_CreateSimpleNode(int arg0, int arg1, int arg2, int arg3);
-void *MenuWidget_CreateNode(int arg0, void *arg1, void *arg2);
-void MenuWidget_SetCurrentNode(void *arg0);
-void MenuWidget_OffsetPosition(void *arg0, int arg1, int arg2);
 int Menu_EquipSelectInput(void *arg0, unsigned int arg1);
 void Menu_DrawEquipInfoOptionList(int arg0);
 
@@ -294,13 +275,10 @@ void MenuWidget_DrawList(void *arg0, void (*callback)(int));
 extern int g_InvItemUsableFlag;
 extern int g_MenuInventoryViewMode;
 
-extern void *MenuWidget_GetChild(void *arg0, int arg1);
-extern int MenuWidget_GridCellIndex(void *arg0);
 extern void Inv_SortInventoryByMode(int arg0, int arg1);
 extern void Sort_InventoryItems(int arg0, int arg1);
 extern void Menu_OpenInventoryOrSwapView(int arg0);
 extern void Menu_PlayConfirmSound(void);
-extern void MenuWidget_DestroyNode(void *arg0);
 extern void Menu_PlayCancelSound(void);
 
 void Menu_DrawEquipInfoOptionList(int arg0) {

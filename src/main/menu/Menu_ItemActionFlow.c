@@ -1,6 +1,8 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "common.h"
+#include "pe1/menu_inventory.h"
+#include "pe1/menu_item_list_input.h"
 #include "pe1/inventory.h"
 #include "../../../tools/m2c/m2c_macros.h"
 #include "pe1/menu_widget.h"
@@ -34,12 +36,9 @@ void Draw_AllocSprite(int arg0);
 void Draw_StatePop(void);
 void Sfx_DrawActiveListSlot(int arg0);
 #define NULL ((void *)0)
-s32 MenuWidget_GridCellIndex();
 s32 func_80052F0C();
-s32 Inv_RestoreSelection();
 MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *arg1, MenuWidgetNode *arg2);
 void Menu_DrawEquipStats(void);
-void Menu_DrawItemListInvPanel(void);
 extern void Menu_DrawEquipStatsDelta(ItemDataRecord *data);
 extern void Draw_PrintNumberWidth4Unk(int arg0);
 extern void Draw_PrintSignedNumberWidth4(int arg0);

@@ -1,9 +1,9 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
+#include "pe1/menu_inventory.h"
 
 extern int D_8009CEF4;
 
-int MenuWidget_GridCellIndex(int arg0);
 void Draw_SetTextDimmed(int enable);
 void Draw_OffsetCursor(int x, int y);
 void Draw_AllocSprite(int sprite);

@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/gte_types.h"
 /* Dispatches frame-table events and the actor's turning/recoil motion. */
 typedef RoomM350Vector Vector;
 typedef RoomM350TransformMatrix Matrix;
@@ -29,7 +30,6 @@ extern int D_800966EC[];
 extern short D_800966EE[];
 extern int FieldEng_VecToAngle(int *,int *);
 extern int FieldEng_TurnToward(int,int,int);
-extern void ApplyMatrixSV(Matrix *,Vector *,Vector *);
 
 int func_80197DA8(int event,short *cursor) {
     Events events=D_8018F1CC;

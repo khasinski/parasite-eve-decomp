@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/text.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -11,7 +12,6 @@ extern int D_8009CDB0;
 extern int D_8009D0D8;
 extern int D_8009D138;
 
-u8 *Str_LookupTable4(int textId);
 int Draw_LookupGlyphMetrics(int glyph);
 void Draw_AllocTexturedQuad(int glyph);
 void BoundsCheck_AssertStub(int arg0);

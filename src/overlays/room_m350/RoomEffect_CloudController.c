@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/gte_types.h"
 #include "pe1/room_floor.h"
 typedef RoomM350Vector Vector;
 typedef RoomM350TransformMatrix Matrix;
@@ -26,7 +27,6 @@ extern int FieldEng_VecToAngle(int *,int *);
 extern int FieldEng_TurnToward(int,int,int);
 extern int rcos(int);
 extern int rsin(int);
-extern void ApplyMatrixSV(Matrix *,Vector *,Vector *);
 int func_80198CF8(int event,State *state)
 {
     Instance *instance=D_800F32D0->instance;

@@ -1,21 +1,16 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "pe1/menu_inventory.h"
+#include "pe1/menu_dialog.h"
+#include "pe1/text.h"
 
 MenuWidgetNode *MenuWidget_CreateSimpleNode(int kind, MenuWidgetNode *parent, int arg2, int arg3);
 MenuWidgetNode *MenuWidget_CreateNode(int kind, MenuWidgetNode *parent, MenuWidgetNode *sibling);
 void MenuWidget_SaveAndSetCurrentNode(MenuWidgetNode *node);
 int MemCard_GetActivePort(void);
-int Str_LookupTable4(int index);
-void Util_CopyFFTerminatedBytes(int dst, int src);
-void Util_AppendFFTerminatedBytes(int dst, int src);
-int Draw_MeasureTextWidth(int str);
 void Inv_SelectActiveList(int list);
 void Menu_CreateNotificationDialog(int arg0, int arg1);
 void MemCard_ClearActivePrompt(void);
-void Menu_DrawItemLabel(void);
-void Menu_ConfirmDialogHandler(void);
-void Menu_DrawActionOptionList(void);
 void Menu_HandleMemCardWriteOrError(int arg0, int arg1);
 
 extern int D_8009CF50;

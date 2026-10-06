@@ -1,32 +1,19 @@
 #include "common.h"
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_inventory.h"
+#include "pe1/text.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "include_asm.h"
 
-s32 MenuWidget_GetChild(s32 node, s32 index);
 s32 MenuWidget_GetCellIndex(s32 node);
-s32 MenuWidget_FindByModeAndSelectedBase(s32 mode, s32 base);
-void MenuWidget_DestroyNode(s32 node);
 void Menu_CreateBonusPointAllocationView(void);
 void Menu_StepItemDetailPanel2(void);
 void Menu_PlayConfirmSound(void);
 void Menu_PlayCancelSound(void);
 void Menu_PlayErrorSound(void);
-int MenuWidget_GridCellIndex(int node);
 int Inv_GetPackedListItem(int index);
-int MenuWidget_GetCurrentNode(void);
-int Str_LookupTable8(int index);
-int MenuWidget_CreateSimpleNode(int kind, int parent, int arg2, int arg3);
-int MenuWidget_CreateNode(int kind, int parent, int selected_base);
-void Menu_DrawItemLabel(void);
-void Menu_ConfirmDialogHandler(void);
-void Menu_DrawActionOptionList(void);
-void MenuWidget_SetCurrentNode(int node);
 void Inv_SelectActiveList(int list);
-void Util_CopyFFTerminatedBytes(int dst, int src);
-int Str_LookupTable4(int index);
-void Util_AppendFFTerminatedBytes(int dst, int src);
-int Draw_MeasureTextWidth(int str);
 
 int g_MenuBattleSelectedItem;
 extern int D_8009CFB4;

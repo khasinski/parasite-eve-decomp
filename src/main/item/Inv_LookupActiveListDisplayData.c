@@ -1,11 +1,11 @@
 #include "pe1/inventory.h"
+#include "pe1/text.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
 
 
-void *Str_LookupTable8();
 
 extern s32 g_InvCategoryBaseItemId;
 extern s32 g_InvItemPtr;

@@ -1,3 +1,5 @@
+#include "pe1/aya.h"
+#include "pe1/text.h"
 void Inv_ShowItemDescriptionPanel(void);
 
 void Draw_OffsetCursor(int, int);
@@ -62,7 +64,6 @@ extern int g_BonusPointBarAnimProgress;
 extern int g_BonusPointStatDeltas[];
 extern int g_BonusPointStatMultipliers[];
 
-void Stat_QueryLevelAndSubLevel(int, int, int *, int);
 void Draw_OffsetCursor(int x, int y);
 void Draw_AllocSprite(int);
 void Draw_PrintNumberWidth2(int arg0);
@@ -87,7 +88,6 @@ extern int g_StatBaseTable[];
 void Draw_OffsetCursor(int, int);
 void Draw_StatePush(void);
 void Draw_StatePop(void);
-void Draw_PrintTextById(int);
 void Draw_PrintNumberWidth2Unk(int);
 void Draw_PrintNumberWidth3Unk(int);
 
@@ -109,7 +109,6 @@ void Menu_DrawScreenModeItem(int arg0) {
 extern int D_800A18EC[];
 
 void Menu_UpdateStatBarAnimation(int);
-void Stat_QueryLevelAndSubLevel(int, int, int *, int);
 void Draw_OffsetCursor(int, int);
 void Draw_AllocSprite(int);
 void Draw_PrintNumberWidth2(int);

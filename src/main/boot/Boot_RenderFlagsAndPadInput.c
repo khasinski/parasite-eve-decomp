@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 #include "common.h"
+#include "pe1/menu_inventory.h"
 #include "pe1/gte.h"
 #include "pe1/psyq_nop.h"
 
@@ -108,7 +109,6 @@ int PadInfoMode(int arg0, int mode, int index);
 void PadSetAct(int arg0, void *payload, int size);
 void PadSetMainMode(int arg0, int byte1, int byte2);
 void PadSetActAlign(int arg0, void *payload);
-void *MenuWidget_FindByModeAndSelectedBase(int mode, int selected_base);
 
 void Field_HandleStateTransition(void) {
     u32 flags;

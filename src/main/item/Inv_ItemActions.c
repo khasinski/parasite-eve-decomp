@@ -1,6 +1,7 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 #include "pe1/inventory_slots.h"
+#include "pe1/text.h"
 #include "pe1/aya.h"
 #include "pe1/menu_state.h"
 #include "common.h"
@@ -16,7 +17,6 @@
 u32 *D_8009D058;
 void *Str_LookupTable8(unsigned int index);
 M2C_UNK Sfx_DrawSlotRow();
-M2C_UNK Draw_OffsetCursor();
 extern u8 g_CursorRenderDataBlock[];
 
 static inline ItemDataRecord *LookupItem(int value) {

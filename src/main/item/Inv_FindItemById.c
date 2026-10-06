@@ -1,4 +1,5 @@
 /* MASPSX_FLAGS: -G8 --use-comm-section */
+#include "pe1/inventory.h"
 
 extern short g_AyaInventoryItems[];
 int g_InvItemPtr;
@@ -8,7 +9,6 @@ extern int g_AyaItemSelectionBits[];
 int g_InvSelectionBitWords;
 
 int Inv_GetAyaSlotLimit(void);
-void Inv_RemoveActiveListItem(int arg0);
 
 int Inv_FindItemById(int arg0) {
     short *item;

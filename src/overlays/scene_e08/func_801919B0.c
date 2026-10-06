@@ -11,7 +11,7 @@ void func_800C3134(u8 *table, s32 step, u8 *out);
 s32 func_80077A64(s32 a, s32 b, s32 c, s32 d);
 s32 func_80077AA4(s32 a, s32 b);
 void func_800D3114(void *entry, s32 a1, s32 a2, s32 a3, s32 s10, s32 s14,
-                   s32 s18, s32 s1c, s32 s20, s32 s24, u8 *s28, u8 *s2c, s32 s30);
+                   s32 s18, s32 s1c, s32 s20, s32 s24, void *s28, void *s2c, s32 s30);
 
 void func_801919B0(s32 arg0, s32 arg1, u8 *base) {
     u8 *st;

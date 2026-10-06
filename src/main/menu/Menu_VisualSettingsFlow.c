@@ -1,4 +1,7 @@
 #include "common.h"
+#include "pe1/draw_state.h"
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -6,9 +9,6 @@
 #include "../../../tools/m2c/m2c_macros.h"
 #include "../../../include/pe1/menu_widget.h"
 
-void *MenuWidget_CreateSimpleNode(int mode, int parent, int arg2, int arg3);
-M2C_UNK MenuWidget_CreateNode();
-void MenuWidget_SetCurrentNode(void *node);
 s32 Draw_GetBlendColor();
 void Menu_DrawBlendColorChannelListUnk(s32 arg0);
 s32 Menu_StepColorSelect(s32 arg0, s32 arg1);
@@ -49,8 +49,6 @@ s32 MenuInput_GetStatusFlags();
 void Draw_OffsetCursor(int x, int y);
 void Draw_SetTextDimmed(int dimmed);
 void Draw_AllocSprite(int sprite);
-s32 MenuWidget_GetChild();
-s32 MenuWidget_GridCellIndex();
 
 void Menu_DrawBlendColorChannelListUnk(s32 arg0) {
     M2C_UNK var_a0;
@@ -117,15 +115,10 @@ void Menu_DrawBlendColorChannelListUnk(s32 arg0) {
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-s32 MenuWidget_GridCellIndex();
-void MenuWidget_SetCurrentNode(void *node);
 void Menu_PlayConfirmSound(void);
 void Menu_PlayCancelSound(void);
 void Menu_PlayMoveSound(void);
 s32 Draw_GetBlendColor();
-M2C_UNK Draw_BlendColor();
- s32 MenuWidget_GetChild();
-void MenuWidget_DestroyNode(void *node);
 extern s32 D_8009CFE0;
 extern s32 g_SavedDrawBlendColor[];
 #define g_SavedDrawBlendColor (g_SavedDrawBlendColor[0])
@@ -218,8 +211,6 @@ void MenuWidget_DrawList(int arg0, void (*arg1)(void));
 
 int D_8009CFE4;
 
-void *MenuWidget_CreateSimpleNode(int arg0, int arg1, int arg2, int arg3);
-void MenuWidget_SetCurrentNode(void *arg0);
 void Menu_DrawScreenAdjustPanel(void);
 void Menu_StepScrollList(void);
 int Draw_GetBaseY(void);
@@ -264,7 +255,6 @@ int Draw_GetBaseY(void);
 void Menu_PlayMoveSound(void);
 void Menu_PlayConfirmSound(void);
 void Menu_PlayCancelSound(void);
-void MenuWidget_DestroyNode(void *node);
 
 int func_8004B650(void *node, int input) {
     int zero_arg;

@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/scene_assets.h"
 #include "pe1/gte.h"
 
 /* Steers a rotating footprint, tests contact, and draws three model/sprite layers. */
@@ -25,7 +26,6 @@ extern int D_8019A81C,D_8019A820,D_8019A824;
 extern Vector D_8019A574[];
 extern char D_8019A594[],D_8019A3C8[];
 extern unsigned short D_800E11FA,D_800E2850[],D_800F336C,D_800E1204[];
-extern void *Asset_FindTable08ByU32Key(void *,unsigned int);
 extern void func_800C6D5C(void *,int,int);
 extern int func_800DFE20(int *,int *),FieldEng_VecToAngle(int *,int *),rcos(int),rsin(int);
 extern int GetTPage(int,int,int,int),GetClut(int,int);

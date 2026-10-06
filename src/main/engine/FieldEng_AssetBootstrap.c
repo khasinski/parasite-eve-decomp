@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/scene_assets.h"
 int func_800D4850(u8 *state) {
     state[0] = 4;
     return 0;
@@ -12,7 +13,6 @@ extern int D_800F3418;
 extern int D_800F342C;
 extern int D_800F3474;
 
-int Asset_FindTable08ByU32Key(void *arg0, int key);
 void func_800CECAC(void);
 void func_800CED3C(int arg0);
 

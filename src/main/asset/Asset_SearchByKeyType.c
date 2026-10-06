@@ -1,6 +1,6 @@
 #include "common.h"
+#include "pe1/scene_assets.h"
 extern void *g_LoadedSceneAssetBlock[];
-int Asset_FindTable08ByU32Key(void *arg0, s32 arg1);
 int Asset_SearchByKeyType(int arg0)
 {
   u32 key;

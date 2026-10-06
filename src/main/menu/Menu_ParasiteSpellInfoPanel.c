@@ -1,18 +1,15 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: --use-comm-section -G8 */
+#include "pe1/menu_context_help.h"
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_inventory.h"
+#include "pe1/text.h"
 
 int D_8009CFF4;
 
-void *MenuWidget_FindByModeAndSelectedBase(int arg0, int arg1);
-void *MenuWidget_CreateSimpleNode(int arg0, int arg1, int arg2, int arg3);
 void Menu_DrawParasiteSpellInfoPanel(void);
 
 void Draw_OffsetCursor(int arg0, int arg1);
-int Str_LookupTable4(int arg0);
-int Draw_PrintCenteredText(int arg0);
-int Str_LookupTable8(int arg0);
-int Str_LookupTableC(int arg0);
-int Draw_PrintRawText(int arg0);
 
 void Menu_CreateParasiteSpellInfoPanel(int arg0) {
     void *widget;

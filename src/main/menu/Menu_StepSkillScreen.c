@@ -1,26 +1,16 @@
 #include "common.h"
+#include "pe1/menu_context_help.h"
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-s32 Inv_GetPackedListCount();
-void *MenuWidget_CreateNode();
-void *MenuWidget_FindByModeAndSelectedBase();
 s32 MenuWidget_IsCursorYClear();
-M2C_UNK MenuWidget_NavScrollTo();
-M2C_UNK MenuWidget_SetCurrentNode();
-M2C_UNK Menu_CreateBonusPointAllocationView();
 M2C_UNK func_80047678();
 M2C_UNK Menu_OpenItemList();
 s32 Battle_IsInputAllowedWrapped();
-M2C_UNK Menu_PlayConfirmSound();
-M2C_UNK Menu_PlayCancelSound();
-M2C_UNK Menu_PlayMoveSound();
-M2C_UNK Menu_PlayErrorSound();
-void *MenuWidget_GetChild();
-s32 MenuWidget_CreateSimpleNode();
-M2C_UNK MenuWidget_DestroyNode();
 extern s32 g_MenuLayoutLocked;
 extern M2C_UNK Menu_SetupSkillSubmenu[];
 #define Menu_SetupSkillSubmenu (Menu_SetupSkillSubmenu[0])

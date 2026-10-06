@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/inventory.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 
@@ -6,8 +7,6 @@ extern int g_InvSlotLimit __asm__("D_8009D050");
 extern int g_InvItemPtr __asm__("D_8009D048");
 extern u8 g_EquipItemDataTable[] __asm__("D_800BEEAC");
 extern u8 g_KeyItemDataTable[] __asm__("D_8009DE64");
-
-void *Item_LookupBaseData(unsigned int index);
 
 int Inv_FindIndexByData(void *needle) {
     int limit;

@@ -1,6 +1,5 @@
-int MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);
-int MenuWidget_GridCellIndex(int arg0);
-void Inv_GetPackedListItem(int arg0);
+#include "pe1/inventory_slots.h"
+#include "pe1/menu_inventory.h"
 
 void Inv_FetchSelectedInventoryItem(void) {
     int node;
