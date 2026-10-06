@@ -56,4 +56,12 @@ extern int g_RoomScriptArg;
 
 int *RoomLib_SetArg1(int unused, int value);
 
+/* The spark barrage rooms take two such words, one entry each
+ * (RoomLib_SetArgPair). */
+extern int g_RoomScriptArgA;
+extern int g_RoomScriptArgB;
+
+int *RoomLib_SetArgA(int unused, int value);
+int *RoomLib_SetArgB(int unused, int value);
+
 #endif

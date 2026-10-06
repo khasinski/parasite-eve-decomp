@@ -1,9 +1,9 @@
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
-RoomLib_SetArg1_80195D78 = 0x80195D78; // type:func
-RoomLib_SetArg1_80195D88 = 0x80195D88; // type:func
-RoomSlotA_80195D78 = 0x80195FD0;
-RoomSlotA_80195D88 = 0x80195FD4;
+RoomLib_SetArgA = 0x80195D78; // type:func
+RoomLib_SetArgB = 0x80195D88; // type:func
+g_RoomScriptArgA = 0x80195FD0;
+g_RoomScriptArgB = 0x80195FD4;
 RoomLib_HandlerDNop0 = 0x8018F200; // type:func
 RoomLib_InitHandlerD = 0x8018F208; // type:func
 RoomLib_ConfigureHandlerD = 0x8018F2A8; // type:func
