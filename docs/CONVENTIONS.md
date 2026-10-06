@@ -143,10 +143,13 @@ name is the configured overlay name.
   replaced in a config rename: `sys_reset` holds MDEC diagnostics and the
   PsyQ LIBPRESS VLC decoder (for example `mdec_vlc`), and `render_clip` is a
   data-only duplicate of one `fx_common` sector.
-- **Shared overlay code:** `src/overlays/room_lib/` holds templates that many
-  room and scene overlays instantiate (`*.inc` bodies, `*_family.h`
-  declarations, `room_lib.h`). Each overlay still owns its instantiation file;
-  identical code is not linked across overlays.
+- **Shared overlay code:** `src/overlays/room_lib/` holds the room library's
+  units (`RoomLib_ActorClasses*.c`), which every overlay that links the
+  library lists in its manifest as `../room_lib/<unit>` and compiles into its
+  own build, and the templates that other copied code still instantiates
+  (`*.inc` bodies, `*_family.h` declarations, `room_lib.h`). A templated copy
+  keeps its own instantiation file in the overlay until its whole family can
+  move to one shared unit.
 - **Function names inside overlays:** `RoomLib_` for `room_lib` templates,
   `RoomEffect_` for effect templates, `RoomMNNN_`/`SceneENN_` for code that
   belongs to one overlay, and the overlay's own prefix (target: `FxCommon_`,

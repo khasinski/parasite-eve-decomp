@@ -5,11 +5,17 @@ Every configured C subsegment must have a tracked source, and every C file
 under ``src/main`` or ``src/overlays`` must be configured. Experiments stay
 outside the tracked tree, so nothing unconfigured can be compiled, linked, or
 counted as matched accidentally.
+
+A source normally owns exactly one subsegment. The exception is a linked
+overlay library (``src/overlays/room_lib/``): many overlay manifests name it
+(as ``../room_lib/<unit>``) and each overlay compiles its own copy, but one
+manifest may still list it only once.
 """
 from __future__ import annotations
 
 import argparse
 import collections
+import os
 import pathlib
 import subprocess
 
@@ -21,6 +27,12 @@ CONFIGS = [ROOT / "configs/USA/main.yaml"] + sorted(
     (ROOT / "configs/USA/overlays").glob("*.yaml")
 )
 SOURCE_ROOTS = (ROOT / "src/main", ROOT / "src/overlays")
+# Sources that several overlay manifests may share, once per manifest.
+SHARED_ROOTS = (ROOT / "src/overlays/room_lib",)
+
+
+def is_shared(path: pathlib.Path) -> bool:
+    return any(root in path.parents for root in SHARED_ROOTS)
 
 
 def iter_subsegments(config: dict):
@@ -29,7 +41,8 @@ def iter_subsegments(config: dict):
             yield from segment.get("subsegments", [])
 
 
-def configured_source_entries(config_paths=CONFIGS) -> list[pathlib.Path]:
+def configured_source_entries(config_paths=CONFIGS):
+    """(manifest, source) for every C subsegment, with `..` resolved."""
     result = []
     for path in config_paths:
         config = yaml.safe_load(path.read_text())
@@ -37,17 +50,25 @@ def configured_source_entries(config_paths=CONFIGS) -> list[pathlib.Path]:
         for subsegment in iter_subsegments(config):
             if (isinstance(subsegment, list) and len(subsegment) >= 3
                     and subsegment[1] == "c"):
-                result.append(source_root / f"{subsegment[2]}.c")
+                source = pathlib.Path(os.path.normpath(
+                    source_root / f"{subsegment[2]}.c"))
+                result.append((path, source))
     return result
 
 
 def configured_sources(config_paths=CONFIGS) -> set[pathlib.Path]:
-    return set(configured_source_entries(config_paths))
+    return {source for _manifest, source in configured_source_entries(config_paths)}
 
 
 def duplicate_configured_sources(config_paths=CONFIGS) -> set[pathlib.Path]:
-    counts = collections.Counter(configured_source_entries(config_paths))
-    return {path for path, count in counts.items() if count > 1}
+    entries = configured_source_entries(config_paths)
+    per_manifest = collections.Counter(entries)
+    overall = collections.Counter(source for _manifest, source in entries)
+    duplicates = {source for (_manifest, source), count in per_manifest.items()
+                  if count > 1}
+    duplicates |= {source for source, count in overall.items()
+                   if count > 1 and not is_shared(source)}
+    return duplicates
 
 
 def tracked_sources() -> set[pathlib.Path]:
@@ -108,7 +129,12 @@ def main() -> int:
                 print(f"  {path.relative_to(ROOT)}")
             print("Each active source must own exactly one configured subsegment.")
         return 1
-    print(f"OK: manifests and src/ have a one-to-one C source mapping ({len(configured_sources())} files).")
+    entries = configured_source_entries()
+    shared = {source for _manifest, source in entries if is_shared(source)}
+    shared_uses = sum(1 for _manifest, source in entries if is_shared(source))
+    print(f"OK: manifests and src/ have a one-to-one C source mapping "
+          f"({len(configured_sources())} files; {len(shared)} shared library "
+          f"sources linked {shared_uses} times).")
     return 0
 
 

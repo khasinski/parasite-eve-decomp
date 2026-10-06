@@ -27,6 +27,13 @@ reduce the file count.
   to that overlay. Code shared by several overlays stays duplicated until
   binary evidence identifies a linked library or a reproducible generation
   rule.
+- `src/overlays/room_lib/` holds such a linked library once. The room
+  library (`RoomLib_ActorClassesDE.c`, `RoomLib_ActorClassesBCA.c`) is the
+  same run of 53 functions, in the same order and with the same rodata, in
+  125 room and scene overlays. Each overlay's manifest names the units as
+  `../room_lib/<unit>` subsegments, and `make overlay-build` compiles them
+  into that overlay's own build directory, so every overlay still links its
+  own copy at its own address.
 - `include/pe1/` owns game ABI, shared data structures, and declarations.
 - `include/pe1/akao/` owns the AKAO command, queue, track, and SPU interfaces.
 - hardware and SDK declarations belong in their subsystem header rather than
@@ -57,6 +64,8 @@ Large cohesive units are acceptable. Function count and aesthetics alone are
 not reasons to invent source boundaries.
 
 `src/` has a strict one-to-one relationship with committed manifest entries.
+The one exception is a shared library unit under `src/overlays/room_lib/`:
+many overlay manifests may list it, each at most once.
 The check uses files present on disk as well as Git's index: an untracked C file
 cannot enter a local build, and a manifest promotion cannot pass unless its
 source will exist in a fresh clone.

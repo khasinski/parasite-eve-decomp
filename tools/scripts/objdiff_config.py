@@ -162,7 +162,11 @@ def module_units(name, config_path, skip):
             continue
         relative = obj[len(build_prefix):]
         if relative.startswith("src/"):
-            site = site_lead + relative[len(src_lead):].removesuffix(".c.o")
+            # A shared overlay library unit (src/overlays/room_lib/) is
+            # compiled into each overlay that links it; the site keeps the
+            # overlay prefix so every instance is its own unit.
+            lead = src_lead if relative.startswith(src_lead) else "src/overlays/"
+            site = site_lead + relative[len(lead):].removesuffix(".c.o")
             source = relative.removesuffix(".o")
             source_kind = classify(ROOT / source)
             entry = unit(relative, build_prefix, site, category(relative), source,

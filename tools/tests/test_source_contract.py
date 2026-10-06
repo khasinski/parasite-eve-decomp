@@ -70,6 +70,38 @@ class SourceContractTests(unittest.TestCase):
 
         self.assertEqual(duplicates, {source_root / "unit.c"})
 
+    def test_shared_library_source_may_serve_several_manifests(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            library = root / "src" / "lib"
+            library.mkdir(parents=True)
+            source = library / "shared.c"
+            source.write_text("void shared(void) {}\n")
+            configs = []
+            for name in ("a", "b"):
+                overlay = root / "src" / name
+                overlay.mkdir()
+                config = root / f"{name}.yaml"
+                config.write_text(yaml.safe_dump({
+                    "options": {"src_path": str(overlay)},
+                    "segments": [{"subsegments": [[0x100, "c", "../lib/shared"]]}],
+                }))
+                configs.append(config)
+            saved = check_c_subseg_sources.SHARED_ROOTS
+            check_c_subseg_sources.SHARED_ROOTS = (library,)
+            try:
+                contract = check_c_subseg_sources.source_contract(
+                    configs, [root / "src"], tracked={source})
+                shared = check_c_subseg_sources.duplicate_configured_sources(configs)
+                check_c_subseg_sources.SHARED_ROOTS = ()
+                unshared = check_c_subseg_sources.duplicate_configured_sources(configs)
+            finally:
+                check_c_subseg_sources.SHARED_ROOTS = saved
+
+        self.assertEqual(contract, (set(), set(), set()))
+        self.assertEqual(shared, set())
+        self.assertEqual(unshared, {source})
+
 
 if __name__ == "__main__":
     unittest.main()

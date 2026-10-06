@@ -1682,13 +1682,18 @@ extern char RoomLib_TableB[];
 
 /* notify FX (2-arg) when h80 set, then window-arm (inclusive) */
 #define ROOMLIB_NOTIFY2_AND_ARM_B(name, handler) \
+    ROOMLIB_NOTIFY2_AND_ARM_B_VIA(name, handler, RoomLib_FxNotify2)
+
+/* the same, steering through a named helper (the library's
+ * RoomLib_HandlerESteerToward, which older copies call RoomLib_FxNotify2) */
+#define ROOMLIB_NOTIFY2_AND_ARM_B_VIA(name, handler, notify) \
     void name(RoomEnt *o) { \
         struct RoomSub *s = &o->sub; \
         signed char c; \
         int t; \
         unsigned short lo; \
         if (RW16(o, 0x80) != 0) { \
-            RoomLib_FxNotify2(o->link, s); \
+            notify((void *)o->link, (void *)s); \
         } \
         c = o->t16; \
         if (c >= 0) { \
@@ -2603,5 +2608,64 @@ typedef struct RoomPartSys {
             set4_clear_signal(self); \
         } \
     }
+
+/* The room library's actor classes (RoomLib_ActorClassesDE.c and
+ * RoomLib_ActorClassesBCA.c). A room's class table lists seven methods per
+ * class: three no-ops (slots 0, 3 and 6), Init, Configure, Update and
+ * Release; the remaining functions are the class's private states. */
+struct RoomLibMotionState;
+struct RoomLibMotionWork;
+int RoomLib_HandlerDNop0(void);
+int RoomLib_InitHandlerD(RoomEnt *o);
+int RoomLib_ConfigureHandlerD(RoomEnt *o, int query, unsigned int op,
+                              int arg0, int arg1, int arg2);
+int RoomLib_HandlerDNop3(void);
+int RoomLib_UpdateHandlerD(RoomEnt *o);
+void RoomLib_ArmHandlerD(RoomEnt *o);
+void RoomLib_HandlerDTransformTarget(struct RoomLibMotionState *state,
+                                     struct RoomLibMotionWork *work);
+int RoomLib_ReleaseHandlerD(RoomEnt *o);
+int RoomLib_HandlerDNop6(void);
+int RoomLib_HandlerENop0(void);
+int RoomLib_InitHandlerE(RoomEnt *o);
+int RoomLib_ConfigureHandlerE(RoomEnt *o, int query, unsigned int op,
+                              int arg0, int arg1, int arg2);
+int RoomLib_HandlerENop3(void);
+int RoomLib_UpdateHandlerE(RoomEnt *o);
+void RoomLib_ArmHandlerE(RoomEnt *o);
+void RoomLib_HandlerESteerToward(char *entity, char *state);
+int RoomLib_ReleaseHandlerE(RoomEnt *o);
+int RoomLib_HandlerENop6(void);
+int RoomLib_HandlerBNop0(void);
+int RoomLib_InitHandlerB(RoomEnt *o);
+int RoomLib_ConfigureHandlerB(RoomEnt *o, int query, unsigned int op,
+                              int arg0, int arg1, int arg2);
+int RoomLib_HandlerBNop3(void);
+int RoomLib_UpdateHandlerB(RoomObj *obj);
+void RoomLib_ArmHandlerB(RoomEnt *o);
+void RoomLib_HandlerBPhase(RoomEnt *obj);
+void RoomLib_AdvanceArcToTarget(RoomEnt *obj);
+int RoomLib_ReleaseHandlerB(RoomEnt *o);
+int RoomLib_HandlerBNop6(void);
+int RoomLib_HandlerCNop0(void);
+int RoomLib_InitHandlerC(RoomEnt *o);
+int RoomLib_ConfigureHandlerC(RoomEnt *o, int query, unsigned int op,
+                              int arg0, int arg1, int arg2);
+int RoomLib_HandlerCNop3(void);
+int RoomLib_UpdateHandlerC(RoomObj *obj);
+void RoomLib_ArmHandlerC(RoomEnt *o);
+void RoomLib_HandlerCPhase(void);
+void RoomLib_AdvanceArcToTargetY(RoomEnt *obj);
+int RoomLib_ReleaseHandlerC(RoomEnt *o);
+int RoomLib_HandlerCNop6(void);
+int RoomLib_HandlerANop0(void);
+int RoomLib_InitHandlerA(RoomEnt *o);
+int RoomLib_ConfigureHandlerA(RoomEnt *o, int arg1, unsigned int op,
+                              int arg3, int sp10, int sp14);
+int RoomLib_HandlerANop3(void);
+int RoomLib_UpdateHandlerA(RoomObj *obj);
+void RoomLib_RearmHandlerA(RoomEnt *o);
+int RoomLib_ReleaseHandlerA(RoomEnt *o);
+int RoomLib_HandlerANop6(void);
 
 #endif

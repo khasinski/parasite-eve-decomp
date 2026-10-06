@@ -55,7 +55,10 @@ Makefile links those with `--no-check-sections` (`OVERLAY_VMA_OVERLAP`).
 Overlays call into the executable directly by address. Each overlay is linked
 separately against the executable's symbols; nothing is shared between
 overlays at link time, so code common to several rooms exists once per room
-(`src/overlays/room_lib/` holds the shared templates).
+in the binaries. In the source the room library linked into 125 room and
+scene overlays exists once (`src/overlays/room_lib/RoomLib_ActorClasses*.c`)
+and is compiled into each of them; `src/overlays/room_lib/` also holds the
+templates other shared code still instantiates per overlay.
 
 ## How the game runs
 
@@ -102,7 +105,8 @@ main.elf ──objcopy──> build/USA/main.exe ──sha1──> retail
   object defines; every such pin is shiftability debt.
 - Overlays: `make overlay-check OVERLAY=<name>` extracts the slice from
   `PE.IMG` using the `extract locally with` comment in its config, splits it,
-  compiles `src/overlays/<name>`, links it against the main symbols and
+  compiles the C units its manifest lists (its own directory and any shared
+  `src/overlays/room_lib/` unit), links it against the main symbols and
   compares the SHA-1. `make overlay-build-all` and `make overlay-check-all`
   cover all 190.
 - `make report` disassembles the retail binaries afresh and produces the

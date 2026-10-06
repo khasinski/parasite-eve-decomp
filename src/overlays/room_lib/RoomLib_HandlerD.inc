@@ -16,7 +16,8 @@
 #ifndef ROOMLIB_HANDLER_D_NOTIFY
 #define ROOMLIB_HANDLER_D_NOTIFY RoomLib_FxNotify
 #endif
-extern void ROOMLIB_HANDLER_D_TRANSFORM(void *state, void *scratch);
+extern void ROOMLIB_HANDLER_D_TRANSFORM(struct RoomLibMotionState *state,
+                                        struct RoomLibMotionWork *scratch);
 extern int ROOMLIB_HANDLER_D_RESET(RoomEnt *o);
 extern void ROOMLIB_HANDLER_D_NOTIFY(RoomLink *l, struct RoomSub *s, int scratch);
 #include "pe1/gte_types.h"
@@ -48,7 +49,8 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
         RW32(state, 0x50) = RW32(link, 0x28);
         RW32(state, 0x54) = RW32(link, 0x2C);
         RW32(state, 0x58) = RW32(link, 0x30);
-        ROOMLIB_HANDLER_D_TRANSFORM(state, (void *)scratch);
+        ROOMLIB_HANDLER_D_TRANSFORM((struct RoomLibMotionState *)state,
+                                        (void *)scratch);
         {
             int initial_speed;
             register char *left_arg asm("$4");
@@ -187,7 +189,8 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
         if (ent->w04 >= (unsigned int)RW16(state, 0x9E) &&
             (RW16(state, 0xA0) == 0 ||
              ent->w04 <= (unsigned int)RW16(state, 0xA0))) {
-            ROOMLIB_HANDLER_D_TRANSFORM(state, (void *)scratch);
+            ROOMLIB_HANDLER_D_TRANSFORM((struct RoomLibMotionState *)state,
+                                        (void *)scratch);
             scratch[1] = RW16(state, 0x7A);
             func_800DFE94(state + 0x50, state + 0x40, state + 0x78);
             right = state + 0x78;

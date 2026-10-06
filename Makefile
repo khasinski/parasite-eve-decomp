@@ -234,20 +234,22 @@ overlay-split: overlay-extract
 	@find $(OVERLAY_ASM_DIR) \( -name '*.data.s' -o -name '*.rodata.s' -o -path '*/data/*.s' \) \
 	    | xargs $(PY) tools/scripts/collapse_zero_data.py
 
+# Assemble and compile exactly the units the generated linker script links.
+# A shared library source (src/overlays/room_lib/) is compiled into every
+# overlay that lists it; splat's per-function disassembly of it lands beside
+# the overlay's asm and is not linked.
 overlay-build: overlay-split
-	@find $(OVERLAY_ASM_DIR) \( -path '*/matchings/*' -o -path '*/nonmatchings/*' \) -prune -o -name '*.s' -print | while read asm; do \
-	    obj="$(OVERLAY_BUILD)/$$asm.o"; \
+	@grep -o '$(OVERLAY_BUILD)/asm/[^ ()]*\.s\.o' $(OVERLAY_LD) | sort -u | while read obj; do \
+	    asm="$${obj#$(OVERLAY_BUILD)/}"; asm="$${asm%.o}"; \
 	    mkdir -p "$$(dirname "$$obj")"; \
 	    $(AS) -EL -G0 -mips4 -32 -no-pad-sections -Iinclude -I$(OVERLAY_ASM_DIR) \
 	        -o "$$obj" "$$asm" || exit $$?; \
 	done
-	@if [ -d src/overlays/$(OVERLAY) ]; then \
-	    find src/overlays/$(OVERLAY) -name '*.c' -print | while read src; do \
-	        obj="$(OVERLAY_BUILD)/$$src.o"; \
-	        mkdir -p "$$(dirname "$$obj")"; \
-	        $(CC_WRAPPER) "$$src" "$$obj" || exit $$?; \
-	    done; \
-	fi
+	@grep -o '$(OVERLAY_BUILD)/src/[^ ()]*\.c\.o' $(OVERLAY_LD) | sort -u | while read obj; do \
+	    src="$${obj#$(OVERLAY_BUILD)/}"; src="$${src%.o}"; \
+	    mkdir -p "$$(dirname "$$obj")"; \
+	    $(CC_WRAPPER) "$$src" "$$obj" || exit $$?; \
+	done
 	@$(PY) tools/scripts/overlay_extra_undefineds.py $(OVERLAY_BUILD) \
 	    --out $(OVERLAY_EXTRA_UNDEFINEDS) \
 	    --existing $(OVERLAY_UNDEFINED_FUNCS) \

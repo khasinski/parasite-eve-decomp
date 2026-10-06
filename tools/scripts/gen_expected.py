@@ -27,6 +27,7 @@ directory.
 import argparse
 import concurrent.futures
 import hashlib
+import os
 import pathlib
 import re
 import shutil
@@ -91,6 +92,19 @@ class Module:
     @property
     def src_lead(self):
         return "src/main/" if self.name == "main" else "src/overlays/%s/" % self.name
+
+    def unit_name(self, source):
+        """The manifest subsegment name of a C source path (src/...c).
+
+        A shared overlay library unit lives outside the overlay's own
+        directory and is named relative to it (`../room_lib/<unit>`).
+        """
+        return os.path.relpath(source, self.src_lead).removesuffix(".c")
+
+    def unit_object(self, name):
+        """The base object a manifest C subsegment compiles to."""
+        return ROOT / os.path.normpath(
+            self.build_prefix + self.src_lead + name + ".c.o")
 
 
 def modules(only, overlays):
@@ -280,7 +294,7 @@ def harvest(module, config, table):
     for name, sections in slices.items():
         if ".text" not in sections:
             continue
-        obj = ROOT / (module.build_prefix + module.src_lead + name + ".c.o")
+        obj = module.unit_object(name)
         if not obj.exists():
             continue
         for section, sym, offset, kind, size in defined_symbols(obj):
@@ -752,7 +766,6 @@ def process_module(module, shared, assembler, workers):
     for auto in work.glob("undefined_syms_auto*.txt"):
         constants.update(invented_constants(auto.read_text()))
 
-    src_lead = module.src_lead
     jobs = []
     missing = []
     for relative in relatives:
@@ -761,8 +774,7 @@ def process_module(module, shared, assembler, workers):
         unit_kinds = kinds
         if relative.startswith("src/"):
             # A unit built from C is <name>.c.o; the disassembly is <name>.s.
-            unit = relative[len(src_lead):].removesuffix(".o")
-            unit = unit.removesuffix(".c").removesuffix(".s")
+            unit = module.unit_name(relative.removesuffix(".o"))
             source = asm_root / ("%s.s" % unit)
             base_obj = ROOT / (prefix + relative)
             source_kind = classify(ROOT / relative.removesuffix(".o"))
