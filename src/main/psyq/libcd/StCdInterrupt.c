@@ -1,5 +1,8 @@
 /* ASSEMBLER: GNU */
 /* Psy-Q LIBCD C_011.OBJ: StCdInterrupt. */
+/* C_011 stays in three units: StCdInterrupt only matches with GCC 2.7.2,
+ * dma_execute only with GCC 2.8.1, -mno-split-addresses and
+ * -fno-schedule-insns. */
 #include "pe1/psyq_cd.h"
 extern volatile u8 *D_8009B334;
 extern volatile u8 *D_8009B338;

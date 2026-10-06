@@ -8,6 +8,12 @@
  * reconstructions need different compiler options or conflicting
  * declarations.
  */
+/* SYS stays in 18 units: no option set reproduces more than a few
+ * neighbours. sys.c, SetDrawEnv, Gpu_DmaVramTransfer, vram_transfer,
+ * dma_queue and LoadImage2 only match with GCC 2.8.1 and
+ * -mno-split-addresses, PutDispEnv, Gpu_BuildDrawModeCmd, Gpu_SubmitPacket,
+ * Gpu_ResetDmaWaitTimer and Gpu_RestoreDmaCallback only with GCC 2.7.2 and
+ * drawarea only with -O1. */
 #include "pe1/psyq_callbacks.h"
 #include "pe1/gpu_callbacks.h"
 #include "common.h"

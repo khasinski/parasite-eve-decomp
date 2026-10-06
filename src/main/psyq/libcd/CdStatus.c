@@ -1,4 +1,7 @@
 /* Psy-Q LIBCD SYS.OBJ: CdStatus, CdMode, CdLastCom. */
+/* LIBCD SYS stays in six units: CdLastPos only matches with GCC 2.8.1,
+ * sys.c, CdControl and CdMix only with GCC 2.7.2 (CdControl also needs
+ * -fno-schedule-insns). */
 #include "pe1/psyq_cd.h"
 
 int CdStatus(void) {

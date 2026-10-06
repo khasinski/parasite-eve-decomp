@@ -1,4 +1,6 @@
 /* ASSEMBLER: GNU */
+/* MULDF3 stays in two units: __muldf3 only matches with GCC 2.7.2,
+ * _mul_mant_d (_mul_mant_d.c) only with GCC 2.8.1. */
 #include "pe1/math64.h"
 
 /* PSY-Q LIBMATH MULDF3: __muldf3. The same object's _mul_mant_d is the

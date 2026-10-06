@@ -1,5 +1,8 @@
 /* ASSEMBLER: GNU */
 /* PSY-Q LIBCARD PATCH, part 1 of 4: func_8007E344. */
+/* LIBCARD PATCH stays in four units: parts 1 and 3 are SDK assembler
+ * source reported as original_asm, parts 2 and 4 are C, and a unit may not
+ * mix the two. */
 /*
  * PSY-Q LIBCARD PATCH, offset 0: the first routine of the patch image that
  * _copy_memcard_patch (psyq/libcard/patch_4.c) copies to 0xDF80,

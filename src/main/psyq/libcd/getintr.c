@@ -2,6 +2,10 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 /* Psy-Q LIBCD BIOS.OBJ: getintr. */
+/* LIBCD BIOS stays in nine units: getintr, CD_cw, CD_datasync and
+ * CD_getsector only match with GCC 2.8.1 and -mno-split-addresses, CD_sync,
+ * bios.c and CD_init only with GCC 2.7.2, and CD_sync, CD_cw,
+ * bios.c and CD_datasync need their own scheduling or optimisation options. */
 #include "pe1/psyq_cd.h"
 #include "bios_internal.h"
 

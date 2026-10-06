@@ -1,6 +1,9 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
 /* PSY-Q LIBPAD PADPORTD, part 1 of 4: PadInitDirect. */
+/* PADPORTD stays in four units: MemCard_DmaCompleteCallback (padportd_3.c)
+ * only matches with GCC 2.8.1 and -mno-split-addresses, padportd_2.c
+ * and padportd_4.c only with GCC 2.7.2. */
 
 #include "common.h"
 #include "pe1/card_obj.h"

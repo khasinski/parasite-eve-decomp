@@ -1,5 +1,8 @@
 /* ASSEMBLER: GNU */
 /* PSY-Q LIBSPU SPU, part 1 of 5: _spu_init, _spu_FwriteByIO. */
+/* SPU stays in five units: spu.c and spu_2.c only match with GCC 2.7.2,
+ * spu_3.c and spu_5.c only with GCC 2.8.1, spu_4.c only with the GAS 2.8.1
+ * assembler. */
 #include "pe1/psyq_spu_internal.h"
 #include "pe1/psyq_bios.h"
 
