@@ -462,11 +462,8 @@ segments:
       - [0x37F8C, c, menu/Menu_ItemActionFlow]
       - [0x38E54, c, menu/Menu_StepSaveLoadScreen]
       - [0x39038, c, menu/Menu_SaveLoadNavigate]
-      - [0x39118, c, menu/Menu_StepInventoryRoot]
-      - [0x39724, c, menu/Menu_AlignEquipPanels]
-      - [0x3985C, c, menu/Menu_DrawBonusPointSlotValue]
-      - [0x398B0, c, menu/Menu_ExitBonusPointAllocation]
-      - [0x399C8, c, menu/Menu_StatSlotInputHandler]
+      # Inventory root step, equip panel alignment and the bonus-point slot handlers (G0426).
+      - [0x39118, c, menu/Menu_InventoryRootAndBonusSlots]
       - [0x39B54, c, menu/Menu_InventoryBonusPointFlow]
       - [0x3B59C, c, menu/Menu_CreateMainMenuView]
       - [0x3B93C, c, menu/Menu_VisualSettingsFlow]
