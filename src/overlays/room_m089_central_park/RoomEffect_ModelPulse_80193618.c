@@ -113,7 +113,7 @@ int func_80193618(int mode, RoomM089ModelPulse *state, GteShortVector *anchor) {
             scale.x = outer;
             scale.y = tall;
             scale.z = outer;
-            Gte_ScaleMatrix(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             func_800C6EF8(D_8019416C);
             func_800C6FA0(D_8019416C, fade);
             func_800C71E4(D_8019416C, &matrix);
@@ -128,7 +128,7 @@ int func_80193618(int mode, RoomM089ModelPulse *state, GteShortVector *anchor) {
             wideScale.x = wide;
             wideScale.y = low;
             wideScale.z = wide;
-            Gte_ScaleMatrix(&wideMatrix, &wideScale);
+            ScaleMatrix(&wideMatrix, &wideScale);
             func_800C6EF8(D_8019416C);
             func_800C6FA0(D_8019416C, glow);
             func_800C71E4(D_8019416C, &wideMatrix);
@@ -143,7 +143,7 @@ int func_80193618(int mode, RoomM089ModelPulse *state, GteShortVector *anchor) {
             lowScale.x = outer;
             lowScale.y = low * 3 / 2;
             lowScale.z = outer;
-            Gte_ScaleMatrix(&lowMatrix, &lowScale);
+            ScaleMatrix(&lowMatrix, &lowScale);
             func_800C6EF8(D_8019416C);
             func_800C6FA0(D_8019416C, glow);
             func_800C71E4(D_8019416C, &lowMatrix);
@@ -175,7 +175,7 @@ int func_80193618(int mode, RoomM089ModelPulse *state, GteShortVector *anchor) {
             lowScale.x = outer;
             lowScale.y = outer;
             lowScale.z = outer;
-            Gte_ScaleMatrix(&coreMatrix, &lowScale);
+            ScaleMatrix(&coreMatrix, &lowScale);
             func_800C6EF8(D_80194168);
             func_800C6FA0(D_80194168, fade);
             func_800C71E4(D_80194168, &coreMatrix);

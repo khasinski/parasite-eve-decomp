@@ -35,7 +35,7 @@ void ROOMEFFECT_GLOW_ORB_DRAW_FUNC(RoomGlowOrbObject *object, u8 *slot, RoomGlow
         matrix.t[1] = orb->y - orb->offset.x;
         matrix.t[2] = orb->z - orb->offset.x;
         scale = (GteVector){ orb->size >> 1, 0x251, 0x251 };
-        Gte_ScaleMatrix(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         func_800C42A4(&ROOMEFFECT_GLOW_ORB_DRAW_SPRITE, &matrix, 0);
 
         ROOMEFFECT_GLOW_ORB_DRAW_SPRITE.r = 0x20;
@@ -49,7 +49,7 @@ void ROOMEFFECT_GLOW_ORB_DRAW_FUNC(RoomGlowOrbObject *object, u8 *slot, RoomGlow
             GteVector size;
 
             size = (GteVector){ orb->size, 0x448, 0x448 };
-            Gte_ScaleMatrix(&matrix, &size);
+            ScaleMatrix(&matrix, &size);
             func_800C42A4(&ROOMEFFECT_GLOW_ORB_DRAW_SPRITE, &matrix, 0);
         }
 

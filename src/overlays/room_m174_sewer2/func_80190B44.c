@@ -20,7 +20,7 @@ extern s16 D_800942EC;
 char *func_800C2B50(void);
 void func_80071A44(void *, s32, s32);
 void func_800794C4(RoomFxSeed8 *, RoomSpriteMatrix *);
-void Gte_ScaleMatrix(RoomSpriteMatrix *, RoomFxVec4 *);
+void ScaleMatrix(RoomSpriteMatrix *, RoomFxVec4 *);
 void func_800C2EAC(u8);
 void func_800C2FF0(s32, s32);
 void func_800C3098(s32);
@@ -49,7 +49,7 @@ void func_80190B68(void *arg0, void *arg1, RoomDoubleSpriteFxParams *fx) {
     scale.y = fx->scale;
     scale.z = 0x1000;
     scratch = scale;
-    Gte_ScaleMatrix(&matrix, &scratch);
+    ScaleMatrix(&matrix, &scratch);
 
     depth_slot = &ROOM_SPRITE_GLOBALS->depth;
     *depth_slot = fx->depth;
@@ -65,7 +65,7 @@ void func_80190B68(void *arg0, void *arg1, RoomDoubleSpriteFxParams *fx) {
     second_scale.y = fx->scale;
     second_scale.z = 0x1000;
     scale = second_scale;
-    Gte_ScaleMatrix(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
 
     *depth_slot = (s16)fx->depth >> 2;
     matrix.t[0] = fx->x;

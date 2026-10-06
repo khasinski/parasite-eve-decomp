@@ -49,7 +49,7 @@ int func_800C9868(void *arg0, void *arg1, u8 *anim) {
     localScale[1] = scale;
     localScale[2] = scale;
 
-    Gte_ScaleMatrix(&matrix, (const GteVector *)localScale);
+    ScaleMatrix(&matrix, (const GteVector *)localScale);
     func_800C42A4((u8 *)field_s3 - 10, &matrix, 1);
 }
 
@@ -351,6 +351,6 @@ int func_800C9EA8(void *arg0, void *arg1, u8 *anim) {
     scale.z = D_800E0AD8[index];
     scaleCopy = scale;
 
-    Gte_ScaleMatrix(&matrix, &scaleCopy);
+    ScaleMatrix(&matrix, &scaleCopy);
     func_800C42A4(&D_800E22F8, &matrix, 1);
 }

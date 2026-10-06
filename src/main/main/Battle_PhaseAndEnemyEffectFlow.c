@@ -26,7 +26,7 @@ s32 Battle_StepAyaAction();
 void Battle_StepCharacterAction();
 void Battle_UpdateEntityFacing();
 void Entity_SetActionMode();
-s32 Gte_Atan2();
+s32 ratan2();
 void Inv_AddItem();
 void Pm_StopAll();
 s32 Scene_LoadRoomAssets();
@@ -291,7 +291,7 @@ block_39:
             M2C_FIELD(D278(4), s32 *, 0x4C) = (s32) (M2C_FIELD(D278(4), s32 *, 0x4C) | 0x100000);
             temp_a0_3 = M2C_FIELD(temp_s2, s32 *, 0);
             temp_s0 = M2C_FIELD(temp_a0_3, s16 *, 0x26A) - D_8009D27C;
-            temp_v0_2 = Gte_Atan2(temp_s0, Battle_CalcDistToPlayer((void *) temp_a0_3, D254(4)));
+            temp_v0_2 = ratan2(temp_s0, Battle_CalcDistToPlayer((void *) temp_a0_3, D254(4)));
             if (temp_v0_2 < -0xAB) {
                 var_v1 = 0;
             } else {

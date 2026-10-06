@@ -2,7 +2,7 @@
 
 extern FieldActor *g_CurrentEntity;
 
-int Gte_Atan2(int arg0, int arg1);
+int ratan2(int arg0, int arg1);
 
 int Task_ClearEntityRoamFlag(void) {
     g_CurrentEntity->flags &= 0xFFFDFFFF;
@@ -21,7 +21,7 @@ int Task_GetAngleToPoint(int **arg0) {
 
     dx = (((int *)g_CurrentEntity)[10] - *arg0[0]) >> 16;
     dy = (((int *)g_CurrentEntity)[12] - *arg0[1]) >> 16;
-    angle = 0x1400 - Gte_Atan2(dy, dx);
+    angle = 0x1400 - ratan2(dy, dx);
     if (angle >= 0x1001) {
         angle -= 0x1000;
     }

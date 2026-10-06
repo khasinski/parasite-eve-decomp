@@ -16,7 +16,7 @@ void func_8018F344(GteMatrix *out, GteShortVector *eye,
     work.x = target->x - eye->x;
     work.y = target->y - eye->y;
     work.z = target->z - eye->z;
-    Gte_NormalizeVec(&work, &forward);
+    VectorNormal(&work, &forward);
     if (forward.z == up->z)
         forward.z++;
 
@@ -24,13 +24,13 @@ void func_8018F344(GteMatrix *out, GteShortVector *eye,
     gte_ldopv2(up);
     gte_op12_psyq();
     gte_stmac(&work);
-    Gte_NormalizeVec(&work, &side);
+    VectorNormal(&work, &side);
 
     gte_ldopv1_psyq(&forward);
     gte_ldopv2(&side);
     gte_op12_psyq();
     gte_stmac(&work);
-    Gte_NormalizeVec(&work, &upAxis);
+    VectorNormal(&work, &upAxis);
 
     out->m[0][0] = side.x;
     out->m[0][1] = side.y;

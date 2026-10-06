@@ -6,9 +6,9 @@ void FieldEng_CalculateLookAngles(GteShortVector *from, GteShortVector *to,
 
     dz = to->z - from->z;
     dx = to->x - from->x;
-    out->y = -Gte_Atan2(dz, dx) + 1024;
-    horizontal_distance = Gte_ISqrt((unsigned)dx * dx + (unsigned)dz * dz);
-    out->x = -Gte_Atan2(to->y - from->y, horizontal_distance);
+    out->y = -ratan2(dz, dx) + 1024;
+    horizontal_distance = SquareRoot0((unsigned)dx * dx + (unsigned)dz * dz);
+    out->x = -ratan2(to->y - from->y, horizontal_distance);
     out->z = 0;
     out->x &= 4095;
     out->y &= 4095;

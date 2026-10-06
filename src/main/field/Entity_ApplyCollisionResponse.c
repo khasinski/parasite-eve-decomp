@@ -42,7 +42,7 @@ void Entity_SlideOnWall(BattleEntity *input, const PolygonVertex *vertices,
     vector.x = endX - startX;
     vector.y = 0;
     vector.z = endZ - startZ;
-    Gte_NormalizeVec(&vector, &unit);
+    VectorNormal(&vector, &unit);
     unit.x <<= 4;
     unit.z <<= 4;
     x = entity->baseX;
@@ -56,7 +56,7 @@ void Entity_SlideOnWall(BattleEntity *input, const PolygonVertex *vertices,
     vector.x = startX - endX;
     vector.y = 0;
     vector.z = startZ - endZ;
-    length = Gte_ISqrt(vector.x * vector.x + vector.z * vector.z);
+    length = SquareRoot0(vector.x * vector.x + vector.z * vector.z);
     projection = (((z >> 16) - endZ) * vector.x - ((x >> 16) - endX) * vector.z) / length;
     if (projection < 0)
         projection = -projection;
@@ -130,7 +130,7 @@ int Geo_FindNearestEdge(int x, int z, PolygonVertex *vertices,
         edge.x = startX - endX;
         edge.y = 0;
         edge.z = startZ - endZ;
-        length = Gte_ISqrt(edge.x * edge.x + edge.z * edge.z);
+        length = SquareRoot0(edge.x * edge.x + edge.z * edge.z);
         offsetZ = pointZ - endZ;
         offsetX = pointX - endX;
         distance = (offsetZ * edge.x - offsetX * edge.z) / length;
@@ -138,7 +138,7 @@ int Geo_FindNearestEdge(int x, int z, PolygonVertex *vertices,
             distance = -distance;
         if (distance > D_8009CE2C)
             continue;
-        Gte_NormalizeVec(&edge, &edge);
+        VectorNormal(&edge, &edge);
         distance = Math_FixedMul(edge.x << 4, offsetX << 16);
         distance += Math_FixedMul(edge.z << 4, offsetZ << 16);
         if (distance < 0) {

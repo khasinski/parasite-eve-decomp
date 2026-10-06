@@ -17,12 +17,12 @@ void func_8018F05C(void)
     offset.x = g_FxCommonCameraTarget.x - g_FxCommonCameraPosition.x;
     offset.y = g_FxCommonCameraTarget.y - g_FxCommonCameraPosition.y;
     offset.z = g_FxCommonCameraTarget.z - g_FxCommonCameraPosition.z;
-    Gte_NormalizeVec(&offset, &unit);
+    VectorNormal(&offset, &unit);
     view.t[0] = -g_FxCommonCameraPosition.x;
     view.t[1] = -g_FxCommonCameraPosition.y;
     view.t[2] = -g_FxCommonCameraPosition.z;
-    D_8019BFC4.x = Gte_Atan2(unit.y, func_80078004(unit.x * unit.x + unit.z * unit.z));
-    D_8019BFC4.y = Gte_Atan2(unit.z, unit.x) - 0x400;
+    D_8019BFC4.x = ratan2(unit.y, func_80078004(unit.x * unit.x + unit.z * unit.z));
+    D_8019BFC4.y = ratan2(unit.z, unit.x) - 0x400;
     D_8019BFC4.z = 0;
     func_800794C4((RoomFxSeed8 *)&D_8019BFC4, &rotation);
     func_800787D4(&rotation, &view, &D_8019CC30);
@@ -38,9 +38,9 @@ void func_8018F05C(void)
     eye.z = g_FxCommonCameraPosition.z;
     func_8018F344((GteMatrix *)&D_8019CC30, &eye, &target, &up);
 
-    D_8019BFC4.x = -Gte_Atan2(func_80078004(offset.x * offset.x + offset.z * offset.z),
+    D_8019BFC4.x = -ratan2(func_80078004(offset.x * offset.x + offset.z * offset.z),
                               -offset.y) + 0x400;
-    D_8019BFC4.y = -Gte_Atan2(offset.z, offset.x) + 0x400;
+    D_8019BFC4.y = -ratan2(offset.z, offset.x) + 0x400;
     D_8019BFC4.z = 0;
     func_800799E4(&D_8019BFC4, &D_8019CDF0);
     D_8019CDF0.t[0] = g_FxCommonCameraPosition.x;

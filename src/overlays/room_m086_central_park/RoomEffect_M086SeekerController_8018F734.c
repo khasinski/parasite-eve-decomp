@@ -148,7 +148,7 @@ int func_8018F734(int mode, RoomM086SeekerController *state, RoomM086ControllerP
             scale.x = size;
             scale.y = size;
             scale.z = size;
-            Gte_ScaleMatrix(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             func_800C6EF8(D_80190B88);
             func_800C6FA0(D_80190B88, 0x80);
             func_800C71E4(D_80190B88, &matrix);

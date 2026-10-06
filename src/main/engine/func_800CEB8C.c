@@ -10,7 +10,7 @@ typedef struct AlternatingArcPoints {
     ArcPointComponent component[8];
 } AlternatingArcPoints;
 
-int Gte_Atan2(int y, int x);
+int ratan2(int y, int x);
 int rsin(int angle);
 int rcos(int angle);
 int func_800C6B20(void *arg0);
@@ -33,7 +33,7 @@ int func_800CEB8C(s16 *a, s16 *b, int radius) {
 
     dx = b[0] - a[0];
     dz = b[2] - a[2];
-    angle = -Gte_Atan2(dz, dx);
+    angle = -ratan2(dz, dx);
     x = div4096(rsin(angle) * radius);
     z = div4096(rcos(angle) * radius);
 

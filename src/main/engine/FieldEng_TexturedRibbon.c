@@ -75,7 +75,7 @@ void func_800D3114(GteShortVector *points, s16 count, int width, int u, int v,
         }
         dx = screen1.x - screen0.x;
         dy = screen1.y - screen0.y;
-        angle = Gte_Atan2(dy, dx) + 0x400;
+        angle = ratan2(dy, dx) + 0x400;
         t = (i << 12) / count;
         LoadAverageCol(&color0Scaled, &color1Scaled, 0x1000 - t, t, &color);
         if (i == 0) {

@@ -44,7 +44,7 @@ void ROOMEFFECT_BEAM_PAIR_DRAW_FUNC(void *object, void *slot, RoomBeamPair *beam
     gte_CompMatrix(&beam->matrix, &matrix, &matrix);
     RotMatrix(&spin, &matrix);
     scale = (GteVector){ beam->scale, beam->scale, beam->scale };
-    Gte_ScaleMatrix(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
     second = matrix;
     func_800C4FC4(&ROOMEFFECT_BEAM_PAIR_DRAW_SPRITES[0], &matrix, 1);
     func_800C4FC4(&ROOMEFFECT_BEAM_PAIR_DRAW_SPRITES[1], &second, 1);

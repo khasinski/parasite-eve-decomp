@@ -24,7 +24,7 @@ void Scene_UpdatePlayerEntity(BattleEntity *entity, int *actionState)
     speed = Math_FixedMul(speed, entity->moveSpeed << 4);
     if ((D_800BE9A0 & 0xF000) == 0x7000) {
         int angle;
-        angle = Gte_Atan2(D_800BE9A7 - 128, D_800BE9A6 - 128) - 0x400;
+        angle = ratan2(D_800BE9A7 - 128, D_800BE9A6 - 128) - 0x400;
         PE1_COMPILER_LAUNDER(angle);
         if (angle < 0) angle += 0x1000;
         entity->facingAngle = D_800BD022 + angle;
@@ -88,7 +88,7 @@ void Scene_UpdatePlayerEntity(BattleEntity *entity, int *actionState)
     }
     facing &= 0xFFF;
     entity->facingAngle = facing;
-    Gte_RotateVec(&D_800BD000, &movement, (GteVector *)&entity->motionX);
+    ApplyMatrixLV(&D_800BD000, &movement, (GteVector *)&entity->motionX);
     if (D_8009D2E8 & 0x10) {
         entity->facingAngle = (0x1000 - (u16)entity->facingAngle) & 0xFFF;
         entity->motionX = -entity->motionX;

@@ -153,7 +153,7 @@ int func_8018FC14(int mode, RoomM023Beacon *state) {
         MulMatrix0(&matrix, &spin, &matrix);
         scale.x = scale.y = state->width / 16;
         scale.z = (state->height << 12) / 8000;
-        Gte_ScaleMatrix(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         matrix.t[0] = state->position.x;
         matrix.t[1] = state->position.y;
         matrix.t[2] = state->position.z;
@@ -182,7 +182,7 @@ int func_8018FC14(int mode, RoomM023Beacon *state) {
         scale.z = 0x1000;
         scale.y = 0x1800;
         scale.x = 0x1800;
-        Gte_ScaleMatrix(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         func_800C70EC(D_80190760, -0xFF, -0x8C, -0xFF);
         func_800C71E4(D_80190760, &matrix);
         func_800C6F4C(D_80190760);
@@ -191,7 +191,7 @@ int func_8018FC14(int mode, RoomM023Beacon *state) {
         scale.y = 0x800;
         scale.x = 0x800;
         matrix.t[1] = D_800942EC;
-        Gte_ScaleMatrix(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         func_800C6FA0(D_80190760, 0x19);
         func_800C71E4(D_80190760, &matrix);
         func_800C6F4C(D_80190760);

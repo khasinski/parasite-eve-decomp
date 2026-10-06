@@ -50,7 +50,7 @@ int func_800CB750(void *arg0, void *arg1, u8 *anim) {
     localScale[1] = scale;
     localScale[2] = scale;
 
-    Gte_ScaleMatrix(&matrix, (const GteVector *)localScale);
+    ScaleMatrix(&matrix, (const GteVector *)localScale);
     func_800C42A4((u8 *)field_s4 - 10, &matrix, 1);
 
     matrix.m[2][2] = 0x1000;
@@ -75,7 +75,7 @@ int func_800CB750(void *arg0, void *arg1, u8 *anim) {
     localScale2[1] = scale;
     localScale2[2] = scale;
 
-    Gte_ScaleMatrix(&matrix, (const GteVector *)localScale2);
+    ScaleMatrix(&matrix, (const GteVector *)localScale2);
     func_800C42A4((u8 *)field_s4 - 10, &matrix, 1);
 }
 
@@ -119,7 +119,7 @@ int func_800CB8E0(void *arg0, void *arg1, u8 *anim) {
     scale.z = *(s16 *)(anim + 0x6);
     scaleCopy = scale;
 
-    Gte_ScaleMatrix(&matrix, &scaleCopy);
+    ScaleMatrix(&matrix, &scaleCopy);
     func_800C42A4((u8 *)field - 10, &matrix, 0);
 }
 
@@ -159,7 +159,7 @@ int func_800CB9F8(void *arg0, void *arg1, u8 *anim) {
     scale.z = *(s16 *)(anim + 0x6);
     scaleCopy = scale;
 
-    Gte_ScaleMatrix(&matrix, &scaleCopy);
+    ScaleMatrix(&matrix, &scaleCopy);
     func_800C42A4((u8 *)field - 10, &matrix, 0);
 }
 

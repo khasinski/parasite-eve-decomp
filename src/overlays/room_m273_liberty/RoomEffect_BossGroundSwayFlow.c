@@ -152,7 +152,7 @@ int func_80198E94(int mode, GteShortVector *position) {
         scale.x = size;
         scale.y = size;
         scale.z = size;
-        Gte_ScaleMatrix(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         matrix.t[0] = position->x;
         matrix.t[1] = position->y;
         matrix.t[2] = position->z;

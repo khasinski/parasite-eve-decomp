@@ -79,7 +79,7 @@ int Math_IntSqrt(int value) {
     assert(particle.velocity.pad == 0x5A5A);
     return 12345;
 }
-int Gte_Atan2(int y, int horizontal) {
+int ratan2(int y, int horizontal) {
     uint32_t dy = (uint32_t)transforms[1].position[1] - (uint32_t)players[1].position[1];
     assert(angles++ == 0 && roots == 1 && y == signedWord(dy) && horizontal == 12345);
     return angleResult;

@@ -206,6 +206,6 @@ int func_800C9268(void *arg0, void *arg1, u8 *anim) {
     scale.z = D_800E09F0[index];
     scaleCopy = scale;
 
-    Gte_ScaleMatrix(&matrix, &scaleCopy);
+    ScaleMatrix(&matrix, &scaleCopy);
     func_800C42A4(&D_800E22E8, &matrix, 1);
 }

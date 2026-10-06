@@ -115,7 +115,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
     D_8009CDD8 += D_800E1210[D_800F3368.parameter0A] * sizeof(FieldStripPacket);
     bias = (u16)D_800F3368.depth;
     RotMatrixYXZ(rotation, &matrix);
-    Gte_ScaleMatrix(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
     gte_swc2_25_0(matrix.t);
     gte_swc2_26_4(matrix.t);
     gte_swc2_27_8(matrix.t);

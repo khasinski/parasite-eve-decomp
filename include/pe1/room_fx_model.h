@@ -32,8 +32,8 @@ typedef struct RoomFxModelOwner {
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFxModelOwner, geom) == 0x1B4, room_fx_model_geom_offset);
 
 int abs(int value);
-int Gte_ISqrt(int value);
-int Gte_Atan2(int y, int x);
+int SquareRoot0(int value);
+int ratan2(int y, int x);
 int rsin(int angle);
 int rcos(int angle);
 void func_80039B74(RoomFxModelGeom *geom, void *animation, int count, int mode);

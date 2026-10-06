@@ -98,7 +98,7 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
     RotMatrixYXZ((GteShortVector *)rotation, &matrix);
     if (rotation->flags)
         MulRotMatrix(&matrix);
-    Gte_ScaleMatrix(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
     {
         register const GteMatrixWords *words asm("$16") = (const GteMatrixWords *)(&matrix);
         register u32 a asm("$12");

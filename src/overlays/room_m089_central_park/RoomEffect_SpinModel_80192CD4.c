@@ -108,7 +108,7 @@ int func_80192CD4(int mode, RoomM089SpinModel *spin, GteShortVector *anchor) {
         scale.x = turn;
         scale.y = turn;
         scale.z = turn;
-        Gte_ScaleMatrix(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         func_800C6EF8(D_80194168);
         func_800C6FA0(D_80194168, intensity);
         func_800C71E4(D_80194168, &matrix);
@@ -121,7 +121,7 @@ int func_80192CD4(int mode, RoomM089SpinModel *spin, GteShortVector *anchor) {
         innerScale.x = turn / 2;
         innerScale.y = turn / 2;
         innerScale.z = turn / 2;
-        Gte_ScaleMatrix(&innerMatrix, &innerScale);
+        ScaleMatrix(&innerMatrix, &innerScale);
         func_800C6EF8(D_80194168);
         func_800C6FA0(D_80194168, intensity);
         func_800C71E4(D_80194168, &innerMatrix);

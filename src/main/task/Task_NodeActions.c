@@ -279,7 +279,7 @@ have_args:
         if ((dx | dy) == 0) {
             return 1;
         }
-        angle = 0x1400 - Gte_Atan2(dy, dx);
+        angle = 0x1400 - ratan2(dy, dx);
     }
 
     {
@@ -369,7 +369,7 @@ extern TaskNode *D_8009D300;
 extern int *D_8009CE00;
 
 int Math_FixedMul(int a, int b);
-int Gte_Atan2(int y, int x);
+int ratan2(int y, int x);
 int rsin(int angle);
 int rcos(int angle);
 
@@ -420,7 +420,7 @@ int Task_MoveTowardPoint(int **args) {
         turn_speed = S32_AT(camera_state, 0x1C);
     }
 
-    target_angle = (u16)(0x1400 - Gte_Atan2(current_z - target_z,
+    target_angle = (u16)(0x1400 - ratan2(current_z - target_z,
                                              current_x - target_x));
     target_angle &= 0xFFF;
     desired_angle = target_angle;
@@ -507,7 +507,7 @@ extern u8 *D_8009D2F0[];
 extern int *D_8009CE00;
 
 int Math_FixedMul(int a, int b);
-int Gte_Atan2(int y, int x);
+int ratan2(int y, int x);
 int rsin(int angle);
 int rcos(int angle);
 
@@ -567,7 +567,7 @@ int Camera_TrackEntityAngle(int **args) {
         turn_speed = D_8009D300->target1c;
     }
 
-    target_angle = (u16)(0x1400 - Gte_Atan2(current_z - target_z, current_x - target_x));
+    target_angle = (u16)(0x1400 - ratan2(current_z - target_z, current_x - target_x));
     target_angle &= 0xFFF;
     S32_AT(D_8009D2F0[0], 0x68) = Math_FixedMul(-base_speed, rsin(target_angle) << 4);
     base_speed = Math_FixedMul(-base_speed, rcos(target_angle) << 4);
@@ -672,7 +672,7 @@ int Camera_SnapToEntity(int **args) {
     target_x_ptr = (u32 *)(target + 0x28);
     delta_x = U32_AT(D_8009D2F0[0], 0x28) - *target_x_ptr;
     delta_z = U32_AT(D_8009D2F0[0], 0x30) - U32_AT(target, 0x30);
-    target_angle = 0x1400 - Gte_Atan2(delta_z >> 16, delta_x >> 16);
+    target_angle = 0x1400 - ratan2(delta_z >> 16, delta_x >> 16);
     next_angle = (target_angle &= 0xFFF);
     current = D_8009D2F0[0];
     angle = S16_AT(current, 0x3A);
@@ -798,7 +798,7 @@ int Camera_TrackEntityZoom(int **args) {
         movement_speed = Math_FixedMul(0x50000, S32_AT(speed_entity, 0x20));
     }
     movement_speed = Math_FixedMul(movement_speed, U16_AT(D_8009D2F0[0], 0x26) << 4);
-    target_angle = (u16)(0x1400 - Gte_Atan2(current_z - target_z,
+    target_angle = (u16)(0x1400 - ratan2(current_z - target_z,
                                              current_x - target_x));
     target_angle &= 0xFFF;
 

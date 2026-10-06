@@ -46,7 +46,7 @@ PE1_STATIC_ASSERT(sizeof(FieldGlowQuadPacket) == 0x34, field_glow_quad_size);
 /* Texture page of the shared effect sheet. */
 extern u16 D_800E2852;
 
-int Gte_Atan2(int y, int x);
+int ratan2(int y, int x);
 int rsin(int angle);
 int rcos(int angle);
 u16 GetClut(int x, int y);

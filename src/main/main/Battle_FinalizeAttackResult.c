@@ -89,7 +89,7 @@ extern char battle_sfx_slot_large[16] __asm__("D_8009D2FC");
 extern u8 D_8009D274, D_8009CE39, D_8009CE3A;
 extern s16 D_8009D27C;
 extern int D_8009D2FC;
-int Gte_Atan2(int y, int x);
+int ratan2(int y, int x);
 int BattleCmd_CommitAmmoAndUpdate(void);
 
 #define D_8009D254 (*(BattleEntity **)battle_entity_large)
@@ -149,7 +149,7 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
         { u8 animMode = (*(Combatant **)battle_actor_group_0)->action->animMode[1]; PE1_NOP(); D_8009CE39 = animMode; }
         asm volatile("");
         { register int y asm("$16") = *(s16 *)((u8 *)turnSlot->actor + 0x26A); angle = y - D_8009D27C; }
-        { register int firstFacing asm("$4") = Gte_Atan2(angle, Battle_CalcDistToPlayer(turnSlot->actor, D_8009D254));
+        { register int firstFacing asm("$4") = ratan2(angle, Battle_CalcDistToPlayer(turnSlot->actor, D_8009D254));
         if (firstFacing < -0xAB) direction = 0; else { register int cmp asm("$2") = firstFacing < 0xE4; if (cmp) direction = 1; else direction = 2; } }
         Entity_SetActionMode(D_8009D254, *((u8 *)(*(Combatant **)battle_actor_group_1) + 0x17 + direction));
         (*(BattleEntity **)battle_entity_after_set)->entityFlags &= ~0x100;
@@ -203,7 +203,7 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
         { register BattleAction *attackAction asm("$4") = active->action;
         if (attackAction->attackWord & 0x3FF) {
             { register int y asm("$16") = *(s16 *)((u8 *)turnSlot->actor + 0x26A); angle = y - D_8009D27C; }
-            { register int facing asm("$4") = Gte_Atan2(angle, Battle_CalcDistToPlayer(turnSlot->actor, D_8009D254));
+            { register int facing asm("$4") = ratan2(angle, Battle_CalcDistToPlayer(turnSlot->actor, D_8009D254));
         if (facing < -0xAB) direction = 0; else { register int cmp asm("$2") = facing < 0xE4; if (cmp) direction = 1; else direction = 2; } }
             Entity_SetActionMode((*(BattleEntity **)battle_entity_alias_7), *((u8 *)(*(Combatant **)battle_actor_group_7) + 0x14 + direction));
             result = 1;

@@ -179,7 +179,7 @@ s32 func_800DFE20(Vec3Fixed *lhs, Vec3Fixed *rhs) {
 
 #include "common.h"
 
-s32 Gte_Atan2(s32 x, s32 z);
+s32 ratan2(s32 x, s32 z);
 
 void func_800DFE94(Vec3Fixed *from, Vec3Fixed *to, s16 *out) {
     Vec3Fixed *from_reg = from;
@@ -208,10 +208,10 @@ void func_800DFE94(Vec3Fixed *from, Vec3Fixed *to, s16 *out) {
         shift -= 2;
     } while (shift >= 0);
 
-    angle = Gte_Atan2(from_reg->y - to_reg->y, horizontal << 16);
+    angle = ratan2(from_reg->y - to_reg->y, horizontal << 16);
     out[0] = angle & 0xFFF;
 
-    angle = Gte_Atan2(to_reg->x - from_reg->x, to_reg->z - from_reg->z);
+    angle = ratan2(to_reg->x - from_reg->x, to_reg->z - from_reg->z);
     out[1] = angle & 0xFFF;
     out[2] = 0;
 }
@@ -219,8 +219,8 @@ void func_800DFE94(Vec3Fixed *from, Vec3Fixed *to, s16 *out) {
 
 #include "common.h"
 
-s32 Gte_Atan2(s32 x, s32 z);
+s32 ratan2(s32 x, s32 z);
 
 s16 FieldEng_VecToAngle(Vec3Fixed *from, Vec3Fixed *to) {
-    return Gte_Atan2(to->x - from->x, to->z - from->z);
+    return ratan2(to->x - from->x, to->z - from->z);
 }

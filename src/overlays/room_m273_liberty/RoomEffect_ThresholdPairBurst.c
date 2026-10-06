@@ -142,7 +142,7 @@ int func_80193CB8(int mode,ThresholdTripleEffect *effect) {
         memset(&scale,0,16);
         scale.x=effect->scaleXZ; scale.y=effect->scaleY; scale.z=effect->scaleXZ;
         copy=scale;
-        Gte_ScaleMatrix(&matrix,&copy);
+        ScaleMatrix(&matrix,&copy);
         {
             int x=effect->x;
             void *model=*asset;

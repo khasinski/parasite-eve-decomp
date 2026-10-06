@@ -1,4 +1,4 @@
-"""Retail-free regression for the full Gte_Atan2 instruction stream."""
+"""Retail-free regression for the full ratan2 instruction stream."""
 import hashlib
 import pathlib
 import shutil
@@ -31,12 +31,12 @@ class GteAtan2Tests(unittest.TestCase):
             self.assertEqual(len(code), 372)
             self.assertEqual(hashlib.sha256(code).hexdigest(),
                              'e5b0edc7308d715c3fd821bd7f75478555d6937ec97c9a8278f6c7746ad0f820')
-            self.assertIn(('.text', 'Gte_Atan2', 0, 'STT_FUNC', 372), gen_expected.defined_symbols(obj))
+            self.assertIn(('.text', 'ratan2', 0, 'STT_FUNC', 372), gen_expected.defined_symbols(obj))
             self.assertEqual(gen_expected.object_section_bytes(obj), 372)
 
     def test_function_section_is_counted_in_wrapped_link_map(self):
         obj = 'build/USA/src/main/psyq/libgte/ratan.c.o'
-        text = ' .text.Gte_Atan2\n                0x80079fb4 0x174 ' + obj + '\n'
+        text = ' .text.ratan2\n                0x80079fb4 0x174 ' + obj + '\n'
         self.assertTrue(objdiff_config.linked_objects(text)[obj]['code'])
-        self.assertEqual(gen_expected.parse_map_placement(text)[obj]['.text.Gte_Atan2'],
+        self.assertEqual(gen_expected.parse_map_placement(text)[obj]['.text.ratan2'],
                          (0x80079fb4, 372))

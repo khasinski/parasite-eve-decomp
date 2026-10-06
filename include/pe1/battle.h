@@ -359,7 +359,7 @@ typedef struct BattleEntity {
 typedef struct BattleTarget {
 /* 0x00 */ struct BattleEntity *actor; /* target entity (Battle_BuildTargetList.c:49) */
 /* 0x04 */ s32  dist;                  /* distance to player (Battle_CycleTarget.c:90) */
-/* 0x08 */ s16  angle;                 /* Gte_Atan2 angle to player (Battle_BuildTargetList.c:58) */
+/* 0x08 */ s16  angle;                 /* ratan2 angle to player (Battle_BuildTargetList.c:58) */
 /* 0x0A */ u8   pad_0A[2];
 } BattleTarget;                        /* sizeof == 0xC */
 

@@ -2,7 +2,7 @@ extern char *g_CurrentEntity;
 
 int rsin(int arg0);
 int rcos(int arg0);
-int Gte_Atan2(int arg0, int arg1);
+int ratan2(int arg0, int arg1);
 int Math_IntSqrt(int value);
 
 int Task_GetSin(int **arg0) {
@@ -16,7 +16,7 @@ int Task_GetCos(int **arg0) {
 }
 
 int Task_GetAtan2(int **arg0) {
-    *arg0[2] = Gte_Atan2(*arg0[0], *arg0[1]);
+    *arg0[2] = ratan2(*arg0[0], *arg0[1]);
     return 1;
 }
 

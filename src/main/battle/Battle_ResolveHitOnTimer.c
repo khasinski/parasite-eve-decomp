@@ -237,7 +237,7 @@ void Battle_ResolveHitOnTimer(void)
                             coneFlags = coneTarget->entityFlags;
                             if (((coneFlags & 0x2040) != 0x40) && !(coneFlags & 0x4000) && (coneCandidate->hpAlive > 0))
                             {
-                                targetAngle = Gte_Atan2(coneTarget->renderObject.target_x - player->posX.parts.integer, coneTarget->renderObject.target_z - player->posZ.parts.integer);
+                                targetAngle = ratan2(coneTarget->renderObject.target_x - player->posX.parts.integer, coneTarget->renderObject.target_z - player->posZ.parts.integer);
                                 if (facing >= -0x600 && upperRange)
                                 {
                                     if ((s16)targetAngle < lower || upper < (s16)targetAngle) goto nextConeTarget;

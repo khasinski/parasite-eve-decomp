@@ -67,8 +67,8 @@ int func_8018F55C(u32 position, int index, void *table,
     toEnd.y = end.y - middle.y;
     toEnd.z = end.z - middle.z;
 
-    yaw = -Gte_Atan2(toMiddle.z, toMiddle.x);
-    nextYaw = -Gte_Atan2(toEnd.z, toEnd.x);
+    yaw = -ratan2(toMiddle.z, toMiddle.x);
+    nextYaw = -ratan2(toEnd.z, toEnd.x);
     if (yaw - nextYaw > 0x800)
         nextYaw += 0x1000;
     if (nextYaw - yaw > 0x800)

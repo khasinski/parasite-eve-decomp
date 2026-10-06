@@ -76,7 +76,7 @@ void ROOMLIB_DRAW_EIGHT_SCALED_NAME(
             scaleArg[2] = scale2;
             scaleArg[3] = scale3;
             asm volatile("" ::: "$5");
-            Gte_ScaleMatrix(matrixArg, (const GteVector *)scaleArg);
+            ScaleMatrix(matrixArg, (const GteVector *)scaleArg);
 
             *depthOut = *(u16 *)(scalarCursor + 0x94);
             matrix.t[0] = *(s16 *)(positionCursor + 4);

@@ -31,7 +31,7 @@ class RegionTests(unittest.TestCase):
 class MapAndLayoutTests(unittest.TestCase):
     MAP = (
         " .rodata        0x80010000       0x60 build/USA/src/main/a.c.o\n"
-        " .text.Gte_Atan2\n"
+        " .text.ratan2\n"
         "                0x80020000       0x40 build/USA/src/main/b.c.o\n"
         " .data          0x80030000       0x10 build/USA/asm/USA/main/data/z.data.s.o\n"
         " .data          0x80030010        0x0 build/USA/src/main/empty.c.o\n"
@@ -40,7 +40,7 @@ class MapAndLayoutTests(unittest.TestCase):
     def test_parse_map_wrapped_names_and_skips_empty(self):
         secs = sa.parse_map_sections(self.MAP)
         self.assertEqual([(s.start, s.section) for s in secs], [
-            (0x80010000, ".rodata"), (0x80020000, ".text.Gte_Atan2"), (0x80030000, ".data")])
+            (0x80010000, ".rodata"), (0x80020000, ".text.ratan2"), (0x80030000, ".data")])
 
     def test_location_kind(self):
         image = bytes(0x20010)  # zero bytes cover the asm blob

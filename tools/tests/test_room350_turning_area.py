@@ -238,7 +238,7 @@ void target_memset(void *p,int a,int b) {
     initialScale=state.size*(clears+1)/3; memset(p,0,b);
     state.size=next_size(++clears); state.asset=&assets[clears+2];
 }
-void Gte_ScaleMatrix(Matrix *m,Scale *s) {
+void ScaleMatrix(Matrix *m,Scale *s) {
     assert(clears==scaled+1 && models==scaled);
     assert(s->x==initialScale && s->y==initialScale && s->z==2048 && s->pad==0);
     assert(memcmp(m->rotation,expectedMatrix.rotation,sizeof(m->rotation))==0);

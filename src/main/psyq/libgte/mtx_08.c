@@ -4,7 +4,7 @@
  * The empty x -> l constraint binds the low word of the C unsigned product
  * to LO. It keeps MULTU instead of GCC's low-only MULT and emits no opcode.
  * Register pins and sequencing barriers are counted in crutch debt. */
-GteMatrix *Gte_ScaleMatrix(GteMatrix *m, const GteVector *scale) {
+GteMatrix *ScaleMatrix(GteMatrix *m, const GteVector *scale) {
     register s32 sx asm("$11");
     register s32 sy asm("$12");
     register s32 sz asm("$13");

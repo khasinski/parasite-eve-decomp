@@ -23,7 +23,7 @@ extern int func_80196F2C(int, Particle *);
 extern int func_800CE560(void *, int, int, int (*)(int, Particle *));
 extern Particle *func_800CE610(void *);
 extern int Math_IntSqrt(int);
-extern int Gte_Atan2(int, int);
+extern int ratan2(int, int);
 extern int Inv_ScrambleGrid(void);
 extern Matrix *RotMatrixYXZ(Vector *, Matrix *);
 extern Vector *ApplyMatrixSV(Matrix *, Vector *, Vector *);
@@ -63,7 +63,7 @@ update:
         dx = transform->position[0] - player->position[0];
         dz = transform->position[2] - player->position[2];
         dy = transform->position[1] - player->position[1];
-        angle = Gte_Atan2(dy, Math_IntSqrt(dx * dx + dz * dz));
+        angle = ratan2(dy, Math_IntSqrt(dx * dx + dz * dz));
         angle += (signed char)Inv_ScrambleGrid() / 2;
         angle &= 0xFFF;
         vector.x = angle;

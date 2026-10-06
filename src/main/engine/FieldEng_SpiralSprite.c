@@ -98,7 +98,7 @@ int func_800D6514(int mode, RenderArcingEmitter *state)
         angles.y = D_800E27EC << 5;
         angles.z = 0;
         RotMatrixYXZ(&angles, &matrix);
-        Gte_ScaleMatrix(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         matrix.t[0] = state->position.x;
         matrix.t[1] = state->position.y;
         matrix.t[2] = state->position.z;
@@ -126,7 +126,7 @@ int func_800D6514(int mode, RenderArcingEmitter *state)
         scale.y /= 2;
         scale.z /= 2;
         RotMatrixYXZ(&angles, &matrix);
-        Gte_ScaleMatrix(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         matrix.t[0] = state->position.x;
         matrix.t[1] = state->position.y;
         matrix.t[2] = state->position.z;

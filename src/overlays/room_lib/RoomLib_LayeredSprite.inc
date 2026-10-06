@@ -9,7 +9,7 @@ extern u16 ROOM_LAYERED_SPRITE_SECONDARY_DEPTH;
 void func_800C3238(s32);
 void func_800794C4(RoomFxSeed8 *, RoomSpriteMatrix *);
 void func_80071A44(void *, s32, s32);
-void Gte_ScaleMatrix(RoomSpriteMatrix *, RoomFxVec4 *);
+void ScaleMatrix(RoomSpriteMatrix *, RoomFxVec4 *);
 void func_800C4FC4(void *, RoomSpriteMatrix *, s32);
 
 void ROOM_LAYERED_SPRITE_NAME(void *unused0, void *unused1,
@@ -36,7 +36,7 @@ void ROOM_LAYERED_SPRITE_NAME(void *unused0, void *unused1,
     scale.y = fx->scale;
     scale.z = fx->scale;
     scratch = scale;
-    Gte_ScaleMatrix(&matrix, &scratch);
+    ScaleMatrix(&matrix, &scratch);
 
     matrix.t[0] = fx->x;
     matrix.t[1] = fx->y;
@@ -52,7 +52,7 @@ void ROOM_LAYERED_SPRITE_NAME(void *unused0, void *unused1,
     second_scale.y = fx->scale * 2;
     second_scale.z = fx->scale * 2;
     scale = second_scale;
-    Gte_ScaleMatrix(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
 
     matrix.t[0] = fx->x;
     matrix.t[1] = fx->y;

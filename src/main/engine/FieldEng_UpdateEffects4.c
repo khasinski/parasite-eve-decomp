@@ -475,6 +475,6 @@ int func_800CACDC(void *arg0, void *arg1, u8 *anim) {
     scale.z = D_800E0BE8[index];
     scaleCopy = scale;
 
-    Gte_ScaleMatrix(&matrix, &scaleCopy);
+    ScaleMatrix(&matrix, &scaleCopy);
     func_800C42A4(&D_800E2308, &matrix, 1);
 }

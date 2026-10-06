@@ -89,7 +89,7 @@ void func_800D2B58(GteShortVector *from, GteShortVector *to, u8 *color0,
         } else if (line) {
             TILE_OT_ADDPRIM(ot, line, link);
         }
-        angle = Gte_Atan2(line->y1 - line->y0, line->x1 - line->x0);
+        angle = ratan2(line->y1 - line->y0, line->x1 - line->x0);
         across = rsin(-angle) / 512;
         acrossY = rcos(-angle) / 512;
         along = rcos(angle) / 256;

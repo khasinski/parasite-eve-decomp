@@ -223,11 +223,11 @@ comparisons.
 | --- | --- | --- | --- |
 | LIBSN SNMAIN | `psyq/libsn/snmain.c` | `__SN_ENTRY_POINT`, `__main`, `__do_global_dtors` | PSY-Q 4.6 SNMAIN: all 67 non-relocated words identical. Startup clears BSS, sets `sp`/`fp`/`gp` and parks `ra` in a static word around `InitHeap`. The ctor/dtor walkers use a 16-byte frame with saves at 4/8/12 and load the constant one with `ori` in a delay slot. Compiled C cannot reproduce that frame. |
 | LIBGTE MSC00 | `psyq/libgte/msc00.c` | `InitGeom` | PSY-Q 3.5 `msc00.o`: 32/32 words identical. Static SAVERA slot, direct `mtc0`/`ctc2` setup with explicit hazard NOPs. |
-| LIBGTE MSC01 | `psyq/libgte/msc01.c` | `Gte_ISqrt` (SquareRoot0) | PSY-Q 3.5 `msc01.o`: 31/33 words identical. The two others differ only in the temporary register its assembler chose when expanding `and $t2, $v0, -2`. Local labels Rshift/CNTSQ/RTNSQRT at the same offsets. |
-| LIBGTE MSC02 | `psyq/libgte/msc02.c` | `Gte_VectorOp` (InvSquareRoot), `Gte_NormalizeVecS32toS16` (VectorNormalS), `Gte_NormalizeVec` (VectorNormal), `VectorNormalSS`, `Gte_MatrixOp` (text_100), `Gte_BuildOrthoBasis` (MatrixNormal) | Private routine takes and returns the vector in `t0`..`t2`; callers save `ra` in `a3`; VectorNormalS branches into VectorNormalSS. PSY-Q 3.5 `msc02.o` has the same protocol and local labels, with filled delay slots that 4.0 leaves as NOPs. |
+| LIBGTE MSC01 | `psyq/libgte/msc01.c` | `SquareRoot0` | PSY-Q 3.5 `msc01.o`: 31/33 words identical. The two others differ only in the temporary register its assembler chose when expanding `and $t2, $v0, -2`. Local labels Rshift/CNTSQ/RTNSQRT at the same offsets. |
+| LIBGTE MSC02 | `psyq/libgte/msc02.c` | `InvSquareRoot`, `VectorNormalS`, `VectorNormal`, `VectorNormalSS`, `LIBGTE_MSC02_text_100` (text_100), `MatrixNormal` | Private routine takes and returns the vector in `t0`..`t2`; callers save `ra` in `a3`; VectorNormalS branches into VectorNormalSS. PSY-Q 3.5 `msc02.o` has the same protocol and local labels, with filled delay slots that 4.0 leaves as NOPs. |
 | LIBGTE MTX_003 | `psyq/libgte/mtx_003.c` | `CompMatrix` | PSY-Q 3.5 `mtx_00.o` CompMatrix: 88/88 words identical; trapping `add` for the translation. |
-| LIBGTE MTX_006 | `psyq/libgte/mtx_006.c` | `Gte_PushMatrix`, `Gte_PopMatrix` | Static matrix stack and SAVERA slot; PSY-Q 3.5 `mtx_00.o` has the same routines with local labels CONTpush/CONTpop, but its assembler moved the SAVERA `lui` into the branch delay slot. |
-| LIBGTE PATCHGTE | `psyq/libgte/patchgte.c` (+ `PATCHGTE_templates` data) | `St_InstallDmaHandler` (_patch_gte) | PSY-Q 3.5 `patchgte.o`: same static-ra installer, inline B0 call and `.text` instruction templates (`_patch_GTE` to `_patch_GTE_end`, copy loop at assembler label `1$`). |
+| LIBGTE MTX_006 | `psyq/libgte/mtx_006.c` | `PushMatrix`, `PopMatrix` | Static matrix stack and SAVERA slot; PSY-Q 3.5 `mtx_00.o` has the same routines with local labels CONTpush/CONTpop, but its assembler moved the SAVERA `lui` into the branch delay slot. |
+| LIBGTE PATCHGTE | `psyq/libgte/patchgte.c` (+ `PATCHGTE_templates` data) | `_patch_gte` | PSY-Q 3.5 `patchgte.o`: same static-ra installer, inline B0 call and `.text` instruction templates (`_patch_GTE` to `_patch_GTE_end`, copy loop at assembler label `1$`). |
 | LIBAPI PATCH | `psyq/libapi/patch_2.c` | `_patch_pad` | Static `ra` slot, inline B0 call, trapping `addi`. EnablePAD/DisablePAD of the same object remain C in `psyq/libapi/patch.c`. |
 | LIBAPI CHCLRPAD | `psyq/libapi/chclrpad.c` | `_remove_ChgclrPAD` | Static `ra` slot, inline B0 call, trapping `addi`. |
 | LIBCARD PATCH | `psyq/libcard/patch.c`, `psyq/libcard/patch_3.c` | `func_8007E344`, `func_8007E3C8`, `_patch_card`, `_patch_card2` | Kernel patch image copied to 0xDF80 that runs with BIOS-supplied `v0`/`v1`. The installers use a static `ra` slot and inline C0/B0 calls. CardPatchFunctions, `func_8007E3B4` and `_copy_memcard_patch` of the same object remain C. |
@@ -446,9 +446,9 @@ pair: `mtc2 value,$30` writes LZCS; `swc2 $31,0(ptr)` stores LZCR; and
 required hazard slots. Scalar C cannot express these hardware transfers.
 
 The initial target windows are `Gte_StoreTableEntry` at `0x8003EACC`, the
-type-3 branch of `Task_DispatchCmd` at `0x80013188`, and `Gte_ISqrt` at
+type-3 branch of `Task_DispatchCmd` at `0x80013188`, and `SquareRoot0` at
 `0x80078004`. The first two store LZCR through a normal stack or argument
-pointer; `Gte_ISqrt`, `Gte_VectorOp`, and `Gte_MatrixOp` read it after two nop
+pointer; `SquareRoot0`, `InvSquareRoot`, and `LIBGTE_MSC02_text_100` read it after two nop
 hazard slots. No scratchpad layout is involved. The first remaining difference
 in `Gte_StoreTableEntry` is an 8-byte compiler frame for the C local receiving
 LZCR, not the COP2 window itself. The dispatcher still needs source-shape work

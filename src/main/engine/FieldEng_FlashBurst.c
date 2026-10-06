@@ -41,7 +41,7 @@ int func_800DE0A8(int mode, FieldFlashBurst *state)
             matrix = *(GteMatrix *)&D_8009D254->render_object.matrices[0];
             scale.x = scale.y = rcos(D_800E27EC << 6) / 3;
             scale.z = rsin(D_800E27EC << 6);
-            Gte_ScaleMatrix(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             matrix.t[0] = D_8009D254->render_object.matrices[19].translation[0];
             matrix.t[1] = D_8009D254->render_object.matrices[19].translation[1];
             matrix.t[2] = D_8009D254->render_object.matrices[19].translation[2];
@@ -68,7 +68,7 @@ int func_800DE0A8(int mode, FieldFlashBurst *state)
             func_800C71E4(D_800F3474, &matrix);
             scale.x = scale.y = 0x1800;
             scale.z = 0x1000;
-            Gte_ScaleMatrix(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             func_800C7098(D_800F3474, color.r, color.g >> 1, 0);
             {
                 int tpage = (u16)(D_800E2850[D_800E11E6] | GetTPage(0, 1, 0, 0));

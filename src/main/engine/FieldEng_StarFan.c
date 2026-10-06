@@ -97,7 +97,7 @@ void func_800D004C(GteShortVector *position, int width, int height, int segments
         gte_swc2_27_8(translation);
     }
     RotMatrixYXZ((GteShortVector *)rotation, &matrix);
-    Gte_ScaleMatrix(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
     if (rotation->flags)
         MulRotMatrix(&matrix);
     {

@@ -5,7 +5,7 @@
 #endif
 
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void Gte_ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 void func_800C3238(int page);
 void func_800C4FC4(void *state, RoomSpriteMatrix *matrix, int mode);
@@ -43,7 +43,7 @@ void ROOMLIB_TRANSFORM_SIXTEEN_POINT_EFFECT_FUNC(void *arg0, void *arg1,
     stack.sourceScale.z = *(s16 *)(workState + 0x120);
     stack.scale = stack.sourceScale;
     scaleMatrix = &stack.scaleMatrix;
-    Gte_ScaleMatrix(scaleMatrix, &stack.scale);
+    ScaleMatrix(scaleMatrix, &stack.scale);
     {
         register RoomFxSeed8 *seedArg asm("$4") = &stack.seed;
         asm("" : : "r"(seedArg));

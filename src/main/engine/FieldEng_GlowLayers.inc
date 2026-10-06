@@ -154,7 +154,7 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
     gte_swc2_11_8(outTranslation);
 
     scaleA = FIELD_GLOW_LAYERS_SCALE;
-    Gte_ScaleMatrix(workMatrix, &scaleA);
+    ScaleMatrix(workMatrix, &scaleA);
     func_800C42A4(&FIELD_GLOW_LAYERS_SPRITE, workMatrix, 0);
 
     RotMatrixYXZ(nextSpin, stepMatrix);
@@ -249,7 +249,7 @@ void FIELD_GLOW_LAYERS_FUNC(void *object, void *slot, FieldGlowLayers *glow)
 
     asm("" : : "r"(glow), "r"(glow), "r"(glow), "r"(glow), "r"(glow), "r"(glow), "r"(glow));
     scaleB = FIELD_GLOW_LAYERS_SCALE;
-    Gte_ScaleMatrix(workMatrix, &scaleB);
+    ScaleMatrix(workMatrix, &scaleB);
     func_800C42A4(&FIELD_GLOW_LAYERS_SPRITE, workMatrix, 0);
 }
 

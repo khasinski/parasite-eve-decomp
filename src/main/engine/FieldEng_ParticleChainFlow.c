@@ -56,8 +56,8 @@ void func_800C5538(FieldChainRecord *record)
             toPlayer.y = 0;
             toPlayer.z = D_8009D254->z.part.integer - link[-2].matrix.t[2];
             OuterProduct0(&previous, &toPlayer, &cross);
-            run = Gte_ISqrt(previous.x * previous.x + previous.z * previous.z);
-            Gte_Atan2(run, Gte_ISqrt(toPlayer.x * toPlayer.x + toPlayer.z * toPlayer.z));
+            run = SquareRoot0(previous.x * previous.x + previous.z * previous.z);
+            ratan2(run, SquareRoot0(toPlayer.x * toPlayer.x + toPlayer.z * toPlayer.z));
             if (cross.y > 0)
                 turn = rand() % 512 + 0x40;
             else

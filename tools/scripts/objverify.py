@@ -37,7 +37,7 @@ def compile_one(src):
     return done.returncode == 0 and obj.exists()
 
 
-# Compiler output uses function sections such as .text.Gte_Atan2. Comparing
+# Compiler output uses function sections such as .text.ratan2. Comparing
 # only the canonical names treats that code as absent and accepts a real change.
 _SKIPPED_SECTIONS = (
     '.comment', '.pdr', '.mdebug', '.reginfo', '.gptab', '.stab', '.line',

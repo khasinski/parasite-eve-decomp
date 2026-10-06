@@ -13,7 +13,7 @@ extern s16 D_8009D27C;
 extern volatile u8 D_8009CE39, D_8009CE3B;
 int Battle_CalcDistToPlayer(BattleEntity *actor, BattleEntity *player);
 s16 Battle_CalcAngleToTarget(RenderObjectEntity *object, void *target);
-int Gte_Atan2(int y, int x);
+int ratan2(int y, int x);
 int Battle_StepCharacterAction(BattleInitSlot *slot);
 
 #define CORE_HEALTH(entity) (*(s32 *)((u8 *)(entity)->core + 0x10))
@@ -36,7 +36,7 @@ void Battle_UpdatePlayerTurn(void)
             if (target->core != 0 && CORE_HEALTH(target) > 0) {
                 diff = target->renderObject.target_y;
                 diff -= D_8009D27C;
-                angle = Gte_Atan2(diff, Battle_CalcDistToPlayer(target, player));
+                angle = ratan2(diff, Battle_CalcDistToPlayer(target, player));
                 if (angle < -0xAB) category = 0;
                 else if (angle < 0xE4) category = 1;
                 else category = 2;
@@ -83,7 +83,7 @@ void Battle_UpdatePlayerTurn(void)
     actor = slot->actor;
     diff = actor->renderObject.target_y;
     diff -= D_8009D27C;
-    angle = Gte_Atan2(diff, Battle_CalcDistToPlayer(actor, player));
+    angle = ratan2(diff, Battle_CalcDistToPlayer(actor, player));
     if (angle < -0xAB) category = 0;
     else if (angle < 0xE4) category = 1;
     else category = 2;

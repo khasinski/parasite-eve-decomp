@@ -19,7 +19,7 @@ void func_800C2EAC(u8 owner);
 void func_800C2FF0(int width, int height);
 void func_800C3098(int depth);
 void func_800C3238(int page);
-void Gte_ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 
 extern RoomFxVec4 D_8018F00C;
@@ -78,7 +78,7 @@ void ROOMLIB_DRAW_SIXTEEN_PROJECTIONS_FUNC(void *arg0, void *arg1,
     matrix.m[0][2] = 0;
     matrix.m[0][1] = 0;
     scale1 = D_8018F00C;
-    Gte_ScaleMatrix(&matrix, &scale1);
+    ScaleMatrix(&matrix, &scale1);
     matrix.t[0] = *(int *)(owner + 0x18);
     matrix.t[1] = *(int *)(owner + 0x1C);
     ownerZ = *(int *)(owner + 0x20);
@@ -101,7 +101,7 @@ void ROOMLIB_DRAW_SIXTEEN_PROJECTIONS_FUNC(void *arg0, void *arg1,
     matrix.m[0][2] = 0;
     matrix.m[0][1] = 0;
     scale2 = D_8018F01C;
-    Gte_ScaleMatrix(&matrix, &scale2);
+    ScaleMatrix(&matrix, &scale2);
 
     do {
         matrix.t[0] = point->x;

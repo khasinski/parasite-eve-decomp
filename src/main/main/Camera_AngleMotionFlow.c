@@ -26,7 +26,7 @@ extern TaskNode *D_8009D300;
 extern int *D_8009CE00;
 
 int Math_FixedMul(int a, int b);
-int Gte_Atan2(int y, int x);
+int ratan2(int y, int x);
 int rsin(int angle);
 int rcos(int angle);
 
@@ -76,7 +76,7 @@ int Camera_TrackRelativeOffset(int **args) {
         target_z = init_state->target1c;
     }
 
-    target_angle = (u16)(0x1400 - Gte_Atan2(current_z - target_z,
+    target_angle = (u16)(0x1400 - ratan2(current_z - target_z,
                                              current_x - target_x));
     target_angle &= 0xFFF;
     desired_angle = target_angle;

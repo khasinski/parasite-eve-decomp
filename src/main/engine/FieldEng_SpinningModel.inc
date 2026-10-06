@@ -60,7 +60,7 @@ int SPINNING_MODEL_FUNC(int mode, FieldAnimSpinningModel *state)
         angles.y = state->angle;
         angles.z = 0;
         RotMatrixYXZ(&angles, &matrix);
-        Gte_ScaleMatrix(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         matrix.t[0] = state->x;
         matrix.t[1] = state->y;
         matrix.t[2] = state->z;

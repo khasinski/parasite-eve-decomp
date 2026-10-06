@@ -2,7 +2,7 @@
 typedef signed short s16;
 
 void OuterProduct12(int *a, int *b, int *out);
-void Gte_NormalizeVecS32toS16(int *in, void *out);
+void VectorNormalS(int *in, void *out);
 
 extern int D_800C213C[];
 
@@ -55,7 +55,7 @@ void func_800C65E4(s16 *from, s16 *to, char *out) {
     crossB_s0 = crossB;
     OuterProduct12(call_delta_a0, call_basis_a1, crossB_s0);
 
-    Gte_NormalizeVecS32toS16(crossA, out_s2 + 0x14);
-    Gte_NormalizeVecS32toS16(crossB_s0, out_s2 + 0x18);
-    Gte_NormalizeVecS32toS16(delta_s1, out_s2 + 0x1C);
+    VectorNormalS(crossA, out_s2 + 0x14);
+    VectorNormalS(crossB_s0, out_s2 + 0x18);
+    VectorNormalS(delta_s1, out_s2 + 0x1C);
 }

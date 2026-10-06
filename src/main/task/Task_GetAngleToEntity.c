@@ -2,7 +2,7 @@
 #define NULL ((void *)0)
 #include "pe1/field_actor.h"
 
-int Gte_Atan2(int arg0, int arg1);
+int ratan2(int arg0, int arg1);
 
 extern FieldActor *g_PlayerEntity[];
 #define g_PlayerEntity (g_PlayerEntity[0])
@@ -61,7 +61,7 @@ found:
         dx = state->pos_x - node->pos_x;
         dz = (state->pos_z - node->pos_z) >> 16;
     }
-    angle = 0x1400 - Gte_Atan2(dz, dx >> 16);
+    angle = 0x1400 - ratan2(dz, dx >> 16);
     if (angle >= 0x1001) {
         angle -= 0x1000;
     }

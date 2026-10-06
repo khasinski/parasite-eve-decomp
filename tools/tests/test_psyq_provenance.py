@@ -50,9 +50,7 @@ class PsyqNormalizationBoundariesTests(unittest.TestCase):
         obj = next(e for e in evidence if e['object'] == 'MSC02'
                    and int(e['address'], 16) == 0x80078094)
         symbols = (root / 'configs/USA/sym.main.txt').read_text()
-        for sdk_name, link_name in [('VectorNormalS', 'Gte_NormalizeVecS32toS16'),
-                                    ('VectorNormal', 'Gte_NormalizeVec'),
-                                    ('VectorNormalSS', 'VectorNormalSS')]:
-            offset = next(label['offset'] for label in obj['labels'] if label['name'] == sdk_name)
+        for name in ('VectorNormalS', 'VectorNormal', 'VectorNormalSS'):
+            offset = next(label['offset'] for label in obj['labels'] if label['name'] == name)
             address = int(obj['address'], 16) + offset
-            self.assertRegex(symbols, rf'(?m)^{re.escape(link_name)} = 0x{address:08X}; // type:func$')
+            self.assertRegex(symbols, rf'(?m)^{re.escape(name)} = 0x{address:08X}; // type:func$')

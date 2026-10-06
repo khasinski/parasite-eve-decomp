@@ -6,7 +6,7 @@
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
 s32 Battle_CalcDistToPlayer();
-s32 Gte_Atan2();
+s32 ratan2();
 extern s8 g_BattleTargetIndex;
 extern struct { char _[16]; } D_8009D20C_o __asm__("g_FieldActorListHead");
 #define g_FieldActorListHead (*(void **)&D_8009D20C_o)
@@ -56,7 +56,7 @@ void Battle_BuildTargetList(void) {
                         res = Battle_CalcDistToPlayer(var_s0);
                         off = g_BattleTargetIndex * 0xC;
                         E004_AT(off) = res;
-                        res2 = Gte_Atan2(
+                        res2 = ratan2(
                             ENTITY_FIELD(var_s0, s16 *, renderObject.target_x) -
                                 ENTITY_FIELD(g_PlayerEntity_2, s16 *, posX.parts.integer),
                             ENTITY_FIELD(var_s0, s16 *, renderObject.target_z) -

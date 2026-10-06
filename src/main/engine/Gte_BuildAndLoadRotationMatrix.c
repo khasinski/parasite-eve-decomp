@@ -15,7 +15,7 @@ void func_800CF658(GteRotation *rotation, s32 *scale, GteMatrix *matrix) {
     }
     RotMatrixYXZ((GteShortVector *)rotation, matrix);
     if (scale != 0) {
-        Gte_ScaleMatrix(matrix, (const GteVector *)scale);
+        ScaleMatrix(matrix, (const GteVector *)scale);
     }
     if (rotation->flags != 0) {
         MulRotMatrix(matrix);

@@ -132,7 +132,7 @@ void ROOMLIB_DRAW_STAGED_MOTION_FUNC(void *unused,
                 seedA.phase = state->phase[i];
                 func_800794C4(&seedA, &matrix);
                 scale = ROOMLIB_STAGED_MOTION_SPRITE_SCALE;
-                Gte_ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale);
+                ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale);
                 /* The int temporary keeps the remainder in full width. */
                 variant = (s16)emitter->y;
                 packet->code = (variant % 3) * 2 + 0x44;
@@ -145,7 +145,7 @@ void ROOMLIB_DRAW_STAGED_MOTION_FUNC(void *unused,
                 packet->mode = 9;
                 func_800794C4(&seedB, &matrix);
                 scale2 = ROOMLIB_STAGED_MOTION_SPRITE_SCALE;
-                Gte_ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale2);
+                ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale2);
                 packet->depth = (s16)state->size >> 2;
                 matrix.t[0] = (state->record[i].x >> 16) + state->x;
                 matrix.t[1] = D_800942EC.count;
@@ -170,7 +170,7 @@ void ROOMLIB_DRAW_STAGED_MOTION_FUNC(void *unused,
                     matrix.m[0][2] = 0;
                     matrix.m[0][1] = 0;
                     scale = ROOMLIB_STAGED_MOTION_FLAT_SCALE;
-                    Gte_ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale);
+                    ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale);
                     *flatDepth = state->size;
                     *((u8 *)flatDepth - 6) = state->kind[i] * 2 + 0x3A;
                     *((u8 *)flatDepth - 5) = 5;
@@ -196,7 +196,7 @@ void ROOMLIB_DRAW_STAGED_MOTION_FUNC(void *unused,
                 matrix.m[0][2] = 0;
                 matrix.m[0][1] = 0;
                 scale = ROOMLIB_STAGED_MOTION_MODEL_SCALE;
-                Gte_ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale);
+                ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale);
                 *modelDepth = state->depth[i];
                 matrix.t[0] = (state->record[i].x >> 16) + state->x;
                 matrix.t[1] = (state->record[i].y >> 16) + state->y - 0xC8;
@@ -210,7 +210,7 @@ void ROOMLIB_DRAW_STAGED_MOTION_FUNC(void *unused,
                 scale3.y = state->kind[i] * 0x10;
                 scale3.z = state->kind[i] * 0x20 + 0x20C;
                 scale2 = scale3;
-                Gte_ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale2);
+                ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale2);
                 func_800C6D5C(ROOMLIB_STAGED_MOTION_MODEL, 0, 0);
                 func_800C6EE8(-0x64);
                 handle = (u16)func_80077A64(1, 1, 0x340, 0x100);

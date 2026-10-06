@@ -15,7 +15,7 @@ extern s32 Scratch_1F80000C asm("0x1F80000C");
 extern s32 Scratch_1F800010 asm("0x1F800010");
 
 void RotMatrixYXZ(void *rotation, void *matrix);
-void Gte_ScaleMatrix(void *matrix, s32 *scale);
+void ScaleMatrix(void *matrix, s32 *scale);
 
 int ROOMLIB_UPDATE_TRANSFORM_SCALE_NAME(RoomTransformScaleOwner *owner) {
     char *actor;
@@ -38,7 +38,7 @@ int ROOMLIB_UPDATE_TRANSFORM_SCALE_NAME(RoomTransformScaleOwner *owner) {
     Scratch_1F800010 = scaleValue;
     Scratch_1F80000C = scaleValue;
     Scratch_1F800008 = scaleValue;
-    Gte_ScaleMatrix(matrix, (s32 *)0x1F800008);
+    ScaleMatrix(matrix, (s32 *)0x1F800008);
 
     if (owner->timer != 0) {
         curve = (D_800966EC[(((owner->duration - owner->timer) << 11) /
@@ -46,7 +46,7 @@ int ROOMLIB_UPDATE_TRANSFORM_SCALE_NAME(RoomTransformScaleOwner *owner) {
         Scratch_1F800010 = 0x1000 + curve;
         scale[0] = 0x1000 + curve;
         Scratch_1F80000C = 0x1000 - curve;
-        Gte_ScaleMatrix(matrix, scale);
+        ScaleMatrix(matrix, scale);
         owner->timer--;
     }
 

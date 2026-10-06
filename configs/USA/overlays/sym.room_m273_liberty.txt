@@ -67,4 +67,4 @@ GsSetOrign = 0x800C6EC0; // type:func
 rcos = 0x80077DC4; // type:func
 rsin = 0x80077CF4; // type:func
 memset = 0x80071A44; // type:func
-Gte_ScaleMatrix = 0x80078CC4; // type:func
+ScaleMatrix = 0x80078CC4; // type:func

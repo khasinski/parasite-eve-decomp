@@ -39,6 +39,6 @@ int func_800CD2EC(void *arg0, void *arg1, u8 *anim) {
     scale.z = *(s16 *)(anim + 0x6);
     scaleCopy = scale;
 
-    Gte_ScaleMatrix(&matrix, &scaleCopy);
+    ScaleMatrix(&matrix, &scaleCopy);
     func_800C42A4((u8 *)field - 10, &matrix, 0);
 }

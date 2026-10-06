@@ -1,9 +1,9 @@
 /* ASSEMBLER: GNU */
 /*
- * PSY-Q LIBGTE MSC02: InvSquareRoot (Gte_VectorOp), VectorNormalS
- * (Gte_NormalizeVecS32toS16), VectorNormal (Gte_NormalizeVec), VectorNormalSS,
- * the private normalizer at text_100 (Gte_MatrixOp) and MatrixNormal
- * (Gte_BuildOrthoBasis). Assembler source: the public entries pass the vector
+ * PSY-Q LIBGTE MSC02: InvSquareRoot, VectorNormalS
+ * (VectorNormalS), VectorNormal, VectorNormalSS,
+ * the private normalizer at text_100 (LIBGTE_MSC02_text_100) and MatrixNormal
+ * (MatrixNormal). Assembler source: the public entries pass the vector
  * to the private routine in t0..t2 and receive it back there, save ra in a3
  * instead of a stack frame, and VectorNormalS branches into the middle of
  * VectorNormalSS. PSY-Q 3.5 msc02.o has the same routines, register protocol
@@ -14,7 +14,7 @@
 
 PSYQ_ASM_OBJECT(LIBGTE, MSC02)
 
-PSYQ_ASM_FUNCTION(Gte_VectorOp,
+PSYQ_ASM_FUNCTION(InvSquareRoot,
     "    mtc2    $a0, $30\n"
     "    nop\n"
     "    nop\n"
@@ -54,19 +54,19 @@ PSYQ_ASM_FUNCTION(Gte_VectorOp,
     "    jr      $ra\n"
     "    addiu   $v0, $zero, -0x1\n");
 
-PSYQ_ASM_FUNCTION(Gte_NormalizeVecS32toS16,
+PSYQ_ASM_FUNCTION(VectorNormalS,
     "    lw      $t0, 0x0($a0)\n"
     "    lw      $t1, 0x4($a0)\n"
     "    lw      $t2, 0x8($a0)\n"
     "    b       .LVectorNormalS_entry\n"
     "    nop\n");
 
-PSYQ_ASM_FUNCTION(Gte_NormalizeVec,
+PSYQ_ASM_FUNCTION(VectorNormal,
     "    lw      $t0, 0x0($a0)\n"
     "    lw      $t1, 0x4($a0)\n"
     "    lw      $t2, 0x8($a0)\n"
     "    addu    $a3, $ra, $zero\n"
-    "    jal     Gte_MatrixOp\n"
+    "    jal     LIBGTE_MSC02_text_100\n"
     "    nop\n"
     "    sw      $t0, 0x0($a1)\n"
     "    sw      $t1, 0x4($a1)\n"
@@ -81,7 +81,7 @@ PSYQ_ASM_FUNCTION(VectorNormalSS,
     "    lh      $t2, 0x4($a0)\n"
     ".LVectorNormalS_entry:\n"
     "    addu    $a3, $ra, $zero\n"
-    "    jal     Gte_MatrixOp\n"
+    "    jal     LIBGTE_MSC02_text_100\n"
     "    nop\n"
     "    sh      $t0, 0x0($a1)\n"
     "    sh      $t1, 0x2($a1)\n"
@@ -90,7 +90,7 @@ PSYQ_ASM_FUNCTION(VectorNormalSS,
     "    jr      $ra\n"
     "    nop\n");
 
-PSYQ_ASM_FUNCTION(Gte_MatrixOp,
+PSYQ_ASM_FUNCTION(LIBGTE_MSC02_text_100,
     "    mtc2    $t0, $9\n"
     "    mtc2    $t1, $10\n"
     "    mtc2    $t2, $11\n"
@@ -142,7 +142,7 @@ PSYQ_ASM_FUNCTION(Gte_MatrixOp,
     "    jr      $ra\n"
     "    nop\n");
 
-PSYQ_ASM_FUNCTION(Gte_BuildOrthoBasis,
+PSYQ_ASM_FUNCTION(MatrixNormal,
     "    lh      $t0, 0x0($a0)\n"
     "    lh      $t1, 0x2($a0)\n"
     "    lh      $t2, 0x4($a0)\n"
@@ -178,7 +178,7 @@ PSYQ_ASM_FUNCTION(Gte_BuildOrthoBasis,
     "    ctc2    $v1, $2\n"
     "    ctc2    $a2, $4\n"
     "    addu    $a3, $ra, $zero\n"
-    "    jal     Gte_MatrixOp\n"
+    "    jal     LIBGTE_MSC02_text_100\n"
     "    nop\n"
     "    sh      $t0, 0x0($a1)\n"
     "    sh      $t1, 0x2($a1)\n"
@@ -186,14 +186,14 @@ PSYQ_ASM_FUNCTION(Gte_BuildOrthoBasis,
     "    mfc2    $t0, $0\n"
     "    mfc2    $t1, $1\n"
     "    mfc2    $t2, $2\n"
-    "    jal     Gte_MatrixOp\n"
+    "    jal     LIBGTE_MSC02_text_100\n"
     "    nop\n"
     "    sh      $t0, 0x6($a1)\n"
     "    sh      $t1, 0x8($a1)\n"
     "    sh      $t2, 0xA($a1)\n"
     "    addu    $t0, $t7, $zero\n"
     "    addu    $t1, $t8, $zero\n"
-    "    jal     Gte_MatrixOp\n"
+    "    jal     LIBGTE_MSC02_text_100\n"
     "    addu    $t2, $t9, $zero\n"
     "    sh      $t0, 0xC($a1)\n"
     "    sh      $t1, 0xE($a1)\n"

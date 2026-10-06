@@ -16,13 +16,13 @@ int func_800CCBA8(char *object)
     *FieldEng_GetSlot(object) = D_800E0EB8;
     first = D_800C220C;
     identity_matrix(&D_800F3478);
-    Gte_ScaleMatrix(&D_800F3478, &first);
+    ScaleMatrix(&D_800F3478, &first);
     second = D_800C221C;
     identity_matrix(&D_800F33C0);
-    Gte_ScaleMatrix(&D_800F33C0, &second);
+    ScaleMatrix(&D_800F33C0, &second);
     third = D_800C222C;
     identity_matrix(&D_800F32B0);
-    Gte_ScaleMatrix(&D_800F32B0, &third);
+    ScaleMatrix(&D_800F32B0, &third);
 
     D_800E2298.parameter04 = 0x42;
     D_800E2298.parameter05 = 0x20;

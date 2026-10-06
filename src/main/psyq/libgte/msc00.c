@@ -14,7 +14,7 @@ PSYQ_ASM_OBJECT(LIBGTE, MSC00)
 PSYQ_ASM_FUNCTION(InitGeom,
     "    lui     $at, %hi(D_800960AC)\n"
     "    sw      $ra, %lo(D_800960AC)($at)\n"
-    "    jal     St_InstallDmaHandler\n"
+    "    jal     _patch_gte\n"
     "    nop\n"
     "    lui     $ra, %hi(D_800960AC)\n"
     "    lw      $ra, %lo(D_800960AC)($ra)\n"

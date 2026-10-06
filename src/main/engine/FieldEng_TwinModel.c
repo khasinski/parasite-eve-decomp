@@ -67,7 +67,7 @@ int func_800DC058(int mode, FieldAnimTwinModel *state)
         angles.z = 0;
         func_800CF3AC(D_800E1E24, &color, D_800E27EC);
         RotMatrixYXZ(&angles, &matrix);
-        Gte_ScaleMatrix(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         matrix.t[0] = state->position.x;
         matrix.t[1] = state->position.y;
         matrix.t[2] = state->position.z;
@@ -124,7 +124,7 @@ int func_800DC058(int mode, FieldAnimTwinModel *state)
         position.z = state->position.z;
         position.y -= 1000;
         RotMatrixYXZ(&angles, &matrix);
-        Gte_ScaleMatrix(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         matrix.t[0] = position.x;
         matrix.t[1] = position.y;
         matrix.t[2] = position.z;
@@ -140,7 +140,7 @@ int func_800DC058(int mode, FieldAnimTwinModel *state)
             position.y = state->position.y;
             position.z = state->position.z;
             RotMatrixYXZ(&angles, &matrix);
-            Gte_ScaleMatrix(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             matrix.t[0] = position.x;
             matrix.t[1] = position.y;
             matrix.t[2] = position.z;

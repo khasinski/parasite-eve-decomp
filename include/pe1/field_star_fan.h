@@ -11,6 +11,6 @@
 /* Unit scale used before the caller's X/Y scale is filled in. */
 extern GteVector D_800C2290;
 
-GteMatrix *Gte_ScaleMatrix(GteMatrix *matrix, const GteVector *scale);
+GteMatrix *ScaleMatrix(GteMatrix *matrix, const GteVector *scale);
 
 #endif /* PE1_FIELD_STAR_FAN_H */

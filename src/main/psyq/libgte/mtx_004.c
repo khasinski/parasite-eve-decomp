@@ -4,7 +4,7 @@
 /* Split signed inputs at bit 15 before the two GTE rotation passes.
  * Empty outputs on architectural $0 retain retail's relative branches;
  * the final sign-dependent shifts deliberately preserve its wrapping path. */
-GteVector *Gte_RotateVec(const GteMatrix *matrix, const GteVector *v, GteVector *out) {
+GteVector *ApplyMatrixLV(const GteMatrix *matrix, const GteVector *v, GteVector *out) {
     register s32 x asm("$8");
     register s32 y asm("$9");
     register s32 z asm("$10");

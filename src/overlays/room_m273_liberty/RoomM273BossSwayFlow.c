@@ -246,7 +246,7 @@ int func_801986E8(int mode) {
                 dx = target.x - shard->position.x;
                 dz = target.z - shard->position.z;
                 dy = target.y - shard->position.y;
-                angles.x = (Gte_Atan2(dy, Math_IntSqrt(dx * dx + dz * dz)) & 0xFFF) - 0x30;
+                angles.x = (ratan2(dy, Math_IntSqrt(dx * dx + dz * dz)) & 0xFFF) - 0x30;
                 angles.y = D_800F32D0->instance->yaw;
                 angles.z = 0;
                 if (angles.x < 0x100) angles.x = 0x100;

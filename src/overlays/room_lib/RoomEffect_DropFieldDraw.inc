@@ -72,7 +72,7 @@ void ROOMEFFECT_DROP_FIELD_DRAW_FUNC(void *object, void *slot, RoomDropField *fi
             gte_CompMatrix(&field->matrix, &matrix, &matrix);
             RotMatrix(&spin, &matrix);
             scale = (GteVector){ field->size[i], field->size[i], field->size[i] };
-            Gte_ScaleMatrix(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             ROOMEFFECT_DROP_FIELD_DRAW_SPRITE.depth = field->depth[i];
             saved = matrix;
             point.x = matrix.t[0];
@@ -91,7 +91,7 @@ void ROOMEFFECT_DROP_FIELD_DRAW_FUNC(void *object, void *slot, RoomDropField *fi
             {
                 GteVector shadow = ROOMEFFECT_DROP_FIELD_DRAW_SHADOW_SCALE;
 
-                Gte_ScaleMatrix(&matrix, &shadow);
+                ScaleMatrix(&matrix, &shadow);
             }
             ROOMEFFECT_DROP_FIELD_DRAW_SPRITE.depth = field->depth[i] >> 1;
             func_800C42A4(&ROOMEFFECT_DROP_FIELD_DRAW_SPRITE, &matrix, 0);

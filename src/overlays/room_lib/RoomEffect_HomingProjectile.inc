@@ -147,7 +147,7 @@ int ROOMEFFECT_HOMING_PROJECTILE_FUNC(int mode) {
                                                         D_8009D254->position) + 0x800) & 0xFFF;
                     break;
                 }
-                i = Gte_Atan2((s16)current - (s16)previous,
+                i = ratan2((s16)current - (s16)previous,
                               (current >> 16) - (previous >> 16)) & 0xFFF;
                 if (i >= 0x800) i -= 0x800;
                 retries--;

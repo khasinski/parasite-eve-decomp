@@ -40,8 +40,8 @@ void ROOMFX_MODEL_UPDATE_FUNC(RoomFxModelGeom *geom) {
     if (distance < 0) {
         distance = -distance;
     }
-    distance /= Gte_ISqrt(slope * slope + 1);
-    angle = Gte_Atan2(dz, dx);
+    distance /= SquareRoot0(slope * slope + 1);
+    angle = ratan2(dz, dx);
     sx = (rsin(angle) * distance) >> 12;
     sz = (rcos(angle) * distance) >> 12;
     nx = x - sx * 2;

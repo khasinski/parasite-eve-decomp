@@ -7,7 +7,7 @@
 
 int Math_IntSqrt(int value);
 
-int Gte_Atan2(int arg0, int arg1);
+int ratan2(int arg0, int arg1);
 
 int Battle_CalcDistToPlayer(void *arg0, void *arg1)
 {
@@ -29,7 +29,7 @@ int Battle_CalcAngleToTarget(void *arg0, void *arg1)
 
     x = RENDER_FIELD(arg0, s16, target_x) << 16;
     y = RENDER_FIELD(arg0, s16, target_z) << 16;
-    angle = Gte_Atan2(x - ((int *)arg1)[0], y - ((int *)arg1)[2]);
+    angle = ratan2(x - ((int *)arg1)[0], y - ((int *)arg1)[2]);
     return (s16)(angle + 0x800);
 }
 
@@ -38,7 +38,7 @@ int Battle_CalcAngleToTarget(void *arg0, void *arg1)
 
 #include "common.h"
 #include "pe1/battle.h"
-int Gte_Atan2(int arg0, int arg1);
+int ratan2(int arg0, int arg1);
 
 #define ENTITY_FIELD(base, type, member) \
     (*(type *)((char *)(base) + PE1_OFFSETOF(BattleEntity, member)))
@@ -47,7 +47,7 @@ int Battle_CalcRelativeAngle(void *arg0, void *arg1)
 {
   register int angle;
   int wrapped;
-  angle = 0x800 - Gte_Atan2(
+  angle = 0x800 - ratan2(
       ENTITY_FIELD(arg0, int, posX) - ENTITY_FIELD(arg1, int, posX),
       ENTITY_FIELD(arg0, int, posZ) - ENTITY_FIELD(arg1, int, posZ));
   angle = angle << 16;

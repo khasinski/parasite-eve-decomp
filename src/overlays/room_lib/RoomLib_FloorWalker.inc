@@ -93,7 +93,7 @@ void ROOMLIB_FLOOR_WALKER_FUNC(RoomFloorWalkerObject *object) {
             break;
         }
         {
-            int edge = Gte_Atan2((s16)current - (s16)previous,
+            int edge = ratan2((s16)current - (s16)previous,
                                  (current >> 16) - (previous >> 16)) & 0xFFF;
             if (edge >= 0x800) edge -= 0x800;
             retries--;

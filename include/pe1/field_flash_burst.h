@@ -22,6 +22,6 @@ extern u8 D_800E20CC[];
 int rsin(int angle);
 int rcos(int angle);
 u16 GetClut(int x, int y);
-GteMatrix *Gte_ScaleMatrix(GteMatrix *matrix, const GteVector *scale);
+GteMatrix *ScaleMatrix(GteMatrix *matrix, const GteVector *scale);
 
 #endif /* PE1_FIELD_FLASH_BURST_H */

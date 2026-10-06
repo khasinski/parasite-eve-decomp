@@ -4,7 +4,7 @@
 void SetDQA(int dqa);
 void SetDQB(int dqb);
 
-void Gte_SetDepthParams(int near, int far, int h) {
+void SetFogNearFar(int near, int far, int h) {
     int range;
     int depth_scale;
     int dqa;

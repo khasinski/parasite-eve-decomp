@@ -42,7 +42,7 @@ void func_800C3324(FieldOrientedSprite *sprite)
         packet->b0 = sprite->rgb[2];
     }
     RotMatrixYXZ(&sprite->rotation, &D_800F33B4->local);
-    Gte_ScaleMatrix(&D_800F33B4->local, &sprite->scale);
+    ScaleMatrix(&D_800F33B4->local, &sprite->scale);
     D_800F33B4->local.t[0] = 0;
     D_800F33B4->local.t[1] = 0;
     D_800F33B4->local.t[2] = 0;

@@ -101,7 +101,7 @@ int Render_DrawRoom(RenderShadowActor *actor)
         normal.y = 0;
         normal.z = 0x1000;
     } else {
-        Gte_NormalizeVec(&axis, &normal);
+        VectorNormal(&axis, &normal);
     }
     normalX = normal.x;
     normalY = normal.y;

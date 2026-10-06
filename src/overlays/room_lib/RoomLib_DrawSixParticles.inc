@@ -16,7 +16,7 @@ void func_800C2EAC(u8 owner);
 void func_800C2FF0(int width, int height);
 void func_800C3098(int depth);
 void func_800C3238(int page);
-void Gte_ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 
 extern RoomFxVec4 D_8018F034;
@@ -62,7 +62,7 @@ void ROOMLIB_DRAW_SIX_PARTICLES_FUNC(void *arg0, void *arg1, char *state) {
     matrix.m[0][2] = 0;
     matrix.m[0][1] = 0;
     scale = D_8018F034;
-    Gte_ScaleMatrix(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
 
     particle = state;
     do {

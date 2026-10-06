@@ -6,7 +6,7 @@ void Scene_UpdateEntityFacingFromPad(BattleEntity *entity) {
     int angle;
     Entity_SetAction(entity, 0x11);
     if ((D_800BE9A0 & 0xF000) == 0x7000) {
-        angle = Gte_Atan2(D_800BE9A7 - 128, D_800BE9A6 - 128) - 0x400;
+        angle = ratan2(D_800BE9A7 - 128, D_800BE9A6 - 128) - 0x400;
         /* Keep the wrapped-angle correction based on the adjusted value. */
         asm volatile("" : "=r"(angle) : "0"(angle));
         if (angle < 0) angle += 0x1000;

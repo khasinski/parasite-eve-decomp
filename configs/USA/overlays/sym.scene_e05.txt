@@ -12,5 +12,5 @@ rsin = 0x80077CF4; // type:func
 rcos = 0x80077DC4; // type:func
 FieldEng_GetStatus = 0x800C6CE0;
 GetClut = 0x80077AA4;
-Gte_ScaleMatrix = 0x80078CC4;
+ScaleMatrix = 0x80078CC4;
 Battle_GetEnemyContextField = 0x8003010C;

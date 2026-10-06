@@ -167,7 +167,7 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
 
 
     scaleA = D_800C21F4;
-    Gte_ScaleMatrix(workMatrix, &scaleA);
+    ScaleMatrix(workMatrix, &scaleA);
     func_800C42A4(&D_800F34C8, workMatrix, 0);
 
     RotMatrixYXZ(nextSpin, stepMatrix);
@@ -262,7 +262,7 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
 
 
     scaleB = D_800C21F4;
-    Gte_ScaleMatrix(workMatrix, &scaleB);
+    ScaleMatrix(workMatrix, &scaleB);
     func_800C42A4(&D_800F34C8, workMatrix, 0);
 
     D_800F34D0 = -50;
@@ -363,7 +363,7 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
 
 
     scaleC = D_800C21F4;
-    Gte_ScaleMatrix(workMatrix, &scaleC);
+    ScaleMatrix(workMatrix, &scaleC);
     func_800C42A4(&D_800F34C8, workMatrix, 0);
 
     RotMatrixYXZ(fourthSpin, stepMatrix);
@@ -459,6 +459,6 @@ void func_800CAE0C(void *object, void *slot, FieldGlowLayers *glow)
 
         asm("" : : "r"(outColumn2));
     scaleD = D_800C21F4;
-    Gte_ScaleMatrix(workMatrix, &scaleD);
+    ScaleMatrix(workMatrix, &scaleD);
     func_800C42A4(&D_800F34C8, workMatrix, 0);
 }

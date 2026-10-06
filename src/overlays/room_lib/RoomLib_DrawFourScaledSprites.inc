@@ -44,7 +44,7 @@ void func_800C3098(int depth);
 void func_800C3238(int mode);
 void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 void memset(void *dst, int value, int size);
-void Gte_ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 
 extern RoomFxSeed8 ROOMLIB_DRAW_FOUR_SPRITES_SEED;
@@ -121,7 +121,7 @@ void ROOMLIB_DRAW_FOUR_SPRITES_FUNC(void *unused0, void *unused1,
         stack.sourceScale.y = state->scale[i];
         stack.sourceScale.z = state->scale[i];
         stack.scale = stack.sourceScale;
-        Gte_ScaleMatrix(matrix, &stack.scale);
+        ScaleMatrix(matrix, &stack.scale);
         *depthSlot = state->depth[i];
         ((u8 *)depthSlot)[-0xA] = state->color[i].r;
         ((u8 *)depthSlot)[-0x9] = state->color[i].g;

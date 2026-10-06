@@ -4,7 +4,7 @@
 extern s16 atan_table[] __asm__("D_8009A6EC");
 
 /* A function section avoids GAS 2.7's mandatory 16-byte .text padding. */
-int __attribute__((section(".text.Gte_Atan2"))) Gte_Atan2(int y, int x) {
+int __attribute__((section(".text.ratan2"))) ratan2(int y, int x) {
     int negative_x = 0;
     int negative_y = 0;
     int index;
