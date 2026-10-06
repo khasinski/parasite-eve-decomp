@@ -17,6 +17,8 @@ SHARED_INPUTS = (
     ROOT / "requirements.txt",
     ROOT / "configs" / "USA" / "sym.main.txt",
     ROOT / "include",
+    # The shared room library and the templates every overlay may include.
+    ROOT / "src" / "overlays" / "room_lib",
     ROOT / "tools" / "m2c",
     ROOT / "tools" / "scripts" / "cc.sh",
     ROOT / "tools" / "scripts" / "overlay_extra_undefineds.py",
