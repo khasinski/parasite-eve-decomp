@@ -73,3 +73,6 @@ RoomLib_HandlerA = 0x80192244; // type:func
 RoomLib_HandlerF = 0x80192358; // type:func
 RoomLib_ReleaseHandlerA = 0x801924D8; // type:func
 RoomLib_HandlerANop6 = 0x801924F4; // type:func
+RoomEffect_HomingSpark = 0x801924FC; // type:func
+RoomEffect_FlashSpriteController = 0x80192A68; // type:func
+g_RoomFlashColorRamp = 0x80193234;
