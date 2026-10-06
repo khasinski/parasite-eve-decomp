@@ -7,7 +7,8 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class DrawEmitGlyphTests(unittest.TestCase):
     def test_typed_fields_remove_clut_register_pin(self):
-        source = (ROOT/'src/main/gpu/Draw_EmitGlyph.c').read_text()
+        source = (ROOT/'src/main/gpu/Draw_GlyphSprites.c').read_text()
+        source = source[source.index('void *Draw_LookupGlyphDescriptor'):source.index('int g_DrawGlyphAdvance')]
         self.assertIn('RenderTexturedQuad *packet;', source)
         self.assertIn('DrawGlyphDescriptor *glyph;', source)
         self.assertNotIn('M2C_FIELD', source)
@@ -15,7 +16,8 @@ class DrawEmitGlyphTests(unittest.TestCase):
         self.assertLessEqual(source.count('asm("$4")'), 1)
 
     def test_load_delays_need_no_explicit_nops(self):
-        source = (ROOT/'src/main/gpu/Draw_EmitGlyph.c').read_text()
+        source = (ROOT/'src/main/gpu/Draw_GlyphSprites.c').read_text()
+        source = source[source.index('void *Draw_LookupGlyphDescriptor'):source.index('int g_DrawGlyphAdvance')]
         self.assertNotIn('PE1_NOP', source)
         self.assertNotIn('psyq_nop.h', source)
         self.assertNotIn('asm volatile("nop")', source)
