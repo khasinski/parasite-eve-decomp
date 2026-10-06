@@ -21,3 +21,15 @@ void Gpu_InitDrawModeSprtPacket(GpuModeSprtPacket *packet, int tpage) {
         exit(-1);
     }
 }
+
+void SetTile(unsigned char *arg0);
+
+void Gpu_InitDrawModeTilePacket(void *packet, int tpage) {
+    void *prim = (char *)packet + 8;
+
+    SetDrawTPage(packet, 0, 1, tpage);
+    SetTile(prim);
+    if (MargePrim(packet, prim) != 0) {
+        exit(-1);
+    }
+}

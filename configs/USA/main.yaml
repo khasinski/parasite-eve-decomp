@@ -352,8 +352,9 @@ segments:
       - [0x2788C, c, math/Math_FixedMul]
       - [0x278A8, c, math/Math_FixedDivide]
       - [0x278BC, c, math/math_fixed]
-      - [0x278DC, c, gpu/Gpu_InitDrawModeSprtPacket]
-      - [0x27940, c, gpu/Gpu_InitDrawModeTilePacket]
+      # Draw-mode + sprite and draw-mode + tile packet initialisers: identical
+      # SetDrawTPage/MargePrim shape, contiguous default-profile pair.
+      - [0x278DC, c, gpu/Gpu_DrawModePackets]
       - [0x279A4, c, menu/Menu_SetEquipSlotIndex]
       - [0x279B0, c, render/Render_SetupFogLayer]
       - [0x27C54, c, menu/Menu_SetTextCursorRect]
