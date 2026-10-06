@@ -101,7 +101,7 @@ segments:
       - [0x15E4, .rodata, main/Battle_StatusPrimitiveFlow]
       - [0x15FC, rodata, main/rodata_0015FC]
       - [0x164C, .rodata, main/Battle_DrawStatusOverlay]
-      - [0x166C, .rodata, menu/Menu_DrawTextboxEntries]
+      - [0x166C, .rodata, menu/Menu_TextboxDraw]
       - [0x1694, rodata, main/rodata_001694]
       - [0x1734, .rodata, memcard/MemCard_PortAndSaveFlow]
       - [0x17AC, .rodata, menu/Menu_SaveBgDraw]
@@ -348,15 +348,8 @@ segments:
       # SetDrawTPage/MargePrim shape, contiguous default-profile pair.
       - [0x278DC, c, gpu/Gpu_DrawModePackets]
       - [0x279A4, c, menu/Menu_SetEquipSlotIndex]
-      - [0x279B0, c, render/Render_SetupFogLayer]
-      - [0x27C54, c, menu/Menu_SetTextCursorRect]
-      # Textbox entry clear, reset, and lookup share one 0x38-byte entry ABI.
-      - [0x27C6C, c, table/Textbox_EntryState]
-      - [0x27DB4, c, task/Task_MovementFlags]
-      - [0x27DE0, c, render/Render_SetupColorTable]
-      - [0x28064, c, menu/Menu_GetEquipSlotIndex]
-      - [0x28070, c, menu/Menu_DrawTextboxEntries]
-      - [0x29110, c, gpu/misc10]
+      # Fog and colour-table setup, text cursor, textbox table, movement flags, equip slot index, textbox drawing and highlight colour share private state (G0310).
+      - [0x279B0, c, menu/Menu_TextboxDraw]
       - [0x29154, c, render/func_80038954]
       # The glyph loader keeps -fno-schedule-insns, which changes its
       # neighbours, so it stays a unit of its own.

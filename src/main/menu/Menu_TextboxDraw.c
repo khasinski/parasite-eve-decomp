@@ -1,11 +1,293 @@
 /* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 --use-comm-section */
+/* MASPSX_FLAGS: --use-comm-section -G8 */
+#include "common.h"
+#include "pe1/textbox_open.h"
 #include "pe1/textbox.h"
-void AddPrim(u32 *, void *);
-int MargePrim(void *, void *);
+
+/* Each textbox entry is 0x38 bytes; preserve the retail field addresses. */
+extern u8 D_800BCEA8[];
+extern u8 D_800BCEAC[];
+extern u8 D_800BCEB0[];
+extern u8 D_800BCEB1[];
+extern u8 D_800BCEB4[];
+extern u8 D_800BCEB5[];
+extern u16 D_800BCEB8[];
+extern u8 D_8009EC86[];
+extern u8 D_8009EC78[];
+extern u8 D_8009EC70[];
+extern u8 D_8009ECA8[];
+extern u16 D_80091680[];
+extern u8 D_8009CEA0;
+extern int D_8009CED4;
+extern u8 *D_8009CE90;
 void SetDrawTPage(void *, int, int, int);
 void SetSprt(void *);
+int MargePrim(void *, void *);
+void SetShadeTex(void *, int);
+int GetTPage(int, int, int, int);
+void SetTile(void *);
+void SetSemiTrans(void *, int);
 void exit(int);
+
+void Render_SetupFogLayer(void *source) {
+    int i;
+    u16 *page_source;
+    u8 *tile_base;
+    register u8 *draw_base asm("$23");
+    u8 *tile_payload_base;
+    int sentinel;
+    register u8 *sprite_base asm("$11");
+    int offset;
+    u8 *draw_mode;
+    u8 *sprite;
+    u8 *sprite_fields;
+    u8 *tile_mode;
+    u8 *tile;
+    u8 *payload;
+    u32 flags;
+    int tpage;
+    int color;
+    int zero_arg;
+    int x_arg;
+    int y_arg;
+    int dither_enabled;
+    u32 mask1;
+    u32 mask2;
+    u32 mask3;
+    u32 mask4;
+    u32 mask5;
+    i = 0;
+    mask1 =0xFFF0FFFF;
+    mask2 =0xFFEFFFFF;
+    mask3 =0xFFDFFFFF;
+    mask4 =0xFE3FFFFF;
+    mask5 =0xFDFFFFFF;
+    sentinel = -1;
+    for (; (u8)i < 4; ++i) {
+        offset = ((((u8)i << 3) - (u8)i) << 3);
+        *(u8 *)(D_800BCEB4 + offset) = 0;
+        *(u8 *)(D_800BCEB5 + offset) = 0;
+        asm volatile("" ::: "memory");
+        flags = *(u32 *)(D_800BCEB4 + offset);
+        *(u8 *)(D_800BCEA8 + offset) = 0;
+        *(u32 *)(D_800BCEAC + offset) = 0;
+        *(u8 *)(D_800BCEB0 + offset) = 0;
+        *(u8 *)(D_800BCEB1 + offset) = 0;
+        *(s16 *)((u8 *)D_800BCEB8 + offset) = sentinel;
+        flags &= mask1;
+        flags &= mask2;
+        flags &= mask3;
+        flags &= mask4;
+        flags &= mask5;
+        *(u32 *)(D_800BCEB4 + offset) = flags;
+    }
+    i = 0;
+    page_source = D_80091680;
+    draw_base = D_8009EC70;
+    tile_base = D_8009ECA8;
+    tile_payload_base = tile_base + 8;
+    D_8009CEA0 = 0;
+    D_8009CED0 = 0;
+    D_8009CED4 = 0;
+    D_8009CE90 = source;
+    for (; (u8)i < 2; ++i) {
+        draw_mode = (u8 *)((int)((u8)i * 28) + (int)draw_base);
+        sprite = draw_mode + 8;
+        SetDrawTPage(draw_mode, 0, 1, page_source[0]);
+        SetSprt(sprite);
+        if (MargePrim(draw_mode, sprite)) exit(-1);
+        sprite_base = D_8009EC78;
+
+        sprite_fields = (u8 *)((int)((u8)i * 28) + (int)sprite_base);
+        SetShadeTex(sprite_fields, 1);
+        x_arg = 0;
+
+        y_arg = 0;
+
+        zero_arg = 0;
+
+        sprite_fields[0xC] = 0x70;
+        color = *(page_source - 3);
+        *(u16 *)(sprite_fields + 0x10) = 0x18;
+        *(u16 *)(sprite_fields + 0x12) = 0xC;
+        sprite_fields[0xD] = color;
+        *(u16 *)(D_8009EC86 + (u8)i * 28) = page_source[1];
+        tpage = GetTPage(x_arg, y_arg, zero_arg, 0);
+        tile_mode = (u8 *)((int)((u8)i * 24) + (int)tile_base);
+        tile = tile_mode + 8;
+        SetDrawTPage(tile_mode, 0, 1, tpage & 0xFFFF);
+        SetTile(tile);
+        if (MargePrim(tile_mode, tile)) exit(-1);
+        payload = (u8 *)((int)((u8)i * 24) + (int)tile_payload_base);
+        asm volatile("" : "=r"(payload) : "0"(payload));
+        dither_enabled = 1;
+        asm volatile("" : "=r"(dither_enabled) : "0"(dither_enabled));
+        {
+            int two = 2;
+
+            payload[4] = two;
+            payload[5] = two;
+            payload[6] = two;
+            *(u16 *)(payload + 0xC) = 0x140;
+            *(u16 *)(payload + 0xE) = 0x36;
+            *(u16 *)(payload + 8) = 0;
+            *(u16 *)(payload + 0xA) = 0xAA;
+            SetSemiTrans(payload, dither_enabled);
+        }
+    }
+}
+
+void Menu_SetTextCursorRect(int x, int y, int w, int h) {
+    D_8009CE98.x = x;
+    D_8009CE98.y = y;
+    D_8009CE98.width = w;
+    D_8009CE98.height = h;
+}
+
+void Tbl_ClearEntry(int arg0) {
+    int i;
+    int idx;
+
+    i = 0;
+    arg0 = (s16)arg0;
+    while ((unsigned char)i < 4) {
+        idx = (unsigned char)i;
+        if (g_TextboxEntries[idx].page_id == arg0) {
+            if (g_TextboxEntries[idx].state != 0) {
+                g_TextboxEntries[idx].state = 0;
+                break;
+            }
+        }
+        i++;
+    }
+}
+
+void Tbl_ResetAll(void) {
+    int i;
+    int idx;
+    u32 value;
+
+    for (i = 0; (unsigned char)i < 4; i++) {
+        idx = (unsigned char)i;
+        value = g_TextboxEntries[idx].control.flags;
+        g_TextboxEntries[idx].state = 0;
+        value &= 0xFDFFFFFF;
+        g_TextboxEntries[idx].control.flags = value;
+    }
+}
+
+s8 Tbl_LookupEntry(int arg0) {
+    int i;
+    int idx;
+    int value;
+
+    value = 0;
+    i = 0;
+    arg0 = (s16)arg0;
+    while ((unsigned char)i < 4) {
+        idx = (unsigned char)i;
+        if (g_TextboxEntries[idx].page_id == arg0) {
+            value = g_TextboxEntries[idx].state;
+            break;
+        }
+        i++;
+    }
+    return value;
+}
+
+
+void Task_EnableMovement(void) {
+    D_8009CED0 = 1;
+}
+
+void Task_DisableMovement(void) {
+    D_8009CED0 = 0;
+}
+
+void Task_SetCollisionFlag(int value) {
+    D_8009CED4 = value != 0;
+}
+
+/* Opens the first free textbox for message `index`. A styled box takes the
+ * current text rectangle; `values` (ended by -1, at most five) fill the
+ * message's number slots as decimal digits.
+ * Matching debt: five register pins and three empty barriers. The reciprocal
+ * operand preserves constant-hoist order; the digit memory operand keeps its
+ * base across the inner loop; the final count operand preserves the counter.
+ * The page-index register is reused for slot initialization. No CPU ASM. */
+void Render_SetupColorTable(int inputIndex, int inputStyle, short *inputValues)
+{
+    unsigned char style = inputStyle;
+    register short *values asm("$12") = inputValues;
+    unsigned char i;
+    register short index asm("$9") = inputIndex;
+
+    for (i = 0; i < 4; i++) {
+        unsigned char slot;
+
+        if (g_TextboxEntries[i].state != 0)
+            continue;
+
+        g_TextboxEntries[i].state = 1;
+        g_TextboxEntries[i].background = 0;
+        g_TextboxEntries[i].page_id = index;
+        D_8009CEA0 = 0;
+        {
+            int terminator = -1;
+            D_8009CEA4 = terminator;
+        }
+        g_TextboxEntries[i].style = style;
+        g_TextboxEntries[i].control.flags &= ~0x100000;
+        {
+            int reciprocal = 0x66666667;
+            asm("" : : "r"(reciprocal), "r"(index));
+        }
+        g_TextboxEntries[i].control.flags &= ~0x200000;
+        if (style) {
+            g_TextboxEntries[i].x = D_8009CE98.x;
+            g_TextboxEntries[i].y = D_8009CE98.y;
+            g_TextboxEntries[i].width = D_8009CE98.width;
+            g_TextboxEntries[i].height = D_8009CE98.height;
+            if (g_TextboxEntries[i].style == 3)
+                g_TextboxEntries[i].control.flags |= 0x100000;
+        } else if (D_8009CED0) {
+            g_TextboxEntries[i].background = 1;
+        }
+
+        index = 0;
+        for (slot = index; slot < 5; slot++) {
+            register unsigned short inputNumber asm("$7") = *values++;
+            short value = inputNumber;
+            register unsigned short quotient asm("$5");
+            register unsigned char count asm("$8");
+
+            if (value == -1)
+                return;
+            count = 0;
+            g_TextboxEntries[i].numbers[slot].digits[count] = value - (quotient = value / 10) * 10;
+            asm volatile("" : : "m"(g_TextboxEntries[i].numbers[slot].digits[count]) : "$6");
+            value = quotient;
+            while (value != 0) {
+                unsigned short quotient;
+                quotient = value / 10;
+                count++;
+                g_TextboxEntries[i].numbers[slot].digits[count] = value - quotient * 10;
+                value = quotient;
+            }
+            g_TextboxEntries[i].numbers[slot].count = count + 1;
+            asm("" : : "r"(count));
+        }
+        return;
+    }
+}
+
+extern signed char D_8009CEA4;
+
+int Menu_GetEquipSlotIndex(void) {
+    return D_8009CEA4;
+}
+
+void AddPrim(u32 *, void *);
 extern TextboxFontPage D_80091644[4];
 
 extern TextboxNameGlyphs D_80091694;
@@ -13,9 +295,7 @@ extern TextboxNameGlyphs D_80091694;
 extern TextboxGlyphSpacing D_800916A0[256];
 
 extern s32 D_8009CDDC[];
-extern u8 *D_8009CE90;
 extern u8 D_8009CE94;
-extern u8 D_8009CEA0;
 /* Tentative small-data definition: stock maspsx must recognize this store
  * as GP-relative to retain its load-delay nop. The linker pins the COMMON
  * symbol to the retail address, as for other unplaced game globals. */
@@ -26,10 +306,7 @@ extern u8 D_8009CEB0;
 extern u8 D_8009CEC4;
 extern u8 D_8009CEC8;
 extern u8 D_8009CECC;
-extern s32 D_8009CED4;
 extern s32 D_8009D1F4[];
-extern u8 D_8009EC78[];
-extern u8 D_8009ECA8[];
 extern RenderBufferPrefix D_800B0E38;
 
 extern TextboxEntry g_TextboxEntries[4];
@@ -576,4 +853,32 @@ void Menu_DrawTextboxEntries(void) {
                  :
                  : "$2", "$4", "$6", "$8", "$10", "$12", "$14", "$16", "$18", "$19", "$21", "$22",
                    "$24");
+}
+
+unsigned char D_8009CEB4;
+short D_8009CEB8;
+short D_8009CEBC;
+short D_8009CEC0;
+unsigned char D_8009CEC4;
+unsigned char D_8009CEC8;
+unsigned char D_8009CECC;
+
+unsigned char D_8009CEC4;
+unsigned char D_8009CEC8;
+unsigned char D_8009CECC;
+
+void Gpu_SetLightingParams(short arg0, short arg1, short arg2, unsigned char arg3, unsigned char arg4, unsigned char arg5) {
+    D_8009CEB8 = arg0;
+    D_8009CEB4 = 1;
+    D_8009CEBC = arg1;
+    D_8009CEC0 = arg2;
+    D_8009CEC4 = arg3;
+    D_8009CEC8 = arg4;
+    D_8009CECC = arg5;
+}
+
+void Menu_SetHighlightColor(int arg0, int arg1, int arg2, int arg3) {
+    D_8009CEC4 = arg1;
+    D_8009CEC8 = arg2;
+    D_8009CECC = arg3;
 }
