@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/room_floor.h"
+#include "pe1/render_matrix_slot.h"
 
 /* Room effect controllers that play a sound, then emit one particle every
  * third frame along an angle that sweeps half a turn over seventy frames. */
@@ -126,11 +127,6 @@ typedef struct RoomHomingSparkParams {
 
 PE1_STATIC_ASSERT(sizeof(RoomHomingSpark) == 0x16, room_homing_spark_size);
 
-typedef struct RoomSoundBurstMatrixSlot {
-    s32 *value;
-} RoomSoundBurstMatrixSlot;
-
-extern RoomSoundBurstMatrixSlot D_800BCFA4;
 extern void func_800CF3AC(void *track, void *color, int time);
 extern void func_800D004C(void *position, int width, int height, int segments,
                           void *rotation, int scale_x, int scale_y,

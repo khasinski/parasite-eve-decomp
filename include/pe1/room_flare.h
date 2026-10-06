@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/render_matrix_slot.h"
 #include "pe1/gte_short_vector.h"
 #include "pe1/room_fx.h"
 #include "pe1/room_floor.h"
@@ -51,10 +52,6 @@ typedef struct RoomFlareAnchor {
 typedef struct RoomFlareColor {
     u8 r, g, b, code;
 } RoomFlareColor;
-
-typedef struct RoomFlareMatrixSlot {
-    s32 *value;
-} RoomFlareMatrixSlot;
 
 /* Texture page index slot at 0x800E11E8, read as a record so the load
  * stays behind the first parameter block store through its base register. */
@@ -127,7 +124,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFlareAnchor, x) == 0x268, room_flare_anchor_x
 extern RoomFlareChannel *D_800F32D0, *D_800F33E0;
 extern RoomFlareEventState *D_800E2368;
 extern RoomFlareBattleEntity *D_8009D254;
-extern RoomFlareMatrixSlot D_800BCFA4;
 extern RoomFlareParams D_800F3368;
 extern int D_800E27EC;
 extern u16 D_800E1204[];

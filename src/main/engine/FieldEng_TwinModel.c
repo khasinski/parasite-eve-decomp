@@ -77,7 +77,7 @@ int func_800DC058(int mode, FieldAnimTwinModel *state)
         D_800F3368.parameter06 = 1;
         asm volatile("" : : : "memory");
         {
-            s32 **slot;
+            GteMatrix **slot;
             const GteMatrixWords *matrix;
             register u32 a asm("$12");
             register u32 b asm("$13");

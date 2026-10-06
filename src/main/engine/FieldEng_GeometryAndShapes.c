@@ -279,7 +279,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
     s32 depth;
     s32 *depthOut;
     FieldStripPacket *packet;
-    register s32 *view asm("$8");
+    register GteMatrix *view asm("$8");
     GteShortVector *vertex;
     int r;
     register int g asm("$3");
@@ -568,7 +568,7 @@ void FieldEng_TransformTranslation(const GteShortVector *input,
     GteMatrixWords local;
     /* Retail keeps the matrix pointer in v1; tracked in crutch debt. */
     register GteMatrixWords *matrix asm("$3");
-    s32 **slot = &D_800BCFA4.value;
+    GteMatrix **slot = &D_800BCFA4.value;
 
     /* Preserve the separate address of the current-matrix slot. */
     asm volatile("" : "=r"(slot) : "0"(slot));
@@ -696,7 +696,7 @@ void func_800CF844(GteShortVector *origin, GteShortVector *out, int radius,
     GteMatrixWords *matrix;
     register GteMatrixWords *rolled asm("$16");
     register GteMatrixWords *camera asm("$8");
-    s32 **slot;
+    GteMatrix **slot;
     register GteShortVector *rotationAngles asm("$4");
     register u32 a asm("$12");
     register u32 b asm("$13");
@@ -1075,7 +1075,7 @@ void func_800D004C(GteShortVector *position, int width, int height, int segments
     if (segments < 4)
         return;
     bias = (u16)D_800F3374;
-    view = (GteMatrix *)D_800BCFA4.value;
+    view = D_800BCFA4.value;
     /* Preserve position/color allocation without pinning the arguments. */
     asm("" : : "r"(position));
     if (color0 == 0) {
@@ -1274,7 +1274,7 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
     if (segments < 4)
         return;
     bias = (u16)D_800F3374;
-    view = (GteMatrix *)D_800BCFA4.value;
+    view = D_800BCFA4.value;
     /* Preserve the position/color register allocation without argument pins. */
     asm("" : : "r"(position));
     if (color0 == 0) {

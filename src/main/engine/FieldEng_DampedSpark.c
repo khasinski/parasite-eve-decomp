@@ -97,7 +97,7 @@ int func_800D96F4(int mode, RenderSparkEmitter *state)
                          1, intensity, &color);
         }
         {
-            s32 **slot;
+            GteMatrix **slot;
             register const GteMatrixWords *matrix asm("$8");
             register u32 a asm("$12");
             register u32 b asm("$13");

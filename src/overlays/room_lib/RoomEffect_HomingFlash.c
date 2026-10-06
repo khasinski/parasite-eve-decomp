@@ -141,7 +141,7 @@ int RoomEffect_FlashSpriteController(int mode, RoomFlashSpriteState *state,
     GteShortVector output;
     RoomSoundBurstColor color;
     RoomFlashSpriteChild *child;
-    RoomSoundBurstMatrixSlot *matrixSlot;
+    RenderMatrixSlot *matrixSlot;
     char *pool;
     int handle;
     int kind;

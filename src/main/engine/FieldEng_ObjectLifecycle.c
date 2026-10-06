@@ -68,7 +68,7 @@ int func_800D4704(FieldAnimTaskOwner *owner)
     FieldAnimTaskContext *context = &owner->tasks;
     FieldAnimTaskSlot *slot = context->slots;
     int i;
-    s32 **matrixSlot;
+    GteMatrix **matrixSlot;
     D_800F32D0 = &owner->prefix;
     D_800E2368 = context;
     if (context->flags)

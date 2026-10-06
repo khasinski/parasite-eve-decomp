@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/render_matrix_slot.h"
 #include "pe1/render_prim.h"
 #include "pe1/field_model_draw.h"
 #include "pe1/room_floor.h"
@@ -115,11 +116,6 @@ typedef struct RoomM086SpawnChannel {
     void *pool;
 } RoomM086SpawnChannel;
 
-typedef struct RoomM086MatrixSlot {
-    s32 *value;
-} RoomM086MatrixSlot;
-
-extern RoomM086MatrixSlot D_800BCFA4;
 extern RoomM086SpawnChannel *D_800F33E0;
 extern RoomM086Offset D_8018EFF4;
 extern RoomM086Offset D_8018EFFC;

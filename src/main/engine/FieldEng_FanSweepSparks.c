@@ -80,7 +80,7 @@ int func_800D751C(int mode, FieldFanSweep *sweep)
         break;
     case 2:
         {
-            s32 **slot;
+            GteMatrix **slot;
             register const GteMatrixWords *matrix asm("$8");
             register u32 a asm("$12");
             register u32 b asm("$13");

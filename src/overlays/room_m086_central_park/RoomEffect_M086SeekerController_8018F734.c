@@ -12,7 +12,7 @@ int func_8018F734(int mode, RoomM086SeekerController *state, RoomM086ControllerP
     RoomM086Offset drift = D_8018EFFC;
     GteMatrix matrix;
     GteVector scale;
-    RoomM086MatrixSlot *slot;
+    RenderMatrixSlot *slot;
     RoomM086Seeker *child;
     u16 *index;
     int size;

@@ -198,7 +198,7 @@ void func_800D1384(GteShortVector *head, GteShortVector *tail, u32 countArg,
     FieldTileAddress table;
     FieldTileAddress ot;
     FieldTileAddress link;
-    register s32 *view asm("$15");
+    register GteMatrix *view asm("$15");
     int bias;
     u32 i;
     u32 last;

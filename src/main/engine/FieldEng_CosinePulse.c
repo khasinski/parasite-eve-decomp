@@ -78,7 +78,7 @@ int func_800D5A00(int mode, RenderArcingEmitter *state)
         }
         D_800F3368.depth = 64;
         {
-            s32 **slot;
+            GteMatrix **slot;
             const GteMatrixWords *matrix;
             register s32 a asm("$12");
             register s32 b asm("$13");

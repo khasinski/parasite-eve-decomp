@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
+#include "pe1/render_matrix_slot.h"
 #include "pe1/render_prim.h"
 #include "pe1/field_model_draw.h"
 #include "pe1/room_floor.h"
@@ -92,12 +93,7 @@ typedef struct RoomM005BeaconColor {
     u8 r, g, b, code;
 } RoomM005BeaconColor;
 
-typedef struct RoomM005BeaconMatrixSlot {
-    s32 *value;
-} RoomM005BeaconMatrixSlot;
-
 extern RoomM005BeaconParams D_800F3368;
-extern RoomM005BeaconMatrixSlot D_800BCFA4;
 extern u16 D_800E1204[];
 extern u16 D_800E2850[];
 extern int D_800F3428;

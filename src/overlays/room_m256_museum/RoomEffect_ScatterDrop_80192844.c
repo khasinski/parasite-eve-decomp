@@ -20,7 +20,7 @@ int func_80192844(int mode, RoomM256Drop *drop) {
     RoomM256DropRotation rotation = D_8018F1CC;
     RoomM256DropColor color = D_8018F1D4;
     RoomM256Drop *child;
-    RoomM256DropMatrixSlot *slot;
+    RenderMatrixSlot *slot;
     int width;
     int height;
     int fall;

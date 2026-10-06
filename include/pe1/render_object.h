@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/render_matrix_slot.h"
 
 struct RenderColor;
 
@@ -418,12 +419,6 @@ int func_800D7E78(int mode, GteShortVector *state);
 void FieldEng_RotateVector(const GteMatrixWords *matrix,
                            const GteShortVector *input, GteShortVector *output);
 
-typedef struct RenderMatrixSlot {
-    s32 *value;
-    u8 reserved[8];
-} RenderMatrixSlot;
-
-extern RenderMatrixSlot D_800BCFA4;
 void FieldEng_TransformTranslation(const GteShortVector *input,
                                   GteMatrixWords *output);
 

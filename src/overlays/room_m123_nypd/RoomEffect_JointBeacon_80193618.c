@@ -173,7 +173,7 @@ int func_80193618(int mode, RoomM123Beacon *state) {
             D_800F3368.palette = 3;
             D_800F3368.parameter06 = 0;
             if (D_800E27EC < 0x11) {
-                RoomM123BeaconMatrixSlot *slot;
+                RenderMatrixSlot *slot;
                 rotation.x = 0x800;
                 rotation.y = 0;
                 rotation.z = D_800E27EC << 4;
@@ -221,7 +221,7 @@ int func_80193618(int mode, RoomM123Beacon *state) {
         matrix.t[1] = state->position.y;
         matrix.t[2] = state->position.z;
         {
-            RoomM123BeaconMatrixSlot *slot = &D_800BCFA4;
+            RenderMatrixSlot *slot = &D_800BCFA4;
             gte_ldrotmatrix(slot->value);
             gte_ldtransmatrix(slot->value);
         }

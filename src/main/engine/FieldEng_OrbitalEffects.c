@@ -204,7 +204,7 @@ int func_800D868C(int mode, RenderOrbitingEmitter *state)
         break;
     case 2:
         {
-            s32 **slot;
+            GteMatrix **slot;
             register const GteMatrixWords *matrix asm("$8");
             register u32 a asm("$12");
             register u32 b asm("$13");
@@ -478,7 +478,7 @@ int func_800D927C(int mode, RenderOrbitingEmitter *state)
         break;
     case 2:
         {
-            s32 **slot;
+            GteMatrix **slot;
             register const GteMatrixWords *matrix asm("$8");
             register u32 a asm("$12");
             register u32 b asm("$13");

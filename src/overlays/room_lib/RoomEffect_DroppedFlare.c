@@ -36,7 +36,7 @@ int RoomEffect_DroppedFlareParticle(int mode, RoomDroppedFlare *flare,
     GteShortVector floorPos;
     GteRotation floorSpin;
     RoomDroppedFlare *child;
-    RoomFlareMatrixSlot *matrixSlot;
+    RenderMatrixSlot *matrixSlot;
     int lift = spawn->lift;
     int spread;
     int scale;

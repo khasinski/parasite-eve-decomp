@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
+#include "pe1/render_matrix_slot.h"
 #include "pe1/render_prim.h"
 #include "pe1/room_floor.h"
 
@@ -73,12 +74,7 @@ typedef struct RoomM404DropParams {
     u16 extent_y;
 } RoomM404DropParams;
 
-typedef struct RoomM404DropMatrixSlot {
-    s32 *value;
-} RoomM404DropMatrixSlot;
-
 extern RoomM404DropParams D_800F3368;
-extern RoomM404DropMatrixSlot D_800BCFA4;
 extern RoomM404DropChannel *D_800F32D0;
 extern RoomM404DropSpawnChannel *D_800F33E0;
 extern RoomM404DropEvent *D_800E2368;

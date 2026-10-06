@@ -150,7 +150,7 @@ int func_80192540(int mode, RoomM404Drop *drop) {
         break;
     case 2:
         {
-            RoomM404DropMatrixSlot *slot = &D_800BCFA4;
+            RenderMatrixSlot *slot = &D_800BCFA4;
             gte_ldrotmatrix(slot->value);
             gte_ldtransmatrix(slot->value);
         }
@@ -168,7 +168,7 @@ int func_80192540(int mode, RoomM404Drop *drop) {
             }
             if (func_80071A54() & 3) return 0;
             {
-                RoomM404DropMatrixSlot *slot = &D_800BCFA4;
+                RenderMatrixSlot *slot = &D_800BCFA4;
                 gte_ldrotmatrix(slot->value);
                 gte_ldtransmatrix(slot->value);
             }
@@ -213,7 +213,7 @@ int func_80192540(int mode, RoomM404Drop *drop) {
             D_800F3368.extent_x = D_800F3368.parameter00;
             D_800F3368.extent_y = D_800F3368.parameter00;
             {
-                RoomM404DropMatrixSlot *slot = &D_800BCFA4;
+                RenderMatrixSlot *slot = &D_800BCFA4;
                 gte_ldrotmatrix(slot->value);
                 gte_ldtransmatrix(slot->value);
             }

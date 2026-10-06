@@ -47,7 +47,7 @@ int Render_PrepareFrame(void) {
         }
     }
     {
-        int **address = &D_800BCFA4.value;
+        GteMatrix **address = &D_800BCFA4.value;
         asm("" : "=r"(address) : "0"(address));
         {
             register const GteMatrixWords *words asm("$6");

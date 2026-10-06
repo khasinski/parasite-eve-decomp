@@ -158,7 +158,7 @@ int func_8018FC14(int mode, RoomM023Beacon *state) {
         matrix.t[1] = state->position.y;
         matrix.t[2] = state->position.z;
         {
-            RoomM023BeaconMatrixSlot *slot;
+            RenderMatrixSlot *slot;
             u16 *index = &D_800E11EA;
             D_800F3368.tpage = D_800E2850[*index];
             D_800F3368.palette = 3;

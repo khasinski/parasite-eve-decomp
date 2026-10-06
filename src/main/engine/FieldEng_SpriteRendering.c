@@ -220,7 +220,7 @@ void func_800C3324(FieldOrientedSprite *sprite)
     D_800F33B4->local.t[0] = 0;
     D_800F33B4->local.t[1] = 0;
     D_800F33B4->local.t[2] = 0;
-    D_800F33B4->matrix = *(GteMatrix *)D_800BCFA4.value;
+    D_800F33B4->matrix = *D_800BCFA4.value;
     D_800F33B4->matrix.t[0] += (D_800F33B4->matrix.m[0][2] * sprite->position.z +
                                 D_800F33B4->matrix.m[0][1] * sprite->position.y +
                                 D_800F33B4->matrix.m[0][0] * sprite->position.x) / 4096;
@@ -315,7 +315,7 @@ void func_800C3B04(FieldBillboard *board)
         D_800E284C->rgb[2] = board->rgb[2];
     }
     {
-        s32 **slot;
+        GteMatrix **slot;
         register const GteMatrixWords *matrix asm("$9");
         register u32 a asm("$12");
         register u32 b asm("$13");
@@ -446,7 +446,7 @@ void func_800C42A4(FieldGlowSprite *sprite, GteMatrix *placement, u8 mode)
     register u16 *firstColumn asm("$10");
     s32 *outTranslation;
     const s32 *translation;
-    s32 **slot;
+    GteMatrix **slot;
     register GteShortVector *v0 asm("$9");
     register GteShortVector *v1 asm("$10");
     register GteShortVector *v2 asm("$11");
@@ -723,7 +723,7 @@ void func_800C499C(FieldShadedQuadColors *colors, GteMatrix *placement,
     register u16 *firstColumn asm("$10");
     s32 *outTranslation;
     const s32 *translation;
-    s32 **slot;
+    GteMatrix **slot;
     register GteShortVector *v0 asm("$9");
     register GteShortVector *v1 asm("$10");
     register GteShortVector *v2 asm("$11");
@@ -999,7 +999,7 @@ void func_800C4FC4(FieldShadedRing *ring, GteMatrix *placement, u8 mode)
     register u16 *firstColumn asm("$10");
     s32 *outTranslation;
     const s32 *translation;
-    s32 **slot;
+    GteMatrix **slot;
     FieldRingPacket *packet;
     char *drawMode;
     u8 outer[4];
@@ -1331,7 +1331,7 @@ void func_800C5A40(FieldTexturedStrip *strip)
         quad[2] = node[1].edgeA;
         quad[3] = node[1].edgeB;
         {
-            s32 **slot;
+            GteMatrix **slot;
             register const GteMatrixWords *matrix asm("$8");
             register u32 a asm("$12");
             register u32 b asm("$13");

@@ -255,7 +255,7 @@ void func_800C71E4(FieldTexturedModel *model, GteMatrix *placement)
     sp->tpage = D_800F346C;
     sp->clut = D_800F3414;
     sp->semiTrans = D_800F33E4;
-    CompMatrix((GteMatrix *)D_800BCFA4.value, placement, &sp->matrix);
+    CompMatrix(D_800BCFA4.value, placement, &sp->matrix);
     SetTransMatrix(&sp->matrix);
     SetRotMatrix(&sp->matrix);
     header = &model->header;

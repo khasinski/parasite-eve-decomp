@@ -225,8 +225,8 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
     RenderAnimVertex *var_t7;
     RenderAnimFace *face_cursor;
     RenderAnimVertex *vertex_record;
-    s32 **matrix_slot;
-    s32 *matrix_value;
+    GteMatrix **matrix_slot;
+    GteMatrix *matrix_value;
     RenderAnimPositionInput *position_input;
 
     var_s2 = arg5;
@@ -278,7 +278,7 @@ s32 Render_DecompressAnimFrame(RenderAnimFrame *frame, void *arg1, s32 arg2, s32
             }
         }
         {
-            register s32 *transMatrix asm("$4") = *matrix_slot;
+            register GteMatrix *transMatrix asm("$4") = *matrix_slot;
             AnimLoadTrans(transMatrix);
         }
         {

@@ -93,7 +93,7 @@ int func_8018FDC4(int mode, RoomM005Beacon *state) {
         matrix.t[1] = state->position.y;
         matrix.t[2] = state->position.z;
         {
-            RoomM005BeaconMatrixSlot *slot;
+            RenderMatrixSlot *slot;
             u16 *index = &D_800E11EA;
             u16 *tpages = D_800E2850;
             D_800F3368.tpage = D_800E2850[*index];
@@ -183,7 +183,7 @@ int func_8018FDC4(int mode, RoomM005Beacon *state) {
             alpha = rcos((D_800E27EC << 10) / 12) / 32;
             size = rsin((D_800E27EC << 10) / 12);
             {
-                RoomM005BeaconMatrixSlot *slot = &D_800BCFA4;
+                RenderMatrixSlot *slot = &D_800BCFA4;
                 gte_ldrotmatrix(slot->value);
                 gte_ldtransmatrix(slot->value);
             }
