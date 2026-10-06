@@ -46,8 +46,7 @@ void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
     clockResult = func_800C2B50();
     parameterIndex = 3;
     clock = clockResult;
-    asm("" : "=r"(parameterIndex) : "0"(parameterIndex));
-    stack.firstSeed.x = 0;
+        stack.firstSeed.x = 0;
     value = func_800C2B28(parameterIndex);
     stack.firstSeed.y = -*value;
     stack.firstSeed.z = 0;

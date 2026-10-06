@@ -24,7 +24,7 @@ void ROOMLIB_INIT_TWELVE_EFFECT_FUNC(void *owner, void *unused, char *state) {
     RoomSpriteMatrix *localMatrix;
     register char *vector asm("$3");
     s16 *values;
-    register unsigned int i asm("$4");
+    unsigned int i;
     int depth;
     int initialValue;
     char *clock;

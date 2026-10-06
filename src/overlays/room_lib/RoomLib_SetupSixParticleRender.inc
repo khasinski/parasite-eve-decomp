@@ -26,7 +26,7 @@ void ROOMLIB_SETUP_SIX_PARTICLE_RENDER_FUNC(char *owner, void *arg1,
     char *entity;
     void *asset;
     register char *callOwner asm("$4");
-    register int depth asm("$5");
+    int depth;
     int color;
     int offset;
     int modeB;
