@@ -1164,15 +1164,8 @@ segments:
       - [0x72CB4, c, psyq/libds/dscb]
       # Psy-Q LIBPAD PADENTRY.OBJ: the public Pad* entry points.
       - [0x72D14, c, psyq/libpad/padentry]
-      # Card-object lookup and command wrappers share the active-object factory.
+      # Psy-Q LIBPAD PADMAIN.OBJ (0x800829C4..0x800835A4): VSync hooks, SIO setup and transfer.
       - [0x731C4, c, psyq/libpad/padmain]
-      - [0x732DC, c, psyq/libpad/padmain_2]
-      - [0x73308, c, psyq/libpad/padmain_3]
-      - [0x734F0, c, psyq/libpad/padmain_4]
-      - [0x735BC, c, psyq/libpad/padmain_5]
-      - [0x73600, c, psyq/libpad/padmain_6]
-      - [0x73AB4, c, psyq/libpad/padmain_7]
-      - [0x73CE8, c, psyq/libpad/padmain_8]
       - [0x73DA0, pad] # zero word after MemCard_TransferWait's jr ra
       - [0x73DA4, c, psyq/libpad/padcmd]
       # Read-layout advance, sizing, and transfer start share CardObj state.
