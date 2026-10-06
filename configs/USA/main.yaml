@@ -224,10 +224,10 @@ segments:
       - [0x8CEC, c, task/Task_RunEntityCommand]
       - [0x8D6C, c, entity/Entity_ClearMotionVectors]
       - [0x8D98, c, entity/Entity_ComputeVelocity]
-      - [0x8E60, c, sys/Sys_ComputeAudioTimer]
-      - [0x8F18, c, task/task_get2]
-      - [0x8FC0, c, pm/Pm_ScriptCommands]
-      - [0x93C8, c, task/Task_SystemCommandOps]
+      # System, process-manager and object-entry opcodes: contiguous
+      # default-profile handlers between Entity_ComputeVelocity and the -G8
+      # Task_DrawYield; g_CombatModeFlags is shared by the first two units.
+      - [0x8E60, c, task/Task_SystemCommandOps]
       - [0x97DC, c, task/Task_DrawYield]
       - [0x98AC, c, task/task12]
       - [0x9970, c, entity/Entity_CopyAttachmentData]

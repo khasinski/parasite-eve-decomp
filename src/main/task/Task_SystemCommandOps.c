@@ -1,19 +1,246 @@
+/* Script opcodes from 0x80018660 to 0x80018FDC: combat timer and mode flags,
+ * process-manager commands, actor animation and collision helpers, object
+ * entry setters, camera/CD/fog settings and actor move speed. All are
+ * default-profile handlers that reach the current actor through absolute
+ * addresses. */
+#include "common.h"
 #include "pe1/field_actor.h"
+#include "pe1/field_collision.h"
 
 extern FieldActor *g_CurrentEntity;
-
-int Obj_GetEntryField6(int arg0);
-
-void Obj_SetEntryField8(int arg0, int arg1);
-
-void Obj_FillEntrySlotValues(int arg0, int arg1);
-
-void Obj_SetEntrySlotValue(int arg0, int arg1, int arg2);
-
-void Obj_SetEntryFlags(int arg0, int arg1);
-
+extern FieldActor *g_PlayerEntity;
+extern int g_CombatModeFlags;
+extern int D_800A76C8;
+extern int D_800A76CC;
+extern char * volatile g_GeomState;
 extern int g_CollisionPlaneTable;
 extern char *g_CollisionDb;
+extern short g_CameraBaseAngleX;
+extern short g_CameraBaseAngleY;
+extern unsigned char g_ScreenTransitionState;
+extern short D_800BCFFE;
+
+int Scene_LoadRoomAssets(int arg0, void *arg1);
+int Pm_SendCmd();
+int Pm_SetGetState(int arg0, int arg1, int arg2);
+void Entity_AllocSlot(void *arg0);
+void Task_SetObjAnimEntry12(
+    void *arg0,
+    int arg1,
+    int arg2,
+    int arg3,
+    int arg4,
+    int arg5,
+    int arg6,
+    int arg7,
+    int arg8,
+    int arg9,
+    int arg10,
+    int arg11);
+void Task_SetObjAnimEntry5(void *arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
+void Geo_TransformPoint(void *arg0, int arg1, int arg2, int arg3);
+void Render_SetEntryVisible(int arg0, int arg1);
+void Geo_ClipPoint(int arg0, int arg1, int arg2);
+void Obj_SetEntryLimit(int arg0, int arg1);
+void Sys_SetFlagSlot(int arg0, int arg1);
+int Obj_GetEntryField6(int arg0);
+void Obj_SetEntryField8(int arg0, int arg1);
+void Obj_FillEntrySlotValues(int arg0, int arg1);
+void Obj_SetEntrySlotValue(int arg0, int arg1, int arg2);
+void Obj_SetEntryFlags(int arg0, int arg1);
+int Gpu_LoadGeomState(int index);
+int CdRom_SetSeekPos(unsigned int arg0);
+int Render_SetFadeColour(unsigned int arg0);
+int CdRom_SetScreenPos(int arg0, int arg1, int arg2, int arg3, unsigned short arg4);
+
+/* Arms the combat countdown: args are two minute-or-hour terms summed and
+ * scaled to 60 Hz frames (216000 per unit), plus seconds (60 frames each). */
+int Sys_ComputeAudioTimer(int **arg0) {
+    int *dst;
+    int value;
+
+    dst = &D_800A76C8;
+    value = (*arg0[0] + *arg0[1]) * 216000;
+    value += *arg0[2] * 60;
+    *dst = value;
+    if (*arg0[3] == 1) {
+        D_800A76CC = 0;
+        g_CombatModeFlags |= 2;
+    } else {
+        *dst = 0;
+    }
+    {
+        int *flags = &g_CombatModeFlags;
+
+        *flags = (*flags | 1) & ~4;
+    }
+    return 1;
+}
+
+int Task_GetCombatModeFlag(int **arg0) {
+    if (g_CombatModeFlags & 4) {
+        *arg0[0] = 1;
+    } else {
+        *arg0[0] = 0;
+    }
+
+    return 1;
+}
+
+int Task_SetCombatModeFlag(void) {
+    int *ptr = &g_CombatModeFlags;
+
+    *ptr |= 4;
+    return 1;
+}
+
+int Task_GetEntityEffect(int **arg0) {
+    int value;
+
+    value = Scene_LoadRoomAssets(*arg0[0], g_CurrentEntity);
+    *arg0[1] = value;
+    return 1;
+}
+
+typedef struct WrapperArgs {
+    int *arg0;
+    int *arg2;
+    int *arg3;
+    int *arg4;
+    int *arg5;
+} WrapperArgs;
+
+int Pm_ScriptSendCommand0(WrapperArgs *args) {
+    int *ptr0;
+    int *ptr2;
+    int *ptr3;
+    int *ptr4;
+    int value4;
+    int value0;
+    int value2;
+
+    ptr0 = args->arg0;
+    ptr4 = args->arg4;
+    ptr2 = args->arg2;
+    value4 = *ptr4;
+    value0 = *ptr0;
+    value2 = *ptr2;
+    ptr3 = args->arg3;
+    Pm_SendCmd(value0, 0, value2, *(volatile int *)ptr3, value4, *(volatile int *)args->arg5);
+    return 1;
+}
+
+int Pm_ScriptSendCommand1(int **arg0) {
+    int **base;
+    register int *op0;
+    register int *op1;
+    int *stack0;
+    register int first;
+    int second;
+
+    base = arg0;
+    op0 = base[0];
+    op1 = base[1];
+    stack0 = base[3];
+    first = *op0;
+    second = *op1;
+
+    Pm_SendCmd(first, 1, second, base[2], stack0, base[4]);
+    return 1;
+}
+
+int Pm_ScriptSetState(int **arg0) {
+    Pm_SetGetState(*arg0[0], 0, *arg0[1]);
+    return 1;
+}
+
+int Pm_ScriptGetState(int **arg0) {
+    Pm_SetGetState(*arg0[0], 1, arg0[1]);
+    return 1;
+}
+
+int Task_PlayerPointInPoly(int **arg0) {
+    int values[8];
+    unsigned int i;
+
+    for (i = 0; i < 4; i++) {
+        values[i * 2] = *arg0[i * 2];
+        values[i * 2 + 1] = *arg0[i * 2 + 1];
+    }
+
+    *arg0[8] = Geo_PointInPoly(
+        g_CurrentEntity->pos_x,
+        g_CurrentEntity->pos_z,
+        (const PolygonVertex *)values,
+        4);
+    return 1;
+}
+
+int Task_InitEntityMoveState(void) {
+    Entity_AllocSlot(g_CurrentEntity);
+    return 1;
+}
+
+int Task_SetEntityAnim12Args(char **arg0) {
+    Task_SetObjAnimEntry12(
+        g_CurrentEntity,
+        *(unsigned char *)arg0[0],
+        *(unsigned char *)arg0[1],
+        *(unsigned char *)arg0[2],
+        *(unsigned char *)arg0[3],
+        *(unsigned short *)arg0[4],
+        *(signed char *)arg0[5],
+        *(signed char *)arg0[6],
+        *(signed char *)arg0[7],
+        *(signed char *)arg0[8],
+        *(unsigned char *)arg0[9],
+        *(unsigned char *)arg0[10]);
+    return 1;
+}
+
+int Task_SetEntityAnim5Args(char **arg0) {
+    Task_SetObjAnimEntry5(
+        g_CurrentEntity,
+        *(unsigned char *)arg0[0],
+        *(unsigned char *)arg0[1],
+        *(unsigned char *)arg0[2],
+        *(unsigned char *)arg0[3],
+        *(unsigned short *)arg0[4]);
+    return 1;
+}
+
+int Task_SetSceneEntryAnim(int **arg0) {
+    char *header = g_GeomState;
+    char *base = g_GeomState;
+    int index = *arg0[0];
+
+    Geo_TransformPoint(
+        base + *(int *)(header + 0x14) + (index * 56),
+        *(short *)arg0[1],
+        *(short *)arg0[2],
+        *(short *)arg0[3]);
+    return 1;
+}
+
+int Task_SetRenderEntryEnabled(int **arg0) {
+    Render_SetEntryVisible(*arg0[0], *arg0[1]);
+    return 1;
+}
+
+int Task_SetRenderEntryPos(short **arg0) {
+    Geo_ClipPoint(*arg0[0], *arg0[1], *arg0[2]);
+    return 1;
+}
+
+int Task_SetObjEntryLimit(int **arg0) {
+    Obj_SetEntryLimit(*arg0[0], *arg0[1]);
+    return 1;
+}
+
+int Task_SetFlagSlot(int **arg0) {
+    Sys_SetFlagSlot(*arg0[0], *arg0[1]);
+    return 1;
+}
 
 int Entity_ClearCurrentFlag20(void) {
     g_CurrentEntity->flags &= -0x21;
@@ -132,24 +359,6 @@ int Task_ClearObjEntryFlag80(int **arg0) {
     asm volatile("" : : : "memory");
     return 1;
 }
-#include "pe1/field_actor.h"
-
-int Gpu_LoadGeomState(int index);
-
-extern short g_CameraBaseAngleX;
-extern short g_CameraBaseAngleY;
-
-int CdRom_SetSeekPos(unsigned int arg0);
-
-int Render_SetFadeColour(unsigned int arg0);
-
-int CdRom_SetScreenPos(int arg0, int arg1, int arg2, int arg3, unsigned short arg4);
-
-extern unsigned char g_ScreenTransitionState;
-
-extern FieldActor *g_CurrentEntity;
-extern FieldActor *g_PlayerEntity;
-extern short D_800BCFFE;
 
 int Task_LoadGeomState(int **arg0) {
     Gpu_LoadGeomState(**arg0);
