@@ -177,10 +177,10 @@ segments:
       - [0x5A40, c, task/Task_ActorModelOps]
       - [0x5E48, c, task/Task_GetAngleToEntity]
       - [0x5F90, c, main/MapSelectionFlow]
-      - [0x62B8, c, task/Task_SetActorScreenPos]
-      # Memory-card dialog, received-item, inventory and AKAO/CD sound
-      # opcodes: contiguous -G8 handlers; only the sound command has rodata.
-      - [0x62F0, c, task/Task_ItemAndSoundOps]
+      # Screen-position, memory-card dialog, received-item, inventory and
+      # AKAO/CD sound opcodes: contiguous -G8 handlers; only the sound
+      # command has rodata.
+      - [0x62B8, c, task/Task_ItemAndSoundOps]
       - [0x7110, c, task/Task_DispatchScriptCmd]
       - [0x75F8, c, task/task6]
       # Pending-node launch controller for equip and save/load menus.

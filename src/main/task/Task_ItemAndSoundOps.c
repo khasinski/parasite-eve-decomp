@@ -1,9 +1,10 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-/* Script opcodes: start-up memory-card dialog, received-item notice,
- * inventory command and the AKAO/CD sound command. Contiguous -G8 handlers
- * between the default-profile screen-position opcode and the ASPSX 2.70
- * script dispatcher. */
+/* Script opcodes: actor screen position, start-up memory-card dialog,
+ * received-item notice, inventory command and the AKAO/CD sound command.
+ * Contiguous handlers between the map-selection flow and the ASPSX 2.70
+ * script dispatcher; the screen-position opcode touches no data, so -G8
+ * leaves it unchanged. */
 #include "pe1/scene_transition.h"
 #include "pe1/menu_inventory.h"
 #include "common.h"
@@ -19,6 +20,13 @@ void Menu_OpenStartupMemCardDialog(void);
 void Menu_CreateItemUsePanel(int arg0);
 extern short D_8009D2A4[];
 int MenuWidget_HasActiveNodes(void);
+
+int Render_SetEntryPosition(int index, int x, int y);
+
+int Task_SetActorScreenPos(int **arg0) {
+    Render_SetEntryPosition(*arg0[0], *(short *)arg0[1], *(short *)arg0[2]);
+    return 1;
+}
 
 int Task_OpenMemCardDialog(void) {
     int *state = g_GameState;
