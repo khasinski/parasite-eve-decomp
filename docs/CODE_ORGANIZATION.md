@@ -36,6 +36,13 @@ reduce the file count.
   address. Eight rooms link a sixth class right after it
   (`RoomLib_FloorWalkerClass.c`); whether that class was part of the same
   object cannot be told from the binary, so it is a unit of its own.
+  Smaller effect objects shared by a few rooms live there the same way
+  (`RoomEffect_DroppedFlare.c`, `RoomLib_TwelveElementEffect.c`, ...): each
+  is a run of functions in the same order in every instance, with a rodata
+  block (seed initialisers, jump tables) that is contiguous and in the same
+  order too. Data the code reads from the room (packet templates, colour
+  tables) stays in each room's manifest under one name per role, given in
+  the room's symbol file.
 - `include/pe1/` owns game ABI, shared data structures, and declarations.
 - `include/pe1/akao/` owns the AKAO command, queue, track, and SPU interfaces.
 - hardware and SDK declarations belong in their subsystem header rather than
