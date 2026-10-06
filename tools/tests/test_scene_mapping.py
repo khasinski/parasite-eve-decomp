@@ -17,7 +17,7 @@ def normalized_rows(segment):
 
 
 class SceneE01MappingTests(unittest.TestCase):
-    def test_mapping_and_actor_search_range(self):
+    def test_mapping_is_the_room_m269_grab_attack_unit(self):
         config = yaml.safe_load(
             (ROOT / "configs/USA/overlays/scene_e01.yaml").read_text())
         segment = config["segments"][0]
@@ -25,20 +25,15 @@ class SceneE01MappingTests(unittest.TestCase):
         self.assertEqual(config["sha1"], "af522483e6c8a6fee3a0c45f0484450e2cfefcf4")
         rows = normalized_rows(segment)
         self.assertEqual(rows[0][1], "rodatabin")
-        ranges = {r[0]: (r, n[0]) for r, n in zip(rows, rows[1:])}
-        self.assertEqual(ranges[0x9C], ([0x9C, "c", "func_8018F084"], 0x148))
-        self.assertEqual(ranges[0x1A4],
-                         ([0x1A4, "c", "RoomEffect_StartMotionOnProximity"], 0x350))
-        self.assertEqual(ranges[0x350],
-                         ([0x350, "c", "RoomEffect_AdvanceMotion"], 0x5EC))
-        self.assertNotIn(0x5E4, ranges)
-        for row in rows:
-            if row[1] == "c":
-                name = row[2]
-                self.assertTrue((ROOT / "src/overlays/scene_e01" / (name + ".c")).is_file())
-                suffix = name.rsplit("_", 1)[-1]
-                if re.fullmatch(r"[0-9A-Fa-f]{8}", suffix):
-                    self.assertEqual(int(suffix, 16), segment["vram"] + row[0])
+        self.assertEqual(rows[1], [0xC, ".rodata", "../room_lib/RoomFx_GrabAttackSet"])
+        self.assertEqual(rows[2], [0x70, "c", "../room_lib/RoomFx_GrabAttackSet"])
+        self.assertEqual(rows[3][:2], [0x31E0, "data"])
+        self.assertTrue(
+            (ROOT / "src/overlays/room_lib/RoomFx_GrabAttackSet.c").is_file())
+        room = yaml.safe_load(
+            (ROOT / "configs/USA/overlays/room_m269_warehouse.yaml").read_text())
+        room_rows = normalized_rows(room["segments"][0])
+        self.assertEqual(room_rows[1:3], rows[1:3])
 
     def test_retail_jump_targets_and_epilogue(self):
         path = ROOT / "original/USA/overlays/scene_e01.bin"
