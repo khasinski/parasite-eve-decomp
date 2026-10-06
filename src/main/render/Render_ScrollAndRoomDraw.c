@@ -1,4 +1,7 @@
+/* MASPSX_FLAGS: --expand-div */
 #include "common.h"
+#include "pe1/geom_state.h"
+#include "pe1/game_state.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_camera.h"
@@ -6,6 +9,62 @@
 #include "pe1/field_tile.h"
 #include "pe1/field_anim.h"
 #include "pe1/render_shadow.h"
+
+/* Historical name: applies texture scrolling and camera-relative parallax. */
+int Scene_IsBattleMode(void)
+{
+    if (!(g_GameStateFlags & 0x104)) {
+        int i;
+        GeomState *state = D_800B1624;
+        GeomStateAddress table;
+        GeomEntryView *entries;
+        int count;
+
+        table.state = D_800B1624;
+        table.word += state->entry_offset;
+        entries = table.views;
+        count = state->entry_count06;
+
+        for (i = 0; i < count; i++) {
+            GeomScrollEntry *entry = &entries[i].scroll;
+            int position;
+
+            if (entry->flags & 4) {
+                int x, y, fracX;
+
+                position = (entry->x * 256) | entry->fractionX.byte;
+                position += entry->speedX;
+                x = (position >> 8) % entry->modulusX;
+                fracX = position & 255;
+                position = (entry->y * 256) | entry->fractionY.byte;
+                position += entry->speedY;
+                y = (position >> 8) % entry->modulusY;
+                entry->fractionX.word = fracX;
+                entry->fractionY.word = position & 255;
+                entry->x = x;
+                entry->y = y;
+            }
+            if (entry->flags & 8) {
+                /* The final fixed-point sum wraps at the target word width. */
+                position = (unsigned int)(entry->baseX * 256) +
+                    (D_800BCF8C.x - D_800BCF8C.originX) * entry->speedX;
+                entry->x = position >> 8;
+                entry->fractionX.word = position & 255;
+                position = (unsigned int)(entry->baseY * 256) +
+                    (D_800BCF8C.y - D_800BCF8C.originY) * entry->speedY;
+                entry->y = position >> 8;
+                entry->fractionY.word = position & 255;
+            }
+        }
+        if (D_800BCF88.flags & 0x80) {
+            unsigned short x = D_800BCF8C.x, y = D_800BCF8E;
+            D_800BCF88.flags &= ~0x80;
+            D_800BCF90 = x;
+            D_800BCF92 = y;
+        }
+    }
+    return 0;
+}
 
 /* Builds the ground-aligned shadow transform for `actor` and links its
  * shadow quad, projected from a square of the model's shadow radius.
@@ -322,4 +381,23 @@ int Render_DrawRoom(RenderShadowActor *actor)
      * from reload leaves t0 available for the multiply-high temporary. */
     asm volatile("" : : : "$17", "$18", "$19", "$20", "$21", "$22", "$23");
     return 0;
+}
+
+void Render_SetPrimColour(PrimObj *obj, unsigned char a, unsigned char b, unsigned char c) {
+    int i;
+    int offset;
+    unsigned char *base;
+
+    for (i = 0; i < obj->count; i++) {
+        offset = i << 4;
+        base = (unsigned char *) obj->entries;
+        base[offset + 4] = a;
+        base[offset + 5] = b;
+        base[offset + 6] = c;
+
+        base = (unsigned char *) obj->entries + (obj->count << 4);
+        base[offset + 4] = a;
+        base[offset + 5] = b;
+        base[offset + 6] = c;
+    }
 }

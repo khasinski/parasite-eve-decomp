@@ -87,7 +87,7 @@
  *                                 tpage/clut pack loop 0x8006AFB4.
  *   Geo_LoadMeshEntry 0x80066F60  builds the tile primitives (the format above).
  *   Render_DrawSpriteEntry 0x80067294  flat screen-space path (clips vs 320/224).
- *   Render_DrawRoom   0x80068014  src/main/render/Render_DrawRoom.c (GTE/OT).
+ *   Render_DrawRoom   0x80068014  src/main/render/Render_ScrollAndRoomDraw.c (GTE/OT).
  *   Geo_BuildMeshList 0x80067A78 ; Gpu_LoadGeomState 0x80066800 ; called from
  *                     Entity_FrameUpdate 0x80035558 (@0x80035B0C).
  *   GetClut 0x80077AA4 ; GetTPage 0x80077A64 (libgpu).

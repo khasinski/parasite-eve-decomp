@@ -757,13 +757,13 @@ segments:
       - [0x57FFC, c, render/Geo_RenderMeshList]
       - [0x581C4, c, main/Geo_ClipPoint]
       - [0x58278, c, main/Geo_BuildMeshList]
-      - [0x58340, c, render/Render_StartFadeIn]
-      - [0x58374, c, render/Render_StepFade]
-      - [0x584BC, c, render/Render_BeginSceneLoad]
-      - [0x58518, c, render/Render_ApplyScreenTint]
-      - [0x5861C, c, render/Scene_IsBattleMode]
-      - [0x58814, c, render/Render_DrawRoom]
-      - [0x58EA0, c, render/Render_SetPrimColour]
+      # Fade start/step, scene-load flags and screen tint share g_RenderStateFlags
+      # and the D_800BCF88/D_800B1624 views; one -fno-strength-reduce profile.
+      - [0x58340, c, render/Render_ScreenFadeAndTint]
+      # Background scroll/parallax and room/primitive colour drawing (helper
+      # evidence); Scene_IsBattleMode needs strength reduction, so the
+      # -fno-strength-reduce fade unit ends before it.
+      - [0x5861C, c, render/Render_ScrollAndRoomDraw]
       - [0x58F10, c, render/Render_SortOt]
       - [0x59394, c, render/Render_PrepareFrame]
       - [0x594E0, c, render/Render_Update]
