@@ -203,18 +203,18 @@ segments:
       - [0x7FAC, c, task/Task_NodeLookupOps]
       - [0x8128, c, task/Task_EntityByteFieldOps]
       - [0x8188, c, entity/Entity_MarkNodeFree]
-      - [0x81F8, c, entity/task]
+      - [0x81F8, c, entity/Entity_BitOpcodes]
       - [0x82E8, c, task/Task_EntityActionAnimation]
       - [0x8374, c, task/Task_WaitAnimFrameMatch]
       - [0x83B4, c, task/Task_EncodeBarcode]
       - [0x8454, c, task/Task_RenderAndBattleState]
-      - [0x855C, c, entity/entity2]
+      - [0x855C, c, entity/Entity_MoveLockOpcodes]
       # Menu-choice read and script branch: contiguous opcode pair.
       - [0x85E4, c, task/Task_MenuChoiceBranch]
       - [0x8668, c, entity/Entity_TestCurrentFlags]
       # No-op, animation step and speed opcodes: contiguous default profile.
       - [0x869C, c, task/Task_EntityAnimSpeedOps]
-      - [0x86FC, c, entity/entity3]
+      - [0x86FC, c, entity/Entity_ActorFlagOpcodes]
       # Game-state flag and battle-mode opcodes: contiguous default profile.
       - [0x8744, c, scene/Scene_GlobalFlagOps]
       - [0x8880, c, entity/Entity_FieldSelection]
@@ -350,7 +350,7 @@ segments:
       - [0x279A4, c, menu/Menu_SetEquipSlotIndex]
       # Fog and colour-table setup, text cursor, textbox table, movement flags, equip slot index, textbox drawing and highlight colour share private state (G0310).
       - [0x279B0, c, menu/Menu_TextboxDraw]
-      - [0x29154, c, render/func_80038954]
+      - [0x29154, c, sys/Sys_ReportError]
       # The glyph loader keeps -fno-schedule-insns, which changes its
       # neighbours, so it stays a unit of its own.
       - [0x291DC, c, render/Render_FontGlyphLoad]
@@ -468,7 +468,7 @@ segments:
       - [0x3B59C, c, menu/Menu_CreateMainMenuView]
       - [0x3B93C, c, menu/Menu_VisualSettingsFlow]
       - [0x3BF0C, c, menu/Menu_ExperienceReviewFlow]
-      - [0x3C480, c, menu/menu14]
+      - [0x3C480, c, menu/Menu_LevelUpBanner]
       - [0x3C4E8, c, menu/Menu_BonusPointAllocationFlow]
       - [0x3CB4C, c, menu/Menu_OpenEquipSlotSwap]
       - [0x3CCB4, c, menu/Menu_ParasiteSpellInfoPanel]
@@ -541,7 +541,7 @@ segments:
       - [0x413E8, c, menu/menu_draw3]
       # Three grid-cell renderers share the same widget and sprite protocol.
       - [0x41764, c, menu/Menu_DrawGridCellVariants]
-      - [0x41860, c, menu/func_80051060]
+      - [0x41860, c, menu/Menu_DrawItemListCursor]
       - [0x41884, c, battle/BattleCmd_InitTableCursor]
       # Command-stack allocation and rollback share the cursor and record ABI.
       - [0x41898, c, battle/BattleCmd_StackFlow]
@@ -551,7 +551,7 @@ segments:
       - [0x41D10, c, battle/BattleCmd_ActiveStats]
       - [0x41DF8, c, battle/BattleCmd_GetRemainingAmmo]
       - [0x41E84, c, battle/BattleCmd_CommitAndSyncAmmo]
-      - [0x41F70, c, aya/misc7]
+      - [0x41F70, c, aya/Aya_WeaponChangeAndSpellCheck]
       - [0x4204C, c, aya/Aya_UnlockParasiteSpell]
       - [0x4206C, c, battle/Math_IntSqrt]
       - [0x420A8, c, battle/BattleCmd_CommitAmmoAndUpdate]
@@ -633,7 +633,7 @@ segments:
       - [0x4E140, c, save/Save_GetCurrentMapNumber]
       - [0x4E170, c, menu/Menu_InitScrollDirection]
       - [0x4E194, c, item/Inv_InitMaxLevelInventory]
-      - [0x4E28C, c, gpu/menu]
+      - [0x4E28C, c, table/Tbl_DescriptorLookups]
       # Item data and stat-growth lookup share one default-profile object.
       - [0x4E344, c, item/Item_TableLookup]
       - [0x4E3AC, c, aya/aya]
@@ -737,7 +737,7 @@ segments:
       # End-of-frame overlay pass and soft-reset shutdown: contiguous
       # default-profile pair, both called from the field frame loop.
       - [0x5A8E8, c, sys/Sys_FrameOverlayAndShutdown]
-      - [0x5AAE8, c, gpu/func_8006A2E8]
+      - [0x5AAE8, c, gpu/Gpu_SetScreenYOffset]
       - [0x5AB18, c, akao/Akao_LoadVoiceBank]
       # Boot game-state init: the sound and DS shell reset, Boot_InitGameState (called
       # from main), the memory layout and the scene voice-bank reset defined beside it
