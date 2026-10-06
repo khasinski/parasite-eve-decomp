@@ -230,7 +230,7 @@ retryFog:
         Menu_DrawTextboxEntries();
         DrawSync(0);
         VSync(0);
-        Render_InitEntityPool(1);
+        ResetGraph(1);
         PutDispEnv(&D_800BCE80[D_8009CDDC]);
         PutDrawEnv(&D_800BCDC8[D_8009CDDC]);
         MoveImage(&rect, 0, D_8009CDDC ? 224 : 0);

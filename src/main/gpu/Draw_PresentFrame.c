@@ -12,7 +12,7 @@ extern int g_DrawPresentImage;
 
 int VSync(int arg0);
 void DrawSync(int arg0);
-void Render_InitEntityPool(int arg0);
+void ResetGraph(int arg0);
 void PutDrawEnv(int arg0);
 void LoadImage(s16 *rect, int image);
 void DrawOTag(int arg0);
@@ -41,7 +41,7 @@ void Draw_PresentFrame(int arg0) {
     mode = index;
     index = 0xFFF;
     VSync(NormalizeSyncMode(mode));
-    Render_InitEntityPool(1);
+    ResetGraph(1);
     PutDrawEnv(D_8009D0FC);
     PutDispEnv((DISPENV *)(D_8009D0FC + 0x5C));
 

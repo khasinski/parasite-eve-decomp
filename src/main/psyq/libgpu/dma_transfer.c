@@ -65,7 +65,7 @@ int MoveImage2(RECT *rect, int x, int y)
 
 extern char D_80011928[];
 
-int Gpu_DmaTransfer(void *packet)
+int DrawOTag2(void *packet)
 {
     if (D_8009574C.queueState.debugLevel >= 2) D_80095748(D_80011928, packet);
     g_GpuDmaTimeoutDeadline = VSync(-1) + 240;

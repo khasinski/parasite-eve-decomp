@@ -43,7 +43,7 @@ class DrawPresentFrameTests(unittest.TestCase):
             subprocess.run(['mipsel-none-elf-objcopy','-O','binary','-j','.text',str(work/'test.elf'),str(work/'test.bin')],check=True)
             compiled = (work/'test.bin').read_bytes()
         self.assertEqual(compiled,retail)
-        callbacks = ('VSync','DrawSync','Render_InitEntityPool','PutDrawEnv','PutDispEnv','LoadImage','DrawOTag')
+        callbacks = ('VSync','DrawSync','ResetGraph','PutDrawEnv','PutDispEnv','LoadImage','DrawOTag')
         for mode in (-2147483648,-2,-1,0,1,2,8,2147483647):
             for enabled in (0,1,-1):
                 for image in (0,0x80130000):
@@ -57,7 +57,7 @@ class DrawPresentFrameTests(unittest.TestCase):
                             expected = []
                             if enabled:
                                 expected = [('VSync',1),('DrawSync',0),('VSync',0 if mode==1 else mode&0xFFFFFFFF),
-                                            ('Render_InitEntityPool',1),('PutDrawEnv',draw_env),('PutDispEnv',disp_env)]
+                                            ('ResetGraph',1),('PutDrawEnv',draw_env),('PutDispEnv',disp_env)]
                                 if final_image: expected.append(('LoadImage',(0,235 if final_index else 11,320,204),final_image))
                                 expected.append(('DrawOTag',ot+0x3FFC))
                             for body in (retail,compiled):
@@ -86,7 +86,7 @@ class DrawPresentFrameTests(unittest.TestCase):
                                     else: events.append((name,a0))
                                     if mutate:
                                         if name=='VSync': word('g_DrawPresentEnabled',0)
-                                        elif name=='Render_InitEntityPool': word('D_8009D0FC',draw_env)
+                                        elif name=='ResetGraph': word('D_8009D0FC',draw_env)
                                         elif name=='PutDrawEnv': word('D_8009D0FC',disp_env-0x5C)
                                         elif name=='PutDispEnv':
                                             word('g_DrawPresentImage',final_image)

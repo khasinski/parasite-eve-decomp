@@ -164,7 +164,7 @@ retry6:
 
     Akao_Cmd_F1();
     DrawSync(0);
-    Render_InitEntityPool(1);
+    ResetGraph(1);
     VSync(0);
     PutDispEnv(&D_800BCE80[D_8009CDDC]);
     SetDispMask(1);

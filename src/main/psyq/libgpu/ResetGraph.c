@@ -26,7 +26,7 @@ void GPU_memset(void *, int, int);
 void GPU_cw(unsigned int);
 int Gpu_InitDmaQueue(int);
 
-int Render_InitEntityPool(int mode) {
+int ResetGraph(int mode) {
     GpuState *state;
     void *drawCache;
     switch (mode & 7) {

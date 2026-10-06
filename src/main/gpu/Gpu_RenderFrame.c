@@ -9,10 +9,10 @@ void Menu_DrawSaveBg(void);
 void VSync(int arg0);
 int Seq_GetElapsed(void);
 void SetDispMask(int arg0);
-void Render_InitEntityPool(int arg0);
+void ResetGraph(int arg0);
 int Gpu_CheckDrawStatus(void);
 void PutDrawEnv(void *arg0);
-void Gpu_PutDrawEnvLinked(int arg0, void *arg1);
+void DrawOTagEnv(int arg0, void *arg1);
 
 extern int g_GameState[];
 extern int g_ActiveDrawSlot;
@@ -47,7 +47,7 @@ void Gpu_RenderFrame(void) {
         VSync(2);
     }
 
-    Render_InitEntityPool(1);
+    ResetGraph(1);
 
     idx = g_ActiveDrawSlot;
     PutDispEnv((DISPENV *)DispAddress(idx));
@@ -87,7 +87,7 @@ draw_buffer:
         arg0 = *(int *)(tmp + 0x160);
         base = g_RenderDrawEnvArray;
         arg1 += (int)base;
-        Gpu_PutDrawEnvLinked(arg0 + 0x3FFC, (void *)arg1);
+        DrawOTagEnv(arg0 + 0x3FFC, (void *)arg1);
     }
 
 done:

@@ -837,7 +837,7 @@ it does not imply portable packet storage or justify changing report credit.
 
 ## GPU Reset State And Dimensions
 
-`Render_InitEntityPool` is the legacy name of the SDK ResetGraph routine.
+`ResetGraph` is the LIBGPU SYS entry at `0x80074A44`.
 Its C reconstruction clears a 128-byte GPU state, resets callbacks and the
 queue, loads width/height from four-byte table entries, and invalidates the
 two cached environments. Other modes use the dispatch table's soft reset.

@@ -31,21 +31,21 @@ int main(void) {
     int mask, flag;
     for (mask = 0; mask <= 1; ++mask) for (flag = 0; flag <= 1; ++flag) {
         *(unsigned int *)storage = 0xDEADBEEF;
-        SetDrawMask(storage, mask, flag);
+        SetPriority(storage, mask, flag);
         assert(storage[3] == 2);
         assert(*(unsigned int *)(storage + 4) ==
                (mask ? 0xE6000002 : 0xE6000000) | flag);
         assert(*(unsigned int *)(storage + 8) == 0);
     }
     for (mask = 0; mask <= 1; ++mask) {
-        Gpu_InitDrawMaskSetPacket(storage, mask);
+        SetDrawStp(storage, mask);
         assert(storage[3] == 2);
         assert(*(unsigned int *)(storage + 4) ==
                (mask ? 0xE6000001 : 0xE6000000));
         assert(*(unsigned int *)(storage + 8) == 0);
     }
     mode_calls = window_calls = 0;
-    Gpu_InitDrawModeTexWindowPacket(packet, 7, 9, 0x12345678, 11);
+    SetDrawMode(packet, 7, 9, 0x12345678, 11);
     assert(storage[3] == 2 && packet->field4 == 0xE1005678);
     assert(packet->field8 == 0xE2000011 && mode_calls == 1 && window_calls == 1);
     return 0;

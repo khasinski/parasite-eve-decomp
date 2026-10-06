@@ -34,7 +34,7 @@ DRAWENV *PutDrawEnv(DRAWENV *env);
 int *Gpu_LoadTimImage(void *tim);
 void Boot_BuildRenderFlagTable(void);
 void Render_SetupFogLayer(void *source);
-void Render_InitEntityPool(int mode);
+void ResetGraph(int mode);
 int Render_AllocParticleNode(int command, void *parameter, void *callback,
                              int count);
 int Render_FindParticleEffect(int id, void *result);

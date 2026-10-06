@@ -26,7 +26,7 @@ extern u8 D_800BCE3F;
 extern u8 D_800BCDE3;
 extern int g_ActiveDrawSlot __asm__("D_8009CDDC");
 
-void Render_InitEntityPool(int arg0);
+void ResetGraph(int arg0);
 void SetGraphDebug(int level);
 void SetDispMask(int mask);
 void ClearImage(s16 *rect, int r, int g, int b);
@@ -39,7 +39,7 @@ void Render_ResetScene(int width, int height)
     u8 *disp;
     u8 *draw;
 
-    Render_InitEntityPool(0);
+    ResetGraph(0);
     SetGraphDebug(0);
     SetDispMask(0);
 

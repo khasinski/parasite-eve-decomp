@@ -46,7 +46,7 @@ static void check(int back, int background, short x, short w, short h) {
     D_8009574C.width = 1024;
     D_8009574C.height = 512;
     if (back) Gpu_SetDrawEnvBack(&output.packet, &env);
-    else Gpu_SetDrawEnvFront(&output.packet, &env);
+    else SetDrawEnv(&output.packet, &env);
     assert((output.words[0] & 0xFFFFFF) == 0xA5A5A5);
     assert((output.words[0] >> 24) == (background ? 9 : 6));
     for (i = 1; i <= 5; i++) assert(output.words[i] == i);

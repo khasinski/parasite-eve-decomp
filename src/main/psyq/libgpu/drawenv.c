@@ -8,7 +8,7 @@ unsigned int Gpu_BuildDrawOffsetCmd(short, short);
 unsigned int Gpu_BuildDrawModeCmd(int, int, int);
 unsigned int Gpu_BuildTexWindowCmd(RECT *);
 
-void Gpu_SetDrawEnvFront(DR_ENV *packet, DRAWENV *env)
+void SetDrawEnv(DR_ENV *packet, DRAWENV *env)
 {
     RECT rect;
     unsigned int *words = (unsigned int *)packet;

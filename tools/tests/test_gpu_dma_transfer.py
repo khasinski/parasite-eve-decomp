@@ -43,7 +43,7 @@ class GpuDmaTransferTests(unittest.TestCase):
         external = {symbols[name]: name for name in ('checkRECT', 'VSync', 'Gpu_DmaTimeoutCheck', 'DMACallback')}
         # Each unsuccessful poll advances only through the timeout callback.
         sequences = [[], [(1, 1)], [(0, 0)], [(1, 0), (0, 0), (1, 1)], [(0, 0)]*4]
-        for function in ('LoadImage2', 'StoreImage2', 'MoveImage2', 'Gpu_DmaTransfer'):
+        for function in ('LoadImage2', 'StoreImage2', 'MoveImage2', 'DrawOTag2'):
             for sequence in sequences:
                 for timeout_at in (0, 1, 3):
                     for shape in range(4):
@@ -51,7 +51,7 @@ class GpuDmaTransferTests(unittest.TestCase):
                         x, y = 0xFFFF8123, 0x1234FEDC
                         debug = shape
                         expected = []
-                        if function != 'Gpu_DmaTransfer':
+                        if function != 'DrawOTag2':
                             label = {'LoadImage2': 'D_800119BC', 'StoreImage2': 'D_800118E0', 'MoveImage2': 'D_800118EC'}[function]
                             expected.append(('checkRECT', symbols[label], rect_addr))
                         elif debug >= 2:
@@ -78,7 +78,7 @@ class GpuDmaTransferTests(unittest.TestCase):
                                 else:
                                     packet = rect[:4] + struct.pack('<I', ((y << 16) | (x & 0xFFFF)) & 0xFFFFFFFF) + rect[4:]
                                     expected.append(('move', symbols['D_800957EC'] - 8))
-                            elif function == 'Gpu_DmaTransfer':
+                            elif function == 'DrawOTag2':
                                 expected.append(('move', data_addr))
                             else:
                                 expected.append(('load' if function == 'LoadImage2' else 'store', rect_addr, data_addr))
@@ -100,7 +100,7 @@ class GpuDmaTransferTests(unittest.TestCase):
                             word(symbols['D_80095748'], debug_cb)
                             put(symbols['D_8009574C'] + 2, bytes([debug]))
                             word(symbols['g_GpuDmaWaitLoopCounter'], 99)
-                            machine.reg_write(R.UC_MIPS_REG_A0, data_addr if function == 'Gpu_DmaTransfer' else rect_addr)
+                            machine.reg_write(R.UC_MIPS_REG_A0, data_addr if function == 'DrawOTag2' else rect_addr)
                             machine.reg_write(R.UC_MIPS_REG_A1, x if function == 'MoveImage2' else data_addr)
                             machine.reg_write(R.UC_MIPS_REG_A2, y)
                             machine.reg_write(R.UC_MIPS_REG_SP, stack)

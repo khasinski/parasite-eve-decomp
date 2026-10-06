@@ -102,7 +102,7 @@ int main(void) {
         memcpy(before, &D_8009574C, 128);
         stage = prints = softCalls = 0;
         modeExpected = mode; variantExpected = variant;
-        result = Render_InitEntityPool(mode);
+        result = ResetGraph(mode);
         if (full) {
             unsigned short width = 321 + 100 * variant;
             unsigned short height = D_800957D8[variant][0];

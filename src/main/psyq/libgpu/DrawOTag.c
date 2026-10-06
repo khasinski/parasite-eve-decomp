@@ -44,7 +44,7 @@ DRAWENV *PutDrawEnv(DRAWENV *environment)
     return environment;
 }
 
-void Gpu_PutDrawEnvLinked(void *next, DRAWENV *environment)
+void DrawOTagEnv(void *next, DRAWENV *environment)
 {
     unsigned char *state = D_8009574E;
     DR_ENV *packet;

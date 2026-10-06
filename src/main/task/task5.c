@@ -7,7 +7,7 @@ void EnterCriticalSection(void);
 void ExitCriticalSection(void);
 void FlushCache(void);
 void VSync(s32);
-void Render_InitEntityPool(s32);
+void ResetGraph(s32);
 void SetDispMask(s32);
 void DrawSync(s32);
 void func_801216C4(s32, s32 *);
@@ -46,7 +46,7 @@ s32 Task_LoadSceneData(s16 **arg0) {
     DrawSync(0);
     VSync(0);
     SetDispMask(0);
-    Render_InitEntityPool(1);
+    ResetGraph(1);
 
 retry_first:
     {

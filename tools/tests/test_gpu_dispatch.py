@@ -77,7 +77,7 @@ static void check(int debugLevel, int idle, int ready, int timeout) {
     gpu = ready ? 0 : 0x04000000;
     g_GpuDmaTimeoutDeadline = g_GpuDmaWaitLoopCounter = -99;
     events = polls = vsyncCalls = 0;
-    assert(Gpu_DmaTransfer(&packet) == (timeout ? -1 : 0));
+    assert(DrawOTag2(&packet) == (timeout ? -1 : 0));
     assert(polls == (timeout ? timeout : (idle > ready ? idle : ready)));
     assert(g_GpuDmaTimeoutDeadline == 363 && g_GpuDmaWaitLoopCounter == 0);
     assert(events == (timeout ? (debugLevel >= 2 ? 12 : 2) :
