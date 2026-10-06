@@ -1,6 +1,0 @@
-#include "../room_lib/room_lib.h"
-
-extern char *D_8009D254;
-extern void func_80192350(void);
-
-ROOMLIB_FACE_ACTOR_WITH_GLOBALS(func_8019223C, func_80192350, D_8009D254, D_800966EC)
