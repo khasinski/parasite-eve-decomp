@@ -1,6 +1,8 @@
+/* MASPSX_FLAGS: --expand-div */
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/render_object.h"
+
 extern u32 D_800B1640[];
 #define Render_LoadObjectMatrix(matrix) \
     { \
@@ -148,4 +150,28 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
         entity->variant_visible = 0;
     else
         entity->variant_visible = 1;
+}
+
+typedef struct {
+    char pad[0x8D];
+    u8 field8D;
+    u8 field8E;
+    u8 field8F;
+    char pad90[3];
+    u8 field93;
+} Unk8003C5D8;
+
+void Anim_SetInterpRate(Unk8003C5D8 *obj, int arg1) {
+    short value = arg1;
+    int divisor;
+
+    if ((short)arg1 == 0) {
+        value = 1;
+    }
+    divisor = 0x80 / (short)value;
+
+    obj->field8D = value;
+    obj->field8E = divisor;
+    obj->field8F = divisor;
+    obj->field93 = divisor;
 }
