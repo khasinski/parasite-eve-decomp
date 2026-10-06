@@ -385,13 +385,15 @@ void RoomFx_InitOrbitSprite(
     seed3 = s_OrbitSpriteSeed3;
 
     if (*func_800C2B10(1) == 0) {
-        ApplyMatrixSV(&view->transform, &seed0,
-                      (unsigned short *)&state->pad6[2]);
-        ApplyMatrixSV(&view->transform, &seed1, position);
+        ApplyMatrixSV((GteMatrix *)view->transform, &seed0.vector,
+                      (GteShortVector *)&state->pad6[2]);
+        ApplyMatrixSV((GteMatrix *)view->transform, &seed1.vector,
+                      (GteShortVector *)position);
     } else {
-        ApplyMatrixSV(&view->transform, &seed2,
-                      (unsigned short *)&state->pad6[2]);
-        ApplyMatrixSV(&view->transform, &seed3, position);
+        ApplyMatrixSV((GteMatrix *)view->transform, &seed2.vector,
+                      (GteShortVector *)&state->pad6[2]);
+        ApplyMatrixSV((GteMatrix *)view->transform, &seed3.vector,
+                      (GteShortVector *)position);
     }
 
     state->x = position[0] + view->baseX;

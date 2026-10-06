@@ -14,7 +14,7 @@ void func_80193150(void *object, SceneGlowModelTimer *timer, SceneGlowModelState
 
     model = state;
     owner = func_800C2B50();
-    RotMatrix(&model->seed, &matrix);
+    RotMatrix(&model->seed.vector, &matrix);
     func_80071A44(&source, 0, 0x10);
     source.x = model->scaleX;
     source.y = model->scaleY;

@@ -95,8 +95,5 @@ void func_800C3238(int mode);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 void func_80071A44(void *dst, int value, int size);
 int func_80071A54(void);
-void ApplyMatrixSV(void *transform, RoomFxSeed8 *seed, u16 *out);
-void RotMatrix(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
-void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 
 #endif

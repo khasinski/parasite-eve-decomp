@@ -16,8 +16,6 @@ extern unsigned short ROOMLIB_DRAW_GROUND_SPRITE_DEPTH;
 extern RoomSpriteMatrix *D_800BCFA4;
 extern short ROOMLIB_DRAW_GROUND_SPRITE_FLOOR;
 
-extern void RotMatrix(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
-extern void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 extern void func_800C2EAC(unsigned char owner);
 extern void func_800C2FF0(int width, int height);
 extern void func_800C3098(int depth);
@@ -33,7 +31,7 @@ void ROOMLIB_DRAW_GROUND_SPRITE_NAME(
 
     owner = func_800C2B50();
     stack.seed = D_8018F02C;
-    RotMatrix(&stack.seed, &stack.generatedMatrix);
+    RotMatrix(&stack.seed.vector, &stack.generatedMatrix);
     func_800C2EAC(owner[0x24]);
     func_800C2FF0(0x20, 0x20);
     func_800C3098(0x10);

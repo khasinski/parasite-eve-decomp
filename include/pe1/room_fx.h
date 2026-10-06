@@ -3,16 +3,18 @@
 
 #include "common.h"
 #include "pe1/field_ring_geometry.h"
+#include "pe1/gte_types.h"
 
-/* Common room-overlay sprite effect data used by m137-family rooms. */
-typedef struct RoomSpriteMatrix {
-    short m[3][3];
-    short pad;
-    int t[3];
-} RoomSpriteMatrix;
+/* Common room-overlay sprite effect data used by m137-family rooms.
+ * The rooms build their matrices, scale vectors and rotation seeds as the
+ * PsyQ MATRIX, VECTOR and SVECTOR (pe1/gte_types.h). */
+typedef GteMatrix RoomSpriteMatrix;
 
-typedef struct RoomFxSeed8 {
+/* Rotation seed as the rooms store it: an SVECTOR, which some effects also
+ * read halfword by halfword through the byte view. */
+typedef union RoomFxSeed8 {
     unsigned char bytes[8];
+    GteShortVector vector;
 } RoomFxSeed8;
 
 /* Sprite packet template the room effects fill and hand to the sprite
@@ -28,12 +30,7 @@ typedef struct RoomFxSpritePacket {
     short depth;                  /* 0x0A */
 } RoomFxSpritePacket;
 
-typedef struct RoomFxVec4 {
-    int x;
-    int y;
-    int z;
-    int w;
-} RoomFxVec4;
+typedef GteVector RoomFxVec4;
 
 typedef struct RoomUniformSpriteFxParams {
     short x;
@@ -76,12 +73,7 @@ typedef struct RoomOrbitParticleState {
     short radiusStep;
 } RoomOrbitParticleState;
 
-typedef struct RoomOrbitBurstVector {
-    short x;
-    short y;
-    short z;
-    short pad6;
-} RoomOrbitBurstVector;
+typedef GteShortVector RoomOrbitBurstVector;
 
 typedef struct RoomOrbitBurstState {
     RoomOrbitBurstVector position[8];

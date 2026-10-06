@@ -166,7 +166,7 @@ void RoomLib_UpdatePairedEmitter(void *arg0, char *arg1,
     stack.scale.z = state->timer * 2;
     stack.transformed_scale = stack.scale;
     ScaleMatrix(&stack.base_matrix, &stack.transformed_scale);
-    RotMatrix(&stack.seed, &stack.matrix);
+    RotMatrix(&stack.seed.vector, &stack.matrix);
 
     /* PSY-Q gte_CompMatrix shape: MulMatrix0 in place, then the translation
      * through RTV0TR into the long-vector slot. */
@@ -237,7 +237,7 @@ void RoomLib_DrawPairedGlowSprite(char *object, void *unused, char *state) {
     entity = object;
     workState = state;
     clock = func_800C2B50();
-    RotMatrix(workState + 8, &stack.matrix);
+    RotMatrix((GteShortVector *)(workState + 8), &stack.matrix);
 
     stack.matrix.t[0] = *(s16 *)(*(char **)(entity + 8) + 0x2A);
     stack.matrix.t[1] = *(s16 *)(*(char **)(entity + 8) + 0x2E);
@@ -388,7 +388,7 @@ void RoomLib_TransformPairedEmitter(void *unused, char *params,
     scaleMatrix = &stack.scaleMatrix;
     ScaleMatrix(scaleMatrix, &stack.scale);
     {
-        register RoomFxSeed8 *seedArg asm("$4") = &stack.seed;
+        register GteShortVector *seedArg asm("$4") = &stack.seed.vector;
         asm("" : : "r"(seedArg));
         matrix = &stack.matrix;
         RotMatrix(seedArg, matrix);

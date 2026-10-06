@@ -104,9 +104,6 @@ typedef struct RoomInitThreeStack {
 } RoomInitThreeStack;
 
 int *func_800C2B10(int index);
-void RotMatrixYXZ(RoomInitThreeVec *seed, RoomSpriteMatrix *matrix);
-void ApplyMatrixSV(RoomSpriteMatrix *matrix, RoomInitThreeVec *seed,
-                   s16 *out);
 int func_80071A54(void);
 void func_800C66C8(void *owner, int id, void *state);
 
@@ -225,12 +222,12 @@ void RoomLib_InitThreeTransformParticles(void *owner, void *unused,
     stack.projectionSeed.y = 0;
     stack.projectionSeed.z = 0x1000;
     ApplyMatrixSV(&stack.firstMatrix, &stack.projectionSeed,
-                  (s16 *)(workState + 0x9C));
+                  (GteShortVector *)(workState + 0x9C));
     byteCursor = clock + 4;
     ApplyMatrixSV((RoomSpriteMatrix *)byteCursor, &stack.projectionSeed,
-                  (s16 *)(workState + 0xA4));
+                  (GteShortVector *)(workState + 0xA4));
     ApplyMatrixSV(&stack.secondMatrix, &stack.projectionSeed,
-                  (s16 *)(workState + 0xAC));
+                  (GteShortVector *)(workState + 0xAC));
     func_800C66C8(callOwner, 0x573, byteCursor);
 }
 
@@ -250,15 +247,12 @@ typedef struct RoomDrawThreeStack {
 
 void func_800C2EAC(u8 owner);
 void func_800C3098(int depth);
-void RotMatrixYXZ(RoomDrawThreeVec *seed, RoomSpriteMatrix *matrix);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C3134(void *table, int step, void *packet);
 void func_800C2FF0(int width, int height);
 void func_800C3238(int mode);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 int rsin(int angle);
-void RotMatrix(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 
 
 void RoomLib_DrawThreeTransformParticles(void *unused, s16 *args, char *state) {
@@ -363,7 +357,7 @@ void RoomLib_DrawThreeTransformParticles(void *unused, s16 *args, char *state) {
                 arg0 = (unsigned char *)&RoomLib_ThreeParticlePacket;
                 func_800C42A4(arg0, &stack.primaryMatrix, 1);
 
-                RotMatrix(&stack.seed, secondaryMatrix);
+                RotMatrix(&stack.seed.vector, secondaryMatrix);
                 func_80071A44(&stack.sourceFloorScale, 0, 0x10);
                 stack.sourceFloorScale.x = *(u16 *)(shortCursor + 0x2A);
                 stack.sourceFloorScale.y = *(u16 *)(shortCursor + 0x2A);

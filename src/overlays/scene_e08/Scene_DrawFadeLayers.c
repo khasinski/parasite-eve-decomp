@@ -34,8 +34,6 @@ void func_800C3098(int);
 void func_800C3238(int);
 void func_800C3134(void *, int, void *);
 void func_80071A44(RoomFxVec4 *, int, int);
-void RotMatrix(RoomFxSeed8 *, RoomSpriteMatrix *);
-void ScaleMatrix(RoomSpriteMatrix *, RoomFxVec4 *);
 void func_800C42A4(void *, RoomSpriteMatrix *, int);
 void func_800C4FC4(void *, RoomSpriteMatrix *, int);
 
@@ -58,7 +56,7 @@ void func_8018F640(void *unused, s16 *args, Ovl178FadeState *state) {
     func_800C3134(D_801986F8, args[1], &D_80199670);
     for (i = 0; i < 4; ++i) {
         seed.fields.angle = state->field_25C[i];
-        RotMatrix(&seed.raw, &matrix);
+        RotMatrix(&seed.raw.vector, &matrix);
         func_80071A44(&sourceScale, 0, 0x10);
         sourceScale.x = state->field_254[i];
         sourceScale.y = state->field_254[i];

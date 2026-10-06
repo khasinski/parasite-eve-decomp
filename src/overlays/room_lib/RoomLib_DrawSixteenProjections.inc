@@ -19,7 +19,6 @@ void func_800C2EAC(u8 owner);
 void func_800C2FF0(int width, int height);
 void func_800C3098(int depth);
 void func_800C3238(int page);
-void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 
 extern RoomFxVec4 D_8018F00C;

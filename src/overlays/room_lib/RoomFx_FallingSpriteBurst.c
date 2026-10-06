@@ -155,7 +155,8 @@ void RoomFx_InitFallingSprite(void *entity, void *unused,
     positionSeed = s_FallingSpritePositionSeed;
     velocitySeed = s_FallingSpriteVelocitySeed;
     view = (*root)->view;
-    ApplyMatrixSV(&view->transform, &positionSeed, position);
+    ApplyMatrixSV((GteMatrix *)&view->transform, &positionSeed.vector,
+                  (GteShortVector *)position);
 
     state->x = position[0] + view->baseX;
     state->y = position[1] + view->baseY;
@@ -170,7 +171,8 @@ void RoomFx_InitFallingSprite(void *entity, void *unused,
         state->velocityY = 0;
         state->velocityZ = func_80071A54() % 10 - 5;
     } else {
-        ApplyMatrixSV(&view->transform, &velocitySeed, velocity);
+        ApplyMatrixSV((GteMatrix *)&view->transform, &velocitySeed.vector,
+                      (GteShortVector *)velocity);
         state->velocityX = velocity[0] * 2;
         state->velocityY = 0;
         state->velocityZ = velocity[2] * 2;
@@ -354,7 +356,7 @@ void RoomFx_DrawImpactShimmer(void *arg0, void *arg1, RoomSpriteFxParams *fx) {
     func_800C2FF0(0x20, 0x20);
     func_800C3098(0x10);
     func_800C3238(1);
-    RotMatrix(&seed, &matrix);
+    RotMatrix(&seed.vector, &matrix);
 
     func_80071A44(&scale, 0, 0x10);
     scale.x = fx->scale;
@@ -410,7 +412,7 @@ void RoomFx_DrawGroundPulse(void *unused0, void *unused1,
     func_800C2FF0(0x40, 0x40);
     func_800C3098(0x10);
     func_800C3238(1);
-    RotMatrix(&seed, matrixPtr);
+    RotMatrix(&seed.vector, matrixPtr);
 
     func_80071A44(&scale, 0, 0x10);
     scale.x = fx->scale;

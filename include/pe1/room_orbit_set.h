@@ -34,8 +34,5 @@ void func_80071A44(void *dst, int value, int size);
 int func_80071A54(void);
 int rsin(int angle);
 int rcos(int angle);
-void ApplyMatrixSV(void *transform, RoomFxSeed8 *seed, unsigned short *output);
-void RotMatrix(RoomOrbitBurstVector *vector, RoomSpriteMatrix *matrix);
-void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 
 #endif

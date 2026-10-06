@@ -43,9 +43,7 @@ extern u8 D_80198860[];
 extern u8 D_801996B0[];
 
 SceneGlowModelOwner *func_800C2B50(void);
-void RotMatrix(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 void func_80071A44(RoomFxVec4 *vec, int value, int size);
-void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C6D5C(u8 *packet, int x, int y);
 int func_80077A64(int arg0, int arg1, int x, int y);
 int func_80077AA4(int x, int y);
