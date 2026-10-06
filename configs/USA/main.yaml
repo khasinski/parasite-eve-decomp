@@ -332,10 +332,8 @@ segments:
       - [0x25710, c, entity/Entity_PoolInit]
       - [0x25838, c, scene/Scene_LoadMap]
       - [0x25D58, c, entity/Entity_FrameUpdate]
-      - [0x26484, c, entity/Entity_PositionIntegration]
-      # Hierarchy rollback, parent following, garbage collection and the task-node passes
-      # walk the actor list (G0296 plus private/helper evidence into entity5).
-      - [0x26754, c, entity/Entity_ListMaintenance]
+      # Per-frame actor list passes: position integration, rollback, parent following, garbage collection, callbacks and animation sequences (G0296).
+      - [0x26484, c, entity/Entity_FramePasses]
       - [0x26AB8, c, entity/Entity_AllocationBlocks]
       - [0x26C48, c, main/Scene_UpdateEntityPositions]
 

@@ -1,14 +1,11 @@
-/* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
+#include "pe1/field_actor.h"
+#include "pe1/scene_flags.h"
 #include "common.h"
 #include "pe1/pm.h"
-#include "pe1/field_actor.h"
 #include "pe1/task_node.h"
 
-/* Actor list maintenance after movement: rolling positions back through
- * the parent chain, following attached parents, freeing dead actors, and
- * running and advancing each actor's three task-node lists. */
-
+/* The actor list globals this unit owns. */
 typedef FieldActor Entity;
 
 Entity *g_FieldActorListHead;
@@ -17,6 +14,90 @@ Entity *g_PlayerEntity;
 u16 g_EntityFreePoolCount;
 int g_FieldMoveLock;
 Entity *g_CurrentEntity;
+
+void Entity_DispatchCallbacks(FieldActor *a);
+
+void Entity_IntegratePositionFull(FieldActor *a)
+{
+    int tmp;
+    int v0;
+
+    a->base_x = a->pos_x;
+    a->base_y = a->pos_y;
+    a->base_z = a->pos_z;
+    a->saved_rot_x = a->rot_x;
+    a->saved_rot_y = a->rot_y;
+    a->saved_rot_z = a->rot_z;
+    Entity_DispatchCallbacks(a);
+
+    if ((g_FieldMoveLock & 1) == 0) {
+        v0 = g_PlayerEntity->state->flags;
+        tmp = a->mode;
+        if ((v0 & 0xC0) == 0x80) {
+            tmp = 0x11;
+        }
+        Scene_CheckFlagBits(a, D_800943C0, &tmp);
+    }
+
+    if (a->flags & 2) {
+        a->motion_x += a->gravity_x;
+        a->motion_y += a->gravity_y;
+        a->motion_z += a->gravity_z;
+    }
+
+    a->motion_x += a->accel_x;
+    a->motion_y += a->accel_y;
+    a->motion_z += a->accel_z;
+
+    a->pos_x += a->motion_x;
+    a->pos_y += a->motion_y;
+    a->pos_z += a->motion_z;
+
+    a->pos_x += a->delta_x;
+    a->pos_y += a->delta_y;
+    a->pos_z += a->delta_z;
+}
+
+extern int g_GameStateFlags;
+
+void Entity_IntegratePositionConditional(FieldActor *a)
+{
+    if (g_GameStateFlags & 0x100) {
+        Entity_DispatchCallbacks(a);
+        return;
+    }
+
+    a->base_x = a->pos_x;
+    a->base_y = a->pos_y;
+    a->base_z = a->pos_z;
+    a->saved_rot_x = a->rot_x;
+    a->saved_rot_y = a->rot_y;
+    a->saved_rot_z = a->rot_z;
+    Entity_DispatchCallbacks(a);
+
+    if (a->flags & 2) {
+        a->motion_x += a->gravity_x;
+        a->motion_y += a->gravity_y;
+        a->motion_z += a->gravity_z;
+    }
+
+    a->motion_x += a->accel_x;
+    a->motion_y += a->accel_y;
+    a->motion_z += a->accel_z;
+
+    a->pos_x += a->motion_x;
+    a->pos_y += a->motion_y;
+    a->pos_z += a->motion_z;
+
+    a->pos_x += a->delta_x;
+    a->pos_y += a->delta_y;
+    a->pos_z += a->delta_z;
+}
+
+/* Actor list maintenance after movement: rolling positions back through
+ * the parent chain, following attached parents, freeing dead actors, and
+ * running and advancing each actor's three task-node lists. */
+
 extern int g_TaskNodePool[];
 
 void Entity_FreeAllocationBlock(int arg0);
