@@ -418,7 +418,7 @@ void func_800C3B04(FieldBillboard *board)
 void func_800C42A4(FieldGlowSprite *sprite, GteMatrix *placement, u8 mode)
 {
     register const GteMatrixWords *cameraRot asm("$9");
-    register const GteMatrixWords *cameraTrans asm("$3");
+    register const GteMatrixWords *cameraTrans;
     const GteMatrixWords *composed;
     register const GteMatrixWords *camera asm("$11");
     const u16 *column;
@@ -581,7 +581,7 @@ void func_800C42A4(FieldGlowSprite *sprite, GteMatrix *placement, u8 mode)
 void func_800C499C(FieldShadedQuadColors *colors, GteMatrix *placement,
                    u8 mode) {
     register const GteMatrixWords *cameraRot asm("$9");
-    register const GteMatrixWords *cameraTrans asm("$3");
+    register const GteMatrixWords *cameraTrans;
     const GteMatrixWords *composed;
     register const GteMatrixWords *camera asm("$11");
     const u16 *column;
@@ -743,7 +743,7 @@ void func_800C4E50(FieldRingGeometry *data) {
 void func_800C4FC4(FieldShadedRing *ring, GteMatrix *placement, u8 mode)
 {
     register const GteMatrixWords *cameraRot asm("$10");
-    register const GteMatrixWords *cameraTrans asm("$3");
+    register const GteMatrixWords *cameraTrans;
     const GteMatrixWords *composed;
     register const GteMatrixWords *camera asm("$10");
     const u16 *column;

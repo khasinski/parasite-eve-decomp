@@ -207,13 +207,13 @@
 void Render_TransformVertices(RenderObjectEntity *input) {
     u8 *actor = (u8 *)input;
     s32 *zero0 = (s32 *)0x1F800000;
-    register s32 *zero4 asm("$18") = (s32 *)0x1F800004;
+    register s32 *zero4 = (s32 *)0x1F800004;
     s32 *zero8 = (s32 *)0x1F800008;
     s32 *matrix_stack = (s32 *)0x1F80000C;
     register s32 *stack_top asm("$17");
     u8 *commands;
-    register u8 *out_matrix asm("$6");
-    register u8 *out_vertices asm("$9");
+    register u8 *out_matrix;
+    register u8 *out_vertices;
     u8 *header;
     s32 *current_matrix;
     s32 *src_matrix;

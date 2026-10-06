@@ -217,7 +217,7 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
     s32 depth;
     s32 *depthOut;
     FieldStripPacket *packet;
-    register GteMatrix *view asm("$8");
+    register GteMatrix *view;
     GteShortVector *vertex;
     int r;
     register int g asm("$3");
@@ -632,7 +632,7 @@ void func_800CFB7C(GteShortVector *input, s16 distance, GteShortVector *out)
     GteVector result;
     GteMatrixWords local;
     GteMatrixWords *matrix;
-    register const GteMatrixWords *saved asm("$19") = (const GteMatrixWords *)D_800BCFA4.value;
+    register const GteMatrixWords *saved = (const GteMatrixWords *)D_800BCFA4.value;
 
     asm("" : : "r"(out), "r"(distance) : "$16");
     matrix = &local;
