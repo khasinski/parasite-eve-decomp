@@ -46,7 +46,7 @@ segments:
       - [0x359C, c, func_80192584]
       - [0x35C4, c, func_801925AC]
       - [0x363C, c, func_80192624]
-      - [0x3644, c, RoomLib_InvokeCallbackC_8019262C]
+      - [0x3644, c, ../room_lib/RoomLib_UpdateCallback]
       - [0x366C, c, func_80192654]
       - [0x3820, c, func_80192808]
       - [0x3854, c, func_8019283C]

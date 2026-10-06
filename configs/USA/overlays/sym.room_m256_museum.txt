@@ -1,4 +1,4 @@
-RoomLib_InvokeCallbackC_8019262C = 0x8019262C; // type:func
+RoomLib_UpdateCallback = 0x8019262C; // type:func
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
 func_80192584 = 0x80192584; // type:func

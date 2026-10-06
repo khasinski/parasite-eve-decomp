@@ -43,7 +43,7 @@ segments:
       - [0x3524, c, func_8019250C]
       - [0x35C8, c, func_801925B0]
       - [0x3620, c, func_80192608]
-      - [0x3628, c, RoomLib_InvokeCallbackC_80192610]
+      - [0x3628, c, ../room_lib/RoomLib_UpdateCallback]
       - [0x3650, c, func_80192638]
       - [0x3850, c, func_80192838]
       # Placement setup, frame gate, and selection-state reset share one TU.

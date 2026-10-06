@@ -28,12 +28,6 @@ typedef struct RoomParticleEmitter {
     int endFrame;                 /* 0x10 */
 } RoomParticleEmitter;
 
-#define ROOMLIB_INVOKE_CALLBACK_C(name) \
-    int name(RoomObj *obj) { \
-        obj->callback(); \
-        return 0; \
-    }
-
 #define ROOMLIB_RETURN_ZERO(name) \
     int name(void) { \
         return 0; \

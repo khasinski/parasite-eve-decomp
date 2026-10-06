@@ -55,7 +55,7 @@ segments:
       - [0x35AC, c, func_80192594]
       - [0x3648, c, func_80192630]
       - [0x3670, c, func_80192658]
-      - [0x3678, c, RoomLib_InvokeCallbackC_80192660]
+      - [0x3678, c, ../room_lib/RoomLib_UpdateCallback]
       - [0x36A0, c, func_80192688]
       # The approach callback arms the grab sequence and both paths share actor/target state.
       - [0x36CC, c, SceneE19GrabResetFlow]
