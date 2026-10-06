@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class CDInitCmdStateTests(unittest.TestCase):
     def test_plain_source(self):
-        source = (ROOT/'src/main/psyq/libds/DS_reset_members.c').read_text()
+        source = (ROOT/'src/main/psyq/libds/dssys_1_2.c').read_text()
         self.assertNotRegex(source, r'\b(?:asm|__asm__)\b')
         self.assertIn('extern u_int D_8009B560[3];', source)
 

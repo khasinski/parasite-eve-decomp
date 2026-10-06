@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[2]
 
 class CDEventByteTests(unittest.TestCase):
     def test_pin_and_alias_removed(self):
-        source=(ROOT/'src/main/psyq/libds/dssys_1_text_EA4.c').read_text()
+        source=(ROOT/'src/main/psyq/libds/dssys_1_8.c').read_text()
         self.assertNotIn('asm("$',source)
         self.assertNotIn('asm("D_8009B588")',source)
         self.assertIn('extern DsDecodedEventFlags D_8009B588;',source)

@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class CDReadyDispatchTests(unittest.TestCase):
     def test_plain_source(self):
-        source = (ROOT/'src/main/psyq/libds/dssys_1_text_E10.c').read_text()
+        source = (ROOT/'src/main/psyq/libds/dssys_1_7.c').read_text()
         self.assertNotRegex(source, r'\b(?:asm|__asm__)\b')
         self.assertIn('LIBDS_DSSYS_1_text_EA4(event_reg, data_reg);', source)
 

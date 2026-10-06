@@ -7,9 +7,21 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def _function(source, name):
+    """Text of one function definition in a multi-function unit."""
+    import re
+    start = re.search(r'^[^\n;]*\b%s\([^;]*?\)\s*\{' % name, source, re.M).start()
+    depth, i = 0, source.index('{', start)
+    while True:
+        depth += {'{': 1, '}': -1}.get(source[i], 0)
+        if depth == 0:
+            return source[start:i + 1]
+        i += 1
+
+
 class CDPollPendingTests(unittest.TestCase):
     def test_plain_source(self):
-        source = (ROOT/'src/main/psyq/libds/CQ_vsync_system.c').read_text()
+        source = _function((ROOT/'src/main/psyq/libds/dssys_2_5.c').read_text(), 'CQ_vsync_system')
         self.assertNotRegex(source, r'\b(?:asm|__asm__|PE1_COMPILER_MEMORY_BARRIER|PE1_COMPILER_LAUNDER)\b')
 
     @unittest.skipUnless((ROOT/'assets/USA/main.exe').is_file() and

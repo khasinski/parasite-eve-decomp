@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class RestartSeekTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_order_parameters_and_result(self):
-        source = (ROOT / "src/main/psyq/libds/ER_retry.c").read_text()
+        source = (ROOT / "src/main/psyq/libds/dsready_4.c").read_text()
         self.assertEqual(source.count('asm("$3")'), 1)
         source = source.replace('asm("$3")', "")
         harness = source + r'''

@@ -12,6 +12,7 @@ class IntrDmaStartTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_clears_handlers_installs_dma_trap_and_returns_registrar(self):
         source = (ROOT / "src/main/psyq/libetc/intr_dma.c").read_text()
+        source = source[:source.index("void trapIntrDMA(")]
         harness = source + r'''
 #include <assert.h>
 void handler(void) {}

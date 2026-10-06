@@ -13,16 +13,10 @@ CASES = [('libcd/c_004',
   228,
   'ce310e8f04723acbf9226a2db3c5ddb151b86678f24e94aeb51b6648e25df94c',
   'g_CdStreamRingReadSlot = 0x800BE9E4;\ng_CdRingBufPtr = 0x800C0DC8;\nD_800A3490 = 0x800A3490;\nD_800BE998 = 0x800BE998;\ng_StrDataReadyCallback = 0x800B0CC8;\nD_800A3494 = 0x800A3494;\ng_CdStreamDataReadyFlag = 0x800B89F4;\nD_800A8020 = 0x800A8020;\nCdPosToInt = 0x8007AA34;\nCdIntToPos = 0x8007A930;\nSECTIONS { .text 0x8007c214 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) *(.mdebug) } }'),
- ('libetc/vsync_2',
-  152,
-  'd9e7e8c8bdce7a66b51154f3f3109caca27f68c5e6f8b469f716d4bfbd806277',
-  'g_VSyncCount = 0x800956AC;\n'
-  'D_800116FC = 0x800116FC;\n'
-  'puts = 0x80073C5C;\n'
-  'ChangeClearPAD = 0x80073C74;\n'
-  'ChangeClearRCnt = 0x80073C84;\n'
-  'SECTIONS { .text 0x80073bbc : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
-  '*(.mdebug) } }')]
+ ('libetc/vsync',
+  528,
+  'e356692b0a159f0f9e07da321a2ea515c4789379094ff39d6d77f42858169af4',
+  'ChangeClearPAD = 0x80073C74;\nChangeClearRCnt = 0x80073C84;\nD_800116FC = 0x800116FC;\nD_80094574 = 0x80094574;\nD_80094578 = 0x80094578;\nD_8009457C = 0x8009457C;\nD_80094580 = 0x80094580;\ng_VSyncCount = 0x800956AC;\nputs = 0x80073C5C;\nSECTIONS { .text 0x80073a44 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) *(.mdebug) } }')]
 
 
 class StreamReadyVwaitTests(unittest.TestCase):

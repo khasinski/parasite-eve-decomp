@@ -12,41 +12,11 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 CASES = [('libcd/CD_getsector',
   492,
   'e9f1ff7e2cc8ea7a5bf11be1f838ef39ebab8d2906c4d0817f980aa9eb3a1bc3',
-  'D_8009B27C = 0x8009B27C;\n'
-  'D_8009B288 = 0x8009B288;\n'
-  'D_8009B2B0 = 0x8009B2B0;\n'
-  'D_8009B28C = 0x8009B28C;\n'
-  'D_8009B2B4 = 0x8009B2B4;\n'
-  'D_8009B2B8 = 0x8009B2B8;\n'
-  'D_8009B2BC = 0x8009B2BC;\n'
-  'D_8009B2C0 = 0x8009B2C0;\n'
-  'g_CdRegIndexBase = 0x8009B27C;\n'
-  'g_CdRegResponse = 0x8009B288;\n'
-  'g_CdRegRequest = 0x8009B28C;\n'
-  'g_CdRegDmaControl = 0x8009B2C0;\n'
-  'SECTIONS { .text 0x8007bf44 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
-  '*(.mdebug) } }'),
- ('libds/DsSearchFile',
-  736,
-  '886b6ae1a7bf15dc49aad5ae9616ca57211d475c883b28649dac25048849ba9b',
-  'DsShellOpen = 0x8007F7A8;\n'
-  'D_8009B6E0 = 0x8009B6E0;\n'
-  'DS_newmedia = 0x80081714;\n'
-  'DS_searchdir = 0x800819D8;\n'
-  'D_8009AFC0 = 0x8009AFC0;\n'
-  'D_80011E6C = 0x80011E6C;\n'
-  'printf = 0x80071A74;\n'
-  'D_80011E88 = 0x80011E88;\n'
-  'DS_cachefile = 0x80081A7C;\n'
-  'D_80011EA0 = 0x80011EA0;\n'
-  'puts = 0x80073C5C;\n'
-  'D_80011EBC = 0x80011EBC;\n'
-  'D_800A36B8 = 0x800A36B8;\n'
-  '_cmp = 0x800816F4;\n'
-  'D_80011EDC = 0x80011EDC;\n'
-  'D_80011EE8 = 0x80011EE8;\n'
-  'SECTIONS { .text 0x80081414 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
-  '*(.mdebug) } }')]
+  'D_8009B27C = 0x8009B27C;\nD_8009B288 = 0x8009B288;\nD_8009B2B0 = 0x8009B2B0;\nD_8009B28C = 0x8009B28C;\nD_8009B2B4 = 0x8009B2B4;\nD_8009B2B8 = 0x8009B2B8;\nD_8009B2BC = 0x8009B2BC;\nD_8009B2C0 = 0x8009B2C0;\ng_CdRegIndexBase = 0x8009B27C;\ng_CdRegResponse = 0x8009B288;\ng_CdRegRequest = 0x8009B28C;\ng_CdRegDmaControl = 0x8009B2C0;\nSECTIONS { .text 0x8007bf44 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) *(.mdebug) } }'),
+ ('libds/dsfile',
+  768,
+  '0e47249fb6a552eda5b9ed324059dcf6a2f680f9d28a61de6a092dbf6c6ba57b',
+  'DS_cachefile = 0x80081A7C;\nDS_newmedia = 0x80081714;\nDS_searchdir = 0x800819D8;\nD_8009AFC0 = 0x8009AFC0;\nD_800A36B8 = 0x800A36B8;\nDsShellOpen = 0x8007F7A8;\nprintf = 0x80071A74;\nputs = 0x80073C5C;\nstrncmp = 0x80071A04;\nSECTIONS { .text 0x80081414 : SUBALIGN(4) { *(.text .text.*) } .rodata 0x80011e6c : SUBALIGN(4) { *(.rodata) } .data 0x8009b6dc : SUBALIGN(4) { *(.data) } /DISCARD/ : { *(.reginfo) *(.mdebug) } }')]
 
 
 class SectorFileSearchTests(unittest.TestCase):

@@ -12,16 +12,11 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 CASES = [('psyq/libmath/dbshift',
   188,
   'f5ef0b49b72cac65d49205ac7b5aff69bc77a89b1374c3a4f7d0a6b091f66076',
-  'SECTIONS { .text 0x80072ea4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
-  '*(.mdebug) } }'),
- ('psyq/libapi/first_2',
-  256,
-  'a6a416fc6d48b744dabdcde64ae5b8ba6287596747e601a0b1bc22cc1eef1711',
-  'D_800A32D0 = 0x800A32D0;\n'
-  'D_800A32D8 = 0x800A32D8;\n'
-  'strcmp = 0x80072A54;\n'
-  'SECTIONS { .text 0x80072950 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
-  '*(.mdebug) } }')]
+  'SECTIONS { .text 0x80072ea4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) *(.mdebug) } }'),
+ ('psyq/libapi/first',
+  668,
+  '54cf62beee29111f4732b454b4ccce07e6d3a611b4d0ab06412c87c69fe2cdba',
+  'D_800A32D0 = 0x800A32D0;\nD_800A32D8 = 0x800A32D8;\nfirstfile2 = 0x80072A64;\nstrcmp = 0x80072A54;\nSECTIONS { .text 0x800727b4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) *(.mdebug) } }')]
 
 
 class ArithmeticShiftFirstFileTests(unittest.TestCase):

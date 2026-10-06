@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class CdControlWaitTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_both_waiters(self):
-        source = (ROOT / "src/main/psyq/libds/DsControl.c").read_text()
+        source = (ROOT / "src/main/psyq/libds/dssys_4.c").read_text()
         harness = source + r'''
 #include <assert.h>
 static int commandValue, requestValue, terminal, pending, polls, sends;

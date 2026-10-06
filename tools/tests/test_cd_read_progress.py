@@ -7,9 +7,21 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def _function(source, name):
+    """Text of one function definition in a multi-function unit."""
+    import re
+    start = re.search(r'^[^\n;]*\b%s\([^;]*?\)\s*\{' % name, source, re.M).start()
+    depth, i = 0, source.index('{', start)
+    while True:
+        depth += {'{': 1, '}': -1}.get(source[i], 0)
+        if depth == 0:
+            return source[start:i + 1]
+        i += 1
+
+
 class CDReadProgressTests(unittest.TestCase):
     def test_plain_source(self):
-        self.assertNotRegex((ROOT/'src/main/psyq/libds/DS_read_cbready.c').read_text(), r'\b(?:asm|__asm__)\b')
+        self.assertNotRegex(_function((ROOT/'src/main/psyq/libds/dsread_2.c').read_text(), 'DS_read_cbready'), r'\b(?:asm|__asm__)\b')
 
     @unittest.skipUnless((ROOT/'assets/USA/main.exe').is_file() and
                          (ROOT/'build/USA/main.exe').is_file(), 'images unavailable')

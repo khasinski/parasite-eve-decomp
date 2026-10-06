@@ -9,34 +9,14 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Retail instruction streams at 0x800809E0 and 0x8007E5C4 respectively.
-CASES = [('tipDsSystem',
-  220,
-  'a293e10b7e80565ad5ddc9bd56b25ccf7d641d30b2a424264811f043dc7c4fef',
-  'D_80011D74 = 0x80011D74;\n'
-  'printf = 0x80071A74;\n'
-  'D_8009B574 = 0x8009B574;\n'
-  'D_80011D94 = 0x80011D94;\n'
-  'D_80011DB0 = 0x80011DB0;\n'
-  'D_80011DD8 = 0x80011DD8;\n'
-  'D_80011DF8 = 0x80011DF8;\n'
-  'D_800A36A0 = 0x800A36A0;\n'
-  'D_800A36A4 = 0x800A36A4;\n'
-  'D_800A36A8 = 0x800A36A8;\n'
-  'D_80011E0C = 0x80011E0C;\n'
-  'ER_active = 0x800822AC;\n'
-  'D_80011E44 = 0x80011E44;\n'
-  'D_80011E3C = 0x80011E3C;\n'
-  'D_80011E4C = 0x80011E4C;\n'
-  'SECTIONS { .text 0x800809e0 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
-  '*(.mdebug) } }'),
- ('CQ_delete_command',
+CASES = [('dssys_1_11',
+  228,
+  '9cf0a1928cb92874823ad99513c1a840740865820bfea90e256b13288e76a292',
+  'D_80011D74 = 0x80011D74;\nD_80011D94 = 0x80011D94;\nD_80011DB0 = 0x80011DB0;\nD_80011DD8 = 0x80011DD8;\nD_80011DF8 = 0x80011DF8;\nD_80011E0C = 0x80011E0C;\nD_80011E3C = 0x80011E3C;\nD_80011E44 = 0x80011E44;\nD_80011E4C = 0x80011E4C;\nD_8009B574 = 0x8009B574;\nD_800A36A4 = 0x800A36A4;\nD_800A36A8 = 0x800A36A8;\nER_active = 0x800822AC;\ng_DsPollCallback = 0x800A36A0;\nprintf = 0x80071A74;\nSECTIONS { .text 0x800809e0 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) *(.mdebug) } }'),
+ ('dssys_2_2',
   236,
   'e7239bb1c9421072ce01869eae99b016c60da5f87bdf6fbd1c2a1fbf5c3a47c6',
-  'g_CdDsReadQueueState = 0x800A3600;\n'
-  'g_CdDsReadQueue = 0x800A3540;\n'
-  'g_CdDsReadIndex = 0x800A3604;\n'
-  'SECTIONS { .text 0x8007e5c4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
-  '*(.mdebug) } }')]
+  'g_CdDsReadIndex = 0x800A3604;\ng_CdDsReadQueue = 0x800A3540;\ng_CdDsReadQueueState = 0x800A3600;\nSECTIONS { .text 0x8007e5c4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) *(.mdebug) } }')]
 
 
 class LibdsStatusQueueTests(unittest.TestCase):

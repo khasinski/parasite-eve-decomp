@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class CdResetSystemTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_reset_order_and_preserved_fields(self):
-        source = (ROOT / "src/main/psyq/libds/DsInit.c").read_text()
+        source = (ROOT / "src/main/psyq/libds/dssys_2_4.c").read_text()
         reset_start = source.index("int DsReset(void)")
         init_start = source.index("int DsInit(void)")
         source = source[:init_start] + source[reset_start:]
