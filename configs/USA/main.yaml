@@ -213,8 +213,8 @@ segments:
       - [0x85E4, c, task/Task_GetMenuFlag]
       - [0x8620, c, task/Task_CondBranch]
       - [0x8668, c, entity/Entity_TestCurrentFlags]
-      - [0x869C, c, task/task9]
-      - [0x86C4, c, task/Task_SetEntityAnimSpeed]
+      # No-op, animation step and speed opcodes: contiguous default profile.
+      - [0x869C, c, task/Task_EntityAnimSpeedOps]
       - [0x86FC, c, entity/entity3]
       - [0x8744, c, scene/Scene_TestGlobalFlags]
       - [0x8788, c, scene/misc36]
