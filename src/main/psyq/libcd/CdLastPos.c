@@ -1,6 +1,33 @@
 /* GCC_VERSION: 2.8.1 */
+/* Psy-Q LIBCD SYS.OBJ: CdLastPos, CdReset. */
 #include "pe1/psyq_cd.h"
 
 CdlLOC *CdLastPos(void) {
     return &g_CdLastPos;
+}
+
+void CD_initintr(void);
+int CD_init(void);
+int CD_initvol(void);
+
+int CdReset(int arg0) {
+    int ret;
+
+    if (arg0 == 2) {
+        CD_initintr();
+        return 1;
+    }
+
+    if (CD_init() != 0) {
+        return 0;
+    }
+
+    if (arg0 == 1) {
+        ret = CD_initvol();
+        if (ret != 0) {
+            return 0;
+        }
+    }
+
+    return 1;
 }

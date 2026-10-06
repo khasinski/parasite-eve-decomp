@@ -141,7 +141,7 @@ segments:
       - [0x2318, rodata, main/rodata_002318_pre_getintr]
       - [0x238C, .rodata, psyq/libcd/getintr]
       - [0x23A0, rodata, main/rodata_0023A0_post_getintr]
-      - [0x249C, .rodata, psyq/libds/DsPacket]
+      - [0x249C, .rodata, psyq/libds/DsCommand]
       - [0x2500, rodata, main/rodata_002500]
       - [0x250C, .rodata, psyq/libds/dssys_1_text_8B8]
       - [0x2574, rodata, main/rodata_002574]
@@ -1037,14 +1037,10 @@ segments:
       - [0x6AAA4, c, psyq/libcd/c_003]
       - [0x6AB24, c, psyq/libcd/CdStatus]
       - [0x6AB54, c, psyq/libcd/CdLastPos]
-      - [0x6AB60, c, psyq/libcd/CdReset]
       - [0x6ABCC, c, psyq/libcd/sys]
       # Psy-Q LIBCD S_016.OBJ: CdControl, CdControlF, CdControlB.
       - [0x6ACD0, c, psyq/libcd/CdControl]
       - [0x6B08C, c, psyq/libcd/CdMix]
-      - [0x6B0AC, c, psyq/libcd/CdGetSector]
-      - [0x6B0EC, c, psyq/libcd/CdDataCallback]
-      - [0x6B110, c, psyq/libcd/CdDataSync]
       # Psy-Q LIBCD SYS.OBJ ends with CdIntToPos and CdPosToInt.
       - [0x6B130, c, psyq/libcd/CdIntToPos]
       # Psy-Q LIBCD BIOS.OBJ starts with getintr.
@@ -1142,8 +1138,6 @@ segments:
       - [0x6F414, c, psyq/libds/DsInit]
       - [0x6F664, c, psyq/libds/DsClose]
       - [0x6F684, c, psyq/libds/DsCommand]
-      - [0x6F8C8, c, psyq/libds/DsPacket]
-      - [0x6FC18, c, psyq/libds/DsSync]
       - [0x6FE08, c, psyq/libds/DsReady]
       - [0x6FE9C, c, psyq/libds/DsFlush]
       - [0x6FF2C, c, psyq/libds/DsSystemStatus]
@@ -1163,8 +1157,6 @@ segments:
       - [0x70408, c, psyq/libds/DS_lastcom]
       # Paired Psy-Q CD sync/ready adapters.
       - [0x70464, c, psyq/libds/DS_sync]
-      - [0x704AC, c, psyq/libds/DS_shell_open]
-      - [0x704BC, c, psyq/libds/DS_cw_system]
       - [0x704FC, c, psyq/libds/dssys_1_text_368]
       - [0x708F4, c, psyq/libds/dssys_1_text_774]
       - [0x70964, c, psyq/libds/dssys_1_text_7FC]
