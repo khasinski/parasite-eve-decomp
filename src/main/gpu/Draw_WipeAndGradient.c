@@ -145,7 +145,7 @@ static inline u32 *AllocateDrawMode(int mode) {
         g_DrawPacketCursor = next;
         packet = (u32 *)old;
     } else BoundsCheck_AssertStub(1);
-    if (packet) SetDrawMode((char *)packet, 0, 0, (mode & 3) << 5);
+    if (packet) SetDrawTPage((char *)packet, 0, 0, (mode & 3) << 5);
     return packet;
 }
 
@@ -320,6 +320,6 @@ void Draw_AllocColorGradient(int width, int height, u8 *points, int textured)
 
     DRAW_ALLOC_PACKET(mode, sizeof(RenderDrawModePacket));
     if (mode.word)
-        SetDrawMode(mode.bytes, 0, 0, 7);
+        SetDrawTPage(mode.bytes, 0, 0, 7);
     DRAW_LINK_PACKET(mode);
 }

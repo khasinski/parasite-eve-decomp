@@ -202,7 +202,7 @@ void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
         if (mode != 0xFF) {
             drawMode = (RenderTintMode *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
             D_8009CDD8 += sizeof(RenderTintMode);
-            SetDrawMode((char *)drawMode, 0, 1, GetTPage(0, mode, 0, 0));
+            SetDrawTPage((char *)drawMode, 0, 1, GetTPage(0, mode, 0, 0));
             if (packet) {
                 packet->code |= 2;
                 RING_OT_ADDPRIM(entry, packet, link);

@@ -1,4 +1,6 @@
-int Gpu_AppendPacketPrimitive(unsigned char *packet, int *prim) {
+/* Psy-Q LIBGPU P36.OBJ: MargePrim. */
+
+int MargePrim(unsigned char *packet, int *prim) {
     int value;
 
     value = packet[3] + ((unsigned char *)prim)[3] + 1;
@@ -11,4 +13,4 @@ int Gpu_AppendPacketPrimitive(unsigned char *packet, int *prim) {
     return 0;
 }
 
-static unsigned int Gpu_AppendPacketPrimitive_alignment[] __attribute__((section(".text"))) = { 0x00000000, 0x00000000 };
+static unsigned int MargePrim_alignment[] __attribute__((section(".text"))) = { 0x00000000, 0x00000000 };

@@ -246,7 +246,7 @@ void func_800C4FC4(FieldShadedRing *ring, GteMatrix *placement, u8 mode)
         D_8009CDD8 += sizeof(FieldRingPacket);
         drawMode = D_800B0E58[D_8009CDDC] + D_8009CDD8;
         D_8009CDD8 += 8;
-        SetDrawMode(drawMode, 0, 0, (D_800E224C & 3) << 5);
+        SetDrawTPage(drawMode, 0, 0, (D_800E224C & 3) << 5);
         next = (i + 1) % ring->mode;
         a = i;
         c = ring->mode + i;

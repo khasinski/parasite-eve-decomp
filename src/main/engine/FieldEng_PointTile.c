@@ -26,7 +26,7 @@ void func_800D1DEC(GteShortVector *position, u8 *color, int scale, int abr)
     gte_cop2_hazard_slot();
     gte_rtps_command();
     SetTile1(point);
-    Gpu_SetDither(point, 1);
+    SetSemiTrans(point, 1);
     SetTile(glow);
     glow->r = point->r = color[0] * scale / 128;
     glow->g = point->g = color[1] * scale / 128;
@@ -55,7 +55,7 @@ void func_800D1DEC(GteShortVector *position, u8 *color, int scale, int abr)
         if (abr != 0xFF) {
             mode = (RenderTintMode *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
             D_8009CDD8 += sizeof(RenderTintMode);
-            SetDrawMode((char *)mode, 0, 1, GetTPage(0, abr, 0, 0));
+            SetDrawTPage((char *)mode, 0, 1, GetTPage(0, abr, 0, 0));
             if (glow) {
                 glow->command |= 2;
                 TILE_OT_ADDPRIM(ot, glow, link);
@@ -106,7 +106,7 @@ void func_800D2104(GteShortVector *position, u8 *color, int scale, int abr)
         if (abr != 0xFF) {
             mode = (RenderTintMode *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
             D_8009CDD8 += sizeof(RenderTintMode);
-            SetDrawMode((char *)mode, 0, 1, GetTPage(0, abr, 0, 0));
+            SetDrawTPage((char *)mode, 0, 1, GetTPage(0, abr, 0, 0));
             if (tile) {
                 tile->command |= 2;
                 TILE_OT_ADDPRIM(ot, tile, link);

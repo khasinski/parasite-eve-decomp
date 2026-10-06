@@ -19,13 +19,13 @@ extern u8 D_8009CEA0;
 extern u8 D_8009CED0;
 extern int D_8009CED4;
 extern void *D_8009CE90;
-void SetDrawMode(void *, int, int, int);
+void SetDrawTPage(void *, int, int, int);
 void SetSprt(void *);
-int Gpu_AppendPacketPrimitive(void *, void *);
-void Gpu_SetDrawEnable(void *, int);
+int MargePrim(void *, void *);
+void SetShadeTex(void *, int);
 int GetTPage(int, int, int, int);
 void SetTile(void *);
-void Gpu_SetDither(void *, int);
+void SetSemiTrans(void *, int);
 void exit(int);
 
 void Render_SetupFogLayer(void *source) {
@@ -92,13 +92,13 @@ void Render_SetupFogLayer(void *source) {
     for (; (u8)i < 2; ++i) {
         draw_mode = (u8 *)((int)((u8)i * 28) + (int)draw_base);
         sprite = draw_mode + 8;
-        SetDrawMode(draw_mode, 0, 1, page_source[0]);
+        SetDrawTPage(draw_mode, 0, 1, page_source[0]);
         SetSprt(sprite);
-        if (Gpu_AppendPacketPrimitive(draw_mode, sprite)) exit(-1);
+        if (MargePrim(draw_mode, sprite)) exit(-1);
         sprite_base = D_8009EC78;
 
         sprite_fields = (u8 *)((int)((u8)i * 28) + (int)sprite_base);
-        Gpu_SetDrawEnable(sprite_fields, 1);
+        SetShadeTex(sprite_fields, 1);
         x_arg = 0;
 
         y_arg = 0;
@@ -114,9 +114,9 @@ void Render_SetupFogLayer(void *source) {
         tpage = GetTPage(x_arg, y_arg, zero_arg, 0);
         tile_mode = (u8 *)((int)((u8)i * 24) + (int)tile_base);
         tile = tile_mode + 8;
-        SetDrawMode(tile_mode, 0, 1, tpage & 0xFFFF);
+        SetDrawTPage(tile_mode, 0, 1, tpage & 0xFFFF);
         SetTile(tile);
-        if (Gpu_AppendPacketPrimitive(tile_mode, tile)) exit(-1);
+        if (MargePrim(tile_mode, tile)) exit(-1);
         payload = (u8 *)((int)((u8)i * 24) + (int)tile_payload_base);
         asm volatile("" : "=r"(payload) : "0"(payload));
         dither_enabled = 1;
@@ -131,7 +131,7 @@ void Render_SetupFogLayer(void *source) {
             *(u16 *)(payload + 0xE) = 0x36;
             *(u16 *)(payload + 8) = 0;
             *(u16 *)(payload + 0xA) = 0xAA;
-            Gpu_SetDither(payload, dither_enabled);
+            SetSemiTrans(payload, dither_enabled);
         }
     }
 }

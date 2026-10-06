@@ -1,4 +1,4 @@
-"""Retail matching and packet-write boundaries for SetDrawMode."""
+"""Retail matching and packet-write boundaries for SetDrawTPage."""
 from pathlib import Path
 import random
 import re
@@ -9,10 +9,10 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT/'src/main/psyq/libgpu/SetPolyF3.c'
+SOURCE = ROOT/'src/main/psyq/libgpu/p33.c'
 
 
-class SetDrawModeTests(unittest.TestCase):
+class SetDrawTPageTests(unittest.TestCase):
     def test_source_has_no_assembly(self):
         source = re.sub(r'/\*.*?\*/|//[^\n]*', '', SOURCE.read_text(), flags=re.S)
         self.assertNotRegex(source, r'\b(?:asm|__asm__|INCLUDE_ASM|CC_POSTPASS)\b')
@@ -25,10 +25,10 @@ class SetDrawModeTests(unittest.TestCase):
             from unicorn import mips_const as R
         except ImportError:
             self.skipTest('unicorn unavailable')
-        base, entry, stop = 0x80077B64, 0x80077C84, 0x80010000
+        base, entry, stop = 0x80077C84, 0x80077C84, 0x80010000
         packet, stack = 0x80120010, 0x801F0000
         offset = base-0x8000F800
-        retail = (ROOT/'assets/USA/main.exe').read_bytes()[offset:offset+0x150]
+        retail = (ROOT/'assets/USA/main.exe').read_bytes()[offset:offset+0x30]
         with tempfile.TemporaryDirectory() as directory:
             work = Path(directory)
             subprocess.run([str(ROOT/'tools/scripts/cc.sh'),str(SOURCE),str(work/'test.o')],check=True,capture_output=True)

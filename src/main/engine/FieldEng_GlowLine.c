@@ -80,7 +80,7 @@ void func_800D2B58(GteShortVector *from, GteShortVector *to, u8 *color0,
         if (mode != 0xFF) {
             drawMode = (RenderTintMode *)(drawBuffers[D_8009CDDC] + D_8009CDD8);
             D_8009CDD8 += sizeof(RenderTintMode);
-            SetDrawMode((char *)drawMode, 0, 1, GetTPage(0, mode, 0, 0));
+            SetDrawTPage((char *)drawMode, 0, 1, GetTPage(0, mode, 0, 0));
             if (line) {
                 line->code |= 2;
                 TILE_OT_ADDPRIM(ot, line, link);

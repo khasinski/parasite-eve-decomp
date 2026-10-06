@@ -1,3 +1,4 @@
+/* Psy-Q LIBGPU P06.OBJ: AddPrim. */
 
 void AddPrim(unsigned int *ot, unsigned int *prim)
 {

@@ -191,7 +191,7 @@ void func_800D004C(GteShortVector *position, int width, int height, int segments
         if (mode != 0xFF) {
             drawMode = (RenderTintMode *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
             D_8009CDD8 += sizeof(RenderTintMode);
-            SetDrawMode((char *)drawMode, 0, 1, GetTPage(0, mode, 0, 0));
+            SetDrawTPage((char *)drawMode, 0, 1, GetTPage(0, mode, 0, 0));
             if (packet) {
                 packet->code |= 2;
                 TILE_OT_ADDPRIM(ot, packet, link);

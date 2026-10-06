@@ -15,7 +15,7 @@ extern u32 *D_8009D11C;
 
 int Battle_GetStateFlag1(void);
 void BoundsCheck_AssertStub(int arg0);
-void SetDrawMode(char *packet, int drawTexture, int dither, int tpage);
+void SetDrawTPage(char *packet, int drawTexture, int dither, int tpage);
 
 void Draw_AllocColorQuad(int width, int height) {
     int w = width;
@@ -236,7 +236,7 @@ mode_fail:
     BoundsCheck_AssertStub(1);
 mode_done:
     if (drawMode != 0) {
-        SetDrawMode((char *)drawMode, 0, 0, 0);
+        SetDrawTPage((char *)drawMode, 0, 0, 0);
     }
     modeMask24 = 0xFFFFFF;
     modeColor1 = 0x808080;

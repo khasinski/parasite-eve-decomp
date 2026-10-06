@@ -16,7 +16,7 @@ extern int D_8009D124;
 extern int D_8009D128;
 
 int VSync(int mode);
-void SetDrawMode(char *packet, int dfe, int dtd, int tpage);
+void SetDrawTPage(char *packet, int dfe, int dtd, int tpage);
 void BoundsCheck_AssertStub(int arg0);
 
 void Draw_AllocColorTri(int width, int height, int pulse) {
@@ -111,7 +111,7 @@ draw_mode_fail:
     BoundsCheck_AssertStub(1);
 draw_mode_done:
     if (drawMode != 0) {
-        SetDrawMode(drawMode, 0, 0, 0x20);
+        SetDrawTPage(drawMode, 0, 0, 0x20);
     }
     {
         u32 mask24 = 0xFFFFFF;

@@ -56,7 +56,7 @@ void func_800D27FC(int x, int y, void *color, int scale, int mode)
     gte_rtps_command();
     SetTile1(point);
     SetTile(glow);
-    Gpu_SetDither(point, 1);
+    SetSemiTrans(point, 1);
     glow->r = point->r = rgb[0] * scale / 128;
     glow->g = point->g = rgb[1] * scale / 128;
     glow->b = point->b = rgb[2] * scale / 128;
@@ -83,7 +83,7 @@ void func_800D27FC(int x, int y, void *color, int scale, int mode)
         TILE_OT_ENTRY(ot, table, D_800B0E38.ordering[D_8009CDDC], depth);
         blend = (RenderTintMode *)(D_800B0E38.packets[D_8009CDDC] + D_8009CDD8);
         D_8009CDD8 += sizeof(RenderTintMode);
-        SetDrawMode((char *)blend, 0, 1, GetTPage(0, 1, 0, 0));
+        SetDrawTPage((char *)blend, 0, 1, GetTPage(0, 1, 0, 0));
         if (glow) {
             glow->command |= 2;
             TILE_OT_ADDPRIM(ot, glow, link);

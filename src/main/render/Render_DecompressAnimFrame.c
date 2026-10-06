@@ -95,7 +95,7 @@ struct _m2c_stack_Render_DecompressAnimFrame {
 };
 
 GteMatrix *RotMatrixY(s32, GteMatrix *);
-void SetDrawMode(void *, s32, s32, s32);
+void SetDrawTPage(void *, s32, s32, s32);
 extern u32 *D_8009CDD0;
 extern s16 *D_8009CDD4;
 
@@ -434,7 +434,7 @@ block_22:
                         ((RenderAnimLineG2 *)temp_a0_2)->tag.raw = (((RenderAnimLineG2 *)temp_a0_2)->tag.raw & command_mask) | ((u32)negative_line & address_mask);
                     }
                     if (temp_a3 & 0x20) {
-                        SetDrawMode(var_s2, 0, 1, (temp_a3 & 3) << 5);
+                        SetDrawTPage(var_s2, 0, 1, (temp_a3 & 3) << 5);
                         if (temp_s1 != 0) {
                 temp_a0_3 = arg4 - (-negative_depth);
                             ((RenderAnimLineG2 *)var_s2)->tag.raw = (((RenderAnimLineG2 *)var_s2)->tag.raw & command_mask) | (((RenderAnimLineG2 *)temp_a0_3)->tag.raw & address_mask);
@@ -543,7 +543,7 @@ block_22:
                         ((RenderAnimLineG2 *)temp_a0_4)->tag.raw = (((RenderAnimLineG2 *)temp_a0_4)->tag.raw & command_mask) | ((u32)positive_line & address_mask);
                     }
                     if (temp_a3_2 & 0x20) {
-                        SetDrawMode(var_s2, 0, 1, (temp_a3_2 & 3) << 5);
+                        SetDrawTPage(var_s2, 0, 1, (temp_a3_2 & 3) << 5);
                         if (temp_s1 != 0) {
                             do {
                                 var_s3 += 8;

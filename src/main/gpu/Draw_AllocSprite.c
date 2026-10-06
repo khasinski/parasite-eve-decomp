@@ -58,7 +58,7 @@ void Draw_AllocSprite(int index) {
         register int pageBits = (mode & 3) << 7;
         /* Prepare page bits before the two zero-valued call arguments. */
         asm("" : : "r"(pageBits), "r"(drawPage));
-        SetDrawMode(drawPage, 0, 0, pageBits | 7);
+        SetDrawTPage(drawPage, 0, 0, pageBits | 7);
     }
     {
         u32 mask24, maskTop;

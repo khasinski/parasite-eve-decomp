@@ -6,8 +6,8 @@
 #include "pe1/draw_state.h"
 void Gpu_InitDrawModeSprtPacket(void *, int);
 void Gpu_InitDrawModeTilePacket(void *, int);
-void Gpu_SetDither(void *, int);
-void Gpu_SetDrawEnable(void *, int);
+void SetSemiTrans(void *, int);
+void SetShadeTex(void *, int);
 void SetPolyF3(void *);
 void SetPolyG4(void *);
 void SetPolyFT4(RenderTexturedQuad *);
@@ -212,7 +212,7 @@ void Battle_DrawHPBar(void) {
         labelQuad->color.bytes.r = 0;
         labelQuad->color.bytes.g = 0;
         labelQuad->color.bytes.b = 0;
-        Gpu_SetDither(labelQuad, 1);
+        SetSemiTrans(labelQuad, 1);
         {
             s32 j;
             u8 buffer;
@@ -234,7 +234,7 @@ void Battle_DrawHPBar(void) {
         temp_s0_4->r0 = 0x30;
         temp_s0_4->g0 = 0x30;
         temp_s0_4->b0 = 0x30;
-        Gpu_SetDither(temp_s0_4, 1);
+        SetSemiTrans(temp_s0_4, 1);
         temp_s1_3 = (bufferIndex * 0x10) + D_8009E098;
         SetTile(temp_s1_3);
         primaryGradient = (bufferIndex * 0x24) + D_800B00E8;
@@ -341,7 +341,7 @@ loop_8:
         pinkGradient->b3 = 1;
         Gpu_InitDrawModeSprtPacket(temp_s4 + D_8009E0B8, hudPage);
         temp_s3_3 = temp_s4 + (D_8009E0B8 + 8);
-        Gpu_SetDrawEnable(temp_s3_3, 1);
+        SetShadeTex(temp_s3_3, 1);
         markerV = 0xF4;
         temp_s3_3->u = 0x50;
         temp_s3_3->v = markerV;
@@ -353,7 +353,7 @@ loop_8:
         temp_s3_3->height = 4;
         Gpu_InitDrawModeSprtPacket(temp_s4 + D_8009E2E8, hudPage);
         temp_s0_12 = temp_s4 + (D_8009E2E8 + 8);
-        Gpu_SetDrawEnable(temp_s0_12, 1);
+        SetShadeTex(temp_s0_12, 1);
         temp_s0_12->u = 0x58;
         temp_s0_12->v = markerV;
         temp_s0_12->color.bytes.r = 0x80;
@@ -364,7 +364,7 @@ loop_8:
         temp_s0_12->height = 4;
         Gpu_InitDrawModeSprtPacket(temp_s4 + D_8009E320, hudPage);
         temp_s1_7 = temp_s4 + (D_8009E320 + 8);
-        Gpu_SetDrawEnable(temp_s1_7, 1);
+        SetShadeTex(temp_s1_7, 1);
         i = 0;
         temp_s3_4 = bufferIndex * 0x30;
         tileBase = (u32)D_8009E358;

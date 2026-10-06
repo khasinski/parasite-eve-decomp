@@ -533,7 +533,7 @@ void Draw_AllocTexturedRectAlt(int value, int width)
         BoundsCheck_AssertStub(1);
     }
     if (mode != 0)
-        SetDrawMode((char *)mode, 0, 0, ((drawMode & 3) << 7) | 7);
+        SetDrawTPage((char *)mode, 0, 0, ((drawMode & 3) << 7) | 7);
     ot = D_8009D11C;
     mode->tag = (mode->tag & 0xFF000000) | (*ot & 0xFFFFFF);
     link.mode = mode;

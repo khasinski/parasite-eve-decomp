@@ -11,7 +11,7 @@ void func_800CF6F8(void *ordering, void *packet, int mode)
     if (mode != 255) {
         drawMode = D_800B0E38.packets[D_8009CDDC] + D_8009CDD8;
         D_8009CDD8 += 8;
-        SetDrawMode(drawMode, 0, 1, GetTPage(0, mode, 0, 0));
+        SetDrawTPage(drawMode, 0, 1, GetTPage(0, mode, 0, 0));
         if (packet) {
             ((u8 *)packet)[7] |= 2;
             link_packet(ordering, packet);

@@ -41,7 +41,7 @@ extern s16 D_800F3374;
 
 void *memset(void *dst, int value, unsigned int size);
 void SetTile(RenderTintTile *tile);
-void Gpu_SetDither(void *packet, int dither);
+void SetSemiTrans(void *packet, int dither);
 void AddPrim(unsigned int *orderingEntry, unsigned int *primitive);
 void SetTile1(FieldTilePoint *tile);
 

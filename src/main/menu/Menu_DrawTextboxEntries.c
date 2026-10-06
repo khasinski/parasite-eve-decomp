@@ -2,8 +2,8 @@
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 #include "pe1/textbox.h"
 void AddPrim(u32 *, void *);
-int Gpu_AppendPacketPrimitive(void *, void *);
-void SetDrawMode(void *, int, int, int);
+int MargePrim(void *, void *);
+void SetDrawTPage(void *, int, int, int);
 void SetSprt(void *);
 void exit(int);
 extern TextboxFontPage D_80091644[4];
@@ -226,9 +226,9 @@ void Menu_DrawTextboxEntries(void) {
                             uv.x = nameU;
                             uv.y = nameV;
                             cursor.x -= *((u8 *)D_800916A0 + spacingOffset);
-                            SetDrawMode(nextPacket, 0, 1, font->tpage);
+                            SetDrawTPage(nextPacket, 0, 1, font->tpage);
                             SetSprt(&nextPacket->sprite);
-                            if (Gpu_AppendPacketPrimitive(nextPacket, &nextPacket->sprite) != 0) {
+                            if (MargePrim(nextPacket, &nextPacket->sprite) != 0) {
                                 exit(-1);
                             }
 
@@ -266,9 +266,9 @@ void Menu_DrawTextboxEntries(void) {
                     case 3:
                         uv.x = (*stream * 0xC) + 0x40;
                         uv.y = D_80091644[2].textureY;
-                        SetDrawMode(nextPacket, 0, 1, D_80091644[2].tpage);
+                        SetDrawTPage(nextPacket, 0, 1, D_80091644[2].tpage);
                         SetSprt(&nextPacket->sprite);
-                        if (Gpu_AppendPacketPrimitive(nextPacket, &nextPacket->sprite) != 0) {
+                        if (MargePrim(nextPacket, &nextPacket->sprite) != 0) {
                             exit(-1);
                         }
                         nextPacket++;
@@ -361,9 +361,9 @@ void Menu_DrawTextboxEntries(void) {
                             for (; digitIndex > 0; digitIndex--) {
                                 uv.x = number->digits[digitIndex - 1] * 0xC;
                                 uv.y = 0;
-                                SetDrawMode(nextPacket, 0, 1, font->tpage);
+                                SetDrawTPage(nextPacket, 0, 1, font->tpage);
                                 SetSprt(&nextPacket->sprite);
-                                if (Gpu_AppendPacketPrimitive(nextPacket, &nextPacket->sprite) !=
+                                if (MargePrim(nextPacket, &nextPacket->sprite) !=
                                     0) {
                                     exit(-1);
                                 }
@@ -438,9 +438,9 @@ void Menu_DrawTextboxEntries(void) {
                             uv.y = temp_v1_10 - 0xFC;
                             font = &D_80091644[1];
                         }
-                        SetDrawMode(nextPacket, 0, 1, font->tpage);
+                        SetDrawTPage(nextPacket, 0, 1, font->tpage);
                         SetSprt(&nextPacket->sprite);
-                        if (Gpu_AppendPacketPrimitive(nextPacket, &nextPacket->sprite) != 0) {
+                        if (MargePrim(nextPacket, &nextPacket->sprite) != 0) {
                             exit(-1);
                         }
                         nextPacket++;
@@ -470,9 +470,9 @@ void Menu_DrawTextboxEntries(void) {
                     uv.x = ((*stream + 0x34) % 21) * 0xC;
                     uv.y = ((*stream + 0x34) / 21) * 0xC;
                     asm("" : "=r"(divisionHintfc) : "0"(divisionHintfc));
-                    SetDrawMode(nextPacket, 0, 1, D_80091644[1].tpage);
+                    SetDrawTPage(nextPacket, 0, 1, D_80091644[1].tpage);
                     SetSprt(&nextPacket->sprite);
-                    if (Gpu_AppendPacketPrimitive(nextPacket, &nextPacket->sprite) != 0) {
+                    if (MargePrim(nextPacket, &nextPacket->sprite) != 0) {
                         exit(-1);
                     }
                     nextPacket++;
@@ -498,9 +498,9 @@ void Menu_DrawTextboxEntries(void) {
                     stream++;
                     uv.x = ((*stream + 0x134) % 21) * 0xC;
                     uv.y = ((*stream + 0x134) / 21) * 0xC;
-                    SetDrawMode(nextPacket, 0, 1, D_80091644[1].tpage);
+                    SetDrawTPage(nextPacket, 0, 1, D_80091644[1].tpage);
                     SetSprt(&nextPacket->sprite);
-                    if (Gpu_AppendPacketPrimitive(nextPacket, &nextPacket->sprite) != 0) {
+                    if (MargePrim(nextPacket, &nextPacket->sprite) != 0) {
                         exit(-1);
                     }
                     nextPacket++;
@@ -536,9 +536,9 @@ void Menu_DrawTextboxEntries(void) {
                     workingValue = (u8)((u32)temp_v0_7 / 21);
                     uv.y = workingValue * 12;
                     cursor.x -= D_800916A0[*stream].left;
-                    SetDrawMode(nextPacket, 0, 1, font->tpage);
+                    SetDrawTPage(nextPacket, 0, 1, font->tpage);
                     SetSprt(&nextPacket->sprite);
-                    if (Gpu_AppendPacketPrimitive(nextPacket, &nextPacket->sprite) != 0) {
+                    if (MargePrim(nextPacket, &nextPacket->sprite) != 0) {
                         exit(-1);
                     }
 
