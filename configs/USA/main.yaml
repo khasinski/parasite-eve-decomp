@@ -1349,8 +1349,8 @@ segments:
       - [0xB293C, rodata, engine/engine_800C213C]
       - [0xB2AA4, .rodata, engine/FieldEng_TaskSpawnFlow]
       - [0xB2ABC, rodata, engine/engine_800C22BC]
-      - [0xB2AF8, c, engine/FieldEng_Register]
-      - [0xB2D1C, c, engine/func_800C251C]
+      # Object slot reset and the two slot dispatch passes share the script-state pointers (G1392).
+      - [0xB2AF8, c, engine/FieldEng_ObjectSlots]
       # Interpreter, script-state accessors, and slot allocation share FieldEngState.
       - [0xB2F58, c, engine/FieldEng_RunScript]
       - [0xB350C, c, engine/func_800C2D0C]
