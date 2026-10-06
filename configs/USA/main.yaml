@@ -1196,8 +1196,8 @@ segments:
       - [0x74FA0, c, psyq/libpad/padportd_4]
       # Channel encode/decode share the two-entry CardObj array.
       - [0x75340, pad]
+      # Psy-Q LIBPAD PADSEQD.OBJ: direct-sequence setup and transfer state.
       - [0x75344, c, psyq/libpad/padseqd]
-      - [0x75378, c, psyq/libpad/padseqd_2]
       - [0x757B8, pad]
       - [0x757C4, c, psyq/libpad/waitrc2]
       # SPU transfer and lifecycle routines share one game-side source unit.
