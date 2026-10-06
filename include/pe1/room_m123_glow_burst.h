@@ -32,7 +32,7 @@ extern u8 D_801954BC[];
 extern u8 D_801954E4[];
 extern u16 D_800E11E8;
 
-int func_80077DC4(int angle);
+int rcos(int angle);
 u16 func_80077AA4(int, int);
 int func_800CE560(void *pool, int size, int count, void *callback);
 RoomM123BurstParticle *func_800CE610(void *pool);

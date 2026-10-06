@@ -44,10 +44,10 @@ int func_80193618(int mode, RoomM123Beacon *state) {
         switch (state->phase) {
         case 0:
             state->timer++;
-            state->height = func_80077DC4(state->timer << 7) / 2 + 0x1000;
+            state->height = rcos(state->timer << 7) / 2 + 0x1000;
             if (state->width < 0x800) state->width += 0x100;
             state->depth -= 0x80;
-            state->glow = func_80077DC4(state->timer << 7) + 0x1000;
+            state->glow = rcos(state->timer << 7) + 0x1000;
             state->shade = state->timer;
             if (state->timer >= 8) {
                 state->phase = 1;
@@ -180,7 +180,7 @@ int func_80193618(int mode, RoomM123Beacon *state) {
                 RotMatrixYXZ(&rotation, &spin);
                 matrix = *D_800F32D0->pool->matrix;
                 MulMatrix0(&matrix, &spin, &matrix);
-                scale.x = scale.y = func_80077CF4(D_800E27EC << 6) / 4 + 0x400;
+                scale.x = scale.y = rsin(D_800E27EC << 6) / 4 + 0x400;
                 scale.z = 0x1000;
                 ScaleMatrix(&matrix, &scale);
                 matrix.t[0] = state->position.x;
@@ -202,7 +202,7 @@ int func_80193618(int mode, RoomM123Beacon *state) {
                 func_800C6ED8(1);
                 func_800C6EF8(D_8019569C);
                 func_800C7098(D_8019569C, color.r, color.g, color.b);
-                size = func_80077DC4(D_800E27EC << 6) / 64;
+                size = rcos(D_800E27EC << 6) / 64;
                 func_800C6FA0(D_8019569C, size);
                 func_800C71E4(D_8019569C, &matrix);
                 func_800C6F4C(D_8019569C);

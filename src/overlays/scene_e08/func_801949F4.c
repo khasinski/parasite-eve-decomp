@@ -8,9 +8,9 @@ void func_800C2EAC(s32);
 void func_800C2FF0(s32, s32);
 void func_800C3098(s32);
 void func_800C3238(s32);
-void func_800794C4(void *arg0, void *arg1);
+void RotMatrix(void *arg0, void *arg1);
 void func_80071A44(VEC *arg0, s32 arg1, s32 arg2);
-void func_80078CC4(void *dst, VEC *src);
+void ScaleMatrix(void *dst, VEC *src);
 void func_800C3134(u8 *table, s32 step, u8 *out);
 void func_800C42A4(void *arg0, void *arg1, s32 arg2);
 
@@ -37,13 +37,13 @@ void func_801949F4(s32 arg0, char *arg1, char *rec) {
     func_800C2FF0(0x40, 0x40);
     func_800C3098(0x10);
     func_800C3238(2);
-    func_800794C4(r + 0x10, &buf);
+    RotMatrix(r + 0x10, &buf);
     func_80071A44(&vsrc, 0, 0x10);
     vsrc.vx = *(s16 *)(r + 0x1C);
     vsrc.vy = *(s16 *)(r + 0x1C);
     vsrc.vz = 0x1000;
     vdst = vsrc;
-    func_80078CC4(&buf, &vdst);
+    ScaleMatrix(&buf, &vdst);
     func_800C3134(&D_80198AD4, *(s16 *)(arg1 + 2), &D_80199570);
     buf.f14 = *(s32 *)(r + 0);
     buf.f18 = *(s32 *)(r + 4);

@@ -180,8 +180,8 @@ int func_8018FDC4(int mode, RoomM005Beacon *state) {
                           3, alpha, 0);
         }
         if (D_800E27EC < 0xD) {
-            alpha = func_80077DC4((D_800E27EC << 10) / 12) / 32;
-            size = func_80077CF4((D_800E27EC << 10) / 12);
+            alpha = rcos((D_800E27EC << 10) / 12) / 32;
+            size = rsin((D_800E27EC << 10) / 12);
             {
                 RoomM005BeaconMatrixSlot *slot = &D_800BCFA4;
                 gte_ldrotmatrix(slot->value);

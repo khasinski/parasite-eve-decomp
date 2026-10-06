@@ -39,8 +39,8 @@ extern SceneTwinGlowPageIndex D_800E11EA;
 extern SceneTwinGlowChannel *D_800F32D0, *D_800F33E0;
 extern SceneTwinGlowFloor D_800942EC;
 
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
+int rsin(int angle);
+int rcos(int angle);
 u16 func_80077AA4(int x, int y);
 int func_80071A54(void);
 int func_800CE560(void *pool, int size, int count, void *callback);

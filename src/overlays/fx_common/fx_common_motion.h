@@ -86,8 +86,8 @@ extern GteVector D_8019CBB0, D_8019CBD0, D_8019CBF0, D_8019CB50;
 extern s32 D_8019CB48, D_8019CB4C, D_8019CBA8, D_8019CA90;
 extern s32 D_8019CC04, D_8019CC0C, D_8019CC10, D_8019CBC4;
 extern s32 D_8019CBC8, D_8019CC00, D_8019CC08, D_8019CBAC;
-void func_800792D4(GteShortVector *in, GteVector *out, s32 *flag);
-void func_800791D0(GteVector *a, GteVector *b, GteVector *out);
+void RotTrans(GteShortVector *in, GteVector *out, s32 *flag);
+void OuterProduct0(GteVector *a, GteVector *b, GteVector *out);
 s16 func_80194108(s16 value);
 void func_80192740(void);
 void func_80192800(void);
@@ -115,8 +115,8 @@ void func_80075424(void *draw_env);
 void func_800755F0(void *entry);
 void func_800753B4(void *ordering_table);
 void func_80192030(void);
-int func_80078004(int value);
-void func_800799E4(GteShortVector *angles, RoomSpriteMatrix *matrix);
+int SquareRoot0(int value);
+#include "pe1/gte_types.h"
 void func_8018F344(GteMatrix *out, GteShortVector *eye,
                    GteShortVector *target, GteVector *up);
 void func_80074F44(void *rect, s32 x, s32 y, s32 mode);

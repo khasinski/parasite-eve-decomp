@@ -57,8 +57,8 @@ int func_8018FC14(int mode, RoomM023Beacon *state) {
             break;
         case 1:
             state->timer++;
-            state->width = func_80077DC4(state->timer << 7) + 0x1000;
-            state->glow = func_80077DC4(state->timer << 7) + 0x1000;
+            state->width = rcos(state->timer << 7) + 0x1000;
+            state->glow = rcos(state->timer << 7) + 0x1000;
             state->shade = state->timer + 8;
             if (state->timer >= 8) {
                 state->phase = 2;

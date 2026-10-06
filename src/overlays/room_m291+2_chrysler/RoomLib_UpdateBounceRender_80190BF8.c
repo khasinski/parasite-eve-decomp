@@ -1,5 +1,5 @@
-#define func_80077CF4 rsin
-#define func_80077DC4 rcos
+#define rsin rsin
+#define rcos rcos
 #define func_80077AA4 GetClut
 #define D_800BCFA4 g_GeomVramPacketDst
 #define ROOMLIB_UPDATE_BOUNCE_RENDER_NAME func_80190BF8

@@ -52,7 +52,7 @@ int func_801978EC(int mode, SceneE22EmberBurst *burst) {
         switch (burst->state) {
         case 0:
             burst->timer++;
-            burst->glow = func_80077CF4(burst->timer << 6) / 32;
+            burst->glow = rsin(burst->timer << 6) / 32;
             if (burst->timer < 0x10) break;
             burst->state = 1;
             burst->timer = 0;
@@ -103,7 +103,7 @@ int func_801978EC(int mode, SceneE22EmberBurst *burst) {
             break;
         case 2:
             burst->timer++;
-            burst->glow = func_80077DC4((burst->timer << 10) / 24) / 32;
+            burst->glow = rcos((burst->timer << 10) / 24) / 32;
             if (burst->timer == 1 && D_800E2368->active) {
                 channel = D_800F32D0;
                 if ((channel->pool->object->flags & 0x3F000000) == 0x01000000) {

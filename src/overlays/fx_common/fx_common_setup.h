@@ -81,11 +81,11 @@ extern FxCommonNode *D_801EA584;
 extern FxCommonNode *D_801EA588;
 extern FxCommonNode *D_801EA58C;
 void func_800371B0(void *);
-void func_80077E64(int,int,int);
-void func_80078E34(void *);
-void func_80078E64(void *);
-void func_80078FC4(int,int,int);
-void func_80078FE4(int,int,int);
+void SetFogNearFar(int,int,int);
+void SetLightMatrix(void *);
+void SetColorMatrix(void *);
+void SetBackColor(int,int,int);
+void SetFarColor(int,int,int);
 void func_80190998(void);
 FxCommonNode *func_80190AEC(FxCommonNode *,void *);
 FxCommonNode *func_80190B78(FxCommonNode *,s16,void *);
@@ -151,7 +151,7 @@ extern FxCommonFixedVec g_FxCommonMotionWhole[10] __asm__("D_8019CAA8");
 void func_80077BE4(FxCommonMarkerQuad *packet);
 u16 func_80077AA4(int x, int y);
 u16 func_80077A64(int mode, int rate, int x, int y);
-int func_80079274(GteShortVector *v0, GteShortVector *v1, GteShortVector *v2,
+int RotTransPers3(GteShortVector *v0, GteShortVector *v1, GteShortVector *v2,
                   s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *flag);
 
 extern FxCommonNode *g_FxCommonType26Nodes[4] __asm__("D_8019C15C");

@@ -96,8 +96,8 @@ extern GteRotation D_8018F1FC;
 extern RenderColor D_8018F228;
 
 extern int func_80071A54(void);
-extern int func_80077CF4(int angle);
-extern int func_80077DC4(int angle);
+extern int rsin(int angle);
+extern int rcos(int angle);
 extern u16 func_80077AA4(int, int);
 extern s32 func_80077A64(s32, s32, s32, s32);
 extern int func_800CE560(void *pool, int size, int count, void *callback);
@@ -110,8 +110,7 @@ extern int func_800C6B90(void *position, int radius);
 extern void func_800D1AE0(RenderColor *color, int value, int step, int count);
 extern void func_800C6EC0(int tpage, int clut);
 extern void func_800C6ED8(int);
-extern void func_80079754(void *rotation, void *matrix);
-extern void func_80078CC4(void *matrix, void *scale);
+#include "pe1/gte_types.h"
 extern void func_800C6EF8(void *asset);
 extern void func_800C6FA0(void *asset, int brightness);
 extern void func_800C71E4(void *asset, void *matrix);

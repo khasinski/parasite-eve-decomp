@@ -5,8 +5,8 @@
 #endif
 
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
-void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
+void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void RotMatrix(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 void func_800C3238(int page);
 void func_800C4FC4(void *state, RoomSpriteMatrix *matrix, int mode);
 
@@ -55,12 +55,12 @@ void ROOMLIB_DRAW_ANCHORED_SPRITE_PAIR_FUNC(void *unused0, void *unused1,
     stack.sourceScale.z = *(s16 *)(fx + 0x10);
     stack.scale = stack.sourceScale;
     scaleMatrix = &stack.scaleMatrix;
-    func_80078CC4(scaleMatrix, &stack.scale);
+    ScaleMatrix(scaleMatrix, &stack.scale);
     {
         register RoomFxSeed8 *seedArg asm("$4") = &stack.seed;
         asm("" : : "r"(seedArg));
         matrix = &stack.matrix;
-        func_800794C4(seedArg, matrix);
+        RotMatrix(seedArg, matrix);
     }
 
     gte_ldrotmatrix(scaleMatrix);

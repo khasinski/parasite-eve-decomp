@@ -1,6 +1,6 @@
 extern char *func_800C2B50(void);
-extern int func_80077CF4(int angle);
-extern int func_80077DC4(int angle);
+extern int rsin(int angle);
+extern int rcos(int angle);
 
 void func_8018FAAC(void *arg0, void *arg1, char *rec) {
     char *owner;
@@ -15,9 +15,9 @@ void func_8018FAAC(void *arg0, void *arg1, char *rec) {
         *(short *)(cur + 0x0) = *(int *)(owner + 0x18);
         *(short *)(cur + 0x2) = *(int *)(owner + 0x1C) - 0x64;
         *(short *)(cur + 0x4) = *(int *)(owner + 0x20);
-        *(short *)(cur + 0x80) = func_80077CF4(angle);
+        *(short *)(cur + 0x80) = rsin(angle);
         *(short *)(cur + 0x82) = 0;
-        *(short *)(cur + 0x84) = func_80077DC4(angle);
+        *(short *)(cur + 0x84) = rcos(angle);
     }
 
     *(short *)(rec + 0x102) = 0x80;

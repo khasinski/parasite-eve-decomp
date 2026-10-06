@@ -162,7 +162,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
                 spark->timer = 0;
                 spark->z += value - 0x100;
             }
-            D_8019B668 = func_80077DC4((blast->timer << 10) / 24) / 32;
+            D_8019B668 = rcos((blast->timer << 10) / 24) / 32;
             if (blast->timer < 0x18) {
                 return 0;
             }
@@ -183,7 +183,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         switch (blast->state) {
         case 0:
             phase = blast->timer << 6;
-            intensity = func_80077CF4(phase) / 32;
+            intensity = rsin(phase) / 32;
             D_800F3368.parameter00 = 0x40;
             D_800F3368.parameter02 = 4;
             D_800F3368.extent_x = 0x40;
@@ -226,11 +226,11 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             floorGlow1.y = D_800942EC;
             func_800CEE20(&floorGlow1, (GteRotation *)&floorRotation1, 0x2000, 0x2000, 0,
                           func_80077AA4(0, D_800E120A + 2), 1, intensity, 0);
-            intensity = func_80077CF4(phase) / 32;
+            intensity = rsin(phase) / 32;
             if (D_800E27EC & 1) {
                 intensity = intensity * 2 / 3;
             }
-            radialScale = func_80077CF4(phase);
+            radialScale = rsin(phase);
             if (D_800E27EC & 1) {
                 radialScale = radialScale * 15 / 16;
             }
@@ -247,14 +247,14 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             }
             func_800C6EC0(page, func_80077AA4(0x20, palette));
             func_800C6ED8(1);
-            func_80079754(&rotation, &shellMatrix1);
+            RotMatrixYXZ(&rotation, &shellMatrix1);
             shellScale1.x = radialScale / 2;
             shellScale1.y = radialScale / 2;
             shellMatrix1.t[0] = center.x;
             shellMatrix1.t[1] = center.y;
             shellMatrix1.t[2] = center.z;
             shellScale1.z = (blast->timer << 6) + 0x400;
-            func_80078CC4(&shellMatrix1, &shellScale1);
+            ScaleMatrix(&shellMatrix1, &shellScale1);
             func_800C6EF8(D_8019B684);
             func_800C6FA0(D_8019B684, 0x40);
             func_800C71E4(D_8019B684, &shellMatrix1);
@@ -262,8 +262,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);
             GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);
             func_800D004C(&center, 0x12C, 0x12C, 0xC, 0, 0x1000, 0x1000, &glowColor, 0, intensity, 1);
-            intensity = func_80077DC4(phase) / 32;
-            radialScale = func_80077CF4(phase);
+            intensity = rcos(phase) / 32;
+            radialScale = rsin(phase);
             func_800D0728(&center, 0x7D0, 0xB54, 0x18, &flareRotation, radialScale, radialScale, 0,
                           &glowColor, intensity, 1);
             break;
@@ -323,14 +323,14 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
                 func_800C6EC0(page, func_80077AA4(0x20, paletteValue));
             }
             func_800C6ED8(1);
-            func_80079754(&rotation, &shellMatrix2);
+            RotMatrixYXZ(&rotation, &shellMatrix2);
             shellScale2.x = radialScale / 2;
             shellScale2.y = radialScale / 2;
             shellMatrix2.t[0] = center.x;
             shellMatrix2.t[1] = center.y;
             shellMatrix2.t[2] = center.z;
             shellScale2.z = (blast->timer << 6) + 0x800;
-            func_80078CC4(&shellMatrix2, &shellScale2);
+            ScaleMatrix(&shellMatrix2, &shellScale2);
             func_800C6EF8(D_8019B684);
             func_800C6FA0(D_8019B684, 0x40);
             func_800C71E4(D_8019B684, &shellMatrix2);
@@ -343,8 +343,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
                 intensity = 0x64;
             }
             modelPhase = 2000;
-            radialScale = func_80077DC4(phase) / 8;
-            height = func_80077CF4(phase) * 2 / 3;
+            radialScale = rcos(phase) / 8;
+            height = rsin(phase) * 2 / 3;
             rotation.x = 0x400;
             rotation.y = 0;
             rotation.z = 0;
@@ -353,14 +353,14 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
                 ringPoint.x = center.x;
                 ringPoint.y = center.y;
                 ringPoint.z = center.z;
-                ringPoint.x += func_80077DC4(verticalScale) * modelPhase / 4096;
-                ringPoint.z += func_80077CF4(verticalScale) * modelPhase / 4096;
+                ringPoint.x += rcos(verticalScale) * modelPhase / 4096;
+                ringPoint.z += rsin(verticalScale) * modelPhase / 4096;
                 rotation.z = verticalScale + 0x400;
                 func_800D0E88(&ringPoint, (GteRotation *)&rotation, height, radialScale,
                               &glowColor, 0, 0, (s16)intensity, 1);
             }
-            intensity = func_80077DC4(phase) / 32;
-            radialScale = func_80077DC4(phase);
+            intensity = rcos(phase) / 32;
+            radialScale = rcos(phase);
             target = &blast->target;
             rotation.x = blast->origin.x;
             rotation.y = blast->origin.y;
@@ -381,8 +381,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             } else if (timer < 9) {
                 func_800D1AE0(&glowColor, 0x80 - timer * 0x10, 1, 8);
             }
-            radialScale = func_80077DC4(phase) / 2 + 0x400;
-            verticalScale = func_80077CF4(phase) / 6 + 0x555;
+            radialScale = rcos(phase) / 2 + 0x400;
+            verticalScale = rsin(phase) / 6 + 0x555;
             intensity = 0x80;
             if (D_800E27EC & 1) {
                 intensity = 0x78;
@@ -400,21 +400,21 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             }
             func_800C6EC0(page, func_80077AA4(0x20, palette));
             func_800C6ED8(1);
-            func_80079754(&rotation, &shellMatrix3a);
+            RotMatrixYXZ(&rotation, &shellMatrix3a);
             shellScale3a.x = radialScale;
             shellScale3a.y = verticalScale;
             shellScale3a.z = radialScale;
             shellMatrix3a.t[0] = center.x;
             shellMatrix3a.t[1] = center.y;
             shellMatrix3a.t[2] = center.z;
-            func_80078CC4(&shellMatrix3a, &shellScale3a);
+            ScaleMatrix(&shellMatrix3a, &shellScale3a);
             func_800C6EF8(D_8019B680);
             func_800C6FA0(D_8019B680, (u16)intensity);
             func_800C71E4(D_8019B680, &shellMatrix3a);
             func_800C6F4C(D_8019B680);
-            radialScale = func_80077CF4(phase) / 3 + 0x400;
-            verticalScale = func_80077DC4(phase) / 2;
-            intensity = func_80077DC4(phase) / 32;
+            radialScale = rsin(phase) / 3 + 0x400;
+            verticalScale = rcos(phase) / 2;
+            intensity = rcos(phase) / 32;
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
@@ -431,22 +431,22 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             }
             func_800C6EC0(page, func_80077AA4(0x20, palette));
             func_800C6ED8(1);
-            func_80079754(&rotation, &shellMatrix3b);
+            RotMatrixYXZ(&rotation, &shellMatrix3b);
             shellScale3b.x = radialScale;
             shellScale3b.y = verticalScale;
             shellScale3b.z = radialScale;
             shellMatrix3b.t[0] = center.x;
             shellMatrix3b.t[1] = center.y;
             shellMatrix3b.t[2] = center.z;
-            func_80078CC4(&shellMatrix3b, &shellScale3b);
+            ScaleMatrix(&shellMatrix3b, &shellScale3b);
             func_800C6EF8(D_8019B688);
             func_800C6FA0(D_8019B688, (u16)(intensity / 2));
             func_800C71E4(D_8019B688, &shellMatrix3b);
             func_800C6F4C(D_8019B688);
             modelPhase = (blast->timer << 10) / 56;
-            radialScale = func_80077CF4(modelPhase) / 4 + 0xC00;
-            verticalScale = func_80077DC4(modelPhase) / 4 + 0x400;
-            intensity = func_80077DC4(modelPhase) / 32;
+            radialScale = rsin(modelPhase) / 4 + 0xC00;
+            verticalScale = rcos(modelPhase) / 4 + 0x400;
+            intensity = rcos(modelPhase) / 32;
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
@@ -465,14 +465,14 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             func_800C6ED8(1);
             height = center.y;
             center.y -= blast->timer * 0x18;
-            func_80079754(&rotation, &shellMatrix3c);
+            RotMatrixYXZ(&rotation, &shellMatrix3c);
             shellScale3c.x = radialScale;
             shellScale3c.y = verticalScale;
             shellScale3c.z = radialScale;
             shellMatrix3c.t[0] = center.x;
             shellMatrix3c.t[1] = center.y;
             shellMatrix3c.t[2] = center.z;
-            func_80078CC4(&shellMatrix3c, &shellScale3c);
+            ScaleMatrix(&shellMatrix3c, &shellScale3c);
             func_800C6EF8(D_8019B68C);
             func_800C6FA0(D_8019B68C, (u16)(intensity / 2));
             func_800C71E4(D_8019B68C, &shellMatrix3c);
@@ -481,18 +481,18 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             GTE_LOAD_ROTATION_WINDOW(D_800BCFA4.value);
             GTE_LOAD_TRANSLATION_WINDOW(D_800BCFA4.value);
             func_800D004C(&center, 0x9C4, 0x9C4, 0xC, 0, 0x1000, 0x1000, &glowColor, 0, intensity, 1);
-            radialScale = func_80077CF4(phase) / 4 + 0xC00;
-            intensity = func_80077DC4(phase) / 32;
+            radialScale = rsin(phase) / 4 + 0xC00;
+            intensity = rcos(phase) / 32;
             func_800D0728(&center, 0x76C, 0xA28, 0x18, &flareRotation, radialScale, radialScale,
                           &flareColor, 0, intensity, 1);
             center.y -= 0x400;
-            radialScale = func_80077CF4(phase) * 3 / 2 + 0x1000;
+            radialScale = rsin(phase) * 3 / 2 + 0x1000;
             func_800D0728(&center, 0x3E8, 0x5DC, 0x18, &flareRotation, radialScale, radialScale,
                           &glowColor, 0, intensity, 1);
             center.y += 0x400;
-            radialScale = func_80077CF4(modelPhase) / 4 + 0x1200;
-            verticalScale = func_80077DC4(modelPhase);
-            intensity = func_80077DC4(modelPhase) / 32;
+            radialScale = rsin(modelPhase) / 4 + 0x1200;
+            verticalScale = rcos(modelPhase);
+            intensity = rcos(modelPhase) / 32;
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
@@ -509,21 +509,21 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             }
             func_800C6EC0(page, func_80077AA4(0x60, palette));
             func_800C6ED8(1);
-            func_80079754(&rotation, &shellMatrix3d);
+            RotMatrixYXZ(&rotation, &shellMatrix3d);
             shellScale3d.x = radialScale;
             shellScale3d.y = verticalScale;
             shellScale3d.z = radialScale;
             shellMatrix3d.t[0] = center.x;
             shellMatrix3d.t[1] = center.y;
             shellMatrix3d.t[2] = center.z;
-            func_80078CC4(&shellMatrix3d, &shellScale3d);
+            ScaleMatrix(&shellMatrix3d, &shellScale3d);
             func_800C6EF8(D_8019B690);
             func_800C6FA0(D_8019B690, (u16)intensity);
             func_800C71E4(D_8019B690, &shellMatrix3d);
             func_800C6F4C(D_8019B690);
-            radialScale = func_80077CF4(modelPhase) / 6 + 0x1200;
-            verticalScale = func_80077DC4(modelPhase) * 2;
-            intensity = func_80077DC4(modelPhase) / 32;
+            radialScale = rsin(modelPhase) / 6 + 0x1200;
+            verticalScale = rcos(modelPhase) * 2;
+            intensity = rcos(modelPhase) / 32;
             if (!(D_800E27EC & 1)) {
                 intensity = intensity * 15 / 16;
             }
@@ -540,14 +540,14 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             }
             func_800C6EC0(page, func_80077AA4(0x60, palette));
             func_800C6ED8(1);
-            func_80079754(&rotation, &shellMatrix3e);
+            RotMatrixYXZ(&rotation, &shellMatrix3e);
             shellScale3e.x = radialScale;
             shellScale3e.y = verticalScale;
             shellScale3e.z = radialScale;
             shellMatrix3e.t[0] = center.x;
             shellMatrix3e.t[1] = center.y;
             shellMatrix3e.t[2] = center.z;
-            func_80078CC4(&shellMatrix3e, &shellScale3e);
+            ScaleMatrix(&shellMatrix3e, &shellScale3e);
             func_800C6EF8(D_8019B690);
             func_800C6FA0(D_8019B690, (u16)intensity);
             func_800C71E4(D_8019B690, &shellMatrix3e);
@@ -556,8 +556,8 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         case 4:
             phase = (blast->timer << 10) / 24;
             radialScale = (0x400 - phase) / 2 + 0x200;
-            verticalScale = func_80077CF4(phase) / 6 + 0x6AA;
-            intensity = func_80077DC4(phase) / 32;
+            verticalScale = rsin(phase) / 6 + 0x6AA;
+            intensity = rcos(phase) / 32;
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
@@ -574,22 +574,22 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             }
             func_800C6EC0(page, func_80077AA4(0x20, palette));
             func_800C6ED8(1);
-            func_80079754(&rotation, &shellMatrix4a);
+            RotMatrixYXZ(&rotation, &shellMatrix4a);
             shellScale4a.x = radialScale;
             shellScale4a.y = verticalScale;
             shellScale4a.z = radialScale;
             shellMatrix4a.t[0] = center.x;
             shellMatrix4a.t[1] = center.y;
             shellMatrix4a.t[2] = center.z;
-            func_80078CC4(&shellMatrix4a, &shellScale4a);
+            ScaleMatrix(&shellMatrix4a, &shellScale4a);
             func_800C6EF8(D_8019B680);
             func_800C6FA0(D_8019B680, (u16)intensity);
             func_800C71E4(D_8019B680, &shellMatrix4a);
             func_800C6F4C(D_8019B680);
             modelPhase = ((blast->timer + 0x20) << 10) / 56;
-            radialScale = func_80077CF4(modelPhase) / 4 + 0xC00;
-            verticalScale = func_80077DC4(modelPhase) / 4 + 0x400;
-            intensity = func_80077DC4(modelPhase) / 32;
+            radialScale = rsin(modelPhase) / 4 + 0xC00;
+            verticalScale = rcos(modelPhase) / 4 + 0x400;
+            intensity = rcos(modelPhase) / 32;
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
@@ -608,22 +608,22 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             func_800C6ED8(1);
             height = center.y;
             center.y -= (blast->timer + 0x20) * 0x18;
-            func_80079754(&rotation, &shellMatrix4b);
+            RotMatrixYXZ(&rotation, &shellMatrix4b);
             shellScale4b.x = radialScale;
             shellScale4b.y = verticalScale;
             shellScale4b.z = radialScale;
             shellMatrix4b.t[0] = center.x;
             shellMatrix4b.t[1] = center.y;
             shellMatrix4b.t[2] = center.z;
-            func_80078CC4(&shellMatrix4b, &shellScale4b);
+            ScaleMatrix(&shellMatrix4b, &shellScale4b);
             func_800C6EF8(D_8019B68C);
             func_800C6FA0(D_8019B68C, (u16)(intensity / 2));
             func_800C71E4(D_8019B68C, &shellMatrix4b);
             func_800C6F4C(D_8019B68C);
             center.y = height;
-            radialScale = func_80077CF4(modelPhase) / 4 + 0x1200;
-            verticalScale = func_80077DC4(modelPhase);
-            intensity = func_80077DC4(modelPhase) / 32;
+            radialScale = rsin(modelPhase) / 4 + 0x1200;
+            verticalScale = rcos(modelPhase);
+            intensity = rcos(modelPhase) / 32;
             if (D_800E27EC & 1) {
                 intensity = intensity * 15 / 16;
             }
@@ -640,21 +640,21 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             }
             func_800C6EC0(page, func_80077AA4(0x60, palette));
             func_800C6ED8(1);
-            func_80079754(&rotation, &shellMatrix4c);
+            RotMatrixYXZ(&rotation, &shellMatrix4c);
             shellScale4c.x = radialScale;
             shellScale4c.y = verticalScale;
             shellScale4c.z = radialScale;
             shellMatrix4c.t[0] = center.x;
             shellMatrix4c.t[1] = center.y;
             shellMatrix4c.t[2] = center.z;
-            func_80078CC4(&shellMatrix4c, &shellScale4c);
+            ScaleMatrix(&shellMatrix4c, &shellScale4c);
             func_800C6EF8(D_8019B690);
             func_800C6FA0(D_8019B690, (u16)intensity);
             func_800C71E4(D_8019B690, &shellMatrix4c);
             func_800C6F4C(D_8019B690);
-            radialScale = func_80077CF4(modelPhase) / 6 + 0x1200;
-            verticalScale = func_80077DC4(modelPhase) * 2;
-            intensity = func_80077DC4(modelPhase) / 32;
+            radialScale = rsin(modelPhase) / 6 + 0x1200;
+            verticalScale = rcos(modelPhase) * 2;
+            intensity = rcos(modelPhase) / 32;
             if (!(D_800E27EC & 1)) {
                 intensity = intensity * 15 / 16;
             }
@@ -671,14 +671,14 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             }
             func_800C6EC0(page, func_80077AA4(0x60, palette));
             func_800C6ED8(1);
-            func_80079754(&rotation, &shellMatrix4d);
+            RotMatrixYXZ(&rotation, &shellMatrix4d);
             shellScale4d.x = radialScale;
             shellScale4d.y = verticalScale;
             shellScale4d.z = radialScale;
             shellMatrix4d.t[0] = center.x;
             shellMatrix4d.t[1] = center.y;
             shellMatrix4d.t[2] = center.z;
-            func_80078CC4(&shellMatrix4d, &shellScale4d);
+            ScaleMatrix(&shellMatrix4d, &shellScale4d);
             func_800C6EF8(D_8019B690);
             func_800C6FA0(D_8019B690, (u16)intensity);
             func_800C71E4(D_8019B690, &shellMatrix4d);

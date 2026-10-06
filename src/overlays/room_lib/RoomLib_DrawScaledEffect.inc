@@ -41,7 +41,7 @@ extern RoomLibMatrixSeed D_8018F01C;
 extern RoomLibVectorSeed D_8018F024;
 extern short D_80192C30;
 extern unsigned short D_80192C32;
-extern void func_80078C34(void *, RoomLibMatrixSeed *, short *);
+#include "pe1/gte_types.h"
 extern void func_800C2EAC(unsigned char);
 extern void func_800C2FF0(int, int);
 extern void func_800C3098(int);
@@ -64,8 +64,8 @@ void func_80192794(void *unused0, void *unused1, RoomLibScaledEffect *effect) {
     seed = D_8018F01C;
     matrix = view->matrix;
     vectorSeed = D_8018F024;
-    func_80078CC4((RoomSpriteMatrix *)&matrix, (RoomFxVec4 *)&vectorSeed);
-    func_80078C34(&view->matrix, &seed, offset);
+    ScaleMatrix((RoomSpriteMatrix *)&matrix, (RoomFxVec4 *)&vectorSeed);
+    ApplyMatrixSV(&view->matrix, &seed, offset);
     matrix.t[0] += offset[0];
     matrix.t[1] += offset[1];
     matrix.t[2] += offset[2];
@@ -94,7 +94,7 @@ void func_80192794(void *unused0, void *unused1, RoomLibScaledEffect *effect) {
     scaleSeed.words[0] = scale * 3;
     scaleSeed.words[1] = scale * 3;
     scaleSeed.words[2] = scale * 3;
-    func_80078CC4((RoomSpriteMatrix *)&matrix, (RoomFxVec4 *)&scaleSeed);
+    ScaleMatrix((RoomSpriteMatrix *)&matrix, (RoomFxVec4 *)&scaleSeed);
 
     depth = &D_80192C32;
     matrix.t[0] = effect->x;

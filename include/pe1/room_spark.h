@@ -37,8 +37,8 @@ typedef struct RoomSparkFrameTick {
 extern RoomSparkFrameTick g_FrameCount16;
 extern int rsin(int angle);
 extern int rcos(int angle);
-extern int func_80077CF4(int angle);
-extern int func_80077DC4(int angle);
+extern int rsin(int angle);
+extern int rcos(int angle);
 extern u16 func_80077AA4(int, int);
 extern void func_800D2104(void *position, void *color, int size, int alpha);
 

@@ -99,8 +99,8 @@ int func_80071A54(void);
 RoomM256Drop *func_800CE610(void *pool);
 int func_800C6B90(void *position, int radius);
 int func_8001CAB0(int x, int z, int floor, int count);
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
+int rsin(int angle);
+int rcos(int angle);
 u16 GetClut(int x, int y);
 void func_800CEE20(void *position, RoomM256DropRotation *rotation,
                    int scale_x, int scale_y, int texture, int clut,

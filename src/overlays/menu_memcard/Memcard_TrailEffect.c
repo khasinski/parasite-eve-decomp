@@ -40,7 +40,7 @@ s32 Memcard_TrailEffect(s32 mode, MemcardTrailState *state) {
         D_800F3368.depth = 32;
         if (state->timer < 33) {
             func_800CF3AC(D_801F1DE8, &color, state->timer);
-            scale = func_80077CF4(state->timer << 6) + 4096;
+            scale = rsin(state->timer << 6) + 4096;
             __asm__("" : "=r"(scale) : "0"(scale) : "memory");
             index = D_800F336C;
 

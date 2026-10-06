@@ -8,7 +8,7 @@ extern unsigned short ROOMFX_DRAW_PAIRED_SPRITES_DEPTH;
 extern short g_FrameCount16;
 
 extern void func_80071A44(void *arg0, int arg1, int arg2);
-extern void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+extern void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 extern void func_800C2EAC(unsigned char owner);
 extern void func_800C2FF0(int width, int height);
 extern void func_800C3098(int depth);
@@ -47,7 +47,7 @@ void ROOMFX_DRAW_PAIRED_SPRITES_NAME(
     scale.y = fx->scale;
     scale.z = 0x1000;
     scratchScale = scale;
-    func_80078CC4(&matrix, &scratchScale);
+    ScaleMatrix(&matrix, &scratchScale);
 
     depthSlot = &ROOMFX_DRAW_PAIRED_SPRITES_DEPTH;
     *depthSlot = fx->depth;
@@ -70,7 +70,7 @@ void ROOMFX_DRAW_PAIRED_SPRITES_NAME(
     matrix.m[0][1] = 0;
 
     scale = ROOMFX_DRAW_PAIRED_SPRITES_SCALE;
-    func_80078CC4(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
     func_800C3238(2);
     matrix.t[0] = fx->x;
     matrix.t[1] = g_FrameCount16;

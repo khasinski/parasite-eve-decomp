@@ -51,7 +51,7 @@ int func_80192548(int mode, RoomOrbitTrailParticle *p) {
     case 2:
         switch (p->state) {
         case 0:
-            scale = (func_80077CF4(((s16)p->timer << 10) / 24) + 0x1000) / 2;
+            scale = (rsin(((s16)p->timer << 10) / 24) + 0x1000) / 2;
             func_800CFB7C(&p->heading, (s16)(p->radius * scale / 4096), &offset);
             offset.x += D_801994EC.x;
             offset.y += D_801994EC.y;
@@ -68,8 +68,8 @@ int func_80192548(int mode, RoomOrbitTrailParticle *p) {
             u16 clut;
             int kind;
             int palette;
-            size = func_80077CF4((s16)p->timer << 6) + 0x800;
-            glow = func_80077DC4((s16)p->timer * 1204 / 16) / 128 + 0x28;
+            size = rsin((s16)p->timer << 6) + 0x800;
+            glow = rcos((s16)p->timer * 1204 / 16) / 128 + 0x28;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
             D_800F3368.extent_x = 0x20;
@@ -88,10 +88,10 @@ int func_80192548(int mode, RoomOrbitTrailParticle *p) {
             break;
         }
         case 2:
-            glow = func_80077DC4((s16)p->timer << 7) / 32;
-            scale = func_80077CF4((s16)p->timer << 7) / 4 + 0xC00;
+            glow = rcos((s16)p->timer << 7) / 32;
+            scale = rsin((s16)p->timer << 7) / 4 + 0xC00;
             radius = p->radius * scale / 4096;
-            size = func_80077DC4((s16)p->timer << 7) * 240 / 4096;
+            size = rcos((s16)p->timer << 7) * 240 / 4096;
             {
                 RenderMatrixSlot *matrixSlot = &D_800BCFA4;
                 gte_ldrotmatrix(matrixSlot->value);
@@ -199,8 +199,8 @@ int func_80192AF0(int mode, RoomOrbitRingBurst *burst) {
         if (D_800E27EC < 0x15) {
             int kind;
             int palette;
-            int glow = func_80077DC4((D_800E27EC << 10) / 20) / 32;
-            int size = func_80077CF4((D_800E27EC << 10) / 20) + 0x1000;
+            int glow = rcos((D_800E27EC << 10) / 20) / 32;
+            int size = rsin((D_800E27EC << 10) / 20) + 0x1000;
             kind = D_800F336C;
             palette = D_800E1204[kind];
             palette = func_80077AA4(0, (kind == 4 && D_800F3428 != 0) ? palette + 7 : palette + 3);
@@ -213,7 +213,7 @@ int func_80192AF0(int mode, RoomOrbitRingBurst *burst) {
             tilt.z = 0;
             tilt.flags = 1;
             /* The ring scale reuses the glow sprite's size temporary. */
-            size = func_80077CF4((D_800E27EC << 10) / 20);
+            size = rsin((D_800E27EC << 10) / 20);
             func_800D0728((GteShortVector *)burst, 0x44C, 0x578, 0x14, &tilt, size,
                           size, 0, &ringColor, glow / 2, 1);
         }

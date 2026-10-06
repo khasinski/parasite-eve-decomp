@@ -32,8 +32,8 @@ int func_801931B8(int mode, RoomOrbitTrailParticle *p) {
     case 2:
         if (p->state != 0) return 0;
         angle = (s16)p->timer << 7;
-        size = func_80077DC4(angle) / 2 + 0x800;
-        glow = func_80077DC4(angle) / 32;
+        size = rcos(angle) / 2 + 0x800;
+        glow = rcos(angle) / 32;
         spin.x = 0;
         spin.y = 0;
         spin.z = (s16)p->timer * 32;

@@ -30,10 +30,9 @@ extern RoomM256TrailPalettes D_800E11E8;
 int func_80071A54(void);
 int func_80077A64(int,int,int,int);
 int func_80077AA4(int,int);
-int func_80077CF4(int);
-int func_80077DC4(int);
-void func_80078CC4(void *,void *);
-void func_80079754(void *,void *);
+int rsin(int);
+int rcos(int);
+#include "pe1/gte_types.h"
 int func_800C6B90(void *,int);
 void func_800C6EC0(int,int);
 void func_800C6ED8(int);

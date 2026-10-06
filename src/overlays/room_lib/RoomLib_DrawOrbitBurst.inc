@@ -18,9 +18,9 @@ void func_800C2EAC(int value);
 void func_800C2FF0(int x, int y);
 void func_800C3098(int value);
 void func_800C3238(int value);
-void func_800794C4(RoomOrbitBurstVector *vector, RoomSpriteMatrix *matrix);
+void RotMatrix(RoomOrbitBurstVector *vector, RoomSpriteMatrix *matrix);
 void func_80071A44(RoomFxVec4 *vector, int value, int shift);
-void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C42A4(void *config, RoomSpriteMatrix *matrix, int mode);
 
 void ROOMLIB_DRAW_ORBIT_BURST_NAME(
@@ -48,13 +48,13 @@ void ROOMLIB_DRAW_ORBIT_BURST_NAME(
 
     while (i < 8) {
         if (state->active[i] == 1) {
-            func_800794C4(&state->secondary[i], &matrix);
+            RotMatrix(&state->secondary[i], &matrix);
             func_80071A44(&scale, 0, 0x10);
             scale.x = state->scale;
             scale.y = state->scale;
             scale.z = 0x400;
             scratchScale = scale;
-            func_80078CC4(&matrix, &scratchScale);
+            ScaleMatrix(&matrix, &scratchScale);
 
             matrix.t[0] = position->x;
             matrix.t[1] = position->y;

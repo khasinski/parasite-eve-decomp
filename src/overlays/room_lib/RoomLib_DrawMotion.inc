@@ -41,7 +41,7 @@ void func_80190410(void *unused, RoomStatePair *control,
     matrix.m[0][2] = 0;
     matrix.m[0][1] = 0;
     scale.value = D_8018EFFC;
-    func_80078CC4(&matrix, &scale.value);
+    ScaleMatrix(&matrix, &scale.value);
 
     if (control->h2 == 30) {
         source = (RoomMotionTransform *)context->link->p238;

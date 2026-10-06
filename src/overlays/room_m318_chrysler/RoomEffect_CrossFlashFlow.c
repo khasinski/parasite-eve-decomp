@@ -35,7 +35,7 @@ int func_8019646C(int mode, RoomCrossFlashParticle *p) {
     case 2:
         switch (p->state) {
         case 0:
-            size = func_80077CF4((s16)p->timer << 5);
+            size = rsin((s16)p->timer << 5);
             func_800CF3AC(D_80199798, &glowColor, (s16)p->timer);
             func_800D0728((GteShortVector *)p, 0x578, 0x898, 0xC, &p->rotation, size,
                           size, 0, &glowColor, 0x80, 1);
@@ -44,7 +44,7 @@ int func_8019646C(int mode, RoomCrossFlashParticle *p) {
             int kind;
             int palette;
             angle = ((s16)p->timer << 10) / 40;
-            glow = func_80077DC4(angle) / 32;
+            glow = rcos(angle) / 32;
             if (p->timer & 1)
                 glow = glow * 2 / 3;
             origin.x = D_80199930.x;
@@ -52,8 +52,8 @@ int func_8019646C(int mode, RoomCrossFlashParticle *p) {
             origin.z = D_80199930.z;
             length = 0x76C;
             if ((s16)p->timer < 0x21)
-                length = func_80077CF4((s16)p->timer << 5) * 1900 / 4096;
-            width = func_80077DC4(angle) / 64 + 0x20;
+                length = rsin((s16)p->timer << 5) * 1900 / 4096;
+            width = rcos(angle) / 64 + 0x20;
             {
                 RenderMatrixSlot *matrixSlot = &D_800BCFA4;
                 gte_ldrotmatrix(matrixSlot->value);

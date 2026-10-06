@@ -68,7 +68,7 @@ int func_80195728(int mode, s16 *state) {
          * overwritten below, but the empty branch splits retail's schedule. */
         PE1_DEAD_CODE(brightness = *state;
                       if (D_800E27EC != 0) brightness = brightness * 2 / 3;)
-        func_80077DC4((D_800E27EC << 10) / 40);
+        rcos((D_800E27EC << 10) / 40);
         func_800CF3AC(D_80195E8C, &color, D_800E27EC * 3);
         func_800D004C(&position, 0xA0, 0xA0, 8, 0, 0x1000, 0x1000, &color, 0,
                       0x80, 1);
@@ -83,8 +83,8 @@ int func_80195728(int mode, s16 *state) {
 
             i = D_800E27EC - 4;
             angle = (i << 10) / 12;
-            size = func_80077DC4(angle);
-            brightness = func_80077CF4(angle) / 32;
+            size = rcos(angle);
+            brightness = rsin(angle) / 32;
             {
                 RenderMatrixSlot *matrixSlot = &D_800BCFA4;
                 gte_ldrotmatrix(matrixSlot->value);
@@ -109,14 +109,14 @@ int func_80195728(int mode, s16 *state) {
                 func_800C6EC0(page, clut);
             }
             func_800C6ED8(1);
-            func_80079754(&D_80196098, &matrix);
+            RotMatrixYXZ(&D_80196098, &matrix);
             matrix.t[0] = position.x;
             matrix.t[1] = position.y;
             matrix.t[2] = position.z;
             scale.x = size;
             scale.y = size;
             scale.z = size;
-            func_80078CC4(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             func_800C6EF8(D_801960A8);
             func_800C6FA0(D_801960A8, (u16)brightness);
             func_800C71E4(D_801960A8, &matrix);

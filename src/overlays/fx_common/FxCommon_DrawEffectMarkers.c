@@ -68,7 +68,7 @@ s16 func_80193B5C(s16 value)
         rotation.x = g_FxCommonEffectSetup[i].position[0];
         rotation.y = g_FxCommonEffectSetup[i].position[1];
         rotation.z = g_FxCommonEffectSetup[i].position[2];
-        func_80079274(&rotation, &position, &unused, &screen0, &screen1,
+        RotTransPers3(&rotation, &position, &unused, &screen0, &screen1,
                       &screen2, &depth, &flag);
 
         line = (FxCommonLinePacket *)D_8019C9C0->data;

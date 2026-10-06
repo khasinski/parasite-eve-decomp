@@ -38,8 +38,8 @@ int func_8019A054(int mode, SceneTwinGlow *glow)
                     child->z = glow->position.z;
                     child->x += (func_80071A54() & 0xFF) - 0x80;
                     child->z += (func_80071A54() & 0xFF) - 0x80;
-                    child->heading.x = func_80077DC4(time) * 60 / 4096;
-                    child->heading.z = func_80077CF4(time) * 60 / 4096;
+                    child->heading.x = rcos(time) * 60 / 4096;
+                    child->heading.z = rsin(time) * 60 / 4096;
                     child->heading.y = -(func_80071A54() & 0xF) - 8;
                     child->state = 0;
                     child->timer = 0;
@@ -80,7 +80,7 @@ int func_8019A054(int mode, SceneTwinGlow *glow)
             D_800F3368.tpage = tpage;
         }
         if (glow->timer < 0xE) {
-            scale = func_80077CF4(glow->timer << 5) / 2 + 0x800;
+            scale = rsin(glow->timer << 5) / 2 + 0x800;
             if (glow->timer < 4) fade = glow->timer << 5;
             else fade = ((glow->timer & 1) << 6) + 0x80;
             {
@@ -143,7 +143,7 @@ int func_8019A054(int mode, SceneTwinGlow *glow)
                 glow->position.y = D_800942EC.count;
             }
             time = glow->timer - 0xE;
-            scale = func_80077CF4((time << 10) / 20) + 0x1000;
+            scale = rsin((time << 10) / 20) + 0x1000;
             fade = 0x80 - (time << 7) / 20;
             {
                 int kind;
@@ -199,7 +199,7 @@ int func_8019A054(int mode, SceneTwinGlow *glow)
             }
             func_800D0728(&glow->position, 800, 400, 0x14, &ring, scale, scale, &color, 0,
                           fade / 2, 1);
-            scale = func_80077CF4(time * 1248 / 20 + 800) + 0x800;
+            scale = rsin(time * 1248 / 20 + 800) + 0x800;
             flat.x = 0x400;
             flat.y = 0;
             flat.z = 0;

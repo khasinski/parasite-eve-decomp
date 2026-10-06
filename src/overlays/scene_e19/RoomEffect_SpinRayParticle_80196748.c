@@ -52,7 +52,7 @@ int func_80196748(int mode, SceneSpinRay *ray)
         case 0:
             time = (s16)ray->timer;
             if (time >= 0x10) time = 0x10;
-            width = func_80077CF4(time << 6) / 32;
+            width = rsin(time << 6) / 32;
             if (ray->timer & 1) glow = 0x5C;
             else glow = 0x80;
             func_800CF3AC(D_8019B3E4, &color, time);
@@ -62,9 +62,9 @@ int func_80196748(int mode, SceneSpinRay *ray)
         case 1: {
             int kind;
             int palette;
-            angle = func_80077DC4(((s16)ray->timer << 10) / 48);
+            angle = rcos(((s16)ray->timer << 10) / 48);
             glow = ((s16)ray->timer << 7) / 48;
-            width = func_80077CF4(((s16)ray->timer << 10) / 48) / 4 + 0x1F4;
+            width = rsin(((s16)ray->timer << 10) / 48) / 4 + 0x1F4;
             func_800CFB7C(&ray->spin.angles, (s16)(ray->reach * angle / 4096), &offset);
             offset.x += D_8019B670.x;
             offset.y += D_8019B670.y;
@@ -80,7 +80,7 @@ int func_80196748(int mode, SceneSpinRay *ray)
         case 2: {
             int kind;
             int palette;
-            width = func_80077DC4((s16)ray->timer << 6) * 2;
+            width = rcos((s16)ray->timer << 6) * 2;
             func_800CF3AC(D_8019B3E4, &color, (s16)ray->timer);
             {
                 int tpage;

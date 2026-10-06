@@ -7,7 +7,7 @@ extern GteShortVector D_8018F1F0;
 extern GteMatrix *D_800BCFA4;
 extern int D_800E27EC;
 extern void func_800CF3AC(void *, void *, int);
-extern int func_80077CF4(int);
+extern int rsin(int);
 extern void func_800D0728(void *, int, int, int, void *, int, int, int, void *, int, int);
 
 int func_80194A70(int mode, RoomPulseParticle *particle, int *reference)
@@ -34,7 +34,7 @@ int func_80194A70(int mode, RoomPulseParticle *particle, int *reference)
         gte_ldrotmatrix(*matrixSlot);
         gte_ldtransmatrix(*matrixSlot);
         func_800CF3AC((void *)*reference, color, particle->frame);
-        wave = func_80077CF4((D_800E27EC << 10) / 24);
+        wave = rsin((D_800E27EC << 10) / 24);
         func_800D0728(particle, 1000, 1500, 24, positionPtr, wave, wave, 0, color, 128, 1);
         break;
     }

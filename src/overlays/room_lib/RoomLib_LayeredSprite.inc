@@ -7,7 +7,7 @@ extern s16 ROOM_LAYERED_SPRITE_PRIMARY_DEPTH;
 extern u16 ROOM_LAYERED_SPRITE_SECONDARY_DEPTH;
 
 void func_800C3238(s32);
-void func_800794C4(RoomFxSeed8 *, RoomSpriteMatrix *);
+void RotMatrix(RoomFxSeed8 *, RoomSpriteMatrix *);
 void func_80071A44(void *, s32, s32);
 void ScaleMatrix(RoomSpriteMatrix *, RoomFxVec4 *);
 void func_800C4FC4(void *, RoomSpriteMatrix *, s32);
@@ -29,7 +29,7 @@ void ROOM_LAYERED_SPRITE_NAME(void *unused0, void *unused1,
     depth_slot = (u16 *)&ROOM_LAYERED_SPRITE_PRIMARY_DEPTH;
     *depth_slot = fx->depth;
     ROOM_LAYERED_SPRITE_SECONDARY_DEPTH = fx->depth;
-    func_800794C4(&seed1, &matrix);
+    RotMatrix(&seed1, &matrix);
 
     func_80071A44(&scale, 0, 0x10);
     scale.x = fx->scale;
@@ -46,7 +46,7 @@ void ROOM_LAYERED_SPRITE_NAME(void *unused0, void *unused1,
     matrix = saved_matrix;
     func_800C4FC4(depth_slot + 2, &matrix, 0);
 
-    func_800794C4(&seed0, &matrix);
+    RotMatrix(&seed0, &matrix);
     func_80071A44(&second_scale, 0, 0x10);
     second_scale.x = fx->scale * 2;
     second_scale.y = fx->scale * 2;

@@ -9,9 +9,9 @@ typedef struct RoomScaledSpriteStack {
     RoomFxVec4 sourceScale;
 } RoomScaledSpriteStack;
 
-void func_800794C4(void *seed, RoomSpriteMatrix *matrix);
+void RotMatrix(void *seed, RoomSpriteMatrix *matrix);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C6D5C(void *packet, int arg1, int arg2);
 int func_80077A64(int arg0, int arg1, int arg2, int arg3);
 int func_80077AA4(int arg0, int arg1);
@@ -38,7 +38,7 @@ void ROOMLIB_DRAW_SCALED_SPRITE_FUNC(char *object, void *unused, char *state) {
     entity = object;
     workState = state;
     clock = func_800C2B50();
-    func_800794C4(workState + 8, &stack.matrix);
+    RotMatrix(workState + 8, &stack.matrix);
 
     stack.matrix.t[0] = *(s16 *)(*(char **)(entity + 8) + 0x2A);
     stack.matrix.t[1] = *(s16 *)(*(char **)(entity + 8) + 0x2E);
@@ -49,7 +49,7 @@ void ROOMLIB_DRAW_SCALED_SPRITE_FUNC(char *object, void *unused, char *state) {
     stack.sourceScale.y = 0xC8;
     stack.sourceScale.z = *(s16 *)(workState + 0x10);
     stack.scale = stack.sourceScale;
-    func_80078CC4(&stack.matrix, &stack.scale);
+    ScaleMatrix(&stack.matrix, &stack.scale);
 
     func_800C6D5C(ROOMLIB_SCALED_SPRITE_PACKET, 0, 0);
     if (*(int *)(clock + 0x24) == 0) {

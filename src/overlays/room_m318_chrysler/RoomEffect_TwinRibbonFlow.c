@@ -14,7 +14,7 @@ extern u16 D_800E11EA, D_800E120A, D_800E2850[];
 
 
 int func_80071A54(void);
-int func_80077DC4(int);
+int rcos(int);
 u16 GetClut(int, int);
 
 int func_80196C48(int mode, RoomM318Pulse *pulse) {
@@ -44,10 +44,10 @@ int func_80196C48(int mode, RoomM318Pulse *pulse) {
     case 2: {
         if (pulse->delay) return 0;
         angle = (pulse->age << 10) / 6;
-        sine = func_80077DC4(angle);
+        sine = rcos(angle);
         /* Round the first sine toward zero before the second lookup. */
         if (sine < 0) sine += 31;
-        cosine = func_80077DC4(angle);
+        cosine = rcos(angle);
         clutX = 16;
         asm("" : "=r"(clutX) : "0"(clutX));
         settings = (s16 *)&D_800F3368;

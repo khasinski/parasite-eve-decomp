@@ -63,8 +63,8 @@ int ROOMEFFECT_LIFTED_SPARK_FUNC(int mode, RoomDampedSpark *spark) {
             int kind;
             int palette;
             int intensity;
-            intensity = func_80077DC4((s16)spark->timer << 6) / 32;
-            scale = func_80077DC4((s16)spark->timer << 6) / 2;
+            intensity = rcos((s16)spark->timer << 6) / 32;
+            scale = rcos((s16)spark->timer << 6) / 2;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
             D_800F3368.extent_x = 0x20;
@@ -81,8 +81,8 @@ int ROOMEFFECT_LIFTED_SPARK_FUNC(int mode, RoomDampedSpark *spark) {
             int clut;
             int kind;
             int palette;
-            scale = func_80077CF4(((s16)spark->timer << 10) / 24) * 2 + 0x2000;
-            func_80077DC4(((s16)spark->timer * 1204) / 24);
+            scale = rsin(((s16)spark->timer << 10) / 24) * 2 + 0x2000;
+            rcos(((s16)spark->timer * 1204) / 24);
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
             D_800F3368.extent_x = 0x20;

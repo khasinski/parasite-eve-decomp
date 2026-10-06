@@ -21,8 +21,8 @@ s32 Memcard_SineRotatingImage(s32 mode, MemcardPulseState *state) {
     case 2:
         if (state->phase != 0) return 0;
         angle = (state->timer << 10) / 12;
-        scale = func_80077CF4(angle) + 4096;
-        cosine = func_80077DC4(angle);
+        scale = rsin(angle) + 4096;
+        cosine = rcos(angle);
         if (cosine < 0) cosine += 31;
         rotation.x = state->rotation.x;
         index = D_800F336C;

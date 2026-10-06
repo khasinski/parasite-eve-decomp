@@ -2,8 +2,8 @@
 /* CC1_FLAGS: -fno-strength-reduce */
 
 char *func_800C2B50(void);
-s32 func_80077CF4(s32 arg0);
-s32 func_80077DC4(s32 arg0);
+s32 rsin(s32 arg0);
+s32 rcos(s32 arg0);
 
 void func_8018FC50(s32 arg0, s32 arg1, char *p) {
     char *view;
@@ -19,10 +19,10 @@ void func_8018FC50(s32 arg0, s32 arg1, char *p) {
         e[0] = *(s32 *)(view + 0x18);
         e[1] = *(s32 *)(view + 0x1C) - 0x64;
         e[2] = *(s32 *)(view + 0x20);
-        e[0x40] = func_80077CF4(ang);
+        e[0x40] = rsin(ang);
         e[0x41] = 0;
         i++;
-        e[0x42] = func_80077DC4(ang);
+        e[0x42] = rcos(ang);
         e += 4;
     } while (i < 0x10);
     *(s16 *)(p + 0x102) = 0x80;

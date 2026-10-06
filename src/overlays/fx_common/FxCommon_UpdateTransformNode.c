@@ -18,14 +18,14 @@ void func_80190E04(FxCommonTransformNode *node, FxCommonBuffer *context, u8 pass
     position.z = node->matrix.t[2];
     state = FxCommon_CheckFourBoundsWithMargin(&position.x, node->margin) | force;
     if (state) {
-        func_800794C4(&node->seed.room, &node->matrix);
+        RotMatrix(&node->seed.room, &node->matrix);
         if (mirrored == 1) {
             gte_CompMatrix(&mirror, &node->matrix, &node->matrix);
         }
         *D_8019BFF0 = node->matrix;
-        func_800787D4(&D_8019CC30, D_8019BFF0, D_8019BFF0);
-        func_80078E94(D_8019BFF0);
-        func_80078E04(D_8019BFF0);
+        CompMatrix(&D_8019CC30, D_8019BFF0, D_8019BFF0);
+        SetTransMatrix(D_8019BFF0);
+        SetRotMatrix(D_8019BFF0);
         state = pass;
         if (state == 0) {
             if (mirrored == 0)

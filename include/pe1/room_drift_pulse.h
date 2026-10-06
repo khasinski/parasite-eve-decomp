@@ -15,6 +15,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomDriftPulseState, vz) == 0x0C,
 
 extern GteShortVector D_80190758;
 int func_80077AA4(int, int);
-int func_80077DC4(int angle);
+int rcos(int angle);
 
 #endif

@@ -7,7 +7,6 @@ extern s16 D_801994C2;
 
 void *func_800C2B50(void);
 void func_80071A44(Vec4 *, int, int);
-void func_80078CC4(Matrix *, Vec4 *);
 void func_800C2EAC(u8);
 void func_800C2FF0(int, int);
 void func_800C3098(int);
@@ -54,7 +53,7 @@ void func_80190460(void *unused0, void *unused1, char *effect) {
             draw.y = *(s16 *)(scale + 0x20);
             draw.z = *(s16 *)(scale + 0x20);
             scratch = draw;
-            func_80078CC4(&matrix, &scratch);
+            ScaleMatrix(&matrix, &scratch);
 
             matrix.t[0] = *(s16 *)(position + 0);
             matrix.t[1] = *(s16 *)(position + 2);

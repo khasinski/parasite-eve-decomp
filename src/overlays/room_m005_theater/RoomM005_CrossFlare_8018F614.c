@@ -54,7 +54,7 @@ int func_8018F614(int mode) {
             rotation.y = 0;
             rotation.z = D_800E27EC << 6;
             rotation.flags = 0;
-            level = func_80077CF4((D_800E27EC << 11) / 34);
+            level = rsin((D_800E27EC << 11) / 34);
             position.x -= 0x10;
             {
                 int kind = D_800F3368.palette;
@@ -77,7 +77,7 @@ int func_8018F614(int mode) {
         if (D_800E27EC < 35) {
             step = D_800E27EC - 18;
             if ((unsigned int)step < 17) {
-                size = func_80077DC4(step << 6);
+                size = rcos(step << 6);
                 width = 600 - step * 100;
                 func_800CF3AC(D_80190AF4, &color, step * 2);
                 func_800D0728(&position, width, 700, 0x18, 0, size, size,
@@ -94,7 +94,7 @@ int func_8018F614(int mode) {
             D_800F3368.palette = 3;
             D_800F3368.parameter06 = 1;
             D_800F3368.parameter0A = 0;
-            size = func_80077CF4((D_800E27EC << 10) / 34);
+            size = rsin((D_800E27EC << 10) / 34);
             rotation.x = 0;
             rotation.y = 0;
             rotation.z = D_800E27EC << 6;

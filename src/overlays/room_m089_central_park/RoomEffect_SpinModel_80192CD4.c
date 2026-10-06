@@ -41,17 +41,17 @@ int func_80192CD4(int mode, RoomM089SpinModel *spin, GteShortVector *anchor) {
         intensity = 0;
         switch (spin->stage) {
         case 0:
-            turn = func_80077DC4(spin->timer << 6);
-            intensity = func_80077CF4(spin->timer << 7) / 32;
+            turn = rcos(spin->timer << 6);
+            intensity = rsin(spin->timer << 7) / 32;
             glow = 0x40;
-            size = func_80077CF4(spin->timer << 6);
+            size = rsin(spin->timer << 6);
             if (spin->timer >= 16) {
                 spin->stage = 1;
                 spin->timer = 0;
             }
             break;
         case 1:
-            glow = func_80077DC4(spin->timer << 6) / 32 * 3 / 2;
+            glow = rcos(spin->timer << 6) / 32 * 3 / 2;
             size = 0x1000;
             if (spin->timer >= 16) {
                 spin->stage = 2;

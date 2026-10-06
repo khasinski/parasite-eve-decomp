@@ -41,8 +41,8 @@ int func_801924F8(int mode, RoomM089SpiralTrail *trail, GteShortVector *anchor) 
             trail->points[0].z = anchor->z;
             trail->points[0].y -= trail->rise - trail->rise * trail->timer / 16;
             radius = trail->points[0].pad - trail->points[0].pad * trail->timer / 16;
-            trail->points[0].x += func_80077DC4(trail->angle) * radius / 4096;
-            trail->points[0].z += func_80077CF4(trail->angle) * radius / 4096;
+            trail->points[0].x += rcos(trail->angle) * radius / 4096;
+            trail->points[0].z += rsin(trail->angle) * radius / 4096;
             trail->angle += trail->points[1].pad;
             if (trail->timer >= 16) {
                 trail->state = 1;
@@ -84,7 +84,7 @@ int func_801924F8(int mode, RoomM089SpiralTrail *trail, GteShortVector *anchor) 
             rotation.y = 0;
             rotation.z = trail->timer * 128;
             rotation.flags = 1;
-            intensity = func_80077DC4(trail->timer << 7) / 32;
+            intensity = rcos(trail->timer << 7) / 32;
             kind = D_800F336C;
             palette = D_800E1204[kind];
             func_800CEE20(&trail->points[0], &rotation, 0x1000, 0x1000, 6,

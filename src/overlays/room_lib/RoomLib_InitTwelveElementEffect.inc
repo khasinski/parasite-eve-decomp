@@ -10,7 +10,7 @@ typedef struct RoomTwelveEffectStack {
 } RoomTwelveEffectStack;
 
 int *func_800C2B28(int index);
-void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
+void RotMatrix(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 int func_800C66C8(void *owner, int id, RoomSpriteMatrix *matrix);
 
 extern RoomFxSeed8 D_8018EFF4;
@@ -57,7 +57,7 @@ void ROOMLIB_INIT_TWELVE_EFFECT_FUNC(void *owner, void *unused, char *state) {
     localMatrix->m[1][0] = 0;
     localMatrix->m[0][2] = 0;
     localMatrix->m[0][1] = 0;
-    func_800794C4(&stack.seed, localMatrix);
+    RotMatrix(&stack.seed, localMatrix);
 
     sourceMatrix = &stack.sourceMatrix;
     gte_ldrotmatrix(sourceMatrix);

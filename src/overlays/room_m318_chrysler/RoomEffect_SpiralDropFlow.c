@@ -60,8 +60,8 @@ int func_80192ED4(int mode, RoomSpiralDrop *drop, RoomEmberBurstParams *params) 
         if (D_800E27EC < 0x33) {
             spark = (RoomSpiralDropSparkRecord *)func_800CE610(D_800F33E0->pool);
             if (spark) {
-                spark->emitter.x = drop->x + func_80077DC4(drop->angle) * drop->radius / 4096;
-                spark->emitter.z = drop->z + func_80077CF4(drop->angle) * drop->radius / 4096;
+                spark->emitter.x = drop->x + rcos(drop->angle) * drop->radius / 4096;
+                spark->emitter.z = drop->z + rsin(drop->angle) * drop->radius / 4096;
                 spark->emitter.y = drop->y;
                 spark->emitter.speed = func_80071A54() & 3;
                 drop->angle += 0x8AA + (func_80071A54() & 0x1F);
@@ -79,7 +79,7 @@ int func_80192ED4(int mode, RoomSpiralDrop *drop, RoomEmberBurstParams *params) 
             spin.y = 0;
             spin.z = D_800E27EC << 5;
             spin.flags = 1;
-            size = func_80077CF4((D_800E27EC << 10) / 50);
+            size = rsin((D_800E27EC << 10) / 50);
             drop->radius = size / 8;
             func_800CF3AC(D_801994BC, &color, D_800E27EC);
             func_800D0728(&position, 350, 500, 0x14, &spin, size, size, 0, &color,

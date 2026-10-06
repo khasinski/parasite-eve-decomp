@@ -86,7 +86,7 @@ int func_80196554(int mode, SceneE22TwistModel *bolt) {
         case 0: {
             SceneE22ModelMatrix matrix;
             SceneE22ModelScale scale;
-            glow = func_80077CF4(bolt->timer << 6) / 32;
+            glow = rsin(bolt->timer << 6) / 32;
             if (D_800E27EC & 1)
                 glow = glow * 3 / 4;
             {
@@ -109,14 +109,14 @@ int func_80196554(int mode, SceneE22TwistModel *bolt) {
             rotation.y = bolt->heading.y;
             rotation.z = bolt->heading.z;
             rotation.x += 0x800;
-            func_80079754(&rotation, &matrix);
+            RotMatrixYXZ(&rotation, &matrix);
             matrix.t[0] = bolt->position.x;
             matrix.t[1] = bolt->position.y;
             matrix.t[2] = bolt->position.z;
             scale.x = modelScale;
             scale.y = modelScale;
             scale.z = modelScale;
-            func_80078CC4(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             func_800C6EF8(D_80199500);
             func_800C6FA0(D_80199500, (u16)glow);
             func_800C71E4(D_80199500, &matrix);
@@ -127,7 +127,7 @@ int func_80196554(int mode, SceneE22TwistModel *bolt) {
             SceneE22ModelMatrix matrix;
             SceneE22ModelScale scale;
             angle = bolt->timer << 6;
-            glow = (func_80077DC4(angle) / 2 + 0x800) / 32;
+            glow = (rcos(angle) / 2 + 0x800) / 32;
             if (D_800E27EC & 1)
                 glow = glow * 3 / 4;
             {
@@ -150,14 +150,14 @@ int func_80196554(int mode, SceneE22TwistModel *bolt) {
             rotation.y = bolt->heading.y;
             rotation.z = bolt->heading.z;
             rotation.x += 0x800;
-            func_80079754(&rotation, &matrix);
+            RotMatrixYXZ(&rotation, &matrix);
             matrix.t[0] = bolt->position.x;
             matrix.t[1] = bolt->position.y;
             matrix.t[2] = bolt->position.z;
             scale.x = modelScale;
             scale.y = modelScale;
             scale.z = modelScale;
-            func_80078CC4(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             func_800C6EF8(D_80199500);
             func_800C6FA0(D_80199500, (u16)glow);
             func_800C71E4(D_80199500, &matrix);
@@ -185,7 +185,7 @@ int func_80196554(int mode, SceneE22TwistModel *bolt) {
                                                                              : palette + 3),
                               1, glow / 2, 0);
             }
-            modelScale = func_80077CF4(angle) + 0x1000;
+            modelScale = rsin(angle) + 0x1000;
             func_800D004C(&position, 0x44C, 0x5DC, 0x20, 0, modelScale, modelScale, &color, 0,
                           glow, 1);
             {

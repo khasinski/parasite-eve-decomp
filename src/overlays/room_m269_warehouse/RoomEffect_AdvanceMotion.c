@@ -6,9 +6,9 @@
 extern FieldActor *volatile D_8009D254;
 extern RoomFxVec4 D_8018EFF4;
 
-s32 func_80077DC4(s32 arg0);
-s32 func_80077CF4(s32 arg0);
-void func_80078CC4(void *matrix, RoomFxVec4 *scale);
+s32 rcos(s32 arg0);
+s32 rsin(s32 arg0);
+#include "pe1/gte_types.h"
 s32 func_8003010C(void *arg0, s32 arg1);
 void func_80020CE4(void);
 void func_8018F5D4(void *arg0, void *arg1);
@@ -36,8 +36,8 @@ void func_8018F338(RoomMotionTrigger *arg0) {
     s32 *p;
     void *s3v = &arg0->callback;
 
-    dc4 = func_80077DC4(0xC00);
-    cf4 = func_80077CF4(0xC00);
+    dc4 = rcos(0xC00);
+    cf4 = rsin(0xC00);
     g = D_8009D254;
     neg = -cf4;
     g->render_object.model_matrix.rotation[0][1] = neg;
@@ -54,7 +54,7 @@ void func_8018F338(RoomMotionTrigger *arg0) {
     g->render_object.model_matrix.rotation[0][2] = 0;
     g->render_object.model_matrix.rotation[2][2] = 0x1000;
     scale = D_8018EFF4;
-    func_80078CC4(&matrix_arg->render_object.model_matrix, &scale);
+    ScaleMatrix(&matrix_arg->render_object.model_matrix, &scale);
     g = D_8009D254;
     g->render_object.model_matrix.translation[0] = 0x100;
     g->render_object.model_matrix.translation[1] = -0x20;

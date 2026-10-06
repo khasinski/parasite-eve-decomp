@@ -40,15 +40,15 @@ typedef struct RoomDrawThreeStack {
 
 void func_800C2EAC(u8 owner);
 void func_800C3098(int depth);
-void func_80079754(RoomDrawThreeVec *seed, RoomSpriteMatrix *matrix);
+void RotMatrixYXZ(RoomDrawThreeVec *seed, RoomSpriteMatrix *matrix);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C3134(void *table, int step, void *packet);
 void func_800C2FF0(int width, int height);
 void func_800C3238(int mode);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
-int func_80077CF4(int angle);
-void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
+int rsin(int angle);
+void RotMatrix(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 
 extern RoomFxSeed8 D_8018EFF4;
 extern unsigned char ROOMLIB_DRAW_THREE_PARTICLES_TABLE[];
@@ -97,13 +97,13 @@ void ROOMLIB_DRAW_THREE_PARTICLES_FUNC(void *unused, s16 *args, char *state) {
         if (*(s8 *)(element + 0x16) >= 0) {
             arg0 = (void *)(positionOffset + 0x6C);
             arg0 = workState + (int)arg0;
-            func_80079754(arg0, &stack.primaryMatrix);
+            RotMatrixYXZ(arg0, &stack.primaryMatrix);
             func_80071A44(sourceScale, 0, 0x10);
             stack.sourceScale.x = *(u16 *)(shortCursor + 0x2A) >> 1;
             stack.sourceScale.y = *(u16 *)(shortCursor + 0x2A) >> 1;
             stack.sourceScale.z = *(u16 *)(shortCursor + 0x2A) >> 1;
             stack.scale = stack.sourceScale;
-            func_80078CC4(&stack.primaryMatrix, &stack.scale);
+            ScaleMatrix(&stack.primaryMatrix, &stack.scale);
 
             stack.primaryMatrix.t[0] = *(s16 *)(positionCursor + 0x3E) +
                                        *(s8 *)(workState + 0x0B);
@@ -126,7 +126,7 @@ void ROOMLIB_DRAW_THREE_PARTICLES_FUNC(void *unused, s16 *args, char *state) {
 
             if (*(s16 *)(workState + 8) == 1) {
                 callArgs = stack.args;
-                computedScale = func_80077CF4(callArgs[1] << 7) >> 3;
+                computedScale = rsin(callArgs[1] << 7) >> 3;
                 baseScale = *(u16 *)(shortCursor + 0x32);
                 computedScale += baseScale;
                 scaleValue = computedScale;
@@ -144,12 +144,12 @@ void ROOMLIB_DRAW_THREE_PARTICLES_FUNC(void *unused, s16 *args, char *state) {
                     : "0"(arg0), "1"(inputArg));
                 scaleValue = (s16)scaleValue >> 1;
                 stack.position.z += *(u16 *)(shortCursor + 0x22) << 4;
-                func_80079754(arg0, inputArg);
+                RotMatrixYXZ(arg0, inputArg);
                 func_80071A44(sourceScale, 0, 0x10);
                 stack.sourceScale.x = scaleValue;
                 stack.sourceScale.y = scaleValue;
                 stack.sourceScale.z = scaleValue;
-                func_80078CC4(&stack.primaryMatrix, sourceScale);
+                ScaleMatrix(&stack.primaryMatrix, sourceScale);
                 stack.primaryMatrix.t[0] = *(s16 *)(positionCursor + 0x3E) +
                                            *(s8 *)(workState + 0x0B);
                 stack.primaryMatrix.t[1] = *(s16 *)(positionCursor + 0x42) +
@@ -159,13 +159,13 @@ void ROOMLIB_DRAW_THREE_PARTICLES_FUNC(void *unused, s16 *args, char *state) {
                 arg0 = ROOMLIB_DRAW_THREE_PARTICLES_PACKET;
                 func_800C42A4(arg0, &stack.primaryMatrix, 1);
 
-                func_800794C4(&stack.seed, secondaryMatrix);
+                RotMatrix(&stack.seed, secondaryMatrix);
                 func_80071A44(&stack.sourceFloorScale, 0, 0x10);
                 stack.sourceFloorScale.x = *(u16 *)(shortCursor + 0x2A);
                 stack.sourceFloorScale.y = *(u16 *)(shortCursor + 0x2A);
                 stack.sourceFloorScale.z = *(u16 *)(shortCursor + 0x2A);
                 stack.floorScale = stack.sourceFloorScale;
-                func_80078CC4(secondaryMatrix, &stack.floorScale);
+                ScaleMatrix(secondaryMatrix, &stack.floorScale);
                 computedScale = *(s16 *)(positionCursor + 0x3E);
                 baseScale = ROOMLIB_DRAW_THREE_PARTICLES_FLOOR_HEIGHT;
                                 arg0 = (void *)0x20;

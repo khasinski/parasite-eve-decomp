@@ -22,7 +22,7 @@ int func_80192BDC(int mode, RoomM123PulsingParticle *particle) {
         break;
     case 2:
         scale = particle->scale *
-                func_80077DC4(((s16)particle->frame << 10) / 48) / 4096;
+                rcos(((s16)particle->frame << 10) / 48) / 4096;
         func_800CF844(&D_80195690, &position, scale / 2, &D_80195688,
                       scale, (s16)particle->offset);
         if ((s16)particle->frame < 16) {
@@ -46,8 +46,8 @@ int func_80192BDC(int mode, RoomM123PulsingParticle *particle) {
         gte_ldrotmatrix(matrixSlot->value);
         gte_ldtransmatrix(matrixSlot->value);
         func_800CF3AC(D_801954BC, &color, 0x30 - (scale * 48) / 1024);
-        blend = func_80077DC4(((s16)particle->frame - 16) << 5);
-        func_800783E4(&position, &D_80195690, blend, 0x1000 - blend, &output);
+        blend = rcos(((s16)particle->frame - 16) << 5);
+        LoadAverageShort12(&position, &D_80195690, blend, 0x1000 - blend, &output);
         func_800D2B58(&output, &position, &color, 0, D_80195684, 0, 1);
         break;
     }
@@ -108,7 +108,7 @@ int func_80192F0C(int mode, RoomM123GlowBurst *burst) {
         rotation.flags = 0;
         intensity = burst->timer;
         if (D_800E27EC != 0) intensity = intensity * 2 / 3;
-        func_80077DC4((D_800E27EC << 10) / 40);
+        rcos((D_800E27EC << 10) / 40);
         {
             int kind;
             int palette;
@@ -169,7 +169,7 @@ int func_80192F0C(int mode, RoomM123GlowBurst *burst) {
         func_800CE9D4(D_800F32D0->pool, 0, &D_80195688.vector);
         step = D_800E27EC - 16;
         if ((unsigned int)step < 17) {
-            fade = func_80077DC4(step << 6);
+            fade = rcos(step << 6);
             func_800CF3AC(D_801954E4, &color, step * 3);
             D_80195688.rotation.flags = 1;
             func_800D0728(&position, 700, 1000, 0x18, &D_80195688.rotation, fade, fade, 0, &color,

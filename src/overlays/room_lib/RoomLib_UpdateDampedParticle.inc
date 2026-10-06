@@ -16,8 +16,8 @@ extern short D_800F3378;
 extern int D_800F3428;
 extern unsigned short D_800E1204[];
 
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
+int rsin(int angle);
+int rcos(int angle);
 int func_80077AA4(int width, int texture);
 void func_800CF3AC(void *table, RoomFxSeed8 *out, int frame);
 void func_800CEE20(RoomDampedParticleState *state, RoomFxSeed8 *seed,
@@ -68,8 +68,8 @@ int ROOMLIB_UPDATE_DAMPED_PARTICLE_NAME(
         if (state->state != 0) {
             goto ret0;
         }
-        scale = func_80077CF4((state->timer << 10) / 24) * 2 + 0x1000;
-        func_80077DC4((state->timer * 1204) / 24);
+        scale = rsin((state->timer << 10) / 24) * 2 + 0x1000;
+        rcos((state->timer * 1204) / 24);
         table = &ROOMLIB_DAMPED_PARTICLE_TABLE;
         PE1_COMPILER_USE(table);
         D_800F3368 = 0x20;

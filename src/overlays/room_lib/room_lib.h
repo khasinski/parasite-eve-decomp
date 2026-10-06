@@ -1112,7 +1112,7 @@ extern void RoomLib_FxNotify(RoomLink *l, struct RoomSub *s, int scratch);
 extern void RoomLib_FxNotify2(RoomLink *l, struct RoomSub *s);
 extern void func_800DFE94(void *a0, void *a1, void *a2);
 extern int func_800DFC80(int *lhs, int *rhs);
-extern int func_80079FB4(int x, int z);
+extern int ratan2(int x, int z);
 extern void func_800DFB20(void *state);
 
 
@@ -1491,7 +1491,7 @@ extern void func_800DFB20(void *state);
             state->delta[0] = (state->target[0] - state->start[0] + 0x800) >> 12; \
             state->delta[1] = (state->target[1] - state->start[1] + 0x800) >> 12; \
             state->delta[2] = (state->target[2] - state->start[2] + 0x800) >> 12; \
-            state->heading = func_80079FB4(state->delta[0], state->delta[2]); \
+            state->heading = ratan2(state->delta[0], state->delta[2]); \
         } \
         scratch[52] = 0; \
         remain = state->phase - state->phaseFrame[state->frame]; \
@@ -2397,7 +2397,7 @@ extern void func_800C2FF0(s32 width, s32 height);
 extern void func_800C3098(s32 depth);
 extern void func_800C3238(s32 mode);
 extern void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, s32 mode);
-extern void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+#include "pe1/gte_types.h"
 extern int func_80071A54(void);
 
 #define ROOMLIB_FX_SHIMMER(name) \
@@ -2477,7 +2477,7 @@ typedef struct RoomParticleRenderState {
         fx->matrix.m[0][2] = 0; \
         fx->matrix.m[0][1] = 0; \
         scale = scaleObj; \
-        func_80078CC4(&fx->matrix, &scale); \
+        ScaleMatrix(&fx->matrix, &scale); \
         fx->liveCount = 6; \
         for (i = 0; i < 6; i++) { \
             fx->active[i] = 1; \

@@ -16,13 +16,10 @@
 #ifndef ROOMLIB_HANDLER_D_NOTIFY
 #define ROOMLIB_HANDLER_D_NOTIFY RoomLib_FxNotify
 #endif
-#ifndef ROOMLIB_HANDLER_D_BUILD_ROT
-#define ROOMLIB_HANDLER_D_BUILD_ROT func_80079754
-#endif
 extern void ROOMLIB_HANDLER_D_TRANSFORM(void *state, void *scratch);
 extern int ROOMLIB_HANDLER_D_RESET(RoomEnt *o);
 extern void ROOMLIB_HANDLER_D_NOTIFY(RoomLink *l, struct RoomSub *s, int scratch);
-extern void ROOMLIB_HANDLER_D_BUILD_ROT(void *rotation, void *matrix);
+#include "pe1/gte_types.h"
 
 void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
     RoomEnt *ent = o;
@@ -70,7 +67,7 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
             RW32(state, 0x98) = initial_velocity >> 3;
             func_800DFE94(left, right, state + 0x78);
             right = state + 0x78;
-            ROOMLIB_HANDLER_D_BUILD_ROT(right, state + 0x10);
+            RotMatrixYXZ(right, state + 0x10);
         }
     }
 
@@ -197,7 +194,7 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
             RW16(state, 0x7A) = FieldEng_TurnToward(
                 (short)*(volatile unsigned short *)&scratch[1],
                 RW16(state, 0x7A), RW16(state, 0x9C)) & 0xFFF;
-            ROOMLIB_HANDLER_D_BUILD_ROT(right, state + 0x10);
+            RotMatrixYXZ(right, state + 0x10);
         }
     }
     if (RW8(state, 0xAA) == 0) {
@@ -206,6 +203,5 @@ void ROOMLIB_HANDLER_D_NAME(RoomEnt *o) {
     func_800DFB20(ent);
 }
 
-#undef ROOMLIB_HANDLER_D_BUILD_ROT
 #undef ROOMLIB_HANDLER_D_NAME
 #undef ROOMLIB_HANDLER_D_NOTIFY

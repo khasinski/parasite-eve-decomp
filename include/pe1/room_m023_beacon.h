@@ -121,6 +121,6 @@ void func_800CE8F0(void *pool, int index, void *offset, void *position);
 int func_800CEB8C(void *position, GteShortVector *target, int radius);
 u16 GetClut(int x, int y);
 GteMatrix *MulMatrix0(GteMatrix *first, GteMatrix *second, GteMatrix *out);
-int func_80077DC4(int angle);
+int rcos(int angle);
 
 #endif

@@ -79,8 +79,8 @@ typedef struct RoomPhasedSparkParams {
 extern RoomPhasedSparkParams D_800F3368;
 
 extern int func_80071A54(void);
-extern int func_80077CF4(int angle);
-extern int func_80077DC4(int angle);
+extern int rsin(int angle);
+extern int rcos(int angle);
 extern u16 func_80077AA4(int, int);
 extern RoomPhasedSpark *func_800CE610(void *pool);
 extern void func_800CE870(void *object, int mode, void *position);

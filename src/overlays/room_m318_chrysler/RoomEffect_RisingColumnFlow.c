@@ -42,8 +42,8 @@ int func_80195190(int mode, RoomOrbitTrailParticle *p) {
             int kind;
             int palette;
             angle = (s16)p->timer << 6;
-            size = func_80077CF4(angle) * 5 / 2;
-            angle = func_80077DC4(angle) / 32;
+            size = rsin(angle) * 5 / 2;
+            angle = rcos(angle) / 32;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
             D_800F3368.extent_x = 0x20;
@@ -68,8 +68,8 @@ int func_80195190(int mode, RoomOrbitTrailParticle *p) {
             int kind;
             int palette;
             angle = ((s16)p->timer << 10) / 24;
-            size = func_80077DC4(angle) / 2 + 0x800;
-            angle = func_80077DC4(angle) / 32;
+            size = rcos(angle) / 2 + 0x800;
+            angle = rcos(angle) / 32;
             D_800F3368.parameter00 = 0x10;
             D_800F3368.parameter02 = 1;
             D_800F3368.extent_x = 0x10;

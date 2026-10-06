@@ -47,8 +47,8 @@ extern u16 D_800E11EA;
 extern SceneSpinRayChannel *D_800F32D0, *D_800F33E0;
 extern SceneSpinRayFrame D_800942EC;
 
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
+int rsin(int angle);
+int rcos(int angle);
 u16 func_80077AA4(int x, int y);
 int func_80071A54(void);
 int func_800D3FD8(void);

@@ -101,14 +101,14 @@ int Memcard_SpinRingParticle(int mode, MemcardSpinParticle *p) {
             if (kind == 4 && D_800F3428 != 0) palette += 4;
             func_800C6EC0(page, func_80077AA4(224, palette));
             func_800C6ED8(1);
-            func_80079754(&p->rotation, &matrix);
+            RotMatrixYXZ(&p->rotation, &matrix);
             matrix.t[0] = offset.x;
             matrix.t[1] = offset.y;
             matrix.t[2] = offset.z;
             scale.x = size;
             scale.y = size;
             scale.z = size;
-            func_80078CC4(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             func_800C6EF8(D_800E22D4);
             func_800C6FA0(D_800E22D4, (u16)fade);
             func_800C71E4(D_800E22D4, &matrix);

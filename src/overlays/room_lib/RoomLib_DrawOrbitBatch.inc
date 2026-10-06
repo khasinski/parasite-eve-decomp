@@ -22,7 +22,7 @@ void func_800C2FF0(int arg0, int arg1);
 void func_800C3098(int arg0);
 void func_800C3238(int arg0);
 void func_80071A44(void *arg0, int arg1, int arg2);
-void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C42A4(void *arg0, RoomSpriteMatrix *matrix, int arg2);
 
 void ROOMLIB_DRAW_ORBIT_BATCH_NAME(
@@ -62,7 +62,7 @@ void ROOMLIB_DRAW_ORBIT_BATCH_NAME(
     scale.y = fx->scale;
     scale.z = 0x400;
     scratchScale = scale;
-    func_80078CC4(&matrix, &scratchScale);
+    ScaleMatrix(&matrix, &scratchScale);
 
     position = &fx->positions[0].x;
     while (i < 8) {

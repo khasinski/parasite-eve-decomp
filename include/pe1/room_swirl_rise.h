@@ -22,7 +22,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSwirlRiseState, radius) == 0x0C,
 
 extern RenderColor D_8018F1D8;
 int func_80077AA4(int, int);
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
+int rsin(int angle);
+int rcos(int angle);
 
 #endif

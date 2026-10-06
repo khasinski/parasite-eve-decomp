@@ -33,6 +33,6 @@ typedef struct RoomBounceGlintFloor {
 extern RoomBounceGlintFloor D_800942EC;
 extern u16 D_800E11EA;
 int func_80077AA4(int, int);
-int func_80077DC4(int angle);
+int rcos(int angle);
 
 #endif

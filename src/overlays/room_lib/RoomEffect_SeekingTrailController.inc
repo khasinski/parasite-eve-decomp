@@ -78,7 +78,7 @@ extern u16 D_800E11EA;
 extern u16 D_800E120A;
 extern u16 D_800F336E, D_800F3376, D_800F3378;
 extern int func_80071A54(void);
-extern int func_80077DC4(int angle);
+extern int rcos(int angle);
 extern u16 func_80077AA4(int, int);
 extern RoomSeekingTrail *func_800CE610(void *pool);
 extern void func_800CE8F0(void *pool, int index, void *rotation, void *position);
@@ -254,8 +254,8 @@ int ROOMEFFECT_SEEKING_TRAIL_FUNC(int mode, RoomSeekingTrail *trail) {
                           0x190, 0x190, 6, 0, 0x1000, 0x1000, &colorA, 0, 0x80, 3);
             return 0;
         case 2:
-            scale = func_80077DC4((trail->timer << 10) / 20) / 32;
-            func_80077DC4((trail->timer << 10) / 20);
+            scale = rcos((trail->timer << 10) / 20) / 32;
+            rcos((trail->timer << 10) / 20);
             /* Shares the loop index's register with retail (s0). */
             i = (D_800E27EC & 1) << 7;
             gte_ldrotmatrix(D_800BCFA4.value);
@@ -278,7 +278,7 @@ int ROOMEFFECT_SEEKING_TRAIL_FUNC(int mode, RoomSeekingTrail *trail) {
                 int kind;
                 int palette;
 
-                scale = func_80077DC4((trail->timer << 10) / 12) / 64;
+                scale = rcos((trail->timer << 10) / 12) / 64;
                 D_800F3368.parameter00 = 0x20;
                 D_800F336A = 2;
                 D_800F3376 = 0x20;
@@ -293,8 +293,8 @@ int ROOMEFFECT_SEEKING_TRAIL_FUNC(int mode, RoomSeekingTrail *trail) {
             }
             break;
         case 3:
-            scale = func_80077DC4((trail->timer << 10) / 24) / 32;
-            func_80077DC4((trail->timer << 10) / 24);
+            scale = rcos((trail->timer << 10) / 24) / 32;
+            rcos((trail->timer << 10) / 24);
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
             D_800F3368.extent_x = 0x20;

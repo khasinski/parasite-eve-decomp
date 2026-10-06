@@ -55,8 +55,8 @@ int func_80197618(int mode, RoomOrbitTrailParticle *p) {
             int kind;
             int palette;
             angle = (s16)p->timer << 6;
-            size = func_80077DC4(angle);
-            glow = func_80077CF4(angle) / 32;
+            size = rcos(angle);
+            glow = rsin(angle) / 32;
             spin.z = -((s16)p->timer * 24);
             D_800F3368.parameter00 = 0x10;
             D_800F3368.parameter02 = 1;
@@ -81,11 +81,11 @@ int func_80197618(int mode, RoomOrbitTrailParticle *p) {
             int palette;
             angle = ((s16)p->timer << 10) / 24;
             func_800CFB7C(&p->heading,
-                          (s16)(func_80077DC4(angle) * p->radius / 4096), &offset);
+                          (s16)(rcos(angle) * p->radius / 4096), &offset);
             offset.x += p->x;
             offset.y += p->y;
             offset.z += p->z;
-            size = func_80077CF4(angle) * 3 / 2;
+            size = rsin(angle) * 3 / 2;
             spin.z = (s16)p->timer * 32;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -110,8 +110,8 @@ int func_80197618(int mode, RoomOrbitTrailParticle *p) {
             int kind;
             int palette;
             angle = ((s16)p->timer << 10) / 24;
-            size = func_80077DC4(angle) + 0x1000;
-            angle = func_80077CF4(angle * 2);
+            size = rcos(angle) + 0x1000;
+            angle = rsin(angle * 2);
             glow = angle / 32;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -164,8 +164,8 @@ int func_80197CBC(int mode, RoomEmberFountain *fountain) {
         position.y = fountain->y;
         position.z = fountain->z;
         angle = (fountain->timer << 10) / 141;
-        fountain->glow = func_80077CF4(angle) / 32;
-        fountain->ringScale = func_80077DC4(angle);
+        fountain->glow = rsin(angle) / 32;
+        fountain->ringScale = rcos(angle);
         if (fountain->timer < 0x86) {
             child = func_800CE610(D_800F33E0->pool);
             if (child) {

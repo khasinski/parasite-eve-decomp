@@ -8,7 +8,6 @@ extern s16 D_800942EC;
 extern char D_801921A0;
 
 char *func_800C2B50(void);
-void func_80078CC4(Room328Matrix *matrix, Room328Vec4 *scale);
 void func_800C2EAC(u8 arg0);
 void func_800C2FF0(s32 arg0, s32 arg1);
 void func_800C3098(s32 arg0);
@@ -39,7 +38,7 @@ void func_8018F9A4(void) {
     matrix.m[0][2] = 0;
     matrix.m[0][1] = 0;
     scale = D_8018EFFC;
-    func_80078CC4(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
 
     matrix.t[0] = *(s32 *)(owner + 0x18);
     matrix.t[1] = D_800942EC;

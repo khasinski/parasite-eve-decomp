@@ -82,7 +82,7 @@ int func_8018F004(int mode, RoomDriftPulseState *state) {
             rotation.flags = 0;
             rotation.z = D_800E27EC << 6;
             {
-                int scale = func_80077DC4((D_800E27EC - 1) << 7) / 32;
+                int scale = rcos((D_800E27EC - 1) << 7) / 32;
                 int kind = D_800F336C;
                 int palette = D_800E1204[kind];
                 u16 clut;

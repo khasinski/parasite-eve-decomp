@@ -33,13 +33,13 @@ int ROOMEFFECT_RISING_SPRAY_PARTICLE_FUNC(int mode, RoomSpraySpark *spark) {
             spark->x += spark->vx;
             spark->y += spark->vy;
             spark->z += spark->vz;
-            spark->y += func_80077CF4((s16)spark->timer * 292) / 256;
+            spark->y += rsin((s16)spark->timer * 292) / 256;
             spark->swirl += 200;
             position.x = spark->x;
             position.y = spark->y;
             position.z = spark->z;
-            position.x += func_80077DC4(spark->swirl) / 128;
-            position.z += func_80077CF4(spark->swirl) / 128;
+            position.x += rcos(spark->swirl) / 128;
+            position.z += rsin(spark->swirl) / 128;
             if (func_800C6B90(&position, 100)) {
                 if (D_800E2368->active) {
                     RoomSparkChannel *channel = D_800F32D0;
@@ -105,11 +105,11 @@ int ROOMEFFECT_RISING_SPRAY_PARTICLE_FUNC(int mode, RoomSpraySpark *spark) {
             position.x = spark->x;
             position.y = spark->y;
             position.z = spark->z;
-            position.x += func_80077DC4(spark->swirl) / 128;
-            position.z += func_80077CF4(spark->swirl) / 128;
-            width = func_80077DC4((s16)spark->timer * 384) / 4 + 0xC00;
+            position.x += rcos(spark->swirl) / 128;
+            position.z += rsin(spark->swirl) / 128;
+            width = rcos((s16)spark->timer * 384) / 4 + 0xC00;
             width *= 2;
-            height = func_80077CF4((s16)spark->timer * 384) / 4 + 0xC00;
+            height = rsin((s16)spark->timer * 384) / 4 + 0xC00;
             height *= 2;
             {
                 u16 clut;
@@ -149,8 +149,8 @@ int ROOMEFFECT_RISING_SPRAY_PARTICLE_FUNC(int mode, RoomSpraySpark *spark) {
             position.x = spark->x;
             position.y = spark->y;
             position.z = spark->z;
-            position.x += func_80077DC4(spark->swirl) / 128;
-            position.z += func_80077CF4(spark->swirl) / 128;
+            position.x += rcos(spark->swirl) / 128;
+            position.z += rsin(spark->swirl) / 128;
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;
@@ -167,7 +167,7 @@ int ROOMEFFECT_RISING_SPRAY_PARTICLE_FUNC(int mode, RoomSpraySpark *spark) {
                 u16 clut;
                 int kind;
                 int palette;
-                width = func_80077CF4(t << 6) / 2 + 0x800;
+                width = rsin(t << 6) / 2 + 0x800;
                 kind = D_800F3368.palette;
                 palette = D_800E1204[kind];
                 if (kind == 4 && D_800F3428 != 0) palette += 4;

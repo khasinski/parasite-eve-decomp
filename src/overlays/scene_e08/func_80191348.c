@@ -1,5 +1,5 @@
 #include "common.h"
-s32 func_80077DC4(s32 arg0);
+s32 rcos(s32 arg0);
 
 void func_80191348(s32 arg0, s16 *rec, u16 *p) {
     u16 *q;
@@ -7,7 +7,7 @@ void func_80191348(s32 arg0, s16 *rec, u16 *p) {
     s32 step;
 
     q = p;
-    step = func_80077DC4(rec[1] << 5) >> 6;
+    step = rcos(rec[1] << 5) >> 6;
     p[4] += step;
     ((u8 *)p)[0xC]++;
     p[5] -= 4;

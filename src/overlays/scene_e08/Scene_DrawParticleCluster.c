@@ -18,7 +18,6 @@ typedef struct SceneFxColor {
 extern s16 D_801994B2;
 void *func_800C2B50(void);
 void func_80071A44(Vec4 *, int, int);
-void func_80078CC4(Matrix *, Vec4 *);
 void func_800C2EAC(u8);
 void func_800C2FF0(int, int);
 void func_800C3098(int);
@@ -67,7 +66,7 @@ void func_8018FBA4(void *unused0, void *unused1, SceneParticleCluster *argSlots)
             draw.y = ((SceneParticleCluster *)scale)->fieldF0[0];
             draw.z = ((SceneParticleCluster *)scale)->fieldF0[0];
             scratch = draw;
-            func_80078CC4(&matrix, &scratch);
+            ScaleMatrix(&matrix, &scratch);
 
             matrix.t[0] = ((SceneParticleOffset *)position)->x;
             matrix.t[1] = ((SceneParticleOffset *)position)->y;

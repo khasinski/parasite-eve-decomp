@@ -16,8 +16,8 @@ typedef struct RoomInitThreeStack {
 
 int *func_800C2B28(int index);
 int *func_800C2B10(int index);
-void func_80079754(RoomInitThreeVec *seed, RoomSpriteMatrix *matrix);
-void func_80078C34(RoomSpriteMatrix *matrix, RoomInitThreeVec *seed,
+void RotMatrixYXZ(RoomInitThreeVec *seed, RoomSpriteMatrix *matrix);
+void ApplyMatrixSV(RoomSpriteMatrix *matrix, RoomInitThreeVec *seed,
                    s16 *out);
 int func_80071A54(void);
 void func_800C66C8(void *owner, int id, void *state);
@@ -53,7 +53,7 @@ void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
     seed = &stack.firstSeed;
     asm("" : : "r"(seed));
     firstMatrix = &stack.firstMatrix;
-    func_80079754(seed, firstMatrix);
+    RotMatrixYXZ(seed, firstMatrix);
 
     parameterIndex = 3;
     stack.secondSeed.x = 0;
@@ -63,7 +63,7 @@ void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
     seed = &stack.secondSeed;
     asm("" : : "r"(seed));
     secondMatrix = &stack.secondMatrix;
-    func_80079754(seed, secondMatrix);
+    RotMatrixYXZ(seed, secondMatrix);
 
     gte_ldrotmatrix(firstMatrix);
     gte_ldrtir12_matrix_column(clock + 4);
@@ -136,12 +136,12 @@ void ROOMLIB_INIT_THREE_TRANSFORM_PARTICLES_FUNC(void *owner, void *unused,
     stack.projectionSeed.x = 0;
     stack.projectionSeed.y = 0;
     stack.projectionSeed.z = 0x1000;
-    func_80078C34(&stack.firstMatrix, &stack.projectionSeed,
+    ApplyMatrixSV(&stack.firstMatrix, &stack.projectionSeed,
                   (s16 *)(workState + 0x9C));
     byteCursor = clock + 4;
-    func_80078C34((RoomSpriteMatrix *)byteCursor, &stack.projectionSeed,
+    ApplyMatrixSV((RoomSpriteMatrix *)byteCursor, &stack.projectionSeed,
                   (s16 *)(workState + 0xA4));
-    func_80078C34(&stack.secondMatrix, &stack.projectionSeed,
+    ApplyMatrixSV(&stack.secondMatrix, &stack.projectionSeed,
                   (s16 *)(workState + 0xAC));
     func_800C66C8(callOwner, 0x573, byteCursor);
 }

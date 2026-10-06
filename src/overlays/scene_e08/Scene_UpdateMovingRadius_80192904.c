@@ -39,15 +39,15 @@ void func_80192904(int unused, SceneMovingState *state, SceneMovingSlots *slots)
                 slots->radius[i] = (u16)slots->radius[i] - 120;
             }
             slots->life[i]++;
-            slots->vector[i].dx = (Overlay_Sin(slots->angle[i]) *
+            slots->vector[i].dx = (rsin(slots->angle[i]) *
                                    (slots->extraRadius[i] + slots->radius[i]) >> 12) + D_8019956C;
-            slots->vector[i].dy = Overlay_Cos(slots->angle[i]) *
+            slots->vector[i].dy = rcos(slots->angle[i]) *
                                   (slots->extraRadius[i] + slots->radius[i]) >> 12;
-            slots->vector[i].dz = (Overlay_Cos(slots->angle[i]) *
+            slots->vector[i].dz = (rcos(slots->angle[i]) *
                                    (slots->extraRadius[i] + slots->radius[i]) >> 12) + D_8019957C;
-            slots->vector[i].x = (Overlay_Sin(slots->angle[i]) * slots->extraRadius[i] >> 12) + D_8019956C;
-            slots->vector[i].y = Overlay_Cos(slots->angle[i]) * slots->extraRadius[i] >> 12;
-            slots->vector[i].z = (Overlay_Cos(slots->angle[i]) * slots->extraRadius[i] >> 12) + D_8019957C;
+            slots->vector[i].x = (rsin(slots->angle[i]) * slots->extraRadius[i] >> 12) + D_8019956C;
+            slots->vector[i].y = rcos(slots->angle[i]) * slots->extraRadius[i] >> 12;
+            slots->vector[i].z = (rcos(slots->angle[i]) * slots->extraRadius[i] >> 12) + D_8019957C;
             slots->vector[i].combinedX = ((s16)slots->vector[i].x + (s16)slots->vector[i].dx) >> 1;
             slots->vector[i].combinedY = ((s16)slots->vector[i].y + (s16)slots->vector[i].dy) >> 1;
             slots->vector[i].combinedZ = ((s16)slots->vector[i].z + (s16)slots->vector[i].dz) >> 1;

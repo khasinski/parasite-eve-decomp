@@ -13,8 +13,8 @@ extern u8 D_80190804[];
 /* Texture page indices: [0] is the shared effect page, [8] this scene's. */
 extern u16 D_800E11EA[];
 
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
+int rsin(int angle);
+int rcos(int angle);
 u16 func_80077AA4(int x, int y);
 void func_800D2104(GteShortVector *position, RenderColor *color, int size, int alpha);
 

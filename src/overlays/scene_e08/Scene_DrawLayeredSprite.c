@@ -41,8 +41,8 @@ void func_800C2EAC(u8);
 void func_800C2FF0(int, int);
 void func_800C3098(int);
 void func_800C3238(int);
-void func_800794C4(void *, RoomSpriteMatrix *);
-void func_80078CC4(RoomSpriteMatrix *, RoomFxVec4 *);
+void RotMatrix(void *, RoomSpriteMatrix *);
+void ScaleMatrix(RoomSpriteMatrix *, RoomFxVec4 *);
 void func_800C42A4(void *, RoomSpriteMatrix *, int);
 
 void func_80194498(void *unused, u16 *phase, SceneLayeredSpriteState *state) {
@@ -60,9 +60,9 @@ void func_80194498(void *unused, u16 *phase, SceneLayeredSpriteState *state) {
     func_800C3098(0x10);
     func_800C3238(2);
 
-    func_800794C4(&state->initialSeed, &matrix);
+    RotMatrix(&state->initialSeed, &matrix);
     firstScale = D_8018F050;
-    func_80078CC4(&matrix, &firstScale);
+    ScaleMatrix(&matrix, &firstScale);
     if (phase[1] & 1) {
         D_80199560 = 0xFF;
         D_80199561 = 0xA0;
@@ -92,9 +92,9 @@ void func_80194498(void *unused, u16 *phase, SceneLayeredSpriteState *state) {
     D_80199561 = 0x20;
     D_80199562 = 0;
     for (i = 0; i < 5; ++i) {
-        func_800794C4(&state->layerSeeds[i], &matrix);
+        RotMatrix(&state->layerSeeds[i], &matrix);
         layerScale = D_8018F050;
-        func_80078CC4(&matrix, &layerScale);
+        ScaleMatrix(&matrix, &layerScale);
         owner = (char *)alpha;
         matrix.t[0] = state->layers[i].x;
         matrix.t[1] = state->layers[i].y;

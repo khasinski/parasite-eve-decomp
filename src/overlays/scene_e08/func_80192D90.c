@@ -12,10 +12,9 @@ void func_800C2EAC(u8);
 void func_800C2FF0(int, int);
 void func_800C3098(int);
 void func_800C3238(int);
-int func_80077CF4(int);
-int func_80077DC4(int);
+int rsin(int);
+int rcos(int);
 void func_80071A44(SceneE08Vector *, int, int);
-void func_80078CC4(SceneE08Matrix *,SceneE08Vector *);
 void func_800C3134(void *, int, void *);
 void func_800C42A4(void *, SceneE08Matrix *, int);
 void func_80192D90(void *unused0, void *unused1, char *effect) {
@@ -41,9 +40,9 @@ void func_80192D90(void *unused0, void *unused1, char *effect) {
     func_800C3238(2);
     for (; i < 32; i++) {
         if (*(u8 *)state == 1) {
-            temp[0] = (func_80077CF4(*(s16 *)(phase + 0x40)) * *(s16 *)(phase + 0xC0)) >> 12;
+            temp[0] = (rsin(*(s16 *)(phase + 0x40)) * *(s16 *)(phase + 0xC0)) >> 12;
             temp[1] = 0;
-            temp[2] = (func_80077DC4(*(s16 *)(phase + 0x40)) * *(s16 *)(phase + 0xC0)) >> 12;
+            temp[2] = (rcos(*(s16 *)(phase + 0x40)) * *(s16 *)(phase + 0xC0)) >> 12;
             matrix.m[2][2] = scale;
             matrix.m[1][1] = scale;
             matrix.m[0][0] = scale;
@@ -61,7 +60,7 @@ void func_80192D90(void *unused0, void *unused1, char *effect) {
             v.y = *(s16 *)(phase + 0x80);
             v.z = scale;
             transformed = v;
-            func_80078CC4(&matrix, &transformed);
+            ScaleMatrix(&matrix, &transformed);
             matrix.t[0] = temp[0] + D_8019956C;
             matrix.t[1] = temp[1];
             matrix.t[2] = temp[2] + D_8019957C;

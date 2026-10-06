@@ -9,9 +9,8 @@ extern void func_800C2EAC(s32 arg0);
 extern void func_800C2FF0(s32 arg0, s32 arg1);
 extern void func_800C3098(s32 arg0);
 extern void func_800C3238(s32 arg0);
-extern void func_800794C4(void *arg0, void *arg1);
+#include "pe1/gte_types.h"
 extern void func_80071A44(void *arg0, s32 arg1, s32 arg2);
-extern void func_80078CC4(void *arg0, void *arg1);
 extern void func_800C42A4(void *arg0, void *arg1, s32 arg2);
 
 void func_80190C44(s32 arg0, s32 arg1, char *arg2) {
@@ -22,7 +21,7 @@ void func_80190C44(s32 arg0, s32 arg1, char *arg2) {
     func_800C2FF0(0x20, 0x20);
     func_800C3098(0x10);
     func_800C3238(2);
-    func_800794C4(arg2 + 8, &stack.sp10);
+    RotMatrix(arg2 + 8, &stack.sp10);
     func_80071A44(&stack.sp40, 0, 0x10);
 
     {
@@ -35,7 +34,7 @@ void func_80190C44(s32 arg0, s32 arg1, char *arg2) {
         stack.sp40.y = y;
     }
     stack.sp30 = stack.sp40;
-    func_80078CC4(&stack.sp10, &stack.sp30);
+    ScaleMatrix(&stack.sp10, &stack.sp30);
 
     ptr = &D_80192E1A;
     *ptr = *(u16 *)(arg2 + 0x12);

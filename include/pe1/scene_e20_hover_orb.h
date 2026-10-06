@@ -33,13 +33,11 @@ int func_80071A54(void);
 int func_800D3FD8(void);
 void *func_8006E498(void *archive, unsigned key);
 void func_8006DCE4(int sound, int volume, s16 x, s16 y, int z);
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
+int rsin(int angle);
+int rcos(int angle);
 u16 func_80077A64(int tp, int abr, int x, int y);
 u16 func_80077AA4(int x, int y);
-void func_800783E4(SceneE20Vec *a, SceneE20Vec *b, int scaleA, int scaleB, SceneE20Vec *out);
-void func_80078CC4(SceneE20Matrix *matrix, int *scale);
-void func_80079754(SceneE20Vec *rotation, SceneE20Matrix *matrix);
+#include "pe1/gte_types.h"
 int func_800C6B90(SceneE20Vec *position, int radius);
 void func_800C6D5C(void *model, int a, int b);
 SceneE20Particle *func_800CE610(SceneE20Pool *pool);

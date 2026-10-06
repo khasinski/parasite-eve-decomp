@@ -15,8 +15,8 @@ void func_801921C8(int unused, u8 *state, SceneParticleSlots *slots)
     for (i = 0; i < 4; ++i) {
         slots->cycle[i] = (s16)((u16)slots->cycle[i] + 1) % 40;
         slots->phase[i] -= 200;
-        slots->offset[i].x = Overlay_Sin(((s16 *)state)[1] << 3) >> 3;
-        slots->offset[i].y = Overlay_Cos(((s16 *)state)[1] << 4) >> 3;
+        slots->offset[i].x = rsin(((s16 *)state)[1] << 3) >> 3;
+        slots->offset[i].y = rcos(((s16 *)state)[1] << 4) >> 3;
         oldPhase = (u16)slots->offset[i].z;
         slots->offset[i].x = 0;
         slots->offset[i].y = 0;

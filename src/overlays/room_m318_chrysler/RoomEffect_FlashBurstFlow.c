@@ -48,9 +48,9 @@ int func_80195904(int mode, RoomOrbitTrailParticle *p) {
             int kind;
             int palette;
             angle = ((s16)p->timer << 10) / 24;
-            size = func_80077CF4(angle) + 0x800;
+            size = rsin(angle) + 0x800;
             size = size * p->radius / 4096;
-            glow = func_80077DC4(angle) / 32 + 0x28;
+            glow = rcos(angle) / 32 + 0x28;
             spin.x = 0;
             spin.y = 0;
             spin.z = (s16)p->timer * 32;
@@ -71,8 +71,8 @@ int func_80195904(int mode, RoomOrbitTrailParticle *p) {
             int kind;
             int palette;
             angle = ((s16)p->timer << 10) / 24;
-            size = func_80077CF4(angle) + 0x1000;
-            glow = func_80077CF4(angle * 2) / 32;
+            size = rsin(angle) + 0x1000;
+            glow = rsin(angle * 2) / 32;
             spin.x = 0;
             spin.y = 0;
             spin.z = (s16)p->timer * 14;
@@ -187,7 +187,7 @@ int func_80195D20(int mode, RoomShakeBurstPoint *burst) {
             int kind;
             int palette;
             int angle = D_800E27EC << 5;
-            int glow = func_80077DC4(angle) / 32;
+            int glow = rcos(angle) / 32;
             int scale;
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
@@ -197,13 +197,13 @@ int func_80195D20(int mode, RoomShakeBurstPoint *burst) {
                           (s16)D_800F3368.parameter02 * (D_800E27EC / 4) + 0xA0,
                           clut, 1, glow, 0);
             func_800CF3AC(D_80199770, &glowColor, D_800E27EC);
-            scale = func_80077CF4(angle) + 0x1000;
+            scale = rsin(angle) + 0x1000;
             if (D_800E27EC & 1)
                 glow = glow * 2 / 3;
             func_800D004C((GteShortVector *)burst, 500, 500, 10, 0, scale, scale,
                           &glowColor, 0, glow, 1);
-            glow = func_80077DC4(angle) / 32;
-            scale = func_80077CF4(angle) + 0x800;
+            glow = rcos(angle) / 32;
+            scale = rsin(angle) + 0x800;
             func_800D0728((GteShortVector *)burst, 0x44C, 0x6A4, 0x10, 0, scale,
                           scale, 0, &glowColor, glow / 2, 1);
         }

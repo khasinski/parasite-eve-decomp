@@ -22,7 +22,7 @@ int func_8019326C(int mode, RoomShakeSweepParticle *p) {
             p->y = D_80199904.y;
             spin = p->angle + 0x20;
             p->angle = spin + D_800E27EC * 4;
-            p->size = func_80077CF4((D_800E27EC << 11) / 24) / 32;
+            p->size = rsin((D_800E27EC << 11) / 24) / 32;
             p->stretch = (D_800E27EC << 12) / 24;
             if (D_800E27EC & 1) {
                 child = (RoomShakeSweepParticle *)func_800CE610(D_800F33E0->pool);
@@ -52,8 +52,8 @@ int func_8019326C(int mode, RoomShakeSweepParticle *p) {
         rotation.x = 0;
         rotation.y = p->angle;
         rotation.z = 0;
-        func_80079754(&rotation, &matrix);
-        func_80078CC4(&matrix, &scale);
+        RotMatrixYXZ(&rotation, &matrix);
+        ScaleMatrix(&matrix, &scale);
         matrix.t[0] = p->x;
         matrix.t[1] = p->y;
         matrix.t[2] = p->z;

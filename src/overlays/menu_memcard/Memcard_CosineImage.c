@@ -20,8 +20,8 @@ s32 Memcard_CosineImage(s32 mode, MemcardPulseState *state) {
     case 2:
         if (state->phase != 0) return 0;
         angle = (state->timer << 10) / 12;
-        scale = func_80077DC4(angle) + 2048;
-        cosine = func_80077DC4(angle);
+        scale = rcos(angle) + 2048;
+        cosine = rcos(angle);
         __asm__("" : "=r"(cosine) : "0"(cosine));
         intensity = cosine / 32;
         __asm__("" : "=r"(intensity) : "0"(intensity) : "memory");

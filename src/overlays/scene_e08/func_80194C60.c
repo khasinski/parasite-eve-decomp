@@ -7,7 +7,6 @@ extern s16 D_801994D2;
 
 void *func_800C2B50(void);
 void func_80071A44(void *arg0, s32 arg1, s32 arg2);
-void func_80078CC4(Overlay178Matrix *matrix, Overlay178Vec4 *scale);
 void func_800C2EAC(u8 arg0);
 void func_800C2FF0(s32 arg0, s32 arg1);
 void func_800C3098(s32 arg0);
@@ -45,7 +44,7 @@ void func_80194C60(void *arg0, void *arg1, char *arg2) {
     draw_scale.y = *(s16 *)(arg2 + 0x10);
     draw_scale.z = 0x1000;
     scratch_scale = draw_scale;
-    func_80078CC4(&matrix, &scratch_scale);
+    ScaleMatrix(&matrix, &scratch_scale);
 
     matrix.t[0] = *(s32 *)(arg2 + 0x0);
     matrix.t[1] = *(s32 *)(arg2 + 0x4);

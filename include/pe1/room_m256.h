@@ -34,7 +34,7 @@ extern s16 D_800F336A;
 extern u16 D_800E1204[];
 extern int D_800F3428;
 
-int func_80077DC4(int);
+int rcos(int);
 int func_80077AA4(int, int);
 void func_800CF844(void *, void *, int, void *, int, int);
 void func_800CF3AC(void *, void *, int);

@@ -137,7 +137,7 @@ int func_8018F004(int mode, RoomM086Seeker *seeker, RoomM086SeekerParams *params
             }
             break;
         case 2:
-            func_80077DC4(seeker->timer << 5);
+            rcos(seeker->timer << 5);
             rotation.x = 0;
             rotation.y = 0;
             rotation.z = D_800E27EC << 7;

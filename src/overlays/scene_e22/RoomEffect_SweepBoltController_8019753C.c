@@ -87,8 +87,8 @@ int func_8019753C(int mode, SceneE22SweepBolt *bolt, GteShortVector *origin) {
             bolt->position.x = bolt->origin.x;
             bolt->position.y = bolt->origin.y;
             bolt->position.z = bolt->origin.z;
-            if (D_800E27EC & 1) bolt->position.y += func_80077DC4(angle) / 512;
-            else bolt->position.y -= func_80077DC4(angle) / 512;
+            if (D_800E27EC & 1) bolt->position.y += rcos(angle) / 512;
+            else bolt->position.y -= rcos(angle) / 512;
             if (bolt->timer < 0xD) {
                 child = func_800CE610(D_800F33E0->pool);
                 if (child) {
@@ -139,7 +139,7 @@ int func_8019753C(int mode, SceneE22SweepBolt *bolt, GteShortVector *origin) {
             SceneE22ModelMatrix matrix;
             SceneE22ModelScale scale;
             angle = bolt->timer << 6;
-            glow = (func_80077DC4(angle) / 2 + 0x800) / 32;
+            glow = (rcos(angle) / 2 + 0x800) / 32;
             if (D_800E27EC & 1)
                 glow = glow * 3 / 4;
             {
@@ -162,14 +162,14 @@ int func_8019753C(int mode, SceneE22SweepBolt *bolt, GteShortVector *origin) {
             rotation.y = bolt->heading.y;
             rotation.z = bolt->heading.z;
             rotation.x += 0x800;
-            func_80079754(&rotation, &matrix);
+            RotMatrixYXZ(&rotation, &matrix);
             matrix.t[0] = bolt->position.x;
             matrix.t[1] = bolt->position.y;
             matrix.t[2] = bolt->position.z;
             scale.x = modelScale;
             scale.y = modelScale;
             scale.z = modelScale;
-            func_80078CC4(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             func_800C6EF8(D_80199500);
             func_800C6FA0(D_80199500, (u16)glow);
             func_800C71E4(D_80199500, &matrix);
@@ -197,7 +197,7 @@ int func_8019753C(int mode, SceneE22SweepBolt *bolt, GteShortVector *origin) {
                                                                              : palette + 3),
                               1, glow / 2, 0);
             }
-            modelScale = func_80077CF4(angle) + 0x1000;
+            modelScale = rsin(angle) + 0x1000;
             func_800D004C(&tip, 0x44C, 0x5DC, 0x20, 0, modelScale, modelScale, &color, 0,
                           glow, 1);
             break;
@@ -206,7 +206,7 @@ int func_8019753C(int mode, SceneE22SweepBolt *bolt, GteShortVector *origin) {
             SceneE22ModelMatrix matrix;
             SceneE22ModelScale scale;
             angle = (bolt->timer << 10) / 24;
-            glow = func_80077DC4(angle) / 32;
+            glow = rcos(angle) / 32;
             if (D_800E27EC & 1)
                 glow = glow * 3 / 4;
             {
@@ -229,23 +229,23 @@ int func_8019753C(int mode, SceneE22SweepBolt *bolt, GteShortVector *origin) {
             rotation.y = bolt->heading.y;
             rotation.z = bolt->heading.z;
             rotation.x += 0x800;
-            func_80079754(&rotation, &matrix);
+            RotMatrixYXZ(&rotation, &matrix);
             matrix.t[0] = bolt->position.x;
             matrix.t[1] = bolt->position.y;
             matrix.t[2] = bolt->position.z;
             scale.x = modelScale;
             scale.y = modelScale;
             scale.z = modelScale;
-            func_80078CC4(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             func_800C6EF8(D_80199500);
             func_800C6FA0(D_80199500, (u16)glow);
             func_800C71E4(D_80199500, &matrix);
             func_800C6F4C(D_80199500);
-            modelScale = func_80077DC4(angle) + 0x1000;
+            modelScale = rcos(angle) + 0x1000;
             spin.z = bolt->timer * 32;
             func_800D004C(&bolt->origin, 1000, 0x32, 8, &spin, modelScale, modelScale,
                           &haloColor, 0, glow, 1);
-            modelScale = func_80077CF4(angle);
+            modelScale = rsin(angle);
             tilt.z = -(bolt->timer * 32);
             func_800D0728(&bolt->origin, 0x7D0, 0xFA0, 0x10, &tilt, modelScale, modelScale, 0,
                           &color, glow, 1);

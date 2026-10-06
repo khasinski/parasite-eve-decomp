@@ -183,7 +183,7 @@ typedef struct RoomM273SweepStep {
 } RoomM273SweepStep;
 
 extern RoomM273SweepStep D_8019AD80[];
-int func_80079FB4(int x, int z);
+int ratan2(int x, int z);
 
 /* Ground ring (func_80198E94): model draw helpers and the ring colours. */
 extern RenderColor D_8019AE1C[2];

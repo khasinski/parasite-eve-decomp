@@ -35,9 +35,9 @@ void func_80191B14(int unused, SceneMovingState *state, SceneMovingSlots *slots)
             if (--slots->timer[i] == 0) {
                 slots->active[i] = 0;
             }
-            slots->vector[i].dx = (Overlay_Sin(slots->angle[i]) * slots->radius[i] >> 12) + D_8019956C;
-            slots->vector[i].dy = Overlay_Cos(slots->angle[i]) * slots->radius[i] >> 12;
-            slots->vector[i].dz = (Overlay_Cos(slots->angle[i]) * slots->radius[i] >> 12) + D_8019957C;
+            slots->vector[i].dx = (rsin(slots->angle[i]) * slots->radius[i] >> 12) + D_8019956C;
+            slots->vector[i].dy = rcos(slots->angle[i]) * slots->radius[i] >> 12;
+            slots->vector[i].dz = (rcos(slots->angle[i]) * slots->radius[i] >> 12) + D_8019957C;
             slots->vector[i].combinedX = (u16)slots->vector[i].x + (u16)slots->vector[i].dx;
             slots->vector[i].combinedY = (u16)slots->vector[i].y + (u16)slots->vector[i].dy;
             slots->vector[i].combinedZ = (u16)slots->vector[i].z + (u16)slots->vector[i].dz;

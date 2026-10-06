@@ -37,8 +37,8 @@ int func_801928CC(int mode, SceneE18FlankParticle *particle) {
             return 1;
         }
     } else if (mode == 2) {
-        c = func_80077DC4(particle->angle);
-        s = func_80077CF4(particle->angle);
+        c = rcos(particle->angle);
+        s = rsin(particle->angle);
         matrix.m[0][2] = s;
         matrix.m[2][0] = -s;
         matrix.m[0][0] = c;
@@ -56,7 +56,7 @@ int func_801928CC(int mode, SceneE18FlankParticle *particle) {
         scale.y = particle->height;
         scale.z = particle->width;
         scaleArg = scale;
-        func_80078CC4(&matrix, &scaleArg);
+        ScaleMatrix(&matrix, &scaleArg);
         matrix.t[0] = particle->position[0];
         matrix.t[1] = particle->position[1];
         matrix.t[2] = particle->position[2];

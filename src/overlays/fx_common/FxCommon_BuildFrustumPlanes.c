@@ -13,13 +13,13 @@ void func_8018F92C(FxCommonVec3 *eye)
     GteVector b;
     s32 flag;
 
-    func_80078A94();
-    func_80078E94(&D_8019CDF0);
-    func_80078E04(&D_8019CDF0);
-    func_800792D4(&D_8019BFD0, &corner0, &flag);
-    func_800792D4(&D_8019BFD8, &corner1, &flag);
-    func_800792D4(&D_8019BFE0, &corner2, &flag);
-    func_800792D4(&D_8019BFE8, &corner3, &flag);
+    PushMatrix();
+    SetTransMatrix(&D_8019CDF0);
+    SetRotMatrix(&D_8019CDF0);
+    RotTrans(&D_8019BFD0, &corner0, &flag);
+    RotTrans(&D_8019BFD8, &corner1, &flag);
+    RotTrans(&D_8019BFE0, &corner2, &flag);
+    RotTrans(&D_8019BFE8, &corner3, &flag);
 
     a.x = corner2.x - eye->x;
     a.y = corner2.y - eye->y;
@@ -27,7 +27,7 @@ void func_8018F92C(FxCommonVec3 *eye)
     b.x = corner0.x - eye->x;
     b.y = corner0.y - eye->y;
     b.z = corner0.z - eye->z;
-    func_800791D0(&a, &b, &D_8019CBB0);
+    OuterProduct0(&a, &b, &D_8019CBB0);
 
     a.x = corner3.x - eye->x;
     a.y = corner3.y - eye->y;
@@ -35,7 +35,7 @@ void func_8018F92C(FxCommonVec3 *eye)
     b.x = corner1.x - eye->x;
     b.y = corner1.y - eye->y;
     b.z = corner1.z - eye->z;
-    func_800791D0(&a, &b, &D_8019CBD0);
+    OuterProduct0(&a, &b, &D_8019CBD0);
 
     a.x = corner3.x - eye->x;
     a.y = corner3.y - eye->y;
@@ -43,7 +43,7 @@ void func_8018F92C(FxCommonVec3 *eye)
     b.x = corner2.x - eye->x;
     b.y = corner2.y - eye->y;
     b.z = corner2.z - eye->z;
-    func_800791D0(&a, &b, &D_8019CBF0);
+    OuterProduct0(&a, &b, &D_8019CBF0);
 
     a.x = corner1.x - eye->x;
     a.y = corner1.y - eye->y;
@@ -51,7 +51,7 @@ void func_8018F92C(FxCommonVec3 *eye)
     b.x = corner0.x - eye->x;
     b.y = corner0.y - eye->y;
     b.z = corner0.z - eye->z;
-    func_800791D0(&a, &b, &D_8019CB50);
+    OuterProduct0(&a, &b, &D_8019CB50);
 
     D_8019CB48 = -(D_8019CBB0.x * corner2.x) - D_8019CBB0.y * corner2.y
                - D_8019CBB0.z * corner2.z;
@@ -70,17 +70,17 @@ void func_8018F92C(FxCommonVec3 *eye)
     D_8019CBC4 = D_8019CB50.x * corner2.x + D_8019CB50.y * corner2.y
                + D_8019CB50.z * corner2.z + D_8019CA90;
 
-    D_8019CBC8 = func_80078004(D_8019CBB0.x * D_8019CBB0.x
+    D_8019CBC8 = SquareRoot0(D_8019CBB0.x * D_8019CBB0.x
                                + D_8019CBB0.y * D_8019CBB0.y
                                + D_8019CBB0.z * D_8019CBB0.z);
-    D_8019CC00 = func_80078004(D_8019CBD0.x * D_8019CBD0.x
+    D_8019CC00 = SquareRoot0(D_8019CBD0.x * D_8019CBD0.x
                                + D_8019CBD0.y * D_8019CBD0.y
                                + D_8019CBD0.z * D_8019CBD0.z);
-    D_8019CC08 = func_80078004(D_8019CBF0.x * D_8019CBF0.x
+    D_8019CC08 = SquareRoot0(D_8019CBF0.x * D_8019CBF0.x
                                + D_8019CBF0.y * D_8019CBF0.y
                                + D_8019CBF0.z * D_8019CBF0.z);
-    D_8019CBAC = func_80078004(D_8019CB50.x * D_8019CB50.x
+    D_8019CBAC = SquareRoot0(D_8019CB50.x * D_8019CB50.x
                                + D_8019CB50.y * D_8019CB50.y
                                + D_8019CB50.z * D_8019CB50.z);
-    func_80078B38();
+    PopMatrix();
 }

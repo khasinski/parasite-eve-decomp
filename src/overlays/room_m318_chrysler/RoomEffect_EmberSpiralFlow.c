@@ -49,7 +49,7 @@ int func_80198268(int mode, RoomOrbitTrailParticle *p) {
         case 0: {
             int kind;
             int palette;
-            size = func_80077CF4((s16)p->timer << 6) / 2 + 0x1000;
+            size = rsin((s16)p->timer << 6) / 2 + 0x1000;
             spin.z = -((s16)p->timer * 32);
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -75,8 +75,8 @@ int func_80198268(int mode, RoomOrbitTrailParticle *p) {
             int palette;
             angle = (s16)p->timer << 6;
             func_800CF844(p, &offset, 200, &p->heading,
-                          func_80077CF4(angle) * p->radius / 4096, p->heading.pad);
-            size = func_80077DC4(angle) * 3 / 2;
+                          rsin(angle) * p->radius / 4096, p->heading.pad);
+            size = rcos(angle) * 3 / 2;
             spin.z = p->heading.pad + (s16)p->timer * 32;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -101,8 +101,8 @@ int func_80198268(int mode, RoomOrbitTrailParticle *p) {
             int kind;
             int palette;
             angle = ((s16)p->timer << 10) / 24;
-            size = func_80077DC4(angle) + 0x1000;
-            glow = func_80077DC4(angle) / 32;
+            size = rcos(angle) + 0x1000;
+            glow = rcos(angle) / 32;
             D_800F3368.parameter00 = 0x40;
             D_800F3368.parameter02 = 4;
             D_800F3368.extent_x = 0x40;
@@ -187,7 +187,7 @@ int func_801988F8(int mode, RoomEmberSpiral *spiral) {
     case 1:
         spiral->timer++;
         func_800CE870((char *)D_800F32D0->pool, 0, (s16 *)&position);
-        spiral->glow = func_80077DC4((spiral->timer << 10) / 24) / 32;
+        spiral->glow = rcos((spiral->timer << 10) / 24) / 32;
         if (spiral->timer < 0x19) {
             child = (RoomOrbitTrailParticle *)func_800CE610(D_800F33E0->pool);
             if (child) {
@@ -263,8 +263,8 @@ int func_801988F8(int mode, RoomEmberSpiral *spiral) {
                           glow, 1);
             /* The angle shares its register with the model page below. */
             page = (spiral->timer << 10) / 24;
-            depth = func_80077CF4(page) / 2 + 0x800;
-            width = func_80077CF4(page) / 4 + 0xC00;
+            depth = rsin(page) / 2 + 0x800;
+            width = rsin(page) / 4 + 0xC00;
             func_800CFB7C((GteShortVector *)spiral, 200, &tip);
             tip.x += position.x;
             tip.y += position.y;
@@ -301,14 +301,14 @@ int func_801988F8(int mode, RoomEmberSpiral *spiral) {
                 func_800C6EC0(page, (u16)palette);
             }
             func_800C6ED8(1);
-            func_80079754(&rotation, &matrix);
+            RotMatrixYXZ(&rotation, &matrix);
             matrix.t[0] = tip.x;
             matrix.t[1] = tip.y;
             matrix.t[2] = tip.z;
             scale.x = width;
             scale.y = width;
             scale.z = depth;
-            func_80078CC4(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             func_800C6EF8(D_80199944);
             func_800C6FA0(D_80199944, (u16)glow);
             func_800C71E4(D_80199944, &matrix);

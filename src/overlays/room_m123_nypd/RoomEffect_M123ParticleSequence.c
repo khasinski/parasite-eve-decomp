@@ -56,7 +56,7 @@ extern int func_800CE560(void *, int, int, int (*)(int, RoomM123Particle *));
 extern RoomM123Particle *func_800CE610(void *);
 extern void func_800CE8F0(void *, int, GteShortVector *, GteShortVector *);
 extern int func_80071A54(void);
-extern int func_80077CF4(int);
+extern int rsin(int);
 extern void func_800CE9D4(void *, int, void *);
 
 int func_80194768(int mode)
@@ -101,7 +101,7 @@ int func_80194768(int mode)
         return 1;
     case 2:
         func_800CE8F0(D_800F32D0->pool, 23, &seed, &output);
-        scale = func_80077CF4((D_800E27EC << 11) / 80);
+        scale = rsin((D_800E27EC << 11) / 80);
         if (scale < 0)
             scale += 31;
         outX = output.x;

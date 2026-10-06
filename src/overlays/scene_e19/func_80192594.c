@@ -1,6 +1,6 @@
 #include "common.h"
-s32 func_80079754(void *arg0, void *arg1);
-s32 func_800785D4(void *arg0, void *arg1, void *arg2);
+s32 RotMatrixYXZ(void *arg0, void *arg1);
+s32 MulMatrix0(void *arg0, void *arg1, void *arg2);
 
 extern char D_8019B31C[];
 extern char D_8019B2FC[];
@@ -15,8 +15,8 @@ s32 func_80192594(char *obj) {
     obj[0x1A] = 0;
     obj[0x44] = 0;
     obj[0x3] = 0xFF;
-    func_80079754(D_8019B31C, (void *)0x1F800028);
-    func_800785D4(D_8019B2FC, (void *)0x1F800028, obj + 0x1C);
+    RotMatrixYXZ(D_8019B31C, (void *)0x1F800028);
+    MulMatrix0(D_8019B2FC, (void *)0x1F800028, obj + 0x1C);
     *(s32 *)(obj + 0x30) = D_8019B310;
     *(s32 *)(obj + 0x34) = D_8019B314;
     *(s32 *)(obj + 0x38) = D_8019B318;

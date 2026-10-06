@@ -69,8 +69,8 @@ extern unsigned short D_80190BA2;
 extern unsigned short D_80190BA4;
 extern GteShortVector D_80190BA8;
 
-int func_80077DC4(int angle);
-int func_80077CF4(int angle);
+int rcos(int angle);
+int rsin(int angle);
 
 /* Cross flare (func_8018F614): two joint templates and the flash track. */
 extern RoomM005Seed8 D_8018EFFC;

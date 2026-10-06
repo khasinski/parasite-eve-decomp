@@ -39,9 +39,9 @@ void func_801935A8(void *object, void *timer, SceneLimbBeams *beams)
             if (i == 4) {
                 target = &matrices[28];
             }
-            points[0].x = matrices[2].translation[0] + (func_80077CF4(D_80199658[i] + D_801994D8[i].swing) >> 5);
+            points[0].x = matrices[2].translation[0] + (rsin(D_80199658[i] + D_801994D8[i].swing) >> 5);
             points[0].y = matrices[2].translation[1];
-            points[0].z = matrices[2].translation[2] + (func_80077DC4(D_80199658[i] + D_801994D8[i].swing) >> 5);
+            points[0].z = matrices[2].translation[2] + (rcos(D_80199658[i] + D_801994D8[i].swing) >> 5);
             points[1].x = D_801994D8[i].rise + matrices[2].translation[0];
             points[1].y = D_801994D8[i].rise + matrices[2].translation[1];
             points[1].z = D_801994D8[i].rise + matrices[2].translation[2];

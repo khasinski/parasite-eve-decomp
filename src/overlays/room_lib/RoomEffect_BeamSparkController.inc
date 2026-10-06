@@ -68,15 +68,14 @@ extern void *D_8009D248;
 extern u16 D_8009D1CC;
 extern void *func_8006E498(void *base, u32 key);
 extern void func_800C6D5C(void *asset, int x, int y);
-extern void func_800783E4(void *from, void *to, int weightFrom, int weightTo,
+extern void LoadAverageShort12(void *from, void *to, int weightFrom, int weightTo,
                           void *out);
 extern int func_8001CAB0(int x, int z, void *map, int flags);
 extern int func_800C6B90(void *position, int radius);
 extern s32 func_80077A64(s32, s32, s32, s32);
 extern void func_800C6EC0(int tpage, int clut);
 extern void func_800C6ED8(int);
-extern void func_80079754(void *rotation, void *matrix);
-extern void func_80078CC4(void *matrix, void *scale);
+#include "pe1/gte_types.h"
 extern void func_800C6EF8(void *asset);
 extern void func_800C6FA0(void *asset, int brightness);
 extern void func_800C71E4(void *asset, void *matrix);
@@ -154,7 +153,7 @@ int ROOMEFFECT_BEAM_SPARK_FUNC(int mode, RoomBeamSpark *fx,
                 }
             }
             scratch = 0x1000 - rcos(((s16)fx->timer << 10) / 6);
-            func_800783E4(fx, &fx->tx, 0x1000 - scratch, scratch, &fx->tipX);
+            LoadAverageShort12(fx, &fx->tx, 0x1000 - scratch, scratch, &fx->tipX);
             fx->brightness = 0x80 - ((s16)fx->timer << 5) / 6;
             if ((s16)fx->timer < 6) break;
             fx->state = 1;
@@ -192,7 +191,7 @@ int ROOMEFFECT_BEAM_SPARK_FUNC(int mode, RoomBeamSpark *fx,
                 child = func_800CE610_bounce(D_800F33E0->pool);
                 if (child) {
                     scratch = func_80071A54() & 0xFFF;
-                    func_800783E4(fx, &fx->tx, 0x1000 - scratch, scratch, child);
+                    LoadAverageShort12(fx, &fx->tx, 0x1000 - scratch, scratch, child);
                     child->vy = 0;
                     child->ay = (func_80071A54() & 3) + 1;
                     child->state = 1;
@@ -286,14 +285,14 @@ int ROOMEFFECT_BEAM_SPARK_FUNC(int mode, RoomBeamSpark *fx,
             clut = func_80077AA4(0x40, palette);
             func_800C6EC0(page, clut);
             func_800C6ED8(1);
-            func_80079754(&modelRotation, &matrix);
+            RotMatrixYXZ(&modelRotation, &matrix);
             matrix.t[0] = fx->tx;
             matrix.t[1] = fx->ty;
             matrix.t[2] = fx->tz;
             scale.x = fx->scale * 3 / 2;
             scale.y = fx->scale * 3 / 2;
             scale.z = fx->scale * 3 / 2;
-            func_80078CC4(&matrix, &scale);
+            ScaleMatrix(&matrix, &scale);
             func_800C6EF8(ROOMEFFECT_BEAM_SPARK_ASSET);
             func_800C6FA0(ROOMEFFECT_BEAM_SPARK_ASSET, (u16)((s16)fx->glow / 2));
             func_800C71E4(ROOMEFFECT_BEAM_SPARK_ASSET, &matrix);

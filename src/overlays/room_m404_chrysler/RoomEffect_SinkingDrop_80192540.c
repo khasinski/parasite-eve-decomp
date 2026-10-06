@@ -157,7 +157,7 @@ int func_80192540(int mode, RoomM404Drop *drop) {
         switch (drop->state) {
         case 0:
         case 1:
-            size = func_80077CF4(D_800E27EC << 9) / 4 + 0x1000;
+            size = rsin(D_800E27EC << 9) / 4 + 0x1000;
             alpha = (D_800E27EC & 1) * 48 + 0x80;
             {
                 int kind = D_800F3368.palette;
@@ -186,7 +186,7 @@ int func_80192540(int mode, RoomM404Drop *drop) {
             }
             return 0;
         case 3:
-            size = func_80077CF4(drop->timer << 6) * 4 / 9 + 0x1000;
+            size = rsin(drop->timer << 6) * 4 / 9 + 0x1000;
             {
                 int kind = D_800F3368.palette;
                 int palette = D_800E1204[kind];
@@ -197,7 +197,7 @@ int func_80192540(int mode, RoomM404Drop *drop) {
             }
             return 0;
         case 4:
-            alpha = func_80077CF4((drop->timer << 11) / 46) / 32;
+            alpha = rsin((drop->timer << 11) / 46) / 32;
             size = drop->timer & 0xF;
             if (size >= 8) size += 0x18;
             D_800F3368.extent_x = D_800F3368.parameter00;

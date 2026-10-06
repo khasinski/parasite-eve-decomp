@@ -169,9 +169,9 @@ int ROOMEFFECT_FLASH_SPRITE_FUNC(int mode, RoomFlashSpriteState *state,
         }
         switch (state->state) {
         case 0:
-            func_80077CF4((s16)state->frame << 6);
+            rsin((s16)state->frame << 6);
             opacity = (state->frame & 1) ? 0x40 : 0x80;
-            scale = func_80077CF4((s16)state->frame << 6);
+            scale = rsin((s16)state->frame << 6);
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;
@@ -180,7 +180,7 @@ int ROOMEFFECT_FLASH_SPRITE_FUNC(int mode, RoomFlashSpriteState *state,
             break;
         case 1:
             blend = (s16)state->frame << 10;
-            func_800783E4(&target, state, 0x1000 - blend, blend, &output);
+            LoadAverageShort12(&target, state, 0x1000 - blend, blend, &output);
             func_800CF3AC(ROOMEFFECT_FLASH_SPRITE_COLOR_TABLE, &color,
                           (s16)state->frame);
             matrixSlot = &D_800BCFA4;

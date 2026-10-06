@@ -27,9 +27,9 @@ int RoomEffect_SwirlRiseSprite_80193200(int mode, RoomSwirlRiseState *state,
             state->y = anchor->y;
             state->z = anchor->z;
             radius = state->radius * D_800E27EC / 64;
-            state->x += func_80077DC4(state->angle) * radius / 4096;
-            state->z += func_80077CF4(state->angle) * radius / 4096;
-            state->y -= func_80077CF4(D_800E27EC << 5) * 120 / 4096;
+            state->x += rcos(state->angle) * radius / 4096;
+            state->z += rsin(state->angle) * radius / 4096;
+            state->y -= rsin(D_800E27EC << 5) * 120 / 4096;
             state->angle += 12;
             if (D_800E27EC >= 64) {
                 return 1;
@@ -62,7 +62,7 @@ int RoomEffect_SwirlRiseSprite_80193200(int mode, RoomSwirlRiseState *state,
             rotation.z = state->angle + D_800E27EC * 12 + state->radius;
             rotation.flags = 0;
             intensity = 0x80 - D_800E27EC * 2;
-            scale = func_80077CF4(D_800E27EC << 4) + 0x800;
+            scale = rsin(D_800E27EC << 4) + 0x800;
             kind = D_800F336C;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;
@@ -82,7 +82,7 @@ int RoomEffect_SwirlRiseSprite_80193200(int mode, RoomSwirlRiseState *state,
             origin.x = anchor->x;
             origin.y = anchor->y;
             origin.z = anchor->z;
-            intensity = func_80077DC4((D_800E27EC << 10) / 6) / 32;
+            intensity = rcos((D_800E27EC << 10) / 6) / 32;
             *(int *)&color = 0x808080;
             spin = (GteRotation *)state;
             kind = D_800F336C;

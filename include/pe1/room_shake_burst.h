@@ -110,10 +110,9 @@ extern GteShortVector D_80199904;
 /* Sweep particle draw: model asset, matrix helpers and clut lookups. */
 extern u16 D_800E11FA;
 extern u16 GetClut(int x, int y);
-extern int func_80077CF4(int angle);
+extern int rsin(int angle);
 extern int func_80077A64(int, int, int, int);
-extern void func_80079754(void *rotation, RoomSpriteMatrix *matrix);
-extern void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+#include "pe1/gte_types.h"
 extern void func_800C6EC0(int tpage, int clut);
 extern void func_800C6ED8(int);
 extern void func_800C6EF8(void *asset);
@@ -126,7 +125,7 @@ extern void func_800C6F4C(void *asset);
 extern int func_80195904(int mode, RoomOrbitTrailParticle *p);
 extern RenderColor D_8018F210;
 extern u8 D_80199770[];
-extern int func_80077DC4(int angle);
+extern int rcos(int angle);
 extern void func_800D1AE0(RenderColor *color, int value, int step, int count);
 
 /* Rising column controller (func_801955E4): the anchor rises from the

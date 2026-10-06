@@ -51,7 +51,7 @@ int func_801960C4(int mode, SceneHomingBurst *burst)
         time = burst->timer;
         if (time < 0x19) {
             fade = 0x80 - (time << 7) / 24;
-            scale = func_80077CF4((time << 10) / 24);
+            scale = rsin((time << 10) / 24);
             {
                 RenderMatrixSlot *matrixSlot = &D_800BCFA4;
                 gte_ldrotmatrix(matrixSlot->value);

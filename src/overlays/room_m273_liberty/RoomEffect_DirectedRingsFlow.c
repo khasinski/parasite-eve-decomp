@@ -73,8 +73,8 @@ extern unsigned char D_8019AF69,D_8019AF68;
 extern unsigned short D_8019AF60;
 extern Vector D_8019AD60;
 extern unsigned short D_800E11E8,D_800E2850[];
-extern int func_8005186C(int),func_80079FB4(int,int);
-extern void func_80079754(Vector *,Matrix *);
+extern int func_8005186C(int),ratan2(int,int);
+#include "pe1/gte_types.h"
 extern void func_8006DCE4(int,void *,int,int,int);
 
 int func_801969D8(int mode) {
@@ -95,7 +95,7 @@ int func_801969D8(int mode) {
         playerPosition.z=z=player->z;
         dz=z-D_8019AEFC.z;
         dy=y-D_8019AEFC.y;
-        angle=func_80079FB4(dy,func_8005186C((unsigned int)dx*dx+(unsigned int)dz*dz))&4095;
+        angle=ratan2(dy,func_8005186C((unsigned int)dx*dx+(unsigned int)dz*dz))&4095;
         if(angle>768) angle=768;
         if(angle<384) angle=384;
         /* Pitch is clamped to [384, 768]; the second ring halves its spread. */
@@ -115,7 +115,7 @@ int func_801969D8(int mode) {
                 particle->ring.x=angle+wave[1]*160/4096;
                 particle->ring.y=wave[0]*width/4096+(*heading+2048);
                 particle->ring.z=0; particle->ring.pad=1;
-                func_80079754(&particle->ring,transform);
+                RotMatrixYXZ(&particle->ring,transform);
                 gte_ldrotmatrix(transform);
                 gte_ldtransmatrix(transform);
                 { Vector *input=&D_8019AD60; gte_ldv0(input); }
@@ -144,7 +144,7 @@ int func_801969D8(int mode) {
                 particle->ring.z=0; particle->ring.pad=1;
                 asm("" : : "r"(&particle->ring));
                 transform=&matrix;
-                func_80079754(&particle->ring,transform);
+                RotMatrixYXZ(&particle->ring,transform);
                 gte_ldrotmatrix(transform);
                 gte_ldtransmatrix(transform);
                 { Vector *input=&D_8019AD60; gte_ldv0(input); }

@@ -67,8 +67,8 @@ extern void *D_8009D248;
 extern u16 D_8009D1CC;
 
 extern int func_80071A54(void);
-extern int func_80077CF4(int angle);
-extern int func_80077DC4(int angle);
+extern int rsin(int angle);
+extern int rcos(int angle);
 extern u16 func_80077AA4(int x, int y);
 extern void *func_800CE610(void *pool);
 extern int func_800C6B90(void *position, int radius);

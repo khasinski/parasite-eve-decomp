@@ -69,8 +69,6 @@ int *func_800C2B10(int index);
 GteShortVector *func_800C2B90(void *object, int kind, u8 *script, u8 *data);
 int func_800C6B90(GteShortVector *position, int radius);
 int func_80071A54(void);
-void func_800794C4(GteRotation *rotation, GteMatrix *matrix);
-void func_80078C34(GteMatrix *matrix, GteShortVector *in, GteShortVector *out);
 void func_800C2EAC(int mode);
 void func_800C3098(int arg0);
 void func_800C3238(int arg0);
@@ -104,8 +102,8 @@ extern SceneLimbBeamShape D_801994D8[10];
 extern u16 D_80199658[10];
 extern u8 D_801989BC[];
 extern u8 D_801989D0[];
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
+int rsin(int angle);
+int rcos(int angle);
 
 /* Scene e08 arm glow: a ribbon from the player's hand bone (matrix 32) to
  * the elbow bone (matrix 22) with a scaled glow sprite on each end. */
@@ -125,6 +123,5 @@ extern SceneArmGlowSprite D_801994C8;
 extern RenderColor D_8018F060;
 extern RenderColor D_8018F064;
 void func_80071A44(GteVector *vector, int value, int size);
-void func_80078CC4(GteMatrix *matrix, GteVector *scale);
 
 #endif

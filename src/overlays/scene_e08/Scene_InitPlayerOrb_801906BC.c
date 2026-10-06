@@ -25,11 +25,11 @@ void func_801906BC(void *object, void *timer, ScenePlayerOrb *orb)
     orb->position.x += func_80071A54() % 300 - 150;
     orb->position.z += func_80071A54() % 300 - 150;
     rotation.y = *func_800C2B10(2);
-    func_800794C4(&rotation, &matrix);
+    RotMatrix(&rotation, &matrix);
     offset.x = orb->position.x - orb->anchor.x;
     offset.y = orb->position.y - orb->anchor.y;
     offset.z = orb->position.z - orb->anchor.z;
-    func_80078C34(&matrix, &offset, &rotated);
+    ApplyMatrixSV(&matrix, &offset, &rotated);
     orb->position.x = orb->anchor.x + rotated.x;
     orb->position.y = orb->anchor.y + rotated.y;
     orb->position.z = orb->anchor.z + rotated.z;

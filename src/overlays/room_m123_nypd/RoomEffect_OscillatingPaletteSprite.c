@@ -7,7 +7,7 @@ extern char D_80195624[];
 extern int D_800E27EC, D_800F3428;
 extern u16 D_800E1204[];
 extern void func_800CF3AC(void *, void *, int);
-extern int func_80077DC4(int);
+extern int rcos(int);
 extern u16 GetClut(int, int);
 extern void func_800CEE20(void *, void *, int, int, int, int, int, int, void *);
 extern u16 D_800E11E8;
@@ -36,7 +36,7 @@ int func_80194F68(int mode, RoomM123Wave *wave) {
     case 2:
         if (wave->state != 0) break;
         func_800CF3AC(D_80195624, color, (s16)wave->frame);
-        result = func_80077DC4((D_800E27EC << 10) / 24);
+        result = rcos((D_800E27EC << 10) / 24);
         position.z = D_800E27EC << 5;
         scale = result / 2 + 2048;
         kind = D_800F336C;

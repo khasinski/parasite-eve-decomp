@@ -105,7 +105,7 @@ int ROOMEFFECT_ORBIT_BURST_FUNC(int mode, RoomOrbitTrailBurst *burst) {
             u16 clut;
             int kind;
             int palette;
-            int glow = func_80077DC4((D_800E27EC << 10) / 20) / 32;
+            int glow = rcos((D_800E27EC << 10) / 20) / 32;
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;
@@ -116,7 +116,7 @@ int ROOMEFFECT_ORBIT_BURST_FUNC(int mode, RoomOrbitTrailBurst *burst) {
             func_800D004C((GteShortVector *)burst, 500, 500, 12, 0, 0x1000, 0x1000,
                           &color, 0, glow, 1);
             {
-                int scale = func_80077CF4((D_800E27EC << 10) / 20) / 4 + 0x1000;
+                int scale = rsin((D_800E27EC << 10) / 20) / 4 + 0x1000;
                 func_800D0728((GteShortVector *)burst, 0x15E, 0x190, 0x18, 0, scale,
                               scale, 0, &color, glow / 2, 1);
             }

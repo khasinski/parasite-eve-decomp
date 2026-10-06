@@ -9,8 +9,8 @@ extern FieldActor *D_8009D254;
 void func_8003E0FC(void *dst, s32 count, Vec3Fixed *src);
 s32 func_800DFE20(Vec3Fixed *lhs, Vec3Fixed *rhs);
 void func_80020C74(void);
-s32 func_80077DC4(s32 arg0);
-s32 func_80077CF4(s32 arg0);
+s32 rcos(s32 arg0);
+s32 rsin(s32 arg0);
 void func_8018F6BC(void *arg);
 void func_8018F338(RoomMotionTrigger *arg);
 
@@ -49,8 +49,8 @@ void func_8018F18C(RoomMotionTrigger *arg) {
         actor->render_object.animation_id = 6;
         actor->flags |= 0x10000;
         actor->render_object.flags_9C |= 0x400;
-        s = func_80077DC4(0xC00);
-        v = func_80077CF4(0xC00);
+        s = rcos(0xC00);
+        v = rsin(0xC00);
         neg = -v;
 
         p = D_8009D254;

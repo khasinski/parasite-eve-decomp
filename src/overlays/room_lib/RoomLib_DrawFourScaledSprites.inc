@@ -42,7 +42,7 @@ void func_800C2EAC(u8 owner);
 void func_800C2FF0(int width, int height);
 void func_800C3098(int depth);
 void func_800C3238(int mode);
-void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
+void RotMatrix(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 void memset(void *dst, int value, int size);
 void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
@@ -115,7 +115,7 @@ void ROOMLIB_DRAW_FOUR_SPRITES_FUNC(void *unused0, void *unused1,
         gte_swc2_10_4(work);
         gte_swc2_11_8(work);
 
-        func_800794C4(&stack.seed, matrix);
+        RotMatrix(&stack.seed, matrix);
         memset(&stack.sourceScale, 0, 0x10);
         stack.sourceScale.x = state->scale[i];
         stack.sourceScale.y = state->scale[i];

@@ -80,12 +80,12 @@ int func_80193618(int mode, RoomM089ModelPulse *state, GteShortVector *anchor) {
         }
         break;
     case 2:
-        fade = func_80077DC4(D_800E27EC << 5) / 32;
-        outer = func_80077DC4(D_800E27EC << 5) + 0x400;
-        tall = func_80077CF4(D_800E27EC << 5) + 0x400;
-        glow = func_80077DC4(D_800E27EC << 5) / 32;
-        wide = func_80077CF4(D_800E27EC << 5) + 0x800;
-        low = 0x800 - func_80077CF4(D_800E27EC << 5) / 4;
+        fade = rcos(D_800E27EC << 5) / 32;
+        outer = rcos(D_800E27EC << 5) + 0x400;
+        tall = rsin(D_800E27EC << 5) + 0x400;
+        glow = rcos(D_800E27EC << 5) / 32;
+        wide = rsin(D_800E27EC << 5) + 0x800;
+        low = 0x800 - rsin(D_800E27EC << 5) / 4;
         D_800F3368.depth = 0x10;
         outer /= 4;
         wide /= 3;
@@ -154,8 +154,8 @@ int func_80193618(int mode, RoomM089ModelPulse *state, GteShortVector *anchor) {
             rotation.x = 0;
             rotation.y = D_800E27EC << 6;
             rotation.z = 0;
-            fade = func_80077DC4((D_800E27EC << 10) / 24) / 32;
-            outer = func_80077CF4((D_800E27EC << 10) / 24) * 3 / 2;
+            fade = rcos((D_800E27EC << 10) / 24) / 32;
+            outer = rsin((D_800E27EC << 10) / 24) * 3 / 2;
             index = &D_800E11FA;
             D_800F3368.tpage = D_800E2850[*index];
             D_800F3368.palette = 3;

@@ -106,7 +106,7 @@ int ROOMEFFECT_ORBIT_SPIN_BURST_FUNC(int mode, RoomOrbitTrailBurst *burst) {
             D_800F3368.tpage = tpage;
         }
         if (D_800E27EC < 0x15) {
-            int glow = func_80077DC4((D_800E27EC << 10) / 20) / 32;
+            int glow = rcos((D_800E27EC << 10) / 20) / 32;
             int scale;
             {
                 u16 clut;
@@ -121,12 +121,12 @@ int ROOMEFFECT_ORBIT_SPIN_BURST_FUNC(int mode, RoomOrbitTrailBurst *burst) {
             }
             func_800D004C((GteShortVector *)burst, 0x320, 0x320, 12, 0, 0x1000,
                           0x1000, &color, 0, glow, 1);
-            scale = func_80077CF4((D_800E27EC << 10) / 20) / 2 + 0x1000;
+            scale = rsin((D_800E27EC << 10) / 20) / 2 + 0x1000;
             func_800D0728((GteShortVector *)burst, 0x226, 0x320, 0x14, 0, scale,
                           scale, 0, &color, glow / 2, 1);
             func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,
                           &tilt.vector);
-            scale = func_80077CF4((D_800E27EC << 10) / 20);
+            scale = rsin((D_800E27EC << 10) / 20);
             tilt.rotation.flags = 1;
             tilt.rotation.x += 0x200;
             tilt.rotation.y += 0x400;
@@ -135,7 +135,7 @@ int ROOMEFFECT_ORBIT_SPIN_BURST_FUNC(int mode, RoomOrbitTrailBurst *burst) {
             tilt.rotation.x -= 0x400;
             func_800D0728((GteShortVector *)burst, 0x44C, 0x578, 0x14,
                           &tilt.rotation, scale, scale, 0, &ringColor, glow, 1);
-            glow = func_80077DC4((D_800E27EC << 10) / 20) / 32;
+            glow = rcos((D_800E27EC << 10) / 20) / 32;
             D_800F3368.parameter00 = 0x40;
             D_800F3368.parameter02 = 4;
             D_800F3368.extent_x = 0x40;

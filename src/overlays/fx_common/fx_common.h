@@ -264,13 +264,12 @@ void *func_8006EC6C(void *data, int count);
 int func_8018F55C(u32 position, int radius, void *allocation,
                    FxCommonMotionVec *vector, void *extra);
 int func_8006DF50(void *resource, int arg1, int arg2, int arg3, int enabled);
-void *func_80078A94(void);
-void func_800787D4(RoomSpriteMatrix *left, RoomSpriteMatrix *right,
+void *PushMatrix(void);
+void CompMatrix(RoomSpriteMatrix *left, RoomSpriteMatrix *right,
                    RoomSpriteMatrix *result);
-void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
-void func_80078E94(void *matrix);
-void func_80078E04(void *matrix);
-int func_80078B38(void);
+void SetTransMatrix(void *matrix);
+void SetRotMatrix(void *matrix);
+int PopMatrix(void);
 void func_8006DFA8(FxCommonShortVec3 *input, int *outA, int *outB);
 void func_800868F0(void *object, int index, int value);
 void func_80086A28(void *object, int index, int value);

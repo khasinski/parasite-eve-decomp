@@ -11,7 +11,7 @@ extern u16 D_800E1204[];
 extern s32 D_800F3428;
 extern void *D_800F32D0;
 extern u32 D_80194180[], D_80194184[];
-int func_80077CF4(int);
+int rsin(int);
 int func_80077AA4(int,int);
 void func_800CEE20(void *, void *, int, int, int, int, int, int, int);
 void func_800D004C(void *, int, int, int, void *, int, int, void *, void *, int, int);
@@ -22,7 +22,7 @@ int func_80193A58(int mode, SceneE18WaveEffect *effect) {
     int palette;
     register u16 index;
     if (mode == 1) {
-        effect->wave = (func_80077CF4(D_800E27EC << 4) * effect->amplitude) >> 12;
+        effect->wave = (rsin(D_800E27EC << 4) * effect->amplitude) >> 12;
         if (D_800E27EC < 8) return 0;
         effect->size -= 8;
         if (effect->size >= 16) goto ret0;

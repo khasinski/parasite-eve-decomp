@@ -45,7 +45,7 @@ typedef struct RoomStagedMotionEmitter {
     u16 y;
 } RoomStagedMotionEmitter;
 
-/* Rotation seed for func_800794C4; the halfword at 4 is the per-record
+/* Rotation seed for RotMatrix; the halfword at 4 is the per-record
  * spin phase. */
 typedef struct RoomStagedMotionSeed {
     u8 bytes[4];
@@ -66,7 +66,7 @@ void func_800C2FF0(s32 width, s32 height);
 void func_800C3098(s32 depth);
 void func_800C3238(s32 mode);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, s32 mode);
-void func_800794C4(void *seed, RoomSpriteMatrix *matrix);
+#include "pe1/gte_types.h"
 void func_800C6D5C(void *model, int arg1, int arg2);
 void func_800C6EE8(int arg0);
 int func_80077A64(int arg0, int arg1, int arg2, int arg3);
@@ -130,7 +130,7 @@ void ROOMLIB_DRAW_STAGED_MOTION_FUNC(void *unused,
             if (state->kind[i] == 1) {
                 func_800C3238(2);
                 seedA.phase = state->phase[i];
-                func_800794C4(&seedA, &matrix);
+                RotMatrix(&seedA, &matrix);
                 scale = ROOMLIB_STAGED_MOTION_SPRITE_SCALE;
                 ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale);
                 /* The int temporary keeps the remainder in full width. */
@@ -143,7 +143,7 @@ void ROOMLIB_DRAW_STAGED_MOTION_FUNC(void *unused,
                 matrix.t[2] = (state->record[i].z >> 16) + state->z;
                 func_800C42A4(ROOMLIB_STAGED_MOTION_PACKET_BASE, &matrix, 1);
                 packet->mode = 9;
-                func_800794C4(&seedB, &matrix);
+                RotMatrix(&seedB, &matrix);
                 scale2 = ROOMLIB_STAGED_MOTION_SPRITE_SCALE;
                 ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale2);
                 packet->depth = (s16)state->size >> 2;

@@ -33,7 +33,7 @@ int func_80197BBC(int mode) {
             step = &D_8019AD80[D_8019AF04.side];
             if (frame == 0) {
                 instance->time.fixed = step->start << 16;
-                angle = (func_80079FB4(instance->x - g_PlayerEntity->location[0].value,
+                angle = (ratan2(instance->x - g_PlayerEntity->location[0].value,
                                        instance->z - g_PlayerEntity->location[2].value)
                          - instance->yaw) & 0xFFF;
                 if (D_8019AF04.side != 0) {

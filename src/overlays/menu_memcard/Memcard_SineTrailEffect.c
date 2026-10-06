@@ -48,7 +48,7 @@ s32 Memcard_SineTrailEffect(s32 mode, MemcardTrailState *state) {
         D_800F3368.depth = 32;
         if (state->timer < 33) {
             func_800CF3AC(D_801F1E74, &color, state->timer);
-            scale = func_80077CF4(state->timer << 6) / 2 + 2048;
+            scale = rsin(state->timer << 6) / 2 + 2048;
             kind = D_800F336C;
             palette = D_800E1204[kind];
             func_800CEE20(&position, 0, scale, scale, 64,

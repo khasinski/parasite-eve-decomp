@@ -212,7 +212,7 @@ int ROOMEFFECT_BURST_SPARK_FUNC(int mode, RoomBurstSpark *spark, s16 *distance) 
             int kind;
             int palette;
 
-            opacity = func_80077CF4((s16)spark->timer << 7) / 64 + 0x40;
+            opacity = rsin((s16)spark->timer << 7) / 64 + 0x40;
             D_800F3368.parameter00 = 0x10;
             D_800F3368.parameter02 = 1;
             D_800F3368.extent_x = 0x10;
@@ -230,7 +230,7 @@ int ROOMEFFECT_BURST_SPARK_FUNC(int mode, RoomBurstSpark *spark, s16 *distance) 
             break;
         }
         case 2:
-            opacity = func_80077DC4((s16)spark->timer << 6) / 32;
+            opacity = rcos((s16)spark->timer << 6) / 32;
             if (spark->timer & 1) opacity = opacity * 2 / 3;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -248,7 +248,7 @@ int ROOMEFFECT_BURST_SPARK_FUNC(int mode, RoomBurstSpark *spark, s16 *distance) 
                           (s16)D_800F3368.parameter02 *
                               ((s16)spark->timer / 2) + 0xC0,
                           clut, one, opacity, &glow);
-            scale = func_80077CF4((s16)spark->timer << 6) + 0x800;
+            scale = rsin((s16)spark->timer << 6) + 0x800;
             func_800D004C((GteShortVector *)spark, 0x12C, 0x12C, 5, 0,
                           scale, scale, &shade, 0, opacity / 2, one);
             return 0;
@@ -258,7 +258,7 @@ int ROOMEFFECT_BURST_SPARK_FUNC(int mode, RoomBurstSpark *spark, s16 *distance) 
             int palette;
             int step;
 
-            opacity = func_80077DC4(((s16)spark->timer << 10) / 12) / 32;
+            opacity = rcos(((s16)spark->timer << 10) / 12) / 32;
             D_800F3368.parameter00 = 0x10;
             D_800F3368.parameter02 = 1;
             D_800F3368.extent_x = 0x10;
@@ -281,8 +281,8 @@ int ROOMEFFECT_BURST_SPARK_FUNC(int mode, RoomBurstSpark *spark, s16 *distance) 
             int kind;
             int palette;
 
-            scale = func_80077CF4((s16)spark->timer << 6) + 0x1000;
-            opacity = func_80077DC4((s16)spark->timer << 6) / 32;
+            scale = rsin((s16)spark->timer << 6) + 0x1000;
+            opacity = rcos((s16)spark->timer << 6) / 32;
             spark->vw = 1;
             spark->vz = (s16)spark->timer * 24;
             D_800F3368.parameter00 = 0x10;

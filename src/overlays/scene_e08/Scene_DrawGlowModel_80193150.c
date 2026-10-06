@@ -14,13 +14,13 @@ void func_80193150(void *object, SceneGlowModelTimer *timer, SceneGlowModelState
 
     model = state;
     owner = func_800C2B50();
-    func_800794C4(&model->seed, &matrix);
+    RotMatrix(&model->seed, &matrix);
     func_80071A44(&source, 0, 0x10);
     source.x = model->scaleX;
     source.y = model->scaleY;
     source.z = model->scaleZ;
     scale = source;
-    func_80078CC4(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
     matrix.t[0] = D_8019956C;
     matrix.t[1] = D_800942EC.value + model->height;
     matrix.t[2] = D_8019957C;
@@ -63,7 +63,7 @@ void func_80193150(void *object, SceneGlowModelTimer *timer, SceneGlowModelState
         source.x = size;
         source.y = size;
         source.z = size;
-        func_80078CC4(&matrix, &source);
+        ScaleMatrix(&matrix, &source);
         matrix.t[0] = D_8019956C;
         matrix.t[1] = 0;
         matrix.t[2] = D_8019957C;

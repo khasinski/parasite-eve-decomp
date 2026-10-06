@@ -7,8 +7,8 @@ extern u16 D_80190F6A;
 
 char *func_800C2B50(void);
 void func_80071A44(void *arg0, s32 arg1, s32 arg2);
-void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
-void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void RotMatrix(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
+void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C2EAC(u8 arg0);
 void func_800C2FF0(s32 arg0, s32 arg1);
 void func_800C3098(s32 arg0);
@@ -29,14 +29,14 @@ void func_8018FA2C(void *arg0, void *arg1, RoomSpriteFxParams *fx) {
     func_800C2FF0(0x20, 0x20);
     func_800C3098(0x10);
     func_800C3238(1);
-    func_800794C4(&seed, &matrix);
+    RotMatrix(&seed, &matrix);
 
     func_80071A44(&scale, 0, 0x10);
     scale.x = fx->scale;
     scale.y = fx->scale;
     scale.z = 0x1000;
     scratch_scale = scale;
-    func_80078CC4(&matrix, &scratch_scale);
+    ScaleMatrix(&matrix, &scratch_scale);
 
     depth_slot = &D_80190F6A;
     *depth_slot = fx->depth;

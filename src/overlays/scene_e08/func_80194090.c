@@ -19,9 +19,9 @@ void func_800C2EAC(u8);
 void func_800C2FF0(int, int);
 void func_800C3098(int);
 void func_800C3238(int);
-void func_800794C4(void *, Matrix *);
+void RotMatrix(void *, Matrix *);
 void func_80071A44(Vec4 *, int, int);
-void func_80078CC4(Matrix *, Vec4 *);
+void ScaleMatrix(Matrix *, Vec4 *);
 void func_800C42A4(void *, Matrix *, int);
 void func_80194090(void *arg0, void *arg1, char *effects) {
     Matrix matrix;
@@ -49,13 +49,13 @@ void func_80194090(void *arg0, void *arg1, char *effects) {
     } while (0);
 
     for (; i < 3; ++i, angleOffset += 8) {
-        func_800794C4(base + angleOffset, &matrix);
+        RotMatrix(base + angleOffset, &matrix);
         func_80071A44(&vec, 0, 0x10);
         vec.x = *(s16 *)(phase + 0x48);
         vec.y = *(s16 *)(phase + 0x4A);
         vec.z = *(s16 *)(phase + 0x4C);
         scratch = vec;
-        func_80078CC4(&matrix, &scratch);
+        ScaleMatrix(&matrix, &scratch);
         matrix.t[0] = *(s32 *)(state + 0);
         matrix.t[1] = *(s32 *)(state + 4);
         third = *(s32 *)(state + 8);

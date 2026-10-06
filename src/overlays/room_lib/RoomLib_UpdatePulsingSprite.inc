@@ -21,7 +21,7 @@ typedef struct RoomPulsingSpriteState {
 extern RenderColor ROOMLIB_UPDATE_PULSING_SPRITE_COLOR;
 extern GteShortVector ROOMLIB_UPDATE_PULSING_SPRITE_POSITION;
 
-extern int func_80077DC4(int angle);
+extern int rcos(int angle);
 extern int func_80077AA4(int, int);
 
 int ROOMLIB_UPDATE_PULSING_SPRITE_NAME(int mode, RoomPulsingSpriteState *state) {
@@ -43,8 +43,8 @@ int ROOMLIB_UPDATE_PULSING_SPRITE_NAME(int mode, RoomPulsingSpriteState *state) 
         if ((short)state->frame >= 16) return 1;
         break;
     case 2:
-        scale = func_80077DC4((short)state->frame << 6) / 32;
-        func_80077DC4((short)state->frame << 6);
+        scale = rcos((short)state->frame << 6) / 32;
+        rcos((short)state->frame << 6);
         u = (D_800E27EC & 1) << 7;
         matrixSlot = &D_800BCFA4;
         gte_ldrotmatrix(matrixSlot->value);

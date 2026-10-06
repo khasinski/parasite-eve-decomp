@@ -79,8 +79,8 @@ int func_8018F734(int mode, RoomM086SeekerController *state, RoomM086ControllerP
                     child->position.y = state->position.y;
                     child->position.z = state->position.z;
                     speed = (func_80071A54() & 0x1F) + 0x10;
-                    child->heading.x = func_80077DC4(angle) * speed / 4096;
-                    child->heading.z = func_80077CF4(angle) * speed / 4096;
+                    child->heading.x = rcos(angle) * speed / 4096;
+                    child->heading.z = rsin(angle) * speed / 4096;
                     child->heading.y = -8 - (func_80071A54() & 0xF);
                     child->state = 2;
                     child->timer = 0;

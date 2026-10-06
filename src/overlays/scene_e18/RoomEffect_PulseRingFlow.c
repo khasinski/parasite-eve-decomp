@@ -24,7 +24,7 @@ int func_80193018(int mode, SceneE18PulseRing *ring) {
         angle = (D_800E27EC + 1) * 24;
         if (angle > 0x400)
             angle = 0x400;
-        ring->radius = func_80077CF4(angle);
+        ring->radius = rsin(angle);
         if (ring->last) {
             int dx = (RoomMain_ActorPtr->x - instance->x) >> 16;
             int dz = (RoomMain_ActorPtr->z - instance->z) >> 16;

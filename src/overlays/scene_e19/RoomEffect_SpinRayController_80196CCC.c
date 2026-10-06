@@ -80,7 +80,7 @@ int func_80196CCC(int mode, SceneSpinRayBurst *burst)
         D_8019B670.z = position.z;
         if (burst->timer & 1) glow = 0x60;
         else glow = 0x80;
-        scale = func_80077CF4(((s16)burst->timer << 10) / 48) / 2 + 0x800;
+        scale = rsin(((s16)burst->timer << 10) / 48) / 2 + 0x800;
         func_800CF3AC(D_8019B404, &color, (s16)burst->timer);
         func_800D004C(&position, 800, 800, 12, 0, scale, scale, &color, 0, 100, 1);
         {

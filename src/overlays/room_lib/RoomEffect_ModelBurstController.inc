@@ -68,8 +68,7 @@ extern void func_800CF4B4(int kind, int value, void *layer);
 extern s32 func_80077A64(s32, s32, s32, s32);
 extern void func_800C6EC0(int tpage, int clut);
 extern void func_800C6ED8(int);
-extern void func_80079754(void *rotation, void *matrix);
-extern void func_80078CC4(void *matrix, void *scale);
+#include "pe1/gte_types.h"
 extern void func_800C6EF8(void *asset);
 extern void func_800C7098(void *asset, int r, int g, int b);
 extern void func_800C6FA0(void *asset, int brightness);
@@ -145,13 +144,13 @@ int ROOMEFFECT_MODEL_BURST_FUNC(int mode, s16 *state) {
             D_800F3368.tpage = tpage;
         }
         func_800CE8F0(D_800F32D0->pool, ROOMEFFECT_MODEL_BURST_SLOT, &rotation, &position);
-        spin.x = func_80077CF4(D_800E27EC * 80) / 4;
-        spin.y = func_80077DC4(D_800E27EC << 7) / 8;
+        spin.x = rsin(D_800E27EC * 80) / 4;
+        spin.y = rcos(D_800E27EC << 7) / 8;
         spin.flags = 0;
         spin.z = -D_800E27EC << 3;
         brightness = *state;
         if (D_800E27EC != 0) brightness = brightness * 2 / 3;
-        size = func_80077CF4((D_800E27EC << 10) / 48) / 4 + 0x400;
+        size = rsin((D_800E27EC << 10) / 48) / 4 + 0x400;
         func_800CF3AC(ROOMEFFECT_MODEL_BURST_COLOR_TABLE, &color, D_800E27EC * 3);
         func_800D004C(&position, 0x124, 0x124, 12, 0, 0x1000, 0x1000, &shade, 0,
                       brightness, 1);
@@ -185,14 +184,14 @@ int ROOMEFFECT_MODEL_BURST_FUNC(int mode, s16 *state) {
             func_800C6EC0(page, clut);
         }
         func_800C6ED8(1);
-        func_80079754(&spin, &matrix);
+        RotMatrixYXZ(&spin, &matrix);
         matrix.t[0] = position.x;
         matrix.t[1] = position.y;
         matrix.t[2] = position.z;
         scale.x = size;
         scale.y = size;
         scale.z = size;
-        func_80078CC4(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         func_800C6EF8(ROOMEFFECT_MODEL_BURST_ASSET);
         func_800C7098(ROOMEFFECT_MODEL_BURST_ASSET, color.r, color.g, color.b);
         func_800C6FA0(ROOMEFFECT_MODEL_BURST_ASSET, (u16)(brightness / 2));

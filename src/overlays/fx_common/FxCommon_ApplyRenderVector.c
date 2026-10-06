@@ -15,9 +15,9 @@ void func_80191EFC(void *object, volatile FxCommonVec3 *input)
     void *savedOutput;
 
     scratch.size = 0x300;
-    func_80078A94();
-    func_80078E94(&D_8019CC30);
-    func_80078E04(&D_8019CC30);
+    PushMatrix();
+    SetTransMatrix(&D_8019CC30);
+    SetRotMatrix(&D_8019CC30);
     matrixSlot = &D_800BCFA4;
     savedMatrix = *matrixSlot;
     *matrixSlot = &D_8019CC30;
@@ -31,5 +31,5 @@ void func_80191EFC(void *object, volatile FxCommonVec3 *input)
     func_80086A28(object, 0, scratch.valueA);
     *matrixSlot = savedMatrix;
     D_800BCFA8 = savedOutput;
-    func_80078B38();
+    PopMatrix();
 }

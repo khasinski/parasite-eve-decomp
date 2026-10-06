@@ -2,8 +2,7 @@
 extern RoomFxSeed8 ROOMLIB_DRAW_UNIFORM_SPRITE_SEED;
 extern u16 ROOMLIB_DRAW_UNIFORM_SPRITE_DEPTH;
 extern void func_80071A44(void *arg0, int arg1, int arg2);
-extern void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
-extern void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+#include "pe1/gte_types.h"
 extern void func_800C2EAC(u8 arg0);
 extern void func_800C2FF0(int arg0, int arg1);
 extern void func_800C3098(int arg0);
@@ -27,14 +26,14 @@ void ROOMLIB_DRAW_UNIFORM_SPRITE_NAME(
     func_800C2FF0(0x40, 0x40);
     func_800C3098(0x10);
     func_800C3238(1);
-    func_800794C4(&seed, matrixPtr);
+    RotMatrix(&seed, matrixPtr);
 
     func_80071A44(&scale, 0, 0x10);
     scale.x = fx->scale;
     scale.y = fx->scale;
     scale.z = fx->scale;
     scratchScale = scale;
-    func_80078CC4(matrixPtr, &scratchScale);
+    ScaleMatrix(matrixPtr, &scratchScale);
 
     depthSlot = &ROOMLIB_DRAW_UNIFORM_SPRITE_DEPTH;
     *depthSlot = fx->depth;

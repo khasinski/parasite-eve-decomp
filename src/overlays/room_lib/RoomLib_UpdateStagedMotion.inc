@@ -62,10 +62,10 @@ void ROOMLIB_UPDATE_STAGED_MOTION_FUNC(void *entity,
             state->angle[i] += 0x14;
             state->radius[i] += state->radiusStep;
             state->record[i].x =
-                ((func_80077CF4(state->angle[i]) * (state->radius[i] >> 12)) >> 12) << 16;
+                ((rsin(state->angle[i]) * (state->radius[i] >> 12)) >> 12) << 16;
             state->record[i].y += state->fallStep;
             state->record[i].z =
-                ((func_80077DC4(state->angle[i]) * (state->radius[i] >> 12)) >> 12) << 16;
+                ((rcos(state->angle[i]) * (state->radius[i] >> 12)) >> 12) << 16;
             spawnPoint.x = (state->record[i].x >> 16) + state->x;
             spawnPoint.y = (state->record[i].y >> 16) + state->y;
             spawnPoint.z = (state->record[i].z >> 16) + state->z;

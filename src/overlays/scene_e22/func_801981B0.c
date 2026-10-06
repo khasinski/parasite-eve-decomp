@@ -11,7 +11,7 @@ typedef struct SceneE22Effect {
 extern GteShortVector D_8018F1F4;
 extern int D_800E27EC, D_800F3428;
 extern u16 D_800F336C, D_800E1204[];
-extern int func_80077DC4(int);
+extern int rcos(int);
 extern u16 GetClut(int, int);
 extern void func_800CEE20(void *, void *, int, int, int, int, int, int, void *);
 
@@ -32,7 +32,7 @@ int func_801981B0(int mode, SceneE22Effect *effect) {
         if (effect->state != 0) return 0;
         angle = effect->frame << 5;
         position.z = D_800E27EC << 5;
-        sine = func_80077DC4(angle);
+        sine = rcos(angle);
         brightness = (effect->speed * sine) / 4096;
         kind = D_800F336C;
         palette = D_800E1204[kind];

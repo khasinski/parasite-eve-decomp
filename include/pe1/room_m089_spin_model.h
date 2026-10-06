@@ -29,7 +29,7 @@ u8 *func_8006E498(void *channel, int id);
 void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);
 void func_800C6FA0(u8 *data, u16 factor);
 u16 GetClut(int x, int y);
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
+int rsin(int angle);
+int rcos(int angle);
 
 #endif

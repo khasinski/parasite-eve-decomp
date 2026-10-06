@@ -37,7 +37,7 @@ void func_80190914(void *object, void *timer, ScenePlayerOrb *orb)
         matrix.m[0][2] = 0;
         matrix.m[0][1] = 0;
         scale = D_8018F008;
-        func_80078CC4(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         for (i = 0; i < 8; i++) {
             matrix.t[0] = orb->points[i].x;
             matrix.t[1] = orb->points[i].y;

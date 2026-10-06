@@ -6,7 +6,7 @@ extern s16 D_800942EC;
 
 int func_8001CAB0(int, int, int, int);
 int func_80071A54(void);
-int func_80077CF4(int);
+int rsin(int);
 int func_800C6B90(s16 *, int);
 
 void func_801946D4(void *unused, char *control, char *state)
@@ -104,7 +104,7 @@ void func_801946D4(void *unused, char *control, char *state)
         ++(*((s32 *) (state + 0x2C)));
         *((u16 *) (state + 0x24)) += 0x270;
         *((s32 *) (state + 0x10)) -= (*((u16 *) (state + 0x2A))) * 8;
-        *((s32 *) (state + 0x18)) = func_80077CF4((*((s32 *) (state + 0x2C))) << 6) * 1500;
+        *((s32 *) (state + 0x18)) = rsin((*((s32 *) (state + 0x2C))) << 6) * 1500;
     }
     pointValue = *((s16 *) (state + 2));
     point[0] = pointValue;

@@ -68,7 +68,7 @@ int func_8018F028(int mode, SceneE20Particle *p)
                 D_800F3368.tpage = tpage;
             }
             angle = p->timer << 6;
-            scale = func_80077CF4(angle);
+            scale = rsin(angle);
             rotation.x = p->velocity.x;
             rotation.y = p->velocity.y;
             rotation.z = p->velocity.z;
@@ -84,7 +84,7 @@ int func_8018F028(int mode, SceneE20Particle *p)
                 int width = (p->timer / 2) << 5;
                 int top = 0x40;
                 int streakKind;
-                glow = func_80077DC4(angle) / 32;
+                glow = rcos(angle) / 32;
                 func_800CF3AC(D_80190804, &color, p->timer << 1);
                 streakKind = D_800F3368.palette;
                 palette = D_800E1204[streakKind] + ((streakKind == 4 && D_800F3428 != 0) ? 7 : 3);
@@ -119,8 +119,8 @@ int func_8018F028(int mode, SceneE20Particle *p)
             func_800CEE20(&p->position, 0, 0x2000, 0x2000,
                           (s16)D_800F3368.parameter02 * (p->timer / 2) + 0x60,
                           func_80077AA4(0, palette), state, 0x80, 0);
-            scale = func_80077DC4(angle) / 2 + 0x800;
-            glow = func_80077CF4(time << 7) / 32;
+            scale = rcos(angle) / 2 + 0x800;
+            glow = rsin(time << 7) / 32;
             {
                 int tpage = D_800E2850[D_800E11EA[8]];
                 D_800F3368.palette = 3;

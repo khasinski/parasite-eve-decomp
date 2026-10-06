@@ -19,7 +19,7 @@ extern s16 D_800942EC;
 
 char *func_800C2B50(void);
 void func_80071A44(void *, s32, s32);
-void func_800794C4(RoomFxSeed8 *, RoomSpriteMatrix *);
+void RotMatrix(RoomFxSeed8 *, RoomSpriteMatrix *);
 void ScaleMatrix(RoomSpriteMatrix *, RoomFxVec4 *);
 void func_800C2EAC(u8);
 void func_800C2FF0(s32, s32);
@@ -42,7 +42,7 @@ void func_80190B68(void *arg0, void *arg1, RoomDoubleSpriteFxParams *fx) {
     func_800C2FF0(0x20, 0x20);
     func_800C3098(0x10);
     func_800C3238(2);
-    func_800794C4(&fx->seed, &matrix);
+    RotMatrix(&fx->seed, &matrix);
 
     func_80071A44(&scale, 0, 0x10);
     scale.x = fx->scale;
@@ -59,7 +59,7 @@ void func_80190B68(void *arg0, void *arg1, RoomDoubleSpriteFxParams *fx) {
     matrix.t[2] = fx->z;
     func_800C42A4((char *)depth_slot - 0xA, &matrix, 1);
 
-    func_800794C4(&seed, &matrix);
+    RotMatrix(&seed, &matrix);
     func_80071A44(&second_scale, 0, 0x10);
     second_scale.x = fx->scale;
     second_scale.y = fx->scale;

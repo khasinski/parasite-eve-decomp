@@ -11,8 +11,8 @@ extern char D_80192BFC;
 extern char D_80192BF0;
 void func_80071A44(void *arg0, s32 arg1, s32 arg2);
 s32 func_80071A54(void);
-void func_80078CC4(RoomOverlay024Matrix *matrix, RoomOverlay024Vec4 *scale);
-void func_800794C4(RoomOverlay024MatrixSeed8 *seed, RoomOverlay024Matrix *matrix);
+void ScaleMatrix(RoomOverlay024Matrix *matrix, RoomOverlay024Vec4 *scale);
+void RotMatrix(RoomOverlay024MatrixSeed8 *seed, RoomOverlay024Matrix *matrix);
 void func_800C2EAC(u8 arg0);
 void func_800C2FF0(s32 arg0, s32 arg1);
 void func_800C3098(s32 arg0);
@@ -70,7 +70,7 @@ void func_80190CB0(void *arg0, RoomOverlay024VariantControl *control, RoomOverla
     draw_scale.y = state->drift_value >> 1;
     draw_scale.z = state->drift_value;
     scratch_scale = draw_scale;
-    func_80078CC4(&matrix, &scratch_scale);
+    ScaleMatrix(&matrix, &scratch_scale);
 
     fade_slot = (s16 *)&D_80192C12;
     *fade_slot = state->fade_alpha >> 1;
@@ -88,14 +88,14 @@ void func_80190CB0(void *arg0, RoomOverlay024VariantControl *control, RoomOverla
     draw_slot = (char *)phase_slot - 4;
     *phase_slot = state->phase * 2;
     func_800C42A4(draw_slot, &matrix, 1);
-    func_800794C4(&base_seed, &matrix);
+    RotMatrix(&base_seed, &matrix);
 
     func_80071A44(&second_scale, 0, 0x10);
     second_scale.x = state->drift_value * 2;
     second_scale.y = state->drift_value;
     second_scale.z = state->drift_value * 2;
     draw_scale = second_scale;
-    func_80078CC4(&matrix, &draw_scale);
+    ScaleMatrix(&matrix, &draw_scale);
 
     ordered_transform = transform;
     D_80192C12 = state->fade_alpha >> 2;
@@ -121,7 +121,7 @@ void func_80190CB0(void *arg0, RoomOverlay024VariantControl *control, RoomOverla
         matrix.m[0][1] = 0;
 
         second_scale = D_8018F00C;
-        func_80078CC4(&matrix, &second_scale);
+        ScaleMatrix(&matrix, &second_scale);
 
         matrix.t[0] = state->sparkle_x;
         matrix.t[1] = state->sparkle_y;
@@ -151,7 +151,7 @@ void func_80190CB0(void *arg0, RoomOverlay024VariantControl *control, RoomOverla
     third_scale.y = state->final_scale;
     third_scale.z = state->final_scale;
     second_scale = third_scale;
-    func_80078CC4(&matrix, &second_scale);
+    ScaleMatrix(&matrix, &second_scale);
 
     matrix.t[0] = state->final_x;
     matrix.t[1] = state->final_y;

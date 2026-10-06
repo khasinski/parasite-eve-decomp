@@ -26,7 +26,7 @@ extern RoomFxSeed8 D_8018EFF4;
 extern unsigned char ROOMLIB_UPDATE_PAIRED_EMITTER_TABLE[];
 
 void func_80071A44(RoomFxVec4 *arg0, s32 arg1, s32 arg2);
-void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
+#include "pe1/gte_types.h"
 void func_800C3134(void *arg0, s32 arg1, void *arg2);
 void func_800C4FC4(RoomFxEmitterParams *params, RoomSpriteMatrix *matrix,
                    s32 arg2);
@@ -58,8 +58,8 @@ void ROOMLIB_UPDATE_PAIRED_EMITTER_NAME(void *arg0, char *arg1,
     stack.scale.y = state->timer * 2;
     stack.scale.z = state->timer * 2;
     stack.transformed_scale = stack.scale;
-    func_80078CC4(&stack.base_matrix, &stack.transformed_scale);
-    func_800794C4(&stack.seed, &stack.matrix);
+    ScaleMatrix(&stack.base_matrix, &stack.transformed_scale);
+    RotMatrix(&stack.seed, &stack.matrix);
 
     /* PSY-Q gte_CompMatrix shape: MulMatrix0 in place, then the translation
      * through RTV0TR into the long-vector slot. */

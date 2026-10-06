@@ -17,7 +17,7 @@
 extern RenderColor ROOMEFFECT_ORBIT_TRAIL_COLOR;
 extern GteShortVector ROOMEFFECT_ORBIT_TRAIL_ORIGIN;
 extern u8 ROOMEFFECT_ORBIT_TRAIL_TRACK[];
-extern void func_800783E4(void *from, void *to, int weightFrom, int weightTo,
+extern void LoadAverageShort12(void *from, void *to, int weightFrom, int weightTo,
                           void *out);
 extern void func_800D2B58(void *, void *, void *, void *, int, int, int);
 
@@ -69,13 +69,13 @@ int ROOMEFFECT_ORBIT_TRAIL_FUNC(int mode, RoomOrbitTrailParticle *p) {
     case 2:
         switch (p->state) {
         case 0:
-            scale = (func_80077CF4(((s16)p->timer << 10) / 24) + 0x1000) / 2;
+            scale = (rsin(((s16)p->timer << 10) / 24) + 0x1000) / 2;
             func_800CFB7C(&p->heading, (s16)(p->radius * scale / 4096), &offset);
             offset.x += ROOMEFFECT_ORBIT_TRAIL_ORIGIN.x;
             offset.y += ROOMEFFECT_ORBIT_TRAIL_ORIGIN.y;
             offset.z += ROOMEFFECT_ORBIT_TRAIL_ORIGIN.z;
-            weight = func_80077CF4(((s16)p->timer << 10) / 24);
-            func_800783E4(&ROOMEFFECT_ORBIT_TRAIL_ORIGIN, &offset, 0x1000 - weight,
+            weight = rsin(((s16)p->timer << 10) / 24);
+            LoadAverageShort12(&ROOMEFFECT_ORBIT_TRAIL_ORIGIN, &offset, 0x1000 - weight,
                           weight, &blend);
             {
                 RenderMatrixSlot *matrixSlot = &D_800BCFA4;
@@ -89,8 +89,8 @@ int ROOMEFFECT_ORBIT_TRAIL_FUNC(int mode, RoomOrbitTrailParticle *p) {
             u16 clut;
             int kind;
             int palette;
-            int size = func_80077CF4((s16)p->timer << 6) / 2 + 0x1000;
-            glow = func_80077DC4((s16)p->timer * 1204 / 16) / 128 + 0x28;
+            int size = rsin((s16)p->timer << 6) / 2 + 0x1000;
+            glow = rcos((s16)p->timer * 1204 / 16) / 128 + 0x28;
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;
@@ -104,8 +104,8 @@ int ROOMEFFECT_ORBIT_TRAIL_FUNC(int mode, RoomOrbitTrailParticle *p) {
             u16 clut;
             int kind;
             int palette;
-            glow = func_80077DC4((s16)p->timer << 7) / 32;
-            scale = func_80077CF4((s16)p->timer << 7);
+            glow = rcos((s16)p->timer << 7) / 32;
+            scale = rsin((s16)p->timer << 7);
             /* The scaled radius shares the palette kind's temporary, which
              * is what leaves the heading pointer the first saved register. */
             kind = p->radius * scale / 4096;

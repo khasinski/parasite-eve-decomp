@@ -34,7 +34,7 @@ extern RoomFxSeed8 ROOMFX_INIT_PAIRED_SPRITE_POSITION_SEED;
 extern RoomFxSeed8 ROOMFX_INIT_PAIRED_SPRITE_VELOCITY_SEED;
 
 extern int *func_800C2B10(int index);
-extern void func_80078C34(
+extern void ApplyMatrixSV(
     void *transform, RoomFxSeed8 *seed, unsigned short *out);
 extern int func_80071A54(void);
 extern void func_800C6800(void *entity, int effectId, void *state);
@@ -52,7 +52,7 @@ void ROOMFX_INIT_PAIRED_SPRITE_NAME(
     positionSeed = ROOMFX_INIT_PAIRED_SPRITE_POSITION_SEED;
     velocitySeed = ROOMFX_INIT_PAIRED_SPRITE_VELOCITY_SEED;
     view = (*root)->view;
-    func_80078C34(&view->transform, &positionSeed, position);
+    ApplyMatrixSV(&view->transform, &positionSeed, position);
 
     state->x = position[0] + view->baseX;
     state->y = position[1] + view->baseY;
@@ -67,7 +67,7 @@ void ROOMFX_INIT_PAIRED_SPRITE_NAME(
         state->velocityY = 0;
         state->velocityZ = func_80071A54() % 10 - 5;
     } else {
-        func_80078C34(&view->transform, &velocitySeed, velocity);
+        ApplyMatrixSV(&view->transform, &velocitySeed, velocity);
         state->velocityX = velocity[0] * 2;
         state->velocityY = 0;
         state->velocityZ = velocity[2] * 2;

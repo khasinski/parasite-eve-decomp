@@ -91,7 +91,7 @@ extern u16 D_800E11EA;
 int func_800C6B90(void *position, int radius);
 void func_800C6FA0(u8 *data, u16 factor);
 u16 func_80077AA4(int, int);
-int func_80077DC4(int angle);
+int rcos(int angle);
 
 /* room_m086 seeker controller (func_8018F734): follows joint 7 of the
  * actor, drifts and falls, then bursts into three seeker rings. */
@@ -148,6 +148,6 @@ void func_800C6D5C(void *asset, int x, int y);
 int func_800D3FD8(void);
 void func_800D3F64(int sound, int handle);
 int func_80071A54(void);
-int func_80077CF4(int angle);
+int rsin(int angle);
 
 #endif

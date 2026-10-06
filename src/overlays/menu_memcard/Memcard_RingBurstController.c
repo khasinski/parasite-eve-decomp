@@ -75,14 +75,14 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
             angle = (burst->timer << 10) / 24;
             gte_ldrotmatrix(D_800BCFA4.value);
             gte_ldtransmatrix(D_800BCFA4.value);
-            fade = func_80077CF4(angle) / 32;
+            fade = rsin(angle) / 32;
             if (D_800E27EC & 1) {
                 fade = fade * 15 / 16;
             }
             spin.z = burst->timer * 15;
             func_800D004C(&position, 300, 500, 70, &spin, 0x1000, 0x1000,
                           &glow, 0, fade / 2, 1);
-            fade = func_80077CF4(angle) / 32;
+            fade = rsin(angle) / 32;
             func_800D004C(&position, 700, 700, 20, 0, 0x1000, 0x1000,
                           &ring, 0, fade, 1);
             break;
@@ -94,25 +94,25 @@ int Memcard_RingBurstController(int mode, MemcardRingBurst *burst) {
             }
             gte_ldrotmatrix(D_800BCFA4.value);
             gte_ldtransmatrix(D_800BCFA4.value);
-            fade = func_80077DC4(angle) / 32;
+            fade = rcos(angle) / 32;
             if (D_800E27EC & 1) {
                 fade = fade * 15 / 16;
             }
-            spin.z = func_80077CF4(angle) / 2;
-            func_800D004C(&position, 70, func_80077DC4(angle) / 8 + 700, 8,
+            spin.z = rsin(angle) / 2;
+            func_800D004C(&position, 70, rcos(angle) / 8 + 700, 8,
                           &spin, 0x1000, 0x1000, &ring, 0, fade / 2, 1);
             func_800D004C(&position, 300, 300, 8, 0, 0x1000, 0x1000,
                           &glow, 0, fade, 1);
-            fade = func_80077DC4(angle) / 32;
+            fade = rcos(angle) / 32;
             func_800D004C(&position, 1000, 1000, 16, 0, 0x1000, 0x1000,
                           &ring, 0, fade, 1);
-            scale = func_80077CF4(angle) / 4 + 0xC00;
+            scale = rsin(angle) / 4 + 0xC00;
             func_800D0728(&position, 1500, 1900, 24, 0, scale, scale,
                           0, &ring, fade, 1);
-            scale = func_80077CF4(angle);
+            scale = rsin(angle);
             func_800D0728(&position, 2000, 2600, 20, &tilt, scale, scale,
                           &band, 0, fade, 1);
-            amount = func_80077CF4(angle) / 12 + 80;
+            amount = rsin(angle) / 12 + 80;
             dim = fade * 2 / 3;
             offset.x = position.x;
             offset.y = position.y;

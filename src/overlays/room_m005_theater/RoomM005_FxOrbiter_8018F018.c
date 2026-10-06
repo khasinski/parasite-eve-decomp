@@ -28,10 +28,10 @@ extern unsigned short D_800F336C;
 extern short D_800F336A;
 extern int D_800F3428;
 extern unsigned short D_800E1204[];
-extern int func_80077CF4();
-extern int func_80077DC4();
+extern int rsin();
+extern int rcos();
 extern int func_80077AA4();
-extern int func_800783E4();
+#include "pe1/gte_types.h"
 extern int func_800CF3AC();
 extern int func_800CEE20();
 
@@ -53,9 +53,9 @@ init:
     anchor[0] = RoomM005_DialogAnchor.h4;
     anchor[1] = RoomM005_DialogAnchor.h6;
     anchor[2] = RoomM005_DialogAnchor.h8;
-    r->h2 += func_80077CF4(D_800E27EC << 6) / 512;
-    r->h0 = anchor[0] + func_80077DC4(r->h8) * r->hA / 4096;
-    r->h4 = anchor[2] + func_80077CF4(r->h8) * r->hA / 4096;
+    r->h2 += rsin(D_800E27EC << 6) / 512;
+    r->h0 = anchor[0] + rcos(r->h8) * r->hA / 4096;
+    r->h4 = anchor[2] + rsin(r->h8) * r->hA / 4096;
     r->h8 += 0x18;
     if (r->h6 < 0x81) {
         r->h6 += 8;
@@ -70,7 +70,7 @@ fade:
     {
         short n = r->hE + 1;
         r->hE = n;
-        func_800783E4(r, RoomM005_DialogAnchor.hC, 0x1000 - (n << 7), n << 7, r);
+        LoadAverageShort12(r, RoomM005_DialogAnchor.hC, 0x1000 - (n << 7), n << 7, r);
     }
     if (r->hE < 0x20) goto ret0;
     return 1;

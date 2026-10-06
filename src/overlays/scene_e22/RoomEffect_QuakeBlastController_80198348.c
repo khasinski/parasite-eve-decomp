@@ -82,9 +82,9 @@ int func_80198348(int mode, SceneE22QuakeBlast *fx, SceneE22QuakeTarget *target)
         } else if (fx->timer < 6) {
             func_800D1AE0(&flash, 0x80, 1, 8);
         } else if (fx->timer < 0xD) {
-            func_800D1AE0(&flash, func_80077DC4(((fx->timer - 6) << 10) / 6) / 64, 1, 8);
+            func_800D1AE0(&flash, rcos(((fx->timer - 6) << 10) / 6) / 64, 1, 8);
         }
-        glow = func_80077DC4((fx->timer << 10) / 40) / 32;
+        glow = rcos((fx->timer << 10) / 40) / 32;
         if ((u16)fx->timer & 1)
             glow = glow * 3 / 4;
         {
@@ -118,12 +118,12 @@ int func_80198348(int mode, SceneE22QuakeBlast *fx, SceneE22QuakeTarget *target)
         func_800D004C(&position, 0x4B0, 0x5DC, 0x10, 0, 0x1000, 0x1000, &color.color, 0,
                       glow, 1);
         phase = (fx->timer << 10) / 40;
-        scale = func_80077CF4(phase);
+        scale = rsin(phase);
         func_800D0728(&position, 0xBB8, 0x1770, 0x12, &tilt, scale, scale, 0, &color.color,
                       glow, 1);
         D_800F3368.depth = 4;
-        glow = func_80077DC4(phase) / 32;
-        scale = func_80077CF4(phase) + 0x800;
+        glow = rcos(phase) / 32;
+        scale = rsin(phase) + 0x800;
         {
             SceneE22QuakeMatrix matrix;
             SceneE22QuakeScale shape;
@@ -131,7 +131,7 @@ int func_80198348(int mode, SceneE22QuakeBlast *fx, SceneE22QuakeTarget *target)
             int palette;
             int page;
             rotation.x = 0;
-            rotation.y = func_80077CF4(phase);
+            rotation.y = rsin(phase);
             rotation.z = 0;
             {
                 int tpage = D_800E2850[D_800E11EA[0]];
@@ -145,14 +145,14 @@ int func_80198348(int mode, SceneE22QuakeBlast *fx, SceneE22QuakeTarget *target)
             if (kind == 4 && D_800F3428 != 0) palette += 4;
             func_800C6EC0(page, func_80077AA4(0x10, palette));
             func_800C6ED8(1);
-            func_80079754(&rotation, &matrix);
+            RotMatrixYXZ(&rotation, &matrix);
             shape.x = scale;
             shape.y = scale * 2;
             shape.z = scale;
             matrix.t[0] = position.x;
             matrix.t[1] = position.y;
             matrix.t[2] = position.z;
-            func_80078CC4(&matrix, &shape);
+            ScaleMatrix(&matrix, &shape);
             func_800C6EF8(D_80199508);
             func_800C6FA0(D_80199508, (u16)(glow * 3 / 2));
             func_800C71E4(D_80199508, &matrix);
@@ -166,7 +166,7 @@ int func_80198348(int mode, SceneE22QuakeBlast *fx, SceneE22QuakeTarget *target)
             int palette;
             int page;
             rotation.x = 0;
-            rotation.y = func_80077CF4(phase) * 2;
+            rotation.y = rsin(phase) * 2;
             rotation.z = 0;
             {
                 int tpage = D_800E2850[D_800E11EA[0]];
@@ -180,14 +180,14 @@ int func_80198348(int mode, SceneE22QuakeBlast *fx, SceneE22QuakeTarget *target)
             if (kind == 4 && D_800F3428 != 0) palette += 4;
             func_800C6EC0(page, func_80077AA4(0x10, palette));
             func_800C6ED8(1);
-            func_80079754(&rotation, &matrix);
+            RotMatrixYXZ(&rotation, &matrix);
             shape.x = scale;
             shape.y = scale * 8;
             shape.z = scale;
             matrix.t[0] = position.x;
             matrix.t[1] = position.y;
             matrix.t[2] = position.z;
-            func_80078CC4(&matrix, &shape);
+            ScaleMatrix(&matrix, &shape);
             func_800C6EF8(D_80199508);
             func_800C6FA0(D_80199508, (u16)glow);
             func_800C71E4(D_80199508, &matrix);
@@ -200,8 +200,8 @@ int func_80198348(int mode, SceneE22QuakeBlast *fx, SceneE22QuakeTarget *target)
             int palette;
             int page;
             phase = (fx->timer << 10) / 24;
-            glow = func_80077DC4(phase) / 32;
-            scale = func_80077DC4(phase);
+            glow = rcos(phase) / 32;
+            scale = rcos(phase);
             rotation.x = 0;
             rotation.y = fx->timer * 40;
             rotation.z = 0;
@@ -217,14 +217,14 @@ int func_80198348(int mode, SceneE22QuakeBlast *fx, SceneE22QuakeTarget *target)
             if (kind == 4 && D_800F3428 != 0) palette += 4;
             func_800C6EC0(page, func_80077AA4(0x30, palette));
             func_800C6ED8(1);
-            func_80079754(&rotation, &matrix);
+            RotMatrixYXZ(&rotation, &matrix);
             shape.x = scale;
             shape.y = 0x1000;
             shape.z = scale;
             matrix.t[0] = position.x;
             matrix.t[1] = position.y;
             matrix.t[2] = position.z;
-            func_80078CC4(&matrix, &shape);
+            ScaleMatrix(&matrix, &shape);
             func_800C6EF8(D_8019950C);
             func_800C6FA0(D_8019950C, (u16)glow);
             func_800C71E4(D_8019950C, &matrix);

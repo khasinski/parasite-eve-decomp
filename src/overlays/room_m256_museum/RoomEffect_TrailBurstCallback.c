@@ -133,7 +133,7 @@ s32 func_801940B0(int mode, void *effect) {
                         state->angle = 0x800;
                     }
                 }
-                turnBlend = func_80077CF4(state->angle) * D_80195EF0;
+                turnBlend = rsin(state->angle) * D_80195EF0;
                 if (turnBlend < 0) {
                     turnBlend += 0xFFF;
                 }
@@ -321,8 +321,8 @@ checkLifetime:
             func_800D004C((void *)((unsigned)(state->index * 0x88) + (unsigned)historySample), 0x1F4, 0x1F4, 6, 0, 0x1000, 0x1000, &color.r, 0, (u32)fade >> 1, 1);
             goto done;
         case 1:
-            firstFade = func_80077DC4(state->frame << 6) / 32;
-            renderScale = func_80077DC4(state->frame << 6);
+            firstFade = rcos(state->frame << 6) / 32;
+            renderScale = rcos(state->frame << 6);
             asm volatile("" ::: "memory");
             params = &D_800F3368;
             spriteExtent = 0x10;
@@ -379,8 +379,8 @@ checkLifetime:
             D_800F3370 = renderPalette;
             goto done;
         case 2:
-            renderScale = func_80077CF4(((state->frame << 0xA) / 10)) / 4;
-            fade = (func_80077CF4((state->frame << 0xB) / 10) / 48);
+            renderScale = rsin(((state->frame << 0xA) / 10)) / 4;
+            fade = (rsin((state->frame << 0xB) / 10) / 48);
             gte_ldrotmatrix(D_800BCFA4.value);
             gte_ldtransmatrix(D_800BCFA4.value);
             {
@@ -405,7 +405,7 @@ checkLifetime:
             }
             func_800C6EC0(modelPage, func_80077AA4(0x70, modelClutY) & 0xFFFF);
             func_800C6ED8(1);
-            func_80079754(&state->motionX, &transform);
+            RotMatrixYXZ(&state->motionX, &transform);
             transform.t[0] = (s32) state->x;
             transform.t[1] = (s32) state->y;
             translationZ = state->z;
@@ -413,7 +413,7 @@ checkLifetime:
             scale.y = renderScale;
             scale.z = 0x2AA;
             transform.t[2] = translationZ;
-            func_80078CC4(&transform, &scale.x);
+            ScaleMatrix(&transform, &scale.x);
             func_800C6EF8(D_80195EF8);
             func_800C7098(D_80195EF8, darkColor.r, darkColor.g, darkColor.b);
             func_800C6FA0(D_80195EF8, fade & 0xFFFF);
@@ -421,9 +421,9 @@ checkLifetime:
             func_800C6F4C(D_80195EF8);
             goto done;
         case 3:
-            pulseSine = func_80077CF4(state->frame << 6);
+            pulseSine = rsin(state->frame << 6);
             renderScale = ((s32) ((pulseSine >> 0x1F) + pulseSine) >> 1) + 0x1000;
-            pulseCosine = func_80077DC4(state->frame << 6);
+            pulseCosine = rcos(state->frame << 6);
             fade = pulseCosine >> 5;
             if (pulseCosine < 0) {
                 fade = (s32) (pulseCosine + 0x1F) >> 5;
@@ -442,8 +442,8 @@ checkLifetime:
             D_800F3374 = 8;
             goto done;
         case 4:
-            renderScale = func_80077CF4(state->frame << 6) + 0x1000;
-            func_80077CF4((state->frame << 11) / 24);
+            renderScale = rsin(state->frame << 6) + 0x1000;
+            rsin((state->frame << 11) / 24);
             D_800F3368.parameter00 = 0x20;
             D_800F336A = 2;
             D_800F3376 = 0x20;
@@ -459,8 +459,8 @@ checkLifetime:
             func_800CEE20(state, &spriteRotation, impactScale, impactScale, (*spriteFrame * (s16) (state->frame / 3)) + 0x20, clut, 1, 0x80, 0);
             impactFrame = state->frame;
             if (impactFrame < 0xD) {
-                renderScale = func_80077CF4(((impactFrame << 10) / 12)) * 4;
-                impactCosine = func_80077DC4(((state->frame << 10) / 12));
+                renderScale = rsin(((impactFrame << 10) / 12)) * 4;
+                impactCosine = rcos(((state->frame << 10) / 12));
                 fade = impactCosine >> 5;
                 if (impactCosine < 0) {
                     fade = (s32) (impactCosine + 0x1F) >> 5;

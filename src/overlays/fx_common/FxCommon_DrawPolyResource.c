@@ -77,7 +77,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
             var_s1 = var_s2 + 4;
             do {
                 for (;;) {
-                    temp_v1 = func_80079384(
+                    temp_v1 = RotAverageNclip3(
                         &((FxCommonFlatTriangle *)var_s3)->vertices[0],
                         &((FxCommonFlatTriangle *)var_s3)->vertices[1],
                         &((FxCommonFlatTriangle *)var_s3)->vertices[2],
@@ -136,7 +136,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                 var_s1 = var_s2 + 4;
                 do {
                     for (;;) {
-                        temp_v1_3 = func_80079414(
+                        temp_v1_3 = RotAverageNclip4(
                             &((FxCommonFlatQuad *)var_s5)->vertices[0],
                             &((FxCommonFlatQuad *)var_s5)->vertices[1],
                             &((FxCommonFlatQuad *)var_s5)->vertices[2],
@@ -200,7 +200,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                 var_s3 = var_t0 + 8;
                 var_s1 = var_s2 + 0x14;
                 do {
-                    temp_v1_5 = func_80079384(
+                    temp_v1_5 = RotAverageNclip3(
                         &((FxCommonColoredTriangle *)var_t0)->vertices[0],
                         &((FxCommonColoredTriangle *)var_t0)->vertices[1],
                         &((FxCommonColoredTriangle *)var_t0)->vertices[2],
@@ -262,7 +262,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                 var_s3 = (u8 *)&var_s7->colors[3];
                 var_s1 = var_s2 + 0x1C;
                 do {
-                    temp_v1_7 = func_80079414(
+                    temp_v1_7 = RotAverageNclip4(
                         &var_s7->vertices[0], &var_s7->vertices[1], &var_s7->vertices[2],
                         &var_s7->vertices[3], &scratchpad->screenCoordinates[0],
                         &scratchpad->screenCoordinates[1], &scratchpad->screenCoordinates[2],
@@ -1140,7 +1140,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                 }
                 do {
                     transientCursor = gt3Slot.cursor;
-                    temp_v0_2 = func_80079384(
+                    temp_v0_2 = RotAverageNclip3(
                         &transientCursor->vertices[0], &transientCursor->vertices[1],
                         &transientCursor->vertices[2], &scratchpad->screenCoordinates[0],
                         &scratchpad->screenCoordinates[1], &scratchpad->screenCoordinates[2],
@@ -1220,7 +1220,7 @@ void FxCommon_DrawPolyResource(void *context, FxCommonPolyResource *resource) {
                 }
                 do {
                     transientCursor = gt4Slot.cursor;
-                    temp_v0_3 = func_80079414(
+                    temp_v0_3 = RotAverageNclip4(
                         &transientCursor->vertices[0], &transientCursor->vertices[1],
                         &transientCursor->vertices[2], &transientCursor->vertices[3],
                         &scratchpad->screenCoordinates[0], &scratchpad->screenCoordinates[1],

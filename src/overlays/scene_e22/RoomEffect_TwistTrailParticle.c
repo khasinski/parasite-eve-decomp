@@ -22,8 +22,8 @@ int func_801962FC(int mode, RoomOrbitTrailParticle *p) {
         if (p->state != 0) return 0;
         angle = (s16)p->timer << 5;
         func_800CF844(p, &offset, 200, &p->heading,
-                      func_80077CF4(angle) * p->radius / 4096, p->heading.pad);
-        size = func_80077DC4(angle) * 3 / 2;
+                      rsin(angle) * p->radius / 4096, p->heading.pad);
+        size = rcos(angle) * 3 / 2;
         spin.z = p->heading.pad - (s16)p->timer * 30;
         D_800F3368.parameter00 = 0x20;
         D_800F3368.parameter02 = 2;

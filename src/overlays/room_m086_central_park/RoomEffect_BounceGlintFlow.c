@@ -63,7 +63,7 @@ int func_801900CC(int mode, RoomBounceGlint *glint, int *size) {
             D_800F3368.tpage = D_800E2850[D_800E11EA];
             D_800F3368.palette = 3;
             D_800F3368.parameter06 = 0;
-            intensity = func_80077DC4((glint->timer << 10) / 24) / 32;
+            intensity = rcos((glint->timer << 10) / 24) / 32;
             if (glint->flag != 0) {
                 int kind;
                 int palette;
@@ -132,8 +132,8 @@ void func_800CE560(void *arg0, s32 arg1, s32 arg2, void *arg3);
 void *func_800CE610(void *arg0);
 void func_800CE8F0(void *arg0, s32 arg1, void *arg2, void *arg3);
 s32 func_80071A54(void);
-s32 func_80077CF4(s32 arg0);
-s32 func_80077DC4(s32 arg0);
+s32 rsin(s32 arg0);
+s32 rcos(s32 arg0);
 s32 func_800D3FD8(void);
 void func_800D3F64(s32 arg0, s32 arg1);
 
@@ -186,12 +186,12 @@ mode1:
             if (actor != 0) {
                 COPY_POS(actor, ent);
                 mag = (func_80071A54() & 0xF) + 7;
-                value = func_80077DC4(angle) * mag;
+                value = rcos(angle) * mag;
                 if (value < 0) {
                     value += 0xFFF;
                 }
                 actor->vx = value >> 12;
-                value = func_80077CF4(angle) * mag;
+                value = rsin(angle) * mag;
                 if (value < 0) {
                     value += 0xFFF;
                 }
@@ -215,12 +215,12 @@ mode1:
             if (actor != 0) {
                 COPY_POS(actor, ent);
                 mag = (func_80071A54() & 0x1F) + 0x18;
-                value = func_80077DC4(angle) * mag;
+                value = rcos(angle) * mag;
                 if (value < 0) {
                     value += 0xFFF;
                 }
                 actor->vx = value >> 12;
-                value = func_80077CF4(angle) * mag;
+                value = rsin(angle) * mag;
                 if (value < 0) {
                     value += 0xFFF;
                 }
@@ -258,12 +258,12 @@ mode1:
                 actor->vy = -(func_80071A54() & 0xF) - 8;
                 mag = (s32)(mag + ((u32)mag >> 31)) >> 1;
             }
-            value = func_80077DC4(angle) * mag;
+            value = rcos(angle) * mag;
             if (value < 0) {
                 value += 0xFFF;
             }
             actor->vx = value >> 12;
-            value = func_80077CF4(angle) * mag;
+            value = rsin(angle) * mag;
             if (value < 0) {
                 value += 0xFFF;
             }

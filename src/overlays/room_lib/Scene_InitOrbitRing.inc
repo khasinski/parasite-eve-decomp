@@ -23,9 +23,9 @@ void SCENE_INIT_ORBIT_RING_NAME(int unused0, int unused1, SceneOrbitRing *ring) 
         ring->point[i].x = anchor->x;
         ring->point[i].y = anchor->y - 0x64;
         ring->point[i].z = anchor->z;
-        ring->direction[i].x = Overlay_Sin(angle);
+        ring->direction[i].x = rsin(angle);
         ring->direction[i].pad02 = 0;
-        ring->direction[i].z = Overlay_Cos(angle);
+        ring->direction[i].z = rcos(angle);
         i++;
     } while (i < 16);
 

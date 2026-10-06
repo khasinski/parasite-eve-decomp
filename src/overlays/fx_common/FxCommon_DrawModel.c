@@ -53,7 +53,7 @@ void FxCommon_DrawModel(void *context, FxCommonPolyModel *model, int index)
     sp = FX_COMMON_SCRATCHPAD;
 
     for (i = 0; i < model->header.counts[0]; i++, f3++) {
-        result = func_80079384(&f3->vertices[0], &f3->vertices[1], &f3->vertices[2],
+        result = RotAverageNclip3(&f3->vertices[0], &f3->vertices[1], &f3->vertices[2],
                                &sp->screenCoordinates[0], &sp->screenCoordinates[1],
                                &sp->screenCoordinates[2], &sp->perspective, &sp->orderingDepth,
                                &sp->transformFlags);
@@ -72,7 +72,7 @@ void FxCommon_DrawModel(void *context, FxCommonPolyModel *model, int index)
 
     f4Packet = (FxCommonModelF4Packet *)f3Packet;
     for (i = 0; i < model->header.counts[1]; i++, f4++) {
-        result = func_80079414(&f4->vertices[0], &f4->vertices[1], &f4->vertices[2],
+        result = RotAverageNclip4(&f4->vertices[0], &f4->vertices[1], &f4->vertices[2],
                                &f4->vertices[3], &sp->screenCoordinates[0],
                                &sp->screenCoordinates[1], &sp->screenCoordinates[2],
                                &sp->screenCoordinates[3], &sp->perspective, &sp->orderingDepth,
@@ -93,7 +93,7 @@ void FxCommon_DrawModel(void *context, FxCommonPolyModel *model, int index)
 
     g3Packet = (FxCommonModelG3Packet *)f4Packet;
     for (i = 0; i < model->header.counts[2]; i++, g3++) {
-        result = func_80079384(&g3->vertices[0], &g3->vertices[1], &g3->vertices[2],
+        result = RotAverageNclip3(&g3->vertices[0], &g3->vertices[1], &g3->vertices[2],
                                &sp->screenCoordinates[0], &sp->screenCoordinates[1],
                                &sp->screenCoordinates[2], &sp->perspective, &sp->orderingDepth,
                                &sp->transformFlags);

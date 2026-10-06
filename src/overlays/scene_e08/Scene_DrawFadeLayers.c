@@ -34,8 +34,8 @@ void func_800C3098(int);
 void func_800C3238(int);
 void func_800C3134(void *, int, void *);
 void func_80071A44(RoomFxVec4 *, int, int);
-void func_800794C4(RoomFxSeed8 *, RoomSpriteMatrix *);
-void func_80078CC4(RoomSpriteMatrix *, RoomFxVec4 *);
+void RotMatrix(RoomFxSeed8 *, RoomSpriteMatrix *);
+void ScaleMatrix(RoomSpriteMatrix *, RoomFxVec4 *);
 void func_800C42A4(void *, RoomSpriteMatrix *, int);
 void func_800C4FC4(void *, RoomSpriteMatrix *, int);
 
@@ -58,13 +58,13 @@ void func_8018F640(void *unused, s16 *args, Ovl178FadeState *state) {
     func_800C3134(D_801986F8, args[1], &D_80199670);
     for (i = 0; i < 4; ++i) {
         seed.fields.angle = state->field_25C[i];
-        func_800794C4(&seed.raw, &matrix);
+        RotMatrix(&seed.raw, &matrix);
         func_80071A44(&sourceScale, 0, 0x10);
         sourceScale.x = state->field_254[i];
         sourceScale.y = state->field_254[i];
         sourceScale.z = state->field_254[i];
         scale = sourceScale;
-        func_80078CC4(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         matrix.t[0] = ownerCursor->x;
         matrix.t[1] = ownerCursor->y;
         matrix.t[2] = ownerCursor->z;
@@ -89,7 +89,7 @@ void func_8018F640(void *unused, s16 *args, Ovl178FadeState *state) {
         sourceScale.y = state->field_230[i];
         sourceScale.z = state->field_230[i];
         scale = sourceScale;
-        func_80078CC4(&matrix, &scale);
+        ScaleMatrix(&matrix, &scale);
         matrix.t[0] = ownerCursor->x;
         matrix.t[1] = ownerCursor->y;
         matrix.t[2] = ownerCursor->z;

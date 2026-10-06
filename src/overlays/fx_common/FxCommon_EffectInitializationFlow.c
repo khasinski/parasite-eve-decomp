@@ -139,11 +139,11 @@ void func_80196498(void)
     func_80191854();
     func_80190998();
     func_80195F6C();
-    func_80078E34(&D_8019C11C);
-    func_80078E64(&D_8019C0FC);
-    func_80078FC4(0x40, 0x40, 0x40);
-    func_80077E64(0x1000, 0x2000, 0x300);
-    func_80078FE4(0xFF, 0xFF, 0xFF);
+    SetLightMatrix(&D_8019C11C);
+    SetColorMatrix(&D_8019C0FC);
+    SetBackColor(0x40, 0x40, 0x40);
+    SetFogNearFar(0x1000, 0x2000, 0x300);
+    SetFarColor(0xFF, 0xFF, 0xFF);
     textureIndexOrHasPoints = 0;
     do {
         textureY = g_FxTextureSetup[textureIndexOrHasPoints].y;

@@ -32,7 +32,7 @@ int func_801957CC(int mode, RoomOrbitTrailParticle *p) {
     case 2:
         switch (p->state) {
         case 0:
-            size = func_80077DC4(((s16)p->timer << 10) / 12) / 8;
+            size = rcos(((s16)p->timer << 10) / 12) / 8;
             {
                 RenderMatrixSlot *matrixSlot = &D_800BCFA4;
                 gte_ldrotmatrix(matrixSlot->value);
@@ -43,14 +43,14 @@ int func_801957CC(int mode, RoomOrbitTrailParticle *p) {
             return 0;
         case 1:
             angle = ((s16)p->timer << 10) / 24;
-            func_800CFB7C(&p->heading, (s16)(func_80077DC4(angle) * p->radius / 4096),
+            func_800CFB7C(&p->heading, (s16)(rcos(angle) * p->radius / 4096),
                           &offset);
             offset.x += p->x;
             offset.y += p->y;
             offset.z += p->z;
-            size = func_80077DC4(angle) * 2;
+            size = rcos(angle) * 2;
             spin.z = (s16)p->timer * 32;
-            glow = func_80077CF4(angle) / 32;
+            glow = rsin(angle) / 32;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
             D_800F3368.extent_x = 0x20;
@@ -117,8 +117,8 @@ int func_80195B40(int mode, SceneE22SwirlRing *swirl) {
         case 0:
             swirl->timer++;
             angle = (swirl->timer << 10) / 30;
-            swirl->glow = func_80077CF4(angle) / 32;
-            swirl->ring = func_80077DC4(angle) + 0x400;
+            swirl->glow = rsin(angle) / 32;
+            swirl->ring = rcos(angle) + 0x400;
             if (swirl->timer < 9) {
                 for (i = 0; i < 4; i++) {
                     child = func_800CE610(D_800F33E0->pool);
@@ -158,8 +158,8 @@ int func_80195B40(int mode, SceneE22SwirlRing *swirl) {
         case 1:
             swirl->timer++;
             angle = (swirl->timer << 10) / 20;
-            swirl->glow = func_80077DC4(angle) / 32;
-            swirl->ring = func_80077CF4(angle);
+            swirl->glow = rcos(angle) / 32;
+            swirl->ring = rsin(angle);
             if (swirl->timer < 0x14) break;
             return 1;
         }
@@ -222,7 +222,7 @@ int func_80195B40(int mode, SceneE22SwirlRing *swirl) {
             if (timer == 1)
                 func_800D1AE0(&color, 0x80, 2, 8);
             else if (timer < 6)
-                func_800D1AE0(&color, func_80077CF4(((timer - 2) << 10) / 3) / 32, 1, 8);
+                func_800D1AE0(&color, rsin(((timer - 2) << 10) / 3) / 32, 1, 8);
             glow = swirl->glow;
             D_800F3368.depth = 0x20;
             func_800D0728(&position, 0x44C, 0x5DC, 0x18, 0, swirl->ring, swirl->ring, 0,

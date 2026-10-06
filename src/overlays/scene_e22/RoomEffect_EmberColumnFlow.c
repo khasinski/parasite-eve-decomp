@@ -28,8 +28,8 @@ int func_8019485C(int mode, RoomOrbitTrailParticle *p) {
                 bounce = -(s16)fall;
                 p->heading.y = bounce;
             }
-            p->x += func_80077CF4((s16)p->timer << 8) * 40 / 4096;
-            p->y += func_80077DC4((s16)p->timer << 8) * 40 / 4096;
+            p->x += rsin((s16)p->timer << 8) * 40 / 4096;
+            p->y += rcos((s16)p->timer << 8) * 40 / 4096;
             if ((s16)p->timer < 0x20) break;
             return 1;
         case 1:
@@ -59,7 +59,7 @@ int func_8019485C(int mode, RoomOrbitTrailParticle *p) {
         case 0: {
             int kind;
             int palette;
-            size = func_80077DC4((s16)p->timer << 5) / 2 + 0x800;
+            size = rcos((s16)p->timer << 5) / 2 + 0x800;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
             D_800F3368.extent_x = 0x20;
@@ -87,8 +87,8 @@ int func_8019485C(int mode, RoomOrbitTrailParticle *p) {
         case 1: {
             int kind;
             int palette;
-            size = func_80077CF4((s16)p->timer << 6) + 0x800;
-            glow = func_80077DC4((s16)p->timer * 1204 / 16) / 128;
+            size = rsin((s16)p->timer << 6) + 0x800;
+            glow = rcos((s16)p->timer * 1204 / 16) / 128;
             D_800F3368.parameter00 = 0x40;
             D_800F3368.parameter02 = 4;
             D_800F3368.extent_x = 0x40;
@@ -252,10 +252,10 @@ int func_80194F60(int mode, GteShortVector *anchor) {
         if (D_800E27EC < 0x21) {
             int kind;
             int palette;
-            glow = func_80077CF4(D_800E27EC << 6) / 32;
+            glow = rsin(D_800E27EC << 6) / 32;
             if (D_800E27EC & 1)
                 glow = glow * 15 / 16;
-            size = func_80077CF4(D_800E27EC << 5) / 2 + 0x800;
+            size = rsin(D_800E27EC << 5) / 2 + 0x800;
             func_800CE870((char *)D_800F32D0->pool, 0, (s16 *)&position);
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
@@ -265,7 +265,7 @@ int func_80194F60(int mode, GteShortVector *anchor) {
                           1, glow, 0);
             func_800D004C(&position, 800, 600, 0x10, 0, 0x1000, 0x1000, &color, 0,
                           glow, 1);
-            size = func_80077CF4(D_800E27EC << 5);
+            size = rsin(D_800E27EC << 5);
             position.x = anchor->x;
             position.y = anchor->y;
             position.z = anchor->z;

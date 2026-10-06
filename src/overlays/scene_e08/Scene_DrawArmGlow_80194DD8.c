@@ -42,7 +42,7 @@ void func_80194DD8(void *object, void *timer, SceneArmGlow *glow)
     source.y = glow->scale;
     source.z = 0x1000;
     scale = source;
-    func_80078CC4(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
     matrix.t[0] = matrices[32].translation[0];
     matrix.t[1] = matrices[32].translation[1];
     matrix.t[2] = matrices[32].translation[2];
@@ -64,7 +64,7 @@ void func_80194DD8(void *object, void *timer, SceneArmGlow *glow)
     second.y = glow->scale;
     second.z = 0x1000;
     source = second;
-    func_80078CC4(&matrix, &source);
+    ScaleMatrix(&matrix, &source);
     matrix.t[0] = matrices[22].translation[0];
     matrix.t[1] = matrices[22].translation[1];
     matrix.t[2] = matrices[22].translation[2];

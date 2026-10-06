@@ -36,8 +36,8 @@ extern unsigned short D_800E1204[];
 extern int D_800F3428;
 extern void *D_800BCFA4;
 
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
+int rsin(int angle);
+int rcos(int angle);
 int func_80077AA4(int width, int texture);
 int func_800CEE20();
 int func_800D2104();
@@ -141,13 +141,13 @@ drawBounce:
         register int fade asm("$2");
         int texture;
 
-        sinValue = func_80077CF4((fx->timer << 10) / 24);
+        sinValue = rsin((fx->timer << 10) / 24);
         angle = (fx->timer * 1204) / 24;
         PE1_COMPILER_USE(angle);
         scale = ((unsigned int)sinValue >> 31) + sinValue;
         scale >>= 1;
         saved2 = scale + 0x1000;
-        fade = func_80077DC4(angle);
+        fade = rcos(angle);
         if (fade < 0) {
             fade += 0x7F;
         }
@@ -168,7 +168,7 @@ drawRise:
         int angle;
         void **matrixSlot;
 
-        angle = func_80077DC4(fx->timer << 5);
+        angle = rcos(fx->timer << 5);
         if (angle < 0) {
             angle += 0x1F;
         }

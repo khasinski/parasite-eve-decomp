@@ -46,7 +46,7 @@ typedef struct RoomCometSparkPacket {
 
 extern RoomCometSparkBattleEntity *D_8009D254;
 extern int func_800C6B90(void *position, int radius);
-extern void func_800783E4(void *from, void *to, int weightFrom, int weightTo,
+extern void LoadAverageShort12(void *from, void *to, int weightFrom, int weightTo,
                           void *out);
 extern void func_800D3114(void *trail, int count, int length, int arg3, int arg4,
                           int arg5, int arg6, int tpage, int clut, int alpha,
@@ -81,8 +81,8 @@ int ROOMEFFECT_COMET_SPARK_FUNC(int mode, RoomCometSpark *spark) {
             spark->x = (first.x + second.x) / 2;
             spark->y = (first.y + second.y) / 2;
             spark->z = (first.z + second.z) / 2;
-            func_800783E4(spark, &spark->vx, 0xAAB, 0x555, &spark->steer);
-            func_800783E4(spark, &spark->vx, 0x556, 0xAAA, &spark->drift);
+            LoadAverageShort12(spark, &spark->vx, 0xAAB, 0x555, &spark->steer);
+            LoadAverageShort12(spark, &spark->vx, 0x556, 0xAAA, &spark->drift);
             spark->drift.x += (func_80071A54() & 0x1FF) - 0x100;
             spark->drift.y += (func_80071A54() & 0x1FF) - 0x100;
             spark->drift.z += (func_80071A54() & 0x1FF) - 0x100;
@@ -199,7 +199,7 @@ int ROOMEFFECT_COMET_SPARK_FUNC(int mode, RoomCometSpark *spark) {
             D_800F3368.palette = 3;
             D_800F3368.parameter06 = 1;
             D_800F3368.parameter0A = 5;
-            scale = func_80077CF4((s16)spark->timer << 6);
+            scale = rsin((s16)spark->timer << 6);
             gte_ldrotmatrix(D_800BCFA4.value);
             gte_ldtransmatrix(D_800BCFA4.value);
             func_800CF3AC(ROOMEFFECT_COMET_SPARK_COLOR_TABLE, &color, (s16)spark->timer);

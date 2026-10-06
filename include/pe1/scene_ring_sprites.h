@@ -49,9 +49,7 @@ void func_800C2EAC(int mode);
 void func_800C3098(int arg0);
 void func_800C3238(int arg0);
 void func_800C2FF0(int width, int height);
-void func_80078CC4(GteMatrix *matrix, GteVector *scale);
 void func_800C42A4(SceneRingSprite *sprite, GteMatrix *matrix, int mode);
-void func_800794C4(GteRotation *rotation, GteMatrix *matrix);
 void func_80071A44(GteVector *vector, int value, int size);
 void func_800C4FC4(SceneRingShade *ring, GteMatrix *matrix, int mode);
 

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "RoomLib_Overlay024.h"
 
-void func_80078C34(void *transform, RoomOverlay024MatrixSeed8 *seed, void *out);
+void ApplyMatrixSV(void *transform, RoomOverlay024MatrixSeed8 *seed, void *out);
 
 void func_80192494(void) {
 }
@@ -9,7 +9,7 @@ void func_80192494(void) {
 extern RoomOverlay024MatrixSeed8 D_8018F01C;
 extern RoomOverlay024VectorSeed D_8018F024;
 extern void *D_80192C34;
-void func_80078CC4(RoomOverlay024ViewMatrix *matrix, RoomOverlay024VectorSeed *seed);
+void ScaleMatrix(RoomOverlay024ViewMatrix *matrix, RoomOverlay024VectorSeed *seed);
 void func_800C2EAC(u8 arg0);
 void func_800C2FF0(s32 arg0, s32 arg1);
 void func_800C3098(s32 arg0);
@@ -42,8 +42,8 @@ void func_8019249C(void) {
     matrix = view->tail.matrix;
     vector_seed = D_8018F024;
 
-    func_80078CC4(&matrix, &vector_seed);
-    func_80078C34(&view->tail.matrix, &seed, out);
+    ScaleMatrix(&matrix, &vector_seed);
+    ApplyMatrixSV(&view->tail.matrix, &seed, out);
 
     matrix.tx += out[0];
     matrix.ty += out[1];
@@ -81,7 +81,7 @@ void func_80192688(void *arg0, void *arg1, RoomOverlay024Effect *effect) {
 
     view = (RoomOverlay024View *)(*(RoomOverlay024Root **)func_800C2B50())->view;
     seed = D_8018F01C;
-    func_80078C34(&view->tail.position.transform, &seed, out);
+    ApplyMatrixSV(&view->tail.position.transform, &seed, out);
 
     if (effect->timer == 0) {
         effect->half14 = 0;

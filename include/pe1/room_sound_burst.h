@@ -105,8 +105,8 @@ extern void func_800CE870(void *object, int mode, void *position);
 extern void func_800CFAA8(void *from, void *to, void *angles);
 extern void func_800CFD50(void *angles, void *out, int speed);
 extern void func_800CFB7C(void *angles, int distance, void *out);
-extern int func_80077CF4(int angle);
-extern void func_800783E4(void *, void *, int, int, void *);
+extern int rsin(int angle);
+extern void LoadAverageShort12(void *, void *, int, int, void *);
 extern void func_800D2B58(void *, void *, void *, void *, int, int, int);
 
 /* Homing spark: anchor, heading vector, state, timer and sound handle. */

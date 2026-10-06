@@ -23,7 +23,6 @@ extern void func_800C2EAC(s32 arg0);
 extern void func_800C3098(s32 arg0);
 extern void func_800C2FF0(s32 arg0, s32 arg1);
 extern void func_800C3238(s32 arg0);
-extern void func_80078CC4(void *arg0, void *arg1);
 extern void func_800C42A4(void *arg0, void *arg1, s32 arg2);
 
 void func_8019002C(s32 arg0, s32 arg1, char *arg2) {
@@ -54,6 +53,6 @@ void func_8019002C(s32 arg0, s32 arg1, char *arg2) {
     stack.sp24[1] = *(s16 *)(arg2 + 0xA);
     stack.sp24[2] = *(s16 *)(arg2 + 0xC);
     stack.sp30 = D_8018EFFC;
-    func_80078CC4(&stack, &stack.sp30);
+    ScaleMatrix(&stack, &stack.sp30);
     func_800C42A4(ptr - 5, &stack, 1);
 }

@@ -20,19 +20,19 @@ void func_80191114(FxCommonLodNode *node, FxCommonBuffer *context, u8 force, u8 
     margin = node->margin;
     if (mode == 2) {
         seed = node->seed;
-        func_800794C4(&seed, &node->matrix);
+        RotMatrix(&seed, &node->matrix);
         copy = node->matrix;
         gte_CompMatrix(&copy, &mirror, &node->matrix);
         node->matrix.t[0] = copy.t[0];
         node->matrix.t[1] = copy.t[1];
         node->matrix.t[2] = copy.t[2];
     } else {
-        func_800794C4(&node->seed, &node->matrix);
+        RotMatrix(&node->seed, &node->matrix);
     }
     *D_8019BFF0 = node->matrix;
-    func_800787D4(&D_8019CC30, D_8019BFF0, D_8019BFF0);
-    func_80078E94(D_8019BFF0);
-    func_80078E04(D_8019BFF0);
+    CompMatrix(&D_8019CC30, D_8019BFF0, D_8019BFF0);
+    SetTransMatrix(D_8019BFF0);
+    SetRotMatrix(D_8019BFF0);
     if (FxCommon_CheckBoundsWithMargin(&position.x, margin) | force) {
         depth = D_8019BFF0->t[2];
         if (depth < node->nearDepth) {

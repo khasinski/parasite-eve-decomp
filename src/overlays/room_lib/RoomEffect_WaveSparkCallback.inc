@@ -50,8 +50,8 @@ extern u8 ROOMEFFECT_WAVE_SPARK_COLOR_TABLE[];
         D_800F3368.extent_x = 0x20;                                          \
         D_800F3368.extent_y = 0x20;                                          \
         if (recompute) {                                                     \
-            fade = func_80077DC4(((s16)spark->timer << 10) / 24) / 32;       \
-            scale = func_80077CF4(((s16)spark->timer << 10) / 24) + 0x800;   \
+            fade = rcos(((s16)spark->timer << 10) / 24) / 32;       \
+            scale = rsin(((s16)spark->timer << 10) / 24) + 0x800;   \
         }                                                                    \
         kind = D_800F3368.palette;                                           \
         palette = D_800E1204[kind];                                          \
@@ -149,7 +149,7 @@ int ROOMEFFECT_WAVE_SPARK_FUNC(int mode, RoomPhasedSpark *spark) {
                               (s16)D_800F3368.parameter02 * (s16)spark->timer + 0xA7,
                               clut, 3, 0x80, 0);
             }
-            scale = func_80077DC4((s16)spark->timer << 7);
+            scale = rcos((s16)spark->timer << 7);
             func_800CF3AC(ROOMEFFECT_WAVE_SPARK_COLOR_TABLE, &color, (s16)spark->timer);
             matrixSlot = &D_800BCFA4;
             gte_ldrotmatrix(matrixSlot->value);

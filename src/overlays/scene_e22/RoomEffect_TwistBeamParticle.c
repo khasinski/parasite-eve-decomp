@@ -41,8 +41,8 @@ int func_8019702C(int mode, RoomOrbitTrailParticle *p) {
             int palette;
             angle = (s16)p->timer << 5;
             func_800CF844(p, &offset, 200, &p->heading,
-                          func_80077CF4(angle) * p->radius / 4096, p->heading.pad);
-            size = func_80077DC4(angle) * 3 / 2;
+                          rsin(angle) * p->radius / 4096, p->heading.pad);
+            size = rcos(angle) * 3 / 2;
             spin.z = p->heading.pad - (s16)p->timer * 30;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -88,7 +88,7 @@ int func_8019702C(int mode, RoomOrbitTrailParticle *p) {
             return 0;
         }
         case 2:
-            size = func_80077DC4((s16)p->timer << 6) / 8;
+            size = rcos((s16)p->timer << 6) / 8;
             {
                 RenderMatrixSlot *matrixSlot = &D_800BCFA4;
                 gte_ldrotmatrix(matrixSlot->value);

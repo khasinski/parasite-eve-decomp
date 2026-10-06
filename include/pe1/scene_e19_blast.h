@@ -64,10 +64,9 @@ void func_8006DF50(void *channel, int sound, int time, int pan, int volume);
 int func_80071A54(void);
 int func_80077A64(int tp, int abr, int x, int y);
 u16 func_80077AA4(int x, int y);
-int func_80077CF4(int angle);
-int func_80077DC4(int angle);
-void func_80078CC4(GteMatrix *matrix, GteVector *scale);
-void func_80079754(GteShortVector *angles, GteMatrix *matrix);
+int rsin(int angle);
+int rcos(int angle);
+#include "pe1/gte_types.h"
 int func_800C6B90(GteShortVector *position, int range);
 void func_800C6D5C(void *model, int x, int y);
 void func_800C6EC0(int page, int clut);

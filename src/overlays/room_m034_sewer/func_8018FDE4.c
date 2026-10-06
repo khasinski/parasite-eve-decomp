@@ -15,7 +15,6 @@ typedef struct Room034FxParams {
 extern Room034Vec4 D_8018EFFC;
 extern u16 D_8019006A;
 
-void func_80078CC4(Room034Matrix *matrix, Room034Vec4 *scale);
 void func_800C2EAC(s32 arg0);
 void func_800C2FF0(s32 arg0, s32 arg1);
 void func_800C3098(s32 arg0);
@@ -51,6 +50,6 @@ void func_8018FDE4(void *arg0, void *arg1, Room034FxParams *fx) {
     matrix.t[1] = fx->y;
     matrix.t[2] = fx->z;
     scale = D_8018EFFC;
-    func_80078CC4(&matrix, &scale);
+    ScaleMatrix(&matrix, &scale);
     func_800C42A4((char *)depth_slot - 0xA, &matrix, 1);
 }

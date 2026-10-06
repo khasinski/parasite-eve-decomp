@@ -22,7 +22,7 @@ extern RoomFxSeed8 ROOMLIB_ORBIT_SEED3;
 extern short D_800942EC;
 
 int *func_800C2B10(int index);
-void func_80078C34(
+void ApplyMatrixSV(
     void *transform, RoomFxSeed8 *seed, unsigned short *output);
 
 void ROOMLIB_INIT_ORBIT_SPRITE_NAME(
@@ -41,13 +41,13 @@ void ROOMLIB_INIT_ORBIT_SPRITE_NAME(
     seed3 = ROOMLIB_ORBIT_SEED3;
 
     if (*func_800C2B10(1) == 0) {
-        func_80078C34(&view->transform, &seed0,
+        ApplyMatrixSV(&view->transform, &seed0,
                       (unsigned short *)&state->pad6[2]);
-        func_80078C34(&view->transform, &seed1, position);
+        ApplyMatrixSV(&view->transform, &seed1, position);
     } else {
-        func_80078C34(&view->transform, &seed2,
+        ApplyMatrixSV(&view->transform, &seed2,
                       (unsigned short *)&state->pad6[2]);
-        func_80078C34(&view->transform, &seed3, position);
+        ApplyMatrixSV(&view->transform, &seed3, position);
     }
 
     state->x = position[0] + view->baseX;

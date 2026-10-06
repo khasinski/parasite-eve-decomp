@@ -6,7 +6,7 @@
 extern FieldActor *g_PlayerEntity;
 extern s16 D_800966EE[];
 
-int func_80079FB4(int x, int z);
+int ratan2(int x, int z);
 int func_8005186C(int squaredDistance);
 
 int func_80192F54(void) {
@@ -44,7 +44,7 @@ int func_80192F5C(RoomOscillationEffect *effect) {
 
     if (outs[0]) {
         FieldActor *player = g_PlayerEntity;
-        int angle = func_80079FB4(actor->pos_x - player->pos_x,
+        int angle = ratan2(actor->pos_x - player->pos_x,
                                   actor->pos_z - player->pos_z);
 
         *outs[0] = (angle - actor->rot_y) & 4095;

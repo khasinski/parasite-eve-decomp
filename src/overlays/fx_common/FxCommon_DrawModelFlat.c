@@ -54,7 +54,7 @@ void FxCommon_DrawModelFlat(void *context, FxCommonPolyModel *model, int index)
     sp = FX_COMMON_SCRATCHPAD;
 
     for (i = 0; i < model->header.counts[0]; i++, f3++) {
-        if (func_80079384(&f3->vertices[0], &f3->vertices[1], &f3->vertices[2],
+        if (RotAverageNclip3(&f3->vertices[0], &f3->vertices[1], &f3->vertices[2],
                           &sp->screenCoordinates[0], &sp->screenCoordinates[1],
                           &sp->screenCoordinates[2], &sp->perspective, &depth,
                           &sp->transformFlags) > 0) {
@@ -70,7 +70,7 @@ void FxCommon_DrawModelFlat(void *context, FxCommonPolyModel *model, int index)
 
     f4Packet = (FxCommonModelF4Packet *)f3Packet;
     for (i = 0; i < model->header.counts[1]; i++, f4++) {
-        if (func_80079414(&f4->vertices[0], &f4->vertices[1], &f4->vertices[2],
+        if (RotAverageNclip4(&f4->vertices[0], &f4->vertices[1], &f4->vertices[2],
                           &f4->vertices[3], &sp->screenCoordinates[0], &sp->screenCoordinates[1],
                           &sp->screenCoordinates[2], &sp->screenCoordinates[3], &sp->perspective,
                           &depth, &sp->transformFlags) > 0) {
@@ -87,7 +87,7 @@ void FxCommon_DrawModelFlat(void *context, FxCommonPolyModel *model, int index)
 
     g3Packet = (FxCommonModelG3Packet *)f4Packet;
     for (i = 0; i < model->header.counts[2]; i++, g3++) {
-        if (func_80079384(&g3->vertices[0], &g3->vertices[1], &g3->vertices[2],
+        if (RotAverageNclip3(&g3->vertices[0], &g3->vertices[1], &g3->vertices[2],
                           &sp->screenCoordinates[0], &sp->screenCoordinates[1],
                           &sp->screenCoordinates[2], &sp->perspective, &depth,
                           &sp->transformFlags) > 0) {
@@ -105,7 +105,7 @@ void FxCommon_DrawModelFlat(void *context, FxCommonPolyModel *model, int index)
 
     g4Packet = (FxCommonModelG4Packet *)g3Packet;
     for (i = 0; i < model->header.counts[3]; i++, g4++) {
-        if (func_80079414(&g4->vertices[0], &g4->vertices[1], &g4->vertices[2],
+        if (RotAverageNclip4(&g4->vertices[0], &g4->vertices[1], &g4->vertices[2],
                           &g4->vertices[3], &sp->screenCoordinates[0], &sp->screenCoordinates[1],
                           &sp->screenCoordinates[2], &sp->screenCoordinates[3], &sp->perspective,
                           &depth, &sp->transformFlags) > 0) {
@@ -168,7 +168,7 @@ void FxCommon_DrawModelFlat(void *context, FxCommonPolyModel *model, int index)
 
     gt3Packet = (FxCommonModelGt3Packet *)ft4Packet;
     for (i = 0; i < model->header.counts[6]; i++, gt3++) {
-        if (func_80079384(&gt3->vertices[0], &gt3->vertices[1], &gt3->vertices[2],
+        if (RotAverageNclip3(&gt3->vertices[0], &gt3->vertices[1], &gt3->vertices[2],
                           &sp->screenCoordinates[0], &sp->screenCoordinates[1],
                           &sp->screenCoordinates[2], &sp->perspective, &depth,
                           &sp->transformFlags) > 0) {
@@ -189,7 +189,7 @@ void FxCommon_DrawModelFlat(void *context, FxCommonPolyModel *model, int index)
 
     gt4Packet = (FxCommonModelGt4Packet *)gt3Packet;
     for (i = 0; i < model->header.counts[7]; i++, gt4++) {
-        if (func_80079414(&gt4->vertices[0], &gt4->vertices[1], &gt4->vertices[2],
+        if (RotAverageNclip4(&gt4->vertices[0], &gt4->vertices[1], &gt4->vertices[2],
                           &gt4->vertices[3], &sp->screenCoordinates[0], &sp->screenCoordinates[1],
                           &sp->screenCoordinates[2], &sp->screenCoordinates[3], &sp->perspective,
                           &depth, &sp->transformFlags) > 0) {

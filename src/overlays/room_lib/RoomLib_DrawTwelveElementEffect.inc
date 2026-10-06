@@ -26,14 +26,14 @@ typedef struct RoomTwelveEffectDrawStack {
     RoomFxVec4 sourceScale;
 } RoomTwelveEffectDrawStack;
 
-void func_800794C4(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
+void RotMatrix(RoomFxSeed8 *seed, RoomSpriteMatrix *matrix);
 void func_800C2EAC(u8 owner);
 void func_800C2FF0(int width, int height);
 void func_800C3098(int depth);
 void func_800C3238(int mode);
-void func_80078BE4(RoomSpriteMatrix *matrix, void *position, int *translation);
+void ApplyMatrix(RoomSpriteMatrix *matrix, void *position, int *translation);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void func_80078CC4(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
+void ScaleMatrix(RoomSpriteMatrix *matrix, RoomFxVec4 *scale);
 void func_800C3134(void *table, int step, void *out);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 int func_8001CAB0(int x, int z, int arg2, int arg3);
@@ -81,7 +81,7 @@ void ROOMLIB_DRAW_TWELVE_EFFECT_FUNC(void *unused0, void *unused1,
     stack.localMatrix.m[1][0] = 0;
     stack.localMatrix.m[0][2] = 0;
     stack.localMatrix.m[0][1] = 0;
-    func_800794C4(&stack.seed, &stack.localMatrix);
+    RotMatrix(&stack.seed, &stack.localMatrix);
 
     i = 0;
     primaryMatrix = &stack.primaryMatrix;
@@ -102,7 +102,7 @@ void ROOMLIB_DRAW_TWELVE_EFFECT_FUNC(void *unused0, void *unused1,
             asm("" : "=r"(transformArg) : "0"(transformArg));
             positionOffset = i << 3;
             positionOffset += 0x5C;
-            func_80078BE4(transformArg, workState + positionOffset,
+            ApplyMatrix(transformArg, workState + positionOffset,
                           stack.primaryMatrix.t);
 
             func_80071A44(sourceScale, 0, 0x10);
@@ -110,7 +110,7 @@ void ROOMLIB_DRAW_TWELVE_EFFECT_FUNC(void *unused0, void *unused1,
             stack.sourceScale.y = *(s16 *)(valueCursor + 0x44);
             stack.sourceScale.z = *(s16 *)(valueCursor + 0x44);
             stack.scale = stack.sourceScale;
-            func_80078CC4(primaryMatrix, &stack.scale);
+            ScaleMatrix(primaryMatrix, &stack.scale);
 
             stack.primaryMatrix.t[0] += *(int *)(clock + 0x18);
             stack.primaryMatrix.t[1] += *(int *)(clock + 0x1C);
@@ -121,7 +121,7 @@ void ROOMLIB_DRAW_TWELVE_EFFECT_FUNC(void *unused0, void *unused1,
 
             stack.secondaryMatrix = stack.primaryMatrix;
             stack.sourceScale = D_8018F004;
-            func_80078CC4(secondaryMatrix, sourceScale);
+            ScaleMatrix(secondaryMatrix, sourceScale);
 
             gte_ldrotmatrix(secondaryMatrix);
             gte_ldrtir12_matrix_column(&stack.localMatrix.m[0][0]);

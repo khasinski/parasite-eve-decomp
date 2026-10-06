@@ -143,7 +143,7 @@ int ROOMEFFECT_PHASED_SPARK_FUNC(int mode, RoomPhasedSpark *spark) {
             u16 clut;
             int kind;
             int palette;
-            scale = (func_80077DC4(D_800E27EC << 10) / 8 + 0x1000) * 3 / 4;
+            scale = (rcos(D_800E27EC << 10) / 8 + 0x1000) * 3 / 4;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
             D_800F3368.extent_x = 0x20;
@@ -183,7 +183,7 @@ int ROOMEFFECT_PHASED_SPARK_FUNC(int mode, RoomPhasedSpark *spark) {
             u16 clut;
             int kind;
             int palette;
-            scale = func_80077DC4((s16)spark->timer << 6) + 0x1000;
+            scale = rcos((s16)spark->timer << 6) + 0x1000;
             fade = (s16)spark->timer / 2;
             if (fade >= 7) fade = 6;
             D_800F3368.parameter00 = 0x20;
@@ -203,8 +203,8 @@ int ROOMEFFECT_PHASED_SPARK_FUNC(int mode, RoomPhasedSpark *spark) {
             u16 clut;
             int kind;
             int palette;
-            scale = func_80077DC4((s16)spark->timer << 7) / 2 + 0x800;
-            fade = func_80077DC4((s16)spark->timer << 7) / 32;
+            scale = rcos((s16)spark->timer << 7) / 2 + 0x800;
+            fade = rcos((s16)spark->timer << 7) / 32;
             D_800F3368.parameter00 = 0x10;
             D_800F3368.parameter02 = 1;
             D_800F3368.extent_x = 0x10;
@@ -221,8 +221,8 @@ int ROOMEFFECT_PHASED_SPARK_FUNC(int mode, RoomPhasedSpark *spark) {
             u16 clut;
             int kind;
             int palette;
-            scale = func_80077CF4(((s16)spark->timer << 10) / 24) * 2 + 0x1000;
-            fade = func_80077DC4(((s16)spark->timer * 1204) / 24) / 32;
+            scale = rsin(((s16)spark->timer << 10) / 24) * 2 + 0x1000;
+            fade = rcos(((s16)spark->timer * 1204) / 24) / 32;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
             D_800F3368.extent_x = 0x20;

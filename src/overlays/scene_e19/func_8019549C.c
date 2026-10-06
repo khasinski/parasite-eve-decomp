@@ -106,7 +106,7 @@ int func_8019549C(int mode, SceneE19HomingParticle *particle)
         func_800CFAA8(&particle->position, &particle->target,
                                     &rotation);
         func_800CFD50((u16 *)&rotation, (u16 *)&particle->angles,
-                     (u16)(func_80077CF4(particle->turnPhase) / 5));
+                     (u16)(rsin(particle->turnPhase) / 5));
 
         if (particle->speed < 62)
             particle->speed += 4;
@@ -213,7 +213,7 @@ test_timer:
         func_800D004C(&particle->position, 600, 600, 5,
                      0, 4096, 4096, &color, 0, 70, 1);
         if (particle->timer < 24 && (particle->position.pad & 1)) {
-            intensity = func_80077DC4((particle->timer << 10) / 24) / 64;
+            intensity = rcos((particle->timer << 10) / 24) / 64;
 floorIndex = D_800F336C;
 temporaryPosition.x = particle->position.x;
 temporaryPosition.y = particle->position.y;
@@ -258,8 +258,8 @@ asm("" : : "r"(divider));
         D_800F3376 = 64;
         D_800F3378 = 64;
         asm volatile("" : : : "memory");
-        intensity = func_80077DC4((particle->timer << 10) / 24) / 32;
-        scale = func_80077DC4((particle->timer << 10) / 24) * 2;
+        intensity = rcos((particle->timer << 10) / 24) / 32;
+        scale = rcos((particle->timer << 10) / 24) * 2;
         if (particle->timer & 1)
             intensity = intensity * 2 / 3;
         palette = D_800E1204[D_800F336C];

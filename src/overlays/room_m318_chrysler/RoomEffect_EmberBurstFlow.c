@@ -53,8 +53,8 @@ int func_801944E8(int mode, RoomOrbitTrailParticle *p) {
             int kind;
             int palette;
             angle = (s16)p->timer << 6;
-            size = func_80077CF4(angle) / 2 + 0x800;
-            glow = func_80077DC4(angle) / 32;
+            size = rsin(angle) / 2 + 0x800;
+            glow = rcos(angle) / 32;
             spin.z = -((s16)p->timer * 32);
             D_800F3368.parameter00 = 0x10;
             D_800F3368.parameter02 = 1;
@@ -78,11 +78,11 @@ int func_801944E8(int mode, RoomOrbitTrailParticle *p) {
             int palette;
             angle = ((s16)p->timer << 10) / 24;
             func_800CFB7C(&p->heading,
-                          (s16)(func_80077DC4(angle) * p->radius / 4096), &offset);
+                          (s16)(rcos(angle) * p->radius / 4096), &offset);
             offset.x += p->x;
             offset.y += p->y;
             offset.z += p->z;
-            size = func_80077CF4(angle);
+            size = rsin(angle);
             spin.z = (s16)p->timer * 32;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -107,8 +107,8 @@ int func_801944E8(int mode, RoomOrbitTrailParticle *p) {
             int kind;
             int palette;
             angle = (s16)p->timer << 6;
-            size = func_80077CF4(angle) + 0x1000;
-            glow = func_80077DC4(angle) / 32;
+            size = rsin(angle) + 0x1000;
+            glow = rcos(angle) / 32;
             spin.z = -((s16)p->timer * 32);
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -157,7 +157,7 @@ int func_80194AAC(int mode, RoomEmberBurst *burst, RoomEmberBurstParams *params)
         switch (burst->state) {
         case 0:
             burst->timer++;
-            burst->glow = func_80077CF4(burst->timer << 6) / 32;
+            burst->glow = rsin(burst->timer << 6) / 32;
             if (burst->timer < 0x10) break;
             burst->state = 1;
             burst->timer = 0;
@@ -216,7 +216,7 @@ int func_80194AAC(int mode, RoomEmberBurst *burst, RoomEmberBurstParams *params)
             break;
         case 2:
             burst->timer++;
-            burst->glow = func_80077DC4((burst->timer << 10) / 24) / 32;
+            burst->glow = rcos((burst->timer << 10) / 24) / 32;
             if (burst->timer < 0x18) break;
             return 1;
         }

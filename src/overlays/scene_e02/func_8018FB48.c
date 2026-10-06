@@ -14,7 +14,7 @@ void func_800C2EAC(s32 arg0);
 void func_800C2FF0(s32 arg0, s32 arg1);
 void func_800C3098(s32 arg0);
 void func_800C3238(s32 arg0);
-void func_80078CC4(Matrix *m, Vec4 *v);
+void ScaleMatrix(Matrix *m, Vec4 *v);
 s32 func_800C42A4(void *arg0, Matrix *m, s32 arg2);
 
 extern Vec4 D_8018EFFC;
@@ -44,7 +44,7 @@ void func_8018FB48(void) {
     m.m[0][2] = 0;
     m.m[0][1] = 0;
     v = D_8018EFFC;
-    func_80078CC4(&m, &v);
+    ScaleMatrix(&m, &v);
     m.t[0] = *(s32 *)(view + 0x18);
     m.t[1] = D_800942EC;
     m.t[2] = *(s32 *)(view + 0x20);

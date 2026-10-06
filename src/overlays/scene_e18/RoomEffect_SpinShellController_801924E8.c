@@ -58,8 +58,8 @@ int func_801924E8(int mode, SceneE18SpinShell *shell) {
     case 2:
         if (shell->brightness == 0)
             return 0;
-        c = func_80077DC4(shell->angle);
-        s = func_80077CF4(shell->angle);
+        c = rcos(shell->angle);
+        s = rsin(shell->angle);
         matrix.m[0][2] = s;
         matrix.m[2][0] = -s;
         matrix.m[0][0] = c;
@@ -77,7 +77,7 @@ int func_801924E8(int mode, SceneE18SpinShell *shell) {
         scale.y = shell->height;
         scale.z = shell->width;
         scaleArg = scale;
-        func_80078CC4(&matrix, &scaleArg);
+        ScaleMatrix(&matrix, &scaleArg);
         matrix.t[0] = instance->transform.t[0];
         matrix.t[1] = instance->transform.t[1];
         matrix.t[2] = instance->transform.t[2];

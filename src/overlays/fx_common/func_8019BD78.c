@@ -8,11 +8,11 @@ extern u8 D_8019C290, D_8019C291, D_8019C292, D_8019C293;
 extern void *D_8019C9C0;
 
 void func_80074D28(int);
-void func_80078FC4(int, int, int);
-void func_80078FE4(int, int, int);
-void func_80077E64(int, int, int);
-void func_80079004(int, int);
-void func_80079024(int);
+void SetBackColor(int, int, int);
+void SetFarColor(int, int, int);
+void SetFogNearFar(int, int, int);
+void SetGeomOffset(int, int);
+void SetGeomScreen(int);
 void func_8019BF8C(void **);
 void func_800752AC(void *, int);
 void func_80074924(void *, int, int, int, int);
@@ -25,11 +25,11 @@ void func_8019BD78(void) {
     s16 rect[4];
 
     func_80074D28(0);
-    func_80078FC4(0x80, 0x80, 0x80);
-    func_80078FE4(0, 0, 0);
-    func_80077E64(0x1964, 0x2CEC, 0x300);
-    func_80079004(0xA0, 0x78);
-    func_80079024(0x300);
+    SetBackColor(0x80, 0x80, 0x80);
+    SetFarColor(0, 0, 0);
+    SetFogNearFar(0x1964, 0x2CEC, 0x300);
+    SetGeomOffset(0xA0, 0x78);
+    SetGeomScreen(0x300);
 
     func_8019BF8C((void **)base);
     func_8019BF8C((void **)(base + 0x78));

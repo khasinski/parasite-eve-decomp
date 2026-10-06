@@ -151,8 +151,8 @@ int func_80192844(int mode, RoomM256Drop *drop) {
         gte_ldtransmatrix(slot->value);
         switch (drop->state) {
         case 0:
-            width = (func_80077CF4(drop->timer << 5) + 0x1200) * 2;
-            height = (func_80077CF4(drop->timer << 5) + 0xE00) * 2;
+            width = (rsin(drop->timer << 5) + 0x1200) * 2;
+            height = (rsin(drop->timer << 5) + 0xE00) * 2;
             {
                 int kind = D_800F3368.palette;
                 int palette = D_800E1204[kind];
@@ -163,10 +163,10 @@ int func_80192844(int mode, RoomM256Drop *drop) {
             }
             if (func_80071A54() & 3) return 0;
             func_800D004C(drop, 0xFA, 0xFA, 5, 0, width, width, &color, 0,
-                          func_80077DC4(drop->timer << 5) / 32, 3);
+                          rcos(drop->timer << 5) / 32, 3);
             return 0;
         case 1:
-            width = (func_80077CF4(drop->timer << 5) + 0x1200) * 2;
+            width = (rsin(drop->timer << 5) + 0x1200) * 2;
             {
                 int kind = D_800F3368.palette;
                 int palette = D_800E1204[kind];
@@ -177,7 +177,7 @@ int func_80192844(int mode, RoomM256Drop *drop) {
             }
             break;
         case 2:
-            width = func_80077CF4(drop->timer << 6) / 2 + 0x1200;
+            width = rsin(drop->timer << 6) / 2 + 0x1200;
             {
                 int kind = D_800F3368.palette;
                 int palette = D_800E1204[kind];
@@ -188,7 +188,7 @@ int func_80192844(int mode, RoomM256Drop *drop) {
             }
             return 0;
         case 3:
-            width = func_80077CF4(drop->timer << 6) / 2 + 0x1000;
+            width = rsin(drop->timer << 6) / 2 + 0x1000;
             {
                 int kind = D_800F3368.palette;
                 int palette = D_800E1204[kind];
@@ -199,7 +199,7 @@ int func_80192844(int mode, RoomM256Drop *drop) {
             }
             break;
         case 4:
-            width = func_80077DC4(drop->timer << 6) / 32 + 0x40;
+            width = rcos(drop->timer << 6) / 32 + 0x40;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
             D_800F3368.extent_x = 0x20;

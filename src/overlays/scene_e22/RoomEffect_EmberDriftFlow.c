@@ -57,8 +57,8 @@ int func_80193940(int mode, RoomOrbitTrailParticle *p) {
         case 0: {
             int kind;
             int palette;
-            size = func_80077CF4((s16)p->timer << 7) * 3 / 2;
-            glow = func_80077CF4((s16)p->timer << 7) / 160;
+            size = rsin((s16)p->timer << 7) * 3 / 2;
+            glow = rsin((s16)p->timer << 7) / 160;
             spin.z = -((s16)p->timer * 32);
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -82,7 +82,7 @@ int func_80193940(int mode, RoomOrbitTrailParticle *p) {
         case 1: {
             int kind;
             int palette;
-            size = func_80077DC4(((s16)p->timer << 10) / 24);
+            size = rcos(((s16)p->timer << 10) / 24);
             spin.z = (s16)p->timer * 32;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -106,8 +106,8 @@ int func_80193940(int mode, RoomOrbitTrailParticle *p) {
         case 2: {
             int kind;
             int palette;
-            glow = func_80077CF4(((s16)p->timer << 11) / 24) / 32;
-            size = func_80077DC4(((s16)p->timer << 10) / 24) / 2 + 0x800;
+            glow = rsin(((s16)p->timer << 11) / 24) / 32;
+            size = rcos(((s16)p->timer << 10) / 24) / 2 + 0x800;
             turn.z = D_800E27EC << 6;
             {
                 RenderMatrixSlot *matrixSlot = &D_800BCFA4;
@@ -175,7 +175,7 @@ int func_8019408C(int mode, SceneE22EmberBurst *burst) {
         case 0:
             burst->timer++;
             func_80020D50();
-            burst->glow = func_80077CF4(burst->timer << 6) / 32;
+            burst->glow = rsin(burst->timer << 6) / 32;
             if (burst->timer < 0x10) break;
             burst->state = 1;
             burst->timer = 0;
@@ -238,7 +238,7 @@ int func_8019408C(int mode, SceneE22EmberBurst *burst) {
             break;
         case 2:
             burst->timer++;
-            burst->glow = func_80077DC4((burst->timer << 10) / 24) / 32;
+            burst->glow = rcos((burst->timer << 10) / 24) / 32;
             if (burst->timer < 0x18) break;
             return 1;
         }

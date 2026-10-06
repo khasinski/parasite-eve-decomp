@@ -71,7 +71,7 @@ int ROOMEFFECT_BOUNCING_SPARK_FUNC(int mode, RoomDampedSpark *spark) {
             u16 clut;
             int kind;
             int palette;
-            scale = func_80077DC4((D_800E27EC << 10) / 24) + 0x1000;
+            scale = rcos((D_800E27EC << 10) / 24) + 0x1000;
             rotation.z = D_800E27EC * 50;
             func_800CF3AC(ROOMEFFECT_BOUNCING_SPARK_COLOR_TABLE, &color,
                           (s16)spark->timer);
@@ -95,8 +95,8 @@ int ROOMEFFECT_BOUNCING_SPARK_FUNC(int mode, RoomDampedSpark *spark) {
             int kind;
             int palette;
             int intensity;
-            scale = func_80077CF4(((s16)spark->timer << 10) / 24) + 0x1000;
-            intensity = func_80077DC4(((s16)spark->timer * 1204) / 24) / 32;
+            scale = rsin(((s16)spark->timer << 10) / 24) + 0x1000;
+            intensity = rcos(((s16)spark->timer * 1204) / 24) / 32;
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;

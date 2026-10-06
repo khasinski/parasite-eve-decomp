@@ -129,8 +129,8 @@ update: {
         if ((temp_v0_5 == 1) && (func_80071A54() & 1)) {
             func_8006DCE4(0x5FF, func_800D3FD8(), effect->position.x, effect->position.y, (s32) effect->position.z);
         }
-        temp_s3 = func_80077CF4((s32) (effect->timer << 0xA) / (s16) effect->duration);
-        func_800783E4(&effect->previousPosition, &effect->target, 0x1000 - temp_s3, temp_s3, &effect->position);
+        temp_s3 = rsin((s32) (effect->timer << 0xA) / (s16) effect->duration);
+        LoadAverageShort12(&effect->previousPosition, &effect->target, 0x1000 - temp_s3, temp_s3, &effect->position);
         func_800CE870(D_8009D254, 1, &effect->endpoint);
         if (effect->timer >= effect->duration) {
             effect->phase = 2;
@@ -171,10 +171,10 @@ update: {
         if (temp_v0_7 == 1) {
             func_8006DCE4(0x5FF, func_800D3FD8(), effect->position.x, effect->position.y, (s32) effect->position.z);
         }
-        temp_s3 = func_80077CF4((s32) (effect->timer << 0xA) / (s16) effect->duration);
+        temp_s3 = rsin((s32) (effect->timer << 0xA) / (s16) effect->duration);
         temp_s0_3 = 0x1000 - temp_s3;
-        func_800783E4(&effect->previousPosition, &effect->target, temp_s0_3, temp_s3, &effect->position);
-        func_800783E4(&effect->previousEndpoint, &effect->commandedEndpoint, temp_s0_3, temp_s3, &effect->endpoint);
+        LoadAverageShort12(&effect->previousPosition, &effect->target, temp_s0_3, temp_s3, &effect->position);
+        LoadAverageShort12(&effect->previousEndpoint, &effect->commandedEndpoint, temp_s0_3, temp_s3, &effect->endpoint);
         if (effect->timer >= effect->duration) {
             effect->phase = 4;
             effect->timer = 0;
@@ -268,7 +268,7 @@ update: {
     default: break;
     }
         if (effect->phase != 6) {
-            effect->alpha = (func_80077CF4(D_800E27EC << 5) / 128) + 0x80;
+            effect->alpha = (rsin(D_800E27EC << 5) / 128) + 0x80;
         }
         temp_s0_2 = &effect->rotation;
         func_800CFAA8(&effect->position, &effect->endpoint, temp_s0_2);
@@ -340,13 +340,13 @@ render: {
         switch (temp_v1) {                          /* switch 2; irregular */
         case 4:                                     /* switch 2 */
             temp_s3 = effect->timer << 0xA;
-            func_800783E4(&effect->trailHead, &effect->endpoint, 0x1000 - temp_s3, temp_s3, &point);
+            LoadAverageShort12(&effect->trailHead, &effect->endpoint, 0x1000 - temp_s3, temp_s3, &point);
             var_a1 = &point;
 block_63:
             func_800D2B58(&effect->trailHead, var_a1, flashColor, flashColor, 128, 128, 1);
             break;
         case 5:                                     /* switch 2 */
-            var_s0 = func_80077DC4(effect->timer << 7) / 32;
+            var_s0 = rcos(effect->timer << 7) / 32;
             func_800D2B58(&effect->trailHead, &effect->endpoint, flashColor, flashColor,
                          var_s0 / 2, var_s0, 1);
             break;
@@ -382,12 +382,12 @@ block_63:
             drawRotation.y = (u16) effect->rotation.y;
             drawRotation.z = (u16) effect->rotation.z;
             drawRotation.x = temp_v0_3 + 0x800;
-            var_v0 = func_80077CF4(drawAngle);
+            var_v0 = rsin(drawAngle);
             if (var_v0 < 0) {
                 var_v0 += 7;
             }
             drawRotation.z = (var_v0 >> 3) + 0x800;
-            func_80079754(&effect->rotation, &matrix);
+            RotMatrixYXZ(&effect->rotation, &matrix);
             matrix.t[0] = (s32) effect->position.x;
             matrix.t[1] = (s32) effect->position.y;
             translationZ = effect->position.z;
@@ -395,7 +395,7 @@ block_63:
             scale[1] = modelScale;
             scale[2] = modelScale;
             matrix.t[2] = translationZ;
-            func_80078CC4(&matrix, &scale[0]);
+            ScaleMatrix(&matrix, &scale[0]);
             func_800C6EF8(D_8019085C);
             func_800C6FA0(D_8019085C, (u16) effect->alpha);
             func_800C71E4(D_8019085C, &matrix);

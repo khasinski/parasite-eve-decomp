@@ -55,7 +55,7 @@ extern SceneHomingBurstPageIndex D_800E11EA;
 extern SceneHomingBurstChannel *D_800F32D0, *D_800F33E0;
 extern SceneHomingBurstEvent *D_800E2368;
 
-int func_80077CF4(int angle);
+int rsin(int angle);
 u16 func_80077AA4(int x, int y);
 int func_800CE560(void *pool, int size, int count, void *callback);
 SceneHomingBurstChild *func_800CE610(void *pool);

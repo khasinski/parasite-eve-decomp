@@ -102,9 +102,9 @@ extern int func_800CE560(void *pool, int size, int count, void *callback);
 extern void func_800CE8F0(void *pool, int index, void *template, void *position);
 
 extern RoomLineBurstParticle *func_800CE610(void *pool);
-extern int func_80077DC4(int angle);
-extern int func_80077CF4(int angle);
-extern void func_800783E4(void *from, void *to, int weightFrom, int weightTo, void *out);
+extern int rcos(int angle);
+extern int rsin(int angle);
+extern void LoadAverageShort12(void *from, void *to, int weightFrom, int weightTo, void *out);
 extern int func_80071A54(void);
 extern int func_8001CAB0(int x, int z, void *vertices, int count);
 extern int func_800C6B90(void *position, int radius);

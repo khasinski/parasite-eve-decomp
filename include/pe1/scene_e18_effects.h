@@ -121,10 +121,9 @@ extern int func_801928CC(int mode, SceneE18FlankParticle *particle);
  * to the model releases the actor, and the model draw helpers. */
 extern SceneE18Instance *RoomMain_ActorPtr;
 extern int func_8005186C(int value);
-extern int func_80077CF4(int angle);
-extern int func_80077DC4(int angle);
+extern int rsin(int angle);
+extern int rcos(int angle);
 extern void func_80071A44(void *data, int value, int size);
-extern void func_80078CC4(GteMatrix *matrix, GteVector *scale);
 extern void func_800C6EF8(void *asset);
 extern void func_800C6FA0(void *asset, u16 intensity);
 extern void func_800C71E4(void *asset, GteMatrix *matrix);

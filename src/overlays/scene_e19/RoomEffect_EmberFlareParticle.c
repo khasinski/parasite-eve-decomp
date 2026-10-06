@@ -57,8 +57,8 @@ int func_801972EC(int mode, RoomOrbitTrailParticle *p) {
         case 0: {
             int kind;
             int palette;
-            size = func_80077CF4((s16)p->timer << 7) * 3 / 2;
-            glow = func_80077CF4((s16)p->timer << 7) / 160;
+            size = rsin((s16)p->timer << 7) * 3 / 2;
+            glow = rsin((s16)p->timer << 7) / 160;
             spin.z = -((s16)p->timer * 32);
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -75,7 +75,7 @@ int func_801972EC(int mode, RoomOrbitTrailParticle *p) {
         case 1: {
             int kind;
             int palette;
-            size = func_80077DC4(((s16)p->timer << 10) / 24);
+            size = rcos(((s16)p->timer << 10) / 24);
             spin.z = (s16)p->timer * 32;
             D_800F3368.parameter00 = 0x20;
             D_800F3368.parameter02 = 2;
@@ -90,8 +90,8 @@ int func_801972EC(int mode, RoomOrbitTrailParticle *p) {
             break;
         }
         case 2:
-            glow = func_80077DC4(((s16)p->timer << 10) / 24) / 32;
-            size = func_80077CF4(((s16)p->timer << 10) / 24);
+            glow = rcos(((s16)p->timer << 10) / 24) / 32;
+            size = rsin(((s16)p->timer << 10) / 24);
             {
                 RenderMatrixSlot *matrixSlot = &D_800BCFA4;
                 gte_ldrotmatrix(matrixSlot->value);

@@ -37,7 +37,7 @@ extern int func_800C6B90(void *position, int radius);
 extern void func_800866A4(int handle, int arg);
 extern void func_800CFAA8(void *from, void *to, void *angles);
 extern void func_800CFD50(void *angles, void *out, int speed);
-extern void func_800783E4(void *from, void *to, int weightFrom, int weightTo,
+extern void LoadAverageShort12(void *from, void *to, int weightFrom, int weightTo,
                           void *out);
 extern void func_800D2B58(void *, void *, void *, void *, int, int, int);
 extern void func_800D1384(void *from, void *to, int width, void *color0,
@@ -104,7 +104,7 @@ int ROOMEFFECT_GROUND_SWEEP_FUNC(int mode, RoomGroundSweep *sweep,
         case 1: {
             int half;
             sweep->timer++;
-            scale = func_80077CF4(((s16)sweep->timer << 11) / 12);
+            scale = rsin(((s16)sweep->timer << 11) / 12);
             half = params->distance / 2;
             scale = scale * half / 4096;
             scale += half;
@@ -214,7 +214,7 @@ int ROOMEFFECT_GROUND_SWEEP_FUNC(int mode, RoomGroundSweep *sweep,
             int kind;
             int palette;
             scale = (s16)sweep->timer << 10;
-            func_800783E4(&hand, sweep, 0x1000 - scale, scale, &work);
+            LoadAverageShort12(&hand, sweep, 0x1000 - scale, scale, &work);
             func_800D2B58(&hand, &work, color, color, 0x80, 0, 1);
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
@@ -259,7 +259,7 @@ int ROOMEFFECT_GROUND_SWEEP_FUNC(int mode, RoomGroundSweep *sweep,
             u16 clut;
             int kind;
             int palette;
-            int fade = func_80077DC4((s16)sweep->timer << 7) / 32;
+            int fade = rcos((s16)sweep->timer << 7) / 32;
             func_800D2B58(&hand, sweep, color, color, fade, fade, 1);
             func_800D1384(&hand, sweep, 8, color, &colorA, 0x8C, sweep->trail, 1);
             kind = D_800F3368.palette;

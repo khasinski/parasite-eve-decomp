@@ -68,16 +68,16 @@ int ROOMEFFECT_LINE_BURST_FUNC(int mode, RoomLineBurstState *state,
                         child->x = state->x;
                         child->y = state->y;
                         child->z = state->z;
-                        child->vx = func_80077DC4(angle) / 256;
-                        child->vz = func_80077CF4(angle) / 256;
+                        child->vx = rcos(angle) / 256;
+                        child->vz = rsin(angle) / 256;
                         child->vy = 0;
                         child->state = i;
                         child->timer = 0;
                     }
                 }
             }
-            weight = 0x1000 - func_80077DC4((state->timer << 10) / 6);
-            func_800783E4(state, &state->px, 0x1000 - weight, weight, &state->ex);
+            weight = 0x1000 - rcos((state->timer << 10) / 6);
+            LoadAverageShort12(state, &state->px, 0x1000 - weight, weight, &state->ex);
             state->color = 0x80 - (state->timer << 5) / 6;
             if (state->timer < 6) break;
             state->state = 1;
@@ -90,8 +90,8 @@ int ROOMEFFECT_LINE_BURST_FUNC(int mode, RoomLineBurstState *state,
                     child->y = state->py;
                     child->z = state->pz;
                     speed = (func_80071A54() & 7) + 0x14;
-                    child->vx = func_80077DC4(angle) * speed / 4096;
-                    child->vz = func_80077CF4(angle) * speed / 4096;
+                    child->vx = rcos(angle) * speed / 4096;
+                    child->vz = rsin(angle) * speed / 4096;
                     child->vy = 0;
                     child->state = 0;
                     child->timer = 0;
@@ -104,11 +104,11 @@ int ROOMEFFECT_LINE_BURST_FUNC(int mode, RoomLineBurstState *state,
             }
             return 1;
         case 1:
-            state->color = func_80077DC4((++state->timer << 10) / 6) / 128 + 0x40;
+            state->color = rcos((++state->timer << 10) / 6) / 128 + 0x40;
             state->ex = state->px;
             state->ey = state->py;
             state->ez = state->pz;
-            state->scale = func_80077CF4((state->timer << 10) / 6) + 0x800;
+            state->scale = rsin((state->timer << 10) / 6) + 0x800;
             state->intensity = 0x80;
             if (state->timer < 6) break;
             state->state = 2;
@@ -118,7 +118,7 @@ int ROOMEFFECT_LINE_BURST_FUNC(int mode, RoomLineBurstState *state,
                 child = func_800CE610(D_800F33E0->pool);
                 if (child) {
                     weight = func_80071A54() & 0xFFF;
-                    func_800783E4(state, &state->px, 0x1000 - weight, weight, child);
+                    LoadAverageShort12(state, &state->px, 0x1000 - weight, weight, child);
                     child->vy = 0;
                     child->ay = (func_80071A54() & 3) + 1;
                     child->state = 1;
@@ -129,7 +129,7 @@ int ROOMEFFECT_LINE_BURST_FUNC(int mode, RoomLineBurstState *state,
         case 2:
             state->timer++;
             if (state->scale > 0x1000) state->scale -= 0x400;
-            state->intensity = func_80077CF4((state->timer << 14) / params->duration) / 128 + 0x80;
+            state->intensity = rsin((state->timer << 14) / params->duration) / 128 + 0x80;
             if (state->countdown != 0) state->countdown--;
             if (func_800C6B90(&state->px, 0x104) && state->countdown == 0) {
                 if (D_800E2368->active) {
@@ -150,8 +150,8 @@ int ROOMEFFECT_LINE_BURST_FUNC(int mode, RoomLineBurstState *state,
             state->timer = 0;
             break;
         case 3:
-            state->scale = func_80077DC4(++state->timer << 5);
-            state->intensity = func_80077DC4(state->timer << 5) / 32;
+            state->scale = rcos(++state->timer << 5);
+            state->intensity = rcos(state->timer << 5) / 32;
             if (state->timer >= 0x20) return 1;
             break;
         }
