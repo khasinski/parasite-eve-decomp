@@ -35,6 +35,7 @@ extern s16 D_800C1F80[];
 extern s16 D_800A1D9C[];
 extern u8 D_8009DE64[];
 void Inv_SetActiveList(int mode, int *slot);
+int Inv_LoadWayneItemsAsOverride(short *items);
 extern u8 D_800C0E0C;
 /* Separate views preserve retail's address reload across bonus queries.
  * Matching debt: these aliases name the same byte, not distinct storage. */
