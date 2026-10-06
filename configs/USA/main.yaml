@@ -1281,10 +1281,9 @@ segments:
       - [0x76AF0, pad]
       - [0x76AF4, c, psyq/libspu/s_svva]
       - [0x76C60, pad]
-      - [0x76C64, c, akao/Akao_CommandStaging]
-      - [0x76F28, c, akao/Akao_CommandEncoders]
-      - [0x76FE4, c, akao/Akao_Cmd_99_9B_9D]
-      - [0x7702C, c, akao/Akao_CommandModifiers]
+      # Game-side AKAO command senders: each stages g_AkaoCmd and enqueues it;
+      # contiguous default-profile run with no split evidence.
+      - [0x76C64, c, akao/Akao_CommandSenders]
       - [0x77850, c, akao/Akao_SpuSampleTransfer]
       - [0x778F0, c, akao/Spu_SetVoiceVolume]
       - [0x77998, c, akao/Spu_SetStreamModeA]
