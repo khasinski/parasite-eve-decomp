@@ -1,7 +1,34 @@
+#include "pe1/cdrom.h"
 #include "pe1/scene_assets.h"
 #include "pe1/game_state.h"
 #include "common.h"
 #include "pe1/cdrom_buffers.h"
+
+void func_80085644(void);
+void Akao_Cmd_F0(void);
+void Akao_Cmd_F1(void);
+void Akao_Cmd_98_9A_9C(int arg0);
+void VSync(int mode);
+
+extern s16 D_800B0DD4;
+
+void func_8006A5BC(void)
+{
+    func_80085644();
+    Akao_Cmd_F0();
+    Akao_Cmd_F1();
+    Akao_Cmd_98_9A_9C(0);
+
+    while (DsReset() != 1) {
+        VSync(0);
+    }
+
+    while (DsSystemStatus() != 1) {
+        VSync(0);
+    }
+
+    D_800B0DD4 = DsShellOpen();
+}
 
 void Boot_InitMemoryLayout(void);
 

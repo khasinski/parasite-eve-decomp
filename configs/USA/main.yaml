@@ -739,11 +739,10 @@ segments:
       - [0x5A8E8, c, sys/Sys_FrameOverlayAndShutdown]
       - [0x5AAE8, c, gpu/func_8006A2E8]
       - [0x5AB18, c, akao/Akao_LoadVoiceBank]
-      - [0x5ADBC, c, main/func_8006A5BC]
-      # Boot game-state init: Boot_InitGameState (called from main) runs the memory
-      # layout and the scene voice-bank reset defined beside it (helper/call/private
-      # evidence over all three; no split evidence).
-      - [0x5AE4C, c, boot/Boot_GameStateInit]
+      # Boot game-state init: the sound and DS shell reset, Boot_InitGameState (called
+      # from main), the memory layout and the scene voice-bank reset defined beside it
+      # (private evidence into the reset; helper/call/private evidence over the rest).
+      - [0x5ADBC, c, boot/Boot_GameStateInit]
       - [0x5B1E4, c, scene/Scene_LoadSceneData]
       - [0x5B540, c, main/Scene_LoadFieldBg]
       - [0x5BB5C, c, akao/Akao_LoadVoiceBankAlt]
