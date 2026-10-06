@@ -2,3 +2,5 @@ RoomLib_SetArgs3_8018FC54 = 0x8018FC54; // type:func
 RoomSlotA_8018FC54 = 0x8018FCEC;
 RoomSlotB_8018FC54 = 0x8018FCF0;
 RoomSlotC_8018FC54 = 0x8018FCF4;
+RoomEffect_OrbitFlareDrift = 0x8018F004; // type:func
+RoomEffect_OrbitFlareController = 0x8018F20C; // type:func

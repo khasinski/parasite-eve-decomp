@@ -37,7 +37,8 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - {start: 0x0, type: data, name: scene_e14_header, linker_section_order: .text, linker_section: .code_data}
+      - [0x0, rodata, scene_e14_header]
+      - [0x14, .rodata, ../room_lib/RoomEffect_OrbitFlare]
       - [0x24, c, RoomLib_PlantTable_8018F014]
       - [0x50, c, RoomLib_Spawn6_8018F040]
       - [0x7C, c, RoomLib_RegisterTable_8018F06C]
@@ -70,8 +71,9 @@ segments:
       - [0xCFC, c, func_8018FCEC]
       - [0xFC8, c, func_8018FFB8]
   - [0x10BC]
-  # Retail jump targets in this function use the earlier 0x8018EFE8 base.
-  - name: scene_e14_drift_earlybase
+  # Retail jump targets in the orbit flare object use the earlier 0x8018EFE8
+  # base, and the pointer table holds its controller at that base.
+  - name: scene_e14_orbit_flare_earlybase
     type: code
     start: 0x10BC
     vram: 0x801900A4
@@ -79,19 +81,7 @@ segments:
     subalign: 4
     bss_size: 0x0
     subsegments:
-      - [0x10BC, c, RoomFx_UpdateDrift_801900AC]
-  - [0x12C4]
-  # Retail jump targets in this function use the earlier 0x8018EFE8 base,
-  # and the pointer table holds 0x801902AC.
-  - name: scene_e14_orbit_flare_earlybase
-    type: code
-    start: 0x12C4
-    vram: 0x801902AC
-    align: 4
-    subalign: 4
-    bss_size: 0x0
-    subsegments:
-      - [0x12C4, c, RoomEffect_OrbitFlareController_801902AC]
+      - [0x10BC, c, ../room_lib/RoomEffect_OrbitFlare]
   - [0x1D0C]
   - name: scene_e14_late_rest
     type: code

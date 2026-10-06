@@ -14,3 +14,5 @@ FieldEng_GetStatus = 0x800C6CE0;
 GetClut = 0x80077AA4;
 ScaleMatrix = 0x80078CC4;
 Battle_GetEnemyContextField = 0x8003010C;
+RoomEffect_OrbitFlareDrift = 0x80190518; // type:func
+RoomEffect_OrbitFlareController = 0x80190720; // type:func

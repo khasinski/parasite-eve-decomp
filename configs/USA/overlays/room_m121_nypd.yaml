@@ -36,10 +36,9 @@ segments:
     subsegments:
       - [0x0, rodata, room_m121_nypd]
       - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
-      - [0x1E4, rodata, D_8018F1CC]
+      - [0x1E4, .rodata, ../room_lib/RoomEffect_OrbitFlare]
       - [0x1F4, c, ../room_lib/RoomLib_ActorClasses]
-      - [0x3510, c, func_801924F8]
-      - [0x3718, c, RoomEffect_OrbitFlareController_80192700]
+      - [0x3510, c, ../room_lib/RoomEffect_OrbitFlare]
       - [0x4160, c, RoomLib_SetArgs3_80193148]
       - [0x4184, data, D_8019316C]
       - [0x422C, data, D_80193214]

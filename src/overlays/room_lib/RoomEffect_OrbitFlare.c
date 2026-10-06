@@ -1,20 +1,62 @@
+/*
+ * The orbit flare: a controller that rises from the scene anchor while
+ * shedding drift particles, then orbits the anchor until it leaves the
+ * walkable area or touches the floor, flashing the scene.
+ *
+ * Twenty room and scene overlays link the same two functions in this order,
+ * with the controller's two rotation seeds as the only read-only data; this
+ * unit is that object, compiled into each of them.
+ */
 #include "pe1/room_flare.h"
-#ifndef ROOMEFFECT_ORBIT_FLARE_FUNC
-#error "ROOMEFFECT_ORBIT_FLARE_FUNC must name the room entry point"
-#endif
-#ifndef ROOMEFFECT_ORBIT_FLARE_ROTATION
-#error "ROOMEFFECT_ORBIT_FLARE_ROTATION must name the attachment rotation seed"
-#endif
-#ifndef ROOMEFFECT_ORBIT_FLARE_SPIN
-#error "ROOMEFFECT_ORBIT_FLARE_SPIN must name the spin seed"
-#endif
-#ifndef ROOMEFFECT_ORBIT_FLARE_CALLBACK
-#error "ROOMEFFECT_ORBIT_FLARE_CALLBACK must name the drift particle callback"
-#endif
 
-extern GteRotation ROOMEFFECT_ORBIT_FLARE_ROTATION;
-extern GteRotation ROOMEFFECT_ORBIT_FLARE_SPIN;
-extern int ROOMEFFECT_ORBIT_FLARE_CALLBACK(int mode, RoomFxDriftParticle *rec);
+static const GteRotation s_OrbitFlareRotation = { 0, 0, -60, 0 };
+static const GteRotation s_OrbitFlareSpin = { 0, 0, 0, 0 };
+
+/* Drift particle shed by the controller: mode 1 moves it up with a random
+ * sideways jitter for fourteen frames, mode 2 draws it fading out. */
+int RoomEffect_OrbitFlareDrift(int mode, RoomFxDriftParticle *rec) {
+    s32 value;
+    s32 scale;
+    s32 tex;
+    s32 fade;
+
+    if (mode == 1) {
+        goto mode1;
+    }
+    if (mode == 2) {
+        goto mode2;
+    }
+    return 0;
+
+mode1:
+    rec->y -= 2;
+    rec->x += (rand() & 7) - 3;
+    rec->z += (rand() & 7) - 3;
+    if (D_800E27EC < 0xE) {
+        goto ret0;
+    }
+    return 1;
+
+mode2:
+    {
+        fade = rcos((D_800E27EC << 10) / 14) / 50;
+        value = ((rcos((D_800E27EC << 10) / 14) / 2) + 0x800) * rec->radius;
+        if (value < 0) {
+            value += 0xFFF;
+        }
+        scale = (value >> 12) + 0x400;
+        tex = D_800E1204[D_800F3368.palette];
+        if (D_800F3368.palette == 4 && D_800F3428 != 0) {
+            tex += 4;
+        }
+        func_800CEE20(rec, 0, scale, scale,
+                      (D_800F3368.parameter02 * ((D_800E27EC << 3) / 14)) + 0xE0,
+                      (u16)GetClut(0x40, tex), 1, fade, 0);
+    }
+
+ret0:
+    return 0;
+}
 
 /* Flashes the scene: marks the battle actor and rewrites the colour code of
  * the first packet in the primary effect channel. */
@@ -35,10 +77,10 @@ extern int ROOMEFFECT_ORBIT_FLARE_CALLBACK(int mode, RoomFxDriftParticle *rec);
 /* Controller that rises from the scene anchor for fifty-two frames while
  * shedding drift particles, then orbits the anchor at the spawn radius until
  * it leaves the walkable area or touches the floor, flashing the scene. */
-int ROOMEFFECT_ORBIT_FLARE_FUNC(int mode, RoomOrbitFlareState *state,
-                                RoomOrbitFlareSpawn *spawn) {
-    GteRotation rotation = ROOMEFFECT_ORBIT_FLARE_ROTATION;
-    GteRotation spin = ROOMEFFECT_ORBIT_FLARE_SPIN;
+int RoomEffect_OrbitFlareController(int mode, RoomOrbitFlareState *state,
+                                    RoomOrbitFlareSpawn *spawn) {
+    GteRotation rotation = s_OrbitFlareRotation;
+    GteRotation spin = s_OrbitFlareSpin;
     GteShortVector floorPos;
     GteRotation floorSpin;
     GteShortVector floorPos2;
@@ -70,7 +112,7 @@ int ROOMEFFECT_ORBIT_FLARE_FUNC(int mode, RoomOrbitFlareState *state,
             break;
         }
         pool = D_800F33E0->pool;
-        return func_800CE560(pool, 12, 16, ROOMEFFECT_ORBIT_FLARE_CALLBACK);
+        return func_800CE560(pool, 12, 16, RoomEffect_OrbitFlareDrift);
     case 1:
         state->frame++;
         switch (state->state) {
@@ -257,9 +299,3 @@ int ROOMEFFECT_ORBIT_FLARE_FUNC(int mode, RoomOrbitFlareState *state,
     }
     return 0;
 }
-
-#undef ROOMEFFECT_ORBIT_FLARE_FLASH
-#undef ROOMEFFECT_ORBIT_FLARE_FUNC
-#undef ROOMEFFECT_ORBIT_FLARE_ROTATION
-#undef ROOMEFFECT_ORBIT_FLARE_SPIN
-#undef ROOMEFFECT_ORBIT_FLARE_CALLBACK

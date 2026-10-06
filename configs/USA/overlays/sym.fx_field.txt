@@ -1,0 +1,2 @@
+RoomEffect_OrbitFlareDrift = 0x8018F004; // type:func
+RoomEffect_OrbitFlareController = 0x8018F20C; // type:func

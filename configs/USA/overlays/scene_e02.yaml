@@ -40,10 +40,7 @@ segments:
         name: scene_e02_header
         dir: scene_e02
       - [0x5C, .rodata, ../room_lib/RoomLib_ActorClasses]
-      - start: 0x234
-        type: rodatabin
-        name: scene_e02_header_tail
-        dir: scene_e02
+      - [0x234, .rodata, ../room_lib/RoomEffect_OrbitFlare]
       - [0x244, c, func_8018F22C]
       - [0x24C, c, RoomLib_PlantTable_8018F234]
       - [0x278, c, RoomLib_Spawn6_8018F260]
@@ -70,8 +67,7 @@ segments:
       - [0x1434, c, func_8019041C]
       - [0x162C, c, func_80190614]
       - [0x1708, c, ../room_lib/RoomLib_ActorClasses]
-      - [0x4A24, c, func_80193A0C]
-      - [0x4C2C, c, RoomEffect_OrbitFlareController_80193C14]
+      - [0x4A24, c, ../room_lib/RoomEffect_OrbitFlare]
       - [0x5674, c, RoomLib_SetArgs3_8019465C]
       - [0x5698, c, SceneEffect_IndexedPaletteSprite]
       - [0x57D8, c, RoomEffect_HomingProjectile_80194A4C]

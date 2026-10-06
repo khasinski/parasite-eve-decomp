@@ -59,3 +59,5 @@ RoomLib_HandlerA = 0x80192240; // type:func
 RoomLib_HandlerF = 0x80192354; // type:func
 RoomLib_ReleaseHandlerA = 0x801924D4; // type:func
 RoomLib_HandlerANop6 = 0x801924F0; // type:func
+RoomEffect_OrbitFlareDrift = 0x801924F8; // type:func
+RoomEffect_OrbitFlareController = 0x80192700; // type:func

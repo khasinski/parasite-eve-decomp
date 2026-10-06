@@ -36,10 +36,10 @@ segments:
     subsegments:
       - [0x0, rodata, room_m263_warehouse]
       - [0xC, .rodata, ../room_lib/RoomLib_ActorClasses]
-      - [0x1E4, rodata, RoomLib_HandlerCArgsData_801915C0]
+      - [0x1E4, .rodata, ../room_lib/RoomEffect_OrbitFlare]
+      - [0x1F4, rodata, D_8018F1DC]
       - [0x208, c, ../room_lib/RoomLib_ActorClasses]
-      - [0x3524, c, RoomFx_UpdateDrift_8019250C]
-      - [0x372C, c, RoomEffect_OrbitFlareController_80192714]
+      - [0x3524, c, ../room_lib/RoomEffect_OrbitFlare]
       - [0x4174, c, RoomLib_SetArgs3_8019315C]
       - [0x4198, c, func_80193180]
       - [0x4534, c, RoomEffect_LineBurstController_8019351C]
