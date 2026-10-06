@@ -6,12 +6,12 @@
 #include "pe1/psyq_gpu.h"
 
 extern DRAWENV D_800BCDC8[2];
-extern int D_8009CED8; /* Fade state. */
-extern int D_8009CEDC; /* Number of 256-pixel blocks. */
-extern int D_8009CEE0; /* Fade curve length. */
-extern int D_8009CEE4; /* Signed curve step. */
-extern int D_8009CEE8; /* Curve position. */
-extern int D_8009CEEC; /* Fade parameter. */
+extern int g_MenuSaveBgFadeState; /* Fade state. */
+extern int g_MenuSaveBgFadeHeight; /* Number of 256-pixel blocks. */
+extern int g_MenuSaveBgFadeLutLen; /* Fade curve length. */
+extern int g_MenuSaveBgFadeStep; /* Signed curve step. */
+extern int g_MenuSaveBgFadeIndex; /* Curve position. */
+extern int g_MenuSaveBgFadeTint; /* Fade parameter. */
 extern u8 D_800A1878[]; /* Fade curve. */
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(Pe1GameState, save_background_source) == 0x178, save_background_source_offset);

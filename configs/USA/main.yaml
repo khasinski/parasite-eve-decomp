@@ -431,13 +431,8 @@ segments:
       - [0x3086C, c, save/Save_TitleAndCardSupport]
       # Port-state, event, save-file, and card-controller operations share the card records.
       - [0x30DA4, c, memcard/MemCard_PortAndSaveFlow]
-      - [0x33478, c, menu/Menu_SaveBgInitFade]
-      - [0x334B8, c, menu/Menu_SaveBgSetFadeTarget]
-      - [0x334C4, c, menu/Menu_ComputeGammaLut]
-      - [0x33540, c, menu/Menu_SaveBgApplyFadeStep]
-      - [0x336D0, c, menu/Menu_SaveBgIsFadeActive]
-      - [0x336DC, c, memcard/MemCard_InitSlotState]
-      - [0x33720, c, menu/menu_save2]
+      # Save background fade: gamma curve, fade step and fade state setters share the fade state words.
+      - [0x33478, c, menu/Menu_SaveBgFade]
       - [0x33744, c, menu/menu3]
       - [0x33838, c, menu/Menu_SaveBgIsFadeComplete]
       - [0x3384C, c, menu/Inv_FetchSelectedInventoryItem]
