@@ -1,36 +1,70 @@
+/*
+ * The thrown homing projectile: its spark callback, the flight itself, the
+ * throw controller that drives the actor's throw animation and seeds the
+ * model, and the entry the scene script sets the launch parameters with.
+ *
+ * room_m141, room_m146, room_m153, room_m154, room_m328 and scene_e02 link
+ * these four functions in this order as the last code of the overlay, with
+ * the same 0x28 bytes of seeds in their data; this unit is that object,
+ * compiled into each of them. scene_e04 and scene_e05 link the same code,
+ * but their seeds lie past the end of their extracted image, so they include
+ * this file with ROOM_HOMING_PROJECTILE_EXTERNAL_SEEDS defined and name the
+ * seeds in their symbol files. The launch parameters live in each room's
+ * own data (g_RoomHomingLaunch).
+ */
 #include "pe1/room_homing_model.h"
+#include "pe1/psyq_gpu.h"
 #include "pe1/gte.h"
-#ifndef ROOMEFFECT_HOMING_PROJECTILE_FUNC
-#error "ROOMEFFECT_HOMING_PROJECTILE_FUNC must name the room entry point"
-#endif
-#ifndef ROOMEFFECT_HOMING_PROJECTILE_CALLBACK
-#error "ROOMEFFECT_HOMING_PROJECTILE_CALLBACK must name the spark callback"
-#endif
-#ifndef ROOMEFFECT_HOMING_PROJECTILE_FIELDS
-#error "ROOMEFFECT_HOMING_PROJECTILE_FIELDS must name the script field table"
-#endif
-#ifndef ROOMEFFECT_HOMING_PROJECTILE_ROTATION
-#error "ROOMEFFECT_HOMING_PROJECTILE_ROTATION must name the ring rotation"
-#endif
-#ifndef ROOMEFFECT_HOMING_PROJECTILE_COLOR0
-#error "ROOMEFFECT_HOMING_PROJECTILE_COLOR0 must name the ring inner colour"
-#endif
-#ifndef ROOMEFFECT_HOMING_PROJECTILE_COLOR1
-#error "ROOMEFFECT_HOMING_PROJECTILE_COLOR1 must name the ring outer colour"
+
+#ifndef ROOM_HOMING_PROJECTILE_EXTERNAL_SEEDS
+GteRotation g_RoomHomingSparkRotation = { 0x400, 0, 0, 1 };
+RenderColor g_RoomHomingSparkColor = { 0x50, 0x20, 0, 0 };
+s16 g_RoomHomingReportFields[5] = { 0, 1, 2, 5, 6 };
+GteRotation g_RoomHomingRingRotation = { 0x400, 0, 0, 1 };
+RenderColor g_RoomHomingRingInner = { 0x20, 0x10, 8, 0 };
+RenderColor g_RoomHomingRingOuter = { 0, 0, 0, 0 };
 #endif
 
-extern int ROOMEFFECT_HOMING_PROJECTILE_CALLBACK(int mode, GteShortVector *spark);
-extern s16 ROOMEFFECT_HOMING_PROJECTILE_FIELDS[];
-extern GteRotation ROOMEFFECT_HOMING_PROJECTILE_ROTATION;
-extern RenderColor ROOMEFFECT_HOMING_PROJECTILE_COLOR0;
-extern RenderColor ROOMEFFECT_HOMING_PROJECTILE_COLOR1;
+/* Spark left where the projectile bounces: lives eight frames, drawn as a
+ * pulsing sprite in the current palette. */
+int RoomEffect_HomingProjectileSpark(int mode, GteShortVector *spark) {
+    int size;
+    int kind;
+    int palette;
+    int frame;
+    int pulse;
+    u16 clut;
+
+    if (mode == 1) {
+        if (D_800E27EC >= 9) {
+            return 1;
+        }
+    } else if (mode == 2) {
+        frame = D_800E27EC - 1;
+        kind = D_800F336C;
+        size = D_800966EC[((frame << 9) & 0x3E00) >> 2].word + 0x200;
+        palette = D_800E1204[kind];
+        /* The pulse reads the cosine half through its own copy of the
+         * frame, as retail does. */
+        pulse = frame;
+        if (kind == 4 && D_800F3428) {
+            palette += 4;
+        }
+        clut = GetClut(0x80, palette);
+        func_800CEE20(spark, &g_RoomHomingSparkRotation, (s16)size, (s16)size,
+                      D_800F336A * 2 + 0xFD, clut, 1,
+                      (s16)(D_800966EC[((pulse << 9) & 0x3E00) >> 2].word >> 16) >> 5,
+                      &g_RoomHomingSparkColor);
+    }
+    return 0;
+}
 
 /* Thrown projectile: launched from the actor's hand matrix, it flies along
  * its heading, reflects off the walkable polygon's edges (one retry per
  * frame) or turns away from the player once outside, drops onto the floor
  * with a damped bounce, then reports its resting position through the
  * scene script.  Drawn as a glow sprite plus a floor ring while in flight. */
-int ROOMEFFECT_HOMING_PROJECTILE_FUNC(int mode) {
+int RoomEffect_HomingProjectile(int mode) {
     RoomHomingModel *model = D_800E2368->model;
     GteVector position;
     s16 vector[4];
@@ -45,7 +79,7 @@ int ROOMEFFECT_HOMING_PROJECTILE_FUNC(int mode) {
         model->state = 0;
         model->angle = D_800F32D0->actor->heading;
         return func_800CE560(D_800F33E0->pool, 8, 4,
-                             ROOMEFFECT_HOMING_PROJECTILE_CALLBACK);
+                             RoomEffect_HomingProjectileSpark);
     case 1:
         actor = D_800F32D0->actor;
         switch (model->state) {
@@ -197,7 +231,7 @@ int ROOMEFFECT_HOMING_PROJECTILE_FUNC(int mode) {
                 u32 n = 0;
                 do {
                     func_8006F6D4(handle, 0, n + 1,
-                                  ((s32 *)model)[ROOMEFFECT_HOMING_PROJECTILE_FIELDS[n]],
+                                  ((s32 *)model)[g_RoomHomingReportFields[n]],
                                   0, 0);
                     n++;
                 } while (n < 5);
@@ -221,10 +255,10 @@ int ROOMEFFECT_HOMING_PROJECTILE_FUNC(int mode) {
         }
         frame = D_800E27EC;
         if (frame < 8) {
-            scale = D_800966EC[((frame << 10) & 0x3C00) / 2] + 0x1000;
+            scale = D_800966EC[((frame << 10) & 0x3C00) >> 2].part.sin + 0x1000;
             intensity = 0x80;
         } else {
-            intensity = D_800966EE[((frame << 12) & 0x3000) / 2] / 64 + 0x60;
+            intensity = D_800966EC[((frame << 12) & 0x3000) >> 2].part.cos / 64 + 0x60;
             scale = 0x1000;
         }
         D_800F3368.parameter00 = 0x20;
@@ -252,9 +286,9 @@ int ROOMEFFECT_HOMING_PROJECTILE_FUNC(int mode) {
         if (model->state != 0) {
             sprite.y = model->floor;
             func_800D004C(&sprite, 0x50, 0x50, 8,
-                          &ROOMEFFECT_HOMING_PROJECTILE_ROTATION, 0x1000, 0x1000,
-                          &ROOMEFFECT_HOMING_PROJECTILE_COLOR0,
-                          &ROOMEFFECT_HOMING_PROJECTILE_COLOR1, intensity, 1);
+                          &g_RoomHomingRingRotation, 0x1000, 0x1000,
+                          &g_RoomHomingRingInner,
+                          &g_RoomHomingRingOuter, intensity, 1);
         }
         D_800F3368.parameter00 = 0x10;
         {
@@ -274,9 +308,118 @@ int ROOMEFFECT_HOMING_PROJECTILE_FUNC(int mode) {
     return 0;
 }
 
-#undef ROOMEFFECT_HOMING_PROJECTILE_FUNC
-#undef ROOMEFFECT_HOMING_PROJECTILE_CALLBACK
-#undef ROOMEFFECT_HOMING_PROJECTILE_FIELDS
-#undef ROOMEFFECT_HOMING_PROJECTILE_ROTATION
-#undef ROOMEFFECT_HOMING_PROJECTILE_COLOR0
-#undef ROOMEFFECT_HOMING_PROJECTILE_COLOR1
+/* Throw controller: seeds the model from the launch parameters, then
+ * follows the actor's throw animation until it either releases the
+ * projectile (the cue reaches the last frame) or is interrupted. */
+int RoomEffect_HomingProjectileThrow(int mode, RoomHomingModel *model) {
+    RoomHomingModelActor *actor = D_800F32D0->actor;
+    u8 *cue;
+    int motion;
+    u16 frame;
+    u16 lastFrame;
+
+    if (mode == 0) {
+        int floor;
+        D_800E2368->model = model;
+        actor->core->flags |= 0x40000000;
+        floor = D_800942EC.height;
+        model->matrixIndex = 0x1A;
+        model->finished = 0;
+        model->escaped = 0;
+        model->released = 0;
+        model->armed = 0;
+        model->soundHandle = -1;
+        model->floor = floor;
+        model->speed = g_RoomHomingLaunch.speed;
+        model->drag = g_RoomHomingLaunch.drag;
+        model->lift = g_RoomHomingLaunch.lift;
+        model->gravity = g_RoomHomingLaunch.gravity;
+        model->scriptArg0 = g_RoomHomingLaunch.scriptArg0;
+        model->scriptArg1 = g_RoomHomingLaunch.scriptArg1;
+        model->bounce = g_RoomHomingLaunch.bounce;
+        model->damping = g_RoomHomingLaunch.damping;
+    } else if (mode == 1) {
+        if (model->released == 0) {
+            if (actor->core == 0 || func_8003010C(actor, 0x2C) <= 0) {
+                model->released = 1;
+            } else if ((actor->core->flags & 0x1800) != 0) {
+                model->released = 1;
+            } else if ((int)((actor->core->flags >> 1) & 7) > 0) {
+                model->released = 1;
+            }
+        }
+        if (model->state == 0 && model->armed != 0 && *actor->core->cue == 0) {
+            model->released = 1;
+        }
+        if (model->released != 0) {
+            if (model->state != 0) {
+                return model->finished != 0;
+            }
+            model->state = -1;
+            return 1;
+        }
+
+        cue = actor->core->cue;
+        if (*cue == 1) {
+            *cue = 2;
+            model->armed = 1;
+        }
+        if (model->finished != 0) {
+            model->finished++;
+        }
+        if (actor->phase != 9) {
+            return 0;
+        }
+        /* Two reads of the frame, as retail: the last-frame test keeps
+         * its own copy. */
+        frame = actor->frame;
+        lastFrame = actor->frame;
+        motion = actor->motion;
+        if (motion >= 0) {
+            if ((s16)frame >= 0x1C && model->finished < 0x18) {
+                actor->motion = -motion;
+                return 0;
+            }
+            if ((s16)lastFrame < actor->frameCount - 1) {
+                return 0;
+            }
+            cue = actor->core->cue;
+            if (*cue == 2) {
+                *cue = 4;
+            }
+            return 1;
+        }
+        if ((s16)frame < 0x17) {
+            actor->motion = -motion;
+        }
+    }
+    return 0;
+}
+
+/* Scene script entry: mode 0 sets speed, drag and damping, mode 1 lift,
+ * gravity and bounce, mode 2 the two values reported back. */
+int RoomEffect_HomingProjectileConfigure(u32 mode, int a, int b, int c) {
+    switch (mode) {
+    case 0:
+        g_RoomHomingLaunch.speed = a;
+        g_RoomHomingLaunch.drag = b;
+        g_RoomHomingLaunch.damping = c;
+        if (c == 0) {
+            g_RoomHomingLaunch.damping = 8;
+        }
+        break;
+    case 1:
+        g_RoomHomingLaunch.lift = a;
+        g_RoomHomingLaunch.gravity = b;
+        g_RoomHomingLaunch.bounce = c;
+        if (c == 0) {
+            g_RoomHomingLaunch.bounce = 10;
+        }
+        break;
+    case 2:
+        g_RoomHomingLaunch.scriptArg0 = a;
+        g_RoomHomingLaunch.scriptArg1 = b;
+        break;
+    }
+    return 0;
+}

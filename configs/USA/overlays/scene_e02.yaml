@@ -69,11 +69,10 @@ segments:
       - [0x1708, c, ../room_lib/RoomLib_ActorClasses]
       - [0x4A24, c, ../room_lib/RoomEffect_OrbitFlare]
       - [0x5674, c, RoomLib_SetArgs3_8019465C]
-      - [0x5698, c, SceneEffect_IndexedPaletteSprite]
-      - [0x57D8, c, RoomEffect_HomingProjectile_80194A4C]
-      - [0x60EC, c, RoomLib_RunSixteen_801950D4]
-      - [0x63E0, c, func_801953C8]
+      - [0x5698, c, ../room_lib/RoomEffect_HomingProjectile]
       - [0x6484, data]
+      - [0x6680, .data, ../room_lib/RoomEffect_HomingProjectile]
+      - [0x66A8, data]
   - [0x6800]
 # source slice: scanner
 # extract locally with: dd if=disc/extracted/PE.IMG of=original/USA/overlays/scene_e02.bin bs=2048 skip=94681 count=13
