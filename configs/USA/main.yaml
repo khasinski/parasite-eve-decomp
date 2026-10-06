@@ -240,10 +240,10 @@ segments:
       - [0xA308, c, task/Task_WaitEntityFlags8]
       - [0xA378, c, task/Task_RotateEntityAngle]
       - [0xA3E4, c, task/Task_SetNodeFlag80]
+      # Scene, game-time, parent-link and trigonometry opcodes: contiguous
+      # default-profile handlers on the current actor (main_tu_evidence
+      # G0199..G0215 have no split evidence between them).
       - [0xA404, c, task/Task_SceneCommandOps]
-      - [0xA5F4, c, task/Task_ConvertSecondsToHMS]
-      - [0xA704, c, task/Task_EntityParentLinks]
-      - [0xA8CC, c, task/Task_GetSin]
       - [0xAA14, c, entity/Entity_PolarToPosition]
       - [0xAAF0, c, entity/Entity_PopCount]
       - [0xAB90, c, entity/Entity_ScriptBaseOps]
