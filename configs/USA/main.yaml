@@ -370,9 +370,9 @@ segments:
       - [0x294E4, c, main/func_80038CE4]
       - [0x2950C, c, menu/Menu_IsEquipSlotActive]
       - [0x2951C, c, menu/Menu_ConsumeEquipSlotFlag]
-      - [0x29548, c, main/func_80038D48]
-      - [0x29574, c, main/Render_LoadFontGlyphAlt]
-      - [0x29984, c, main/Render_StepFontLoad]
+      # Pending-glyph flag, alternate glyph load and incremental font load:
+      # contiguous; --expand-div only changes the loader's divide.
+      - [0x29548, c, render/Render_FontGlyphStream]
       - [0x29AEC, c, menu/Menu_GetEquipSlotStateOrIndex]
       # Glyph-cache slot search, bind and lookup-or-load: contiguous
       # default-profile functions.
