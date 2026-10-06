@@ -17,7 +17,7 @@ extern u32 D_800A7770[];
 
 int Math_FixedMul(int lhs, int rhs);
 int Math_FixedDivide(int a, int b);
-void Entity_FindFloor(void);
+void Entity_FindFloor(u8 *entity);
 
 typedef struct ExprOpArgs {
     int *op;
@@ -110,12 +110,13 @@ int Task_SetEntityVec3(int **args) {
     switch (*argp[0]) {
     case 0:
         {
-            register FieldActor *state asm("$4") = g_CurrentEntity;
+            FieldActor *state = g_CurrentEntity;
+
             state->pos_x = *argp[1];
             state->pos_y = *argp[2];
             state->pos_z = *argp[3];
+            Entity_FindFloor((u8 *)state);
         }
-        Entity_FindFloor();
         g_CurrentEntity->base_x = g_CurrentEntity->pos_x;
         g_CurrentEntity->base_y = g_CurrentEntity->pos_y;
         g_CurrentEntity->base_z = g_CurrentEntity->pos_z;
