@@ -170,7 +170,7 @@ segments:
       - [0x4CFC, c, boot/Boot_MemCardStepInit]
       - [0x4E94, c, main/Entity_GetPositionByType]
       - [0x50E0, c, main/Camera_AngleMotionFlow]
-      - [0x55A0, c, task/task5]
+      - [0x55A0, c, task/Task_PolyAndSceneLoadOps]
       - [0x57D8, c, task/Task_PlayEntityAnim]
       - [0x5908, c, task/Task_CopyEntityRenderObject]
       # Actor model draw and render-mode switch wait: contiguous -G8 opcodes.
@@ -182,7 +182,7 @@ segments:
       # command has rodata.
       - [0x62B8, c, task/Task_ItemAndSoundOps]
       - [0x7110, c, task/Task_DispatchScriptCmd]
-      - [0x75F8, c, task/task6]
+      - [0x75F8, c, task/Task_ShadowFlagOps]
       # Pending-node launch controller for equip and save/load menus.
       - [0x7640, c, task/Task_BeginSceneTransition]
       - [0x77E0, c, task/Task_GetPlayerInputFlag]
@@ -201,7 +201,7 @@ segments:
       - [0x7EFC, c, task/Task_RandomAndFieldSfx]
       # Table opcodes share the current TaskNode field ABI.
       - [0x7FAC, c, task/Task_NodeLookupOps]
-      - [0x8128, c, task/task_get]
+      - [0x8128, c, task/Task_EntityByteFieldOps]
       - [0x8188, c, entity/Entity_MarkNodeFree]
       - [0x81F8, c, entity/task]
       - [0x82E8, c, task/Task_EntityActionAnimation]
@@ -218,7 +218,7 @@ segments:
       # Game-state flag and battle-mode opcodes: contiguous default profile.
       - [0x8744, c, scene/Scene_GlobalFlagOps]
       - [0x8880, c, entity/Entity_FieldSelection]
-      - [0x8AA0, c, task/task_set3]
+      - [0x8AA0, c, task/Task_BattleFlagOps]
       - [0x8B00, c, entity/Entity_AnimationPending]
       - [0x8CEC, c, task/Task_RunEntityCommand]
       - [0x8D6C, c, entity/Entity_ClearMotionVectors]
@@ -228,11 +228,11 @@ segments:
       # Task_DrawYield; g_CombatModeFlags is shared by the first two units.
       - [0x8E60, c, task/Task_SystemCommandOps]
       - [0x97DC, c, task/Task_DrawYield]
-      - [0x98AC, c, task/task12]
+      - [0x98AC, c, task/Task_AnimRateOps]
       - [0x9970, c, entity/Entity_CopyAttachmentData]
       - [0x9A60, c, task/Task_EntityControl]
       - [0x9C10, c, entity/Entity_YieldOnLoading]
-      - [0x9C50, c, task/task14]
+      - [0x9C50, c, task/Task_ItemCountOps]
       - [0x9D40, c, entity/Entity_InitWithTimeout]
       - [0x9E18, c, task/Task_FieldEntityCommands]
       - [0xA0C4, c, battle/Task_SetBattleEntryCoords]
@@ -346,7 +346,7 @@ segments:
 
       # PSYQ 4.0 object signature matches.
       - [0x275C8, c, psyq/libsnd/ssinit_c]
-      - [0x275F8, c, util/game_time2]
+      - [0x275F8, c, time/GameTime_Counters]
       - [0x2777C, c, time/Scene_TickTimers]
       - [0x2788C, c, math/Math_FixedMul]
       - [0x278A8, c, math/Math_FixedDivide]
@@ -405,7 +405,7 @@ segments:
       - [0x2D2EC, c, render/Render_PrimitiveColorAndBlend]
       - [0x2D6F8, c, field/Field_GetMapEntry]
       - [0x2D850, c, main/Render_SetupEntityPrims]
-      - [0x2E02C, c, util/Util_ReturnTrue]
+      - [0x2E02C, c, entity/Util_ReturnTrue]
       - [0x2E034, c, render/Render_DrawWithAnim]
       - [0x2E14C, c, render/Render_InitPrimBlock]
       # Render-object state helpers: frame-matrix copies, table initialisation,

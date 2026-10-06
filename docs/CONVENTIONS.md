@@ -119,9 +119,9 @@ edge, as `akao/Spu_TransferAndLifecycle` did before LIBPAD WAITRC2's
 | `save` | `Save_` | save-data layout, metadata, write flow | keep |
 | `akao` | `Akao_`, `Seq_`, `Spu_` | Square's AKAO sound driver: sequencer, voices, SPU uploads | keep; LIBSPU units to `psyq/libspu` |
 | `audio` | `Sfx_` | misnamed: both files are menu item-list code | dissolve into `menu` |
-| `time` | `GameTime_` | play-time counters and timers | keep; receives `util/game_time2.c` |
+| `time` | `GameTime_` | play-time counters and timers | keep |
 | `table` | `Tbl_`, `Str_` | text and textbox lookup tables | rename to `text` (`Text_`) |
-| `util` | `Util_` | vague | dissolve: `util.c` (inventory globals) to `item`, `game_time2.c` to `time`, `Util_ReturnTrue` to its caller's subsystem |
+| `util` | `Util_` | vague | dissolve: `util.c` (inventory globals) to `item` |
 | `main` | mixed | splat's default bucket, not a subsystem | dissolve by prefix into the rows above; `gap_*` words go with the object they pad (most are SDK object tails) |
 
 ## Overlays
