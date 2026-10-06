@@ -137,7 +137,7 @@ void Battle_UpdateEnemy(BattleEntity *entity) {
     u32 initialFlags;
     u32 statusFlags;
     u32 damageFlags;
-    register u32 nextFlags asm("$3");
+    u32 nextFlags;
     u32 nextStatusFlags;
     u32 actionFlags;
     register u32 resumePhase asm("$4");
@@ -155,7 +155,7 @@ void Battle_UpdateEnemy(BattleEntity *entity) {
         if (enemy->curHP == 0) {
             initialFlags = enemy->coreFlags;
             if (initialFlags & 0xE) {
-                register u32 preserved asm("$3") = initialFlags & ~0xE;
+                u32 preserved = initialFlags & ~0xE;
                 u32 count = ((((initialFlags >> 1) & 7) - 1) & 7) * 2;
                 nextFlags = preserved | count;
                 enemy->coreFlags = nextFlags;
