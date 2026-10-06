@@ -10,15 +10,15 @@ void func_80191EFC(void *object, volatile FxCommonVec3 *input)
         int valueA;
         int valueB;
     } scratch;
-    void **matrixSlot;
-    void *savedMatrix;
+    GteMatrix **matrixSlot;
+    GteMatrix *savedMatrix;
     void *savedOutput;
 
     scratch.size = 0x300;
     PushMatrix();
     SetTransMatrix(&D_8019CC30);
     SetRotMatrix(&D_8019CC30);
-    matrixSlot = &D_800BCFA4;
+    matrixSlot = &D_800BCFA4.value;
     savedMatrix = *matrixSlot;
     *matrixSlot = &D_8019CC30;
     savedOutput = D_800BCFA8;

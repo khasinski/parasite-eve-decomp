@@ -5,6 +5,7 @@
 #include "fx_common_vectors.h"
 #include "pe1/room_fx.h"
 #include "pe1/gte_types.h"
+#include "pe1/render_matrix_slot.h"
 
 typedef struct FxCommonSelection {
     s16 record;
@@ -251,7 +252,6 @@ extern RoomSpriteMatrix D_8019CC30;
 extern RoomSpriteMatrix *D_8019BFF0;
 extern u8 D_801D0260;
 extern u8 D_801EA378[];
-extern void *D_800BCFA4;
 extern void *volatile D_800BCFA8;
 
 void func_800868AC(int mode, int arg1);

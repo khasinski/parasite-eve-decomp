@@ -1,11 +1,11 @@
 #include "room_m123_effects.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
+#include "pe1/render_matrix_slot.h"
 #include "pe1/room_sound_slot.h"
 #include "pe1/room_floor.h"
 
 extern GteShortVector D_8018F1F0;
-extern GteMatrix *D_800BCFA4;
 extern int D_800E27EC;
 extern void func_800CF3AC(void *, void *, int);
 extern int rsin(int);
@@ -31,7 +31,7 @@ int func_80194A70(int mode, RoomPulseParticle *particle, int *reference)
     case 2:
         if (particle->state != 0)
             break;
-        matrixSlot = &D_800BCFA4;
+        matrixSlot = &D_800BCFA4.value;
         gte_ldrotmatrix(*matrixSlot);
         gte_ldtransmatrix(*matrixSlot);
         func_800CF3AC((void *)*reference, color, particle->frame);

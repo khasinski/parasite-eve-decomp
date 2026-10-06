@@ -8,10 +8,10 @@
 #include "pe1/gte.h"
 #include "pe1/room_fx.h"
 #include "pe1/room_floor.h"
+#include "pe1/render_matrix_slot.h"
 
 /* The colour ramp table each room defines in its data. */
 extern char RoomLib_TimedRenderTable;
-extern RoomSpriteMatrix *D_800BCFA4;
 extern int D_800E27EC;
 
 extern void func_800CF3AC(void *table, RoomFxSeed8 *work, int frame);
@@ -43,7 +43,7 @@ int RoomLib_UpdateTimedRender(int mode, RoomFxTimedRenderState *state) {
         if (state->disabled != 0) {
             goto disabled;
         }
-        matrixSlot = &D_800BCFA4;
+        matrixSlot = &D_800BCFA4.value;
         gte_ldrotmatrix(*matrixSlot);
         gte_ldtransmatrix(*matrixSlot);
         func_800CF3AC(&RoomLib_TimedRenderTable, &work,

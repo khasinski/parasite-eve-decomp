@@ -4,8 +4,8 @@ int func_80191E30(int arg0)
 {
     int size = 0x300;
     void *resource;
-    void **matrixSlot;
-    void *savedMatrix;
+    GteMatrix **matrixSlot;
+    GteMatrix *savedMatrix;
     void *savedOutput;
     int result;
 
@@ -13,7 +13,7 @@ int func_80191E30(int arg0)
     PushMatrix();
     SetTransMatrix(&D_8019CC30);
     SetRotMatrix(&D_8019CC30);
-    matrixSlot = &D_800BCFA4;
+    matrixSlot = &D_800BCFA4.value;
     savedMatrix = *matrixSlot;
     *matrixSlot = &D_8019CC30;
     savedOutput = D_800BCFA8;
