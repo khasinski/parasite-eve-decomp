@@ -77,30 +77,41 @@ CASES = [('src/main/psyq/libapi/SetInitPadFlag.c',
   'g_DsReadBusy = 0x8009b70c;\n'
   'SECTIONS { .text 0x8008227c : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/psyq/libgpu/Gpu_WriteControlAndMirror.c',
-  36,
-  'b8abe6ded14177484d809d36a89c33d27b17363b810f25ffcfc4da6f8b41a272',
-  'g_GpuGp1Ptr = 0x80095854;\n'
-  'D_800A3348 = 0x800a3348;\n'
-  'SECTIONS { .text 0x80076b20 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
-  '*(.mdebug) } }'),
- ('src/main/psyq/libgpu/ResetGraph.c',
-  372,
-  '255d8a0293b214dabba1d7fca566f2a9df422640a04b1930a82e8eb5d7319bd8',
+ ('src/main/psyq/libgpu/sys.c',
+  1952,
+  'e659ffcf3ce6e4cb3fe25b7805924d60dd70ca6e77145b75856b26798698a36d',
   'D_800117E0 = 0x800117e0;\n'
+  'D_80011800 = 0x80011800;\n'
+  'D_80011814 = 0x80011814;\n'
+  'D_80011840 = 0x80011840;\n'
+  'D_80011854 = 0x80011854;\n'
+  'D_80011870 = 0x80011870;\n'
+  'D_80011884 = 0x80011884;\n'
+  'D_80011898 = 0x80011898;\n'
+  'D_800118A4 = 0x800118a4;\n'
+  'D_800118B8 = 0x800118b8;\n'
+  'D_800118BC = 0x800118bc;\n'
+  'D_800118C8 = 0x800118c8;\n'
+  'D_800118D4 = 0x800118d4;\n'
+  'D_800118E0 = 0x800118e0;\n'
+  'D_800118EC = 0x800118ec;\n'
   'D_80095704 = 0x80095704;\n'
-  'D_8009574C = 0x8009574c;\n'
-  'printf = 0x80071a74;\n'
-  'GPU_memset = 0x80077a28;\n'
-  'ResetCallback = 0x80073c94;\n'
   'D_80095744 = 0x80095744;\n'
-  'GPU_cw = 0x80077a54;\n'
-  'Gpu_InitDmaQueue = 0x80077144;\n'
+  'D_80095748 = 0x80095748;\n'
+  'D_8009574C = 0x8009574c;\n'
+  'D_8009574E = 0x8009574e;\n'
   'D_800957CC = 0x800957cc;\n'
   'D_800957D8 = 0x800957d8;\n'
-  'D_8009574E = 0x8009574e;\n'
-  'D_80011800 = 0x80011800;\n'
-  'D_80095748 = 0x80095748;\n'
+  'D_800957EC = 0x800957ec;\n'
+  'DMACallback = 0x80073cf4;\n'
+  'g_GpuCallbacks = 0x80095744;\n'
+  'g_GpuDebugPrintf = 0x80095748;\n'
+  'g_GraphDebug = 0x8009574e;\n'
+  'GPU_cw = 0x80077a54;\n'
+  'Gpu_InitDmaQueue = 0x80077144;\n'
+  'GPU_memset = 0x80077a28;\n'
+  'printf = 0x80071a74;\n'
+  'ResetCallback = 0x80073c94;\n'
   'SECTIONS { .text 0x80074a44 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('src/main/psyq/libgpu/Gpu_DmaVramTransfer.c',
@@ -115,39 +126,24 @@ CASES = [('src/main/psyq/libapi/SetInitPadFlag.c',
   'Gpu_StartDmaTransfer = 0x80076b98;\n'
   'SECTIONS { .text 0x80076434 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/psyq/libgpu/sys_display.c',
-  1212,
-  'b57688fa82c976a5d8550dd6868bd6e0b9f00bd7b64e08c9ce08abbe7fa2b823',
-  'g_GraphDebug = 0x8009574e;\n'
-  'D_80011870 = 0x80011870;\n'
-  'g_GpuDebugPrintf = 0x80095748;\n'
-  'GPU_memset = 0x80077a28;\n'
-  'g_GpuCallbacks = 0x80095744;\n'
-  'D_8009574C = 0x8009574c;\n'
-  'D_80011884 = 0x80011884;\n'
-  'D_80095748 = 0x80095748;\n'
-  'D_80095744 = 0x80095744;\n'
-  'D_80011898 = 0x80011898;\n'
-  'D_800118B8 = 0x800118b8;\n'
-  'D_800118A4 = 0x800118a4;\n'
-  'D_800118BC = 0x800118bc;\n'
-  'D_800118C8 = 0x800118c8;\n'
-  'D_800118D4 = 0x800118d4;\n'
-  'D_800118E0 = 0x800118e0;\n'
-  'D_800118EC = 0x800118ec;\n'
-  'D_800957EC = 0x800957ec;\n'
-  'SECTIONS { .text 0x80074d28 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
+ ('src/main/psyq/libgpu/vram_transfer.c',
+  1404,
+  'b069b0298391dc7421f028439867be07d930888c34b377a970b9b6345998c25f',
+  'D_80095750 = 0x80095750;\n'
+  'D_80095752 = 0x80095752;\n'
+  'D_80095850 = 0x80095850;\n'
+  'D_80095854 = 0x80095854;\n'
+  'D_800A3348 = 0x800a3348;\n'
+  'g_GpuControlRegMirror = 0x800a3348;\n'
+  'g_GpuDmaBcrPtr = 0x8009585c;\n'
+  'g_GpuDmaChcrPtr = 0x80095860;\n'
+  'g_GpuDmaMadrPtr = 0x80095858;\n'
+  'g_GpuGp0Ptr = 0x80095850;\n'
+  'g_GpuGp1Ptr = 0x80095854;\n'
+  'Gpu_DmaTimeoutCheck = 0x80077404;\n'
+  'Gpu_ResetDmaWaitTimer = 0x800773d0;\n'
+  'SECTIONS { .text 0x80076664 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }')]
-
-# The same GNU addressing also removes the CPU-ASM window in gpu2.c.
-CASES.append(('src/main/psyq/libgpu/Gpu_GetControlMirrorByte.c',
- 84,
- 'c8e3bc6a8ef0c53b908507260b670e6f2cc196a51b8cd4bd155ed16c7d498c57',
- 'g_GpuControlRegMirror = 0x800a3348;\n'
- 'g_GpuGp1Ptr = 0x80095854;\n'
- 'g_GpuGp0Ptr = 0x80095850;\n'
- 'SECTIONS { .text 0x80076b44 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
- '*(.mdebug) } }'))
 
 # GNU as 2.8.1 preserves the SDK checked-division expansion without CPU ASM.
 CASES.append(('src/main/psyq/libgte/SetFogNearFar.c',

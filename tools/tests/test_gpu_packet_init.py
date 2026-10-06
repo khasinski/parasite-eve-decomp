@@ -11,7 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class GpuPacketInitTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_draw_mask_and_mode_packets(self):
-        source = (ROOT / "src/main/psyq/libgpu/packet_init.c").read_text()
+        source = (ROOT / "src/main/psyq/libgpu/GetDispEnv.c").read_text()
         harness = source + r'''
 #include <assert.h>
 static int mode_calls, window_calls;

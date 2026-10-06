@@ -1,7 +1,15 @@
+/* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBGPU SYS.OBJ part: private VRAM upload/readback, GP1 control
+ * mirror and DMA start helpers.
+ * The other SYS.OBJ functions are in neighbouring units because their
+ * reconstructions need different compiler options or conflicting
+ * declarations.
+ */
 #include "pe1/psyq_gpu.h"
 #include "pe1/gpu_dma_register_window.h"
+
 extern short D_80095750;
 extern short D_80095752;
 extern unsigned int *D_80095850;
@@ -141,4 +149,48 @@ int Gpu_FlushDisplayBuffer(RECT *rect, unsigned int *data)
         *D_80095854.chcr = 0x01000200;
     }
     return 0;
+}
+
+extern unsigned int *g_GpuGp1Ptr;
+extern unsigned char D_800A3348[];
+
+void Gpu_WriteControlAndMirror(unsigned int value) {
+    unsigned int index;
+
+    *g_GpuGp1Ptr = value;
+    index = value >> 24;
+    D_800A3348[index] = value;
+}
+
+extern unsigned char g_GpuControlRegMirror[];
+extern unsigned int *g_GpuGp0Ptr;
+extern unsigned int *g_GpuGp1Ptr;
+
+int Gpu_GetControlMirrorByte(int index) {
+    return g_GpuControlRegMirror[index];
+}
+
+int Gpu_WriteDataWords(unsigned int *src, int count) {
+    int remaining;
+    remaining = count - 1;
+    *g_GpuGp1Ptr = 0x4000000;
+    if (count != 0) {
+        do {
+            *g_GpuGp0Ptr = *src++;
+            remaining--;
+        } while (remaining != -1);
+    }
+    return 0;
+}
+
+extern unsigned int *g_GpuGp1Ptr;
+extern unsigned int *g_GpuDmaMadrPtr;
+extern unsigned int *g_GpuDmaBcrPtr;
+extern unsigned int *g_GpuDmaChcrPtr;
+
+void Gpu_StartDmaTransfer(unsigned int value) {
+    *g_GpuGp1Ptr = 0x4000002;
+    *g_GpuDmaMadrPtr = value;
+    *g_GpuDmaBcrPtr = 0;
+    *g_GpuDmaChcrPtr = 0x1000401;
 }

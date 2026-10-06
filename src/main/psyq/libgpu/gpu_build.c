@@ -1,4 +1,14 @@
+/* ASSEMBLER: GNU */
+/* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBGPU SYS.OBJ part: private draw-offset and texture-window command
+ * builders and _status.
+ * The other SYS.OBJ functions are in neighbouring units because their
+ * reconstructions need different compiler options or conflicting
+ * declarations.
+ */
 #include "common.h"
+#include "pe1/psyq_types.h"
 
 typedef struct {
     u8 x;
@@ -53,4 +63,10 @@ u32 Gpu_BuildTexWindowCmd(TexWindow *tw) {
 
     g_GpuTexWindowWork++;
     return result;
+}
+
+extern volatile u_long *g_GpuGp1Ptr;
+
+u_long _status(void) {
+    return *g_GpuGp1Ptr;
 }

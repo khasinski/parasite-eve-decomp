@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class GpuImage2Tests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_transfer_dispatch_and_move_packet(self):
-        unit = (ROOT / "src/main/psyq/libgpu/dma_transfer.c").read_text()
+        unit = (ROOT / "src/main/psyq/libgpu/LoadImage2.c").read_text()
         prefix_end = unit.index("int LoadImage2")
         store_marker = unit.index("extern char D_800118E0")
         move_marker = unit.index("extern char D_800118EC")

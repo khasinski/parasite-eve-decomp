@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class CheckRectTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_diagnostics_boundaries_and_no_mutation(self):
-        unit = (ROOT / "src/main/psyq/libgpu/sys_display.c").read_text()
+        unit = (ROOT / "src/main/psyq/libgpu/sys.c").read_text()
         check_rect = unit.index("void checkRECT")
         source = unit[unit.rfind("/* GCC_VERSION:", 0, check_rect):
                       unit.find("/* GCC_VERSION:", check_rect + 1)]

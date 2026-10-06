@@ -1,9 +1,148 @@
 /* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
-
-#include "common.h"
+/* Psy-Q LIBGPU SYS.OBJ, from the object start: ResetGraph, SetGraphDebug,
+ * SetGraphQueue, GetGraphDebug, DrawSyncCallback, SetDispMask, DrawSync,
+ * ClearImage, ClearImage2, LoadImage, StoreImage and MoveImage.
+ * The other SYS.OBJ functions are in neighbouring units because their
+ * reconstructions need different compiler options or conflicting
+ * declarations.
+ */
+#include "pe1/psyq_callbacks.h"
 #include "pe1/gpu_callbacks.h"
+#include "common.h"
+#include "pe1/gpu_state.h"
+#include "include_asm.h"
+#include "pe1/psyq_gpu.h"
+
+typedef struct GpuState {
+    volatile unsigned char variant;
+    unsigned char queue;
+    unsigned char debug;
+    unsigned char padding;
+    unsigned short width, height;
+    int pending;
+    void (*done)(void);
+    unsigned char drawCache[0x5C];
+    unsigned char displayCache[0x14];
+} GpuState;
+extern unsigned char D_8009574E;
+extern unsigned char D_80095704[];
+extern char D_800117E0[], D_80011800[];
+extern unsigned short D_800957CC[][2], D_800957D8[][2];
+extern GpuCallbacks *D_80095744;
+extern GpuDebugPrintf D_80095748;
+int printf(char *, ...);
+void GPU_memset(void *, int, int);
+void GPU_cw(unsigned int);
+int Gpu_InitDmaQueue(int);
+
+int ResetGraph(int mode) {
+    GpuState *state;
+    void *drawCache;
+    switch (mode & 7) {
+    case 0:
+    case 3:
+        {
+            char *format;
+            unsigned char *version;
+
+            format = D_800117E0;
+            version = D_80095704;
+            printf(format, version, (GpuState *)&D_8009574C);
+        }
+    case 5:
+        state = (GpuState *)&D_8009574C;
+        GPU_memset(state, 0, 0x80);
+        ResetCallback();
+        GPU_cw((unsigned int)D_80095744 & 0xFFFFFF);
+        state->variant = Gpu_InitDmaQueue(mode);
+        drawCache = state->drawCache;
+        state->queue = 1;
+        {
+            unsigned int offset = state->variant * 4;
+            state->width = *(unsigned short *)((unsigned char *)D_800957CC + offset);
+        }
+        state->height = D_800957D8[state->variant][0];
+        GPU_memset(drawCache, -1, 0x5C);
+        GPU_memset(state->displayCache, -1, 0x14);
+        return state->variant;
+    default:
+        if (D_8009574E >= 2) D_80095748(D_80011800, mode);
+        return D_80095744->reset(1);
+    }
+}
+
+extern char D_80011814[];
+
+int SetGraphDebug(int debugLevel) {
+    u8 *currentDebugLevel;
+    int result;
+    GpuDebugPrintf debugPrint;
+    int currentLevel;
+    int type;
+    int reverse;
+    int oldDebugLevel;
+
+    currentDebugLevel = &D_8009574C.queueState.debugLevel;
+    /* Preserve the shared base used for the adjacent GPU state bytes. */
+        oldDebugLevel = *currentDebugLevel;
+    *currentDebugLevel = debugLevel;
+    result = oldDebugLevel;
+
+    if ((u8)debugLevel == 0) {
+        return result;
+    }
+
+    debugPrint = D_80095748;
+    /* Keep the callback load ahead of its arguments. */
+        currentLevel = currentDebugLevel[0];
+    type = currentDebugLevel[-2];
+    reverse = currentDebugLevel[1];
+    /* Materialize the byte arguments before the format string address. */
+        debugPrint(D_80011814, currentLevel, type, reverse);
+    result = oldDebugLevel;
+    return result;
+}
+
+int SetGraphQueue(int mode)
+{
+    GpuQueueState *state = &D_8009574C.queueState;
+    int previous = state->queue;
+    if (state->debugLevel >= 2) {
+        /* Keep the two prior-state paths: stock GCC merges the calls after
+         * choosing the retail register lifetimes. Both log exactly once. */
+        if (previous) {
+            D_80095748(D_80011840, mode);
+        } else {
+            D_80095748(D_80011840, mode);
+        }
+    }
+    if (mode != state->queue) {
+        D_80095744->reset(1);
+        state->queue = mode;
+        DMACallback(2, 0);
+    }
+    return previous;
+}
+
+int GetGraphDebug(void) {
+    return D_8009574C.queueState.debugLevel;
+}
+
+extern char D_80011854[];
+
+void *DrawSyncCallback(void *callback) {
+    void *previous;
+
+    if (D_8009574C.queueState.debugLevel >= 2) {
+        D_80095748(D_80011854, callback);
+    }
+
+    previous = (void *)D_8009574C.drawSyncCallback;
+    D_8009574C.drawSyncCallback = (void (*)())callback;
+    return previous;
+}
 
 extern char D_80011870[];
 extern GpuCallbacks *g_GpuCallbacks[];
@@ -39,9 +178,6 @@ void SetDispMask(int mask) {
     callbacks->callback10(command);
 }
 
-#include "include_asm.h"
-#include "pe1/gpu_state.h"
-
 extern char D_80011884[];
 
 int DrawSync(int arg0) {
@@ -58,11 +194,6 @@ int DrawSync(int arg0) {
     callbacks = D_80095744;
     callbacks->callback3C(saved);
 }
-
-/* GCC_VERSION: 2.8.1 */
-/* CC1_FLAGS: -mno-split-addresses */
-#include "pe1/psyq_gpu.h"
-#include "pe1/gpu_state.h"
 
 extern char D_800118B8[], D_800118A4[], D_80011898[];
 
@@ -93,14 +224,6 @@ void checkRECT(char *name, RECT *rect) {
     }
 }
 
-/* GCC_VERSION: 2.8.1 */
-/* CC1_FLAGS: -mno-split-addresses */
-
-#include "common.h"
-#include "pe1/gpu_callbacks.h"
-#include "pe1/psyq_gpu.h"
-#include "pe1/gpu_state.h"
-
 extern char D_800118BC[];
 extern char D_800118C8[];
 
@@ -125,13 +248,6 @@ int ClearImage2(RECT *rect, u8 r, u8 g, u8 b) {
     callbacks = D_80095744;
     return callbacks->addque2(callbacks->clr, rect, 8, color);
 }
-
-/* GCC_VERSION: 2.8.1 */
-/* CC1_FLAGS: -mno-split-addresses */
-
-#include "common.h"
-#include "pe1/gpu_callbacks.h"
-#include "pe1/psyq_gpu.h"
 
 extern char D_800118D4[];
 extern char D_800118E0[];

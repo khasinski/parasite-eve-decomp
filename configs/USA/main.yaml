@@ -926,45 +926,27 @@ segments:
       - [0x64F74, c, psyq/libgpu/ext]
       - [0x65214, c, psyq/libetc/vmode]
       - [0x65238, pad]
-      - [0x65244, c, psyq/libgpu/ResetGraph]
-      - [0x653B8, c, psyq/libgpu/SetGraphDebugAndQueue]
-      # Contiguous Psy-Q libgpu/sys.c display and image APIs.
-      - [0x65528, c, psyq/libgpu/sys_display]
+      # Psy-Q LIBGPU SYS.OBJ. One object; the reconstruction is split where
+      # parts need other compiler options or conflicting declarations.
+      - [0x65244, c, psyq/libgpu/sys]
       - [0x659E4, c, psyq/libgpu/ClearOTag]
       - [0x65AAC, c, psyq/libgpu/ClearOTagR]
-      - [0x65B58, c, psyq/libgpu/DrawPrim]
-      # Psy-Q libgpu/sys.c ordering-table and draw-environment submission APIs.
-      - [0x65BB4, c, psyq/libgpu/DrawOTag]
-      - [0x65DBC, c, psyq/libgpu/GetDrawEnv]
       - [0x65DF0, c, psyq/libgpu/PutDispEnv]
       - [0x662E8, c, psyq/libgpu/GetDispEnv]
-      - [0x6631C, c, psyq/libgpu/GetODE]
-      - [0x6634C, c, psyq/libgpu/set]
-      # Draw-mask and draw-mode packet initializers share the GpuCmdPacket layout.
-      - [0x66444, c, psyq/libgpu/packet_init]
-      # Shared front/back DRAWENV encoder, in source order.
-      - [0x664E8, c, psyq/libgpu/drawenv]
+      - [0x664E8, c, psyq/libgpu/SetDrawEnv]
       - [0x66950, c, psyq/libgpu/Gpu_BuildDrawModeCmd]
-      # Paired draw-area packet encoders, in source order.
       - [0x66970, c, psyq/libgpu/drawarea]
       - [0x66AA0, c, psyq/libgpu/gpu_build]
-      - [0x66B3C, c, psyq/libgpu/_status]
       - [0x66B54, c, psyq/libgpu/Gpu_SendOtChain]
       - [0x66C34, c, psyq/libgpu/Gpu_DmaVramTransfer]
-      # Paired VRAM upload and readback operations, in source order.
       - [0x66E64, c, psyq/libgpu/vram_transfer]
-      - [0x67320, c, psyq/libgpu/Gpu_WriteControlAndMirror]
-      - [0x67344, c, psyq/libgpu/Gpu_GetControlMirrorByte]
-      - [0x67398, c, psyq/libgpu/Gpu_StartDmaTransfer]
       - [0x673E0, c, psyq/libgpu/Gpu_SubmitPacket]
-      - [0x67434, c, psyq/libgpu/Gpu_SwapDisplayBuffers]
-      # Display-buffer queue callback, initialization and drain share one DMA TU.
-      - [0x676E4, c, psyq/libgpu/dma_queue]
+      - [0x67434, c, psyq/libgpu/dma_queue]
       - [0x67BD0, c, psyq/libgpu/Gpu_ResetDmaWaitTimer]
-      # DMA transfer controller operations, in source order.
-      - [0x67DE8, c, psyq/libgpu/dma_transfer]
+      - [0x67DE8, c, psyq/libgpu/LoadImage2]
       - [0x68200, c, psyq/libgpu/Gpu_RestoreDmaCallback]
       - [0x68228, c, psyq/libgpu/GPU_memset]
+      # LIBAPI C73.OBJ.
       - [0x68254, c, psyq/libapi/c73]
       # Psy-Q LIBGPU primitive objects, one SDK object per unit.
       - [0x68264, c, psyq/libgpu/p00]

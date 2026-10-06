@@ -9,21 +9,30 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('psyq/libgpu/Gpu_SwapDisplayBuffers',
-  688,
-  'b3686b34851b08fa3bb0097263caf59519056417b593606b7e7a59c155b1e508',
-  'Gpu_ResetDmaWaitTimer = 0x800773D0;\n'
-  'Gpu_DmaTimeoutCheck = 0x80077404;\n'
-  'Gpu_SetDisplayBuffer = 0x80076EE4;\n'
+CASES = [('psyq/libgpu/dma_queue',
+  1948,
+  '5839825b129edc7ba194d09ceaca9b4fa944307bc502c4438fa366c907a4c73c',
+  'D_8009574C = 0x8009574c;\n'
+  'D_80095854 = 0x80095854;\n'
+  'D_80095860 = 0x80095860;\n'
   'D_80095874 = 0x80095874;\n'
   'D_80095878 = 0x80095878;\n'
-  'SetIntrMask = 0x80073E10;\n'
-  'D_8009574C = 0x8009574C;\n'
-  'D_8009587C = 0x8009587C;\n'
-  'D_80095860 = 0x80095860;\n'
-  'D_80095854 = 0x80095854;\n'
-  'DMACallback = 0x80073CF4;\n'
-  'D_800BD030 = 0x800BD030;\n'
+  'D_8009587C = 0x8009587c;\n'
+  'D_80095880 = 0x80095880;\n'
+  'D_80095884 = 0x80095884;\n'
+  'D_800A3348 = 0x800a3348;\n'
+  'D_800BD030 = 0x800bd030;\n'
+  'DMACallback = 0x80073cf4;\n'
+  'g_GpuDmaChcrPtr = 0x80095860;\n'
+  'g_GpuDmaControlRegPtr = 0x80095870;\n'
+  'g_GpuDmaQueueHead = 0x80095874;\n'
+  'g_GpuDmaQueueTail = 0x80095878;\n'
+  'g_GpuGp1Ptr = 0x80095854;\n'
+  'Gpu_DmaTimeoutCheck = 0x80077404;\n'
+  'GPU_memset = 0x80077a28;\n'
+  'Gpu_QueryStatus = 0x80077548;\n'
+  'Gpu_ResetDmaWaitTimer = 0x800773d0;\n'
+  'SetIntrMask = 0x80073e10;\n'
   'SECTIONS { .text 0x80076c34 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('psyq/libds/DsInit',
