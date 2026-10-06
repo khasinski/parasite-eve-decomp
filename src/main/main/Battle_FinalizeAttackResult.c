@@ -207,11 +207,11 @@ int Battle_StepCharacterAction(BattleInitSlot *slot)
         if (facing < -0xAB) direction = 0; else { register int cmp asm("$2") = facing < 0xE4; if (cmp) direction = 1; else direction = 2; } }
             Entity_SetActionMode((*(BattleEntity **)battle_entity_alias_7), *((u8 *)(*(Combatant **)battle_actor_group_7) + 0x14 + direction));
             result = 1;
-            { register Combatant *postActor asm("$4") = (*(Combatant **)battle_actor_group_8);
-              { register BattleEntity *postEntity asm("$3") = (*(BattleEntity **)battle_entity_alias_0);
+            { register Combatant *postActor = (*(Combatant **)battle_actor_group_8);
+              { register BattleEntity *postEntity = (*(BattleEntity **)battle_entity_alias_0);
                 postEntity->animFrame = (u32)(*(BattleEntity **)battle_entity_alias_0)->animLastFrame << 16;
                 (*(BattleEntity **)battle_entity_alias_0)->entityFlags |= 0x100; }
-              { register BattleAction *postAction asm("$3") = postActor->action;
+              { register BattleAction *postAction = postActor->action;
                 { u32 turnWord = postAction->turnWord;
                 D_8009CE39 += D_8009CE3A;
                 D_8009D1DC = turnWord & 0xF; } } }
