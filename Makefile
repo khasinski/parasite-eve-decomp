@@ -251,6 +251,7 @@ overlay-build: overlay-split
 	    $(CC_WRAPPER) "$$src" "$$obj" || exit $$?; \
 	done
 	@$(PY) tools/scripts/overlay_extra_undefineds.py $(OVERLAY_BUILD) \
+	    --ld $(OVERLAY_LD) $(if $(filter $(OVERLAY),$(OVERLAY_VMA_OVERLAP)),--pin-defined) \
 	    --out $(OVERLAY_EXTRA_UNDEFINEDS) \
 	    --existing $(OVERLAY_UNDEFINED_FUNCS) \
 	    --existing $(OVERLAY_UNDEFINED_SYMS) \

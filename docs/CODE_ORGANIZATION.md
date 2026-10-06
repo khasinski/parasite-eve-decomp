@@ -195,7 +195,12 @@ built main ELF, 1672 match an address main names differently and 314 have
 no main symbol. Overlays also pin 7539 references to their own definitions
 (the same shadowing as main's, through address-named `func_`/`D_` labels) and
 988 own-window addresses no object defines; 518 point into overlay windows
-used as runtime buffers.
+used as runtime buffers. Since 2026-10-06 `overlay_extra_undefineds.py` reads
+only the objects the overlay's linker script links and skips every name one
+of them defines: `undefined_extra` dropped from 12915 entries (4622 hard
+assignments) to 1369 (471). The six overlays with copied foreign-VMA code
+(`OVERLAY_VMA_OVERLAP`) keep those pins (`--pin-defined`); scene_e11..e14
+do not match without them. The splat `undefined_*_auto` scripts still pin.
 
 Fixed layout: `.main` at 0x80010000 (the PS-X EXE load address, a loader
 contract), `.field_engine` at 0x800C1CA0, `_gp = 0x8009CD70`, and the
@@ -228,7 +233,8 @@ same run reported 15105 pinned words and 1947 gp-relative offsets.
 3. Overlays link against the built main symbols (`ld --just-symbols` on the
    main ELF, or generated assignments taken from `build/USA/main.map`), and
    `overlay_extra_undefineds.py` stops pinning names the overlay defines
-   itself. Clears the 8073 main references and 7539 self-shadowing pins; needs a
+   itself (done for `undefined_extra` outside the VMA-overlap overlays).
+   Clears the 8073 main references and 7539 self-shadowing pins; needs a
    check for names that exist in both main and an overlay.
 4. References that a linked object already names under another label (57
    function pins, about 400 data pins into asm blobs): give the blob label the

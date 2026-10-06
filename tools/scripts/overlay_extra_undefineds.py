@@ -51,6 +51,24 @@ def undefined_symbols(obj: Path) -> set[str]:
     return symbols
 
 
+def defined_symbols(obj: Path) -> set[str]:
+    proc = subprocess.run(
+        [NM, "--defined-only", "-g", str(obj)],
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+    )
+    return {line.split()[-1] for line in proc.stdout.splitlines()
+            if len(line.split()) == 3}
+
+
+def linked_objects(ld_script: Path, build_dir: Path) -> list[Path]:
+    """The objects the generated linker script links (stale ones excluded)."""
+    prefix = str(build_dir).rstrip("/") + "/"
+    found = re.findall(re.escape(prefix) + r"[^\s()]+\.o", ld_script.read_text())
+    return sorted({Path(path) for path in found})
+
+
 def existing_definitions(paths: list[Path]) -> set[str]:
     defined: set[str] = set()
     for path in paths:
@@ -76,14 +94,27 @@ def main() -> int:
     parser.add_argument("build_dir", type=Path)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--existing", type=Path, action="append", default=[])
+    parser.add_argument("--ld", type=Path,
+                        help="generated linker script: only its objects are "
+                             "read, and symbols they define get no pin")
+    parser.add_argument("--pin-defined", action="store_true",
+                        help="also pin names linked objects define (overlays "
+                             "whose copied code keeps foreign addresses)")
     parser.add_argument("--symbols", type=Path, action="append", default=[],
                         help="splat symbol_addrs file; unresolved symbols "
                              "listed there are emitted as PROVIDE() pins")
     args = parser.parse_args()
 
     symbols: set[str] = set()
-    for obj in sorted(args.build_dir.rglob("*.o")):
+    defined: set[str] = set()
+    if args.ld is not None:
+        objects = linked_objects(args.ld, args.build_dir)
+    else:
+        objects = sorted(args.build_dir.rglob("*.o"))
+    for obj in objects:
         symbols.update(undefined_symbols(obj))
+        if args.ld is not None and not args.pin_defined:
+            defined.update(defined_symbols(obj))
 
     known: dict[str, int] = {}
     for symbols_path in args.symbols:
@@ -98,7 +129,9 @@ def main() -> int:
     rows: list[tuple[int, str]] = []
     provides: list[tuple[int, str]] = []
     for symbol in symbols:
-        if symbol in already_defined:
+        # A definition in a linked object owns its address; a pin would
+        # shadow it.
+        if symbol in already_defined or symbol in defined:
             continue
         address = symbol_address(symbol)
         if address is not None:
