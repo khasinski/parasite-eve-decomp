@@ -698,9 +698,8 @@ segments:
       - [0x56154, c, sys/Sys_SetFlagSlot]
       - [0x5619C, c, render/Obj_EntrySlots]
       - [0x562D4, c, menu/Menu_SetSlotEntry]
-      - [0x56370, c, menu/Menu_InitGlobals]
-      # Camera clamp, bounds, viewport and GTE offsets, scroll mode and screen transitions share private state (G0819).
-      - [0x56438, c, render/Render_CameraViewportFlow]
+      # View state reset, camera clamp, bounds, viewport and GTE offsets, scroll mode and screen transitions share private state (G0819).
+      - [0x56370, c, render/Render_CameraViewportFlow]
       - [0x57760, c, field/Geo_LoadMeshEntry]
       - [0x579C8, c, field/Geo_TransformPoint]
       # Sprite entry setters, the geometry mesh list build and draw, and the screen fade and tint (G0833/G0835).

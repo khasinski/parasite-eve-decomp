@@ -352,7 +352,7 @@ int Geo_RenderMeshList(void *buffer, void **end)
         } while (++i < count);
     }
     D_800BCFFA = D_800BCFFB = 0;
-    *(u32 *)&D_800BCF88.flags &= ~0xc00;
+    *(u32 *)&D_800BCF88.state.flags &= ~0xc00;
     return 0;
 }
 

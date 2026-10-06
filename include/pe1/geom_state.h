@@ -20,6 +20,7 @@
  */
 
 #include "common.h"
+#include "pe1/gte_types.h"
 #include "pe1/render_tint.h"
 
 /* 16-byte control entry. base = g_GeomState->ctrl_offset (+0x10), index << 4. */
@@ -149,6 +150,32 @@ typedef struct GeomScrollState {
     GeomScrollCoordinates position;
 } GeomScrollState;
 
+/* The same state as the view reset (Render_InitViewState) writes it: every
+ * halfword pair is cleared with one word store, and the two words after the
+ * timer point at the current view matrix (the RenderMatrixSlot D_800BCFA4)
+ * and at its projection distance (D_800BCFA8). */
+typedef struct GeomScrollWords {
+    u32 flags;
+    u32 position;               /* x, y */
+    u32 saved;                  /* savedX, savedY */
+    u32 screenOffset;           /* screenOffsetX, screenOffsetY */
+    u32 start;                  /* startX, startY */
+    u32 target;                 /* targetX, targetY */
+    u32 timer;                  /* elapsed, duration */
+    GteMatrix *viewMatrix;
+    s32 *projectionDistance;
+    u32 savedBoundsX;           /* saved viewport X bounds */
+    u32 savedBoundsY;           /* saved viewport Y bounds */
+    u32 cameraOffset;           /* D_800BCFB4, D_800BCFB6 */
+    u8 reserved30[0x70];
+    u32 origin;                 /* originX, originY */
+} GeomScrollWords;
+
+typedef union GeomScrollRecord {
+    GeomScrollState state;
+    GeomScrollWords words;
+} GeomScrollRecord;
+
 PE1_STATIC_ASSERT(sizeof(GeomScrollEntry) == 0x38, geom_scroll_entry_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollEntry, x) == 0x0C,
                   geom_scroll_x_offset);
@@ -169,6 +196,14 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollCoordinates, originX) == 0x9C,
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollState, position.tint) == 0x30,
                   geom_scroll_tint_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollWords, viewMatrix) ==
+                  PE1_OFFSETOF(GeomScrollState, position.matrixWords),
+                  geom_scroll_view_matrix_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(GeomScrollWords, origin) ==
+                  PE1_OFFSETOF(GeomScrollState, position.originX),
+                  geom_scroll_origin_word_offset);
+PE1_STATIC_ASSERT(sizeof(GeomScrollWords) == sizeof(GeomScrollState),
+                  geom_scroll_words_size);
 
 typedef struct GeomState {                /* header */
     u8  pad00[4];                         /* +0x00 */
@@ -284,7 +319,8 @@ extern u16 D_800BCF94, D_800BCF96, D_800BCF98, D_800BCF9A;
 extern u16 D_800BCF9C, D_800BCF9E, D_800BCFA0, D_800BCFA2;
 
 /* Existing absolute symbols expose overlapping views of the scroll state. */
-extern GeomScrollState D_800BCF88;
+extern GeomScrollRecord D_800BCF88;
+extern char D_800BCFFC;
 extern GeomScrollCoordinates D_800BCF8C;
 extern u16 D_800BCF8E, D_800BCF90, D_800BCF92;
 

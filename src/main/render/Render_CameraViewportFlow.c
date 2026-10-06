@@ -9,6 +9,36 @@
 #include "pe1/render_object.h"
 #include "pe1/field_movement.h"
 #include "pe1/battle_runtime.h"
+#include "pe1/render_prim.h"
+
+/* Resets the view state at the start of a room draw: render flags, the
+ * scroll and camera words, the light colour, the mesh group and depth, and
+ * points the view at the given matrix and projection distance. */
+int Render_InitViewState(void *matrix, void *screen) {
+    D_800BCF88.words.flags = 0x70;
+    D_800BCFFC = 0x60;
+    D_800BCFFE = 0x180;
+    D_800BD027 = 0xFF;
+    D_800BD026 = 0xFF;
+    D_800BD025 = 0xFF;
+    D_800BCF88.words.position = 0;
+    D_800BCF88.words.saved = 0;
+    D_800BCF88.words.screenOffset = 0;
+    D_800BCF88.words.start = 0;
+    D_800BCF88.words.target = 0;
+    D_800BCF88.words.timer = 0;
+    D_800BCF88.words.viewMatrix = matrix;
+    D_800BCF88.words.projectionDistance = screen;
+    D_800BCF88.words.savedBoundsX = 0;
+    D_800BCF88.words.savedBoundsY = 0;
+    D_800BCF88.words.cameraOffset = 0;
+    g_GeomGroupSel = 0;
+    D_800BD022 = 0;
+    D_800BD020 = 0;
+    D_800BD024 = 0;
+    D_800BCF88.words.origin = 0;
+    return 0;
+}
 
 extern s16 g_CameraClampMinX __asm__("D_800BCF8C");
 extern s16 g_CameraClampedY;
@@ -106,7 +136,7 @@ int Render_SetViewport(s16 *position) {
         s16 projected[2];
         unsigned reserved[10];
     } local;
-    GeomScrollState *camera = &D_800BCF88;
+    GeomScrollState *camera = &D_800BCF88.state;
     register GeomState *geometry;
     register CameraViewport *view;
     register unsigned int cx asm("$11");
@@ -275,7 +305,7 @@ store_offsets:
     D_800BCF94 = view_x;
     D_800BCF96 = view_y;
     selected_x = target_x;
-    if (D_800BCF88.flags & 64) {
+    if (D_800BCF88.state.flags & 64) {
         register int signed_x asm("$3");
         register int signed_y;
         register int loaded_bound asm("$2");
@@ -472,7 +502,7 @@ int Render_UpdateScrollPosition(void *positionArg, int duration, int mode)
     int *position = positionArg;
     short vector[4];
     short projected[2];
-    GeomScrollState *camera = &D_800BCF88;
+    GeomScrollState *camera = &D_800BCF88.state;
     CameraViewport *view;
     int x, y;
 

@@ -56,9 +56,9 @@ int Scene_IsBattleMode(void)
                 entry->fractionY.word = position & 255;
             }
         }
-        if (D_800BCF88.flags & 0x80) {
+        if (D_800BCF88.state.flags & 0x80) {
             unsigned short x = D_800BCF8C.x, y = D_800BCF8E;
-            D_800BCF88.flags &= ~0x80;
+            D_800BCF88.state.flags &= ~0x80;
             D_800BCF90 = x;
             D_800BCF92 = y;
         }

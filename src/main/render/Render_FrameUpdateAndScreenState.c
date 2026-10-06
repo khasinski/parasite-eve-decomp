@@ -18,7 +18,7 @@ int Render_PrepareFrame(void) {
         union { int word; short xy[2]; } projected;
     } local;
     unsigned int *state = D_800B89F8;
-    Menu_InitGlobals(state, state + 8);
+    Render_InitViewState(state, state + 8);
     if (Geo_RenderMeshList((void *)D_800B0E40, &local.result)) return -2;
     SetGeomScreen(state[8]);
     func_800655D4();
@@ -129,18 +129,18 @@ s32 CdRom_InitScreenState(void) {
     valueE0 = 0xE0;
     value1 = 1;
     command = 0xE1000400;
-    base = (u8 *)&D_800BCF88;
+    base = (u8 *)&D_800BCF88.state;
     q = base;
     p = base;
 
-    D_800BCF88.position.tint.target_b = 0xFF;
-    D_800BCF88.position.tint.target_g = 0xFF;
-    D_800BCF88.position.tint.target_r = 0xFF;
-    D_800BCF88.position.tint.fade_mode = 1;
-    D_800BCF88.position.tint.start_b = 0;
-    D_800BCF88.position.tint.start_g = 0;
-    D_800BCF88.position.tint.start_r = 0;
-    D_800BCF88.position.tint.blend_mode = 2;
+    D_800BCF88.state.position.tint.target_b = 0xFF;
+    D_800BCF88.state.position.tint.target_g = 0xFF;
+    D_800BCF88.state.position.tint.target_r = 0xFF;
+    D_800BCF88.state.position.tint.fade_mode = 1;
+    D_800BCF88.state.position.tint.start_b = 0;
+    D_800BCF88.state.position.tint.start_g = 0;
+    D_800BCF88.state.position.tint.start_r = 0;
+    D_800BCF88.state.position.tint.blend_mode = 2;
 
     do {
         p[0x33] = value3;
@@ -181,7 +181,7 @@ s32 CdRom_InitScreenState(void) {
 }
 
 int Render_SetCDDCSlot(void) {
-    GeomScrollState *state = &D_800BCF88;
+    GeomScrollState *state = &D_800BCF88.state;
     int mode = D_800BCFEE & 3;
     int stop = D_800BCFEE & 4;
     int divisor, frame;
