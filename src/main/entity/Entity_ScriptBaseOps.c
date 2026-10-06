@@ -12,7 +12,7 @@ int Entity_CallAction(int **arg0) {
     int arg2;
     int arg1;
     int arg3;
-    register int base asm("$8");
+    int base;
     register FieldActor *current asm("$2");
     int result;
 
