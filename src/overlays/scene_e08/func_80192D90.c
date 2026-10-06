@@ -16,7 +16,7 @@ void func_800C3238(int);
 int rsin(int);
 int rcos(int);
 void func_80071A44(SceneE08Vector *, int, int);
-void func_800C3134(void *, int, void *);
+void func_800C3134(u8 *table, u32 step, u8 *out);
 void func_80192D90(void *unused0, void *unused1, char *effect) {
     SceneE08Matrix matrix;
     s16 temp[3];

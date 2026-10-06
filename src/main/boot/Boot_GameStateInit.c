@@ -8,7 +8,7 @@ void func_80085644(void);
 void Akao_Cmd_F0(void);
 void Akao_Cmd_F1(void);
 void Akao_Cmd_98_9A_9C(int arg0);
-void VSync(int mode);
+int VSync(int mode);
 
 extern s16 D_800B0DD4;
 

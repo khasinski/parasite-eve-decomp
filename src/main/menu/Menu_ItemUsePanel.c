@@ -8,13 +8,13 @@
  * header. Defines the selected item record and the discard flag. */
 
 #define NULL ((void *)0)
-M2C_UNK MenuWidget_OffsetPosition();
-M2C_UNK MenuWidget_SetCurrentNode();
+void MenuWidget_OffsetPosition(MenuWidgetNode *node, int dx, int dy);
+void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
 void *Inv_LookupData();
-M2C_UNK Queue_Init();
-void *MenuWidget_CreateSimpleNode();
-void *MenuWidget_CreateNode();
-M2C_UNK MenuWidget_ClearColumnLayout();
+void Queue_Init(void);
+MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent, int arg2, int arg3);
+MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *parent, MenuWidgetNode *sibling);
+void MenuWidget_ClearColumnLayout(void *node);
 extern s32 g_InvItemUsableFlag;
 u8 *g_MenuSelectedItemData;
 void Menu_DrawEquipStatsPanel(void);
@@ -24,9 +24,9 @@ M2C_UNK Menu_DrawEquipItemIcon();
 M2C_UNK Menu_DrawSoundEffectList();
 M2C_UNK Menu_DrawEquipItemDetailPanel();
 int g_MenuItemDiscardMode;
-void Inv_SetActiveList(int arg0, void *arg1);
+void Inv_SetActiveList(int mode, int *slot);
 void Menu_PlayConfirmSound(void);
-void *Str_LookupTableC(unsigned int arg0);
+u8 *Str_LookupTableC(unsigned int index);
 void Draw_PrintRawText(u8 *arg0);
 
 void Menu_CreateItemUsePanel(void) {

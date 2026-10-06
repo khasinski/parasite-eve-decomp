@@ -6,12 +6,12 @@
 #include "include_asm.h"
 void DrawSync(int arg0);
 void Menu_DrawSaveBg(void);
-void VSync(int arg0);
+int VSync(int mode);
 int Seq_GetElapsed(void);
 void SetDispMask(int arg0);
 void ResetGraph(int arg0);
 int Gpu_CheckDrawStatus(void);
-void PutDrawEnv(void *arg0);
+DRAWENV *PutDrawEnv(DRAWENV *env);
 void DrawOTagEnv(int arg0, void *arg1);
 
 extern int g_GameState[];

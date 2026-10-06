@@ -7,7 +7,7 @@ void *func_800C2B50(void);
 void func_800C2EAC(u8);
 void func_800C3098(int);
 void func_800C3238(int);
-void func_800C3134(void *, int, void *);
+void func_800C3134(u8 *table, u32 step, u8 *out);
 int func_80077A64(int, int, int, int);
 int func_80077AA4(int, int);
 void func_800D3114(void *, int, int, int, int, int, int, int, int, int,

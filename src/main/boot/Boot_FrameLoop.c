@@ -45,7 +45,7 @@ int Scene_LoadEntityTexture(void);
 void Scene_SetStoryDay(s8 storyDay);
 int Scene_LoadEntityTextures(void);
 void Entity_RelocateSceneData(void);
-void Render_SetupFogLayer(int arg0);
+void Render_SetupFogLayer(void *source);
 void Task_DrawSyncAndFlush(void);
 void func_800E0060(void);
 void SetDispMask(int arg0);
@@ -208,7 +208,7 @@ void Menu_DrawTextboxEntries(void);
 void Render_SetGteScreenOffset(void);
 void func_800E01BC(void);
 void Render_ResetGteScreenOffset(void);
-void Render_SetCDDCSlot(void);
+int Render_SetCDDCSlot(void);
 void Gpu_RenderFrame(void);
 void Render_SetFadeColour(int amount);
 int VSync(int mode);
@@ -218,7 +218,7 @@ void ClearImage(RECT *rect, int r, int g, int b);
 void DrawSync(int mode);
 void Akao_Cmd_F1(void);
 void Render_Noop(int mode);
-void Asset_UnloadTableEntries(void);
+int Asset_UnloadTableEntries(void);
 
 void Boot_FlushSceneFast(void) {
     RECT rect;

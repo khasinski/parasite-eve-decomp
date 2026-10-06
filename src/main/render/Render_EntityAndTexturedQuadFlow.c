@@ -228,7 +228,7 @@ void Render_DrawTexturedQuads(RenderObjectEntity *entity) {
     }
 }
 
-void Anim_BuildRotationMatrices(RenderObjectEntity *object, void *animation, int frame, int flags);
+int Anim_BuildRotationMatrices(RenderObjectEntity *object, void *action, int frame, int mode);
 void Render_TransformVertices(RenderObjectEntity *object);
 
 /* A GTE matrix copied as its eight 32-bit words. */

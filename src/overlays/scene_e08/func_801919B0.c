@@ -7,7 +7,7 @@ void *func_800C2B50(void);
 void func_800C2EAC(u8 arg0);
 void func_800C3098(s32 arg0);
 void func_800C3238(s32 arg0);
-void func_800C3134(u8 *table, s32 step, u8 *out);
+void func_800C3134(u8 *table, u32 step, u8 *out);
 s32 func_80077A64(s32 a, s32 b, s32 c, s32 d);
 s32 func_80077AA4(s32 a, s32 b);
 void func_800D3114(void *entry, s32 a1, s32 a2, s32 a3, s32 s10, s32 s14,

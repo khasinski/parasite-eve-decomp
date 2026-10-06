@@ -5,20 +5,20 @@
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-void *MenuWidget_FindByModeAndSelectedBase();
-M2C_UNK MenuWidget_OffsetPosition();
-M2C_UNK MenuWidget_SetCurrentNode();
-M2C_UNK Menu_PlayConfirmSound();
-M2C_UNK Menu_PlayErrorSound();
-s32 Inv_GetActiveListItemType();
-s32 Inv_GetPackedListCount();
-M2C_UNK Inv_BuildFilteredPackedList();
-M2C_UNK Inv_BuildFilteredPackedListExcluding();
-s32 Inv_RestoreSelection();
-void *MenuWidget_CreateSimpleNode();
-void *MenuWidget_CreateNode();
+MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);
+void MenuWidget_OffsetPosition(MenuWidgetNode *node, int dx, int dy);
+void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
+void Menu_PlayConfirmSound(void);
+void Menu_PlayErrorSound(void);
+int Inv_GetActiveListItemType(int index);
+int Inv_GetPackedListCount(void);
+void Inv_BuildFilteredPackedList(int mask);
+void Inv_BuildFilteredPackedListExcluding(int mask, int excluded);
+int Inv_RestoreSelection(unsigned int index);
+MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent, int arg2, int arg3);
+MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *parent, MenuWidgetNode *sibling);
 M2C_UNK func_80064B74();
-M2C_UNK MenuWidget_ClearColumnLayout();
+void MenuWidget_ClearColumnLayout(void *node);
 extern s32 g_MenuEquipMode;
 extern s32 g_InvItemUsableFlag;
 extern s32 g_MenuLayoutLocked;

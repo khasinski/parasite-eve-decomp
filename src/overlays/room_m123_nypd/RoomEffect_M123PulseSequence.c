@@ -9,7 +9,10 @@ extern GteShortVector D_8018F1F0;
 extern int D_800E27EC;
 extern void func_800CF3AC(void *, void *, int);
 extern int rsin(int);
-extern void func_800D0728(void *, int, int, int, void *, int, int, int, void *, int, int);
+void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
+                   GteRotation *rotation, int scale_x, int scale_y,
+                   struct RenderColor *color0, struct RenderColor *color1,
+                   int intensity, int mode);
 
 int func_80194A70(int mode, RoomPulseParticle *particle, int *reference)
 {

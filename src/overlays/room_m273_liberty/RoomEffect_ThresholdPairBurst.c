@@ -36,9 +36,9 @@ extern int GetTPage(int,int,int,int),rcos(int),rsin(int);
 extern unsigned short GetClut(int,int);
 extern void GsSetOrign(int,int),func_800C6ED8(int);
 extern void func_800C6EF8(void *),func_800C6FA0(void *,int);
-extern void *memset(void *,int,unsigned long);
+void *memset(void *dst, int value, unsigned int size);
 extern void func_800C71E4(void *,GteMatrix *),func_800C6F4C(void *);
-extern void *Asset_FindTable08ByU32Key(void *,unsigned int);
+void *Asset_FindTable08ByU32Key(void *base, s32 key);
 extern void func_800C6D5C(void *,int,int);
 
 

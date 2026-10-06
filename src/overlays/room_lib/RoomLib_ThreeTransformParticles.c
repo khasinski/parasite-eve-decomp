@@ -106,7 +106,7 @@ typedef struct RoomInitThreeStack {
 
 int *func_800C2B10(int index);
 int func_80071A54(void);
-void func_800C66C8(void *owner, int id, void *state);
+int func_800C66C8(void *object, int message, void *state);
 
 /* Retail marks this function handwritten; only its COP2 windows remain ASM. */
 void RoomLib_InitThreeTransformParticles(void *owner, void *unused,
@@ -249,7 +249,7 @@ typedef struct RoomDrawThreeStack {
 void func_800C2EAC(u8 owner);
 void func_800C3098(int depth);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void func_800C3134(void *table, int step, void *packet);
+void func_800C3134(u8 *table, u32 step, u8 *out);
 void func_800C2FF0(int width, int height);
 void func_800C3238(int mode);
 int rsin(int angle);

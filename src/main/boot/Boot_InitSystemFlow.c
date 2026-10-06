@@ -38,7 +38,7 @@ M2C_UNK Entity_ResetStateGlobals();
 M2C_UNK Entity_ResetAllPools();
 M2C_UNK SsInit();
 M2C_UNK Menu_SetEquipSlotIndex();
-M2C_UNK Boot_BuildRenderFlagTable();
+void Boot_BuildRenderFlagTable(void);
 M2C_UNK Save_PostInitStub();
 M2C_UNK Task_ClearSfxTable();
 M2C_UNK CdRom_InitScreenState();
@@ -109,7 +109,7 @@ extern u8 D_800BCDE3;
 void ResetGraph(int arg0);
 void SetGraphDebug(int level);
 void SetDispMask(int mask);
-void ClearImage(s16 *rect, int r, int g, int b);
+void ClearImage(RECT *rect, int r, int g, int b);
 void SetDefDispEnv(void *env, int x, int y, int w, int h);
 void SetDefDrawEnv(void *env, int x, int y, int w, int h);
 

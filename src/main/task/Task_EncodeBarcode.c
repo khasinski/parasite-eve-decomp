@@ -3,7 +3,7 @@ extern int g_GameStateFlags;
 extern int g_SceneDispatchToken;
 extern int g_PlayTimeFrameCounter;
 
-void Str_EncodeBase32(void *out, int arg1);
+int Str_EncodeBase32(char *out, unsigned int value);
 void Sys_Shutdown(int *arg0);
 
 int Task_EncodeBarcode(int **arg0) {

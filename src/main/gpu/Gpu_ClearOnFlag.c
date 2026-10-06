@@ -5,7 +5,7 @@
 extern u32 g_GameState;
 extern unsigned char g_DiscChangeFlags;
 
-int ClearImage(RECT *rect, u8 r, u8 g, u8 b);
+void ClearImage(RECT *rect, int r, int g, int b);
 int DrawSync(int arg0);
 
 void Gpu_ClearOnFlag(void) {

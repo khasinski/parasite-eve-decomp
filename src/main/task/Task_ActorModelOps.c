@@ -46,8 +46,8 @@ extern u8 *D_8009D300;
 extern u32 D_800B89F8[];
 
 GteMatrix *RotMatrix(GteShortVector *rotation, GteMatrix *matrix);
-void Anim_BuildRotationMatrices(u8 *object, u8 *animation, int frame, int mode);
-void Render_TransformVertices(u8 *object);
+int Anim_BuildRotationMatrices(RenderObjectEntity *object, void *action, int frame, int mode);
+void Render_TransformVertices(RenderObjectEntity *object);
 
 int Task_SetGteMatrix(int **args) {
     u8 *setup_actor;

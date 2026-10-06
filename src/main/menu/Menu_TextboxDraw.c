@@ -23,7 +23,7 @@ void SetDrawTPage(void *, int, int, int);
 void SetSprt(void *);
 int MargePrim(void *, void *);
 void SetShadeTex(void *, int);
-int GetTPage(int, int, int, int);
+u16 GetTPage(int tp, int abr, int x, int y);
 void SetTile(void *);
 void SetSemiTrans(void *, int);
 void exit(int);

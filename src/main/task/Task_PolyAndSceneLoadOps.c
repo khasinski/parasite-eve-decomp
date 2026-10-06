@@ -6,7 +6,7 @@
 void EnterCriticalSection(void);
 void ExitCriticalSection(void);
 void FlushCache(void);
-void VSync(s32);
+int VSync(int mode);
 void ResetGraph(s32);
 void SetDispMask(s32);
 void DrawSync(s32);

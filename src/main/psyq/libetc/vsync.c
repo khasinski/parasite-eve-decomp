@@ -55,7 +55,7 @@ extern char D_800116FC[];
 
 void puts(char *arg0);
 void ChangeClearPAD(int arg0);
-void ChangeClearRCnt(int arg0, int arg1);
+int ChangeClearRCnt(int counter, int enabled);
 
 void v_wait(int arg0, int arg1) {
     volatile int timeout = arg1 << 15;

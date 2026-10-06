@@ -6,7 +6,10 @@ typedef struct { short zero; unsigned short value,phase,one; } Parameters;
 extern RoomM273EffectStateContext *D_800F32D0;
 extern int D_800E27EC,D_800966EC[];
 extern unsigned char D_8019ACDC[],D_8019ACE0[];
-extern void func_800D0728(void *,int,int,int,Parameters *,int,int,void *,void *,int,int);
+void func_800D0728(GteShortVector *position, int inner, int outer, int segments,
+                   GteRotation *rotation, int scale_x, int scale_y,
+                   struct RenderColor *color0, struct RenderColor *color1,
+                   int intensity, int mode);
 
 int func_8019A4CC(int mode,Effect *effect) {
     Parameters parameters;

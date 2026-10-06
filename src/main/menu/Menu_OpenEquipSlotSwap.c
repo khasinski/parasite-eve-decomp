@@ -6,14 +6,14 @@
 
 #define NULL ((void *)0)
 #include "../../../tools/m2c/m2c_macros.h"
-void *MenuWidget_FindByModeAndSelectedBase();
-M2C_UNK MenuWidget_SetCurrentNode();
-M2C_UNK Menu_CreateContextHelpPanel();
+MenuWidgetNode *MenuWidget_FindByModeAndSelectedBase(int mode, int selectedBase);
+void MenuWidget_SetCurrentNode(MenuWidgetNode *node);
+void Menu_CreateContextHelpPanel(void);
 s32 Inv_GetAyaSlotLimit();
-M2C_UNK Menu_SetBattleEquipMode();
-M2C_UNK Queue_Init();
-void *MenuWidget_CreateSimpleNode();
-void *MenuWidget_CreateNode();
+void Menu_SetBattleEquipMode(int mode);
+void Queue_Init(void);
+MenuWidgetNode *MenuWidget_CreateSimpleNode(int mode, MenuWidgetNode *parent, int arg2, int arg3);
+MenuWidgetNode *MenuWidget_CreateNode(int mode, MenuWidgetNode *parent, MenuWidgetNode *sibling);
 extern s32 g_MenuSelectionLocked;
 extern s32 g_MenuActionSubmenuOpen;
 extern s32 D_8009CF5C;

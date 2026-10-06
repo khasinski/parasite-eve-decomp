@@ -75,10 +75,10 @@ int CdRom_PollReady(void) {
 #include "pe1/psyq_gpu.h"
 
 s32 Akao_Cmd_F0();
-s32 VSync();
+int VSync(int mode);
 s32 EnterCriticalSection();
 s32 ExitCriticalSection();
-s32 FlushCache();
+void FlushCache(void);
 
 void SetDefDispEnv(void *env, int x, int y, int w, int h);
 
@@ -91,7 +91,7 @@ extern s8 D_800B0DB7;
 extern s32 g_PeImageBaseLba;
 extern u16 g_StrFileDirLba[];
 
-s32 SetDispMask(s32 arg0);
+void SetDispMask(int mask);
 
 s32 Overlay_LoadInitialImage(void) {
     register s32 v0 asm("$2");

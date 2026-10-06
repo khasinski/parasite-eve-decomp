@@ -93,7 +93,7 @@ typedef struct RoomTwelveEffectStack {
 } RoomTwelveEffectStack;
 
 int *func_800C2B28(int index);
-int func_800C66C8(void *owner, int id, RoomSpriteMatrix *matrix);
+int func_800C66C8(void *object, int message, void *state);
 
 
 /* Retail marks this function handwritten; only its COP2 windows remain ASM. */

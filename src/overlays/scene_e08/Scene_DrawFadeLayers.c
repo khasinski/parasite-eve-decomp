@@ -33,7 +33,7 @@ void func_800C2EAC(u8);
 void func_800C2FF0(int, int);
 void func_800C3098(int);
 void func_800C3238(int);
-void func_800C3134(void *, int, void *);
+void func_800C3134(u8 *table, u32 step, u8 *out);
 void func_80071A44(RoomFxVec4 *, int, int);
 void func_800C4FC4(void *, RoomSpriteMatrix *, int);
 
