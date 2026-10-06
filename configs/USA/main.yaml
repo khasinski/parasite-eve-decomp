@@ -334,8 +334,8 @@ segments:
       - [0x24FB4, c, menu/Render_AnimationFrame]
       - [0x2515C, c, menu/Save_DrawSlotMetadata]
       - [0x255E0, c, menu/Menu_SaveOverlayDraw]
-      - [0x25710, c, entity/Entity_ResetAllPools]
-      - [0x257C4, c, entity/Entity_InitFreePool]
+      # Pool reset and free-list setup share the entity pool globals and record block.
+      - [0x25710, c, entity/Entity_PoolInit]
       - [0x25838, c, main/Scene_LoadMap]
       - [0x25D58, c, entity/Entity_FrameUpdate]
       - [0x26484, c, entity/Entity_PositionIntegration]

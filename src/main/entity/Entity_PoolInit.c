@@ -2,6 +2,9 @@
 /* CC1_FLAGS: -fno-strength-reduce */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
+/* Entity pool reset and free-list construction share the pool globals and the
+ * 14-entry 0x280-byte entity record block at D_800BEA90. */
+
 int g_FieldMoveLock;
 void *g_EntityFreeListHead;
 void *g_FieldActorListHead;
@@ -13,6 +16,9 @@ void *D_8009D224;
 extern char g_EntityWorkBuffer[];
 extern char g_TaskNodeActiveFlags[];
 extern char D_800BEA90[];
+extern char D_800BEA94[];
+extern int D_800C0B14[];
+extern char g_EntityAllocBlockTable[];
 extern unsigned int g_GameState[];
 
 void Entity_ResetAllPools(void)
@@ -63,4 +69,36 @@ void Entity_ResetAllPools(void)
     g_PlayerEntity = 0;
     D_8009D224 = 0;
     g_GameState[0] &= 0xFFFFCFFF;
+}
+
+void Entity_InitFreePool(void)
+{
+    int i;
+    int offset;
+    char *base;
+    char *next;
+
+    i = 0;
+    base = D_800BEA90;
+    next = base + 0x280;
+    offset = 0;
+    g_EntityFreePoolCount = 0;
+    g_FieldActorListHead = 0;
+    g_EntityFreeListHead = base;
+
+    do {
+        *(void **)(D_800BEA94 + offset) = next;
+        next += 0x280;
+        i++;
+        offset += 0x280;
+    } while ((unsigned int)i < 13);
+
+    D_800C0B14[0] = 0;
+    offset = 0;
+    do {
+        *(int *)(g_EntityAllocBlockTable + offset) = 0;
+        offset += 8;
+    } while ((unsigned int)offset < 0x80);
+
+    g_PlayerEntity = 0;
 }
