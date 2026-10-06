@@ -14,7 +14,8 @@
  * The lists the methods hand to the field engine are the module's own data,
  * named in each room's symbol file. A room that links several modules names
  * the lists of the module whose methods are the shared units; the other
- * modules keep their own copies of the methods. */
+ * modules link a class unit of their own with the same methods under the
+ * module's names (RoomFx_OrbitSetClass.c, RoomFx_DropFieldClass.c). */
 
 struct RoomEnt;
 
@@ -37,9 +38,12 @@ int RoomLib_RegisterPairedTables(void *o);
 int RoomLib_CloseTarget(struct RoomEnt *o);
 /* Variants some modules link in the registration, start and close slots:
  * register the draw list and start only while the engine runs the object
- * (status 3), and close the module without touching the target's state. */
+ * (status 3). The start method closes the module through
+ * RoomLib_CloseTarget (Active) or through RoomLib_ReleaseTarget, which
+ * leaves the target's state alone (Release). */
 int RoomLib_RegisterDrawListActive(void *o);
 int RoomLib_RegisterPairedTablesRelease(void *o);
+int RoomLib_RegisterPairedTablesActive(void *o);
 int RoomLib_ReleaseTarget(struct RoomEnt *o);
 int RoomLib_RegisterPairedTablesGated(void *o);
 

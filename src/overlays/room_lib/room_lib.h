@@ -746,11 +746,24 @@ extern char RoomLib_TableB[];
         return 0; \
     }
 
-/* register paired room tables, closing this target when either engine call fails */
-
-/* same table registration pattern, but only while the field engine is in status 3 */
-
-/* register unless a low-variant linked target has its room-local AC gate clear */
+/* start method that acts only while the field engine runs the object
+ * (status 3): register the update handlers and spawn from the init list and
+ * the spawn layout, closing the module with `close` when either call fails
+ * or the object is not running */
+#define ROOMLIB_START_AT3(name, update, init, layout, close) \
+    int name(void *o) { \
+        int result; \
+        if (FieldEng_GetStatus(o) == 3) { \
+            result = func_800C251C(o, update); \
+            result |= func_800C2758(o, init, layout); \
+        } else { \
+            result = -1; \
+        } \
+        if (result == -1) { \
+            close(o); \
+        } \
+        return 0; \
+    }
 
 /* plant the room table pointer into the engine slot */
 #define ROOMLIB_PLANT_TABLE(name, table) \

@@ -8,19 +8,5 @@
 #include "room_lib.h"
 #include "pe1/room_module.h"
 
-int RoomLib_RegisterPairedTablesRelease(void *o) {
-    int result;
-
-    if (FieldEng_GetStatus(o) == 3) {
-        result = func_800C251C(o, g_RoomUpdateList);
-        result |= func_800C2758(o, g_RoomInitList, g_RoomSpawnLayout);
-    } else {
-        result = -1;
-    }
-
-    if (result == -1) {
-        RoomLib_ReleaseTarget(o);
-    }
-
-    return 0;
-}
+ROOMLIB_START_AT3(RoomLib_RegisterPairedTablesRelease, g_RoomUpdateList,
+                  g_RoomInitList, g_RoomSpawnLayout, RoomLib_ReleaseTarget)

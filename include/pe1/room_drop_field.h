@@ -8,6 +8,7 @@
 #include "pe1/field_collision.h"
 #include "pe1/room_spark.h"
 #include "pe1/field_sprite_state.h"
+#include "pe1/room_drop_field_class.h"
 
 /* The drop field effect set linked by room_m174, room_m348 and room_m383
  * (src/overlays/room_lib/RoomFx_DropFieldEffects.c): a controller and
@@ -94,8 +95,9 @@ PE1_STATIC_ASSERT(sizeof(RoomDropFieldSpinFrame) == 0x40,
                   room_drop_field_spin_frame_size);
 
 /* Per-room data: seven sprite records, four ring records (the beam pair
- * draws the last two), the spawn tables, the ring and beam images and the
- * particle animation table. */
+ * draws the last two), the ring and beam images and the particle animation
+ * table. The spawn tables are declared with the module class
+ * (pe1/room_drop_field_class.h). */
 extern RoomFxSpritePacket g_RoomDropFieldSpinSprite;
 extern RoomFxSpritePacket g_RoomDropFieldModelSprite;
 /* The model the controller loads; it follows the model sprite record. */
@@ -106,8 +108,6 @@ extern RoomFxSpritePacket g_RoomDropFieldQuadSprite;
 extern RoomFxEmitterParams g_RoomDropFieldRings[4];
 extern RoomFxSpritePacket g_RoomDropFieldDropSprite;
 extern RoomFxSpritePacket g_RoomDropFieldMotionSprite;
-extern u8 g_RoomDropFieldSpawnScript[];
-extern u8 g_RoomDropFieldSpawnData[];
 extern char g_RoomDropFieldRingImages[];
 extern unsigned char g_RoomDropFieldBeamImages[];
 extern u8 g_RoomDropFieldParticleFrames[];
