@@ -851,8 +851,8 @@ segments:
       - [0x641C4, c, psyq/libmath/ferr]
       - [0x64228, pad]
       - [0x64234, c, psyq/libapi/a07]
+      # Psy-Q LIBETC VSYNC.OBJ (provenance 0x80073A44, 0x210 bytes): VSync, v_wait.
       - [0x64244, c, psyq/libetc/vsync]
-      - [0x643BC, c, psyq/libetc/vsync_2]
       - {start: 0x64454, type: rodata, name: psyq/libc/A63_signature, linker_section_order: .text, linker_section: .psyq_signature}
       - [0x6445C, c, psyq/libc/a63]
       - [0x64474, c, psyq/libapi/a91]

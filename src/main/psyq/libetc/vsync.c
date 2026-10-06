@@ -1,7 +1,7 @@
-/* GCC_VERSION: 2.8.1 */
-/* CC1_FLAGS: -mno-split-addresses */
-/* PSY-Q LIBETC VSYNC, part 1 of 2: VSync. */
+/* ASSEMBLER: GNU */
+/* Psy-Q LIBETC VSYNC.OBJ: VSync, v_wait. */
 #include "common.h"
+
 extern volatile u32 *gpu_status __asm__("D_80094574");
 extern volatile u32 *hblank_counter __asm__("D_80094578");
 extern volatile u32 last_hblank __asm__("D_8009457C");
@@ -49,4 +49,25 @@ int VSync(int mode) {
         last_hblank = *hblank_counter;
     } while (last_hblank != *hblank_counter);
     return elapsed;
+}
+
+extern char D_800116FC[];
+
+void puts(char *arg0);
+void ChangeClearPAD(int arg0);
+void ChangeClearRCnt(int arg0, int arg1);
+
+void v_wait(int arg0, int arg1) {
+    volatile int timeout = arg1 << 15;
+
+    if (g_VSyncCount < arg0) {
+        do {
+            if (--timeout == -1) {
+                puts(D_800116FC);
+                ChangeClearPAD(0);
+                ChangeClearRCnt(3, 0);
+                return;
+            }
+        } while (g_VSyncCount < arg0);
+    }
 }
