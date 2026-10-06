@@ -67,8 +67,7 @@ void Render_DrawObjectVariant(RenderObjectEntity *input, s16 limit, s32 *project
     s32 vertexIndex;
     register s32 limitShift asm("$2");
     __asm__("" : "=r"(entity) : "0"(entity));
-    __asm__("" : "=r"(projectMatrix) : "0"(projectMatrix));
-    changed = 0;
+        changed = 0;
     __asm__("" : : "r"(changed) : "$6");
     projected = (u32 *)0x1F800008;
     if (!entity->header || !entity->draw_count)
