@@ -1,5 +1,236 @@
 #include "common.h"
+#include "pe1/save.h"
 #include "pe1/memcard.h"
+#include "pe1/save_blob.h"
+#include "pe1/memcard_save_state.h"
+
+void Save_SprintfSjis(unsigned char *dst, unsigned char *fmt)
+{
+    SaveSjisFormatArgument *args;
+    int ch;
+    unsigned char *out;
+    int value;
+    unsigned int code;
+    unsigned char *text;
+    int byte;
+
+    out = dst;
+    ch = *fmt;
+    args = (SaveSjisFormatArgument *)&g_SaveSjisFormatArguments;
+    while (ch != 0) {
+        /* lbu already zero-extends; this keeps the retail andi on v1. */
+        asm volatile("" : "=r"(ch) : "0"(ch));
+        ch &= 0xFF;
+        fmt++;
+        if (ch == '%') {
+            ch = *fmt++;
+            switch (ch) {
+            case 'd':
+                value = args++->number;
+                code = (value / 10) % 10 + 0x824Fu;
+                *out++ = code >> 8;
+                *out++ = (unsigned char)code;
+                code = value % 10 + 0x824Fu;
+                *out++ = code >> 8;
+                *out++ = (unsigned char)code;
+                break;
+            case 'D':
+                value = args++->number;
+                code = value % 10 + 0x824Fu;
+                *out++ = code >> 8;
+                *out++ = (unsigned char)code;
+                break;
+            case 's':
+                text = args++->text;
+                if (text == 0) break;
+                byte = *text;
+                if (byte == 0) break;
+                do {
+                    text++;
+                    *out++ = byte;
+                    byte = *text;
+                } while (byte != 0);
+                break;
+            default:
+                break;
+            }
+        } else {
+            *out++ = *(fmt - 1);
+        }
+        ch = *fmt;
+    }
+    *out = 0;
+}
+
+extern u8 g_SaveTitleBuffer[];
+extern int g_SaveTitleStyleFlag;
+extern int g_PlayTimeFrameCounter;
+extern u8 *g_SaveTitleFormatLongPtr;
+extern u8 *g_SaveTitleFormatShortPtr;
+
+void bzero(void *dst, int len);
+int Save_ClassifyPlaytime(int arg0);
+int Save_GetCurrentMapNumber(void);
+u8 *Tbl_FindNthNonEmpty(int arg0);
+
+typedef unsigned char u8_1;
+
+extern int g_MemCardEventPort1Spec0004;
+extern int g_MemCardEventPort1Spec8000;
+extern int g_MemCardEventPort1Spec0100;
+extern int g_MemCardEventPort1Spec2000;
+
+extern int g_MemCardEventF400Spec0004Flag;
+extern int g_MemCardRemovedEventPending;
+extern int g_MemCardEventF400Spec2000Flag;
+
+int TestEvent(int event);
+
+extern int g_MemCardEventF000Spec0004;
+extern int g_MemCardEventF000Spec8000;
+extern int g_MemCardEventF000Spec0100;
+extern int g_MemCardEventF000Spec2000;
+
+extern int g_MemCardEventF000Spec0004Flag;
+extern int g_MemCardEventF000Spec8000Flag;
+extern int g_MemCardEventF000Spec2000Flag;
+
+extern unsigned char D_800A0EDC[];
+extern unsigned char D_800A12F4;
+extern int g_MemCardConnectDebounce;
+extern int D_800A1848[];
+
+u8 *Save_FormatTitle(int chapter, int playtime_seconds) {
+    int minutes_total;
+    int hours;
+    int minutes;
+    int seconds;
+    u8 *value;
+
+    bzero(g_SaveTitleBuffer, 0x44);
+
+    hours = playtime_seconds / 3600;
+    minutes_total = playtime_seconds / 60;
+    minutes = minutes_total - (hours * 60);
+    seconds = playtime_seconds - (minutes_total * 60);
+
+    g_SaveSjisFormatArguments.chapter = chapter;
+    g_SaveSjisFormatArguments.hours = hours;
+    g_SaveSjisFormatArguments.minutes = minutes;
+    g_SaveSjisFormatArguments.seconds = seconds;
+
+    if (g_SaveTitleStyleFlag != 0) {
+        value = Tbl_FindNthNonEmpty(-1);
+        g_SaveSjisFormatArguments.primary.text = value;
+        Save_SprintfSjis(g_SaveTitleBuffer, g_SaveTitleFormatShortPtr);
+    } else {
+        g_SaveSjisFormatArguments.primary.number =
+            Save_ClassifyPlaytime(g_PlayTimeFrameCounter);
+        value = Tbl_FindNthNonEmpty(Save_GetCurrentMapNumber());
+        g_SaveSjisFormatArguments.secondary.text = value;
+        Save_SprintfSjis(g_SaveTitleBuffer, g_SaveTitleFormatLongPtr);
+    }
+
+    return g_SaveTitleBuffer;
+}
+
+u32 Save_CalcCrc16(u32 size, u8_1 *data) {
+    u32 crc = 0xFFFF;
+    u32 i = 0;
+
+    size &= 0xFFFF;
+    if (size != 0) {
+        do {
+            u32 bit = 0;
+
+            crc ^= data[i & 0xFFFF] << 8;
+            do {
+                if (crc & 0x8000) {
+                    crc = (crc << 1) ^ 0x1021;
+                } else {
+                    crc <<= 1;
+                }
+                bit++;
+            } while ((bit & 0xFFFF) < 8);
+            i++;
+        } while ((i & 0xFFFF) < size);
+    }
+
+    return ~crc & 0xFFFF;
+}
+
+void MemCard_ClearPort1Events(void) {
+    TestEvent(g_MemCardEventPort1Spec0004);
+    TestEvent(g_MemCardEventPort1Spec8000);
+    TestEvent(g_MemCardEventPort1Spec0100);
+    TestEvent(g_MemCardEventPort1Spec2000);
+    g_MemCardEventF400Spec2000Flag = 0;
+    g_MemCardRemovedEventPending = 0;
+    g_MemCardEventF400Spec0004Flag = 0;
+}
+
+void Evt_ClearEvents(void) {
+    TestEvent(g_MemCardEventF000Spec0004);
+    TestEvent(g_MemCardEventF000Spec8000);
+    TestEvent(g_MemCardEventF000Spec0100);
+    TestEvent(g_MemCardEventF000Spec2000);
+    g_MemCardEventF000Spec2000Flag = 0;
+    g_MemCardEventF000Spec8000Flag = 0;
+    g_MemCardEventF000Spec0004Flag = 0;
+}
+
+int MemCard_PollTransferDelay(void) {
+    int offset;
+    int *pending;
+    int count;
+    int one;
+    int reset;
+    int value;
+    int clamped;
+    register int final_value asm("$4");
+
+    count = 0;
+    reset = 12;
+    one = 1;
+    pending = D_800A1848;
+    value = g_MemCardConnectDebounce;
+    offset = 0;
+    g_MemCardConnectDebounce = value - (value > 0);
+
+    do {
+        if ((unsigned int)(D_800A0EDC[offset] - 2) < 2) {
+            g_MemCardConnectDebounce = reset;
+            *pending = one;
+        }
+        pending++;
+        count++;
+        offset += 0x418;
+    } while (count < 2);
+
+    pending = D_800A1848;
+    __asm__ volatile("" : "=r"(pending) : "0"(pending));
+    if (pending[0] != 0) {
+        if (D_800A0EDC[0] != 4) {
+            goto done;
+        }
+    }
+    if (*(pending + 1) != 0) {
+        if (D_800A12F4 != 4) {
+            goto done;
+        }
+    }
+
+    final_value = g_MemCardConnectDebounce;
+    clamped = 4;
+    if (final_value < 5) {
+        clamped = final_value;
+    }
+    g_MemCardConnectDebounce = clamped;
+    *(pending + 1) = 0;
+    pending[0] = 0;
+done:
+    return g_MemCardConnectDebounce > 0;
+}
 
 extern MemCardPortState D_800A0ED4[];
 extern int D_800A1820;
@@ -20,7 +251,6 @@ extern int D_800BCDBC;
 extern int D_800BCDC0;
 extern int D_800BCDC4;
 
-int TestEvent(int event);
 void _card_clear(int arg0);
 void _card_info(int arg0);
 void _card_load(int arg0);
@@ -169,18 +399,7 @@ void MemCard_StepPortState(int port) {
     state->cardState = 1;
 }
 
-#include "common.h"
-#include "pe1/memcard.h"
 extern int D_800A1850;
-extern int D_800BCDA8;
-extern int D_800BCDAC;
-extern int D_800BCDB0;
-extern int D_800BCDB4;
-extern int D_800BCDB8;
-extern int D_800BCDBC;
-extern int D_800BCDC0;
-extern int D_800BCDC4;
-extern MemCardPortState D_800A0ED4[];
 
 int EnterCriticalSection(void);
 void ExitCriticalSection(void);
@@ -254,8 +473,6 @@ void MemCard_InitManager(void) {
         value -= 0x418;
     } while (value >= 0);
 }
-#include "common.h"
-#include "pe1/save_blob.h"
 
 extern u8 D_800B8868[];
 extern u8 D_800B88C8[];
@@ -265,7 +482,6 @@ extern u8 *g_SaveIoCursor;
 extern SaveBytes12E4 g_SaveRuntimeState;
 extern int D_800C0DE8;
 
-void bzero(void *dst, int len);
 char *strcpy(char *dst, char *src);
 u8 *Str_ResolveDataPtr(char *path);
 u8 *Save_FormatTitle(int chapter, int playtime_seconds);
@@ -332,7 +548,6 @@ int Save_BuildCardFile(char *path) {
 
     return 0;
 }
-#include "pe1/memcard_save_state.h"
 
 void MemCard_AbortActiveOperation(MemCardPortState *state) {
     int state_index;
@@ -391,7 +606,6 @@ void MemCard_AbortActiveOperation(MemCardPortState *state) {
     D_800A1838 = 0;
     MenuWidget_RestoreSavedCurrentNode();
 }
-
 
 static inline void MemCard_FormatSlotFileName(MemCardPortState *state,
                                               int slot) {
@@ -809,7 +1023,6 @@ void MemCard_UpdateSaveState(int port) {
     }
 }
 
-
 void Save_StartWriteSlot(int port, int arg_slot) {
     MemCardPortState *state;
     MemCardSaveSlot *slot_state;
@@ -871,10 +1084,7 @@ void Save_StartWriteSlot(int port, int arg_slot) {
     state->nextState = next_state;
     slot_state->state = MEMCARD_SLOT_OCCUPIED;
 }
-#include "common.h"
-#include "pe1/memcard.h"
 extern u8 g_MemCardFileBuffer[];
-void bzero(void *dst, int len);
 void MemCard_CloseAll(void);
 
 void MenuWidget_NavScrollTo(int selected_base);
@@ -912,13 +1122,7 @@ void Save_CancelUiFlow(void) {
     Inv_SetActiveList(0xC, 0);
 }
 
-#include "common.h"
-#include "pe1/save_blob.h"
-
 extern SaveBytes12E4 g_MemCardSaveStateBuffer;
-extern SaveBytes12E4 g_SaveRuntimeState;
-extern u8 g_MemCardFileBuffer[];
-extern u8 *g_SaveIoCursor;
 extern int g_MemCardLoadSucceeded;
 
 void Save_DeserializeTail(void);
@@ -975,7 +1179,6 @@ void Save_LoadCardFileIntoRuntime(void) {
         Menu_CreateTwoLineDialog(0x55, 0x56);
     }
 }
-#include "pe1/memcard.h"
 
 extern int D_800A1858;
 
@@ -996,7 +1199,6 @@ int MemCard_GetActiveProgressBlocks(void) {
 
     return result;
 }
-
 
 /* Byte aliases map fileCount and the first slot fields in MemCardPortState. */
 extern u8 D_800A0ED6[];
@@ -1033,15 +1235,11 @@ extern int D_800A12F8;
 extern int D_800A0EE0;
 extern int g_MemCardServicedPort;
 extern int g_MemCardInfoPollCountdown;
-extern int g_MemCardConnectDebounce;
 extern int D_800A184C;
-extern int D_800A1848;
 extern int g_McOpPending;
 extern int g_MemCardActivePortOneBased;
 extern int g_MemCardSavePollTimeout;
 extern int g_MemCardActivePromptPending;
-extern int g_SaveTitleStyleFlag;
-extern int g_MemCardLoadSucceeded;
 extern int g_MemCardReadContext;
 
 void bzero(void *ptr, int size);
@@ -1054,7 +1252,7 @@ void MemCard_InitState(void) {
     g_MemCardInfoPollCountdown = 0;
     g_MemCardConnectDebounce = 0;
     D_800A184C = 0;
-    D_800A1848 = 0;
+    D_800A1848[0] = 0;
     g_McOpPending = 0;
     g_MemCardActiveState = 0;
     g_MemCardActivePortOneBased = 0;
@@ -1065,24 +1263,14 @@ void MemCard_InitState(void) {
     g_MemCardReadContext = 0;
 }
 
-
-#include "common.h"
 extern u8 D_800A0EDC[];
 extern u8 g_Slot2QuickerSave[];
-extern int g_MemCardActivePortOneBased;
-extern int g_MemCardSavePollTimeout;
-extern int g_MemCardActivePromptPending;
 void MemCard_StepPortState(int arg0);
-void Menu_CreateNotificationDialog(int arg0, int arg1);
 void Menu_CloseNotificationDialogs(void);
-void Menu_SetDeferredCallback(void (*callback)(void));
-void Menu_DestroyMemCardProgressWidget(void);
 void Menu_NavToSaveConfirmDialog(void);
 void MemCard_UpdateSaveState(int port);
 void MemCard_ClearActivePrompt(void);
 void MemCard_StartActivePortRead(void);
-
-#include "pe1/memcard.h"
 
 void MemCard_UpdateSavePolling(void)
 {
@@ -1171,9 +1359,6 @@ int MemCard_IsPortPresent(int port) {
     return g_MemCardPortStates[port].present & 1;
 }
 
-
-#include "pe1/memcard.h"
-
 int close(int fd);
 
 void MemCard_CloseAll(void) {
@@ -1204,12 +1389,7 @@ void MemCard_CloseAll(void) {
     }
 }
 
-
-#include "pe1/memcard.h"
-
 void Menu_StepItemGrid2(void);
-
-extern int g_MemCardActivePortOneBased;
 
 int MemCard_CheckPresent(int port) {
     int present;
@@ -1229,14 +1409,10 @@ int MemCard_GetActivePort(void)
     return g_MemCardActivePortOneBased - 1;
 }
 
-
-#include "pe1/memcard.h"
-
 void MemCard_MarkActivePortState13(void) {
     int portIndex = g_MemCardActivePortOneBased - 1;
     g_MemCardPortStates[portIndex].managerState = 0xD;
 }
-
 
 extern volatile int g_MemCardActivePortOneBased;
 extern volatile int g_MemCardActivePromptPending;
@@ -1245,16 +1421,6 @@ void MemCard_ClearActivePrompt(void) {
     g_MemCardActivePortOneBased = 0;
     g_MemCardActivePromptPending = 0;
 }
-
-
-#include "common.h"
-#include "pe1/memcard.h"
-extern int g_MemCardActivePortOneBased;
-extern int g_MemCardActivePromptPending;
-
-void MemCard_StartRead(int port, int arg1);
-
-extern int g_MemCardReadContext;
 
 void MenuWidget_SaveAndSetCurrentNode(int arg0);
 
@@ -1280,12 +1446,7 @@ void MemCard_StartRead(int port, int arg1) {
     }
 }
 
-
-#include "pe1/memcard.h"
 extern unsigned char D_800A12ED;
-extern int g_McOpPending;
-
-int close(int fd);
 
 void MemCard_CloseAllAndResetState(void) {
     unsigned char *base;
@@ -1319,11 +1480,6 @@ void MemCard_CloseAllAndResetState(void) {
     g_McOpPending = 0;
 }
 
-
-#include "pe1/memcard.h"
-
-extern int g_McOpPending;
-
 extern void (*g_MemCardDelayedCallback)(void);
 extern int g_MemCardDelayedCallbackTimer;
 
@@ -1341,10 +1497,6 @@ void MemCard_ClearDelayedCallback(void) {
     g_MemCardDelayedCallback = 0;
     g_MemCardDelayedCallbackTimer = 0;
 }
-
-
-extern void (*g_MemCardDelayedCallback)(void);
-extern int g_MemCardDelayedCallbackTimer;
 
 void MemCard_SetDelayedCallback(void (*callback)(void)) {
     g_MemCardDelayedCallback = callback;
@@ -1364,16 +1516,6 @@ void MemCard_DelayedCallback(void) {
         }
     }
 }
-
-
-extern void (*g_MemCardDelayedCallback)(void);
-
-extern int g_MemCardEventF400Spec0004Flag;
-extern int g_MemCardRemovedEventPending;
-extern int g_MemCardEventF400Spec2000Flag;
-extern int g_MemCardEventF000Spec0004Flag;
-extern int g_MemCardEventF000Spec8000Flag;
-extern int g_MemCardEventF000Spec2000Flag;
 
 int MemCard_HasDelayedCallback(void) {
     return g_MemCardDelayedCallback != 0;
