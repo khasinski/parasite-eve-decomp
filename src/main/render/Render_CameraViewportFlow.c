@@ -191,13 +191,8 @@ int Render_SetViewport(s16 *position) {
         register unsigned int cy asm("$15") = 112;
         /* C offset shifts; pins and the empty constraint retain scheduling. */
         {
-            register u32 ofx asm("$12");
-            register u32 ofy asm("$13");
             asm volatile("" : "=r"(cx), "=r"(cy) : "0"(cx), "1"(cy));
-            ofx = (u32)cx << 16;
-            ofy = cy << 16;
-            gte_ctc2_24(ofx);
-            gte_ctc2_25(ofy);
+            gte_SetGeomOffset(cx, cy);
         }
     }
     {
@@ -205,26 +200,9 @@ int Render_SetViewport(s16 *position) {
         asm("" : "=r"(address) : "0"(address));
         {
             register const GteMatrixWords *words asm("$11");
-            register u32 a asm("$12");
-            register u32 b asm("$13");
-            register u32 c asm("$14");
             words = (const GteMatrixWords *)*address;
-            a = words->r11_r12;
-            b = words->r13_r21;
-            gte_ctc2_0(a);
-            gte_ctc2_1(b);
-            a = words->r22_r23;
-            b = words->r31_r32;
-            c = words->r33_pad;
-            gte_ctc2_2(a);
-            gte_ctc2_3(b);
-            gte_ctc2_4(c);
-            a = words->tx;
-            b = words->ty;
-            gte_ctc2_5(a);
-            c = words->tz;
-            gte_ctc2_6(b);
-            gte_ctc2_7(c);
+            gte_ldrotmatrix(words);
+            gte_ldtransmatrix(words);
         }
     }
     {
@@ -520,13 +498,8 @@ int Render_UpdateScrollPosition(void *positionArg, int duration, int mode)
         register unsigned int cy asm("$11") = 112;
         /* C offset shifts; pins and the empty constraint retain scheduling. */
         {
-            register u32 ofx asm("$12");
-            register u32 ofy asm("$13");
             asm volatile("" : "=r"(cx), "=r"(cy) : "0"(cx), "1"(cy));
-            ofx = (u32)cx << 16;
-            ofy = cy << 16;
-            gte_ctc2_24(ofx);
-            gte_ctc2_25(ofy);
+            gte_SetGeomOffset(cx, cy);
         }
     }
     {
@@ -534,26 +507,9 @@ int Render_UpdateScrollPosition(void *positionArg, int duration, int mode)
         asm("" : "=r"(address) : "0"(address));
         {
             register const GteMatrixWords *words asm("$10");
-            register u32 a asm("$12");
-            register u32 b asm("$13");
-            register u32 c asm("$14");
             words = (const GteMatrixWords *)*address;
-            a = words->r11_r12;
-            b = words->r13_r21;
-            gte_ctc2_0(a);
-            gte_ctc2_1(b);
-            a = words->r22_r23;
-            b = words->r31_r32;
-            c = words->r33_pad;
-            gte_ctc2_2(a);
-            gte_ctc2_3(b);
-            gte_ctc2_4(c);
-            a = words->tx;
-            b = words->ty;
-            gte_ctc2_5(a);
-            c = words->tz;
-            gte_ctc2_6(b);
-            gte_ctc2_7(c);
+            gte_ldrotmatrix(words);
+            gte_ldtransmatrix(words);
         }
     }
     gte_lwc2_0_0(vector);
@@ -816,9 +772,6 @@ int Render_SetFadeColour(unsigned int arg0) {
  * loads are C, with GTE transfers and commands wrapped individually. */
 int Render_DrawSprite(void)
 {
-    register u32 a asm("$12");
-    register u32 b asm("$13");
-    register u32 c asm("$14");
     GteMatrixStorage rotation;
     GteShortVector axis;
     GteVector up,right,newUp,forward;
@@ -850,22 +803,8 @@ int Render_DrawSprite(void)
         const GteMatrixWords *matrix;
         matrix = (const GteMatrixWords *)rotation.words;
         asm volatile("" : "=r"(matrix) : "0"(matrix));
-        a = matrix->r11_r12;
-        b = matrix->r13_r21;
-        gte_ctc2_0(a);
-        gte_ctc2_1(b);
-        a = matrix->r22_r23;
-        b = matrix->r31_r32;
-        c = matrix->r33_pad;
-        gte_ctc2_2(a);
-        gte_ctc2_3(b);
-        gte_ctc2_4(c);
-        a = matrix->tx;
-        b = matrix->ty;
-        gte_ctc2_5(a);
-        c = matrix->tz;
-        gte_ctc2_6(b);
-        gte_ctc2_7(c);
+        gte_ldrotmatrix(matrix);
+        gte_ldtransmatrix(matrix);
     }
     gte_lwc2_0_0(&axis);
     gte_lwc2_1_4(&axis);
@@ -883,20 +822,11 @@ int Render_DrawSprite(void)
         up.x = 0;
         up.z = 0;
         asm volatile("" : "=r"(source) : "0"(source));
-        a = source->x;
-        b = source->y;
-        gte_ctc2_0(a);
-        c = source->z;
-        gte_ctc2_2(b);
-        gte_ctc2_4(c);
+        gte_ldopv1_psyq(source);
     }
     {
-        gte_lwc2_11_8(&forward);
-        gte_lwc2_9_0(&forward);
-        gte_lwc2_10_4(&forward);
-        PE1_NOP();
-        PE1_NOP();
-        gte_op_sf12_command();
+        gte_ldopv2(&forward);
+        gte_op12_psyq();
         gte_swc2_25_0(&right);
         gte_swc2_26_4(&right);
         gte_swc2_27_8(&right);
@@ -904,20 +834,11 @@ int Render_DrawSprite(void)
     {
         register GteVector *source asm("$3") = &forward;
         asm volatile("" : "=r"(source) : "0"(source));
-        a = source->x;
-        b = source->y;
-        gte_ctc2_0(a);
-        c = source->z;
-        gte_ctc2_2(b);
-        gte_ctc2_4(c);
+        gte_ldopv1_psyq(source);
     }
     {
-        gte_lwc2_11_8(&right);
-        gte_lwc2_9_0(&right);
-        gte_lwc2_10_4(&right);
-        PE1_NOP();
-        PE1_NOP();
-        gte_op_sf12_command();
+        gte_ldopv2(&right);
+        gte_op12_psyq();
         gte_swc2_25_0(&newUp);
         gte_swc2_26_4(&newUp);
         gte_swc2_27_8(&newUp);

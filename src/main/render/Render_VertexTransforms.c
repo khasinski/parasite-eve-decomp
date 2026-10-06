@@ -13,31 +13,9 @@
 #define U32_AT(ptr, off) (*(u32 *)((u8 *)(ptr) + (off)))
 #define PTR_AT(ptr, off) (*(u8 **)((u8 *)(ptr) + (off)))
 
-#define Render_XformLoadRotMatrix(matrix) \
-    { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = (matrix)[0]; \
-        y = (matrix)[1]; \
-        gte_ctc2_0(x); \
-        gte_ctc2_1(y); \
-        x = (matrix)[2]; \
-        y = (matrix)[3]; \
-        z = (matrix)[4]; \
-        gte_ctc2_2(x); \
-        gte_ctc2_3(y); \
-        gte_ctc2_4(z); \
-    }
+#define Render_XformLoadRotMatrix(matrix) gte_ldrotmatrix((matrix))
 
-#define Render_XformLoadTrans(matrix) \
-    { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = (matrix)[5]; \
-        y = (matrix)[6]; \
-        gte_ctc2_5(x); \
-        z = (matrix)[7]; \
-        gte_ctc2_6(y); \
-        gte_ctc2_7(z); \
-    }
+#define Render_XformLoadTrans(matrix) gte_ldtransmatrix((matrix))
 
 #define Render_XformLoadFullMatrix(matrix)                                                         \
     {                                                                                              \
@@ -76,26 +54,13 @@
 
 #define Render_XformLoadAxis(src) \
     { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        const u16 *axis = (src); \
-        x = axis[0]; \
-        y = axis[3]; \
-        z = axis[6]; \
-        gte_mtc2_9(x); \
-        gte_mtc2_10(y); \
-        gte_mtc2_11(z); \
+        gte_ldclmv((src)); \
         gte_rtir(); \
     }
 
 #define Render_XformStoreAxis(dst) \
     { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        gte_mfc2_9(x); \
-        gte_mfc2_10(y); \
-        gte_mfc2_11(z); \
-        (dst)[0] = x; \
-        (dst)[3] = y; \
-        (dst)[6] = z; \
+        gte_stclmv((dst)); \
         asm volatile("" : : : "memory"); \
     }
 
@@ -124,28 +89,15 @@
             Render_XformStoreAxis((s16 *)column);                                                  \
         }                                                                                          \
         {                                                                                          \
-            register u32 x asm("$12"), y asm("$13");                                               \
             u16 *packed;                                                        \
             if (S8_AT(commands, 0) == 0) {                                                         \
                 packed = (u16 *)((s32 *)(src) + 5);                                                \
                 __asm__("" : "=r"(packed) : "0"(packed));                                          \
-                y = packed[2];                                                                     \
-                x = packed[0];                                                                     \
-                y <<= 16;                                                                          \
-                x |= y;                                                                            \
-                gte_mtc2_0(x);                                                                     \
-                gte_lwc2_1_8(packed);                                                              \
+                gte_ldlv0(packed);                                                                 \
             } else {                                                                               \
-                y = ((u16 *)zero0)[2];                                                    \
-                x = ((u16 *)zero0)[0];                                                    \
-                y <<= 16;                                                                          \
-                x |= y;                                                                            \
-                gte_mtc2_0(x);                                                                     \
-                gte_lwc2_1_8(zero0);                                                               \
+                gte_ldlv0(zero0);                                                                  \
             }                                                                                      \
-            gte_cop2_hazard_slot();                                                                \
-            gte_cop2_hazard_slot();                                                                \
-            gte_mvmva_rotation_v0_translation_sf12();                                              \
+            gte_rt();                                                                              \
             packed = (u16 *)((s32 *)(dst) + 5);                                                    \
             gte_swc2_25_0(packed);                                                                 \
             gte_swc2_26_4(packed);                                                                 \
@@ -154,22 +106,9 @@
     }
 #define Render_XformTransformVector(src, dst)                                                      \
     {                                                                                              \
-        register s32 x asm("$12");                                                                 \
-        register s32 y asm("$13");                                                                 \
-        register s32 z asm("$14");                                                                 \
-                                                                                                   \
-        gte_lwc2_0_0((src));                                                                       \
-        gte_lwc2_1_4((src));                                                                       \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_mvmva_rotation_v0_translation_sf12();                                                  \
-        gte_mfc2_9(x);                                                                             \
-        gte_mfc2_10(y);                                                                            \
-        gte_mfc2_11(z);                                                                            \
-                                                                                                   \
-        S16_AT((dst), 0) = x;                                                                      \
-        S16_AT((dst), 2) = y;                                                                      \
-        S16_AT((dst), 4) = z;                                                                      \
+        gte_ldv0((src));                                                                           \
+        gte_rt();                                                                                  \
+        gte_stsv((dst));                                                                           \
     }
 
 #define Render_XformCopyMatrixFromActor(actor)                                                     \
@@ -258,20 +197,10 @@
         Render_XformLoadTrans(parent_matrix);                                                      \
         {                                                                                          \
             u16 *packed = (u16 *)((actor) + 0x48);                              \
-            register u32 xy asm("$12"), high asm("$13");                                           \
             __asm__("" : "=r"(packed) : "0"(packed));                                              \
-            high = packed[2];                                                                      \
-            xy = packed[0];                                                                        \
-            high <<= 16;                                                                           \
-            xy |= high;                                                                            \
-            gte_mtc2_0(xy);                                                                        \
-            gte_lwc2_1_8(packed);                                                                  \
-            gte_cop2_hazard_slot();                                                                \
-            gte_cop2_hazard_slot();                                                                \
-            gte_mvmva_rotation_v0_translation_sf12();                                              \
-            gte_swc2_9_0(packed);                                                                  \
-            gte_swc2_10_4(packed);                                                                 \
-            gte_swc2_11_8(packed);                                                                 \
+            gte_ldlv0(packed);                                                                     \
+            gte_rt();                                                                              \
+            gte_stlvl(packed);                                                                     \
         }                                                                                          \
     }
 
@@ -379,35 +308,9 @@ void Render_TransformVertices(RenderObjectEntity *input) {
 #define S16_AT(ptr, off) (*(s16 *)((u8 *)(ptr) + (off)))
 #define U16_AT(ptr, off) (*(u16 *)((u8 *)(ptr) + (off)))
 
-#define Render_SkinnedLoadRotMatrix(matrix)                                                        \
-    {                                                                                              \
-        register int w0 asm("$12");                                                                \
-        register int w1 asm("$13");                                                                \
-        register int w2 asm("$12");                                                                \
-        register int w3 asm("$13");                                                                \
-        register int w4 asm("$14");                                                                \
-        w0 = (matrix)[0];                                                                          \
-        w1 = (matrix)[1];                                                                          \
-        gte_ctc2_0(w0);                                                                            \
-        gte_ctc2_1(w1);                                                                            \
-        w2 = (matrix)[2];                                                                          \
-        w3 = (matrix)[3];                                                                          \
-        w4 = (matrix)[4];                                                                          \
-        gte_ctc2_2(w2);                                                                            \
-        gte_ctc2_3(w3);                                                                            \
-        gte_ctc2_4(w4);                                                                            \
-    }
+#define Render_SkinnedLoadRotMatrix(matrix) gte_ldrotmatrix((matrix))
 
-#define Render_SkinnedLoadTrans(matrix) \
-    { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = (matrix)[5]; \
-        y = (matrix)[6]; \
-        gte_ctc2_5(x); \
-        z = (matrix)[7]; \
-        gte_ctc2_6(y); \
-        gte_ctc2_7(z); \
-    }
+#define Render_SkinnedLoadTrans(matrix) gte_ldtransmatrix((matrix))
 
 #define Render_SkinnedLoadFullMatrix(matrix)                                                       \
     {                                                                                              \
@@ -417,48 +320,22 @@ void Render_TransformVertices(RenderObjectEntity *input) {
 
 #define Render_SkinnedTransformVec(src, dst)                                                       \
     {                                                                                              \
-        register int x asm("$12");                                                                 \
-        register int y asm("$13");                                                                 \
-        register int z asm("$14");                                                                 \
-        gte_lwc2_0_0(src);                                                                         \
-        gte_lwc2_1_4(src);                                                                         \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_cop2_hazard_slot();                                                                    \
-        gte_mvmva_rotation_v0_translation_sf12();                                                  \
+        gte_ldv0(src);                                                                             \
+        gte_rt();                                                                                  \
         {                                                                                          \
             u8 *output = (u8 *)(dst);                                           \
             asm("" : "=r"(output) : "0"(output));                                                  \
-            gte_mfc2_9(x);                                                                         \
-            gte_mfc2_10(y);                                                                        \
-            gte_mfc2_11(z);                                                                        \
-            S16_AT(output, 0) = x;                                                                 \
-            S16_AT(output, 2) = y;                                                                 \
-            S16_AT(output, 4) = z;                                                                 \
+            gte_stsv(output);                                                                      \
         }                                                                                          \
     }
 
 #define Skinned_LoadAxis(src) \
     { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        x = (src)[0]; \
-        y = (src)[3]; \
-        z = (src)[6]; \
-        gte_mtc2_9(x); \
-        gte_mtc2_10(y); \
-        gte_mtc2_11(z); \
+        gte_ldclmv((src)); \
         gte_rtir(); \
     }
 
-#define Skinned_StoreAxis(dst) \
-    { \
-        register u32 x asm("$12"), y asm("$13"), z asm("$14"); \
-        gte_mfc2_9(x); \
-        gte_mfc2_10(y); \
-        gte_mfc2_11(z); \
-        (dst)[0] = x; \
-        (dst)[3] = y; \
-        (dst)[6] = z; \
-    }
+#define Skinned_StoreAxis(dst) gte_stclmv((dst))
 
 #define Skinned_RootAxis(actor)                                                                    \
     {                                                                                              \
@@ -500,17 +377,9 @@ void Render_TransformVertices(RenderObjectEntity *input) {
         Render_SkinnedLoadTrans(view_matrix);                                                      \
         {                                                                                          \
             u8 *src = (u8 *)(bone_expr) + 20;                                   \
-            register u32 xy asm("$12"), y asm("$13");                                              \
             asm("" : "=r"(src) : "0"(src));                                                        \
-            y = U16_AT(src, 4);                                                                    \
-            xy = U16_AT(src, 0);                                                                   \
-            y <<= 16;                                                                              \
-            xy |= y;                                                                               \
-            gte_mtc2_0(xy);                                                                        \
-            gte_lwc2_1_8(src);                                                                     \
-            gte_cop2_hazard_slot();                                                                \
-            gte_cop2_hazard_slot();                                                                \
-            gte_mvmva_rotation_v0_translation_sf12();                                              \
+            gte_ldlv0(src);                                                                        \
+            gte_rt();                                                                              \
             {                                                                                      \
                 register s32 *dst asm("$9") = (s32 *)0x1F800014;                                   \
                 gte_swc2_25_0(dst);                                                                \
