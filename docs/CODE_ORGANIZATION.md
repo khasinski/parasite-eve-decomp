@@ -97,6 +97,34 @@ overlays. Moving a declaration must preserve its exact signedness, width,
 qualifiers, and function prototype; do not "improve" an uncertain ABI while
 centralizing it.
 
+A symbol that units read with different widths or access patterns still gets
+one declaration: a union with one member per load width (`RoomFloorY` in
+`pe1/room_floor.h` has `y` for `lh` and `raw` for `lhu`), declared as an
+incomplete array when a `-G8` unit must keep the absolute address.
+
+### Per-file flag conflicts
+
+A merge that one neighbour's cc1 option seems to forbid is usually a C-shape
+question, not a real conflict:
+
+- G0341: `Boot_InitSubsystems` only needed `-fno-schedule-insns2` for its
+  prologue store order; starting its flush loop after `Task_InitGpuHwRegs` as
+  a `for` loop gives the retail order under the default schedule.
+- G0835: the background scroll step only needed strength reduction for the
+  loop pointer copy it creates; walking the entry pointer by hand inside a
+  guarded `do`/`while`, with the camera pointer taken before it, matches under
+  `-fno-strength-reduce`.
+
+### Open declaration conflicts
+
+- `func_800C42A4`: the engine callers share `pe1/field_glow_sprite.h`; about
+  twenty overlay headers and files still declare it with their own packet and
+  matrix types (79 call sites, one passing a variable mode, so the `u8`
+  parameter has to be checked there).
+- `g_RoomFloorY`: `src/main/battle/Battle_ContextAccess.c` still reaches it
+  through a local `__asm__("D_800942EC")` alias; battle sources were out of
+  scope for the unification.
+
 ## Link ownership
 
 Splat's `undefined_syms_auto` and `undefined_funcs_auto` files are address/name
