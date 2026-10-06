@@ -1,7 +1,5 @@
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
-RoomLib_SetArg1_80193E24 = 0x80193E24; // type:func
-RoomSlotA_80193E24 = 0x80193FC0;
 RoomLib_HandlerDNop0 = 0x8018F224; // type:func
 RoomLib_InitHandlerD = 0x8018F22C; // type:func
 RoomLib_ConfigureHandlerD = 0x8018F2CC; // type:func
@@ -55,3 +53,5 @@ RoomLib_HandlerA = 0x80192288; // type:func
 RoomLib_HandlerF = 0x8019239C; // type:func
 RoomLib_ReleaseHandlerA = 0x8019251C; // type:func
 RoomLib_HandlerANop6 = 0x80192538; // type:func
+RoomLib_SetArg1 = 0x80193E24; // type:func
+g_RoomScriptArg = 0x80193FC0;

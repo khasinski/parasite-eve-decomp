@@ -46,7 +46,7 @@ segments:
       - [0x3B0, c, ../room_lib/RoomLib_ThreeTransformParticles]
       - [0x11FC, c, ../room_lib/RoomLib_ActorClasses]
       - [0x4518, c, ../room_lib/RoomEffect_LineBurst]
-      - [0x5308, c, RoomLib_SlotSet_801942F0]
+      - [0x5308, c, ../room_lib/RoomLib_SlotSet]
       - [0x534C, data, D_80194334]
       - [0x5358, data, RoomLib_TableA_8018F240]
       - [0x5364, data, D_8019434C]

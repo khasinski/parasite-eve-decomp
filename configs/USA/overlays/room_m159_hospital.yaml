@@ -37,7 +37,7 @@ segments:
       - [0x0, rodata, room_m159_header]
       - [0xC, .rodata, ../room_lib/RoomEffect_LineBurst]
       - [0x20, c, ../room_lib/RoomEffect_LineBurst]
-      - [0xE10, c, RoomLib_SlotSet_8018FDF8]
+      - [0xE10, c, ../room_lib/RoomLib_SlotSet]
       - [0xE54, data, D_8018FE3C]
       - [0xE74, data, D_8018FE5C]
       - start: 0xEAC

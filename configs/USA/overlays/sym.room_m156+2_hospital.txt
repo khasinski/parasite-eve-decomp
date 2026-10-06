@@ -1,6 +1,3 @@
-RoomLib_SetArg1_801929E8 = 0x801929E8; // type:func
-RoomSlotA_801929E8 = 0x80192BF8;
-RoomLib_SlotSet_801929F8 = 0x801929F8; // type:func
 RoomLib_SlotTable = 0x80192C00;
 g_FrameCount16 = 0x800942EC;
 rsin = 0x80077CF4; // type:func
@@ -17,3 +14,6 @@ RoomEffect_JitterSparkParticle = 0x80191B94; // type:func
 RoomEffect_JitterSparkController = 0x80192208; // type:func
 g_RoomBurstOrbHeading = 0x80192BFC;
 g_RoomBeamSparkAsset = 0x80192C30;
+RoomLib_SlotSet = 0x801929F8; // type:func
+RoomLib_SetArg1 = 0x801929E8; // type:func
+g_RoomScriptArg = 0x80192BF8;

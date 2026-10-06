@@ -39,7 +39,7 @@ segments:
       - [0x1E4, .rodata, ../room_lib/RoomEffect_LineBurst]
       - [0x1F8, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3514, c, ../room_lib/RoomEffect_LineBurst]
-      - [0x4304, c, RoomLib_SlotSet_801932EC]
+      - [0x4304, c, ../room_lib/RoomLib_SlotSet]
       - [0x4348, data, D_80193330]
       - [0x43F0, data, D_801933D8]
       - start: 0x4448

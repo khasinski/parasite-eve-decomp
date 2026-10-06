@@ -42,4 +42,9 @@ extern int g_RoomScriptArgs[3];
 
 int *RoomLib_SetArgs3(int unused, int a, int b, int c);
 
+/* The single argument other rooms take the same way (RoomLib_SetArg1). */
+extern int g_RoomScriptArg;
+
+int *RoomLib_SetArg1(int unused, int value);
+
 #endif

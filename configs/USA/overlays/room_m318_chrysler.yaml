@@ -56,7 +56,7 @@ segments:
       - [0xA230, c, func_80199218]
       - [0xA24C, c, func_80199234]
       - [0xA268, c, func_80199250]
-      - [0xA2AC, c, RoomLib_SetArg1_80199294]
+      - [0xA2AC, c, ../room_lib/RoomLib_SetArg1]
       - [0xA2BC, c, func_801992A4]
       - [0xA394, c, RoomLib_SetArg1_8019937C]
       - [0xA3A4, c, func_8019938C]

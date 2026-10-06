@@ -1,6 +1,5 @@
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
-RoomLib_SlotSet_801932EC = 0x801932EC; // type:func
 RoomLib_SlotTable = 0x80193430;
 g_FrameCount16 = 0x800942EC;
 RoomLib_HandlerDNop0 = 0x8018F1E0; // type:func
@@ -58,3 +57,4 @@ RoomLib_ReleaseHandlerA = 0x801924D8; // type:func
 RoomLib_HandlerANop6 = 0x801924F4; // type:func
 RoomEffect_LineBurstParticle = 0x801924FC; // type:func
 RoomEffect_LineBurstController = 0x80192898; // type:func
+RoomLib_SlotSet = 0x801932EC; // type:func

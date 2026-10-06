@@ -48,7 +48,7 @@ segments:
       - [0x3F0, c, ../room_lib/RoomFx_FallingSpriteBurst]
       - [0x134C, c, ../room_lib/RoomLib_ActorClasses]
       - [0x4668, c, ../room_lib/RoomEffect_LineBurst]
-      - [0x5458, c, RoomLib_SlotSet_80194440]
+      - [0x5458, c, ../room_lib/RoomLib_SlotSet]
       - [0x549C, data, D_80194484]
       - [0x54B4, data, RoomLib_TableA_8018F278]
       - [0x54CC, data, D_801944B4]

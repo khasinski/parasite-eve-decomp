@@ -44,7 +44,7 @@ segments:
       - [0x154, c, ../room_lib/RoomLib_CloseTarget]
       - [0x1D8, c, ../room_lib/RoomLib_PairedGlow]
       - [0x10C0, c, ../room_lib/RoomEffect_LineBurst]
-      - [0x1EB0, c, RoomLib_SlotSet_80190E98]
+      - [0x1EB0, c, ../room_lib/RoomLib_SlotSet]
       - [0x1EF4, data, D_80190EDC]
       - [0x1F0C, data, RoomLib_TableA_8018F068]
       - [0x1F24, data, D_80190F0C]

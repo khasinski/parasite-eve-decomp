@@ -807,19 +807,10 @@ typedef struct RoomSlotRec {
 
 extern unsigned short g_FrameCount16;
 
-#define ROOMLIB_SLOT_SET(name, table) \
-    RoomSlotRec *name(int mode, int idx, int a, int b) { \
-        RoomSlotRec *e = &table[idx]; \
-        if (mode == 1) { \
-            e->w8 = a; \
-            e->wC = b; \
-        } else { \
-            *(short *)&e->h0 = a; \
-            e->h2 = g_FrameCount16; \
-            e->h4 = b; \
-        } \
-        return e; \
-    }
+/* The room's slot table (RoomLib_SlotSet.c), named in each room's symbol
+ * file. */
+extern RoomSlotRec RoomLib_SlotTable[];
+RoomSlotRec *RoomLib_SlotSet(int mode, int idx, int a, int b);
 
 typedef struct RoomBlob8 {
     char b[8];

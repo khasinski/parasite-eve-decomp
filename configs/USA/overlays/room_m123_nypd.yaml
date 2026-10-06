@@ -46,7 +46,7 @@ segments:
       - [0x5F80, c, RoomEffect_OscillatingPaletteSprite]
       - [0x6368, c, func_80195350]
       - [0x6394, c, func_8019537C]
-      - [0x63EC, c, RoomLib_SetArg1_801953D4]
+      - [0x63EC, c, ../room_lib/RoomLib_SetArg1]
       - [0x63FC, data, D_801953E4]
       - [0x646C, data, D_80195454]
       - [0x64A4, data, D_8019548C]

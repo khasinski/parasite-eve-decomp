@@ -1,9 +1,7 @@
 GetClut = 0x80077AA4; // type:func
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
-RoomLib_SetArg1_80199294 = 0x80199294; // type:func
 RoomLib_SetArg1_8019937C = 0x8019937C; // type:func
-RoomSlotA_80199294 = 0x8019992C;
 RoomSlotA_8019937C = 0x80199938;
 func_80199218 = 0x80199218; // type:func
 func_80199234 = 0x80199234; // type:func
@@ -69,3 +67,5 @@ RoomLib_HandlerA = 0x801922A8; // type:func
 RoomLib_HandlerF = 0x801923BC; // type:func
 RoomLib_ReleaseHandlerA = 0x8019253C; // type:func
 RoomLib_HandlerANop6 = 0x80192558; // type:func
+RoomLib_SetArg1 = 0x80199294; // type:func
+g_RoomScriptArg = 0x8019992C;
