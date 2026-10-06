@@ -58,4 +58,9 @@ extern void func_800C3098(int);
 extern void func_800C3238(int);
 extern void func_80071A44(void *, int, int);
 
+/* The module's class methods (slots 3 to 5). */
+int RoomFx_EffectSequenceRegister(void *o);
+int RoomFx_EffectSequenceStart(void *o);
+s32 RoomFx_EffectSequenceNop5(void *o);
+
 #endif

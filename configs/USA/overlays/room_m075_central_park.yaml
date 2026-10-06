@@ -42,7 +42,7 @@ segments:
       - [0x1FC, c, ../room_lib/RoomLib_PlantScript]
       - [0x228, c, ../room_lib/RoomLib_Spawn6]
       - [0x254, c, ../room_lib/RoomLib_RegisterDrawList]
-      - [0x29C, c, func_8018F284]
+      - [0x29C, c, ../room_lib/RoomLib_RegisterPairedTablesGated]
       - [0x360, c, ../room_lib/RoomLib_CloseTarget]
       - [0x3E4, c, func_8018F3CC]
       - [0x3EC, c, func_8018F3D4]

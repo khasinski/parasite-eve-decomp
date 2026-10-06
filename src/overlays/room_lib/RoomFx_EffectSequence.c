@@ -3,13 +3,16 @@
  * draw variants with their setups, paired sprites, sparkles, a glow and a
  * drifting effect) that the room's module drives.
  *
- * room_m049, m050, m090, m344 and m374 link the same twenty-three
- * functions in this order, at the same addresses, from the two class
- * no-ops after the module's start method to the drifting effect update,
+ * room_m049, m050, m090, m344 and m374 link the same twenty-five
+ * functions in this order, at the same addresses, from the module's own
+ * registration and start methods (which act whatever the field engine's
+ * status, and close through the module's no-op) to the drifting effect
+ * update,
  * with five seeds as their only read-only data (0x40 bytes after the room
  * header). This unit is that object, compiled into each of them. The
- * sprite records and packets it fills are room data at the same addresses
- * in all five rooms.
+ * sprite records and packets it fills, and the module's lists
+ * (pe1/room_module.h), are room data at the same addresses in all five
+ * rooms.
  */
 #include "common.h"
 #include "pe1/room_effect_sequence.h"
@@ -17,6 +20,7 @@
 #include "RoomLib_Overlay024.h"
 #include "pe1/field_script_context.h"
 #include "pe1/room_fx.h"
+#include "pe1/room_module.h"
 #include "pe1/gte_types.h"
 
 /* Seeds and scales copied into the draw passes' stack frames. */
@@ -26,7 +30,25 @@ static const RoomOverlay024Vec4 s_EffectNarrowScale = {0x46, 0x78, 0x46, 0};
 static const RoomOverlay024MatrixSeed8 s_EffectProjectSeed = {{0x00, 0x00, 0x10, 0xFF, 0, 0, 0, 0}};
 static const RoomOverlay024VectorSeed s_EffectVectorSeed = {{0x1388, 0xC18, 0x1388, 0}};
 
-s32 RoomFx_EffectSequenceNop5(void) {
+/* Class slot 3: registers the draw list. */
+int RoomFx_EffectSequenceRegister(void *o) {
+    FieldEng_Register(o, g_RoomDrawList);
+    return 0;
+}
+
+/* Class slot 4: registers the update handlers and spawns the module's
+ * objects, closing the module when either call fails. */
+int RoomFx_EffectSequenceStart(void *o) {
+    if ((func_800C251C(o, g_RoomUpdateList) |
+         func_800C2758(o, g_RoomInitList, g_RoomSpawnLayout)) == -1) {
+        RoomFx_EffectSequenceNop5(o);
+    }
+
+    return 0;
+}
+
+/* Class slot 5: the module closes without touching its target. */
+s32 RoomFx_EffectSequenceNop5(void *o) {
     return 0;
 }
 

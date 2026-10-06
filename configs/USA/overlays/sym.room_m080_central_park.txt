@@ -86,3 +86,7 @@ g_RoomMotionTrailB = 0x80194370;
 g_RoomMotionGlyphs = 0x80194618;
 g_RoomMotionQuadDepth = 0x80194632;
 g_RoomMotionQuadPacket = 0x80194638;
+RoomLib_RegisterPairedTablesGated = 0x8018F284; // type:func
+g_RoomUpdateList = 0x80193F50;
+g_RoomInitList = 0x80193F20;
+g_RoomSpawnLayout = 0x80193F68;

@@ -41,6 +41,7 @@ int RoomLib_CloseTarget(struct RoomEnt *o);
 int RoomLib_RegisterDrawListActive(void *o);
 int RoomLib_RegisterPairedTablesRelease(void *o);
 int RoomLib_ReleaseTarget(struct RoomEnt *o);
+int RoomLib_RegisterPairedTablesGated(void *o);
 
 /* Arguments the scene script hands the room's effects (the script's
  * RoomLib_SetArgs3 call); three words in each room's data. */
