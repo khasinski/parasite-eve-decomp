@@ -14,8 +14,7 @@ double Math_Int32ToDouble(int value) {
     if (value == 0) {
         register unsigned int zero asm("$0");
         /* Architectural zero; this empty output does not read uninitialized C storage. */
-        asm volatile("" : "=r"(zero));
-        result.bits.lo = zero;
+                result.bits.lo = zero;
         result.bits.hi = zero;
     } else {
         if (value < 0) {
