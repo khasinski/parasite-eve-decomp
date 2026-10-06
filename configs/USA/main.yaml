@@ -327,8 +327,8 @@ segments:
       - [0x2330C, c, battle/Battle_DrawStatusPanel]
       # Contiguous battle-status sprite and ordering-table renderer.
       - [0x23B5C, c, gpu/Gpu_SetupSprites]
-      - [0x241A0, c, menu/Window_SetBoundsByMode]
-      - [0x24220, c, menu/Menu_GetActiveMode]
+      # Window mode setter and getter: g_MenuActiveMode is private to this pair.
+      - [0x241A0, c, menu/Menu_ActiveWindowMode]
       - [0x2422C, c, task/Task_SignalExit]
       - [0x24240, c, battle/Battle_ActiveAndEnemyStatusFlow]
       - [0x24FB4, c, menu/Render_AnimationFrame]
