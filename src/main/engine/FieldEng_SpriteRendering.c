@@ -1,13 +1,270 @@
 /* MASPSX_FLAGS: --expand-div */
 #include "common.h"
 #include "pe1/gte.h"
+#include "pe1/psyq_bios.h"
 #include "pe1/render_prim.h"
 #include "pe1/render_object.h"
+#include "pe1/field_sprite_state.h"
+#include "pe1/field_oriented_sprite.h"
 #include "pe1/field_billboard.h"
 #include "pe1/field_glow_layers.h"
 #include "pe1/field_shaded_quad.h"
 #include "pe1/field_textured_strip.h"
 #include "pe1/field_shaded_ring.h"
+#include "pe1/field_particle_chain.h"
+
+/* Field engine sprite rendering (0x800C2EAC..0x800C5EB0): the draw state
+ * (texture page, CLUT origin, blend mode, cell quad, colour ramps) and the
+ * sprite draws that use it: oriented sprite, billboard, glow sprite, shaded
+ * quad, shaded ring, textured strip and the particle chain. They share the
+ * draw state and scratch pointers private to this range (main_tu_evidence
+ * G1390). */
+
+extern char D_800C2110[];
+
+void func_800C2EAC(u8 mode) {
+    if (mode == 0) {
+        D_800F3424 = 0x340;
+        D_800F3426 = 0x100;
+        D_800F341C = 0;
+        D_800F341E = 0x1D7;
+        D_800F3422 = 0;
+    }
+    if (mode == 1) {
+        D_800F3424 = 0x340;
+        D_800F3426 = 0x160;
+        D_800F341E = 0x1DB;
+        D_800F341C = 0;
+        D_800F3422 = 0x60;
+    }
+    if (mode == 2) {
+        D_800F3424 = 0x340;
+        D_800F3426 = 0x100;
+        D_800F341C = 0;
+        D_800F341E = 0x1D6;
+        D_800F3422 = 0;
+    }
+    if (mode == 3) {
+        D_800F3424 = 0x380;
+        D_800F3426 = 0x100;
+        D_800F341C = 0;
+        D_800F341E = 0x1C8;
+        D_800F3422 = 0;
+    }
+
+    D_800E27AC = GetTPage(D_800F33AC, D_800E224C, D_800F3424, D_800F3426);
+}
+
+void func_800C2FF0(int width, int height) {
+    int widthMinus;
+    int heightMinus;
+    int x;
+    int y;
+    widthMinus = width - 1;
+    heightMinus = height - 1;
+    asm("" : : "r"(widthMinus), "r"(heightMinus));
+
+    D_800F345C = width;
+    x = (width & 0xFF) << 4;
+    D_800F345D = height;
+    y = (height & 0xFF) << 4;
+
+    D_800F3310.x = -x;
+    D_800F3310.y = -y;
+    D_800F3310.z = 0;
+    D_800F3318.x = x;
+    D_800F3318.y = -y;
+    D_800F3318.z = 0;
+    D_800F3320.x = -x;
+    D_800F3320.y = y;
+    D_800F3320.z = 0;
+    D_800F3328.x = x;
+    D_800F3328.y = y;
+    D_800F3328.z = 0;
+
+    D_800F345C = widthMinus;
+    D_800F345D = heightMinus;
+}
+
+void func_800C3098(int mode) {
+    mode = (short)mode;
+
+    if (mode == 0x10) {
+        goto mode16;
+    }
+    if (mode == 0x100) {
+        goto mode256;
+    }
+    goto badMode;
+
+mode16:
+    D_800F33AC = 0;
+    goto done;
+
+mode256:
+    D_800F33AC = 1;
+    goto done;
+
+badMode:
+    printf(D_800C2110);
+
+done:
+    D_800E27AC = GetTPage(D_800F33AC, D_800E224C, D_800F3424, D_800F3426);
+}
+
+void func_800C3134(u8 *table, u32 step, u8 *out) {
+    u32 sum = 0;
+    u32 one = 0x1000;
+    u32 last = 0xFF;
+    u8 *entry = table;
+
+    while (1) {
+        u32 duration = entry[3];
+        u8 *next = entry + 4;
+
+        sum += duration;
+        if (step < sum) {
+            u32 weight = ((sum - step) << 12) / duration;
+            u32 inv = one - weight;
+            u32 out0;
+            u32 out1;
+            u32 out2;
+
+            out0 = ((inv * entry[4]) + (weight * entry[0])) >> 12;
+            out1 = ((inv * entry[5]) + (weight * entry[1])) >> 12;
+            out2 = ((inv * entry[6]) + (weight * entry[2])) >> 12;
+            out[0] = out0;
+            out[1] = out1;
+            out[2] = out2;
+            return;
+        }
+
+        if (entry[7] == last) {
+            out[0] = entry[4];
+            out[1] = entry[5];
+            out[2] = entry[6];
+            return;
+        }
+
+        entry = next;
+    }
+}
+
+void func_800C3238(u8 mode) {
+    D_800F33B8 = mode;
+    switch (mode) {
+    case 0:
+        D_800F337A = 0;
+        D_800E224C = 0;
+        break;
+    case 1:
+        D_800F337A = 1;
+        D_800E224C = 0;
+        break;
+    case 2:
+        D_800F337A = 1;
+        D_800E224C = 1;
+        break;
+    case 3:
+        D_800F337A = 1;
+        D_800E224C = 2;
+        break;
+    case 4:
+        D_800F337A = 1;
+        D_800E224C = 3;
+        break;
+    }
+    D_800E27AC = GetTPage(D_800F33AC, D_800E224C, D_800F3424, D_800F3426);
+}
+
+void func_800C3324(FieldOrientedSprite *sprite)
+{
+    FieldStripPacket *packet;
+    FieldStripLink link;
+
+    packet = (FieldStripPacket *)(D_800B0E58[D_8009CDDC] + D_8009CDD8);
+    D_800F33B4 = FIELD_ENGINE_SCRATCH;
+    D_800F33B4->v = sprite->cell & 0xF0;
+    D_800F33B4->u = (sprite->cell - D_800F33B4->v) << 4;
+    D_800F33B4->clutX = sprite->clut << 4;
+    D_800F33B4->clutY = sprite->clut >> 4;
+    if (sprite->brightness != 0x80) {
+        D_800F33B4->channel = sprite->rgb[0];
+        D_800F33B4->channel *= sprite->brightness;
+        if (D_800F33B4->channel > 0x7FFF) {
+            D_800F33B4->channel = 0x7FFF;
+        }
+        D_800F33B4->channel >>= 7;
+        packet->r0 = D_800F33B4->channel;
+        D_800F33B4->channel = sprite->rgb[1];
+        D_800F33B4->channel *= sprite->brightness;
+        if (D_800F33B4->channel > 0x7FFF) {
+            D_800F33B4->channel = 0x7FFF;
+        }
+        D_800F33B4->channel >>= 7;
+        packet->g0 = D_800F33B4->channel;
+        D_800F33B4->channel = sprite->rgb[2];
+        D_800F33B4->channel *= sprite->brightness;
+        if (D_800F33B4->channel > 0x7FFF) {
+            D_800F33B4->channel = 0x7FFF;
+        }
+        D_800F33B4->channel >>= 7;
+        packet->b0 = D_800F33B4->channel;
+    } else {
+        packet->r0 = sprite->rgb[0];
+        packet->g0 = sprite->rgb[1];
+        packet->b0 = sprite->rgb[2];
+    }
+    RotMatrixYXZ(&sprite->rotation, &D_800F33B4->local);
+    ScaleMatrix(&D_800F33B4->local, &sprite->scale);
+    D_800F33B4->local.t[0] = 0;
+    D_800F33B4->local.t[1] = 0;
+    D_800F33B4->local.t[2] = 0;
+    D_800F33B4->matrix = *(GteMatrix *)D_800BCFA4.value;
+    D_800F33B4->matrix.t[0] += (D_800F33B4->matrix.m[0][2] * sprite->position.z +
+                                D_800F33B4->matrix.m[0][1] * sprite->position.y +
+                                D_800F33B4->matrix.m[0][0] * sprite->position.x) / 4096;
+    D_800F33B4->matrix.t[1] += (D_800F33B4->matrix.m[1][2] * sprite->position.z +
+                                D_800F33B4->matrix.m[1][1] * sprite->position.y +
+                                D_800F33B4->matrix.m[1][0] * sprite->position.x) / 4096;
+    D_800F33B4->matrix.t[2] += (D_800F33B4->matrix.m[2][2] * sprite->position.z +
+                                D_800F33B4->matrix.m[2][1] * sprite->position.y +
+                                D_800F33B4->matrix.m[2][0] * sprite->position.x) / 4096;
+    gte_CompMatrix(&D_800F33B4->matrix, &D_800F33B4->local, &D_800F33B4->matrix);
+    gte_ldrotmatrix(&D_800F33B4->matrix);
+    gte_ldtransmatrix(&D_800F33B4->matrix);
+    gte_ldv3(&D_800F3310, &D_800F3318, &D_800F3320);
+    gte_rtpt_padded();
+    packet->tag.length = 9;
+    packet->code = 0x2C;
+    packet->u0 = D_800F33B4->u;
+    packet->v0 = D_800F33B4->v;
+    packet->u1 = D_800F33B4->u + D_800F345C;
+    packet->v1 = D_800F33B4->v;
+    packet->u2 = D_800F33B4->u;
+    packet->v2 = D_800F33B4->v + D_800F345D;
+    packet->u3 = D_800F33B4->u + D_800F345C;
+    packet->v3 = D_800F33B4->v + D_800F345D;
+    gte_avsz3_padded();
+    /* PSY-Q setSemiTrans(packet, D_800F337A). */
+    if (D_800F337A) {
+        packet->code = packet->code | 2;
+    } else {
+        packet->code = packet->code & ~2;
+    }
+    gte_stotz(&D_800F33B4->depth);
+    gte_stsxy3(&packet->x0, &packet->x1, &packet->x2);
+    gte_ldv0(&D_800F3328);
+    gte_rtps();
+    packet->tpage = D_800E27AC;
+    packet->clut = GetClut(D_800F341C + D_800F33B4->clutX,
+                           D_800F341E + D_800F33B4->clutY);
+    gte_stsxy2(&packet->x3);
+    packet->tag.address = STRIP_OT(D_800F33B4->depth + sprite->depth)->address;
+    link.tag = &packet->tag;
+    STRIP_OT(D_800F33B4->depth + sprite->depth)->address = link.word;
+    D_8009CDD8 += sizeof(FieldStripPacket);
+}
 
 /* Matching debt: four register pins and one empty slot-address barrier.
  * Matrix loads are C; each GTE transfer uses its individual macro. */
@@ -960,5 +1217,183 @@ void func_800C4FC4(FieldShadedRing *ring, GteMatrix *placement, u8 mode)
         link.bytes = drawMode;
         link.tag->address = RING_OT(D_800F33B4->depth + ring->offset)->address;
         RING_OT(D_800F33B4->depth + ring->offset)->address = link.word;
+    }
+}
+
+void func_800C5538(FieldChainRecord *record)
+{
+    GteShortVector tailIn;
+    GteShortVector tail;
+    GteShortVector headIn;
+    GteShortVector head;
+    GteMatrix matrix;
+    GteShortVector angles;
+    GteMatrix rotation;
+    GteVector previous;
+    GteVector toPlayer;
+    GteVector cross;
+    FieldChainLink *link;
+    unsigned int i;
+    int run;
+    int turn;
+
+    link = record->links;
+    memset(&tail, 0, sizeof(tail));
+    tail.x = -record->length;
+    tail.y = 0;
+    tail.z = 0;
+    tailIn = tail;
+    memset(&head, 0, sizeof(head));
+    head.x = record->length;
+    head.y = 0;
+    head.z = 0;
+    headIn = head;
+    matrix = record->matrix;
+    record->field0E = 0;
+    for (i = 0; i < record->count; i++, link++) {
+        ApplyMatrixSV(&matrix, &tailIn, &tail);
+        ApplyMatrixSV(&matrix, &headIn, &head);
+        link->edgeA.x = head.x + matrix.t[0];
+        link->edgeA.y = head.y + matrix.t[1];
+        link->edgeA.z = head.z + matrix.t[2];
+        link->edgeB.x = tail.x + matrix.t[0];
+        link->edgeB.y = tail.y + matrix.t[1];
+        link->edgeB.z = tail.z + matrix.t[2];
+        if (i >= 2)
+            record->bend = 1;
+        else
+            record->bend = 0;
+        if (record->bend == 1) {
+            previous.x = link[-1].matrix.t[0] - link[-2].matrix.t[0];
+            previous.y = 0;
+            previous.z = link[-1].matrix.t[2] - link[-2].matrix.t[2];
+            toPlayer.x = D_8009D254->x.part.integer - link[-2].matrix.t[0];
+            toPlayer.y = 0;
+            toPlayer.z = D_8009D254->z.part.integer - link[-2].matrix.t[2];
+            OuterProduct0(&previous, &toPlayer, &cross);
+            run = SquareRoot0(previous.x * previous.x + previous.z * previous.z);
+            ratan2(run, SquareRoot0(toPlayer.x * toPlayer.x + toPlayer.z * toPlayer.z));
+            if (cross.y > 0)
+                turn = rand() % 512 + 0x40;
+            else
+                turn = -(rand() % 512 + 0x40);
+            angles.y = turn;
+            angles.x = 0;
+            angles.z = 0;
+        } else {
+            angles.x = link->tiltX;
+            angles.y = link->tiltY;
+            angles.z = 0;
+        }
+        if (i >= 6) {
+            angles.x = 0;
+            angles.y = 0;
+            angles.z = 0;
+        }
+        RotMatrix(&angles, &rotation);
+        rotation.t[0] = 0;
+        rotation.t[1] = 0;
+        rotation.t[2] = -record->depth;
+        gte_CompMatrix(&matrix, &rotation, &matrix);
+        link->matrix = matrix;
+    }
+}
+
+void func_800C5A40(FieldTexturedStrip *strip)
+{
+    FieldStripNode *node;
+    FieldStripPacket *packet;
+    GteShortVector quad[4];
+    s32 p;
+    s32 flag;
+    u32 i;
+    u8 cell;
+    int step;
+    u32 depth;
+    FieldStripLink link;
+
+    node = strip->nodes;
+    i = 0;
+    D_800F33B4 = FIELD_ENGINE_SCRATCH;
+    packet = (FieldStripPacket *)(D_800B0E58[D_8009CDDC] + D_8009CDD8);
+    D_800F33B4->clutX = strip->clut << 4;
+    D_800F33B4->clutY = strip->clut >> 4;
+    while (i < strip->count - 1) {
+        cell = strip->cell;
+        step = node->cellStep;
+        D_800F33B4->v = cell & 0xF0;
+        D_800F33B4->u = (strip->cell - D_800F33B4->v) << 4;
+        cell += step;
+        D_800F33B4->v = cell & 0xF0;
+        D_800F33B4->u = (cell - D_800F33B4->v) << 4;
+        quad[0] = node->edgeA;
+        quad[1] = node->edgeB;
+        quad[2] = node[1].edgeA;
+        quad[3] = node[1].edgeB;
+        {
+            s32 **slot;
+            register const GteMatrixWords *matrix asm("$8");
+            register u32 a asm("$12");
+            register u32 b asm("$13");
+            register u32 c asm("$14");
+            asm volatile("" : : : "memory");
+            slot = &D_800BCFA4.value;
+            asm volatile("" : "=r"(slot) : "0"(slot));
+            matrix = (const GteMatrixWords *)*slot;
+            a = matrix->r11_r12;
+            b = matrix->r13_r21;
+            gte_ctc2_0(a);
+            gte_ctc2_1(b);
+            a = matrix->r22_r23;
+            b = matrix->r31_r32;
+            c = matrix->r33_pad;
+            gte_ctc2_2(a);
+            gte_ctc2_3(b);
+            gte_ctc2_4(c);
+            a = matrix->tx;
+            b = matrix->ty;
+            gte_ctc2_5(a);
+            c = matrix->tz;
+            gte_ctc2_6(b);
+            gte_ctc2_7(c);
+        }
+        depth = RotTransPers4(&quad[0], &quad[1], &quad[2], &quad[3],
+                              &packet->x0, &packet->x1, &packet->x2,
+                              &packet->x3, &p, &flag);
+        func_800C608C(node->brightness, node->rgb, &packet->r0);
+        packet->u0 = D_800F33B4->u;
+        packet->v0 = D_800F33B4->v;
+        packet->u1 = D_800F33B4->u + D_800F345C;
+        packet->v1 = D_800F33B4->v;
+        packet->u2 = D_800F33B4->u;
+        packet->v2 = D_800F33B4->v + D_800F345D;
+        packet->u3 = D_800F33B4->u + D_800F345C;
+        packet->v3 = D_800F33B4->v + D_800F345D;
+        packet->tpage = D_800E27AC;
+        packet->clut = GetClut(D_800F341C + D_800F33B4->clutX,
+                               D_800F341E + D_800F33B4->clutY);
+        {
+            register u8 code asm("$8");
+            u8 length = 9;
+            asm("" : : "r"(length) : "$8");
+            code = 0x2C;
+            packet->tag.length = length;
+            packet->code = code;
+        }
+        /* PSY-Q setSemiTrans(packet, D_800F337A). */
+        if (D_800F337A) {
+            packet->code = packet->code | 2;
+        } else {
+            packet->code = packet->code & ~2;
+        }
+        if (depth != 0 && depth < 0x1000 && node->visible) {
+            packet->tag.address = STRIP_OT(depth)->address;
+            link.tag = &packet->tag;
+            STRIP_OT(depth)->address = link.word;
+        }
+        i++;
+        node++;
+        packet++;
+        D_8009CDD8 += sizeof(FieldStripPacket);
     }
 }

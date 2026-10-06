@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-/* Field engine sprite draw state, owned by engine/FieldEng_RenderSetup.c:
+/* Field engine sprite draw state, owned by engine/FieldEng_SpriteRendering.c:
  * the texture page and CLUT origin the sprite draws use, the semi-transparency
  * mode and the cell size. The corners of the sprite quad that
  * func_800C2FF0 sizes are declared with the shaded quad (field_shaded_quad.h).

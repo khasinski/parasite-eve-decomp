@@ -1244,17 +1244,14 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0xB24A0, rodata, engine/engine_800C1CA0]
-      - [0xB2928, .rodata, engine/FieldEng_RenderSetup]
+      - [0xB2928, .rodata, engine/FieldEng_SpriteRendering]
       - [0xB293C, rodata, engine/engine_800C213C]
       - [0xB2AA4, .rodata, engine/FieldEng_TaskSpawnFlow]
       - [0xB2ABC, rodata, engine/engine_800C22BC]
       # Object slot reset and dispatch, the script interpreter, slot allocation and cleanup share FieldEngState (G1389, helper evidence into the cleanup pair).
       - [0xB2AF8, c, engine/FieldEng_ObjectScript]
-      # Render setup state and the oriented sprite draw; private draw-area state joins them (G1395).
-      - [0xB36AC, c, engine/FieldEng_RenderSetup]
-      # Billboard, glow sprite, shaded quad and ring geometry draws (G1392; the render setup before and the particle chain after declare conflicting header views).
-      - [0xB4304, c, engine/FieldEng_SpriteRendering]
-      - [0xB5D38, c, engine/FieldEng_ParticleChainFlow]
+      # Sprite draw state, oriented sprite, billboard, glow sprite, shaded quad and ring, textured strip and particle chain draws share the draw state (G1390).
+      - [0xB36AC, c, engine/FieldEng_SpriteRendering]
       - [0xB66B0, c, engine/FieldEng_RingEntryCollision]
       - [0xB688C, c, engine/FieldEng_ScaleColor]
       - [0xB6948, c, engine/FieldEng_RadiusAndTransform]
