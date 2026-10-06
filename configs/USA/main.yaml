@@ -209,8 +209,8 @@ segments:
       - [0x83B4, c, task/Task_EncodeBarcode]
       - [0x8454, c, task/Task_RenderAndBattleState]
       - [0x855C, c, entity/entity2]
-      - [0x85E4, c, task/Task_GetMenuFlag]
-      - [0x8620, c, task/Task_CondBranch]
+      # Menu-choice read and script branch: contiguous opcode pair.
+      - [0x85E4, c, task/Task_MenuChoiceBranch]
       - [0x8668, c, entity/Entity_TestCurrentFlags]
       # No-op, animation step and speed opcodes: contiguous default profile.
       - [0x869C, c, task/Task_EntityAnimSpeedOps]
