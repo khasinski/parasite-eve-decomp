@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSSYS_2.OBJ: DsCommand, DsPacket, DsSync. */
 #include "pe1/psyq_ds_queue.h"
 
 /* Empty constraints preserve the retail schedule. */
