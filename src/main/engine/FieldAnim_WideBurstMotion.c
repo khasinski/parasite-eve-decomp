@@ -1,8 +1,5 @@
 #include "common.h"
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
+#include "pe1/field_sprite_state.h"
 void func_800C3B04();
 
 extern u8 D_800E2770[];
@@ -57,10 +54,6 @@ int func_800CDD0C(void *arg0, void *arg1, u8 *anim) {
 
 
 #include "common.h"
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C3B04();
 
 extern u16 D_800F33E8;

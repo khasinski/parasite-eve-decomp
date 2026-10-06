@@ -5,5 +5,7 @@
 
 /* Retail formatter takes a destination followed by a signed-byte format. */
 s32 sprintf(char *destination, s8 *format, ...);
+void *memset(void *dst, int value, unsigned int size);
+int rand(void);
 
 #endif /* PE1_PSYQ_LIBC_H */

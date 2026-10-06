@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_tint.h"
+#include "pe1/render_object.h"
 
 /* Field engine textured model (func_800C71E4): flat and gouraud textured
  * triangles and quads whose vertex, colour and face records are linked by
@@ -145,11 +146,6 @@ typedef struct FieldModelScratch {
 #define TEXTURED_MODEL_OT(depth) \
     ((RenderGpuTag *)(D_800B0E38.ordering[D_8009CDDC] + (depth) * 4))
 
-typedef struct FieldModelViewSlot {
-    GteMatrix *matrix;
-} FieldModelViewSlot;
-
-extern FieldModelViewSlot D_800BCFA4;
 extern u16 D_800F346C;
 extern u16 D_800F3414;
 extern u16 D_800F33E4;

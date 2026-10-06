@@ -1,14 +1,10 @@
 #include "common.h"
+#include "pe1/field_sprite_state.h"
 #include "pe1/gte_types.h"
 
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
-extern u8 D_800E2318;
 extern u16 D_800E2322;
 
 int func_800C8870(void *arg0, void *arg1, u8 *anim) {
@@ -53,15 +49,10 @@ int func_800C8870(void *arg0, void *arg1, u8 *anim) {
     func_800C42A4((u8 *)field_s3 - 10, &matrix, 1);
 }
 
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
 extern GteShortVector D_800C2174;
-extern u8 D_800F34D8;
 extern u16 D_800F34E2;
 
 int func_800C8970(void *arg0, void *arg1, u8 *anim) {
@@ -95,15 +86,9 @@ int func_800C8970(void *arg0, void *arg1, u8 *anim) {
     func_800C42A4((u8 *)field - 10, &matrix, 0);
 }
 
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
-extern u8 D_800F34D8;
-extern u16 D_800F34E2;
 
 int func_800C8A88(void *arg0, void *arg1, u8 *anim) {
     u16 *field = &D_800F34E2;

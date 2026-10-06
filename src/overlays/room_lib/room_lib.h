@@ -9,6 +9,7 @@
 #include "../../../include/pe1/field_script_context.h"
 #include "../../../include/pe1/room_particle_state.h"
 #include "../../../include/pe1/render_object.h"
+#include "../../../include/pe1/field_sprite_state.h"
 
 typedef struct RoomObj {
     char pad0[0xC];
@@ -1049,10 +1050,6 @@ typedef struct RoomClock {
 } RoomClock;
 
 extern int func_800C6B90(void *position, int radius);
-extern void func_800C2EAC(u8 owner);
-extern void func_800C2FF0(s32 width, s32 height);
-extern void func_800C3098(s32 depth);
-extern void func_800C3238(s32 mode);
 extern void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, s32 mode);
 #include "pe1/gte_types.h"
 extern int func_80071A54(void);

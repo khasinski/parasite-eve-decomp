@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/field_sprite_state.h"
 
 /* Scene e08 ring sprites: an animated flash sprite (first 12 ticks), a
  * steady glow sprite, and two shaded rings scaled by the state's size. */
@@ -45,10 +46,6 @@ extern SceneRingSprite D_801995B8;
 extern SceneRingShade D_801995C8[2];
 
 SceneRingSpritesOwner *func_800C2B50(void);
-void func_800C2EAC(int mode);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
-void func_800C2FF0(int width, int height);
 void func_800C42A4(SceneRingSprite *sprite, GteMatrix *matrix, int mode);
 void func_80071A44(GteVector *vector, int value, int size);
 void func_800C4FC4(SceneRingShade *ring, GteMatrix *matrix, int mode);

@@ -1,22 +1,14 @@
 #include "common.h"
+#include "pe1/field_sprite_state.h"
 /* CC1_FLAGS: -fno-schedule-insns */
 
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
 
-extern u8 D_800E2250;
 extern u8 D_800E2254;
 extern int D_800F33D4;
 extern int D_800F33D8;
 extern int D_800F33DC;
-extern int D_800F33C0;
-extern int D_800F32B0;
 extern int D_800F32C4;
-extern int D_800F32C8;
-extern int D_800F32CC;
 extern u8 D_800F3460;
 
 int func_800CD404(void *arg0, void *arg1, u8 *anim) {

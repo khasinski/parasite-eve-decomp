@@ -1,14 +1,10 @@
 #include "common.h"
+#include "pe1/field_sprite_state.h"
 #include "pe1/gte_types.h"
 
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
-extern u8 D_800E2338;
 extern u16 D_800E2342;
 
 int func_800CB750(void *arg0, void *arg1, u8 *anim) {
@@ -81,15 +77,10 @@ int func_800CB750(void *arg0, void *arg1, u8 *anim) {
 
 #include "common.h"
 
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
 extern GteShortVector D_800C2204;
-extern u8 D_800F34E8;
 extern s16 D_800F34F2;
 
 int func_800CB8E0(void *arg0, void *arg1, u8 *anim) {
@@ -125,15 +116,9 @@ int func_800CB8E0(void *arg0, void *arg1, u8 *anim) {
 
 #include "common.h"
 
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
-extern u8 D_800F34E8;
-extern s16 D_800F34F2;
 
 int func_800CB9F8(void *arg0, void *arg1, u8 *anim) {
     u16 *field = &D_800F34F2;
@@ -518,9 +503,6 @@ int rcos(int angle);
 extern u8 D_800E2280;
 extern u8 D_800E2281;
 extern u8 D_800E2282;
-extern u16 D_800E2290;
-extern u16 D_800E2292;
-extern u16 D_800E2294;
 extern char *D_8009D254;
 
 void FieldAnim_InitRadialEntries(void *arg0, void *arg1, u8 *anim) {
@@ -578,9 +560,6 @@ void FieldAnim_InitRadialEntries(void *arg0, void *arg1, u8 *anim) {
 }
 
 #include "common.h"
-extern u16 D_800E2290;
-extern u16 D_800E2292;
-extern u16 D_800E2294;
 
 int func_800CC244(void *arg0, void *arg1, u8 *anim) {
     u16 z;
@@ -594,9 +573,6 @@ int func_800CC244(void *arg0, void *arg1, u8 *anim) {
 }
 
 #include "common.h"
-extern u16 D_800E2290;
-extern u16 D_800E2292;
-extern u16 D_800E2294;
 
 int func_800CC284(void *arg0, void *arg1, u8 *anim) {
     u16 z;

@@ -6,6 +6,7 @@
 #include "pe1/field_textured_chain_node.h"
 #include "pe1/render_tint.h"
 #include "pe1/field_engine_scratch.h"
+#include "pe1/field_sprite_state.h"
 
 /* Field engine textured strip (func_800C5A40): consecutive nodes joined by
  * POLY_FT4 segments, each node's two edge points projected with
@@ -46,12 +47,6 @@ typedef union FieldStripLink {
     ((RenderGpuTag *)(D_800B0E38.ordering[D_8009CDDC] + (depth) * 4))
 
 extern char *D_800B0E58[];
-extern u8 D_800F345C;
-extern u8 D_800F345D;
-extern u16 D_800E27AC;
-extern u16 D_800F341C;
-extern u16 D_800F341E;
-extern u8 D_800F337A;
 
 void func_800C608C(int scale, u8 *src, u8 *dst);
 long RotTransPers4(void *v0, void *v1, void *v2, void *v3, void *sxy0,

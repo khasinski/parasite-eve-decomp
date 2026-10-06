@@ -2,6 +2,7 @@
 #define PE1_ROOM_EFFECT_SEQUENCE_H
 
 #include "common.h"
+#include "pe1/field_sprite_state.h"
 
 /* The effect sequence (src/overlays/room_lib/RoomFx_EffectSequence.c):
  * the room data it fills and reads (the same addresses in all five rooms
@@ -52,10 +53,6 @@ extern s16 D_800942EC;
 extern char D_80192BFC;
 extern char D_80192BF0;
 extern short D_80192C30;
-extern void func_800C2EAC(unsigned char);
-extern void func_800C2FF0(int, int);
-extern void func_800C3098(int);
-extern void func_800C3238(int);
 extern void func_80071A44(void *, int, int);
 
 /* The module's class methods (slots 3 to 5). */

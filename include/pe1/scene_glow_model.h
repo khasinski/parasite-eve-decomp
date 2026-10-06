@@ -2,6 +2,7 @@
 #define PE1_SCENE_GLOW_MODEL_H
 
 #include "pe1/room_fx.h"
+#include "pe1/field_sprite_state.h"
 
 /* Scene e08 glowing model: the effect model drawn at the scene anchor,
  * followed by a glow sprite that grows once the timer passes 10. */
@@ -48,16 +49,11 @@ void func_800C6D5C(u8 *packet, int x, int y);
 int func_80077A64(int arg0, int arg1, int x, int y);
 int func_80077AA4(int x, int y);
 void func_800C6EC0(int tpage, int clut);
-void func_800C3134(u8 *table, int index, SceneGlowModelColor *out);
 void func_800C6ED8(int mode);
 void func_800C6EF8(u8 *packet);
 void func_800C6FA0(u8 *packet, int depth);
 void func_800C71E4(u8 *packet, RoomSpriteMatrix *matrix);
 void func_800C6F4C(u8 *packet);
-void func_800C2EAC(int mode);
-void func_800C2FF0(int width, int height);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(u8 *sprite, RoomSpriteMatrix *matrix, int mode);
 
 #endif

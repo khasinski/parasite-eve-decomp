@@ -1,9 +1,6 @@
 #include "common.h"
+#include "pe1/field_sprite_state.h"
 #include "pe1/field_anim.h"
-void func_800C2EAC(int arg0);
-void func_800C3098(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3238(int arg0);
 void func_800C3B04(void *arg0);
 
 void FieldAnim_ProcessPointTriples(void *arg0, void *arg1,
@@ -36,10 +33,6 @@ void FieldAnim_ProcessPointTriples(void *arg0, void *arg1,
 }
 
 #include "common.h"
-void func_800C2EAC(int arg0);
-void func_800C3098(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3238(int arg0);
 void func_800C3324(void);
 
 extern u16 D_800F3338;

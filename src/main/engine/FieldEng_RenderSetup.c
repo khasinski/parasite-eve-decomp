@@ -1,24 +1,14 @@
 /* MASPSX_FLAGS: --expand-div */
 #include "common.h"
 #include "pe1/gte.h"
+#include "pe1/psyq_bios.h"
 #include "pe1/render_prim.h"
 #include "pe1/field_oriented_sprite.h"
 
 /* Field engine render setup: draw-area and texture-page state, the
  * colour ramp helpers and the oriented sprite draw. */
 
-extern u8 D_800F33AC;
-extern u8 D_800E224C;
-extern u8 D_800F3422;
-extern u16 D_800F3424;
-extern u16 D_800F3426;
-extern u16 D_800E27AC;
-extern u8 D_800F345C;
-extern u8 D_800F345D;
-int printf(const char *fmt, ...);
 extern char D_800C2110[];
-extern u8 D_800F33B8;
-extern u8 D_800F337A;
 
 void func_800C2EAC(u8 mode) {
     if (mode == 0) {
@@ -218,7 +208,7 @@ void func_800C3324(FieldOrientedSprite *sprite)
     D_800F33B4->local.t[0] = 0;
     D_800F33B4->local.t[1] = 0;
     D_800F33B4->local.t[2] = 0;
-    D_800F33B4->matrix = *D_800BCFA4.matrix;
+    D_800F33B4->matrix = *(GteMatrix *)D_800BCFA4.value;
     D_800F33B4->matrix.t[0] += (D_800F33B4->matrix.m[0][2] * sprite->position.z +
                                 D_800F33B4->matrix.m[0][1] * sprite->position.y +
                                 D_800F33B4->matrix.m[0][0] * sprite->position.x) / 4096;

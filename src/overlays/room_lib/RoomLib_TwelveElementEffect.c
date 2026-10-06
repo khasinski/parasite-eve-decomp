@@ -189,13 +189,8 @@ typedef struct RoomTwelveEffectDrawStack {
     RoomFxVec4 sourceScale;
 } RoomTwelveEffectDrawStack;
 
-void func_800C2EAC(u8 owner);
-void func_800C2FF0(int width, int height);
-void func_800C3098(int depth);
-void func_800C3238(int mode);
 void ApplyMatrix(RoomSpriteMatrix *matrix, void *position, int *translation);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void func_800C3134(void *table, int step, void *out);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 int func_8001CAB0(int x, int z, int arg2, int arg3);
 int func_800C61A8(s16 *point, RoomSpriteMatrix *matrix);

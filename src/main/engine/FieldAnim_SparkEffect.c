@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_sprite_state.h"
 void **FieldEng_GetSlot(void);
 extern int D_800E0FFC;
 extern int D_800E22B8;
@@ -132,9 +133,6 @@ int func_800CE1FC(void) {
 #include "common.h"
 int rand(void);
 
-extern u16 D_800E2808;
-extern u16 D_800E280A;
-extern u16 D_800E280C;
 
 int func_800CE2B4(void *arg0, void *arg1, u8 *anim) {
     register int base asm("$5");
@@ -164,10 +162,6 @@ void func_800CE3AC(void) {
 
 
 #include "common.h"
-void func_800C2EAC(u8 arg0);
-void func_800C3098(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3238(int arg0);
 void func_800C3B04(void);
 
 extern u16 D_800E22A8;

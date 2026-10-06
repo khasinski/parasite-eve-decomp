@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_sprite_state.h"
 #include "pe1/gte_types.h"
 extern void FieldEng_Spawn6(int a, int b, int c, int d, int e, int f);
 
@@ -62,10 +63,6 @@ int func_800C7DE4(char *obj) {
 
 int rand(void);
 
-extern char *D_800E279C;
-extern u16 D_800E2348;
-extern u16 D_800E234A;
-extern u16 D_800E234C;
 
 int func_800C7E50(void *arg0, void *arg1, u8 *anim) {
     GteShortVector vec;
@@ -87,10 +84,6 @@ int func_800C7E50(void *arg0, void *arg1, u8 *anim) {
 
 extern char *D_8009D254;
 extern char D_800E08A8[];
-extern char *D_800E279C;
-extern u16 D_800E2348;
-extern u16 D_800E234A;
-extern u16 D_800E234C;
 
 int func_800C7F60(void *arg0, void *arg1, u8 *anim) {
     u8 *anim_s0 = anim;
@@ -138,10 +131,6 @@ int func_800C7F60(void *arg0, void *arg1, u8 *anim) {
 }
 
 extern GteShortVector D_800C214C;
-extern char *D_800E279C;
-extern u16 D_800E2348;
-extern u16 D_800E234A;
-extern u16 D_800E234C;
 
 int func_800C8064(void *arg0, void *arg1, u8 *anim) {
     GteShortVector in;
@@ -160,9 +149,6 @@ int func_800C8064(void *arg0, void *arg1, u8 *anim) {
     *(u16 *)(anim + 0x6) = 0;
 }
 
-extern char *D_8009D254;
-extern u16 D_800E2348;
-extern u16 D_800E234C;
 
 int func_800C811C(void *arg0, void *arg1, u8 *anim) {
     char *entity_v1 = D_8009D254;
@@ -178,12 +164,7 @@ int func_800C811C(void *arg0, void *arg1, u8 *anim) {
     *(u16 *)(anim + 0xC) = z_v1;
 }
 
-extern char *D_8009D254;
 extern char D_800E08E8[];
-extern char *D_800E279C;
-extern u16 D_800E2348;
-extern u16 D_800E234A;
-extern u16 D_800E234C;
 
 int func_800C815C(void *arg0, void *arg1, u8 *anim) {
     u8 *anim_s0 = anim;
@@ -234,14 +215,9 @@ int func_800C815C(void *arg0, void *arg1, u8 *anim) {
 void func_800C8268(void) {
 }
 
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
-extern char *D_8009D254;
 extern s16 D_800E0888[];
 extern u8 D_800E22D8;
 

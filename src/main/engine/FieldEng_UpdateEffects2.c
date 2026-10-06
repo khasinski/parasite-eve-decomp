@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_sprite_state.h"
 #include "pe1/gte_types.h"
 extern void FieldEng_Spawn6(int a, int b, int c, int d, int e, int f);
 
@@ -62,10 +63,6 @@ int func_800C8F28(char *obj) {
 
 int rand(void);
 
-extern char *D_800E27A0;
-extern volatile u16 D_800E2350;
-extern volatile u16 D_800E2352;
-extern volatile u16 D_800E2354;
 
 int func_800C8F94(void *arg0, void *arg1, u8 *anim) {
     GteShortVector vec;
@@ -90,10 +87,6 @@ int func_800C8F94(void *arg0, void *arg1, u8 *anim) {
 
 extern char *D_8009D254;
 extern char D_800E0A10[];
-extern char *D_800E27A0;
-extern u16 D_800E2350;
-extern u16 D_800E2352;
-extern u16 D_800E2354;
 
 int func_800C90A4(void *arg0, void *arg1, u8 *anim) {
     u8 *anim_s0 = anim;
@@ -136,10 +129,6 @@ int func_800C90A4(void *arg0, void *arg1, u8 *anim) {
 }
 
 extern GteShortVector D_800C217C;
-extern char *D_800E27A0;
-extern volatile u16 D_800E2350;
-extern volatile u16 D_800E2352;
-extern volatile u16 D_800E2354;
 
 int func_800C91A8(void *arg0, void *arg1, u8 *anim) {
     GteShortVector in;
@@ -165,14 +154,9 @@ int func_800C91A8(void *arg0, void *arg1, u8 *anim) {
 void func_800C9260(void) {
 }
 
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
-extern char *D_8009D254;
 extern s16 D_800E09F0[];
 extern u8 D_800E22E8;
 

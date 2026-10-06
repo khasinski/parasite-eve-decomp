@@ -333,11 +333,6 @@ void RoomFx_InitVariant38(void *arg0, void *arg1, RoomOverlay024Variant38SetupSt
 }
 
 void func_80071A44(void *arg0, s32 arg1, s32 arg2);
-void func_800C2EAC(u8 arg0);
-void func_800C2FF0(s32 arg0, s32 arg1);
-void func_800C3098(s32 arg0);
-void func_800C3134(void *arg0, s32 arg1, void *arg2);
-void func_800C3238(s32 arg0);
 
 void RoomFx_DrawVariant38(void *arg0, RoomOverlay024VariantControl *control, RoomOverlay024Variant38State *state) {
     RoomOverlay024Root **owner_ptr;

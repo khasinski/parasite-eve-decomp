@@ -154,10 +154,6 @@ void RoomFx_MotionParticlesAnchor(int a0, int a1, short *out) {
 }
 
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void func_800C2EAC(u8 owner);
-void func_800C2FF0(s32 width, s32 height);
-void func_800C3098(s32 depth);
-void func_800C3238(int page);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, s32 mode);
 
 extern short D_800942EC;
@@ -317,7 +313,6 @@ void RoomFx_InitSpritePair(void *arg0, void *arg1, char *obj) {
 }
 
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void func_800C3238(int page);
 void func_800C4FC4(void *state, RoomSpriteMatrix *matrix, int mode);
 
 extern short D_800942EC;

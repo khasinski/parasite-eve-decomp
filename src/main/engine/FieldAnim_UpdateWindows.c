@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_sprite_state.h"
 extern u16 D_800E2290;
 extern u16 D_800E2292;
 extern u16 D_800E2294;
@@ -15,13 +16,8 @@ int func_800CC440(void *arg0, void *arg1, u8 *anim) {
 }
 
 #include "common.h"
-void func_800C2EAC(int arg0);
-void func_800C3098(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3238(int arg0);
 void func_800C3B04();
 
-extern u16 D_800F3430;
 extern u16 D_800F3432;
 extern u16 D_800F3434;
 extern int D_800F3440;
@@ -68,10 +64,6 @@ int func_800CC480(void *arg0, u8 *params, u8 *anim) {
 
 /* CC1_FLAGS: -fno-strength-reduce */
 
-void func_800C2EAC(int arg0);
-void func_800C3098(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3238(int arg0);
 void func_800C3B04();
 
 #define FIELD_ANIM_EXTENT_OFFSET 6
@@ -114,10 +106,6 @@ void FieldAnim_ProcessInterleavedPoints(void *arg0, void *arg1, s8 *anim) {
 }
 
 #include "common.h"
-void func_800C2EAC(int arg0);
-void func_800C3098(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3238(int arg0);
 void func_800C3324(void);
 
 extern u16 D_800F32E0;
@@ -151,10 +139,6 @@ int func_800CC644(void *arg0, void *arg1, u8 *anim) {
 }
 
 #include "common.h"
-void func_800C2EAC(int arg0);
-void func_800C3098(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3238(int arg0);
 void func_800C3B04();
 
 extern u16 D_800F3380;

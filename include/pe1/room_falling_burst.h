@@ -5,6 +5,7 @@
 #include "pe1/room_fx.h"
 #include "pe1/field_script_context.h"
 #include "pe1/room_module.h"
+#include "pe1/field_sprite_state.h"
 
 /* The falling sprite burst linked by ten hospital and Chrysler rooms
  * (src/overlays/room_lib/RoomFx_FallingSpriteBurst.c): a sprite and its
@@ -88,10 +89,6 @@ int func_800C2B68(void);
 void func_800C6800(void *entity, int effectId, void *state);
 void func_800C6C18(int entity);
 int func_800C6B90(void *position, int radius);
-void func_800C2EAC(u8 owner);
-void func_800C2FF0(int width, int height);
-void func_800C3098(int depth);
-void func_800C3238(int mode);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, int mode);
 void func_80071A44(void *dst, int value, int size);
 int func_80071A54(void);

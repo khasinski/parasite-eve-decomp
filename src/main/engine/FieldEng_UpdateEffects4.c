@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/field_sprite_state.h"
 #include "pe1/gte_types.h"
 #include "pe1/gte_types.h"
 
@@ -236,10 +237,6 @@ int func_800CA7B8(char *obj) {
 
 int rand(void);
 
-extern char *D_800E27A8;
-extern u16 D_800E2360;
-extern volatile u16 D_800E2362;
-extern u16 D_800E2364;
 
 int func_800CA824(void *arg0, void *arg1, u8 *anim) {
     GteShortVector vec;
@@ -266,10 +263,6 @@ int func_800CA824(void *arg0, void *arg1, u8 *anim) {
 
 extern char *D_8009D254;
 extern char D_800E0C08[];
-extern char *D_800E27A8;
-extern u16 D_800E2360;
-extern u16 D_800E2362;
-extern u16 D_800E2364;
 
 int func_800CA934(void *arg0, void *arg1, u8 *anim) {
     u8 *anim_s0 = anim;
@@ -315,10 +308,6 @@ int func_800CA934(void *arg0, void *arg1, u8 *anim) {
 
 extern GteShortVector D_800C21C4;
 extern GteShortVector D_800C21CC;
-extern char *D_800E27A8;
-extern u16 D_800E2360;
-extern u16 D_800E2362;
-extern u16 D_800E2364;
 
 int func_800CAA38(void *arg0, void *arg1, u8 *anim) {
     u8 *anim_s0;
@@ -360,9 +349,6 @@ int func_800CAA38(void *arg0, void *arg1, u8 *anim) {
 }
 
 #include "common.h"
-extern char *volatile D_8009D254;
-extern u16 D_800E2360;
-extern u16 D_800E2364;
 
 int func_800CAB88(void *arg0, void *arg1, u8 *anim) {
     u16 x = D_800E2360;
@@ -381,12 +367,7 @@ int func_800CAB88(void *arg0, void *arg1, u8 *anim) {
 
 #include "common.h"
 
-extern char *D_8009D254;
 extern char D_800E0C48[];
-extern char *D_800E27A8;
-extern u16 D_800E2360;
-extern u16 D_800E2362;
-extern u16 D_800E2364;
 
 int func_800CABC8(void *arg0, void *arg1, u8 *anim) {
     u8 *anim_s0 = anim;
@@ -434,16 +415,10 @@ void func_800CACD4(void) {
 
 #include "common.h"
 
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int arg0, int arg1);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(void *arg0, void *arg1, int arg2);
 void *memset(void *dest, int value, unsigned int count);
 
-extern char *D_8009D254;
 extern s16 D_800E0BE8[];
-extern u8 D_800E2308;
 
 int func_800CACDC(void *arg0, void *arg1, u8 *anim) {
     GteMatrix matrix;

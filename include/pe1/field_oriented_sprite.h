@@ -6,6 +6,9 @@
 #include "pe1/render_tint.h"
 #include "pe1/field_engine_scratch.h"
 #include "pe1/field_textured_strip.h"
+#include "pe1/field_sprite_state.h"
+#include "pe1/field_shaded_quad.h"
+#include "pe1/render_object.h"
 
 /* Field engine oriented sprite (func_800C3324): a textured quad built from
  * the fixed four-corner shape, turned by a YXZ rotation, scaled per axis
@@ -21,17 +24,5 @@ typedef struct FieldOrientedSprite {
     /* 0x26 */ s16 depth;
     /* 0x28 */ u16 brightness;
 } FieldOrientedSprite;
-
-/* Points at the current view matrix. */
-typedef struct FieldViewMatrixSlot {
-    GteMatrix *matrix;
-} FieldViewMatrixSlot;
-
-extern FieldViewMatrixSlot D_800BCFA4;
-
-extern GteShortVector D_800F3310;
-extern GteShortVector D_800F3318;
-extern GteShortVector D_800F3320;
-extern GteShortVector D_800F3328;
 
 #endif

@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/field_sprite_state.h"
 
 /* Field engine glow layers: a placed axis matrix turned by fixed spins
  * and drawn as scaled sprites through func_800C42A4. Three two-layer
@@ -35,8 +36,6 @@ typedef struct FieldGlowSprite {
     /* 0x0C */ u8 pad0C[4];
 } FieldGlowSprite;
 
-extern u8 D_800F3422;
-
 extern FieldGlowSprite D_800F3498;
 extern FieldGlowSprite D_800F34A8;
 extern FieldGlowSprite D_800F34B8;
@@ -60,10 +59,6 @@ extern GteShortVector D_800C21E4;
 extern GteShortVector D_800C21EC;
 extern GteVector D_800C21F4;
 
-void func_800C2EAC(int arg0);
-void func_800C2FF0(int width, int height);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
 void func_800C42A4(FieldGlowSprite *sprite, GteMatrix *matrix, u8 mode);
 
 #endif

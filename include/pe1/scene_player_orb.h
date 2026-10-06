@@ -5,6 +5,7 @@
 #include "pe1/gte_types.h"
 #include "pe1/field_actor.h"
 #include "pe1/render_object.h"
+#include "pe1/field_sprite_state.h"
 
 /* Scene e08 player orb: an effect spawned at a random spot around the
  * player, swung around the scene anchor by the anchor's facing, then drawn
@@ -69,11 +70,6 @@ int *func_800C2B10(int index);
 GteShortVector *func_800C2B90(void *object, int kind, u8 *script, u8 *data);
 int func_800C6B90(GteShortVector *position, int radius);
 int func_80071A54(void);
-void func_800C2EAC(int mode);
-void func_800C3098(int arg0);
-void func_800C3238(int arg0);
-void func_800C2FF0(int width, int height);
-void func_800C3134(u8 *table, int index, RenderColor *out);
 int func_80077A64(int arg0, int arg1, int x, int y);
 int func_80077AA4(int x, int y);
 void func_800D3114(GteShortVector *trail, int last, int arg2, int arg3, int r, int g, int b,

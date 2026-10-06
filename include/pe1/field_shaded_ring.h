@@ -5,6 +5,7 @@
 #include "pe1/gte_types.h"
 #include "pe1/render_tint.h"
 #include "pe1/field_engine_scratch.h"
+#include "pe1/field_sprite_state.h"
 #include "pe1/field_ring_geometry.h"
 
 /* Field engine ring geometry: the vertex builder writes the outer ring first
@@ -40,8 +41,6 @@ typedef union FieldRingLink {
     ((RenderGpuTag *)(D_800B0E38.ordering[D_8009CDDC] + (depth) * 4))
 
 extern char *D_800B0E58[];
-extern u8 D_800E224C;
-extern u8 D_800F337A;
 
 void func_800C608C(int scale, u8 *src, u8 *dst);
 void RotTrans(const GteShortVector *v, GteVector *out, s32 *flag);
