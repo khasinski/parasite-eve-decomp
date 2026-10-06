@@ -33,7 +33,9 @@ reduce the file count.
   Each overlay's manifest names the unit as a `../room_lib/RoomLib_ActorClasses`
   subsegment, and `make overlay-build` compiles it into that overlay's own
   build directory, so every overlay still links its own copy at its own
-  address.
+  address. Eight rooms link a sixth class right after it
+  (`RoomLib_FloorWalkerClass.c`); whether that class was part of the same
+  object cannot be told from the binary, so it is a unit of its own.
 - `include/pe1/` owns game ABI, shared data structures, and declarations.
 - `include/pe1/akao/` owns the AKAO command, queue, track, and SPU interfaces.
 - hardware and SDK declarations belong in their subsystem header rather than

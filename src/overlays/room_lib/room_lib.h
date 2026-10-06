@@ -1433,53 +1433,11 @@ typedef struct RoomPartSys {
         return 0; \
     }
 
-/* INIT_E: timers/handler like INIT_D plus render-node wake bits */
-#define ROOMLIB_INIT_E(name, handler) \
-    int name(RoomEnt *o) { \
-        unsigned int m = 0x10002; \
-        RoomLink *l = o->link; \
-        o->t16 = -1; \
-        o->t17 = -1; \
-        o->t18 = -1; \
-        o->t19 = 3; \
-        o->sub.signal = 0; \
-        o->active = 0; \
-        o->t1A = 0; \
-        RW16(o, 0x32) = 0; \
-        RW16(o, 0x36) = 0; \
-        o->sub.cb = handler; \
-        RW32(l, 0x98) |= m; \
-        RWU16(l, 0x250) |= 0x400; \
-        return 0; \
-    }
-
-#define ROOMLIB_HANDLER_G(name, next_handler, set4_clear_signal) \
-    void name(RoomEnt *o) { \
-        RoomEnt *self = o; \
-        RoomLink *src = (RoomLink *)RW32(self, 0x1C); \
-        RoomLink *dst = self->link; \
-        dst->pos[0] = RW32(src->p238, 0x94) << 16; \
-        dst->pos[1] = RW32(src->p238, 0x98) << 16; \
-        dst->pos[2] = RW32(src->p238, 0x9C) << 16; \
-        *(RoomLibPacked8 *)((char *)dst + 0x38) = *(RoomLibPacked8 *)((char *)src + 0x38); \
-        if ((src->variant == 7) && (src->winLo >= 3) && (src->winHi < 3)) { \
-            self->sub.cb = next_handler; \
-        } \
-        if (src->target != 0) { \
-            if (func_8003010C(src, 0x2C) <= 0) { \
-                func_80030220(dst, 0x2D, 0); \
-                func_80030220(dst, 0x2C, 0); \
-                func_80030220(dst, 0x5F, 0); \
-                set4_clear_signal(self); \
-            } \
-        } else { \
-            set4_clear_signal(self); \
-        } \
-    }
-
-/* The room library's actor classes (RoomLib_ActorClasses.c). A room's class table lists seven methods per
- * class: three no-ops (slots 0, 3 and 6), Init, Configure, Update and
- * Release; the remaining functions are the class's private states. */
+/* The room library's actor classes (RoomLib_ActorClasses.c, and
+ * RoomLib_FloorWalkerClass.c in the rooms that link the longer library).
+ * A room's class table lists seven methods per class: three no-ops (slots
+ * 0, 3 and 6), Init, Configure, Update and Release; the remaining functions
+ * are the class's private states. */
 struct RoomLibMotionState;
 struct RoomLibMotionWork;
 int RoomLib_HandlerDNop0(void);
@@ -1534,5 +1492,15 @@ int RoomLib_UpdateHandlerA(RoomObj *obj);
 void RoomLib_RearmHandlerA(RoomEnt *o);
 int RoomLib_ReleaseHandlerA(RoomEnt *o);
 int RoomLib_HandlerANop6(void);
+struct RoomFloorWalkerObject;
+int RoomLib_HandlerGNop0(void);
+int RoomLib_InitHandlerG(RoomEnt *o);
+int RoomLib_ConfigureHandlerG(RoomEnt *o, int mode, unsigned int op,
+                              int arg0, int arg1, int arg2);
+int RoomLib_HandlerGNop3(void);
+void RoomLib_HandlerG(RoomEnt *o);
+void RoomLib_HandlerGFloorWalker(struct RoomFloorWalkerObject *object);
+int RoomLib_ReleaseHandlerG(RoomEnt *o);
+int RoomLib_HandlerGNop6(void);
 
 #endif

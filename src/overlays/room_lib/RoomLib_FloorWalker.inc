@@ -40,7 +40,7 @@ void ROOMLIB_FLOOR_WALKER_FUNC(RoomFloorWalkerObject *object) {
     }
     retries = 1;
     do {
-        entry = &D_800966EC[(state->angle + 0x800) & 0xFFF];
+        entry = (RoomFloorWalkerTrig *)D_800966EC[(state->angle + 0x800) & 0xFFF];
         {
             int cosine = entry->part.cosine;
             int sine;
@@ -89,7 +89,7 @@ void ROOMLIB_FLOOR_WALKER_FUNC(RoomFloorWalkerObject *object) {
         }
         if (state->turning == 0) {
             state->angle = (FieldEng_VecToAngle(&core->pos[0],
-                                                D_8009D254->pos) + 0x800) & 0xFFF;
+                                                ((RoomFloorWalkerTarget *)D_8009D254)->pos) + 0x800) & 0xFFF;
             break;
         }
         {
@@ -106,8 +106,8 @@ void ROOMLIB_FLOOR_WALKER_FUNC(RoomFloorWalkerObject *object) {
     core->pos[0] = scratch->next.x;
     core->pos[2] = scratch->next.z;
     core->pos[1] += state->velocity;
-    if ((core->pos[1] >> 16) >= D_800942EC.y) {
-        core->pos[1] = D_800942EC.y << 16;
+    if ((core->pos[1] >> 16) >= ((RoomFloorWalkerFloor *)&D_800942EC)->y) {
+        core->pos[1] = ((RoomFloorWalkerFloor *)&D_800942EC)->y << 16;
         state->velocity = -state->hopVelocity;
         state->rest = state->restTime;
     } else {
