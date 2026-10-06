@@ -325,8 +325,8 @@ segments:
       - [0x241A0, c, menu/Menu_ActiveWindowMode]
       - [0x2422C, c, task/Task_SignalExit]
       - [0x24240, c, battle/Battle_ActiveAndEnemyStatusFlow]
-      - [0x24FB4, c, menu/Render_AnimationFrame]
-      - [0x2515C, c, menu/Save_DrawSlotMetadata]
+      - [0x24FB4, c, render/Render_AnimationFrame]
+      - [0x2515C, c, save/Save_DrawSlotMetadata]
       - [0x255E0, c, menu/Menu_SaveOverlayDraw]
       # Pool reset and free-list setup share the entity pool globals and record block.
       - [0x25710, c, entity/Entity_PoolInit]
