@@ -45,7 +45,7 @@ class RenderLoadFontGlyphTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             work = pathlib.Path(directory)
             obj, elf, binary = (work / name for name in ("glyph.o", "glyph.elf", "glyph.bin"))
-            subprocess.run(["tools/scripts/cc.sh", "src/main/main/Render_LoadFontGlyph.c", str(obj)],
+            subprocess.run(["tools/scripts/cc.sh", "src/main/render/Render_FontGlyphLoad.c", str(obj)],
                            cwd=ROOT, check=True, capture_output=True)
             (work / "glyph.ld").write_text(
                 "D_80093176 = 0x80093176;\n"

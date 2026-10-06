@@ -67,7 +67,7 @@ class RenderSetFontGlyphByCodeTests(unittest.TestCase):
             work = pathlib.Path(directory)
             obj, elf, data = work / "glyph.o", work / "glyph.elf", work / "glyph.bin"
             subprocess.run(
-                ["tools/scripts/cc.sh", "src/main/main/Render_SetFontGlyphByCode.c", str(obj)],
+                ["tools/scripts/cc.sh", "src/main/render/Render_FontGlyphCache.c", str(obj)],
                 cwd=ROOT, check=True, capture_output=True,
             )
             (work / "glyph.ld").write_text(
@@ -78,8 +78,16 @@ class RenderSetFontGlyphByCodeTests(unittest.TestCase):
                 "D_80091A28 = 0x80091A28;\n"
                 "D_8009EE22 = 0x8009EE22;\n"
                 "Render_LoadFontGlyph = 0x800389DC;\n"
+                "Render_StepFontLoad = 0x80039184;\n"
+                "g_FontSelectionState = 0x80091A1C;\n"
+                "g_MenuEquipSlotState = 0x80091A1D;\n"
+                "g_FontGlyphCode = 0x80091A1E;\n"
+                "g_FontGlyphIndex = 0x80091A1F;\n"
+                "g_FontGlyphLoadFailed = 0x80091A20;\n"
+                "g_FontGlyphTable = 0x80091A28;\n"
+                "g_FontGlyphCodeTable = 0x8009EE22;\n"
                 "_gp = 0x8009CD70;\n"
-                "SECTIONS { .text 0x8003944C : SUBALIGN(4) { *(.text) } "
+                "SECTIONS { .text 0x80039310 : SUBALIGN(4) { *(.text) } "
                 "/DISCARD/ : { *(.reginfo) *(.mdebug) *(.pdr) } }\n"
             )
             subprocess.run(
@@ -90,7 +98,8 @@ class RenderSetFontGlyphByCodeTests(unittest.TestCase):
                 ["mipsel-none-elf-objcopy", "-O", "binary", "-j", ".text", str(elf), str(data)],
                 check=True, capture_output=True,
             )
-            compiled = data.read_bytes()
+            # Render_FontGlyphCache.c starts with Render_FindFontGlyphSlot.
+            compiled = data.read_bytes()[ENTRY - 0x80039310:][:len(retail)]
         self.assertEqual(len(compiled), len(retail))
         self.assertEqual(compiled, retail)
 
