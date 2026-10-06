@@ -42,7 +42,11 @@ reduce the file count.
   block (seed initialisers, jump tables) that is contiguous and in the same
   order too. Data the code reads from the room (packet templates, colour
   tables) stays in each room's manifest under one name per role, given in
-  the room's symbol file.
+  the room's symbol file. The methods of a room module's class (the run in
+  front of each effect module: `RoomLib_PlantScript`, `RoomLib_Spawn6`,
+  `RoomLib_RegisterDrawList`, `RoomLib_RegisterPairedTables`,
+  `RoomLib_CloseTarget`) are one unit per function, because rooms replace
+  single methods with their own; see `include/pe1/room_module.h`.
 - `include/pe1/` owns game ABI, shared data structures, and declarations.
 - `include/pe1/akao/` owns the AKAO command, queue, track, and SPU interfaces.
 - hardware and SDK declarations belong in their subsystem header rather than

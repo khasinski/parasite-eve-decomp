@@ -35,11 +35,11 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m118_nypd]
-      - [0x14, c, func_8018EFFC]
-      - [0x40, c, RoomLib_Spawn6_8018F028]
-      - [0x6C, c, RoomLib_RegisterTable_8018F054]
-      - [0xB4, c, func_8018F09C]
-      - [0x140, c, RoomLib_CloseTarget_8018F128]
+      - [0x14, c, ../room_lib/RoomLib_PlantScript]
+      - [0x40, c, ../room_lib/RoomLib_Spawn6]
+      - [0x6C, c, ../room_lib/RoomLib_RegisterDrawList]
+      - [0xB4, c, ../room_lib/RoomLib_RegisterPairedTables]
+      - [0x140, c, ../room_lib/RoomLib_CloseTarget]
       - [0x1C4, c, func_8018F1AC]
       - [0x1CC, c, func_8018F1B4]
       - [0x1D4, c, func_8018F1BC]

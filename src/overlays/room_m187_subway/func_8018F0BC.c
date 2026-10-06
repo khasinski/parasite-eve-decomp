@@ -6,7 +6,7 @@ extern char D_8018FFE4;
 s32 func_800C251C(void *arg0, void *arg1);
 s32 func_800C2758(void *arg0, void *arg1, void *arg2);
 int FieldEng_GetStatus(void);
-void RoomLib_CloseTarget_8018F148(void *arg0);
+#include "pe1/room_module.h"
 
 s32 func_8018F0BC(void *arg0) {
     s32 ret;
@@ -19,7 +19,7 @@ s32 func_8018F0BC(void *arg0) {
     }
 
     if (ret == -1) {
-        RoomLib_CloseTarget_8018F148(arg0);
+        RoomLib_CloseTarget(arg0);
     }
 
     return 0;

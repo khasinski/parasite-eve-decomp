@@ -2,5 +2,5 @@
 #define D_8018FF5C D_801954A4
 #define D_8018FF34 D_8019546C
 #define D_8018FF70 D_801954C0
-#define RoomLib_CloseTarget_8018F1B8 func_8018F360
+#define RoomLib_CloseTarget func_8018F360
 #include "../room_m034_sewer/func_8018F12C.c"

@@ -3,7 +3,7 @@
 extern char D_8018FF5C[];
 extern char D_8018FF34[];
 extern char D_8018FF70[];
-void RoomLib_CloseTarget_8018F1B8(void *o);
+#include "pe1/room_module.h"
 
 int func_8018F12C(void *o) {
     int ret;
@@ -16,7 +16,7 @@ int func_8018F12C(void *o) {
     }
 
     if (ret == -1) {
-        RoomLib_CloseTarget_8018F1B8(o);
+        RoomLib_CloseTarget(o);
     }
 
     return 0;

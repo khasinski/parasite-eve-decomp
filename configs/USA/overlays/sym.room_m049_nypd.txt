@@ -36,3 +36,6 @@ D_80192C3D = 0x80192C3D;
 D_80192C3E = 0x80192C3E;
 D_80192C40 = 0x80192C40;
 D_80192C42 = 0x80192C42;
+RoomLib_Spawn6 = 0x8018F068; // type:func
+RoomLib_PlantScript = 0x8018F03C; // type:func
+g_RoomScript = 0x80192BE8;

@@ -43,8 +43,8 @@ segments:
         type: rodatabin
         name: scene_e05_header_tail
         dir: scene_e05
-      - [0x74, c, RoomLib_PlantTable_8018F05C]
-      - [0xA0, c, RoomLib_Spawn6_8018F088]
+      - [0x74, c, ../room_lib/RoomLib_PlantScript]
+      - [0xA0, c, ../room_lib/RoomLib_Spawn6]
       - [0xCC, c, func_8018F0B4]
       - [0x114, c, RoomLib_RegisterTablesAt3_8018F0FC]
       - [0x1A0, c, func_8018F188]

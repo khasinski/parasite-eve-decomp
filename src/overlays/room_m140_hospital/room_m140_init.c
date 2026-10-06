@@ -2,9 +2,9 @@
 
 extern char RoomLib_TableA_8018F0D0[];
 extern char RoomLib_TableB_8018F078[];
-extern char g_RoomFallingBurstSpawnData[];
+extern char g_RoomInitList[];
 extern char D_80190E60[];
-extern char g_RoomFallingBurstSpawnScript[];
+extern char g_RoomSpawnLayout[];
 
 int RoomLib_CloseTarget_8018F1A4(RoomEnt *obj);
 
@@ -19,7 +19,7 @@ int func_8018F118(RoomEnt *obj)
 
     if ((unsigned int)FieldEng_GetStatus() >= 2) {
         result = func_800C251C(obj, D_80190E60);
-        result |= func_800C2758(obj, g_RoomFallingBurstSpawnData, g_RoomFallingBurstSpawnScript);
+        result |= func_800C2758(obj, g_RoomInitList, g_RoomSpawnLayout);
     } else {
         result = -1;
     }

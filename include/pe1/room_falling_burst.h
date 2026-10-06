@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/room_fx.h"
 #include "pe1/field_script_context.h"
+#include "pe1/room_module.h"
 
 /* The falling sprite burst linked by ten hospital and Chrysler rooms
  * (src/overlays/room_lib/RoomFx_FallingSpriteBurst.c): a sprite and its
@@ -70,15 +71,14 @@ typedef struct RoomFallingBurstFloor {
 
 extern RoomFallingBurstFloor g_FrameCount16;
 
-/* Per-room data: the five sprite records and the spawn tables the falling
- * sprite passes to func_800C2B90 when it lands. */
+/* Per-room data: the five sprite records. When it lands the falling sprite
+ * spawns from the room module's init list and spawn layout
+ * (pe1/room_module.h). */
 extern RoomFxSpritePacket g_RoomFallingBurstShadow;
 extern RoomFxSpritePacket g_RoomFallingBurstShimmer;
 extern RoomFxSpritePacket g_RoomFallingBurstSprite;
 extern RoomFxSpritePacket g_RoomFallingBurstPulse;
 extern RoomFxSpritePacket g_RoomFallingBurstParticle;
-extern u8 g_RoomFallingBurstSpawnScript[];
-extern u8 g_RoomFallingBurstSpawnData[];
 
 void *func_8006DC18(int type);
 int *func_800C2B10(int index);

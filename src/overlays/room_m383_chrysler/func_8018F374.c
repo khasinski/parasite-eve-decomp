@@ -6,7 +6,7 @@ extern char D_80196C7C[];
 extern char D_80196CA4[];
 extern char D_80196CB8[];
 
-extern int RoomLib_CloseTarget_8018F400(void *arg0);
+#include "pe1/room_module.h"
 
 int func_8018F374(void *arg0) {
     int result;
@@ -19,7 +19,7 @@ int func_8018F374(void *arg0) {
     }
 
     if (result == -1) {
-        RoomLib_CloseTarget_8018F400(arg0);
+        RoomLib_CloseTarget(arg0);
     }
 
     return 0;
