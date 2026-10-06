@@ -249,8 +249,8 @@ segments:
       - [0xAB90, c, entity/Entity_ScriptBaseOps]
       - [0xACAC, c, entity/Entity_AdvanceAnim]
       - [0xAE80, c, entity/entity_set]
-      - [0xB090, c, entity/Entity_ResetStateGlobals]
-      - [0xB118, c, entity/Entity_RelocateSceneData]
+      # Collision-state reset and database relocation share the collision table globals (G0227).
+      - [0xB090, c, entity/Entity_CollisionDatabase]
       - [0xB1F8, c, entity/Entity_UpdateList]
       - [0xB278, c, main/Entity_FindFloor]
       - [0xB4E0, c, entity/Entity_ResolvePosition]
