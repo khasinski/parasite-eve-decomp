@@ -8,6 +8,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 ENTRY, EXIT = 0x8003E474, 0x80010000
+UNIT = 0x2E3E4
 HEADER, OBJECT, PACKETS, STACK = 0x80100000, 0x80101000, 0x80110000, 0x801F0000
 
 
@@ -19,19 +20,15 @@ class RenderOffsetObjectTextureCoordinatesTests(unittest.TestCase):
         cls.retail = (ROOT / "assets/USA/main.exe").read_bytes()[0x2EC74:0x2EDF0]
         with tempfile.TemporaryDirectory() as directory:
             work = pathlib.Path(directory)
-            obj, elf, binary = (work / name for name in ("offset.o", "offset.elf", "offset.bin"))
+            obj, binary = work / "unit.o", work / "unit.bin"
             subprocess.run(["tools/scripts/cc.sh",
-                            "src/main/render/Render_OffsetObjectTextureCoordinates.c", str(obj)],
+                            "src/main/render/Render_ObjectStateHelpers.c", str(obj)],
                            cwd=ROOT, check=True, capture_output=True)
-            script = work / "offset.ld"
-            script.write_text(
-                "SECTIONS { .text 0x8003E474 : SUBALIGN(4) { *(.text) } "
-                "/DISCARD/ : { *(.reginfo) *(.mdebug) *(.pdr) } }\n")
-            subprocess.run(["mipsel-none-elf-ld", "-EL", "-T", str(script), str(obj),
-                            "-o", str(elf)], check=True, capture_output=True)
+            # The routine has no relocations, so its bytes in the unit's
+            # unlinked .text are final.
             subprocess.run(["mipsel-none-elf-objcopy", "-O", "binary", "-j", ".text",
-                            str(elf), str(binary)], check=True, capture_output=True)
-            cls.compiled = binary.read_bytes()
+                            str(obj), str(binary)], check=True, capture_output=True)
+            cls.compiled = binary.read_bytes()[0x2EC74 - UNIT:0x2EDF0 - UNIT]
 
     def test_byte_match(self):
         self.assertEqual(self.compiled, self.retail)

@@ -11,7 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 CLAUSE_LINES = (
     ("src/main/psyq/libpad/padportd_5.c", 6, ('asm("$7")', 'asm("$6")')),
     ("src/main/render/Render_DrawObject.c", 94, ('asm("$20")', 'asm("$21")', 'asm("$22")')),
-    ("src/main/render/Render_SetupBoneTransforms.c", 137, ('asm("$12")', 'asm("$13")')),
+    ("src/main/render/Render_ObjectStateHelpers.c", 317, ('asm("$12")', 'asm("$13")')),
     (
         "src/overlays/scene_e20/RoomEffect_HoverOrbController_8018F750.c",
         302,

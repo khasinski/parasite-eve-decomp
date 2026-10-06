@@ -400,11 +400,11 @@ segments:
       - [0x2E02C, c, util/Util_ReturnTrue]
       - [0x2E034, c, render/Render_DrawWithAnim]
       - [0x2E14C, c, main/Render_InitPrimBlock]
-      - [0x2E3E4, c, render/Render_FrameDataCopies]
-      - [0x2E750, c, render/render]
-      - [0x2E988, c, render/Render_SetupBoneTransforms]
-      - [0x2EC74, c, render/Render_OffsetObjectTextureCoordinates]
-      - [0x2EDF0, c, render/Render_IncrementCounter]
+      # Render-object state helpers: frame-matrix copies, table initialisation,
+      # animation attach/clear/lookup, bone transform setup, texture-coordinate
+      # offsets and the frame counter over RenderObjectEntity; contiguous
+      # default-profile run with no split evidence.
+      - [0x2E3E4, c, render/Render_ObjectStateHelpers]
       # Render_IncrementCounter's counter word lives in .text; it is data,
       # not a function (docs/CONVENTIONS.md, text-resident data).
       - {start: 0x2EE0C, type: data, name: render/Render_Counter, linker_section_order: .text, linker_section: .code_data}
