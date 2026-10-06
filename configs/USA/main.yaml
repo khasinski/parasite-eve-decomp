@@ -742,14 +742,12 @@ segments:
       - [0x562D4, c, menu/Menu_SetSlotEntry]
       - [0x56370, c, menu/Menu_InitGlobals]
       - [0x56438, c, render/Render_CameraViewportFlow]
-      - [0x569EC, c, render/Render_SetScrollMode]
-      - [0x56A68, c, render/Scene_IsNotBattleMode]
-      - [0x56DA0, c, render/Render_UpdateScrollPosition]
-      - [0x57000, c, gpu/Gpu_LoadGeomState]
-      - [0x5718C, c, render/Render_InitRoomPrimState]
-      - [0x57360, c, cdrom/cd_rom]
-      - [0x5747C, c, render/Render_SetFadeColour]
-      - [0x574E8, c, render/Render_DrawSprite]
+      # Camera scroll mode and transition steps, viewport GPU state, room light
+      # setup, the screen-tint transition starters and the camera basis build share
+      # the D_800BCF88 scroll state (private evidence 4.75 over the scroll trio; no
+      # split evidence). Render_SetScrollMode's -G8 is inert (all its symbols are
+      # 16-byte views), so the unit uses the --expand-div profile.
+      - [0x569EC, c, render/Render_CameraAndScreenTransition]
       - [0x57760, c, main/Geo_LoadMeshEntry]
       - [0x579C8, c, main/Geo_TransformPoint]
       - [0x57A94, c, render/Render_DrawSpriteEntry]
