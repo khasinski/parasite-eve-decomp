@@ -871,10 +871,8 @@ segments:
       - [0x64B84, c, psyq/libapi/a23]
       - [0x64B94, c, psyq/libapi/a24]
       - [0x64BA4, c, psyq/libapi/a25]
+      # Psy-Q LIBETC INTR_VB.OBJ: VSync interrupt start, trap and callback helpers.
       - [0x64BB4, c, psyq/libetc/intr_vb]
-      - [0x64C0C, c, psyq/libetc/intr_vb_2]
-      # Psy-Q etc/intr_vb.c callback registration helpers, in source order.
-      - [0x64C78, c, psyq/libetc/intr_vb_3]
       - [0x64CC8, pad]
       - [0x64CD4, c, psyq/libetc/intr_dma]
       - [0x64D20, c, psyq/libetc/intr_dma_2]
