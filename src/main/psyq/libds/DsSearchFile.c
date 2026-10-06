@@ -25,8 +25,7 @@ DslFILE *DsSearchFile(DslFILE *output, char *input_name) {
     register int zero asm("$0");
     register char *entry_name;
     /* $zero supplies the independent cache offset without a redundant move. */
-    asm volatile("" : "=r"(zero) : "r"(out));
-    if (g_DsCachedDiskType < CdRom_GetDiskType()) {
+        if (g_DsCachedDiskType < CdRom_GetDiskType()) {
         if (!DS_newmedia()) return 0;
         g_DsCachedDiskType = CdRom_GetDiskType();
     }
