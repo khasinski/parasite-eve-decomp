@@ -815,8 +815,9 @@ segments:
       # g_DrawEnabled and g_SeqElapsed (private evidence), contiguous
       # default-profile run with no split evidence.
       - [0x5F1A0, c, gpu/Gpu_DisplayInitAndStatus]
-      - [0x5F4EC, c, main/misc19]
-      - [0x5FAC4, c, pm/Pm_ProcessManager]
+      - [0x5F4EC, c, boot/Boot_DiscTableLoad]
+      # Slot allocation opens the contiguous process-manager slot API.
+      - [0x5FA24, c, pm/Pm_ProcessManager]
       - [0x60C1C, c, render/Render_DecompressAnimFrame]
       - [0x61510, c, task/Task_InitGpuHwRegs]
       - [0x6156C, c, task/Task_GpuFlushPrimQueue]

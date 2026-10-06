@@ -1,3 +1,5 @@
+/* Boot-time disc loads called from Boot_MainLoop: the PE.IMG asset LBA
+ * tables and the boot audio banks. */
 #include "common.h"
 #include "pe1/cdrom.h"
 #include "pe1/cdrom_buffers.h"
@@ -32,8 +34,6 @@ extern signed char D_800B0DB7;
 
 void Akao_Cmd_F0(void);
 
-extern char *g_PmSlotTable;
-extern char *g_PmSlotTable2;
 
 int Overlay_LoadTables(void) {
     int scratch;
@@ -272,43 +272,4 @@ retry_second:
     FlushCache();
     ExitCriticalSection();
     return 0;
-}
-
-int Pm_AllocSlot(unsigned int cmd) {
-    int result;
-    int i;
-    char *entry;
-
-    result = -1;
-    if (cmd >= 0xC0) {
-        return -1;
-    }
-
-    if ((unsigned int)(cmd - 0x46) < 0xF) {
-        i = 0;
-        entry = g_PmSlotTable2;
-        do {
-            if (*(u8 *)entry == 0) {
-                result = i + 0xB;
-                goto done;
-            }
-            i++;
-            entry += 0x10C;
-        } while (i < 0xB);
-        return result;
-    }
-
-    i = 0;
-    entry = g_PmSlotTable;
-    do {
-        if (*(u8 *)entry == 0) {
-            result = i;
-            goto done;
-        }
-        i++;
-        entry += 0xA0C;
-    } while (i < 0xB);
-
-done:
-    return result;
 }

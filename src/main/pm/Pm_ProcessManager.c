@@ -3,6 +3,46 @@
 #undef PE1_PM_LEGACY_RAW_VIEWS
 extern int g_GameState;
 
+int Pm_AllocSlot(unsigned int cmd) {
+    int result;
+    int i;
+    PmSecondarySlot *secondary;
+    PmPrimarySlot *primary;
+
+    result = -1;
+    if (cmd >= 0xC0) {
+        return -1;
+    }
+
+    if ((unsigned int)(cmd - 0x46) < 0xF) {
+        i = 0;
+        secondary = g_PmSlotTable2Typed;
+        do {
+            if (secondary->header.state == 0) {
+                result = i + 0xB;
+                goto done;
+            }
+            i++;
+            secondary++;
+        } while (i < 0xB);
+        return result;
+    }
+
+    i = 0;
+    primary = g_PmSlotTableTyped;
+    do {
+        if (primary->header.state == 0) {
+            result = i;
+            goto done;
+        }
+        i++;
+        primary++;
+    } while (i < 0xB);
+
+done:
+    return result;
+}
+
 int Pm_FreeSlot(int arg0) {
     int offset;
     PmSlotHeader *entry;
