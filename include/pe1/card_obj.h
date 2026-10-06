@@ -75,4 +75,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CardObj, response_index) == 0x44, card_response_i
 PE1_STATIC_ASSERT(PE1_OFFSETOF(CardObj, payload_index) == 0x45, card_payload_index);
 PE1_STATIC_ASSERT(sizeof(CardObj) == 0xF0, card_obj_size);
 
+/* LIBPAD port state: the per-port objects, the multitap command byte and
+ * the lookup that maps a channel number to its object. */
+extern CardObj *g_MemCardObjArray;
+extern int g_MemCardCommandByte;
+extern CardObj *(*g_MemCardObjLookupFn)(int channel);
+
 #endif /* PE1_CARD_OBJ_H */

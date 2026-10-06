@@ -148,7 +148,7 @@ segments:
       - [0x266C, .rodata, psyq/libds/dsfile]
       - [0x285C, rodata, main/rodata_00285C]
       - [0x2868, rodata, main/rodata_002868]
-      - [0x286C, .rodata, psyq/libpad/padentry_2]
+      - [0x286C, .rodata, psyq/libpad/padentry]
       - [0x2880, rodata, main/rodata_002880]
       - [0x28BC, .rodata, psyq/libspu/s_sca]
       - [0x28FC, .rodata, psyq/libspu/s_svva]
@@ -1162,8 +1162,8 @@ segments:
       - [0x72CA8, pad]
       # Psy-Q libds/dscb.c callback registration helpers, in source order.
       - [0x72CB4, c, psyq/libds/dscb]
+      # Psy-Q LIBPAD PADENTRY.OBJ: the public Pad* entry points.
       - [0x72D14, c, psyq/libpad/padentry]
-      - [0x72E80, c, psyq/libpad/padentry_2]
       # Card-object lookup and command wrappers share the active-object factory.
       - [0x731C4, c, psyq/libpad/padmain]
       - [0x732DC, c, psyq/libpad/padmain_2]
