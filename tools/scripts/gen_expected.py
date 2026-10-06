@@ -784,6 +784,14 @@ def process_module(module, shared, assembler, workers):
                 if section == ".text" and kind == "STT_FUNC"
             ]
             valid_functions = {name for _offset, name in functions}
+            if not source.exists() and not functions:
+                # A data-only unit (listed only as a .data subsegment) gets
+                # no code disassembly, just splat's data file, which splat
+                # writes with the leading `../` of a shared unit dropped.
+                data = asm_root / ("%s.data.s" % unit.removeprefix("../"))
+                if data.exists():
+                    source.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copyfile(data, source)
             text = merge_c_function_splits(source.read_text(), asm_root, unit,
                                            functions)
             rodata = asm_root / "data" / ("%s.rodata.s" % unit)
@@ -808,7 +816,7 @@ def process_module(module, shared, assembler, workers):
         if fresh and source.suffix == ".s":
             text = strip_differ_aliases(source.read_text())
             text = retype_data_in_text(text, unit_kinds)
-            if valid_functions is not None:
+            if valid_functions:
                 text = restore_c_function_names(text, functions, slices[unit][".text"])
                 text = normalize_c_function_labels(text, valid_functions, unit_kinds)
                 text = normalize_c_jump_table_relocations(text, slices[unit][".text"])
