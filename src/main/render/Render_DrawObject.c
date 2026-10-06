@@ -170,7 +170,7 @@ void Render_DrawObject(RenderObjectEntity *input, union RenderLightingMatrix *vi
                                     s32 b = normalIndex[-4];
                                     s32 c = normalIndex[0];
                                     register RenderVec3s *na asm("$4"), *nb asm("$3"),
-                                        *nc asm("$2");
+                                        *nc;
                                     na = (RenderVec3s *)((a * 8) + (u32)normals);
                                     nb = (RenderVec3s *)((b * 8) + (u32)normals);
                                     nc = (RenderVec3s *)((c * 8) + (u32)normals);
