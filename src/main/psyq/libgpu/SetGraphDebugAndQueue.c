@@ -18,8 +18,7 @@ int SetGraphDebug(int debugLevel) {
 
     currentDebugLevel = &D_8009574C.queueState.debugLevel;
     /* Preserve the shared base used for the adjacent GPU state bytes. */
-    asm("" : "+r"(currentDebugLevel));
-    oldDebugLevel = *currentDebugLevel;
+        oldDebugLevel = *currentDebugLevel;
     *currentDebugLevel = debugLevel;
     result = oldDebugLevel;
 
@@ -34,8 +33,7 @@ int SetGraphDebug(int debugLevel) {
     type = currentDebugLevel[-2];
     reverse = currentDebugLevel[1];
     /* Materialize the byte arguments before the format string address. */
-    asm volatile("" : "+r"(currentLevel), "+r"(type), "+r"(reverse));
-    debugPrint(D_80011814, currentLevel, type, reverse);
+        debugPrint(D_80011814, currentLevel, type, reverse);
     result = oldDebugLevel;
     return result;
 }

@@ -70,8 +70,7 @@ int Gpu_SetDisplayBuffer(void) {
         mask = 0x01000000;
         if (!(status & mask)) {
             register u32 *pending = &D_8009574C.syncCallbackPending;
-            asm volatile("" : "=r"(pending) : "0"(pending));
-            if (*pending) {
+                        if (*pending) {
                 void (*callback)(void) = *(void (**)(void))(pending + 1);
                 if (callback) {
                     register GpuDebugState *base = (GpuDebugState *)((char *)pending - 8);
