@@ -707,8 +707,7 @@ void func_8008ABF0(void) {
     unsigned int *flags;
     mask = D_800BCD50;
     track = D_800BC000_tracks;
-    __asm__ __volatile__("" : : "r"(track));
-    if (mask != 0) {
+        if (mask != 0) {
         bit = 0x1000;
         flags = (unsigned int *)track + 0x3D;
         do {
