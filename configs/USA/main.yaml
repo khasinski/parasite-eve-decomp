@@ -251,13 +251,8 @@ segments:
       # Collision-state reset and database relocation share the collision table globals (G0227).
       - [0xB090, c, entity/Entity_CollisionDatabase]
       - [0xB1F8, c, entity/Entity_UpdateList]
-      - [0xB278, c, main/Entity_FindFloor]
-      - [0xB4E0, c, entity/Entity_ResolvePosition]
-      - [0xB640, c, entity/Entity_UpdateAndRender]
-      - [0xBDFC, c, main/Geo_ClipToFloorBoundary]
-      # Triangle walk and point-in-triangle test: contiguous -G8 pair.
-      - [0xC964, c, field/Geo_FloorTriangleWalk]
-      - [0xCFDC, c, main/Entity_SlideOnRamp]
+      # Actor floor lookup, position resolution, per-actor update, floor-boundary clipping and ramp sliding share the collision state (G0227).
+      - [0xB278, c, field/Geo_ActorFloorResolution]
       - [0xD2B0, c, field/Geo_PointInPoly]
       # Wall sliding, nearest-edge testing and collision response share state.
       - [0xD3A0, c, field/Entity_ApplyCollisionResponse]
