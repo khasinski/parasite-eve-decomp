@@ -161,7 +161,7 @@ int Geo_FindNearestEdge(int x, int z, PolygonVertex *vertices,
  * too. Explicit .data preserves the non-GP accesses amid small-data globals. */
 BattleEntity *D_8009D254 __attribute__((section(".data"))) = 0;
 
-void Entity_ApplyCollisionResponse(int unused)
+void Entity_ApplyCollisionResponse(struct FieldActor *player)
 {
     BattleEntity *actor = D_8009D254;
     int oldX, oldZ;

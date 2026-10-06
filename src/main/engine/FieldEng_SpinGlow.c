@@ -86,7 +86,7 @@ int func_800DEA30(int mode, FieldGlowFountain *state)
                     vector.z = -(rand() % 80);
                     vector.y = rand() % 48 - 32;
                     FieldEng_RotateVector(
-                        (GteMatrixWords *)D_8009D254->render_object.matrices,
+                        (GteMatrixWords *)g_PlayerEntity->render_object.matrices,
                         &vector, &vector);
                     glow->vx = vector.x;
                     glow->vy = vector.y;

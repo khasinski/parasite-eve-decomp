@@ -4,9 +4,9 @@
 /* Declarations used only by the per-frame entity driver Entity_FrameUpdate. */
 
 #include "pe1/field_actor.h"
+#include "pe1/player_entity.h"
 
 extern FieldActor *g_FieldActorListHead;
-extern FieldActor *g_PlayerEntity;
 /* Global game-state flags (bit 4 = menu open, 2 = battle, 0x100 =
  * player-only animation) and the word after them. */
 typedef struct GameStateBlock {

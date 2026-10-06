@@ -19,7 +19,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM256TrailEffect, kind) == 0x14,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomM256TrailEffect, frame) == 0x16,
                   room_m256_trail_effect_frame);
 
-extern FieldActor *D_8009D254;
 extern RenderColor D_8018F218, D_8018F21C;
 extern GteRotation D_8018F220,D_8018F1CC;
 extern char D_80195EFC[],D_80195F1C[],D_80195F1E[],D_80195F20[];
@@ -34,6 +33,7 @@ int func_80077AA4(int,int);
 int rsin(int);
 int rcos(int);
 #include "pe1/gte_types.h"
+#include "pe1/player_entity.h"
 int func_800C6B90(void *,int);
 void func_800C6EC0(int,int);
 void func_800C6ED8(int);

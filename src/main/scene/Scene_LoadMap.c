@@ -1,5 +1,5 @@
 #include "common.h"
-#include "pe1/field_actor.h"
+#include "pe1/player_entity.h"
 #include "pe1/scene_assets.h"
 #include "pe1/psyq_nop.h"
 /* CC1_FLAGS: -G8 */
@@ -11,7 +11,6 @@
 
 extern FieldActor *D_8009D2AC;
 extern FieldActor *D_8009D20C;
-extern FieldActor *D_8009D254;
 extern u32 D_8009D224;
 extern u16 D_8009D2A6;
 extern u32 D_800915DC[];
@@ -90,7 +89,7 @@ FieldActor *Scene_LoadMap(u8 *scene, FieldActor *after, int allocateFull)
     W(actor, 0x190) = D_800915DC[scene[0] * 2];
     W(actor, 0x194) = D_800915E0[scene[0] * 2];
     if (scene[0] == 0) {
-        D_8009D254 = actor;
+        g_PlayerEntity = actor;
         actor->move_factor = 0x10000;
         Battle_InitEquipLists(actor);
     } else {
@@ -133,7 +132,7 @@ FieldActor *Scene_LoadMap(u8 *scene, FieldActor *after, int allocateFull)
     D_8009D2A6++;
 
     if (!actor->allocation_active) goto no_render_data;
-    if (actor == D_8009D254) {
+    if (actor == g_PlayerEntity) {
         Entity_SetActionMode(actor, 0x15);
     } else {
         baseRows = (u8 *)D_800B161C - 0x784;

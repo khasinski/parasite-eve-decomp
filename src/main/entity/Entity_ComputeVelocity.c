@@ -1,8 +1,7 @@
 #include "common.h"
-#include "pe1/field_actor.h"
+#include "pe1/player_entity.h"
 
 extern FieldActor *g_CurrentEntity;
-extern FieldActor *g_PlayerEntity;
 
 int Math_FixedMul(int arg0, int arg1);
 int rsin(int arg0);

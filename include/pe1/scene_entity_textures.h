@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/scene_assets.h"
 #include "pe1/field_actor.h"
+#include "pe1/player_entity.h"
 
 /*
  * Scene_LoadEntityTextures: 14-state loader for the area entity bank.
@@ -23,7 +24,6 @@ typedef struct SceneCdStreamRecord {
 extern u8 g_SceneAreaType;
 extern s8 D_800B0CE4;
 extern u32 g_PeImageBaseLba;
-extern FieldActor *g_PlayerEntity;
 extern u16 D_800930D8[], D_800930DA[];
 extern u8 D_800BEA40[];
 extern u8 g_EntityRenderScratch[];

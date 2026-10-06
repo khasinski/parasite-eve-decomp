@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/field_actor.h"
+#include "pe1/player_entity.h"
 
 /* Scene script object that pulls the player into a scripted grab animation
  * when the player walks up to the owning actor during its reach window. */
@@ -35,7 +36,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneGrabTrigger, control.player_matrix) == 0x1C,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneGrabTrigger, control.grabbed) == 0x44,
                   scene_grab_flag_offset);
 
-extern FieldActor *g_PlayerEntity;
 int func_800DFE20(s32 *from, s32 *to);
 void func_80020C74(void);
 s32 func_80192D04(char *obj);

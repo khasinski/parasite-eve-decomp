@@ -107,7 +107,7 @@ int func_800D751C(int mode, FieldFanSweep *sweep)
         }
         D_800F3368.depth = 8;
         func_800CE78C(sweep->pool);
-        func_800CE870((char *)D_8009D254, 1, &D_800E21E0.x);
+        func_800CE870((char *)g_PlayerEntity, 1, &D_800E21E0.x);
         D_800F3368.parameter00 = 0x20;
         D_800F3368.parameter02 = 2;
         D_800F3368.extent_x = 0x20;
@@ -139,7 +139,7 @@ int func_800D7764(int mode, FieldFanSweepGlow *glow)
     case 0:
         glow->state = 0;
         glow->timer = 0;
-        func_800CE870((char *)D_8009D254, 0, &glow->position.x);
+        func_800CE870((char *)g_PlayerEntity, 0, &glow->position.x);
         break;
     case 1:
         if (D_800E27EC >= 60)

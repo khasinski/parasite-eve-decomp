@@ -20,7 +20,7 @@ int func_800DEFFC(int mode, RenderFadeParticle *particle)
         switch (particle->phase) {
         case 0:
             particle->timer++;
-            FieldEng_TransformMatrixPoint((struct RoomFxTransformOwner *)D_8009D254,
+            FieldEng_TransformMatrixPoint((struct RoomFxTransformOwner *)g_PlayerEntity,
                                           particle->kind, &offset,
                                           (GteShortVector *)particle);
             if (D_800E27EC & 3)

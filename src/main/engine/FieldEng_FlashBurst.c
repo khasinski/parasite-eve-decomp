@@ -18,10 +18,10 @@ int func_800DE0A8(int mode, FieldFlashBurst *state)
 
     switch (mode) {
     case 0:
-        func_800CE870((char *)D_8009D254, 1, state->point);
-        state->anchor.x = D_8009D254->render_object.matrices[19].translation[0];
-        state->anchor.y = D_8009D254->render_object.matrices[19].translation[1];
-        state->anchor.z = D_8009D254->render_object.matrices[19].translation[2];
+        func_800CE870((char *)g_PlayerEntity, 1, state->point);
+        state->anchor.x = g_PlayerEntity->render_object.matrices[19].translation[0];
+        state->anchor.y = g_PlayerEntity->render_object.matrices[19].translation[1];
+        state->anchor.z = g_PlayerEntity->render_object.matrices[19].translation[2];
         func_800C6D5C(D_800F3474, 0, 0);
         break;
     case 1:
@@ -38,13 +38,13 @@ int func_800DE0A8(int mode, FieldFlashBurst *state)
             func_800D1AE0(&color.r, 0x80 - (D_800E27EC - 1) * 32, 1, 8);
         }
         if (D_800E27EC < 17) {
-            matrix = *(GteMatrix *)&D_8009D254->render_object.matrices[0];
+            matrix = *(GteMatrix *)&g_PlayerEntity->render_object.matrices[0];
             scale.x = scale.y = rcos(D_800E27EC << 6) / 3;
             scale.z = rsin(D_800E27EC << 6);
             ScaleMatrix(&matrix, &scale);
-            matrix.t[0] = D_8009D254->render_object.matrices[19].translation[0];
-            matrix.t[1] = D_8009D254->render_object.matrices[19].translation[1];
-            matrix.t[2] = D_8009D254->render_object.matrices[19].translation[2];
+            matrix.t[0] = g_PlayerEntity->render_object.matrices[19].translation[0];
+            matrix.t[1] = g_PlayerEntity->render_object.matrices[19].translation[1];
+            matrix.t[2] = g_PlayerEntity->render_object.matrices[19].translation[2];
             func_800CF3AC(D_800E20CC, &color, D_800E27EC);
             slots = &D_800E11E6;
             D_800F3368.tpage = D_800E2850[slots[0]];

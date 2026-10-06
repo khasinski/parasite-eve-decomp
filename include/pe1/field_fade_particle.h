@@ -4,12 +4,12 @@
 #include "common.h"
 #include "pe1/render_object.h"
 #include "pe1/field_effect_pool.h"
+#include "pe1/player_entity.h"
 
 /* Field engine fade particle (func_800DEFFC), spawned by the fading
  * emitter func_800DF6AC: a glow pinned to one actor matrix point that
  * sheds drifting and falling sparks into the same pool. */
 
-extern FieldActor *D_8009D254;
 
 int rand(void);
 int rsin(int angle);

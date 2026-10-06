@@ -69,3 +69,4 @@ RoomLib_ReleaseHandlerA = 0x8019253C; // type:func
 RoomLib_HandlerANop6 = 0x80192558; // type:func
 RoomLib_SetArg1 = 0x80199294; // type:func
 g_RoomScriptArg = 0x8019992C;
+g_PlayerEntity = 0x8009D254;

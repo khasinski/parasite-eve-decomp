@@ -64,7 +64,8 @@ int Geo_FindNearestEdge(int x, int z, PolygonVertex *vertices,
 void Entity_SlideOnWall(struct BattleEntity *actor, const PolygonVertex *vertices,
                        unsigned short count, short edge, int oldX, int oldZ);
 /* The retail caller passes an argument; this routine uses D_8009D254. */
-void Entity_ApplyCollisionResponse(int unused);
+struct FieldActor;
+void Entity_ApplyCollisionResponse(struct FieldActor *player);
 
 /* Packed vertex tables used by the flat and sloped triangle formats.
  * Coordinates are loaded as halfwords and interpreted as signed for geometry. */

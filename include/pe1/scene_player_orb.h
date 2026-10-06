@@ -7,6 +7,7 @@
 #include "pe1/render_object.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/room_floor.h"
+#include "pe1/player_entity.h"
 
 /* Scene e08 player orb: an effect spawned at a random spot around the
  * player, swung around the scene anchor by the anchor's facing, then drawn
@@ -51,7 +52,6 @@ extern u8 D_801987E4[];
 extern u8 D_80198718[];
 extern u8 D_80198754[];
 extern u8 D_80199690[];
-extern FieldActor *g_PlayerEntity;
 /* The sound owner read as a one-field record (see room_m089_spin_model.h). */
 typedef struct ScenePlayerOrbSound {
     void *channel;

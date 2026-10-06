@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/player_entity.h"
 /* CC1_FLAGS: -fno-strength-reduce */
 /* MASPSX_FLAGS: -G8 --use-comm-section */
 
@@ -10,7 +11,7 @@ void *g_EntityFreeListHead;
 void *g_FieldActorListHead;
 int g_CurrentEntity;
 u16 g_EntityFreePoolCount;
-void *g_PlayerEntity;
+FieldActor *g_PlayerEntity;
 void *D_8009D224;
 
 extern char g_EntityWorkBuffer[];

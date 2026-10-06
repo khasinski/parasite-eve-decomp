@@ -120,7 +120,7 @@ s32 func_801940B0(int mode, void *effect) {
         case 1:
             state->frame = (s16) ((u16) state->frame + 1);
             history = (state->index * 0x88) + D_80195EFC;
-            func_800CE870(D_8009D254, 1, &delta.x);
+            func_800CE870(g_PlayerEntity, 1, &delta.x);
             func_800CFAA8(state, &delta.x, &angles.x);
             ending = state->ending;
             if (ending == 0) {
@@ -161,7 +161,7 @@ s32 func_801940B0(int mode, void *effect) {
 updateHistory:
                 func_800D3AFC(history, 0x10, state, 0);
                 if ((func_800C6B90(state, 0x64) != 0) && (state->y >= (g_RoomFloorY->y - 0x202)) && (D_800E2368->flags != 0) && ((D_800F32D0->actor->state->core_flags & 0x3F000000) == 0x01000000)) {
-                    trailPlayerState = D_8009D254->state;
+                    trailPlayerState = g_PlayerEntity->state;
                     trailPlayerState->flags = (s32) (trailPlayerState->flags | 0x4000);
                     trailActorState = D_800F32D0->actor->state;
                     trailActorState->core_flags = (trailActorState->core_flags & 0xC0FFFFFF) | 0x19000000;
@@ -287,7 +287,7 @@ updateHistory:
         case 5:
             state->frame = (s16) ((u16) state->frame + 1);
             if ((func_800C6B90(state, 0xB4) != 0) && (state->frame < 0x10) && (D_800E2368->flags != 0) && ((D_800F32D0->actor->state->core_flags & 0x3F000000) == 0x01000000)) {
-                impactPlayerState = D_8009D254->state;
+                impactPlayerState = g_PlayerEntity->state;
                 impactPlayerState->flags = (s32) (impactPlayerState->flags | 0x4000);
                 impactActorState = D_800F32D0->actor->state;
                 impactActorState->core_flags = (impactActorState->core_flags & 0xC0FFFFFF) | 0x19000000;

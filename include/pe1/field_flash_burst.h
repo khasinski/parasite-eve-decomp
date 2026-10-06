@@ -5,6 +5,7 @@
 #include "pe1/render_object.h"
 #include "pe1/field_effect_pool.h"
 #include "pe1/field_tile.h"
+#include "pe1/player_entity.h"
 
 /* Field engine flash burst (func_800DE0A8): two screen flashes, a model
  * swelling on the actor's point 19 and a star fan, ring band and shape
@@ -14,7 +15,6 @@ typedef struct FieldFlashBurst {
     /* 0x08 */ s16 point[3];
 } FieldFlashBurst;
 
-extern FieldActor *D_8009D254;
 /* Model drawn by the burst and its colour track. */
 extern u8 *D_800F3474;
 extern u8 D_800E20CC[];

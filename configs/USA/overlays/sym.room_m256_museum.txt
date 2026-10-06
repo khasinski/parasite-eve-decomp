@@ -66,3 +66,4 @@ RoomLib_HandlerA = 0x801922C4; // type:func
 RoomLib_HandlerF = 0x801923D8; // type:func
 RoomLib_ReleaseHandlerA = 0x80192558; // type:func
 RoomLib_HandlerANop6 = 0x80192574; // type:func
+g_PlayerEntity = 0x8009D254;

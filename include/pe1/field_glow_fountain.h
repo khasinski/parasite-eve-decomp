@@ -5,6 +5,7 @@
 #include "pe1/render_object.h"
 #include "pe1/field_effect_pool.h"
 #include "pe1/field_spin_glow.h"
+#include "pe1/player_entity.h"
 
 /* Field engine glow fountain (func_800DEA30): sprays falling spin glows
  * (func_800DE7A8) out of the actor's facing for 16 frames while a rising
@@ -17,7 +18,6 @@ typedef struct FieldGlowFountain {
 
 PE1_STATIC_ASSERT(sizeof(FieldGlowFountain) == 0x0C, field_glow_fountain_size);
 
-extern FieldActor *D_8009D254;
 
 int rand(void);
 int rsin(int angle);

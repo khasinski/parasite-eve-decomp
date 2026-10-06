@@ -1,6 +1,5 @@
-#include "pe1/field_actor.h"
+#include "pe1/player_entity.h"
 
-extern FieldActor *g_PlayerEntity;
 extern FieldActor *g_FieldActorListHead;
 extern FieldActor *g_CurrentEntity;
 
