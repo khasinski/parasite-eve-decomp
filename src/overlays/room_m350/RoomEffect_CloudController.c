@@ -1,4 +1,5 @@
 #include "room_m350_shared.h"
+#include "pe1/room_floor.h"
 typedef RoomM350Vector Vector;
 typedef RoomM350TransformMatrix Matrix;
 typedef RoomM350Action Action;
@@ -15,7 +16,7 @@ extern Actor *D_800F32D0;
 extern Instance *g_PlayerEntity;
 extern unsigned char D_8019A8BE,D_8019A8C0;
 extern short D_8019A89E,D_8019A8B8,D_8019A8BA,D_8019A8BC;
-extern short D_800942EC,D_800966EC[];
+extern short D_800966EC[];
 extern short D_8019A870,D_8019A872,D_8019A874,D_8019A876,D_8019A878,D_8019A87A,D_8019A87C,D_8019A87E,D_8019A880;
 extern int D_8019A884,D_8019A888,D_8019A88C;
 extern int Asset_Find08w(int,int,int,int,int);
@@ -133,14 +134,14 @@ store_speed:
             state->heightPhase=phase;
             sample=*(short *)((char *)D_800966EC+(((unsigned int)phase<<8)&0x3F00));
             height=4096-sample;
-            floor=D_800942EC;
+            floor=g_RoomFloorY->y;
             height=height/8-128;
             height=floor-height;
             instance->position[1]=(unsigned int)height<<16;
         } else if((short)frame>=31) {
             int floor;
             state->mode=2;
-            floor=(unsigned int)D_800942EC<<16;
+            floor=(unsigned int)g_RoomFloorY->y<<16;
             if(floor<instance->position[1]) instance->position[1]=(unsigned int)instance->position[1]-0x100000;
             else instance->position[1]=floor;
         }

@@ -20,6 +20,7 @@
 #include "RoomLib_RenderLayouts.h"
 #include "RoomLib_DrawMotion.h"
 #include "RoomSharedGlobalState.h"
+#include "pe1/room_floor.h"
 
 
 static const RoomFxSeed8 s_MotionQuadSeed = { { 0, 4, 0, 0, 0, 0, 0, 0 } };
@@ -156,7 +157,6 @@ void RoomFx_MotionParticlesAnchor(int a0, int a1, short *out) {
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
 void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, s32 mode);
 
-extern short D_800942EC;
 
 typedef struct RoomLibSpriteQuadStack {
     RoomSpriteMatrix scaleMatrix;
@@ -256,7 +256,7 @@ void RoomFx_DrawAnchoredSpriteQuad(void *unused0, void *unused1,
     func_800C42A4(fx, scaleMatrix, 1);
 
     fx = (char *)g_RoomMotionQuadPacket;
-    floorY = &D_800942EC;
+    floorY = &g_RoomFloorY->y;
     stack.matrix.t[0] = *(int *)(map + 0x134);
     stack.matrix.t[1] = *floorY;
     stack.matrix.t[2] = *(int *)(map + 0x13C);
@@ -315,7 +315,6 @@ void RoomFx_InitSpritePair(void *arg0, void *arg1, char *obj) {
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
 void func_800C4FC4(void *state, RoomSpriteMatrix *matrix, int mode);
 
-extern short D_800942EC;
 
 /* Builds a uniformly scaled rotation from the shared seed and draws the
  * sprite at two map anchors. Retail marks this function handwritten; only
@@ -393,7 +392,7 @@ void RoomFx_DrawAnchoredSpritePair(void *unused0, void *unused1,
     /* Both anchors sit on the shared floor height; the first block stores
      * the height before the x coordinate, which fixes retail's register
      * choice. */
-    floorY = &D_800942EC;
+    floorY = &g_RoomFloorY->y;
     firstX = *(int *)(map + 0x134);
     firstY = *floorY;
     stack.matrix.t[1] = firstY;

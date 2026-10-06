@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/room_floor.h"
 
 typedef struct RoomCaptureContext {
     unsigned char pad00[8];
@@ -6,7 +7,6 @@ typedef struct RoomCaptureContext {
 } RoomCaptureContext;
 
 extern RoomCaptureContext *D_800F32D0;
-extern u16 g_FrameCount16;
 extern s16 D_80192C34;
 extern s16 D_80192C36;
 extern s16 D_80192C38;
@@ -34,7 +34,7 @@ void func_80192A3C(RoomCaptureContext *modeOrContext, int x, int y, int z) {
     sample = *(u16 *)(sample + 0x26a);
     D_80192C36 = sample;
     sample = (unsigned int)modeOrContext->object;
-    modeOrContext = (RoomCaptureContext *)(unsigned int)g_FrameCount16;
+    modeOrContext = (RoomCaptureContext *)(unsigned int)g_RoomFloorY->raw;
     x = *(u16 *)(sample + 0x26c);
     sample = 0x76c;
     D_80192C36 = (unsigned int)modeOrContext;

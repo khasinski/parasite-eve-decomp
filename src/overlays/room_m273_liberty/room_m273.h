@@ -4,6 +4,7 @@
 #include "pe1/render_object.h"
 #include "pe1/field_actor_script_state.h"
 #include "room_m273_effects.h"
+#include "pe1/room_floor.h"
 
 typedef GteShortVector RoomM273Vector;
 
@@ -83,7 +84,6 @@ extern u16 D_800F3376;
 extern u16 D_800F3378;
 extern void *D_8019AE94;
 extern RoomM273PaletteWord D_8019AC30[];
-extern u16 D_800942EC;
 extern char D_8019AB70[];
 extern char D_8019ACC8[];
 extern char D_8019ACCC[];

@@ -24,7 +24,7 @@ int func_8019485C(int mode, RoomOrbitTrailParticle *p) {
             p->heading.z = p->heading.z * 127 / 128;
             fall = (u16)p->heading.y;
             p->heading.y = fall;
-            if (p->y >= D_800942EC.y) {
+            if (p->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 p->heading.y = bounce;
             }
@@ -269,7 +269,7 @@ int func_80194F60(int mode, GteShortVector *anchor) {
             position.x = anchor->x;
             position.y = anchor->y;
             position.z = anchor->z;
-            position.y = D_800942EC.y;
+            position.y = g_RoomFloorY->y;
             func_800CF3AC(D_80199388, &shade, D_800E27EC);
             func_800D0728(&position, 600, 900, 0x14, &spin, size, size, 0, &shade,
                           glow / 2, 1);

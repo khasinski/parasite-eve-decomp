@@ -242,7 +242,7 @@ int RoomEffect_OrbitFlareController(int mode, RoomOrbitFlareState *state,
             floorSpin.flags = 1;
             floorPos.x = state->x;
             floorPos.z = state->z;
-            floorPos.y = D_800942EC.count;
+            floorPos.y = g_RoomFloorY->y;
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;
@@ -276,7 +276,7 @@ int RoomEffect_OrbitFlareController(int mode, RoomOrbitFlareState *state,
             floorSpin2.flags = 1;
             floorPos2.x = state->x;
             floorPos2.z = state->z;
-            floorPos2.y = D_800942EC.count;
+            floorPos2.y = g_RoomFloorY->y;
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;

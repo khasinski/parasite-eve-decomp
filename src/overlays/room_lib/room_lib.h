@@ -10,6 +10,7 @@
 #include "../../../include/pe1/room_particle_state.h"
 #include "../../../include/pe1/render_object.h"
 #include "../../../include/pe1/field_sprite_state.h"
+#include "pe1/room_floor.h"
 
 typedef struct RoomObj {
     char pad0[0xC];
@@ -819,7 +820,6 @@ typedef struct RoomSlotRec {
     int wC;
 } RoomSlotRec;
 
-extern unsigned short g_FrameCount16;
 
 /* The room's slot table (RoomLib_SlotSet.c), named in each room's symbol
  * file. */
@@ -1067,7 +1067,6 @@ extern void func_800C42A4(void *packet, RoomSpriteMatrix *matrix, s32 mode);
 #include "pe1/gte_types.h"
 extern int func_80071A54(void);
 
-extern short D_800942EC;
 
 #define ROOMLIB_REGISTER_TABLE_AT3(name, table) \
     int name(void *o) { \

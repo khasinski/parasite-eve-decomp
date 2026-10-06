@@ -5,6 +5,7 @@
 #include "pe1/field_actor.h"
 #include "pe1/overlay_math.h"
 #include "pe1/random.h"
+#include "pe1/room_floor.h"
 
 /* Full callback reconstruction; source-level register constraints are tracked
  * in crutch debt because stock GCC needs them to reproduce the retail code. */
@@ -34,7 +35,7 @@ int func_800CFE94(s16 *from, s16 *to);
 void func_800CFD50(u16 *from, u16 *to, u16 speed);
 int func_800C6B90(s16 *position, int extraRadius);
 
-extern s16 D_800942EC, D_800F3376, D_800F3378;
+extern s16 D_800F3376, D_800F3378;
 extern RenderColor D_8018F218;
 /* Not declared in production headers; parameter order inferred from both
  * call sites and the ABI. The eighth argument is zero at both sites. */
@@ -125,7 +126,7 @@ int func_8019549C(int mode, SceneE19HomingParticle *particle)
         particle->position.z += temporaryPosition.z;
 
         if (func_800C6B90(&particle->position.x, 190) &&
-            particle->position.y > D_800942EC - 514) {
+            particle->position.y > g_RoomFloorY->y - 514) {
             if (D_800E2368->flags &&
                 (D_800F32D0->actor->state->core_flags & 0x3F000000)
                     == 0x01000000) {
@@ -139,8 +140,8 @@ int func_8019549C(int mode, SceneE19HomingParticle *particle)
             particle->timer = 0;
         }
 
-        if (particle->position.y >= D_800942EC) {
-            particle->position.y = D_800942EC;
+        if (particle->position.y >= g_RoomFloorY->y) {
+            particle->position.y = g_RoomFloorY->y;
             particle->state = 2;
             particle->timer = 0;
         }
@@ -275,7 +276,7 @@ asm("" : : "r"(divider));
         floor_rotation.z = floorTimer << 5;
         floor_rotation.flags = 1;
         floor_position.x = particle->position.x;
-        floorY = D_800942EC;
+        floorY = g_RoomFloorY->y;
         sum = (u16)particle->position.z;
 
         floor_position.y = floorY;

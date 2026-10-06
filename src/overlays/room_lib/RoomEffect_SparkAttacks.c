@@ -79,7 +79,7 @@ int RoomEffect_BurstOrbParticle(int mode, RoomDampedSpark *spark) {
             spark->x += (func_80071A54() & 0x1F) - 0x10;
             spark->y += (func_80071A54() & 0x1F) - 0x10;
             spark->z += (func_80071A54() & 0x1F) - 0x10;
-            if (spark->y >= (s16)g_FrameCount16.count) {
+            if (spark->y >= (s16)g_RoomFloorY->raw) {
                 spark->state = 1;
                 spark->timer = 0;
                 for (i = 0; i < 8; i++) {
@@ -178,7 +178,7 @@ int RoomEffect_BurstOrbParticle(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 127 / 128;
             fall = (u16)spark->vy - 1;
             spark->vy = fall;
-            if (spark->y >= (s16)g_FrameCount16.count) {
+            if (spark->y >= (s16)g_RoomFloorY->raw) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -193,7 +193,7 @@ int RoomEffect_BurstOrbParticle(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 511 / 512;
             fall = (u16)spark->vy - 3;
             spark->vy = fall;
-            if (spark->y >= (s16)g_FrameCount16.count) {
+            if (spark->y >= (s16)g_RoomFloorY->raw) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -207,7 +207,7 @@ int RoomEffect_BurstOrbParticle(int mode, RoomDampedSpark *spark) {
             spark->vx = spark->vx * 61 / 62;
             spark->vz = spark->vz * 61 / 62;
             spark->vy += 4;
-            if (spark->y >= (s16)g_FrameCount16.count) {
+            if (spark->y >= (s16)g_RoomFloorY->raw) {
                 bounce = -spark->vy;
                 spark->vy = bounce;
             }
@@ -249,7 +249,7 @@ int RoomEffect_BurstOrbParticle(int mode, RoomDampedSpark *spark) {
             shadowRotation.flags = 1;
             shadow.x = spark->x;
             shadow.z = spark->z;
-            shadow.y = g_FrameCount16.count;
+            shadow.y = g_RoomFloorY->raw;
             {
                 u16 clut;
                 int kind;
@@ -476,7 +476,7 @@ int RoomEffect_DampedSparkParticle(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 31 / 32;
             fall = (u16)spark->vy - 1;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -491,7 +491,7 @@ int RoomEffect_DampedSparkParticle(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 511 / 512;
             fall = (u16)spark->vy - 2;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -697,7 +697,7 @@ int RoomEffect_BeamSparkController(int mode, RoomBeamSpark *fx,
         fx->tx = params->x;
         fx->ty = params->y;
         fx->tz = params->z;
-        fx->ty = g_FrameCount16.count;
+        fx->ty = g_RoomFloorY->raw;
         g_RoomBeamSparkAsset = func_8006E498(D_800B0E64_slot.channel, 0xC5485704);
         func_800C6D5C(g_RoomBeamSparkAsset, 0, 0);
         handle = func_800D3FD8();
@@ -927,7 +927,7 @@ int RoomEffect_JitterSparkParticle(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 127 / 128;
             fall = (u16)spark->vy;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -946,7 +946,7 @@ int RoomEffect_JitterSparkParticle(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 63 / 64;
             fall = (u16)spark->vy;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -1052,7 +1052,7 @@ int RoomEffect_JitterSparkController(int mode, GteShortVector *target,
         target->x = params->x;
         target->y = params->y;
         target->z = params->z;
-        target->y = g_FrameCount16.count;
+        target->y = g_RoomFloorY->raw;
         return func_800CE560(D_800F33E0->pool, 20, 60, RoomEffect_JitterSparkParticle);
     case 1:
         radius = params->radius;

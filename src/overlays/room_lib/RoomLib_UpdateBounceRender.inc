@@ -75,7 +75,7 @@ updateBounce:
         y = fx->y;
         nextVy = rawVy - ROOMLIB_BOUNCE_GRAVITY;
         fx->vy = nextVy;
-        if (y >= D_800942EC.count) {
+        if (y >= g_RoomFloorY->y) {
             int bounce;
 
             bounce = (nextVy << 16) >> 16;
@@ -92,8 +92,8 @@ updateRise:
         fx->timer++;
         fx->y += fx->vy;
         fx->vy += fx->ay;
-        if (fx->y >= D_800942EC.count) {
-            fx->y = D_800942EC.count;
+        if (fx->y >= g_RoomFloorY->y) {
+            fx->y = g_RoomFloorY->y;
         }
         if (fx->timer < 32) {
             goto ret0;

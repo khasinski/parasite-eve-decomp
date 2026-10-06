@@ -26,7 +26,7 @@ int Memcard_RisingEmberParticle(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 127 / 128;
             fall = (u16)spark->vy - 1;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -112,7 +112,7 @@ int Memcard_RisingEmberParticle(int mode, RoomDampedSpark *spark) {
             tilt.flags = 1;
             position.x = spark->x;
             position.z = spark->z;
-            position.y = D_800942EC.count;
+            position.y = g_RoomFloorY->y;
             kind = D_800F336C;
             palette = D_800E1204[kind];
             func_800CEE20(&position, &tilt, size * 3, size * 3, 68,

@@ -5,6 +5,7 @@
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_prim.h"
+#include "pe1/room_floor.h"
 
 /* room_m256 scatter drop (func_80192844): a falling drop that jitters,
  * sheds three kinds of splash children, flashes the scene when it reaches
@@ -85,13 +86,6 @@ extern RoomM256DropRotation D_8018F1CC;
 extern RoomM256DropColor D_8018F1D4;
 extern u16 D_800E1204[];
 extern int D_800F3428;
-/* The floor height read as a one-field record so the loads stay below the
- * particle stores, as retail has them. */
-typedef struct RoomM256DropFloor {
-    s16 y;
-} RoomM256DropFloor;
-
-extern RoomM256DropFloor D_800942EC;
 extern int D_8009D248;
 extern u16 D_8009D1CC;
 

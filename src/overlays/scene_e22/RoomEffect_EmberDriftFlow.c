@@ -25,7 +25,7 @@ int func_80193940(int mode, RoomOrbitTrailParticle *p) {
             p->heading.z = p->heading.z * 31 / 32;
             fall = (u16)p->heading.y;
             p->heading.y = fall;
-            if (p->y >= D_800942EC.y) {
+            if (p->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 p->heading.y = bounce;
             }
@@ -40,7 +40,7 @@ int func_80193940(int mode, RoomOrbitTrailParticle *p) {
             p->heading.z = p->heading.z * 127 / 128;
             fall = (u16)p->heading.y - 1;
             p->heading.y = fall;
-            if (p->y >= D_800942EC.y) {
+            if (p->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 p->heading.y = bounce;
             }
@@ -160,7 +160,7 @@ int func_8019408C(int mode, SceneE22EmberBurst *burst) {
         burst->glow = 0;
         func_800D3F64(0x5DB, func_800D3FD8());
         func_800CE870((char *)RoomMain_ActorPtr, 1, (s16 *)burst);
-        burst->y = D_800942EC.y;
+        burst->y = g_RoomFloorY->y;
         if (D_800E2368->active) {
             pool = D_800F32D0->pool;
             if (pool != 0 && pool->object != 0) {

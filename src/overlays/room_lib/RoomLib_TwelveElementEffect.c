@@ -12,6 +12,7 @@
 #include "pe1/room_fx.h"
 #include "pe1/field_script_context.h"
 #include "room_lib.h"
+#include "pe1/room_floor.h"
 
 /* Seeds copied into the stack frames; file-scope so the all-zero rotation
  * stays a rodata copy. */
@@ -198,7 +199,6 @@ int func_800C61A8(s16 *point, RoomSpriteMatrix *matrix);
 extern int D_8009D248;
 extern u16 D_8009D1CC;
 extern char *D_8009D254;
-extern s16 D_800942EC;
 
 /* Retail marks this function handwritten; only its COP2 windows remain ASM. */
 void RoomLib_DrawTwelveElementEffect(void *unused0, void *unused1,
@@ -292,7 +292,7 @@ void RoomLib_DrawTwelveElementEffect(void *unused0, void *unused1,
 
             func_800C42A4((unsigned char *)&RoomLib_TwelveEffectPrimaryPacket,
                           primaryMatrix, 0);
-            stack.secondaryMatrix.t[1] = D_800942EC;
+            stack.secondaryMatrix.t[1] = g_RoomFloorY->y;
             secondPacket = (unsigned char *)&RoomLib_TwelveEffectSecondaryPacket;
             func_800C3134(RoomLib_TwelveEffectTable,
                           *(s8 *)(element + 0x38), secondPacket);

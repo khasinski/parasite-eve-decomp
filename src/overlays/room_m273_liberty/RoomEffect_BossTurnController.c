@@ -14,7 +14,7 @@ int func_80196348(int mode) {
         D_8019AE9C.hit_flag = 0;
         D_8019AE9C.spin = 0;
         D_8019AE9C.tick = 0;
-        D_8019AE9C.floor = D_800942EC.value - 0x200;
+        D_8019AE9C.floor = g_RoomFloorY->raw - 0x200;
         D_8019AE9C.base_height = instance->height;
     } else if (mode == 1) {
         hand = D_8019AE9C.hands;

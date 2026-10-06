@@ -47,7 +47,7 @@ int func_800DA934(int mode, GteShortVector *state)
         state->x = D_800F32D0->actor->render_object.target_x;
         state->y = D_800F32D0->actor->render_object.target_y;
         state->z = D_800F32D0->actor->render_object.target_z;
-        state->y = D_800942EC.value;
+        state->y = g_RoomFloorY->y;
         return func_800CE560(D_800F33E0->end, 8, 12,
                              (FieldEffectCallback)func_800DA780);
     case 1:

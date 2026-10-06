@@ -106,6 +106,7 @@ MemCard_CloseAll = 0x80042798; // type:func
 Field_GetMapEntry = 0x8003CEF8; // type:func
 Field_HandleStateTransition = 0x8003EB04; // type:func
 g_MapIdTable = 0x800917E4; // type:label
+g_RoomFloorY = 0x800942EC;
 MenuWidget_FindByFieldValue = 0x800629BC; // type:func
 MenuWidget_FindByModeAndSelectedBase = 0x80062A34; // type:func
 MenuWidget_SetCurrentNode = 0x80062CB8; // type:func

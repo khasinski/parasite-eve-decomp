@@ -16,7 +16,7 @@ int func_80192A7C(int mode, RoomFanSweep *sweep, RoomEmberBurstParams *params) {
     case 0:
         sweep->angle = func_80071A54();
         RoomEffect_AttachToActor(params->subId, params->typeId, sweep);
-        sweep->y = D_800942EC.y;
+        sweep->y = g_RoomFloorY->y;
         func_800D3F64(0x5F3, func_800D3FD8());
         func_800D3F64(0x5F4, 0x80);
         handles = func_800CE560(D_800F33E0->pool, 0x10, 0x18, func_80192718);

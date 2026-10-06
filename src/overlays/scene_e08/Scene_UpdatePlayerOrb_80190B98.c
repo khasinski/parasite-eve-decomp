@@ -45,13 +45,13 @@ void func_80190B98(void *object, ScenePlayerOrbTimer *timer, ScenePlayerOrb *orb
     orb->trailA[1].y = (orb->trailA[0].y + orb->trailA[2].y) >> 1;
     orb->trailA[1].z = (orb->trailA[0].z + orb->trailA[2].z) >> 1;
     orb->trailB[0].x = orb->trailA[0].x;
-    orb->trailB[0].y = D_800942EC.value;
+    orb->trailB[0].y = g_RoomFloorY->y;
     orb->trailB[0].z = orb->trailA[0].z;
     orb->trailB[1].x = orb->trailA[1].x;
-    orb->trailB[1].y = D_800942EC.value;
+    orb->trailB[1].y = g_RoomFloorY->y;
     orb->trailB[1].z = orb->trailA[1].z;
     orb->trailB[2].x = orb->trailA[2].x;
-    orb->trailB[2].y = D_800942EC.value;
+    orb->trailB[2].y = g_RoomFloorY->y;
     orb->trailB[2].z = orb->trailA[2].z;
     for (i = 0; i < 8; i++) {
         orb->points[i].x = orb->trailA[2].x - (step.x << 2) + func_80071A54() % 100 - 50;

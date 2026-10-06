@@ -98,7 +98,7 @@ int func_80196CCC(int mode, SceneSpinRayBurst *burst)
         flat.flags = 1;
         floor.x = position.x;
         floor.z = position.z;
-        floor.y = D_800942EC.count;
+        floor.y = g_RoomFloorY->raw;
         {
             int kind;
             int palette;

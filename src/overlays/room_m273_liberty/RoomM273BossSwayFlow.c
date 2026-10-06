@@ -24,7 +24,7 @@ int func_80197BBC(int mode) {
         D_8019AF04.step = 0;
         D_8019AF04.count = 0;
         D_8019AF04.hit.pad = 0;
-        D_8019AF04.floor = D_800942EC.value - 0x180;
+        D_8019AF04.floor = g_RoomFloorY->raw - 0x180;
         instance->owner->flags |= 0x40000000;
     } else if (mode == 1) {
         if (*instance->owner->status == 1) *instance->owner->status = 2;
@@ -133,7 +133,7 @@ int func_801981A4(int mode, RoomM273SwayShard *shard) {
 
     if (mode == 1) {
         if (shard->state == 0 && D_8019AF74.cooldown == 0 &&
-            shard->position.y > (s16)D_800942EC.value - 0x240) {
+            shard->position.y > (s16)g_RoomFloorY->raw - 0x240) {
             s16 dx = g_PlayerEntity->position[0] - shard->position.x;
             s16 dz = g_PlayerEntity->position[2] - shard->position.z;
             if ((s16)Math_IntSqrt(dx * dx + dz * dz) < 0x80) {
@@ -154,7 +154,7 @@ int func_801981A4(int mode, RoomM273SwayShard *shard) {
         shard->position.x += shard->velocity.x;
         shard->position.y += shard->velocity.y;
         shard->position.z += shard->velocity.z;
-        if (shard->position.y >= (s16)D_800942EC.value) {
+        if (shard->position.y >= (s16)g_RoomFloorY->raw) {
             D_8019AF74.hits[shard->side].x = shard->position.x;
             D_8019AF74.hits[shard->side].y = shard->position.y;
             D_8019AF74.hits[shard->side].z = shard->position.z;
@@ -202,7 +202,7 @@ int func_801981A4(int mode, RoomM273SwayShard *shard) {
         spin.z = D_800E27EC << 8;
         func_800D004C(&position, 0x100, 0x100, 8, &spin, 0x1000, 0x1000, &D_8019AE08,
                       (RenderColor *)D_8019AB70, 0x80, 1);
-        position.y = D_800942EC.value;
+        position.y = g_RoomFloorY->raw;
         func_800D004C(&position, 0xC0, 0xC0, 8, 0, 0x1000, 0x1000, &D_8019AE0C,
                       (RenderColor *)D_8019AB70, 0x80, 1);
     }

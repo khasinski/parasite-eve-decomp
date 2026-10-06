@@ -83,10 +83,10 @@ int RoomEffect_PhasedSparkParticle(int mode, RoomPhasedSpark *spark) {
             case 1:
                 spark->timer++;
                 spark->y += 0x6E;
-                if (spark->y >= D_800942EC.count) {
+                if (spark->y >= g_RoomFloorY->y) {
                     spark->state = 1;
                     spark->timer = 0;
-                    spark->y = D_800942EC.count;
+                    spark->y = g_RoomFloorY->y;
                 }
                 break;
             }
@@ -116,7 +116,7 @@ int RoomEffect_PhasedSparkParticle(int mode, RoomPhasedSpark *spark) {
                 }
             }
             if (func_800C6B90(spark, 0x6E) == 0) break;
-            if (spark->y < D_800942EC.count - 0x202) break;
+            if (spark->y < g_RoomFloorY->y - 0x202) break;
             if (D_800E2368->active == 0) break;
             ROOMEFFECT_SPARK_BARRAGE_FLASH();
             break;
@@ -191,7 +191,7 @@ int RoomEffect_PhasedSparkParticle(int mode, RoomPhasedSpark *spark) {
             floorSpin.flags = 1;
             floorPos.x = spark->x;
             floorPos.z = spark->z;
-            floorPos.y = D_800942EC.count;
+            floorPos.y = g_RoomFloorY->y;
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;
@@ -349,7 +349,7 @@ int RoomEffect_BouncingSparkParticle(int mode, RoomDampedSpark *spark) {
             spark->vx = spark->vx * 31 / 32;
             spark->vz = spark->vz * 31 / 32;
             spark->vy += 3;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 spark->state = 2;
             }
             if ((s16)spark->timer < 16) break;
@@ -604,7 +604,7 @@ int RoomEffect_WaveSparkParticle(int mode, RoomPhasedSpark *spark) {
                 floorSpin.flags = 1;
                 floorPos.x = position.x;
                 floorPos.z = position.z;
-                floorPos.y = D_800942EC.count;
+                floorPos.y = g_RoomFloorY->y;
                 kind = D_800F3368.palette;
                 palette = D_800E1204[kind];
                 if (kind == 4 && D_800F3428 != 0) palette += 4;
@@ -745,7 +745,7 @@ int RoomEffect_CometSparkParticle(int mode, RoomCometSpark *spark) {
             spark->vz = spark->vz * 31 / 32;
             fall = (u16)spark->vy + 2;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -788,7 +788,7 @@ int RoomEffect_CometSparkParticle(int mode, RoomCometSpark *spark) {
                 floorSpin.flags = 1;
                 floorPos.x = spark->x;
                 floorPos.z = spark->z;
-                floorPos.y = D_800942EC.count;
+                floorPos.y = g_RoomFloorY->y;
                 kind = D_800F3368.palette;
                 palette = D_800E1204[kind];
                 clut = func_80077AA4(0, (kind == 4 && D_800F3428 != 0) ? palette + 6
@@ -908,7 +908,7 @@ int RoomEffect_CometSparkController(int mode, RoomCometSparkAnchor *anchor) {
             origin.x += anchor->x;
             origin.y += anchor->y;
             origin.z += anchor->z;
-            origin.y = D_800942EC.count;
+            origin.y = g_RoomFloorY->y;
             child = func_800CE610(D_800F33E0->pool);
             if (child) {
                 child->vx = origin.x;
@@ -971,7 +971,7 @@ int RoomEffect_LiftedSparkParticle(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 127 / 128;
             fall = (u16)spark->vy + 5;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -986,7 +986,7 @@ int RoomEffect_LiftedSparkParticle(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 255 / 256;
             fall = (u16)spark->vy + 2;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }

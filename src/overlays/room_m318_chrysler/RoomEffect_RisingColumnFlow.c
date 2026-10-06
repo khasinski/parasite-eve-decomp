@@ -28,7 +28,7 @@ int func_80195190(int mode, RoomOrbitTrailParticle *p) {
             p->heading.z = p->heading.z * 127 / 128;
             fall = (u16)p->heading.y + 1;
             p->heading.y = fall;
-            if (p->y >= D_800942EC.y) {
+            if (p->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 p->heading.y = bounce;
             }
@@ -112,7 +112,7 @@ int func_801955E4(int mode, RoomRisingColumn *column,
     case 1:
         column->timer++;
         func_800CE870((char *)D_800F32D0->pool, 0, (s16 *)column);
-        column->y = D_800942EC.y - params->offset;
+        column->y = g_RoomFloorY->y - params->offset;
         rise = params->height * column->timer / params->duration;
         if (params->descend)
             column->y -= rise;

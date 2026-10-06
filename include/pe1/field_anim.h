@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/field_anim_callback_list.h"
 #include "pe1/gte_types.h"
+#include "pe1/room_floor.h"
 
 /* Twelve-byte parameter blocks used by the burst render callbacks.
  * Byte 3 and halfword 6 are not written by setup. */
@@ -144,7 +145,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldAnimTaskOwner, tasks.table) == 0x8C,
 int func_800D4704(FieldAnimTaskOwner *owner);
 extern FieldAnimObjectPrefix *D_800F32D0;
 extern s16 D_800E2214[3];
-extern s16 D_800942EC;
 int func_800DA5D4(int mode, FieldAnimEmitter *state);
 
 extern u8 *D_800F32D8;

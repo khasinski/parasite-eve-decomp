@@ -43,7 +43,7 @@ int func_8018F028(int mode, SceneE20Particle *p)
             p->velocity.z = p->velocity.z * 59 / 60;
             fall = (u16)p->velocity.y + 1;
             p->velocity.y = fall;
-            if (p->position.y >= D_800942EC.height) {
+            if (p->position.y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 p->velocity.y = bounce;
             }

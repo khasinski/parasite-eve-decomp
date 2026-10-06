@@ -112,7 +112,7 @@ void RoomFx_InitOrbitParticles(void *unused, void *unused2, RoomOrbitParticleSta
         int angle;
 
         *(u16 *)&particle->position.x = *(s32 *)(clock + 0x18);
-        particle->position.y = (u16)D_800942EC;
+        particle->position.y = (u16)g_RoomFloorY->y;
         particle->position.z = *(s32 *)(clock + 0x20);
 
         angle = func_80071A54() % 0x1000;
@@ -245,7 +245,7 @@ void RoomFx_InitOrbitBurst(
     particle = (short *)state;
     while (i < 8) {
         particle[0] = view->baseX;
-        particle[1] = D_800942EC;
+        particle[1] = g_RoomFloorY->y;
         particle[2] = view->baseZ;
         particle[0x20] = func_80071A54() % 0x2000 - 0x1000;
         particle[0x22] = func_80071A54() % 0x2000 - 0x1000;
@@ -305,7 +305,7 @@ void RoomFx_DrawOrbitBurst(
             func_800C42A4(configA - 4, &matrix, 1);
 
             matrix.t[0] = position->x;
-            matrix.t[1] = D_800942EC;
+            matrix.t[1] = g_RoomFloorY->y;
             matrix.t[2] = position->z;
             *configB = state->frame[i] * 2 + 0x20;
             func_800C42A4(configB - 4, &matrix, 0);
@@ -341,7 +341,7 @@ void RoomFx_UpdateOrbitBurst(
             *(unsigned short *)(particle + 0x42) += 0x190;
             *(unsigned short *)(particle + 0x84) +=
                 func_80071A54() % 0x200;
-            if (*(short *)(particle + 2) > D_800942EC) {
+            if (*(short *)(particle + 2) > g_RoomFloorY->y) {
                 state->count--;
                 state->active[i] = 0;
             }
@@ -398,7 +398,7 @@ void RoomFx_InitOrbitSprite(
 
     state->x = position[0] + view->baseX;
     PE1_COMPILER_MEMORY_BARRIER();
-    state->y = D_800942EC;
+    state->y = g_RoomFloorY->y;
     state->z = position[2] + view->baseZ;
     state->depth = 0x80;
     state->scale = 0x800;

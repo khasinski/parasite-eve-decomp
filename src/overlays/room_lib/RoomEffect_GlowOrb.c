@@ -85,7 +85,7 @@ void RoomEffect_GlowOrbInit(void *object, void *slot, RoomGlowOrb *orb) {
     ApplyMatrixSV(&base, &orb->offset, &orb->offset);
     orb->matrix = g_RoomGlowOrbAxes;
     orb->x = g_RoomGlowOrbOrigin.t[0];
-    orb->y = D_800942EC.count - 0x100;
+    orb->y = g_RoomFloorY->y - 0x100;
     orb->z = g_RoomGlowOrbOrigin.t[2];
     orb->size = 0x80;
     orb->h10 = 0;
@@ -202,7 +202,7 @@ void RoomEffect_GlowOrbUpdate(void *owner, RoomFallingParticleControl *control,
             spawn = func_800C2B90(owner, 3, g_RoomSpawnLayout, g_RoomInitList);
             if (spawn != 0) {
                 spawn[4] = state->x;
-                spawn[5] = D_800942EC.count;
+                spawn[5] = g_RoomFloorY->y;
                 spawn[6] = state->z;
             }
         }

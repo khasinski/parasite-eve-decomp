@@ -2,6 +2,7 @@
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 #include "pe1/room_sound_slot.h"
+#include "pe1/room_floor.h"
 
 extern GteShortVector D_8018F1F0;
 extern GteMatrix *D_800BCFA4;
@@ -60,11 +61,6 @@ typedef struct RoomPulseGlobal {
 extern RoomPulseGlobal **D_8009D254;
 extern u8 *D_800E2368;
 extern int D_800E27EC;
-/* Frame counter read as a one-field record so the copy stores stay ahead. */
-typedef struct RoomM123FrameCounter {
-    u16 count;
-} RoomM123FrameCounter;
-extern RoomM123FrameCounter D_800942EC;
 extern u16 D_800E11EA, D_800E2850[];
 /* The sprite parameter block at 0x800F3368 (RenderEffectParameters in
  * pe1/render_object.h, whose prototypes conflict with this unit's). */
@@ -127,7 +123,7 @@ int func_80194C04(int mode, RoomPulseParticle *particle)
                 next->x = particle->z;
                 next->y = particle->pad;
                 next->z = particle->state;
-                next->y = D_800942EC.count;
+                next->y = g_RoomFloorY->raw;
                 next->state = 0;
                 next->frame = 0;
             }

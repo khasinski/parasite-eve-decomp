@@ -47,7 +47,7 @@ int func_80193B60(int mode, GteShortVector *state)
     switch (mode) {
     case 0:
         func_800CE870((char *)D_8009D254, 1, &state->x);
-        state->y = D_800942EC;
+        state->y = g_RoomFloorY->y;
         return func_800CE560(D_800F33E0->end, 8, 12, (FieldAnimTaskCallback)func_801939AC);
     case 1:
         if (D_800E27EC < 40 && (D_800E27EC & 1)) {

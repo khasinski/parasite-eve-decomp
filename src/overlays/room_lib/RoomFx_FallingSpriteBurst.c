@@ -241,7 +241,7 @@ void RoomFx_DrawFallingSprite(void *unused0, void *unused1,
     ScaleMatrix(&matrix, &scale);
     func_800C3238(2);
     matrix.t[0] = fx->x;
-    matrix.t[1] = g_FrameCount16.height;
+    matrix.t[1] = g_RoomFloorY->y;
     matrix.t[2] = fx->z;
     func_800C42A4(&g_RoomFallingBurstShadow, &matrix, 1);
 }
@@ -274,7 +274,7 @@ void RoomFx_UpdateFallingSprite(void *entity, RoomFallingBurstControl *control,
     unsigned int i;
     int belowFloor;
 
-    belowFloor = (short)effect->y < g_FrameCount16.height;
+    belowFloor = (short)effect->y < g_RoomFloorY->y;
     state = effect;
     if (!belowFloor) {
         if ((short)effect->scale >= 0x15) {
@@ -292,7 +292,7 @@ void RoomFx_UpdateFallingSprite(void *entity, RoomFallingBurstControl *control,
                     g_RoomInitList);
                 if (shimmer != 0) {
                     shimmer->x = state->x;
-                    shimmer->y = g_FrameCount16.height;
+                    shimmer->y = g_RoomFloorY->y;
                     shimmer->z = state->z;
                 }
             }
@@ -303,7 +303,7 @@ void RoomFx_UpdateFallingSprite(void *entity, RoomFallingBurstControl *control,
                     g_RoomInitList);
                 if (pulse != 0) {
                     pulse->x = state->x;
-                    pulse->y = g_FrameCount16.height;
+                    pulse->y = g_RoomFloorY->y;
                     pulse->z = state->z;
                 }
             }
@@ -313,7 +313,7 @@ void RoomFx_UpdateFallingSprite(void *entity, RoomFallingBurstControl *control,
                 g_RoomInitList);
             if (burst != 0) {
                 i = 0;
-                frame = (unsigned short *)&g_FrameCount16;
+                frame = &g_RoomFloorY->raw;
                 do {
                     burst->position[i].x = state->x;
                     burst->position[i].y = *frame;
@@ -499,7 +499,7 @@ void RoomFx_DrawImpactParticles(int unused, void *state,
             g_RoomFallingBurstParticle.depth = fx->depth[i];
             func_800C42A4(&g_RoomFallingBurstParticle, &fx->matrix, 1);
             g_RoomFallingBurstParticle.depth = (short)fx->depth[i] >> 2;
-            fx->matrix.t[1] = g_FrameCount16.height;
+            fx->matrix.t[1] = g_RoomFloorY->y;
             func_800C42A4(&g_RoomFallingBurstParticle, &fx->matrix, 1);
         }
     }
@@ -521,7 +521,7 @@ void RoomFx_UpdateImpactParticles(int a, unsigned char *st,
             sys->position[i].x += vx;
             sys->position[i].y = sys->position[i].y + vy;
             sys->position[i].z += vz;
-            gp = (unsigned short *)&g_FrameCount16;
+            gp = &g_RoomFloorY->raw;
             sys->velocity[i].y += grav;
             if ((short)sys->position[i].y >= (short)*gp) {
                 short r;

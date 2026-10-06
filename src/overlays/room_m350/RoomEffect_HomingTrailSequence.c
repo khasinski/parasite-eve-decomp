@@ -1,12 +1,12 @@
 #include "pe1/gte.h"
 #include "pe1/room_m350_effects.h"
 #include "pe1/render_object.h"
+#include "pe1/room_floor.h"
 /* Moving effect with collision, queued trail positions and ground rendering. */
 extern RoomM350EffectActor *D_800F32D0;
 extern RoomM350EffectInstance *g_PlayerEntity;
 extern int D_800E27EC,D_800966EC[];
 extern short D_800966EE[],D_8019A7FE,D_8019A800,D_8019A802;
-extern unsigned short D_800942EC;
 extern GteRotation D_8019A3C0;
 extern RenderColor D_8019A4E4,D_8019A3C8;
 extern int FieldEng_VecToAngle(void *,void *),FieldEng_TurnToward(int,int,int);
@@ -107,7 +107,7 @@ int func_801947BC(int event,RoomM350Particle *p)
         if(D_800F336C==4 && D_800F3428) palette+=4;
         clut=GetClut(32,palette);
         func_800CEE20(&p->position,0,4096,4096,108,(unsigned short)clut,1,p->tail.value.active.brightness,0);
-        ground.x=p->position.x; ground.y=D_800942EC; ground.z=p->position.z;
+        ground.x=p->position.x; ground.y=g_RoomFloorY->raw; ground.z=p->position.z;
         func_800D004C(&ground,192,192,8,&D_8019A3C0,4096,4096,&D_8019A4E4,&D_8019A3C8,p->tail.value.active.brightness,1);
     }
     return 0;

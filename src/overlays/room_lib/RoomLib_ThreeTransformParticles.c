@@ -13,10 +13,10 @@
 #include "pe1/room_effect_state.h"
 #include "pe1/field_script_context.h"
 #include "pe1/gte_short_vector.h"
+#include "pe1/room_floor.h"
 
 extern void func_800C2B40(void *arg0);
 extern void *func_8006DC18(int type);
-extern s16 D_800942EC;
 
 int *func_800C2B28(int index);
 
@@ -365,7 +365,7 @@ void RoomLib_DrawThreeTransformParticles(void *unused, s16 *args, char *state) {
                 stack.floorScale = stack.sourceFloorScale;
                 ScaleMatrix(secondaryMatrix, &stack.floorScale);
                 computedScale = *(s16 *)(positionCursor + 0x3E);
-                baseScale = D_800942EC;
+                baseScale = g_RoomFloorY->y;
                                 arg0 = (void *)0x20;
                 stack.secondaryMatrix.t[0] = computedScale;
                 stack.secondaryMatrix.t[1] = baseScale;

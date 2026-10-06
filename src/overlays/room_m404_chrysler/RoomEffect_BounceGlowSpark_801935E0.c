@@ -26,10 +26,10 @@ int func_801935E0(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 255 / 256;
             fall = (u16)spark->vy + 1;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
-                if (spark->y >= D_800942EC.count) {
+                if (spark->y >= g_RoomFloorY->y) {
                     spark->vy = (s16)bounce / 4;
                 }
             }
@@ -46,7 +46,7 @@ int func_801935E0(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 127 / 128;
             fall = (u16)spark->vy + 2;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 int rebound = -(s16)fall;
                 spark->vy = rebound;
             }

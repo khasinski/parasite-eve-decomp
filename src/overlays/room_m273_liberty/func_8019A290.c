@@ -16,7 +16,7 @@ int func_8019A290(int mode, RoomM273PhaseState *state) {
         entry = &D_800966EC[((frame << 8) & 0x3F00) >> 2];
         size = (s16)(entry->low * 2 + 2048);
         position.x = state->source[0];
-        position.y = D_800942EC;
+        position.y = g_RoomFloorY->raw;
         position.z = state->source[2];
         func_800D004C(&position, 192, 192, 10,
                        D_8019ACCC + ((frame & 1) << 3), size, size,

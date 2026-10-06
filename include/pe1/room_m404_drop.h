@@ -5,6 +5,7 @@
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_prim.h"
+#include "pe1/room_floor.h"
 
 /* room_m404 sinking drop (func_80192540): a drop that sinks and jitters,
  * spreads on the floor and sheds splash children, a lingering pool that
@@ -89,13 +90,6 @@ extern u8 D_80193EFC[];
 extern u16 D_800E1204[];
 extern int D_800F3428;
 extern int D_800E27EC;
-/* The floor height read as a one-field record so the loads stay below the
- * particle stores, as retail has them. */
-typedef struct RoomM404DropFloor {
-    s16 y;
-} RoomM404DropFloor;
-
-extern RoomM404DropFloor D_800942EC;
 extern int D_8009D248;
 extern u16 D_8009D1CC;
 

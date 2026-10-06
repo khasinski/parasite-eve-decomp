@@ -204,7 +204,7 @@ int RoomEffect_HomingProjectile(int mode) {
                         RoomHomingModelSpark *spark = func_800CE610(D_800F33E0->pool);
                         if (spark != 0) {
                             spark->x = model->position[0].part.integer;
-                            spark->y = D_800942EC.count;
+                            spark->y = g_RoomFloorY->raw;
                             spark->z = model->position[2].part.integer;
                         }
                     }
@@ -322,7 +322,7 @@ int RoomEffect_HomingProjectileThrow(int mode, RoomHomingModel *model) {
         int floor;
         D_800E2368->model = model;
         actor->core->flags |= 0x40000000;
-        floor = D_800942EC.height;
+        floor = g_RoomFloorY->y;
         model->matrixIndex = 0x1A;
         model->finished = 0;
         model->escaped = 0;

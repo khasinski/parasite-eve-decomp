@@ -70,7 +70,7 @@ int ROOMEFFECT_GLINT_RIBBON_FUNC(int mode, RoomGlintRibbon *ribbon) {
         middle.x = first.x;
         middle.y = first.y;
         middle.z = first.z;
-        first.y = D_800942EC.count;
+        first.y = g_RoomFloorY->y;
         if (ribbon->timer < 13) {
             spark = func_800CE610(D_800F33E0->pool);
             if (spark != 0) {

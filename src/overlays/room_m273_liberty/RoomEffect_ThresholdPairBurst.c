@@ -32,7 +32,6 @@ extern RoomM273EffectStateContext *D_800F32D0;
 extern AssetState D_8019AE8C;
 extern void *D_8019AE90,*D_800B0E64;
 extern unsigned char D_8019AE9A;
-extern unsigned short D_800942EC;
 extern int GetTPage(int,int,int,int),rcos(int),rsin(int);
 extern unsigned short GetClut(int,int);
 extern void GsSetOrign(int,int),func_800C6ED8(int);
@@ -177,7 +176,7 @@ int func_80193F30(int mode) {
                     if(!effect) break;
                     effect->x=state->transform->x;
                     asm("" : : : "memory");
-                    effect->y=D_800942EC;
+                    effect->y=g_RoomFloorY->raw;
                     effect->z=state->transform->z;
                     effect->phase=i*384;
                     if(i==0) *(ThresholdTripleEffect **)func_800CE610(D_8019AE90)=effect;

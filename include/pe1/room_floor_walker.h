@@ -94,15 +94,9 @@ typedef struct RoomFloorWalkerTarget {
 
 extern RoomFloorWalkerVertex *D_8009D248;
 extern s16 D_8009D1CC;
-/* Floor height, read as a one-field record so the load stays below the
- * position store, as retail does. */
-typedef struct RoomFloorWalkerFloor {
-    s16 y;
-} RoomFloorWalkerFloor;
-
-/* The rsin/rcos table (D_800966EC), the floor height (D_800942EC) and the
- * player entity (D_8009D254) are declared by the room library header; the
- * walker reads them through the views above. */
+/* The rsin/rcos table (D_800966EC) and the player entity (D_8009D254) are
+ * declared by the room library header and read through the views above;
+ * the floor height is g_RoomFloorY (pe1/room_floor.h). */
 
 extern int FieldEng_VecToAngle(s32 *from, s32 *to);
 

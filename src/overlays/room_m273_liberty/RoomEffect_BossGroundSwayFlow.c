@@ -30,7 +30,7 @@ int func_80198B1C(int mode,Vector *input) {
         palette=D_800E1204[kind];
         clut=GetClut(0,(kind==4 && D_800F3428) ? palette+8 : palette+4);
         func_800CEE20(&position,0,(short)size,(short)size,100,clut,1,(short)shade,0);
-        position.y=D_800942EC.value;
+        position.y=g_RoomFloorY->raw;
         func_800D004C(&position,384,384,8,&D_8019AB68,4096,4096,
             D_8019AE18,D_8019AB70,(short)shade,1);
     }

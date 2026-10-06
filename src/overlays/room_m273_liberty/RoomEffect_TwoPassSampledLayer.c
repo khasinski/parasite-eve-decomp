@@ -25,7 +25,7 @@ int func_8019320C(int mode, RoomM273SampledLayerEffect *effect) {
             shade = (short)shade >> 1;
             size = (short)size * 3 / 2;
             i++;
-            position.y = D_800942EC;
+            position.y = g_RoomFloorY->raw;
         } while (i < 2);
     }
     return 0;

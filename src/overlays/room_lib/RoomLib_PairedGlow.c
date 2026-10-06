@@ -200,7 +200,7 @@ void RoomLib_UpdatePairedEmitter(void *arg0, char *arg1,
     state->secondary.intensity = state->intensity;
     stack.matrix.t[0] = RW32(link, 0x14);
     stack.matrix.t[1] =
-        ((RoomFxFrameCounterRecord *)&D_800942EC)->count;
+        g_RoomFloorY->y;
     stack.matrix.t[2] = RW32(link, 0x1C);
     func_800C4FC4(&state->secondary, &stack.matrix, 0);
 }

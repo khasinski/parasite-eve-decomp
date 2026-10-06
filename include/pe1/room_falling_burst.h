@@ -6,6 +6,7 @@
 #include "pe1/field_script_context.h"
 #include "pe1/room_module.h"
 #include "pe1/field_sprite_state.h"
+#include "pe1/room_floor.h"
 
 /* The falling sprite burst linked by ten hospital and Chrysler rooms
  * (src/overlays/room_lib/RoomFx_FallingSpriteBurst.c): a sprite and its
@@ -65,12 +66,6 @@ typedef struct RoomFallingBurstParticles {
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomFallingBurstParticles, liveCount) == 0xA4,
                   room_falling_burst_particles_live);
 
-/* The frame counter at 0x800942EC, read signed as the floor height. */
-typedef struct RoomFallingBurstFloor {
-    s16 height;
-} RoomFallingBurstFloor;
-
-extern RoomFallingBurstFloor g_FrameCount16;
 
 /* Per-room data: the five sprite records. When it lands the falling sprite
  * spawns from the room module's init list and spawn layout

@@ -46,7 +46,7 @@ int RoomEffect_LineBurstController(int mode, RoomLineBurstState *state,
         state->px = params->x;
         state->py = params->y;
         state->pz = params->z;
-        state->py = g_FrameCount16.count;
+        state->py = g_RoomFloorY->raw;
         func_800D3F64(0x57B, func_800D3FD8());
         if (D_800E2368->active) {
             RoomSparkNode **slot = (RoomSparkNode **)D_800F32D0->pool;

@@ -11,7 +11,7 @@ int func_80196F2C(int mode, RoomM350Drop *drop) {
         drop->x += drop->velocity.x;
         drop->y += drop->velocity.y;
         drop->z += drop->velocity.z;
-        if (drop->y > D_800942EC.value) {
+        if (drop->y > g_RoomFloorY->y) {
             g_RoomEffectTrailPositions.splashed = 1;
             g_RoomEffectTrailPositions.splash_x = drop->x;
             g_RoomEffectTrailPositions.splash_z = drop->z;
@@ -61,7 +61,7 @@ int func_80196F2C(int mode, RoomM350Drop *drop) {
                       (s16)D_800F3368.parameter02 * 6 + 0x80,
                       GetClut(0, (kind == 4 && D_800F3428) ? palette + 8 : palette + 4),
                       1, 0x80, &D_8019A61C[0]);
-        position.y = D_800942EC.value;
+        position.y = g_RoomFloorY->y;
         func_800D004C(&position, 0x60, 0x60, 6, &D_8019A3C0, 0x1000, 0x1000,
                       &D_8019A61C[1], &D_8019A61C[2], 0x80, 1);
     }

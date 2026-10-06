@@ -105,7 +105,7 @@ void RoomEffect_GroundEruptionInit(char *owner, void *arg1, char *state) {
     g_RoomEruptionDebrisPacket.g = color;
     g_RoomEruptionDebrisPacket.b = color;
     g_RoomEruptionDebrisPacket.zero = 0;
-    D_800942EC = 0;
+    g_RoomFloorY->y = 0;
     func_800C66C8(callOwner, 0x587, workState);
 }
 
@@ -291,7 +291,7 @@ void RoomEffect_GroundEruptionUpdateColumn(
     }
 
     position[0] = actor->x;
-    position[1] = D_800942EC;
+    position[1] = g_RoomFloorY->y;
     position[2] = actor->z;
     if (func_800C6B90(position, actor->collisionRadius) != 0) {
         actor->collisionState = 1;
@@ -343,7 +343,7 @@ void RoomEffect_GroundEruptionDrawGlow(void) {
     ScaleMatrix(&matrix, &scale);
 
     matrix.t[0] = owner->x;
-    matrix.t[1] = D_800942EC;
+    matrix.t[1] = g_RoomFloorY->y;
     matrix.t[2] = owner->z;
     func_800C42A4(&g_RoomEruptionGlowPacket, &matrix, 1);
 }
@@ -485,7 +485,7 @@ void RoomEffect_GroundEruptionDrawRing(void *arg0, void *arg1, char *state) {
         *((u8 *)packetDepth - 6) = code * 2 + 0x20;
         func_800C42A4(packet, &matrix, 1);
         matrix.t[0] = point->x;
-        matrix.t[1] = D_800942EC;
+        matrix.t[1] = g_RoomFloorY->y;
         matrix.t[2] = point->z;
         *packetDepth = (s16)*(u16 *)(workState + 0x102) >> 2;
         code = *(u8 *)(workState + 0x104);
@@ -580,7 +580,7 @@ void RoomEffect_GroundEruptionDrawShadow(
     stack.scale = s_EruptionGlowScale;
     ScaleMatrix(&stack.matrix, &stack.scale);
     stack.matrix.t[0] = fx->x;
-    stack.matrix.t[1] = D_800942EC;
+    stack.matrix.t[1] = g_RoomFloorY->y;
     stack.matrix.t[2] = fx->z;
     depthSlot = (unsigned short *)&g_RoomEruptionShadowPacket.depth;
     *depthSlot = fx->depth;
@@ -699,7 +699,7 @@ void RoomEffect_GroundEruptionDrawDebris(void *arg0, void *arg1, char *state) {
             func_800C42A4(packet, &matrix, 1);
             if (i == 0) {
                 matrix.t[0] = *(short *)(state + 0);
-                matrix.t[1] = D_800942EC;
+                matrix.t[1] = g_RoomFloorY->y;
                 matrix.t[2] = *(short *)(state + 4);
                 g_RoomEruptionDebrisDepth = 0x40;
                 g_RoomEruptionDebrisPacket.code = code;
@@ -777,7 +777,7 @@ shiftTrail:
     *(u16 *)object->storage.z += (s16)*(u16 *)object->storage.deltaZ >> 8;
     *(u16 *)object->storage.deltaY += *(s32 *)object->storage.deltaYStep;
 
-    if (*(s16 *)object->storage.y > D_800942EC) {
+    if (*(s16 *)object->storage.y > g_RoomFloorY->y) {
         *(u16 *)object->storage.trailValues = 0;
     }
     if (trigger->timer == 60) {

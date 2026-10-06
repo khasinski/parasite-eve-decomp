@@ -22,7 +22,7 @@ int func_8019377C(int mode, RoomM256SwirlSpark *spark) {
             spark->vz = spark->vz * 31 / 32;
             fall = (u16)spark->vy - 1;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -39,7 +39,7 @@ int func_8019377C(int mode, RoomM256SwirlSpark *spark) {
             spark->vz = spark->vz * 511 / 512;
             fall = (u16)spark->vy - 2;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }

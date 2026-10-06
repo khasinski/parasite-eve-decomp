@@ -1200,6 +1200,7 @@ g_PmCmdHandlerTable = 0x800942E0;
 g_PmSlotBuffer = 0x800E0EF0;
 g_PmSlotTable = 0x800942E4;
 g_PmSlotTable2 = 0x800942E8;
+g_RoomFloorY = 0x800942EC;
 g_RenderAnimBufferBase = 0x800B0E58;
 g_RenderAnimVramOffset = 0x8009CDD8;
 g_RenderBackBufferBase = 0x800B0E54;

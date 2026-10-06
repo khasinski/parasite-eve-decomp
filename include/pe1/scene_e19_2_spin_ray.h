@@ -3,6 +3,7 @@
 
 #include "pe1/render_object.h"
 #include "pe1/gte.h"
+#include "pe1/room_floor.h"
 
 /* Scene e19_2 spin ray: a spinning ray anchored at the scene origin that
  * grows, sweeps out as a textured blade and closes as a glow sprite. The
@@ -30,11 +31,6 @@ typedef struct SceneSpinRayChannel {
     char *pool; /* 0x08 */
 } SceneSpinRayChannel;
 
-/* Frame counter read as a one-field record. */
-typedef struct SceneSpinRayFrame {
-    u16 count;
-} SceneSpinRayFrame;
-
 extern RenderColor D_8018F224;
 extern RenderColor D_8018F228;
 extern RenderColor D_8018F22C;
@@ -45,7 +41,6 @@ extern u8 D_8019B404[];
 extern GteShortVector D_8019B670;
 extern u16 D_800E11EA;
 extern SceneSpinRayChannel *D_800F32D0, *D_800F33E0;
-extern SceneSpinRayFrame D_800942EC;
 
 int rsin(int angle);
 int rcos(int angle);

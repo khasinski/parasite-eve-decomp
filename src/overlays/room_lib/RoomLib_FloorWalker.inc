@@ -106,8 +106,8 @@ void ROOMLIB_FLOOR_WALKER_FUNC(RoomFloorWalkerObject *object) {
     core->pos[0] = scratch->next.x;
     core->pos[2] = scratch->next.z;
     core->pos[1] += state->velocity;
-    if ((core->pos[1] >> 16) >= ((RoomFloorWalkerFloor *)&D_800942EC)->y) {
-        core->pos[1] = ((RoomFloorWalkerFloor *)&D_800942EC)->y << 16;
+    if ((core->pos[1] >> 16) >= g_RoomFloorY->y) {
+        core->pos[1] = g_RoomFloorY->y << 16;
         state->velocity = -state->hopVelocity;
         state->rest = state->restTime;
     } else {

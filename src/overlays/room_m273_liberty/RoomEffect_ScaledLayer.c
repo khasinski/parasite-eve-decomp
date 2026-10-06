@@ -1,4 +1,5 @@
 #include "room_m273_effects.h"
+#include "pe1/room_floor.h"
 typedef GteShortVector Vector;
 typedef struct { Vector position; unsigned char parameter[4]; } Effect;
 typedef RoomM273ThresholdTransform Transform;
@@ -8,7 +9,6 @@ typedef RoomM273ScaledLayerOwner Owner;
 extern RoomM273EffectStateContext *D_800F32D0;
 extern int D_800E27EC;
 extern short D_800966EC[],D_800966EE[];
-extern unsigned short D_800942EC;
 extern unsigned char D_8019AB70[];
 extern void func_800D004C(Vector *,int,int,int,Vector *,int,int,void *,void *,int,int);
 extern int func_800CE560(void *,int,int,int (*)());
@@ -36,7 +36,7 @@ int func_8019353C(int mode,Effect *effect) {
             shade>>=1;
             size=size*3/2;
             i++;
-            position.y=D_800942EC;
+            position.y=g_RoomFloorY->raw;
         } while(i<2);
     }
     return 0;

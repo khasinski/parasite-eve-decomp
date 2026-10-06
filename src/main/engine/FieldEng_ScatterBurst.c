@@ -142,7 +142,7 @@ int func_800D5290(int mode, RenderArcingEmitter *state)
             rotation.flags = 1;
             intensity = 128 - ((D_800E27EC - 4) << 7) / 12;
             scale = rsin(((D_800E27EC - 4) << 10) / 12) * 2;
-            position.y = D_800942EC;
+            position.y = g_RoomFloorY->y;
             func_800D0728(&position, 250, 400, 12, &rotation, scale, scale, 0,
                           &color, intensity, 1);
         }

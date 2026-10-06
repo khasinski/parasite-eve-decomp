@@ -44,7 +44,7 @@ int func_801978EC(int mode, SceneE22EmberBurst *burst) {
                 func_8006DF50(*soundSlot, 0x5E6, 0x80, 0x80, volume);
         }
         func_800CE870((char *)RoomMain_ActorPtr, 1, (s16 *)burst);
-        burst->y = D_800942EC.y;
+        burst->y = g_RoomFloorY->y;
         return func_800CE560(D_800F33E0->pool, 0x14, 0x28, func_801972EC);
     case 1:
         if (burst->state < 2)
@@ -150,7 +150,7 @@ int func_801978EC(int mode, SceneE22EmberBurst *burst) {
                 int palette;
                 position.x = burst->x;
                 z = burst->z;
-                position.y = D_800942EC.y;
+                position.y = g_RoomFloorY->y;
                 position.z = z;
                 palette = D_800E1204[kind];
                 func_800CEE20(&position, &spin, 0x1000, 0x1000, 0,
@@ -170,7 +170,7 @@ int func_801978EC(int mode, SceneE22EmberBurst *burst) {
             }
             floorPosition.x = burst->x;
             z = burst->z;
-            floorPosition.y = D_800942EC.y;
+            floorPosition.y = g_RoomFloorY->y;
             floorPosition.z = z;
             {
                 int kind = D_800F3368.palette;

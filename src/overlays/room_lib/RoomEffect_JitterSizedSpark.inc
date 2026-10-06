@@ -28,7 +28,7 @@ int ROOMEFFECT_JITTER_SIZED_FUNC(int mode, RoomJitterSpark *spark) {
             spark->vz = spark->vz * 63 / 64;
             fall = (u16)spark->vy;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }

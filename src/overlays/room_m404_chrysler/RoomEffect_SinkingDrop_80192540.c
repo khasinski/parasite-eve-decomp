@@ -38,9 +38,9 @@ int func_80192540(int mode, RoomM404Drop *drop) {
             drop->x += (func_80071A54() & 0xF) - 8;
             drop->z += (func_80071A54() & 0xF) - 8;
             drop->y += 0x40;
-            if (drop->y >= D_800942EC.y - 0x10) {
+            if (drop->y >= g_RoomFloorY->y - 0x10) {
                 drop->state = 1;
-                drop->y = D_800942EC.y - 0x10;
+                drop->y = g_RoomFloorY->y - 0x10;
                 drop->vy = 0;
                 drop->vx *= 2;
                 drop->vz *= 2;
@@ -58,7 +58,7 @@ int func_80192540(int mode, RoomM404Drop *drop) {
                     child->timer = 0;
                 }
             }
-            if (func_800C6B90(drop, 0x6E) && drop->y >= D_800942EC.y - 0x202 &&
+            if (func_800C6B90(drop, 0x6E) && drop->y >= g_RoomFloorY->y - 0x202 &&
                 D_800E2368->active) {
                 ROOM_M404_DROP_FLASH(0x3D000000);
             }
@@ -99,14 +99,14 @@ int func_80192540(int mode, RoomM404Drop *drop) {
             drop->vz = drop->vz * 127 / 128;
             fall = (u16)drop->vy - 1;
             drop->vy = fall;
-            if (drop->y >= D_800942EC.y) {
+            if (drop->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 drop->vy = bounce;
             }
             if (drop->timer < 0x10) return 0;
             drop->state = 4;
             drop->timer = 0;
-            drop->y = D_800942EC.y;
+            drop->y = g_RoomFloorY->y;
             break;
         case 3:
             drop->timer++;
@@ -117,7 +117,7 @@ int func_80192540(int mode, RoomM404Drop *drop) {
             drop->vz = drop->vz * 511 / 512;
             fall = (u16)drop->vy - 3;
             drop->vy = fall;
-            if (drop->y >= D_800942EC.y) {
+            if (drop->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 drop->vy = bounce;
             }

@@ -39,7 +39,7 @@ int func_800DA5D4(int mode, FieldAnimEmitter *state) {
         D_800E2214[0] = D_800F32D0->actor->render_object.target_x;
         D_800E2214[1] = D_800F32D0->actor->render_object.target_y;
         D_800E2214[2] = D_800F32D0->actor->render_object.target_z;
-        D_800E2214[1] = D_800942EC;
+        D_800E2214[1] = g_RoomFloorY->y;
         break;
     }
     return 0;

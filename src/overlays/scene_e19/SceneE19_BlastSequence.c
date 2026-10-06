@@ -72,7 +72,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
         blast->state = 0;
         blast->timer = 0;
         func_800CE870((char *)D_800F32D0->pool, 1, &blast->position.x);
-        blast->position.y = D_800942EC;
+        blast->position.y = g_RoomFloorY->raw;
         func_800CE870((char *)D_800F32D0->pool, 0, &blast->target.x);
         func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0, &blast->origin);
         return func_800CE560(D_800F33E0->pool, 0xC, 8, func_80192E08);
@@ -200,7 +200,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             floorRotation0.z = 0;
             floorGlow0.x = center.x;
             floorGlow0.z = center.z;
-            floorGlow0.y = D_800942EC;
+            floorGlow0.y = g_RoomFloorY->raw;
             func_800CEE20(&floorGlow0, (GteRotation *)&floorRotation0, 0x2000, 0x2000, 0,
                           func_80077AA4(0, D_800E120A + 2), 1, intensity, 0);
             break;
@@ -223,7 +223,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             floorRotation1.z = 0;
             floorGlow1.x = center.x;
             floorGlow1.z = center.z;
-            floorGlow1.y = D_800942EC;
+            floorGlow1.y = g_RoomFloorY->raw;
             func_800CEE20(&floorGlow1, (GteRotation *)&floorRotation1, 0x2000, 0x2000, 0,
                           func_80077AA4(0, D_800E120A + 2), 1, intensity, 0);
             intensity = rsin(phase) / 32;
@@ -289,7 +289,7 @@ int func_80192F9C(int mode, SceneE19Blast *blast)
             floorRotation2.z = 0;
             floorGlow2.x = center.x;
             floorGlow2.z = center.z;
-            floorGlow2.y = D_800942EC;
+            floorGlow2.y = g_RoomFloorY->raw;
             func_800CEE20(&floorGlow2, (GteRotation *)&floorRotation2, 0x2000, 0x2000, 0,
                           func_80077AA4(0, D_800E120A + 2), 1, intensity, 0);
             radialScale = 0x1000;

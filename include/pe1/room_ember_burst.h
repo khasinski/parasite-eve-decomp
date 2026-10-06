@@ -5,6 +5,7 @@
 #include "pe1/render_object.h"
 #include "pe1/field_actor.h"
 #include "pe1/room_orbit_trail.h"
+#include "pe1/room_floor.h"
 
 /* Ember burst controller (room_m318): attaches to the actor named by its
  * parameters, glows up, bursts orbiting sparks, embers and smoke, then
@@ -64,9 +65,6 @@ extern GteShortVector D_8019993C;
 extern int func_80197618(int mode, RoomOrbitTrailParticle *p);
 
 /* Ember fountain particle (func_80197618). */
-typedef RoomOrbitTrailFloor RoomEmberFloor;
-
-extern RoomEmberFloor D_800942EC;
 extern u16 D_800E11E8;
 extern u16 D_800E11FA;
 extern GteRotation D_8018F1F4;

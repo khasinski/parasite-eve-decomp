@@ -3,6 +3,7 @@
 
 #include "pe1/render_object.h"
 #include "pe1/gte.h"
+#include "pe1/room_floor.h"
 
 /* Scene e19 blast sequence: loads five shell models, then runs a five-state
  * charge/burst timeline at an actor position, spawning rising sparks while
@@ -49,7 +50,6 @@ extern SceneE19BlastSound D_800B0E64;
 extern SceneE19BlastChannel *D_800F32D0, *D_800F33E0;
 extern SceneE19BlastPlayer **D_8009D254;
 extern SceneE19BlastScript *D_800E2368;
-extern u16 D_800942EC;
 extern u16 D_800E11EA[];
 extern u16 D_800E120A, D_800E11FA;
 extern s16 D_800F336A, D_800F336E, D_800F3372, D_800F3374;

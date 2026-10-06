@@ -1,4 +1,5 @@
 #include "scene_e08.h"
+#include "pe1/room_floor.h"
 
 typedef struct {
     s16 fraction;
@@ -35,7 +36,7 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(SceneLayeredOwner, drawMode) == 0x24,
 
 extern RoomFxVec4 D_8018F050;
 extern u8 D_80199560, D_80199561, D_80199562;
-extern s16 D_8019956A, D_800942EC;
+extern s16 D_8019956A;
 
 void func_800C2EAC(u8);
 void func_800C2FF0(int, int);
@@ -81,7 +82,7 @@ void func_80194498(void *unused, u16 *phase, SceneLayeredSpriteState *state) {
     func_800C42A4((char *)alphaBase - 10, &matrix, 0);
 
     matrix.t[0] = state->center[0].integer;
-    matrix.t[1] = D_800942EC;
+    matrix.t[1] = g_RoomFloorY->y;
     matrix.t[2] = state->center[2].integer;
     *alpha = 0x20;
     func_800C42A4((char *)alpha - 10, &matrix, 0);

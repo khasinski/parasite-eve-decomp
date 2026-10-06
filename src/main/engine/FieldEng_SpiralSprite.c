@@ -68,7 +68,7 @@ int func_800D6514(int mode, RenderArcingEmitter *state)
         state->position.x = D_800F32D0->actor->render_object.target_x;
         state->position.y = D_800F32D0->actor->render_object.target_y;
         state->position.z = D_800F32D0->actor->render_object.target_z;
-        state->position.y = D_800942EC.value;
+        state->position.y = g_RoomFloorY->y;
         func_800C6D5C(D_800F32D4, 0, 0xC0);
         return func_800CE560(D_800F33E0->end, 16, 24,
                              (FieldEffectCallback)func_800D629C);

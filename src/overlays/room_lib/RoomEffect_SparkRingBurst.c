@@ -48,7 +48,7 @@ int RoomEffect_SparkRingParticle(int mode, RoomSparkRingParticle *state) {
             y = state->y;
             nextVy = (unsigned short)state->vy + 1;
             state->vy = nextVy;
-            if (y >= D_800942EC.height) {
+            if (y >= g_RoomFloorY->y) {
                 int bounce = (short)nextVy;
                 state->vy = -bounce;
             }
@@ -305,7 +305,7 @@ int RoomEffect_BurstSparkParticle(int mode, RoomBurstSpark *spark,
                     child->timer = 0;
                 }
             }
-            if (func_800C6B90(spark, 50) && D_800942EC.height - 0x202 < spark->y) {
+            if (func_800C6B90(spark, 50) && g_RoomFloorY->y - 0x202 < spark->y) {
                 if (D_800E2368->active) {
                     RoomSparkChannel *channel = D_800F32D0;
                     u32 *entry;
@@ -334,7 +334,7 @@ int RoomEffect_BurstSparkParticle(int mode, RoomBurstSpark *spark,
                     }
                 }
             }
-            if (spark->y >= D_800942EC.height) {
+            if (spark->y >= g_RoomFloorY->y) {
                 spark->state = 2;
                 spark->timer = 0;
                 for (i = 0; i < 6; i++) {
@@ -367,7 +367,7 @@ int RoomEffect_BurstSparkParticle(int mode, RoomBurstSpark *spark,
             spark->vz = spark->vz * 63 / 64;
             fall = (u16)spark->vy - 1;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.height) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -382,7 +382,7 @@ int RoomEffect_BurstSparkParticle(int mode, RoomBurstSpark *spark,
             spark->vz = spark->vz * 63 / 64;
             fall = (u16)spark->vy + 1;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.height) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -444,7 +444,7 @@ int RoomEffect_BurstSparkParticle(int mode, RoomBurstSpark *spark,
             flat.pad = 1;
             ground.x = spark->x;
             ground.z = spark->z;
-            ground.y = D_800942EC.height;
+            ground.y = g_RoomFloorY->y;
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;

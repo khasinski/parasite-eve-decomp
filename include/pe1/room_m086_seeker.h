@@ -5,6 +5,7 @@
 #include "pe1/gte_types.h"
 #include "pe1/render_prim.h"
 #include "pe1/field_model_draw.h"
+#include "pe1/room_floor.h"
 
 /* room_m086 falling seeker (func_8018F004): a turning model that flies
  * along its heading until it lands, bursts on the player (flagging the
@@ -52,11 +53,6 @@ typedef struct RoomM086EventState {
     u8 active;
 } RoomM086EventState;
 
-typedef struct RoomM086FloorLevel {
-    s16 count;
-} RoomM086FloorLevel;
-
-extern RoomM086FloorLevel D_800942EC;
 
 extern int D_800E27EC;
 

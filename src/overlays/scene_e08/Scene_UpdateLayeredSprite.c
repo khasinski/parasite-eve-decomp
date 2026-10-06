@@ -1,8 +1,8 @@
 #include "scene_e08.h"
+#include "pe1/room_floor.h"
 
 extern u16 D_8009D1CC;
 extern s32 D_8009D248;
-extern s16 D_800942EC;
 
 int func_8001CAB0(int, int, int, int);
 int func_80071A54(void);
@@ -78,7 +78,7 @@ void func_801946D4(void *unused, char *control, char *state)
     {
         random = func_80071A54();
         *((s16 *) (state + 0x22)) = (random % 1024) - 0x200;
-        ground = &D_800942EC;
+        ground = &g_RoomFloorY->y;
         *((s16 *) (state + 0x20)) = 0x400;
         *((u16 *) (state + 0x24)) += 0x270;
         if ((*((s32 *) (state + 4))) < (*ground))

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "pe1/room_floor.h"
 extern char D_8019A856;
 extern char D_8019A86E;
-extern u16 D_800942EC;
 extern u16 D_8019A860;
 extern u16 D_8019A862;
 extern char **D_800F33E0;
@@ -27,7 +27,7 @@ s32 func_80199F2C(s32 arg0) {
         obj = func_800CE610(D_800F33E0[2]);
         if (obj != 0) {
             *(u16 *)(obj + 0) = D_8019A860;
-            *(u16 *)(obj + 2) = D_800942EC;
+            *(u16 *)(obj + 2) = g_RoomFloorY->raw;
             *(u16 *)(obj + 4) = D_8019A862;
             D_8019A856 = 0;
         }

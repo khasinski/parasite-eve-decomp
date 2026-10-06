@@ -70,7 +70,7 @@ int func_8018F734(int mode, RoomM086SeekerController *state, RoomM086ControllerP
                     }
                 }
             }
-            if (state->position.y < D_800942EC.count - 0x202) return 0;
+            if (state->position.y < g_RoomFloorY->y - 0x202) return 0;
             angle = func_80071A54();
             for (i = 0; i < 6; i++) {
                 child = func_800CE610(D_800F33E0->pool);
@@ -167,7 +167,7 @@ int func_8018F734(int mode, RoomM086SeekerController *state, RoomM086ControllerP
             position.x = state->position.x;
             position.y = state->position.y;
             position.z = state->position.z;
-            position.y = D_800942EC.count;
+            position.y = g_RoomFloorY->y;
             {
                 int kind = D_800F3368.palette;
                 int palette = D_800E1204[kind];

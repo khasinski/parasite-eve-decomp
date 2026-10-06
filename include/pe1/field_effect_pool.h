@@ -5,6 +5,7 @@
 #include "pe1/render_object.h"
 #include "pe1/field_actor.h"
 #include "pe1/field_model_draw.h"
+#include "pe1/room_floor.h"
 
 /* Effect pool declarations for field engine emitters that read the room
  * render Y override as a one-field record, so its load stays below the
@@ -23,15 +24,10 @@ typedef struct FieldEffectOwner {
     FieldActor *actor;
 } FieldEffectOwner;
 
-typedef struct FieldEffectRenderY {
-    s16 value;
-} FieldEffectRenderY;
-
 typedef int (*FieldEffectCallback)(int mode, void *state);
 
 extern FieldEffectPool *D_800F33E0;
 extern FieldEffectOwner *D_800F32D0;
-extern FieldEffectRenderY D_800942EC;
 extern u8 *D_800F32D4;
 
 int func_800CE560(char *pool, int size, int count, FieldEffectCallback callback);

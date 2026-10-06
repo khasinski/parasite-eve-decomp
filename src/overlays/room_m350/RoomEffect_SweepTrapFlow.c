@@ -67,7 +67,7 @@ int func_80192E4C(int mode, RoomM350SweepTrap *trap) {
         D_800F3368.tpage = D_800E2850[D_800E11EA];
         D_800F3368.palette = 3;
         D_800F3368.parameter06 = 0;
-        for (i = phase; position.y < D_800942EC.count; i++) {
+        for (i = phase; position.y < g_RoomFloorY->y; i++) {
             int kind = D_800F3368.palette;
             int palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428) palette += 4;

@@ -23,7 +23,7 @@ int func_801931B8(int mode, RoomOrbitTrailParticle *p) {
         p->heading.z = p->heading.z * 63 / 64;
         fall = (u16)p->heading.y;
         p->heading.y = fall;
-        if (p->y >= D_800942EC.y) {
+        if (p->y >= g_RoomFloorY->y) {
             bounce = -(s16)fall;
             p->heading.y = bounce;
         }

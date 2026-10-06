@@ -41,7 +41,7 @@ int func_80194E6C(int mode, RoomM273FallingTrail *trail) {
         gte_ldv0(&D_8019ACA4);
         gte_rtv0tr_mac();
         gte_stsv(&trail->position);
-        floor = D_800942EC.value;
+        floor = g_RoomFloorY->raw;
         if (trail->position.y >= floor - 0x80) {
             trail->position.y = floor;
             trail->landed = 1;

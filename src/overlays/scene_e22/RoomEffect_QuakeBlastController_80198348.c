@@ -106,7 +106,7 @@ int func_80198348(int mode, SceneE22QuakeBlast *fx, SceneE22QuakeTarget *target)
             flat.flags = 1;
             floor.x = position.x;
             floor.z = position.z;
-            floor.y = D_800942EC.y;
+            floor.y = g_RoomFloorY->raw;
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             func_800CEE20(&floor, &flat, 0x2000, 0x2000, 0x64,

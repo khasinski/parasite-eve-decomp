@@ -52,7 +52,7 @@ void func_80192838(RoomSelectionState *state) {
         }
 
         if ((s16)previousFrame < 34 && (s16)currentFrame >= 34) {
-            s32 delta = ((s32)(s16)D_800942EC << 16) - actor->pos_y;
+            s32 delta = ((s32)(s16)g_RoomFloorY->raw << 16) - actor->pos_y;
             if (delta < 0) {
                 delta += 15;
             }

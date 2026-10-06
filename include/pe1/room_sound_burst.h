@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/room_floor.h"
 
 /* Room effect controllers that play a sound, then emit one particle every
  * third frame along an angle that sweeps half a turn over seventy frames. */
@@ -93,7 +94,6 @@ extern int func_800D3F64(int, int);
 extern void func_800866A4(int, int);
 extern int func_80071A54(void);
 extern RoomSoundBurstBattleEntity *D_8009D254;
-extern s16 D_800942EC;
 extern u16 D_800E1204[];
 extern int D_800F3428;
 extern int rcos(int);

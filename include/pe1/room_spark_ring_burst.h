@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
+#include "pe1/room_floor.h"
 
 /* The spark ring and spark burst effects linked by ten museum rooms
  * (src/overlays/room_lib/RoomEffect_SparkRingBurst.c). The ring controller
@@ -79,12 +80,6 @@ typedef struct RoomSparkBattleEntity {
     RoomSparkActor *actor;
 } RoomSparkBattleEntity;
 
-/* Floor height counter at 0x800942EC, read as a record so the compare
- * stays after the particle's velocity store. */
-typedef struct RoomSparkFloor {
-    s16 height;
-} RoomSparkFloor;
-
 /* Texture page index records (0x800E11E8, 0x800E11EC), read as records so
  * they stay ordered after stores through the particle pointer. */
 typedef struct RoomSparkTextureSlot {
@@ -94,7 +89,6 @@ typedef struct RoomSparkTextureSlot {
 extern RoomSparkChannel *D_800F32D0, *D_800F33E0;
 extern RoomSparkEventState *D_800E2368;
 extern RoomSparkBattleEntity *D_8009D254;
-extern RoomSparkFloor D_800942EC;
 extern RoomSparkTextureSlot D_800E11E8;
 extern RoomSparkTextureSlot D_800E11EC;
 extern void *D_8009D248;

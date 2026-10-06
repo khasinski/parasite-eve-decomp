@@ -6,6 +6,7 @@
 #include "pe1/gte_types.h"
 #include "pe1/render_prim.h"
 #include "pe1/field_model_draw.h"
+#include "pe1/room_floor.h"
 
 
 /* room_m005 joint beacon (func_8018FDC4): follows joint 0x14 of the actor,
@@ -114,7 +115,6 @@ extern GteShortVector D_80190BA8;
 extern u16 D_800E11FA;
 extern u16 D_800E11EA;
 extern u16 D_800E11E4[];
-extern s16 D_800942EC;
 
 u8 *func_8006E498(void *channel, int id);
 void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);

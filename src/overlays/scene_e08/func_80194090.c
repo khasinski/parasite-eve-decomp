@@ -1,4 +1,5 @@
 #include "common.h"
+#include "pe1/room_floor.h"
 
 typedef struct {
     s16 m[3][3];
@@ -12,7 +13,6 @@ typedef struct {
 
 extern s16 D_8019955A;
 extern char D_80199580[];
-extern s16 D_800942EC;
 
 void *func_800C2B50(void);
 void func_800C2EAC(u8);
@@ -69,7 +69,7 @@ void func_80194090(void *arg0, void *arg1, char *effects) {
         phase += 8;
     }
     matrix.t[0] = *(s32 *)(base + 0);
-    matrix.t[1] = D_800942EC;
+    matrix.t[1] = g_RoomFloorY->y;
     matrix.t[2] = *(s32 *)(base + 8);
     func_800C42A4(D_80199580, &matrix, 0);
 }

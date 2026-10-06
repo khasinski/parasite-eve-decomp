@@ -72,7 +72,7 @@ int RoomEffect_SoundBurstParticle(int mode, RoomSoundBurstParticle *particle,
         position.y = 0;
         position.z = 0;
         position.pad = 1;
-        particle->wy = D_800942EC;
+        particle->wy = g_RoomFloorY->y;
         kind = D_800F3368.palette;
         palette = D_800E1204[kind];
         if (kind == 4 && D_800F3428 != 0) palette += 4;

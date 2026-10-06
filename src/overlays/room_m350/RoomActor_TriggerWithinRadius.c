@@ -1,3 +1,4 @@
+#include "pe1/room_floor.h"
 typedef struct { int reserved[19]; unsigned int flags; } ActorFlags;
 typedef struct {
     ActorFlags *actor;
@@ -7,7 +8,7 @@ typedef struct {
 typedef struct { unsigned int *actor; } RoomActor;
 extern WorldActor *g_PlayerEntity;
 extern RoomActor **D_800F32D0;
-extern short D_8019A86C, D_800942EC;
+extern short D_8019A86C;
 extern int Math_IntSqrt(int);
 
 int func_8019721C(short *point, int radius) {
@@ -15,7 +16,7 @@ int func_8019721C(short *point, int radius) {
     int dx, dz;
     WorldActor *world;
     if (*gate != 0) return 0;
-    if (point[5] < D_800942EC - 512) return 0;
+    if (point[5] < g_RoomFloorY->y - 512) return 0;
     world = g_PlayerEntity;
     dx = world->x - point[4];
     if (dx < 0) dx = point[4] - world->x;

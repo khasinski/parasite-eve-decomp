@@ -176,7 +176,7 @@ int RoomEffect_FlashSpriteController(int mode, RoomFlashSpriteState *state,
         }
         pool = D_800F32D0->pool;
         func_800CE8F0(pool, state->attachment, &rotation, state);
-        state->y = D_800942EC;
+        state->y = g_RoomFloorY->y;
         func_800CFB7C(&state->ax, 0x12C, &target);
         state->x += target.x;
         state->y += target.y;

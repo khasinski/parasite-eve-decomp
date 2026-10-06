@@ -160,7 +160,7 @@ s32 func_801940B0(int mode, void *effect) {
             if (nextEnding < 0x10) {
 updateHistory:
                 func_800D3AFC(history, 0x10, state, 0);
-                if ((func_800C6B90(state, 0x64) != 0) && (state->y >= (D_800942EC - 0x202)) && (D_800E2368->flags != 0) && ((D_800F32D0->actor->state->core_flags & 0x3F000000) == 0x01000000)) {
+                if ((func_800C6B90(state, 0x64) != 0) && (state->y >= (g_RoomFloorY->y - 0x202)) && (D_800E2368->flags != 0) && ((D_800F32D0->actor->state->core_flags & 0x3F000000) == 0x01000000)) {
                     trailPlayerState = D_8009D254->state;
                     trailPlayerState->flags = (s32) (trailPlayerState->flags | 0x4000);
                     trailActorState = D_800F32D0->actor->state;
@@ -211,7 +211,7 @@ updateHistory:
                         particle->motionZ = (s16) (((randomVelocityZ % 60)) - 30);
                     }
                 }
-                floorHeight = &D_800942EC;
+                floorHeight = &g_RoomFloorY->y;
                 if ((state->y >= *floorHeight) || (((D_800E27EC < 0x51) == 0))) {
 
                     if (state->ending == 0) {
@@ -264,7 +264,7 @@ updateHistory:
                 positionY = state->y;
                 state->motionY = vy;
                 asm volatile("" ::: "memory");
-                if (positionY >= D_800942EC) {
+                if (positionY >= g_RoomFloorY->y) {
                     int signedY = (s16)vy;
                     state->motionY = -signedY;
                 }

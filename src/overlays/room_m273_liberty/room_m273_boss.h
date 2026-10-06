@@ -7,6 +7,7 @@
 #include "room_m273_effects.h"
 #include "room_m273_sway.h"
 #include "room_m273_sweep.h"
+#include "pe1/room_floor.h"
 
 /* Boss instance fields read by room_m273's animation controllers. */
 typedef struct RoomM273BossOwner {
@@ -93,13 +94,8 @@ typedef struct RoomM273BossPlayer {
     GteMatrix *transforms;
 } RoomM273BossPlayer;
 
-typedef struct RoomM273BossFloor {
-    u16 value;
-} RoomM273BossFloor;
-
 extern RoomM273BossActor *D_800F32D0;
 extern RoomM273BossPlayer *g_PlayerEntity;
-extern RoomM273BossFloor D_800942EC;
 /* Packed sine/cosine table: the low half is the sine, the high half the cosine. */
 typedef struct RoomM273BossTrig {
     signed int sine : 16;

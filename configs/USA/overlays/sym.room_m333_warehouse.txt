@@ -1,7 +1,6 @@
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
 RoomLib_SlotTable = 0x80194134;
-g_FrameCount16 = 0x800942EC;
 RoomLib_HandlerDNop0 = 0x8018F1F0; // type:func
 RoomLib_InitHandlerD = 0x8018F1F8; // type:func
 RoomLib_ConfigureHandlerD = 0x8018F298; // type:func

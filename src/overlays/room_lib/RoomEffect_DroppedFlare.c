@@ -72,7 +72,7 @@ int RoomEffect_DroppedFlareParticle(int mode, RoomDroppedFlare *flare,
                     child->timer = 0;
                 }
             }
-            if (flare->y < D_800942EC.count) break;
+            if (flare->y < g_RoomFloorY->y) break;
             flare->state = 2;
             flare->timer = 0;
             break;
@@ -94,9 +94,9 @@ int RoomEffect_DroppedFlareParticle(int mode, RoomDroppedFlare *flare,
             flare->timer++;
             flare->y += flare->swing;
             flare->swing += 2;
-            if (flare->y >= D_800942EC.count) {
+            if (flare->y >= g_RoomFloorY->y) {
                 flare->swing = 0;
-                flare->y = D_800942EC.count;
+                flare->y = g_RoomFloorY->y;
             }
             if ((s16)flare->timer < 24) break;
             return 1;
@@ -140,7 +140,7 @@ int RoomEffect_DroppedFlareParticle(int mode, RoomDroppedFlare *flare,
             floorSpin.flags = 1;
             floorPos.x = flare->x;
             floorPos.z = flare->z;
-            floorPos.y = D_800942EC.count;
+            floorPos.y = g_RoomFloorY->y;
             kind = D_800F3368.palette;
             palette = D_800E1204[kind];
             if (kind == 4 && D_800F3428 != 0) palette += 4;

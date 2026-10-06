@@ -904,7 +904,7 @@ int Render_DrawRoom(RenderShadowActor *actor)
     local.matrix.m[1][0] = axis.y;
     local.matrix.m[2][0] = axis.z;
     if (actor->flags & 0x4000000)
-        local.matrix.t[1] = D_800942EC;
+        local.matrix.t[1] = g_RoomFloorY->y;
     else
         local.matrix.t[1] = origin.y;
     local.matrix.t[0] = actor->matrices[actor->shadow_matrix_index].matrix.t[0];

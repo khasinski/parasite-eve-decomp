@@ -93,7 +93,7 @@ int RoomEffect_SeekerSparkCallback(int mode, RoomDampedSpark *spark,
             spark->vz = spark->vz * 63 / 64;
             fall = (u16)spark->vy - 2;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }

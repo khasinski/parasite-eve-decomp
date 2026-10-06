@@ -6,6 +6,7 @@
 #include "pe1/field_actor.h"
 #include "pe1/render_object.h"
 #include "pe1/field_sprite_state.h"
+#include "pe1/room_floor.h"
 
 /* Scene e08 player orb: an effect spawned at a random spot around the
  * player, swung around the scene anchor by the anchor's facing, then drawn
@@ -25,12 +26,6 @@ typedef struct ScenePlayerOrbTimer {
     /* 0x00 */ u8 pad00;
     /* 0x01 */ u8 state;
 } ScenePlayerOrbTimer;
-
-/* Frame counter read as a one-field record so each read stays below the
- * preceding stores into the orb. */
-typedef struct ScenePlayerOrbFrame {
-    s16 value;
-} ScenePlayerOrbFrame;
 
 typedef struct ScenePlayerOrb {
     /* 0x00 */ GteShortVector position;
@@ -55,7 +50,6 @@ extern GteVector D_8018F008;
 extern u8 D_801987E4[];
 extern u8 D_80198718[];
 extern u8 D_80198754[];
-extern ScenePlayerOrbFrame D_800942EC;
 extern u8 D_80199690[];
 extern FieldActor *g_PlayerEntity;
 /* The sound owner read as a one-field record (see room_m089_spin_model.h). */

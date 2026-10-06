@@ -6,6 +6,7 @@
 #include "pe1/field_script_context.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/room_module.h"
+#include "pe1/room_floor.h"
 
 /* The orbit effect set linked by room_m186, m187, m385, m388 and m389
  * (src/overlays/room_lib/RoomFx_OrbitEffectSet.c): eight orbiting
@@ -37,7 +38,6 @@ int RoomFx_OrbitSetClose(struct RoomEnt *o);
 int RoomFx_OrbitSetNop6(void);
 
 /* The frame counter at 0x800942EC, read as the floor height. */
-extern short D_800942EC;
 
 void *func_8006DC18(int size);
 void func_800C2B40(void *state);

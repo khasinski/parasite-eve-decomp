@@ -7,6 +7,7 @@
 #include "common.h"
 #include "pe1/gte.h"
 #include "pe1/room_fx.h"
+#include "pe1/room_floor.h"
 
 /* The colour ramp table each room defines in its data. */
 extern char RoomLib_TimedRenderTable;
@@ -101,8 +102,6 @@ extern RoomTimedSpawnEventState *D_800E2368;
 extern void *D_8009D254;
 extern void *g_PlayerEntity;
 extern void *RoomMain_ActorPtr2;
-extern s16 D_800942EC;
-extern u16 g_FrameCount16;
 extern s32 D_800E27EC;
 extern u16 D_800E11EA;
 extern u16 D_800E2850[];
@@ -174,7 +173,7 @@ mode1:
             *(u16 *)((char *)actor + 0) = state->position.x;
             *(u16 *)((char *)actor + 2) = state->position.y;
             *(u16 *)((char *)actor + 4) = state->position.z;
-            ground = D_800942EC;
+            ground = g_RoomFloorY->y;
             *(s16 *)((char *)actor + 8) = 0;
             *(s16 *)((char *)actor + 0xA) = 0;
             *(u16 *)((char *)actor + 2) = ground;

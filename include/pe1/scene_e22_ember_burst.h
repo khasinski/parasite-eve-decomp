@@ -4,7 +4,7 @@
 #include "common.h"
 #include "pe1/render_object.h"
 #include "pe1/room_orbit_trail.h"
-#include "pe1/scene_e22_floor.h"
+#include "pe1/room_floor.h"
 
 /* Ember controllers (scene_e22): ride the room actor, wake the scene
  * object's status byte, spray ember drift particles and draw a halo and a
@@ -50,13 +50,10 @@ typedef struct SceneE22EmberEvent {
     s16 jointSet;                 /* 0x12 */
 } SceneE22EmberEvent;
 
-typedef SceneE22FloorHeight SceneE22EmberFloor;
-
 extern SceneE22EmberActor **RoomMain_ActorPtr;
 extern SceneE22EmberEvent *D_800E2368;
 extern SceneE22EmberObjectChannel *D_800F32D0;
 extern SceneE22EmberChannel *D_800F33E0;
-extern SceneE22EmberFloor D_800942EC;
 /* Texture page index slot at 0x800E11EA, read as a record so the load
  * stays behind the first parameter block store through its base register. */
 typedef struct SceneE22TextureSlot {

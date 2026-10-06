@@ -28,7 +28,7 @@ int ROOMEFFECT_PULSE_GLINT_FUNC(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 63 / 64;
             fall = (u16)spark->vy + 1;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -44,7 +44,7 @@ int ROOMEFFECT_PULSE_GLINT_FUNC(int mode, RoomDampedSpark *spark) {
             spark->vz = spark->vz * 31 / 32;
             fall = (u16)spark->vy + 1;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }

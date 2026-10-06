@@ -22,7 +22,7 @@ void func_80193150(void *object, SceneGlowModelTimer *timer, SceneGlowModelState
     scale = source;
     ScaleMatrix(&matrix, &scale);
     matrix.t[0] = D_8019956C;
-    matrix.t[1] = D_800942EC.value + model->height;
+    matrix.t[1] = g_RoomFloorY->y + model->height;
     matrix.t[2] = D_8019957C;
     func_800C6D5C(D_80199528, 0, 0);
     if (owner->mode == 0) {

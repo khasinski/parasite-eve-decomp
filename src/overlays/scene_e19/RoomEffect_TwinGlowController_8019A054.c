@@ -140,7 +140,7 @@ int func_8019A054(int mode, SceneTwinGlow *glow)
                 glow->position.x = jointA.x;
                 glow->position.y = jointA.y;
                 glow->position.z = jointA.z;
-                glow->position.y = D_800942EC.count;
+                glow->position.y = g_RoomFloorY->raw;
             }
             time = glow->timer - 0xE;
             scale = rsin((time << 10) / 20) + 0x1000;
@@ -206,7 +206,7 @@ int func_8019A054(int mode, SceneTwinGlow *glow)
             flat.flags = 1;
             floor.x = glow->position.x;
             floor.z = glow->position.z;
-            floor.y = D_800942EC.count;
+            floor.y = g_RoomFloorY->raw;
             {
                 int kind;
                 int palette;

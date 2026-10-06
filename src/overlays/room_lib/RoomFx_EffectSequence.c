@@ -414,7 +414,7 @@ void RoomFx_DrawVariant38(void *arg0, RoomOverlay024VariantControl *control, Roo
     ordered_transform = transform;
     D_80192C12 = state->fade_alpha >> 2;
     matrix.t[0] = ordered_transform->x;
-    matrix.t[1] = D_800942EC;
+    matrix.t[1] = g_RoomFloorY->y;
     draw_zero = 0;
     matrix.t[2] = ordered_transform->z;
     *phase_slot = 8;
@@ -676,7 +676,7 @@ void RoomFx_DrawVariant38Pulse(void *arg0, RoomOverlay024VariantControl *control
     ordered_transform = transform;
     D_80192C12 = state->fade_alpha >> 2;
     matrix.t[0] = ordered_transform->x;
-    matrix.t[1] = D_800942EC;
+    matrix.t[1] = g_RoomFloorY->y;
     draw_zero = 0;
     matrix.t[2] = ordered_transform->z;
     *phase_slot = 8;
@@ -936,7 +936,7 @@ void RoomFx_DrawVariant290(void *arg0, RoomOverlay024VariantControl *control, Ro
 
     *fade_slot = state->fade_alpha >> 2;
     matrix.t[0] = transform->x;
-    matrix.t[1] = D_800942EC;
+    matrix.t[1] = g_RoomFloorY->y;
     matrix.t[2] = transform->z;
     D_80192C0C = 8;
     func_800C42A4((char *)fade_slot - 0xA, &matrix, 0);

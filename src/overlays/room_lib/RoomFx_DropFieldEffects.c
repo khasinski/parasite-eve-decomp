@@ -354,7 +354,7 @@ void RoomFx_DrawDoubleSprite(void *arg0, void *arg1, RoomDoubleSpriteFxParams *f
 
     *depth_slot = (s16)fx->depth >> 2;
     matrix.t[0] = fx->x;
-    matrix.t[1] = D_800942EC.count;
+    matrix.t[1] = g_RoomFloorY->y;
     matrix.t[2] = fx->z;
     func_800C42A4((char *)depth_slot - 0xA, &matrix, 0);
 }
@@ -654,7 +654,7 @@ void RoomFx_DrawStagedMotion(void *unused,
                 ScaleMatrix((GteMatrix *)&matrix, (GteVector *)&scale2);
                 packet->depth = (s16)state->size >> 2;
                 matrix.t[0] = (state->record[i].x >> 16) + state->x;
-                matrix.t[1] = D_800942EC.count;
+                matrix.t[1] = g_RoomFloorY->y;
                 matrix.t[2] = (state->record[i].z >> 16) + state->z;
                 func_800C42A4(&g_RoomDropFieldMotionSprite, &matrix, 0);
                 packet->mode = 0xB;
@@ -808,7 +808,7 @@ void RoomFx_UpdateStagedMotion(void *entity,
                     *(RoomStagedMotionPoint *)spawn = spawnPoint;
                 }
             }
-            if (D_800942EC.count < (state->record[i].y >> 16) + state->y) {
+            if (g_RoomFloorY->y < (state->record[i].y >> 16) + state->y) {
                 state->kind[i] = 2;
                 spawn = func_800C2B90(entity, 6,
                                       g_RoomDropFieldSpawnScript,
@@ -1027,7 +1027,7 @@ void RoomFx_DrawDropField(void *object, void *slot, RoomDropField *field) {
             func_800C42A4(&g_RoomDropFieldDropSprite, &matrix, 1);
             matrix = saved;
             RotMatrix(&shadowSpin, &matrix);
-            matrix.t[1] = D_800942EC.count;
+            matrix.t[1] = g_RoomFloorY->y;
             {
                 GteVector shadow = *(GteVector *)&s_DropFieldShadowScale;
 

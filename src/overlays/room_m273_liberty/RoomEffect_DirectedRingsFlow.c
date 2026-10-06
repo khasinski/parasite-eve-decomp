@@ -12,16 +12,16 @@ int func_8019665C(int mode, RoomM273Drop *drop) {
 
     if (mode == 1) {
         if (drop->position.pad == 0) {
-            RoomM273BossFloor *floor = &D_800942EC;
+            RoomFloorY *floor = g_RoomFloorY;
             drop->position.x += drop->vx;
             drop->position.y += drop->vy;
             drop->position.z += drop->vz;
-            if (drop->position.y >= (s16)floor->value) {
-                drop->position.y = floor->value;
+            if (drop->position.y >= (s16)floor->raw) {
+                drop->position.y = floor->raw;
                 drop->position.pad = 1;
                 i = D_8019AF04.count++;
                 D_8019AF04.x[i] = drop->position.x;
-                D_8019AF04.y[i] = floor->value;
+                D_8019AF04.y[i] = floor->raw;
                 D_8019AF04.z[i] = drop->position.z;
             }
             if (drop->touched) return 0;

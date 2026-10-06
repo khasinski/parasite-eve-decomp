@@ -25,7 +25,7 @@ int func_8018F010(int mode, RoomM349FlareSpark *spark) {
             spark->vz = spark->vz * 63 / 64;
             fall = (u16)spark->vy - 1;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -43,7 +43,7 @@ int func_8018F010(int mode, RoomM349FlareSpark *spark) {
             spark->vz = spark->vz * 63 / 64;
             fall = (u16)spark->vy - 2;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -61,7 +61,7 @@ int func_8018F010(int mode, RoomM349FlareSpark *spark) {
             spark->vz = spark->vz * 63 / 64;
             fall = (u16)spark->vy;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }

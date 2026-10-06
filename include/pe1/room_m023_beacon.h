@@ -6,6 +6,7 @@
 #include "pe1/gte_types.h"
 #include "pe1/render_prim.h"
 #include "pe1/field_model_draw.h"
+#include "pe1/room_floor.h"
 
 
 /* room_m023 joint beacon (func_8018FC14): follows a model joint, swells
@@ -101,7 +102,6 @@ extern RoomM023BeaconOffset D_8018EFF4;
 extern u8 *D_80190760;
 extern u8 D_801906F0[];
 extern u16 D_800E11EA;
-extern s16 D_800942EC;
 
 u8 *func_8006E498(void *channel, int id);
 void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);

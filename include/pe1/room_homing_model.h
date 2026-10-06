@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
+#include "pe1/room_floor.h"
 
 /* Room projectile that flies along its heading, bounces off the walkable
  * polygon's edges, drops onto the floor and finally hands its position to
@@ -97,20 +98,12 @@ typedef struct RoomHomingModelEntity {
     s32 position[3];              /* 0x28 */
 } RoomHomingModelEntity;
 
-/* The floor height at 0x800942EC: the spark stores read it unsigned as a
- * record so they stay in place, the throw setup reads it signed. */
-typedef union RoomHomingModelFrameTick {
-    u16 count;
-    s16 height;
-} RoomHomingModelFrameTick;
-
 extern RoomHomingModelEvent *D_800E2368;
 extern RoomHomingModelActorChannel *D_800F32D0;
 extern RoomHomingModelSparkChannel *D_800F33E0;
 extern RoomHomingModelEntity *D_8009D254;
 extern RoomHomingModelVertex *D_8009D248;
 extern u16 D_8009D1CC;
-extern RoomHomingModelFrameTick D_800942EC;
 /* One packed word of the PSY-Q sine table: sine low, cosine high. */
 typedef union RoomHomingTrig {
     s32 word;

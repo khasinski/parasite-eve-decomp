@@ -39,7 +39,7 @@ int func_801900CC(int mode, RoomBounceGlint *glint, int *size) {
             glint->vz = glint->vz * 31 / 32;
             fall = (u16)glint->vy + 4;
             glint->vy = fall;
-            if ((s16)glint->y >= D_800942EC.height) {
+            if ((s16)glint->y >= g_RoomFloorY->y) {
                 int bounce = -(s16)fall;
 
                 glint->vy = bounce;
@@ -170,7 +170,7 @@ s32 func_80190574(s32 mode, RoomBounceGlint *ent) {
 
 mode0:
     func_800CE8F0(((void **)D_800F32D0)[2], 7, &blob, ent);
-    ent->y = D_800942EC.height;
+    ent->y = g_RoomFloorY->y;
     value = func_800D3FD8();
     func_800D3F64(0x579, value);
     func_800CE560(((void **)D_800F33E0)[2], 0x14, 0x18, func_801900CC);

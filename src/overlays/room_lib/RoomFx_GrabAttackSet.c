@@ -491,7 +491,7 @@ int RoomFx_GroundSweepController(int mode, RoomGroundSweep *sweep,
         work.x = (g_RoomGrabSweepSide - 1) * 350;
         work.z = -(func_80071A54() & 0xFF) - 400;
         func_800CE8F0(D_800F32D0->pool, 4, &work, sweep);
-        sweep->y = D_800942EC.count;
+        sweep->y = g_RoomFloorY->y;
         sweep->x += (func_80071A54() & 0x1F) - 0x10;
         sweep->z += (func_80071A54() & 0x1F) - 0x10;
         sweep->heading.x = 0;
@@ -513,7 +513,7 @@ int RoomFx_GroundSweepController(int mode, RoomGroundSweep *sweep,
                              RoomFx_GroundSweepMark);
     case 1:
         func_800CE870((char *)D_8009D254, 1, (s16 *)&hand);
-        hand.y = D_800942EC.count;
+        hand.y = g_RoomFloorY->y;
         switch (sweep->phase) {
         case 0:
             sweep->timer++;
@@ -538,7 +538,7 @@ int RoomFx_GroundSweepController(int mode, RoomGroundSweep *sweep,
             sweep->x += step.x;
             sweep->y += step.y;
             sweep->z += step.z;
-            sweep->y = D_800942EC.count;
+            sweep->y = g_RoomFloorY->y;
             mark = (RoomGroundSweepMark *)func_800CE610(D_800F33E0->pool);
             if (mark) {
                 mark->x = sweep->x;
@@ -578,7 +578,7 @@ int RoomFx_GroundSweepController(int mode, RoomGroundSweep *sweep,
             sweep->x += step.x;
             sweep->y += step.y;
             sweep->z += step.z;
-            sweep->y = D_800942EC.count;
+            sweep->y = g_RoomFloorY->y;
             mark = (RoomGroundSweepMark *)func_800CE610(D_800F33E0->pool);
             if (mark) {
                 mark->x = sweep->x;
@@ -749,7 +749,7 @@ int RoomFx_OrbitTrailParticle(int mode, RoomOrbitTrailParticle *p) {
             p->heading.z = p->heading.z * 127 / 128;
             fall = (u16)p->heading.y + 1;
             p->heading.y = fall;
-            if (p->y >= D_800942EC.count) {
+            if (p->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 p->heading.y = bounce;
             }
@@ -1035,7 +1035,7 @@ int RoomFx_RisingSprayParticle(int mode, RoomSpraySpark *spark) {
             spark->vz = spark->vz * 127 / 128;
             fall = (u16)spark->vy - 1;
             spark->vy = fall;
-            if (spark->y >= D_800942EC.count) {
+            if (spark->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 spark->vy = bounce;
             }
@@ -1081,7 +1081,7 @@ int RoomFx_RisingSprayParticle(int mode, RoomSpraySpark *spark) {
             shadowRotation.flags = 1;
             shadow.x = position.x;
             shadow.z = position.z;
-            shadow.y = D_800942EC.count;
+            shadow.y = g_RoomFloorY->y;
             {
                 u16 clut;
                 int kind;

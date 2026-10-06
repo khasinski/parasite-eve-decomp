@@ -37,9 +37,9 @@ int func_80192844(int mode, RoomM256Drop *drop) {
             drop->x += (func_80071A54() & 0x1F) - 0x10;
             drop->y += (func_80071A54() & 0x1F) - 0x10;
             drop->z += (func_80071A54() & 0x1F) - 0x10;
-            if (drop->y >= D_800942EC.y - 0x10 || drop->timer >= 0x18) {
+            if (drop->y >= g_RoomFloorY->y - 0x10 || drop->timer >= 0x18) {
                 drop->state = 1;
-                drop->y = D_800942EC.y - 0x10;
+                drop->y = g_RoomFloorY->y - 0x10;
                 drop->vy = 0;
             }
             if (drop->timer & 1) {
@@ -107,7 +107,7 @@ int func_80192844(int mode, RoomM256Drop *drop) {
             drop->vz = drop->vz * 127 / 128;
             fall = (u16)drop->vy - 2;
             drop->vy = fall;
-            if (drop->y >= D_800942EC.y) {
+            if (drop->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 drop->vy = bounce;
             }
@@ -122,7 +122,7 @@ int func_80192844(int mode, RoomM256Drop *drop) {
             drop->vz = drop->vz * 511 / 512;
             fall = (u16)drop->vy - 3;
             drop->vy = fall;
-            if (drop->y >= D_800942EC.y) {
+            if (drop->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 drop->vy = bounce;
             }
@@ -137,7 +137,7 @@ int func_80192844(int mode, RoomM256Drop *drop) {
             drop->vz = drop->vz * 31 / 32;
             fall = (u16)drop->vy - 3;
             drop->vy = fall;
-            if (drop->y >= D_800942EC.y) {
+            if (drop->y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 drop->vy = bounce;
             }

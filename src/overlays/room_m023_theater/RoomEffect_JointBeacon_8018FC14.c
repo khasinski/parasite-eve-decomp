@@ -134,7 +134,7 @@ int func_8018FC14(int mode, RoomM023Beacon *state) {
             position.x = state->position.x;
             position.y = state->position.y;
             position.z = state->position.z;
-            position.y = D_800942EC;
+            position.y = g_RoomFloorY->y;
             rotation.x = 0x400;
             rotation.pad = 1;
             {
@@ -190,7 +190,7 @@ int func_8018FC14(int mode, RoomM023Beacon *state) {
         scale.z = 0x1000;
         scale.y = 0x800;
         scale.x = 0x800;
-        matrix.t[1] = D_800942EC;
+        matrix.t[1] = g_RoomFloorY->y;
         ScaleMatrix(&matrix, &scale);
         func_800C6FA0(D_80190760, 0x19);
         func_800C71E4(D_80190760, &matrix);

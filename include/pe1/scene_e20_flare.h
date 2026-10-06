@@ -2,6 +2,7 @@
 #define PE1_SCENE_E20_FLARE_H
 
 #include "pe1/gte_types.h"
+#include "pe1/room_floor.h"
 
 typedef GteShortVector SceneE20Vec;
 
@@ -13,10 +14,6 @@ typedef struct SceneE20Particle {
     /* 0x10 */ s16 kind;
     /* 0x12 */ s16 timer;
 } SceneE20Particle;
-
-/* Shared floor-height record used by particle motion and effect placement. */
-typedef struct SceneE20Floor { s16 height; } SceneE20Floor;
-extern SceneE20Floor D_800942EC;
 
 int func_8018F028(int mode, SceneE20Particle *particle);
 

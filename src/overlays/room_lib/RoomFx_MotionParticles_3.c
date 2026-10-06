@@ -19,6 +19,7 @@
 #include "RoomLib_RenderLayouts.h"
 #include "RoomLib_DrawMotion.h"
 #include "RoomSharedGlobalState.h"
+#include "pe1/room_floor.h"
 
 
 extern int func_80071A54(void);
@@ -130,7 +131,6 @@ typedef struct RoomParticleRenderPairState {
     RoomParticleRenderRecord second;
 } RoomParticleRenderPairState;
 
-extern s16 D_800942EC;
 
 void func_800C5538(RoomParticleRenderRecord *record);
 void func_800C66C8(void *owner, int message, RoomSpriteMatrix *matrix);
@@ -150,10 +150,10 @@ void RoomFx_InitParticleRenderPair(
     secondMatrix = *(RoomSpriteMatrix *)(*(char **)((char *)*root + 0x238));
 
     firstMatrix.t[0] = *(s32 *)(*(char **)((char *)*root + 0x238) + 0x134);
-    firstMatrix.t[1] = D_800942EC;
+    firstMatrix.t[1] = g_RoomFloorY->y;
     firstMatrix.t[2] = *(s32 *)(*(char **)((char *)*root + 0x238) + 0x13C);
     secondMatrix.t[0] = *(s32 *)(*(char **)((char *)*root + 0x238) + 0x1B4);
-    secondMatrix.t[1] = D_800942EC;
+    secondMatrix.t[1] = g_RoomFloorY->y;
     secondMatrix.t[2] = *(s32 *)(*(char **)((char *)*root + 0x238) + 0x1BC);
 
     workState->second.field04 = 10;

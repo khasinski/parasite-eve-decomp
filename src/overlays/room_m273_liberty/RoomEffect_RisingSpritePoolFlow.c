@@ -1,6 +1,7 @@
 /* Sprite callback and poll/reset controller share one pool and layout. */
 #include "room_m273_effects.h"
 #include "room_m273_sweep.h"
+#include "pe1/room_floor.h"
 typedef GteShortVector Vector;
 extern int D_800E27EC, D_800F3428, D_800966EC[];
 extern unsigned short D_800F336C, D_800E1204[];
@@ -134,7 +135,7 @@ int func_80197648(int mode) {
 
 /* The position emitter fills the eight-byte records rendered by this callback. */
 extern int D_800E27EC,D_800F3428,D_800966EC[];
-extern unsigned short D_800F3368,D_800F336C,D_800F336E,D_800E1204[],D_800942EC;
+extern unsigned short D_800F3368, D_800F336C, D_800F336E, D_800E1204[];
 extern unsigned short D_800F3370,D_800F3372,D_800F3374;
 extern unsigned short D_800F3376,D_800F3378;
 extern unsigned char D_8019AB70[],D_8019AD74[],D_8019AD78[],D_8019AF68,D_8019AF69;
@@ -169,7 +170,7 @@ int func_801977F8(int mode,Vector *input) {
         size=(short)sample+1024;
         func_800D004C(&position,512,512,16,&rotation,size,size,D_8019AB70,D_8019AD74,shade,1);
         rotation.x=1024; rotation.y=0; rotation.z=(unsigned int)frame<<8; rotation.pad=1;
-        position.y=D_800942EC;
+        position.y=g_RoomFloorY->raw;
         asm("" : : "r"(frame) : "memory");
         func_800D004C(&position,768,768,8,&rotation,4096,4096,D_8019AD78,D_8019AB70,shade,1);
     }

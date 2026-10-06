@@ -16,7 +16,7 @@ RoomSlotRec *RoomLib_SlotSet(int mode, int idx, int a, int b) {
         /* Stored through a halfword view of the field, which GCC schedules
          * before the frame load as retail has it. */
         *(short *)&e->h0 = a;
-        e->h2 = g_FrameCount16;
+        e->h2 = g_RoomFloorY->raw;
         e->h4 = b;
     }
     return e;

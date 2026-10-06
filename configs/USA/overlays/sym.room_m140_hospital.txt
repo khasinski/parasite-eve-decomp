@@ -14,7 +14,6 @@ RoomLib_PairB = 0x80190F4C;
 RoomEffect_DroppedFlareEmitter = 0x80190B4C; // type:func
 RoomEffect_DroppedFlareParticle = 0x8019018C; // type:func
 RoomMain_ActorPtr2 = 0x8009D254;
-g_FrameCount16 = 0x800942EC;
 RoomFx_FallingBurstInit = 0x8018F230; // type:func
 RoomFx_FallingBurstNop = 0x8018F420; // type:func
 RoomFx_FallingBurstTick = 0x8018F428; // type:func

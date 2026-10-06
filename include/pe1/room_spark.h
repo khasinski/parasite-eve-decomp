@@ -5,6 +5,7 @@
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
 #include "pe1/field_collision.h"
+#include "pe1/room_floor.h"
 
 /* Room spark particles: damped velocity, gravity and a floor bounce against
  * the frame-count driven floor height. */
@@ -22,20 +23,6 @@ typedef struct RoomDampedSpark {
 
 PE1_STATIC_ASSERT(sizeof(RoomDampedSpark) == 0x14, room_damped_spark_size);
 
-/* Frame counter record at 0x800942EC; reading it as a record keeps the
- * compare ordered after the particle's velocity store, as retail does. */
-typedef struct RoomSparkFrameCounter {
-    s16 count;
-} RoomSparkFrameCounter;
-
-extern RoomSparkFrameCounter D_800942EC;
-/* The same counter under its other label, read unsigned as a record so a
- * store through a particle pointer keeps it from being hoisted. */
-typedef struct RoomSparkFrameTick {
-    u16 count;
-} RoomSparkFrameTick;
-
-extern RoomSparkFrameTick g_FrameCount16;
 extern int rsin(int angle);
 extern int rcos(int angle);
 extern u16 func_80077AA4(int, int);

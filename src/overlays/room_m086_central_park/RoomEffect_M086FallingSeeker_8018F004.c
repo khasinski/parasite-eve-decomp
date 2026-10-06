@@ -6,7 +6,7 @@ int func_8018F004(int mode, RoomM086Seeker *seeker, RoomM086SeekerParams *params
     GteShortVector position;
     GteMatrix matrix;
     GteVector scale;
-    RoomM086FloorLevel *floor;
+    RoomFloorY *floor;
     RoomM086Channel *channel;
     u16 *index;
     int size = params->size >> 3;
@@ -23,13 +23,13 @@ int func_8018F004(int mode, RoomM086Seeker *seeker, RoomM086SeekerParams *params
             seeker->position.x += position.x;
             seeker->position.y += position.y;
             seeker->position.z += position.z;
-            floor = &D_800942EC;
-            if (seeker->position.y >= floor->count) {
+            floor = g_RoomFloorY;
+            if (seeker->position.y >= floor->y) {
                 seeker->state = 1;
                 seeker->timer = 0;
             }
             if (func_800C6B90(&seeker->position, size * 41 / 512) == 0) break;
-            if (seeker->position.y < floor->count - 0x202) break;
+            if (seeker->position.y < floor->y - 0x202) break;
             if (D_800E2368->active) {
                 channel = D_800F32D0;
                 if ((channel->pool->object->flags & 0x3F000000) == 0x01000000) {
@@ -56,7 +56,7 @@ int func_8018F004(int mode, RoomM086Seeker *seeker, RoomM086SeekerParams *params
             seeker->heading.z = seeker->heading.z * 31 / 32;
             fall = (u16)seeker->heading.y + 4;
             seeker->heading.y = fall;
-            if (seeker->position.y >= D_800942EC.count) {
+            if (seeker->position.y >= g_RoomFloorY->y) {
                 bounce = -(s16)fall;
                 seeker->heading.y = bounce;
             }
@@ -110,7 +110,7 @@ int func_8018F004(int mode, RoomM086Seeker *seeker, RoomM086SeekerParams *params
             position.x = seeker->position.x;
             position.y = seeker->position.y;
             position.z = seeker->position.z;
-            position.y = D_800942EC.count;
+            position.y = g_RoomFloorY->y;
             {
                 int kind = D_800F3368.palette;
                 int palette = D_800E1204[kind];

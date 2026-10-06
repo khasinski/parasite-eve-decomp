@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
+#include "pe1/room_floor.h"
 
 /* Shared 20-byte pool record for the room_m086 bounce-glint emitter and
  * callback: phase 0 drifts for 24 frames; phase 1 falls and bounces. */
@@ -24,13 +25,6 @@ PE1_STATIC_ASSERT(sizeof(RoomBounceGlint) == 0x14, room_bounce_glint_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomBounceGlint, phase) == 0x12,
                   room_bounce_glint_phase_offset);
 
-/* Floor height, read as a one-field record so the bounce test stays below
- * the velocity store like retail. */
-typedef struct RoomBounceGlintFloor {
-    s16 height;
-} RoomBounceGlintFloor;
-
-extern RoomBounceGlintFloor D_800942EC;
 extern u16 D_800E11EA;
 int func_80077AA4(int, int);
 int rcos(int angle);

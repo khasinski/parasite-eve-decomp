@@ -4,6 +4,7 @@
 #include "pe1/render_camera.h"
 #include "pe1/psyq_gpu.h"
 #include "pe1/game_state.h"
+#include "pe1/room_floor.h"
 
 extern s32 g_GlobalFrameCounter;
 extern char D_8009D224[];
@@ -23,7 +24,6 @@ extern char D_800BEA4A[];
 extern char D_800BEA4C[];
 extern char D_800BEA4E[];
 extern char D_800BEA50[];
-extern char D_800942EC[];
 
 
 #define W(sym) (*(s32 *)(sym))
@@ -142,7 +142,7 @@ void Gpu_InitPipeline(void) {
     Task_DrawSyncAndFlush();
     func_800E0060();
     g_GlobalFrameCounter = 0;
-    H(D_800942EC) = 0;
+    g_RoomFloorY->y = 0;
     DrawSync(0);
     SetDispMask(1);
     {
