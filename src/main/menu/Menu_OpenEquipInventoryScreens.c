@@ -6,11 +6,12 @@
 #include "pe1/battle_cmd.h"
 #include "common.h"
 #include "pe1/menu_widget.h"
+#include "pe1/draw_state.h"
+#include "pe1/text.h"
 
 /* Builders that open the equip screen (weapon and armor lists) and the
- * inventory swap screen, plus the equip-mode getter. Contiguous at
- * 0x8004E704; Menu_DrawEquipListContainer, which follows, is still a
- * separate file. */
+ * inventory swap screen, the equip-mode getter and the equip list container
+ * draw. Contiguous at 0x8004E704 (main_tu_evidence G0462). */
 
 extern int g_MenuEquipMode;
 extern int D_8009CF0C;
@@ -198,5 +199,20 @@ void Menu_OpenInventoryScreen(void) {
         g_MenuEquipSwapSource = 0;
     } else {
         Inv_SetActiveList(9, 0);
+    }
+}
+
+void Menu_DrawEquipListContainer(void *node) {
+    int count;
+
+    D_8009CEF4 = (int)node;
+    MenuWidget_DrawList(node, Menu_DrawEquipSlotListItem);
+    Draw_SetTextDimmed(1);
+
+    count = ((MenuWidgetNode *)node)->visible_rows;
+    while (count != 0) {
+        Draw_AllocSprite(0x68);
+        Draw_OffsetCursor(0, 0x10);
+        count--;
     }
 }

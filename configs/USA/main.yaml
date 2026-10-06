@@ -478,9 +478,8 @@ segments:
       - [0x3E564, c, menu/Menu_OpenRenameScreen]
       # Name entry page input handlers: private data and helpers join the pair.
       - [0x3E874, c, menu/Menu_NameEntryFlow]
-      # Equip and inventory screen builders: helper calls join the run.
+      # Equip and inventory screen builders and the equip list container draw: helper calls join the run (G0462).
       - [0x3EF04, c, menu/Menu_OpenEquipInventoryScreens]
-      - [0x3F3CC, c, menu/Menu_DrawEquipListContainer]
       - [0x3F43C, c, menu/Menu_DrawWeaponList]
       - [0x3F4B4, c, menu/Menu_StepInventoryCategory]
       - [0x3F730, c, menu/Menu_DrawBattleCommandList]
