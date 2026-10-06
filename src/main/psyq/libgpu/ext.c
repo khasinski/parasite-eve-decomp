@@ -1,21 +1,18 @@
 /* CC1_FLAGS: -mno-split-addresses */
 /* ASSEMBLER: GNU */
+/* GCC_VERSION: 2.8.1 */
+/* Psy-Q LIBGPU EXT.OBJ: LoadTPage, LoadClut, LoadClut2, SetDefDrawEnv and
+ * SetDefDispEnv. */
 #include "common.h"
 #include "pe1/psyq_gpu.h"
-
-/* GCC_VERSION: 2.8.1 */
-
-/* Psy-Q libgpu/sys.c tail: seven contiguous routines in SDK source order. */
 
 int LoadImage(RECT *rect, u_long *pixels);
 u_short GetTPage(int mode, int blend, int x, int y);
 u_short GetClut(int x, int y);
 int GetVideoMode(void);
 
-extern int g_VideoMode;
-
-u32 Gpu_LoadTexImageAndGetTPage(u_long *pixels, int mode, int blend,
-                                    int x, int y, int width, int height)
+u32 LoadTPage(u_long *pixels, int mode, int blend,
+              int x, int y, int width, int height)
 {
     RECT rect;
     u32 tpage;
@@ -57,7 +54,7 @@ load:
     return tpage;
 }
 
-u32 func_8007485C(void *pixels, int x, int y)
+u32 LoadClut(void *pixels, int x, int y)
 {
     RECT rect;
     u32 clut;
@@ -74,7 +71,7 @@ u32 func_8007485C(void *pixels, int x, int y)
     return clut;
 }
 
-u32 func_800748C0(void *pixels, int x, int y)
+u32 LoadClut2(void *pixels, int x, int y)
 {
     RECT rect;
     u32 clut;
@@ -136,16 +133,4 @@ DISPENV *SetDefDispEnv(DISPENV *env, int x, int y, int w, int h)
     env->pad1 = 0;
     env->pad0 = 0;
     return env;
-}
-
-int SetVideoMode(int mode) {
-    int old;
-
-    old = g_VideoMode;
-    g_VideoMode = mode;
-    return old;
-}
-
-int GetVideoMode(void) {
-    return g_VideoMode;
 }

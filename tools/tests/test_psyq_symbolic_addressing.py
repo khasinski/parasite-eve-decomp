@@ -25,14 +25,20 @@ CASES = [('src/main/psyq/libapi/SetInitPadFlag.c',
   'D_800A76D0 = 0x800a76d0;\n'
   'SECTIONS { .text 0x80084fc4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/gpu/libgpu_sys.c',
-  708,
-  '00f88a6906518b3da0c10f4b454ad4f7dff6d07a6751c1d7d9e6c9f103cadb64',
+ ('src/main/psyq/libgpu/ext.c',
+  672,
+  '3a25ec7c5052da04717d07bcd8e6a892675b1e1652248db012e7694c95229a75',
   'LoadImage = 0x8007506c;\n'
   'GetTPage = 0x80077a64;\n'
   'GetClut = 0x80077aa4;\n'
-  'g_VideoMode = 0x800956ec;\n'
+  'GetVideoMode = 0x80074a28;\n'
   'SECTIONS { .text 0x80074774 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
+  '*(.mdebug) } }'),
+ ('src/main/psyq/libetc/vmode.c',
+  36,
+  'f59613af52070699e2282716b260db31b6dfda3e8b3f91918e52f1e56017d853',
+  'g_VideoMode = 0x800956ec;\n'
+  'SECTIONS { .text 0x80074a14 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
  ('src/main/cdrom/cd_tail.c',
   536,

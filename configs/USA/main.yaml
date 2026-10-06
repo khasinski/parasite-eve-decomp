@@ -922,8 +922,9 @@ segments:
       # Psy-Q etc/intr_dma.c callback registration helpers, in source order.
       - [0x64EA0, c, psyq/libetc/intr_dma]
       - [0x64F70, pad]
-      # Psy-Q libgpu/sys.c tail; functions remain in SDK source order.
-      - [0x64F74, c, gpu/libgpu_sys]
+      # Psy-Q LIBGPU EXT.OBJ, then LIBETC VMODE.OBJ and its zero tail.
+      - [0x64F74, c, psyq/libgpu/ext]
+      - [0x65214, c, psyq/libetc/vmode]
       - [0x65238, pad]
       - [0x65244, c, psyq/libgpu/ResetGraph]
       - [0x653B8, c, psyq/libgpu/SetGraphDebugAndQueue]
