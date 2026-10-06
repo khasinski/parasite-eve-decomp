@@ -421,8 +421,9 @@ segments:
       - [0x2F2C8, c, boot/Gte_StoreTableEntry]
       - [0x2F304, c, field/Field_HandleStateTransition]
       - [0x2F874, c, gpu/Gpu_InitPipeline]
-      - [0x2FAFC, c, boot/Boot_FlushSceneFast]
-      - [0x2FBC4, c, boot/Boot_RunFrame]
+      # Scene flush and field frame loop: contiguous -G8 pair; the loop ends
+      # with the same flush sequence (main_tu_evidence G0346).
+      - [0x2FAFC, c, boot/Boot_FrameLoop]
       - [0x2FF58, c, gpu/Gte_LightingState]
       - [0x30000, c, save/Save_TailBlobFlow]
       - [0x307AC, c, save/Save_SetTitleStyleFlag]

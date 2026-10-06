@@ -1,8 +1,10 @@
-#include "common.h"
-#include "pe1/psyq_gpu.h"
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
-
+/* Field frame loop and its scene flush: Boot_FlushSceneFast is the exit tail
+ * that Boot_RunFrame repeats after its loop. Contiguous -G8 pair. */
+#include "common.h"
+#include "pe1/psyq_gpu.h"
+#include "pe1/game_state.h"
 extern u32 D_8009D1C4;
 extern u32 D_8009D280;
 extern u8 D_8009CDD8_blob[] asm("D_8009CDD8");
@@ -54,6 +56,31 @@ void DrawSync(int mode);
 void Akao_Cmd_F1(void);
 void Render_Noop(int mode);
 void Asset_UnloadTableEntries(void);
+
+void Boot_FlushSceneFast(void) {
+    RECT rect;
+    u32 status;
+    u32 first_status;
+
+    if (g_GameState.flags & 0x200) {
+        rect.w = 0x140;
+        rect.x = 0;
+        rect.y = 0;
+        rect.h = 0x1C0;
+        ClearImage(&rect, 0, 0, 1);
+    }
+    DrawSync(0);
+    Akao_Cmd_F1();
+    Render_Noop(1);
+    Asset_UnloadTableEntries();
+    status = g_GameState.flags | 2;
+    g_GameStateFlags = (g_GameStateFlags | 0x40) & ~0x3800;
+    first_status = status & ~0x800;
+    g_GameState.flags = first_status;
+    if (status & 0x200) {
+        g_GameState.flags = (first_status | 2) & 0xFFFF7DFF;
+    }
+}
 
 void Boot_RunFrame(void)
 {
