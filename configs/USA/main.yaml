@@ -425,9 +425,8 @@ segments:
       # Equip/inventory list screen, list input, count header and item action submenu: private data and helpers join the run.
       - [0x34974, c, menu/Menu_EquipScreenFlow]
       - [0x355CC, c, menu/Menu_ItemLabel]
-      - [0x35698, c, menu/Menu_ConfirmDialogHandler]
-      # Item detail panel step and the discard confirmation it opens (G0397).
-      - [0x3578C, c, menu/Menu_ItemDetailPanel]
+      # Yes/no dialog handler, item detail panel step and the discard confirmation it opens (G0397).
+      - [0x35698, c, menu/Menu_ItemDetailPanel]
       # Ammo-spend panel construction and input share selection state.
       - [0x359D0, c, menu/Menu_AmmoSpendPanel]
       - [0x35BE8, c, menu/Menu_DrawAmmoSpendPanel]

@@ -1,11 +1,62 @@
 /* CC1_FLAGS: -G8 -fno-expensive-optimizations */
 /* MASPSX_FLAGS: -G8 */
-#include "pe1/menu_dialog.h"
-#include "pe1/text.h"
 #include "common.h"
+#include "pe1/menu_dialog.h"
+#include "pe1/menu_inventory.h"
+#include "pe1/text.h"
 #include "pe1/inventory.h"
 #include "pe1/menu_widget.h"
 #include "pe1/inventory_slots.h"
+
+/* The yes/no confirmation dialog, the item detail panel and its discard
+ * confirmation (main_tu_evidence G0397). The dialog handler compiles the
+ * same under the panel's -fno-expensive-optimizations. */
+
+/* Closes the dialog on a choice or cancel and reports it to
+ * g_MenuConfirmCallback. */
+int Menu_ConfirmDialogHandler(void *node, int flags) {
+    int index;
+
+    if (flags & 0x10000) {
+        index = MenuWidget_GridCellIndex(MenuWidget_GetChild(node, 0));
+        switch (index) {
+        case 0:
+            MenuWidget_DestroyNode(node);
+            if (((MenuWidgetNode *)node)->selected_base == 0x2A) {
+                MenuWidget_RestoreSavedCurrentNode();
+            }
+            if (g_MenuConfirmCallback != 0) {
+                g_MenuConfirmCallback(node, 1);
+            }
+            Menu_PlayConfirmSound();
+            break;
+        case 1:
+            MenuWidget_DestroyNode(node);
+            if (((MenuWidgetNode *)node)->selected_base == 0x2A) {
+                MenuWidget_RestoreSavedCurrentNode();
+            }
+            if (g_MenuConfirmCallback != 0) {
+                g_MenuConfirmCallback(node, 0);
+            }
+            Menu_PlayCancelSound();
+            break;
+        }
+        return 1;
+    }
+
+    if (flags & 0x40) {
+        MenuWidget_DestroyNode(node);
+        if (((MenuWidgetNode *)node)->selected_base == 0x2A) {
+            MenuWidget_RestoreSavedCurrentNode();
+        }
+        if (g_MenuConfirmCallback != 0) {
+            g_MenuConfirmCallback(node, 0);
+        }
+        Menu_PlayCancelSound();
+    }
+    return 1;
+}
+
 
 void Menu_StepItemDetailPanel(void) {
     MenuWidgetNode *parent, *child;
