@@ -1410,8 +1410,8 @@ segments:
       # TPage setup and unconditional/cached loads use the same texture-page coordinates and CLUT buffers.
       - [0xBF4AC, c, engine/func_800CEDA8]
       - [0xBF620, c, engine/FieldEng_ShapeQuads]
-      - [0xBFBAC, c, engine/FieldEng_InterpolateColorTrack]
-      - [0xBFCB4, c, engine/func_800CF4B4]
+      # Colour-key interpolation and the CLUT row cycle; inside the literal-joined G1561 run.
+      - [0xBFBAC, c, engine/FieldEng_ColorAnimation]
       - [0xBFDB0, c, engine/FieldEng_TransformTranslation]
       - [0xBFE58, c, engine/Gte_BuildAndLoadRotationMatrix]
       - [0xBFEF8, c, engine/FieldEng_QueueDrawMode]
