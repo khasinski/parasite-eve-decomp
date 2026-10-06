@@ -409,10 +409,8 @@ segments:
       - [0x2EF54, c, boot/Boot_DisplayResetAndCallbacks]
       # Render-flag table builder and the per-frame pad and state transition handler share private state (G0343).
       - [0x2F174, c, boot/Boot_RenderFlagsAndPadInput]
-      - [0x2F874, c, gpu/Gpu_InitPipeline]
-      # Scene flush and field frame loop: contiguous -G8 pair; the loop ends
-      # with the same flush sequence (main_tu_evidence G0346).
-      - [0x2FAFC, c, boot/Boot_FrameLoop]
+      # GPU pipeline init, the fast scene flush and the field frame loop share helpers (G0344).
+      - [0x2F874, c, boot/Boot_FrameLoop]
       - [0x2FF58, c, gpu/Gte_LightingState]
       - [0x30000, c, save/Save_TailBlobFlow]
       - [0x307AC, c, save/Save_SetTitleStyleFlag]
