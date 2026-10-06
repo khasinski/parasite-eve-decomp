@@ -376,8 +376,8 @@ segments:
       # the same render-object vertex buffers; the rigid and morph passes compile
       # identically under the skinned pass's -G8 profile, which the unit uses.
       - [0x2A888, c, render/Render_VertexTransforms]
+      # Entity draw, textured quads and the entity matrix builder share helpers (G0320).
       - [0x2B714, c, render/Render_EntityAndTexturedQuadFlow]
-      - [0x2BF08, c, render/Render_BuildEntityMatrix]
       # Object drawing and its CLUT-table update (helper evidence across the
       # object-draw span); Render_UpdateClutTable compiles identically under
       # Render_DrawObject's -G8 profile. The -fno-schedule-insns variant that
