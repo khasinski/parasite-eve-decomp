@@ -34,7 +34,8 @@ def collect(source_root: pathlib.Path = SRC) -> dict[str, dict[str, int]]:
         scope = "overlays" if rel.parts and rel.parts[0] == "overlays" else "main"
         if ADDRESS_NAME.fullmatch(path.stem):
             counts[scope]["address_files"] += 1
-        elif PLACEHOLDER_NAME.fullmatch(path.stem):
+        elif PLACEHOLDER_NAME.fullmatch(path.stem) and "psyq" not in rel.parts:
+            # PsyQ units carry SDK object names (LIBSPU SPU is spu.c).
             counts[scope]["placeholder_files"] += 1
     return counts
 
