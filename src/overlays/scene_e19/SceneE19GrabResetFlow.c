@@ -1,7 +1,9 @@
 #include "common.h"
 #include "pe1/scene_grab_trigger.h"
+#include "pe1/scene_grab_head.h"
 
-void SceneEffect_GrabOnApproach_801926B4(SceneGrabTrigger *trigger) {
+void SceneEffect_GrabOnApproach(SceneGrabHead *head) {
+    SceneGrabTrigger *trigger = (SceneGrabTrigger *)head;
     FieldActor *actor = trigger->actor;
     SceneGrabControl *control = &trigger->control;
     FieldActorState *state = actor->state;

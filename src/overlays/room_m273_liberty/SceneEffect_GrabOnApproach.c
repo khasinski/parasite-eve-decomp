@@ -1,5 +1,6 @@
 #include "common.h"
 #include "pe1/field_actor.h"
+#include "pe1/scene_grab_head.h"
 #include "room_m273.h"
 
 extern FieldActor *g_PlayerEntity;
@@ -9,15 +10,8 @@ extern void func_80020C74(void);
 extern void func_80192838(RoomSelectionState *);
 extern void func_80192D50(struct RoomEnt *);
 
-void func_80192638(char *obj) {
-    char *slot = *(char **)(obj + 8);
-
-    if (slot[0xE] == 0x10) {
-        *(void (**)(void))(obj + 0xC) = (void (*)(void))func_80192664;
-    }
-}
-
-void func_80192664(RoomSelectionState *typedState) {
+void SceneEffect_GrabOnApproach(SceneGrabHead *head) {
+    RoomSelectionState *typedState = (RoomSelectionState *)head;
     char *stateBytes = (char *)typedState;
     FieldActor *actor = typedState->actor;
     FieldActor *player = g_PlayerEntity;

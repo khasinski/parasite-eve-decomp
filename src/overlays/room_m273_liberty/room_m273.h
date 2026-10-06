@@ -157,7 +157,6 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomSelectionState, callback) +
  * substate the grab sequence flips to 2 and 4. */
 typedef FieldActorScriptState RoomM273ActorState;
 
-void func_80192664(RoomSelectionState *state);
 s32 func_80192D8C(RoomSelectionState *selection);
 
 PE1_STATIC_ASSERT(PE1_OFFSETOF(RoomPlacementOwner, map) == 0x238,
