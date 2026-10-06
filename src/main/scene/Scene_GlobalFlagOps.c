@@ -45,15 +45,12 @@ int Menu_SetModeState6(void) {
 }
 
 int Entity_GetField(char ***arg0) {
-    register char *value asm("$2");
     FieldActor *ctx = g_CurrentEntity;
 
     if (ctx->type_id == 0) {
-        value = Battle_GetContextField(*(unsigned char *)arg0[0]);
+        *arg0[1] = Battle_GetContextField(*(unsigned char *)arg0[0]);
     } else {
-        value = Battle_GetEnemyContextField(ctx, *(unsigned char *)arg0[0]);
+        *arg0[1] = Battle_GetEnemyContextField(ctx, *(unsigned char *)arg0[0]);
     }
-
-    *arg0[1] = (char *)value;
     return 1;
 }
