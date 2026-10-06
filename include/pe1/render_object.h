@@ -4,6 +4,8 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 
+struct RenderColor;
+
 /* Packed geometry at 0x800C7AE0: two groups of 12-byte records and two
  * groups of 16-byte records precede the 8-byte vertex array. The record
  * kinds and the remaining header words are not identified yet. */

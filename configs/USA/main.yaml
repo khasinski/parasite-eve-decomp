@@ -1396,23 +1396,8 @@ segments:
       # Setup, allocation, ticking and callback dispatch share the same task-list record.
       - [0xBECF8, c, engine/FieldAnim_TaskList]
       - [0xBF070, c, engine/func_800CE870]
-      - [0xBF0F0, c, engine/FieldEng_MatrixVectors]
-      - [0xBF38C, c, engine/func_800CEB8C]
-      # TPage setup and unconditional/cached loads use the same texture-page coordinates and CLUT buffers.
-      - [0xBF4AC, c, engine/func_800CEDA8]
-      - [0xBF620, c, engine/FieldEng_ShapeQuads]
-      # Colour-key interpolation and the CLUT row cycle; inside the literal-joined G1561 run.
-      - [0xBFBAC, c, engine/FieldEng_ColorAnimation]
-      - [0xBFDB0, c, engine/FieldEng_TransformTranslation]
-      - [0xBFE58, c, engine/Gte_BuildAndLoadRotationMatrix]
-      - [0xBFEF8, c, engine/FieldEng_QueueDrawMode]
-      - [0xC0044, c, engine/FieldEng_OrbitOffsetPoint]
-      - [0xC02A8, c, engine/FieldEng_CalculateLookAngles]
-      - [0xC037C, c, engine/FieldEng_RotationOffset]
-      # Angle/direction helpers; the two scatter offsets share D_800E21C8, inside the G1561 run.
-      - [0xC04F4, c, engine/FieldEng_DirectionHelpers]
-      - [0xC084C, c, engine/FieldEng_StarFan]
-      - [0xC0F28, c, engine/FieldEng_RingBand]
+      # Transform, direction and colour helpers with the shape builders that use them (G1558).
+      - [0xBF0F0, c, engine/FieldEng_GeometryAndShapes]
       # Effect primitive builders: rotated triangle, history trail, fade tile, point tiles, rotated quad (G1559).
       - [0xC1688, c, engine/FieldEng_EffectPrimitives]
       - [0xC2FFC, c, engine/FieldEng_OrbitTile]
