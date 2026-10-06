@@ -14,8 +14,7 @@ u32 Task_GpuFlushPrimQueue(void) {
     /* Match debt: read architectural zero without emitting an instruction;
      * OR/ORI preserve the original encodings of the return and wrap value. */
     register u32 zero asm("$0");
-    asm volatile("" : "=r"(zero));
-    base = (u32 *)0x80070E0C;
+        base = (u32 *)0x80070E0C;
     head_slot = (u32 *)0x80070E04;
     tail_slot = (u32 *)0x80070E08;
     head = *head_slot;

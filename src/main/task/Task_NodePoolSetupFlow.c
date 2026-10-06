@@ -43,8 +43,7 @@ void Task_InitNodePool(void) {
         colOffset = rowOffset;
         for (; j < 11; j++, colOffset += 4) {
             cell = (int *)(colOffset + (unsigned int)base);
-            asm volatile("" : "=r"(cell) : "0"(cell));
-            *cell = 0;
+                        *cell = 0;
         }
     }
 
