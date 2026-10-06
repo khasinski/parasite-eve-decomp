@@ -103,7 +103,7 @@ edge, as `akao/Spu_TransferAndLifecycle` did before LIBPAD WAITRC2's
 | `render` | `Render_` | 3D object, room and sprite rendering, fades, camera | keep; `Scene_*Battle*` predicates to `scene` |
 | `anim` | `Anim_` | skeletal animation decode and interpolation | keep |
 | `entity` | `Entity_` | actor pools, movement, hierarchy, per-frame actor update | keep; `task.c` renamed by content |
-| `obj` | `Obj_` | geometry-state entry slots | merge into `render` |
+| `obj` | `Obj_` | geometry-state entry slots | dissolved: the three `Obj_` units are in `render` |
 | `field` | `Field_`, `Geo_` | field map entries, collision and floor geometry | keep; `Geo_*` from `main` join it |
 | `engine` | `FieldEng_`, `FieldAnim_` | the field effect engine in the separate `0x800C1CA0` segment: effect pool, emitters, particles | rename to `fieldfx` (`FieldFx_` prefix) |
 | `scene` | `Scene_` | room and scene loading, story flags, scene dispatch | keep; receives `Scene_*` files from `gpu`, `main`, `render`, `time` |
@@ -118,11 +118,11 @@ edge, as `akao/Spu_TransferAndLifecycle` did before LIBPAD WAITRC2's
 | `menu` | `Menu_`, `MenuWidget_`, `MenuInput_` | in-game menus, widget tree, menu input queue | keep; `Inv_*`, `Save_*`, `Pad_*` files out to their owners |
 | `save` | `Save_` | save-data layout, metadata, write flow | keep |
 | `akao` | `Akao_`, `Seq_`, `Spu_` | Square's AKAO sound driver: sequencer, voices, SPU uploads | keep; LIBSPU units to `psyq/libspu` |
-| `audio` | `Sfx_` | misnamed: both files are menu item-list code | dissolve into `menu` |
+| `audio` | `Sfx_` | misnamed: both files are menu item-list code | dissolved: both `Sfx_` units are in `menu` |
 | `time` | `GameTime_` | play-time counters and timers | keep |
 | `table` | `Tbl_`, `Str_` | text and textbox lookup tables | rename to `text` (`Text_`) |
-| `util` | `Util_` | vague | dissolve: `util.c` (inventory globals) to `item` |
-| `main` | mixed | splat's default bucket, not a subsystem | dissolve by prefix into the rows above; `gap_*` words go with the object they pad (most are SDK object tails) |
+| `util` | `Util_` | vague | dissolved: `util.c` is `item/Inv_ItemGridAndActiveList.c` |
+| `main` | mixed | splat's default bucket, not a subsystem | dissolve by prefix into the rows above; what remains is battle code (to `battle`) and three units still being edited (`Camera_AngleMotionFlow`, `MapSelectionFlow`, `Scene_UpdateEntityPositions`) |
 
 ## Overlays
 
