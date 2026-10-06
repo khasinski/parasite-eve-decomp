@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[2]
 
 class CDCommandEventTests(unittest.TestCase):
     def test_local_alias_removed(self):
-        source=(ROOT/'src/main/cdrom/CdRom_CmdEventCallback.c').read_text()
+        source=(ROOT/'src/main/psyq/libds/dssys_1_text_D24.c').read_text()
         self.assertNotIn('D_8009B558_o',source)
         self.assertNotIn('__asm__',source)
         self.assertIn('extern CdRomEventCommandState D_8009B558;',source)

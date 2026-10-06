@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class CDReadProgressTests(unittest.TestCase):
     def test_plain_source(self):
-        self.assertNotRegex((ROOT/'src/main/cdrom/CdRom_ReadProgressCallback.c').read_text(), r'\b(?:asm|__asm__)\b')
+        self.assertNotRegex((ROOT/'src/main/psyq/libds/DS_read_cbready.c').read_text(), r'\b(?:asm|__asm__)\b')
 
     @unittest.skipUnless((ROOT/'assets/USA/main.exe').is_file() and
                          (ROOT/'build/USA/main.exe').is_file(), 'images unavailable')

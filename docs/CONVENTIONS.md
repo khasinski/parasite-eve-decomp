@@ -60,7 +60,7 @@ links LIBC: its string and memory routines are the LIBC BIOS veneers
 therefore live in `psyq/libc/`; there is no `psyq/libc2/`.
 
 Placeholder names are migration state, not style: `func_`/`D_` symbols and
-files such as `misc19.c`, `task5.c`, `cd_rom3.c` or `gap_*` that describe
+files such as `misc19.c`, `task5.c`, `cd_rom.c` or `gap_*` that describe
 position rather than responsibility. `make organization-check` ratchets their count; it
 may go down, never up. A file name that ends in an address
 (`RoomEffect_JointBeacon_8018FDC4.c`) is allowed only to tell apart several
@@ -81,7 +81,7 @@ directory for one file.
 **PsyQ code under project names.** About 120 game-named units outside
 `psyq/` lie inside SDK object ranges recorded in
 `configs/USA/psyq_provenance.json`: about half of `gpu` (LIBGPU SYS and primitive
-objects), the `CdRom_*` DS-system files in `cdrom` (LIBDS), the `CardObj_*`
+objects), the `CardObj_*`
 files in `memcard` (LIBPAD/LIBCARD), most of `pad` (LIBAPI PAD/PATCH), the
 64-bit helpers in `math` (LIBMATH), the `Spu_*` setters in `akao` (LIBSPU),
 and `gte` (LIBGTE). They move to `psyq/<library>/` under their SDK names.
@@ -94,7 +94,7 @@ edge, as `akao/Spu_TransferAndLifecycle` did before LIBPAD WAITRC2's
 | `psyq/lib*` | SDK names | Sony PsyQ 4.0 libraries, one directory per SDK library | keep; receives the units above |
 | `boot` | `Boot_` | `main`, start-up, subsystem init, the per-frame loop | keep |
 | `sys` | `Sys_` | interrupt and BIOS glue, shutdown and reset | keep the game-side shutdown/state code; SDK parts and `setjmp.c` (LIBAPI veneer) to `psyq` |
-| `cdrom` | `CdRom_` | game-side CD layer: sector reads from PE.IMG, retries, boot reads | keep the game part; LIBDS units to `psyq/libds`; `cd_rom*.c`, `misc9.c` renamed by content |
+| `cdrom` | `CdRom_` | game-side CD layer: sector reads from PE.IMG, retries, boot reads | keep; `cd_rom*.c`, `misc9.c` renamed by content |
 | `memcard` | `MemCard_` | memory-card access for saves | keep the game part; LIBPAD/LIBCARD units and BIOS veneers (`_card_*`, `InitCARD2`...) to `psyq` |
 | `pad` | `Pad_` | controller input | mostly LIBAPI: move to `psyq/libapi`; what remains joins `boot` or `menu` input |
 | `gpu` | `Gpu_`, `Draw_` | game 2D drawing: text, glyphs, wipes, number and bar widgets, packet pools | keep the game part (rename to `draw`, `Draw_` prefix); LIBGPU units to `psyq/libgpu`; `Scene_*` files to `scene` |
@@ -116,7 +116,7 @@ edge, as `akao/Spu_TransferAndLifecycle` did before LIBPAD WAITRC2's
 | `aya` | `Aya_` | the player character: stats, level table, parasite-energy spells | keep; `misc7.c` to `battle`, `Draw_LookupGlyphMetrics` to `gpu` |
 | `item` | `Inv_`, `Item_` | inventory, item table, equipment and its modifiers | keep; `Menu_*` files to `menu` |
 | `menu` | `Menu_`, `MenuWidget_`, `MenuInput_` | in-game menus, widget tree, menu input queue | keep; `Inv_*`, `Save_*`, `Pad_*` files out to their owners |
-| `save` | `Save_` | save-data layout, metadata, write flow | keep; `DsReadSync.c` to `sys` |
+| `save` | `Save_` | save-data layout, metadata, write flow | keep |
 | `akao` | `Akao_`, `Seq_`, `Spu_` | Square's AKAO sound driver: sequencer, voices, SPU uploads | keep; LIBSPU units to `psyq/libspu` |
 | `audio` | `Sfx_` | misnamed: both files are menu item-list code | dissolve into `menu` |
 | `time` | `GameTime_` | play-time counters and timers | keep; receives `util/game_time2.c` |

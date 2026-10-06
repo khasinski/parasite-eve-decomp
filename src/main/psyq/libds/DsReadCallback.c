@@ -1,13 +1,13 @@
+
 #include "pe1/psyq_ds.h"
 
-extern DsCallback D_8009B708;
+register CdReadCompleteCallbackPage *g_CdCallbackWritePage asm("$1");
 
-DsCallback DsReadySystemMode(DsCallback callback) {
-    DsCallback *slot;
-    DsCallback old;
+CdReadCompleteCallback DsReadCallback(CdReadCompleteCallback callback) {
+    CdReadCompleteCallback old;
 
-    slot = &D_8009B708;
-    old = *slot;
-    *slot = callback;
+    old = g_CdReadCompleteCallback;
+    g_CdCallbackWritePage = (CdReadCompleteCallbackPage *)0x800A0000;
+    g_CdCallbackWritePage[-1].callback = callback;
     return old;
 }

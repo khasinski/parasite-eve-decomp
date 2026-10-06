@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class CDPollPendingTests(unittest.TestCase):
     def test_plain_source(self):
-        source = (ROOT/'src/main/psyq/libds/CdRom_PollPendingDsRead.c').read_text()
+        source = (ROOT/'src/main/psyq/libds/CQ_vsync_system.c').read_text()
         self.assertNotRegex(source, r'\b(?:asm|__asm__|PE1_COMPILER_MEMORY_BARRIER|PE1_COMPILER_LAUNDER)\b')
 
     @unittest.skipUnless((ROOT/'assets/USA/main.exe').is_file() and

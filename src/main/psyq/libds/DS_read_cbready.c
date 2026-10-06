@@ -1,16 +1,50 @@
+/* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
+#include "pe1/psyq_cd.h"
+extern int VSync(int mode);
 
-#include "pe1/psyq_ds.h"
+#define CD_READ_FIELD(anchor, field)                                      \
+    ((anchor)[(PE1_OFFSETOF(CdReadProgressState, field) -                  \
+               PE1_OFFSETOF(CdReadProgressState, currentVsync)) /         \
+              sizeof(int)])
 
-
-void ER_clear(void) {
-    int *state;
-
-    state = &g_DsReadBusy;
-    asm volatile("" : "=r"(state) : "0"(state));
-    if (DS_ASYNC_READ_FIELD(state, active) == 1) {
-        DsReadyCallback(DS_ASYNC_READ_FIELD(state, savedReadyCallback));
-        DsStartCallback(DS_ASYNC_READ_FIELD(state, savedStartCallback));
+void DS_read_cbready(int status, void *data, void *detail) {
+    int savedStatus = status;
+    int *state = &g_CdReadCurrentVsync;
+    CD_READ_FIELD(state, currentVsync) = VSync(-1);
+    if (CD_READ_FIELD(state, flags) & 1) {
+        if (CD_READ_FIELD(state, remainingSectors) > 0) {
+            DsGetSector2(CD_READ_FIELD(state, destination),
+                          CD_READ_FIELD(state, sectorSize));
+            CD_READ_FIELD(state, eventData) = (int)data;
+        } else {
+            DsReadBreak();
+            if (g_CdReadCompleteCallback) {
+                if (CD_READ_FIELD(state, remainingSectors) < 0) savedStatus = 5;
+                g_CdReadCompleteCallback((u8)savedStatus, data);
+            }
+        }
+    } else {
+        if (CD_READ_FIELD(state, remainingSectors) > 0) {
+            DsGetSector(CD_READ_FIELD(state, destination),
+                         CD_READ_FIELD(state, sectorSize));
+            CD_READ_FIELD(state, destination) +=
+                CD_READ_FIELD(state, sectorSize) * 4;
+            CD_READ_FIELD(state, remainingSectors)--;
+        }
+        if (VSync(-1) > CD_READ_FIELD(state, startVsync) + 1200)
+            CD_READ_FIELD(state, remainingSectors) = -1;
+        if (CD_READ_FIELD(state, remainingSectors) == 0 ||
+            VSync(-1) > CD_READ_FIELD(state, startVsync) + 1200) {
+            DsReadBreak();
+            if (g_CdReadCompleteCallback) {
+                savedStatus =
+                    CD_READ_FIELD(state, remainingSectors) < 0 ? 5 : 2;
+                g_CdReadCompleteCallback((u8)savedStatus, data);
+            }
+        }
     }
-    DS_ASYNC_READ_FIELD(state, active) = 0;
 }
+
+#undef CD_READ_FIELD

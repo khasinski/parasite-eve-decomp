@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class CdReadStepTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_timeout_and_completion_state(self):
-        source = (ROOT / "src/main/main/Render_StepParticleCallback.c").read_text()
+        source = (ROOT / "src/main/psyq/libds/DS_read_cbdata.c").read_text()
         source = source.replace("extern int D_8009B6B0[];",
             "static int words[7];\n#define D_8009B6B0 (words + 1)")
         harness = source + r'''

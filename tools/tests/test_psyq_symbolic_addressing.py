@@ -40,7 +40,7 @@ CASES = [('src/main/psyq/libapi/pad.c',
   'g_VideoMode = 0x800956ec;\n'
   'SECTIONS { .text 0x80074a14 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/cdrom/cd_tail.c',
+ ('src/main/psyq/libds/DsMix.c',
   536,
   '309628923767c77ba53c659fff5acbec885e9a9eaba554ae2020803b3eef364a',
   'CD_vol = 0x8007b964;\n'
@@ -69,7 +69,7 @@ CASES = [('src/main/psyq/libapi/pad.c',
   'LIBPAD_PADSEQD_text_108 = 0x80084C4C;\n'
   'SECTIONS { .text 0x80084b44 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('src/main/psyq/libds/CdRom_SeekDoneCallback.c',
+ ('src/main/psyq/libds/ER_cbsync.c',
   64,
   '3e9c23ff8921bfb43accf28fb43951d8b2614ae49b3c09a313efd642eb50d3b3',
   'ER_cbready = 0x80081e70;\n'

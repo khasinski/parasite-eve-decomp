@@ -2045,7 +2045,7 @@ The audited PsyQ result is 141/254 functions and 44.75% code.
 
 ## LIBCD sector DMA setup
 
-CD_getsector2 in `sector_read.c` is ordinary C with no pins or barriers. A volatile
+CD_getsector2 in `CD_getsector.c` is ordinary C with no pins or barriers. A volatile
 readback local replaces the synthetic SP frame, and direct typed MMIO accesses
 replace the union and global v0 register views. Its initial byte-ready test
 and inner polling loop retain the original two-stage control flow. All four

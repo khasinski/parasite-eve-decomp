@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 class CdEventDispatchTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "host C compiler unavailable")
     def test_dispatch_and_callback_state_updates(self):
-        source = (ROOT / "src/main/main/Render_DrawParticleGroup.c").read_text()
+        source = (ROOT / "src/main/psyq/libds/dssys_1_text_7FC.c").read_text()
         # The retail symbol points inside a larger allocation; model its prefix.
         source = source.replace("extern int D_8009B598[];",
             "static int stateWords[13];\n#define D_8009B598 (stateWords + 11)")
