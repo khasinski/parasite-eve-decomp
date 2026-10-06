@@ -511,8 +511,8 @@ segments:
       - [0x3E29C, c, menu/menu19]
       - [0x3E4A4, c, menu/Menu_OpenSaveLoadEntryPoint]
       - [0x3E564, c, menu/Menu_OpenRenameScreen]
-      - [0x3E874, c, menu/Menu_StepNameEntry]
-      - [0x3EAE4, c, menu/Menu_StepNameEntryAlt]
+      # Name entry page input handlers: private data and helpers join the pair.
+      - [0x3E874, c, menu/Menu_NameEntryFlow]
       - [0x3EF04, c, menu/Menu_OpenEquipScreen]
       - [0x3F170, c, menu/Menu_GetEquipMode]
       - [0x3F17C, c, menu/Menu_OpenInventoryScreen]
