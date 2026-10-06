@@ -216,8 +216,8 @@ segments:
       # No-op, animation step and speed opcodes: contiguous default profile.
       - [0x869C, c, task/Task_EntityAnimSpeedOps]
       - [0x86FC, c, entity/entity3]
-      - [0x8744, c, scene/Scene_TestGlobalFlags]
-      - [0x8788, c, scene/misc36]
+      # Game-state flag and battle-mode opcodes: contiguous default profile.
+      - [0x8744, c, scene/Scene_GlobalFlagOps]
       - [0x8880, c, entity/Entity_FieldSelection]
       - [0x8AA0, c, task/task_set3]
       - [0x8B00, c, entity/Entity_AnimationPending]
