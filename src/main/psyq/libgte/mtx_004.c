@@ -34,8 +34,7 @@ GteVector *Gte_RotateVec(const GteMatrix *matrix, const GteVector *v, GteVector 
     hx = x >> 15;
     hx = 0U - hx;
     x &= 0x7fff;
-    asm volatile("" : "=r"(zero));
-    x = 0U - x;
+        x = 0U - x;
     if (zero == 0) {
         goto split_x;
     }
@@ -51,8 +50,7 @@ split_x:
     hy = y >> 15;
     hy = 0U - hy;
     y &= 0x7fff;
-    asm volatile("" : "=r"(zero));
-    y = 0U - y;
+        y = 0U - y;
     if (zero == 0) {
         goto split_y;
     }
@@ -68,8 +66,7 @@ split_y:
     hz = z >> 15;
     hz = 0U - hz;
     z &= 0x7fff;
-    asm volatile("" : "=r"(zero));
-    z = 0U - z;
+        z = 0U - z;
     if (zero == 0) {
         goto split_z;
     }
