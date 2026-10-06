@@ -413,8 +413,8 @@ segments:
       - [0x2F874, c, boot/Boot_FrameLoop]
       - [0x2FF58, c, gpu/Gte_LightingState]
       - [0x30000, c, save/Save_TailBlobFlow]
-      - [0x307AC, c, save/Save_SetTitleStyleFlag]
-      - [0x307BC, c, memcard/misc20]
+      # Title-style flag setter and getter and the card file presence test.
+      - [0x307AC, c, memcard/MemCard_TitleStyleAndPresence]
       # Title-screen card support, card port handling and the save flow share card state (G0354).
       - [0x3086C, c, memcard/MemCard_PortAndSaveFlow]
       # Save background fade: gamma curve, fade step and fade state setters share the fade state words.

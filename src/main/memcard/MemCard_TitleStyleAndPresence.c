@@ -1,6 +1,12 @@
-extern int g_SaveTitleStyleFlag;
-
 #include "pe1/memcard.h"
+
+extern int D_800A1704;
+
+void Save_SetTitleStyleFlag(int value) {
+    D_800A1704 = value;
+}
+
+extern int g_SaveTitleStyleFlag;
 
 int Save_GetTitleStyleFlag(void) {
     return g_SaveTitleStyleFlag;
