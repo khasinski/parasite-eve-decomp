@@ -13,11 +13,11 @@
  *
  * The lists the methods hand to the field engine are the module's own data,
  * named in each room's symbol file. A room that links several modules names
- * the lists of the module whose methods are the shared units. The modules
- * that are linked as a second module somewhere link a class unit of their
- * own in every room instead, with the same methods and lists under the
+ * the lists of the module whose methods are the shared units. The other
+ * module's methods are a class unit of that module, linked in every room
+ * that links the module, with the same methods and lists under the
  * module's names (RoomFx_OrbitSetClass.c, RoomFx_DropFieldClass.c,
- * RoomEffect_GroundEruptionClass.c). */
+ * RoomEffect_GroundEruptionClass.c, RoomLib_ThreeParticleClass.c). */
 
 struct RoomEnt;
 

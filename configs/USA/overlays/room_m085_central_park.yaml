@@ -36,11 +36,7 @@ segments:
     subsegments:
       - [0x0, rodata, room_m085_central_park]
       - [0xC, .rodata, ../room_lib/RoomLib_ThreeTransformParticles]
-      - [0x14, c, ../room_lib/RoomLib_PlantScript]
-      - [0x40, c, ../room_lib/RoomLib_Spawn6]
-      - [0x6C, c, ../room_lib/RoomLib_RegisterDrawList]
-      - [0xB4, c, ../room_lib/RoomLib_RegisterPairedTables]
-      - [0x140, c, ../room_lib/RoomLib_CloseTarget]
+      - [0x14, c, ../room_lib/RoomLib_ThreeParticleClass]
       - [0x1C4, c, ../room_lib/RoomLib_ThreeTransformParticles]
       - [0x1010, data, D_8018FFF8]
       - [0x101C, data, RoomLib_TableA_8018F054]

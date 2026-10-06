@@ -2,10 +2,10 @@
  * Three transform particles: a sprite class whose Init seeds the sprite and
  * floor-shadow packet templates, whose effect owner places three particles,
  * draws them with their shadows and lets them fall as debris. The eight
- * functions, from the two no-ops after RoomLib_CloseTarget to the debris
- * update, are the same run in eleven Central Park and Chrysler rooms; the
- * unit's rodata is the draw pass's rotation seed, the eight bytes after
- * each room's twelve-byte rodata header.
+ * functions, from the two no-ops after RoomLib_ThreeParticleClose to the
+ * debris update, are the same run in eleven Central Park and Chrysler
+ * rooms; the unit's rodata is the draw pass's rotation seed, the eight
+ * bytes after each room's twelve-byte rodata header.
  */
 #include "common.h"
 #include "pe1/gte.h"
