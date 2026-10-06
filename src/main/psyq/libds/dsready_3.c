@@ -1,9 +1,10 @@
-/* Psy-Q LIBDS DSREADY.OBJ: LIBDS_DSREADY_text_3D8. */
+/* ASSEMBLER: GNU */
+/* GCC_VERSION: 2.8.1 */
+/* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBDS DSREADY.OBJ, part 3 of 5: LIBDS_DSREADY_text_3D8. */
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds.h"
 #include "pe1/cdrom.h"
-/* GCC_VERSION: 2.8.1 */
-/* CC1_FLAGS: -mno-split-addresses */
 
 extern int D_8009B708;
 

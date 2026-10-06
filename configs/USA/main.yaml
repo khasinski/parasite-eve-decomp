@@ -1116,14 +1116,12 @@ segments:
       # Psy-Q LIBDS DSFILE.OBJ (0x80081414..0x80081D74) in two parts; see dsfile.c.
       - [0x71C14, c, psyq/libds/dsfile]
       - [0x71F14, c, psyq/libds/dsfile_2]
-      # Psy-Q libds read-controller helpers share the async-read state.
-      - [0x72574, c, psyq/libds/DsStartReadySystem]
-      - [0x7265C, c, psyq/libds/DsReadySystemMode]
-      - [0x72670, c, psyq/libds/ER_cbready]
-      - [0x7294C, c, psyq/libds/dsready_text_3D8]
-      - [0x72A04, c, psyq/libds/ER_retry]
-      - [0x72A7C, c, psyq/libds/ER_cbsync]
-      - [0x72ABC, c, psyq/libds/ER_clear]
+      # Psy-Q LIBDS DSREADY.OBJ (0x80081D74..0x80082314) in five parts; see dsready.c.
+      - [0x72574, c, psyq/libds/dsready]
+      - [0x72670, c, psyq/libds/dsready_2]
+      - [0x7294C, c, psyq/libds/dsready_3]
+      - [0x72A04, c, psyq/libds/dsready_4]
+      - [0x72A7C, c, psyq/libds/dsready_5]
       - [0x72B0C, pad]
       # Psy-Q 4.6 LIBDS.LIB DSTYPE.OBJ: query plus async disk callbacks.
       - [0x72B14, c, psyq/libds/dstype]

@@ -1,7 +1,8 @@
 /* ASSEMBLER: GNU */
-/* Psy-Q LIBDS DSREADY.OBJ: ER_cbready. */
+/* Psy-Q LIBDS DSREADY.OBJ, part 2 of 5: ER_cbready. */
 #include "pe1/psyq_ds_queue.h"
 #include "pe1/cdrom.h"
+
 int DsPosToInt(CdlLOC *);
 #define ASYNC_FROM_RETRY(p)                                                            \
     ((DsAsyncReadState *)((u8 *)(p) - PE1_OFFSETOF(DsAsyncReadState, retryPending)))

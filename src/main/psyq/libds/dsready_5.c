@@ -1,8 +1,18 @@
-/* GCC_VERSION: 2.8.1 */
-/* Psy-Q LIBDS DSREADY.OBJ: ER_clear. */
-
+/* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSREADY.OBJ, part 5 of 5: ER_cbsync, ER_active, ER_clear. */
 #include "pe1/psyq_ds.h"
 
+void ER_cbready(int event, u_char *result);
+
+void ER_cbsync(u_char event) {
+    if (event == 2) {
+        DsReadyCallback((DsEventCallback)ER_cbready);
+    }
+}
+
+int ER_active(void) {
+    return g_DsReadBusy;
+}
 
 void ER_clear(void) {
     int *state;

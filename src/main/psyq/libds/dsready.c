@@ -1,8 +1,13 @@
+/* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
-/* Psy-Q LIBDS DSREADY.OBJ: DsStartReadySystem, DsEndReadySystem. */
-
+/* Psy-Q LIBDS DSREADY.OBJ, part 1 of 5: DsStartReadySystem, DsEndReadySystem, DsReadySystemMode. */
+/* DSREADY is split where its functions need different compilers: parts 1
+ * and 3 only match with GCC 2.8.1 and -mno-split-addresses, part 4
+ * (ER_retry) with GCC 2.8.1, -fno-expensive-optimizations and
+ * -fcall-used-$1, parts 2 and 5 with GCC 2.7.2. */
 #include "pe1/psyq_ds_queue.h"
+#include "pe1/psyq_ds.h"
 
 void ER_cbready(int event, u_char *result);
 void LIBDS_DSREADY_text_3D8(u_char event, u_char *result);
@@ -46,4 +51,16 @@ void DsEndReadySystem(void) {
         DsCommand(particleType, zeroArg1, callback, -1);
     }
     DS_ASYNC_READ_FIELD(state, active) = 0;
+}
+
+extern DsCallback D_8009B708;
+
+DsCallback DsReadySystemMode(DsCallback callback) {
+    DsCallback *slot;
+    DsCallback old;
+
+    slot = &D_8009B708;
+    old = *slot;
+    *slot = callback;
+    return old;
 }
