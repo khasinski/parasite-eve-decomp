@@ -716,17 +716,8 @@ segments:
       - [0x56438, c, render/Render_CameraViewportFlow]
       - [0x57760, c, field/Geo_LoadMeshEntry]
       - [0x579C8, c, field/Geo_TransformPoint]
-      # Geometry-entry sprite drawing, the entry visibility/scroll/mirror/position
-      # setters and the mesh-list renderer address the same GeomState entry table
-      # (helper evidence; no split evidence). Each member is identical under the
-      # union -fno-strength-reduce and --expand-div profile.
-      - [0x57A94, c, render/Render_GeomEntryDrawing]
-      # Clip-window clamp and group sprite draw on g_GeomState: contiguous
-      # default-profile pair (main_tu_evidence G0836).
-      - [0x581C4, c, field/Geo_MeshClipAndBuild]
-      # Fade start/step, scene-load flags and screen tint share g_RenderStateFlags
-      # and the D_800BCF88/D_800B1624 views; one -fno-strength-reduce profile.
-      - [0x58340, c, render/Render_ScreenFadeAndTint]
+      # Sprite entry setters, the geometry mesh list build and draw, and the screen fade and tint (G0833/G0835).
+      - [0x57A94, c, render/Render_MeshListAndFade]
       # Background scroll/parallax and room/primitive colour drawing (helper
       # evidence); Scene_IsBattleMode needs strength reduction, so the
       # -fno-strength-reduce fade unit ends before it.
