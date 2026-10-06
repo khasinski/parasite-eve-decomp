@@ -1,3 +1,4 @@
+/* Psy-Q LIBCD C_011.OBJ: mem2mem. */
 #include "pe1/psyq_cd.h"
 
 void mem2mem(void *destination, void *source, unsigned int count, int reserved) {

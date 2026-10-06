@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSSYS_1.OBJ: DS_close. */
 
 /* CC1_FLAGS: -fno-schedule-insns2 */
 

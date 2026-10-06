@@ -1,5 +1,6 @@
 /* ASSEMBLER: GNU */
 /* CC1_FLAGS: -fno-schedule-insns */
+/* Psy-Q LIBCD SYS.OBJ: CdControl, CdControlF, CdControlB. */
 
 #include "pe1/psyq_cd.h"
 

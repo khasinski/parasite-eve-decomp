@@ -1,5 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBDS DSREAD.OBJ: DS_read_cbdata. */
 #include "pe1/psyq_cd.h"
 extern int D_8009B6B0[];
 extern int VSync(int);

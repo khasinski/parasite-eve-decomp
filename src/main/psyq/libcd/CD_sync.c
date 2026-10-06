@@ -1,5 +1,6 @@
 /* ASSEMBLER: GNU */
 /* CC1_FLAGS: -fno-expensive-optimizations */
+/* Psy-Q LIBCD BIOS.OBJ: CD_sync, CD_ready. */
 
 #include "bios_internal.h"
 

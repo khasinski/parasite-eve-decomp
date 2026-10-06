@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSSYS_2.OBJ: CQ_clear_queue. */
 void CQ_clear_queue(void *arg0) {
     int i;
     char *ptr;

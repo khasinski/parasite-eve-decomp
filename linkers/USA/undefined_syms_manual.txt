@@ -112,7 +112,6 @@ func_8004790C = 0x8004790C;
 func_80048838 = 0x80048838;
 func_80076170 = 0x80076170;
 func_80076208 = 0x80076208;
-CdRom_Init = DsMix;
 func_800CC0E0 = FieldAnim_InitRadialEntries;
 func_800CC55C = FieldAnim_ProcessInterleavedPoints;
 func_800CC7AC = FieldAnim_ProcessPointTriples;

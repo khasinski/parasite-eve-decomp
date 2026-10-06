@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSCB.OBJ: DsSyncCallback, DsReadyCallback, DsStartCallback, DsDataCallback. */
 #include "pe1/psyq_ds.h"
 
 DsEventCallback DsSyncCallback(DsEventCallback callback) {

@@ -1,4 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
+/* Psy-Q LIBDS DSSYS_3.OBJ: DsLastPos. */
 
 #include "pe1/psyq_cd.h"
 #include "pe1/cdrom.h"

@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSSYS_1.OBJ: DS_cw. */
 #include "pe1/psyq_cd.h"
 s32 LIBDS_DSSYS_1_text_368(s32 arg0);
 

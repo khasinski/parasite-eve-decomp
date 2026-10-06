@@ -1,6 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 /* ASSEMBLER: GNU */
 /* CC1_FLAGS: -mno-split-addresses -fno-thread-jumps */
+/* Psy-Q LIBDS DSSYS_2.OBJ: CQ_delete_command. */
 #include "pe1/psyq_ds.h"
 
 void CQ_delete_command(void) {

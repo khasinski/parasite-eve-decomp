@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSSYS_2.OBJ: CQ_execute. */
 #include "common.h"
 #include "pe1/psyq_ds.h"
 /* CC1_FLAGS: -G8 */

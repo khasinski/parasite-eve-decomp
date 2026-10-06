@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSSYS_1.OBJ: DS_init. */
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds.h"
 

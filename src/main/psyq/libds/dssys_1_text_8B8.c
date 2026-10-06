@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSSYS_1.OBJ: LIBDS_DSSYS_1_text_8B8, LIBDS_DSSYS_1_text_A9C. */
 #include "pe1/psyq_ds.h"
 
 /* Contiguous private routines from Psy-Q LIBDS/DSSYS_1.OBJ:

@@ -1,4 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
+/* Psy-Q LIBDS DSSYS_2.OBJ: DsSystemStatus. */
 
 #include "pe1/cdrom.h"
 

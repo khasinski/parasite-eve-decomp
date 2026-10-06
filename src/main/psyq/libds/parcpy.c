@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSSYS_1.OBJ: parcpy, rescpy. */
 
 #include "include_asm.h"
 #include "pe1/psyq_cd.h"

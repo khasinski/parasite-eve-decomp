@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSREAD.OBJ: DsReadCallback. */
 
 #include "pe1/psyq_ds.h"
 

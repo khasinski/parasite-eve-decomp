@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBCD C_011.OBJ: StCdInterrupt. */
 #include "pe1/psyq_cd.h"
 extern volatile u8 *D_8009B334;
 extern volatile u8 *D_8009B338;

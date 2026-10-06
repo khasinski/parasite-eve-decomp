@@ -1,5 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -fcall-used-$1 */
+/* Psy-Q LIBCD BIOS.OBJ: CD_set_test_parmnum. */
 #include "pe1/psyq_cd.h"
 
 void CD_set_test_parmnum(int status) {

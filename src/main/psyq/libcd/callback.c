@@ -1,6 +1,7 @@
 /* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBCD BIOS.OBJ: callback. */
 
 #include "pe1/psyq_cd.h"
 

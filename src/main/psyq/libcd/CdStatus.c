@@ -1,3 +1,4 @@
+/* Psy-Q LIBCD SYS.OBJ: CdStatus, CdMode, CdLastCom. */
 #include "pe1/psyq_cd.h"
 
 int CdStatus(void) {

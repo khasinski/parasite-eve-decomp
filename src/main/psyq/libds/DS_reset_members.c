@@ -1,5 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBDS DSSYS_1.OBJ: DS_reset_members. */
 /* Retail keeps one base address for each initialization block. */
 
 #include "common.h"

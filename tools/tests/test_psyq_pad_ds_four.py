@@ -28,7 +28,7 @@ CASES = [('libpad/padseqd_2',
   'D_800A5AD0 = 0x800A5AD0;\n'
   'SECTIONS { .text 0x8008389c : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libds/dssys2_flush',
+ ('libds/CQ_error_flush',
   496,
   'cc34f5b089194c02b861b44bdc80af68287db290a4f3fd5cf00e639d62e56e7e',
   'D_800A3600 = 0x800A3600;\n'

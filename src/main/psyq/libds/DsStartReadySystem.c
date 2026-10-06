@@ -1,5 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBDS DSREADY.OBJ: DsStartReadySystem, DsEndReadySystem. */
 
 #include "pe1/psyq_ds_queue.h"
 

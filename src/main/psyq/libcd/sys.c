@@ -1,4 +1,6 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBCD SYS.OBJ: CdFlush, CdSetDebug, CdComstr, CdIntstr, CdSync,
+ * CdReady, CdSyncCallback, CdReadyCallback. */
 #include "pe1/psyq_cd.h"
 
 extern void CD_flush(void);

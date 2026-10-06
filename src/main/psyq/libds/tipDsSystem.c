@@ -1,6 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 /* ASSEMBLER: GNU */
 /* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBDS DSSYS_1.OBJ: tipDsSystem. */
 #include "pe1/psyq_ds.h"
 
 extern char D_80011D74[];

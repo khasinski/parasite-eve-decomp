@@ -1,4 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
+/* Psy-Q LIBDS DSFILE.OBJ: _cmp. */
 #include "common.h"
 
 /* Psy-Q 4.6 DSFILE.OBJ: private diagnostics and persistent media state. */

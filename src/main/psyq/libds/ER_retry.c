@@ -1,5 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -fno-expensive-optimizations -fcall-used-$1 */
+/* Psy-Q LIBDS DSREADY.OBJ: ER_retry. */
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds_queue.h"
 #include "pe1/cdrom.h"

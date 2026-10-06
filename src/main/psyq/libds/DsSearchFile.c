@@ -1,6 +1,7 @@
 /* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBDS DSFILE.OBJ: DsSearchFile. */
 #include "pe1/psyq_ds.h"
 #include "pe1/cdrom.h"
 PE1_STATIC_ASSERT(sizeof(DslFILE) == 24, ds_search_file_size);

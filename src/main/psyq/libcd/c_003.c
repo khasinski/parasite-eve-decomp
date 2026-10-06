@@ -1,4 +1,5 @@
 /* GAS_VERSION: 2.7 */
+/* Psy-Q LIBCD C_003.OBJ: StUnSetRing. */
 /* GAS 2.7 retains the load-delay nop before ExitCriticalSection. */
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds.h"

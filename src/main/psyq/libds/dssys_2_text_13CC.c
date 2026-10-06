@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSSYS_2.OBJ: LIBDS_DSSYS_2_text_13CC. */
 #include "pe1/psyq_ds.h"
 
 extern void (*g_DsStartCallback)(int);

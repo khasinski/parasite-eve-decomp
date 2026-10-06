@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('libds/dssys1_sync_poll',
+CASES = [('libds/dssys_1_text_8B8',
   1132,
   '874e1573e083468d37007a587a05b1a50a10c1e3e08972b4756809d819c3be4e',
   'D_8009B558 = 0x8009B558;\n'
@@ -36,7 +36,7 @@ CASES = [('libds/dssys1_sync_poll',
   'D_8009B728 = 0x8009B728;\n'
   'SECTIONS { .text 0x80084b78 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libds/dssys2_sync',
+ ('libds/CQ_sync_system',
   548,
   '70a363e79ed71476b8961d2cb1c2a537c881a4c232bd3902a148f31bef32fc11',
   'D_800A3604 = 0x800A3604;\n'
@@ -91,7 +91,7 @@ class PsyqPadDsNextFourTests(unittest.TestCase):
                 self.assertEqual(len(code), size)
                 self.assertEqual(hashlib.sha256(code).hexdigest(), digest)
 
-                if name == "libds/dssys1_sync_poll":
+                if name == "libds/dssys_1_text_8B8":
                     subprocess.run(["mipsel-none-elf-objcopy", "-O", "binary",
                                     "--only-section=.rodata", str(elf), str(data)],
                                    check=True)

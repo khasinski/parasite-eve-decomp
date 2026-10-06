@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSREAD.OBJ: DsReadMode. */
 extern unsigned int D_8009B6B8;
 
 void DsReadMode(unsigned int mode) {

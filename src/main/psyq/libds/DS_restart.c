@@ -1,5 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -fcall-used-$1 */
+/* Psy-Q LIBDS DSSYS_1.OBJ: DS_restart, DS_system_active. */
 #include "pe1/psyq_cd.h"
 #include "pe1/cdrom.h"
 

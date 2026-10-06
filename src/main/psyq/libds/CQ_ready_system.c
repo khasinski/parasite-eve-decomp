@@ -1,4 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
+/* Psy-Q LIBDS DSSYS_2.OBJ: CQ_ready_system. */
 
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds.h"

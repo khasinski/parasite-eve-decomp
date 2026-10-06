@@ -1,4 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
+/* Psy-Q LIBDS DSSYS_4.OBJ: DsControl, DsControlB. */
 #include "pe1/psyq_ds_queue.h"
 
 int DsControl(unsigned char command, void *param, void *result) {

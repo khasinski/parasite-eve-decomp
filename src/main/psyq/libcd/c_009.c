@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBCD C_009.OBJ: StGetNext. */
 #include "pe1/psyq_cd.h"
 
 u32 StGetNext(u32 **addr, u32 **header) {

@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSSYS_2.OBJ: CQ_error_flush. */
 /* Psy-Q LIBDS/DSSYS_2.OBJ private text_170.
  * Provenance: configs/USA/psyq_provenance.json (LIBDS). */
 #include "pe1/psyq_ds_queue.h"

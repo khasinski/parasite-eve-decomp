@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSSYS_2.OBJ: DsQueueLen, DsStatus, DsShellOpen, DsLastCom. */
 #include "pe1/cdrom.h"
 #include "pe1/psyq_ds.h"
 

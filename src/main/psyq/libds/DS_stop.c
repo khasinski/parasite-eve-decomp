@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSSYS_1.OBJ: DS_stop. */
 #include "common.h"
 #include "pe1/psyq_cd.h"
 

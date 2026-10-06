@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBCD CDROM.OBJ: StSetRing. */
 
 #include "pe1/psyq_cd.h"
 

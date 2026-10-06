@@ -1,4 +1,5 @@
 /* GCC_VERSION: 2.8.1 */
+/* Psy-Q LIBDS DSREADY.OBJ: ER_clear. */
 
 #include "pe1/psyq_ds.h"
 

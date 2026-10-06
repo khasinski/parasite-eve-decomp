@@ -1,4 +1,6 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSSYS_3.OBJ: DsMix, DsGetSector, DsGetSector2, DsDataSync,
+ * DsIntToPos, DsPosToInt, DsSetDebug. */
 
 #include "pe1/psyq_cd.h"
 

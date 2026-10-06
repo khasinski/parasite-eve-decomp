@@ -1,5 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBDS DSSYS_1.OBJ: LIBDS_DSSYS_1_text_7FC. */
 extern int D_8009B598[];
 extern void LIBDS_DSSYS_1_text_EA4(int);
 extern void LIBDS_DSSYS_1_text_8B8(int, void *);

@@ -1,5 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBDS DSSYS_1.OBJ: LIBDS_DSSYS_1_text_368, LIBDS_DSSYS_1_text_4A4. */
 #include "pe1/psyq_cd.h"
 extern void parcpy(void *, const void *);
 

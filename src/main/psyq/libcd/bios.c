@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBCD BIOS.OBJ: CD_initvol, CD_initintr. */
 #include "pe1/psyq_callbacks.h"
 #include "common.h"
 #include "pe1/psyq_cd.h"

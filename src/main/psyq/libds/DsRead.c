@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSREAD.OBJ: DsRead. */
 
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds_queue.h"

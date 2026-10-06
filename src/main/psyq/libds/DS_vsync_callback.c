@@ -1,5 +1,7 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -fcall-used-$1 */
+/* Psy-Q LIBDS DSSYS_1.OBJ: DS_vsync_callback, DS_sync_callback,
+ * DS_ready_callback, DS_start_callback. */
 
 #include "pe1/psyq_ds.h"
 

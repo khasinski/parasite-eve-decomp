@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBCD C_004.OBJ: data_ready_callback, StGetBackloc. */
 /* Complete Psy-Q LIBCD C_004.OBJ code; trailing object alignment is in the manifest. */
 #include "pe1/psyq_cd.h"
 

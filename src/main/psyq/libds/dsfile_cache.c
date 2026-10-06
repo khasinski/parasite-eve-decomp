@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSFILE.OBJ: DS_newmedia, DS_searchdir, DS_cachefile. */
 #include "pe1/psyq_ds.h"
 
 CdlLOC *DsIntToPos(int sector, CdlLOC *position);

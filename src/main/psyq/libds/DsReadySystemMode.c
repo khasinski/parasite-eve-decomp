@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSREADY.OBJ: DsReadySystemMode. */
 #include "pe1/psyq_ds.h"
 
 extern DsCallback D_8009B708;

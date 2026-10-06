@@ -1,6 +1,7 @@
 /* ASSEMBLER: GNU */
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -fno-expensive-optimizations -mno-split-addresses */
+/* Psy-Q LIBCD BIOS.OBJ: CD_cw, CD_vol, CD_flush. */
 #include "bios_internal.h"
 
 /* Separate captures preserve stock-compiler argument lifetimes. */

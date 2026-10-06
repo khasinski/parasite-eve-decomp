@@ -1,5 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBDS DSFILE.OBJ: ds_read. */
 
 #include "pe1/psyq_ds.h"
 #include "pe1/cdrom.h"

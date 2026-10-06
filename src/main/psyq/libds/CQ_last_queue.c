@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSSYS_2.OBJ: CQ_last_queue. */
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds.h"
 

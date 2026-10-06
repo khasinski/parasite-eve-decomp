@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSREADY.OBJ: ER_cbready. */
 #include "pe1/psyq_ds_queue.h"
 #include "pe1/cdrom.h"
 int DsPosToInt(CdlLOC *);

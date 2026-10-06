@@ -1,5 +1,6 @@
 /* GCC_VERSION: 2.8.1 */
 /* CC1_FLAGS: -mno-split-addresses */
+/* Psy-Q LIBCD C_005.OBJ: StSetStream. */
 
 #include "pe1/psyq_cd.h"
 

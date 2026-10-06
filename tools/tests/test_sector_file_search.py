@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Retail TUs at 0x8007BF44 (492 bytes) and 0x80081414 (736 bytes).
-CASES = [('libcd/sector_read',
+CASES = [('libcd/CD_getsector',
   492,
   'e9f1ff7e2cc8ea7a5bf11be1f838ef39ebab8d2906c4d0817f980aa9eb3a1bc3',
   'D_8009B27C = 0x8009B27C;\n'

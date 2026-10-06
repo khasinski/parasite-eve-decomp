@@ -1,3 +1,4 @@
+/* Psy-Q LIBDS DSSYS_2.OBJ: DsFlush. */
 #include "pe1/psyq_ds.h"
 #include "pe1/cdrom.h"
 

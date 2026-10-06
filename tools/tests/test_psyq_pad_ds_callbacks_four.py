@@ -31,7 +31,7 @@ CASES = [('libpad/padportd_4',
   'D_8009B570 = 0x8009B570;\n'
   'SECTIONS { .text 0x8007fe24 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),
- ('libds/dsready_callback',
+ ('libds/ER_cbready',
   732,
   'dd749c65e05714e3bd6130961ed0cc79bdbbef7acfedd2fd2622c3e6f21af5a7',
   'D_8009B6EC = 0x8009B6EC;\n'

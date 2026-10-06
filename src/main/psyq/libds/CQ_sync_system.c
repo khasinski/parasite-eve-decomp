@@ -1,4 +1,5 @@
 /* ASSEMBLER: GNU */
+/* Psy-Q LIBDS DSSYS_2.OBJ: CQ_sync_system. */
 #include "pe1/psyq_ds_queue.h"
 void CQ_delete_command(void);
 int DS_cw(int, void *);
