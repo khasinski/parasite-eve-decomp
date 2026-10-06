@@ -5341,6 +5341,18 @@
       "size": 12
     },
     {
+      "address": "0x8007833C",
+      "size": 8
+    },
+    {
+      "address": "0x80078BDC",
+      "size": 8
+    },
+    {
+      "address": "0x80078DFC",
+      "size": 8
+    },
+    {
       "address": "0x8007DDA8",
       "size": 12
     },

@@ -26,7 +26,7 @@ class PsyqPaddingTests(unittest.TestCase):
         self.assertEqual({start: manifest.get(start) for start in approved}, approved)
         for start, size in approved.items():
             with self.subTest(address=hex(start)):
-                self.assertIn(size, (4, 12))
+                self.assertIn(size, (4, 8, 12))
                 owners = [e for e in PROVENANCE["evidence"]
                           if e["scope"] == "object"
                           and int(e["address"], 16) < start
