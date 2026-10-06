@@ -1,3 +1,7 @@
+/* Glyph-cache lookups: the slot for a code within a table (historically
+ * named as a digit drawer) and the code cached in a slot. Contiguous
+ * default-profile pair.
+ */
 #include "pe1/font.h"
 
 unsigned char Render_DrawTextDigit(FontGlyphTable *table, unsigned char mode)
@@ -39,4 +43,12 @@ unsigned char Render_DrawTextDigit(FontGlyphTable *table, unsigned char mode)
         if (slots->indices[i] == selected) return i;
     }
     return 255;
+}
+
+/* Code of the glyph cached in slot `index`. */
+int func_80038CE4(int index)
+{
+    FontGlyphTable *table = D_80091A28;
+
+    return table->groups.codes[table->slots.indices[(u8)index]];
 }
