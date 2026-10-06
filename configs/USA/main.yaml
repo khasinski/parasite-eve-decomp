@@ -72,7 +72,7 @@ segments:
       - [0x800, .rodata, task/Task_ValueOps]
       - [0x89C, rodata, main/rodata_00089C]
       - [0x8A0, .rodata, boot/Boot_MemCardStepInit]
-      - [0x990, .rodata, main/Entity_GetPositionByType]
+      - [0x990, .rodata, entity/Entity_GetPositionByType]
       - [0x9AC, rodata, main/rodata_0009AC]
       - [0x9B0, .rodata, task/Task_ItemAndSoundOps]
       - [0xE8C, rodata, main/rodata_000E8C]
@@ -124,13 +124,13 @@ segments:
       - [0x1AA4, .rodata, item/Inv_ItemActions]
       - [0x1ADC, .rodata, item/Inv_EquipmentSelection]
       - [0x1B30, rodata, main/rodata_001B30]
-      - [0x1B88, .rodata, main/Render_InitDisplayLists]
+      - [0x1B88, .rodata, render/Render_InitDisplayLists]
       # Both aligned scene startup jump tables are in the shared TU's 0x40 bytes.
-      - [0x1BB0, .rodata, main/Scene_LoadTextureAndPlayer]
-      - [0x1BF0, .rodata, main/Scene_LoadEntityTextures]
+      - [0x1BB0, .rodata, scene/Scene_LoadTextureAndPlayer]
+      - [0x1BF0, .rodata, scene/Scene_LoadEntityTextures]
       # Both sector-state jump tables now belong to the shared object.
       - [0x1C28, .rodata, cdrom/CD_SectorReadFlow]
-      - [0x1D08, .rodata, main/CD_SeekToTrack]
+      - [0x1D08, .rodata, cdrom/CD_SeekToTrack]
       - [0x1E0C, rodata, main/rodata_001E0C]
       - [0x1E1C, .rodata, psyq/libc/sprintf]
       - [0x1EF8, rodata, main/rodata_001EF8]
@@ -153,7 +153,7 @@ segments:
       - [0x28BC, .rodata, psyq/libspu/s_sca]
       - [0x28FC, .rodata, psyq/libspu/s_svva]
       - [0x2938, rodata, main/rodata_002938]
-      - [0x293C, .rodata, main/SPU_Akao_NoteTimingFlow]
+      - [0x293C, .rodata, akao/Akao_NoteTimingFlow]
       - [0x2A0C, c, boot/Boot_MainLoop]
       # Node-pool init, scene relocation, map flush and free-list setup share
       # the task-node pool and g_SceneDataTable1 (main_tu_evidence G0001).
@@ -168,7 +168,7 @@ segments:
       # Field-actor query and distance routines share their actor globals.
       - [0x4A28, c, entity/Entity_QueryAndDistance]
       - [0x4CFC, c, boot/Boot_MemCardStepInit]
-      - [0x4E94, c, main/Entity_GetPositionByType]
+      - [0x4E94, c, entity/Entity_GetPositionByType]
       - [0x50E0, c, main/Camera_AngleMotionFlow]
       - [0x55A0, c, task/Task_PolyAndSceneLoadOps]
       - [0x57D8, c, task/Task_PlayEntityAnim]
@@ -369,7 +369,7 @@ segments:
       - [0x29B10, c, render/Render_FontGlyphCache]
       - [0x2A098, c, menu/Menu_FindSelectedEquipSlotItem]
       - [0x2A170, c, menu/Menu_ResetEquipSlotState]
-      - [0x2A19C, c, main/Scene_CheckFlagBits]
+      - [0x2A19C, c, scene/Scene_CheckFlagBits]
       # Bone rotation matrices and the byte and halfword rotation decoders (G0315).
       - [0x2A374, c, anim/Anim_BoneRotations]
       # Rigid, skinned and morph vertex transforms: adjacent GTE vertex passes over
@@ -389,7 +389,7 @@ segments:
       - [0x2CE38, c, render/Render_TickObject]
       - [0x2D2EC, c, render/Render_PrimitiveColorAndBlend]
       - [0x2D6F8, c, field/Field_GetMapEntry]
-      - [0x2D850, c, main/Render_SetupEntityPrims]
+      - [0x2D850, c, render/Render_SetupEntityPrims]
       - [0x2E02C, c, entity/Util_ReturnTrue]
       - [0x2E034, c, render/Render_DrawWithAnim]
       - [0x2E14C, c, render/Render_InitPrimBlock]
@@ -665,12 +665,12 @@ segments:
       - [0x4F6D4, c, gpu/Draw_TextRenderingFlow]
       # Number style selection, digit sprites, signed numbers, text glyphs and the stat bar share draw state.
       - [0x50044, c, gpu/Draw_NumberAndLevelBarFlow]
-      - [0x51844, c, main/Draw_AllocColorQuad]
+      - [0x51844, c, gpu/Draw_AllocColorQuad]
       - [0x51CA0, c, gpu/draw3]
       # Screen wipes, gradients and the colour triangle/quad packet allocators (G0762).
       - [0x51D3C, c, gpu/Draw_WipeAndGradient]
       - [0x52AB0, c, menu/Menu_SetSaveSlotBlendBase]
-      - [0x52ABC, c, main/Draw_AllocColorTriGradient]
+      - [0x52ABC, c, gpu/Draw_AllocColorTriGradient]
       # Pool initialization and node allocation use the same free/active-list state.
       - [0x52D68, c, menu/MenuWidget_Pool]
       - [0x52E9C, c, menu/MenuWidget_DestroyNodeRecursive]
@@ -733,7 +733,7 @@ segments:
       - [0x59D94, c, pm/Pm_RunBanks]
       - [0x59EF0, c, asset/Asset_UnloadTableEntries]
       # Disc-image discovery and boot notice use the same mount state.
-      - [0x5A0D4, c, main/Render_InitDisplayLists]
+      - [0x5A0D4, c, render/Render_InitDisplayLists]
       # End-of-frame overlay pass and soft-reset shutdown: contiguous
       # default-profile pair, both called from the field frame loop.
       - [0x5A8E8, c, sys/Sys_FrameOverlayAndShutdown]
@@ -744,20 +744,20 @@ segments:
       # (private evidence into the reset; helper/call/private evidence over the rest).
       - [0x5ADBC, c, boot/Boot_GameStateInit]
       - [0x5B1E4, c, scene/Scene_LoadSceneData]
-      - [0x5B540, c, main/Scene_LoadFieldBg]
+      - [0x5B540, c, scene/Scene_LoadFieldBg]
       - [0x5BB5C, c, akao/Akao_LoadVoiceBankAlt]
       - [0x5BCF8, c, gpu/Scene_LoadRoom]
       - [0x5C568, c, overlay/Overlay_StreamTexturePage]
       - [0x5C64C, c, cdrom/CdRom_DetectDiscChange]
       # Scene startup texture loading and player initialization share one TU.
-      - [0x5C6CC, c, main/Scene_LoadTextureAndPlayer]
+      - [0x5C6CC, c, scene/Scene_LoadTextureAndPlayer]
       - [0x5CCC4, c, gpu/Scene_SetStoryDay]
-      - [0x5CDBC, c, main/Scene_LoadEntityTextures]
+      - [0x5CDBC, c, scene/Scene_LoadEntityTextures]
       - [0x5D468, c, gpu/Scene_UpdateBgDraw]
       # The range scanner repeatedly drives the shared CD sector-read state.
       - [0x5D5A4, c, cdrom/CD_SectorReadFlow]
       - [0x5DA4C, c, akao/Akao_ResetPositionalState]
-      - [0x5DAB8, c, main/CD_SeekToTrack]
+      - [0x5DAB8, c, cdrom/CD_SeekToTrack]
       # Audio slot registration and the two lookups share the scene audio keys.
       - [0x5E348, c, overlay/Overlay_AudioSlotFlow]
       - [0x5E418, c, asset/Asset_SearchByKeyType]
@@ -1265,7 +1265,7 @@ segments:
       - [0x7DFA4, pad]
       - [0x7DFB0, c, psyq/libapi/a10]
       # SPU ticking, sample-bank scanning and note stepping share AKAO track state.
-      - [0x7DFC0, c, main/SPU_Akao_NoteTimingFlow]
+      - [0x7DFC0, c, akao/Akao_NoteTimingFlow]
       # Track parameters, slides, masks and note commands share AKAO track state.
       - [0x7F8D0, c, akao/Akao_TrackCommandAndNoteFlow]
       - [0x818A0, data, main/dtail_gp_pre_s016]

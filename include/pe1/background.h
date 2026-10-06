@@ -80,7 +80,7 @@
  *   MAE 0.41 / tol48 100% / tol16 100% vs 9.png (vs 1.35 without).
  *
  * == DRAW / LOAD CODE ==
- *   loader  Scene_LoadFieldBg 0x8006AD40  src/main/main/Scene_LoadFieldBg.c
+ *   loader  Scene_LoadFieldBg 0x8006AD40  src/main/scene/Scene_LoadFieldBg.c
  *                                 (renamed from the mis-named Scene_Nop; room
  *                                 bg/asset loader, gated by g_GameState[0]&1)
  *                                 upload loop 0x8006AF18 (LoadImage records),
