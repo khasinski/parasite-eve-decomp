@@ -379,7 +379,7 @@ class SourceQualityTests(unittest.TestCase):
 
     def test_sdk_assembler_sources_are_original_asm(self):
         root = pathlib.Path(__file__).resolve().parents[2] / "src/main/psyq"
-        for name in ("libsn/snmain.c", "libgte/InitGeom.c", "libgte/msc01.c",
+        for name in ("libsn/snmain.c", "libgte/msc00.c", "libgte/msc01.c",
                      "libgte/msc02.c", "libgte/mtx_003.c", "libgte/mtx_006.c",
                      "libgte/patchgte.c", "libapi/patch_2.c",
                      "libapi/chclrpad.c", "libcard/patch.c",

@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Entire linked text ranges at their retail addresses.
-CASES = [('psyq/libgte/ScaleMatrix',
+CASES = [('psyq/libgte/mtx_08',
   312,
   'e46b832bb0db9eb5884fb7d1087f8bc967a71ee155deb4e37d1342ac6b345479',
   'SECTIONS { .text 0x80078cc4 : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '

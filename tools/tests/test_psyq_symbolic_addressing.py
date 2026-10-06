@@ -146,7 +146,7 @@ CASES = [('src/main/psyq/libapi/pad.c',
   '*(.mdebug) } }')]
 
 # GNU as 2.8.1 preserves the SDK checked-division expansion without CPU ASM.
-CASES.append(('src/main/psyq/libgte/SetFogNearFar.c',
+CASES.append(('src/main/psyq/libgte/fog_02.c',
  260,
  'd889825ceeab879eec23a3ab2bd7a3c2f01de7a49cd6aff48e9ce203cfbca58f',
  'SetDQA = 0x80078fac;\n'
