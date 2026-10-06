@@ -1,6 +1,7 @@
 /* ASSEMBLER: GNU */
-/* Psy-Q LIBDS DSFILE.OBJ: DS_newmedia, DS_searchdir, DS_cachefile. */
+/* Psy-Q LIBDS DSFILE.OBJ, part 2 of 2: DS_cachefile, DS_newmedia, DS_searchdir, ds_read. */
 #include "pe1/psyq_ds.h"
+#include "pe1/cdrom.h"
 
 CdlLOC *DsIntToPos(int sector, CdlLOC *position);
 void *memcpy(void *, const void *, unsigned int);
@@ -139,4 +140,17 @@ int DS_cachefile(int directory) {
     if (count < DSL_MAX_FILE) g_DslFileCache[count].name[0] = 0;
     if (D_8009AFC0 > 1) printf(D_80012038, count);
     return 1;
+}
+
+int ds_read(int count, int sector, void *destination) {
+    CdlLOC position;
+    int status;
+
+    DsIntToPos(sector, &position);
+    DsRead(&position, count, destination, 0x80);
+    do {
+        status = DsReadSync(0);
+    } while (status > 0);
+
+    return status == 0;
 }

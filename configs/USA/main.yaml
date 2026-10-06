@@ -1113,11 +1113,9 @@ segments:
       # Psy-Q LIBDS DSREAD2.OBJ: DsRead2 and its stream interrupt hook.
       - [0x71B14, c, psyq/libds/dsread2]
       - [0x71C08, pad]
-      - [0x71C14, c, psyq/libds/DsSearchFile]
-      - [0x71EF4, c, psyq/libds/dsfile]
-      # Psy-Q libds/dsfile.c: ISO-9660 directory cache helpers.
-      - [0x71F14, c, psyq/libds/dsfile_cache]
-      - [0x72518, c, psyq/libds/ds_read]
+      # Psy-Q LIBDS DSFILE.OBJ (0x80081414..0x80081D74) in two parts; see dsfile.c.
+      - [0x71C14, c, psyq/libds/dsfile]
+      - [0x71F14, c, psyq/libds/dsfile_2]
       # Psy-Q libds read-controller helpers share the async-read state.
       - [0x72574, c, psyq/libds/DsStartReadySystem]
       - [0x7265C, c, psyq/libds/DsReadySystemMode]
