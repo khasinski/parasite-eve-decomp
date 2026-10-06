@@ -18,8 +18,7 @@
  */
 #include "pe1/room_grab_attack.h"
 
-/* The player, as the class sees it (volatile in this unit, see
- * pe1/room_grab_attack.h). */
+/* The player, as the class sees it. */
 #define GRAB_PLAYER ((FieldActor *)D_8009D254)
 
 /* Class slots 0 and 3. */
@@ -194,7 +193,6 @@ void RoomFx_GrabHold(RoomMotionTrigger *arg0) {
     g = GRAB_PLAYER;
     neg = -cf4;
     g->render_object.model_matrix.rotation[0][1] = neg;
-    matrix_arg = GRAB_PLAYER;
     g->render_object.model_matrix.rotation[1][0] = cf4;
     g->render_object.model_matrix.rotation[0][0] = dc4;
     g->render_object.model_matrix.rotation[1][1] = dc4;
@@ -207,6 +205,7 @@ void RoomFx_GrabHold(RoomMotionTrigger *arg0) {
     g->render_object.model_matrix.rotation[0][2] = 0;
     g->render_object.model_matrix.rotation[2][2] = 0x1000;
     scale = s_GrabHoldScale;
+    matrix_arg = GRAB_PLAYER;
     ScaleMatrix(&matrix_arg->render_object.model_matrix, &scale);
     g = GRAB_PLAYER;
     g->render_object.model_matrix.translation[0] = 0x100;
@@ -258,9 +257,11 @@ L4C4:
 
 L4F8:
     val = ((u16 *)&s1->anim_prev)[1];
-    /* Empty barriers retain the raw load and the two separate sign extensions. */
+    /* The barrier retains the raw load and the two separate sign extensions;
+     * its memory clobber makes the flag store below reload the player and
+     * its state, as retail does. */
     raw_val = val;
-    asm volatile("" : "=r"(raw_val) : "0"(raw_val));
+    asm volatile("" : "=r"(raw_val) : "0"(raw_val) : "memory");
     if ((s16)val < 0xE) {
         if ((s16)s0 >= 0xE) {
             goto L594;
@@ -275,7 +276,7 @@ L4F8:
         goto L5B0;
     }
     {
-        /* One load of the volatile player for the read and the write. */
+        /* One load of the player's state for the read and the write. */
         FieldActorState *state = GRAB_PLAYER->state;
 
         state->flags |= 0x4000;

@@ -46,13 +46,6 @@ extern int g_RoomGrabSlot;
 extern int RoomLib_PairA;
 extern int RoomLib_PairB;
 
-/* The player pointer, from room_spark.h, read as volatile in this unit:
- * the hold reloads it after every store through it, as retail does, and
- * the other functions copy it to a local where retail loads it once. GCC
- * merges the added qualifier into room_spark.h's declaration; no other
- * unit sees it. */
-extern RoomSparkBattleEntity *volatile D_8009D254;
-
 extern FieldActor *D_8009D20C;
 /* Read and written as a volatile word by the release. */
 extern volatile int D_800BCF88;
