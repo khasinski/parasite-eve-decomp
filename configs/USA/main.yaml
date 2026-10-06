@@ -798,7 +798,7 @@ segments:
       # evidence); the two Asset_Find08* names are legacy labels of AKAO senders.
       - [0x5E4E4, c, akao/Akao_PositionalSound]
       - [0x5E9C0, c, gpu/misc13]
-      - [0x5EB38, c, asset/str]
+      - [0x5EB38, c, asset/Str_Base32Ids]
       - [0x5ED14, c, asset/Asset_FindTable2CByU16Key]
       - [0x5EE0C, c, gpu/Gpu_ClearOnFlag]
       - [0x5EEA8, c, cdrom/CdRom_BootReadFlow]

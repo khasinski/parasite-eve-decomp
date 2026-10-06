@@ -108,7 +108,7 @@ edge, as `akao/Spu_TransferAndLifecycle` did before LIBPAD WAITRC2's
 | `engine` | `FieldEng_`, `FieldAnim_` | the field effect engine in the separate `0x800C1CA0` segment: effect pool, emitters, particles | rename to `fieldfx` (`FieldFx_` prefix) |
 | `scene` | `Scene_` | room and scene loading, story flags, scene dispatch | keep; receives `Scene_*` files from `gpu`, `main`, `render`, `time` |
 | `overlay` | `Overlay_` | overlay tables and loading, overlay audio/texture slots | keep |
-| `asset` | `Asset_` | PE.IMG asset tables, TIM upload | keep; `str.c` renamed by content |
+| `asset` | `Asset_` | PE.IMG asset tables, TIM upload | keep |
 | `task` | `Task_` | actor script interpreter: opcodes, expressions, node pool | rename to `script` (`Script_`); `Task_Gpu*` to `gpu`, `Task_ConvertSecondsToHMS` to `time` |
 | `pm` | `Pm_` | process manager: slot table that runs script batches | keep |
 | `event` | `Evt_` | game event delivery and deferred execution | keep; the old `Evt_Deliver` was LIBMATH FERR `_err_math` (`psyq/libmath/ferr.c`) |
