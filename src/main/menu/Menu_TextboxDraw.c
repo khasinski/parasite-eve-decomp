@@ -17,7 +17,6 @@ extern u8 D_8009EC78[];
 extern u8 D_8009EC70[];
 extern u8 D_8009ECA8[];
 extern u16 D_80091680[];
-extern u8 D_8009CEA0;
 extern int D_8009CED4;
 extern u8 *D_8009CE90;
 void SetDrawTPage(void *, int, int, int);
@@ -281,7 +280,6 @@ void Render_SetupColorTable(int inputIndex, int inputStyle, short *inputValues)
     }
 }
 
-extern signed char D_8009CEA4;
 
 int Menu_GetEquipSlotIndex(void) {
     return D_8009CEA4;
@@ -309,7 +307,6 @@ extern u8 D_8009CECC;
 extern s32 D_8009D1F4[];
 extern RenderBufferPrefix D_800B0E38;
 
-extern TextboxEntry g_TextboxEntries[4];
 
 void Menu_DrawTextboxEntries(void) {
     TextboxPoint cursor;

@@ -25,7 +25,6 @@ extern char D_800BEA4E[];
 extern char D_800BEA50[];
 extern char D_800942EC[];
 
-extern s32 g_FieldMoveLock;
 
 #define W(sym) (*(s32 *)(sym))
 #define H(sym) (*(s16 *)(sym))

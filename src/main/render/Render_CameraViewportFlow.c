@@ -10,7 +10,6 @@
 #include "pe1/field_movement.h"
 #include "pe1/battle_runtime.h"
 
-extern s32 g_RenderStateFlags;
 extern s16 g_CameraClampMinX __asm__("D_800BCF8C");
 extern s16 g_CameraClampedY;
 
@@ -63,7 +62,6 @@ s32 Render_ClampCameraPosition(s32 x, s32 y)
     return 0;
 }
 extern char * volatile g_GeomStateBytes __asm__("g_GeomState");
-extern unsigned char g_GeomGroupSel;
 extern unsigned short D_800BCFAC;
 extern unsigned short g_RenderSavedBoundsMaxX;
 extern unsigned short D_800BCFB0;

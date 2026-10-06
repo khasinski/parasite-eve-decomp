@@ -146,7 +146,6 @@ void Menu_StepInventoryRoot(int mode, int list, int item)
 }
 
 void MenuWidget_OffsetPosition(MenuWidgetNode *node, int dx, int dy);
-extern s32 g_MenuItemUseMode;
 
 void Menu_AlignEquipPanels(void) {
     register s32 temp_s1 asm("$17");
@@ -217,7 +216,6 @@ void MenuWidget_NavScrollTo(s32 selected_base);
 extern s32 g_MenuBattleStatusOverlayActive;
 extern s32 g_MenuEquipMode;
 extern s32 g_MenuItemRenameMode;
-extern s32 g_BonusPointDisplayValue;
 extern u16 g_BonusPointStatDeltas[];
 #define g_BonusPointStatDeltas (g_BonusPointStatDeltas[0])
 extern u16 g_AyaStatAgility[];

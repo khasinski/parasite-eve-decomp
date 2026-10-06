@@ -239,7 +239,6 @@ int Render_DrawSpriteEntry(GeomEntry *input)
     return 0;
 }
 
-extern int g_RenderStateFlags;
 
 int Render_SetEntryVisible(int index, int enabled) {
     GeomStateAddress table, base;
@@ -480,7 +479,6 @@ extern struct { char _[16]; } D_800BCF88_o __asm__("D_800BCF88");
 extern struct { char _[16]; } D_800BCF88_store_o __asm__("D_800BCF88");
 extern struct { char _[16]; } D_800BCFFA_o __asm__("D_800BCFFA");
 extern struct { char _[16]; } D_800BCFFB_o __asm__("D_800BCFFB");
-extern s32 D_8009CDDC;
 extern struct { char _[16]; } D_800B1624_a_o __asm__("D_800B1624");
 extern struct { char _[16]; } D_800B1624_b_o __asm__("D_800B1624");
 extern struct { char _[16]; } D_800B1624_c_o __asm__("D_800B1624");

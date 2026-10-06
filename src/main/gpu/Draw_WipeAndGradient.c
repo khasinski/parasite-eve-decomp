@@ -26,12 +26,6 @@ typedef struct ColorTriPair {
     ColorTriPrim first, second;
 } ColorTriPair;
 
-extern u8 *D_8009D100;
-extern u8 *D_8009D104;
-extern int D_8009D10C;
-extern int D_8009D110;
-extern int D_8009D114;
-extern u32 *D_8009D11C;
 extern DrawVertexPair D_800A22B0[];
 extern u32 D_8009D14C[];
 void BoundsCheck_AssertStub(int);
@@ -128,10 +122,6 @@ void Draw_AllocColorRect(int firstVertex, int secondVertex, int width, int mode)
     PE1_COMPILER_USE(p);
 }
 
-extern int g_TextCursorX;
-extern int g_TextCursorY;
-extern u16 *g_DrawVertexWritePtr;
-extern u8 D_800930A8[];
 
 void BoundsCheck_AssertStub(int arg0);
 
@@ -322,8 +312,6 @@ void Draw_AllocColorGradient(int width, int height, u8 *points, int textured)
 typedef RenderColorTilePacket TilePrim;
 typedef RenderDrawModePacket DrawModePrim;
 
-extern int D_8009D124;
-extern int D_8009D128;
 
 int VSync(int mode);
 void SetDrawTPage(char *packet, int dfe, int dtd, int tpage);

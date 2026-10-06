@@ -239,7 +239,6 @@ extern int D_800A1828;
 extern int D_800A182C;
 extern int D_800A1830;
 extern int D_800A1834;
-extern int D_800A1838;
 extern unsigned int D_800A183C;
 extern int D_800A1840;
 extern int D_800BCDA8;
@@ -476,10 +475,8 @@ void MemCard_InitManager(void) {
 
 extern u8 D_800B8868[];
 extern u8 D_800B88C8[];
-extern u8 D_8009EED0[];
 extern int D_800A5D50;
 extern u8 *g_SaveIoCursor;
-extern SaveBytes12E4 g_SaveRuntimeState;
 extern int D_800C0DE8;
 
 char *strcpy(char *dst, char *src);
@@ -1123,7 +1120,6 @@ void Save_CancelUiFlow(void) {
 }
 
 extern SaveBytes12E4 g_MemCardSaveStateBuffer;
-extern int g_MemCardLoadSucceeded;
 
 void Save_DeserializeTail(void);
 void Save_RestoreHeader(void);
@@ -1237,9 +1233,7 @@ extern int g_MemCardServicedPort;
 extern int g_MemCardInfoPollCountdown;
 extern int D_800A184C;
 extern int g_McOpPending;
-extern int g_MemCardActivePortOneBased;
 extern int g_MemCardSavePollTimeout;
-extern int g_MemCardActivePromptPending;
 extern int g_MemCardReadContext;
 
 void bzero(void *ptr, int size);
@@ -1263,7 +1257,6 @@ void MemCard_InitState(void) {
     g_MemCardReadContext = 0;
 }
 
-extern u8 D_800A0EDC[];
 extern u8 g_Slot2QuickerSave[];
 void MemCard_StepPortState(int arg0);
 void Menu_CloseNotificationDialogs(void);
@@ -1414,8 +1407,6 @@ void MemCard_MarkActivePortState13(void) {
     g_MemCardPortStates[portIndex].managerState = 0xD;
 }
 
-extern volatile int g_MemCardActivePortOneBased;
-extern volatile int g_MemCardActivePromptPending;
 
 void MemCard_ClearActivePrompt(void) {
     g_MemCardActivePortOneBased = 0;

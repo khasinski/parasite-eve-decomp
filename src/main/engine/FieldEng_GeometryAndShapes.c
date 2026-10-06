@@ -483,8 +483,6 @@ void func_800CEE20(GteShortVector *position, GteRotation *rotation,
 /* Field colour animation: colour-key interpolation and the rotating
  * 16-entry CLUT row upload. */
 
-extern u16 D_800F336C;
-extern u16 D_800E1204[];
 extern u16 D_800E21A8[];
 
 int StoreImage(RECT *rect, void *pixels);

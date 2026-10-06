@@ -4,7 +4,6 @@
 /* Rising ember sparks: the drifting ember callback and the fan-sweep
  * spark template instance. */
 
-extern int D_800E27EC;
 extern char D_800E17E0;
 
 void func_800CF3AC(void *arg0, void *arg1, int arg2);
