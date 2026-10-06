@@ -1140,8 +1140,8 @@ segments:
       - [0x71A68, c, psyq/libds/DsReadBreak]
       - [0x71AF4, c, psyq/libds/DsReadMode]
       - [0x71B10, pad] # zero word after DsReadMode's jr ra
-      - [0x71B14, c, psyq/libds/DsRead2]
-      - [0x71BE8, c, psyq/libds/StCdInterrupt2]
+      # Psy-Q LIBDS DSREAD2.OBJ: DsRead2 and its stream interrupt hook.
+      - [0x71B14, c, psyq/libds/dsread2]
       - [0x71C08, pad]
       - [0x71C14, c, psyq/libds/DsSearchFile]
       - [0x71EF4, c, psyq/libds/dsfile]
