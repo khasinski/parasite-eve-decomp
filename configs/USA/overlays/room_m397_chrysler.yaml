@@ -39,8 +39,6 @@ segments:
       - [0x1E4, .rodata, ../room_lib/RoomEffect_TrailBurstAttacks]
       - [0x1FC, c, ../room_lib/RoomLib_ActorClasses]
       - [0x3518, c, ../room_lib/RoomEffect_TrailBurstAttacks]
-      - [0x65FC, c, func_801955E4]
-      - [0x660C, c, func_801955F4]
       - [0x661C, data, D_80195604]
       - [0x6654, data, D_8019563C]
       - [0x66C4, data, D_801956AC]

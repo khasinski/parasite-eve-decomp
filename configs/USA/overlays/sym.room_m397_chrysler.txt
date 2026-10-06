@@ -1,7 +1,7 @@
 FieldEng_VecToAngle = 0x800DFF80;
 FieldEng_TurnToward = 0x800DFFB8;
-func_801955E4 = 0x801955E4; // type:func
-func_801955F4 = 0x801955F4; // type:func
+RoomEffect_SeekingTrailHistory = 0x801955E4; // type:func
+RoomEffect_ScatterTrailHistory = 0x801955F4; // type:func
 RoomLib_HandlerDNop0 = 0x8018F1E4; // type:func
 RoomLib_InitHandlerD = 0x8018F1EC; // type:func
 RoomLib_ConfigureHandlerD = 0x8018F28C; // type:func

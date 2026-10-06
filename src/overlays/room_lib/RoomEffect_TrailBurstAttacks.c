@@ -4,9 +4,9 @@
  * shedding sparks and flashes, and two model bursts that grow a scaled model
  * at one of the actor's joints while shedding pulsing sprites.
  *
- * room_m245 and room_m397 link these eight functions in this order, with the
- * same 0x18 bytes of read-only seeds; this unit is that object, compiled into
- * each of them. The second trail takes its history slot from the event
+ * room_m245 and room_m397 link these eight functions and the two trail
+ * classes' history getters in this order, with the same 0x18 bytes of
+ * read-only seeds; this unit is that object, compiled into each of them. The second trail takes its history slot from the event
  * state and scatters its heading with a fixed spread; the second burst
  * follows another joint. The trail histories, colour ramps, model assets,
  * layer records and anchors live in each room's own data.
@@ -909,4 +909,14 @@ int RoomEffect_ScatterBurstController(int mode, s16 *state) {
         break;
     }
     return 0;
+}
+
+/* History getters of the seeking and the scatter trail classes; retail has
+ * both return the seeking trail's histories. */
+void *RoomEffect_SeekingTrailHistory(void) {
+    return g_RoomSeekingTrailHistory;
+}
+
+void *RoomEffect_ScatterTrailHistory(void) {
+    return g_RoomSeekingTrailHistory;
 }
