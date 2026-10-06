@@ -35,6 +35,12 @@ int RoomLib_Spawn6(int a, int b, int c, int d, int e, int f);
 int RoomLib_RegisterDrawList(void *o);
 int RoomLib_RegisterPairedTables(void *o);
 int RoomLib_CloseTarget(struct RoomEnt *o);
+/* Variants some modules link in the registration, start and close slots:
+ * register the draw list and start only while the engine runs the object
+ * (status 3), and close the module without touching the target's state. */
+int RoomLib_RegisterDrawListActive(void *o);
+int RoomLib_RegisterPairedTablesRelease(void *o);
+int RoomLib_ReleaseTarget(struct RoomEnt *o);
 
 /* Arguments the scene script hands the room's effects (the script's
  * RoomLib_SetArgs3 call); three words in each room's data. */
