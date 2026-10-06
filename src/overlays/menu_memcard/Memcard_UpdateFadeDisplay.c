@@ -37,8 +37,7 @@ void Memcard_UpdateFadeDisplay(MenuMemcardFadeState *state) {
         s32 bottom;
 
         /* Keep the floor constant in the branch delay slot. */
-        asm volatile("");
-        if (delta >= 0x18) {
+                if (delta >= 0x18) {
             bottom = delta;
         } else {
             bottom = 0x18;
