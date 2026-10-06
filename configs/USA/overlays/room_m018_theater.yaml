@@ -35,21 +35,11 @@ segments:
     bss_size: 0x0
     subsegments:
       - [0x0, rodata, room_m018_theater]
-      - [0xC, c, func_8018EFF4]
-      - [0x14, c, RoomMdl_Reset_8018EFFC]
-      - [0x38, c, RoomMdl_Select_8018F020]
-      - [0x108, c, RoomMdl_Tick_8018F0F0]
-      - [0x1BC, c, func_8018F1A4]
-      - [0x1C4, c, RoomMdl_Kill_8018F1AC]
-      - [0x1D4, c, func_8018F1BC]
-      - [0x1DC, c, RoomEnt_Setup5_8018F1C4]
-      - [0x210, c, RoomFx_ModelUpdate]
-      - [0x598, c, RoomFx_ModelDraw]
-      - [0xB5C, data, D_8018FB44]
-      - [0xB78, data, D_8018FB60]
-      - start: 0xB7C
+      - [0xC, c, ../room_lib/RoomFx_MirrorModel]
+      - [0xB5C, .data, ../room_lib/RoomFx_MirrorModel]
+      - start: 0xB98
         type: databin
-        name: D_8018FB64
+        name: D_8018FB80
         dir: room_m018_theater
   - [0x18000]
 # room: m018, section3 sector 12076, scanner delta 0
