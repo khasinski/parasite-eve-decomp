@@ -40,6 +40,25 @@ canonical prefix when a file is touched. SDK-internal names that look similar
 (`CD_cw`, `CD_init`, `GPU_cw`, `_spu_init`) are PsyQ names and keep their
 spelling.
 
+**PsyQ file names.** A unit under `psyq/<library>/` is named after the SDK
+object it reproduces, lower case (`INTR_VB` is `intr_vb.c`, the BIOS veneer
+object `A50` is `a50.c`, `SSINIT_C` is `ssinit_c.c`). The object comes from
+`configs/USA/psyq_provenance.json`; a 12-byte BIOS veneer that has no entry
+there is named after the PsyQ signature object whose bytes it matches
+exactly. When one object is still split over several units, because the
+pieces need different compiler settings or carry declarations that do not
+yet agree, the units are numbered in address order (`padcmd.c`,
+`padcmd_2.c`, ...) and merged once they compile together. Every unit opens
+with a one-line comment naming the library, the object (and part) and the
+public symbols it defines. Functions and globals take the object's SDK
+labels; private routines that only have generated `text_*` labels keep
+project names.
+
+`MEMMOVE` and `QSORT` are byte-identical in LIBC and LIBC2. The executable
+links LIBC: its string and memory routines are the LIBC BIOS veneers
+(`C21` strcat, `C42` memcpy, ...), not LIBC2's C bodies. Both objects
+therefore live in `psyq/libc/`; there is no `psyq/libc2/`.
+
 Placeholder names are migration state, not style: `func_`/`D_` symbols and
 files such as `misc19.c`, `task5.c`, `cd_rom3.c` or `gap_*` that describe
 position rather than responsibility. `make organization-check` ratchets their count; it
@@ -65,10 +84,10 @@ directory for one file.
 objects), the `CdRom_*` DS-system files in `cdrom` (LIBDS), the `CardObj_*`
 files in `memcard` (LIBPAD/LIBCARD), most of `pad` (LIBAPI PAD/PATCH), the
 64-bit helpers in `math` (LIBMATH), the `Spu_*` setters in `akao` (LIBSPU),
-`gte` (LIBGTE), `psyq/libetc/intr_2` and `misc37` (LIBETC INTR). They
-move to `psyq/<library>/` under their SDK names. Confirm each with the
-provenance entry first: a few overlaps are only alignment words
-(`akao/Spu_TransferAndLifecycle`).
+and `gte` (LIBGTE). They move to `psyq/<library>/` under their SDK names.
+Confirm each with the provenance entry first: a unit can straddle an object
+edge, as `akao/Spu_TransferAndLifecycle` did before LIBPAD WAITRC2's
+`chkRC2wait` was split off it.
 
 | Directory | Prefix | Responsibility | Target |
 | --- | --- | --- | --- |
