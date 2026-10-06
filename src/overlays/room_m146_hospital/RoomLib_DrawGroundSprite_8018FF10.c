@@ -1,4 +1,0 @@
-#define ROOMLIB_DRAW_GROUND_SPRITE_NAME func_8018FF10
-#define ROOMLIB_DRAW_GROUND_SPRITE_DEPTH D_801926B2
-#define ROOMLIB_DRAW_GROUND_SPRITE_FLOOR g_FrameCount16
-#include "../room_lib/RoomLib_DrawGroundSprite.inc"

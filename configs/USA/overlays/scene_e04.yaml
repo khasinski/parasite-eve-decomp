@@ -38,6 +38,7 @@ segments:
         type: rodatabin
         name: scene_e04_header
         dir: scene_e04
+      - [0xC, .rodata, ../room_lib/RoomEffect_GroundEruption]
       - [0x5C, .rodata, ../room_lib/RoomEffect_OrbitFlare]
       - start: 0x6C
         type: rodatabin
@@ -49,24 +50,7 @@ segments:
       - [0x114, c, RoomLib_RegisterTablesAt3_8018F0FC]
       - [0x1A0, c, func_8018F188]
       - [0x200, c, func_8018F1E8]
-      - [0x208, c, func_8018F1F0]
-      - [0x44C, c, func_8018F434]
-      - [0x454, c, func_8018F43C]
-      - [0x560, c, func_8018F548]
-      - [0x5E0, c, func_8018F5C8]
-      - [0x858, c, Scene_UpdateRisingEffect_8018F840]
-      - [0x934, c, func_8018F91C]
-      - [0x988, c, func_8018F970]
-      - [0xA74, c, func_8018FA5C]
-      - [0xA90, c, Scene_InitOrbitRing_8018FA78]
-      - [0xB54, c, func_8018FB3C]
-      - [0xDB0, c, Scene_UpdateOrbitRing_8018FD98]
-      - [0xE8C, c, func_8018FE74]
-      - [0xF00, c, func_8018FEE8]
-      - [0x1090, c, func_80190078]
-      - [0x1098, c, func_80190080]
-      - [0x125C, c, RoomLib_DrawSixParticles_80190244]
-      - [0x1454, c, func_8019043C]
+      - [0x208, c, ../room_lib/RoomEffect_GroundEruption]
       - [0x1530, c, ../room_lib/RoomEffect_OrbitFlare]
       - [0x2180, c, RoomLib_SetArgs3_80191168]
       - [0x21A4, c, RoomEffect_HomingProjectile]

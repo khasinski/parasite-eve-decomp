@@ -30,11 +30,11 @@
     "asm_bodies": 0,
     "asm_constrained_units": 0,
     "barriers": 297,
-    "byte_pointer_arithmetic": 157,
+    "byte_pointer_arithmetic": 149,
     "dead_code": 1,
     "declaration_overrides": 0,
     "directives": 0,
-    "externs_in_c": 1827,
+    "externs_in_c": 1745,
     "field_macros": 0,
     "game_asm_units": 0,
     "gotos": 363,
@@ -43,12 +43,12 @@
     "nop_barriers": 0,
     "original_asm_units": 2,
     "pins": 393,
-    "pointer_integer_casts": 76,
+    "pointer_integer_casts": 74,
     "postpass": 0,
-    "raw_offset_dereferences": 1229,
+    "raw_offset_dereferences": 941,
     "stack_reserves": 0,
     "stack_switch_macros": 0,
     "statement_expressions": 3,
-    "unknown_fields": 66
+    "unknown_fields": 60
   }
 }
