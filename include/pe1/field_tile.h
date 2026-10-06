@@ -35,8 +35,7 @@ typedef struct FieldTilePoint {
     s16 x, y;
 } FieldTilePoint;
 
-/* Matches render_object.h; func_800D1DEC's unit does not include it because
- * that header declares the function with untyped pointers. */
+/* Matches render_object.h, for includers that do not include that header. */
 extern s16 D_800F3374;
 
 void *memset(void *dst, int value, unsigned int size);

@@ -1413,12 +1413,8 @@ segments:
       - [0xC04F4, c, engine/FieldEng_DirectionHelpers]
       - [0xC084C, c, engine/FieldEng_StarFan]
       - [0xC0F28, c, engine/FieldEng_RingBand]
-      - [0xC1688, c, engine/FieldEng_RotatedTriangle]
-      - [0xC1B84, c, engine/FieldEng_HistoryTrail]
-      # Fade tile and arc clip point; inside the literal-joined G1562 run.
-      - [0xC22E0, c, engine/FieldEng_FadeTileAndArcClip]
-      - [0xC25EC, c, engine/FieldEng_PointTile]
-      - [0xC2B70, c, engine/FieldEng_RotatedQuad]
+      # Effect primitive builders: rotated triangle, history trail, fade tile, point tiles, rotated quad (G1559).
+      - [0xC1688, c, engine/FieldEng_EffectPrimitives]
       - [0xC2FFC, c, engine/FieldEng_OrbitTile]
       - [0xC3358, c, engine/FieldEng_GlowLine]
       - [0xC3914, c, engine/FieldEng_TexturedRibbon]
