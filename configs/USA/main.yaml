@@ -1345,10 +1345,8 @@ segments:
       - [0xB2AF8, c, engine/FieldEng_ObjectScript]
       # Render setup state and the oriented sprite draw; private draw-area state joins them (G1395).
       - [0xB36AC, c, engine/FieldEng_RenderSetup]
-      - [0xB4304, c, engine/FieldEng_Billboard]
-      - [0xB4AA4, c, engine/FieldEng_GlowSprite]
-      - [0xB519C, c, engine/FieldEng_ShadedQuad]
-      - [0xB5650, c, engine/FieldEng_RingGeometryFlow]
+      # Billboard, glow sprite, shaded quad and ring geometry draws (G1392; the render setup before and the particle chain after declare conflicting header views).
+      - [0xB4304, c, engine/FieldEng_SpriteRendering]
       - [0xB5D38, c, engine/FieldEng_ParticleChainFlow]
       - [0xB66B0, c, engine/func_800C5EB0]
       - [0xB688C, c, engine/func_800C608C]
