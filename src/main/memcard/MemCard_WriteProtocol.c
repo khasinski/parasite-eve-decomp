@@ -87,8 +87,7 @@ int MemCard_WriteByteWithAckCheck(void *obj) {
     result = MemCard_WriteByte(call_obj, value & 0xFF);
     /* Match debt: architectural zero keeps the result copy in the first
      * branch delay slot; the barriers preserve the shared return path. */
-    asm volatile("" : "=r"(zero));
-    ret = 90;
+        ret = 90;
     asm volatile("" : "=r"(ret) : "0"(ret));
     if (result == ret) {
         ret = result + zero;
