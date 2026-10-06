@@ -209,9 +209,9 @@ no main symbol. Overlays also pin 7539 references to their own definitions
 used as runtime buffers. Since 2026-10-06 `overlay_extra_undefineds.py` reads
 only the objects the overlay's linker script links and skips every name one
 of them defines: `undefined_extra` dropped from 12915 entries (4622 hard
-assignments) to 1369 (471). The six overlays with copied foreign-VMA code
-(`OVERLAY_VMA_OVERLAP`) keep those pins (`--pin-defined`); scene_e11..e14
-do not match without them. The splat `undefined_*_auto` scripts still pin.
+assignments) to 1369 (471). The two overlays with copied foreign-VMA code
+(`OVERLAY_VMA_OVERLAP`, `boot_display` and `menu_memcard`) keep those pins
+(`--pin-defined`). The splat `undefined_*_auto` scripts still pin.
 
 Fixed layout: `.main` at 0x80010000 (the PS-X EXE load address, a loader
 contract), `.field_engine` at 0x800C1CA0, `_gp = 0x8009CD70`, and the

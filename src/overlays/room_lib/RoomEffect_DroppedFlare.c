@@ -2,7 +2,7 @@
 /*
  * Dropped flares: the particle, the emitter that drops them and the setter
  * of the room's two flare arguments. The three functions follow each other
- * in this order in thirteen hospital rooms and in scenes e09 and e10, and
+ * in this order in thirteen hospital rooms and in scenes e09 to e13, and
  * the unit's rodata (the particle's two seed initialisers, its two jump
  * tables, the emitter's rectangle) is one contiguous block in all of them.
  */

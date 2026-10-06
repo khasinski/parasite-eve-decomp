@@ -48,9 +48,9 @@ Entry is the PsyQ start-up (`psyq/libsn/snmain.c`): it clears BSS, sets
 | `render_clip` | `0x80170000` | 1 | one PE.IMG sector duplicating part of `fx_common`; data only |
 
 Rooms, scene sets and the effect blocks are linked for the same window, so
-only one of them can run at a time. `boot_display`, `menu_memcard` and
-`scene_e11..e14` contain fragments copied with their own link addresses; the
-Makefile links those with `--no-check-sections` (`OVERLAY_VMA_OVERLAP`).
+only one of them can run at a time. `boot_display` and `menu_memcard`
+contain fragments copied with their own link addresses; the Makefile links
+those with `--no-check-sections` (`OVERLAY_VMA_OVERLAP`).
 
 Overlays call into the executable directly by address. Each overlay is linked
 separately against the executable's symbols; nothing is shared between
