@@ -2,6 +2,7 @@
 #define PE1_ROOM_M123_BEACON_H
 
 #include "common.h"
+#include "pe1/field_transform_point.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_matrix_slot.h"
@@ -118,7 +119,6 @@ void func_800D004C(GteShortVector *position, int width, int height, int segments
                    RoomM123BeaconColor *color0, RoomM123BeaconColor *color1,
                    int intensity, int mode);
 void func_800CF3AC(void *track, RoomM123BeaconColor *color, int time);
-void func_800CE9D4(void *owner, int index, void *out);
 void func_800CE8F0(void *pool, int index, void *offset, void *position);
 int func_800CEB8C(void *position, GteShortVector *target, int radius);
 u16 GetClut(int x, int y);

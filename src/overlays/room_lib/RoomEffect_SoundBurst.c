@@ -109,7 +109,8 @@ int RoomEffect_SoundBurstController(int mode, RoomSoundBurstState *state) {
                 child = func_800CE610(pool);
                 if (child) {
                     pool = D_800F32D0->pool;
-                    func_800CE9D4(pool, 0, target);
+                    func_800CE9D4((struct RoomFxTransformOwner *)pool, 0,
+                                  (GteShortVector *)target);
                     child->height = target[1];
                     child->x = position[0];
                     child->y = position[1];

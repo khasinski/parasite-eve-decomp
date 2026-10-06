@@ -39,7 +39,8 @@ int func_80193618(int mode, RoomM123Beacon *state) {
         return 0;
     case 1:
         func_800CE8F0(D_800F32D0->pool, 0x17, &offset, state);
-        func_800CE9D4(D_800F32D0->pool, 0, &state->rotation);
+        func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,
+                      &state->rotation);
         state->alpha = 0x80;
         switch (state->phase) {
         case 0:

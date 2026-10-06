@@ -230,7 +230,8 @@ int RoomEffect_DroppedFlareEmitter(int mode, RoomDroppedFlareEmitter *emitter,
         func_800CE8F0(D_800F32D0->pool, 0x13, &rect, emitter);
         switch (D_800E2368->phase) {
         case 0:
-            func_800CE9D4(D_800F32D0->pool, 0x13, &emitter->angles);
+            func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0x13,
+                          &emitter->angles);
             break;
         case 1:
             {

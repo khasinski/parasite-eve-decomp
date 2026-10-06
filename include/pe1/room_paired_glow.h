@@ -19,7 +19,6 @@ int *func_800C2B10(int index);
 void *func_8006E498(void *owner, int id);
 void func_8006DF50(void *owner, int soundId, int arg2, int volume, int pan);
 void func_800C4E50(void *params);
-void func_800C4FC4(void *params, RoomSpriteMatrix *matrix, int mode);
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
 void func_800C6D5C(void *packet, int arg1, int arg2);
 int func_80077A64(int arg0, int arg1, int arg2, int arg3);

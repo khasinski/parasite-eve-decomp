@@ -42,7 +42,8 @@ int func_8018FC14(int mode, RoomM023Beacon *state) {
         return 0;
     case 1:
         func_800CE8F0(D_800F32D0->pool, state->joint, &offset, state);
-        func_800CE9D4(D_800F32D0->pool, 0, &state->rotation);
+        func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,
+                      &state->rotation);
         switch (state->phase) {
         case 0:
             state->timer++;

@@ -41,7 +41,6 @@ int RoomEffect_GroundEruptionNop6(void);
 int *func_800C2B28(int index);
 int func_800C66C8(void *object, int message, void *state);
 void func_800C4E50(void *params);
-void func_800C4FC4(void *params, RoomSpriteMatrix *matrix, int mode);
 void func_80071A44(void *dst, int value, int size);
 
 #endif

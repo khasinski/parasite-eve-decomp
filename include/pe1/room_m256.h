@@ -2,6 +2,7 @@
 #define PE1_ROOM_M256_H
 
 #include "pe1/room_m256_trail.h"
+#include "pe1/room_model_pulse_particle.h"
 
 /* ABI declarations used by the room_m256 effect dispatcher. */
 extern int D_800B0E64;
@@ -20,12 +21,6 @@ extern void func_800D3F64(int, int);
 
 int func_80195320(int mode, u16 *out);
 
-typedef struct RoomM256Particle {
-    u16 frame;
-    u16 offset;
-    s16 scale;
-} RoomM256Particle;
-
 extern char D_801960A0[];
 extern char D_80196098[];
 extern char D_80195E64[];
@@ -39,6 +34,5 @@ int func_80077AA4(int, int);
 void func_800CF844(void *, void *, int, void *, int, int);
 void func_800CF3AC(void *, void *, int);
 void func_800D1DEC(void *, void *, int, int);
-int func_8019552C(int mode, RoomM256Particle *particle);
 
 #endif

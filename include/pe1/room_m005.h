@@ -3,17 +3,7 @@
 
 #include "pe1/gte_types.h"
 #include "pe1/render_object.h"
-
-/* Drifting sprite drawn by the room_m005 effect callback. */
-typedef struct RoomM005DriftingSpriteState {
-    unsigned short x;             /* 0x00 */
-    unsigned short y;             /* 0x02 */
-    unsigned short z;             /* 0x04 */
-    short pad06;                  /* 0x06 */
-    unsigned short vx;            /* 0x08 */
-    unsigned short vy;            /* 0x0A */
-    unsigned short vz;            /* 0x0C */
-} RoomM005DriftingSpriteState;
+#include "pe1/room_m005_drifting_sprite.h"
 
 /* Orbiter effect controller state and the event flag it watches. */
 typedef struct RoomM005OrbiterState {
@@ -79,6 +69,5 @@ extern u8 D_80190AF4[];
 extern u16 D_800E11EA;
 extern u16 D_800E11FA;
 int func_80077AA4(int, int);
-int func_8018FB84(int mode, RoomM005DriftingSpriteState *state);
 
 #endif

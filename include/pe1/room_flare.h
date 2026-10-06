@@ -2,6 +2,7 @@
 #define PE1_ROOM_FLARE_H
 
 #include "common.h"
+#include "pe1/field_transform_point.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_matrix_slot.h"
 #include "pe1/gte_short_vector.h"
@@ -144,7 +145,6 @@ extern int func_800D3F64(int, int);
 extern void func_800866A4(int, int);
 extern int func_800CE560(void *, int, int, void *);
 extern void func_800CE8F0(void *, int, void *, void *);
-extern void func_800CE9D4(void *, int, void *);
 extern void *func_800CE610(void *);
 extern int func_800C6B90(void *position, int radius);
 extern int func_8001CAB0(int x, int z, int arg2, int arg3);

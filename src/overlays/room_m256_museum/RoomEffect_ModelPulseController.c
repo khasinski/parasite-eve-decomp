@@ -76,7 +76,8 @@ int func_80195728(int mode, s16 *state) {
         D_801960A0.x = position.x;
         D_801960A0.y = position.y;
         D_801960A0.z = position.z;
-        func_800CE9D4(D_800F32D0->pool, 2, &D_80196098);
+        func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 2,
+                      &D_80196098);
         D_80196098.x += 0x400;
         if (D_800E27EC >= 4) {
             int angle;

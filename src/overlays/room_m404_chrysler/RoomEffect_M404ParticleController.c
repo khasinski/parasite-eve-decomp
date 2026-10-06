@@ -35,7 +35,8 @@ update:
         pool = D_800F32D0->pool;
         func_800CE8F0(pool, 3, &template, position);
         pool = D_800F32D0->pool;
-        func_800CE9D4(pool, 0, target);
+        func_800CE9D4((struct RoomFxTransformOwner *)pool, 0,
+                      (GteShortVector *)target);
         if (D_800E27EC == 1) {
             pool = D_800F33E0->pool;
             child = func_800CE610(pool);

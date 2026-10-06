@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/field_ring_geometry.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_glow_sprite.h"
 
@@ -83,6 +84,5 @@ typedef struct RoomDropActor {
 void *func_800C2B50(void);
 int func_800C6B90(void *position, int radius);
 void *memset(void *dst, int value, unsigned int size);
-void func_800C4FC4(RoomBeamSprite *params, GteMatrix *matrix, int mode);
 
 #endif

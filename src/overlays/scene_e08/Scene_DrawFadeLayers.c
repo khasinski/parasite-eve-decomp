@@ -35,7 +35,6 @@ void func_800C3098(int);
 void func_800C3238(int);
 void func_800C3134(u8 *table, u32 step, u8 *out);
 void func_80071A44(RoomFxVec4 *, int, int);
-void func_800C4FC4(void *, RoomSpriteMatrix *, int);
 
 void func_8018F640(void *unused, s16 *args, Ovl178FadeState *state) {
     RoomSpriteMatrix matrix;

@@ -2,6 +2,7 @@
 #define PE1_ROOM_SOUND_BURST_H
 
 #include "common.h"
+#include "pe1/field_transform_point.h"
 #include "pe1/gte_types.h"
 #include "pe1/room_floor.h"
 #include "pe1/render_matrix_slot.h"
@@ -87,7 +88,6 @@ typedef struct RoomSoundBurstParams {
 } RoomSoundBurstParams;
 extern int func_800CE560(void *, int, int, void *);
 extern void func_800CE8F0(void *, int, void *, void *);
-extern void func_800CE9D4(void *, int, void *);
 extern RoomSoundBurstParticle *func_800CE610(void *);
 extern int rsin(int);
 extern int func_800D3FD8(void);

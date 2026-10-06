@@ -312,7 +312,6 @@ void RoomFx_InitSpritePair(void *arg0, void *arg1, char *obj) {
 }
 
 void func_80071A44(RoomFxVec4 *vec, int value, int shift);
-void func_800C4FC4(void *state, RoomSpriteMatrix *matrix, int mode);
 
 
 /* Builds a uniformly scaled rotation from the shared seed and draws the

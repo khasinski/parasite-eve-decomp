@@ -2,6 +2,7 @@
 #define PE1_ROOM_M404_H
 
 #include "common.h"
+#include "pe1/field_transform_point.h"
 
 typedef struct { s32 word[2]; } __attribute__((packed)) RoomTemplate8;
 typedef struct RoomM404Node {
@@ -33,7 +34,6 @@ extern int func_800D3FD8(void);
 extern void func_800D3F64(int, int);
 extern int func_800CE560(void *, int, int, void *);
 extern void func_800CE8F0(void *, int, void *, void *);
-extern void func_800CE9D4(void *, int, void *);
 extern RoomM404Particle *func_800CE610(void *);
 extern void func_800CFB7C(void *, int, void *);
 extern void func_80192540(void);

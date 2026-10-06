@@ -2,6 +2,8 @@
 #define PE1_ROOM_M005_BEACON_H
 
 #include "common.h"
+#include "pe1/room_m005_drifting_sprite.h"
+#include "pe1/field_transform_point.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_matrix_slot.h"
@@ -120,7 +122,6 @@ void func_800CFB7C(GteShortVector *angles, s16 distance, GteShortVector *out);
 void func_800CEE20(GteShortVector *position, GteShortVector *rotation,
                    int scale_x, int scale_y, int texture, int clut,
                    int page, int intensity, RoomM005BeaconColor *color);
-void func_800CE9D4(void *owner, int index, void *out);
 void func_800CE8F0(void *pool, int index, void *offset, void *position);
 int func_800CEB8C(void *position, GteShortVector *target, int radius);
 u16 GetClut(int x, int y);
@@ -129,6 +130,5 @@ int rsin(int angle);
 int func_800CE560(void *pool, int count, int size, void *callback);
 RoomM005BeaconSprite *func_800CE610(void *pool);
 int func_80071A54(void);
-int func_8018FB84(int mode, RoomM005BeaconSprite *sprite);
 
 #endif

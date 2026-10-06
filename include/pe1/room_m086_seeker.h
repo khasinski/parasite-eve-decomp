@@ -2,6 +2,7 @@
 #define PE1_ROOM_M086_SEEKER_H
 
 #include "common.h"
+#include "pe1/field_transform_point.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_matrix_slot.h"
 #include "pe1/render_prim.h"
@@ -132,7 +133,6 @@ extern u16 D_800E120A;
 int func_8018F004(int mode, RoomM086Seeker *seeker, RoomM086SeekerParams *params);
 void func_800CE8F0(void *owner, int joint, RoomM086Offset *offset, void *out);
 void func_800CEAE8(void *bone, RoomM086Offset *offset, void *out);
-void func_800CE9D4(void *owner, int index, void *out);
 RoomM086Seeker *func_800CE610(void *pool);
 int func_800CE560(void *pool, int count, int size, void *callback);
 void *func_8006E498(void *base, u32 key);

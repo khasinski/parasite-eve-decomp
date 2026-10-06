@@ -31,7 +31,8 @@ int func_8018F734(int mode, RoomM086SeekerController *state, RoomM086ControllerP
         state->state = 0;
         state->timer = 0;
         state->velocity.y -= 0x18;
-        func_800CE9D4(D_800F32D0->pool, 0, &state->rotation);
+        func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,
+                      &state->rotation);
         if (D_800E2368->active) {
             RoomM086Pool *pool = D_800F32D0->pool;
             if (pool && pool->object) {

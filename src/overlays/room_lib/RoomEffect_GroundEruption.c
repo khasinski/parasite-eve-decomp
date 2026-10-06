@@ -234,7 +234,7 @@ void RoomEffect_GroundEruptionTransformColumn(void *arg0, void *arg1,
     stack.matrix.t[0] = *(int *)(owner + 0x18);
     stack.matrix.t[1] = *(int *)(owner + 0x1C);
     stack.matrix.t[2] = *(int *)(owner + 0x20);
-    func_800C4FC4(workState + 0x108, matrix, 0);
+    func_800C4FC4((FieldRingGeometry *)(workState + 0x108), matrix, 0);
 }
 
 typedef struct RoomEruptionRiseScript {

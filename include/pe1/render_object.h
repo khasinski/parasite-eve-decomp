@@ -4,6 +4,7 @@
 #include "common.h"
 #include "pe1/gte_types.h"
 #include "pe1/render_matrix_slot.h"
+#include "pe1/field_transform_point.h"
 
 struct RenderColor;
 
@@ -422,13 +423,7 @@ void FieldEng_RotateVector(const GteMatrixWords *matrix,
 void FieldEng_TransformTranslation(const GteShortVector *input,
                                   GteMatrixWords *output);
 
-struct RoomFxTransformOwner;
 extern GteShortVector D_800C2258, D_800C2260;
-void func_800CE9D4(struct RoomFxTransformOwner *owner, int index,
-                   GteShortVector *out);
-void FieldEng_TransformMatrixPoint(struct RoomFxTransformOwner *owner, int index,
-                                  const GteShortVector *input,
-                                  GteShortVector *output);
 
 /* Shared runtime object layout used by the morph and draw paths. */
 typedef struct RenderVec3s {

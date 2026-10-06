@@ -85,7 +85,8 @@ s32 func_801940B0(int mode, void *effect) {
             state->kind = 1U;
             state->ending = 0;
             func_800CE8F0(D_800F32D0->actor, 2, &initialRotation, state);
-            func_800CE9D4(D_800F32D0->actor, 0, &angles.x);
+            func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->actor, 0,
+                          (GteShortVector *)&angles.x);
             historyCount = 16;
             historyPosition = state;
             initialPitch = angles.x + 0x200;

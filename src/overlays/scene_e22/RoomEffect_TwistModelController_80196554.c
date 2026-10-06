@@ -28,7 +28,8 @@ int func_80196554(int mode, SceneE22TwistModel *bolt) {
         bolt->origin.x = bolt->position.x;
         bolt->origin.y = bolt->position.y;
         bolt->origin.z = bolt->position.z;
-        func_800CE9D4(D_800F32D0->pool, 0, &bolt->heading);
+        func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,
+                      &bolt->heading);
         bolt->heading.x -= 0x220;
         bolt->heading.y -= 0x80;
         return func_800CE560(D_800F33E0->pool, 0x14, 0x18, func_801962FC);

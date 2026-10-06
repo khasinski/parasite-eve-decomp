@@ -415,7 +415,8 @@ update:
     pool = D_800F32D0->pool;
     func_800CE8F0(pool, 7, &template, position);
     pool = D_800F32D0->pool;
-    func_800CE9D4(pool, 0, target);
+    func_800CE9D4((struct RoomFxTransformOwner *)pool, 0,
+                  (GteShortVector *)target);
     g_RoomBurstOrbHeading = -(u16)target[1] + 0x400;
     if (D_800E27EC == 1) {
         pool = D_800F33E0->pool;
@@ -570,7 +571,8 @@ update:
     pool = D_800F32D0->pool;
     func_800CE8F0(pool, 7, &template, position);
     pool = D_800F32D0->pool;
-    func_800CE9D4(pool, 0, target);
+    func_800CE9D4((struct RoomFxTransformOwner *)pool, 0,
+                  (GteShortVector *)target);
     angle = -target[1] + 0x400;
     if (D_800E27EC < 47) {
         if (D_800E27EC & 1) {
@@ -714,7 +716,8 @@ int RoomEffect_BeamSparkController(int mode, RoomBeamSpark *fx,
         return func_800CE560(D_800F33E0->pool, 0x14, 0x20, RoomEffect_BeamBounceParticle);
     case 1:
         func_800CE8F0(D_800F32D0->pool, 0x1F, &rotation, fx);
-        func_800CE9D4(D_800F32D0->pool, 0, &actor);
+        func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,
+                      &actor);
         angle = -actor.y + 0x400;
         switch (fx->state) {
         case 0:

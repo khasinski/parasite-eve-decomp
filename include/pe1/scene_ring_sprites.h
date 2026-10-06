@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/gte_types.h"
+#include "pe1/field_ring_geometry.h"
 #include "pe1/field_sprite_state.h"
 #include "pe1/field_glow_sprite.h"
 
@@ -48,6 +49,5 @@ extern SceneRingShade D_801995C8[2];
 
 SceneRingSpritesOwner *func_800C2B50(void);
 void func_80071A44(GteVector *vector, int value, int size);
-void func_800C4FC4(SceneRingShade *ring, GteMatrix *matrix, int mode);
 
 #endif

@@ -59,7 +59,8 @@ int RoomEffect_LineBurstController(int mode, RoomLineBurstState *state,
                              RoomEffect_LineBurstParticle);
     case 1:
         func_800CE8F0(D_800F32D0->pool, 0x13, &template, state);
-        func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0, target);
+        func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,
+                      (GteShortVector *)target);
         angle = -target[1] + 0x400;
         switch (state->state) {
         case 0:

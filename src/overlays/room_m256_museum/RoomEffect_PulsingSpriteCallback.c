@@ -2,7 +2,7 @@
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 
-int func_8019552C(int mode, RoomM256Particle *particle) {
+int func_8019552C(int mode, RoomModelPulseParticle *particle) {
     GteShortVector position;
     GteShortVector color;
     int scale;

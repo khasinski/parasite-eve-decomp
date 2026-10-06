@@ -1,4 +1,5 @@
 #include "room_m123_effects.h"
+#include "pe1/field_transform_point.h"
 #include "pe1/gte_types.h"
 
 extern s16 D_801956A4, D_801956A0, D_800F336A;
@@ -57,7 +58,6 @@ extern RoomM123Particle *func_800CE610(void *);
 extern void func_800CE8F0(void *, int, GteShortVector *, GteShortVector *);
 extern int func_80071A54(void);
 extern int rsin(int);
-extern void func_800CE9D4(void *, int, void *);
 
 int func_80194768(int mode)
 {

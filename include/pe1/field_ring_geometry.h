@@ -2,6 +2,7 @@
 #define PE1_FIELD_RING_GEOMETRY_H
 
 #include "common.h"
+#include "pe1/gte_types.h"
 
 /* Shared 24-byte record used by room emitters and the field ring builder /
  * renderer. The room-side names describe the producer view; in the field
@@ -43,5 +44,9 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(FieldRingGeometry, pad16) == 0x16,
                   field_ring_geometry_pad16_offset);
 PE1_STATIC_ASSERT(sizeof(FieldRingGeometry) == 0x18,
                   field_ring_geometry_size);
+
+/* Field engine: builds and draws one ring through placement; mode 0
+ * composes the camera rotation first. */
+void func_800C4FC4(FieldRingGeometry *ring, GteMatrix *placement, u8 mode);
 
 #endif /* PE1_FIELD_RING_GEOMETRY_H */

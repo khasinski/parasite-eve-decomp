@@ -137,7 +137,8 @@ int RoomEffect_OrbitFlareController(int mode, RoomOrbitFlareState *state,
             if ((s16)state->frame < 52) break;
             state->state = 1;
             state->frame = 0;
-            func_800CE9D4(D_800F32D0->pool, 0, &spin);
+            func_800CE9D4((struct RoomFxTransformOwner *)D_800F32D0->pool, 0,
+                          (GteShortVector *)&spin);
             state->angle = (s16)(state->angle + 0x400) - spin.y;
             if (D_800E2368->active) {
                 RoomFlareNode **slot = (RoomFlareNode **)D_800F32D0->pool;

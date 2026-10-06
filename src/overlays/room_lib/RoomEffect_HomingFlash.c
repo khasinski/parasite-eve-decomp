@@ -156,7 +156,8 @@ int RoomEffect_FlashSpriteController(int mode, RoomFlashSpriteState *state,
     switch (mode) {
     case 0:
         pool = D_800F32D0->pool;
-        func_800CE9D4(pool, 0, &state->ax);
+        func_800CE9D4((struct RoomFxTransformOwner *)pool, 0,
+                      (GteShortVector *)&state->ax);
         state->soundHandle = -1;
         switch (D_800E2368->phase) {
         case 0:
