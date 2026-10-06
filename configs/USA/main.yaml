@@ -1309,8 +1309,8 @@ segments:
       # Billboard, glow sprite, shaded quad and ring geometry draws (G1392; the render setup before and the particle chain after declare conflicting header views).
       - [0xB4304, c, engine/FieldEng_SpriteRendering]
       - [0xB5D38, c, engine/FieldEng_ParticleChainFlow]
-      - [0xB66B0, c, engine/func_800C5EB0]
-      - [0xB688C, c, engine/func_800C608C]
+      - [0xB66B0, c, engine/FieldEng_RingEntryCollision]
+      - [0xB688C, c, engine/FieldEng_ScaleColor]
       - [0xB6948, c, engine/FieldEng_RadiusAndTransform]
       - [0xB6ADC, c, engine/FieldEng_FloorTriangleQueries]
       # Placement normals and the asset lookups that read them (private/helper evidence).
@@ -1323,7 +1323,7 @@ segments:
       # private data D_800F346C, D_800F3414, D_800F33E4, D_800F3420).
       - [0xB755C, c, engine/FieldEng_TexturedModel]
       - [0xB82E0, c, engine/FieldEng_TransformPackedVertex]
-      - [0xB83A0, c, engine/func_800C7BA0]
+      - [0xB83A0, c, engine/FieldEng_ShadeStateInit]
       - [0xB8500, c, engine/FieldEng_UpdateEffects]
       - [0xB8BA0, c, engine/FieldEng_GlowLayers_800C83A0]
       - [0xB9070, c, engine/FieldEng_EffectRender]
@@ -1338,18 +1338,18 @@ segments:
       - [0xBCC40, c, engine/FieldAnim_UpdateWindows]
       - [0xBCFAC, c, engine/FieldAnim_ProcessPoints]
       - [0xBD3A8, c, engine/FieldAnim_BurstEffects]
-      - [0xBDADC, c, engine/func_800CD2DC]
-      - [0xBDAE4, c, engine/func_800CD2E4]
-      - [0xBDAEC, c, engine/func_800CD2EC]
-      - [0xBDC04, c, engine/func_800CD404]
+      # Two adjacent empty effect callbacks.
+      - [0xBDADC, c, engine/FieldAnim_EmptyCallbacks]
+      - [0xBDAEC, c, engine/FieldAnim_ScaledGlowDraw]
+      - [0xBDC04, c, engine/FieldAnim_GlowTrioDraw]
       - [0xBDD0C, c, engine/FieldAnim_BurstMotion]
       - [0xBDF28, c, engine/FieldAnim_WideBurstSetup]
       - [0xBE50C, c, engine/FieldAnim_WideBurstMotion]
       - [0xBE884, c, engine/FieldAnim_SparkEffect]
-      - [0xBEC9C, c, engine/func_800CE49C]
+      - [0xBEC9C, c, engine/FieldAnim_BindTaskProgram]
       # Setup, allocation, ticking and callback dispatch share the same task-list record.
       - [0xBECF8, c, engine/FieldAnim_TaskList]
-      - [0xBF070, c, engine/func_800CE870]
+      - [0xBF070, c, engine/FieldEng_AnchorPosition]
       # Transform, direction and colour helpers with the shape builders that use them (G1558).
       - [0xBF0F0, c, engine/FieldEng_GeometryAndShapes]
       # Effect primitive builders: rotated triangle, history trail, fade tile, point tiles, rotated quad (G1559).
@@ -1399,7 +1399,7 @@ segments:
       - [0xCF7FC, c, engine/FieldEng_FadeParticle]
       - [0xD007C, c, engine/FieldEng_RotatingEffect]
       - [0xD01B0, c, engine/FieldEng_PointEmitter]
-      - [0xD0320, c, engine/func_800DFB20]
+      - [0xD0320, c, engine/FieldEng_CursorCounterTrigger]
       - [0xD0378, c, engine/engine_800D4860_D0378]
       - [0xD0444, c, engine/FieldEng_VectorMath]
       - [0xD07B8, c, engine/FieldEng_AngleMath]
