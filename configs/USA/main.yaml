@@ -173,9 +173,9 @@ segments:
       - [0x55A0, c, task/Task_PolyAndSceneLoadOps]
       - [0x57D8, c, task/Task_PlayEntityAnim]
       - [0x5908, c, task/Task_CopyEntityRenderObject]
-      # Actor model draw and render-mode switch wait: contiguous -G8 opcodes.
+      # Actor model draw, render-mode switch wait and angle-to-actor
+      # opcodes: contiguous; -G8 leaves the angle opcode unchanged.
       - [0x5A40, c, task/Task_ActorModelOps]
-      - [0x5E48, c, task/Task_GetAngleToEntity]
       - [0x5F90, c, main/MapSelectionFlow]
       # Screen-position, memory-card dialog, received-item, inventory and
       # AKAO/CD sound opcodes: contiguous -G8 handlers; only the sound

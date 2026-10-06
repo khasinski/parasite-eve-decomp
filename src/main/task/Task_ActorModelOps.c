@@ -1,11 +1,14 @@
 /* CC1_FLAGS: -G8 */
 /* MASPSX_FLAGS: -G8 */
 /* Script opcodes: draw the current actor's model through a caller-supplied
- * GTE matrix, and the render-mode switch wait that pops the script cursor.
- * Contiguous -G8 pair. */
+ * GTE matrix, the render-mode switch wait that pops the script cursor, and
+ * the angle from the current actor to a named actor. Contiguous handlers;
+ * the angle opcode reaches its actors through array views, absolute under
+ * -G8 as well. */
 #include "pe1/render_lighting.h"
 #include "pe1/global_slot.h"
 #include "common.h"
+#include "pe1/field_actor.h"
 #include "pe1/gte.h"
 #include "pe1/gte_types.h"
 
@@ -45,9 +48,6 @@ extern u32 D_800B89F8[];
 GteMatrix *RotMatrix(GteShortVector *rotation, GteMatrix *matrix);
 void Anim_BuildRotationMatrices(u8 *object, u8 *animation, int frame, int mode);
 void Render_TransformVertices(u8 *object);
-void Render_TransformSkinnedVertices(u8 *object, u32 *view_matrix);
-void Render_DrawObject(u8 *object, u32 *prim_state);
-void Render_UpdateClutTable(u8 *object, int force, int buffer_index);
 
 int Task_SetGteMatrix(int **args) {
     u8 *setup_actor;
@@ -183,4 +183,77 @@ pop_state:
         node[4] = 1;
         return 0;
     }
+}
+
+#define NULL ((void *)0)
+
+int ratan2(int arg0, int arg1);
+
+extern FieldActor *g_PlayerEntity[];
+#define g_PlayerEntity (g_PlayerEntity[0])
+extern FieldActor *g_FieldActorListHead[];
+#define g_FieldActorListHead (g_FieldActorListHead[0])
+extern FieldActor *g_CurrentEntity[];
+#define g_CurrentEntity (g_CurrentEntity[0])
+
+/* Script op: angle from the current entity to the actor named by
+ * (args[0], args[1]), relative to the current entity's yaw, into args[2]. */
+s32 Task_GetAngleToEntity(s32 *args[]) {
+    s32 key;
+    s32 key2;
+    FieldActor *node;
+    s32 angle;
+    s32 dx;
+    s32 dz;
+
+    key = *args[0];
+    if (key == 0) {
+        FieldActor *tmp;
+
+        tmp = g_PlayerEntity;
+        if (tmp == NULL) {
+            goto fail;
+        }
+        node = tmp;
+        goto found;
+    } else {
+        key2 = key;
+        node = g_FieldActorListHead;
+        if (node == NULL) {
+            goto fail;
+        }
+loop:
+        if ((node->type_id != key2) ||
+            (node->sub_id != *args[1]) ||
+            (node->flags & 0x10)) {
+            node = node->next;
+            if (node != NULL) {
+                goto loop;
+            }
+        }
+        if (node != NULL) {
+            goto found;
+        }
+    }
+
+fail:
+    *args[2] = -1;
+    return 1;
+
+found:
+    {
+        FieldActor *state = g_CurrentEntity;
+        dx = state->pos_x - node->pos_x;
+        dz = (state->pos_z - node->pos_z) >> 16;
+    }
+    angle = 0x1400 - ratan2(dz, dx >> 16);
+    if (angle >= 0x1001) {
+        angle -= 0x1000;
+    }
+    angle -= (s16)g_CurrentEntity->rot_y;
+    if (angle < 0) {
+        angle += 0x1000;
+    }
+    *args[2] = angle;
+    return 1;
 }
