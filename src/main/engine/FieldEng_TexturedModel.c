@@ -3,8 +3,9 @@
 #include "pe1/render_prim.h"
 #include "pe1/field_textured_model.h"
 
-/* Textured field models: the semi-transparency and depth state the draw
- * reads, the colour-table save/restore and fades, and the draw itself. */
+/* Textured field models: UV scrolling, the texture page, CLUT,
+ * semi-transparency and depth state the draw reads, the colour-table
+ * save/restore and fades, and the draw itself. */
 
 extern u32 D_800E2370[];
 
@@ -24,6 +25,84 @@ typedef struct ColorTable {
     u16 entries_offset;
     u16 entry_count;
 } ColorTable;
+
+void func_800C6D5C(u8 *data, u8 xOffset, u8 yOffset) {
+    u8 *data_t0;
+    u8 *ptr_t2;
+    int value_v0;
+    int value_v1;
+    register int x_a0 asm("$4");
+    int i_t1;
+    register int count_a0 asm("$4");
+    int total;
+
+    asm volatile("" : "=r"(data_t0) : "0"(data));
+    value_v0 = *(u16 *)(data_t0 + 0xC);
+        x_a0 = xOffset & 0xFF;
+    ptr_t2 = data_t0 + 0x10;
+
+    if (value_v0 != x_a0 || *(u16 *)(data_t0 + 0xE) != (yOffset & 0xFF)) {
+        i_t1 = 0;
+        *(u16 *)(data_t0 + 0xC) = x_a0;
+        value_v0 = *(u16 *)(data_t0 + 0);
+        count_a0 = *(u16 *)(data_t0 + 2);
+        value_v1 = yOffset & 0xFF;
+        value_v0 += count_a0;
+        *(u16 *)(data_t0 + 0xE) = value_v1;
+        if (value_v0 != 0) {
+            register u8 *ptr_a3 asm("$7");
+
+            ptr_a3 = data_t0 + 0x1B;
+            do {
+                i_t1++;
+                ptr_t2 += 0xC;
+                ptr_a3[-5] += xOffset;
+                ptr_a3[-3] += xOffset;
+                ptr_a3[-1] += xOffset;
+                ptr_a3[-4] += yOffset;
+                ptr_a3[-2] += yOffset;
+                ptr_a3[0] += yOffset;
+                total = *(u16 *)(data_t0 + 0);
+                count_a0 = *(u16 *)(data_t0 + 2);
+                total += count_a0;
+                ptr_a3 += 0xC;
+            } while ((u16)i_t1 < total);
+        }
+
+        i_t1 = 0;
+                value_v0 = *(u16 *)(data_t0 + 4);
+        value_v1 = *(u16 *)(data_t0 + 6);
+        value_v0 += value_v1;
+        count_a0 = (int)ptr_t2;
+        if (value_v0 != 0) {
+            register u8 *ptr_a3 asm("$7");
+
+            ptr_a3 = (u8 *)count_a0 + 0xF;
+            do {
+                i_t1++;
+                ptr_a3[-7] += xOffset;
+                ptr_a3[-5] += xOffset;
+                ptr_a3[-3] += xOffset;
+                ptr_a3[-1] += xOffset;
+                ptr_a3[-6] += yOffset;
+                ptr_a3[-4] += yOffset;
+                ptr_a3[-2] += yOffset;
+                ptr_a3[0] += yOffset;
+                total = *(u16 *)(data_t0 + 4);
+                count_a0 = *(u16 *)(data_t0 + 6);
+                total += count_a0;
+                ptr_a3 += 0x10;
+            } while ((u16)i_t1 < total);
+        }
+    }
+
+    D_800F3420 = 0;
+}
+
+void GsSetOrign(short x, short y) {
+    D_800F346C = x;
+    D_800F3414 = y;
+}
 
 void func_800C6ED8(short value) {
     D_800F33E4 = value;
