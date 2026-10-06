@@ -1436,9 +1436,8 @@ segments:
       - [0xC6A9C, c, engine/FieldEng_SpiralSprite]
       - [0xC721C, c, engine/FieldEng_RingPulse]
       - [0xC7458, c, engine/FieldEng_BouncingGlow]
-      # Ember drift callback and the fan-sweep spark instance (helper evidence).
-      - [0xC78C0, c, engine/FieldEng_EmberSparks]
-      - [0xC7D1C, c, engine/FieldEng_FanSweepEmitter]
+      # Ember drift, fan-sweep spark instance and the fan-sweep controller share the spark pools (G1583).
+      - [0xC78C0, c, engine/FieldEng_FanSweepSparks]
       - [0xC821C, c, engine/FieldEng_ArcingEmitter]
       # Orbiting, vertical and helical effect callbacks share draw helpers and literals (G1588).
       - [0xC8678, c, engine/FieldEng_OrbitalEffects]
