@@ -751,8 +751,9 @@ segments:
       # (helper evidence; no split evidence). Each member is identical under the
       # union -fno-strength-reduce and --expand-div profile.
       - [0x57A94, c, render/Render_GeomEntryDrawing]
-      - [0x581C4, c, main/Geo_ClipPoint]
-      - [0x58278, c, main/Geo_BuildMeshList]
+      # Clip-window clamp and group sprite draw on g_GeomState: contiguous
+      # default-profile pair (main_tu_evidence G0836).
+      - [0x581C4, c, field/Geo_MeshClipAndBuild]
       # Fade start/step, scene-load flags and screen tint share g_RenderStateFlags
       # and the D_800BCF88/D_800B1624 views; one -fno-strength-reduce profile.
       - [0x58340, c, render/Render_ScreenFadeAndTint]
