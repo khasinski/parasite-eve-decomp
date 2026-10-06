@@ -524,8 +524,8 @@ segments:
       - [0x3FA3C, c, menu/Menu_OpenSkillSelectionView]
       - [0x3FB0C, c, menu/Menu_HandleAyaInventorySelectionInput]
       - [0x3FC48, c, menu/menu21]
-      - [0x3FC90, c, menu/Menu_CreateItemUsePanel]
-      - [0x3FF30, c, menu/menu22]
+      # Item use panel creation, input and name header: helper calls join the pair.
+      - [0x3FC90, c, menu/Menu_ItemUsePanel]
       - [0x3FFD8, c, menu/menu23]
       # The item, selectable-slot, and context-action renderers share one
       # -G8 list-drawing object and its active-widget state.

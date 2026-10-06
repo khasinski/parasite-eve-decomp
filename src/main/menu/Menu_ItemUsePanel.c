@@ -1,10 +1,13 @@
+/* CC1_FLAGS: -G8 */
+/* MASPSX_FLAGS: --use-comm-section -G8 */
 #include "common.h"
 #include "pe1/menu_widget.h"
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
+#include "../../../tools/m2c/m2c_macros.h"
+
+/* Item use/discard panel: creation, its input handler and the item name
+ * header. Defines the selected item record and the discard flag. */
 
 #define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK MenuWidget_OffsetPosition();
 M2C_UNK MenuWidget_SetCurrentNode();
 void *Inv_LookupData();
@@ -13,18 +16,18 @@ void *MenuWidget_CreateSimpleNode();
 void *MenuWidget_CreateNode();
 M2C_UNK MenuWidget_ClearColumnLayout();
 extern s32 g_InvItemUsableFlag;
-extern void *g_MenuSelectedItemData;
+u8 *g_MenuSelectedItemData;
 void Menu_DrawEquipStatsPanel(void);
-extern M2C_UNK Menu_HandleItemInput[];
-#define Menu_HandleItemInput (Menu_HandleItemInput[0])
-extern M2C_UNK Menu_DrawEquipItemName[];
-#define Menu_DrawEquipItemName (Menu_DrawEquipItemName[0])
-extern M2C_UNK Menu_DrawEquipItemIcon[];
-#define Menu_DrawEquipItemIcon (Menu_DrawEquipItemIcon[0])
-extern M2C_UNK Menu_DrawSoundEffectList[];
-#define Menu_DrawSoundEffectList (Menu_DrawSoundEffectList[0])
-extern M2C_UNK Menu_DrawEquipItemDetailPanel[];
-#define Menu_DrawEquipItemDetailPanel (Menu_DrawEquipItemDetailPanel[0])
+int Menu_HandleItemInput(int arg0, int arg1);
+void Menu_DrawEquipItemName(void);
+M2C_UNK Menu_DrawEquipItemIcon();
+M2C_UNK Menu_DrawSoundEffectList();
+M2C_UNK Menu_DrawEquipItemDetailPanel();
+int g_MenuItemDiscardMode;
+void Inv_SetActiveList(int arg0, void *arg1);
+void Menu_PlayConfirmSound(void);
+void *Str_LookupTableC(unsigned int arg0);
+void Draw_PrintRawText(u8 *arg0);
 
 void Menu_CreateItemUsePanel(void) {
     s32 width;
@@ -67,18 +70,11 @@ void Menu_CreateItemUsePanel(void) {
     Queue_Init();
 }
 
-#include "common.h"
-/* CC1_FLAGS: -G8 */
-/* MASPSX_FLAGS: -G8 */
-
-#define NULL ((void *)0)
-#include "../../../tools/m2c/m2c_macros.h"
 M2C_UNK Menu_DrawEquipStatsDelta(void *);                      /* extern */
 M2C_UNK Draw_OffsetCursor(M2C_UNK, M2C_UNK);            /* extern */
 M2C_UNK Draw_AllocSprite(M2C_UNK);                     /* extern */
 M2C_UNK Draw_PrintNumberWidth4Unk(u8);                          /* extern */
 M2C_UNK Draw_PrintSignedNumberWidth4(s16);                         /* extern */
-extern void *g_MenuSelectedItemData;
 
 void Menu_DrawEquipStatsPanel(void) {
     void *temp_s0;
@@ -103,4 +99,27 @@ void Menu_DrawEquipStatsPanel(void) {
         Draw_OffsetCursor(0x19, 0);
         Draw_AllocSprite(0x88);
     }
+}
+
+int Menu_HandleItemInput(int arg0, int arg1) {
+    int value;
+    u8 *ptr;
+
+    if ((arg1 & 0x10040) != 0) {
+        if (g_MenuItemDiscardMode != 0) {
+            ptr = g_MenuSelectedItemData;
+            g_MenuItemDiscardMode = 0;
+            value = ptr[4];
+            Inv_SetActiveList(0, &value);
+        } else {
+            Inv_SetActiveList(9, 0);
+        }
+        Menu_PlayConfirmSound();
+    }
+    return 1;
+}
+
+void Menu_DrawEquipItemName(void) {
+    Draw_OffsetCursor(4, 4);
+    Draw_PrintRawText(Str_LookupTableC(g_MenuSelectedItemData[4] - 1));
 }
