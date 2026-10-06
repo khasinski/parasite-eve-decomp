@@ -32,7 +32,7 @@ extern s32 g_FieldMoveLock;
 #define B(sym) (*(s8 *)(sym))
 #define UB(sym) (*(u8 *)(sym))
 #define LAUNDER(x) asm volatile("" : "=r"(x) : "0"(x))
-#define BARRIER() asm volatile("" : : : "memory")
+#define BARRIER() 
 
 void Akao_LoadVoiceBankAlt(void);
 void Scene_LoadRoom(int arg0);
