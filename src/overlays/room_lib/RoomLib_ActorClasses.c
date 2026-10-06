@@ -278,21 +278,18 @@ void RoomLib_HandlerD(RoomEnt *o) {
     scratch[0x14] = rot_y;
     PE1_COMPILER_MEMORY_BARRIER();
     rot_word = *rot;
-    PE1_COMPILER_USE(rot_word);
     rot_x = (unsigned short)scratch[0x14];
     scratch[0x17] = 0;
     scratch[0x19] = 0;
     scratch[0x1B] = 0;
     scratch[0x00] = 0;
     scratch[0x01] = 0;
-    PE1_COMPILER_MEMORY_BARRIER();
     scratch[0x16] = rot_word;
     {
         register int negated asm("$3");
         negated = *(volatile unsigned short *)&scratch[0x16];
         scratch[0x18] = 0x1000;
         scratch[0x1C] = rot_x;
-        asm("" : "=r"(negated) : "0"(negated) : "memory");
         negated = -negated;
         scratch[0x1A] = negated;
     }
