@@ -45,7 +45,7 @@ int CdRom_ReadSectors(u32 lba, u32 offset, void *destination, u32 size) {
     *state |= 0x1004000;
     base += rel;
     DsIntToPos(base, &loc);
-    ret = CdRom_StartRead(&loc, size_reg, (void *)dst_reg, 0x80);
+    ret = DsRead(&loc, size_reg, (void *)dst_reg, 0x80);
     if (ret != 0) {
         return ret;
     }
@@ -59,7 +59,7 @@ int CdRom_PollReady(void) {
     int status;
     int *state;
 
-    status = Sys_VSyncTimeout(&scratch);
+    status = DsReadSync(&scratch);
     if ((unsigned int)(status + 1) < 2U) {
         state = &g_GameState;
         *state &= 0xFEFFBFFF;
@@ -116,7 +116,7 @@ restart:
     } while (v1 == -1);
 
     while (1) {
-        v1 = Sys_VSyncTimeout(&sp30);
+        v1 = DsReadSync(&sp30);
         v0 = v1;
         v0 = (v1 + 1);
         if (v0 < 2U) {

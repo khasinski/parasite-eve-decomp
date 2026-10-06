@@ -53,7 +53,7 @@ void CQ_clear_queue(void *raw_queue) {
     memset(queue, 0, sizeof(*queue));
     ++queues;
 }
-void DS_read_cbready(void) {
+void ER_clear(void) {
     int i, j;
     assert(stage++ == 1 && queues == 8);
     status_cleared();
@@ -62,7 +62,7 @@ void DS_read_cbready(void) {
         assert(((unsigned char *)&D_800A3610[i])[j] == (j < 4 ? 0 : fill));
     assert(D_800A3690 == 0);
 }
-DsCallback DsReadCallback(DsCallback callback) {
+DsCallback DsReadySystemMode(DsCallback callback) {
     assert(stage++ == 2 && callback == 0);
     return 0;
 }

@@ -3,10 +3,10 @@
 
 #include "pe1/psyq_ds_queue.h"
 
-void LIBDS_DSREADY_text_FC(int event, u_char *result);
-void CdRom_ReadDoneCallback(u_char event, u_char *result);
+void ER_cbready(int event, u_char *result);
+void LIBDS_DSREADY_text_3D8(u_char event, u_char *result);
 
-int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg) {
+int DsStartReadySystem(DsAsyncReadCallback callback, int callbackArg) {
     int *state;
     int active;
 
@@ -21,23 +21,23 @@ int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg) {
     DS_ASYNC_READ_FIELD(state, retryPending) = 0;
     DS_ASYNC_READ_FIELD(state, callback) = callback;
     DS_ASYNC_READ_FIELD(state, retriesRemaining) = callbackArg;
-    DS_ASYNC_READ_FIELD(state, savedSyncCallback) = DsSyncCallback((DsEventCallback)LIBDS_DSREADY_text_FC);
-    DS_ASYNC_READ_FIELD(state, savedReadyCallback) = DsReadyCallback(CdRom_ReadDoneCallback);
+    DS_ASYNC_READ_FIELD(state, savedReadyCallback) = DsReadyCallback((DsEventCallback)ER_cbready);
+    DS_ASYNC_READ_FIELD(state, savedStartCallback) = DsStartCallback(LIBDS_DSREADY_text_3D8);
     asm volatile("" : "+r"(active));
     DS_ASYNC_READ_FIELD(state, active) = active;
     return 1;
 }
 
 
-void DsReadBreak(void) {
+void DsEndReadySystem(void) {
     int *state;
     int particleType;
     void *zeroArg1;
     DslCB callback;
     state = &g_DsReadBusy;
     if (DS_ASYNC_READ_FIELD(state, active) == 1) {
-        DsSyncCallback(DS_ASYNC_READ_FIELD(state, savedSyncCallback));
         DsReadyCallback(DS_ASYNC_READ_FIELD(state, savedReadyCallback));
+        DsStartCallback(DS_ASYNC_READ_FIELD(state, savedStartCallback));
         particleType = 9;
         zeroArg1 = 0;
         asm volatile("" : "+r"(particleType), "+r"(zeroArg1));

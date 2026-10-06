@@ -285,7 +285,7 @@ extern int g_CdRomCmdLongTimeoutTable[];
 /* This word is also the base address used by CQ_execute. */
 extern int g_CdDsReadIndex;
 
-void CdRom_ReadProgressCallback(int status, void *data, void *detail);
+void DS_read_cbready(int status, void *data, void *detail);
 
 extern CdReadProgressState g_CdReadProgress __asm__("D_8009B6A4");
 /* Direct alias preserves the SDK's word access to the first state field. */
@@ -294,7 +294,7 @@ extern s32 g_CdReadCommandPollToggle __asm__("D_8009B6A4");
 #define g_CdReadCurrentVsync (g_CdReadProgress.currentVsync)
 #define g_CdReadInProgress (g_CdReadProgress.inProgress)
 extern CdReadCompleteCallback g_CdReadCompleteCallback;
-CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback);
+CdReadCompleteCallback DsReadCallback(CdReadCompleteCallback callback);
 
 void DS_stop(void);
 void callback(void);
@@ -353,10 +353,10 @@ int DsDataSync(int mode);
 int VSync(int mode);
 int DsGetSector();
 int DsGetSector2();
-void Save_ProcessDataCallback(void);
+void DsReadBreak(void);
 DsCallback CdDataCallback(DsCallback callback);
-void CdRom_SetMode2Callback(u_char event);
-void Render_StepParticleCallback(void);
+void DS_read_cbsync(u_char event);
+void DS_read_cbdata(void);
 
 extern CdlLOC g_CdLastPos;
 extern CdlLOC g_CdCurPosPtr;

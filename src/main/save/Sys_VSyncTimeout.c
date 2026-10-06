@@ -4,9 +4,9 @@
 #include "pe1/psyq_cd.h"
 
 extern int VSync(int arg0);
-extern void Save_ProcessDataCallback(void);
+extern void DsReadBreak(void);
 
-int Sys_VSyncTimeout(void *argument) {
+int DsReadSync(void *argument) {
     int v0;
     int s0;
     int *state;
@@ -16,7 +16,7 @@ int Sys_VSyncTimeout(void *argument) {
     asm volatile("" : "=r"(state) : "0"(state));
 
     if ((state[0] + 0x4B0) < v0) {
-        Save_ProcessDataCallback();
+        DsReadBreak();
         s0 = -1;
     } else {
         s0 = state[-4];

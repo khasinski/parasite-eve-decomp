@@ -1,5 +1,5 @@
 
-void Save_ProcessDataCallback(void);
+void DsReadBreak(void);
 void Akao_Cmd_D8(int arg0);
 void Akao_Cmd_F0(void);
 void Akao_Cmd_F1(void);
@@ -14,7 +14,7 @@ extern int g_GameState[];
 void Sys_Shutdown(void) {
     int old;
 
-    Save_ProcessDataCallback();
+    DsReadBreak();
     Akao_Cmd_D8(0);
     Akao_Cmd_F0();
     Akao_Cmd_F1();

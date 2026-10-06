@@ -5,7 +5,7 @@
 extern int g_DsStreamNoLocFlag;
 
 void data_ready_callback(void);
-void CdRom_BreakSyncCallback(u_char event, u_char *result);
+void StCdInterrupt2(u_char event, u_char *result);
 
 int DsRead2(CdlLOC *pos, int mode) {
     DsCallback saved_data;
@@ -25,11 +25,11 @@ int DsRead2(CdlLOC *pos, int mode) {
             }
         }
         saved_data = DsDataCallback(data_ready_callback);
-        saved_sync = DsSyncCallback(CdRom_BreakSyncCallback);
+        saved_sync = DsReadyCallback(StCdInterrupt2);
         ret = DsPacket(mode & 0xFF, pos, 0x1B, 0, -1);
         if (ret == 0) {
             DsDataCallback(saved_data);
-            DsSyncCallback(saved_sync);
+            DsReadyCallback(saved_sync);
             return 0;
         }
         return ret;

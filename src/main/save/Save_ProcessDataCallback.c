@@ -7,7 +7,7 @@
 void DsFlush(void);
 int DS_cw_system(int mode, int unused);
 
-void Save_ProcessDataCallback(void) {
+void DsReadBreak(void) {
     int *readInProgress;
     int particleType;
     void *zeroArg1;
@@ -17,7 +17,7 @@ void Save_ProcessDataCallback(void) {
 
     if (*readInProgress == 1) {
         DsFlush();
-        DS_read_cbready();
+        ER_clear();
         if (((CdReadProgressState *)((char *)readInProgress -
             PE1_OFFSETOF(CdReadProgressState, inProgress)))->flags & 1) {
             DsDataCallback(((CdReadProgressState *)((char *)readInProgress -

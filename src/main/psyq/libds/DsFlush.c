@@ -38,6 +38,6 @@ void DsFlush(void) {
         p++;
     }
 
-    DsReadBreak();
+    DsEndReadySystem();
     DS_restart();
 }

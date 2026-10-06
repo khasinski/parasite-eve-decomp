@@ -12,7 +12,7 @@ void StUnSetRing(void) {
     EnterCriticalSection();
     if (D_8009AFD8 == 1) {
         DsDataCallback(0);
-        DsSyncCallback(0);
+        DsReadyCallback(0);
     } else {
         CdDataCallback(0);
         CdReadyCallback(0);

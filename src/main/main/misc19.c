@@ -59,7 +59,7 @@ retry_first_load:
         status = CdRom_ReadSectors(imageBase + range[0], 0, state[0x57], range[1] - range[0]);
     } while (status == -1);
     while (1) {
-        status = Sys_VSyncTimeout(&scratch);
+        status = DsReadSync(&scratch);
         {
             int poll;
             poll = status + 1;
@@ -93,7 +93,7 @@ retry_large_load_a:
             status = CdRom_ReadSectors(imageBase + range[0], 0, state[0x5B], range[1] - range[0]);
         } while (status == -1);
         while (1) {
-            status = Sys_VSyncTimeout(&scratch);
+            status = DsReadSync(&scratch);
             {
                 int poll;
                 poll = status + 1;
@@ -120,7 +120,7 @@ retry_large_load_b:
             status = CdRom_ReadSectors(imageBase + range[0], 0, state[0x5B], range[1] - range[0]);
         } while (status == -1);
         while (1) {
-            status = Sys_VSyncTimeout(&scratch);
+            status = DsReadSync(&scratch);
             {
                 int poll;
                 poll = status + 1;
@@ -157,7 +157,7 @@ retry_final_load:
         status = CdRom_ReadSectors(g_PeImageBaseLba + range[0], 0, g_StrFileDirBuffer, range[1] - range[0]);
     } while (status == -1);
     while (1) {
-        status = Sys_VSyncTimeout(&scratch);
+        status = DsReadSync(&scratch);
         {
             register int poll asm("$2");
             poll = status + 1;
@@ -210,7 +210,7 @@ retry_first:
     clear_mask = 0xFEFFBFFF;
     retry = -1;
     while (1) {
-        status = Sys_VSyncTimeout(&scratch);
+        status = DsReadSync(&scratch);
         {
             int poll;
             poll = status + 1;
@@ -246,7 +246,7 @@ retry_second:
     clear_mask = 0xFEFFBFFF;
     retry = -1;
     while (1) {
-        status = Sys_VSyncTimeout(&scratch);
+        status = DsReadSync(&scratch);
         {
             register int poll asm("$2");
             poll = status + 1;

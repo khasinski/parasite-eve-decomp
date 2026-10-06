@@ -3,7 +3,7 @@
 
 register CdReadCompleteCallbackPage *g_CdCallbackWritePage asm("$1");
 
-CdReadCompleteCallback func_80081254(CdReadCompleteCallback callback) {
+CdReadCompleteCallback DsReadCallback(CdReadCompleteCallback callback) {
     CdReadCompleteCallback old;
 
     old = g_CdReadCompleteCallback;

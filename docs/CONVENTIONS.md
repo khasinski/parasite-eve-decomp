@@ -19,7 +19,7 @@ Two principles decide most questions:
 
 | Kind | Form | Examples |
 | --- | --- | --- |
-| Game function | `Prefix_VerbObject`, PascalCase after a subsystem prefix | `Scene_LoadRoom`, `Inv_InsertItem`, `CdRom_RestartSeek` |
+| Game function | `Prefix_VerbObject`, PascalCase after a subsystem prefix | `Scene_LoadRoom`, `Inv_InsertItem`, `CdRom_BootReadFlow` |
 | PsyQ function | exact SDK spelling | `SpuSetReverb`, `CdControl`, `RotMatrixYXZ`, `_card_auto` |
 | Unknown function | `func_XXXXXXXX` (address, upper-case hex) | `func_80192F9C` |
 | Global variable | `g_PascalCase` | `g_GameState`, `g_PlayTimeFrameCounter` |
@@ -116,7 +116,7 @@ edge, as `akao/Spu_TransferAndLifecycle` did before LIBPAD WAITRC2's
 | `aya` | `Aya_` | the player character: stats, level table, parasite-energy spells | keep; `misc7.c` to `battle`, `Draw_LookupGlyphMetrics` to `gpu` |
 | `item` | `Inv_`, `Item_` | inventory, item table, equipment and its modifiers | keep; `Menu_*` files to `menu` |
 | `menu` | `Menu_`, `MenuWidget_`, `MenuInput_` | in-game menus, widget tree, menu input queue | keep; `Inv_*`, `Save_*`, `Pad_*` files out to their owners |
-| `save` | `Save_` | save-data layout, metadata, write flow | keep; `Sys_VSyncTimeout.c` to `sys` |
+| `save` | `Save_` | save-data layout, metadata, write flow | keep; `DsReadSync.c` to `sys` |
 | `akao` | `Akao_`, `Seq_`, `Spu_` | Square's AKAO sound driver: sequencer, voices, SPU uploads | keep; LIBSPU units to `psyq/libspu` |
 | `audio` | `Sfx_` | misnamed: both files are menu item-list code | dissolve into `menu` |
 | `time` | `GameTime_` | play-time counters and timers | keep; receives `util/game_time2.c` |

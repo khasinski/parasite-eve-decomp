@@ -30,7 +30,7 @@ int VSync(int query) {
     if (calls == 0) assert(words[2] == initialCount - 1);
     return ticks[calls++];
 }
-void Save_ProcessDataCallback(void) {
+void DsReadBreak(void) {
     assert(finished++ == 0);
     if (change) { words[2] = finalCount; words[4] = 456; }
     else assert(words[2] == finalCount);
@@ -55,7 +55,7 @@ int main(void) {
         complete = remaining == 0 || ticks[1] > 1300;
         finalCount = change ? replacements[c] : remaining;
         D_8009B6D0 = on ? 0 : done;
-        Render_StepParticleCallback();
+        DS_read_cbdata();
         assert(calls == expectedCalls && finished == complete);
         assert(notified == (complete && enabled));
         assert(words[2] == (complete ? finalCount : remaining));

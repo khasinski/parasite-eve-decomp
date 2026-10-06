@@ -9,14 +9,14 @@ extern int DsPosToInt(CdlLOC *);
 extern int func_8007FC44(void);
 extern void func_8008227C(void);
 
-int CdRom_RestartSeek(void) {
+int ER_retry(void) {
     int mode;
     CdlLOC *position;
     int command;
     int argumentMode;
     register int limit asm("$3");
 
-    DsSyncCallback(0);
+    DsReadyCallback(0);
     D_8009B6EC = DsPosToInt(DS_lastpos());
     mode = DS_lastmode() & 0xFF;
     position = DS_lastpos();

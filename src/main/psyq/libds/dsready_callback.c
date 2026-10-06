@@ -4,7 +4,7 @@
 int DsPosToInt(CdlLOC *);
 #define ASYNC_FROM_RETRY(p)                                                            \
     ((DsAsyncReadState *)((u8 *)(p) - PE1_OFFSETOF(DsAsyncReadState, retryPending)))
-void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
+void ER_cbready(int inEvent, u8 *inResult) {
     u8 detail[12];
     register int event;
     register u8 *result = inResult;
@@ -57,11 +57,11 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
     } else {
         if (*result & 16) {
             if (state->reserved1C == one) {
-                DsSyncCallback(0);
+                DsReadyCallback(0);
                 goto done;
             }
-            DsSyncCallback(state->savedSyncCallback);
             DsReadyCallback(state->savedReadyCallback);
+            DsStartCallback(state->savedStartCallback);
             state->active = 0;
             if (state->callback)
                 state->callback(event, result, detail);
@@ -77,13 +77,13 @@ void LIBDS_DSREADY_text_FC(int inEvent, u8 *inResult) {
         if (*pending == 1) {
             if (ASYNC_FROM_RETRY(pending)->retriesRemaining > 0 ||
                 ASYNC_FROM_RETRY(pending)->retriesRemaining == -1) {
-                CdRom_RestartSeek();
+                ER_retry();
                 if (ASYNC_FROM_RETRY(pending)->retriesRemaining > 0)
                     --ASYNC_FROM_RETRY(pending)->retriesRemaining;
             } else {
                 if (g_DsReadBusy == *pending) {
-                    DsSyncCallback(g_DsAsyncReadSavedSyncCallback);
                     DsReadyCallback(g_DsAsyncReadSavedReadyCallback);
+                    DsStartCallback(g_DsAsyncReadSavedStartCallback);
                     DsCommand(9, 0, 0, -1);
                 }
                 g_DsReadBusy = 0;

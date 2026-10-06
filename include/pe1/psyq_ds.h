@@ -110,10 +110,12 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadCallbackSlot, command) == 0x04,
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsReadCallbackSlot, payload) == 0x05,
                   ds_read_callback_slot_payload_offset);
 
+/* User callbacks installed by DSCB.OBJ: CQ_sync_system calls sync,
+ * CQ_ready_system calls ready and LIBDS_DSSYS_2_text_13CC calls start. */
 typedef struct DsCallbackRegistry {
-    DsEventCallback start;
     DsEventCallback sync;
     DsEventCallback ready;
+    DsEventCallback start;
 } DsCallbackRegistry;
 PE1_STATIC_ASSERT(sizeof(DsCallbackRegistry) == 12, ds_callback_registry_size);
 
@@ -125,16 +127,16 @@ extern DsEventCallback volatile g_DsSyncCallback __asm__("D_800A36A4");
 extern DsEventCallback volatile g_DsReadyCallback __asm__("D_800A36A8");
 extern DsCallback volatile g_DsPollCallback __asm__("g_DsPollCallback");
 extern DsEventCallback volatile g_DsDispatchCallback __asm__("D_800A36AC");
-DsEventCallback DsStartCallback(DsEventCallback callback);
 DsEventCallback DsSyncCallback(DsEventCallback callback);
 DsEventCallback DsReadyCallback(DsEventCallback callback);
+DsEventCallback DsStartCallback(DsEventCallback callback);
 DsCallback DsDataCallback(DsCallback callback);
-DsCallback DsReadCallback(DsCallback callback);
+DsCallback DsReadySystemMode(DsCallback callback);
 int DsControlF(u_char command, u_char *parameter);
-int DsRead_IsBusy(void);
+int ER_active(void);
 extern volatile int g_DsDiskType;
 void CQ_clear_queue(void *queue);
-void DS_read_cbready(void);
+void ER_clear(void);
 void DS_init(void);
 void DS_sync_callback(unsigned int value);
 void DS_ready_callback(unsigned int value);
@@ -214,23 +216,23 @@ typedef struct DsAsyncReadState {
     DsAsyncReadCallback callback;
     int retryPending;
     int retriesRemaining;
-    DsEventCallback savedSyncCallback;
     DsEventCallback savedReadyCallback;
+    DsEventCallback savedStartCallback;
     int reserved1C;
     int active;
 } DsAsyncReadState;
 
-int CdRom_InitAsyncRead(DsAsyncReadCallback callback, int callbackArg);
+int DsStartReadySystem(DsAsyncReadCallback callback, int callbackArg);
 
 PE1_STATIC_ASSERT(sizeof(DsAsyncReadState) == 0x24, ds_async_read_state_size);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, retryPending) == 0x0C,
                   ds_async_read_retry_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, retriesRemaining) == 0x10,
                   ds_async_read_retries_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, savedSyncCallback) == 0x14,
-                  ds_async_read_saved_sync_callback_offset);
-PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, savedReadyCallback) == 0x18,
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, savedReadyCallback) == 0x14,
                   ds_async_read_saved_ready_callback_offset);
+PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, savedStartCallback) == 0x18,
+                  ds_async_read_saved_start_callback_offset);
 PE1_STATIC_ASSERT(PE1_OFFSETOF(DsAsyncReadState, active) == 0x20,
                   ds_async_read_active_offset);
 
@@ -278,10 +280,10 @@ PE1_STATIC_ASSERT(PE1_OFFSETOF(CdCallbackDataPage, readComplete) +
 
 extern DsAsyncReadState g_DsAsyncReadState __asm__("D_8009B6EC");
 #define g_DsAsyncReadRetryPending (g_DsAsyncReadState.retryPending)
-#define g_DsAsyncReadSavedSyncCallback \
-    (g_DsAsyncReadState.savedSyncCallback)
 #define g_DsAsyncReadSavedReadyCallback \
     (g_DsAsyncReadState.savedReadyCallback)
+#define g_DsAsyncReadSavedStartCallback \
+    (g_DsAsyncReadState.savedStartCallback)
 extern int g_DsReadBusy;
 #define DS_ASYNC_READ_STATE_FROM_ACTIVE(active_pointer) \
     ((DsAsyncReadState *)((char *)(active_pointer) - \
@@ -302,7 +304,7 @@ int ds_read(int count, int sector, void *destination);
 int DS_newmedia(void);
 int DS_searchdir(int parent, char *name);
 int DS_cachefile(int directory);
-void DsReadBreak(void);
+void DsEndReadySystem(void);
 int _cmp(char *left, char *right);
 DslFILE *DsSearchFile(DslFILE *file, char *name);
 int DsGetDiskType(void);

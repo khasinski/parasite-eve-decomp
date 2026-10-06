@@ -72,8 +72,8 @@ CASES = [('src/main/psyq/libapi/pad.c',
  ('src/main/psyq/libds/CdRom_SeekDoneCallback.c',
   64,
   '3e9c23ff8921bfb43accf28fb43951d8b2614ae49b3c09a313efd642eb50d3b3',
-  'LIBDS_DSREADY_text_FC = 0x80081e70;\n'
-  'DsSyncCallback = 0x800824c8;\n'
+  'ER_cbready = 0x80081e70;\n'
+  'DsReadyCallback = 0x800824c8;\n'
   'g_DsReadBusy = 0x8009b70c;\n'
   'SECTIONS { .text 0x8008227c : SUBALIGN(4) { *(.text .text.*) } /DISCARD/ : { *(.reginfo) '
   '*(.mdebug) } }'),

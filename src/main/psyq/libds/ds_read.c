@@ -11,9 +11,9 @@ int ds_read(int count, int sector, void *destination) {
     int status;
 
     DsIntToPos(sector, &position);
-    CdRom_StartRead(&position, count, destination, 0x80);
+    DsRead(&position, count, destination, 0x80);
     do {
-        status = Sys_VSyncTimeout(0);
+        status = DsReadSync(0);
     } while (status > 0);
 
     return status == 0;

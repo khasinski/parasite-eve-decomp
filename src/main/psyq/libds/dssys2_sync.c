@@ -74,8 +74,8 @@ void CQ_sync_system(int inEvent, u8 *inResult) {
         }
         }
     }
-    if (g_DsReadCallbackState.start)
-        g_DsReadCallbackState.start(savedEvent, result);
+    if (g_DsReadCallbackState.sync)
+        g_DsReadCallbackState.sync(savedEvent, result);
     {
         int ready = DS_system_status(0);
         if (ready == 1) {

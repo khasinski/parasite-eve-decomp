@@ -1,5 +1,5 @@
 void StCdInterrupt(void);
 
-void CdRom_BreakSyncCallback(unsigned char event, unsigned char *result) {
+void StCdInterrupt2(unsigned char event, unsigned char *result) {
     StCdInterrupt();
 }

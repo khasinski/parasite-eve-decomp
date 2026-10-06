@@ -9,7 +9,7 @@ void GD_cbsync(unsigned char event);
 
 
 int DsGetSector(u8 *dst, int sector_size);
-void GD_disk_kind(int event, void *data, void *detail);
+void GD_cbready(int event, void *data, void *detail);
 
 int DsGetDiskType(void) {
     CdlLOC pos;
@@ -22,8 +22,8 @@ int DsGetDiskType(void) {
             return 1;
         }
     }
-    if (DsRead_IsBusy()) {
-        DsReadBreak();
+    if (ER_active()) {
+        DsEndReadySystem();
     }
     DsIntToPos(16, &pos);
     g_DsDiskType = 0;
@@ -37,13 +37,13 @@ int DsGetDiskType(void) {
 
 void GD_cbsync(unsigned char arg0) {
     if (arg0 == 2) {
-        CdRom_InitAsyncRead(GD_disk_kind, 0);
+        DsStartReadySystem(GD_cbready, 0);
     } else {
         g_DsDiskType = 2;
     }
 }
 
-void GD_disk_kind(int event, void *data, void *detail) {
+void GD_cbready(int event, void *data, void *detail) {
     u8 arg0 = event;
     u8 buffer[8];
     /* Preserve the branch result in the strncmp return register. */
@@ -61,5 +61,5 @@ void GD_disk_kind(int event, void *data, void *detail) {
     }
 
     g_DsDiskType = disk_type;
-    DsReadBreak();
+    DsEndReadySystem();
 }

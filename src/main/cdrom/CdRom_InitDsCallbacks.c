@@ -5,7 +5,7 @@
 void CD_init(void);
 void CD_initvol(void);
 void DS_reset_members(void);
-void CdRom_SetRetryMode(int mode);
+void DsReadMode(int mode);
 void LIBDS_DSSYS_1_text_7FC(int, void *);
 void LIBDS_DSSYS_1_text_E10(int, u_char *);
 void LIBDS_DSSYS_1_text_4A4(void);
@@ -19,7 +19,7 @@ void DS_init(void) {
     g_DsSyncCallback = g_DsReadyCallback;
     g_DsPollCallback = 0;
     DS_reset_members();
-    CdRom_SetRetryMode(0);
+    DsReadMode(0);
 
     g_CdSyncCallback = (CdlCB)LIBDS_DSSYS_1_text_7FC;
     g_CdReadyCallback = (CdlCB)LIBDS_DSSYS_1_text_E10;

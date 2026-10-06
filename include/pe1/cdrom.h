@@ -13,17 +13,17 @@ int DsQueueLen(void);
 void DS_restart(void);
 int DS_system_active(void);
 int DsReset(void);
-int CdRom_RestartSeek(void);
+int ER_retry(void);
 int DS_lastcom(void);
 int DS_lastmode(void);
 struct CdlLOC *DS_lastpos(void);
 struct CdlLOC *DsLastPos(struct CdlLOC *destination);
 int CdRom_PollReady(void);
-int Sys_VSyncTimeout(void *argument);
+int DsReadSync(void *argument);
 int DsReady(u8 *destination);
 int CdRom_ReadSectors(u32 lba, u32 offset, void *destination, u32 size);
 int CdRom_ReadSectorsFromLba(u32 lba, void *destination, u32 size);
-int CdRom_StartRead(struct CdlLOC *position, int sectors, void *destination,
+int DsRead(struct CdlLOC *position, int sectors, void *destination,
                     int mode);
 
 #endif

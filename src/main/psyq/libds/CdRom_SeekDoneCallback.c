@@ -1,14 +1,14 @@
 /* ASSEMBLER: GNU */
 /* CC1_FLAGS: -O1 */
 #include "pe1/psyq_ds.h"
-void LIBDS_DSREADY_text_FC(int event, u_char *result);
+void ER_cbready(int event, u_char *result);
 
-void CdRom_SeekDoneCallback(u_char event) {
+void ER_cbsync(u_char event) {
     if (event == 2) {
-        DsSyncCallback((DsEventCallback)LIBDS_DSREADY_text_FC);
+        DsReadyCallback((DsEventCallback)ER_cbready);
     }
 }
 
-int DsRead_IsBusy(void) {
+int ER_active(void) {
     return g_DsReadBusy;
 }

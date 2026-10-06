@@ -51,7 +51,7 @@ void tipDsSystem(void) {
     }
 
     {
-        int active = DsRead_IsBusy();
+        int active = ER_active();
         busy = D_80011E44;
         if (active != 0) busy = D_80011E3C;
     }

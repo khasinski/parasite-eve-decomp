@@ -6,7 +6,7 @@
 
 extern int D_8009B708;
 
-void CdRom_ReadDoneCallback(unsigned char arg0, unsigned char *arg1) {
+void LIBDS_DSREADY_text_3D8(unsigned char arg0, unsigned char *arg1) {
     int *state;
     int status;
     void *data;
@@ -24,13 +24,13 @@ void CdRom_ReadDoneCallback(unsigned char arg0, unsigned char *arg1) {
     status = arg0;
     if (status == 2) {
         if (DsQueueLen() == 0) {
-            CdRom_RestartSeek();
+            ER_retry();
         }
         return;
     }
 
-    DsSyncCallback(DS_ASYNC_READ_FIELD(state + 1, savedSyncCallback));
     DsReadyCallback(DS_ASYNC_READ_FIELD(state + 1, savedReadyCallback));
+    DsStartCallback(DS_ASYNC_READ_FIELD(state + 1, savedStartCallback));
     callback = DS_ASYNC_READ_FIELD(state + 1, callback);
     state[1] = 0;
     if (callback != 0) {

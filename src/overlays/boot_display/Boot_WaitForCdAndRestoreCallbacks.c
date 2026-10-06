@@ -11,7 +11,7 @@ s32 Boot_WaitForCdAndRestoreCallbacks(void) {
     do {
         while (DsSystemStatus() != 1) {}
     } while (DsQueueLen() != 0);
-    DsSyncCallback(0);
+    DsReadyCallback(0);
     VSyncCallback(Boot_VsyncCallback);
     return 0;
 }

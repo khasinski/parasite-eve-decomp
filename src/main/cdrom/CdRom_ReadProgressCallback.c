@@ -9,7 +9,7 @@ extern int VSync(int mode);
                PE1_OFFSETOF(CdReadProgressState, currentVsync)) /         \
               sizeof(int)])
 
-void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
+void DS_read_cbready(int status, void *data, void *detail) {
     int savedStatus = status;
     int *state = &g_CdReadCurrentVsync;
     CD_READ_FIELD(state, currentVsync) = VSync(-1);
@@ -19,7 +19,7 @@ void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
                           CD_READ_FIELD(state, sectorSize));
             CD_READ_FIELD(state, eventData) = (int)data;
         } else {
-            Save_ProcessDataCallback();
+            DsReadBreak();
             if (g_CdReadCompleteCallback) {
                 if (CD_READ_FIELD(state, remainingSectors) < 0) savedStatus = 5;
                 g_CdReadCompleteCallback((u8)savedStatus, data);
@@ -37,7 +37,7 @@ void CdRom_ReadProgressCallback(int status, void *data, void *detail) {
             CD_READ_FIELD(state, remainingSectors) = -1;
         if (CD_READ_FIELD(state, remainingSectors) == 0 ||
             VSync(-1) > CD_READ_FIELD(state, startVsync) + 1200) {
-            Save_ProcessDataCallback();
+            DsReadBreak();
             if (g_CdReadCompleteCallback) {
                 savedStatus =
                     CD_READ_FIELD(state, remainingSectors) < 0 ? 5 : 2;

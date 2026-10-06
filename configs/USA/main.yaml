@@ -1190,7 +1190,7 @@ segments:
       - [0x71A54, c, cdrom/func_80081254]
       - [0x71A68, c, save/Save_ProcessDataCallback]
       - [0x71AF4, c, cdrom/CdRom_SetRetryMode]
-      - [0x71B10, pad] # zero word after CdRom_SetRetryMode's jr ra
+      - [0x71B10, pad] # zero word after DsReadMode's jr ra
       - [0x71B14, c, psyq/libds/DsRead2]
       - [0x71BE8, c, psyq/libds/CdRom_BreakSyncCallback]
       - [0x71C08, pad]

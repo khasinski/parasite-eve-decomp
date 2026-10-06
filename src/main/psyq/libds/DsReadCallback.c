@@ -2,7 +2,7 @@
 
 extern DsCallback D_8009B708;
 
-DsCallback DsReadCallback(DsCallback callback) {
+DsCallback DsReadySystemMode(DsCallback callback) {
     DsCallback *slot;
     DsCallback old;
 

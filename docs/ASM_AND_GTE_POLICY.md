@@ -105,7 +105,7 @@ options through `cc.sh`. `Task_AllocNode`, `Menu_CreateInvSwapView`, and
 `Menu_StepSaveSelect` match with these settings after removing handwritten
 `nop` instructions. These flags are per-unit choices, not a global default.
 
-`CdRom_RestartSeek` selects stock GCC281's `-fcall-used-$1` together with
+`ER_retry` selects stock GCC281's `-fcall-used-$1` together with
 `-fno-expensive-optimizations` through a per-file `CC1_FLAGS` marker. This makes
 AT available for the target's split-address store; a single v1 pin keeps the
 later -1 argument out of AT. No instruction ASM or barrier remains. This is
@@ -1490,7 +1490,7 @@ now express that return in C and share typed declarations with their callers.
 instruction ASM is unchanged and remains reconstruction debt.
 
 `CdReadProgressState` offset 0x1C is now `DsCallback dataCallback`, replacing
-an opaque integer token. `Save_ProcessDataCallback` passes that field to the
+an opaque integer token. `DsReadBreak` passes that field to the
 DS setter when the flags at offset 0x14 require restoration. Its original
 pointer at offset 0x28 is converted back to the enclosing structure, so the
 existing allocator barrier can remain while accesses use named fields.
@@ -1500,7 +1500,7 @@ the callback field offset. Other fields and their meanings are unchanged.
 ## DS event callback registry
 
 The SDK's `DslCB` (`LIBDS.H`, line 98) takes an unsigned byte event and an
-unsigned byte result pointer. `DsSyncCallback` and `DsReadyCallback`
+unsigned byte result pointer. `DsReadyCallback` and `DsStartCallback`
 (lines 236–237) exchange callbacks of that type. The reconstruction names
 that signature `DsEventCallback` and uses it in both setters, their callers,
 and the saved sync/ready fields of `DsAsyncReadState`.
@@ -1511,11 +1511,11 @@ the first member retains its opaque integer representation. No callback
 signature is inferred for the start slot. Its size assertion preserves the
 existing 12-byte storage layout.
 
-`CdRom_InitAsyncRead` no longer casts either registered function to int.
+`DsStartReadySystem` no longer casts either registered function to int.
 `DsRead2` keeps the previous sync callback as a typed function pointer.
-`CdRom_ReadDoneCallback` restores the saved setters through the existing
+`LIBDS_DSREADY_text_3D8` restores the saved setters through the existing
 async-state layout instead of raw negative indices. Its result parameter
-and the unused parameters of `CdRom_BreakSyncCallback` now agree with the
+and the unused parameters of `StCdInterrupt2` now agree with the
 registration ABI. No pins, barriers or instruction ASM were introduced.
 
 ## DsRead2 data callback registration
@@ -1847,11 +1847,11 @@ indirect calls pass status in `a0`, its data pointer in `a1` and a local
 record address in `a2`; the reconstructed read-done path uses the same ABI
 with a null third argument. This field is no longer stored as an integer.
 
-`CdRom_InitAsyncRead` and both C callers share one declaration, including
-the actual integer return type. `CdRom_ReadDoneCallback` reads the named
+`DsStartReadySystem` and both C callers share one declaration, including
+the actual integer return type. `LIBDS_DSREADY_text_3D8` reads the named
 callback field instead of casting a negative-index integer slot. The
 ASM-backed progress callback is declared with its actual callback ABI;
-`GD_disk_kind` accepts those arguments and explicitly retains the original
+`GD_cbready` accepts those arguments and explicitly retains the original
 low-byte conversion of the event. Full main and all 191 overlay SHA checks
 pass, without new pins or barriers.
 
@@ -1874,7 +1874,7 @@ pointer parameters. Break/cancel callers use typed null pointer temporaries.
 The two later queue fields remain unnamed integers pending evidence of their
 meaning. Full main, all 191 overlay SHA checks and source/debt gates pass.
 
-The `DsReadBreak` argument barrier remains necessary: its removal substitutes
+The `DsEndReadySystem` argument barrier remains necessary: its removal substitutes
 the known-zero `a1` value for `$zero` when preparing `a2` (99.8%); removing
 just the command operand also changes code generation (92%).
 

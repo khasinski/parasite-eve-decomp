@@ -19,9 +19,9 @@ int DsInit(void) {
     if (DS_system_active()) return 0;
     i = 0;
     callbacks = &g_DsReadCallbackState;
-    callbacks->start = 0;
     callbacks->sync = 0;
     callbacks->ready = 0;
+    callbacks->start = 0;
     state = g_CdQueuedCmdSlots;
     state[2].state = 0;
     state[1].state = 0;
@@ -46,8 +46,8 @@ int DsInit(void) {
     DS_ready_callback((unsigned int)CQ_ready_system);
     DS_start_callback((unsigned int)LIBDS_DSSYS_2_text_13CC);
     DS_vsync_callback((unsigned int)CQ_vsync_system);
-    DS_read_cbready();
-    DsReadCallback(0);
+    ER_clear();
+    DsReadySystemMode(0);
     return 1;
 }
 
@@ -58,9 +58,9 @@ int DsReset(void) {
     DS_stop();
     i = 0;
     callbacks = &g_DsReadCallbackState;
-    callbacks->start = 0;
     callbacks->sync = 0;
     callbacks->ready = 0;
+    callbacks->start = 0;
     state = g_CdQueuedCmdSlots;
     state[2].state = 0;
     state[1].state = 0;
@@ -80,8 +80,8 @@ int DsReset(void) {
     for (k = 7, offset = 112; k >= 0; --k, offset -= 16)
         *(int *)((unsigned char *)D_800A3610 + offset) = 0;
     D_800A3690 = 0;
-    DS_read_cbready();
-    DsReadCallback(0);
+    ER_clear();
+    DsReadySystemMode(0);
     DS_restart();
     return 1;
 }

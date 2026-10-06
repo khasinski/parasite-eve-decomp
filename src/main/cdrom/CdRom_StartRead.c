@@ -6,7 +6,7 @@
 
 #define READ_STATE(anchor, field) ((CdReadProgressState *)((char *)(anchor) - PE1_OFFSETOF(CdReadProgressState, field)))
 
-int CdRom_StartRead(CdlLOC *position, int sectors, void *destination, int incomingMode) {
+int DsRead(CdlLOC *position, int sectors, void *destination, int incomingMode) {
     register int incoming asm("$7") = incomingMode;
     int mode;
     CdlLOC location;
@@ -18,7 +18,7 @@ int CdRom_StartRead(CdlLOC *position, int sectors, void *destination, int incomi
     asm volatile("" : "=r"(state), "=r"(incoming) : "0"(state), "1"(incoming));
     mode = incoming;
     if (*state != 1) {
-        if (!DsRead_IsBusy()) goto start;
+        if (!ER_active()) goto start;
     }
     result = 0;
     goto done;
@@ -31,12 +31,12 @@ start:
         location = *DsLastPos(0);
         mode |= 0x20;
         mode = DsPacket((u8)mode, &location, 6,
-                                         (DslCB)CdRom_SetMode2Callback, -1);
+                                         (DslCB)DS_read_cbsync, -1);
     } else {
         location = *position;
         mode |= 0x20;
         mode = DsPacket((u8)mode, &location, 6,
-                                         (DslCB)CdRom_SetMode2Callback, -1);
+                                         (DslCB)DS_read_cbsync, -1);
     }
     result = 0;
     if (!mode) goto done;
@@ -45,7 +45,7 @@ start:
     asm volatile("" : "=r"(state) : "0"(state));
     *state = result;
     if (READ_STATE(state, startVsync)->flags & 1)
-        READ_STATE(state, startVsync)->dataCallback = DsDataCallback(Render_StepParticleCallback);
+        READ_STATE(state, startVsync)->dataCallback = DsDataCallback(DS_read_cbdata);
     READ_STATE(state, startVsync)->inProgress = 1;
     result = mode;
 done:

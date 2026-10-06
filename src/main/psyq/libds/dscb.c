@@ -1,15 +1,5 @@
 #include "pe1/psyq_ds.h"
 
-DsEventCallback DsStartCallback(DsEventCallback callback) {
-    DsEventCallback *slot;
-    DsEventCallback old;
-
-    slot = &g_DsReadCallbackState.start;
-    old = *slot;
-    *slot = callback;
-    return old;
-}
-
 DsEventCallback DsSyncCallback(DsEventCallback callback) {
     DsEventCallback *slot;
     DsEventCallback old;
@@ -25,6 +15,16 @@ DsEventCallback DsReadyCallback(DsEventCallback callback) {
     DsEventCallback old;
 
     slot = &g_DsReadCallbackState.ready;
+    old = *slot;
+    *slot = callback;
+    return old;
+}
+
+DsEventCallback DsStartCallback(DsEventCallback callback) {
+    DsEventCallback *slot;
+    DsEventCallback old;
+
+    slot = &g_DsReadCallbackState.start;
     old = *slot;
     *slot = callback;
     return old;

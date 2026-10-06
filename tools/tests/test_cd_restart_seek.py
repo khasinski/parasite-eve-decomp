@@ -19,7 +19,7 @@ class RestartSeekTests(unittest.TestCase):
 int D_8009B6EC;
 static CdlLOC first, second;
 static int step, modeValue, commandValue, sectorValue, resultValue;
-DsEventCallback DsSyncCallback(DsEventCallback callback) {
+DsEventCallback DsReadyCallback(DsEventCallback callback) {
     assert(step++ == 0 && callback == 0);
     return 0;
 }
@@ -57,7 +57,7 @@ int main(void) {
         modeValue = values[a]; commandValue = values[b];
         sectorValue = values[c]; resultValue = values[7-c];
         D_8009B6EC = ~sectorValue; step = 0;
-        assert(CdRom_RestartSeek() == resultValue);
+        assert(ER_retry() == resultValue);
         assert(step == 7 && D_8009B6EC == sectorValue);
     }
     return 0;

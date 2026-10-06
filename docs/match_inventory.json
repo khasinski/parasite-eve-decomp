@@ -224,7 +224,7 @@
       "source": null,
       "status": "data_or_padding_excluded_from_function_report",
       "levenshtein_score": null,
-      "evidence": "Zero word after CdRom_SetRetryMode returns; now pad. Byte-identical; see docs/CONVENTIONS.md, text-resident data."
+      "evidence": "Zero word after DsReadMode returns; now pad. Byte-identical; see docs/CONVENTIONS.md, text-resident data."
     },
     {
       "unit": "main/main/gap_memcard_MemCard_WaitStatusBit2_tail_73DA0",
