@@ -1,8 +1,8 @@
 #include "../room_lib/room_lib.h"
 
-extern char D_801953A4[];
+extern char g_RoomFallingBurstSpawnData[];
 extern char D_801953D4[];
-extern char D_801953EC[];
+extern char g_RoomFallingBurstSpawnScript[];
 extern int RoomLib_CloseTarget_80190344(void *o);
 
 int func_801902B8(void *o) {
@@ -10,7 +10,7 @@ int func_801902B8(void *o) {
 
     if (FieldEng_GetStatus() >= 2) {
         result = func_800C251C(o, D_801953D4);
-        result |= func_800C2758(o, D_801953A4, D_801953EC);
+        result |= func_800C2758(o, g_RoomFallingBurstSpawnData, g_RoomFallingBurstSpawnScript);
     } else {
         result = -1;
     }
