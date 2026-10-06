@@ -64,6 +64,8 @@ extern u16 D_800BD020, D_800BD022;
 extern unsigned int D_8009D26C;
 extern u32 D_8009D1A0;
 
+void Scene_Init(BattleEntity *entity, int *actionState);
+void Scene_SyncEntityAction(BattleEntity *entity, int *actionState);
 void Scene_UpdateEntityFacingFromPad(BattleEntity *entity);
 void Scene_UpdateEntityFacing(BattleEntity *entity, int *actionState);
 void Scene_UpdatePlayerEntity(BattleEntity *entity, int *actionState);
