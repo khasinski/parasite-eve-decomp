@@ -58,6 +58,32 @@ extern int func_800D3F64(int sound, int handle);
 extern void *D_800B0E64;
 extern void func_8006DF50(void *channel, int id, int value, int volume, int pan);
 
+/* Heading helpers and the trail history: turn the angles towards a target,
+ * record a position into a history of points and draw the history as a
+ * ribbon. */
+extern void func_800CFAA8(void *from, void *to, void *angles);
+extern void func_800CFD50(void *angles, void *out, int speed);
+extern void func_800D3AFC(void *history, int count, void *position, int reset);
+extern void func_800D3114(void *trail, int count, int length, int arg3, int arg4,
+                          int arg5, int arg6, int tpage, int clut, int alpha,
+                          void *headColor, void *tailColor, int mode);
+/* Rotates an offset by a bone's matrix. */
+extern void func_800CEAE8(void *bone, s16 *offset, s16 *out);
+/* Fades a colour layer record in or out. */
+extern void func_800CF4B4(int kind, int value, void *layer);
+
+/* Asset library lookup and the model draw calls of the model effects. */
+void *func_8006E498(void *base, u32 key);
+void func_800C6D5C(void *asset, int x, int y);
+s32 func_80077A64(s32, s32, s32, s32);
+void func_800C6EC0(int tpage, int clut);
+void func_800C6ED8(int);
+void func_800C6EF8(void *asset);
+void func_800C6FA0(void *asset, int brightness);
+void func_800C7098(void *asset, int r, int g, int b);
+void func_800C71E4(void *asset, void *matrix);
+void func_800C6F4C(void *asset);
+
 /* Jitter spark: the damped spark layout with a spin angle and a size. */
 typedef struct RoomJitterSpark {
     s16 x, y, z;                  /* 0x00 */
@@ -132,6 +158,8 @@ typedef struct RoomCometSparkAnchor {
 typedef struct RoomSparkEventState {
     u8 reserved[0xD];
     u8 active;                    /* 0x0D */
+    u8 reserved0E[4];
+    u16 trailSlot;                /* 0x12: history slot of the next trail */
 } RoomSparkEventState;
 
 /* First node of the primary channel's pool: its state byte. */

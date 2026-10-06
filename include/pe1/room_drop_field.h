@@ -6,6 +6,7 @@
 #include "pe1/room_fx.h"
 #include "pe1/field_ring_geometry.h"
 #include "pe1/field_collision.h"
+#include "pe1/room_spark.h"
 
 /* The drop field effect set linked by room_m174, room_m348 and room_m383
  * (src/overlays/room_lib/RoomFx_DropFieldEffects.c): a controller and
@@ -110,28 +111,15 @@ extern char g_RoomDropFieldRingImages[];
 extern unsigned char g_RoomDropFieldBeamImages[];
 extern u8 g_RoomDropFieldParticleFrames[];
 
-extern void *D_800B0E64;
-extern PolygonVertex *D_8009D248;
-extern u16 D_8009D1CC;
-
-void *func_8006E498(void *arg0, int arg1);
 void *func_8006DC18(int type);
 int rand(void);
 void func_80071A44(void *dst, s32 value, s32 size);
-int func_80077A64(int arg0, int arg1, int arg2, int arg3);
 s32 *func_800C2B10(s32 index);
 int func_800C2B68(void);
 void func_800C3134(void *table, int step, void *out);
 void func_800C4E50(RoomFxEmitterParams *params);
 void func_800C6800(s32 arg0, s32 arg1, void *arg2);
 void func_800C6C18(int arg0);
-void func_800C6D5C(void *model, int arg1, int arg2);
-void func_800C6EC0(int arg0, int arg1);
-void func_800C6ED8(int arg0);
 void func_800C6EE8(int arg0);
-void func_800C6EF8(void *model);
-void func_800C6F4C(void *model);
-void func_800C6FA0(void *model, int depth);
-void func_800C71E4(void *model, RoomSpriteMatrix *matrix);
 
 #endif

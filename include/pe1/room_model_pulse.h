@@ -36,17 +36,6 @@ extern RoomModelPulseAnchor D_801960A0; /* ring centre */
 extern void *D_801960A8;                /* model asset */
 
 extern u16 D_800E11E8;
-extern u16 D_800E11FA;
-extern void *func_8006E498(void *base, u32 key);
-extern void func_800C6D5C(void *asset, int x, int y);
-extern s32 func_80077A64(s32, s32, s32, s32);
-extern void func_800C6EC0(int tpage, int clut);
-extern void func_800C6ED8(int);
-#include "pe1/gte_types.h"
-extern void func_800C6EF8(void *asset);
-extern void func_800C6FA0(void *asset, int brightness);
-extern void func_800C71E4(void *asset, void *matrix);
-extern void func_800C6F4C(void *asset);
 extern int func_8019552C(int mode, RoomModelPulseParticle *particle);
 int func_80195728(int mode, s16 *state);
 

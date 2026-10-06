@@ -33,8 +33,6 @@ extern RenderColor ROOMEFFECT_GROUND_SWEEP_COLOR_A;
 extern RenderColor ROOMEFFECT_GROUND_SWEEP_COLOR_B;
 extern int ROOMEFFECT_GROUND_SWEEP_CALLBACK(int mode, RoomGroundSweepMark *mark);
 extern void func_800866A4(int handle, int arg);
-extern void func_800CFAA8(void *from, void *to, void *angles);
-extern void func_800CFD50(void *angles, void *out, int speed);
 extern void LoadAverageShort12(void *from, void *to, int weightFrom, int weightTo,
                           void *out);
 extern void func_800D2B58(void *, void *, void *, void *, int, int, int);

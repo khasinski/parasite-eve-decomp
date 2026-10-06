@@ -79,15 +79,6 @@ extern void func_800CE8F0(void *pool, int index, void *offset, void *position);
 extern void func_800D1384(void *from, void *to, int width, void *color0,
                           void *color1, int alpha, void *trail, int mode);
 extern u8 *D_800E22D4;
-extern s32 func_80077A64(s32, s32, s32, s32);
-extern void func_800C6EC0(int tpage, int clut);
-extern void func_800C6ED8(int);
-#include "pe1/gte_types.h"
-extern void func_800C6EF8(void *asset);
-extern void func_800C6FA0(void *asset, int brightness);
-extern void func_800C71E4(void *asset, void *matrix);
-extern void func_800C6F4C(void *asset);
-extern void func_800C6D5C(u8 *data, u8 x_offset, u8 y_offset);
 extern void func_8006DDCC(int sound, int mode, int x, int y, int z);
 extern u8 D_801F1CB0[];
 extern void func_800CF3AC(void *track, void *color, int time);

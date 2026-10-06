@@ -21,15 +21,4 @@ typedef struct RoomSparkWords8 {
 extern s16 g_RoomBurstOrbHeading;
 extern void *g_RoomBeamSparkAsset;
 
-/* Asset library lookup and the model draw calls of the beam. */
-void *func_8006E498(void *base, u32 key);
-void func_800C6D5C(void *asset, int x, int y);
-s32 func_80077A64(s32, s32, s32, s32);
-void func_800C6EC0(int tpage, int clut);
-void func_800C6ED8(int);
-void func_800C6EF8(void *asset);
-void func_800C6FA0(void *asset, int brightness);
-void func_800C71E4(void *asset, void *matrix);
-void func_800C6F4C(void *asset);
-
 #endif
