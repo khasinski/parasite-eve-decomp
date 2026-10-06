@@ -813,9 +813,11 @@ segments:
       - [0x5ED14, c, asset/Asset_FindTable2CByU16Key]
       - [0x5EE0C, c, gpu/Gpu_ClearOnFlag]
       - [0x5EEA8, c, cdrom/CdRom_BootReadFlow]
-      - [0x5F1A0, c, gpu/misc14]
-      - [0x5F3E4, c, akao/Seq_GetElapsed]
-      - [0x5F408, c, gpu/gpu]
+      # Display initialisation, the draw-enabled and sequence-elapsed queries, the
+      # draw-status check and the TIM table loaders: the queries share
+      # g_DrawEnabled and g_SeqElapsed (private evidence), contiguous
+      # default-profile run with no split evidence.
+      - [0x5F1A0, c, gpu/Gpu_DisplayInitAndStatus]
       - [0x5F4EC, c, main/misc19]
       - [0x5FAC4, c, pm/Pm_ProcessManager]
       - [0x60C1C, c, render/Render_DecompressAnimFrame]

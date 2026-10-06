@@ -1,5 +1,7 @@
 #include "pe1/psyq_gpu.h"
 #include "pe1/cdrom_buffers.h"
+#include "common.h"
+#include "pe1/psyq_tim.h"
 
 void VSync(int arg0);
 void SetDispMask(int arg0);
@@ -12,6 +14,15 @@ void Render_SetCDDCSlot(void);
 void Gpu_RenderFrame(void);
 void Menu_ConsumeEquipSlotFlag(void);
 
+/* The draw-enabled byte is read signed by the display queries and unsigned
+ * by the sequence-elapsed query. */
+typedef union GpuDrawEnabledFlag {
+    signed char value;
+    unsigned char bits;
+} GpuDrawEnabledFlag;
+
+extern GpuDrawEnabledFlag g_DrawEnabled;
+extern short g_SeqElapsed;
 extern char g_RenderDispEnvArray[];
 extern char D_800F34F8[];
 extern char D_8010BD00[];
@@ -43,8 +54,6 @@ extern volatile int D_800B0E68;
 extern volatile int g_SceneLoadScratchBuffer;
 
 #define LAUNDER2(a, b) asm volatile("" : "=r"(a), "=r"(b) : "0"(a), "1"(b))
-
-extern signed char g_DrawEnabled;
 
 int Gpu_InitDisplay(int mode) {
     int mode_reg;
@@ -135,5 +144,67 @@ int Gpu_InitDisplay(int mode) {
 }
 
 int Draw_GetDrawEnabled(void) {
-    return g_DrawEnabled;
+    return g_DrawEnabled.value;
+}
+
+int Seq_GetElapsed(void) {
+    if (g_DrawEnabled.bits != 0) {
+        return g_SeqElapsed;
+    }
+    return -1;
+}
+
+extern signed char D_800B0DBB;
+
+int Gpu_CheckDrawStatus(void) {
+    int enabled = g_DrawEnabled.value;
+    int value;
+    int result;
+    register int flag asm("$3");
+
+    /* Matching debt: retail reserves an otherwise unused eight-byte frame. */
+    volatile int matchingStackReserve[2];
+    /* Preserve retail's second comparison of the enabled snapshot. */
+    flag = enabled;
+    if (enabled != 0) {
+        asm volatile("" : "=r"(flag) : "0"(flag));
+        value = -1;
+        if (flag != 0) {
+            value = (u16)g_SeqElapsed;
+            value = (unsigned int)value << 16;
+        } else {
+            asm("" : "=r"(value) : "0"(value));
+            value = (unsigned int)value << 16;
+        }
+        if (value > 0) {
+            flag = D_800B0DBB;
+            if (flag != 0) {
+                result = 2;
+                goto done;
+            }
+            result = 1;
+            goto done;
+        }
+    }
+
+    result = 0;
+
+done:
+    return result;
+}
+
+int Gpu_GetTimTableEntry(int base, int index) {
+    int offset = (short)index * 4;
+    int ptr = (unsigned int)offset + (unsigned int)base;
+    return (unsigned int)base + (unsigned int)*(int *)ptr;
+}
+
+void Gpu_LoadTimTable(int base, int count) {
+    int i;
+
+    for (i = 0; i < count; i++) {
+        int ptr = (unsigned int)((short)i * 4) + (unsigned int)base;
+        int offset = *(int *)ptr;
+        Gpu_LoadTimImage((TimFile *)((unsigned int)base + (unsigned int)offset));
+    }
 }
