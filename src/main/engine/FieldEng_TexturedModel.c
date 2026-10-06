@@ -12,7 +12,7 @@ extern u32 D_800E2370[];
 #define MODEL_VERTEX(model, offset) ((FieldModelVertex *)&(model)->bytes[offset])
 #define MODEL_COLOR(model, offset) (((FieldModelColor *)&(model)->bytes[offset])->word)
 
-/* A model colour table: entry_count RGB words at entries_offset. */
+/* One of the model's colour words, addressed by FieldModelHeader::colorOffset. */
 typedef struct ColorEntry {
     u8 red;
     u8 green;
@@ -20,82 +20,48 @@ typedef struct ColorEntry {
     u8 unused;
 } ColorEntry;
 
-typedef struct ColorTable {
-    u8 unused[8];
-    u16 entries_offset;
-    u16 entry_count;
-} ColorTable;
+void func_800C6D5C(FieldTexturedModel *model, u8 xOffset, u8 yOffset) {
+    FieldModelHeader *header = &model->header;
+    FieldModelTri *tri = header->tris;
+    FieldModelQuad *quad;
+    u8 *uv;
+    int i;
 
-void func_800C6D5C(u8 *data, u8 xOffset, u8 yOffset) {
-    u8 *data_t0;
-    u8 *ptr_t2;
-    int value_v0;
-    int value_v1;
-    register int x_a0 asm("$4");
-    int i_t1;
-    register int count_a0 asm("$4");
-    int total;
-
-    asm volatile("" : "=r"(data_t0) : "0"(data));
-    value_v0 = *(u16 *)(data_t0 + 0xC);
-        x_a0 = xOffset & 0xFF;
-    ptr_t2 = data_t0 + 0x10;
-
-    if (value_v0 != x_a0 || *(u16 *)(data_t0 + 0xE) != (yOffset & 0xFF)) {
-        i_t1 = 0;
-        *(u16 *)(data_t0 + 0xC) = x_a0;
-        value_v0 = *(u16 *)(data_t0 + 0);
-        count_a0 = *(u16 *)(data_t0 + 2);
-        value_v1 = yOffset & 0xFF;
-        value_v0 += count_a0;
-        *(u16 *)(data_t0 + 0xE) = value_v1;
-        if (value_v0 != 0) {
-            register u8 *ptr_a3 asm("$7");
-
-            ptr_a3 = data_t0 + 0x1B;
+    if (header->uOffset != xOffset || header->vOffset != yOffset) {
+        i = 0;
+        header->uOffset = xOffset;
+        header->vOffset = yOffset;
+        if (header->flatTris + header->shadedTris != 0) {
             do {
-                i_t1++;
-                ptr_t2 += 0xC;
-                ptr_a3[-5] += xOffset;
-                ptr_a3[-3] += xOffset;
-                ptr_a3[-1] += xOffset;
-                ptr_a3[-4] += yOffset;
-                ptr_a3[-2] += yOffset;
-                ptr_a3[0] += yOffset;
-                total = *(u16 *)(data_t0 + 0);
-                count_a0 = *(u16 *)(data_t0 + 2);
-                total += count_a0;
-                ptr_a3 += 0xC;
-            } while ((u16)i_t1 < total);
+                i++;
+                uv = (u8 *)tri->uv;
+                uv[0] += xOffset;
+                uv[2] += xOffset;
+                uv[4] += xOffset;
+                uv[1] += yOffset;
+                uv[3] += yOffset;
+                uv[5] += yOffset;
+                tri++;
+            } while ((u16)i < header->flatTris + header->shadedTris);
         }
-
-        i_t1 = 0;
-                value_v0 = *(u16 *)(data_t0 + 4);
-        value_v1 = *(u16 *)(data_t0 + 6);
-        value_v0 += value_v1;
-        count_a0 = (int)ptr_t2;
-        if (value_v0 != 0) {
-            register u8 *ptr_a3 asm("$7");
-
-            ptr_a3 = (u8 *)count_a0 + 0xF;
+        i = 0;
+        quad = (FieldModelQuad *)tri;
+        if (header->flatQuads + header->shadedQuads != 0) {
             do {
-                i_t1++;
-                ptr_a3[-7] += xOffset;
-                ptr_a3[-5] += xOffset;
-                ptr_a3[-3] += xOffset;
-                ptr_a3[-1] += xOffset;
-                ptr_a3[-6] += yOffset;
-                ptr_a3[-4] += yOffset;
-                ptr_a3[-2] += yOffset;
-                ptr_a3[0] += yOffset;
-                total = *(u16 *)(data_t0 + 4);
-                count_a0 = *(u16 *)(data_t0 + 6);
-                total += count_a0;
-                ptr_a3 += 0x10;
-            } while ((u16)i_t1 < total);
+                i++;
+                uv = (u8 *)quad->uv;
+                uv[0] += xOffset;
+                uv[2] += xOffset;
+                uv[4] += xOffset;
+                uv[6] += xOffset;
+                uv[1] += yOffset;
+                uv[3] += yOffset;
+                uv[5] += yOffset;
+                uv[7] += yOffset;
+                quad++;
+            } while ((u16)i < header->flatQuads + header->shadedQuads);
         }
     }
-
     D_800F3420 = 0;
 }
 
@@ -113,12 +79,12 @@ void func_800C6EE8(short value) {
 }
 
 void func_800C6EF8(char *data) {
-    ColorTable *table = (ColorTable *)data;
+    FieldModelHeader *table = (FieldModelHeader *)data;
     int i = 0;
-    u32 *src = (u32 *)(data + table->entries_offset);
+    u32 *src = (u32 *)(data + table->colorOffset);
     u32 *dst = D_800E2370;
 
-    while (i < table->entry_count) {
+    while (i < table->colorCount) {
         i++;
         *dst++ = *src++;
     }
@@ -126,12 +92,12 @@ void func_800C6EF8(char *data) {
 
 
 void func_800C6F4C(char *data) {
-    ColorTable *table = (ColorTable *)data;
+    FieldModelHeader *table = (FieldModelHeader *)data;
     int i = 0;
     u32 *src = D_800E2370;
-    u32 *dst = (u32 *)(data + table->entries_offset);
+    u32 *dst = (u32 *)(data + table->colorOffset);
 
-    while (i < table->entry_count) {
+    while (i < table->colorCount) {
         i++;
         *dst++ = *src++;
     }
@@ -146,11 +112,11 @@ void func_800C6FA0(char *data, u16 factor)
     u32 blue_product;
     u32 green;
     u32 green_product;
-    ColorTable *table = (ColorTable *)data;
+    FieldModelHeader *table = (FieldModelHeader *)data;
     u32 *scratch = (u32 *)0x1F800000;
-    ColorEntry *entry = (ColorEntry *)(data + table->entries_offset);
+    ColorEntry *entry = (ColorEntry *)(data + table->colorOffset);
 
-    for (i = 0; i < table->entry_count; i++, entry++) {
+    for (i = 0; i < table->colorCount; i++, entry++) {
         red = entry->red;
         red *= factor;
         scratch[12] = red;
@@ -186,13 +152,13 @@ void func_800C6FA0(char *data, u16 factor)
 
 void func_800C7098(char *data, u8 r, u8 g, u8 b) {
     int i = 0;
-    ColorTable *table = (ColorTable *)data;
-    ColorEntry *entry = (ColorEntry *)(data + table->entries_offset);
+    FieldModelHeader *table = (FieldModelHeader *)data;
+    ColorEntry *entry = (ColorEntry *)(data + table->colorOffset);
     int count;
     /* Keeps the empty 8-byte frame emitted by the original. */
     volatile int pad;
 
-    count = table->entry_count;
+    count = table->colorCount;
     if (count > 0) {
         do {
             i++;
@@ -200,12 +166,12 @@ void func_800C7098(char *data, u8 r, u8 g, u8 b) {
             entry->green = g;
             entry->blue = b;
             entry++;
-        } while (i < table->entry_count);
+        } while (i < table->colorCount);
     }
 }
 
 void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
-    ColorTable *table = (ColorTable *)data;
+    FieldModelHeader *table = (FieldModelHeader *)data;
     int frame;
     int offset;
     int count;
@@ -214,8 +180,8 @@ void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
     register u8 *bluePtr asm("$9");
 
     i = 0;
-    offset = table->entries_offset;
-    count = table->entry_count;
+    offset = table->colorOffset;
+    count = table->colorCount;
     entry = (u8 *)(data + offset);
     if (count > 0) {
         bluePtr = entry + 2;
@@ -261,7 +227,7 @@ void func_800C70EC(char *data, int rDelta, int gDelta, int bDelta) {
             bluePtr[0] = blue;
             bluePtr += 4;
             entry += 4;
-        } while (i < table->entry_count);
+        } while (i < table->colorCount);
     }
     asm volatile("" : : "r"(&frame));
 }

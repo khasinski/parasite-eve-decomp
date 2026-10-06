@@ -37,7 +37,10 @@ typedef struct FieldModelHeader {
     /* 0x02 */ u16 shadedTris;
     /* 0x04 */ u16 flatQuads;
     /* 0x06 */ u16 shadedQuads;
-    /* 0x08 */ u8 pad08[8];
+    /* 0x08 */ u16 colorOffset;   /* byte offset of the colour words */
+    /* 0x0A */ u16 colorCount;
+    /* 0x0C */ u16 uOffset;       /* UV scroll applied by func_800C6D5C */
+    /* 0x0E */ u16 vOffset;
     /* 0x10 */ FieldModelTri tris[1];
 } FieldModelHeader;
 
