@@ -41,7 +41,7 @@ int Gpu_SetDisplayBuffer(void) {
                 register u32 fnOffset;
                 register u32 arg0;
                 register u32 arg1Index;
-                register u32 arg1Offset asm("$2");
+                u32 arg1Offset;
                 register u32 arg1;
                 void (*function)(u32, u32);
                 /* Keep the three separate reads of the interrupt-visible tail. */
