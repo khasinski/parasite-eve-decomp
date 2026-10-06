@@ -13,9 +13,11 @@
  *
  * The lists the methods hand to the field engine are the module's own data,
  * named in each room's symbol file. A room that links several modules names
- * the lists of the module whose methods are the shared units; the other
- * modules link a class unit of their own with the same methods under the
- * module's names (RoomFx_OrbitSetClass.c, RoomFx_DropFieldClass.c). */
+ * the lists of the module whose methods are the shared units. The modules
+ * that are linked as a second module somewhere link a class unit of their
+ * own in every room instead, with the same methods and lists under the
+ * module's names (RoomFx_OrbitSetClass.c, RoomFx_DropFieldClass.c,
+ * RoomEffect_GroundEruptionClass.c). */
 
 struct RoomEnt;
 
@@ -36,15 +38,11 @@ int RoomLib_Spawn6(int a, int b, int c, int d, int e, int f);
 int RoomLib_RegisterDrawList(void *o);
 int RoomLib_RegisterPairedTables(void *o);
 int RoomLib_CloseTarget(struct RoomEnt *o);
-/* Variants some modules link in the registration, start and close slots:
- * register the draw list and start only while the engine runs the object
- * (status 3). The start method closes the module through
- * RoomLib_CloseTarget (Active) or through RoomLib_ReleaseTarget, which
- * leaves the target's state alone (Release). */
+/* Variants some modules link in the registration and start slots: register
+ * the draw list and start only while the engine runs the object
+ * (status 3). */
 int RoomLib_RegisterDrawListActive(void *o);
-int RoomLib_RegisterPairedTablesRelease(void *o);
 int RoomLib_RegisterPairedTablesActive(void *o);
-int RoomLib_ReleaseTarget(struct RoomEnt *o);
 int RoomLib_RegisterPairedTablesGated(void *o);
 
 /* Arguments the scene script hands the room's effects (the script's

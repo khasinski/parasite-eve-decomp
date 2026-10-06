@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "pe1/room_fx.h"
+#include "pe1/room_module.h"
 
 /* The ground eruption (src/overlays/room_lib/RoomEffect_GroundEruption.c). */
 
@@ -19,6 +20,23 @@ extern RoomFxSpritePacket g_RoomEruptionRingPacket;
  * packet would let the compiler keep the packet's address in a register
  * across the loop. */
 extern s16 g_RoomEruptionDebrisDepth;
+
+/* The eruption's module class (RoomEffect_GroundEruptionClass.c), in
+ * class-table slot order, and the script and lists it hands the field
+ * engine, named in each overlay's symbol file. */
+extern int g_RoomEruptionScript[];
+extern RoomModuleHandler g_RoomEruptionDrawList[];
+extern RoomModuleHandler g_RoomEruptionUpdateList[];
+extern RoomModuleHandler g_RoomEruptionInitList[];
+extern int g_RoomEruptionSpawnLayout[];
+
+int RoomEffect_GroundEruptionNop0(void);
+int RoomEffect_GroundEruptionPlantScript(void);
+int RoomEffect_GroundEruptionSpawn6(int a, int b, int c, int d, int e, int f);
+int RoomEffect_GroundEruptionRegister(void *o);
+int RoomEffect_GroundEruptionStart(void *o);
+int RoomEffect_GroundEruptionRelease(struct RoomEnt *o);
+int RoomEffect_GroundEruptionNop6(void);
 
 int *func_800C2B28(int index);
 int func_800C66C8(void *object, int message, void *state);

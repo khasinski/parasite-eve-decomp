@@ -40,16 +40,7 @@ segments:
         dir: scene_e04
       - [0xC, .rodata, ../room_lib/RoomEffect_GroundEruption]
       - [0x5C, .rodata, ../room_lib/RoomEffect_OrbitFlare]
-      - start: 0x6C
-        type: rodatabin
-        name: scene_e04_header_tail
-        dir: scene_e04
-      - [0x74, c, ../room_lib/RoomLib_PlantScript]
-      - [0xA0, c, ../room_lib/RoomLib_Spawn6]
-      - [0xCC, c, ../room_lib/RoomLib_RegisterDrawListActive]
-      - [0x114, c, ../room_lib/RoomLib_RegisterPairedTablesRelease]
-      - [0x1A0, c, ../room_lib/RoomLib_ReleaseTarget]
-      - [0x200, c, func_8018F1E8]
+      - [0x6C, c, ../room_lib/RoomEffect_GroundEruptionClass]
       - [0x208, c, ../room_lib/RoomEffect_GroundEruption]
       - [0x1530, c, ../room_lib/RoomEffect_OrbitFlare]
       - [0x2180, c, ../room_lib/RoomLib_SetArgs3]
