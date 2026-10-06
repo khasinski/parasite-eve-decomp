@@ -826,8 +826,8 @@ segments:
       - [0x62F84, c, psyq/libapi/a65]
       - [0x62F94, c, psyq/libapi/a67]
       - [0x62FA4, c, psyq/libapi/a69]
+      # Psy-Q LIBAPI FIRST.OBJ: firstfile and its device hook callback.
       - [0x62FB4, c, psyq/libapi/first]
-      - [0x63150, c, psyq/libapi/first_2]
       - [0x63250, pad]
       - [0x63254, c, psyq/libc/c23]
       - [0x63264, c, psyq/libapi/a66]
