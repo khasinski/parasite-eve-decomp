@@ -1106,14 +1106,9 @@ segments:
       - [0x71530, pad]
       # Psy-Q LIBDS DSSYS_4.OBJ: DsControlF, DsControl, DsControlB.
       - [0x71534, c, psyq/libds/dssys_4]
-      - [0x71634, c, psyq/libds/DsRead]
-      - [0x71764, c, psyq/libds/DS_read_cbsync]
-      - [0x71798, c, psyq/libds/DS_read_cbready]
-      - [0x71910, c, psyq/libds/DS_read_cbdata]
-      - [0x719E4, c, psyq/libds/DsReadSync]
-      - [0x71A54, c, psyq/libds/DsReadCallback]
-      - [0x71A68, c, psyq/libds/DsReadBreak]
-      - [0x71AF4, c, psyq/libds/DsReadMode]
+      # Psy-Q LIBDS DSREAD.OBJ (0x80080E34..0x80081314) in two parts; see dsread.c.
+      - [0x71634, c, psyq/libds/dsread]
+      - [0x71798, c, psyq/libds/dsread_2]
       - [0x71B10, pad] # zero word after DsReadMode's jr ra
       # Psy-Q LIBDS DSREAD2.OBJ: DsRead2 and its stream interrupt hook.
       - [0x71B14, c, psyq/libds/dsread2]

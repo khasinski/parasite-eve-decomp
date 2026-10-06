@@ -1,9 +1,13 @@
 /* ASSEMBLER: GNU */
-/* Psy-Q LIBDS DSREAD.OBJ: DsRead. */
-
+/* Psy-Q LIBDS DSREAD.OBJ, part 1 of 2: DsRead, DS_read_cbsync. */
+/* DSREAD is split in two: these functions match with GCC 2.7.2, the
+ * callbacks and controls in dsread_2.c only with GCC 2.8.1 and
+ * -mno-split-addresses (2.7.2 cannot keep the shared address base in a
+ * register). */
 #include "pe1/psyq_cd.h"
 #include "pe1/psyq_ds_queue.h"
 #include "pe1/cdrom.h"
+#include "pe1/psyq_ds.h"
 
 #define READ_STATE(anchor, field) ((CdReadProgressState *)((char *)(anchor) - PE1_OFFSETOF(CdReadProgressState, field)))
 
@@ -54,3 +58,9 @@ done:
 }
 
 #undef READ_STATE
+
+void DS_read_cbsync(unsigned char arg0) {
+    if (arg0 == 2) {
+        DsStartReadySystem(DS_read_cbready, -1);
+    }
+}
