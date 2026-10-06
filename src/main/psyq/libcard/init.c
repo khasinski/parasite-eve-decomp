@@ -1,24 +1,30 @@
-/* GCC_VERSION: 2.8.1 */
-/* PSY-Q LIBCARD INIT, part 1 of 2: InitCARD. */
+/* ASSEMBLER: GNU */
+/* Psy-Q LIBCARD INIT.OBJ: InitCARD, StartCARD, StopCARD. */
+#include "pe1/pad_internal.h"
+#include "pe1/psyq_bios.h"
+#include "pe1/psyq_card.h"
 
-int ChangeClearPAD(int arg0);
-int EnterCriticalSection(void);
-int ReadInitPadFlag(void);
-int InitCARD2(int arg0);
-int _copy_memcard_patch(void);
-int _patch_card(void);
-int _patch_card2(void);
-int ExitCriticalSection(void);
-
-void InitCARD(int arg0) {
+void InitCARD(int padEnable) {
     ChangeClearPAD(0);
     EnterCriticalSection();
     if (ReadInitPadFlag() == 0) {
-        arg0 = 0;
+        padEnable = 0;
     }
-    InitCARD2(arg0);
+    InitCARD2(padEnable);
     _copy_memcard_patch();
     _patch_card();
     _patch_card2();
     ExitCriticalSection();
+}
+
+long StartCARD(void) {
+    EnterCriticalSection();
+    StartCARD2();
+    ChangeClearPAD(0);
+    ExitCriticalSection();
+}
+
+long StopCARD(void) {
+    StopCARD2();
+    _ExitCard();
 }

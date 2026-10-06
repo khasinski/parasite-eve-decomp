@@ -1050,8 +1050,8 @@ segments:
       - [0x6E5A8, pad]
       - [0x6E5B4, c, psyq/libcard/a78]
       - [0x6E5C4, c, psyq/libcard/a80]
+      # Psy-Q LIBCARD INIT.OBJ: InitCARD, StartCARD, StopCARD.
       - [0x6E5D4, c, psyq/libcard/init]
-      - [0x6E640, c, psyq/libcard/init_2]
       - [0x6E6A0, pad]
       - [0x6E6A4, c, psyq/libapi/pad]
       - [0x6E6C0, c, psyq/libapi/pad_2]
